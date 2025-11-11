@@ -1,149 +1,252 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108FD20ADF8
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 19:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0D5299928
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 19:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762887682; cv=none; b=N7Pt0iu7Np8XzpBERf7rDkWTYg5/4dBMTDoQE1TxQ3oM8H+iGPqJDp3px9idEag1Pl0TzaCVslVYLWysjgsUUx+fuQty+BYmrn0FFXrP4OK7UC+qiW9E0tN8VPjkTjJr0EfPTmtL4Y10O4SfThFrJ0vOt/uI/cyX3wb0w026qN4=
+	t=1762888236; cv=none; b=SH7TpvJEOzKZ4BdcOhh5HMYboueIAKHnW2zzdN5MLDkOxPriY5Eq0KyLkX/rhKmZYTSGkwAi1o/cuOfamVsfFW3k8lx4dFG0n3JpYSN6MUO83+y8J7RKiXj1MDf+kNa3FO4gzOx3MenNqqUl9ygly6f3aWbAomQ5B7RCWA4VLf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762887682; c=relaxed/simple;
-	bh=Epb41NgFerG0tgs3sczL0A6VdBeDJhkEgRYHHk2JhIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tHOnUR5QhKRYYOjtNzvwIPuJ9B6+/SEKfNBTK4oB3zwW/F+ULc5KGXTXVVCl4h0MtnOaa+dQvJquABECjGptB5vPueC7W/Zy7qnfL3dKXPAerfyYvjyIZdDxFw8C5A4GxtVBM73+usey3Ie+4M5OcJgOguEAsaBsQ8/UrI+JoCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YU38gCer; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1762888236; c=relaxed/simple;
+	bh=HKhk/loQ9vPwpn8PyfhKCherr2RQ10MGaP0NvMyegqo=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=mNX64ORHvJQJEZABITP3yP0mq8Ut15p3k39p/ZeeEvMsG7sVjeF0jqgw6J2zuKxs7HDU40sqCrZwTlyKeRTesU/9cMAsGBEywYf6+5k3kufpgKDK+EXAtc1mFVyZKI2RBXMnXUHE9vJUQK6zB2vnXyhqGWLujhPORZN2cbb0n0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hcRQtim5; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=jDS/+BTC; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YU38gCer"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42b32900c8bso5355f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 11:01:19 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hcRQtim5";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="jDS/+BTC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1762888234;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bPREi96HvVo+XQknT5Z9IHpnSaxHU5ijbJjsijiZbCE=;
+	b=hcRQtim5n2lL7D2ks8nzYQwKq1ptpJmkjZGxsHPo0jZtqwbqRODLDmmPaeLnUU6n/jyEFO
+	3ovkGp8RPlx3FEIE1YGuYvvQGpcX+08QIIwazZQEjDnK3Iv/Db/iBdPzW9rFr9iXp3KvnR
+	5QnbvPpLRSPd8PbCcmlCLim02GtySNM=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-691-M-0AsnCrN1O8UHqqs06qow-1; Tue, 11 Nov 2025 14:10:32 -0500
+X-MC-Unique: M-0AsnCrN1O8UHqqs06qow-1
+X-Mimecast-MFC-AGG-ID: M-0AsnCrN1O8UHqqs06qow_1762888231
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-880441e0f93so6018866d6.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 11:10:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762887678; x=1763492478; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Epb41NgFerG0tgs3sczL0A6VdBeDJhkEgRYHHk2JhIg=;
-        b=YU38gCerCh3gS7SUuYCEaqWJZryQU/qAZo3ICR4CL3WeRGzzd8iXAYKAgMEwL/Su04
-         TEJWZl+a+LZsTROjHKPpNzur5KOSeLTbx33C9qcU4J3SWI7PHiUmBCBpqbeB+kdzoc+5
-         MN/wj5iBqvyRF7XLTADRSUrq2iuznPtLE1RA5Lfzw9BbnSmVAiXgZ3b2r37Wa7p4GJW1
-         yUidqxeICV6t1ah4aq8ANz3K/sSFRQn1c4fbyzGI5wwnbiUxK2COGAZAHEt9NAwx3nx1
-         LrRIwDJKAmHFSC94i+2zn8U2YmKyYtGpvGNCe3hoHoG4OSEFXEiYWG73LTheXZV5tmvx
-         HOCQ==
+        d=redhat.com; s=google; t=1762888231; x=1763493031; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=bPREi96HvVo+XQknT5Z9IHpnSaxHU5ijbJjsijiZbCE=;
+        b=jDS/+BTCKmF2eWeQhTZ9CYxpTK801fbZ+4GEWIntcUT8df1zcsTvTwkYyWC7Sc3pey
+         ypSi1VuqnP8tvAClyot7sWe1qNiNiPx3eEgnRDW+/JqLn/MNwkRZEMxDYbt43u0q4BAX
+         X153FSyyKDAiBNxUBD+KTjM1Aa5XMAt4Q9Y4+OiDVxg2A4qwZdErnf0UL9UeZnmdPVV2
+         Efu7hjSd6f4jcwxHDImQRf70M3GG99r9BlasmIpNQ6XHDQh2cGeWilwEBgSQdpi5/M4P
+         L3WoLKGZtlSiDBgV0BC89J1qnI2dmGRNeMPNBAAoobtbW2nXVfxxhLo64/PeqTNnSbZk
+         EUhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762887678; x=1763492478;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Epb41NgFerG0tgs3sczL0A6VdBeDJhkEgRYHHk2JhIg=;
-        b=dKhO7T+MnUh9QedbDKnDRqcNAG3Bt38MiukKmn4gqt3b8XRSzH/syPNixDT+4aHzL0
-         0FKUo7dNTBSNNhz8I/P8AYmThNRcFhzk1kSJ5AqG7aHqMXu0fVMQEeXJOfs5O56FDbGF
-         SmSneHko7U2Z08kueHZyYuXE6mZrBaSrrwpe0NXs6HhvFsoy0hbBfu2SAu5/T0yosrKc
-         RgUkP8nvWyjePqKWj3lLKkNiM8DcOWqKKUAkFx+Hkn+MqBEUWZAcfum2cfhkfWlXozXm
-         9rdrjsGkk8wXPNUEnivpe2OYV2ADDZkWDuCfYH0rMNH5IPAhRngBU77MzIVbaUctNwPq
-         qaTw==
-X-Forwarded-Encrypted: i=1; AJvYcCUrutXsooOPGIK+NpJkrlWyFuexShi0kvd9OUqNCHuodWcuXcxDkOxIFr6W6cmtoT4y+1v8irBI7wg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtasFT1vZqZ0qoZtTUlz3KuECfT1QzWb71tNH56mdnbpi9WIit
-	TEeR40reRmudcfAXomyGZvjRuoeBvW9GLHO9ZFzJHE8aLDV/mF3gcS9rPaFDJFurSWU=
-X-Gm-Gg: ASbGnctGlz7hplNVorIhh2DkxUdZV4XZyNEwuLC6uFfeO+3g8PVeVTQh4Kllr/Vu10i
-	aERR8TpTi4htZ3AUZO9juJV4BkVJugmc1JM53gg+SNtKro86N3IpvGrx6FK9e7GWjikY2aSzu4c
-	0sDcLZ02REQinuJ/w2PjJsxZtmY30Q7xkU+Bk1xKpL4cO3xAIP16fdM23wC5wG5UcGVP41v483y
-	ZK9opVuK+sxEbCRflisBVgjCwvrzG61DuvM3BGzUGPyTP3R1msP4VEJeJNo9ZSeP21iAKhVRRLn
-	ANb5MeQ5Impx/XKXiqbN0/K0OK90ON+JHTCVjQI5mWJb2YhYy2vYNnjjdv8I7ldnVSwo6CKN84k
-	41LuGgadumnwTaoPno5JTdYdG4H3IvWx0xhyi+R0YZC/gOvS3wy3Ji5MJuJolIDWOVbAB00EpHk
-	2pKkSfaso//rGhYWqRmu+docnHKas5PU8=
-X-Google-Smtp-Source: AGHT+IFjd4Z8ZyYwgjnX/oawjyx5P78Okty05jRhzRxhhnb1ZsNUnhRLUldhAazDANfsJjvK+WSEYw==
-X-Received: by 2002:a05:6000:2c09:b0:42b:39ee:288e with SMTP id ffacd0b85a97d-42b4bb8b9d5mr281057f8f.13.1762887678240;
-        Tue, 11 Nov 2025 11:01:18 -0800 (PST)
-Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b2e052f32sm22848861f8f.17.2025.11.11.11.01.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 11:01:17 -0800 (PST)
-Date: Tue, 11 Nov 2025 20:01:16 +0100
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Leon Huang Fu <leon.huangfu@shopee.com>
-Cc: akpm@linux-foundation.org, cgroups@vger.kernel.org, corbet@lwn.net, 
-	hannes@cmpxchg.org, jack@suse.cz, joel.granados@kernel.org, kyle.meyer@hpe.com, 
-	lance.yang@linux.dev, laoar.shao@gmail.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, mclapinski@google.com, mhocko@kernel.org, 
-	muchun.song@linux.dev, roman.gushchin@linux.dev, shakeel.butt@linux.dev, tj@kernel.org
-Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for
- on-demand stats flushing
-Message-ID: <5xyq3w4jlewi4gt326exj45piti46vrsqkxnh4jzxmsgl24rm6@ivoslsgvgkp3>
-References: <ewcsz3553cd6ooslgzwbubnbaxwmpd23d2k7pw5s4ckfvbb7sp@dffffjvohz5b>
- <20251111061343.71045-1-leon.huangfu@shopee.com>
+        d=1e100.net; s=20230601; t=1762888231; x=1763493031;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bPREi96HvVo+XQknT5Z9IHpnSaxHU5ijbJjsijiZbCE=;
+        b=RW8JSnQMjnpgz4bPAkk75GCDJ+w+4E4PeVNFMjOfJNRf8eKSvfmTsBbjlY9TT6g+HT
+         ZfkEk7l6XK5a2vwL0j99QFe/u5isea+zborVZ7skbsOhBCtSWvmCq5NBFcJ1lDkiUw/y
+         97C4K2PpLEEXrnsuN+vpIIp08e0Fyr82Gx1y/42b7SUvZGihTvIix/pzUB2OJynCPeF7
+         mGZlzfQLOSIET12mT3SLLhXPebDgd074FDyJq7dFncxhpqfA7ns9DQJaC3sySZ2J0tyb
+         n4K2xmN/OJlStFOA7854akyOqlFeFSgsK31ci69YeVWRK9iiJSTYOeJtRGDPV7Dc26/8
+         krvA==
+X-Forwarded-Encrypted: i=1; AJvYcCUIzNkm1YZ+G+XjNN3wDlHeP6zem3Z8dfoKhacxUc2Z2VbgC25nzMJx0IvcQy8fvhr3zt/mUTEVQvU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVw5L4OZ/vMqPjDBpDXxw+cOa9wjBYPWc6e4iTOegdIzlO/DRQ
+	9mchI6ugv3L64P4w1AJkdZy20TluFLBQf7yoUTNdcVJ5KaL6B0HelJRExjHjF+rvYlKgK2aMnTQ
+	hDkrn6kwaU1g9LtqJr5R3Ub8XkdNZ+/zLvm4xsIhgnjAjxcY3e3ZeWxcvmTO3XA==
+X-Gm-Gg: ASbGnct3ruQ/ayIW0Yx+1HBOFLRMM6HRraftBrRDAI+/I01LD/OSwnI9GEXOZmj5GyA
+	3qj4IMS8Ni+pzZ8B+MTTOw8vJUwtvow9Nem8ld2rZ4bumBpUBRz7+8/3LSZlEAe0qVcMfWs8z6K
+	EPzpFkIKYqG5bEFILjajYQiG7Wl2DgDZFaY2SnsofRxpep0CCAvO8OcoD1+vM6Nh2DBdS+MVCA5
+	Nxo45D3Yu2i8t85i7c782RW0qWNn+Hbq2fvgsGa+0XGqqnHonSuHfRUyTxy+Ixw2N2u/NaWLhkV
+	dbPj6/LbtkkSm2t1j2etmTdc+SsnYK0ZuN/hbgIAaxDU18Rt+dYo04MhD+hpyDgFYP0sEsvZw2C
+	OW+CLvR3UlRaf2yxDqr68qR4M3iuNd1XqccWrVCBjGoXr6g==
+X-Received: by 2002:a05:6214:dcc:b0:880:4f25:588f with SMTP id 6a1803df08f44-8825e77bb91mr57855276d6.2.1762888231360;
+        Tue, 11 Nov 2025 11:10:31 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IERrfZKlHqSH+9nPVlyhu9zwA9R8Rh1ZQplboV+7tsbpDRXGv41OROdDsYHxXClbz2KGfbjZA==
+X-Received: by 2002:a05:6214:dcc:b0:880:4f25:588f with SMTP id 6a1803df08f44-8825e77bb91mr57854706d6.2.1762888230834;
+        Tue, 11 Nov 2025 11:10:30 -0800 (PST)
+Received: from ?IPV6:2601:188:c102:b180:1f8b:71d0:77b1:1f6e? ([2601:188:c102:b180:1f8b:71d0:77b1:1f6e])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88238b7528csm76619596d6.46.2025.11.11.11.10.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Nov 2025 11:10:30 -0800 (PST)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Message-ID: <9a9a2ede-af6e-413a-97a0-800993072b22@redhat.com>
+Date: Tue, 11 Nov 2025 14:10:28 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="csbfp2a7l72eto4t"
-Content-Disposition: inline
-In-Reply-To: <20251111061343.71045-1-leon.huangfu@shopee.com>
-
-
---csbfp2a7l72eto4t
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for
  on-demand stats flushing
-MIME-Version: 1.0
+To: Leon Huang Fu <leon.huangfu@shopee.com>, linux-mm@kvack.org
+Cc: tj@kernel.org, mkoutny@suse.com, hannes@cmpxchg.org, mhocko@kernel.org,
+ roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev,
+ akpm@linux-foundation.org, joel.granados@kernel.org, jack@suse.cz,
+ laoar.shao@gmail.com, mclapinski@google.com, kyle.meyer@hpe.com,
+ corbet@lwn.net, lance.yang@linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, cgroups@vger.kernel.org
+References: <20251110101948.19277-1-leon.huangfu@shopee.com>
+Content-Language: en-US
+In-Reply-To: <20251110101948.19277-1-leon.huangfu@shopee.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 11, 2025 at 02:13:42PM +0800, Leon Huang Fu <leon.huangfu@shope=
-e.com> wrote:
-> Fewer CPUs?
+On 11/10/25 5:19 AM, Leon Huang Fu wrote:
+> Memory cgroup statistics are updated asynchronously with periodic
+> flushing to reduce overhead. The current implementation uses a flush
+> threshold calculated as MEMCG_CHARGE_BATCH * num_online_cpus() for
+> determining when to aggregate per-CPU memory cgroup statistics. On
+> systems with high core counts, this threshold can become very large
+> (e.g., 64 * 256 = 16,384 on a 256-core system), leading to stale
+> statistics when userspace reads memory.stat files.
+>
+> This is particularly problematic for monitoring and management tools
+> that rely on reasonably fresh statistics, as they may observe data
+> that is thousands of updates out of date.
+>
+> Introduce a new write-only file, memory.stat_refresh, that allows
+> userspace to explicitly trigger an immediate flush of memory statistics.
+> Writing any value to this file forces a synchronous flush via
+> __mem_cgroup_flush_stats(memcg, true) for the cgroup and all its
+> descendants, ensuring that subsequent reads of memory.stat and
+> memory.numa_stat reflect current data.
+>
+> This approach follows the pattern established by /proc/sys/vm/stat_refresh
+> and memory.peak, where the written value is ignored, keeping the
+> interface simple and consistent with existing kernel APIs.
+>
+> Usage example:
+>    echo 1 > /sys/fs/cgroup/mygroup/memory.stat_refresh
+>    cat /sys/fs/cgroup/mygroup/memory.stat
+>
+> The feature is available in both cgroup v1 and v2 for consistency.
+>
+> Signed-off-by: Leon Huang Fu <leon.huangfu@shopee.com>
+> ---
+> v2 -> v3:
+>    - Flush stats by memory.stat_refresh (per Michal)
+>    - https://lore.kernel.org/linux-mm/20251105074917.94531-1-leon.huangfu@shopee.com/
+>
+> v1 -> v2:
+>    - Flush stats when write the file (per Michal).
+>    - https://lore.kernel.org/linux-mm/20251104031908.77313-1-leon.huangfu@shopee.com/
+>
+>   Documentation/admin-guide/cgroup-v2.rst | 21 +++++++++++++++++--
+>   mm/memcontrol-v1.c                      |  4 ++++
+>   mm/memcontrol-v1.h                      |  2 ++
+>   mm/memcontrol.c                         | 27 ++++++++++++++++++-------
+>   4 files changed, 45 insertions(+), 9 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 3345961c30ac..ca079932f957 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1337,7 +1337,7 @@ PAGE_SIZE multiple when read back.
+>   	cgroup is within its effective low boundary, the cgroup's
+>   	memory won't be reclaimed unless there is no reclaimable
+>   	memory available in unprotected cgroups.
+> -	Above the effective low	boundary (or
+> +	Above the effective low	boundary (or
+>   	effective min boundary if it is higher), pages are reclaimed
+>   	proportionally to the overage, reducing reclaim pressure for
+>   	smaller overages.
+> @@ -1785,6 +1785,23 @@ The following nested keys are defined.
+>   		up if hugetlb usage is accounted for in memory.current (i.e.
+>   		cgroup is mounted with the memory_hugetlb_accounting option).
+>
+> +  memory.stat_refresh
+> +	A write-only file which exists on non-root cgroups.
+> +
+> +	Writing any value to this file forces an immediate flush of
+> +	memory statistics for this cgroup and its descendants. This
+> +	ensures subsequent reads of memory.stat and memory.numa_stat
+> +	reflect the most current data.
+> +
+> +	This is useful on high-core count systems where per-CPU caching
+> +	can lead to stale statistics, or when precise memory usage
+> +	information is needed for monitoring or debugging purposes.
+> +
+> +	Example::
+> +
+> +	  echo 1 > memory.stat_refresh
+> +	  cat memory.stat
+> +
+>     memory.numa_stat
+>   	A read-only nested-keyed file which exists on non-root cgroups.
+>
+> @@ -2173,7 +2190,7 @@ of the two is enforced.
+>
+>   cgroup writeback requires explicit support from the underlying
+>   filesystem.  Currently, cgroup writeback is implemented on ext2, ext4,
+> -btrfs, f2fs, and xfs.  On other filesystems, all writeback IOs are
+> +btrfs, f2fs, and xfs.  On other filesystems, all writeback IOs are
+>   attributed to the root cgroup.
+>
+>   There are inherent differences in memory and writeback management
+> diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
+> index 6eed14bff742..c3eac9b1f1be 100644
+> --- a/mm/memcontrol-v1.c
+> +++ b/mm/memcontrol-v1.c
+> @@ -2041,6 +2041,10 @@ struct cftype mem_cgroup_legacy_files[] = {
+>   		.name = "stat",
+>   		.seq_show = memory_stat_show,
+>   	},
+> +	{
+> +		.name = "stat_refresh",
+> +		.write = memory_stat_refresh_write,
+> +	},
+>   	{
+>   		.name = "force_empty",
+>   		.write = mem_cgroup_force_empty_write,
+> diff --git a/mm/memcontrol-v1.h b/mm/memcontrol-v1.h
+> index 6358464bb416..a14d4d74c9aa 100644
+> --- a/mm/memcontrol-v1.h
+> +++ b/mm/memcontrol-v1.h
+> @@ -29,6 +29,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg);
+>   unsigned long memcg_events(struct mem_cgroup *memcg, int event);
+>   unsigned long memcg_page_state_output(struct mem_cgroup *memcg, int item);
+>   int memory_stat_show(struct seq_file *m, void *v);
+> +ssize_t memory_stat_refresh_write(struct kernfs_open_file *of, char *buf,
+> +				  size_t nbytes, loff_t off);
+>
+>   void mem_cgroup_id_get_many(struct mem_cgroup *memcg, unsigned int n);
+>   struct mem_cgroup *mem_cgroup_id_get_online(struct mem_cgroup *memcg);
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index bfc986da3289..19ef4b971d8d 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -610,6 +610,15 @@ static void __mem_cgroup_flush_stats(struct mem_cgroup *memcg, bool force)
+>   	css_rstat_flush(&memcg->css);
+>   }
+>
+> +static void memcg_flush_stats(struct mem_cgroup *memcg, bool force)
+> +{
+> +	if (mem_cgroup_disabled())
+> +		return;
+> +
+> +	memcg = memcg ?: root_mem_cgroup;
+> +	__mem_cgroup_flush_stats(memcg, force);
+> +}
 
-Your surprise makes me realize I confused this with something else [1]
-where harnessing the job to a subset of CPUs (e.g. with cpuset) would
-reduce the accumulated error. But memory.stat's threshold is static (and
-stricter affinity would actually render the threshold relatively worse).
+Shouldn't we impose a limit in term of how frequently this 
+memcg_flush_stats() function can be called like at most a few times per 
+second to prevent abuse from user space as stat flushing is expensive? 
+We should prevent some kind of user space DoS attack by using this new 
+API if we decide to implement it.
 
-> We are going to run kernels on 224/256 cores machines, and the flush thre=
-shold
-> is 16384 on a 256-core machine. That means we will have stale statistics =
-often,
-> and we will need a way to improve the stats accuracy.
+Cheers,
+Longman
 
-(The theory behind the threshold is that you'd also need to amortize
-proportionally more updates.)
-
-> The bpf code and the error message are attached at last section.
-
-(Thanks, wondering about it...)
-
->=20
-> >
-> > All in all, I'd like to have more backing data on insufficiency of (all
-> > the) rstat optimizations before opening explicit flushes like this
-> > (especially when it's meant to be exposed by BPF already).
-> >
->=20
-> It's proving non-trivial to capture a persuasive delta. The global worker
-> already flushes rstat every two seconds (2UL*HZ), so the window where
-> userspace can observe stale numbers is short.
-
-This is the important bit -- even though you can see it only rarely do
-you refer to the LTPs failures or do you have some consumer of the stats
-that fails terribly with the imprecise numbers?
-
-Thanks,
-Michal
-
-[1] Per-cpu stocks that affect memory.current.
-
-
---csbfp2a7l72eto4t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaROH+RsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQfj0C55Tb+AiN9QEA6sXoc/oeJj+mDnKkROmk
-nkeyTszvrZYKIEtJBQFSBuYBAJ76dUKkXJVOhrMBSE2sGSx9Ye0xq8mM3w8ZTrQk
-jKIN
-=qop6
------END PGP SIGNATURE-----
-
---csbfp2a7l72eto4t--
