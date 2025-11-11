@@ -1,72 +1,74 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADA2277C86
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D62A2E8B95
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762853992; cv=none; b=MbI/KQLNqLHC7wZ7zadZqHal1X0d6qZ51FVEC00iuw7+CqAP64ZWkajn3GCBSRFj2O/n8LXR55L75uwQCutqAV2lb6kTLBEU9Z/TYAy7dHG7uczauelJSYfNUZnJsHIjoesBAbhQqmUUtAo8trZYmGuZ5KSMMivxfUii9p+D37U=
+	t=1762854220; cv=none; b=Dwe3FI6G+AUqpHHXSb4yWjvhmmGlaBRKSNPPROmoblNMYnTYKLJ0vDd/sJWx0C3zfHiPSNPoTuFo8/IpulX+CpiwdHI/Vbm+9uQHbKsPpp88V5i+J7uU2I+STcR9zi31u3I3fggw/mFV4nysolEnpH0Sh4Z50lzxkkx1Xbelpv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762853992; c=relaxed/simple;
-	bh=0qHk353sMNXNO0DfdJ24OLoqMz+VA+2bTVAiXM7RnOM=;
+	s=arc-20240116; t=1762854220; c=relaxed/simple;
+	bh=pIXt5RY2avngREVQV/WVzy+4eYrZh/+QLtTn4Iny2dI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TtB5XskgMiuFHKeEYTxVg/ZQVT87qhDmNEkPYakgy0oyH9lPxrZ1ErY6re5QYRyyF1ZVRXTkBMPejBVazmJJTNC0bG4FHHypsd3gXgn7P8gC4c/g4UVPl1B8RqMkupf8XZT8HqQ1fsf0wAkySSQfNKS9/OfX2sUAhqhse9T9WqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CfTiTPu9; arc=none smtp.client-ip=209.85.216.43
+	 To:Cc:Content-Type; b=KdGjeYHWnDYmgOk74p3dqA9Dx9kmdxw7ngKGkC9ZtqmwAsOERTLygKBhpWuUB12byb/Do3HHz6CFw0ALx0boAooCk/tSBUSF7LXXSmQz9HPs0N9+Je9g+Fa/Qy/phJNnCa1qJfils7sHPKLHalGr8nlDk59HQ5cUjmtOSQU3zjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bDI6rpIX; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CfTiTPu9"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-340e525487eso2701310a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:39:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bDI6rpIX"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-343806688c5so2317710a91.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:43:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762853991; x=1763458791; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=x27CBOBuvs19lllL/4Ne+a54Yz+5/uzP3YpUzWY+JnY=;
-        b=CfTiTPu9uAzZIje6WtImbQO8ZfKqsg9T7dcF+E59e42zKjW861RFYZUQzZj0+ciUaR
-         DLzB9ssxsP5qzGnkqP45MAYLdCNf17TqlYtqDZ3fCjCWgihnJqsDQZDcfRSQ6+rIpJcE
-         BXNyyoYBNyJ0GhiNM5eXjjX/a0xrY0ucZj3yFsJb8EOWFYODEQJoexbVMzqRXgU0NDTT
-         rL3U4RRH71crF5rl2y3Ut8G3KOsjc3jEjX/yNmFbQ+0QJ5qApluaM4PiA9o9Ioq0oiRX
-         pdcmAAU51jTJJyFZw2Ji5Rc08/AvR1L90fAsAmMcGBi/XEeg4cjDJRbT8nhn8iQvAiOC
-         bo5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762853991; x=1763458791;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1762854218; x=1763459018; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x27CBOBuvs19lllL/4Ne+a54Yz+5/uzP3YpUzWY+JnY=;
-        b=D3USNCut2x9IzQozso8xntrkVlmwLxftIrGZKLEiBYr8UaWXNdBARSwKs9STLclPFC
-         4/M93ENs1VLFhar/TZhVFeT3jBHAbOlj1xh53qxj3Ta6Fe+ZNBxjEIEzxlMczXGMRrq1
-         nJXDejVV2T65YZVt8PmSHIxGiP0oTA8DB1XgaqWmyvu0bjx/+ZfD6By/padM2LjdjSLp
-         /bieYVpAYftscUjGnK/mPcQnHODVSXEruQ+XRxj9K9vr85MJI7jb2jRVTpNw0dfgyWuD
-         pRrKPAUZ8Fl6KI0Hx5S79mAvWZ8qNHlmWUB2UgMD/6/FqXGqfEIWNFzEplLqs+lWSCLg
-         eSCg==
-X-Forwarded-Encrypted: i=1; AJvYcCUE2wLdFX/LEpNXqRKfbzoIFI0f80AvMFWL88Gohi0U0zIJuy/YlNB8BlMI5l3QbR13+p0tlkvZZos=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4L6idpKGVXaYrcN9L4Uja7o3ugjYlaQB4iNjYI5Li5MQ/Mtnn
-	AOw1vi0saUAXt6bzKe9rVy8WPB0mooqltXbsYyMFdak3n3bJOTWxfCmX3lYmK7saUpnCW8ckdVY
-	LFQ1apcuERJM+/Qw/2XLFQMVO9nwcb8xo++v+NBGm
-X-Gm-Gg: ASbGncvH96vUpF5qKB2DDBZfOmWpUvcv6gdLH8SQi4U05BoyEkw4BmAGV8h4FW+4FW9
-	Xj2BFWlhxmUzessPt/04IoRU4KFl74y1wmli6wWOQhwLhu2V5Ukss/pDFVjsKh2BwONPBywJInL
-	N2H3RoV7joxEPnSttMQDhdyV6GWHcKtBbJQKPWWCJ/0X9RlbZgS5zY7O5jQQHiDYRUiPkV858fL
-	DqhGG3DkRSkG3iCrpIeHzaeiBISKMWhD/anmwwmork3V0MUEP2soF4Ce1a29+5uWKTY8brfCTrN
-	i131D0I3Nwe4LeG+IjrzRpCksjTKtLr03XL+
-X-Google-Smtp-Source: AGHT+IHbYtcp4TEm3YWuggGsZDtmzQmO+Esj4ot5UyBq5O3ykfRy1t7VIIRByVPx+YeUvhQm6/mmmHJjCQ5y0jFctOY=
-X-Received: by 2002:a17:90b:2f8b:b0:340:ad5e:c9 with SMTP id
- 98e67ed59e1d1-3436cb9f0a4mr17438597a91.16.1762853990547; Tue, 11 Nov 2025
- 01:39:50 -0800 (PST)
+        bh=pIXt5RY2avngREVQV/WVzy+4eYrZh/+QLtTn4Iny2dI=;
+        b=bDI6rpIXP+VW2NampGr8t7hh8Ew6NtNigDPB3koLxGn1qiiXqZTHvBzvF4LWvCcpie
+         flg5+jhfDcXJcAx627ZwaAODmfN5uIs4uUoGXULR/fI6jc0pZKdchmt023fiRLfuYgYO
+         2cFJ+lV7JQSiX9TkpF2iyVq7+1x5WuECi0S2/82aa1KbPNw4IHTLhknhkhlR5pUlVkHp
+         SCH8nl6PEXDaLYMh6ugXjkdT6KwkahZRD8WytJMwxt4k8GBOdogALG2kzeQLN4eezV+6
+         n701TG65idRjBYGoxWzbIQLodKpsYiK3a/TivfTIAqJvbmjKw9swCowpDTlR8a8vaKfR
+         xS0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762854218; x=1763459018;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pIXt5RY2avngREVQV/WVzy+4eYrZh/+QLtTn4Iny2dI=;
+        b=WRBptPDd6r2VQXUIlcecJF+ctzKwcuppSuW7mfnywIXwqJdV78UdGtFHZbKGgd00Zh
+         HFipOvZhvNwRCaBkHRIhMZ91QdY2gAJtEfJnLukA6zHofkcbib6ujfiJ1KYTAAPghXRh
+         /mSOnlS5b1/n0n1fpVZbmtx2Z22uqKL4Fxmrgjgkul5Xn036MtdTg2ZKmFQLdbJsRfSh
+         2rAVpXQ+2CIGvKPKjOr2DahLBeFmk/dTgiBSsSQ+raaZVTmeTXnu1X3/vH/obTWOxqyp
+         1TcsNW4vxa7w0JPX5qPMl1C8e86JIsWFcVuVfxDyOAoao8bHKbQlY2k2GyteOTAPpCUi
+         Mj0A==
+X-Forwarded-Encrypted: i=1; AJvYcCV52GbfNgWYz1fKMLKXjwTMJf3Z520qvgzJQ8NOc/eUB/3M6CA7VA4ZcNdS92LA4bfTd2PQPUrpZWQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4+lv+kud/z8B1CfdgzNRYM1HjBiewfV89wLJbYFhnv3BedVXt
+	UJDoEU4HMVeiC+HgkHNhipqJWzs1FFT/BLgdzfuoaRZ54/GhdGPsXO9QhAUiV+LdkF70uzXuZoy
+	BfzREXAxwfCDJ4PjRi0LDlZ7F58+lLa7pged9tXYL
+X-Gm-Gg: ASbGncs6LGNdceKhb4NRkYWRAexIvenDhnlGPWHSF8bkKWJBF/lGXimobXUWCdJHR+0
+	NaBsH094nArrqsnnZvqDEOedNzVKy1i4fiuLm4VWrenZhz/2VUV6cmb60l4y7GFgOO7+vc2Y59y
+	yrQvuPkvaSfoaASttmSQ6Ye6D+ecN744WQ/x3iRZ38C28UiUZIV2QbAQUpzoL5sPq4ZAjEp45TS
+	BnfmrEg26nokeaaedoNOqaXsHD+svem+pt01kH7zOqJapIdVvFrBZN7CkfzNEYdGscmcfoVX1ko
+	anYj9afeto4hhFjYtCp21k53W6Cy38luyhgM
+X-Google-Smtp-Source: AGHT+IEXo9sAHez4NR7EbhnospiZemL/LvJQCJ/Qa++0OXR1ORpXnOCB1WU1DKZb7CVWmG9+mXoqaQaxouu4ZLKngmU=
+X-Received: by 2002:a17:90b:6c3:b0:340:5b6a:5bb0 with SMTP id
+ 98e67ed59e1d1-3436ccfd8dfmr13988152a91.26.1762854218118; Tue, 11 Nov 2025
+ 01:43:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <ab71a0af700c8b83b51a7174fb6fd297e9b5f1ee.1761763681.git.m.wieczorretman@pm.me>
-In-Reply-To: <ab71a0af700c8b83b51a7174fb6fd297e9b5f1ee.1761763681.git.m.wieczorretman@pm.me>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <d030a07c956c1e7cbf8cd44d6b42120baaa41723.1761763681.git.m.wieczorretman@pm.me>
+In-Reply-To: <d030a07c956c1e7cbf8cd44d6b42120baaa41723.1761763681.git.m.wieczorretman@pm.me>
 From: Alexander Potapenko <glider@google.com>
-Date: Tue, 11 Nov 2025 10:39:12 +0100
-X-Gm-Features: AWmQ_bn-DpseVZlfA_JkC1KeMe_i9gWzENoYdJOcpoJ15BxyTxVZhbSiKbweC94
-Message-ID: <CAG_fn=XyQ5Mc_ZvsibN4K0r70xfDAkhPqUJgtojVRcgTt-q0WQ@mail.gmail.com>
-Subject: Re: [PATCH v6 03/18] kasan: sw_tags: Use arithmetic shift for shadow computation
+Date: Tue, 11 Nov 2025 10:42:59 +0100
+X-Gm-Features: AWmQ_bkUJ_QlWZiGCG2FxZvthHc4c4y_090hZyMeaaw5jt0Qf6xk9VB1Qerb_Pc
+Message-ID: <CAG_fn=VUzLi1C9jss1eHV=pPh4QFmWk-fQUbhNwrGNSUk-yKaw@mail.gmail.com>
+Subject: Re: [PATCH v6 08/18] x86/mm: Reset tag for virtual to physical
+ address conversions
 To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
 	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
@@ -91,26 +93,20 @@ Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com,
 	x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
 	llvm@lists.linux.dev, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index b00849ea8ffd..952ade776e51 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -61,8 +61,14 @@ int kasan_populate_early_shadow(const void *shadow_start,
->  #ifndef kasan_mem_to_shadow
->  static inline void *kasan_mem_to_shadow(const void *addr)
->  {
-> -       return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
-> -               + KASAN_SHADOW_OFFSET;
-> +       void *scaled;
-> +
-> +       if (IS_ENABLED(CONFIG_KASAN_GENERIC))
-> +               scaled = (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT);
-> +       else
-> +               scaled = (void *)((long)addr >> KASAN_SHADOW_SCALE_SHIFT);
-> +
-> +       return KASAN_SHADOW_OFFSET + scaled;
->  }
->  #endif
-
-As Marco pointed out, this part is reverted in Patch 17. Any reason to do that?
+On Wed, Oct 29, 2025 at 8:07=E2=80=AFPM Maciej Wieczor-Retman
+<m.wieczorretman@pm.me> wrote:
+>
+> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>
+> Any place where pointer arithmetic is used to convert a virtual address
+> into a physical one can raise errors if the virtual address is tagged.
+>
+> Reset the pointer's tag by sign extending the tag bits in macros that do
+> pointer arithmetic in address conversions. There will be no change in
+> compiled code with KASAN disabled since the compiler will optimize the
+> __tag_reset() out.
+>
+> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Acked-by: Alexander Potapenko <glider@google.com>
