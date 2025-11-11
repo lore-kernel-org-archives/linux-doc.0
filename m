@@ -1,109 +1,62 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F034347FF8
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 02:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10E732E14A;
+	Tue, 11 Nov 2025 02:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762828498; cv=none; b=f3aajzKBxFhNMQOEypAVH8z9mCpppZWKPqRZn74EhIxwNBaVKW02YrXxMgYbT25DGtG+t4sbB0QVhuGyb6IHzb1Hf2oZtg2tA4QqpjVXXHez90rI7hyWKfEmYg+JokYOjkEXgp+sk5AGI/CrQj1iBnTIf6b1/Xm0uWy5SjuIk+E=
+	t=1762829267; cv=none; b=LSbSXIOXuScwBPm7L8FpAYyNZtch2XvNumOGhep/4DVksfRyJD3mXhLQz+2qhm00s+SZSZfigimFmVzkZK3L1sAsRMMEy9Lew/yP/diG24gitiEI3faFBQE4TuSm0jW5m0afa1giRHK2zisdmZYXKp2o40WwWl2S9nIEvd8Pu+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762828498; c=relaxed/simple;
-	bh=36ncl0PUcmfXo8Ga7gX6fzon1aa5NOwmeXnlIwgkJX0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J6SClM09TtKaJ5QZCCm+zta4ZHf1PsEg8KJ5B7+GIxUuEvia2bo7f3audarxotX9YlkmdT2iqA4knJqZj2axmMehn22v5Up4KS61BZBV3PfM8sIzMFDpA37CI5h6EKGt71LKsvweqYtMIwl+ufxuApvyc0rXnStSBCiYm+swIck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6v6IXy2; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762829267; c=relaxed/simple;
+	bh=kb0U3gFuLG9ebZpEvZgiRVBGfMo6nVWwuyrudqfGv0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=orxJsAeVl5S8f0zdNom5AnMl57cYFsbFalucsu4G7M0lNMBZG/ifQmZ0ICQRfOGGmf/7BCQWHPwGC8dNDu9XppLPRzEvT0McmtWiC1lY8+bWT5GLfvv5KsqkA7K3XPj+bKDoo/pxFLyuaGFNwEm0y1mSBuupOZi4M82I8VNa79w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CL+OPki3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6v6IXy2"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8b272a4ca78so270627585a.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 18:34:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762828495; x=1763433295; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=36ncl0PUcmfXo8Ga7gX6fzon1aa5NOwmeXnlIwgkJX0=;
-        b=F6v6IXy2qLAntaPMTSBDELWgeeR0OIJyGu+bTHJVw3KSrZpZWno6Q/sQlfDV6/W9U1
-         Fiq+nYdVArGVmNOiL9Dgm136uSSO4yGtKMibRLz9PtlTDWEN4LFVa21HSmq7doiKvKvE
-         JV1K+CpqMD4PBOB87qb1NjmkGW9C7vg22ZFveH+MgTAc2WBV7McIKQAbJcw+RtEYCpzM
-         5s3f4eIkgwlBme5h2qh8yzw9Q1y1ONPNdP2sIDq4gjIrMC8nJk4vnr1J8I+eB8zgNE8T
-         +oyGvTnFJyXjF1y1pO9kBL3N1kWZ88RKu7BGfvdh57yiqH0vx9RG9U36KHjcaEQVJ+P1
-         mGgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762828495; x=1763433295;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=36ncl0PUcmfXo8Ga7gX6fzon1aa5NOwmeXnlIwgkJX0=;
-        b=gpkmDCtAK/q6HxBBIpGYSqx4MxB8S6YiRvJIeBdi/ShO1aG5Y+gFvGZJBiJc6WLw/j
-         M/+y37uNqGJxiWatJiIigdO4NeboZtFsNzI7DH0oK93HsMefICZ/7QBo7TlKTJD1Y4Oj
-         KGKKqVmOb5+pL4FqejdXgKCfNp7RuXB1xRguY1oODyWpiP8joPQQ3z9l93aULVIfykqq
-         xprCoLzRhCOAPWgTNQLDpvNhd46ONU/ajdVU65hiYlvdhMqBEViCO3SBbsHri/DBDhmX
-         eDrgXHgH7yGdH2ZkU8kyqqLoXXFEaa8sXSyFO+9Cu3zJEHaWPbXNDGR2PdWjB0E7rykQ
-         4RzA==
-X-Forwarded-Encrypted: i=1; AJvYcCVZlxCe11J72yjycvUZ5E69ZqI6VNqYWyzKVk6z9tFd5BNIst7nr2xZtXk1uakJ/8GlXUV1WcUtB8E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzW488zwjoHENtSxWj5yJc+d2h+4OMsze+0qd9NPrSMJ3nd0zmZ
-	t//HIBWYhpNW7yjpNdFyfifN7XdfDzUXAdtBBWuYqbR8PqS7f9052QaO
-X-Gm-Gg: ASbGncuBiRWdy92bDZHA+U9XmSapzdJ5CBvvpThVdxELJZu8Wk8hG1ndQtLCW0G3lYU
-	/pmdDti/6RRTghwQGFHVJYLS7pH8ZFKEVwfH2cIfYv9WQze8OwAb58PBy2ICAPCFUSSoKF6UkP1
-	+RZpugK4FEqDYoqkOrUZOTFXNLy/nKUHsUl2nIe0kqK/R9pVuOID3vRnIZ67fQXDbqrptlL2uS9
-	vrjGa+QGM1zplExc2U32Hm1gISMjZcg2VT8nHcZNCRHtC/B94+UhH7lx6SG9jYBs9E8zqVBQjXN
-	CdaQ5ZHbS6J3Rqi4efnqEEtceI+Nav1BdapcNrxiYTq6vvu3yJt79Yhs2+DTY+9napv4Qkv4gQm
-	omuUfu5kutTdvtBejjQZJfso4WLsVcfkByNcM5sJa5N0aQvzOYlzySv1jqHZwUiz3TLLPkifT4f
-	Z/C4iBOr05WNc=
-X-Google-Smtp-Source: AGHT+IGbk0YLpiY579gVpZiZCi3ixwsphSaTRqh2TflzCCa7sl2R7fDDID7LfBG+DM0e7yvO1fyTxw==
-X-Received: by 2002:a05:620a:700b:b0:8b1:a624:17b1 with SMTP id af79cd13be357-8b257ef53femr1353533685a.27.1762828495281;
-        Mon, 10 Nov 2025 18:34:55 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b262aa810asm556535685a.39.2025.11.10.18.34.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 18:34:54 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 5B906420A6B3; Tue, 11 Nov 2025 09:34:50 +0700 (WIB)
-Date: Tue, 11 Nov 2025 09:34:50 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Security Module <linux-security-module@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Jarkko Sakkinen <jarkko@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, Kees Cook <kees@kernel.org>,
-	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-	Stuart Yoder <stuart.yoder@arm.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] security: sctp: Format type and permission checks tables
-Message-ID: <aRKgyvrTxldlTv9t@archie.me>
-References: <20251103113922.61232-2-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CL+OPki3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D242C4CEF5;
+	Tue, 11 Nov 2025 02:47:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762829265;
+	bh=kb0U3gFuLG9ebZpEvZgiRVBGfMo6nVWwuyrudqfGv0o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=CL+OPki34UVIhGzekeTPxheEDkeQvSp5/4jpb4qMsYbN6Sf2r4x8bHT2WxS0EumhH
+	 WsFcd4RDuYsmGBxoASEPDFmRj1cImURIfjvverSYcHdgUPcHztVkOZkQq9Q1W7Eocl
+	 lcTjQq3OcTiJAgsNnB55q0AcstEv9n7H5SZWJWAKpU7L6GYnHbY4H3Frfia+frrHMK
+	 9BDsdT6h2aAq04wcchRJFXQ5SO7UHKiyMOI1gOklA0xGQUKaJ1X92Yf7zYBxZJG0ct
+	 hwSh7hNc8v8+Cm9osoiHB66+DTERKIIpPGFJsvS3nHo3wix88OCXK2wv6UeQk4wbLB
+	 JnpPODhCFkrJA==
+Date: Mon, 10 Nov 2025 18:47:43 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Fan Gong <gongfan1@huawei.com>
+Cc: Zhu Yikai <zhuyikai1@h-partners.com>, <netdev@vger.kernel.org>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Markus Elfring <Markus.Elfring@web.de>, Pavan
+ Chebbi <pavan.chebbi@broadcom.com>, ALOK TIWARI <alok.a.tiwari@oracle.com>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
+ <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Shen Chenyang
+ <shenchenyang1@hisilicon.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
+ <wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>, Luo Yang
+ <luoyang82@h-partners.com>, Meny Yossefi <meny.yossefi@huawei.com>, Gur
+ Stavi <gur.stavi@huawei.com>
+Subject: Re: [PATCH net-next v06 2/5] hinic3: Add PF management interfaces
+Message-ID: <20251110184743.72f0fe8d@kernel.org>
+In-Reply-To: <c344db0c471b6b1321994958727df1c005a65daa.1762581665.git.zhuyikai1@h-partners.com>
+References: <cover.1762581665.git.zhuyikai1@h-partners.com>
+	<c344db0c471b6b1321994958727df1c005a65daa.1762581665.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qvMASAdkqo7heMZ7"
-Content-Disposition: inline
-In-Reply-To: <20251103113922.61232-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Sat, 8 Nov 2025 14:41:37 +0800 Fan Gong wrote:
+> +	struct semaphore                port_state_sem;
 
---qvMASAdkqo7heMZ7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-On Mon, Nov 03, 2025 at 06:39:23PM +0700, Bagas Sanjaya wrote:
-> Use reST grid tables for both type and permission checks tables.
-
-review ping
-
---qvMASAdkqo7heMZ7
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaRKgxQAKCRD2uYlJVVFO
-o2LrAPwMHby35jPtxyGXpWYYSXXuCRk5uukKnesFG++5jEn9wwEArl/pKT9VjSes
-nEPBegou4DPD34Ra21k7Rr1VjGy+mAM=
-=pGcR
------END PGP SIGNATURE-----
-
---qvMASAdkqo7heMZ7--
+You seem to init this semaphore to 1, could you not use a mutex?
+Mutexes are faster and have better debugging. If you have a reason
+for a semaphore please document.
