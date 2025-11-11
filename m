@@ -1,74 +1,72 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA06D2EB5BA
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15132EDD69
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:23:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762852478; cv=none; b=P/B8g44plHYImcq7oEcXi3FvQtXmAzw2xs6TgvaSEAjqU97oKlcS6PFEUOJJm0IKWR3oSmXSTlWSFlkgU2Z1cVeA0BWIleSYw7METyX2zV5+0ayi8/N5FGo65oCVCZ2yhI6drQW18vYe56xvb1iN0hwpQHxFVWPqpTm45RMhl1U=
+	t=1762852997; cv=none; b=iGycpslT1L77P/9Y473VkfcMltf9UbOAomDojpS63z/OS1uQoaVfPJ8pk5lhvL/FqFGgy6BBVytWCxaWPxPhCqIsA7+ZW0BPsZXuJkD+YoJxf3BoTBERfPKXq1iu/m/vEOtjf8aFnIhTmsl5t8XWPUYTVfj8eNN9lOPFruk0iQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762852478; c=relaxed/simple;
-	bh=+fuZTmVdwbIHymrZKqGvMnKmh2q+5Yh8TQx/OG4Qt8g=;
+	s=arc-20240116; t=1762852997; c=relaxed/simple;
+	bh=HW+BHIjHuyTX7OAC9AGqEECbSB0U1bNiaGYXhX8ud1c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uvLi/3mi8VwOIxnfBf0IkvVg2jwZlFy+qn27Wx8BcAUmLyVSmSzWgMg08cDZMrIq9qOKAbfaGroPC/wiR9TuNOsggArN9m/a7AV7Ww0STKfOJQWHuKzGFnX4WBVrsTqBCBau9Z7V2rrYLSnuI9KePE3HciIPuQN8l9qoyWlK+hA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NRrFaKzc; arc=none smtp.client-ip=209.85.160.175
+	 To:Cc:Content-Type; b=ED+lKgcBY6HJlfEw7TipKGSgPnMpt9AHQ04boYMDPbcUgz9RqLnDzs9S5DGekWNh1iodOuC1DnmDgsuj5aIqcYmVdYcegmI1XTdqptCtzeIVIwy5n/tV+awfWmSAzSLvVOLdB6685k2yADu2YffV17DgoCAryvlr8xfzfG+MLjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G6McQrtI; arc=none smtp.client-ip=209.85.219.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NRrFaKzc"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4ed82e82f0fso38043031cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:14:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G6McQrtI"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8823e39c581so33186776d6.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:23:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762852474; x=1763457274; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lZTy2q2TNTCA3OHKdlCs5XdCV4IXpZdhN+lpNGYPqtA=;
-        b=NRrFaKzcpsTBVmpCaZ88hi5hfqVLH+Jt04xmWSfk9MhSpvSRNUV0pkCXnEUjkOAMM9
-         agQMVqNpFeEV1DVWSAt7Z7iM9Rqdb52RznIWb1B1S+Ji/ueerXlQHls2OtfCtQRJl22P
-         d/n75+H+NlPtPQUzosQ11Q/OpCBDhACo5+1r9u9HyDsjOuij0NyhyoWLGQECkuWp5eoe
-         U9OAQvkPVprcN4KmkW7oregyEJF50ilVdKnHmjn0TstCsOsIGWA84M9bS15Y7myiYkLo
-         Dcak/e2F0jhM6+39EAKTNBVhOZ6RxiA8eam7nK+zkGanVB6ruA2dajPcEzAvcOcAH4vK
-         nzYA==
+        d=google.com; s=20230601; t=1762852995; x=1763457795; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HW+BHIjHuyTX7OAC9AGqEECbSB0U1bNiaGYXhX8ud1c=;
+        b=G6McQrtIGCYwTv+qtUcpdpxsjOBOcbABhj3mgP1FPSF14qzrygXKRbZTfaBEW1QzXQ
+         ptH3Eoj5bvdZcC09088K3MdhmAm625hZkmlu2ZALnmSVy4Nj5f7ioO62gatl2JkW9p+W
+         1jXtM3MUjuew7NAMzeHrmR5t6sLAZhIM74qWg8gr8IbF7E187Ihj3yweySyWKcSoozT2
+         Qnr99/VkuaRdBbh87x0j6Wx9VgMiDxfw9FmZloB2G/hux46/1UwpN2sZ07OD2gd5aO24
+         uCD6TXHOo5Abh9hjV0RZtuvY9Juht4VuhNxS/8hC0bNGMpOc949ynwkIGYpllJ/GiXi7
+         +Ddg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762852474; x=1763457274;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lZTy2q2TNTCA3OHKdlCs5XdCV4IXpZdhN+lpNGYPqtA=;
-        b=Y/Kxjdk1+wXr7jJJqaEVNGKsLTWC5qSPqrMw3y79q0VtwLMIJhOLL67yIDiUiLUYZ+
-         8GEo1ntLYTthoHX6+EcCVO6StDvijHpOH/vFaHYkEHSHCBnEwFMJxVZRKL2q0TLxty2z
-         U6Bt5BUbdLWXsteGVuXSQX8Obb+LFbQgFE5qc6wIB3j2CD/cRNYEDSkaw96uRQdLepea
-         kh+/CbQmZnhJbyUOA91Oh/xA2TWwQVV0i5Dp+wKjS6UVEcRIUDTH4IsJPDeT9lMl6xgH
-         fWcuFdaCS30/7p+RJvCHuOIEBgh0TGRCLT1hIeYTmPdBWsP8YXykF8BSPpiZvBlk3SZs
-         /Fyg==
-X-Forwarded-Encrypted: i=1; AJvYcCWlL0pJylL29CxE8Ye/brQB/qd/vu00b1nHJiTMEMmuPLqPWBZlkOvqOGUJbThg0dxiIfwDy09kuRA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGCXQv+GqHjSV25Z1JeKEqtTPlaeaY+ogiqjeYoGoiduZMuO7S
-	0vOitI/1rw6HaJSZSqWVZlN0q+jloQkGc9ybo8ydlchp4tTGsi54IHcSoSeOknBkEobbeYu663D
-	tlro/l0V8NAH8HHRRO6iRLq6aaeYbsF324emvlGlq
-X-Gm-Gg: ASbGncu/H6lit3rgc3bSy3azBgVdWbYCr2fm8vGum0GMzOaX+A7ig22hTb3rshhQRas
-	CG0hjTJmZ3HO+lrXy3f1tZEGbJAkv6R/3yUkZHEUqceIkWUH4fdW3ViRLY3oGJD+E/Q/gevLIGm
-	xjrAO4dsKpEBIm1CUvrLRjc6BP9mNbKUdkC0ddRVNa3f8GfAOJ2EJ6LkKB76sGSGXAGwyLdHsCA
-	tenjeVOAZuPdfeYQcZeSJIVzYOnqtSy1cOSV+iufYv8AsZ0f1hZ/DRlZIpA6gpX+DvcYsA9OImr
-	g8H+u7RrBnHEu0MwFsSGcKnP+p4ig487rGKh
-X-Google-Smtp-Source: AGHT+IFHyI5tV3uPkHfzZQDwtLCu1xXfZdNpjQHEIN8gqbseljKndHdCHWJHLu5LbqQguzv8YlVvlOC2YwOH7fkw7n0=
-X-Received: by 2002:a05:622a:205:b0:4ec:f151:6559 with SMTP id
- d75a77b69052e-4eda4ec1851mr145606591cf.27.1762852474078; Tue, 11 Nov 2025
- 01:14:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762852995; x=1763457795;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HW+BHIjHuyTX7OAC9AGqEECbSB0U1bNiaGYXhX8ud1c=;
+        b=L1LSlWdABwYPIDPjROfGpx6ei3uAwA0iQmTKmFqC2cvOoHcQtd/cgu+6rDB13SXDYA
+         eSwOoxOLVJiJsuMm7MdfAHzeAFFc7WekPVUFDyWQmoyE8W52ys0Hky8n2B6c53C7QqdS
+         h8S2SwBl6yBwtQ+yrM5Cn/dUDyBGYLe/lXOBo6KsL9tYXfaQ63NkYzWNgCa2MWs49euf
+         lhILJMP3OtEc/I/e8H0vLH4GrgNsmKKgQ+uejbIZq1sE0uBn5WQGhM9E/z3euX1ouinx
+         SwQWwcUDl++I9XUzBJ7YVNggeICvXfmKDe4ql2Mz/k2W5CmS8RYF5vzQ+CpXJZ9DO4p3
+         LPIg==
+X-Forwarded-Encrypted: i=1; AJvYcCV515QCSDnokDh2dE0aNgn6AT9Zi1em75ih9OFhF562vC0jS6x7yvnL1Dnb8aWbIH6pLMEJibm8IeA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRnJzqrcHhb2AvVRZjiUUVjmsp6WxVda3JMD6kOMF314QoH5tU
+	RSgLW9L5IqyOrSvT2GQHJvfClSb5jnbVUxsPz4eIw21Ls/dvdatOeHImoRnee0xzEqqMHfl0/04
+	Du2OXLHl7RQnWjXHyrtq3OpmjulqB6edkwDj1aUXu
+X-Gm-Gg: ASbGncuYGPmPeQwnu7prjrO9Bm6Sm6BIbf6rKPXi69EfQsGeJqPZ24OBtOG1McF0RbC
+	D8rz0ECCbookCPBzM8DcPwWs0KoXf/Zb7sa29mr5x0xUG6yqBpfcMwwia6JEGDtPpEOi8Lag1xE
+	SlkouAZm7JmQ6ZrVWsDFGQ1dYf/tvCYBy1gbE0YWyiuG8i5oDrVO+1F6kOseMlaLtmNK+fM5ZrJ
+	Q+wgH+SDKg++g7TkZlDRYb6tT6wcLR4NQ/jU+t9f+uh5yJSzUJsvnmoyCvmwOB4dDg11583McC5
+	ezNxhAkl29rlrqo9/veGW8yZqA==
+X-Google-Smtp-Source: AGHT+IE0yzs57LETS85djEZyTYXW5DmddvlcMHLtxP59+D7EFGLVQ5m9xCUc4smiAAZV+t8Cn2za8HGBMs1SjTj1Y9o=
+X-Received: by 2002:a05:6214:1310:b0:880:3e92:3d33 with SMTP id
+ 6a1803df08f44-8823873d584mr174202246d6.34.1762852994390; Tue, 11 Nov 2025
+ 01:23:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <d6443aca65c3d36903eb9715d37811eed1931cc1.1761763681.git.m.wieczorretman@pm.me>
-In-Reply-To: <d6443aca65c3d36903eb9715d37811eed1931cc1.1761763681.git.m.wieczorretman@pm.me>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <8681ee6683b1c65a1d5d65f21c66e63378806ba0.1761763681.git.m.wieczorretman@pm.me>
+In-Reply-To: <8681ee6683b1c65a1d5d65f21c66e63378806ba0.1761763681.git.m.wieczorretman@pm.me>
 From: Alexander Potapenko <glider@google.com>
-Date: Tue, 11 Nov 2025 10:13:57 +0100
-X-Gm-Features: AWmQ_bknFBa8gAhB6UE8n7ZlyUgSKcguUN9eypJruwNRSxK5vCFPizbRNuQ2qaE
-Message-ID: <CAG_fn=V4jVyS41MDxJeN-A2zk6WhTnxp7m3FRWmkXMpy5f+haA@mail.gmail.com>
-Subject: Re: [PATCH v6 09/18] mm/execmem: Untag addresses in EXECMEM_ROX
- related pointer arithmetic
+Date: Tue, 11 Nov 2025 10:22:37 +0100
+X-Gm-Features: AWmQ_bn-gtNt_PIr26xFMqgMDiPlRCOzgcJVubPfw4RNrG4hXg8UIUOVQ0zkb_Q
+Message-ID: <CAG_fn=V46UeEvrPb01VRk+60-wL0DA6Y6ZD5HAfVLzHcgRh+VQ@mail.gmail.com>
+Subject: Re: [PATCH v6 05/18] kasan: Fix inline mode for x86 tag-based mode
 To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
 	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
@@ -93,57 +91,11 @@ Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com,
 	x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
 	llvm@lists.linux.dev, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 29, 2025 at 8:08=E2=80=AFPM Maciej Wieczor-Retman
-<m.wieczorretman@pm.me> wrote:
 >
-> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
->
-> ARCH_HAS_EXECMEM_ROX was re-enabled in x86 at Linux 6.14 release.
-> vm_reset_perms() calculates range's start and end addresses using min()
-> and max() functions. To do that it compares pointers but, with KASAN
-> software tags mode enabled, some are tagged - addr variable is, while
-> start and end variables aren't. This can cause the wrong address to be
-> chosen and result in various errors in different places.
->
-> Reset tags in the address used as function argument in min(), max().
->
-> execmem_cache_add() adds tagged pointers to a maple tree structure,
-> which then are incorrectly compared when walking the tree. That results
-> in different pointers being returned later and page permission violation
-> errors panicking the kernel.
->
-> Reset tag of the address range inserted into the maple tree inside
-> execmem_vmalloc() which then gets propagated to execmem_cache_add().
+> Explicitly zero out hwasan-instrument-with-calls when enabling inline
+> mode in tag-based KASAN.
 >
 > Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Acked-by: Alexander Potapenko <glider@google.com>
-
-> diff --git a/mm/execmem.c b/mm/execmem.c
-> index 810a4ba9c924..fd11409a6217 100644
-> --- a/mm/execmem.c
-> +++ b/mm/execmem.c
-> @@ -59,7 +59,7 @@ static void *execmem_vmalloc(struct execmem_range *rang=
-e, size_t size,
->                 return NULL;
->         }
->
-> -       return p;
-> +       return kasan_reset_tag(p);
-
-I think a comment would be nice here.
-
-
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -3328,7 +3328,7 @@ static void vm_reset_perms(struct vm_struct *area)
->          * the vm_unmap_aliases() flush includes the direct map.
->          */
->         for (i =3D 0; i < area->nr_pages; i +=3D 1U << page_order) {
-> -               unsigned long addr =3D (unsigned long)page_address(area->=
-pages[i]);
-> +               unsigned long addr =3D (unsigned long)kasan_reset_tag(pag=
-e_address(area->pages[i]));
-
-Ditto
+> Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+Reviewed-by: Alexander Potapenko <glider@google.com>
