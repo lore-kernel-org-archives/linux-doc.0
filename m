@@ -1,125 +1,274 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD412798EA
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 21:01:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EA135CBB9;
+	Tue, 11 Nov 2025 21:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762894903; cv=none; b=d7U++Rh6CT0g48cKYbs+tS+Q6Rx4UxTGs0gxO3nWwWkvC29VKeeAwppPZL7tpgSTP3sOjN67DhEuJd/yLBOULZePtEM8GkpJ6gVA7TUkX+apLRSem+AZ8J2QjQFMg1UPN2MxebsiLYzxgOjjqIiy7FPkz45JECzariqaWdj0s6c=
+	t=1762895517; cv=none; b=DgPDrNGfbyq4eFe4Jzg4nhi+BLvXzTGhzxVNLvJC8PLrvcyeG+Py8BBGIi4pOupBhkIWqaRy8Wtb18DS+vC8kTX7has6m4OkuIgaHLOBFHh0Yjmd4HI3rRf2cKpKJhHnE4P1hd4eZ90QSrkclAYmDXwRFRY+WjoxYOlXDr3wgXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762894903; c=relaxed/simple;
-	bh=00mv0TjCUbXDRMs+VKrHJYkUdKXkKT462q4ka73JY3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=th92BYn9zTLK6Q6wAMhSVFJ+8zCFg0hmvPj6kHWzG+TmpgeaP84MNsbMHsW2mDr4cbx19V3IpcWgi/NEX58MvDGOBU7AaaKoj9UVEFbMPRmjStfB9uIvNcvqiEYf8Kmj70Fnc29tjEI89+iTTpT8V+F1L5CDn8Ak9K0ssv9DVqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=dDmdMGQ5; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1762895517; c=relaxed/simple;
+	bh=3lyHQk+0PzRgbds35eaJRyIdDSi1lVrFMz7RE1ZSqws=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cmQc+OPnQl+btDTSSxo0H4uGO/oaXpIj+7yRGwnZFco61i6ExDFEHxaYietAzv/TVna0NXzCsxkdWWko5Y6qJF4lAaVqx5LMIT4aAkuM+JFi3W00bnzXjtzdJxDaVNDNqOgp+Bq0WTazDhq021M0fKukmnABgcTfyikvgZ64Nkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ej4+SPqC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="dDmdMGQ5"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-640860f97b5so148609a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 13:01:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762894899; x=1763499699; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AOtZbxVqz3T0EH1q1J5hisXUupKcXN5oOYovjWYI2BY=;
-        b=dDmdMGQ54eC8AihcZoP1DwUwOZ84UMouBumbPJmV7NyCMUXstvKJNRbpr/2i/Y8lAP
-         RWc3Y6kUcJd7s41Il2BObfyPZBL7H9XOFTI5xHZhIM1am1rQ3ybdkwUpizbWuW+r4irl
-         P06SHJbecjOuAqv2kzWfeK/dtBosGE5qa8DabdYshiD0Yjz6md3dVbL4LP/LTFK8VJ1S
-         FhyaoQfZ813cmSsgU+jG5V6hhr33/xOdbcCujRuhfhtOdqRa8W6F+H52EygoTObM09gb
-         Su0ABP06YmSP/zcJPGny4F00RnNy+vnvDR8J+mnciacD0gv5KjkbjJiF5R42GQ3pCF25
-         pD7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762894899; x=1763499699;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AOtZbxVqz3T0EH1q1J5hisXUupKcXN5oOYovjWYI2BY=;
-        b=MmQvQJMGiSLbGWRjbPn4LbY7dULYT9aI7uUvU+ZSzfz2yHIaNCDTSguUeURQ4XOJFy
-         pQ6Id83jTwYcvg9I7UO4eWT2G86i/b93UVi51DXb6akoKlItDKC1u2F8aWSsGXWz0FEt
-         f163VBNkn9+LboK/7C8WfMeVQzziSfTuIbPJRvxm799AwMymGv6fOXHvX+W+/iBNSCxE
-         f321DAg8wOq/dvhO5BQSeAe23IjMruyfGLwgLO2xXASlgHv8VSlhby99od4L4GYCtvG/
-         i2n2vEKqEM8xPdWejUnJzjESf5QguSeBMJGEnj1k9c5dbKCGtAVnMxy+LWLFVPQeYNWs
-         x84g==
-X-Forwarded-Encrypted: i=1; AJvYcCU9Xyk4qqHuXxaOsL15T/Las2gQhH/BPMWzJ9HmmstcgQwUBKcu7c45xH4KU3auFUuZPSy2MhUlXiw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8euQ831hQbk8/p9sjsMHURr2HlDIj9JMDFmeVR4fOj8np3LtX
-	Nn9whsgFLl0h0PzLRBKR/DacKuae5ONwRKidvXX7rZcLMuIV0YjcxUYoeOX+tDdhGSk=
-X-Gm-Gg: ASbGncvYJqlj4JvQ2MR9fv2S1pArXQoB7NTyL6g+23pjsfLPomVFjZkX/H8ZK+A3bie
-	aMcigH2ZvDXBKqvKMq0GzKLsk1sir4SkUwkcEa3c0mFllKH5Goior5bzQubf8rQgEl1GuWi65WV
-	QVK6Zf9X8btEcLL1o1yK1wWYjcGs6qbYHWypOR2JBUH1n4GDuqLZFO9puBy/M61ARYcegN9Wjcf
-	mvx2WNLZCRcVUkw43hoxsagRXy7HcGdJZh0h42Gpp5qwQUC3YnMix17nmMDcsLSaqnaH/o+Ei34
-	j8O0QxtG8rMpluW0uNeK5QIn2Wjo91gzNhWrwI1PPEj8KjYz48mbzO5rAYxl1SQNBnzAjnU25IW
-	5T9YDgNfOGBm5rIqTJiFNI/OU5t6khLnFjumlqjomTK6cixQ1fRJjtwqdX7lWSwGZ+aoVTBtBzc
-	e8oMEWkBU1srY6OrIWf9eS24e5
-X-Google-Smtp-Source: AGHT+IFHxQR5RsZZYuu15UkFc5wCGawdUUh/83F65t7RT/bR8gwY77ILDOKtOxH1D+cIwgNbNyoHRA==
-X-Received: by 2002:a05:6402:42cf:b0:640:9d8f:3c73 with SMTP id 4fb4d7f45d1cf-6431a577ae9mr518057a12.32.1762894899315;
-        Tue, 11 Nov 2025 13:01:39 -0800 (PST)
-Received: from localhost (109-81-31-109.rct.o2.cz. [109.81.31.109])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6411f86e12fsm14093400a12.34.2025.11.11.13.01.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 13:01:38 -0800 (PST)
-Date: Tue, 11 Nov 2025 22:01:37 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Waiman Long <llong@redhat.com>
-Cc: Leon Huang Fu <leon.huangfu@shopee.com>, linux-mm@kvack.org,
-	tj@kernel.org, mkoutny@suse.com, hannes@cmpxchg.org,
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	muchun.song@linux.dev, akpm@linux-foundation.org,
-	joel.granados@kernel.org, jack@suse.cz, laoar.shao@gmail.com,
-	mclapinski@google.com, kyle.meyer@hpe.com, corbet@lwn.net,
-	lance.yang@linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org
-Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for
- on-demand stats flushing
-Message-ID: <aROkMU-OFAmYPBgo@tiehlicka>
-References: <20251110101948.19277-1-leon.huangfu@shopee.com>
- <9a9a2ede-af6e-413a-97a0-800993072b22@redhat.com>
- <aROS7yxDU6qFAWzp@tiehlicka>
- <061cdd9e-a70b-4d45-909a-6d50f4da8ef3@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ej4+SPqC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C80FC4CEF5;
+	Tue, 11 Nov 2025 21:11:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762895517;
+	bh=3lyHQk+0PzRgbds35eaJRyIdDSi1lVrFMz7RE1ZSqws=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ej4+SPqCnxQFqkrgxlg+EOX/GriEHMHKiEQGTqk0VlHEBdp4MpgObRj0Br9mGmslR
+	 TZ2JwH91cvp/LgqtNKWSJtPziiqWygeuczj+PV+8qBERpepo9vKssbDG3BcHwZHvso
+	 bNOsgoV/rTtLJzHljjUpJQ57q4jUKOXsQmLcR4VbnQsvZ2VrIaC7ZNTAVv0DyFV6vc
+	 x73jcH+hoKtPMTfpEADif4X8+SmFVfHcEJfrGX+F0Nzsz6HLCQ4EuvBXAVqZESLQdW
+	 4zJGzfcPhJSmsHuPCJd7LFl3zUCOH10SL3S7NwbfLLC7tyaGr0xDI13W8hmONZN9+W
+	 dljQp0vn1hbtQ==
+Date: Tue, 11 Nov 2025 21:11:48 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>
+Cc: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nuno.sa@analog.com>, <dlechner@baylibre.com>, <andy@kernel.org>,
+ <Michael.Hennerich@analog.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>, <corbet@lwn.net>, <cosmin.tanislav@analog.com>,
+ <marcelo.schmitt1@gmail.com>
+Subject: Re: [PATCH v1 2/3] iio: adc: Initial support for AD4134
+Message-ID: <20251111211148.322e5aaf@jic23-huawei>
+In-Reply-To: <86f532ae3a9b3f122b9d5dbada9c131a0c048ca7.1762777931.git.marcelo.schmitt@analog.com>
+References: <cover.1762777931.git.marcelo.schmitt@analog.com>
+	<86f532ae3a9b3f122b9d5dbada9c131a0c048ca7.1762777931.git.marcelo.schmitt@analog.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <061cdd9e-a70b-4d45-909a-6d50f4da8ef3@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue 11-11-25 15:44:07, Waiman Long wrote:
+On Mon, 10 Nov 2025 09:45:40 -0300
+Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+
+> AD4134 is a 24-bit, 4-channel, simultaneous sampling, precision
+> analog-to-digital converter (ADC). The device can be managed through SPI or
+> direct control of pin logical levels (pin control mode). The AD4134 design
+> also features a dedicated bus for ADC sample data output. Though, this
+> initial driver for AD4134 only supports usual SPI connections.
 > 
-> On 11/11/25 2:47 PM, Michal Hocko wrote:
-> > On Tue 11-11-25 14:10:28, Waiman Long wrote:
-> > [...]
-> > > > +static void memcg_flush_stats(struct mem_cgroup *memcg, bool force)
-> > > > +{
-> > > > +	if (mem_cgroup_disabled())
-> > > > +		return;
-> > > > +
-> > > > +	memcg = memcg ?: root_mem_cgroup;
-> > > > +	__mem_cgroup_flush_stats(memcg, force);
-> > > > +}
-> > > Shouldn't we impose a limit in term of how frequently this
-> > > memcg_flush_stats() function can be called like at most a few times per
-> > This effectivelly invalidates the primary purpose of the interface to
-> > provide a method to get as-fresh-as-possible value AFAICS.
-> > 
-> > > second to prevent abuse from user space as stat flushing is expensive? We
-> > > should prevent some kind of user space DoS attack by using this new API if
-> > > we decide to implement it.
-> > What exactly would be an attack vector?
+> The different wiring configurations will likely require distinct software
+> to handle. So, the code specific to SPI is enclosed in ad4134-spi.c, while
+> functionality that may be useful to all wiring configuration is set into
+> ad4134-common.h and ad4134-common.c.
+
+'maybe' isn't usually a justification for a split.  If that code
+was on list even as an RFC before merging  I'd be fine with this, but if it is
+something we might never see upstream, then squash the abstractions for
+now. Those then end up being introduced as a precursor part of the patch
+set that gives them a reason to exist.
+
 > 
-> just repeatedly write a string to the new cgroup file. It will then call
-> css_rstat_flush() repeatedly. It is not a real DoS attack, but it can still
-> consume a lot of cpu time and slow down other tasks.
+> Add basic support for AD4134 that allows single-shot ADC sample read.
+> 
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+A few other comments inline,
 
-How does that differ from writing a limit that would cause a constant
-memory reclaim from a worklad that you craft and cause a constant CPU
-activity and even worse lock contention?
+Thanks, J
+> diff --git a/drivers/iio/adc/ad4134-common.c b/drivers/iio/adc/ad4134-common.c
+> new file mode 100644
+> index 000000000000..05332a640926
+> --- /dev/null
+> +++ b/drivers/iio/adc/ad4134-common.c
 
-I guess the answer is that you do not let untrusted entities to create
-cgroup hierarchies and allow to modify or generally have a write access
-to control files. Or am I missing something?
--- 
-Michal Hocko
-SUSE Labs
+> +
+> +static const char *const ad4134_clk_sel[] = {
+> +	"xtal1-xtal2", "clkin"
+> +};
+> +
+> +static int ad4134_clock_select(struct ad4134_state *st)
+> +{
+> +	struct device *dev = st->dev;
+> +	struct clk *sys_clk;
+> +	int ret;
+> +
+> +	ret = device_property_match_property_string(dev, "clock-names",
+> +						    ad4134_clk_sel,
+> +						    ARRAY_SIZE(ad4134_clk_sel));
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "failed to find external clock\n");
+> +
+> +	sys_clk = devm_clk_get_enabled(dev, ad4134_clk_sel[ret]);
+> +	if (IS_ERR(sys_clk))
+> +		return dev_err_probe(dev, PTR_ERR(sys_clk),
+> +				     "failed to get %s external clock\n",
+> +				     ad4134_clk_sel[ret]);
+This is a somewhat unusual approach. More common to just trying getting
+an optional clock and if that fails try the other one.
+
+devm_clk_get_optional_enabled()
+
+
+> +
+> +	st->sys_clk_rate = clk_get_rate(sys_clk);
+> +	if (st->sys_clk_rate != AD4134_EXT_CLOCK_MHZ)
+> +		dev_warn(dev, "invalid external clock frequency %lu\n",
+> +			 st->sys_clk_rate);
+> +
+> +	return 0;
+> +}
+
+> diff --git a/drivers/iio/adc/ad4134-common.h b/drivers/iio/adc/ad4134-common.h
+> new file mode 100644
+> index 000000000000..c0a553d827c9
+> --- /dev/null
+> +++ b/drivers/iio/adc/ad4134-common.h
+
+> +
+> +#define AD4134_CH_VREG(x)			((x) + 0x50) /* chanX virtual register */
+> +#define AD4134_VREG_CH(x)			((x) - 0x50) /* chan of virtual reg X */
+
+Add a comment or two on what virtual registers are for.
+
+> +struct iio_scan_type ad4134_scan_types[] = {
+> +	AD4134_SCAN_TYPE(16, 16),
+> +	AD4134_SCAN_TYPE(16, 24),
+
+There are no buffer in here so can type ends up meaning little.
+If this eventually doesn't become useful, storage bits must be a power of 2 * 8
+So can't be 24.  
+
+> +	AD4134_SCAN_TYPE(24, 24),
+> +	AD4134_SCAN_TYPE(24, 32),
+> +};
+> +
+> +#define AD4134_CHANNEL(_index) {						\
+> +	.type = IIO_VOLTAGE,							\
+> +	.indexed = 1,								\
+> +	.channel = (_index),							\
+> +	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),				\
+> +	.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE),			\
+> +	.scan_index = (_index),							\
+> +	.has_ext_scan_type = 1,							\
+> +	.ext_scan_type = ad4134_scan_types,					\
+> +	.num_ext_scan_type = ARRAY_SIZE(ad4134_scan_types)			\
+> +}
+
+> diff --git a/drivers/iio/adc/ad4134-spi.c b/drivers/iio/adc/ad4134-spi.c
+> new file mode 100644
+> index 000000000000..7d0749e5c084
+> --- /dev/null
+> +++ b/drivers/iio/adc/ad4134-spi.c
+> @@ -0,0 +1,287 @@
+
+> +
+> +#include "ad4134-common.h"
+
+> +static int ad4134_reg_write(void *context, unsigned int reg, unsigned int val)
+> +{
+> +	struct ad4134_state *st = context;
+> +	struct spi_device *spi = to_spi_device(st->dev);
+> +	struct spi_transfer xfer = {
+> +		.tx_buf = st->tx_buf,
+> +		.rx_buf = st->rx_buf,
+> +		.len = AD4134_SPI_MAX_XFER_LEN,
+> +	};
+> +	int ret;
+> +
+> +	ad4134_prepare_spi_tx_buf(reg, val, st->tx_buf);
+> +
+> +	ret = spi_sync_transfer(spi, &xfer, 1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (st->rx_buf[2] != st->tx_buf[2])
+> +		dev_dbg(st->dev, "reg write CRC check failed\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int ad4134_data_read(struct ad4134_state *st, unsigned int reg,
+> +			    unsigned int *val)
+> +{
+> +	struct spi_device *spi = to_spi_device(st->dev);
+> +	struct iio_scan_type *scan_type = &ad4134_scan_types[st->current_scan_type];
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	/*
+> +	 * Data from all four channels is serialized and output on SDO. Read
+> +	 * them all but keep only the requested data.
+
+I'm failing to spot this mode described on the datasheet.  Could you
+provide a reference section?
+
+> +	 */
+> +	for (i = 0; i < ARRAY_SIZE(ad4134_chan_set); i++) {
+> +		ret = spi_write_then_read(spi, NULL, 0, st->rx_buf,
+> +					  BITS_TO_BYTES(scan_type->storagebits));
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (i != AD4134_VREG_CH(reg))
+> +			continue;
+> +
+> +		if (scan_type->realbits == 16)
+> +			*val = get_unaligned_be16(st->rx_buf);
+> +		else
+> +			*val = get_unaligned_be24(st->rx_buf);
+> +
+> +		*val >>= scan_type->shift;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ad4134_reg_read(void *context, unsigned int reg, unsigned int *val)
+> +{
+> +	struct ad4134_state *st = context;
+> +	struct spi_device *spi = to_spi_device(st->dev);
+> +	struct spi_transfer xfer = {
+> +		.tx_buf = st->tx_buf,
+> +		.rx_buf = st->rx_buf,
+> +		.len = AD4134_SPI_MAX_XFER_LEN,
+> +	};
+> +	unsigned int inst;
+> +	int ret;
+> +
+> +	if (reg >= AD4134_CH_VREG(0))
+> +		return ad4134_data_read(st, reg, val);
+
+If you are going down this path the xfer isn't used.  To avoid that being
+a little confusing I'd factor out the rest of this function into a helper
+
+> +
+> +	inst = AD4134_REG_READ_MASK | reg;
+> +	ad4134_prepare_spi_tx_buf(inst, 0, st->tx_buf);
+> +
+> +	ret = spi_sync_transfer(spi, &xfer, 1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*val = st->rx_buf[1];
+> +
+> +	/* Check CRC */
+> +	if (st->rx_buf[2] != st->tx_buf[2])
+> +		dev_dbg(st->dev, "reg read CRC check failed\n");
+> +
+> +	return 0;
+> +}
+
+
+> +
+> +static const struct ad4134_bus_info ad4134_min_io_bus_info = {
+
+given it's a mix of bus specific and other stuff, I'm not sure 
+that calling this bus_info makes sense.  Maybe just ad4134_info?
+
+> +	.chip_info = &ad4134_chip_info,
+> +	.bops = &ad4134_min_io_bops,
+> +};
+
+
