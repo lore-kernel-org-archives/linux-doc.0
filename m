@@ -1,77 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBB4348453;
-	Tue, 11 Nov 2025 02:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4E6347BBA
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 02:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762827826; cv=none; b=rcXQ94cQTXokxfOK0GLDhaPsWL75uAIHYXZS10XKeM0vXOVOHZQUCHZhV9vqCvQ7yYk/5lyoT9ekyqSHUHYwkjq8B4LLPppZyS+cEoYQ8XHs5a08emEeDdQgMPbq8e4zqwEwBQQqbthYhremNWYkGSW5Jv44sgAj7dI8ndEU8U4=
+	t=1762828321; cv=none; b=jmD0dmJxhGTgrJzbbJ9TTqP1QHqDCTg0MOmaOEMuVExwDZGTMhxn+VNtyuIrEpwLr6ZySxxHq7q2qU+YWl+ZypHGjh1TbTz8SzrTsc+7Ap2d8DjarU5BvfxUvyPyQ0UYQrs94BKL30lf7ItFfk21A99mxOvR02vm4nXnNtEGnhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762827826; c=relaxed/simple;
-	bh=qHpvkne1MfqljqcFgy1fzdxefwcfvIBuH7/eQGN1Dmg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ts4fGMGYWWFet2UO1SOOu4asIxnT54HLRygc4wSkJIdNToKXO5eS4qwEz/r3/unscZ5mwZlioh2aeDG13gH2n1g/THoVKPkqkf4s4HLV3j6YCiuGETz96LUCESr7XfJHQ0zCo906O2P84JRH57PXBWwa82kggbbMQJDf6inLFZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TCykKKwn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762828321; c=relaxed/simple;
+	bh=yV9cPHk8dIKIWoV6mdgwaGrSx9FwHfzI8XWgtoJnrQA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BVvz4nIiMnxUfO+1kgVfa0Worw77budfAgYRpUkWuWzTL4frzV2pMfDEFmyUwdRgc3pDrzuQiJGLyZqDjmTMlhICyBGxaTWhKbf/aym6JdkXvf5B2gt6t9XVDGUo+uWeotHU/8W6R3LqJlItKefADlDpC6w9KvFzb/jy25bg71w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mY7TLh0m; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TCykKKwn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B7DCC113D0;
-	Tue, 11 Nov 2025 02:23:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762827825;
-	bh=qHpvkne1MfqljqcFgy1fzdxefwcfvIBuH7/eQGN1Dmg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TCykKKwnaPWeBc9cqhdzJlMO1NrWxpDdlk/BJw6E1i09n/B9z0o1TbmaWdAundDul
-	 3SRVsH8yyQDoWNFmRau7QWgA1ImLTBO4kEy+eFD8eNunlWbLhLAZIU/o9qTQn3CxmW
-	 AHHxrwUzb0W7lMQ4d8sLqizfvYNX6JhW+7FqUPBGezlFGQclBO8BFwZslgKu/q+UoJ
-	 nI60MDPhU8+iDX8vQ7dl+eqzL3xfHiG393xpwlutp5n4iP/+ONiDMYHs6v6ITkmuSy
-	 dwnQ+XyeO8xTExrAYKlPkcKyoIN6Riz91lAXScfhCPde8qeEqWsnahJmT26HLR5NMR
-	 97ykEKq6NkPjA==
-Date: Tue, 11 Nov 2025 04:23:41 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org, kees@kernel.org,
-	konstantin@linuxfoundation.org, corbet@lwn.net,
-	josh@joshtriplett.org
-Subject: Re: [RFC 0/2] Add AI coding assistant configuration to Linux kernel
-Message-ID: <aRKeLRx2NeozFUrc@kernel.org>
-References: <20250725175358.1989323-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mY7TLh0m"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4eda6a8cc12so27952591cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 18:31:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762828319; x=1763433119; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/klxSk7UtTirsvyrKiSGuSrx879X0M+sdkmegY3UDfY=;
+        b=mY7TLh0mVfrD9ru9QrZiBGmdJOXDxfpMg/1/xH7q1yLWYusA2X4S8YorYJsMl2wwfr
+         tqZ8UMImCxMLdlT+lq0RZICM38x/eVk6IwId3mI7vnb0Dx+dbN9uqlUl7/BYAIf3oIcl
+         m4jQMzvBMdU0BtP5WqvrwR2DKtnAo/rEkjMzD0kHd2/EMCN/wc0TS1M4nx/e+lr2s/a2
+         sKE2dYA9AOF34xSloa7HcjYT9IhCXG2b/FEBsItQSi0/uuKJ66Pi0NiFK1bG+peD09Fo
+         nmy3ps+D9+8lTi5BqczHeOxewVhtkDdUZ2BXZTA1fg1mptDoz8IMMNOX2qrBhWbDCcan
+         WyrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762828319; x=1763433119;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/klxSk7UtTirsvyrKiSGuSrx879X0M+sdkmegY3UDfY=;
+        b=jFwJhjXm/RVPZMtsW1jOVd6ovpjJwbcKT9wuh6Fqpli3xdnV3tiPOBpHbAxSh8QGPN
+         4I+qzmHxdbyBU6mcVI64eR3UJeLux2Gh4R455o22ayPq4GAgS5abR7O96Lq4UbAkvXhR
+         4Zt+ATTDWru6K1HofPbKX0uKJjrL9zMBuSQwLEdIIdVPLIRlM9rGL2DgtF5/Ki5LpnXN
+         DEhKsQvOPXVpc2qWBtTW/dIlLLePOizAAFVyVQD4JpEJYvRi/cndJOXLskmcL2dV2URt
+         ekvHNzoYtIaBdN6elHh3NODkmfrtFcGZB7bmhwqiq60sHqtXrpsrgnRW/faHft2zl4Zv
+         Bupw==
+X-Forwarded-Encrypted: i=1; AJvYcCVZ/cPrkFq1rOkNtX+HJNf7xLMi7h34n09FL0UVMw2qEMowq6nsF8HROS7oHeprZ+z9B72yUVf7e+A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySvwUN//TYBQtfWLIgBzHl/YCjHtAExA9tf7XCNh3ipyvuAUyy
+	Z1F8O5ubZk0c7MTiS8oKRYW0OXmPQA/0LrbASEazszxi+iXPlgSOgW0YCv3zYvmCY5E=
+X-Gm-Gg: ASbGnctzpu2N0Kdl7Qz4TTwGj9ER3dqfpdCw2dHqTKEIylYDbxwERSyLTKzKyIzJvsK
+	NboSTIHWzAxd2lokH4Nnl6AKIpoiBEC7gr4kRzTNgdPd5kiCgV/Jswn49YL1cjUkWXA+jQCa4dX
+	MbLtsZpRjJXTjFeAlyaOqTQdTNVn29XiYfCDSgwlQxqoL6jdnB+QUaQnPVxxMqVVYq0VZbTxZe+
+	eQdBvBvLXmicvnPo+351otk9OondUVPdlcaDEk20KblZweJblGF+UwTquW9WyGEKzjfbs5+1Nqz
+	AALBRJisyvBEmMK2L6Bzhxnm9NYCL2gne5QT22mXhvniAgPmPE1O5obmRDlzWwA1cYR+aGocXJC
+	9it25W5pQOI9re9kFnwlmyp1vogIIXjqu+9Eja6/izaUDccpKs7o+b9x20HZ2M2eKuu61mIgAZw
+	Ss4UMPX7w=
+X-Google-Smtp-Source: AGHT+IFn+vjJHlq24fT2sBNnkUYmhDssFsbnrCMPiJF+OP/zw7CiLhchDG+Dlttk0AGAXdtB6JpCuw==
+X-Received: by 2002:ac8:5d56:0:b0:4e8:9f46:402e with SMTP id d75a77b69052e-4eda4f90156mr128481231cf.40.1762828318658;
+        Mon, 10 Nov 2025 18:31:58 -0800 (PST)
+Received: from [192.168.1.50] ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4edcab79093sm8694271cf.18.2025.11.10.18.31.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Nov 2025 18:31:58 -0800 (PST)
+Message-ID: <d836336a-7022-44e3-9416-1e6cc6a70155@gmail.com>
+Date: Tue, 11 Nov 2025 09:31:49 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250725175358.1989323-1-sashal@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 0/9] xfrm docs update
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>
+References: <20251103015029.17018-2-bagasdotme@gmail.com>
+ <aRJ3rVhjky-YmoEj@archie.me> <20251110160807.02b93efc@kernel.org>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20251110160807.02b93efc@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 25, 2025 at 01:53:56PM -0400, Sasha Levin wrote:
-> This patch series adds unified configuration and documentation for AI
-> coding assistants working with the Linux kernel codebase. As AI tools
-> become increasingly common in software development, it's important to
-> establish clear guidelines for their use in kernel development.
+On 11/11/25 07:08, Jakub Kicinski wrote:
+> On Tue, 11 Nov 2025 06:39:25 +0700 Bagas Sanjaya wrote:
+>> On Mon, Nov 03, 2025 at 08:50:21AM +0700, Bagas Sanjaya wrote:
+>>> Hi,
+>>>
+>>> Here are xfrm documentation patches. Patches [1-7/9] are formatting polishing;
+>>> [8/9] groups the docs and [9/9] adds MAINTAINERS entries for them.
+>>
+>> netdev maintainers: Would you like to merge this series or not?
+> 
+> Steffen said he will merge it.
 
-I sometimes use tools like sed (just to name one) to generate a patch
-plus edits. I don't think we need contribution guidelines for sed, do
-we? Equally we don't need contribution guidelines for AIs because:
+OK, thanks!
 
-1. AI is not a person.
-2. AI has no resposibility.
-3. AI has no needs.
-
-Basic computer science beholds to truth that for any problem there is
-infinite amount of computer programs to solve it. This makes any problem
-we have a moving target constrained by various corner cases, people and
-many other things.
-
-If you want to use AI to generate code, it's obviously fine. I don't
-mind and I don't care, and I don't see anything wrong in that.
-
-But that is million miles away from being enough to be called as done.
-Generation is about getting up on speed, and in the best case scenario
-to the ballpark.
-
-Please, let's keep this out of the kernel tree seriously.
-
-BR, Jarkko
+-- 
+An old man doll... just what I always wanted! - Clara
