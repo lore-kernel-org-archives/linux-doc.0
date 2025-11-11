@@ -1,100 +1,114 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E042EC55A
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3002EBBAF
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762853721; cv=none; b=G0+pKFf4EjarGfzOXV++U3GJhgW1HU1/UwfcgPUI4taaVEMbvNUQyhykUc3HTMb6n51xl4doG2gu+0UJyCP93c0RAwL5Y8KQHyyv9MFwFYgBGjQD5HLptWGOhkw7PzVpkkDhMxqwrHj/vbya9Ki51CLFLPulWkUbwE6P7ZjTAkg=
+	t=1762853788; cv=none; b=sg1OtiP9uSCaEocnC8S9KqDACX7VHcuHhwtRo153MkXLHm3qNxQByRLpJGHYJ9Tt3BZHY5rYpGPFJp7gf1N6i/Dtpy3zYGQFm4Iqrv5xzY3b1QDVshL27BYAr7aqIG4f8no6Zyddt/8K3Nv0fSGjns4Y2vLbohocYbTBSzvFt0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762853721; c=relaxed/simple;
-	bh=EetqUyAEJqiuKxD3fEI2nbY8lCOitzdVH7lF4O8jjNY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DbRAwT3seDBMYM5XO/N5bk40KZwsUgOTriMednuwpsaotvDpT3tW6ymATVWWKAHwGBy1nGwmka9wkXYFNzydM9PSX/CfD4or3zhH1s7AoPLSwM06PPCmdlzV8oLFUNKb+iqrcynA5gocaNrBScUY4OJSrnYOqE9AKvmIQa3YlqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Kz7YMOlC; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1762853788; c=relaxed/simple;
+	bh=7d65OtPGmDAqJ9fkTXY85mud3hOL7bBkR2n6ifFMurI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ofz8xlpULJmexroiylR6OFzvcsSgf9HvS/tuT2PP4BCMpUdB/9kacpP42yAiNvvlh+ZpVJM+ZtN2jR2OdBY8z+glhcNaEfjvrAF/5dXrGSXj/8A4LOoOyREWMBocKZ51jzsFMaYcaFA4ix9ddRy+YfYTpSPQvDx4uUnRSZ46exk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QLiQMFnO; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Kz7YMOlC"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-340a5c58bf1so2810403a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:35:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QLiQMFnO"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7b0246b27b2so4268049b3a.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:36:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762853719; x=1763458519; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EetqUyAEJqiuKxD3fEI2nbY8lCOitzdVH7lF4O8jjNY=;
-        b=Kz7YMOlCp0w+UrHY5twsYY8JF+Kv6/Dt+AXnLPCZ7Tlf6hTZaP85WkxpKixnmSKJ73
-         yat5/nkJcYMecBUvXpPhOR2qauA/5M1fuRClERrZvacDw2anm4tkig3nq07KS3yLBCKO
-         FAGgSaBjNDaFloCiyqHxCSSBMAZs9gXY52h0aMk+t0Qs5nudNVBUEu+0Vco4i37jdJuq
-         pB4fqOJkVWqp9TsIgyEwyVUJiUk91mcjBkQlXKstFvl4YIGBvUO46Jr5zO+NUuDS5d4P
-         fo+IilEs++lxM8dWoUrXcS+dya6iOfmPtlKK9rPF8LlN05X4GCd0jsxpegsA5Vsaxolb
-         cBTg==
+        d=gmail.com; s=20230601; t=1762853786; x=1763458586; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LMjCh17nJEMUiPQdRqWznw5LPa244fsW8N9TEBQf8ws=;
+        b=QLiQMFnO7awm+R+wCPg0djmd9gLSzrNL3242zVOE89YhVYyrM0YrvsRC966ady9IEM
+         S9EWO/G4NjlYQc8GOfsuU7wZjY/7UGkIGohGQVV9p9RLFIf0L7aLtI+ltpYujvQCxh56
+         xGA/cjJaMcFRR9aQ4GESbkIiHHpkgIm6f7BR4UOnh9J63Gn9n/vUa4j8zVOCnj51qLrn
+         WpWXm0/Q+eGLn/oSuKBZ6cAxJIH6zy51GmOPsfk3/rPVUdu+UQ1a10M8mY7TOln1dbfk
+         UphrRCSsXd+9E5BbDue3drgVBTJoZyArBW2Ij29MDnEvHt33TsXETXaE48Q/IdPhMhl8
+         RzRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762853719; x=1763458519;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1762853786; x=1763458586;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EetqUyAEJqiuKxD3fEI2nbY8lCOitzdVH7lF4O8jjNY=;
-        b=JkFNI2LMzht+HLXB0gXUt6dQHLQ7SbiG+/RiVNwEkcU+eif9L4zOA+YrcwIDhym4n0
-         35mb+Wg24c0eevvwm8DMi4vi0pDxQXgmEeQzovvc7ZYONUBbX2ZkEbRaCusqiwrhbGfk
-         1yib0nW1OmotmfLZEVS0MNC3F/9gHkBK+l5FFsRUmRFjgWE3Reg/Q2MTZr5WhzDsfKZE
-         IOm45UXqakaIlF6NSAnBZiALO+VyHpBDj+uX3ZNnI56LTaGue+dp6sUgRh/bXWRRkk7R
-         2Y7N/ASMsmV/lM0Ocl/Cc3nGXGaAOvY4lpvM7mS3ROo3Mdn/lW9gr7wnuSSx20bKRteZ
-         CyaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWY9VmQCmlGjoZX/mjeVlw8jS4pWwib/naI6Mza64iXQLi2wEakbMKrKNtBhtwxyVmB8eNWd/qG6hI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI1j1NZqZ6d0n7HUdgIpkkHwYRkj7QZJD/33zbu6F8RH6t+cVz
-	8Af+dyfImXCaAIOIllLkR1LVL+iEa5scWIvanUyo//qIVhoSbzoaJvMrPfk/vq0zD5rQGxDIH4A
-	GLZDfPo1N3PRMUxs+d/PSJjzNSwep8JY1PB/c5dSv
-X-Gm-Gg: ASbGncu1eeAHC9KPctnnfRnzIsPOQCKkcVJ4cUxEYmpVzZ5aa9ioHoYFPhnGXhqPgnI
-	J9dv2483QPKh3dS9WOWhmh5T2+heeR3vVWr915G9GZTx2CKxVnhsFY6W0UWasMI5UPtLiOqJQM9
-	UqAcF+wQVOLJTOVYL8nYJfH/N6sNxRTRNJxiwJuAaSDPCm7GvSkgD/Y5Z/i84MB9qlq7zVc67+D
-	A60eSuyzAJ4pp9Hf1mAQd/oyfDpf831SwiOfA/83+566wN+qTnI35cFiWkrD5toVm+yn+QzO85m
-	Wfe65foeFsd5djhqBmYGSUQtew==
-X-Google-Smtp-Source: AGHT+IE1gIu9BAiXsX0H1O+GFnCkjCXA7LjUzdEGNtie4OCQJL0hEG9RvsKQFDwhfkMp+tiOpjzqm/vRLg5+ZmsNZZg=
-X-Received: by 2002:a17:90b:390f:b0:340:c151:2d66 with SMTP id
- 98e67ed59e1d1-3436cd0bb4cmr14245240a91.30.1762853718758; Tue, 11 Nov 2025
- 01:35:18 -0800 (PST)
+        bh=LMjCh17nJEMUiPQdRqWznw5LPa244fsW8N9TEBQf8ws=;
+        b=DYxRph+WdxJvAWdeSr1KZ4LtwB0CoJwkqYw83C6jBsA6EiT7dO/TNPYouiLEUc8OOa
+         MxFk/qW51H0CNUZSGx+cwhUMUc7ret+DQ8IuK/k06HrMKm9BMFga4Nm8DOL2eAXNCXRZ
+         3jkUa0j4anhPxNyDUxfvydVF8nCLuV8/r+KIaPe9OgqXqvUQd7fKHfEjZf92g7wc53Gs
+         FecGirwPSHg5xsE4xS9W8IYqm1vSPo4KOiI3mIdCXR3rwn8Qa9j3BvnIxU0Su2Lgp4A4
+         5bLAkXBmqxQWSBb6PPGv2ogOxUtujgjsZjeBLpoMMM75f9OT094ST4/tj2hxlNxBdNC5
+         aF0w==
+X-Forwarded-Encrypted: i=1; AJvYcCXDGXPvihcfI6/F6KDlRceTLOyjcywqlivyRLe5ntykif7ZQQv9a6tTXH9XHiZNdk2TIwP9aaEhLEg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK9q4/6eCRGaMnjCjeriYLUi1pYP0cN3b77nNk1zYezLSQ9GpJ
+	LcPul5PXRa12ONdG+JySlNJ9MBbBGsVcw4q+eWeSjdLbejD8n78p1Vl9
+X-Gm-Gg: ASbGncv0d4/yoiDhYFOSpdqio4PrGZkb51IrmohlNyPlvbfmACz/heh7qAB4vKRbHoO
+	9iG4qeSwNcdvOHOptcZ/B6zBBi4hifPqhEEpvgX1AFT123iqb8NFHXAMFmBAW7FCUgxTT8rThNt
+	P3+53DG1BYoGCB0xJ/UoG4drl8m09K4VZEK50An5ccC8xEecYme66/uY7Kks0nSloWpPFrB76Ml
+	9LL/MSs0RbJSpvcjWSZpBOJ4BME/+2i7nT+H4jiKmC7nWo6lszmmwEa3kXR3YSpeR2+KqG06nU6
+	d3m2aCOmzJB5oWb7YsUymQW+cN9QNifXdUATcuN76zLsZ46L7dwEuiNQx5S35MApWBI7KLWczSd
+	2hI04oNpcQ9pngZTSGriHz295f0mQL+Wa9l5P6UxL0PjIdI3c52X7lSDRRsclV76wY2M6KTiXgz
+	HUuuq/W1K4NiNXIMKca2UuUBPSL6QsvN2R8g==
+X-Google-Smtp-Source: AGHT+IFaxvIu0B72oVpTJ+G5KmGzYNh8PKb0s3rDJQSPzD3OrI2kdp2/BP6S4OpVyM6FTbrBYpckyw==
+X-Received: by 2002:a17:903:38cd:b0:295:fdf2:d01e with SMTP id d9443c01a7336-297e53e7d10mr153080585ad.2.1762853786374;
+        Tue, 11 Nov 2025 01:36:26 -0800 (PST)
+Received: from a015921.shanghai.arm.com ([217.140.96.53])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0ccb5a31esm14603927b3a.63.2025.11.11.01.36.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Nov 2025 01:36:25 -0800 (PST)
+From: Zenon Xiu <zenonxiu@gmail.com>
+X-Google-Original-From: Zenon Xiu <zenxiu01@a015921.shanghai.arm.com>
+To: will@kernel.org
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	Zenon Xiu <zenonxiu@outlook.com>
+Subject: [PATCH] Documentation/arm64: Fix the typo of register names 
+Date: Tue, 11 Nov 2025 17:35:39 +0800
+Message-ID: <20251111093539.2760535-1-zenxiu01@a015921.shanghai.arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <fd549c974b53b5410dbf85c0cf6a1f9a74c1f63a.1761763681.git.m.wieczorretman@pm.me>
-In-Reply-To: <fd549c974b53b5410dbf85c0cf6a1f9a74c1f63a.1761763681.git.m.wieczorretman@pm.me>
-From: Alexander Potapenko <glider@google.com>
-Date: Tue, 11 Nov 2025 10:34:41 +0100
-X-Gm-Features: AWmQ_bkZUqiS435kDnMhK6mmvyG8PwqBjo8fr1ltJrKRlyqzMnD3vTHwKYRZs0Y
-Message-ID: <CAG_fn=UoQeoHh6Bpy0YOCywpfaimuYZM_d043JfxLVReW8PdJQ@mail.gmail.com>
-Subject: Re: [PATCH v6 07/18] kasan: arm64: x86: Make special tags arch specific
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
-	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
-	ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, 
-	morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, 
-	baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, 
-	wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, 
-	fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, 
-	ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, 
-	brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, 
-	mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, 
-	thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, 
-	jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, 
-	mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, 
-	vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, 
-	ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, 
-	ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, 
-	broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, 
-	maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, 
-	rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, 
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> -#include <asm/kasan.h>
-> +#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
-> +#include <asm/kasan-tags.h>
+From: Zenon Xiu <zenonxiu@outlook.com>
 
-Perhaps moving this part to patch 04, along with the newly added
-kasan-tags.h, would be cleaner.
+The register name 'HWFGWTR_EL2' and 'HWFGRTR_EL2' is wrong, should be 'HFGWTR_EL2' and 'HFGRTR_EL2'.
+Find the register description on arm website here,
+https://developer.arm.com/documentation/ddi0601/2025-09/AArch64-Registers/HFGWTR-EL2--Hypervisor-Fine-Grained-Write-Trap-Register
+https://developer.arm.com/documentation/ddi0601/2025-09/AArch64-Registers/HFGRTR-EL2--Hypervisor-Fine-Grained-Read-Trap-Register?lang=en
+
+Signed-off-by: Zenon Xiu <zenonxiu@outlook.com>
+---
+ Documentation/arch/arm64/booting.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
+index e4f953839f71..26efca09aef3 100644
+--- a/Documentation/arch/arm64/booting.rst
++++ b/Documentation/arch/arm64/booting.rst
+@@ -391,13 +391,13 @@ Before jumping into the kernel, the following conditions must be met:
+     - SMCR_EL2.LEN must be initialised to the same value for all CPUs the
+       kernel will execute on.
+ 
+-    - HWFGRTR_EL2.nTPIDR2_EL0 (bit 55) must be initialised to 0b01.
++    - HFGRTR_EL2.nTPIDR2_EL0 (bit 55) must be initialised to 0b01.
+ 
+-    - HWFGWTR_EL2.nTPIDR2_EL0 (bit 55) must be initialised to 0b01.
++    - HFGWTR_EL2.nTPIDR2_EL0 (bit 55) must be initialised to 0b01.
+ 
+-    - HWFGRTR_EL2.nSMPRI_EL1 (bit 54) must be initialised to 0b01.
++    - HFGRTR_EL2.nSMPRI_EL1 (bit 54) must be initialised to 0b01.
+ 
+-    - HWFGWTR_EL2.nSMPRI_EL1 (bit 54) must be initialised to 0b01.
++    - HFGWTR_EL2.nSMPRI_EL1 (bit 54) must be initialised to 0b01.
+ 
+   For CPUs with the Scalable Matrix Extension FA64 feature (FEAT_SME_FA64):
+ 
+-- 
+2.43.0
+
