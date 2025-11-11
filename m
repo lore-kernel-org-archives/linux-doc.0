@@ -1,237 +1,185 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411843491E8
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 15:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E9F363C4F
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 15:19:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762873442; cv=none; b=cNGFwqNJ8/SBGFCOfl21HqydDWKUQr7JLW7VEW+FUg+r3MVwKUeDGkWrDiqC5L7gzDL9/UHwy3k8lvn0TGyBskpZjpMJtn10jkpaQkcijophoh63GjoQve9lrQ1wpamf+zDGRdkAXCKMvbnNEpQdILUyQ9QK8+ibvVI3ooNiGoo=
+	t=1762874397; cv=none; b=KjyriMrtOhBjFUTdrlShKab6KGAW0Z1LmMbDjldhRzT25vde+IQkP2pCff+cEoj6mVyDKW+cyRlW8sTmmsNMcS0yqRAOcwrU+td6SJobru3od8Jwx51BHruZprRg24nPmri3l4Tmh6DZTyYUkSRehEZLBWjtw+ThVIZgE9za2NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762873442; c=relaxed/simple;
-	bh=ftiPYvx9c/Uo7f5Ce7Yzxcg1QUwJlxqYP2TiKTcKQ1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A/zriGEJ01B7NGwACfDo/Ty3Jm1uPLcEB20zWl68TlISi+ptAzW4Ot9Bm1qpTU5ldz/AWKQ4ZUROv7eKJxtIFmyqvZ61XuPw9WGT8jYaBN6zL54RIYrLZB8Vl633FtoriEEE2FKCfbVcn8N8pqvDA2n++Fc8KkYBC1SdbiI+oXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Wr3VZuHa; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1762874397; c=relaxed/simple;
+	bh=94GtY5KZjXmZPjl12JvyfDt0aWegthwLuMtBUxxbiGI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cPv7Wc7hB5vZoncp8QVc1EZ97Jrftpy97tGN3domuW/uqQMtLFtarZXVau4vp7OTiRZs+bPQMyqxkC2NILmwptKt2DJZRoi1HDKhFc0OdpZBZMhks6CxGCC+twMqXWdi9h5I/rCAagYlfn0xtG3AJN+Yy0YVbjMgNp6J0Hu4TGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gfPf0wyZ; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Wr3VZuHa"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b73161849e1so387984866b.2
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 07:03:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gfPf0wyZ"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8804650ca32so42449196d6.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 07:19:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762873437; x=1763478237; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wi+5dbYm5JIgaP/t7Nx547fFCD450JcmYNBqfgVm42E=;
-        b=Wr3VZuHacnX19+kU8w1BvT68Xtso8bA8jlTRBVCYJ1QSuvBs90fW594AJGYD/sbcE7
-         zxfKSkMaz4WysTITq4/7YriC+cQSmhKybush57z8b7uRuaTcbHBANmIDfT/kvFehUGbD
-         sa2WDGvCupBaFLVNib0xm7M88OsMK+KVbkGvRv4wvS4KHLvTYQG7EePJTLqW1aHI85zL
-         INKcGCRRzF6J7N7BmrhtW9M7UhXv6JUTmkrQzq4x8G7ZqU0H7eSS+ojS9/DTLkAN67Bj
-         1wDhCFVl0BccErhxh7JzXNm1WChW2BMRTVSKywdBU4Q8uuZOXEejQRVPSvQONAdw7x2q
-         TGYA==
+        d=gmail.com; s=20230601; t=1762874395; x=1763479195; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A5SVOaFDlCV2uNNJy3v3HZSAyck/afp0AOlD6vgrWKk=;
+        b=gfPf0wyZuFA8eXSbBfB6sx8zsYhWsjzbtWIuwEJV9QsCbdj4lXEiwvy14oPL+BLR2i
+         QoEiHfQzIwTYN7EOvavJICHoG90ewvQHqv2A5+mZTlcQVHT0Bwq8BeuHKaiiY2YIkfH6
+         NoONLltZShp6fB6OmgBJrTPgxGV30KCdEVYtKj4fg7C1Zv3oIsahUCJUvUqDH36SPkiY
+         +DyJtYml+nBfyd+3kh4/vrh3arhdTbJLi+O5KNgKBtcOphhOTksm0+o/xDNaRzuzMLrc
+         229Jgt2BIDuxOfk5BW7pXpQtjKh/X3gF2Wz784UJx/Dsofz3nIyK2Xo20SAtmnA+VQ6B
+         0vgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762873437; x=1763478237;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wi+5dbYm5JIgaP/t7Nx547fFCD450JcmYNBqfgVm42E=;
-        b=dUt60HHpjUUK2QbxinbjuqZDdY6e+aKax0+oyP6eQWHLCeZBv311FG4VVoOkCE9voO
-         qkGMKqB3fd9iU3CTg+KFuw94wsNwVieIau0gguhtvLBSvvXooZ9dxn2vyardreNNzfN7
-         mC7gN4uRqnRbo+giAjRw185Sd4g5/M05VSMU57I9xFygOumAz/DYqILjX1uB5ib7edpx
-         9Ima3S+xrEgHDgfYxgoeYfw9+QOXpzmORXufV8OwQYtT8QEtEMCTAjEmhSbszBlNV6ke
-         KC+Bm2s4Kjg0zdBnpW4xndPOen9RK24dDes6XAscXwq/6/3Kzel/QAlCDe3Ju25AxCwq
-         lEZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVdfF/pETBB8TPsveE3LtLCJ0fAvD3QsIm0nWGCi0YltL7t+FEl6+qm+HyCcqMTzbr3SitTKoykKi4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy428ow6dDfapLZYXV33Lu5gcLP2RIVIPLBHJ53CjQVxL/aUNTk
-	MFEMkYDLoAgiUG0NEa1Su6Pp85EuB5AbeSIyoIK1UkFsEfNVDhuj4SVPnTdvzexmAnQ=
-X-Gm-Gg: ASbGncuh4NYD0zVGddtLuAEsWOiCYnaG+v/L5pAMKnnqkEX3ZexPzmwWhpNf6qkqhTC
-	fwh7FMGxvHnX7oPcOXpU50dblVyuwnYnqG22taOa7cG80+sPBbeF3WgPkECwpDPgvD+nc/ln+gH
-	EJpocxyWPc5U1bp3KFeqQsmqdBaSvgKpAu7uOYomBeK4KLdwPvqcBDdKcMR8ck2JKZxqBpWOOAm
-	sa8oHUXIzWgX8HNfdluXCLD8GsU2N7SleYGix6SeVnHnqmx/L3Z06IK6ccNvms4m8SFPg48QAT0
-	NXnknDWRNTUu2vhoscjCZAN8LIVppZYcg57LS9OBRz/TSyi4EvxLnalU5SnGgmdYskgRMwmjKM6
-	0JqTb/IzAsoPDeSAsxPmG/0G2SFPYZIvZiTNOIyVkf+p4VivaDbyY1ckIiC2aBYiZodRnyZQk/y
-	MYGUlPShaYeYYjRsGQbA==
-X-Google-Smtp-Source: AGHT+IGWUxoIalLG5xLZllX+zCkekRXIo7e3xykwl2APS2wZQPGHNLqastwX+dw6XlJnfwm9Fe+bGg==
-X-Received: by 2002:a17:906:f590:b0:b71:cec2:d54 with SMTP id a640c23a62f3a-b72e04e4ebemr1306841566b.57.1762873437355;
-        Tue, 11 Nov 2025 07:03:57 -0800 (PST)
-Received: from pathway (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bdbc9656sm1374243166b.7.2025.11.11.07.03.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 07:03:56 -0800 (PST)
-Date: Tue, 11 Nov 2025 16:03:53 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Corey Minyard <corey@minyard.net>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Vitaly Lifshits <vitaly.lifshits@intel.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Sagi Maimon <maimon.sagi@gmail.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Karan Tilak Kumar <kartilak@cisco.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
-	netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-	linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-	ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Gustavo Padovan <gustavo@padovan.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Rodolfo Giometti <giometti@enneenne.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Stefan Haberland <sth@linux.ibm.com>,
-	Jan Hoeppner <hoeppner@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Satish Kharat <satishkh@cisco.com>,
-	Sesidhar Baddela <sebaddel@cisco.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 01/21] lib/vsprintf: Add specifier for printing struct
- timespec64
-Message-ID: <aRNQWc8O2y94zoj8@pathway>
-References: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
- <20251111122735.880607-2-andriy.shevchenko@linux.intel.com>
+        d=1e100.net; s=20230601; t=1762874395; x=1763479195;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A5SVOaFDlCV2uNNJy3v3HZSAyck/afp0AOlD6vgrWKk=;
+        b=LwSBroBkQ+7j8ipNuVuzZ/KOjB3UHag2bxIhYjm4UBBKekSOlyBIEFze1EnF/0Audm
+         j4BnDrM1xVMIT2F8AdVFxzkmpV/aILTW1iPnOuFr9hoD0tMdsRgHCEgOQp9W+vK5cshp
+         RpvHqqfWvWubRA9FQ/f2v17FDjynGXy/5uAMTrga9LVgXE9G0tckeqtKzdNpi6m41z1P
+         Owyut+Lfa2NyKU4JkHEW0EyO1ZrOWeu6s3D7IambKxO5/3JWPN606lOIwnsddvKkFDvB
+         dHiYqwwfKChq61hLIVn+vmlrGSp8XeyhHgO+lsBsqnimWOx/TI2dFeUUGtYNzHkc6YeH
+         75Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCXjkIoBZGKEwhMKKvpO+e2pxu8uqVEUUGrAHaSkqOeU8/DSkZhNiIVZjhOGKqH5U9HLauqcFWBkjhE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4FCqJkIZRq4VsURtOEdpVfu5GxUXHsRF1cLk+nZ37ocI6Sh7m
+	ezXGfxtzcLvMA9d1Qn6LSSoaOB8Q070DlnKHslbu0qoFQ/YsXHKllpvE
+X-Gm-Gg: ASbGncsNLZn+4mp6AULr7X8GAKKvpzo+D3JLJ0CUbRFmgHRQjWfD+VhF31DPrwVHrDH
+	3efRM13/1gYoenRqVF0Rv9xf6GWit0bDnjzO3kaYF7rNtFLCD4+L4yMuDn1VoWzyzVAH6As1OTE
+	3GqS8rH1zVi8LLObL5fRhpD6aU4dV47BOK7VS52H75rofb60vzy6VyEgttVOUaTIDpVOQibwhdn
+	ekwuqOcewTzdYRxXGE8raeJ0wNT15/w5EDhamv6aqYJyTcLvetEaHsNsSp9YHm7KRFCybjQyoYX
+	GIg4xuCd432H5VGa/ITG0tb/K8yoWvJU1o593wlyjg8pNUws6zY0Af482AeF4XC0osYcmtLESdM
+	s8TWuN6hd5DUj3QZ4BugkMQIhEKvsW26moU3ivviic5OhNxZlrGXRrgnu50x4MlYR1cOtFDPrz8
+	uW1nx7e533MHfzqGw0rcTkPAqR
+X-Google-Smtp-Source: AGHT+IFAbbyQhephY+AI/cqoiVmNsBG/fPVAb6kdOEXVVnWOQfxDiV/20VWcE/IFvlGD21yeGrFzgA==
+X-Received: by 2002:a05:6214:21c4:b0:880:5636:6241 with SMTP id 6a1803df08f44-88238769402mr175766236d6.65.1762874394765;
+        Tue, 11 Nov 2025 07:19:54 -0800 (PST)
+Received: from ?IPV6:2620:10d:c0a8:11d1::1065? ([2620:10d:c091:400::5:ddc])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88238b4c3c0sm72793516d6.33.2025.11.11.07.19.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Nov 2025 07:19:54 -0800 (PST)
+Message-ID: <9fed6ab9-e748-4a78-b45b-5e6b3cc58006@gmail.com>
+Date: Tue, 11 Nov 2025 10:19:51 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251111122735.880607-2-andriy.shevchenko@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 2/2] net/mlx5: implement swp_l4_csum_mode via
+ devlink params
+To: Saeed Mahameed <saeed@kernel.org>, Jakub Kicinski <kuba@kernel.org>
+Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Srujana Challa <schalla@marvell.com>, Bharat Bhushan
+ <bbhushan2@marvell.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Michael Chan <michael.chan@broadcom.com>,
+ Pavan Chebbi <pavan.chebbi@broadcom.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Sunil Goutham <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>,
+ Geetha sowjanya <gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>,
+ hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
+ Tariq Toukan <tariqt@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
+ Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+ Manish Chopra <manishc@marvell.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Vladimir Oltean <olteanv@gmail.com>,
+ Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+ Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+ Dave Ertman <david.m.ertman@intel.com>,
+ Vlad Dumitrescu <vdumitrescu@nvidia.com>,
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+ Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-rdma@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
+References: <20251107204347.4060542-1-daniel.zahka@gmail.com>
+ <20251107204347.4060542-3-daniel.zahka@gmail.com> <aQ7f1T1ZFUKRLQRh@x130>
+ <jhmdihtp63rblcjiy2pibhnz2sikvbm6bhnkclq3l2ndxgbqbb@e3t23x2x2r46>
+ <20251110154643.66d15800@kernel.org> <aRKs6jXqSvC3G_R0@x130>
+Content-Language: en-US
+From: Daniel Zahka <daniel.zahka@gmail.com>
+In-Reply-To: <aRKs6jXqSvC3G_R0@x130>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue 2025-11-11 13:20:01, Andy Shevchenko wrote:
-> A handful drivers want to print a content of the struct timespec64
-> in a format of %lld:%09ld. In order to make their lives easier, add
-> the respecting specifier directly to the printf() implementation.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  Documentation/core-api/printk-formats.rst | 11 ++++++++--
->  lib/tests/printf_kunit.c                  |  4 ++++
->  lib/vsprintf.c                            | 25 +++++++++++++++++++++++
->  3 files changed, 38 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index 7f2f11b48286..c0b1b6089307 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -547,11 +547,13 @@ Time and date
->  	%pt[RT]s		YYYY-mm-dd HH:MM:SS
->  	%pt[RT]d		YYYY-mm-dd
->  	%pt[RT]t		HH:MM:SS
-> -	%pt[RT][dt][r][s]
-> +	%ptSp			<seconds>.<nanoseconds>
 
-I know that that there was no good choice. But I am curious.
-Does the 'p' stands for some particular word, for example, "plain" ?
 
-I do not want to start bike shedding but I think about
-using 'n' as "number".
+On 11/10/25 10:26 PM, Saeed Mahameed wrote:
+> On 10 Nov 15:46, Jakub Kicinski wrote:
+>> On Sun, 9 Nov 2025 11:46:37 +0100 Jiri Pirko wrote:
+>>> >So, I checked a couple of flows internally, and it seems this allows
+>>> >some flexibility in the FW to decide later on which mode to pick,
+>>> >based on other parameters, which practically means
+>>> >"user has no preference on this param". Driver can only find out
+>>> >after boot, when it reads the runtime capabilities, but still
+>>> >this is a bug, by the time the driver reads this (in devlink), the
+>>> >default value should've already been determined by FW, so FW must
+>>> >return the actual runtime value. Which can only be one of the 
+>>> following
+>>>
+>>> I don't think it is correct to expose the "default" as a value.
+>>>
+>>> On read, user should see the configured value, either "full_csum" or
+>>> "l4_only". Reporting "default" to the user does not make any sense.
+>>> On write, user should pass either "full_csum" or "l4_only". Why we 
+>>> would
+>>> ever want to pass "default"?
+>>
+>> FWIW I agree that this feels a bit odd. Should the default be a flag
+>> attr? On get flag being present means the value is the FW default (no
+>> override present). On set passing the flag means user wants to reset
+>> to FW default (remove override)?
+>>
+>>> Regardless this patch, since this is param to be reflected on fw reboot
+>>> (permanent cmode), I think it would be nice to expose indication if
+>>> param value passed to user currently affects the fw, or if it is going
+>>> to be applied after fw reboot. Perhaps a simple bool attr would do?
+>>
+>> IIUC we're basically talking about user having no information that
+>> the update is pending? Could this be done by the core? Core can do
+>> a ->get prior to calling ->set and if the ->set succeeds and
+>> cmode != runtime record that the update is pending?
+>>
+>
+> Could work if on GET driver reads 'current' value from FW, then it should
+> be simpler if GET != SET then 'pending', one problem though is if SET was
+> done by external tool or value wasn't applied after reboot, then we loose
+> that information, but do we care? I think we shouldn't.
+>
+>> That feels very separate from the series tho, there are 3 permanent
+>> params in mlx5, already. Is there something that makes this one special?
+>
+> In mlx5 they all have the same behavior, devlink sets 'next' value, 
+> devlink reads 'next' value. The only special thing about the new param
+> is that it has a 'device_default' value and when you read that from 
+> 'next' it will always show 'device_default' as the actual value is only
+> known at run time ,e.g. 'next boot'.
+>
+> I think the only valid solution for permanent and drv_init params is to
+> have 'next' and 'current' values reported by driver on read. Or maybe 
+> go just with  'set' != 'get' then 'pending' as discussed above ?
+>
 
-> +	%pt[RST][dt][r][s]
->  
->  For printing date and time as represented by::
->  
-> -	R  struct rtc_time structure
-> +	R  content of struct rtc_time
-> +	S  content of struct timespec64
->  	T  time64_t type
->  
->  in human readable format.
-> @@ -563,6 +565,11 @@ The %pt[RT]s (space) will override ISO 8601 separator by using ' ' (space)
->  instead of 'T' (Capital T) between date and time. It won't have any effect
->  when date or time is omitted.
->  
-> +The %ptSp is equivalent to %lld.%09ld for the content of the struct timespec64.
-> +When the other specifiers are given, it becomes the respective equivalent of
-> +%ptT[dt][r][s].%09ld. In other words, the seconds are being printed in
-> +the human readable format followed by a dot and nanoseconds.
-> +
->  Passed by reference.
->  
->  struct clk
-> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> index 3f99834fd788..fdd06e8957a3 100644
-> --- a/lib/vsprintf.c
-> +++ b/lib/vsprintf.c
-> @@ -2464,6 +2488,7 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
->   * - 'g' For block_device name (gendisk + partition number)
->   * - 't[RT][dt][r][s]' For time and date as represented by:
+The driver reporting 'current' and 'next' makes the most sense to me. 
+'pending' would just be implied then. The 'set' != 'get' then 'pending' 
+approach would not work on my multi host CX7 system, where rebooting the 
+hosts individually does not trigger a fw reset.
 
-We should add 'S' here as well:
+To be clear, are we willing to go forward with treating swp_l4_csum_mode 
+like other permanent params in nv_param.c in this series, and then defer 
+the 'pending' solution to another series?
 
-   * - 't[RST][dt][r][s]' For time and date as represented by:
-
-That said, I am not sure about the optional '[p]'. We could
-either do:
-
-   * - 't[RST][p][dt][r][s]' For time and date as represented by:
-
-or
-
-   * - 'tSp'	For time represented by struct timespec64 printed
-		as seconds.nanoseconds
-   * - 't[RST][dt][r][s]' For time and date as represented by:
-
->   *      R    struct rtc_time
-> + *      S    struct timespec64
->   *      T    time64_t
->   * - 'C' For a clock, it prints the name (Common Clock Framework) or address
->   *       (legacy clock framework) of the clock
-
-Otherwise, it looks good.
-
-Best Regards,
-Petr
