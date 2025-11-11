@@ -1,177 +1,239 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9742C11C4;
-	Tue, 11 Nov 2025 22:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702F52D5936
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 23:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762899674; cv=none; b=R4JdkywqfPm7X3JZPvsKH0SZ6R+Hf5PnaSk0syPdZAzs541D+Zuc7lYEkvnqIsqpt8pDHXYBSrWcoUNk7rHfBnMnxJnHP/12glQpsO3QwPem3oMu31vAr5lz3Jv8ZteQDPsqQfPDk64LzDwK+axdTWFhwQxPso6rZE0N0XFkJn8=
+	t=1762903947; cv=none; b=NTU8IA4fRpLjLq65FVekVtyOXXGRW0LUzYqTLqN0z3kpr4mbN6FN82e1h+zW7Qq516JLHUp8N13gpMgmItPXmTZvL7KSCX4CIfwHoPeaClspzvVx9rtc4F2/Sj+UFzj+XqD8jnqrsljtTBAxiA39WzRRrtdJZc9lpsMmFgpeVGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762899674; c=relaxed/simple;
-	bh=EupUZ0Y97IkAYfyj1mCfWDcBjmbbyIF9p1kivmfAjN4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ejH/k7lE7O1XE3qPZsJNXbbYYrS/KN803s05vgoglU6NApbvKJr9YgTENZESs9qxwxguiR3+zPBrZFucHvX7qYnfwBfi4eAVB3gCXOLt8tTKDaju8hPeog9JIhmx6bf2ug/CoBiTfH9oimYuM7dVYEAVq5fddlhtjOis9FdS2SQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com; spf=pass smtp.mailfrom=qti.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Z0W0FVR4; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qti.qualcomm.com
+	s=arc-20240116; t=1762903947; c=relaxed/simple;
+	bh=JjX9POR99X3WO8seBV4smfP/yFiulAv2T8J9krlcaG0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UKJhDSpp+QX+dKTSC0Pf2lmO1l8Fz9Bgo618RQxuUP0mxt2eHmLwMOIzDHuIGMyQN+AO+EWHHCTDuWOmKM65dk4s32Qf9ALLEHPIqVLiNmwDz2WbsKV2BrUvr5DPL7u2KJJbJxjpKAHws8mm+TKZbFuoyCfaBlEZtcJrHO2TUeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zyBh4dcx; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Z0W0FVR4"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5ABLlVZA3502223;
-	Tue, 11 Nov 2025 22:21:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=PZe1+0R61+e
-	l68af10hP/F4jsBL57RyNvY7hU56XRXA=; b=Z0W0FVR4E2tuoknwaEwU4PferiQ
-	CvMRsjcoHO8b34Nwo1Zc9x7+wtxNZDnmmRql+NaycDc69yCv6FtYdD+bMlMMDHDm
-	96sORZAAL7E6w3/PBjJ9qDROOx7r6AjNTtI9RSek0FsHzTdY66Qb3uYYPYOT8WCO
-	UUg3wlMBf4EtAxepRhx6mfpcs5nNYXFOu/ywavRCgJEUXevS/WC5iMp9Jtenbdlp
-	RO9xc69EqrXrMAOD4BH/yeMP/bksCU8+tuPKxcowAz3kljeOVMr7vdf5jNx0MEkY
-	OcA7JREBKXorvr82dAmIuWGfdi6h0rEIkhvCg5HT0uY4oJfdm2j1AVsQZ6g==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4acdcc022r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Nov 2025 22:21:05 +0000 (GMT)
-Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5ABML4lB030393;
-	Tue, 11 Nov 2025 22:21:04 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 4ac0nkfyvt-1;
-	Tue, 11 Nov 2025 22:21:04 +0000
-Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5ABML4EO030387;
-	Tue, 11 Nov 2025 22:21:04 GMT
-Received: from hu-grahamr-lv.qualcomm.com (hu-grahamr-lv.qualcomm.com [10.81.26.100])
-	by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 5ABML3o8030383;
-	Tue, 11 Nov 2025 22:21:04 +0000
-From: Graham Roff <grahamr@qti.qualcomm.com>
-To: jani.nikula@linux.intel.com
-Cc: corbet@lwn.net, grahamr@qti.qualcomm.com, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        nathan@kernel.org, nico@fluxnic.net, nsc@kernel.org
-Subject: Re: [PATCH] Support conditional deps using "depends on X if Y"
-Date: Tue, 11 Nov 2025 14:21:03 -0800
-Message-Id: <20251111222103.3322795-1-grahamr@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <e5ef3c59bc100cb44adae6ef624da83af8bce299@intel.com>
-References: <e5ef3c59bc100cb44adae6ef624da83af8bce299@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zyBh4dcx"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47777136777so17525e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 15:32:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1762903943; x=1763508743; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DfSphR+3zkc3ca5t+ekeHVOKX60kamodZsUsUQPEe+8=;
+        b=zyBh4dcxJ01scHduHnb8os9MhBZywHRHbf4VA6Pg9sKToqdNyitgbleQLG4PkrVjOB
+         r1KmjPuWIVTWeBBsXT2zBhHbC9Y2WG976ZJ5nHDCwioo3g79rUkOD8StGQBmOgrwLILK
+         YZuCw3Z9p98rWWzSLzyNcupYWx6jNRhnPvSNRze+rYkL1z8ugatxxUwKVjVMqnRRUbP7
+         GprOSJ2nZzXI6UGilJwevqyXo7tPvWCxAkol9cQAZuUkpd0l5sH0raAoCblIaMIlmcgl
+         FBROGqAGgmSrY9AHGapHoIYt5ebE7Rda4J8NDsHQss8RbzFCud4sAg5hD6sH9TMg2wFf
+         iwFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762903943; x=1763508743;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DfSphR+3zkc3ca5t+ekeHVOKX60kamodZsUsUQPEe+8=;
+        b=GLHLitRw9G0Im6hxA8NbCpIsuOsRLiVpBzmg5FncDuI91SYT1qS1ODOmxftPzj2jLP
+         l8BubYtJikoRkyaUDEflPuqp6dA0EVDaUC++cGJufluS8CFNL0JC/gyEYfU9EwntqYXj
+         CozxTXgZ3MwB1VVW68LL2Bi5rcxFlvOezEbEtalmMoSU736rwyHQFHgBpLuahbKM6oSS
+         5Cm/NBcOlB74JlQt4nDt4+JWsgx6y0K64mF3oyKb7/Xm8QVndIe3i3tWaVgLFT1VjXJi
+         yt5S23scpb8pWtR9uER5NzmUDiqM06iX4m3dTmzsp7wdx8jd8GitzDLltqLylk7TeLHB
+         OMjw==
+X-Forwarded-Encrypted: i=1; AJvYcCW98wmsgXHCyC0OnJA7HKiVndIhAWDyiXmLta17CJiNcv1wTyCLjirVNNvITWYGzHZYKgmDGRrN7J0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlDlY/yvPsmCKJsWObA+Y6MY3o0m8dNRbN+q3U9VELkPeqY19i
+	OAPzLYr87rE3ZY2VY7E+7yPvKfrKj8XbGvx3sLteEPpu4TiV2j7yw99bhWks0KgvTb/BQFmY/3f
+	kxk1Uul1DSjQX6AnRn76Sn2qrzoArkneWkEW+weCZ
+X-Gm-Gg: ASbGnctBY4+iq/Yr8Gs5K3qdxKWwzItKRm5A/mtvF67Cv4G03CbAAGM0TsNxSYqv9mF
+	VTwBvtc1AL2gwnoHODDCkFIztt9fd/yBRsW3skLhpaT8Y1fHuyah7vvCFJguJ2biAtT40ObUQUO
+	gqJ52FTOrHLPWBs/iadP0GMglshsgC+ph5YyRuJ3eibpztwBwv5VSqV5lu7WnshV9Id/8mCZuwT
+	yns6dxPr8VNFyYRdOuIrYArFFAi8Vezl6eWCMLJFK+2xbwnyICN9hOnLYHW624vgimr9hg32L9E
+	V5m2jhO3gMCav1eF3AIbbochXg==
+X-Google-Smtp-Source: AGHT+IEFVyoAcKs88ZinjKACl2in26RA2Ulg4hwVbiPwjRL/ixynji4/f1TVt67UUXxDpe/cHBTPN/6zNnOi8MU74rE=
+X-Received: by 2002:a05:600c:4f50:b0:477:73f4:26b with SMTP id
+ 5b1f17b1804b1-47787e10f86mr299925e9.3.1762903942551; Tue, 11 Nov 2025
+ 15:32:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: wN65WCwl6FsPj7fXFwPZDHMFi8SZpJ4n
-X-Proofpoint-ORIG-GUID: wN65WCwl6FsPj7fXFwPZDHMFi8SZpJ4n
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTExMDE4MiBTYWx0ZWRfX9F5dJdC+CtdL
- fnpseWA7FDgZCwo4kkg1v6pWoIFbNHAw8xx0GGftzgI1JLzwqmpGW3jCi5flwW2eIX0wpn7NY9J
- C/ERRGs7B2Sz9RVxMHcKVi7SlYrRgjG9EIHcHnT6MQ04aWeg3RpLOQObvRknwFMwtEjBCdP2NUS
- WdA/VYdR164SzlXf1x5AprE7/zO6xwIt4AiVi444z3hBEkg7Yjl2Jbea3vQymj64fSLThsBbFKF
- JpeRmyiuvBTAQwelCJ8BDYuffleK9bU7NlnOkEgc+MiJTZZIKISDolcCQ433Ov2NSZqCEyuzxE8
- oBZsLNxz8EyK/FfOhwrMjdsJUKgmYnJgZ+T34zyA/FZbfizCQwnZihD3rfU/T5oXH07FAUedT33
- RSb2eeShFogABvViCog1XRXN8QAu5A==
-X-Authority-Analysis: v=2.4 cv=L/0QguT8 c=1 sm=1 tr=0 ts=6913b6d1 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7ZdoGrH5h-tKuaFDneoA:9
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-11_04,2025-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 bulkscore=0 lowpriorityscore=0
- clxscore=1015 adultscore=0 suspectscore=0 spamscore=0 impostorscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511110182
+References: <20251013185903.1372553-1-jiaqiyan@google.com> <20251013185903.1372553-2-jiaqiyan@google.com>
+ <7a61bcf9-a57d-a8e9-a9b8-4eacef80acd3@arm.com> <CACw3F51_0A8CuCgzcvoA3Db=Wxo8mm5XZw5in+nTKrst+NCcqw@mail.gmail.com>
+ <aRMHfS1-K4E4UCbc@kernel.org>
+In-Reply-To: <aRMHfS1-K4E4UCbc@kernel.org>
+From: Jiaqi Yan <jiaqiyan@google.com>
+Date: Tue, 11 Nov 2025 15:32:10 -0800
+X-Gm-Features: AWmQ_bnzli5IDq508gd9gl_I2k2ye51PrgqB8PlLzeSpUSiMz9YXG-gXISoy5Ow
+Message-ID: <CACw3F51x4sxwSm0ZGeO-Mk3Q3b7iwY-9cnxCveXkc6MF5RGnyA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] KVM: arm64: VM exit to userspace to handle SEA
+To: Oliver Upton <oupton@kernel.org>, Jose Marinho <jose.marinho@arm.com>
+Cc: maz@kernel.org, oliver.upton@linux.dev, duenwen@google.com, 
+	rananta@google.com, jthoughton@google.com, vsethi@nvidia.com, jgg@nvidia.com, 
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	shuah@kernel.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Jani,
+On Tue, Nov 11, 2025 at 1:53=E2=80=AFAM Oliver Upton <oupton@kernel.org> wr=
+ote:
+>
+> Hi Jiaqi,
+>
+> On Mon, Nov 03, 2025 at 12:45:50PM -0800, Jiaqi Yan wrote:
+> > On Mon, Nov 3, 2025 at 10:17=E2=80=AFAM Jose Marinho <jose.marinho@arm.=
+com> wrote:
+> > >
+> > > Thank you for these patches.
+> >
+> > Thanks for your comments, Jose!
+> >
+> > >
+> > > On 10/13/2025 7:59 PM, Jiaqi Yan wrote:
+> > > > When APEI fails to handle a stage-2 synchronous external abort (SEA=
+),
+> > > > today KVM injects an asynchronous SError to the VCPU then resumes i=
+t,
+> > > > which usually results in unpleasant guest kernel panic.
+> > > >
+> > > > One major situation of guest SEA is when vCPU consumes recoverable
+> > > > uncorrected memory error (UER). Although SError and guest kernel pa=
+nic
+> > > > effectively stops the propagation of corrupted memory, guest may
+> > > > re-use the corrupted memory if auto-rebooted; in worse case, guest
+> > > > boot may run into poisoned memory. So there is room to recover from
+> > > > an UER in a more graceful manner.
+> > > >
+> > > > Alternatively KVM can redirect the synchronous SEA event to VMM to
+> > > > - Reduce blast radius if possible. VMM can inject a SEA to VCPU via
+> > > >    KVM's existing KVM_SET_VCPU_EVENTS API. If the memory poison
+> > > >    consumption or fault is not from guest kernel, blast radius can =
+be
+> > > >    limited to the triggering thread in guest userspace, so VM can
+> > > >    keep running.
+> > > > - Allow VMM to protect from future memory poison consumption by
+> > > >    unmapping the page from stage-2, or to interrupt guest of the
+> > > >    poisoned page so guest kernel can unmap it from stage-1 page tab=
+le.
+> > > > - Allow VMM to track SEA events that VM customers care about, to re=
+start
+> > > >    VM when certain number of distinct poison events have happened,
+> > > >    to provide observability to customers in log management UI.
+> > > >
+> > > > Introduce an userspace-visible feature to enable VMM handle SEA:
+> > > > - KVM_CAP_ARM_SEA_TO_USER. As the alternative fallback behavior
+> > > >    when host APEI fails to claim a SEA, userspace can opt in this n=
+ew
+> > > >    capability to let KVM exit to userspace during SEA if it is not
+> > > >    owned by host.
+> > > > - KVM_EXIT_ARM_SEA. A new exit reason is introduced for this.
+> > > >    KVM fills kvm_run.arm_sea with as much as possible information a=
+bout
+> > > >    the SEA, enabling VMM to emulate SEA to guest by itself.
+> > > >    - Sanitized ESR_EL2. The general rule is to keep only the bits
+> > > >      useful for userspace and relevant to guest memory.
+> > > >    - Flags indicating if faulting guest physical address is valid.
+> > > >    - Faulting guest physical and virtual addresses if valid.
+> > > >
+> > > > Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
+> > > > Co-developed-by: Oliver Upton <oliver.upton@linux.dev>
+> > > > Signed-off-by: Oliver Upton <oliver.upton@linux.dev>
+> > > > ---
+> > > >   arch/arm64/include/asm/kvm_host.h |  2 +
+> > > >   arch/arm64/kvm/arm.c              |  5 +++
+> > > >   arch/arm64/kvm/mmu.c              | 68 ++++++++++++++++++++++++++=
+++++-
+> > > >   include/uapi/linux/kvm.h          | 10 +++++
+> > > >   4 files changed, 84 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include=
+/asm/kvm_host.h
+> > > > index b763293281c88..e2c65b14e60c4 100644
+> > > > --- a/arch/arm64/include/asm/kvm_host.h
+> > > > +++ b/arch/arm64/include/asm/kvm_host.h
+> > > > @@ -350,6 +350,8 @@ struct kvm_arch {
+> > > >   #define KVM_ARCH_FLAG_GUEST_HAS_SVE                 9
+> > > >       /* MIDR_EL1, REVIDR_EL1, and AIDR_EL1 are writable from users=
+pace */
+> > > >   #define KVM_ARCH_FLAG_WRITABLE_IMP_ID_REGS          10
+> > > > +     /* Unhandled SEAs are taken to userspace */
+> > > > +#define KVM_ARCH_FLAG_EXIT_SEA                               11
+> > > >       unsigned long flags;
+> > > >
+> > > >       /* VM-wide vCPU feature set */
+> > > > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> > > > index f21d1b7f20f8e..888600df79c40 100644
+> > > > --- a/arch/arm64/kvm/arm.c
+> > > > +++ b/arch/arm64/kvm/arm.c
+> > > > @@ -132,6 +132,10 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+> > > >               }
+> > > >               mutex_unlock(&kvm->lock);
+> > > >               break;
+> > > > +     case KVM_CAP_ARM_SEA_TO_USER:
+> > > > +             r =3D 0;
+> > > > +             set_bit(KVM_ARCH_FLAG_EXIT_SEA, &kvm->arch.flags);
+> > > > +             break;
+> > > >       default:
+> > > >               break;
+> > > >       }
+> > > > @@ -327,6 +331,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kv=
+m, long ext)
+> > > >       case KVM_CAP_IRQFD_RESAMPLE:
+> > > >       case KVM_CAP_COUNTER_OFFSET:
+> > > >       case KVM_CAP_ARM_WRITABLE_IMP_ID_REGS:
+> > > > +     case KVM_CAP_ARM_SEA_TO_USER:
+> > > >               r =3D 1;
+> > > >               break;
+> > > >       case KVM_CAP_SET_GUEST_DEBUG2:
+> > > > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> > > > index 7cc964af8d305..09210b6ab3907 100644
+> > > > --- a/arch/arm64/kvm/mmu.c
+> > > > +++ b/arch/arm64/kvm/mmu.c
+> > > > @@ -1899,8 +1899,48 @@ static void handle_access_fault(struct kvm_v=
+cpu *vcpu, phys_addr_t fault_ipa)
+> > > >       read_unlock(&vcpu->kvm->mmu_lock);
+> > > >   }
+> > > >
+> > > > +/*
+> > > > + * Returns true if the SEA should be handled locally within KVM if=
+ the abort
+> > > > + * is caused by a kernel memory allocation (e.g. stage-2 table mem=
+ory).
+> > > > + */
+> > > > +static bool host_owns_sea(struct kvm_vcpu *vcpu, u64 esr)
+> > > > +{
+> > > > +     /*
+> > > > +      * Without FEAT_RAS HCR_EL2.TEA is RES0, meaning any external=
+ abort
+> > > > +      * taken from a guest EL to EL2 is due to a host-imposed acce=
+ss (e.g.
+> > > > +      * stage-2 PTW).
+> > > > +      */
+> > > > +     if (!cpus_have_final_cap(ARM64_HAS_RAS_EXTN))
+> > > > +             return true;
+> > > > +
+> > > > +     /* KVM owns the VNCR when the vCPU isn't in a nested context.=
+ */
+> > > > +     if (is_hyp_ctxt(vcpu) && (esr & ESR_ELx_VNCR))
+> > > Is this check valid only for a "Data Abort"?
+> >
+> > Yes, the VNCR bit is specific to a Data Abort (provided we can only
+> > reach host_owns_sea if kvm_vcpu_abt_issea).
+> > I don't think we need to explicitly exclude the check here for
+> > Instruction Abort.
+>
+> You can take an external abort on an instruction fetch, in which case
+> bit 13 of the ISS (VNCR bit for data abort) is RES0. So this does need
+> to check for a data abort.
 
-> Right. I guess it takes a while to get used to the idiom A || !A. But
-> then is it counter-productive to add an alternative that is apparently
-> not much more helpful? And then we have two ways to express the same
-> thing.
+Agreed and thanks for correcting me, Oliver! I will fix this in v5.
 
-I think that expressing an optional dependency using "depends on
-A if A" is easier to read and understand than "depends on A || !A". And
-it is certainly easier to follow "depends on A if B" rather than
-"depends on A || !B" - even realizing those are equivalent takes a
-class in boolean logic ;)
-
-Also, most other Kconfig attributes support the trailing "if <expr>"
-so this makes the language more consistent.
-
-> So the follow-up questions:
-> 
-> - Can we come up with a more obvious alternative to the specific case of
->   "A || !A"?
-
-Meaning an entirely different syntax rather than "A if A"? Something
-like "optional_depends on A" (just a made-up example to make the 
-question clear)? That seems to be adding unnecessary syntax when the
-conditional dependency covers both cases ("A if B" and "A if A"). If
-there are any suggestions for a clearer way to express the purely
-optional dependency case then that is worth looking at - but honestly
-the entire concept seems a bit weird (even if widely used). It may 
-just naturally be hard to express the concept in a simple manner.
-
-> - Can we have examples of conversions from "A || !B" to "A if B" in
->   kernel Kconfigs? As in, don't add features without users.
-
-(In the Zephyr pull-request I listed a number of examples from that 
-project as well.)
-You are correct that most commonly conditional dependencies are used
-for *optional* dependencies, but there are a lot of other conditional
-ones as well. Note when grepping for examples look for both "!A || B"
-and "!B || A" - both forms are present in many places. A few examples:
-
-arch/arm64/Kconfig:
-  depends on ARM64_64K_PAGES || !ARM64_VA_BITS_52 -->
-  depends on ARM64_64K_PAGES if ARM64_VA_BITS_52
-arch/mips/Kconfig:
-  depends on SYS_SUPPORTS_HOTPLUG_CPU || !SMP -->
-  depends on SYS_SUPPORTS_HOTPLUG_CPU if SMP
-arch/riscv/Kconfig:
-  depends on CC_HAS_MIN_FUNCTION_ALIGNMENT || !RISCV_ISA_C -->
-  depends on CC_HAS_MIN_FUNCTION_ALIGNMENT if RISCV_ISA_C
-arch/x86/Kconfig:
-  depends on X86_64 || !SPARSEMEM -->
-  depends on X86_64 if SPARSEMEM
-drivers/acpi/Kconfig:
-  depends on ACPI_WMI || !X86 -->
-  depends on ACPI_WMI if X86
-drivers/bluetooth/Kconfig:
-  depends on USB || !BT_HCIBTUSB_MTK
-  depends on USB if BT_HCIBTUSB_MTK
-mm/Kconfig:
-  depends on !ARM || CPU_CACHE_VIPT -->
-  depends on CPU_CACHE_VIPT if ARM
-kernel/Kconfig.locks:
-  depends on !PREEMPTION || ARCH_INLINE_READ_UNLOCK -->
-  depends on ARCH_INLINE_READ_UNLOCK if PREEMPTION
-
-Are you suggesting an update to the commit text to call out the 
-optional dependency use-case explicitly?
-
-> My point is, there are like 10x more "A || !A" than there are "A || !B".
-> Feels weird to advertize and document the thing for the latter, when the
-> former is the more prevalent case.
-> 
-> $ git grep -E "depends on .*\b([A-Z0-9_]+) \|\| (\!\1\b|\1=n)"
-> 
-> I'm not at all opposed to the change per se.
-
-The Kconfig documentation will cover both cases (in next patch). The
-"A || !A" case is covered already in a special "Optional dependencies"
-section which I will update to use "A if A" as a preferred syntax. I 
-still suggest having the definition section for "depends on" using the 
-easier to understand example of "depends on A if B".
-
-Thanks, 
-
-Graham 
-
+>
+> Thanks,
+> Oliver
