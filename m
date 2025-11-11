@@ -1,74 +1,73 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E9D334C27
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEBA2FA0F2
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762851798; cv=none; b=e7tMspbJKnTq64XfsjDCXCD0Fn4CRUnKVEQ2xGoGocobG6B3Ey3uP2X2KBrdFFNw3quis43N8k4ICM7J2KHsOxwcblrdPDttVzqS82NaCA4vuhv6WqJq8AKDW1ZGYygjqax7+7vXbgOYO2ruli5aKOzTkJbXKxmZgYAe8k0OafE=
+	t=1762851914; cv=none; b=HgyYbmrcEyvdjcv/Wvu+5NLiyCDMrqlnT191WFv7ep9aJTZsfLeNnFQXgTTcc08EGk1irpnTTdXKdmM2pwnyZMJ5LYuQDfShRq5CrqPMZYltz4TksD2Z698mVD08cAZssCNqrjVAb/HGehDStkA0fgnxjlmMCjBmDQbgbKQreVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762851798; c=relaxed/simple;
-	bh=pvNoy8QjEGF5vDREzb9JJ0U69eI//OHw5iW0XV0TScg=;
+	s=arc-20240116; t=1762851914; c=relaxed/simple;
+	bh=RciqffmsGUnB8tK3sBcxSnH1zQElvWzvEdnZAAXNZdg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VU4ewTh7KC6p6/OQTE7DHDgtnAYhshAY/N9+j7qVIZ/UEiv/9l2uTD7JWTK40wbqtyTXqSGuNvak2RThbA6EncVbIDW1L/BFgHRZCYrF9FokisK713o6vWdcgfNitoiBZDQPew6SiLSIKZB//sd6neMdw4ezVQ3uEiE2VOI6828=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UyFSIlwB; arc=none smtp.client-ip=209.85.219.41
+	 To:Cc:Content-Type; b=IVszaPzDzKaHmaEvEqUaUJkM8X5JVnrQcPExbiSi5aOB7ElBZGcMzLao4wfTY2zX/wjr4FZZTcdw12Dm6cbZMdiAoFmG2T3iQEusoy5dsPUYwgypDZu5TS2q+vd4FVqyFQd6ct4Q27kmNG0R2usLBo6XUpOVq7dJkChcWM9JiD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pxwuj8N+; arc=none smtp.client-ip=209.85.219.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UyFSIlwB"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8824ce98111so25193246d6.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:03:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pxwuj8N+"
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-88043139c35so40260326d6.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:05:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762851794; x=1763456594; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1762851912; x=1763456712; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pvNoy8QjEGF5vDREzb9JJ0U69eI//OHw5iW0XV0TScg=;
-        b=UyFSIlwBqni/WK3LjDAS7FYlHe741djJ/Stxqtrp4ECcr4d/ij7y2e20TxB3pNOE+k
-         nVia7+QMOCM/Q2YE+Rcr7hm3DxiSdycZMJxdWQ3w/e4fxYc+YL4PgyfYtyh2Nk74m5Sj
-         4GXBl7vlsL2zQ8wsjKeVsGxPCucHzPthtHmBV6EAQwE1UYTPYpUtJBmxcNHfMS+TrEBR
-         SctNhE1TA2PahMS60wiuRST29P3fpeV19FuNarur0ywSqk8o94qPIRKDAAAa65D4EKT4
-         90Tb4cRFDRw/f5wbBH1i0ofeNF+vuIiZUMJL9xxHY364kD5UNSXD16yOW7drnppEwCuM
-         R9QQ==
+        bh=RciqffmsGUnB8tK3sBcxSnH1zQElvWzvEdnZAAXNZdg=;
+        b=pxwuj8N+6FMlJEpLxnknfBqbkKMIJjMQ5kcIRjfDYwC1MTl6v+eubvvxRKaUKaT/Lj
+         6uIKiqu54GqazWaIxxRmbQTldf3cgIxIdN4H4NQxo/xYhL9rzHhjUfWWBBvaM6xhWrSG
+         Vp4Zb7VrvVp8ML6alYf54k7KStXtaEGQVoYnXcQ3wJmMbGTqqtOZdslOVol/X8JtP5Eg
+         8GnK0A3ee1M1AWZg84Dfh6bjPiESV+sw1Jcd1ec/qTO8Mt18Hgh0wA904TwJhuFMEU17
+         /P2QGG5zAXT0RVhn7Cv7BVSzrhmEVE85BTJxMhzbAbGF79P3wkklqDSVuh8ui8SKLT+f
+         ZaAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762851794; x=1763456594;
+        d=1e100.net; s=20230601; t=1762851912; x=1763456712;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=pvNoy8QjEGF5vDREzb9JJ0U69eI//OHw5iW0XV0TScg=;
-        b=uJCSSTSZFMDw+VORZI2xowBPpQ4XByXQO1oDdt3RHv8lvrChnpelRnYHzMlWmVuMTY
-         dZu02JjZYYLyHx+BRFvACzb8KQpu4GBK16qYYSQEa2bpTIiljprwc+janyUFZ5Wl2ULD
-         BHiIhbF+N+l2PtPSx2YZlGNWKg5fISILjsubj48TRb6jsjBFOXmuGcenX8/QNKc/52MV
-         n2vxQRsi88OjJcMReGHOQ2yM+pLcAVZVhhTSv5N6+uZBeBJ2b1OD7peF2MJjFj4BLkkw
-         y+6Ney7VGiNyOD4kE+R0YEUINMwqwMa5ctWm3s7qTeCs21fz+dyGH7hGdehtr7Vy3+s1
-         LpBw==
-X-Forwarded-Encrypted: i=1; AJvYcCVvfkUKZ+9RsWT4nOxhKYldq7uL9bdW8UrOh1WIt0qTpfkQeuRpAllfB0CpcAAczlrZnfQvRzCCAUQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzxb8WGSdDsrJfR/ffc9gEzour3hleHdOlNvIrFcmefaby6htHV
-	T/akBSvImT/a35+fHPcsLCuVp/de5q1sJpfR+uNgvfOyvuUUzSfMeREQuN7GyoDnwvG74wZ+yaP
-	0PCeRqPIg1zPhqR03dHyxAKBKfWLLTKQrAnmStZ6o
-X-Gm-Gg: ASbGncv7DshKJa2by3JuV+oN/B5+xCkROuFejiuLzTrh+ZvrGL7CFmdNVeBFo5GQn0I
-	LxW8VyvqHp6zdX0SILiP15yTEm0KGYZrDS2GxFIQadj2SeX+0umBEA0qSGB2I8l1qKvIZvn+JxU
-	MvB9jyVcG9/SvAOkuD1UHCPC8CUZZChw5f81FH81DJXltWcyxi9AAfVk1rXU+hiVijPoTE/JymE
-	KJRMumsxqdYbk22sjI26JNxSDCpF68ALo8U4ZGC3E3ml0Sec2HrGEepnyhlmIAELmZMnE7o4cvi
-	wxgkVMoP59OGHLpt6Xg2tl65NA==
-X-Google-Smtp-Source: AGHT+IH4F7Ckq32jrbiUxtB1JJ5uFrJqHGgUMRdrFl5ONAv3USRRzhM1TtECqM3yfM33Ue560sqRvq2+UhD4VMC4pSM=
-X-Received: by 2002:a05:6214:e42:b0:880:51ab:a3e3 with SMTP id
- 6a1803df08f44-882387621d9mr168741746d6.67.1762851793588; Tue, 11 Nov 2025
- 01:03:13 -0800 (PST)
+        bh=RciqffmsGUnB8tK3sBcxSnH1zQElvWzvEdnZAAXNZdg=;
+        b=E7exsu73PxxLr/1hGQd/4M8XOR73m/a7MOuNEH7D6pIX3O85aq691FPBzBeUjF1b6F
+         JM9nP6unG/IpovKT8kzMy7xQWC97eJIeyVZlBdZsSoGaCepM7oyuWFZ8p2Irr/YJo+4R
+         tDzFOGl36jEs/zH22SuJlmzPPOKgbdkRGYl0YeNxZr66qDbzlhCE/enRvOAV5hHJyqLr
+         GL/S29gauaoaW9wPEBpigQwy00DBwqdsCy+1DJjwyTKLv1yB2IioAq1bkbyX9LuUFb1R
+         0OHSZRGorm07BoksubQ9IVAUcYJS8+S8jRPZ1duH5mz90SICt2Jzh4ig2vN+Q36qZgPS
+         w42Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWB+slPY/GoLre1/MXXYKvB9VnYBWxSaxb5Lh4aaEknP6Kkw44pZ1xKt5xu3Z+CEybctmC/6bTMsHc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIvxouU7hBVX73NrRm2aBOvXLzghJkheGFQvNRYgi+NSmNr5uK
+	n739TDDk2pGFLH3qInK2Y+g8aC08DGQrJzOp9MST8+jxzO+pbwHayNubWJTnMRLwDzFD62i/jZ/
+	nCZey6LO7g7nTn1N3JHKbzfkazxkChughlUDL9t7z
+X-Gm-Gg: ASbGncsEapVluSzvGtUNjo+Gq28EHrJnIeISxH4Wxw73Ss7pwn1PC17hR94QWmKpJX+
+	aI8CIhzMhl30URZElJCazSqyd7qHMPn1nzIjs8oR+JeNT73GyrwjuwNE034StwwoR1vsa3OPGIC
+	Tuv/7IeDTcCE7vhVkIj5cMD4aOy1LyOvSO6uIBvqs9IACuJT/XEH6b9QF9CR2VOp6cVewgMo8vm
+	NONo+Tk2TXy1TmhL8gmwZ7k2u7NE7wBcwurEzr6uANSKSMvjQjcDd91j+T34Wh0KVDmcJOk3aUa
+	hOa0QyjD8zkV+oeLwdxRm1XvsQ==
+X-Google-Smtp-Source: AGHT+IG5h9zoN8ZgQbNHnylwE6ej/e45pEoTj6YsGsJFK5D5YZvplepfzX5RbzM9p15i6Nqb6Snmeh5EikEQA067P+g=
+X-Received: by 2002:a05:6214:d4c:b0:880:56f6:92ae with SMTP id
+ 6a1803df08f44-882386d7384mr151892296d6.57.1762851911409; Tue, 11 Nov 2025
+ 01:05:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <0a21096d806eafa679798b9844ec33bf8a5499a4.1761763681.git.m.wieczorretman@pm.me>
-In-Reply-To: <0a21096d806eafa679798b9844ec33bf8a5499a4.1761763681.git.m.wieczorretman@pm.me>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <96559d5a8e897f97879259bad3117db617e21377.1761763681.git.m.wieczorretman@pm.me>
+In-Reply-To: <96559d5a8e897f97879259bad3117db617e21377.1761763681.git.m.wieczorretman@pm.me>
 From: Alexander Potapenko <glider@google.com>
-Date: Tue, 11 Nov 2025 10:02:36 +0100
-X-Gm-Features: AWmQ_bncs5LVtJN1ReProGRqJJIZk54xNH4kh3rOCX8uWFHvQkLT6YYoepdGREs
-Message-ID: <CAG_fn=XQPbZb4MTBUgkJ17gfQL5K1QMahaJ39Mw7Hv4zm1crXw@mail.gmail.com>
-Subject: Re: [PATCH v6 16/18] arm64: Unify software tag-based KASAN inline
- recovery path
+Date: Tue, 11 Nov 2025 10:04:34 +0100
+X-Gm-Features: AWmQ_bnTIARw6amUs-gvSQivLCgG0XY32k4ioUAxykbqmf67HMroMwsIF2IdVwY
+Message-ID: <CAG_fn=X5Dr_Dc1pcnAW19zgo7tW8mUSkpDj-v5eaG-awy4S53Q@mail.gmail.com>
+Subject: Re: [PATCH v6 13/18] x86/mm: LAM initialization
 To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
 	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
@@ -95,19 +94,19 @@ Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 29, 2025 at 9:10=E2=80=AFPM Maciej Wieczor-Retman
+On Wed, Oct 29, 2025 at 9:08=E2=80=AFPM Maciej Wieczor-Retman
 <m.wieczorretman@pm.me> wrote:
 >
 > From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 >
-> To avoid having a copy of a long comment explaining the intricacies of
-> the inline KASAN recovery system and issues for every architecture that
-> uses the software tag-based mode, a unified kasan_die_unless_recover()
-> function was added.
+> To make use of KASAN's tag based mode on x86, Linear Address Masking
+> (LAM) needs to be enabled. To do that the 28th bit in CR4 has to be set.
 >
-> Use kasan_die_unless_recover() in the kasan brk handler to cleanup the
-> long comment, that's kept in the non-arch KASAN code.
+> Set the bit in early memory initialization.
+>
+> When launching secondary CPUs the LAM bit gets lost. To avoid this add
+> it in a mask in head_64.S. The bitmask permits some bits of CR4 to pass
+> from the primary CPU to the secondary CPUs without being cleared.
 >
 > Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 Acked-by: Alexander Potapenko <glider@google.com>
