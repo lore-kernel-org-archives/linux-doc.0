@@ -1,73 +1,73 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEBA2FA0F2
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7F8214A64
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762851914; cv=none; b=HgyYbmrcEyvdjcv/Wvu+5NLiyCDMrqlnT191WFv7ep9aJTZsfLeNnFQXgTTcc08EGk1irpnTTdXKdmM2pwnyZMJ5LYuQDfShRq5CrqPMZYltz4TksD2Z698mVD08cAZssCNqrjVAb/HGehDStkA0fgnxjlmMCjBmDQbgbKQreVc=
+	t=1762852110; cv=none; b=Ilv87leV7mpqnzX58fIA9/wIhO+i81yGMfsFQti5iS7ad73L7UZXxJeYfulAqIlrzpegrUw5yGBXplTEM+JooZEL14YE0cATFgcJw9p78OzH7Tq3EzKGLEjCPVeRbtW436zbsBzab1LAwbisbwy3YEOAWhD+etfnk6TZ6Ub5bsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762851914; c=relaxed/simple;
-	bh=RciqffmsGUnB8tK3sBcxSnH1zQElvWzvEdnZAAXNZdg=;
+	s=arc-20240116; t=1762852110; c=relaxed/simple;
+	bh=T+mH9+7PNLYr6Z/2ln9TuMbRS+qcoVyhy39YsWeg6dI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IVszaPzDzKaHmaEvEqUaUJkM8X5JVnrQcPExbiSi5aOB7ElBZGcMzLao4wfTY2zX/wjr4FZZTcdw12Dm6cbZMdiAoFmG2T3iQEusoy5dsPUYwgypDZu5TS2q+vd4FVqyFQd6ct4Q27kmNG0R2usLBo6XUpOVq7dJkChcWM9JiD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pxwuj8N+; arc=none smtp.client-ip=209.85.219.50
+	 To:Cc:Content-Type; b=Lhi9bWkoPX8LCAF0HbnQnZohBR3B/bWmYs3kLWSyNYxqvDV7OUnpqqBgoi56zN/fGpCBQet9QhA7dxht2RMrfZu5sOgRP0XiHt9HS4q2lqx1fvzYHyOfmPxA3QsDQrQxtc6teaT3EeaXDhSjsxh4ItFLn9whdgal7roOkVX6wQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=re7owBYY; arc=none smtp.client-ip=209.85.219.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pxwuj8N+"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-88043139c35so40260326d6.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:05:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="re7owBYY"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8823e39c581so33060126d6.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:08:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762851912; x=1763456712; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1762852107; x=1763456907; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RciqffmsGUnB8tK3sBcxSnH1zQElvWzvEdnZAAXNZdg=;
-        b=pxwuj8N+6FMlJEpLxnknfBqbkKMIJjMQ5kcIRjfDYwC1MTl6v+eubvvxRKaUKaT/Lj
-         6uIKiqu54GqazWaIxxRmbQTldf3cgIxIdN4H4NQxo/xYhL9rzHhjUfWWBBvaM6xhWrSG
-         Vp4Zb7VrvVp8ML6alYf54k7KStXtaEGQVoYnXcQ3wJmMbGTqqtOZdslOVol/X8JtP5Eg
-         8GnK0A3ee1M1AWZg84Dfh6bjPiESV+sw1Jcd1ec/qTO8Mt18Hgh0wA904TwJhuFMEU17
-         /P2QGG5zAXT0RVhn7Cv7BVSzrhmEVE85BTJxMhzbAbGF79P3wkklqDSVuh8ui8SKLT+f
-         ZaAA==
+        bh=T+mH9+7PNLYr6Z/2ln9TuMbRS+qcoVyhy39YsWeg6dI=;
+        b=re7owBYYJrPTlSNKQcwaizDxrcmieeRuYuQ41APdnT5aR3nqNB71/0eTrKHKW25OEP
+         jTynEBUFpZV66AhtMhI4jLnGlfZIyJUVU4EXJ28JpI+PZkDvTnFJWHV+dI+G7fSkkBl0
+         Dkq+syf8qK7jZJwla9m/9JurteW6JeSWRIUkJQ6wehbDMLDroCObvJY7rj8Ia3x9jzEr
+         UShxa6heHm1cRyWSTdS3baRg9U6ikWYyBl8Gm8psmNKIBh6X4j3lkN2OAhpPlNZP9AWe
+         Ub7W+NwTMX75zZuf3tosBVf37Te4F/toDtjYuVISvXTwJj3CuZVop913uiuMZaWwE2LT
+         HmZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762851912; x=1763456712;
+        d=1e100.net; s=20230601; t=1762852107; x=1763456907;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RciqffmsGUnB8tK3sBcxSnH1zQElvWzvEdnZAAXNZdg=;
-        b=E7exsu73PxxLr/1hGQd/4M8XOR73m/a7MOuNEH7D6pIX3O85aq691FPBzBeUjF1b6F
-         JM9nP6unG/IpovKT8kzMy7xQWC97eJIeyVZlBdZsSoGaCepM7oyuWFZ8p2Irr/YJo+4R
-         tDzFOGl36jEs/zH22SuJlmzPPOKgbdkRGYl0YeNxZr66qDbzlhCE/enRvOAV5hHJyqLr
-         GL/S29gauaoaW9wPEBpigQwy00DBwqdsCy+1DJjwyTKLv1yB2IioAq1bkbyX9LuUFb1R
-         0OHSZRGorm07BoksubQ9IVAUcYJS8+S8jRPZ1duH5mz90SICt2Jzh4ig2vN+Q36qZgPS
-         w42Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWB+slPY/GoLre1/MXXYKvB9VnYBWxSaxb5Lh4aaEknP6Kkw44pZ1xKt5xu3Z+CEybctmC/6bTMsHc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIvxouU7hBVX73NrRm2aBOvXLzghJkheGFQvNRYgi+NSmNr5uK
-	n739TDDk2pGFLH3qInK2Y+g8aC08DGQrJzOp9MST8+jxzO+pbwHayNubWJTnMRLwDzFD62i/jZ/
-	nCZey6LO7g7nTn1N3JHKbzfkazxkChughlUDL9t7z
-X-Gm-Gg: ASbGncsEapVluSzvGtUNjo+Gq28EHrJnIeISxH4Wxw73Ss7pwn1PC17hR94QWmKpJX+
-	aI8CIhzMhl30URZElJCazSqyd7qHMPn1nzIjs8oR+JeNT73GyrwjuwNE034StwwoR1vsa3OPGIC
-	Tuv/7IeDTcCE7vhVkIj5cMD4aOy1LyOvSO6uIBvqs9IACuJT/XEH6b9QF9CR2VOp6cVewgMo8vm
-	NONo+Tk2TXy1TmhL8gmwZ7k2u7NE7wBcwurEzr6uANSKSMvjQjcDd91j+T34Wh0KVDmcJOk3aUa
-	hOa0QyjD8zkV+oeLwdxRm1XvsQ==
-X-Google-Smtp-Source: AGHT+IG5h9zoN8ZgQbNHnylwE6ej/e45pEoTj6YsGsJFK5D5YZvplepfzX5RbzM9p15i6Nqb6Snmeh5EikEQA067P+g=
-X-Received: by 2002:a05:6214:d4c:b0:880:56f6:92ae with SMTP id
- 6a1803df08f44-882386d7384mr151892296d6.57.1762851911409; Tue, 11 Nov 2025
- 01:05:11 -0800 (PST)
+        bh=T+mH9+7PNLYr6Z/2ln9TuMbRS+qcoVyhy39YsWeg6dI=;
+        b=KFxTTvAdQGzu09eznnGwixcDgnsnaI36LPpbufAsdba4Nj9RLPJUKRUF9+UH2vA0yJ
+         mLIy/L2BAs7ZmA4cCW7fu0G4nj4D9vVmaeU3ew0ZD3j8kWE7ROxp5pdihsLORj0DGO01
+         CiUVweHRPkOa6P12pzIPo4+uSSlUuM+PXmU/zCfPe4r45c35MijPoJVMFDMeS/owBPPK
+         OnC57ygGIPV8XS+BpLUGvJx6zib2cckoEgJgJSNfo3zdf+0XZvQMJLeoo3g2IQzBE6zC
+         DdvGk90M0MzbNY1c33mEobe6ayGRW7vF/1QQDdar1xMc4uJvwQZe6SOZSwasWSzq/bRz
+         dM3g==
+X-Forwarded-Encrypted: i=1; AJvYcCUYAmE0XqgwCmxiXxLX9kXPy8Zp+FC1XPkV7lBLrdpAwFfqhcVzIDBOL12hvP+cc6Id+xF25kbApLM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5YocytaC1AZRv5KSmShOzvGpz7iwYrzT9Ykt5fiJQElyTwYlV
+	SdjFIK8qWC+LQOXS6sxmwYVTpRu8aiJiGdHm4wsvwrtZxPIU8mgfaSRrhjjG6rZdAtDo3SXDb0V
+	4TjsuVa9I6unhCofrmMaYq3na24tWt5l2hVYFCU2P
+X-Gm-Gg: ASbGnctPmpsfY/jCksQp/+lyhJMLPpY19ON2ldbe0Ff65XPPiAsMbNIyjrL7JEAeK6N
+	hLD84iUMxtnTkUCX/ogV6+40iqJLm5Yrd0No33g5aM3HMYTwQ7NkvJTFK7eD6X+VNcW9UA0OJp+
+	11vrd+dTplZKNeUrx3DjOyCb/pPb9pUcWp+ka1VyZ8eSS8RzjdEiRLyTTSxcRrutaT8GRWAZDE8
+	pueOusxWzjox3CeJ/gQhN4l7oQu4tFOVVZ7TVr+5zmdtjuMEhNiU9k+NuPec4YVy1M6eWI7SPTn
+	RbYqpLOUUPCg9+AuoY708wt6FI1RDjPRV3j1
+X-Google-Smtp-Source: AGHT+IGGiGzNQ2eAyJqdaO9JyMrXkP7w+emfDXwZMPoyyY2gy1i/zUBgnLRf870LMq5UXpv/uG8YRTM2WfKUuwW/Bjc=
+X-Received: by 2002:ac8:5751:0:b0:4ec:f4be:6b12 with SMTP id
+ d75a77b69052e-4eda4fd3621mr141844221cf.72.1762852106635; Tue, 11 Nov 2025
+ 01:08:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <96559d5a8e897f97879259bad3117db617e21377.1761763681.git.m.wieczorretman@pm.me>
-In-Reply-To: <96559d5a8e897f97879259bad3117db617e21377.1761763681.git.m.wieczorretman@pm.me>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <56d9203b1fcb6281b0d29b44bc181530e5c72327.1761763681.git.m.wieczorretman@pm.me>
+In-Reply-To: <56d9203b1fcb6281b0d29b44bc181530e5c72327.1761763681.git.m.wieczorretman@pm.me>
 From: Alexander Potapenko <glider@google.com>
-Date: Tue, 11 Nov 2025 10:04:34 +0100
-X-Gm-Features: AWmQ_bnTIARw6amUs-gvSQivLCgG0XY32k4ioUAxykbqmf67HMroMwsIF2IdVwY
-Message-ID: <CAG_fn=X5Dr_Dc1pcnAW19zgo7tW8mUSkpDj-v5eaG-awy4S53Q@mail.gmail.com>
-Subject: Re: [PATCH v6 13/18] x86/mm: LAM initialization
+Date: Tue, 11 Nov 2025 10:07:50 +0100
+X-Gm-Features: AWmQ_bksKNIR8oRrvQW5ElnBBjqadCFUKWpQKwYmKonXZ13JEF-XHOSa5ehktsY
+Message-ID: <CAG_fn=U3SLOoy_K-2ShOMYf80i4AE1tB1AL4w7wcJAXBxi+PtA@mail.gmail.com>
+Subject: Re: [PATCH v6 12/18] x86/mm: LAM compatible non-canonical definition
 To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
 	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
@@ -99,14 +99,19 @@ On Wed, Oct 29, 2025 at 9:08=E2=80=AFPM Maciej Wieczor-Retman
 >
 > From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 >
-> To make use of KASAN's tag based mode on x86, Linear Address Masking
-> (LAM) needs to be enabled. To do that the 28th bit in CR4 has to be set.
+> For an address to be canonical it has to have its top bits equal to each
+> other. The number of bits depends on the paging level and whether
+> they're supposed to be ones or zeroes depends on whether the address
+> points to kernel or user space.
 >
-> Set the bit in early memory initialization.
+> With Linear Address Masking (LAM) enabled, the definition of linear
+> address canonicality is modified. Not all of the previously required
+> bits need to be equal, only the first and last from the previously equal
+> bitmask. So for example a 5-level paging kernel address needs to have
+> bits [63] and [56] set.
 >
-> When launching secondary CPUs the LAM bit gets lost. To avoid this add
-> it in a mask in head_64.S. The bitmask permits some bits of CR4 to pass
-> from the primary CPU to the secondary CPUs without being cleared.
+> Change the canonical checking function to use bit masks instead of bit
+> shifts.
 >
 > Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 Acked-by: Alexander Potapenko <glider@google.com>
