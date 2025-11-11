@@ -1,219 +1,180 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010024.outbound.protection.outlook.com [40.93.198.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FB9335071;
-	Tue, 11 Nov 2025 11:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762860018; cv=fail; b=IPzrER8Qv3Pq5138I0RY1GWSLGZXnYRNeCunWNMheP6tu29QLo1Yg8jqP91wjjlvtbHKA6Zx7KoNZCbRcVRBGcV0uAcK25VaH1v7yunBh+qNF8qL7nUoNsy7jZpxbe192C69h8AJPKb5eYgSjzj4LY2ZS1bn2mu2uNsvK2M1Ld4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762860018; c=relaxed/simple;
-	bh=7dZhR3ccJ6BW0q3VoQPkWh2cdNrNT0Y75O1j8KPJXXU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=gkGcYa+niS2OrRufvCAI/rKmimzRkfj3tCOgLjElUoT6f0ktdx4Ye0W3dOp08I4kLU1hKd3d7+FNEBDjtDglw0FS1ysAqnRm6dN69UnOk72XcWDwuCbxPGqyDwFT4Qd8WJygAWAuP3KFGJ/zrkLKeuIyh5+iuTGjY4b6SP8Dx1k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WtNyA4/d; arc=fail smtp.client-ip=40.93.198.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1686358D1A
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 11:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762861113; cv=none; b=uUj+jP/2StKUCo0grf8C7cKYGLtMCJbFwIrSjwYf4JLkF4ARWVrxIhglrkk6mHjREHB45dAMQ5PPmOLism8OkEOXf2vWhl0a9iaVhVvXIInX0apqid2eZocmVV9diHIms5VNKi0uCZfHWfzwJBNcGMH2gBaQCeC2QU9PGayoBzo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762861113; c=relaxed/simple;
+	bh=p+vt2lL3S9xP4IyWscwu6QjVeXIhxG41ki0RXYh2bYM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Y6zalMR7sgAbqGqILbLXfavKrkjE0Hn3XNfGb4LANkPgcq5XDlHdawjg3FIChqalrq9OqFkrts/aSl9Ml/xqFMjNORAissydSYEQzakK6/il3vKQVWHPwHLqPi4KYRjHyLa6RjrT8/+64hQ/gXRJqUsIpC0qj3soCql8niwu80g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kI9QfxA1; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WtNyA4/d"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e7C3DQ0qvBSLSyG+IMfxNgREA0hMYbM3t5gnboXGeLqWWIwgBvjOJBdWqL6ukll12GqU/mzO3ptgvr64HfEW570Uluru+Td6QqxzjWf2TIA6TT/shony5CQLoyPjwX96KeTfzu6OmbfkmPGurLw2aIHsBwQJAuWRjQyKS8E6KOELGHpiT4s7ftd5Dg+AmwL9NYyIo9qMjnuZ6+fc/D3iAr/jfg4RjcOyOnr1QMy3JpGCtwi22RqyocTgkPN0XKhDZse4QQQYqcGpx8iCOV9GC6TEEpLGTiriwBlURe3A4lXLY4uNIx7dUChD0cfix5kyiaDEEnloEfUOeDXb9b5MKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V5xrnzSjvtjycs8BSdoTQsRO5lGbbBaow81YVOkGl+k=;
- b=ulU6OiPFF/7aMmEhzIr5yJTMvhz+bw1lHRvBmclcVAyxiVgrVJdPlHMzl3kBpDgpPXwx06lTW8/ijCNJeonYbvoqArO5U/lWea8LicCWXNvukbiCef85tKC8W8/PAOeXk5twPvgQwQCVL74wKquBGHWnKzAn7Vy9sbOCld6PNrXvlkUWXCxLJ27cj7NaD7rSG/gXAddjwHW58haBjKLf9M3oUYP480fZhEMu3H1MK1p0OCW5M3cQnFhJ580Trfhv9miOVWcmS37/iUS0TMg+7ShGpv5Vbj8ziMeFZPP8rCE1662VKFb0NGvsp338W8baTC/NA819GtVvzEa5HNowbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V5xrnzSjvtjycs8BSdoTQsRO5lGbbBaow81YVOkGl+k=;
- b=WtNyA4/dhk9aCjt2KbC/03wZ8km3fv/CeHFJyfwBAPsry+3Kr862AlDdL8la5lvaJCx0fKxSTuG8ns2pwPA27ISEOAjarCop/4dQRiy6kYZC0RhFSq9iM0lLX8oHkZkM1Pc6oOSR9d8eFJr1ROHzMY+lRDEGOlDPH0mpgpO7KYFito6UsGawgD+NM+Lvo6/zv4g2Xc39ly7PDlEKIrzLllHKtw8qD+02E9MwKA3MDGdyeuE0EyCD6UK2C+NEn0X2rWgNe6dRSUmGjgXkCxS7zb9mKTNUrC7w4YdkShQrwKzBlhkJDPykOwFFnqvYy6ifszIIN5eYv9i3WJeU+bFQnw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
- by IA1PR12MB8189.namprd12.prod.outlook.com (2603:10b6:208:3f0::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Tue, 11 Nov
- 2025 11:20:12 +0000
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::44e5:415d:e1a8:6e42]) by BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::44e5:415d:e1a8:6e42%7]) with mapi id 15.20.9320.013; Tue, 11 Nov 2025
- 11:20:12 +0000
-Message-ID: <69767b5b-8699-4d45-8ab7-b8965d750bc2@nvidia.com>
-Date: Tue, 11 Nov 2025 16:50:00 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/8] cpufreq: CPPC: Add generic helpers for sysfs
- show/store
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: rafael@kernel.org, lenb@kernel.org, robert.moore@intel.com,
- corbet@lwn.net, pierre.gondois@arm.com, zhenglifeng1@huawei.com,
- rdunlap@infradead.org, ray.huang@amd.com, gautham.shenoy@amd.com,
- mario.limonciello@amd.com, perry.yuan@amd.com, ionela.voinescu@arm.com,
- zhanjie9@hisilicon.com, linux-pm@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
- acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
- vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
- nhartman@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
-References: <20251105113844.4086250-1-sumitg@nvidia.com>
- <20251105113844.4086250-2-sumitg@nvidia.com>
- <s5xt53i6c5wryje5x6zlq75r3lx6nxb7pat6umnghpnldi4p2h@jaeew4iimdd3>
-Content-Language: en-US
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <s5xt53i6c5wryje5x6zlq75r3lx6nxb7pat6umnghpnldi4p2h@jaeew4iimdd3>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA0PR01CA0065.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:ad::9) To BN9PR12MB5179.namprd12.prod.outlook.com
- (2603:10b6:408:11c::18)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kI9QfxA1"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477563e28a3so4885975e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 03:38:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1762861109; x=1763465909; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ApNFjpZHiOUYvgtaOudntt1C1VCpeRhzgKLy7o9FKa0=;
+        b=kI9QfxA1Hl+Ej4JZ76xrF8++DtH5w3P2Io6M/o4G0sxVKLmH9ERJPyfFSSkwMgptUX
+         e0EEFNNK260E0Tqjjxm67G4JvYMXDk3XXnkn3bssxQYvazPxFfUvztLXG5Dk6okUeKKk
+         wEdAz0iHoSKp/zvEOb3XTy+M1DarkD3KO+deYI0r1NJFMduShuoKuipx22y4vH5vlG7w
+         En4KYD9OVE14rTTQl3XmFcPCpEMQteC/uFYSl11yMdV4zADc/cehLxt4kz5LPeVYiTo8
+         FA2/dv0fcLqhD35zxb2CFf3A2fh1RfjuDYMm847IEobpB4Cn1s5N1WIK8VwlpL/xJaEL
+         n6qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762861109; x=1763465909;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ApNFjpZHiOUYvgtaOudntt1C1VCpeRhzgKLy7o9FKa0=;
+        b=LXb9LctEYQi7MONPRRJ5DnvtEwvA21Uq6kgf/UmgIRetm1riYuzeqWmaYlZ+zFZLZ6
+         eUs6Ro8Is+vbsA2HT04IqNsRMIvleI+t3aA6enwvR7RJjAaMApbWaT08q9YcleLPcbWJ
+         iFj5SmHksO87JmrsP1FrPdxrNUwWz1XBB32d1eJqsowlUC5PvQQ1gua4gFbPrTxzLS3R
+         lZt+RcGjilKOlq+O+o1YvI+h4laQwYIxPUbmCzBGb6Sfjx1fxgssVoVBSMeI6nDZiHa/
+         nuCe4e1s48xglOkF+dK6ai9SwPegvnJ5xfvpuwGIjW0fO3Ez7vBLjoj7HszIxnpm3kVE
+         JFRg==
+X-Forwarded-Encrypted: i=1; AJvYcCWFQy4D37D5lHE4PpmHWMHT4Fl7E86jm5xquJNviFujYqyiuEEId58BAQSbnc46ZIwHGiRlXbcap3k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzf5R3prj85Ttyd8J9PN4Rzwnl6YlXmhcQH//ZpgmL2twxtOI3g
+	NWjvqSkQ6fA3hMHwL6D/yN3uXqHWSm6lJii5OqeseRkepC6HXf7YzHIl1O4AYaPVEAc=
+X-Gm-Gg: ASbGncuGl3V7+hLnsskuzO2SsrhmAq5FQTGmnthyL58+44aDOI9CGLqt9qWbmIC310I
+	UC1G7RLzjE9nJEh82WPt5F3hArhi14cbHn3efCZcqZUpPZ7sEULHGJE/XNO4IdamWtBUN5XEnfT
+	FX5d2EraApr95LK++p4/xgY/XMVw7rM9WLHy10opbLj1RLaYqHhnUca05tu2WyT8SPs61Z77GVu
+	tloA2XsqDPR2lz91HqWXULjAoiR+ITCxN/E2+kJ/c3Ay3/QIuhprI4DwRUfOck3Y/TXAgo0qtFG
+	yq73essPXmi8A7XUTDrAhcHaxwETUYoveH8Ur/3EhNKc/BdeJA+YeD2KcKfiCY8ZAstK9Iu9wnQ
+	tAVCz7qmAFDn2OEq9tGOt51f1I+Q/yaJQ+1c9mrvf2rz77puP2mzyA6goHscBOwYXRHUaT5SH42
+	4ayx13k6Js/TbVVYwatxRu
+X-Google-Smtp-Source: AGHT+IHEHlUutl0pFeJ6Y+KwuVxOVrcZ87z0GEdb/YT/7CGKNgzL11KQ5qkLQpD/1daWqDjU8+9Wsg==
+X-Received: by 2002:a05:600c:820e:b0:45d:e775:d8b8 with SMTP id 5b1f17b1804b1-47781418886mr28948915e9.1.1762861109025;
+        Tue, 11 Nov 2025 03:38:29 -0800 (PST)
+Received: from ho-tower-lan.lan ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42ac675cd25sm28133486f8f.22.2025.11.11.03.38.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Nov 2025 03:38:28 -0800 (PST)
+From: James Clark <james.clark@linaro.org>
+Subject: [PATCH v10 0/5] perf: arm_spe: Armv8.8 SPE features
+Date: Tue, 11 Nov 2025 11:37:54 +0000
+Message-Id: <20251111-james-perf-feat_spe_eft-v10-0-1e1b5bf2cd05@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|IA1PR12MB8189:EE_
-X-MS-Office365-Filtering-Correlation-Id: be94955e-c082-405e-295f-08de2114479c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?L3IrVlRMUHN2REIxUmRQUjIvYW40bUVWdDNaNjJMUkx6eHhYaGxncVZHREtH?=
- =?utf-8?B?M0tCT2poNnhreWRvekx5MzhOUU9oVVNyeWlHU3VVc0d1K0NRY25XcEoyT1lq?=
- =?utf-8?B?MlhvRjd1VkFrTkNHMDlSa2NIT1RyaEhUYjFRSVBpZjhRZ1huZ2NFb1lXRlJh?=
- =?utf-8?B?c0lwSmZzNlZZdjJGSHBRKzZ6RXo4MTczbDN6UGRFZisrNHZacGxRdVZmaFNa?=
- =?utf-8?B?amt6MHN0WGdLSXBNcFpzVG56TitVSTVrdUcxdi9rSm1UZ01XSFJaU3FsVTlB?=
- =?utf-8?B?YWphVVhRell2bkJwbmdsWVoxYWdlK2lseTFpdUtrUHp3dmhLNWo2WnZ1c2o2?=
- =?utf-8?B?WkdhSkNNUUg3dzcyMjRRWi9BMFVFcUhqOWMzbHhCK1VSUUFuZXhCckdjdE9j?=
- =?utf-8?B?Yitld2doNmo5cHdMd2ZoeGxJNlRuVW02RDNEMUUyNUVGbTZjNFExSDhmUHgv?=
- =?utf-8?B?aGdUUDF6VVFxeTRmNVVGU1BWVm1HNEVmSmdxYjk2Ri84TUY4L29oTUtLS3Jy?=
- =?utf-8?B?RHdrandTOFpuYU0zT1NKTktFQ1NOMVNHV3UwUittMHhOZnQ2R1pQYi9KeFRI?=
- =?utf-8?B?bDF1cFBPRmo5YmZERjVnMkVYSlVhN2g4eDNIKzNNbDBIaEc3Y2NDdmswZjJv?=
- =?utf-8?B?WmVTVUpDOERLTXYwUEIrWkkzSjJiL0JsWmhYOC83Zk12N2lhZVQzejZFRmRa?=
- =?utf-8?B?UzgrSVk4NWF3ZndLd2dsOFdSQUNVMy9kNHcrQkhuS3NsR0ZWa0ZkSkFIQXpa?=
- =?utf-8?B?Y0tHQVhhNTZDSStPMUtUWXFPNVJzSWlzS3N2VEFPcUZiYSthVmZWRmVsd1Iw?=
- =?utf-8?B?eldZWXZ6L0F4T2F4S1NjdW1wNjBCUDkxbHFQZ3lDSk0wZ3ZIT3AzVjhQb1pZ?=
- =?utf-8?B?Q0FqN2wwV045YUJoM1ZLbnU2UDVDZHArYkFHS0xvaGNWQ051eHphNHdjZzVr?=
- =?utf-8?B?V1RKVTBrR21mc1JobXg3Q3hpQjI4WWhGaTV6Yi8vclZpd0ExdUhaT0EvOXJJ?=
- =?utf-8?B?bm1tRFB2TjE1YllzcklKeW05RXhWOURpWjR1elE2b1cwUFpHaTE3RGtRSHNk?=
- =?utf-8?B?VUM2OFJQeEQ0LzhnN3RGU1E0OXNkVk9TbmxVaEhYNjJDWHpGWTJUNm1TYjU0?=
- =?utf-8?B?cUNsTHFnY3ByN0ZKQUlNd2s4RUJQVnpZZWxRTFVEc250cUpwcXc0blFBd2Vq?=
- =?utf-8?B?SkhnRUU1U3dtZ3A4MzlJNmZOUmlMdWVraFV4SmlYOWpjcXZGMmpyK25tOTVQ?=
- =?utf-8?B?Z1YrN3RrWVgyRHhSdzl3Z05YOE5JQ1pTOVI0Mk1jZXVUQ011em03c0JNRjgz?=
- =?utf-8?B?Z0psY01uM2xXTkZUdmFYOFgxVGxBNUt4dC94U2Q1NWxmSkM5Nk0rRkt1T281?=
- =?utf-8?B?bThWTzEzUmI2Z0xUYk9qU0dWVXdLYURBVTlCME12WnprcW05azE2UDViTURH?=
- =?utf-8?B?dkh2ekZlOXcvUWFTS3QyS25pMWdSY1hMR2YrK2NJeTVrcUI3Zmg2SWgvK29i?=
- =?utf-8?B?NHVSZ2tzMnBscURCUW1uZlI2THplemFqenJNZlJiVjYzQTYvemFjb3MyaDdy?=
- =?utf-8?B?alNMU2dRUlFyaTVBQUFHcEp6bE1DTEdDbHFzYTBpVlBNSVFkTnZpWGc2ZURW?=
- =?utf-8?B?MkNSRUl3RHVVSmUyUzJOaGFRNVdlbTdDVDFXYmxCaGI3RVI3cFlNRXhpcmww?=
- =?utf-8?B?OTVBNzZLN2Y3S2pBamcvdk9TUVppbmxpaFVycU9NWVZZN000MGNVQ1Eva2xG?=
- =?utf-8?B?ekZKcEFUZmZHdUJtc1RMMmhPWU1ib3Z5ZE51SEVpaE8wd1U1Y25SZkxmRmlG?=
- =?utf-8?B?bUtUQm9KbXpBNkdKTW4zc1owZXZ0c2RkNGxucHpFYmV4ZllwZnVISjhJMnkr?=
- =?utf-8?B?NjkwaEUwUGdmNjJmOXk0b2oxTko0SlhOV1hIS3ptcFZteXN6ZWZ1a2NUT25N?=
- =?utf-8?Q?y6PFiJTe+V1LER+gLDgDXQhVwevZp+ZN?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?a2FBcDJ3S0hQSlZKTjRCK24vOCt3WEIzMUh4RFhZeDkrWCsxdUFpcFNQRzZK?=
- =?utf-8?B?YUtEUklSSGwxZ0gzSUdCOXZ3cUFqeGNSOG1ZM3JrUisxVTRtck1Hb0VnZk5Z?=
- =?utf-8?B?encyVFhxaWYxNW5EMlF3RldDYlpuV1pTUGVDa05MZGxFNy9Ed05NOHlxZ3Ax?=
- =?utf-8?B?Q0xUZWk3VkVuc2dPNGZzeVd2dXExVzVpSkNnUDE3bXVxRUt6dkM3bDhwNFBF?=
- =?utf-8?B?QlRDVEZOU2FycXRONllsVG5XSFB1VUYrMHRFVzl4NmRyOFFPcXBiTFU1MGph?=
- =?utf-8?B?ZlRWVHpBS3V0YStWc2UvYk0rVXk4U0NockdDaUtBQ3ZPNHUwMmI3OVR4aUdM?=
- =?utf-8?B?VlltaXZ4Wmd6S2hwSzdpUHo2ZENzVDFxRUs5QXRla0NlOVpmeVpZZHJlUEJY?=
- =?utf-8?B?ZkhvVmdUZlY2RnA5SWwrQ2pUWTV5bVFKNVNPWFN3R1dvZGVFY0FMUGkwRE5Z?=
- =?utf-8?B?Q3NpY1QyUUxaWURMOWVOREVjVXNaWWl5Z2IwTGNoMVkvSjEvcGovcWRZY2pi?=
- =?utf-8?B?OVpFM1RyaUt0ZTQ5aDNHSUppUkovdFRaazZxNHhKMWdNKzE2ZnFwb24xYzNo?=
- =?utf-8?B?TjRSWGlXYjU0eU15TVpoTnBvZlJIMG9XcXhIekl6TWtmaDY3YmppdGdHYU8z?=
- =?utf-8?B?TjRpSjFLR1NQVXlhR055TmFrZkRmS3FTSEtwc0U1VUdrdkduVEd6ZndpLzZI?=
- =?utf-8?B?OEsrNlMwc01BS21nTWdzVnl5ZDhSWXI2b0l3a0JGSW5rU2ZEWHJwZjV6Q1RQ?=
- =?utf-8?B?a3k5QlJQYWk2RlI2RHlCNk1KaEQ3UFl0NG9YTkFta1Y4cFJiQlhqNEludUZE?=
- =?utf-8?B?eWtPMSs0a3ViZGk5WU1yNHdMa0tlWGNoZ2tQOE5FYU5JanpILzJ6SDNadFVX?=
- =?utf-8?B?ZGdlODdMYmxVZ05NMitJNUMxSVRldW5pVkVZbC9QRGw0RjNsZ3FNYnNJbFFI?=
- =?utf-8?B?QUx2aDlyNlB2clFWVE9tOE5wL2xxODZPNGY3RlpzS0hPQkZxQ0VXR2NtUWpT?=
- =?utf-8?B?cUFvY096QlowTUh2eUJCQzJ4QnZUSmNUOThzNXJwTWNqYWN6T0ROanBVaEdR?=
- =?utf-8?B?S3p4eVdsNWlVc2hISXJaT1FTaHVpVnA0akRmTFZOaHlPVVFERkxWa0g4VXor?=
- =?utf-8?B?Vko0R245N1BWSnc4Yis4NHp1Nnk5b0VsQkRBbUNteUJhb3M3b0ZTaVV4bHV6?=
- =?utf-8?B?aWRqcXg5R3kxTFJnL0Z6RWFGTGFKc2JEWlR4cjRxOGZiL3hrMS96U0Nla3FP?=
- =?utf-8?B?Znd6TDRtMXNUUlV1VjQrZ3ZiZzgvNkZVNzFueVZqcmNEdVFkRnlacXgvbi9P?=
- =?utf-8?B?Tzdncis5bzN6em05dXZCbDNlWUxYVFk0MGxQZnd0Z09CbE5YMCtPUC9zZE5k?=
- =?utf-8?B?VGdjNGlTaU5mVXNUdkwxdHJuUWJLLzl3VEZaS2JyRm1vNUpjV282ZW54aG9u?=
- =?utf-8?B?S3pyYjJ0WGVqcyt4eCsvMFhqY2FXODV3aW5BY2pEU0Jhd2N5NHoybWN1ci9O?=
- =?utf-8?B?bUcxcHF6L3RqanYyZEVheG10ckJqWFlqZkpwOForbmVleFc0SVl5MDZFbjVG?=
- =?utf-8?B?aGloT2gwaTZJQnlEVGw1d1pvSkpSVDBtZHNteXVyWlladFNzVzJEVzAzaHpJ?=
- =?utf-8?B?Uzk5T3Q5SEZkcURJcVRTai8yS3ROMEpQTitKVmFmS3hscTdwcFBOU1RRSWZi?=
- =?utf-8?B?d0lBUjlqdmcrZEptUkdYWUxqVkV2bFVTOFE1UzRjS0laQ0JObi85Mk9XVlFp?=
- =?utf-8?B?ZDAvZ3Y4ZEw2aUkwWWVQWEowL0swaXhMQUlUMHFzUnhDc29iZklKQnVKYWJU?=
- =?utf-8?B?cHR3cGtkY1hlTC9kTFQ5a1ZXYitqNlNZWFh2TUkwcFJNM3orUmNrNEtmV3hp?=
- =?utf-8?B?UlRsWXQwQTZWVVozMGdTT2tmbXA5dXV0OUpFOGR1Wmt4QTJDc3Y4eVlCYmpB?=
- =?utf-8?B?d21MN3RIOGtIbmZ6YWVGRGlaY3BjM2NKckM1Nys5YzJjdUxFK3FaMGh3ZThz?=
- =?utf-8?B?R2Q1YW9ua3hZMVV0SlFCakNTSDhldE82SGQyeDJ5enlUYytuVDZKK3hCcnEr?=
- =?utf-8?B?ckY1WEJVcXcybHBRZFBWbDBTYWZySHlndk9CblpPV1UyQkJtRndvRGkvSlFH?=
- =?utf-8?Q?etUbYdQQKbaicmly8hukBj/fn?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be94955e-c082-405e-295f-08de2114479c
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 11:20:12.1107
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8Po7pqdRtPExnQafUhhgkYwW6V9Q0BM8OXLB0c0dH1/fu2NwufAozXDtbHAWuVjv/9wLDsm26MX3q3RV6gFpbQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8189
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABIgE2kC/43S20rDQBAA0F8peXZldvbuk/8hUiZ7aVe0KUkJS
+ um/uxvQtMQUH2dgz9z23Ayxz3Fonjbnpo9jHnJ3KAGHh03j93TYRZZDSTQIqEBwZG/0EQd2jH1
+ iKdJpOxzjNqYT09qHJINN0bmmvD72MeXPiX55LfE+D6eu/5oqjbxmf0yxao6cAUPyCEGC8d4+v
+ +cD9d1j1+9qjQlQoO8DIUgL0UZpFb8Galcjzp0odOsQFoiAk2uJAmhaQGKGNKh1SBTI8Ba8S86
+ CEwtIzpBBvg7JAgEpNJJDsiksIPVPSNXRTOuVEGVFtNyRniELdh3SBdKBknRWGXt7rQkyVxCX6
+ 5CpEBkpkkmEyi0gO0MO7oxm6/+JaIRNKNUfkPuFONw7v6v/CFEJ3TqfnLyBLpfLNz3FEttJAwA
+ A
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+ Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Zenghui Yu <yuzenghui@huawei.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, Leo Yan <leo.yan@arm.com>, 
+ Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, 
+ kvmarm@lists.linux.dev, James Clark <james.clark@linaro.org>
+X-Mailer: b4 0.14.0
 
+Support SPE_FEAT_FDS data source filtering.
 
-On 10/11/25 16:26, Viresh Kumar wrote:
-> External email: Use caution opening links or attachments
->
->
-> On 05-11-25, 17:08, Sumit Gupta wrote:
->> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
->> -static ssize_t show_auto_act_window(struct cpufreq_policy *policy, char *buf)
->> +static ssize_t cppc_cpufreq_sysfs_show_u64(unsigned int cpu, int (*get_func)(int, u64 *), char *buf)
->>   {
->>        u64 val;
->> -     int ret;
->> -
->> -     ret = cppc_get_auto_act_window(policy->cpu, &val);
->> +     int ret = get_func(cpu, &val);
-> Why no casting required here, when you need it ...
+---
+Changes in v10:
+- Pick up Peter's ack
+- Slightly clarify commit message regarding the difference between the
+  data source filter and the data source
+- Link to v9: https://lore.kernel.org/r/20251029-james-perf-feat_spe_eft-v9-0-d22536b9cf94@linaro.org
 
-Will add casting here.
+Changes in v9:
+- Fix another typo in docs: s/data_src_filter/inv_data_src_filter/g
+- Drop already applied patches for other features. Only the data source
+  filtering patches remain.
+- Rebase on latest perf-tools-next
+- Link to v8: https://lore.kernel.org/r/20250901-james-perf-feat_spe_eft-v8-0-2e2738f24559@linaro.org
 
-     int ret = get_func((int)cpu, &val);
+Changes in v8:
+- Define __spe_vers_imp before it's used
+- "disable traps to PMSDSFR" -> "disable traps of PMSDSFR to EL2"
+- Link to v7: https://lore.kernel.org/r/20250814-james-perf-feat_spe_eft-v7-0-6a743f7fa259@linaro.org
 
->> -static ssize_t store_auto_act_window(struct cpufreq_policy *policy,
->> -                                  const char *buf, size_t count)
->> +static ssize_t cppc_cpufreq_sysfs_store_u64(unsigned int cpu, int (*set_func)(int, u64),
->> +                                         const char *buf, size_t count)
->>   {
->> -     u64 usec;
->> +     u64 val;
->>        int ret;
->>
->> -     ret = kstrtou64(buf, 0, &usec);
->> +     ret = kstrtou64(buf, 0, &val);
->>        if (ret)
->>                return ret;
->>
->> -     ret = cppc_set_auto_act_window(policy->cpu, usec);
->> -     if (ret)
->> -             return ret;
->> +     ret = set_func((int)cpu, val);
-> ... here ?
->
-> --
-> viresh
+Changes in v7:
+- Fix typo in docs: s/data_src_filter/inv_data_src_filter/g
+- Pickup trailers
+- Link to v6: https://lore.kernel.org/r/20250808-james-perf-feat_spe_eft-v6-0-6daf498578c8@linaro.org
 
-Checked this and the current change looks correct.
+Changes in v6:
+- Rebase to resolve conflict with BRBE changes in el2_setup.h
+- Link to v5: https://lore.kernel.org/r/20250721-james-perf-feat_spe_eft-v5-0-a7bc533485a1@linaro.org
 
-Thank you.
-Sumit Gupta
+Changes in v5:
+- Forgot to pickup tags from v4
+- Forgot to drop test and review tags on v4 patches that were
+  significantly modified
+- Update commit message for data source filtering to mention inversion
+- Link to v4: https://lore.kernel.org/r/20250721-james-perf-feat_spe_eft-v4-0-0a527410f8fd@linaro.org
 
+Changes in v4:
+- Rewrite "const u64 feat_spe_eft_bits" inline
+- Invert data source filter so that it's possible to exclude all data
+  sources without adding an additional 'enable filter' flag
+- Add a macro in el2_setup.h to check for an SPE version
+- Probe valid filter bits instead of hardcoding them
+- Take in Leo's commit to expose the filter bits as it depends on the
+  new filter probing
+- Link to v3: https://lore.kernel.org/r/20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org
+
+Changes in v3:
+- Use PMSIDR_EL1_FDS instead of 1 << PMSIDR_EL1_FDS_SHIFT
+- Add VNCR offsets
+- Link to v2: https://lore.kernel.org/r/20250529-james-perf-feat_spe_eft-v2-0-a01a9baad06a@linaro.org
+
+Changes in v2:
+- Fix detection of FEAT_SPE_FDS in el2_setup.h
+- Pickup Marc Z's sysreg change instead which matches the json
+- Restructure and expand docs changes
+- Link to v1: https://lore.kernel.org/r/20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org
+
+---
+James Clark (5):
+      perf: Add perf_event_attr::config4
+      perf: arm_spe: Add support for filtering on data source
+      tools headers UAPI: Sync linux/perf_event.h with the kernel sources
+      perf tools: Add support for perf_event_attr::config4
+      perf docs: arm-spe: Document new SPE filtering features
+
+ drivers/perf/arm_spe_pmu.c                |  37 +++++++++++
+ include/uapi/linux/perf_event.h           |   2 +
+ tools/include/uapi/linux/perf_event.h     |   2 +
+ tools/perf/Documentation/perf-arm-spe.txt | 104 +++++++++++++++++++++++++++---
+ tools/perf/tests/parse-events.c           |  13 +++-
+ tools/perf/util/parse-events.c            |  11 ++++
+ tools/perf/util/parse-events.h            |   1 +
+ tools/perf/util/parse-events.l            |   1 +
+ tools/perf/util/pmu.c                     |   8 +++
+ tools/perf/util/pmu.h                     |   1 +
+ 10 files changed, 170 insertions(+), 10 deletions(-)
+---
+base-commit: 081006b7c8e19406dc6674c6b6d086764d415b5c
+change-id: 20250312-james-perf-feat_spe_eft-66cdf4d8fe99
+
+Best regards,
+-- 
+James Clark <james.clark@linaro.org>
 
