@@ -1,131 +1,141 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CF726B2DA;
-	Tue, 11 Nov 2025 04:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC129275AF5;
+	Tue, 11 Nov 2025 04:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762834185; cv=none; b=UH8LdH7x3X9XxkokMDOHrBST/fu0ChPTiCXWUNe/Oy7CdIe7ahNZHGP3PEoKm21jW/TpJXR7Q54Jpumo3NZRpbj3X2kN8NiM9ss4l7nfMyZvO4HW1e7cfTc8TckMDH+tBCOzY8bwKj7VlsUJheUME7udGnX5X+MIqeJLMPOAtg8=
+	t=1762835823; cv=none; b=n9/Y2/+wkkXx6hKk/GzDnBYj8iigOuamrDpeVKq5aWU8gmv+faHKWK62LKthRJmS5FtTdvYbxZ6k+jZ4HYusXqfiqKeUrVBJA2s+c/4wdU3sqXx58KeJGVl6cq1UTkYXxLwDxgWjgnIZOVmQXftxuwDHP5L7yfcDp+F2ncy+rIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762834185; c=relaxed/simple;
-	bh=TGrJAX0XhiTYIsGvgNqP2BImP+lI1gAINbaZ9M7kqgI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=DgvG0+HsQC/zHrvXUsI4Ddphd1U/zw3iqzm4hIW/0C8JJfawVBZZzraMq/yscCh/+xY27xnQQekl68J3Yyasj11skrNlPfEFhpqKidg4aGLG53qEMgOZ2KKCu+4/yWppMnV5stfmeVOBpZMdtpsw5+vsQ02D9ST95oTmvg9eQv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com; spf=pass smtp.mailfrom=qti.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VtN5Lhhz; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qti.qualcomm.com
+	s=arc-20240116; t=1762835823; c=relaxed/simple;
+	bh=DO7ur9f5H1ZRUCiFO/Sct64D+Ey3WhsVSZbWrgDekSE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tDBl3D2v8KCZ8Y49P7PMwuWt/9kmoVuVnNNnTo4xY9//iHFHLdh//CrSMBhBZ9A0CWICdsgxDIgV9fcr4zZKJ8q+VXVOwldQVecpqvv5bA+SE/VfdFHw7DJXXyZ6hYinWoMB7gCd8wjSR9cEDgcGWV2dNJJgiCatVVMbooK0rrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=xiGFAE4B; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VtN5Lhhz"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AB3xNNp4073469;
-	Tue, 11 Nov 2025 04:09:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=/eGWzFw///P
-	5Kqy7ng1qNBG12TA8mvVkKCJymgwKrAo=; b=VtN5LhhzzdsgnC9PgKh74KSXWS9
-	bJRcs9k7wDiNCjEDdgW2fjccLlBFPaP2CHwbVspfo6kJKEqXhbYTqMnvAVRP7Fpt
-	xWCxW5XSBFEPZor9QmTndaspB/bRrQxmN7DG2VvcMmnRtZEh6DI5F/uHpGqBqPiJ
-	zYVVeNHbxiXdPTr/hBAfUB0HctoywtGosdnpjNWC3yiVRAPQ+BMWQqfnJSIBj/iM
-	KRHrA9ehm24mnSocG/o6b/nWTawR6Hz75KS44Dn5FFIVBSZIngXMna10pvooOD06
-	NCCnpCb0Q3bTFOnia9Ly3zUbSCvkAeFN6C+B9KbbjMvla5SM9YYIyxa73SQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4abkws9k7e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Nov 2025 04:09:27 +0000 (GMT)
-Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AB49QOK028400;
-	Tue, 11 Nov 2025 04:09:26 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 4abqjgu8xc-1;
-	Tue, 11 Nov 2025 04:09:26 +0000
-Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5AB49PR1028392;
-	Tue, 11 Nov 2025 04:09:25 GMT
-Received: from hu-grahamr-lv.qualcomm.com (hu-grahamr-lv.qualcomm.com [10.81.26.100])
-	by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 5AB49PjC028385;
-	Tue, 11 Nov 2025 04:09:25 +0000
-From: Graham Roff <grahamr@qti.qualcomm.com>
-To: rdunlap@infradead.org
-Cc: corbet@lwn.net, grahamr@qti.qualcomm.com, jani.nikula@linux.intel.com,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, nathan@kernel.org, nico@fluxnic.net,
-        nsc@kernel.org
-Subject: Re: [PATCH] Support conditional deps using "depends on X if Y"
-Date: Mon, 10 Nov 2025 20:09:25 -0800
-Message-Id: <20251111040925.2535085-1-grahamr@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <e355cd63-77cd-42ac-b852-c789ee8c8869@infradead.org>
-References: <e355cd63-77cd-42ac-b852-c789ee8c8869@infradead.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xiGFAE4B"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=40/VsnXsFcSLiJgKtc8jxrHRh6TFqjSmtbILrCIHYBk=; b=xiGFAE4BIGLIcVkDMDid+HwM6U
+	8B5FP9TE0g5HTAHMGF+oTK3YwsiNIYWp0amW2u9KSxqvH93NFCm2ARzSXzDRVpAL5pkqTMJiEJJ+d
+	bKU3qU/wDLNVlCylY/worARgJcdpN9zHNnCwsLjOgAXMKk6a0uoTACandDk7Qt2hHGBPHpWp03T4m
+	+7h4OZEVpymlQjRQMPpNzZyg0r4Y33v49zXUZmRRyvaokGVlP2sUXTXoQB/hG5GrLyvcLLEpOoS64
+	Tlzu6VzGNC/1LkYlwPSLIPdOE2Pcu2e2S3KZ0Mf8VFV7iZKk3GduI9AOFC1TdIIe5MssUfvXjm8Z0
+	EBTNViXw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vIg7l-00000006VqT-2A4X;
+	Tue, 11 Nov 2025 04:36:57 +0000
+Message-ID: <e1799bf2-e261-4f36-9e1b-de324be9dd0a@infradead.org>
+Date: Mon, 10 Nov 2025 20:36:57 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTExMDAyOCBTYWx0ZWRfXxHMprISBiGit
- KVSIDYbq1tNdKkBDx2oIiSPY51srxWOiUX2HhRHuAy6U5D6oo0I4Vdh0nvP5gI3ZVrS6gUhEBku
- n7HkuUCMzGUo8vPTZCQsrHqT71MbdXxXgxMyy9Yo8X+nau4WEQJQaf9UGhxMsTrmTa+FXbj86mY
- II5E8DhUy/M2MFvTeb3IkHEOtgVOG5b4TeyWVIMx1T6K9fzClEssZI9XBTAprbdPFzgUA9b+PIs
- cQHVrBnNYUfjss46O+lcj+TXALJE1j0gWBQfuL3zRtn/Dwotk5QjiEFjxSajkdD7QApztT4VXWN
- D9fCy+/UmeAt0PW2/3St64vC5PYOJueSdPfcWCzrNQbSe1A6e4EHpyCUay2wY0W9NdooY/JI23g
- z/0wYelrJcj5QBai4RGV1b8mw3uvtw==
-X-Authority-Analysis: v=2.4 cv=Vosuwu2n c=1 sm=1 tr=0 ts=6912b6f7 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8
- a=q0gqmUp0XkS3dxuJLy4A:9 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: dRwbiAgsD_NSfOq5A4rDRk8Hn53tZGt8
-X-Proofpoint-ORIG-GUID: dRwbiAgsD_NSfOq5A4rDRk8Hn53tZGt8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-11_01,2025-11-10_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 clxscore=1011 priorityscore=1501
- suspectscore=0 spamscore=0 impostorscore=0 malwarescore=0 phishscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511110028
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: ipmb: Indent boot time loading steps
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ openipmi-developer@lists.sourceforge.net
+Cc: Corey Minyard <corey@minyard.net>, Jonathan Corbet <corbet@lwn.net>
+References: <20251105125449.45643-1-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251105125449.45643-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> On 11/10/25 1:15 PM, Nathan Chancellor wrote:
-> > Support for this change has been expressed by a number of developers 
-> > since the original patch was proposed back in 2020, and has recently 
-> > also been raised as a patch to the Zephyr kconfig system.
+
+
+On 11/5/25 4:54 AM, Bagas Sanjaya wrote:
+> Steps for loading IPMB driver at boot time, written as enumerated
+> sublist, is indented instead on the same level as its parent list.
+> Indent them as appropriate.
 > 
-> Do you have a link to this Zephyr Kconfig change?
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Link: https://github.com/zephyrproject-rtos/Kconfiglib/pull/21
+LGTM. Thanks.
 
-> > On Mon, Nov 10, 2025 at 10:48:59AM +0200, Jani Nikula wrote:
-> >> "depends on A || !A" (or A=n) is the most common pattern in Kconfig,
-> >> which literally means "depends on A if A".
-> > 
-> > That is totally fair, I did not try to actually search for the idiom. I
-> > will say I do not find that either expression in Kconfig easily
-> > translates in my head to "this dependency must be built in if the symbol
-> > is built in, modular if the symbol is modular, or disabled" but I guess
-> > that is just lack of familiarity with these idioms. I just want it to be
-> > obvious to folks writing Kconfig when something like this is appropriate
-> > to use but I guess with that being the most common usage in the tree, it
-> > is fine as is.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+> ---
+>  Documentation/driver-api/ipmb.rst | 48 +++++++++++++++----------------
+>  1 file changed, 24 insertions(+), 24 deletions(-)
 > 
-> I haven't tested it but it looks reasonable to me.
-
-I will update the documentation to make the initial example
-more understandable ("depends on A if B" is actually easier to follow 
-than the more strange "depends on A if A"). Then also add a note in the
-section on Optional Dependencies about using the new "A if A" form.
-
+> diff --git a/Documentation/driver-api/ipmb.rst b/Documentation/driver-api/ipmb.rst
+> index 209c49e051163f..dd99d034272b7e 100644
+> --- a/Documentation/driver-api/ipmb.rst
+> +++ b/Documentation/driver-api/ipmb.rst
+> @@ -48,35 +48,35 @@ CONFIG_IPMB_DEVICE_INTERFACE=y
+>  
+>  1) If you want the driver to be loaded at boot time:
+>  
+> -a) Add this entry to your ACPI table, under the appropriate SMBus::
+> +   a) Add this entry to your ACPI table, under the appropriate SMBus::
+>  
+> -     Device (SMB0) // Example SMBus host controller
+> -     {
+> -     Name (_HID, "<Vendor-Specific HID>") // Vendor-Specific HID
+> -     Name (_UID, 0) // Unique ID of particular host controller
+> -     :
+> -     :
+> -       Device (IPMB)
+> -       {
+> -         Name (_HID, "IPMB0001") // IPMB device interface
+> -         Name (_UID, 0) // Unique device identifier
+> -       }
+> -     }
+> +        Device (SMB0) // Example SMBus host controller
+> +        {
+> +        Name (_HID, "<Vendor-Specific HID>") // Vendor-Specific HID
+> +        Name (_UID, 0) // Unique ID of particular host controller
+> +        :
+> +        :
+> +          Device (IPMB)
+> +          {
+> +            Name (_HID, "IPMB0001") // IPMB device interface
+> +            Name (_UID, 0) // Unique device identifier
+> +          }
+> +        }
+>  
+> -b) Example for device tree::
+> +   b) Example for device tree::
+>  
+> -     &i2c2 {
+> -            status = "okay";
+> +        &i2c2 {
+> +               status = "okay";
+>  
+> -            ipmb@10 {
+> -                    compatible = "ipmb-dev";
+> -                    reg = <0x10>;
+> -                    i2c-protocol;
+> -            };
+> -     };
+> +               ipmb@10 {
+> +                       compatible = "ipmb-dev";
+> +                       reg = <0x10>;
+> +                       i2c-protocol;
+> +               };
+> +        };
+>  
+> -If xmit of data to be done using raw i2c block vs smbus
+> -then "i2c-protocol" needs to be defined as above.
+> +   If xmit of data to be done using raw i2c block vs smbus
+> +   then "i2c-protocol" needs to be defined as above.
+>  
+>  2) Manually from Linux::
+>  
 > 
-> > I think my point about tests still stands, at least something very
-> > basic.
-> 
-> Ack.
+> base-commit: 27600b51fbc8b9a4eba18c8d88d7edb146605f3f
 
-Agree, will include tests in the updated patch.
-
-Graham 
-
+-- 
+~Randy
