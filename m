@@ -1,323 +1,200 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012059.outbound.protection.outlook.com [52.101.53.59])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8F322CBE6
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 08:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762850559; cv=none; b=WViTH3zgPXnZfcmb76PRc35BpnFBrDwIysHc+ghUiH90Dpj6t+7Qh14Von+VM+fEEH1JUbSbC8J8GbXXuqBfRTAslua6IODUt4FWcxjC/NIOs42CD/aWvY7DMMWudXJ3+kpMUsj53P0R00bC/d4MjjBL0RDcJ43+4A7uku6LDuk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762850559; c=relaxed/simple;
-	bh=DoQf4P7TCErbJvQszDubE/Xq8KMmLCh+Pm32TVJ7128=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KcuGgXJ4ngtn1QNsGPXKWcqY6nRCZSPfauQ/ajLJzlbh6a+ueo/1KDPbk0NQeLWgmtmZ64qpFz06kbHoaczKTCELD7RP+Y2DxxSJ9Q71ucTPuyOQQRkph5NKo7eFSPd+mfKGhlJbU2k3lQi26izVsS05QvTq25P0DUdrJ/KFx8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S/3VacPm; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B25A2561AE;
+	Tue, 11 Nov 2025 08:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762851281; cv=fail; b=eQ6R3LJm6mfgPGAeGVp27Z74cJIv355KAJ8DAqNp4p0/nflzTo6R1cirriVeCeeBU1r41IluOwflHgGPJJD/O6awePy3s5Uh5AGKtpcu5gJGJnxqyc9qHcu6OScVx1EuJ6XPIdv16RA+16fMJjvcUeAEBigXVPKKuZ/+SMPrXTU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762851281; c=relaxed/simple;
+	bh=X9YPVRbu6MN3ha7CkEktdJrBueThlQ/GjNPgpUBa49w=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=rHpsm6pRYTjPSN35lmleR2ahZt7aFneQY8sm+B3xjYObo35Hn08MwijLHPxCzsB68hsunoJJ3MS7MOXPYrCcn5rietgn75nqvN25btDC8pT5MQwg4JA78ceLQOpXUFg9kkU6kMr4lOlki97eo9Jf8VoQrenZMNn3464jveemwMI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=frNFVAsH; arc=fail smtp.client-ip=52.101.53.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S/3VacPm"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42b3ac40ae4so949782f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 00:42:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762850555; x=1763455355; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=IqtEl7gImhAOH7rT5W1m8+quQVQyDX95I8EGDON4vhU=;
-        b=S/3VacPmGOJHH57oFuBsooY6kY3wUoM9s6vp05t3duNod7AqmrgNY5J3drVPtLC2js
-         7kCdQo/M3ikyHTgsWYJF9+/w10CyVQ2yc1wALVJWbl9XLzfZKwYZxBAeELUzYZRl/jqt
-         WCILH6M2X5yRMeCfPkjtL2VgSJpYZi8u87vRIqBu1MFB4oSVUgPm0aQkDHBX1slRIGoC
-         QFyhazepvWWYStxWD96FvpsidamiJiGosK+3s559cz09f92tHPhDgnekN9xl8BXyQBKf
-         HUz7bz2GiXCgO0enxHs8F77K8HqSrnwvp0ydLbwz2cCyOWJJndddBTFq8rs2hQpZNPBj
-         fzzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762850555; x=1763455355;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IqtEl7gImhAOH7rT5W1m8+quQVQyDX95I8EGDON4vhU=;
-        b=whHmPAjvWPRD0zutAVMpFdPYCoBQdw6JkRq/jRjIVfou75mh4AXFEloVI+NOCvf3Fh
-         3SBmF9u4sf6vTaF2JlQK9ZkpAygvM1m0w4gNX65hvFea2ZuPyOdmzfiPASZ07O7dYvtp
-         srFRJwqaiXjZJxx1SXL1ip2sYgPzXFgHBe8QfbrxQB4y0gZgdAjDpn5E8VkJ5w2PMmBT
-         YoxlPE9zVBzMaPR4ss9chUxntw6F8FZx9q6stK4eG5uOcuGEjzqlinD6LEBhI0OQe68M
-         mELFplK6NfYbOvVTnUvFIJw7tfyBrA3R4JJNfOfxiWYFBxIiLsMa6cnqFNGDstlSEPaK
-         uFJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUvjKoBUtgXCRypB1rB+PuMTw2ovXTUbwMouqzc6gxLYfa0BF/wlhktXJbTNwEH3iAFvLquHuT6eI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQ/036BUpx8Ry7KPyfd4r1vpjmzt4cAZghAY+FIoDt35i6V3Jq
-	RuZy/xOisDte63Maqafe54DLdnJ+U5HDUWHTsha3ivjNjfUKtQvHfIRa
-X-Gm-Gg: ASbGnctmKdd/3DkQ2sc7/Iy5TqvAOggOsC9YVcI85A2mka4DNS03sVAJkHsIiL9N0PP
-	RM58hTAchRkiruywSD1uUrUXxWuYecbxQ8wQta5fA1Y2t+QBVp7qsUJJh3KcCUN3s/YI4GYka9F
-	H61y+fDJS7+enXpUuN9oOonhRff1OPYWVrhzlEeJ7v7fIEyjlyyuXIfB0PuHmf0OE2BmvUSuAFz
-	mMxndEKd9XP3qahf2HlbtrpQYDNit5lKcYAJM6Pk2YeTTwLur8VAKMYbWBKYfs0JHUb9USNFrjs
-	+iXUU7Q+W+EPnqXKb06+DKeNu0mLCq1P//jmpLe53y0l+ZOKtcVz05caBfi2jl5YEe99B42KXi2
-	Wox6cQHM71f5VW6smtD5AgJ2b+sWWnky6c3frj/Rm1JjPByuVmL6/UjjvuhgxvVlPE0soLWkk62
-	xrH/2q0yaS
-X-Google-Smtp-Source: AGHT+IFN9HVusrgM/m4NWqHC6TFKKDpjhBbSMDgruLy+D3S5IkLHnmy9p92HE3ryPy5u/EciFDOU6Q==
-X-Received: by 2002:a05:6000:420b:b0:429:8b01:c08c with SMTP id ffacd0b85a97d-42b2dbf16d1mr10115898f8f.19.1762850555184;
-        Tue, 11 Nov 2025 00:42:35 -0800 (PST)
-Received: from [192.168.1.187] ([161.230.67.253])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b321a80c0sm16163322f8f.1.2025.11.11.00.42.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 00:42:34 -0800 (PST)
-Message-ID: <a8e09403ae80060648e0d70e4aef37221bc3d138.camel@gmail.com>
-Subject: Re: [PATCH 1/3] iio: frequency: adf41513: driver implementation
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, rodrigo.alencar@analog.com
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron	
- <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Andy Shevchenko	
- <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich	
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Date: Tue, 11 Nov 2025 08:43:11 +0000
-In-Reply-To: <aRITLaJir-2IoclU@smile.fi.intel.com>
-References: <20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com>
-	 <20251110-adf41513-iio-driver-v1-1-2df8be0fdc6e@analog.com>
-	 <aRITLaJir-2IoclU@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.1 
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="frNFVAsH"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vop6QVVseuXAixFOBHWnFKK1zkLiC+bhbBa/CC1w3sZVVx27edoyE1pPqDCZukv/bzFYysSmSVVSEKfM/x3rii7ub89YKWbUJi76IUbW/mPAbQJTHtgzwPNwlMAQdP/v4PTtF8Nwq+l0Y74Bv62AcTnq7sOgdV2q98Wg8D0/yTX0f+KkZhLacP2rucUndOJcEYIEi5cu2osG1+IK9VXNWyy40aQMPag0a8AxqMm1h0UoejUhiCf/uQ2JYU/Kgev8jBZbckXcceFSOtjiwTg1aM8jh686WD8PIuk5nfZ60qHfjsxt9Z8FJb+POFOh+yyB1HgXzhLEV9Se5qCOMks8kA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+HSogeOULgjGakdGeJwHGr8EhkaVo60j5NpyI2a4FrY=;
+ b=ZGFPlv0PwyE8A+sDkJmoOyZ/61n+Xr7YjgssOiva8Dj2fTwPPWmx8zq2RYVSIObrIWIh4kdTXNwvgphFw1cSbvAmERkMy2O5JuOPAoQT8lw+pWY3+uKO8HplV/7hXshiFIcV30A8zGOrVW8b+XjQ72nv4VT+CtXz3DcuqsNx7H7gyA9AdhHsimfb8b3AgHeEHiL21uZIgrwKCSjQRoup6DoU/ETH66VEc/LnrB3hnYILqHeORMRHxD0BSkRJExHUB7THBIkPab9CnPDenQ06Q3GPb78rjcQhW/Gpk5ggeLT3ol3N/aaL/09qsJsB6YRsAq+2V8akwcFZg7fVYOIeaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+HSogeOULgjGakdGeJwHGr8EhkaVo60j5NpyI2a4FrY=;
+ b=frNFVAsH/5ef2g+Ws2MZ2xlI1LHfYCFZWJ+2RBaodRGFZePFdm6SXrF96nifwxrgiMydEDK4OJEZ26e9hgaQPiAbECZxlmZ13GLd9CGmz3M+uSw3JkrNSjNtMuYssj0G3CmQpROsfS4ZXD3jRPGolCDfZghQgkpDvxs/IKnN/oY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ0PR12MB6926.namprd12.prod.outlook.com (2603:10b6:a03:485::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Tue, 11 Nov
+ 2025 08:54:35 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9298.015; Tue, 11 Nov 2025
+ 08:54:35 +0000
+Message-ID: <da399efa-ad5b-4bdc-964d-b6cc4a4fc55d@amd.com>
+Date: Tue, 11 Nov 2025 09:54:22 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 00/11] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+To: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe
+ <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>, Kevin Tian
+ <kevin.tian@intel.com>, Krishnakant Jaju <kjaju@nvidia.com>,
+ Matt Ochs <mochs@nvidia.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ iommu@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
+ Nicolin Chen <nicolinc@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
+ <20251110134218.5e399b0f.alex@shazbot.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251110134218.5e399b0f.alex@shazbot.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN0PR04CA0018.namprd04.prod.outlook.com
+ (2603:10b6:408:ee::23) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB6926:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2970022c-20fe-4232-9e4a-08de20fff017
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RXg3aVdoaU43RWp1WGFnRG1jYS93OUwxKzZtT3dPNHVTU0JvM09ZRCtNUS9n?=
+ =?utf-8?B?cDVuUHNaZkgvRlBEeWlHOUVQZlhvMFF5c0ZwWHFGZW80NkpRL3JXcEVXOHAv?=
+ =?utf-8?B?ZmFoQkphTk9PV1Y4NHNKNTJhbWJSalo2bTlJbFNvbkZNSTM5TC96bDVma1Vp?=
+ =?utf-8?B?Vi9oK0FSMUsvWGxnY3Q0WlFhUkZ0UE1jWEhEbWU5cUNvVEs2ZFU3Z0RGZG0x?=
+ =?utf-8?B?Sng4YlZCU253YnpsM25HcTFKbjdGZGdORmkya25uR1hRRWJxNUR0bFRzYkF2?=
+ =?utf-8?B?Z2dJSFlUQnZkbktaNTFlNjE2R0svTHBYS3VQVlB4Z2wzbWlnTGN5dURIOGN4?=
+ =?utf-8?B?YitRYjR1b1lNVDJFR0lacmhzcitVZHpsVHQ0RjlmS2lNekZLaFRDcThWb1BZ?=
+ =?utf-8?B?ZFBMYTlyK0ZCcGtGUW41V0hxNms1TERuN2gyejJ6aG1ZdFphclJ3UkpHVk9x?=
+ =?utf-8?B?TnNYMklwQTBWNzhzUnc2QWY0blJKdVF2L05USmlqN1FkN0plc3JlOUVJcEhO?=
+ =?utf-8?B?d01BNUtybElOdWdIbzRJRldTL1d6eDJMTStvRHJiUlBMS3pUQUFKdEtlaVJv?=
+ =?utf-8?B?RElsZjBweGhTOWQ4Qi9rNFdsbVZLSlczV2dSOXZUZThtNUFKMklhTlh2QWxw?=
+ =?utf-8?B?ZXlBL2tubU9RR1hIQldsYmZvUk1NU0xCUERsaEhyMWVNRzlLUGl2WU1wdXcr?=
+ =?utf-8?B?NHpLYzRGSGlqQ3hXSmhyNVNDRi9xZXo5dSsyV0FGUFREakVNZG91UDFHKzJz?=
+ =?utf-8?B?blFmQktsMTd0a1o1MXI2RllGc0U5K1dWdEFMME1rY2FqRFk4Yld5bVhROHM0?=
+ =?utf-8?B?aXdKNFhZRE9wVXArL2FQT1M0TXI1NWM1SzlBYkJoUTNtSE9yVHpmQU8ra0Zp?=
+ =?utf-8?B?aFNhYkVyWDU4WXlncWRMTGdOdkVZc24zZng4ZitFbytjM2RiQUxabUdRcmdB?=
+ =?utf-8?B?ZWlrSlI0bUVodW5SKzhBMnVZQTRodTZZM3NkajRXSEpyaVJxMFY2ZkpYd0Vn?=
+ =?utf-8?B?K3dWa3dnVExjVmtKSDhhdmZVajgxNUVYQms0bzJ4TDlNdDNvWlZwWFFoWmtF?=
+ =?utf-8?B?NnZSem5ScVRtZy9ycW8vVUVFelM3R0lpNkpmYW9LWFNEQk5DMWJRa1dVN3Q2?=
+ =?utf-8?B?OU9UNEhraTBBaVdUeFd2VTl2Vi9yajdZZm5wQSs3RFYwcHFwSjBRSCtoY3BR?=
+ =?utf-8?B?WHVDSlRiaGRQQ25zRmRzeVJ6dWZUamtRc1huVkJtMGovZUtaL21MaVlmYnhR?=
+ =?utf-8?B?UnBXT3ppazF5Q0Y5enlaK0dSWUI5RE11SnQ5dW5wTllveXVpRmIyVldJUDBz?=
+ =?utf-8?B?UExHY0VoTkpSbkV2ZmFwQzk1SnVxenZoQ1RvT3JiWXJIZGl3Y2FpbUJvajJ0?=
+ =?utf-8?B?bjgrdUxIZkFXQ1J0S1hQOSt0cS9HUGZkbUJMN21lUmk5UTF6V2t6dWhrYlZt?=
+ =?utf-8?B?aWFWcG5OVUw5YTBPNENEVG1yWDNrZDI2UXV4MHlEc0o2MzM0ZlprSGFaMUgy?=
+ =?utf-8?B?VGs5b05MMTFZOWRlYzJNTTBTR2N1OHpqczEwbFp6dU45SG10cTlZdDVDQ1N1?=
+ =?utf-8?B?bEVyMUJoSnQvbVhmcEpuMEVpclErbUNsM0RKcGI1RlJzT3FPaXMzRTFUNzB3?=
+ =?utf-8?B?MnlwSFlpMlZJUkJtQmRNZkZzNUs5bWFUZEZRU1VNamZkQmh6eUIwWXdPeTN0?=
+ =?utf-8?B?eVBvSDFhRFNFZlVxS1ZENkNBbkM1MzFyaDlJb1l0cXVZNStHRDhXVGU4WlZX?=
+ =?utf-8?B?QzZEZjNtRm51cDJ2dHBVTTh4cmVRTVBQK05YeFB6TTgzYytWRmVOMmcxd0h4?=
+ =?utf-8?B?YmVIaDJabWlacEU1MnBnTENDbmtFZ3o1MUpXdGpHN00rekdJYnA3MG1ENTRM?=
+ =?utf-8?B?aW9oeTFESHpKZkM5NUd5eUdmOWFiNjNzVE5YaEJDRTgrQUl6TUxYZkptZFFw?=
+ =?utf-8?Q?qp3koc+mPao3o/Bk8RHIDpLXbwnYyzRQ?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aUpXRWgxK1FhaTZ2MEpBNXlvVndCeGs5ditHbGNJZEJ1YTA1TWg1Z1VKa0l3?=
+ =?utf-8?B?bTBpeE44dkZLNGpHL0sySm0yTzJyQWxwOFl2MHhjQWJVV0xKWHlEa2YxQ3Rr?=
+ =?utf-8?B?ZmYrWU9GRk1LM2NtK0lvUGJHakZ5T1dhQnNGN1pTeGZtYWNXL3k5R1l6OU1q?=
+ =?utf-8?B?NVpaRmdOcjlkSDBYZmlYMkRTdlZoUW91NzNHNStUZjVtUG1pS21NMVhxeGd4?=
+ =?utf-8?B?VnMxY1lzYkE4Vm5SSTdEQUt6eDRFcGQrUXJnbmdTZEFiaWg1aWlpQnNqbjBj?=
+ =?utf-8?B?dnNQLzRIUVZkbVdrR3FiTmx3NWFzaCs2cGhIU1o5UC9aVDV2Sk4vaUs4UHBD?=
+ =?utf-8?B?R3J2RVVNcU8yU1JQdFJUNVhRbWN1TTlaNzExbENPRE1TcFQ2OFgyZ0ZCeFpD?=
+ =?utf-8?B?elBleTBhUXAzcWYvM2tzME5laEdFVzFRc0NvekkwY2JUSXpzVUJQKytwWXZW?=
+ =?utf-8?B?ZkZ4KzFYbnNHSUxTWEd5ejFmcjZmR09ReG1xLzZLdkFkUDVPOTBWZUhUdHNr?=
+ =?utf-8?B?d3NCRldFeVVqamg3NWJTM2taRFUzblVXR281NmE3TTltd1JmOG42UEtDVmpy?=
+ =?utf-8?B?ckVjSFEvNVErVmVrUzMvaUV3Q2lOVkpWUldCMFh0LzMyQytlZkE1Tk12cEdI?=
+ =?utf-8?B?bmxiZmljM2JwelRKdDZhdDY3SGxmT0dGQS91VDF3cFRXdDR6cjRTeDlnb21v?=
+ =?utf-8?B?bmR4RTN5cmdic1VSTStTZmZrVFBXYk9rSkJEU1Rsc3VETys1bDdHQ1R5Zkdn?=
+ =?utf-8?B?aWtjTFczWnBlVG4vV2dTZEd2d2VZN1VMYU9XcDNxSTdDKzEzTVNJMXFKeFA0?=
+ =?utf-8?B?cnptQ3RXektnbVJ5N29jSjc4anJQN3hjRXJmUnArNVZFSFRpWURwM0phQk9W?=
+ =?utf-8?B?QTFBWC9DbHNZQjk0aGxGdEF2V2o0SVJFekZRUWtVRWJESzVhSXBDb2RtaEk5?=
+ =?utf-8?B?emR2cy94Mm5KcUxoQUROREtZYVNCOWMreGswM1ZiUVJ1RDQ2TGNGT011OEJr?=
+ =?utf-8?B?M1B1NjAvMmhHbnlwUUxiM2tKcTJDYkxMVXNjZFhWWFJIOFBVd0FMUit0bzR5?=
+ =?utf-8?B?U0phdXRqYkNraVZOb0g5QzRFSlNTb2tndnhJWlNaalhESFcyZS9CRnlTSkdi?=
+ =?utf-8?B?SFJqUTE5NmVCLy9kN0FjOWFTY3NFU2Q2NjBBZ1VFcklKRUJoTkxRQkVvdGV4?=
+ =?utf-8?B?Q2VCS1ZTOEVXbERsZy9zSnNFTXFsVWM3dEx5S0J4NGVCZDFuTkdYSzdjcTBS?=
+ =?utf-8?B?ckpBREsxQ1cwc0RtdHRaMVdJcmw3b0hKZnZManZRV2g0Q1dZOFVubzUzRFRC?=
+ =?utf-8?B?WE1kcWxXRmJiV2NIdjhGcURodnJJSjJvcWhmakQ3ZUdSUE9QZ3MrTWZWMm5a?=
+ =?utf-8?B?TGtvMGhRaUJMK29GZkpOaUlVSjZUZlc4UUE3eUVNTkZPbHdFTlNPdk1vU0du?=
+ =?utf-8?B?S1BUUFRkVGVaSnQ3cmFsWGY1b0VDamw0UlZ4ZDEzNFdGYzA5Sk5SWGRaNndz?=
+ =?utf-8?B?N2lYZ0xPRCtLTXliTHg3SFRZMmkxcDc0bjY5VVkrTmdsZHVwQUFRUXdEM29a?=
+ =?utf-8?B?cUFucHlTN2RrUW5icStwS2hYUnRqVU53L1VoazgxbWtqY2tDL1F4NDJhUm5P?=
+ =?utf-8?B?U0NlTWo0OC83UCs5S1VDR1NyVnU4eERINFpuNHVmUENkNTN5dXNYV3g3Zkt4?=
+ =?utf-8?B?c3VHdGhJZytHcGYvR3V1N2thNHN6elowQU5pN200Sk4xY3pZSGk3ZEgyZ05R?=
+ =?utf-8?B?OWFwVHlPNTZTdWJqNk5mVzJvZnRyK0had0Y0M3lpQ3FIWGgycmFFYXV1NFZU?=
+ =?utf-8?B?K2Jub203VDVRZko5bkVIekhId0kvTE9WQTF5NXVEbDNEVGxNMlJpWm9XN21E?=
+ =?utf-8?B?Z29hcGhIWk5SR0F1ZXRaVXJVQWJoVVFDRFdhajA1WFFwVGNSelVrdnhRR1Rr?=
+ =?utf-8?B?d05PNm95MmkwNG9QYXI2ankwUDVrTG8zT0J0T2RtSC9mL1RZZUgwOFF6WVoz?=
+ =?utf-8?B?S1V5MmUxKzJ5aDE1Q1BJazhFNmJxbi9vMkVxTUFUaGFHM3dlSTRkMm12SEZs?=
+ =?utf-8?B?QTVpcko1N0hISjVoNFZDWmFpMWV6Umt3Z0QzVWNCdVpGVWFYa1lrRlVCaTRx?=
+ =?utf-8?Q?M4cHLK3S5fcCTIX3vVT9PlA7u?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2970022c-20fe-4232-9e4a-08de20fff017
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 08:54:35.2332
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qKHCWtDSyozt2GeTwZxTq5E0sJys9jWMYJp6opGv8Kq5WBAjVMM9o4xTBnv/HjoB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6926
 
-Hi Andy,
+On 11/10/25 21:42, Alex Williamson wrote:
+> On Thu,  6 Nov 2025 16:16:45 +0200
+> Leon Romanovsky <leon@kernel.org> wrote:
+> 
+>> Changelog:
+>> v7:
+>>  * Dropped restore_revoke flag and added vfio_pci_dma_buf_move
+>>    to reverse loop.
+>>  * Fixed spelling errors in documentation patch.
+>>  * Rebased on top of v6.18-rc3.
+>>  * Added include to stddef.h to vfio.h, to keep uapi header file independent.
+> 
+> I think we're winding down on review comments.  It'd be great to get
+> p2pdma and dma-buf acks on this series.  Otherwise it's been posted
+> enough that we'll assume no objections.  Thanks,
 
-On Mon, 2025-11-10 at 18:30 +0200, Andy Shevchenko wrote:
-> On Mon, Nov 10, 2025 at 03:44:44PM +0000, Rodrigo Alencar via B4 Relay wr=
-ote:
-> >=20
-> > - ADF41513: 1 GHz to 26.5 GHz frequency range
-> > - ADF41510: 1 GHz to 10 GHz frequency range
-> > - Integer-N and fractional-N operation modes
-> > - Ultra-low phase noise (-235 dBc/Hz integer-N, -231 dBc/Hz fractional-=
-N)
-> > - High maximum PFD frequency (250 MHz integer-N, 125 MHz fractional-N)
-> > - 25-bit fixed modulus or 49-bit variable modulus fractional modes
-> > - Programmable charge pump currents with 16x range
-> > - Digital lock detect functionality
-> > - Phase resync capability for consistent output phase
-> > - Clock framework integration for system clock generation
->=20
-> It is like a list from the marketing material. Please
-> 1) make sure you are writing the commit message;
-> 2) implement minimum basic functionality and split features to the next
-> patches, 1.5kLoCs is hard to review.
->=20
-> ...
->=20
-> > +#include <linux/bitfield.h>
-> > +#include <linux/bits.h>
-> > +#include <linux/clk.h>
-> > +#include <linux/clk-provider.h>
-> > +#include <linux/device.h>
-> > +#include <linux/err.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/iio/iio.h>
-> > +#include <linux/iio/sysfs.h>
-> > +#include <linux/math64.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mod_devicetable.h>
-> > +#include <linux/property.h>
-> > +#include <linux/regulator/consumer.h>
-> > +#include <linux/spi/spi.h>
->=20
-> At least types.h is missing. Follow IWYU. Have you passed internal review=
-? I
-> believe we need to start asking Analog Devices to provide a Rb tag of kno=
-wn
-> developers on the submitted code to make sure it was passed the internal
-> review.
->=20
-> ...
->=20
-> > +/* Specifications */
-> > +#define ADF41513_MIN_RF_FREQ			1000000000ULL	/* 1 GHz */
-> > +#define ADF41510_MAX_RF_FREQ			10000000000ULL	/* 10 GHz */
-> > +#define ADF41513_MAX_RF_FREQ			26500000000ULL	/* 26.5 GHz */
->=20
-> We have HZ_PER_MHZ, also you can move HZ_PER_GHZ to the units.h and use i=
-t here.
->=20
-> > +
-> > +#define ADF41513_MIN_REF_FREQ			10000000U	/* 10 MHz */
-> > +#define ADF41513_MAX_REF_FREQ			800000000U	/* 800 MHz */
-> > +#define ADF41513_MAX_REF_FREQ_DOUBLER		225000000U	/* 225 MHz */
-> > +
-> > +#define ADF41513_MAX_PFD_FREQ_INT_N_HZ		250000000U		/* 250 MHz */
-> > +#define ADF41513_MAX_PFD_FREQ_FRAC_N_HZ		125000000U		/* 125 MHz */
-> > +#define ADF41513_MAX_PFD_FREQ_INT_N_UHZ		250000000000000ULL	/* 250 MHz=
- */
-> > +#define ADF41513_MAX_PFD_FREQ_FRAC_N_UHZ	125000000000000ULL	/* 125 MHz=
- */
->=20
-> Ditto.
->=20
-> ...
->=20
-> > +#define ADF41513_MIN_CP_VOLTAGE_MV		810
-> > +#define ADF41513_MAX_CP_VOLTAGE_MV		12960
->=20
-> _mV
->=20
-> ...
->=20
-> > +#define ADF41513_MAX_LD_BIAS_UA			40
-> > +#define ADF41513_LD_BIAS_STEP_UA		10
->=20
-> _uA
->=20
->=20
-> ...
->=20
-> > +#define ADF41513_MAX_MOD2			((1 << 24) - 1)	/* 2^24 - 1 */
->=20
-> Why not BIT()?
->=20
-> ...
->=20
-> > +/* Frequency conversion constants */
-> > +#define ADF41513_HZ_TO_UHZ			1000000ULL	/* Convert Hz to uHz */
->=20
-> Put it to units.h.
->=20
-> ...
->=20
-> > +enum {
-> > +	ADF41513_FREQ,
-> > +	ADF41513_POWER_DOWN,
-> > +	ADF41513_FREQ_RESOLUTION,
-> > +	ADF41513_FREQ_REFIN
->=20
-> Doesn't sound like a terminator to me, add a comma.
->=20
-> > +};
-> > +
-> > +enum adf41513_pll_mode {
-> > +	ADF41513_MODE_INTEGER_N,
-> > +	ADF41513_MODE_FIXED_MODULUS,
-> > +	ADF41513_MODE_VARIABLE_MODULUS,
-> > +	ADF41513_MODE_INVALID
->=20
-> Ditto.
->=20
-> > +};
->=20
-> ...
->=20
-> > +struct adf41513_data {
->=20
-> Run `pahole` and act accordingly.
->=20
-> > +	u64 power_up_frequency;
-> > +
-> > +	u8 ref_div_factor;
-> > +	bool ref_doubler_en;
-> > +	bool ref_div2_en;
-> > +
-> > +	u32 charge_pump_voltage_mv;
-> > +	bool phase_detector_polarity;
-> > +
-> > +	u8 muxout_select;
-> > +	bool muxout_1v8_en;
-> > +
-> > +	u8 lock_detect_precision;
-> > +	u8 lock_detect_count;
-> > +	u8 lock_detect_bias;
-> > +	bool fast_lock_en;
-> > +
-> > +	u16 phase_resync_clk_div[2];
-> > +	bool phase_resync_en;
-> > +	bool load_enable_sync;
-> > +
-> > +	u64 freq_resolution_uhz;
-> > +};
-> > +
-> > +struct adf41513_pll_settings {
-> > +	enum adf41513_pll_mode mode;
-> > +
-> > +	u64 target_frequency_uhz;
-> > +	u64 actual_frequency_uhz;
-> > +	u64 pfd_frequency_uhz;
-> > +
-> > +	/* pll parameters */
-> > +	u16 int_value;
-> > +	u32 frac1;
-> > +	u32 frac2;
-> > +	u32 mod2;
-> > +
-> > +	/* reference path parameters */
-> > +	u8 r_counter;
-> > +	u8 ref_doubler;
-> > +	u8 ref_div2;
-> > +	u8 prescaler;
-> > +};
->=20
-> ...
->=20
-> > +static const u32 adf41513_cp_voltage_mv[] =3D {
-> > +	810, 1620, 2430, 3240, 4050, 4860, 5670, 6480, 7290, 8100,
-> > +	8910, 9720, 10530, 11340, 12150, 12960
->=20
-> Make it power-of-two items per line, even with the comments to show
-> the indexing, like
->=20
-> 	810, 1620, 2430, 3240, 4050, 4860, 5670, 6480,	/* 0 - 7 */
->=20
-> > +};
->=20
-> ...
->=20
-> > +static int adf41513_parse_uhz(const char *str, u64 *freq_uhz)
->=20
-> My gosh, please, try to check what kernel already has. We try hard to avo=
-id Yet
-> Another Best Parser in the World to happen, really.
->=20
+Already have it on my TODO list to take a closer look, but no idea when that will be.
 
-I think there's more into this. I did not went into much detail but IIUC it=
-'s
-doing the same as (to some degree) as __iio_str_to_fixpoint() but the part =
-needs
-u64 for the integer part. Being this one case not sure if we should rush in=
-to doing
-something in IIO core. Or the whole thing might end up being done completel=
-y
-different.
+This patch set is on place 4 or 5 on a rather long list of stuff to review/finish.
 
-Having said the above We should have a proper comment justifying the functi=
-on.
+Christian.
 
-> ...
->=20
-> In any case, I stopped my review here, you have more than enough to fix.
-> Please, come next time with a tag from one whose name is in the MAINTAINE=
-RS.
-> From now on it will be my requirement as a reviewer of IIO subsystem.
+> 
+> Alex
 
-
-Not really sure what happened here. We are trying to make things better (as=
- more people
-in ADI from different teams start contributing) and have a process where in=
-ternal reviews
-do happen (mostly even public in github) and once approved it can go upstre=
-am. We also have
-a fairly good CI in place to catch things like bindings, checkpatch, smatch=
-, cocci and compiler
-analyzers.
-
-For this particular part we did had at least one round of reviewing where I=
- actually stated
-
-"...We'll need some iterations on this one and skipped more questionable/co=
-mplicated things for now.
-..."
-
-I guess Rodrigo was eager to send his first patch series but hopefully, les=
-sons learned.
-
-- Nuno S=C3=A1
