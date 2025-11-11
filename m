@@ -1,138 +1,140 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEE32BE7AC
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 20:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC94393DEB
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 20:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762893854; cv=none; b=ne08G6oWum++VtEP78fBv6XcEfS7xjKJI2OFhFHfMwL3BvP5IMf49r3ayrceaN0nXRCECu63hoyUJCytvU7gMIPX38B2YIVgkJYbbzKCyHxjJTl+xkBF5SC/zm2YJiLrZa3jln7IV95+6wxPDYAcVFUxm4W4oLi/ZDuDM2wxZP8=
+	t=1762894700; cv=none; b=WSzHEU+TBCmhoXEZXR8HDsgsnTj6hUkFoQmX8TF5CM9CtMqR5hjBfvxlPI6rOuMIJTYqkY+KTyafg5r/32ZY61W0knx6+bhNV0ao1qTw4n+uQBpGKpL39O8xHytJgseRDZzA9wgNreAYMn3Dp3/cLoUtP4srZ8ir1nZqV1vAsNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762893854; c=relaxed/simple;
-	bh=KXktgaFtHxbgxAtA3SwBBXkwSUqJQm9IFU9cuHXEKpQ=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=n0aARKfe/QHJRA1Q2FriN6AbPYykXDV7ImHz6LtmijufYYCLEy59OWuWD2nzKD7pKWy62BkdmQqgy8VvlroZ7ctWxhdt8sEL2OXMATkRJHHIkvveBAjOuEaJMLkQl9akLZI8ay0zB0/h0vq3ZWUDTdQA96cdjV0M4o+mkZGz0rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OBufCgjA; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=JIxybuA3; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1762894700; c=relaxed/simple;
+	bh=5IPiXaFkwwZtaZuDIqZvEEkFtfPxtooPB1hfynQopyI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u65mf6bVVxsNGA7ud3ZF+7QDaQX97t75o2pWQ+PaFbs2yyTm1KdUyxOk4JnGVvDUB1dpcLrIoKGQ04NFFkxuwEqSm+WqWQ8/T7oRHqH2dAIpYuQOzhsxSmlXkbr1Fw7zqn3tFd1lAiLjchqL1LadbMTL9Ut+JCpkBqF4aNvZS6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=dukZk/14; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OBufCgjA";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="JIxybuA3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762893851;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AouMFoYtS/g71aagKlLU9Deonq3urwuQMJX7R1T1Afc=;
-	b=OBufCgjAiPdpFy77mMWSt7drfV9KIUfRyr33ww7za69cdtM3FndbifYiMUlKTpnGZkuYM+
-	FfGP5b6+ev8VX4ZnNGJL18phs2ZejB2hno0NuIaMrxFHGTwy6FyJ1zwgLfUFeBDRO/+Le5
-	xPxwZD0SPGwLP3h+iXf0ksNAQ3vMgb8=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-265-jUHrpbUxPD67uOLZFWPjDw-1; Tue, 11 Nov 2025 15:44:10 -0500
-X-MC-Unique: jUHrpbUxPD67uOLZFWPjDw-1
-X-Mimecast-MFC-AGG-ID: jUHrpbUxPD67uOLZFWPjDw_1762893850
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4edd678b2a3so2062461cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 12:44:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="dukZk/14"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-640b4a52950so140832a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 12:58:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1762893850; x=1763498650; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=AouMFoYtS/g71aagKlLU9Deonq3urwuQMJX7R1T1Afc=;
-        b=JIxybuA3xFJtVQqFi0/OXPZL+3Bt6dLVYM+WH94ey+/Gi1Ax+S9vGi8Hzf+NxcK7V/
-         n41Ru0iiZgAdX9ZHNMOolqQwm7wuoORg0WrK2ImSTBbBC6B48uEn3RUGwSlHuc11lGkn
-         ebFlqScy158Kdq7COoUZuQJuh380/DZJNCWVqkpaRDHFzQffcvMkUY+f0cky+IxMgE0M
-         LjEkh7yv4Ow0UiiF0fitDpYPv4xrutp9auCf4ew08kRW2ALXRqjGWMKYmbt3UuPKChUR
-         bZm/U1RShntXPagB/ax9PC21+uv+y+yXstwzASx0LeMDkJOT0qjqeL52QDVPBNFaFzP2
-         HnZw==
+        d=soleen.com; s=google; t=1762894697; x=1763499497; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5IPiXaFkwwZtaZuDIqZvEEkFtfPxtooPB1hfynQopyI=;
+        b=dukZk/14N6P3AY3E//uOob/83ZX56Gg3zcmtlFUOVT0+RBuc3oVCii9zMzDt0mS7Y7
+         pVxePc4+xS3rsb78/9whAgzRXbpZ9dSenr/uKwitxoKL6a39CklQbTWQ84DfE2/2sDpj
+         5QrK0yluU7KAdt4/YJyY7bqqDFuGoapuWkAZ/HeBtbDOA+cZvre8wbqZwmo3DpJqRjA0
+         AX7ORJWzHwifdvbBKOHF2epxKMLN6oG013yAfpraAz+Z4jBYjZ1Rwwj04Ke5bFL85FyZ
+         Hh10I029esix4doxY7fQeqwVT0nERTFDdl81yfWXS23v8Rn7emvqPTcO43gGhwJP6rNh
+         ln8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762893850; x=1763498650;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AouMFoYtS/g71aagKlLU9Deonq3urwuQMJX7R1T1Afc=;
-        b=lo/bRER+A7J8g2HOXf7RBITYYfEGkFPLJYo+yNmj+ifljEKRDseDDm6K/OqoDl9IZs
-         B6CNGxGBgTxMtJNEW3jdfSAkVSOiDUDfS2Am6jPk7G1dWzf7m1rz/tUofdbCWWWDWWCt
-         FPYwm1SOg8em+aB264O3gn+p0Db4cL4goCA6wK7lRjy3IpzK+tS5sJ55vKM7Vhhno4oq
-         HV2xcPCic1D+yL8bJBEWvnjDLeTtoSj3oV4DUvawAqN95ET+TPNpzXQd0VhpJz0+kCum
-         1gJEr1ozA1ZdZA+2YEBHeJwgVQCzEO33bqLkIeDclk7Zf930ESxCy7RW8J5Cbqnnn6na
-         c+kQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXzMKCDhrkhSbk5yxZMNwiebIb5CMqdq3L1UbCyy1BVWLoG+K+JzSvOXAq+QPzpU6Eia1zJJO67P9Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmzzzSY6TQohNSGjtLVL+18Iu9AgW+RoGaajA/Q/gCUWsOp3oX
-	6frTwpDWOmPGpeOKN+pZE3VRIBVMsZz95QC6R919rKif5BnzNrhRiNzE2quqVkYiFD7uKTsnh/J
-	gTBmFABBbF0mqepmvJ8S0zOCS+dy6ygK5VvCpXnwjtqeOwnElF/Lw7a+H+Qz63g==
-X-Gm-Gg: ASbGnctNLKT52LPufY51HrL+Bi3cgf+SW5RDNv/ZQNYDqUT9O3Lta5WU+OeaW1cderB
-	6p9r4oC09bDJWER9DAxBK1gkMNxs3p6elNSalKKEwITiDQaDFyWzr08wky7DNTZk90H2icxkLDo
-	IfLaEcP/yUak5OcgKo9Xnyygipf1eVTeMd2vlsEWbDUpEY4rl0cEUVSNxgJMRnq/E8tovjv8fSd
-	2j8EbsUgd6+uxo6u1wZ7rjwfRGMEsdtgxpsmy6Y0FR0AUVuNTjpaVQq+KHjqHq4yxcC16CMR46S
-	RkcHSx09aS9PcqY2Grrw/o78budC+390skYirpd5Kto7ROwTvwYGwvxpq6/og4h4k9/eBWRBpUn
-	hUmxJ8QOr1x5q6jlo7gkNKstBK0mTSFQH9pQbssQ27g7Evw==
-X-Received: by 2002:ac8:5f8f:0:b0:4ed:b83f:78a3 with SMTP id d75a77b69052e-4eddbd7785dmr8990121cf.47.1762893849834;
-        Tue, 11 Nov 2025 12:44:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE61o27JhGsft3MQNQXeIYKNMG5x6jKVgyaMvlVyyB9523TiIR1DvWB2nD07G01lezcrWTZAQ==
-X-Received: by 2002:ac8:5f8f:0:b0:4ed:b83f:78a3 with SMTP id d75a77b69052e-4eddbd7785dmr8989821cf.47.1762893849371;
-        Tue, 11 Nov 2025 12:44:09 -0800 (PST)
-Received: from ?IPV6:2601:188:c102:b180:1f8b:71d0:77b1:1f6e? ([2601:188:c102:b180:1f8b:71d0:77b1:1f6e])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4edb56e2173sm55990661cf.2.2025.11.11.12.44.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Nov 2025 12:44:08 -0800 (PST)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <061cdd9e-a70b-4d45-909a-6d50f4da8ef3@redhat.com>
-Date: Tue, 11 Nov 2025 15:44:07 -0500
+        d=1e100.net; s=20230601; t=1762894697; x=1763499497;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5IPiXaFkwwZtaZuDIqZvEEkFtfPxtooPB1hfynQopyI=;
+        b=q05HcvNEo+Exh/4xJL35gmHxh+cJ7CZ9q2xGf3dbrMBmRc2wM2RzJx1J4ZHTEmUovo
+         nhM3eB+2FtVBkXiXLqEdolAc/89MFpMko+cUVaYMuKuV/IOBCFzgtQ5u70n1v+YHZ0RE
+         jXRgaPRu9lf15oHlBHzyEHzE5aw6lTIvl3Kym/Mmpd3L5HqHTxmJpoiQQLgUp83mGpjL
+         4nB7DL6qS3sOjce0Q8npilFpW7f7FhVS+LciQpxbcb1GUkwdY0KWygogUeYf7EONHGiF
+         tQunhH3gN15AsKhSaygt+SMFKt7u+3ZjS/MRN7foc2eibWeF6TWOv1/p6z/zUBoOYhXv
+         cv3g==
+X-Forwarded-Encrypted: i=1; AJvYcCX+DRtz9F7hZaPMbwf58vSvTEAK9D/hVWWbpfiwB2m5Vqh5v/F8EqlEELgf0opOcun/8Hmtuzi1GM0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3oz6t8pWQZVhbqpNc+nxluAZ9QES/3ttrdzVWw2NheHJV7w7+
+	hQyVuUDMqFk/aSlC/NZyrDmy6/oVR57hrZ6g4Tvk7kZyMMdQP1AkOwNt2S7lh99m0ApS17PFDFF
+	GniHx/cOjQk+9eA6lvc1wMfV1PjUbD598MeuEm+L9+Q==
+X-Gm-Gg: ASbGncvNUYa/NWlvL/qGxt+E+bxfqquHb0vYye0xdzBFpDWT2zA3T+9V59dov/u4gnV
+	eITl7CBPfVVp9/VzzMVDab81jI/CDg6DduZr/0+8SOEyADEQ4+jPNmTEIeOcAbLSvnmWTWnsZdx
+	I5oXkvWsuHMUC95QOhu1fFtbq1DiLsfjhMzzG22VD8lknNsyOt4dI+ox7/ILAC0T8Tgb4DFkbL5
+	S1SHNtiq3EonriExkUQTBI0iXkSUkVo5GZxDAGFiSN+bChPolufijPXGA==
+X-Google-Smtp-Source: AGHT+IHuAFVKekWd1XIceTepFQM+2KcFkyr0+Jt/14Gjj3YjuSVXCqO15zGETNvx22Zso3bXtPLN06bMXeUC9RPF4AI=
+X-Received: by 2002:a05:6402:1450:b0:640:ee09:bfc1 with SMTP id
+ 4fb4d7f45d1cf-6431a57e0ecmr566813a12.37.1762894696728; Tue, 11 Nov 2025
+ 12:58:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for
- on-demand stats flushing
-To: Michal Hocko <mhocko@suse.com>, Waiman Long <llong@redhat.com>
-Cc: Leon Huang Fu <leon.huangfu@shopee.com>, linux-mm@kvack.org,
- tj@kernel.org, mkoutny@suse.com, hannes@cmpxchg.org,
- roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev,
- akpm@linux-foundation.org, joel.granados@kernel.org, jack@suse.cz,
- laoar.shao@gmail.com, mclapinski@google.com, kyle.meyer@hpe.com,
- corbet@lwn.net, lance.yang@linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org
-References: <20251110101948.19277-1-leon.huangfu@shopee.com>
- <9a9a2ede-af6e-413a-97a0-800993072b22@redhat.com>
- <aROS7yxDU6qFAWzp@tiehlicka>
-Content-Language: en-US
-In-Reply-To: <aROS7yxDU6qFAWzp@tiehlicka>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com> <aRHiCxoJnEGmj17q@kernel.org>
+ <CA+CK2bCHhbBtSJCx38gxjfR6DM1PjcfsOTD-Pqzqyez1_hXJ7Q@mail.gmail.com> <aROZi043lxtegqWE@kernel.org>
+In-Reply-To: <aROZi043lxtegqWE@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 11 Nov 2025 15:57:39 -0500
+X-Gm-Features: AWmQ_bkvWgSaihTKA4ZFuehWCb49R8fZ8C14CFTHsoW2qubcK_JcQqaA8FvRRnI
+Message-ID: <CA+CK2bAsrEqpt9d3s0KXpjcO9WPTJjymdwtiiyWVS6uq5KKNgA@mail.gmail.com>
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Mike,
 
-On 11/11/25 2:47 PM, Michal Hocko wrote:
-> On Tue 11-11-25 14:10:28, Waiman Long wrote:
-> [...]
->>> +static void memcg_flush_stats(struct mem_cgroup *memcg, bool force)
->>> +{
->>> +	if (mem_cgroup_disabled())
->>> +		return;
->>> +
->>> +	memcg = memcg ?: root_mem_cgroup;
->>> +	__mem_cgroup_flush_stats(memcg, force);
->>> +}
->> Shouldn't we impose a limit in term of how frequently this
->> memcg_flush_stats() function can be called like at most a few times per
-> This effectivelly invalidates the primary purpose of the interface to
-> provide a method to get as-fresh-as-possible value AFAICS.
+Thank you for review, my comments below:
+
+> > This is why this call is placed first in reboot(), before any
+> > irreversible reboot notifiers or shutdown callbacks are performed. If
+> > an allocation problem occurs in KHO, the error is simply reported back
+> > to userspace, and the live update update is safely aborted.
 >
->> second to prevent abuse from user space as stat flushing is expensive? We
->> should prevent some kind of user space DoS attack by using this new API if
->> we decide to implement it.
-> What exactly would be an attack vector?
+> This is fine. But what I don't like is that we can't use kho without
+> liveupdate. We are making debugfs optional, we have a way to call
 
-just repeatedly write a string to the new cgroup file. It will then call 
-css_rstat_flush() repeatedly. It is not a real DoS attack, but it can 
-still consume a lot of cpu time and slow down other tasks.
+Yes you can: you can disable liveupdate (i.e. not supply liveupdate=1
+via kernel parameter) and use KHO the old way: drive it from the
+userspace. However, if liveupdate is enabled, liveupdate becomes the
+driver of KHO as unfortunately KHO has these weird states at the
+moment.
 
-Cheers,
-Longman
+> kho_finalize() on the reboot path and it does not seem an issue to do it
+> even without liveupdate. But then we force kho_finalize() into
+> liveupdate_reboot() allowing weird configurations where kho is there but
+> it's unusable.
 
+What do you mean KHO is there but unusable, we should not have such a state...
+
+> What I'd like to see is that we can finalize KHO on kexec reboot path even
+> when liveupdate is not compiled and until then the patch that makes KHO
+> debugfs optional should not go further IMO.
+>
+> Another thing I didn't check in this series yet is how finalization driven
+> from debugfs interacts with liveupdate internal handling?
+
+I think what we can do is the following:
+- Remove "Kconfig: make debugfs optional" from this series, and
+instead make that change as part of stateless KHO work.
+- This will ensure that when liveupdate=0 always KHO finalize is fully
+support the old way.
+- When liveupdate=1 always disable KHO debugfs "finalize" API, and
+allow liveupdate to drive it automatically. It would add another
+liveupdate_enable() check to KHO, and is going to be removed as part
+of stateless KHO work.
+
+Pasha
