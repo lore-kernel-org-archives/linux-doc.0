@@ -1,126 +1,204 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCF23A1D07
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 17:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6A828468D
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 18:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762882876; cv=none; b=N7HtBafg6LObj++X5jtpv44vqSQiAk1lCwJNDksHX7LYu+yk6t6yaA9Z254npdA+XyZCEYEiV4NEiF0Ew8yX+iIZgVaupilgBhuYBVbkeQCfKE3vEXplh6OyZk12uafgdDQ19n8CEPBRDSa9+YtL0Ap3Te9U3uj/6h4lmy1KaHg=
+	t=1762885335; cv=none; b=mmaE7MpA2yGBkUh8vx1Qu0E/F6DBWwyRyj0f6l09rmRVGJxVd1NYdxDMENbclhaHc+yteVnTpBpFeoH2k3f/TUIkHVjts5qsLz3KZdudkmAx5jIK3BXXf1fksRV9kkmOqpVp6s+++ZV1eKNz3BMDpDTJUMzpsKCGJu/dXYT1Eiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762882876; c=relaxed/simple;
-	bh=EGHnGYguqdVtqzE8OSgSk5NT8BRurVLNOwx4JFd9SIc=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Content-Type; b=kL+nlBKW+BLuQ9oo25KhK6E3T0oQUFb1hCvfqsjXnRbvYo0bjzYqMFf7N+Gphp3JHsMKoeWgz31QtegdpEo7sVtVdvFSWJoCDofZgzaAhw7jTKxMd+Z6Mw2uolBCT7yjGbdSurCpoxegfksuG+0YKeFQoSQANT0wJQ4yTHtKwy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UlWa82Zh; arc=none smtp.client-ip=209.85.218.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1762885335; c=relaxed/simple;
+	bh=W2G/uBc8ytqTj5lPN7H9z5TUaPH7eCAAuu2DNPk50z4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kZ2UtTHiMdmvZIEeOdDjOJu3KizBHxXQhtxdCl7TJANm/7WtVyIyJviVLCnkHMs190jDzaRBMl2fdc8+m0sfTzgTmJvX83/Ym1Ku6oaSZ+yzyZhktLDxltz37NyIchiE48DCZHgxhzC5voC4nGmtxoLqnDwJPNTKf62ADDA8eEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=KaLA4ii9; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UlWa82Zh"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b7270cab7eeso2175166b.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:41:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="KaLA4ii9"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-ba599137cf8so40364a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 10:22:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762882873; x=1763487673; darn=vger.kernel.org;
-        h=to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/Pkn+9vIwNogTuxuW5MtMEzbQcXSFW7NMBZUwaPgd58=;
-        b=UlWa82ZhMYnQnKsmmWLxnZCBfqx1zZnr+BIMcIIqWtbMj9KuAvFT5Q89+xm+pZswky
-         cuFQOKwEmH9Eh9Crk0XyO0KUmaV+e3spyKsvBdzUXxws0PthZdAt4MgJ4t5UVOVv+ZpE
-         hQ399H1vVyw2/NMMi3xn5iahXO8pmVC/7vJgNusnqUKcOxLM1zlYCz8+hTN9kWkbBV45
-         0U7anPFUWbCIzY5+cyG4b+JDspQJNLQ5jXTQqA1ls52RCkorVcAzdZnF31sQrDbtwwZc
-         hy9RB2sQCDkgqD5Aaymdv89AFHb8pOhPrtUSKDwYRuCuXDnMLFHP3qbm4wuLODWbfB6G
-         5sIw==
+        d=rivosinc.com; s=google; t=1762885333; x=1763490133; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=WIB2H6PdyJ1SkmEweEXB/zVmO+ijAnVaHWzNPmEF0uQ=;
+        b=KaLA4ii9hvT/UXkj+xZDvJyu78py5JOc5gjS2oLOtr710zuHANUfrzy9e7KvrrYIYC
+         LFf1ENhPDD1ICp9N8LpjTxCTIGirfG/pOHWRogylubhbW2HN2TrRcpaAyBwBdaEmaQGQ
+         gRdxyrNZ6KrIzSMJILR8KidQ+NHpbgFCDtlIxzoS8qgMoKufz9p2hUyQHgr4CNixN3YP
+         J7uti8jaBKfGx7HcdL1DSHO8oJ+FyOtagz2Q6nQKi9lovme94id2UfWRBMLOkRbPZ5Kq
+         N1l9pKaiQT8smFWfb5sULGqNokcVEJ052gbsrQ5Ba4740Ym5/UyRa3dZN6HwKjbU+XW/
+         bHMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762882873; x=1763487673;
-        h=to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/Pkn+9vIwNogTuxuW5MtMEzbQcXSFW7NMBZUwaPgd58=;
-        b=ThlMKp+hMfclzIZS7W/UYSnhGbMgncs+t9rPSX1Vdz7mviyUut6mb6uQJ61p4iJik3
-         gQms1RiepkWKBZmvyd8BsTE9gQ1igHkV8u4a+UZ9MW5R9mB0pFjLcYS5Bf228LTwGIPq
-         NsczbHwwT4HusopL9jVL8RU6fZv1WC08UKbrrZpVAmGKF+mJ9BChmZAwkR11DNw6No5W
-         3XdTx1jr4yBKW0JVU+tHdoKPKCii9EESHhfXxG5UCCfX0B0WLJG/A8+zv5MQQyomtVD/
-         GiJLDK0qrBgKSK2BKZCGc3/XM9qk4ReDgHqdGg8Uwsz7zL1w56Hcapw8H4vpIb+w6ywc
-         3NEA==
-X-Forwarded-Encrypted: i=1; AJvYcCXO2vzjmVpMxFjTxr9Y4mYO6pQiUPn+lPL/hmRJ8uyL/cUqCH0sm3ut9HvP1l9ebhULEJdhgry7hx0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxz91CNL87b2iZrtFttL2Vn+dB4VEz10RnphKFYI3cHLhQFRl72
-	DN6S0P9clAq9lmBC9tY3IThfZSkmrz2UInTlA7MFvE5vbSltBS1TKhxLDSQ6u0ot+D5+ha0XZqE
-	tInehwpmqC/+W4A==
-X-Google-Smtp-Source: AGHT+IGFy0ukWziLWlhSBOsirOsL+DYT2dzywPbi9FrmXHCzpCDVHG57JmnIvw6h4MX59871sbWi4EI0TM15Aw==
-X-Received: from ejbo8.prod.google.com ([2002:a17:906:3588:b0:b70:b190:7f2f])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:a0c8:b0:b3f:9b9c:d49e with SMTP id a640c23a62f3a-b72e053f2b5mr1344154766b.57.1762882872997;
- Tue, 11 Nov 2025 09:41:12 -0800 (PST)
-Date: Tue, 11 Nov 2025 17:41:08 +0000
+        d=1e100.net; s=20230601; t=1762885333; x=1763490133;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WIB2H6PdyJ1SkmEweEXB/zVmO+ijAnVaHWzNPmEF0uQ=;
+        b=qthzNy+cNjfAE84wtSDCdiCg/o0JAR89Hw4F/kWVLJR0dkO7G10/qvA24SE7IPVVWy
+         Zg4P+at7YSKxLKgfKlAEWF25M1/vXfwGDWFm1EgO7Iz/H8mq+Y0zjrqL+etz1k5jmYzQ
+         9aB2iEXWOFn7v3LZvHnhubaESuvrXJ2fSu5ABnFiT2lbG5DTCdtsPtyfdscWdc0gaeoG
+         olOl0tWJRaxC+tPI+XgeRHJ2JUJuvY3WxR5+0n20m0jKf++jVfsei9YsHeLVijJSAGEJ
+         A7aHlmhWu9Dvor9f7JJwh2/dbI+nm1GMjhs5n+At0cjQLhBc+3wXXcxN8gUHMvSc5jhI
+         NH9w==
+X-Forwarded-Encrypted: i=1; AJvYcCXxP2A12s4S6MHpAp+K6/y21P0ac0Fcvv21JtM2mzudnEnkor14TYNjQ93wmC2BwRNsgguYAh7kt7Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2FgSheUMC5OrwyHV2oxVFnJsl1bnAO+Vx4ZA5UMi/la6kvyJI
+	ZP/HdiO5Qyl0OTdx4soWQi2+m1ZFouj9R6H1BaMbS1zsXiroblP4UKl+UWo7l4oquhk=
+X-Gm-Gg: ASbGncvn+CVCjs0+7Knz6YIadVmVNNO3xPwMv93nagwadVjsrh45egfxi8+aKvtXOoY
+	hpvRsx9flmAS4526h7XNZ8Yg2AoL+lVxKPBqxJff3PKE9rjm/3rkEeZUOubrAft8fNtQbzPi4Av
+	6HjEC8pvqJlRTrkBIb/QEnM3ADxs2WsPTNTBW7+GczfjNjOOlSPJwZm+SbvC3X1yPbmWadmezu7
+	vcbkosD7Kt2aImFdIdFlQSk+Q4oP8SFnlfGCbe6ypV2If/GFpsfZ/jQvF+zQ8u47kYt6zB7OabO
+	UAOzWHZ1mH7snWl5MnEENU8EWaBs0FavilQnCqp08vr05/uONzMw//HhicvPnHNZuhj9dWg7qBF
+	P8AWqs27y/dAElDpsK0d0u7tChqCesE9HB0mq6V7bmqtGd7xi+nhyMGu1+ouduHU4rZE+Sn8Emo
+	tx2+OejTdmLw==
+X-Google-Smtp-Source: AGHT+IHgsZ6GDRjZreNqZqXrg+8gWBFkhsOds9i8Gem5eMBAg33B4vZazV1IYc7GtJj2mgzKsVOwwA==
+X-Received: by 2002:a17:902:d551:b0:282:2c52:508e with SMTP id d9443c01a7336-2984ed41a29mr3269885ad.8.1762885333020;
+        Tue, 11 Nov 2025 10:22:13 -0800 (PST)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dc9fc2csm3813175ad.53.2025.11.11.10.22.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Nov 2025 10:22:12 -0800 (PST)
+Date: Tue, 11 Nov 2025 10:22:09 -0800
+From: Deepak Gupta <debug@rivosinc.com>
+To: Zong Li <zong.li@sifive.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com,
+	richard.henderson@linaro.org, jim.shu@sifive.com,
+	andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
+	atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
+	alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v22 25/28] riscv: create a config for shadow stack and
+ landing pad instr support
+Message-ID: <aRN-0Z9MNeJ9IZf2@debug.ba.rivosinc.com>
+References: <20251023-v5_user_cfi_series-v22-0-1935270f7636@rivosinc.com>
+ <20251023-v5_user_cfi_series-v22-25-1935270f7636@rivosinc.com>
+ <CANXhq0oEpCow0G+KsJ6ZPuwsxmAFVqoKGEzygiwSmxFsmntiWg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIADN1E2kC/3WNwQ7CIBAFf6XZs2uAAtae/A/Tg8BKSWppoGk0D
- f8u9u5xJnnzdsiUAmXomx0SbSGHOFcQpwbs+Jg9YXCVQTChOGsZGolLsuuELtqMAp0iIZ0xF9U 5qKsl0TO8j+J9qDyGvMb0OQ42/rP/WxtHju1Va6ms6ZzmNx+jn+hs4wuGUsoX8rI/rK8AAAA=
-X-Change-Id: 20251030-b4-prctl-docs-2-d5e24dbb758d
-X-Mailer: b4 0.14.2
-Message-ID: <20251111-b4-prctl-docs-2-v2-1-bc9d14ec9662@google.com>
-Subject: [PATCH v2] Documentation/x86: Fix PR_SET_SPECULATION_CTRL error codes
-From: Brendan Jackman <jackmanb@google.com>
-To: Brendan Jackman <jackmanb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, Peter Zijlstra <peterz@infradead.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	Balbir Singh <sblbir@amazon.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANXhq0oEpCow0G+KsJ6ZPuwsxmAFVqoKGEzygiwSmxFsmntiWg@mail.gmail.com>
 
-If you force-disable mitigations on the kcmdline, for SPEC_STORE_BYPASS
-this ends up with the prctl returning -ENXIO, but contrary to the
-current docs for the other controls it returns -EPERM. Fix that.
+On Tue, Nov 11, 2025 at 01:58:37PM +0800, Zong Li wrote:
+>On Fri, Oct 24, 2025 at 12:51 AM Deepak Gupta via B4 Relay
+><devnull+debug.rivosinc.com@kernel.org> wrote:
+>>
+>> From: Deepak Gupta <debug@rivosinc.com>
+>>
+>> This patch creates a config for shadow stack support and landing pad instr
+>> support. Shadow stack support and landing instr support can be enabled by
+>> selecting `CONFIG_RISCV_USER_CFI`. Selecting `CONFIG_RISCV_USER_CFI` wires
+>> up path to enumerate CPU support and if cpu support exists, kernel will
+>> support cpu assisted user mode cfi.
+>>
+>> If CONFIG_RISCV_USER_CFI is selected, select `ARCH_USES_HIGH_VMA_FLAGS`,
+>> `ARCH_HAS_USER_SHADOW_STACK` and DYNAMIC_SIGFRAME for riscv.
+>>
+>> Reviewed-by: Zong Li <zong.li@sifive.com>
+>> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>> ---
+>>  arch/riscv/Kconfig                  | 22 ++++++++++++++++++++++
+>>  arch/riscv/configs/hardening.config |  4 ++++
+>>  2 files changed, 26 insertions(+)
+>>
+>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+>> index 0c6038dc5dfd..4f9f9358e6e3 100644
+>> --- a/arch/riscv/Kconfig
+>> +++ b/arch/riscv/Kconfig
+>> @@ -1146,6 +1146,28 @@ config RANDOMIZE_BASE
+>>
+>>            If unsure, say N.
+>>
+>> +config RISCV_USER_CFI
+>> +       def_bool y
+>> +       bool "riscv userspace control flow integrity"
+>> +       depends on 64BIT && $(cc-option,-mabi=lp64 -march=rv64ima_zicfiss) && \
+>> +                           $(cc-option,-fcf-protection=full)
+>
+>Hi Deepak,
+>I noticed that you added a $(cc-option,-fcf-protection=full) check in
+>this version. I think this check will fail by a cc1 warning when using
+>a newer toolchain, because -fcf-protection cannot be used alone, it
+>must be specified together with the appropriate -march option.
+>For example:
+>  1. -fcf-protection=branch requires -march=..._zicfilp
+>  2. -fcf-protection=return requires -march=..._zicfiss
+>  3. -fcf-protection=full requires -march=..._zicfilp_zicfiss
 
-Note that this return value should probably be considered a bug. But,
-making the behaviour consistent with the current docs seems more likely
-to break existing users than help anyone out in practice, so just "fix"
-it by specifying it as correct.
+toolchain that I have from June doesn't require -march=..._zicfilp_zicfiss
+for -fcf-protection=full. If that has changed, I think this will need a
+revision.
 
-Since this is getting more wordy and confusing, also be more explicit
-about "control is not possible" be mentioning the boot configuration, to
-better distinguish this case conceptually from the FORCE_DISABLE failure
-mode.
-
-Signed-off-by: Brendan Jackman <jackmanb@google.com>
----
-Changes in v2:
-- Fixed erroneous reference to PR_SPEC_STORE_BYPASS returning -EPERM.
-- Link to v1: https://lore.kernel.org/r/20251030-b4-prctl-docs-2-v1-1-396645cb8d61@google.com
----
- Documentation/userspace-api/spec_ctrl.rst | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/userspace-api/spec_ctrl.rst b/Documentation/userspace-api/spec_ctrl.rst
-index ca89151fc0a8e7205e0a0062134d63b213b9ef11..61fe020b23a2ca632879597bd47a321bdedd9faf 100644
---- a/Documentation/userspace-api/spec_ctrl.rst
-+++ b/Documentation/userspace-api/spec_ctrl.rst
-@@ -81,11 +81,15 @@ Value   Meaning
- ERANGE  arg3 is incorrect, i.e. it's neither PR_SPEC_ENABLE nor
-         PR_SPEC_DISABLE nor PR_SPEC_FORCE_DISABLE.
- 
--ENXIO   Control of the selected speculation misfeature is not possible.
--        See PR_GET_SPECULATION_CTRL.
-+ENXIO   For PR_SPEC_STORE_BYPASS: control of the selected speculation misfeature
-+        is not possible via prctl, because of the system's boot configuration.
-+
-+EPERM   Speculation was disabled with PR_SPEC_FORCE_DISABLE and caller tried to
-+        enable it again.
-+
-+EPERM   For PR_SPEC_L1D_FLUSH and PR_SPEC_INDIRECT_BRANCH: control of the
-+        mitigation is not possible because of the system's boot configuration.
- 
--EPERM   Speculation was disabled with PR_SPEC_FORCE_DISABLE and caller
--        tried to enable it again.
- ======= =================================================================
- 
- Speculation misfeature controls
-
----
-base-commit: 131f3d9446a6075192cdd91f197989d98302faa6
-change-id: 20251030-b4-prctl-docs-2-d5e24dbb758d
-
-Best regards,
--- 
-Brendan Jackman <jackmanb@google.com>
-
+>
+>
+>> +       depends on RISCV_ALTERNATIVE
+>> +       select RISCV_SBI
+>> +       select ARCH_HAS_USER_SHADOW_STACK
+>> +       select ARCH_USES_HIGH_VMA_FLAGS
+>> +       select DYNAMIC_SIGFRAME
+>> +       help
+>> +         Provides CPU assisted control flow integrity to userspace tasks.
+>> +         Control flow integrity is provided by implementing shadow stack for
+>> +         backward edge and indirect branch tracking for forward edge in program.
+>> +         Shadow stack protection is a hardware feature that detects function
+>> +         return address corruption. This helps mitigate ROP attacks.
+>> +         Indirect branch tracking enforces that all indirect branches must land
+>> +         on a landing pad instruction else CPU will fault. This mitigates against
+>> +         JOP / COP attacks. Applications must be enabled to use it, and old user-
+>> +         space does not get protection "for free".
+>> +         default y.
+>> +
+>>  endmenu # "Kernel features"
+>>
+>>  menu "Boot options"
+>> diff --git a/arch/riscv/configs/hardening.config b/arch/riscv/configs/hardening.config
+>> new file mode 100644
+>> index 000000000000..089f4cee82f4
+>> --- /dev/null
+>> +++ b/arch/riscv/configs/hardening.config
+>> @@ -0,0 +1,4 @@
+>> +# RISCV specific kernel hardening options
+>> +
+>> +# Enable control flow integrity support for usermode.
+>> +CONFIG_RISCV_USER_CFI=y
+>>
+>> --
+>> 2.43.0
+>>
+>>
