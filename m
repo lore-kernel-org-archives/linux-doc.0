@@ -1,205 +1,149 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9796C314D1B
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 06:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC72329E55
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 06:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762843352; cv=none; b=RmGYfSY3QT4ILlcZ+IIJVUsmL62t1RP25BBNs/Kkdm1BYujzidqBhwyvge3Y5GOVDuAmrlKWf1wenYPuSdgtq3NWkHf0gZEssvD2kkysBcU7By4dafYz5YUrtYQKCrrTk/xk78xZyGQMt7oXgAWc3s5DaK6MvRfYzIbsYWsfc54=
+	t=1762843549; cv=none; b=XuZJymKJgRit/q4FfawiwPuB+2cTGY3XhMYBnDXbcpX9RzMw+J0r5q0G+0n/qua38mu6d58cefSO1szUMNugz5nk1GA6BTkiOl5l6k+Q7eJWEFLvRxg+P7yXZyTyPTcsydApnnrLeqfPAaC5HIRKnavPz3pSZyfYhklRd1nac/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762843352; c=relaxed/simple;
-	bh=ATNN5RmueLox2IC+5BDEXAgaIglCENc+yF4ZTPMaIZg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D37tmT06YejQIKSPkw67uuVUUuV5ejXcozBuxvYBaXwvw2tnnLbLhffpHJI4GVJcAiDUaaRM76Ioy7d/HfyvucFVGpqHGFkado3AJLsVoSjQYSfaK33GpBB0qpcox4p50BMpwyOkwlPNJn3ezpcA5TFc0eSULa+O1VOeHAF8dF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MJJifpxj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XOVf1gy9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MJJifpxj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XOVf1gy9; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1762843549; c=relaxed/simple;
+	bh=WkPIBxcEOHQ4ilXDCjPP5RJCUvaILWDuUwT419tOHBI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eFp4dbCKPhCi5xOnvBFBuCt2pAUq/RK/A1NOOun6jkqFp0lTPSFmnYdkpELPCJb8tHF4DQ55YrJPqBHn52nY35bBnPyRb7F8zBLWmFse2toCVn7sLq/u19KSccEtCjgJHg/Aajd/oJ58v62DazK5FL3lomW1WJKuNozdfxYCm3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=N/h4ahcN; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MJJifpxj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XOVf1gy9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MJJifpxj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XOVf1gy9"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 003E121D96;
-	Tue, 11 Nov 2025 06:42:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762843347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
-	b=MJJifpxj0d+JjXgZOzmxMDpQDTSyIadrJYsNIbJl+ULZfRSkA1F3QRigpspAqsE+66Rhp4
-	Shn7meUxG5KGJZOHhOahRAQKGy6Nb5TLhqjOSRo1AsBLy8kaYN8yBZmHfsJ+Bw3No+qv6Y
-	5wW5dT7W11nmHzpKpr6zOoTnHE6LBoQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762843347;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
-	b=XOVf1gy9U5gZVwTjF3TZLqMUlzKAS6MC5EfTBJRYyS+0eMhaSrKs4ZKyZxOlsKibNkjCP/
-	7jvcMdxbfbH3qxAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1762843347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
-	b=MJJifpxj0d+JjXgZOzmxMDpQDTSyIadrJYsNIbJl+ULZfRSkA1F3QRigpspAqsE+66Rhp4
-	Shn7meUxG5KGJZOHhOahRAQKGy6Nb5TLhqjOSRo1AsBLy8kaYN8yBZmHfsJ+Bw3No+qv6Y
-	5wW5dT7W11nmHzpKpr6zOoTnHE6LBoQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1762843347;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
-	b=XOVf1gy9U5gZVwTjF3TZLqMUlzKAS6MC5EfTBJRYyS+0eMhaSrKs4ZKyZxOlsKibNkjCP/
-	7jvcMdxbfbH3qxAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EAC3E14805;
-	Tue, 11 Nov 2025 06:42:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OZMhONDaEmkhSgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 11 Nov 2025 06:42:24 +0000
-Date: Tue, 11 Nov 2025 07:42:24 +0100
-Message-ID: <87jyzx2hpr.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Corey Minyard <corey@minyard.net>,	Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>,	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Alex Deucher <alexander.deucher@amd.com>,	Thomas Zimmermann
- <tzimmermann@suse.de>,	Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>,	Rob Clark
- <robin.clark@oss.qualcomm.com>,	Matthew Brost <matthew.brost@intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,	Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>,	Ulf Hansson
- <ulf.hansson@linaro.org>,	Vitaly Lifshits <vitaly.lifshits@intel.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,	Niklas Cassel <cassel@kernel.org>,
-	Calvin Owens <calvin@wbinvd.org>,	Sagi Maimon <maimon.sagi@gmail.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,	Karan Tilak Kumar
- <kartilak@cisco.com>,	Casey Schaufler <casey@schaufler-ca.com>,	Steven
- Rostedt <rostedt@goodmis.org>,	Petr Mladek <pmladek@suse.com>,	Max
- Kellermann <max.kellermann@ionos.com>,	Takashi Iwai <tiwai@suse.de>,
-	linux-doc@vger.kernel.org,	linux-kernel@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,	linaro-mm-sig@lists.linaro.org,
-	amd-gfx@lists.freedesktop.org,	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,	intel-xe@lists.freedesktop.org,
-	linux-mmc@vger.kernel.org,	netdev@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,	linux-pci@vger.kernel.org,
-	linux-s390@vger.kernel.org,	linux-scsi@vger.kernel.org,
-	linux-staging@lists.linux.dev,	ceph-devel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,	linux-sound@vger.kernel.org,	Rasmus
- Villemoes <linux@rasmusvillemoes.dk>,	Sergey Senozhatsky
- <senozhatsky@chromium.org>,	Jonathan Corbet <corbet@lwn.net>,	Sumit Semwal
- <sumit.semwal@linaro.org>,	Gustavo Padovan <gustavo@padovan.org>,	David
- Airlie <airlied@gmail.com>,	Simona Vetter <simona@ffwll.ch>,	Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>,	Maxime Ripard
- <mripard@kernel.org>,	Dmitry Baryshkov <lumag@kernel.org>,	Abhinav Kumar
- <abhinav.kumar@linux.dev>,	Jessica Zhang <jesszhan0024@gmail.com>,	Sean
- Paul <sean@poorly.run>,	Marijn Suijten <marijn.suijten@somainline.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,	Lucas De Marchi
- <lucas.demarchi@intel.com>,	Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>,	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,	Vladimir Oltean
- <olteanv@gmail.com>,	Andrew Lunn <andrew@lunn.ch>,	"David S. Miller"
- <davem@davemloft.net>,	Eric Dumazet <edumazet@google.com>,	Jakub Kicinski
- <kuba@kernel.org>,	Paolo Abeni <pabeni@redhat.com>,	Tony Nguyen
- <anthony.l.nguyen@intel.com>,	Przemek Kitszel
- <przemyslaw.kitszel@intel.com>,	Krzysztof =?ISO-8859-2?Q?Wilczy=F1ski?=
- <kwilczynski@kernel.org>,	Kishon Vijay Abraham I <kishon@kernel.org>,	Bjorn
- Helgaas <bhelgaas@google.com>,	Rodolfo Giometti <giometti@enneenne.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,	Vadim Fedorenko
- <vadim.fedorenko@linux.dev>,	Richard Cochran <richardcochran@gmail.com>,
-	Stefan Haberland <sth@linux.ibm.com>,	Jan Hoeppner
- <hoeppner@linux.ibm.com>,	Heiko Carstens <hca@linux.ibm.com>,	Vasily Gorbik
- <gor@linux.ibm.com>,	Alexander Gordeev <agordeev@linux.ibm.com>,	Christian
- Borntraeger <borntraeger@linux.ibm.com>,	Sven Schnelle
- <svens@linux.ibm.com>,	Satish Kharat <satishkh@cisco.com>,	Sesidhar Baddela
- <sebaddel@cisco.com>,	"James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>,	Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,	Xiubo Li <xiubli@redhat.com>,	Ilya Dryomov
- <idryomov@gmail.com>,	Masami Hiramatsu <mhiramat@kernel.org>,	Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>,	Andrew Morton
- <akpm@linux-foundation.org>,	Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai
- <tiwai@suse.com>
-Subject: Re: [PATCH v1 02/23] ALSA: seq: Switch to use %ptSp
-In-Reply-To: <20251110184727.666591-3-andriy.shevchenko@linux.intel.com>
-References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
-	<20251110184727.666591-3-andriy.shevchenko@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="N/h4ahcN"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7aace33b75bso3982515b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 22:45:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shopee.com; s=shopee.com; t=1762843547; x=1763448347; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cl+GLucGBzlTLWjtZq9oz0wfi6xtPX0PrTL9GqsnyOc=;
+        b=N/h4ahcNfF3R32arEM1F6gK6BKI61NUrq+t2EjyJbu609ImOvcQ00jNeGjjFIt9k7C
+         trWk1hM5sFB/bmvIkCMROgjK4tc2zNe6bEmlssdSp8C914tmfItN7q/FDqzyYTllMKnY
+         JShRnaWBIhG3yigb/oVcchHiucCzwArWrc/tBqcYEpMWhqiV5HJgIKxaNys+OjDihhFy
+         x6JoBY4jR9y1bDIGSMIkCYVlqveQexUdM6B+kVHeJBwjmgjxz6thtrGXDhGhnyTDzCYt
+         n586VZ0pA0Y0DdQXWmEH4q8kZ725vFOwLp3Nnajc2sxuGrXlaL+rCIEVryYjlEmlOIX/
+         BBeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762843547; x=1763448347;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Cl+GLucGBzlTLWjtZq9oz0wfi6xtPX0PrTL9GqsnyOc=;
+        b=ca075cKKEeTGPR7R+MkPp9otNeZXgzZ9Dr2Fk5OljDxdSLLxi88s8Xn24zG/5g5zuK
+         4eCQ7uqV4F6P59gaC6QKiYvomX4MgoPXOiGTQKcdshKAAxXyL9D+Q/ZV5VmFHjhrm+jn
+         fM5mQP3D+x0g7E3VKsPjZrz4/g7+Dg5KQEOFN0MDsht4jsRkxpyUIcTNkUKaR0DMBrQ7
+         fzJPf6PVbsqYfUYrfAp0jilIv3jwYD6myv5I44swNJfeSJjqG1MgdSsTU/uxhOjboP9z
+         MpAc6rQkucNPYBcsue1fq++SvAxRD81NE+w48NkWLGGPpfzdAcStEL78lACKZRH+TNRA
+         lkHw==
+X-Forwarded-Encrypted: i=1; AJvYcCUpfMBKiOngBG9j+XfpaqUm4v4IgYognY29fxdEbtfMcEjjoqEtM7YFFdlAk7JY3S5ILyVjewDyJz0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywzark3VWXB2Pi5JMY6UPGIL/XeGZkqZ5iKSUDjWdxINc+dQtG2
+	KR3rMVGlLF4irwdoTFtSm5dhkcMf64AmFB4yHuvWRXxKYlnU9PmwO76GhsBYEBl38MY=
+X-Gm-Gg: ASbGncvKRkRebEOoGJad1SXI9/ls1r/U7PyPO4pjth7KAdtqqHVLigCFyY05xb64ms8
+	cu+tFs0il1P7tu2wvvMihE/sL3+lZl+SKHWBJict7FBM5HNp6ruWAQshe4oIdWukiDO+yP6hoXw
+	CV3JO9N83dDka0NrMPP0lak6eefSdfM0fHQIk2ul9yt9C4jNO+EiLegCVBfeoc9Xbj/5PyTvsr5
+	Y/nAJKYvu2EsrRVdK9I4ytrOHC3tusN5kTJhw7rUgKOJtMRLsIUGDRggv+f55FB+EHBp688Upsw
+	QuYrDdYpFO4COV+2cUSwOzawIZanCI89BKP08IUIsaCIy0yFy2nzRtC4AKkmgWZhKX+k80rHt2q
+	alx0A4rzd+TxIQcBwzNiB2bx5yf2TDoMsGWRdWdj7FnlIOr2yONQfxSen1jsrp25Md8f/K3PFMT
+	5Sm+pxFDN8LMGgIg==
+X-Google-Smtp-Source: AGHT+IEicHLSYzdwynj4I4nc/MYN4IYvIV6/LmFIMqRyJaOIQeaa5JTA6robs499AmJpzGJRfdsVew==
+X-Received: by 2002:a05:6a20:3d86:b0:343:3d3c:4685 with SMTP id adf61e73a8af0-353a1de1402mr13983796637.18.1762843547462;
+        Mon, 10 Nov 2025 22:45:47 -0800 (PST)
+Received: from .shopee.com ([122.11.166.8])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c953e791sm14370759b3a.7.2025.11.10.22.44.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 22:45:47 -0800 (PST)
+From: Leon Huang Fu <leon.huangfu@shopee.com>
+To: chenridong@huaweicloud.com
+Cc: akpm@linux-foundation.org,
+	cgroups@vger.kernel.org,
+	corbet@lwn.net,
+	hannes@cmpxchg.org,
+	jack@suse.cz,
+	joel.granados@kernel.org,
+	kyle.meyer@hpe.com,
+	lance.yang@linux.dev,
+	laoar.shao@gmail.com,
+	leon.huangfu@shopee.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	mclapinski@google.com,
+	mhocko@kernel.org,
+	mkoutny@suse.com,
+	muchun.song@linux.dev,
+	roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev,
+	tj@kernel.org
+Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for on-demand stats flushing
+Date: Tue, 11 Nov 2025 14:44:13 +0800
+Message-ID: <20251111064415.75290-1-leon.huangfu@shopee.com>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <7d46ef17-684b-4603-be7a-a9428149da05@huaweicloud.com>
+References: <7d46ef17-684b-4603-be7a-a9428149da05@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[renesas];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[minyard.net,amd.com,treblig.org,suse.de,oss.qualcomm.com,intel.com,kernel.org,ideasonboard.com,linaro.org,wbinvd.org,gmail.com,oracle.com,cisco.com,schaufler-ca.com,goodmis.org,suse.com,ionos.com,vger.kernel.org,lists.sourceforge.net,lists.freedesktop.org,lists.linaro.org,lists.osuosl.org,lists.linux.dev,rasmusvillemoes.dk,chromium.org,lwn.net,padovan.org,ffwll.ch,linux.intel.com,linux.dev,poorly.run,somainline.org,lunn.ch,davemloft.net,google.com,redhat.com,enneenne.com,linux.ibm.com,HansenPartnership.com,linuxfoundation.org,efficios.com,linux-foundation.org,perex.cz];
-	R_RATELIMIT(0.00)[to_ip_from(RLmdkd3ei8pyzuqshpsr74qwzu)];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[96];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 10 Nov 2025 19:40:21 +0100,
-Andy Shevchenko wrote:
-> 
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  sound/core/seq/seq_queue.c | 2 +-
->  sound/core/seq/seq_timer.c | 6 +++---
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/sound/core/seq/seq_queue.c b/sound/core/seq/seq_queue.c
-> index f5c0e401c8ae..f6e86cbf38bc 100644
-> --- a/sound/core/seq/seq_queue.c
-> +++ b/sound/core/seq/seq_queue.c
-> @@ -699,7 +699,7 @@ void snd_seq_info_queues_read(struct snd_info_entry *entry,
->  		snd_iprintf(buffer, "current tempo      : %d\n", tmr->tempo);
->  		snd_iprintf(buffer, "tempo base         : %d ns\n", tmr->tempo_base);
->  		snd_iprintf(buffer, "current BPM        : %d\n", bpm);
-> -		snd_iprintf(buffer, "current time       : %d.%09d s\n", tmr->cur_time.tv_sec, tmr->cur_time.tv_nsec);
-> +		snd_iprintf(buffer, "current time       : %ptSp s\n", &tmr->cur_time);
->  		snd_iprintf(buffer, "current tick       : %d\n", tmr->tick.cur_tick);
->  		snd_iprintf(buffer, "\n");
->  	}
+On Tue, Nov 11, 2025 at 9:00 AM Chen Ridong <chenridong@huaweicloud.com> wrote:
+>
+>
+>
+> On 2025/11/10 21:50, Michal Koutný wrote:
+>> Hello Leon.
 
-tmr->cur_time isn't struct timespec64, but it's struct
-tmr->snd_seq_real_time.
+Hi Ridong,
 
+>>
+>> On Mon, Nov 10, 2025 at 06:19:48PM +0800, Leon Huang Fu <leon.huangfu@shopee.com> wrote:
+>>> Memory cgroup statistics are updated asynchronously with periodic
+>>> flushing to reduce overhead. The current implementation uses a flush
+>>> threshold calculated as MEMCG_CHARGE_BATCH * num_online_cpus() for
+>>> determining when to aggregate per-CPU memory cgroup statistics. On
+>>> systems with high core counts, this threshold can become very large
+>>> (e.g., 64 * 256 = 16,384 on a 256-core system), leading to stale
+>>> statistics when userspace reads memory.stat files.
+>>>
+>
+> We have encountered this problem multiple times when running LTP tests. It can easily occur when
+> using a 64K page size.
+>
+> error:
+>         memcg_stat_rss 10 TFAIL: rss is 0, 266240 expected
+>
 
-thanks,
+Have you encountered this problem in real world?
 
-Takashi
+>>> This is particularly problematic for monitoring and management tools
+>>> that rely on reasonably fresh statistics, as they may observe data
+>>> that is thousands of updates out of date.
+>>>
+>>> Introduce a new write-only file, memory.stat_refresh, that allows
+>>> userspace to explicitly trigger an immediate flush of memory statistics.
+>>
+[...]
+>>
+>> Next, v1 and v2 haven't been consistent since introduction of v2 (unlike
+>> some other controllers that share code or even cftypes between v1 and
+>> v2). So I'd avoid introducing a new file to V1 API.
+>>
+>
+> We encountered this problem in v1, I think this is a common problem should be fixed.
+
+Thanks for pointing that out.
+
+Thanks,
+Leon
+
+[...]
