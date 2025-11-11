@@ -1,79 +1,68 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD463328EA
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 19:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DA61E492A;
+	Tue, 11 Nov 2025 20:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762890490; cv=none; b=oAsIy1DuTA/yWGVpCx+Fr+yi1A6qVQEX5Nsyi47nNWa38nc+AVCUR349E4Q7U2MA53Ys8a/XOU3kPIm2W/hxb2bvLD2sZ3XMPaBq4nDF3UM/ZpQy9kQV3AkC9MSGRDGGhpFE3LGggFajEb6sqZ3i2yjixsKTazIugRRVdnHOg8E=
+	t=1762892198; cv=none; b=Z4fSz0xwYUv4Zy1JtcGSc827RVbqFYUF+6UnOwWNrra6xBUZaISQ6fWKM9fV2LdsgZ2z4oxH80Z0Jwy2iHCH+osnJtLOFDZX9+f+BkI+pwg+drIeFDfPRfLa7vufAZ+c7CBmVxLDIjaQxU7nveL9uww6kuBRLHEZXMUfDeHH250=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762890490; c=relaxed/simple;
-	bh=7NdM9un//Qfx73SdLhAZgOos/RHP5qnSPQzhB6KpO0Q=;
+	s=arc-20240116; t=1762892198; c=relaxed/simple;
+	bh=kr44aeOaJcNZMsy/DaB9H7WStxetNlT6LAhP4sVEKyU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fCjzmVZ5JUeu7k9AIsf2ikbN11LYOSEL+zlAcnzBF8E5Kux4sKNMyvIlmth9Axn3B5IJJZuvHpnIYwyuGBEPprbwXR+AoGKJhfD3AGu5wMWU8J55do9/TInqNDUzL+I9xwy0IRC9f3pCVfgndc2DXtm6DLUOmTiF6pNGoAT5JXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=M+HGwQjc; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QNn/jfWS5ZTaG2S4j5wODNWT7RoPsBbzPcEEG14hlN2XbICtisOp6QJDKLiz0xPMlLvb1ljWivAGQmV0OpCQz2xY45I24Zt3lXs2AoFI1EkkRdcSrHi4zD7+Bvk0IOU67Dk9s0WhiNfn+jsqAIKqEvrsk4g+J75LKRvhXTZFM8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VjJixwN8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="M+HGwQjc"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b72b495aa81so19092966b.2
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 11:48:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762890486; x=1763495286; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lKDhxqPky+srato1DuJ5M1fuwPAvG3rezlKsBwQc3xk=;
-        b=M+HGwQjcYfUdbj3df22FBRRQUUcEwQVqmaxOs75Z2J8aVsx9lVFnRP+SGNh0qzig4q
-         JHTMx0kiC7KoUFCJ92wZzPidu1KZ7RkvZGF8HuCADjIRyuAPkObgQz1FU2+wvZw/D0+d
-         frjbwY/Aj1XUs8r2V2hB1XXBGNPwFBcQhUlEcZQ/lp5FVT3hvIeZ/rF0u5l038uKM4VK
-         sfuh2BcvOaA1HHSihxT9Ggf7614QBX+CPM6fWS6w9rCcaksnIpCS3sko0m75mJNnWoKl
-         5057wFox0GHKQlu+BXvNjMYIMA0IjA/vrHJqePUfdKUbIvo35/1A5b0fNkA8D2j7zrDi
-         1O5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762890486; x=1763495286;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lKDhxqPky+srato1DuJ5M1fuwPAvG3rezlKsBwQc3xk=;
-        b=WsWRf0TzujTU/8A5xrl5aMKe/uPB1WsKRrm5jdwIDD+ebdJk8uDj/yUV8B5bHFWrYL
-         AgZ1t/S+sGUIOqZ/mjydkWFlyU/IKimmD2tzoa/1eyibfR7l1Ov1HtrfCw3ifF7FAndG
-         d4JP6J4dDgGEbEndVDA7EiUkZtQ6kzkKiHle7yt0m9MDi4AKd/WwKdIQl6Dc+vEXLfZk
-         +CInY9eb/WVa/2NYYLbQnBQVG1FIbaJjGi5dVyn5p13hqzEA6mR2UdHSud1E81AaWtsB
-         RNEbVXnN/r8ZMMGH1Q2NVeQyOLdCfNwSPVukZQ8Efm9J/U1vsw6O9QV6uHlSZ+ByYv7R
-         qxaw==
-X-Forwarded-Encrypted: i=1; AJvYcCUtktzYscL84lSHnFYsmZ7NuFGQxZoKcijt0mkBg1ghtJMmRX2qYHb58AXHrLwaKcV65JSku8d19/g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwU+H7glKEeFmoxo13DcfU37J37atdpL+WvKMSIS4Y8GslDTysr
-	Jag0nNhC970X7IfX3qNz+aXhoQbb7qVds9KAS7RpykAY4xiFghjZeJo8NwyqVUcSrNo=
-X-Gm-Gg: ASbGncuWrlq2aQBDDxnyEV+eDgxcoXl3D0PeO+I7kLgo0Otc8UNn9pTGQB5jp478Wyj
-	zf+vDYaCu3ZYJFORElOSIipVU7cqyjZ3uG6jW7lqkbw7AK+U0GrZrCyZ0eAw5rIpw2+NoUgb5g+
-	ys4R2Xfv952IFuAENj/M9DkhmOXUnl+tQfzW4xt++Dq+f/5SHqn959zv6YAtLxr0fP4lZqAoeAb
-	NPc5s+m5N969haMI4cRd2ullWErK3XpirOpKOZCRcL0NbbynxcMZ14HH7mGpKrqOHNZapIFjvu5
-	WJ2t5BdSIpMzbVV2fTIwDXPEqnrrQOHLu8GO9KPmkH8nj3SvvTsjP4zR3tLJWmNl4eLRq6vUw7N
-	QngQ6yzNvCoG9TQc/hnlVJD6duaHUPyvQMsNaAyiI0iolTcGqmO9sRIMaBRisxBi4NaJ5fJOp3U
-	URwuLvwiEggzAKqKv8Iz3xXcqS
-X-Google-Smtp-Source: AGHT+IEelejsUR71Jpq8Ao/NajBuvRLoWEBkOC/8vGvaNmUC/dfrqtprfl//rF6trpCO0nJn8h4ofA==
-X-Received: by 2002:a17:907:9812:b0:b73:21db:53a0 with SMTP id a640c23a62f3a-b7331960eb5mr32990666b.8.1762890485668;
-        Tue, 11 Nov 2025 11:48:05 -0800 (PST)
-Received: from localhost (109-81-31-109.rct.o2.cz. [109.81.31.109])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bf9bdf15sm1411961966b.62.2025.11.11.11.48.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 11:48:05 -0800 (PST)
-Date: Tue, 11 Nov 2025 20:47:59 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: Waiman Long <llong@redhat.com>
-Cc: Leon Huang Fu <leon.huangfu@shopee.com>, linux-mm@kvack.org,
-	tj@kernel.org, mkoutny@suse.com, hannes@cmpxchg.org,
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	muchun.song@linux.dev, akpm@linux-foundation.org,
-	joel.granados@kernel.org, jack@suse.cz, laoar.shao@gmail.com,
-	mclapinski@google.com, kyle.meyer@hpe.com, corbet@lwn.net,
-	lance.yang@linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org
-Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for
- on-demand stats flushing
-Message-ID: <aROS7yxDU6qFAWzp@tiehlicka>
-References: <20251110101948.19277-1-leon.huangfu@shopee.com>
- <9a9a2ede-af6e-413a-97a0-800993072b22@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VjJixwN8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95ABBC19422;
+	Tue, 11 Nov 2025 20:16:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762892197;
+	bh=kr44aeOaJcNZMsy/DaB9H7WStxetNlT6LAhP4sVEKyU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VjJixwN8jecm/9/GvO0cxbi0cA4i0/F3OOFxCavC3pfVCzcrM6xh13VhMpEBg5kpe
+	 qiuJAxt2cyCU/0jERoj6B2P9NqwUAMGgXsf7vX3BaapxNU9Vr4rDdIXx0ZMToDMRC+
+	 q2B4ACkjZ//xGa696u6Zxm90CDPdm5CozrFKbJAo5eWCnByKEUZSENG6DlQbwRdLFL
+	 VYu3N7OdenMS80rJSV3omvMaWHhbGIxbTglpinTKoiVm3YmrXRExxzWiYeKgIkDpUh
+	 gL91xa/fbHmGSAD2ArgPXjtdFar+4b+qMpwAz4qR8lMZv7Vl6EXq4/E0VDCh/a2DxC
+	 UO2ZuVGEXjSWg==
+Date: Tue, 11 Nov 2025 22:16:11 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+Message-ID: <aROZi043lxtegqWE@kernel.org>
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com>
+ <aRHiCxoJnEGmj17q@kernel.org>
+ <CA+CK2bCHhbBtSJCx38gxjfR6DM1PjcfsOTD-Pqzqyez1_hXJ7Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,30 +71,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9a9a2ede-af6e-413a-97a0-800993072b22@redhat.com>
+In-Reply-To: <CA+CK2bCHhbBtSJCx38gxjfR6DM1PjcfsOTD-Pqzqyez1_hXJ7Q@mail.gmail.com>
 
-On Tue 11-11-25 14:10:28, Waiman Long wrote:
-[...]
-> > +static void memcg_flush_stats(struct mem_cgroup *memcg, bool force)
-> > +{
-> > +	if (mem_cgroup_disabled())
-> > +		return;
-> > +
-> > +	memcg = memcg ?: root_mem_cgroup;
-> > +	__mem_cgroup_flush_stats(memcg, force);
-> > +}
+On Mon, Nov 10, 2025 at 10:43:43AM -0500, Pasha Tatashin wrote:
+> >
+> > kho_finalize() should be really called from kernel_kexec().
+> >
+> > We avoided it because of the concern that memory allocations that late in
+> > reboot could be an issue. But I looked at hibernate() and it does
+> > allocations on reboot->hibernate path, so adding kho_finalize() as the
+> > first step of kernel_kexec() seems fine.
 > 
-> Shouldn't we impose a limit in term of how frequently this
-> memcg_flush_stats() function can be called like at most a few times per
+> This isn't a regular reboot; it's a live update. The
+> liveupdate_reboot() is designed to be reversible and allows us to
+> return an error, undoing the freeze() operations via unfreeze() in
+> case of failure.
+> 
+> This is why this call is placed first in reboot(), before any
+> irreversible reboot notifiers or shutdown callbacks are performed. If
+> an allocation problem occurs in KHO, the error is simply reported back
+> to userspace, and the live update update is safely aborted.
 
-This effectivelly invalidates the primary purpose of the interface to
-provide a method to get as-fresh-as-possible value AFAICS. 
+This is fine. But what I don't like is that we can't use kho without
+liveupdate. We are making debugfs optional, we have a way to call
+kho_finalize() on the reboot path and it does not seem an issue to do it
+even without liveupdate. But then we force kho_finalize() into
+liveupdate_reboot() allowing weird configurations where kho is there but
+it's unusable.
 
-> second to prevent abuse from user space as stat flushing is expensive? We
-> should prevent some kind of user space DoS attack by using this new API if
-> we decide to implement it.
+What I'd like to see is that we can finalize KHO on kexec reboot path even
+when liveupdate is not compiled and until then the patch that makes KHO
+debugfs optional should not go further IMO.
 
-What exactly would be an attack vector?
+Another thing I didn't check in this series yet is how finalization driven
+from debugfs interacts with liveupdate internal handling?
+ 
+> > And if we prioritize stateless memory tracking in KHO, it won't be a
+> > concern at all.
+> 
+> We are prioritizing stateless KHO work ;-) +Jason Miu
+> Once KHO is stateless, the kho_finalize() is going to be removed.
+
+There's still fdt_finish(), but it can't fail in practice. 
+
 -- 
-Michal Hocko
-SUSE Labs
+Sincerely yours,
+Mike.
