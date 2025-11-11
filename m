@@ -1,123 +1,205 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CC12D3A9E
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 06:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9796C314D1B
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 06:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762842462; cv=none; b=ZFVjDe9N48GApx9w7esFxy/6z5JMrLsrPlx1hPtL3X3E+bjg6OXpWQ9K3/ikR2wtEuPFA03/NV3MAIor0m13d69tmns4xBLxJUqHMCxH7XlR24LXvYYBrIT6PjtoGdzK48U1e4faahtL1VLdQpWpyeQDUjIURypAuSo1hvj8OMo=
+	t=1762843352; cv=none; b=RmGYfSY3QT4ILlcZ+IIJVUsmL62t1RP25BBNs/Kkdm1BYujzidqBhwyvge3Y5GOVDuAmrlKWf1wenYPuSdgtq3NWkHf0gZEssvD2kkysBcU7By4dafYz5YUrtYQKCrrTk/xk78xZyGQMt7oXgAWc3s5DaK6MvRfYzIbsYWsfc54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762842462; c=relaxed/simple;
-	bh=89750Oqu/BHAULCo/u4k/dwdc+TJgBdi3kwqH7WW9JE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kmuLiLuTTNZNdFv3e/k/spUEWL1cW6ldA+7xQ1iLDkT4wN8ygiLcXIEH3h0+JLpPHXHG5Zr4m06TArpb13ezSFr3XXkqysudK3roKNLw4/JouGmqjzjDGUUGULU+TV4mGWQPzlxYi2YVcLgRI2sOFsVLgCmzfA2RE3T/BxRIGaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=GdJyNN46; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
+	s=arc-20240116; t=1762843352; c=relaxed/simple;
+	bh=ATNN5RmueLox2IC+5BDEXAgaIglCENc+yF4ZTPMaIZg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D37tmT06YejQIKSPkw67uuVUUuV5ejXcozBuxvYBaXwvw2tnnLbLhffpHJI4GVJcAiDUaaRM76Ioy7d/HfyvucFVGpqHGFkado3AJLsVoSjQYSfaK33GpBB0qpcox4p50BMpwyOkwlPNJn3ezpcA5TFc0eSULa+O1VOeHAF8dF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MJJifpxj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XOVf1gy9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MJJifpxj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XOVf1gy9; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="GdJyNN46"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7b22ffa2a88so1838179b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 22:27:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1762842460; x=1763447260; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=89750Oqu/BHAULCo/u4k/dwdc+TJgBdi3kwqH7WW9JE=;
-        b=GdJyNN46yLS3b1G+msP90X37DCoOmpaIXITKAdfe2Wc/tmb9yxRG1a3IFybkmtc1Fs
-         NWvJT5mg7aCURM9KiMMFcgpvoaJDlYuHSM2FAAY2Ehh9M1Y9VK9577s0NKfeQsdeeypR
-         mHEt9SsHqQPxA294PcPAjAduH5P9eCe3DLr0fi/W3yjcGkwYA9fGv+9Uv5Q8cGuFptRB
-         GX/KuT/unYj/jp+ugjhaQ3ff82srJeJTVZArMTV/RawhUfBCp0E9j4e6T7gC9ppnLsgl
-         mppvkVMWY+9xWYNwRI8VJoPhiyx+d6kwYCR8WEa7DfOO5QdC7cb3ANm85HVO/3V+NT+L
-         ZaTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762842460; x=1763447260;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=89750Oqu/BHAULCo/u4k/dwdc+TJgBdi3kwqH7WW9JE=;
-        b=jv3CjTXmlEdLZQL8B84PoK+ROyA/d5RQQt655z60maHtpqXUqYDJJO+VJr8+D2LsDW
-         r6W/iB8TsCk9EBAowhdl9xcf6Ntna7ckSe2qBBMLNPqO8DcxgoabNPJ1J1niN38vCfg2
-         p+ZDD+21l3dz/RLoOKZwbCV5Iu+9JqawJy6EadyGECumkKu1y93ORIFAvR8Zpn+T6Ys9
-         L8xKaeil1o5buSFarRkDvvvdim+UMS0n6gGVdHxXWgEN0uEJB3JEuWy0UikbHzWoaUTi
-         Ex7rNwqCytX9yXsmuGZ8LhmZs3i+lHGkUeyX2nLjpdXIUjRASIQAfZumxx8gxXHzXnWR
-         JDeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXDw2YLt59KldaZAR34Z6vyv/bJFOz5FvyrEgcPGlRIK8GIopLgK77w6rlNr1ftQgWly2VoM0aEY64=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRHeGkxG12GYg0xZr4dJiwLoPTCxZV6dI5Sjnx7Id7TZVmPl0q
-	6sdLUqhrIcB9eoTwPbrxYV053DBvgj6YYK+M54jMOKas7h9T2zQLTySwuv+nHceVdqE=
-X-Gm-Gg: ASbGncuaHqhXCKLvQeWa7sUALfC8m++OXoS4mUAD21rT8kAuRNW1YgxkQe19m2Uyrk6
-	/U+O+8yUxPgUOIKmfR8AmjEUXtE4lYO7lVcstEeGw2qHFbLd28iHFwW131BVl8jo56U45fRHbY7
-	xnUkK8gGM4Raolra274L/dEHNDbnX0v3A67bboe0om6HA0bpXUYNAF+kDKFlLDKSDJzUx5Os7mp
-	h9o6e2jdxojB1gOYc9T9dMMCjA0ReaRDbvarLMR0h3LY7O3+FJEvL+4LMKHcatNdottT1LdmGAf
-	EH3oOcb4SxgJW/rf+F7en+OC/R3wUpZYGgrLCIbZKYPmMxNTRwYSEkQ/VGvlH617fKEEDLgCeW6
-	16BaTFqzuYsD22VoMGi9AB4DtmroSr7y/nHaTFi5Vrkp7fpXQVswHtBDVTKNtVxfd9C7+bmWkDg
-	EfffVwvDs707T5WNetCwZrLVVF
-X-Google-Smtp-Source: AGHT+IHvv3nGqmj6KV33XK0cWeJgSfI0JoC5d0X073m/gYYS8JMWAEkjk7xwepmEOfVYPNtHkdK8iw==
-X-Received: by 2002:a17:90b:3c09:b0:32d:e780:e9d5 with SMTP id 98e67ed59e1d1-3436cbf60c3mr13213813a91.22.1762842460272;
-        Mon, 10 Nov 2025 22:27:40 -0800 (PST)
-Received: from .shopee.com ([122.11.166.8])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c6951633sm14267754b3a.0.2025.11.10.22.27.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 22:27:39 -0800 (PST)
-From: Leon Huang Fu <leon.huangfu@shopee.com>
-To: tj@kernel.org
-Cc: akpm@linux-foundation.org,
-	cgroups@vger.kernel.org,
-	corbet@lwn.net,
-	hannes@cmpxchg.org,
-	jack@suse.cz,
-	joel.granados@kernel.org,
-	kyle.meyer@hpe.com,
-	lance.yang@linux.dev,
-	laoar.shao@gmail.com,
-	leon.huangfu@shopee.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	mclapinski@google.com,
-	mhocko@kernel.org,
-	mkoutny@suse.com,
-	muchun.song@linux.dev,
-	roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev
-Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for on-demand stats flushing
-Date: Tue, 11 Nov 2025 14:27:30 +0800
-Message-ID: <20251111062732.72880-1-leon.huangfu@shopee.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <aRINDrnnI1HVvU1p@slm.duckdns.org>
-References: <aRINDrnnI1HVvU1p@slm.duckdns.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MJJifpxj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XOVf1gy9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MJJifpxj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XOVf1gy9"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 003E121D96;
+	Tue, 11 Nov 2025 06:42:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762843347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
+	b=MJJifpxj0d+JjXgZOzmxMDpQDTSyIadrJYsNIbJl+ULZfRSkA1F3QRigpspAqsE+66Rhp4
+	Shn7meUxG5KGJZOHhOahRAQKGy6Nb5TLhqjOSRo1AsBLy8kaYN8yBZmHfsJ+Bw3No+qv6Y
+	5wW5dT7W11nmHzpKpr6zOoTnHE6LBoQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762843347;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
+	b=XOVf1gy9U5gZVwTjF3TZLqMUlzKAS6MC5EfTBJRYyS+0eMhaSrKs4ZKyZxOlsKibNkjCP/
+	7jvcMdxbfbH3qxAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1762843347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
+	b=MJJifpxj0d+JjXgZOzmxMDpQDTSyIadrJYsNIbJl+ULZfRSkA1F3QRigpspAqsE+66Rhp4
+	Shn7meUxG5KGJZOHhOahRAQKGy6Nb5TLhqjOSRo1AsBLy8kaYN8yBZmHfsJ+Bw3No+qv6Y
+	5wW5dT7W11nmHzpKpr6zOoTnHE6LBoQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1762843347;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fnn8buj3dz2cAu1lwnMV3wmGOQAis/X/NnrYyJhRgpI=;
+	b=XOVf1gy9U5gZVwTjF3TZLqMUlzKAS6MC5EfTBJRYyS+0eMhaSrKs4ZKyZxOlsKibNkjCP/
+	7jvcMdxbfbH3qxAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EAC3E14805;
+	Tue, 11 Nov 2025 06:42:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OZMhONDaEmkhSgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 11 Nov 2025 06:42:24 +0000
+Date: Tue, 11 Nov 2025 07:42:24 +0100
+Message-ID: <87jyzx2hpr.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Corey Minyard <corey@minyard.net>,	Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>,	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Alex Deucher <alexander.deucher@amd.com>,	Thomas Zimmermann
+ <tzimmermann@suse.de>,	Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>,	Rob Clark
+ <robin.clark@oss.qualcomm.com>,	Matthew Brost <matthew.brost@intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,	Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>,	Ulf Hansson
+ <ulf.hansson@linaro.org>,	Vitaly Lifshits <vitaly.lifshits@intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,	Niklas Cassel <cassel@kernel.org>,
+	Calvin Owens <calvin@wbinvd.org>,	Sagi Maimon <maimon.sagi@gmail.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,	Karan Tilak Kumar
+ <kartilak@cisco.com>,	Casey Schaufler <casey@schaufler-ca.com>,	Steven
+ Rostedt <rostedt@goodmis.org>,	Petr Mladek <pmladek@suse.com>,	Max
+ Kellermann <max.kellermann@ionos.com>,	Takashi Iwai <tiwai@suse.de>,
+	linux-doc@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,	linaro-mm-sig@lists.linaro.org,
+	amd-gfx@lists.freedesktop.org,	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,	intel-xe@lists.freedesktop.org,
+	linux-mmc@vger.kernel.org,	netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,	linux-pci@vger.kernel.org,
+	linux-s390@vger.kernel.org,	linux-scsi@vger.kernel.org,
+	linux-staging@lists.linux.dev,	ceph-devel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,	linux-sound@vger.kernel.org,	Rasmus
+ Villemoes <linux@rasmusvillemoes.dk>,	Sergey Senozhatsky
+ <senozhatsky@chromium.org>,	Jonathan Corbet <corbet@lwn.net>,	Sumit Semwal
+ <sumit.semwal@linaro.org>,	Gustavo Padovan <gustavo@padovan.org>,	David
+ Airlie <airlied@gmail.com>,	Simona Vetter <simona@ffwll.ch>,	Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>,	Maxime Ripard
+ <mripard@kernel.org>,	Dmitry Baryshkov <lumag@kernel.org>,	Abhinav Kumar
+ <abhinav.kumar@linux.dev>,	Jessica Zhang <jesszhan0024@gmail.com>,	Sean
+ Paul <sean@poorly.run>,	Marijn Suijten <marijn.suijten@somainline.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,	Lucas De Marchi
+ <lucas.demarchi@intel.com>,	Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>,	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,	Vladimir Oltean
+ <olteanv@gmail.com>,	Andrew Lunn <andrew@lunn.ch>,	"David S. Miller"
+ <davem@davemloft.net>,	Eric Dumazet <edumazet@google.com>,	Jakub Kicinski
+ <kuba@kernel.org>,	Paolo Abeni <pabeni@redhat.com>,	Tony Nguyen
+ <anthony.l.nguyen@intel.com>,	Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>,	Krzysztof =?ISO-8859-2?Q?Wilczy=F1ski?=
+ <kwilczynski@kernel.org>,	Kishon Vijay Abraham I <kishon@kernel.org>,	Bjorn
+ Helgaas <bhelgaas@google.com>,	Rodolfo Giometti <giometti@enneenne.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,	Vadim Fedorenko
+ <vadim.fedorenko@linux.dev>,	Richard Cochran <richardcochran@gmail.com>,
+	Stefan Haberland <sth@linux.ibm.com>,	Jan Hoeppner
+ <hoeppner@linux.ibm.com>,	Heiko Carstens <hca@linux.ibm.com>,	Vasily Gorbik
+ <gor@linux.ibm.com>,	Alexander Gordeev <agordeev@linux.ibm.com>,	Christian
+ Borntraeger <borntraeger@linux.ibm.com>,	Sven Schnelle
+ <svens@linux.ibm.com>,	Satish Kharat <satishkh@cisco.com>,	Sesidhar Baddela
+ <sebaddel@cisco.com>,	"James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>,	Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,	Xiubo Li <xiubli@redhat.com>,	Ilya Dryomov
+ <idryomov@gmail.com>,	Masami Hiramatsu <mhiramat@kernel.org>,	Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>,	Andrew Morton
+ <akpm@linux-foundation.org>,	Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai
+ <tiwai@suse.com>
+Subject: Re: [PATCH v1 02/23] ALSA: seq: Switch to use %ptSp
+In-Reply-To: <20251110184727.666591-3-andriy.shevchenko@linux.intel.com>
+References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
+	<20251110184727.666591-3-andriy.shevchenko@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[renesas];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[minyard.net,amd.com,treblig.org,suse.de,oss.qualcomm.com,intel.com,kernel.org,ideasonboard.com,linaro.org,wbinvd.org,gmail.com,oracle.com,cisco.com,schaufler-ca.com,goodmis.org,suse.com,ionos.com,vger.kernel.org,lists.sourceforge.net,lists.freedesktop.org,lists.linaro.org,lists.osuosl.org,lists.linux.dev,rasmusvillemoes.dk,chromium.org,lwn.net,padovan.org,ffwll.ch,linux.intel.com,linux.dev,poorly.run,somainline.org,lunn.ch,davemloft.net,google.com,redhat.com,enneenne.com,linux.ibm.com,HansenPartnership.com,linuxfoundation.org,efficios.com,linux-foundation.org,perex.cz];
+	R_RATELIMIT(0.00)[to_ip_from(RLmdkd3ei8pyzuqshpsr74qwzu)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[96];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
 
-On Tue, Nov 11, 2025 at 12:04 AM Tejun Heo <tj@kernel.org> wrote:
->
-> Hello,
+On Mon, 10 Nov 2025 19:40:21 +0100,
+Andy Shevchenko wrote:
+> 
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  sound/core/seq/seq_queue.c | 2 +-
+>  sound/core/seq/seq_timer.c | 6 +++---
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/sound/core/seq/seq_queue.c b/sound/core/seq/seq_queue.c
+> index f5c0e401c8ae..f6e86cbf38bc 100644
+> --- a/sound/core/seq/seq_queue.c
+> +++ b/sound/core/seq/seq_queue.c
+> @@ -699,7 +699,7 @@ void snd_seq_info_queues_read(struct snd_info_entry *entry,
+>  		snd_iprintf(buffer, "current tempo      : %d\n", tmr->tempo);
+>  		snd_iprintf(buffer, "tempo base         : %d ns\n", tmr->tempo_base);
+>  		snd_iprintf(buffer, "current BPM        : %d\n", bpm);
+> -		snd_iprintf(buffer, "current time       : %d.%09d s\n", tmr->cur_time.tv_sec, tmr->cur_time.tv_nsec);
+> +		snd_iprintf(buffer, "current time       : %ptSp s\n", &tmr->cur_time);
+>  		snd_iprintf(buffer, "current tick       : %d\n", tmr->tick.cur_tick);
+>  		snd_iprintf(buffer, "\n");
+>  	}
 
-Hi Tejun,
+tmr->cur_time isn't struct timespec64, but it's struct
+tmr->snd_seq_real_time.
 
->
-> On Mon, Nov 10, 2025 at 02:50:11PM +0100, Michal Koutnı wrote:
-> > All in all, I'd like to have more backing data on insufficiency of (all
-> > the) rstat optimizations before opening explicit flushes like this
-> > (especially when it's meant to be exposed by BPF already).
->
-> +1. If the current behavior introduces errors too significant to ignore, I'd
-> much rather see it fixed from the implementation side rather than exposing
-> internal operation details like this.
->
 
-I haven't observed any significant errors with the current behavior.
+thanks,
 
-That said, I agree that we should focus on improving the flushing
-implementation to enhance stats accuracy on high-core-count systems.
-I'll review both the synchronous and asynchronous flushing paths to see
-where we can tighten things up.
-
-Thanks,
-Leon
+Takashi
