@@ -1,188 +1,233 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA6A2F693E;
-	Tue, 11 Nov 2025 09:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87F22E8B83;
+	Tue, 11 Nov 2025 09:58:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762854785; cv=none; b=hzw2xmTIxa5fflCyzOJWy+jUpSPsCJv1fbZP4abdjVSZQ4Rb3HiAcqmmOnqbmsir8m9LiCW07oqngWxsKSeqrFaf1mKdu22IjWMhCZ131VgbpjlC5pw78TzaKhOU3fambxd6GVqn4BmpV/hy6FqnCOjR+ixcLRnbqlTsOp2Tgcw=
+	t=1762855082; cv=none; b=KCarpnTvp45lXoTCu3R3DpICvBOIMTXWuovqs38Ds7GuWdyKd/VDVru6lWX2Q0P+gO2zoDvZVqycU1xpApE0hv3KXE6lbPbaj5/b3gBLkMaXcaFN1zwxnpcjuDS9Qmx3RTOMw2oexhMjRGsc6kRn8E+BHU+lHYcMRF3im+OIWBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762854785; c=relaxed/simple;
-	bh=iDhbZOal2wnEXBNqtnf0/uj4kQN5h/UJan7jrM1zSwo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oWqyCd1ukiwZ/Y9yVNcO5TMe0nCnL9DjwdeT5mB44I+fSWJhpPrKoM/++kjjmdlPS6sAHOaf1VXHZgoxXDeu9YFmu9FCP465tjQjw49evYl7NOXzBWiZkDl73MaMyan+OfAjZWbL2FT+z8c2E8sb0u/PAXbNQpb7JAkfXyeqVn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cvyuqpQt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762855082; c=relaxed/simple;
+	bh=wRqC9BBU7AK8hlNM/MuZzbx4CSE/qfPFFz8/AqwN1y8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HjXLyJh0MCdEtGwbwo4EdPrUVaHwzMBqoDX+Dmh8FN5nyTRv5W/0uuYWffYGMuM7fQyNK6qoREDi6/bp9PyZBvmmhM+YV25af0t04fNwzMOV3TiRWEFu3t8a41XxGzzyeE9JdvYbpFM+9IG4py9nXtA5rRO/BbPMurtlVQWmbQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LoGvYxIS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cvyuqpQt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6957AC4CEFB;
-	Tue, 11 Nov 2025 09:53:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LoGvYxIS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F142C116B1;
+	Tue, 11 Nov 2025 09:58:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762854784;
-	bh=iDhbZOal2wnEXBNqtnf0/uj4kQN5h/UJan7jrM1zSwo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cvyuqpQtk0Q6hYQ6gNSeFX8b9Es2msAbN8+gQ0SFGS0il5537frS9ZBNWiJHoWhMo
-	 /juDrre53fD9dTCmBTGtcYvSzvKRIm99a8p2VAPszdWXqvkl5TnKQwoPoKNpt3EWTh
-	 /LmT97aljg7pGdrpVEb9qkGCbbHMdJGTmadUknN3ZCxt1a/Zb5TP8aAh17YKpJ0mQI
-	 XEwcfP2+y/eXt+yWGeugUUAaSizGdaknSm4e+sXB18HNskbOMNygLmjK22XzaM/VVC
-	 ZvOhvZOmFvE8mkD2w5qTq+xrEBUw3xIXs3IWLU+4k3ycBvgnFZnhx3dqELNGQIt0Wx
-	 W95UyabgI+svg==
-Date: Tue, 11 Nov 2025 01:53:01 -0800
-From: Oliver Upton <oupton@kernel.org>
-To: Jiaqi Yan <jiaqiyan@google.com>
-Cc: Jose Marinho <jose.marinho@arm.com>, maz@kernel.org,
-	oliver.upton@linux.dev, duenwen@google.com, rananta@google.com,
-	jthoughton@google.com, vsethi@nvidia.com, jgg@nvidia.com,
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
-	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com,
-	corbet@lwn.net, shuah@kernel.org, kvm@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] KVM: arm64: VM exit to userspace to handle SEA
-Message-ID: <aRMHfS1-K4E4UCbc@kernel.org>
-References: <20251013185903.1372553-1-jiaqiyan@google.com>
- <20251013185903.1372553-2-jiaqiyan@google.com>
- <7a61bcf9-a57d-a8e9-a9b8-4eacef80acd3@arm.com>
- <CACw3F51_0A8CuCgzcvoA3Db=Wxo8mm5XZw5in+nTKrst+NCcqw@mail.gmail.com>
+	s=k20201202; t=1762855082;
+	bh=wRqC9BBU7AK8hlNM/MuZzbx4CSE/qfPFFz8/AqwN1y8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LoGvYxISSsbWSJpLSqoMmA8ayVVoAMBqC33CwOv+ST2WvWqOPENKtInN3CtWQUbq4
+	 HEVtxnuQ09/GPb58NWlgbsmtR4dG7E1L3mHeysOkRl8qsSY0YgbXAlkn4GidI9s1iH
+	 kjd+1j1fT+KsBaPKI2RCeHvOYOvACu63NIeBrlm8rLU0twScUJgCE6zFSrF04c2qKE
+	 kf0eJrz9bSHASxpdosWmkT9sSCYIgyk+gCRDOkaUuCB/54JpdyXuSzkBjKl7u4i+7S
+	 MUgJjp1vmLLeKKAsgz5c8TACT2i42q1X1EAWZcC1P5NvukX2U0R9f/TzlJHBDZ+OYD
+	 kRdSc68o9dneA==
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>
+Cc: Krishnakant Jaju <kjaju@nvidia.com>,
+	Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Alex Mastro <amastro@fb.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: [PATCH v8 00/11] vfio/pci: Allow MMIO regions to be exported through dma-buf
+Date: Tue, 11 Nov 2025 11:57:42 +0200
+Message-ID: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20251016-dmabuf-vfio-6cef732adf5a
+X-Mailer: b4 0.15-dev-3ae27
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACw3F51_0A8CuCgzcvoA3Db=Wxo8mm5XZw5in+nTKrst+NCcqw@mail.gmail.com>
 
-Hi Jiaqi,
+Changelog:
+v8:
+ * Fixed spelling errors in p2pdma documentation file.
+ * Added vdev->pci_ops check for NULL in vfio_pci_core_feature_dma_buf().
+ * Simplified the nvgrace_get_dmabuf_phys() function.
+ * Added extra check in pcim_p2pdma_provider() to catch missing call
+   to pcim_p2pdma_init().
+v7: https://patch.msgid.link/20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com
+ * Dropped restore_revoke flag and added vfio_pci_dma_buf_move
+   to reverse loop.
+ * Fixed spelling errors in documentation patch.
+ * Rebased on top of v6.18-rc3.
+ * Added include to stddef.h to vfio.h, to keep uapi header file independent.
+v6: https://patch.msgid.link/20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com
+ * Fixed wrong error check from pcim_p2pdma_init().
+ * Documented pcim_p2pdma_provider() function.
+ * Improved commit messages.
+ * Added VFIO DMA-BUF selftest, not sent yet.
+ * Added __counted_by(nr_ranges) annotation to struct vfio_device_feature_dma_buf.
+ * Fixed error unwind when dma_buf_fd() fails.
+ * Document latest changes to p2pmem.
+ * Removed EXPORT_SYMBOL_GPL from pci_p2pdma_map_type.
+ * Moved DMA mapping logic to DMA-BUF.
+ * Removed types patch to avoid dependencies between subsystems.
+ * Moved vfio_pci_dma_buf_move() in err_undo block.
+ * Added nvgrace patch.
+v5: https://lore.kernel.org/all/cover.1760368250.git.leon@kernel.org
+ * Rebased on top of v6.18-rc1.
+ * Added more validation logic to make sure that DMA-BUF length doesn't
+   overflow in various scenarios.
+ * Hide kernel config from the users.
+ * Fixed type conversion issue. DMA ranges are exposed with u64 length,
+   but DMA-BUF uses "unsigned int" as a length for SG entries.
+ * Added check to prevent from VFIO drivers which reports BAR size
+   different from PCI, do not use DMA-BUF functionality.
+v4: https://lore.kernel.org/all/cover.1759070796.git.leon@kernel.org
+ * Split pcim_p2pdma_provider() to two functions, one that initializes
+   array of providers and another to return right provider pointer.
+v3: https://lore.kernel.org/all/cover.1758804980.git.leon@kernel.org
+ * Changed pcim_p2pdma_enable() to be pcim_p2pdma_provider().
+ * Cache provider in vfio_pci_dma_buf struct instead of BAR index.
+ * Removed misleading comment from pcim_p2pdma_provider().
+ * Moved MMIO check to be in pcim_p2pdma_provider().
+v2: https://lore.kernel.org/all/cover.1757589589.git.leon@kernel.org/
+ * Added extra patch which adds new CONFIG, so next patches can reuse
+ * it.
+ * Squashed "PCI/P2PDMA: Remove redundant bus_offset from map state"
+   into the other patch.
+ * Fixed revoke calls to be aligned with true->false semantics.
+ * Extended p2pdma_providers to be per-BAR and not global to whole
+ * device.
+ * Fixed possible race between dmabuf states and revoke.
+ * Moved revoke to PCI BAR zap block.
+v1: https://lore.kernel.org/all/cover.1754311439.git.leon@kernel.org
+ * Changed commit messages.
+ * Reused DMA_ATTR_MMIO attribute.
+ * Returned support for multiple DMA ranges per-dMABUF.
+v0: https://lore.kernel.org/all/cover.1753274085.git.leonro@nvidia.com
 
-On Mon, Nov 03, 2025 at 12:45:50PM -0800, Jiaqi Yan wrote:
-> On Mon, Nov 3, 2025 at 10:17 AM Jose Marinho <jose.marinho@arm.com> wrote:
-> >
-> > Thank you for these patches.
-> 
-> Thanks for your comments, Jose!
-> 
-> >
-> > On 10/13/2025 7:59 PM, Jiaqi Yan wrote:
-> > > When APEI fails to handle a stage-2 synchronous external abort (SEA),
-> > > today KVM injects an asynchronous SError to the VCPU then resumes it,
-> > > which usually results in unpleasant guest kernel panic.
-> > >
-> > > One major situation of guest SEA is when vCPU consumes recoverable
-> > > uncorrected memory error (UER). Although SError and guest kernel panic
-> > > effectively stops the propagation of corrupted memory, guest may
-> > > re-use the corrupted memory if auto-rebooted; in worse case, guest
-> > > boot may run into poisoned memory. So there is room to recover from
-> > > an UER in a more graceful manner.
-> > >
-> > > Alternatively KVM can redirect the synchronous SEA event to VMM to
-> > > - Reduce blast radius if possible. VMM can inject a SEA to VCPU via
-> > >    KVM's existing KVM_SET_VCPU_EVENTS API. If the memory poison
-> > >    consumption or fault is not from guest kernel, blast radius can be
-> > >    limited to the triggering thread in guest userspace, so VM can
-> > >    keep running.
-> > > - Allow VMM to protect from future memory poison consumption by
-> > >    unmapping the page from stage-2, or to interrupt guest of the
-> > >    poisoned page so guest kernel can unmap it from stage-1 page table.
-> > > - Allow VMM to track SEA events that VM customers care about, to restart
-> > >    VM when certain number of distinct poison events have happened,
-> > >    to provide observability to customers in log management UI.
-> > >
-> > > Introduce an userspace-visible feature to enable VMM handle SEA:
-> > > - KVM_CAP_ARM_SEA_TO_USER. As the alternative fallback behavior
-> > >    when host APEI fails to claim a SEA, userspace can opt in this new
-> > >    capability to let KVM exit to userspace during SEA if it is not
-> > >    owned by host.
-> > > - KVM_EXIT_ARM_SEA. A new exit reason is introduced for this.
-> > >    KVM fills kvm_run.arm_sea with as much as possible information about
-> > >    the SEA, enabling VMM to emulate SEA to guest by itself.
-> > >    - Sanitized ESR_EL2. The general rule is to keep only the bits
-> > >      useful for userspace and relevant to guest memory.
-> > >    - Flags indicating if faulting guest physical address is valid.
-> > >    - Faulting guest physical and virtual addresses if valid.
-> > >
-> > > Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
-> > > Co-developed-by: Oliver Upton <oliver.upton@linux.dev>
-> > > Signed-off-by: Oliver Upton <oliver.upton@linux.dev>
-> > > ---
-> > >   arch/arm64/include/asm/kvm_host.h |  2 +
-> > >   arch/arm64/kvm/arm.c              |  5 +++
-> > >   arch/arm64/kvm/mmu.c              | 68 ++++++++++++++++++++++++++++++-
-> > >   include/uapi/linux/kvm.h          | 10 +++++
-> > >   4 files changed, 84 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> > > index b763293281c88..e2c65b14e60c4 100644
-> > > --- a/arch/arm64/include/asm/kvm_host.h
-> > > +++ b/arch/arm64/include/asm/kvm_host.h
-> > > @@ -350,6 +350,8 @@ struct kvm_arch {
-> > >   #define KVM_ARCH_FLAG_GUEST_HAS_SVE                 9
-> > >       /* MIDR_EL1, REVIDR_EL1, and AIDR_EL1 are writable from userspace */
-> > >   #define KVM_ARCH_FLAG_WRITABLE_IMP_ID_REGS          10
-> > > +     /* Unhandled SEAs are taken to userspace */
-> > > +#define KVM_ARCH_FLAG_EXIT_SEA                               11
-> > >       unsigned long flags;
-> > >
-> > >       /* VM-wide vCPU feature set */
-> > > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> > > index f21d1b7f20f8e..888600df79c40 100644
-> > > --- a/arch/arm64/kvm/arm.c
-> > > +++ b/arch/arm64/kvm/arm.c
-> > > @@ -132,6 +132,10 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
-> > >               }
-> > >               mutex_unlock(&kvm->lock);
-> > >               break;
-> > > +     case KVM_CAP_ARM_SEA_TO_USER:
-> > > +             r = 0;
-> > > +             set_bit(KVM_ARCH_FLAG_EXIT_SEA, &kvm->arch.flags);
-> > > +             break;
-> > >       default:
-> > >               break;
-> > >       }
-> > > @@ -327,6 +331,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
-> > >       case KVM_CAP_IRQFD_RESAMPLE:
-> > >       case KVM_CAP_COUNTER_OFFSET:
-> > >       case KVM_CAP_ARM_WRITABLE_IMP_ID_REGS:
-> > > +     case KVM_CAP_ARM_SEA_TO_USER:
-> > >               r = 1;
-> > >               break;
-> > >       case KVM_CAP_SET_GUEST_DEBUG2:
-> > > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> > > index 7cc964af8d305..09210b6ab3907 100644
-> > > --- a/arch/arm64/kvm/mmu.c
-> > > +++ b/arch/arm64/kvm/mmu.c
-> > > @@ -1899,8 +1899,48 @@ static void handle_access_fault(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa)
-> > >       read_unlock(&vcpu->kvm->mmu_lock);
-> > >   }
-> > >
-> > > +/*
-> > > + * Returns true if the SEA should be handled locally within KVM if the abort
-> > > + * is caused by a kernel memory allocation (e.g. stage-2 table memory).
-> > > + */
-> > > +static bool host_owns_sea(struct kvm_vcpu *vcpu, u64 esr)
-> > > +{
-> > > +     /*
-> > > +      * Without FEAT_RAS HCR_EL2.TEA is RES0, meaning any external abort
-> > > +      * taken from a guest EL to EL2 is due to a host-imposed access (e.g.
-> > > +      * stage-2 PTW).
-> > > +      */
-> > > +     if (!cpus_have_final_cap(ARM64_HAS_RAS_EXTN))
-> > > +             return true;
-> > > +
-> > > +     /* KVM owns the VNCR when the vCPU isn't in a nested context. */
-> > > +     if (is_hyp_ctxt(vcpu) && (esr & ESR_ELx_VNCR))
-> > Is this check valid only for a "Data Abort"?
-> 
-> Yes, the VNCR bit is specific to a Data Abort (provided we can only
-> reach host_owns_sea if kvm_vcpu_abt_issea).
-> I don't think we need to explicitly exclude the check here for
-> Instruction Abort.
+---------------------------------------------------------------------------
+Based on "[PATCH v6 00/16] dma-mapping: migrate to physical address-based API"
+https://lore.kernel.org/all/cover.1757423202.git.leonro@nvidia.com/ series.
+---------------------------------------------------------------------------
 
-You can take an external abort on an instruction fetch, in which case
-bit 13 of the ISS (VNCR bit for data abort) is RES0. So this does need
-to check for a data abort.
+This series extends the VFIO PCI subsystem to support exporting MMIO
+regions from PCI device BARs as dma-buf objects, enabling safe sharing of
+non-struct page memory with controlled lifetime management. This allows RDMA
+and other subsystems to import dma-buf FDs and build them into memory regions
+for PCI P2P operations.
 
-Thanks,
-Oliver
+The series supports a use case for SPDK where a NVMe device will be
+owned by SPDK through VFIO but interacting with a RDMA device. The RDMA
+device may directly access the NVMe CMB or directly manipulate the NVMe
+device's doorbell using PCI P2P.
+
+However, as a general mechanism, it can support many other scenarios with
+VFIO. This dmabuf approach can be usable by iommufd as well for generic
+and safe P2P mappings.
+
+In addition to the SPDK use-case mentioned above, the capability added
+in this patch series can also be useful when a buffer (located in device
+memory such as VRAM) needs to be shared between any two dGPU devices or
+instances (assuming one of them is bound to VFIO PCI) as long as they
+are P2P DMA compatible.
+
+The implementation provides a revocable attachment mechanism using dma-buf
+move operations. MMIO regions are normally pinned as BARs don't change
+physical addresses, but access is revoked when the VFIO device is closed
+or a PCI reset is issued. This ensures kernel self-defense against
+potentially hostile userspace.
+
+The series includes significant refactoring of the PCI P2PDMA subsystem
+to separate core P2P functionality from memory allocation features,
+making it more modular and suitable for VFIO use cases that don't need
+struct page support.
+
+-----------------------------------------------------------------------
+The series is based originally on
+https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
+but heavily rewritten to be based on DMA physical API.
+-----------------------------------------------------------------------
+The WIP branch can be found here:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio-v8
+
+Thanks
+
+---
+Jason Gunthorpe (2):
+      PCI/P2PDMA: Document DMABUF model
+      vfio/nvgrace: Support get_dmabuf_phys
+
+Leon Romanovsky (7):
+      PCI/P2PDMA: Separate the mmap() support from the core logic
+      PCI/P2PDMA: Simplify bus address mapping API
+      PCI/P2PDMA: Refactor to separate core P2P functionality from memory allocation
+      PCI/P2PDMA: Provide an access to pci_p2pdma_map_type() function
+      dma-buf: provide phys_vec to scatter-gather mapping routine
+      vfio/pci: Enable peer-to-peer DMA transactions by default
+      vfio/pci: Add dma-buf export support for MMIO regions
+
+Vivek Kasireddy (2):
+      vfio: Export vfio device get and put registration helpers
+      vfio/pci: Share the core device pointer while invoking feature functions
+
+ Documentation/driver-api/pci/p2pdma.rst |  95 +++++++---
+ block/blk-mq-dma.c                      |   2 +-
+ drivers/dma-buf/dma-buf.c               | 235 ++++++++++++++++++++++++
+ drivers/iommu/dma-iommu.c               |   4 +-
+ drivers/pci/p2pdma.c                    | 186 ++++++++++++++-----
+ drivers/vfio/pci/Kconfig                |   3 +
+ drivers/vfio/pci/Makefile               |   1 +
+ drivers/vfio/pci/nvgrace-gpu/main.c     |  56 ++++++
+ drivers/vfio/pci/vfio_pci.c             |   5 +
+ drivers/vfio/pci/vfio_pci_config.c      |  22 ++-
+ drivers/vfio/pci/vfio_pci_core.c        |  53 ++++--
+ drivers/vfio/pci/vfio_pci_dmabuf.c      | 315 ++++++++++++++++++++++++++++++++
+ drivers/vfio/pci/vfio_pci_priv.h        |  23 +++
+ drivers/vfio/vfio_main.c                |   2 +
+ include/linux/dma-buf.h                 |  18 ++
+ include/linux/pci-p2pdma.h              | 120 +++++++-----
+ include/linux/vfio.h                    |   2 +
+ include/linux/vfio_pci_core.h           |  42 +++++
+ include/uapi/linux/vfio.h               |  28 +++
+ kernel/dma/direct.c                     |   4 +-
+ mm/hmm.c                                |   2 +-
+ 21 files changed, 1078 insertions(+), 140 deletions(-)
+---
+base-commit: dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
+change-id: 20251016-dmabuf-vfio-6cef732adf5a
+
+Best regards,
+--  
+Leon Romanovsky <leonro@nvidia.com>
+
