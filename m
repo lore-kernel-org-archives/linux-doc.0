@@ -1,201 +1,283 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA88136E1B9
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 12:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611783246FF
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 13:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762864209; cv=none; b=hYH6qsgd7deccn+P4ejDv9vtIjjCsTK8cEvB743rQmwYhb7lEb9Wa4VZ8ZaJB2Zq/Z1NF3yUQCbCdiqT3ZOu6LF/6QAfp2gMDO3AnmqRpIq7QnVXGmtmoOWfyaur9HtuivQdOMkrKRQxi1sqU2cJ3TekpNd7+fCdVfREuXl9PvQ=
+	t=1762866242; cv=none; b=F4BtVm2e2jZ9mgJNKczrwscP3aPMFGDPiqyqW1BKor8X3RYlPWFZi8tCJ8BDvQRCKEHVz8YU5V7RSZvK6l8jNep/Pf3s+r0FtxgxbC+cK0TVG9NVHG9iaylcT9meXz15FwbKYprUU3dHPEmYmtnh1R0b5LhfJdHpBef5F1ZKBQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762864209; c=relaxed/simple;
-	bh=dB8Ue9D/OJCd2P+B6eSyqNbmWDWbA3cTGphzjnIuCJY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VxE15RtpIxbTMsFX0wpI4sKV4Uk9kT8tZlgFZtRzDThbemeMP/sG7hNNl//5MTMNP5vc7M+P2UxkruwfRVjjFfvOkC5fnLkJRnBof8DVreTYSPioI1OyypYfUujUc+UBUivislGHUReBc1ogOD4Cm5YX9TOs60nU5lVnXZebDzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eSxsaPr6; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JuaxlcbR; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1762866242; c=relaxed/simple;
+	bh=usfAPbPnDwiWzpmUk70Fe8p4bCbppbDN/yF4Q24vmEQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bxh5Mw4vv0+pjPS0fD636zDE0716QJn32XOazPBngjAvbXkPLzdYN/vrGsoGLNKM+5K1JbduH+1IyLuXKmCH4VSRS7lIswZbcS11CeDR4ILjNhMVw3Czuqg0/mJxaxYSnbORntZ6c+eNRHKEoMzuD2oQvFn9DTxoz9wTpJmhc6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lLBwYwpq; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eSxsaPr6";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JuaxlcbR"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5ABBGbdD2251303
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 12:30:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=hBs6+xWoLI/U3b24rkOBpj2F
-	X7NTpjk+sdbP859Hs0s=; b=eSxsaPr6WrcV5ySsbXB9AYitmCJYpQFggD+nREFQ
-	pG2uX8DRL+X4TNu0TEJNH3G+Y5fIs/zXNu2GsVVsftljOFzfCI8q+xSN9ZVKt1cT
-	AMDCAAHdDWd/Mxp6Sd55K0MV7R/lCekb+a/txYFISaZ+94e74VSkE53HZRFEp7cq
-	qt+W2abJoVe9XYk9We8mvXHVJK1DjbzSk2RJlKWPCCv22CRu5Rgch/8QLMQflF/B
-	1n0dSArA4TyMHwSIW6cxDBUBwEkQqzfSg4mPnd1nLaokUVQOdfvXxr15mFYEquou
-	8Z0hfWV8uUOGrGUV5fmx5by/rgYi4TxCgnswYT5FUlljDQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4abxxu964y-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 12:30:06 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4edb6a94873so44500501cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 04:30:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lLBwYwpq"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7a432101882so249737b3a.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 05:04:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1762864206; x=1763469006; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hBs6+xWoLI/U3b24rkOBpj2FX7NTpjk+sdbP859Hs0s=;
-        b=JuaxlcbRZkQbjzX9tRMI6NY7pcYSG9Ty9SEU8gXdHCpvVtThRdHBBfYvV7VVFVjTd8
-         O5oE3aJkel1zuGwOo6VIVardtaeqe36epmrv1RluJpCkV7pBo2poIR4ud/ZYacUoXQKo
-         V1xDvdLSC07bSs4ywihIiY8ivJYNrPhbNhRyN9szo0ffoCdhuNG/76+89hv25Qz/QKGR
-         s8v01TCRnZ9KPCyepzJdAPMqGHkd3agZ+sXkSTKi00E7Z5AUD9SrVtP3T+ufsv+c5lvv
-         kPrQXC2rcYTGoiEadK0Xy5vOI8dqYOGA0t4T3pWQkcRzgArcxqUBCNFBzyCK8A1KNpFG
-         T1tg==
+        d=gmail.com; s=20230601; t=1762866239; x=1763471039; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6ozXRud7hnbH/C6N6bIIB2OSxH4nIfZC/nZQgtGIV7s=;
+        b=lLBwYwpqjN2jCu1S93DRaWqBUYgPgDxR3OBiJ2nplQZIvCAOLzErZaBSstYQAZ1UXn
+         jfdaLZPUNEDbXZLPh2bLcw0KVdvVnoZUDc8CUxPP5ycxEaKKVJ2C4+rkCnTmEIt7+mCS
+         5aV5dKfBnz0oLvK+SPFTdEOhzX8GMb82360S2c6QZ7VzhVwqrnfJxyB/SyT1SVQep8lq
+         rK7x94pu6YiMkm3dYh1dUlgi4YbfZTStLBNcBd6AxA35YYv98E1d3JWlZA/80jkhO0Aw
+         bUrMRhRABDHt2PVYPt1Huw0hMnQEqdrjGDME9+a2RY6KjErZpInr7XzcZw16sOyNfSCr
+         7kPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762864206; x=1763469006;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hBs6+xWoLI/U3b24rkOBpj2FX7NTpjk+sdbP859Hs0s=;
-        b=k0yqXZ4SQgZ3Kv88IgmV/P9SJ9zacRFcnpzghYxc8g6NYnvB06RTjbQAGrYYylt3bz
-         /Q+kI9+y+qhR+04heUBRYg/duQ3cVPCLGRb3Z73Ie7ufIpUTBFt68M6Ws7WrDKJVz/L5
-         GmEmjEuGtXnBDpB8FWFGC/nE1LqU+UolvApt1/uFkVFAnQjFq5hSPInNYhbtlwbUdfF8
-         C/aeLIRj3XKURB9fOfdsPjk7crC+p2ukyxt2W54oAZyZ6aNZA9J1Rx2k1aceg8NZrIFD
-         AtCdCEolNDUSBnD6rYOuD1o/iTidTLC2McDOV5kBfpZq0UeincmJgPrLPSyTiPRhDx3G
-         zB7w==
-X-Forwarded-Encrypted: i=1; AJvYcCWkwhPriHrFtOnue5nmLD56o6nWS50ZkcYseJc+JJv5cebK1ifFsk+vtkDVQpmygkbmBI1V5eciIXc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLlS/zruP5I1gOEqq24Dow6pDJnKF693qnDvZuKZuWeiCHYqhA
-	o3SLfOeAq+KRj9AQEV6o90dt1PVWr60GHgfg6OEGFlRY1uRRfsgubWpRaeyA4IxsloWq1Jd6t6B
-	cBuXe2674w/43taE3RY0aJo1qJACfR4xPT6e3NoCkipsEBlDBDLJX8ZaGYflOOeQ=
-X-Gm-Gg: ASbGncsR2Yf7xhc0OOEqAmmR0CL8M0tvGkIhUDG/kIQv+fVuhO/gSS7WBgKBSVazAbn
-	dndziPJZNsCCSzNtQ0T81tOT/q9JHx7zijieddiUK2Rld85s/4AOrnKZ5gxKdxlf6+jurQmj3WN
-	Mq/kA6OIY+hFfII8arzOeRZwLk/Bh+A6bcc2rXAF/IKxEvqJLK+Ej4gQJ7pf+lJLSB2wcA8q7g/
-	oNuG1CJavrgiK83RG6MsyZV7Hi2La0GhUtvgEae11DCwpmqbhPk5JMTXmd1jF5QI4i14bBiyY6N
-	0WUlF6L9TTNGLIdS4j5XQpUTr0AVtoOjCOHea8gSmn0RSYbFpaq+ObpKzTKjGwL3JuusK7MvEFg
-	06gzntg7tcCMJN5Vm8eIZSiMZY8H7zF2saOeDl6osueHicnd0qMIOMyXwnaw6fSken5mCrGhwCr
-	Tun1LYbj2Oa/yG
-X-Received: by 2002:ac8:5f94:0:b0:4ec:fb4d:105e with SMTP id d75a77b69052e-4eda4fe0a8bmr137123251cf.69.1762864205720;
-        Tue, 11 Nov 2025 04:30:05 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF/wAmTt64QZYcRPu2yVc2CYacZ2Ql3aGNECWBHUNigTi3vj/RKjWKUB+wbah0KY0qbLTwsww==
-X-Received: by 2002:ac8:5f94:0:b0:4ec:fb4d:105e with SMTP id d75a77b69052e-4eda4fe0a8bmr137122491cf.69.1762864204948;
-        Tue, 11 Nov 2025 04:30:04 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37a5f078765sm44935281fa.19.2025.11.11.04.30.04
+        d=1e100.net; s=20230601; t=1762866239; x=1763471039;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6ozXRud7hnbH/C6N6bIIB2OSxH4nIfZC/nZQgtGIV7s=;
+        b=stBOyLEgz1nsvl5l9btno0xYwMlmJvFM5S1iDFnSC9gijXInOF9UrXQOsJ4Jz2M1Lf
+         r6wZ/pQCNbkuKHIFrvTpyXidULwhd4WYXBD7UHtv3UW7fvrNWN6IVggD4PdzbW+dap0m
+         SItK0NQlWNudQfxBYgiOI3jSEj45tbDkVuADOXiLe2THdqaLwgUNwU2iY5WvgTYPjDhb
+         cwwA49Zee6GOj7EYdzNG0jphLkcbgllodfA44OdQx4wl+iG0I25mk6rPXpS4Ka8iCdLb
+         tffmTsY8MiuixaxXU05LqY9ongK42RFN35pabmkqf6hbcCYmN6Wsg1hTRponCjotsLmz
+         XSbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUFMYpbAyDlCpa7L//0CDYpy2V/f8b6U9SRuFaU9FDFG1KpISiL5k+QsExxLY/JTSzH6PtSO6qEeU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvquLnZu5mCGwyymTIPehurL6szqaJU7fJ2TiQa4ESdbJu/7AM
+	mg8ZMXirKLFXTwAC6Pa7oBJ9uAJYcxvEDiN/VAsx5I0aXmRGP67jNinY
+X-Gm-Gg: ASbGncuSv6a+i4z+zz58XrrSkdb9o0510lX6ZlDLOHGHs22pEMAIL/cYv541kH1VENQ
+	tzL4WYs2IR8KoXSARHNeUzkUVxDPWgCQDH1T5yKZgZx81M1GQzbK4WfKE9kfiukSn+wmmMP/g6T
+	o1bv1bMgJwAhOa8OUqHnf37ZxJ38A9w410icWCztybzUXu6K37mNlT76IJCURyalFO07dGawCe8
+	ZIdyBnaVVJyKyjNXyIMaKjZ+K8teZq5gRLg2QNJLk5LeSAI/CeBgPanO0DUkgS2zo1ZR3RjWx3I
+	MyP/GsrN/v1Ec9rOTSxEjr7CBYo/yuUrpp6Bqe1hY3tv1Yb4f/paKTydyiMqId05JRsQjEyk0LS
+	HJfBlalBXvMsXTnMSR0la3c9exp2YVPEadTBNs9VZTdzf/fNbycj7GhQcml3GCWUN6U6N+4lhLt
+	vcWmmVxSKPznkkGqUH5g==
+X-Google-Smtp-Source: AGHT+IHu4EywhajIUey4lbULY1rrvTzR5HGvXc4GreqR0sPeWXBldY1/v7wftHXonsc2QxGK9vnrZg==
+X-Received: by 2002:a05:6a00:4fcb:b0:77f:1a6a:e72b with SMTP id d2e1a72fcca58-7b226e825d4mr7474236b3a.5.1762866239288;
+        Tue, 11 Nov 2025 05:03:59 -0800 (PST)
+Received: from elitemini.flets-east.jp ([2400:4050:d860:9700:75bf:9e2e:8ac9:3001])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0ccb5a517sm15010286b3a.57.2025.11.11.05.03.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 04:30:04 -0800 (PST)
-Date: Tue, 11 Nov 2025 14:30:02 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Tiwari <quic_utiwari@quicinc.com>,
-        Daniel Perez-Zoghbi <dperezzo@quicinc.com>,
-        Md Sadre Alam <mdalam@qti.qualcomm.com>, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v8 01/11] dmaengine: Add DMA_PREP_LOCK/DMA_PREP_UNLOCK
- flags
-Message-ID: <xozu7tlourkzuclx7brdgzzwomulrbznmejx5d4lr6dksasctd@zngg5ptmedej>
-References: <20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org>
- <20251106-qcom-qce-cmd-descr-v8-1-ecddca23ca26@linaro.org>
+        Tue, 11 Nov 2025 05:03:58 -0800 (PST)
+From: Masaharu Noguchi <nogunix@gmail.com>
+To: jaegeuk@kernel.org,
+	chao@kernel.org
+Cc: corbet@lwn.net,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	akiyks@gmail.com,
+	bagasdotme@gmail.com,
+	nogunix@gmail.com
+Subject: [PATCH v3] Documentation: f2fs: wrap tables in literal code blocks
+Date: Tue, 11 Nov 2025 22:00:39 +0900
+Message-ID: <20251111130349.3856302-1-nogunix@gmail.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251106-qcom-qce-cmd-descr-v8-1-ecddca23ca26@linaro.org>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTExMDA5OSBTYWx0ZWRfX8MbdBbjUsAtE
- SdXMGqVN6D06A7GQ72vEc287xplNkk8HHmFjvn02ib7A/V0Ko6vmNlAckqMheawT7ZaOkC5OJ3r
- DRLTFfNDUklQGS1SA8uA36KfjCR3qcJx/qDVMzV2uGcajYouhkYN9D3sYUrp5a8MmLpJ1sQMr9f
- wppOXSlZWijOB5UQIJP/WSiiXGgMeS7KtZsehIix4hL8j2J7uyai1Uu44rbQoF5xQabsoau6g04
- 2bPrqT4AMebaCwNfy7m4DaJZuhRNu+QaI/Lq9XuOmrmiWCBxrhdBV8QDefFWZd3KyjYSM+z5FcX
- wNs4hkS5FRkfI4/zktEO84PER+cjhs8a3QOnsvFLFH3Z0OW6c8zuynIhUUpUwCiMuYt7mFNVWmE
- RaCN/AxbRHRZSPZ6rs6iE6xZSNMR3w==
-X-Proofpoint-GUID: qSBeEAoNJmFXK-GJ975RfFetmyGt2hST
-X-Proofpoint-ORIG-GUID: qSBeEAoNJmFXK-GJ975RfFetmyGt2hST
-X-Authority-Analysis: v=2.4 cv=TfObdBQh c=1 sm=1 tr=0 ts=69132c4e cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=KKAkSRfTAAAA:8 a=8Z5QE3b6LG9DqZ8cva8A:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-11_02,2025-11-11_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1011 bulkscore=0 phishscore=0
- impostorscore=0 adultscore=0 suspectscore=0 malwarescore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511110099
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 06, 2025 at 12:33:57PM +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> 
-> Some DMA engines may be accessed from linux and the TrustZone
-> simultaneously. In order to allow synchronization, add lock and unlock
-> flags for the command descriptor that allow the caller to request the
-> controller to be locked for the duration of the transaction in an
-> implementation-dependent way.
+Hi Akira and Bagas,
 
-What is the expected behaviour if Linux "locks" the engine and then TZ
-tries to use it before Linux has a chance to unlock it.
+As suggested, I replaced TABs inside the ASCII tables with white spaces
+for better readability. No other content changes were made.
 
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> ---
->  Documentation/driver-api/dmaengine/provider.rst | 9 +++++++++
->  include/linux/dmaengine.h                       | 6 ++++++
->  2 files changed, 15 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
-> index 1594598b331782e4dddcf992159c724111db9cf3..6428211405472dd1147e363f5786acc91d95ed43 100644
-> --- a/Documentation/driver-api/dmaengine/provider.rst
-> +++ b/Documentation/driver-api/dmaengine/provider.rst
-> @@ -630,6 +630,15 @@ DMA_CTRL_REUSE
->    - This flag is only supported if the channel reports the DMA_LOAD_EOT
->      capability.
->  
-> +- DMA_PREP_LOCK
-> +
-> +  - If set, the DMA controller will be locked for the duration of the current
-> +    transaction.
-> +
-> +- DMA_PREP_UNLOCK
-> +
-> +  - If set, DMA will release he controller lock.
-> +
->  General Design Notes
->  ====================
->  
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index 99efe2b9b4ea9844ca6161208362ef18ef111d96..c02be4bc8ac4c3db47c7c11751b949e3479e7cb8 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -200,6 +200,10 @@ struct dma_vec {
->   *  transaction is marked with DMA_PREP_REPEAT will cause the new transaction
->   *  to never be processed and stay in the issued queue forever. The flag is
->   *  ignored if the previous transaction is not a repeated transaction.
-> + *  @DMA_PREP_LOCK: tell the driver that there is a lock bit set on command
-> + *  descriptor.
-> + *  @DMA_PREP_UNLOCK: tell the driver that there is a un-lock bit set on command
-> + *  descriptor.
->   */
->  enum dma_ctrl_flags {
->  	DMA_PREP_INTERRUPT = (1 << 0),
-> @@ -212,6 +216,8 @@ enum dma_ctrl_flags {
->  	DMA_PREP_CMD = (1 << 7),
->  	DMA_PREP_REPEAT = (1 << 8),
->  	DMA_PREP_LOAD_EOT = (1 << 9),
-> +	DMA_PREP_LOCK = (1 << 10),
-> +	DMA_PREP_UNLOCK = (1 << 11),
->  };
->  
->  /**
-> 
-> -- 
-> 2.51.0
-> 
+Thanks for your reviews and acks.
 
+Best regards,
+Masaharu Noguchi
+
+---
+Sphinx LaTeX builder fails with the following error when it tries to
+turn the ASCII tables in f2fs.rst into nested longtables:
+
+  Markup is unsupported in LaTeX:
+  filesystems/f2fs:: longtable does not support nesting a table.
+
+Wrap the tables in literal code blocks so that Sphinx renders them as
+verbatim text instead. This prevents the LaTeX builder from attempting
+unsupported table nesting and fixes the pdfdocs build.
+
+Akira Yokosawa pointed out that the in-development Sphinx 8.3 latex
+builder already handles these nested tables. I still want to fix the
+current documentation because Sphinx 8.3 is not released yet, and the
+LaTeX build on the stable 8.2.x series (which also requires
+"docutils<0.22" for now) remains broken without this change.
+
+Link: https://lore.kernel.org/lkml/20251011172415.114599-1-nogunix@gmail.com/
+Changes in v2:
+ - wrap the compression level table in a literal block and add the
+   missing blank lines so docutils no longer warns about malformed
+   tables
+ - consistently use ``.. code-block:: none`` for the other ASCII tables
+   that previously triggered the LaTeX error
+Changes in v3:
+ - Replace TABs inside ASCII tables with white spaces for readability
+ - Keep Reviewed-by and Acked-by tags as the technical content remains unchanged
+
+Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
+---
+ Documentation/filesystems/f2fs.rst | 115 +++++++++++++++--------------
+ 1 file changed, 61 insertions(+), 54 deletions(-)
+
+diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+index a8d02fe5be83..1de0bc83d76e 100644
+--- a/Documentation/filesystems/f2fs.rst
++++ b/Documentation/filesystems/f2fs.rst
+@@ -188,34 +188,36 @@ fault_type=%d		 Support configuring fault injection type, should be
+ 			 enabled with fault_injection option, fault type value
+ 			 is shown below, it supports single or combined type.
+ 
+-			 ===========================      ==========
+-			 Type_Name                        Type_Value
+-			 ===========================      ==========
+-			 FAULT_KMALLOC                    0x00000001
+-			 FAULT_KVMALLOC                   0x00000002
+-			 FAULT_PAGE_ALLOC                 0x00000004
+-			 FAULT_PAGE_GET                   0x00000008
+-			 FAULT_ALLOC_BIO                  0x00000010 (obsolete)
+-			 FAULT_ALLOC_NID                  0x00000020
+-			 FAULT_ORPHAN                     0x00000040
+-			 FAULT_BLOCK                      0x00000080
+-			 FAULT_DIR_DEPTH                  0x00000100
+-			 FAULT_EVICT_INODE                0x00000200
+-			 FAULT_TRUNCATE                   0x00000400
+-			 FAULT_READ_IO                    0x00000800
+-			 FAULT_CHECKPOINT                 0x00001000
+-			 FAULT_DISCARD                    0x00002000
+-			 FAULT_WRITE_IO                   0x00004000
+-			 FAULT_SLAB_ALLOC                 0x00008000
+-			 FAULT_DQUOT_INIT                 0x00010000
+-			 FAULT_LOCK_OP                    0x00020000
+-			 FAULT_BLKADDR_VALIDITY           0x00040000
+-			 FAULT_BLKADDR_CONSISTENCE        0x00080000
+-			 FAULT_NO_SEGMENT                 0x00100000
+-			 FAULT_INCONSISTENT_FOOTER        0x00200000
+-			 FAULT_TIMEOUT                    0x00400000 (1000ms)
+-			 FAULT_VMALLOC                    0x00800000
+-			 ===========================      ==========
++			 .. code-block:: none
++
++			     ===========================      ==========
++			     Type_Name                        Type_Value
++			     ===========================      ==========
++			     FAULT_KMALLOC                    0x00000001
++			     FAULT_KVMALLOC                   0x00000002
++			     FAULT_PAGE_ALLOC                 0x00000004
++			     FAULT_PAGE_GET                   0x00000008
++			     FAULT_ALLOC_BIO                  0x00000010 (obsolete)
++			     FAULT_ALLOC_NID                  0x00000020
++			     FAULT_ORPHAN                     0x00000040
++			     FAULT_BLOCK                      0x00000080
++			     FAULT_DIR_DEPTH                  0x00000100
++			     FAULT_EVICT_INODE                0x00000200
++			     FAULT_TRUNCATE                   0x00000400
++			     FAULT_READ_IO                    0x00000800
++			     FAULT_CHECKPOINT                 0x00001000
++			     FAULT_DISCARD                    0x00002000
++			     FAULT_WRITE_IO                   0x00004000
++			     FAULT_SLAB_ALLOC                 0x00008000
++			     FAULT_DQUOT_INIT                 0x00010000
++			     FAULT_LOCK_OP                    0x00020000
++			     FAULT_BLKADDR_VALIDITY           0x00040000
++			     FAULT_BLKADDR_CONSISTENCE        0x00080000
++			     FAULT_NO_SEGMENT                 0x00100000
++			     FAULT_INCONSISTENT_FOOTER        0x00200000
++			     FAULT_TIMEOUT                    0x00400000 (1000ms)
++			     FAULT_VMALLOC                    0x00800000
++			     ===========================      ==========
+ mode=%s			 Control block allocation mode which supports "adaptive"
+ 			 and "lfs". In "lfs" mode, there should be no random
+ 			 writes towards main area.
+@@ -296,14 +298,15 @@ nocheckpoint_merge	 Disable checkpoint merge feature.
+ compress_algorithm=%s	 Control compress algorithm, currently f2fs supports "lzo",
+ 			 "lz4", "zstd" and "lzo-rle" algorithm.
+ compress_algorithm=%s:%d Control compress algorithm and its compress level, now, only
+-			 "lz4" and "zstd" support compress level config.
+-
+-                         =========      ===========
+-			 algorithm	level range
+-                         =========      ===========
+-			 lz4		3 - 16
+-			 zstd		1 - 22
+-                         =========      ===========
++			 "lz4" and "zstd" support compress level config::
++
++				 =========      ===========
++				 algorithm      level range
++				 =========      ===========
++				 lz4            3 - 16
++				 zstd           1 - 22
++				 =========      ===========
++
+ compress_log_size=%u	 Support configuring compress cluster size. The size will
+ 			 be 4KB * (1 << %u). The default and minimum sizes are 16KB.
+ compress_extension=%s	 Support adding specified extension, so that f2fs can enable
+@@ -368,38 +371,42 @@ errors=%s		 Specify f2fs behavior on critical errors. This supports modes:
+ 			 the partition in read-only mode. By default it uses "continue"
+ 			 mode.
+ 
+-			 ====================== =============== =============== ========
+-			 mode			continue	remount-ro	panic
+-			 ====================== =============== =============== ========
+-			 access ops		normal		normal		N/A
+-			 syscall errors		-EIO		-EROFS		N/A
+-			 mount option		rw		ro		N/A
+-			 pending dir write	keep		keep		N/A
+-			 pending non-dir write	drop		keep		N/A
+-			 pending node write	drop		keep		N/A
+-			 pending meta write	keep		keep		N/A
+-			 ====================== =============== =============== ========
++			 .. code-block:: none
++
++			     ====================== =============== =============== ========
++			     mode              continue        remount-ro      panic
++			     ====================== =============== =============== ========
++			     access ops        normal          normal          N/A
++			     syscall errors    -EIO            -EROFS          N/A
++			     mount option      rw              ro              N/A
++			     pending dir write keep            keep            N/A
++			     pending non-dir write drop        keep            N/A
++			     pending node write drop           keep            N/A
++			     pending meta write keep           keep            N/A
++			     ====================== =============== =============== ========
+ nat_bits		 Enable nat_bits feature to enhance full/empty nat blocks access,
+ 			 by default it's disabled.
+ lookup_mode=%s		 Control the directory lookup behavior for casefolded
+ 			 directories. This option has no effect on directories
+ 			 that do not have the casefold feature enabled.
+ 
+-			 ================== ========================================
+-			 Value		    Description
+-			 ================== ========================================
+-			 perf		    (Default) Enforces a hash-only lookup.
++			 .. code-block:: none
++
++			     ================== ========================================
++			     Value            Description
++			     ================== ========================================
++			     perf            (Default) Enforces a hash-only lookup.
+ 					    The linear search fallback is always
+ 					    disabled, ignoring the on-disk flag.
+-			 compat		    Enables the linear search fallback for
++			     compat          Enables the linear search fallback for
+ 					    compatibility with directory entries
+ 					    created by older kernel that used a
+ 					    different case-folding algorithm.
+ 					    This mode ignores the on-disk flag.
+-			 auto		    F2FS determines the mode based on the
++			     auto            F2FS determines the mode based on the
+ 					    on-disk `SB_ENC_NO_COMPAT_FALLBACK_FL`
+ 					    flag.
+-			 ================== ========================================
++			     ================== ========================================
+ ======================== ============================================================
+ 
+ Debugfs Entries
 -- 
-With best wishes
-Dmitry
+2.51.1
+
