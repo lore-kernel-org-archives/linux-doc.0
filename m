@@ -1,73 +1,74 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEDD254AE1
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:01:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E9D334C27
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762851700; cv=none; b=aPQpUkD/zKB9wjrbTi7qqtEwUadFH8t4AHJa1xmwRQ29VSo+lvcYYI7RzAC33UtIuB2GGyv/1MSSG8eqvoiFZEeuw2VasI7nrYnFbUBZn58mIx9Ri311oXXabM0lEx0GX1HWxpF/JYQnMyBDBhLeAjvVXZN/gDyXMp0XTvv/f/M=
+	t=1762851798; cv=none; b=e7tMspbJKnTq64XfsjDCXCD0Fn4CRUnKVEQ2xGoGocobG6B3Ey3uP2X2KBrdFFNw3quis43N8k4ICM7J2KHsOxwcblrdPDttVzqS82NaCA4vuhv6WqJq8AKDW1ZGYygjqax7+7vXbgOYO2ruli5aKOzTkJbXKxmZgYAe8k0OafE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762851700; c=relaxed/simple;
-	bh=LQ/YVcrasx9+XZH+uzfM5+gmHZwPvR4UMJFJLgRCMmw=;
+	s=arc-20240116; t=1762851798; c=relaxed/simple;
+	bh=pvNoy8QjEGF5vDREzb9JJ0U69eI//OHw5iW0XV0TScg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GTWLstIig1w4coD73xY41LigByRwRNRxrAB1t1/jL8/kguPdNnW1y7dncQlIUMghoIlAFBvAtLE2dL4Pkw4zOl5D6OiLziXYchNR5JMkgFMvqpdQqcJ4tUW7gYwMaR6E92DwSkHQg5u6h7rJYHlDVVAkvz+xSTgo127p2ZHMCiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Bl1d6VmE; arc=none smtp.client-ip=209.85.222.173
+	 To:Cc:Content-Type; b=VU4ewTh7KC6p6/OQTE7DHDgtnAYhshAY/N9+j7qVIZ/UEiv/9l2uTD7JWTK40wbqtyTXqSGuNvak2RThbA6EncVbIDW1L/BFgHRZCYrF9FokisK713o6vWdcgfNitoiBZDQPew6SiLSIKZB//sd6neMdw4ezVQ3uEiE2VOI6828=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UyFSIlwB; arc=none smtp.client-ip=209.85.219.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bl1d6VmE"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-89ed2ee35bbso517136785a.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:01:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UyFSIlwB"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8824ce98111so25193246d6.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:03:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762851697; x=1763456497; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1762851794; x=1763456594; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s3GiAAjmzQ/VspCqloDpIt+ugCtvSToogOEL/VpV0Ws=;
-        b=Bl1d6VmEn9R1tjzMZVvrqqf6DUSUrdoBGOZciAEvr6DaunbsmRO2Q4flGJvTlWK6zR
-         nxhEbyb76+SEsLvEJsJwi5YkE/T+9p2hvpx4jxOqdt0USIIpPpfnTl4QnuIBjFMLSD8b
-         pUNsPWFoRkX6fd9KP4hPGkOrOJeqQlXK3LmfAxCW4UlQgCYA+cHuBAhcg105DNmp+3yA
-         PPQj4hK4GsPMJffmnYkpq37s2Q3mjv34n8P4lcEiVi6hhjGov7yrLoTC2B3FGuwmDU7o
-         KudfRMc/26zAiG00BxD0MUFz1swyRPTGf7n7HlDce4f2I4Z9FDyRBMkW3zZJwOF1v4hn
-         xyAg==
+        bh=pvNoy8QjEGF5vDREzb9JJ0U69eI//OHw5iW0XV0TScg=;
+        b=UyFSIlwBqni/WK3LjDAS7FYlHe741djJ/Stxqtrp4ECcr4d/ij7y2e20TxB3pNOE+k
+         nVia7+QMOCM/Q2YE+Rcr7hm3DxiSdycZMJxdWQ3w/e4fxYc+YL4PgyfYtyh2Nk74m5Sj
+         4GXBl7vlsL2zQ8wsjKeVsGxPCucHzPthtHmBV6EAQwE1UYTPYpUtJBmxcNHfMS+TrEBR
+         SctNhE1TA2PahMS60wiuRST29P3fpeV19FuNarur0ywSqk8o94qPIRKDAAAa65D4EKT4
+         90Tb4cRFDRw/f5wbBH1i0ofeNF+vuIiZUMJL9xxHY364kD5UNSXD16yOW7drnppEwCuM
+         R9QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762851697; x=1763456497;
+        d=1e100.net; s=20230601; t=1762851794; x=1763456594;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=s3GiAAjmzQ/VspCqloDpIt+ugCtvSToogOEL/VpV0Ws=;
-        b=Qpep+A9+h+Lvt8sNASEfkuFnoFc6rAv96gAl2POBeVuhMRx/7OxZqMXc+/GQp8tFsh
-         tSZ4rZvHNKf6hY1qSfLclthXxiyOwH5UV2uDMFp1KnHXKThr1ljaYayM8UtgBzu+IXbw
-         Rm9yXnOit0uDVBldrMfScV/aPHvEsIXCdFBXI+WT0OjVoqAblCWVCqBMmS8+fRomlKlr
-         anko+9kXpId0Gyf6PQxbfqA9p/eVFcQkqAWY2wFzWrtd2vZuov0Jqf2Zs42GnCQQzjh3
-         0Ox66sgUqfVhTY9OzJq+MmgvywZbOFGzfZd7tggV7shtq8qAGEUdWeh7RdmIRnOxI7uw
-         lQ7g==
-X-Forwarded-Encrypted: i=1; AJvYcCUleAScUo/cK5gNTHUsWvboYNuwRURRUcAxulBQfrYI1k8GSVXZxOSi9pxW+PebcC76jGHHTl9QnqA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFw5eQqQqiWJZ6B681Gg2xQ8xbK3aWmu1tQKt8b+vll8Ed6p5C
-	NhQdGYeKUMacFCcMT8KTFWVug4cw6MI6clptSQpfD+KRR92JELsn6ZFdZcQOfwWSYAhbAHItf/P
-	EUJLBQg2cSq1ZH2ZEN7kv7DeQ59XFKFxMi72AMJ3C
-X-Gm-Gg: ASbGncswwTP4LVeQ5xw7hawkW6URfqwg3uKYzl7T8QyfHDvMamgd2q3EFjui2hgDvXF
-	EwyW9dyuEWvXdOyNlTpiWjs+S8jaAdL6R7Sd7d391F7IoYTYCfQHCaHaC7uZu23uhsvfShpDLHD
-	UmOja0E7SGZzTqk6Ro8RjI3Db2ILRcJezG83cI4vgMhQCmADeqsWU+bMnTUjceQ9/mLcIIVunM9
-	IrSZpWGyr8UblVvj0/Dv57IhVXoLSgpVr+PF+7PUxmJVqTVUdKOdPeQAyXzRO3DVzMCTlb6H0w6
-	fAHPPl7EndbiQ5WmZyHEr5qYzGw7QLHS6UzM
-X-Google-Smtp-Source: AGHT+IHmbNWz4nrBYzIA6dULAnEplmbnkhIWWkrftwGIkZuDmlgOtFs93CqEkgKXIfWxtOJB7Fa7kj8HnLkgxuZShy0=
-X-Received: by 2002:ad4:5f07:0:b0:880:42a7:7730 with SMTP id
- 6a1803df08f44-88238731aaamr156015206d6.53.1762851696507; Tue, 11 Nov 2025
- 01:01:36 -0800 (PST)
+        bh=pvNoy8QjEGF5vDREzb9JJ0U69eI//OHw5iW0XV0TScg=;
+        b=uJCSSTSZFMDw+VORZI2xowBPpQ4XByXQO1oDdt3RHv8lvrChnpelRnYHzMlWmVuMTY
+         dZu02JjZYYLyHx+BRFvACzb8KQpu4GBK16qYYSQEa2bpTIiljprwc+janyUFZ5Wl2ULD
+         BHiIhbF+N+l2PtPSx2YZlGNWKg5fISILjsubj48TRb6jsjBFOXmuGcenX8/QNKc/52MV
+         n2vxQRsi88OjJcMReGHOQ2yM+pLcAVZVhhTSv5N6+uZBeBJ2b1OD7peF2MJjFj4BLkkw
+         y+6Ney7VGiNyOD4kE+R0YEUINMwqwMa5ctWm3s7qTeCs21fz+dyGH7hGdehtr7Vy3+s1
+         LpBw==
+X-Forwarded-Encrypted: i=1; AJvYcCVvfkUKZ+9RsWT4nOxhKYldq7uL9bdW8UrOh1WIt0qTpfkQeuRpAllfB0CpcAAczlrZnfQvRzCCAUQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzxb8WGSdDsrJfR/ffc9gEzour3hleHdOlNvIrFcmefaby6htHV
+	T/akBSvImT/a35+fHPcsLCuVp/de5q1sJpfR+uNgvfOyvuUUzSfMeREQuN7GyoDnwvG74wZ+yaP
+	0PCeRqPIg1zPhqR03dHyxAKBKfWLLTKQrAnmStZ6o
+X-Gm-Gg: ASbGncv7DshKJa2by3JuV+oN/B5+xCkROuFejiuLzTrh+ZvrGL7CFmdNVeBFo5GQn0I
+	LxW8VyvqHp6zdX0SILiP15yTEm0KGYZrDS2GxFIQadj2SeX+0umBEA0qSGB2I8l1qKvIZvn+JxU
+	MvB9jyVcG9/SvAOkuD1UHCPC8CUZZChw5f81FH81DJXltWcyxi9AAfVk1rXU+hiVijPoTE/JymE
+	KJRMumsxqdYbk22sjI26JNxSDCpF68ALo8U4ZGC3E3ml0Sec2HrGEepnyhlmIAELmZMnE7o4cvi
+	wxgkVMoP59OGHLpt6Xg2tl65NA==
+X-Google-Smtp-Source: AGHT+IH4F7Ckq32jrbiUxtB1JJ5uFrJqHGgUMRdrFl5ONAv3USRRzhM1TtECqM3yfM33Ue560sqRvq2+UhD4VMC4pSM=
+X-Received: by 2002:a05:6214:e42:b0:880:51ab:a3e3 with SMTP id
+ 6a1803df08f44-882387621d9mr168741746d6.67.1762851793588; Tue, 11 Nov 2025
+ 01:03:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <d98f04754c3f37f153493c13966c1e02852f551d.1761763681.git.m.wieczorretman@pm.me>
-In-Reply-To: <d98f04754c3f37f153493c13966c1e02852f551d.1761763681.git.m.wieczorretman@pm.me>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <0a21096d806eafa679798b9844ec33bf8a5499a4.1761763681.git.m.wieczorretman@pm.me>
+In-Reply-To: <0a21096d806eafa679798b9844ec33bf8a5499a4.1761763681.git.m.wieczorretman@pm.me>
 From: Alexander Potapenko <glider@google.com>
-Date: Tue, 11 Nov 2025 10:00:59 +0100
-X-Gm-Features: AWmQ_bku8cq-CFmbh2Cbwbizm47o3PsCv7pQitKRdKmveqfrADnJlpnymR3GFhA
-Message-ID: <CAG_fn=WPQZ4ti3Lb+A3jSXFWLtn6291sTKJBwKBiLD2E9YbuKA@mail.gmail.com>
-Subject: Re: [PATCH v6 18/18] x86/kasan: Make software tag-based kasan available
+Date: Tue, 11 Nov 2025 10:02:36 +0100
+X-Gm-Features: AWmQ_bncs5LVtJN1ReProGRqJJIZk54xNH4kh3rOCX8uWFHvQkLT6YYoepdGREs
+Message-ID: <CAG_fn=XQPbZb4MTBUgkJ17gfQL5K1QMahaJ39Mw7Hv4zm1crXw@mail.gmail.com>
+Subject: Re: [PATCH v6 16/18] arm64: Unify software tag-based KASAN inline
+ recovery path
 To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
 	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
@@ -94,30 +95,19 @@ Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 29, 2025 at 9:11=E2=80=AFPM Maciej Wieczor-Retman
+On Wed, Oct 29, 2025 at 9:10=E2=80=AFPM Maciej Wieczor-Retman
 <m.wieczorretman@pm.me> wrote:
 >
 > From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 >
-
-> -   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN sh=
-adow memory
-> +   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN sh=
-adow memory (generic mode)
-> +   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN sh=
-adow memory (software tag-based mode)
->    __________________|____________|__________________|_________|_________=
-___________________________________________________
-
-
-> +   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN sh=
-adow memory (generic mode)
-> +   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN sh=
-adow memory (software tag-based mode)
->    __________________|____________|__________________|_________|_________=
-___________________________________________________
-
-> +       default 0xeffffc0000000000 if KASAN_SW_TAGS
->         default 0xdffffc0000000000
-
-Please elaborate in the patch description how these values were picked.
+> To avoid having a copy of a long comment explaining the intricacies of
+> the inline KASAN recovery system and issues for every architecture that
+> uses the software tag-based mode, a unified kasan_die_unless_recover()
+> function was added.
+>
+> Use kasan_die_unless_recover() in the kasan brk handler to cleanup the
+> long comment, that's kept in the non-arch KASAN code.
+>
+> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Acked-by: Alexander Potapenko <glider@google.com>
