@@ -1,73 +1,73 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7F8214A64
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482332BF00A
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 09:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762852110; cv=none; b=Ilv87leV7mpqnzX58fIA9/wIhO+i81yGMfsFQti5iS7ad73L7UZXxJeYfulAqIlrzpegrUw5yGBXplTEM+JooZEL14YE0cATFgcJw9p78OzH7Tq3EzKGLEjCPVeRbtW436zbsBzab1LAwbisbwy3YEOAWhD+etfnk6TZ6Ub5bsI=
+	t=1762852313; cv=none; b=f4MeSY1sThvwUsTCGUmLRtrg0qKQcqEVf7dkOMjo0lz9ibHE48P/VMEgq3PfiEIngnX1reg7U4qMnn8DtPsmsYCuStGmaw7Q7GP3PaQW2gDhGefq0RUBShKqlBgX62Ky+8rM1nWCXsnOwFiy3He24BWONqBnrlvW2RC9hArr/+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762852110; c=relaxed/simple;
-	bh=T+mH9+7PNLYr6Z/2ln9TuMbRS+qcoVyhy39YsWeg6dI=;
+	s=arc-20240116; t=1762852313; c=relaxed/simple;
+	bh=wMAn9oTbF3Zv6YZXMFgD9SCNTI8yFt+ADFGBD5EQzqY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Lhi9bWkoPX8LCAF0HbnQnZohBR3B/bWmYs3kLWSyNYxqvDV7OUnpqqBgoi56zN/fGpCBQet9QhA7dxht2RMrfZu5sOgRP0XiHt9HS4q2lqx1fvzYHyOfmPxA3QsDQrQxtc6teaT3EeaXDhSjsxh4ItFLn9whdgal7roOkVX6wQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=re7owBYY; arc=none smtp.client-ip=209.85.219.52
+	 To:Cc:Content-Type; b=q+hCet89jeCNZZf26LgnaeHKkoRnNgBSMbJG61h7Od/wqUIv87VsLfmMfEhdr6YEDLROFX4Cul76C4KbRTsth38xOh3d9QjdvrV6SEe+djJgTDrg4FucQgCvkUEHJcYFf8fSr45t/XgPQSP1HjpIl/gipma1r7ZVVHSf25v0ZoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SKVSTcn1; arc=none smtp.client-ip=209.85.219.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="re7owBYY"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8823e39c581so33060126d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:08:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SKVSTcn1"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8823dfa84c5so31589416d6.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 01:11:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762852107; x=1763456907; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1762852311; x=1763457111; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T+mH9+7PNLYr6Z/2ln9TuMbRS+qcoVyhy39YsWeg6dI=;
-        b=re7owBYYJrPTlSNKQcwaizDxrcmieeRuYuQ41APdnT5aR3nqNB71/0eTrKHKW25OEP
-         jTynEBUFpZV66AhtMhI4jLnGlfZIyJUVU4EXJ28JpI+PZkDvTnFJWHV+dI+G7fSkkBl0
-         Dkq+syf8qK7jZJwla9m/9JurteW6JeSWRIUkJQ6wehbDMLDroCObvJY7rj8Ia3x9jzEr
-         UShxa6heHm1cRyWSTdS3baRg9U6ikWYyBl8Gm8psmNKIBh6X4j3lkN2OAhpPlNZP9AWe
-         Ub7W+NwTMX75zZuf3tosBVf37Te4F/toDtjYuVISvXTwJj3CuZVop913uiuMZaWwE2LT
-         HmZA==
+        bh=wMAn9oTbF3Zv6YZXMFgD9SCNTI8yFt+ADFGBD5EQzqY=;
+        b=SKVSTcn1nqhQszrNr1vdsVjq8dSl9VoDABDmD7if+9Te7wJ6J6rDS7S50aJ5F69y5E
+         k4E9UZLYEurZWvTFPpJtJmpQVO3sKLOFk33oROWR9PjaRKPOsNd9aIYs2Y4bP40twuFV
+         y1wrJMuvjyGBhkWCw3NnHtMMBsAFT6HV5rwS0nU4gPbq3bG2iZG/R2yPw1hk3j+U4wY4
+         bsViKBtjl6JHn12zl48f6GCXe8krAM52fMG1bqA0czRerGWV5m+KbPcl9pnvA5BYIhhw
+         DYQCwvEA9PdZfsUncWAr0Lmvzq5AS371Eb5x39GczPqGUwPamAPNdAGl6KWLGNK/6P4W
+         kvFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762852107; x=1763456907;
+        d=1e100.net; s=20230601; t=1762852311; x=1763457111;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=T+mH9+7PNLYr6Z/2ln9TuMbRS+qcoVyhy39YsWeg6dI=;
-        b=KFxTTvAdQGzu09eznnGwixcDgnsnaI36LPpbufAsdba4Nj9RLPJUKRUF9+UH2vA0yJ
-         mLIy/L2BAs7ZmA4cCW7fu0G4nj4D9vVmaeU3ew0ZD3j8kWE7ROxp5pdihsLORj0DGO01
-         CiUVweHRPkOa6P12pzIPo4+uSSlUuM+PXmU/zCfPe4r45c35MijPoJVMFDMeS/owBPPK
-         OnC57ygGIPV8XS+BpLUGvJx6zib2cckoEgJgJSNfo3zdf+0XZvQMJLeoo3g2IQzBE6zC
-         DdvGk90M0MzbNY1c33mEobe6ayGRW7vF/1QQDdar1xMc4uJvwQZe6SOZSwasWSzq/bRz
-         dM3g==
-X-Forwarded-Encrypted: i=1; AJvYcCUYAmE0XqgwCmxiXxLX9kXPy8Zp+FC1XPkV7lBLrdpAwFfqhcVzIDBOL12hvP+cc6Id+xF25kbApLM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5YocytaC1AZRv5KSmShOzvGpz7iwYrzT9Ykt5fiJQElyTwYlV
-	SdjFIK8qWC+LQOXS6sxmwYVTpRu8aiJiGdHm4wsvwrtZxPIU8mgfaSRrhjjG6rZdAtDo3SXDb0V
-	4TjsuVa9I6unhCofrmMaYq3na24tWt5l2hVYFCU2P
-X-Gm-Gg: ASbGnctPmpsfY/jCksQp/+lyhJMLPpY19ON2ldbe0Ff65XPPiAsMbNIyjrL7JEAeK6N
-	hLD84iUMxtnTkUCX/ogV6+40iqJLm5Yrd0No33g5aM3HMYTwQ7NkvJTFK7eD6X+VNcW9UA0OJp+
-	11vrd+dTplZKNeUrx3DjOyCb/pPb9pUcWp+ka1VyZ8eSS8RzjdEiRLyTTSxcRrutaT8GRWAZDE8
-	pueOusxWzjox3CeJ/gQhN4l7oQu4tFOVVZ7TVr+5zmdtjuMEhNiU9k+NuPec4YVy1M6eWI7SPTn
-	RbYqpLOUUPCg9+AuoY708wt6FI1RDjPRV3j1
-X-Google-Smtp-Source: AGHT+IGGiGzNQ2eAyJqdaO9JyMrXkP7w+emfDXwZMPoyyY2gy1i/zUBgnLRf870LMq5UXpv/uG8YRTM2WfKUuwW/Bjc=
-X-Received: by 2002:ac8:5751:0:b0:4ec:f4be:6b12 with SMTP id
- d75a77b69052e-4eda4fd3621mr141844221cf.72.1762852106635; Tue, 11 Nov 2025
- 01:08:26 -0800 (PST)
+        bh=wMAn9oTbF3Zv6YZXMFgD9SCNTI8yFt+ADFGBD5EQzqY=;
+        b=hhdwIhpHakKYTovjYCKMfunvTqwTRduxvbAeOxtBbK1FG/sALkEV9zPE/CDF8Up1WC
+         8NhrD8obJnc0yTGWloOGeMPa9vmfSzM71i0P44OKl1KjZmXa3e2A0Dt3hN3NMpvrzEsH
+         WbLdVUxzDD7cltqsS9DEayiTeueF0dvF8996B2xP5uRLaXFTUEft6Wqbb7peGuaU6tbW
+         grLh1idliyFOCpJJ3aG+zk81dKRFRs9tJvYndRrosnscA8TWP7cxqxIMQISf/COk5Rey
+         XFKrc40INIUl9zIULG8QxiwBp36mjnggsQVWkVtbpTykbAqR807sb9s9qgaRQuEFl2WF
+         ilYg==
+X-Forwarded-Encrypted: i=1; AJvYcCWi+jkMZ1B1BSsnsRqVxTRMwXN8AOKGw9e9o7om7tsB3CJtaBOqaHGAT+ICf8dvBePRkgOV/Q2mW4I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzD4ZBqn5WbMQFs4cGyp5oeH1HL4pFca1HlFSjY1PZhI8JGENs0
+	5TkXHOGleuSlPY9QYHAjM/sFSjjmEpPXG5AqNEPfiGIciSaMhbK/aPw2jojH4rD6joxK3uvlvFb
+	Tado+K1jEDDkKeYHGJ+QicvkO7Aw1N4wWV5vNrNff
+X-Gm-Gg: ASbGncugniWCBgexZ0A+dY71notY90qFW7Ks2Z2RsEbm2L2pjPURCXaxQX68UsOhwyu
+	fm014tUnvTQK9mM9IMByT0Pvb0A+T0j6utEwWrTyYS61zjBNaCWolCMBEcnQh/tjh998kWcZg1t
+	A60LZzrxgPRhL8owgCkzSFkU1gdj+XC4qLST6lGbVvhzDpzkCcRYXoGgqKPIQsPM8NcL+w33xuw
+	PWDBK4OdkknBWwAlkSVf7lxqtzGeEheh9jFZvsE/jXD4HgsffJuIK80s2Y0TBt3rlDMp+MQ7dbe
+	oNQgoLpsmIl+mOZLjLTmOT2VeyX2ReWLLEuN
+X-Google-Smtp-Source: AGHT+IH+IyV5M3UDNVO30prt5PPyyx1n6sQAkg8H+r/cXESUVZ9Sxny0Upk5iwgOz2Gyh93ucwAfPrYSF2wYVT/cQJo=
+X-Received: by 2002:ac8:7f84:0:b0:4d3:1b4f:dda1 with SMTP id
+ d75a77b69052e-4eda4ff2f1fmr126391511cf.61.1762852310737; Tue, 11 Nov 2025
+ 01:11:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <56d9203b1fcb6281b0d29b44bc181530e5c72327.1761763681.git.m.wieczorretman@pm.me>
-In-Reply-To: <56d9203b1fcb6281b0d29b44bc181530e5c72327.1761763681.git.m.wieczorretman@pm.me>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <f533bb094a566242ec196afbde222796c6d6c084.1761763681.git.m.wieczorretman@pm.me>
+In-Reply-To: <f533bb094a566242ec196afbde222796c6d6c084.1761763681.git.m.wieczorretman@pm.me>
 From: Alexander Potapenko <glider@google.com>
-Date: Tue, 11 Nov 2025 10:07:50 +0100
-X-Gm-Features: AWmQ_bksKNIR8oRrvQW5ElnBBjqadCFUKWpQKwYmKonXZ13JEF-XHOSa5ehktsY
-Message-ID: <CAG_fn=U3SLOoy_K-2ShOMYf80i4AE1tB1AL4w7wcJAXBxi+PtA@mail.gmail.com>
-Subject: Re: [PATCH v6 12/18] x86/mm: LAM compatible non-canonical definition
+Date: Tue, 11 Nov 2025 10:11:14 +0100
+X-Gm-Features: AWmQ_bnrR-pK5Rc9D-XEScjrYr9MOeawukkWZRpWJ1yHRGagV2Ym8rHVDa4nqXc
+Message-ID: <CAG_fn=X-FB6vVtDC8WhQzF7cNePS5AtmC4W1-YfTce+5jOc+wA@mail.gmail.com>
+Subject: Re: [PATCH v6 11/18] x86/kasan: KASAN raw shadow memory PTE init
 To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, 
 	kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, 
@@ -94,24 +94,24 @@ Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 29, 2025 at 9:08=E2=80=AFPM Maciej Wieczor-Retman
+On Wed, Oct 29, 2025 at 9:07=E2=80=AFPM Maciej Wieczor-Retman
 <m.wieczorretman@pm.me> wrote:
 >
 > From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 >
-> For an address to be canonical it has to have its top bits equal to each
-> other. The number of bits depends on the paging level and whether
-> they're supposed to be ones or zeroes depends on whether the address
-> points to kernel or user space.
+> In KASAN's generic mode the default value in shadow memory is zero.
+> During initialization of shadow memory pages they are allocated and
+> zeroed.
 >
-> With Linear Address Masking (LAM) enabled, the definition of linear
-> address canonicality is modified. Not all of the previously required
-> bits need to be equal, only the first and last from the previously equal
-> bitmask. So for example a 5-level paging kernel address needs to have
-> bits [63] and [56] set.
+> In KASAN's tag-based mode the default tag for the arm64 architecture is
+> 0xFE which corresponds to any memory that should not be accessed. On x86
+> (where tags are 4-bit wide instead of 8-bit wide) that tag is 0xE so
+> during the initializations all the bytes in shadow memory pages should
+> be filled with it.
 >
-> Change the canonical checking function to use bit masks instead of bit
-> shifts.
+> Use memblock_alloc_try_nid_raw() instead of memblock_alloc_try_nid() to
+> avoid zeroing out the memory so it can be set with the KASAN invalid
+> tag.
 >
 > Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Acked-by: Alexander Potapenko <glider@google.com>
+Reviewed-by: Alexander Potapenko <glider@google.com>
