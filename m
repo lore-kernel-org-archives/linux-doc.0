@@ -1,67 +1,68 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B57E358D39
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 11:38:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC553590A0
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 11:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762861115; cv=none; b=GoyNXQVCqb+pmdvR7Lkv1LcFDbYCQwUFT78V07HTauu6GBxziUutw2T7zG5kZlp+8INMsUb3yV9kCMeCUSxgtNAhbFEwl333b6v7dG96kZtL5/jaxnK4xSKPKv3SWhYyYnjh2Wy+iLSBl+YXBZAQ7IXobE4I7tO8r19XaS8kQyY=
+	t=1762861117; cv=none; b=ss5JBEJot3V4SX2w70FNi5aynmCxlJlcc92i73G8+8V4ThKyDw13HOoukZx5HWosCjhXdaTAF+XSjvih2UPMA1zio0hsyek6KFO82PuhiaDmhEpvMFlk6SQumXjxXVnZ6Ol1otvy5ogLTPY2s+lRWQn5cSx8Fp4spogyJCHceso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762861115; c=relaxed/simple;
-	bh=x95u+IAe5V5q3kdJyo2Q7B3yE503oFrO1P0dSeyIme8=;
+	s=arc-20240116; t=1762861117; c=relaxed/simple;
+	bh=wuWGqKWZZ/BTt5fqv81cBQwVikNNCsOKo8cdQBD/rvs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GaEp9+C62IkkUbbBKLIPp6S12fFgXPoxNJFC0wmzntDpRHHd+7SNRp3xs0VXjIKTf9d33jIASTmgg8IzKXv4/kNhTTcQyWCP+2QN7/LZ09mGczW/cg6b4RzUtME1R9q4UdsdwJWD/V2DvNTyAmw4OrOThU60qyO4H+hD4G2Vlb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZkwRqYON; arc=none smtp.client-ip=209.85.128.54
+	 In-Reply-To:To:Cc; b=eV06s6RsHz2LtH3/6AYBJFW8COBhh56xadKnG+PqiamD4GqQ0VOx91VUcpeT764lyHho5LG71b0gl4yrI51H10PPaKOdNwKW/1IWTHWDiKBRl/84q/sdgSvj1g2J0udJGKZFXAvIoanqiH44bu/knB2xDYfBWKliFaKFQ8nPEJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lDZqaDiq; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZkwRqYON"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47778b23f64so14811285e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 03:38:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lDZqaDiq"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-42b3c965ca9so954010f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 03:38:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762861110; x=1763465910; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1762861112; x=1763465912; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hfuWM/BYuIKRAqpYoUgwQd7cyFQJ3HADoloFiEPlZDo=;
-        b=ZkwRqYONLunVmEc9PIqNrVtCbI/1N5gLB7N9TnqRc/9xnoA31Ejn6steSAtkZfzfOm
-         Y9ZH+Ca8t5IlBWW+ATJwBv+VJ5Nmgl2HmP9cDIWrIdkkOp2df/K7bMinIxZyprq26UWw
-         4sGVB4y6gvLDXoFXpjHU4/MuvTZsNSCVysrYoagHQBZ1rlEIkJtNZ5qGPSfrcyNvBUp/
-         7bczIxUMf+YE3SJ+MVotPoRprFI8VAU5X5cvtmMsLW0k/fz6lU7l2kMYp49JwC/w1WCX
-         m6EX+/Il7RiGc6JysB7e9wrJpmnN+Rs/K2NWEf9ZYex8qOeI90C+6UPTOWiEzjgO8dz3
-         Wu1g==
+        bh=gwCuT4qpbf858s5dq2pagCIko/kgMzJ+Cwp9chp+q6I=;
+        b=lDZqaDiqywqaaZM1tvO7QMn2TkJNGsZeP1loG17uERUs4YpjthLT595dVZI5knXpnG
+         kbfPOwSLZs0HlrWb7AdpLECAc633vMjUUtGaSIPjiircdaK+vx2g+YEeovY3wM/Vc+gY
+         ExXVlZ+8tiY/ptvTZcInbVoChjSoTwon5LuV6M6RWtCgvbpHOB5GdV6CgXTw5LyoApSM
+         2fd7FaaNY8X7J/RdYAxKmUDLDyfAbmHbgGDvhLiByYfJHxicIHkI/Pj0X+VXBttYC4l7
+         4YyqUTGr/91mzcWsizlmEDzOj+OgZlaGVYZuNcQ6zMHBH2n8P2R4M5/GerofXWVDU52L
+         smdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762861110; x=1763465910;
+        d=1e100.net; s=20230601; t=1762861112; x=1763465912;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=hfuWM/BYuIKRAqpYoUgwQd7cyFQJ3HADoloFiEPlZDo=;
-        b=frGrfBc5b0MfuUfxvzk4TQwOSRiiUrSHWsq+V0Y0Tg1ZY3iyL1sFK7LxDlutYNpK/j
-         dEPESXKM6meunxQYlLIKXjqpfv8w1QA4IKoUQOO8/hBdGerJ8iKR8pstIAMHEU0GKYPk
-         9ZUm4O1/yqYToP7z6se+BO8gFNHb7SqD7G9QF5i1AXdgKpqSbPK5P7SOj5NOKHa1TVHR
-         B0XRh7pHRmf96Pb5/fRdwDAaNOx+afi4GJ5RgBBTREZs4M34b1lM2vGFIl1p7G2ds4w9
-         zYO26ukFn+Brc/mMHiVd8aAof7v9knYYq8zrDnJfargVZJegadGcBcGD6DTIccc4GDu3
-         lLDw==
-X-Forwarded-Encrypted: i=1; AJvYcCXLPgEbdkd942sMotbKdm0otJ9kZsKIOqrPYiNcLQTVCZ/57cIICRV2mFdgIM5+kc4FiBoLuDNTFlM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8VPVfKQZ5/GWkSWO0KBtxAx5QOhe0kC5Wm68xaiH5YnEeWBOn
-	Rceo5NRJFsrEFQfD9hqXxJr1Brrf6m+C7IBOgOgt46o8tPCrkgE9GuV/FljPM9JComU=
-X-Gm-Gg: ASbGncsmzGCkTqmtC33YDEz9+itSPXDbAIxIlYJAlIC7crlE4yT+AjP2/HCJHLIsgND
-	cBpZ0+QFv6+kFHNFl3jUaNun0IjPimwX5vbFnYAREg4xx9InsDE2ALLTXRmU73hzNSskSJ6WtrY
-	/hS/+86rxajMR7KbiONJLwDkJyiCOurNT/6+yzyzJYVoK8lE0jxx6lFHaYerNw18J6cOUWAyWAl
-	GQovXfP4r2NMtsEP61XEa7HOqvxFCX/xK1avSIl+tk72qxjSEGuCcweRH2LQJUInpoXe6i/UOOz
-	7o12lEIUMIdwOeKVR15oYZ6gbfYh6cRWOg/OTXUtRrDMzwPGJ3zIHt2zKmOpo8SgmWmq49jjiol
-	8QAvVgbbnWWqB9cKH1mLcR5LadFltzUpRZw4jwWRE1IeUhTynX59EmY2fKR1UnyeSYCVRg2z7Je
-	KDwwIVHzN/lOlB0d/tarUIqMAZpbUu11w=
-X-Google-Smtp-Source: AGHT+IGYPR7rqVbdbF+k3EWMkcQQ1XUolXYoeKsYoPvyE020LtvRy4kS5z2d7QV4g2hQ3KZfV9KU5w==
-X-Received: by 2002:a05:600c:1c15:b0:477:7c44:c0c3 with SMTP id 5b1f17b1804b1-4777c44c1e2mr78464655e9.40.1762861110374;
-        Tue, 11 Nov 2025 03:38:30 -0800 (PST)
+        bh=gwCuT4qpbf858s5dq2pagCIko/kgMzJ+Cwp9chp+q6I=;
+        b=vw2U+OXfDRv9IW2XWXc3xsTRLFv8dj1j8Qm5zVhXfxnYRZ6rZ3lLlR95breZzrgpFw
+         TocFC+rJh58GH7qIAwKGcCf2yr2HJhWIfl+PkzA0f0PXb7qtrpeRxbNHUOEom7Ue5BaL
+         oP29uPJY7MCStS9VtqNrtQydK3ZJQmsD3HeiGYx40nGFIsS7JYqMF4PFAMm7evcvkEHO
+         sIW80WhjU41WySPAxq7AKzzv0cSDgwsHSdohuorTp0miiNSMDxpOKlrxyxhxJiZOEcgB
+         dNoEXVS+I/vsKBM32qmoRO5KhrIk8xsw1QEK8tYYG9YeQbfOtRmzVmxXRiXCoY5NJStH
+         FlwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWiZ9lMFPCLEQZYK5Kz2mR8mXf4HPL5opWgr/dlUK5j8PLW44OOsvTJAeQfgJm8LSIvxHDVCzS436Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyV+JdtJJxu+5KylGCKIxTfjwTLMwvgCOolm8HIbz0Ue58t5H3K
+	THrbZR04oRKs4t23sfIAPeWBKJcflalYTIzXCUPi5kzVYClJIGH59C/2GfLfgGYpE8Y=
+X-Gm-Gg: ASbGncs+OrVjG7zaRzvSz/w7E0udWu4xYrhBI3t01EHH/6h7u9gJ9wJz9iK84/GC0W9
+	ImFntAcuJP9SpOGldO0itEiT9v/Lk9W8Vi1/c8bo5L18tUXcHga5PJX1/QNKpTZZb2VA/gkZHuw
+	wD1KY7Oat3q20BNlU79zbqictDjBe//rWsNj+GDGMg+5lJn8OOdwlYh0fvpTAXZcdBsbqdj1YCL
+	mrBm2yRxr55DlJkItnYTaiV430IJTZKYibZPG1C4Gjshu79ENDC1hcDxexIAWR3dkLkyg6Rge/3
+	MAYjYUe/4VD+A13hog8bfTnzvHbsTVifV1YcpybCkb/sXFIQuM8KaJ3V0UUO0TJRsziepOAB5Vx
+	/cmA7OAA9hcKH2ZXuEBnWRHohh97oqINDSfQ02QIbEnu27UxypzRhIuWZ+N4ad4f9h16p1N6Jk2
+	m6zETQNKIo3A==
+X-Google-Smtp-Source: AGHT+IHoaAdyno4PCEkIfLITG0AGBI1bC/mX+D1DG/Yst4Q/794Wn0/d79DNOynMvzJ3hrqergaE6g==
+X-Received: by 2002:a5d:588a:0:b0:42b:3e20:f1b4 with SMTP id ffacd0b85a97d-42b3e20f5bdmr5248092f8f.5.1762861111797;
+        Tue, 11 Nov 2025 03:38:31 -0800 (PST)
 Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42ac675cd25sm28133486f8f.22.2025.11.11.03.38.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42ac675cd25sm28133486f8f.22.2025.11.11.03.38.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 03:38:30 -0800 (PST)
+        Tue, 11 Nov 2025 03:38:31 -0800 (PST)
 From: James Clark <james.clark@linaro.org>
-Date: Tue, 11 Nov 2025 11:37:55 +0000
-Subject: [PATCH v10 1/5] perf: Add perf_event_attr::config4
+Date: Tue, 11 Nov 2025 11:37:56 +0000
+Subject: [PATCH v10 2/5] perf: arm_spe: Add support for filtering on data
+ source
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251111-james-perf-feat_spe_eft-v10-1-1e1b5bf2cd05@linaro.org>
+Message-Id: <20251111-james-perf-feat_spe_eft-v10-2-1e1b5bf2cd05@linaro.org>
 References: <20251111-james-perf-feat_spe_eft-v10-0-1e1b5bf2cd05@linaro.org>
 In-Reply-To: <20251111-james-perf-feat_spe_eft-v10-0-1e1b5bf2cd05@linaro.org>
 To: Catalin Marinas <catalin.marinas@arm.com>, 
@@ -90,40 +91,141 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  kvmarm@lists.linux.dev, James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-Arm FEAT_SPE_FDS adds the ability to filter on the data source of a
-packet using another 64-bits of event filtering control. As the existing
-perf_event_attr::configN fields are all used up for SPE PMU, an
-additional field is needed. Add a new 'config4' field.
+SPE_FEAT_FDS adds the ability to filter on the data source of packets.
+Like the other existing filters, enable filtering with PMSFCR_EL1.FDS
+when any of the filter bits are set.
 
-Reviewed-by: Leo Yan <leo.yan@arm.com>
+Each bit position of the 64 bit filter maps to numerical data sources
+0-63 described by bits[0:5] in the data source packet (although the full
+range of data source is 16 bits so higher value data sources can't be
+filtered on). The filter is an OR of all the filter bits, so for example
+clearing filter bits 0 and 3 only includes packets from data sources 0
+OR 3.
+
+Invert the filter given by userspace so that the default value of 0 is
+equivalent to including all values (no filtering). This allows us to
+skip adding a new format bit to enable filtering and still support
+excluding all data sources which would have been a filter value of 0 if
+not for the inversion.
+
 Tested-by: Leo Yan <leo.yan@arm.com>
-Reviewed-by: Ian Rogers <irogers@google.com>
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Reviewed-by: Leo Yan <leo.yan@arm.com>
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- include/uapi/linux/perf_event.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/perf/arm_spe_pmu.c | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/include/uapi/linux/perf_event.h b/include/uapi/linux/perf_event.h
-index 78a362b80027..0d0ed85ad8cb 100644
---- a/include/uapi/linux/perf_event.h
-+++ b/include/uapi/linux/perf_event.h
-@@ -382,6 +382,7 @@ enum perf_event_read_format {
- #define PERF_ATTR_SIZE_VER6			120	/* Add: aux_sample_size */
- #define PERF_ATTR_SIZE_VER7			128	/* Add: sig_data */
- #define PERF_ATTR_SIZE_VER8			136	/* Add: config3 */
-+#define PERF_ATTR_SIZE_VER9			144	/* add: config4 */
+diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
+index fa50645fedda..617f8a98dd63 100644
+--- a/drivers/perf/arm_spe_pmu.c
++++ b/drivers/perf/arm_spe_pmu.c
+@@ -87,6 +87,7 @@ struct arm_spe_pmu {
+ #define SPE_PMU_FEAT_INV_FILT_EVT		(1UL << 6)
+ #define SPE_PMU_FEAT_DISCARD			(1UL << 7)
+ #define SPE_PMU_FEAT_EFT			(1UL << 8)
++#define SPE_PMU_FEAT_FDS			(1UL << 9)
+ #define SPE_PMU_FEAT_DEV_PROBED			(1UL << 63)
+ 	u64					features;
  
- /*
-  * 'struct perf_event_attr' contains various attributes that define
-@@ -543,6 +544,7 @@ struct perf_event_attr {
- 	__u64	sig_data;
+@@ -252,6 +253,10 @@ static const struct attribute_group arm_spe_pmu_cap_group = {
+ #define ATTR_CFG_FLD_inv_event_filter_LO	0
+ #define ATTR_CFG_FLD_inv_event_filter_HI	63
  
- 	__u64	config3; /* extension of config2 */
-+	__u64	config4; /* extension of config3 */
- };
++#define ATTR_CFG_FLD_inv_data_src_filter_CFG	config4	/* inverse of PMSDSFR_EL1 */
++#define ATTR_CFG_FLD_inv_data_src_filter_LO	0
++#define ATTR_CFG_FLD_inv_data_src_filter_HI	63
++
+ GEN_PMU_FORMAT_ATTR(ts_enable);
+ GEN_PMU_FORMAT_ATTR(pa_enable);
+ GEN_PMU_FORMAT_ATTR(pct_enable);
+@@ -268,6 +273,7 @@ GEN_PMU_FORMAT_ATTR(float_filter);
+ GEN_PMU_FORMAT_ATTR(float_filter_mask);
+ GEN_PMU_FORMAT_ATTR(event_filter);
+ GEN_PMU_FORMAT_ATTR(inv_event_filter);
++GEN_PMU_FORMAT_ATTR(inv_data_src_filter);
+ GEN_PMU_FORMAT_ATTR(min_latency);
+ GEN_PMU_FORMAT_ATTR(discard);
  
- /*
+@@ -288,6 +294,7 @@ static struct attribute *arm_spe_pmu_formats_attr[] = {
+ 	&format_attr_float_filter_mask.attr,
+ 	&format_attr_event_filter.attr,
+ 	&format_attr_inv_event_filter.attr,
++	&format_attr_inv_data_src_filter.attr,
+ 	&format_attr_min_latency.attr,
+ 	&format_attr_discard.attr,
+ 	NULL,
+@@ -306,6 +313,10 @@ static umode_t arm_spe_pmu_format_attr_is_visible(struct kobject *kobj,
+ 	if (attr == &format_attr_inv_event_filter.attr && !(spe_pmu->features & SPE_PMU_FEAT_INV_FILT_EVT))
+ 		return 0;
+ 
++	if (attr == &format_attr_inv_data_src_filter.attr &&
++	    !(spe_pmu->features & SPE_PMU_FEAT_FDS))
++		return 0;
++
+ 	if ((attr == &format_attr_branch_filter_mask.attr ||
+ 	     attr == &format_attr_load_filter_mask.attr ||
+ 	     attr == &format_attr_store_filter_mask.attr ||
+@@ -430,6 +441,9 @@ static u64 arm_spe_event_to_pmsfcr(struct perf_event *event)
+ 	if (ATTR_CFG_GET_FLD(attr, inv_event_filter))
+ 		reg |= PMSFCR_EL1_FnE;
+ 
++	if (ATTR_CFG_GET_FLD(attr, inv_data_src_filter))
++		reg |= PMSFCR_EL1_FDS;
++
+ 	if (ATTR_CFG_GET_FLD(attr, min_latency))
+ 		reg |= PMSFCR_EL1_FL;
+ 
+@@ -454,6 +468,17 @@ static u64 arm_spe_event_to_pmslatfr(struct perf_event *event)
+ 	return FIELD_PREP(PMSLATFR_EL1_MINLAT, ATTR_CFG_GET_FLD(attr, min_latency));
+ }
+ 
++static u64 arm_spe_event_to_pmsdsfr(struct perf_event *event)
++{
++	struct perf_event_attr *attr = &event->attr;
++
++	/*
++	 * Data src filter is inverted so that the default value of 0 is
++	 * equivalent to no filtering.
++	 */
++	return ~ATTR_CFG_GET_FLD(attr, inv_data_src_filter);
++}
++
+ static void arm_spe_pmu_pad_buf(struct perf_output_handle *handle, int len)
+ {
+ 	struct arm_spe_pmu_buf *buf = perf_get_aux(handle);
+@@ -791,6 +816,10 @@ static int arm_spe_pmu_event_init(struct perf_event *event)
+ 	if (arm_spe_event_to_pmsnevfr(event) & spe_pmu->pmsevfr_res0)
+ 		return -EOPNOTSUPP;
+ 
++	if (arm_spe_event_to_pmsdsfr(event) != U64_MAX &&
++	    !(spe_pmu->features & SPE_PMU_FEAT_FDS))
++		return -EOPNOTSUPP;
++
+ 	if (attr->exclude_idle)
+ 		return -EOPNOTSUPP;
+ 
+@@ -866,6 +895,11 @@ static void arm_spe_pmu_start(struct perf_event *event, int flags)
+ 		write_sysreg_s(reg, SYS_PMSNEVFR_EL1);
+ 	}
+ 
++	if (spe_pmu->features & SPE_PMU_FEAT_FDS) {
++		reg = arm_spe_event_to_pmsdsfr(event);
++		write_sysreg_s(reg, SYS_PMSDSFR_EL1);
++	}
++
+ 	reg = arm_spe_event_to_pmslatfr(event);
+ 	write_sysreg_s(reg, SYS_PMSLATFR_EL1);
+ 
+@@ -1125,6 +1159,9 @@ static void __arm_spe_pmu_dev_probe(void *info)
+ 	if (FIELD_GET(PMSIDR_EL1_EFT, reg))
+ 		spe_pmu->features |= SPE_PMU_FEAT_EFT;
+ 
++	if (FIELD_GET(PMSIDR_EL1_FDS, reg))
++		spe_pmu->features |= SPE_PMU_FEAT_FDS;
++
+ 	/* This field has a spaced out encoding, so just use a look-up */
+ 	fld = FIELD_GET(PMSIDR_EL1_INTERVAL, reg);
+ 	switch (fld) {
 
 -- 
 2.34.1
