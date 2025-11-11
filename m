@@ -1,111 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5BB313526;
-	Tue, 11 Nov 2025 03:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CF726B2DA;
+	Tue, 11 Nov 2025 04:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762832082; cv=none; b=G62nFeM9K42yusM1avXNCVbkMKRvd7Ke7aCxdqrrB7mK3eaX16qxwuJYprIsNJFA3P9gSgKB2n2GAcYbJRWU4X6jOfdO/PMP/pyU/B5l4uXd/KutdHji7eGSXFtVKkAaxeFm46pRom96oE/0a6OJbAwow1PkamemvJw5qRORXsw=
+	t=1762834185; cv=none; b=UH8LdH7x3X9XxkokMDOHrBST/fu0ChPTiCXWUNe/Oy7CdIe7ahNZHGP3PEoKm21jW/TpJXR7Q54Jpumo3NZRpbj3X2kN8NiM9ss4l7nfMyZvO4HW1e7cfTc8TckMDH+tBCOzY8bwKj7VlsUJheUME7udGnX5X+MIqeJLMPOAtg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762832082; c=relaxed/simple;
-	bh=rl4quI5CP3hR4drgVFblTgTJWg1WQ4rTS/8XInVRBRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uB5PqkXGXLZdHiCrzrDTupqyOqy6Rs+HTanCdDC61dIyjJWvWYklPLXdvO8OM6bITBgOjFFLWNJlFDqQ6v6LewXPXCxgF2SB4i19PQZrJ/82xdonb5N+46Mw8dpeBKIdIv4j0R77RbuwlSibgvScJpOE98yVM0LUMrNy5cdFA90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NbJY+8Ou; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762834185; c=relaxed/simple;
+	bh=TGrJAX0XhiTYIsGvgNqP2BImP+lI1gAINbaZ9M7kqgI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=DgvG0+HsQC/zHrvXUsI4Ddphd1U/zw3iqzm4hIW/0C8JJfawVBZZzraMq/yscCh/+xY27xnQQekl68J3Yyasj11skrNlPfEFhpqKidg4aGLG53qEMgOZ2KKCu+4/yWppMnV5stfmeVOBpZMdtpsw5+vsQ02D9ST95oTmvg9eQv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com; spf=pass smtp.mailfrom=qti.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VtN5Lhhz; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qti.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NbJY+8Ou"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2054FC16AAE;
-	Tue, 11 Nov 2025 03:34:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762832082;
-	bh=rl4quI5CP3hR4drgVFblTgTJWg1WQ4rTS/8XInVRBRs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NbJY+8OuCVAtsk/Qd+DQWuoyHMS9NkjdFKRoJpxSnvZSQFA/3FKgriuCuQ1hTdk6Z
-	 VjuCJv1ZBON+kwFu3S0k4zhP38utHIs06bxZk/JxbAL4MgY4WZ0b0K66OKFnUgq+Y8
-	 na1I/6IureNbUb3dwmULna0Fv/98r43yq4TloLeCSGlwnK6LXR8Ab2BJu7lVc8lFno
-	 wtCf1NiGMqYg2vS4c9AvQiH0rVaCy3zm03oauR/L3PhKsqwYnqFnrGy9EZ8rIKpYJc
-	 dh1MzY663AuvvZCqkzxOkymtEHga8UogMw9P81gLVBAMYDeOTuCflwVQRDTzh9isAq
-	 sc2+TiU77i4ig==
-Date: Mon, 10 Nov 2025 19:34:40 -0800
-From: Saeed Mahameed <saeed@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Daniel Zahka <daniel.zahka@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Srujana Challa <schalla@marvell.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Brett Creeley <brett.creeley@amd.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Linu Cherian <lcherian@marvell.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Jerin Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
-	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
-	Manish Chopra <manishc@marvell.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Vlad Dumitrescu <vdumitrescu@nvidia.com>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-	linux-rdma@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH net-next v3 2/2] net/mlx5: implement swp_l4_csum_mode via
- devlink params
-Message-ID: <aRKu0Iknk0jftv2Z@x130>
-References: <20251107204347.4060542-1-daniel.zahka@gmail.com>
- <20251107204347.4060542-3-daniel.zahka@gmail.com>
- <aQ7f1T1ZFUKRLQRh@x130>
- <20251110150133.04a2e905@kernel.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VtN5Lhhz"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AB3xNNp4073469;
+	Tue, 11 Nov 2025 04:09:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=/eGWzFw///P
+	5Kqy7ng1qNBG12TA8mvVkKCJymgwKrAo=; b=VtN5LhhzzdsgnC9PgKh74KSXWS9
+	bJRcs9k7wDiNCjEDdgW2fjccLlBFPaP2CHwbVspfo6kJKEqXhbYTqMnvAVRP7Fpt
+	xWCxW5XSBFEPZor9QmTndaspB/bRrQxmN7DG2VvcMmnRtZEh6DI5F/uHpGqBqPiJ
+	zYVVeNHbxiXdPTr/hBAfUB0HctoywtGosdnpjNWC3yiVRAPQ+BMWQqfnJSIBj/iM
+	KRHrA9ehm24mnSocG/o6b/nWTawR6Hz75KS44Dn5FFIVBSZIngXMna10pvooOD06
+	NCCnpCb0Q3bTFOnia9Ly3zUbSCvkAeFN6C+B9KbbjMvla5SM9YYIyxa73SQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4abkws9k7e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Nov 2025 04:09:27 +0000 (GMT)
+Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AB49QOK028400;
+	Tue, 11 Nov 2025 04:09:26 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 4abqjgu8xc-1;
+	Tue, 11 Nov 2025 04:09:26 +0000
+Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5AB49PR1028392;
+	Tue, 11 Nov 2025 04:09:25 GMT
+Received: from hu-grahamr-lv.qualcomm.com (hu-grahamr-lv.qualcomm.com [10.81.26.100])
+	by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 5AB49PjC028385;
+	Tue, 11 Nov 2025 04:09:25 +0000
+From: Graham Roff <grahamr@qti.qualcomm.com>
+To: rdunlap@infradead.org
+Cc: corbet@lwn.net, grahamr@qti.qualcomm.com, jani.nikula@linux.intel.com,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, nathan@kernel.org, nico@fluxnic.net,
+        nsc@kernel.org
+Subject: Re: [PATCH] Support conditional deps using "depends on X if Y"
+Date: Mon, 10 Nov 2025 20:09:25 -0800
+Message-Id: <20251111040925.2535085-1-grahamr@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <e355cd63-77cd-42ac-b852-c789ee8c8869@infradead.org>
+References: <e355cd63-77cd-42ac-b852-c789ee8c8869@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20251110150133.04a2e905@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTExMDAyOCBTYWx0ZWRfXxHMprISBiGit
+ KVSIDYbq1tNdKkBDx2oIiSPY51srxWOiUX2HhRHuAy6U5D6oo0I4Vdh0nvP5gI3ZVrS6gUhEBku
+ n7HkuUCMzGUo8vPTZCQsrHqT71MbdXxXgxMyy9Yo8X+nau4WEQJQaf9UGhxMsTrmTa+FXbj86mY
+ II5E8DhUy/M2MFvTeb3IkHEOtgVOG5b4TeyWVIMx1T6K9fzClEssZI9XBTAprbdPFzgUA9b+PIs
+ cQHVrBnNYUfjss46O+lcj+TXALJE1j0gWBQfuL3zRtn/Dwotk5QjiEFjxSajkdD7QApztT4VXWN
+ D9fCy+/UmeAt0PW2/3St64vC5PYOJueSdPfcWCzrNQbSe1A6e4EHpyCUay2wY0W9NdooY/JI23g
+ z/0wYelrJcj5QBai4RGV1b8mw3uvtw==
+X-Authority-Analysis: v=2.4 cv=Vosuwu2n c=1 sm=1 tr=0 ts=6912b6f7 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8
+ a=q0gqmUp0XkS3dxuJLy4A:9 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: dRwbiAgsD_NSfOq5A4rDRk8Hn53tZGt8
+X-Proofpoint-ORIG-GUID: dRwbiAgsD_NSfOq5A4rDRk8Hn53tZGt8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-11_01,2025-11-10_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 clxscore=1011 priorityscore=1501
+ suspectscore=0 spamscore=0 impostorscore=0 malwarescore=0 phishscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511110028
 
-On 10 Nov 15:01, Jakub Kicinski wrote:
->On Fri, 7 Nov 2025 22:14:45 -0800 Saeed Mahameed wrote:
->> >+	err = mlx5_nv_param_read_sw_accelerate_conf(dev, mnvda, sizeof(mnvda));
->> >+	if (err) {
->> >+		NL_SET_ERR_MSG_MOD(extack,
->> >+				   "Failed to read sw_accelerate_conf mnvda reg");
->>
->> Plug in the err, NL_SET_ERR_MSG_FMT_MOD(.., .., err);
->> other locations as well.
->
->Incorrect. extack should basically be passed to perror()
->IOW user space will add strerror(errno) after, anyway.
->Adding the errno inside the string is pointless and ugly.
+> On 11/10/25 1:15 PM, Nathan Chancellor wrote:
+> > Support for this change has been expressed by a number of developers 
+> > since the original patch was proposed back in 2020, and has recently 
+> > also been raised as a patch to the Zephyr kconfig system.
+> 
+> Do you have a link to this Zephyr Kconfig change?
 
-ernno set by stack. err set by driver. we can't assume err will propagate
-to errno, this is up to the stack.
+Link: https://github.com/zephyrproject-rtos/Kconfiglib/pull/21
 
-And not at all ugly, very useful debug hint to the user, unless you
-guarantee err == errno.
+> > On Mon, Nov 10, 2025 at 10:48:59AM +0200, Jani Nikula wrote:
+> >> "depends on A || !A" (or A=n) is the most common pattern in Kconfig,
+> >> which literally means "depends on A if A".
+> > 
+> > That is totally fair, I did not try to actually search for the idiom. I
+> > will say I do not find that either expression in Kconfig easily
+> > translates in my head to "this dependency must be built in if the symbol
+> > is built in, modular if the symbol is modular, or disabled" but I guess
+> > that is just lack of familiarity with these idioms. I just want it to be
+> > obvious to folks writing Kconfig when something like this is appropriate
+> > to use but I guess with that being the most common usage in the tree, it
+> > is fine as is.
+> 
+> I haven't tested it but it looks reasonable to me.
 
+I will update the documentation to make the initial example
+more understandable ("depends on A if B" is actually easier to follow 
+than the more strange "depends on A if A"). Then also add a note in the
+section on Optional Dependencies about using the new "A if A" form.
+
+> 
+> > I think my point about tests still stands, at least something very
+> > basic.
+> 
+> Ack.
+
+Agree, will include tests in the updated patch.
+
+Graham 
 
