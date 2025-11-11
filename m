@@ -1,91 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sg-1-23.ptr.blmpb.com (sg-1-23.ptr.blmpb.com [118.26.132.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C3A30F7FA;
-	Tue, 11 Nov 2025 03:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048E931076C
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 03:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.26.132.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762830301; cv=none; b=aTpsbq1rUmjD6ghNBVD7W8EixNGGGZHT51UsdkDJBF2co2MTHm1n9KW8F2Zwd7+hKF/C2l8ecWHNdNjA/BIc2mlxPT3+2NfyjYtj7FSGnzNWoC5giUnYHUDak5a2lZq4XJpVtIU+Ua2vKORjcw7DCh1bWIozv6j+IIFdCX/37do=
+	t=1762831297; cv=none; b=ebqv66Mus2ldG7Rm/KY6Cb7XMWxNTT7ren86CA3HZI1BfYth4UGx0U14gLcD/Pgg4iVpHlm+0N2ZQvAuKZxxcZYE9NTHVKbq4ooVo60QaiwqrLMxqO/7XcCkB0Isn0c3aHmdfkHK4heV1Ieyd9FhgoIrmuHbtboza7ZY+eAfLt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762830301; c=relaxed/simple;
-	bh=IdEozLKYvHaOq3HzdNOAAfYq9jXios/DLpMqxSgeiLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GaE5NWkzArHSJ/QRR0aYJL0tif47xZPrJcfu2cTY53iuJO4nuhotB8G7KyQGEqYtQ6MyDXF2A+MGlaYHD/e68nn/1UR+fTnrVMWhH/galcFxpMSwdfdla22+gSEMqRFWBN4QAxOjWNnPfKDbFMd2XHW7n6P0Ho7ZBsmNVzCEfEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kkKncGeC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762831297; c=relaxed/simple;
+	bh=AHB52eEjxStBQk6dZmmYcxvMe3M9shlVvPTqOYRW2C0=;
+	h=Subject:Date:Message-Id:Mime-Version:From:To:Content-Type:
+	 In-Reply-To:References:Cc; b=N0T1eoLfYcDRRft7yp+KGa22+AaiS8n7x5TiCC7/k7zF3eX3mLCi4GFAB4qcAFZxzpkLFzhx2xk+gy+Eydpelv+3rvaTO6VwQEzO1QK9QdaQHHN5GYopwpyBf2YJatzVW5SUrg3whOMGtDZlztO+BVQ+luPbXG1EU/8wHHCeMTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com; spf=none smtp.mailfrom=fnnas.com; dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b=TMKDQuhU; arc=none smtp.client-ip=118.26.132.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fnnas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kkKncGeC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82ABDC116B1;
-	Tue, 11 Nov 2025 03:05:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762830301;
-	bh=IdEozLKYvHaOq3HzdNOAAfYq9jXios/DLpMqxSgeiLw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kkKncGeCAD69n3dgHD3JJrUvtPdJS6SpLkKgSyvpT2TcF8sqUYHTw8X5Sfh1wwI+E
-	 PjRz+I7JFOBRqVDZ+pS3Zs8CzlPEkPl9HywOVILeNtSavkn5U08DWJxR8Yf6amWOvN
-	 DyZ0wl6yWUlRMzx5BoFh7/NFmNzvCXemjV3wjUoSeQNIRKevhLJvjfoyvfuDej5EW6
-	 wQ2voYLBqJVAOj0+uTG8/clwhAya/8K5sPUMsa56WLaknbe6GINExLPHILqWbUR6By
-	 fZcQ6vxJLe24ZvzImqcLnI/yz+VkfIBM/jPkNCez8CVG/cKsGOx5u6sKqY4jb4K3lm
-	 gbtFCXcSnSLyA==
-Date: Mon, 10 Nov 2025 19:04:59 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Zhu Yikai <zhuyikai1@h-partners.com>, <netdev@vger.kernel.org>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Markus Elfring <Markus.Elfring@web.de>, Pavan
- Chebbi <pavan.chebbi@broadcom.com>, ALOK TIWARI <alok.a.tiwari@oracle.com>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
- <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Shen Chenyang
- <shenchenyang1@hisilicon.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
- <wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>, Luo Yang
- <luoyang82@h-partners.com>, Meny Yossefi <meny.yossefi@huawei.com>, Gur
- Stavi <gur.stavi@huawei.com>
-Subject: Re: [PATCH net-next v06 5/5] hinic3: Add netdev register interfaces
-Message-ID: <20251110190459.1e67306d@kernel.org>
-In-Reply-To: <992e9004fe0c32964a3d32a298dc9d869c00d6cb.1762581665.git.zhuyikai1@h-partners.com>
-References: <cover.1762581665.git.zhuyikai1@h-partners.com>
-	<992e9004fe0c32964a3d32a298dc9d869c00d6cb.1762581665.git.zhuyikai1@h-partners.com>
+	dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b="TMKDQuhU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1762831282;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=kb27e6BRLAEUtSqm3v58wAJXfNor0uUU3QfgJ1slkZE=;
+ b=TMKDQuhUxXXptVT6PpAwOZoGLBS2B5kKgucHSnI1z7MXmQW2PGHV7N9KSwHnCzOMxWWni2
+ K+rDKm9CUk1fBMw0nRzaUNsz48OieSK7nhRNwcHR0kp5oyK9iBBqoJUHWPj+MS3GIl3W3I
+ CFhR7BivGmIeiHtkUpCbEL3DXzKyHDUd79qmb+//VzTRrdCByLCndqtDWkUA4tlTGZbCk8
+ /ykl0qg7IfsTUe/fIssXAXKeM0KzaneqnbY747UF8e20Yr+lPxdx4NC9pLve24BhdqmFz6
+ zHRlKlkBDGFPxWhNiAe1sPynzckQ8HwhiFoT03hn4uZ0Vd9baC3A8K771C+2Yg==
+Received: from [192.168.1.104] ([39.182.0.168]) by smtp.feishu.cn with ESMTPS; Tue, 11 Nov 2025 11:21:19 +0800
+X-Lms-Return-Path: <lba+26912abb0+376742+vger.kernel.org+yukuai@fnnas.com>
+Subject: Re: [PATCH v9 0/5] make logical block size configurable
+Date: Tue, 11 Nov 2025 11:21:17 +0800
+Message-Id: <10606bd7-0a41-4885-be34-b72e26595816@fnnas.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+From: "Yu Kuai" <yukuai@fnnas.com>
+To: <linan666@huaweicloud.com>, <corbet@lwn.net>, <song@kernel.org>, 
+	<linan122@huawei.com>, <xni@redhat.com>, <hare@suse.de>
+User-Agent: Mozilla Thunderbird
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20251103125757.1405796-1-linan666@huaweicloud.com>
+References: <20251103125757.1405796-1-linan666@huaweicloud.com>
+Reply-To: yukuai@fnnas.com
+X-Original-From: Yu Kuai <yukuai@fnnas.com>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
+	<linux-raid@vger.kernel.org>, <yangerkun@huawei.com>, 
+	<yi.zhang@huawei.com>
 
-On Sat, 8 Nov 2025 14:41:40 +0800 Fan Gong wrote:
-> Add netdev notifier to accept netdev event.
-> Refine port event type to change link status.
+=E5=9C=A8 2025/11/3 20:57, linan666@huaweicloud.com =E5=86=99=E9=81=93:
 
-Please explain the "why", why is this patch needed.
-This commit message is woefully inadequate for this patch.
-Plus the patch seems to, again, be doing multiple things.
+> From: Li Nan <linan122@huawei.com>
+>
+> v9:
+>   - Add new patch to intorduce check_new_feature to address forward and
+>     backward compatibility
+>   - Patch 5: update description of check_new_feature in md.rst
+>
+> v8:
+>   - Path 2: remove unnecessary bioset_initialized() check.
+>   - Path 3: remove the max(blksize, ...)
+>   - Path 4: set MD_SB_CHANGE_DEVS instead of call md_update_sb()
+>
+> v7:
+>   - Add three prerequisite patch to fix some config lbs related issues
+>   - Update sb when lbs configuration is done
+>   - This feature should support raid0, update documentation accordingly
+>
+> Li Nan (5):
+>    md: delete md_redundancy_group when array is becoming inactive
+>    md: init bioset in mddev_init
+>    md/raid0: Move queue limit setup before r0conf initialization
+>    md: add check_new_feature module parameter
+>    md: allow configuring logical block size
+>
+>   Documentation/admin-guide/md.rst |  10 ++
+>   drivers/md/md.h                  |   1 +
+>   include/uapi/linux/raid/md_p.h   |   3 +-
+>   drivers/md/md-linear.c           |   1 +
+>   drivers/md/md.c                  | 162 +++++++++++++++++++++++--------
+>   drivers/md/raid0.c               |  17 ++--
+>   drivers/md/raid1.c               |   1 +
+>   drivers/md/raid10.c              |   1 +
+>   drivers/md/raid5.c               |   1 +
+>   9 files changed, 148 insertions(+), 49 deletions(-)
 
-> +static int hinic3_netdev_event(struct notifier_block *notifier,
-> +			       unsigned long event, void *ptr)
-> +{
-> +	struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(ndev);
-> +	u16 vlan_depth;
-> +
-> +	if (!is_vlan_dev(ndev))
-> +		return NOTIFY_DONE;
-> +
-> +	netdev_hold(ndev, &nic_dev->tracker, GFP_ATOMIC);
-> +
-> +	switch (event) {
-> +	case NETDEV_REGISTER:
-> +		vlan_depth = hinic3_get_vlan_depth(ndev);
-> +		if (vlan_depth == HINIC3_MAX_VLAN_DEPTH_OFFLOAD_SUPPORT) {
-> +			ndev->vlan_features &= (~HINIC3_VLAN_CLEAR_OFFLOAD);
-> +		} else if (vlan_depth > HINIC3_MAX_VLAN_DEPTH_OFFLOAD_SUPPORT) {
-> +			ndev->hw_features &= (~HINIC3_VLAN_CLEAR_OFFLOAD);
-> +			ndev->features &= (~HINIC3_VLAN_CLEAR_OFFLOAD);
-> +		}
-
-Why are you doing this? Are vlan_features inherited across multiple
-layers of vlan devices? Vlan tags can be pushed in multiple ways, not
-just by stacking a device on top. If your device can't handle stacked
-vlans and (somehow?) the stack is serving you multi-vlan frames I think
-you need to fix it in ndo_features_check
+Applied to md-6.19
+Thanks
