@@ -1,343 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07731EF0B9;
-	Tue, 11 Nov 2025 08:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7EB2F83C5
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 08:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762848328; cv=none; b=jQI0lKzEYlXg5iVMrc9bslE4+HT4Hu6toDgtXbC6OaH3nOSoSkPFbte4R2jkMEp8c537rnxuBroKX9JOV4+BqRiw7gJGwXy4H2838YDZgAQQUE/netRICeS6sIExV8naUACYehcQNb6qPJa2CU0VtF/AuAnOx6ukyqgUih264Jc=
+	t=1762848526; cv=none; b=KvMcKda0dv6XXk2u/e/irtx7CNLMuMblQnaEIQ2+biHIaLCNblgnMdNUAqc6lVP+vCipgApG33est1SLwv0j+mwe1nAcxX67Jalv/LjR5wos6nUpJnqAhCnpqx5NKlW2keI8E42ANPNM6PTjBb9Zpnl94fZbh1ibkRmcuD0rdA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762848328; c=relaxed/simple;
-	bh=8RFF/5pPXSon2xnZCsYJudGJl9uHsgxD+ZZHGVc5YuQ=;
+	s=arc-20240116; t=1762848526; c=relaxed/simple;
+	bh=e5xzHBdFbmW0XwOUR4XN/Edk4I4Zj1jSK1DHU7z74us=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TrRGHCvjO0bwlw+UjLsueRki3DC+mq1X7Myn0qkHTupYz2CTPP2H+gXTibjsBlvn2heFz2Web4bCNxoNX8dK47Vwgzemwnqa5e4STRTK/KNfviNLuPCUI8D8LnBhd9/BIBg0aBAThuaOJDkwYwmxpSndcj6bkeBxs7CktpIrYuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GmFpkT1j; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SaClU7oCsBG9QxEUawj8UUbtYKI6ILzPYPCVraQHKMR9qv7L5CyBdI26NlCvh+thwPR62XWzAAetTjhVNAbEm9k5XlqfdaS3zrKWburthGaIQsZZCg5vJt8wawf3I3GRzSKalFnAL/67YSN80wyimFghdJMynG6PFpIJvfDw6qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eO60w1ga; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GmFpkT1j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65AFC116B1;
-	Tue, 11 Nov 2025 08:05:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762848328;
-	bh=8RFF/5pPXSon2xnZCsYJudGJl9uHsgxD+ZZHGVc5YuQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GmFpkT1jx/ruZNfk74bWjMCyGRZ47ickpQqneFZ6v6cRJ2QlTLF7MJ42RsmfpkxLu
-	 NwIfFzMzLZ+V8nOcOHO1WkBKjoVDIUn9Gy35ozNxQDb8tZZOV9CoRWDfXFXavBWa/x
-	 H82UYRMtgllSPalYhWm7CfnIpV0gfWGoqv5xCrzMn9R+v/2xBnu/oGQ8jeuXXiHvGu
-	 FIsDYHKVmpJ0BWReNqI6xosAyKuGBiCC37tHoeRSifKx8HprfmVTYd5a7XHT6x36I4
-	 8WujR6J5kLsrpTt1kPzU5g3bv5a1tETGJDZH+mN1/aChm0Qv+Srh/A07OmOX5OGJXz
-	 pOxM/5SQf3wlQ==
-Date: Tue, 11 Nov 2025 09:05:25 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 2/3] dt-bindings: iio: frequency: add adf41513
-Message-ID: <20251111-feathered-winged-bloodhound-b7e1a3@kuoka>
-References: <20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com>
- <20251110-adf41513-iio-driver-v1-2-2df8be0fdc6e@analog.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eO60w1ga"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-29586626fbeso35385395ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 00:08:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1762848523; x=1763453323; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0w05K6KxFo07worIjxTlWcgaX/lcLwwSdDEeFRVch6g=;
+        b=eO60w1gaJ+K2zEQpiYSYxl5NHTKgGX7UDr1tcE1JEpXD52hn8nwKQkjhpXrZ5j7e+f
+         EeeN22XwN655jqnfUIUex//h7wnGg3jPNNOzAT8WFgBXNQX1UplqYHhNlN1tkwVCXn5V
+         gBWl5GtK+/aiaKXOsn6a9KSSHl+ehjnmtpRCQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762848523; x=1763453323;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0w05K6KxFo07worIjxTlWcgaX/lcLwwSdDEeFRVch6g=;
+        b=TDvo+bRBy+DngUA8NEFR2XGWeIgOev4D43Iz5aex8b83AlSB7r3tTkWaXcQklEBVE+
+         elVlWo/C/Ol9qdy8HHBtmbLqgabZcGj/b5ocgRnz2t5vHEyxrs3HkwQ0F70+ioAEMmfu
+         Pepvh/r/X66yK1mCk0HF9OL8KMx2iltNNtYr8dKeLEXZ16v9NSJktVvur3ivkjUdKzzT
+         MlXryD6Xg2H1ALwr6812O9vYKky80EoXK4DwIobVNqexEA33AidK1QC5Js5Vw6WFM2oc
+         EASvTaTwWitxuiqhJ33P78hjz3zS4Kh/o5NPcMRbUAUdMmX9jrR8XlUQHyHJiAopo0g3
+         tZ0g==
+X-Forwarded-Encrypted: i=1; AJvYcCWRmtZyqffmOoCF/PgtC8DxLFs7RBwvv7YARaJ4c9dSGIHEZmVxmW1NXjPvYIUMrmk+cGroMVwvrV4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFvITHyf0LcQDwkNeNe6xP9Sg60HhBYdZO9iGjl65X/lJeyebk
+	oOLqRLksd42NPWxAtvJc4BXKJJQ3JojucfswLfyU8cjPC7q8xLpH0PiMqHeRwrimZg==
+X-Gm-Gg: ASbGnctEaQygED6OsrR9RAevy3LcybkRlx1eyAQrfUdEfizdtFbZQx/snlmsKY+X+uG
+	fH4HW00QQQ/r5fmhGwsz+FmtfqxJoXsxRJKX5weMQ7PjM9e1SIgDn3JAWKWdQkmC+MXsoMAK+AR
+	IPgj3w+6YLUqCdqHM6AkaSJ5JAz9zPO0gDggk5CUJ59G1qPO8bX01CtZXhypwd8/hBNmMhj7psV
+	v1MvkOONMhjnkd4A0QLHhAnF2EXp+CfyPGN4wxE8SE7uFa69JxdunsAmejE/Dg++OcKf8+FOwzH
+	b2EHGM4p0J0enQAE2/nzlKhWdNo6KNMV4qoAUnGxmLG+hQpxFB9dWxv1J9/aBMEvCINe/n+F9h7
+	09XhKv9/NUTSc4n/r7Ib/uedfEeX339NVVR7TbgpQrX2+ZkVMGr7FJR347e7wFryrwUgWPdZvml
+	naiZ0Z
+X-Google-Smtp-Source: AGHT+IHC6xuDhDXvZKC9hTiDPjxDoSsReKjYtkLbxL1ziXkP+RR6tEjoFAFy33iKv0lQXU9dzXWwTw==
+X-Received: by 2002:a17:903:2c06:b0:295:62d:503c with SMTP id d9443c01a7336-297e5627aecmr142808835ad.16.1762848523256;
+        Tue, 11 Nov 2025 00:08:43 -0800 (PST)
+Received: from google.com ([2401:fa00:8f:203:4557:54b2:676a:c304])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29651ca4262sm173807695ad.86.2025.11.11.00.08.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Nov 2025 00:08:42 -0800 (PST)
+Date: Tue, 11 Nov 2025 17:08:25 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Corey Minyard <corey@minyard.net>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
+	Alex Deucher <alexander.deucher@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+	Matthew Brost <matthew.brost@intel.com>, Hans Verkuil <hverkuil@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Vitaly Lifshits <vitaly.lifshits@intel.com>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>, 
+	Sagi Maimon <maimon.sagi@gmail.com>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Karan Tilak Kumar <kartilak@cisco.com>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, 
+	Max Kellermann <max.kellermann@ionos.com>, Takashi Iwai <tiwai@suse.de>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
+	intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org, linux-s390@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev, ceph-devel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Gustavo Padovan <gustavo@padovan.org>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>, 
+	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>, 
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Vladimir Oltean <olteanv@gmail.com>, 
+	Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Rodolfo Giometti <giometti@enneenne.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Richard Cochran <richardcochran@gmail.com>, 
+	Stefan Haberland <sth@linux.ibm.com>, Jan Hoeppner <hoeppner@linux.ibm.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Sven Schnelle <svens@linux.ibm.com>, Satish Kharat <satishkh@cisco.com>, 
+	Sesidhar Baddela <sebaddel@cisco.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v1 12/23] ipmi: Switch to use %ptSp
+Message-ID: <pvjnjwm25ogu7khrpg5ttxylwnxazwxxb4jpvxhw7ysvqzkkpa@ucekjrrppaqm>
+References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
+ <20251110184727.666591-13-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251110-adf41513-iio-driver-v1-2-2df8be0fdc6e@analog.com>
+In-Reply-To: <20251110184727.666591-13-andriy.shevchenko@linux.intel.com>
 
-On Mon, Nov 10, 2025 at 03:44:45PM +0000, Rodrigo Alencar wrote:
-> ultralow noise PLL frequency synthesizer that can be used to
-> implement local oscillators (LOs) as high as 26.5 GHz
->=20
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> ---
+On (25/11/10 19:40), Andy Shevchenko wrote:
+[..]
+> +	dev_dbg(smi_info->io.dev, "**%s: %ptSp\n", msg, &t);
 
-Please organize the patch documenting compatible (DT bindings) before their=
- user.
-See also: https://elixir.bootlin.com/linux/v6.14-rc6/source/Documentation/d=
-evicetree/bindings/submitting-patches.rst#L46
+Strictly speaking, this is not exactly equivalent to %lld.%9.9ld
+or %lld.%6.6ld but I don't know if that's of any importance.
 
-=2E..
-
-> +  clocks:
-> +    maxItems: 1
-> +    description: Clock that provides the reference input frequency.
-> +
-> +  '#clock-cells':
-> +    const: 0
-> +
-> +  clock-output-names:
-> +    maxItems: 1
-> +
-> +  vcc-supply:
-> +    description: Power supply for the device (3.3V)
-> +
-> +  chip-enable-gpios:
-
-enable-gpios
-
-> +    description:
-> +      GPIO that controls the chip enable pin. A logic low on this pin
-> +      powers down the device and puts the charge pump output into
-> +      three-state mode.
-> +    maxItems: 1
-> +
-> +  lock-detect-gpios:
-> +    description:
-> +      GPIO for lock detect functionality. When configured for digital lo=
-ck
-> +      detect, this pin will output a logic high when the PLL is locked.
-> +    maxItems: 1
-> +
-> +  adi,power-up-frequency:
-> +    $ref: /schemas/types.yaml#/definitions/uint64
-
-Use standard unit suffixes. Frequency is in Hz for example.
-
-> +    minimum: 1000000000
-> +    maximum: 26500000000
-> +    default: 10000000000
-> +    description:
-> +      The PLL tunes to this frequency (in Hz) on driver probe.
-> +      Range is 1 GHz to 26.5 GHz for ADF41513, and 1 GHz to 10 GHz for A=
-DF41510.
-> +
-> +  adi,reference-div-factor:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 1
-> +    maximum: 32
-> +    description:
-> +      Reference division factor (R Counter). If not specified, the driver
-> +      will calculate the optimal value automatically.
-
-Then why do you need this property? If driver calculates the optimal,
-why anyone would put wrong or sub-optimal value to DT?
-
-Drop.
-
-> +
-> +  adi,reference-doubler-enable:
-> +    description:
-> +      Enables the reference doubler. The maximum reference frequency when
-> +      the doubler is enabled is 225 MHz.
-> +    type: boolean
-> +
-> +  adi,reference-div2-enable:
-> +    description:
-> +      Enables the reference divide-by-2 function. This provides a 50%
-> +      duty cycle signal to the PFD.
-> +    type: boolean
-> +
-> +  adi,charge-pump-current-microamp:
-> +    minimum: 450
-> +    maximum: 7200
-> +    default: 2400
-> +    description:
-> +      Charge pump current in microamps. The value will be rounded to the
-> +      nearest supported value.
-> +
-> +  adi,charge-pump-resistor-ohms:
-> +    minimum: 1800
-> +    maximum: 10000
-> +    default: 2700
-> +    description:
-> +      External charge pump resistor value in ohms. This sets the maximum
-> +      charge pump current along with the charge pump current setting.
-> +
-> +  adi,muxout-select:
-> +    description:
-> +      On chip multiplexer output selection.
-> +      high_z - MUXOUT Pin set to high-Z. (default)
-> +      muxout_high - MUXOUT Pin set to high.
-> +      muxout_low - MUXOUT Pin set to low.
-> +      f_div_rclk - MUXOUT Pin set to R divider output
-> +      f_div_nclk - MUXOUT Pin set to N divider output
-> +      lock_detect - MUXOUT Pin set to Digital lock detect
-> +      serial_data - MUXOUT Pin set to Serial data output
-> +      readback - MUXOUT Pin set to Readback mode
-> +      f_div_clk1 - MUXOUT Pin set to CLK1 divider output
-> +      f_div_rclk_2 - MUXOUT Pin set to R divider/2 output
-> +      f_div_nclk_2 - MUXOUT Pin set to N divider/2 output
-> +    enum: [high_z, muxout_high, muxout_low, f_div_rclk, f_div_nclk, lock=
-_detect,
-> +           serial_data, readback, f_div_clk1, f_div_rclk_2, f_div_nclk_2]
-> +
-> +  adi,muxout-level-1v8-enable:
-> +    description:
-> +      Set MUXOUT and DLD logic levels to 1.8V. Default is 3.3V.
-> +    type: boolean
-> +
-> +  adi,phase-detector-polarity-positive-enable:
-> +    description:
-> +      Set phase detector polarity to positive. Default is negative.
-> +      Use positive polarity with non-inverting loop filter and VCO with
-> +      positive tuning slope, or with inverting loop filter and VCO with
-> +      negative tuning slope.
-> +    type: boolean
-> +
-> +  adi,lock-detect-precision:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 3
-> +    description:
-> +      Lock detector precision setting. Controls the sensitivity of the
-> +      lock detector. Lower values of precision increases the lock detect=
-or
-> +      window size.
-> +
-> +  adi,lock-detect-count:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 7
-> +    description: |
-> +      Lock detector count setting (3-bit value). Determines the number of
-> +      consecutive phase detector cycles that must be within the lock det=
-ector
-> +      window before lock is declared. The count grows in powers of two o=
-f the
-> +      programmed value:
-> +      - if adi,fast-lock-enable is set count =3D 2 * 2^value
-> +      - if adi,fast-lock-enable is not set count =3D 64 * 2^value
-> +
-> +  adi,lock-detect-bias-microamp:
-> +    description:
-> +      Lock detector bias current. Controls the lock detector window size
-> +      along with the lock detector precision setting. Lower bias current
-> +      increases the window size.
-> +    enum: [10, 20, 30, 40]
-> +
-> +  adi,fast-lock-enable:
-> +    description:
-> +      Enable fast lock mode. This changes the lock detector clock select=
-ion
-> +      for faster lock indication.
-> +    type: boolean
-> +
-> +  adi,phase-resync-enable:
-> +    description:
-> +      Enable phase resync functionality. This produces a consistent outp=
-ut
-> +      phase offset with respect to the input reference.
-> +    type: boolean
-> +
-> +  adi,12bit-clk-divider:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 4095
-> +    description:
-> +      CLK1 divider value used when adi,phase-resync-enable is set
-> +
-> +  adi,12bit-clk2-divider:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 4095
-> +    description:
-> +      CLK2 divider value used when adi,phase-resync-enable is set
-> +
-> +  adi,le-sync-enable:
-> +    description:
-> +      Synchronize the rising edge of LE on an SPI write with the falling
-> +      edge of the reference signal to prevent glitches.
-> +    type: boolean
-> +
-> +  adi,freq-resolution:
-> +    $ref: /schemas/types.yaml#/definitions/uint64
-> +    minimum: 1
-> +    default: 1000000
-> +    description:
-> +      Initial frequency resolution in micro-Hz (=C2=B5Hz) for the algori=
-thm to achieve.
-> +      This influences the choice between fixed and variable modulus mode=
-s.
-> +      Default is 1000000 =C2=B5Hz (1 Hz).
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - vcc-supply
-> +
-> +allOf:
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    spi {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        pll@0 {
-> +            compatible =3D "adi,adf41513";
-> +            reg =3D <0>;
-> +            spi-max-frequency =3D <10000000>;
-> +            clocks =3D <&ref_clk>;
-> +            vcc-supply =3D <&vcc_3v3>;
-> +            #clock-cells =3D <0>;
-> +
-> +            adi,power-up-frequency =3D /bits/ 64 <12000000000>;
-> +            adi,charge-pump-current-microamp =3D <2400>;
-> +            adi,phase-detector-polarity-positive-enable;
-> +        };
-> +    };
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    spi {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        /* Example with advanced features enabled */
-> +        pll_advanced@0 {
-
-pll@
-
-> +            compatible =3D "adi,adf41513";
-> +            reg =3D <0>;
-> +            spi-max-frequency =3D <25000000>;
-> +            clocks =3D <&ref_clk>;
-> +            vcc-supply =3D <&vcc_3v3>;
-> +            chip-enable-gpios =3D <&gpio0 10 GPIO_ACTIVE_HIGH>;
-> +            lock-detect-gpios =3D <&gpio0 11 GPIO_ACTIVE_HIGH>;
-> +            #clock-cells =3D <0>;
-> +            clock-output-names =3D "adf41513_clk";
-> +
-> +            adi,power-up-frequency =3D /bits/ 64 <15500000000>;
-> +            adi,charge-pump-current-microamp =3D <3600>;
-> +            adi,charge-pump-resistor-ohms =3D <2700>;
-> +            adi,reference-doubler-enable;
-> +            adi,muxout-select =3D "lock_detect";
-> +            adi,lock-detect-precision =3D <1>;
-> +            adi,lock-detect-count =3D <4>;
-> +            adi,lock-detect-bias-microamp =3D <40>;
-> +            adi,fast-lock-enable;
-> +            adi,phase-resync-enable;
-> +            adi,12bit-clk-divider =3D <1>;
-> +            adi,12bit-clk2-divider =3D <200>;
-> +            adi,le-sync-enable;
-> +            adi,freq-resolution =3D /bits/ 64 <1000000>;
-> +            adi,phase-detector-polarity-positive-enable;
-> +        };
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8df4a0d216c8..1bbcff826238 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1606,6 +1606,7 @@ M:	Rodrigo Alencar <rodrigo.alencar@analog.com>
->  L:	linux-iio@vger.kernel.org
->  S:	Supported
->  W:	https://ez.analog.com/linux-software-drivers
-> +F:	Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
->  F:	drivers/iio/frequency/adf41513.c
-> =20
->  ANALOG DEVICES INC ADF4377 DRIVER
->=20
-> --=20
-> 2.43.0
->=20
