@@ -1,92 +1,143 @@
-Received: from sg-1-23.ptr.blmpb.com (sg-1-23.ptr.blmpb.com [118.26.132.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048E931076C
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 03:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.26.132.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D6D303CB4;
+	Tue, 11 Nov 2025 03:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762831297; cv=none; b=ebqv66Mus2ldG7Rm/KY6Cb7XMWxNTT7ren86CA3HZI1BfYth4UGx0U14gLcD/Pgg4iVpHlm+0N2ZQvAuKZxxcZYE9NTHVKbq4ooVo60QaiwqrLMxqO/7XcCkB0Isn0c3aHmdfkHK4heV1Ieyd9FhgoIrmuHbtboza7ZY+eAfLt8=
+	t=1762831596; cv=none; b=qEq8VJH4C4KoVsZ8saLYPHUEzy9GOY+4HR+hi8msBtlKG1XLHUJe3FayQ9O43ymx4BhaxIZpkLLEdH//DOzBp9QmDD/wCi+tUJreLIk+UWiwa6a8HO+9tyVkxQu9z0nYUtuZNnh4upc6ZMAcWeWprw049ZpBx7IDFHy0tWJ7AkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762831297; c=relaxed/simple;
-	bh=AHB52eEjxStBQk6dZmmYcxvMe3M9shlVvPTqOYRW2C0=;
-	h=Subject:Date:Message-Id:Mime-Version:From:To:Content-Type:
-	 In-Reply-To:References:Cc; b=N0T1eoLfYcDRRft7yp+KGa22+AaiS8n7x5TiCC7/k7zF3eX3mLCi4GFAB4qcAFZxzpkLFzhx2xk+gy+Eydpelv+3rvaTO6VwQEzO1QK9QdaQHHN5GYopwpyBf2YJatzVW5SUrg3whOMGtDZlztO+BVQ+luPbXG1EU/8wHHCeMTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com; spf=none smtp.mailfrom=fnnas.com; dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b=TMKDQuhU; arc=none smtp.client-ip=118.26.132.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fnnas.com
+	s=arc-20240116; t=1762831596; c=relaxed/simple;
+	bh=SF8ejBUx63BEWVbo35HrIhmuFlhum3NF91vPz7W/S9I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HZM6UNWBKH0FlF2NIi3btEZG+m5MDLhQNAVCRVpYLgwKotyyjQJtzA4gdIjzsebNpTFgikf/oElWGeaSdhLZ2ps8C0tkLieqvI44BAnalS5A8mbfKZmg+KrNj24EnRIEf1d+sgH/iGD4q1cHNbwUm9MiZVm2mJcVlqPc311xI9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=arA+s8Lc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b="TMKDQuhU"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1762831282;
-  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
- reply-to:content-type:mime-version:in-reply-to:message-id;
- bh=kb27e6BRLAEUtSqm3v58wAJXfNor0uUU3QfgJ1slkZE=;
- b=TMKDQuhUxXXptVT6PpAwOZoGLBS2B5kKgucHSnI1z7MXmQW2PGHV7N9KSwHnCzOMxWWni2
- K+rDKm9CUk1fBMw0nRzaUNsz48OieSK7nhRNwcHR0kp5oyK9iBBqoJUHWPj+MS3GIl3W3I
- CFhR7BivGmIeiHtkUpCbEL3DXzKyHDUd79qmb+//VzTRrdCByLCndqtDWkUA4tlTGZbCk8
- /ykl0qg7IfsTUe/fIssXAXKeM0KzaneqnbY747UF8e20Yr+lPxdx4NC9pLve24BhdqmFz6
- zHRlKlkBDGFPxWhNiAe1sPynzckQ8HwhiFoT03hn4uZ0Vd9baC3A8K771C+2Yg==
-Received: from [192.168.1.104] ([39.182.0.168]) by smtp.feishu.cn with ESMTPS; Tue, 11 Nov 2025 11:21:19 +0800
-X-Lms-Return-Path: <lba+26912abb0+376742+vger.kernel.org+yukuai@fnnas.com>
-Subject: Re: [PATCH v9 0/5] make logical block size configurable
-Date: Tue, 11 Nov 2025 11:21:17 +0800
-Message-Id: <10606bd7-0a41-4885-be34-b72e26595816@fnnas.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="arA+s8Lc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37601C4CEF5;
+	Tue, 11 Nov 2025 03:26:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762831596;
+	bh=SF8ejBUx63BEWVbo35HrIhmuFlhum3NF91vPz7W/S9I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=arA+s8Lck9ZMVhIL7OYtfs+oWUJRLcttj4EpE7KRk7v1UFN/ft+8fCUgtsMc9gd76
+	 xbz4H/FDW92jLwUvPHG1/WqhhK/z+mVldQc2od6H+BtjiQB5JxvQ4gM5lD1vbzg+pb
+	 OIGUaErFPL8HlyvrJVGOJSgG6krBoN0V6JHOlVSp76LaFGEO6EWU5piCu0OvjblFrG
+	 F1/jjUCtMmVj/39yjWouTOw7gaRBlyA5oyUIXix6w4uHaltQIts5/VuBnRuBzJrWIH
+	 Cq/wXocuXrdrwYG9qhGNsItJ2oZ+mWg1KHT70AM/kbW2xbJC2oehFU+RZ7t/XXG9uM
+	 4U13e4tZIDmyA==
+Date: Mon, 10 Nov 2025 19:26:34 -0800
+From: Saeed Mahameed <saeed@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Jiri Pirko <jiri@resnulli.us>, Daniel Zahka <daniel.zahka@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Srujana Challa <schalla@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Brett Creeley <brett.creeley@amd.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Linu Cherian <lcherian@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Jerin Jacob <jerinj@marvell.com>, hariprasad <hkelam@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
+	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
+	Manish Chopra <manishc@marvell.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Vlad Dumitrescu <vdumitrescu@nvidia.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+	linux-rdma@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
+Subject: Re: [PATCH net-next v3 2/2] net/mlx5: implement swp_l4_csum_mode via
+ devlink params
+Message-ID: <aRKs6jXqSvC3G_R0@x130>
+References: <20251107204347.4060542-1-daniel.zahka@gmail.com>
+ <20251107204347.4060542-3-daniel.zahka@gmail.com>
+ <aQ7f1T1ZFUKRLQRh@x130>
+ <jhmdihtp63rblcjiy2pibhnz2sikvbm6bhnkclq3l2ndxgbqbb@e3t23x2x2r46>
+ <20251110154643.66d15800@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: "Yu Kuai" <yukuai@fnnas.com>
-To: <linan666@huaweicloud.com>, <corbet@lwn.net>, <song@kernel.org>, 
-	<linan122@huawei.com>, <xni@redhat.com>, <hare@suse.de>
-User-Agent: Mozilla Thunderbird
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251103125757.1405796-1-linan666@huaweicloud.com>
-References: <20251103125757.1405796-1-linan666@huaweicloud.com>
-Reply-To: yukuai@fnnas.com
-X-Original-From: Yu Kuai <yukuai@fnnas.com>
-Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-raid@vger.kernel.org>, <yangerkun@huawei.com>, 
-	<yi.zhang@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20251110154643.66d15800@kernel.org>
 
-=E5=9C=A8 2025/11/3 20:57, linan666@huaweicloud.com =E5=86=99=E9=81=93:
+On 10 Nov 15:46, Jakub Kicinski wrote:
+>On Sun, 9 Nov 2025 11:46:37 +0100 Jiri Pirko wrote:
+>> >So, I checked a couple of flows internally, and it seems this allows
+>> >some flexibility in the FW to decide later on which mode to pick,
+>> >based on other parameters, which practically means
+>> >"user has no preference on this param". Driver can only find out
+>> >after boot, when it reads the runtime capabilities, but still
+>> >this is a bug, by the time the driver reads this (in devlink), the
+>> >default value should've already been determined by FW, so FW must
+>> >return the actual runtime value. Which can only be one of the following
+>>
+>> I don't think it is correct to expose the "default" as a value.
+>>
+>> On read, user should see the configured value, either "full_csum" or
+>> "l4_only". Reporting "default" to the user does not make any sense.
+>> On write, user should pass either "full_csum" or "l4_only". Why we would
+>> ever want to pass "default"?
+>
+>FWIW I agree that this feels a bit odd. Should the default be a flag
+>attr? On get flag being present means the value is the FW default (no
+>override present). On set passing the flag means user wants to reset
+>to FW default (remove override)?
+>
+>> Regardless this patch, since this is param to be reflected on fw reboot
+>> (permanent cmode), I think it would be nice to expose indication if
+>> param value passed to user currently affects the fw, or if it is going
+>> to be applied after fw reboot. Perhaps a simple bool attr would do?
+>
+>IIUC we're basically talking about user having no information that
+>the update is pending? Could this be done by the core? Core can do
+>a ->get prior to calling ->set and if the ->set succeeds and
+>cmode != runtime record that the update is pending?
+>
 
-> From: Li Nan <linan122@huawei.com>
->
-> v9:
->   - Add new patch to intorduce check_new_feature to address forward and
->     backward compatibility
->   - Patch 5: update description of check_new_feature in md.rst
->
-> v8:
->   - Path 2: remove unnecessary bioset_initialized() check.
->   - Path 3: remove the max(blksize, ...)
->   - Path 4: set MD_SB_CHANGE_DEVS instead of call md_update_sb()
->
-> v7:
->   - Add three prerequisite patch to fix some config lbs related issues
->   - Update sb when lbs configuration is done
->   - This feature should support raid0, update documentation accordingly
->
-> Li Nan (5):
->    md: delete md_redundancy_group when array is becoming inactive
->    md: init bioset in mddev_init
->    md/raid0: Move queue limit setup before r0conf initialization
->    md: add check_new_feature module parameter
->    md: allow configuring logical block size
->
->   Documentation/admin-guide/md.rst |  10 ++
->   drivers/md/md.h                  |   1 +
->   include/uapi/linux/raid/md_p.h   |   3 +-
->   drivers/md/md-linear.c           |   1 +
->   drivers/md/md.c                  | 162 +++++++++++++++++++++++--------
->   drivers/md/raid0.c               |  17 ++--
->   drivers/md/raid1.c               |   1 +
->   drivers/md/raid10.c              |   1 +
->   drivers/md/raid5.c               |   1 +
->   9 files changed, 148 insertions(+), 49 deletions(-)
+Could work if on GET driver reads 'current' value from FW, then it should
+be simpler if GET != SET then 'pending', one problem though is if SET was
+done by external tool or value wasn't applied after reboot, then we loose
+that information, but do we care? I think we shouldn't.
 
-Applied to md-6.19
-Thanks
+>That feels very separate from the series tho, there are 3 permanent
+>params in mlx5, already. Is there something that makes this one special?
+
+In mlx5 they all have the same behavior, devlink sets 'next' value, 
+devlink reads 'next' value. The only special thing about the new param
+is that it has a 'device_default' value and when you read that from 
+'next' it will always show 'device_default' as the actual value is only
+known at run time ,e.g. 'next boot'.
+
+I think the only valid solution for permanent and drv_init params is to
+have 'next' and 'current' values reported by driver on read. 
+Or maybe go just with  'set' != 'get' then 'pending' as discussed above ?
+
