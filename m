@@ -1,195 +1,127 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522E9345739;
-	Tue, 11 Nov 2025 10:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDADA34EEFD
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 10:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762856856; cv=none; b=N/ZA/Y1vnpbxFCCS42rVLGBPkGZIpOGCo6sxAckPjDw++ADxmVK7FKUopQMwHUAJ1fwP2qe9ePNyw87CBFGI79xqMM9EXcsWKqaSF/SJW8wHwInxgPQ/93l1k63TRi3+Ga64QBFS0bILrt0ubRF+x/jKjk6y5+8F08GXPepLkTc=
+	t=1762857352; cv=none; b=UioJUOoiWaz57azdALyf35ZmaZG8hqbKkqH/pLIwJ7voUsf8sd/o6RSpVc3jE0YW0DhYdN+MGBDTGDTextXqZnaEZQfvrdQxOn8LjYBICI4hVRjoIlpodz75my4nsf9jhprLD6qtMH7qDlxqn5lPOGwPEO2E3kiCIJ3djcPX45Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762856856; c=relaxed/simple;
-	bh=JirDSvUgdW0BcnI08nHDbc8VOnVTAsZAJyon3YU6egM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hew4T6xTmiqBvQhXSw2rT2ZxdOrldklQlukqDo85KcsIr3fLpri+EnTRBDQmPuRfRCo1yBBKoDcmffQUbsqc6pjxSi78gHanXjdkSKDDbWgWWPlxNpeXDg9bDO6qWOw3LQZWHwrMxGn0XG29V7QpGBZ6pnyaBw5UuLE4W5lLiWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sjb5S7mK; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762857352; c=relaxed/simple;
+	bh=b5cTARWnCH0O+wzlNreNZEZCG3YtR/z+aB364cLgDRc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OOcEOI70nvOykIZ0xuf15XXA3u4I/hOlqN8SGpvIeBp0nbA2zdOHCQP3EdbC03cxPSKO/tgy0i9rIV5mi5/KIn/l1/dxXcdS3PJsrkL5VSHy5oecQFjZIpikG6RlTG2Jg5klCvq5OgnsGcmOm/ME05wWsgrQDvxb/5yIk4vejB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A5K3Vj1c; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sjb5S7mK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=iCozD/S14h9YyVEvZtzrw1OeE8+mwrBwtubAIDfZfYw=; b=sjb5S7mK2brT+EtiKy3b3jYsHd
-	lNYMJRyT9YAluzwMc8XiVCT6lDbgLRAv3jkpzWQaIvSJiMVlTu0KB7Qeb3Zp7tud9XR4oQJS5GTtM
-	wxeAFYkz/k6xVOXGOnLOFp9YHVm0W6z8GlyCJCZZ0wJOYVI7CnH4Pv0pgFsU4MylNjQJoXiWiA6Fm
-	P+slWCcWrcvHBNtm3WSymnLMQIyuEJ2LWAiciGDcRLeuqppHzpm5GiYI/g2u4LGqNQC2HfcFNFeCC
-	75V0Liz50oP+KjQ1uk1/50UGtZ/pFqw6GrHY0kVXbojzKRFWy6yONwogjg7nInxJrfnb8JC+dZ5/6
-	MghJ6MCA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vIlaq-00000003ivF-1kLK;
-	Tue, 11 Nov 2025 10:27:20 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 455A4300328; Tue, 11 Nov 2025 11:27:19 +0100 (CET)
-Date: Tue, 11 Nov 2025 11:27:19 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: xin@zytor.com, kaleshsingh@google.com, kbingham@kernel.org,
-	akpm@linux-foundation.org, nathan@kernel.org,
-	ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de,
-	morbo@google.com, jeremy.linton@arm.com, smostafa@google.com,
-	kees@kernel.org, baohua@kernel.org, vbabka@suse.cz,
-	justinstitt@google.com, wangkefeng.wang@huawei.com,
-	leitao@debian.org, jan.kiszka@siemens.com,
-	fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com,
-	ubizjak@gmail.com, ada.coupriediaz@arm.com,
-	nick.desaulniers+lkml@gmail.com, ojeda@kernel.org,
-	brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com,
-	glider@google.com, mark.rutland@arm.com, trintaeoitogc@gmail.com,
-	jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com,
-	dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com,
-	yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com,
-	samuel.holland@sifive.com, vincenzo.frascino@arm.com,
-	bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org,
-	Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com,
-	kas@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-	broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com,
-	maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org,
-	rppt@kernel.org, will@kernel.org, luto@kernel.org,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-	linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 15/18] x86/kasan: Handle UD1 for inline KASAN reports
-Message-ID: <20251111102719.GH278048@noisy.programming.kicks-ass.net>
-References: <cover.1761763681.git.m.wieczorretman@pm.me>
- <8b0daaf83752528418bf2dd8d08906c37fa31f69.1761763681.git.m.wieczorretman@pm.me>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A5K3Vj1c"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-37a48fc48deso37599031fa.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 02:35:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1762857349; x=1763462149; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b5cTARWnCH0O+wzlNreNZEZCG3YtR/z+aB364cLgDRc=;
+        b=A5K3Vj1cV3ibGiIR+o5kYeDkP1LkFeJkJQ2AYzJ7Ueyiwmtcr2ywQVaykLSnAeMCgj
+         EPqy2hQoLPARSunxPZsKJUddW/N/u34Y+LUskmmXxR/pr+8BN/MVMBB79PzKlZGgIsBF
+         qAz20kgVN/CARA1DsNTJQzLAv6Mj1oepbEhxcK03bRTInIYMy05xLTiHsuTOCFSm5So2
+         0xwf6tCRutJ8t289wOT9kF/akxV3GfJcPvtvY3qJUoEA0TgFNE0ZcM8Vhqfy3zaXX+pN
+         eF8Lk9aHYKL9aXRObdVCeBBNDJEwVilstRk2D7oSVt8Oyd0PSIj750vIt30jb6UL/gKZ
+         ClWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762857349; x=1763462149;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=b5cTARWnCH0O+wzlNreNZEZCG3YtR/z+aB364cLgDRc=;
+        b=FvF11VVFqm88y7yyWCthFS/sSSRDNudBZ63xO5OhkQDBnL6ayVhjbfqoJoiXcLJRwH
+         9KXNiI9sta5vI6IHiJtUwpom0WcmJXqG/FVIMhmtN8CO294e1VPXDJ2b7KUillEMah5x
+         eCG9/u86GdMMyMtDQ+q8OLcE2Sw/XiYA2QBJq+BtCuL0FEcYr4Pri11S64eB6LGWB4jF
+         c46d3RJ7hkxfK8z9nApf4PTrxQgcK2HwOZMuDp00AgOOUe5AeG55GG+8uyhqO5rOS57d
+         26xeOfbCTgCdsCtF4n2z2LT7xaa3mytxLhri8hXbuH5pfpinaEHTuqw9Yaagrpxw/H9O
+         L5ew==
+X-Forwarded-Encrypted: i=1; AJvYcCWk+wHASYwpvj9sfg4NZzq/ZcmWI5fF6LtoM08vB/QnL4Ry+XnpEcBzr43Mo4Obcc97Q2F5U6CY6wg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGQQI3Gl2Njnov5QwET2NJHDTjFzi79jnxmBgmotCRWtZWuCcs
+	sJgdig8R1lnmiIpMrEFB+PwXhvmsQxvLfpsLGY6yyzmd6jpAZbhJscNsEX2UkRHzwZXAznlT0T0
+	WPfH0lbkhQ6Noq+mjBQ9o9UpgMfa7OuLzH+dN5c4LVw==
+X-Gm-Gg: ASbGnctBg1wo5uJCHYBonSi4n15mad3qsUbdS0OKcIBNmu98iUYPbxfMSaogVLDIjRH
+	ebRR5cgxIzq6HEZNqn5gq+BmuWZIZpC16Ivvfo6Lsf1yzMPNguofpAkyf6CC3zl+g0vXP9aaSgx
+	/iqYpSzPQO/7uP4R57FIJuXpU+pQaKRJeciXx7MDhZB7I5UaH+q3rM4fpTM3iByakW0zt26hnMv
+	9jboptXiyELJB9debuCgU2izaw5ApNBR2mMvU5d7YWwVcBTTJJ3kh6sy4SSZVCT8OoEnh4=
+X-Google-Smtp-Source: AGHT+IHiG+EjsNieo0IH9vKGvPYVnnnJhmFUXHoDPqz54BHP96ylxBdjlT/JInKjKxLz/khK4ncylVpRxXU4D16MeYo=
+X-Received: by 2002:a2e:95d2:0:b0:37a:2f0b:ef24 with SMTP id
+ 38308e7fff4ca-37a7b1995e0mr22288641fa.16.1762857349004; Tue, 11 Nov 2025
+ 02:35:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8b0daaf83752528418bf2dd8d08906c37fa31f69.1761763681.git.m.wieczorretman@pm.me>
+References: <20251104203315.85706-1-shenwei.wang@nxp.com> <20251104203315.85706-4-shenwei.wang@nxp.com>
+In-Reply-To: <20251104203315.85706-4-shenwei.wang@nxp.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 11 Nov 2025 11:35:37 +0100
+X-Gm-Features: AWmQ_bnM-SUasW3cn2Gm4EW3aePYZpGnjIZZVnW89VcDCfJSgNXVTHUcuXdKqUo
+Message-ID: <CACRpkdZR2C=+ssYOKnF=hyOqTakGjVxzp5_qz=3-uYRpzaZgNQ@mail.gmail.com>
+Subject: Re: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rpmsg bus
+To: Shenwei Wang <shenwei.wang@nxp.com>, Bjorn Andersson <andersson@kernel.org>
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-imx@nxp.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 29, 2025 at 08:09:51PM +0000, Maciej Wieczor-Retman wrote:
-> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> 
-> Inline KASAN on x86 should do tag mismatch reports by passing the
-> metadata through the UD1 instruction and the faulty address through RDI,
-> a scheme that's already used by UBSan and is easy to extend.
-> 
-> The current LLVM way of passing KASAN software tag mode metadata is done
-> using the INT3 instruction. However that should be changed because it
-> doesn't align to how the kernel already handles UD1 for similar use
-> cases. Since inline software tag-based KASAN doesn't work on x86 due to
-> missing compiler support it can be fixed and the INT3 can be changed to
-> UD1 at the same time.
-> 
-> Add a kasan component to the #UD decoding and handling functions.
-> 
-> Make part of that hook - which decides whether to die or recover from a
-> tag mismatch - arch independent to avoid duplicating a long comment on
-> both x86 and arm64 architectures.
-> 
+Hi Shenwei,
 
-> diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
-> index 396071832d02..375651d9b114 100644
-> --- a/arch/x86/include/asm/kasan.h
-> +++ b/arch/x86/include/asm/kasan.h
-> @@ -6,6 +6,24 @@
->  #include <linux/kasan-tags.h>
->  #include <linux/types.h>
->  #define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
+thanks for your patch!
+
+Also, a big thanks for working on improving the standardization of rpmsg
+so we can get some order here. This is very important work.
+
+On Tue, Nov 4, 2025 at 9:34=E2=80=AFPM Shenwei Wang <shenwei.wang@nxp.com> =
+wrote:
+
+> +- **Major**: Major version number.
 > +
-> +/*
-> + * LLVM ABI for reporting tag mismatches in inline KASAN mode.
-> + * On x86 the UD1 instruction is used to carry metadata in the ECX register
-> + * to the KASAN report. ECX is used to differentiate KASAN from UBSan when
-> + * decoding the UD1 instruction.
-> + *
-> + * SIZE refers to how many bytes the faulty memory access
-> + * requested.
-> + * WRITE bit, when set, indicates the access was a write, otherwise
-> + * it was a read.
-> + * RECOVER bit, when set, should allow the kernel to carry on after
-> + * a tag mismatch. Otherwise die() is called.
-> + */
-> +#define KASAN_ECX_RECOVER	0x20
-> +#define KASAN_ECX_WRITE		0x10
-> +#define KASAN_ECX_SIZE_MASK	0x0f
-> +#define KASAN_ECX_SIZE(ecx)	(1 << ((ecx) & KASAN_ECX_SIZE_MASK))
->  #define KASAN_SHADOW_SCALE_SHIFT 3
+> +- **Minor**: Minor version number.
 
-> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-> index 6b22611e69cc..40fefd306c76 100644
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-> @@ -179,6 +179,9 @@ __always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
->  	if (X86_MODRM_REG(v) == 0)	/* EAX */
->  		return BUG_UD1_UBSAN;
->  
-> +	if (X86_MODRM_REG(v) == 1)	/* ECX */
-> +		return BUG_UD1_KASAN;
-> +
->  	return BUG_UD1;
->  }
->  
-> @@ -357,6 +360,11 @@ static noinstr bool handle_bug(struct pt_regs *regs)
->  		}
->  		break;
->  
-> +	case BUG_UD1_KASAN:
-> +		kasan_inline_handler(regs);
-> +		handled = true;
-> +		break;
-> +
->  	default:
->  		break;
->  	}
+I'm not contesting these if they come from similar fields in other rpmsg
+devices.
 
-> +void kasan_inline_handler(struct pt_regs *regs)
-> +{
-> +	int metadata = regs->cx;
-> +	u64 addr = regs->di;
-> +	u64 pc = regs->ip;
-> +	bool recover = metadata & KASAN_ECX_RECOVER;
-> +	bool write = metadata & KASAN_ECX_WRITE;
-> +	size_t size = KASAN_ECX_SIZE(metadata);
-> +
-> +	if (user_mode(regs))
-> +		return;
-> +
-> +	if (!kasan_report((void *)addr, size, write, pc))
-> +		return;
-> +
-> +	kasan_die_unless_recover(recover, "Oops - KASAN", regs, metadata, die);
-> +}
+What I'm thinking is that the driver will eventually have to quirk around
+bugs in the responding rpmsg CPU, and there will be bugs. This can end
+up with this situation:
 
-I'm confused. Going by the ARM64 code, the meta-data is constant per
-site -- it is encoded in the break immediate.
+major,minor =3D (1,2) NXP implementation, no bug
+major,minor =3D (1,2) Sharp implementation, no bug
+major,minor =3D (1,2) Sony implementation, ooops this has a bug
 
-And I suggested you do the same on x86 by using the single byte
-displacement instruction encoding.
+What is the driver going to do here to work around that bug?
 
-	ud1	0xFF(%ecx), %ecx
+The scheme kind of suppose that all vendors use the same codebase
+and they don't.
 
-Also, we don't have to use a fixed register for the address, you can do:
+I would rather have:
 
-	ud1	0xFF(%ecx), %reg
+**Vendor**: Vendor ID number (such as the PCI or USB ID)
 
-and have %reg tell us what register the address is in.
+**Version**: Vendor-specific version number (such as SW release)
 
-Then you can recover the meta-data from the displacement immediate and
-the address from whatever register is denoted.
+This will make it possible to identify buggy firmware and apply
+quirks.
 
-This avoids the 'callsite' from having to clobber cx and move the address
-into di.
+My apologies if the rpmsg community has already thought about
+this.
 
-What you have here will work, and I don't suppose we care about code
-density with KASAN much, but it could've been so much better :/
+Bjorns input would be appreciated!
 
-
+Yours,
+Linus Walleij
