@@ -1,149 +1,110 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC72329E55
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 06:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EAD3446A3;
+	Tue, 11 Nov 2025 07:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762843549; cv=none; b=XuZJymKJgRit/q4FfawiwPuB+2cTGY3XhMYBnDXbcpX9RzMw+J0r5q0G+0n/qua38mu6d58cefSO1szUMNugz5nk1GA6BTkiOl5l6k+Q7eJWEFLvRxg+P7yXZyTyPTcsydApnnrLeqfPAaC5HIRKnavPz3pSZyfYhklRd1nac/w=
+	t=1762844823; cv=none; b=fuuHhmgh9/FPG6XKLo99+qJfSCQRRbqgcjoBsd+AGALkhWwTXsuBd1bfD7Sz4gjqiLDY8nEAe03YlFVoVSjkctO1UBW8HFq0VfKlsgCFV5HC9e9rAzCIx7bvIqEBmR2odqNSracPhFDpydcKHaUPdXL4GSKXYFyslV4EPPh6csk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762843549; c=relaxed/simple;
-	bh=WkPIBxcEOHQ4ilXDCjPP5RJCUvaILWDuUwT419tOHBI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eFp4dbCKPhCi5xOnvBFBuCt2pAUq/RK/A1NOOun6jkqFp0lTPSFmnYdkpELPCJb8tHF4DQ55YrJPqBHn52nY35bBnPyRb7F8zBLWmFse2toCVn7sLq/u19KSccEtCjgJHg/Aajd/oJ58v62DazK5FL3lomW1WJKuNozdfxYCm3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=N/h4ahcN; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
+	s=arc-20240116; t=1762844823; c=relaxed/simple;
+	bh=fEVLyoHERpbLkNGNixCQ4TJv8vApe1EZElDIqlwTkEc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=MM4dDzLRqIXNMdtTG21AOKOO8YYaFGllyRwGqCjpNhMeib7AJZvaSsNNteb6IICne2wTj51f1Ki0Ehfr4y52LCskWl2HPh3OITgLbTx84zprS08+0NEzZYyzr59Z2cz0mu1Tl4ED0AZFWUWErsQmBuBoc0BWoXUVjJl9/TJiMLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gP9Y1QBi; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="N/h4ahcN"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7aace33b75bso3982515b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 10 Nov 2025 22:45:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1762843547; x=1763448347; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cl+GLucGBzlTLWjtZq9oz0wfi6xtPX0PrTL9GqsnyOc=;
-        b=N/h4ahcNfF3R32arEM1F6gK6BKI61NUrq+t2EjyJbu609ImOvcQ00jNeGjjFIt9k7C
-         trWk1hM5sFB/bmvIkCMROgjK4tc2zNe6bEmlssdSp8C914tmfItN7q/FDqzyYTllMKnY
-         JShRnaWBIhG3yigb/oVcchHiucCzwArWrc/tBqcYEpMWhqiV5HJgIKxaNys+OjDihhFy
-         x6JoBY4jR9y1bDIGSMIkCYVlqveQexUdM6B+kVHeJBwjmgjxz6thtrGXDhGhnyTDzCYt
-         n586VZ0pA0Y0DdQXWmEH4q8kZ725vFOwLp3Nnajc2sxuGrXlaL+rCIEVryYjlEmlOIX/
-         BBeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762843547; x=1763448347;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Cl+GLucGBzlTLWjtZq9oz0wfi6xtPX0PrTL9GqsnyOc=;
-        b=ca075cKKEeTGPR7R+MkPp9otNeZXgzZ9Dr2Fk5OljDxdSLLxi88s8Xn24zG/5g5zuK
-         4eCQ7uqV4F6P59gaC6QKiYvomX4MgoPXOiGTQKcdshKAAxXyL9D+Q/ZV5VmFHjhrm+jn
-         fM5mQP3D+x0g7E3VKsPjZrz4/g7+Dg5KQEOFN0MDsht4jsRkxpyUIcTNkUKaR0DMBrQ7
-         fzJPf6PVbsqYfUYrfAp0jilIv3jwYD6myv5I44swNJfeSJjqG1MgdSsTU/uxhOjboP9z
-         MpAc6rQkucNPYBcsue1fq++SvAxRD81NE+w48NkWLGGPpfzdAcStEL78lACKZRH+TNRA
-         lkHw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpfMBKiOngBG9j+XfpaqUm4v4IgYognY29fxdEbtfMcEjjoqEtM7YFFdlAk7JY3S5ILyVjewDyJz0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywzark3VWXB2Pi5JMY6UPGIL/XeGZkqZ5iKSUDjWdxINc+dQtG2
-	KR3rMVGlLF4irwdoTFtSm5dhkcMf64AmFB4yHuvWRXxKYlnU9PmwO76GhsBYEBl38MY=
-X-Gm-Gg: ASbGncvKRkRebEOoGJad1SXI9/ls1r/U7PyPO4pjth7KAdtqqHVLigCFyY05xb64ms8
-	cu+tFs0il1P7tu2wvvMihE/sL3+lZl+SKHWBJict7FBM5HNp6ruWAQshe4oIdWukiDO+yP6hoXw
-	CV3JO9N83dDka0NrMPP0lak6eefSdfM0fHQIk2ul9yt9C4jNO+EiLegCVBfeoc9Xbj/5PyTvsr5
-	Y/nAJKYvu2EsrRVdK9I4ytrOHC3tusN5kTJhw7rUgKOJtMRLsIUGDRggv+f55FB+EHBp688Upsw
-	QuYrDdYpFO4COV+2cUSwOzawIZanCI89BKP08IUIsaCIy0yFy2nzRtC4AKkmgWZhKX+k80rHt2q
-	alx0A4rzd+TxIQcBwzNiB2bx5yf2TDoMsGWRdWdj7FnlIOr2yONQfxSen1jsrp25Md8f/K3PFMT
-	5Sm+pxFDN8LMGgIg==
-X-Google-Smtp-Source: AGHT+IEicHLSYzdwynj4I4nc/MYN4IYvIV6/LmFIMqRyJaOIQeaa5JTA6robs499AmJpzGJRfdsVew==
-X-Received: by 2002:a05:6a20:3d86:b0:343:3d3c:4685 with SMTP id adf61e73a8af0-353a1de1402mr13983796637.18.1762843547462;
-        Mon, 10 Nov 2025 22:45:47 -0800 (PST)
-Received: from .shopee.com ([122.11.166.8])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c953e791sm14370759b3a.7.2025.11.10.22.44.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 22:45:47 -0800 (PST)
-From: Leon Huang Fu <leon.huangfu@shopee.com>
-To: chenridong@huaweicloud.com
-Cc: akpm@linux-foundation.org,
-	cgroups@vger.kernel.org,
-	corbet@lwn.net,
-	hannes@cmpxchg.org,
-	jack@suse.cz,
-	joel.granados@kernel.org,
-	kyle.meyer@hpe.com,
-	lance.yang@linux.dev,
-	laoar.shao@gmail.com,
-	leon.huangfu@shopee.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	mclapinski@google.com,
-	mhocko@kernel.org,
-	mkoutny@suse.com,
-	muchun.song@linux.dev,
-	roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev,
-	tj@kernel.org
-Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for on-demand stats flushing
-Date: Tue, 11 Nov 2025 14:44:13 +0800
-Message-ID: <20251111064415.75290-1-leon.huangfu@shopee.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <7d46ef17-684b-4603-be7a-a9428149da05@huaweicloud.com>
-References: <7d46ef17-684b-4603-be7a-a9428149da05@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gP9Y1QBi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762844822; x=1794380822;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=fEVLyoHERpbLkNGNixCQ4TJv8vApe1EZElDIqlwTkEc=;
+  b=gP9Y1QBiWH+n9QhtE0rNE0cbOqDquZG2p3p+EDEUMW5DdzSJIwZkPCrt
+   sZ66a433n82dLqnBpjIduLSTVIVj4SIq2FybK1tHR3QwFI0MllS2FgmuO
+   cvuvVhgGLGDoBQfrK9SfAE4iPjbUr6ScLOKLtpq+o8uj5SMeTRbSld4Sm
+   5hfMZ7RFuLAnJ+ADoHf5B/8lSmzJBIz1bL2KVBOEd/gldMdmKqrp+btrL
+   DwXxFjRIbEa1pb7dM/SFP4+cn2YgyZNMfPCOy/taSw6gSHkbhDSf3Mh5r
+   JulnAcTKyEkjQgIS1pWR5MtdMK92LbvrGczhX02xRLdsqriHJUq6yguJ0
+   A==;
+X-CSE-ConnectionGUID: or7G79X6SSmKltVGVuoyog==
+X-CSE-MsgGUID: lXaxC92ESIKPhZOyytl8nA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64110566"
+X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
+   d="scan'208";a="64110566"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 23:07:00 -0800
+X-CSE-ConnectionGUID: ElOUZcYgSHeHp5zM4vAvQg==
+X-CSE-MsgGUID: A9sdPkNGSimlf/QVpoAykA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
+   d="scan'208";a="193009436"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.239])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 23:06:57 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Graham Roff <grahamr@qti.qualcomm.com>, Nicolas Schier <nsc@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Nicolas Pitre
+ <nico@fluxnic.net>
+Subject: Re: [PATCH] Support conditional deps using "depends on X if Y"
+In-Reply-To: <20251110211549.GB302594@ax162>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251107-kconfig_conditional_deps-v1-1-aff22199ec0b@qti.qualcomm.com>
+ <20251109232922.GA2977577@ax162>
+ <82317993284703834a7b1d8d5ca05b7c646f2795@intel.com>
+ <20251110211549.GB302594@ax162>
+Date: Tue, 11 Nov 2025 09:06:54 +0200
+Message-ID: <e5ef3c59bc100cb44adae6ef624da83af8bce299@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, Nov 11, 2025 at 9:00 AM Chen Ridong <chenridong@huaweicloud.com> wrote:
+On Mon, 10 Nov 2025, Nathan Chancellor <nathan@kernel.org> wrote:
+> On Mon, Nov 10, 2025 at 10:48:59AM +0200, Jani Nikula wrote:
+>> "depends on A || !A" (or A=n) is the most common pattern in Kconfig,
+>> which literally means "depends on A if A".
 >
->
->
-> On 2025/11/10 21:50, Michal Koutný wrote:
->> Hello Leon.
+> That is totally fair, I did not try to actually search for the idiom. I
+> will say I do not find that either expression in Kconfig easily
+> translates in my head to "this dependency must be built in if the symbol
+> is built in, modular if the symbol is modular, or disabled" but I guess
+> that is just lack of familiarity with these idioms. I just want it to be
+> obvious to folks writing Kconfig when something like this is appropriate
+> to use but I guess with that being the most common usage in the tree, it
+> is fine as is.
 
-Hi Ridong,
+Right. I guess it takes a while to get used to the idiom A || !A. But
+then is it counter-productive to add an alternative that is apparently
+not much more helpful? And then we have two ways to express the same
+thing.
 
->>
->> On Mon, Nov 10, 2025 at 06:19:48PM +0800, Leon Huang Fu <leon.huangfu@shopee.com> wrote:
->>> Memory cgroup statistics are updated asynchronously with periodic
->>> flushing to reduce overhead. The current implementation uses a flush
->>> threshold calculated as MEMCG_CHARGE_BATCH * num_online_cpus() for
->>> determining when to aggregate per-CPU memory cgroup statistics. On
->>> systems with high core counts, this threshold can become very large
->>> (e.g., 64 * 256 = 16,384 on a 256-core system), leading to stale
->>> statistics when userspace reads memory.stat files.
->>>
->
-> We have encountered this problem multiple times when running LTP tests. It can easily occur when
-> using a 64K page size.
->
-> error:
->         memcg_stat_rss 10 TFAIL: rss is 0, 266240 expected
->
+So the follow-up questions:
 
-Have you encountered this problem in real world?
+- Can we come up with a more obvious alternative to the specific case of
+  "A || !A"?
 
->>> This is particularly problematic for monitoring and management tools
->>> that rely on reasonably fresh statistics, as they may observe data
->>> that is thousands of updates out of date.
->>>
->>> Introduce a new write-only file, memory.stat_refresh, that allows
->>> userspace to explicitly trigger an immediate flush of memory statistics.
->>
-[...]
->>
->> Next, v1 and v2 haven't been consistent since introduction of v2 (unlike
->> some other controllers that share code or even cftypes between v1 and
->> v2). So I'd avoid introducing a new file to V1 API.
->>
->
-> We encountered this problem in v1, I think this is a common problem should be fixed.
+- Can we have examples of conversions from "A || !B" to "A if B" in
+  kernel Kconfigs? As in, don't add features without users.
 
-Thanks for pointing that out.
+My point is, there are like 10x more "A || !A" than there are "A || !B".
+Feels weird to advertize and document the thing for the latter, when the
+former is the more prevalent case.
 
-Thanks,
-Leon
+$ git grep -E "depends on .*\b([A-Z0-9_]+) \|\| (\!\1\b|\1=n)"
 
-[...]
+I'm not at all opposed to the change per se.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
