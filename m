@@ -1,274 +1,458 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EA135CBB9;
-	Tue, 11 Nov 2025 21:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C832ECD31
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 21:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762895517; cv=none; b=DgPDrNGfbyq4eFe4Jzg4nhi+BLvXzTGhzxVNLvJC8PLrvcyeG+Py8BBGIi4pOupBhkIWqaRy8Wtb18DS+vC8kTX7has6m4OkuIgaHLOBFHh0Yjmd4HI3rRf2cKpKJhHnE4P1hd4eZ90QSrkclAYmDXwRFRY+WjoxYOlXDr3wgXk=
+	t=1762898218; cv=none; b=XCpp0CYH0xtDW/YUbEmJiRvIeA7qzCUYjmtYxEA0RYGdwme6HK1oeMeMVawxTg60Ly2fGdXZzwg/nJKIkzQoi3s5Iu12TTdhCsQU5+BTAWrbo3rdE8Z8hQK1bINuUNdKczcez7L3IdV71KcK5TZf2pJZ5k/dsGzPZXSCutzdzqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762895517; c=relaxed/simple;
-	bh=3lyHQk+0PzRgbds35eaJRyIdDSi1lVrFMz7RE1ZSqws=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cmQc+OPnQl+btDTSSxo0H4uGO/oaXpIj+7yRGwnZFco61i6ExDFEHxaYietAzv/TVna0NXzCsxkdWWko5Y6qJF4lAaVqx5LMIT4aAkuM+JFi3W00bnzXjtzdJxDaVNDNqOgp+Bq0WTazDhq021M0fKukmnABgcTfyikvgZ64Nkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ej4+SPqC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762898218; c=relaxed/simple;
+	bh=+AQYffAyBYiUuZgWMQbD//Qwua3uzgLuSDzQ0WqjdoI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L8wTbOD4Z5CWBd0Ug+b1ykJq8b1oe8rMdbVSd6PG4171uCFGjF38dX1Z2qvDl/Xiu32EP90cT4BCl9OwdmfiJE9UhXPHMxuhUbqAtitBviNJbwasSFMjh1Bd+gTK4nByqrLXE8SehHqiA/fRqioxBKkWwaFexsN+MzZWMlMzXc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iwjEVkUs; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ebmH+Z7i; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ej4+SPqC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C80FC4CEF5;
-	Tue, 11 Nov 2025 21:11:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762895517;
-	bh=3lyHQk+0PzRgbds35eaJRyIdDSi1lVrFMz7RE1ZSqws=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ej4+SPqCnxQFqkrgxlg+EOX/GriEHMHKiEQGTqk0VlHEBdp4MpgObRj0Br9mGmslR
-	 TZ2JwH91cvp/LgqtNKWSJtPziiqWygeuczj+PV+8qBERpepo9vKssbDG3BcHwZHvso
-	 bNOsgoV/rTtLJzHljjUpJQ57q4jUKOXsQmLcR4VbnQsvZ2VrIaC7ZNTAVv0DyFV6vc
-	 x73jcH+hoKtPMTfpEADif4X8+SmFVfHcEJfrGX+F0Nzsz6HLCQ4EuvBXAVqZESLQdW
-	 4zJGzfcPhJSmsHuPCJd7LFl3zUCOH10SL3S7NwbfLLC7tyaGr0xDI13W8hmONZN9+W
-	 dljQp0vn1hbtQ==
-Date: Tue, 11 Nov 2025 21:11:48 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nuno.sa@analog.com>, <dlechner@baylibre.com>, <andy@kernel.org>,
- <Michael.Hennerich@analog.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <corbet@lwn.net>, <cosmin.tanislav@analog.com>,
- <marcelo.schmitt1@gmail.com>
-Subject: Re: [PATCH v1 2/3] iio: adc: Initial support for AD4134
-Message-ID: <20251111211148.322e5aaf@jic23-huawei>
-In-Reply-To: <86f532ae3a9b3f122b9d5dbada9c131a0c048ca7.1762777931.git.marcelo.schmitt@analog.com>
-References: <cover.1762777931.git.marcelo.schmitt@analog.com>
-	<86f532ae3a9b3f122b9d5dbada9c131a0c048ca7.1762777931.git.marcelo.schmitt@analog.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iwjEVkUs";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ebmH+Z7i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1762898215;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fJQdUI+LXX11RLLs0Qx52DufVkzJbNjuRnkX8eB0oEo=;
+	b=iwjEVkUsVdYTf1/368vXfNisjgJ+JnDHgNbZ7g4Pl9YIgdIX75UejcU/mB1ilNoEiz7Qu0
+	6JFHOdPidB25lodjY0o+KLgUB2yh2FtfwNhWO6AwEe0aiiq8zwCx1eSANCs2CrvIAS4M5G
+	DY9yNt3AhRmVjdLp7Mr38gLJBVGHhr4=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-315-gX7pxjN6P263_A-QUjzQMg-1; Tue, 11 Nov 2025 16:56:54 -0500
+X-MC-Unique: gX7pxjN6P263_A-QUjzQMg-1
+X-Mimecast-MFC-AGG-ID: gX7pxjN6P263_A-QUjzQMg_1762898214
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-787cb36b60dso3238727b3.2
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 13:56:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1762898213; x=1763503013; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fJQdUI+LXX11RLLs0Qx52DufVkzJbNjuRnkX8eB0oEo=;
+        b=ebmH+Z7iksNXrKMFTHd06+Am656SBvVbhkjkgatnLbirc9VZ2fFaFwIwd9kFIMFB1b
+         Evv6vVeDxS3O5uBB+eJLF9y1gokY/lt0KREhIDq1a1xWXDw+NHbBVqHxVew7ZIuhcXqx
+         9MBqMw4NNyXEyRFODa4h8YfcKA3c1WweVuyMY53yXVQRy22eoGyGY0DTFW8BL9tANCRe
+         rAm6xPuD6M/dQEc0Uj+q1vb6Y/wHIatUTtF/Gp0rtndHI3jpSn9a811qMdK5IqWkisLO
+         +6o0mOQ8/0zHavfRr+gBWYuyi0z1uKyF7XOYfmKHva4ta9yWhIba2Aek4lC0AHeoyocg
+         1b9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762898213; x=1763503013;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fJQdUI+LXX11RLLs0Qx52DufVkzJbNjuRnkX8eB0oEo=;
+        b=UrjZ3OtQAb7gQuHFSEozQA9orS60K4nwRB2BasCl26bODJHhRILUrhSlrSnzBoeVi5
+         XTOHBz0S3dy6bXfPtRdDkYqZt2meJaYW3DUHe9du6zLSVWPvyI0asLYrHk4gOj8Pw2f+
+         1btqV/s3YCnifmVh2K+7TFt1nKta9yoSw5LiIWE2A1BUN8gh0OknrC7zcbkVYmNT/FtJ
+         SsBr+zblDOatga+/hDN30ffX+w8sxEBy1gjKYUPB+SVlsMxgMgFjTPB4km6cVbukfVFq
+         Al4MB1KaGX1qRlitk8gfZEeOjpI3dFFn7cCcpxH0s38IIJQYXf77EQaw1p0YMgalVfdk
+         7a2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVCvdZUej1gWuxsfcbK/OT4SNzY/LQNLKt+LZvBqRXRtZV44KBQBlaKD+NEplkTQc8W9IIVPynYkAw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4Mx2jwFMaoa/DKoR2ug9L6H+2xB7JMv1IpY8HFUgZE0H3ZecD
+	hwHX4iKg6x5bkcOO3gQxnHDtiE+oMnkagaEpWaWIHilz2YU1pM/RDyrYhCnRr1jQiWUjUQLDbNq
+	oeJriZBsT9jrwpUY6A/DlHyLFxocBH9yhipVULLHNBcdzkfb5PHVmlQ3VDjtpXK2gnRjDZTPACv
+	0VeakPpih5EXjdxPWSXBlG06Sdtx3M/6sgN7hq
+X-Gm-Gg: ASbGncuw0MIm6Ln53pKHvQr6EHO/Mx75Mqpq7YU+WyHrQEqvhcYLKxNlFDQikTmLeQC
+	jfrB/ntX3A8a0tmhWYBoYLl8AaX6WTP1D4m48r0LIFDddPOOT3Q2te1DMc417axMa7MQGGLi31c
+	lvyFQdtvqOuLQPDaL4TtVrDkexPgVa67YoN12V2oE9mh3+GeFXh8x3y942KedEq3SprvDY/A==
+X-Received: by 2002:a05:690c:c341:b0:787:e9bc:f9d8 with SMTP id 00721157ae682-788136a7be5mr8844007b3.52.1762898213585;
+        Tue, 11 Nov 2025 13:56:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF+b3xAzqqRUNr4xdfJt+6yqZ+2HXxhopK8ftc8r8sTeifMmau05ZwVAtlGjfvcUgQM5qWXlqEnQddMG63Dwo0=
+X-Received: by 2002:a05:690c:c341:b0:787:e9bc:f9d8 with SMTP id
+ 00721157ae682-788136a7be5mr8843467b3.52.1762898213134; Tue, 11 Nov 2025
+ 13:56:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20251022183717.70829-1-npache@redhat.com> <20251022183717.70829-13-npache@redhat.com>
+ <20251109020802.g6dytbixd4aygdgh@master>
+In-Reply-To: <20251109020802.g6dytbixd4aygdgh@master>
+From: Nico Pache <npache@redhat.com>
+Date: Tue, 11 Nov 2025 14:56:27 -0700
+X-Gm-Features: AWmQ_bn3fKyzIDCH5FNeUuK4AtOvAXqhYr80QM2Hqo2H858Qfygt1YN2wMe4pp8
+Message-ID: <CAA1CXcA5pKaAOxw45YQ90ygNcGc73MY8o1X9MqR7GBih9AA1HA@mail.gmail.com>
+Subject: Re: [PATCH v12 mm-new 12/15] khugepaged: Introduce mTHP collapse support
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, david@redhat.com, 
+	ziy@nvidia.com, baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
+	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, kas@kernel.org, 
+	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com, 
+	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
+	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com, 
+	lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com, 
+	pfalcato@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 10 Nov 2025 09:45:40 -0300
-Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+On Sat, Nov 8, 2025 at 7:08=E2=80=AFPM Wei Yang <richard.weiyang@gmail.com>=
+ wrote:
+>
+> On Wed, Oct 22, 2025 at 12:37:14PM -0600, Nico Pache wrote:
+> >During PMD range scanning, track occupied pages in a bitmap. If mTHPs ar=
+e
+> >enabled we remove the restriction of max_ptes_none during the scan phase
+> >to avoid missing potential mTHP candidates.
+> >
+> >Implement collapse_scan_bitmap() to perform binary recursion on the bitm=
+ap
+> >and determine the best eligible order for the collapse. A stack struct i=
+s
+> >used instead of traditional recursion. The algorithm splits the bitmap
+> >into smaller chunks to find the best fit mTHP.  max_ptes_none is scaled =
+by
+> >the attempted collapse order to determine how "full" an order must be
+> >before being considered for collapse.
+> >
+> >Once we determine what mTHP sizes fits best in that PMD range a collapse
+> >is attempted. A minimum collapse order of 2 is used as this is the lowes=
+t
+> >order supported by anon memory.
+> >
+> >mTHP collapses reject regions containing swapped out or shared pages.
+> >This is because adding new entries can lead to new none pages, and these
+> >may lead to constant promotion into a higher order (m)THP. A similar
+> >issue can occur with "max_ptes_none > HPAGE_PMD_NR/2" due to a collapse
+> >introducing at least 2x the number of pages, and on a future scan will
+> >satisfy the promotion condition once again. This issue is prevented via
+> >the collapse_allowable_orders() function.
+> >
+> >Currently madv_collapse is not supported and will only attempt PMD
+> >collapse.
+> >
+> >We can also remove the check for is_khugepaged inside the PMD scan as
+> >the collapse_max_ptes_none() function handles this logic now.
+> >
+> >Signed-off-by: Nico Pache <npache@redhat.com>
+>
+> Generally LGTM.
+>
+> Some nit below.
+>
+> >---
+> > include/linux/khugepaged.h |   2 +
+> > mm/khugepaged.c            | 128 ++++++++++++++++++++++++++++++++++---
+> > 2 files changed, 122 insertions(+), 8 deletions(-)
+> >
+> >diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
+> >index eb1946a70cff..179ce716e769 100644
+> >--- a/include/linux/khugepaged.h
+> >+++ b/include/linux/khugepaged.h
+> >@@ -1,6 +1,8 @@
+> > /* SPDX-License-Identifier: GPL-2.0 */
+> > #ifndef _LINUX_KHUGEPAGED_H
+> > #define _LINUX_KHUGEPAGED_H
+> >+#define KHUGEPAGED_MIN_MTHP_ORDER     2
+> >+#define MAX_MTHP_BITMAP_STACK (1UL << (ilog2(MAX_PTRS_PER_PTE) - KHUGEP=
+AGED_MIN_MTHP_ORDER))
+> >
+> > #include <linux/mm.h>
+> >
+> >diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> >index 89a105124790..e2319bfd0065 100644
+> >--- a/mm/khugepaged.c
+> >+++ b/mm/khugepaged.c
+> >@@ -93,6 +93,11 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM=
+_SLOTS_HASH_BITS);
+> >
+> > static struct kmem_cache *mm_slot_cache __ro_after_init;
+> >
+> >+struct scan_bit_state {
+> >+      u8 order;
+> >+      u16 offset;
+> >+};
+> >+
+> > struct collapse_control {
+> >       bool is_khugepaged;
+> >
+> >@@ -101,6 +106,13 @@ struct collapse_control {
+> >
+> >       /* nodemask for allocation fallback */
+> >       nodemask_t alloc_nmask;
+> >+
+> >+      /*
+> >+       * bitmap used to collapse mTHP sizes.
+> >+       */
+> >+       DECLARE_BITMAP(mthp_bitmap, HPAGE_PMD_NR);
+> >+       DECLARE_BITMAP(mthp_bitmap_mask, HPAGE_PMD_NR);
+> >+      struct scan_bit_state mthp_bitmap_stack[MAX_MTHP_BITMAP_STACK];
+>
+> Looks like an indent issue.
 
-> AD4134 is a 24-bit, 4-channel, simultaneous sampling, precision
-> analog-to-digital converter (ADC). The device can be managed through SPI or
-> direct control of pin logical levels (pin control mode). The AD4134 design
-> also features a dedicated bus for ADC sample data output. Though, this
-> initial driver for AD4134 only supports usual SPI connections.
-> 
-> The different wiring configurations will likely require distinct software
-> to handle. So, the code specific to SPI is enclosed in ad4134-spi.c, while
-> functionality that may be useful to all wiring configuration is set into
-> ad4134-common.h and ad4134-common.c.
+Thanks!
+>
+> > };
+> >
+> > /**
+> >@@ -1357,6 +1369,85 @@ static int collapse_huge_page(struct mm_struct *m=
+m, unsigned long pmd_address,
+> >       return result;
+> > }
+> >
+> >+static void push_mthp_bitmap_stack(struct collapse_control *cc, int *to=
+p,
+> >+                                 u8 order, u16 offset)
+> >+{
+> >+      cc->mthp_bitmap_stack[++*top] =3D (struct scan_bit_state)
+> >+              { order, offset };
+> >+}
+> >+
+>
+> For me, I may introduce pop_mth_bitmap_stack() .
+>
+> And use it ...
+>
+> >+/*
+> >+ * collapse_scan_bitmap() consumes the bitmap that is generated during
+> >+ * collapse_scan_pmd() to determine what regions and mTHP orders fit be=
+st.
+> >+ *
+> >+ * Each bit in the bitmap represents a single occupied (!none/zero) pag=
+e.
+> >+ * A stack structure cc->mthp_bitmap_stack is used to check different r=
+egions
+> >+ * of the bitmap for collapse eligibility. We start at the PMD order an=
+d
+> >+ * check if it is eligible for collapse; if not, we add two entries to =
+the
+> >+ * stack at a lower order to represent the left and right halves of the=
+ region.
+> >+ *
+> >+ * For each region, we calculate the number of set bits and compare it
+> >+ * against a threshold derived from collapse_max_ptes_none(). A region =
+is
+> >+ * eligible if the number of set bits exceeds this threshold.
+> >+ */
+> >+static int collapse_scan_bitmap(struct mm_struct *mm, unsigned long add=
+ress,
+> >+              int referenced, int unmapped, struct collapse_control *cc=
+,
+> >+              bool *mmap_locked, unsigned long enabled_orders)
+> >+{
+> >+      u8 order, next_order;
+> >+      u16 offset, mid_offset;
+> >+      int num_chunks;
+> >+      int bits_set, threshold_bits;
+> >+      int top =3D -1;
+> >+      int collapsed =3D 0;
+> >+      int ret;
+> >+      struct scan_bit_state state;
+> >+      unsigned int max_none_ptes;
+> >+
+> >+      push_mthp_bitmap_stack(cc, &top, HPAGE_PMD_ORDER - KHUGEPAGED_MIN=
+_MTHP_ORDER, 0);
+> >+
+> >+      while (top >=3D 0) {
+> >+              state =3D cc->mthp_bitmap_stack[top--];
+>
+> ... here.
 
-'maybe' isn't usually a justification for a split.  If that code
-was on list even as an RFC before merging  I'd be fine with this, but if it is
-something we might never see upstream, then squash the abstractions for
-now. Those then end up being introduced as a precursor part of the patch
-set that gives them a reason to exist.
+Ack!
 
-> 
-> Add basic support for AD4134 that allows single-shot ADC sample read.
-> 
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-A few other comments inline,
+>
+> >+              order =3D state.order + KHUGEPAGED_MIN_MTHP_ORDER;
+>
+> We push real_order - KHUGEPAGED_MIN_MTHP_ORDER, and get it by add
+> KHUGEPAGED_MIN_MTHP_ORDER.
+>
+> Maybe we can push real_order ...
+>
+> >+              offset =3D state.offset;
+> >+              num_chunks =3D 1UL << order;
+> >+
+> >+              /* Skip mTHP orders that are not enabled */
+> >+              if (!test_bit(order, &enabled_orders))
+> >+                      goto next_order;
+> >+
+> >+              max_none_ptes =3D collapse_max_ptes_none(order, !cc->is_k=
+hugepaged);
+> >+
+> >+              /* Calculate weight of the range */
+> >+              bitmap_zero(cc->mthp_bitmap_mask, HPAGE_PMD_NR);
+> >+              bitmap_set(cc->mthp_bitmap_mask, offset, num_chunks);
+> >+              bits_set =3D bitmap_weight_and(cc->mthp_bitmap,
+> >+                                           cc->mthp_bitmap_mask, HPAGE_=
+PMD_NR);
+> >+
+> >+              threshold_bits =3D (1UL << order) - max_none_ptes - 1;
+> >+
+> >+              /* Check if the region is eligible based on the threshold=
+ */
+> >+              if (bits_set > threshold_bits) {
+> >+                      ret =3D collapse_huge_page(mm, address, reference=
+d,
+> >+                                               unmapped, cc, mmap_locke=
+d,
+> >+                                               order, offset);
+> >+                      if (ret =3D=3D SCAN_SUCCEED) {
+> >+                              collapsed +=3D 1UL << order;
+> >+                              continue;
+> >+                      }
+> >+              }
+> >+
+> >+next_order:
+> >+              if (state.order > 0) {
+>
+> ...and if (order > KHUGEPAGED_MIN_MTHP_ORDER) here?
+>
+> Not sure you would like it.
 
-Thanks, J
-> diff --git a/drivers/iio/adc/ad4134-common.c b/drivers/iio/adc/ad4134-common.c
-> new file mode 100644
-> index 000000000000..05332a640926
-> --- /dev/null
-> +++ b/drivers/iio/adc/ad4134-common.c
+I went ahead and implemented this based on real order. Thanks for the
+suggestion, it's much cleaner now. It made more sense like this when I
+had the bitmap compressed into 128 bits.
 
-> +
-> +static const char *const ad4134_clk_sel[] = {
-> +	"xtal1-xtal2", "clkin"
-> +};
-> +
-> +static int ad4134_clock_select(struct ad4134_state *st)
-> +{
-> +	struct device *dev = st->dev;
-> +	struct clk *sys_clk;
-> +	int ret;
-> +
-> +	ret = device_property_match_property_string(dev, "clock-names",
-> +						    ad4134_clk_sel,
-> +						    ARRAY_SIZE(ad4134_clk_sel));
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "failed to find external clock\n");
-> +
-> +	sys_clk = devm_clk_get_enabled(dev, ad4134_clk_sel[ret]);
-> +	if (IS_ERR(sys_clk))
-> +		return dev_err_probe(dev, PTR_ERR(sys_clk),
-> +				     "failed to get %s external clock\n",
-> +				     ad4134_clk_sel[ret]);
-This is a somewhat unusual approach. More common to just trying getting
-an optional clock and if that fails try the other one.
+>
+> >+                      next_order =3D state.order - 1;
+> >+                      mid_offset =3D offset + (num_chunks / 2);
+> >+                      push_mthp_bitmap_stack(cc, &top, next_order, mid_=
+offset);
+> >+                      push_mthp_bitmap_stack(cc, &top, next_order, offs=
+et);
+> >+              }
+> >+      }
+> >+      return collapsed;
+> >+}
+> >+
+> > static int collapse_scan_pmd(struct mm_struct *mm,
+> >                            struct vm_area_struct *vma,
+> >                            unsigned long start_addr, bool *mmap_locked,
+> >@@ -1364,11 +1455,15 @@ static int collapse_scan_pmd(struct mm_struct *m=
+m,
+> > {
+> >       pmd_t *pmd;
+> >       pte_t *pte, *_pte;
+> >+      int i;
+> >       int result =3D SCAN_FAIL, referenced =3D 0;
+> >-      int none_or_zero =3D 0, shared =3D 0;
+> >+      int none_or_zero =3D 0, shared =3D 0, nr_collapsed =3D 0;
+> >       struct page *page =3D NULL;
+> >+      unsigned int max_ptes_none;
+> >       struct folio *folio =3D NULL;
+> >       unsigned long addr;
+> >+      unsigned long enabled_orders;
+> >+      bool full_scan =3D true;
+> >       spinlock_t *ptl;
+> >       int node =3D NUMA_NO_NODE, unmapped =3D 0;
+> >
+> >@@ -1378,16 +1473,29 @@ static int collapse_scan_pmd(struct mm_struct *m=
+m,
+> >       if (result !=3D SCAN_SUCCEED)
+> >               goto out;
+> >
+> >+      bitmap_zero(cc->mthp_bitmap, HPAGE_PMD_NR);
+> >       memset(cc->node_load, 0, sizeof(cc->node_load));
+> >       nodes_clear(cc->alloc_nmask);
+> >+
+> >+      enabled_orders =3D collapse_allowable_orders(vma, vma->vm_flags, =
+cc->is_khugepaged);
+> >+
+> >+      /*
+> >+       * If PMD is the only enabled order, enforce max_ptes_none, other=
+wise
+> >+       * scan all pages to populate the bitmap for mTHP collapse.
+> >+       */
+> >+      if (cc->is_khugepaged && enabled_orders =3D=3D _BITUL(HPAGE_PMD_O=
+RDER))
+>
+> We sometimes use BIT(), e.g. in collapse_allowable_orders().
+> And sometimes use _BITUL().
+>
+> Suggest to use the same form.
 
-devm_clk_get_optional_enabled()
+Yeah I caught this after posting, I missed this one!
 
+>
+> Nothing else, great job!
 
-> +
-> +	st->sys_clk_rate = clk_get_rate(sys_clk);
-> +	if (st->sys_clk_rate != AD4134_EXT_CLOCK_MHZ)
-> +		dev_warn(dev, "invalid external clock frequency %lu\n",
-> +			 st->sys_clk_rate);
-> +
-> +	return 0;
-> +}
+Thank you :) I appreciate the reviews!
 
-> diff --git a/drivers/iio/adc/ad4134-common.h b/drivers/iio/adc/ad4134-common.h
-> new file mode 100644
-> index 000000000000..c0a553d827c9
-> --- /dev/null
-> +++ b/drivers/iio/adc/ad4134-common.h
-
-> +
-> +#define AD4134_CH_VREG(x)			((x) + 0x50) /* chanX virtual register */
-> +#define AD4134_VREG_CH(x)			((x) - 0x50) /* chan of virtual reg X */
-
-Add a comment or two on what virtual registers are for.
-
-> +struct iio_scan_type ad4134_scan_types[] = {
-> +	AD4134_SCAN_TYPE(16, 16),
-> +	AD4134_SCAN_TYPE(16, 24),
-
-There are no buffer in here so can type ends up meaning little.
-If this eventually doesn't become useful, storage bits must be a power of 2 * 8
-So can't be 24.  
-
-> +	AD4134_SCAN_TYPE(24, 24),
-> +	AD4134_SCAN_TYPE(24, 32),
-> +};
-> +
-> +#define AD4134_CHANNEL(_index) {						\
-> +	.type = IIO_VOLTAGE,							\
-> +	.indexed = 1,								\
-> +	.channel = (_index),							\
-> +	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),				\
-> +	.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE),			\
-> +	.scan_index = (_index),							\
-> +	.has_ext_scan_type = 1,							\
-> +	.ext_scan_type = ad4134_scan_types,					\
-> +	.num_ext_scan_type = ARRAY_SIZE(ad4134_scan_types)			\
-> +}
-
-> diff --git a/drivers/iio/adc/ad4134-spi.c b/drivers/iio/adc/ad4134-spi.c
-> new file mode 100644
-> index 000000000000..7d0749e5c084
-> --- /dev/null
-> +++ b/drivers/iio/adc/ad4134-spi.c
-> @@ -0,0 +1,287 @@
-
-> +
-> +#include "ad4134-common.h"
-
-> +static int ad4134_reg_write(void *context, unsigned int reg, unsigned int val)
-> +{
-> +	struct ad4134_state *st = context;
-> +	struct spi_device *spi = to_spi_device(st->dev);
-> +	struct spi_transfer xfer = {
-> +		.tx_buf = st->tx_buf,
-> +		.rx_buf = st->rx_buf,
-> +		.len = AD4134_SPI_MAX_XFER_LEN,
-> +	};
-> +	int ret;
-> +
-> +	ad4134_prepare_spi_tx_buf(reg, val, st->tx_buf);
-> +
-> +	ret = spi_sync_transfer(spi, &xfer, 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (st->rx_buf[2] != st->tx_buf[2])
-> +		dev_dbg(st->dev, "reg write CRC check failed\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static int ad4134_data_read(struct ad4134_state *st, unsigned int reg,
-> +			    unsigned int *val)
-> +{
-> +	struct spi_device *spi = to_spi_device(st->dev);
-> +	struct iio_scan_type *scan_type = &ad4134_scan_types[st->current_scan_type];
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	/*
-> +	 * Data from all four channels is serialized and output on SDO. Read
-> +	 * them all but keep only the requested data.
-
-I'm failing to spot this mode described on the datasheet.  Could you
-provide a reference section?
-
-> +	 */
-> +	for (i = 0; i < ARRAY_SIZE(ad4134_chan_set); i++) {
-> +		ret = spi_write_then_read(spi, NULL, 0, st->rx_buf,
-> +					  BITS_TO_BYTES(scan_type->storagebits));
-> +		if (ret)
-> +			return ret;
-> +
-> +		if (i != AD4134_VREG_CH(reg))
-> +			continue;
-> +
-> +		if (scan_type->realbits == 16)
-> +			*val = get_unaligned_be16(st->rx_buf);
-> +		else
-> +			*val = get_unaligned_be24(st->rx_buf);
-> +
-> +		*val >>= scan_type->shift;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int ad4134_reg_read(void *context, unsigned int reg, unsigned int *val)
-> +{
-> +	struct ad4134_state *st = context;
-> +	struct spi_device *spi = to_spi_device(st->dev);
-> +	struct spi_transfer xfer = {
-> +		.tx_buf = st->tx_buf,
-> +		.rx_buf = st->rx_buf,
-> +		.len = AD4134_SPI_MAX_XFER_LEN,
-> +	};
-> +	unsigned int inst;
-> +	int ret;
-> +
-> +	if (reg >= AD4134_CH_VREG(0))
-> +		return ad4134_data_read(st, reg, val);
-
-If you are going down this path the xfer isn't used.  To avoid that being
-a little confusing I'd factor out the rest of this function into a helper
-
-> +
-> +	inst = AD4134_REG_READ_MASK | reg;
-> +	ad4134_prepare_spi_tx_buf(inst, 0, st->tx_buf);
-> +
-> +	ret = spi_sync_transfer(spi, &xfer, 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	*val = st->rx_buf[1];
-> +
-> +	/* Check CRC */
-> +	if (st->rx_buf[2] != st->tx_buf[2])
-> +		dev_dbg(st->dev, "reg read CRC check failed\n");
-> +
-> +	return 0;
-> +}
-
-
-> +
-> +static const struct ad4134_bus_info ad4134_min_io_bus_info = {
-
-given it's a mix of bus specific and other stuff, I'm not sure 
-that calling this bus_info makes sense.  Maybe just ad4134_info?
-
-> +	.chip_info = &ad4134_chip_info,
-> +	.bops = &ad4134_min_io_bops,
-> +};
-
+>
+> >+              full_scan =3D false;
+> >+      max_ptes_none =3D collapse_max_ptes_none(HPAGE_PMD_ORDER, full_sc=
+an);
+> >+
+> >       pte =3D pte_offset_map_lock(mm, pmd, start_addr, &ptl);
+> >       if (!pte) {
+> >               result =3D SCAN_PMD_NULL;
+> >               goto out;
+> >       }
+> >
+> >-      for (addr =3D start_addr, _pte =3D pte; _pte < pte + HPAGE_PMD_NR=
+;
+> >-           _pte++, addr +=3D PAGE_SIZE) {
+> >+      for (i =3D 0; i < HPAGE_PMD_NR; i++) {
+> >+              _pte =3D pte + i;
+> >+              addr =3D start_addr + i * PAGE_SIZE;
+> >               pte_t pteval =3D ptep_get(_pte);
+> >               if (is_swap_pte(pteval)) {
+> >                       ++unmapped;
+> >@@ -1412,8 +1520,7 @@ static int collapse_scan_pmd(struct mm_struct *mm,
+> >               if (pte_none_or_zero(pteval)) {
+> >                       ++none_or_zero;
+> >                       if (!userfaultfd_armed(vma) &&
+> >-                          (!cc->is_khugepaged ||
+> >-                           none_or_zero <=3D khugepaged_max_ptes_none))=
+ {
+> >+                          none_or_zero <=3D max_ptes_none) {
+> >                               continue;
+> >                       } else {
+> >                               result =3D SCAN_EXCEED_NONE_PTE;
+> >@@ -1461,6 +1568,8 @@ static int collapse_scan_pmd(struct mm_struct *mm,
+> >                       }
+> >               }
+> >
+> >+              /* Set bit for occupied pages */
+> >+              bitmap_set(cc->mthp_bitmap, i, 1);
+> >               /*
+> >                * Record which node the original page is from and save t=
+his
+> >                * information to cc->node_load[].
+> >@@ -1517,9 +1626,12 @@ static int collapse_scan_pmd(struct mm_struct *mm=
+,
+> > out_unmap:
+> >       pte_unmap_unlock(pte, ptl);
+> >       if (result =3D=3D SCAN_SUCCEED) {
+> >-              result =3D collapse_huge_page(mm, start_addr, referenced,
+> >-                                          unmapped, cc, mmap_locked,
+> >-                                          HPAGE_PMD_ORDER, 0);
+> >+              nr_collapsed =3D collapse_scan_bitmap(mm, start_addr, ref=
+erenced, unmapped,
+> >+                                            cc, mmap_locked, enabled_or=
+ders);
+> >+              if (nr_collapsed > 0)
+> >+                      result =3D SCAN_SUCCEED;
+> >+              else
+> >+                      result =3D SCAN_FAIL;
+> >       }
+> > out:
+> >       trace_mm_khugepaged_scan_pmd(mm, folio, referenced,
+> >--
+> >2.51.0
+>
+> --
+> Wei Yang
+> Help you, Help me
+>
 
