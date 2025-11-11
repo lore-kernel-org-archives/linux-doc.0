@@ -1,197 +1,323 @@
-Received: from smtpweb147.aruba.it (smtpweb147.aruba.it [62.149.158.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BD130F7FE
-	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 08:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.158.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8F322CBE6
+	for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 08:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762848791; cv=none; b=Dkg82MS8ob7L7H/zwIc8CNRdHg6RpX8hmM2WW7NQEoAugrBemeRXtVdOx1ZfMG19RbvWRHYerGVjbKhwhJsm/lxnF00D0Vi9Iegpj1WzYtgT1PlO42PJ/YIWOdniCzw8Bq6DJK1do09/8G2OGJK/K7cUzddJYDa4V0rMetdtDpM=
+	t=1762850559; cv=none; b=WViTH3zgPXnZfcmb76PRc35BpnFBrDwIysHc+ghUiH90Dpj6t+7Qh14Von+VM+fEEH1JUbSbC8J8GbXXuqBfRTAslua6IODUt4FWcxjC/NIOs42CD/aWvY7DMMWudXJ3+kpMUsj53P0R00bC/d4MjjBL0RDcJ43+4A7uku6LDuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762848791; c=relaxed/simple;
-	bh=e2VKfhLBtfetGdLzQaFZSLBhdVbkUGkXPf4jjXRKteg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AbSl2emSvikOmJh8i2CQPGCwmPUmsy95K6PsJvMZaKfPjwAOfHh1r5pY7/lktNLGnCLztvZTFaooBxKHBiI2ffDjzVwHY70Xm5aiftDgtGpvfuqo/hgciJiH1cRP1uJ/9YJCZYyD5MvgcjD63GmuWY/JsnZD9qCDdmJwzfXi1Ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=AXJ4e5dw; arc=none smtp.client-ip=62.149.158.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
+	s=arc-20240116; t=1762850559; c=relaxed/simple;
+	bh=DoQf4P7TCErbJvQszDubE/Xq8KMmLCh+Pm32TVJ7128=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KcuGgXJ4ngtn1QNsGPXKWcqY6nRCZSPfauQ/ajLJzlbh6a+ueo/1KDPbk0NQeLWgmtmZ64qpFz06kbHoaczKTCELD7RP+Y2DxxSJ9Q71ucTPuyOQQRkph5NKo7eFSPd+mfKGhlJbU2k3lQi26izVsS05QvTq25P0DUdrJ/KFx8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S/3VacPm; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="AXJ4e5dw"
-Received: from [192.168.1.56] ([79.0.204.227])
-	by Aruba SMTP with ESMTPSA
-	id IjRpvB89Z3rWiIjRpvo9yP; Tue, 11 Nov 2025 09:09:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-	t=1762848599; bh=e2VKfhLBtfetGdLzQaFZSLBhdVbkUGkXPf4jjXRKteg=;
-	h=Date:MIME-Version:Subject:To:From:Content-Type;
-	b=AXJ4e5dw+jSyszcMYBEFl9RCo64n6ctWLi7ALyEfBW2CsNHdns58uFEPi6BIP0fSo
-	 +tB0UztyXs5sQMBKQyycck0J3O4LR0Dnk3QAhsnI09tGu8FmU8DcYE1wR6HJcad5yZ
-	 TLc+0c06i9zJ5NVTRlQs5GjG5nsPj9le/gGOTqLTjYyWY5Qcu3FWjQq5gmMaKCWsin
-	 /zKDeh7ZKMAATnb3tk1WbFnrvz4a8/3SGmCbbZzLCD1af4amWVvDCH5XIDWdZFYyW6
-	 QyGNAYKhUugKEMfbzLpPCuFgDDAzuQZNrfICnaEmr/m/0fSopNWEOSkZx7p8Qn9Y80
-	 b8l0RNeGvbW6A==
-Message-ID: <6c8b4205-e5d2-4bce-a1ab-addb099097b8@enneenne.com>
-Date: Tue, 11 Nov 2025 09:09:52 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S/3VacPm"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42b3ac40ae4so949782f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 00:42:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762850555; x=1763455355; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=IqtEl7gImhAOH7rT5W1m8+quQVQyDX95I8EGDON4vhU=;
+        b=S/3VacPmGOJHH57oFuBsooY6kY3wUoM9s6vp05t3duNod7AqmrgNY5J3drVPtLC2js
+         7kCdQo/M3ikyHTgsWYJF9+/w10CyVQ2yc1wALVJWbl9XLzfZKwYZxBAeELUzYZRl/jqt
+         WCILH6M2X5yRMeCfPkjtL2VgSJpYZi8u87vRIqBu1MFB4oSVUgPm0aQkDHBX1slRIGoC
+         QFyhazepvWWYStxWD96FvpsidamiJiGosK+3s559cz09f92tHPhDgnekN9xl8BXyQBKf
+         HUz7bz2GiXCgO0enxHs8F77K8HqSrnwvp0ydLbwz2cCyOWJJndddBTFq8rs2hQpZNPBj
+         fzzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762850555; x=1763455355;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IqtEl7gImhAOH7rT5W1m8+quQVQyDX95I8EGDON4vhU=;
+        b=whHmPAjvWPRD0zutAVMpFdPYCoBQdw6JkRq/jRjIVfou75mh4AXFEloVI+NOCvf3Fh
+         3SBmF9u4sf6vTaF2JlQK9ZkpAygvM1m0w4gNX65hvFea2ZuPyOdmzfiPASZ07O7dYvtp
+         srFRJwqaiXjZJxx1SXL1ip2sYgPzXFgHBe8QfbrxQB4y0gZgdAjDpn5E8VkJ5w2PMmBT
+         YoxlPE9zVBzMaPR4ss9chUxntw6F8FZx9q6stK4eG5uOcuGEjzqlinD6LEBhI0OQe68M
+         mELFplK6NfYbOvVTnUvFIJw7tfyBrA3R4JJNfOfxiWYFBxIiLsMa6cnqFNGDstlSEPaK
+         uFJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUvjKoBUtgXCRypB1rB+PuMTw2ovXTUbwMouqzc6gxLYfa0BF/wlhktXJbTNwEH3iAFvLquHuT6eI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQ/036BUpx8Ry7KPyfd4r1vpjmzt4cAZghAY+FIoDt35i6V3Jq
+	RuZy/xOisDte63Maqafe54DLdnJ+U5HDUWHTsha3ivjNjfUKtQvHfIRa
+X-Gm-Gg: ASbGnctmKdd/3DkQ2sc7/Iy5TqvAOggOsC9YVcI85A2mka4DNS03sVAJkHsIiL9N0PP
+	RM58hTAchRkiruywSD1uUrUXxWuYecbxQ8wQta5fA1Y2t+QBVp7qsUJJh3KcCUN3s/YI4GYka9F
+	H61y+fDJS7+enXpUuN9oOonhRff1OPYWVrhzlEeJ7v7fIEyjlyyuXIfB0PuHmf0OE2BmvUSuAFz
+	mMxndEKd9XP3qahf2HlbtrpQYDNit5lKcYAJM6Pk2YeTTwLur8VAKMYbWBKYfs0JHUb9USNFrjs
+	+iXUU7Q+W+EPnqXKb06+DKeNu0mLCq1P//jmpLe53y0l+ZOKtcVz05caBfi2jl5YEe99B42KXi2
+	Wox6cQHM71f5VW6smtD5AgJ2b+sWWnky6c3frj/Rm1JjPByuVmL6/UjjvuhgxvVlPE0soLWkk62
+	xrH/2q0yaS
+X-Google-Smtp-Source: AGHT+IFN9HVusrgM/m4NWqHC6TFKKDpjhBbSMDgruLy+D3S5IkLHnmy9p92HE3ryPy5u/EciFDOU6Q==
+X-Received: by 2002:a05:6000:420b:b0:429:8b01:c08c with SMTP id ffacd0b85a97d-42b2dbf16d1mr10115898f8f.19.1762850555184;
+        Tue, 11 Nov 2025 00:42:35 -0800 (PST)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b321a80c0sm16163322f8f.1.2025.11.11.00.42.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Nov 2025 00:42:34 -0800 (PST)
+Message-ID: <a8e09403ae80060648e0d70e4aef37221bc3d138.camel@gmail.com>
+Subject: Re: [PATCH 1/3] iio: frequency: adf41513: driver implementation
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron	
+ <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Andy Shevchenko	
+ <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich	
+ <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Date: Tue, 11 Nov 2025 08:43:11 +0000
+In-Reply-To: <aRITLaJir-2IoclU@smile.fi.intel.com>
+References: <20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com>
+	 <20251110-adf41513-iio-driver-v1-1-2df8be0fdc6e@analog.com>
+	 <aRITLaJir-2IoclU@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 18/23] pps: Switch to use %ptSp
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Corey Minyard <corey@minyard.net>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Matthew Brost <matthew.brost@intel.com>, Hans Verkuil <hverkuil@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Vitaly Lifshits <vitaly.lifshits@intel.com>,
- Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Calvin Owens <calvin@wbinvd.org>, Sagi Maimon <maimon.sagi@gmail.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Karan Tilak Kumar <kartilak@cisco.com>,
- Casey Schaufler <casey@schaufler-ca.com>,
- Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>,
- Max Kellermann <max.kellermann@ionos.com>, Takashi Iwai <tiwai@suse.de>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev, ceph-devel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Richard Cochran <richardcochran@gmail.com>,
- Stefan Haberland <sth@linux.ibm.com>, Jan Hoeppner <hoeppner@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Satish Kharat <satishkh@cisco.com>,
- Sesidhar Baddela <sebaddel@cisco.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Xiubo Li
- <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
- <20251110184727.666591-19-andriy.shevchenko@linux.intel.com>
-From: Rodolfo Giometti <giometti@enneenne.com>
-In-Reply-To: <20251110184727.666591-19-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: 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
 
-On 10/11/25 19:40, Andy Shevchenko wrote:
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Hi Andy,
 
-Acked-by: Rodolfo Giometti <giometti@enneenne.com>
+On Mon, 2025-11-10 at 18:30 +0200, Andy Shevchenko wrote:
+> On Mon, Nov 10, 2025 at 03:44:44PM +0000, Rodrigo Alencar via B4 Relay wr=
+ote:
+> >=20
+> > - ADF41513: 1 GHz to 26.5 GHz frequency range
+> > - ADF41510: 1 GHz to 10 GHz frequency range
+> > - Integer-N and fractional-N operation modes
+> > - Ultra-low phase noise (-235 dBc/Hz integer-N, -231 dBc/Hz fractional-=
+N)
+> > - High maximum PFD frequency (250 MHz integer-N, 125 MHz fractional-N)
+> > - 25-bit fixed modulus or 49-bit variable modulus fractional modes
+> > - Programmable charge pump currents with 16x range
+> > - Digital lock detect functionality
+> > - Phase resync capability for consistent output phase
+> > - Clock framework integration for system clock generation
+>=20
+> It is like a list from the marketing material. Please
+> 1) make sure you are writing the commit message;
+> 2) implement minimum basic functionality and split features to the next
+> patches, 1.5kLoCs is hard to review.
+>=20
+> ...
+>=20
+> > +#include <linux/bitfield.h>
+> > +#include <linux/bits.h>
+> > +#include <linux/clk.h>
+> > +#include <linux/clk-provider.h>
+> > +#include <linux/device.h>
+> > +#include <linux/err.h>
+> > +#include <linux/gpio/consumer.h>
+> > +#include <linux/iio/iio.h>
+> > +#include <linux/iio/sysfs.h>
+> > +#include <linux/math64.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mod_devicetable.h>
+> > +#include <linux/property.h>
+> > +#include <linux/regulator/consumer.h>
+> > +#include <linux/spi/spi.h>
+>=20
+> At least types.h is missing. Follow IWYU. Have you passed internal review=
+? I
+> believe we need to start asking Analog Devices to provide a Rb tag of kno=
+wn
+> developers on the submitted code to make sure it was passed the internal
+> review.
+>=20
+> ...
+>=20
+> > +/* Specifications */
+> > +#define ADF41513_MIN_RF_FREQ			1000000000ULL	/* 1 GHz */
+> > +#define ADF41510_MAX_RF_FREQ			10000000000ULL	/* 10 GHz */
+> > +#define ADF41513_MAX_RF_FREQ			26500000000ULL	/* 26.5 GHz */
+>=20
+> We have HZ_PER_MHZ, also you can move HZ_PER_GHZ to the units.h and use i=
+t here.
+>=20
+> > +
+> > +#define ADF41513_MIN_REF_FREQ			10000000U	/* 10 MHz */
+> > +#define ADF41513_MAX_REF_FREQ			800000000U	/* 800 MHz */
+> > +#define ADF41513_MAX_REF_FREQ_DOUBLER		225000000U	/* 225 MHz */
+> > +
+> > +#define ADF41513_MAX_PFD_FREQ_INT_N_HZ		250000000U		/* 250 MHz */
+> > +#define ADF41513_MAX_PFD_FREQ_FRAC_N_HZ		125000000U		/* 125 MHz */
+> > +#define ADF41513_MAX_PFD_FREQ_INT_N_UHZ		250000000000000ULL	/* 250 MHz=
+ */
+> > +#define ADF41513_MAX_PFD_FREQ_FRAC_N_UHZ	125000000000000ULL	/* 125 MHz=
+ */
+>=20
+> Ditto.
+>=20
+> ...
+>=20
+> > +#define ADF41513_MIN_CP_VOLTAGE_MV		810
+> > +#define ADF41513_MAX_CP_VOLTAGE_MV		12960
+>=20
+> _mV
+>=20
+> ...
+>=20
+> > +#define ADF41513_MAX_LD_BIAS_UA			40
+> > +#define ADF41513_LD_BIAS_STEP_UA		10
+>=20
+> _uA
+>=20
+>=20
+> ...
+>=20
+> > +#define ADF41513_MAX_MOD2			((1 << 24) - 1)	/* 2^24 - 1 */
+>=20
+> Why not BIT()?
+>=20
+> ...
+>=20
+> > +/* Frequency conversion constants */
+> > +#define ADF41513_HZ_TO_UHZ			1000000ULL	/* Convert Hz to uHz */
+>=20
+> Put it to units.h.
+>=20
+> ...
+>=20
+> > +enum {
+> > +	ADF41513_FREQ,
+> > +	ADF41513_POWER_DOWN,
+> > +	ADF41513_FREQ_RESOLUTION,
+> > +	ADF41513_FREQ_REFIN
+>=20
+> Doesn't sound like a terminator to me, add a comma.
+>=20
+> > +};
+> > +
+> > +enum adf41513_pll_mode {
+> > +	ADF41513_MODE_INTEGER_N,
+> > +	ADF41513_MODE_FIXED_MODULUS,
+> > +	ADF41513_MODE_VARIABLE_MODULUS,
+> > +	ADF41513_MODE_INVALID
+>=20
+> Ditto.
+>=20
+> > +};
+>=20
+> ...
+>=20
+> > +struct adf41513_data {
+>=20
+> Run `pahole` and act accordingly.
+>=20
+> > +	u64 power_up_frequency;
+> > +
+> > +	u8 ref_div_factor;
+> > +	bool ref_doubler_en;
+> > +	bool ref_div2_en;
+> > +
+> > +	u32 charge_pump_voltage_mv;
+> > +	bool phase_detector_polarity;
+> > +
+> > +	u8 muxout_select;
+> > +	bool muxout_1v8_en;
+> > +
+> > +	u8 lock_detect_precision;
+> > +	u8 lock_detect_count;
+> > +	u8 lock_detect_bias;
+> > +	bool fast_lock_en;
+> > +
+> > +	u16 phase_resync_clk_div[2];
+> > +	bool phase_resync_en;
+> > +	bool load_enable_sync;
+> > +
+> > +	u64 freq_resolution_uhz;
+> > +};
+> > +
+> > +struct adf41513_pll_settings {
+> > +	enum adf41513_pll_mode mode;
+> > +
+> > +	u64 target_frequency_uhz;
+> > +	u64 actual_frequency_uhz;
+> > +	u64 pfd_frequency_uhz;
+> > +
+> > +	/* pll parameters */
+> > +	u16 int_value;
+> > +	u32 frac1;
+> > +	u32 frac2;
+> > +	u32 mod2;
+> > +
+> > +	/* reference path parameters */
+> > +	u8 r_counter;
+> > +	u8 ref_doubler;
+> > +	u8 ref_div2;
+> > +	u8 prescaler;
+> > +};
+>=20
+> ...
+>=20
+> > +static const u32 adf41513_cp_voltage_mv[] =3D {
+> > +	810, 1620, 2430, 3240, 4050, 4860, 5670, 6480, 7290, 8100,
+> > +	8910, 9720, 10530, 11340, 12150, 12960
+>=20
+> Make it power-of-two items per line, even with the comments to show
+> the indexing, like
+>=20
+> 	810, 1620, 2430, 3240, 4050, 4860, 5670, 6480,	/* 0 - 7 */
+>=20
+> > +};
+>=20
+> ...
+>=20
+> > +static int adf41513_parse_uhz(const char *str, u64 *freq_uhz)
+>=20
+> My gosh, please, try to check what kernel already has. We try hard to avo=
+id Yet
+> Another Best Parser in the World to happen, really.
+>=20
 
-Thanks,
+I think there's more into this. I did not went into much detail but IIUC it=
+'s
+doing the same as (to some degree) as __iio_str_to_fixpoint() but the part =
+needs
+u64 for the integer part. Being this one case not sure if we should rush in=
+to doing
+something in IIO core. Or the whole thing might end up being done completel=
+y
+different.
 
-Rodolfo Giometti
+Having said the above We should have a proper comment justifying the functi=
+on.
 
-> ---
->   drivers/pps/generators/pps_gen_parport.c | 3 +--
->   drivers/pps/kapi.c                       | 3 +--
->   2 files changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/pps/generators/pps_gen_parport.c b/drivers/pps/generators/pps_gen_parport.c
-> index f5eeb4dd01ad..05bbf8d30ef1 100644
-> --- a/drivers/pps/generators/pps_gen_parport.c
-> +++ b/drivers/pps/generators/pps_gen_parport.c
-> @@ -80,8 +80,7 @@ static enum hrtimer_restart hrtimer_event(struct hrtimer *timer)
->   	/* check if we are late */
->   	if (expire_time.tv_sec != ts1.tv_sec || ts1.tv_nsec > lim) {
->   		local_irq_restore(flags);
-> -		pr_err("we are late this time %lld.%09ld\n",
-> -				(s64)ts1.tv_sec, ts1.tv_nsec);
-> +		pr_err("we are late this time %ptSp\n", &ts1);
->   		goto done;
->   	}
->   
-> diff --git a/drivers/pps/kapi.c b/drivers/pps/kapi.c
-> index e9389876229e..6985c34de2ce 100644
-> --- a/drivers/pps/kapi.c
-> +++ b/drivers/pps/kapi.c
-> @@ -163,8 +163,7 @@ void pps_event(struct pps_device *pps, struct pps_event_time *ts, int event,
->   	/* check event type */
->   	BUG_ON((event & (PPS_CAPTUREASSERT | PPS_CAPTURECLEAR)) == 0);
->   
-> -	dev_dbg(&pps->dev, "PPS event at %lld.%09ld\n",
-> -			(s64)ts->ts_real.tv_sec, ts->ts_real.tv_nsec);
-> +	dev_dbg(&pps->dev, "PPS event at %ptSp\n", &ts->ts_real);
->   
->   	timespec_to_pps_ktime(&ts_real, ts->ts_real);
->   
+> ...
+>=20
+> In any case, I stopped my review here, you have more than enough to fix.
+> Please, come next time with a tag from one whose name is in the MAINTAINE=
+RS.
+> From now on it will be my requirement as a reviewer of IIO subsystem.
 
 
--- 
-GNU/Linux Solutions                  e-mail: giometti@enneenne.com
-Linux Device Driver                          giometti@linux.it
-Embedded Systems                     phone:  +39 349 2432127
-UNIX programming
+Not really sure what happened here. We are trying to make things better (as=
+ more people
+in ADI from different teams start contributing) and have a process where in=
+ternal reviews
+do happen (mostly even public in github) and once approved it can go upstre=
+am. We also have
+a fairly good CI in place to catch things like bindings, checkpatch, smatch=
+, cocci and compiler
+analyzers.
+
+For this particular part we did had at least one round of reviewing where I=
+ actually stated
+
+"...We'll need some iterations on this one and skipped more questionable/co=
+mplicated things for now.
+..."
+
+I guess Rodrigo was eager to send his first patch series but hopefully, les=
+sons learned.
+
+- Nuno S=C3=A1
