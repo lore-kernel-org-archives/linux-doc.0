@@ -1,148 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5869C30648C;
-	Tue, 11 Nov 2025 14:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623AE2F8BFC;
+	Tue, 11 Nov 2025 14:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762872656; cv=none; b=Wjbr2zmb5dJxZrd7KebOO0V1vQEJtAu3qjsZaGVMhDn3NWvyl7EH0/ospBWzKQl2r9k0ixxW1siOfCaMXn5i4ZH82bWG2YF/hQGb6xU0Vqvm0oYi1uQVZi2sOBKpYSUAi8PY16UVmePpSBcB0KEdzjWSsLVih5wQPkjNqOGfCN4=
+	t=1762873148; cv=none; b=KnxOiZOI2oL0loShCSET2/S506+zgCVlqGB+Hspa97fx1bdZjGP+AD03VdYqGOUgsN5WPaN0Zeld2g4Y4Nlsm3I5YmaNN4PvQRDgw7XdRfq2i/aHmIT/RyXSW2yF1eNQIgvAQdnOAF88EhFmJVE9qlBydyVHtmZWKobKXdEW+SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762872656; c=relaxed/simple;
-	bh=CJT2bHiYVzimb6xUOlUijV6ufxC2fzRRaAwV5VvZxnE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TidFrecelQUkiskexIN+MF6zXfxnprp13NfN0afD2GR3DVCs9+CrOITaXNFKVh0DTICOl2kb+t1R+D5gWdgkt8439+75pBEU/Jex3pMzVwk0DsHCSC6VRb3NcCd1v16muaWF+T2fLWkKWsrFG6TKqMoUGRzmKfQIUPc04DRBCsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vb4sHjwk; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1762873148; c=relaxed/simple;
+	bh=6UZChHAC0qxXYjOew77+2kNmv0s0bBFbiBPtdUIsNUE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BoR7vLWDJeXzw+mzd7bSK5nT3ihLighuuvH6JsDrgE86xhXoE4J5rZd0AogW0RcvdmmYhkHkLngib04EyUg3UmrVtsFVI/abhmoL60voUdAurhL1rZ/laFfdFXIgrk27mkWsPE6viaO4V2/jlxDz9CKjmskNuYQZoehQ645oEnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=YROBioLA; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vb4sHjwk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762872654; x=1794408654;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=CJT2bHiYVzimb6xUOlUijV6ufxC2fzRRaAwV5VvZxnE=;
-  b=Vb4sHjwkd95egKGjDCzV89R265peULYPNl8V65CHh/54CQKxRLu6WyW+
-   5ESnC60FH3EA3yb4pCrnTeAbNJMxo32/IvXfU9SMi9RO+Qi0JEcT5Et7I
-   BlQY+c/eqFZrb2QRTMYl4jIaAQuqU48RfYw4s8O0HlzS3LS6vMNh47p9p
-   hKnQqbEuZQqMmjt7A+VZ9Si/vaWqTpfYGdSUcJzo71xTiatQvcKkQtdwX
-   lU5t2KgBFpoXNDuPWteyt9SjUiMgiNIGmGxIPhwc87GloQZB56szAmPMR
-   DgUi1mwgGq9Cz9qFF4OlOTrDHzZGUWXyVxosAMaUNmAVdV7Vjf9nyF9c/
-   Q==;
-X-CSE-ConnectionGUID: d7AVU/byRoqhohF7Cp3POw==
-X-CSE-MsgGUID: +i2RUADjTne/JdlMP5CYpQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="64968382"
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="64968382"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 06:50:52 -0800
-X-CSE-ConnectionGUID: A9CUur7HSkCWf1aCqWULhQ==
-X-CSE-MsgGUID: aLLk3+7ZRB+BR/+ie7j+1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="189153961"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 11 Nov 2025 06:50:50 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id AF7B597; Tue, 11 Nov 2025 15:50:48 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v2 1/2] devres: Remove unused devm_free_percpu()
-Date: Tue, 11 Nov 2025 15:49:45 +0100
-Message-ID: <20251111145046.997309-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251111145046.997309-1-andriy.shevchenko@linux.intel.com>
-References: <20251111145046.997309-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="YROBioLA"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4d5V6Z4kw3z9tSc;
+	Tue, 11 Nov 2025 15:59:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1762873142; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6UZChHAC0qxXYjOew77+2kNmv0s0bBFbiBPtdUIsNUE=;
+	b=YROBioLAwsRGqqvjrbVm3WmN5azGCc/jpJj02OYWEtcnT8E2OxeAaINt8hQJmPqk9YyR/7
+	5Acigf/k3shy17VSKS1J0OSu2bnkUKQxAYYs3ws59pGPTEqr9Q5iQAn4EryC5p84vd3Kmq
+	X2why6B+Syjae8kZL8/9ljKDnxXm0HE28HlDmgnYITHzhTPRA6oNf3QRq6/2tGj4S44O+2
+	eXivIEtxmHijtiDykVFYJ2YusNg3pKTJJf6UWcUMhtEF5aunFWzDtTZXEznbIqp62Ygad2
+	9BK+igSOpjSRQ1XFq7sW5jNj3ym+9axdZHQN8s5jlW1GdExyN/TfbLNo2JnWbQ==
+Message-ID: <ba5b52e1f0b9460df0e976f21e4e34113f560694.camel@mailbox.org>
+Subject: Re: [PATCH v1 1/2] devres: Remove unused devm_free_percpu()
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Philipp Stanner
+	 <phasta@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki"
+ <rafael@kernel.org>,  Danilo Krummrich <dakr@kernel.org>
+Date: Tue, 11 Nov 2025 15:58:59 +0100
+In-Reply-To: <20251111144104.910241-2-andriy.shevchenko@linux.intel.com>
+References: <20251111144104.910241-1-andriy.shevchenko@linux.intel.com>
+	 <20251111144104.910241-2-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: yi6bxtibds8qziy8a9c4oqd7q13uut7z
+X-MBO-RS-ID: ca91ffdfe3d225047f5
 
-Remove unused devm_free_percpu().
-
-By the way, it was never used in the drivers/ from day 1.
-
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- .../driver-api/driver-model/devres.rst        |  1 -
- drivers/base/devres.c                         | 25 -------------------
- include/linux/device.h                        |  1 -
- 3 files changed, 27 deletions(-)
-
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index 2b36ebde9cec..0198ac65e874 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -383,7 +383,6 @@ NET
- 
- PER-CPU MEM
-   devm_alloc_percpu()
--  devm_free_percpu()
- 
- PCI
-   devm_pci_alloc_host_bridge()  : managed PCI host bridge allocation
-diff --git a/drivers/base/devres.c b/drivers/base/devres.c
-index c948c88d3956..f54db6d138ab 100644
---- a/drivers/base/devres.c
-+++ b/drivers/base/devres.c
-@@ -1222,13 +1222,6 @@ static void devm_percpu_release(struct device *dev, void *pdata)
- 	free_percpu(p);
- }
- 
--static int devm_percpu_match(struct device *dev, void *data, void *p)
--{
--	struct devres *devr = container_of(data, struct devres, data);
--
--	return *(void **)devr->data == p;
--}
--
- /**
-  * __devm_alloc_percpu - Resource-managed alloc_percpu
-  * @dev: Device to allocate per-cpu memory for
-@@ -1264,21 +1257,3 @@ void __percpu *__devm_alloc_percpu(struct device *dev, size_t size,
- 	return pcpu;
- }
- EXPORT_SYMBOL_GPL(__devm_alloc_percpu);
--
--/**
-- * devm_free_percpu - Resource-managed free_percpu
-- * @dev: Device this memory belongs to
-- * @pdata: Per-cpu memory to free
-- *
-- * Free memory allocated with devm_alloc_percpu().
-- */
--void devm_free_percpu(struct device *dev, void __percpu *pdata)
--{
--	/*
--	 * Use devres_release() to prevent memory leakage as
--	 * devm_free_pages() does.
--	 */
--	WARN_ON(devres_release(dev, devm_percpu_release, devm_percpu_match,
--			       (void *)(__force unsigned long)pdata));
--}
--EXPORT_SYMBOL_GPL(devm_free_percpu);
-diff --git a/include/linux/device.h b/include/linux/device.h
-index b031ff71a5bd..0c6377f6631c 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -298,7 +298,6 @@ void device_remove_bin_file(struct device *dev,
- 
- void __percpu *__devm_alloc_percpu(struct device *dev, size_t size,
- 				   size_t align);
--void devm_free_percpu(struct device *dev, void __percpu *pdata);
- 
- struct device_dma_parameters {
- 	/*
--- 
-2.50.1
+T24gVHVlLCAyMDI1LTExLTExIGF0IDE1OjM5ICswMTAwLCBBbmR5IFNoZXZjaGVua28gd3JvdGU6
+Cj4gUmVtb3ZlIHVudXNlZCBkZXZtX2ZyZWVfcGVyY3B1KCkuCj4gCj4gQnkgdGhlIHdheSwgaXQg
+d2FzIG5ldmVyIHVzZWQgaW4gdGhlIGRyaXZlcnMvIGZyb20gZGF5IDEuCgpJIG1lYW4sIG1vc3Qg
+ZGlzaGVzIG9uIGEgcmVzdGF1cmFudCdzIG1lbnUgYXJlIGFsc28gbmV2ZXIgYWN0dWFsbHkKb3Jk
+ZXJlZCEKCj4gCj4gU2lnbmVkLW9mZi1ieTogQW5keSBTaGV2Y2hlbmtvIDxhbmRyaXkuc2hldmNo
+ZW5rb0BsaW51eC5pbnRlbC5jb20+Cj4gLS0tCj4gwqAuLi4vZHJpdmVyLWFwaS9kcml2ZXItbW9k
+ZWwvZGV2cmVzLnJzdMKgwqDCoMKgwqDCoMKgIHzCoCAxIC0KPiDCoGRyaXZlcnMvYmFzZS9kZXZy
+ZXMuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDI1
+IC0tLS0tLS0tLS0tLS0tLS0tLS0KPiDCoGluY2x1ZGUvbGludXgvZGV2aWNlLmjCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAxIC0KCkkgdGhpbmsgeW91
+IGZvcmdvdCBEb2N1bWVudGF0aW9uLwoKZGV2bV9mcmVlX3BlcmNwdSgpIGlzIG1lbnRpb25lZCB0
+aGVyZS4KCgpQLgoK
 
