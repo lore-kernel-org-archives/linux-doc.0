@@ -1,93 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D53343D76;
-	Wed, 12 Nov 2025 17:14:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D169347FED
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 17:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762967694; cv=none; b=bvEa5ox+AjMhzs3DbYl0/2Y7w/vSMHEArbMHY0uXPaY60MYm9OhDlp9J9d26GodE1j3BhWrGERjNoGo6kzyXhFyte2smyFON+b8Fi4wQfZbgILc8TQKRBu40WeBoo10xd8d8qoZSE85sWox7Lu3oGiOZglFjubpRFE88NBnAltE=
+	t=1762969208; cv=none; b=uKz99AMuTq8VV27HecRdAYVsDARS9EC56SsNogEfe670uHM1tHR0nZXyBTlbYs6Mz17SeiHt9FR5SJ1FUlIiWs+TvNZl88nTWDkbXeAzxjM5JvVm89huT4F/LX4fvJ00c3TOUS4Q9TuSz6sh/s3TUugcTzd+eclhaH0CzSzaT3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762967694; c=relaxed/simple;
-	bh=0hPBNyo4oNjc7cd3pRNgm/5T/U2NWpO2lwFxU+nsiEc=;
-	h=Date:From:To:Message-ID; b=F20kSHqGJ7QSYBVNBqqEkSxZkpmF+pMg9cIrLc6uOZyWyCVoB0QIXfGb5sQVUueI6LGMWQD7bILQgBBZ2vV3t34aie0bZgAcV36e3NLwCFXNpmGaPeC7uG3e70qkCPxlxJ7YWu07XFGGNQBQy84pmpCcCIZeMmu+Pnk/3HxW+3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Os9YyjqN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762969208; c=relaxed/simple;
+	bh=RE2eA7P/7Vz7M8h0H7B1pE8WkmHGrQTJe78R5r6TM8g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q5BZgsQKTX30qfpOpi5MEWCd1/x2X/Le+82KWA6o/aMQBntfYEHkImW+P3Y7/P+ADfWBjKUh2vQM6fZz+CvszWceHA/G/f6GDufwuP87f8PKVYKqHFnXXbjztSkbc2hpPUjYd1mjzFk0CzFeF2I/7HqE6kGJTdgWHf7I/a8tazs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=eIIwNQYL; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Os9YyjqN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05D4FC16AAE;
-	Wed, 12 Nov 2025 17:14:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762967694;
-	bh=0hPBNyo4oNjc7cd3pRNgm/5T/U2NWpO2lwFxU+nsiEc=;
-	h=Date:From:To:From;
-	b=Os9YyjqNR62vSBYCiPeckl0mnobkSX5loopfpyMbZe0bQiol6xXCZi/jj/iJmf3Ua
-	 Bip+/r541OKfE69+m1oOx/unWJP+fKMxKBPjEWFM4fM9PGa7Vl0754QZny8F2hgFmh
-	 bY3QwyjgR/nnmoAT1k+4ux7W9lGVxrqFwp1J9iN5XrQv/uulI3o44AOnM9T/X17KBE
-	 P3nFmAXjM0Yq9LtDIL/df9BF/FZUV5Tf7scQxqIzFpC43w3UZRP5Ywf7R/WxcV4Eu9
-	 ZfeRSuyANOfo/WTNRFwB2vxOzVw2AWJl4JkLvHoKKWzdkrrAiJ/tKXIN3QpFLeXmxI
-	 IqHWAi+4JAapw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vJEQm-00000009iKx-0Xuz;
-	Wed, 12 Nov 2025 18:14:52 +0100
-Date: Wed, 12 Nov 2025 18:14:52 +0100
-From: mchehab+huawei@kernel.org
-To: linux-doc@vger.kernel.org, corbet@lwn.net, mchehab+huawei@kernel.org,
- linux-kernel@vger.kernel.org, rdunlap@infradead.org
-Message-ID: <20251112171452.Y5jX9%mchehab+huawei@kernel.org>
-User-Agent: s-nail v14.9.25
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="eIIwNQYL"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6419e6dab7fso46537a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 09:40:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1762969205; x=1763574005; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RE2eA7P/7Vz7M8h0H7B1pE8WkmHGrQTJe78R5r6TM8g=;
+        b=eIIwNQYLJxPgZlwsY881cSRdETEThaay41fWBo1NX4hWs15FQGFiQkpH0LqkOLbrhV
+         sjvsi4E12Zz3TJfXuHRCT6SDPxhrBqrHZIYy9Ay/d4OeDfNgJ0jPO9lfAEQc+ew00M9O
+         2HCt2Qf7nnujlkcJx5BFKXNCuzX9RJYi/RoXRlZmiN9a+R5Ik+xI8RVLt9ZTed7b2mgA
+         Ef8XPih9mn76hX35YIze2X3tPp8OdqiIWlVWT3o2s5BceTvm4AnNsD5HVnYZSUU63HtA
+         MkgY/UmA3Drr3Zk3sdcPo+blqbiEVooc0gcNsO6yK+gVb+D1auZCmCi0T7t/HLhfJ+zT
+         NPiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762969205; x=1763574005;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=RE2eA7P/7Vz7M8h0H7B1pE8WkmHGrQTJe78R5r6TM8g=;
+        b=ES/Q1tGyXr3/QpYUtK7LHONwCe0WmGonKsaEbc2GjzToGAA+rgmEtkWncrP8Lzor7X
+         8qNFKes5F63YjSHXOVkM1QpTZTIGd2pCgMyI3sEhHRzZXSi0SliO/xWD1B+Kj/F4kJEu
+         Lxh9xQrLptg+psJ5DwCJ1bZW5qidbNrv86q6YgHsTjuqnDq3ARGUaviKM9lX6Yuueav4
+         S6uTB2+5Ln5tSLlDe6zWQB7CV6gbWqOjsyZV0jJ1eMDrnOfxqHp1mogwO8N/MBi7l2f6
+         SdvNBqpA9UkuS4q1W/95A0ubdfKVz7tTNEpRTEYrdpVvI3foq2SdabdIVRWFde0pFU7M
+         mkkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVhPVOuJOH/ZHFHcbJGIRv79CKztsgJe/vpEw3DeAxhLBb2p3eQAoNrv1hQJ63RdWD0xwzFtDkEoDI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yysb/cgGA9uKxa14U7JfdxSXHW3Fjoamem8kg5QHClrXGRQLM1L
+	mI1nlSDgH9t4FBOrhH2mPTSl5B1nZwmCRNW4ngSAh8xCDJ7nKv/tqWVVpRAlywqGlwa4+SWfqxn
+	+HqNihR8jsNwL4XnYLXuRw9CsAr76JblcZNK3Ma/xPg==
+X-Gm-Gg: ASbGncsEb6hmJhjHdXBFoScRn/CK1HncgmSjdlBt/Q485Wu2fqR8c1Ufvy1TQauNbm2
+	W+BMW0r4ysB+CSBimGOYj092UhEIqH0MBmpV9o9VzLkhYiAN71j06j2wB4ZBH+8m0q8BzMzFnQI
+	Sqi/VxDLCC5/3VpL+oJzIg3MbGIFmgCrU1lYoX8DAZDcDq8a9OTp5gD+sBAVvdfTunfIAvP/mmX
+	HD6M6WYW8H37SE3plKWXxeTQ13XEmjd9+0YZ2EIshrc1Pl4ld8wUpoNvg==
+X-Google-Smtp-Source: AGHT+IHi5sZulNxTcGLT0vratWdEhRElVLK7EUhU9NgVJAmPvI9YHKYMUBo34Ck91lnZ5X8prgSv1FiptNF2v5kod6c=
+X-Received: by 2002:a17:907:7f22:b0:b72:a899:169f with SMTP id
+ a640c23a62f3a-b733195fe84mr372213066b.4.1762969204362; Wed, 12 Nov 2025
+ 09:40:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] scripts: docs: kdoc_files.py: don't consider symlinks as directories
-Date: Wed, 12 Nov 2025 18:14:49 +0100
-Message-ID: <73c3450f34e2a4b42ef2ef279d7487c47d22e3bd.1762967688.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com> <aRObz4bQzRHH5hJb@kernel.org>
+ <CA+CK2bDnaLJS9GdO_7Anhwah2uQrYYk_RhQMSiRL-YB=8ZZZWQ@mail.gmail.com>
+ <CA+CK2bD3hps+atqUZ2LKyuoOSRRUWpTPE+frd5g13js4EAFK8g@mail.gmail.com>
+ <aRRflLTejNQXWa1Z@kernel.org> <CA+CK2bB8731z-EKv2K8-x5SH8rjOTTuWkfkrc4Qj6skW+Kr7-g@mail.gmail.com>
+ <aRSMsz4zy8QBbsIH@kernel.org> <CA+CK2bA6vCH=RkiZjAOsh5iR52BY567bJB3HNAGqDb307YxVdw@mail.gmail.com>
+In-Reply-To: <CA+CK2bA6vCH=RkiZjAOsh5iR52BY567bJB3HNAGqDb307YxVdw@mail.gmail.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 12 Nov 2025 12:39:26 -0500
+X-Gm-Features: AWmQ_blg_-YBJXBsWxA1u_AvYtpevCDE34qeWleg00Ut4TD4d0UoYoLFZzxduk8
+Message-ID: <CA+CK2bBvVW0XbsQaFjB0SzsTuqLNLhM7ak8S+yORH=_6W3iPqw@mail.gmail.com>
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-As reported by Randy, currently kdoc_files can go into endless
-looks when symlinks are used:
+On Wed, Nov 12, 2025 at 10:14=E2=80=AFAM Pasha Tatashin
+<pasha.tatashin@soleen.com> wrote:
+>
+> > > FLB global objects act similarly to subsystem-wide data, except their
+> > > data has a clear creation and destruction time tied to preserved
+> > > files. When the first file of a particular type is added to LUO, this
+> > > global data is created; when the last file of that type is removed
+> > > (unpreserved or finished), this global data is destroyed, this is why
+> > > its life is bound to file lifecycle. Crucially, this global data is
+> > > accessible at any time while LUO owns the associated files spanning
+> > > the early boot update boundary.
+> >
+> > But there are no files at mm_core_init(). I'm really confused here.
+>
+> This isn't about the files themselves, but about the subsystem global
+> data. The files are only used to describe the lifetime of this global
+> data.
+>
+> I think mm_core_init() is too late, and the call would need to be
+> moved earlier to work correctly with subsystems. At the very least, we
+> will have to add some early FDT parsing to retrieve data during early
+> boot, but that would be part of the HugeTLB preservation work.
+>
+> I can move liveupdate_init() inside kho_memory_init(), so we don't
+> need to modify mm_core_init(). Or, rename kho_memory_init to
+> kho_and_liveupdate_memory_init() and combine the two calls into a
+> single function in kexec_handover.c.
+>
+> > > > So I think for now we can move liveupdate_init() later in boot and =
+we will
+> > > > solve the problem of hugetlb reservations when we add support for h=
+ugetlb.
+> > >
+> > > HugeTLB reserves memory early in boot. If we already have preserved
+> > > HugeTLB pages via LUO/KHO, we must ensure they are counted against th=
+e
+> > > boot-time reservation. For example, if hugetlb_cma_reserve() needs to
+> > > reserve ten 1G pages, but LUO has already preserved seven, we only
+> > > need to reserve three new pages and the rest are going to be restored
+> > > with the files.
+> > >
+> > > Since this count is contained in the FLB global object, that data
+> > > needs to be available during the early reservation phase. (Pratyush i=
+s
+> > > working on HugeTLB preservation and can explain further).
+> >
+> > Not sure I really follow the design here, but in my understanding the g=
+ist
+> > here is that hugetlb reservations need to be aware of the preserved sta=
+te.
+> > If that's the case, we definitely can move liveupdate_init() to an init=
+call
+> > and revisit this when hugetlb support for luo comes along.
+>
+> This will break the in-kernel tests that ensure FLB data is accessible
+> and works correctly during early boot, as they use
+> early_initcall(liveupdate_test_early_init);.
 
-	$ ln -s . Documentation/peci/foo
-	$ ./scripts/kernel-doc Documentation/peci/
-	...
-	  File "/new_devel/docs/scripts/lib/kdoc/kdoc_files.py", line 52, in _parse_dir
-	    if entry.is_dir():
-	       ~~~~~~~~~~~~^^
-	OSError: [Errno 40] Too many levels of symbolic links: 'Documentation/peci/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo'
+We had a chat, so we agreed to move liveupdate_init() into
+early_initcall() and liveupdate_test_early_init into somewhere later
+initcall. And when HugeTLB support is added we will introduce a
+variant for read-only access to do it early in boot from setup_arch().
 
-Prevent that by not considering symlinks as directories.
-
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Closes: https://lore.kernel.org/linux-doc/80701524-09fd-4d68-8715-331f47c969f2@infradead.org/
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/lib/kdoc/kdoc_files.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
-index 061c033f32da..1fd8d17edb32 100644
---- a/scripts/lib/kdoc/kdoc_files.py
-+++ b/scripts/lib/kdoc/kdoc_files.py
-@@ -49,7 +49,7 @@ class GlobSourceFiles:
-             for entry in obj:
-                 name = os.path.join(dirname, entry.name)
- 
--                if entry.is_dir():
-+                if entry.is_dir(follow_symlinks=False):
-                     yield from self._parse_dir(name)
- 
-                 if not entry.is_file():
--- 
-2.51.1
-
+> We cannot rely on early_initcall() for liveupdate_init() because it
+> would compete with the test. We also can't move the test to a later
+> initcall, as that would break the verification of what FLB is
+> promising: early access to global data by subsystems that need it
+> (PCI, IOMMU Core, HugeTLB, etc.).
+>
+> Thanks,
+> Pasha
