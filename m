@@ -1,156 +1,144 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275AF33AD96
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 15:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE5F2417D9
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 15:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762960487; cv=none; b=DhZlBzGfaEBLS9+7CTA6zkLd/8vYMblsgwXm4trIXGb7kBtSuLwFfllGqNOBDcJ5VzCzHoZH53/g0npwXzp/YNQGTs7zF76cKWpz7ONN/qpaHg9hgq+uYidGBL+ulKZULcWCszuMxD6i62PvdM57jQDgWATyC+6nDGrRVOzAzEY=
+	t=1762960729; cv=none; b=O0R4Q51C7QZaBCVQjEV/CCYEx2wO2x4T4r7DRpOAC6VH0XmjnHAagkp6H4ZJQfVSz8pbc/nnp6c3mR96MB1yQpu3FeZEccoRbdR/PftZ2z0Q56sm5mPF8yZu+f7wgM0GkIa42jCM5Z5tufBTMGD2H+Pei2/YTFsd3heGGCcY2XM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762960487; c=relaxed/simple;
-	bh=GQQ0+OyWLqYJubVS6AGNI+hNpf6DosJPXicx/zXp2ik=;
+	s=arc-20240116; t=1762960729; c=relaxed/simple;
+	bh=iLnxgFyU1QDbMTELG3Fxbzkq6isaDRxHBg0vdYSv7AE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fpEWmcnwurJp+W6A28ua4FPz1bs4UN6/MmwlVCftvu+FNqrutoEbuXko9u6zymEbP7ynqo3ZYR3X8fjNk2R9Y+NRxrhFkdWtJQONXSbz2i/Kax6UWU1tgVvr5+v0rDnKy7AD/AfTH9r9LrCkNnwdKNMhRM3e/VF2dxxf2ULTrm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=bDjPjfqZ; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 To:Cc:Content-Type; b=tYE9JVQgPeCk7xVWqJkpjku6VIaVdpD1FkQysoDbqKX6w7gpEe7okOQfNn7SBkZ2+SHsL1K3iZOPs+Pqe38wnhdFv88TTAu0KhzIf5Q+CzE/dchFtFu6KmMvUvTVV7QJQpknWmoq4oCGcGII1B5vmVhn//FO1Jgn0wkYc3t7psY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i5LogE0r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="bDjPjfqZ"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6408f9cb1dcso1480297a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 07:14:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1762960484; x=1763565284; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GQQ0+OyWLqYJubVS6AGNI+hNpf6DosJPXicx/zXp2ik=;
-        b=bDjPjfqZMEHdRUHXIE74IWAqnrsCifN+P2zhpNVDEzr7MJ94C4pvOL4rlODLOxd11M
-         edKbu+KuZbnwFDuKmx32FgVxPIyir2Fs80CYapeWtTEI82xS0xg58P3NYKeK//pT/AwQ
-         1tKnsezfxf5u0eFFhdhk6Foa/c6xNgOt4Paff1TwNqLqBQzXhSQI/u2EW6znkwFENINk
-         pIDbwh2Q5fzFNB+8iBK9MoVbdazhQwLh5kn/JLpTJB2EfG/txW7PCz0H1Ihu5VQPR1gR
-         Fw656ClP9cH08NysacoXrdmqrL2QI4cXTeYz8VHaY483+8qzQP14Ooz4YOFeEZOB1VUD
-         fOtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762960484; x=1763565284;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GQQ0+OyWLqYJubVS6AGNI+hNpf6DosJPXicx/zXp2ik=;
-        b=qyPmgP0HpCcYOKqNBc0+0USn740lcyl5FQHlTcJgNLW3k8R5U1K8neLXWPNRV5hCPQ
-         iFQohVZfWnTrvIdD6hr9FOru9UDgos8q8hxEbG0LLY5J+izXS8O8Fo30XAoRcwCU8TAa
-         rRjzp/4EMOjwgAg6Sn4VbtwuS7CHBbSvgRSAANESzfNHrhvPQape0BDuEG7kDKIYKc3w
-         NiQVvkySxs3gW2m6CBfU/DPcG8qqN1OhIKuuWL01mP8ZQxoPQf4eN4mMl5/Cm2agotNG
-         patozr/+2wXnuiVe+NjZe6bXrde0Lra1kHA5IVmLOsdPtkPCk1iE3C4+XI8ZyygCJZxs
-         jtGA==
-X-Forwarded-Encrypted: i=1; AJvYcCUGM3DYgAb6aIXmP9Lj6WtZOu0k08c2ikquQ09oFeT7b7T114EVSq+X4e0cdWrx4/n72IYCvloBlH8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+zHbjnEFto56wYgCt/woCknYkltce9SzhrukXunchIBq4Z+kh
-	2WIMK+oYbz7dsq//OyyrpSJICMDlkHCIbp3Fmv+3yQLjVy0y4XFhjv03OOgzc9u2I2qjjIs3jMq
-	9ifO16e/aolgeRd8mV3YqSngpLiplYbDGsg7xxgc44Q==
-X-Gm-Gg: ASbGncuA9agPgBpzOSm2Cn2DvANp0PEOPfDmLlz89ynVDDMu6uS//OqUrFL+NZaG29w
-	37p78rCBL1YgVyqqp3Ya5LqC3aNN7skVSzLOAejwZBL7nFBC6PI0sySjcy6YhdYqRKAzfkS1tzl
-	os6M5Im3Z9zqyGQzCZLD9UN2iwlgvsGZ5XRIv8LOOk/sbsSg8NTIJIFwToLTDjwl6zDRtZyH5aw
-	oXlxrl19/2CXVquV2vPSMw4nxllt+yE1wynsAMl67OeWaB1uhfyX6Yt3Q==
-X-Google-Smtp-Source: AGHT+IHvOWdCZpIHJdaITaurDIMyMeqdwSgS8ChEWfqyly8byOG2zD+TlxMB8QW/ltMZhyzar+Gs0r2HAPI8mXk2QxA=
-X-Received: by 2002:a05:6402:358d:b0:641:3090:cba3 with SMTP id
- 4fb4d7f45d1cf-6431a577cd4mr2984066a12.37.1762960484292; Wed, 12 Nov 2025
- 07:14:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i5LogE0r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A46BBC4CEF7
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 15:18:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762960728;
+	bh=iLnxgFyU1QDbMTELG3Fxbzkq6isaDRxHBg0vdYSv7AE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=i5LogE0rzrApEg/z/AH+jkxsNRO0Z/wlHOTL6b9glnDyt5+2DtUB35L2Uv4w/Km0W
+	 A01EdtvbWOueNtDFTuB29xdiuig0LTetVIQW5erWQiew0m/QGkk6TQnzdJQOrUfKOq
+	 T1qbQ2BWbax2w6/Q9pT8SbIGywnzRHHwePCd24B+cByQ3uEzzX1KTIR/0SMoN6XEnH
+	 IoHTN6dWHULVLiGF5WOeNrRIO1HKtbY+IkoUCPVx3ge+ugS1BljRuYHLnR2nA9gMgH
+	 Aq/vLStatho+g9LCt250Uysfa3bHBjPJygOGeJ6mpSRmBVjiVivyh9EZQ9qgrD3rlI
+	 8G1d9jDbmBP6A==
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-37b95f87d4eso5996171fa.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 07:18:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWyqY3XtBLxymqn6oyAequXQxiNkWREoI3ae1neuz4hux/LB9oUartK0noKJO8nR+haBKek6v26+/s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyv87qiCeEnfkBBZVzu1dQzx5vAuDuoPCIpmWHdsJI/iBU0s8xP
+	8/jbjMSQjZHnfCFoFKTpWdBVoXEF0slt3suXb7ZtgLemERtrxOqX3BAl5yvmxZYoYxkU5rHzcbT
+	rcQigDIjlppviu8IyCaxQkr8LEqc4Oek=
+X-Google-Smtp-Source: AGHT+IEZJNYM8RSAWY7JhY3msblJGctSWnuxWyOr/XKZCDnEvnzTK0CVMbYL+FXUVQmYYZDS5c4FeflgFcwTg/j1yso=
+X-Received: by 2002:a2e:8a90:0:b0:37a:5990:2ba8 with SMTP id
+ 38308e7fff4ca-37b8c39eb6emr7262651fa.23.1762960725360; Wed, 12 Nov 2025
+ 07:18:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-3-pasha.tatashin@soleen.com> <aRObz4bQzRHH5hJb@kernel.org>
- <CA+CK2bDnaLJS9GdO_7Anhwah2uQrYYk_RhQMSiRL-YB=8ZZZWQ@mail.gmail.com>
- <CA+CK2bD3hps+atqUZ2LKyuoOSRRUWpTPE+frd5g13js4EAFK8g@mail.gmail.com>
- <aRRflLTejNQXWa1Z@kernel.org> <CA+CK2bB8731z-EKv2K8-x5SH8rjOTTuWkfkrc4Qj6skW+Kr7-g@mail.gmail.com>
- <aRSMsz4zy8QBbsIH@kernel.org>
-In-Reply-To: <aRSMsz4zy8QBbsIH@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 12 Nov 2025 10:14:07 -0500
-X-Gm-Features: AWmQ_bnD0Fa5WV9clCVqwOFMlUw8urbv0kYDUHAZVRNByd6elh9oV6dClE850Us
-Message-ID: <CA+CK2bA6vCH=RkiZjAOsh5iR52BY567bJB3HNAGqDb307YxVdw@mail.gmail.com>
-Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
+References: <20251029210310.1155449-1-sohil.mehta@intel.com>
+ <20251029210310.1155449-5-sohil.mehta@intel.com> <29f2d16f-361f-475c-957e-0ebcefcd1a8c@intel.com>
+ <CAMj1kXHvfgMqFncvP5A6ed=2qEPkNkS8ecoM6iXMect51Tpz4w@mail.gmail.com>
+ <7c26ae81-3495-457b-9f64-f5b2e169a63b@intel.com> <DDEF6164-D1E6-4003-A251-804738CB59E0@zytor.com>
+In-Reply-To: <DDEF6164-D1E6-4003-A251-804738CB59E0@zytor.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Wed, 12 Nov 2025 16:18:33 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGyTo=4Va1PevMQyCauEKSutfSPo6je0Ps09TabhTe4zQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bkATy8eQW1W11WM4a6PnYbNwFNrApQpl2tGvWjez9wDd66g-WVyWrnM5Mw
+Message-ID: <CAMj1kXGyTo=4Va1PevMQyCauEKSutfSPo6je0Ps09TabhTe4zQ@mail.gmail.com>
+Subject: Re: [PATCH v11 4/9] x86/alternatives: Disable LASS when patching
+ kernel code
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Dave Hansen <dave.hansen@intel.com>, Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org, 
+	Borislav Petkov <bp@alien8.de>, Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>, David Woodhouse <dwmw@amazon.co.uk>, 
+	Sean Christopherson <seanjc@google.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Andrew Cooper <andrew.cooper3@citrix.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 
-> > FLB global objects act similarly to subsystem-wide data, except their
-> > data has a clear creation and destruction time tied to preserved
-> > files. When the first file of a particular type is added to LUO, this
-> > global data is created; when the last file of that type is removed
-> > (unpreserved or finished), this global data is destroyed, this is why
-> > its life is bound to file lifecycle. Crucially, this global data is
-> > accessible at any time while LUO owns the associated files spanning
-> > the early boot update boundary.
+On Wed, 12 Nov 2025 at 15:58, H. Peter Anvin <hpa@zytor.com> wrote:
 >
-> But there are no files at mm_core_init(). I'm really confused here.
-
-This isn't about the files themselves, but about the subsystem global
-data. The files are only used to describe the lifetime of this global
-data.
-
-I think mm_core_init() is too late, and the call would need to be
-moved earlier to work correctly with subsystems. At the very least, we
-will have to add some early FDT parsing to retrieve data during early
-boot, but that would be part of the HugeTLB preservation work.
-
-I can move liveupdate_init() inside kho_memory_init(), so we don't
-need to modify mm_core_init(). Or, rename kho_memory_init to
-kho_and_liveupdate_memory_init() and combine the two calls into a
-single function in kexec_handover.c.
-
-> > > So I think for now we can move liveupdate_init() later in boot and we will
-> > > solve the problem of hugetlb reservations when we add support for hugetlb.
+> On November 12, 2025 6:51:45 AM PST, Dave Hansen <dave.hansen@intel.com> wrote:
+> >On 11/12/25 05:56, Ard Biesheuvel wrote:
+> >...
+> >>> it looks like we would now need to toggle
+> >>> CR4.LASS every time we switch to efi_mm. The lass_enable()/_disable()
+> >>> naming would be more suitable for those wrappers.
+> >>>
+> >> Note that Linux/x86 uses SetVirtualAddressMap() to remap all EFI
+> >> runtime regions into the upper [kernel] half of the address space.
+> >>
+> >> SetVirtualAddressMap() itself is a terrible idea, but given that we
+> >> are already stuck with it, we should be able to rely on ordinary EFI
+> >> runtime calls to only execute from the upper address range. The only
+> >> exception is the call to SetVirtualAddressMap() itself, which occurs
+> >> only once during early boot.
 > >
-> > HugeTLB reserves memory early in boot. If we already have preserved
-> > HugeTLB pages via LUO/KHO, we must ensure they are counted against the
-> > boot-time reservation. For example, if hugetlb_cma_reserve() needs to
-> > reserve ten 1G pages, but LUO has already preserved seven, we only
-> > need to reserve three new pages and the rest are going to be restored
-> > with the files.
+> >Gah, I had it in my head that we needed to use the lower mapping at
+> >runtime. The efi_mm gets used for that SetVirtualAddressMap() and the
+> >efi_mm continues to get used at runtime. So I think I just assumed that
+> >the lower mappings needed to get used too.
 > >
-> > Since this count is contained in the FLB global object, that data
-> > needs to be available during the early reservation phase. (Pratyush is
-> > working on HugeTLB preservation and can explain further).
+> >Thanks for the education!
+> >
+> >Let's say we simply delayed CR4.LASS=1 until later in boot. Could we
+> >completely ignore LASS during EFI calls, since the calls only use the
+> >upper address range?
+> >
+> >Also, in practice, are there buggy EFI implementations that use the
+> >lower address range even though they're not supposed to? *If* we just
+> >keep LASS on for these calls is there a chance it will cause a
+> >regression in some buggy EFI implementations?
 >
-> Not sure I really follow the design here, but in my understanding the gist
-> here is that hugetlb reservations need to be aware of the preserved state.
-> If that's the case, we definitely can move liveupdate_init() to an initcall
-> and revisit this when hugetlb support for luo comes along.
+> Yes, they are. And there are buggy ones which die if set up with virtual addresses in the low half.
 
-This will break the in-kernel tests that ensure FLB data is accessible
-and works correctly during early boot, as they use
-early_initcall(liveupdate_test_early_init);.
+To elaborate on that, there are systems where
 
-We cannot rely on early_initcall() for liveupdate_init() because it
-would compete with the test. We also can't move the test to a later
-initcall, as that would break the verification of what FLB is
-promising: early access to global data by subsystems that need it
-(PCI, IOMMU Core, HugeTLB, etc.).
+a) not calling SetVirtualAddressMap() crashes the firmware, because,
+in spite of being clearly documented as optional, not calling it
+results in some event hook not being called, causing the firmware to
+misbehave
 
-Thanks,
-Pasha
+b) calling SetVirtualAddressMap() with an 1:1 mapping crashes the
+firmware (and so this is not a possible workaround for a))
+
+c) calling SetVirtualAddressMap() crashes the firmware when not both
+the old 1:1 and the new kernel mapping are already live (which
+violates the UEFI spec)
+
+d) calling SetVirtualAddressMap() does not result in all 1:1
+references being converted to the new mapping.
+
+
+To address d), the x86_64 implementation of efi_map_region() indeed
+maps an 1:1 alias of each remapped runtime regions, so that stray
+accesses don't fault. But the code addresses are all remapped, and so
+the firmware routines are always invoked via their remapped aliases in
+the kernel VA space. Not calling SetVirtualAddressMap() at all, or
+calling it with a 1:1 mapping is not feasible, essentially because
+Windows doesn't do that, and that is the only thing that is tested on
+all x86 PCs by the respective OEMs.
+
+Given that remapping the code is dealt with by the firmware's PE/COFF
+loader, whereas remapping [dynamically allocated] data requires effort
+on the part of the programmer, I'd hazard a guess that 99.9% of those
+bugs do not involve attempts to execute via the lower mapping, but
+stray references to data objects that were not remapped properly.
+
+So we might consider
+a) remapping those 1:1 aliases NX, so we don't have those patches of
+RWX memory around
+b) keeping LASS enabled during ordinary EFI runtime calls, as you suggest.
