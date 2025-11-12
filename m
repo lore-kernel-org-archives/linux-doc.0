@@ -1,68 +1,68 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8407B30BB9F
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 11:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B1830F7EA
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 11:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762946287; cv=none; b=ZK+FisFGHVyM4nSJVae/ooOEeQQvcSzSHyOlNBHX30p0AsSgkzVUlW0typ/zcAl0MUWI/jeQbdlU6nZZ66NwZqwtpPre6LOnX6bjNoP2EqE8UWL8VpVkIRPerwK8Bszl/O47SCSelCsrHxH2NVScRZySrb4Vsq9gvE71pEZjNVE=
+	t=1762946294; cv=none; b=exF3SM1BhK/KImDTv54eM+41J3sNrGxNcmFqOmANk+cw7Khv3PuIqhcyjBVvpl1SOfXeObNw19XZlniY6E6qrc6Kva/KPaoa5QNgRxNtgMd6HAphZ2HUE5dYI//HAF6Qy7QWjLW6ciupmaz0At5g9/ryzFvuRYxbzCMuE1CKNW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762946287; c=relaxed/simple;
-	bh=0X8ztOxPIoLqy18jxO5aLU25sae5cz22Tql+G03LG0c=;
+	s=arc-20240116; t=1762946294; c=relaxed/simple;
+	bh=6q93RqE2TlCEUP2NwG3riu6HujLsBQ7xoREhizw4YE8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VhAqmnmN8QsopmMUM8LSTNwhQFMTK3buGYhMRkPhE79Qp0NRf0cjhwGEokSkPeHcryfndf0lmz1VbMTs67lRRs7BaVEl6kuaUUZQGWh/FQ0gqGNUTu/hohwFAPtjeGfBlc1p+J2kGj7/j5Uu/EX+4+Hpf1zxG7+dklI8vQGlye4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I2ch7Ctl; arc=none smtp.client-ip=209.85.215.169
+	 In-Reply-To:To:Cc; b=HBoqGxtRJjDAd1ehC0Dn7VyS5kgkZ0zfIb36WLUp4lCvsCoej9JPCmrud57IQUPhDns3g7YwtVxWwrP4E2zkHW8qxqBWRaq17CyZL0x4J+7M0nqgmf3eyVyMkNGfEiR81X5MNDPgMyyBLFG5FBycOcJQU4GfozP46Pry7EpfKXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bksxmV7N; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I2ch7Ctl"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b553412a19bso453503a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 03:18:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bksxmV7N"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-297e982506fso8448635ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 03:18:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762946285; x=1763551085; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1762946292; x=1763551092; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TfBBll7plQVG4jmIJcdQk3DSYpimQWr9oy8pKjz02Aw=;
-        b=I2ch7CtltF7ZjK8PZWnMl98TvD+vcCsYo2nQMCkMSJfgU+/XI4nsU8MeXURmvBMj0V
-         dggQ52R1mlyS00dRB/AokCUpPEKXsb3WsP19jw+GnufzI3SVI4CsAvbIdrCHrDhwPrNU
-         QG9O2wYsoM1bqcKVJwpT1vF2ZuehqtiayXshaPda2+Cz6kqz1sOsT7NKRSwD6nizSoF2
-         L+CPQBUGGrJ/H2fFiGjaCypKEfbxHK3Ry4GxQ52QPFma2CrPA5Z2PR6VBDtr/jNdDRFg
-         VBu/cJnWDGfx+92e40SEdgke9g2+qLGaUA31i+iP0QElbq6HdjJpfCYi/fgY4QHquRg0
-         hs/g==
+        bh=oNI7LGWITa4EqINx3hRdJjLYG6Q/rRCvp1T1pOKy7wA=;
+        b=bksxmV7NhAfJOfVVXpYwCLqkXJZnvmfYJgUt6D3L+x/lVF2MNTVa3I+nR7mDjTu0Sr
+         HX/fvD/EGFUr4mR+Q0lHjXky+kUeP00UzTUUThQZMYIo4d+DISeEc0YbAIeIxdMvr6JE
+         dBnrnp8KhSUMJoXx26evMA8D1xQVK6qX5PIhhmFE5P1kKrEkdM4O4d4yGQ5LEoyY0Osr
+         h1g2nId3CC6R1G06Ak28izvx73+/pSRGaa8EGVRimKd48g2453r/b4i5qV+coCYwVVHP
+         qS++CG+Zo2ey46b9VgFSr0pSE3n1jLxx5trbKzPQfZY9nnG2jujo2esNj5aXw1XS8Bz7
+         TOPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762946285; x=1763551085;
+        d=1e100.net; s=20230601; t=1762946292; x=1763551092;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=TfBBll7plQVG4jmIJcdQk3DSYpimQWr9oy8pKjz02Aw=;
-        b=j0dmxV0QbhN9xMCOwyM/R8vM565u9PCYBWQ7vh/YR7JHidS92HnUIq8xo5snqh/io+
-         U2IqBSH7V6Iq0vYpNsbaEKX7ciFnPKWFLd51Fez3ku11Uj8wn9C8uG2i4HpszSivYo5t
-         mWAjvj8ckp7oPSc1qsDktCRhE/p3fZxg4NhLwEZSe86xWhLqwniDHSC/n07MuGfKscIE
-         Fzy/QOShRSXeCo4rTX6Uk9nzu2pjsgBvwpM97H6s+29AQrDGMvmdm0Heo+Q/i4eEW/nh
-         7UtQ5bC+yRcll5SdaJ8D/s0zHO3cfsXw+OXxZHkoJA7A9T8dmhrmJZs5MKXZZ8Kh8PuG
-         /HwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPEWKm5crsEjydBii/y9TJuv4O0o4ku/TU9p82eoWrhc5hCoDJHubUuN4nQl0Y2PXxYyGzF5/Ekp8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzp42aiut9kj5N5IiL7JOVLQP3UhW5soB295ygFD6U4tITIEzw7
-	kEZl8pDid+uiH6+Z2Fm8gXb6Hy/RBmURzskrsBwO5gqj1SUPQFQmHcNh
-X-Gm-Gg: ASbGnctl+jSnuHiNfKQywy6zvmW/GOEWOX/QmU07/2fTK32G9zJo/VK/4lT+dbSPg9M
-	V+wp9tCSIwy7B6xKtRXBMF7pooUvtcn1Di/rYaClI61YBp0pgUmiAWKebw40hn74iTtWWnQnzp+
-	oFTZDJugZjJKcrwSypfPcMw1/gnVCgzvT3BDkV38yCpAqhomtD+ikkOGwRUtvPdmMIeWR2r+hz0
-	JiUKyf/LbNmSYqh8+7n2eDQpQyWX0qhbpdzEtaxIFY0YrrCJIJF9xL5MmC3OelQ9icOdq8n3vPD
-	Ll2OppGDYAflhvrWYoDAQ7OS6a0oAMfIizVemZRmqNp/EUeOeU10PM/S4Zwi4r0dS3NTz4jOvXn
-	g89Ib4zmcvKDui0MFjfxnG4/QmlPQKDlpS5umzagKA+U0qQq/i+S3w+JcD1lyPMMzu2wI4FTkWD
-	W3/d/10Bru8FMXwo/UenWLS8zHsItVi/gaFgiHOa9fjxoHkBQFlV4b2MtFGM0HzczyfgcXkzxwT
-	rIZngedH3bvqlvR+iqywGc7fUbTJydC/gmirUxCYFcKGwbDJmOrJ5o=
-X-Google-Smtp-Source: AGHT+IHA0P4UnsPFIhj4utJwEq6rWs7Nkg1EY8pIQ9eKSlMotkC1tp8iAeDrvqrEcOWVVi+EwKFK9w==
-X-Received: by 2002:a17:903:2f88:b0:274:5030:2906 with SMTP id d9443c01a7336-2984edcd3a1mr35066775ad.46.1762946284740;
-        Wed, 12 Nov 2025 03:18:04 -0800 (PST)
+        bh=oNI7LGWITa4EqINx3hRdJjLYG6Q/rRCvp1T1pOKy7wA=;
+        b=dT19pmeFrjaFWLgphhsVY4gwQZeKGAGkBRTD7VFygCORA2g/s6DE6P8ZkFTfp/ee7f
+         jXQspQnDFFHOe/YCdSo0KBWqYcarJ3qKMTq8eDLhmCm9W4Fg7IQ9njNKIFHuRvAAMivZ
+         IVahO7zz2xP7f4AHZHhnymF4YkhtKRDhq3v0HPk6IZuIkwLDFIoQvkOBb0qFP2VIm4mK
+         arV++LeM7worOk3/XrylpDgTsmuZbC4Z/KVfnCTmFGG3J3qEHK5ogCILcc7ehcuHkF+8
+         HFTvKaxu3+u8WEsXVoI8UOCYB+ENihAPTj8hpG3fDimjl3P4kqM5ewFxd0jZe/UFU1Od
+         UwsA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0pHMelxGKeht8zXwJLiuS/z3F4PqHCKvE2Qc3LxTOcK7atbMZI5DP/yLNc1h7PUUvpn35JyP0M64=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7mkbjKbv6WAcvKlUppkzK9TKAxYI1rzR0wHNK6zlZZfZGyr7V
+	ucI7Kr8ze2L1lzmq1M+5c78l9YT/SHuQcYOZjRlxliMe6H439opbZ76D
+X-Gm-Gg: ASbGncvvB8/5zt7kinJwqKZOksJCWYXpk5ravB+sz2w1a2158+KGInYdkixDjchYcsq
+	Rx/cW8BkPM/PV+Zkj8LmXVVwZaTC59Rr5I6v0YpoC4RDbND0vxI66iktoXkXwejmhhdfG+QPMkR
+	EB6MHHOH5EDhHDFuT/ErH856q6Uw3j5lypZ88RBOTMW+f/6ULgMQ4nZjuSwQPkiogL3ZxPc9+Gs
+	KxEekxMryfJ9rmXfWLxYTqr/TPMWSsTNpH1kzwg0UTohG9ggniq+WwDNvU3bJQl0IQuK9JmA6a9
+	HQegKxrc1Y7RhaqBTrpAxoCWaaj62o87/CPXnhDbQd3OVWN0E1T4wNEKCExYZxOcuEglARY2RIx
+	kQ6TL875GPZyNsWVKkYz8Y7vpSjgrlJ/p7kNPEbS3clVCpH4/75OcIkhj2P6SjgH7H3gff3ehMH
+	cJc888AWCogQAPgflDPmTnBHIoUCcdbaiv1XXtCRGZhkWzFu4ISkBSdYoRXQYC4krDsujZn97z8
+	Yby2LEkLU8QRwWQH9kXDLTh+oDd4sm53Ei/BEs0S4bJXJ56N+YZ6MU=
+X-Google-Smtp-Source: AGHT+IELfcxDjkTjHjE9o1zeO9QJOYdqpFiv0rmTaYc64N3Xo1j3VaCkx7ujy498PmB8+3B+SyLiqw==
+X-Received: by 2002:a17:902:e948:b0:298:2e7a:3c47 with SMTP id d9443c01a7336-2984ee01fb9mr30708195ad.42.1762946292125;
+        Wed, 12 Nov 2025 03:18:12 -0800 (PST)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dca0f28sm27386695ad.60.2025.11.12.03.17.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2984dca0f28sm27386695ad.60.2025.11.12.03.18.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 03:18:04 -0800 (PST)
+        Wed, 12 Nov 2025 03:18:11 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Wed, 12 Nov 2025 21:16:50 +1000
-Subject: [PATCH v5 04/11] mfd: macsmc: Wire up Apple SMC RTC subdevice
+Date: Wed, 12 Nov 2025 21:16:51 +1000
+Subject: [PATCH v5 05/11] mfd: macsmc: Add new __SMC_KEY macro
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251112-macsmc-subdevs-v5-4-728e4b91fe81@gmail.com>
+Message-Id: <20251112-macsmc-subdevs-v5-5-728e4b91fe81@gmail.com>
 References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
 In-Reply-To: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -89,36 +89,37 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
  linux-input@vger.kernel.org, linux-doc@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=747;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=876;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=0X8ztOxPIoLqy18jxO5aLU25sae5cz22Tql+G03LG0c=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJkiOUeYXSp6HTiumdkXFc1P4lS9PK9pZfHi1fzZ2ef4u
- HINXwV1TGRhEONisBRTZNnQJOQx24jtZr9I5V6YOaxMIEOkRRoYgICFgS83Ma/USMdIz1TbUM/Q
- UMdYx4iBi1MAptrWmuF/hdDOyUmTfkptiMp9whlc1h/rFWiQ075Z8Ps7E5W4r7/9GRkmt8XcOv9
- ZLjFA4cGDV3ZBzGeuTKy/kmDxwz4r+r3ILmcmAA==
+ bh=6q93RqE2TlCEUP2NwG3riu6HujLsBQ7xoREhizw4YE8=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDJkiOUejzpjy/vkkvernsg0f1VocNBsYcmoPfGGcYNvqp
+ 94524SxYyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
+ hjrGOkYMXJwCMNXqRgz//d6GbizPvxkYE//8vkPl+4R5pvWLTsfJFmx87tjWwd0lx8jQpZzsKay
+ ZNaeq6ohQs4Oau4P32Xf26tccFrxZZXi3cwY7AA==
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Add the new SMC RTC function to the mfd device
+When using the _SMC_KEY macro in switch/case statements, GCC 15.2.1 errors
+out with 'case label does not reduce to an integer constant'. Introduce
+a new __SMC_KEY macro that can be used instead.
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- drivers/mfd/macsmc.c | 1 +
+ include/linux/mfd/macsmc.h | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
-index e6cdae221f1d..500395bb48da 100644
---- a/drivers/mfd/macsmc.c
-+++ b/drivers/mfd/macsmc.c
-@@ -47,6 +47,7 @@
- static const struct mfd_cell apple_smc_devs[] = {
- 	MFD_CELL_OF("macsmc-gpio", NULL, NULL, 0, 0, "apple,smc-gpio"),
- 	MFD_CELL_OF("macsmc-reboot", NULL, NULL, 0, 0, "apple,smc-reboot"),
-+	MFD_CELL_OF("macsmc-rtc", NULL, NULL, 0, 0, "apple,smc-rtc"),
- };
+diff --git a/include/linux/mfd/macsmc.h b/include/linux/mfd/macsmc.h
+index 6b13f01a8592..f6f80c33b5cf 100644
+--- a/include/linux/mfd/macsmc.h
++++ b/include/linux/mfd/macsmc.h
+@@ -41,6 +41,7 @@ typedef u32 smc_key;
+  */
+ #define SMC_KEY(s) (smc_key)(_SMC_KEY(#s))
+ #define _SMC_KEY(s) (((s)[0] << 24) | ((s)[1] << 16) | ((s)[2] << 8) | (s)[3])
++#define __SMC_KEY(a, b, c, d) (((u32)(a) << 24) | ((u32)(b) << 16) | ((u32)(c) << 8) | ((u32)(d)))
  
- static int apple_smc_cmd_locked(struct apple_smc *smc, u64 cmd, u64 arg,
+ #define APPLE_SMC_READABLE BIT(7)
+ #define APPLE_SMC_WRITABLE BIT(6)
 
 -- 
 2.51.2
