@@ -1,127 +1,226 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F8A314A75
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 12:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AEA6314D1D
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 12:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762949249; cv=none; b=qEUUc5XpKLs2nEEhShftYJV2QW0H9L8YCjq97RiRur/z96wezP5BYiYBuV8vYQBoc/4XjmJtFHX6ld0UMUCVvUZ1AYCHUQMv8KK1+MxBWWoLBUmbqY+uQC1HD5imuFBGuTRpV66BCOleXtPg1zzKxh+lQoiOK5wxL7ApuaS1BzY=
+	t=1762949337; cv=none; b=obSMpsSzt8w/RKhn6Av5XIru0ve1L9EyC94gFHh8/rD/hGpBrWII+fjLbVOcWBn68cymPFBu1ex+Ky4/WU2v41D9rJiazJwGXD6GFW/2hTJ4xbK/OmMDUJsVyxJfzkvE6k66kUOkYoknmO0tkGqY9U6scfgUWCvRiXunQlzhkL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762949249; c=relaxed/simple;
-	bh=rmaw8uxqe2EYzaqnQYDzGZ3+OW1penkChF7AR/TE5b4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=to6P1llTilxekUYkaMz0UvWzAnMFJpv3JxJhbeIs1ncXMiMlLSfhNeGoHVoza09SLCb/2qYSq4lmFgl7sg6KjYp0wpaNSM+FQ6gTSJZny3xyOHuHmBJpQbpvD21QnkGTKjOPr0lMHjBaBwj3nXogf8puMI+SpCNCssHnUUgfimc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T+MVu7u+; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762949337; c=relaxed/simple;
+	bh=2reoimxPP6KM+bbmh+EGpPUmelHf7T5/cPjecN+uO5I=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=tK8TQOYcQVTf+Tom6SdYaupLjILqiltNZcGl0v6o/QeyZ2mNfkUe+xBtOf7Jfo309tq1iHiWjeP5hWMVYm2Z0WnfDyHvtuFhuI38uJC82gjpbGuiqxE1pElmHaX5eORvrz4Au7c8iXI80mGmn/cPOnxqzI+AbzZ51gFClFkxFE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rtv53v2M; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T+MVu7u+"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8a3eac7ca30so48046485a.2
-        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 04:07:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762949247; x=1763554047; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rmaw8uxqe2EYzaqnQYDzGZ3+OW1penkChF7AR/TE5b4=;
-        b=T+MVu7u+UMAI2WUUFd26WraGC3lDj+PRQi2AtwiJHtXKAwu1kEpZPZSu6z+EUkqOs1
-         qSaAIasPEs+R566KAGP8osjfuHmYYt1bFp/IwTD1kYnqZnTdQEbaByFBTqIwEX4BVCyN
-         fAdbirMizZlUnAPug4aVfKiPvVbCFT2Vwhw/zGe2HruhjLiYyZuFk1em7/O77p8LwrEr
-         rt7Y4Op7k026U3WWlZDyfwx7pq7N/c/Qt6tSRA0RR8TdtblGDTTZBzvmvcq4e2l3Txjc
-         Cu2X7tTxYPXSYkPGbScgGBWsIikHWZtpo0Wd0jjjs3Cc9e2qrNl1yB6GwJjlGgt6hUsU
-         pgVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762949247; x=1763554047;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rmaw8uxqe2EYzaqnQYDzGZ3+OW1penkChF7AR/TE5b4=;
-        b=kQysE/eqS9pNORl56n7kbZCUMZC3wPcAp/L7LpabbgGUSyd1qC9jrb+sCdvYGuCe0I
-         CRd3TuCyJNrmV8dylr4sP8YyjBD1fG9+OVuB/jNQNAv+/D6xoL6wDHlseNW+/9173tDl
-         t6Y79Qr/YuvKiAnj8p0QzvdARHB8QEe5szk9HXYvCgHhe+dWGKkmyqEcGQKcQsKhmlea
-         ZMcsZVKXXLMuOSuAxqaXrr0FGW0NVhtsvugFwOt43Zw4iKHYwpq1A1TGEs+/SxNqTZzU
-         GxHFpuyRJ6QTJHOT/zprM9UudhTwAR2jhJYo1DmSssJnqTJSQaD59sg+ud6M5A7mwPOU
-         CHaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWPY4P/6/KDfMcAwM/zQN2Ku5yfdOa2KHPUF8p5i3j42Es7tXriabl88IvxtAPo2zKlQn8XfsU7mw8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNxLrkfQ0hSFlYDP25r9cvKUOOYLj2bEw+0RVzF1Eq1AdAmyJw
-	2DSXqC8RXt2JDHaIFJsAeE6iCuaa/j6/vTv7OsgDrGumqbaZXGgVUoFu
-X-Gm-Gg: ASbGnctsoMvYn9QiSiWeWO1xCLakJ/3GJnmWcyi0I7pRtGf2Nk2qca1XI0MC7hGP06G
-	45OF/o1/d1OfQ77nhhUqxQGzLgocZqGgHw96rEZtLRKmbHfUxQgGWRA9WFuT5ZJRgyBMYpTY6el
-	Pvt7OJeeFN98rbTztCc500kYSIsVcH72ds27mXWBaHeKXe2zR02hrVW2XlgAlJILL1IeZZjBZFD
-	7IiuczjWJaC7GO7mzNu/cUW93plRyRDYaDptrafLrCk6WBPYVB0gPS7Wp3yOd97hMKIZMsvVEwo
-	P3O2mDOd8Fcl/ZJx25GhbhF3Eb5Ao7iijWnDAqsMv0/Tn4lkmXnW6MEZUriLHJVL3kWbl55BQcs
-	oW8DJLB+4SXUFDzXEpXKIg5x59CxLLcELW7+hcpDoTFD5T7u8r321Id7tUG8jeQxqCLv3z1mr9c
-	Wu
-X-Google-Smtp-Source: AGHT+IHodS+pTxbKK//f1GSMGDWXc+XiJHZj4dNVP6EykXSirX90SEf7NOQJlws/+WQMWWTXQYW47w==
-X-Received: by 2002:a05:622a:19aa:b0:4ec:f403:3019 with SMTP id d75a77b69052e-4eddbc82c32mr34381541cf.21.1762949247017;
-        Wed, 12 Nov 2025 04:07:27 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4eda7116927sm80703501cf.13.2025.11.12.04.07.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 04:07:24 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 87BE14209E71; Wed, 12 Nov 2025 19:07:17 +0700 (WIB)
-Date: Wed, 12 Nov 2025 19:07:17 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Security Module <linux-security-module@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, Kees Cook <kees@kernel.org>,
-	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-	Stuart Yoder <stuart.yoder@arm.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] security: sctp: Format type and permission checks tables
-Message-ID: <aRR4daS-XsAFLkfe@archie.me>
-References: <20251103113922.61232-2-bagasdotme@gmail.com>
- <aRKgyvrTxldlTv9t@archie.me>
- <CAHC9VhQeghqosexgOQO3==poNwsf_6mNiOqkUTUOdYnzRYzKmQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rtv53v2M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762949336; x=1794485336;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=2reoimxPP6KM+bbmh+EGpPUmelHf7T5/cPjecN+uO5I=;
+  b=Rtv53v2MqkXJN5y7+c7xVklzn4dnEO67+lh8OHeU8FP4jl+4YwzElaap
+   SmqNwFjYLbQHUO9fKhPr3xfGh9sBXpQT09AOqW2i8o4MsNt9tBlWVK2Su
+   sPHW9pA++wwry8tJWW6hi0qDS+HApnEIXI+ZVY25vhVqGYOK/QF4pyliZ
+   9Z3jmfJUq6M4+KyRk1EnwZKNliyDroqYfZycyK3BYGv8laIVVuZuuGeT2
+   90rSgy83BlPUaEcBuRc3uhtnULjDK8gBhSbeyFKDY9/Nbz3FOhlE5eQis
+   ADVJYPVuLtfbwi0gc/InBT8T+5R68wv+LTe3hgWtPGw/Uu1slrC82Iy0c
+   w==;
+X-CSE-ConnectionGUID: DmrY4onjQFKPmfKtPddWKQ==
+X-CSE-MsgGUID: o26Jrw0JRB+ecg1K/Rt0/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="87650635"
+X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; 
+   d="scan'208";a="87650635"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 04:08:55 -0800
+X-CSE-ConnectionGUID: g3l7u2YYTYmcx5p2+Rah4A==
+X-CSE-MsgGUID: Rs8pvu4mTgW8T5cifjSoFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; 
+   d="scan'208";a="219940169"
+Received: from ettammin-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.54])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 04:08:53 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy Dunlap
+ <rdunlap@infradead.org>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>
+Subject: Re: confusing ReST/html
+In-Reply-To: <20251112101942.211ae19e@foz.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <0fa53fbb-8505-4107-8f1f-4082123fdde6@infradead.org>
+ <20251112101942.211ae19e@foz.lan>
+Date: Wed, 12 Nov 2025 14:08:50 +0200
+Message-ID: <d317715fddedc8059d865e131d9a9799c1940703@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kaEZR4YZ+xgx6+Vu"
-Content-Disposition: inline
-In-Reply-To: <CAHC9VhQeghqosexgOQO3==poNwsf_6mNiOqkUTUOdYnzRYzKmQ@mail.gmail.com>
-
-
---kaEZR4YZ+xgx6+Vu
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 11, 2025 at 07:50:56PM -0500, Paul Moore wrote:
-> On Mon, Nov 10, 2025 at 9:35=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.c=
-om> wrote:
-> >
-> > On Mon, Nov 03, 2025 at 06:39:23PM +0700, Bagas Sanjaya wrote:
-> > > Use reST grid tables for both type and permission checks tables.
-> >
-> > review ping
->=20
-> You don't need to 'ping' for a review, your patch is in my review
-> queue, but code changes take priority at this point in the dev cycle
-> as I'm okay with merging documentation changes fairly late.
+On Wed, 12 Nov 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrot=
+e:
+> Hi Randy,
+>
+> Em Tue, 11 Nov 2025 20:59:25 -0800
+> Randy Dunlap <rdunlap@infradead.org> escreveu:
+>
+>> I'm comparing Documentation/core-api/index.{rst,html} and
+>> Documentation/driver-api/index.{rst,html}.
+>>=20
+>> Lots (but not all) .rst files end with something like
+>>=20
+>> .. only:: subproject and html
+>
+> This is related to partial documentation builds.
+>
+> - On PDF, we don't want to have an "Indices" section. With PDF, LaTeX
+>   will always generate an index, outside the "Indices" section, so it
+>   ends producing an empty section there.
+>
+>   That's why the rule has "and html".
+>
+> - Our building system adds "subproject" when one uses SPHINXDOCS.
+>   The above logic ensures that a partial build will have its own index.
+>
+>   If you want, try to add/remove it and see what happens when building=20
+>   with SPHINXDOCS. Btw, the quickest one to test is peci:
+>
+> 	make SPHINXDOCS=3Dpeci htmldocs
+>
+>   If everything is working as expected (I haven't test it for years),
+>   on index.rst that contains it, you'll see an index. Removing it will
+>   produce an output without any index (but I guess it will still have
+>   the sidebar).
 
-OK, thanks!
+:ref:`genindex` creates a *link* to the index, which will be created
+regardless of whether you have that link or not.
+
+>
+>>=20
+>>    Indices
+>>    =3D=3D=3D=3D=3D=3D=3D
+>>=20
+>>    * :ref:`genindex`
+>>=20
+>> Both of the core-api & driver-api index.rst files do...
+>> with the difference being that core-api/index.rst has
+>> one space following ".. only::" while driver-api/index.rst
+>> has 2 spaces following ".. only::".
+>>=20
+>> Does that make a difference?
+>
+> No, I don't think so.
+>
+>>=20
+>> When looking at the end/bottom of core-api/index.html,
+>> there is *NO* heading "Indices" and *NO* link "Index" as there
+>> is in driver-api/index.html.
+>> Why?=20
+>
+> See above. You'll only see it if you use SPHINXDOCS=3Dcore-api.
+>
+>> There are other cases like this one:
+>>=20
+>> $ cd Documentation; git grep "^\.\. only:: [^ ]"
+>>=20
+>> RCU/index.rst:.. only:: subproject and html
+>> core-api/index.rst:.. only:: subproject and html
+>> rust/index.rst:.. only:: rustdoc and html
+>> rust/index.rst:.. only:: not rustdoc and html
+>> trace/index.rst:.. only:: subproject and html
+>> virt/index.rst:.. only:: html and subproject
+>> wmi/devices/index.rst:.. only:: subproject and html
+>
+> On a side note, I don't like very much this solution, as people can=20
+> forget about that.
+
+Not only that, but people appear to have cargo cult copy-pasted the
+".. only:: subproject and html" bit all over the place for no good
+reason.
+
+>
+> Perhaps it would be possible to do it on a different and more automatic
+> way, by doing some changes at the way partial builds are handled by
+> sphinx-build-wrapper.
+>
+> on some brainstorming I did while writing the script, it came to
+> me that one possibility would be that the wrapper would create a
+> temporary structure with symlinks to the documents. E.g. when one
+> does:
+>
+> 	make SPHINXDOCS=3D"peci foo" O=3D/tmp/build htmldocs
+>
+> This would create something like:
+>
+> 	$ tree /tmp/build/source
+> 	/tmp/build/source
+> 	=E2=94=9C=E2=94=80=E2=94=80 index.rst
+> 	peci/
+> 	=E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 index.rst	# Symlink to=
+ kernel source file
+> 	=E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 peci.rst	# Symlink to =
+kernel source file
+> 	=E2=94=94=E2=94=80=E2=94=80 foo/
+> 	 =C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 index.rst	# Symlink to kernel =
+source file
+> 	 =C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 foo.rst		# Symlink to kernel s=
+ource file
+>
+> where index.rst would be auto-generated and would contain something like:
+>
+> 	.. SPDX-License-Identifier: GPL-2.0
+>
+> 	.. toctree::
+> 	   :maxdepth: 1
+>
+> 		peci/index
+> 		foo/index
+>
+> 	.. only:: subproject and html
+>
+> 		Indices and tables
+> 		=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> 		* :ref:`genindex`
+>
+> There are some advantages of such approach:
+>
+> - cross references between multiple SPHINXDIRS will be solved;
+> - this will speedup such builds, as, right now, the building system
+>   serializes the build for each directory individually. With such
+>   approach, it will build everything in parallel;
+> - this will simplify the logic inside conf.py.
+>
+> The disadvantages are:
+> - some extra complexity at the wrapper;
+> - a new temporary directory will be needed ("/source" on my example)
+
+You'll get all the error and warning messages referencing some ephemeral
+file inside a temp or build directory, which is confusing to say the
+least.
+
+> Comments?
+
+When you have problems with Sphinx, you should first try to figure out
+the possible solutions in Sphinx, instead of hacking in Makefiles.
+
+In this case, the solution to the index boilerplate is literally half a
+dozen lines in conf.py [1].
+
+
+BR,
+Jani.
+
+
+[1] https://lore.kernel.org/r/cover.1762948491.git.jani.nikula@intel.com
+
 
 --=20
-An old man doll... just what I always wanted! - Clara
-
---kaEZR4YZ+xgx6+Vu
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaRR4bgAKCRD2uYlJVVFO
-o9V7AQDHOga8MTEGHoVGvfFH7x5J65YayPNmGzE8rkS1swU6tAD+PMbAFNdlVCkb
-PuY83h41Kn/NdSbZDx6xQS5WY2RdmgY=
-=fNJb
------END PGP SIGNATURE-----
-
---kaEZR4YZ+xgx6+Vu--
+Jani Nikula, Intel
