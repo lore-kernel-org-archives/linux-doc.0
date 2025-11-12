@@ -1,144 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE5F2417D9
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 15:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D677F2857F6
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 15:22:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762960729; cv=none; b=O0R4Q51C7QZaBCVQjEV/CCYEx2wO2x4T4r7DRpOAC6VH0XmjnHAagkp6H4ZJQfVSz8pbc/nnp6c3mR96MB1yQpu3FeZEccoRbdR/PftZ2z0Q56sm5mPF8yZu+f7wgM0GkIa42jCM5Z5tufBTMGD2H+Pei2/YTFsd3heGGCcY2XM=
+	t=1762960952; cv=none; b=UlvE3RUetsIySDjvMJMpVEUCTwTyct8Div9flmhQY7+H0HwR1+3c8n3smLrBlCdr4fkCC6uLLFjxmY/Q+FVxqS1RyhbVtWK86o35AzzvtdCzUFLqOSR3vc6d+omqqbov0psAvmHvfOy4okTM51EkTyKBKrjqfvM2MuGtv6U+tDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762960729; c=relaxed/simple;
-	bh=iLnxgFyU1QDbMTELG3Fxbzkq6isaDRxHBg0vdYSv7AE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tYE9JVQgPeCk7xVWqJkpjku6VIaVdpD1FkQysoDbqKX6w7gpEe7okOQfNn7SBkZ2+SHsL1K3iZOPs+Pqe38wnhdFv88TTAu0KhzIf5Q+CzE/dchFtFu6KmMvUvTVV7QJQpknWmoq4oCGcGII1B5vmVhn//FO1Jgn0wkYc3t7psY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i5LogE0r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762960952; c=relaxed/simple;
+	bh=T44cSBi9UvufQqOLWBJQoQsP2hR6sNOKPIGfnaFV5Uw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=X19w2YeiZSywMSRsxq69xvuTrpvJwc5Vy1dpXxSBXmYiKrc6x+GodLRIyxaKT2iM1O2DNV640mojpNDec0hDYDf1MpviUP7cnroDZYD/HvFA+zkI+ycT02AqMDWCD2XXRCEP4fY4wZtcE6L60sC06IFDIFSw7EDwc9GjCdhgGHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YQi2Nk2l; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i5LogE0r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A46BBC4CEF7
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 15:18:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762960728;
-	bh=iLnxgFyU1QDbMTELG3Fxbzkq6isaDRxHBg0vdYSv7AE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=i5LogE0rzrApEg/z/AH+jkxsNRO0Z/wlHOTL6b9glnDyt5+2DtUB35L2Uv4w/Km0W
-	 A01EdtvbWOueNtDFTuB29xdiuig0LTetVIQW5erWQiew0m/QGkk6TQnzdJQOrUfKOq
-	 T1qbQ2BWbax2w6/Q9pT8SbIGywnzRHHwePCd24B+cByQ3uEzzX1KTIR/0SMoN6XEnH
-	 IoHTN6dWHULVLiGF5WOeNrRIO1HKtbY+IkoUCPVx3ge+ugS1BljRuYHLnR2nA9gMgH
-	 Aq/vLStatho+g9LCt250Uysfa3bHBjPJygOGeJ6mpSRmBVjiVivyh9EZQ9qgrD3rlI
-	 8G1d9jDbmBP6A==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-37b95f87d4eso5996171fa.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 07:18:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWyqY3XtBLxymqn6oyAequXQxiNkWREoI3ae1neuz4hux/LB9oUartK0noKJO8nR+haBKek6v26+/s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyv87qiCeEnfkBBZVzu1dQzx5vAuDuoPCIpmWHdsJI/iBU0s8xP
-	8/jbjMSQjZHnfCFoFKTpWdBVoXEF0slt3suXb7ZtgLemERtrxOqX3BAl5yvmxZYoYxkU5rHzcbT
-	rcQigDIjlppviu8IyCaxQkr8LEqc4Oek=
-X-Google-Smtp-Source: AGHT+IEZJNYM8RSAWY7JhY3msblJGctSWnuxWyOr/XKZCDnEvnzTK0CVMbYL+FXUVQmYYZDS5c4FeflgFcwTg/j1yso=
-X-Received: by 2002:a2e:8a90:0:b0:37a:5990:2ba8 with SMTP id
- 38308e7fff4ca-37b8c39eb6emr7262651fa.23.1762960725360; Wed, 12 Nov 2025
- 07:18:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YQi2Nk2l"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42b31c610fcso829378f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 07:22:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1762960949; x=1763565749; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=z4YAab8lEVoX8o7HKOXOiywpYzCpEEyW7oCkq/M5CVc=;
+        b=YQi2Nk2lHhcW/bl7KNIvdecFhM7wXPd9th3BRzzmGab34izgfwdmkR3elk5Drz6SWj
+         wXFc3iZ8hSIzxmbct7YBsbQbpAT6sBDfn54YeZFIYCpc1Bghvcmv/Ep8JRWH3i+dmvCI
+         WkG5eKFPUF3j+6q54rrwARFx7ycOz2KnLWg8Qe8cZ3hQfTncPZ2be2xKg3r6sAP9Raxu
+         Jda305lhBpmCrrRPQDT3uDgcqtFV9T9uVvF8k7V8K5tl+QQo/uutAyTKirzaFmQHB64r
+         NUh0MKe+jEcjTmpYHxPVWjUr3ZInNDUOOlz7M6SOotwErUeRnoIn7G80+/fnJgYigFiv
+         07OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762960949; x=1763565749;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z4YAab8lEVoX8o7HKOXOiywpYzCpEEyW7oCkq/M5CVc=;
+        b=KD8YHcJj2r1IHkKMGlbqPuYAiuhlhm4YUTEhUsFb5rBKmIdRDPz1i0Ra3mrF/sMMGn
+         P5QkHb73D6DGsjTIkWjR473yGyU5NeTnFBGGsoAuAe5w8sYQRBdNeRMJ8KcvOUERT5/9
+         FZhDa6uXVfu6ycevkyVsGJCUszOr0RNy69PrYIPzzgOJuZGoqu4Sk9jwE7pZKnPmYxtn
+         Gzf2HGPPQd4cQx6MNhvUw+i4jUNgfxwqsO6GBaBP+263B58+jhVQXw3qlfU2IyZyhi2k
+         vGJhkxqCn90ju0cpfei7a7clnnpvzB7xpGdlwg+pbyQICi9CiukU6kmMqk9kTgDx02Jz
+         qfWg==
+X-Forwarded-Encrypted: i=1; AJvYcCWq2S/kjETJRxhoByiUQryASW0cnxCYBIzpsLyWeeqHKfPWcznWd6TUWsEGCrwbEefxHMEcuvzGQ9A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywx1ZHWE5Gczo5Lm5PKG1SWJrHur+ZtzPDYPiYwJ4+3xQRX30vN
+	UWwogPLHTrNsgAYEf5+jtmsR/Mh7gjsn3PD0+rLH0eiy9rh7YVAg5RbVkFqpVMTiv+8=
+X-Gm-Gg: ASbGncsBQokhx89VzYLqn61uHKeH5zg+24reg1DJHdX+gUw4GTovZ9W4hQH+Ae5hUPb
+	DiRRGDQBUJi4So15E765lnqiNfsDh7h+tsp+anxLkV8lDDdQHHhRZmwjRKP/giygOCGT3HkYK/o
+	4ialEh1PS7VV7TH4u+zyQcYGSJbwvMgzNlVYqH5WmlJ53icJdf0YTAAxrdR1ybp6QhIaSq93oKn
+	2FAF9qCxuCjg9ElOT6WxjFNUfgsP32Ipq1otukMPLhLdmJ4ZzFlfQCT00tEzP2/w7H8CcKPVnqE
+	B6+IQkgogWRt7SAfAjgMq/Ljtodpshlq61seYhDdFzyf8YSeLS0ifExahcmPNzIIQV1Fn3tSUu2
+	HzIEgyypgqHpO+AjQreVgKNDIDau9k5sEQIeKx/ULG7M42pt+VmiIHVZabdBlo0zsith4JVdQWd
+	STL41qBOO49g==
+X-Google-Smtp-Source: AGHT+IGne5oDnoDNxspZOCag1+PS+dRQCZvqbFW+O5kS5m0nBl9iRLtaXl0HXuN+7Jr4WMxw58qV2A==
+X-Received: by 2002:a05:6000:4308:b0:429:c711:229a with SMTP id ffacd0b85a97d-42b4bdd4f2bmr3324821f8f.56.1762960949156;
+        Wed, 12 Nov 2025 07:22:29 -0800 (PST)
+Received: from ho-tower-lan.lan ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42ac677ab75sm33573485f8f.35.2025.11.12.07.22.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Nov 2025 07:22:28 -0800 (PST)
+From: James Clark <james.clark@linaro.org>
+Subject: [PATCH v4 00/13] coresight: Update timestamp attribute to be an
+ interval instead of bool
+Date: Wed, 12 Nov 2025 15:22:06 +0000
+Message-Id: <20251112-james-cs-syncfreq-v4-0-165ba21401dc@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251029210310.1155449-1-sohil.mehta@intel.com>
- <20251029210310.1155449-5-sohil.mehta@intel.com> <29f2d16f-361f-475c-957e-0ebcefcd1a8c@intel.com>
- <CAMj1kXHvfgMqFncvP5A6ed=2qEPkNkS8ecoM6iXMect51Tpz4w@mail.gmail.com>
- <7c26ae81-3495-457b-9f64-f5b2e169a63b@intel.com> <DDEF6164-D1E6-4003-A251-804738CB59E0@zytor.com>
-In-Reply-To: <DDEF6164-D1E6-4003-A251-804738CB59E0@zytor.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Wed, 12 Nov 2025 16:18:33 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXGyTo=4Va1PevMQyCauEKSutfSPo6je0Ps09TabhTe4zQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bkATy8eQW1W11WM4a6PnYbNwFNrApQpl2tGvWjez9wDd66g-WVyWrnM5Mw
-Message-ID: <CAMj1kXGyTo=4Va1PevMQyCauEKSutfSPo6je0Ps09TabhTe4zQ@mail.gmail.com>
-Subject: Re: [PATCH v11 4/9] x86/alternatives: Disable LASS when patching
- kernel code
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Dave Hansen <dave.hansen@intel.com>, Sohil Mehta <sohil.mehta@intel.com>, x86@kernel.org, 
-	Borislav Petkov <bp@alien8.de>, Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>, David Woodhouse <dwmw@amazon.co.uk>, 
-	Sean Christopherson <seanjc@google.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Andrew Cooper <andrew.cooper3@citrix.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB6mFGkC/23OwQ6CMAyA4VcxOzuzdcDAk+9hPMDWwYwO3cwiI
+ by7AxOjkePfpF87koDeYiD7zUg8Rhts71Jk2w1RXe1apFanJsAgZxIyeq6vGKgKNAxOGY93KhV
+ ALmtRohYk7d08GvtczOMpdWfDo/fDciLyefrWSs5XtMgpow1jXOkCRcayw8W62ve73rdk5iJ8E
+ 2sPRUiEkoVRTSmLqtB/hPgQnDFYI0QiDObaQGMqrvkPMU3TC4G5yJU5AQAA
+To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Mike Leach <mike.leach@linaro.org>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@arm.com>
+Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ James Clark <james.clark@linaro.org>
+X-Mailer: b4 0.14.0
 
-On Wed, 12 Nov 2025 at 15:58, H. Peter Anvin <hpa@zytor.com> wrote:
->
-> On November 12, 2025 6:51:45 AM PST, Dave Hansen <dave.hansen@intel.com> wrote:
-> >On 11/12/25 05:56, Ard Biesheuvel wrote:
-> >...
-> >>> it looks like we would now need to toggle
-> >>> CR4.LASS every time we switch to efi_mm. The lass_enable()/_disable()
-> >>> naming would be more suitable for those wrappers.
-> >>>
-> >> Note that Linux/x86 uses SetVirtualAddressMap() to remap all EFI
-> >> runtime regions into the upper [kernel] half of the address space.
-> >>
-> >> SetVirtualAddressMap() itself is a terrible idea, but given that we
-> >> are already stuck with it, we should be able to rely on ordinary EFI
-> >> runtime calls to only execute from the upper address range. The only
-> >> exception is the call to SetVirtualAddressMap() itself, which occurs
-> >> only once during early boot.
-> >
-> >Gah, I had it in my head that we needed to use the lower mapping at
-> >runtime. The efi_mm gets used for that SetVirtualAddressMap() and the
-> >efi_mm continues to get used at runtime. So I think I just assumed that
-> >the lower mappings needed to get used too.
-> >
-> >Thanks for the education!
-> >
-> >Let's say we simply delayed CR4.LASS=1 until later in boot. Could we
-> >completely ignore LASS during EFI calls, since the calls only use the
-> >upper address range?
-> >
-> >Also, in practice, are there buggy EFI implementations that use the
-> >lower address range even though they're not supposed to? *If* we just
-> >keep LASS on for these calls is there a chance it will cause a
-> >regression in some buggy EFI implementations?
->
-> Yes, they are. And there are buggy ones which die if set up with virtual addresses in the low half.
+Do some cleanups then expand the timestamp format attribute from 1 bit
+to 4 bits for ETMv4 in Perf mode. The current interval is too high for
+most use cases, and particularly on the FVP the number of timestamps
+generated is excessive. This change not only still allows disabling or
+enabling timestamps, but also allows the interval to be configured.
 
-To elaborate on that, there are systems where
+The old bit is kept deprecated and undocumented for now. There are known
+broken versions of Perf that don't read the format attribute positions
+from sysfs and instead hard code the timestamp bit. We can leave the old
+bit in the driver until we need the bit for another feature or enough
+time has passed that these old Perfs are unlikely to be used.
 
-a) not calling SetVirtualAddressMap() crashes the firmware, because,
-in spite of being clearly documented as optional, not calling it
-results in some event hook not being called, causing the firmware to
-misbehave
+The interval option is added as an event format attribute, rather than a
+Coresight config because it's something that the driver is already
+configuring automatically in Perf mode using any unused counter, so it's
+not possible to modify this with a config.
 
-b) calling SetVirtualAddressMap() with an 1:1 mapping crashes the
-firmware (and so this is not a possible workaround for a))
+Applies to coresight/next
 
-c) calling SetVirtualAddressMap() crashes the firmware when not both
-the old 1:1 and the new kernel mapping are already live (which
-violates the UEFI spec)
+Signed-off-by: James Clark <james.clark@linaro.org>
+---
+Changes in v4:
+- Add #defines for true and false resources ETM_RES_SEL_TRUE/FALSE
+- Reword comment about finding a counter to say if there are no
+  resources there are no counters.
+- Extend existing timestamp format attribute instead of adding a new one
+- Refactor all the config definitions and parsing to use
+  GEN_PMU_FORMAT_ATTR()/ATTR_CFG_GET_FLD() so we can see where the
+  unused bits are.
+- Link to v3: https://lore.kernel.org/r/20251002-james-cs-syncfreq-v3-0-fe5df2bf91d1@linaro.org
 
-d) calling SetVirtualAddressMap() does not result in all 1:1
-references being converted to the new mapping.
+Changes in v3:
+- Move the format attr definitions to coresight-etm-perf.h we can
+  compile on arm32 without #ifdefs - (Leo)
+- Convert the new #ifdefs to a single one in an is_visible() function so
+  that the code is cleaner - (Leo)
+- Drop the change to remove the holes in struct etmv4_config as they
+  were grouped by function - (Mike)
+- Link to v2: https://lore.kernel.org/r/20250814-james-cs-syncfreq-v2-0-c76fcb87696d@linaro.org
 
+Changes in v2:
+- Only show the attribute for ETMv4 to improve usability and fix the
+  arm32 build error. Wrapping everything in
+  IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X) isn't ideal, but the -perf.c
+  file is shared between ETMv3 and ETMv4, and there is already precedent
+  for doing it this way.
+- Link to v1: https://lore.kernel.org/r/20250811-james-cs-syncfreq-v1-0-b001cd6e3404@linaro.org
 
-To address d), the x86_64 implementation of efi_map_region() indeed
-maps an 1:1 alias of each remapped runtime regions, so that stray
-accesses don't fault. But the code addresses are all remapped, and so
-the firmware routines are always invoked via their remapped aliases in
-the kernel VA space. Not calling SetVirtualAddressMap() at all, or
-calling it with a 1:1 mapping is not feasible, essentially because
-Windows doesn't do that, and that is the only thing that is tested on
-all x86 PCs by the respective OEMs.
+---
+James Clark (13):
+      coresight: Change syncfreq to be a u8
+      coresight: Repack struct etmv4_drvdata
+      coresight: Refactor etm4_config_timestamp_event()
+      coresight: Hide unused ETMv3 format attributes
+      coresight: Define format attributes with GEN_PMU_FORMAT_ATTR()
+      coresight: Interpret ETMv3 config with ATTR_CFG_GET_FLD()
+      coresight: Don't reject unrecognized ETMv3 format attributes
+      coresight: Interpret perf config with ATTR_CFG_GET_FLD()
+      coresight: Interpret ETMv4 config with ATTR_CFG_GET_FLD()
+      coresight: Remove misleading definitions
+      coresight: Extend width of timestamp format attribute
+      coresight: Allow setting the timestamp interval
+      coresight: docs: Document etm4x timestamp interval option
 
-Given that remapping the code is dealt with by the firmware's PE/COFF
-loader, whereas remapping [dynamically allocated] data requires effort
-on the part of the programmer, I'd hazard a guess that 99.9% of those
-bugs do not involve attempts to execute via the lower mapping, but
-stray references to data objects that were not remapped properly.
+ Documentation/trace/coresight/coresight.rst        |  15 +-
+ drivers/hwtracing/coresight/coresight-etm-perf.c   |  59 +++++---
+ drivers/hwtracing/coresight/coresight-etm-perf.h   |  39 +++++
+ drivers/hwtracing/coresight/coresight-etm3x-core.c |  36 ++---
+ drivers/hwtracing/coresight/coresight-etm4x-core.c | 164 +++++++++++++--------
+ drivers/hwtracing/coresight/coresight-etm4x.h      |  62 +++++---
+ include/linux/coresight-pmu.h                      |  24 ---
+ 7 files changed, 247 insertions(+), 152 deletions(-)
+---
+base-commit: efdccf6a511891db037e08f1351e72eaa101021e
+change-id: 20250724-james-cs-syncfreq-7c2257a38ed3
 
-So we might consider
-a) remapping those 1:1 aliases NX, so we don't have those patches of
-RWX memory around
-b) keeping LASS enabled during ordinary EFI runtime calls, as you suggest.
+Best regards,
+-- 
+James Clark <james.clark@linaro.org>
+
