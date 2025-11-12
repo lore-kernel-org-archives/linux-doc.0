@@ -1,59 +1,59 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5702D5920
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 20:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5736A2D7D47
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 20:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762980093; cv=none; b=B/Q/xjVUAFDcaxLcWhcBd4m2lpfyDry82Y/pdJzXI/DP/fMkubb8EZaE4DVELrd4foas9/MMDaeLk4UYn0z8+TeJ1+aoM7dtDMWCjLHReDdoaRKCHIGYhAhni942gd/ra42IPUYWiFuEHzU5i2RAAUe2R7zKhyKJ1WV4bAeXSCc=
+	t=1762980466; cv=none; b=FSH0kDRuHAcfIW9CgIGhvQO2bepOu0kXDDn1NPbXwkv+V8eZK5DCxgp8ZU7PQmXgAmpbqi0VCxSC8bKUI2KfkL5zRdpGgGSt1GvP70i9vWks5eT8X27EvR7zFuC+xdEZpTuBromTvNjDJ/42YtsAk/Hq9yWatfqhDk7f8TBA85I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762980093; c=relaxed/simple;
-	bh=zM4D/2QGSpTpyQNyqeW+YoTyGqfn0xHUyC7FfAc2/YA=;
+	s=arc-20240116; t=1762980466; c=relaxed/simple;
+	bh=usPtXPTZX6TXkeQ1v1bYEhzjiCuAM3VVnx8IxUxXsXw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PVyhfpbxVEGo9QLnFpAuAYckER5dsqcSc5TXHz4Ao0DEGJFVfH1OcZO/z+bXIMf2IW5EmjE44Vs4qCcvCIAbbkHJNFtLpEin/rprTYyeXdwX1KQeLI8O48vXhAR2dC4cEorQQo0mWnnRyZZcx3F1kQT0+HKJGSofYsJN92Dgp7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=DMVQbG/g; arc=none smtp.client-ip=209.85.208.50
+	 To:Cc:Content-Type; b=j1f57k2h924zl9ZZmHqjvvfjSAkXVzzvpWBniPSAilBZ1uDjfgcXzv2/ACZ0aIEI8dQIDm2ZMhNrvQiDR/lHFK8Yav4j1r83dEjeZyU3Tf19CDF4tLbLDAyXU4Of7DWz59G0r0qzyqdAsiCr++qFJE6LggS6yBN6R31CJNo0LQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=UlYBa8ac; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="DMVQbG/g"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-64320b9bb4bso269477a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 12:41:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="UlYBa8ac"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-63c489f1e6cso178349a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 12:47:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1762980090; x=1763584890; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1762980462; x=1763585262; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dhyXtoYIzmR1qHGhz6TVmqBXuiqas52bqmxrLwkY3s0=;
-        b=DMVQbG/gd5oI5/dpbDk9nsCzwzUQ6CrCixF1dKx7BI3nzrKsKlou8SfhttpSHGU8dh
-         vh+BrYUl4Y6Ts3Dl08lbK0yzMf/DxDvehzoLqKgUK4v1mgmclh6mAfIbTdfSIdHwhrZG
-         dQVYB5UbFk0OPI5pNm7fu0uI/mrWlZ351XAp0ErjaCaH8BGG7LgwykeqXm4wpRwD+QpU
-         ibIUpd8s68gZvKxLCdXOxiGCsTtxpeRCDyZtyh8Rf0FjtbWWWd0HxtqgiMdx2GK1EldX
-         uc8mrqNaXqKrE9kF53jswoo7YtCle+XI4bKuvth21Wli89xJsNAcQmpwam3QG/P3w14I
-         7LVA==
+        bh=dB48jiAJQmCTSUKKfFbF2w4Wvbq8+BICA0uZNvppCf0=;
+        b=UlYBa8acZxIXxOCsd+IeAlRvOszYm0rcdeqrR+hs41Y9TNEpKoIvzNBg1HXwZ9JQNn
+         4pEKzyUeVBEcpJxDJ4/FdgGpPeVChVeV+HStsILsNJuIBnz0OOxtSA6tnKbOZuByreGX
+         V/H3+gRzxUL1vhOF745KA1vBK6SMRDvWaeiyXbsK6cmCdFhuehs860a88UtqaNOGCQK8
+         w3EZmyLKw7sZpgDvd5rLKTlqO7Zv7ROfXuwzXl3+q2s0vIU+oUwuBi1TluI4kCD+Hcls
+         16CYAofa4hItWp3/2SmeHyHOdxzMQx6fIZgBddgGI6m55D61j/ymcE58PUlg0AFEqwgn
+         THKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762980090; x=1763584890;
+        d=1e100.net; s=20230601; t=1762980463; x=1763585263;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=dhyXtoYIzmR1qHGhz6TVmqBXuiqas52bqmxrLwkY3s0=;
-        b=nMGM7hq8moRN1sLWJ8cU15YRWe7sqHDp7NedKbqiJ0uuNvfbjtA3Zn8FbrdlLQuXHV
-         dc39lYTZJYD28pnFNTYrtwX45uMuqO4kZiFM37V7tGYBMnLcKNW7TShv6BjMhuGfAEM7
-         NIgh+t+KceVY26pDvQcEYChL7U7O+YIweKuYeYu0x+SzYo4soE51sQx2SGm4amLXPomK
-         DVSXTFoIInSwl8EkP1QDQIIAaOZLmm/gIV4mRAoJpVDey7n8kely5/pUuMWV3m0rcO5W
-         Ps2IcFMCiNiNErl/hAFvNtt6ubylI6y899wJRtrgcXeD2fIn1t8s2A6NV3CB4CFms5gj
-         vWCA==
-X-Forwarded-Encrypted: i=1; AJvYcCVSV5PuBSE+CsZYkv0mFS1uv7ZR7hQ8ZEczxGcxCUyDA5SGYIOaMLSjQOfLAtLmXlTGzJXPITle8/0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJPV01Mb8ruvc33KX2mGAzEYo9p1YjsRSA029wO8dkibjrM6zX
-	SVG/PdFfR1tSUF2yqv6jAeUvJFySwQya47xopYtKdwxRjRbzslAM+xjv/KeLiO2UV38i8vYJP4w
-	NXx2DR4NqI6KS+PIGonhQwS1URASSIPxsFe/NByE/Pw==
-X-Gm-Gg: ASbGncvwTzsEVXTKHy6LAmAFy6ggm8A6T2v7dy2Wa5XS+XtNrQxjAHRmH2h/49RjcGS
-	Ug6VeUlNPFIE6y3ieoqF2ztacuKPvWXsHHglEGuJuoQHumJFG1HhfKBZzYmUyT8U52SS7FAPijM
-	wW73HdCXYRq/aDAOLOc5LeaudEkalcup7aA8SJfdG57RLOHO8gehSMVfxzzQbO8ugIXSxRLEgNF
-	Edzvi/Vx86ah+Topgq8arpWEGcA+1YLtPP8faktGkhlYEL5GyFJ21Hrkw==
-X-Google-Smtp-Source: AGHT+IHqo0cWs4d/0+ME7Pp4LbR8c7We/VnufInTVc25I/poQ6OzmFZFO8BkwH4hrLb9dn8NI1Qgpj2DiapmSAwzhV0=
-X-Received: by 2002:aa7:c9c4:0:b0:640:e7bc:d3ce with SMTP id
- 4fb4d7f45d1cf-64334cf0fa3mr536431a12.11.1762980090000; Wed, 12 Nov 2025
- 12:41:30 -0800 (PST)
+        bh=dB48jiAJQmCTSUKKfFbF2w4Wvbq8+BICA0uZNvppCf0=;
+        b=XlUCiET2px+bNpbgiXl85FDo9BPwwrBu+OvlOJYSYcFjd/CiPl8tPzM8d40VGY/xR6
+         YBvknc00ESTFJGDqnJqWNUnGw0UzEo6CjGYPRHaOsBIpCxB4kcPvbU0e/+ufdAwFGYwD
+         81YSf1YhfQ+doPIbnUESLN5uxnNMcDZn4A29Pi65Rj0ivZbE9kMEzSTiWSCjrrkxmhJm
+         2/3Ktj7A8ejd5JNDeH6MBmNVwlnjFOOh+krBIYJUrvY81I8jM7zWqmxB/YNvCUib9slH
+         3wBrolNA3FDOwcoTfZmsCOlcu/RRdWdHNlKcxdfYWGLG1HzPLmlJmjznVSkT2Oje2bkz
+         LERA==
+X-Forwarded-Encrypted: i=1; AJvYcCXcUfMgCCg6urdamFUY4xVjfIeZNDaP+sqBBQq02W8IOAEvwlYDGCp2xY0Gq/C3xxNNOnlrfQdoEAY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrmgWh7mcnPJPrF9Q9KNhAxqd9yJo9H6LVYQ8NHwGDJgnXQTtD
+	MGFMuxBXt4G72AvLCorSnO9WFeJmaxYmAcvf8vWbXrIDNjV+CUdFFNC4GzoHpn5TJsBZGuIIEir
+	hVZ+LRJPUXYbnlchveAo1APd0dhRnPDverEDoOTa/Kw==
+X-Gm-Gg: ASbGncs+kzTf++Xcu74z/UPCGeA/Yes8uLgKLAwDTqTEec1r+kaThZwgTT1ehGFrlKu
+	reNil0nbzdAmUUyWXi/8Li3VGwk1L0G+XwCcGrf+EVWfgw9L2NkREkMMwUVtwsMKOZz/xVeGDsO
+	zIhDnkZ6GNMXhh2Vcp20Bg0ikuFOGOFT8gtPh2oBFmUkpZTOAmjqIr58QuGiOylyrfIwCktREDQ
+	4cOyuzMce/gQpQyX+i5SUGbD6dDclf7tcbgc9finPD1VWpYUqonAV3wKw==
+X-Google-Smtp-Source: AGHT+IHnCxJ5sXULWNZ4xyt6eOXGzcL5bRRpxTbpBkagcIsWqapM9iv+G712dgCOMjYDLl8hNWljgh4gZ1/4nXWnvWg=
+X-Received: by 2002:a05:6402:280d:b0:641:270:2c8a with SMTP id
+ 4fb4d7f45d1cf-64334ce2bf2mr656038a12.14.1762980462571; Wed, 12 Nov 2025
+ 12:47:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,13 +61,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-23-pasha.tatashin@soleen.com> <aRTs3ZouoL1CGHst@kernel.org>
-In-Reply-To: <aRTs3ZouoL1CGHst@kernel.org>
+ <20251107210526.257742-7-pasha.tatashin@soleen.com> <aRTwZNKFvDqb1NG5@kernel.org>
+In-Reply-To: <aRTwZNKFvDqb1NG5@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 12 Nov 2025 15:40:53 -0500
-X-Gm-Features: AWmQ_bn7hzYlz1CnwhflDe9tj18uCKgXHbii3rFfCz-B6efDQe-vtqY1VtpWQlg
-Message-ID: <CA+CK2bBVRHwBu6a77gkvsbmWkQFDcTvNo+5aOT586mie13zqqA@mail.gmail.com>
-Subject: Re: [PATCH v5 22/22] tests/liveupdate: Add in-kernel liveupdate test
+Date: Wed, 12 Nov 2025 15:47:05 -0500
+X-Gm-Features: AWmQ_bkVh8Sk3xM0csiNTGOKzpW_RilqarlOG4vqEffeEKya7lO37kZmCW2_pO8
+Message-ID: <CA+CK2bAhJ+Lbm6v375RuZKs40q34gsKHE-N+dD8gKqgzsHCqww@mail.gmail.com>
+Subject: Re: [PATCH v5 06/22] liveupdate: luo_session: add sessions support
 To: Mike Rapoport <rppt@kernel.org>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
@@ -96,48 +96,58 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 12, 2025 at 3:24=E2=80=AFPM Mike Rapoport <rppt@kernel.org> wro=
+On Wed, Nov 12, 2025 at 3:39=E2=80=AFPM Mike Rapoport <rppt@kernel.org> wro=
 te:
 >
-> On Fri, Nov 07, 2025 at 04:03:20PM -0500, Pasha Tatashin wrote:
-> > Introduce an in-kernel test module to validate the core logic of the
-> > Live Update Orchestrator's File-Lifecycle-Bound feature. This
-> > provides a low-level, controlled environment to test FLB registration
-> > and callback invocation without requiring userspace interaction or
-> > actual kexec reboots.
+> On Fri, Nov 07, 2025 at 04:03:04PM -0500, Pasha Tatashin wrote:
+> > Introduce concept of "Live Update Sessions" within the LUO framework.
+> > LUO sessions provide a mechanism to group and manage `struct file *`
+> > instances (representing file descriptors) that need to be preserved
+> > across a kexec-based live update.
 > >
-> > The test is enabled by the CONFIG_LIVEUPDATE_TEST Kconfig option.
+> > Each session is identified by a unique name and acts as a container
+> > for file objects whose state is critical to a userspace workload, such
+> > as a virtual machine or a high-performance database, aiming to maintain
+> > their functionality across a kernel transition.
+> >
+> > This groundwork establishes the framework for preserving file-backed
+> > state across kernel updates, with the actual file data preservation
+> > mechanisms to be implemented in subsequent patches.
 > >
 > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > > ---
-> >  kernel/liveupdate/luo_file.c     |   2 +
-> >  kernel/liveupdate/luo_internal.h |   8 ++
-> >  lib/Kconfig.debug                |  23 ++++++
-> >  lib/tests/Makefile               |   1 +
-> >  lib/tests/liveupdate.c           | 130 +++++++++++++++++++++++++++++++
-> >  5 files changed, 164 insertions(+)
-> >  create mode 100644 lib/tests/liveupdate.c
+> >  include/linux/liveupdate/abi/luo.h |  81 ++++++
+> >  include/uapi/linux/liveupdate.h    |   3 +
+> >  kernel/liveupdate/Makefile         |   3 +-
+> >  kernel/liveupdate/luo_core.c       |   9 +
+> >  kernel/liveupdate/luo_internal.h   |  39 +++
+> >  kernel/liveupdate/luo_session.c    | 405 +++++++++++++++++++++++++++++
+> >  6 files changed, 539 insertions(+), 1 deletion(-)
+> >  create mode 100644 kernel/liveupdate/luo_session.c
 > >
-> > diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.=
-c
-> > index 713069b96278..4c0a75918f3d 100644
-> > --- a/kernel/liveupdate/luo_file.c
-> > +++ b/kernel/liveupdate/luo_file.c
-> > @@ -829,6 +829,8 @@ int liveupdate_register_file_handler(struct liveupd=
-ate_file_handler *fh)
-> >       INIT_LIST_HEAD(&fh->flb_list);
-> >       list_add_tail(&fh->list, &luo_file_handler_list);
-> >
-> > +     liveupdate_test_register(fh);
-> > +
+> > diff --git a/include/linux/liveupdate/abi/luo.h b/include/linux/liveupd=
+ate/abi/luo.h
+> > index 9483a294287f..37b9fecef3f7 100644
+> > --- a/include/linux/liveupdate/abi/luo.h
+> > +++ b/include/linux/liveupdate/abi/luo.h
+> > @@ -28,6 +28,11 @@
+> >   *     / {
+> >   *         compatible =3D "luo-v1";
+> >   *         liveupdate-number =3D <...>;
+> > + *
+> > + *         luo-session {
+> > + *             compatible =3D "luo-session-v1";
+> > + *             luo-session-head =3D <phys_addr_of_session_head_ser>;
 >
-> Do it mean that every flb user will be added here?
+> 'head' reads to me as list head rather than a header. I'd use 'hdr' for t=
+he
+> latter.
 
-No, FLB users will use:
-
-liveupdate_register_flb() from various subsystems. This
-liveupdate_test_register() is only to allow kernel test to register
-test-FLBs to every single file-handler for in-kernel testing purpose
-only.
+Or just use the full name: "header" ? It is not too long as well.
 
 Pasha
+
+>
+> --
+> Sincerely yours,
+> Mike.
