@@ -1,108 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A8031C576;
-	Wed, 12 Nov 2025 12:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8034833555E
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 12:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762949714; cv=none; b=T/rfwHDG/PsHTmNXAULlvR3wWSG4DOt/UU/gzIWw387pkcLkoyDpH6N2ShFHMQLUxMRoQjEmFvt+bsYfygZz330YozfxCor6vC+y88E9FL0W6voyynqPYwnJyHGCEOdv+5mnknFVplnMHkdTLHn/b8KM56jYpvsIOus7xdc8/4g=
+	t=1762951624; cv=none; b=iIQJhN9vqEILD9zI43kh8MUAVfJvd7O+OAFwksmkoy12+v4xWcxcuxREGl17oD7D4CAmrpKfZKb0Yo14SRiofQpinCz46lAN8GZioFf8s300EeIC7saLa7OrKcfhPqPcIlHWQ9xcLF9F+X6XrMR/GFN+Mm/hhduuHo0gv/mfLGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762949714; c=relaxed/simple;
-	bh=LvobtyzxlyPW6gIKJxQAWAM+dxTFPbpGzV/jL86QCLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XJFsVtxFROKnwgb4aiP5jQ1l/RqeUvSvNxnKdVA7Ufn6xbjdSZVEQcBzAM9snx9fImiulBm1ED1xpXGSXe8nMhZpZP77Lsj6ZDjNLm5bzFP91VvZOjqzp2VksJNNOYK+oI/E8+Aea6DObaEFaTrHlxzLJo9wl28KK6hcLXXYcEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=prAb0eP4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762951624; c=relaxed/simple;
+	bh=znZuQwa1aOziNsVVDXXpqJjJ+lN7ig6byCFqqLdTusA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Rt0MbsVXmszA9j4eAm5rW5Iuwkc6dw/SxaXqVf5O715j0cW7BBXpGD45w8ePdMhoEvPsYj0orQXkPgCvzg9WIlIXpC8ZjM1XmrRnD6A7mtJk4GrCj5QZw+Iqmpdq+j8hteyAdGls2CsD/2l90134wPD+UXIyq+OqashtwZ5CiOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=jUvqWmJa; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="prAb0eP4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48254C4CEF5;
-	Wed, 12 Nov 2025 12:15:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762949712;
-	bh=LvobtyzxlyPW6gIKJxQAWAM+dxTFPbpGzV/jL86QCLA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=prAb0eP4AcbTYSrYYW+jPicB1nCpcnL7P97XANaRsiFnojz1LNBQGFDSgqL8dHh3B
-	 cx/voQvFyQNak+DarWcaqx6Hwo9IGzFtHbfa9XC2PFj7+seYWykiYXA70itm8zVLKT
-	 SUNZASy6DF0eWSokGheOXaGSkTZa1wPLVLtluBAvN79H8hsDZBjNFIycLB06U+spuD
-	 nxQUETKLzI0akNDsPuJaCt7qdMXuKTNag2cTCm40AeaUHxTlRQ4KBQbFGTEOFxWutE
-	 y9Jpzy78lQfigxl871pKJCCoyuPw/C98pJBbZzqYzwCz1SI2VX9pZnUtgPEICDQp+L
-	 Z/vn5/gj36XMw==
-Date: Wed, 12 Nov 2025 12:15:03 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>, x86@kernel.org,
-	Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, Aishwarya.TCV@arm.com
-Subject: Re: [PATCH v5 6/8] selftests: tracing: Add a basic testcase for
- wprobe
-Message-ID: <af8f3543-4af6-48d7-a55a-bab24b6c7c7a@sirena.org.uk>
-References: <175859019940.374439.7398451124225791618.stgit@devnote2>
- <175859026716.374439.14852239332989324292.stgit@devnote2>
- <aPvwGhMBJqMKcC9D@finisterre.sirena.org.uk>
- <20251027224347.4c887cc956df63602f377550@kernel.org>
- <20251028084222.a3c1ae97d125d9bd88fc565b@kernel.org>
- <20251028105549.ae94e8eeb42f4efc183d2807@kernel.org>
- <20251029004219.dc9cda0eb56ae46c55855844@kernel.org>
- <20251029114317.167b7d908533385c1c9e6782@kernel.org>
- <20251029172004.a0aca144735f20a6a59d2aa6@kernel.org>
- <20251030090952.befea7f0cecd5518c7fda02c@kernel.org>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="jUvqWmJa"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-64088c6b309so1235672a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 04:47:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1762951621; x=1763556421; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NlYd6Xq+AnhKekfFM+8+8cT83BwyMkqy6p8G3DXg5+E=;
+        b=jUvqWmJaXXN0cLEFVgCu1IoCmnJo4k8vi984y/p5n95rUUkqfnAAuIfq7cVevvIql+
+         /XzUQpvtZujaqXLy9a7qyr9HqBncxaSBiP9TMtKSmtsRZvg4VyAytzD1QqrmvEnwzaqa
+         0/hGsRWJ7fWOtg97EaV3/FG3Lf7PwYnhAPEhJiOry93QV7b1929GxqqRFtdmDHL4VbkU
+         83pQT9I/AKnQ9BEvYiHaKl5lncv6/47ge4iv6d/KUsYfMbNm62XodQPUPPq/Nkdo11b7
+         8n4HyHw7fRDxG8XpgnzpOHwtj75vn2lgHDvzrdARfG+mJZ6UYldPnwuV2U7D7v41ZNRz
+         cRlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762951621; x=1763556421;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NlYd6Xq+AnhKekfFM+8+8cT83BwyMkqy6p8G3DXg5+E=;
+        b=nPQPA5Vtu9MwERoOfLjjW0awFtoFprEaOgMP+DVAas8P/hfaWq2A9E+D39EXdcpoXK
+         7o2rm9+/cwSDaITQ/DSyCMnFviZL1d5+sAFocU/l9lt9iq/DymArYt3cmfZajaWKocyI
+         c/gz3N6Cac/+JHrnEfx6rjHAS+JTt0g4zvLs6r7lK2IiL4QNkuqJjACgkMrkHSqFBp53
+         5UTbusXX6lKBHZ4Bq8hYKgrisS6jjISubFp5pD0iLxxbtZOW8dT04xUpEZFi6jCEdTJk
+         llhAj28wVsi88qQYS7fJO7cJwTWVx7ThILS/kCyfBAUAjEMVALvOV3oaANslcv044OGs
+         ZoLA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/Nnf8JETvqU0aCiFCEZl8W12QRZ+iVGrd7zx+Citk2gZS/oabkRU58qzQkdBotbBzSqanVQ6b0BE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVMtfQcEAbn/QLKcZY0L7oOYy9SUpW8qEL5aNNJDKqmmERE+TD
+	OXbVJJXQNlD6MMROPlx9LLgSLXV/ZHJT3t72lG47qTHJAB+dM3SY1JUMGY1mZYXnxOvwaPU5biG
+	GcUsjaRNk10TO7s5wA15MCB/mUrUyybEHc6DaNfdNTQ==
+X-Gm-Gg: ASbGncv1PXftJrZV6b/L/TeuN1EWMXPQu8rRyRnp2VcJNoMitUuRR8o5laiDY7Gzx1m
+	SihmaD6BXWFKmXNkHE3JtsHheOqzmlrSVmENYDtvOULqzjGLZeBWm1km1+fkTR/9FLjnoWcRVCZ
+	A3Irkakmj9KvNfsPqqNpQ0plyCuZBgE6iewUW4D9Z8QswsBinnptzWXcoqgBrwxGnVNHg4ozfdz
+	vQQmvTfGR4pvAyclyzR1K5m5D/NTwyzKb0n4HFyDRFny+7gIYeYlFFSGw==
+X-Google-Smtp-Source: AGHT+IHPQjz/pJ437pH7YFtSiDGAQ3VcFvPXvPvzuQHBM0+kWPerbB0r4L6RkLw74giNqTUgcHTcvt5mHbrdxH4Haek=
+X-Received: by 2002:a05:6402:5186:b0:640:9c99:bfac with SMTP id
+ 4fb4d7f45d1cf-6431a4d609bmr2586786a12.13.1762951620623; Wed, 12 Nov 2025
+ 04:47:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cP5LvKoSdHfjRefq"
-Content-Disposition: inline
-In-Reply-To: <20251030090952.befea7f0cecd5518c7fda02c@kernel.org>
-X-Cookie: "The Computer made me do it."
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com> <aRObz4bQzRHH5hJb@kernel.org>
+ <CA+CK2bDnaLJS9GdO_7Anhwah2uQrYYk_RhQMSiRL-YB=8ZZZWQ@mail.gmail.com>
+ <CA+CK2bD3hps+atqUZ2LKyuoOSRRUWpTPE+frd5g13js4EAFK8g@mail.gmail.com> <aRRflLTejNQXWa1Z@kernel.org>
+In-Reply-To: <aRRflLTejNQXWa1Z@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 12 Nov 2025 07:46:23 -0500
+X-Gm-Features: AWmQ_bl87XR7836bCxIna383p3224VYBM84reJOLcIDxOxFdtSf2hXG1yTbnSeY
+Message-ID: <CA+CK2bB8731z-EKv2K8-x5SH8rjOTTuWkfkrc4Qj6skW+Kr7-g@mail.gmail.com>
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Nov 12, 2025 at 5:21=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
+te:
+>
+> On Tue, Nov 11, 2025 at 03:42:24PM -0500, Pasha Tatashin wrote:
+> > On Tue, Nov 11, 2025 at 3:39=E2=80=AFPM Pasha Tatashin
+> > <pasha.tatashin@soleen.com> wrote:
+> > >
+> > > > >       kho_memory_init();
+> > > > >
+> > > > > +     /* Live Update should follow right after KHO is initialized=
+ */
+> > > > > +     liveupdate_init();
+> > > > > +
+> > > >
+> > > > Why do you think it should be immediately after kho_memory_init()?
+> > > > Any reason this can't be called from start_kernel() or even later a=
+s an
+> > > > early_initcall() or core_initall()?
+> > >
+> > > Unfortunately, no, even here it is too late, and we might need to fin=
+d
+> > > a way to move the kho_init/liveupdate_init earlier. We must be able t=
+o
+> > > preserve HugeTLB pages, and those are reserved earlier in boot.
+> >
+> > Just to clarify: liveupdate_init() is needed to start using:
+> > liveupdate_flb_incoming_* API, and FLB data is needed during HugeTLB
+> > reservation.
+>
+> Since flb is "file-lifecycle-bound", it implies *file*. Early memory
+> reservations in hugetlb are not bound to files, they end up in file objec=
+ts
+> way later.
 
---cP5LvKoSdHfjRefq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+FLB global objects act similarly to subsystem-wide data, except their
+data has a clear creation and destruction time tied to preserved
+files. When the first file of a particular type is added to LUO, this
+global data is created; when the last file of that type is removed
+(unpreserved or finished), this global data is destroyed, this is why
+its life is bound to file lifecycle. Crucially, this global data is
+accessible at any time while LUO owns the associated files spanning
+the early boot update boundary.
 
-On Thu, Oct 30, 2025 at 09:09:52AM +0900, Masami Hiramatsu wrote:
-> Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
+> So I think for now we can move liveupdate_init() later in boot and we wil=
+l
+> solve the problem of hugetlb reservations when we add support for hugetlb=
+.
 
-> There is a single step execution code but only for default overflow_handlers.
-> This is a bit strange becuase other users can not set it up outside of
-> the arch dependent code. Even if it can, it is simply redundant.
+HugeTLB reserves memory early in boot. If we already have preserved
+HugeTLB pages via LUO/KHO, we must ensure they are counted against the
+boot-time reservation. For example, if hugetlb_cma_reserve() needs to
+reserve ten 1G pages, but LUO has already preserved seven, we only
+need to reserve three new pages and the rest are going to be restored
+with the files.
 
-> So I made changes below which allow users to set its own custom handler is
-> compatible with perf default overflow handlers.
-> I confirmed this works on both arm and arm64.
+Since this count is contained in the FLB global object, that data
+needs to be available during the early reservation phase. (Pratyush is
+working on HugeTLB preservation and can explain further).
 
-I think everyone who knows this code is really snowed under at the
-minute - can I suggest posting this as a fix for now?  This is still
-broken on arm64, we'll need a fix (or to disable the feature on the
-affected arches) one way or another for v6.19.
-
---cP5LvKoSdHfjRefq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmkUekcACgkQJNaLcl1U
-h9C16Qf/cGOgECwcc5I4jFkLHhS2AK4mgV7AWZ9YuvlpINTMhR0OvSRr3zbp9xKa
-82Qnc28I4WwMg1h7715oStzw77gTfADaOQWrwXKW277LgR0koUlvmCeCphL4jOLM
-gLOpy8jU0ZjFrlY3Cvepm8xk5eZtGCDnlJWKJ50ZMolCzUs+YYK0l0adx9kfTiqY
-XjBAIJEOD95YAMJgTfp5VeUqwnTqie555SL5mkT9BQzhsNDMqFbUpSlDBpkAzWoQ
-Mz+jgpvcfJO5N9wmB3Jt31d4415sfLtMn2ka1/Gzh8Hqr6jvwAIdXW48wX6LiPMz
-+X5qczEDyGpOlL94BtgksbrjfJ1+9A==
-=RYDB
------END PGP SIGNATURE-----
-
---cP5LvKoSdHfjRefq--
+Pasha
