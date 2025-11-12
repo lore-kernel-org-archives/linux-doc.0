@@ -1,177 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3870C2FFDDF
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 09:35:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E3A2594BD;
+	Wed, 12 Nov 2025 10:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762940116; cv=none; b=FUjKYqosHjdCqm8BNZ3p1owEAOPppaHm9RRAW5sOkV5Puq4zJHLxsXSE0rqV5HclUmRWlM30kqQvH1q9UeiSlxlC/j4ymc+mOftlMZ/PKr9sPjszUncyuODE0xAbiYKbknKoyBXtS3h+QZnSN5oaXlkBpllXrHyYUIaSLn0Bq2I=
+	t=1762942895; cv=none; b=jps52Ed6aZTjHx0XZ7OiJj7/tEU1EmOC6ejMY9rqhM2C3YGXnQ5JWpWjT6/sNliIGADJxop/aMCIvZJqwDxrVtN/LztS2MZoAAF9bzPacGfc7TbEfGLaA/6Bp9zmI1cof1Fs5cgAmwuT05xONh4P23rjDIfdRTfvJabBqJ+VvxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762940116; c=relaxed/simple;
-	bh=a4NtzwDLn4cQUU8IjLcKkAbXObH0QXDuhqrsi3DL8Qk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pi7gNJeWMRw0QFvyD9BIwKRLeoCz7QWtiW5cFl0KlqZf+ExnArXHKh6zDo0Ol9TTrB06KB08UW8eGSwzBzVSMHKnU+YLiTHv8DZq5GD7hB0JDCFdrejj80Uwh5mw2UpCqSuFqErfOg7wmcg/LSausR3FpYJegvmcUhEV1clFKrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3PpINNN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762942895; c=relaxed/simple;
+	bh=zRFgC/LqmJXdXGt/uR0LzuT7bkCTv1lA/W99nU6OL50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V2Zl+ObIXy/Fe6ygDCAX468z+/348xDL5nAKyUJ2CNLqMkYRA0v1J6sag2X2WCwWGk5rFbP9yLLZWxM7OyrUoRPqrY6PosCxlSB32fm9RYoQy8MIR7PWYupi1TOMUQjGDkmq4pMqhJWglmpmi5fXIP6jTldOUdCsyZ4NXN6WJbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rYpDmnFD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3PpINNN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF213C2BC86;
-	Wed, 12 Nov 2025 09:35:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rYpDmnFD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD3FDC4CEF5;
+	Wed, 12 Nov 2025 10:21:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762940115;
-	bh=a4NtzwDLn4cQUU8IjLcKkAbXObH0QXDuhqrsi3DL8Qk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=b3PpINNNSqEtWjH+dtAbXY7Rf7R7PTif5hM5KRhiFkfqcwR/EWRH/r49L9DMYaW0F
-	 JOY37CDN8wAv6sqRl/pnMnHPKrcE2sNGgtPPEbUJVD6rNDwBApR0ocqgPH+YfI5/7c
-	 92VEGQmjkZ3icfGpxfIj2cWpRC1VIWfyjKCBztBTzgylfvYvV3XHOiR30/syRitRpY
-	 wcbUUsc3uFC7XpINSihSgo2mRFyHrfOMN7kg7ShhZON69qFKsz6R9ErwHg+QzCR4i3
-	 u9pXSYDcR17MDCVS7Zm4ZsUuC5PUgBkTUyRiqgIy+U+0UT50HouNWBF7ljsePMp52O
-	 hYBhlc1b2o/Lg==
-Date: Wed, 12 Nov 2025 10:35:11 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>
-Subject: Re: confusing ReST/html
-Message-ID: <20251112101942.211ae19e@foz.lan>
-In-Reply-To: <0fa53fbb-8505-4107-8f1f-4082123fdde6@infradead.org>
-References: <0fa53fbb-8505-4107-8f1f-4082123fdde6@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1762942894;
+	bh=zRFgC/LqmJXdXGt/uR0LzuT7bkCTv1lA/W99nU6OL50=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rYpDmnFDGaK39JayZljdcDCvnD5nmaI0NwULXoCt86nssEl/3uJZwSo0NOYyBe0SZ
+	 h9tyvZEpL4z3hbdxUIVrWi9IBdYJapZ0foBkg5Zg/gX7O0jz1UdlNyp7pDN4cOC8LL
+	 s89A81086/C++ItH13Aq4kxXmrKYWWKTMksaYAEOuQ8gEW9g3n/Rzvg9LB5+cs+fL8
+	 5DBHHNMKo8VKyTTxpJSCLVuiiwGzgpMo+1aFqCvjWUTwfiHhMxaPU2g0PGxrEJxs80
+	 Nb9EvMmhqR0SYpN37rVtdjokI51KBP4T5T+Se67mEXcqPdh9KUhWEv1Kt3ksgDPwuw
+	 o4SMHTw1GA+5g==
+Date: Wed, 12 Nov 2025 12:21:08 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+Message-ID: <aRRflLTejNQXWa1Z@kernel.org>
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com>
+ <aRObz4bQzRHH5hJb@kernel.org>
+ <CA+CK2bDnaLJS9GdO_7Anhwah2uQrYYk_RhQMSiRL-YB=8ZZZWQ@mail.gmail.com>
+ <CA+CK2bD3hps+atqUZ2LKyuoOSRRUWpTPE+frd5g13js4EAFK8g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bD3hps+atqUZ2LKyuoOSRRUWpTPE+frd5g13js4EAFK8g@mail.gmail.com>
 
-Hi Randy,
+On Tue, Nov 11, 2025 at 03:42:24PM -0500, Pasha Tatashin wrote:
+> On Tue, Nov 11, 2025 at 3:39 PM Pasha Tatashin
+> <pasha.tatashin@soleen.com> wrote:
+> >
+> > > >       kho_memory_init();
+> > > >
+> > > > +     /* Live Update should follow right after KHO is initialized */
+> > > > +     liveupdate_init();
+> > > > +
+> > >
+> > > Why do you think it should be immediately after kho_memory_init()?
+> > > Any reason this can't be called from start_kernel() or even later as an
+> > > early_initcall() or core_initall()?
+> >
+> > Unfortunately, no, even here it is too late, and we might need to find
+> > a way to move the kho_init/liveupdate_init earlier. We must be able to
+> > preserve HugeTLB pages, and those are reserved earlier in boot.
+> 
+> Just to clarify: liveupdate_init() is needed to start using:
+> liveupdate_flb_incoming_* API, and FLB data is needed during HugeTLB
+> reservation.
 
-Em Tue, 11 Nov 2025 20:59:25 -0800
-Randy Dunlap <rdunlap@infradead.org> escreveu:
+Since flb is "file-lifecycle-bound", it implies *file*. Early memory
+reservations in hugetlb are not bound to files, they end up in file objects
+way later.
 
-> I'm comparing Documentation/core-api/index.{rst,html} and
-> Documentation/driver-api/index.{rst,html}.
->=20
-> Lots (but not all) .rst files end with something like
->=20
-> .. only:: subproject and html
+So I think for now we can move liveupdate_init() later in boot and we will
+solve the problem of hugetlb reservations when we add support for hugetlb.
+ 
+> Pasha
 
-This is related to partial documentation builds.
-
-- On PDF, we don't want to have an "Indices" section. With PDF, LaTeX
-  will always generate an index, outside the "Indices" section, so it
-  ends producing an empty section there.
-
-  That's why the rule has "and html".
-
-- Our building system adds "subproject" when one uses SPHINXDOCS.
-  The above logic ensures that a partial build will have its own index.
-
-  If you want, try to add/remove it and see what happens when building=20
-  with SPHINXDOCS. Btw, the quickest one to test is peci:
-
-	make SPHINXDOCS=3Dpeci htmldocs
-
-  If everything is working as expected (I haven't test it for years),
-  on index.rst that contains it, you'll see an index. Removing it will
-  produce an output without any index (but I guess it will still have
-  the sidebar).
-
->=20
->    Indices
->    =3D=3D=3D=3D=3D=3D=3D
->=20
->    * :ref:`genindex`
->=20
-> Both of the core-api & driver-api index.rst files do...
-> with the difference being that core-api/index.rst has
-> one space following ".. only::" while driver-api/index.rst
-> has 2 spaces following ".. only::".
->=20
-> Does that make a difference?
-
-No, I don't think so.
-
->=20
-> When looking at the end/bottom of core-api/index.html,
-> there is *NO* heading "Indices" and *NO* link "Index" as there
-> is in driver-api/index.html.
-> Why?=20
-
-See above. You'll only see it if you use SPHINXDOCS=3Dcore-api.
-
-> There are other cases like this one:
->=20
-> $ cd Documentation; git grep "^\.\. only:: [^ ]"
->=20
-> RCU/index.rst:.. only:: subproject and html
-> core-api/index.rst:.. only:: subproject and html
-> rust/index.rst:.. only:: rustdoc and html
-> rust/index.rst:.. only:: not rustdoc and html
-> trace/index.rst:.. only:: subproject and html
-> virt/index.rst:.. only:: html and subproject
-> wmi/devices/index.rst:.. only:: subproject and html
-
-On a side note, I don't like very much this solution, as people can=20
-forget about that.
-
-Perhaps it would be possible to do it on a different and more automatic
-way, by doing some changes at the way partial builds are handled by
-sphinx-build-wrapper.
-
-on some brainstorming I did while writing the script, it came to
-me that one possibility would be that the wrapper would create a
-temporary structure with symlinks to the documents. E.g. when one
-does:
-
-	make SPHINXDOCS=3D"peci foo" O=3D/tmp/build htmldocs
-
-This would create something like:
-
-	$ tree /tmp/build/source
-	/tmp/build/source
-	=E2=94=9C=E2=94=80=E2=94=80 index.rst
-	peci/
-	=E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 index.rst	# Symlink to k=
-ernel source file
-	=E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 peci.rst	# Symlink to ke=
-rnel source file
-	=E2=94=94=E2=94=80=E2=94=80 foo/
-	 =C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 index.rst	# Symlink to kernel so=
-urce file
-	 =C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 foo.rst		# Symlink to kernel sou=
-rce file
-
-where index.rst would be auto-generated and would contain something like:
-
-	.. SPDX-License-Identifier: GPL-2.0
-
-	.. toctree::
-	   :maxdepth: 1
-
-		peci/index
-		foo/index
-
-	.. only:: subproject and html
-
-		Indices and tables
-		=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-		* :ref:`genindex`
-
-There are some advantages of such approach:
-
-- cross references between multiple SPHINXDIRS will be solved;
-- this will speedup such builds, as, right now, the building system
-  serializes the build for each directory individually. With such
-  approach, it will build everything in parallel;
-- this will simplify the logic inside conf.py.
-
-The disadvantages are:
-- some extra complexity at the wrapper;
-- a new temporary directory will be needed ("/source" on my example)
-
-Comments?
-
-Thanks,
-Mauro
+-- 
+Sincerely yours,
+Mike.
