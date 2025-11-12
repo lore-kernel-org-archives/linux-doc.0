@@ -1,224 +1,162 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6957C33A014
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 13:11:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6FA32D44F;
+	Wed, 12 Nov 2025 13:25:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762953111; cv=none; b=plRo2IdZwF1tcAwwo7/zsjPR/L+OOLeHBZHjregwLfJbq+1F6SX787bOMNSxTrrtXOt2Dkd6nJHRE+8fO296M+jO2K7CGbl9Xl5Tj49iZTifxsKsy6AU+Wuuj9cb2Dmu6uzMkWtRf2SBKuZTHF/tZbNWHDnnWUPxspU1IvwkG54=
+	t=1762953929; cv=none; b=ZqvvPlt7FukgaAW20BAZAbkfKcPyXwL/77/mxFXCxsa2OUufuXFYZwjSEW/XRnUwMluCJUgL1PgyIw/B3Wu0kv8f83W3wVT07wK6eXqt008paEH4zVzI7+XsuqMLSmoEs+n78OdV1yRg8BnTPxg5U9eoJg++bAyZon6o6f1yVdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762953111; c=relaxed/simple;
-	bh=YWRbBFvum7ueZDz4ehiF9X4M6T8yyONxKxJL06/IeGU=;
+	s=arc-20240116; t=1762953929; c=relaxed/simple;
+	bh=0L4I5YakZvITlyeB7zaJSYGUCZoIKpW33DPBC2WOOhM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CVVID9GiIXHyqoFVYrTDztv/OB0e64j7+ua9zz5mqDnxy9WHAqjmhzRHV2dIpx6zCF9tMwhFANuLCmReY8pd7nlWKJQ5Lx+J/YuvnPf2CMNGyD8LfvMMDkWNdPdNTAveMpDAaX7lja04Oc2OPLbQjbE1zILWlSp0VL6CTVaA5Ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fWvAJ1m8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ftgPwbIIG7GgB6oe1Vybvf50eNlCapkhD/6Zy12KJhm+1Rl6U5TmY1vfkph1LIIXjqpcCEuqrHqwz3FPZXvsY41PH8sjKBGNm6SOc5kFL6zeHsmxIGLyWDmMZNZMa8PeeW6+uVa3We3rYubXobtiC43UyJKo0s4Y+8NH+gdtuKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JuXf8Iy+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fWvAJ1m8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F07FFC19423;
-	Wed, 12 Nov 2025 13:11:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JuXf8Iy+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16109C16AAE;
+	Wed, 12 Nov 2025 13:25:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762953111;
-	bh=YWRbBFvum7ueZDz4ehiF9X4M6T8yyONxKxJL06/IeGU=;
+	s=k20201202; t=1762953928;
+	bh=0L4I5YakZvITlyeB7zaJSYGUCZoIKpW33DPBC2WOOhM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fWvAJ1m8Mtl90T5+3U2JgPTs2VTAT1//l8c+8qYiAGjwOpVvWRh1ow0ck21iXUb47
-	 hw/HO8Lf8OOqdIM8vPBxPRxpwYOv3A39nAtMEMM8EXtKLZXDDa4+j7R88zcKDs3qK1
-	 HWGqdDOKLxWnSn5wMzvIqu4RGlz6uVi77oOdzgM2cCQ2OFaOBvHs0l5HE49dfgjhjq
-	 +JOlIenJkcxHabDm+nsGwyS2H2vXrNbyPT7YjjwjBJ15rJ8HofpzVOkPG1WH4mFoGh
-	 mg8OgWaNIgXGRFsHHbh64NYTS8adBTpsunVPljeLMs4M5eiZarRRaHkXEjKDj1Rvc4
-	 5EbOdyAJjE9SA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vJAdZ-00000009RBB-0IwA;
-	Wed, 12 Nov 2025 14:11:49 +0100
-Date: Wed, 12 Nov 2025 14:11:49 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Linux Documentation <linux-doc@vger.kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: confusing ReST/html
-Message-ID: <qyjbpdktj3w4t75mtbu6chbib4zjfvspphtm2h75wbdgbmmgdc@u3wnqfzurjyd>
-References: <0fa53fbb-8505-4107-8f1f-4082123fdde6@infradead.org>
- <20251112101942.211ae19e@foz.lan>
- <d317715fddedc8059d865e131d9a9799c1940703@intel.com>
+	b=JuXf8Iy+r0eY2kUE7hNwEY3/woXsoN7mLLb0NujdRDnGnxWsUwW61gwcXje3J84z4
+	 B3/yjjUcJLgZz+Z63i2LjQpS2xfQ308sv9sRWCv/JMCr+xz6rxzPHlAb+EIGZDMMcl
+	 +4BJ5OyXy1HSzx36sq+0a/dYIJuQqqf03VW94U30S6eWt3+ZrvU9aDMFk2zcRDN8iX
+	 sLbX+QhHTEbyi6hp2/eWg7aUEYD/KYgV1FvYa5w1MO3SBpUSY2kF0rFvNKOhzSjCjU
+	 MFbxZY4wDY5r7NZTXeppRfA1WRwj4O7n5KTZrdrUJEUF2x466Y0AkWfrUxTDXAc225
+	 gY47Gsfbb3eQQ==
+Date: Wed, 12 Nov 2025 15:25:03 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+Message-ID: <aRSKrxfAb_GG_2Mw@kernel.org>
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com>
+ <aRHiCxoJnEGmj17q@kernel.org>
+ <CA+CK2bCHhbBtSJCx38gxjfR6DM1PjcfsOTD-Pqzqyez1_hXJ7Q@mail.gmail.com>
+ <aROZi043lxtegqWE@kernel.org>
+ <CA+CK2bAsrEqpt9d3s0KXpjcO9WPTJjymdwtiiyWVS6uq5KKNgA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d317715fddedc8059d865e131d9a9799c1940703@intel.com>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <CA+CK2bAsrEqpt9d3s0KXpjcO9WPTJjymdwtiiyWVS6uq5KKNgA@mail.gmail.com>
 
-On Wed, Nov 12, 2025 at 02:08:50PM +0200, Jani Nikula wrote:
-> On Wed, 12 Nov 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > Hi Randy,
-> >
-> > Em Tue, 11 Nov 2025 20:59:25 -0800
-> > Randy Dunlap <rdunlap@infradead.org> escreveu:
-> >
-> >> I'm comparing Documentation/core-api/index.{rst,html} and
-> >> Documentation/driver-api/index.{rst,html}.
-> >> 
-> >> Lots (but not all) .rst files end with something like
-> >> 
-> >> .. only:: subproject and html
-> >
-> > This is related to partial documentation builds.
-> >
-> > - On PDF, we don't want to have an "Indices" section. With PDF, LaTeX
-> >   will always generate an index, outside the "Indices" section, so it
-> >   ends producing an empty section there.
-> >
-> >   That's why the rule has "and html".
-> >
-> > - Our building system adds "subproject" when one uses SPHINXDOCS.
-> >   The above logic ensures that a partial build will have its own index.
-> >
-> >   If you want, try to add/remove it and see what happens when building 
-> >   with SPHINXDOCS. Btw, the quickest one to test is peci:
-> >
-> > 	make SPHINXDOCS=peci htmldocs
-> >
-> >   If everything is working as expected (I haven't test it for years),
-> >   on index.rst that contains it, you'll see an index. Removing it will
-> >   produce an output without any index (but I guess it will still have
-> >   the sidebar).
-> 
-> :ref:`genindex` creates a *link* to the index, which will be created
-> regardless of whether you have that link or not.
+Hi Pasha,
 
-True, but without the link, genindex won't be accessible from
-index.html.
+On Tue, Nov 11, 2025 at 03:57:39PM -0500, Pasha Tatashin wrote:
+> Hi Mike,
+> 
+> Thank you for review, my comments below:
+> 
+> > > This is why this call is placed first in reboot(), before any
+> > > irreversible reboot notifiers or shutdown callbacks are performed. If
+> > > an allocation problem occurs in KHO, the error is simply reported back
+> > > to userspace, and the live update update is safely aborted.
 
-> >
-> >> 
-> >>    Indices
-> >>    =======
-> >> 
-> >>    * :ref:`genindex`
-> >> 
-> >> Both of the core-api & driver-api index.rst files do...
-> >> with the difference being that core-api/index.rst has
-> >> one space following ".. only::" while driver-api/index.rst
-> >> has 2 spaces following ".. only::".
-> >> 
-> >> Does that make a difference?
-> >
-> > No, I don't think so.
-> >
-> >> 
-> >> When looking at the end/bottom of core-api/index.html,
-> >> there is *NO* heading "Indices" and *NO* link "Index" as there
-> >> is in driver-api/index.html.
-> >> Why? 
-> >
-> > See above. You'll only see it if you use SPHINXDOCS=core-api.
-> >
-> >> There are other cases like this one:
-> >> 
-> >> $ cd Documentation; git grep "^\.\. only:: [^ ]"
-> >> 
-> >> RCU/index.rst:.. only:: subproject and html
-> >> core-api/index.rst:.. only:: subproject and html
-> >> rust/index.rst:.. only:: rustdoc and html
-> >> rust/index.rst:.. only:: not rustdoc and html
-> >> trace/index.rst:.. only:: subproject and html
-> >> virt/index.rst:.. only:: html and subproject
-> >> wmi/devices/index.rst:.. only:: subproject and html
-> >
-> > On a side note, I don't like very much this solution, as people can 
-> > forget about that.
-> 
-> Not only that, but people appear to have cargo cult copy-pasted the
-> ".. only:: subproject and html" bit all over the place for no good
-> reason.
-> 
-> >
-> > Perhaps it would be possible to do it on a different and more automatic
-> > way, by doing some changes at the way partial builds are handled by
-> > sphinx-build-wrapper.
-> >
-> > on some brainstorming I did while writing the script, it came to
-> > me that one possibility would be that the wrapper would create a
-> > temporary structure with symlinks to the documents. E.g. when one
-> > does:
-> >
-> > 	make SPHINXDOCS="peci foo" O=/tmp/build htmldocs
-> >
-> > This would create something like:
-> >
-> > 	$ tree /tmp/build/source
-> > 	/tmp/build/source
-> > 	├── index.rst
-> > 	peci/
-> > 	│   ├── index.rst	# Symlink to kernel source file
-> > 	│   └── peci.rst	# Symlink to kernel source file
-> > 	└── foo/
-> > 	    ├── index.rst	# Symlink to kernel source file
-> > 	    └── foo.rst		# Symlink to kernel source file
-> >
-> > where index.rst would be auto-generated and would contain something like:
-> >
-> > 	.. SPDX-License-Identifier: GPL-2.0
-> >
-> > 	.. toctree::
-> > 	   :maxdepth: 1
-> >
-> > 		peci/index
-> > 		foo/index
-> >
-> > 	.. only:: subproject and html
-> >
-> > 		Indices and tables
-> > 		==================
-> >
-> > 		* :ref:`genindex`
-> >
-> > There are some advantages of such approach:
-> >
-> > - cross references between multiple SPHINXDIRS will be solved;
-> > - this will speedup such builds, as, right now, the building system
-> >   serializes the build for each directory individually. With such
-> >   approach, it will build everything in parallel;
-> > - this will simplify the logic inside conf.py.
-> >
-> > The disadvantages are:
-> > - some extra complexity at the wrapper;
-> > - a new temporary directory will be needed ("/source" on my example)
-> 
-> You'll get all the error and warning messages referencing some ephemeral
-> file inside a temp or build directory, which is confusing to say the
-> least.
+The call to liveupdate_reboot() is just before kernel_kexec(). Why we don't
+move it there?
 
-True.
+And all the liveupdate_reboot() does if kho_finalize() fails it's massaging
+the error value before returning it to userspace. Why kernel_kexec() can't
+do the same?
 
-> > Comments?
+> > This is fine. But what I don't like is that we can't use kho without
+> > liveupdate. We are making debugfs optional, we have a way to call
 > 
-> When you have problems with Sphinx, you should first try to figure out
-> the possible solutions in Sphinx, instead of hacking in Makefiles.
-> 
-> In this case, the solution to the index boilerplate is literally half a
-> dozen lines in conf.py [1].
+> Yes you can: you can disable liveupdate (i.e. not supply liveupdate=1
+> via kernel parameter) and use KHO the old way: drive it from the
+> userspace. However, if liveupdate is enabled, liveupdate becomes the
+> driver of KHO as unfortunately KHO has these weird states at the
+> moment.
 
-Saw your patch series. Indeed it sounds a better solution. Will do
-some tests here.
+The "weird state" is the point where KHO builds its FDT. Replacing the
+current memory tracker with one that does not require serialization won't
+change it. We still need a way to tell KHO that "there won't be new nodes
+in FDT, pack it".
+ 
+> > kho_finalize() on the reboot path and it does not seem an issue to do it
+> > even without liveupdate. But then we force kho_finalize() into
+> > liveupdate_reboot() allowing weird configurations where kho is there but
+> > it's unusable.
+> 
+> What do you mean KHO is there but unusable, we should not have such a state...
 
+If you compile a kernel with KEXEC_HANDOVER=y, KEXEC_HANDOVER_DEBUGFS=n and
+LIVEUPDATE=n and boot with kho=1 there is nothing to trigger
+kho_finalize().
+ 
+> > What I'd like to see is that we can finalize KHO on kexec reboot path even
+> > when liveupdate is not compiled and until then the patch that makes KHO
+> > debugfs optional should not go further IMO.
+> >
+> > Another thing I didn't check in this series yet is how finalization driven
+> > from debugfs interacts with liveupdate internal handling?
 > 
+> I think what we can do is the following:
+> - Remove "Kconfig: make debugfs optional" from this series, and
+> instead make that change as part of stateless KHO work.
+> - This will ensure that when liveupdate=0 always KHO finalize is fully
+> support the old way.
+> - When liveupdate=1 always disable KHO debugfs "finalize" API, and
+> allow liveupdate to drive it automatically. It would add another
+> liveupdate_enable() check to KHO, and is going to be removed as part
+> of stateless KHO work.
+
+KHO should not call into liveupdate. That's layering violation.
+And "stateless KHO" does not really make it stateless, it only removes the
+memory serialization from kho_finalize(), but it's still required to pack
+the FDT.
+
+I think we should allow kho finalization in some form from kernel_kexec().
+
+When kho=1 and liveupdate=0, it will actually create the FDT if there was
+no previous trigger from debugfs or it will continue with FDT created by
+explicit request via debugfs.
+
+When liveupdate=1, liveupdate_reboot() may call a function that actually
+finalizes the state to allow safe rollback (although in the current patches
+it does not seem necessary). And then kho_finalize() called from
+kernel_kexec() will just continue with the state created by
+liveupdate_reboot().  If we already finalized the kho state via debugfs,
+liveupdate_reboot() can either error out or reset that state.
+
+> Pasha
 > 
-> BR,
-> Jani.
-> 
-> 
-> [1] https://lore.kernel.org/r/cover.1762948491.git.jani.nikula@intel.com
-> 
-> 
-> -- 
-> Jani Nikula, Intel
 
 -- 
-Thanks,
-Mauro
+Sincerely yours,
+Mike.
