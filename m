@@ -1,65 +1,39 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8532C0262;
-	Wed, 12 Nov 2025 09:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3870C2FFDDF
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 09:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762939517; cv=none; b=bfJEy/FJm4G18CO7/a+axB4UcBxQCkKNfJ+/+fStH1B7ySUa9E/Y9B/H21V9og5wUAWb1HUl75SyHq0CT8ZD4xxizghGsg7az0M0H0KvWyZKFGDH+jlPXgY0NilQDrU2KRW80KudaxaxX/MjSnLKmcCWwVXnnS6I1sDUTkDFagk=
+	t=1762940116; cv=none; b=FUjKYqosHjdCqm8BNZ3p1owEAOPppaHm9RRAW5sOkV5Puq4zJHLxsXSE0rqV5HclUmRWlM30kqQvH1q9UeiSlxlC/j4ymc+mOftlMZ/PKr9sPjszUncyuODE0xAbiYKbknKoyBXtS3h+QZnSN5oaXlkBpllXrHyYUIaSLn0Bq2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762939517; c=relaxed/simple;
-	bh=wfdiu7J2v8ebQjPtRjS9CStPzrfquDSfEs/pL6nqmaY=;
+	s=arc-20240116; t=1762940116; c=relaxed/simple;
+	bh=a4NtzwDLn4cQUU8IjLcKkAbXObH0QXDuhqrsi3DL8Qk=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hHqdwlapJlvqJf9zcXmGOP/hO6wCIR1ISCQnBnmOoHjpkbYYz1NGgoejrhakQQ0OH7HK//CFszHqfyWgJ/Hnd6CVVPRRttpnuQE0kPtYlpxZpRp1BP1vUUPAAqwrk/+T8ySopik5wijvpQDUS80HAeH0NgImhDcE5Gwq6+XAFcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MeuVsTll; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 MIME-Version:Content-Type; b=pi7gNJeWMRw0QFvyD9BIwKRLeoCz7QWtiW5cFl0KlqZf+ExnArXHKh6zDo0Ol9TTrB06KB08UW8eGSwzBzVSMHKnU+YLiTHv8DZq5GD7hB0JDCFdrejj80Uwh5mw2UpCqSuFqErfOg7wmcg/LSausR3FpYJegvmcUhEV1clFKrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3PpINNN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MeuVsTll"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1762939513;
-	bh=wfdiu7J2v8ebQjPtRjS9CStPzrfquDSfEs/pL6nqmaY=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3PpINNN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF213C2BC86;
+	Wed, 12 Nov 2025 09:35:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762940115;
+	bh=a4NtzwDLn4cQUU8IjLcKkAbXObH0QXDuhqrsi3DL8Qk=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MeuVsTllT4ykJQdbbdHweXlWptimWOqEdLqKL7bcrfCrSqzE+IYsnSawgqaBLVumd
-	 lDdLYHJNix4epPZvJzO8U/lo/H+fa6CdtR3pDPrkhk2JmXkUqo5wxAxX9P3AAi3U8E
-	 YI3/frGF8lanYUkFyVFmgoKqIgbzzW3RkkEG20oMZIt++WToJvcp0oWPa+itdSGvnc
-	 Gw6tIWRjCZQgc6jyOHbuUt0jUa8g7v5jv0Wcvg4NKiLF3ndEYnFPYy3Ck+WIMi17Vb
-	 HbHxgkAi7JblZw5lgDdWCTL4NlLF+Xyxki1E/DhdDE99LYlNFqe1L4dG5320TCy1iy
-	 pp09DCW7We3zg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4CD0D17E1318;
-	Wed, 12 Nov 2025 10:25:12 +0100 (CET)
-Date: Wed, 12 Nov 2025 10:25:07 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
- Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
- Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v7 06/11] drm/v3d: Use huge tmpfs mountpoint helpers
-Message-ID: <20251112102507.66060e30@fedora>
-In-Reply-To: <20251110155000.2936-7-loic.molinari@collabora.com>
-References: <20251110155000.2936-1-loic.molinari@collabora.com>
-	<20251110155000.2936-7-loic.molinari@collabora.com>
-Organization: Collabora
+	b=b3PpINNNSqEtWjH+dtAbXY7Rf7R7PTif5hM5KRhiFkfqcwR/EWRH/r49L9DMYaW0F
+	 JOY37CDN8wAv6sqRl/pnMnHPKrcE2sNGgtPPEbUJVD6rNDwBApR0ocqgPH+YfI5/7c
+	 92VEGQmjkZ3icfGpxfIj2cWpRC1VIWfyjKCBztBTzgylfvYvV3XHOiR30/syRitRpY
+	 wcbUUsc3uFC7XpINSihSgo2mRFyHrfOMN7kg7ShhZON69qFKsz6R9ErwHg+QzCR4i3
+	 u9pXSYDcR17MDCVS7Zm4ZsUuC5PUgBkTUyRiqgIy+U+0UT50HouNWBF7ljsePMp52O
+	 hYBhlc1b2o/Lg==
+Date: Wed, 12 Nov 2025 10:35:11 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>
+Subject: Re: confusing ReST/html
+Message-ID: <20251112101942.211ae19e@foz.lan>
+In-Reply-To: <0fa53fbb-8505-4107-8f1f-4082123fdde6@infradead.org>
+References: <0fa53fbb-8505-4107-8f1f-4082123fdde6@infradead.org>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -70,256 +44,134 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 10 Nov 2025 16:49:54 +0100
-Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+Hi Randy,
 
-> Make use of the new drm_gem_huge_mnt_create() and
-> drm_gem_has_huge_mnt() helpers to avoid code duplication. Now that
-> it's just a few lines long, the single function in v3d_gemfs.c is
-> moved into v3d_gem.c.
->=20
-> v3:
-> - use huge tmpfs mountpoint in drm_device
-> - move v3d_gemfs.c into v3d_gem.c
->=20
-> v4:
-> - clean up mountpoint creation error handling
->=20
-> v5:
-> - fix CONFIG_TRANSPARENT_HUGEPAGE check
-> - use drm_gem_has_huge_mnt() helper
->=20
-> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
-> ---
->  drivers/gpu/drm/v3d/Makefile    |  3 +-
->  drivers/gpu/drm/v3d/v3d_bo.c    |  5 ++-
->  drivers/gpu/drm/v3d/v3d_drv.c   |  2 +-
->  drivers/gpu/drm/v3d/v3d_drv.h   | 11 +-----
->  drivers/gpu/drm/v3d/v3d_gem.c   | 27 ++++++++++++--
->  drivers/gpu/drm/v3d/v3d_gemfs.c | 62 ---------------------------------
->  6 files changed, 30 insertions(+), 80 deletions(-)
->  delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
->=20
-> diff --git a/drivers/gpu/drm/v3d/Makefile b/drivers/gpu/drm/v3d/Makefile
-> index fcf710926057..b7d673f1153b 100644
-> --- a/drivers/gpu/drm/v3d/Makefile
-> +++ b/drivers/gpu/drm/v3d/Makefile
-> @@ -13,8 +13,7 @@ v3d-y :=3D \
->  	v3d_trace_points.o \
->  	v3d_sched.o \
->  	v3d_sysfs.o \
-> -	v3d_submit.o \
-> -	v3d_gemfs.o
-> +	v3d_submit.o
-> =20
->  v3d-$(CONFIG_DEBUG_FS) +=3D v3d_debugfs.o
-> =20
-> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
-> index d9547f5117b9..99c6a775d18b 100644
-> --- a/drivers/gpu/drm/v3d/v3d_bo.c
-> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
-> @@ -114,7 +114,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
->  	if (IS_ERR(sgt))
->  		return PTR_ERR(sgt);
-> =20
-> -	if (!v3d->gemfs)
-> +	if (!drm_gem_has_huge_mnt(obj->dev))
->  		align =3D SZ_4K;
->  	else if (obj->size >=3D SZ_1M)
->  		align =3D SZ_1M;
-> @@ -150,12 +150,11 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev=
-, struct drm_file *file_priv,
->  			     size_t unaligned_size)
->  {
->  	struct drm_gem_shmem_object *shmem_obj;
-> -	struct v3d_dev *v3d =3D to_v3d_dev(dev);
->  	struct v3d_bo *bo;
->  	int ret;
-> =20
->  	shmem_obj =3D drm_gem_shmem_create_with_mnt(dev, unaligned_size,
-> -						  v3d->gemfs);
-> +						  dev->huge_mnt);
+Em Tue, 11 Nov 2025 20:59:25 -0800
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-I thought you needed some kind of drm_gem_huge_mnt() helper to cover
-for the fact drm_device::huge_mnt does not exist if
-CONFIG_TRANSPARENT_HUGEPAGE=3Dn.
+> I'm comparing Documentation/core-api/index.{rst,html} and
+> Documentation/driver-api/index.{rst,html}.
+>=20
+> Lots (but not all) .rst files end with something like
+>=20
+> .. only:: subproject and html
 
+This is related to partial documentation builds.
 
->  	if (IS_ERR(shmem_obj))
->  		return ERR_CAST(shmem_obj);
->  	bo =3D to_v3d_bo(&shmem_obj->base);
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index e8a46c8bad8a..30b55a00eeda 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -107,7 +107,7 @@ static int v3d_get_param_ioctl(struct drm_device *dev=
-, void *data,
->  		args->value =3D v3d->perfmon_info.max_counters;
->  		return 0;
->  	case DRM_V3D_PARAM_SUPPORTS_SUPER_PAGES:
-> -		args->value =3D !!v3d->gemfs;
-> +		args->value =3D drm_gem_has_huge_mnt(dev);
->  		return 0;
->  	case DRM_V3D_PARAM_GLOBAL_RESET_COUNTER:
->  		mutex_lock(&v3d->reset_lock);
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-> index 1884686985b8..99a39329bb85 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.h
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> @@ -158,11 +158,6 @@ struct v3d_dev {
->  	struct drm_mm mm;
->  	spinlock_t mm_lock;
-> =20
-> -	/*
-> -	 * tmpfs instance used for shmem backed objects
-> -	 */
-> -	struct vfsmount *gemfs;
-> -
->  	struct work_struct overflow_mem_work;
-> =20
->  	struct v3d_queue_state queue[V3D_MAX_QUEUES];
-> @@ -569,6 +564,7 @@ extern const struct dma_fence_ops v3d_fence_ops;
->  struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue q=
-);
-> =20
->  /* v3d_gem.c */
-> +extern bool super_pages;
->  int v3d_gem_init(struct drm_device *dev);
->  void v3d_gem_destroy(struct drm_device *dev);
->  void v3d_reset_sms(struct v3d_dev *v3d);
-> @@ -576,11 +572,6 @@ void v3d_reset(struct v3d_dev *v3d);
->  void v3d_invalidate_caches(struct v3d_dev *v3d);
->  void v3d_clean_caches(struct v3d_dev *v3d);
-> =20
-> -/* v3d_gemfs.c */
-> -extern bool super_pages;
-> -void v3d_gemfs_init(struct v3d_dev *v3d);
-> -void v3d_gemfs_fini(struct v3d_dev *v3d);
-> -
->  /* v3d_submit.c */
->  void v3d_job_cleanup(struct v3d_job *job);
->  void v3d_job_put(struct v3d_job *job);
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index 5a180dc6c452..f316f67364d2 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -259,6 +259,30 @@ v3d_invalidate_caches(struct v3d_dev *v3d)
->  	v3d_invalidate_slices(v3d, 0);
->  }
-> =20
-> +static void
-> +v3d_huge_mnt_init(struct v3d_dev *v3d)
-> +{
-> +	int err =3D 0;
-> +
-> +	/*
-> +	 * By using a huge shmemfs mountpoint when the user wants to
-> +	 * enable Super Pages, we can pass in mount flags that better
-> +	 * match our usecase.
-> +	 */
-> +
-> +	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && super_pages)
-> +		err =3D drm_gem_huge_mnt_create(&v3d->drm, "within_size");
-> +
-> +	if (drm_gem_has_huge_mnt(&v3d->drm))
-> +		drm_info(&v3d->drm, "Using Transparent Hugepages\n");
-> +	else if (err)
-> +		drm_warn(&v3d->drm, "Can't use Transparent Hugepages (%d)\n",
-> +			 err);
-> +	else
-> +		drm_notice(&v3d->drm,
-> +			   "Transparent Hugepage support is recommended for optimal performan=
-ce on this platform!\n");
-> +}
-> +
->  int
->  v3d_gem_init(struct drm_device *dev)
->  {
-> @@ -310,7 +334,7 @@ v3d_gem_init(struct drm_device *dev)
->  	v3d_init_hw_state(v3d);
->  	v3d_mmu_set_page_table(v3d);
-> =20
-> -	v3d_gemfs_init(v3d);
-> +	v3d_huge_mnt_init(v3d);
-> =20
->  	ret =3D v3d_sched_init(v3d);
->  	if (ret) {
-> @@ -330,7 +354,6 @@ v3d_gem_destroy(struct drm_device *dev)
->  	enum v3d_queue q;
-> =20
->  	v3d_sched_fini(v3d);
-> -	v3d_gemfs_fini(v3d);
-> =20
->  	/* Waiting for jobs to finish would need to be done before
->  	 * unregistering V3D.
-> diff --git a/drivers/gpu/drm/v3d/v3d_gemfs.c b/drivers/gpu/drm/v3d/v3d_ge=
-mfs.c
-> deleted file mode 100644
-> index bf351fc0d488..000000000000
-> --- a/drivers/gpu/drm/v3d/v3d_gemfs.c
-> +++ /dev/null
-> @@ -1,62 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0+
-> -/* Copyright (C) 2024 Raspberry Pi */
-> -
-> -#include <linux/fs.h>
-> -#include <linux/mount.h>
-> -#include <linux/fs_context.h>
-> -
-> -#include <drm/drm_print.h>
-> -
-> -#include "v3d_drv.h"
-> -
-> -void v3d_gemfs_init(struct v3d_dev *v3d)
-> -{
-> -	struct file_system_type *type;
-> -	struct fs_context *fc;
-> -	struct vfsmount *gemfs;
-> -	int ret;
-> -
-> -	/*
-> -	 * By creating our own shmemfs mountpoint, we can pass in
-> -	 * mount flags that better match our usecase. However, we
-> -	 * only do so on platforms which benefit from it.
-> -	 */
-> -	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
-> -		goto err;
-> -
-> -	/* The user doesn't want to enable Super Pages */
-> -	if (!super_pages)
-> -		goto err;
-> -
-> -	type =3D get_fs_type("tmpfs");
-> -	if (!type)
-> -		goto err;
-> -
-> -	fc =3D fs_context_for_mount(type, SB_KERNMOUNT);
-> -	if (IS_ERR(fc))
-> -		goto err;
-> -	ret =3D vfs_parse_fs_string(fc, "source", "tmpfs");
-> -	if (!ret)
-> -		ret =3D vfs_parse_fs_string(fc, "huge", "within_size");
-> -	if (!ret)
-> -		gemfs =3D fc_mount_longterm(fc);
-> -	put_fs_context(fc);
-> -	if (ret)
-> -		goto err;
-> -
-> -	v3d->gemfs =3D gemfs;
-> -	drm_info(&v3d->drm, "Using Transparent Hugepages\n");
-> -
-> -	return;
-> -
-> -err:
-> -	v3d->gemfs =3D NULL;
-> -	drm_notice(&v3d->drm,
-> -		   "Transparent Hugepage support is recommended for optimal performanc=
-e on this platform!\n");
-> -}
-> -
-> -void v3d_gemfs_fini(struct v3d_dev *v3d)
-> -{
-> -	if (v3d->gemfs)
-> -		kern_unmount(v3d->gemfs);
-> -}
+- On PDF, we don't want to have an "Indices" section. With PDF, LaTeX
+  will always generate an index, outside the "Indices" section, so it
+  ends producing an empty section there.
 
+  That's why the rule has "and html".
+
+- Our building system adds "subproject" when one uses SPHINXDOCS.
+  The above logic ensures that a partial build will have its own index.
+
+  If you want, try to add/remove it and see what happens when building=20
+  with SPHINXDOCS. Btw, the quickest one to test is peci:
+
+	make SPHINXDOCS=3Dpeci htmldocs
+
+  If everything is working as expected (I haven't test it for years),
+  on index.rst that contains it, you'll see an index. Removing it will
+  produce an output without any index (but I guess it will still have
+  the sidebar).
+
+>=20
+>    Indices
+>    =3D=3D=3D=3D=3D=3D=3D
+>=20
+>    * :ref:`genindex`
+>=20
+> Both of the core-api & driver-api index.rst files do...
+> with the difference being that core-api/index.rst has
+> one space following ".. only::" while driver-api/index.rst
+> has 2 spaces following ".. only::".
+>=20
+> Does that make a difference?
+
+No, I don't think so.
+
+>=20
+> When looking at the end/bottom of core-api/index.html,
+> there is *NO* heading "Indices" and *NO* link "Index" as there
+> is in driver-api/index.html.
+> Why?=20
+
+See above. You'll only see it if you use SPHINXDOCS=3Dcore-api.
+
+> There are other cases like this one:
+>=20
+> $ cd Documentation; git grep "^\.\. only:: [^ ]"
+>=20
+> RCU/index.rst:.. only:: subproject and html
+> core-api/index.rst:.. only:: subproject and html
+> rust/index.rst:.. only:: rustdoc and html
+> rust/index.rst:.. only:: not rustdoc and html
+> trace/index.rst:.. only:: subproject and html
+> virt/index.rst:.. only:: html and subproject
+> wmi/devices/index.rst:.. only:: subproject and html
+
+On a side note, I don't like very much this solution, as people can=20
+forget about that.
+
+Perhaps it would be possible to do it on a different and more automatic
+way, by doing some changes at the way partial builds are handled by
+sphinx-build-wrapper.
+
+on some brainstorming I did while writing the script, it came to
+me that one possibility would be that the wrapper would create a
+temporary structure with symlinks to the documents. E.g. when one
+does:
+
+	make SPHINXDOCS=3D"peci foo" O=3D/tmp/build htmldocs
+
+This would create something like:
+
+	$ tree /tmp/build/source
+	/tmp/build/source
+	=E2=94=9C=E2=94=80=E2=94=80 index.rst
+	peci/
+	=E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 index.rst	# Symlink to k=
+ernel source file
+	=E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 peci.rst	# Symlink to ke=
+rnel source file
+	=E2=94=94=E2=94=80=E2=94=80 foo/
+	 =C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 index.rst	# Symlink to kernel so=
+urce file
+	 =C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 foo.rst		# Symlink to kernel sou=
+rce file
+
+where index.rst would be auto-generated and would contain something like:
+
+	.. SPDX-License-Identifier: GPL-2.0
+
+	.. toctree::
+	   :maxdepth: 1
+
+		peci/index
+		foo/index
+
+	.. only:: subproject and html
+
+		Indices and tables
+		=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+		* :ref:`genindex`
+
+There are some advantages of such approach:
+
+- cross references between multiple SPHINXDIRS will be solved;
+- this will speedup such builds, as, right now, the building system
+  serializes the build for each directory individually. With such
+  approach, it will build everything in parallel;
+- this will simplify the logic inside conf.py.
+
+The disadvantages are:
+- some extra complexity at the wrapper;
+- a new temporary directory will be needed ("/source" on my example)
+
+Comments?
+
+Thanks,
+Mauro
