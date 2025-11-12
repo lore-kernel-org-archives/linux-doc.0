@@ -1,108 +1,227 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101D53375A4;
-	Wed, 12 Nov 2025 14:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB85B34A76A
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 14:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762959516; cv=none; b=EtJh6zzPILjv3FpOIa7SYcs9eCQ6GccSj27kyeOJcIzpKzqEicGn/ghzJu/qxyt0+Uj3nHfhi9g91CmtbeXW4WWJybCP4qvm5zO7nmr3KxWcwUoy0FI6pF0SdSvxNgfzAuZW9YSAqAIbMpOuL/43Hgyn20WowN9iNDr6hcnTlaU=
+	t=1762959550; cv=none; b=T65uV2x9LLbkfESmJ3BXq2dibk6uXybJub2orF1TzZyCWlujhUVIEvQLV2/J2aVbPlk5xjGSx2qhccUAaysmLEfbIQwuytTsJghXM7kEzbCtGgB2Qq7LGGspSGGNuXimqBpMEETRfxC91GlSaJZlzX6CGl8WMqo3mzPxwymdKcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762959516; c=relaxed/simple;
-	bh=iaqn6o1aj5TZseje8nhSMU7wox1uBx34PG/FfEn4ATc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=hK8oKM0AkeBM4DHm4+PUSRdhEVYCK2tIy3re64Svn0zUNogN8Po8a96jk1CQ6GPqOWrDO+27ITYaEps2lBf4iSeSoH0/rliCrTRsUKO3D3Yup7aIGvQBSW8htc2F+1vue6SyPBp4ATW7dgI31j3W4HAC9KhfSckoaB8VxQHbhAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Co/1ww/T; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1762959550; c=relaxed/simple;
+	bh=IhGmnjkrIabfR44gd9BIvr7pcokhjZi5UFhbngjXwvw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EWb0fnfoPsgDo6hcWmY4hjAOVQJv9DRLlOtbR1JIf2cL+1+zvo1V1/U+DoQ4RPtryc+EgKKMVzR+0D8IpYRpZiHCgUL6/xkrdJv7fPoDatovtC/llesIISSDTaChcidSuc2R9Wl0v1PDhrcJxRhbQgAXjAp6p6HZ0Sjv/6qNpSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=N9XadKC0; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Co/1ww/T"
-Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 5ACEvgP1819880
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Wed, 12 Nov 2025 06:57:42 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 5ACEvgP1819880
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025102301; t=1762959464;
-	bh=iaqn6o1aj5TZseje8nhSMU7wox1uBx34PG/FfEn4ATc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=Co/1ww/TpkmHgs8/lIQoL2DgJe7NYavKgjqIdkRsL3U5QOfDZIGT8C1ThipluORfH
-	 Ggbnw9LZf5lqF0FCzU8b3vKz1aFJf3tQSkPet9rnWpsBIF22Yy97I1FoL/kNWt8qCN
-	 cNDRk/2imanrbXUGZSGDXMiokFCve+KMIuV7ijry6Ms84Dl+is7nqCWtw22eZE3299
-	 GW27okgXrG9ZTWFCZl07qg2H/AVfmNNnSrxLJsubzr7R5yjPy0lstKVVGnfFexNPFM
-	 Snl9K+VKyqvFFKgZI4NZXEw0akGY+bPIHIAqvTmrMDGe+mC1MRbJbuG00QlD2pC83o
-	 ESIYQptY33FSg==
-Date: Wed, 12 Nov 2025 06:57:40 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Dave Hansen <dave.hansen@intel.com>, Ard Biesheuvel <ardb@kernel.org>,
-        Sohil Mehta <sohil.mehta@intel.com>
-CC: x86@kernel.org, Borislav Petkov <bp@alien8.de>,
-        Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Sean Christopherson <seanjc@google.com>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>, Kees Cook <kees@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-efi@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v11_4/9=5D_x86/alternatives=3A_?=
- =?US-ASCII?Q?Disable_LASS_when_patching_kernel_code?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <7c26ae81-3495-457b-9f64-f5b2e169a63b@intel.com>
-References: <20251029210310.1155449-1-sohil.mehta@intel.com> <20251029210310.1155449-5-sohil.mehta@intel.com> <29f2d16f-361f-475c-957e-0ebcefcd1a8c@intel.com> <CAMj1kXHvfgMqFncvP5A6ed=2qEPkNkS8ecoM6iXMect51Tpz4w@mail.gmail.com> <7c26ae81-3495-457b-9f64-f5b2e169a63b@intel.com>
-Message-ID: <DDEF6164-D1E6-4003-A251-804738CB59E0@zytor.com>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="N9XadKC0"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-64074f01a6eso1624324a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 06:59:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1762959545; x=1763564345; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0MTLQ2+KzlbyAQxckoGWY8C9+me/+LObO2aCT3fFijI=;
+        b=N9XadKC0UVxFLkY9jzvuAikB7Hg0mTYRuXtJs27Uw4FgaIFVemvrjszSN4H1dk5vYN
+         KQz09WkCXp2gVgk6yu24Fy+ebuaHwYlnjOukIeAWckKRF6M4WkwEldin3m/4t6aC+Wyi
+         v0lW/V8SjFq7pKaDTPNpRZEeM2au0g1pTRXI/0Yq1mYC5vK2bcVQlWp9xME1Ye4Cu6Cc
+         XO9WJo2hL6vaKBioq/V04Hev39SCnbJxedzYvN0dnC8/p81E/eJWtQtTPRPS5QmrxICh
+         YwiYM/3WwUWX7yTfVYp+x0cT+TPse+XD5MXReIB7NxL4HZoltVE5xfchaBNCBwax4uYD
+         7jcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762959545; x=1763564345;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0MTLQ2+KzlbyAQxckoGWY8C9+me/+LObO2aCT3fFijI=;
+        b=Ob8P2Ic+UjHRLMMYbcO156odj4Jwgc0DmgzhSshSW6IRBjyuTgOl2NgVM+kt3ZSRY7
+         zIR6uEYMl4m2tcTC84vRkvn4lp4/fP8sEL+13fYjbtxKnRvvHtmecIg2RVggSNLaZzgR
+         VIVzieaDjEDHMgNSa5UsyncSUYLsu2hYGfTU7z0zdIGdwHlbiYlzCP170C3NcXVagMXm
+         /SKr3uJi/P9asUJiomf/6u+JwBUUJycbzSlAx3cuYhpdEwq/RTZVgDbiX5QVZHzJrdSK
+         N7RH/flZqGqBBZPGCiEeTMMvsQyUwl0HxpPrvpg78OtBW7d6mJ7CiEYE9G5CooiaUC6W
+         eztA==
+X-Forwarded-Encrypted: i=1; AJvYcCUoA2kHguqHwm7NGMhd3VHQZVqEAPX5v63ri7AmbFCA9H/TamcMI0K7cK7waoYl9EAXU3zpj9BR2Mk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyI9kaS9mnXHme7ThQgdgKmptHBJPtXqtjEj7I+sG993JBS2pwr
+	f1xhZHuia7w3naw2Mtb6n/axgpOwFmwh+4twlVbEdfK4xEMjuMiie2FDUEOnbTBUfG0xgRQzgYt
+	uYE5yLuFvltoo02Ykosg5FIR0X4F4NhuoZjZljqHbTA==
+X-Gm-Gg: ASbGncub+xCoE4TRW36lb4VVSK66pffDVFvlq9yXCi0o3a2d0uKLd4IeCMNUxrl+gv3
+	NppRhbS826SmM2UhxA8767ThF51hK2pWMq0L8iOOA97cxWEjfxs2npbUPQrKLfZKFHVMX9peTWs
+	9KPncC6M3okXY+yV+cjAlrkPqEChBBoEcbarbjvftH4v/1lcIBMVL3exlwwnTHA7hen0b50DNmg
+	sYZ4AzIGgOQldwpmrcL4U6PHX09jvOGLWzzKd7SdeLsS5aqOO3P8XEpYg==
+X-Google-Smtp-Source: AGHT+IEdmxSCUrDpzYYdeQ7xGZMZCFuRazVHOEq301lv0Np/o4OtNdmIj/Fd7MlLr72XZf02Ov5bYrL1l7CAevQmQsg=
+X-Received: by 2002:a05:6402:20d5:20b0:640:6650:9173 with SMTP id
+ 4fb4d7f45d1cf-6431a5906c4mr2199942a12.33.1762959544759; Wed, 12 Nov 2025
+ 06:59:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com> <aRHiCxoJnEGmj17q@kernel.org>
+ <CA+CK2bCHhbBtSJCx38gxjfR6DM1PjcfsOTD-Pqzqyez1_hXJ7Q@mail.gmail.com>
+ <aROZi043lxtegqWE@kernel.org> <CA+CK2bAsrEqpt9d3s0KXpjcO9WPTJjymdwtiiyWVS6uq5KKNgA@mail.gmail.com>
+ <aRSKrxfAb_GG_2Mw@kernel.org>
+In-Reply-To: <aRSKrxfAb_GG_2Mw@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 12 Nov 2025 09:58:27 -0500
+X-Gm-Features: AWmQ_bnbzArXLN8aoATNdiGHp809pzMOSngeRCNP27w6LsiaaRY3i_BJDeNIl5I
+Message-ID: <CA+CK2bAq-0Vz4jSRWnb_ut9AqG3RcH67JQj76GhoH0BaspWs2A@mail.gmail.com>
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On November 12, 2025 6:51:45 AM PST, Dave Hansen <dave=2Ehansen@intel=2Ecom=
-> wrote:
->On 11/12/25 05:56, Ard Biesheuvel wrote:
->=2E=2E=2E
->>> it looks like we would now need to toggle
->>> CR4=2ELASS every time we switch to efi_mm=2E The lass_enable()/_disabl=
-e()
->>> naming would be more suitable for those wrappers=2E
->>>
->> Note that Linux/x86 uses SetVirtualAddressMap() to remap all EFI
->> runtime regions into the upper [kernel] half of the address space=2E
->>=20
->> SetVirtualAddressMap() itself is a terrible idea, but given that we
->> are already stuck with it, we should be able to rely on ordinary EFI
->> runtime calls to only execute from the upper address range=2E The only
->> exception is the call to SetVirtualAddressMap() itself, which occurs
->> only once during early boot=2E
+On Wed, Nov 12, 2025 at 8:25=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
+te:
 >
->Gah, I had it in my head that we needed to use the lower mapping at
->runtime=2E The efi_mm gets used for that SetVirtualAddressMap() and the
->efi_mm continues to get used at runtime=2E So I think I just assumed that
->the lower mappings needed to get used too=2E
+> Hi Pasha,
 >
->Thanks for the education!
+> On Tue, Nov 11, 2025 at 03:57:39PM -0500, Pasha Tatashin wrote:
+> > Hi Mike,
+> >
+> > Thank you for review, my comments below:
+> >
+> > > > This is why this call is placed first in reboot(), before any
+> > > > irreversible reboot notifiers or shutdown callbacks are performed. =
+If
+> > > > an allocation problem occurs in KHO, the error is simply reported b=
+ack
+> > > > to userspace, and the live update update is safely aborted.
 >
->Let's say we simply delayed CR4=2ELASS=3D1 until later in boot=2E Could w=
-e
->completely ignore LASS during EFI calls, since the calls only use the
->upper address range?
->
->Also, in practice, are there buggy EFI implementations that use the
->lower address range even though they're not supposed to? *If* we just
->keep LASS on for these calls is there a chance it will cause a
->regression in some buggy EFI implementations?
+> The call to liveupdate_reboot() is just before kernel_kexec(). Why we don=
+'t
+> move it there?
 
-Yes, they are=2E And there are buggy ones which die if set up with virtual=
- addresses in the low half=2E
+Yes, I can move that call into kernel_kexec().
+
+> And all the liveupdate_reboot() does if kho_finalize() fails it's massagi=
+ng
+> the error value before returning it to userspace. Why kernel_kexec() can'=
+t
+> do the same?
+
+We could do that. It would look something like this:
+
+if (liveupdate_enabled())
+   kho_finalize();
+
+Because we want to do kho_finalize() from kernel_kexec only when we do
+live update.
+
+> > > This is fine. But what I don't like is that we can't use kho without
+> > > liveupdate. We are making debugfs optional, we have a way to call
+
+This is exactly the fix I proposed:
+
+1. When live-update is enabled, always disable "finalize" debugfs API.
+2. When live-update is disabled, always enable "finalize" debugfs API.
+
+Once KHO is stateless the "finalize" debugfs API is going to be
+removed, and KHO debugfs itself can be optional.
+
+> > Yes you can: you can disable liveupdate (i.e. not supply liveupdate=3D1
+> > via kernel parameter) and use KHO the old way: drive it from the
+> > userspace. However, if liveupdate is enabled, liveupdate becomes the
+> > driver of KHO as unfortunately KHO has these weird states at the
+> > moment.
+>
+> The "weird state" is the point where KHO builds its FDT. Replacing the
+> current memory tracker with one that does not require serialization won't
+> change it. We still need a way to tell KHO that "there won't be new nodes
+> in FDT, pack it".
+>
+
+see my answer below
+
+> > > kho_finalize() on the reboot path and it does not seem an issue to do=
+ it
+> > > even without liveupdate. But then we force kho_finalize() into
+> > > liveupdate_reboot() allowing weird configurations where kho is there =
+but
+> > > it's unusable.
+> >
+> > What do you mean KHO is there but unusable, we should not have such a s=
+tate...
+>
+> If you compile a kernel with KEXEC_HANDOVER=3Dy, KEXEC_HANDOVER_DEBUGFS=
+=3Dn and
+> LIVEUPDATE=3Dn and boot with kho=3D1 there is nothing to trigger
+> kho_finalize().
+>
+> > > What I'd like to see is that we can finalize KHO on kexec reboot path=
+ even
+> > > when liveupdate is not compiled and until then the patch that makes K=
+HO
+> > > debugfs optional should not go further IMO.
+> > >
+> > > Another thing I didn't check in this series yet is how finalization d=
+riven
+> > > from debugfs interacts with liveupdate internal handling?
+> >
+> > I think what we can do is the following:
+> > - Remove "Kconfig: make debugfs optional" from this series, and
+> > instead make that change as part of stateless KHO work.
+> > - This will ensure that when liveupdate=3D0 always KHO finalize is full=
+y
+> > support the old way.
+> > - When liveupdate=3D1 always disable KHO debugfs "finalize" API, and
+> > allow liveupdate to drive it automatically. It would add another
+> > liveupdate_enable() check to KHO, and is going to be removed as part
+> > of stateless KHO work.
+>
+> KHO should not call into liveupdate. That's layering violation.
+> And "stateless KHO" does not really make it stateless, it only removes th=
+e
+> memory serialization from kho_finalize(), but it's still required to pack
+> the FDT.
+
+This touches on a point I've raised in the KHO sync meetings: to be
+effective, the "stateless KHO" work must also make subtree add/remove
+stateless. There should not be a separate "finalize" state just to
+finish the FDT. The KHO FDT is tiny (only one page), and there are
+only a handful of subtrees. Adding and removing subtrees is cheap; we
+should be able to open FDT, modify it, and finish FDT on every
+operation. There's no need for a special finalization state at kexec
+time. KHO should be totally stateless.
+
+> I think we should allow kho finalization in some form from kernel_kexec()=
+.
+
+If we achieve that, we wouldn't need a kho_finalize() call from
+kernel_kexec() at all. All KHO operations should be allowed at any
+time once KHO is initialized, and they shouldn't depend on the machine
+state. So, even late in shutdown or early in boot, it should be
+possible to preserve KHO memory or a subtree. I'm not saying it's a
+good idea to do that late in shutdown (as preservation may fail), but
+that should be the caller's problem.
+
+Thanks,
+Pasha
