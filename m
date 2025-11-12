@@ -1,93 +1,135 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2753620DD48
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 00:51:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F20B14B96E;
+	Wed, 12 Nov 2025 00:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762908670; cv=none; b=bALnHqvBeGJC+cvAFISCMpJjuD7EaGl1O/yLDaOQWgxB515MOCKWUcEKVm/Mc+AfI577rcjJ5OMJVnK3/4MPMl5u5VExuIaLJCctl7Y+Thv6y498+Je9m2F/iZxy0OrUIadcvbV3aDcPAsiMTSaLZeW/akUy7Plef4CSWREzBkg=
+	t=1762908997; cv=none; b=h4ynm5EpJeTnFlq3L+V4ywEjcyBw0aBTL+zPavs7Nydq8fivbFZglWzp2yXtkALkinBP0NYR99dJQUtotLIyBbduFLEmbYCWwyeXaFiywEkXVmRj82FVZPZpEGSPKGTizbdjbYJaqPeJH8wB80rEjZQm96PH0FS5yqfFg1Sljg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762908670; c=relaxed/simple;
-	bh=2OdtSOueaZaNgax+sB7JoUsjE/Nm6EW3iaLsDMs/rBw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=auHmZb2gSR4b0SpdGlqsnCNbv4vg68viG4xKXQkDZmQl9qxSsY0Bqpi1V6NmOkMkiwt5hZymel3nkcSoYOrUchkLleFb7zs+rl1JxNb+n1EMPIQT20Mj2fhKFcyGUoTVehvcWc5ITPe0NOz5UT5Dk/bYjn6LSW+VzHcRylFUgnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=RhZEpTFF; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="RhZEpTFF"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b550eff972eso163606a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 16:51:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1762908668; x=1763513468; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2OdtSOueaZaNgax+sB7JoUsjE/Nm6EW3iaLsDMs/rBw=;
-        b=RhZEpTFFtdtR3Viwa/iojH8QZc0uv6rCAJCHnQXm3p4iQKnnRzJvZCRyMCGF+EZDKU
-         c7RiUo/dpGG2jTaZR+4lOfTYvlNDbiy5KjkXmm6n5qKhMCOr1DYXyaQoXO5voeLoohU9
-         lfbcxEVS/W/EWlJ26o7kVXzcdzlG6Fo9ypKoGkZk6yIBo3EJIrMCmPJMT+Dr4G7Nt3xz
-         bVNyQQv81q3SFjcag/unIsycm4FGKEkA8CsxzEkgi9tQ6lIKydYRXA0SXnjp1crxjuXG
-         /fZ06eOisNsGWVW0Btbwq/y5+aUN9PMhJuUSyMBpqKWuDYFFBn5X7kWlT2UncLHezyaS
-         tG4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762908668; x=1763513468;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2OdtSOueaZaNgax+sB7JoUsjE/Nm6EW3iaLsDMs/rBw=;
-        b=Pmm3gERjLclJ/4coaEOuD5UKe39pDDICBo8H+mXPiZPcC9ESvDnZlxGl6iWTeP4eLh
-         VCq+9Mp7L6WZ5kAnRTAcyqhXytONS9ul1XJeXHSV3kEvjiikiPEneJmfsrQtQv0PMDTx
-         RDR4/Q/aVLgngZ0G8oYjCugz/J1IOGFXBgA6WIVwZHgI3ustKxmwytoa+t/9gFb13iam
-         XNERjQDOmnDEO9SfTlZLtEgvaLJeWZljhpeaUiFf6cPQaG2iYN3cTpi0pVHiju3E7vVj
-         WU2YRflVjDJvX7ViwsRdgT51US81PEXgporVKe5+apxVOUm2KDPRCIpeQ/kuqIqmOUoy
-         tRcg==
-X-Forwarded-Encrypted: i=1; AJvYcCWwjpqvQImGJrYmT0Ak6sc27zCqfsmpHdQhNOdqPl3kgRR/jEeSZqHJK1U/x1RxNpmU/EbG69VudDs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxh2QLrHt+ALmlOdHVqYbcXcHryULwxwkCit4fvKY3WvxON0FLn
-	gQU07wQHD7+e4gUWer6QHA1N+I+xaCfS7oSADzOr4HGi6eNETnm5VWsc80AXVjC0wThNCUUrpDK
-	MjEkjcM2rU1pUUDmANEFwEDZ9O9zabFKv9shKwHHM
-X-Gm-Gg: ASbGncvYsuQZlDHGn8YSpqF7UoY1bPAprrWpEDvY7ddfZOma/wSdbAlMcEXEm8q8o1R
-	DDjsuzf33Mks6LIEHln9F1GZ0BseWikjyAvIr1gORFTz+9gAhNPQo+VxVE3iOkfXF0nJF56uvBJ
-	+JFgtdKViA4r61rwNviQsKTrTyu85aptwik1TREqn49hGqzlAdHY117GASvg2h08tfwJ4744w8n
-	1BcIWJxPfwMufun1DsXo1VKM+APYJtUTjomCVETzoL37P7YCevfmWfQlLvo
-X-Google-Smtp-Source: AGHT+IHkU9Wi+f6GWyr7DCrdh0j5tDoAb9Pyt1Zcj+wtUB8thJZutmMijomHYviD35MHQ2X7Do+YYwDJ78RL0a8/fpE=
-X-Received: by 2002:a05:6a20:3c8e:b0:351:db7:2328 with SMTP id
- adf61e73a8af0-3590988ba6fmr1386791637.16.1762908668426; Tue, 11 Nov 2025
- 16:51:08 -0800 (PST)
+	s=arc-20240116; t=1762908997; c=relaxed/simple;
+	bh=TIoMZjpibgfM0vfF/TNu1msyh8gg3Ujr1PN57cUbzxc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kqH2BTULJ1IxQXtchLXXAJ/N6gsureZHjQlnypynfj0SCvRtmwE1RDafDIieZqbrolpOG3LN49cZXm7v6MMPTKjX8ytX5suj4x0bKR2wQIaK1ezjy/lj3Cwtq+4/nDGQGsq0GAzMX5rO3lx4JX9+oIifUTcHDT4URIW8rsIk7K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4d5lMQ6pWBzYQtpG;
+	Wed, 12 Nov 2025 08:56:02 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.75])
+	by mail.maildlp.com (Postfix) with ESMTP id 881491A084B;
+	Wed, 12 Nov 2025 08:56:30 +0800 (CST)
+Received: from [10.67.111.176] (unknown [10.67.111.176])
+	by APP2 (Coremail) with SMTP id Syh0CgBnw3k92xNp7pW8AQ--.37935S2;
+	Wed, 12 Nov 2025 08:56:30 +0800 (CST)
+Message-ID: <2f43bdf7-5ce0-4835-9e60-39d91f637152@huaweicloud.com>
+Date: Wed, 12 Nov 2025 08:56:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251103113922.61232-2-bagasdotme@gmail.com> <aRKgyvrTxldlTv9t@archie.me>
-In-Reply-To: <aRKgyvrTxldlTv9t@archie.me>
-From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 11 Nov 2025 19:50:56 -0500
-X-Gm-Features: AWmQ_bnXawPFNQPn16cCqSB2CtDY0qEbTQIVjy089Pp9K6h9E_gK01U2_7eHOts
-Message-ID: <CAHC9VhQeghqosexgOQO3==poNwsf_6mNiOqkUTUOdYnzRYzKmQ@mail.gmail.com>
-Subject: Re: [PATCH] security: sctp: Format type and permission checks tables
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, 
-	Linux Security Module <linux-security-module@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	Kees Cook <kees@kernel.org>, =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	Stuart Yoder <stuart.yoder@arm.com>, Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH mm-new v3] mm/memcontrol: Add memory.stat_refresh for
+ on-demand stats flushing
+To: Leon Huang Fu <leon.huangfu@shopee.com>
+Cc: akpm@linux-foundation.org, cgroups@vger.kernel.org, corbet@lwn.net,
+ hannes@cmpxchg.org, jack@suse.cz, joel.granados@kernel.org,
+ kyle.meyer@hpe.com, lance.yang@linux.dev, laoar.shao@gmail.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ mclapinski@google.com, mhocko@kernel.org, mkoutny@suse.com,
+ muchun.song@linux.dev, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+ tj@kernel.org
+References: <7d46ef17-684b-4603-be7a-a9428149da05@huaweicloud.com>
+ <20251111064415.75290-1-leon.huangfu@shopee.com>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <20251111064415.75290-1-leon.huangfu@shopee.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:Syh0CgBnw3k92xNp7pW8AQ--.37935S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cr45Wr4UJrW8Xr1fZr4DCFg_yoW8tr1rpF
+	W3Jas0vF48tF97Crs2qwn7XryUtwn7WryUWr98Crn5G3ZxKr1akF45KFWYkF9xKr4fCr1j
+	vw4jga4Iva45ZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	bAw3UUUUU==
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-On Mon, Nov 10, 2025 at 9:35=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
->
-> On Mon, Nov 03, 2025 at 06:39:23PM +0700, Bagas Sanjaya wrote:
-> > Use reST grid tables for both type and permission checks tables.
->
-> review ping
 
-You don't need to 'ping' for a review, your patch is in my review
-queue, but code changes take priority at this point in the dev cycle
-as I'm okay with merging documentation changes fairly late.
 
---=20
-paul-moore.com
+On 2025/11/11 14:44, Leon Huang Fu wrote:
+> On Tue, Nov 11, 2025 at 9:00 AM Chen Ridong <chenridong@huaweicloud.com> wrote:
+>>
+>>
+>>
+>> On 2025/11/10 21:50, Michal Koutný wrote:
+>>> Hello Leon.
+> 
+> Hi Ridong,
+> 
+>>>
+>>> On Mon, Nov 10, 2025 at 06:19:48PM +0800, Leon Huang Fu <leon.huangfu@shopee.com> wrote:
+>>>> Memory cgroup statistics are updated asynchronously with periodic
+>>>> flushing to reduce overhead. The current implementation uses a flush
+>>>> threshold calculated as MEMCG_CHARGE_BATCH * num_online_cpus() for
+>>>> determining when to aggregate per-CPU memory cgroup statistics. On
+>>>> systems with high core counts, this threshold can become very large
+>>>> (e.g., 64 * 256 = 16,384 on a 256-core system), leading to stale
+>>>> statistics when userspace reads memory.stat files.
+>>>>
+>>
+>> We have encountered this problem multiple times when running LTP tests. It can easily occur when
+>> using a 64K page size.
+>>
+>> error:
+>>         memcg_stat_rss 10 TFAIL: rss is 0, 266240 expected
+>>
+> 
+> Have you encountered this problem in real world?
+> 
+Do you mean whether we’ve encountered this issue in our product? We haven’t so far.
+
+However, this fails the LTP test quite easily. The error logs come directly from LTP. The issue
+occurs because the threshold isn’t reached, resulting in an RSS value of 0. We tried increasing the
+memory allocated by the LTP case, but that wasn’t the right solution.
+
+>>>> This is particularly problematic for monitoring and management tools
+>>>> that rely on reasonably fresh statistics, as they may observe data
+>>>> that is thousands of updates out of date.
+>>>>
+>>>> Introduce a new write-only file, memory.stat_refresh, that allows
+>>>> userspace to explicitly trigger an immediate flush of memory statistics.
+>>>
+> [...]
+>>>
+>>> Next, v1 and v2 haven't been consistent since introduction of v2 (unlike
+>>> some other controllers that share code or even cftypes between v1 and
+>>> v2). So I'd avoid introducing a new file to V1 API.
+>>>
+>>
+>> We encountered this problem in v1, I think this is a common problem should be fixed.
+> 
+> Thanks for pointing that out.
+> 
+> Thanks,
+> Leon
+> 
+> [...]
+
+-- 
+Best regards,
+Ridong
+
