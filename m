@@ -1,53 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFDE306482;
-	Wed, 12 Nov 2025 12:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20385306482
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 12:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762951995; cv=none; b=I5QbYiCgJHiJBdoqjanxKRrDRZkgjukdHtZA9NzvN5akXiYWBxp+RkDYu9qu1uPRS8XzVPce8rQ7dUW2NEVqasHWV8oNtglYVAB1LErIsu/zEpm3vQUHIlFxdQYNAsJpnw9YMLJ0FoHom4Uja8Gebi96QgaHX44TIlAsGWRxRek=
+	t=1762952161; cv=none; b=D0fBRZoVLNIN8sZX24eVhAtG+6NQdH6dnOKxjyRDiyYDy+vYVEUVnSlnfM1O47uKPLPAWlhp1/pUIUc+3NOmpLQxHCiYdN1vZksSJpgh7sii8935KTXwJmcgdNpzUE01RnRq0h7ykB66xGx5lfINFseYtclluMpTT1RD5TcldZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762951995; c=relaxed/simple;
-	bh=Xq4laesBhXBU8cnsibjlgRX7+Xd6QHEEQNRsfNd8xHw=;
+	s=arc-20240116; t=1762952161; c=relaxed/simple;
+	bh=sENMFaOTiPp3GLzYTCw/evBvLlUpOrcoBJmofrVicTw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NQ4pbjzO97X0KZ1jQhrRH2YoHE8RXksZuKS0auAVNSyLmN7e+36GSwjhztrfCqtQYEzU/VhnWLA86ClRqizzxIZKmSG+Lu3anEXA5Ui4nMQ7bEi6JIwMlgkDn9MHo31suM0+CwpQkvL+9HabNSDsCZHaW6hZvspbf/o/xX8k00c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MgbNA+aN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uOKVeOAtv6VneWwICw0EbkOUOrKSSKGLnTNhMm0XLprP3lwtL/HqO+0cqOukf0sc80+ly9ADGVp5IcFOJPiyMGC4LOfmp/3wM4fHYF5QURM/fKojs4xA+i1DuKVgl9/K4uRf+eUhWQre0JAk6eAjrz1d0giuodt/mQyF54uFvT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=pVgLXN8a; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MgbNA+aN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD60C4AF0B;
-	Wed, 12 Nov 2025 12:53:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762951994;
-	bh=Xq4laesBhXBU8cnsibjlgRX7+Xd6QHEEQNRsfNd8xHw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MgbNA+aNi66iHWuzy6LKut7QTLt+D+/WXgdFltYAbxJCNbzgA1InxXNZhXB1n5p0c
-	 vnaW4LMGTXWq3iqK+mCrPfR/wgZ3CmaTYYbgSRIL+gsVedu2ksUj6iZV9eWJ1VDx8L
-	 2t0dYDDlC7uKsojwf3BaUVsp/1kxfrK/qs3b/tQL4PlVsjE6+lxoNCV4z50uPZEu0c
-	 IZ7IeyRYTrjvIwKCeVpl50DpVm5RZpwxhGxt3aVEGIxSEwIzBVQiTRda3iQYX8yVoG
-	 FLcPcsS+iUYDO9jpoGvblj2BtEDt27fgN3g5T5VkFwZycgbBRxR4Axqu2EhuuHABrh
-	 i4BX+X/MEfm9A==
-Date: Wed, 12 Nov 2025 06:53:12 -0600
-From: Rob Herring <robh@kernel.org>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-imx@nxp.com
-Subject: Re: [PATCH v5 1/5] dt-bindings: remoteproc: imx_rproc: Add "rpmsg"
- subnode support
-Message-ID: <20251112125312.GA1319094-robh@kernel.org>
-References: <20251104203315.85706-1-shenwei.wang@nxp.com>
- <20251104203315.85706-2-shenwei.wang@nxp.com>
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="pVgLXN8a"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-477770019e4so9033865e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 04:55:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1762952157; x=1763556957; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=A80WAQe3AW2nzkVsGi+KVpzdPKIqa6v/ng1l0VNgHGY=;
+        b=pVgLXN8aRGDpfIhezKOEuTIT2ntO/rFg+njH5aU5NGXiZV+6GR2uKapRMI5sE65vyW
+         eNHPeAhASf5hn5gDw7aAjh8FPgdhy0IK6EVkNLtppcap5kpp3g0F/VKBrc8I+7yjKYqk
+         GPNhX+Wnm8AGpwJsjJei18HdXFu8ssX1kVNCtq+5+GJ7BnZL8AYSF/Fcc9RV8DxQCx/e
+         E6VAL/OpXJlJZJPG3+EtywGOahkpb5QhkPD2Oyjk1znyKpHKFp/JC1FBKVJVDoSAppP8
+         WuZZL4Ewsc8UHd+j37z9e4me28Z2eftTjiO4Y0Ifc5msgYgr6IfMbl6boCLncCyXfoy8
+         86Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762952157; x=1763556957;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A80WAQe3AW2nzkVsGi+KVpzdPKIqa6v/ng1l0VNgHGY=;
+        b=Ia4Uhvwc/xnptockuWIZVHjqc0UsJDz6BlfjDcnchYgCYEqCd1QYqd13xPgdi8Vu+0
+         0Cr/DsM1JZIKBB8XqQdzNj4vRSBY86b1IPlO9z96rchtaXn9b8kiL2+vglwsiu718zjb
+         /LChpTmgVmRvWMlGfJiUIbB3TVCUt4QLBvmq8HsuFCQ64/6Y9hBGBAQ4rVUA1FzHDo87
+         rK5Af7fvP96IAWeFbHjbhQjk89KMvM0l+NldNi4n/maULshhbN7Dvf1ETJ3OEWPzuhki
+         ahlRGT+bSeuV8H+X5qzPiCrAa2bUW/V229Zs3EfXvyfQ5t12EndgZGJ3HJmxhWFntCzF
+         t0zw==
+X-Forwarded-Encrypted: i=1; AJvYcCX3wk3GzRNDsZz9FUgP2ViTbB699ZeZT6pDByr/0Xo9cZgUIK87uXjpaPtiMIWKSTDLQIwkPkG+vic=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyyrbu7cWM8hfkaPAje47ws+2dE2FT5Lk/Jlp8ihAIGnXSxFGiN
+	WfMv4/lkXIYzxmzZTNC2toZxs/80mAt6lxqepS/rd1fbFGmXdqF5PEHP7OMKkKRlWxc=
+X-Gm-Gg: ASbGncs2kPEPANV+hj/nTtt6AkZg0wkvIt+/5xRZV8A9EVA3Gya7NmDUxIK4O+1Yrhz
+	lGlHSWxSRWtRr1LRhkkV4fZLtjiS6hH3lYQzlBNnXid9goahNxG3lnZyoMyKrBoIqnn4od7gk30
+	2T+pjOu7iY0OJ2whusUHyluZEZz6+lG5mFeP8xRsH1/BWVjTPIBzCePReoR42pTtFmJMnNvr8MC
+	taXpiq0isWB5MCfSrrVxoz4s/Vty1DSptSjYvh8DkxdYr/lSsrL06O6i/MaZu41qj/BOJXimPdo
+	yhadeB+FJtshk9U00QF0hK8gmwvkPKL5iYiuK2NT4UuF4oXZb6g/lzQCyee2dLvxZ8B1XXzW7ML
+	3Y5N2+Kh757hr+nOFOpBpQ3ZWPxFG3hlPQ4ke4vAJa7pZkZT12wIRX61UMnSm1GYo2L7GXcODp/
+	+IcigvUjUEQj/ptf9dFNUeCVScIfhrC/+F
+X-Google-Smtp-Source: AGHT+IGvn5MnDKrsdjSlOwaf4VLanh206hYMee2HJIoWYve/+AkIQGjBhZo9ebky2LIV8M51IDP3QA==
+X-Received: by 2002:a05:600c:4593:b0:475:dd7f:f6cd with SMTP id 5b1f17b1804b1-477870b92f6mr27315285e9.35.1762952156890;
+        Wed, 12 Nov 2025 04:55:56 -0800 (PST)
+Received: from jiri-mlt.client.nvidia.com ([140.209.217.211])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477894d53dcsm10809695e9.14.2025.11.12.04.55.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Nov 2025 04:55:56 -0800 (PST)
+Date: Wed, 12 Nov 2025 13:55:52 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Saeed Mahameed <saeed@kernel.org>, 
+	Daniel Zahka <daniel.zahka@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Srujana Challa <schalla@marvell.com>, 
+	Bharat Bhushan <bbhushan2@marvell.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Brett Creeley <brett.creeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Sunil Goutham <sgoutham@marvell.com>, Linu Cherian <lcherian@marvell.com>, 
+	Geetha sowjanya <gakula@marvell.com>, Jerin Jacob <jerinj@marvell.com>, 
+	hariprasad <hkelam@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>, 
+	Tariq Toukan <tariqt@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Ido Schimmel <idosch@nvidia.com>, 
+	Petr Machata <petrm@nvidia.com>, Manish Chopra <manishc@marvell.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, 
+	Loic Poulain <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov <ryazanov.s.a@gmail.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Vladimir Oltean <olteanv@gmail.com>, 
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>, Aleksandr Loktionov <aleksandr.loktionov@intel.com>, 
+	Dave Ertman <david.m.ertman@intel.com>, Vlad Dumitrescu <vdumitrescu@nvidia.com>, 
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Alexander Sverdlin <alexander.sverdlin@gmail.com>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH net-next v3 2/2] net/mlx5: implement swp_l4_csum_mode via
+ devlink params
+Message-ID: <rkyncpnstlsg4lt7hl47dly2ps7hbbj344wernpkekyruyo3yh@kpys6k5rmhbp>
+References: <20251107204347.4060542-1-daniel.zahka@gmail.com>
+ <20251107204347.4060542-3-daniel.zahka@gmail.com>
+ <aQ7f1T1ZFUKRLQRh@x130>
+ <jhmdihtp63rblcjiy2pibhnz2sikvbm6bhnkclq3l2ndxgbqbb@e3t23x2x2r46>
+ <20251110154643.66d15800@kernel.org>
+ <aRKs6jXqSvC3G_R0@x130>
+ <cgg6fxjjf6zq6yyzx4njhjmetrlhjgor4lzktwe6nls6rgqd6s@c3abd3ehlzvr>
+ <20251111074857.7fdb7e88@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,176 +103,109 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251104203315.85706-2-shenwei.wang@nxp.com>
+In-Reply-To: <20251111074857.7fdb7e88@kernel.org>
 
-On Tue, Nov 04, 2025 at 02:33:11PM -0600, Shenwei Wang wrote:
-> Remote processors may announce multiple devices (e.g., I2C, GPIO) over
-> an RPMSG channel. These devices may require corresponding device tree
-> nodes, especially when acting as providers, to supply phandles for their
-> consumers.
-> 
-> Define an RPMSG node to work as a container for a group of RPMSG channels
-> under the imx_rproc node.
-> 
-> Each subnode within "rpmsg" represents an individual RPMSG channel. The
-> name of each subnode corresponds to the channel name as defined by the
-> remote processor.
-> 
-> All remote devices associated with a given channel are defined as child
-> nodes under the corresponding channel node.
-> 
-> Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
-> ---
->  .../bindings/remoteproc/fsl,imx-rproc.yaml    | 123 ++++++++++++++++++
->  1 file changed, 123 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
-> index 57d75acb0b5e..897a16c4f7db 100644
-> --- a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
-> +++ b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
-> @@ -84,6 +84,92 @@ properties:
->        This property is to specify the resource id of the remote processor in SoC
->        which supports SCFW
->  
-> +  rpmsg:
-> +    type: object
-> +    additionalProperties: false
-> +    description:
-> +      Present a group of RPMSG channel devices.
-> +
-> +    properties:
-> +      rpmsg-io-channel:
-> +        type: object
-> +        additionalProperties: false
-> +        properties:
-> +          '#address-cells':
-> +            const: 1
-> +
-> +          '#size-cells':
-> +            const: 0
-> +
-> +        patternProperties:
-> +          "gpio@[0-9a-f]+$":
-> +            type: object
-> +            unevaluatedProperties: false
-> +            properties:
-> +              compatible:
-> +                enum:
-> +                  - fsl,imx-rpmsg-gpio
-> +
-> +              reg:
-> +                maxItems: 1
+Tue, Nov 11, 2025 at 04:48:57PM +0100, kuba@kernel.org wrote:
+>[stripping some of the bouncy CCs.]
+>
+>On Tue, 11 Nov 2025 15:39:03 +0100 Jiri Pirko wrote:
+>> Tue, Nov 11, 2025 at 04:26:34AM +0100, saeed@kernel.org wrote:
+>> >On 10 Nov 15:46, Jakub Kicinski wrote:  
+>> >> On Sun, 9 Nov 2025 11:46:37 +0100 Jiri Pirko wrote:  
+>> >> > >So, I checked a couple of flows internally, and it seems this allows
+>> >> > >some flexibility in the FW to decide later on which mode to pick,
+>> >> > >based on other parameters, which practically means
+>> >> > >"user has no preference on this param". Driver can only find out
+>> >> > >after boot, when it reads the runtime capabilities, but still
+>> >> > >this is a bug, by the time the driver reads this (in devlink), the
+>> >> > >default value should've already been determined by FW, so FW must
+>> >> > >return the actual runtime value. Which can only be one of the following  
+>> >> > 
+>> >> > I don't think it is correct to expose the "default" as a value.
+>> >> > 
+>> >> > On read, user should see the configured value, either "full_csum" or
+>> >> > "l4_only". Reporting "default" to the user does not make any sense.
+>> >> > On write, user should pass either "full_csum" or "l4_only". Why we would
+>> >> > ever want to pass "default"?  
+>> >> 
+>> >> FWIW I agree that this feels a bit odd. Should the default be a flag
+>> >> attr? On get flag being present means the value is the FW default (no
+>> >> override present). On set passing the flag means user wants to reset
+>> >> to FW default (remove override)?
+>
+>Y'all did not respond to this part, should we assume that what 
+>I described is clear and makes sense? I think we should make that
+>part of the series, unlike the pending indication.
 
-I still don't understand what the numbers for 'reg' mean here. You 
-explained it and I still don't understand. In any case, it needs to be 
-explained in the schema.
+I agree. The "default" flag sounds good to me.
 
-For example, why do GPIO and I2C each have their own number space?
 
-> +
-> +              "#gpio-cells":
-> +                const: 2
-> +
-> +              gpio-controller: true
-> +
-> +              interrupt-controller: true
-> +
-> +              "#interrupt-cells":
-> +                const: 2
-> +
-> +            required:
-> +              - compatible
-> +              - reg
-> +              - "#gpio-cells"
-> +              - "#interrupt-cells"
-> +
-> +            allOf:
-> +              - $ref: /schemas/gpio/gpio.yaml#
-> +              - $ref: /schemas/interrupt-controller.yaml#
-> +
-> +        required:
-> +          - '#address-cells'
-> +          - '#size-cells'
-> +
-> +      rpmsg-i2c-channel:
-> +        type: object
-> +        unevaluatedProperties: false
-> +        properties:
-> +          '#address-cells':
-> +            const: 1
-> +
-> +          '#size-cells':
-> +            const: 0
-> +
-> +        patternProperties:
-> +          "i2c@[0-9a-f]+$":
-> +            type: object
-> +            unevaluatedProperties: false
-> +            properties:
-> +              compatible:
-> +                enum:
-> +                  - fsl,imx-rpmsg-i2c
-> +
-> +              reg:
-> +                maxItems: 1
-> +
-> +            required:
-> +              - compatible
-> +              - reg
-> +
-> +            allOf:
-> +              - $ref: /schemas/i2c/i2c-controller.yaml#
-> +
-> +        required:
-> +          - '#address-cells'
-> +          - '#size-cells'
-> +
->  required:
->    - compatible
->  
-> @@ -146,5 +232,42 @@ examples:
->                  &mu 3 1>;
->        memory-region = <&vdev0buffer>, <&vdev0vring0>, <&vdev0vring1>, <&rsc_table>;
->        syscon = <&src>;
-> +
-> +      rpmsg {
-> +        rpmsg-io-channel {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          gpio@0 {
-> +            compatible = "fsl,imx-rpmsg-gpio";
-> +            reg = <0>;
-> +            gpio-controller;
-> +            #gpio-cells = <2>;
-> +            #interrupt-cells = <2>;
-> +            interrupt-controller;
-> +            interrupt-parent = <&rpmsg_gpioa>;
-> +          };
-> +
-> +          gpio@1 {
-> +            compatible = "fsl,imx-rpmsg-gpio";
-> +            reg = <1>;
-> +            gpio-controller;
-> +            #gpio-cells = <2>;
-> +            #interrupt-cells = <2>;
-> +            interrupt-controller;
-> +            interrupt-parent = <&rpmsg_gpiob>;
-> +          };
-> +        };
-> +
-> +        rpmsg-i2c-channel {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          i2c@0 {
-> +            compatible = "fsl,imx-rpmsg-i2c";
-> +            reg = <0>;
-> +          };
-> +        };
-> +      };
->      };
->  ...
-> -- 
-> 2.43.0
-> 
+>
+>> >> > Regardless this patch, since this is param to be reflected on fw reboot
+>> >> > (permanent cmode), I think it would be nice to expose indication if
+>> >> > param value passed to user currently affects the fw, or if it is going
+>> >> > to be applied after fw reboot. Perhaps a simple bool attr would do?  
+>> >> 
+>> >> IIUC we're basically talking about user having no information that
+>> >> the update is pending? Could this be done by the core? Core can do
+>> >> a ->get prior to calling ->set and if the ->set succeeds and
+>> >> cmode != runtime record that the update is pending?
+>> >>   
+>> >
+>> >Could work if on GET driver reads 'current' value from FW, then it should
+>> >be simpler if GET != SET then 'pending', one problem though is if SET was
+>> >done by external tool or value wasn't applied after reboot, then we loose
+>> >that information, but do we care? I think we shouldn't.
+>> >  
+>> >> That feels very separate from the series tho, there are 3 permanent
+>> >> params in mlx5, already. Is there something that makes this one special?  
+>> 
+>> Agreed. That is why I wrote "regardless this patch". But I think the
+>> pending indication is definitelly nice to have.
+>
+>Yes, I've been wondering why it's missing since the day devlink params
+>were added :)
+
+Puzzles me. Nobody probably cared that much :/
+
+
+>
+>> >In mlx5 they all have the same behavior, devlink sets 'next' value, devlink
+>> >reads 'next' value. The only special thing about the new param
+>> >is that it has a 'device_default' value and when you read that from 'next' it
+>> >will always show 'device_default' as the actual value is only
+>> >known at run time ,e.g. 'next boot'.
+>> >
+>> >I think the only valid solution for permanent and drv_init params is to
+>> >have 'next' and 'current' values reported by driver on read. Or maybe go just
+>> >with  'set' != 'get' then 'pending' as discussed above ?  
+>> 
+>> Hmm, is it possible to rebind the driver without fw going through
+>> next-boot phase? I'm wondering if it wouldn't be safer to have this
+>> pending flag set to be responsibility of the driver...
+>
+>The downside is that drivers may either have bugs or not implement 
+>the new feature. So when there's no indication of pending change
+>the user will have no idea whether its because there's none or the
+>driver simply does not report both. 
+>
+>My experience implementing the pending FW version in a couple of
+>products is that it takes a lot of "discussions" to get FW people 
+>to implement this sort of a thing right. mlx5 already has the right 
+>FW APIs so we should allow their full use. But I don't think the 
+>"what if user change the setting with fwctl", "what if user reloaded
+>the driver" corner cases should stop us from trying to get the core
+>to implement 99% of the cases right.
+>
+>FTR I'm not aware of any Meta-internal products having permanent knobs.
+>I just don't think we can depend on the random people that submit
+>drivers these days to get this right. And devlink users will assume
+>that it's Linux that sucks if it doesn't work right, not vendor X.
+>
+>Long story short I think we can add the reporting of both values via GET
+>but I'd definitely still like to see the core trying to do the tracking
+>automatically.
+
+I agree with tracking in core, allowing driver to opt-in with pending
+flag value if it knows better overriding the core value.
+
