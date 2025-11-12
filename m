@@ -1,446 +1,89 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3D62E62D1
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 04:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CDA78F5D
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 04:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762921725; cv=none; b=F89Vd0WtG4DttsqrpWbEe8xMPp6Q1+swNkBclkCISwi5XZKfMrKU+GrwvZOhuOGZgH90UD1mcVjK6sMOrkuYvLJxUlWs2awQhfavNeo6OS0r6JUX/5j59QMrAUjLOs+6s1RciH2ZeITzMtHoIwH3suDFetD4BJGrxppAQCRoFbo=
+	t=1762923573; cv=none; b=PNiSpRHZ6EH0Wp7yIDH1Ie3bKdMO067eoBITU84xZ4r82C6AYP2XucD75+noDE8891b1DgXzp/pRVQQFjANzCHhbT6QBYuIggEMcS+ZmeNUDQX5hEO9pRnCQGo7qP2qH4GwiwOItPH2KmffUWsuuJCylmxl3FFrodXopwRPBm9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762921725; c=relaxed/simple;
-	bh=jCDpx8M8k0FKY4eSBRvHYTTF69BLGw4kLu44e9Ryamc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UZIq3AnzJsrQOlvCV/h5by+hneuEJKF8HnCP8EfXkY1DUcAkNspcZw/DzBFb7LlbHh0V9k5a3jdiRr1AbItm2sEslTKTia+2L4w7w/TjZ8EDJWw9/O1d3kJk1E+se7yVueEsEUHaG1GhVYidlQgv2+VuPmkJUHVdzmZg9wwXar0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nEKSnbU2; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762923573; c=relaxed/simple;
+	bh=DtiRPsNY/l5VYgy0C5Ku2kUfjD51bi0e+oKhWji3YPo=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=lyrh7kEd1H4mkMyPtqGHi5nGwStSB2kSgZCVtGEs1YxHFNvUximWyyTU1hPzdv2JGp3j8Th5JRUaw8nozdd5KVUptfuTUgCsU8jbTP0nduJzz5SHGZdNBfupLKUPVX0BeZWICmAk2FgPj43cYWZDZerWV16HmnsN1sQ4Wg26tpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BxYLJAkI; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nEKSnbU2"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3436a97f092so502266a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Nov 2025 20:28:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762921723; x=1763526523; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bypbKJSNdfzMIo5PJqXm9z2sZhPniVXZs5eZRTP+WOQ=;
-        b=nEKSnbU2JVPJe8mg2mQEPIZJlETYi07y8OyyipoUX8RXUqjupW0KuGMInnX0H44kVL
-         WFw3fK4ti9RSjJedsu/bA7G0X/q/mkrmsF/4OQ1fWJ+ZmoMN+m8gdcPkWf2t3FuUEmP8
-         X8jAl0keiTZOnkgu50MI1mATgeef0a5r56GlEwi5V6sN5ELNB2OVtGUyW8Q+9g430eLG
-         NZfDtjC7nfKXioqIUeLE8B81wr6JCGkVippy5PNSq4HzC9aKPKy/yao3fAwAs6QtyJNz
-         0TcSi1H+die+YJFFt3X9GMeiIcJM66VhYLjeQ1nkUCr7qOweRSuiw7zdXEOWmJZOuloO
-         B6/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762921723; x=1763526523;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bypbKJSNdfzMIo5PJqXm9z2sZhPniVXZs5eZRTP+WOQ=;
-        b=AYIMSEVb/WuNMdZM8qFJ+6usYGJGVNU6rXrh/TLOXfaZPT48PGHSSApjper+8V4xnD
-         3NNY9/n5eOdGX/IfnnSfYpPJRlisy0722vQxyeCvBeOB0vwlQvYy4XfaY7VvqwZJqdJo
-         W04LoAXNNQkF+l3CRCVhn4MdRKKTDs+2s5dox5H1Pw90MeTlEfyu94T/glgfaPmGEbEg
-         SlgDLcxDs6UesrRu33DfmOwRpUChMpVElepMESpq3iTXVBp+ow21wZwPrYraFRGGesc3
-         578e+g1nl/LAlvYCuvdG31vrVKo8AMPBXbTW06iN+NIPHH873OfCC1hd9hfSOFnn1U4P
-         gTXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXNehsEQhHHA6PoNoaOULbOnPq0Ge5K01VA9cFOp3elEFsA0s7X+XMH5UZC1m/bvYhtjS7LkHg53Ck=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvWCsnvo7cAcFaXzEEXHAFcsARAj/N4KhsauHuxl2iG/ARWj4M
-	am0/vcNciqay1DUnK0hr6D/wbLgqP7ylZ2ERxXdb5Q/mYd7EzSv2YiHx
-X-Gm-Gg: ASbGncvnpie6EkQBhw+OWaeolxV4/cuXh4dTA6iFxOJ1qe3zXWh7qXNDmWijnSBPAuW
-	RhJrC4FP8yo8e1ay/uGztIOhUiURl+WeZp8o/vZa+SvSPHxrWZof6CIIyLmh76ZPAQ/tPPeAz5J
-	s75bVfKk0ekUDxyMkuonDr2qOebrjgPCYJaJgV1HOyZxcx2JESkgIoAk8umbBEfaRUOfdeB9ny5
-	7vAImI1cYIongcTWx9l59SwAWQc076ZmUuR86iSCn5HsUx14OqgW9MIB08Vz0XIDYgV/B4a132Q
-	HUooQn6JDmjo2wS0Wz3faDaRBje0ip9ZOw03UBxwOEuxQtOUpamgP9m/05HKU7SVwfsdbXpVzzi
-	NG5Ydmqf6tMqZXu93ojD9JFqaYADohGkiq2Zcgn2zmQMD1RLv57IS4JFidilnaRryh8AfXImfvN
-	a0CVViB++207Q28SJ2wK0Rb8Z6ZIXWieG1x4KXjCt6bzYtcl4w4vsv+qAHXlks0igvIoLsYQORN
-	fMGIY07FA==
-X-Google-Smtp-Source: AGHT+IEk3fmOmPuZqt1xGOcbomb+tiqKdW76DJidL9Gpiy8ngxFNpe36IzIVYCCq1TjDctRIbXHwUg==
-X-Received: by 2002:a17:90b:1dce:b0:341:d326:7354 with SMTP id 98e67ed59e1d1-343ddeff608mr2144322a91.37.1762921722670;
-        Tue, 11 Nov 2025 20:28:42 -0800 (PST)
-Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-343e06fbc0dsm854681a91.2.2025.11.11.20.28.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 20:28:42 -0800 (PST)
-From: alistair23@gmail.com
-X-Google-Original-From: alistair.francis@wdc.com
-To: chuck.lever@oracle.com,
-	hare@kernel.org,
-	kernel-tls-handshake@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	hare@suse.de,
-	alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v5 6/6] nvmet-tcp: Support KeyUpdate
-Date: Wed, 12 Nov 2025 14:27:20 +1000
-Message-ID: <20251112042720.3695972-7-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251112042720.3695972-1-alistair.francis@wdc.com>
-References: <20251112042720.3695972-1-alistair.francis@wdc.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BxYLJAkI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:To:Subject:From:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=ZGbVea+zrEUsfdkGlkeUf/VwLYf3XmZ0A4wq972tLPo=; b=BxYLJAkIf1WYX58Bfbkz3yiPuV
+	gzIs5O5WAw6+Ggyifzj97mkC6WQqzTEAX9LkQDR3wzGvd8SbBEGylCJ6V+Jz4QKSxx2b03VpdAiOM
+	v19YWxEHT6oKD0Aw7QZRn+XiHgN8bNxN6BRbdJBlx9NqeDv7gCotm0wd0Pztj7o/RlBl/Kx35eF3a
+	0eBrXlr/WtMpHH3gztxuEQzdDt225mlp4v0tF1Nj+LVq5iXwOqpTrb3H/i8KHvSR2vRFA6Fto9W/k
+	5/YVhCeA33nerYpP9drqE35/xQq5tdJUZK6WcEltjIw5C4Y1WgZrzL+86OAFS+7Um/WmV9O0GnJgC
+	Wlm/H3/g==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vJ2x3-000000088vU-3XZI
+	for linux-doc@vger.kernel.org;
+	Wed, 12 Nov 2025 04:59:25 +0000
+Message-ID: <0fa53fbb-8505-4107-8f1f-4082123fdde6@infradead.org>
+Date: Tue, 11 Nov 2025 20:59:25 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: confusing ReST/html
+To: Linux Documentation <linux-doc@vger.kernel.org>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Alistair Francis <alistair.francis@wdc.com>
+I'm comparing Documentation/core-api/index.{rst,html} and
+Documentation/driver-api/index.{rst,html}.
 
-If the nvmet_tcp_try_recv() function return EKEYEXPIRED or if we receive
-a KeyUpdate handshake type then the underlying TLS keys need to be
-updated.
+Lots (but not all) .rst files end with something like
 
-If the NVMe Host (TLS client) initiates a KeyUpdate this patch will
-allow the NVMe layer to process the KeyUpdate request and forward the
-request to userspace. Userspace must then update the key to keep the
-connection alive.
+.. only:: subproject and html
 
-This patch allows us to handle the NVMe host sending a KeyUpdate
-request without aborting the connection. At this time we don't support
-initiating a KeyUpdate.
+   Indices
+   =======
 
-Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
----
-v5:
- - No change
-v4:
- - Restructure code to avoid #ifdefs and forward declarations
- - Use a helper function for checking -EKEYEXPIRED
- - Remove all support for initiating KeyUpdate
- - Use helper function for restoring callbacks
-v3:
- - Use a write lock for sk_user_data
- - Fix build with CONFIG_NVME_TARGET_TCP_TLS disabled
- - Remove unused variable
-v2:
- - Use a helper function for KeyUpdates
- - Ensure keep alive timer is stopped
- - Wait for TLS KeyUpdate to complete
+   * :ref:`genindex`
 
- drivers/nvme/target/tcp.c | 203 ++++++++++++++++++++++++++------------
- 1 file changed, 142 insertions(+), 61 deletions(-)
+Both of the core-api & driver-api index.rst files do...
+with the difference being that core-api/index.rst has
+one space following ".. only::" while driver-api/index.rst
+has 2 spaces following ".. only::".
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 818efdeccef1..486ea7bb0056 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -175,6 +175,7 @@ struct nvmet_tcp_queue {
- 
- 	/* TLS state */
- 	key_serial_t		tls_pskid;
-+	key_serial_t		handshake_session_id;
- 	struct delayed_work	tls_handshake_tmo_work;
- 
- 	unsigned long           poll_end;
-@@ -186,6 +187,8 @@ struct nvmet_tcp_queue {
- 	struct sockaddr_storage	sockaddr_peer;
- 	struct work_struct	release_work;
- 
-+	struct completion       tls_complete;
-+
- 	int			idx;
- 	struct list_head	queue_list;
- 
-@@ -214,6 +217,10 @@ static struct workqueue_struct *nvmet_tcp_wq;
- static const struct nvmet_fabrics_ops nvmet_tcp_ops;
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
-+				   enum handshake_key_update_type keyupdate);
-+#endif
- 
- static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd)
-@@ -832,6 +839,23 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
- 	return 1;
- }
- 
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+static bool nvmet_tls_key_expired(struct nvmet_tcp_queue *queue, int ret)
-+{
-+	if (ret == -EKEYEXPIRED &&
-+	    queue->state != NVMET_TCP_Q_DISCONNECTING &&
-+	    queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)
-+					return true;
-+
-+	return false;
-+}
-+#else
-+static bool nvmet_tls_key_expired(struct nvmet_tcp_queue *queue, int ret)
-+{
-+	return false;
-+}
-+#endif
-+
- static int nvmet_tcp_try_send(struct nvmet_tcp_queue *queue,
- 		int budget, int *sends)
- {
-@@ -1106,6 +1130,103 @@ static inline bool nvmet_tcp_pdu_valid(u8 type)
- 	return false;
- }
- 
-+static void nvmet_tcp_release_queue(struct kref *kref)
-+{
-+	struct nvmet_tcp_queue *queue =
-+		container_of(kref, struct nvmet_tcp_queue, kref);
-+
-+	WARN_ON(queue->state != NVMET_TCP_Q_DISCONNECTING);
-+	queue_work(nvmet_wq, &queue->release_work);
-+}
-+
-+static void nvmet_tcp_schedule_release_queue(struct nvmet_tcp_queue *queue)
-+{
-+	spin_lock_bh(&queue->state_lock);
-+	if (queue->state == NVMET_TCP_Q_TLS_HANDSHAKE) {
-+		/* Socket closed during handshake */
-+		tls_handshake_cancel(queue->sock->sk);
-+	}
-+	if (queue->state != NVMET_TCP_Q_DISCONNECTING) {
-+		queue->state = NVMET_TCP_Q_DISCONNECTING;
-+		kref_put(&queue->kref, nvmet_tcp_release_queue);
-+	}
-+	spin_unlock_bh(&queue->state_lock);
-+}
-+
-+static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
-+{
-+	struct socket *sock = queue->sock;
-+
-+	if (!queue->state_change)
-+		return;
-+
-+	write_lock_bh(&sock->sk->sk_callback_lock);
-+	sock->sk->sk_data_ready =  queue->data_ready;
-+	sock->sk->sk_state_change = queue->state_change;
-+	sock->sk->sk_write_space = queue->write_space;
-+	sock->sk->sk_user_data = NULL;
-+	write_unlock_bh(&sock->sk->sk_callback_lock);
-+}
-+
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w)
-+{
-+	struct nvmet_tcp_queue *queue = container_of(to_delayed_work(w),
-+			struct nvmet_tcp_queue, tls_handshake_tmo_work);
-+
-+	pr_warn("queue %d: TLS handshake timeout\n", queue->idx);
-+	/*
-+	 * If tls_handshake_cancel() fails we've lost the race with
-+	 * nvmet_tcp_tls_handshake_done() */
-+	if (!tls_handshake_cancel(queue->sock->sk))
-+		return;
-+	spin_lock_bh(&queue->state_lock);
-+	if (WARN_ON(queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)) {
-+		spin_unlock_bh(&queue->state_lock);
-+		return;
-+	}
-+	queue->state = NVMET_TCP_Q_FAILED;
-+	spin_unlock_bh(&queue->state_lock);
-+	nvmet_tcp_schedule_release_queue(queue);
-+	kref_put(&queue->kref, nvmet_tcp_release_queue);
-+}
-+
-+static int update_tls_keys(struct nvmet_tcp_queue *queue)
-+{
-+	int ret;
-+
-+	cancel_work(&queue->io_work);
-+	queue->state = NVMET_TCP_Q_TLS_HANDSHAKE;
-+
-+	nvmet_tcp_restore_socket_callbacks(queue);
-+
-+	INIT_DELAYED_WORK(&queue->tls_handshake_tmo_work,
-+			  nvmet_tcp_tls_handshake_timeout);
-+
-+	ret = nvmet_tcp_tls_handshake(queue, HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = wait_for_completion_interruptible_timeout(&queue->tls_complete,
-+							10 * HZ);
-+
-+	if (ret <= 0) {
-+		tls_handshake_cancel(queue->sock->sk);
-+		return ret;
-+	}
-+
-+	queue->state = NVMET_TCP_Q_LIVE;
-+
-+	return 0;
-+}
-+#else
-+static int update_tls_keys(struct nvmet_tcp_queue *queue)
-+{
-+	return -EPFNOSUPPORT;
-+}
-+#endif
-+
- static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
- 		struct msghdr *msg, char *cbuf)
- {
-@@ -1131,6 +1252,9 @@ static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
- 			ret = -EAGAIN;
- 		}
- 		break;
-+	case TLS_RECORD_TYPE_HANDSHAKE:
-+		ret = -EAGAIN;
-+		break;
- 	default:
- 		/* discard this record type */
- 		pr_err("queue %d: TLS record %d unhandled\n",
-@@ -1340,6 +1464,8 @@ static int nvmet_tcp_try_recv(struct nvmet_tcp_queue *queue,
- 	for (i = 0; i < budget; i++) {
- 		ret = nvmet_tcp_try_recv_one(queue);
- 		if (unlikely(ret < 0)) {
-+			if (nvmet_tls_key_expired(queue, ret))
-+					goto done;
- 			nvmet_tcp_socket_error(queue, ret);
- 			goto done;
- 		} else if (ret == 0) {
-@@ -1351,29 +1477,6 @@ static int nvmet_tcp_try_recv(struct nvmet_tcp_queue *queue,
- 	return ret;
- }
- 
--static void nvmet_tcp_release_queue(struct kref *kref)
--{
--	struct nvmet_tcp_queue *queue =
--		container_of(kref, struct nvmet_tcp_queue, kref);
--
--	WARN_ON(queue->state != NVMET_TCP_Q_DISCONNECTING);
--	queue_work(nvmet_wq, &queue->release_work);
--}
--
--static void nvmet_tcp_schedule_release_queue(struct nvmet_tcp_queue *queue)
--{
--	spin_lock_bh(&queue->state_lock);
--	if (queue->state == NVMET_TCP_Q_TLS_HANDSHAKE) {
--		/* Socket closed during handshake */
--		tls_handshake_cancel(queue->sock->sk);
--	}
--	if (queue->state != NVMET_TCP_Q_DISCONNECTING) {
--		queue->state = NVMET_TCP_Q_DISCONNECTING;
--		kref_put(&queue->kref, nvmet_tcp_release_queue);
--	}
--	spin_unlock_bh(&queue->state_lock);
--}
--
- static inline void nvmet_tcp_arm_queue_deadline(struct nvmet_tcp_queue *queue)
- {
- 	queue->poll_end = jiffies + usecs_to_jiffies(idle_poll_period_usecs);
-@@ -1404,8 +1507,12 @@ static void nvmet_tcp_io_work(struct work_struct *w)
- 		ret = nvmet_tcp_try_recv(queue, NVMET_TCP_RECV_BUDGET, &ops);
- 		if (ret > 0)
- 			pending = true;
--		else if (ret < 0)
-+		else if (ret < 0) {
-+			if (ret == -EKEYEXPIRED)
-+				break;
-+
- 			return;
-+		}
- 
- 		ret = nvmet_tcp_try_send(queue, NVMET_TCP_SEND_BUDGET, &ops);
- 		if (ret > 0)
-@@ -1415,6 +1522,11 @@ static void nvmet_tcp_io_work(struct work_struct *w)
- 
- 	} while (pending && ops < NVMET_TCP_IO_WORK_BUDGET);
- 
-+	if (ret == -EKEYEXPIRED) {
-+		update_tls_keys(queue);
-+		pending = true;
-+	}
-+
- 	/*
- 	 * Requeue the worker if idle deadline period is in progress or any
- 	 * ops activity was recorded during the do-while loop above.
-@@ -1517,21 +1629,6 @@ static void nvmet_tcp_free_cmds(struct nvmet_tcp_queue *queue)
- 	kfree(cmds);
- }
- 
--static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
--{
--	struct socket *sock = queue->sock;
--
--	if (!queue->state_change)
--		return;
--
--	write_lock_bh(&sock->sk->sk_callback_lock);
--	sock->sk->sk_data_ready =  queue->data_ready;
--	sock->sk->sk_state_change = queue->state_change;
--	sock->sk->sk_write_space = queue->write_space;
--	sock->sk->sk_user_data = NULL;
--	write_unlock_bh(&sock->sk->sk_callback_lock);
--}
--
- static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
- {
- 	struct nvmet_tcp_cmd *cmd = queue->cmds;
-@@ -1794,6 +1891,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
- 	}
- 	if (!status) {
- 		queue->tls_pskid = peerid;
-+		queue->handshake_session_id = handshake_session_id;
- 		queue->state = NVMET_TCP_Q_CONNECTING;
- 	} else
- 		queue->state = NVMET_TCP_Q_FAILED;
-@@ -1809,28 +1907,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
- 	else
- 		nvmet_tcp_set_queue_sock(queue);
- 	kref_put(&queue->kref, nvmet_tcp_release_queue);
--}
--
--static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w)
--{
--	struct nvmet_tcp_queue *queue = container_of(to_delayed_work(w),
--			struct nvmet_tcp_queue, tls_handshake_tmo_work);
--
--	pr_warn("queue %d: TLS handshake timeout\n", queue->idx);
--	/*
--	 * If tls_handshake_cancel() fails we've lost the race with
--	 * nvmet_tcp_tls_handshake_done() */
--	if (!tls_handshake_cancel(queue->sock->sk))
--		return;
--	spin_lock_bh(&queue->state_lock);
--	if (WARN_ON(queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)) {
--		spin_unlock_bh(&queue->state_lock);
--		return;
--	}
--	queue->state = NVMET_TCP_Q_FAILED;
--	spin_unlock_bh(&queue->state_lock);
--	nvmet_tcp_schedule_release_queue(queue);
--	kref_put(&queue->kref, nvmet_tcp_release_queue);
-+	complete(&queue->tls_complete);
- }
- 
- static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
-@@ -1852,11 +1929,15 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
- 	args.ta_data = queue;
- 	args.ta_keyring = key_serial(queue->port->nport->keyring);
- 	args.ta_timeout_ms = tls_handshake_timeout * 1000;
-+	args.handshake_session_id = queue->handshake_session_id;
-+
-+	init_completion(&queue->tls_complete);
- 
- 	if (keyupdate == HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
- 		ret = tls_server_hello_psk(&args, GFP_KERNEL);
- 	else
- 		ret = tls_server_keyupdate_psk(&args, GFP_KERNEL, keyupdate);
-+
- 	if (ret) {
- 		kref_put(&queue->kref, nvmet_tcp_release_queue);
- 		pr_err("failed to start TLS, err=%d\n", ret);
+Does that make a difference?
+
+When looking at the end/bottom of core-api/index.html,
+there is *NO* heading "Indices" and *NO* link "Index" as there
+is in driver-api/index.html.
+Why? 
+
+There are other cases like this one:
+
+$ cd Documentation; git grep "^\.\. only:: [^ ]"
+
+RCU/index.rst:.. only:: subproject and html
+core-api/index.rst:.. only:: subproject and html
+rust/index.rst:.. only:: rustdoc and html
+rust/index.rst:.. only:: not rustdoc and html
+trace/index.rst:.. only:: subproject and html
+virt/index.rst:.. only:: html and subproject
+wmi/devices/index.rst:.. only:: subproject and html
+
+
+thanks.
 -- 
-2.51.1
+~Randy
 
