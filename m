@@ -1,45 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D127B46BF
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 13:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BDC316184;
+	Wed, 12 Nov 2025 13:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762954743; cv=none; b=jrYSymLsT0hRml/cgDO4c9HX5UIhbUF5sHxSIRU6JatdpQ+g3m0czi3NXJK+imbqlUnqqa1Idsx+/8WFCw5Qu9aI32TzEOte1DVOzRCtZ1o0wmJtGMnhJpFriKF+PcGoIEQmyygVV/kyYcTrjEpIFUdAUOPeoZzioYFmZUKoFTM=
+	t=1762954900; cv=none; b=MdvY67pCY7xLPrBd3oyMWiBDr87KpIwqbNBOacmTcf5sd7c92EkExlm7csbYAMTVHGtskH5ZjKJSfdk1ufcAM3iOVymeVmx+f18ienmOYdv1bTjf23r9yCMJQPPbPHFuQk4859CeYt8kgQ/ZOniVSV3hQs7XVRRvLRztlCQeDOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762954743; c=relaxed/simple;
-	bh=XTI8QAhFJpLZXd5AVCoHXt62byXuHFK7H8OVCFX+k2c=;
+	s=arc-20240116; t=1762954900; c=relaxed/simple;
+	bh=EykT/IKQHYP/MOb3HirDVe/VNCjQTaPgAa6O9n5Zd40=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A7P+Dv5QCX+pZ38uKSL/pALx4qW/5yYFUKXsVJ5LlGkIOpKqBEvlkyaw0aZGF0UE8aT8Su7dlM6OJaKQ2MpM7kEAMuiz2VHXYQ8PPi6KpU7DyRRxV0rSxZNg+apIcjZXypriqCcNxGQzqkPWJDOD68STx51VD6mzdS3/sRHH4fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FgqDntyy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=X3KMWwlbETFzsM19HC6H1ynRfn62d4RNA+bwuv0G0fw7IUOwLc66Mys7HQKiT1cBeWV6iFJO6Yni1Ls90y9VPoIAzNbSjQpgkjfvqI+UkAeJJrF6GlcLFTU47ggWdCMrvxND98TBmwwT3v4TgaORzEWjDR5OHUcIOXZwHvsZ5iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ACMQ03cC; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FgqDntyy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A04EFC4CEF8;
-	Wed, 12 Nov 2025 13:39:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762954743;
-	bh=XTI8QAhFJpLZXd5AVCoHXt62byXuHFK7H8OVCFX+k2c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FgqDntyyTw0ucXG8rCnh+kNR688hTRSagtt6M/cGNkLCQM3mmxywUfMbQ0PrriuFy
-	 /rrFcweIDw+vGyo6i+l1S/J4MCjqsV2EiNsjX0nKFaFdumGIPRENHkosED+mPb4Vaf
-	 0m5PHldg1NRFTDeu1mGctbPBykzRCchBmlc83OzS8qgKvmT/wkSdl5EPjfg2QmeV1U
-	 2USh4ilhvxiU9zfdQKhb/YhleI9gntElPg6niXxFoQemHWqyvLvwCCWR3rsVjxslZx
-	 bUSUo/IV0AjweslYIN2Tr2PJg+ixsA3DXsoxMjVAjOrTB7cldBD2/6KZ4AC0yiiihH
-	 rhGX1jNNeTjVg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vJB3t-00000009TA3-2wMU;
-	Wed, 12 Nov 2025 14:39:01 +0100
-Date: Wed, 12 Nov 2025 14:39:01 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 4/4] Documentation: use a source-read extension to
- include the index boilerplate
-Message-ID: <qf6t4cbpurcssabychbtxplqv7metgglduu4soqjexfxs6ongy@yryw3bnk44y6>
-References: <cover.1762948491.git.jani.nikula@intel.com>
- <e404d14ad5e9ed0ddc3f8920efb5d156dff99021.1762948491.git.jani.nikula@intel.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ACMQ03cC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=R+vUWpJtVmzOn5MTORlZ3b/sdwMlGIAQws10+cLlGxQ=; b=ACMQ03cCbAnsPU6sBkJXhbIgOq
+	mEJdROqQbkotw5sR7Ju16UitwLqSNDMbrJx1T2LdTNQFt5vZ10u60Gv1t2kJck6bmgFdpGgatkxvH
+	MtKrAtOy035ybPOc/OeXEz/0bcsE3twKCQoKGNZSsibTSFrr7Z67JsPW7zKywAtTqPPg=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vJB6I-00Dke3-O3; Wed, 12 Nov 2025 14:41:30 +0100
+Date: Wed, 12 Nov 2025 14:41:30 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	dl-linux-imx <linux-imx@nxp.com>
+Subject: Re: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rpmsg bus
+Message-ID: <9bcd63d2-f75f-4cb6-a81f-eefc983a99bb@lunn.ch>
+References: <20251104203315.85706-1-shenwei.wang@nxp.com>
+ <20251104203315.85706-4-shenwei.wang@nxp.com>
+ <CACRpkdZR2C=+ssYOKnF=hyOqTakGjVxzp5_qz=3-uYRpzaZgNQ@mail.gmail.com>
+ <AS8PR04MB9176F105B09FF939B22B85E589CFA@AS8PR04MB9176.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,48 +62,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e404d14ad5e9ed0ddc3f8920efb5d156dff99021.1762948491.git.jani.nikula@intel.com>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <AS8PR04MB9176F105B09FF939B22B85E589CFA@AS8PR04MB9176.eurprd04.prod.outlook.com>
 
-On Wed, Nov 12, 2025 at 01:56:54PM +0200, Jani Nikula wrote:
-> Reduce boilerplate all over the place by adding a small ad hoc extension
-> in conf.py that adds the ../sphinx-includes/subproject-index.rst include
-> to all SPHINXDIRS builds.
+> Hi Linus,
 > 
-> Note that the docname is just 'index', because the SPHINXDIRS builds
-> happen in the subdirectories.
+> Thank you very much for the review and suggestions.
 > 
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> Would it be feasible to use the reserved field for this purpose? This approach would maintain 
+> compatibility with the existing system.
 
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index b9a43ee32a00..cb0936a71d52 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -589,8 +589,14 @@ kerneldoc_srctree = ".."
->  # ------------------------------------------------------------------------------
->  loadConfig(globals())
->  
-> +# Add index link to SPHINXDIRS builds
-> +def add_subproject_index(app, docname, source):
-> +    if app.builder.tags.has('subproject') and app.builder.tags.has('html'):
-> +        if docname == 'index':
-> +            source[0] += '\n.. include:: ../sphinx-includes/subproject-index.rst\n'
+Since this has not been merged yet, there are no existing systems.
 
-The relative path there breaks SPINXDIRS, when it is pointing to use a sub-sub-dir
-like:
+It is well known that what gets merged into mainline is often
+different to the initial out of tree version. You just need to deal
+with it. One option you have is to set the vendor byte to 1, so
+indicating NXP. If Linux uses vendor 0, it might be your out of tree
+vendor driver, not the in kernel driver. Just document in the
+specification vendor 0 is reserved.
 
-    $ make SPHINXDIRS=userspace-api/media htmldocs
+You are going to have to modify your firmware anyway, level interrupts
+are broken. And this is an example of why quirks are needed.
 
-    Traceback
-    =========
-
-      File "/usr/lib/python3.14/site-packages/sphinx/util/parallel.py", line 137, in _join_one
-        raise SphinxParallelError(*result)
-    sphinx.errors.SphinxParallelError: docutils.utils.SystemMessage: Documentation/userspace-api/media/index.rst:69: (SEVERE/4) Problems with "include" directive path:
-    InputError: [Errno 2] No such file or directory: 'Documentation/userspace-api/sphinx-includes/subproject-index.rst'.
-
-Thanks,
-Mauro
+	Andrew
