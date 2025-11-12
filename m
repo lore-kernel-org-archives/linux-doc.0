@@ -1,123 +1,156 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E743431E3
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 15:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA33825F975;
+	Wed, 12 Nov 2025 15:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762960964; cv=none; b=tAlZF9XwvDAKjcTYvUJtgz/dNoQ0Q9F1FW5SkuyFZOhHyHM3wnzTydcCwvsFZtpJCUfvw79koIlBUFdI8d3pMyAXX8/ClcaJyXcmLqDzMa7BcolbKHp1jHlkH0l7tFZIL/3JWjW+YhELs86LwKJjPnGsUt7YnPcEkd7lcaQ3bW4=
+	t=1762961034; cv=none; b=juR1uOj2dlhO3k3JiVPvqoJoSrL8It/U5eo2FAHHEgVJsxjAEOwqOsqzreKlYR73wuFw5UdN83EqcdhbxJc1H2HPosmrG9OD/QfL6zbycKcCUF8NhgQkwXZ9wilmJ3Y73n/3B21DkcpMDaZh+L52zEZ0FgrHkkxAtDYWRxRBeTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762960964; c=relaxed/simple;
-	bh=vIoSuKUIgKlvMmrNCjvc9BmN+EVbN2mv6N8L+3PJiaI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uB9hNmP5LmJbFDDhQAFxzqtT7KlXpRJ8yQUA68fx4w5JbRF0NsQURVakBDBvNNzJuYqeydoW/+o6Tjl3LBgwJVq7ZtvWYeiVluAiH1khJ4xMpSjRybSag3niwlICPTlpbyiQePML67iIQkqnV6lJ2/ZDHAiH2ZrPsVZ9OsQfXV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R8crMwDP; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1762961034; c=relaxed/simple;
+	bh=qe6wQjSBZGEWx1gys61HAiAAEe3IYJWXu8xOJPtYeh4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=A+P7ajrDtgx6rwPNDzKUTfSs6a8G+fEtH7IR7OeDJJZvnIP2rM1Pj/mGa1KPV1QmtY194puIq/cV06mBKzGebIO2r42qU6t37iCEFkK0DuI2xi5h5PkT+DVu9qJ3iJ+N2jdK9qGP1fTHWG9I/ZC4kcOpgZpD/65knOxONKueyRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=mbDelKTp; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R8crMwDP"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47774d3536dso7195295e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 07:22:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762960961; x=1763565761; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RDsBSlb7WeG4t+Zz0qQoWGyQAvxf7H4neeIGYfC2zjY=;
-        b=R8crMwDPpFAUn5w0IF4ncHYxxs9Iu4PIxV7XARy1fhlPUpxtPysJn7w7Y+fnWWjwn9
-         +nxwTfh8EOvlf6OJkX2OKNerRCFNB2XvsmojRgmbFp4t2eKXRX/df8aMHTdrGvnL8uFF
-         KvfrqFB/YgGhbdPSwhJfVL+9bt6VSqSumHkCYf3wj7jG1EHDxCyhiQY9I3BdpTzilXup
-         CMcMStDT4xhtpDnQHhxtT2lSH+tut65rJ+R9F/cYrwIiCtfvipQBKl9eQr8/ASh9ysMX
-         zrZafXqGcMN7e92FHsMRtZGwmW9nidrORJSds8lej5/TEGkS0GhXtWYLxzRyH+iDboGT
-         BKXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762960961; x=1763565761;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RDsBSlb7WeG4t+Zz0qQoWGyQAvxf7H4neeIGYfC2zjY=;
-        b=MG3FZGulLjPt0hWIBTLOynm1Phy3OcyhxvGBmL6upZWJS0k4DzWAPaRbQT7P1GEnT2
-         tWJ16KGtpO/7mY7DsnzbeMLCgLV4oid82ff9msHoUGknt51kwLoOsDJdDfDEiG4ckJ/P
-         fs8afpyBRtXH49XfxMAYIuDOfkrcRLMDYC9sd0Tpxok7FJsSQF/5wtN4GAv6+EfjaJPX
-         J7+R9BL5QTUsoueRze0yk0i4wZVdUKgOPxDwQQZWFYiF8Qh/qDpfe37RuLjEcGW/IfK+
-         GtERbwL3KX1G/mC28IQG7KjJiBk/gNiptNFXCIPHKc3QkJR9ZqULDeW3l+szrCsQnGEz
-         +uMA==
-X-Forwarded-Encrypted: i=1; AJvYcCVnysXu3k4OJWl+/EJCj5kUK5Xod/SjPTMBV1VzbGIp2EtvqNVibuIS7yhI0zhEuyTHvNsQMWS2Eko=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpHMW1i7sLvcLs2Hk3pmd6ePs8y8pWRtNscBNhv5HDEhpkL4PS
-	+ybhjtSNAEHt4soVHXzLhkMyhpy3kah9M2bd8tTjuiysDSH2WllT9WI+4pwapSzmhig=
-X-Gm-Gg: ASbGncukUc/H+x0Y4XQSKMWNSiow3NfYi2UY0Se45MFaHvqduLY+80aCsfluLh7FcA5
-	QcoYP9vSitJjHpoXQATrE/NDfsT20cAVJMHaHnsr+4wg4kMM98LNCOY56AZfP+lYNUcBzDw/CXa
-	AAlTD+CxyAX322tDfq/6P4Uz/aC91JMie5gOxt6bNmqbP4HcatrmcloiNq+UcXmMBHLNL7bQCqB
-	e+RtRbKRH9QWJaeNCGp1eINkSFnaikb9v5vftQudyQEFUsIlHkKHKVVl9k/6g5mB00jZJA7b8D2
-	pITFt5wdmtZ9gNC3bg32FaHBQhYkVSMu/DzdYweKd5vk4hiHTj5unMFGTGPQsDKoaQ2mFIKKK8D
-	bJJ4//tkvhs0fPbzJbgqVqZCbeTltxmkjMPYx3pI4pyKgIkDejOMF/UoPdInNKXhUTy/mCCyzLX
-	f5z2w8JcCX4w==
-X-Google-Smtp-Source: AGHT+IEuc3bgQChegQeV43CchL7U+HtACup7lJPgzLmedOPZfHtTOSw9g16bfGt0TS1oBLr+C/CdKQ==
-X-Received: by 2002:a05:600c:80c5:b0:477:7588:c8cc with SMTP id 5b1f17b1804b1-4778142013amr40810085e9.7.1762960960555;
-        Wed, 12 Nov 2025 07:22:40 -0800 (PST)
-Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42ac677ab75sm33573485f8f.35.2025.11.12.07.22.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Nov 2025 07:22:40 -0800 (PST)
-From: James Clark <james.clark@linaro.org>
-Date: Wed, 12 Nov 2025 15:22:19 +0000
-Subject: [PATCH v4 13/13] coresight: docs: Document etm4x timestamp
- interval option
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="mbDelKTp"
+Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 5ACFN4B7832891
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Wed, 12 Nov 2025 07:23:04 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 5ACFN4B7832891
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025102301; t=1762960986;
+	bh=qe6wQjSBZGEWx1gys61HAiAAEe3IYJWXu8xOJPtYeh4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=mbDelKTpD2NFpNHUct6Wt3eJUGlPMtesJ7oawEOSkwcg3iuMn+w8avyJIuJcNafJk
+	 Z511QVJQQnwtwUOwxtunVXV9B2c32eKyItXxJuVp7Z4NRJZenDlgYgGAMLuxpjQoHW
+	 Bjh72VbT0dJZDkkmnO8oEie4QDmPVn58Q+YwNhcTdgorSFKngWo/NgxVVk/57NWaiP
+	 b5exTziC1XrEsp6z5sm1kgUheOeg62FH7+CAtghu4/P6p7GlF07DjOnDOJ385rWU7F
+	 NSyL5duvHVq2fk+0J2Y+qJuOS3WjGRSK59B6YHNyYQZavwZSD8QkIkJv5CruWexSGf
+	 bpO79YRYoLIeg==
+Date: Wed, 12 Nov 2025 07:23:02 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+CC: Dave Hansen <dave.hansen@intel.com>, Sohil Mehta <sohil.mehta@intel.com>,
+        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
+        Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Sean Christopherson <seanjc@google.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>, Kees Cook <kees@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-efi@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v11_4/9=5D_x86/alternatives=3A_?=
+ =?US-ASCII?Q?Disable_LASS_when_patching_kernel_code?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAMj1kXGyTo=4Va1PevMQyCauEKSutfSPo6je0Ps09TabhTe4zQ@mail.gmail.com>
+References: <20251029210310.1155449-1-sohil.mehta@intel.com> <20251029210310.1155449-5-sohil.mehta@intel.com> <29f2d16f-361f-475c-957e-0ebcefcd1a8c@intel.com> <CAMj1kXHvfgMqFncvP5A6ed=2qEPkNkS8ecoM6iXMect51Tpz4w@mail.gmail.com> <7c26ae81-3495-457b-9f64-f5b2e169a63b@intel.com> <DDEF6164-D1E6-4003-A251-804738CB59E0@zytor.com> <CAMj1kXGyTo=4Va1PevMQyCauEKSutfSPo6je0Ps09TabhTe4zQ@mail.gmail.com>
+Message-ID: <E9396874-5D2D-413D-A5D1-A28E4D429C51@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251112-james-cs-syncfreq-v4-13-165ba21401dc@linaro.org>
-References: <20251112-james-cs-syncfreq-v4-0-165ba21401dc@linaro.org>
-In-Reply-To: <20251112-james-cs-syncfreq-v4-0-165ba21401dc@linaro.org>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Mike Leach <mike.leach@linaro.org>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@arm.com>
-Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- James Clark <james.clark@linaro.org>
-X-Mailer: b4 0.14.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Document how the new field is used, maximum value and the interaction
-with SYNC timestamps.
+On November 12, 2025 7:18:33 AM PST, Ard Biesheuvel <ardb@kernel=2Eorg> wro=
+te:
+>On Wed, 12 Nov 2025 at 15:58, H=2E Peter Anvin <hpa@zytor=2Ecom> wrote:
+>>
+>> On November 12, 2025 6:51:45 AM PST, Dave Hansen <dave=2Ehansen@intel=
+=2Ecom> wrote:
+>> >On 11/12/25 05:56, Ard Biesheuvel wrote:
+>> >=2E=2E=2E
+>> >>> it looks like we would now need to toggle
+>> >>> CR4=2ELASS every time we switch to efi_mm=2E The lass_enable()/_dis=
+able()
+>> >>> naming would be more suitable for those wrappers=2E
+>> >>>
+>> >> Note that Linux/x86 uses SetVirtualAddressMap() to remap all EFI
+>> >> runtime regions into the upper [kernel] half of the address space=2E
+>> >>
+>> >> SetVirtualAddressMap() itself is a terrible idea, but given that we
+>> >> are already stuck with it, we should be able to rely on ordinary EFI
+>> >> runtime calls to only execute from the upper address range=2E The on=
+ly
+>> >> exception is the call to SetVirtualAddressMap() itself, which occurs
+>> >> only once during early boot=2E
+>> >
+>> >Gah, I had it in my head that we needed to use the lower mapping at
+>> >runtime=2E The efi_mm gets used for that SetVirtualAddressMap() and th=
+e
+>> >efi_mm continues to get used at runtime=2E So I think I just assumed t=
+hat
+>> >the lower mappings needed to get used too=2E
+>> >
+>> >Thanks for the education!
+>> >
+>> >Let's say we simply delayed CR4=2ELASS=3D1 until later in boot=2E Coul=
+d we
+>> >completely ignore LASS during EFI calls, since the calls only use the
+>> >upper address range?
+>> >
+>> >Also, in practice, are there buggy EFI implementations that use the
+>> >lower address range even though they're not supposed to? *If* we just
+>> >keep LASS on for these calls is there a chance it will cause a
+>> >regression in some buggy EFI implementations?
+>>
+>> Yes, they are=2E And there are buggy ones which die if set up with virt=
+ual addresses in the low half=2E
+>
+>To elaborate on that, there are systems where
+>
+>a) not calling SetVirtualAddressMap() crashes the firmware, because,
+>in spite of being clearly documented as optional, not calling it
+>results in some event hook not being called, causing the firmware to
+>misbehave
+>
+>b) calling SetVirtualAddressMap() with an 1:1 mapping crashes the
+>firmware (and so this is not a possible workaround for a))
+>
+>c) calling SetVirtualAddressMap() crashes the firmware when not both
+>the old 1:1 and the new kernel mapping are already live (which
+>violates the UEFI spec)
+>
+>d) calling SetVirtualAddressMap() does not result in all 1:1
+>references being converted to the new mapping=2E
+>
+>
+>To address d), the x86_64 implementation of efi_map_region() indeed
+>maps an 1:1 alias of each remapped runtime regions, so that stray
+>accesses don't fault=2E But the code addresses are all remapped, and so
+>the firmware routines are always invoked via their remapped aliases in
+>the kernel VA space=2E Not calling SetVirtualAddressMap() at all, or
+>calling it with a 1:1 mapping is not feasible, essentially because
+>Windows doesn't do that, and that is the only thing that is tested on
+>all x86 PCs by the respective OEMs=2E
+>
+>Given that remapping the code is dealt with by the firmware's PE/COFF
+>loader, whereas remapping [dynamically allocated] data requires effort
+>on the part of the programmer, I'd hazard a guess that 99=2E9% of those
+>bugs do not involve attempts to execute via the lower mapping, but
+>stray references to data objects that were not remapped properly=2E
+>
+>So we might consider
+>a) remapping those 1:1 aliases NX, so we don't have those patches of
+>RWX memory around
+>b) keeping LASS enabled during ordinary EFI runtime calls, as you suggest=
+=2E
 
-Signed-off-by: James Clark <james.clark@linaro.org>
----
- Documentation/trace/coresight/coresight.rst | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-index 806699871b80..80b5ed09d69b 100644
---- a/Documentation/trace/coresight/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -613,8 +613,19 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
-      - Session local version of the system wide setting: :ref:`ETM_MODE_RETURNSTACK
-        <coresight-return-stack>`
-    * - timestamp
--     - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
--       <coresight-timestamp>`
-+     - Controls generation and interval of timestamps.
-+
-+       0 = off, 1 = maximum interval .. 15 = minimum interval.
-+
-+       Values 1 - 14 use a counter that decrements every cycle to generate a
-+       timestamp on underflow. The reload value for the counter is 2 raised to
-+       the power of timestamp interval - 1. If the value is 1 then the reload
-+       value is 1, if the value is 11 then the reload value is 1024 etc.
-+
-+       Setting the minimum interval (15) will disable the counter generated
-+       timestamps, freeing the counter resource, leaving only ones emitted when
-+       a SYNC packet is generated for every 4096 bytes of trace.
-+
-    * - cc_threshold
-      - Cycle count threshold value. If nothing is provided here or the provided value is 0, then the
-        default value i.e 0x100 will be used. If provided value is less than minimum cycles threshold
-
--- 
-2.34.1
-
+Unless someone has a code pointer in their code=2E
