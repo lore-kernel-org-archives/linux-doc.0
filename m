@@ -1,276 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058AD2E888A;
-	Wed, 12 Nov 2025 11:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBC531691E
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 11:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762948006; cv=none; b=Le+XKGDpJilHT7U1IjhpEVthaduhI08gfCvuszfO7djln7naIuggcaPtR/mFj7CuookVTc+TAc/dh9ytGwe3BV/evIAYSFx9e6E2xC6quTq2yxkssNwp8k2T/nmovKIzuFZHxNWRsyQARktFvXJKbwC6EgwfWrWVuwi82C9yIYY=
+	t=1762948621; cv=none; b=Zl67FDZgbRadPeXIEjr4iQD9gdTIHpLaduEATzplgHVkN7ZjM29DNXeHQVeGuNPmAamrW62uZUf4HXXDuMXSeONAG3uFF4WwBQxTELpAacl3vF2L969r++1S/yWQAB7/7ji6YQ/i/wC/RSqFa2fiflaXLb/TVP/p/r4maBKIap0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762948006; c=relaxed/simple;
-	bh=ih71AgwUzWOc1i5Rm6yDBbjgjbm3cz1P32zyBC0sogA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qe+pF8Z+TPYOmLhtM2ZYySQX5T1eIOtOk/tM2s3lnbsFfJupnKsKwUZla5TwHAMc6gHeYYKAP/QoJFAjGieETDuk6g1Q/O58YA+T3zPkv2uZWBFdX25029kfns0gsmF73/f8gqH4pcnauaR+O6p6kXBhPYSUd/LyTQ6m/MtYuDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vFwS4I5w; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762948621; c=relaxed/simple;
+	bh=CZ16LxSwwgK4ebq8l7kpJKEY6aiRedDYFlM/GPLHSqU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lky1JS2HDNQAa0bPmjuWUsybJORFXDby4PC+0tUzQgp7H+d/AYkAI6GIwF6zagXRBiZpLwXJrdRglHONcKb29A60C8jwOdRLUu+zzkLKtZqzTextyWZ7cdShfwL695HXDx7wq1GrHTfi79dXhs9pIRdczx27zGVFegBsBNyNxNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=adK2rOhn; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vFwS4I5w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FEA1C4CEF7;
-	Wed, 12 Nov 2025 11:46:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762948005;
-	bh=ih71AgwUzWOc1i5Rm6yDBbjgjbm3cz1P32zyBC0sogA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=vFwS4I5wICLAhXXwgoZma7UDxoXj375yCEewrxPbS+jYgut+Jxzi7Xww/G6Jy2K1M
-	 lcZeTNwuSuWg8r8indTzLYgy2GVboeZkhbpFRZmh8YIUvjtZofTQ9kasahUAsD20Wg
-	 63+6lpp2d84V0rDstJ9FBdwWDjkKnZLilFxC+y+cxdRM2cQFIQBdmwCKDBD21q3lJh
-	 Tok9G91aNP1D8p3gZO83O6qwTy5pTt53OieCTWvRdaqGCnOFoIb1EbMGst7O1N0Fsj
-	 DxORPhK3KFlALXvMvsObf3SUFpjsZy4fq7e8xbe1BHX77jsCpmEzKBbnuT36B5gkVL
-	 kyGcENlRHyKlg==
-From: Borislav Petkov <bp@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>
-Subject: [PATCH] Documentation/kernel-parameters: Move the kernel build options
-Date: Wed, 12 Nov 2025 12:46:41 +0100
-Message-ID: <20251112114641.8230-1-bp@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="adK2rOhn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762948620; x=1794484620;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CZ16LxSwwgK4ebq8l7kpJKEY6aiRedDYFlM/GPLHSqU=;
+  b=adK2rOhnLu3WrJmb6Airqfru2wNIZ0Wmgf2HbV7Hm1WlCC/SVhNuNtSs
+   fVVW/1QUDK9nEBG7dIeYWHxyrid0InwhWs+7czF8cFq+GnYC2GCWcGIbp
+   +6dJ/z5pW6141RQjXnuQlpSnbI3kRPrZXtaaHVGoPs6XY+gyChPexQGLM
+   NucNMzf9lAywU+lCoEFAH5LeyDKHtx2TbXjPc38cyzUbUYolNcDHw4tSA
+   1qPv9/MaQiTMJ5gGmi8ETmfYJtAOGYh4Dbwd9O5cvgLpRAbTCLc9a4n0J
+   /2ie+v1UzK9rmWJRzJheizZbzd3bgRdRekP+eIiAhBhBiD3/0d8jcj7AL
+   w==;
+X-CSE-ConnectionGUID: c8QtKgZjSFC6a1SvlL4OXw==
+X-CSE-MsgGUID: ObxXcm2aSjGaZkLUc0NjCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="76467787"
+X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; 
+   d="scan'208";a="76467787"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 03:57:00 -0800
+X-CSE-ConnectionGUID: tTD/D1HeRoGo0TMoyxM8eQ==
+X-CSE-MsgGUID: gtqhXKGPSQKPii8SPzcnyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,299,1754982000"; 
+   d="scan'208";a="193323564"
+Received: from ettammin-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.54])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 03:56:59 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: linux-doc@vger.kernel.org
+Cc: jani.nikula@intel.com
+Subject: [PATCH 0/4] Documentation: clean up subproject index boilerplate
+Date: Wed, 12 Nov 2025 13:56:50 +0200
+Message-ID: <cover.1762948491.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 
-From: "Borislav Petkov (AMD)" <bp@alien8.de>
+Only very lightly tested.
 
-Move the kernel build options abbreviations to the .txt file so that
-they are together instead of one having to go hunt them in the .rst
-file.
+Jani Nikula (4):
+  Documentation: remove subproject index links deep in the structure
+  Documentation: streamline subproject index link in translations
+  Documentation: include the boilerplate for SPHINXDIRS index link
+  Documentation: use a source-read extension to include the index
+    boilerplate
 
-Tweak the formatting so that the inclusion of kernel-parameters.txt
-still keeps the whole thing somewhat presentable in the html output too.
+ Documentation/RCU/index.rst                              | 7 -------
+ Documentation/accel/index.rst                            | 7 -------
+ Documentation/admin-guide/aoe/index.rst                  | 7 -------
+ Documentation/admin-guide/auxdisplay/index.rst           | 7 -------
+ Documentation/admin-guide/cgroup-v1/index.rst            | 7 -------
+ Documentation/admin-guide/cifs/index.rst                 | 7 -------
+ Documentation/admin-guide/device-mapper/index.rst        | 7 -------
+ Documentation/admin-guide/gpio/index.rst                 | 7 -------
+ Documentation/admin-guide/index.rst                      | 7 -------
+ Documentation/admin-guide/kdump/index.rst                | 7 -------
+ Documentation/arch/arc/index.rst                         | 7 -------
+ Documentation/arch/arm/index.rst                         | 8 --------
+ Documentation/arch/arm64/index.rst                       | 7 -------
+ Documentation/arch/loongarch/index.rst                   | 7 -------
+ Documentation/arch/m68k/index.rst                        | 7 -------
+ Documentation/arch/mips/index.rst                        | 7 -------
+ Documentation/arch/openrisc/index.rst                    | 7 -------
+ Documentation/arch/parisc/index.rst                      | 7 -------
+ Documentation/arch/powerpc/index.rst                     | 7 -------
+ Documentation/arch/riscv/index.rst                       | 7 -------
+ Documentation/arch/s390/index.rst                        | 7 -------
+ Documentation/bpf/index.rst                              | 7 -------
+ Documentation/cdrom/index.rst                            | 7 -------
+ Documentation/conf.py                                    | 8 +++++++-
+ Documentation/core-api/index.rst                         | 7 -------
+ Documentation/core-api/kho/index.rst                     | 2 --
+ Documentation/dev-tools/index.rst                        | 8 --------
+ Documentation/doc-guide/index.rst                        | 7 -------
+ Documentation/driver-api/80211/index.rst                 | 7 -------
+ Documentation/driver-api/coco/index.rst                  | 2 --
+ Documentation/driver-api/crypto/iaa/index.rst            | 7 -------
+ Documentation/driver-api/crypto/index.rst                | 7 -------
+ Documentation/driver-api/cxl/index.rst                   | 2 --
+ Documentation/driver-api/dmaengine/index.rst             | 7 -------
+ Documentation/driver-api/driver-model/index.rst          | 7 -------
+ Documentation/driver-api/early-userspace/index.rst       | 7 -------
+ Documentation/driver-api/firmware/index.rst              | 7 -------
+ Documentation/driver-api/index.rst                       | 7 -------
+ Documentation/driver-api/memory-devices/index.rst        | 7 -------
+ Documentation/driver-api/pci/index.rst                   | 7 -------
+ Documentation/driver-api/phy/index.rst                   | 8 --------
+ Documentation/driver-api/pm/index.rst                    | 7 -------
+ Documentation/driver-api/serial/index.rst                | 7 -------
+ Documentation/driver-api/soundwire/index.rst             | 7 -------
+ .../driver-api/surface_aggregator/clients/index.rst      | 7 -------
+ Documentation/driver-api/surface_aggregator/index.rst    | 7 -------
+ Documentation/driver-api/usb/index.rst                   | 7 -------
+ Documentation/driver-api/xilinx/index.rst                | 7 -------
+ Documentation/fault-injection/index.rst                  | 7 -------
+ Documentation/fb/index.rst                               | 7 -------
+ Documentation/fpga/index.rst                             | 7 -------
+ Documentation/gpu/drivers.rst                            | 7 -------
+ Documentation/gpu/index.rst                              | 7 -------
+ Documentation/hwmon/index.rst                            | 7 -------
+ Documentation/i2c/index.rst                              | 7 -------
+ Documentation/infiniband/index.rst                       | 7 -------
+ Documentation/input/devices/index.rst                    | 7 -------
+ Documentation/input/index.rst                            | 7 -------
+ Documentation/isdn/index.rst                             | 7 -------
+ Documentation/kbuild/index.rst                           | 7 -------
+ Documentation/livepatch/index.rst                        | 7 -------
+ Documentation/locking/index.rst                          | 7 -------
+ Documentation/mhi/index.rst                              | 7 -------
+ Documentation/netlabel/index.rst                         | 7 -------
+ Documentation/networking/device_drivers/atm/index.rst    | 7 -------
+ Documentation/networking/device_drivers/can/index.rst    | 7 -------
+ .../networking/device_drivers/cellular/index.rst         | 7 -------
+ .../networking/device_drivers/ethernet/index.rst         | 7 -------
+ .../device_drivers/ethernet/mellanox/mlx5/index.rst      | 7 -------
+ Documentation/networking/device_drivers/fddi/index.rst   | 7 -------
+ .../networking/device_drivers/hamradio/index.rst         | 7 -------
+ Documentation/networking/device_drivers/index.rst        | 7 -------
+ Documentation/networking/device_drivers/wifi/index.rst   | 7 -------
+ Documentation/networking/device_drivers/wwan/index.rst   | 7 -------
+ Documentation/networking/diagnostic/index.rst            | 7 -------
+ Documentation/networking/index.rst                       | 7 -------
+ Documentation/pcmcia/index.rst                           | 7 -------
+ Documentation/peci/index.rst                             | 7 -------
+ Documentation/power/index.rst                            | 7 -------
+ Documentation/process/debugging/index.rst                | 9 ---------
+ Documentation/process/index.rst                          | 7 -------
+ Documentation/rust/index.rst                             | 7 -------
+ Documentation/scheduler/index.rst                        | 7 -------
+ Documentation/sound/index.rst                            | 7 -------
+ Documentation/sphinx-includes/subproject-index.rst       | 4 ++++
+ Documentation/spi/index.rst                              | 7 -------
+ Documentation/target/index.rst                           | 7 -------
+ Documentation/tee/index.rst                              | 7 -------
+ Documentation/timers/index.rst                           | 7 -------
+ Documentation/tools/index.rst                            | 7 -------
+ Documentation/tools/rtla/index.rst                       | 7 -------
+ Documentation/tools/rv/index.rst                         | 7 -------
+ Documentation/trace/index.rst                            | 7 -------
+ Documentation/translations/it_IT/RCU/index.rst           | 7 -------
+ Documentation/translations/it_IT/core-api/index.rst      | 7 -------
+ Documentation/translations/it_IT/doc-guide/index.rst     | 7 -------
+ Documentation/translations/it_IT/i2c/index.rst           | 7 -------
+ Documentation/translations/it_IT/index.rst               | 7 +++++++
+ Documentation/translations/it_IT/locking/index.rst       | 7 -------
+ Documentation/translations/it_IT/process/index.rst       | 7 -------
+ Documentation/translations/zh_CN/admin-guide/index.rst   | 7 -------
+ .../translations/zh_CN/arch/loongarch/index.rst          | 7 -------
+ Documentation/translations/zh_CN/arch/mips/index.rst     | 7 -------
+ Documentation/translations/zh_CN/arch/openrisc/index.rst | 8 --------
+ Documentation/translations/zh_CN/arch/parisc/index.rst   | 7 -------
+ Documentation/translations/zh_CN/arch/riscv/index.rst    | 8 --------
+ Documentation/translations/zh_CN/core-api/index.rst      | 7 -------
+ Documentation/translations/zh_CN/doc-guide/index.rst     | 7 -------
+ Documentation/translations/zh_CN/driver-api/index.rst    | 7 -------
+ .../translations/zh_CN/driver-api/phy/index.rst          | 7 -------
+ Documentation/translations/zh_CN/infiniband/index.rst    | 9 ---------
+ Documentation/translations/zh_CN/kbuild/index.rst        | 8 --------
+ Documentation/translations/zh_CN/locking/index.rst       | 7 -------
+ Documentation/translations/zh_CN/networking/index.rst    | 7 -------
+ Documentation/translations/zh_CN/peci/index.rst          | 7 -------
+ Documentation/translations/zh_CN/power/index.rst         | 7 -------
+ Documentation/translations/zh_CN/process/index.rst       | 7 -------
+ Documentation/translations/zh_CN/rust/index.rst          | 7 -------
+ Documentation/translations/zh_CN/scheduler/index.rst     | 7 -------
+ Documentation/translations/zh_CN/sound/index.rst         | 7 -------
+ Documentation/translations/zh_CN/userspace-api/index.rst | 7 -------
+ Documentation/translations/zh_CN/virt/index.rst          | 7 -------
+ Documentation/translations/zh_TW/admin-guide/index.rst   | 8 --------
+ .../translations/zh_TW/arch/loongarch/index.rst          | 8 --------
+ Documentation/translations/zh_TW/arch/mips/index.rst     | 8 --------
+ Documentation/translations/zh_TW/arch/openrisc/index.rst | 9 ---------
+ Documentation/translations/zh_TW/arch/parisc/index.rst   | 8 --------
+ Documentation/translations/zh_TW/process/index.rst       | 8 --------
+ Documentation/usb/index.rst                              | 7 -------
+ Documentation/userspace-api/gpio/index.rst               | 7 -------
+ Documentation/userspace-api/index.rst                    | 7 -------
+ Documentation/virt/index.rst                             | 7 -------
+ Documentation/w1/index.rst                               | 7 -------
+ Documentation/watchdog/index.rst                         | 7 -------
+ Documentation/wmi/devices/index.rst                      | 7 -------
+ Documentation/wmi/index.rst                              | 8 --------
+ 136 files changed, 18 insertions(+), 935 deletions(-)
+ create mode 100644 Documentation/sphinx-includes/subproject-index.rst
 
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
----
- .../admin-guide/kernel-parameters.rst         | 97 +-----------------
- .../admin-guide/kernel-parameters.txt         | 98 +++++++++++++++++++
- 2 files changed, 99 insertions(+), 96 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index 7bf8cc7df6b5..02a725536cc5 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -110,102 +110,7 @@ The parameters listed below are only valid if certain kernel build options
- were enabled and if respective hardware is present. This list should be kept
- in alphabetical order. The text in square brackets at the beginning
- of each description states the restrictions within which a parameter
--is applicable::
--
--	ACPI	ACPI support is enabled.
--	AGP	AGP (Accelerated Graphics Port) is enabled.
--	ALSA	ALSA sound support is enabled.
--	APIC	APIC support is enabled.
--	APM	Advanced Power Management support is enabled.
--	APPARMOR AppArmor support is enabled.
--	ARM	ARM architecture is enabled.
--	ARM64	ARM64 architecture is enabled.
--	AX25	Appropriate AX.25 support is enabled.
--	CLK	Common clock infrastructure is enabled.
--	CMA	Contiguous Memory Area support is enabled.
--	DRM	Direct Rendering Management support is enabled.
--	DYNAMIC_DEBUG Build in debug messages and enable them at runtime
--	EARLY	Parameter processed too early to be embedded in initrd.
--	EDD	BIOS Enhanced Disk Drive Services (EDD) is enabled
--	EFI	EFI Partitioning (GPT) is enabled
--	EVM	Extended Verification Module
--	FB	The frame buffer device is enabled.
--	FTRACE	Function tracing enabled.
--	GCOV	GCOV profiling is enabled.
--	HIBERNATION HIBERNATION is enabled.
--	HW	Appropriate hardware is enabled.
--	HYPER_V HYPERV support is enabled.
--	IMA     Integrity measurement architecture is enabled.
--	IP_PNP	IP DHCP, BOOTP, or RARP is enabled.
--	IPV6	IPv6 support is enabled.
--	ISAPNP	ISA PnP code is enabled.
--	ISDN	Appropriate ISDN support is enabled.
--	ISOL	CPU Isolation is enabled.
--	JOY	Appropriate joystick support is enabled.
--	KGDB	Kernel debugger support is enabled.
--	KVM	Kernel Virtual Machine support is enabled.
--	LIBATA  Libata driver is enabled
--	LOONGARCH LoongArch architecture is enabled.
--	LOOP	Loopback device support is enabled.
--	LP	Printer support is enabled.
--	M68k	M68k architecture is enabled.
--			These options have more detailed description inside of
--			Documentation/arch/m68k/kernel-options.rst.
--	MDA	MDA console support is enabled.
--	MIPS	MIPS architecture is enabled.
--	MOUSE	Appropriate mouse support is enabled.
--	MSI	Message Signaled Interrupts (PCI).
--	MTD	MTD (Memory Technology Device) support is enabled.
--	NET	Appropriate network support is enabled.
--	NFS	Appropriate NFS support is enabled.
--	NUMA	NUMA support is enabled.
--	OF	Devicetree is enabled.
--	PARISC	The PA-RISC architecture is enabled.
--	PCI	PCI bus support is enabled.
--	PCIE	PCI Express support is enabled.
--	PCMCIA	The PCMCIA subsystem is enabled.
--	PNP	Plug & Play support is enabled.
--	PPC	PowerPC architecture is enabled.
--	PPT	Parallel port support is enabled.
--	PS2	Appropriate PS/2 support is enabled.
--	PV_OPS	A paravirtualized kernel is enabled.
--	RAM	RAM disk support is enabled.
--	RDT	Intel Resource Director Technology.
--	RISCV	RISCV architecture is enabled.
--	S390	S390 architecture is enabled.
--	SCSI	Appropriate SCSI support is enabled.
--			A lot of drivers have their options described inside
--			the Documentation/scsi/ sub-directory.
--        SDW     SoundWire support is enabled.
--	SECURITY Different security models are enabled.
--	SELINUX SELinux support is enabled.
--	SERIAL	Serial support is enabled.
--	SH	SuperH architecture is enabled.
--	SMP	The kernel is an SMP kernel.
--	SPARC	Sparc architecture is enabled.
--	SUSPEND	System suspend states are enabled.
--	SWSUSP	Software suspend (hibernation) is enabled.
--	TPM	TPM drivers are enabled.
--	UMS	USB Mass Storage support is enabled.
--	USB	USB support is enabled.
--	USBHID	USB Human Interface Device support is enabled.
--	V4L	Video For Linux support is enabled.
--	VGA	The VGA console has been enabled.
--	VMMIO   Driver for memory mapped virtio devices is enabled.
--	VT	Virtual terminal support is enabled.
--	WDT	Watchdog support is enabled.
--	X86-32	X86-32, aka i386 architecture is enabled.
--	X86-64	X86-64 architecture is enabled.
--	X86	Either 32-bit or 64-bit x86 (same as X86-32+X86-64)
--	X86_UV	SGI UV support is enabled.
--	XEN	Xen support is enabled
--	XTENSA	xtensa architecture is enabled.
--
--In addition, the following text indicates that the option::
--
--	BOOT	Is a boot loader parameter.
--	BUGS=	Relates to possible processor bugs on the said processor.
--	KNL	Is a kernel start-up parameter.
-+is applicable.
- 
- Parameters denoted with BOOT are actually interpreted by the boot
- loader, and have no meaning to the kernel directly.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6c42061ca20e..e85a91e63f48 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1,3 +1,101 @@
-+	ACPI	ACPI support is enabled.
-+	AGP	AGP (Accelerated Graphics Port) is enabled.
-+	ALSA	ALSA sound support is enabled.
-+	APIC	APIC support is enabled.
-+	APM	Advanced Power Management support is enabled.
-+	APPARMOR AppArmor support is enabled.
-+	ARM	ARM architecture is enabled.
-+	ARM64	ARM64 architecture is enabled.
-+	AX25	Appropriate AX.25 support is enabled.
-+	CLK	Common clock infrastructure is enabled.
-+	CMA	Contiguous Memory Area support is enabled.
-+	DRM	Direct Rendering Management support is enabled.
-+	DYNAMIC_DEBUG Build in debug messages and enable them at runtime
-+	EARLY	Parameter processed too early to be embedded in initrd.
-+	EDD	BIOS Enhanced Disk Drive Services (EDD) is enabled
-+	EFI	EFI Partitioning (GPT) is enabled
-+	EVM	Extended Verification Module
-+	FB	The frame buffer device is enabled.
-+	FTRACE	Function tracing enabled.
-+	GCOV	GCOV profiling is enabled.
-+	HIBERNATION HIBERNATION is enabled.
-+	HW	Appropriate hardware is enabled.
-+	HYPER_V HYPERV support is enabled.
-+	IMA     Integrity measurement architecture is enabled.
-+	IP_PNP	IP DHCP, BOOTP, or RARP is enabled.
-+	IPV6	IPv6 support is enabled.
-+	ISAPNP	ISA PnP code is enabled.
-+	ISDN	Appropriate ISDN support is enabled.
-+	ISOL	CPU Isolation is enabled.
-+	JOY	Appropriate joystick support is enabled.
-+	KGDB	Kernel debugger support is enabled.
-+	KVM	Kernel Virtual Machine support is enabled.
-+	LIBATA  Libata driver is enabled
-+	LOONGARCH LoongArch architecture is enabled.
-+	LOOP	Loopback device support is enabled.
-+	LP	Printer support is enabled.
-+	M68k	M68k architecture is enabled.
-+			These options have more detailed description inside of
-+			Documentation/arch/m68k/kernel-options.rst.
-+	MDA	MDA console support is enabled.
-+	MIPS	MIPS architecture is enabled.
-+	MOUSE	Appropriate mouse support is enabled.
-+	MSI	Message Signaled Interrupts (PCI).
-+	MTD	MTD (Memory Technology Device) support is enabled.
-+	NET	Appropriate network support is enabled.
-+	NFS	Appropriate NFS support is enabled.
-+	NUMA	NUMA support is enabled.
-+	OF	Devicetree is enabled.
-+	PARISC	The PA-RISC architecture is enabled.
-+	PCI	PCI bus support is enabled.
-+	PCIE	PCI Express support is enabled.
-+	PCMCIA	The PCMCIA subsystem is enabled.
-+	PNP	Plug & Play support is enabled.
-+	PPC	PowerPC architecture is enabled.
-+	PPT	Parallel port support is enabled.
-+	PS2	Appropriate PS/2 support is enabled.
-+	PV_OPS	A paravirtualized kernel is enabled.
-+	RAM	RAM disk support is enabled.
-+	RDT	Intel Resource Director Technology.
-+	RISCV	RISCV architecture is enabled.
-+	S390	S390 architecture is enabled.
-+	SCSI	Appropriate SCSI support is enabled.
-+			A lot of drivers have their options described inside
-+			the Documentation/scsi/ sub-directory.
-+        SDW     SoundWire support is enabled.
-+	SECURITY Different security models are enabled.
-+	SELINUX SELinux support is enabled.
-+	SERIAL	Serial support is enabled.
-+	SH	SuperH architecture is enabled.
-+	SMP	The kernel is an SMP kernel.
-+	SPARC	Sparc architecture is enabled.
-+	SUSPEND	System suspend states are enabled.
-+	SWSUSP	Software suspend (hibernation) is enabled.
-+	TPM	TPM drivers are enabled.
-+	UMS	USB Mass Storage support is enabled.
-+	USB	USB support is enabled.
-+	USBHID	USB Human Interface Device support is enabled.
-+	V4L	Video For Linux support is enabled.
-+	VGA	The VGA console has been enabled.
-+	VMMIO   Driver for memory mapped virtio devices is enabled.
-+	VT	Virtual terminal support is enabled.
-+	WDT	Watchdog support is enabled.
-+	X86-32	X86-32, aka i386 architecture is enabled.
-+	X86-64	X86-64 architecture is enabled.
-+	X86	Either 32-bit or 64-bit x86 (same as X86-32+X86-64)
-+	X86_UV	SGI UV support is enabled.
-+	XEN	Xen support is enabled
-+	XTENSA	xtensa architecture is enabled.
-+
-+In addition, the following text indicates that the option
-+
-+	BOOT	Is a boot loader parameter.
-+	BUGS=	Relates to possible processor bugs on the said processor.
-+	KNL	Is a kernel start-up parameter.
-+
-+
-+Kernel parameters
-+
- 	accept_memory=  [MM]
- 			Format: { eager | lazy }
- 			default: lazy
 -- 
-2.51.0
+2.47.3
 
