@@ -1,245 +1,156 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62ECE2857F6
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 15:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275AF33AD96
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 15:14:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762959921; cv=none; b=uLlJ/qQTtNORR3o9hKgvRbUaTR5ofKoMehhS7j7JsfbkHZZmNSjellCamByCaGD2vw/I1pZ2UZ6OXr512SkDo9X+fuPOEwpFN/lj0pUr76m0i5XFK/EJxEA7+Mz7fT7BRf2Osz7e1s5TAighxjvljg0Iqa2epw8xpYD0voNFXVc=
+	t=1762960487; cv=none; b=DhZlBzGfaEBLS9+7CTA6zkLd/8vYMblsgwXm4trIXGb7kBtSuLwFfllGqNOBDcJ5VzCzHoZH53/g0npwXzp/YNQGTs7zF76cKWpz7ONN/qpaHg9hgq+uYidGBL+ulKZULcWCszuMxD6i62PvdM57jQDgWATyC+6nDGrRVOzAzEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762959921; c=relaxed/simple;
-	bh=Oiw3CxTvM1cncQ+TriE+d0MVdoOZK0B04yT6liE6dN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nw1DfYYoy3++AXNwYc4YkEPT9ydABxq74TWOeZTwQVHvrP7P8L4hxSQDwwXeaX6F4bk650/iH/fWFJaekBnIQr1TtLW1eh0GFEtz9UShk8aFxzngunxiXUrwW1r1dtLo9WdCZqAzwtwiaZk0nlwZGIs82HXY2sw+UW0VVNbyy4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vJCP7-0005AM-QV; Wed, 12 Nov 2025 16:05:01 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vJCP7-0006PJ-14;
-	Wed, 12 Nov 2025 16:05:01 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vJCP7-00GVCq-0g;
-	Wed, 12 Nov 2025 16:05:01 +0100
-Date: Wed, 12 Nov 2025 16:05:01 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Frank Li <frank.li@nxp.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v19 0/7] firmware: imx: driver for NXP
- secure-enclave
-Message-ID: <20251112150501.qkjclsoq2bg75ed5@pengutronix.de>
-References: <20250927-imx-se-if-v19-0-d1e7e960c118@nxp.com>
- <20251016114151.jzmapaecsmmnkpt3@pengutronix.de>
- <AM9PR04MB8604C2AAA70406883320C5C995FCA@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20251103190811.wp4o7hlnus6ynn32@pengutronix.de>
- <AM9PR04MB8604AA80EC97E06AADBF334695C3A@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <20251111131442.nddhk3475oapf2zh@pengutronix.de>
- <AM9PR04MB86047231B5320C01759BFCAE95CCA@AM9PR04MB8604.eurprd04.prod.outlook.com>
+	s=arc-20240116; t=1762960487; c=relaxed/simple;
+	bh=GQQ0+OyWLqYJubVS6AGNI+hNpf6DosJPXicx/zXp2ik=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fpEWmcnwurJp+W6A28ua4FPz1bs4UN6/MmwlVCftvu+FNqrutoEbuXko9u6zymEbP7ynqo3ZYR3X8fjNk2R9Y+NRxrhFkdWtJQONXSbz2i/Kax6UWU1tgVvr5+v0rDnKy7AD/AfTH9r9LrCkNnwdKNMhRM3e/VF2dxxf2ULTrm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=bDjPjfqZ; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="bDjPjfqZ"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6408f9cb1dcso1480297a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 07:14:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1762960484; x=1763565284; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GQQ0+OyWLqYJubVS6AGNI+hNpf6DosJPXicx/zXp2ik=;
+        b=bDjPjfqZMEHdRUHXIE74IWAqnrsCifN+P2zhpNVDEzr7MJ94C4pvOL4rlODLOxd11M
+         edKbu+KuZbnwFDuKmx32FgVxPIyir2Fs80CYapeWtTEI82xS0xg58P3NYKeK//pT/AwQ
+         1tKnsezfxf5u0eFFhdhk6Foa/c6xNgOt4Paff1TwNqLqBQzXhSQI/u2EW6znkwFENINk
+         pIDbwh2Q5fzFNB+8iBK9MoVbdazhQwLh5kn/JLpTJB2EfG/txW7PCz0H1Ihu5VQPR1gR
+         Fw656ClP9cH08NysacoXrdmqrL2QI4cXTeYz8VHaY483+8qzQP14Ooz4YOFeEZOB1VUD
+         fOtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762960484; x=1763565284;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GQQ0+OyWLqYJubVS6AGNI+hNpf6DosJPXicx/zXp2ik=;
+        b=qyPmgP0HpCcYOKqNBc0+0USn740lcyl5FQHlTcJgNLW3k8R5U1K8neLXWPNRV5hCPQ
+         iFQohVZfWnTrvIdD6hr9FOru9UDgos8q8hxEbG0LLY5J+izXS8O8Fo30XAoRcwCU8TAa
+         rRjzp/4EMOjwgAg6Sn4VbtwuS7CHBbSvgRSAANESzfNHrhvPQape0BDuEG7kDKIYKc3w
+         NiQVvkySxs3gW2m6CBfU/DPcG8qqN1OhIKuuWL01mP8ZQxoPQf4eN4mMl5/Cm2agotNG
+         patozr/+2wXnuiVe+NjZe6bXrde0Lra1kHA5IVmLOsdPtkPCk1iE3C4+XI8ZyygCJZxs
+         jtGA==
+X-Forwarded-Encrypted: i=1; AJvYcCUGM3DYgAb6aIXmP9Lj6WtZOu0k08c2ikquQ09oFeT7b7T114EVSq+X4e0cdWrx4/n72IYCvloBlH8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+zHbjnEFto56wYgCt/woCknYkltce9SzhrukXunchIBq4Z+kh
+	2WIMK+oYbz7dsq//OyyrpSJICMDlkHCIbp3Fmv+3yQLjVy0y4XFhjv03OOgzc9u2I2qjjIs3jMq
+	9ifO16e/aolgeRd8mV3YqSngpLiplYbDGsg7xxgc44Q==
+X-Gm-Gg: ASbGncuA9agPgBpzOSm2Cn2DvANp0PEOPfDmLlz89ynVDDMu6uS//OqUrFL+NZaG29w
+	37p78rCBL1YgVyqqp3Ya5LqC3aNN7skVSzLOAejwZBL7nFBC6PI0sySjcy6YhdYqRKAzfkS1tzl
+	os6M5Im3Z9zqyGQzCZLD9UN2iwlgvsGZ5XRIv8LOOk/sbsSg8NTIJIFwToLTDjwl6zDRtZyH5aw
+	oXlxrl19/2CXVquV2vPSMw4nxllt+yE1wynsAMl67OeWaB1uhfyX6Yt3Q==
+X-Google-Smtp-Source: AGHT+IHvOWdCZpIHJdaITaurDIMyMeqdwSgS8ChEWfqyly8byOG2zD+TlxMB8QW/ltMZhyzar+Gs0r2HAPI8mXk2QxA=
+X-Received: by 2002:a05:6402:358d:b0:641:3090:cba3 with SMTP id
+ 4fb4d7f45d1cf-6431a577cd4mr2984066a12.37.1762960484292; Wed, 12 Nov 2025
+ 07:14:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM9PR04MB86047231B5320C01759BFCAE95CCA@AM9PR04MB8604.eurprd04.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com> <aRObz4bQzRHH5hJb@kernel.org>
+ <CA+CK2bDnaLJS9GdO_7Anhwah2uQrYYk_RhQMSiRL-YB=8ZZZWQ@mail.gmail.com>
+ <CA+CK2bD3hps+atqUZ2LKyuoOSRRUWpTPE+frd5g13js4EAFK8g@mail.gmail.com>
+ <aRRflLTejNQXWa1Z@kernel.org> <CA+CK2bB8731z-EKv2K8-x5SH8rjOTTuWkfkrc4Qj6skW+Kr7-g@mail.gmail.com>
+ <aRSMsz4zy8QBbsIH@kernel.org>
+In-Reply-To: <aRSMsz4zy8QBbsIH@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 12 Nov 2025 10:14:07 -0500
+X-Gm-Features: AWmQ_bnD0Fa5WV9clCVqwOFMlUw8urbv0kYDUHAZVRNByd6elh9oV6dClE850Us
+Message-ID: <CA+CK2bA6vCH=RkiZjAOsh5iR52BY567bJB3HNAGqDb307YxVdw@mail.gmail.com>
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
+	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 25-11-12, Pankaj Gupta wrote:
-
-...
-
-> > > Voltage regulation for i.MX93 in Linux kernel, is done by ELE.
-> > >
-> > > During Linux suspend-resume, Secure-enclave (V2X on i.MX95) part of
-> > > wake-up domain, will be managed by secure-enclaves(ELE) part of
-> > > always-on domain.
-> > 
-> > So to sum-up, please correct me if I got it wrong:
-> > 
-> >  - NXP puts the ELE into the non-secure world, in case only one MU
-> >    exists. The reason for this is that the ELE is also used to handle
-> >    power-management.
+> > FLB global objects act similarly to subsystem-wide data, except their
+> > data has a clear creation and destruction time tied to preserved
+> > files. When the first file of a particular type is added to LUO, this
+> > global data is created; when the last file of that type is removed
+> > (unpreserved or finished), this global data is destroyed, this is why
+> > its life is bound to file lifecycle. Crucially, this global data is
+> > accessible at any time while LUO owns the associated files spanning
+> > the early boot update boundary.
 >
-> For NXP SoCs with multi-MU(s) too, NXP proposes to put ELE driver into
-> non-secure world.
+> But there are no files at mm_core_init(). I'm really confused here.
 
-With the ELE-FW and OP-TEE OS fix applied both worlds can communicate.
-Therefore it doesn't matter and I didn't mentioned it explicit above.
+This isn't about the files themselves, but about the subsystem global
+data. The files are only used to describe the lifetime of this global
+data.
 
-That beeing said, with both worlds capable to talk to ELE and the ELE
-beeing very system critical, both worlds have to agree to the
-responsibilities, e.g. OP-TEE OS is not allow to manipulate the
-power-state behind the back of Linux.
+I think mm_core_init() is too late, and the call would need to be
+moved earlier to work correctly with subsystems. At the very least, we
+will have to add some early FDT parsing to retrieve data during early
+boot, but that would be part of the HugeTLB preservation work.
 
-> >  - NXP exposes an uAPI which can be used to send arbitrary commands from
-> >    userspace to the ELE. (no filtering done yet)
+I can move liveupdate_init() inside kho_memory_init(), so we don't
+need to modify mm_core_init(). Or, rename kho_memory_init to
+kho_and_liveupdate_memory_init() and combine the two calls into a
+single function in kexec_handover.c.
+
+> > > So I think for now we can move liveupdate_init() later in boot and we will
+> > > solve the problem of hugetlb reservations when we add support for hugetlb.
+> >
+> > HugeTLB reserves memory early in boot. If we already have preserved
+> > HugeTLB pages via LUO/KHO, we must ensure they are counted against the
+> > boot-time reservation. For example, if hugetlb_cma_reserve() needs to
+> > reserve ten 1G pages, but LUO has already preserved seven, we only
+> > need to reserve three new pages and the rest are going to be restored
+> > with the files.
+> >
+> > Since this count is contained in the FLB global object, that data
+> > needs to be available during the early reservation phase. (Pratyush is
+> > working on HugeTLB preservation and can explain further).
 >
-> It is not correct to say that no filtering is done.
-> Before sending as well as after receiving the message, the message header of the buffers
-> are parsed to check:
-> - TX-buffer with Command-tag is allowed to be sent, RX-buffer with response-tag is allowed to be received, without logging errors.
+> Not sure I really follow the design here, but in my understanding the gist
+> here is that hugetlb reservations need to be aware of the preserved state.
+> If that's the case, we definitely can move liveupdate_init() to an initcall
+> and revisit this when hugetlb support for luo comes along.
 
-I really don't want to step to deep into this, but that beeing said. If
-you refer to cmd_tag, than this tag is used by your below mentioned
-library also for NVM access. NVM is clearly something we do have a
-linux-framework and uAPI for.
+This will break the in-kernel tests that ensure FLB data is accessible
+and works correctly during early boot, as they use
+early_initcall(liveupdate_test_early_init);.
 
-> - TX buffer size & Rx-Buffer size should match the size mentioned in the buffer.
-> - FW version from the header is checked, if required secondary or runtime FW Is loaded, before forwarding the request to ELE.
-> - In certain cases especially for exceptions, the message IDs are also compared.
-> 
-> > 
-> >  --> Sounds to me that the userpace can influence the system behavior
-> >      very badly.
-> > 
->
-> Messages created and sent by User-space
-> library(https://github.com/nxp-imx/imx-secure-enclave), are
-> scrutinized as stated above in the kernel driver.
+We cannot rely on early_initcall() for liveupdate_init() because it
+would compete with the test. We also can't move the test to a later
+initcall, as that would break the verification of what FLB is
+promising: early access to global data by subsystems that need it
+(PCI, IOMMU Core, HugeTLB, etc.).
 
-This is uAPI which can be used by everyone and because your library may
-not implement access to power-managment calls doesn't mean that other
-libs do. I'm not sure if your proposed driver will block such attempts
-from userspace.
-
-> Moreover,
-> As part of this library, message creation, send-receive, IOCTLS etc.
-> kernel interface implementation logic, is not exposed to users of this
-> library.
-
-Your library is not the interface, the interface is the uAPI exposed by
-the kernel. This interface/your driver needs to handle valid and invalid
-access, e.g. hsm -> valid, nvm -> not valid since it is abstracted via
-NVMEM.
-
-> With the help of secure-boot and IMA-EVM, rootfs can be restricted to
-> not allow any new application or modified userspace library, to
-> execute.
->
-> This way bad impact to the system behavior can be prevented.
-
-Sorry but I really have to say that I have to NACK. Your interface is
-the kernel uAPI and not some NXP userspace library.
-
-An attacker could gain runtime system access and poke the ELE with
-arbitrary commands till he finds a fw-bug using the kernel uAPI (not
-your library of course).
-
-> > > > > * Linux HWRNG.
-> > > > > * Loading the secondary runtime fw.
-> > > >
-> > > > What is a secondary runtime-fw?
-> > > ELE FW size is larger than the size of ELE internal secure memory.
-> > > Hence FW is split into two.
-> > >
-> > > Primary FW, is the FW, that enables features that helps for SoC boot-up.
-> > > Secondary runtime FW, is the FW, that enables features like HSM.
-> > 
-> > Ah okay, thanks for the input.
-> > 
-> > > > To conclude this longly discussion:
-> > 
-> > ...
-> > 
-> > > > I still have mixed feeling about the fusing (including the 1-MU
-> > > > case), since it requires a secure-world OS in place once the LOCK_DOWN
-> > fuse was burned.
-> > > > It's fine by me if NXP wants to have and wants to maintain a multi-path
-> > here.
-> > >
-> > > Write fuse API will be added, to allow writing fuses from secure world
-> > > too.
-> > 
-> > This is a device life-cycle problem and if NXP decides to maintain multiple write
-> > paths, depending on the runtime-SoC state, this is fine by me.
-> > 
-> > What needs to be ensured is, that the fuse-issue doesn't exist for the 1-MU
-> > case (i.MX8ULP) as you said.
->
-> As said above "Write fuse API will be added, to allow writing fuses
-> from secure world too."
-> This will be true for 1 MU or multi-MU.
-
-In your previous mail you just said that there is no such issue with the
-write path. Now you say that the single-MU case needs the same
-workaround.. At least I have read it that way.
-
-> > > > Last but least, the uAPI which can be used to send arbitrary ELE
-> > > > commands seems unusual. But I don't know how secure-enclaves are
-> > > > abstracted within the kernel, so these are just my two cents.
-> > >
-> > > it's not unusual at all. The pattern of userspace sending commands
-> > > directly to the kernel via a queue is quite common like:
-> > >
-> > > GPUs: As you mentioned, userspace drivers (like those in Vulkan or
-> > > CUDA) often build command buffers and submit them directly to the
-> > > kernel or hardware.
-> > 
-> > That's right, but these drivers do at least some filtering on the OPs and check if
-> > they are allowed. According your patchset, you just write
-> > (se_if_fops_write()) the provided userspace buffer.
-> 
-> We are validating the buffer size against the size mentioned in the
-> buffer header.
-> Refer above comments for more details.
-> 
-> > > Secure Enclaves: In systems like Intel SGX or AMD SEV, userspace
-> > > applications interact with enclaves via ioctl or mmap interfaces,
-> > > often sending structured commands or messages.
-> > 
-> > What I'm aware of is, that most secure-enclaves are switching to the standard
-> > TPM API.
->
-> In case of NXP SoC with ELE HW IP, ELE is considered as on-SoC TPM. No
-> additional or external TPM is needed, if ELE is present on SoC.
-
-I said "TPM API" not "TPM device", may it be fTPM or dTPM. I think AMD
-switched to fTPM, so no special userspace-requirements must be
-fulfilled. However, this is also off-topic.
-
-Regards,
-  Marco
-
-
-> 
-> > 
-> > Regards,
-> >   Marco
-> > 
-> 
-> Regards
-> Pankaj
-> 
-
--- 
-#gernperDu 
-#CallMeByMyFirstName
-
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+Thanks,
+Pasha
