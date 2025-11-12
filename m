@@ -1,227 +1,187 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB85B34A76A
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 14:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD47F33F8C5;
+	Wed, 12 Nov 2025 15:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762959550; cv=none; b=T65uV2x9LLbkfESmJ3BXq2dibk6uXybJub2orF1TzZyCWlujhUVIEvQLV2/J2aVbPlk5xjGSx2qhccUAaysmLEfbIQwuytTsJghXM7kEzbCtGgB2Qq7LGGspSGGNuXimqBpMEETRfxC91GlSaJZlzX6CGl8WMqo3mzPxwymdKcw=
+	t=1762959737; cv=none; b=fKQIJA/NlFanNF5M9cNmcGEt+gpp7NTTYycHEjqkn+v72JC1Am6R7XCv+Tq05rgNOPPx29bQXYE7hbZI1pIZDPijMEfN88q3BYDpRAqLifjZ7ko0QkqRnw1v4UcJO+t51dcHTPMdgLuzXaQQA0RVz5N5X89ax3UHzgHl0UCeT1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762959550; c=relaxed/simple;
-	bh=IhGmnjkrIabfR44gd9BIvr7pcokhjZi5UFhbngjXwvw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EWb0fnfoPsgDo6hcWmY4hjAOVQJv9DRLlOtbR1JIf2cL+1+zvo1V1/U+DoQ4RPtryc+EgKKMVzR+0D8IpYRpZiHCgUL6/xkrdJv7fPoDatovtC/llesIISSDTaChcidSuc2R9Wl0v1PDhrcJxRhbQgAXjAp6p6HZ0Sjv/6qNpSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=N9XadKC0; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="N9XadKC0"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-64074f01a6eso1624324a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 06:59:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1762959545; x=1763564345; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0MTLQ2+KzlbyAQxckoGWY8C9+me/+LObO2aCT3fFijI=;
-        b=N9XadKC0UVxFLkY9jzvuAikB7Hg0mTYRuXtJs27Uw4FgaIFVemvrjszSN4H1dk5vYN
-         KQz09WkCXp2gVgk6yu24Fy+ebuaHwYlnjOukIeAWckKRF6M4WkwEldin3m/4t6aC+Wyi
-         v0lW/V8SjFq7pKaDTPNpRZEeM2au0g1pTRXI/0Yq1mYC5vK2bcVQlWp9xME1Ye4Cu6Cc
-         XO9WJo2hL6vaKBioq/V04Hev39SCnbJxedzYvN0dnC8/p81E/eJWtQtTPRPS5QmrxICh
-         YwiYM/3WwUWX7yTfVYp+x0cT+TPse+XD5MXReIB7NxL4HZoltVE5xfchaBNCBwax4uYD
-         7jcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762959545; x=1763564345;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0MTLQ2+KzlbyAQxckoGWY8C9+me/+LObO2aCT3fFijI=;
-        b=Ob8P2Ic+UjHRLMMYbcO156odj4Jwgc0DmgzhSshSW6IRBjyuTgOl2NgVM+kt3ZSRY7
-         zIR6uEYMl4m2tcTC84vRkvn4lp4/fP8sEL+13fYjbtxKnRvvHtmecIg2RVggSNLaZzgR
-         VIVzieaDjEDHMgNSa5UsyncSUYLsu2hYGfTU7z0zdIGdwHlbiYlzCP170C3NcXVagMXm
-         /SKr3uJi/P9asUJiomf/6u+JwBUUJycbzSlAx3cuYhpdEwq/RTZVgDbiX5QVZHzJrdSK
-         N7RH/flZqGqBBZPGCiEeTMMvsQyUwl0HxpPrvpg78OtBW7d6mJ7CiEYE9G5CooiaUC6W
-         eztA==
-X-Forwarded-Encrypted: i=1; AJvYcCUoA2kHguqHwm7NGMhd3VHQZVqEAPX5v63ri7AmbFCA9H/TamcMI0K7cK7waoYl9EAXU3zpj9BR2Mk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI9kaS9mnXHme7ThQgdgKmptHBJPtXqtjEj7I+sG993JBS2pwr
-	f1xhZHuia7w3naw2Mtb6n/axgpOwFmwh+4twlVbEdfK4xEMjuMiie2FDUEOnbTBUfG0xgRQzgYt
-	uYE5yLuFvltoo02Ykosg5FIR0X4F4NhuoZjZljqHbTA==
-X-Gm-Gg: ASbGncub+xCoE4TRW36lb4VVSK66pffDVFvlq9yXCi0o3a2d0uKLd4IeCMNUxrl+gv3
-	NppRhbS826SmM2UhxA8767ThF51hK2pWMq0L8iOOA97cxWEjfxs2npbUPQrKLfZKFHVMX9peTWs
-	9KPncC6M3okXY+yV+cjAlrkPqEChBBoEcbarbjvftH4v/1lcIBMVL3exlwwnTHA7hen0b50DNmg
-	sYZ4AzIGgOQldwpmrcL4U6PHX09jvOGLWzzKd7SdeLsS5aqOO3P8XEpYg==
-X-Google-Smtp-Source: AGHT+IEdmxSCUrDpzYYdeQ7xGZMZCFuRazVHOEq301lv0Np/o4OtNdmIj/Fd7MlLr72XZf02Ov5bYrL1l7CAevQmQsg=
-X-Received: by 2002:a05:6402:20d5:20b0:640:6650:9173 with SMTP id
- 4fb4d7f45d1cf-6431a5906c4mr2199942a12.33.1762959544759; Wed, 12 Nov 2025
- 06:59:04 -0800 (PST)
+	s=arc-20240116; t=1762959737; c=relaxed/simple;
+	bh=i2E+NvWCFKrgbyZBUGpLcyxl/p485cSfs6HDgAEg+iU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OMgrXr+sCRa6k1zZq2ep7UMYCBj1PTshwIG37oKASHesGnOWYZ/xaPIMDXXhwNQEOlEVXO0NU7mIe2LQDRqqdvqHqLsKg9E32Lyo1XORqABUdCmdBwwKp5llpuj/fldU7CI4qO0xcv+p2whH/mzgEV7O8Yp/HRT0Fu1t7wgmFJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8ED001515;
+	Wed, 12 Nov 2025 07:02:07 -0800 (PST)
+Received: from localhost (ionvoi01-desktop.cambridge.arm.com [10.2.80.58])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DCAAE3F66E;
+	Wed, 12 Nov 2025 07:02:14 -0800 (PST)
+Date: Wed, 12 Nov 2025 15:02:13 +0000
+From: Ionela Voinescu <ionela.voinescu@arm.com>
+To: Sumit Gupta <sumitg@nvidia.com>
+Cc: rafael@kernel.org, viresh.kumar@linaro.org, lenb@kernel.org,
+	robert.moore@intel.com, corbet@lwn.net, pierre.gondois@arm.com,
+	zhenglifeng1@huawei.com, rdunlap@infradead.org, ray.huang@amd.com,
+	gautham.shenoy@amd.com, mario.limonciello@amd.com,
+	perry.yuan@amd.com, zhanjie9@hisilicon.com,
+	linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+	treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com,
+	ksitaraman@nvidia.com, sanjayc@nvidia.com, nhartman@nvidia.com,
+	bbasu@nvidia.com
+Subject: Re: [PATCH v4 3/8] ACPI: CPPC: extend APIs to support auto_sel and
+ epp
+Message-ID: <aRShdY+QNQZdRewN@arm.com>
+References: <20251105113844.4086250-1-sumitg@nvidia.com>
+ <20251105113844.4086250-4-sumitg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-3-pasha.tatashin@soleen.com> <aRHiCxoJnEGmj17q@kernel.org>
- <CA+CK2bCHhbBtSJCx38gxjfR6DM1PjcfsOTD-Pqzqyez1_hXJ7Q@mail.gmail.com>
- <aROZi043lxtegqWE@kernel.org> <CA+CK2bAsrEqpt9d3s0KXpjcO9WPTJjymdwtiiyWVS6uq5KKNgA@mail.gmail.com>
- <aRSKrxfAb_GG_2Mw@kernel.org>
-In-Reply-To: <aRSKrxfAb_GG_2Mw@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 12 Nov 2025 09:58:27 -0500
-X-Gm-Features: AWmQ_bnbzArXLN8aoATNdiGHp809pzMOSngeRCNP27w6LsiaaRY3i_BJDeNIl5I
-Message-ID: <CA+CK2bAq-0Vz4jSRWnb_ut9AqG3RcH67JQj76GhoH0BaspWs2A@mail.gmail.com>
-Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251105113844.4086250-4-sumitg@nvidia.com>
 
-On Wed, Nov 12, 2025 at 8:25=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> Hi Pasha,
->
-> On Tue, Nov 11, 2025 at 03:57:39PM -0500, Pasha Tatashin wrote:
-> > Hi Mike,
-> >
-> > Thank you for review, my comments below:
-> >
-> > > > This is why this call is placed first in reboot(), before any
-> > > > irreversible reboot notifiers or shutdown callbacks are performed. =
-If
-> > > > an allocation problem occurs in KHO, the error is simply reported b=
-ack
-> > > > to userspace, and the live update update is safely aborted.
->
-> The call to liveupdate_reboot() is just before kernel_kexec(). Why we don=
-'t
-> move it there?
+Hi,
 
-Yes, I can move that call into kernel_kexec().
+A small nit that applies to multiple places: let's keep the line length
+under 80 characters - the lines seem easy to split.
 
-> And all the liveupdate_reboot() does if kho_finalize() fails it's massagi=
-ng
-> the error value before returning it to userspace. Why kernel_kexec() can'=
-t
-> do the same?
+On Wednesday 05 Nov 2025 at 17:08:39 (+0530), Sumit Gupta wrote:
+> - Add auto_sel read support in cppc_get_perf_caps().
+> - Add write of both auto_sel and energy_perf in cppc_set_epp_perf().
+> - Remove redundant energy_perf field from 'struct cppc_perf_caps' as
+>   the same is available in 'struct cppc_perf_ctrls' which is used.
+> 
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> ---
+>  drivers/acpi/cppc_acpi.c | 42 ++++++++++++++++++++++++++++++++--------
+>  include/acpi/cppc_acpi.h |  1 -
+>  2 files changed, 34 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
+> index 05672c30187c..757e8ce87e9b 100644
+> --- a/drivers/acpi/cppc_acpi.c
+> +++ b/drivers/acpi/cppc_acpi.c
+> @@ -1344,8 +1344,8 @@ int cppc_get_perf_caps(int cpunum, struct cppc_perf_caps *perf_caps)
+>  	struct cpc_desc *cpc_desc = per_cpu(cpc_desc_ptr, cpunum);
+>  	struct cpc_register_resource *highest_reg, *lowest_reg,
+>  		*lowest_non_linear_reg, *nominal_reg, *guaranteed_reg,
+> -		*low_freq_reg = NULL, *nom_freq_reg = NULL;
+> -	u64 high, low, guaranteed, nom, min_nonlinear, low_f = 0, nom_f = 0;
+> +		*low_freq_reg = NULL, *nom_freq_reg = NULL, *auto_sel_reg = NULL;
+> +	u64 high, low, guaranteed, nom, min_nonlinear, low_f = 0, nom_f = 0, auto_sel = 0;
+>  	int pcc_ss_id = per_cpu(cpu_pcc_subspace_idx, cpunum);
+>  	struct cppc_pcc_data *pcc_ss_data = NULL;
+>  	int ret = 0, regs_in_pcc = 0;
+> @@ -1362,11 +1362,12 @@ int cppc_get_perf_caps(int cpunum, struct cppc_perf_caps *perf_caps)
+>  	low_freq_reg = &cpc_desc->cpc_regs[LOWEST_FREQ];
+>  	nom_freq_reg = &cpc_desc->cpc_regs[NOMINAL_FREQ];
+>  	guaranteed_reg = &cpc_desc->cpc_regs[GUARANTEED_PERF];
+> +	auto_sel_reg = &cpc_desc->cpc_regs[AUTO_SEL_ENABLE];
+>  
+>  	/* Are any of the regs PCC ?*/
+>  	if (CPC_IN_PCC(highest_reg) || CPC_IN_PCC(lowest_reg) ||
+>  		CPC_IN_PCC(lowest_non_linear_reg) || CPC_IN_PCC(nominal_reg) ||
+> -		CPC_IN_PCC(low_freq_reg) || CPC_IN_PCC(nom_freq_reg)) {
+> +		CPC_IN_PCC(low_freq_reg) || CPC_IN_PCC(nom_freq_reg) || CPC_IN_PCC(auto_sel_reg)) {
+>  		if (pcc_ss_id < 0) {
+>  			pr_debug("Invalid pcc_ss_id\n");
+>  			return -ENODEV;
+> @@ -1414,6 +1415,9 @@ int cppc_get_perf_caps(int cpunum, struct cppc_perf_caps *perf_caps)
+>  	perf_caps->lowest_freq = low_f;
+>  	perf_caps->nominal_freq = nom_f;
+>  
+> +	if (CPC_SUPPORTED(auto_sel_reg))
+> +		cpc_read(cpunum, auto_sel_reg, &auto_sel);
+> +	perf_caps->auto_sel = (bool)auto_sel;
+>  
+>  out_err:
+>  	if (regs_in_pcc)
+> @@ -1555,6 +1559,8 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
+>  	struct cpc_register_resource *auto_sel_reg;
+>  	struct cpc_desc *cpc_desc = per_cpu(cpc_desc_ptr, cpu);
+>  	struct cppc_pcc_data *pcc_ss_data = NULL;
+> +	bool autosel_support_in_ffh_or_sysmem;
+> +	bool epp_support_in_ffh_or_sysmem;
+>  	int ret;
+>  
+>  	if (!cpc_desc) {
+> @@ -1565,6 +1571,11 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
+>  	auto_sel_reg = &cpc_desc->cpc_regs[AUTO_SEL_ENABLE];
+>  	epp_set_reg = &cpc_desc->cpc_regs[ENERGY_PERF];
+>  
+> +	epp_support_in_ffh_or_sysmem = CPC_SUPPORTED(epp_set_reg) &&
+> +				(CPC_IN_FFH(epp_set_reg) || CPC_IN_SYSTEM_MEMORY(epp_set_reg));
+> +	autosel_support_in_ffh_or_sysmem = CPC_SUPPORTED(auto_sel_reg) &&
+> +				(CPC_IN_FFH(auto_sel_reg) || CPC_IN_SYSTEM_MEMORY(auto_sel_reg));
+> +
+>  	if (CPC_IN_PCC(epp_set_reg) || CPC_IN_PCC(auto_sel_reg)) {
+>  		if (pcc_ss_id < 0) {
+>  			pr_debug("Invalid pcc_ss_id for CPU:%d\n", cpu);
+> @@ -1589,14 +1600,29 @@ int cppc_set_epp_perf(int cpu, struct cppc_perf_ctrls *perf_ctrls, bool enable)
+>  		/* after writing CPC, transfer the ownership of PCC to platform */
+>  		ret = send_pcc_cmd(pcc_ss_id, CMD_WRITE);
+>  		up_write(&pcc_ss_data->pcc_lock);
+> -	} else if (osc_cpc_flexible_adr_space_confirmed &&
+> -		   CPC_SUPPORTED(epp_set_reg) && CPC_IN_FFH(epp_set_reg)) {
+> -		ret = cpc_write(cpu, epp_set_reg, perf_ctrls->energy_perf);
+> +	} else if (osc_cpc_flexible_adr_space_confirmed) {
+> +		if (!epp_support_in_ffh_or_sysmem && !autosel_support_in_ffh_or_sysmem) {
+> +			ret = -EOPNOTSUPP;
+> +		} else {
+> +			if (autosel_support_in_ffh_or_sysmem) {
+> +				ret = cpc_write(cpu, auto_sel_reg, enable);
+> +				if (ret)
+> +					return ret;
+> +			}
+> +
+> +			if (epp_support_in_ffh_or_sysmem) {
+> +				ret = cpc_write(cpu, epp_set_reg, perf_ctrls->energy_perf);
+> +				if (ret)
+> +					return ret;
+> +			}
 
-We could do that. It would look something like this:
+Wouldn't it be more clear to have separate functions for setting auto-sel
+and EPP? I think this is functionally correct, but somewhat unclear, given
+the signature of the function. But I do acknowledge that the function was
+like this to begin with.
 
-if (liveupdate_enabled())
-   kho_finalize();
+> +		}
+>  	} else {
+> -		ret = -ENOTSUPP;
+> -		pr_debug("_CPC in PCC and _CPC in FFH are not supported\n");
+> +		ret = -EOPNOTSUPP;
+>  	}
+>  
+> +	if (ret == -EOPNOTSUPP)
+> +		pr_debug("_CPC in PCC and _CPC in FFH are not supported\n");
 
-Because we want to do kho_finalize() from kernel_kexec only when we do
-live update.
+This message needs updating.
 
-> > > This is fine. But what I don't like is that we can't use kho without
-> > > liveupdate. We are making debugfs optional, we have a way to call
-
-This is exactly the fix I proposed:
-
-1. When live-update is enabled, always disable "finalize" debugfs API.
-2. When live-update is disabled, always enable "finalize" debugfs API.
-
-Once KHO is stateless the "finalize" debugfs API is going to be
-removed, and KHO debugfs itself can be optional.
-
-> > Yes you can: you can disable liveupdate (i.e. not supply liveupdate=3D1
-> > via kernel parameter) and use KHO the old way: drive it from the
-> > userspace. However, if liveupdate is enabled, liveupdate becomes the
-> > driver of KHO as unfortunately KHO has these weird states at the
-> > moment.
->
-> The "weird state" is the point where KHO builds its FDT. Replacing the
-> current memory tracker with one that does not require serialization won't
-> change it. We still need a way to tell KHO that "there won't be new nodes
-> in FDT, pack it".
->
-
-see my answer below
-
-> > > kho_finalize() on the reboot path and it does not seem an issue to do=
- it
-> > > even without liveupdate. But then we force kho_finalize() into
-> > > liveupdate_reboot() allowing weird configurations where kho is there =
-but
-> > > it's unusable.
-> >
-> > What do you mean KHO is there but unusable, we should not have such a s=
-tate...
->
-> If you compile a kernel with KEXEC_HANDOVER=3Dy, KEXEC_HANDOVER_DEBUGFS=
-=3Dn and
-> LIVEUPDATE=3Dn and boot with kho=3D1 there is nothing to trigger
-> kho_finalize().
->
-> > > What I'd like to see is that we can finalize KHO on kexec reboot path=
- even
-> > > when liveupdate is not compiled and until then the patch that makes K=
-HO
-> > > debugfs optional should not go further IMO.
-> > >
-> > > Another thing I didn't check in this series yet is how finalization d=
-riven
-> > > from debugfs interacts with liveupdate internal handling?
-> >
-> > I think what we can do is the following:
-> > - Remove "Kconfig: make debugfs optional" from this series, and
-> > instead make that change as part of stateless KHO work.
-> > - This will ensure that when liveupdate=3D0 always KHO finalize is full=
-y
-> > support the old way.
-> > - When liveupdate=3D1 always disable KHO debugfs "finalize" API, and
-> > allow liveupdate to drive it automatically. It would add another
-> > liveupdate_enable() check to KHO, and is going to be removed as part
-> > of stateless KHO work.
->
-> KHO should not call into liveupdate. That's layering violation.
-> And "stateless KHO" does not really make it stateless, it only removes th=
-e
-> memory serialization from kho_finalize(), but it's still required to pack
-> the FDT.
-
-This touches on a point I've raised in the KHO sync meetings: to be
-effective, the "stateless KHO" work must also make subtree add/remove
-stateless. There should not be a separate "finalize" state just to
-finish the FDT. The KHO FDT is tiny (only one page), and there are
-only a handful of subtrees. Adding and removing subtrees is cheap; we
-should be able to open FDT, modify it, and finish FDT on every
-operation. There's no need for a special finalization state at kexec
-time. KHO should be totally stateless.
-
-> I think we should allow kho finalization in some form from kernel_kexec()=
-.
-
-If we achieve that, we wouldn't need a kho_finalize() call from
-kernel_kexec() at all. All KHO operations should be allowed at any
-time once KHO is initialized, and they shouldn't depend on the machine
-state. So, even late in shutdown or early in boot, it should be
-possible to preserve KHO memory or a subtree. I'm not saying it's a
-good idea to do that late in shutdown (as preservation may fail), but
-that should be the caller's problem.
-
-Thanks,
-Pasha
+Thank you,
+Ionela.
+> +
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(cppc_set_epp_perf);
+> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
+> index 7190afeead8b..42e37a84cac9 100644
+> --- a/include/acpi/cppc_acpi.h
+> +++ b/include/acpi/cppc_acpi.h
+> @@ -119,7 +119,6 @@ struct cppc_perf_caps {
+>  	u32 lowest_nonlinear_perf;
+>  	u32 lowest_freq;
+>  	u32 nominal_freq;
+> -	u32 energy_perf;
+>  	bool auto_sel;
+>  };
+>  
+> -- 
+> 2.34.1
+> 
