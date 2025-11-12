@@ -1,160 +1,231 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8034833555E
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 12:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFDE306482;
+	Wed, 12 Nov 2025 12:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762951624; cv=none; b=iIQJhN9vqEILD9zI43kh8MUAVfJvd7O+OAFwksmkoy12+v4xWcxcuxREGl17oD7D4CAmrpKfZKb0Yo14SRiofQpinCz46lAN8GZioFf8s300EeIC7saLa7OrKcfhPqPcIlHWQ9xcLF9F+X6XrMR/GFN+Mm/hhduuHo0gv/mfLGg=
+	t=1762951995; cv=none; b=I5QbYiCgJHiJBdoqjanxKRrDRZkgjukdHtZA9NzvN5akXiYWBxp+RkDYu9qu1uPRS8XzVPce8rQ7dUW2NEVqasHWV8oNtglYVAB1LErIsu/zEpm3vQUHIlFxdQYNAsJpnw9YMLJ0FoHom4Uja8Gebi96QgaHX44TIlAsGWRxRek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762951624; c=relaxed/simple;
-	bh=znZuQwa1aOziNsVVDXXpqJjJ+lN7ig6byCFqqLdTusA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rt0MbsVXmszA9j4eAm5rW5Iuwkc6dw/SxaXqVf5O715j0cW7BBXpGD45w8ePdMhoEvPsYj0orQXkPgCvzg9WIlIXpC8ZjM1XmrRnD6A7mtJk4GrCj5QZw+Iqmpdq+j8hteyAdGls2CsD/2l90134wPD+UXIyq+OqashtwZ5CiOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=jUvqWmJa; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1762951995; c=relaxed/simple;
+	bh=Xq4laesBhXBU8cnsibjlgRX7+Xd6QHEEQNRsfNd8xHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NQ4pbjzO97X0KZ1jQhrRH2YoHE8RXksZuKS0auAVNSyLmN7e+36GSwjhztrfCqtQYEzU/VhnWLA86ClRqizzxIZKmSG+Lu3anEXA5Ui4nMQ7bEi6JIwMlgkDn9MHo31suM0+CwpQkvL+9HabNSDsCZHaW6hZvspbf/o/xX8k00c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MgbNA+aN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="jUvqWmJa"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-64088c6b309so1235672a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 04:47:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1762951621; x=1763556421; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NlYd6Xq+AnhKekfFM+8+8cT83BwyMkqy6p8G3DXg5+E=;
-        b=jUvqWmJaXXN0cLEFVgCu1IoCmnJo4k8vi984y/p5n95rUUkqfnAAuIfq7cVevvIql+
-         /XzUQpvtZujaqXLy9a7qyr9HqBncxaSBiP9TMtKSmtsRZvg4VyAytzD1QqrmvEnwzaqa
-         0/hGsRWJ7fWOtg97EaV3/FG3Lf7PwYnhAPEhJiOry93QV7b1929GxqqRFtdmDHL4VbkU
-         83pQT9I/AKnQ9BEvYiHaKl5lncv6/47ge4iv6d/KUsYfMbNm62XodQPUPPq/Nkdo11b7
-         8n4HyHw7fRDxG8XpgnzpOHwtj75vn2lgHDvzrdARfG+mJZ6UYldPnwuV2U7D7v41ZNRz
-         cRlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762951621; x=1763556421;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NlYd6Xq+AnhKekfFM+8+8cT83BwyMkqy6p8G3DXg5+E=;
-        b=nPQPA5Vtu9MwERoOfLjjW0awFtoFprEaOgMP+DVAas8P/hfaWq2A9E+D39EXdcpoXK
-         7o2rm9+/cwSDaITQ/DSyCMnFviZL1d5+sAFocU/l9lt9iq/DymArYt3cmfZajaWKocyI
-         c/gz3N6Cac/+JHrnEfx6rjHAS+JTt0g4zvLs6r7lK2IiL4QNkuqJjACgkMrkHSqFBp53
-         5UTbusXX6lKBHZ4Bq8hYKgrisS6jjISubFp5pD0iLxxbtZOW8dT04xUpEZFi6jCEdTJk
-         llhAj28wVsi88qQYS7fJO7cJwTWVx7ThILS/kCyfBAUAjEMVALvOV3oaANslcv044OGs
-         ZoLA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/Nnf8JETvqU0aCiFCEZl8W12QRZ+iVGrd7zx+Citk2gZS/oabkRU58qzQkdBotbBzSqanVQ6b0BE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVMtfQcEAbn/QLKcZY0L7oOYy9SUpW8qEL5aNNJDKqmmERE+TD
-	OXbVJJXQNlD6MMROPlx9LLgSLXV/ZHJT3t72lG47qTHJAB+dM3SY1JUMGY1mZYXnxOvwaPU5biG
-	GcUsjaRNk10TO7s5wA15MCB/mUrUyybEHc6DaNfdNTQ==
-X-Gm-Gg: ASbGncv1PXftJrZV6b/L/TeuN1EWMXPQu8rRyRnp2VcJNoMitUuRR8o5laiDY7Gzx1m
-	SihmaD6BXWFKmXNkHE3JtsHheOqzmlrSVmENYDtvOULqzjGLZeBWm1km1+fkTR/9FLjnoWcRVCZ
-	A3Irkakmj9KvNfsPqqNpQ0plyCuZBgE6iewUW4D9Z8QswsBinnptzWXcoqgBrwxGnVNHg4ozfdz
-	vQQmvTfGR4pvAyclyzR1K5m5D/NTwyzKb0n4HFyDRFny+7gIYeYlFFSGw==
-X-Google-Smtp-Source: AGHT+IHPQjz/pJ437pH7YFtSiDGAQ3VcFvPXvPvzuQHBM0+kWPerbB0r4L6RkLw74giNqTUgcHTcvt5mHbrdxH4Haek=
-X-Received: by 2002:a05:6402:5186:b0:640:9c99:bfac with SMTP id
- 4fb4d7f45d1cf-6431a4d609bmr2586786a12.13.1762951620623; Wed, 12 Nov 2025
- 04:47:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MgbNA+aN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD60C4AF0B;
+	Wed, 12 Nov 2025 12:53:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762951994;
+	bh=Xq4laesBhXBU8cnsibjlgRX7+Xd6QHEEQNRsfNd8xHw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MgbNA+aNi66iHWuzy6LKut7QTLt+D+/WXgdFltYAbxJCNbzgA1InxXNZhXB1n5p0c
+	 vnaW4LMGTXWq3iqK+mCrPfR/wgZ3CmaTYYbgSRIL+gsVedu2ksUj6iZV9eWJ1VDx8L
+	 2t0dYDDlC7uKsojwf3BaUVsp/1kxfrK/qs3b/tQL4PlVsjE6+lxoNCV4z50uPZEu0c
+	 IZ7IeyRYTrjvIwKCeVpl50DpVm5RZpwxhGxt3aVEGIxSEwIzBVQiTRda3iQYX8yVoG
+	 FLcPcsS+iUYDO9jpoGvblj2BtEDt27fgN3g5T5VkFwZycgbBRxR4Axqu2EhuuHABrh
+	 i4BX+X/MEfm9A==
+Date: Wed, 12 Nov 2025 06:53:12 -0600
+From: Rob Herring <robh@kernel.org>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-imx@nxp.com
+Subject: Re: [PATCH v5 1/5] dt-bindings: remoteproc: imx_rproc: Add "rpmsg"
+ subnode support
+Message-ID: <20251112125312.GA1319094-robh@kernel.org>
+References: <20251104203315.85706-1-shenwei.wang@nxp.com>
+ <20251104203315.85706-2-shenwei.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-3-pasha.tatashin@soleen.com> <aRObz4bQzRHH5hJb@kernel.org>
- <CA+CK2bDnaLJS9GdO_7Anhwah2uQrYYk_RhQMSiRL-YB=8ZZZWQ@mail.gmail.com>
- <CA+CK2bD3hps+atqUZ2LKyuoOSRRUWpTPE+frd5g13js4EAFK8g@mail.gmail.com> <aRRflLTejNQXWa1Z@kernel.org>
-In-Reply-To: <aRRflLTejNQXWa1Z@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 12 Nov 2025 07:46:23 -0500
-X-Gm-Features: AWmQ_bl87XR7836bCxIna383p3224VYBM84reJOLcIDxOxFdtSf2hXG1yTbnSeY
-Message-ID: <CA+CK2bB8731z-EKv2K8-x5SH8rjOTTuWkfkrc4Qj6skW+Kr7-g@mail.gmail.com>
-Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251104203315.85706-2-shenwei.wang@nxp.com>
 
-On Wed, Nov 12, 2025 at 5:21=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Tue, Nov 11, 2025 at 03:42:24PM -0500, Pasha Tatashin wrote:
-> > On Tue, Nov 11, 2025 at 3:39=E2=80=AFPM Pasha Tatashin
-> > <pasha.tatashin@soleen.com> wrote:
-> > >
-> > > > >       kho_memory_init();
-> > > > >
-> > > > > +     /* Live Update should follow right after KHO is initialized=
- */
-> > > > > +     liveupdate_init();
-> > > > > +
-> > > >
-> > > > Why do you think it should be immediately after kho_memory_init()?
-> > > > Any reason this can't be called from start_kernel() or even later a=
-s an
-> > > > early_initcall() or core_initall()?
-> > >
-> > > Unfortunately, no, even here it is too late, and we might need to fin=
-d
-> > > a way to move the kho_init/liveupdate_init earlier. We must be able t=
-o
-> > > preserve HugeTLB pages, and those are reserved earlier in boot.
-> >
-> > Just to clarify: liveupdate_init() is needed to start using:
-> > liveupdate_flb_incoming_* API, and FLB data is needed during HugeTLB
-> > reservation.
->
-> Since flb is "file-lifecycle-bound", it implies *file*. Early memory
-> reservations in hugetlb are not bound to files, they end up in file objec=
-ts
-> way later.
+On Tue, Nov 04, 2025 at 02:33:11PM -0600, Shenwei Wang wrote:
+> Remote processors may announce multiple devices (e.g., I2C, GPIO) over
+> an RPMSG channel. These devices may require corresponding device tree
+> nodes, especially when acting as providers, to supply phandles for their
+> consumers.
+> 
+> Define an RPMSG node to work as a container for a group of RPMSG channels
+> under the imx_rproc node.
+> 
+> Each subnode within "rpmsg" represents an individual RPMSG channel. The
+> name of each subnode corresponds to the channel name as defined by the
+> remote processor.
+> 
+> All remote devices associated with a given channel are defined as child
+> nodes under the corresponding channel node.
+> 
+> Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
+> ---
+>  .../bindings/remoteproc/fsl,imx-rproc.yaml    | 123 ++++++++++++++++++
+>  1 file changed, 123 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> index 57d75acb0b5e..897a16c4f7db 100644
+> --- a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> +++ b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> @@ -84,6 +84,92 @@ properties:
+>        This property is to specify the resource id of the remote processor in SoC
+>        which supports SCFW
+>  
+> +  rpmsg:
+> +    type: object
+> +    additionalProperties: false
+> +    description:
+> +      Present a group of RPMSG channel devices.
+> +
+> +    properties:
+> +      rpmsg-io-channel:
+> +        type: object
+> +        additionalProperties: false
+> +        properties:
+> +          '#address-cells':
+> +            const: 1
+> +
+> +          '#size-cells':
+> +            const: 0
+> +
+> +        patternProperties:
+> +          "gpio@[0-9a-f]+$":
+> +            type: object
+> +            unevaluatedProperties: false
+> +            properties:
+> +              compatible:
+> +                enum:
+> +                  - fsl,imx-rpmsg-gpio
+> +
+> +              reg:
+> +                maxItems: 1
 
-FLB global objects act similarly to subsystem-wide data, except their
-data has a clear creation and destruction time tied to preserved
-files. When the first file of a particular type is added to LUO, this
-global data is created; when the last file of that type is removed
-(unpreserved or finished), this global data is destroyed, this is why
-its life is bound to file lifecycle. Crucially, this global data is
-accessible at any time while LUO owns the associated files spanning
-the early boot update boundary.
+I still don't understand what the numbers for 'reg' mean here. You 
+explained it and I still don't understand. In any case, it needs to be 
+explained in the schema.
 
-> So I think for now we can move liveupdate_init() later in boot and we wil=
-l
-> solve the problem of hugetlb reservations when we add support for hugetlb=
-.
+For example, why do GPIO and I2C each have their own number space?
 
-HugeTLB reserves memory early in boot. If we already have preserved
-HugeTLB pages via LUO/KHO, we must ensure they are counted against the
-boot-time reservation. For example, if hugetlb_cma_reserve() needs to
-reserve ten 1G pages, but LUO has already preserved seven, we only
-need to reserve three new pages and the rest are going to be restored
-with the files.
-
-Since this count is contained in the FLB global object, that data
-needs to be available during the early reservation phase. (Pratyush is
-working on HugeTLB preservation and can explain further).
-
-Pasha
+> +
+> +              "#gpio-cells":
+> +                const: 2
+> +
+> +              gpio-controller: true
+> +
+> +              interrupt-controller: true
+> +
+> +              "#interrupt-cells":
+> +                const: 2
+> +
+> +            required:
+> +              - compatible
+> +              - reg
+> +              - "#gpio-cells"
+> +              - "#interrupt-cells"
+> +
+> +            allOf:
+> +              - $ref: /schemas/gpio/gpio.yaml#
+> +              - $ref: /schemas/interrupt-controller.yaml#
+> +
+> +        required:
+> +          - '#address-cells'
+> +          - '#size-cells'
+> +
+> +      rpmsg-i2c-channel:
+> +        type: object
+> +        unevaluatedProperties: false
+> +        properties:
+> +          '#address-cells':
+> +            const: 1
+> +
+> +          '#size-cells':
+> +            const: 0
+> +
+> +        patternProperties:
+> +          "i2c@[0-9a-f]+$":
+> +            type: object
+> +            unevaluatedProperties: false
+> +            properties:
+> +              compatible:
+> +                enum:
+> +                  - fsl,imx-rpmsg-i2c
+> +
+> +              reg:
+> +                maxItems: 1
+> +
+> +            required:
+> +              - compatible
+> +              - reg
+> +
+> +            allOf:
+> +              - $ref: /schemas/i2c/i2c-controller.yaml#
+> +
+> +        required:
+> +          - '#address-cells'
+> +          - '#size-cells'
+> +
+>  required:
+>    - compatible
+>  
+> @@ -146,5 +232,42 @@ examples:
+>                  &mu 3 1>;
+>        memory-region = <&vdev0buffer>, <&vdev0vring0>, <&vdev0vring1>, <&rsc_table>;
+>        syscon = <&src>;
+> +
+> +      rpmsg {
+> +        rpmsg-io-channel {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          gpio@0 {
+> +            compatible = "fsl,imx-rpmsg-gpio";
+> +            reg = <0>;
+> +            gpio-controller;
+> +            #gpio-cells = <2>;
+> +            #interrupt-cells = <2>;
+> +            interrupt-controller;
+> +            interrupt-parent = <&rpmsg_gpioa>;
+> +          };
+> +
+> +          gpio@1 {
+> +            compatible = "fsl,imx-rpmsg-gpio";
+> +            reg = <1>;
+> +            gpio-controller;
+> +            #gpio-cells = <2>;
+> +            #interrupt-cells = <2>;
+> +            interrupt-controller;
+> +            interrupt-parent = <&rpmsg_gpiob>;
+> +          };
+> +        };
+> +
+> +        rpmsg-i2c-channel {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          i2c@0 {
+> +            compatible = "fsl,imx-rpmsg-i2c";
+> +            reg = <0>;
+> +          };
+> +        };
+> +      };
+>      };
+>  ...
+> -- 
+> 2.43.0
+> 
