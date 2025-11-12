@@ -1,153 +1,175 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5736A2D7D47
-	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 20:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382721B3925
+	for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 21:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762980466; cv=none; b=FSH0kDRuHAcfIW9CgIGhvQO2bepOu0kXDDn1NPbXwkv+V8eZK5DCxgp8ZU7PQmXgAmpbqi0VCxSC8bKUI2KfkL5zRdpGgGSt1GvP70i9vWks5eT8X27EvR7zFuC+xdEZpTuBromTvNjDJ/42YtsAk/Hq9yWatfqhDk7f8TBA85I=
+	t=1762981809; cv=none; b=mQ6ND1V/n0NFZg7YEQAUC+96QUwX0MG8sBsxItIeAmG84p28XMfBPfBhtfhEfZ/etQNr7IYKk4O46N9qO2QFPsxEEvesRKu2v2XX5q4gDAIGJq8y5NZGj2ogczoebNo1abUzqovHjimt8s1lW/yoFsdY/J8B76vTbI/ayHwbbTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762980466; c=relaxed/simple;
-	bh=usPtXPTZX6TXkeQ1v1bYEhzjiCuAM3VVnx8IxUxXsXw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j1f57k2h924zl9ZZmHqjvvfjSAkXVzzvpWBniPSAilBZ1uDjfgcXzv2/ACZ0aIEI8dQIDm2ZMhNrvQiDR/lHFK8Yav4j1r83dEjeZyU3Tf19CDF4tLbLDAyXU4Of7DWz59G0r0qzyqdAsiCr++qFJE6LggS6yBN6R31CJNo0LQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=UlYBa8ac; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1762981809; c=relaxed/simple;
+	bh=3KeLYpoxQunGwePMrGw9Ag8kDi0pL6I47mlzQXLbZbo=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=iblsoMG+IwKuAs+dszsb9G+MyjLER9AP8ROBCS0FWB6393EyH8AASekZ1+VeUM3V1ZGMZuR7Nvd0DYAuLFA9h36lScxfMMpXtRmda87ye1g2ScVeE4IEzvOHBEBxEsVZXYrXG09RIPDI783KYtlu+50sVwY8+WVFebU661p4mOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bzXaEggd; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="UlYBa8ac"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-63c489f1e6cso178349a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 12:47:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bzXaEggd"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7a435a3fc57so77314b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 13:10:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1762980462; x=1763585262; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dB48jiAJQmCTSUKKfFbF2w4Wvbq8+BICA0uZNvppCf0=;
-        b=UlYBa8acZxIXxOCsd+IeAlRvOszYm0rcdeqrR+hs41Y9TNEpKoIvzNBg1HXwZ9JQNn
-         4pEKzyUeVBEcpJxDJ4/FdgGpPeVChVeV+HStsILsNJuIBnz0OOxtSA6tnKbOZuByreGX
-         V/H3+gRzxUL1vhOF745KA1vBK6SMRDvWaeiyXbsK6cmCdFhuehs860a88UtqaNOGCQK8
-         w3EZmyLKw7sZpgDvd5rLKTlqO7Zv7ROfXuwzXl3+q2s0vIU+oUwuBi1TluI4kCD+Hcls
-         16CYAofa4hItWp3/2SmeHyHOdxzMQx6fIZgBddgGI6m55D61j/ymcE58PUlg0AFEqwgn
-         THKw==
+        d=gmail.com; s=20230601; t=1762981805; x=1763586605; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=iK9hwywVCoA1owwArThQ0iGrOFP6QXJhSt+mBhrCefg=;
+        b=bzXaEggdBF7zyHCMWT9uYGuMR0WlMBzNddiJbxsn8vBUEO5LFZv2I3PE3h+FAOZggs
+         N/quX5dU4ouADzl5u8VfMOfsOV2BoWhsG7+W+dz7RK0lyz4kdzYwRDENYM0H38lpgXdU
+         R60c/AVrGUF5bp9xRi+XwKAgDftXozHw3MguFIHw01l/LtrAG10mNt8qbnnLRLAhHpLY
+         hxFsHOOv9BdOl0B4gzHhJx6EbXIbdXXa0ZqnorNVkegtKufksgPE4ipIV2ONVzbv8xdU
+         f6OY/X7niYfEvjuoMKgoZf1AsdE1qxq1Rfs2I2ZlTA9XX7/90gE4lM2eMyxHNUr56hJi
+         sn+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762980463; x=1763585263;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dB48jiAJQmCTSUKKfFbF2w4Wvbq8+BICA0uZNvppCf0=;
-        b=XlUCiET2px+bNpbgiXl85FDo9BPwwrBu+OvlOJYSYcFjd/CiPl8tPzM8d40VGY/xR6
-         YBvknc00ESTFJGDqnJqWNUnGw0UzEo6CjGYPRHaOsBIpCxB4kcPvbU0e/+ufdAwFGYwD
-         81YSf1YhfQ+doPIbnUESLN5uxnNMcDZn4A29Pi65Rj0ivZbE9kMEzSTiWSCjrrkxmhJm
-         2/3Ktj7A8ejd5JNDeH6MBmNVwlnjFOOh+krBIYJUrvY81I8jM7zWqmxB/YNvCUib9slH
-         3wBrolNA3FDOwcoTfZmsCOlcu/RRdWdHNlKcxdfYWGLG1HzPLmlJmjznVSkT2Oje2bkz
-         LERA==
-X-Forwarded-Encrypted: i=1; AJvYcCXcUfMgCCg6urdamFUY4xVjfIeZNDaP+sqBBQq02W8IOAEvwlYDGCp2xY0Gq/C3xxNNOnlrfQdoEAY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrmgWh7mcnPJPrF9Q9KNhAxqd9yJo9H6LVYQ8NHwGDJgnXQTtD
-	MGFMuxBXt4G72AvLCorSnO9WFeJmaxYmAcvf8vWbXrIDNjV+CUdFFNC4GzoHpn5TJsBZGuIIEir
-	hVZ+LRJPUXYbnlchveAo1APd0dhRnPDverEDoOTa/Kw==
-X-Gm-Gg: ASbGncs+kzTf++Xcu74z/UPCGeA/Yes8uLgKLAwDTqTEec1r+kaThZwgTT1ehGFrlKu
-	reNil0nbzdAmUUyWXi/8Li3VGwk1L0G+XwCcGrf+EVWfgw9L2NkREkMMwUVtwsMKOZz/xVeGDsO
-	zIhDnkZ6GNMXhh2Vcp20Bg0ikuFOGOFT8gtPh2oBFmUkpZTOAmjqIr58QuGiOylyrfIwCktREDQ
-	4cOyuzMce/gQpQyX+i5SUGbD6dDclf7tcbgc9finPD1VWpYUqonAV3wKw==
-X-Google-Smtp-Source: AGHT+IHnCxJ5sXULWNZ4xyt6eOXGzcL5bRRpxTbpBkagcIsWqapM9iv+G712dgCOMjYDLl8hNWljgh4gZ1/4nXWnvWg=
-X-Received: by 2002:a05:6402:280d:b0:641:270:2c8a with SMTP id
- 4fb4d7f45d1cf-64334ce2bf2mr656038a12.14.1762980462571; Wed, 12 Nov 2025
- 12:47:42 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762981805; x=1763586605;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iK9hwywVCoA1owwArThQ0iGrOFP6QXJhSt+mBhrCefg=;
+        b=HhIvWF1votfaFZ+0910ChCaHkp4SJgm2Fla0mHHkT/35YbM61xWPC2kA3NUxABh1+d
+         88cxnKrmcrQQ1BDyO9pr4GVmc2ulzhhlsIbdKC6faI4ZPMtDtu/RxnROwoaTJoe5J6KJ
+         g/88oRDgoKgh3RFOBcFj7vUTf4N5JQUPtUkOBHArpXhYjsdPzY3lqP2KZSaXNalibM6h
+         RuO08TUOTdv2a1VvotfKFkiq6/dbMtgLRmkFHYnwVInW/77YWPY6LtIvK/HcjX9kDa6l
+         NMY86+iZRa7WCPBVb5ytXjoPK3zicgD6/4gbMKZlDHA5TJrmDjjUtaMZVqaPqTGnlb+7
+         wYwg==
+X-Forwarded-Encrypted: i=1; AJvYcCVk3P2ZJ4G0DIW0yJYKekhOhT4fkjXf6jpPqkzY3FYyrl0dEErD7/V9ZZSTmDYQYR9V/QYe2K/JI2I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOcvT+0kaKlE9dv2vMEN8mtHh1tcVBUhjKgXtWJ0MTnDbUvHK/
+	g8CYAom8+TTJbNe+Odb1jv0Rj0SEHNs9MPgcb7CZBxQhZY+ISsua/eoH
+X-Gm-Gg: ASbGncvNqCIKrciPhbM7AvpsfpaqRObgvdCQcULc6zRaEG9PomQe+SQzaFNK1LnBLkf
+	DzvJpYZOfgAa1aMGhUTzKa+FkwIE/PV8vugnM6aET7bVxYZl36WjCAL3kwcip1brJq24xGkUz40
+	e+qNMbrhPz7Sk3HKs4gkq4+zA+yHyKTuiAGv9H/Mch4r6FVv4ePit4QhuhT5Jp4Ug9xb7c8bQYW
+	GqtMCblLY2Ff6/635y7PZqkkIte4AaLUOUeiY975xMBv9zofl9x6XO58t7zysyCYtZ23nykgXij
+	aXez6WbIRCIsMlJFoXAdeNShtyGlZhsHkgVlWMKXCySu1f/M4ldayX/8LJi2XpPE3KHz7x/LNrs
+	+oMr4xcfvfhQZk2RHsjyM5huiezTWGehkj59NqN7kKH+C0JcIKLflKf9Xn6QuvsME6KIYFXMK/N
+	AzyUiHTJe1e4cvYo7q60SYAfL3HrJ+k1tW3XPoupDEHQXp0PAu9xnQ0YvAgU892lkIvna+s3k=
+X-Google-Smtp-Source: AGHT+IHGmuARPThpnwcferH+2Fz0BRD/2zZnyupg6Za/IMYh6KBq2OjFyv6xSKw5IW/55mxOopvWyw==
+X-Received: by 2002:a17:90a:8c10:b0:341:194:5e7c with SMTP id 98e67ed59e1d1-343dde6f7ebmr4302109a91.24.1762981805360;
+        Wed, 12 Nov 2025 13:10:05 -0800 (PST)
+Received: from ehlo.thunderbird.net (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b0c9635007sm19900217b3a.2.2025.11.12.13.10.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Nov 2025 13:10:04 -0800 (PST)
+Date: Wed, 12 Nov 2025 13:10:04 -0800
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Mario Limonciello <superm1@kernel.org>,
+ =?ISO-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Hans de Goede <hansg@kernel.org>
+CC: Armin Wolf <W_Armin@gmx.de>, Len Brown <lenb@kernel.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org,
+ linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-acpi@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_1/3=5D_acpi=3A_platform=5Fp?=
+ =?US-ASCII?Q?rofile_-_Add_Extreme_profile_option?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <d660801f-8551-4940-8555-1059e9d565f7@kernel.org>
+References: <20251106212121.447030-1-derekjohn.clark@gmail.com> <20251106212121.447030-2-derekjohn.clark@gmail.com> <701898dd-3310-e86d-7499-fca5a445447a@linux.intel.com> <d660801f-8551-4940-8555-1059e9d565f7@kernel.org>
+Message-ID: <1558D575-0F14-418E-ACD7-7B7420C622BF@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-7-pasha.tatashin@soleen.com> <aRTwZNKFvDqb1NG5@kernel.org>
-In-Reply-To: <aRTwZNKFvDqb1NG5@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 12 Nov 2025 15:47:05 -0500
-X-Gm-Features: AWmQ_bkVh8Sk3xM0csiNTGOKzpW_RilqarlOG4vqEffeEKya7lO37kZmCW2_pO8
-Message-ID: <CA+CK2bAhJ+Lbm6v375RuZKs40q34gsKHE-N+dD8gKqgzsHCqww@mail.gmail.com>
-Subject: Re: [PATCH v5 06/22] liveupdate: luo_session: add sessions support
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 12, 2025 at 3:39=E2=80=AFPM Mike Rapoport <rppt@kernel.org> wro=
-te:
+On November 10, 2025 9:17:12 PM PST, Mario Limonciello <superm1@kernel=2Eor=
+g> wrote:
 >
-> On Fri, Nov 07, 2025 at 04:03:04PM -0500, Pasha Tatashin wrote:
-> > Introduce concept of "Live Update Sessions" within the LUO framework.
-> > LUO sessions provide a mechanism to group and manage `struct file *`
-> > instances (representing file descriptors) that need to be preserved
-> > across a kexec-based live update.
-> >
-> > Each session is identified by a unique name and acts as a container
-> > for file objects whose state is critical to a userspace workload, such
-> > as a virtual machine or a high-performance database, aiming to maintain
-> > their functionality across a kernel transition.
-> >
-> > This groundwork establishes the framework for preserving file-backed
-> > state across kernel updates, with the actual file data preservation
-> > mechanisms to be implemented in subsequent patches.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  include/linux/liveupdate/abi/luo.h |  81 ++++++
-> >  include/uapi/linux/liveupdate.h    |   3 +
-> >  kernel/liveupdate/Makefile         |   3 +-
-> >  kernel/liveupdate/luo_core.c       |   9 +
-> >  kernel/liveupdate/luo_internal.h   |  39 +++
-> >  kernel/liveupdate/luo_session.c    | 405 +++++++++++++++++++++++++++++
-> >  6 files changed, 539 insertions(+), 1 deletion(-)
-> >  create mode 100644 kernel/liveupdate/luo_session.c
-> >
-> > diff --git a/include/linux/liveupdate/abi/luo.h b/include/linux/liveupd=
-ate/abi/luo.h
-> > index 9483a294287f..37b9fecef3f7 100644
-> > --- a/include/linux/liveupdate/abi/luo.h
-> > +++ b/include/linux/liveupdate/abi/luo.h
-> > @@ -28,6 +28,11 @@
-> >   *     / {
-> >   *         compatible =3D "luo-v1";
-> >   *         liveupdate-number =3D <...>;
-> > + *
-> > + *         luo-session {
-> > + *             compatible =3D "luo-session-v1";
-> > + *             luo-session-head =3D <phys_addr_of_session_head_ser>;
 >
-> 'head' reads to me as list head rather than a header. I'd use 'hdr' for t=
-he
-> latter.
-
-Or just use the full name: "header" ? It is not too long as well.
-
-Pasha
-
+>On 11/10/25 5:14 AM, Ilpo J=C3=A4rvinen wrote:
+>> On Thu, 6 Nov 2025, Derek J=2E Clark wrote:
+>>=20
+>>> Some devices, namely Lenovo Legion devices, have an "extreme" mode whe=
+re
+>>> power draw is at the maximum limit of the cooling hardware=2E Add a ne=
+w
+>>> "extreme" platform profile to properly reflect this operating mode=2E
+>>>=20
+>>> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel=2Eorg>
+>>> Acked-by: Rafael J=2E Wysocki (Intel) <rafael@kernel=2Eorg>
+>>> Signed-off-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
+>>> ---
+>>>   Documentation/ABI/testing/sysfs-class-platform-profile | 2 ++
+>>>   drivers/acpi/platform_profile=2Ec                        | 1 +
+>>>   include/linux/platform_profile=2Eh                       | 1 +
+>>>   3 files changed, 4 insertions(+)
+>>>=20
+>>> diff --git a/Documentation/ABI/testing/sysfs-class-platform-profile b/=
+Documentation/ABI/testing/sysfs-class-platform-profile
+>>> index dc72adfb830a=2E=2E9bee8deb4dc9 100644
+>>> --- a/Documentation/ABI/testing/sysfs-class-platform-profile
+>>> +++ b/Documentation/ABI/testing/sysfs-class-platform-profile
+>>> @@ -23,6 +23,8 @@ Description:	This file contains a space-separated li=
+st of profiles supported
+>>>   					power consumption with a slight bias
+>>>   					towards performance
+>>>   		performance		High performance operation
+>>> +		extreme			Higher performance operation that may exceed
+>>> +					internal battery draw limits when on AC power
+>>>   		custom			Driver defined custom profile
+>>>   		=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>>   diff --git a/drivers/acpi/platform_profile=2Ec b/drivers/acpi/platfo=
+rm_profile=2Ec
+>>> index b43f4459a4f6=2E=2E78da17e16d9b 100644
+>>> --- a/drivers/acpi/platform_profile=2Ec
+>>> +++ b/drivers/acpi/platform_profile=2Ec
+>>> @@ -37,6 +37,7 @@ static const char * const profile_names[] =3D {
+>>>   	[PLATFORM_PROFILE_BALANCED] =3D "balanced",
+>>>   	[PLATFORM_PROFILE_BALANCED_PERFORMANCE] =3D "balanced-performance",
+>>>   	[PLATFORM_PROFILE_PERFORMANCE] =3D "performance",
+>>> +	[PLATFORM_PROFILE_EXTREME] =3D "extreme",
+>>>   	[PLATFORM_PROFILE_CUSTOM] =3D "custom",
+>>>   };
+>>>   static_assert(ARRAY_SIZE(profile_names) =3D=3D PLATFORM_PROFILE_LAST=
+);
+>>> diff --git a/include/linux/platform_profile=2Eh b/include/linux/platfo=
+rm_profile=2Eh
+>>> index a299225ab92e=2E=2E2bf178bde2b5 100644
+>>> --- a/include/linux/platform_profile=2Eh
+>>> +++ b/include/linux/platform_profile=2Eh
+>>> @@ -24,6 +24,7 @@ enum platform_profile_option {
+>>>   	PLATFORM_PROFILE_BALANCED,
+>>>   	PLATFORM_PROFILE_BALANCED_PERFORMANCE,
+>>>   	PLATFORM_PROFILE_PERFORMANCE,
+>>> +	PLATFORM_PROFILE_EXTREME,
+>>>   	PLATFORM_PROFILE_CUSTOM,
+>>>   	PLATFORM_PROFILE_LAST, /*must always be last */
+>>>   };
+>>>=20
+>>=20
+>> I wonder if "extreme" is the best name for this? Given the description =
+you
+>> gave above, perhaps "max-power" would be more descriptive (and we alrea=
+dy
+>> have "low-power" so it kind of feels fitting the theme too)=2E
+>>=20
+>> I don't have strong opinion on this so if you guys feel this suggestion
+>> would not make things better, feel free to voice it=2E :-)
+>>=20
 >
-> --
-> Sincerely yours,
-> Mike.
+>I don't feel strongly here, either sound find to me=2E
+>
+Fine with me=2E Extreme is the vendor (marketing) specific phrase but the =
+low/max-power symmetry is nicer=2E I'll try to spin a v3 today or tomorrow=
+=2E
+
+Thanks,
+Derek
