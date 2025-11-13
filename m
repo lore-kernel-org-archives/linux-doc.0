@@ -1,78 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2440329BD95;
-	Thu, 13 Nov 2025 18:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA89130AD1B;
+	Thu, 13 Nov 2025 18:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763056885; cv=none; b=B4tftptj1b013z2ycHIWvvnKqUhBloaKFGX9Sy25Wby8Dqbwri3SAn4RhZo1BsG5MIDMv6OueEPQ3EufynFQe4a28pvYvuD5NGA9TIhwc1PbxQctPmkZsxMoOdjjmOOkhuKS9qJmpiSASelU7/5tB0JZsSnOQN/5/mnRbEkUykQ=
+	t=1763057528; cv=none; b=HOp8kKgwEUXfwDofze3OoXuwZbHM43yruUZiHMX7JAkXhapT5MVvMneCBV4CZaYNQoTZpaplGEAKOooVgzJJbDLIfkNWJPiemPJlLMYuK5zreDdzRpPBZ6QBu6/EmozEnFoJet9s27K7E4dZypgEXGiyAuTjpepBckNraZqObSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763056885; c=relaxed/simple;
-	bh=w/eqwcH4YBVoPX7qAYr81YCS6pKpZMntJReWM+XRRZ0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aVf3sSsM5vvvMhT9sCSAWv7c+ShdnA+4G5BkC/yJelMqq/xVGZYvSNiPWHYhsDi/HtKoAZ7yXBJT38NTkqpyTWOyEeecGRdDkRusO/WekmciE4IS9cv6WiFEfzOJfZzNY/xZo9QfnTsIhawyt0GmXJ2vNmywXjkIdmlkjwG2lNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DIkh1geG; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1763057528; c=relaxed/simple;
+	bh=eggkhC6mk5737Q6dXVCr1HI04S4YU8Wm2zybbQQ4foA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Zd5tt+V/M5chdZdj9ZN10u6whXcCGe6/16IkgOaE4Cw4buxoUUUWSaFclx40DV3Df/XlOh8XmmTopxt9M7BXq67mGvkCf+wOMi0xqbBMpqBovSN4nCwhTCjxaXa4HDiWQgh7bduEvu7dbyivOoQcEtIcRillrgTCkL/4NZxNHzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=i0CbDAF6; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DIkh1geG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763056883; x=1794592883;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=w/eqwcH4YBVoPX7qAYr81YCS6pKpZMntJReWM+XRRZ0=;
-  b=DIkh1geGoGTQ0qbymYv9IDl4exKrEwQtoZ8JHuPQKodJ8FKtTVpVR+y5
-   P7cMprzYf3HC/+s7NjwqicHoOxkFdayhKr9BeYyv5W89KzMrLS3OYMF1+
-   5oQpMb5hzLquU4mGfCXudE55n9auqbpeAOC25/M4KeHBisa+aQLa7qCLt
-   X8yEuDYyoIyyczDjGEiopOZRczarXx3DQtcSRwhkQFNGDB3AYhpzhgrQW
-   d2KD/PZ2kQs1ASxPrAGCJqurA190eyEjY/AmTFjrhLxKjkemBWLYE/AUs
-   7fS/dzPMmeq+k+PBgk32kj6C4sQbYgrabI4ojRN0y4qNgRTP30CFGVpcj
-   w==;
-X-CSE-ConnectionGUID: NAPFc6VcQUeiG5uAoZwANg==
-X-CSE-MsgGUID: P/DtolZHQFebybMitcOIgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="75826879"
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="75826879"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 10:01:22 -0800
-X-CSE-ConnectionGUID: l+/eRDiXSuCEh657R344Lg==
-X-CSE-MsgGUID: KqE05w0XTvGQpxKcXpB2wg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="194713595"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.164])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 10:01:14 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: linux-pci@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	=?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	David Airlie <airlied@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	"Michael J . Ruhl" <mjruhl@habana.ai>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v4 01/11] PCI: Move Resizable BAR code to rebar.c
-Date: Thu, 13 Nov 2025 20:00:43 +0200
-Message-Id: <20251113180053.27944-2-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20251113180053.27944-1-ilpo.jarvinen@linux.intel.com>
-References: <20251113180053.27944-1-ilpo.jarvinen@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="i0CbDAF6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1763057523;
+	bh=eggkhC6mk5737Q6dXVCr1HI04S4YU8Wm2zybbQQ4foA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=i0CbDAF6pCbWEMlJpLb//tNQ6Yv1i+dHQZGVPCJnVkweoEGmlw48d5tZDmSxx333M
+	 nt4GoO0PyuP0bNbEwDVNY98cz438MWKbbxMjCD7dmmefRgQpXVVnQ321Rz9W4WBxr9
+	 hD6NU3aIKykDFuGCJs028cshFoa/0CsSJCbdMtxLP+mtf94jPIFPj5LS8mnmIvR5fB
+	 VrmSy0RLe/MFKL5HKfC7rc6/pcdLWGaZinio6jRZGnk50KKHbPwVoPEHabv3b9fBOs
+	 x+gim+uMWamOOdj/T5PsKDWrMKn3cf9SwpobDBglRpuOtLPfsW2D8s5CBr4bNlbnV2
+	 BuHRmPPV7+XRQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9222917E127F;
+	Thu, 13 Nov 2025 19:12:02 +0100 (CET)
+Date: Thu, 13 Nov 2025 19:11:58 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
+ Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v8 07/11] drm/gem: Get rid of *_with_mnt helpers
+Message-ID: <20251113191158.43328c47@fedora>
+In-Reply-To: <20251113170008.79587-8-loic.molinari@collabora.com>
+References: <20251113170008.79587-1-loic.molinari@collabora.com>
+	<20251113170008.79587-8-loic.molinari@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,583 +68,292 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-For lack of a better place to put it, Resizable BAR code has been placed
-inside pci.c and setup-res.c that do not use it for anything.  Upcoming
-changes are going to add more Resizable BAR related functions, increasing
-the code size.
+On Thu, 13 Nov 2025 18:00:03 +0100
+Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
 
-As pci.c is huge as is, move the Resizable BAR related code and the BAR
-resize code from setup-res.c to rebar.c.
+> drm_gem_object_init_with_mnt() and drm_gem_shmem_create_with_mnt() can
+> be removed now that the drivers use the new drm_gem_huge_mnt_create()
+> and drm_gem_has_huge_mnt() helpers.
+>=20
+> v5:
+> - use drm_gem_has_huge_mnt() helper
+> - compile out shmem_file_setup_with_mnt() call in builds with
+>   CONFIG_TRANSPARENT_HUGEPAGE=3Dn
+>=20
+> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_gem.c              | 38 ++++++++------------------
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 38 ++++++--------------------
+>  drivers/gpu/drm/v3d/v3d_bo.c           |  5 ----
+>  include/drm/drm_gem.h                  |  3 --
+>  include/drm/drm_gem_shmem_helper.h     |  3 --
+>  5 files changed, 20 insertions(+), 67 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index bbca2ab9e9a5..1b0b5813acef 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -171,31 +171,33 @@ drm_gem_init(struct drm_device *dev)
+>  }
+> =20
+>  /**
+> - * drm_gem_object_init_with_mnt - initialize an allocated shmem-backed G=
+EM
+> - * object in a given shmfs mountpoint
+> + * drm_gem_object_init - initialize an allocated shmem-backed GEM object
+>   *
+>   * @dev: drm_device the object should be initialized for
+>   * @obj: drm_gem_object to initialize
+>   * @size: object size
+> - * @gemfs: tmpfs mount where the GEM object will be created. If NULL, use
+> - * the usual tmpfs mountpoint (`shm_mnt`).
+>   *
+>   * Initialize an already allocated GEM object of the specified size with
+> - * shmfs backing store.
+> + * shmfs backing store. A huge mountpoint can be used by calling
+> + * drm_gem_huge_mnt_create() beforehand.
+>   */
+> -int drm_gem_object_init_with_mnt(struct drm_device *dev,
+> -				 struct drm_gem_object *obj, size_t size,
+> -				 struct vfsmount *gemfs)
+> +int drm_gem_object_init(struct drm_device *dev, struct drm_gem_object *o=
+bj,
+> +			size_t size)
+>  {
+>  	struct file *filp;
+> =20
+>  	drm_gem_private_object_init(dev, obj, size);
+> =20
+> -	if (gemfs)
+> -		filp =3D shmem_file_setup_with_mnt(gemfs, "drm mm object", size,
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +	if (drm_gem_has_huge_mnt(dev))
+> +		filp =3D shmem_file_setup_with_mnt(dev->huge_mnt,
+> +						 "drm mm object", size,
+>  						 VM_NORESERVE);
+>  	else
+>  		filp =3D shmem_file_setup("drm mm object", size, VM_NORESERVE);
+> +#else
+> +	filp =3D shmem_file_setup("drm mm object", size, VM_NORESERVE);
+> +#endif
 
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
- Documentation/driver-api/pci/pci.rst |   3 +
- drivers/pci/Makefile                 |   2 +-
- drivers/pci/pci.c                    | 149 ----------------
- drivers/pci/pci.h                    |   1 +
- drivers/pci/rebar.c                  | 247 +++++++++++++++++++++++++++
- drivers/pci/setup-res.c              |  85 ---------
- 6 files changed, 252 insertions(+), 235 deletions(-)
- create mode 100644 drivers/pci/rebar.c
+I keep thinking it'd be simpler with a drm_gem_get_huge_mnt() helper:
 
-diff --git a/Documentation/driver-api/pci/pci.rst b/Documentation/driver-api/pci/pci.rst
-index 59d86e827198..99a1bbaaec5d 100644
---- a/Documentation/driver-api/pci/pci.rst
-+++ b/Documentation/driver-api/pci/pci.rst
-@@ -37,6 +37,9 @@ PCI Support Library
- .. kernel-doc:: drivers/pci/slot.c
-    :export:
- 
-+.. kernel-doc:: drivers/pci/rebar.c
-+   :export:
-+
- .. kernel-doc:: drivers/pci/rom.c
-    :export:
- 
-diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
-index 67647f1880fb..f3c81c892786 100644
---- a/drivers/pci/Makefile
-+++ b/drivers/pci/Makefile
-@@ -4,7 +4,7 @@
- 
- obj-$(CONFIG_PCI)		+= access.o bus.o probe.o host-bridge.o \
- 				   remove.o pci.o pci-driver.o search.o \
--				   rom.o setup-res.o irq.o vpd.o \
-+				   rebar.o rom.o setup-res.o irq.o vpd.o \
- 				   setup-bus.o vc.o mmap.o devres.o
- 
- obj-$(CONFIG_PCI)		+= msi/
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 7dfc58b0e55e..aedf6a9932ce 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -1823,32 +1823,6 @@ static void pci_restore_config_space(struct pci_dev *pdev)
- 	}
- }
- 
--static void pci_restore_rebar_state(struct pci_dev *pdev)
--{
--	unsigned int pos, nbars, i;
--	u32 ctrl;
--
--	pos = pdev->rebar_cap;
--	if (!pos)
--		return;
--
--	pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
--	nbars = FIELD_GET(PCI_REBAR_CTRL_NBAR_MASK, ctrl);
--
--	for (i = 0; i < nbars; i++, pos += 8) {
--		struct resource *res;
--		int bar_idx, size;
--
--		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
--		bar_idx = ctrl & PCI_REBAR_CTRL_BAR_IDX;
--		res = pci_resource_n(pdev, bar_idx);
--		size = pci_rebar_bytes_to_size(resource_size(res));
--		ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
--		ctrl |= FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
--		pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
--	}
--}
--
- /**
-  * pci_restore_state - Restore the saved state of a PCI device
-  * @dev: PCI device that we're dealing with
-@@ -3687,129 +3661,6 @@ void pci_acs_init(struct pci_dev *dev)
- 	pci_enable_acs(dev);
- }
- 
--void pci_rebar_init(struct pci_dev *pdev)
--{
--	pdev->rebar_cap = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_REBAR);
--}
--
--/**
-- * pci_rebar_find_pos - find position of resize ctrl reg for BAR
-- * @pdev: PCI device
-- * @bar: BAR to find
-- *
-- * Helper to find the position of the ctrl register for a BAR.
-- * Returns -ENOTSUPP if resizable BARs are not supported at all.
-- * Returns -ENOENT if no ctrl register for the BAR could be found.
-- */
--static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
--{
--	unsigned int pos, nbars, i;
--	u32 ctrl;
--
--	if (pci_resource_is_iov(bar)) {
--		pos = pci_iov_vf_rebar_cap(pdev);
--		bar = pci_resource_num_to_vf_bar(bar);
--	} else {
--		pos = pdev->rebar_cap;
--	}
--
--	if (!pos)
--		return -ENOTSUPP;
--
--	pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
--	nbars = FIELD_GET(PCI_REBAR_CTRL_NBAR_MASK, ctrl);
--
--	for (i = 0; i < nbars; i++, pos += 8) {
--		int bar_idx;
--
--		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
--		bar_idx = FIELD_GET(PCI_REBAR_CTRL_BAR_IDX, ctrl);
--		if (bar_idx == bar)
--			return pos;
--	}
--
--	return -ENOENT;
--}
--
--/**
-- * pci_rebar_get_possible_sizes - get possible sizes for BAR
-- * @pdev: PCI device
-- * @bar: BAR to query
-- *
-- * Get the possible sizes of a resizable BAR as bitmask defined in the spec
-- * (bit 0=1MB, bit 31=128TB). Returns 0 if BAR isn't resizable.
-- */
--u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar)
--{
--	int pos;
--	u32 cap;
--
--	pos = pci_rebar_find_pos(pdev, bar);
--	if (pos < 0)
--		return 0;
--
--	pci_read_config_dword(pdev, pos + PCI_REBAR_CAP, &cap);
--	cap = FIELD_GET(PCI_REBAR_CAP_SIZES, cap);
--
--	/* Sapphire RX 5600 XT Pulse has an invalid cap dword for BAR 0 */
--	if (pdev->vendor == PCI_VENDOR_ID_ATI && pdev->device == 0x731f &&
--	    bar == 0 && cap == 0x700)
--		return 0x3f00;
--
--	return cap;
--}
--EXPORT_SYMBOL(pci_rebar_get_possible_sizes);
--
--/**
-- * pci_rebar_get_current_size - get the current size of a BAR
-- * @pdev: PCI device
-- * @bar: BAR to set size to
-- *
-- * Read the size of a BAR from the resizable BAR config.
-- * Returns size if found or negative error code.
-- */
--int pci_rebar_get_current_size(struct pci_dev *pdev, int bar)
--{
--	int pos;
--	u32 ctrl;
--
--	pos = pci_rebar_find_pos(pdev, bar);
--	if (pos < 0)
--		return pos;
--
--	pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
--	return FIELD_GET(PCI_REBAR_CTRL_BAR_SIZE, ctrl);
--}
--
--/**
-- * pci_rebar_set_size - set a new size for a BAR
-- * @pdev: PCI device
-- * @bar: BAR to set size to
-- * @size: new size as defined in the spec (0=1MB, 31=128TB)
-- *
-- * Set the new size of a BAR as defined in the spec.
-- * Returns zero if resizing was successful, error code otherwise.
-- */
--int pci_rebar_set_size(struct pci_dev *pdev, int bar, int size)
--{
--	int pos;
--	u32 ctrl;
--
--	pos = pci_rebar_find_pos(pdev, bar);
--	if (pos < 0)
--		return pos;
--
--	pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
--	ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
--	ctrl |= FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
--	pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
--
--	if (pci_resource_is_iov(bar))
--		pci_iov_resource_set_size(pdev, bar, size);
--
--	return 0;
--}
--
- /**
-  * pci_enable_atomic_ops_to_root - enable AtomicOp requests to root port
-  * @dev: the PCI device
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 9893ea12d1f2..41df35920632 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -1021,6 +1021,7 @@ static inline int acpi_get_rc_resources(struct device *dev, const char *hid,
- #endif
- 
- void pci_rebar_init(struct pci_dev *pdev);
-+void pci_restore_rebar_state(struct pci_dev *pdev);
- int pci_rebar_get_current_size(struct pci_dev *pdev, int bar);
- int pci_rebar_set_size(struct pci_dev *pdev, int bar, int size);
- static inline u64 pci_rebar_size_to_bytes(int size)
-diff --git a/drivers/pci/rebar.c b/drivers/pci/rebar.c
-new file mode 100644
-index 000000000000..f6ed7e4893a7
---- /dev/null
-+++ b/drivers/pci/rebar.c
-@@ -0,0 +1,247 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * PCI Resizable BAR Extended Capability handling.
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/errno.h>
-+#include <linux/export.h>
-+#include <linux/ioport.h>
-+#include <linux/pci.h>
-+#include <linux/types.h>
-+
-+#include "pci.h"
-+
-+void pci_rebar_init(struct pci_dev *pdev)
-+{
-+	pdev->rebar_cap = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_REBAR);
-+}
-+
-+/**
-+ * pci_rebar_find_pos - find position of resize ctrl reg for BAR
-+ * @pdev: PCI device
-+ * @bar: BAR to find
-+ *
-+ * Helper to find the position of the ctrl register for a BAR.
-+ * Returns -ENOTSUPP if resizable BARs are not supported at all.
-+ * Returns -ENOENT if no ctrl register for the BAR could be found.
-+ */
-+static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
-+{
-+	unsigned int pos, nbars, i;
-+	u32 ctrl;
-+
-+	if (pci_resource_is_iov(bar)) {
-+		pos = pci_iov_vf_rebar_cap(pdev);
-+		bar = pci_resource_num_to_vf_bar(bar);
-+	} else {
-+		pos = pdev->rebar_cap;
-+	}
-+
-+	if (!pos)
-+		return -ENOTSUPP;
-+
-+	pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-+	nbars = FIELD_GET(PCI_REBAR_CTRL_NBAR_MASK, ctrl);
-+
-+	for (i = 0; i < nbars; i++, pos += 8) {
-+		int bar_idx;
-+
-+		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-+		bar_idx = FIELD_GET(PCI_REBAR_CTRL_BAR_IDX, ctrl);
-+		if (bar_idx == bar)
-+			return pos;
-+	}
-+
-+	return -ENOENT;
-+}
-+
-+/**
-+ * pci_rebar_get_possible_sizes - get possible sizes for BAR
-+ * @pdev: PCI device
-+ * @bar: BAR to query
-+ *
-+ * Get the possible sizes of a resizable BAR as bitmask defined in the spec
-+ * (bit 0=1MB, bit 31=128TB). Returns 0 if BAR isn't resizable.
-+ */
-+u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar)
-+{
-+	int pos;
-+	u32 cap;
-+
-+	pos = pci_rebar_find_pos(pdev, bar);
-+	if (pos < 0)
-+		return 0;
-+
-+	pci_read_config_dword(pdev, pos + PCI_REBAR_CAP, &cap);
-+	cap = FIELD_GET(PCI_REBAR_CAP_SIZES, cap);
-+
-+	/* Sapphire RX 5600 XT Pulse has an invalid cap dword for BAR 0 */
-+	if (pdev->vendor == PCI_VENDOR_ID_ATI && pdev->device == 0x731f &&
-+	    bar == 0 && cap == 0x700)
-+		return 0x3f00;
-+
-+	return cap;
-+}
-+EXPORT_SYMBOL(pci_rebar_get_possible_sizes);
-+
-+/**
-+ * pci_rebar_get_current_size - get the current size of a BAR
-+ * @pdev: PCI device
-+ * @bar: BAR to set size to
-+ *
-+ * Read the size of a BAR from the resizable BAR config.
-+ * Returns size if found or negative error code.
-+ */
-+int pci_rebar_get_current_size(struct pci_dev *pdev, int bar)
-+{
-+	int pos;
-+	u32 ctrl;
-+
-+	pos = pci_rebar_find_pos(pdev, bar);
-+	if (pos < 0)
-+		return pos;
-+
-+	pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-+	return FIELD_GET(PCI_REBAR_CTRL_BAR_SIZE, ctrl);
-+}
-+
-+/**
-+ * pci_rebar_set_size - set a new size for a BAR
-+ * @pdev: PCI device
-+ * @bar: BAR to set size to
-+ * @size: new size as defined in the spec (0=1MB, 31=128TB)
-+ *
-+ * Set the new size of a BAR as defined in the spec.
-+ * Returns zero if resizing was successful, error code otherwise.
-+ */
-+int pci_rebar_set_size(struct pci_dev *pdev, int bar, int size)
-+{
-+	int pos;
-+	u32 ctrl;
-+
-+	pos = pci_rebar_find_pos(pdev, bar);
-+	if (pos < 0)
-+		return pos;
-+
-+	pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-+	ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
-+	ctrl |= FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
-+	pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
-+
-+	if (pci_resource_is_iov(bar))
-+		pci_iov_resource_set_size(pdev, bar, size);
-+
-+	return 0;
-+}
-+
-+void pci_restore_rebar_state(struct pci_dev *pdev)
-+{
-+	unsigned int pos, nbars, i;
-+	u32 ctrl;
-+
-+	pos = pdev->rebar_cap;
-+	if (!pos)
-+		return;
-+
-+	pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-+	nbars = FIELD_GET(PCI_REBAR_CTRL_NBAR_MASK, ctrl);
-+
-+	for (i = 0; i < nbars; i++, pos += 8) {
-+		struct resource *res;
-+		int bar_idx, size;
-+
-+		pci_read_config_dword(pdev, pos + PCI_REBAR_CTRL, &ctrl);
-+		bar_idx = ctrl & PCI_REBAR_CTRL_BAR_IDX;
-+		res = pci_resource_n(pdev, bar_idx);
-+		size = pci_rebar_bytes_to_size(resource_size(res));
-+		ctrl &= ~PCI_REBAR_CTRL_BAR_SIZE;
-+		ctrl |= FIELD_PREP(PCI_REBAR_CTRL_BAR_SIZE, size);
-+		pci_write_config_dword(pdev, pos + PCI_REBAR_CTRL, ctrl);
-+	}
-+}
-+
-+static bool pci_resize_is_memory_decoding_enabled(struct pci_dev *dev,
-+						  int resno)
-+{
-+	u16 cmd;
-+
-+	if (pci_resource_is_iov(resno))
-+		return pci_iov_is_memory_decoding_enabled(dev);
-+
-+	pci_read_config_word(dev, PCI_COMMAND, &cmd);
-+
-+	return cmd & PCI_COMMAND_MEMORY;
-+}
-+
-+void pci_resize_resource_set_size(struct pci_dev *dev, int resno, int size)
-+{
-+	resource_size_t res_size = pci_rebar_size_to_bytes(size);
-+	struct resource *res = pci_resource_n(dev, resno);
-+
-+	if (pci_resource_is_iov(resno))
-+		res_size *= pci_sriov_get_totalvfs(dev);
-+
-+	resource_set_size(res, res_size);
-+}
-+
-+/**
-+ * pci_resize_resource - reconfigure a Resizable BAR and resources
-+ * @dev: the PCI device
-+ * @resno: index of the BAR to be resized
-+ * @size: new size as defined in the spec (0=1MB, 31=128TB)
-+ * @exclude_bars: a mask of BARs that should not be released
-+ *
-+ * Reconfigure @resno to @size and re-run resource assignment algorithm
-+ * with the new size.
-+ *
-+ * Prior to resize, release @dev resources that share a bridge window with
-+ * @resno.  This unpins the bridge window resource to allow changing it.
-+ *
-+ * The caller may prevent releasing a particular BAR by providing
-+ * @exclude_bars mask, but this may result in the resize operation failing
-+ * due to insufficient space.
-+ *
-+ * Return: 0 on success, or negative on error. In case of an error, the
-+ *         resources are restored to their original places.
-+ */
-+int pci_resize_resource(struct pci_dev *dev, int resno, int size,
-+			int exclude_bars)
-+{
-+	struct pci_host_bridge *host;
-+	int old, ret;
-+	u32 sizes;
-+
-+	/* Check if we must preserve the firmware's resource assignment */
-+	host = pci_find_host_bridge(dev->bus);
-+	if (host->preserve_config)
-+		return -ENOTSUPP;
-+
-+	if (pci_resize_is_memory_decoding_enabled(dev, resno))
-+		return -EBUSY;
-+
-+	sizes = pci_rebar_get_possible_sizes(dev, resno);
-+	if (!sizes)
-+		return -ENOTSUPP;
-+
-+	if (!(sizes & BIT(size)))
-+		return -EINVAL;
-+
-+	old = pci_rebar_get_current_size(dev, resno);
-+	if (old < 0)
-+		return old;
-+
-+	ret = pci_rebar_set_size(dev, resno, size);
-+	if (ret)
-+		return ret;
-+
-+	ret = pci_do_resource_release_and_resize(dev, resno, size, exclude_bars);
-+	if (ret)
-+		goto error_resize;
-+	return 0;
-+
-+error_resize:
-+	pci_rebar_set_size(dev, resno, old);
-+	return ret;
-+}
-+EXPORT_SYMBOL(pci_resize_resource);
-diff --git a/drivers/pci/setup-res.c b/drivers/pci/setup-res.c
-index caec9fec5d03..e5fcadfc58b0 100644
---- a/drivers/pci/setup-res.c
-+++ b/drivers/pci/setup-res.c
-@@ -431,91 +431,6 @@ int pci_release_resource(struct pci_dev *dev, int resno)
- }
- EXPORT_SYMBOL(pci_release_resource);
- 
--static bool pci_resize_is_memory_decoding_enabled(struct pci_dev *dev,
--						  int resno)
--{
--	u16 cmd;
--
--	if (pci_resource_is_iov(resno))
--		return pci_iov_is_memory_decoding_enabled(dev);
--
--	pci_read_config_word(dev, PCI_COMMAND, &cmd);
--
--	return cmd & PCI_COMMAND_MEMORY;
--}
--
--void pci_resize_resource_set_size(struct pci_dev *dev, int resno, int size)
--{
--	resource_size_t res_size = pci_rebar_size_to_bytes(size);
--	struct resource *res = pci_resource_n(dev, resno);
--
--	if (pci_resource_is_iov(resno))
--		res_size *= pci_sriov_get_totalvfs(dev);
--
--	resource_set_size(res, res_size);
--}
--
--/**
-- * pci_resize_resource - reconfigure a Resizable BAR and resources
-- * @dev: the PCI device
-- * @resno: index of the BAR to be resized
-- * @size: new size as defined in the spec (0=1MB, 31=128TB)
-- * @exclude_bars: a mask of BARs that should not be released
-- *
-- * Reconfigure @resno to @size and re-run resource assignment algorithm
-- * with the new size.
-- *
-- * Prior to resize, release @dev resources that share a bridge window with
-- * @resno.  This unpins the bridge window resource to allow changing it.
-- *
-- * The caller may prevent releasing a particular BAR by providing
-- * @exclude_bars mask, but this may result in the resize operation failing
-- * due to insufficient space.
-- *
-- * Return: 0 on success, or negative on error. In case of an error, the
-- *         resources are restored to their original places.
-- */
--int pci_resize_resource(struct pci_dev *dev, int resno, int size,
--			int exclude_bars)
--{
--	struct pci_host_bridge *host;
--	int old, ret;
--	u32 sizes;
--
--	/* Check if we must preserve the firmware's resource assignment */
--	host = pci_find_host_bridge(dev->bus);
--	if (host->preserve_config)
--		return -ENOTSUPP;
--
--	if (pci_resize_is_memory_decoding_enabled(dev, resno))
--		return -EBUSY;
--
--	sizes = pci_rebar_get_possible_sizes(dev, resno);
--	if (!sizes)
--		return -ENOTSUPP;
--
--	if (!(sizes & BIT(size)))
--		return -EINVAL;
--
--	old = pci_rebar_get_current_size(dev, resno);
--	if (old < 0)
--		return old;
--
--	ret = pci_rebar_set_size(dev, resno, size);
--	if (ret)
--		return ret;
--
--	ret = pci_do_resource_release_and_resize(dev, resno, size, exclude_bars);
--	if (ret)
--		goto error_resize;
--	return 0;
--
--error_resize:
--	pci_rebar_set_size(dev, resno, old);
--	return ret;
--}
--EXPORT_SYMBOL(pci_resize_resource);
--
- int pci_enable_resources(struct pci_dev *dev, int mask)
- {
- 	u16 cmd, old_cmd;
--- 
-2.39.5
+static inline struct vfsmount *
+drm_gem_get_huge_mnt(struct drm_device *dev)
+{
+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+	return dev->huge_mnt;
+#else
+	return NULL;
+#endif
+}
+
+so we can avoid those #ifdef CONFIG_TRANSPARENT_HUGEPAGE in a few other
+places.
+
+For this one that would give you something like:
+
+	if (drm_gem_get_huge_mnt(dev))
+		filp =3D shmem_file_setup_with_mnt(drm_gem_get_huge_mnt(dev),
+						 "drm mm object", size,
+						 VM_NORESERVE);
+	else
+		filp =3D shmem_file_setup("drm mm object", size, VM_NORESERVE);
+
+> =20
+>  	if (IS_ERR(filp))
+>  		return PTR_ERR(filp);
+> @@ -204,22 +206,6 @@ int drm_gem_object_init_with_mnt(struct drm_device *=
+dev,
+> =20
+>  	return 0;
+>  }
+> -EXPORT_SYMBOL(drm_gem_object_init_with_mnt);
+> -
+> -/**
+> - * drm_gem_object_init - initialize an allocated shmem-backed GEM object
+> - * @dev: drm_device the object should be initialized for
+> - * @obj: drm_gem_object to initialize
+> - * @size: object size
+> - *
+> - * Initialize an already allocated GEM object of the specified size with
+> - * shmfs backing store.
+> - */
+> -int drm_gem_object_init(struct drm_device *dev, struct drm_gem_object *o=
+bj,
+> -			size_t size)
+> -{
+> -	return drm_gem_object_init_with_mnt(dev, obj, size, NULL);
+> -}
+>  EXPORT_SYMBOL(drm_gem_object_init);
+> =20
+>  /**
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm=
+_gem_shmem_helper.c
+> index 81f4ac7cb8f6..43a80f3fcfd9 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -50,7 +50,7 @@ static const struct drm_gem_object_funcs drm_gem_shmem_=
+funcs =3D {
+>  };
+> =20
+>  static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_s=
+hmem_object *shmem,
+> -				size_t size, bool private, struct vfsmount *gemfs)
+> +				size_t size, bool private)
+>  {
+>  	struct drm_gem_object *obj =3D &shmem->base;
+>  	int ret =3D 0;
+> @@ -62,7 +62,7 @@ static int __drm_gem_shmem_init(struct drm_device *dev,=
+ struct drm_gem_shmem_obj
+>  		drm_gem_private_object_init(dev, obj, size);
+>  		shmem->map_wc =3D false; /* dma-buf mappings use always writecombine */
+>  	} else {
+> -		ret =3D drm_gem_object_init_with_mnt(dev, obj, size, gemfs);
+> +		ret =3D drm_gem_object_init(dev, obj, size);
+>  	}
+>  	if (ret) {
+>  		drm_gem_private_object_fini(obj);
+> @@ -103,13 +103,12 @@ static int __drm_gem_shmem_init(struct drm_device *=
+dev, struct drm_gem_shmem_obj
+>   */
+>  int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obje=
+ct *shmem, size_t size)
+>  {
+> -	return __drm_gem_shmem_init(dev, shmem, size, false, NULL);
+> +	return __drm_gem_shmem_init(dev, shmem, size, false);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_init);
+> =20
+>  static struct drm_gem_shmem_object *
+> -__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
+> -		       struct vfsmount *gemfs)
+> +__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
+>  {
+>  	struct drm_gem_shmem_object *shmem;
+>  	struct drm_gem_object *obj;
+> @@ -129,7 +128,7 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t=
+ size, bool private,
+>  		obj =3D &shmem->base;
+>  	}
+> =20
+> -	ret =3D __drm_gem_shmem_init(dev, shmem, size, private, gemfs);
+> +	ret =3D __drm_gem_shmem_init(dev, shmem, size, private);
+>  	if (ret) {
+>  		kfree(obj);
+>  		return ERR_PTR(ret);
+> @@ -150,31 +149,10 @@ __drm_gem_shmem_create(struct drm_device *dev, size=
+_t size, bool private,
+>   */
+>  struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev=
+, size_t size)
+>  {
+> -	return __drm_gem_shmem_create(dev, size, false, NULL);
+> +	return __drm_gem_shmem_create(dev, size, false);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
+> =20
+> -/**
+> - * drm_gem_shmem_create_with_mnt - Allocate an object with the given siz=
+e in a
+> - * given mountpoint
+> - * @dev: DRM device
+> - * @size: Size of the object to allocate
+> - * @gemfs: tmpfs mount where the GEM object will be created
+> - *
+> - * This function creates a shmem GEM object in a given tmpfs mountpoint.
+> - *
+> - * Returns:
+> - * A struct drm_gem_shmem_object * on success or an ERR_PTR()-encoded ne=
+gative
+> - * error code on failure.
+> - */
+> -struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_de=
+vice *dev,
+> -							   size_t size,
+> -							   struct vfsmount *gemfs)
+> -{
+> -	return __drm_gem_shmem_create(dev, size, false, gemfs);
+> -}
+> -EXPORT_SYMBOL_GPL(drm_gem_shmem_create_with_mnt);
+> -
+>  /**
+>   * drm_gem_shmem_release - Release resources associated with a shmem GEM=
+ object.
+>   * @shmem: shmem GEM object
+> @@ -861,7 +839,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device=
+ *dev,
+>  	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
+>  	struct drm_gem_shmem_object *shmem;
+> =20
+> -	shmem =3D __drm_gem_shmem_create(dev, size, true, NULL);
+> +	shmem =3D __drm_gem_shmem_create(dev, size, true);
+>  	if (IS_ERR(shmem))
+>  		return ERR_CAST(shmem);
+> =20
+> @@ -909,7 +887,7 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_=
+map(struct drm_device *dev,
+> =20
+>  	size =3D PAGE_ALIGN(attach->dmabuf->size);
+> =20
+> -	shmem =3D __drm_gem_shmem_create(dev, size, true, NULL);
+> +	shmem =3D __drm_gem_shmem_create(dev, size, true);
+>  	if (IS_ERR(shmem)) {
+>  		ret =3D PTR_ERR(shmem);
+>  		goto fail_detach;
+> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+> index 3bc714ea6392..d3b68ee05dbb 100644
+> --- a/drivers/gpu/drm/v3d/v3d_bo.c
+> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
+> @@ -153,12 +153,7 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev,=
+ struct drm_file *file_priv,
+>  	struct v3d_bo *bo;
+>  	int ret;
+> =20
+> -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> -	shmem_obj =3D drm_gem_shmem_create_with_mnt(dev, unaligned_size,
+> -						  dev->huge_mnt);
+> -#else
+>  	shmem_obj =3D drm_gem_shmem_create(dev, unaligned_size);
+> -#endif
+>  	if (IS_ERR(shmem_obj))
+>  		return ERR_CAST(shmem_obj);
+>  	bo =3D to_v3d_bo(&shmem_obj->base);
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 58fa1e6b9773..75276a12208e 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -529,9 +529,6 @@ void drm_gem_object_release(struct drm_gem_object *ob=
+j);
+>  void drm_gem_object_free(struct kref *kref);
+>  int drm_gem_object_init(struct drm_device *dev,
+>  			struct drm_gem_object *obj, size_t size);
+> -int drm_gem_object_init_with_mnt(struct drm_device *dev,
+> -				 struct drm_gem_object *obj, size_t size,
+> -				 struct vfsmount *gemfs);
+>  void drm_gem_private_object_init(struct drm_device *dev,
+>  				 struct drm_gem_object *obj, size_t size);
+>  void drm_gem_private_object_fini(struct drm_gem_object *obj);
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shm=
+em_helper.h
+> index 589f7bfe7506..6b6478f5ca24 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -109,9 +109,6 @@ struct drm_gem_shmem_object {
+> =20
+>  int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obje=
+ct *shmem, size_t size);
+>  struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev=
+, size_t size);
+> -struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_de=
+vice *dev,
+> -							   size_t size,
+> -							   struct vfsmount *gemfs);
+>  void drm_gem_shmem_release(struct drm_gem_shmem_object *shmem);
+>  void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
+> =20
 
