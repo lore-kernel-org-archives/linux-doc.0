@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96325319879
-	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 19:36:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803AB31C567;
+	Thu, 13 Nov 2025 19:39:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763062610; cv=none; b=b4WRkx8lwM6EX3mM8e4dFTVj84sipBl7td4TRc4gBqPOUPzBIHzlQpW++rCBXZgmMMtwegtLd23FxH9fGeTPBSOsZeGIfVxVAzDMCCvb124WwucdabZlnOdkBJ2HXVSt/5FGEmchb3ocem9ywDJ8q0nF9ZF+cwD2318Z630wW9s=
+	t=1763062769; cv=none; b=fq45jKVBQY3QZYH3M522F+3y3/4xYAry8qdj2bgz815KjsMb4cU12PROidEqNUWFa7obFeKlmXOAyPl+dJuWeAdaXzoHM96xWUepp+LKICLptAIAnKfYGIdGT6ZUTu/RUu+cT/1OScqGPFqsaj/whWi5b/nzKIQ5T3uOvTnWCng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763062610; c=relaxed/simple;
-	bh=hADdWybc/5PnqH0cGDKOuxrDxugbBqGYTQtlRmal8Sw=;
+	s=arc-20240116; t=1763062769; c=relaxed/simple;
+	bh=XyVqg3GtsNMi3GD0Cw5dwDVLQ3jZCbFrjOLApr0SPF0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dOXkYl15v/TQHTYYbl6FRYi+dGA4iFljhJBcqzerAwpT8vaIuZG0rxaMIoZjpBv1bCh1yVpixrUNLYep/FJtMnOsQJh18OXNAqMvnj8u00c/Fp2px+Vn6UJUQH6msfI1zGogu2tPgRbEjzyJGfLMj0ENJK5qvCGW5o/gDp7oP9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EKGc0U6y; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=hrqBOMnvi1RHFY6zzfcvvJF/8WwKj/W9ucYJqQAJnhvFm6/sW7s2OUT9HP5Osv0i1bn9VzIKlbgtPRfntG670rFjV8bvH6QByhCLecR7TvvLV1dK+v9flieVomZyBG0YETb6jSDHYCqQT60T0pAKAMOs3kmgDWrqtnfOxGzZdQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=P5oNYZEi; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EKGc0U6y"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="P5oNYZEi"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=0z5xRciB1nwiYE36QR+wqCITtrSU3WTcv4Iqt7ZAWZ0=; b=EKGc0U6yz7EPH0kw9T5UsW60vh
-	DRp6qRL9ib6SSJG67hVlAL+aVoeV2BYEs9bKryLwjBccTvicf4C/jVK43wN6/LysD7oA2x6KU/cAe
-	n50LePzzMrZMMizyA5zTCaDhmwpFZ7auW2g3TVRxLSFZUijT+9K7nWmPKQsP1uKBKXPfqHZyeLjCw
-	AlOHzm90LWNxNrSu6ZqAAprul+6EQBSVwPxbSbSvNSXxozrfT71VYo3dSd0Lrt41lTpzOcL10OETs
-	erppIvKieetVwLud7nZsT4FsHMad3nuT+R1FXeT5vgGZim7mWtHGmx73UBEM8nRhsSSCl7amnkfWP
-	P/OocU+A==;
+	bh=chfwgQva+X89GsoUHHNeRTir8EzngYoiykPKmQ0oA3I=; b=P5oNYZEi5LVq2L59eofMFuJsvP
+	itYF1U1Zl6Owre8Uz9N1DZB/r0Lw2ZGjhGGnGg1okh0dp4osnGQmtp4YnFIurmjLs23Y3GEd1u6qH
+	LrvBdgw5awtHZF+NnSYWFPBWWKPCWyAIsKBc8uW+5KXnjllNfqucU7ipPcTc9wqLaTwOaLRVUJHOg
+	xeBvzQEpER0cVqYkbibXydMlB/mMwRiGDOKsi52OdhgA+5HQVgXhGRREOlNHnSo8jhWwalzJqG/1l
+	3QYO1KmY9CgoYHffh4cfsTAQDy9PDsIft+TDvYFPpTU/S57EOZAQ1jpnchMTzdiQyhCi/CPI4Y+M+
+	DQEX/fVw==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJd7g-0000000B1CD-09Zt;
-	Thu, 13 Nov 2025 19:36:48 +0000
-Message-ID: <c44d53e5-71ab-423e-95b4-1ddb08e40823@infradead.org>
-Date: Thu, 13 Nov 2025 11:36:47 -0800
+	id 1vJdAD-0000000B1Nt-2lgv;
+	Thu, 13 Nov 2025 19:39:25 +0000
+Message-ID: <e6343b60-da03-46d3-a98e-4c31c39b42a0@infradead.org>
+Date: Thu, 13 Nov 2025 11:39:25 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,65 +39,61 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] Documentation: use a source-read extension to include
- the index boilerplate
-To: Jani Nikula <jani.nikula@intel.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-References: <cover.1762948491.git.jani.nikula@intel.com>
- <e404d14ad5e9ed0ddc3f8920efb5d156dff99021.1762948491.git.jani.nikula@intel.com>
- <qf6t4cbpurcssabychbtxplqv7metgglduu4soqjexfxs6ongy@yryw3bnk44y6>
- <5fc09cd5678000ccca68200d9f692376024e4b33@intel.com>
+Subject: Re: [PATCH] scripts: docs: kdoc_files.py: don't consider symlinks as
+ directories
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org
+References: <73c3450f34e2a4b42ef2ef279d7487c47d22e3bd.1763027622.git.mchehab+huawei@kernel.org>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <5fc09cd5678000ccca68200d9f692376024e4b33@intel.com>
+In-Reply-To: <73c3450f34e2a4b42ef2ef279d7487c47d22e3bd.1763027622.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 11/13/25 12:12 AM, Jani Nikula wrote:
-> On Wed, 12 Nov 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
->> On Wed, Nov 12, 2025 at 01:56:54PM +0200, Jani Nikula wrote:
->>> Reduce boilerplate all over the place by adding a small ad hoc extension
->>> in conf.py that adds the ../sphinx-includes/subproject-index.rst include
->>> to all SPHINXDIRS builds.
->>>
->>> Note that the docname is just 'index', because the SPHINXDIRS builds
->>> happen in the subdirectories.
->>>
->>> Cc: Randy Dunlap <rdunlap@infradead.org>
->>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->>> Cc: Jonathan Corbet <corbet@lwn.net>
->>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->>
->>> diff --git a/Documentation/conf.py b/Documentation/conf.py
->>> index b9a43ee32a00..cb0936a71d52 100644
->>> --- a/Documentation/conf.py
->>> +++ b/Documentation/conf.py
->>> @@ -589,8 +589,14 @@ kerneldoc_srctree = ".."
->>>  # ------------------------------------------------------------------------------
->>>  loadConfig(globals())
->>>  
->>> +# Add index link to SPHINXDIRS builds
->>> +def add_subproject_index(app, docname, source):
->>> +    if app.builder.tags.has('subproject') and app.builder.tags.has('html'):
->>> +        if docname == 'index':
->>> +            source[0] += '\n.. include:: ../sphinx-includes/subproject-index.rst\n'
->>
->> The relative path there breaks SPINXDIRS, when it is pointing to use a sub-sub-dir
->> like:
->>
->>     $ make SPHINXDIRS=userspace-api/media htmldocs
+On 11/13/25 1:53 AM, Mauro Carvalho Chehab wrote:
+> As reported by Randy, currently kdoc_files can go into endless
+> looks when symlinks are used:
 > 
-> Ugh, I looked at 'make help' for the "valid values for SPHINXDIRS",
-> which only lists the top level directories. Patch 1 is also based on
-> this.
+> 	$ ln -s . Documentation/peci/foo
+> 	$ ./scripts/kernel-doc Documentation/peci/
+> 	...
+> 	  File "/new_devel/docs/scripts/lib/kdoc/kdoc_files.py", line 52, in _parse_dir
+> 	    if entry.is_dir():
+> 	       ~~~~~~~~~~~~^^
+> 	OSError: [Errno 40] Too many levels of symbolic links: 'Documentation/peci/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo'
 > 
-> What a surprise, the documentation for documentation is useless.
+> Prevent that by not considering symlinks as directories.
+> 
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Closes: https://lore.kernel.org/linux-doc/80701524-09fd-4d68-8715-331f47c969f2@infradead.org/
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Yeah, I only found out recently that subdirs can be specified there.
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+(again...(
+
+> ---
+>  scripts/lib/kdoc/kdoc_files.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
+> index 061c033f32da..1fd8d17edb32 100644
+> --- a/scripts/lib/kdoc/kdoc_files.py
+> +++ b/scripts/lib/kdoc/kdoc_files.py
+> @@ -49,7 +49,7 @@ class GlobSourceFiles:
+>              for entry in obj:
+>                  name = os.path.join(dirname, entry.name)
+>  
+> -                if entry.is_dir():
+> +                if entry.is_dir(follow_symlinks=False):
+>                      yield from self._parse_dir(name)
+>  
+>                  if not entry.is_file():
 
 -- 
 ~Randy
-
