@@ -1,212 +1,435 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC1135A124;
-	Thu, 13 Nov 2025 15:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A44529D26E;
+	Thu, 13 Nov 2025 15:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763046206; cv=none; b=aiqz6rz02P/l44d9rkX82AO9pFJKSJLOsQm2xsAMauJou5VNx4OeCpyFxGMnGUU8ajvq0KDn3Nn9W/ETuoGk/GsbchB+s3PO+KY//ferWURMIOjRZ6gAFLU03jbZWdy5PtNejffQgv6NxPLNfw++dSH/eidKXEbGLgk6EKwd97k=
+	t=1763046955; cv=none; b=e7dhhF2bZY5myA10jpPpX9/da3x2ADwXP4nF12Hdu8g5yLnK/QRxYO2hDnc9YIDp+o/J1wmIKPRZnXmUVjHw3TgObN3ZlFfNHE/aLMh5nT6bNaXwjI0Evh/TeBb2gKaTnO9Gu+0WstFO7wwT4/qr99bSkTcKhv9ojc4T72AizZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763046206; c=relaxed/simple;
-	bh=mKCfGvyzNhw96Cnh7FIRHLBI440Q6rRaNHGoDV+QYYs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GR/JItHWTybglT/zn80dwwrwUDR+JLzXoDQl3Xab78qU+9+Bib7GxmQPttbfLynX93xzWhVoimalONzmoi230Te2VFgOKuzy0OjS5b2l6o9er0RbThTcgu0kOunJuwFDoMMKvQwaEWcHX/TdnVKg9yEustWieaoa9u5QhbpmXYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOnHEOyk; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOnHEOyk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763046205; x=1794582205;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=mKCfGvyzNhw96Cnh7FIRHLBI440Q6rRaNHGoDV+QYYs=;
-  b=iOnHEOykLC/hrEuf4LeVHtkbp66GpB+xD4CE2hZBRSqDMTLdm2b8sT7S
-   EfHnd3+mxPNaw7RoyWyER+eBs5skw3jbpmNs9PBIsoNHCkr9dkiJ0ZujM
-   xnimJ+wpUPZ6uTgNGLmscE80ATMXORXV4aCyU1suml6A4XEyi833A12vy
-   rAilHqqd5eMx5W0yaBg2Y+66Hwqq405M0NyoDY/FmG6wl2NciW9QqRDyp
-   /X/pV3zA5c9WxRom57ad9QEy9pAh1iyXPjHBTC/xQwdmNGj6G0pKM43es
-   /bt0Q9g00vZlwgntGwAi569lpOtrEdYJwptnEZArjMb2U2mTByS4WkhEz
-   w==;
-X-CSE-ConnectionGUID: WNSpEkyuRReFD8BaQYmwhg==
-X-CSE-MsgGUID: XoLT583WSrup6mEuPuwVPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054723"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65054723"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 07:03:03 -0800
-X-CSE-ConnectionGUID: yKzzlJzzQWapQitGWcT/+Q==
-X-CSE-MsgGUID: xLZAMTLNQZqO3A74MNxPAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="220325230"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:54 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 81C62AA; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Corey Minyard <corey@minyard.net>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Vitaly Lifshits <vitaly.lifshits@intel.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Calvin Owens <calvin@wbinvd.org>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Sagi Maimon <maimon.sagi@gmail.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Karan Tilak Kumar <kartilak@cisco.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	amd-gfx@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	linux-mmc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	linux-pci@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	ceph-devel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Gustavo Padovan <gustavo@padovan.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Rodolfo Giometti <giometti@enneenne.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Stefan Haberland <sth@linux.ibm.com>,
-	Jan Hoeppner <hoeppner@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Satish Kharat <satishkh@cisco.com>,
-	Sesidhar Baddela <sebaddel@cisco.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xiubo Li <xiubli@redhat.com>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 20/21] scsi: snic: Switch to use %ptSp
-Date: Thu, 13 Nov 2025 15:32:34 +0100
-Message-ID: <20251113150217.3030010-21-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
-References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
+	s=arc-20240116; t=1763046955; c=relaxed/simple;
+	bh=b2qgVXhlTqI+ms4L6K/w37wAIrhIfLu5uz7+Fp58pio=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qqTUWlK1izF2yjzwf7MVhl2JTHIpr9LqIVwlHkWOEvfcrcQqTqxVwZo0V+sF/5tGmalXNoVSoRCMJe8jlJHWz9+ahzqC9WpHW96r8iT+1bYebKQyBCYYAowaWtFYq+ea0n27aYbrirl8thnQhUlAfisyX3hF4TDpjmSQKzHIsVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4FE6A12FC;
+	Thu, 13 Nov 2025 07:15:45 -0800 (PST)
+Received: from localhost (ionvoi01-desktop.cambridge.arm.com [10.2.80.58])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 983693F66E;
+	Thu, 13 Nov 2025 07:15:52 -0800 (PST)
+Date: Thu, 13 Nov 2025 15:15:47 +0000
+From: Ionela Voinescu <ionela.voinescu@arm.com>
+To: Sumit Gupta <sumitg@nvidia.com>
+Cc: rafael@kernel.org, viresh.kumar@linaro.org, lenb@kernel.org,
+	robert.moore@intel.com, corbet@lwn.net, pierre.gondois@arm.com,
+	zhenglifeng1@huawei.com, rdunlap@infradead.org, ray.huang@amd.com,
+	gautham.shenoy@amd.com, mario.limonciello@amd.com,
+	perry.yuan@amd.com, zhanjie9@hisilicon.com,
+	linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+	treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com,
+	ksitaraman@nvidia.com, sanjayc@nvidia.com, nhartman@nvidia.com,
+	bbasu@nvidia.com
+Subject: Re: [PATCH v4 8/8] cpufreq: CPPC: add autonomous mode boot parameter
+ support
+Message-ID: <aRX2Iz9+3oMZpX2K@arm.com>
+References: <20251105113844.4086250-1-sumitg@nvidia.com>
+ <20251105113844.4086250-9-sumitg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251105113844.4086250-9-sumitg@nvidia.com>
 
-Use %ptSp instead of open coded variants to print content of
-struct timespec64 in human readable format.
+Hi,
 
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/scsi/snic/snic_debugfs.c | 10 ++++------
- drivers/scsi/snic/snic_trc.c     |  5 ++---
- 2 files changed, 6 insertions(+), 9 deletions(-)
+As an overall comment, there are now various functions that modify the
+autonomous selection configuration in various degrees:
+cppc_cpufreq_update_autosel_config, cppc_cpufreq_update_auto_select,
+cppc_cpufreq_set_epp_autosel_allcpus.
 
-diff --git a/drivers/scsi/snic/snic_debugfs.c b/drivers/scsi/snic/snic_debugfs.c
-index 9dd975b36b5b..edf3e5ef28a6 100644
---- a/drivers/scsi/snic/snic_debugfs.c
-+++ b/drivers/scsi/snic/snic_debugfs.c
-@@ -282,8 +282,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
- 	jiffies_to_timespec64(stats->misc.last_ack_time, &last_ack_tms);
- 
- 	seq_printf(sfp,
--		   "Last ISR Time               : %llu (%8llu.%09lu)\n"
--		   "Last Ack Time               : %llu (%8llu.%09lu)\n"
-+		   "Last ISR Time               : %llu (%ptSp)\n"
-+		   "Last Ack Time               : %llu (%ptSp)\n"
- 		   "Ack ISRs                    : %llu\n"
- 		   "IO Cmpl ISRs                : %llu\n"
- 		   "Err Notify ISRs             : %llu\n"
-@@ -298,10 +298,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
- 		   "Queue Ramp Down             : %lld\n"
- 		   "Queue Last Queue Depth      : %lld\n"
- 		   "Target Not Ready            : %lld\n",
--		   (u64) stats->misc.last_isr_time,
--		   last_isr_tms.tv_sec, last_isr_tms.tv_nsec,
--		   (u64)stats->misc.last_ack_time,
--		   last_ack_tms.tv_sec, last_ack_tms.tv_nsec,
-+		   (u64) stats->misc.last_isr_time, &last_isr_tms,
-+		   (u64) stats->misc.last_ack_time, &last_ack_tms,
- 		   (u64) atomic64_read(&stats->misc.ack_isr_cnt),
- 		   (u64) atomic64_read(&stats->misc.cmpl_isr_cnt),
- 		   (u64) atomic64_read(&stats->misc.errnotify_isr_cnt),
-diff --git a/drivers/scsi/snic/snic_trc.c b/drivers/scsi/snic/snic_trc.c
-index c2e5ab7e976c..6bad1ea9a6a7 100644
---- a/drivers/scsi/snic/snic_trc.c
-+++ b/drivers/scsi/snic/snic_trc.c
-@@ -56,9 +56,8 @@ snic_fmt_trc_data(struct snic_trc_data *td, char *buf, int buf_sz)
- 	jiffies_to_timespec64(td->ts, &tmspec);
- 
- 	len += snprintf(buf, buf_sz,
--			"%llu.%09lu %-25s %3d %4x %16llx %16llx %16llx %16llx %16llx\n",
--			tmspec.tv_sec,
--			tmspec.tv_nsec,
-+			"%ptSp %-25s %3d %4x %16llx %16llx %16llx %16llx %16llx\n",
-+			&tmspec,
- 			td->fn,
- 			td->hno,
- 			td->tag,
--- 
-2.50.1
+Are these all really necessary? Some seem single use functions that
+make the intention very confusing through the use of several bool
+parameters. I think a lot of this complexity can be avoided, so
+I'd recommend to re-think the software design a bit.
 
+I've added more details below (and I've skipped review of the previous
+patch).
+
+On Wednesday 05 Nov 2025 at 17:08:44 (+0530), Sumit Gupta wrote:
+> Add kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable CPPC
+> autonomous performance selection at system startup. When autonomous mode
+> is enabled, the hardware automatically adjusts CPU performance based on
+> workload demands using Energy Performance Preference (EPP) hints.
+> 
+> This parameter allows to configure the autonomous mode on all CPUs
+> without requiring runtime sysfs manipulation if the 'auto_sel' register
+> is present.
+> 
+> When auto_sel_mode=1:
+> - All CPUs are configured for autonomous operation during module init
+> - EPP is set to performance preference (0x0) by default
+> - Min/max performance bounds use defaults
+> - CPU frequency scaling is handled by hardware instead of OS governor
+> 
+> For Documentation/:
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  12 ++
+>  drivers/cpufreq/cppc_cpufreq.c                | 197 +++++++++++++++---
+>  2 files changed, 182 insertions(+), 27 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index b8f8f5d74093..048f84008a7e 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -929,6 +929,18 @@
+>  			Format:
+>  			<first_slot>,<last_slot>,<port>,<enum_bit>[,<debug>]
+>  
+> +	cppc_cpufreq.auto_sel_mode=
+> +			[CPU_FREQ] Enable ACPI CPPC autonomous performance selection.
+> +			When enabled, hardware automatically adjusts CPU frequency
+> +			on all CPUs based on workload demands. In Autonomous mode,
+> +			Energy Performance Preference(EPP) hints guide hardware
+> +			toward performance(0x0) or energy efficiency (0xff).
+> +			Requires ACPI CPPC autonomous selection register support.
+> +			Format: <bool>
+> +			Default: 0 (disabled)
+> +			0: use cpufreq governors
+> +			1: enable if supoorted by hardware
+> +
+>  	cpuidle.off=1	[CPU_IDLE]
+>  			disable the cpuidle sub-system
+>  
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+> index d1b44beaddda..0a55ab011317 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -28,8 +28,12 @@
+>  #include <acpi/cppc_acpi.h>
+>  
+>  static struct cpufreq_driver cppc_cpufreq_driver;
+> +
+>  static DEFINE_MUTEX(cppc_cpufreq_update_autosel_config_lock);
+>  
+> +/* Autonomous Selection */
+> +static bool auto_sel_mode;
+> +
+>  #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
+>  static enum {
+>  	FIE_UNSET = -1,
+> @@ -272,8 +276,13 @@ static int cppc_cpufreq_set_target(struct cpufreq_policy *policy,
+>  	freqs.old = policy->cur;
+>  	freqs.new = target_freq;
+>  
+> +	/*
+> +	 * In autonomous selection mode, hardware handles frequency scaling directly
+> +	 * based on workload and EPP hints. So, skip the OS frequency set requests.
+> +	 */
+>  	cpufreq_freq_transition_begin(policy, &freqs);
+> -	ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+> +	if (!cpu_data->perf_caps.auto_sel)
+> +		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+
+"When Autonomous Selection is enabled, it is not necessary for OSPM to assess
+processor workload performance demand and convey a corresponding performance
+delivery request to the platform via the Desired Register. If the Desired
+Performance Register exists, OSPM may provide an explicit performance
+requirement hint to the platform by writing a non-zero value."
+
+Therefore I believe it's up to the platform to decide if it wants to use
+the software hint.
+
+>  	cpufreq_freq_transition_end(policy, &freqs, ret != 0);
+>  
+>  	if (ret)
+> @@ -565,6 +574,12 @@ static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
+>  		goto free_mask;
+>  	}
+>  
+> +	ret = cppc_get_perf(cpu, &cpu_data->perf_ctrls);
+> +	if (ret) {
+> +		pr_debug("Err reading CPU%d perf ctrls: ret:%d\n", cpu, ret);
+> +		goto free_mask;
+> +	}
+> +
+
+This belongs to patch 2/8.
+
+>  	return cpu_data;
+>  
+>  free_mask:
+> @@ -666,11 +681,81 @@ static int cppc_cpufreq_update_autosel_val(struct cpufreq_policy *policy, bool a
+>  	return 0;
+>  }
+>  
+> +static int cppc_cpufreq_update_epp_val(struct cpufreq_policy *policy, u32 epp)
+> +{
+> +	struct cppc_cpudata *cpu_data = policy->driver_data;
+> +	unsigned int cpu = policy->cpu;
+> +	int ret;
+> +
+> +	pr_debug("cpu%d, epp curr:%u, new:%u\n", cpu, cpu_data->perf_ctrls.energy_perf, epp);
+> +
+> +	guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
+> +
+> +	ret = cppc_set_epp(cpu, epp);
+> +	if (ret) {
+> +		pr_warn("failed to set energy_perf for cpu:%d (%d)\n", cpu, ret);
+> +		return ret;
+> +	}
+> +	cpu_data->perf_ctrls.energy_perf = epp;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * cppc_cpufreq_update_autosel_config - Update Autonomous selection configuration
+> + * @policy: cpufreq policy for the CPU
+> + * @min_perf: minimum performance value to set
+> + * @max_perf: maximum performance value to set
+> + * @auto_sel: autonomous selection mode enable/disable (also controls min/max perf reg updates)
+> + * @epp_val: energy performance preference value
+> + * @update_epp: whether to update EPP register
+> + * @update_policy: whether to update policy constraints
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int cppc_cpufreq_update_autosel_config(struct cpufreq_policy *policy,
+> +					      u64 min_perf, u64 max_perf, bool auto_sel,
+> +					      u32 epp_val, bool update_epp, bool update_policy)
+> +{
+> +	const unsigned int cpu = policy->cpu;
+> +	int ret;
+> +
+> +	/*
+> +	 * Set min/max performance registers and update policy constraints.
+> +	 *   When enabling: update both registers and policy.
+> +	 *   When disabling: update policy only.
+> +	 * Continue even if min/max are not supported, as EPP and autosel
+> +	 * might still be supported.
+> +	 */
+> +	ret = cppc_cpufreq_set_min_perf(policy, min_perf, auto_sel, update_policy);
+> +	if (ret && ret != -EOPNOTSUPP)
+> +		return ret;
+> +
+> +	ret = cppc_cpufreq_set_max_perf(policy, max_perf, auto_sel, update_policy);
+> +	if (ret && ret != -EOPNOTSUPP)
+> +		return ret;
+> +
+> +	if (update_epp) {
+> +		ret = cppc_cpufreq_update_epp_val(policy, epp_val);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	ret = cppc_cpufreq_update_autosel_val(policy, auto_sel);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pr_debug("Updated autonomous config [%llu-%llu] for CPU%d\n", min_perf, max_perf, cpu);
+> +
+> +	return 0;
+> +}
+
+I think cppc_cpufreq_update_auto_select() can be removed and
+cppc_cpufreq_update_autosel_config() used in its place. 
+
+cppc_cpufreq_update_autosel_config() would not even need min/max as
+arguments as they can be obtained from perf_caps (low/nominal range)
+or perf_ctrls (current min/max). This would also simplify
+cppc_cpufreq_cpu_init().
+
+> +
+>  static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  {
+>  	unsigned int cpu = policy->cpu;
+>  	struct cppc_cpudata *cpu_data;
+>  	struct cppc_perf_caps *caps;
+> +	u64 min_perf, max_perf;
+>  	int ret;
+>  
+>  	cpu_data = cppc_cpufreq_get_cpu_data(cpu);
+> @@ -734,11 +819,31 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  	policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
+>  	cpu_data->perf_ctrls.desired_perf =  caps->highest_perf;
+>  
+> -	ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+> -	if (ret) {
+> -		pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
+> -			 caps->highest_perf, cpu, ret);
+> -		goto out;
+> +	if (cpu_data->perf_caps.auto_sel) {
+> +		ret = cppc_set_enable(cpu, true);
+
+Isn't auto-sel enabled at this point? Also, if the auto-sel is
+ACPI_TYPE_INTEGER, cppc_set_enable() will return an error,
+isn't it?
+
+> +		if (ret) {
+> +			pr_err("Failed to enable CPPC on cpu%d (%d)\n", cpu, ret);
+> +			goto out;
+
+Do you really want to bail out of the rest of the cpufreq CPU
+initialisation, if only auto-select configuration fails?
+
+> +		}
+> +
+> +		min_perf = cpu_data->perf_ctrls.min_perf ?
+> +			   cpu_data->perf_ctrls.min_perf : caps->lowest_nonlinear_perf;
+> +		max_perf = cpu_data->perf_ctrls.max_perf ?
+> +			   cpu_data->perf_ctrls.max_perf : caps->nominal_perf;
+> +
+> +		ret = cppc_cpufreq_update_autosel_config(policy, min_perf, max_perf, true,
+> +							 CPPC_EPP_PERFORMANCE_PREF, true, false);
+> +		if (ret) {
+> +			cppc_set_enable(cpu, false);
+> +			goto out;
+> +		}
+> +	} else {
+> +		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+> +		if (ret) {
+> +			pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
+> +				 caps->highest_perf, cpu, ret);
+> +			goto out;
+> +		}
+>  	}
+>  
+>  	cppc_cpufreq_cpu_fie_init(policy);
+> @@ -910,7 +1015,6 @@ static int cppc_cpufreq_update_auto_select(struct cpufreq_policy *policy, bool e
+>  	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+>  	u64 min_perf = caps->lowest_nonlinear_perf;
+>  	u64 max_perf = caps->nominal_perf;
+> -	int ret;
+>  
+>  	if (enable) {
+>  		if (cpu_data->perf_ctrls.min_perf)
+> @@ -919,26 +1023,8 @@ static int cppc_cpufreq_update_auto_select(struct cpufreq_policy *policy, bool e
+>  			max_perf = cpu_data->perf_ctrls.max_perf;
+>  	}
+>  
+> -	/*
+> -	 * Set min/max performance registers and update policy constraints.
+> -	 *   When enabling: update both registers and policy.
+> -	 *   When disabling: update policy only.
+> -	 * Continue even if min/max are not supported, as EPP and autosel
+> -	 * might still be supported.
+> -	 */
+> -	ret = cppc_cpufreq_set_min_perf(policy, min_perf, enable, true);
+> -	if (ret && ret != -EOPNOTSUPP)
+> -		return ret;
+> -
+> -	ret = cppc_cpufreq_set_max_perf(policy, max_perf, enable, true);
+> -	if (ret && ret != -EOPNOTSUPP)
+> -		return ret;
+> -
+> -	ret = cppc_cpufreq_update_autosel_val(policy, enable);
+> -	if (ret)
+> -		return ret;
+> -
+> -	return 0;
+> +	return cppc_cpufreq_update_autosel_config(policy, min_perf, max_perf, enable,
+> +						  0, false, true);
+>  }
+>  
+>  static ssize_t store_auto_select(struct cpufreq_policy *policy, const char *buf, size_t count)
+> @@ -1146,13 +1232,61 @@ static struct cpufreq_driver cppc_cpufreq_driver = {
+>  	.name = "cppc_cpufreq",
+>  };
+>  
+> +static int cppc_cpufreq_set_epp_autosel_allcpus(bool auto_sel, u64 epp)
+> +{
+> +	int cpu, ret;
+> +
+> +	for_each_present_cpu(cpu) {
+> +		ret = cppc_set_epp(cpu, epp);
+> +		if (ret) {
+> +			pr_warn("Failed to set EPP on CPU%d (%d)\n", cpu, ret);
+> +			goto disable_all;
+> +		}
+> +
+> +		ret = cppc_set_auto_sel(cpu, auto_sel);
+> +		if (ret) {
+> +			pr_warn("Failed to set auto_sel on CPU%d (%d)\n", cpu, ret);
+> +			goto disable_all;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +
+> +disable_all:
+> +	pr_warn("Disabling auto_sel for all CPUs\n");
+> +	for_each_present_cpu(cpu)
+> +		cppc_set_auto_sel(cpu, false);
+> +
+> +	return -EIO;
+> +}
+> +
+>  static int __init cppc_cpufreq_init(void)
+>  {
+> +	bool auto_sel;
+>  	int ret;
+>  
+>  	if (!acpi_cpc_valid())
+>  		return -ENODEV;
+>  
+> +	if (auto_sel_mode) {
+> +		/*
+> +		 * Check if autonomous selection is supported by testing CPU 0.
+> +		 * If supported, enable autonomous mode on all CPUs.
+> +		 */
+> +		ret = cppc_get_auto_sel(0, &auto_sel);
+> +		if (!ret) {
+> +			pr_info("Enabling auto_sel_mode (autonomous selection mode)\n");
+> +			ret = cppc_cpufreq_set_epp_autosel_allcpus(true, CPPC_EPP_PERFORMANCE_PREF);
+> +			if (ret) {
+> +				pr_warn("Disabling auto_sel_mode, fallback to standard\n");
+> +				auto_sel_mode = false;
+> +			}
+> +		} else {
+> +			pr_warn("Disabling auto_sel_mode as not supported by hardware\n");
+> +			auto_sel_mode = false;
+> +		}
+> +	}
+> +
+
+Why not check at cppc_cpufreq_cpu_init? In the unlikely case that one
+CPU does not support it, I would recommend to issue a warning, rather
+than disable auto-sel on all the other CPUs. It is possible that some
+CPUs support auto-sel and they have it enabled by default without
+exposing that control to the OS. 
+
+>  	cppc_freq_invariance_init();
+>  	populate_efficiency_class();
+>  
+> @@ -1165,10 +1299,19 @@ static int __init cppc_cpufreq_init(void)
+>  
+>  static void __exit cppc_cpufreq_exit(void)
+>  {
+> +	int cpu;
+> +
+> +	for_each_present_cpu(cpu)
+> +		cppc_set_auto_sel(cpu, false);
+> +	auto_sel_mode = false;
+> +
+>  	cpufreq_unregister_driver(&cppc_cpufreq_driver);
+>  	cppc_freq_invariance_exit();
+>  }
+>  
+> +module_param(auto_sel_mode, bool, 0000);
+> +MODULE_PARM_DESC(auto_sel_mode, "Enable Autonomous Performance Level Selection");
+> +
+>  module_exit(cppc_cpufreq_exit);
+>  MODULE_AUTHOR("Ashwin Chaugule");
+>  MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+ spec");
+> -- 
+> 2.34.1
+> 
