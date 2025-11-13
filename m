@@ -1,140 +1,88 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED763A8D4C;
-	Thu, 13 Nov 2025 17:00:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E519B2877FA;
+	Thu, 13 Nov 2025 17:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763053225; cv=none; b=XwfVHs8N5GRWhqK+xp3WqNM2Eaba4gzKKmUhv9QhCCeVvInOBi84G0fAmDIWcNVaB/0r1gB7iulYpXJiN9qns0JRjX+XCcZruZn2Eg34xVMPossBwG8lyGncAFViqmV5T3VvCiI0uyMl1XbLYWS9MYuPpSdXvi9Mr9Asw8a0dr4=
+	t=1763053705; cv=none; b=aDr2PThovf+22YY3Gd5NYml23BogYnnfFShjn8MN9Z/xlc8t+DU7CwxlK5T+A4irP55aG+kym33QrBjkWvZvCochDq2piIjgO6or9yAm/c4r/lh+GC6asSSQdzx7hqK8RRKNC2xynfJu/6R7LemjOGrJKJN2JyVF6L4mRIeEgi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763053225; c=relaxed/simple;
-	bh=40WG8/2e61IMWsDRpUFUHulUyBgQPDILQimEoI6b3o0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tqgU38QxT/7VeLw2G1oQ+W3D8bVygabcBX7+JypLGMUa4+WuASo0/pw1ouLIrUw7tZXT8taa08z2wkc0TNS9jgNgYmtu8R3XpYwVU0eGwmPZMz4zOZ+qSG4X7QCQxDVYF9RBkv3OOO1zUXFNr3R+mLl1JneC0xjWiSNFhM2cQYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Xml2SVEq; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1763053705; c=relaxed/simple;
+	bh=VaN/Uzv+luxCc8nrlRCto4s7AqsMNKrYTytzQNxFrzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RWJceYsTQYDijKW+dic7egQsgMKaZFmGhNZerkRCTigXjbP7J3YidX27A9GTfMmo8ByT8jinJHcF+BxLJlnxEUskr5BvrR5uk5mbKFltuTf2EcRWRW1HZlHcAnI1dfiyK4NnatARxTR7ffJp/OW3AZuKKXVBDnowQaSbn0HCHNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RJ9567t9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Xml2SVEq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1763053222;
-	bh=40WG8/2e61IMWsDRpUFUHulUyBgQPDILQimEoI6b3o0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Xml2SVEqAFzPzpZkeSElsymNEQxxTBtTLbeJQgyiAf6HTvOaQkBTW8Q272TuIwo79
-	 DOyOmoZI2SUOIWckZ79XD/Sa04PCnNqdKQFJNuFOQ9E85CWIqiMsf21IuiQbFHr2p9
-	 243pyv9ryRHyG3JMXwO16il1adjfKKu5lTWon09VbH9muSQTvCyA0XJuCWC/Abm9gE
-	 g742C1ffk8rR2OckSlLC/nw0XB6Pq2bIuo2tgOl8vKXTQEpftHauFMKWQRhXpclD+s
-	 5oj7pUvx6zZ7MDzwvoK2UUkoeUJRZAyjEKOobvP0c2M57Y96BijTJRAja+x3Dmi2Cd
-	 f4czw3k7uWXsg==
-Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 38CA917E368C;
-	Thu, 13 Nov 2025 18:00:21 +0100 (CET)
-From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Melissa Wen <mwen@igalia.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Nitin Gote <nitin.r.gote@intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christopher Healy <healych@amazon.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	kernel@collabora.com
-Subject: [PATCH v8 11/11] Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
-Date: Thu, 13 Nov 2025 18:00:07 +0100
-Message-ID: <20251113170008.79587-12-loic.molinari@collabora.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251113170008.79587-1-loic.molinari@collabora.com>
-References: <20251113170008.79587-1-loic.molinari@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RJ9567t9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89F1BC4CEF8;
+	Thu, 13 Nov 2025 17:08:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763053704;
+	bh=VaN/Uzv+luxCc8nrlRCto4s7AqsMNKrYTytzQNxFrzw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RJ9567t9JOy3iz4MU9JfnRat9ocmmInbEyeQJVvSNv3iLhKUFKnK47RsXzdhUlgAT
+	 jdJWv1Z2L8sfKt647pBVjYxi5w5lmKZGycqn9nZU/PRi54av1LjzjJ5bZuprF9fMQz
+	 TyCrffNcWvc4vvHyp7oTn8tkxxzvbkoaV805RkaYWAmFkRm03Btzc5g94/hM/Fwyj/
+	 Yw0O3oHcozhill/CY86IcB9urrwJgRADbW5bzTdX2XaNpxbjUbNUMnkf7sqnRzfh5G
+	 o+EC4BgG7rms9pFTsWf6xVY8/WznUDEZ8IjQLPvF24de6tXi7CRGuEiZ73GI11/Wq6
+	 XBsOiQbixdyRg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vJao1-0000000BX2g-39Xb;
+	Thu, 13 Nov 2025 18:08:21 +0100
+Date: Thu, 13 Nov 2025 18:08:21 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, 
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH] scripts: docs: kdoc_files.py: don't consider symlinks as
+ directories
+Message-ID: <xrekus333iar5zod65ffvcv5fz2rf657dmqbl6npc5jyff4iro@6cdqfudzlbdp>
+References: <73c3450f34e2a4b42ef2ef279d7487c47d22e3bd.1763027622.git.mchehab+huawei@kernel.org>
+ <878qg9ucmx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878qg9ucmx.fsf@trenco.lwn.net>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Add a paragraph to the GEM objects mapping section explaining how
-transparent huge pages are handled by GEM.
+On Thu, Nov 13, 2025 at 09:21:26AM -0700, Jonathan Corbet wrote:
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> 
+> > As reported by Randy, currently kdoc_files can go into endless
+> > looks when symlinks are used:
+> >
+> > 	$ ln -s . Documentation/peci/foo
+> > 	$ ./scripts/kernel-doc Documentation/peci/
+> > 	...
+> > 	  File "/new_devel/docs/scripts/lib/kdoc/kdoc_files.py", line 52, in _parse_dir
+> > 	    if entry.is_dir():
+> > 	       ~~~~~~~~~~~~^^
+> > 	OSError: [Errno 40] Too many levels of symbolic links: 'Documentation/peci/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo'
+> >
+> > Prevent that by not considering symlinks as directories.
+> >
+> > Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> > Closes: https://lore.kernel.org/linux-doc/80701524-09fd-4d68-8715-331f47c969f2@infradead.org/
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> 
+> This looks the same as yesterday's version?
 
-v4:
-- fix wording after huge_pages handler removal
+I haven't changed it (but I was assuming yesterday's version was not sent). I had some bugs related to smtp proxy at the office....
 
-v6:
-- fix wording after map_pages handler removal
+> 
+> Applied, anyway, thanks.
 
-Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/gpu/drm-mm.rst | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+Thanks!
+> 
+> jon
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index d55751cad67c..d69eab0b4093 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -290,15 +290,27 @@ The open and close operations must update the GEM object reference
- count. Drivers can use the drm_gem_vm_open() and drm_gem_vm_close() helper
- functions directly as open and close handlers.
- 
--The fault operation handler is responsible for mapping individual pages
--to userspace when a page fault occurs. Depending on the memory
--allocation scheme, drivers can allocate pages at fault time, or can
--decide to allocate memory for the GEM object at the time the object is
--created.
-+The fault operation handler is responsible for mapping pages to
-+userspace when a page fault occurs. Depending on the memory allocation
-+scheme, drivers can allocate pages at fault time, or can decide to
-+allocate memory for the GEM object at the time the object is created.
- 
- Drivers that want to map the GEM object upfront instead of handling page
- faults can implement their own mmap file operation handler.
- 
-+In order to reduce page table overhead, if the internal shmem mountpoint
-+"shm_mnt" is configured to use transparent huge pages (for builds with
-+CONFIG_TRANSPARENT_HUGEPAGE enabled) and if the shmem backing store
-+managed to allocate a huge page for a faulty address, the fault handler
-+will first attempt to insert that huge page into the VMA before falling
-+back to individual page insertion. mmap() user address alignment for GEM
-+objects is handled by providing a custom get_unmapped_area file
-+operation which forwards to the shmem backing store. For most drivers,
-+which don't create a huge mountpoint by default or through a module
-+parameter, transparent huge pages can be enabled by either setting the
-+"transparent_hugepage_shmem" kernel parameter or the
-+"/sys/kernel/mm/transparent_hugepage/shmem_enabled" sysfs knob.
-+
- For platforms without MMU the GEM core provides a helper method
- drm_gem_dma_get_unmapped_area(). The mmap() routines will call this to get a
- proposed address for the mapping.
 -- 
-2.47.3
-
+Thanks,
+Mauro
