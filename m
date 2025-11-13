@@ -1,113 +1,174 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3D9252906
-	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 10:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E781A946C;
+	Thu, 13 Nov 2025 10:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763028147; cv=none; b=YYNBzgPbkhCTn4ANl50tj9B0CiXkV5+KfIAO3W+3NolMcE6Hrql/PgpNvCEiBN8iO5tb7/r6131oZjRP0XAZZHN2oGYfVmeNBEOfHHs0OHmWln43pl0ldVGRZtNxnjAyw8DHgT0UfzUsDni858iknSI1Ze8Cfzp4P97Gako9ryk=
+	t=1763028327; cv=none; b=XBeJwWt1dPhVtVVowNczw28EmAlj6Gg4gEjfMKVOzj2k5Lr3gp2K2HTYhr7UtUMteP9wKbIEZw8nbfCEWTpGDYkGHtAlQ4CaUW1WE9oiC4lt2YpfIqE+BkUAAFoo2JvXDJ89iA0GXNrJDCbLSqbDZJCdMYab8VfwnsspoTseHb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763028147; c=relaxed/simple;
-	bh=347InnF7w0TQGwF3LKDpkxoBP63o1pAQwc45OEGOOng=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RL1X+oTS+d7FlPjD0aBj/AKiD7z/nRZcx6rSxuOsnlxKIjhSoZPDJtjnM31mJaaqSAnpPS3ovXDhimQpph259MOJQVE4S/FU/mpBe0CF6w+W8eXgPiwGmNHvXdJVSslCc6j6MROzBojWdmP7YqrbxP05U6XNUz7kt2UNMnNK3t8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=FFz+VPhT; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1763028327; c=relaxed/simple;
+	bh=BLTb5heskjXzTldos1Pbf98tCoJwck1drSSFzaVhr3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gs9bmk9wqqSxegSQbDo/mDq2vOhxhSQqHnqUPtP271OFRJ61w41R/SXjSQVGfbneDsE38b0yeskUg8ynNu74FAcW7TGkse9znTN5Pwv8JmubRQMExR66a31yfLkxloJpqFpILGxgjLw9PU2MSS5YC74H+pcDfcIMsvlLxqN/vIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KB4GxgXq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="FFz+VPhT"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-378cffe5e1aso4688051fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 02:02:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763028144; x=1763632944; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=347InnF7w0TQGwF3LKDpkxoBP63o1pAQwc45OEGOOng=;
-        b=FFz+VPhTnQolSJSmG4FCu3Xt4fES5kBKLCd+GhIneSTYDKRGfPN8zyn3eUMQLuodD/
-         H2z3dbJ9PxXXRjIXTypnTv7fD5q3Rd/ke6LsB+xiLQUaKflb+Wnx1eYs1wITzu/OVP9b
-         aiQMqhgD8S012hXS5cNwQrhvYHpCByonyFcXG3j7AOXGG6rN+GampPrA0sRvyyGO/3vz
-         zjd8sdAl75JUdv+8J4VnsuXD3OZ/I0yGFVt/xMOhgUO+SwPyJp5Y8RUtnSDToJOGyxYb
-         XKLGpelNvpUjvGQhJA54sg7e1sOfozlMiFDTN9BV6FpwmJcpSPfww6fSimPKkmYoJLsd
-         p9uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763028144; x=1763632944;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=347InnF7w0TQGwF3LKDpkxoBP63o1pAQwc45OEGOOng=;
-        b=KvVEytq9UQiut19pdstNj/7Kn+PdmVyOhUvB8x64FUHNT4+AEk1kNd77m+HRyrvr30
-         aMOf0n1trqk/tHKJ/3ia+89vRg879XCkGwFeKb+p+Mtgm+pMFoc1UWBwh2CbXjDH34wY
-         2fbQM6AOoYvmKDSt1laMIsoAapqGsQmVjBOz8zHexNKPhNvDHo3giJNDUxm3d4TIemIC
-         Y1fD3J7YzRNJrmwSP1bdFJtD/q57b7ojzeZBrHXAKfzUcfR9xd8hnT2gAAYuHxJw8HDd
-         WEI0v6xPOm4uAdCB3jHCuimlArjynrDuLHk9mMgf5aoRZ/7t9Rt+eP8ONPCcLx5yDFAH
-         0piQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUtsOEXW8eICtiuXKChgNI6103JtC9RZgbKqDjKml10BwgEV1Rp6ZvpdLhlWy2jAsg7St/rF/NPiOE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAMQj8S+13rS4bcDji+cBognjIAKgdhuVEKlUPG1gcoe3XubSR
-	8YwBxQmpbg3dec/P5MGemY/jvWMRpQwkQWg4TDFgb/dkS3WwRT3Oo0/3X9fHX8kSm+P+nvIcCOO
-	X0KPLbUYIw8THjM/c6/1lTnvzgB9Xn17kAuykszRZNw==
-X-Gm-Gg: ASbGncuIWySpoT/pHh8wmUtASi/k1Wo2qTKeabBc4DPLFORA43DaXRHX/fwU/zYb03R
-	F6dWFQ5R1ArjC439FIZ4/1snzlcaudChSJc8gTiP03N5T/bv7gR6h2ArG96krzi19APJKxDWFHL
-	L4e31Yq1zJDk//hLP6svhmr6FaFyTJn+dj514pzqQ4YiChAHPZ5/wXDsnseZCDESxCB+gffVzUY
-	PAs+huNQ5e4ezLnesAndO6AQJsvwThsyXG204m/6Iq33WPNxSgzDzVb1onK+KxI/mJpDF40fj7M
-	zNmho69X5blKaadGG1lvylfKxRc=
-X-Google-Smtp-Source: AGHT+IF80BtPctM9eC4e7ij+kECyiSMuMR8eaI6A5q1UsvTkOe0o1G32eF/kAIX8FZ3UAPGxB2FJF3dPMAqvlpNwJF4=
-X-Received: by 2002:a05:651c:4191:b0:378:e055:3150 with SMTP id
- 38308e7fff4ca-37b8c2e1512mr16366071fa.5.1763028143794; Thu, 13 Nov 2025
- 02:02:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KB4GxgXq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C075AC4CEF1;
+	Thu, 13 Nov 2025 10:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763028326;
+	bh=BLTb5heskjXzTldos1Pbf98tCoJwck1drSSFzaVhr3s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KB4GxgXqJZ7cO7XBy6/guf626zim6beEsg/YfQpCnDOK4CIsFLP+coyBB5LQx6Ybb
+	 I7s2JOUvrf+DC7c4xVdeR/uJQIhZpbiDJGmjcLEhP+OEhRO1+tbsNZG6fuOByhSJgv
+	 hrWjyJWa5kG9pfQAPvUoU/pHuUUk5rTrKamkIEBUA+G0CgjhCtK37Erfyu+rqbuvOS
+	 1dlhMdtne37nyvq7Z/8tU5sJt3/Nqm6oEBR+LDczDAuItX4mBgczhd8bAdZ7MliWdx
+	 jGvHbgZSquL92vYPhyoBVwk+3NUER/r21+FimVga8kmJjEWv6mD2TE90Sd0NpsNNX1
+	 bpUdQLOkX6ukA==
+Date: Thu, 13 Nov 2025 10:05:19 +0000
+From: Will Deacon <will@kernel.org>
+To: Mostafa Saleh <smostafa@google.com>
+Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
+	robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz,
+	surenb@google.com, mhocko@suse.com, jackmanb@google.com,
+	hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, Qinxin Xia <xiaqinxin@huawei.com>
+Subject: Re: [PATCH v2 1/4] drivers/iommu: Add page_ext for
+ IOMMU_DEBUG_PAGEALLOC
+Message-ID: <aRWtX3n2I7El4Ykv@willie-the-truck>
+References: <20251106163953.1971067-1-smostafa@google.com>
+ <20251106163953.1971067-2-smostafa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org>
- <20251106-qcom-qce-cmd-descr-v8-1-ecddca23ca26@linaro.org> <xozu7tlourkzuclx7brdgzzwomulrbznmejx5d4lr6dksasctd@zngg5ptmedej>
-In-Reply-To: <xozu7tlourkzuclx7brdgzzwomulrbznmejx5d4lr6dksasctd@zngg5ptmedej>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 13 Nov 2025 11:02:11 +0100
-X-Gm-Features: AWmQ_bk-LstuhQR3H10ukwySBYZfpE2zb40DoLXgGCclIQAg4lhk-Zsk676Qpb0
-Message-ID: <CAMRc=MdC7haZ9fkCNGKoGb-8R5iB0P2UA5+Fap8Svjq-WdE-=w@mail.gmail.com>
-Subject: Re: [PATCH v8 01/11] dmaengine: Add DMA_PREP_LOCK/DMA_PREP_UNLOCK flags
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
-	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251106163953.1971067-2-smostafa@google.com>
 
-On Tue, Nov 11, 2025 at 1:30=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> On Thu, Nov 06, 2025 at 12:33:57PM +0100, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> >
-> > Some DMA engines may be accessed from linux and the TrustZone
-> > simultaneously. In order to allow synchronization, add lock and unlock
-> > flags for the command descriptor that allow the caller to request the
-> > controller to be locked for the duration of the transaction in an
-> > implementation-dependent way.
->
-> What is the expected behaviour if Linux "locks" the engine and then TZ
-> tries to use it before Linux has a chance to unlock it.
->
+Hi Mostafa,
 
-Are you asking about the actual behavior on Qualcomm platforms or are
-you hinting that we should describe the behavior of the TZ in the docs
-here? Ideally TZ would use the same synchronization mechanism and not
-get in linux' way. On Qualcomm the BAM, once "locked" will not fetch
-the next descriptors on pipes other than the current one until
-unlocked so effectively DMA will just not complete on other pipes.
-These flags here however are more general so I'm not sure if we should
-describe any implementation-specific details.
+On Thu, Nov 06, 2025 at 04:39:50PM +0000, Mostafa Saleh wrote:
+> Add a new config IOMMU_DEBUG_PAGEALLOC, which registers new data to
+> page_ext.
+> This config will be used by the IOMMU API to track pages mapped in
+> the IOMMU to catch drivers trying to free kernel memory that they
+> still map in their domains, causing all types of memory corruption.
+> This behaviour is disabled by default and can be enabled using
+> kernel cmdline iommu.debug_pagealloc.
+> 
+> Signed-off-by: Mostafa Saleh <smostafa@google.com>
+> Tested-by: Qinxin Xia <xiaqinxin@huawei.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  6 ++++
+>  drivers/iommu/Kconfig                         | 15 +++++++++
+>  drivers/iommu/Makefile                        |  1 +
+>  drivers/iommu/iommu-debug-pagealloc.c         | 32 +++++++++++++++++++
+>  include/linux/iommu-debug-pagealloc.h         | 17 ++++++++++
+>  mm/page_ext.c                                 |  4 +++
+>  6 files changed, 75 insertions(+)
+>  create mode 100644 drivers/iommu/iommu-debug-pagealloc.c
+>  create mode 100644 include/linux/iommu-debug-pagealloc.h
 
-We can say: "The DMA controller will be locked for the duration of the
-current transaction and other users of the controller/TrustZone will
-not see their transactions complete before it is unlocked"?
+This looks like a pretty handy feature to me, but I have some nits below.
 
-Bartosz
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 6c42061ca20e..9a1c4ac8ba96 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2557,6 +2557,12 @@
+>  			1 - Bypass the IOMMU for DMA.
+>  			unset - Use value of CONFIG_IOMMU_DEFAULT_PASSTHROUGH.
+>  
+> +	iommu.debug_pagealloc=
+> +			[KNL,EARLY] When CONFIG_IOMMU_DEBUG_PAGEALLOC is set, this
+> +			parameter enables the feature at boot time. By default, it
+> +			is disabled and the system will work mostly the same as a
+> +			kernel built without CONFIG_IOMMU_DEBUG_PAGEALLOC.
+
+Can you be more specific about "mostly the same"?
+
+> +
+>  	io7=		[HW] IO7 for Marvel-based Alpha systems
+>  			See comment before marvel_specify_io7 in
+>  			arch/alpha/kernel/core_marvel.c.
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index 70d29b14d851..6b5e9a2d936a 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -383,4 +383,19 @@ config SPRD_IOMMU
+>  
+>  	  Say Y here if you want to use the multimedia devices listed above.
+>  
+> +config IOMMU_DEBUG_PAGEALLOC
+> +	bool "Debug page memory allocations against IOMMU"
+
+Perhaps "IOMMU mappings" would make this a little clearer?
+
+> +	depends on DEBUG_PAGEALLOC && IOMMU_API && PAGE_EXTENSION
+> +	help
+> +	  This config checks that a page is freed(unmapped) or mapped by the
+> +	  kernel is not mapped in any IOMMU domain.
+
+I can't really parse this sentence :/
+
+> It can help with debugging
+> +	  use-after-free or out-of-bound maps from drivers doing DMA through
+> +	  the IOMMU API.
+> +	  This santaizer can have false-negative cases where some problems
+> +	  won't be detected.
+
+Maybe just say "The sanitizer is best-effort and can fail to detect problems
+in the case that ...".
+
+> +	  Expect overhead when enabling this and enabling the kernel command
+> +	  line iommu.debug_pagealloc.
+
+I'd reword this to say something like "Due to the overhead of the sanitiser,
+iommu.debug_pagealloc must also be passed on the kernel command-line to
+enable this feature".
+
+> +
+> +	  If unsure, say N here.
+> +
+>  endif # IOMMU_SUPPORT
+> diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
+> index 355294fa9033..8f5130b6a671 100644
+> --- a/drivers/iommu/Makefile
+> +++ b/drivers/iommu/Makefile
+> @@ -34,3 +34,4 @@ obj-$(CONFIG_IOMMU_SVA) += iommu-sva.o
+>  obj-$(CONFIG_IOMMU_IOPF) += io-pgfault.o
+>  obj-$(CONFIG_SPRD_IOMMU) += sprd-iommu.o
+>  obj-$(CONFIG_APPLE_DART) += apple-dart.o
+> +obj-$(CONFIG_IOMMU_DEBUG_PAGEALLOC) += iommu-debug-pagealloc.o
+> diff --git a/drivers/iommu/iommu-debug-pagealloc.c b/drivers/iommu/iommu-debug-pagealloc.c
+> new file mode 100644
+> index 000000000000..385c8bfae02b
+> --- /dev/null
+> +++ b/drivers/iommu/iommu-debug-pagealloc.c
+> @@ -0,0 +1,32 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2025 - Google Inc
+> + * Author: Mostafa Saleh <smostafa@google.com>
+> + * IOMMU API debug page alloc sanitizer
+> + */
+> +#include <linux/atomic.h>
+> +#include <linux/iommu-debug-pagealloc.h>
+> +#include <linux/kernel.h>
+> +#include <linux/page_ext.h>
+> +
+> +static bool needed;
+> +
+> +struct iommu_debug_metadate {
+> +	atomic_t ref;
+> +};
+
+s/metadate/metadata/
+
+Will
