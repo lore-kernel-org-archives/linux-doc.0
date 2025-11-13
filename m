@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803AB31C567;
-	Thu, 13 Nov 2025 19:39:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9050731AF38;
+	Thu, 13 Nov 2025 19:50:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763062769; cv=none; b=fq45jKVBQY3QZYH3M522F+3y3/4xYAry8qdj2bgz815KjsMb4cU12PROidEqNUWFa7obFeKlmXOAyPl+dJuWeAdaXzoHM96xWUepp+LKICLptAIAnKfYGIdGT6ZUTu/RUu+cT/1OScqGPFqsaj/whWi5b/nzKIQ5T3uOvTnWCng=
+	t=1763063444; cv=none; b=iJuEl3gvU04VPIVUwASTORLf7Ba7a4OZApsr1AMGv9bS8I83nMls14QSYia4LJnGMBtOFNV82pI4F1xL0Ehb7qcqKg3Iy06IcBMWO93S6UWppZrp/3+eqq6+A3Gld0T+JiN4bCu6tId6DAgmOWcvlWMuh2AmrRyl1WVJGDyBJac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763062769; c=relaxed/simple;
-	bh=XyVqg3GtsNMi3GD0Cw5dwDVLQ3jZCbFrjOLApr0SPF0=;
+	s=arc-20240116; t=1763063444; c=relaxed/simple;
+	bh=oyfV3BA8mWtSuCil/425qvMLPVtszExdKvqmEAq++6I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hrqBOMnvi1RHFY6zzfcvvJF/8WwKj/W9ucYJqQAJnhvFm6/sW7s2OUT9HP5Osv0i1bn9VzIKlbgtPRfntG670rFjV8bvH6QByhCLecR7TvvLV1dK+v9flieVomZyBG0YETb6jSDHYCqQT60T0pAKAMOs3kmgDWrqtnfOxGzZdQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=P5oNYZEi; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=Yw85SRLvwmqGWiEZE89tqsM8IppUIEYuMoDiEIyUOG4liM6mmfYsvanO9c/Vn/dsyDQ6fzkNjrvKGeGn4nQ0zQHnOSn92OtBic9kyNv2p/edpZNkCjVwPjMMaXQ+4Agzeb59XAejH+VEUb2ee+CO11lFArvNV2zc/ntLAhYvXlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WtfHyBfU; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="P5oNYZEi"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WtfHyBfU"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=chfwgQva+X89GsoUHHNeRTir8EzngYoiykPKmQ0oA3I=; b=P5oNYZEi5LVq2L59eofMFuJsvP
-	itYF1U1Zl6Owre8Uz9N1DZB/r0Lw2ZGjhGGnGg1okh0dp4osnGQmtp4YnFIurmjLs23Y3GEd1u6qH
-	LrvBdgw5awtHZF+NnSYWFPBWWKPCWyAIsKBc8uW+5KXnjllNfqucU7ipPcTc9wqLaTwOaLRVUJHOg
-	xeBvzQEpER0cVqYkbibXydMlB/mMwRiGDOKsi52OdhgA+5HQVgXhGRREOlNHnSo8jhWwalzJqG/1l
-	3QYO1KmY9CgoYHffh4cfsTAQDy9PDsIft+TDvYFPpTU/S57EOZAQ1jpnchMTzdiQyhCi/CPI4Y+M+
-	DQEX/fVw==;
+	bh=NxBrkZLzC3qOisRZ+bThbK7gNaHkjaD++6Pvi4psumQ=; b=WtfHyBfUXdnxzMn1dzpCLAcxCq
+	T6fJKmuSlJyENHnWW/ob5zOOI7QC9xj1FkuKirxw680jieOfPm7cMN+SLdFjQiKaAsjJJY05n0QrH
+	l1lNiAHN0I6wCOPtFDnLB1iwMSjCzjtWhL+pGJOPvpnuyxe0HXhYwJzHT0K/xr05sY8WPGtFsgNZ+
+	U2CB6SuCeyZoYzSlpuCWKGFVxFXl8Jk1ACGQ02j8zEc6TunlXoaEcPxkpXwSqiYC909uGeUdc4uYn
+	0dcVZ5GIVIZGPnksIgOwRLqpBklHCPBTjozQ69apesBS3GqRUJSB/nAnf/9pRLRG0HVLJ8ScuYhQv
+	jVFKxUqQ==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJdAD-0000000B1Nt-2lgv;
-	Thu, 13 Nov 2025 19:39:25 +0000
-Message-ID: <e6343b60-da03-46d3-a98e-4c31c39b42a0@infradead.org>
-Date: Thu, 13 Nov 2025 11:39:25 -0800
+	id 1vJdL7-0000000B2Uz-4Au5;
+	Thu, 13 Nov 2025 19:50:42 +0000
+Message-ID: <a53fe942-609a-4103-9e63-6b65fa408dee@infradead.org>
+Date: Thu, 13 Nov 2025 11:50:41 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,58 +42,52 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] scripts: docs: kdoc_files.py: don't consider symlinks as
  directories
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
  Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org
 References: <73c3450f34e2a4b42ef2ef279d7487c47d22e3bd.1763027622.git.mchehab+huawei@kernel.org>
+ <878qg9ucmx.fsf@trenco.lwn.net>
+ <xrekus333iar5zod65ffvcv5fz2rf657dmqbl6npc5jyff4iro@6cdqfudzlbdp>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <73c3450f34e2a4b42ef2ef279d7487c47d22e3bd.1763027622.git.mchehab+huawei@kernel.org>
+In-Reply-To: <xrekus333iar5zod65ffvcv5fz2rf657dmqbl6npc5jyff4iro@6cdqfudzlbdp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 11/13/25 1:53 AM, Mauro Carvalho Chehab wrote:
-> As reported by Randy, currently kdoc_files can go into endless
-> looks when symlinks are used:
+On 11/13/25 9:08 AM, Mauro Carvalho Chehab wrote:
+> On Thu, Nov 13, 2025 at 09:21:26AM -0700, Jonathan Corbet wrote:
+>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>>
+>>> As reported by Randy, currently kdoc_files can go into endless
+>>> looks when symlinks are used:
+>>>
+>>> 	$ ln -s . Documentation/peci/foo
+>>> 	$ ./scripts/kernel-doc Documentation/peci/
+>>> 	...
+>>> 	  File "/new_devel/docs/scripts/lib/kdoc/kdoc_files.py", line 52, in _parse_dir
+>>> 	    if entry.is_dir():
+>>> 	       ~~~~~~~~~~~~^^
+>>> 	OSError: [Errno 40] Too many levels of symbolic links: 'Documentation/peci/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo'
+>>>
+>>> Prevent that by not considering symlinks as directories.
+>>>
+>>> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+>>> Closes: https://lore.kernel.org/linux-doc/80701524-09fd-4d68-8715-331f47c969f2@infradead.org/
+>>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>>
+>> This looks the same as yesterday's version?
 > 
-> 	$ ln -s . Documentation/peci/foo
-> 	$ ./scripts/kernel-doc Documentation/peci/
-> 	...
-> 	  File "/new_devel/docs/scripts/lib/kdoc/kdoc_files.py", line 52, in _parse_dir
-> 	    if entry.is_dir():
-> 	       ~~~~~~~~~~~~^^
-> 	OSError: [Errno 40] Too many levels of symbolic links: 'Documentation/peci/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo'
-> 
-> Prevent that by not considering symlinks as directories.
-> 
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Closes: https://lore.kernel.org/linux-doc/80701524-09fd-4d68-8715-331f47c969f2@infradead.org/
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> I haven't changed it (but I was assuming yesterday's version was not sent). I had some bugs related to smtp proxy at the office....
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+That would be the one that I replied to that was missing a Subject: line
+according to my mail client:
 
-(again...(
+https://lore.kernel.org/linux-doc/20251112171452.Y5jX9%25mchehab+huawei@kernel.org/
 
-> ---
->  scripts/lib/kdoc/kdoc_files.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
-> index 061c033f32da..1fd8d17edb32 100644
-> --- a/scripts/lib/kdoc/kdoc_files.py
-> +++ b/scripts/lib/kdoc/kdoc_files.py
-> @@ -49,7 +49,7 @@ class GlobSourceFiles:
->              for entry in obj:
->                  name = os.path.join(dirname, entry.name)
->  
-> -                if entry.is_dir():
-> +                if entry.is_dir(follow_symlinks=False):
->                      yield from self._parse_dir(name)
->  
->                  if not entry.is_file():
+(actually there were several like that)
 
 -- 
 ~Randy
+
