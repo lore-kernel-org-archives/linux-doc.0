@@ -1,111 +1,174 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F748264638;
-	Thu, 13 Nov 2025 01:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A7F2264CA;
+	Thu, 13 Nov 2025 01:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762997496; cv=none; b=exryGQYWrixI3nzjNw8a7wkYXWIV7p/EraspfJziz7tY19kxDKs3o/qoUmpITXtNEvLRj7zoq87Qu+q3Vg0T0LUP+obZl+0jvobi+cZdkobcuf0z5AhRCyTpxrNvomCoeq1XI23Fv17Gg6CrbWlkPuiBDdthC6otW+fwKPUITao=
+	t=1762998083; cv=none; b=dxtWrzvbsoaam5lW/Wm6hqL4FAUj9D6aVzZRj4+iwBKzPN+NhStIijN+tA4v/aWswoC0tBFbXpJZhXup91Q/LMyIZY+3vRSVufd1tbWWhhd1xc02ba8FM6fAQgvbZfl6/5lV4JWMbEeWiGSS5rNSlapU8q5NlJTEkYcDVAb/cAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762997496; c=relaxed/simple;
-	bh=ryGkllMbqj7qBHYcr1wgNdazkSY7bg8IQDrKElhDblI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=oEies4RBFrnaZojGngf2BrCGVqPCqGVjUE7xRgEZRw8v9w+L98zalspRVZ8x945UCCGFC2rtD2oQqx7Inkn60cKR+F+BVQHbHy6zEN62Zb32F/sDZygdJb+PJCYCNBErL8oONr09EAhuiu/JBbwHJhafc/DPVTPxNn3hqk/mhDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WmuypgvH; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1762998083; c=relaxed/simple;
+	bh=SPIS5zJSAoavwXl0daXbgthoApNiCSmNvl8So/zRaX0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Sw/EZ3f+uRMf6lPlSK0p6503qhWNV0MolEfx6VAP7H2yPlG+Ay+2GWCOScBzXE8TukQjduNRAJoQyw2SgJwge0wGEUPRWQZsDMUJMCphMk3j2qwDDdKLxT4tmt9cB4hcLzjR7i7+MPOvcz/o1wUvYzLDSr3+RpXveziIFrZTyio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hwva+Hir; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WmuypgvH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=Qdb6cmTzMYAcnFLIkL/oulW43LiqvNLplY/sWh1QN7U=; b=WmuypgvHbeSc/FAoPa0QU8ZzT8
-	LteqXC+WAgxXI3ubjLUSxW9qKLeX66FobOyVYbhDxpmsXw5+JJeDkIlfhUrqMZl8Oz2DAx3FQhyRu
-	jhubvZtBiqzORaGKh8c+7oqXuNtEIkmuEgIIW7CFiMwHMzwVYV6gwVztFLUuOJyDa4RXKTiFED4Nm
-	W13kv7KmZv1rE8fyLi89/WHH9cOJwW2mWcSvkh7mVtNmKqPONK8d5Ny6Cw1bVoy489ln0s/VrK8XJ
-	+VqTqcWNnFmgaOeBtZL6azQXnLZYNfqMzRFoSp9hMPkwCCQBAP/DGinP7ldPwlempV6cLodZiTgeQ
-	sSmNSd/w==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJMBR-00000009iwg-2b8L;
-	Thu, 13 Nov 2025 01:31:33 +0000
-Message-ID: <1a1b0c88-e610-4851-a01d-ff16d472cb6f@infradead.org>
-Date: Wed, 12 Nov 2025 17:31:33 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hwva+Hir"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762998081; x=1794534081;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SPIS5zJSAoavwXl0daXbgthoApNiCSmNvl8So/zRaX0=;
+  b=hwva+Hir3Bwp7WVLn4Oro3IlWAiqAmNVKVWSVh4cqb3xQcSUZGjFFYo7
+   /Pqjlm/iRazarZsxy3NYC6NkRcRRdOgFHkEnuDcfPCfj/uk1b2u3E1pOA
+   KvLLtr3Fi3zSB+qxoxXmMnpzRvJKKnK2Kx09OPWlR7KVdKUp3UwConAcc
+   aXKUyQgTL/W+jIm0eILhuCJfBm9NVhz/INiTzCqwmiMCArT25UReYtNFE
+   RRoxiiete7wSmym6oEMHUh9W2DuXBLuPjYriSypkdJnU/d9iN+ZDkfsBX
+   wMdiOvLkT2udY+NB0opAgfmVuKIFj0MUu9SJ+2hrBx4/PBDj3a0DynV0E
+   Q==;
+X-CSE-ConnectionGUID: +0PjTJlWTJm1uhc9jwYalg==
+X-CSE-MsgGUID: tNwQgqOESvyTj82QCsnuWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="52634728"
+X-IronPort-AV: E=Sophos;i="6.19,300,1754982000"; 
+   d="scan'208";a="52634728"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 17:41:20 -0800
+X-CSE-ConnectionGUID: 1v3oDMBsS4CvtYHzowD35A==
+X-CSE-MsgGUID: 3GrdR2jjTb66S5gACvs+nw==
+X-ExtLoop1: 1
+Received: from spandruv-desk.jf.intel.com ([10.54.55.20])
+  by fmviesa003.fm.intel.com with ESMTP; 12 Nov 2025 17:41:20 -0800
+From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To: rafael@kernel.org,
+	daniel.lezcano@linaro.org
+Cc: corbet@lwn.net,
+	linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH] Documentation: thermal: Add documentation for thermal throttle
+Date: Wed, 12 Nov 2025 17:41:14 -0800
+Message-ID: <20251113014116.196638-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: PATCH] scripts: docs: kdoc_files.py: don't consider symlinks as
- directories
-To: mchehab+huawei@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
- linux-kernel@vger.kernel.org
-References: <20251112171452.Y5jX9%mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251112171452.Y5jX9%mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-[all of my copies of this email had header (at least Subject:) problems]
+Add documentation for Intel thermal throttling reporting events.
 
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ Documentation/admin-guide/thermal/index.rst   |  1 +
+ .../admin-guide/thermal/thermal_throttle.rst  | 84 +++++++++++++++++++
+ 2 files changed, 85 insertions(+)
+ create mode 100644 Documentation/admin-guide/thermal/thermal_throttle.rst
 
-On 11/12/25 9:14 AM, mchehab+huawei@kernel.org wrote:
-> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-> 	Jonathan Corbet <corbet@lwn.net>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-> 	linux-kernel@vger.kernel.org,
-> 	Randy Dunlap <rdunlap@infradead.org>
-> Subject: [PATCH] scripts: docs: kdoc_files.py: don't consider symlinks as directories
-> Date: Wed, 12 Nov 2025 18:14:49 +0100
-> Message-ID: <73c3450f34e2a4b42ef2ef279d7487c47d22e3bd.1762967688.git.mchehab+huawei@kernel.org>
-> X-Mailer: git-send-email 2.51.1
-> MIME-Version: 1.0
-> Content-Transfer-Encoding: 8bit
-> 
-> As reported by Randy, currently kdoc_files can go into endless
-> looks when symlinks are used:
-> 
-> 	$ ln -s . Documentation/peci/foo
-> 	$ ./scripts/kernel-doc Documentation/peci/
-> 	...
-> 	  File "/new_devel/docs/scripts/lib/kdoc/kdoc_files.py", line 52, in _parse_dir
-> 	    if entry.is_dir():
-> 	       ~~~~~~~~~~~~^^
-> 	OSError: [Errno 40] Too many levels of symbolic links: 'Documentation/peci/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo'
-> 
-> Prevent that by not considering symlinks as directories.
-> 
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Closes: https://lore.kernel.org/linux-doc/80701524-09fd-4d68-8715-331f47c969f2@infradead.org/
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  scripts/lib/kdoc/kdoc_files.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
-> index 061c033f32da..1fd8d17edb32 100644
-> --- a/scripts/lib/kdoc/kdoc_files.py
-> +++ b/scripts/lib/kdoc/kdoc_files.py
-> @@ -49,7 +49,7 @@ class GlobSourceFiles:
->              for entry in obj:
->                  name = os.path.join(dirname, entry.name)
->  
-> -                if entry.is_dir():
-> +                if entry.is_dir(follow_symlinks=False):
->                      yield from self._parse_dir(name)
->  
->                  if not entry.is_file():
-
+diff --git a/Documentation/admin-guide/thermal/index.rst b/Documentation/admin-guide/thermal/index.rst
+index 193b7b01a87d..2e0cafd19f6b 100644
+--- a/Documentation/admin-guide/thermal/index.rst
++++ b/Documentation/admin-guide/thermal/index.rst
+@@ -6,3 +6,4 @@ Thermal Subsystem
+    :maxdepth: 1
+ 
+    intel_powerclamp
++   thermal_throttle
+diff --git a/Documentation/admin-guide/thermal/thermal_throttle.rst b/Documentation/admin-guide/thermal/thermal_throttle.rst
+new file mode 100644
+index 000000000000..ab146ffdffca
+--- /dev/null
++++ b/Documentation/admin-guide/thermal/thermal_throttle.rst
+@@ -0,0 +1,84 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
++
++=======================================
++Intel thermal throttle events reporting
++=======================================
++
++:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
++
++Introduction
++------------
++
++Intel processors have built in automatic and adaptive thermal monitoring mechanisms
++that force the processor to reduce its power consumption in order to operate within
++predetermined temperature limits.
++
++Refer to section "THERMAL MONITORING AND PROTECTION" in the "Intel® 64 and IA-32
++Architectures Software Developer’s Manual Volume 3 (3A, 3B, 3C, & 3D): System
++Programming Guide" for more details.
++
++In general, there are two mechanisms to control the core temperature of the processor.
++They are called "Thermal Monitor 1 (TM1) and Thermal Monitor 2 (TM2)".
++
++The status of the temperature sensor that triggers the thermal monitor (TM1/TM2) is
++indicated through the "thermal status flag" and "thermal status log flag" in the
++IA32_THERM_STATUS MSR for core level and IA32_PACKAGE_THERM_STATUS for package level.
++
++Thermal Status flag, bit 0 — When set, indicates that the processor core temperature
++is currently at the trip temperature of the thermal monitor and that the processor power
++consumption is being reduced via either TM1 or TM2, depending on which is enabled. When
++clear, the flag indicates that the core temperature is below the thermal monitor trip
++temperature. This flag is read only.
++
++Thermal Status Log flag, bit 1 — When set, indicates that the thermal sensor has tripped
++since the last power-up or reset or since the last time that software cleared this flag.
++This flag is a sticky bit; once set it remains set until cleared by software or until a
++power-up or reset of the processor. The default state is clear.
++
++It is possible that when user reads IA32_THERM_STATUS or IA32_PACKAGE_THERM_STATUS,
++TM1/TM2 is not active. In this case, "Thermal Status flag" will read "0" and the
++"Thermal Status Log flag" will be set to show any previous "TM1/TM2" activation. But
++since it needs to be cleared by software, it can't show the number of occurrences of
++"TM1/TM2" activations.
++
++Hence, Linux provides counters of how many times the "Thermal Status flag" was set. Also
++presents how long the "Thermal Status flag" was active in milliseconds. Using these counters,
++users can check if the performance was limited because of thermal events. It is recommended
++to read from sysfs instead of directly reading MSRs as the "Thermal Status Log flag" is reset
++by the driver to implement rate control.
++
++Sysfs Interface
++---------------
++
++Thermal throttling events are presented for each CPU under
++"/sys/devices/system/cpu/cpuX/thermal_throttle/", where "X" is the CPU number.
++
++All these counters are read-only. They can't be reset to 0. So, they can potentially
++overflow after reaching the maximum 64 bit unsigned integer.
++
++``core_throttle_count``
++	This shows how many times "Thermal Status flag" changed from 0 to 1
++	for this CPU. This is a 64 bit counter.
++
++``package_throttle_count``
++	This shows how many times "Thermal Status flag" changed from 0 to 1
++	for this package. Package status is broadcast to all CPUs; all CPUs in
++	the package increment this count. This is a 64-bit counter.
++
++``core_throttle_max_time_ms``
++	This shows the maximum amount of time "Thermal Status flag" was set to 1
++	for this CPU for core level flag.
++
++``package_throttle_max_time_ms``
++	This shows the maximum amount of time "Thermal Status flag" was set to 1
++	for this CPU for package level flag.
++
++``core_throttle_total_time_ms``
++	This shows the cumulative time "Thermal Status flag" was set to 1 for this
++	CPU for core level flag.
++
++``package_throttle_total_time_ms``
++	This shows the cumulative time "Thermal Status flag" was set to 1 for this
++	CPU for package level flag.
++
 -- 
-~Randy
+2.43.0
+
