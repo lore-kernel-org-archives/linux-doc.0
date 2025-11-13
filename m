@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF61C1F4176;
-	Thu, 13 Nov 2025 01:12:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F748264638;
+	Thu, 13 Nov 2025 01:31:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762996362; cv=none; b=kBWLNzqDApfXQAXNChpGXyntx7+npS3UOdI/V+DaTSaa6nAMYmuiLOrsd/fgurHcqlwwR2v/rSP7yJqNojdcI34Z9p9uoFhoYdppWT2i/4oaNVwCGXmY0AtgYzMRVvulUluDz7sgLqvE8GourV03xrEaoEnGIrxylXllRCGGR8U=
+	t=1762997496; cv=none; b=exryGQYWrixI3nzjNw8a7wkYXWIV7p/EraspfJziz7tY19kxDKs3o/qoUmpITXtNEvLRj7zoq87Qu+q3Vg0T0LUP+obZl+0jvobi+cZdkobcuf0z5AhRCyTpxrNvomCoeq1XI23Fv17Gg6CrbWlkPuiBDdthC6otW+fwKPUITao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762996362; c=relaxed/simple;
-	bh=H14iQElD4We1Q1OQxTfhSx4h+vYO6CdXfMRw4P04YUA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HPr1LKJraCC7MxQPBQozTMyKqpdClPX67Xh2evY2U//U0pqsp8rsroB7twXUGp3nS4J+uB7EaE4mAYVejxCTHny/F0FYlS2pgHtwUL2roJsjasvoFG3sNrd1DcFIvb/vFS+6fcehyOtgAwHG9QgjetbVTA7kmJ0f4KWZf6qxPR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FhycNzt8; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1762997496; c=relaxed/simple;
+	bh=ryGkllMbqj7qBHYcr1wgNdazkSY7bg8IQDrKElhDblI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=oEies4RBFrnaZojGngf2BrCGVqPCqGVjUE7xRgEZRw8v9w+L98zalspRVZ8x945UCCGFC2rtD2oQqx7Inkn60cKR+F+BVQHbHy6zEN62Zb32F/sDZygdJb+PJCYCNBErL8oONr09EAhuiu/JBbwHJhafc/DPVTPxNn3hqk/mhDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WmuypgvH; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FhycNzt8"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WmuypgvH"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=RKTSMLYSeyrt6jn7Y+qct2dy/kvt5BumsPGDoW38KaE=; b=FhycNzt8kW3A4uplXf9/Hxd1Tq
-	tqJnSU3/65mmcG+fH/lC7hhZLLJhDotwOo9SWAmp/AUKNCPL2cg7t+aqvnNggN+qY3rw6U8+n/oOY
-	xSRx3RUiTnGd1ZfR7vhRL7zA/oYI4yCdVj8w1PW2rPLyhtuMz/RNLo43Pd4f/qNzR5R3MNOvSAXB/
-	RP6P9qhVXrP7TVBqnVcGvhXampqKYAhXnyv8R9Wm3iHW/P83VqD9Ong9/ONX2BYipNJUJR3bswi/M
-	fkf02rmxi5TU5DHsVMa+C6JBLaxY5brbvvy3U1cvPlzdTlzUwzKq/ktJeEJfgqvdeoC75I3vPBBzQ
-	V2ugHnlA==;
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=Qdb6cmTzMYAcnFLIkL/oulW43LiqvNLplY/sWh1QN7U=; b=WmuypgvHbeSc/FAoPa0QU8ZzT8
+	LteqXC+WAgxXI3ubjLUSxW9qKLeX66FobOyVYbhDxpmsXw5+JJeDkIlfhUrqMZl8Oz2DAx3FQhyRu
+	jhubvZtBiqzORaGKh8c+7oqXuNtEIkmuEgIIW7CFiMwHMzwVYV6gwVztFLUuOJyDa4RXKTiFED4Nm
+	W13kv7KmZv1rE8fyLi89/WHH9cOJwW2mWcSvkh7mVtNmKqPONK8d5Ny6Cw1bVoy489ln0s/VrK8XJ
+	+VqTqcWNnFmgaOeBtZL6azQXnLZYNfqMzRFoSp9hMPkwCCQBAP/DGinP7ldPwlempV6cLodZiTgeQ
+	sSmNSd/w==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJLt6-00000009hqW-1ICs;
-	Thu, 13 Nov 2025 01:12:36 +0000
-Message-ID: <00ea9ddc-0a71-4c93-95e2-656374b0719b@infradead.org>
-Date: Wed, 12 Nov 2025 17:12:35 -0800
+	id 1vJMBR-00000009iwg-2b8L;
+	Thu, 13 Nov 2025 01:31:33 +0000
+Message-ID: <1a1b0c88-e610-4851-a01d-ff16d472cb6f@infradead.org>
+Date: Wed, 12 Nov 2025 17:31:33 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,71 +39,73 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/kernel-parameters: Move the kernel build
- options
-To: Borislav Petkov <bp@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- "Borislav Petkov (AMD)" <bp@alien8.de>
-References: <20251112114641.8230-1-bp@kernel.org>
+Subject: Re: PATCH] scripts: docs: kdoc_files.py: don't consider symlinks as
+ directories
+To: mchehab+huawei@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
+ linux-kernel@vger.kernel.org
+References: <20251112171452.Y5jX9%mchehab+huawei@kernel.org>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251112114641.8230-1-bp@kernel.org>
+In-Reply-To: <20251112171452.Y5jX9%mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
+[all of my copies of this email had header (at least Subject:) problems]
 
-On 11/12/25 3:46 AM, Borislav Petkov wrote:
-> From: "Borislav Petkov (AMD)" <bp@alien8.de>
+
+On 11/12/25 9:14 AM, mchehab+huawei@kernel.org wrote:
+> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+> 	Jonathan Corbet <corbet@lwn.net>
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+> 	linux-kernel@vger.kernel.org,
+> 	Randy Dunlap <rdunlap@infradead.org>
+> Subject: [PATCH] scripts: docs: kdoc_files.py: don't consider symlinks as directories
+> Date: Wed, 12 Nov 2025 18:14:49 +0100
+> Message-ID: <73c3450f34e2a4b42ef2ef279d7487c47d22e3bd.1762967688.git.mchehab+huawei@kernel.org>
+> X-Mailer: git-send-email 2.51.1
+> MIME-Version: 1.0
+> Content-Transfer-Encoding: 8bit
 > 
-> Move the kernel build options abbreviations to the .txt file so that
-> they are together instead of one having to go hunt them in the .rst
-> file.
+> As reported by Randy, currently kdoc_files can go into endless
+> looks when symlinks are used:
 > 
-> Tweak the formatting so that the inclusion of kernel-parameters.txt
-> still keeps the whole thing somewhat presentable in the html output too.
+> 	$ ln -s . Documentation/peci/foo
+> 	$ ./scripts/kernel-doc Documentation/peci/
+> 	...
+> 	  File "/new_devel/docs/scripts/lib/kdoc/kdoc_files.py", line 52, in _parse_dir
+> 	    if entry.is_dir():
+> 	       ~~~~~~~~~~~~^^
+> 	OSError: [Errno 40] Too many levels of symbolic links: 'Documentation/peci/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo'
 > 
-> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-> ---
->  .../admin-guide/kernel-parameters.rst         | 97 +-----------------
->  .../admin-guide/kernel-parameters.txt         | 98 +++++++++++++++++++
->  2 files changed, 99 insertions(+), 96 deletions(-)
+> Prevent that by not considering symlinks as directories.
 > 
-
-[snip]
-
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 6c42061ca20e..e85a91e63f48 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1,3 +1,101 @@
-
-[snip]
-
-> +	X86_UV	SGI UV support is enabled.
-> +	XEN	Xen support is enabled
-> +	XTENSA	xtensa architecture is enabled.
-> +
-> +In addition, the following text indicates that the option
-> +
-> +	BOOT	Is a boot loader parameter.
-> +	BUGS=	Relates to possible processor bugs on the said processor.
-> +	KNL	Is a kernel start-up parameter.
-> +
-> +
-> +Kernel parameters
-> +
->  	accept_memory=  [MM]
->  			Format: { eager | lazy }
->  			default: lazy
-
-WorksForMe although I prefer to highlight the "Kernel Parameters" line somehow,
-e.g., all caps or underline with "======================" (yes, that's still a
-literal underline, not a Sphinx doc. heading).
-
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Closes: https://lore.kernel.org/linux-doc/80701524-09fd-4d68-8715-331f47c969f2@infradead.org/
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  scripts/lib/kdoc/kdoc_files.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
+> index 061c033f32da..1fd8d17edb32 100644
+> --- a/scripts/lib/kdoc/kdoc_files.py
+> +++ b/scripts/lib/kdoc/kdoc_files.py
+> @@ -49,7 +49,7 @@ class GlobSourceFiles:
+>              for entry in obj:
+>                  name = os.path.join(dirname, entry.name)
+>  
+> -                if entry.is_dir():
+> +                if entry.is_dir(follow_symlinks=False):
+>                      yield from self._parse_dir(name)
+>  
+>                  if not entry.is_file():
 
 -- 
 ~Randy
