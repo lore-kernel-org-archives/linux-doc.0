@@ -1,89 +1,72 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57F428725B;
-	Thu, 13 Nov 2025 16:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A793F2FA0DF;
+	Thu, 13 Nov 2025 16:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763050964; cv=none; b=KPg6ytXCgAwQuZmNzqb9y4nNx25Ml2bmuiTC4E/U80U9xCfBC71fXuZz5si2wBiylVwRttoGaAQZjHBOfYA5vr40yE/mcIQp3pN8sy8czXC+/usPPN7org2ucb9fSM2YmcK6pw19ZoaFBBQknx0jIPb4Yxt8D/1Mc1Jx52jNsto=
+	t=1763051501; cv=none; b=J2re6KXr2X34U20iWI2PXngG1tiOQmX1LV1X/Pmeky7GtT6hekwWumT44q2RKhP36Tp1aBJYKqdxOEZK6AhfiRWZYITr+3ydlaL/D0xTzfr00LWSQE2LW/qjFMa7o9rG/7Z3wpai1haNzbdaQyYdU8Yxv9wGPDxzYMjd2QPgXsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763050964; c=relaxed/simple;
-	bh=+eDEtAfsIZWqM55NCONZFNk+30J0WdRc4YvnH5eyqm0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Kw5FDgfk8aFfq0thvDzaBbBL3JYFptJUY1IUez2EVFc9+7SfoUpbJk/Kz4eqGWjiaQljoizyt+A348Ujgkh61tWE58rj/QPj3CyI8D4yGGmF16F+EYc1QK1o5XuYK0eKHLMRHTvonwequHCzSMByAYv+53hD2nm3373IprHEko8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sp9ltNr+; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1763051501; c=relaxed/simple;
+	bh=kF+kWxPyVh+z5FgM0Q2Did65oYs/q684yfo71ZgaTCs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=thNklratBun+CGAWHDcdma8dMB6v+XVPqYjaoqJhoO0m/OYaHp1nNV/IbpDWxXEOp1c5KFqQKQMfMnmOdCwviYy5WwZxMLuqf522LquidzARchXr6CQ317fTfXcyVrpx+F/G8k8FQ8HM4l6A8aDEoq539u0F3fgQd4O2wnxCznY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JN24s2zn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sp9ltNr+"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2332D40AFB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1763050962; bh=mdF9LbRSystwYcUv1PMVYl8XBSKgx8qgBf9HV+OWE8w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=sp9ltNr+t2+l0bhcklwC+BveThtzAuWgKZfIbvhU290Y8ntSlfACN2SiFd+4pvrdp
-	 ERQAG3xKWMyQ7FJMHvSYrephhgd0fSRM6SR6pW7BUdPABD0bR7gxkicIB8n9AAadU9
-	 1ZXYd5ftoboO6w4t2LZelPhoNlFYzwA6QitPpyyFZufm7XAlRpi8jztlduzjny7cD9
-	 Tf/a8V/Wa2gpuT1E46SHm0EdnnC32KencsTjSU5KohVt6N8hEM4+r+nQPXtqBDFv6S
-	 tynxJHtAgojnwrx3XcVP5P+DM7+uF54+xDY6TI1RuC4VWu3Euqsy+EEPfB8d9vTU8o
-	 Fhpss8r9oeKCw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2332D40AFB;
-	Thu, 13 Nov 2025 16:22:42 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Jani Nikula
- <jani.nikula@intel.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Makefile: update SPHINXDIRS documentation
-In-Reply-To: <683469813350214da122c258063dd71803ff700b.1763031632.git.mchehab+huawei@kernel.org>
-References: <683469813350214da122c258063dd71803ff700b.1763031632.git.mchehab+huawei@kernel.org>
-Date: Thu, 13 Nov 2025 09:22:41 -0700
-Message-ID: <874iqxucku.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JN24s2zn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A0B2C4CEF7;
+	Thu, 13 Nov 2025 16:31:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763051501;
+	bh=kF+kWxPyVh+z5FgM0Q2Did65oYs/q684yfo71ZgaTCs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JN24s2znNS9vkkaUXTdz1pdutkLld2c5PDgdWXBdkz2Sq7e0VfZMaGPaKYRr6g9En
+	 8BwUWrJ+dgCAngShttKvv0IfksPk3gEcUk2w9LHgz68KiHXhkKtQTitBdJWhoRMOJa
+	 je8OIXGsKp2GgcN/cNlB9qPqt2cs64AVkAd/LMydq41j0Mkjs7qI+GNBh/yMRJgdqg
+	 ZrYPAGRNOsSDSvZOF+BO7v4WFUtdCK67Z53aQDtIpV6yyEVIr/LzeEcZUVapieylXM
+	 KFGENpjL0KYOOdn9OOa4+Bv5/zbglcL75Dsd97o3pVw81bC/Uuj29t0mI0XrGoWds3
+	 7vWSg/gQhbpEw==
+Date: Thu, 13 Nov 2025 06:31:40 -1000
+From: Tejun Heo <tj@kernel.org>
+To: ying chen <yc1082463@gmail.com>
+Cc: corbet@lwn.net, jiangshanlai@gmail.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, laoar.shao@gmail.com
+Subject: Re: [PATCH] workqueue: add workqueue.mayday_initial_timeout
+Message-ID: <aRYH7NwIEdC2kM8Q@slm.duckdns.org>
+References: <CAN2Y7hwttMyUn0qsEcSBbrQ1h+aSzNpHMhgAxEbqJZn4vf5hBw@mail.gmail.com>
+ <aROfRBGmglPgcPVf@slm.duckdns.org>
+ <CAN2Y7hwUmdFMM=mwYq7gsBpbSEBq6n0nXzmES4_=p3fDV=S+Ag@mail.gmail.com>
+ <aRSvxyoWiqzcBj-N@slm.duckdns.org>
+ <CAN2Y7hzDZxt5tBPeqwKwNNwwGXgmhj_uYDMkxx5_QtoqV97v1A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAN2Y7hzDZxt5tBPeqwKwNNwwGXgmhj_uYDMkxx5_QtoqV97v1A@mail.gmail.com>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Hello,
 
-> Since the beginning, SPHINXDIRS was meant to be used by any
-> subdirectory inside Documentation/ that contains a file named
-> index.rst on it. The typical usecase for SPHINXDIRS is help
-> building subsystem-specific documentation, without needing to
-> wait for the entire building (with can take 3 minutes with
-> Sphinx 8.x and above, and a lot more with older versions).
->
-> Yet, the documentation for such feature was written back in
-> 2016, where almost all index.rst files were at the first
-> level (Documentation/*/index.rst).
->
-> Update the documentation to reflect the way it works.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/Makefile | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index d514ab6761dc..c66df29cf0a3 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -104,7 +104,9 @@ dochelp:
->  	@echo  '  cleandocs       - clean all generated files'
->  	@echo
->  	@echo  '  make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2'
-> -	@echo  '  valid values for SPHINXDIRS are: $(_SPHINXDIRS)'
-> +	@echo  '  top level values for SPHINXDIRS are: $(_SPHINXDIRS)'
-> +	@echo  '  you may also use a subdirectory like SPHINXDIRS=userspace-api/media,'
-> +	@echo  '  provided that there is an index.rst file at the subdirectory.'
->  	@echo
+On Thu, Nov 13, 2025 at 10:34:43AM +0800, ying chen wrote:
+> Processing work items one-by-one is indeed an excellent solution.
+> However, wouldn't it also be necessary to provide a method for
+> adjusting the mayday initial timeout?
 
-Applied, thanks.
+Adding an interface like that isn't difficult but I'm not sure what that
+would achieve. A rescuer is there to guarantee forward progress when the
+system is under memory pressure and processing work items of the workqueue
+may be required to free up memory. IOW, when that workqueue not making
+forward progress can lead to system deadlock.
 
-jon
+As such, this doesn't have that much system performance implications (aside
+from the serialization effect that you raised). If rescuer is needed, the
+system is in tatters anyway, especially in terms of latency response, so I'm
+not sure what fine-tuning rescuer response time would help with.
+
+Thanks.
+
+-- 
+tejun
