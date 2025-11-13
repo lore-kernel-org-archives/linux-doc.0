@@ -1,213 +1,113 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2270E2E6CA4
-	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 10:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0FA33120B
+	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 10:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763029216; cv=none; b=mwCxivZcypMPxYuTljgJImkYi+F3v29yY2+G6/Q55G+Ebg7jMAIAACn12OZMEJg414esdFuVEcVv6Vj0WPdXikGXO7zojfUlkWUBkGtRZljmNZGQ2oB4yEF9BAM4+5YcKZk4oO8S8xo2ReKRWlcWiEBrei/9ShIEhfmHNRxXgDY=
+	t=1763029510; cv=none; b=YH1byhDV1hyIcSiADAxASh/JQufhyeZv0CAC1pJnyIK+4bZfCJRM3Mg1EvaCe7tg4fqitYkqFym0MpT0I+6BHtvGZ1nZ6qXu0EClI6+WEhEZKFUimUEmUba3JUtiX+NLjMFhTcb40BBQWCyxqkDyxVKLpSr8zcyRwjx7nK4n4Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763029216; c=relaxed/simple;
-	bh=DJZn8hUcr7qrXuuyp5TspC4wXrB7yMIW9ad/R+jXQq0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b2thK0EvtEo3Xya8Sv1NNPz7vvOiWWqEw985+u7+19jQ3X+Rso/THRnuJM3lSEF3AhDBxbpf+Jwwnw6+cU/IHwxHCn/UTZNDkzLhfu5uVNkrxZwKBfLpIYdYx5h1KlambzcWYRRu40pZ6uXoVf04OU0d3RfKNkj6A/EGarelRsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KQ90IUcC; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763029510; c=relaxed/simple;
+	bh=pBG2QgY8XkZ7VPUe8kGoaDSD4QCDLrQ5TvJNO9/H5lk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iAdTkq2y31yg4T3qg3zkOeG2bLh6Ki2ksD3zxDM1b0vhO8bfLzHxAD8K4JJ1S7eZ4gh+COM7b4OCYoylQircF8G+mWsk9wJFQ1mr9zayNaFQ+6/p+HQ+39MtPMEJvaj6f7ThF9MzN2x4vsO74qGMJHXY4axW+JE577JbnO1oD54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DFQ4fERx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KQ90IUcC"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b7277324054so80354666b.0
-        for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 02:20:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763029212; x=1763634012; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IaLuTVv6ogQrV7pgPnqPwD8BmOYnKQewjeQIkkX8Rks=;
-        b=KQ90IUcCCH41by4dG9uXHjmxEo5GOXEmfOtimJWDiJwavXQuTtDnWq1if/VZ8HSypB
-         2hUrhw6L+68gPf0/Z1ufmC9tBhHjiokV3HmlIc7qctyuRzsbs+R+ZHBft4RouFGgexwL
-         bw0uWxKOofubjtRVFsTjr3fzJmS/QmERzmYsHYzQ1kL9sj+sDMI8DQv19V8arpNwZXqN
-         ozFmniPWds1+k62xnGe9YZL/G+f9o4iDlKpVBNAo9J3FSmIHI2vkOfgy6fXSswnmp6qi
-         skv0RtfKNocC3V6ly44SzP3Viot49KNOsaH4yEPBC6xNJ3JUPxuhHJg/CQFcqI+V+/Ie
-         hWuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763029212; x=1763634012;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IaLuTVv6ogQrV7pgPnqPwD8BmOYnKQewjeQIkkX8Rks=;
-        b=wAORt/tuQacjTQved9VfeLOckyO9tT5IrrpZxnyTYNDvfko50e9QmL3TFFV/jApjk/
-         f2m4sAyX4bePT+v9+rhqVNeRKKzdyZpH1fTTFPSCRwSWEo2AX+CdzYJ/5xLJf4n4ksFi
-         flU2mOUG6NbJVceMmqwbkmlHc+ld4nCjXMrdr5HkrjEYA6Fn7P6qvehdOwby78MqSv8E
-         LpTcuPkhEDqot9hMV0dDMexCATl6LAhuwkHhqHJuBZ2hNusRgxGbGpaIxXdCOjev2JaA
-         UaMR3SCstVkw2iQ9ypcvq1ioJejs7mP4/mWghx5gp46AjPv27Gc7C+fP4DD1q7x+04+F
-         t8JA==
-X-Forwarded-Encrypted: i=1; AJvYcCXne0LQUepJeFo2jclkN6vgvaanvgEPhKA36bmrudLDV6vsSnHcHjKsQvo552cNKossGkrFd9ixUQU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrC9LUUSvVBAzuOTGCCZCSfa7rcqGF6zKvKvvd8R77JTsNHJVm
-	pWpEmCSddThz+AEvgTmaYfWMP+nggrjo+SASRfm+R2kyIH4P+OwXtQ+LrNYdFxjwaaBRP7d28zj
-	+4OsZYehwya6Xax/e9kRUNN8u8wqLGvo=
-X-Gm-Gg: ASbGncv/68H0rJTQM5a5q4uLi7viGPVtmOqgQkDFzDnYbEGX6hH63Ja+/zYB69fYps8
-	uMlVrbzIlWT+0loz7ixOa4k6+sbrmJptpRmAeAs3BJyhmYxPckCnyewWAJUidDv4Pimb+uu4iRs
-	K1Dwmco9kZIUjuR/v6K/syyItNLmmJ28K8ZY9WsDdasduuPgeA14hPKtdqOzVuJOdZuRg57+kc3
-	aIy27mLWIVUaDrHq4/KJmx/P3fVircsXReVkZRe5ECNSkjSbK9fHjhIjQWFCIcsQ46IcL9OtcSN
-	W9XhzQF0yyXhMzU=
-X-Google-Smtp-Source: AGHT+IHW+MEeffc/pTPQLmL7Dde2CnR8q/jO4iZvJp6R/AepiIuZRquQtp0We7AMZrEbstFQ9LYr74m01iZsJkJ+N6k=
-X-Received: by 2002:a17:906:f58a:b0:b72:6d3e:848f with SMTP id
- a640c23a62f3a-b7331a372c0mr637454366b.19.1763029212208; Thu, 13 Nov 2025
- 02:20:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFQ4fERx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561B8C4AF09;
+	Thu, 13 Nov 2025 10:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763029510;
+	bh=pBG2QgY8XkZ7VPUe8kGoaDSD4QCDLrQ5TvJNO9/H5lk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DFQ4fERx6MG8pJ9SN3QH8sIQ+CHzifzBe/BJqIugFqnyeVPBe/r1wfi9+TnoP/3OG
+	 dhom+2zVKgE+E1VM4aWwnsFffZHJIDJ5MO/veuILbvrE3Ofl1JuWz3hpuZIZREJ3fe
+	 RzMgB3tfcRVK/iDnQfFcoUoGzr6iyEKT6OyvXaHr78UFPa5MGttn3Rnq0EXCZpvxxq
+	 brf3T76qFHGLnPyCXmjfvGwJJC7DWsOVc8qg1Rogjhkl3nfKvAYHnvYs5xdippeNZO
+	 2Ih1OLslVaCaXd3RiBMRohkaqceGHNSG1Il0uACjjsOE9uDhp5TyAwTkOfvjQwYjM8
+	 GZANyowNTiQ8Q==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vJUVo-0000000B3Yk-1gXG;
+	Thu, 13 Nov 2025 11:25:08 +0100
+Date: Thu, 13 Nov 2025 11:25:08 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>, 
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 4/4] Documentation: use a source-read extension to
+ include the index boilerplate
+Message-ID: <f5hk4glkjjnuxzak56jmqzrspngmmuvhezkzq3ahhzxlertd2z@v7p3sm54qokx>
+References: <cover.1762948491.git.jani.nikula@intel.com>
+ <e404d14ad5e9ed0ddc3f8920efb5d156dff99021.1762948491.git.jani.nikula@intel.com>
+ <qf6t4cbpurcssabychbtxplqv7metgglduu4soqjexfxs6ongy@yryw3bnk44y6>
+ <5fc09cd5678000ccca68200d9f692376024e4b33@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251112042720.3695972-1-alistair.francis@wdc.com>
- <20251112042720.3695972-3-alistair.francis@wdc.com> <49bbe54a-4b55-48a7-bfb4-30a222cb7d4f@oracle.com>
-In-Reply-To: <49bbe54a-4b55-48a7-bfb4-30a222cb7d4f@oracle.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 13 Nov 2025 20:19:45 +1000
-X-Gm-Features: AWmQ_bkRDLojedW15PfOpNiK2JsU2DoevPnRuJfyF_0Rq1ckrKQa8VpTESFPsDE
-Message-ID: <CAKmqyKN4SN6DkjaRMe4st23Xnc3gb6DcqUGHi72UTgaiE9EqGw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/6] net/handshake: Define handshake_sk_destruct_req
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: hare@kernel.org, kernel-tls-handshake@lists.linux.dev, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-nfs@vger.kernel.org, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, 
-	sagi@grimberg.me, kch@nvidia.com, hare@suse.de, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5fc09cd5678000ccca68200d9f692376024e4b33@intel.com>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Thu, Nov 13, 2025 at 1:47=E2=80=AFAM Chuck Lever <chuck.lever@oracle.com=
-> wrote:
->
-> On 11/11/25 11:27 PM, alistair23@gmail.com wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
+On Thu, Nov 13, 2025 at 10:12:59AM +0200, Jani Nikula wrote:
+> On Wed, 12 Nov 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > On Wed, Nov 12, 2025 at 01:56:54PM +0200, Jani Nikula wrote:
+> >> Reduce boilerplate all over the place by adding a small ad hoc extension
+> >> in conf.py that adds the ../sphinx-includes/subproject-index.rst include
+> >> to all SPHINXDIRS builds.
+> >> 
+> >> Note that the docname is just 'index', because the SPHINXDIRS builds
+> >> happen in the subdirectories.
+> >> 
+> >> Cc: Randy Dunlap <rdunlap@infradead.org>
+> >> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >> Cc: Jonathan Corbet <corbet@lwn.net>
+> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > >
-> > Define a `handshake_sk_destruct_req()` function to allow the destructio=
-n
-> > of the handshake req.
+> >> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> >> index b9a43ee32a00..cb0936a71d52 100644
+> >> --- a/Documentation/conf.py
+> >> +++ b/Documentation/conf.py
+> >> @@ -589,8 +589,14 @@ kerneldoc_srctree = ".."
+> >>  # ------------------------------------------------------------------------------
+> >>  loadConfig(globals())
+> >>  
+> >> +# Add index link to SPHINXDIRS builds
+> >> +def add_subproject_index(app, docname, source):
+> >> +    if app.builder.tags.has('subproject') and app.builder.tags.has('html'):
+> >> +        if docname == 'index':
+> >> +            source[0] += '\n.. include:: ../sphinx-includes/subproject-index.rst\n'
 > >
-> > This is required to avoid hash conflicts when handshake_req_hash_add()
-> > is called as part of submitting the KeyUpdate request.
+> > The relative path there breaks SPINXDIRS, when it is pointing to use a sub-sub-dir
+> > like:
 > >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > Reviewed-by: Hannes Reinecke <hare@suse.de>
-> > ---
-> > v5:
-> >  - No change
-> > v4:
-> >  - No change
-> > v3:
-> >  - New patch
-> >
-> >  net/handshake/request.c | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> >
-> > diff --git a/net/handshake/request.c b/net/handshake/request.c
-> > index 274d2c89b6b2..0d1c91c80478 100644
-> > --- a/net/handshake/request.c
-> > +++ b/net/handshake/request.c
-> > @@ -98,6 +98,22 @@ static void handshake_sk_destruct(struct sock *sk)
-> >               sk_destruct(sk);
-> >  }
-> >
-> > +/**
-> > + * handshake_sk_destruct_req - destroy an existing request
-> > + * @sk: socket on which there is an existing request
->
-> Generally the kdoc style is unnecessary for static helper functions,
-> especially functions with only a single caller.
->
-> This all looks so much like handshake_sk_destruct(). Consider
-> eliminating the code duplication by splitting that function into a
-> couple of helpers instead of adding this one.
->
->
-> > + */
-> > +static void handshake_sk_destruct_req(struct sock *sk)
->
-> Because this function is static, I imagine that the compiler will
-> bark about the addition of an unused function. Perhaps it would
-> be better to combine 2/6 and 3/6.
->
-> That would also make it easier for reviewers to check the resource
-> accounting issues mentioned below.
->
->
-> > +{
-> > +     struct handshake_req *req;
-> > +
-> > +     req =3D handshake_req_hash_lookup(sk);
-> > +     if (!req)
-> > +             return;
-> > +
-> > +     trace_handshake_destruct(sock_net(sk), req, sk);
->
-> Wondering if this function needs to preserve the socket's destructor
-> callback chain like so:
->
-> +       void (sk_destruct)(struct sock sk);
->
->   ...
->
-> +       sk_destruct =3D req->hr_odestruct;
-> +       sk->sk_destruct =3D sk_destruct;
->
-> then:
->
-> > +     handshake_req_destroy(req);
->
-> Because of the current code organization and patch ordering, it's
-> difficult to confirm that sock_put() isn't necessary here.
->
->
-> > +}
-> > +
-> >  /**
-> >   * handshake_req_alloc - Allocate a handshake request
-> >   * @proto: security protocol
->
-> There's no synchronization preventing concurrent handshake_req_cancel()
-> calls from accessing the request after it's freed during handshake
-> completion. That is one reason why handshake_complete() leaves completed
-> requests in the hash.
+> >     $ make SPHINXDIRS=userspace-api/media htmldocs
+> 
+> Ugh, I looked at 'make help' for the "valid values for SPHINXDIRS",
+> which only lists the top level directories. Patch 1 is also based on
+> this.
+> 
+> What a surprise, the documentation for documentation is useless.
 
-Ah, so you are worried that free-ing the request will race with
-accessing the request after a handshake_req_hash_lookup().
+Yeah, _SPHINXDIRS helper message was introduced back in 2016
+on this changeset:
+    606b9ac81a63 ("doc-rst: generic way to build only sphinx sub-folders")
 
-Ok, makes sense. It seems like one answer to that is to add synchronisation
+On that time, we didn't have much things under Documentation/, so
+the helper message makes sense. Also, each subsystem had its own top-level
+directory. Nowadays, subsystem-specific documentation is typically under
 
->
-> So I'm thinking that removing requests like this is not going to work
-> out. Would it work better if handshake_req_hash_add() could recognize
-> that a KeyUpdate is going on, and allow replacement of a hashed
-> request? I haven't thought that through.
+    Documentation/<core-api|driver-api|userspace-api|...>/<subsystem>
 
-I guess the idea would be to do something like this in
-handshake_req_hash_add() if the entry already exists?
+So, SPHINXDIRS is nowadays used to point to the second level directory
+on lots of real use cases.
 
-    if (test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
-        /* Request already completed */
-        rhashtable_replace_fast(...);
-    }
+One needs to add an update there at the helper message.
 
-I'm not sure that's better. That could possibly still race with
-something that hasn't yet set HANDSHAKE_F_REQ_COMPLETED and overwrite
-the request unexpectedly.
-
-What about adding synchronisation and keeping the current approach?
-From a quick look it should be enough to just edit
-handshake_sk_destruct() and handshake_req_cancel()
-
-Alistair
-
->
->
-> As always, please double-check my questions and assumptions before
-> revising this patch!
->
->
-> --
-> Chuck Lever
+Thanks,
+Mauro
