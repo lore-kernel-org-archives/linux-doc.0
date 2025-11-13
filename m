@@ -1,226 +1,263 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8229337BA4
-	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 11:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9484C33DEFA;
+	Thu, 13 Nov 2025 11:29:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763031866; cv=none; b=bWmbGgkGG4IHrKgglu2PZQ7h8AXgejbr3how2tvMWWu7B0f4ll9O0ibblzkWM7yosiI2GHKCqn89tGAWX7gyKtXfh/tzvDVDZTITj1q9XEA65nq6+idnsqjOrJNCjallMTplz2uGd33gUd4u8sDbVxo83TOdwL+1q5jx0TIyffE=
+	t=1763033393; cv=none; b=MLdy3yJfKH6ZNMsE3kOa4FLRP3hN4pvJqyv0mTJRfXLGqdSMwz3SrGgQnEzmeKg/sm9TbV0wm3Sbt1S6NApTDMdYOdwgeHrsvkCWSPYNoA/gR16T/TfprygVu02ZBphenwXf6ebup+tcQtc9vLsDoaWZPKhCsv4JYrPPZ5xD0m4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763031866; c=relaxed/simple;
-	bh=SEc1U/IsU8n/IpLp6bGxD1QXscyC1CjSPywxkyanvdk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TOXg69S/L1z7mtOkucGe3FSWGI+gommZXDO6rmYf+VUBQRanyuD6WDDqH83A0BIyUPMKbjONrel6hxohJ3ZKOlOKqWrFhQGpPtcPtMZuTtewn9ZeAZk7iNDApTsIKvHA/gwOfQ9SyQJYe6HwwCwJRxLt5eClymWoDdl3uz/XbdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fs4L0cWg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763033393; c=relaxed/simple;
+	bh=mNBcINM7vOrkwSjMdzQjMAOOJlMLTdt8p5nnmhi0bpk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V1Suxk/nkiONwInG4mjo2JwC858H0iuMQwtxQIy1J2+oUPLVLPC/KdpbgS7qfAzyDXnma+U/3dLgcoxToeimnlMK/T56vwe6xxNJ+i8Ir7by5c1h1klmZ8b6cN827VQk2wkdwXPD/oJCmZhgDFkAdwji9uM67n0+tKS6ijvizkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kyjw2SAe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fs4L0cWg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58399C4CEF8
-	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 11:04:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kyjw2SAe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46FA1C16AAE;
+	Thu, 13 Nov 2025 11:29:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763031866;
-	bh=SEc1U/IsU8n/IpLp6bGxD1QXscyC1CjSPywxkyanvdk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fs4L0cWg/qobFFx1P3/JEU0OEml0cjLkBqtwuEANjZGtd7UtN6XhWd5oyQC3UoWSS
-	 rtumyAStMeJCVsg0dpZy+FqqqaxLo6N+YcKQFPmmzZKPyGODU6re/1KHbmT/EDM3Jf
-	 3Fu95XlYt+7+wnfLpIhX4ctopMSzzgirA8cXOGWXGRxtXvVBe/rDKkPoT6qnazT74K
-	 PpzBhBaidRlVpXLEWhVnNTp627/HOHM9LgBxKBpuO/nIty5V3m6bAccgbXRGq+NL4j
-	 7nInEX83aoJIIixU0eYHLR+VcLx3HKuTHVp74CWfMyhEaW7mfK97bJ9xDvMd8ojBUX
-	 bu5aC+/y7OMrw==
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-6567a0d456bso303529eaf.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 03:04:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXem/SXAxIFhotWJYqq7YfgcniTNIHSexjTylinO/gAx/DDBGv3W4OHgrAwgxaN60scIbCX3GtcLXo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgXAg1ZYx5693UHihQFyx6qr9BCMpiI3esyEEsi+pDvnv5/st0
-	DgxU0oKcqq8a5cf9XeUtu+L7nE4ZFasjAJm2UO/QxqelGS1UsyKKVjiUYYIxLfhvaInNtKQuQ/a
-	GeMNQWtrzA07P8zmqtiRpyGwQayaepXw=
-X-Google-Smtp-Source: AGHT+IF2ULWHUJGEWlRG50n+yg7mnDekrYpftDO7lfwZMtO0rXsv5PQZbv1PiolBljsVlXo2mP61/qQo/N/qC+El+KM=
-X-Received: by 2002:a05:6820:178e:b0:656:8548:d866 with SMTP id
- 006d021491bc7-657161c211cmr3013911eaf.1.1763031865608; Thu, 13 Nov 2025
- 03:04:25 -0800 (PST)
+	s=k20201202; t=1763033393;
+	bh=mNBcINM7vOrkwSjMdzQjMAOOJlMLTdt8p5nnmhi0bpk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kyjw2SAeCJwK8oZurRaA0tCYVsFMKQJakvjmg6wFjwxvBpd53XwrshwbBFDz3pFQ1
+	 5nZx35HkjgZzhoGT6TTPWVPqvEVbMo/HMopc4vywhGvEWZAV7dkzaDk46I+B9Jmrn5
+	 VsKN9UIH/MmR+oBiQSw0q36eyD5pwfwtFoViyAl4zneipjg6ppPVguXZ0+H2Elr1FE
+	 IWIL3LWjckVpQ9wTmB5HjISlIXTzHR3RYqbelRHTjM5LqFFrqk2BwiDln/uo4wTwBF
+	 jk21vj6aq3YQMCoJY0a7c1XLsGd9prSbjQta/mfhWklIr5mwoYweZCE0k3xQuM8JIi
+	 7cHUfjRxkiGbA==
+Date: Thu, 13 Nov 2025 11:29:47 +0000
+From: Lee Jones <lee@kernel.org>
+To: Nam Tran <trannamatk@gmail.com>
+Cc: gregkh@linuxfoundation.org, pavel@kernel.org, rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v17 2/3] leds: add basic support for TI/National
+ Semiconductor LP5812 LED Driver
+Message-ID: <20251113112947.GF1949330@google.com>
+References: <20251106155915.GT8064@google.com>
+ <20251111170728.81552-1-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251113014116.196638-1-srinivas.pandruvada@linux.intel.com>
-In-Reply-To: <20251113014116.196638-1-srinivas.pandruvada@linux.intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 13 Nov 2025 12:04:13 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0gPTKDYpze-ejhA3ySJB0dHXQQ4uZfXQFed=PrsWh=aqw@mail.gmail.com>
-X-Gm-Features: AWmQ_bmsvWz8HwvP8E4sLNGMPsFBoo72dIfDUG-30i-CSGH6IP8wMWKhQ1kqPGQ
-Message-ID: <CAJZ5v0gPTKDYpze-ejhA3ySJB0dHXQQ4uZfXQFed=PrsWh=aqw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: thermal: Add documentation for thermal throttle
-To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: rafael@kernel.org, daniel.lezcano@linaro.org, corbet@lwn.net, 
-	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251111170728.81552-1-trannamatk@gmail.com>
 
-On Thu, Nov 13, 2025 at 2:41=E2=80=AFAM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> Add documentation for Intel thermal throttling reporting events.
->
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
->  Documentation/admin-guide/thermal/index.rst   |  1 +
->  .../admin-guide/thermal/thermal_throttle.rst  | 84 +++++++++++++++++++
->  2 files changed, 85 insertions(+)
->  create mode 100644 Documentation/admin-guide/thermal/thermal_throttle.rs=
-t
->
-> diff --git a/Documentation/admin-guide/thermal/index.rst b/Documentation/=
-admin-guide/thermal/index.rst
-> index 193b7b01a87d..2e0cafd19f6b 100644
-> --- a/Documentation/admin-guide/thermal/index.rst
-> +++ b/Documentation/admin-guide/thermal/index.rst
-> @@ -6,3 +6,4 @@ Thermal Subsystem
->     :maxdepth: 1
->
->     intel_powerclamp
-> +   thermal_throttle
-> diff --git a/Documentation/admin-guide/thermal/thermal_throttle.rst b/Doc=
-umentation/admin-guide/thermal/thermal_throttle.rst
-> new file mode 100644
-> index 000000000000..ab146ffdffca
-> --- /dev/null
-> +++ b/Documentation/admin-guide/thermal/thermal_throttle.rst
-> @@ -0,0 +1,84 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: <isonum.txt>
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Intel thermal throttle events reporting
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> +
-> +Introduction
-> +------------
-> +
-> +Intel processors have built in automatic and adaptive thermal monitoring=
- mechanisms
-> +that force the processor to reduce its power consumption in order to ope=
-rate within
-> +predetermined temperature limits.
-> +
-> +Refer to section "THERMAL MONITORING AND PROTECTION" in the "Intel=C2=AE=
- 64 and IA-32
-> +Architectures Software Developer=E2=80=99s Manual Volume 3 (3A, 3B, 3C, =
-& 3D): System
-> +Programming Guide" for more details.
-> +
-> +In general, there are two mechanisms to control the core temperature of =
-the processor.
-> +They are called "Thermal Monitor 1 (TM1) and Thermal Monitor 2 (TM2)".
-> +
-> +The status of the temperature sensor that triggers the thermal monitor (=
-TM1/TM2) is
-> +indicated through the "thermal status flag" and "thermal status log flag=
-" in the
-> +IA32_THERM_STATUS MSR for core level and IA32_PACKAGE_THERM_STATUS for p=
-ackage level.
+On Wed, 12 Nov 2025, Nam Tran wrote:
 
-I would use the MSR names from the code, that is MSR_IA32_THERM_STATUS
-and MSR_IA32_PACKAGE_THERM_STATUS, respectively, here and below.
+> On Thu, 6 Nov 2025, Lee Jones wrote:
+> 
+> > On Tue, 21 Oct 2025, Nam Tran wrote:
+> > 
+> > > The LP5812 is a 4x3 matrix RGB LED driver with an autonomous animation
+> > > engine and time-cross-multiplexing (TCM) support for up to 12 LEDs or
+> > > 4 RGB LEDs. Each LED can be configured through the related registers
+> > > to realize vivid and fancy lighting effects.
+> > > 
+> > > This patch adds minimal driver support for the LP5812, implementing
+> > > only the essential functionality: I2C communication with the device,
+> > > LED registration, brightness control in manual mode, and basic sysfs
+> > > interfaces for LED configuration and fault monitoring.
+> > > 
+> > > Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> > > ---
+> > >  MAINTAINERS                    |   4 +
+> > >  drivers/leds/rgb/Kconfig       |  13 +
+> > >  drivers/leds/rgb/Makefile      |   1 +
+> > >  drivers/leds/rgb/leds-lp5812.c | 730 +++++++++++++++++++++++++++++++++
+> > >  drivers/leds/rgb/leds-lp5812.h | 197 +++++++++
+> > >  5 files changed, 945 insertions(+)
+> > >  create mode 100644 drivers/leds/rgb/leds-lp5812.c
+> > >  create mode 100644 drivers/leds/rgb/leds-lp5812.h
+> > 
+> > Last go - just a few nits to fix-up.
+> 
+> Thank you for the feedback.
+> I'll address these minor issues and include the fixes in the next revision.
+> But I have a few concerns about some of the nits.
+> 
+> > > +static int lp5812_parse_led(struct device_node *np,
+> > > +			    struct lp5812_led_config *cfg,
+> > > +			    int led_index)
+> > > +{
+> > > +	int num_colors = 0, ret;
+> > 
+> > As above.
+> > 
+> > > +
+> > > +	of_property_read_string(np, "label", &cfg[led_index].name);
+> > 
+> > Is this optional?
+> 
+> The 'label' property is required for proper sysfs naming. Should I update the DT binding
+> to mark it mandatory and adjust the driver accordingly? I'd like to confirm if this aligns
+> with usual conventions for such properties.
 
-> +
-> +Thermal Status flag, bit 0 =E2=80=94 When set, indicates that the proces=
-sor core temperature
-> +is currently at the trip temperature of the thermal monitor and that the=
- processor power
-> +consumption is being reduced via either TM1 or TM2, depending on which i=
-s enabled. When
-> +clear, the flag indicates that the core temperature is below the thermal=
- monitor trip
-> +temperature. This flag is read only.
-> +
-> +Thermal Status Log flag, bit 1 =E2=80=94 When set, indicates that the th=
-ermal sensor has tripped
-> +since the last power-up or reset or since the last time that software cl=
-eared this flag.
-> +This flag is a sticky bit; once set it remains set until cleared by soft=
-ware or until a
-> +power-up or reset of the processor. The default state is clear.
-> +
-> +It is possible that when user reads IA32_THERM_STATUS or IA32_PACKAGE_TH=
-ERM_STATUS,
-> +TM1/TM2 is not active. In this case, "Thermal Status flag" will read "0"=
- and the
-> +"Thermal Status Log flag" will be set to show any previous "TM1/TM2" act=
-ivation. But
-> +since it needs to be cleared by software, it can't show the number of oc=
-currences of
-> +"TM1/TM2" activations.
-> +
-> +Hence, Linux provides counters of how many times the "Thermal Status fla=
-g" was set. Also
-> +presents how long the "Thermal Status flag" was active in milliseconds. =
-Using these counters,
-> +users can check if the performance was limited because of thermal events=
-. It is recommended
-> +to read from sysfs instead of directly reading MSRs as the "Thermal Stat=
-us Log flag" is reset
-> +by the driver to implement rate control.
-> +
-> +Sysfs Interface
-> +---------------
-> +
-> +Thermal throttling events are presented for each CPU under
-> +"/sys/devices/system/cpu/cpuX/thermal_throttle/", where "X" is the CPU n=
-umber.
-> +
-> +All these counters are read-only. They can't be reset to 0. So, they can=
- potentially
-> +overflow after reaching the maximum 64 bit unsigned integer.
-> +
-> +``core_throttle_count``
-> +       This shows how many times "Thermal Status flag" changed from 0 to=
- 1
-> +       for this CPU. This is a 64 bit counter.
+I'll let you look around and decide for yourself.
 
-I would say "Number of times "Thermal Status flag" has changed from 0
-to 1 since ...."
+If this is not optional, you should check this call for errors.
 
-> +
-> +``package_throttle_count``
-> +       This shows how many times "Thermal Status flag" changed from 0 to=
- 1
-> +       for this package. Package status is broadcast to all CPUs; all CP=
-Us in
-> +       the package increment this count. This is a 64-bit counter.
+> > > +static int lp5812_probe(struct i2c_client *client)
+> > > +{
+> > > +	struct lp5812_chip *chip;
+> > > +	struct device_node *np = dev_of_node(&client->dev);
+> > > +	struct lp5812_led *led;
+> > 
+> > This is all of the LEDs though, right.
+> > 
+> > So "leds" would be better.
+> > 
+> > > +	int ret;
+> > > +
+> > > +	if (!np)
+> > > +		return -EINVAL;
+> > > +
+> > > +	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
+> > > +	if (!chip)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	chip->cfg = i2c_get_match_data(client);
+> > > +	ret = lp5812_of_populate_pdata(&client->dev, np, chip);
+> > 
+> > That's not all this function does though.
+> > 
+> > And it's not pdata.
+> > 
+> > lp5812_of_probe() would probably be better.
+> > 
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	led = devm_kcalloc(&client->dev, chip->num_channels, sizeof(*led), GFP_KERNEL);
+> > > +	if (!led)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	chip->client = client;
+> > > +	mutex_init(&chip->lock);
+> > > +	i2c_set_clientdata(client, led);
+> > 
+> > If you're only using the chip, why not just save the chip?
+> 
+> Just to confirm, you mean to store all LED instances inside the lp5812_chip struct and
+> only save the chip in i2c_set_clientdata(), instead of allocating a separate leds array
+> in probe()?
 
-I would say "Number of times "Thermal Status flag" has changed from 0
-to 1 for the package containing this CPU since ..."
+At the moment, it looks as though you save the array of `led`s and pull
+out the `chip` pointer from the first one (in .remove() below).  Why not
+just store the `chip` in clientdata in the first place?
 
-> +
-> +``core_throttle_max_time_ms``
-> +       This shows the maximum amount of time "Thermal Status flag" was s=
-et to 1
-> +       for this CPU for core level flag.
+> I can update the code accordingly if that's the preferred approach.
+> 
+> > > +/* Chip specific configurations */
+> > > +static const struct lp5812_device_config lp5812_cfg = {
+> > > +	.reg_reset = {
+> > > +		.addr = LP5812_REG_RESET,
+> > > +		.val  = LP5812_RESET
+> > > +	},
+> > > +	.reg_chip_en = {
+> > > +		.addr = LP5812_REG_ENABLE,
+> > > +		.val  = LP5812_ENABLE_DEFAULT
+> > > +	},
+> > > +	.reg_dev_config_0 = {
+> > > +		.addr = LP5812_DEV_CONFIG0,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_dev_config_1 = {
+> > > +		.addr = LP5812_DEV_CONFIG1,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_dev_config_2 = {
+> > > +		.addr = LP5812_DEV_CONFIG2,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_dev_config_3 = {
+> > > +		.addr = LP5812_DEV_CONFIG3,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_dev_config_4 = {
+> > > +		.addr = LP5812_DEV_CONFIG4,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_dev_config_5 = {
+> > > +		.addr = LP5812_DEV_CONFIG5,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_dev_config_6 = {
+> > > +		.addr = LP5812_DEV_CONFIG6,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_dev_config_7 = {
+> > > +		.addr = LP5812_DEV_CONFIG7,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_dev_config_12 = {
+> > > +		.addr = LP5812_DEV_CONFIG12,
+> > > +		.val  = LP5812_DEV_CONFIG12_DEFAULT
+> > > +	},
+> > > +	.reg_cmd_update = {
+> > > +		.addr = LP5812_CMD_UPDATE,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_tsd_config_status = {
+> > > +		.addr = LP5812_TSD_CONFIG_STATUS,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_led_en_1 = {
+> > > +		.addr = LP5812_LED_EN_1,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_led_en_2 = {
+> > > +		.addr = LP5812_LED_EN_2,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_fault_clear = {
+> > > +		.addr = LP5812_FAULT_CLEAR,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_manual_dc_base  = {
+> > > +		.addr = LP5812_MANUAL_DC_BASE,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_auto_dc_base  = {
+> > > +		.addr = LP5812_AUTO_DC_BASE,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_manual_pwm_base  = {
+> > > +		.addr = LP5812_MANUAL_PWM_BASE,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_lod_status_base  = {
+> > > +		.addr = LP5812_LOD_STATUS,
+> > > +		.val  = 0
+> > > +	},
+> > > +	.reg_lsd_status_base  = {
+> > > +		.addr = LP5812_LSD_STATUS,
+> > > +		.val  = 0
+> > > +	}
+> > > +};
+> > 
+> > This is an unusual way to set out a register map.
+> > 
+> > Where have you seen this done before?
+> > 
+> > > +static const struct of_device_id of_lp5812_match[] = {
+> > > +	{ .compatible = "ti,lp5812", .data = &lp5812_cfg },
+> > 
+> > Seems odd to populate .data when you only have a single device.
+> 
+> I followed the style used in the lp55xx series drivers for the register map and device
+> config. I thought it makes sense to keep the same pattern to allow easier upgrade and
+> maintenance in the future. But you expect a more typical approach, right?
 
-I would say "Maximum amount of time for which "Thermal Status flag"
-has been set to 1 for this CPU at the core level since ...".
+You only need to provide differentiation when you support more than one
+device.
 
-And analogously below.
-
-> +
-> +``package_throttle_max_time_ms``
-> +       This shows the maximum amount of time "Thermal Status flag" was s=
-et to 1
-> +       for this CPU for package level flag.
-> +
-> +``core_throttle_total_time_ms``
-> +       This shows the cumulative time "Thermal Status flag" was set to 1=
- for this
-> +       CPU for core level flag.
-> +
-> +``package_throttle_total_time_ms``
-> +       This shows the cumulative time "Thermal Status flag" was set to 1=
- for this
-> +       CPU for package level flag.
-> +
-> --
+-- 
+Lee Jones [李琼斯]
