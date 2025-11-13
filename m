@@ -1,359 +1,139 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA89130AD1B;
-	Thu, 13 Nov 2025 18:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4456C2877D5
+	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 18:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763057528; cv=none; b=HOp8kKgwEUXfwDofze3OoXuwZbHM43yruUZiHMX7JAkXhapT5MVvMneCBV4CZaYNQoTZpaplGEAKOooVgzJJbDLIfkNWJPiemPJlLMYuK5zreDdzRpPBZ6QBu6/EmozEnFoJet9s27K7E4dZypgEXGiyAuTjpepBckNraZqObSM=
+	t=1763058130; cv=none; b=hxZPpgKhLMQ3xvcuySK6+orru4S7QY08TNJf3NVNyonNJ+ZLJUJ+WDDgCH9RSzeQuYP9J4Sf5PE+0p+7XetwvQa9BLLCsE/wkhk9TfDMT2WSa07T2HE888cqIp1ZUVH61/7c9M28yALWSCGdMQHy3r7SUP7fIWkb5yLyqxjafYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763057528; c=relaxed/simple;
-	bh=eggkhC6mk5737Q6dXVCr1HI04S4YU8Wm2zybbQQ4foA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zd5tt+V/M5chdZdj9ZN10u6whXcCGe6/16IkgOaE4Cw4buxoUUUWSaFclx40DV3Df/XlOh8XmmTopxt9M7BXq67mGvkCf+wOMi0xqbBMpqBovSN4nCwhTCjxaXa4HDiWQgh7bduEvu7dbyivOoQcEtIcRillrgTCkL/4NZxNHzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=i0CbDAF6; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1763058130; c=relaxed/simple;
+	bh=M1YRC3EZuqhEa+vddm/0lZ0BSjtWI8L6D1eAzYbvdV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=djZgbKtYwt9QJNxfqX8+ex79LGcL0aodAiShBmidOxGzGBwJdoDYSk4BnJ53Tir7raVn8tskh5SBIPlajQPSFX5/mPF0qaxHCDrlz/RLvvhSmkv2ATe3bHELnCR1cmZVe0qZKmDEMamPgTdrO553SIik5KdicRshgXdYpVHT56A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KYaFV0zd; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="i0CbDAF6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1763057523;
-	bh=eggkhC6mk5737Q6dXVCr1HI04S4YU8Wm2zybbQQ4foA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=i0CbDAF6pCbWEMlJpLb//tNQ6Yv1i+dHQZGVPCJnVkweoEGmlw48d5tZDmSxx333M
-	 nt4GoO0PyuP0bNbEwDVNY98cz438MWKbbxMjCD7dmmefRgQpXVVnQ321Rz9W4WBxr9
-	 hD6NU3aIKykDFuGCJs028cshFoa/0CsSJCbdMtxLP+mtf94jPIFPj5LS8mnmIvR5fB
-	 VrmSy0RLe/MFKL5HKfC7rc6/pcdLWGaZinio6jRZGnk50KKHbPwVoPEHabv3b9fBOs
-	 x+gim+uMWamOOdj/T5PsKDWrMKn3cf9SwpobDBglRpuOtLPfsW2D8s5CBr4bNlbnV2
-	 BuHRmPPV7+XRQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9222917E127F;
-	Thu, 13 Nov 2025 19:12:02 +0100 (CET)
-Date: Thu, 13 Nov 2025 19:11:58 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
- Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
- Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v8 07/11] drm/gem: Get rid of *_with_mnt helpers
-Message-ID: <20251113191158.43328c47@fedora>
-In-Reply-To: <20251113170008.79587-8-loic.molinari@collabora.com>
-References: <20251113170008.79587-1-loic.molinari@collabora.com>
-	<20251113170008.79587-8-loic.molinari@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KYaFV0zd"
+Date: Thu, 13 Nov 2025 10:21:34 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1763058114;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NUDmGsLuzt7y0qWak8NiOpLtPu0rSZCLo1L1cHvQHAU=;
+	b=KYaFV0zdSrAsy3+bs3d+Njo5HH7l5LDFC+vVwJNgeam5lFDlKGiqBaEIq/Pop6uDctz6CU
+	K0dpQsv9myUU67EubhxWDnd2mb53KLfuGzpRQG4ohGsdzYHYWBxrjKy/RUU++EuOdUrsuF
+	dh8lf+UmmKCYpFgOfbnxuQ8tAnSn+/U=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jiaqi Yan <jiaqiyan@google.com>, Jason Gunthorpe <jgg@nvidia.com>,
+	maz@kernel.org, duenwen@google.com, rananta@google.com,
+	jthoughton@google.com, vsethi@nvidia.com, joey.gouly@arm.com,
+	suzuki.poulose@arm.com, yuzenghui@huawei.com,
+	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com,
+	corbet@lwn.net, shuah@kernel.org, kvm@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] VMM can handle guest SEA via KVM_EXIT_ARM_SEA
+Message-ID: <aRYhrmLz__AbnCFN@linux.dev>
+References: <20251013185903.1372553-1-jiaqiyan@google.com>
+ <20251020144646.GT316284@nvidia.com>
+ <CACw3F528D6odL3MJWb28Y4HVOLo56tMQXBpvti5nhczdpMxOdQ@mail.gmail.com>
+ <wuuvrqxezybzdnijarlom4wvxlfgzgjoakwt7ixittz2jb4mal@ngjvq2rrt2ps>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <wuuvrqxezybzdnijarlom4wvxlfgzgjoakwt7ixittz2jb4mal@ngjvq2rrt2ps>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 13 Nov 2025 18:00:03 +0100
-Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+On Thu, Nov 13, 2025 at 02:54:33PM +0100, Mauro Carvalho Chehab wrote:
+> Hi,
+> 
+> On Mon, Nov 10, 2025 at 09:41:33AM -0800, Jiaqi Yan wrote:
+> > On Mon, Oct 20, 2025 at 7:46 AM Jason Gunthorpe <jgg@nvidia.com> wrote:
+> > >
+> > > On Mon, Oct 13, 2025 at 06:59:00PM +0000, Jiaqi Yan wrote:
+> > > > Problem
+> > > > =======
+> > > >
+> > > > When host APEI is unable to claim a synchronous external abort (SEA)
+> > > > during guest abort, today KVM directly injects an asynchronous SError
+> > > > into the VCPU then resumes it. The injected SError usually results in
+> > > > unpleasant guest kernel panic.
+> > > >
+> > > > One of the major situation of guest SEA is when VCPU consumes recoverable
+> > > > uncorrected memory error (UER), which is not uncommon at all in modern
+> > > > datacenter servers with large amounts of physical memory. Although SError
+> > > > and guest panic is sufficient to stop the propagation of corrupted memory,
+> > > > there is room to recover from an UER in a more graceful manner.
+> > > >
+> > > > Proposed Solution
+> > > > =================
+> > > >
+> > > > The idea is, we can replay the SEA to the faulting VCPU. If the memory
+> > > > error consumption or the fault that cause SEA is not from guest kernel,
+> > > > the blast radius can be limited to the poison-consuming guest process,
+> > > > while the VM can keep running.
+> 
+> I like the idea of having a "guest-first"/"host-first" approach for APEI,
+> letting userspace (likely rasdaemon) to decide to handle hardware errors
+> either at the guest or at the host. Yet, it sounds wrong to have a flag
+> called KVM_EXIT_ARM_SEA, as:
+> 
+>     1. This is not exclusive to ARM;
+>     2. There are other notification mechanisms that can rise an APEI
+>        errors. For instance QEMU code defines:
+> 
+>     ACPI_GHES_NOTIFY_POLLED = 0,
+>     ACPI_GHES_NOTIFY_EXTERNAL = 1,
+>     ACPI_GHES_NOTIFY_LOCAL = 2,
+>     ACPI_GHES_NOTIFY_SCI = 3,
+>     ACPI_GHES_NOTIFY_NMI = 4,
+>     ACPI_GHES_NOTIFY_CMCI = 5,
+>     ACPI_GHES_NOTIFY_MCE = 6,
+>     ACPI_GHES_NOTIFY_GPIO = 7,
+>     ACPI_GHES_NOTIFY_SEA = 8,
+>     ACPI_GHES_NOTIFY_SEI = 9,
+>     ACPI_GHES_NOTIFY_GSIV = 10,
+>     ACPI_GHES_NOTIFY_SDEI = 11,
+>     ACPI_GHES_NOTIFY_RESERVED = 12
+> 
+>  - even on arm. QEMU currently implements two mechanisms (SEA and GPIO);
+>  - once we implement the same feature on Intel, it will likely use
+>    NMI, MCE and/or SCI.
+> 
+> So, IMO, the best would be to use a more generic name like
+> KVM_EXIT_APEI or KVM_EXIT_GHES - or maybe even name it the way it really
+> is meant: KVM_EXIT_ACPI_GUEST_FIRST.
 
-> drm_gem_object_init_with_mnt() and drm_gem_shmem_create_with_mnt() can
-> be removed now that the drivers use the new drm_gem_huge_mnt_create()
-> and drm_gem_has_huge_mnt() helpers.
->=20
-> v5:
-> - use drm_gem_has_huge_mnt() helper
-> - compile out shmem_file_setup_with_mnt() call in builds with
->   CONFIG_TRANSPARENT_HUGEPAGE=3Dn
->=20
-> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/drm_gem.c              | 38 ++++++++------------------
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 38 ++++++--------------------
->  drivers/gpu/drm/v3d/v3d_bo.c           |  5 ----
->  include/drm/drm_gem.h                  |  3 --
->  include/drm/drm_gem_shmem_helper.h     |  3 --
->  5 files changed, 20 insertions(+), 67 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index bbca2ab9e9a5..1b0b5813acef 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -171,31 +171,33 @@ drm_gem_init(struct drm_device *dev)
->  }
-> =20
->  /**
-> - * drm_gem_object_init_with_mnt - initialize an allocated shmem-backed G=
-EM
-> - * object in a given shmfs mountpoint
-> + * drm_gem_object_init - initialize an allocated shmem-backed GEM object
->   *
->   * @dev: drm_device the object should be initialized for
->   * @obj: drm_gem_object to initialize
->   * @size: object size
-> - * @gemfs: tmpfs mount where the GEM object will be created. If NULL, use
-> - * the usual tmpfs mountpoint (`shm_mnt`).
->   *
->   * Initialize an already allocated GEM object of the specified size with
-> - * shmfs backing store.
-> + * shmfs backing store. A huge mountpoint can be used by calling
-> + * drm_gem_huge_mnt_create() beforehand.
->   */
-> -int drm_gem_object_init_with_mnt(struct drm_device *dev,
-> -				 struct drm_gem_object *obj, size_t size,
-> -				 struct vfsmount *gemfs)
-> +int drm_gem_object_init(struct drm_device *dev, struct drm_gem_object *o=
-bj,
-> +			size_t size)
->  {
->  	struct file *filp;
-> =20
->  	drm_gem_private_object_init(dev, obj, size);
-> =20
-> -	if (gemfs)
-> -		filp =3D shmem_file_setup_with_mnt(gemfs, "drm mm object", size,
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +	if (drm_gem_has_huge_mnt(dev))
-> +		filp =3D shmem_file_setup_with_mnt(dev->huge_mnt,
-> +						 "drm mm object", size,
->  						 VM_NORESERVE);
->  	else
->  		filp =3D shmem_file_setup("drm mm object", size, VM_NORESERVE);
-> +#else
-> +	filp =3D shmem_file_setup("drm mm object", size, VM_NORESERVE);
-> +#endif
+This is not the sort of thing that I'd like to seen dressed up as an
+arch-generic interface.
 
-I keep thinking it'd be simpler with a drm_gem_get_huge_mnt() helper:
+What Jiaqi is dealing with is the very sorry state of RAS on arm64,
+giving userspace the opportunity to decide how an SEA is handled when a
+platform's firmware couldn't be bothered to do so. The SEA is an
+architecture-specific event so we provide the hardware context to
+the VMM to sort things out.
 
-static inline struct vfsmount *
-drm_gem_get_huge_mnt(struct drm_device *dev)
-{
-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-	return dev->huge_mnt;
-#else
-	return NULL;
-#endif
-}
+If the APEI driver actually registers to handle the SEA then it will
+continue to handle the SEA before ever involving the VMM. I'm not
+aware of any system that does this. If you're lucky you'll take an
+*asynchronous* vector after to process a CPER and still have to deal
+with a 'bare' SEA.
 
-so we can avoid those #ifdef CONFIG_TRANSPARENT_HUGEPAGE in a few other
-places.
+And of course, none of this even matters for the several billion
+DT-based hosts out in the wild.
 
-For this one that would give you something like:
-
-	if (drm_gem_get_huge_mnt(dev))
-		filp =3D shmem_file_setup_with_mnt(drm_gem_get_huge_mnt(dev),
-						 "drm mm object", size,
-						 VM_NORESERVE);
-	else
-		filp =3D shmem_file_setup("drm mm object", size, VM_NORESERVE);
-
-> =20
->  	if (IS_ERR(filp))
->  		return PTR_ERR(filp);
-> @@ -204,22 +206,6 @@ int drm_gem_object_init_with_mnt(struct drm_device *=
-dev,
-> =20
->  	return 0;
->  }
-> -EXPORT_SYMBOL(drm_gem_object_init_with_mnt);
-> -
-> -/**
-> - * drm_gem_object_init - initialize an allocated shmem-backed GEM object
-> - * @dev: drm_device the object should be initialized for
-> - * @obj: drm_gem_object to initialize
-> - * @size: object size
-> - *
-> - * Initialize an already allocated GEM object of the specified size with
-> - * shmfs backing store.
-> - */
-> -int drm_gem_object_init(struct drm_device *dev, struct drm_gem_object *o=
-bj,
-> -			size_t size)
-> -{
-> -	return drm_gem_object_init_with_mnt(dev, obj, size, NULL);
-> -}
->  EXPORT_SYMBOL(drm_gem_object_init);
-> =20
->  /**
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm=
-_gem_shmem_helper.c
-> index 81f4ac7cb8f6..43a80f3fcfd9 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -50,7 +50,7 @@ static const struct drm_gem_object_funcs drm_gem_shmem_=
-funcs =3D {
->  };
-> =20
->  static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_s=
-hmem_object *shmem,
-> -				size_t size, bool private, struct vfsmount *gemfs)
-> +				size_t size, bool private)
->  {
->  	struct drm_gem_object *obj =3D &shmem->base;
->  	int ret =3D 0;
-> @@ -62,7 +62,7 @@ static int __drm_gem_shmem_init(struct drm_device *dev,=
- struct drm_gem_shmem_obj
->  		drm_gem_private_object_init(dev, obj, size);
->  		shmem->map_wc =3D false; /* dma-buf mappings use always writecombine */
->  	} else {
-> -		ret =3D drm_gem_object_init_with_mnt(dev, obj, size, gemfs);
-> +		ret =3D drm_gem_object_init(dev, obj, size);
->  	}
->  	if (ret) {
->  		drm_gem_private_object_fini(obj);
-> @@ -103,13 +103,12 @@ static int __drm_gem_shmem_init(struct drm_device *=
-dev, struct drm_gem_shmem_obj
->   */
->  int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obje=
-ct *shmem, size_t size)
->  {
-> -	return __drm_gem_shmem_init(dev, shmem, size, false, NULL);
-> +	return __drm_gem_shmem_init(dev, shmem, size, false);
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_init);
-> =20
->  static struct drm_gem_shmem_object *
-> -__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
-> -		       struct vfsmount *gemfs)
-> +__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
->  {
->  	struct drm_gem_shmem_object *shmem;
->  	struct drm_gem_object *obj;
-> @@ -129,7 +128,7 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t=
- size, bool private,
->  		obj =3D &shmem->base;
->  	}
-> =20
-> -	ret =3D __drm_gem_shmem_init(dev, shmem, size, private, gemfs);
-> +	ret =3D __drm_gem_shmem_init(dev, shmem, size, private);
->  	if (ret) {
->  		kfree(obj);
->  		return ERR_PTR(ret);
-> @@ -150,31 +149,10 @@ __drm_gem_shmem_create(struct drm_device *dev, size=
-_t size, bool private,
->   */
->  struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev=
-, size_t size)
->  {
-> -	return __drm_gem_shmem_create(dev, size, false, NULL);
-> +	return __drm_gem_shmem_create(dev, size, false);
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
-> =20
-> -/**
-> - * drm_gem_shmem_create_with_mnt - Allocate an object with the given siz=
-e in a
-> - * given mountpoint
-> - * @dev: DRM device
-> - * @size: Size of the object to allocate
-> - * @gemfs: tmpfs mount where the GEM object will be created
-> - *
-> - * This function creates a shmem GEM object in a given tmpfs mountpoint.
-> - *
-> - * Returns:
-> - * A struct drm_gem_shmem_object * on success or an ERR_PTR()-encoded ne=
-gative
-> - * error code on failure.
-> - */
-> -struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_de=
-vice *dev,
-> -							   size_t size,
-> -							   struct vfsmount *gemfs)
-> -{
-> -	return __drm_gem_shmem_create(dev, size, false, gemfs);
-> -}
-> -EXPORT_SYMBOL_GPL(drm_gem_shmem_create_with_mnt);
-> -
->  /**
->   * drm_gem_shmem_release - Release resources associated with a shmem GEM=
- object.
->   * @shmem: shmem GEM object
-> @@ -861,7 +839,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device=
- *dev,
->  	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
->  	struct drm_gem_shmem_object *shmem;
-> =20
-> -	shmem =3D __drm_gem_shmem_create(dev, size, true, NULL);
-> +	shmem =3D __drm_gem_shmem_create(dev, size, true);
->  	if (IS_ERR(shmem))
->  		return ERR_CAST(shmem);
-> =20
-> @@ -909,7 +887,7 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_=
-map(struct drm_device *dev,
-> =20
->  	size =3D PAGE_ALIGN(attach->dmabuf->size);
-> =20
-> -	shmem =3D __drm_gem_shmem_create(dev, size, true, NULL);
-> +	shmem =3D __drm_gem_shmem_create(dev, size, true);
->  	if (IS_ERR(shmem)) {
->  		ret =3D PTR_ERR(shmem);
->  		goto fail_detach;
-> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
-> index 3bc714ea6392..d3b68ee05dbb 100644
-> --- a/drivers/gpu/drm/v3d/v3d_bo.c
-> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
-> @@ -153,12 +153,7 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev,=
- struct drm_file *file_priv,
->  	struct v3d_bo *bo;
->  	int ret;
-> =20
-> -#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> -	shmem_obj =3D drm_gem_shmem_create_with_mnt(dev, unaligned_size,
-> -						  dev->huge_mnt);
-> -#else
->  	shmem_obj =3D drm_gem_shmem_create(dev, unaligned_size);
-> -#endif
->  	if (IS_ERR(shmem_obj))
->  		return ERR_CAST(shmem_obj);
->  	bo =3D to_v3d_bo(&shmem_obj->base);
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 58fa1e6b9773..75276a12208e 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -529,9 +529,6 @@ void drm_gem_object_release(struct drm_gem_object *ob=
-j);
->  void drm_gem_object_free(struct kref *kref);
->  int drm_gem_object_init(struct drm_device *dev,
->  			struct drm_gem_object *obj, size_t size);
-> -int drm_gem_object_init_with_mnt(struct drm_device *dev,
-> -				 struct drm_gem_object *obj, size_t size,
-> -				 struct vfsmount *gemfs);
->  void drm_gem_private_object_init(struct drm_device *dev,
->  				 struct drm_gem_object *obj, size_t size);
->  void drm_gem_private_object_fini(struct drm_gem_object *obj);
-> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shm=
-em_helper.h
-> index 589f7bfe7506..6b6478f5ca24 100644
-> --- a/include/drm/drm_gem_shmem_helper.h
-> +++ b/include/drm/drm_gem_shmem_helper.h
-> @@ -109,9 +109,6 @@ struct drm_gem_shmem_object {
-> =20
->  int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obje=
-ct *shmem, size_t size);
->  struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev=
-, size_t size);
-> -struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_de=
-vice *dev,
-> -							   size_t size,
-> -							   struct vfsmount *gemfs);
->  void drm_gem_shmem_release(struct drm_gem_shmem_object *shmem);
->  void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
-> =20
-
+Thanks,
+Oliver
