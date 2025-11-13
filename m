@@ -1,93 +1,92 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9050731AF38;
-	Thu, 13 Nov 2025 19:50:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F92F315D29;
+	Thu, 13 Nov 2025 19:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763063444; cv=none; b=iJuEl3gvU04VPIVUwASTORLf7Ba7a4OZApsr1AMGv9bS8I83nMls14QSYia4LJnGMBtOFNV82pI4F1xL0Ehb7qcqKg3Iy06IcBMWO93S6UWppZrp/3+eqq6+A3Gld0T+JiN4bCu6tId6DAgmOWcvlWMuh2AmrRyl1WVJGDyBJac=
+	t=1763063564; cv=none; b=T6eUtV4aahIkDZGh1n7N7whW3jGJGa73e+9V+VWcLoQf1x6Wfj/ihtA3dfoU/m1hTWrKcBlase2TJYGtuN0ZVUwcWx0P8ZaXBO59Bosu69i7JGxyz5jD+AyjyLEfbZEBmLdO2r3DzL6e07Hzjb+bLa/03LtN3/i252smWrsCeow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763063444; c=relaxed/simple;
-	bh=oyfV3BA8mWtSuCil/425qvMLPVtszExdKvqmEAq++6I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yw85SRLvwmqGWiEZE89tqsM8IppUIEYuMoDiEIyUOG4liM6mmfYsvanO9c/Vn/dsyDQ6fzkNjrvKGeGn4nQ0zQHnOSn92OtBic9kyNv2p/edpZNkCjVwPjMMaXQ+4Agzeb59XAejH+VEUb2ee+CO11lFArvNV2zc/ntLAhYvXlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WtfHyBfU; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1763063564; c=relaxed/simple;
+	bh=D6xByP9v7HA0BT4JxxGeDeAoBgYUhj6KpJENBxSZV5k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TROK0BlgDGPWDTpXU9c1Co7faDLVEFX8YVqr5lx3dtTDYcvDVKTzTdnZk0Mw1X6La3tMwqpw+OSizZRnOqDaUYCpq/IhmCs2Jzi7wKy9N/ciuAZbYJqzmqwcjFqqyWillLE3rukpgB36AxbiopNV9WtenjFONPtT99j2SiveKNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GLGnHjbW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WtfHyBfU"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=NxBrkZLzC3qOisRZ+bThbK7gNaHkjaD++6Pvi4psumQ=; b=WtfHyBfUXdnxzMn1dzpCLAcxCq
-	T6fJKmuSlJyENHnWW/ob5zOOI7QC9xj1FkuKirxw680jieOfPm7cMN+SLdFjQiKaAsjJJY05n0QrH
-	l1lNiAHN0I6wCOPtFDnLB1iwMSjCzjtWhL+pGJOPvpnuyxe0HXhYwJzHT0K/xr05sY8WPGtFsgNZ+
-	U2CB6SuCeyZoYzSlpuCWKGFVxFXl8Jk1ACGQ02j8zEc6TunlXoaEcPxkpXwSqiYC909uGeUdc4uYn
-	0dcVZ5GIVIZGPnksIgOwRLqpBklHCPBTjozQ69apesBS3GqRUJSB/nAnf/9pRLRG0HVLJ8ScuYhQv
-	jVFKxUqQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJdL7-0000000B2Uz-4Au5;
-	Thu, 13 Nov 2025 19:50:42 +0000
-Message-ID: <a53fe942-609a-4103-9e63-6b65fa408dee@infradead.org>
-Date: Thu, 13 Nov 2025 11:50:41 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GLGnHjbW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B79C4CEF8;
+	Thu, 13 Nov 2025 19:52:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763063564;
+	bh=D6xByP9v7HA0BT4JxxGeDeAoBgYUhj6KpJENBxSZV5k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GLGnHjbW8w5AQLT4TCnqeRul6f5gt7WgxeT+9V7DkAV3tkBaqwEJ65N1LJnhcD8tQ
+	 CmKv33y0fDkZdzyeFPVWBpEM2EA8fOLBleoBFcnRA/N+VGbS3AMwThmoKC7EniD74n
+	 ureP3k9067MsWLTnxkEtvjKsCmVpzO0yDOi6p/6tDeD78nx+Q0qtgmjgoJ7m7PIVvb
+	 OZ6sS6CbotGH8HAgOo1p06gSwaSeX6RvpwEJd9t1L7IPWCCwXUdJhDlmy8k5SiI89q
+	 sJ08U0J4hRSIIRS8VchBU+vLCIHtId1WyzNWkem6wN9Hb1rdsuM9NcMMrM+Si2Ft3k
+	 6llenEIRl0LSg==
+Date: Thu, 13 Nov 2025 19:52:38 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 01/13] dt-bindings: leds: document Samsung S2M series
+ PMIC flash LED device
+Message-ID: <20251113-silica-unashamed-6d78cdf55b35@spud>
+References: <20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org>
+ <20251114-s2mu005-pmic-v1-1-9e3184d3a0c9@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scripts: docs: kdoc_files.py: don't consider symlinks as
- directories
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org
-References: <73c3450f34e2a4b42ef2ef279d7487c47d22e3bd.1763027622.git.mchehab+huawei@kernel.org>
- <878qg9ucmx.fsf@trenco.lwn.net>
- <xrekus333iar5zod65ffvcv5fz2rf657dmqbl6npc5jyff4iro@6cdqfudzlbdp>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <xrekus333iar5zod65ffvcv5fz2rf657dmqbl6npc5jyff4iro@6cdqfudzlbdp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Pm2uUZI5hpWGqHdz"
+Content-Disposition: inline
+In-Reply-To: <20251114-s2mu005-pmic-v1-1-9e3184d3a0c9@disroot.org>
 
 
+--Pm2uUZI5hpWGqHdz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 11/13/25 9:08 AM, Mauro Carvalho Chehab wrote:
-> On Thu, Nov 13, 2025 at 09:21:26AM -0700, Jonathan Corbet wrote:
->> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
->>
->>> As reported by Randy, currently kdoc_files can go into endless
->>> looks when symlinks are used:
->>>
->>> 	$ ln -s . Documentation/peci/foo
->>> 	$ ./scripts/kernel-doc Documentation/peci/
->>> 	...
->>> 	  File "/new_devel/docs/scripts/lib/kdoc/kdoc_files.py", line 52, in _parse_dir
->>> 	    if entry.is_dir():
->>> 	       ~~~~~~~~~~~~^^
->>> 	OSError: [Errno 40] Too many levels of symbolic links: 'Documentation/peci/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo'
->>>
->>> Prevent that by not considering symlinks as directories.
->>>
->>> Reported-by: Randy Dunlap <rdunlap@infradead.org>
->>> Closes: https://lore.kernel.org/linux-doc/80701524-09fd-4d68-8715-331f47c969f2@infradead.org/
->>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->>
->> This looks the same as yesterday's version?
-> 
-> I haven't changed it (but I was assuming yesterday's version was not sent). I had some bugs related to smtp proxy at the office....
+On Fri, Nov 14, 2025 at 12:35:02AM +0530, Kaustabh Chakraborty wrote:
+> Certain Samsung S2M series PMICs have a flash LED controller with
+> two LED channels, and with torch and flash control modes. Document the
+> devicetree schema for the device.
+>=20
+> The initial driver introduced has support for S2MU005, add its
+> compatible as well.
 
-That would be the one that I replied to that was missing a Subject: line
-according to my mail client:
+Drop this sentence please.
+pw-bot: changes-requested
+With it gone
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-https://lore.kernel.org/linux-doc/20251112171452.Y5jX9%25mchehab+huawei@kernel.org/
+--Pm2uUZI5hpWGqHdz
+Content-Type: application/pgp-signature; name="signature.asc"
 
-(actually there were several like that)
+-----BEGIN PGP SIGNATURE-----
 
--- 
-~Randy
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaRY3BgAKCRB4tDGHoIJi
+0hquAQCFvzpL/uf0VxfXg2G5vEFz2sazW81JFWrhtOtwcp2YfwD/QevXW5MldAvy
+LgEwcl+DCU8iEfnMtBUEC5/q6eI2OQw=
+=dXM/
+-----END PGP SIGNATURE-----
 
+--Pm2uUZI5hpWGqHdz--
