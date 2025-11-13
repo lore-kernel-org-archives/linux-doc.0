@@ -1,241 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83270311969;
-	Thu, 13 Nov 2025 03:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763004105; cv=fail; b=VoeqPJZEsvujBKPzv/Y4IjQ4EUvdNDMp+/ZBrhrDTTj0DE9jZAU4hFt/8/V9PKo3cQgc1kMAH+bzTFHnZQxaxft7NBgB6GxPGeVn7jcinDXk3K8jvm626UYeUsjVwThXXfSoyO9nokTM0iqSOjb7eq1ibphZfKYm4i0cLsqhK0Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763004105; c=relaxed/simple;
-	bh=VqAXHukPx/U/0LBIgnc7YUT47MFG+zetDZISYcqdZ/w=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=rlwLZGuyk2f2if2PINhwhqHPr0U4gjo6SguFEY2K5WS5fuLDsJccl9xcyhVUcJ4FtT2MxO7zSFB+h2eng13xsE5pI/+7ictUXBGSSFqUYMv9ADWIEcf4O5lEoUmW/11TlaVZgqNhGb2mV0sBe5R9QqHoWDr5XzVp+prSWVGZmFw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aJQH9tgg; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2672FF668
+	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 04:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763008837; cv=none; b=upBcwFqSR6BUG3Jn5/ceIcAikLSCTUBYvd1lzb+/hyvJIhqNj2nQHlyJXgtPZJfW7kh1utg246zjPN7AaufWl0f9nXSd97CN23xZhkiVwB4v3paN5lVnG4jlpcN5jjyPNWIFzMcTzazDYtZgsyLprRBrAWR0+tJWjHnmkwSz2Zk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763008837; c=relaxed/simple;
+	bh=juu52SAGCZwSkv94b8hvBh3dmTjc+fF26d4odP+mFag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KAPAurk+z9GlireVYnMyUdblzMUn4RGTzPf1PcekGd39pCwSg7dCViXnhWktxlThvV1jd/UprqD08xZMK68fx4v3wkQbRnxHqO+VLDO/C5+q/EA7CQfh29xASO9Ke4B+kYUE5pdGPNfmrLXwpnOh2CcmqpCsdyGsnoA6ijwtZUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FPu7h28w; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJQH9tgg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763004103; x=1794540103;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=VqAXHukPx/U/0LBIgnc7YUT47MFG+zetDZISYcqdZ/w=;
-  b=aJQH9tggmHO3E5Ev9fQ8Ms9ZMDzc+r9f2/VvZx6miOlPNnqO+79bZcHK
-   KT7eKBX7TPn0W8OS6qeiEs1OwfuMf7dkxF73hR72rCqLjp6cQIJ9JOtDG
-   UTpaUW0vkvzFOMKknNYPGnfonsXsBNl2qtMv80XIAMmbpOYO+vJvNejXW
-   c+DGwEll8gSA1WdQ9t2d/JuSaremWjxkxL70thhatbCIwOc1jyUKusFix
-   Oeo+H7FRyyN6N0WnpJo+b5MrCP04rv66bP4AxVk7yYibkevPK9+HNnPKE
-   YZ68w6C/UGdKhpIMhKYOjS1qvJdU90RV5yFHEghcd1+2jBp4Z+MecA5xL
-   w==;
-X-CSE-ConnectionGUID: IPycqGdCQuO8A67lEIfExg==
-X-CSE-MsgGUID: Eq9z8BPyQ3G/l1aW+qYJJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="76424105"
-X-IronPort-AV: E=Sophos;i="6.19,300,1754982000"; 
-   d="scan'208";a="76424105"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 19:21:06 -0800
-X-CSE-ConnectionGUID: 4e/D2gj7Qk2+8OeiI7Enng==
-X-CSE-MsgGUID: 005ZEOtXRIGLhWbS4tTcmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,300,1754982000"; 
-   d="scan'208";a="189050696"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 19:21:05 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 12 Nov 2025 19:21:01 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 12 Nov 2025 19:21:01 -0800
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.62) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 12 Nov 2025 19:21:01 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TyI5L3N5fK75qFmGIAF6yvWjSM/G4DjkX9Zv6ZXgwv+Sh4lnyEdq+JrPhRHIpRBRbmqbVVaGW/KmLCNVcmLoTH/XpLIsUYcuV81UCIqqJeEhV/bCzXYpDe2Wbio2y/cDDqJHVmuQN0rgnSN2lTWUrBjqi1CGcSYGAkgsxujkH0LG8KvdGrC3BiGvfSqJAJ5VAJmjb7QyOdvz47BVQ89a3+sGQHjNwDnyc3f0HpCM7s5M3Kg7oxDBM/fQ4H3BUrzvp9dgUnLxBwMXtXmw79mUOjuBjVnIj0xXDKev0kiOLDUZg5HaID0P9Ixv9ZL7iX/Oz1s7HiCyhxaJrFIBBllnGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ya+siV3s4B54/OC4P5Yn4Tgc4FyUqjgJoOueazMRpJc=;
- b=SIkEnM1L9Kn2R57cAjfNyeW5dDvGkeKGIgZZAr44ZjiaHC6NjaoXdXLbsNWVEPw2BWmrguRHM9YoB2/qmlkIVAuR55iAD3hCPUonuqcO0wuVCdwyT9mmpFmbdfSSLVYxrtuDEg/qNPaPMc5Bdj8UUwTs8PLdg9ibd+kVcknUs+1vK2fkvwedMDEjBYIkDIqWmm5UIuiK4tjAI26Iz2nDOlsCRHrjsfJ0oEgoj/SSPz5uSFKSvuBh11VWQhJwE+/9y0Eqah8jJoNDTALEoaMFVvjszg4IQ8fD7ftbpldpv8Rt/r0/FhFJqS0NZJiOpGaU2qPxCEo8zebzaKgE7CLRiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
- by LV8PR11MB8748.namprd11.prod.outlook.com (2603:10b6:408:200::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Thu, 13 Nov
- 2025 03:20:59 +0000
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::cfad:add4:daad:fb9b]) by CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::cfad:add4:daad:fb9b%4]) with mapi id 15.20.9320.013; Thu, 13 Nov 2025
- 03:20:59 +0000
-Date: Thu, 13 Nov 2025 11:20:46 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: "Xin Li (Intel)" <xin@zytor.com>
-CC: <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <pbonzini@redhat.com>, <seanjc@google.com>,
-	<corbet@lwn.net>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<luto@kernel.org>, <peterz@infradead.org>, <andrew.cooper3@citrix.com>,
-	<hch@infradead.org>, <sohil.mehta@intel.com>
-Subject: Re: [PATCH v9 22/22] KVM: nVMX: Enable VMX FRED controls
-Message-ID: <aRVOjoRNNmI8/wa4@intel.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-23-xin@zytor.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251026201911.505204-23-xin@zytor.com>
-X-ClientProxiedBy: KL1PR02CA0021.apcprd02.prod.outlook.com
- (2603:1096:820:d::8) To CH3PR11MB8660.namprd11.prod.outlook.com
- (2603:10b6:610:1ce::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FPu7h28w"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-298456bb53aso3902095ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 20:40:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763008834; x=1763613634; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FDmPn0Nf9DwhMNzLqfPhzr9P36pEvch2Q8c/oMsgpUY=;
+        b=FPu7h28w5Bd7nPim9PcqKY2VEjzhmMTF01nGfSGnJv4fgOw8lmKEzMPEEWaACULMzd
+         vto5rZQWjyzOPC+geQDWJO6vbIsdF5mQjiEDJScJe5WmvyDlz+uRrHXiEloSRnoHYnxk
+         S7nW7O7dK8FN7LlSPkuYvZx9BO7mg6u4zKupS9ynUjxj2emMKcej1CZIcvv0XSwBBPYT
+         5TUDnY+5mO3fzQCm7rNHzZkBF5dHDOxbp7MZQcKR2GZxIDAq3Z684GKbVrordU9velSl
+         Ri1WcvlQqy1gSxln84sbitZ4XCAo6CwnwyHaidumbeJqYnjuCR1Er35JkFtow9j8Rw2B
+         4rfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763008834; x=1763613634;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FDmPn0Nf9DwhMNzLqfPhzr9P36pEvch2Q8c/oMsgpUY=;
+        b=it5CU52Kl4yczjnwm+P0g/CvjlwRGa+MguWHnh7nqBdvBmRaldDeZm2qQuc5tWbI9D
+         s4UQ6WqcsBLbccFkLU1jiwQ9012jY2/nea2zZq5Rn9dmCVZZ6OrbSDQkHaTij68rR7sb
+         3qwmbKqt2A20zqLWg5RVICGjdyx6yaS49lVmzvXNkto8lJ7Ez2bFH3X74IjPROS34qpX
+         lrunCg/UQ5d3RZ3GCo0sKosceDnkKR42yoc8tJqB+PHN2wvY+EaFitTxSnuFzqX7bluZ
+         59uTeKPuYYjIWRSEq4ShyG1pCbSOiiFEf+KRunhd93s+r7TPqRCTpdr+phgjHP/DPIzP
+         xO4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU0aVQCE4MbJk8z7ssgVGe6W15c5IhyObKQCzleZDbFCLdTe1hK7DFrb5gvnsFhCMGvQOVXxye1aI0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0q/z5wpCVn5TcMC4LgcyscaDCMldWMhJBd7Zh43qnNEf1gQU9
+	duSb/qJhjzBFjqnwpQ1nnzwXXNRpFmUrtxdYxE87ptDBul3Tn1E3wZOP
+X-Gm-Gg: ASbGnctnQ83myXXeFqNJNdpvPcdOkdiqjl1xWewl32iZ4QwFWgstGjFwgKrAucf7b/a
+	6MuXOEcsRQRLLu7Xzl3gD88iylehwiYytVorEhSvEXFGx1TOjJJSHCQZy1Eq4+rQohOn7iuvBjJ
+	nkhr3czLKrFBlWLLFaoB6zcaz0KIjvlAU2PRAzwUjStgz8Cn0qmXebUyJHWuBuOVx9bSatM2Tkr
+	Tp0gg2AV1wRbkF6QIDfwAENi3I1Fz+qjvWYbIvEoUhTT0G4hMyrBHiC4Au7IeW8GFhLnzj/IvoI
+	aJ7tCYVNKEZz6DQZvPMffxV/HCC0nwDDge7rf7/BfkczEGCWP+DZPbzAJjeaZYjDjSeGS6kx1xI
+	J3HR9EfD/ZbXWJl3Hve0ZnAYTRwFhyDXNnMEaH04aZnwqyXxP/WMx4pBG1l/Gk5TP2GCtYuFueG
+	uIqz9v3y8/yeZnamrf/XgJTQ==
+X-Google-Smtp-Source: AGHT+IF0ZSMjJ2Lc8kz3EXKwlmPjL5NLaFbg0SkOYJJftW8mAPB0mC+cHp/6QWluZgrL5V9rxEgvaA==
+X-Received: by 2002:a17:902:e788:b0:297:e69d:86ac with SMTP id d9443c01a7336-2984edc8d1bmr74152995ad.39.1763008834480;
+        Wed, 12 Nov 2025 20:40:34 -0800 (PST)
+Received: from localhost ([45.8.220.62])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2b0d68sm8683655ad.61.2025.11.12.20.40.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Nov 2025 20:40:33 -0800 (PST)
+Date: Thu, 13 Nov 2025 12:40:30 +0800
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-perf-users@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	workflows@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v8 00/27] mm/ksw: Introduce KStackWatch debugging tool
+Message-ID: <aRVhL91rSZXyZ83D@ndev>
+References: <20251110163634.3686676-1-wangjinchao600@gmail.com>
+ <aRIh4pBs7KCDhQOp@casper.infradead.org>
+ <aRLmGxKVvfl5N792@ndev>
+ <aRTv0eHfX0j8vJOW@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|LV8PR11MB8748:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2cf4c24d-fd1f-4750-630d-08de2263aa87
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tCHtaiimeaAb+T4KQpGsRe/rtljMSesoLK1jaY8qH9fVCToXRXR3v/E0pgrC?=
- =?us-ascii?Q?tAjLAalf/Vrbrz/fb2Aq4zwfPMiR8oBne1YzgaNkacxm0dEdqHkdmNUdw5Vv?=
- =?us-ascii?Q?Tjn0CdJRumrZ6+314y3zjb38DRSQOj166pSZJnIomS6Zxwy+FE8/Mjlu5P5t?=
- =?us-ascii?Q?Y0wEMJM+c3GEYpsVnSoUU9aFkZK6oCEbvao4e/nQdlz/GBdp5an/XO0U4Pjk?=
- =?us-ascii?Q?0RB8YnhF0ZP+VZVI56tYKxa9P0IXwMM0AEndilHGRBvD5PTB8AUEgJFlGHfp?=
- =?us-ascii?Q?93HAJDeOdMXW53+DFDB2yu10E8f8KP3uy9RDqA+Sw9KFbaR69yFekhKT4GRi?=
- =?us-ascii?Q?IeVnEMcSfOUmivJ3Eir76FPSN0F5i2yeegz7jpFcH6Ufde+BJ7ThJSZ6uBGA?=
- =?us-ascii?Q?9LMtxKeBVBQi8zoVjq5EMGiyqTAiMF66Mq74ZuA9KrDLTTpzG9RUMEYmyQfL?=
- =?us-ascii?Q?M0TuYP6fsEHuEksA67EBqxFsU4jHikzUF+JX/JnQxUsaIH9UCcw7PghUo7BA?=
- =?us-ascii?Q?tvlUlcb7UDIp4ZUn71nx+Dq+f/ytgoUGkDa0MTp3QCdsSSSvZqtwsnjMHQlH?=
- =?us-ascii?Q?LnlAMcpLFQdJ7ksVe9i3Xf2Z1Dbze7igU9koxBu/hu+dVxbg4iTkyDkG07sk?=
- =?us-ascii?Q?myDV84Qs/O0ssx9aYmSBuwqU6cMs1xO75X9dHHX03IuUCu/ENYVZnpIM+tOn?=
- =?us-ascii?Q?A4YkSDyhBDaeA4a6dzcJRZRo0v/3ZXKKXJnagkXjlsrkyx5bwKYPV6mNZIxR?=
- =?us-ascii?Q?Fm/tnhgRf3z0yjZMVs624RnDCBvNa8vgYyuYXx0qEHdLl0UKhx/LbGDRGvXP?=
- =?us-ascii?Q?ksDzAn7VKCinoy9oz+ALX5eJ2D7/qCFh8KNEgkao1utjNo8P0pksdgFKYF2o?=
- =?us-ascii?Q?QwbJ8VMcTA1r9tMFci4WfvKfTB7xt0UUqifSBCEW+FkhUX/Cie8d26hZ4ltl?=
- =?us-ascii?Q?iv5e4eS5+73n0UPTKLKdmtcwVhN/Yb0UGpM1sX8yonXGhKFYOAYuvewFfDMN?=
- =?us-ascii?Q?ylelCO8zRALxTsuaczvGdWaeNnmwTSbJ76p97GsH5TkrYzr37FG7nOzNEmpX?=
- =?us-ascii?Q?O/09gUXuvetdS2OnLQgoYgbd7oAi2zhMYxoxwYAtXYjs7+d//j5igwUjGOyG?=
- =?us-ascii?Q?SZ2xPXaXEhyav8aTp6tydOcuNHJp8v2FYY4o3jqbHaSyLIS8mcLI8Q5xVZEF?=
- =?us-ascii?Q?qEnk9h05WSUmwubP/iDTbCU+wtWIHDyLDF6tY1yoM+2sbzcDWS6HUj+bes89?=
- =?us-ascii?Q?cqt4ALKoYvK88KfHOX1G81P771qbpZiiTQY+6EON10EeSZK0ghnqXZJuWxGD?=
- =?us-ascii?Q?iQptj++wvhMeOOXGAmwiyu8PXCta7Mbe+V6y0flGo7tC4fZL1Ou6zb4RWwWS?=
- =?us-ascii?Q?g2peTcy17KQDx4TxREuf+SaDzMA2HFh32RCbltdTTEoHDpVwwqRim7XHKRnv?=
- =?us-ascii?Q?jaySzqpnE7OEtMQhyLiYF/7kPFAIg655?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xNnBNqKL/ZfWKljIwNq/IEc/zn04wd+SJu7G7MVkjPbZuonLp9xQQx2ygxFE?=
- =?us-ascii?Q?PFO28VuhYJfd3oRF5lynzjGhpAnyz2R0gpB+iw1Oqx2rlkDaahMfhnGfsYxy?=
- =?us-ascii?Q?qv9MVq/pUOIDHBpHvdcDx8LaThfRXred/Eq9E89Tpmo55MeFgbVW9UI8bjKY?=
- =?us-ascii?Q?D7zVsexFIRfDQeDI2+Pr8McwX26etZukKRMj8srW0YIUCNrc/hQDWYzrf6hd?=
- =?us-ascii?Q?M7UaNkMkCAEt00RiuyAwyWkEnb68cG1Eb1mHmXggV0SCexucNCrA4BNC2xoO?=
- =?us-ascii?Q?QqajrVXjN6TP1nL9QY170eTIkiKL7foGfQKzthTZfNyfNLLDIPeY0Ov/mn4r?=
- =?us-ascii?Q?MJ7cFEXXP2JU7zApo+b9L1SlqDrVGk8LPjd/d2jqGg9v30lP9tv7QRYkd19P?=
- =?us-ascii?Q?+znY0LxD+T3KII3d90u7JrBWFM9W6XCzUOx3qGjXKAMjP9mq93phtCm4emxb?=
- =?us-ascii?Q?Rff39EC3nkCF673Xc+JtUwxEmPFFkdHLMPFbTonIR4rOFE4jabmphUTTYIRz?=
- =?us-ascii?Q?kIkCyz2dOpFLB0iu9FZY4KNvqD1jd3ESHaHM93eP364EA8jANzZ8UUZFh4wC?=
- =?us-ascii?Q?TA7tZsHSKi2Ai8enR1GS4TOGnssNTNejNMlNBbbfR4YVM0/KY4nlfF4Fi0MX?=
- =?us-ascii?Q?v5vR8BETsUtoi/W+zfHbTCW8fIx39opPiOG0gHrwjjgmWinizjYe3zpGZtfK?=
- =?us-ascii?Q?sOP8DrNIzrjuZEBZ+NnK8mXuSMv/9hAHyeuH+BYGC5iU+A6sKZ36nCJAJWW5?=
- =?us-ascii?Q?dxF1MjAhT1aZY/ljYSAKA/yNB6lU/6x7ORyqa+9Lny1pnS6xRGDGQ5qoIU4p?=
- =?us-ascii?Q?5qbvgHkHskz2TlqW9ZXwTYv4H6H+/NIEUgfeFZ1gNV2zdcgz3kYbQjzVIaTF?=
- =?us-ascii?Q?dPYbtxZblzqR4fGMCffCld/87Yxa5GlJK7FMKGOuVw8Kz3SiUnWFv0Qc+152?=
- =?us-ascii?Q?eJRI9S/U+EK4nx0Z5plgPXJ6/M2knzpyOj3KtSf9WCdLB0xs3puHseMXA2RL?=
- =?us-ascii?Q?W9qI6hWsceF3Zhb0KzUUTdbOGF3ZNYGAznJ3cJxjXiN0jTWOhfk2JAelVRFF?=
- =?us-ascii?Q?j2VE7ZA3AtSoGRT0lMfJLCl8oXxUcSUMnM8gic06cYODuibapLvElHSyyGJm?=
- =?us-ascii?Q?XY10p1cy5CLE/T3TUZY3ylNH/hsKsmYNbwhfX7C2JFVSQz60CvHXhxPck3wM?=
- =?us-ascii?Q?yBySCEj7YSytBi8yBa1syJHwvVQpke3SNldQkxTqk9vtr8AP45M1bgSddYHU?=
- =?us-ascii?Q?+wNx0Ip3k0cx85xgeKM5tIJE5jUeb53Cy64W9TpMnLyTftAnNVbrQe48zF/Y?=
- =?us-ascii?Q?JOVFBWQstz/7JXsupBH3V3nYd/NrojxEGd0lCSnj3QbPi6KnYhbW9csZCy55?=
- =?us-ascii?Q?7cRmECV3Ba6cpkmSv271E0bKvdE4kZqTmKLdUrPTorx79qwohyhu4P6fBEOd?=
- =?us-ascii?Q?i/V6C8ppsFmmW6huDc0rSrHucidw8xZaXyxXDP0pWqpt8o5hem0Mw3WnmXX4?=
- =?us-ascii?Q?SsFMsJTX/fd7B5h/R7ti0cbcnAfCSKRFQbmgdQ6fo+5UMoB77LiPn16q6wgn?=
- =?us-ascii?Q?+aaLc5DyJpOa+3K3vaEDBByFURNBJ0Oo1/TWZ8xR?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2cf4c24d-fd1f-4750-630d-08de2263aa87
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2025 03:20:59.2546
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dH/CXGTuBC1JQV725K20v6RhSmS2GqQPKaDkpy1cTg0mjb49zq9imgudbuNI2VaM36BzHeXy6CswrCBAEkF8EQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8748
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aRTv0eHfX0j8vJOW@casper.infradead.org>
 
-On Sun, Oct 26, 2025 at 01:19:10PM -0700, Xin Li (Intel) wrote:
->From: Xin Li <xin3.li@intel.com>
->
->Permit use of VMX FRED controls in nested VMX now that support for nested
->FRED is implemented.
->
->Signed-off-by: Xin Li <xin3.li@intel.com>
->Signed-off-by: Xin Li (Intel) <xin@zytor.com>
->Tested-by: Shan Kang <shan.kang@intel.com>
->Tested-by: Xuelian Guo <xuelian.guo@intel.com>
-
-Reviewed-by: Chao Gao <chao.gao@intel.com>
-
->---
->
->Change in v5:
->* Add TB from Xuelian Guo.
->---
-> arch/x86/kvm/vmx/nested.c | 5 +++--
-> arch/x86/kvm/vmx/vmx.c    | 1 +
-> 2 files changed, 4 insertions(+), 2 deletions(-)
->
->diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
->index 37ab8250dd31..655257b34d15 100644
->--- a/arch/x86/kvm/vmx/nested.c
->+++ b/arch/x86/kvm/vmx/nested.c
->@@ -7397,7 +7397,8 @@ static void nested_vmx_setup_exit_ctls(struct vmcs_config *vmcs_conf,
-> 		 * advertise any feature in it to nVMX until its nVMX support
-> 		 * is ready.
-> 		 */
-
-Shouldn't this comment be removed? I suppose it was a note to reviewers
-explaining why it's hard-coded to 0. Since some features have been added, the
-comment can be dropped.
-
->-		msrs->secondary_exit_ctls &= 0;
->+		msrs->secondary_exit_ctls &= SECONDARY_VM_EXIT_SAVE_IA32_FRED |
->+					     SECONDARY_VM_EXIT_LOAD_IA32_FRED;
-> 	}
-> }
+On Wed, Nov 12, 2025 at 08:36:33PM +0000, Matthew Wilcox wrote:
+> [dropping all the individual email addresses; leaving only the
+> mailing lists]
 > 
->@@ -7413,7 +7414,7 @@ static void nested_vmx_setup_entry_ctls(struct vmcs_config *vmcs_conf,
-> 		VM_ENTRY_IA32E_MODE |
-> #endif
-> 		VM_ENTRY_LOAD_IA32_PAT | VM_ENTRY_LOAD_BNDCFGS |
->-		VM_ENTRY_LOAD_CET_STATE;
->+		VM_ENTRY_LOAD_CET_STATE | VM_ENTRY_LOAD_IA32_FRED;
-> 	msrs->entry_ctls_high |=
-> 		(VM_ENTRY_ALWAYSON_WITHOUT_TRUE_MSR | VM_ENTRY_LOAD_IA32_EFER |
-> 		 VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL);
->diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
->index 04442f869abb..8f3805a71a97 100644
->--- a/arch/x86/kvm/vmx/vmx.c
->+++ b/arch/x86/kvm/vmx/vmx.c
->@@ -7994,6 +7994,7 @@ static void nested_vmx_cr_fixed1_bits_update(struct kvm_vcpu *vcpu)
+> On Wed, Nov 12, 2025 at 10:14:29AM +0800, Jinchao Wang wrote:
+> > On Mon, Nov 10, 2025 at 05:33:22PM +0000, Matthew Wilcox wrote:
+> > > On Tue, Nov 11, 2025 at 12:35:55AM +0800, Jinchao Wang wrote:
+> > > > Earlier this year, I debugged a stack corruption panic that revealed the
+> > > > limitations of existing debugging tools. The bug persisted for 739 days
+> > > > before being fixed (CVE-2025-22036), and my reproduction scenario
+> > > > differed from the CVE report—highlighting how unpredictably these bugs
+> > > > manifest.
+> > > 
+> > > Well, this demonstrates the dangers of keeping this problem siloed
+> > > within your own exfat group.  The fix made in 1bb7ff4204b6 is wrong!
+> > > It was fixed properly in 7375f22495e7 which lists its Fixes: as
+> > > Linux-2.6.12-rc2, but that's simply the beginning of git history.
+> > > It's actually been there since v2.4.6.4 where it's documented as simply:
+> > > 
+> > >       - some subtle fs/buffer.c race conditions (Andrew Morton, me)
+> > > 
+> > > As far as I can tell the changes made in 1bb7ff4204b6 should be
+> > > reverted.
+> > 
+> > Thank you for the correction and the detailed history. I wasn't aware this
+> > dated back to v2.4.6.4. I'm not part of the exfat group; I simply
+> > encountered a bug that 1bb7ff4204b6 happened to resolve in my scenario.
+> > The timeline actually illustrates the exact problem KStackWatch addresses:
+> > a bug introduced in 2001, partially addressed in 2025, then properly fixed
+> > months later. The 24-year gap suggests these silent stack corruptions are
+> > extremely difficult to locate.
 > 
-> 	entry = kvm_find_cpuid_entry_index(vcpu, 0x7, 1);
-> 	cr4_fixed1_update(X86_CR4_LAM_SUP,    eax, feature_bit(LAM));
->+	cr4_fixed1_update(X86_CR4_FRED,       eax, feature_bit(FRED));
+> I think that's a misdiagnosis caused by not understanding the limited
+> circumstances in which the problem occurs.  To hit this problem, you
+> have to have a buffer_head allocated on the stack.  That doesn't happen
+> in many places:
 > 
-> #undef cr4_fixed1_update
-> }
->-- 
->2.51.0
->
+> fs/buffer.c:    struct buffer_head tmp = {
+> fs/direct-io.c: struct buffer_head map_bh = { 0, };
+> fs/ext2/super.c:        struct buffer_head tmp_bh;
+> fs/ext2/super.c:        struct buffer_head tmp_bh;
+> fs/ext4/mballoc-test.c: struct buffer_head bitmap_bh;
+> fs/ext4/mballoc-test.c: struct buffer_head gd_bh;
+> fs/gfs2/bmap.c: struct buffer_head bh;
+> fs/gfs2/bmap.c: struct buffer_head bh;
+> fs/isofs/inode.c:       struct buffer_head dummy;
+> fs/jfs/super.c: struct buffer_head tmp_bh;
+> fs/jfs/super.c: struct buffer_head tmp_bh;
+> fs/mpage.c:     struct buffer_head map_bh;
+> fs/mpage.c:     struct buffer_head map_bh;
+> 
+> It's far more common for buffer_heads to be allocated from slab and
+> attached to folios.  The other necessary condition to hit this problem
+> is that get_block() has to actually read the data from disk.  That's
+> not normal either!  Most filesystems just fill in the metadata about
+> the block and defer the actual read to when the data is wanted.  That's
+> the high-performance way to do it.
+> 
+> So our opportunity to catch this bug was highly limited by the fact that
+> we just don't run the codepaths that would allow it to trigger.
+> 
+> > > > Initially, I enabled KASAN, but the bug did not reproduce. Reviewing the
+> > > > code in __blk_flush_plug(), I found it difficult to trace all logic
+> > > > paths due to indirect function calls through function pointers.
+> > > 
+> > > So why is the solution here not simply to fix KASAN instead of this
+> > > giant patch series?
+> > 
+> > KASAN caught 7375f22495e7 because put_bh() accessed bh->b_count after
+> > wait_on_buffer() of another thread returned—the stack was invalid.
+> > In 1bb7ff4204b6 and my case, corruption occurred before the victim
+> > function of another thread returned. The stack remained valid to KASAN,
+> > so no warning triggered. This is timing-dependent, not a KASAN deficiency.
+> 
+> I agree that it's a narrow race window, but nevertheless KASAN did catch
+> it with ntfs and not with exfat.  The KASAN documentation states that
+> it can catch this kind of bug:
+> 
+> Generic KASAN supports finding bugs in all of slab, page_alloc, vmap, vmalloc,
+> stack, and global memory.
+> 
+> Software Tag-Based KASAN supports slab, page_alloc, vmalloc, and stack memory.
+> 
+> Hardware Tag-Based KASAN supports slab, page_alloc, and non-executable vmalloc
+> memory.
+> 
+> (hm, were you using hwkasan instead of swkasan, and that's why you
+> couldn't see it?)
+> 
+You're right that these conditions are narrow. However, when these bugs
+hit, they're severe and extremely difficult to debug. This year alone,
+this specific buffer_head bug was hit at least twice: 1bb7ff4204b6 and my
+case. Over 24 years, others likely encountered it but lacked tools to
+pinpoint the root cause.
+
+I used software KASAN for the exfat case, but the bug didn't reproduce,
+likely due to timing changes from the overhead. More fundamentally, the
+corruption was in-bounds within active stack frames, which KASAN cannot
+detect by design.
+
+Beyond buffer_head, I encountered another stack corruption bug in network
+drivers this year. Without KStackWatch, I had to manually instrument the
+code to locate where corruption occurred.
+
+These issues may be more common than they appear. Given Linux's massive
+user base combined with the kernel's huge codebase and the large volume of
+driver code, both in-tree and out-of-tree, even narrow conditions will be
+hit.
+
+Since posting earlier versions, several developers have contacted me about
+using KStackWatch for their own issues. KStackWatch fills a gap: it can
+pinpoint in-bounds stack corruption with much lower overhead than KASAN.
