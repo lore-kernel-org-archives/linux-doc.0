@@ -1,190 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F661DDC0B;
-	Thu, 13 Nov 2025 13:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF98821D3F3;
+	Thu, 13 Nov 2025 13:54:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763041090; cv=none; b=h353iJQPWs9ZvdKOAY+jCEF8qv9lAy+rqV8jtsW+VvyBPH9cNtUYU9EfrdFnFqQ0Q08nQc9swWfEPxqKoTOgJ9YR5Xpsll6hwtmNHcNyF+pJidqYtXga+zv9mZxRy3oz1ODolUHX0kXmwhJuI9ggK+/DGwcBgJew+8kvkG2M30c=
+	t=1763042076; cv=none; b=uP+zi14Gq+Z15wttsGfoNJCptv+GncSNyucBk4xQM9DgLM7ienpNua89ZR4sNEM1wXTHAVd2aX0H9rliQhGLPjfOKlS7cSEa11Mzz/JZKa5Q4uQTy4sTaYQam6YsydMAlzNPupnqJiJBoK+VSmalfPFoa/J75gHcoFuRJ122SRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763041090; c=relaxed/simple;
-	bh=TanqNDDou92JeIIiWS3c/wMf1Ii6b9BkUyE/vwk57VY=;
+	s=arc-20240116; t=1763042076; c=relaxed/simple;
+	bh=+eiYuQTlJMcgq/um/mZzzKGyhjmsIRw7x4ekIWvmY/I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=omCKQHeYkFK7xPEaoxHGj9Vug4JLwub6xp9fcjrY5SslP+emC+c1JsJPZydAoQrLehj44U46VTNwqPBZv6HbCyoL7Q7PW5MsY5QLGfboMqOQ/MtLIgYXm0nap0OdQpmFl+xpajBRwi46Uhfg2QhW25jqyb4/v/Q5ViLaEa49tF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2SPT7ui; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uQN33V/A6HJhLytYsRW2fL9uflF0Se0MmjGqXcxv0JeE9PGMC9pjBC13v4ECRZiodExfPOG3Jqq0XnMxzJD/MNshK+vbWNZPQaPmRpMMdt68ykfKmqhQRXY9jPvCNFk20Yg7KAlZ8uwaS/0s/8QTD+Hlb0DTl32Qv2e+h/cMrQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=txJkF5FT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2SPT7ui"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 363CCC16AAE;
-	Thu, 13 Nov 2025 13:37:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="txJkF5FT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40204C19422;
+	Thu, 13 Nov 2025 13:54:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763041090;
-	bh=TanqNDDou92JeIIiWS3c/wMf1Ii6b9BkUyE/vwk57VY=;
+	s=k20201202; t=1763042075;
+	bh=+eiYuQTlJMcgq/um/mZzzKGyhjmsIRw7x4ekIWvmY/I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U2SPT7uiGDnCCG6zb5qV815Sdj+r/uoSMOEc9j/lDhdWJRl6ShlV3SlTJuqDT9Tgk
-	 RFqKZr6iJlXWjCYWomACcsJ9ChroZfCyo9zV3HtJ+rhsSZp8cOA5ZLSvx9UykS0IlE
-	 sObeATI2JOfkex303JF7L8VsylgtKzcJMtxpc5OB2cLwBE0nBgoPsmDmbuFkOY/lYw
-	 IHqX06nHuXISwbnGRAH11InGI6hhbI8mTYsSN1dTFb5KoYyEe9EtrJBRCEg2qK0fhB
-	 H1BCrwQp8B38S+H3T7Xw/MFbxm0/tJwuhV0uHb4Iaum1bU+pryW8wlml6fPOM/Fadb
-	 TVU+5ngjiikxw==
-Date: Thu, 13 Nov 2025 15:37:44 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v5 01/22] liveupdate: luo_core: luo_ioctl: Live Update
- Orchestrator
-Message-ID: <aRXfKPfoi96B68Ef@kernel.org>
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-2-pasha.tatashin@soleen.com>
+	b=txJkF5FTgucRclDGl/+nRNJi8tlfSGLE4+IQ9ck78w9qoy9Th7UppRKQGB5QHsYgZ
+	 LRC2bLqh4G7rf/o33v+aCv3LApwXMQNb5Y3GsBDqRjuNeDWP2TGlyq/ShP6grhAckk
+	 XIJUeEpmvalPFJdjvq6CmUBD5njyBiMEEn7Q8Q3+iP8qdo6ZT5Ose/qcp/txA14otR
+	 Ne5b4FbsDVOPXQouMDOaMQUxub3Xl6U2ww8uXC+yIpC33UEMEOgdzvoq8mKulRdet0
+	 J8dhLzyKxMgfNgyVdmSTtjBc4fUgFr5k2gbFxjL9hh1W29sJriI6qCgMdUQ6Ll6FIo
+	 vLDyjHVViO50A==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vJXmT-0000000BIvM-18qS;
+	Thu, 13 Nov 2025 14:54:33 +0100
+Date: Thu, 13 Nov 2025 14:54:33 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jiaqi Yan <jiaqiyan@google.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, maz@kernel.org, 
+	oliver.upton@linux.dev, duenwen@google.com, rananta@google.com, jthoughton@google.com, 
+	vsethi@nvidia.com, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	shuah@kernel.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] VMM can handle guest SEA via KVM_EXIT_ARM_SEA
+Message-ID: <wuuvrqxezybzdnijarlom4wvxlfgzgjoakwt7ixittz2jb4mal@ngjvq2rrt2ps>
+References: <20251013185903.1372553-1-jiaqiyan@google.com>
+ <20251020144646.GT316284@nvidia.com>
+ <CACw3F528D6odL3MJWb28Y4HVOLo56tMQXBpvti5nhczdpMxOdQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251107210526.257742-2-pasha.tatashin@soleen.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACw3F528D6odL3MJWb28Y4HVOLo56tMQXBpvti5nhczdpMxOdQ@mail.gmail.com>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Fri, Nov 07, 2025 at 04:02:59PM -0500, Pasha Tatashin wrote:
-> Introduce LUO, a mechanism intended to facilitate kernel updates while
-> keeping designated devices operational across the transition (e.g., via
-> kexec). The primary use case is updating hypervisors with minimal
-> disruption to running virtual machines. For userspace side of hypervisor
-> update we have copyless migration. LUO is for updating the kernel.
-> 
-> This initial patch lays the groundwork for the LUO subsystem.
-> 
-> Further functionality, including the implementation of state transition
-> logic, integration with KHO, and hooks for subsystems and file
-> descriptors, will be added in subsequent patches.
-> 
-> Create a character device at /dev/liveupdate.
-> 
-> A new uAPI header, <uapi/linux/liveupdate.h>, will define the necessary
-> structures. The magic number for IOCTL is registered in
-> Documentation/userspace-api/ioctl/ioctl-number.rst.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
+Hi,
 
-...
+On Mon, Nov 10, 2025 at 09:41:33AM -0800, Jiaqi Yan wrote:
+> On Mon, Oct 20, 2025 at 7:46 AM Jason Gunthorpe <jgg@nvidia.com> wrote:
+> >
+> > On Mon, Oct 13, 2025 at 06:59:00PM +0000, Jiaqi Yan wrote:
+> > > Problem
+> > > =======
+> > >
+> > > When host APEI is unable to claim a synchronous external abort (SEA)
+> > > during guest abort, today KVM directly injects an asynchronous SError
+> > > into the VCPU then resumes it. The injected SError usually results in
+> > > unpleasant guest kernel panic.
+> > >
+> > > One of the major situation of guest SEA is when VCPU consumes recoverable
+> > > uncorrected memory error (UER), which is not uncommon at all in modern
+> > > datacenter servers with large amounts of physical memory. Although SError
+> > > and guest panic is sufficient to stop the propagation of corrupted memory,
+> > > there is room to recover from an UER in a more graceful manner.
+> > >
+> > > Proposed Solution
+> > > =================
+> > >
+> > > The idea is, we can replay the SEA to the faulting VCPU. If the memory
+> > > error consumption or the fault that cause SEA is not from guest kernel,
+> > > the blast radius can be limited to the poison-consuming guest process,
+> > > while the VM can keep running.
 
-> @@ -0,0 +1,46 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +
-> +/*
-> + * Userspace interface for /dev/liveupdate
-> + * Live Update Orchestrator
-> + *
-> + * Copyright (c) 2025, Google LLC.
-> + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> + */
-> +
-> +#ifndef _UAPI_LIVEUPDATE_H
-> +#define _UAPI_LIVEUPDATE_H
-> +
-> +#include <linux/ioctl.h>
-> +#include <linux/types.h>
-> +
-> +/**
-> + * DOC: General ioctl format
-> + *
+I like the idea of having a "guest-first"/"host-first" approach for APEI,
+letting userspace (likely rasdaemon) to decide to handle hardware errors
+either at the guest or at the host. Yet, it sounds wrong to have a flag
+called KVM_EXIT_ARM_SEA, as:
 
-It seems it's not linked from Documentation/.../liveupdate.rst
+    1. This is not exclusive to ARM;
+    2. There are other notification mechanisms that can rise an APEI
+       errors. For instance QEMU code defines:
 
-> + * The ioctl interface follows a general format to allow for extensibility. Each
-> + * ioctl is passed in a structure pointer as the argument providing the size of
-> + * the structure in the first u32. The kernel checks that any structure space
-> + * beyond what it understands is 0. This allows userspace to use the backward
-> + * compatible portion while consistently using the newer, larger, structures.
-> + *
-> + * ioctls use a standard meaning for common errnos:
-> + *
-> + *  - ENOTTY: The IOCTL number itself is not supported at all
-> + *  - E2BIG: The IOCTL number is supported, but the provided structure has
-> + *    non-zero in a part the kernel does not understand.
-> + *  - EOPNOTSUPP: The IOCTL number is supported, and the structure is
-> + *    understood, however a known field has a value the kernel does not
-> + *    understand or support.
-> + *  - EINVAL: Everything about the IOCTL was understood, but a field is not
-> + *    correct.
-> + *  - ENOENT: A provided token does not exist.
-> + *  - ENOMEM: Out of memory.
-> + *  - EOVERFLOW: Mathematics overflowed.
-> + *
-> + * As well as additional errnos, within specific ioctls.
+    ACPI_GHES_NOTIFY_POLLED = 0,
+    ACPI_GHES_NOTIFY_EXTERNAL = 1,
+    ACPI_GHES_NOTIFY_LOCAL = 2,
+    ACPI_GHES_NOTIFY_SCI = 3,
+    ACPI_GHES_NOTIFY_NMI = 4,
+    ACPI_GHES_NOTIFY_CMCI = 5,
+    ACPI_GHES_NOTIFY_MCE = 6,
+    ACPI_GHES_NOTIFY_GPIO = 7,
+    ACPI_GHES_NOTIFY_SEA = 8,
+    ACPI_GHES_NOTIFY_SEI = 9,
+    ACPI_GHES_NOTIFY_GSIV = 10,
+    ACPI_GHES_NOTIFY_SDEI = 11,
+    ACPI_GHES_NOTIFY_RESERVED = 12
 
-...
+ - even on arm. QEMU currently implements two mechanisms (SEA and GPIO);
+ - once we implement the same feature on Intel, it will likely use
+   NMI, MCE and/or SCI.
 
-> --- a/kernel/liveupdate/Kconfig
-> +++ b/kernel/liveupdate/Kconfig
-> @@ -1,7 +1,34 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Copyright (c) 2025, Google LLC.
-> +# Pasha Tatashin <pasha.tatashin@soleen.com>
-> +#
-> +# Live Update Orchestrator
-> +#
->  
->  menu "Live Update and Kexec HandOver"
->  
-> +config LIVEUPDATE
-> +	bool "Live Update Orchestrator"
-> +	depends on KEXEC_HANDOVER
-> +	help
-> +	  Enable the Live Update Orchestrator. Live Update is a mechanism,
-> +	  typically based on kexec, that allows the kernel to be updated
-> +	  while keeping selected devices operational across the transition.
-> +	  These devices are intended to be reclaimed by the new kernel and
-> +	  re-attached to their original workload without requiring a device
-> +	  reset.
-> +
-> +	  Ability to handover a device from current to the next kernel depends
-> +	  on specific support within device drivers and related kernel
-> +	  subsystems.
-> +
-> +	  This feature primarily targets virtual machine hosts to quickly update
-> +	  the kernel hypervisor with minimal disruption to the running virtual
-> +	  machines.
-> +
-> +	  If unsure, say N.
-> +
+So, IMO, the best would be to use a more generic name like
+KVM_EXIT_APEI or KVM_EXIT_GHES - or maybe even name it the way it really
+is meant: KVM_EXIT_ACPI_GUEST_FIRST.
 
-Not a big deal, but since LIVEUPDATE depends on KEXEC_HANDOVER, shouldn't
-it go after KEXEC_HANDOVER?
+That's said, I'd say that we need an implementation on a real userspace
+applicaton to be able to test it (rasdaemon being the obvious candidate).
 
->  config KEXEC_HANDOVER
->  	bool "kexec handover"
->  	depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FILE
+In order to test, the better is to use the new QEMU code (for 10.2) to
+allow injecting hardware errors via QMP.
 
--- 
-Sincerely yours,
-Mike.
+Regards,
+Mauro
