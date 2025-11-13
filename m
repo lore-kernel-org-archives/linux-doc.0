@@ -1,376 +1,190 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1F935029B
-	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 13:20:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F661DDC0B;
+	Thu, 13 Nov 2025 13:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763040029; cv=none; b=sSDThE9qQgY8m0n9ukNons3GjSXdmHbo6Ub3KQsebGMtMvSp0PxHeRfhd9QH7m/oulFAh7PMmRckq+oRx8FtiK0d6NUaU5eb+FaJIs9LFJoLdJI/CQiopk5UAJ6s0t872YvxqoEiSsXfQtnUwo408r7FXh29sD0nH6LzVC9JolQ=
+	t=1763041090; cv=none; b=h353iJQPWs9ZvdKOAY+jCEF8qv9lAy+rqV8jtsW+VvyBPH9cNtUYU9EfrdFnFqQ0Q08nQc9swWfEPxqKoTOgJ9YR5Xpsll6hwtmNHcNyF+pJidqYtXga+zv9mZxRy3oz1ODolUHX0kXmwhJuI9ggK+/DGwcBgJew+8kvkG2M30c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763040029; c=relaxed/simple;
-	bh=CWufZ3aWICevbswGJdfZFHdWkmCHzWxSngqMWXLAGNA=;
+	s=arc-20240116; t=1763041090; c=relaxed/simple;
+	bh=TanqNDDou92JeIIiWS3c/wMf1Ii6b9BkUyE/vwk57VY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GnwPbSRW1BiHsJaVy52/gzC5Pn0kjS3EFFw9zmyG0L/wOyJ8g5u9h53ZjScU8hZRktxo61+7gb3ZpA7Xwbu9sVDmB91W5K8DEykOVBMoJsP4UPMct3GwnXzLDVW4Xz9nLOC5GaHSsFhoLPw46H8Ciyp288in64srL7BXP0j2zns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JQQN8ukn; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=omCKQHeYkFK7xPEaoxHGj9Vug4JLwub6xp9fcjrY5SslP+emC+c1JsJPZydAoQrLehj44U46VTNwqPBZv6HbCyoL7Q7PW5MsY5QLGfboMqOQ/MtLIgYXm0nap0OdQpmFl+xpajBRwi46Uhfg2QhW25jqyb4/v/Q5ViLaEa49tF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2SPT7ui; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JQQN8ukn"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-bc274b8ab7dso631680a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 05:20:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763040026; x=1763644826; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mR9RWIL7H8zmL2WU5RCX+NFeC7ROJ5E1DQWYfodq40c=;
-        b=JQQN8ukne1tUxo5fkFN5UsAYrxG2FuozHekS+axMBKtoOu8Ges1sBc51mj6Bqckoi6
-         UJGW5xqwZd09sCSDdbWeGD64we6323sZ5htbdCk1raeP8joDNPMj75aWTUYYCNQEPHss
-         pNvTl64f5niamnPN+x9Plzv8fFk+qt0pF35O5aCG0ozRb+z6pGHOmJ1LRUzcjA69moQ+
-         q9kA3MmFNi/bLGSYY+EPQJn52xqk7keZY1EZaSTzyJBXzjA+UDEzhjkU/EN5u2Za+FUD
-         Pxms6uNOMMiATWkCAFaq2jWq4KiQiVbPqOkRr3CY0KztMYqBY88P2Of2ceJ2GHkeIjfj
-         OJaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763040026; x=1763644826;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mR9RWIL7H8zmL2WU5RCX+NFeC7ROJ5E1DQWYfodq40c=;
-        b=oD02pGEq1/N19wNki0V41gLUCTLUlDWgI79TMQCJZQQ98rCBuz4kootvMCx0pZk7Qv
-         V8JCZFj445p0u2Ya07JVIszSoCptYWgVIInBOlAA3QpBSk5V/xw3/b0rEx5j7QuiTYYV
-         V5mXdMSkRV6MRtazLWUeRcpDSBx5MRYREJxc3E3jo+Dh+ujo3Q+JAEfhALiibvtFC1qM
-         7r6sn6CJbusMO+Q0pF3CQ84eTRco9KKqMGccAv//opfMVo34rwi7gSxu2tA/NxmOrurE
-         MoQwQoQhL5R/wSzsmiP5or+/t/z4a28NYP7HpH5LQniADQPMb6gOQfGci07m6KslRGfA
-         trBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVmeQxzN9nBoQOFX6eK5HIDLLKTRaLeKq/W0VA6yGFhXL6fNo/MUBXA0AIkRFlwawypPZvw0wQuHoI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyd4UL6CoULUg71bFsXrKNVL9UxqyUNn/eoQK1g4hsCniqhv2aR
-	hcnuIX4h3Db9egZewHCSaZAfCHRpAuOVemub69Uq+3b6CHlFCohkkevU
-X-Gm-Gg: ASbGnctLKZg0BaD99CO0b4PvE9YtgJkBTLmWBWamRBxNh0ALNNYisOWF2+JwUA2+fCe
-	TH8Aok86iRUrsH0iSTiOjPudAb72agvbHHQMHYqChcTOs8mXZiHip5pRGbAWmnvGDboBbkFK9WE
-	8QWnIm2Zn8kW+EokF+f8r7lAn+C9Tyb0qBkzmBmAr5C0HFa0dt4RnBresvvNCj6enYz5rXurcVJ
-	NFAkDAG8CmyVFwgEH0OKqe5qfDdR1fHh9yzEBpWnETP9cV1Y5ubjZvs+vQ1NZPjPr/2drxnfh3w
-	B+lnQLY68QppwbofGWSPle4DsCH9iZUCnBoePeclK++Vgb6rjr7PkXJCwxlmHQoArgOBXrCMBdk
-	mj+9BxF8Y6gzE1znpkTmCxQzmKD2R79wQ/56XusS3z626iM7clKt/VCmqqUVnUewGn9UmvFSCYp
-	BlhlGpMf/KBw==
-X-Google-Smtp-Source: AGHT+IFL27X63nvi0VP0wYBacQeGW9sANAuXPW2TawVdUInxz68hcU4j60ThwM3hzBhLfP46DW8t8g==
-X-Received: by 2002:a17:902:f610:b0:295:395c:ebf9 with SMTP id d9443c01a7336-2984ee2960cmr79762635ad.55.1763040026180;
-        Thu, 13 Nov 2025 05:20:26 -0800 (PST)
-Received: from localhost ([2804:30c:1661:8a00:578a:911c:ac25:24a6])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-2985c2bed39sm26108565ad.77.2025.11.13.05.20.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Nov 2025 05:20:25 -0800 (PST)
-Date: Thu, 13 Nov 2025 10:21:44 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: rodrigo.alencar@analog.com
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 2/3] dt-bindings: iio: frequency: add adf41513
-Message-ID: <aRXbaMGbxdbwgUhi@debian-BULLSEYE-live-builder-AMD64>
-References: <20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com>
- <20251110-adf41513-iio-driver-v1-2-2df8be0fdc6e@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2SPT7ui"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 363CCC16AAE;
+	Thu, 13 Nov 2025 13:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763041090;
+	bh=TanqNDDou92JeIIiWS3c/wMf1Ii6b9BkUyE/vwk57VY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U2SPT7uiGDnCCG6zb5qV815Sdj+r/uoSMOEc9j/lDhdWJRl6ShlV3SlTJuqDT9Tgk
+	 RFqKZr6iJlXWjCYWomACcsJ9ChroZfCyo9zV3HtJ+rhsSZp8cOA5ZLSvx9UykS0IlE
+	 sObeATI2JOfkex303JF7L8VsylgtKzcJMtxpc5OB2cLwBE0nBgoPsmDmbuFkOY/lYw
+	 IHqX06nHuXISwbnGRAH11InGI6hhbI8mTYsSN1dTFb5KoYyEe9EtrJBRCEg2qK0fhB
+	 H1BCrwQp8B38S+H3T7Xw/MFbxm0/tJwuhV0uHb4Iaum1bU+pryW8wlml6fPOM/Fadb
+	 TVU+5ngjiikxw==
+Date: Thu, 13 Nov 2025 15:37:44 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v5 01/22] liveupdate: luo_core: luo_ioctl: Live Update
+ Orchestrator
+Message-ID: <aRXfKPfoi96B68Ef@kernel.org>
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-2-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251110-adf41513-iio-driver-v1-2-2df8be0fdc6e@analog.com>
+In-Reply-To: <20251107210526.257742-2-pasha.tatashin@soleen.com>
 
-Hi Rodrigo,
-
-Many comments inline in addition to what Krzysztof has already mentioned.
-
-On 11/10, Rodrigo Alencar via B4 Relay wrote:
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On Fri, Nov 07, 2025 at 04:02:59PM -0500, Pasha Tatashin wrote:
+> Introduce LUO, a mechanism intended to facilitate kernel updates while
+> keeping designated devices operational across the transition (e.g., via
+> kexec). The primary use case is updating hypervisors with minimal
+> disruption to running virtual machines. For userspace side of hypervisor
+> update we have copyless migration. LUO is for updating the kernel.
 > 
-> ultralow noise PLL frequency synthesizer that can be used to
-> implement local oscillators (LOs) as high as 26.5 GHz
+> This initial patch lays the groundwork for the LUO subsystem.
 > 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> Further functionality, including the implementation of state transition
+> logic, integration with KHO, and hooks for subsystems and file
+> descriptors, will be added in subsequent patches.
+> 
+> Create a character device at /dev/liveupdate.
+> 
+> A new uAPI header, <uapi/linux/liveupdate.h>, will define the necessary
+> structures. The magic number for IOCTL is registered in
+> Documentation/userspace-api/ioctl/ioctl-number.rst.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > ---
->  .../bindings/iio/frequency/adi,adf41513.yaml       | 268 +++++++++++++++++++++
->  MAINTAINERS                                        |   1 +
->  2 files changed, 269 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
-> new file mode 100644
-> index 000000000000..7e1ad80d68af
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
-> @@ -0,0 +1,268 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/frequency/adi,adf41513.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analog Devices ADF41513 PLL Frequency Synthesizer
-> +
-> +maintainers:
-> +  - Rodrigo Alencar <rodrigo.alencar@analog.com>
-> +
-> +description:
-> +  The ADF41513 is an ultralow noise frequency synthesizer that can be used to
-> +  implement local oscillators (LOs) as high as 26.5 GHz in the upconversion and
-> +  downconversion sections of wireless receivers and transmitters. The ADF41510
-> +  supports frequencies up to 10 GHz.
-> +
-> +  https://www.analog.com/en/products/adf41513.html
-> +  https://www.analog.com/en/products/adf41510.html
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - adi,adf41510
-> +      - adi,adf41513
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-max-frequency:
-> +    maximum: 25000000
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: Clock that provides the reference input frequency.
-> +
-> +  '#clock-cells':
-> +    const: 0
-> +
-> +  clock-output-names:
-> +    maxItems: 1
-> +
-> +  vcc-supply:
-> +    description: Power supply for the device (3.3V)
-I see we can have AVDD1 == ... == AVDD5 == VP == 3.3V.
-But we should document them all here in case somebody wants to use a separate
-supply for any of those.
 
-> +
-> +  chip-enable-gpios:
-> +    description:
-> +      GPIO that controls the chip enable pin. A logic low on this pin
-> +      powers down the device and puts the charge pump output into
-> +      three-state mode.
-> +    maxItems: 1
-> +
-> +  lock-detect-gpios:
-> +    description:
-> +      GPIO for lock detect functionality. When configured for digital lock
-> +      detect, this pin will output a logic high when the PLL is locked.
-> +    maxItems: 1
-> +
-> +  adi,power-up-frequency:
-> +    $ref: /schemas/types.yaml#/definitions/uint64
-> +    minimum: 1000000000
-> +    maximum: 26500000000
-> +    default: 10000000000
-> +    description:
-> +      The PLL tunes to this frequency (in Hz) on driver probe.
-> +      Range is 1 GHz to 26.5 GHz for ADF41513, and 1 GHz to 10 GHz for ADF41510.
-The PLL settings are also controllable at runtime and independent of hw
-connections, right? Can't this be just a sw/driver default instead of a dt
-property?
+...
 
+> @@ -0,0 +1,46 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
 > +
-> +  adi,reference-div-factor:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 1
-> +    maximum: 32
-> +    description:
-> +      Reference division factor (R Counter). If not specified, the driver
-> +      will calculate the optimal value automatically.
+> +/*
+> + * Userspace interface for /dev/liveupdate
+> + * Live Update Orchestrator
+> + *
+> + * Copyright (c) 2025, Google LLC.
+> + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> + */
 > +
-> +  adi,reference-doubler-enable:
-> +    description:
-> +      Enables the reference doubler. The maximum reference frequency when
-> +      the doubler is enabled is 225 MHz.
-> +    type: boolean
-This also seems like runtime configuration. At first glance, my feeling is that
-it impacts the output frequency and thus should probably be somehow handled
-in adf41513_write() IIO_CHAN_INFO_FREQUENCY case. By the way, if IIO_VAL_INT_64
-format allows setting the frequency resolution in sub-Hz (see comment in driver file),
-then I also suggest to use usual IIO _raw interfaces, e.g.
+> +#ifndef _UAPI_LIVEUPDATE_H
+> +#define _UAPI_LIVEUPDATE_H
+> +
+> +#include <linux/ioctl.h>
+> +#include <linux/types.h>
+> +
+> +/**
+> + * DOC: General ioctl format
+> + *
 
-static const struct iio_info adf41513_info = {
-  .write_raw = adf41513_write(),
-	.write_raw_get_fmt = adf41513_write_raw_get_fmt(),
-	.debugfs_reg_access = &adf41513_reg_access,
-};
+It seems it's not linked from Documentation/.../liveupdate.rst
 
-> +
-> +  adi,reference-div2-enable:
-> +    description:
-> +      Enables the reference divide-by-2 function. This provides a 50%
-> +      duty cycle signal to the PFD.
-> +    type: boolean
-This one also seems to be associated with output frequency and runtime
-configurable, no?
+> + * The ioctl interface follows a general format to allow for extensibility. Each
+> + * ioctl is passed in a structure pointer as the argument providing the size of
+> + * the structure in the first u32. The kernel checks that any structure space
+> + * beyond what it understands is 0. This allows userspace to use the backward
+> + * compatible portion while consistently using the newer, larger, structures.
+> + *
+> + * ioctls use a standard meaning for common errnos:
+> + *
+> + *  - ENOTTY: The IOCTL number itself is not supported at all
+> + *  - E2BIG: The IOCTL number is supported, but the provided structure has
+> + *    non-zero in a part the kernel does not understand.
+> + *  - EOPNOTSUPP: The IOCTL number is supported, and the structure is
+> + *    understood, however a known field has a value the kernel does not
+> + *    understand or support.
+> + *  - EINVAL: Everything about the IOCTL was understood, but a field is not
+> + *    correct.
+> + *  - ENOENT: A provided token does not exist.
+> + *  - ENOMEM: Out of memory.
+> + *  - EOVERFLOW: Mathematics overflowed.
+> + *
+> + * As well as additional errnos, within specific ioctls.
 
-> +
-> +  adi,charge-pump-current-microamp:
-> +    minimum: 450
-> +    maximum: 7200
-> +    default: 2400
-> +    description:
-> +      Charge pump current in microamps. The value will be rounded to the
-> +      nearest supported value.
-> +
-> +  adi,charge-pump-resistor-ohms:
-> +    minimum: 1800
-> +    maximum: 10000
-> +    default: 2700
-> +    description:
-> +      External charge pump resistor value in ohms. This sets the maximum
-> +      charge pump current along with the charge pump current setting.
+...
 
-hmm these charge-pump props seem a bit tricky. IIUC, the achievable charge pump
-output currents depend on the charge pump resistor value and the cp output
-current would be something that a user would latter want to fine tune at
-runtime. I'd keep adi,charge-pump-resistor-ohms only, pick a default for the
-pump current, then provide an IIO attribute to allow tweaking the charge pump
-current for fine tuning the loop filter frequency response. This might need
-a new IIO ABI.
+> --- a/kernel/liveupdate/Kconfig
+> +++ b/kernel/liveupdate/Kconfig
+> @@ -1,7 +1,34 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# Copyright (c) 2025, Google LLC.
+> +# Pasha Tatashin <pasha.tatashin@soleen.com>
+> +#
+> +# Live Update Orchestrator
+> +#
+>  
+>  menu "Live Update and Kexec HandOver"
+>  
+> +config LIVEUPDATE
+> +	bool "Live Update Orchestrator"
+> +	depends on KEXEC_HANDOVER
+> +	help
+> +	  Enable the Live Update Orchestrator. Live Update is a mechanism,
+> +	  typically based on kexec, that allows the kernel to be updated
+> +	  while keeping selected devices operational across the transition.
+> +	  These devices are intended to be reclaimed by the new kernel and
+> +	  re-attached to their original workload without requiring a device
+> +	  reset.
+> +
+> +	  Ability to handover a device from current to the next kernel depends
+> +	  on specific support within device drivers and related kernel
+> +	  subsystems.
+> +
+> +	  This feature primarily targets virtual machine hosts to quickly update
+> +	  the kernel hypervisor with minimal disruption to the running virtual
+> +	  machines.
+> +
+> +	  If unsure, say N.
+> +
 
-> +
-> +  adi,muxout-select:
-> +    description:
-> +      On chip multiplexer output selection.
-> +      high_z - MUXOUT Pin set to high-Z. (default)
-> +      muxout_high - MUXOUT Pin set to high.
-> +      muxout_low - MUXOUT Pin set to low.
-> +      f_div_rclk - MUXOUT Pin set to R divider output
-> +      f_div_nclk - MUXOUT Pin set to N divider output
-> +      lock_detect - MUXOUT Pin set to Digital lock detect
-> +      serial_data - MUXOUT Pin set to Serial data output
-> +      readback - MUXOUT Pin set to Readback mode
-> +      f_div_clk1 - MUXOUT Pin set to CLK1 divider output
-> +      f_div_rclk_2 - MUXOUT Pin set to R divider/2 output
-> +      f_div_nclk_2 - MUXOUT Pin set to N divider/2 output
-> +    enum: [high_z, muxout_high, muxout_low, f_div_rclk, f_div_nclk, lock_detect,
-> +           serial_data, readback, f_div_clk1, f_div_rclk_2, f_div_nclk_2]
+Not a big deal, but since LIVEUPDATE depends on KEXEC_HANDOVER, shouldn't
+it go after KEXEC_HANDOVER?
 
-I don't think this should be a dt property. The mux output can be controlled at
-runtime by updating register 12. Also, if somebody sets, for example,
-'muxout_high' here, then the user would not be able to set the mux output to
-something else latter? Would not be able to output the configured RF output
-frequency for the example?
+>  config KEXEC_HANDOVER
+>  	bool "kexec handover"
+>  	depends on ARCH_SUPPORTS_KEXEC_HANDOVER && ARCH_SUPPORTS_KEXEC_FILE
 
-> +
-> +  adi,muxout-level-1v8-enable:
-> +    description:
-> +      Set MUXOUT and DLD logic levels to 1.8V. Default is 3.3V.
-> +    type: boolean
-> +
-> +  adi,phase-detector-polarity-positive-enable:
-> +    description:
-> +      Set phase detector polarity to positive. Default is negative.
-> +      Use positive polarity with non-inverting loop filter and VCO with
-> +      positive tuning slope, or with inverting loop filter and VCO with
-> +      negative tuning slope.
-> +    type: boolean
-> +
-> +  adi,lock-detect-precision:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 3
-> +    description:
-> +      Lock detector precision setting. Controls the sensitivity of the
-> +      lock detector. Lower values of precision increases the lock detector
-> +      window size.
-This sounds more like something that could be supported through an IIO device
-attribute.
-
-> +
-> +  adi,lock-detect-count:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 7
-> +    description: |
-> +      Lock detector count setting (3-bit value). Determines the number of
-> +      consecutive phase detector cycles that must be within the lock detector
-> +      window before lock is declared. The count grows in powers of two of the
-> +      programmed value:
-> +      - if adi,fast-lock-enable is set count = 2 * 2^value
-> +      - if adi,fast-lock-enable is not set count = 64 * 2^value
-> +
-> +  adi,lock-detect-bias-microamp:
-> +    description:
-> +      Lock detector bias current. Controls the lock detector window size
-> +      along with the lock detector precision setting. Lower bias current
-> +      increases the window size.
-> +    enum: [10, 20, 30, 40]
-> +
-> +  adi,fast-lock-enable:
-> +    description:
-> +      Enable fast lock mode. This changes the lock detector clock selection
-> +      for faster lock indication.
-> +    type: boolean
-adi,lock-detect-count, adi,lock-detect-bias-microamp, and adi,fast-lock-enable
-also sound like they could be IIO device properties.
-
-> +
-> +  adi,phase-resync-enable:
-> +    description:
-> +      Enable phase resync functionality. This produces a consistent output
-> +      phase offset with respect to the input reference.
-> +    type: boolean
-IIUC, this would work similarly to the description of out_altvoltageY_phase ABI,
-except the phase would be relative to the reference clock instead of a second
-output channel. New IIO ABI? Or, maybe, provide out_altvoltage0_frequency and
-out_altvoltage1_frequency? One of the altvoltageY would be the frequency of
-muxout while the other would be the frequency of the reference clock. Then phase
-resync would be supported through out_altvoltageY_phase. Not sure if having
-a "virtual" output channel would be misleading, though. Extending the
-out_altvoltageY_phase ABI might be an alternative.
-
-> +
-> +  adi,12bit-clk-divider:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 4095
-> +    description:
-> +      CLK1 divider value used when adi,phase-resync-enable is set
-> +
-> +  adi,12bit-clk2-divider:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 4095
-> +    description:
-> +      CLK2 divider value used when adi,phase-resync-enable is set
-CLK1 and CLK2 would be calculated by the driver according to the value set
-through out_altvoltageY_phase (if the idea above makes sense). Then
-adi,12bit-clk-divider and adi,12bit-clk2-divider would also not be needed.
-
-> +
-> +  adi,le-sync-enable:
-> +    description:
-> +      Synchronize the rising edge of LE on an SPI write with the falling
-> +      edge of the reference signal to prevent glitches.
-> +    type: boolean
-> +
-> +  adi,freq-resolution:
-> +    $ref: /schemas/types.yaml#/definitions/uint64
-> +    minimum: 1
-> +    default: 1000000
-> +    description:
-> +      Initial frequency resolution in micro-Hz (µHz) for the algorithm to achieve.
-> +      This influences the choice between fixed and variable modulus modes.
-> +      Default is 1000000 µHz (1 Hz).
-This one also looks like it could be a driver default instead of a dt prop.
-
-
-Best regards,
-Marcelo
+-- 
+Sincerely yours,
+Mike.
