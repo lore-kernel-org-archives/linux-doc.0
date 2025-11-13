@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15A831BCAC
-	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 21:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B85261B6D
+	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 21:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763069060; cv=none; b=Gc0Fx585gdMlnMp4FyM+QQOMgqGEOhmkqZwU7ZACaDnQMo38ucnA7CByJk1LcpCsDkyJo/UlWxE4/4+R2v68ByeiI0cSDaWe1GwbF/5EJ/8Dotowa0Tky9n6NEX99KrdazzSZ7WRkVEjoJUOxP/9w/UCv/4KKSU/hl5zyBsgsbk=
+	t=1763069060; cv=none; b=UehIq465meLfX9JeQOmgqhoxCGsPWNXys6U9lYaRSo5p85XdVJiUsMgaDsHRMZy/iM5r/KWFFvpZau7xKO4RinrlBtap0AKgi2kPU0/kfrQtMm6/OEklAb6mYvO6zbaALC3mxoNOe/eS9u0+5tYPbGZ9wDlsAj6U9bttPwqOorA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763069060; c=relaxed/simple;
-	bh=5Z8Xe21L3UoBM+LMhnArgXor5BtOvKXTU4+rF1FkC80=;
+	bh=+BnORYG3sRbRZCpnzo8Mf8Q2/JiW/8EqxZdFJI3axvM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BBrDFMhL/mfWqCqVBsu69+S97btMFC+P2rNEwTgFnVr9ruwwTHdeEbjjSsj64qe/yE+xqlbbOnglLirYkoQsJueOQqIFTzGW9YZ+FMKqMULdsIzU/KOBLFo6MMaiQPIJof1U+GqeyLnSBrn6k4jVgLy1QFIOjbEvZ1kcNb4GTl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h47AA1po; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=NE2SJnqQJYRYWmSpPiLM6xieW0UFMe5Fq4fzNDVw8Huqbl47PhD7etYXQfad/FV9Wkz+P5n1TuFIvYATBbZavXG/Ey5OyKd96DUnMOOV0phZ0IqOK4CgUlHpm1dxFjwe5qTI3lmEPwlQWpcxNgcDwC0/qhW3VUNnvbNCXORcqeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nQobVrbE; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h47AA1po"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQobVrbE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763069059; x=1794605059;
+  t=1763069057; x=1794605057;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5Z8Xe21L3UoBM+LMhnArgXor5BtOvKXTU4+rF1FkC80=;
-  b=h47AA1poJjdfV3yJFV7gd0vlQV84ltUGEuL5jIC7QfO4scyLx0t9CF09
-   a3JBfWKEQwG3OUFfkCMZ7WyAVkhaeB0SOJqbPt/Ze/S1LGUjrA9u4UYj0
-   EJyYksLkRqyo+SKKYL6PRRKHYJfliROJg9ZxeXoBSsjDs6XwfhJOaubcg
-   tCdx8uLBY/DLBYtRT4eCQ3rrE1HyMfqVJoLn3TkJQcthQds1cPG8Tesng
-   8OQlvpHFN2dMyHXwFOEeGyc0SwetUDSS7zp+Elff43KjddrQwBscg2U2c
-   KymNwGNKZrYxOKibtvtZrSRvsoXguPR+0uYxo0bBbVLfFUJr7dtkUYps9
+  bh=+BnORYG3sRbRZCpnzo8Mf8Q2/JiW/8EqxZdFJI3axvM=;
+  b=nQobVrbE4Z3sZnXRBuNdEFPecd/XOpYT9ubNkmsPmbNf7mmNsXh8hGsU
+   dHVqHR5aoVROuA2a7rQ0xWbJI0gcrWcc3j9D1+ETWo/aJzy9pfuma0Jye
+   TLKhvvRHmNFrMd+91LRnaaviPIaybYeu0bFbIjvuEEoQmj17W7c5RBiDX
+   fLUf/BEztX+0Q1Tnf7DSI8cozk5xKS2OEl1DBBwgrn55TXcU+l5Qu7cyc
+   jRHbRfKYiQDE0ztqlt3fg//WkUJbtml9RV3eRT3USFlvzUXDVP7/hW/1I
+   PJS5vPnR8SyTRvtmH3l5TlvDFnUZ1Ge65mdO/tc3GKCzFO5WY3/G0N9wx
    g==;
-X-CSE-ConnectionGUID: RY91Rc15RFGLepRVkkVC4g==
-X-CSE-MsgGUID: TbZLRD4RQZuRTl8Xn5mOmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="65202017"
+X-CSE-ConnectionGUID: SHV5mjVfQACAEMahkSMClQ==
+X-CSE-MsgGUID: mvPNG/SqQ36h3jAi70x29w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="68790223"
 X-IronPort-AV: E=Sophos;i="6.19,303,1754982000"; 
-   d="scan'208";a="65202017"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 13:24:16 -0800
-X-CSE-ConnectionGUID: 2lgXCh9TRSOdZEycMd5gkA==
-X-CSE-MsgGUID: g/AS3Z2nQc68SGpcy+JCwA==
+   d="scan'208";a="68790223"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 13:24:17 -0800
+X-CSE-ConnectionGUID: mVTiNMhnRDONGKdwKfKEkQ==
+X-CSE-MsgGUID: lHfkM51qRW2g5q+yagFYUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,303,1754982000"; 
-   d="scan'208";a="189435653"
+   d="scan'208";a="189856575"
 Received: from igk-lkp-server01.igk.intel.com (HELO 230842de89ac) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 13 Nov 2025 13:24:15 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 13 Nov 2025 13:24:15 -0800
 Received: from kbuild by 230842de89ac with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vJend-0000000017k-0ydL;
-	Thu, 13 Nov 2025 21:24:13 +0000
-Date: Thu, 13 Nov 2025 22:23:51 +0100
+	id 1vJenc-0000000017N-3plK;
+	Thu, 13 Nov 2025 21:24:12 +0000
+Date: Thu, 13 Nov 2025 22:23:47 +0100
 From: kernel test robot <lkp@intel.com>
-To: doubled <doubled@leap-io-kernel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Shi <alexs@kernel.org>,
-	linux-doc@vger.kernel.org
-Subject: [linux-next:master 407/8066] htmldocs: Warning:
- Documentation/translations/zh_CN/scsi/scsi-parameters.rst references a file
- that doesn't exist: Documentation/translations/zh_CN/scsi/aha152x.rst
-Message-ID: <202511130315.WOiKJQTu-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>, linux-doc@vger.kernel.org
+Subject: [broonie-misc:asoc-6.19 31/44] htmldocs: Warning:
+ Documentation/devicetree/bindings/mfd/da9055.txt references a file that
+ doesn't exist: Documentation/devicetree/bindings/sound/da9055.txt
+Message-ID: <202511122044.M5cztcL6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,36 +64,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b179ce312bafcb8c68dc718e015aee79b7939ff0
-commit: f7c2e7108e0cf87d04d2f28078b5fefe1af47383 [407/8066] docs/zh_CN: Add scsi-parameters.rst translation
-reproduce: (https://download.01.org/0day-ci/archive/20251113/202511130315.WOiKJQTu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/misc.git asoc-6.19
+head:   4d6e2211aeb932e096f673c88475016b1cc0f8ab
+commit: 4acbfcf11cbe6c46c42091b49875c7002b0bff3d [31/44] ASoC: dt-bindings: consolidate simple audio codec to trivial-codec.yaml
+reproduce: (https://download.01.org/0day-ci/archive/20251112/202511122044.M5cztcL6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511130315.WOiKJQTu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511122044.M5cztcL6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
-   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/arch/arm/keystone/overview.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/keystone/keystone.txt
+>> Warning: Documentation/devicetree/bindings/mfd/da9055.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/da9055.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/gpio/gpio-dsp-keystone.txt
+   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/trace/rv/da_monitor_instrumentation.rst references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
+--
    Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
    Warning: Documentation/translations/zh_CN/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
    Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
->> Warning: Documentation/translations/zh_CN/scsi/scsi-parameters.rst references a file that doesn't exist: Documentation/translations/zh_CN/scsi/aha152x.rst
->> Warning: Documentation/translations/zh_CN/scsi/scsi-parameters.rst references a file that doesn't exist: Documentation/translations/zh_CN/scsi/aic7xxx.rst
->> Warning: Documentation/translations/zh_CN/scsi/scsi-parameters.rst references a file that doesn't exist: Documentation/translations/zh_CN/scsi/aic79xx.rst
->> Warning: Documentation/translations/zh_CN/scsi/scsi-parameters.rst references a file that doesn't exist: Documentation/translations/zh_CN/scsi/g_NCR5380.rst
->> Warning: Documentation/translations/zh_CN/scsi/scsi-parameters.rst references a file that doesn't exist: Documentation/translations/zh_CN/scsi/g_NCR5380.rst
->> Warning: Documentation/translations/zh_CN/scsi/scsi-parameters.rst references a file that doesn't exist: Documentation/translations/zh_CN/scsi/g_NCR5380.rst
->> Warning: Documentation/translations/zh_CN/scsi/scsi-parameters.rst references a file that doesn't exist: Documentation/translations/zh_CN/scsi/st.rst
->> Warning: Documentation/translations/zh_CN/scsi/scsi-parameters.rst references a file that doesn't exist: Documentation/translations/zh_CN/scsi/st.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
    Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
    Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
    Warning: MAINTAINERS references a file that doesn't exist: Documentation/sphinx/parse-headers.pl
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/nxp,tfa9879.yaml
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
    Warning: arch/riscv/kernel/kexec_image.c references a file that doesn't exist: Documentation/riscv/boot-image-header.rst
+   Warning: drivers/clocksource/timer-armada-370-xp.c references a file that doesn't exist: Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
+   Warning: include/rv/da_monitor.h references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
 
 -- 
 0-DAY CI Kernel Test Service
