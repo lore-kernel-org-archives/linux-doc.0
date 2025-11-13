@@ -1,150 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18AD62877C3;
-	Thu, 13 Nov 2025 01:42:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9AE2F3C07
+	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 02:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762998168; cv=none; b=R7wEYqHrRdrjXMJ3YzZauOk3JWOY5ueEo8SvwUcjEoEG+f+1u/m69Mjb8nYOMvIQYUKhoErqL02JbmrhfW3BxhMj0aonpVKJCRJWk35N0lxfpPDH7shOLweTYNcloXtOTZNHyscN3ASKwkTbYvayxyule/ruXTglZzwkrTU8dCA=
+	t=1763000209; cv=none; b=rU4dCSnvH301DFoE0XORvT7uRkZNHPbXLXG3pPNGVCWW4udn4uRZ682NTZG+mApc0ZbJTv4UzQL6FesJV7pnaAe1ApHaOiofrYkW6VLZ/JNCYN96qShPj+DQflAI38P/trrlAitd2gJk9/xmTtcG61TNIgFWwbK26DCe+ATvcKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762998168; c=relaxed/simple;
-	bh=J6kO8MinoWEoGkaYJTyrYhudby1TwSS/GObHrnk96Qk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GUtTbyWl0vrKUboXkgcuTQx7XicOPauO3YV2a2b+YnCe/4SS2jlor3atLzeat6SkrqmmY/FdUiZ9aOxYPCs9QBkJMyXOghaw1wsO/mZgP5aZr4X21HYxOuTiIWYXcQdRca95V6VZmtKE/urTvwxiOa71EviGrJdGvY0NtoY2MfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q4lsqY4V; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1763000209; c=relaxed/simple;
+	bh=ZRaD/fmerrjCeoqkuiGO/IO5MiZ5XDL7oIGJfPfg9Ao=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mFc6e5jN/vp0p+44nK+XTHhk6TsAJQ1RWj4a+ueryXUoEo7bRth+Va+1wVmkKtp6sg5nCuG/yHSrV3OpNLOSjJQ7ij6pFmp7wSTmBpdDU9hfGCCtUCglLp2ReKK6BsR7e+UuYf5gUuBKl0fWm6fO/CwTjbZUO1UvdBE08DZxaYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dUjVfOvl; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q4lsqY4V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762998166; x=1794534166;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=J6kO8MinoWEoGkaYJTyrYhudby1TwSS/GObHrnk96Qk=;
-  b=Q4lsqY4VXX4igiIgshReZkyUtIgsWlt/3ol98tkOjnkpawdgTu7G5CZs
-   ui2RzS6wPdpnMFN5iQwFkR6HzGCOAvOImdiATC+7tjwBI6hazPLiI+O8U
-   vco0brm5UgrvCLxkxVX/HgaayuGOiKrVyjjFKdib+jDANbt3wA71Css7t
-   bED2XTfJw2/jut2ror+uN0nfcIbKFEuM5AOQlnqVR6sUNJj2f1WGfWLRp
-   psQh/cKHiTwf/rR2pW5orMcOlFlwkDYJeqtOfJluCvGbCmXkGuISNgTmY
-   dvUotlKOeO8l+bWEcYAfFtKtQjMZ1Elge6cFzjB1RnIJEA3JToTFh4COU
-   g==;
-X-CSE-ConnectionGUID: ms54yoDPST6qWb+fTNQQCw==
-X-CSE-MsgGUID: DlDyKHUuRdmHr1puybNetg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="65225859"
-X-IronPort-AV: E=Sophos;i="6.19,300,1754982000"; 
-   d="scan'208";a="65225859"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 17:42:44 -0800
-X-CSE-ConnectionGUID: UV41EMOGRgSJ6IjRZ/og6g==
-X-CSE-MsgGUID: cb9xlMdyS3Cqc07OKTsBXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,300,1754982000"; 
-   d="scan'208";a="188618989"
-Received: from yinghaoj-desk.ccr.corp.intel.com (HELO [10.238.1.225]) ([10.238.1.225])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 17:42:25 -0800
-Message-ID: <f2bfa5ad-4c74-4b6d-baa7-d0d01d5d9b15@linux.intel.com>
-Date: Thu, 13 Nov 2025 09:42:22 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dUjVfOvl"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-787df0d729dso3032987b3.3
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 18:16:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763000206; x=1763605006; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZRaD/fmerrjCeoqkuiGO/IO5MiZ5XDL7oIGJfPfg9Ao=;
+        b=dUjVfOvl5mUO87tZtRc81Twq5ZvwfdO7PA8zJenEtNbv22JWMiROpkY6iNKzPwwdWo
+         kk/IFPOFdyrZhuXogOBTqNaf4xn8U9Pwa6iSt1k6uAgTmVPiP7f/f8zHFcwlz2J4FqRS
+         v9DXpPki6a82nS1TDFR/LnDnGGMowihGxAsY3CvdWXIkTYNtIkoOtGJJbVzCr1DyCE6L
+         tJVxdKSkeHDAg1WCH5amh3BfQsdnx+0qWpelocUvNV5JDkJhizghjORUkWWhJtnC9c/P
+         zCzzHP31HyEU/SKDzxPQNlE2lfaxKaPMYhMmA3XbkCVYI5anA7Pm77NrIxDV4k/nYEyN
+         H3xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763000206; x=1763605006;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZRaD/fmerrjCeoqkuiGO/IO5MiZ5XDL7oIGJfPfg9Ao=;
+        b=SC82byoh7CnWzSkSAJsv4LaJ+Tfh8duvXkX065ot+Dv08g6S4t5Pf9lorIu9NocR1v
+         MTqF0N+fY9Knt8DhG+tLsdUtZ/fLvp58llFXrg+N66feWcOkRTYYyUkqT6ybbcn4hA8o
+         TMmhqEkL6k9hHeiYhadfWaelT/RqjYC5Sj3OU5si8Q7CATE1IBSBTF0B0EyRN3IIihUX
+         ybJsys7JA/KTQ/wzcEwLVPoCFrg08vLPQlPX6jb0tLBk5xlu/xnIBncAb01jfx7np3q0
+         taf5IQx8yKxNyIaL2ajgP5L405T2aIbGZk4TNxgVePYswcPTJXfPFx2EDj4X66TL2v9d
+         LWJA==
+X-Forwarded-Encrypted: i=1; AJvYcCVKNnkRuJtRInSFJIC3qCOmpYCxJ/n9RlW39nL3DhaECgejSkzgr36VySKz/Jv6qOysvDciCdnbTxs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9FFVTg12XcDoCDoyp6M545buZXXKddGvw1+HKMXRp2XXeKPeO
+	DbvypyvwsBhI7AXJ1Zcf0732E4t6QnUNEO1TLVZ+id/+SNCcX0Yo4O9HNCVq3mpsbmvPTZRRqfs
+	/agN8nLXNvAQxQ9K5CoWM24QcEsVnmKw=
+X-Gm-Gg: ASbGncsRo9alx+cS82hhW5sk6LIwIb3IHyZDxsvdqZjPCymiMJnwN+5eosnVjMj0X8B
+	zyNkguZL8W2kDrwRrsL7T+uZOGapd3sthqvgTro6tp7I4ZgZQrgLVj2nmNsMWRcYmNEG7OG/1Tl
+	NLofGBesV4OYdRmmuRFa2+KBA6oqTS+sro0pXopUG9upgvc2meUpYgcbjY/5TFr8zhEI1HUt2ce
+	ejkn/I30xQaMSytw1gjswvl44ccj7sTDft1PB3e24FRV8Le4MK4WQ+UK9pd5nIn6c1WUYM25Jy9
+	KrDYqaiSxX8s9b6sQo/TfiiQxg==
+X-Google-Smtp-Source: AGHT+IEoQGXbDOXpCMV0uLppel/d5OJBdh/BTOE0WrwFdCg3bNRboPUEkEHpLZDtG4hlmvXsyGaHqhvMoipnvR4oKDg=
+X-Received: by 2002:a05:690c:5301:b0:787:f72d:2a57 with SMTP id
+ 00721157ae682-78813626ef9mr34068247b3.15.1763000205991; Wed, 12 Nov 2025
+ 18:16:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 03/37] KVM: Enumerate support for PRIVATE memory
- iff kvm_arch_has_private_mem is defined
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: cgroups@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, x86@kernel.org,
- akpm@linux-foundation.org, bp@alien8.de, brauner@kernel.org,
- chao.p.peng@intel.com, chenhuacai@kernel.org, corbet@lwn.net,
- dave.hansen@intel.com, dave.hansen@linux.intel.com, david@redhat.com,
- dmatlack@google.com, erdemaktas@google.com, fan.du@intel.com,
- fvdl@google.com, haibo1.xu@intel.com, hannes@cmpxchg.org, hch@infradead.org,
- hpa@zytor.com, hughd@google.com, ira.weiny@intel.com,
- isaku.yamahata@intel.com, jack@suse.cz, james.morse@arm.com,
- jarkko@kernel.org, jgg@ziepe.ca, jgowans@amazon.com, jhubbard@nvidia.com,
- jroedel@suse.de, jthoughton@google.com, jun.miao@intel.com,
- kai.huang@intel.com, keirf@google.com, kent.overstreet@linux.dev,
- liam.merwick@oracle.com, maciej.wieczor-retman@intel.com,
- mail@maciej.szmigiero.name, maobibo@loongson.cn,
- mathieu.desnoyers@efficios.com, maz@kernel.org, mhiramat@kernel.org,
- mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, mingo@redhat.com,
- mlevitsk@redhat.com, mpe@ellerman.id.au, muchun.song@linux.dev,
- nikunj@amd.com, nsaenz@amazon.es, oliver.upton@linux.dev,
- palmer@dabbelt.com, pankaj.gupta@amd.com, paul.walmsley@sifive.com,
- pbonzini@redhat.com, peterx@redhat.com, pgonda@google.com, prsampat@amd.com,
- pvorel@suse.cz, qperret@google.com, richard.weiyang@gmail.com,
- rick.p.edgecombe@intel.com, rientjes@google.com, rostedt@goodmis.org,
- roypat@amazon.co.uk, rppt@kernel.org, seanjc@google.com,
- shakeel.butt@linux.dev, shuah@kernel.org, steven.price@arm.com,
- steven.sistare@oracle.com, suzuki.poulose@arm.com, tabba@google.com,
- tglx@linutronix.de, thomas.lendacky@amd.com, vannapurve@google.com,
- vbabka@suse.cz, viro@zeniv.linux.org.uk, vkuznets@redhat.com,
- wei.w.wang@intel.com, will@kernel.org, willy@infradead.org,
- wyihan@google.com, xiaoyao.li@intel.com, yan.y.zhao@intel.com,
- yilun.xu@intel.com, yuzenghui@huawei.com, zhiquan1.li@intel.com
-References: <cover.1760731772.git.ackerleytng@google.com>
- <405686bacd68ce6c76aa5e6ef40f0a5324983c5b.1760731772.git.ackerleytng@google.com>
-Content-Language: en-US
-From: Binbin Wu <binbin.wu@linux.intel.com>
-In-Reply-To: <405686bacd68ce6c76aa5e6ef40f0a5324983c5b.1760731772.git.ackerleytng@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20251112042720.3695972-1-alistair.francis@wdc.com>
+ <20251112042720.3695972-5-alistair.francis@wdc.com> <3438a873-bda2-4a1c-af8c-76e31a200c79@oracle.com>
+In-Reply-To: <3438a873-bda2-4a1c-af8c-76e31a200c79@oracle.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 13 Nov 2025 12:16:18 +1000
+X-Gm-Features: AWmQ_bmGVjeLJyvzqCH0oIhjJJEC9KDxsd28wVqF9yRjrr2nfAiVpGZrrJdTjQw
+Message-ID: <CAKmqyKOj_vB3dwy2CO2JacL-w6WSm-2HYHuikndsLfYCQvwZNA@mail.gmail.com>
+Subject: Re: [PATCH v5 4/6] net/handshake: Support KeyUpdate message types
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: hare@kernel.org, kernel-tls-handshake@lists.linux.dev, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-nfs@vger.kernel.org, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, 
+	sagi@grimberg.me, kch@nvidia.com, hare@suse.de, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 10/18/2025 4:11 AM, Ackerley Tng wrote:
-> From: Sean Christopherson <seanjc@google.com>
+On Thu, Nov 13, 2025 at 1:49=E2=80=AFAM Chuck Lever <chuck.lever@oracle.com=
+> wrote:
 >
-> Explicitly guard reporting support for KVM_MEMORY_ATTRIBUTE_PRIVATE based
-> on kvm_arch_has_private_mem being #defined in anticipation of decoupling
-> kvm_supported_mem_attributes() from CONFIG_KVM_VM_MEMORY_ATTRIBUTES.
-> guest_memfd support for memory attributes will be unconditional to avoid
-> yet more macros (all architectures that support guest_memfd are expect to
-  expect -> expected
-
-> user per-gmem attributes at some point), at which point enumerating support
-    ^
-   use
-> KVM_MEMORY_ATTRIBUTE_PRIVATE based solely on memory attributes being
-> supported _somewhere_ would result in KVM over-reporting support on arm64.
+> On 11/11/25 11:27 PM, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > When reporting the msg-type to userspace let's also support reporting
+> > KeyUpdate events. This supports reporting a client/server event and if
+> > the other side requested a KeyUpdateRequest.
+> >
+> > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 >
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> ---
->   include/linux/kvm_host.h | 2 +-
->   virt/kvm/kvm_main.c      | 2 ++
->   2 files changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index fddb373fcbaaf..21bf30e8d3cc1 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -721,7 +721,7 @@ static inline int kvm_arch_vcpu_memslots_id(struct kvm_vcpu *vcpu)
->   }
->   #endif
->   
-> -#ifndef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
-> +#ifndef kvm_arch_has_private_mem
->   static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
->   {
->   	return false;
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index f73047ea4333e..591795a3fa124 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -2428,8 +2428,10 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
->   #ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
->   static u64 kvm_supported_mem_attributes(struct kvm *kvm)
->   {
-> +#ifdef kvm_arch_has_private_mem
->   	if (!kvm || kvm_arch_has_private_mem(kvm))
->   		return KVM_MEMORY_ATTRIBUTE_PRIVATE;
-> +#endif
->   
->   	return 0;
->   }
+> I was not able to apply this to either v6.18-rc5, nfsd-testing, or
+> netdev-next, so I can't adequately review or test it. Is this series
+> available on a public git branch?
 
+You might have missed Hanne's "nvme-tcp: Implement recvmsg() receive
+flow" patch that is required, it's mentioned in the cover letter.
+
+You can find this series, Hanne's patch, a few other patches that
+are all on list and some extra patches I'm using for testing and debugging =
+here:
+https://github.com/alistair23/linux/tree/alistair/tls-keyupdate
+
+Just remove the top commits from that branch to get just this series
+
+Alistair
+
+>
+
+>
+> --
+> Chuck Lever
