@@ -1,86 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8292D0610;
-	Thu, 13 Nov 2025 09:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3D9252906
+	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 10:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763027633; cv=none; b=c/rclJNFNUr14oDVTTT14qFWS1Omg/+BAge7sz6rj1ly0MKupcX+IZk+yN5XoO0Ni1g0Cjjiiquo61qrtpB3WupFMolrBfUIvlWlB2RYrlHc5av395Vd0MOemVPnsmLynOM7zXDMQWw5WXkA72o5ZAbbaQcdztcLUiv2VaLJK4Q=
+	t=1763028147; cv=none; b=YYNBzgPbkhCTn4ANl50tj9B0CiXkV5+KfIAO3W+3NolMcE6Hrql/PgpNvCEiBN8iO5tb7/r6131oZjRP0XAZZHN2oGYfVmeNBEOfHHs0OHmWln43pl0ldVGRZtNxnjAyw8DHgT0UfzUsDni858iknSI1Ze8Cfzp4P97Gako9ryk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763027633; c=relaxed/simple;
-	bh=b6+kLw0MSxnSfWCrbyUlrpcqRMlgnersOvTlBon7gHU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KxbQvscc/UZCR7PY82FAxuAo0cDF9L6wQTfzQYV1qzyU0vFLvylmUvboDmkNV4lq1JTrxWNCIrBhOBwxZaplJctTIsB0fgRmDOE34NoEARLSM+q8KOzKUnwicGCTYS/4MD/+Td3TRG95Nb60kyz9Y68eXLkMD2mGd5D/icouWGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KHUAOohR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763028147; c=relaxed/simple;
+	bh=347InnF7w0TQGwF3LKDpkxoBP63o1pAQwc45OEGOOng=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RL1X+oTS+d7FlPjD0aBj/AKiD7z/nRZcx6rSxuOsnlxKIjhSoZPDJtjnM31mJaaqSAnpPS3ovXDhimQpph259MOJQVE4S/FU/mpBe0CF6w+W8eXgPiwGmNHvXdJVSslCc6j6MROzBojWdmP7YqrbxP05U6XNUz7kt2UNMnNK3t8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=FFz+VPhT; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KHUAOohR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8552BC116D0;
-	Thu, 13 Nov 2025 09:53:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763027632;
-	bh=b6+kLw0MSxnSfWCrbyUlrpcqRMlgnersOvTlBon7gHU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=KHUAOohRMS06B5kKa+QNfEbpYAGS5Li6XcdXUFryrmS2Ru4471VHIQwD5hLUXfdyK
-	 8eBJSlgeUSJJUNR7qyL1lxavEnB7cjeRc81HY/NT0tP9PyTc6UCvfmWdIyLKf9EyBl
-	 srkdgP9U2W2PwVmAjpChD+nfy8HwkacKnQB/vlZSqs8c/n4zNfnPgEvOkKLkq+rWcj
-	 JdEF7l7YzWTkJNZ8WxyD1ESldGxQOiwN9d8yMnDHUbzywQTBA1cy2etODVBwswxFpn
-	 5vY1am6BMXGSMLu3/FZy8FuaszjRGSRKurgQfaCk4f5+5NmdfbB32eCSLZaLi4t6qC
-	 u/1h51av2iCxQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vJU1W-0000000B1M2-2XWi;
-	Thu, 13 Nov 2025 10:53:50 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] scripts: docs: kdoc_files.py: don't consider symlinks as directories
-Date: Thu, 13 Nov 2025 10:53:43 +0100
-Message-ID: <73c3450f34e2a4b42ef2ef279d7487c47d22e3bd.1763027622.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.1
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="FFz+VPhT"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-378cffe5e1aso4688051fa.2
+        for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 02:02:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763028144; x=1763632944; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=347InnF7w0TQGwF3LKDpkxoBP63o1pAQwc45OEGOOng=;
+        b=FFz+VPhTnQolSJSmG4FCu3Xt4fES5kBKLCd+GhIneSTYDKRGfPN8zyn3eUMQLuodD/
+         H2z3dbJ9PxXXRjIXTypnTv7fD5q3Rd/ke6LsB+xiLQUaKflb+Wnx1eYs1wITzu/OVP9b
+         aiQMqhgD8S012hXS5cNwQrhvYHpCByonyFcXG3j7AOXGG6rN+GampPrA0sRvyyGO/3vz
+         zjd8sdAl75JUdv+8J4VnsuXD3OZ/I0yGFVt/xMOhgUO+SwPyJp5Y8RUtnSDToJOGyxYb
+         XKLGpelNvpUjvGQhJA54sg7e1sOfozlMiFDTN9BV6FpwmJcpSPfww6fSimPKkmYoJLsd
+         p9uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763028144; x=1763632944;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=347InnF7w0TQGwF3LKDpkxoBP63o1pAQwc45OEGOOng=;
+        b=KvVEytq9UQiut19pdstNj/7Kn+PdmVyOhUvB8x64FUHNT4+AEk1kNd77m+HRyrvr30
+         aMOf0n1trqk/tHKJ/3ia+89vRg879XCkGwFeKb+p+Mtgm+pMFoc1UWBwh2CbXjDH34wY
+         2fbQM6AOoYvmKDSt1laMIsoAapqGsQmVjBOz8zHexNKPhNvDHo3giJNDUxm3d4TIemIC
+         Y1fD3J7YzRNJrmwSP1bdFJtD/q57b7ojzeZBrHXAKfzUcfR9xd8hnT2gAAYuHxJw8HDd
+         WEI0v6xPOm4uAdCB3jHCuimlArjynrDuLHk9mMgf5aoRZ/7t9Rt+eP8ONPCcLx5yDFAH
+         0piQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUtsOEXW8eICtiuXKChgNI6103JtC9RZgbKqDjKml10BwgEV1Rp6ZvpdLhlWy2jAsg7St/rF/NPiOE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAMQj8S+13rS4bcDji+cBognjIAKgdhuVEKlUPG1gcoe3XubSR
+	8YwBxQmpbg3dec/P5MGemY/jvWMRpQwkQWg4TDFgb/dkS3WwRT3Oo0/3X9fHX8kSm+P+nvIcCOO
+	X0KPLbUYIw8THjM/c6/1lTnvzgB9Xn17kAuykszRZNw==
+X-Gm-Gg: ASbGncuIWySpoT/pHh8wmUtASi/k1Wo2qTKeabBc4DPLFORA43DaXRHX/fwU/zYb03R
+	F6dWFQ5R1ArjC439FIZ4/1snzlcaudChSJc8gTiP03N5T/bv7gR6h2ArG96krzi19APJKxDWFHL
+	L4e31Yq1zJDk//hLP6svhmr6FaFyTJn+dj514pzqQ4YiChAHPZ5/wXDsnseZCDESxCB+gffVzUY
+	PAs+huNQ5e4ezLnesAndO6AQJsvwThsyXG204m/6Iq33WPNxSgzDzVb1onK+KxI/mJpDF40fj7M
+	zNmho69X5blKaadGG1lvylfKxRc=
+X-Google-Smtp-Source: AGHT+IF80BtPctM9eC4e7ij+kECyiSMuMR8eaI6A5q1UsvTkOe0o1G32eF/kAIX8FZ3UAPGxB2FJF3dPMAqvlpNwJF4=
+X-Received: by 2002:a05:651c:4191:b0:378:e055:3150 with SMTP id
+ 38308e7fff4ca-37b8c2e1512mr16366071fa.5.1763028143794; Thu, 13 Nov 2025
+ 02:02:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org>
+ <20251106-qcom-qce-cmd-descr-v8-1-ecddca23ca26@linaro.org> <xozu7tlourkzuclx7brdgzzwomulrbznmejx5d4lr6dksasctd@zngg5ptmedej>
+In-Reply-To: <xozu7tlourkzuclx7brdgzzwomulrbznmejx5d4lr6dksasctd@zngg5ptmedej>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 13 Nov 2025 11:02:11 +0100
+X-Gm-Features: AWmQ_bk-LstuhQR3H10ukwySBYZfpE2zb40DoLXgGCclIQAg4lhk-Zsk676Qpb0
+Message-ID: <CAMRc=MdC7haZ9fkCNGKoGb-8R5iB0P2UA5+Fap8Svjq-WdE-=w@mail.gmail.com>
+Subject: Re: [PATCH v8 01/11] dmaengine: Add DMA_PREP_LOCK/DMA_PREP_UNLOCK flags
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
+	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-As reported by Randy, currently kdoc_files can go into endless
-looks when symlinks are used:
+On Tue, Nov 11, 2025 at 1:30=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
+> On Thu, Nov 06, 2025 at 12:33:57PM +0100, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >
+> > Some DMA engines may be accessed from linux and the TrustZone
+> > simultaneously. In order to allow synchronization, add lock and unlock
+> > flags for the command descriptor that allow the caller to request the
+> > controller to be locked for the duration of the transaction in an
+> > implementation-dependent way.
+>
+> What is the expected behaviour if Linux "locks" the engine and then TZ
+> tries to use it before Linux has a chance to unlock it.
+>
 
-	$ ln -s . Documentation/peci/foo
-	$ ./scripts/kernel-doc Documentation/peci/
-	...
-	  File "/new_devel/docs/scripts/lib/kdoc/kdoc_files.py", line 52, in _parse_dir
-	    if entry.is_dir():
-	       ~~~~~~~~~~~~^^
-	OSError: [Errno 40] Too many levels of symbolic links: 'Documentation/peci/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo/foo'
+Are you asking about the actual behavior on Qualcomm platforms or are
+you hinting that we should describe the behavior of the TZ in the docs
+here? Ideally TZ would use the same synchronization mechanism and not
+get in linux' way. On Qualcomm the BAM, once "locked" will not fetch
+the next descriptors on pipes other than the current one until
+unlocked so effectively DMA will just not complete on other pipes.
+These flags here however are more general so I'm not sure if we should
+describe any implementation-specific details.
 
-Prevent that by not considering symlinks as directories.
+We can say: "The DMA controller will be locked for the duration of the
+current transaction and other users of the controller/TrustZone will
+not see their transactions complete before it is unlocked"?
 
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Closes: https://lore.kernel.org/linux-doc/80701524-09fd-4d68-8715-331f47c969f2@infradead.org/
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/lib/kdoc/kdoc_files.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
-index 061c033f32da..1fd8d17edb32 100644
---- a/scripts/lib/kdoc/kdoc_files.py
-+++ b/scripts/lib/kdoc/kdoc_files.py
-@@ -49,7 +49,7 @@ class GlobSourceFiles:
-             for entry in obj:
-                 name = os.path.join(dirname, entry.name)
- 
--                if entry.is_dir():
-+                if entry.is_dir(follow_symlinks=False):
-                     yield from self._parse_dir(name)
- 
-                 if not entry.is_file():
--- 
-2.51.1
-
+Bartosz
