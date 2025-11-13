@@ -1,115 +1,118 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9AE2F3C07
-	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 02:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B6B219A8E
+	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 02:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763000209; cv=none; b=rU4dCSnvH301DFoE0XORvT7uRkZNHPbXLXG3pPNGVCWW4udn4uRZ682NTZG+mApc0ZbJTv4UzQL6FesJV7pnaAe1ApHaOiofrYkW6VLZ/JNCYN96qShPj+DQflAI38P/trrlAitd2gJk9/xmTtcG61TNIgFWwbK26DCe+ATvcKs=
+	t=1763001298; cv=none; b=seG13Ar59Xkhz4FJq/NUzYp5+WJPjIk7lbnH5j8jJ0kuWb+P6nifdwc/RZ+I4ypsV+z+qtbVaXLXWcmqXODuOyWLXPIWCL1O+hTFk5Tksh8N7A1s/eye5If2V2QJIGkimSmrmOGIjoCktwSJnC6IVD5duPvCEbikytVOH0Bu09w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763000209; c=relaxed/simple;
-	bh=ZRaD/fmerrjCeoqkuiGO/IO5MiZ5XDL7oIGJfPfg9Ao=;
+	s=arc-20240116; t=1763001298; c=relaxed/simple;
+	bh=2be84pmSGoqY5LY6UKe7Kjzv5ECj0W6rD+fdLU1Dgdc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mFc6e5jN/vp0p+44nK+XTHhk6TsAJQ1RWj4a+ueryXUoEo7bRth+Va+1wVmkKtp6sg5nCuG/yHSrV3OpNLOSjJQ7ij6pFmp7wSTmBpdDU9hfGCCtUCglLp2ReKK6BsR7e+UuYf5gUuBKl0fWm6fO/CwTjbZUO1UvdBE08DZxaYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dUjVfOvl; arc=none smtp.client-ip=209.85.128.182
+	 To:Cc:Content-Type; b=ASdUVQesmywzub6PdP7R5e5B20CTFW+JovthvvxAMf8s085UNBFILXZSDnVdl5bTMNJcpca4GcFltRYzWb/gZCck+ZtxzmAPIVVrZ+Qh/EldeBFDfIeqSU/RZSY09FxAMTqo5m61zOIa16/VcxlX3PwOzqnByTzZO1BxnzsS0JQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KpYZYZ+h; arc=none smtp.client-ip=209.85.218.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dUjVfOvl"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-787df0d729dso3032987b3.3
-        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 18:16:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KpYZYZ+h"
+Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-b73161849e1so42815666b.2
+        for <linux-doc@vger.kernel.org>; Wed, 12 Nov 2025 18:34:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763000206; x=1763605006; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763001295; x=1763606095; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZRaD/fmerrjCeoqkuiGO/IO5MiZ5XDL7oIGJfPfg9Ao=;
-        b=dUjVfOvl5mUO87tZtRc81Twq5ZvwfdO7PA8zJenEtNbv22JWMiROpkY6iNKzPwwdWo
-         kk/IFPOFdyrZhuXogOBTqNaf4xn8U9Pwa6iSt1k6uAgTmVPiP7f/f8zHFcwlz2J4FqRS
-         v9DXpPki6a82nS1TDFR/LnDnGGMowihGxAsY3CvdWXIkTYNtIkoOtGJJbVzCr1DyCE6L
-         tJVxdKSkeHDAg1WCH5amh3BfQsdnx+0qWpelocUvNV5JDkJhizghjORUkWWhJtnC9c/P
-         zCzzHP31HyEU/SKDzxPQNlE2lfaxKaPMYhMmA3XbkCVYI5anA7Pm77NrIxDV4k/nYEyN
-         H3xg==
+        bh=Zv02JfQdgNQDAuVUUhZD9gwf/2OoSOdMlkTDlq5Wbwk=;
+        b=KpYZYZ+h1mVzvUhVP49A9aTVZV2U8caBqLuRPOHxrgUz7g5ZH41UhKreWoI+PJ9g8e
+         GnEs3HgWv1NcDLE+eWqanGWE6Y4vvsbQHD1MqHrAi3jGFBqxv2NGg7zmoXngkqSeZouI
+         yGeifwVxWOVYV18IisWapCqO4gSUgRBnEq0NFw0p7CP2NUcimrN5FspRzRqyAnSkoCUN
+         6lAQBKy2GhYxc7Z7j3y4ncrHaWo6haw6tDtmZppsFewmj+UQGSBz9FEi+NVkODqlFO3+
+         MC2pEdxne9CHoEVW7JALOFXDT3/MqvaT7b6xaFMzUXTQv54+vpaILVXhQXXfMvoGQhUv
+         Q86w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763000206; x=1763605006;
+        d=1e100.net; s=20230601; t=1763001295; x=1763606095;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ZRaD/fmerrjCeoqkuiGO/IO5MiZ5XDL7oIGJfPfg9Ao=;
-        b=SC82byoh7CnWzSkSAJsv4LaJ+Tfh8duvXkX065ot+Dv08g6S4t5Pf9lorIu9NocR1v
-         MTqF0N+fY9Knt8DhG+tLsdUtZ/fLvp58llFXrg+N66feWcOkRTYYyUkqT6ybbcn4hA8o
-         TMmhqEkL6k9hHeiYhadfWaelT/RqjYC5Sj3OU5si8Q7CATE1IBSBTF0B0EyRN3IIihUX
-         ybJsys7JA/KTQ/wzcEwLVPoCFrg08vLPQlPX6jb0tLBk5xlu/xnIBncAb01jfx7np3q0
-         taf5IQx8yKxNyIaL2ajgP5L405T2aIbGZk4TNxgVePYswcPTJXfPFx2EDj4X66TL2v9d
-         LWJA==
-X-Forwarded-Encrypted: i=1; AJvYcCVKNnkRuJtRInSFJIC3qCOmpYCxJ/n9RlW39nL3DhaECgejSkzgr36VySKz/Jv6qOysvDciCdnbTxs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9FFVTg12XcDoCDoyp6M545buZXXKddGvw1+HKMXRp2XXeKPeO
-	DbvypyvwsBhI7AXJ1Zcf0732E4t6QnUNEO1TLVZ+id/+SNCcX0Yo4O9HNCVq3mpsbmvPTZRRqfs
-	/agN8nLXNvAQxQ9K5CoWM24QcEsVnmKw=
-X-Gm-Gg: ASbGncsRo9alx+cS82hhW5sk6LIwIb3IHyZDxsvdqZjPCymiMJnwN+5eosnVjMj0X8B
-	zyNkguZL8W2kDrwRrsL7T+uZOGapd3sthqvgTro6tp7I4ZgZQrgLVj2nmNsMWRcYmNEG7OG/1Tl
-	NLofGBesV4OYdRmmuRFa2+KBA6oqTS+sro0pXopUG9upgvc2meUpYgcbjY/5TFr8zhEI1HUt2ce
-	ejkn/I30xQaMSytw1gjswvl44ccj7sTDft1PB3e24FRV8Le4MK4WQ+UK9pd5nIn6c1WUYM25Jy9
-	KrDYqaiSxX8s9b6sQo/TfiiQxg==
-X-Google-Smtp-Source: AGHT+IEoQGXbDOXpCMV0uLppel/d5OJBdh/BTOE0WrwFdCg3bNRboPUEkEHpLZDtG4hlmvXsyGaHqhvMoipnvR4oKDg=
-X-Received: by 2002:a05:690c:5301:b0:787:f72d:2a57 with SMTP id
- 00721157ae682-78813626ef9mr34068247b3.15.1763000205991; Wed, 12 Nov 2025
- 18:16:45 -0800 (PST)
+        bh=Zv02JfQdgNQDAuVUUhZD9gwf/2OoSOdMlkTDlq5Wbwk=;
+        b=VGbn38v1TzpNCtumSVxQNv8UsOS1TNt6Yik7FcYprApnEEejXhHtoZEh1P617Uj6b5
+         +5M4VwItmP1XXl2JdhC5+XoUpcB5cKp6Em5Zv/Rkwfmo2Xvb1xrWDr06EwDZBRuRBvYp
+         0bOokVTgK9Q6uAdez0dIfuJT6OSHZw8hwF4pwZaaIAXPpMI+z3PMt/hSkHsO0P3ttm4b
+         Picwb7OAEjwenDc4VbkOZvLaRUljRO5CMI83JZHsKnw+b1zvz0Csq0eTKwoz0hVI+ou2
+         1cA7nnhJqhIfOtumx4TQy19tQQUSGUhsuhMLBwa2rE+VJo3bh3THuvUPh+cQYad8nB5d
+         Q/nw==
+X-Forwarded-Encrypted: i=1; AJvYcCUqbfr4PAuVtn4iW5Vr1td9NGVmt1ZVdZ6wCV8si5bqss+uR2RIEzpUSjA3VdSnHkXXDtLEWURhiAQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2z+euj/DjM5WFLK1xlwxb72x112XtxYktpW1pzx/vXGvJvzyF
+	olVaZzffT8+YLEZUEMPknCySFQfuXDc2IREOuMb8tYHnb02nDPmAWMXP0hvixYIBSNfGncjEiIT
+	gCatS6dRD6sBrrV/7wxJgqkyl0eS9Eto=
+X-Gm-Gg: ASbGnctg7lP1Aw03L4yhYLfZA06MmefGz8Y9fDMxTLzDiNUyUl2Lm8NhV9Tdwio/nDT
+	oflih4pcAEP5vWpK/Oze5sTkqWcpaA9kBntcJZD5OcZEKPU56NhBTGb9OdJc7n5GxF5fOBSNkKH
+	80/f/DbXN40hTN1caoVnwZ6sLXqfktsyz/216aZkUe7Nu1SYcsumBHSr69IeDOnoXYlZQ8ikYcG
+	Bp2Y50/ec28qH7mXgpvc8prn6GrXVGmbOo+JfqnceaatNVFVVPaBxr1eo2p+VY1N5IHCyKb
+X-Google-Smtp-Source: AGHT+IHnM5JSPUAxCvA9H9uZ3tXrWbt1AXlQ5LnzI4R1/1MgrQjv91aPRT1UFoRpJikcTedZWVwfEVHUSRM43aX+kGo=
+X-Received: by 2002:a17:906:dc8f:b0:b71:8448:a8bf with SMTP id
+ a640c23a62f3a-b7331aec77emr541405966b.62.1763001294763; Wed, 12 Nov 2025
+ 18:34:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251112042720.3695972-1-alistair.francis@wdc.com>
- <20251112042720.3695972-5-alistair.francis@wdc.com> <3438a873-bda2-4a1c-af8c-76e31a200c79@oracle.com>
-In-Reply-To: <3438a873-bda2-4a1c-af8c-76e31a200c79@oracle.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 13 Nov 2025 12:16:18 +1000
-X-Gm-Features: AWmQ_bmGVjeLJyvzqCH0oIhjJJEC9KDxsd28wVqF9yRjrr2nfAiVpGZrrJdTjQw
-Message-ID: <CAKmqyKOj_vB3dwy2CO2JacL-w6WSm-2HYHuikndsLfYCQvwZNA@mail.gmail.com>
-Subject: Re: [PATCH v5 4/6] net/handshake: Support KeyUpdate message types
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: hare@kernel.org, kernel-tls-handshake@lists.linux.dev, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-nfs@vger.kernel.org, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, 
-	sagi@grimberg.me, kch@nvidia.com, hare@suse.de, 
-	Alistair Francis <alistair.francis@wdc.com>
+References: <CAN2Y7hwttMyUn0qsEcSBbrQ1h+aSzNpHMhgAxEbqJZn4vf5hBw@mail.gmail.com>
+ <aROfRBGmglPgcPVf@slm.duckdns.org> <CAN2Y7hwUmdFMM=mwYq7gsBpbSEBq6n0nXzmES4_=p3fDV=S+Ag@mail.gmail.com>
+ <aRSvxyoWiqzcBj-N@slm.duckdns.org>
+In-Reply-To: <aRSvxyoWiqzcBj-N@slm.duckdns.org>
+From: ying chen <yc1082463@gmail.com>
+Date: Thu, 13 Nov 2025 10:34:43 +0800
+X-Gm-Features: AWmQ_bmqqpz2BzShuLtpfDU10VTxD7EM0FTkyssYomi0u4miw5mWWt5iNq3Aejg
+Message-ID: <CAN2Y7hzDZxt5tBPeqwKwNNwwGXgmhj_uYDMkxx5_QtoqV97v1A@mail.gmail.com>
+Subject: Re: [PATCH] workqueue: add workqueue.mayday_initial_timeout
+To: Tejun Heo <tj@kernel.org>
+Cc: corbet@lwn.net, jiangshanlai@gmail.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, laoar.shao@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 13, 2025 at 1:49=E2=80=AFAM Chuck Lever <chuck.lever@oracle.com=
-> wrote:
+On Thu, Nov 13, 2025 at 12:03=E2=80=AFAM Tejun Heo <tj@kernel.org> wrote:
 >
-> On 11/11/25 11:27 PM, alistair23@gmail.com wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
+> Hello,
+>
+> On Wed, Nov 12, 2025 at 10:01:10AM +0800, ying chen wrote:
+> > Works that have already been scheduled will be executed sequentially
+> > within the rescuer thread.
+> > static int rescuer_thread(void *__rescuer)
+> > {
+> >                 ......
+> >                 /*
+> >                  * Slurp in all works issued via this workqueue and
+> >                  * process'em.
+> >                  */
+> >                 WARN_ON_ONCE(!list_empty(scheduled));
+> >                 list_for_each_entry_safe(work, n, &pool->worklist, entr=
+y) {
+> >                         if (get_work_pwq(work) =3D=3D pwq) {
+> >                                 if (first)
+> >                                         pool->watchdog_ts =3D jiffies;
+> >                                 move_linked_works(work, scheduled, &n);
+> >                         }
+> >                         first =3D false;
+> >                 }
 > >
-> > When reporting the msg-type to userspace let's also support reporting
-> > KeyUpdate events. This supports reporting a client/server event and if
-> > the other side requested a KeyUpdateRequest.
-> >
-> > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> >                 if (!list_empty(scheduled)) {
+> >                         process_scheduled_works(rescuer);
+> >                         ......
+> >                 }
 >
-> I was not able to apply this to either v6.18-rc5, nfsd-testing, or
-> netdev-next, so I can't adequately review or test it. Is this series
-> available on a public git branch?
+> Ah, I see what you mean. The slurping is to avoid potentially O(N^2)
+> scanning but that probably the wrong trade-off to make here. I think the
+> right solution is making it break out after finding the first matching wo=
+rk
+> item and loop outside so that it processes work item one by one.
 
-You might have missed Hanne's "nvme-tcp: Implement recvmsg() receive
-flow" patch that is required, it's mentioned in the cover letter.
+Processing work items one-by-one is indeed an excellent solution.
+However, wouldn't it also be necessary to provide a method for
+adjusting the mayday initial timeout?
 
-You can find this series, Hanne's patch, a few other patches that
-are all on list and some extra patches I'm using for testing and debugging =
-here:
-https://github.com/alistair23/linux/tree/alistair/tls-keyupdate
-
-Just remove the top commits from that branch to get just this series
-
-Alistair
-
->
-
->
-> --
-> Chuck Lever
+Thanks.
