@@ -1,183 +1,142 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8462C3245;
-	Thu, 13 Nov 2025 21:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B0D324B2A
+	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 21:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763069518; cv=none; b=nU/fxppe47IpvVWai9+j4pQor3Wxfn4SpR0WgFWmIcfneUZixPDVF8mzPnZ69EHScLUOti88Z+56kGLo7j5kSZQoKlQYvVUJOozwtOT0dZF0NMImc+8oLaUQLz3tSkhKpLr2mo6Y7cNznk7IzxFReKDbJD9+Z9RmmXUWjlf0oIk=
+	t=1763070910; cv=none; b=cJMWtFZBtJmiX3hRrE6RqeQaiO47quSGOcPhfU51Ek01v6TUl9jckWb1VrRjfhsmVX0w1h4JE7uKb+NH5+GWoghPegpdKXi2yl6oHOKdSVa7qYSOHNzLxVEswtYqEdFqo59vOL/iVsI78CDWV5ZgWQvj7U6PxhyqGzva7OzS87o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763069518; c=relaxed/simple;
-	bh=1PaNgAsE4bV2pPD0GaIKW/6uLJLfI8nyo88kMzvuR00=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=haEMdOE5ZZsaNFJSsWL3r/4gU8bPAq+EYf6YPSnGtPdcf442gWJUhCrpkJgobd006VFY2ox/5MPrOR987tiogYuk8PAlblkARLB3VhPsN1co7yt+IEY3wB9qKlZ+Ufr7Fbmnrhg64BaTbB4ki7N/LsfXPPdSVMw54RWrCLiPByo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=s/b2DECE; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1763070910; c=relaxed/simple;
+	bh=rVmOuDbePpQ2bGMVUUhPEgQqgnR0QGJ/V1GBCFoSda8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xoap9E1VxdpEMQGwwbiQGo4mWAjOhXzuBj5vihZkZsEz2asBBK44nVTBx7rXJPxpiGEdKXE5y6xfiXIwhgx1m2JMvs/3KCqDEprBqJaU/ceOwRyVS3+GeOy/a+nAXZfCUjb3+MOTQZKhaa4vuLGgdftaRty49PgFjrAhUX5zSP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dEIqNwYV; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s/b2DECE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=jJ0AzZvghoJNG8jFkrIba86SzrfhhDCl7SANiuJAqy0=; b=s/b2DECEbQS3rWr/ybTNMaU3hn
-	iznyM3PeXw6MpIifJffTPC1uqu+Q6zdjolyJftDmQT2Ef+SRm0wtccOS2DKC0Cv76n7m81n5K7aVH
-	ydonr19Nj0mDukH+x/CQ7pgYxvExHl0g6Jg6QfG10voAb3bfFCNmGH6CZNImXCV4cCqISMjSRfGnR
-	welnwI5r2MENNBvqJygeWe4Sbem0NoFo2e6thcLK3YCtRwFDWaFpiza8xXJComp9QczNVKsJNDgEx
-	bW091ZwTyJSPXP6ZujCEDrV+KHlkM2y82lSpV087idp/6OpZRxXJw+V0JCv1v3+uBliwNap7Hrl5K
-	KVtqtnRw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vJev4-0000000B8Ej-22te;
-	Thu, 13 Nov 2025 21:31:54 +0000
-Message-ID: <b5d51b80-2d9f-498d-b4eb-6b1ccd4bbbbe@infradead.org>
-Date: Thu, 13 Nov 2025 13:31:54 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dEIqNwYV"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7aa2170adf9so1180245b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 13:55:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763070908; x=1763675708; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VH/u9TyGr8RSTsWUVVlvs3UKeqS3V+ruCDTcFtD8HWs=;
+        b=dEIqNwYVG9vuE+ZX4gYBL6p9FjDHiISo5L+ld1kit2Szw7XLS0w7BDK8hFBCjZsHqW
+         mkxlRHXxht/2/Mg+BnZUALAYeukGBYz5jE0zduKHHfpE6ibPr+i0ptd+3U71iDsgZKMr
+         2fWfu2DAlVTZWFkIFs+OYgdFBeqDWxN562NzYSptx2AeH6LMtG3T8atfQP5GPZStIhXl
+         kyBJfZGaNrKa0F03zS5uxJFgxzxCbeooJW+P8HfZurrZfBUTSXRpRipqm/FMEd/eo3Dx
+         LmGqrVAOxU0YFsl/tcoauzHtcCc6QU4ClRgn05aLs/jYMLxuSRsWu/8a9okM4mpeA9Gq
+         Zz5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763070908; x=1763675708;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VH/u9TyGr8RSTsWUVVlvs3UKeqS3V+ruCDTcFtD8HWs=;
+        b=dZx0+2blfDDYKM+gSDmjTAARkdXvQ132biwHi2Ax8l1Ko7q5gyRtpV/CuIHfvZ5gDu
+         vVHTHbbmq9/0NbI8EkZrV7pvIqLAbLnkMw7EqjMcvvc6htDhGPt6Gz7LskgejHmHNhoJ
+         fZN/Hz5XcSLgr95WAf5raHoyMhOLpNgvgtCXS8Zm/WpgVUxH4RSxoxbT5o446FqZN+JY
+         +pel3l1Ub18FT0TZ9vIx6OFDiki03oS8eK+Limi/wA1BqhPUp/Im9Qp/+NGWUBPxcdkD
+         a4Mz0EYhaeIz8lqqc3/niQaHXDRPHFlI3xao0YnJfnSeqa2kDq577ptzvc2ghxhWA5m8
+         jHkg==
+X-Forwarded-Encrypted: i=1; AJvYcCWEteqrOkkc3HoS8/+THyZm3GinJqbDrkLuzPK9Vrjg6ewsFAeuftXGg4TjX3U1poACO/7waJDGiwY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhdZWvIom5UM2v97uoXhjUAii7QyU9O2CCWCAB1LtMVJ1G+OfC
+	yWzJiBtM1NtH7gWWnEqWrpvXFnmnCshCJiLjkzgeHZvgXzqAggCj/8hX
+X-Gm-Gg: ASbGncsMXZAy7bGwdM8Xa7pDMIkRB/+HPZN/0k0UDnHXeCUecQmA8+QA0COxITm5AVB
+	o+7fYKIzsFM+OV3+zOdr5XgX+QF4HC793HUQB11QGgKxRO7eFKjjQuV9OVCYtdJePQlDcyyiloy
+	IQ4/g9G7nwxv8j/+qAMEwDLo57WvIIYgrQL7CknZAOeEXMyOfU+96EfAebwln4ZiNyZeW6RKMjl
+	Ql2N+pUAlh/Cmng+54A5fo7hMz7EfyXAghSHDBdTwHSyxmdgMCQMrjEco0Ja8F0cuS0ZUk9G4Ai
+	aaKNneWTT4E0a0ZaQCq3wuqYpBUw3YpjSNttcqToNDU5sw0kWGMvIjEUFo6ZKGs3xIuJN+tDM7w
+	uLQb8YoeAIvLlIdQxNSP5ReWxc4BfnEjZ8A0tAHeqnLUbxTexjiblRBmss2pvO4F8+uiXkeF0kB
+	Sl83ld3HAraQ==
+X-Google-Smtp-Source: AGHT+IHgNFq0jP1i0r3FaR4AOhj+yV3flfh8AIpVcJiaMVYJcKSzpwSp2u+su9PFlH3VrsqSc59x/Q==
+X-Received: by 2002:a05:701b:2803:b0:119:e55a:9c03 with SMTP id a92af1059eb24-11b411fede8mr219766c88.31.1763070907987;
+        Thu, 13 Nov 2025 13:55:07 -0800 (PST)
+Received: from localhost ([2804:30c:1661:8a00:578a:911c:ac25:24a6])
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-11b060886c9sm1319946c88.11.2025.11.13.13.55.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Nov 2025 13:55:06 -0800 (PST)
+Date: Thu, 13 Nov 2025 18:56:26 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, jic23@kernel.org, nuno.sa@analog.com,
+	dlechner@baylibre.com, andy@kernel.org,
+	Michael.Hennerich@analog.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, cosmin.tanislav@analog.com
+Subject: Re: [PATCH v1 1/3] dt-bindings: iio: adc: Add AD4134
+Message-ID: <aRZUCtYzZCY9IQ5U@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1762777931.git.marcelo.schmitt@analog.com>
+ <608ab00821af9f766c75d88f59940fed87cb6df7.1762777931.git.marcelo.schmitt@analog.com>
+ <20251110-unsightly-blah-410539e95a18@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: thermal: Add documentation for thermal
- throttle
-To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- rafael@kernel.org, daniel.lezcano@linaro.org
-Cc: corbet@lwn.net, linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251113212104.221632-1-srinivas.pandruvada@linux.intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251113212104.221632-1-srinivas.pandruvada@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251110-unsightly-blah-410539e95a18@spud>
 
-
-
-On 11/13/25 1:21 PM, Srinivas Pandruvada wrote:
-> Add documentation for Intel thermal throttling reporting events.
+On 11/10, Conor Dooley wrote:
+> On Mon, Nov 10, 2025 at 09:45:18AM -0300, Marcelo Schmitt wrote:
 > 
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-> ---
-> v2:
->  - Addressed comments from Rafael
->  - Limit line lengths ~80 columns
+> > +  adi,control-mode:
+> > +    $ref: /schemas/types.yaml#/definitions/string
+> > +    description:
+> > +      Describes whether the device is wired to an SPI interface or not. The
 > 
->  Documentation/admin-guide/thermal/index.rst   |  1 +
->  .../admin-guide/thermal/thermal_throttle.rst  | 92 +++++++++++++++++++
->  2 files changed, 93 insertions(+)
->  create mode 100644 Documentation/admin-guide/thermal/thermal_throttle.rst
-> 
-> diff --git a/Documentation/admin-guide/thermal/index.rst b/Documentation/admin-guide/thermal/index.rst
-> index 193b7b01a87d..2e0cafd19f6b 100644
-> --- a/Documentation/admin-guide/thermal/index.rst
-> +++ b/Documentation/admin-guide/thermal/index.rst
-> @@ -6,3 +6,4 @@ Thermal Subsystem
->     :maxdepth: 1
->  
->     intel_powerclamp
-> +   thermal_throttle
-> diff --git a/Documentation/admin-guide/thermal/thermal_throttle.rst b/Documentation/admin-guide/thermal/thermal_throttle.rst
-> new file mode 100644
-> index 000000000000..cac2bc3176ce
-> --- /dev/null
-> +++ b/Documentation/admin-guide/thermal/thermal_throttle.rst
-> @@ -0,0 +1,92 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: <isonum.txt>
-> +
-> +=======================================
-> +Intel thermal throttle events reporting
-> +=======================================
-> +
-> +:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> +
-> +Introduction
-> +------------
-> +
-> +Intel processors have built in automatic and adaptive thermal monitoring
-> +mechanisms that force the processor to reduce its power consumption in order
-> +to operate within predetermined temperature limits.
-> +
-> +Refer to section "THERMAL MONITORING AND PROTECTION" in the "Intel® 64 and
-> +IA-32 Architectures Software Developer’s Manual Volume 3 (3A, 3B, 3C, & 3D):
-> +System Programming Guide" for more details.
-> +
-> +In general, there are two mechanisms to control the core temperature of the
-> +processor. They are called "Thermal Monitor 1 (TM1) and Thermal Monitor 2 (TM2)".
-> +
-> +The status of the temperature sensor that triggers the thermal monitor (TM1/TM2)
-> +is indicated through the "thermal status flag" and "thermal status log flag" in
-> +the MSR_IA32_THERM_STATUS for core level and MSR_IA32_PACKAGE_THERM_STATUS for
-> +package level.
-> +
-> +Thermal Status flag, bit 0 — When set, indicates that the processor core
-> +temperature is currently at the trip temperature of the thermal monitor and that
-> +the processor power consumption is being reduced via either TM1 or TM2, depending
-> +on which is enabled. When clear, the flag indicates that the core temperature is
-> +below the thermal monitor trip temperature. This flag is read only.
-> +
-> +Thermal Status Log flag, bit 1 — When set, indicates that the thermal sensor has
-> +tripped since the last power-up or reset or since the last time that software
-> +cleared this flag. This flag is a sticky bit; once set it remains set until
-> +cleared by software or until a power-up or reset of the processor. The default
-> +state is clear.
-> +
-> +It is possible that when user reads MSR_IA32_THERM_STATUS or
-> +MSR_IA32_PACKAGE_THERM_STATUS, TM1/TM2 is not active. In this case,
-> +"Thermal Status flag" will read "0" and the "Thermal Status Log flag" will be set
-> +to show any previous "TM1/TM2" activation. But since it needs to be cleared by
-> +the software, it can't show the number of occurrences of "TM1/TM2" activations.
-> +
-> +Hence, Linux provides counters of how many times the "Thermal Status flag" was
-> +set. Also presents how long the "Thermal Status flag" was active in milliseconds.
-> +Using these counters, users can check if the performance was limited because of
-> +thermal events. It is recommended to read from sysfs instead of directly reading
-> +MSRs as the "Thermal Status Log flag" is reset by the driver to implement rate
-> +control.
-> +
-> +Sysfs Interface
-> +---------------
-> +
-> +Thermal throttling events are presented for each CPU under
-> +"/sys/devices/system/cpu/cpuX/thermal_throttle/", where "X" is the CPU number.
-> +
-> +All these counters are read-only. They can't be reset to 0. So, they can potentially
-> +overflow after reaching the maximum 64 bit unsigned integer.
-> +
-> +``core_throttle_count``
-> +	This shows number of times "Thermal Status flag" changed from 0 to 1 for this
-> +	CPU since OS boot and thermal vector is initialized. This is a 64 bit counter.
-> +
-> +``package_throttle_count``
-> +	This shows number of times "Thermal Status flag" changed from 0 to 1 for the
-> +	package containing this CPU since OS boot and thermal vector is initialized.
-> +	Package status is broadcast to all CPUs; all CPUs in the package increment
-> +	this count. This is a 64-bit counter.
-> +
-> +``core_throttle_max_time_ms``
-> +	This shows the maximum amount of time for which "Thermal Status flag"
-> +	has been set to 1 for this CPU at the core level since OS boot and thermal
-> +	vector is initialized.
-> +
-> +``package_throttle_max_time_ms``
-> +	This shows the maximum amount of time for which "Thermal Status flag"
-> +	has been set to 1 for the package containing this CPU since OS boot and
-> +	thermal vector is initialized.
-> +
-> +``core_throttle_total_time_ms``
-> +	This shows the cumulative time for which "Thermal Status flag" has been
-> +	set to 1 for this CPU for core level since OS boot and thermal vector
-> +	is initialized.
-> +
-> +``package_throttle_total_time_ms``
-> +	This shows the cumulative time for which "Thermal Status flag" has been set
-> +	to 1 for the package containing this CPU since OS boot and thermal vector is
-> +	initialized.
-> +
+> Can you explain how you don't automagically know this from what bus
+> you're on?
 
--- 
-~Randy
+No. I mean, I should have realized we can imply SPI control mode from the bus node.
+That's one fewer dt property :)
+
+> 
+> > +      PIN/SPI pin on the device must be set accordingly, i.e., PIN/SPI must be
+> > +      set to logic high for SPI Control Mode, low for Pin Control Mode. When
+> > +      absent, implies the SPI interface configuration.
+> > +    enum: [ spi-control-mode, pin-control-mode ]
+> > +    default: spi-control-mode
+> > +
+> > +  adi,asrc-mode:
+> > +    $ref: /schemas/types.yaml#/definitions/string
+> > +    description:
+> > +      Asynchronous Sample Rate Converter (ASRC) operation mode control input.
+> > +      Describes whether the MODE pin is set to a high level (for master mode
+> > +      operation) or to a low level (for slave mode operation).
+> 
+> I don't really get this one. If this is an input to the device that
+> controls behaviour (master v slave) why is an option needed too? Clearly
+> this is not a gpio but it seems like it could be one, in which case you'd
+> need some sort of asrc-gpios property. Is it not possible to read the
+> value of this setting out of the device's registers (maybe it's not when
+> there's no spi interface connected?)?
+> It's not used in your driver, so I can't look there easily to see what's
+> going on.
+
+The MODE pin defines whether the ODR pin will behave as input or output.
+Currently, there are no plans for supporting ODR as output but, software would
+need to do different things to control the output data rate in that case.
+Though, the MODE pin state can indeed be read from a register. Same for DCLK pin
+I/O direction and DCLK mode. They are also readable from device's registers.
+So, that would be 4 fewer dt props total. Well, yeah, if the device is not
+connected to an SPI host (pin control mode) then we can't read those. There are
+no plans for supporting this device outside an SPI bus, but we would then
+need these properties (or a separate binding). Not sure what to do here. 
+Do I drop or keep adi,asrc-mode?
+
+The MODE pin is sampled only when the AD4134 is powered on so I don't think we
+would benefit from having a GPIO connected to that (if we keep a property to
+describe the MODE pin state).
+
+> 
+> > +    enum: [ high, low ]
+> > +    default: low
+
+Thanks,
+Marcelo
