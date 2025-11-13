@@ -1,157 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EB1340A79;
-	Thu, 13 Nov 2025 16:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD7A35C1B4
+	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 16:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763051543; cv=none; b=VAaNYfwilOneNi4K9QS/BoP8kZPZKNtpoxIPEsX5KYUqheS/gnCI9T6bWJXqHlf8CMMsDbs9/XhfBS1TRHAKC1s2rMRvqdbtvjrm18oDQL0mIa70UfC24Y64/oAz2va3QVXlkZO9vqVP00bKiT+tW3CS/NZvpTHHImCvMPwfXf8=
+	t=1763051634; cv=none; b=oArPK2vcxeGbM/h7osU91vqfk1GUcqaIrLNelloMOgy0Zuvn2es4YFF2bSg7g7FKI6/pI0/fbhE9bTJmfgO++CWUWqz+XHowSpGXLcIuChLw+C50zeULTx0eBakMTwPyhNb3FdOUWdwUkW21/0/Ku2fMsoc7jTE8Qbe6aLT+gAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763051543; c=relaxed/simple;
-	bh=48cU/r2mCuhBi2o3QbLq7X+wCorzdfK7kjE/pbyUoys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NzwWJ5DEPbUs1jnz9I6UJ0rb8FSffGq+po83UanJndQ+ZIZZZapR/y5c5lrIYRJKfxELfkvy9TbKPiHcjg0QvSjsjvq8+AARU4CP6l6HPpsou1lgNjJ0dBPl3jP8bXJqmIsUTekyAbQ6fAGtozAY0LMfIHEnamQaMew8+iT6bq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NrGC9Z1H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763051634; c=relaxed/simple;
+	bh=WhcKhZFHPX2mozcKk0S1peIkHSKGDJ65X7HcPESxcD0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=oxCal2oLHwMmnx/Uqv1ZXu+D0Jx1RjJFlVzhS9QhLsJD6eTNXj1Y3CUz7tgIPqdBiokD/etsWxFa3ClgwxBBShUuCgwNVJharRpyUBcJb0JNMdQ0WbgXlXpcKicBXIcfBCZy+R0sPlQvwHSh4g2JivzAzyRqfei01cBa1/WkfJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=idyDQ5Ws; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NrGC9Z1H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B42EC4CEF1;
-	Thu, 13 Nov 2025 16:32:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763051542;
-	bh=48cU/r2mCuhBi2o3QbLq7X+wCorzdfK7kjE/pbyUoys=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NrGC9Z1HvTGjTjRL3xw+mZ4VRxFvPWujkCi0vHliqnjQPxgDj5Iq1rshZmt6ySeMc
-	 HGMSMKVh9VgMIzXnB8CNP7DemQTXKeUC8H36kD7XXCJ8kj8oUOWtKFtV5JfCVlNMUH
-	 vV2Wz9lpEeXMW2vqdMbjTqxar0BcgazuH6zXzm6BsqIwtOVpVA7LeQFXB8qnOtRmO6
-	 ydVLEDH5JNfCnMadYTtk2Srvhd9ymPG9C691mZ4GV2PRr0Iwvc9aecAiVDEwcWPZYX
-	 IzqR46Q59HdXyVhnv/UTfIsTjQPSNCKfiaL+IDedKXACddxrDzR6Q4dn3sl1d1gn/I
-	 R2sYn55yOR5pQ==
-Date: Thu, 13 Nov 2025 18:31:57 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
-Message-ID: <aRYH_Ugp1IiUQdlM@kernel.org>
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-3-pasha.tatashin@soleen.com>
- <aRHiCxoJnEGmj17q@kernel.org>
- <CA+CK2bCHhbBtSJCx38gxjfR6DM1PjcfsOTD-Pqzqyez1_hXJ7Q@mail.gmail.com>
- <aROZi043lxtegqWE@kernel.org>
- <CA+CK2bAsrEqpt9d3s0KXpjcO9WPTJjymdwtiiyWVS6uq5KKNgA@mail.gmail.com>
- <aRSKrxfAb_GG_2Mw@kernel.org>
- <CA+CK2bAq-0Vz4jSRWnb_ut9AqG3RcH67JQj76GhoH0BaspWs2A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="idyDQ5Ws"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B7FFA40AFB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1763051632; bh=VPxvlY/vy5gpWfEW0O1MkmAoOvv2+y+/YK5lweFF0Hk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=idyDQ5WsMsgOKgKbAnB8J6w942Zs4Ab2pscrGhVb/jODfAWX3GE5dukCVREI1Glfm
+	 3oNRVv9vi4p7xBRDxoKIxRpOFLie578zXYVjQYBGVqpoyMUf0zsWnrTglJVIbwID6V
+	 G7SEAX3yh4gJy7dSArJBzvBdi6B5TzO1+OQ0/hy++fP3k0Fs+YGbb5UqE619vzvyKe
+	 0x49TYnRYC1XZ6wUlVlUt/iPS2aXGz3ih8ORISssiSXNTdmI9B5jqavTkkRxTxYEbD
+	 RHRgpSa2vH4lGpvwFS3rWSwEIgsc68b2LShvRDQueny55LoZo82aOL9D1B/tXshxtN
+	 lnwKRJ9H9fDcQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id B7FFA40AFB;
+	Thu, 13 Nov 2025 16:33:52 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org
+Cc: jani.nikula@intel.com
+Subject: Re: [PATCH 0/4] Documentation: clean up subproject index boilerplate
+In-Reply-To: <cover.1762948491.git.jani.nikula@intel.com>
+References: <cover.1762948491.git.jani.nikula@intel.com>
+Date: Thu, 13 Nov 2025 09:33:51 -0700
+Message-ID: <87o6p5sxhs.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+CK2bAq-0Vz4jSRWnb_ut9AqG3RcH67JQj76GhoH0BaspWs2A@mail.gmail.com>
+Content-Type: text/plain
 
-On Wed, Nov 12, 2025 at 09:58:27AM -0500, Pasha Tatashin wrote:
-> On Wed, Nov 12, 2025 at 8:25 AM Mike Rapoport <rppt@kernel.org> wrote:
-> >
-> > Hi Pasha,
-> >
-> > On Tue, Nov 11, 2025 at 03:57:39PM -0500, Pasha Tatashin wrote:
-> > > Hi Mike,
-> > >
-> > > Thank you for review, my comments below:
-> > >
-> > > > > This is why this call is placed first in reboot(), before any
-> > > > > irreversible reboot notifiers or shutdown callbacks are performed. If
-> > > > > an allocation problem occurs in KHO, the error is simply reported back
-> > > > > to userspace, and the live update update is safely aborted.
-> >
-> > The call to liveupdate_reboot() is just before kernel_kexec(). Why we don't
-> > move it there?
-> 
-> Yes, I can move that call into kernel_kexec().
-> 
-> > And all the liveupdate_reboot() does if kho_finalize() fails it's massaging
-> > the error value before returning it to userspace. Why kernel_kexec() can't
-> > do the same?
-> 
-> We could do that. It would look something like this:
-> 
-> if (liveupdate_enabled())
->    kho_finalize();
-> 
-> Because we want to do kho_finalize() from kernel_kexec only when we do
-> live update.
-> 
-> > > > This is fine. But what I don't like is that we can't use kho without
-> > > > liveupdate. We are making debugfs optional, we have a way to call
-> 
-> This is exactly the fix I proposed:
-> 
-> 1. When live-update is enabled, always disable "finalize" debugfs API.
-> 2. When live-update is disabled, always enable "finalize" debugfs API.
+Jani Nikula <jani.nikula@intel.com> writes:
 
-I don't mind the concept, what I do mind is sprinkling liveupdate_enabled()
-in KHO.
+> Only very lightly tested.
+>
+> Jani Nikula (4):
+>   Documentation: remove subproject index links deep in the structure
+>   Documentation: streamline subproject index link in translations
+>   Documentation: include the boilerplate for SPHINXDIRS index link
+>   Documentation: use a source-read extension to include the index
+>     boilerplate
 
-How about we kill debugfs/kho/out/abort and make kho_finalize() overwrite
-an existing FDT if there was any? 
+That bit of repeated gunk has been on my list to look at for a while,
+thanks for digging into it.  Looking forward to the second version.
 
-Abort was required to allow rollback for subsystems that had kho notifiers,
-but now notifiers are gone and kho_abort() only frees the memory
-serialization data. I don't see an issue with kho_finalize() from debugfs
-being a tad slower because of a call to kho_abort() and the liveupdate path
-anyway won't incur that penalty.
+Thanks,
 
-> > KHO should not call into liveupdate. That's layering violation.
-> > And "stateless KHO" does not really make it stateless, it only removes the
-> > memory serialization from kho_finalize(), but it's still required to pack
-> > the FDT.
-> 
-> This touches on a point I've raised in the KHO sync meetings: to be
-> effective, the "stateless KHO" work must also make subtree add/remove
-> stateless. There should not be a separate "finalize" state just to
-> finish the FDT. The KHO FDT is tiny (only one page), and there are
-> only a handful of subtrees. Adding and removing subtrees is cheap; we
-> should be able to open FDT, modify it, and finish FDT on every
-> operation. There's no need for a special finalization state at kexec
-> time. KHO should be totally stateless.
-
-And as the first step we can drop 'if (!kho_out.finalized)' from
-kho_fill_kimage(). We might need to massage the check for valid FDT in
-kho_populate() to avoid unnecessary noise, but largely there's no issue
-with always passing KHO data in kimage.
- 
-> Thanks,
-> Pasha
-
--- 
-Sincerely yours,
-Mike.
+jon
