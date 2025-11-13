@@ -1,113 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0FA33120B
-	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 10:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6BB3321AA;
+	Thu, 13 Nov 2025 10:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763029510; cv=none; b=YH1byhDV1hyIcSiADAxASh/JQufhyeZv0CAC1pJnyIK+4bZfCJRM3Mg1EvaCe7tg4fqitYkqFym0MpT0I+6BHtvGZ1nZ6qXu0EClI6+WEhEZKFUimUEmUba3JUtiX+NLjMFhTcb40BBQWCyxqkDyxVKLpSr8zcyRwjx7nK4n4Wg=
+	t=1763030455; cv=none; b=FZ2Iekjb4L38FaduQiQzw/s8gZtCW55K9Jw2KbS8Ikrlo8n31IbewGwtl1GEEw45JIeRrfRaEnPYaU0bN8DAKLTOpBI7tTDvRG1iwtQlH8wfLWZkF42fdwbpyJ9Ckw42hMcIkehVz8PP2x49U6y9ak0/KowCh75KvR8sHr0F2ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763029510; c=relaxed/simple;
-	bh=pBG2QgY8XkZ7VPUe8kGoaDSD4QCDLrQ5TvJNO9/H5lk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iAdTkq2y31yg4T3qg3zkOeG2bLh6Ki2ksD3zxDM1b0vhO8bfLzHxAD8K4JJ1S7eZ4gh+COM7b4OCYoylQircF8G+mWsk9wJFQ1mr9zayNaFQ+6/p+HQ+39MtPMEJvaj6f7ThF9MzN2x4vsO74qGMJHXY4axW+JE577JbnO1oD54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DFQ4fERx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763030455; c=relaxed/simple;
+	bh=jWVKvMsP89IrNVoESw6zclMDWLQrStgc2KW55zRlXJM=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uKEs84dwDBap90N5DZ4Gfm96R6ISF9ip2YPzc22gNgLN3ne+3MhAXvlID7gBMc7LXxyoxnOdndLf1Bx+VT92yR6pZNujRI3SDtrDPnXXe/aTnMfVYs/l1CdnO8J3TXlqcziAlbB5Tp2KrXBdJ6lMAtruZQLuG8ti8tXcgpAyfzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=AReVX4mD; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFQ4fERx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561B8C4AF09;
-	Thu, 13 Nov 2025 10:25:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763029510;
-	bh=pBG2QgY8XkZ7VPUe8kGoaDSD4QCDLrQ5TvJNO9/H5lk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DFQ4fERx6MG8pJ9SN3QH8sIQ+CHzifzBe/BJqIugFqnyeVPBe/r1wfi9+TnoP/3OG
-	 dhom+2zVKgE+E1VM4aWwnsFffZHJIDJ5MO/veuILbvrE3Ofl1JuWz3hpuZIZREJ3fe
-	 RzMgB3tfcRVK/iDnQfFcoUoGzr6iyEKT6OyvXaHr78UFPa5MGttn3Rnq0EXCZpvxxq
-	 brf3T76qFHGLnPyCXmjfvGwJJC7DWsOVc8qg1Rogjhkl3nfKvAYHnvYs5xdippeNZO
-	 2Ih1OLslVaCaXd3RiBMRohkaqceGHNSG1Il0uACjjsOE9uDhp5TyAwTkOfvjQwYjM8
-	 GZANyowNTiQ8Q==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vJUVo-0000000B3Yk-1gXG;
-	Thu, 13 Nov 2025 11:25:08 +0100
-Date: Thu, 13 Nov 2025 11:25:08 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>, 
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 4/4] Documentation: use a source-read extension to
- include the index boilerplate
-Message-ID: <f5hk4glkjjnuxzak56jmqzrspngmmuvhezkzq3ahhzxlertd2z@v7p3sm54qokx>
-References: <cover.1762948491.git.jani.nikula@intel.com>
- <e404d14ad5e9ed0ddc3f8920efb5d156dff99021.1762948491.git.jani.nikula@intel.com>
- <qf6t4cbpurcssabychbtxplqv7metgglduu4soqjexfxs6ongy@yryw3bnk44y6>
- <5fc09cd5678000ccca68200d9f692376024e4b33@intel.com>
+	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="AReVX4mD"
+Received: from localhost (localhost [127.0.0.1])
+	by mx1.secunet.com (Postfix) with ESMTP id C28E82083F;
+	Thu, 13 Nov 2025 11:34:20 +0100 (CET)
+X-Virus-Scanned: by secunet
+Received: from mx1.secunet.com ([127.0.0.1])
+ by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id cbqHMK7ZW1aT; Thu, 13 Nov 2025 11:34:20 +0100 (CET)
+Received: from EXCH-01.secunet.de (unknown [10.32.0.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.secunet.com (Postfix) with ESMTPS id 4216A20758;
+	Thu, 13 Nov 2025 11:34:20 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com 4216A20758
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
+	s=202301; t=1763030060;
+	bh=CXmCYC+bvOEUd/3XJi0/VnEgDRVHaHTYcVJn1mQ3haY=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To:From;
+	b=AReVX4mDyS5irq0NGwL0MUXXdNSYlVB7dMlNa4oW/kxcF7w+1SU63Rkw4oMcsl2cU
+	 d5NVKw64QZLFRfqDMA+KcfqYMi7ZJ1nTEY6VZqRaCCus91InnZaxMRSeE5WN0fs74D
+	 nbPjNhiTCS1ao1oUszMW0sA+19Wgn5B3XSlm4hpCbNaboGri4mZBVwz6eEQBZODOlc
+	 KWLJqWyjJQzFrPj94QgFfYp359hMH0bkCyYtUz5G+wqda133TB7HBE49UGnIv5tB6g
+	 AHWYkAnG71smuoeV+NheWnkNHW6NSQSACu4dHJlypMQGgZl5912OE8iwi4FCX+WM2P
+	 C5uoF0kFAdYPw==
+Received: from secunet.com (10.182.7.193) by EXCH-01.secunet.de (10.32.0.171)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Thu, 13 Nov
+ 2025 11:34:19 +0100
+Received: (nullmailer pid 1720106 invoked by uid 1000);
+	Thu, 13 Nov 2025 10:34:19 -0000
+Date: Thu, 13 Nov 2025 11:34:19 +0100
+From: Steffen Klassert <steffen.klassert@secunet.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+CC: Jakub Kicinski <kuba@kernel.org>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>, Linux Documentation
+	<linux-doc@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Herbert Xu <herbert@gondor.apana.org.au>
+Subject: Re: [PATCH net-next v3 0/9] xfrm docs update
+Message-ID: <aRW0K-wOdr3RZmGx@secunet.com>
+References: <20251103015029.17018-2-bagasdotme@gmail.com>
+ <aRJ3rVhjky-YmoEj@archie.me>
+ <20251110160807.02b93efc@kernel.org>
+ <d836336a-7022-44e3-9416-1e6cc6a70155@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <5fc09cd5678000ccca68200d9f692376024e4b33@intel.com>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <d836336a-7022-44e3-9416-1e6cc6a70155@gmail.com>
+X-ClientProxiedBy: cas-essen-01.secunet.de (10.53.40.201) To
+ EXCH-01.secunet.de (10.32.0.171)
 
-On Thu, Nov 13, 2025 at 10:12:59AM +0200, Jani Nikula wrote:
-> On Wed, 12 Nov 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > On Wed, Nov 12, 2025 at 01:56:54PM +0200, Jani Nikula wrote:
-> >> Reduce boilerplate all over the place by adding a small ad hoc extension
-> >> in conf.py that adds the ../sphinx-includes/subproject-index.rst include
-> >> to all SPHINXDIRS builds.
-> >> 
-> >> Note that the docname is just 'index', because the SPHINXDIRS builds
-> >> happen in the subdirectories.
-> >> 
-> >> Cc: Randy Dunlap <rdunlap@infradead.org>
-> >> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> >> Cc: Jonathan Corbet <corbet@lwn.net>
-> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> >
-> >> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> >> index b9a43ee32a00..cb0936a71d52 100644
-> >> --- a/Documentation/conf.py
-> >> +++ b/Documentation/conf.py
-> >> @@ -589,8 +589,14 @@ kerneldoc_srctree = ".."
-> >>  # ------------------------------------------------------------------------------
-> >>  loadConfig(globals())
-> >>  
-> >> +# Add index link to SPHINXDIRS builds
-> >> +def add_subproject_index(app, docname, source):
-> >> +    if app.builder.tags.has('subproject') and app.builder.tags.has('html'):
-> >> +        if docname == 'index':
-> >> +            source[0] += '\n.. include:: ../sphinx-includes/subproject-index.rst\n'
-> >
-> > The relative path there breaks SPINXDIRS, when it is pointing to use a sub-sub-dir
-> > like:
-> >
-> >     $ make SPHINXDIRS=userspace-api/media htmldocs
+On Tue, Nov 11, 2025 at 09:31:49AM +0700, Bagas Sanjaya wrote:
+> On 11/11/25 07:08, Jakub Kicinski wrote:
+> > On Tue, 11 Nov 2025 06:39:25 +0700 Bagas Sanjaya wrote:
+> > > On Mon, Nov 03, 2025 at 08:50:21AM +0700, Bagas Sanjaya wrote:
+> > > > Hi,
+> > > > 
+> > > > Here are xfrm documentation patches. Patches [1-7/9] are formatting polishing;
+> > > > [8/9] groups the docs and [9/9] adds MAINTAINERS entries for them.
+> > > 
+> > > netdev maintainers: Would you like to merge this series or not?
+> > 
+> > Steffen said he will merge it.
 > 
-> Ugh, I looked at 'make help' for the "valid values for SPHINXDIRS",
-> which only lists the top level directories. Patch 1 is also based on
-> this.
-> 
-> What a surprise, the documentation for documentation is useless.
+> OK, thanks!
 
-Yeah, _SPHINXDIRS helper message was introduced back in 2016
-on this changeset:
-    606b9ac81a63 ("doc-rst: generic way to build only sphinx sub-folders")
-
-On that time, we didn't have much things under Documentation/, so
-the helper message makes sense. Also, each subsystem had its own top-level
-directory. Nowadays, subsystem-specific documentation is typically under
-
-    Documentation/<core-api|driver-api|userspace-api|...>/<subsystem>
-
-So, SPHINXDIRS is nowadays used to point to the second level directory
-on lots of real use cases.
-
-One needs to add an update there at the helper message.
-
-Thanks,
-Mauro
+Now appiled to the ipsec-next tree, thanks a lot!
