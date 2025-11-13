@@ -1,131 +1,183 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599CA324702
-	for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 21:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8462C3245;
+	Thu, 13 Nov 2025 21:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763069207; cv=none; b=D/nSxBBwUjw9YOljpTVhbQc3KBtBP5BL83Tj5el+je2XFcM1MG2EFvmVPXUGXM+j/Ho8/Ckf7Y41J2VyoobkrUVVh1m4uLxwjVQLIK7bSExC/xX4UeK7hVknNUDvel7otr8u1f/L0rRnUiuMZjG0L948kgjnCNWjtiUzRCn5dIc=
+	t=1763069518; cv=none; b=nU/fxppe47IpvVWai9+j4pQor3Wxfn4SpR0WgFWmIcfneUZixPDVF8mzPnZ69EHScLUOti88Z+56kGLo7j5kSZQoKlQYvVUJOozwtOT0dZF0NMImc+8oLaUQLz3tSkhKpLr2mo6Y7cNznk7IzxFReKDbJD9+Z9RmmXUWjlf0oIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763069207; c=relaxed/simple;
-	bh=EAYHD0uflfQd6sszqckCoZM9plV9potl4DoHq6i9A4c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JGkCfqBLLwmAAl+dliSgdU8p2ho6lZaj6jz7KFIg3pqAhcAe4wz45aCYJ+6TxfdvPM5v+U8wHMmEO0EPLbThXBwc2x30ijURt+n8QliQOOjojNaf8Mr1LDpLZoUNj7yMGC7ptbwco7ti+Ys6OXeVhZFBLu3vTrCT1Wh/C/XUm54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SLeo9aAX; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763069518; c=relaxed/simple;
+	bh=1PaNgAsE4bV2pPD0GaIKW/6uLJLfI8nyo88kMzvuR00=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=haEMdOE5ZZsaNFJSsWL3r/4gU8bPAq+EYf6YPSnGtPdcf442gWJUhCrpkJgobd006VFY2ox/5MPrOR987tiogYuk8PAlblkARLB3VhPsN1co7yt+IEY3wB9qKlZ+Ufr7Fbmnrhg64BaTbB4ki7N/LsfXPPdSVMw54RWrCLiPByo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=s/b2DECE; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SLeo9aAX"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b98983baeacso523294a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 13:26:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763069205; x=1763674005; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2SI5IT2ccA/LcmNZQUHmcdI+iq0zqrTHDtVhV8fx+VI=;
-        b=SLeo9aAXvz8+jnJn+Ek+oV6/IpdfpReJeK6ysMpgYnJH5+YGaMaPuaU7pRv161/0fH
-         6cD5fybdcAOoQnIFr1sP66XKYxAJNwq2OFRZzsrLpUZvbY7E1JWx1oV9NCFkaQzW03cR
-         g144UbZXLtBsqwtilem+qzxqRJ1JcFGou6vU8XH5MdW8vm+KNXeCJURweMjcy6kSCVGt
-         drzF539RFvBIWkUynQrjuKVrwi6x6O6kmtmLBwhdKRptbwlbAzPmzdJ/btdQNcsauhiy
-         F+vTKj7XaLjBd6I4FnG6h7/xqEwHcV5porkrSeKftdFATtZp8mj4Rvz9wvPG9t66y5m/
-         i+JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763069205; x=1763674005;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2SI5IT2ccA/LcmNZQUHmcdI+iq0zqrTHDtVhV8fx+VI=;
-        b=EgPD1Pvxf4k9DvcWJuO+NTFkk5vUjEhimvOIFXTYN/Mk6nk0YkTe4ADP4jSQL/4Up/
-         OorPasCII3HN12nmPkwjekeB8mGc4HpvKfvQN+8/EctpujNG30TqMv3Ncv27b3X8oFNl
-         Lpxp+hqputZEkVOq9lXWcYgomTWy22UCg4RTB6wfDaIEmYpHF7SUD7d4Ccavyr5whdOk
-         7y+8svmSUkk4r+kAUSVU5h5WKsmTROmMDClhPjPxZmp5naFnxTorvFk0zA/NmjRtwzyf
-         mtWfPRfjvsusmOWdV8qNOu4qj+JAmxm8apVUCi6arZATPM9OrS5r9l/RUiZhwSy1Y7qS
-         toew==
-X-Forwarded-Encrypted: i=1; AJvYcCWe1wYJAZNseeHtbELjkib1KhqvaKayFuZK18np3KPVx9I+bezpCNgcjXctO2Fd+RPvCER9V/9QhPc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YweXAQ5N46Q4Wz6T38NcEbNQcYbH/q8U1eGqU8pNOq4PhB3I/Dd
-	Y17xf7Tmkn+fEKJ2i2zhYes64MauWXbu+k5MqVpn2QAPI+1g4u9ADqqt
-X-Gm-Gg: ASbGncvDHaCD11QmW2F7IAtgIXdyzBcPVavh2+i2SjnxHlwbSiD34XZkojTTz3WrA6p
-	BJ3NN7M140HMtn9yjYEmliNIgT/7SEumH/En89gQrCLbvvXrjZh67Vsnz0ZtzG9xLx5i6o/CfSk
-	KeGcOFwecsQWVFd46kgcWctOyqn6VPCs9l0GsDBKm6O/IET130xZQoTkChlmbQQq4fjP1sAs3ol
-	prvrgRRBKrt6+H4KMba2bL7AwUjnZEvnHkbH/LNn6fCoTPbxLgFgu1FomgoP8vO81IppY/FW2dT
-	aV8LoeMb9YDIzoznHMOgNSpV8A5WnXmLA5Gv9XAmQ0Dz6aSQKbr8GFVJpHOZSgPYnxi2MiUu+uN
-	icGgv4MurN7prxWWPqAG1d3FHpapyXqtlXID9dStbWEm4Pgdp9CDVeUaEdt4aWhsya0KlvJuKTW
-	rZ0w9mj3UNuxJCGjEF7V+/+MfnJfbcZRu5sOjGRPk1scG+mCZBxXKUY6NXtjSbSWjdd4k=
-X-Google-Smtp-Source: AGHT+IE4bqe47dgeG8a0SwzrDMd8To6AhA03KdcpEfj8eolNH4fytB9FGHHkvfol2Cp158xttn8Vgw==
-X-Received: by 2002:a05:7022:1581:b0:11b:65e:f6f with SMTP id a92af1059eb24-11b40f98007mr318605c88.14.1763069205472;
-        Thu, 13 Nov 2025 13:26:45 -0800 (PST)
-Received: from bliptop (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11b060885eesm1811414c88.1.2025.11.13.13.26.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Nov 2025 13:26:44 -0800 (PST)
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Armin Wolf <W_Armin@gmx.de>,
-	Len Brown <lenb@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Mario Limonciello <superm1@kernel.org>,
-	Zhixin Zhang <zhangzx36@lenovo.com>,
-	Mia Shao <shaohz1@lenovo.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-	Kurt Borja <kuurtb@gmail.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	platform-driver-x86@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org
-Subject: [PATCH v3 3/3] platform/x86: wmi-gamezone: Add Legion Go 2 Quirks
-Date: Thu, 13 Nov 2025 13:26:17 -0800
-Message-ID: <20251113212639.459896-4-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251113212639.459896-1-derekjohn.clark@gmail.com>
-References: <20251113212639.459896-1-derekjohn.clark@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s/b2DECE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=jJ0AzZvghoJNG8jFkrIba86SzrfhhDCl7SANiuJAqy0=; b=s/b2DECEbQS3rWr/ybTNMaU3hn
+	iznyM3PeXw6MpIifJffTPC1uqu+Q6zdjolyJftDmQT2Ef+SRm0wtccOS2DKC0Cv76n7m81n5K7aVH
+	ydonr19Nj0mDukH+x/CQ7pgYxvExHl0g6Jg6QfG10voAb3bfFCNmGH6CZNImXCV4cCqISMjSRfGnR
+	welnwI5r2MENNBvqJygeWe4Sbem0NoFo2e6thcLK3YCtRwFDWaFpiza8xXJComp9QczNVKsJNDgEx
+	bW091ZwTyJSPXP6ZujCEDrV+KHlkM2y82lSpV087idp/6OpZRxXJw+V0JCv1v3+uBliwNap7Hrl5K
+	KVtqtnRw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vJev4-0000000B8Ej-22te;
+	Thu, 13 Nov 2025 21:31:54 +0000
+Message-ID: <b5d51b80-2d9f-498d-b4eb-6b1ccd4bbbbe@infradead.org>
+Date: Thu, 13 Nov 2025 13:31:54 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation: thermal: Add documentation for thermal
+ throttle
+To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ rafael@kernel.org, daniel.lezcano@linaro.org
+Cc: corbet@lwn.net, linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251113212104.221632-1-srinivas.pandruvada@linux.intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251113212104.221632-1-srinivas.pandruvada@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add Legion Go 2 SKU's to the Extreme Mode quirks table.
 
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
----
- drivers/platform/x86/lenovo/wmi-gamezone.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/lenovo/wmi-gamezone.c b/drivers/platform/x86/lenovo/wmi-gamezone.c
-index df475e52f79d..381836d29a96 100644
---- a/drivers/platform/x86/lenovo/wmi-gamezone.c
-+++ b/drivers/platform/x86/lenovo/wmi-gamezone.c
-@@ -266,8 +266,23 @@ static const struct dmi_system_id fwbug_list[] = {
- 		},
- 		.driver_data = &quirk_no_extreme_bug,
- 	},
-+	{
-+		.ident = "Legion Go 8ASP2",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go 8ASP2"),
-+		},
-+		.driver_data = &quirk_no_extreme_bug,
-+	},
-+	{
-+		.ident = "Legion Go 8AHP2",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go 8AHP2"),
-+		},
-+		.driver_data = &quirk_no_extreme_bug,
-+	},
- 	{},
--
- };
- 
- /**
+On 11/13/25 1:21 PM, Srinivas Pandruvada wrote:
+> Add documentation for Intel thermal throttling reporting events.
+> 
+> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+> ---
+> v2:
+>  - Addressed comments from Rafael
+>  - Limit line lengths ~80 columns
+> 
+>  Documentation/admin-guide/thermal/index.rst   |  1 +
+>  .../admin-guide/thermal/thermal_throttle.rst  | 92 +++++++++++++++++++
+>  2 files changed, 93 insertions(+)
+>  create mode 100644 Documentation/admin-guide/thermal/thermal_throttle.rst
+> 
+> diff --git a/Documentation/admin-guide/thermal/index.rst b/Documentation/admin-guide/thermal/index.rst
+> index 193b7b01a87d..2e0cafd19f6b 100644
+> --- a/Documentation/admin-guide/thermal/index.rst
+> +++ b/Documentation/admin-guide/thermal/index.rst
+> @@ -6,3 +6,4 @@ Thermal Subsystem
+>     :maxdepth: 1
+>  
+>     intel_powerclamp
+> +   thermal_throttle
+> diff --git a/Documentation/admin-guide/thermal/thermal_throttle.rst b/Documentation/admin-guide/thermal/thermal_throttle.rst
+> new file mode 100644
+> index 000000000000..cac2bc3176ce
+> --- /dev/null
+> +++ b/Documentation/admin-guide/thermal/thermal_throttle.rst
+> @@ -0,0 +1,92 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: <isonum.txt>
+> +
+> +=======================================
+> +Intel thermal throttle events reporting
+> +=======================================
+> +
+> +:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> +
+> +Introduction
+> +------------
+> +
+> +Intel processors have built in automatic and adaptive thermal monitoring
+> +mechanisms that force the processor to reduce its power consumption in order
+> +to operate within predetermined temperature limits.
+> +
+> +Refer to section "THERMAL MONITORING AND PROTECTION" in the "Intel® 64 and
+> +IA-32 Architectures Software Developer’s Manual Volume 3 (3A, 3B, 3C, & 3D):
+> +System Programming Guide" for more details.
+> +
+> +In general, there are two mechanisms to control the core temperature of the
+> +processor. They are called "Thermal Monitor 1 (TM1) and Thermal Monitor 2 (TM2)".
+> +
+> +The status of the temperature sensor that triggers the thermal monitor (TM1/TM2)
+> +is indicated through the "thermal status flag" and "thermal status log flag" in
+> +the MSR_IA32_THERM_STATUS for core level and MSR_IA32_PACKAGE_THERM_STATUS for
+> +package level.
+> +
+> +Thermal Status flag, bit 0 — When set, indicates that the processor core
+> +temperature is currently at the trip temperature of the thermal monitor and that
+> +the processor power consumption is being reduced via either TM1 or TM2, depending
+> +on which is enabled. When clear, the flag indicates that the core temperature is
+> +below the thermal monitor trip temperature. This flag is read only.
+> +
+> +Thermal Status Log flag, bit 1 — When set, indicates that the thermal sensor has
+> +tripped since the last power-up or reset or since the last time that software
+> +cleared this flag. This flag is a sticky bit; once set it remains set until
+> +cleared by software or until a power-up or reset of the processor. The default
+> +state is clear.
+> +
+> +It is possible that when user reads MSR_IA32_THERM_STATUS or
+> +MSR_IA32_PACKAGE_THERM_STATUS, TM1/TM2 is not active. In this case,
+> +"Thermal Status flag" will read "0" and the "Thermal Status Log flag" will be set
+> +to show any previous "TM1/TM2" activation. But since it needs to be cleared by
+> +the software, it can't show the number of occurrences of "TM1/TM2" activations.
+> +
+> +Hence, Linux provides counters of how many times the "Thermal Status flag" was
+> +set. Also presents how long the "Thermal Status flag" was active in milliseconds.
+> +Using these counters, users can check if the performance was limited because of
+> +thermal events. It is recommended to read from sysfs instead of directly reading
+> +MSRs as the "Thermal Status Log flag" is reset by the driver to implement rate
+> +control.
+> +
+> +Sysfs Interface
+> +---------------
+> +
+> +Thermal throttling events are presented for each CPU under
+> +"/sys/devices/system/cpu/cpuX/thermal_throttle/", where "X" is the CPU number.
+> +
+> +All these counters are read-only. They can't be reset to 0. So, they can potentially
+> +overflow after reaching the maximum 64 bit unsigned integer.
+> +
+> +``core_throttle_count``
+> +	This shows number of times "Thermal Status flag" changed from 0 to 1 for this
+> +	CPU since OS boot and thermal vector is initialized. This is a 64 bit counter.
+> +
+> +``package_throttle_count``
+> +	This shows number of times "Thermal Status flag" changed from 0 to 1 for the
+> +	package containing this CPU since OS boot and thermal vector is initialized.
+> +	Package status is broadcast to all CPUs; all CPUs in the package increment
+> +	this count. This is a 64-bit counter.
+> +
+> +``core_throttle_max_time_ms``
+> +	This shows the maximum amount of time for which "Thermal Status flag"
+> +	has been set to 1 for this CPU at the core level since OS boot and thermal
+> +	vector is initialized.
+> +
+> +``package_throttle_max_time_ms``
+> +	This shows the maximum amount of time for which "Thermal Status flag"
+> +	has been set to 1 for the package containing this CPU since OS boot and
+> +	thermal vector is initialized.
+> +
+> +``core_throttle_total_time_ms``
+> +	This shows the cumulative time for which "Thermal Status flag" has been
+> +	set to 1 for this CPU for core level since OS boot and thermal vector
+> +	is initialized.
+> +
+> +``package_throttle_total_time_ms``
+> +	This shows the cumulative time for which "Thermal Status flag" has been set
+> +	to 1 for the package containing this CPU since OS boot and thermal vector is
+> +	initialized.
+> +
+
 -- 
-2.51.2
-
+~Randy
