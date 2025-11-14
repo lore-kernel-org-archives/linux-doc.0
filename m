@@ -1,172 +1,104 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6FC2D662D;
-	Fri, 14 Nov 2025 17:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAE1341AAE;
+	Fri, 14 Nov 2025 17:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763140892; cv=none; b=eTPtk4qPLbqHy+hMJ/QZg64jPgrdCku9sDYNFB2lLECdyuQ/hhmnKGVpQYaEcdhs5ax2rBZAYeGK/2uuTGYI942CX6BU6vA+ZfMo9QQB9YmdCJvAjxE36DPbuHM58mwN3alurmuahuXfI0+vEGmm3HkhUZYNjiJ1E71foo/PcVU=
+	t=1763141956; cv=none; b=C9qtZnMfdCsOX0wxOkyD1ai9DYQdQL3vJItRqK8Ow8XUKbVb4HFYrJXmhgqreMFKaDruVAOcvppsqptEh6AaglS9XvfYo27kM/Ez1cPMWEJRy03x+P4XhJRUyqUl9LIUz5rc5YyLjsAZluYvuchDkdjM8V9ajVC6FomRn0wOR6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763140892; c=relaxed/simple;
-	bh=oj7XvIjYe1pE+bYy9IlB8i4bQFjMilLPQjx7YB4+1fA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gd92FIpKwPFC05ReQ5zuoscBvpND+y0TmTj4batJBcZYdXjtd4y/bXUSCXZr8xhZf5lPysy2WCPEub7xC57UMZ9NpjATcXum9vTGci/1CoYERSJL4jcTJRcQ2DXM24TE+Qx+Fo8gpLuaclV7kk4nUn5ZqV459MSW+mg5DdsErfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=aZEWjh2W; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1763141956; c=relaxed/simple;
+	bh=6RrGHT2bPSbv3oW/d6l3Th3a8/G2DqdfYt9P09MdriI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bTpPt4YYmYVMgMCIPH5zdmSACWYUY01pBpGu3ZudtF6ozHesTLfSNAj/k90AMFlm16NqdSdfQjNf1rmuSU5OsT6ntKhO5IZVW6XUyA5tSTQW8naEkV3xUU6VUV2lz81IYNIvHZzD9EXetetn6qMORMCLk48Y8OT1Y8FMZGNOEGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4kpHF5tY; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aZEWjh2W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1763140888;
-	bh=oj7XvIjYe1pE+bYy9IlB8i4bQFjMilLPQjx7YB4+1fA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aZEWjh2Wv997fvjzfjYyiNTQsFctnvqof5bgUkdK3o3MvxxU3L95EO36ZFtvaekJS
-	 bZAOmQW3lf4woB4mnn3aD5fFsnOqaiwBr6Unx6D28n/OhmaUMcto0pQ09uGJFMv32Q
-	 THqCeF0gelYBNeFeiWVOPdzmBRhLCKoGCqx90SlnQw4cIoeNxTu3IEmqa7QDlKImSY
-	 AYkUwTK58gic2wO1WcZDsdSqxvedDR/kGjwS6x3W8gdDro4c+P5vsMEAtppXec2FjI
-	 QazQ6Ew3Qv4PS3ZhA2FcGOa8jYwJWTS2znHOiR3JtY/3AXrMIoI9xYNIna7rXnbfkb
-	 13A8uW35xzEEA==
-Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 59A9117E01EB;
-	Fri, 14 Nov 2025 18:21:27 +0100 (CET)
-Message-ID: <95ce7e6d-a2f3-4dff-adaf-22455f78a836@collabora.com>
-Date: Fri, 14 Nov 2025 18:21:17 +0100
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4kpHF5tY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=6Ck6SOmONUUBFapcwaTAajZaO0W9Pz5IV9Dw+0dnbis=; b=4kpHF5tYp2Yz6vjrWw3CUwrXXh
+	l8dl4e4oNdfuSFYI3a9N/QON/D4BNgazftXzA980LfiWzTzWj6UouLxL25prrHnradLIQ/H6sD/tU
+	MJmUMRGukz9tVd1T79/2VyjYGixXBJpnmKrIjPbr7PRr+aL8yrboMKZjninYXpB5HBvE=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vJxlH-00E0Yl-B0; Fri, 14 Nov 2025 18:39:03 +0100
+Date: Fri, 14 Nov 2025 18:39:03 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	dl-linux-imx <linux-imx@nxp.com>
+Subject: Re: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rpmsg bus
+Message-ID: <1b39ba56-e38c-4661-9973-b56fdaa1bcae@lunn.ch>
+References: <20251104203315.85706-1-shenwei.wang@nxp.com>
+ <20251104203315.85706-4-shenwei.wang@nxp.com>
+ <CACRpkdZR2C=+ssYOKnF=hyOqTakGjVxzp5_qz=3-uYRpzaZgNQ@mail.gmail.com>
+ <AS8PR04MB9176F105B09FF939B22B85E589CFA@AS8PR04MB9176.eurprd04.prod.outlook.com>
+ <9bcd63d2-f75f-4cb6-a81f-eefc983a99bb@lunn.ch>
+ <PAXPR04MB91854DD6096AD550074FA16189CCA@PAXPR04MB9185.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 06/11] drm/v3d: Use huge tmpfs mountpoint helpers
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>, Al Viro
- <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Matthew Wilcox
- <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251114170303.2800-1-loic.molinari@collabora.com>
- <20251114170303.2800-7-loic.molinari@collabora.com>
- <20251114181144.51b44c8b@fedora>
-Content-Language: fr
-From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
-Organization: Collabora Ltd
-In-Reply-To: <20251114181144.51b44c8b@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PAXPR04MB91854DD6096AD550074FA16189CCA@PAXPR04MB9185.eurprd04.prod.outlook.com>
 
-On 14/11/2025 18:11, Boris Brezillon wrote:
-> On Fri, 14 Nov 2025 18:02:57 +0100
-> Loïc Molinari <loic.molinari@collabora.com> wrote:
+On Wed, Nov 12, 2025 at 04:31:52PM +0000, Shenwei Wang wrote:
 > 
->> Make use of the new drm_gem_huge_mnt_create() and
->> drm_gem_get_huge_mnt() helpers to avoid code duplication. Now that
->> it's just a few lines long, the single function in v3d_gemfs.c is
->> moved into v3d_gem.c.
->>
->> v3:
->> - use huge tmpfs mountpoint in drm_device
->> - move v3d_gemfs.c into v3d_gem.c
->>
->> v4:
->> - clean up mountpoint creation error handling
->>
->> v5:
->> - fix CONFIG_TRANSPARENT_HUGEPAGE check
->> - use drm_gem_has_huge_mnt() helper
->>
->> v8:
->> - don't access huge_mnt field with CONFIG_TRANSPARENT_HUGEPAGE=n
->>
->> v9:
->> - replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
->>
->> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
->> ---
->>   drivers/gpu/drm/v3d/Makefile    |  3 +-
->>   drivers/gpu/drm/v3d/v3d_bo.c    |  9 +++--
->>   drivers/gpu/drm/v3d/v3d_drv.c   |  2 +-
->>   drivers/gpu/drm/v3d/v3d_drv.h   | 11 +-----
->>   drivers/gpu/drm/v3d/v3d_gem.c   | 27 ++++++++++++--
->>   drivers/gpu/drm/v3d/v3d_gemfs.c | 62 ---------------------------------
->>   6 files changed, 34 insertions(+), 80 deletions(-)
->>   delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
->>
->> diff --git a/drivers/gpu/drm/v3d/Makefile b/drivers/gpu/drm/v3d/Makefile
->> index fcf710926057..b7d673f1153b 100644
->> --- a/drivers/gpu/drm/v3d/Makefile
->> +++ b/drivers/gpu/drm/v3d/Makefile
->> @@ -13,8 +13,7 @@ v3d-y := \
->>   	v3d_trace_points.o \
->>   	v3d_sched.o \
->>   	v3d_sysfs.o \
->> -	v3d_submit.o \
->> -	v3d_gemfs.o
->> +	v3d_submit.o
->>   
->>   v3d-$(CONFIG_DEBUG_FS) += v3d_debugfs.o
->>   
->> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
->> index d9547f5117b9..211578abf9b6 100644
->> --- a/drivers/gpu/drm/v3d/v3d_bo.c
->> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
->> @@ -114,7 +114,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
->>   	if (IS_ERR(sgt))
->>   		return PTR_ERR(sgt);
->>   
->> -	if (!v3d->gemfs)
->> +	if (!drm_gem_get_huge_mnt(obj->dev))
->>   		align = SZ_4K;
->>   	else if (obj->size >= SZ_1M)
->>   		align = SZ_1M;
->> @@ -150,12 +150,15 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
->>   			     size_t unaligned_size)
->>   {
->>   	struct drm_gem_shmem_object *shmem_obj;
->> -	struct v3d_dev *v3d = to_v3d_dev(dev);
->>   	struct v3d_bo *bo;
->>   	int ret;
->>   
->> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>   	shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
->> -						  v3d->gemfs);
->> +						  dev->huge_mnt);
->> +#else
->> +	shmem_obj = drm_gem_shmem_create(dev, unaligned_size);
->> +#endif
 > 
-> Why not drop the ifdef and go for
+> > -----Original Message-----
+> > From: Andrew Lunn <andrew@lunn.ch>
+> > Sent: Wednesday, November 12, 2025 7:42 AM
+> > To: Shenwei Wang <shenwei.wang@nxp.com>
+> > Cc: Linus Walleij <linus.walleij@linaro.org>; Bjorn Andersson
+> > <andersson@kernel.org>; Mathieu Poirier <mathieu.poirier@linaro.org>; Rob
+> > Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor
+> > Dooley <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha
+> > Hauer <s.hauer@pengutronix.de>; Jonathan Corbet <corbet@lwn.net>; Bartosz
+> > Golaszewski <brgl@bgdev.pl>; Pengutronix Kernel Team
+> > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
+> > <peng.fan@nxp.com>; linux-remoteproc@vger.kernel.org;
+> > devicetree@vger.kernel.org; imx@lists.linux.dev; linux-arm-
+> > kernel@lists.infradead.org; linux-kernel@vger.kernel.org; linux-
+> > doc@vger.kernel.org; dl-linux-imx <linux-imx@nxp.com>
+> > Subject: [EXT] Re: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rpmsg bus
+> > 
+> > Since this has not been merged yet, there are no existing systems.
+> > 
 > 
-> 	shmem_obj = drm_gem_shmem_create_with_mnt(dev,
-> 						  unaligned_size,
-> 						  drm_gem_get_huge_mnt(obj->dev));
-> 
-> ?
+> In this context, "system" refers to both Linux and the remote firmware. The remote firmware 
+> for i.MX platforms has already been released and widely used by our customers. Maintaining 
+> compatibility with the existing firmware would provide a better solution for customers.
 
-Oops, I overlooked that one.
+From what i understand, this is not just GPIO. There is also I2C? And
+RTC? I would expect a generic implementation of these as well? I find
+it unlikely you can persuade all these subsystem Maintainers to accept
+your protocols as is. You need to make changes so that GPIOs
+interrupts work correctly, so i would just accept you need to change
+the firmware. And i've given you a way you can keep backwards
+compatible to your out of tree driver...
 
-> 
->>   	if (IS_ERR(shmem_obj))
->>   		return ERR_CAST(shmem_obj);
->>   	bo = to_v3d_bo(&shmem_obj->base);
-
+	  Andrew
