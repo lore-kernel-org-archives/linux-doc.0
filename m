@@ -1,236 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14DE325717
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 16:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDA72C0F90;
+	Fri, 14 Nov 2025 17:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763137633; cv=none; b=ajZf+mMQ+LNOzNF3DnnyYaMhSsP2LUyQLL40H/4BcTd2BADtB2OdqPPDgPT+4bIqL6/MTZuh1+RDodQlSFaRCmdwOAXlXUc2zSwio1yLXoHM5Av0hTFRH2hRhNuIThsYdyQ8767+QzUyeKfV9b6T2lDLJg0glCI5lwaq8kMk7jI=
+	t=1763139797; cv=none; b=rp5z0XdYCEKzoQUzwiv5XFMXdIYzknIZfnucD8kt/iAueHoAJnkIC08tqtZfDEZ97g1bGIT7qlJ2PxFGLXqL05VoronOevW9J9s3UXAozgn1k1LUed6Y4SPyvBjSUQQQ/g1xB/vvdybteRVxvl5WlTrOUuTfJJhrClMjKtAD3Bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763137633; c=relaxed/simple;
-	bh=GH0x1p5xQyW0d5CtSpWUCrlFzhBbM9mKdVBB/jmQ7ZE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t95jWm21MuvoPO0v3VgqH9+JXDnYscMH1TB940UVLnBiTAFFBN/ZUCvjbrAWDd1wjnMq+IsDXuJMPyilwOGyJZJtnpstCop9jSC3uxrPmAb55ke7CjjpVIPfFmpTz9ILULHlHIzed7/soEn8EAmf/GAkYHUefw73uRdnaXUDTgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W/iCa4sS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763139797; c=relaxed/simple;
+	bh=sQcBV/ZWlVLGeAwivyndjv3Kv+k/mZS823qVLbIeFmg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VokhT2pNSKzLY457GkJWaGaWIiUET9146LJv/9QRHo9pdmDqOnXfJ9cpHqAj7vYVu8D2Q/e8i0F2GrWEC1EEyBNelkH+UHgJTktvgfNG/KlKBv2DzC4kdu+b5rWxHJ+Ej3E6DGUEi6qRcpudpYdcyPKxV58CV8ujxwiY9saVLNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kYKGbltQ; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W/iCa4sS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DBADC113D0
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 16:27:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763137633;
-	bh=GH0x1p5xQyW0d5CtSpWUCrlFzhBbM9mKdVBB/jmQ7ZE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=W/iCa4sSefsnzYgDqAOMmtLp12chNMXh3kIKB4IdEj/E7SY0Ozkbp++ti7ze3ql/d
-	 biX8g0SmPqXbewbGOKWJDzkl/J9zFpO+Q1hdTPKg/4vMiUplSAaICqEjBcdF0I+q4S
-	 wsVZRH5ZTJG8ypX1L/63t3X/MRTBAhF0/+4F/nZiOWhYpX3xmVYGdS/9GBpCpBfl0s
-	 TpZebRHWuaHlQlsNXmpHl4xzxLizNQ7umbxbYs/2BSFd+SwvdZW46SVeaZfujPYCEQ
-	 fW3+GO/SOFuEpzbaRPE7UleNhH/y02wnU1D+zOJC1qoAPdfyycQQ/cUmJmQOZVBw7T
-	 s2lQBlkUp8j3Q==
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7c7060a2a53so572624a34.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 08:27:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWzUxm/C952xXzOPyJY8E9Bd4sEnJlthTUjkPd8afVAbfvH+C+J7c8pd6fZg59cbOg/JiXDBw5V29k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdeQO5X7mv0ws6u/K2gx26sepqprLa+8zHZxtu94ne/ciUczvT
-	Y2aDZbaKMREkPoQgMg4gEU0Oyr9K7FGZAqlaOgi5MEtL5125Yta/23yCF58eUcWcJPS9aLU/deQ
-	pTi6JnGIe3NPJ9n+HMihpvls2tLsIiiU=
-X-Google-Smtp-Source: AGHT+IFomwgz7FSOBRIAN3QEslw7mBsPmy1XN6i1/0rZfmHILpSWXrnEJRQjqLnYKsVCv0YrEcv43cb8VbaQsFB2NQc=
-X-Received: by 2002:a05:6808:1a26:b0:44d:be59:27ea with SMTP id
- 5614622812f47-450973f7945mr1654809b6e.17.1763137632619; Fri, 14 Nov 2025
- 08:27:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kYKGbltQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1763139788;
+	bh=sQcBV/ZWlVLGeAwivyndjv3Kv+k/mZS823qVLbIeFmg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=kYKGbltQKSPQa6YbnxxGn/A+cBP6YJyJu1PnpI/CJ7U9HId/69cWR0lhjhHn5tAVd
+	 VI2OKYdYcMbo2K/cisnj0ARnfDKJ/Eoy/uDBjI7idbD+lebXr3B1zPGhwV3qYXPT3v
+	 9/JYtwfIt6nIuMjKBPQGSDG57MPrTlNGOuY4qXmxvGqJoX6gYh2GCTSOQpF5uL1AUd
+	 KT2BJRO4Bn0V5X8147srHtIp9ZglLJipIgxO7xadYuWUNgQpWmJCqL3ReDFsqT9okT
+	 uDbhhXk8Dm5a0P4pDsML+eRf3L0BIvjTviq6wh8PWF7hfBfBqZBT2wRIxmQpMc+/h/
+	 MJK1qt+7Sp/0g==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7E3E717E12D4;
+	Fri, 14 Nov 2025 18:03:07 +0100 (CET)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Melissa Wen <mwen@igalia.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Nitin Gote <nitin.r.gote@intel.com>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christopher Healy <healych@amazon.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	kernel@collabora.com
+Subject: [PATCH v9 01/11] drm/shmem-helper: Simplify page offset calculation in fault handler
+Date: Fri, 14 Nov 2025 18:02:52 +0100
+Message-ID: <20251114170303.2800-2-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251114170303.2800-1-loic.molinari@collabora.com>
+References: <20251114170303.2800-1-loic.molinari@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251113212104.221632-1-srinivas.pandruvada@linux.intel.com>
-In-Reply-To: <20251113212104.221632-1-srinivas.pandruvada@linux.intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 14 Nov 2025 17:27:01 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0i7fb58CUGwcPcbEXTqDeM5Hm7rRHVvgcr-W4ut8091gQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bnDeEUlhuDdh6zmgjmWSGiGo8jiVXUZ75D8dvWMn9q_dFVXWM268RX16c4
-Message-ID: <CAJZ5v0i7fb58CUGwcPcbEXTqDeM5Hm7rRHVvgcr-W4ut8091gQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: thermal: Add documentation for thermal throttle
-To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: rafael@kernel.org, daniel.lezcano@linaro.org, corbet@lwn.net, 
-	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rdunlap@infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 13, 2025 at 10:21=E2=80=AFPM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> Add documentation for Intel thermal throttling reporting events.
->
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
-> v2:
->  - Addressed comments from Rafael
->  - Limit line lengths ~80 columns
->
->  Documentation/admin-guide/thermal/index.rst   |  1 +
->  .../admin-guide/thermal/thermal_throttle.rst  | 92 +++++++++++++++++++
->  2 files changed, 93 insertions(+)
->  create mode 100644 Documentation/admin-guide/thermal/thermal_throttle.rs=
-t
->
-> diff --git a/Documentation/admin-guide/thermal/index.rst b/Documentation/=
-admin-guide/thermal/index.rst
-> index 193b7b01a87d..2e0cafd19f6b 100644
-> --- a/Documentation/admin-guide/thermal/index.rst
-> +++ b/Documentation/admin-guide/thermal/index.rst
-> @@ -6,3 +6,4 @@ Thermal Subsystem
->     :maxdepth: 1
->
->     intel_powerclamp
-> +   thermal_throttle
-> diff --git a/Documentation/admin-guide/thermal/thermal_throttle.rst b/Doc=
-umentation/admin-guide/thermal/thermal_throttle.rst
-> new file mode 100644
-> index 000000000000..cac2bc3176ce
-> --- /dev/null
-> +++ b/Documentation/admin-guide/thermal/thermal_throttle.rst
-> @@ -0,0 +1,92 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: <isonum.txt>
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Intel thermal throttle events reporting
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> +
-> +Introduction
-> +------------
-> +
-> +Intel processors have built in automatic and adaptive thermal monitoring
-> +mechanisms that force the processor to reduce its power consumption in o=
-rder
-> +to operate within predetermined temperature limits.
-> +
-> +Refer to section "THERMAL MONITORING AND PROTECTION" in the "Intel=C2=AE=
- 64 and
-> +IA-32 Architectures Software Developer=E2=80=99s Manual Volume 3 (3A, 3B=
-, 3C, & 3D):
-> +System Programming Guide" for more details.
-> +
-> +In general, there are two mechanisms to control the core temperature of =
-the
-> +processor. They are called "Thermal Monitor 1 (TM1) and Thermal Monitor =
-2 (TM2)".
-> +
-> +The status of the temperature sensor that triggers the thermal monitor (=
-TM1/TM2)
-> +is indicated through the "thermal status flag" and "thermal status log f=
-lag" in
-> +the MSR_IA32_THERM_STATUS for core level and MSR_IA32_PACKAGE_THERM_STAT=
-US for
-> +package level.
-> +
-> +Thermal Status flag, bit 0 =E2=80=94 When set, indicates that the proces=
-sor core
-> +temperature is currently at the trip temperature of the thermal monitor =
-and that
-> +the processor power consumption is being reduced via either TM1 or TM2, =
-depending
-> +on which is enabled. When clear, the flag indicates that the core temper=
-ature is
-> +below the thermal monitor trip temperature. This flag is read only.
-> +
-> +Thermal Status Log flag, bit 1 =E2=80=94 When set, indicates that the th=
-ermal sensor has
-> +tripped since the last power-up or reset or since the last time that sof=
-tware
-> +cleared this flag. This flag is a sticky bit; once set it remains set un=
-til
-> +cleared by software or until a power-up or reset of the processor. The d=
-efault
-> +state is clear.
-> +
-> +It is possible that when user reads MSR_IA32_THERM_STATUS or
-> +MSR_IA32_PACKAGE_THERM_STATUS, TM1/TM2 is not active. In this case,
-> +"Thermal Status flag" will read "0" and the "Thermal Status Log flag" wi=
-ll be set
-> +to show any previous "TM1/TM2" activation. But since it needs to be clea=
-red by
-> +the software, it can't show the number of occurrences of "TM1/TM2" activ=
-ations.
-> +
-> +Hence, Linux provides counters of how many times the "Thermal Status fla=
-g" was
-> +set. Also presents how long the "Thermal Status flag" was active in mill=
-iseconds.
-> +Using these counters, users can check if the performance was limited bec=
-ause of
-> +thermal events. It is recommended to read from sysfs instead of directly=
- reading
-> +MSRs as the "Thermal Status Log flag" is reset by the driver to implemen=
-t rate
-> +control.
-> +
-> +Sysfs Interface
-> +---------------
-> +
-> +Thermal throttling events are presented for each CPU under
-> +"/sys/devices/system/cpu/cpuX/thermal_throttle/", where "X" is the CPU n=
-umber.
-> +
-> +All these counters are read-only. They can't be reset to 0. So, they can=
- potentially
-> +overflow after reaching the maximum 64 bit unsigned integer.
-> +
-> +``core_throttle_count``
-> +       This shows number of times "Thermal Status flag" changed from 0 t=
-o 1 for this
-> +       CPU since OS boot and thermal vector is initialized. This is a 64=
- bit counter.
-> +
-> +``package_throttle_count``
-> +       This shows number of times "Thermal Status flag" changed from 0 t=
-o 1 for the
-> +       package containing this CPU since OS boot and thermal vector is i=
-nitialized.
-> +       Package status is broadcast to all CPUs; all CPUs in the package =
-increment
-> +       this count. This is a 64-bit counter.
-> +
-> +``core_throttle_max_time_ms``
-> +       This shows the maximum amount of time for which "Thermal Status f=
-lag"
-> +       has been set to 1 for this CPU at the core level since OS boot an=
-d thermal
-> +       vector is initialized.
-> +
-> +``package_throttle_max_time_ms``
-> +       This shows the maximum amount of time for which "Thermal Status f=
-lag"
-> +       has been set to 1 for the package containing this CPU since OS bo=
-ot and
-> +       thermal vector is initialized.
-> +
-> +``core_throttle_total_time_ms``
-> +       This shows the cumulative time for which "Thermal Status flag" ha=
-s been
-> +       set to 1 for this CPU for core level since OS boot and thermal ve=
-ctor
-> +       is initialized.
-> +
-> +``package_throttle_total_time_ms``
-> +       This shows the cumulative time for which "Thermal Status flag" ha=
-s been set
-> +       to 1 for the package containing this CPU since OS boot and therma=
-l vector is
-> +       initialized.
-> +
-> --
+For a fault at address addr, the page offset is
+  page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT
+              = ((addr & PAGE_MASK) - vma->vm_start) >> PAGE_SHIFT
+	      = (addr - vma->vm_start) >> PAGE_SHIFT
 
-Applied as 6.19 material with some adjustments:
-- The new file name is intel_thermal_throttle.rst
-- The subject has been edited to mention Intel
-- There are some minor edits in the document
+Since the faulty logical page offset based on VMA is
+  vmf->pgoff = vma->vm_pgoff + ((addr - vma->vm_start) >> PAGE_SHIFT)
 
-Please check in the bleeding-edge branch if it still looks good.
+We can slightly simplify the calculation using
+  page_offset = vmf->pgoff - vma->vm_pgoff
 
-Thanks!
+Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+---
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index dc94a27710e5..be89be1c804c 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -577,8 +577,8 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ 	struct page *page;
+ 	pgoff_t page_offset;
+ 
+-	/* We don't use vmf->pgoff since that has the fake offset */
+-	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
++	/* Offset to faulty address in the VMA (without the fake offset). */
++	page_offset = vmf->pgoff - vma->vm_pgoff;
+ 
+ 	dma_resv_lock(shmem->base.resv, NULL);
+ 
+-- 
+2.47.3
+
