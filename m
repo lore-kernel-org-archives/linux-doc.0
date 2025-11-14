@@ -1,166 +1,163 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8419F26B2D3;
-	Fri, 14 Nov 2025 17:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420D23358B5;
+	Fri, 14 Nov 2025 17:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763140228; cv=none; b=BO2uUG82PEtI/iL2OFr4qNegfxbzrKWGxWcUrZ348cTQ7eppmcV5PRZMAl1EYJBsK+wP7dT8Ww9rn7Y2+DEJ7mLDoqwlTQuPDHG0GcvhtasiLc+scGOl9OyoO1+cC2d8uYlau47CulQuXORcdARAJSsxFBMiO+O9K6zFyNbt0kU=
+	t=1763140314; cv=none; b=Vm222Dk0T0xzwj/NrVdPZysPxv7hVtuyKsMCql8/v8RUL2nBaSvR8u0CU0QtVmFMkJaymQEchAqn3mcbWPVpK0wGAMoxr3c6wCcOxwhwWeW2DeApZl+K9mhUOaKzgs3M9mB6c+j6oBTsausYmpE35EP5gGwOvecPzlsvPCBpzr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763140228; c=relaxed/simple;
-	bh=lwuO3l3OhkEYk8WmTHhDZ8zlYyo5zBacqtocE1oArGg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P+/EaII3obsYoijtv/w5z6gmJ8atY2VLNxUeg8B9u5jbYFsU6mf8Z1Z056mWSyM/U6uLZlGx+fhCQioqS4OoL9OTKWCPLZuk2EwKLiG4IX1zSW6AEaPOtbZIOMK3tgDDAn3AU9AJwMr7MOpuFMEMMREHoYkc6spPyA5LfG+xQhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D57521063;
-	Fri, 14 Nov 2025 09:10:16 -0800 (PST)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1BBB23F63F;
-	Fri, 14 Nov 2025 09:10:23 -0800 (PST)
-Date: Fri, 14 Nov 2025 17:10:22 +0000
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 11/13] coresight: Extend width of timestamp format
- attribute
-Message-ID: <20251114171022.GL3568724@e132581.arm.com>
-References: <20251112-james-cs-syncfreq-v4-0-165ba21401dc@linaro.org>
- <20251112-james-cs-syncfreq-v4-11-165ba21401dc@linaro.org>
+	s=arc-20240116; t=1763140314; c=relaxed/simple;
+	bh=WlbXwYIISbc9OIhLL3wAoAgqK0p6o8kpKTuAtUHBtw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=X/CvFZmC+U8VLyiEuWdludg1NJ7ZxbN3DCLlayMqibPaE6Et/mIGSuVxSLaenwGMuCxmRomPCH1BPjOZCruSnP/+nTB7EnmOJnRIgdLtlHDCAd3eUemsIWlL0QxqyloH+iFEbixj6Nl/2KKmhGrGfadEnoZhGTFmyBybg3HP1q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iO5UYGYr; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iO5UYGYr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1763140310;
+	bh=WlbXwYIISbc9OIhLL3wAoAgqK0p6o8kpKTuAtUHBtw0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=iO5UYGYreCQecXg4Cf7etlTDF+O+an0YK++LVDcKAgJ4mGZnEV6zcqe2ZpNckJyNL
+	 bVAHVrKEvGWrvd2zu2ZnxInpBqi8GOkGZkEq7zoFMxsScHD/Bx9x/PEnzfJqra/F9W
+	 +cT6OKCbmlnOPSZQI/IMuRRXfSzKVIrJ3wBomNEXCnblZzjFAS/2GevNrLmBDatZUE
+	 WBuNyfpg1nV2FRCxk6dZuxFanfvcnEQdMhIKuDhrrvykrUTywnqjID/cm/Xn/GJa82
+	 1bOt+WNJh1GXksFSohsIy5WA71wVXhYwe8QLxWUoAs2dCI9boQDhCo+t5mIB/ECm+z
+	 zD6ls0I09fXKg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4768617E12D5;
+	Fri, 14 Nov 2025 18:11:49 +0100 (CET)
+Date: Fri, 14 Nov 2025 18:11:44 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
+ Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v9 06/11] drm/v3d: Use huge tmpfs mountpoint helpers
+Message-ID: <20251114181144.51b44c8b@fedora>
+In-Reply-To: <20251114170303.2800-7-loic.molinari@collabora.com>
+References: <20251114170303.2800-1-loic.molinari@collabora.com>
+	<20251114170303.2800-7-loic.molinari@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251112-james-cs-syncfreq-v4-11-165ba21401dc@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 12, 2025 at 03:22:17PM +0000, James Clark wrote:
-> 'timestamp' is currently 1 bit wide for on/off. To enable setting
-> different intervals in a later commit, extend it to 4 bits wide. Keep
-> the old bit position for backward compatibility but don't publish in the
-> format/ folder. It will be removed from the documentation and can be
-> removed completely after enough time has passed.
-> 
-> ETM3x doesn't support different intervals, so validate that the value is
-> either 0 or 1.
-> 
-> Tools that read the bit positions from the format/ folder will continue
-> to work as before, setting either 0 or 1 for off/on. Tools that
-> incorrectly didn't do this and set the ETM_OPT_TS bit directly will also
-> continue to work because that old bit is still checked.
-> 
-> This avoids adding a second timestamp attribute for setting the
-> interval. This would be awkward to use because tools would have to be
-> updated to ensure that the timestamps are always enabled when an
-> interval is set, and the driver would have to validate that both options
-> are provided together. All this does is implement the semantics of a
-> single enum but spread over multiple fields.
+On Fri, 14 Nov 2025 18:02:57 +0100
+Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
 
-Just a bit thoughts.  My understanding is that the PMU format would
-clearly represent the PMU characteristics.  I imagine that after reading
-the ETM specification, someone should be able to easily map to the PMU
-formats (enable field and counter field separately).
-
-Alternatively, this patch provides a user-friendly interface that allows
-all settings (enable + counter) in one go.  Users can benefit from it
-without knowing the underlying hardware mechanism, but might need to
-digest its semantics.  As this will be well documented, I am fine for
-current approach:
-
-Reviewed-by: Leo Yan <leo.yan@arm.com>
-
-
-> Signed-off-by: James Clark <james.clark@linaro.org>
+> Make use of the new drm_gem_huge_mnt_create() and
+> drm_gem_get_huge_mnt() helpers to avoid code duplication. Now that
+> it's just a few lines long, the single function in v3d_gemfs.c is
+> moved into v3d_gem.c.
+>=20
+> v3:
+> - use huge tmpfs mountpoint in drm_device
+> - move v3d_gemfs.c into v3d_gem.c
+>=20
+> v4:
+> - clean up mountpoint creation error handling
+>=20
+> v5:
+> - fix CONFIG_TRANSPARENT_HUGEPAGE check
+> - use drm_gem_has_huge_mnt() helper
+>=20
+> v8:
+> - don't access huge_mnt field with CONFIG_TRANSPARENT_HUGEPAGE=3Dn
+>=20
+> v9:
+> - replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
+>=20
+> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
 > ---
->  drivers/hwtracing/coresight/coresight-etm-perf.h   | 13 ++++++++++---
->  drivers/hwtracing/coresight/coresight-etm3x-core.c |  9 ++++++++-
->  drivers/hwtracing/coresight/coresight-etm4x-core.c |  4 +++-
->  3 files changed, 21 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.h b/drivers/hwtracing/coresight/coresight-etm-perf.h
-> index c794087a0e99..24d929428633 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm-perf.h
-> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.h
-> @@ -23,6 +23,9 @@ struct cscfg_config_desc;
->  #define ATTR_CFG_FLD_preset_CFG			config
->  #define ATTR_CFG_FLD_preset_LO			0
->  #define ATTR_CFG_FLD_preset_HI			3
-> +#define ATTR_CFG_FLD_timestamp_CFG		config
-> +#define ATTR_CFG_FLD_timestamp_LO		4
-> +#define ATTR_CFG_FLD_timestamp_HI		7
->  #define ATTR_CFG_FLD_branch_broadcast_CFG	config
->  #define ATTR_CFG_FLD_branch_broadcast_LO	8
->  #define ATTR_CFG_FLD_branch_broadcast_HI	8
-> @@ -35,9 +38,13 @@ struct cscfg_config_desc;
->  #define ATTR_CFG_FLD_contextid2_CFG		config
->  #define ATTR_CFG_FLD_contextid2_LO		15
->  #define ATTR_CFG_FLD_contextid2_HI		15
-> -#define ATTR_CFG_FLD_timestamp_CFG		config
-> -#define ATTR_CFG_FLD_timestamp_LO		28
-> -#define ATTR_CFG_FLD_timestamp_HI		28
-> +/*
-> + * Old position of 'timestamp' and not published in sysfs. Remove at a later
-> + * date if necessary.
-> + */
-> +#define ATTR_CFG_FLD_deprecated_timestamp_CFG	config
-> +#define ATTR_CFG_FLD_deprecated_timestamp_LO	28
-> +#define ATTR_CFG_FLD_deprecated_timestamp_HI	28
->  #define ATTR_CFG_FLD_retstack_CFG		config
->  #define ATTR_CFG_FLD_retstack_LO		29
->  #define ATTR_CFG_FLD_retstack_HI		29
-> diff --git a/drivers/hwtracing/coresight/coresight-etm3x-core.c b/drivers/hwtracing/coresight/coresight-etm3x-core.c
-> index 584d653eda81..d4c04e563bf6 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm3x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm3x-core.c
-> @@ -338,9 +338,16 @@ static int etm_parse_event_config(struct etm_drvdata *drvdata,
->  	if (ATTR_CFG_GET_FLD(attr, cycacc))
->  		config->ctrl |= ETMCR_CYC_ACC;
->  
-> -	if (ATTR_CFG_GET_FLD(attr, timestamp))
-> +	if (ATTR_CFG_GET_FLD(attr, deprecated_timestamp) ||
-> +	    ATTR_CFG_GET_FLD(attr, timestamp))
->  		config->ctrl |= ETMCR_TIMESTAMP_EN;
->  
-> +	if (ATTR_CFG_GET_FLD(attr, timestamp) > 1) {
-> +		dev_dbg(&drvdata->csdev->dev,
-> +			"timestamp format attribute should be 0 (off) or 1 (on)\n");
-> +		return -EINVAL;
-> +	}
-> +
->  	/*
->  	 * Possible to have cores with PTM (supports ret stack) and ETM (never
->  	 * has ret stack) on the same SoC. So only enable when it can be honored
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> index 1aa0357a5ce7..d4e294cd48ae 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -28,6 +28,7 @@
->  #include <linux/amba/bus.h>
->  #include <linux/seq_file.h>
->  #include <linux/uaccess.h>
-> +#include <linux/perf/arm_pmu.h>
->  #include <linux/perf_event.h>
->  #include <linux/perf/arm_pmu.h>
->  #include <linux/platform_device.h>
-> @@ -800,7 +801,8 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
->  			cc_threshold = drvdata->ccitmin;
->  		config->ccctlr = cc_threshold;
->  	}
-> -	if (ATTR_CFG_GET_FLD(attr, timestamp)) {
-> +	if (ATTR_CFG_GET_FLD(attr, deprecated_timestamp) ||
-> +	    ATTR_CFG_GET_FLD(attr, timestamp)) {
->  		/*
->  		 * Configure timestamps to be emitted at regular intervals in
->  		 * order to correlate instructions executed on different CPUs
-> 
-> -- 
-> 2.34.1
-> 
+>  drivers/gpu/drm/v3d/Makefile    |  3 +-
+>  drivers/gpu/drm/v3d/v3d_bo.c    |  9 +++--
+>  drivers/gpu/drm/v3d/v3d_drv.c   |  2 +-
+>  drivers/gpu/drm/v3d/v3d_drv.h   | 11 +-----
+>  drivers/gpu/drm/v3d/v3d_gem.c   | 27 ++++++++++++--
+>  drivers/gpu/drm/v3d/v3d_gemfs.c | 62 ---------------------------------
+>  6 files changed, 34 insertions(+), 80 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+>=20
+> diff --git a/drivers/gpu/drm/v3d/Makefile b/drivers/gpu/drm/v3d/Makefile
+> index fcf710926057..b7d673f1153b 100644
+> --- a/drivers/gpu/drm/v3d/Makefile
+> +++ b/drivers/gpu/drm/v3d/Makefile
+> @@ -13,8 +13,7 @@ v3d-y :=3D \
+>  	v3d_trace_points.o \
+>  	v3d_sched.o \
+>  	v3d_sysfs.o \
+> -	v3d_submit.o \
+> -	v3d_gemfs.o
+> +	v3d_submit.o
+> =20
+>  v3d-$(CONFIG_DEBUG_FS) +=3D v3d_debugfs.o
+> =20
+> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+> index d9547f5117b9..211578abf9b6 100644
+> --- a/drivers/gpu/drm/v3d/v3d_bo.c
+> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
+> @@ -114,7 +114,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
+>  	if (IS_ERR(sgt))
+>  		return PTR_ERR(sgt);
+> =20
+> -	if (!v3d->gemfs)
+> +	if (!drm_gem_get_huge_mnt(obj->dev))
+>  		align =3D SZ_4K;
+>  	else if (obj->size >=3D SZ_1M)
+>  		align =3D SZ_1M;
+> @@ -150,12 +150,15 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev=
+, struct drm_file *file_priv,
+>  			     size_t unaligned_size)
+>  {
+>  	struct drm_gem_shmem_object *shmem_obj;
+> -	struct v3d_dev *v3d =3D to_v3d_dev(dev);
+>  	struct v3d_bo *bo;
+>  	int ret;
+> =20
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>  	shmem_obj =3D drm_gem_shmem_create_with_mnt(dev, unaligned_size,
+> -						  v3d->gemfs);
+> +						  dev->huge_mnt);
+> +#else
+> +	shmem_obj =3D drm_gem_shmem_create(dev, unaligned_size);
+> +#endif
+
+Why not drop the ifdef and go for
+
+	shmem_obj =3D drm_gem_shmem_create_with_mnt(dev,
+						  unaligned_size,
+						  drm_gem_get_huge_mnt(obj->dev));
+
+?
+
+>  	if (IS_ERR(shmem_obj))
+>  		return ERR_CAST(shmem_obj);
+>  	bo =3D to_v3d_bo(&shmem_obj->base);
