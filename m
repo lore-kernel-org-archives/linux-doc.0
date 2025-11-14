@@ -1,26 +1,67 @@
-Received: from mail-m1973186.qiye.163.com (mail-m1973186.qiye.163.com [220.197.31.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9FE306D58
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 09:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570522FAC0C
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 09:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763113118; cv=none; b=Lh6Ktsz2J288yFaf/zDnVQhDhfFvaB1x8S1KVrAlY5vn7Vdc6nBXg7xpfPoZ/7slbbi/tkcOYopHZzt8zwAorNEIk0bf7aNAl8NAg8fwxKPvPCkid3d3G9fP0zs72rpK/XctQRuJDe4dmZjQ7EfM5BuhLILJRjIl62nTxla58Lg=
+	t=1763114391; cv=none; b=XFt/pZYnaMO4A6paO8s+PJSy7tPrgBd33noDx0JYG9OsvR+WIHfZ9NKxnUWnP5rHudpMep8EBKUiVmU6PWY17bzmJkW23rPHXe49G9q3xyxYrtYz+2QXLAqkeW4BTkbp8AbfUc3dv6bG8XaX4dzsKTdHZ1PuQLVP+KQmx78eOVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763113118; c=relaxed/simple;
-	bh=62AJ1g0WRtTp7PfY0h78F+k1VBncetKXt/KZSMVFNoU=;
+	s=arc-20240116; t=1763114391; c=relaxed/simple;
+	bh=DHf7STu3fVuI0v0oulr9m9V/jFgWRVRL6YvEAHPEjVY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p98qB6hbGDdRAC2CUW8QsWIzDhsLlhxMkqZKivYxWbVgCEMulQpe+NVJ2Zgh4FLnPvhAwzvdagykFIpIlgV6hCCaoWPx9zejxKtyZ2eZNDLzTwMlnXOFxo2jYbmRkTtc0DsuPgp4lsnACd/4x4iMoltLwNeTQIuodlG9bcxCYTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=SzA1wy8p; arc=none smtp.client-ip=220.197.31.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	 In-Reply-To:Content-Type; b=lTLV6LNjdhal6r07oF5i8rQfSKx7KF77pbs2NtJ4/d425NXsXQh5jvX26mH7MXFmv1yqrNgWjUyfAsqX3Rb2AqHULfWIG9ocOnRNEuupETdZ3MSjqaJjICQyOrKNCxBPIUwtVidwPm1id9vNvX1U72JU+SMU9exV4EeAu0tlOaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RD53t3h8; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="SzA1wy8p"
-Received: from [10.0.66.19] (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2999bd7c9;
-	Fri, 14 Nov 2025 17:33:23 +0800 (GMT+08:00)
-Message-ID: <c278f8a7-b9e7-4ad1-85d9-6dcabebcd0df@leap-io-kernel.com>
-Date: Fri, 14 Nov 2025 17:33:21 +0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RD53t3h8"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42b312a086eso1077648f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 01:59:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1763114388; x=1763719188; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nrQJj+UBZFNYF2dhW3PzZmg/h3v8iAh4uR7Mb9IBPf8=;
+        b=RD53t3h885AXokyYceQkXKqhE+pJWNkvaS/jADy94wwCEpx2LjUlzVyB5VVbNIZT5v
+         TL+rxM3ei9PxMoDbHUXL9ARlqmGDPZK759R65fh4eHB4xSxHejHc7opWKx2DNhws4R0M
+         3hjyJfxVsHG84tsJXn1RSkGuQT09AUtbTE4DWfyiWG/mT3RqaxBnIdIZuCjm5O4y44oj
+         tKC3S3uYCFYauvLi3QSVhs0hLL07iDBxlon+TNYrAymQWmX/ReGErVh0dqtKiBRZYOCT
+         NdarqRBqEmxBXWFxBI8EMJdUcYeu5SUfoiLD98qZuX3muHyUiVqyF0jHbv8gIho20N2p
+         Q6Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763114388; x=1763719188;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nrQJj+UBZFNYF2dhW3PzZmg/h3v8iAh4uR7Mb9IBPf8=;
+        b=knrTZRxVtZiTYkblW3Ztxe48C0EoOY3YXTbqjM0wtZET6Kueo2XGS2kKIIn9otcS6M
+         X/yaNTPyFhtHgbIBdgNR8WXxxkDe+H9caH1lctimlM4uzwmYCHng6shlPOfqkyBq/KrZ
+         5JIvlpUfy+N5uWXndQWi0lpO1oK/Ip2XAIMjRwAzQL4HHBPQ4/zB/19VdZow4hKJu76e
+         GASYBSZedgsuKksepvy0b+UKVSrBaYBoGCH1UDZgRP45W3z3XxbKO2NlQqC4KOtqwjsr
+         yTHVML4OoXuVItUakny5PCNiKbJnTTkf+E+61f+RQOlnv35tGZuXUI4+CXYAj54B7wJi
+         a+vw==
+X-Forwarded-Encrypted: i=1; AJvYcCXI8VyrUQX0F4IBpbptYC48v/r8uBD1k7+2ebT/pVEnHGeZNI7VfTcGavwgBiq9DjUZOsXl2C72ev0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUAYx/cMAbggVBEG4vU6MEnsZ6ll4JT6oLTlldxbzT3YhjqeoB
+	wCC5ju97wiclKZWU7KY8zBgGUQq6hXSOzGUW+LlHyvu/PaBKA1wJknaeI6XhivCVx20=
+X-Gm-Gg: ASbGncv0r7sI7oCRCbRwG9RBgZFTLoSw80ZCXvbruU9xq0+kGzKbmzVA9FOZnF1bWX2
+	3WVlIGBT/AnUGyla5FRCPCNN1rewYcz0QHaVaWf8UsIM0QTjaf3w0plMFgpINlw4sSR8SjtwGyb
+	VtLg7a1taN2s5DqS5SYxZnLzm9ySZ763AemsHDMOsp3HncP2lXwJZZFYKrHd1DOCDA73cGFDZgN
+	fToWUQ2tRkgP4WdKsc0IipTN9igmkPMuUFVDyrsRw4NniY67kQNu16Y1Z0VqeaLELDirNsIIBCI
+	ORTe37cKJk/6UuVqAPew+mqaFmT26scZHPhLS43Pp+w5rX5CKBgvC3U6hJ5xrOi5gvFYKkUIDrJ
+	0nPk5e2f5CDLIWTcHIEipQTgxH2HXPY2X8d/HFNhlusTg6PekfhJ/UJ0gYIzF/eiVrAX5qixjC+
+	DwDY+uE6Soit5Ta7Am
+X-Google-Smtp-Source: AGHT+IHr/RGTftbN2wZlrzbDKOZVG2oNeQkhL8m189JNVIJ0i0dp6Io7uXTllB06dYu72314ISgwTQ==
+X-Received: by 2002:a05:6000:2c09:b0:429:c2fb:c268 with SMTP id ffacd0b85a97d-42b5959ec5amr2193055f8f.56.1763114387741;
+        Fri, 14 Nov 2025 01:59:47 -0800 (PST)
+Received: from [192.168.1.3] ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f17cbfsm8780535f8f.35.2025.11.14.01.59.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Nov 2025 01:59:47 -0800 (PST)
+Message-ID: <67142b63-b413-4ed6-8526-b18b38667d42@linaro.org>
+Date: Fri, 14 Nov 2025 09:59:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -28,100 +69,68 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] docs/zh_CN: Add blk-mq.rst translation
-To: WangYuli <wangyuli@aosc.io>, alexs@kernel.org, si.yanteng@linux.dev
-Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- doubled@leap-io-kernel.com
-References: <cover.1763105050.git.kezijie@leap-io-kernel.com>
- <f90d639dcb2a8064c6a5e85614c4da263b9942dc.1763105050.git.kezijie@leap-io-kernel.com>
- <1a228389-14dc-4d2f-ba15-e9397c83a4c6@aosc.io>
-From: ke zj <kezijie@leap-io-kernel.com>
-In-Reply-To: <1a228389-14dc-4d2f-ba15-e9397c83a4c6@aosc.io>
+Subject: Re: [PATCH v4 13/13] coresight: docs: Document etm4x timestamp
+ interval option
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
+ <mike.leach@linaro.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@arm.com>
+References: <20251112-james-cs-syncfreq-v4-0-165ba21401dc@linaro.org>
+ <20251112-james-cs-syncfreq-v4-13-165ba21401dc@linaro.org>
+ <0eb1a2b7-8064-4ac5-bcf8-b4898a8b5ac7@infradead.org>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <0eb1a2b7-8064-4ac5-bcf8-b4898a8b5ac7@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a81b65b6609d8kunm75c74e7b1969c20
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDSE8fVkpJGh8eTx1CSx4ZGFYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=SzA1wy8pC4Xsq/8yHYLtkidhuiwSzMWUVkl8DUH4BKq/76FeUoPi5sbj5msb4CHil8uLdm/efnBrhaa5V/K7jMAJnV5TVYHtmMKU+tTc44MSJ8XZ1Ju97R42YBO9S6utgWi00b1Tp/oyRcZu+C1g2fM1dtgoCqvA+wHxLqe2F7zKSQMS1dmcgePjbI8LtpOFIoaX4+N5oy3vyzDnlINKNYXyNgCSk5mRA2PKwPCuk4OzB47PTuriTLnxwB8ihFPdHdcq6m9PBfiDQVpwA2XQaSirQPY/X3ZyEBjeSqUw33WTta837AEcahtGl5fUQ6GvMEJdF6CrTkoeF0FaXCfGZA==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=h/cpThxcPPgdJx9vum9pzpcJ7sjRqR1GkL9D8cFZzmk=;
-	h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 7bit
 
-在 2025/11/14 15:45, WangYuli 写道:
-> Hi 子杰,
+
+
+On 14/11/2025 5:02 am, Randy Dunlap wrote:
 > 
-> On 2025/11/14 15:37, ke zijie wrote:
->> Translate .../block/blk-mq.rst into Chinese.
->> Add blk-mq into .../block/index.rst.
+> 
+> On 11/12/25 7:22 AM, James Clark wrote:
+>> Document how the new field is used, maximum value and the interaction
+>> with SYNC timestamps.
 >>
->> Update the translation through commit 41bd33df4e18
->> ("docs: block: blk-mq.rst: correct places -> place")
->>
->> Signed-off-by: ke zijie <kezijie@leap-io-kernel.com>
+>> Signed-off-by: James Clark <james.clark@linaro.org>
 >> ---
->>   .../translations/zh_CN/block/blk-mq.rst       | 128 ++++++++++++++++++
->>   .../translations/zh_CN/block/index.rst        |   3 +-
->>   2 files changed, 130 insertions(+), 1 deletion(-)
->>   create mode 100644 Documentation/translations/zh_CN/block/blk-mq.rst
+>>   Documentation/trace/coresight/coresight.rst | 15 +++++++++++++--
+>>   1 file changed, 13 insertions(+), 2 deletions(-)
 >>
->> diff --git a/Documentation/translations/zh_CN/block/blk-mq.rst b/ 
->> Documentation/translations/zh_CN/block/blk-mq.rst
->> new file mode 100644
->> index 000000000000..b6933e8e96ed
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/block/blk-mq.rst
->> @@ -0,0 +1,128 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
+>> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+>> index 806699871b80..80b5ed09d69b 100644
+>> --- a/Documentation/trace/coresight/coresight.rst
+>> +++ b/Documentation/trace/coresight/coresight.rst
+>> @@ -613,8 +613,19 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
+>>        - Session local version of the system wide setting: :ref:`ETM_MODE_RETURNSTACK
+>>          <coresight-return-stack>`
+>>      * - timestamp
+>> -     - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
+>> -       <coresight-timestamp>`
+>> +     - Controls generation and interval of timestamps.
 >> +
->> +:Original: Documentation/block/blk-mq.rst
+>> +       0 = off, 1 = maximum interval .. 15 = minimum interval.
 >> +
->> +:翻译:
->> +
->> + 柯子杰 kezijie <kezijie@leap-io-kernel.com>
->> +
->> +:校译:
->> +
->> +
->> +
->> +================================================
->> +多队列块设备I/O排队机制 (blk-mq)
->> +================================================
->> +
->> +多队列块设备I/O排队机制是一组API，它使高速存储设备能够排队并同时向块设备
+>> +       Values 1 - 14 use a counter that decrements every cycle to generate a
+>> +       timestamp on underflow. The reload value for the counter is 2 raised to
+>> +       the power of timestamp interval - 1. If the value is 1 then the reload
+>> +       value is 1, if the value is 11 then the reload value is 1024 etc.
 > 
-> In general, there should be a space between Chinese characters and 
-> English words or numbers.
+> 	  value = 11: 2^11-1 = 2047
 > 
-> For example, write “多队列块设备 I/O 排队机制是一组 API，” rather than 
-> “多队列块设备I/O排队机制是一组API。”
-> 
-> Thanks,
-> 
-> -- 
-> 
-> WangYuli
+> Maybe add some parens?
 > 
 > 
-> 
-Hi Yuli,
 
-Thank you very much for your review.
+Will do. I had them but I removed them because it was in a sentence so 
+it made it look like a side note. I think I'll change from words to symbols:
 
-Regarding the spacing issue: I checked several translated documents and 
-noticed that many of them did not include spaces between Chinese and 
-English words. Because of that, I didn’t realize this was now the 
-preferred convention.
+   The reload value for the counter is 2 ^ (interval - 1).
 
-Is this a recently adopted guideline for translated documentation?
-If so, I will fix all spacing issues in the next version of the patch.
+Thanks
+James
 
-This is also my first time submitting a patch to the community, so 
-please forgive me if I've made any beginner mistakes.
-
-Thanks again for your time and guidance.
-
-Best regards,
-Ke Zijie
