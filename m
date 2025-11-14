@@ -1,102 +1,135 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD44B27CB35
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 11:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15BB3168E2
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 11:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763119898; cv=none; b=A8RKhzpIBbV2dJzxArLSxUbaOQXawf1OTP1R8SZc8NR6jsnDObCyzK1OYJMDLWCe5qYpcG9gamryzZMLqmMfXf9d+BmClFTM/Tkc4+RLItktIcEEB+3m3r2kqCkvXBSfPXcO4JLOo4dPbu5XP1opT4bnzQBxkAPITDeQFtJJ3/A=
+	t=1763121339; cv=none; b=fg6ESgwG3151qLgYfVVCW54KZMdSkk9bJKkwfSWCxSjkzGbkbtuJHD0U5X6lsyq1NgANQl1gzL+KRG8BotZi6bquScP3JyKXxsbI+x/nP76UT99nyLeNmpE30TS6WifuVjuj/zSyXXc1jqgk3xl90YIUQZ0h+ssvRQ5Nfu/H1hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763119898; c=relaxed/simple;
-	bh=yY8dDK+9+GGlj8GO1n33Q25F++VD0RMhjBiJ+NuW4YM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h82cYS+PvRA4olytazcqMVkLTov1BYZH9y9nH/gaGPmYLk6/br3+EUruEgM6VrDG4PRgpx8BY83qrxuku+JeYdKd0u/7I0QKL07sPN0hta2XwTsisjorAanU35kpUgJOHTxC58mWM3G+mDClhXFVaSpWsEa7wpdN0ezknxR4HwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kejTwWxA; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763121339; c=relaxed/simple;
+	bh=kSsVcz8630KwHo4IO7LJsqMTZrFWGAD+oaRzx2FLL3w=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=VEhEntn+FY7ocWugltBUAHODqL0Nk4taZqKOdT0pbIRyJYM45LfIaGG6IUWSlcAEYBFb3jRwqWfOrqmFsER2zz6CI49Z+GisuswN4O3fNlSqrd3y1kW6xVrtVFyOeZc4YBYlsleabnhaA47aodOlspm92d8OAZK/3XTt9OUZAgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SLawjDEm; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kejTwWxA"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b98983bae8eso1103530a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 03:31:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SLawjDEm"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-477442b1de0so12929755e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 03:55:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763119896; x=1763724696; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NgRqYgxXqFuMSxMg1tYiXZRbYQe+v5MKT7uY+2QWQrA=;
-        b=kejTwWxAwceW6MW5paHJG1EIM8loj+7UBZL17Ke1ZhRWzTKGgPUc7m9SZPYZ49D53R
-         nJZRDEqVMvEUkDzxUCOqINV2xvioXjx9PUDCTg/56w5ZDvQwHWbJwwaEBH+bPXQ2XjVV
-         Jc7kUCKNM87dQrzyR+wZcRQ9Bkg3ZoLQdoPzkTy1R/dh3mORI0MOUCwxQ2glqKsFugll
-         +hTCQ17mgVV27ybj3Yyptnx6VkFP4RLKFvx/DSZIA5feVHpJvwJFTZUyqDUv3ygWUqMu
-         kQLQ/BmJMClz0qKqxFR6Pti08qnIs+TkAm5fdPhQfknb1wYnrazg63Ee/qgLPnZ8QRUw
-         5VgA==
+        d=linaro.org; s=google; t=1763121335; x=1763726135; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=kSsVcz8630KwHo4IO7LJsqMTZrFWGAD+oaRzx2FLL3w=;
+        b=SLawjDEmIkye7FklV/K0NRjVRjISwZlLXhh7NLhMp5I8d6eIDNFW3ENbEsrnKlOEbK
+         wP0JiezJ6FXzc0YP0NiJOoRTpo2jTNUHgpttC37nd6OidVHmg+Z64cRg9Honr90y+7fD
+         vY4U5+gOET7UBDi2+6m0nE3IHVqTC+n8b2MjOoukKLSqOQdSZcbd7UFfL1zB8pbmmyxV
+         nzCfQmH8JdYSC1KDcjNxE6slEewY9NdKw+gPg7Qt9glB4DcEfcCKGThdsdB/7uqtGY+c
+         Icm6rA+EMa6fppbBYI178ND65UVjuOU36LmpQdA7TaLx/mqrvylgW2CLEK+1YSXtpTqF
+         //2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763119896; x=1763724696;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NgRqYgxXqFuMSxMg1tYiXZRbYQe+v5MKT7uY+2QWQrA=;
-        b=mNqfo3DCO8Jb8fC3WnAO8lKy6m+yxCeQXg9jpcMYrYrbJA41uGBDtzsb4umzicZ/2A
-         7GjoR5oIJb4lHpATN065U9C9gJkQXEKYUiYcumDxcd+cUBZxZCfGQrQzTUCS/5Nvfe4a
-         zMdy1wFbPmXmra/hpsTkSS+CAEhpUiFtbBvsEaS8PXsMS6wS5vhvAocKmEt8ouFI45fZ
-         M8nrDMhs0mAubXKTY3I9bdqehyGNpGxRiG+jQNDfUm4USC46fMhhL9Tm6osoNVjqDYPh
-         c1HzUKJEFHQORCQK9wE2y9bu4Ji0VsN62k20fyziSe840AIRuP1GfUD5Bpt+F6SmhVzh
-         agNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVeSl9D6fsjhuueCc4vrmWYz2kJS2C8uguaTAS+Cy7OnpgFS53ggsNIIxPLlTFZm+QbRJlky0SrzVY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0F3S0xHmkD9u8uK/VrZrjycxHrDM+11XXYuJ1mX0rXZZ8/YcK
-	GVgzh+vg8+4H2+O7QDaPrWlEQXpNuqoFOOqHVfJTou7W7iNKCJtVO4ttCPK67oprF7i/3Zd/GIw
-	58S0nj0UYnPqz1Mf2NbwhoWtyCbTqO9c=
-X-Gm-Gg: ASbGncumDY72QTSQstI/TheuaKntm9cbXluc/FiwmLbp7k+bSXQ64SJay2RhJLtTZYw
-	0iIeobaHGirCH38h5qoD5jDplf6QSRO000IsyPuLrquTJmiIZfUCSSDBoRaw8s6sDF9tejIdfk/
-	kRff06pG3h/k1genL42eC17eEm14/jNvSMN5bHRUqUvEPPAke4xIQY9p2U9hsRMh/Iou82GRjLF
-	k4rHiFt2zocM0VmLcVfziaWNvMxiJ+eOxwBPAOOu8zKe/YUl4fXg/klCA==
-X-Google-Smtp-Source: AGHT+IGlHNw0l3S5Otdz7LKFqu/i+iNivU2AQpyqv0B9Dy5yPo9Tbu6Sp7ewlzeZ12h/NNrQj/U0UFD2ENmJE8ha/RQ=
-X-Received: by 2002:a05:7022:388e:b0:11b:12ef:967d with SMTP id
- a92af1059eb24-11b40e84a98mr866351c88.7.1763119895959; Fri, 14 Nov 2025
- 03:31:35 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763121335; x=1763726135;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kSsVcz8630KwHo4IO7LJsqMTZrFWGAD+oaRzx2FLL3w=;
+        b=lbRPezFLes4IXumOGBtRdvIFSG4YizTG97dTF0l6BO6mGPE1TCrEL9Nf0YAXqyjhaE
+         m0otpOmrtFNt7N1hmGbddoUfgJH/X5ya9q5uzMqkYxj5cf05swNBI1KRwKFcEqNu61DA
+         rW9d+QZwa9EgRD08EQGCtSdnE9Rc/h1Gj5Mu9K5+mb4lrYunmx8EhZdX8a68rbpNlpnE
+         2Ci9433Glkr61uQN3XJJTl1wYROMfYrTlarWcEvC49gNiOvKd482m7MnYKIfQdsd3ngs
+         1DpDZ6TtdEXDAD/RLhpSZLdArdHHIyClSrKZKg5+IpPnFEzyWzurv94BbR+HK6x6ytxR
+         PpKA==
+X-Forwarded-Encrypted: i=1; AJvYcCX/b1DJ9oYgAxodkLBpBTaEqCRPWhyQGTybwOhJ3oKy5bjj22gziDBziXyDl+EzhB8Ybgf0PChao3A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+thgHXtwepQFYXfy4oiicbhjuSTYDDLLh0L7kdzUvwKKkzBqi
+	hi1qymGBJHbfIud2IfMd16ASBBXKnrUllrAackdIMmfFqHWubUPBxzInTYpYy0k8BPk=
+X-Gm-Gg: ASbGnctYfkrA3KjqEQz48TU/c4fsbRtxNtp7yejOIIhb2/WVWSs5v61hy5xKXLFYySQ
+	Rqq4BrwCFngB9pPMHFYm/YmlJEr3kXCK6shEfhjNc3CoUPfnKvyVsZe/d4F2+wrR0tTM48Ct+l8
+	JBf//Lenh5jNviK5Ovvx7sXcqu59PpB70rlWRSNU07rKxrf3G4cQaxniyTHExIIFppxb2zPWSkR
+	EzB3vX6oMJYPJEugU+zNQucsJQkRTJIRDVKZypCu1Rf8sRyKWx535LaKqhtPHmevcQdleber5Z2
+	IQbBhyWtwnixMx1hmGjDLhEzjhzr02qF/k0xomNzaXaMI9syl7dV9f/qWlCHSfXqvPX5Nl3vrxg
+	3H8o2zv9VFmGiPmDM3TA3D13RT8H5cjDyaGtXnkpHGZDP2lySebJk+l3/47VhAabLaP9mCNAsGa
+	aORrBeng==
+X-Google-Smtp-Source: AGHT+IGaX63VyG7288bvhFhh9mADvgY7EJnU+zr1vNcvBNVERTkgMmla9vn+invb7igtQmyDtjSXdw==
+X-Received: by 2002:a05:600c:1c16:b0:476:4efc:8ed4 with SMTP id 5b1f17b1804b1-4778fe49c3bmr26839345e9.11.1763121335290;
+        Fri, 14 Nov 2025 03:55:35 -0800 (PST)
+Received: from draszik.lan ([212.129.74.29])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53e85e6fsm9688761f8f.18.2025.11.14.03.55.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Nov 2025 03:55:34 -0800 (PST)
+Message-ID: <6479a8d84052b326ffeb5609959aaf3a1aac9ff8.camel@linaro.org>
+Subject: Re: [PATCH 06/13] mfd: sec-irq: add support for creating multiple
+ IRQ chips
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Kaustabh Chakraborty
+	 <kauschluss@disroot.org>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring
+	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo
+ Choi	 <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-leds@vger.kernel.org, 	devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-pm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, 	linux-rtc@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Date: Fri, 14 Nov 2025 11:55:34 +0000
+In-Reply-To: <20251114075004a444bff0@mail.local>
+References: <20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org>
+	 <20251114-s2mu005-pmic-v1-6-9e3184d3a0c9@disroot.org>
+	 <20251114075004a444bff0@mail.local>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-2+build3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251114065746.901649-1-daniel.baluta@nxp.com>
- <20251114065746.901649-3-daniel.baluta@nxp.com> <aRcEoX9saonpQuvf@archie.me>
-In-Reply-To: <aRcEoX9saonpQuvf@archie.me>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Fri, 14 Nov 2025 13:33:57 +0200
-X-Gm-Features: AWmQ_bl4gsbwK8mWSKfcnaxcwKhINRTdBoErAsPoV-I3AjKYKB0qzVD9cEdpDyk
-Message-ID: <CAEnQRZC7n127nMaCo+UFnfvKHsRZJTMrmNq4FadfzDJa=1UUnA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Documentation: Fix filenames for remoteproc/rpmsg
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, corbet@lwn.net, andersson@kernel.org, 
-	mathieu.poirier@linaro.org, dan.j.williams@intel.com, cedric.xing@intel.com, 
-	pasha.tatashin@soleen.com, kevin.tian@intel.com, skhawaja@google.com, 
-	yesanishhere@gmail.com, taimoorzaeem@gmail.com, linux@treblig.org, 
-	arnaud.pouliquen@foss.st.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	rdunlap@infradead.org, imx@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 14, 2025 at 12:29=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.co=
-m> wrote:
->
-> On Fri, Nov 14, 2025 at 08:57:45AM +0200, Daniel Baluta wrote:
-> >    This document describes the rpmsg bus and how to write rpmsg drivers=
-.
-> > -  To learn how to add rpmsg support for new platforms, check out remot=
-eproc.txt
-> > -  (also a resident of Documentation/).
-> > +  To learn how to add rpmsg support for new platforms, check out remot=
-eproc.rst
-> > +  (also a resident of Documentation/driver-api).
->
-> I think "also a resident of ..." can be dropped, since it's redundant (it=
-'s
-> already covered in remoteproc.rst cross-reference which transforms into
-> the link when you build the docs).
+On Fri, 2025-11-14 at 08:50 +0100, Alexandre Belloni wrote:
+> On 14/11/2025 00:35:07+0530, Kaustabh Chakraborty wrote:
+> > The current state of the driver only allows creating only one IRQ chip
+> > per PMIC. On some PMICs, such as Samsung's S2MU005, there are multiple
+> > interrupt blocks, for which the current implementation stands insuffici=
+ent.
+> >=20
+> > Add support for creating multiple IRQ chips for a PMIC. Every IRQ chip =
+is
+> > given it's own index, which is used by sub-device drivers to request IR=
+Qs.
+> >=20
+> > A macro is defined which states the maximum number of chips supported.
+> > It's set to 1 as currently, no PMIC requires more than one IRQ chip. Th=
+e
+> > value must be changed accordingly on adding new PMICs requiring multipl=
+e
+> > IRQ chips.
+> >=20
+> > Moreover, adjust the s5m RTC driver to initialize IRQs with the
+> > appropriate IRQ chip index.
+> >=20
+> > Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+>=20
+> > ---
+> > =C2=A0drivers/mfd/sec-irq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 163 +++++++++++++++++++++++----------------
+> > =C2=A0drivers/rtc/rtc-s5m.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 15 +++-
+> > =C2=A0include/linux/mfd/samsung/core.h |=C2=A0=C2=A0 5 +-
+> > =C2=A0include/linux/mfd/samsung/irq.h=C2=A0 |=C2=A0 14 ++++
+> > =C2=A04 files changed, 127 insertions(+), 70 deletions(-)
 
-My point here is just to move the patches to a better location without
-any crucial modification.
-I can send a follow up patch if this is fine with everyone.
+Your patch reminded me to finally send
+https://lore.kernel.org/all/20251114-s5m-alarm-v1-0-c9b3bebae65f@linaro.org=
+/
+
+If applied first, you wouldn't need to touch rtc-s5m.c I believe.
+
+Equally, I can rebase mine on top of yours - no strong feelings.
+
+Cheers,
+Andre'
