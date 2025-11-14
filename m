@@ -1,252 +1,212 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010012.outbound.protection.outlook.com [40.93.198.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041633016E3;
-	Fri, 14 Nov 2025 08:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763109820; cv=fail; b=ISZVQL2kyUIHJA/YZGS6n+dasN9GX1u8oFXBC174/xZ3QXRRZrAdCU++T2iziuGYJ2vrulQHWjsOaovLwawMJb3vWtk60bZ/foDdtlw2JO99LXMFCDbY44BAhjs86TBmx6K6o846BLBDXDnzqz1Ocv/TfjQaNLcPzk9/HAb1i7s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763109820; c=relaxed/simple;
-	bh=1Gech4UZL+Rzo20DHFd1ooWDkRu1aVIs3OEnjhIY3kA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=bnbpBE8a0/xqruSmIlpCJkozqRVQ4c/eW1MFpoAwRFOEWsOottFzU0DfGuhGUDJvSkjugEMtzPGJKw7LVujB4WsF401VajjqCu+jqLS57ZxOi7KvYtRg7g2It9pD2xX7JkUaYCJ5OVWWkJLmdXofTAd6mOXmC3M9RAFX0zXXN0c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0e5wfIWf; arc=fail smtp.client-ip=40.93.198.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B849028727C;
+	Fri, 14 Nov 2025 09:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763112441; cv=none; b=r392oKcMOyqBA3ayn7sIrRVziWpfGGNl32CQeD5frNl9HI/v2HbqV/EEK7Q6o8VQnTeGZBXto80Of30hJBTi5EBxF+krQnSXyLVnYycpYK7PxhWV1kTDrCeDspBJREcuRup7gNYWWYHDp5oEmOFDPAK7NEgYlseBCq5nudiOFLc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763112441; c=relaxed/simple;
+	bh=JEFXzboCDJt0JmXtr+UN4FXJ3ZEMeYNhJunbMmjv/q4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QS0BuGKpA3yqEP0Afv4KM73LMPP7TLOdNZNMZuZ1kip4j9/Y9uLnSw9lh4nltMiZpwCrjH36hJ69KvMlUf2cjoLWS3ojNBx5X+oCgMOP9/Fl/k2EfSCXsTdCQQxdontQvplHyJavcHlrcoa5O8mivD640O7U6crEThQ9WqzcR54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NzuQ0lR3; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0e5wfIWf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TXKl/gm/kHg3P4oPTMJBxWKWYDnySjvV7dgHoLyqNt1ZoIUCzVQqePoO4rkB0h4zhGgiEkqAzernIxDYNqONm2FeBQ8pvdZfvENnUOqFFp/PKzVfVwlyQOD9U5DFINeDHsjnXj3x/XJ13/rLf4jE09gNTloI5xz9D+0Utc4w7OZIc/po73GG8cuAkIuLQx6WZYAJ8MddulOe3R5N/ZnEMONWI6OYLzGqHMOVi6HQU8tuXHggUSQG91xTXosu8zPwj5/Y34h16DZvFMXLRgpS9keARN/ygAusSOkRwTlMSQK6GxyhEvlVYVGN2dE+WT2mfxd5jGVLZX0SJ4UUc34Iyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4KqvLt06KCnk7EeJMP6HmTPmUVbExrMS5BhtmLvFyOI=;
- b=PKb+Pi6F+TlDO4OIiWifTHCu+ia/T5dF3thsA5EljW9AZ4HajJ3HpyE/KBAWB6K69l0cGXjWlJfVmEOMXX+jgh1UEpul+HgM1HdSrsmVyj2dItj544LBmuHmW6UoczrWUOQn/zR4ya087/5BNZaFZojRuWrSgp69m+ivp+sX4tDNgjovmIn6vHgPuxxtUnm5l2YTgDE5F6op8csvedtCQYpPRruOrYazHjHutsQFL/f+0WTb+jY0jHOroMunzWvL/+4nVFW98k2xWOh9OWzQaiOEDqBA1y4wcR/PWt2VxPFPCoUpm1DKdkS3n7lHS8nnDBZhNzmCiuevx+iWmu4XbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4KqvLt06KCnk7EeJMP6HmTPmUVbExrMS5BhtmLvFyOI=;
- b=0e5wfIWfa14sGyErN1dHEc+/P1qOjUWBA0W0l+BE5dJVQu2JuzJspbEZdwd5MrJnQNIYCo2x9DbXv6jTj7qjMwWbssOW6hgyRL2HlTNU4wFmsFrFu8I7dKbsJpXOT0zamlXOdPSEX8vCNsXSaU5cVuA3GEElSw7hejKMGrP4YiM=
-Received: from SA9PR13CA0024.namprd13.prod.outlook.com (2603:10b6:806:21::29)
- by CH0PR12MB8530.namprd12.prod.outlook.com (2603:10b6:610:188::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Fri, 14 Nov
- 2025 08:43:34 +0000
-Received: from SN1PEPF0002BA51.namprd03.prod.outlook.com
- (2603:10b6:806:21:cafe::ab) by SA9PR13CA0024.outlook.office365.com
- (2603:10b6:806:21::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.6 via Frontend Transport; Fri,
- 14 Nov 2025 08:43:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SN1PEPF0002BA51.mail.protection.outlook.com (10.167.242.74) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Fri, 14 Nov 2025 08:43:33 +0000
-Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 14 Nov
- 2025 00:43:30 -0800
-From: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
-Date: Fri, 14 Nov 2025 16:42:25 +0800
-Subject: [PATCH v2 5/5] Documentation/amdgpu: Add UMA carveout details
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NzuQ0lR3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763112440; x=1794648440;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JEFXzboCDJt0JmXtr+UN4FXJ3ZEMeYNhJunbMmjv/q4=;
+  b=NzuQ0lR3TlX5mCm2XFeIoBLd6j3+nTwWhPMSIeC7ZWXdL4NEffVY063m
+   ihgaCm9e3Jn0p4Tlp0O+ip5C/VfRDML+2E/qanGMliON1jXgtmDHWbfFK
+   OfXMU9TzSDn6PTEQCDO8eUT3Crt8O95ZbEk9bZ/Rni3tz2BEHl1Ndf45w
+   6Pat/L81aR9wR7FYlafyRFGIegI0avb2f1xUzbhHDZQw6sTHKE715Oolm
+   U9c4Wq/vj8stCK/9Gv8AJQ4QZDz4Okvk45jEKo43gUZgQgLAXrZSTBbvx
+   SrIyUlozZGot3yb4gfHbOK8zABKgvwUBXz5B6Zu20XhZqkjzrfU2V4IK7
+   w==;
+X-CSE-ConnectionGUID: EMY+raUMS3G/4oF4P3BBRA==
+X-CSE-MsgGUID: splbwSesRFuG7hpnOES09g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="76306657"
+X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; 
+   d="scan'208";a="76306657"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 01:27:20 -0800
+X-CSE-ConnectionGUID: 4AjhgMubSHes0WVu/Jx9Pg==
+X-CSE-MsgGUID: rr1ahpIVT1iWUmr5/Xq9uA==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 14 Nov 2025 01:27:15 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vJq5J-0006P9-0Q;
+	Fri, 14 Nov 2025 09:27:13 +0000
+Date: Fri, 14 Nov 2025 17:26:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jic23@kernel.org, nuno.sa@analog.com,
+	dlechner@baylibre.com, andy@kernel.org,
+	Michael.Hennerich@analog.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, cosmin.tanislav@analog.com,
+	marcelo.schmitt1@gmail.com
+Subject: Re: [PATCH v1 2/3] iio: adc: Initial support for AD4134
+Message-ID: <202511141657.LqnXWUQm-lkp@intel.com>
+References: <86f532ae3a9b3f122b9d5dbada9c131a0c048ca7.1762777931.git.marcelo.schmitt@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251114-vram-carveout-tuning-for-upstream-v2-5-4f6bdd48030d@amd.com>
-References: <20251114-vram-carveout-tuning-for-upstream-v2-0-4f6bdd48030d@amd.com>
-In-Reply-To: <20251114-vram-carveout-tuning-for-upstream-v2-0-4f6bdd48030d@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
-	<simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>
-CC: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Tsao, Anson"
-	<anson.tsao@amd.com>, "Mario Limonciello (AMD) (kernel.org)"
-	<superm1@kernel.org>, "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3049; i=Leo.Lin@amd.com;
- h=from:subject:message-id; bh=1Gech4UZL+Rzo20DHFd1ooWDkRu1aVIs3OEnjhIY3kA=;
- b=owEBbQKS/ZANAwAKAV8XsZZKKe6GAcsmYgBpFuufIE+L3jZoYNmoqehcwRl87AJNLOXT4jcdx
- AVYItY2YM2JAjMEAAEKAB0WIQQzqV4kW+yguuqHrw5fF7GWSinuhgUCaRbrnwAKCRBfF7GWSinu
- hvWsD/0WKbA7Qw2KU31JZGwLrprEJMCAzIw3e/zq3Bv3szdMB4S4YPaPuocxNQjME/fuYxGMaHj
- 6Jyn8PDlHjjtjd17NeRzQDjnTpnVrem9FRz5DE2bea2Ng/JHgx5xI6+817jBp86ghTgaik2MCVW
- dKdAvhh7P4BR35z7BZBUeaJDCB/xxMINB5oEJ+OG1kuVh8NTqcS8BEdyyCYgmXnCYSEfPz0fJCB
- uXWYj6S0BVoF6Jf9+TGy/C+U0tGlcOpsIwQmM+MaNBXX0VZMIANglvG+5pi3H0+YCJUIoTH5aix
- DdEydossq3SFu7R3Lc72BQKWEWeUUptWPk+xpZvZHVc6wdfTrKbL2JnHHTku4EWQnQpGk8iIjN3
- KQ7GFMM6s+LVGLU7pZrs71LKPkDoiIEbtv+lER7ML88UPkC2FX7GS6qqrzrSvVdlVGvWKBZEHJW
- c4WXxflN/cMkOrozvSU+G1gatpDrkb1UKfwC3pxFy2ZR5mrJAbHhwnhEm3SCrh2IxklBQ5gtRq4
- x0AA9+Hj1kM5mMSGzB/cUDQ5B9eG1Mu1tjl7USiZHryK89kwXnJEp799GeqKIWK+C2NGM7FNPcK
- 2MblIrFcYzuqd+9/z9KNkOeCQY3IcVSEG+liMHcsaus7W2a0CXkuZvJhVg3mgNXq+LARuWhBYGe
- WmSIOAJ2fIxKqKQ==
-X-Developer-Key: i=Leo.Lin@amd.com; a=openpgp;
- fpr=33A95E245BECA0BAEA87AF0E5F17B1964A29EE86
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA51:EE_|CH0PR12MB8530:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5f87391a-8b68-4937-8fd6-08de2359e52a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?N0F5TkVjVjd2VEoyRWowbFdZTDExNnB6aW1HTzZjVVhHZkRySUl5YTllZStk?=
- =?utf-8?B?YTdXZHJ2Ti9NdXFzd3BNU2VhL1ZDRE9ZYW14dzNac1hNOSt6cUwzeVFSU1JS?=
- =?utf-8?B?bTYyYnF5aFRiK2RSS3VEY3dZOEI4eEo2ejJkQ1JUK1lUVDlSSkVQemxmdUxD?=
- =?utf-8?B?eHlLUWkzNTMwdVRSKzdLS3FjU1M0VzhxajM3eXVRYm9EVDQ5SjdUVWtZYWxr?=
- =?utf-8?B?aUFJaW5Dc1pNb2xJMjk0TnQvaHE0UENWTk5DUW5mUTBISHo0RUR0WVJNeDF3?=
- =?utf-8?B?YTRsOW1iRlBiL0pXQSs0QU5aRUN6N2R2SC96Z1Z2Z1dIZ3pjUzFBemFIczgv?=
- =?utf-8?B?T2dyQ2lkSWJzdnoybjVjdDkzRmYwR3lxanZhTU8wbWRLblN2UnhkaGRiV01n?=
- =?utf-8?B?TzZKVUkzN1dJUkx1R09xelp0K2JqN0xqNlFhZzFiSE1xdUsyMmR3WUtweTZF?=
- =?utf-8?B?UUtKUkY5UEJSWVJLOEZ0Q0lPQlVZMkJITm9HQ1BSM3ZzY3VvKzdnMm5pd2NU?=
- =?utf-8?B?dmRUdjZGVitCMjdqenFQTTZybisydjMzWkEzQXBPKzdEQUd0bVFoUlhsN2U2?=
- =?utf-8?B?VFNLbEJmN296QUFKTU42d2lMbmt5cnc0QnBMSlhJWWZVQjEvaGl3bVpCSFBE?=
- =?utf-8?B?dFJaZytnbGMrSklxWmJGTjBEWW1kR0xVWGRua09PZGRRVnM3SU9UVHNTQ1hs?=
- =?utf-8?B?Q3c1Nk12OS94V3J3T1hONnJHK2lNY2FyZiswT3dRbWNhM0t1d3lEYlFmUkNK?=
- =?utf-8?B?ekFDcEMyTmExSURrL085ekRqWHVKenA4Rmd1NnprUDZIOTUxazhndDUzUXha?=
- =?utf-8?B?Z0Z0T0N5WUQ1aWc0U0M1NDFBbzRVNTdwTzl0NlJWSE15eFZiWnIyVEh3OFBN?=
- =?utf-8?B?TWFGeWxzQVI0cDBDY1RYVE1jNENiUmJnck5mKzB2SGFqOHJEakNFaUxQYnU0?=
- =?utf-8?B?V29TWUJYUHVYTXE1U2x1N29iTFpyN1BOZHFFU3Joa3ZJQWNKd1dwZUVVd1Rk?=
- =?utf-8?B?WFAxMkFydzFlYVV6R1dvS0txdHFObzdyZVJGcEFBQ2pta3dPMGcrYUFOeFhR?=
- =?utf-8?B?Ym4rNUZoOXF5WERXSHNVbjNFRTNGQXhOYkdvU0pQVkw3by9YRUg2VmFMaXFz?=
- =?utf-8?B?R3JMc1pTaGNvRW1OamxxcWFWdElMM1BidWYvYUJjaU1HZytRVWpIV0RDNkQ1?=
- =?utf-8?B?a0txdkdGbzRIUkVSRXhPTEwxRHEzWkI0dUZtdUZDdG91VlJKM1k0SkFxWlBU?=
- =?utf-8?B?NTU5Yk5WTjEvSWljZC94YXZnVkU3QzJ3eUJjMnNMaXZyS1BrUEFFOHltNkhZ?=
- =?utf-8?B?T3FZcUtvUjhsVUNQV0kvcGxnbkkreGdENDR5cWRBOEl6YjhQTGpOUHVpeS9X?=
- =?utf-8?B?L0E1ZWRsTm9oUWp5aHZGejFCY09ENWFab3lSTEtVenFOM2ZCdjJGdzFDaDJy?=
- =?utf-8?B?aUtFTGFPbS8xbUJDS2hrTENpWGZWbFJ2L1NJRFU3cVRKTVNsbVVMTjlKQkpm?=
- =?utf-8?B?N1Y5ZE1LYzJFRWxsZ200MHYwYTlsQ3l1dk9vbVk3UlZ2WHI4OHA4NHVHVHVn?=
- =?utf-8?B?bGhRREZRSVZ3czFETTRpMkR0TXE2K2t0Q2IvUjlVSmFxKzRnSmgrTzhYM3FZ?=
- =?utf-8?B?ekUwU3lPWHZXNGNmOVhSOFBTZGhJQ3VqeFRBUndOTFlNaGZvTStQT0JaTG1T?=
- =?utf-8?B?R0dDT21hZnBBVFFUNUZpaXgyUWw5WHduVDNxWFYzZS84c2F0N2VzczVwZk9H?=
- =?utf-8?B?M0VNNWRXQVhjZXFteXowbC9LbjFBWnJUYzh3bVZZaElCQWVmdUY0NjI4KzA1?=
- =?utf-8?B?WXNacDZJa0xCMHgxaWZlODBIaURDei9wN3FEY2lYQ0lNeFVQK2E5LzlUNlBa?=
- =?utf-8?B?SmYvN0RWQ3lIMDdsTFpWVEM2MUhHUGhnZkNycExSaVFtc3R4eUJXam9tbmNL?=
- =?utf-8?B?UDIrLzZJSmQyS3JVVUlZWnJIOXBoTEtvYXZjc3dkMGtRb0MyMW4rRkRjMUN5?=
- =?utf-8?B?L3VvSGlqMVU3c2cvWDAveTJVcGNubnFrQnVjTmg4R0Y4b2hGc3J1a1FJa3JZ?=
- =?utf-8?B?VGNhOTJXOEVQL1U3VWpKUlQyamtpVG1pN2NjNzdYNVpBZ2dzQjZQRVMyY0l2?=
- =?utf-8?Q?U7Z0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 08:43:33.6402
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f87391a-8b68-4937-8fd6-08de2359e52a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF0002BA51.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8530
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <86f532ae3a9b3f122b9d5dbada9c131a0c048ca7.1762777931.git.marcelo.schmitt@analog.com>
 
-Add documentation for the uma_carveout_options and uma_carveout
-attributes in sysfs
+Hi Marcelo,
 
-Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
----
- Documentation/gpu/amdgpu/driver-misc.rst | 26 ++++++++++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 29 +++++++++++++++++++++++++++++
- 2 files changed, 55 insertions(+)
+kernel test robot noticed the following build errors:
 
-diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu/amdgpu/driver-misc.rst
-index 25b0c857816e..afefab4fa0ac 100644
---- a/Documentation/gpu/amdgpu/driver-misc.rst
-+++ b/Documentation/gpu/amdgpu/driver-misc.rst
-@@ -128,3 +128,29 @@ smartshift_bias
- 
- .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: smartshift_bias
-+
-+UMA Carveout
-+============
-+
-+Some versions of Atom ROM expose available options for the VRAM carveout sizes,
-+and allow changes to the carveout size via the ATCS function code 0xA on supported
-+BIOS implementations.
-+
-+For those platforms, users can use the following file to set the carveout size,
-+in a way similar to what Windows users can do in the "Tuning" tab in AMD
-+Adrenalin.
-+
-+Note that for BIOS implementations that don't support this, these files will not
-+be created at all.
-+
-+uma_carveout_options
-+--------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-+   :doc: uma_carveout_options
-+
-+uma_carveout
-+--------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-+   :doc: uma_carveout
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-index b9378f34eb79..10cc6bf28a0f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-@@ -1248,6 +1248,24 @@ int amdgpu_acpi_get_mem_info(struct amdgpu_device *adev, int xcc_id,
- 	return -ENOENT;
- }
- 
-+/**
-+ * DOC: uma_carveout_options
-+ *
-+ * This is a read-only file that lists all available UMA allocation
-+ * options and their corresponding indices. Example output::
-+ *
-+ *     $ cat uma_carveout_options
-+ *     0: Minimum (0 GB)
-+ *     1:  (1 GB)
-+ *     2:  (2 GB)
-+ *     3:  (4 GB)
-+ *     4:  (6 GB)
-+ *     5:  (8 GB)
-+ *     6:  (12 GB)
-+ *     7: Medium (16 GB)
-+ *     8:  (24 GB)
-+ *     9: High (32 GB)
-+ */
- static ssize_t uma_carveout_options_show(struct device *dev,
- 					 struct device_attribute *attr,
- 					 char *buf)
-@@ -1269,6 +1287,17 @@ static ssize_t uma_carveout_options_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(uma_carveout_options);
- 
-+/**
-+ * DOC: uma_carveout
-+ *
-+ * This file is both readable and writable. When read, it shows the
-+ * index of the current setting. Writing a valid index to this file
-+ * allows users to change the UMA carveout size to the selected option
-+ * on the next boot.
-+ *
-+ * The available options and their corresponding indices can be read
-+ * from the uma_carveout_options file.
-+ */
- static ssize_t uma_carveout_show(struct device *dev,
- 				 struct device_attribute *attr,
- 				 char *buf)
+[auto build test ERROR on c5411c8b9ed1caf53604bb1a5be3f487988efc98]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/dt-bindings-iio-adc-Add-AD4134/20251110-204756
+base:   c5411c8b9ed1caf53604bb1a5be3f487988efc98
+patch link:    https://lore.kernel.org/r/86f532ae3a9b3f122b9d5dbada9c131a0c048ca7.1762777931.git.marcelo.schmitt%40analog.com
+patch subject: [PATCH v1 2/3] iio: adc: Initial support for AD4134
+config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20251114/202511141657.LqnXWUQm-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511141657.LqnXWUQm-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511141657.LqnXWUQm-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/iio/adc/ad4134-common.c: In function 'ad4134_probe':
+>> drivers/iio/adc/ad4134-common.c:178:34: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     178 |                                  FIELD_PREP(AD4134_DATA_PACKET_CONFIG_FRAME_MASK,
+         |                                  ^~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/FIELD_PREP +178 drivers/iio/adc/ad4134-common.c
+
+    87	
+    88	int ad4134_probe(struct device *dev, const struct ad4134_bus_info *bus_info)
+    89	{
+    90		bool use_internal_ldo_retulator;
+    91		struct gpio_desc *reset_gpio;
+    92		struct iio_dev *indio_dev;
+    93		struct ad4134_state *st;
+    94		int ret;
+    95	
+    96		indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
+    97		if (!indio_dev)
+    98			return -ENOMEM;
+    99	
+   100		st = iio_priv(indio_dev);
+   101		st->dev = dev;
+   102	
+   103		indio_dev->name = bus_info->chip_info->name;
+   104	
+   105		/* Required regulators */
+   106		ret = devm_regulator_bulk_get_enable(dev, 3, ad4143_regulator_names);
+   107		if (ret)
+   108			return dev_err_probe(dev, ret, "failed to enable power supplies\n");
+   109	
+   110		/* Required regulator that we need to read the voltage */
+   111		ret = devm_regulator_get_enable_read_voltage(dev, "refin");
+   112		if (ret < 0)
+   113			return dev_err_probe(dev, ret, "failed to get REFIN voltage.\n");
+   114	
+   115		st->refin_mv = ret / MILLI;
+   116	
+   117		/*
+   118		 * If ldoin is not provided, then avdd1v8, dvdd1v8, and clkvdd are
+   119		 * required.
+   120		 */
+   121		ret = devm_regulator_get_enable_optional(dev, "ldoin");
+   122		if (ret < 0 && ret != -ENODEV)
+   123			return dev_err_probe(dev, ret, "failed to enable ldoin supply\n");
+   124	
+   125		use_internal_ldo_retulator = ret == 0;
+   126	
+   127		if (!use_internal_ldo_retulator) {
+   128			ret = devm_regulator_get_enable(dev, "avdd1v8");
+   129			if (ret < 0)
+   130				return dev_err_probe(dev, ret,
+   131						     "failed to enable avdd1v8 supply\n");
+   132	
+   133			ret = devm_regulator_get_enable(dev, "dvdd1v8");
+   134			if (ret < 0)
+   135				return dev_err_probe(dev, ret,
+   136						     "failed to enable dvdd1v8 supply\n");
+   137	
+   138			ret = devm_regulator_get_enable(dev, "clkvdd");
+   139			if (ret < 0)
+   140				return dev_err_probe(dev, ret,
+   141						     "failed to enable clkvdd supply\n");
+   142		}
+   143	
+   144		ret = ad4134_clock_select(st);
+   145		if (ret)
+   146			return ret;
+   147	
+   148		crc8_populate_msb(ad4134_spi_crc_table, AD4134_SPI_CRC_POLYNOM);
+   149	
+   150		reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+   151		if (IS_ERR(reset_gpio))
+   152			return dev_err_probe(dev, PTR_ERR(reset_gpio),
+   153					     "failed to find reset GPIO\n");
+   154	
+   155		if (reset_gpio) {
+   156			fsleep(AD4134_RESET_TIME_US);
+   157			gpiod_set_value_cansleep(reset_gpio, 0);
+   158		}
+   159	
+   160		ret = bus_info->bops->config_iio_dev(indio_dev);
+   161		if (ret)
+   162			return dev_err_probe(dev, ret, "failed to config IIO device\n");
+   163	
+   164		st->regmap = bus_info->bops->init_regmap(st);
+   165		if (IS_ERR(st->regmap))
+   166			return dev_err_probe(st->dev, PTR_ERR(st->regmap),
+   167					     "failed to initialize regmap");
+   168	
+   169		/* wiring/configuration specific setup */
+   170		ret = bus_info->bops->setup(st);
+   171		if (ret)
+   172			return dev_err_probe(dev, ret, "failed to setup bus\n");
+   173	
+   174		/* Bump precision to 24-bit */
+   175		st->current_scan_type = AD4134_DATA_PACKET_24BIT_FRAME;
+   176		ret = regmap_update_bits(st->regmap, AD4134_DATA_PACKET_CONFIG_REG,
+   177					 AD4134_DATA_PACKET_CONFIG_FRAME_MASK,
+ > 178					 FIELD_PREP(AD4134_DATA_PACKET_CONFIG_FRAME_MASK,
+   179						    st->current_scan_type));
+   180		if (ret)
+   181			return ret;
+   182	
+   183		/* Set high performance power mode */
+   184		ret = regmap_update_bits(st->regmap, AD4134_DEVICE_CONFIG_REG,
+   185					 AD4134_DEVICE_CONFIG_POWER_MODE_MASK,
+   186					 FIELD_PREP(AD4134_DEVICE_CONFIG_POWER_MODE_MASK,
+   187						    AD4134_POWER_MODE_HIGH_PERF));
+   188		if (ret)
+   189			return ret;
+   190	
+   191		return devm_iio_device_register(dev, indio_dev);
+   192	}
+   193	EXPORT_SYMBOL_NS_GPL(ad4134_probe, "IIO_AD4134");
+   194	
 
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
