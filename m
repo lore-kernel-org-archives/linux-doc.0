@@ -1,111 +1,236 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FA2022F772;
-	Fri, 14 Nov 2025 16:23:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14DE325717
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 16:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763137432; cv=none; b=Xd3s5LheSgAImqwnpP2WzqiT81hZbGkJIa0N4I78/N25ZYMfvxZIR70d3voQcpsnUDrij6jGh8K3JaTTzmfDKoC6GIVYg0KF/I02n6E5kmCdy5DnxJv+OlGS46gPhyEqHgXebEoy9p02WHTYHnXGzM0GwQYO2gMlark1ijN5omw=
+	t=1763137633; cv=none; b=ajZf+mMQ+LNOzNF3DnnyYaMhSsP2LUyQLL40H/4BcTd2BADtB2OdqPPDgPT+4bIqL6/MTZuh1+RDodQlSFaRCmdwOAXlXUc2zSwio1yLXoHM5Av0hTFRH2hRhNuIThsYdyQ8767+QzUyeKfV9b6T2lDLJg0glCI5lwaq8kMk7jI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763137432; c=relaxed/simple;
-	bh=PNHjG/Eh4LpWUiEyfe7MfoC3FGJ/3gde/QPYu69dP+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IsSmDct0Pv3vrCRKxguiHDLAM7R9c0ctkqU8Lxc3YzaeW9Wt4MaxXN05bF32SGbO7ss/wzNXLRa2/eWok3m0+lCovecIswNekHtc4BiF6gmcnHy1FX4mgLbZ5X4Kl8yFhEthRAt4wPiIzwI98Eex7eDmwHvDZubfJJwJwf1ewx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1C68C1063;
-	Fri, 14 Nov 2025 08:23:43 -0800 (PST)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 556043F5A1;
-	Fri, 14 Nov 2025 08:23:50 -0800 (PST)
-Date: Fri, 14 Nov 2025 16:23:48 +0000
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 10/13] coresight: Remove misleading definitions
-Message-ID: <20251114162348.GK3568724@e132581.arm.com>
-References: <20251112-james-cs-syncfreq-v4-0-165ba21401dc@linaro.org>
- <20251112-james-cs-syncfreq-v4-10-165ba21401dc@linaro.org>
+	s=arc-20240116; t=1763137633; c=relaxed/simple;
+	bh=GH0x1p5xQyW0d5CtSpWUCrlFzhBbM9mKdVBB/jmQ7ZE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t95jWm21MuvoPO0v3VgqH9+JXDnYscMH1TB940UVLnBiTAFFBN/ZUCvjbrAWDd1wjnMq+IsDXuJMPyilwOGyJZJtnpstCop9jSC3uxrPmAb55ke7CjjpVIPfFmpTz9ILULHlHIzed7/soEn8EAmf/GAkYHUefw73uRdnaXUDTgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W/iCa4sS; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W/iCa4sS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DBADC113D0
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 16:27:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763137633;
+	bh=GH0x1p5xQyW0d5CtSpWUCrlFzhBbM9mKdVBB/jmQ7ZE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=W/iCa4sSefsnzYgDqAOMmtLp12chNMXh3kIKB4IdEj/E7SY0Ozkbp++ti7ze3ql/d
+	 biX8g0SmPqXbewbGOKWJDzkl/J9zFpO+Q1hdTPKg/4vMiUplSAaICqEjBcdF0I+q4S
+	 wsVZRH5ZTJG8ypX1L/63t3X/MRTBAhF0/+4F/nZiOWhYpX3xmVYGdS/9GBpCpBfl0s
+	 TpZebRHWuaHlQlsNXmpHl4xzxLizNQ7umbxbYs/2BSFd+SwvdZW46SVeaZfujPYCEQ
+	 fW3+GO/SOFuEpzbaRPE7UleNhH/y02wnU1D+zOJC1qoAPdfyycQQ/cUmJmQOZVBw7T
+	 s2lQBlkUp8j3Q==
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7c7060a2a53so572624a34.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 08:27:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWzUxm/C952xXzOPyJY8E9Bd4sEnJlthTUjkPd8afVAbfvH+C+J7c8pd6fZg59cbOg/JiXDBw5V29k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdeQO5X7mv0ws6u/K2gx26sepqprLa+8zHZxtu94ne/ciUczvT
+	Y2aDZbaKMREkPoQgMg4gEU0Oyr9K7FGZAqlaOgi5MEtL5125Yta/23yCF58eUcWcJPS9aLU/deQ
+	pTi6JnGIe3NPJ9n+HMihpvls2tLsIiiU=
+X-Google-Smtp-Source: AGHT+IFomwgz7FSOBRIAN3QEslw7mBsPmy1XN6i1/0rZfmHILpSWXrnEJRQjqLnYKsVCv0YrEcv43cb8VbaQsFB2NQc=
+X-Received: by 2002:a05:6808:1a26:b0:44d:be59:27ea with SMTP id
+ 5614622812f47-450973f7945mr1654809b6e.17.1763137632619; Fri, 14 Nov 2025
+ 08:27:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251112-james-cs-syncfreq-v4-10-165ba21401dc@linaro.org>
+References: <20251113212104.221632-1-srinivas.pandruvada@linux.intel.com>
+In-Reply-To: <20251113212104.221632-1-srinivas.pandruvada@linux.intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 14 Nov 2025 17:27:01 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0i7fb58CUGwcPcbEXTqDeM5Hm7rRHVvgcr-W4ut8091gQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bnDeEUlhuDdh6zmgjmWSGiGo8jiVXUZ75D8dvWMn9q_dFVXWM268RX16c4
+Message-ID: <CAJZ5v0i7fb58CUGwcPcbEXTqDeM5Hm7rRHVvgcr-W4ut8091gQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: thermal: Add documentation for thermal throttle
+To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: rafael@kernel.org, daniel.lezcano@linaro.org, corbet@lwn.net, 
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rdunlap@infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 12, 2025 at 03:22:16PM +0000, James Clark wrote:
-> ETM_OPT_* definitions duplicate the PMU format attributes that have
-> always been published in sysfs. Hardcoding them here makes it misleading
-> as to what the 'real' PMU API is and prevents attributes from being
-> rearranged in the future.
-> 
-> ETM4_CFG_BIT_* definitions just define what the Arm Architecture is
-> which is not the responsibility of the kernel to do and doesn't scale to
-> other registers or versions of ETM. It's not an actual software ABI/API
-> and these definitions here mislead that it is.
-> 
-> Any tools using the first ones would be broken anyway as they won't work
-> when attributes are moved, so removing them is the right thing to do and
-> will prompt a fix. Tools using the second ones can trivially redefine
-> them locally.
-> 
-> Perf also has its own copy of the headers so both of these things can be
-> fixed up at a later date.
-> 
-> Signed-off-by: James Clark <james.clark@linaro.org>
-
-Good cleanup for me!
-
-Reviewed-by: Leo Yan <leo.yan@arm.com>
-
+On Thu, Nov 13, 2025 at 10:21=E2=80=AFPM Srinivas Pandruvada
+<srinivas.pandruvada@linux.intel.com> wrote:
+>
+> Add documentation for Intel thermal throttling reporting events.
+>
+> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 > ---
->  include/linux/coresight-pmu.h | 24 ------------------------
->  1 file changed, 24 deletions(-)
-> 
-> diff --git a/include/linux/coresight-pmu.h b/include/linux/coresight-pmu.h
-> index 89b0ac0014b0..2e179abe472a 100644
-> --- a/include/linux/coresight-pmu.h
-> +++ b/include/linux/coresight-pmu.h
-> @@ -21,30 +21,6 @@
->   */
->  #define CORESIGHT_LEGACY_CPU_TRACE_ID(cpu)  (0x10 + (cpu * 2))
->  
-> -/*
-> - * Below are the definition of bit offsets for perf option, and works as
-> - * arbitrary values for all ETM versions.
-> - *
-> - * Most of them are orignally from ETMv3.5/PTM's ETMCR config, therefore,
-> - * ETMv3.5/PTM doesn't define ETMCR config bits with prefix "ETM3_" and
-> - * directly use below macros as config bits.
-> - */
-> -#define ETM_OPT_BRANCH_BROADCAST 8
-> -#define ETM_OPT_CYCACC		12
-> -#define ETM_OPT_CTXTID		14
-> -#define ETM_OPT_CTXTID2		15
-> -#define ETM_OPT_TS		28
-> -#define ETM_OPT_RETSTK		29
-> -
-> -/* ETMv4 CONFIGR programming bits for the ETM OPTs */
-> -#define ETM4_CFG_BIT_BB         3
-> -#define ETM4_CFG_BIT_CYCACC	4
-> -#define ETM4_CFG_BIT_CTXTID	6
-> -#define ETM4_CFG_BIT_VMID	7
-> -#define ETM4_CFG_BIT_TS		11
-> -#define ETM4_CFG_BIT_RETSTK	12
-> -#define ETM4_CFG_BIT_VMID_OPT	15
-> -
->  /*
->   * Interpretation of the PERF_RECORD_AUX_OUTPUT_HW_ID payload.
->   * Used to associate a CPU with the CoreSight Trace ID.
-> 
-> -- 
-> 2.34.1
-> 
+> v2:
+>  - Addressed comments from Rafael
+>  - Limit line lengths ~80 columns
+>
+>  Documentation/admin-guide/thermal/index.rst   |  1 +
+>  .../admin-guide/thermal/thermal_throttle.rst  | 92 +++++++++++++++++++
+>  2 files changed, 93 insertions(+)
+>  create mode 100644 Documentation/admin-guide/thermal/thermal_throttle.rs=
+t
+>
+> diff --git a/Documentation/admin-guide/thermal/index.rst b/Documentation/=
+admin-guide/thermal/index.rst
+> index 193b7b01a87d..2e0cafd19f6b 100644
+> --- a/Documentation/admin-guide/thermal/index.rst
+> +++ b/Documentation/admin-guide/thermal/index.rst
+> @@ -6,3 +6,4 @@ Thermal Subsystem
+>     :maxdepth: 1
+>
+>     intel_powerclamp
+> +   thermal_throttle
+> diff --git a/Documentation/admin-guide/thermal/thermal_throttle.rst b/Doc=
+umentation/admin-guide/thermal/thermal_throttle.rst
+> new file mode 100644
+> index 000000000000..cac2bc3176ce
+> --- /dev/null
+> +++ b/Documentation/admin-guide/thermal/thermal_throttle.rst
+> @@ -0,0 +1,92 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: <isonum.txt>
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Intel thermal throttle events reporting
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +:Author: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> +
+> +Introduction
+> +------------
+> +
+> +Intel processors have built in automatic and adaptive thermal monitoring
+> +mechanisms that force the processor to reduce its power consumption in o=
+rder
+> +to operate within predetermined temperature limits.
+> +
+> +Refer to section "THERMAL MONITORING AND PROTECTION" in the "Intel=C2=AE=
+ 64 and
+> +IA-32 Architectures Software Developer=E2=80=99s Manual Volume 3 (3A, 3B=
+, 3C, & 3D):
+> +System Programming Guide" for more details.
+> +
+> +In general, there are two mechanisms to control the core temperature of =
+the
+> +processor. They are called "Thermal Monitor 1 (TM1) and Thermal Monitor =
+2 (TM2)".
+> +
+> +The status of the temperature sensor that triggers the thermal monitor (=
+TM1/TM2)
+> +is indicated through the "thermal status flag" and "thermal status log f=
+lag" in
+> +the MSR_IA32_THERM_STATUS for core level and MSR_IA32_PACKAGE_THERM_STAT=
+US for
+> +package level.
+> +
+> +Thermal Status flag, bit 0 =E2=80=94 When set, indicates that the proces=
+sor core
+> +temperature is currently at the trip temperature of the thermal monitor =
+and that
+> +the processor power consumption is being reduced via either TM1 or TM2, =
+depending
+> +on which is enabled. When clear, the flag indicates that the core temper=
+ature is
+> +below the thermal monitor trip temperature. This flag is read only.
+> +
+> +Thermal Status Log flag, bit 1 =E2=80=94 When set, indicates that the th=
+ermal sensor has
+> +tripped since the last power-up or reset or since the last time that sof=
+tware
+> +cleared this flag. This flag is a sticky bit; once set it remains set un=
+til
+> +cleared by software or until a power-up or reset of the processor. The d=
+efault
+> +state is clear.
+> +
+> +It is possible that when user reads MSR_IA32_THERM_STATUS or
+> +MSR_IA32_PACKAGE_THERM_STATUS, TM1/TM2 is not active. In this case,
+> +"Thermal Status flag" will read "0" and the "Thermal Status Log flag" wi=
+ll be set
+> +to show any previous "TM1/TM2" activation. But since it needs to be clea=
+red by
+> +the software, it can't show the number of occurrences of "TM1/TM2" activ=
+ations.
+> +
+> +Hence, Linux provides counters of how many times the "Thermal Status fla=
+g" was
+> +set. Also presents how long the "Thermal Status flag" was active in mill=
+iseconds.
+> +Using these counters, users can check if the performance was limited bec=
+ause of
+> +thermal events. It is recommended to read from sysfs instead of directly=
+ reading
+> +MSRs as the "Thermal Status Log flag" is reset by the driver to implemen=
+t rate
+> +control.
+> +
+> +Sysfs Interface
+> +---------------
+> +
+> +Thermal throttling events are presented for each CPU under
+> +"/sys/devices/system/cpu/cpuX/thermal_throttle/", where "X" is the CPU n=
+umber.
+> +
+> +All these counters are read-only. They can't be reset to 0. So, they can=
+ potentially
+> +overflow after reaching the maximum 64 bit unsigned integer.
+> +
+> +``core_throttle_count``
+> +       This shows number of times "Thermal Status flag" changed from 0 t=
+o 1 for this
+> +       CPU since OS boot and thermal vector is initialized. This is a 64=
+ bit counter.
+> +
+> +``package_throttle_count``
+> +       This shows number of times "Thermal Status flag" changed from 0 t=
+o 1 for the
+> +       package containing this CPU since OS boot and thermal vector is i=
+nitialized.
+> +       Package status is broadcast to all CPUs; all CPUs in the package =
+increment
+> +       this count. This is a 64-bit counter.
+> +
+> +``core_throttle_max_time_ms``
+> +       This shows the maximum amount of time for which "Thermal Status f=
+lag"
+> +       has been set to 1 for this CPU at the core level since OS boot an=
+d thermal
+> +       vector is initialized.
+> +
+> +``package_throttle_max_time_ms``
+> +       This shows the maximum amount of time for which "Thermal Status f=
+lag"
+> +       has been set to 1 for the package containing this CPU since OS bo=
+ot and
+> +       thermal vector is initialized.
+> +
+> +``core_throttle_total_time_ms``
+> +       This shows the cumulative time for which "Thermal Status flag" ha=
+s been
+> +       set to 1 for this CPU for core level since OS boot and thermal ve=
+ctor
+> +       is initialized.
+> +
+> +``package_throttle_total_time_ms``
+> +       This shows the cumulative time for which "Thermal Status flag" ha=
+s been set
+> +       to 1 for the package containing this CPU since OS boot and therma=
+l vector is
+> +       initialized.
+> +
+> --
+
+Applied as 6.19 material with some adjustments:
+- The new file name is intel_thermal_throttle.rst
+- The subject has been edited to mention Intel
+- There are some minor edits in the document
+
+Please check in the bleeding-edge branch if it still looks good.
+
+Thanks!
