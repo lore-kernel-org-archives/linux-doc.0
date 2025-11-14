@@ -1,130 +1,251 @@
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40B93128D2
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 10:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.241.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEFD3112BB;
+	Fri, 14 Nov 2025 11:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763117023; cv=none; b=lkZYEfq5g8vv8VpF+SrrK433PX8aYEvVLAqu7ZNTZTyXVkedQw8gCbzWlo75/5YZxzhDTl68X1kZpZv4Ys+vzbuO/XJc3+tM6VhztU3YU2BWizCY3OPaU76O5g/OtFGipgjJn7ckZQh76HK6Hkij1R60JzotgnHuSnLrQxbDNwM=
+	t=1763119807; cv=none; b=nNEZgwQmIEW/ddeq/YRb2mXxSVZ28ZZsfUp+MbS8zLJkgbmArfrGU2k19da2jZvqaeeuw2t6bsgFllpTJ8Jokmj7xmsdRimomwrFjHKx98a+B8+Uw2WKkMFeTVX+qJHuPsUn8kttoFbJjSoLRGVxmTf0SmIdKZd+bxOmbAoynVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763117023; c=relaxed/simple;
-	bh=qc6Sfnve4rNFyHKfptj30emzlIgrq2GfjrWpTvSEMr0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Obv01nLyVI+mYryxWnMlAHUjTXJvX5PFMT4zZkMXhT9wQWYC9VSZyNUZy4PRYp+al/MtEOVD9Ub9d+5hOxZsCQH3pni9PZKosWaift0P7m0Rev0mSG/F5EXmFVcbKp7ZwnZvav6RQxuRxPGH7lX4QheSKjBvOX2nVvSGlyFfjiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=vDZWq6+9; arc=none smtp.client-ip=159.100.241.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+	s=arc-20240116; t=1763119807; c=relaxed/simple;
+	bh=nWQdNFwkseMe3m11T//I7TjOchkTxc0f6sD/wvtcMU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pfamLVoA1cR1D/7fwhLJuMCe1iHL7AApt5pgItsRHMZfAFu8TKBLlrxM9idJzvWlsnqNJGnqsSTEKFitCHMKtJ+frqyWrqW/G3mNGunvYQS0dOO67RcDgRHpRGRpIJkK/gzl1LI3Ld1EukSCbhsAqC1AZFHt3URyWmHUN2pG8JI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Akk7h6Hl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="vDZWq6+9"
-Received: from relay3.mymailcheap.com (relay3.mymailcheap.com [217.182.119.157])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id BB75A200AF
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 10:43:39 +0000 (UTC)
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
-	by relay3.mymailcheap.com (Postfix) with ESMTPS id C1D033E8D1;
-	Fri, 14 Nov 2025 10:43:31 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf2.mymailcheap.com (Postfix) with ESMTPSA id D12A540099;
-	Fri, 14 Nov 2025 10:43:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1763117009; bh=qc6Sfnve4rNFyHKfptj30emzlIgrq2GfjrWpTvSEMr0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vDZWq6+9nTte9lQ3WZOV7g0m2ud5+cDQ9bK9MFPrEMvzOkggLmui6RE7i7nRlfAy1
-	 yMT2sfDAMI0jpn7Rsj4CuSuSOT4qc6U23CatAsWKVsNQ5vmzKWX20Hb5LMsHGVfQ9h
-	 gMVfZqT3NE9euXyGgvwB+/6QhBJANEA//UG8H568=
-Received: from [192.168.0.64] (unknown [223.104.43.17])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 38AEF4017F;
-	Fri, 14 Nov 2025 10:43:27 +0000 (UTC)
-Message-ID: <2c2f9775-a1cb-4ed3-b8dd-774d86479093@aosc.io>
-Date: Fri, 14 Nov 2025 18:43:24 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Akk7h6Hl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6503CC4CEF1;
+	Fri, 14 Nov 2025 11:29:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763119807;
+	bh=nWQdNFwkseMe3m11T//I7TjOchkTxc0f6sD/wvtcMU0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Akk7h6HlDkGyGgeCHZX5VqCq5N2nSt0CHf09pDVbnqBORphhI2YOmYWQy1u7s7HXC
+	 vk2eR2lL3RSSszzGR9ZhrQ9QHgg7YrLsh+41vhXoLLGIoUvW4UsruI26iGVeGzAPcP
+	 84LrN6UJauCgG0t0GQcvjzAMnlfsFZghOoVZaAboWw1so/FBVYjxsoCOb/82AQtq2Z
+	 0NtCLvZKWHuVI1yWzfUj922GUd6PeRI52oxjC49q5F9N+wj9XWPMdbCNqC7iekpi2w
+	 awEJbNAXVGPvsWxl0F2algphSwaLFV5Rgvd/Ls4Ffdpt7rW/ve1asAz7IG+BKt3CL0
+	 RK6yYv8fID0kA==
+Date: Fri, 14 Nov 2025 13:29:41 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
+	linux@weissschuh.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
+Message-ID: <aRcSpbwBabFjeYe3@kernel.org>
+References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
+ <20251107210526.257742-3-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] docs/zh_CN: Add blk-mq.rst translation
-To: ke zj <kezijie@leap-io-kernel.com>, alexs@kernel.org, si.yanteng@linux.dev
-Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- doubled@leap-io-kernel.com
-References: <cover.1763105050.git.kezijie@leap-io-kernel.com>
- <f90d639dcb2a8064c6a5e85614c4da263b9942dc.1763105050.git.kezijie@leap-io-kernel.com>
- <1a228389-14dc-4d2f-ba15-e9397c83a4c6@aosc.io>
- <c278f8a7-b9e7-4ad1-85d9-6dcabebcd0df@leap-io-kernel.com>
-Content-Language: en-US
-From: WangYuli <wangyuli@aosc.io>
-In-Reply-To: <c278f8a7-b9e7-4ad1-85d9-6dcabebcd0df@leap-io-kernel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: D12A540099
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Spamd-Result: default: False [-0.98 / 10.00];
-	BAYES_HAM(-0.88)[85.80%];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_ONE(0.00)[1];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Action: no action
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251107210526.257742-3-pasha.tatashin@soleen.com>
 
-Hi 子杰,
+On Fri, Nov 07, 2025 at 04:03:00PM -0500, Pasha Tatashin wrote:
+> Integrate the LUO with the KHO framework to enable passing LUO state
+> across a kexec reboot.
+> 
+> When LUO is transitioned to a "prepared" state, it tells KHO to
+> finalize, so all memory segments that were added to KHO preservation
+> list are getting preserved. After "Prepared" state no new segments
+> can be preserved. If LUO is canceled, it also tells KHO to cancel the
+> serialization, and therefore, later LUO can go back into the prepared
+> state.
+> 
+> This patch introduces the following changes:
+> - During the KHO finalization phase allocate FDT blob.
+> - Populate this FDT with a LUO compatibility string ("luo-v1").
+> 
+> LUO now depends on `CONFIG_KEXEC_HANDOVER`. The core state transition
+> logic (`luo_do_*_calls`) remains unimplemented in this patch.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
+>  include/linux/liveupdate.h         |   6 +
+>  include/linux/liveupdate/abi/luo.h |  54 +++++++
+>  kernel/liveupdate/luo_core.c       | 243 ++++++++++++++++++++++++++++-
+>  kernel/liveupdate/luo_internal.h   |  17 ++
+>  mm/mm_init.c                       |   4 +
+>  5 files changed, 323 insertions(+), 1 deletion(-)
+>  create mode 100644 include/linux/liveupdate/abi/luo.h
+>  create mode 100644 kernel/liveupdate/luo_internal.h
+> 
+> diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
+> index 730b76625fec..0be8804fc42a 100644
+> --- a/include/linux/liveupdate.h
+> +++ b/include/linux/liveupdate.h
+> @@ -13,6 +13,8 @@
+>  
+>  #ifdef CONFIG_LIVEUPDATE
+>  
+> +void __init liveupdate_init(void);
+> +
+>  /* Return true if live update orchestrator is enabled */
+>  bool liveupdate_enabled(void);
+>  
+> @@ -21,6 +23,10 @@ int liveupdate_reboot(void);
+>  
+>  #else /* CONFIG_LIVEUPDATE */
+>  
+> +static inline void liveupdate_init(void)
+> +{
+> +}
 
-On 2025/11/14 17:33, ke zj wrote:
-> Hi Yuli,
->
-> Thank you very much for your review.
->
-> Regarding the spacing issue: I checked several translated documents 
-> and noticed that many of them did not include spaces between Chinese 
-> and English words. Because of that, I didn’t realize this was now the 
-> preferred convention.
->
-> Is this a recently adopted guideline for translated documentation?
+The common practice is to place brackets at the same line with function
+declaration.
 
-No, this isn't a kernel requirement — it's simply a convention among 
-Chinese writers.
+...
 
-In more formal contexts, such as publications and academic journals, 
-this has become a default practice and industry standard. (As an 
-example, even back in the IE6 era, there was a CSS property specifically 
-designed to add spacing between CJK characters and Latin text.) So 
-unless there’s a specific reason not to, it's generally recommended to 
-follow this convention.
+> +static int __init luo_early_startup(void)
+> +{
+> +	phys_addr_t fdt_phys;
+> +	int err, ln_size;
+> +	const void *ptr;
+> +
+> +	if (!kho_is_enabled()) {
+> +		if (liveupdate_enabled())
+> +			pr_warn("Disabling liveupdate because KHO is disabled\n");
+> +		luo_global.enabled = false;
+> +		return 0;
+> +	}
+> +
+> +	/* Retrieve LUO subtree, and verify its format. */
+> +	err = kho_retrieve_subtree(LUO_FDT_KHO_ENTRY_NAME, &fdt_phys);
+> +	if (err) {
+> +		if (err != -ENOENT) {
+> +			pr_err("failed to retrieve FDT '%s' from KHO: %pe\n",
+> +			       LUO_FDT_KHO_ENTRY_NAME, ERR_PTR(err));
+> +			return err;
+> +		}
+> +
+> +		return 0;
+> +	}
+> +
+> +	luo_global.fdt_in = __va(fdt_phys);
 
-Also, you're right — many Chinese translations of kernel documentation 
-do mix Chinese and English without proper spacing, but that's actually 
-the nonstandard behavior.
+phys_to_virt is clearer, isn't it?
 
-> If so, I will fix all spacing issues in the next version of the patch.
->
-> This is also my first time submitting a patch to the community, so 
-> please forgive me if I've made any beginner mistakes.
+> +	err = fdt_node_check_compatible(luo_global.fdt_in, 0,
+> +					LUO_FDT_COMPATIBLE);
 
-No need to stress over such minor details — it's just a bored mailing 
-list subscriber nitpicking something they happened to notice :-)
+...
 
-You're doing great!
+> +void __init liveupdate_init(void)
+> +{
+> +	int err;
+> +
+> +	err = luo_early_startup();
+> +	if (err) {
+> +		pr_err("The incoming tree failed to initialize properly [%pe], disabling live update\n",
+> +		       ERR_PTR(err));
+> +		luo_global.enabled = false;
+> +	}
+> +}
+> +
+> +/* Called during boot to create LUO fdt tree */
 
->
-> Thanks again for your time and guidance.
->
-> Best regards,
-> Ke Zijie
+			 ^ create outgoing
 
-Thanks,
+> +static int __init luo_late_startup(void)
+> +{
+> +	int err;
+> +
+> +	if (!liveupdate_enabled())
+> +		return 0;
+> +
+> +	err = luo_fdt_setup();
+> +	if (err)
+> +		luo_global.enabled = false;
+> +
+> +	return err;
+> +}
+> +late_initcall(luo_late_startup);
 
---
+It would be nice to have a comment explaining why late_initcall() is fine
+and why there's no need to initialize the outgoing fdt earlier.
 
-WangYuli
+> +/**
+> + * luo_alloc_preserve - Allocate, zero, and preserve memory.
 
+I think this and the "free" counterparts would be useful for any KHO users,
+even those that don't need LUO.
+
+> + * @size: The number of bytes to allocate.
+> + *
+> + * Allocates a physically contiguous block of zeroed pages that is large
+> + * enough to hold @size bytes. The allocated memory is then registered with
+> + * KHO for preservation across a kexec.
+> + *
+> + * Note: The actual allocated size will be rounded up to the nearest
+> + * power-of-two page boundary.
+> + *
+> + * @return A virtual pointer to the allocated and preserved memory on success,
+> + * or an ERR_PTR() encoded error on failure.
+> + */
+> +void *luo_alloc_preserve(size_t size)
+> +{
+> +	struct folio *folio;
+> +	int order, ret;
+> +
+> +	if (!size)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	order = get_order(size);
+> +	if (order > MAX_PAGE_ORDER)
+> +		return ERR_PTR(-E2BIG);
+
+High order allocations would likely fail or at least cause a heavy reclaim.
+For now it seems that we won't be needing really large contiguous chunks so
+maybe limiting this to PAGE_ALLOC_COSTLY_ORDER?
+
+Later if we'd need higher order allocations we can try to allocate with
+__GFP_NORETRY or __GFP_RETRY_MAYFAIL with a fallback to vmalloc.
+
+> +
+> +	folio = folio_alloc(GFP_KERNEL | __GFP_ZERO, order);
+> +	if (!folio)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	ret = kho_preserve_folio(folio);
+> +	if (ret) {
+> +		folio_put(folio);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	return folio_address(folio);
+> +}
+> +
+
+-- 
+Sincerely yours,
+Mike.
