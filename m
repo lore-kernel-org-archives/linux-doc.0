@@ -1,38 +1,38 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED4C336EDE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C2E336EC9;
 	Fri, 14 Nov 2025 17:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763139801; cv=none; b=i/cH03IIFCAOXb4FM+CMImBURFOtMzUHfeV6KmzPV7BTvXuz3VKnwTgYCT3m5svoeJ+XN3Jp4kbNgTqP+KO6rlixPqqK6tDeRDmKj/ZwsW2EkzhyZTy8iUdJf8xDQqkIMmFGD3j4hd0R92na6YUX6Y3DH7kN1OGMj8duFYm07uI=
+	t=1763139801; cv=none; b=rJLvHk3nqpozw6DqFY8EueKVGfDdMopn919z6Pa9gnwm4+EqZYktgg7evugjGB8HotJnbN2Qe4v3+DJVWvCXHZZno2nQt0juP8/89xLu8bihCudoTKinxBw2dcNz8eEzKIK+kFIrrW8Aleg/VEA3vUKU0GcK1pa1YT06mwHJoU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763139801; c=relaxed/simple;
-	bh=lRwauJY45yghkHUPVD34PRex0BOyOxzNsCIif80qyHM=;
+	bh=OWdvl89NrMAZYiQg/MhtJ/uPLX2S07XX7zaT7Psnx5k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EoAphq/QiPZb0ViVFWA2M+o5e++BwSsB49oGqDiXgDANVoBg8FLJfBtnJZWFyAi14yv5h+o90isxdI8Rvizp0mTfw6AO+91padwzeoBok1L3BNw9W0Jmcj0ZgWUQasGw41H6Vde6PgZcVmaPfZJYLgj2vyxwGgoYi9j/1jmRFpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PFFELhgS; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version:Content-Type; b=S/ykkqTWhDWTXvEH8y8fwn+Exxa8pY3CRkAVsodZadGjHcx8hZaO2mlRNhJKFXhFk+1wWVHnLEu+0YoXX22do+L5LEvVW5/Ryi2n2z7I5rQo/x23EGFoRl1j87MhfqfuRfw/6BJ7BYInmqS4ICZA4QiSqF0ZCmC29Np9+mBY/VM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JKB+w3BY; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PFFELhgS"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JKB+w3BY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1763139795;
-	bh=lRwauJY45yghkHUPVD34PRex0BOyOxzNsCIif80qyHM=;
+	s=mail; t=1763139793;
+	bh=OWdvl89NrMAZYiQg/MhtJ/uPLX2S07XX7zaT7Psnx5k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PFFELhgScQ+MUwIZxw8tYMpXWxtZtehauXYu1yBJcDLc14Gr2RWZw4voTBimlNsGL
-	 WFMijVo95mU7wXPeXQE0GBwIuUhBW9KfxjG1fv8GvEfHKrHsmlLXXyrN39kvC/5nFH
-	 0cT+A4cZhlwUsjlD1fYRIkcgnvmwNaAjpcEeSXExpsd+BtBcqRaWTISGkCqcyIKh6+
-	 39w7rPEFqYxxJp+QVfc/44iCjUyJcm3OJAqC7Xx+2AwoNnJqKcbjrMN+97bnxDawsx
-	 Eocxlli+KQAAlbJRUG1ntN6rXD3hrlGJhsADrMfNxkk9GDG57qPragg2PzPXtnxDgn
-	 ByITAzc7EnBMg==
+	b=JKB+w3BYDbeAtPRQkdmlqHIomBpddo8Is9IjCG0U2UnIN+GDIt+cyZJhfKeFzlsEx
+	 oV63ldUWAsnGzzqr8QcDoxS0pluWCpelHIsNIBsmvpBThrefmkqdnl6nP4u6C4p0pI
+	 AYsvEx5F7vAdsIB1gNGwFA7v20tmlamptUvtjHI09OOVkzM0dMAVTbL+tB7ddzUavf
+	 swbfq7zoebKvn5YlM3j8SAbZfRDXDIwWrX+KRFchcXuqshf3ERvk4B1iug53WLWjn5
+	 pq7xirD3GIfX2NsO5GoYtfzgLkj4I2roEenfNGUlpgDXmZG3Qn6t+6cQQvtQg2jNxM
+	 TZl6TxlTB60Kw==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 93C2017E15DF;
-	Fri, 14 Nov 2025 18:03:14 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8E74117E156D;
+	Fri, 14 Nov 2025 18:03:12 +0100 (CET)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -68,9 +68,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	kernel@collabora.com
-Subject: [PATCH v9 08/11] drm/panthor: Introduce huge tmpfs mountpoint option
-Date: Fri, 14 Nov 2025 18:02:59 +0100
-Message-ID: <20251114170303.2800-9-loic.molinari@collabora.com>
+Subject: [PATCH v9 06/11] drm/v3d: Use huge tmpfs mountpoint helpers
+Date: Fri, 14 Nov 2025 18:02:57 +0100
+Message-ID: <20251114170303.2800-7-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251114170303.2800-1-loic.molinari@collabora.com>
 References: <20251114170303.2800-1-loic.molinari@collabora.com>
@@ -83,153 +83,253 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Introduce the 'panthor.transparent_hugepage' boolean module parameter
-(false by default). When the parameter is set to true, a new tmpfs
-mountpoint is created and mounted using the 'huge=within_size'
-option. It's then used at GEM object creation instead of the default
-'shm_mnt' mountpoint in order to enable Transparent Hugepage (THP) for
-the object (without having to rely on a system wide parameter).
+Make use of the new drm_gem_huge_mnt_create() and
+drm_gem_get_huge_mnt() helpers to avoid code duplication. Now that
+it's just a few lines long, the single function in v3d_gemfs.c is
+moved into v3d_gem.c.
 
 v3:
 - use huge tmpfs mountpoint in drm_device
+- move v3d_gemfs.c into v3d_gem.c
 
 v4:
-- fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
 - clean up mountpoint creation error handling
-- print negative error value
 
 v5:
-- use drm_gem_has_huge_tmp() helper
-- get rid of CONFIG_TRANSPARENT_HUGEPAGE ifdefs
+- fix CONFIG_TRANSPARENT_HUGEPAGE check
+- use drm_gem_has_huge_mnt() helper
+
+v8:
+- don't access huge_mnt field with CONFIG_TRANSPARENT_HUGEPAGE=n
 
 v9:
-- replace drm_gem_has_huge_tmp() by drm_gem_get_huge_tmp()
+- replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
 
 Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_device.c |  3 +++
- drivers/gpu/drm/panthor/panthor_drv.c    |  7 +++++++
- drivers/gpu/drm/panthor/panthor_drv.h    |  9 +++++++++
- drivers/gpu/drm/panthor/panthor_gem.c    | 18 ++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_gem.h    |  2 ++
- 5 files changed, 39 insertions(+)
- create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ drivers/gpu/drm/v3d/Makefile    |  3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c    |  9 +++--
+ drivers/gpu/drm/v3d/v3d_drv.c   |  2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h   | 11 +-----
+ drivers/gpu/drm/v3d/v3d_gem.c   | 27 ++++++++++++--
+ drivers/gpu/drm/v3d/v3d_gemfs.c | 62 ---------------------------------
+ 6 files changed, 34 insertions(+), 80 deletions(-)
+ delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index 31fb8ed68199..b6795d58fa03 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -18,6 +18,7 @@
- #include "panthor_devfreq.h"
- #include "panthor_device.h"
- #include "panthor_fw.h"
-+#include "panthor_gem.h"
- #include "panthor_gpu.h"
- #include "panthor_hw.h"
- #include "panthor_mmu.h"
-@@ -288,6 +289,8 @@ int panthor_device_init(struct panthor_device *ptdev)
- 	if (ret)
- 		goto err_unplug_fw;
+diff --git a/drivers/gpu/drm/v3d/Makefile b/drivers/gpu/drm/v3d/Makefile
+index fcf710926057..b7d673f1153b 100644
+--- a/drivers/gpu/drm/v3d/Makefile
++++ b/drivers/gpu/drm/v3d/Makefile
+@@ -13,8 +13,7 @@ v3d-y := \
+ 	v3d_trace_points.o \
+ 	v3d_sched.o \
+ 	v3d_sysfs.o \
+-	v3d_submit.o \
+-	v3d_gemfs.o
++	v3d_submit.o
  
-+	panthor_gem_init(ptdev);
-+
- 	/* ~3 frames */
- 	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
- 	pm_runtime_use_autosuspend(ptdev->base.dev);
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index d1d4c50da5bf..55dbda6dbf9c 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1559,6 +1559,7 @@ static const struct file_operations panthor_drm_driver_fops = {
- 	.read = drm_read,
- 	.llseek = noop_llseek,
- 	.mmap = panthor_mmap,
-+	.get_unmapped_area = drm_gem_get_unmapped_area,
- 	.show_fdinfo = drm_show_fdinfo,
- 	.fop_flags = FOP_UNSIGNED_OFFSET,
- };
-@@ -1626,6 +1627,12 @@ static const struct drm_driver panthor_drm_driver = {
- #endif
- };
+ v3d-$(CONFIG_DEBUG_FS) += v3d_debugfs.o
+ 
+diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+index d9547f5117b9..211578abf9b6 100644
+--- a/drivers/gpu/drm/v3d/v3d_bo.c
++++ b/drivers/gpu/drm/v3d/v3d_bo.c
+@@ -114,7 +114,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
+ 	if (IS_ERR(sgt))
+ 		return PTR_ERR(sgt);
+ 
+-	if (!v3d->gemfs)
++	if (!drm_gem_get_huge_mnt(obj->dev))
+ 		align = SZ_4K;
+ 	else if (obj->size >= SZ_1M)
+ 		align = SZ_1M;
+@@ -150,12 +150,15 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
+ 			     size_t unaligned_size)
+ {
+ 	struct drm_gem_shmem_object *shmem_obj;
+-	struct v3d_dev *v3d = to_v3d_dev(dev);
+ 	struct v3d_bo *bo;
+ 	int ret;
  
 +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+bool panthor_transparent_hugepage;
-+module_param_named(transparent_hugepage, panthor_transparent_hugepage, bool, 0400);
-+MODULE_PARM_DESC(transparent_hugepage, "Use a dedicated tmpfs mount point with Transparent Hugepage enabled (false = default)");
+ 	shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
+-						  v3d->gemfs);
++						  dev->huge_mnt);
++#else
++	shmem_obj = drm_gem_shmem_create(dev, unaligned_size);
 +#endif
-+
- static int panthor_probe(struct platform_device *pdev)
- {
- 	struct panthor_device *ptdev;
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.h b/drivers/gpu/drm/panthor/panthor_drv.h
-new file mode 100644
-index 000000000000..79dccd289881
---- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_drv.h
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0 or MIT
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
-+
-+#ifndef __PANTHOR_DRV_H__
-+#define __PANTHOR_DRV_H__
-+
-+extern bool panthor_transparent_hugepage;
-+
-+#endif
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index f369cc3e2a5f..11c01b24b116 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 or MIT
- /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
- /* Copyright 2023 Collabora ltd. */
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
+ 	if (IS_ERR(shmem_obj))
+ 		return ERR_CAST(shmem_obj);
+ 	bo = to_v3d_bo(&shmem_obj->base);
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+index e8a46c8bad8a..8faa9382846f 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.c
++++ b/drivers/gpu/drm/v3d/v3d_drv.c
+@@ -107,7 +107,7 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
+ 		args->value = v3d->perfmon_info.max_counters;
+ 		return 0;
+ 	case DRM_V3D_PARAM_SUPPORTS_SUPER_PAGES:
+-		args->value = !!v3d->gemfs;
++		args->value = !!drm_gem_get_huge_mnt(dev);
+ 		return 0;
+ 	case DRM_V3D_PARAM_GLOBAL_RESET_COUNTER:
+ 		mutex_lock(&v3d->reset_lock);
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+index 1884686985b8..99a39329bb85 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.h
++++ b/drivers/gpu/drm/v3d/v3d_drv.h
+@@ -158,11 +158,6 @@ struct v3d_dev {
+ 	struct drm_mm mm;
+ 	spinlock_t mm_lock;
  
- #include <linux/cleanup.h>
- #include <linux/dma-buf.h>
-@@ -12,10 +13,27 @@
- #include <drm/panthor_drm.h>
+-	/*
+-	 * tmpfs instance used for shmem backed objects
+-	 */
+-	struct vfsmount *gemfs;
+-
+ 	struct work_struct overflow_mem_work;
  
- #include "panthor_device.h"
-+#include "panthor_drv.h"
- #include "panthor_fw.h"
- #include "panthor_gem.h"
- #include "panthor_mmu.h"
+ 	struct v3d_queue_state queue[V3D_MAX_QUEUES];
+@@ -569,6 +564,7 @@ extern const struct dma_fence_ops v3d_fence_ops;
+ struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue q);
  
-+void panthor_gem_init(struct panthor_device *ptdev)
-+{
-+	int err;
-+
-+	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
-+	    !panthor_transparent_hugepage)
-+		return;
-+
-+	err = drm_gem_huge_mnt_create(&ptdev->base, "within_size");
-+	if (drm_gem_get_huge_mnt(&ptdev->base))
-+		drm_info(&ptdev->base, "Using Transparent Hugepage\n");
-+	else if (err)
-+		drm_warn(&ptdev->base, "Can't use Transparent Hugepage (%d)\n",
-+			 err);
-+}
-+
- #ifdef CONFIG_DEBUG_FS
- static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
- {
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-index 80c6e24112d0..2eefe9104e5e 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.h
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -136,6 +136,8 @@ struct panthor_gem_object *to_panthor_bo(struct drm_gem_object *obj)
- 	return container_of(to_drm_gem_shmem_obj(obj), struct panthor_gem_object, base);
+ /* v3d_gem.c */
++extern bool super_pages;
+ int v3d_gem_init(struct drm_device *dev);
+ void v3d_gem_destroy(struct drm_device *dev);
+ void v3d_reset_sms(struct v3d_dev *v3d);
+@@ -576,11 +572,6 @@ void v3d_reset(struct v3d_dev *v3d);
+ void v3d_invalidate_caches(struct v3d_dev *v3d);
+ void v3d_clean_caches(struct v3d_dev *v3d);
+ 
+-/* v3d_gemfs.c */
+-extern bool super_pages;
+-void v3d_gemfs_init(struct v3d_dev *v3d);
+-void v3d_gemfs_fini(struct v3d_dev *v3d);
+-
+ /* v3d_submit.c */
+ void v3d_job_cleanup(struct v3d_job *job);
+ void v3d_job_put(struct v3d_job *job);
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 5a180dc6c452..62532a89dd14 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -259,6 +259,30 @@ v3d_invalidate_caches(struct v3d_dev *v3d)
+ 	v3d_invalidate_slices(v3d, 0);
  }
  
-+void panthor_gem_init(struct panthor_device *ptdev);
++static void
++v3d_huge_mnt_init(struct v3d_dev *v3d)
++{
++	int err = 0;
 +
- struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size);
- 
++	/*
++	 * By using a huge shmemfs mountpoint when the user wants to
++	 * enable Super Pages, we can pass in mount flags that better
++	 * match our usecase.
++	 */
++
++	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && super_pages)
++		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
++
++	if (drm_gem_get_huge_mnt(&v3d->drm))
++		drm_info(&v3d->drm, "Using Transparent Hugepages\n");
++	else if (err)
++		drm_warn(&v3d->drm, "Can't use Transparent Hugepages (%d)\n",
++			 err);
++	else
++		drm_notice(&v3d->drm,
++			   "Transparent Hugepage support is recommended for optimal performance on this platform!\n");
++}
++
  int
+ v3d_gem_init(struct drm_device *dev)
+ {
+@@ -310,7 +334,7 @@ v3d_gem_init(struct drm_device *dev)
+ 	v3d_init_hw_state(v3d);
+ 	v3d_mmu_set_page_table(v3d);
+ 
+-	v3d_gemfs_init(v3d);
++	v3d_huge_mnt_init(v3d);
+ 
+ 	ret = v3d_sched_init(v3d);
+ 	if (ret) {
+@@ -330,7 +354,6 @@ v3d_gem_destroy(struct drm_device *dev)
+ 	enum v3d_queue q;
+ 
+ 	v3d_sched_fini(v3d);
+-	v3d_gemfs_fini(v3d);
+ 
+ 	/* Waiting for jobs to finish would need to be done before
+ 	 * unregistering V3D.
+diff --git a/drivers/gpu/drm/v3d/v3d_gemfs.c b/drivers/gpu/drm/v3d/v3d_gemfs.c
+deleted file mode 100644
+index bf351fc0d488..000000000000
+--- a/drivers/gpu/drm/v3d/v3d_gemfs.c
++++ /dev/null
+@@ -1,62 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0+
+-/* Copyright (C) 2024 Raspberry Pi */
+-
+-#include <linux/fs.h>
+-#include <linux/mount.h>
+-#include <linux/fs_context.h>
+-
+-#include <drm/drm_print.h>
+-
+-#include "v3d_drv.h"
+-
+-void v3d_gemfs_init(struct v3d_dev *v3d)
+-{
+-	struct file_system_type *type;
+-	struct fs_context *fc;
+-	struct vfsmount *gemfs;
+-	int ret;
+-
+-	/*
+-	 * By creating our own shmemfs mountpoint, we can pass in
+-	 * mount flags that better match our usecase. However, we
+-	 * only do so on platforms which benefit from it.
+-	 */
+-	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
+-		goto err;
+-
+-	/* The user doesn't want to enable Super Pages */
+-	if (!super_pages)
+-		goto err;
+-
+-	type = get_fs_type("tmpfs");
+-	if (!type)
+-		goto err;
+-
+-	fc = fs_context_for_mount(type, SB_KERNMOUNT);
+-	if (IS_ERR(fc))
+-		goto err;
+-	ret = vfs_parse_fs_string(fc, "source", "tmpfs");
+-	if (!ret)
+-		ret = vfs_parse_fs_string(fc, "huge", "within_size");
+-	if (!ret)
+-		gemfs = fc_mount_longterm(fc);
+-	put_fs_context(fc);
+-	if (ret)
+-		goto err;
+-
+-	v3d->gemfs = gemfs;
+-	drm_info(&v3d->drm, "Using Transparent Hugepages\n");
+-
+-	return;
+-
+-err:
+-	v3d->gemfs = NULL;
+-	drm_notice(&v3d->drm,
+-		   "Transparent Hugepage support is recommended for optimal performance on this platform!\n");
+-}
+-
+-void v3d_gemfs_fini(struct v3d_dev *v3d)
+-{
+-	if (v3d->gemfs)
+-		kern_unmount(v3d->gemfs);
+-}
 -- 
 2.47.3
 
