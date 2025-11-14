@@ -1,135 +1,147 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15BB3168E2
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 11:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D194314D04
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 12:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763121339; cv=none; b=fg6ESgwG3151qLgYfVVCW54KZMdSkk9bJKkwfSWCxSjkzGbkbtuJHD0U5X6lsyq1NgANQl1gzL+KRG8BotZi6bquScP3JyKXxsbI+x/nP76UT99nyLeNmpE30TS6WifuVjuj/zSyXXc1jqgk3xl90YIUQZ0h+ssvRQ5Nfu/H1hk=
+	t=1763122406; cv=none; b=GFtZS9/fAC3NDGM0Stm/KJXB4AkHJdgPwNpJGtZ/8ubkTU7Pn89uBC8f/bU2SgGGdd2RJJSKOAz57hEQmdYgET9T70K39Czd75puKFcyBB7Dla7MzDVDsEQV19PqhEIYji/BNJ3QKKmsLnf8uMHkTjmky791YOUtp/TIvJCJfEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763121339; c=relaxed/simple;
-	bh=kSsVcz8630KwHo4IO7LJsqMTZrFWGAD+oaRzx2FLL3w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VEhEntn+FY7ocWugltBUAHODqL0Nk4taZqKOdT0pbIRyJYM45LfIaGG6IUWSlcAEYBFb3jRwqWfOrqmFsER2zz6CI49Z+GisuswN4O3fNlSqrd3y1kW6xVrtVFyOeZc4YBYlsleabnhaA47aodOlspm92d8OAZK/3XTt9OUZAgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SLawjDEm; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763122406; c=relaxed/simple;
+	bh=5I0F7Lk270HlfQS3v6Sw31jwqLfCir/VQOrCBc5zdi4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PAdp2YJMiOpb8Ml8JQem7MPSvjSnRzaICSBSRoOX/HnzdRZ4YsXzzR/m+3h1te8oMOoMbFHO8OWNJ7ZmYtaxek/ohIFl116tTxse7J1ghmWSQSdvxUVipKo+fekQefOwq4df/5Q1D8+zEYb1HHYkzquLefWYKI06wG9mQ/zFPW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BsWlX86i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SLawjDEm"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-477442b1de0so12929755e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 03:55:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763121335; x=1763726135; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kSsVcz8630KwHo4IO7LJsqMTZrFWGAD+oaRzx2FLL3w=;
-        b=SLawjDEmIkye7FklV/K0NRjVRjISwZlLXhh7NLhMp5I8d6eIDNFW3ENbEsrnKlOEbK
-         wP0JiezJ6FXzc0YP0NiJOoRTpo2jTNUHgpttC37nd6OidVHmg+Z64cRg9Honr90y+7fD
-         vY4U5+gOET7UBDi2+6m0nE3IHVqTC+n8b2MjOoukKLSqOQdSZcbd7UFfL1zB8pbmmyxV
-         nzCfQmH8JdYSC1KDcjNxE6slEewY9NdKw+gPg7Qt9glB4DcEfcCKGThdsdB/7uqtGY+c
-         Icm6rA+EMa6fppbBYI178ND65UVjuOU36LmpQdA7TaLx/mqrvylgW2CLEK+1YSXtpTqF
-         //2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763121335; x=1763726135;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kSsVcz8630KwHo4IO7LJsqMTZrFWGAD+oaRzx2FLL3w=;
-        b=lbRPezFLes4IXumOGBtRdvIFSG4YizTG97dTF0l6BO6mGPE1TCrEL9Nf0YAXqyjhaE
-         m0otpOmrtFNt7N1hmGbddoUfgJH/X5ya9q5uzMqkYxj5cf05swNBI1KRwKFcEqNu61DA
-         rW9d+QZwa9EgRD08EQGCtSdnE9Rc/h1Gj5Mu9K5+mb4lrYunmx8EhZdX8a68rbpNlpnE
-         2Ci9433Glkr61uQN3XJJTl1wYROMfYrTlarWcEvC49gNiOvKd482m7MnYKIfQdsd3ngs
-         1DpDZ6TtdEXDAD/RLhpSZLdArdHHIyClSrKZKg5+IpPnFEzyWzurv94BbR+HK6x6ytxR
-         PpKA==
-X-Forwarded-Encrypted: i=1; AJvYcCX/b1DJ9oYgAxodkLBpBTaEqCRPWhyQGTybwOhJ3oKy5bjj22gziDBziXyDl+EzhB8Ybgf0PChao3A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+thgHXtwepQFYXfy4oiicbhjuSTYDDLLh0L7kdzUvwKKkzBqi
-	hi1qymGBJHbfIud2IfMd16ASBBXKnrUllrAackdIMmfFqHWubUPBxzInTYpYy0k8BPk=
-X-Gm-Gg: ASbGnctYfkrA3KjqEQz48TU/c4fsbRtxNtp7yejOIIhb2/WVWSs5v61hy5xKXLFYySQ
-	Rqq4BrwCFngB9pPMHFYm/YmlJEr3kXCK6shEfhjNc3CoUPfnKvyVsZe/d4F2+wrR0tTM48Ct+l8
-	JBf//Lenh5jNviK5Ovvx7sXcqu59PpB70rlWRSNU07rKxrf3G4cQaxniyTHExIIFppxb2zPWSkR
-	EzB3vX6oMJYPJEugU+zNQucsJQkRTJIRDVKZypCu1Rf8sRyKWx535LaKqhtPHmevcQdleber5Z2
-	IQbBhyWtwnixMx1hmGjDLhEzjhzr02qF/k0xomNzaXaMI9syl7dV9f/qWlCHSfXqvPX5Nl3vrxg
-	3H8o2zv9VFmGiPmDM3TA3D13RT8H5cjDyaGtXnkpHGZDP2lySebJk+l3/47VhAabLaP9mCNAsGa
-	aORrBeng==
-X-Google-Smtp-Source: AGHT+IGaX63VyG7288bvhFhh9mADvgY7EJnU+zr1vNcvBNVERTkgMmla9vn+invb7igtQmyDtjSXdw==
-X-Received: by 2002:a05:600c:1c16:b0:476:4efc:8ed4 with SMTP id 5b1f17b1804b1-4778fe49c3bmr26839345e9.11.1763121335290;
-        Fri, 14 Nov 2025 03:55:35 -0800 (PST)
-Received: from draszik.lan ([212.129.74.29])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53e85e6fsm9688761f8f.18.2025.11.14.03.55.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Nov 2025 03:55:34 -0800 (PST)
-Message-ID: <6479a8d84052b326ffeb5609959aaf3a1aac9ff8.camel@linaro.org>
-Subject: Re: [PATCH 06/13] mfd: sec-irq: add support for creating multiple
- IRQ chips
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Kaustabh Chakraborty
-	 <kauschluss@disroot.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring
-	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
- <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo
- Choi	 <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-leds@vger.kernel.org, 	devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-pm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, 	linux-rtc@vger.kernel.org,
- linux-doc@vger.kernel.org
-Date: Fri, 14 Nov 2025 11:55:34 +0000
-In-Reply-To: <20251114075004a444bff0@mail.local>
-References: <20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org>
-	 <20251114-s2mu005-pmic-v1-6-9e3184d3a0c9@disroot.org>
-	 <20251114075004a444bff0@mail.local>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-2+build3 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BsWlX86i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ECB8C2BCB9
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 12:13:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763122406;
+	bh=5I0F7Lk270HlfQS3v6Sw31jwqLfCir/VQOrCBc5zdi4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=BsWlX86ilnv+s4j4wTsSqTeDNAnnYOHyVINcw+Wvj3HVT6JuHuIMXwapCyNfmUql6
+	 US9CQzkUfqLAE4BbtJm5v3YZQr2wkup+OY5id52TMlj0plHw/jXmlJmvLrVEOioqwz
+	 hNgv8M980glqCzQD1KBPZB6yUw+FZeR6fb5ODDW/8FqmrZBPNvks30TTHR4PBa1hZ1
+	 Y2MCpPZmVqD7A09k1SMUmE/QJDoP1ykx7WHAmqOmkW2hmR6dRiWVwbE44vnjCtb4DL
+	 eUyRqN+tMHzw3mSGyz2bjhTVrntWx2rcDUwpY8X8XJBDv5k9pZ/rOvxS8FcuXgcpFE
+	 bivBIZyjejpnQ==
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-3e2f4c5b26dso445935fac.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 04:13:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXo8EnLo7gKoGX7aR8gQxf4XZpf/GiQKaQu+trwH1EKTyTqUSiz6oUcxG7E9CLY+d1ekn1mMBOIw0Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYgbMM7h1UuFOH7QXgGvH8i/6L4PZNieu4JhmxAePk5WIFz90b
+	JDu2fsguvhGQgra7awYUViOaNzZP3J9+lUoCDsEPclPcrRtuoHS55ULDCSJyZDw8/B/7zgpaGmz
+	jCjdnXCZiKF7DZ0T7Uad1Pc48jVBy/2A=
+X-Google-Smtp-Source: AGHT+IGrNkWHSVx3CmYADKr0S6TGq/XxOF6zay1uOoUOn8a60tpM1BgphUydUyCNyc9Vh0GmlV+21RabCzXA2tdcTXs=
+X-Received: by 2002:a05:6870:30f:b0:375:db59:20e4 with SMTP id
+ 586e51a60fabf-3e868ef8743mr1267901fac.13.1763122404195; Fri, 14 Nov 2025
+ 04:13:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20251114-thermal-device-v1-0-d8b442aae38b@gmx.de>
+In-Reply-To: <20251114-thermal-device-v1-0-d8b442aae38b@gmx.de>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 14 Nov 2025 13:13:12 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0gZ7+i+irhaq2jQpTt++HuVRjqz8==Ov9VmQ9Q1J1TM0w@mail.gmail.com>
+X-Gm-Features: AWmQ_bm6idj_L4n1xVkRGWkVqmFdJz-PXS5UU4gyN5tQNhsjMISGTiEJyqtTR8w
+Message-ID: <CAJZ5v0gZ7+i+irhaq2jQpTt++HuVRjqz8==Ov9VmQ9Q1J1TM0w@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/8] thermal: core: Allow setting the parent device of
+ thermal zone/cooling devices
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Lucas Stach <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
+	Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Amit Daniel Kachhap <amit.kachhap@gmail.com>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jeff Johnson <jjohnson@kernel.org>, Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
+	Felix Fietkau <nbd@nbd.name>, Lorenzo Bianconi <lorenzo@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>, 
+	Shayne Chen <shayne.chen@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Peter Kaestle <peter@piie.net>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Potnuri Bharat Teja <bharat@chelsio.com>, Sebastian Reichel <sre@kernel.org>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Support Opensource <support.opensource@diasemi.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+	ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+	linux-pci@vger.kernel.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2025-11-14 at 08:50 +0100, Alexandre Belloni wrote:
-> On 14/11/2025 00:35:07+0530, Kaustabh Chakraborty wrote:
-> > The current state of the driver only allows creating only one IRQ chip
-> > per PMIC. On some PMICs, such as Samsung's S2MU005, there are multiple
-> > interrupt blocks, for which the current implementation stands insuffici=
-ent.
-> >=20
-> > Add support for creating multiple IRQ chips for a PMIC. Every IRQ chip =
-is
-> > given it's own index, which is used by sub-device drivers to request IR=
-Qs.
-> >=20
-> > A macro is defined which states the maximum number of chips supported.
-> > It's set to 1 as currently, no PMIC requires more than one IRQ chip. Th=
-e
-> > value must be changed accordingly on adding new PMICs requiring multipl=
-e
-> > IRQ chips.
-> >=20
-> > Moreover, adjust the s5m RTC driver to initialize IRQs with the
-> > appropriate IRQ chip index.
-> >=20
-> > Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
->=20
-> > ---
-> > =C2=A0drivers/mfd/sec-irq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 163 +++++++++++++++++++++++----------------
-> > =C2=A0drivers/rtc/rtc-s5m.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 15 +++-
-> > =C2=A0include/linux/mfd/samsung/core.h |=C2=A0=C2=A0 5 +-
-> > =C2=A0include/linux/mfd/samsung/irq.h=C2=A0 |=C2=A0 14 ++++
-> > =C2=A04 files changed, 127 insertions(+), 70 deletions(-)
+On Fri, Nov 14, 2025 at 4:24=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wrote:
+>
+> Drivers registering thermal zone/cooling devices are currently unable
+> to tell the thermal core what parent device the new thermal zone/
+> cooling device should have, potentially causing issues with suspend
+> ordering
 
-Your patch reminded me to finally send
-https://lore.kernel.org/all/20251114-s5m-alarm-v1-0-c9b3bebae65f@linaro.org=
-/
+Do you have any examples of this?
 
-If applied first, you wouldn't need to touch rtc-s5m.c I believe.
+> and making it impossible for user space appications to
+> associate a given thermal zone device with its parent device.
+>
+> This patch series aims to fix this issue by extending the functions
+> used to register thermal zone/cooling devices to also accept a parent
+> device pointer. The first six patches convert all functions used for
+> registering cooling devices, while the functions used for registering
+> thermal zone devices are converted by the remaining two patches.
+>
+> I tested this series on various devices containing (among others):
+> - ACPI thermal zones
+> - ACPI processor devices
+> - PCIe cooling devices
+> - Intel Wifi card
+> - Intel powerclamp
+> - Intel TCC cooling
+>
+> I also compile-tested the remaining affected drivers, however i would
+> still be happy if the relevant maintainers (especially those of the
+> mellanox ethernet switch driver) could take a quick glance at the
+> code and verify that i am using the correct device as the parent
+> device.
+>
+> This work is also necessary for extending the ACPI thermal zone driver
+> to support the _TZD ACPI object in the future.
 
-Equally, I can rebase mine on top of yours - no strong feelings.
+Can you please elaborate a bit here?
 
-Cheers,
-Andre'
+_TZD is a list of devices that belong to the given thermal zone, so
+how is it connected to the thermal zone parent?
+
+> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+> ---
+> Armin Wolf (8):
+>       thermal: core: Allow setting the parent device of cooling devices
+>       thermal: core: Set parent device in thermal_of_cooling_device_regis=
+ter()
+>       ACPI: processor: Stop creating "device" sysfs link
+>       ACPI: fan: Stop creating "device" sysfs link
+>       ACPI: video: Stop creating "device" sysfs link
+>       thermal: core: Set parent device in thermal_cooling_device_register=
+()
+>       ACPI: thermal: Stop creating "device" sysfs link
+>       thermal: core: Allow setting the parent device of thermal zone devi=
+ces
+
+I can only see the first three patches in the series ATM as per
+
+https://lore.kernel.org/linux-pm/20251114-thermal-device-v1-0-d8b442aae38b@=
+gmx.de/T/#r605b23f2e27e751d8406e7949dad6f5b5b112067
