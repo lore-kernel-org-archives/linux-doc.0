@@ -1,197 +1,140 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C1D30215D
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 13:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C7F314A67
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 13:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763126064; cv=none; b=raSJz8UEW2qAc+/lBeMS2topirzpJ/PXGBk5REgRF7wxrwppiMesRhSe93RBfpBaAWkFRKLMhH4mYrieYprX8eKZ25TLlyplUImJnJwviRd/rwAs8X1zvxt/acf93wGlfa+g6VOc9vqoc8emrTWkQ0wum4A0cJC2gTQoC6lgAsM=
+	t=1763126560; cv=none; b=HLKc0vrpcgog3fLm0C5ZFVkARb7g0Sic3s7MXaL04naQKNFhJle3fL1QB3ZUDSPTgFkXhF7NqmL9PdTe1+o6c3JFT1kD1CJyVcLLOw7FVmdzPdpBwTI+xBT6Hz1ABj3lnxipEjT2g5q0/NZf3ziJyKBbTAnvAvxxYZgw8zLZ+UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763126064; c=relaxed/simple;
-	bh=MkZ3kMIKj667Q6zlkFms+OxbDU158ERDyf3gzaKEAeo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=S4WESh0Y4frN1n9n/69uqBPTjxJuXKgD0Ao6khNyuI3wo8U+mUqAVI9Izth5QEMHrohnbd9Epg5+mqbPr5ETImho2E9voqeL09Af9s2PzXZx636a0Aj8jTAoaKBJ/41QpVJtg8tosGHkTWZtdp1RS3f65IKhCAN82Ufa47JihSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TE3O3wtx; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763126560; c=relaxed/simple;
+	bh=FuZEuvQ3jmbwZpx7rFiCevGNtHp2p1kTZ05rKerm0EM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a96NhwsXgJQw4/qNkKLywCtDmIOMgTtXovwmouL+93LmBkrldZrTk+ljsix9fCRhtuZTXVrTY2MWkqyuorOmGHA5Jm2WUJ/Y8L+nSe0iHDwZ45SOZ6Axvaicv3rsjRjgInmD+zvV961itSmlzu6FZHwAOacrRErny8g3EZXoWWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=E7ddOafH; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TE3O3wtx"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42b3377aaf2so1282847f8f.2
-        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 05:14:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E7ddOafH"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-340c39ee02dso1760700a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 05:22:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763126060; x=1763730860; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=iU0sX+BIcc5PHiUInIFp7NW8ySzf+LdobKT956HEe2s=;
-        b=TE3O3wtxbtU988e/qgrUb8LBnjD9XIJlLYfOlnbpdfAMbp7tAn8xaDSqahTwEz8LDd
-         QT/r3JT3O6laClSRGB6DR8Q/I/DFmetFYbFtSrb7yVJwptnfeW55OTV6g/GSlo0Z6z1h
-         THKdIXSaw8d5cn3Dy+Hv6EWBqG2XF7KPo/fF0jqNJcHbTZ9JLLGDpEgxOlns0eMW8Syr
-         W9TGvEZP9hiviBfrC7zXWIG+WiYlqlzbSJJs0Rxm2XyRDr6xvYkgpLoGLtjKH4YCVnOs
-         2vvSdPUPB3mm+Dtj7U4Rlbbf8/j279ciFMTVAStWf6pmkGq570JrhgRVbElUVOPF9BHZ
-         rKzw==
+        d=google.com; s=20230601; t=1763126558; x=1763731358; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FuZEuvQ3jmbwZpx7rFiCevGNtHp2p1kTZ05rKerm0EM=;
+        b=E7ddOafHhPb5QWq24mSAuEe9DZvtfFj7qtODwlLawtQJlmpFk8W7Y8n3jwAVPsBt5c
+         1oTez8GmZCPnOyL6Yisc8QnrkRygZTvGDY/WskDu5UqsRZZsPP6Yo8VP0/Y+xHHWpL8o
+         BoA+QIE42S66eKhoUszplz+w92NtwTHBXHodQzFTDFRPYAFjBlk60RgryU3cbP0H8KfN
+         +alh7Q0ojcALPBF8As9eN6Z4mc142KmZp/gBOPYw0B7T3QfvQIouSaoFc5fcZ2oPhWGI
+         qj0xfhASDSe2CXxZuP4SRE+GUMzHdPF3utwvbNQ2J4nmYXzzoA2sWraJlPVeHJhOotB4
+         jXTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763126060; x=1763730860;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iU0sX+BIcc5PHiUInIFp7NW8ySzf+LdobKT956HEe2s=;
-        b=CD4AgY2mwpKTrN9c6SX4l/nJ+WtRY9WQ/YCTJ3MtyKoMuQOtYWSuYMuaaeMgRhLJcF
-         KKBPTlYJTnK5d+wA+oVO2kySNmrss/zqwMVJFqyhb3CvMEAr7pzfpXyrdEIo5nIxi8Ln
-         iA77LiLyXhvXXivqTiGq5TFRJDpKFKGHPkSKVxmHEgIb44s+032wtqFHW3ohuooLenvQ
-         6GPL9NPJrZVLT/dW2dVdfUjdxJR+SDRzenDRNdP1cu8AMFrYRLk4aoyT9B6CZyj8l1Ed
-         DieqCp1xuYo325sVX2bwmyfT29Dh5cmnO0Yt1OL+NQSi0yg6SDzOZ+SJWYqoCobYZg8M
-         rJ9g==
-X-Forwarded-Encrypted: i=1; AJvYcCXKyXooMw9DulqBlFxSYfgUGt8OBhN/iWT9+wgKNObiTPLhA4qV3/nErJFmKN1GN/br2vt2bf11BNY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzpX/TqftKdBeSujJT5/GSSj+3qJ2nvtIGHibXkxbu+G9cRtda
-	9mnnQ2dEhoT2xfMaNnhQfzZY1aVH+kmU9Z2eisxCQv0mZpig02zdKi9xurGUyOOWb0E=
-X-Gm-Gg: ASbGnctDDOKPf7CeaOIPreQj1szpUzmfxn9kXfaf7jMrWIL1D9ez5K2KCv5U1Me9j0/
-	aqCwyIcHz84cI8wlt0li8G2aHKiST/cc7V6donEMQGshik7+blVfEip2xDMagKjr3mE0N4sK5x2
-	xuIVUiimluBlatC9fz1KU0dzjeVmcoZv1Fqt/1EPp0lMMmfcJvQgxupEdaaygCX3StHxSfHL/4Y
-	JlrN7W0gxvJnyU7ONPWd/PqAlT1lK0JgSlXWjWAKVAG1wTcFkurwJ27F//x4joF2BiG8docXF2k
-	e7igIrCFrqRFAlCLTmsdBh3w4d7Pa0lKYcLW734cZJWrDtBmyRrgyAFU8DniMSg4WWHUEd5dVeq
-	EJm8BD67luG+A3HxFdHUnxnZajR3JOROS6xWW7ZGGgwHiDpwXNCEASN9lY2Z+h2iTVdsVTq3iyn
-	t5YeWSNhVFHPIyhMQp
-X-Google-Smtp-Source: AGHT+IFlqbLqO9l0QT9dnRaBnBUSrcaFuapWFmH3KDcEb64+slQqRjevdDELlFMz7eG9w0S/wckC7Q==
-X-Received: by 2002:a05:6000:290b:b0:42b:3592:1bb9 with SMTP id ffacd0b85a97d-42b595a4856mr2451223f8f.35.1763126060406;
-        Fri, 14 Nov 2025 05:14:20 -0800 (PST)
-Received: from draszik.lan ([212.129.74.29])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f2084dsm10190727f8f.42.2025.11.14.05.14.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Nov 2025 05:14:20 -0800 (PST)
-Message-ID: <982158427bae79e15c92ad0198b398258e262ef6.camel@linaro.org>
-Subject: Re: [PATCH 08/13] mfd: sec: store hardware revision in sec_pmic_dev
- and add S2MU005 support
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>, Lee Jones
- <lee@kernel.org>,  Pavel Machek <pavel@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
- <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo
- Choi	 <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Jonathan Corbet	 <corbet@lwn.net>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Date: Fri, 14 Nov 2025 13:14:19 +0000
-In-Reply-To: <20251114-s2mu005-pmic-v1-8-9e3184d3a0c9@disroot.org>
-References: <20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org>
-	 <20251114-s2mu005-pmic-v1-8-9e3184d3a0c9@disroot.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-2+build3 
+        d=1e100.net; s=20230601; t=1763126558; x=1763731358;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FuZEuvQ3jmbwZpx7rFiCevGNtHp2p1kTZ05rKerm0EM=;
+        b=Mn/7kmf5ViGPm0Q7Yu36wbJaENcqTXb5Kt86UIe/KC/4lGi9I/TWGWOADmc1jWCyOs
+         OPlw0oro2FhRHTGXjeHz1GceCWmgAe/0T/k3X0Fs7zBW6CDXbPpB1I41AHhxEK1T0nXQ
+         6OXpSgvd79QdsV5E0NlItJnNKamTbmEX/WKoimSctQdpXfQMAHCE4OkZbPSEo6Ortb2V
+         8xxWLRdioV243jPFifJjUEL2/CYoTLR2M9sVuSCeoeZG4Me89P+u8n/+bP4aQ3xxTniG
+         cMOk91oF315q9IubKTuTdL2vPKIPXgQ6xo2q47nDWM4LVFDglkLlhrcMu0xVQExrg6Jt
+         NE2w==
+X-Forwarded-Encrypted: i=1; AJvYcCU/gSfn80RIWomtqzHyGhjOky/097zdKbNpqZqL93IwnQQm9ZWbMlvZ7o0Kt+c9imX5bRn5nruEZHY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbWAgY5mDiXvIgKhuK1+Ly5duHwac3k8LpbCF6OuDxbngSD9tl
+	l6b+cv/HOSoX+1+t1BUYiGRBZ/kXGyAO6dq7ClwZvCR6FKF6X9X3Y1raWeDKHWXtZ5UeBmcUacB
+	ODiZpORpU1RL94p23Cl7d626zi/C50ZpEPQOIYTEF
+X-Gm-Gg: ASbGncvzXAqB8Jagy2aJkVoJRRfaNQpCufk+yvvMj6WAKQ+rJ2Nq1M4zLDSu7wqrQbQ
+	5Vctb2Q4IDs+91tpAebX58MaN1GHSVNFWBg+m6aCfDJ721pnpi5Y9eLPQltje1PTbeHBvu8BHId
+	SHyxzMmjdo8V4BVDigcuwPMhF2mjEYSu1NoGsUjyg40buRjoNgonCus5x05R4RstwSbaWycXXc7
+	INuCwsBoZEiTHHtpuiGLucLF2yAE4Z/1j3+h/fK55iZConSkCCLymuKUUScBcPnoZwz+IsDlVtN
+	Fm34U7yHFkq5nmUXfBUqM7McyALtlgepe6Xn
+X-Google-Smtp-Source: AGHT+IHRKhpP3vzCADgRzmvW5BbtF22FP7gG7Gcfgimn7ZOifR3jME27ZrJCzM+Xqri+6sVXI0f8t3/Rxc2hYDVrt54=
+X-Received: by 2002:a05:7022:6288:b0:119:e56c:189d with SMTP id
+ a92af1059eb24-11b40f9ed09mr1186107c88.5.1763126557688; Fri, 14 Nov 2025
+ 05:22:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250918140451.1289454-1-elver@google.com> <CAHk-=wgd-Wcp0GpYaQnU7S9ci+FvFmaNw1gm75mzf0ZWdNLxvw@mail.gmail.com>
+ <aMx4-B_WAtX2aiKx@elver.google.com> <CAHk-=wgQO7c0zc8_VwaVSzG3fEVFFcjWzVBKM4jYjv8UiD2dkg@mail.gmail.com>
+ <aM0eAk12fWsr9ZnV@elver.google.com> <CANpmjNNoKiFEW2VfGM7rdak7O8__U3S+Esub9yM=9Tq=02d_ag@mail.gmail.com>
+ <20251114043812.GC2566209@ax162>
+In-Reply-To: <20251114043812.GC2566209@ax162>
+From: Marco Elver <elver@google.com>
+Date: Fri, 14 Nov 2025 14:22:01 +0100
+X-Gm-Features: AWmQ_blyYEkItbzeXoq8SnAQp2jhwPLGdi6tZz7V3PtwgmJC3W4HiUeTEvac_zI
+Message-ID: <CANpmjNPniOK9K6q2sx7KRrxckeAdCyVnTi4qwLqoFoYzYb7L2Q@mail.gmail.com>
+Subject: Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Bart Van Assche <bvanassche@acm.org>, Bill Wendling <morbo@google.com>, Christoph Hellwig <hch@lst.de>, 
+	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
+	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 2025-11-14 at 00:35 +0530, Kaustabh Chakraborty wrote:
-> The device revision matters in cases when in some PMICs, the correct
-> register offsets very in different revisions. Instead of just debug
-> printing the value, store it in the driver data struct.
->=20
-> Unlike other devices, S2MU005 has its hardware revision ID in register
-> offset 0x73. Allow handling different devices and add support for S2MU005=
-.
->=20
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> ---
-> =C2=A0drivers/mfd/sec-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 30 ++++++++++++++++++++++++------
-> =C2=A0include/linux/mfd/samsung/core.h |=C2=A0 3 +++
-> =C2=A02 files changed, 27 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/mfd/sec-common.c b/drivers/mfd/sec-common.c
-> index 4c5f4dc2905b..f51c53e7a164 100644
-> --- a/drivers/mfd/sec-common.c
-> +++ b/drivers/mfd/sec-common.c
-> @@ -16,6 +16,7 @@
-> =C2=A0#include <linux/mfd/samsung/irq.h>
-> =C2=A0#include <linux/mfd/samsung/s2mps11.h>
-> =C2=A0#include <linux/mfd/samsung/s2mps13.h>
-> +#include <linux/mfd/samsung/s2mu005.h>
-> =C2=A0#include <linux/module.h>
-> =C2=A0#include <linux/of.h>
-> =C2=A0#include <linux/pm.h>
-> @@ -86,17 +87,34 @@ static const struct mfd_cell s2mu005_devs[] =3D {
-> =C2=A0	MFD_CELL_OF("s2mu005-rgb", NULL, NULL, 0, 0, "samsung,s2mu005-rgb"=
-),
-> =C2=A0};
-> =C2=A0
-> -static void sec_pmic_dump_rev(struct sec_pmic_dev *sec_pmic)
-> +static void sec_pmic_store_rev(struct sec_pmic_dev *sec_pmic)
-> =C2=A0{
-> -	unsigned int val;
-> +	unsigned int reg, mask, shift;
-> =C2=A0
-> =C2=A0	/* For s2mpg1x, the revision is in a different regmap */
-> =C2=A0	if (sec_pmic->device_type =3D=3D S2MPG10)
-> =C2=A0		return;
-> =C2=A0
-> -	/* For each device type, the REG_ID is always the first register */
-> -	if (!regmap_read(sec_pmic->regmap_pmic, S2MPS11_REG_ID, &val))
-> -		dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", val);
-> +	switch (sec_pmic->device_type) {
-> +	case S2MU005:
-> +		reg =3D S2MU005_REG_ID;
-> +		mask =3D S2MU005_ID_MASK;
-> +		shift =3D S2MU005_ID_SHIFT;
-> +		break;
-> +	default:
-> +		/* For other device types, the REG_ID is always the first register. */
-> +		reg =3D S2MPS11_REG_ID;
-> +		mask =3D ~0;
-> +		shift =3D 0;
-> +	}
-> +
-> +	if (!regmap_read(sec_pmic->regmap_pmic, reg, &sec_pmic->revision))
-> +		return;
+On Fri, 14 Nov 2025 at 05:38, Nathan Chancellor <nathan@kernel.org> wrote:
+> On Thu, Nov 13, 2025 at 03:30:08PM +0100, Marco Elver wrote:
+> > On Fri, 19 Sept 2025 at 11:10, Marco Elver <elver@google.com> wrote:
+> > [..]
+> > > I went with "context guard" to refer to the objects themselves, as that
+> > > doesn't look too odd. It does match the concept of "guard" in
+> > > <linux/cleanup.h>.
+> > >
+> > > See second attempt below.
+> > [..]
+> >
+> > I finally got around baking this into a renamed series, that now calls
+> > it "Context Analysis" - here's a preview:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git/log/?h=ctx-analysis/dev
+> >
+> > As for when we should give this v4 another try: I'm 50/50 on sending
+> > this now vs. waiting for final Clang 22 to be released (~March 2026).
+> >
+> > Preferences?
+>
+> For the record, I can continue to upload clang snapshots for testing and
+> validating this plus the sooner this hits a tree that goes into -next,
+> the sooner the ClangBuiltLinux infrastructure can start testing it. I
+> assume there will not need to be many compiler side fixes but if
 
-You should probably propagate the error up to the caller here.
+I hope so ... Famous last words. ;-)
 
-Cheers,
-Andre'
+> __counted_by has shown us anything, it is that getting this stuff
+> deployed and into the hands of people who want to use it is the only
+> real way to find corner cases to address. No strong objection from me if
+> you want to wait for clang-22 to actually be released though for more
+> access.
 
-> +
-> +	sec_pmic->revision &=3D mask;
-> +	sec_pmic->revision >>=3D shift;
-> +
-> +	dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", sec_pmic->revision);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void sec_pmic_configure(struct sec_pmic_dev *sec_pmic)
-> @@ -236,7 +254,7 @@ int sec_pmic_probe(struct device *dev, int device_typ=
-e, unsigned int irq,
-> =C2=A0		return ret;
-> =C2=A0
-> =C2=A0	sec_pmic_configure(sec_pmic);
-> -	sec_pmic_dump_rev(sec_pmic);
-> +	sec_pmic_store_rev(sec_pmic);
-> =C2=A0
-> =C2=A0	return ret;
-> =C2=A0}
-> diff --git a/include/linux/mfd/samsung/core.h b/include/linux/mfd/samsung=
-/core.h
-> index fc07f7944dcd..ccd1bfa15b85 100644
-> --- a/include/linux/mfd/samsung/core.h
-> +++ b/include/linux/mfd/samsung/core.h
-> @@ -63,6 +63,7 @@ enum sec_device_type {
-> =C2=A0 * @irq_base:		Base IRQ number for device, required for IRQs
-> =C2=A0 * @irq:		Generic IRQ number for device
-> =C2=A0 * @irq_data:		Runtime data structure for IRQ controller
-> + * @revision:		Revision number of the device
-> =C2=A0 * @wakeup:		Whether or not this is a wakeup device
-> =C2=A0 */
-> =C2=A0struct sec_pmic_dev {
-> @@ -74,6 +75,8 @@ struct sec_pmic_dev {
-> =C2=A0	int device_type;
-> =C2=A0	int irq;
-> =C2=A0	struct regmap_irq_chip_data *irq_data[MAX_IRQ_CHIPS];
-> +
-> +	unsigned int revision;
-> =C2=A0};
-> =C2=A0
-> =C2=A0struct sec_platform_data {
+Thanks, Nathan - having ClangBuiltLinux infra help test would be very helpful.
+Unless I hear otherwise, I can send v4 next week for review - in case
+of a v5 I will wait until ~March (as that coincides with Clang 22
+release, and for lack of time on my end between Jan and March).
+Could also skip the subsystem-enablement patches for now; only the
+patches until the MAINTAINERS patch are the bare minimum, the rest can
+be taken later by individual maintainers.
+
+Thanks,
+-- Marco
