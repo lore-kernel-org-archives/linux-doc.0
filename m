@@ -1,104 +1,149 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAE1341AAE;
-	Fri, 14 Nov 2025 17:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD062F290B
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 17:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763141956; cv=none; b=C9qtZnMfdCsOX0wxOkyD1ai9DYQdQL3vJItRqK8Ow8XUKbVb4HFYrJXmhgqreMFKaDruVAOcvppsqptEh6AaglS9XvfYo27kM/Ez1cPMWEJRy03x+P4XhJRUyqUl9LIUz5rc5YyLjsAZluYvuchDkdjM8V9ajVC6FomRn0wOR6g=
+	t=1763142806; cv=none; b=I1aZuWB9XfEm1z1jqwfP0gxTUgUNEcwpMaU9GwPQd+C9q7iajBV217JoMIUB8wA6gtPAYBadPfkCNkNAX96AlAkjKqhmVIdhEtyU33/m1HaO1FPk0HCFHmzWgQ1t5Wp6bM/s2OLb+3Gujz6gTi5y1x1syUbN1dtAVyOSAKfMY8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763141956; c=relaxed/simple;
-	bh=6RrGHT2bPSbv3oW/d6l3Th3a8/G2DqdfYt9P09MdriI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bTpPt4YYmYVMgMCIPH5zdmSACWYUY01pBpGu3ZudtF6ozHesTLfSNAj/k90AMFlm16NqdSdfQjNf1rmuSU5OsT6ntKhO5IZVW6XUyA5tSTQW8naEkV3xUU6VUV2lz81IYNIvHZzD9EXetetn6qMORMCLk48Y8OT1Y8FMZGNOEGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4kpHF5tY; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1763142806; c=relaxed/simple;
+	bh=j5rjn+Zzl67H6L1jZ91bz8Npku7VMEhnP6jYMO7Zz/A=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RqUYzv143HYawju84MtZNtZOCOuTPqWwhbEbfGmyBw2MzIpdr6Lzv6fvyxesAm8OnB0fDheLXX+k9HxceO8FQ+ulyG7CH8Qx2Y1MmDCKEFOful5gD3xIYtb1Ve7KSiT419aKSf/eNFjnQDFfEuUDaRZp5eAqWD3fOopT0b8zKiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DKJvEbK8; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4kpHF5tY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=6Ck6SOmONUUBFapcwaTAajZaO0W9Pz5IV9Dw+0dnbis=; b=4kpHF5tYp2Yz6vjrWw3CUwrXXh
-	l8dl4e4oNdfuSFYI3a9N/QON/D4BNgazftXzA980LfiWzTzWj6UouLxL25prrHnradLIQ/H6sD/tU
-	MJmUMRGukz9tVd1T79/2VyjYGixXBJpnmKrIjPbr7PRr+aL8yrboMKZjninYXpB5HBvE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vJxlH-00E0Yl-B0; Fri, 14 Nov 2025 18:39:03 +0100
-Date: Fri, 14 Nov 2025 18:39:03 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	dl-linux-imx <linux-imx@nxp.com>
-Subject: Re: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rpmsg bus
-Message-ID: <1b39ba56-e38c-4661-9973-b56fdaa1bcae@lunn.ch>
-References: <20251104203315.85706-1-shenwei.wang@nxp.com>
- <20251104203315.85706-4-shenwei.wang@nxp.com>
- <CACRpkdZR2C=+ssYOKnF=hyOqTakGjVxzp5_qz=3-uYRpzaZgNQ@mail.gmail.com>
- <AS8PR04MB9176F105B09FF939B22B85E589CFA@AS8PR04MB9176.eurprd04.prod.outlook.com>
- <9bcd63d2-f75f-4cb6-a81f-eefc983a99bb@lunn.ch>
- <PAXPR04MB91854DD6096AD550074FA16189CCA@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DKJvEbK8"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 95133C10F6B;
+	Fri, 14 Nov 2025 17:52:59 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4EAF36060E;
+	Fri, 14 Nov 2025 17:53:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D8F0310371986;
+	Fri, 14 Nov 2025 18:53:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1763142800; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=I0m6j7r0a8lutBYkwziMVIWnO23oOzmLmH8gPoCHn9w=;
+	b=DKJvEbK8Wnoypee72s7CKYQV1xOnYBmZzA0rQcUXIm+liQIAbgfBdcH6NesSdzfvGo4nQH
+	8RWAxpiprJhB+KuBvlfdZA3m1NTVo9cimjTAyxmzX20GgiT+GfFk1vOAJGE8FxCh0nqqh+
+	zYNdnQNbgy2cotLxk4BsyHpQi1H4cI3Spob+mh5qM6HewM61YXak0ykmGAKrYylcx5lPRw
+	OPKNEKpfkBhhK11GoLtvP75Ee2pWeP14u4+eDvnhTVNePsnqWMsyWag3gIvbaHYtPkADR6
+	CxrK8251OFIC3bsOJJEyvgUlSGQXpQw3zziRoqsX9nqmsp8CXAjcYpTEBgrywg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH 00/19] mtd: spi-nor: Enhance software protection
+Date: Fri, 14 Nov 2025 18:53:01 +0100
+Message-Id: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR04MB91854DD6096AD550074FA16189CCA@PAXPR04MB9185.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH1sF2kC/x3MwQqDMAwA0F+RnBdY1Ba3Xxk7qE23XNKSgA7Ef
+ 7fs+C7vAGcTdnh2Bxhv4lK0gW4drN9ZP4ySmqG/94GIRtxFl6IJt4g0oa2EXgW1GPpecYohDTG
+ POT4CtKMaZ/n9/9f7PC+yf0rybwAAAA==
+X-Change-ID: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+To: Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Sean Anderson <sean.anderson@linux.dev>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Steam Lin <STLin2@winbond.com>, linux-mtd@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Miquel Raynal <miquel.raynal@bootlin.com>
+X-Mailer: b4 0.14.2
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Wed, Nov 12, 2025 at 04:31:52PM +0000, Shenwei Wang wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Andrew Lunn <andrew@lunn.ch>
-> > Sent: Wednesday, November 12, 2025 7:42 AM
-> > To: Shenwei Wang <shenwei.wang@nxp.com>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>; Bjorn Andersson
-> > <andersson@kernel.org>; Mathieu Poirier <mathieu.poirier@linaro.org>; Rob
-> > Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor
-> > Dooley <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha
-> > Hauer <s.hauer@pengutronix.de>; Jonathan Corbet <corbet@lwn.net>; Bartosz
-> > Golaszewski <brgl@bgdev.pl>; Pengutronix Kernel Team
-> > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
-> > <peng.fan@nxp.com>; linux-remoteproc@vger.kernel.org;
-> > devicetree@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> > kernel@lists.infradead.org; linux-kernel@vger.kernel.org; linux-
-> > doc@vger.kernel.org; dl-linux-imx <linux-imx@nxp.com>
-> > Subject: [EXT] Re: [PATCH v5 3/5] docs: staging: gpio-rpmsg: gpio over rpmsg bus
-> > 
-> > Since this has not been merged yet, there are no existing systems.
-> > 
-> 
-> In this context, "system" refers to both Linux and the remote firmware. The remote firmware 
-> for i.MX platforms has already been released and widely used by our customers. Maintaining 
-> compatibility with the existing firmware would provide a better solution for customers.
+Hello,
 
-From what i understand, this is not just GPIO. There is also I2C? And
-RTC? I would expect a generic implementation of these as well? I find
-it unlikely you can persuade all these subsystem Maintainers to accept
-your protocols as is. You need to make changes so that GPIOs
-interrupts work correctly, so i would just accept you need to change
-the firmware. And i've given you a way you can keep backwards
-compatible to your out of tree driver...
+As recently raised on the mailing-list (link below), it seems that the
+"locking" support in SPI NOR could benefit from some enhancements. As I
+myself had to dig into it recently, here is a proposal.
 
-	  Andrew
+First issue that I see, the MEMLOCK ioctl is not behaving correctly
+in some cases, as addressed in:
+
+    mtd: spi-nor: swp: Improve locking user experience
+
+Then there is no clear explanation of the shortcuts taken by the kernel
+in terms of uAPI, so there is an attempt to list them in:
+
+    mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
+
+Plus, Tudor also asked if we could cover locking in the testing
+procedure, which is done in:
+
+    mtd: spi-nor: Add steps for testing locking support
+
+In order to simplify this procedure, and because it got very helpful
+during my testing/development, I want to propose additions to the
+debugfs output:
+
+    mtd: spi-nor: debugfs: Add locking support TODO: make the captures again
+
+Finally, I am providing an implementation for the complement (CMP)
+feature in order to allow finer control of the regions locked. This
+feature is for instance available on Winbond chips:
+
+    [core] mtd: spi-nor: swp: Add support for the complement feature
+    [doc]  mtd: spi-nor: Add steps for testing locking with CMP
+    [use]  mtd: spi-nor: winbond: Add CMP locking support
+
+Disclaimer: it was much less straightforward than I initially thought to
+get the CMP feature working correctly. I tested it with as much focus as
+I could, and I am improving the test coverage for the new cases, I am
+also providing extra test cases in the metadata of the commit (which do
+not make sense to test for chip additions, but may be sensible show when
+making core additions like this one), but honestly there are so many
+possibilities, I may still be missing corner cases. I hope this will
+anyway be helpful to others!
+
+All the other patches are misc improvements or style fixes which I faced
+and fixed during my development.
+
+Link: https://lore.kernel.org/linux-mtd/92e99a96-5582-48a5-a4f9-e9b33fcff171@linux.dev/
+
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+Miquel Raynal (19):
+      mtd: spi-nor: debugfs: Fix the flags list
+      mtd: spi-nor: swp: Improve locking user experience
+      mtd: spi-nor: Improve opcodes documentation
+      mtd: spi-nor: debugfs: Align variable access with the rest of the file
+      mtd: spi-nor: debugfs: Enhance output
+      mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
+      mtd: spi-nor: swp: Clarify a comment
+      mtd: spi-nor: swp: Use a pointer for SR instead of a single byte
+      mtd: spi-nor: swp: Create a helper that writes SR, CR and checks
+      mtd: spi-nor: swp: Rename a mask
+      mtd: spi-nor: swp: Create a TB intermediate variable
+      mtd: spi-nor: swp: Create helpers for building the SR register
+      mtd: spi-nor: swp: Simplify checking the locked/unlocked range
+      mtd: spi-nor: swp: Cosmetic changes
+      mtd: spi-nor: debugfs: Add locking support
+      mtd: spi-nor: Add steps for testing locking support
+      mtd: spi-nor: swp: Add support for the complement feature
+      mtd: spi-nor: Add steps for testing locking with CMP
+      mtd: spi-nor: winbond: Add CMP locking support
+
+ Documentation/driver-api/mtd/spi-nor.rst | 154 +++++++++++++++
+ drivers/mtd/spi-nor/core.c               |  68 +++++++
+ drivers/mtd/spi-nor/core.h               |   9 +
+ drivers/mtd/spi-nor/debugfs.c            |  51 ++++-
+ drivers/mtd/spi-nor/swp.c                | 313 +++++++++++++++++++++++--------
+ drivers/mtd/spi-nor/winbond.c            |  18 +-
+ include/linux/mtd/spi-nor.h              |   5 +-
+ 7 files changed, 533 insertions(+), 85 deletions(-)
+---
+base-commit: 1f046901101e2933086b76b1e75b0b53a8a39bc0
+change-id: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+
+Best regards,
+-- 
+Miquel Raynal <miquel.raynal@bootlin.com>
+
