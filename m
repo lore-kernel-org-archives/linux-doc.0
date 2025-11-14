@@ -1,240 +1,209 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE5326C3AE
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 03:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7872F27F005
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 04:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763091890; cv=none; b=qTZT2/6sCh8JvGjmve9MytA652ZCE+mZn38c7R2bKhuNIo2y0RM3vp7IGZ4tmuSXK8sPJFvDMzUFfR2Jk+OSsn8FBsa6/T2E1E5VQlAULkSl6TzWUugNO2aowX+YJ0ByDEkLByD2bSGDTy3xq+HIcQ1U/ZXdNTsMpsrOIjmUsm8=
+	t=1763093556; cv=none; b=XXRuvO1qZKmRpPZF5kMUP0E8BnoywIL4W1IzH4ireFv9xZ5GDChTAu9xYWG4/iCRFQoQoFfYfKJoYYiWUviooIBmwH+1byLfIqowlf6C8YcsQ+H8hVKPIqoqAbdCpb60Zzo/lmU5WYRKeGxZ2hOGZnYaYtXUbMEgsv5RNECKij4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763091890; c=relaxed/simple;
-	bh=HfUdRnYR5OSZGlucD4l0cXr2QpMS0rVTqK8miUgIcn8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=INkk9rcqwD+9GO5rde0q1t0E3QtyZ9ekvtMueDbFFmb4sIyChgPeRvs7yXHZmbgxW/oJjaRCNp1U6n+AvV8c1Z2b69/o7zyEv0hXRAWjiWPjOYXdzdSVVaICIfb3wHtOk3WYjlkolc5ZKhfu5Qhzwob0cApYcvSPN0X2vi9scto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RmA8koHh; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763093556; c=relaxed/simple;
+	bh=vqxQ3dK7VdFS3PT/6Q6WjwlGkrU2MdtNuweZl3H6mBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TpfsPmyDpHdffq2pzr2gvMMRKVnfB/otNiW8ZcKrGEM0bUqJjU3cyw8eZqeTs68eKFydodhZKYUCV3rJD8GbXPPESVQ/1BZy3z40XOdP7ErHf9Qe/4RQNzYg5P23VDBMEZN/rWvgVOc7wnd1E8xnssffio5im2uHKXCx0+bMeE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WcdvIvc3; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=S6ehArPl; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RmA8koHh"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b7277324204so191365266b.0
-        for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 19:44:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WcdvIvc3";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="S6ehArPl"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5ADMaokw1423690
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 04:12:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=l9FUBbeUidxIV00pdQyQahKH
+	PpoxkuEk9fyNczKyhZ4=; b=WcdvIvc3sMDYJHBly1X7GlPj50GGKCEK4vrDj8k0
+	5eaZ80++Ws3b6M4a/w2eVgp5fBZPqpReXJ6xcZvCuGqlyHQVAUPNMJplXDtRkmjR
+	y6847o+zGxT2XJUEtVt8QOs1dNpy77MXiVZuOJgYMs0BamIgUtjw2hTVBYrDWjPI
+	ByZ746JdSL8Gv5MgaoTNMk2yzeUNW4jCf/D2j643Vd/vNt+46rBlvy+jz4Ihw0Z+
+	fTd/SLbn6SPCPWVriGZp93nSNSFJRad1vxT6ksE51c5WW0OqhiOxjWbi0pFY79Eh
+	201wVoknTjIeNpA4GWGoZTCf94s18YBclqS5YUrFYMV7Vg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4adr9g0rag-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 04:12:32 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b24383b680so727368285a.0
+        for <linux-doc@vger.kernel.org>; Thu, 13 Nov 2025 20:12:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763091885; x=1763696685; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W6mtqdCrs5s13DdsY7nLARbcmjZ6uHESPgGUhdIcOCQ=;
-        b=RmA8koHhFyOa5gROx+J0dDBz3pV8Xg9hDuGLe/MfAWCZ/h2tXajR1x5UrtuTa8MKXG
-         GF7Ar1R63J4UKj43hxM7QJ++1zksASVYF1rOk2A4GSFO2ysovtaox8d/6A1SU3Q9J2ha
-         DGGkn/Xa54tGcA0OCezkCqie/ixojp883Z0JXe2ytKO7ekCQqT6mSHYSRtOOka6oQiFC
-         A4+GK5Usf8cduQEoAOfD66I0n8igrT7REx4/lniKrTRlmy/RyTUZbMZORg6tg13jtgvR
-         3VsqexpAhqqb9gFjfn3J1iwBR/JcNBsnLBWpyirDupDzlZJzvTfcwY3oFMYEnWmGkggJ
-         /aaQ==
+        d=oss.qualcomm.com; s=google; t=1763093552; x=1763698352; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l9FUBbeUidxIV00pdQyQahKHPpoxkuEk9fyNczKyhZ4=;
+        b=S6ehArPlA6Y4Y2WhGL5tW8g9/P+SLUq8P/kEOUNHMBNtktCmPsFqnHMd7TRn04iPvO
+         3UXvPPUHTZFrNRaz15CaNWcEokgpflDA4lHpPu+L9wZx06AZC8GrhZtLXNVTJk+CMbdu
+         11zsB1uyN//YAxP5Y6B6mKG39c9o8KpIfLjHmkBiFb3K71khvkuwX4igh8z8to2voa3p
+         zeYb6yua1xQrJTcS/hZVKWsHoARpHWPg+pAKO80q7A1M9sFReG2WhdDHevHZdxs/91T0
+         ILNhpfgX4oj303aRnl5T51TBtUVEF1XALli3nQ25MOMx2STZunr5JokL0gQauX1zO4qz
+         pY5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763091885; x=1763696685;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=W6mtqdCrs5s13DdsY7nLARbcmjZ6uHESPgGUhdIcOCQ=;
-        b=RonJv0+UcU+z6aMG/I3w8vVLXI+svuKIyEfxd9ML8OUsYxzWzsjRnk59OQFXZ1v0sP
-         mcB66Kh53KeKZQFCnTaLnDFFnvHV/j2olvs2R3AXxettwnp0HUkCsT87eJZ4GinzjPzU
-         HoRLTYH+X5+ncbJnBEGoz/7w4d8kflMr4QnfAHSoPuREpbvFsWAE2y+AE9jpHFb7yU/3
-         AXdOwRKL8Ft8yGEFxFn9WdAcGYTJVFs+B/bjBnuaoP6S9yjjvKMkF/bVv6fIyWgeIiLK
-         2epTRY3kB+XVMUBuhbkJTtDa/2PteVf/HGqSp4epp3Iytgi7abjbHuM1XyY0hXG2voJv
-         TWfw==
-X-Forwarded-Encrypted: i=1; AJvYcCWaVza8l8tLWrOS4Lo4hjThVuzd6I9v28rVMpHTmJs7IiIoahazrX4wH4mJKxSNvAsO9nzK7uhEJsc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOh9RSzcgJAsKcLMUkPPonMnU5wt+FbjnlfchTcBEhQxKvSGH5
-	vzUhkZWj/Z+fR7oDgbqaOZchM97RGWJuXJvMEkh/SWduBv3r9vdgASlymqeH7Hszce9i9j6rZag
-	6jUdNSvLEno7d5e7DqOrLD40Fzw6mBw0=
-X-Gm-Gg: ASbGncvWDYAGfFQfGRfqEcyvyANcxkmuDlQ2I+jUiNdOz00F7k64rQor7cTMXrZE0W2
-	oU2HLW8RkLAk6hr+WQvgmFk2n+H1sVF3E24i2yLv9lLu1vtChQj352z7c20ruvpzaCSG/Qva1Pz
-	KWc+YoeKxJzvAqeOWoSSwnZP/TR1simFAVOBZY5fVta7dC8eDtl3AkHT7dHOdW6ZtAvH4GsQ8Dw
-	iJeXG5fZgE+UEsyrwvAGaGM4cwemaE0vh98n9DFhdkfqyJaIYmDz5iKLvMvHFhSc5XPSw2FPoe1
-	xmL5T1fBXlzp0V8=
-X-Google-Smtp-Source: AGHT+IFeY6ExbhnLix/V8V2HiLoJfg49zjUIkHAqrWQ16NjMplNdRqeUyyg/UCDy4n1WKY6+b/r4V6jK0pS5c2c7MTg=
-X-Received: by 2002:a17:907:7fa9:b0:b70:7d61:b8a5 with SMTP id
- a640c23a62f3a-b7367b6f8afmr165505566b.62.1763091885372; Thu, 13 Nov 2025
- 19:44:45 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763093552; x=1763698352;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l9FUBbeUidxIV00pdQyQahKHPpoxkuEk9fyNczKyhZ4=;
+        b=Q5DH7bKttCdKBmuXjz8tifFR9mDJp51sFz5dRxFXZ1LPfiJPbO7EMqG4EK5qKXb+QW
+         DTHTFRZVybnvgppiOqaMF4NDxyyapO6v5zXL0GLziv7gb8GhbySwwCVWlBWzJDaIyTUE
+         3Gf81MH+E3XZuABIGOOf2Iis7Lx0K+QyTms/vm4xrbcQltX3LlcHXfOmKv1soQFabAiS
+         qS+msCzWzHTbnF+12/7JMUYLOvW7cdct1t+k45UF/JUtIBWfQ6+kyR8iWy0U9NiLsIaD
+         Ac/46TLqbawWR7RlqqZfOOZTQxb+JvRqBTnuKQt0XLFSBFrmDGh7QxUli9Eua9OOIgw0
+         4vxA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpeuzkn6n4Mac+oWL6WFBH55Fqq8XIXqxwLkLo9bbCxL2c8zcrxueaPTEMoBtosjjGoS4hHZGmVAA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTKYBjadpsZqiubjc5mx0A3LxXhwfHaYe9yXuhqBkR/KC01Cwu
+	FWoBxsLl4ok37Y3U5n01o6Bn0on6buNVNJIMsmn9xaAZEMjqWyPOuBQi4uQeabZ4DuVEV1H22k2
+	oOsS/+4sOVy9HNuH7BOsGlEzru/a8DbwJYzKZeUT5bFwAo6vzzDspfabXPqRciUU=
+X-Gm-Gg: ASbGncviCFBV8pMqX2W99Dtz7sVwWZdIrCBWm5BjKSqixlwzLabmmvB3ee63UOkEWxd
+	0y+Un/53MrIBWfWvm0bPSW3tjcoMEO5jrkFoFCQICs2smUl8EUbzLO4V2TvGQvr4x/DGdKyen2r
+	9ekBCEzyS4B9vG65wqLscz1F08pVoNacqCHfgpwznA4TszaMdSLVYYVxJC4Ay5aOVVORK3CdpOp
+	oUSuWHhTodwKcwMGotkfZAVfsl2l7R59DLec861FwnD6QKKH56YpdnLLVNFtVx24Gl4iuRixgu9
+	RBM7Jkyc0ZbFyvI/XNnQNttyINGztmIMr4xlhM372JSykpJSh1dFhO4XvVaEaMR4G+JsbwaWEb1
+	agXrFXQ6G0SVufSI4aDclrAxq32JB0JNYoVsSLFS9m/IxPiDgqcCxERnzbeyLOrz3WzV8DipJUy
+	Yfqznuag8aCq9i
+X-Received: by 2002:a05:620a:4628:b0:8b1:ed55:e4f1 with SMTP id af79cd13be357-8b2c3175d59mr235429585a.39.1763093551924;
+        Thu, 13 Nov 2025 20:12:31 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGRBRFxxiAD30mEJm55HBtKCBqJwVeb/nqEO1wa7PZ+U+vRFrL3SI4k/Rw4EJ92OxtkmKQ+nw==
+X-Received: by 2002:a05:620a:4628:b0:8b1:ed55:e4f1 with SMTP id af79cd13be357-8b2c3175d59mr235424485a.39.1763093551352;
+        Thu, 13 Nov 2025 20:12:31 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59580405a4esm784867e87.95.2025.11.13.20.12.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Nov 2025 20:12:30 -0800 (PST)
+Date: Fri, 14 Nov 2025 06:12:28 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Corey Minyard <corey@minyard.net>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        "Dr. David Alan Gilbert" <linux@treblig.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+        Vitaly Lifshits <vitaly.lifshits@intel.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
+        Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+        Sagi Maimon <maimon.sagi@gmail.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Karan Tilak Kumar <kartilak@cisco.com>,
+        Hans Verkuil <hverkuil+cisco@kernel.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>,
+        Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+        Max Kellermann <max.kellermann@ionos.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rodolfo Giometti <giometti@enneenne.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Stefan Haberland <sth@linux.ibm.com>,
+        Jan Hoeppner <hoeppner@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Satish Kharat <satishkh@cisco.com>,
+        Sesidhar Baddela <sebaddel@cisco.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v3 06/21] drm/msm: Switch to use %ptSp
+Message-ID: <ngzyqzrjg2msv6odahkirdipjizbpaecfscfgnic3su5fl6hs7@qgdb53svq64p>
+References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
+ <20251113150217.3030010-7-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251112042720.3695972-1-alistair.francis@wdc.com>
- <20251112042720.3695972-3-alistair.francis@wdc.com> <49bbe54a-4b55-48a7-bfb4-30a222cb7d4f@oracle.com>
- <CAKmqyKN4SN6DkjaRMe4st23Xnc3gb6DcqUGHi72UTgaiE9EqGw@mail.gmail.com>
- <0d77853e-7201-47c4-991c-bb492a12dd29@oracle.com> <13cf56a7-31fa-4903-9bc2-54f894fdc5ed@oracle.com>
-In-Reply-To: <13cf56a7-31fa-4903-9bc2-54f894fdc5ed@oracle.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 14 Nov 2025 13:44:18 +1000
-X-Gm-Features: AWmQ_bkh-hR1xTkgsN4bcSSt81jUJ1aCCzsHDAZD7xu3wz-1oUVwA9mDnPBItVQ
-Message-ID: <CAKmqyKObzFKHoW3_wry6=8GuDBdJiKQPE6LWPOUHebwGOH2PJA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/6] net/handshake: Define handshake_sk_destruct_req
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: hare@kernel.org, kernel-tls-handshake@lists.linux.dev, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	linux-nfs@vger.kernel.org, kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, 
-	sagi@grimberg.me, kch@nvidia.com, hare@suse.de, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251113150217.3030010-7-andriy.shevchenko@linux.intel.com>
+X-Authority-Analysis: v=2.4 cv=L+AQguT8 c=1 sm=1 tr=0 ts=6916ac31 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=JNz3O4sEs4oywJvo4n4A:9 a=CjuIK1q_8ugA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE0MDAyOSBTYWx0ZWRfX+4Zw1DBaOOlY
+ hE06Brh+VczNBJWa8FhRxg6S6cPIxqREIr7jAuEr6vUqtouYUznYMmK6Eg5IFg0yaCOBMdUV2LO
+ WkeEDjEp7WOuG3d2ikyAcdp8VeZB3kQMUSoevwY3wRjhb2cxxQXwJFCK6zlF7Yo7k2uDT8+/Pnq
+ cExgNOleC332LJbNIjJv96YtPWVtDNusFHCp3ksUmZrqxPL0wBf+ToW5EJPh7uNkIvwaG1Xe+8A
+ Dkx6HoW1RySw3Q6ZZSZ4npEUKWIfVxZtI/ddYbc72SZIor4InHVJq5ci5U2CrEKnSBm2943bonW
+ /5cgubhISlT5Y7ojMrRse/M1z2Fv3kpnuVJoGtEbrcbvqEkKrLUzlORyMf/yIFMOcEDePWdEZhi
+ J8PXxQza0A9m0oh7XVjOlvU0Z9L4vw==
+X-Proofpoint-ORIG-GUID: yYAO6a5QuoGbMKZoYleWe4tb4WE4v4c9
+X-Proofpoint-GUID: yYAO6a5QuoGbMKZoYleWe4tb4WE4v4c9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-13_07,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 impostorscore=0 priorityscore=1501 adultscore=0
+ clxscore=1015 bulkscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511140029
 
-On Fri, Nov 14, 2025 at 12:37=E2=80=AFAM Chuck Lever <chuck.lever@oracle.co=
-m> wrote:
->
-> On 11/13/25 9:01 AM, Chuck Lever wrote:
-> > On 11/13/25 5:19 AM, Alistair Francis wrote:
-> >> On Thu, Nov 13, 2025 at 1:47=E2=80=AFAM Chuck Lever <chuck.lever@oracl=
-e.com> wrote:
-> >>>
-> >>> On 11/11/25 11:27 PM, alistair23@gmail.com wrote:
-> >>>> From: Alistair Francis <alistair.francis@wdc.com>
-> >>>>
-> >>>> Define a `handshake_sk_destruct_req()` function to allow the destruc=
-tion
-> >>>> of the handshake req.
-> >>>>
-> >>>> This is required to avoid hash conflicts when handshake_req_hash_add=
-()
-> >>>> is called as part of submitting the KeyUpdate request.
-> >>>>
-> >>>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> >>>> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> >>>> ---
-> >>>> v5:
-> >>>>  - No change
-> >>>> v4:
-> >>>>  - No change
-> >>>> v3:
-> >>>>  - New patch
-> >>>>
-> >>>>  net/handshake/request.c | 16 ++++++++++++++++
-> >>>>  1 file changed, 16 insertions(+)
-> >>>>
-> >>>> diff --git a/net/handshake/request.c b/net/handshake/request.c
-> >>>> index 274d2c89b6b2..0d1c91c80478 100644
-> >>>> --- a/net/handshake/request.c
-> >>>> +++ b/net/handshake/request.c
-> >>>> @@ -98,6 +98,22 @@ static void handshake_sk_destruct(struct sock *sk=
-)
-> >>>>               sk_destruct(sk);
-> >>>>  }
-> >>>>
-> >>>> +/**
-> >>>> + * handshake_sk_destruct_req - destroy an existing request
-> >>>> + * @sk: socket on which there is an existing request
-> >>>
-> >>> Generally the kdoc style is unnecessary for static helper functions,
-> >>> especially functions with only a single caller.
-> >>>
-> >>> This all looks so much like handshake_sk_destruct(). Consider
-> >>> eliminating the code duplication by splitting that function into a
-> >>> couple of helpers instead of adding this one.
-> >>>
-> >>>
-> >>>> + */
-> >>>> +static void handshake_sk_destruct_req(struct sock *sk)
-> >>>
-> >>> Because this function is static, I imagine that the compiler will
-> >>> bark about the addition of an unused function. Perhaps it would
-> >>> be better to combine 2/6 and 3/6.
-> >>>
-> >>> That would also make it easier for reviewers to check the resource
-> >>> accounting issues mentioned below.
-> >>>
-> >>>
-> >>>> +{
-> >>>> +     struct handshake_req *req;
-> >>>> +
-> >>>> +     req =3D handshake_req_hash_lookup(sk);
-> >>>> +     if (!req)
-> >>>> +             return;
-> >>>> +
-> >>>> +     trace_handshake_destruct(sock_net(sk), req, sk);
-> >>>
-> >>> Wondering if this function needs to preserve the socket's destructor
-> >>> callback chain like so:
-> >>>
-> >>> +       void (sk_destruct)(struct sock sk);
-> >>>
-> >>>   ...
-> >>>
-> >>> +       sk_destruct =3D req->hr_odestruct;
-> >>> +       sk->sk_destruct =3D sk_destruct;
-> >>>
-> >>> then:
-> >>>
-> >>>> +     handshake_req_destroy(req);
-> >>>
-> >>> Because of the current code organization and patch ordering, it's
-> >>> difficult to confirm that sock_put() isn't necessary here.
-> >>>
-> >>>
-> >>>> +}
-> >>>> +
-> >>>>  /**
-> >>>>   * handshake_req_alloc - Allocate a handshake request
-> >>>>   * @proto: security protocol
-> >>>
-> >>> There's no synchronization preventing concurrent handshake_req_cancel=
-()
-> >>> calls from accessing the request after it's freed during handshake
-> >>> completion. That is one reason why handshake_complete() leaves comple=
-ted
-> >>> requests in the hash.
-> >>
-> >> Ah, so you are worried that free-ing the request will race with
-> >> accessing the request after a handshake_req_hash_lookup().
-> >>
-> >> Ok, makes sense. It seems like one answer to that is to add synchronis=
-ation
-> >>
-> >>>
-> >>> So I'm thinking that removing requests like this is not going to work
-> >>> out. Would it work better if handshake_req_hash_add() could recognize
-> >>> that a KeyUpdate is going on, and allow replacement of a hashed
-> >>> request? I haven't thought that through.
-> >>
-> >> I guess the idea would be to do something like this in
-> >> handshake_req_hash_add() if the entry already exists?
-> >>
-> >>     if (test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
-> >>         /* Request already completed */
-> >>         rhashtable_replace_fast(...);
-> >>     }
-> >>
-> >> I'm not sure that's better. That could possibly still race with
-> >> something that hasn't yet set HANDSHAKE_F_REQ_COMPLETED and overwrite
-> >> the request unexpectedly.
-> >>
-> >> What about adding synchronisation and keeping the current approach?
-> >> From a quick look it should be enough to just edit
-> >> handshake_sk_destruct() and handshake_req_cancel()
-> >
-> > Or make the KeyUpdate requests somehow distinctive so they do not
-> > collide with initial handshake requests.
+On Thu, Nov 13, 2025 at 03:32:20PM +0100, Andy Shevchenko wrote:
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c | 3 +--
+>  drivers/gpu/drm/msm/msm_gpu.c                     | 3 +--
+>  2 files changed, 2 insertions(+), 4 deletions(-)
+> 
 
-Hmmm... Then each KeyUpdate needs to be distinctive, which will
-indefinitely grow the hash table
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
->
-> Another thought: expand the current _req structure to also manage
-> KeyUpdates. I think there can be only one upcall request pending
-> at a time, right?
 
-There should only be a single request pending per queue.
-
-I'm not sure I see what we could do to expand the _req structure.
-
-What about adding `HANDSHAKE_F_REQ_CANCEL` to `hr_flags_bits` and
-using that to ensure we don't free something that is currently being
-cancelled and the other way around?
-
-Alistair
-
->
->
-> --
-> Chuck Lever
+-- 
+With best wishes
+Dmitry
