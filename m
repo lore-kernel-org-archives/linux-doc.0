@@ -1,132 +1,484 @@
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48631FFC6D
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 07:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.241.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E38C2F4A1B;
+	Fri, 14 Nov 2025 07:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763106370; cv=none; b=URbI05KzXTRxK3rEQB5dOS0B8es86Ru1mqVmZiGjPew10+foAQgx9+WY1l5CNCwELny8G83DWLlQPqdAtG7JzBZFJLhL0IyAhuYPPTgKrz91HvwuwV2dz6DW7RPWJkhx8B+qZaocmZ7GwC1CSG5YiFHT8FgMR6CncMyKP2c7xz0=
+	t=1763106614; cv=none; b=BTKmHp26gDsGNNgvtajloRWkwhqg0vxj8tIayNQdBdmc3Rsa0du3SxAIk/2/KE8OtJzeotrCoeb+LU4zV4KqmL0ZcDB2BHAX5DRQcfTkk4w5irHrq5xQ9fUY3zzoln0CDfjsC67BDoJJXFvRoQXW/Sc0GYYgCt+E462px1SW8h4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763106370; c=relaxed/simple;
-	bh=VRCRICI8X4mdk3HijoD7X83T/Jau+SwWh21fr7Nb+IM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=beG7bnUA8Asqu5TpYjEKWaGvhR/JYbQm1g1akAKS2UhOReBXvVo03q+EfUE81YIWd8mREF+zEhCAuD6FxJxXm3sg8S3qjooRi0/KxJDEtDk2QzTpPJJTA1h/JEGTHV2bizoIMP/k3FGvZaYe22qnd5bmW1ER/iP9Msj8bhuLlCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=J0yCizk1; arc=none smtp.client-ip=159.100.241.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+	s=arc-20240116; t=1763106614; c=relaxed/simple;
+	bh=My1DkSx6E8NH1/g/2YUqKSOXU94pnaYksctIemj4gWo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Djkne36c1ihTibW4laqhMthCMUIRYC2kHB1olQnLTMKo6Pxqjxn4mUlhIxUm0Nt29eEegLxBpmMLiY0sf4GzmZFG1zBzvg6/ymcONjkFpBtMmbbxyEZJlo7uvNnS8/+0RRL2BJhJpYZNGgU+nCOrjUGEyTFHOaFaET8+nr0AlxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DxG0tymF; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="J0yCizk1"
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.156])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id 8122F200AF
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 07:45:59 +0000 (UTC)
-Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
-	by relay4.mymailcheap.com (Postfix) with ESMTPS id C385D20057;
-	Fri, 14 Nov 2025 07:45:51 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 3A49740086;
-	Fri, 14 Nov 2025 07:45:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1763106351; bh=VRCRICI8X4mdk3HijoD7X83T/Jau+SwWh21fr7Nb+IM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=J0yCizk11weJuGtlVdwQ3mNB8nuX0YN42HDDMl5+kRskECYSDCVXlqq3AgiecqpAd
-	 A5qROiNMFEg2axfccJwTzqrZf2t8Au8IuVLcRKcxqLauvGD6lBvhWl3hbhdoS1O4uh
-	 ib+1RPopwtowMr8XPUIfDxD4agDu+2XbOPWSq2Rg=
-Received: from [192.168.0.64] (unknown [223.104.43.17])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id DCFFC41F99;
-	Fri, 14 Nov 2025 07:45:47 +0000 (UTC)
-Message-ID: <1a228389-14dc-4d2f-ba15-e9397c83a4c6@aosc.io>
-Date: Fri, 14 Nov 2025 15:45:43 +0800
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DxG0tymF"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 078C5C10F5B;
+	Fri, 14 Nov 2025 07:49:48 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BB2756060E;
+	Fri, 14 Nov 2025 07:50:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 22A71102F2A6F;
+	Fri, 14 Nov 2025 08:50:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1763106608; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=vou/PSvtoM9CuF1Iut3e8wcLV2zmRLJ9tzJ9Bc7FteA=;
+	b=DxG0tymFHZP8aF0T9HNNjCVnOtqgWqBQZopOzLsGe+MG7KLBS4zvwmPb2xNNRrCkT+nrkD
+	yil4rKK2fwvvvOC+Z+9QK6Aur4ok9ME9aaGiBROB50aI0G+zjNJSjP4LlVl5oin9PHUKm5
+	nI+hL41DkAq14lsblJe0evNclURr5zQGvZkZFw0DqGD0wUqCUY9cwlXE2RFuyDHRnhGXiM
+	ytuL5oJuyJNECkpMaInkO3/uNepVPmMrLBD/WjX39hgnceVCtw0kgw4YCDqNW2GKZQspJM
+	q9OZ0HAscsCb1vyXLDXOCal4YNeRgm2QLHCE054nvuBiGsye+4PCvXe4w/EiPg==
+Date: Fri, 14 Nov 2025 08:50:04 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 06/13] mfd: sec-irq: add support for creating multiple
+ IRQ chips
+Message-ID: <20251114075004a444bff0@mail.local>
+References: <20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org>
+ <20251114-s2mu005-pmic-v1-6-9e3184d3a0c9@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] docs/zh_CN: Add blk-mq.rst translation
-To: ke zijie <kezijie@leap-io-kernel.com>, alexs@kernel.org,
- si.yanteng@linux.dev
-Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- doubled@leap-io-kernel.com
-References: <cover.1763105050.git.kezijie@leap-io-kernel.com>
- <f90d639dcb2a8064c6a5e85614c4da263b9942dc.1763105050.git.kezijie@leap-io-kernel.com>
-Content-Language: en-US
-From: WangYuli <wangyuli@aosc.io>
-In-Reply-To: <f90d639dcb2a8064c6a5e85614c4da263b9942dc.1763105050.git.kezijie@leap-io-kernel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: nf1.mymailcheap.com
-X-Rspamd-Queue-Id: 3A49740086
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.10 / 10.00];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_ONE(0.00)[1];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
-	SPFBL_URIBL_EMAIL_FAIL(0.00)[kezijie.leap-io-kernel.com:server fail];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251114-s2mu005-pmic-v1-6-9e3184d3a0c9@disroot.org>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi 子杰,
+On 14/11/2025 00:35:07+0530, Kaustabh Chakraborty wrote:
+> The current state of the driver only allows creating only one IRQ chip
+> per PMIC. On some PMICs, such as Samsung's S2MU005, there are multiple
+> interrupt blocks, for which the current implementation stands insufficient.
+> 
+> Add support for creating multiple IRQ chips for a PMIC. Every IRQ chip is
+> given it's own index, which is used by sub-device drivers to request IRQs.
+> 
+> A macro is defined which states the maximum number of chips supported.
+> It's set to 1 as currently, no PMIC requires more than one IRQ chip. The
+> value must be changed accordingly on adding new PMICs requiring multiple
+> IRQ chips.
+> 
+> Moreover, adjust the s5m RTC driver to initialize IRQs with the
+> appropriate IRQ chip index.
+> 
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-On 2025/11/14 15:37, ke zijie wrote:
-> Translate .../block/blk-mq.rst into Chinese.
-> Add blk-mq into .../block/index.rst.
->
-> Update the translation through commit 41bd33df4e18
-> ("docs: block: blk-mq.rst: correct places -> place")
->
-> Signed-off-by: ke zijie <kezijie@leap-io-kernel.com>
 > ---
->   .../translations/zh_CN/block/blk-mq.rst       | 128 ++++++++++++++++++
->   .../translations/zh_CN/block/index.rst        |   3 +-
->   2 files changed, 130 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/block/blk-mq.rst
->
-> diff --git a/Documentation/translations/zh_CN/block/blk-mq.rst b/Documentation/translations/zh_CN/block/blk-mq.rst
-> new file mode 100644
-> index 000000000000..b6933e8e96ed
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/block/blk-mq.rst
-> @@ -0,0 +1,128 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
+>  drivers/mfd/sec-irq.c            | 163 +++++++++++++++++++++++----------------
+>  drivers/rtc/rtc-s5m.c            |  15 +++-
+>  include/linux/mfd/samsung/core.h |   5 +-
+>  include/linux/mfd/samsung/irq.h  |  14 ++++
+>  4 files changed, 127 insertions(+), 70 deletions(-)
+> 
+> diff --git a/drivers/mfd/sec-irq.c b/drivers/mfd/sec-irq.c
+> index c5c80b1ba104..053c28f31ec9 100644
+> --- a/drivers/mfd/sec-irq.c
+> +++ b/drivers/mfd/sec-irq.c
+> @@ -181,25 +181,31 @@ static const struct regmap_irq s5m8767_irqs[] = {
+>  };
+>  
+>  /* All S2MPG10 interrupt sources are read-only and don't require clearing */
+> -static const struct regmap_irq_chip s2mpg10_irq_chip = {
+> -	.name = "s2mpg10",
+> -	.irqs = s2mpg10_irqs,
+> -	.num_irqs = ARRAY_SIZE(s2mpg10_irqs),
+> -	.num_regs = 6,
+> -	.status_base = S2MPG10_PMIC_INT1,
+> -	.mask_base = S2MPG10_PMIC_INT1M,
+> +static const struct regmap_irq_chip s2mpg10_irq_chip[] = {
+> +	[S2MPG10_IRQ_CHIP] = {
+> +		.name = "s2mpg10",
+> +		.irqs = s2mpg10_irqs,
+> +		.num_irqs = ARRAY_SIZE(s2mpg10_irqs),
+> +		.num_regs = 6,
+> +		.status_base = S2MPG10_PMIC_INT1,
+> +		.mask_base = S2MPG10_PMIC_INT1M,
+> +	},
+>  };
+>  
+> -static const struct regmap_irq_chip s2mps11_irq_chip = {
+> -	.name = "s2mps11",
+> -	.irqs = s2mps11_irqs,
+> -	.num_irqs = ARRAY_SIZE(s2mps11_irqs),
+> -	.num_regs = 3,
+> -	.status_base = S2MPS11_REG_INT1,
+> -	.mask_base = S2MPS11_REG_INT1M,
+> -	.ack_base = S2MPS11_REG_INT1,
+> +static const struct regmap_irq_chip s2mps11_irq_chip[] = {
+> +	[S2MPS11_IRQ_CHIP] = {
+> +		.name = "s2mps11",
+> +		.irqs = s2mps11_irqs,
+> +		.num_irqs = ARRAY_SIZE(s2mps11_irqs),
+> +		.num_regs = 3,
+> +		.status_base = S2MPS11_REG_INT1,
+> +		.mask_base = S2MPS11_REG_INT1M,
+> +		.ack_base = S2MPS11_REG_INT1,
+> +	},
+>  };
+>  
+> +#define S2MPS1X_IRQ_CHIP		S2MPS14_IRQ_CHIP
 > +
-> +:Original: Documentation/block/blk-mq.rst
+>  #define S2MPS1X_IRQ_CHIP_COMMON_DATA		\
+>  	.irqs = s2mps14_irqs,			\
+>  	.num_irqs = ARRAY_SIZE(s2mps14_irqs),	\
+> @@ -208,85 +214,106 @@ static const struct regmap_irq_chip s2mps11_irq_chip = {
+>  	.mask_base = S2MPS14_REG_INT1M,		\
+>  	.ack_base = S2MPS14_REG_INT1		\
+>  
+> -static const struct regmap_irq_chip s2mps13_irq_chip = {
+> -	.name = "s2mps13",
+> -	S2MPS1X_IRQ_CHIP_COMMON_DATA,
+> +static const struct regmap_irq_chip s2mps13_irq_chip[] = {
+> +	[S2MPS1X_IRQ_CHIP] = {
+> +		.name = "s2mps13",
+> +		S2MPS1X_IRQ_CHIP_COMMON_DATA,
+> +	},
+>  };
+>  
+> -static const struct regmap_irq_chip s2mps14_irq_chip = {
+> -	.name = "s2mps14",
+> -	S2MPS1X_IRQ_CHIP_COMMON_DATA,
+> +static const struct regmap_irq_chip s2mps14_irq_chip[] = {
+> +	[S2MPS1X_IRQ_CHIP] = {
+> +		.name = "s2mps14",
+> +		S2MPS1X_IRQ_CHIP_COMMON_DATA,
+> +	},
+>  };
+>  
+> -static const struct regmap_irq_chip s2mps15_irq_chip = {
+> -	.name = "s2mps15",
+> -	S2MPS1X_IRQ_CHIP_COMMON_DATA,
+> +static const struct regmap_irq_chip s2mps15_irq_chip[] = {
+> +	[S2MPS1X_IRQ_CHIP] = {
+> +		.name = "s2mps15",
+> +		S2MPS1X_IRQ_CHIP_COMMON_DATA,
+> +	},
+>  };
+>  
+> -static const struct regmap_irq_chip s2mpu02_irq_chip = {
+> -	.name = "s2mpu02",
+> -	.irqs = s2mpu02_irqs,
+> -	.num_irqs = ARRAY_SIZE(s2mpu02_irqs),
+> -	.num_regs = 3,
+> -	.status_base = S2MPU02_REG_INT1,
+> -	.mask_base = S2MPU02_REG_INT1M,
+> -	.ack_base = S2MPU02_REG_INT1,
+> +static const struct regmap_irq_chip s2mpu02_irq_chip[] = {
+> +	[S2MPU02_IRQ_CHIP] = {
+> +		.name = "s2mpu02",
+> +		.irqs = s2mpu02_irqs,
+> +		.num_irqs = ARRAY_SIZE(s2mpu02_irqs),
+> +		.num_regs = 3,
+> +		.status_base = S2MPU02_REG_INT1,
+> +		.mask_base = S2MPU02_REG_INT1M,
+> +		.ack_base = S2MPU02_REG_INT1,
+> +	},
+>  };
+>  
+> -static const struct regmap_irq_chip s2mpu05_irq_chip = {
+> -	.name = "s2mpu05",
+> -	.irqs = s2mpu05_irqs,
+> -	.num_irqs = ARRAY_SIZE(s2mpu05_irqs),
+> -	.num_regs = 3,
+> -	.status_base = S2MPU05_REG_INT1,
+> -	.mask_base = S2MPU05_REG_INT1M,
+> -	.ack_base = S2MPU05_REG_INT1,
+> +static const struct regmap_irq_chip s2mpu05_irq_chip[] = {
+> +	[S2MPU05_IRQ_CHIP] = {
+> +		.name = "s2mpu05",
+> +		.irqs = s2mpu05_irqs,
+> +		.num_irqs = ARRAY_SIZE(s2mpu05_irqs),
+> +		.num_regs = 3,
+> +		.status_base = S2MPU05_REG_INT1,
+> +		.mask_base = S2MPU05_REG_INT1M,
+> +		.ack_base = S2MPU05_REG_INT1,
+> +	},
+>  };
+>  
+> -static const struct regmap_irq_chip s5m8767_irq_chip = {
+> -	.name = "s5m8767",
+> -	.irqs = s5m8767_irqs,
+> -	.num_irqs = ARRAY_SIZE(s5m8767_irqs),
+> -	.num_regs = 3,
+> -	.status_base = S5M8767_REG_INT1,
+> -	.mask_base = S5M8767_REG_INT1M,
+> -	.ack_base = S5M8767_REG_INT1,
+> +static const struct regmap_irq_chip s5m8767_irq_chip[] = {
+> +	[S5M8767_IRQ_CHIP] = {
+> +		.name = "s5m8767",
+> +		.irqs = s5m8767_irqs,
+> +		.num_irqs = ARRAY_SIZE(s5m8767_irqs),
+> +		.num_regs = 3,
+> +		.status_base = S5M8767_REG_INT1,
+> +		.mask_base = S5M8767_REG_INT1M,
+> +		.ack_base = S5M8767_REG_INT1,
+> +	},
+>  };
+>  
+>  int sec_irq_init(struct sec_pmic_dev *sec_pmic)
+>  {
+>  	const struct regmap_irq_chip *sec_irq_chip;
+> -	int ret;
+> +	int sec_irq_chip_num, i, ret;
+>  
+>  	switch (sec_pmic->device_type) {
+>  	case S5M8767X:
+> -		sec_irq_chip = &s5m8767_irq_chip;
+> +		sec_irq_chip = s5m8767_irq_chip;
+> +		sec_irq_chip_num = ARRAY_SIZE(s5m8767_irq_chip);
+>  		break;
+>  	case S2DOS05:
+>  		return 0;
+>  	case S2MPA01:
+> -		sec_irq_chip = &s2mps14_irq_chip;
+> +		sec_irq_chip = s2mps14_irq_chip;
+> +		sec_irq_chip_num = ARRAY_SIZE(s2mps14_irq_chip);
+>  		break;
+>  	case S2MPG10:
+> -		sec_irq_chip = &s2mpg10_irq_chip;
+> +		sec_irq_chip = s2mpg10_irq_chip;
+> +		sec_irq_chip_num = ARRAY_SIZE(s2mpg10_irq_chip);
+>  		break;
+>  	case S2MPS11X:
+> -		sec_irq_chip = &s2mps11_irq_chip;
+> +		sec_irq_chip = s2mps11_irq_chip;
+> +		sec_irq_chip_num = ARRAY_SIZE(s2mps11_irq_chip);
+>  		break;
+>  	case S2MPS13X:
+> -		sec_irq_chip = &s2mps13_irq_chip;
+> +		sec_irq_chip = s2mps13_irq_chip;
+> +		sec_irq_chip_num = ARRAY_SIZE(s2mps13_irq_chip);
+>  		break;
+>  	case S2MPS14X:
+> -		sec_irq_chip = &s2mps14_irq_chip;
+> +		sec_irq_chip = s2mps14_irq_chip;
+> +		sec_irq_chip_num = ARRAY_SIZE(s2mps14_irq_chip);
+>  		break;
+>  	case S2MPS15X:
+> -		sec_irq_chip = &s2mps15_irq_chip;
+> +		sec_irq_chip = s2mps15_irq_chip;
+> +		sec_irq_chip_num = ARRAY_SIZE(s2mps15_irq_chip);
+>  		break;
+>  	case S2MPU02:
+> -		sec_irq_chip = &s2mpu02_irq_chip;
+> +		sec_irq_chip = s2mpu02_irq_chip;
+> +		sec_irq_chip_num = ARRAY_SIZE(s2mpu02_irq_chip);
+>  		break;
+>  	case S2MPU05:
+> -		sec_irq_chip = &s2mpu05_irq_chip;
+> +		sec_irq_chip = s2mpu05_irq_chip;
+> +		sec_irq_chip_num = ARRAY_SIZE(s2mpu05_irq_chip);
+>  		break;
+>  	default:
+>  		return dev_err_probe(sec_pmic->dev, -EINVAL,
+> @@ -300,13 +327,19 @@ int sec_irq_init(struct sec_pmic_dev *sec_pmic)
+>  		return 0;
+>  	}
+>  
+> -	ret = devm_regmap_add_irq_chip(sec_pmic->dev, sec_pmic->regmap_pmic,
+> -				       sec_pmic->irq, IRQF_ONESHOT,
+> -				       0, sec_irq_chip, &sec_pmic->irq_data);
+> -	if (ret)
+> -		return dev_err_probe(sec_pmic->dev, ret,
+> -				     "Failed to add %s IRQ chip\n",
+> -				     sec_irq_chip->name);
+> +	for (i = 0; i < sec_irq_chip_num; i++) {
+> +		ret = devm_regmap_add_irq_chip(sec_pmic->dev,
+> +					       sec_pmic->regmap_pmic,
+> +					       sec_pmic->irq,
+> +					       IRQF_ONESHOT | IRQF_SHARED, 0,
+> +					       sec_irq_chip + i,
+> +					       sec_pmic->irq_data + i);
+> +		if (ret) {
+> +			return dev_err_probe(sec_pmic->dev, ret,
+> +					     "Failed to add %s IRQ chip\n",
+> +					     sec_irq_chip->name);
+> +		}
+> +	}
+>  
+>  	/*
+>  	 * The rtc-s5m driver requests S2MPS14_IRQ_RTCA0 also for S2MPS11
+> diff --git a/drivers/rtc/rtc-s5m.c b/drivers/rtc/rtc-s5m.c
+> index a7220b4d0e8d..726915deff7a 100644
+> --- a/drivers/rtc/rtc-s5m.c
+> +++ b/drivers/rtc/rtc-s5m.c
+> @@ -668,7 +668,7 @@ static int s5m_rtc_probe(struct platform_device *pdev)
+>  	enum sec_device_type device_type =
+>  		platform_get_device_id(pdev)->driver_data;
+>  	struct s5m_rtc_info *info;
+> -	int ret, alarm_irq;
+> +	int ret, alarm_irq, irq_chip;
+>  
+>  	info = devm_kzalloc(&pdev->dev, sizeof(*info), GFP_KERNEL);
+>  	if (!info)
+> @@ -684,21 +684,25 @@ static int s5m_rtc_probe(struct platform_device *pdev)
+>  			regmap_cfg = &s2mps14_rtc_regmap_config;
+>  			info->regs = &s2mps15_rtc_regs;
+>  			alarm_irq = S2MPS14_IRQ_RTCA0;
+> +			irq_chip = S2MPS11_IRQ_CHIP;
+>  			break;
+>  		case S2MPS14X:
+>  			regmap_cfg = &s2mps14_rtc_regmap_config;
+>  			info->regs = &s2mps14_rtc_regs;
+>  			alarm_irq = S2MPS14_IRQ_RTCA0;
+> +			irq_chip = S2MPS14_IRQ_CHIP;
+>  			break;
+>  		case S2MPS13X:
+>  			regmap_cfg = &s2mps14_rtc_regmap_config;
+>  			info->regs = &s2mps13_rtc_regs;
+>  			alarm_irq = S2MPS14_IRQ_RTCA0;
+> +			irq_chip = S2MPS14_IRQ_CHIP;
+>  			break;
+>  		case S5M8767X:
+>  			regmap_cfg = &s5m_rtc_regmap_config;
+>  			info->regs = &s5m_rtc_regs;
+>  			alarm_irq = S5M8767_IRQ_RTCA1;
+> +			irq_chip = S5M8767_IRQ_CHIP;
+>  			break;
+>  		default:
+>  			return dev_err_probe(&pdev->dev, -ENODEV,
+> @@ -720,6 +724,7 @@ static int s5m_rtc_probe(struct platform_device *pdev)
+>  	} else if (device_type == S2MPG10) {
+>  		info->regs = &s2mpg10_rtc_regs;
+>  		alarm_irq = S2MPG10_IRQ_RTCA0;
+> +		irq_chip = S2MPG10_IRQ_CHIP;
+>  	} else {
+>  		return dev_err_probe(&pdev->dev, -ENODEV,
+>  				     "Unsupported device type %d\n",
+> @@ -730,12 +735,14 @@ static int s5m_rtc_probe(struct platform_device *pdev)
+>  	info->s5m87xx = s5m87xx;
+>  	info->device_type = device_type;
+>  
+> -	if (s5m87xx->irq_data) {
+> -		info->irq = regmap_irq_get_virq(s5m87xx->irq_data, alarm_irq);
+> -		if (info->irq <= 0)
+> +	if (s5m87xx->irq_data[irq_chip]) {
+> +		info->irq = regmap_irq_get_virq(s5m87xx->irq_data[irq_chip],
+> +						alarm_irq);
+> +		if (info->irq <= 0) {
+>  			return dev_err_probe(&pdev->dev, -EINVAL,
+>  					     "Failed to get virtual IRQ %d\n",
+>  					     alarm_irq);
+> +		}
+>  	}
+>  
+>  	platform_set_drvdata(pdev, info);
+> diff --git a/include/linux/mfd/samsung/core.h b/include/linux/mfd/samsung/core.h
+> index d785e101fe79..dcd741c4f0d6 100644
+> --- a/include/linux/mfd/samsung/core.h
+> +++ b/include/linux/mfd/samsung/core.h
+> @@ -33,6 +33,9 @@
+>  #define STEP_12_5_MV		12500
+>  #define STEP_6_25_MV		6250
+>  
+> +/* Maximum number of IRQ chips in a PMIC */
+> +#define MAX_IRQ_CHIPS		1
 > +
-> +:翻译:
+>  struct gpio_desc;
+>  
+>  enum sec_device_type {
+> @@ -69,7 +72,7 @@ struct sec_pmic_dev {
+>  
+>  	int device_type;
+>  	int irq;
+> -	struct regmap_irq_chip_data *irq_data;
+> +	struct regmap_irq_chip_data *irq_data[MAX_IRQ_CHIPS];
+>  };
+>  
+>  struct sec_platform_data {
+> diff --git a/include/linux/mfd/samsung/irq.h b/include/linux/mfd/samsung/irq.h
+> index b4805cbd949b..78eb894e350e 100644
+> --- a/include/linux/mfd/samsung/irq.h
+> +++ b/include/linux/mfd/samsung/irq.h
+> @@ -34,6 +34,8 @@ enum s2mpa01_irq {
+>  	S2MPA01_IRQ_NR,
+>  };
+>  
+> +#define S2MPA01_IRQ_CHIP		0
 > +
-> + 柯子杰 kezijie <kezijie@leap-io-kernel.com>
+>  #define S2MPA01_IRQ_PWRONF_MASK		(1 << 0)
+>  #define S2MPA01_IRQ_PWRONR_MASK		(1 << 1)
+>  #define S2MPA01_IRQ_JIGONBF_MASK	(1 << 2)
+> @@ -58,6 +60,8 @@ enum s2mpa01_irq {
+>  #define S2MPA01_IRQ_B35_TSD_MASK	(1 << 5)
+>  
+>  enum s2mpg10_irq {
+> +#define S2MPG10_IRQ_CHIP		0
 > +
-> +:校译:
+>  	/* PMIC */
+>  	S2MPG10_IRQ_PWRONF,
+>  	S2MPG10_IRQ_PWRONR,
+> @@ -183,6 +187,8 @@ enum s2mps11_irq {
+>  	S2MPS11_IRQ_NR,
+>  };
+>  
+> +#define S2MPS11_IRQ_CHIP		0
 > +
+>  #define S2MPS11_IRQ_PWRONF_MASK		(1 << 0)
+>  #define S2MPS11_IRQ_PWRONR_MASK		(1 << 1)
+>  #define S2MPS11_IRQ_JIGONBF_MASK	(1 << 2)
+> @@ -226,6 +232,8 @@ enum s2mps14_irq {
+>  	S2MPS14_IRQ_NR,
+>  };
+>  
+> +#define S2MPS14_IRQ_CHIP		0
 > +
+>  enum s2mpu02_irq {
+>  	S2MPU02_IRQ_PWRONF,
+>  	S2MPU02_IRQ_PWRONR,
+> @@ -250,6 +258,8 @@ enum s2mpu02_irq {
+>  	S2MPU02_IRQ_NR,
+>  };
+>  
+> +#define S2MPU02_IRQ_CHIP		0
 > +
-> +================================================
-> +多队列块设备I/O排队机制 (blk-mq)
-> +================================================
+>  /* Masks for interrupts are the same as in s2mps11 */
+>  #define S2MPS14_IRQ_TSD_MASK		(1 << 2)
+>  
+> @@ -277,6 +287,8 @@ enum s2mpu05_irq {
+>  	S2MPU05_IRQ_NR,
+>  };
+>  
+> +#define S2MPU05_IRQ_CHIP		0
 > +
-> +多队列块设备I/O排队机制是一组API，它使高速存储设备能够排队并同时向块设备
+>  #define S2MPU05_IRQ_PWRONF_MASK		BIT(0)
+>  #define S2MPU05_IRQ_PWRONR_MASK		BIT(1)
+>  #define S2MPU05_IRQ_JIGONBF_MASK	BIT(2)
+> @@ -321,6 +333,8 @@ enum s5m8767_irq {
+>  	S5M8767_IRQ_NR,
+>  };
+>  
+> +#define S5M8767_IRQ_CHIP		0
+> +
+>  #define S5M8767_IRQ_PWRR_MASK		(1 << 0)
+>  #define S5M8767_IRQ_PWRF_MASK		(1 << 1)
+>  #define S5M8767_IRQ_PWR1S_MASK		(1 << 3)
+> 
+> -- 
+> 2.51.2
+> 
 
-In general, there should be a space between Chinese characters and 
-English words or numbers.
-
-For example, write “多队列块设备 I/O 排队机制是一组 API，” rather than 
-“多队列块设备I/O排队机制是一组API。”
-
-Thanks,
-
---
-
-WangYuli
-
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
