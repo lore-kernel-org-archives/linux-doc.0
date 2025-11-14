@@ -1,41 +1,41 @@
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A500262FD3
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 17:53:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FF6345CBB
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 17:53:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763142808; cv=none; b=NkY4ZSHog12dDTHD3IZQwhGhs5FRLmHBTV0SEmKnxmWamlkWKpWcZ53KbNvoaARC2EMSbEzzi8RVRpVHx8OOLacWPgZdaZ2DzHXKzgMlTQT5vyrDC0pb0HJ0iCTNQFt3GfRBNEdaIi6ePmkUj+z4Hmhxvpjy1UAC9mJNDLGAC1Y=
+	t=1763142810; cv=none; b=DHziX9jDF84dQoe4g11B54/ED3KU2PxjpopKo8+27PJ8EDKto9GTM9hEGtfdtjb1ho/woo21+ZwD/4nKUu2KmfhWEDuXZLiZHb5Yus31ugHlQ97jED+4sUcw4od6FNuoV/vGlZrYlSm5LP0MioCyErOAXKtsb7TkmDXSk68/174=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763142808; c=relaxed/simple;
-	bh=/QfiuLKrj86QLLyM4ZCzDkrCeGKXM45JLDmKz9WJ2O4=;
+	s=arc-20240116; t=1763142810; c=relaxed/simple;
+	bh=IPyUG7oq6iDPNgeslqpaMnFaKHeSNmdqijlVlD2adRQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aK8Sei8s+syTQUeG4NhMEjaaAsoNsSnsGOpXhNeOjLTzUqh0DmifNtowtlPTlwEDdYRdVfUMHXniMKAl+LN1V3wXzf/aGkK0uuIYRKUzVyBhJaIavlwaD/AqV0SdnDTxQ/J9C/xtVBR5H/OevTXwSY65v802Mbxk3XC+tywLgTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LboCQ7ct; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=EygqgnVkXyaI0NRPN0EJxjY2dAQFG/2/K9dJJaeTVmI8o2M8sd3ywj6g1nEtjImcv2kjMexQsMx/hq77Duu8euKuHTBvAiqmQeDOMCRrNSidHB9P5SMyqfc1xdFvV9o2gbJW81bCs5BfHy69QXsovGhPQiRv3jAsHJcvjswDOrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lNkZKijA; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LboCQ7ct"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lNkZKijA"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id B44F94E416B8;
-	Fri, 14 Nov 2025 17:53:24 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 7FF2F4E416B9;
+	Fri, 14 Nov 2025 17:53:26 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7C2EA6060E;
-	Fri, 14 Nov 2025 17:53:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 287D210371990;
-	Fri, 14 Nov 2025 18:53:22 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 562706060E;
+	Fri, 14 Nov 2025 17:53:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D892C10371986;
+	Fri, 14 Nov 2025 18:53:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763142803; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1763142805; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=dIy19QMyJg/t0zE0eK24iAdi5JYPA0ElfHJvGBWV4ak=;
-	b=LboCQ7ctkFsiaLjIrbN8cnPs8lGodCwOWMgokhv6iPB+BicGFS+lBVQGTrQdxbVteGwkDV
-	QnnK51A3jK2Eu96RECQDh91xJtYIv2m+NP2v0vyiuYUHsiJpK3jTS3l94WzXUwJbDUMVAZ
-	36Pkt043nFxaMiEltoEyjTMrToB3PMmXP3q59oKAM99PsNkwKbIzlxBH2+rvdwAX+jHU3G
-	RLSZvmZCnfmYPzJGCwiW2OC0UzJbu6y8RGfRZ/DXlhqRvCS+MtQKptU6PCMPAXfAbz7r+e
-	Hw5mpf/QypVANP6bzj3LMf92SR9G18pNyHgvih5kbKASI60Nn8rzU5a0DGUyhA==
+	bh=42hw/B5DdDI6uBv7bRhjZ4jC840Rczimu4YvQRSXKI4=;
+	b=lNkZKijAJo8o/1JdKv3xq7D8BdyjPFIEEt+V5ESTnQU3QXwKuuzt8F8hQP6nqC4Pwk3QIU
+	Wc6Nn9Inai+MPcyRP1GsD+Vg6z6V0mBX5D252uAKTXcohELUiQE7H1J/ehzRQbgfFiC7sS
+	/CkCUcAJMCzH4PDbys+GsbBetbKH0K9HxD4o1Jk2tCvhp9RuURKqkOjF+SqUhDn0N8LU7w
+	ahld5QAYx7nOIAEBPJMDxzvZXx00zgE38LZNSl30RV2duKL1Gq/yJR337iG6FBLu6h58zI
+	3l0Dr645W2ttRcHEc0/TjvZlZvkHwr6g/qmZm+/7IueY0LmWHBQFnCQxRHsTbQ==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Fri, 14 Nov 2025 18:53:03 +0100
-Subject: [PATCH 02/19] mtd: spi-nor: swp: Improve locking user experience
+Date: Fri, 14 Nov 2025 18:53:04 +0100
+Subject: [PATCH 03/19] mtd: spi-nor: Improve opcodes documentation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-2-487bc7129931@bootlin.com>
+Message-Id: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-3-487bc7129931@bootlin.com>
 References: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com>
 In-Reply-To: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com>
 To: Tudor Ambarus <tudor.ambarus@linaro.org>, 
@@ -59,46 +59,30 @@ Cc: Sean Anderson <sean.anderson@linux.dev>,
 X-Mailer: b4 0.14.2
 X-Last-TLS-Session-Version: TLSv1.3
 
-In the case of a single block being locked, if the user want to fully
-unlock the device it has two possibilities:
-- either it asks to unlock the entire device, and this works;
-- or it asks to unlock just the blocks that are currently locked, which
-fails.
-
-It fails because the conditions "can_be_top" and "can_be_bottom" are
-true. Indeed, in this case, we unlock everything, to the TB bit does not
-matter. However in the current implementation, use_top would be true (as
-this is the favourite option) and lock_len, which in practice should be
-reduced down to 0, is set to "nor->params->size - (ofs + len)" which is
-a positive number. This is wrong.
-
-An easy way is to simply add an extra condition. In the unlock() path,
-if we can achieve the results from both sides, it means we unlock
-everything and lock_len must simply be 0.
+There are two status registers, named 1 and 2, all the opcodes imply a 1
+byte access. Make it clear by aligning all comments on the same pattern,
+for the four "{read,write} status {1,2} registers" definitions.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
-For me, this result was clearly unexpected, but I am not sure this
-qualifies as a fix.
----
- drivers/mtd/spi-nor/swp.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ include/linux/mtd/spi-nor.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/mtd/spi-nor/swp.c b/drivers/mtd/spi-nor/swp.c
-index 9b07f83aeac76dce2109f90dfa1534c9bd93330d..9bc5a356444665ad8824e9e12d679fd551b3e67d 100644
---- a/drivers/mtd/spi-nor/swp.c
-+++ b/drivers/mtd/spi-nor/swp.c
-@@ -281,7 +281,9 @@ static int spi_nor_sr_unlock(struct spi_nor *nor, loff_t ofs, u64 len)
- 	use_top = can_be_top;
- 
- 	/* lock_len: length of region that should remain locked */
--	if (use_top)
-+	if (can_be_top && can_be_bottom)
-+		lock_len = 0;
-+	else if (use_top)
- 		lock_len = nor->params->size - (ofs + len);
- 	else
- 		lock_len = ofs;
+diff --git a/include/linux/mtd/spi-nor.h b/include/linux/mtd/spi-nor.h
+index cdcfe0fd2e7d624bbb66fefcb87823bce300268e..90a0cf58351295c63baea4f064b49b7390337d37 100644
+--- a/include/linux/mtd/spi-nor.h
++++ b/include/linux/mtd/spi-nor.h
+@@ -21,8 +21,8 @@
+ /* Flash opcodes. */
+ #define SPINOR_OP_WRDI		0x04	/* Write disable */
+ #define SPINOR_OP_WREN		0x06	/* Write enable */
+-#define SPINOR_OP_RDSR		0x05	/* Read status register */
+-#define SPINOR_OP_WRSR		0x01	/* Write status register 1 byte */
++#define SPINOR_OP_RDSR		0x05	/* Read status register 1 */
++#define SPINOR_OP_WRSR		0x01	/* Write status register 1 */
+ #define SPINOR_OP_RDSR2		0x3f	/* Read status register 2 */
+ #define SPINOR_OP_WRSR2		0x3e	/* Write status register 2 */
+ #define SPINOR_OP_READ		0x03	/* Read data bytes (low frequency) */
 
 -- 
 2.51.0
