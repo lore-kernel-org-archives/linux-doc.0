@@ -1,38 +1,38 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DCF3358C0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B94336EC4;
 	Fri, 14 Nov 2025 17:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763139800; cv=none; b=VtHB7e/PppoKWjFMfBb8sASauyA/XWZ+xW19VuVts47Mk0QETt0wWxXva+xe8yeff2zGcyDONfi0+qCbJo9Lsiw0WAcP/Fo4AMRXDjeL6pWP3yWH/I7R4c5fDV3g7sXLFTMjuG2+ZlWgGk992lJmQ42AqnPGDGWJo1i33lgNDXk=
+	t=1763139801; cv=none; b=nENqho+v6SFEJJBlPiXxE+CFlpYG2ZHx+KKspqThHDfKzb3e/gxA7uNSV7yRexLU7mnbgo/tHbKN1reLJEx1VyfGyLnskoNoSmBtRzMyINMXwaytaWTn7P8l2nx/v+tbLuh9w3GsoMpzF57feYQNF5Wt5/zCh1wF4K1TRK2SCwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763139800; c=relaxed/simple;
-	bh=J1LKvO5lT6f8z+EXXffI5zwtqaBqmr8C90rm728Ki5g=;
+	s=arc-20240116; t=1763139801; c=relaxed/simple;
+	bh=PYci18VlZZ5sru0Tx0m/q5hJzWG4Ytkv44neBev88QY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZtfFU8/un/aeUgL0jOz7mFjMSuThh+YR+c0bYzN5Lv1FLsT4VqguB6dwLSDLkY5ybDWVU1haH89FsGLssGU2TxzCvx6DReGxS11pYxbPdjR4N8CDo3PN87/tWjy3Z0RJOQVaSt3uAgQpnf+tp3uoWaOEdXhCcL20/GpXFUFlcWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=L/4+y9DI; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version:Content-Type; b=uL6hTqMsoTlM3Y7G92pmSKo6nN4J8gn4CA+VuTxVA4HiBEsYoZCyEu+P8sTjyX4euGcYj0j6E72eX1lrQFmQE6O3lu53fPYtdEKH9NzaviKbRicKTfc7Z3KabrGaHfd8En+JeCxPwLc4n26WI2BjmjkGgPiEqBBF3Z2IKjoq8OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=plt5tBhV; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="L/4+y9DI"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="plt5tBhV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1763139791;
-	bh=J1LKvO5lT6f8z+EXXffI5zwtqaBqmr8C90rm728Ki5g=;
+	s=mail; t=1763139796;
+	bh=PYci18VlZZ5sru0Tx0m/q5hJzWG4Ytkv44neBev88QY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=L/4+y9DI6CAKANwSkwAp/eXEV8hVWyh0PBiaAnFcie7KF5uKmcCDaPdZFpkDZfe2F
-	 7RgDoHyfZ1J0JAVyC0gdSkPzHPx+1QLnESy88OmpALocWJ7k77Ku1RShp2n3DOK2eG
-	 PKcSzQTrII62UZ8z5oquASg9vpwq2OXw/poxoNgASssGmRXJwUf3M+Mnh0j3Wq9jgc
-	 wTev1jtf1Vxc8v8ZKetrWtKaTpFclf0Wz1pnuHO9QFFs0ZUTnyIGh2hyqhetUmk2lW
-	 WleWHjB7k1mZbhT/VE129fpHkb/RlrauMUtekCWnUv1/VWBoDCnH9idrRJ3MyJ9vYq
-	 NtqjiPbPoUPSA==
+	b=plt5tBhVZiRemU+AUg6p17oPS/5IqLmJ84nGWfx22yDANiPoUKSL6a6BChsevEf/M
+	 tj8hXCHa5Zcpw4aVu75+8hSzVF2+AGGsHKyXNtnJJExDSMKH8D236Je6v7EhzrEXRu
+	 5MOaU7vEO4tECMAeoypsafKxjWoxJEsSB+FnYVCJ2vpyOmqvpzkpXsR5gQOrm2mFWH
+	 fqTwX8k2pqvLMPSRoscRY7QSNE/slkh7YYfWrPc7l+U4jVbwgKm4BD4FSV4Aua0KIO
+	 3GOmekLiyk6IqwBPDaysaohq1V3HTlaZnZ2rGyXvgcMJzO0KRPmPy4+VmIyzMfJjKM
+	 07SuyOOUVEQ5A==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 83ECF17E1401;
-	Fri, 14 Nov 2025 18:03:10 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9759517E35CB;
+	Fri, 14 Nov 2025 18:03:15 +0100 (CET)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -68,9 +68,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	kernel@collabora.com
-Subject: [PATCH v9 04/11] drm/gem: Add huge tmpfs mountpoint helpers
-Date: Fri, 14 Nov 2025 18:02:55 +0100
-Message-ID: <20251114170303.2800-5-loic.molinari@collabora.com>
+Subject: [PATCH v9 09/11] drm/panthor: Improve IOMMU map/unmap debugging logs
+Date: Fri, 14 Nov 2025 18:03:00 +0100
+Message-ID: <20251114170303.2800-10-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251114170303.2800-1-loic.molinari@collabora.com>
 References: <20251114170303.2800-1-loic.molinari@collabora.com>
@@ -83,207 +83,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add the drm_gem_huge_mnt_create() and drm_gem_get_huge_mnt() helpers
-to avoid code duplication in the i915, V3D, Panfrost and Panthor
-drivers. The former creates and mounts a dedicated huge tmpfs
-mountpoint, for the lifetime of a DRM device, used at GEM object
-initialization. The latter retrieves the dedicated huge tmpfs
-mountpoint used by a DRM device.
-
-The next commits will port drivers to these helpers.
-
-v3:
-- store huge tmpfs mountpoint in drm_device
-
-v4:
-- return 0 in builds with CONFIG_TRANSPARENT_HUGEPAGE=n
-- return 0 when huge_mnt already exists
-- use new vfs_parse_fs_string() helper
-
-v5:
-- remove warning on !dev->huge_mnt and reset to NULL on free
-- inline drm_gem_huge_mnt_create() to remove func from text and avoid
-  calls in builds with CONFIG_TRANSPARENT_HUGEPAGE=n
-- compile out drm_device's huge_mnt field in builds with
-  CONFIG_TRANSPARENT_HUGEPAGE=n
-- add drm_gem_has_huge_mnt() helper
-
-v6:
-- move huge_mnt doc into ifdef'd section
-- either inline or export drm_gem_huge_mnt_create()
-
-v7:
-- include <drm/drm_device.h> in drm_gem.h
-
-v9:
-- replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
+Log the number of pages and their sizes actually mapped/unmapped by
+the IOMMU page table driver. Since a map/unmap op is often split in
+several ops depending on the underlying scatter/gather table, add the
+start address and the total size to the debugging logs in order to
+help understand which batch an op is part of.
 
 Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/drm_gem.c | 57 +++++++++++++++++++++++++++++++++++++++
- include/drm/drm_device.h  | 15 +++++++++++
- include/drm/drm_gem.h     | 33 +++++++++++++++++++++++
- 3 files changed, 105 insertions(+)
+ drivers/gpu/drm/panthor/panthor_mmu.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 2a0eecc0d3e4..ec549130744c 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -29,6 +29,9 @@
- #include <linux/export.h>
- #include <linux/file.h>
- #include <linux/fs.h>
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+#include <linux/fs_context.h>
-+#endif
- #include <linux/iosys-map.h>
- #include <linux/mem_encrypt.h>
- #include <linux/mm.h>
-@@ -82,6 +85,60 @@
-  * up at a later date, and as our interface with shmfs for memory allocation.
-  */
- 
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+static void drm_gem_huge_mnt_free(struct drm_device *dev, void *data)
-+{
-+	kern_unmount(dev->huge_mnt);
-+}
-+
-+/**
-+ * drm_gem_huge_mnt_create - Create, mount and use a huge tmpfs mountpoint
-+ * @dev: DRM device a huge tmpfs mountpoint should be used with
-+ * @value: huge tmpfs mount option value
-+ *
-+ * This function creates and mounts a dedicated huge tmpfs mountpoint for the
-+ * lifetime of the DRM device @dev which is used at GEM object initialization
-+ * with drm_gem_object_init().
-+ *
-+ * The most common option value @value is "within_size" which only allocates
-+ * huge pages if the page will be fully within the GEM object size. "always",
-+ * "advise" and "never" are supported too but the latter would just create a
-+ * mountpoint similar to the default one (`shm_mnt`). See shmemfs and
-+ * Transparent Hugepage for more information.
-+ *
-+ * Returns:
-+ * 0 on success or a negative error code on failure.
-+ */
-+int drm_gem_huge_mnt_create(struct drm_device *dev, const char *value)
-+{
-+	struct file_system_type *type;
-+	struct fs_context *fc;
-+	int ret;
-+
-+	if (unlikely(drm_gem_get_huge_mnt(dev)))
-+		return 0;
-+
-+	type = get_fs_type("tmpfs");
-+	if (unlikely(!type))
-+		return -EOPNOTSUPP;
-+	fc = fs_context_for_mount(type, SB_KERNMOUNT);
-+	if (IS_ERR(fc))
-+		return PTR_ERR(fc);
-+	ret = vfs_parse_fs_string(fc, "source", "tmpfs");
-+	if (unlikely(ret))
-+		return -ENOPARAM;
-+	ret = vfs_parse_fs_string(fc, "huge", value);
-+	if (unlikely(ret))
-+		return -ENOPARAM;
-+
-+	dev->huge_mnt = fc_mount_longterm(fc);
-+	put_fs_context(fc);
-+
-+	return drmm_add_action_or_reset(dev, drm_gem_huge_mnt_free, NULL);
-+}
-+EXPORT_SYMBOL_GPL(drm_gem_huge_mnt_create);
-+#endif
-+
- static void
- drm_gem_init_release(struct drm_device *dev, void *ptr)
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 58fead90533a..32410713c61c 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -918,10 +918,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
  {
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 778b2cca6c49..bcde07c43e3f 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -3,6 +3,9 @@
+ 	struct panthor_device *ptdev = vm->ptdev;
+ 	struct io_pgtable_ops *ops = vm->pgtbl_ops;
++	u64 start_iova = iova;
+ 	u64 offset = 0;
  
- #include <linux/list.h>
- #include <linux/kref.h>
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+#include <linux/mount.h>
-+#endif
- #include <linux/mutex.h>
- #include <linux/idr.h>
- #include <linux/sched.h>
-@@ -168,6 +171,18 @@ struct drm_device {
- 	 */
- 	struct drm_master *master;
- 
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	/**
-+	 * @huge_mnt:
-+	 *
-+	 * Huge tmpfs mountpoint used at GEM object initialization
-+	 * drm_gem_object_init(). Drivers can call drm_gem_huge_mnt_create() to
-+	 * create a huge tmfps mountpoint. The default tmpfs mountpoint
-+	 * (`shm_mnt`) is used if NULL.
-+	 */
-+	struct vfsmount *huge_mnt;
-+#endif
+-	drm_dbg(&ptdev->base, "unmap: as=%d, iova=%llx, len=%llx", vm->as.id, iova, size);
+-
+ 	while (offset < size) {
+ 		size_t unmapped_sz = 0, pgcount;
+ 		size_t pgsize = get_pgsize(iova + offset, size - offset, &pgcount);
+@@ -936,6 +935,12 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+ 			panthor_vm_flush_range(vm, iova, offset + unmapped_sz);
+ 			return  -EINVAL;
+ 		}
 +
- 	/**
- 	 * @driver_features: per-device driver features
- 	 *
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 7c8bd67d087c..4e9ab5d294ac 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -40,6 +40,9 @@
- #include <linux/list.h>
- #include <linux/mutex.h>
- 
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+#include <drm/drm_device.h>
-+#endif
- #include <drm/drm_vma_manager.h>
- 
- struct iosys_map;
-@@ -492,6 +495,36 @@ struct drm_gem_object {
- 		DRM_GEM_FOPS,\
++		drm_dbg(&ptdev->base,
++			"unmap: as=%d, iova=0x%llx, sz=%llu, va=0x%llx, pgcnt=%zu, pgsz=%zu",
++			vm->as.id, start_iova, size, iova + offset,
++			unmapped_sz / pgsize, pgsize);
++
+ 		offset += unmapped_sz;
  	}
  
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+int drm_gem_huge_mnt_create(struct drm_device *dev, const char *value);
-+#else
-+static inline int drm_gem_huge_mnt_create(struct drm_device *dev,
-+					  const char *value)
-+{
-+	return 0;
-+}
-+#endif
+@@ -951,6 +956,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+ 	struct scatterlist *sgl;
+ 	struct io_pgtable_ops *ops = vm->pgtbl_ops;
+ 	u64 start_iova = iova;
++	u64 start_size = size;
+ 	int ret;
+ 
+ 	if (!size)
+@@ -970,15 +976,18 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+ 		len = min_t(size_t, len, size);
+ 		size -= len;
+ 
+-		drm_dbg(&ptdev->base, "map: as=%d, iova=%llx, paddr=%pad, len=%zx",
+-			vm->as.id, iova, &paddr, len);
+-
+ 		while (len) {
+ 			size_t pgcount, mapped = 0;
+ 			size_t pgsize = get_pgsize(iova | paddr, len, &pgcount);
+ 
+ 			ret = ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
+ 					     GFP_KERNEL, &mapped);
 +
-+/**
-+ * drm_gem_get_huge_mnt - Get the huge tmpfs mountpoint used by a DRM device
-+ * @dev: DRM device
++			drm_dbg(&ptdev->base,
++				"map: as=%d, iova=0x%llx, sz=%llu, va=0x%llx, pa=%pad, pgcnt=%zu, pgsz=%zu",
++				vm->as.id, start_iova, start_size, iova, &paddr,
++				mapped / pgsize, pgsize);
 +
-+ * This function gets the huge tmpfs mountpoint used by DRM device @dev. A huge
-+ * tmpfs mountpoint is used after a successful call to drm_gem_huge_mnt_create()
-+ * on builds with Transparent Hugepage enabled.
-+
-+ * Returns:
-+ * The huge tmpfs mountpoint in use, NULL otherwise.
-+ */
-+static inline struct vfsmount *drm_gem_get_huge_mnt(struct drm_device *dev)
-+{
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	return dev->huge_mnt;
-+#else
-+	return NULL;
-+#endif
-+}
-+
- void drm_gem_object_release(struct drm_gem_object *obj);
- void drm_gem_object_free(struct kref *kref);
- int drm_gem_object_init(struct drm_device *dev,
+ 			iova += mapped;
+ 			paddr += mapped;
+ 			len -= mapped;
 -- 
 2.47.3
 
