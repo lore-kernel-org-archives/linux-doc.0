@@ -1,484 +1,212 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012009.outbound.protection.outlook.com [52.101.48.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E38C2F4A1B;
-	Fri, 14 Nov 2025 07:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763106614; cv=none; b=BTKmHp26gDsGNNgvtajloRWkwhqg0vxj8tIayNQdBdmc3Rsa0du3SxAIk/2/KE8OtJzeotrCoeb+LU4zV4KqmL0ZcDB2BHAX5DRQcfTkk4w5irHrq5xQ9fUY3zzoln0CDfjsC67BDoJJXFvRoQXW/Sc0GYYgCt+E462px1SW8h4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763106614; c=relaxed/simple;
-	bh=My1DkSx6E8NH1/g/2YUqKSOXU94pnaYksctIemj4gWo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Djkne36c1ihTibW4laqhMthCMUIRYC2kHB1olQnLTMKo6Pxqjxn4mUlhIxUm0Nt29eEegLxBpmMLiY0sf4GzmZFG1zBzvg6/ymcONjkFpBtMmbbxyEZJlo7uvNnS8/+0RRL2BJhJpYZNGgU+nCOrjUGEyTFHOaFaET8+nr0AlxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DxG0tymF; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E542FE063;
+	Fri, 14 Nov 2025 08:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763109804; cv=fail; b=n/fVc697CxFYRxRzsx3muDqk+J2cDB03pauSEZjH4YeMMW6qvtnnUxFJ4IC105rca1Oxls+aQ5Fxw+taiHtKu3fwKqBtSDl+pImbJmbPZBcLp2kuR5UP8Oqd20SgD4RkgDZVNBVi4QYB2V5AtQ56YjRJ/zhCoBmAK0ug13RtS98=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763109804; c=relaxed/simple;
+	bh=IDt0FWh+7o6PgxspriirFBt9KtXFIZQKo46zg2suxOA=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=mftCbYEkYVt55uQyVEDVRZB8eh1CYsKe7sg85knBXR5mBopwb/nu1Q0mcj3GPsa3AJw8qLZ8srzNCjdTwn27IRNQcD0eZ4kOiP/qvHWCEWh/jV6BTYZ1vGRWbhO7v+De/mPzZN+FvYUhxiJc2odbZneoyMgPOOX3tell3x4k4Uw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IAwBmTrE; arc=fail smtp.client-ip=52.101.48.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DxG0tymF"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 078C5C10F5B;
-	Fri, 14 Nov 2025 07:49:48 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BB2756060E;
-	Fri, 14 Nov 2025 07:50:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 22A71102F2A6F;
-	Fri, 14 Nov 2025 08:50:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763106608; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=vou/PSvtoM9CuF1Iut3e8wcLV2zmRLJ9tzJ9Bc7FteA=;
-	b=DxG0tymFHZP8aF0T9HNNjCVnOtqgWqBQZopOzLsGe+MG7KLBS4zvwmPb2xNNRrCkT+nrkD
-	yil4rKK2fwvvvOC+Z+9QK6Aur4ok9ME9aaGiBROB50aI0G+zjNJSjP4LlVl5oin9PHUKm5
-	nI+hL41DkAq14lsblJe0evNclURr5zQGvZkZFw0DqGD0wUqCUY9cwlXE2RFuyDHRnhGXiM
-	ytuL5oJuyJNECkpMaInkO3/uNepVPmMrLBD/WjX39hgnceVCtw0kgw4YCDqNW2GKZQspJM
-	q9OZ0HAscsCb1vyXLDXOCal4YNeRgm2QLHCE054nvuBiGsye+4PCvXe4w/EiPg==
-Date: Fri, 14 Nov 2025 08:50:04 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 06/13] mfd: sec-irq: add support for creating multiple
- IRQ chips
-Message-ID: <20251114075004a444bff0@mail.local>
-References: <20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org>
- <20251114-s2mu005-pmic-v1-6-9e3184d3a0c9@disroot.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IAwBmTrE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xiYrp2MLsM8mY/OZkGLNevtSHtUnbY200ISMGm+4Av1kh9UOMhW5B65f440jr3DFXOGr8F4zhaybFcrzFUevw1d9ylpuWTrzWbuWJX6pQspspr6NAIcFSCcHJQZzVJe4VLaH0IkuiNK5vA92da1etqk4lzykfxF/+S2KWGL64AMkKz7RSgxvkRzPTIoqQ2CJ18/foqkBrPlcGx9nsKC1fwc9hPCTmpJMVl7xpsPSL8WuQZmkGGpo9KZscj0yJjn0813K2YJqKlp1ftrpBciC2BwdDzvi25rw4nBuuXExHikTzJgS+J9WKzS3b8K6MczR7FIMcIIQEJpoxI08d0lUGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=grTCDEMMZUlj6YmroWbbY38fqkZyct6ONxhkriJjMGo=;
+ b=U1LQtnUICk4sxMWEsctssqKeea9790llVmV2TXQvBH1hp7ioxynXrkl/zKJZIRnqMV8h12LiQ64V4rcCj5ayXC7CoVfFdOjVawniWoTAlxtsy+TnoAsBQ4EdpPX5GYELX7E1nIR8TaTWupg8EcSIe5KRI7KYIHZuuEAyHxS+oqAQpe+56Td+SpnbWxDY/6Cr7lyrCgnG8Yn9bl4nMJBVFHOR6L+U1fqbUKJ8OLSPjw3Fp/gM/hLLR5WwdC+hdOzNIa1LWpTc2WjUevDEvuBjL+RTBB7bzlQ9BWkSD9Tasoh1htDJ1XGDvrJ86T9tmsqQ8CWPwBreOaPncHGtuvN1Ag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=grTCDEMMZUlj6YmroWbbY38fqkZyct6ONxhkriJjMGo=;
+ b=IAwBmTrE/5CRc2o4a7iT3cgzwnLe8Rl2Jh13f4hAjdWqdZIEUsr6cOgwBf3zDnFfW8B73Us+hlmYgeyskRmhlAmOcc2kcXOwddaXMyrauJxzGzay9wiyK0BQ/EsavPBklm2uLqgMkluQEYRg7AhiMOHQFWREvqUF4GgGFD9eOzM=
+Received: from SN7PR18CA0011.namprd18.prod.outlook.com (2603:10b6:806:f3::19)
+ by SJ2PR12MB7893.namprd12.prod.outlook.com (2603:10b6:a03:4cc::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Fri, 14 Nov
+ 2025 08:43:17 +0000
+Received: from SN1PEPF0002BA4D.namprd03.prod.outlook.com
+ (2603:10b6:806:f3:cafe::fd) by SN7PR18CA0011.outlook.office365.com
+ (2603:10b6:806:f3::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.17 via Frontend Transport; Fri,
+ 14 Nov 2025 08:43:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SN1PEPF0002BA4D.mail.protection.outlook.com (10.167.242.70) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Fri, 14 Nov 2025 08:43:16 +0000
+Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 14 Nov
+ 2025 00:43:12 -0800
+From: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
+Subject: [PATCH v2 0/5] drm/amdgpu: add UMA carveout tuning interfaces
+Date: Fri, 14 Nov 2025 16:42:20 +0800
+Message-ID: <20251114-vram-carveout-tuning-for-upstream-v2-0-4f6bdd48030d@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251114-s2mu005-pmic-v1-6-9e3184d3a0c9@disroot.org>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGzrFmkC/5WNOw6DMBAFr4JcZyNsxC9V7hFRWPYCW2Cj9UeJE
+ HePww1SznvSzCECMmEQj+oQjJkCeVdA3SphVu0WBLKFhapVK2XdQGa9gdGc0acIMTlyC8yeIe0
+ hMpZT2lYOYzcMtm9E8eyMM72vxmsqvFKInj9XMsvf+o89S6hB9qh0r7pmNO1Tb/Zu/Cam8zy/C
+ kdsWdAAAAA=
+To: Alex Deucher <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+	<simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>
+CC: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Tsao, Anson"
+	<anson.tsao@amd.com>, "Mario Limonciello (AMD) (kernel.org)"
+	<superm1@kernel.org>, "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2381; i=Leo.Lin@amd.com;
+ h=from:subject:message-id; bh=IDt0FWh+7o6PgxspriirFBt9KtXFIZQKo46zg2suxOA=;
+ b=owEBbQKS/ZANAwAKAV8XsZZKKe6GAcsmYgBpFuue+Mc7hr7HC83hp4BpDaOLqd9D04HYStDRQ
+ 8OaCF8uh9yJAjMEAAEKAB0WIQQzqV4kW+yguuqHrw5fF7GWSinuhgUCaRbrngAKCRBfF7GWSinu
+ hrwhEACRoU2sHsX4OWRETwYYpfkwpxtMkmBZeD4ijFrE/XYPCkvg2MxLjKC8NPaDLZxPAw9YmMJ
+ xJAE4mbuvxR8ly7Ey+GIux+oxjID4YVQSytWIUe1fxW1/55JdTsP9lCrxBSnHZ4X63DL2YXK1SJ
+ JjPk5w97sY8X/LnxxmF0CByK3bLooUH9+IWfOXai6mrHGS8SPnbFZX273f6n2TWBFdSdK0STC4m
+ NTWUVmNsKcSyps9w6jS7YIoBU513hMGpQ6ATFJdexdUe6sPqENTLQBdj7mCgc2eETS0EfsOHx6A
+ v4MH5PNO+mlHeS+mbi2m/DaG+YSy2kUsM3rqJxSwCrNdyWwXIrwVLlFzHtnfFlkDcD0yZy3yKYh
+ TIKoUZrGFk6iAoEktsncH50b1hEyIJ6twhdH+zhS2liALZM1oBOKE7JmTT2NKkVmKLPNmgOu6UD
+ GzecKDScztMHorwolJX6WUK1NoCMTnI23WT4W5yr6gafEUb16Cte+DxPGDsPX4XnkCgtL20qyE7
+ zsmZZHp5DIbjq5B397ltB7XYW4cv09+tNdWpJS5gjLEGQVEMwIxT6BRY82ORoHqEyx5j4F8cFlr
+ F7dzQeZyIX8knAJpBgTsjz9yHb3iRwRB7yXmM3eioochN38BsHdoWYUvcnIWiyuk85seiBuYCmk
+ Wwx2AI8wvfYE/1Q==
+X-Developer-Key: i=Leo.Lin@amd.com; a=openpgp;
+ fpr=33A95E245BECA0BAEA87AF0E5F17B1964A29EE86
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4D:EE_|SJ2PR12MB7893:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8fd6099e-8279-44f6-14ae-08de2359db35
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|82310400026|36860700013|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RWZkbmt1NXNPT3ZlT1BhZHNJZGwybTQwdUVtQUxnNitybkd6bUprYTZRYS9X?=
+ =?utf-8?B?SVNWVktVcmV4VmpjSStyaTJVTE04N2hST2hkUXo1bExJNnVzMngrSHdSSkR4?=
+ =?utf-8?B?S1g2ZmRlOWNhM3lwUVdJLzBXZml0L0U0TkZOQzhrbDJ3ZDRBOUg4dnJZMFFN?=
+ =?utf-8?B?YnlDeGM1Q3NKazM0MzB3R2RsOEczRWIzZG91U0JLN3gxU283NkFFZk1TVmww?=
+ =?utf-8?B?QTJ2Y3M0WjlZNCt1ZUpsd2dHN2s4dFpDR1doaHZES1R3U0QzMTBTM2RUSHh1?=
+ =?utf-8?B?NVpGOXFWdEhSdWdxeEpLM3JCVUpHNkJRbnAyeEg2MHN4VCsyaVhkQUh0VDVP?=
+ =?utf-8?B?UHoxeDZxS3ZneWxyalFZdXRtOWtrRS9nd2Q3anBidHY0WG5xbm1qbnBWZVdq?=
+ =?utf-8?B?Y25jQ05jRVh6ZXM2eGR0YkVHMDFqK0djQmZTS3BhR1h1d3YvcTlPZmZQOUhV?=
+ =?utf-8?B?VHlMU1lQRG5ZblZCYVdZVDJjQ2svTVBpWmJMaFJ6MXhFanNOYVpyWW5yVGtn?=
+ =?utf-8?B?MUZMNGdJL2UrZFQ0ZDFnOTExSkpsQ1lkMUhHYXRjb3lsa3ZwMVNXYU5PaFNh?=
+ =?utf-8?B?VlIrSkdUZkEzRlpnakdDUFhMMWZRYitYZU1HS2VoNHBBaWNsbWtCeHF6Ykho?=
+ =?utf-8?B?MEw1K05kTlAzTFQ4S05vVDluRHNHTVUvRU5qMDZsdnphc0xUQytwYkl1anh4?=
+ =?utf-8?B?a3owZ2lwY3FzMzBtVEcreGtFSk45YmtnMm8wWXZVbFpNc3cyMFBldjVMZ3Aw?=
+ =?utf-8?B?UnlNWXRYOTlFV3pvbUJWeHdHMEdGcjFoL09hNWticG5Xd0lkcVhsREJTSXM5?=
+ =?utf-8?B?REJCeUxHcE9lOUtWc2lkRUNhZVYyMmFzeDFPdUNUWnBlU3FzZnBCR2xqS3BL?=
+ =?utf-8?B?TEc4YTN6ak04RHM4NXRTMnFNMU5lQnVqN0xDL1BWKzFPS05pZDcwTTlUeGZJ?=
+ =?utf-8?B?M29FTXdVbnpDazVad3BNZDNLYVROREVQQWRKcUovOGVINU5qODFuOW9RczdB?=
+ =?utf-8?B?d3V5Z2lIRVgyRFNuZFVjakUrWVBxbExuZXNTR0hYbFNvK3cycDBZOGJNMWdM?=
+ =?utf-8?B?aUxuaCtnQUVUUXRoamJZUVNaalhuUUI5SkF3eEkzNHVsT0NVcGh3R1ZXa2RY?=
+ =?utf-8?B?NzRJcG5JeGcycWp1a045NzR1SGJZQUVycEhmdXBxY3ZMUXhucENSYk9EaWg0?=
+ =?utf-8?B?cWxXRVI0dFJnazVhWGVTVG56aHpWdVlQYXhwNFlXcFFiYU1seHpFS3VFOGk1?=
+ =?utf-8?B?OEpDMGI4eitIbGNaZUwzQmRrSTZXRlpKZ04rYlArQkQ1cmNmaFFlNmw0OW5w?=
+ =?utf-8?B?cDJXbmNzQlFxb2VQN0IrYWFaK214SENFZ3ZRQ3diTnV6WmhQY3FvWmIvaXBh?=
+ =?utf-8?B?Q2hpS0dVMUtLbTB3aVBjM3d1bjFJUHFncW9kUXo4VG40WWpXSWE0SGpnMDR1?=
+ =?utf-8?B?VlRKZVRvV2d4cGl6MnBlK2o4VW16T0dJZnAvYTN0K1k1VDVaaTlyQW95NTJi?=
+ =?utf-8?B?ZER1SUZ6RVBlUitPYjdUVkZSQ0lMM1FXazZTNlU5UThJVVVNaXE5NU1OMW14?=
+ =?utf-8?B?YlZKZEJYZ0hsZzJlU3VWTUZSRkx3RjE1b1U4WGp6Q3kxd1ozUk9rRGZxMTk1?=
+ =?utf-8?B?Wm9hMXJjKzRNUk1CdUNjcHhQWk45eWxOY2d2VmFNV0MrdEtNSnZMZUpQVnVU?=
+ =?utf-8?B?S0ljMXFtSEw2cm9lWmVTajYwTWh3MG0wU2gxV2FwSVppN0Racm5TRldGWTgz?=
+ =?utf-8?B?NkY2UDhKZk1vR1JaUERKRDlkZ003Wmk1MUJaZEs3U2I2dWpQMDhMdU84Z1BQ?=
+ =?utf-8?B?Z0k3Y1JycGRoTVM5aTZUWi9jWkxQbmtyZWtkZnBWU25URHVNUlpCUi9UczYr?=
+ =?utf-8?B?dU0xbWVMYWs1M3VmTm5JL0lORE9uOFBIZXpZelBkWm92K1E3bG9RaE1SQVkv?=
+ =?utf-8?B?YmFKQU1INnd4WHdHODFMRzI3T0FLYlcyOGwreGdrQkxJUW5jQnZ3RnpSbUtM?=
+ =?utf-8?B?SGFBbzlUdkJFVEFDano5OXdPd0pYbFAzY0JYVFFnejZCYUJJQ1lVditiN0RB?=
+ =?utf-8?B?M09FWVFPVzRPUCtJcThKaHk1eENWK3A1OStrQ3QvNWlhNjdsSHcwQTBNbGlp?=
+ =?utf-8?Q?GqCM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 08:43:16.9285
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fd6099e-8279-44f6-14ae-08de2359db35
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF0002BA4D.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7893
 
-On 14/11/2025 00:35:07+0530, Kaustabh Chakraborty wrote:
-> The current state of the driver only allows creating only one IRQ chip
-> per PMIC. On some PMICs, such as Samsung's S2MU005, there are multiple
-> interrupt blocks, for which the current implementation stands insufficient.
-> 
-> Add support for creating multiple IRQ chips for a PMIC. Every IRQ chip is
-> given it's own index, which is used by sub-device drivers to request IRQs.
-> 
-> A macro is defined which states the maximum number of chips supported.
-> It's set to 1 as currently, no PMIC requires more than one IRQ chip. The
-> value must be changed accordingly on adding new PMICs requiring multiple
-> IRQ chips.
-> 
-> Moreover, adjust the s5m RTC driver to initialize IRQs with the
-> appropriate IRQ chip index.
-> 
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+The integrated info v2.3 table in the Atom ROM exposes available
+options for the VRAM carveout sizes. The carveout size can be changed
+using the ATCS function code 0xA for BIOS that supports this.
 
-> ---
->  drivers/mfd/sec-irq.c            | 163 +++++++++++++++++++++++----------------
->  drivers/rtc/rtc-s5m.c            |  15 +++-
->  include/linux/mfd/samsung/core.h |   5 +-
->  include/linux/mfd/samsung/irq.h  |  14 ++++
->  4 files changed, 127 insertions(+), 70 deletions(-)
-> 
-> diff --git a/drivers/mfd/sec-irq.c b/drivers/mfd/sec-irq.c
-> index c5c80b1ba104..053c28f31ec9 100644
-> --- a/drivers/mfd/sec-irq.c
-> +++ b/drivers/mfd/sec-irq.c
-> @@ -181,25 +181,31 @@ static const struct regmap_irq s5m8767_irqs[] = {
->  };
->  
->  /* All S2MPG10 interrupt sources are read-only and don't require clearing */
-> -static const struct regmap_irq_chip s2mpg10_irq_chip = {
-> -	.name = "s2mpg10",
-> -	.irqs = s2mpg10_irqs,
-> -	.num_irqs = ARRAY_SIZE(s2mpg10_irqs),
-> -	.num_regs = 6,
-> -	.status_base = S2MPG10_PMIC_INT1,
-> -	.mask_base = S2MPG10_PMIC_INT1M,
-> +static const struct regmap_irq_chip s2mpg10_irq_chip[] = {
-> +	[S2MPG10_IRQ_CHIP] = {
-> +		.name = "s2mpg10",
-> +		.irqs = s2mpg10_irqs,
-> +		.num_irqs = ARRAY_SIZE(s2mpg10_irqs),
-> +		.num_regs = 6,
-> +		.status_base = S2MPG10_PMIC_INT1,
-> +		.mask_base = S2MPG10_PMIC_INT1M,
-> +	},
->  };
->  
-> -static const struct regmap_irq_chip s2mps11_irq_chip = {
-> -	.name = "s2mps11",
-> -	.irqs = s2mps11_irqs,
-> -	.num_irqs = ARRAY_SIZE(s2mps11_irqs),
-> -	.num_regs = 3,
-> -	.status_base = S2MPS11_REG_INT1,
-> -	.mask_base = S2MPS11_REG_INT1M,
-> -	.ack_base = S2MPS11_REG_INT1,
-> +static const struct regmap_irq_chip s2mps11_irq_chip[] = {
-> +	[S2MPS11_IRQ_CHIP] = {
-> +		.name = "s2mps11",
-> +		.irqs = s2mps11_irqs,
-> +		.num_irqs = ARRAY_SIZE(s2mps11_irqs),
-> +		.num_regs = 3,
-> +		.status_base = S2MPS11_REG_INT1,
-> +		.mask_base = S2MPS11_REG_INT1M,
-> +		.ack_base = S2MPS11_REG_INT1,
-> +	},
->  };
->  
-> +#define S2MPS1X_IRQ_CHIP		S2MPS14_IRQ_CHIP
-> +
->  #define S2MPS1X_IRQ_CHIP_COMMON_DATA		\
->  	.irqs = s2mps14_irqs,			\
->  	.num_irqs = ARRAY_SIZE(s2mps14_irqs),	\
-> @@ -208,85 +214,106 @@ static const struct regmap_irq_chip s2mps11_irq_chip = {
->  	.mask_base = S2MPS14_REG_INT1M,		\
->  	.ack_base = S2MPS14_REG_INT1		\
->  
-> -static const struct regmap_irq_chip s2mps13_irq_chip = {
-> -	.name = "s2mps13",
-> -	S2MPS1X_IRQ_CHIP_COMMON_DATA,
-> +static const struct regmap_irq_chip s2mps13_irq_chip[] = {
-> +	[S2MPS1X_IRQ_CHIP] = {
-> +		.name = "s2mps13",
-> +		S2MPS1X_IRQ_CHIP_COMMON_DATA,
-> +	},
->  };
->  
-> -static const struct regmap_irq_chip s2mps14_irq_chip = {
-> -	.name = "s2mps14",
-> -	S2MPS1X_IRQ_CHIP_COMMON_DATA,
-> +static const struct regmap_irq_chip s2mps14_irq_chip[] = {
-> +	[S2MPS1X_IRQ_CHIP] = {
-> +		.name = "s2mps14",
-> +		S2MPS1X_IRQ_CHIP_COMMON_DATA,
-> +	},
->  };
->  
-> -static const struct regmap_irq_chip s2mps15_irq_chip = {
-> -	.name = "s2mps15",
-> -	S2MPS1X_IRQ_CHIP_COMMON_DATA,
-> +static const struct regmap_irq_chip s2mps15_irq_chip[] = {
-> +	[S2MPS1X_IRQ_CHIP] = {
-> +		.name = "s2mps15",
-> +		S2MPS1X_IRQ_CHIP_COMMON_DATA,
-> +	},
->  };
->  
-> -static const struct regmap_irq_chip s2mpu02_irq_chip = {
-> -	.name = "s2mpu02",
-> -	.irqs = s2mpu02_irqs,
-> -	.num_irqs = ARRAY_SIZE(s2mpu02_irqs),
-> -	.num_regs = 3,
-> -	.status_base = S2MPU02_REG_INT1,
-> -	.mask_base = S2MPU02_REG_INT1M,
-> -	.ack_base = S2MPU02_REG_INT1,
-> +static const struct regmap_irq_chip s2mpu02_irq_chip[] = {
-> +	[S2MPU02_IRQ_CHIP] = {
-> +		.name = "s2mpu02",
-> +		.irqs = s2mpu02_irqs,
-> +		.num_irqs = ARRAY_SIZE(s2mpu02_irqs),
-> +		.num_regs = 3,
-> +		.status_base = S2MPU02_REG_INT1,
-> +		.mask_base = S2MPU02_REG_INT1M,
-> +		.ack_base = S2MPU02_REG_INT1,
-> +	},
->  };
->  
-> -static const struct regmap_irq_chip s2mpu05_irq_chip = {
-> -	.name = "s2mpu05",
-> -	.irqs = s2mpu05_irqs,
-> -	.num_irqs = ARRAY_SIZE(s2mpu05_irqs),
-> -	.num_regs = 3,
-> -	.status_base = S2MPU05_REG_INT1,
-> -	.mask_base = S2MPU05_REG_INT1M,
-> -	.ack_base = S2MPU05_REG_INT1,
-> +static const struct regmap_irq_chip s2mpu05_irq_chip[] = {
-> +	[S2MPU05_IRQ_CHIP] = {
-> +		.name = "s2mpu05",
-> +		.irqs = s2mpu05_irqs,
-> +		.num_irqs = ARRAY_SIZE(s2mpu05_irqs),
-> +		.num_regs = 3,
-> +		.status_base = S2MPU05_REG_INT1,
-> +		.mask_base = S2MPU05_REG_INT1M,
-> +		.ack_base = S2MPU05_REG_INT1,
-> +	},
->  };
->  
-> -static const struct regmap_irq_chip s5m8767_irq_chip = {
-> -	.name = "s5m8767",
-> -	.irqs = s5m8767_irqs,
-> -	.num_irqs = ARRAY_SIZE(s5m8767_irqs),
-> -	.num_regs = 3,
-> -	.status_base = S5M8767_REG_INT1,
-> -	.mask_base = S5M8767_REG_INT1M,
-> -	.ack_base = S5M8767_REG_INT1,
-> +static const struct regmap_irq_chip s5m8767_irq_chip[] = {
-> +	[S5M8767_IRQ_CHIP] = {
-> +		.name = "s5m8767",
-> +		.irqs = s5m8767_irqs,
-> +		.num_irqs = ARRAY_SIZE(s5m8767_irqs),
-> +		.num_regs = 3,
-> +		.status_base = S5M8767_REG_INT1,
-> +		.mask_base = S5M8767_REG_INT1M,
-> +		.ack_base = S5M8767_REG_INT1,
-> +	},
->  };
->  
->  int sec_irq_init(struct sec_pmic_dev *sec_pmic)
->  {
->  	const struct regmap_irq_chip *sec_irq_chip;
-> -	int ret;
-> +	int sec_irq_chip_num, i, ret;
->  
->  	switch (sec_pmic->device_type) {
->  	case S5M8767X:
-> -		sec_irq_chip = &s5m8767_irq_chip;
-> +		sec_irq_chip = s5m8767_irq_chip;
-> +		sec_irq_chip_num = ARRAY_SIZE(s5m8767_irq_chip);
->  		break;
->  	case S2DOS05:
->  		return 0;
->  	case S2MPA01:
-> -		sec_irq_chip = &s2mps14_irq_chip;
-> +		sec_irq_chip = s2mps14_irq_chip;
-> +		sec_irq_chip_num = ARRAY_SIZE(s2mps14_irq_chip);
->  		break;
->  	case S2MPG10:
-> -		sec_irq_chip = &s2mpg10_irq_chip;
-> +		sec_irq_chip = s2mpg10_irq_chip;
-> +		sec_irq_chip_num = ARRAY_SIZE(s2mpg10_irq_chip);
->  		break;
->  	case S2MPS11X:
-> -		sec_irq_chip = &s2mps11_irq_chip;
-> +		sec_irq_chip = s2mps11_irq_chip;
-> +		sec_irq_chip_num = ARRAY_SIZE(s2mps11_irq_chip);
->  		break;
->  	case S2MPS13X:
-> -		sec_irq_chip = &s2mps13_irq_chip;
-> +		sec_irq_chip = s2mps13_irq_chip;
-> +		sec_irq_chip_num = ARRAY_SIZE(s2mps13_irq_chip);
->  		break;
->  	case S2MPS14X:
-> -		sec_irq_chip = &s2mps14_irq_chip;
-> +		sec_irq_chip = s2mps14_irq_chip;
-> +		sec_irq_chip_num = ARRAY_SIZE(s2mps14_irq_chip);
->  		break;
->  	case S2MPS15X:
-> -		sec_irq_chip = &s2mps15_irq_chip;
-> +		sec_irq_chip = s2mps15_irq_chip;
-> +		sec_irq_chip_num = ARRAY_SIZE(s2mps15_irq_chip);
->  		break;
->  	case S2MPU02:
-> -		sec_irq_chip = &s2mpu02_irq_chip;
-> +		sec_irq_chip = s2mpu02_irq_chip;
-> +		sec_irq_chip_num = ARRAY_SIZE(s2mpu02_irq_chip);
->  		break;
->  	case S2MPU05:
-> -		sec_irq_chip = &s2mpu05_irq_chip;
-> +		sec_irq_chip = s2mpu05_irq_chip;
-> +		sec_irq_chip_num = ARRAY_SIZE(s2mpu05_irq_chip);
->  		break;
->  	default:
->  		return dev_err_probe(sec_pmic->dev, -EINVAL,
-> @@ -300,13 +327,19 @@ int sec_irq_init(struct sec_pmic_dev *sec_pmic)
->  		return 0;
->  	}
->  
-> -	ret = devm_regmap_add_irq_chip(sec_pmic->dev, sec_pmic->regmap_pmic,
-> -				       sec_pmic->irq, IRQF_ONESHOT,
-> -				       0, sec_irq_chip, &sec_pmic->irq_data);
-> -	if (ret)
-> -		return dev_err_probe(sec_pmic->dev, ret,
-> -				     "Failed to add %s IRQ chip\n",
-> -				     sec_irq_chip->name);
-> +	for (i = 0; i < sec_irq_chip_num; i++) {
-> +		ret = devm_regmap_add_irq_chip(sec_pmic->dev,
-> +					       sec_pmic->regmap_pmic,
-> +					       sec_pmic->irq,
-> +					       IRQF_ONESHOT | IRQF_SHARED, 0,
-> +					       sec_irq_chip + i,
-> +					       sec_pmic->irq_data + i);
-> +		if (ret) {
-> +			return dev_err_probe(sec_pmic->dev, ret,
-> +					     "Failed to add %s IRQ chip\n",
-> +					     sec_irq_chip->name);
-> +		}
-> +	}
->  
->  	/*
->  	 * The rtc-s5m driver requests S2MPS14_IRQ_RTCA0 also for S2MPS11
-> diff --git a/drivers/rtc/rtc-s5m.c b/drivers/rtc/rtc-s5m.c
-> index a7220b4d0e8d..726915deff7a 100644
-> --- a/drivers/rtc/rtc-s5m.c
-> +++ b/drivers/rtc/rtc-s5m.c
-> @@ -668,7 +668,7 @@ static int s5m_rtc_probe(struct platform_device *pdev)
->  	enum sec_device_type device_type =
->  		platform_get_device_id(pdev)->driver_data;
->  	struct s5m_rtc_info *info;
-> -	int ret, alarm_irq;
-> +	int ret, alarm_irq, irq_chip;
->  
->  	info = devm_kzalloc(&pdev->dev, sizeof(*info), GFP_KERNEL);
->  	if (!info)
-> @@ -684,21 +684,25 @@ static int s5m_rtc_probe(struct platform_device *pdev)
->  			regmap_cfg = &s2mps14_rtc_regmap_config;
->  			info->regs = &s2mps15_rtc_regs;
->  			alarm_irq = S2MPS14_IRQ_RTCA0;
-> +			irq_chip = S2MPS11_IRQ_CHIP;
->  			break;
->  		case S2MPS14X:
->  			regmap_cfg = &s2mps14_rtc_regmap_config;
->  			info->regs = &s2mps14_rtc_regs;
->  			alarm_irq = S2MPS14_IRQ_RTCA0;
-> +			irq_chip = S2MPS14_IRQ_CHIP;
->  			break;
->  		case S2MPS13X:
->  			regmap_cfg = &s2mps14_rtc_regmap_config;
->  			info->regs = &s2mps13_rtc_regs;
->  			alarm_irq = S2MPS14_IRQ_RTCA0;
-> +			irq_chip = S2MPS14_IRQ_CHIP;
->  			break;
->  		case S5M8767X:
->  			regmap_cfg = &s5m_rtc_regmap_config;
->  			info->regs = &s5m_rtc_regs;
->  			alarm_irq = S5M8767_IRQ_RTCA1;
-> +			irq_chip = S5M8767_IRQ_CHIP;
->  			break;
->  		default:
->  			return dev_err_probe(&pdev->dev, -ENODEV,
-> @@ -720,6 +724,7 @@ static int s5m_rtc_probe(struct platform_device *pdev)
->  	} else if (device_type == S2MPG10) {
->  		info->regs = &s2mpg10_rtc_regs;
->  		alarm_irq = S2MPG10_IRQ_RTCA0;
-> +		irq_chip = S2MPG10_IRQ_CHIP;
->  	} else {
->  		return dev_err_probe(&pdev->dev, -ENODEV,
->  				     "Unsupported device type %d\n",
-> @@ -730,12 +735,14 @@ static int s5m_rtc_probe(struct platform_device *pdev)
->  	info->s5m87xx = s5m87xx;
->  	info->device_type = device_type;
->  
-> -	if (s5m87xx->irq_data) {
-> -		info->irq = regmap_irq_get_virq(s5m87xx->irq_data, alarm_irq);
-> -		if (info->irq <= 0)
-> +	if (s5m87xx->irq_data[irq_chip]) {
-> +		info->irq = regmap_irq_get_virq(s5m87xx->irq_data[irq_chip],
-> +						alarm_irq);
-> +		if (info->irq <= 0) {
->  			return dev_err_probe(&pdev->dev, -EINVAL,
->  					     "Failed to get virtual IRQ %d\n",
->  					     alarm_irq);
-> +		}
->  	}
->  
->  	platform_set_drvdata(pdev, info);
-> diff --git a/include/linux/mfd/samsung/core.h b/include/linux/mfd/samsung/core.h
-> index d785e101fe79..dcd741c4f0d6 100644
-> --- a/include/linux/mfd/samsung/core.h
-> +++ b/include/linux/mfd/samsung/core.h
-> @@ -33,6 +33,9 @@
->  #define STEP_12_5_MV		12500
->  #define STEP_6_25_MV		6250
->  
-> +/* Maximum number of IRQ chips in a PMIC */
-> +#define MAX_IRQ_CHIPS		1
-> +
->  struct gpio_desc;
->  
->  enum sec_device_type {
-> @@ -69,7 +72,7 @@ struct sec_pmic_dev {
->  
->  	int device_type;
->  	int irq;
-> -	struct regmap_irq_chip_data *irq_data;
-> +	struct regmap_irq_chip_data *irq_data[MAX_IRQ_CHIPS];
->  };
->  
->  struct sec_platform_data {
-> diff --git a/include/linux/mfd/samsung/irq.h b/include/linux/mfd/samsung/irq.h
-> index b4805cbd949b..78eb894e350e 100644
-> --- a/include/linux/mfd/samsung/irq.h
-> +++ b/include/linux/mfd/samsung/irq.h
-> @@ -34,6 +34,8 @@ enum s2mpa01_irq {
->  	S2MPA01_IRQ_NR,
->  };
->  
-> +#define S2MPA01_IRQ_CHIP		0
-> +
->  #define S2MPA01_IRQ_PWRONF_MASK		(1 << 0)
->  #define S2MPA01_IRQ_PWRONR_MASK		(1 << 1)
->  #define S2MPA01_IRQ_JIGONBF_MASK	(1 << 2)
-> @@ -58,6 +60,8 @@ enum s2mpa01_irq {
->  #define S2MPA01_IRQ_B35_TSD_MASK	(1 << 5)
->  
->  enum s2mpg10_irq {
-> +#define S2MPG10_IRQ_CHIP		0
-> +
->  	/* PMIC */
->  	S2MPG10_IRQ_PWRONF,
->  	S2MPG10_IRQ_PWRONR,
-> @@ -183,6 +187,8 @@ enum s2mps11_irq {
->  	S2MPS11_IRQ_NR,
->  };
->  
-> +#define S2MPS11_IRQ_CHIP		0
-> +
->  #define S2MPS11_IRQ_PWRONF_MASK		(1 << 0)
->  #define S2MPS11_IRQ_PWRONR_MASK		(1 << 1)
->  #define S2MPS11_IRQ_JIGONBF_MASK	(1 << 2)
-> @@ -226,6 +232,8 @@ enum s2mps14_irq {
->  	S2MPS14_IRQ_NR,
->  };
->  
-> +#define S2MPS14_IRQ_CHIP		0
-> +
->  enum s2mpu02_irq {
->  	S2MPU02_IRQ_PWRONF,
->  	S2MPU02_IRQ_PWRONR,
-> @@ -250,6 +258,8 @@ enum s2mpu02_irq {
->  	S2MPU02_IRQ_NR,
->  };
->  
-> +#define S2MPU02_IRQ_CHIP		0
-> +
->  /* Masks for interrupts are the same as in s2mps11 */
->  #define S2MPS14_IRQ_TSD_MASK		(1 << 2)
->  
-> @@ -277,6 +287,8 @@ enum s2mpu05_irq {
->  	S2MPU05_IRQ_NR,
->  };
->  
-> +#define S2MPU05_IRQ_CHIP		0
-> +
->  #define S2MPU05_IRQ_PWRONF_MASK		BIT(0)
->  #define S2MPU05_IRQ_PWRONR_MASK		BIT(1)
->  #define S2MPU05_IRQ_JIGONBF_MASK	BIT(2)
-> @@ -321,6 +333,8 @@ enum s5m8767_irq {
->  	S5M8767_IRQ_NR,
->  };
->  
-> +#define S5M8767_IRQ_CHIP		0
-> +
->  #define S5M8767_IRQ_PWRR_MASK		(1 << 0)
->  #define S5M8767_IRQ_PWRF_MASK		(1 << 1)
->  #define S5M8767_IRQ_PWR1S_MASK		(1 << 3)
-> 
-> -- 
-> 2.51.2
-> 
+Make these features available as sysfs files, so that users can set
+the carveout size in a way similar to what a Windows user can do in
+the "Tuning" tab in the AMD Adrenalin. The newly added sysfs files
+are:
 
+- uma_carveout_options: this a read-only file listing all available
+  carveout options. They are fetched from the Atom ROM on driver
+  initialization.
+
+- uma_carveout: this shows the index of the currently selected option,
+  as shown in the uma_carveout_options. Writing a valid option index
+  to this file will change the carveout option on next boot.
+
+Note that above files are created only if BIOS indicates support for
+it, i.e. where the table shows non-zero UMACarveoutIndexMax.
+
+Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
+---
+Changes in v2:
+- Move VBIOS table parsing and sysfs interface creation from atomfirmware
+  initialization code to amdgpu_acpi_init()
+- Create structs that abstract the uma options
+- Move the parsed carveout options from atom_context to the amdgpu_atcs
+- Minor kdoc fixes, as well as adding example output for uma_carveout_options
+- Link to v1: https://lore.kernel.org/r/20251103-vram-carveout-tuning-for-upstream-v1-0-17e2a72639c5@amd.com
+
+---
+Yo-Jung Leo Lin (AMD) (5):
+      drm/amdgpu: parse UMA size-getting/setting bits in ATCS mask
+      drm/amdgpu: add helper to read UMA carveout info
+      drm/amdgpu: add UMA allocation setting helpers
+      drm/amdgpu: add UMA allocation interfaces to sysfs
+      Documentation/amdgpu: Add UMA carveout details
+
+ Documentation/gpu/amdgpu/driver-misc.rst         |  26 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h              |  39 +++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c         | 205 +++++++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c |  73 ++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h |   2 +
+ drivers/gpu/drm/amd/include/amd_acpi.h           |  34 +++-
+ 6 files changed, 378 insertions(+), 1 deletion(-)
+---
+base-commit: ac9914fa72a5a917bb61c5e87bee6b8f9b751f33
+change-id: 20251103-vram-carveout-tuning-for-upstream-1d5189688d73
+
+Best regards,
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
+
