@@ -1,136 +1,124 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570522FAC0C
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 09:59:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247E43101C5
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 10:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763114391; cv=none; b=XFt/pZYnaMO4A6paO8s+PJSy7tPrgBd33noDx0JYG9OsvR+WIHfZ9NKxnUWnP5rHudpMep8EBKUiVmU6PWY17bzmJkW23rPHXe49G9q3xyxYrtYz+2QXLAqkeW4BTkbp8AbfUc3dv6bG8XaX4dzsKTdHZ1PuQLVP+KQmx78eOVs=
+	t=1763116200; cv=none; b=oj0X+QwpLQZD2qTYNTTPA9tqL4ZgpZcGyfY849N5PHALo5wOGikk/jZ+7BVOFrHwV7pSKBI+654sD0WD9kJnW4uIo3migpoQGBzGsGVucwYGfSMma/heh6IWW+6e7CpUc/MaRJHcFWSNplmpYKBhT3jzWhPvln0zOz7l+T3WEgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763114391; c=relaxed/simple;
-	bh=DHf7STu3fVuI0v0oulr9m9V/jFgWRVRL6YvEAHPEjVY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lTLV6LNjdhal6r07oF5i8rQfSKx7KF77pbs2NtJ4/d425NXsXQh5jvX26mH7MXFmv1yqrNgWjUyfAsqX3Rb2AqHULfWIG9ocOnRNEuupETdZ3MSjqaJjICQyOrKNCxBPIUwtVidwPm1id9vNvX1U72JU+SMU9exV4EeAu0tlOaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RD53t3h8; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763116200; c=relaxed/simple;
+	bh=UBbZsb4dMttftP1M96cy0ber+qZ1LFIDjn4+NP/XX9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pDGgf/wv6E3xyUSLKuXELGLQEwphs9Ug+quRy/Djqydf/NanmT80IUTMgcc2/HtSwWuadSZT9h+YPbHpmunJCmSuYVMQpXk21ZRt8KejayTKQbKkvPG6zrZUBWamPRjZFX/P1H+xGBZNnKc5ri6v+mPfVu3k898vIC09BAotTSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LQPgESbz; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RD53t3h8"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42b312a086eso1077648f8f.2
-        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 01:59:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LQPgESbz"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2957850c63bso18814295ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 02:29:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763114388; x=1763719188; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nrQJj+UBZFNYF2dhW3PzZmg/h3v8iAh4uR7Mb9IBPf8=;
-        b=RD53t3h885AXokyYceQkXKqhE+pJWNkvaS/jADy94wwCEpx2LjUlzVyB5VVbNIZT5v
-         TL+rxM3ei9PxMoDbHUXL9ARlqmGDPZK759R65fh4eHB4xSxHejHc7opWKx2DNhws4R0M
-         3hjyJfxVsHG84tsJXn1RSkGuQT09AUtbTE4DWfyiWG/mT3RqaxBnIdIZuCjm5O4y44oj
-         tKC3S3uYCFYauvLi3QSVhs0hLL07iDBxlon+TNYrAymQWmX/ReGErVh0dqtKiBRZYOCT
-         NdarqRBqEmxBXWFxBI8EMJdUcYeu5SUfoiLD98qZuX3muHyUiVqyF0jHbv8gIho20N2p
-         Q6Ew==
+        d=gmail.com; s=20230601; t=1763116198; x=1763720998; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3y1+oIlNcBvHQ2j5491FzfotPp6frKmcPxBxDRPYTII=;
+        b=LQPgESbzX5BOqhCp4NEY+J7fatJ5kJEBi/URbCmEQTydrei7PSWmjTww9XecYsgLU4
+         e5vIeUwLeBL+nBZFqkadQ1DacS/v+kZZP5L6oHR8jezQe7C/RW6J4tdOlVHcOs+RtKs6
+         cLciyWQHrjyVLAoSb87N7KstdULo+RYPXk/5e7NseyzlArtaxaKSV1IvEdT5m1btAwdb
+         Ig9vkPDmWfaPh67nqosHX8ckFnKR1IoNTN/TWPQcinwIctjFmoRYjIA5IaMe4PvVrT5s
+         0z/pOgeZTEKX/IggHrZFlmD+8gbZVw0o2xrVw7URQ/q95QblUGXeRyoi+uAo4zKua3bJ
+         i1Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763114388; x=1763719188;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nrQJj+UBZFNYF2dhW3PzZmg/h3v8iAh4uR7Mb9IBPf8=;
-        b=knrTZRxVtZiTYkblW3Ztxe48C0EoOY3YXTbqjM0wtZET6Kueo2XGS2kKIIn9otcS6M
-         X/yaNTPyFhtHgbIBdgNR8WXxxkDe+H9caH1lctimlM4uzwmYCHng6shlPOfqkyBq/KrZ
-         5JIvlpUfy+N5uWXndQWi0lpO1oK/Ip2XAIMjRwAzQL4HHBPQ4/zB/19VdZow4hKJu76e
-         GASYBSZedgsuKksepvy0b+UKVSrBaYBoGCH1UDZgRP45W3z3XxbKO2NlQqC4KOtqwjsr
-         yTHVML4OoXuVItUakny5PCNiKbJnTTkf+E+61f+RQOlnv35tGZuXUI4+CXYAj54B7wJi
-         a+vw==
-X-Forwarded-Encrypted: i=1; AJvYcCXI8VyrUQX0F4IBpbptYC48v/r8uBD1k7+2ebT/pVEnHGeZNI7VfTcGavwgBiq9DjUZOsXl2C72ev0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUAYx/cMAbggVBEG4vU6MEnsZ6ll4JT6oLTlldxbzT3YhjqeoB
-	wCC5ju97wiclKZWU7KY8zBgGUQq6hXSOzGUW+LlHyvu/PaBKA1wJknaeI6XhivCVx20=
-X-Gm-Gg: ASbGncv0r7sI7oCRCbRwG9RBgZFTLoSw80ZCXvbruU9xq0+kGzKbmzVA9FOZnF1bWX2
-	3WVlIGBT/AnUGyla5FRCPCNN1rewYcz0QHaVaWf8UsIM0QTjaf3w0plMFgpINlw4sSR8SjtwGyb
-	VtLg7a1taN2s5DqS5SYxZnLzm9ySZ763AemsHDMOsp3HncP2lXwJZZFYKrHd1DOCDA73cGFDZgN
-	fToWUQ2tRkgP4WdKsc0IipTN9igmkPMuUFVDyrsRw4NniY67kQNu16Y1Z0VqeaLELDirNsIIBCI
-	ORTe37cKJk/6UuVqAPew+mqaFmT26scZHPhLS43Pp+w5rX5CKBgvC3U6hJ5xrOi5gvFYKkUIDrJ
-	0nPk5e2f5CDLIWTcHIEipQTgxH2HXPY2X8d/HFNhlusTg6PekfhJ/UJ0gYIzF/eiVrAX5qixjC+
-	DwDY+uE6Soit5Ta7Am
-X-Google-Smtp-Source: AGHT+IHr/RGTftbN2wZlrzbDKOZVG2oNeQkhL8m189JNVIJ0i0dp6Io7uXTllB06dYu72314ISgwTQ==
-X-Received: by 2002:a05:6000:2c09:b0:429:c2fb:c268 with SMTP id ffacd0b85a97d-42b5959ec5amr2193055f8f.56.1763114387741;
-        Fri, 14 Nov 2025 01:59:47 -0800 (PST)
-Received: from [192.168.1.3] ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f17cbfsm8780535f8f.35.2025.11.14.01.59.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Nov 2025 01:59:47 -0800 (PST)
-Message-ID: <67142b63-b413-4ed6-8526-b18b38667d42@linaro.org>
-Date: Fri, 14 Nov 2025 09:59:46 +0000
+        d=1e100.net; s=20230601; t=1763116198; x=1763720998;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3y1+oIlNcBvHQ2j5491FzfotPp6frKmcPxBxDRPYTII=;
+        b=h3EzN/VGJDkuTuDlBAz8fCShJWz0YvFgZqGZ7vjpCvYRC/LC7RebpytHBuNzDRaWl6
+         0yDOqocUJibfSPFrjD1PGWnf3yxsU9KWFHnhuk4aGPNLz21ZWFHeNaGlviA4c1gnwL7j
+         ujsDgHQqXxTtxrIEjFWYzUpToJAxgtd5gV7767ogLsL2+O2gLejF8nPNvqFphb2jo0sy
+         alrGzssK/F7Xqj0PK9c8k+VSDM3NuNm0PPkLl5HWIyTAaz5LDChLZhUDVcZmTbbnZ0kr
+         +YrKpj1kJgdjg9Jf6Ck2Ybkx4ST1l7MmiieLtkhnJG9L7aoYYSvMdJ4Ff0djnqNGP0pd
+         6NeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUnz715NhPcUF9GYeVHFBQaABZrchDzgkf86+1gQOzliXZ2A10QCpfXqBVNUpNCymfTw7kbu/jnDeI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0x2uXvN9GJE7sCYGtIhZSzLQHvB+bbl2f5kTLSSpVf+e5DAJ7
+	ZTDWREmuYuUJVnlEX7/ZkqPDkvD9FIiYj5OC46QSpnLh9xN53h2f4oty
+X-Gm-Gg: ASbGncv+cg9SEtXtlCVTt/Ka9CmpN65GC8tEzIrQ1jOvnSicAI4FZ/rAhhaKGedWmJK
+	9Ce5r1KMKe2HcC2jA8toJq1CAUA4Co24DOPUEOu3c5ck0WPhq7jXjUQ9Mw8veGerDaUWqMapWff
+	LDkJ0o1JXBNQlwcR8csDYafVW88OZ0GZJ3LJpMXK77PEyRCCWYXmpxFJk+TzqwH2hZBuOITLRmr
+	okerdgBYi40ndd7x1A66TSp18jxHwlCgRMPqIEpx7USqI+MjpttsIfIazBX+WmhV836U0JgE12Y
+	qYhIgPBBhiqRnq08OcFZ4HrMevzLiGB1GM5awaozhh3ngyDkdEs9EwOnjW7ECmDc+oN0Z6ud5Dc
+	2YztLsYmMZ3F/G9JVAUBHtGVJXnA6bf0WgIFKVrm+bbXQ5HCtezaloDmnlRkYBgl2GyNHjGGyOv
+	FScd727NpN4SI=
+X-Google-Smtp-Source: AGHT+IF+0G1Z72gXcZasFEt+dR8TBz4EQdEyh5TXVK7VWrLSbxyg9r+z6DMShwpU4TKnPXmx9Qni9Q==
+X-Received: by 2002:a17:902:e5c7:b0:295:6850:a38d with SMTP id d9443c01a7336-2985a52b1abmr69212555ad.19.1763116198280;
+        Fri, 14 Nov 2025 02:29:58 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2b0710sm50609975ad.66.2025.11.14.02.29.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Nov 2025 02:29:57 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 95E2D4207D09; Fri, 14 Nov 2025 17:29:54 +0700 (WIB)
+Date: Fri, 14 Nov 2025 17:29:53 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Daniel Baluta <daniel.baluta@nxp.com>, corbet@lwn.net,
+	andersson@kernel.org, mathieu.poirier@linaro.org
+Cc: dan.j.williams@intel.com, cedric.xing@intel.com,
+	pasha.tatashin@soleen.com, kevin.tian@intel.com,
+	skhawaja@google.com, yesanishhere@gmail.com, taimoorzaeem@gmail.com,
+	linux@treblig.org, arnaud.pouliquen@foss.st.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, rdunlap@infradead.org,
+	daniel.baluta@gmail.com, imx@lists.linux.dev
+Subject: Re: [PATCH 2/2] Documentation: Fix filenames for remoteproc/rpmsg
+Message-ID: <aRcEoX9saonpQuvf@archie.me>
+References: <20251114065746.901649-1-daniel.baluta@nxp.com>
+ <20251114065746.901649-3-daniel.baluta@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 13/13] coresight: docs: Document etm4x timestamp
- interval option
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
- <mike.leach@linaro.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@arm.com>
-References: <20251112-james-cs-syncfreq-v4-0-165ba21401dc@linaro.org>
- <20251112-james-cs-syncfreq-v4-13-165ba21401dc@linaro.org>
- <0eb1a2b7-8064-4ac5-bcf8-b4898a8b5ac7@infradead.org>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <0eb1a2b7-8064-4ac5-bcf8-b4898a8b5ac7@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="+twDMHafNSzP9Og8"
+Content-Disposition: inline
+In-Reply-To: <20251114065746.901649-3-daniel.baluta@nxp.com>
 
 
+--+twDMHafNSzP9Og8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 14/11/2025 5:02 am, Randy Dunlap wrote:
-> 
-> 
-> On 11/12/25 7:22 AM, James Clark wrote:
->> Document how the new field is used, maximum value and the interaction
->> with SYNC timestamps.
->>
->> Signed-off-by: James Clark <james.clark@linaro.org>
->> ---
->>   Documentation/trace/coresight/coresight.rst | 15 +++++++++++++--
->>   1 file changed, 13 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
->> index 806699871b80..80b5ed09d69b 100644
->> --- a/Documentation/trace/coresight/coresight.rst
->> +++ b/Documentation/trace/coresight/coresight.rst
->> @@ -613,8 +613,19 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
->>        - Session local version of the system wide setting: :ref:`ETM_MODE_RETURNSTACK
->>          <coresight-return-stack>`
->>      * - timestamp
->> -     - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
->> -       <coresight-timestamp>`
->> +     - Controls generation and interval of timestamps.
->> +
->> +       0 = off, 1 = maximum interval .. 15 = minimum interval.
->> +
->> +       Values 1 - 14 use a counter that decrements every cycle to generate a
->> +       timestamp on underflow. The reload value for the counter is 2 raised to
->> +       the power of timestamp interval - 1. If the value is 1 then the reload
->> +       value is 1, if the value is 11 then the reload value is 1024 etc.
-> 
-> 	  value = 11: 2^11-1 = 2047
-> 
-> Maybe add some parens?
-> 
-> 
+On Fri, Nov 14, 2025 at 08:57:45AM +0200, Daniel Baluta wrote:
+>    This document describes the rpmsg bus and how to write rpmsg drivers.
+> -  To learn how to add rpmsg support for new platforms, check out remotep=
+roc.txt
+> -  (also a resident of Documentation/).
+> +  To learn how to add rpmsg support for new platforms, check out remotep=
+roc.rst
+> +  (also a resident of Documentation/driver-api).
 
-Will do. I had them but I removed them because it was in a sentence so 
-it made it look like a side note. I think I'll change from words to symbols:
+I think "also a resident of ..." can be dropped, since it's redundant (it's
+already covered in remoteproc.rst cross-reference which transforms into
+the link when you build the docs).
 
-   The reload value for the counter is 2 ^ (interval - 1).
+Thanks.
 
-Thanks
-James
+--=20
+An old man doll... just what I always wanted! - Clara
 
+--+twDMHafNSzP9Og8
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaRcEnQAKCRD2uYlJVVFO
+o5FeAP41XfZ1+B4P84roVhLdJjUIeYsbQoCOQ0JR5L2Ed+SfzQD/TQHSHzxQVA2Z
+NrSRvC/d/fqFsQeTCtXU7p2M914xbQw=
+=Lenc
+-----END PGP SIGNATURE-----
+
+--+twDMHafNSzP9Og8--
