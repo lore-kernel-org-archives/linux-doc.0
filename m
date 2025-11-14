@@ -1,41 +1,42 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FF6345CBB
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 17:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9139B34678E
+	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 17:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763142810; cv=none; b=DHziX9jDF84dQoe4g11B54/ED3KU2PxjpopKo8+27PJ8EDKto9GTM9hEGtfdtjb1ho/woo21+ZwD/4nKUu2KmfhWEDuXZLiZHb5Yus31ugHlQ97jED+4sUcw4od6FNuoV/vGlZrYlSm5LP0MioCyErOAXKtsb7TkmDXSk68/174=
+	t=1763142811; cv=none; b=tA5p7/fGBGTt1KmlQBIBhT5ztyFccA8OG5GrZoHt2jVMPsBKIGdbJnCqTpvz38lsOVookR5Cf9IEJJyhq7VKj6a6443lEET0jn3RvqJoS3XuNLVOu4MtJu381LKuR0HIBfiUQN9RztrVT1PA5PSW37UhNpL7Cqixuivi1jEQxGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763142810; c=relaxed/simple;
-	bh=IPyUG7oq6iDPNgeslqpaMnFaKHeSNmdqijlVlD2adRQ=;
+	s=arc-20240116; t=1763142811; c=relaxed/simple;
+	bh=bRX9LY+Q1iqsyAH4FALw3yc7eYGwACPnJJ4Nao3vOKc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EygqgnVkXyaI0NRPN0EJxjY2dAQFG/2/K9dJJaeTVmI8o2M8sd3ywj6g1nEtjImcv2kjMexQsMx/hq77Duu8euKuHTBvAiqmQeDOMCRrNSidHB9P5SMyqfc1xdFvV9o2gbJW81bCs5BfHy69QXsovGhPQiRv3jAsHJcvjswDOrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lNkZKijA; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=WFKIjYaHGJCoHsvKWxLONGhFVz/gkaaNUAWbmEeaNKe8CDKPGQQqxi03yFQcsNN0es8AjXNOFImWS9YyYZKuLzglBpBiz9AnLSeRiLSMyW2cN2pvThJ9AO/fYvOH35wfSGt0+fIZz6hVbBmc/0H7E9OV2HXuZKBfdnl52Hx61JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Vb1V1oaR; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lNkZKijA"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Vb1V1oaR"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 7FF2F4E416B9;
-	Fri, 14 Nov 2025 17:53:26 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 4E068C10F6C;
+	Fri, 14 Nov 2025 17:53:06 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 562706060E;
-	Fri, 14 Nov 2025 17:53:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D892C10371986;
-	Fri, 14 Nov 2025 18:53:23 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 169AD6060E;
+	Fri, 14 Nov 2025 17:53:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B774A10371988;
+	Fri, 14 Nov 2025 18:53:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763142805; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1763142807; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=42hw/B5DdDI6uBv7bRhjZ4jC840Rczimu4YvQRSXKI4=;
-	b=lNkZKijAJo8o/1JdKv3xq7D8BdyjPFIEEt+V5ESTnQU3QXwKuuzt8F8hQP6nqC4Pwk3QIU
-	Wc6Nn9Inai+MPcyRP1GsD+Vg6z6V0mBX5D252uAKTXcohELUiQE7H1J/ehzRQbgfFiC7sS
-	/CkCUcAJMCzH4PDbys+GsbBetbKH0K9HxD4o1Jk2tCvhp9RuURKqkOjF+SqUhDn0N8LU7w
-	ahld5QAYx7nOIAEBPJMDxzvZXx00zgE38LZNSl30RV2duKL1Gq/yJR337iG6FBLu6h58zI
-	3l0Dr645W2ttRcHEc0/TjvZlZvkHwr6g/qmZm+/7IueY0LmWHBQFnCQxRHsTbQ==
+	bh=FyKaGqejIQ8vnBMw6FxDpLNsf0AdinygMdI3vez7HK4=;
+	b=Vb1V1oaRW5Locg11iyDdGEr4Lx0iDRSujdHc1874HTImFg1Gx0Il4/SD7R8alOW4+Wb1D/
+	0InLcSCyhwPTHlIY1qHtZRhnRcdIsGkvV5DJ7N0HSD+977l2JTeBrbi95iBqbFoJdCIBma
+	8fRoyTHbzmGdTBcGGX9PybmYLDrfwlv2jgiIHjO0D8EslMR1W0D8WeWLj1dZwVI1chzWhQ
+	tn44LHSk3pE3F4CsvCZgDH9UAxYAlEz/bJuNVqaMlUssx5c/6Ch7a4ljQDdewyDLYtsDF5
+	nRSLCzHT5ysdlPRR74GWGRIJgQ44Ps+73+oUThkqrW5cdj35zi5XpU8zajlm1g==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Fri, 14 Nov 2025 18:53:04 +0100
-Subject: [PATCH 03/19] mtd: spi-nor: Improve opcodes documentation
+Date: Fri, 14 Nov 2025 18:53:05 +0100
+Subject: [PATCH 04/19] mtd: spi-nor: debugfs: Align variable access with
+ the rest of the file
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-3-487bc7129931@bootlin.com>
+Message-Id: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-4-487bc7129931@bootlin.com>
 References: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com>
 In-Reply-To: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com>
 To: Tudor Ambarus <tudor.ambarus@linaro.org>, 
@@ -59,30 +60,27 @@ Cc: Sean Anderson <sean.anderson@linux.dev>,
 X-Mailer: b4 0.14.2
 X-Last-TLS-Session-Version: TLSv1.3
 
-There are two status registers, named 1 and 2, all the opcodes imply a 1
-byte access. Make it clear by aligning all comments on the same pattern,
-for the four "{read,write} status {1,2} registers" definitions.
+The "params" variable is used everywhere else, align this particular
+line of the file to use "params" directly rather than the "nor" pointer.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- include/linux/mtd/spi-nor.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/mtd/spi-nor/debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/mtd/spi-nor.h b/include/linux/mtd/spi-nor.h
-index cdcfe0fd2e7d624bbb66fefcb87823bce300268e..90a0cf58351295c63baea4f064b49b7390337d37 100644
---- a/include/linux/mtd/spi-nor.h
-+++ b/include/linux/mtd/spi-nor.h
-@@ -21,8 +21,8 @@
- /* Flash opcodes. */
- #define SPINOR_OP_WRDI		0x04	/* Write disable */
- #define SPINOR_OP_WREN		0x06	/* Write enable */
--#define SPINOR_OP_RDSR		0x05	/* Read status register */
--#define SPINOR_OP_WRSR		0x01	/* Write status register 1 byte */
-+#define SPINOR_OP_RDSR		0x05	/* Read status register 1 */
-+#define SPINOR_OP_WRSR		0x01	/* Write status register 1 */
- #define SPINOR_OP_RDSR2		0x3f	/* Read status register 2 */
- #define SPINOR_OP_WRSR2		0x3e	/* Write status register 2 */
- #define SPINOR_OP_READ		0x03	/* Read data bytes (low frequency) */
+diff --git a/drivers/mtd/spi-nor/debugfs.c b/drivers/mtd/spi-nor/debugfs.c
+index d700e0b271822d034e56903e7b437d89c653f3e7..69830ad4399009185983549647f3be61ad5d1c84 100644
+--- a/drivers/mtd/spi-nor/debugfs.c
++++ b/drivers/mtd/spi-nor/debugfs.c
+@@ -139,7 +139,7 @@ static int spi_nor_params_show(struct seq_file *s, void *data)
+ 
+ 	if (!(nor->flags & SNOR_F_NO_OP_CHIP_ERASE)) {
+ 		string_get_size(params->size, 1, STRING_UNITS_2, buf, sizeof(buf));
+-		seq_printf(s, " %02x (%s)\n", nor->params->die_erase_opcode, buf);
++		seq_printf(s, " %02x (%s)\n", params->die_erase_opcode, buf);
+ 	}
+ 
+ 	seq_puts(s, "\nsector map\n");
 
 -- 
 2.51.0
