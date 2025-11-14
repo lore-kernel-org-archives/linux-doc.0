@@ -1,225 +1,166 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C442D0637;
-	Fri, 14 Nov 2025 17:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8419F26B2D3;
+	Fri, 14 Nov 2025 17:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763139803; cv=none; b=OTj+7J5bmZFviKceejSFUShakm8a6Uhs8/Hcz5xBK0mMA688sm2ksolTA6E36uvEpn9TPAnZw2STg17ss4NurDNQXBKsa32vbrhfHUqRn9MaDKhS245L/4F0wxWbP1LbBH4bHvyRMHKgvr3fXMVB/FTx6qmd40tjsTxUbyPh8hE=
+	t=1763140228; cv=none; b=BO2uUG82PEtI/iL2OFr4qNegfxbzrKWGxWcUrZ348cTQ7eppmcV5PRZMAl1EYJBsK+wP7dT8Ww9rn7Y2+DEJ7mLDoqwlTQuPDHG0GcvhtasiLc+scGOl9OyoO1+cC2d8uYlau47CulQuXORcdARAJSsxFBMiO+O9K6zFyNbt0kU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763139803; c=relaxed/simple;
-	bh=j71+p9YAh5QPiawZ9VZM73M2pNS6NNm74Zwt268TaXE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bOAN6Ul7RWtDdO13qUL9hpW6YFjETzflC+m1q/xbiyElTFfqvrnyB0m23XTiVY/5wXU6KscTSEwQZzWdZ2YRileJKhdlUOwNUGJ9d+rMPyZqB/yX4TMzroPvvbgtMjCW6sEUGZIykcKUhcEP740ESX9Z/e0FGhMghkMsSNQ7xpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NkdbTqr7; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NkdbTqr7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1763139797;
-	bh=j71+p9YAh5QPiawZ9VZM73M2pNS6NNm74Zwt268TaXE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NkdbTqr7MQfBJuSmO5wxsTgv34gS60If9ab7o8gt4B+rDwazvFYO6BuFW6kKOMVae
-	 G0jOXK1oaATwQyb5JBSdOq9GVS4Q913ovH5hZ2L50G/EMjUnTKuXZGEr+j+cjzzank
-	 NVKMPhP9R22+fcqDA+3pIRk+qPSWBuPsQ9K4F/FPWTH8ZSOcodnTxHknQ/+01R7Ekr
-	 ATKd6sXvPZBMHJy9kx7SjGmLqYaRydcHIk5bUrm8RiuPY4SzXlsagqBLzovvgitn2X
-	 zQBlZMchQ2bbzkUeBBqnidm2lMk914s5Y1IU7aPd8ODXWnFjvTbL+hdV6ddem/1bhf
-	 kT3o0NzmigTKw==
-Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 997ED17E368C;
-	Fri, 14 Nov 2025 18:03:16 +0100 (CET)
-From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Melissa Wen <mwen@igalia.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Nitin Gote <nitin.r.gote@intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christopher Healy <healych@amazon.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	kernel@collabora.com
-Subject: [PATCH v9 10/11] drm/panfrost: Introduce huge tmpfs mountpoint option
-Date: Fri, 14 Nov 2025 18:03:01 +0100
-Message-ID: <20251114170303.2800-11-loic.molinari@collabora.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251114170303.2800-1-loic.molinari@collabora.com>
-References: <20251114170303.2800-1-loic.molinari@collabora.com>
+	s=arc-20240116; t=1763140228; c=relaxed/simple;
+	bh=lwuO3l3OhkEYk8WmTHhDZ8zlYyo5zBacqtocE1oArGg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P+/EaII3obsYoijtv/w5z6gmJ8atY2VLNxUeg8B9u5jbYFsU6mf8Z1Z056mWSyM/U6uLZlGx+fhCQioqS4OoL9OTKWCPLZuk2EwKLiG4IX1zSW6AEaPOtbZIOMK3tgDDAn3AU9AJwMr7MOpuFMEMMREHoYkc6spPyA5LfG+xQhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D57521063;
+	Fri, 14 Nov 2025 09:10:16 -0800 (PST)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1BBB23F63F;
+	Fri, 14 Nov 2025 09:10:23 -0800 (PST)
+Date: Fri, 14 Nov 2025 17:10:22 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 11/13] coresight: Extend width of timestamp format
+ attribute
+Message-ID: <20251114171022.GL3568724@e132581.arm.com>
+References: <20251112-james-cs-syncfreq-v4-0-165ba21401dc@linaro.org>
+ <20251112-james-cs-syncfreq-v4-11-165ba21401dc@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112-james-cs-syncfreq-v4-11-165ba21401dc@linaro.org>
 
-Introduce the 'panfrost.transparent_hugepage' boolean module parameter
-(false by default). When the parameter is set to true, a new tmpfs
-mountpoint is created and mounted using the 'huge=within_size'
-option. It's then used at GEM object creation instead of the default
-'shm_mnt' mountpoint in order to enable Transparent Hugepage (THP) for
-the object (without having to rely on a system wide parameter).
+On Wed, Nov 12, 2025 at 03:22:17PM +0000, James Clark wrote:
+> 'timestamp' is currently 1 bit wide for on/off. To enable setting
+> different intervals in a later commit, extend it to 4 bits wide. Keep
+> the old bit position for backward compatibility but don't publish in the
+> format/ folder. It will be removed from the documentation and can be
+> removed completely after enough time has passed.
+> 
+> ETM3x doesn't support different intervals, so validate that the value is
+> either 0 or 1.
+> 
+> Tools that read the bit positions from the format/ folder will continue
+> to work as before, setting either 0 or 1 for off/on. Tools that
+> incorrectly didn't do this and set the ETM_OPT_TS bit directly will also
+> continue to work because that old bit is still checked.
+> 
+> This avoids adding a second timestamp attribute for setting the
+> interval. This would be awkward to use because tools would have to be
+> updated to ensure that the timestamps are always enabled when an
+> interval is set, and the driver would have to validate that both options
+> are provided together. All this does is implement the semantics of a
+> single enum but spread over multiple fields.
 
-v3:
-- use huge tmpfs mountpoint in drm_device
+Just a bit thoughts.  My understanding is that the PMU format would
+clearly represent the PMU characteristics.  I imagine that after reading
+the ETM specification, someone should be able to easily map to the PMU
+formats (enable field and counter field separately).
 
-v4:
-- fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
-- clean up mountpoint creation error handling
-- print negative error value
+Alternatively, this patch provides a user-friendly interface that allows
+all settings (enable + counter) in one go.  Users can benefit from it
+without knowing the underlying hardware mechanism, but might need to
+digest its semantics.  As this will be well documented, I am fine for
+current approach:
 
-v5:
-- use drm_gem_has_huge_tmp() helper
-- get rid of CONFIG_TRANSPARENT_HUGEPAGE ifdefs
+Reviewed-by: Leo Yan <leo.yan@arm.com>
 
-v9:
-- replace drm_gem_has_huge_tmp() by drm_gem_get_huge_tmp()
 
-Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_device.c |  3 +++
- drivers/gpu/drm/panfrost/panfrost_drv.c    |  6 ++++++
- drivers/gpu/drm/panfrost/panfrost_drv.h    |  9 +++++++++
- drivers/gpu/drm/panfrost/panfrost_gem.c    | 18 ++++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_gem.h    |  2 ++
- 5 files changed, 38 insertions(+)
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-index c61b97af120c..dedc13e56631 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-@@ -12,6 +12,7 @@
- #include "panfrost_device.h"
- #include "panfrost_devfreq.h"
- #include "panfrost_features.h"
-+#include "panfrost_gem.h"
- #include "panfrost_issues.h"
- #include "panfrost_gpu.h"
- #include "panfrost_job.h"
-@@ -267,6 +268,8 @@ int panfrost_device_init(struct panfrost_device *pfdev)
- 	if (err)
- 		goto out_job;
- 
-+	panfrost_gem_init(pfdev);
-+
- 	return 0;
- out_job:
- 	panfrost_jm_fini(pfdev);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 7d8c7c337606..7f59568faa05 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -858,6 +858,12 @@ static const struct drm_driver panfrost_drm_driver = {
- #endif
- };
- 
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+bool panfrost_transparent_hugepage;
-+module_param_named(transparent_hugepage, panfrost_transparent_hugepage, bool, 0400);
-+MODULE_PARM_DESC(transparent_hugepage, "Use a dedicated tmpfs mount point with Transparent Hugepage enabled (false = default)");
-+#endif
-+
- static int panfrost_probe(struct platform_device *pdev)
- {
- 	struct panfrost_device *pfdev;
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.h b/drivers/gpu/drm/panfrost/panfrost_drv.h
-new file mode 100644
-index 000000000000..edeb093eb6da
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.h
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0 or MIT
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
-+
-+#ifndef __PANFROST_DRV_H__
-+#define __PANFROST_DRV_H__
-+
-+extern bool panfrost_transparent_hugepage;
-+
-+#endif
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index 8041b65c6609..c1688a542ec2 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
- 
- #include <linux/cleanup.h>
- #include <linux/err.h>
-@@ -10,9 +11,26 @@
- #include <drm/panfrost_drm.h>
- #include <drm/drm_print.h>
- #include "panfrost_device.h"
-+#include "panfrost_drv.h"
- #include "panfrost_gem.h"
- #include "panfrost_mmu.h"
- 
-+void panfrost_gem_init(struct panfrost_device *pfdev)
-+{
-+	int err;
-+
-+	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
-+	    !panfrost_transparent_hugepage)
-+		return;
-+
-+	err = drm_gem_huge_mnt_create(&pfdev->base, "within_size");
-+	if (drm_gem_get_huge_mnt(&pfdev->base))
-+		drm_info(&pfdev->base, "Using Transparent Hugepage\n");
-+	else if (err)
-+		drm_warn(&pfdev->base, "Can't use Transparent Hugepage (%d)\n",
-+			 err);
-+}
-+
- #ifdef CONFIG_DEBUG_FS
- static void panfrost_gem_debugfs_bo_add(struct panfrost_device *pfdev,
- 					struct panfrost_gem_object *bo)
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-index 8de3e76f2717..1a62529ff06f 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-@@ -124,6 +124,8 @@ drm_mm_node_to_panfrost_mapping(struct drm_mm_node *node)
- 	return container_of(node, struct panfrost_gem_mapping, mmnode);
- }
- 
-+void panfrost_gem_init(struct panfrost_device *pfdev);
-+
- struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t size);
- 
- struct drm_gem_object *
--- 
-2.47.3
-
+> Signed-off-by: James Clark <james.clark@linaro.org>
+> ---
+>  drivers/hwtracing/coresight/coresight-etm-perf.h   | 13 ++++++++++---
+>  drivers/hwtracing/coresight/coresight-etm3x-core.c |  9 ++++++++-
+>  drivers/hwtracing/coresight/coresight-etm4x-core.c |  4 +++-
+>  3 files changed, 21 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.h b/drivers/hwtracing/coresight/coresight-etm-perf.h
+> index c794087a0e99..24d929428633 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm-perf.h
+> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.h
+> @@ -23,6 +23,9 @@ struct cscfg_config_desc;
+>  #define ATTR_CFG_FLD_preset_CFG			config
+>  #define ATTR_CFG_FLD_preset_LO			0
+>  #define ATTR_CFG_FLD_preset_HI			3
+> +#define ATTR_CFG_FLD_timestamp_CFG		config
+> +#define ATTR_CFG_FLD_timestamp_LO		4
+> +#define ATTR_CFG_FLD_timestamp_HI		7
+>  #define ATTR_CFG_FLD_branch_broadcast_CFG	config
+>  #define ATTR_CFG_FLD_branch_broadcast_LO	8
+>  #define ATTR_CFG_FLD_branch_broadcast_HI	8
+> @@ -35,9 +38,13 @@ struct cscfg_config_desc;
+>  #define ATTR_CFG_FLD_contextid2_CFG		config
+>  #define ATTR_CFG_FLD_contextid2_LO		15
+>  #define ATTR_CFG_FLD_contextid2_HI		15
+> -#define ATTR_CFG_FLD_timestamp_CFG		config
+> -#define ATTR_CFG_FLD_timestamp_LO		28
+> -#define ATTR_CFG_FLD_timestamp_HI		28
+> +/*
+> + * Old position of 'timestamp' and not published in sysfs. Remove at a later
+> + * date if necessary.
+> + */
+> +#define ATTR_CFG_FLD_deprecated_timestamp_CFG	config
+> +#define ATTR_CFG_FLD_deprecated_timestamp_LO	28
+> +#define ATTR_CFG_FLD_deprecated_timestamp_HI	28
+>  #define ATTR_CFG_FLD_retstack_CFG		config
+>  #define ATTR_CFG_FLD_retstack_LO		29
+>  #define ATTR_CFG_FLD_retstack_HI		29
+> diff --git a/drivers/hwtracing/coresight/coresight-etm3x-core.c b/drivers/hwtracing/coresight/coresight-etm3x-core.c
+> index 584d653eda81..d4c04e563bf6 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm3x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm3x-core.c
+> @@ -338,9 +338,16 @@ static int etm_parse_event_config(struct etm_drvdata *drvdata,
+>  	if (ATTR_CFG_GET_FLD(attr, cycacc))
+>  		config->ctrl |= ETMCR_CYC_ACC;
+>  
+> -	if (ATTR_CFG_GET_FLD(attr, timestamp))
+> +	if (ATTR_CFG_GET_FLD(attr, deprecated_timestamp) ||
+> +	    ATTR_CFG_GET_FLD(attr, timestamp))
+>  		config->ctrl |= ETMCR_TIMESTAMP_EN;
+>  
+> +	if (ATTR_CFG_GET_FLD(attr, timestamp) > 1) {
+> +		dev_dbg(&drvdata->csdev->dev,
+> +			"timestamp format attribute should be 0 (off) or 1 (on)\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	/*
+>  	 * Possible to have cores with PTM (supports ret stack) and ETM (never
+>  	 * has ret stack) on the same SoC. So only enable when it can be honored
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> index 1aa0357a5ce7..d4e294cd48ae 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> @@ -28,6 +28,7 @@
+>  #include <linux/amba/bus.h>
+>  #include <linux/seq_file.h>
+>  #include <linux/uaccess.h>
+> +#include <linux/perf/arm_pmu.h>
+>  #include <linux/perf_event.h>
+>  #include <linux/perf/arm_pmu.h>
+>  #include <linux/platform_device.h>
+> @@ -800,7 +801,8 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
+>  			cc_threshold = drvdata->ccitmin;
+>  		config->ccctlr = cc_threshold;
+>  	}
+> -	if (ATTR_CFG_GET_FLD(attr, timestamp)) {
+> +	if (ATTR_CFG_GET_FLD(attr, deprecated_timestamp) ||
+> +	    ATTR_CFG_GET_FLD(attr, timestamp)) {
+>  		/*
+>  		 * Configure timestamps to be emitted at regular intervals in
+>  		 * order to correlate instructions executed on different CPUs
+> 
+> -- 
+> 2.34.1
+> 
