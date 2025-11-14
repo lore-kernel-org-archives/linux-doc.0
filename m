@@ -1,309 +1,112 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A229C215F42
-	for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 14:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43736324718;
+	Fri, 14 Nov 2025 14:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763131755; cv=none; b=oX4zfHuNVQHV+FAbjubbDYs2r3oqxYJR9EvbAN5bJrYWMUWE/dSh6fVLt73g81Q271fob3yZD4gfn6tjIOqc3UaXuwij0wjLdicWTEx/QHzSpcovxpZEQnfgdJYfJ/OennWFS6fbmQEK5Msm0vCZ0gDBRZoszDsoLmIa0DgaXmY=
+	t=1763132126; cv=none; b=pf9l+osfVUiL5I78L+4NNYQFUVOuwMhSRrzk0OPHnG+UmXxYhwrfyWJAXYIt08dLduZ6ubGqWgps+ynuK3nCY5631AIxq0yFEw2OxGrb2grEqly1D+vTJqITWBfFOnyxg+g88cjH+FJ73R/FXBLpj+DmEzwsRcezGPAha2+6TOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763131755; c=relaxed/simple;
-	bh=yKj8YKn4bG73S711v2EqDY1AhzbG3apkJ7Pfze5Fg6A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KdS5AoZa60FyEJJmXGIXXmrgLpqr/bXAChVl+g4Nqx+k/KT2e39gk0IBOTbz3QeYr9BnEdFK41jIVb5BwSrAX75AV8hibMR+yh1QmxblUxKWkJx+8ESyuMRPy8h3CSBtJ09b0iEnljJNVHUMhuyq6+tQnzHieDRwTy5pPh/pXA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Y5Z6+vjF; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Y5Z6+vjF"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-64175dfc338so3900443a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 06:49:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763131750; x=1763736550; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QYEAXpQ4a552Nj/Tapn49whjWroq5jBGQBSgz6ETKNI=;
-        b=Y5Z6+vjFPv1/p/nR+ohTtWyzvDWIPRs/B7urW8j5uI+JhJ2ps7AbJ8yuGdbudg2htE
-         3sxWPSjwRbXc4wer797ugPtVpC7eKHFqUGZD99vh988xBpKXDWNh+4KueVk0kY2C8NDa
-         ZCB+00FIG/VHRfFG8FQgayvQroGybNbmwiILrBEaNEcW7Bt6TONMvDPGXk93tF1awlSJ
-         frtKq1f5uOrmvyYEROA/m7Q4ULP/XQhmKwWQ07gnbT5o/fgBfUtspWXxuJ7ZIJ6DNSOF
-         Ge4CO+6YP0m3n+n4+yxlu4d/G2c2gzPA/uagVgl+DLFp1csYffujlUoHfoAzbRHdl/46
-         xCIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763131750; x=1763736550;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QYEAXpQ4a552Nj/Tapn49whjWroq5jBGQBSgz6ETKNI=;
-        b=hhiFniHs7CqysFdcT8oE8lY9Tdm5sWuBuH6/shjUrAz2/IHjEwJScbHbV7I9XS62F2
-         t2eiijfSxYLooeTBo8vWfOKj+DLxDMzbgCzE+X683/kjU2FO+5e8LkwG/WqMUmRLuvqU
-         Go9Hk6q0V/VwImpPHWIV7KupsG0QmmrRLLBwWNqkEl74VhOEIgri3n68f0QWyUVPa8ah
-         9QrBttHpf7TIm46CxPHNfU7QdkPqP6akBG7pox6Ce9DfJxbszbLHXhXPhHNVe2ACUYQ0
-         Tun42g1DiZ2mlkE3iqkelIhzMXzVbQJD4s9rkjams3j+G3ovUemiLDVhBolQ+XNHiwvt
-         ICsw==
-X-Forwarded-Encrypted: i=1; AJvYcCXPqlMpBjcSDD8v4bOyrxm4Hfk6ROQ3WVV6+9ojGmtzeWdjXryhnsfU7XLm6BKkITTTJX2tQm15gIg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy83LlAluRLEc8yRR00ZhcSEMEHYESCutIp89so0KL4enmybDDr
-	Q9E1QSzbLTTyk6BQjXzYhbgqfrKnND5+7KS/zcldPjoIpwtA8kjqwpKbpOTP5fAUDRQHBmhirEQ
-	42zn/eXtK5zW+l6EHXopPxYQE8Es8Ej2cCg0amhEvKg==
-X-Gm-Gg: ASbGncu53bbfTD0IqJ5xTeHAZGM681Tby56qrHXm+sTFWyO5h5dgOMQw/aYvweAforQ
-	VdX+2aGFk1N4AiUP6AaC8xd0U80gOhrAZ7L23UGMiijj2J+DUyu7H3taCJhbbJjy3QvrfPHnSoW
-	xkrixnjB8UQ+/G18F9fwimVVgQUJs/NMkR9Y0BHVzwdmlEaUtToJjd6edwsroGg6AOQat030vnB
-	moqIdkwsz/IWdvHBPrQI3jcH8Wi6jehYUJHTGNSLzqxXNp1u0aDeqMHFP7Sd6LhVdpm
-X-Google-Smtp-Source: AGHT+IHF8MqvIeu6twye/eYx/FuUCbRP62c2HbXTtkjoVGfiBHyEq0ZpwisfIJrVT6Hu103fGvqOuZ0WbhmUHmm+4tw=
-X-Received: by 2002:a05:6402:5341:20b0:640:ccb0:f4da with SMTP id
- 4fb4d7f45d1cf-64350e9ff6dmr2279684a12.29.1763131749850; Fri, 14 Nov 2025
- 06:49:09 -0800 (PST)
+	s=arc-20240116; t=1763132126; c=relaxed/simple;
+	bh=NI3GWqZPKo5kbD0ezFXyE300DA5rwnbUJjHg59eZXq4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=psAjWNsqZwD446a5/IS8DZ1G6C1Q4ZAPSvJ+E3T75IvzzCSsLfTt8E5y5agS452qGo3Xsi/Zjhoev8oo3SfKyhjKkUCrGgZu1mblg3y7opADBqdlNRCXgb+igEdJFADGQF0CQOoJLQSH7UbhVNxHOKOyDND4Id1nx8yPHTxJtHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC5DD1063;
+	Fri, 14 Nov 2025 06:55:15 -0800 (PST)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0344C3F66E;
+	Fri, 14 Nov 2025 06:55:22 -0800 (PST)
+Date: Fri, 14 Nov 2025 14:55:21 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 04/13] coresight: Hide unused ETMv3 format attributes
+Message-ID: <20251114145521.GD3568724@e132581.arm.com>
+References: <20251112-james-cs-syncfreq-v4-0-165ba21401dc@linaro.org>
+ <20251112-james-cs-syncfreq-v4-4-165ba21401dc@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-3-pasha.tatashin@soleen.com> <aRcSpbwBabFjeYe3@kernel.org>
-In-Reply-To: <aRcSpbwBabFjeYe3@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 14 Nov 2025 09:48:33 -0500
-X-Gm-Features: AWmQ_bm03KKG3xgTX39tlkUT5awfMY0ljNHpMhWuof0QVJ12PZgKUmkaxYYGwgY
-Message-ID: <CA+CK2bDzExcm-1LMFFQ4FgyfX5yuaPBd2fXdbNsd2yTbrSNKog@mail.gmail.com>
-Subject: Re: [PATCH v5 02/22] liveupdate: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112-james-cs-syncfreq-v4-4-165ba21401dc@linaro.org>
 
-On Fri, Nov 14, 2025 at 6:30=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Fri, Nov 07, 2025 at 04:03:00PM -0500, Pasha Tatashin wrote:
-> > Integrate the LUO with the KHO framework to enable passing LUO state
-> > across a kexec reboot.
-> >
-> > When LUO is transitioned to a "prepared" state, it tells KHO to
-> > finalize, so all memory segments that were added to KHO preservation
-> > list are getting preserved. After "Prepared" state no new segments
-> > can be preserved. If LUO is canceled, it also tells KHO to cancel the
-> > serialization, and therefore, later LUO can go back into the prepared
-> > state.
-> >
-> > This patch introduces the following changes:
-> > - During the KHO finalization phase allocate FDT blob.
-> > - Populate this FDT with a LUO compatibility string ("luo-v1").
-> >
-> > LUO now depends on `CONFIG_KEXEC_HANDOVER`. The core state transition
-> > logic (`luo_do_*_calls`) remains unimplemented in this patch.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  include/linux/liveupdate.h         |   6 +
-> >  include/linux/liveupdate/abi/luo.h |  54 +++++++
-> >  kernel/liveupdate/luo_core.c       | 243 ++++++++++++++++++++++++++++-
-> >  kernel/liveupdate/luo_internal.h   |  17 ++
-> >  mm/mm_init.c                       |   4 +
-> >  5 files changed, 323 insertions(+), 1 deletion(-)
-> >  create mode 100644 include/linux/liveupdate/abi/luo.h
-> >  create mode 100644 kernel/liveupdate/luo_internal.h
-> >
-> > diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
-> > index 730b76625fec..0be8804fc42a 100644
-> > --- a/include/linux/liveupdate.h
-> > +++ b/include/linux/liveupdate.h
-> > @@ -13,6 +13,8 @@
-> >
-> >  #ifdef CONFIG_LIVEUPDATE
-> >
-> > +void __init liveupdate_init(void);
-> > +
-> >  /* Return true if live update orchestrator is enabled */
-> >  bool liveupdate_enabled(void);
-> >
-> > @@ -21,6 +23,10 @@ int liveupdate_reboot(void);
-> >
-> >  #else /* CONFIG_LIVEUPDATE */
-> >
-> > +static inline void liveupdate_init(void)
-> > +{
-> > +}
->
-> The common practice is to place brackets at the same line with function
-> declaration.
+On Wed, Nov 12, 2025 at 03:22:10PM +0000, James Clark wrote:
+> ETMv3 only has a few attributes, and setting unused ones results in an
+> error, so hide them to begin with.
+> 
+> Signed-off-by: James Clark <james.clark@linaro.org>
+> ---
+>  drivers/hwtracing/coresight/coresight-etm-perf.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> index 17afa0f4cdee..91132abca244 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> @@ -106,8 +106,27 @@ static struct attribute *etm_config_formats_attr[] = {
+>  	NULL,
+>  };
+>  
+> +static umode_t etm_format_attr_is_visible(struct kobject *kobj,
+> +					  struct attribute *attr, int unused)
+> +{
+> +	/* ETM4 has all attributes */
+> +	if (IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X))
+> +		return attr->mode;
+> +
+> +	/* ETM3 only has these attributes */
+> +	if (attr == &format_attr_cycacc.attr ||
+> +	    attr == &format_attr_timestamp.attr ||
+> +	    attr == &format_attr_retstack.attr ||
+> +	    attr == &format_attr_sinkid.attr ||
+> +	    attr == &format_attr_configid.attr)
 
-Sure.
+Do we support configid for ETM3?
 
->
-> ...
->
-> > +static int __init luo_early_startup(void)
-> > +{
-> > +     phys_addr_t fdt_phys;
-> > +     int err, ln_size;
-> > +     const void *ptr;
-> > +
-> > +     if (!kho_is_enabled()) {
-> > +             if (liveupdate_enabled())
-> > +                     pr_warn("Disabling liveupdate because KHO is disa=
-bled\n");
-> > +             luo_global.enabled =3D false;
-> > +             return 0;
-> > +     }
-> > +
-> > +     /* Retrieve LUO subtree, and verify its format. */
-> > +     err =3D kho_retrieve_subtree(LUO_FDT_KHO_ENTRY_NAME, &fdt_phys);
-> > +     if (err) {
-> > +             if (err !=3D -ENOENT) {
-> > +                     pr_err("failed to retrieve FDT '%s' from KHO: %pe=
-\n",
-> > +                            LUO_FDT_KHO_ENTRY_NAME, ERR_PTR(err));
-> > +                     return err;
-> > +             }
-> > +
-> > +             return 0;
-> > +     }
-> > +
-> > +     luo_global.fdt_in =3D __va(fdt_phys);
->
-> phys_to_virt is clearer, isn't it?
+> +		return attr->mode;
 
-Sure
+It is good to give a bit information why only these attributes
+supported, e.g.,
 
->
-> > +     err =3D fdt_node_check_compatible(luo_global.fdt_in, 0,
-> > +                                     LUO_FDT_COMPATIBLE);
->
-> ...
->
-> > +void __init liveupdate_init(void)
-> > +{
-> > +     int err;
-> > +
-> > +     err =3D luo_early_startup();
-> > +     if (err) {
-> > +             pr_err("The incoming tree failed to initialize properly [=
-%pe], disabling live update\n",
-> > +                    ERR_PTR(err));
-> > +             luo_global.enabled =3D false;
-> > +     }
-> > +}
-> > +
-> > +/* Called during boot to create LUO fdt tree */
->
->                          ^ create outgoing
+  /*
+   * ETM3 only support subset attributes (see ETM3X_SUPPORTED_OPTIONS),
+   * keep 'sinkid' attr for specifying sink ID.
+   */
 
-OK
+Two side topics but not issues caused this patch:
 
->
-> > +static int __init luo_late_startup(void)
-> > +{
-> > +     int err;
-> > +
-> > +     if (!liveupdate_enabled())
-> > +             return 0;
-> > +
-> > +     err =3D luo_fdt_setup();
-> > +     if (err)
-> > +             luo_global.enabled =3D false;
-> > +
-> > +     return err;
-> > +}
-> > +late_initcall(luo_late_startup);
->
-> It would be nice to have a comment explaining why late_initcall() is fine
-> and why there's no need to initialize the outgoing fdt earlier.
+- Since CTXTID/CTXTID2 is only used for ETM4x, we can remove "#if
+  IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)" from the
+  format_attr_contextid_show() function.
 
-I will add a comment; basically it is fine because the outgoing data
-structures are only used after we enter userspace.
+- etm_parse_event_config() does not check attr->config3, thus user
+  sets 'cc_threshold' it will slip without any error report.
 
->
-> > +/**
-> > + * luo_alloc_preserve - Allocate, zero, and preserve memory.
->
-> I think this and the "free" counterparts would be useful for any KHO user=
-s,
-> even those that don't need LUO.
+Thanks,
+Leo
 
-I will move them to KHO.
-
->
-> > + * @size: The number of bytes to allocate.
-> > + *
-> > + * Allocates a physically contiguous block of zeroed pages that is lar=
-ge
-> > + * enough to hold @size bytes. The allocated memory is then registered=
- with
-> > + * KHO for preservation across a kexec.
-> > + *
-> > + * Note: The actual allocated size will be rounded up to the nearest
-> > + * power-of-two page boundary.
-> > + *
-> > + * @return A virtual pointer to the allocated and preserved memory on =
-success,
-> > + * or an ERR_PTR() encoded error on failure.
-> > + */
-> > +void *luo_alloc_preserve(size_t size)
-> > +{
-> > +     struct folio *folio;
-> > +     int order, ret;
-> > +
-> > +     if (!size)
-> > +             return ERR_PTR(-EINVAL);
-> > +
-> > +     order =3D get_order(size);
-> > +     if (order > MAX_PAGE_ORDER)
-> > +             return ERR_PTR(-E2BIG);
->
-> High order allocations would likely fail or at least cause a heavy reclai=
-m.
-> For now it seems that we won't be needing really large contiguous chunks =
-so
-> maybe limiting this to PAGE_ALLOC_COSTLY_ORDER?
-
-Let's use MAX_PAGE_ORDER for now, my concern is that
-PAGE_ALLOC_COSTLY_ORDER too fragile to make it part of ABI. If
-allocation fails, the user will have to deal with it, as we return a
-proper error code.
-
-> Later if we'd need higher order allocations we can try to allocate with
-> __GFP_NORETRY or __GFP_RETRY_MAYFAIL with a fallback to vmalloc.
->
-> > +
-> > +     folio =3D folio_alloc(GFP_KERNEL | __GFP_ZERO, order);
-> > +     if (!folio)
-> > +             return ERR_PTR(-ENOMEM);
-> > +
-> > +     ret =3D kho_preserve_folio(folio);
-> > +     if (ret) {
-> > +             folio_put(folio);
-> > +             return ERR_PTR(ret);
-> > +     }
-> > +
-> > +     return folio_address(folio);
-> > +}
-> > +
->
-> --
-> Sincerely yours,
-> Mike.
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct attribute_group etm_pmu_format_group = {
+>  	.name   = "format",
+> +	.is_visible = etm_format_attr_is_visible,
+>  	.attrs  = etm_config_formats_attr,
+>  };
+>  
+> 
+> -- 
+> 2.34.1
+> 
