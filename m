@@ -1,294 +1,147 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B587635965;
-	Sat, 15 Nov 2025 00:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5514A21
+	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 00:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763167867; cv=none; b=kO/00L+Qh2yk3LY0D6Jdu+bY/yTRJKIqmry5FU1C0hEoFOjXrbybMqEtbKS8uldiY+eiCzE1429D+eqbWNBtzj9VY5FuBMWym7W4+vqcl9ZBWpYGGPalmHrHg1+QQHChvliePEJ4bbBLuA2kCifThNcdLZA3L9dBrd2PtQR18RM=
+	t=1763167979; cv=none; b=VdY98ZTSkvpKqPMIl3LNMd2qoOikWcqa/ZOKtRwnRrDxF5D14M5VboCyTj1Sc5kIbMFkemnp4SVdaxKDho34e5D7b++hjicrcc/JGbc4ri8eorbZhT6g7NdEnBpZqIY5RlgEwGr2/3QfzAp4OPMXSQj2ZvMRuU14fFOxGHlOm0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763167867; c=relaxed/simple;
-	bh=aqefILFOUIrEEApackFFjjdP8X5nkai2HWgKeE+rEQQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Nx8OlA+ujwX2kYqulqe1xyjB2SienTv3AdplDkNLtUiPyUl+TUtLxNx1AlzEG1J4Y6dcE7+DL6BR9VPKi3UgkAY7mQ1mGPac4DFT+F4QAH1883NEYlhvgwBgefKEVqVeRmfV/tdqEYkxmAO0qHPyeh0HQbPC0YTPF5V8bCrsWqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZCAG1Q6t; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1763167979; c=relaxed/simple;
+	bh=Zt6gL3AszafFvMRDqHPmrtZZuuPTg89Q67zHxC/2ZRw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=UvRjH/kEkr17GeLazUgG5dkd/umrAkmxGMshPFVlg1VbfhDrAB1/CcNwGPP57RmG3sarHFS3XYPlInWx5Psdwxoiw+vOIXjFa4S3NtVHPQj3Qxb1A3BRWBwOVhnEaug3bloDTrxMYq/ZN6KHN8v8OB6KqjaA8ZRbguVCpighyRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KssO1vHO; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZCAG1Q6t"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=6efD9iQJvX3NFWm6YJB3gkIa0ZRw9Zr3/scMoRJNGpQ=; b=ZCAG1Q6t3UHwM9nWNwAAEzO+Ki
-	rngkbpK22DZaHH5Rc1S92ou96jwafe6JRcBR0ZAEqh67VIrLkywcuthbY8cVdNdMOEFlvLJd7HrJz
-	wmibDDuD6yD5+kEiTXiaeerMkFArJJSRKqkPGUbxkJ2fIKPkhl62uFfXAwF9Bi1wOTBH6LnZ5s///
-	4FAhI7U9kNHm8jsBIDTkkNbvit6Ok4teKnaYVbhAcoKJyM4OX5CU0Vv7mcA/GcBqjci6jtKc1BWS6
-	gZEFD/e+KrucM71CjJ/ndATYR3fsjkdFFAD2vOnIxwgFSlsdg5Oo1KhVY4qtEsekuu2+iYTtHuqVe
-	dumuGCZw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vK4VG-0000000DItm-0Ter;
-	Sat, 15 Nov 2025 00:50:58 +0000
-Message-ID: <21b98e7a-93ae-451c-b7a1-e1468e8da0ca@infradead.org>
-Date: Fri, 14 Nov 2025 16:50:57 -0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KssO1vHO"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-34378c914b4so4275127a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 16:52:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1763167977; x=1763772777; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=U9SSTkCfK9gXlKFXxpFitF3UmgPFfqReOkQFg2JXAv8=;
+        b=KssO1vHOaxB0iZyyyzHkQoFSFHxdym+y7nD/4/2IFsnqBdOnGAozASkzlk5qsBgw7C
+         RmwOUA2hlrauPMZU7y6qzvx3oH0nQVwyOlRR4dtHb1DGJfxa74mWSDvQSd0nP99OM541
+         y/AObdqYNBmYLifTZK6m5T7SmHFHkoBjSjsXqhOo/rmxZ/IY5FU9xUOB5GYqa30liK8j
+         qWlYplMet9f7a+DBMVbcOUqGavFSUEGKdH/uzLku8KWKCBfIEITxraeKpX8bC8M+Gwpe
+         DmAWLVCjttbF2v0+6J5rGWFaQZyIjxhd0y3hI0YRIWLu87TVdDpUH835MdkjPQfQJzbA
+         E5PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763167977; x=1763772777;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U9SSTkCfK9gXlKFXxpFitF3UmgPFfqReOkQFg2JXAv8=;
+        b=KTohuKNw//WL6fxHyhR+a0fQ4ABqSZFwL/wn2/EeZGLdkkhAOxm1aNfayJoc2BTudw
+         EC3MzMNGXyg1W0/sGbkOvzABmriJcX3cE/6Nu+shxyI9rVGoP8ATPO8Uol2qYQen8oH5
+         z29U5qBfmPjFctFakSOgsaokEKq9kIf+bcLQGaRBegjvpnEimDouYvCee34ASwg0uDuB
+         HnttPLFhel4j6ex4nIGlRtqo92wIEN8r1r80Ba0G9TbheMUfUZCVzsFTaut/iDdAuFR5
+         PN07hEvJKSoAMXP8gSn7MLGWHEAIEQiSTfksri+JJ+X0ohnyAIF2553ILCL3XTWemO0C
+         7pxA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8EgfHl+fqZQeNJPaibBNvfgRaahUBGzzcKmmhyCd2T29FtYc1FIoZt9FhJic6AKBTT5gfLu8Vi5E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzATRbNmtHxJ82bB48Mc+Zt4FJkyAyRc+UW9qtycqiEdYVCbeX+
+	XB6wHhx3kHOaTeS6iDB2WFtJOK8R0n0hxGu94AvxtanGF/IIfVbQ3E6BDbbM5Ouz5w2Lg8iKrB5
+	Txs/OOs1X2LrkzrhzXY8BRxTf+A==
+X-Google-Smtp-Source: AGHT+IFQ6ztt0EQFHe4KI+3WuxtLaazXI8OcEuS0OZM8dxl+4bnHUaopiO2H4ku8y1VZu9JaoG1ZZurdE58bMYL0dA==
+X-Received: from pjbpm10.prod.google.com ([2002:a17:90b:3c4a:b0:340:a9b3:320c])
+ (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:3c89:b0:339:cece:a99 with SMTP id 98e67ed59e1d1-343f9eb3128mr5188244a91.13.1763167977228;
+ Fri, 14 Nov 2025 16:52:57 -0800 (PST)
+Date: Fri, 14 Nov 2025 16:52:55 -0800
+In-Reply-To: <aRG35j3OhMvQo85n@yzhao56-desk.sh.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kernel-doc: add support for handling global variables
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- Jani Nikula <jani.nikula@linux.intel.com>
-References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
- <d85e3f24-dbcd-4f28-b31f-a77661fc66fb@infradead.org>
- <20250909215824.1968220c@foz.lan>
- <5dc41508-43e8-4e80-b4e0-149af7bbdf19@infradead.org>
- <20250910010903.5388bffc@foz.lan>
- <0d190bf0-b9d4-4d5c-a1cc-6d5d79be3886@infradead.org>
- <656591ff-fa7d-4763-8759-0a0af3a4039a@infradead.org>
- <c195c68f-e815-4428-9134-8746198a4611@infradead.org>
- <20250910062323.059bb078@foz.lan>
- <14133b75-a984-4244-a18d-f02f0b81d1b7@infradead.org>
- <c5262290-38e3-4c48-af00-b91f03a065a8@infradead.org>
- <20250910105454.6a6c57e6@foz.lan>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250910105454.6a6c57e6@foz.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <cover.1760731772.git.ackerleytng@google.com> <a3795f7fb4f785ced19abe18c2f33aa478c4d202.1760731772.git.ackerleytng@google.com>
+ <aRG35j3OhMvQo85n@yzhao56-desk.sh.intel.com>
+Message-ID: <diqzzf8oazh4.fsf@google.com>
+Subject: Re: [RFC PATCH v1 06/37] KVM: guest_memfd: Update kvm_gmem_populate()
+ to use gmem attributes
+From: Ackerley Tng <ackerleytng@google.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: cgroups@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org, akpm@linux-foundation.org, 
+	binbin.wu@linux.intel.com, bp@alien8.de, brauner@kernel.org, 
+	chao.p.peng@intel.com, chenhuacai@kernel.org, corbet@lwn.net, 
+	dave.hansen@intel.com, dave.hansen@linux.intel.com, david@redhat.com, 
+	dmatlack@google.com, erdemaktas@google.com, fan.du@intel.com, fvdl@google.com, 
+	haibo1.xu@intel.com, hannes@cmpxchg.org, hch@infradead.org, hpa@zytor.com, 
+	hughd@google.com, ira.weiny@intel.com, isaku.yamahata@intel.com, jack@suse.cz, 
+	james.morse@arm.com, jarkko@kernel.org, jgg@ziepe.ca, jgowans@amazon.com, 
+	jhubbard@nvidia.com, jthoughton@google.com, jun.miao@intel.com, 
+	kai.huang@intel.com, keirf@google.com, kent.overstreet@linux.dev, 
+	liam.merwick@oracle.com, maciej.wieczor-retman@intel.com, 
+	mail@maciej.szmigiero.name, maobibo@loongson.cn, 
+	mathieu.desnoyers@efficios.com, maz@kernel.org, mhiramat@kernel.org, 
+	mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, mingo@redhat.com, 
+	mlevitsk@redhat.com, mpe@ellerman.id.au, muchun.song@linux.dev, 
+	nikunj@amd.com, nsaenz@amazon.es, oliver.upton@linux.dev, palmer@dabbelt.com, 
+	pankaj.gupta@amd.com, paul.walmsley@sifive.com, pbonzini@redhat.com, 
+	peterx@redhat.com, pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, 
+	qperret@google.com, richard.weiyang@gmail.com, rick.p.edgecombe@intel.com, 
+	rientjes@google.com, rostedt@goodmis.org, roypat@amazon.co.uk, 
+	rppt@kernel.org, seanjc@google.com, shakeel.butt@linux.dev, shuah@kernel.org, 
+	steven.price@arm.com, suzuki.poulose@arm.com, tabba@google.com, 
+	tglx@linutronix.de, thomas.lendacky@amd.com, vannapurve@google.com, 
+	vbabka@suse.cz, viro@zeniv.linux.org.uk, vkuznets@redhat.com, will@kernel.org, 
+	willy@infradead.org, wyihan@google.com, xiaoyao.li@intel.com, 
+	yilun.xu@intel.com, yuzenghui@huawei.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Yan Zhao <yan.y.zhao@intel.com> writes:
 
-I would still like to see this done. (more below)
+>>  #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_POPULATE
+>> +static bool kvm_gmem_range_is_private(struct gmem_inode *gi, pgoff_t index,
+>> +				      size_t nr_pages, struct kvm *kvm, gfn_t gfn)
+>> +{
+>> +	pgoff_t end = index + nr_pages - 1;
+>> +	void *entry;
+>> +
+>> +	if (vm_memory_attributes)
+>> +		return kvm_range_has_vm_memory_attributes(kvm, gfn, gfn + nr_pages,
+>> +						       KVM_MEMORY_ATTRIBUTE_PRIVATE,
+>> +						       KVM_MEMORY_ATTRIBUTE_PRIVATE);
+> Can't compile kvm_range_has_vm_memory_attributes() if
+> CONFIG_KVM_VM_MEMORY_ATTRIBUTES is not set.
 
-On 9/10/25 1:54 AM, Mauro Carvalho Chehab wrote:
+Thanks! I will fix this in the next revision.
 
 
-> Anyway, I did some changes at the code for it to better parse your
-> examples. I'm also storing two additional fields captured at parsing
-> time:
-> 
-> 1. full_proto: the prototype before any transformation;
-> 2. default_val: if not None, contains the initialized value.
-> 
-> Right now, I'm using only default_val ato output, but, with both,
-> we can play with printing them or not at kdoc_output logic.
-> 
-> Thanks,
-> Mauro
-> 
-> [PATCH v2] kernel-doc: add support for handling global variables
-> 
-> Specially on kAPI, sometimes it is desirable to be able to
-> describe global variables that are part of kAPI.
-> 
-> Documenting vars with Sphinx is simple, as we don't need
-> to parse a data struct. All we need is the variable
-> declaration and use natice C domain ::c:var: to format it
-> for us.
-> 
-> Add support for it.
-> 
-> Link: https://lore.kernel.org/linux-doc/491c3022-cef8-4860-a945-c9c4a3b63c09@infradead.org/T/#m947c25d95cb1d96a394410ab1131dc8e9e5013f1
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-> index 1eca9a918558..469f01a74724 100644
-> --- a/scripts/lib/kdoc/kdoc_output.py
-> +++ b/scripts/lib/kdoc/kdoc_output.py
-> @@ -199,6 +199,10 @@ class OutputFormat:
->              self.out_enum(fname, name, args)
->              return self.data
->  
-> +        if dtype == "global":
-> +            self.out_global(fname, name, args)
-> +            return self.data
-> +
->          if dtype == "typedef":
->              self.out_typedef(fname, name, args)
->              return self.data
-> @@ -227,6 +231,9 @@ class OutputFormat:
->      def out_enum(self, fname, name, args):
->          """Outputs an enum"""
->  
-> +    def out_global(self, fname, name, args):
-> +        """Outputs a global variable"""
-> +
->      def out_typedef(self, fname, name, args):
->          """Outputs a typedef"""
->  
-> @@ -472,6 +479,24 @@ class RestFormat(OutputFormat):
->          self.lineprefix = oldprefix
->          self.out_section(args)
->  
-> +    def out_global(self, fname, name, args):
-> +        oldprefix = self.lineprefix
-> +        ln = args.declaration_start_line
-> +        prototype = args.other_stuff["var_type"]
-> +
-> +        self.data += f"\n\n.. c:var:: {prototype}\n\n"
-> +
-> +        self.print_lineno(ln)
-> +        self.lineprefix = "  "
-> +        self.output_highlight(args.get('purpose', ''))
-> +        self.data += "\n"
-> +
-> +        if args.other_stuff["default_val"]:
-> +            self.data += f'{self.lineprefix}**Initialization**\n\n'
-> +            self.output_highlight(f'default: ``{args.other_stuff["default_val"]}``')
-> +
-> +        self.out_section(args)
-> +
->      def out_typedef(self, fname, name, args):
->  
->          oldprefix = self.lineprefix
-> @@ -772,6 +797,26 @@ class ManFormat(OutputFormat):
->              self.data += f'.SH "{section}"' + "\n"
->              self.output_highlight(text)
->  
-> +    def out_global(self, fname, name, args):
-> +        out_name = self.arg_name(args, name)
-> +        prototype = args.other_stuff["var_type"]
-> +
-> +        self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
-> +
-> +        self.data += ".SH NAME\n"
-> +        self.data += f"{prototype} \\- {args['purpose']}\n"
-> +
-> +        self.data += ".SH SYNOPSIS\n"
-> +        self.data += f"enum {name}" + " {\n"
-> +
-> +        if args.other_stuff["default_val"]:
-> +            self.data += f'.SH "Initialization"' + "\n"
-> +            self.output_highlight(f'default: {args.other_stuff["default_val"]}')
-> +
-> +        for section, text in args.sections.items():
-> +            self.data += f'.SH "{section}"' + "\n"
-> +            self.output_highlight(text)
-> +
->      def out_typedef(self, fname, name, args):
->          module = self.modulename
->          purpose = args.get('purpose')
-> diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
-> index 574972e1f741..93a2fcebec28 100644
-> --- a/scripts/lib/kdoc/kdoc_parser.py
-> +++ b/scripts/lib/kdoc/kdoc_parser.py
-> @@ -64,7 +64,7 @@ type_param = KernRe(r"@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
->  # Tests for the beginning of a kerneldoc block in its various forms.
->  #
->  doc_block = doc_com + KernRe(r'DOC:\s*(.*)?', cache=False)
-> -doc_begin_data = KernRe(r"^\s*\*?\s*(struct|union|enum|typedef)\b\s*(\w*)", cache = False)
-> +doc_begin_data = KernRe(r"^\s*\*?\s*(struct|union|enum|typedef|global)\b\s*(\w*)", cache = False)
->  doc_begin_func = KernRe(str(doc_com) +			# initial " * '
->                          r"(?:\w+\s*\*\s*)?" + 		# type (not captured)
->                          r'(?:define\s+)?' + 		# possible "define" (not captured)
-> @@ -886,6 +886,57 @@ class KernelDoc:
->          self.output_declaration('enum', declaration_name,
->                                  purpose=self.entry.declaration_purpose)
->  
-> +    def dump_global(self, ln, proto):
-> +        """
-> +        Stores global variables that are part of kAPI.
-> +        """
-> +        VAR_ATTRIBS = [
-> +            "extern",
-> +        ]
-> +        OPTIONAL_VAR_ATTR = "^(?:" + "|".join(VAR_ATTRIBS) + ")?"
-> +
-> +        sub_prefixes = [
-> +            (KernRe(r"__read_mostly"), ""),
-> +            (KernRe(r"__ro_after_init"), ""),
-> +            (KernRe(r"(?://.*)$"), ""),
-> +            (KernRe(r"(?:/\*.*\*/)"), ""),
-> +            (KernRe(r";$"), ""),
-> +        ]
-> +
-> +        #
-> +        # Store the full prototype before modifying it
-> +        #
-> +        full_proto = proto
-> +
-> +        #
-> +        # Drop comments and macros to have a pure C prototype
-> +        #
-> +        for search, sub in sub_prefixes:
-> +            proto = search.sub(sub, proto)
-> +
-> +        proto = proto.rstrip()
-> +
-> +        #
-> +        # Variable name is at the end of the declaration
-> +        #
-> +
-> +        r= KernRe(OPTIONAL_VAR_ATTR + r"\w.*\s+([\w_]+)\s*[\d\]\[]*\s*(=.*)?")
-> +        if not r.match(proto):
-> +           self.emit_msg(ln,f"{proto}: can't parse variable")
-> +           return
-> +
-> +        var_type = r.group(0)
-> +        declaration_name = r.group(1)
-> +        default_val = r.group(2)
-> +        if default_val:
-> +            default_val = default_val.lstrip("=").strip()
-> +
-> +        self.output_declaration("global", declaration_name,
-> +                                full_proto=full_proto,
-> +                                var_type=var_type,
-> +                                default_val=default_val,
-> +                                purpose=self.entry.declaration_purpose)
-> +
->      def dump_declaration(self, ln, prototype):
->          """
->          Stores a data declaration inside self.entries array.
-> @@ -897,6 +948,8 @@ class KernelDoc:
->              self.dump_typedef(ln, prototype)
->          elif self.entry.decl_type in ["union", "struct"]:
->              self.dump_struct(ln, prototype)
-> +        elif self.entry.decl_type == "global":
-> +            self.dump_global(ln, prototype)
->          else:
->              # This would be a bug
->              self.emit_message(ln, f'Unknown declaration type: {self.entry.decl_type}')
-> 
+We've been discussing HugeTLB support in the guest_memfd upstream calls
+and I'd like to add a quick follow up here, with code, for anyone who
+might be interested. Here's a WIP tree:
 
-The v2 patch certainly is better with the new regexes to ignore.
-I have a few minor changes that I would like to add (in a trivial patch below).
-And there are still a few cases that are not handled correctly.
-(see my kdoc-globals-test.patch from 9/9/2025)
+https://github.com/googleprodkernel/linux-cc/tree/wip-gmem-conversions-hugetlb-restructuring
 
-Also, changing to "var" instead of "global" is good IMO.
----
- scripts/lib/kdoc/kdoc_output.py |    2 +-
- scripts/lib/kdoc/kdoc_parser.py |    1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+This tree was based off kvm-next (as of 2025-10-08), and includes
 
---- linux-next-20251114.orig/scripts/lib/kdoc/kdoc_output.py
-+++ linux-next-20251114/scripts/lib/kdoc/kdoc_output.py
-@@ -808,7 +808,7 @@ class ManFormat(OutputFormat):
-         self.data += f"{prototype} \\- {args['purpose']}\n"
- 
-         self.data += ".SH SYNOPSIS\n"
--        self.data += f"enum {name}" + " {\n"
-+        self.data += f"{prototype}" + ";\n"
- 
-         if args.other_stuff["default_val"]:
-             self.data += f'.SH "Initialization"' + "\n"
---- linux-next-20251114.orig/scripts/lib/kdoc/kdoc_parser.py
-+++ linux-next-20251114/scripts/lib/kdoc/kdoc_parser.py
-@@ -939,6 +939,7 @@ class KernelDoc:
-             (KernRe(r"(?://.*)$"), ""),
-             (KernRe(r"(?:/\*.*\*/)"), ""),
-             (KernRe(r";$"), ""),
-+            (KernRe(r"=.*"), ""),
-         ]
- 
-         #
--- 
-~Randy
++ Mmap fixes from Sean
++ NUMA mempolicy support from Shivank Garg (AMD)
++ Some cleanup patches from Sean
++ Conversion series [1] with some cleanups (Thanks for the comments and
+  reviews on this series! Haven't had time to figure out all of it,
+  addressed some first)
++ st_blocks fix for guest_memfd, which was discussed at the guest_memfd
+  upstream call: slides [2]
++ HugeTLB support without conversion: this stage does not yet take into
+  account comments from the upstream call. This stage provides support
+  for HugeTLB to be used through guest_memfd for private memory. This
+  has to be used with the KVM parameter vm_memory_attributes set to
+  true. This stage can be used to test Yan's TDX huge page support by
+  setting up guest_memfd with HugeTLB just for private memory, with
+  shared memory being taken from elsewhere.
++ HugeTLB support with conversion and folio restructuring: this stage
+  also does not take into account comments from the upstream call, so it
+  still disables the INIT_SHARED flag, although HugeTLB can now be used
+  with in-place conversion for both shared and private memory. This can
+  be used to test Yan's TDX huge page support.
 
+[1] https://lore.kernel.org/all/cover.1760731772.git.ackerleytng@google.com/T/
+[2] https://lpc.events/event/18/contributions/1764/attachments/1409/3715/2025-10-30%20guest_memfd%20upstream%20call_%20guest_memfd%20HugeTLB%20support%20overview.pdf
