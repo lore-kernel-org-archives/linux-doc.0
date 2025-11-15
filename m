@@ -1,104 +1,109 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2865D296BC2
-	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 11:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176A2224AF0;
+	Sat, 15 Nov 2025 15:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763206972; cv=none; b=f2WljpeUSs/u/scjY9VXQAaGsrEuTWC8yfYlQk1QlRWE6k6PvMvOcyq9exp2abQcuffzhRBJKVXU480ldgBzb4a3skiyMmQEHBxuPoS0nRHmizWvMTkZ/fHK69MokwjuXZkD3VuJS1a78uP8SUIIIXTBRaNiyaTDjvinsgSd5ak=
+	t=1763221510; cv=none; b=mGMSran2WnoWuSpD0eOOdWbCKVHnyPJa3KPGdMJlPQbLbHRCcaocReUTuKECfpJOPLYzUJFDX3HBEULao3ZwtJMfftO6X3ORDD5LqkjInKKHGm8mNH2lMpXnghtD/p+4n2bjny+4/2ZjuToDfScmPs0xDLgSwlS+iCdVayb3qE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763206972; c=relaxed/simple;
-	bh=rFp/Xdva3jGM52uO5VTslo8C6wRd3X+KrevwjEi0We0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dWQkIrzB0sBCWQCFoenaSi7vkDgIehj6AvVAFtIL06MCBtPKBwI89+RQFJpMSLF1ZQ26A72JuA8iUwWIzAntp7xAFT2siHMYqPhK56M4/rw84+8bGxgT5y6pl7mERNltn1fP/TBXVt9HSTHynVm69ku6rcSxrLI/l+55oDauxv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q37oaH8M; arc=none smtp.client-ip=209.85.210.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763221510; c=relaxed/simple;
+	bh=Gyudq4S0PXURJ1G6M09B9etnlI7DjqgFnLsAvK6sZrQ=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=MnJ1vim0tt00Yg+ioyFppWTpuR+tAGgcjN2oi7kjDPbJjpFm1hXcppI7OWhFmDT5VkxDfl7l/Hq+jxIkQYx6C5Aj2hhIkI5n9mQAF2zpETbaLbb4zhyQW9RN1Xb/b6MgjNYP/hTgB7ewuuhszYYYI2Pyz8ad4cwCB8pHtgbKFlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=Cq3CwOBr; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q37oaH8M"
-Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-7b852bb31d9so3268049b3a.0
-        for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 03:42:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763206970; x=1763811770; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rFp/Xdva3jGM52uO5VTslo8C6wRd3X+KrevwjEi0We0=;
-        b=Q37oaH8MhnxabfHlWHdad4awYfOV7KRWBA3djkdSYx9BPDMG7t5IXe0mk143IBYqas
-         frjgGPIBEC8dAymC3aR1ZXH4LgHcF95HIBZzTgkG23iA0tYLfxYp1l0+gjbH5ez4vHxk
-         b6QCImleJtxeYctEZN9RE50gDS2XxbV2ZHahS4rvuOuhj+gJNU3zoQLhnYIYQnDErsFd
-         0MVgVVRO94cds5DYP3KB6oYAgUPc4FTQ7LKHT5O7xtXCWuQNJnEFC52qrEe8UApqqynE
-         VKhz0t3eKbUvpjfs359xshgSNigxTCVrjWLde/dO8vKdDYtFEQ9tw19BQai1Ym/vPfFW
-         3yLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763206970; x=1763811770;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rFp/Xdva3jGM52uO5VTslo8C6wRd3X+KrevwjEi0We0=;
-        b=UcD2w7xiiBSPAejvMILwQrQoyPbhiZysYYZIGFtMu/Uaa2jxrV/cHH1BEVpGTas6KU
-         4ZWWcUK/kyftFhO476BMvScQ4IySwxFzXZDv8uNBwXx0NOUBsoSg8ipkQMQgHGRitkOC
-         er3q2rjtSgvt9i7tLMvAnb512ly60RP7P8bdW3N/ILcTQcd+a+a9fLkk/YiiblF/OeVi
-         wptev5cFSTIXSx5iSTYnkidr1utS3StdQvLMGP6zaTRZa5ettVO6/hitqb8HfWXdukmT
-         7PEzsm3x2BVCSgJmSNNHBbHtqJQqd8lKr9q6XpYjF9gw3YcR7fOzYO4V5VG3Qx136h/3
-         RcXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVyovgOKqgM8f0aYSbYPZaV+nZHWkRGf1CQgbWnWw9synAY2bYH5m3JZ3snmJidUtka2pkPFYtLUQk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKVersNt/Ca6ITQY2xJ5LnpKw/lZefQa/o2LpHbT8IxUo/TiF3
-	xWW35iZFNvnZC8HjTSz/wUip6u8JP+DecmOk8o7WXPDWV5/BjbJykG2w
-X-Gm-Gg: ASbGncswquYhmWPQDIE/Rfz7jjesvQOr3iQ7sDcVsn3Q9rxNepU7YzQhg7/QNjB7uHS
-	GTbehzd/OsMO3PCmrUJIxniZZN+B/kl1cIWqGKrSZHlvFk0Pyfn4qYHtgyQL6lLYU7D95hvmWiV
-	hV6fmLRrhl5iJU1Xw0sW8qo2dK8fz2UTWV6y3K6/5IzA95UzpdnXr0tmW2etWoAYnHCJoKM34MW
-	PHYiprBfdF0J4ff942TjKjwlXCfvat7/yXRv4mdVsBoODMnE6RGQtzX0A/1FFpQnbU1S/OiWwZ3
-	Qk7+ZQqhNCjD2CBa90CSeGQN5v6ltd8H/tOZSSyDgOvSIZmHuCUpflowTQKE9tUneZV/JfJ2fal
-	nvnhZ2T5JKNBNesLiqMIW3QN9VP1pZaK26BU34zW8ZhYlhpS91NgpEaqEQjdLanPn7thJU9XAaZ
-	GWjqBsZPSKdWYJnKkdeAX3Pt/Otv2cQab3aKVRk/ru
-X-Google-Smtp-Source: AGHT+IEAG2AbkEWEgsSkZu+MuSB+v5gfeMLkTTWEBMu2OjiTHCx/hYVcdA04MxhoZG6sPEBcfl+3xg==
-X-Received: by 2002:a62:e715:0:b0:7aa:9723:3217 with SMTP id d2e1a72fcca58-7ba3bb8ed77mr5901432b3a.25.1763206970351;
-        Sat, 15 Nov 2025 03:42:50 -0800 (PST)
-Received: from fedora ([103.120.31.122])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b921cb6f44sm7982772b3a.0.2025.11.15.03.42.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Nov 2025 03:42:49 -0800 (PST)
-From: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
-Subject: [PATCH] docs: parse-headers.rst: Fix a typo
-Date: Sat, 15 Nov 2025 17:12:33 +0530
-Message-ID: <20251115114233.32239-1-ankitkhushwaha.linux@gmail.com>
-X-Mailer: git-send-email 2.51.1
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="Cq3CwOBr"
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id EFB6B25F6C;
+	Sat, 15 Nov 2025 16:45:03 +0100 (CET)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id DsCnIKgPNtPw; Sat, 15 Nov 2025 16:45:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1763221503; bh=Gyudq4S0PXURJ1G6M09B9etnlI7DjqgFnLsAvK6sZrQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Cq3CwOBrBz8UtUgIqT3ZyZIeqpI6ItiBbXnl7RML0b/SPP+jmtZ9s/pDm6P6CW1nd
+	 Nso0e7QvwFm3grc0NnozIg8YAnHtdt8WqXsMdlDO9zzYCK4axH2vknnNNDB5kN0NJS
+	 y9vdojWjFuDOtiO4KWZDIlB2t3rKxLtWvTz/DoKgbBkN+UTdKP21cVlUsqFXCZaSS1
+	 ttFE/K6+m9Ei1m8LfJkCIY5vcyY4Q7erdBl/ySUfwRO0I1ddroz5UETu5TVbyqBuWR
+	 2XQdvcZZ8702F4KDbcfHcuJ54P1Drdt7dqhNRodAfFEtv7At9gRrSKgH5NtGKFEjcQ
+	 0PKfI9u1xOjlA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Date: Sat, 15 Nov 2025 15:45:02 +0000
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Lee Jones
+ <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo Choi
+ <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 06/13] mfd: sec-irq: add support for creating multiple IRQ
+ chips
+In-Reply-To: <6479a8d84052b326ffeb5609959aaf3a1aac9ff8.camel@linaro.org>
+References: <20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org>
+ <20251114-s2mu005-pmic-v1-6-9e3184d3a0c9@disroot.org>
+ <20251114075004a444bff0@mail.local>
+ <6479a8d84052b326ffeb5609959aaf3a1aac9ff8.camel@linaro.org>
+Message-ID: <efb5bdb045116ef467cdfa64b09d309f@disroot.org>
+X-Sender: kauschluss@disroot.org
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Replace "vantage" with "advantage" in the description of userspace API
-cross-references.
+On 2025-11-14 11:55, André Draszik wrote:
+> On Fri, 2025-11-14 at 08:50 +0100, Alexandre Belloni wrote:
+>> On 14/11/2025 00:35:07+0530, Kaustabh Chakraborty wrote:
+>> > The current state of the driver only allows creating only one IRQ chip
+>> > per PMIC. On some PMICs, such as Samsung's S2MU005, there are multiple
+>> > interrupt blocks, for which the current implementation stands insufficient.
+>> > 
+>> > Add support for creating multiple IRQ chips for a PMIC. Every IRQ chip is
+>> > given it's own index, which is used by sub-device drivers to request IRQs.
+>> > 
+>> > A macro is defined which states the maximum number of chips supported.
+>> > It's set to 1 as currently, no PMIC requires more than one IRQ chip. The
+>> > value must be changed accordingly on adding new PMICs requiring multiple
+>> > IRQ chips.
+>> > 
+>> > Moreover, adjust the s5m RTC driver to initialize IRQs with the
+>> > appropriate IRQ chip index.
+>> > 
+>> > Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+>> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+>> 
+>> > ---
+>> >  drivers/mfd/sec-irq.c            | 163 +++++++++++++++++++++++----------------
+>> >  drivers/rtc/rtc-s5m.c            |  15 +++-
+>> >  include/linux/mfd/samsung/core.h |   5 +-
+>> >  include/linux/mfd/samsung/irq.h  |  14 ++++
+>> >  4 files changed, 127 insertions(+), 70 deletions(-)
+> 
+> Your patch reminded me to finally send
+> https://lore.kernel.org/all/20251114-s5m-alarm-v1-0-c9b3bebae65f@linaro.org/
+> 
+> If applied first, you wouldn't need to touch rtc-s5m.c I believe.
 
-Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
----
- Documentation/doc-guide/parse-headers.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Oo, this cleans things up greatly!
 
-diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
-index bd34a6d00ca9..a7bb01ff04eb 100644
---- a/Documentation/doc-guide/parse-headers.rst
-+++ b/Documentation/doc-guide/parse-headers.rst
-@@ -5,7 +5,7 @@ Including uAPI header files
- Sometimes, it is useful to include header files and C example codes in
- order to describe the userspace API and to generate cross-references
- between the code and the documentation. Adding cross-references for
--userspace API files has an additional vantage: Sphinx will generate warnings
-+userspace API files has an additional advantage: Sphinx will generate warnings
- if a symbol is not found at the documentation. That helps to keep the
- uAPI documentation in sync with the Kernel changes.
- The :ref:`parse_headers.py <parse_headers>` provides a way to generate such
---
-2.51.1
+> 
+> Equally, I can rebase mine on top of yours - no strong feelings.
 
+I will wait for your series to be applied. Your series is much shorter,
+so wouldn't hold that back for this. :)
+
+> 
+> Cheers,
+> Andre'
