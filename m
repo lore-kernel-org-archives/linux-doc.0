@@ -1,65 +1,65 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACFEC30CDB8
-	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 23:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A6830DEB7
+	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 23:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763249696; cv=none; b=fxDY0A7fkitLR1Ouk1B29I6Svu+d/EyoI33iBMS+gs/jDqLOWcvkcwgZOhL95hlBhW66bSwpHGHUOeGL9j8T9GiMG+ZKPAD2yxHNPvgfed1/QiZXfWgc1Hi6IUvRZ+z77/lwbh5XWw1AjGp4BmzOfT2YmP+EkHpZbtpMzhKg/8M=
+	t=1763249699; cv=none; b=JgT0z0nIt6wwYQzuzyupoylzdYzSLm/osHzb2pJ4ESS6e6RKkwNt0XmGq+06hYwATJ294tpCdi4gzMZ5AOmbilIQNEB0iceRU/p2hrq48S2Nc15SnkXQo8J1KCbXmKPD3/ulbfRVAIFvcdElruoFJ2g+7oXZUrT2fOFTCCfvhVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763249696; c=relaxed/simple;
-	bh=+YFBbFQk/pljCds7647Fxp82ZFn05Nv50R3d1fopj7I=;
+	s=arc-20240116; t=1763249699; c=relaxed/simple;
+	bh=3LgFVG3WGye/XbBR8rtyEtDV89N7U1RgNovIzVAnT8c=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qQib4xcc2jxHwUrtrSSNoIHz9B6HWCMcvZ/W+of5g8QxbdqT1QQjzkKSM+qjHTTsbnFFr910n2WGhyB+1JhUlcxr5feoHX7YHuK8rA9Rs5/Wdu7ZlMWDWRyFjSsrxyxIHNxsdshT23aTyMjCLq4UrXgKuA7heogamNc1Nnr47HA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=kavQ4cgR; arc=none smtp.client-ip=209.85.128.173
+	 MIME-Version; b=cq94rFfR5W9/yiY3EEu+WHStCoQaMtfuYG7qYucd3wI20zsZpSxvWTOfylQyDBkXUBTG+OMEGNxEnykV5TCjBtmRnsLE5Yx6QieOpxuOxvEtcAxB9m8vxYrX3WJLSw+QW5ljZW7vVyi6Crs6pGEid/Dv4GT/co4XP5CfccG2Ovo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=F+5BhBuL; arc=none smtp.client-ip=74.125.224.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="kavQ4cgR"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-786d1658793so28974387b3.1
-        for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 15:34:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="F+5BhBuL"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-63f9beb2730so2493158d50.0
+        for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 15:34:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763249692; x=1763854492; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763249696; x=1763854496; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=z3RLZovbFwtP/RQUp1nppbVtzQW85hwtf6RrGKSmtoo=;
-        b=kavQ4cgRiDe70/0KQ10aV+2vSN5+px1/Jp8jJudsEI08VuCW38hmt9HME3bsiyNmH+
-         j5UX+PvRWJ2CNjpNip2Ag0m+pgJcffo5c6tW+NSRWZMh6Kwnj4h7LUET23FHSUyTHS3s
-         j95vEL+6NKbKnWzf5jRpCKzHPdG9MtuPo5cXJ+VAwhCqHPY42M14sTAo2u+bYHb6EYph
-         +Xa6gxxU1U+HZuj8ye69yBBIcUX3hQILMJ1JqVtsQliEzlgfYrD1qolV04eOoItEMivM
-         DF+CoUxVARkXhDaSyShiZBGn3Fk+PUiQvDa7fXNR042cMMaMTjM3MKJ/Qc1rVi1N0oTt
-         DSNA==
+        bh=f5S0vcOaGPBc/xPnnYkmK3BuBrLvlvg5l9MZinPrpq0=;
+        b=F+5BhBuLgzB/En5elX2EfYQ15gFDywalmOJ2l9iWyePdjKHpor84l4UB7BGPbg2a2W
+         LtK/juj5dZlr7sABmaedc1MGNRceFja7wyGvVYpCTxNWxVJsskTIzEaQo5GDpe2pVZrj
+         Cv8pwblkrjDOGttDgupSz1qNuM6YRSMRrsWgxHKono2x5rqLwLHqBFU93azUwQe76We2
+         4M8rSFJT205sLox70IRof6RNzN3M7bM3ph28M4Lj1CQL/X6uqHdv3S0dSh7RRCJqqpF3
+         g8AKjdOkQS8qmYWopriCA7Nf4T1V++Jv0eNqEJE6d/t1MxZr6OxCuKHSCh00tLDJf0WM
+         W7mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763249692; x=1763854492;
+        d=1e100.net; s=20230601; t=1763249696; x=1763854496;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=z3RLZovbFwtP/RQUp1nppbVtzQW85hwtf6RrGKSmtoo=;
-        b=tfAy1jmnFEES1i8H6hb0C1UabXGyh+/N+dwybtT8y10uaBkLX1manV6Y/x1Kr7OvPy
-         6AXoEPiQA0Peal4J6FPAMjzhrHIRYWoOsbY+rCvde+h15B3Ym0y9GyMBzIs451Uv36UG
-         9jfWF66EchL2uMxK6o300V/xzA+SxcRX2owslBxCcZrxs51cBLtBV1nVR73oiZggt/+A
-         gc2CWjnHBnaCiRaTCaywLZcXZ9VdI0KcB+3n3QmsqgpZPfNk93Eqw/DO279wQCWY93YR
-         ALG4aMJ6TW+b4jOc9HKYZX0JnRX413UuP5I1Hl6kBgd8Yu8DWvYb3rm+wiuoqHWrD6YN
-         bxxA==
-X-Forwarded-Encrypted: i=1; AJvYcCWSJERZn0+8vxzsTMNMs+WFE32231JOorAxs3XwZ/GuWsLweVhbPNpX72P6Aoj+lOAI3pHscKDhRG8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKQYaKpW0nWeSS4092w+al7h6lBzdwlSwwn+bCfttajQI5/9Ir
-	mk6t96wOypHwXUAgOtQFY8UM8sSiiAgg8SI3DKaEyVWf6fbA4grctH3C6LQicyjoCpc=
-X-Gm-Gg: ASbGncv+Chkqf5itauqGil5/E5I7IpQCthbAK+z6VpVF4EgtlsFRIs78m/AFj7jaX2D
-	Yf7BhXym5zJjOaoeXPnlwaI2XT+TxTytY13v2Mr62QQmNcBUckQkaEqKRjKwuWUgSFTLLNnw+69
-	BlAfWCRZMPbzkv3kkNiDbaKjh7KBiyS36GW7XRGUaRb1nEROVRz7pJRr4+ujMaZEjVO0KvmQRrC
-	2t3TYHg+86bLVsHNlXIhlogWGY5oa7LYgdu8nUPW5pnOwbvJqz37gUTCWaSbSa7Sm/R9NL4gP3m
-	uYvqNMDxIQsUl0DtcM3AQxIfPl+GirMvpizJDL/qCP3PDRfSCE7sXFDgcm8Y+sKE4Ro6bQ2hmyV
-	V3CBYhjmpN3xd+ubhDmHqxWmmL6cAJTpqAOfjujb4cx113ZAD9jIYywHqqtISGwkT389G5cIhXO
-	9WluVARn0FJmyBZcYjHTIxM/RgHh5AO+7pSj5dQNKTvL4zEXnbFC9/KjoMFGPWPpMKMoEHW0umO
-	t+BoP4=
-X-Google-Smtp-Source: AGHT+IEDxucBxDV7YhPudgcf2ZpiZXeOBbuMtqu2QzxZIMkFxtD61LYMfKmQVcLo/cvXLlT/NQ5m9g==
-X-Received: by 2002:a05:690c:30f:b0:786:8331:6a02 with SMTP id 00721157ae682-78929f40ac0mr137517487b3.69.1763249691460;
-        Sat, 15 Nov 2025 15:34:51 -0800 (PST)
+        bh=f5S0vcOaGPBc/xPnnYkmK3BuBrLvlvg5l9MZinPrpq0=;
+        b=iA7pa2XodUG0aA6FaqkuezJWJLz+tWP7r8dMjS+ne41Gcpdigw+4sGPdXMUCP25GYA
+         25S4DKln0YYnbqWehknlK61T0VaL4ufNhTpsIRzxxycYau8Z8iQouoIfP1keueSBhxn1
+         qqjxYir/ZR2x15UQqrqsNOr+ZiWDak6Oy/U9WsfT3RYLj2FfJAFQEKEPIudopUzuyhvQ
+         tMz5JJXnh6YEiCgwfpqounMvcx/1R7mdSSALIdxxabYnjtjD3BYD4o5D+IXGmuLz8LLz
+         43h008oZTeOcSc7MbUaUnYx4TlTi03J02+S3YbNnadjqG0dTPxaIZnQBCdY1jnQzc7rt
+         jpUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVrjrjsCuoFdVU+KUwqWNmK/FqgOUygA+lyUUJiamVWX1Uj57SmLt6xbcnDkR02CZM5sBceJiZA5mg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCb1wbglc2lnWsunoWBGwzEbnB2cEpS1EHrXQUr4RL1F/rPXuw
+	YzYfS3MMSuk/J7VWeySvFwMfkkIImvh/hovd6Bd+c4P07p0WO53vDC7G/slJGkWVt5o=
+X-Gm-Gg: ASbGncvEV6qulU8ll/Y4OXbfmIAnar5Czj6A+RM9fnTQIsH2TInpK3R8v6KSf09BmT8
+	DTb/oANL4OAJoQPw14G8V2ZCqijlgWJOmxMZIOE+YpBuWX1k/VKjwjxWXF6vQ3w89BMw/UPv3mj
+	cjuSvRBIH4VvVdTqiweAC8a1K0upfseuxWzmcjhCNqLs5dHZfLn9y4rCud4fxcDpdimlLjwpzuS
+	fpJVYFpQ0CK08+DaTSXMYV4p/+6mGbb7Wmui+wvRaDB1ZLTqEwl2tz4rR8xs1+a3sDuxemz2WVT
+	loUHejnp2Nx4oeJVduJ8yEuWU1cPz6tSADk99/o5wV4sBFTKE9PWm8TgN97dWQokReUz+br5Ck2
+	tmPcFSlBpfx4C+V71Yqfkk4icLa1PfZp2bqfnSvFp4hORMLwf+U7o0B1pvCcgqfViNVHLvDvZBE
+	WVFAuUl5w+aTHJMmD/MVl5NltIZhqW/TgbmQYLoQmyAgOGu2lIaDxCcXCfHRNpsxQ6xO3JpQgn5
+	YZW1qs=
+X-Google-Smtp-Source: AGHT+IGi+GT9ZHanKi9MAwv46wj31I6UW4wvg+DCMOJo43hhLaMJSMVLxpTF87yQuYFejJEJXTbohQ==
+X-Received: by 2002:a53:b10e:0:b0:63f:a228:1859 with SMTP id 956f58d0204a3-641e75ef062mr5298448d50.38.1763249695703;
+        Sat, 15 Nov 2025 15:34:55 -0800 (PST)
 Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7882218774esm28462007b3.57.2025.11.15.15.34.49
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7882218774esm28462007b3.57.2025.11.15.15.34.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Nov 2025 15:34:51 -0800 (PST)
+        Sat, 15 Nov 2025 15:34:55 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -134,9 +134,9 @@ To: pratyush@kernel.org,
 	hughd@google.com,
 	skhawaja@google.com,
 	chrisl@kernel.org
-Subject: [PATCH v6 15/20] mm: memfd_luo: allow preserving memfd
-Date: Sat, 15 Nov 2025 18:34:01 -0500
-Message-ID: <20251115233409.768044-16-pasha.tatashin@soleen.com>
+Subject: [PATCH v6 17/20] selftests/liveupdate: Add userspace API selftests
+Date: Sat, 15 Nov 2025 18:34:03 -0500
+Message-ID: <20251115233409.768044-18-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
 In-Reply-To: <20251115233409.768044-1-pasha.tatashin@soleen.com>
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
@@ -148,851 +148,462 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Pratyush Yadav <ptyadav@amazon.de>
+Introduce a selftest suite for LUO. These tests validate the core
+userspace-facing API provided by the /dev/liveupdate device and its
+associated ioctls.
 
-The ability to preserve a memfd allows userspace to use KHO and LUO to
-transfer its memory contents to the next kernel. This is useful in many
-ways. For one, it can be used with IOMMUFD as the backing store for
-IOMMU page tables. Preserving IOMMUFD is essential for performing a
-hypervisor live update with passthrough devices. memfd support provides
-the first building block for making that possible.
+The suite covers fundamental device behavior, session management, and
+the file preservation mechanism using memfd as a test case. This
+provides regression testing for the LUO uAPI.
 
-For another, applications with a large amount of memory that takes time
-to reconstruct, reboots to consume kernel upgrades can be very
-expensive. memfd with LUO gives those applications reboot-persistent
-memory that they can use to quickly save and reconstruct that state.
+The following functionality is verified:
 
-While memfd is backed by either hugetlbfs or shmem, currently only
-support on shmem is added. To be more precise, support for anonymous
-shmem files is added.
+Device Access:
+	Basic open and close operations on /dev/liveupdate.
+	Enforcement of exclusive device access (verifying EBUSY on a
+	second open).
 
-The handover to the next kernel is not transparent. All the properties
-of the file are not preserved; only its memory contents, position, and
-size. The recreated file gets the UID and GID of the task doing the
-restore, and the task's cgroup gets charged with the memory.
+Session Management:
+	Successful creation of sessions with unique names.
+	Failure to create sessions with duplicate names.
 
-Once preserved, the file cannot grow or shrink, and all its pages are
-pinned to avoid migrations and swapping. The file can still be read from
-or written to.
+File Preservation:
+	Preserving a single memfd and verifying its content remains
+	intact post-preservation.
+	Preserving multiple memfds within a single session, each with
+	unique data.
+	A complex scenario involving multiple sessions, each containing
+	a mix of empty and data-filled memfds.
 
-Use vmalloc to get the buffer to hold the folios, and preserve
-it using kho_preserve_vmalloc(). This doesn't have the size limit.
+Note: This test suite is limited to verifying the pre-kexec
+functionality of LUO (e.g., session creation, file preservation).
+The post-kexec restoration of resources is not covered, as the kselftest
+framework does not currently support orchestrating a reboot and
+continuing execution in the new kernel.
 
-Co-developed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
 ---
- MAINTAINERS                          |   2 +
- include/linux/liveupdate/abi/memfd.h |  88 ++++
- mm/Makefile                          |   1 +
- mm/memfd_luo.c                       | 671 +++++++++++++++++++++++++++
- 4 files changed, 762 insertions(+)
- create mode 100644 include/linux/liveupdate/abi/memfd.h
- create mode 100644 mm/memfd_luo.c
+ MAINTAINERS                                   |   1 +
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/liveupdate/.gitignore |   1 +
+ tools/testing/selftests/liveupdate/Makefile   |   7 +
+ tools/testing/selftests/liveupdate/config     |   5 +
+ .../testing/selftests/liveupdate/liveupdate.c | 348 ++++++++++++++++++
+ 6 files changed, 363 insertions(+)
+ create mode 100644 tools/testing/selftests/liveupdate/.gitignore
+ create mode 100644 tools/testing/selftests/liveupdate/Makefile
+ create mode 100644 tools/testing/selftests/liveupdate/config
+ create mode 100644 tools/testing/selftests/liveupdate/liveupdate.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index bc9f5c6f0e80..ad9fee6dc605 100644
+index 6ffe4425adbf..5a1ed783de20 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -14466,6 +14466,7 @@ F:	tools/testing/selftests/livepatch/
- 
- LIVE UPDATE
- M:	Pasha Tatashin <pasha.tatashin@soleen.com>
-+R:	Pratyush Yadav <pratyush@kernel.org>
- L:	linux-kernel@vger.kernel.org
- S:	Maintained
- F:	Documentation/core-api/liveupdate.rst
-@@ -14474,6 +14475,7 @@ F:	include/linux/liveupdate.h
- F:	include/linux/liveupdate/
+@@ -14477,6 +14477,7 @@ F:	include/linux/liveupdate/
  F:	include/uapi/linux/liveupdate.h
  F:	kernel/liveupdate/
-+F:	mm/memfd_luo.c
+ F:	mm/memfd_luo.c
++F:	tools/testing/selftests/liveupdate/
  
  LLC (802.2)
  L:	netdev@vger.kernel.org
-diff --git a/include/linux/liveupdate/abi/memfd.h b/include/linux/liveupdate/abi/memfd.h
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index c46ebdb9b8ef..56e44a98d6a5 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -54,6 +54,7 @@ TARGETS += kvm
+ TARGETS += landlock
+ TARGETS += lib
+ TARGETS += livepatch
++TARGETS += liveupdate
+ TARGETS += lkdtm
+ TARGETS += lsm
+ TARGETS += membarrier
+diff --git a/tools/testing/selftests/liveupdate/.gitignore b/tools/testing/selftests/liveupdate/.gitignore
 new file mode 100644
-index 000000000000..bf848e5bd1de
+index 000000000000..af6e773cf98f
 --- /dev/null
-+++ b/include/linux/liveupdate/abi/memfd.h
-@@ -0,0 +1,88 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Copyright (c) 2025, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ *
-+ * Copyright (C) 2025 Amazon.com Inc. or its affiliates.
-+ * Pratyush Yadav <ptyadav@amazon.de>
-+ */
-+
-+#ifndef _LINUX_LIVEUPDATE_ABI_MEMFD_H
-+#define _LINUX_LIVEUPDATE_ABI_MEMFD_H
-+
-+/**
-+ * DOC: memfd Live Update ABI
-+ *
-+ * This header defines the ABI for preserving the state of a memfd across a
-+ * kexec reboot using the LUO.
-+ *
-+ * The state is serialized into a Flattened Device Tree which is then handed
-+ * over to the next kernel via the KHO mechanism. The FDT is passed as the
-+ * opaque `data` handle in the file handler callbacks.
-+ *
-+ * This interface is a contract. Any modification to the FDT structure,
-+ * node properties, compatible string, or the layout of the serialization
-+ * structures defined here constitutes a breaking change. Such changes require
-+ * incrementing the version number in the MEMFD_LUO_FH_COMPATIBLE string.
-+ *
-+ * FDT Structure Overview:
-+ *   The memfd state is contained within a single FDT with the following layout:
-+ *
-+ *   .. code-block:: none
-+ *
-+ *     / {
-+ *         pos = <...>;
-+ *         size = <...>;
-+ *         nr_folios = <...>;
-+ *         folios = < ... binary data ... >;
-+ *     };
-+ *
-+ *   Node Properties:
-+ *     - pos: u64
-+ *       The file's current position (f_pos).
-+ *     - size: u64
-+ *       The total size of the file in bytes (i_size).
-+ *     - nr_folios: u64
-+ *       Number of folios in folios array. Only present when size > 0.
-+ *     - folios: struct kho_vmalloc
-+ *       KHO vmalloc preservation for an array of &struct memfd_luo_folio_ser,
-+ *       one for each preserved folio from the original file's mapping. Only
-+ *       present when size > 0.
-+ */
-+
-+/**
-+ * struct memfd_luo_folio_ser - Serialized state of a single folio.
-+ * @foliodesc: A packed 64-bit value containing both the PFN and status flags of
-+ *             the preserved folio. The upper 52 bits store the PFN, and the
-+ *             lower 12 bits are reserved for flags (e.g., dirty, uptodate).
-+ * @index:     The page offset (pgoff_t) of the folio within the original file's
-+ *             address space. This is used to correctly position the folio
-+ *             during restoration.
-+ *
-+ * This structure represents the minimal information required to restore a
-+ * single folio in the new kernel. An array of these structs forms the binary
-+ * data for the "folios" property in the handover FDT.
-+ */
-+struct memfd_luo_folio_ser {
-+	u64 foliodesc;
-+	u64 index;
-+};
-+
-+/* The strings used for memfd KHO FDT sub-tree. */
-+
-+/* 64-bit pos value for the preserved memfd */
-+#define MEMFD_FDT_POS		"pos"
-+
-+/* 64-bit size value of the preserved memfd */
-+#define MEMFD_FDT_SIZE		"size"
-+
-+#define MEMFD_FDT_FOLIOS	"folios"
-+
-+/* Number of folios in the folios array. */
-+#define MEMFD_FDT_NR_FOLIOS	"nr_folios"
-+
-+/* The compatibility string for memfd file handler */
-+#define MEMFD_LUO_FH_COMPATIBLE	"memfd-v1"
-+
-+#endif /* _LINUX_LIVEUPDATE_ABI_MEMFD_H */
-diff --git a/mm/Makefile b/mm/Makefile
-index 21abb3353550..7738ec416f00 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -100,6 +100,7 @@ obj-$(CONFIG_NUMA) += memory-tiers.o
- obj-$(CONFIG_DEVICE_MIGRATION) += migrate_device.o
- obj-$(CONFIG_TRANSPARENT_HUGEPAGE) += huge_memory.o khugepaged.o
- obj-$(CONFIG_PAGE_COUNTER) += page_counter.o
-+obj-$(CONFIG_LIVEUPDATE) += memfd_luo.o
- obj-$(CONFIG_MEMCG_V1) += memcontrol-v1.o
- obj-$(CONFIG_MEMCG) += memcontrol.o vmpressure.o
- ifdef CONFIG_SWAP
-diff --git a/mm/memfd_luo.c b/mm/memfd_luo.c
++++ b/tools/testing/selftests/liveupdate/.gitignore
+@@ -0,0 +1 @@
++/liveupdate
+diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/testing/selftests/liveupdate/Makefile
 new file mode 100644
-index 000000000000..4c1d16db2cff
+index 000000000000..2a573c36016e
 --- /dev/null
-+++ b/mm/memfd_luo.c
-@@ -0,0 +1,671 @@
++++ b/tools/testing/selftests/liveupdate/Makefile
+@@ -0,0 +1,7 @@
++# SPDX-License-Identifier: GPL-2.0-only
++CFLAGS += -Wall -O2 -Wno-unused-function
++CFLAGS += $(KHDR_INCLUDES)
++
++TEST_GEN_PROGS += liveupdate
++
++include ../lib.mk
+diff --git a/tools/testing/selftests/liveupdate/config b/tools/testing/selftests/liveupdate/config
+new file mode 100644
+index 000000000000..c0c7e7cc484e
+--- /dev/null
++++ b/tools/testing/selftests/liveupdate/config
+@@ -0,0 +1,5 @@
++CONFIG_KEXEC_FILE=y
++CONFIG_KEXEC_HANDOVER=y
++CONFIG_KEXEC_HANDOVER_DEBUGFS=y
++CONFIG_KEXEC_HANDOVER_DEBUG=y
++CONFIG_LIVEUPDATE=y
+diff --git a/tools/testing/selftests/liveupdate/liveupdate.c b/tools/testing/selftests/liveupdate/liveupdate.c
+new file mode 100644
+index 000000000000..c2878e3d5ef9
+--- /dev/null
++++ b/tools/testing/selftests/liveupdate/liveupdate.c
+@@ -0,0 +1,348 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
 +/*
 + * Copyright (c) 2025, Google LLC.
 + * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ *
-+ * Copyright (C) 2025 Amazon.com Inc. or its affiliates.
-+ * Pratyush Yadav <ptyadav@amazon.de>
 + */
 +
-+/**
-+ * DOC: Memfd Preservation via LUO
++/*
++ * Selftests for the Live Update Orchestrator.
++ * This test suite verifies the functionality and behavior of the
++ * /dev/liveupdate character device and its session management capabilities.
 + *
-+ * Overview
-+ * ========
-+ *
-+ * Memory file descriptors (memfd) can be preserved over a kexec using the Live
-+ * Update Orchestrator (LUO) file preservation. This allows userspace to
-+ * transfer its memory contents to the next kernel after a kexec.
-+ *
-+ * The preservation is not intended to be transparent. Only select properties of
-+ * the file are preserved. All others are reset to default. The preserved
-+ * properties are described below.
-+ *
-+ * .. note::
-+ *    The LUO API is not stabilized yet, so the preserved properties of a memfd
-+ *    are also not stable and are subject to backwards incompatible changes.
-+ *
-+ * .. note::
-+ *    Currently a memfd backed by Hugetlb is not supported. Memfds created
-+ *    with ``MFD_HUGETLB`` will be rejected.
-+ *
-+ * Preserved Properties
-+ * ====================
-+ *
-+ * The following properties of the memfd are preserved across kexec:
-+ *
-+ * File Contents
-+ *   All data stored in the file is preserved.
-+ *
-+ * File Size
-+ *   The size of the file is preserved. Holes in the file are filled by
-+ *   allocating pages for them during preservation.
-+ *
-+ * File Position
-+ *   The current file position is preserved, allowing applications to continue
-+ *   reading/writing from their last position.
-+ *
-+ * File Status Flags
-+ *   memfds are always opened with ``O_RDWR`` and ``O_LARGEFILE``. This property
-+ *   is maintained.
-+ *
-+ * Non-Preserved Properties
-+ * ========================
-+ *
-+ * All properties which are not preserved must be assumed to be reset to
-+ * default. This section describes some of those properties which may be more of
-+ * note.
-+ *
-+ * ``FD_CLOEXEC`` flag
-+ *   A memfd can be created with the ``MFD_CLOEXEC`` flag that sets the
-+ *   ``FD_CLOEXEC`` on the file. This flag is not preserved and must be set
-+ *   again after restore via ``fcntl()``.
-+ *
-+ * Seals
-+ *   File seals are not preserved. The file is unsealed on restore and if
-+ *   needed, must be sealed again via ``fcntl()``.
++ * Tests include:
++ * - Device access: basic open/close, and enforcement of exclusive access.
++ * - Session management: creation of unique sessions, and duplicate name detection.
++ * - Resource preservation: successfully preserving individual and multiple memfds,
++ *   verifying contents remain accessible.
++ * - Complex multi-session scenarios involving mixed empty and populated files.
 + */
 +
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++#include <errno.h>
++#include <fcntl.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <unistd.h>
 +
-+#include <linux/bits.h>
-+#include <linux/err.h>
-+#include <linux/file.h>
-+#include <linux/io.h>
-+#include <linux/kexec_handover.h>
-+#include <linux/libfdt.h>
 +#include <linux/liveupdate.h>
-+#include <linux/liveupdate/abi/memfd.h>
-+#include <linux/shmem_fs.h>
-+#include <linux/vmalloc.h>
-+#include "internal.h"
 +
-+#define PRESERVED_PFN_MASK		GENMASK(63, 12)
-+#define PRESERVED_PFN_SHIFT		12
-+#define PRESERVED_FLAG_DIRTY		BIT(0)
-+#define PRESERVED_FLAG_UPTODATE		BIT(1)
++#include "../kselftest.h"
++#include "../kselftest_harness.h"
 +
-+#define PRESERVED_FOLIO_PFN(desc)	(((desc) & PRESERVED_PFN_MASK) >> PRESERVED_PFN_SHIFT)
-+#define PRESERVED_FOLIO_FLAGS(desc)	((desc) & ~PRESERVED_PFN_MASK)
-+#define PRESERVED_FOLIO_MKDESC(pfn, flags) (((pfn) << PRESERVED_PFN_SHIFT) | (flags))
++#define LIVEUPDATE_DEV "/dev/liveupdate"
 +
-+struct memfd_luo_private {
-+	struct memfd_luo_folio_ser *pfolios;
-+	u64 nr_folios;
++FIXTURE(liveupdate_device) {
++	int fd1;
++	int fd2;
 +};
 +
-+static struct memfd_luo_folio_ser *memfd_luo_preserve_folios(struct file *file, void *fdt,
-+							     u64 *nr_foliosp)
++FIXTURE_SETUP(liveupdate_device)
 +{
-+	struct inode *inode = file_inode(file);
-+	struct memfd_luo_folio_ser *pfolios;
-+	struct kho_vmalloc *kho_vmalloc;
-+	unsigned int max_folios;
-+	long i, size, nr_pinned;
-+	struct folio **folios;
-+	int err = -EINVAL;
-+	pgoff_t offset;
-+	u64 nr_folios;
-+
-+	size = i_size_read(inode);
-+	/*
-+	 * If the file has zero size, then the folios and nr_folios properties
-+	 * are not set.
-+	 */
-+	if (!size) {
-+		*nr_foliosp = 0;
-+		return NULL;
-+	}
-+
-+	/*
-+	 * Guess the number of folios based on inode size. Real number might end
-+	 * up being smaller if there are higher order folios.
-+	 */
-+	max_folios = PAGE_ALIGN(size) / PAGE_SIZE;
-+	folios = kvmalloc_array(max_folios, sizeof(*folios), GFP_KERNEL);
-+	if (!folios)
-+		return ERR_PTR(-ENOMEM);
-+
-+	/*
-+	 * Pin the folios so they don't move around behind our back. This also
-+	 * ensures none of the folios are in CMA -- which ensures they don't
-+	 * fall in KHO scratch memory. It also moves swapped out folios back to
-+	 * memory.
-+	 *
-+	 * A side effect of doing this is that it allocates a folio for all
-+	 * indices in the file. This might waste memory on sparse memfds. If
-+	 * that is really a problem in the future, we can have a
-+	 * memfd_pin_folios() variant that does not allocate a page on empty
-+	 * slots.
-+	 */
-+	nr_pinned = memfd_pin_folios(file, 0, size - 1, folios, max_folios,
-+				     &offset);
-+	if (nr_pinned < 0) {
-+		err = nr_pinned;
-+		pr_err("failed to pin folios: %d\n", err);
-+		goto err_free_folios;
-+	}
-+	nr_folios = nr_pinned;
-+
-+	err = fdt_property(fdt, MEMFD_FDT_NR_FOLIOS, &nr_folios, sizeof(nr_folios));
-+	if (err)
-+		goto err_unpin;
-+
-+	err = fdt_property_placeholder(fdt, MEMFD_FDT_FOLIOS, sizeof(*kho_vmalloc),
-+				       (void **)&kho_vmalloc);
-+	if (err) {
-+		pr_err("Failed to reserve '%s' property in FDT: %s\n",
-+		       MEMFD_FDT_FOLIOS, fdt_strerror(err));
-+		err = -ENOMEM;
-+		goto err_unpin;
-+	}
-+
-+	pfolios = vcalloc(nr_folios, sizeof(*pfolios));
-+	if (!pfolios) {
-+		err = -ENOMEM;
-+		goto err_unpin;
-+	}
-+
-+	for (i = 0; i < nr_folios; i++) {
-+		struct memfd_luo_folio_ser *pfolio = &pfolios[i];
-+		struct folio *folio = folios[i];
-+		unsigned int flags = 0;
-+		unsigned long pfn;
-+
-+		err = kho_preserve_folio(folio);
-+		if (err)
-+			goto err_unpreserve;
-+
-+		pfn = folio_pfn(folio);
-+		if (folio_test_dirty(folio))
-+			flags |= PRESERVED_FLAG_DIRTY;
-+		if (folio_test_uptodate(folio))
-+			flags |= PRESERVED_FLAG_UPTODATE;
-+
-+		pfolio->foliodesc = PRESERVED_FOLIO_MKDESC(pfn, flags);
-+		pfolio->index = folio->index;
-+	}
-+
-+	err = kho_preserve_vmalloc(pfolios, kho_vmalloc);
-+	if (err)
-+		goto err_unpreserve;
-+
-+	kvfree(folios);
-+	*nr_foliosp = nr_folios;
-+	return pfolios;
-+
-+err_unpreserve:
-+	i--;
-+	for (; i >= 0; i--)
-+		kho_unpreserve_folio(folios[i]);
-+	vfree(pfolios);
-+err_unpin:
-+	unpin_folios(folios, nr_folios);
-+err_free_folios:
-+	kvfree(folios);
-+	return ERR_PTR(err);
++	self->fd1 = -1;
++	self->fd2 = -1;
 +}
 +
-+static void memfd_luo_unpreserve_folios(void *fdt, struct memfd_luo_folio_ser *pfolios,
-+					u64 nr_folios)
++FIXTURE_TEARDOWN(liveupdate_device)
 +{
-+	struct kho_vmalloc *kho_vmalloc;
-+	long i;
-+
-+	if (!nr_folios)
-+		return;
-+
-+	kho_vmalloc = (struct kho_vmalloc *)fdt_getprop(fdt, 0, MEMFD_FDT_FOLIOS, NULL);
-+	/* The FDT was created by this kernel so expect it to be sane. */
-+	WARN_ON_ONCE(!kho_vmalloc);
-+	kho_unpreserve_vmalloc(kho_vmalloc);
-+
-+	for (i = 0; i < nr_folios; i++) {
-+		const struct memfd_luo_folio_ser *pfolio = &pfolios[i];
-+		struct folio *folio;
-+
-+		if (!pfolio->foliodesc)
-+			continue;
-+
-+		folio = pfn_folio(PRESERVED_FOLIO_PFN(pfolio->foliodesc));
-+
-+		kho_unpreserve_folio(folio);
-+		unpin_folio(folio);
-+	}
-+
-+	vfree(pfolios);
++	if (self->fd1 >= 0)
++		close(self->fd1);
++	if (self->fd2 >= 0)
++		close(self->fd2);
 +}
 +
-+static struct memfd_luo_folio_ser *memfd_luo_fdt_folios(const void *fdt, u64 *nr_folios)
++/*
++ * Test Case: Basic Open and Close
++ *
++ * Verifies that the /dev/liveupdate device can be opened and subsequently
++ * closed without errors. Skips if the device does not exist.
++ */
++TEST_F(liveupdate_device, basic_open_close)
 +{
-+	const struct kho_vmalloc *kho_vmalloc;
-+	struct memfd_luo_folio_ser *pfolios;
-+	const u64 *nr;
-+	int len;
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
 +
-+	nr = fdt_getprop(fdt, 0, MEMFD_FDT_NR_FOLIOS, &len);
-+	if (!nr || len != sizeof(*nr)) {
-+		pr_err("invalid '%s' property\n", MEMFD_FDT_NR_FOLIOS);
-+		return NULL;
-+	}
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist.", LIVEUPDATE_DEV);
 +
-+	kho_vmalloc = fdt_getprop(fdt, 0, MEMFD_FDT_FOLIOS, &len);
-+	if (!kho_vmalloc || len != sizeof(*kho_vmalloc)) {
-+		pr_err("invalid '%s' property\n", MEMFD_FDT_FOLIOS);
-+		return NULL;
-+	}
-+
-+	pfolios = kho_restore_vmalloc(kho_vmalloc);
-+	if (!pfolios)
-+		return NULL;
-+
-+	*nr_folios = *nr;
-+	return pfolios;
++	ASSERT_GE(self->fd1, 0);
++	ASSERT_EQ(close(self->fd1), 0);
++	self->fd1 = -1;
 +}
 +
-+static void *memfd_luo_create_fdt(void)
++/*
++ * Test Case: Exclusive Open Enforcement
++ *
++ * Verifies that the /dev/liveupdate device can only be opened by one process
++ * at a time. It checks that a second attempt to open the device fails with
++ * the EBUSY error code.
++ */
++TEST_F(liveupdate_device, exclusive_open)
 +{
-+	struct folio *fdt_folio;
-+	int err = 0;
-+	void *fdt;
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
 +
-+	/*
-+	 * The FDT only contains a couple of properties and a kho_vmalloc
-+	 * object. One page should be enough for that.
-+	 */
-+	fdt_folio = folio_alloc(GFP_KERNEL | __GFP_ZERO, 0);
-+	if (!fdt_folio)
-+		return NULL;
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist.", LIVEUPDATE_DEV);
 +
-+	fdt = folio_address(fdt_folio);
-+
-+	err |= fdt_create(fdt, folio_size(fdt_folio));
-+	err |= fdt_finish_reservemap(fdt);
-+	err |= fdt_begin_node(fdt, "");
-+	if (err)
-+		goto free;
-+
-+	return fdt;
-+
-+free:
-+	folio_put(fdt_folio);
-+	return NULL;
++	ASSERT_GE(self->fd1, 0);
++	self->fd2 = open(LIVEUPDATE_DEV, O_RDWR);
++	EXPECT_LT(self->fd2, 0);
++	EXPECT_EQ(errno, EBUSY);
 +}
 +
-+static int memfd_luo_finish_fdt(void *fdt)
++/* Helper function to create a LUO session via ioctl. */
++static int create_session(int lu_fd, const char *name)
 +{
-+	int err;
++	struct liveupdate_ioctl_create_session args = {};
 +
-+	err = fdt_end_node(fdt);
-+	if (err)
-+		return err;
++	args.size = sizeof(args);
++	strncpy((char *)args.name, name, sizeof(args.name) - 1);
 +
-+	return fdt_finish(fdt);
++	if (ioctl(lu_fd, LIVEUPDATE_IOCTL_CREATE_SESSION, &args))
++		return -errno;
++
++	return args.fd;
 +}
 +
-+static int memfd_luo_preserve(struct liveupdate_file_op_args *args)
++/*
++ * Test Case: Create Duplicate Session
++ *
++ * Verifies that attempting to create two sessions with the same name fails
++ * on the second attempt with EEXIST.
++ */
++TEST_F(liveupdate_device, create_duplicate_session)
 +{
-+	struct inode *inode = file_inode(args->file);
-+	struct memfd_luo_folio_ser *pfolios;
-+	struct memfd_luo_private *private;
-+	u64 pos, nr_folios;
-+	int err = 0;
-+	void *fdt;
-+	long size;
++	int session_fd1, session_fd2;
 +
-+	private = kmalloc(sizeof(*private), GFP_KERNEL);
-+	if (!private)
-+		return -ENOMEM;
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
 +
-+	inode_lock(inode);
-+	shmem_i_mapping_freeze(inode, true);
++	ASSERT_GE(self->fd1, 0);
 +
-+	size = i_size_read(inode);
++	session_fd1 = create_session(self->fd1, "duplicate-session-test");
++	ASSERT_GE(session_fd1, 0);
 +
-+	fdt = memfd_luo_create_fdt();
-+	if (!fdt) {
-+		err = -ENOMEM;
-+		goto err_unlock;
-+	}
++	session_fd2 = create_session(self->fd1, "duplicate-session-test");
++	EXPECT_LT(session_fd2, 0);
++	EXPECT_EQ(-session_fd2, EEXIST);
 +
-+	pos = args->file->f_pos;
-+	err = fdt_property(fdt, MEMFD_FDT_POS, &pos, sizeof(pos));
-+	if (err)
-+		goto err_free_fdt;
-+
-+	err = fdt_property(fdt, MEMFD_FDT_SIZE, &size, sizeof(size));
-+	if (err)
-+		goto err_free_fdt;
-+
-+	pfolios = memfd_luo_preserve_folios(args->file, fdt, &nr_folios);
-+	if (IS_ERR(pfolios)) {
-+		err = PTR_ERR(pfolios);
-+		goto err_free_fdt;
-+	}
-+
-+	err = memfd_luo_finish_fdt(fdt);
-+	if (err)
-+		goto err_unpreserve_folios;
-+
-+	err = kho_preserve_folio(virt_to_folio(fdt));
-+	if (err)
-+		goto err_unpreserve_folios;
-+
-+	inode_unlock(inode);
-+
-+	private->pfolios = pfolios;
-+	private->nr_folios = nr_folios;
-+	args->private_data = private;
-+	args->serialized_data = virt_to_phys(fdt);
-+	return 0;
-+
-+err_unpreserve_folios:
-+	memfd_luo_unpreserve_folios(fdt, pfolios, nr_folios);
-+err_free_fdt:
-+	folio_put(virt_to_folio(fdt));
-+err_unlock:
-+	shmem_i_mapping_freeze(inode, false);
-+	inode_unlock(inode);
-+	kfree(private);
-+	return err;
++	ASSERT_EQ(close(session_fd1), 0);
 +}
 +
-+static int memfd_luo_freeze(struct liveupdate_file_op_args *args)
++/*
++ * Test Case: Create Distinct Sessions
++ *
++ * Verifies that creating two sessions with different names succeeds.
++ */
++TEST_F(liveupdate_device, create_distinct_sessions)
 +{
-+	u64 pos = args->file->f_pos;
-+	void *fdt;
-+	int err;
++	int session_fd1, session_fd2;
 +
-+	if (WARN_ON_ONCE(!args->serialized_data))
-+		return -EINVAL;
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
 +
-+	fdt = phys_to_virt(args->serialized_data);
++	ASSERT_GE(self->fd1, 0);
 +
-+	/*
-+	 * The pos might have changed since prepare. Everything else stays the
-+	 * same.
-+	 */
-+	err = fdt_setprop(fdt, 0, "pos", &pos, sizeof(pos));
-+	if (err)
-+		return err;
++	session_fd1 = create_session(self->fd1, "distinct-session-1");
++	ASSERT_GE(session_fd1, 0);
++
++	session_fd2 = create_session(self->fd1, "distinct-session-2");
++	ASSERT_GE(session_fd2, 0);
++
++	ASSERT_EQ(close(session_fd1), 0);
++	ASSERT_EQ(close(session_fd2), 0);
++}
++
++static int preserve_fd(int session_fd, int fd_to_preserve, __u64 token)
++{
++	struct liveupdate_session_preserve_fd args = {};
++
++	args.size = sizeof(args);
++	args.fd = fd_to_preserve;
++	args.token = token;
++
++	if (ioctl(session_fd, LIVEUPDATE_SESSION_PRESERVE_FD, &args))
++		return -errno;
 +
 +	return 0;
 +}
 +
-+static void memfd_luo_unpreserve(struct liveupdate_file_op_args *args)
++/*
++ * Test Case: Preserve MemFD
++ *
++ * Verifies that a valid memfd can be successfully preserved in a session and
++ * that its contents remain intact after the preservation call.
++ */
++TEST_F(liveupdate_device, preserve_memfd)
 +{
-+	struct memfd_luo_private *private = args->private_data;
-+	struct inode *inode = file_inode(args->file);
-+	struct folio *fdt_folio;
-+	void *fdt;
++	const char *test_str = "hello liveupdate";
++	char read_buf[64] = {};
++	int session_fd, mem_fd;
 +
-+	if (WARN_ON_ONCE(!args->serialized_data || !args->private_data))
-+		return;
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
++	ASSERT_GE(self->fd1, 0);
 +
-+	inode_lock(inode);
-+	shmem_i_mapping_freeze(inode, false);
++	session_fd = create_session(self->fd1, "preserve-memfd-test");
++	ASSERT_GE(session_fd, 0);
 +
-+	fdt = phys_to_virt(args->serialized_data);
-+	fdt_folio = virt_to_folio(fdt);
++	mem_fd = memfd_create("test-memfd", 0);
++	ASSERT_GE(mem_fd, 0);
 +
-+	memfd_luo_unpreserve_folios(fdt, private->pfolios, private->nr_folios);
++	ASSERT_EQ(write(mem_fd, test_str, strlen(test_str)), strlen(test_str));
++	ASSERT_EQ(preserve_fd(session_fd, mem_fd, 0x1234), 0);
++	ASSERT_EQ(close(session_fd), 0);
 +
-+	kho_unpreserve_folio(fdt_folio);
-+	folio_put(fdt_folio);
-+	inode_unlock(inode);
-+	kfree(private);
++	ASSERT_EQ(lseek(mem_fd, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd, read_buf, sizeof(read_buf)), strlen(test_str));
++	ASSERT_STREQ(read_buf, test_str);
++	ASSERT_EQ(close(mem_fd), 0);
 +}
 +
-+static struct folio *memfd_luo_get_fdt(u64 data)
++/*
++ * Test Case: Preserve Multiple MemFDs
++ *
++ * Verifies that multiple memfds can be preserved in a single session,
++ * each with a unique token, and that their contents remain distinct and
++ * correct after preservation.
++ */
++TEST_F(liveupdate_device, preserve_multiple_memfds)
 +{
-+	return kho_restore_folio((phys_addr_t)data);
++	const char *test_str1 = "data for memfd one";
++	const char *test_str2 = "data for memfd two";
++	char read_buf[64] = {};
++	int session_fd, mem_fd1, mem_fd2;
++
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
++	ASSERT_GE(self->fd1, 0);
++
++	session_fd = create_session(self->fd1, "preserve-multi-memfd-test");
++	ASSERT_GE(session_fd, 0);
++
++	mem_fd1 = memfd_create("test-memfd-1", 0);
++	ASSERT_GE(mem_fd1, 0);
++	mem_fd2 = memfd_create("test-memfd-2", 0);
++	ASSERT_GE(mem_fd2, 0);
++
++	ASSERT_EQ(write(mem_fd1, test_str1, strlen(test_str1)), strlen(test_str1));
++	ASSERT_EQ(write(mem_fd2, test_str2, strlen(test_str2)), strlen(test_str2));
++
++	ASSERT_EQ(preserve_fd(session_fd, mem_fd1, 0xAAAA), 0);
++	ASSERT_EQ(preserve_fd(session_fd, mem_fd2, 0xBBBB), 0);
++
++	memset(read_buf, 0, sizeof(read_buf));
++	ASSERT_EQ(lseek(mem_fd1, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd1, read_buf, sizeof(read_buf)), strlen(test_str1));
++	ASSERT_STREQ(read_buf, test_str1);
++
++	memset(read_buf, 0, sizeof(read_buf));
++	ASSERT_EQ(lseek(mem_fd2, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd2, read_buf, sizeof(read_buf)), strlen(test_str2));
++	ASSERT_STREQ(read_buf, test_str2);
++
++	ASSERT_EQ(close(mem_fd1), 0);
++	ASSERT_EQ(close(mem_fd2), 0);
++	ASSERT_EQ(close(session_fd), 0);
 +}
 +
-+static void memfd_luo_discard_folios(const struct memfd_luo_folio_ser *pfolios,
-+				     long nr_folios)
++/*
++ * Test Case: Preserve Complex Scenario
++ *
++ * Verifies a more complex scenario with multiple sessions and a mix of empty
++ * and non-empty memfds distributed across them.
++ */
++TEST_F(liveupdate_device, preserve_complex_scenario)
 +{
-+	unsigned int i;
++	const char *data1 = "data for session 1";
++	const char *data2 = "data for session 2";
++	char read_buf[64] = {};
++	int session_fd1, session_fd2;
++	int mem_fd_data1, mem_fd_empty1, mem_fd_data2, mem_fd_empty2;
 +
-+	for (i = 0; i < nr_folios; i++) {
-+		const struct memfd_luo_folio_ser *pfolio = &pfolios[i];
-+		struct folio *folio;
-+		phys_addr_t phys;
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
++	ASSERT_GE(self->fd1, 0);
 +
-+		if (!pfolio->foliodesc)
-+			continue;
++	session_fd1 = create_session(self->fd1, "complex-session-1");
++	ASSERT_GE(session_fd1, 0);
++	session_fd2 = create_session(self->fd1, "complex-session-2");
++	ASSERT_GE(session_fd2, 0);
 +
-+		phys = PFN_PHYS(PRESERVED_FOLIO_PFN(pfolio->foliodesc));
-+		folio = kho_restore_folio(phys);
-+		if (!folio) {
-+			pr_warn_ratelimited("Unable to restore folio at physical address: %llx\n",
-+					    phys);
-+			continue;
-+		}
++	mem_fd_data1 = memfd_create("data1", 0);
++	ASSERT_GE(mem_fd_data1, 0);
++	ASSERT_EQ(write(mem_fd_data1, data1, strlen(data1)), strlen(data1));
 +
-+		folio_put(folio);
-+	}
++	mem_fd_empty1 = memfd_create("empty1", 0);
++	ASSERT_GE(mem_fd_empty1, 0);
++
++	mem_fd_data2 = memfd_create("data2", 0);
++	ASSERT_GE(mem_fd_data2, 0);
++	ASSERT_EQ(write(mem_fd_data2, data2, strlen(data2)), strlen(data2));
++
++	mem_fd_empty2 = memfd_create("empty2", 0);
++	ASSERT_GE(mem_fd_empty2, 0);
++
++	ASSERT_EQ(preserve_fd(session_fd1, mem_fd_data1, 0x1111), 0);
++	ASSERT_EQ(preserve_fd(session_fd1, mem_fd_empty1, 0x2222), 0);
++	ASSERT_EQ(preserve_fd(session_fd2, mem_fd_data2, 0x3333), 0);
++	ASSERT_EQ(preserve_fd(session_fd2, mem_fd_empty2, 0x4444), 0);
++
++	ASSERT_EQ(lseek(mem_fd_data1, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd_data1, read_buf, sizeof(read_buf)), strlen(data1));
++	ASSERT_STREQ(read_buf, data1);
++
++	memset(read_buf, 0, sizeof(read_buf));
++	ASSERT_EQ(lseek(mem_fd_data2, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd_data2, read_buf, sizeof(read_buf)), strlen(data2));
++	ASSERT_STREQ(read_buf, data2);
++
++	ASSERT_EQ(lseek(mem_fd_empty1, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd_empty1, read_buf, sizeof(read_buf)), 0);
++
++	ASSERT_EQ(lseek(mem_fd_empty2, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd_empty2, read_buf, sizeof(read_buf)), 0);
++
++	ASSERT_EQ(close(mem_fd_data1), 0);
++	ASSERT_EQ(close(mem_fd_empty1), 0);
++	ASSERT_EQ(close(mem_fd_data2), 0);
++	ASSERT_EQ(close(mem_fd_empty2), 0);
++	ASSERT_EQ(close(session_fd1), 0);
++	ASSERT_EQ(close(session_fd2), 0);
 +}
 +
-+static void memfd_luo_finish(struct liveupdate_file_op_args *args)
++/*
++ * Test Case: Preserve Unsupported File Descriptor
++ *
++ * Verifies that attempting to preserve a file descriptor that does not have
++ * a registered Live Update handler fails gracefully.
++ * Uses /dev/null as a representative of a file type (character device)
++ * that is not supported by the orchestrator.
++ */
++TEST_F(liveupdate_device, preserve_unsupported_fd)
 +{
-+	const struct memfd_luo_folio_ser *pfolios;
-+	struct folio *fdt_folio;
-+	const void *fdt;
-+	u64 nr_folios;
++	int session_fd, unsupported_fd;
++	int ret;
 +
-+	if (args->retrieved)
-+		return;
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
++	ASSERT_GE(self->fd1, 0);
 +
-+	fdt_folio = memfd_luo_get_fdt(args->serialized_data);
-+	if (!fdt_folio) {
-+		pr_err("failed to restore memfd FDT\n");
-+		return;
-+	}
++	session_fd = create_session(self->fd1, "unsupported-fd-test");
++	ASSERT_GE(session_fd, 0);
 +
-+	fdt = folio_address(fdt_folio);
++	unsupported_fd = open("/dev/null", O_RDWR);
++	ASSERT_GE(unsupported_fd, 0);
 +
-+	pfolios = memfd_luo_fdt_folios(fdt, &nr_folios);
-+	if (!pfolios)
-+		goto out;
++	ret = preserve_fd(session_fd, unsupported_fd, 0xDEAD);
++	EXPECT_EQ(ret, -ENOENT);
 +
-+	memfd_luo_discard_folios(pfolios, nr_folios);
-+	vfree(pfolios);
-+
-+out:
-+	folio_put(fdt_folio);
++	ASSERT_EQ(close(unsupported_fd), 0);
++	ASSERT_EQ(close(session_fd), 0);
 +}
 +
-+static int memfd_luo_retrieve_folios(struct file *file, const void *fdt)
-+{
-+	const struct memfd_luo_folio_ser *pfolios;
-+	struct inode *inode = file_inode(file);
-+	struct address_space *mapping;
-+	struct folio *folio;
-+	u64 nr_folios;
-+	long i = 0;
-+	int err;
-+
-+	/* Careful: folios don't exist in FDT on zero-size files. */
-+	if (!inode->i_size)
-+		return 0;
-+
-+	pfolios = memfd_luo_fdt_folios(fdt, &nr_folios);
-+	if (!pfolios) {
-+		pr_err("failed to fetch preserved folio list\n");
-+		return -EINVAL;
-+	}
-+
-+	inode = file->f_inode;
-+	mapping = inode->i_mapping;
-+
-+	for (; i < nr_folios; i++) {
-+		const struct memfd_luo_folio_ser *pfolio = &pfolios[i];
-+		phys_addr_t phys;
-+		u64 index;
-+		int flags;
-+
-+		if (!pfolio->foliodesc)
-+			continue;
-+
-+		phys = PFN_PHYS(PRESERVED_FOLIO_PFN(pfolio->foliodesc));
-+		folio = kho_restore_folio(phys);
-+		if (!folio) {
-+			pr_err("Unable to restore folio at physical address: %llx\n",
-+			       phys);
-+			goto put_folios;
-+		}
-+		index = pfolio->index;
-+		flags = PRESERVED_FOLIO_FLAGS(pfolio->foliodesc);
-+
-+		/* Set up the folio for insertion. */
-+		__folio_set_locked(folio);
-+		__folio_set_swapbacked(folio);
-+
-+		err = mem_cgroup_charge(folio, NULL, mapping_gfp_mask(mapping));
-+		if (err) {
-+			pr_err("shmem: failed to charge folio index %ld: %d\n",
-+			       i, err);
-+			goto unlock_folio;
-+		}
-+
-+		err = shmem_add_to_page_cache(folio, mapping, index, NULL,
-+					      mapping_gfp_mask(mapping));
-+		if (err) {
-+			pr_err("shmem: failed to add to page cache folio index %ld: %d\n",
-+			       i, err);
-+			goto unlock_folio;
-+		}
-+
-+		if (flags & PRESERVED_FLAG_UPTODATE)
-+			folio_mark_uptodate(folio);
-+		if (flags & PRESERVED_FLAG_DIRTY)
-+			folio_mark_dirty(folio);
-+
-+		err = shmem_inode_acct_blocks(inode, 1);
-+		if (err) {
-+			pr_err("shmem: failed to account folio index %ld: %d\n",
-+			       i, err);
-+			goto unlock_folio;
-+		}
-+
-+		shmem_recalc_inode(inode, 1, 0);
-+		folio_add_lru(folio);
-+		folio_unlock(folio);
-+		folio_put(folio);
-+	}
-+
-+	vfree(pfolios);
-+	return 0;
-+
-+unlock_folio:
-+	folio_unlock(folio);
-+	folio_put(folio);
-+	i++;
-+put_folios:
-+	/*
-+	 * Note: don't free the folios already added to the file. They will be
-+	 * freed when the file is freed. Free the ones not added yet here.
-+	 */
-+	for (; i < nr_folios; i++) {
-+		const struct memfd_luo_folio_ser *pfolio = &pfolios[i];
-+
-+		folio = kho_restore_folio(PRESERVED_FOLIO_PFN(pfolio->foliodesc));
-+		if (folio)
-+			folio_put(folio);
-+	}
-+
-+	vfree(pfolios);
-+	return err;
-+}
-+
-+static int memfd_luo_retrieve(struct liveupdate_file_op_args *args)
-+{
-+	struct folio *fdt_folio;
-+	const u64 *pos, *size;
-+	struct file *file;
-+	int len, ret = 0;
-+	const void *fdt;
-+
-+	fdt_folio = memfd_luo_get_fdt(args->serialized_data);
-+	if (!fdt_folio)
-+		return -ENOENT;
-+
-+	fdt = page_to_virt(folio_page(fdt_folio, 0));
-+
-+	size = fdt_getprop(fdt, 0, "size", &len);
-+	if (!size || len != sizeof(u64)) {
-+		pr_err("invalid 'size' property\n");
-+		ret = -EINVAL;
-+		goto put_fdt;
-+	}
-+
-+	pos = fdt_getprop(fdt, 0, "pos", &len);
-+	if (!pos || len != sizeof(u64)) {
-+		pr_err("invalid 'pos' property\n");
-+		ret = -EINVAL;
-+		goto put_fdt;
-+	}
-+
-+	file = shmem_file_setup("", 0, VM_NORESERVE);
-+
-+	if (IS_ERR(file)) {
-+		ret = PTR_ERR(file);
-+		pr_err("failed to setup file: %d\n", ret);
-+		goto put_fdt;
-+	}
-+
-+	vfs_setpos(file, *pos, MAX_LFS_FILESIZE);
-+	file->f_inode->i_size = *size;
-+
-+	ret = memfd_luo_retrieve_folios(file, fdt);
-+	if (ret)
-+		goto put_file;
-+
-+	args->file = file;
-+	folio_put(fdt_folio);
-+	return 0;
-+
-+put_file:
-+	fput(file);
-+put_fdt:
-+	folio_put(fdt_folio);
-+	return ret;
-+}
-+
-+static bool memfd_luo_can_preserve(struct liveupdate_file_handler *handler,
-+				   struct file *file)
-+{
-+	struct inode *inode = file_inode(file);
-+
-+	return shmem_file(file) && !inode->i_nlink;
-+}
-+
-+static const struct liveupdate_file_ops memfd_luo_file_ops = {
-+	.freeze = memfd_luo_freeze,
-+	.finish = memfd_luo_finish,
-+	.retrieve = memfd_luo_retrieve,
-+	.preserve = memfd_luo_preserve,
-+	.unpreserve = memfd_luo_unpreserve,
-+	.can_preserve = memfd_luo_can_preserve,
-+	.owner = THIS_MODULE,
-+};
-+
-+static struct liveupdate_file_handler memfd_luo_handler = {
-+	.ops = &memfd_luo_file_ops,
-+	.compatible = MEMFD_LUO_FH_COMPATIBLE,
-+};
-+
-+static int __init memfd_luo_init(void)
-+{
-+	int err = liveupdate_register_file_handler(&memfd_luo_handler);
-+
-+	if (err && err != -EOPNOTSUPP) {
-+		pr_err("Could not register luo filesystem handler: %pe\n", ERR_PTR(err));
-+
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+late_initcall(memfd_luo_init);
++TEST_HARNESS_MAIN
 -- 
 2.52.0.rc1.455.g30608eb744-goog
 
