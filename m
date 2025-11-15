@@ -1,351 +1,318 @@
-Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647A723EA95;
-	Sat, 15 Nov 2025 20:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=173.37.142.89
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763238456; cv=fail; b=Ik2MxM2hr3knHAKThLFiGSFFkKRTFz1K3kTHiz6HI2unNDfpQLbATqsX+2HQXkn46Q8kls567QpztT3YJI8DCATy8xpK9D+kTilYtHJ9Rkm0Sd0udebrJyxw9PBW9p7b9P1SeCT6U/VlH/6bEVLeMBcX3HZM9CjbQguxXQ+KlTA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763238456; c=relaxed/simple;
-	bh=0oTvO4Q6xXLw3PM9HZGWnEQ9SLM1QA+gVBIlLFZprVw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=kmwU1n5giC0KoCfLc8tN/B6hME0BJzjMmucyAW5tbxEhoDqYV85xzjwtPZEIZbV9MKoiLKKZyZv3c1ypADE3SGQkRBFUVYV+oNNLVvqrVK/tmlmbF9+wsV/XTBn3zgInBBFy7WYDQhNNWL7jJJGzoYCwy/Ard2vnTQn8MQe1o+c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b=GxvVoKeu; arc=fail smtp.client-ip=173.37.142.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB4826738B
+	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 23:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763249658; cv=none; b=HWiNZ3JfsAB+Q33eg1t9bv242mUqD7AJgd8vhXJsV/m83AC8WTB16XinYNIDeAYDnoFXZmOTgiG2/PNGRnQX40RwpLoQwrJ7i5Bn+2sisOrDcEl/DDNHjFxt7ai17W1nXRkcecyNqP4VVZD2MwJrh06JXRBlENN0FnNh6PnA9DY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763249658; c=relaxed/simple;
+	bh=KC4peQg3ZgK5xdZoWnqcywww4iaBRhdSHDWeNU9db10=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rNo33b9Leax9nBxnnURsTvs/yGhwGNmM5UXUBrzudzyPII/VKtZEeD8KINVunAItlJod5aNz9K4pF3kXPmDwQjQwX+zNZV7p95wYkTII/oRFoDNnghst9GbG0FYGebxZOREKeT3tm1RXpbzHqbM9TRTfTdRJNpFZ2KfV7AZt1uE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=It+rt+WO; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b="GxvVoKeu"
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="It+rt+WO"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7866bca6765so29750377b3.1
+        for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 15:34:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2460; q=dns/txt;
-  s=iport01; t=1763238455; x=1764448055;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=MFw/Z1Sf8SjzDqIL5mUOFLjLDVfmbv7DCp/A06Y2PGI=;
-  b=GxvVoKeu8Jby3aLxQW8UECWhxZw9UYRbdKDZfK74LjZawVDhj5uUxgTB
-   TlIGLVBspSiPqfj+yAJLX/rSKr6ehaYEEQ/FZhp0waRkjbOYH21coqYzq
-   WUujx3EJ2YHGDCxLUStgyg5qXZLsveZ64rUXwFEpU0KQwvNvt9pKjBXfk
-   e01ts9DWw9AbRGP/RoW4b0LQsqFmr9JQz5hWK8QhyeyWOOQ48gLwLk9vh
-   hKj4wkrUnc6VbLyo7XcP/4VmSEVbKHJ4UATXMbnE3p3Jn1clp1bCJxR52
-   UTGlD5EhS0Ifgpoo0chdZgqr9E05WZEZfWqHzgS2h6s38CY+krisQeoN8
-   Q==;
-X-CSE-ConnectionGUID: sD2rEqQ1Sp+cZthrJHjh4Q==
-X-CSE-MsgGUID: rP3jq5c+SsyRIpW5K7KUBw==
-X-IPAS-Result: =?us-ascii?q?A0AuAAB44Rhp/4wQJK1aHAEBAQEBAQcBARIBAQQEAQFAJ?=
- =?us-ascii?q?YEXBwEBCwGBbVIHghtJiCADhE1fhliCIQOeGoF/DwEBAQ0CUQQBAYUHAoxaA?=
- =?us-ascii?q?iY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZchloBA?=
- =?us-ascii?q?QEBAxIVUhACAQgOCi4xJQIEAQ0FCBqFVAMBAqI0AYFAAooreIEBM4EB4CaBS?=
- =?us-ascii?q?gGIUgGFbjuEPScbgg2BV4IwOD6ERYQTgi8EgiKBDoYnjEyGcVJ4HANZLAFVE?=
- =?us-ascii?q?xcLBwWBIBAzAyAKNC0CFA0QEg8EFgUtHXAMKBIQHxgTYFRAg0kQDAZoDwaBE?=
- =?us-ascii?q?hlJAgICBQIrFTqBaAUBHAYcEgIDAQICOlUNgXcCAgSCHH6BbxsPiTWBCQUoA?=
- =?us-ascii?q?wttPTcGDhsFBIE1BZQeUYIsAYEPgS4OUzCWegGwHwqEHKINF6prmQYiqHQCB?=
- =?us-ascii?q?AIEBQIQAQEGgWg8gVlwFYMiUhkPji0WkxsBtU54AjoCBwsBAQMJk2cBAQ?=
-IronPort-PHdr: A9a23:7JImNBcSk0XiaewH5fh0ROHIlGM/gIqcDmcuAtIPkblCdOGk55v9e
- RCZ7vR2h1iPVoLeuLpIiOvT5rjpQndIoY2Av3YLbIFWWlcbhN8XkQ0tDI/NCUDyIPPwKS1vN
- M9DT1RiuXq8NCBo
-IronPort-Data: A9a23:CwKP1q2tXzjBte847PbD5bhxkn2cJEfYwER7XKvMYLTBsI5bpzxTm
- jYeWT2BP/2JMDD1Ltx1bIS1oUgOuJbVnN9qGgM93Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXU6
- Lsen+WFYAX4gmctbzpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGF21sJ6ABw79MGSJFx
- +AYMhItbBDfvrfjqF67YrEEasULJc3vOsYb/3pn1zycVa1gSpHYSKKM7thdtNsyrpkRRrCFO
- YxAN3w2MEyojx5nYj/7DLo9lf20h332cBVTqUmeouw85G27IAlZjuG2aoGOKoDULSlTtlyg/
- WDfom+6OQoLDv2H9memrVGRrPCayEsXX6pXTtVU7MVCi1CLxikfBQMbUXOlrvSjzE2zQdRSL
- woT4CVGhawz8lG7C9DnWli9u3usoBERQZxTHvc85QXLzbDbiy6dB24ZXntNb9cOqsA7X3op2
- 0WPktevAiZg2JWRSHSA5vKXoCm0NCw9M2APf2kHQBED7t2lp5s85jrLT9B+AOuwg9H0EBnuz
- D2Q6isznbMeiYgMzarT1VTGhS+8453MRSYr6QjNGGGo9AV0YMiifYPAwVza6+tQaZ6ST3Gfs
- 3Ue3cuT9uYDCdeKjiPlaOEMGqy5ou3eYWX0n1FiBd8i+i6r9nrleppfiBl6JUF0IoMfciToS
- FHctBkX55JJOnauK6htbOqZD8Us0LilCc7sXf2RbddUZJV1XBGI8TsoZkOK2W3p1k82nskXP
- 5qHfcuyJWgVBL4hzzesQeoZl7gxyUgDKXj7TJT/yVGjlLGZfnPQEexDO1qVZed/56SByOnIz
- +ti2wKx40w3eMX1YzLc9sgYKlViEJTxLcyeRxB/HgJbHjdbJQ==
-IronPort-HdrOrdr: A9a23:kTkg4aAIxVdsljHlHejjsseALOsnbusQ8zAXPh9KOH9om52j9/
- xGws576fatskduZJhBo7y90KnpewK7yXcH2/hhAV7EZniohILIFvAv0WKM+UybJ8STzJ846U
- 4kSdkANDSSNyk1sS+Z2njELz9I+rDum87Y55a6854ud3AXV0gK1XYBNu/vKDwMeOAwP+tAKH
- Pz3LshmxOQPV4sQoCQAH4DU+Lfp9vNuq7HTHc9bSIP2U2ltx/tzKT1PSS5834lPg+nx41MzU
- H11yjCoomzufCyzRHRk0XJ6Y5NpdfnwtxfQOSRl8k8MFzX+0aVTbUkf4fHkCE+oemp5lpvus
- LLuQ0cM8N67G6UVn2poCHqxxLr3F8VmjzfIB6j8DneSP7CNXYH4vl69MVkm9zimgwdVeRHoe
- d2NqSixsNq5F377XzADpPzJmFXfwKP0AkfeKgo/j1iuU90Us4KkWTZl3klS6soDWb07psqH/
- JpC9yZ7PFKcUmCZ3ScpWV3xsewN05DVStub3Jy8/B96QIm1ExR3g8d3ogSj30A/JUyR91N4P
- nFKL1hkPVLQtUNZaxwCe8dSY/vY1a9DC7kISaXOxDqBasHM3XCp9r+56g0/vijfNgNwIEpkJ
- rMXVtEvSo5el7oC8eJwJpXmyq9ClmVTHDo0IVT9pJ5srrzSP7iNjCCUkknl4+6r/AWEqTgKo
- CO0VJtcojexEfVaPJ0NlfFKutvwFElIbgohuo=
-X-Talos-CUID: 9a23:E45l6WESOm9f5KyLqmJ82BQON9kcK0bFj3ziP0+iK0ZrSOGsHAo=
-X-Talos-MUID: =?us-ascii?q?9a23=3A7cgdEAxQyAai52VsbiV+kgGciEeaqL6WU0IUzJ5?=
- =?us-ascii?q?FgNKVDw1oBGq+0xeKaJByfw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-Received: from alln-l-core-03.cisco.com ([173.36.16.140])
-  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Nov 2025 20:27:25 +0000
-Received: from rcdn-opgw-4.cisco.com (rcdn-opgw-4.cisco.com [72.163.7.165])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-03.cisco.com (Postfix) with ESMTPS id 0F07C18000403;
-	Sat, 15 Nov 2025 20:27:25 +0000 (GMT)
-X-CSE-ConnectionGUID: 9IGLtmi+SbWDArDZBSRfYQ==
-X-CSE-MsgGUID: OwvumJ/eRDCics6ueVBrMQ==
-Authentication-Results: rcdn-opgw-4.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
-X-IronPort-AV: E=Sophos;i="6.19,307,1754956800"; 
-   d="scan'208";a="61701058"
-Received: from mail-dm5pr08cu00407.outbound.protection.outlook.com (HELO DM5PR08CU004.outbound.protection.outlook.com) ([40.93.13.103])
-  by rcdn-opgw-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Nov 2025 20:27:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y/Zfi6W5LuTTMhUxXAydYPEJj3UhQ/r7u8BdXcIgbkAPXVDgR/f0IlAeGZ4ZbthcdIkoDOQyTtXRRMXX+0xQGGTlAn4kVUhcSjtcSsono/lh9PItyxzjlA5c8AvTJ75yG5gdnNyACHBSOkWBUCfQ4xma5G5OnNkAKaYcymBUnYa7hkvOhtt5GbI07swmSEGQF2J+6X4+BMq19WQ3fNOhUkFr5cq34QZSx70pee6VqP8x3MZvi9oGeoFf8eyqxsOSYU2fWL1Ka2ULZESAzihOOLjEb2W7vnJJYHk30FUp3H3Dd0+dd18SMk+IdkU7u1li8QZwnzgQA/orW6dXQNLlYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MFw/Z1Sf8SjzDqIL5mUOFLjLDVfmbv7DCp/A06Y2PGI=;
- b=ejqVQ290Ii4mWw5iKhsOXD8PBvwwHu8O7BnuT7/J6DKsLxVg0KfJzWz33QUM9JTsFUzE6PDEnzszsnM0pIdnOXc72br0NOy9MsyBDdYZqp46yDbHfUWtnjkw+FQU+s52nWUJhTon5oCWQVGbz+4NcjtTFjOyALWSqdYFY8RkKoavntXken2PlB4pIsNJnjNWVFAYP/l5rpVRD8EpU5o6oGDpOwwfPm4mMmacc9IopIJz2ymCEKxCCVK+/y5pmwaq9DfNUhm8dsb/LwWFvTRCeEzeoxpDdhC87EClZ+DS6dfNnEWkpJc8MqBbvJ3/RiqstVlUC5FCdNlNiJMSKyloCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-Received: from SJ0PR11MB5896.namprd11.prod.outlook.com (2603:10b6:a03:42c::19)
- by DS4PPFE70B31BEF.namprd11.prod.outlook.com (2603:10b6:f:fc02::5a) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.19; Sat, 15 Nov
- 2025 20:27:20 +0000
-Received: from SJ0PR11MB5896.namprd11.prod.outlook.com
- ([fe80::2081:bcd4:cb3e:e2dd]) by SJ0PR11MB5896.namprd11.prod.outlook.com
- ([fe80::2081:bcd4:cb3e:e2dd%4]) with mapi id 15.20.9320.018; Sat, 15 Nov 2025
- 20:27:19 +0000
-From: "Karan Tilak Kumar (kartilak)" <kartilak@cisco.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Corey Minyard
-	<corey@minyard.net>, =?iso-8859-2?Q?Christian_K=F6nig?=
-	<christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
-	Alex Deucher <alexander.deucher@amd.com>, Thomas Zimmermann
-	<tzimmermann@suse.de>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>, Matthew Brost
-	<matthew.brost@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>, Aleksandr
- Loktionov <aleksandr.loktionov@intel.com>, Vitaly Lifshits
-	<vitaly.lifshits@intel.com>, Manivannan Sadhasivam <mani@kernel.org>, Niklas
- Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>, Vadim Fedorenko
-	<vadim.fedorenko@linux.dev>, Sagi Maimon <maimon.sagi@gmail.com>, "Martin K.
- Petersen" <martin.petersen@oracle.com>, Hans Verkuil
-	<hverkuil+cisco@kernel.org>, Casey Schaufler <casey@schaufler-ca.com>, Steven
- Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, Viacheslav
- Dubeyko <Slava.Dubeyko@ibm.com>, Max Kellermann <max.kellermann@ionos.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"openipmi-developer@lists.sourceforge.net"
-	<openipmi-developer@lists.sourceforge.net>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
-	<linaro-mm-sig@lists.linaro.org>, "amd-gfx@lists.freedesktop.org"
-	<amd-gfx@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "freedreno@lists.freedesktop.org"
-	<freedreno@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
-	<intel-xe@lists.freedesktop.org>, "linux-mmc@vger.kernel.org"
-	<linux-mmc@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "intel-wired-lan@lists.osuosl.org"
-	<intel-wired-lan@lists.osuosl.org>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "linux-s390@vger.kernel.org"
-	<linux-s390@vger.kernel.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>, "ceph-devel@vger.kernel.org"
-	<ceph-devel@vger.kernel.org>, "linux-trace-kernel@vger.kernel.org"
-	<linux-trace-kernel@vger.kernel.org>
-CC: Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
-	<senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Sumit Semwal
-	<sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
-	<abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul
-	<sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, Konrad
- Dybcio <konradybcio@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
-	=?iso-8859-2?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Vladimir Oltean <olteanv@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, "Narsimhulu
- Musini (nmusini)" <nmusini@cisco.com>, Paolo Abeni <pabeni@redhat.com>, Tony
- Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
-	<przemyslaw.kitszel@intel.com>, =?iso-8859-2?Q?Krzysztof_Wilczy=F1ski?=
-	<kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn
- Helgaas <bhelgaas@google.com>, Rodolfo Giometti <giometti@enneenne.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>, Richard Cochran
-	<richardcochran@gmail.com>, Stefan Haberland <sth@linux.ibm.com>, Jan
- Hoeppner <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, Vasily
- Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
-	<svens@linux.ibm.com>, "Satish Kharat (satishkh)" <satishkh@cisco.com>,
-	"Sesidhar Baddela (sebaddel)" <sebaddel@cisco.com>, "James E.J. Bottomley"
-	<James.Bottomley@HansenPartnership.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Xiubo
- Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, Masami Hiramatsu
-	<mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>, "Gian Carlo Boffa (gcboffa)"
-	<gcboffa@cisco.com>, "Arulprabhu Ponnusamy (arulponn)" <arulponn@cisco.com>
-Subject: RE: [PATCH v3 20/21] scsi: snic: Switch to use %ptSp
-Thread-Topic: [PATCH v3 20/21] scsi: snic: Switch to use %ptSp
-Thread-Index: AQHcVK6i2TuKalB1aEOcW1L+o6TUn7T0MoDA
-Date: Sat, 15 Nov 2025 20:27:19 +0000
-Message-ID:
- <SJ0PR11MB58960101609D15FB8F6FB5B2C3CBA@SJ0PR11MB5896.namprd11.prod.outlook.com>
-References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
- <20251113150217.3030010-21-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20251113150217.3030010-21-andriy.shevchenko@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR11MB5896:EE_|DS4PPFE70B31BEF:EE_
-x-ms-office365-filtering-correlation-id: 06dc7afe-7be7-41d7-220d-08de24856052
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|366016|1800799024|921020|38070700021;
-x-microsoft-antispam-message-info:
- =?iso-8859-2?Q?UTyLHl4BJYTK4mtPS91Sw2Srl0NHvlfMZaTqLxu2rUWxwfXqFudlc+5TWZ?=
- =?iso-8859-2?Q?BJrEBNZocoITs1OavCRqzXqvbXtC3nyiTs+X6BNCP++7KlQ2g2MJnYpALp?=
- =?iso-8859-2?Q?Bn5YPtijrc89YM4uqb1zvNiGQUKCmcJm5aV9n2jDlaisDBGoiOEdehli0Z?=
- =?iso-8859-2?Q?AiBZgIYvmeuLyJ94TRvdhfcWNgAInVk2bzv3iJn+ETi2yjnYFqeJDEsP/c?=
- =?iso-8859-2?Q?52tSR8uLyZ/cTHCDYdEy2M4TMyDvk7xp0fRxtDf6gySeGMeb9hFUl3m94o?=
- =?iso-8859-2?Q?9QGxesrQwqKEd/FjIbfevU9AIIu/4425oQt60PEDl2KHxaaeh+AA/kE+If?=
- =?iso-8859-2?Q?cTIhv+ekBi5Kio8han64MSlNeDN+sR6xKhQ/jxgIlLI9yNDFUyww8nWAm5?=
- =?iso-8859-2?Q?SxG/facdPQxoPEpca86hn/+obDhPgWbR/ztj7tbF7ANig0cXm/9lKdnZoZ?=
- =?iso-8859-2?Q?e2S/yQsrsL8JID1eQiuiQr7psiOVeOBrtmr5hP9t6gIIVMZnZvIcwbi1Dc?=
- =?iso-8859-2?Q?pIvEJrA62KfIEsG0lGAYmYo4C0gZHqFgr7DWsaVfEAJWKIQEw+NVLL06fR?=
- =?iso-8859-2?Q?kxKmQM6BCA0FLcSlIScOrAAOBXrkQx8CDVbtdiiK6WgcSEAZeGneow5obu?=
- =?iso-8859-2?Q?DAj3Um0LuFxhd4vwv0VnU/9xHqXWAgIWM8XtzAwyS//bRDdCRnV1M1Ynt3?=
- =?iso-8859-2?Q?a5G+dYsTHrt3OFCJQcrYObQ6i3mZy/rMEXFoSyhPJXNNEdgWxwoB1HncUE?=
- =?iso-8859-2?Q?4rYNimG0/N/xCyPNM8ep24M113OR2BqbeCl3DNYllfbQxGN78FCOYN6ZIE?=
- =?iso-8859-2?Q?phsDl0tQWTOljwdp7051kUzoU0wbE9PpBzs61KFHlB25iEfK2WgEBoV82H?=
- =?iso-8859-2?Q?C3yaXZ0BCTPUNLjRuQmgvzHU5ng4f8VDQtXXPfR+oYzmwJKohYU9q+EL+t?=
- =?iso-8859-2?Q?p41Xg0+NxjykvmlvZM0im3m1zsEQ6O7xp9jzLSW3CSy7Ug4BD8U/f3loX6?=
- =?iso-8859-2?Q?m2dgZ7IV42D8gpPaSgZGxQfxdjuNZF06eztZWNwwtTbG2xJCCy5kJDjABj?=
- =?iso-8859-2?Q?kprDaZzeCplxAQW8xfkkmstWs5hIltTmdYlLszIG41MjqxWZJZpClawbb1?=
- =?iso-8859-2?Q?XipTfYbbjUUTJ5AY/cJ94Ocn6B1jSeJph/3BbItNRMvxRi6ONwCwbBDbP+?=
- =?iso-8859-2?Q?Le6I4IDVHcH5ofHexkpBJuMrroWBuSTjhDDNC3TqJdl72rmfZgLyVoS77N?=
- =?iso-8859-2?Q?yU/NIXbFlb8l9dK8q5jipLd1/FVk4Pp2P60jy+9m9cVnFbtvQjhXDypzeb?=
- =?iso-8859-2?Q?Ko1fH/QTTvV8pcNWJXq7fLf1O2d3JWe1yLLsUfK2TmQq0D5l5DpbB890yC?=
- =?iso-8859-2?Q?BVF/Ar5qTiLG7xggV8j4UXRb++gCvrDvk/yLsnEeOoqoE6pmrgwYAC6qZd?=
- =?iso-8859-2?Q?7sl4WiSn6wVEF9onXMgQmhjZwpqInrPFVmYPD5v5xlZBo9t8R0x2wBdi0r?=
- =?iso-8859-2?Q?1cJFwkDZ8sMDxKKKjLHjDI1tR9ldHAmzEmiKNR0GMuTz2ixBFx6wGgLXzl?=
- =?iso-8859-2?Q?wRoYHekrIzXtWBvjBDW4wBo0MryqgrcAtLVl4aPMAV4isfK9tw=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-2?Q?mKPbxCR50Zo/kBjFEIBIzbg6Es+ioxMMbEP7y4nJHK5XxBuKmBIhsyNe+c?=
- =?iso-8859-2?Q?P2PSImE1GXaPLwYEl2o0/N61ZqojPjfvrKsOv95iPU39dTSM2smMfyKa+b?=
- =?iso-8859-2?Q?yJ4MGTfyQcIrBV8ERN3vhUzyykJsgm9hEjRp0sYKTEOshqL4DV0ZfF0XIg?=
- =?iso-8859-2?Q?gSDYhrSwytejuBS2OhEKMlIRkHHQ7vytYCaFWfly2CZuaC6WJXN+qiqsDq?=
- =?iso-8859-2?Q?1wx+Flmo+eU+kxwC2S6ohnAeGzoxOeATpzP8czrMmvNgNv2SUtLjE6cpa6?=
- =?iso-8859-2?Q?CclM+6tyecZ4BTj7JPQNb+6McoBOVK2q7+LBl8VLvNUQ7Auam18+LneqCQ?=
- =?iso-8859-2?Q?OdOlDAEMcBPZg8du9cjYXV5ziDfXS8eYRmiGGpRe07zxj+E8FoJ6/CTVMd?=
- =?iso-8859-2?Q?7Kgi/HmvzryfBpo19AiuIOsdQYexfBhlJrLeDouh2L4yI08/Bbbl/kF8S5?=
- =?iso-8859-2?Q?+h6QuqJAMGwbkVFi3H1iqPsWXwLhY+gBMTbRuAnRl3CW/Yqzn1g39aa01o?=
- =?iso-8859-2?Q?cSQBDMI/SLuz65WdsanquiGJtbc/0CizuwL73kKQEb3Npn7di05o36xFWv?=
- =?iso-8859-2?Q?DEHcIldFhQXWwU2/gi5S2mXbMZmMCcyxEChQZkp0IE5lY0kODGyWfdDf2y?=
- =?iso-8859-2?Q?bETAGONsgtujjymUy1NAzor3kNZfB5tXwvpdVhrcAXo6LgPM0rFNGD6A58?=
- =?iso-8859-2?Q?6e/TskoSTgrkkg2uQDl2fzAYuGSIWLRUOariSlHuDDWemN2wBqBA0MUTPl?=
- =?iso-8859-2?Q?hgWCGKJIeDmhFv0/Y6bb+DT1H8rfdgxFfpEsh0+GSrBLTQhdDNi1t12f6f?=
- =?iso-8859-2?Q?XvROYBBSf7yzbEeHNW061lBKryfZqrvEHoMQuxPZKog/eOcdils30zwWnx?=
- =?iso-8859-2?Q?b/g6Qe2gspFfKmOdFOxepWKUsWsbnn8706go1E0uxXQTSvmXBcWwXBiYOd?=
- =?iso-8859-2?Q?XQcuKAqoZHHqw9Fb33/Qls/MseykH+NwDBNjX8o7TzR42pQKLf0HRYYGmb?=
- =?iso-8859-2?Q?0TLbowvsUzqn8Lnw42QWD5zzs9U80/mBCiHgHGcw1sFZXpgtC7b35d9BMt?=
- =?iso-8859-2?Q?zmA+oMzsghS3CdaIpJDV6n6mkI4QAlzbJ3RtlkXKbZ9eyBsA+YLQxaQq7p?=
- =?iso-8859-2?Q?HlVl87dlyRvwiXVa6gN4AxQQFclSPqONjcJ0ONO8DnDed4HSKwTNi5Ck1a?=
- =?iso-8859-2?Q?L2SYeW3kbJ41H7lF8WtreIUTJlevxAXf9H3833F5uA/caq+ev/Kf0FdDGK?=
- =?iso-8859-2?Q?yzS1iLutsB5PRhD1boh2gNU8RNC+6uPW1HLm0zHdUv6O4FqR3bbk/cLXOO?=
- =?iso-8859-2?Q?11lyG2zvkvia2pfWVROOpk8PgmvBHIHfCsIaDBWk9vXHFIgB+XyRPiaTTS?=
- =?iso-8859-2?Q?bsGblhc1scXXBJm6wDK24/nRbjFauqXawoxqAO16Jnavr6awCe+E0I5Ryf?=
- =?iso-8859-2?Q?nqUSFrJWfmemtxmMsGaUrdB9yWH/b6Zh2b4cYt5w+ekjkzVh5jn9WBJH9E?=
- =?iso-8859-2?Q?Dk9asRPl15WV6Ci7yTnuTI0CQdvVNtek4nLjE5XF2Jr3UX0Z/+U8K7i8QQ?=
- =?iso-8859-2?Q?yimx4UwBS+uDjiCMwzI1l50RwO5DpDjuoKLQabZf9rzmCxWZaarV19F+IU?=
- =?iso-8859-2?Q?RR+FiRm8NFYq8q/t4x9gOYsXV9u/TNMndx?=
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+        d=soleen.com; s=google; t=1763249655; x=1763854455; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ee7lz4Om+GPES8DwWVPvUGgIK1alarn+M6wiUgt8ct8=;
+        b=It+rt+WOG+XhMPXITo2trVWlnoRA4e+7qLkEUxGuHyk3SPliCy9Ep1hP8QyuiFNqW1
+         7WvH+GScKMIpiRo2SV7k1HgUCIDqrQEypz8OJfK0rLhq057g9XjE2OuhwmHywCgcYup0
+         cv5lslDGxuDoCFXqlLYLxvU2uVEftcR+t2zxdH/srtYFD6kMpo1It4FW+9+MwR4DjzqO
+         zmB9ckZvsH6yl/jHqN9RIkv/0Jxar3JI1QjVzdZqJvcMmdHH7mal29FVEgFoOBMHNN9f
+         NX7NM22aVYLpJqnPfZtSLWtl6tpHzJx2T2DmPJ/ZsXMKsNHNiZUgR71U12GVa8WBdep7
+         O/hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763249655; x=1763854455;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ee7lz4Om+GPES8DwWVPvUGgIK1alarn+M6wiUgt8ct8=;
+        b=mjEGMm3Z+Cx28kYBnqdJx1YJaymHQsFyo3chS/vOqpZLTQ0R06Ns3oaAW+WRAohyRv
+         S1uoVL5rLXAgWFwyQSt/LykVtaKRMyekWEbJRpZVd7oj/EwL5mqoAzlGm4Qs7/xR0TY6
+         ciopJqZxBQpY5SV3W5GDL0x/paNrbC3wbD1CNELmBG91DRT/vUB8+s/A6CbC+EJ2eaCd
+         1SAIbT/BRzuAONWAjSFjAJR0FRMupTbBs+ivas69w1Fl0YpUv5lPkOyzqBBH5HeiSPOX
+         c4FfR4k61LOEByCek2QRJJ8QWvUnIWsOx/J5OdiUrmUJnqynvbL4S0dtnLj7eyiZ4UuR
+         g/JA==
+X-Forwarded-Encrypted: i=1; AJvYcCWQD6MrgDRIJF5BhX0IQSHtUoeNtRZ1zl/r8EY3h39AcABK6GHu/wPjslFEca9z12sHhTDJ+qj7UHg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxH9i5qCHEjzTtEwKxCYAuUY+I0xoJFrm4gio9DEJB+5oIjY7Ut
+	xainHyczoXlAT5eKtIzTINzE+12u+pOp+GlYmAjYMtSxe5XS6oJlQX9jdrVPWmOYahA=
+X-Gm-Gg: ASbGncszPUP1wkwUCt45WqfpYQoixZESGWhJ/YJT9zb9yFKdPaB/pkbxk86et1x75N1
+	fEF3qbJZ+baEsQwYT0bKxvD0ZmhQOINCh0pAJHGcWQS6Uyhtqr2xMapEUSaUUB80h7iq9EHJArG
+	XIhc0zTlk+aarzx4d7GJC59dKI4E8lko8FxCWhLe/DPYVSd2UKd6hE37d0bl3uxNQ196+KnhUdQ
+	+LR5Rdh6SvFHbKE/iUxysU4Gk7TfL1RwrkCdr7hv57g3VnYxO9rZ1kipJllBEqDltk3yAU9a/9o
+	x3iUJneXiJ854JybPlKBzGG6pEqvWYuiOVppClWGs02oo54izXVsOtOk0WwT3N+Asw2ph1wKhFC
+	ZbFRl/tQVkzx+fyWR+NIzFBFBY3pdAJDciJsvhIP3s9tBQPOug7kC6DvjXtT9AajEvTGQc3fOlG
+	Pg3WSzkwDmyAKtB91u6tYu4CwW840Q5qT2+Nvq9XMlJS1ygxDQzUVZZdACXt57+eLwcToxdbnyR
+	LgdBDqn1f8C79rG6A==
+X-Google-Smtp-Source: AGHT+IHY/9H7Rzp2eriASzkL5MJ3Zatp1dgl1eRotDeTufMXyR7gZWjPaOKAzBcpPxEOBX631v43uw==
+X-Received: by 2002:a05:690c:b98:b0:787:f72d:2a57 with SMTP id 00721157ae682-78929e23b6cmr69035687b3.15.1763249654638;
+        Sat, 15 Nov 2025 15:34:14 -0800 (PST)
+Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7882218774esm28462007b3.57.2025.11.15.15.34.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Nov 2025 15:34:14 -0800 (PST)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: pratyush@kernel.org,
+	jasonmiu@google.com,
+	graf@amazon.com,
+	pasha.tatashin@soleen.com,
+	rppt@kernel.org,
+	dmatlack@google.com,
+	rientjes@google.com,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com,
+	ojeda@kernel.org,
+	aliceryhl@google.com,
+	masahiroy@kernel.org,
+	akpm@linux-foundation.org,
+	tj@kernel.org,
+	yoann.congal@smile.fr,
+	mmaurer@google.com,
+	roman.gushchin@linux.dev,
+	chenridong@huawei.com,
+	axboe@kernel.dk,
+	mark.rutland@arm.com,
+	jannh@google.com,
+	vincent.guittot@linaro.org,
+	hannes@cmpxchg.org,
+	dan.j.williams@intel.com,
+	david@redhat.com,
+	joel.granados@kernel.org,
+	rostedt@goodmis.org,
+	anna.schumaker@oracle.com,
+	song@kernel.org,
+	linux@weissschuh.net,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org,
+	gregkh@linuxfoundation.org,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	bartosz.golaszewski@linaro.org,
+	cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com,
+	yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com,
+	quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com,
+	ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com,
+	leon@kernel.org,
+	lukas@wunner.de,
+	bhelgaas@google.com,
+	wagi@kernel.org,
+	djeffery@redhat.com,
+	stuart.w.hayes@gmail.com,
+	ptyadav@amazon.de,
+	lennart@poettering.net,
+	brauner@kernel.org,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	saeedm@nvidia.com,
+	ajayachandra@nvidia.com,
+	jgg@nvidia.com,
+	parav@nvidia.com,
+	leonro@nvidia.com,
+	witu@nvidia.com,
+	hughd@google.com,
+	skhawaja@google.com,
+	chrisl@kernel.org
+Subject: [PATCH v6 00/20] Live Update Orchestrator
+Date: Sat, 15 Nov 2025 18:33:46 -0500
+Message-ID: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: cisco.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5896.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06dc7afe-7be7-41d7-220d-08de24856052
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2025 20:27:19.8090
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6sGSzNOwK5N2JX7LP+uBMy+DCipcCcM2IKRDSemuaKx2VgJ+Cpek7Aeyqj1K9YjSnc1FgC1NdcbLcIoAPUC6Og==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFE70B31BEF
-X-Outbound-SMTP-Client: 72.163.7.165, rcdn-opgw-4.cisco.com
-X-Outbound-Node: alln-l-core-03.cisco.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thursday, November 13, 2025 6:33 AM, Andy Shevchenko <andriy.shevchenko@=
-linux.intel.com> wrote:
->
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
->
-> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> drivers/scsi/snic/snic_debugfs.c | 10 ++++------
-> drivers/scsi/snic/snic_trc.c     |  5 ++---
-> 2 files changed, 6 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/scsi/snic/snic_debugfs.c b/drivers/scsi/snic/snic_de=
-bugfs.c
-> index 9dd975b36b5b..edf3e5ef28a6 100644
-> --- a/drivers/scsi/snic/snic_debugfs.c
-> +++ b/drivers/scsi/snic/snic_debugfs.c
-> @@ -282,8 +282,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
-> jiffies_to_timespec64(stats->misc.last_ack_time, &last_ack_tms);
->
-> seq_printf(sfp,
-> -                "Last ISR Time               : %llu (%8llu.%09lu)\n"
-> -                "Last Ack Time               : %llu (%8llu.%09lu)\n"
-> +                "Last ISR Time               : %llu (%ptSp)\n"
-> +                "Last Ack Time               : %llu (%ptSp)\n"
-> "Ack ISRs                    : %llu\n"
-> "IO Cmpl ISRs                : %llu\n"
-> "Err Notify ISRs             : %llu\n"
-> @@ -298,10 +298,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
-> "Queue Ramp Down             : %lld\n"
-> "Queue Last Queue Depth      : %lld\n"
-> "Target Not Ready            : %lld\n",
-> -                (u64) stats->misc.last_isr_time,
-> -                last_isr_tms.tv_sec, last_isr_tms.tv_nsec,
-> -                (u64)stats->misc.last_ack_time,
-> -                last_ack_tms.tv_sec, last_ack_tms.tv_nsec,
-> +                (u64) stats->misc.last_isr_time, &last_isr_tms,
-> +                (u64) stats->misc.last_ack_time, &last_ack_tms,
-> (u64) atomic64_read(&stats->misc.ack_isr_cnt),
-> (u64) atomic64_read(&stats->misc.cmpl_isr_cnt),
-> (u64) atomic64_read(&stats->misc.errnotify_isr_cnt),
-> diff --git a/drivers/scsi/snic/snic_trc.c b/drivers/scsi/snic/snic_trc.c
-> index c2e5ab7e976c..6bad1ea9a6a7 100644
-> --- a/drivers/scsi/snic/snic_trc.c
-> +++ b/drivers/scsi/snic/snic_trc.c
-> @@ -56,9 +56,8 @@ snic_fmt_trc_data(struct snic_trc_data *td, char *buf, =
-int buf_sz)
-> jiffies_to_timespec64(td->ts, &tmspec);
->
-> len +=3D snprintf(buf, buf_sz,
-> -                     "%llu.%09lu %-25s %3d %4x %16llx %16llx %16llx %16l=
-lx %16llx\n",
-> -                     tmspec.tv_sec,
-> -                     tmspec.tv_nsec,
-> +                     "%ptSp %-25s %3d %4x %16llx %16llx %16llx %16llx %1=
-6llx\n",
-> +                     &tmspec,
-> td->fn,
-> td->hno,
-> td->tag,
-> --
-> 2.50.1
->
->
+This series introduces the Live Update Orchestrator, a kernel subsystem
+designed to facilitate live kernel updates using a kexec-based reboot.
+This capability is critical for cloud environments, allowing hypervisors
+to be updated with minimal downtime for running virtual machines. LUO
+achieves this by preserving the state of selected resources, such as
+memory, devices and their dependencies, across the kernel transition.
 
-Thanks for the change, Andy.
+As a key feature, this series includes support for preserving memfd file
+descriptors, which allows critical in-memory data, such as guest RAM or
+any other large memory region, to be maintained in RAM across the kexec
+reboot.
 
-Acked-by: Karan Tilak Kumar <kartilak@cisco.com>
+The other series that use LUO, are VFIO [1], IOMMU [2], and PCI [3]
+preservations.
 
-Regards,
-Karan
+Github repo of this series [4].
+
+The core of LUO is a framework for managing the lifecycle of preserved
+resources through a userspace-driven interface. Key features include:
+
+- Session Management
+  Userspace agent (i.e. luod [5]) creates named sessions, each
+  represented by a file descriptor (via centralized agent that controls
+  /dev/liveupdate). The lifecycle of all preserved resources within a
+  session is tied to this FD, ensuring automatic kernel cleanup if the
+  controlling userspace agent crashes or exits unexpectedly.
+
+- File Preservation
+  A handler-based framework allows specific file types (demonstrated
+  here with memfd) to be preserved. Handlers manage the serialization,
+  restoration, and lifecycle of their specific file types.
+
+- File-Lifecycle-Bound State
+  A new mechanism for managing shared global state whose lifecycle is
+  tied to the preservation of one or more files. This is crucial for
+  subsystems like IOMMU or HugeTLB, where multiple file descriptors may
+  depend on a single, shared underlying resource that must be preserved
+  only once.
+
+- KHO Integration
+  LUO drives the Kexec Handover framework programmatically to pass its
+  serialized metadata to the next kernel. The LUO state is finalized and
+  added to the kexec image just before the reboot is triggered. In the
+  future this step will also be removed once stateless KHO is
+  merged [6].
+
+- Userspace Interface
+  Control is provided via ioctl commands on /dev/liveupdate for creating
+  and retrieving sessions, as well as on session file descriptors for
+  managing individual files.
+
+- Testing
+  The series includes a set of selftests, including userspace API
+  validation, kexec-based lifecycle tests for various session and file
+  scenarios, and a new in-kernel test module to validate the FLB logic.
+
+Changelog since v5 [7]
+
+- Moved internal luo_alloc/free_* memory helpers to generic
+  kho_alloc/free_* APIs, and submitted as a separate KHO series [8].
+
+- Moved the liveupdate_reboot() invocation from kernel/reboot.c to
+  kernel_kexec() in kernel/kexec_core.c.
+
+- Moved generic KHO enabling patches (debugfs, kimage logic) out of this
+  series and into the base KHO series.
+
+- Feedback: Addressed review comments from Mike Rapoport and Pratyush
+  Yadav.
+
+[1] https://lore.kernel.org/all/20251018000713.677779-1-vipinsh@google.com/
+[2] https://lore.kernel.org/linux-iommu/20250928190624.3735830-1-skhawaja@google.com
+[3] https://lore.kernel.org/linux-pci/20250916-luo-pci-v2-0-c494053c3c08@kernel.org
+[4] https://github.com/googleprodkernel/linux-liveupdate/tree/luo/v6
+[5] https://tinyurl.com/luoddesign
+[6] https://lore.kernel.org/all/20251020100306.2709352-1-jasonmiu@google.com
+[7] https://lore.kernel.org/all/20251107210526.257742-1-pasha.tatashin@soleen.com
+[8] https://lore.kernel.org/all/20251114190002.3311679-1-pasha.tatashin@soleen.com
+
+Pasha Tatashin (14):
+  liveupdate: luo_core: luo_ioctl: Live Update Orchestrator
+  liveupdate: luo_core: integrate with KHO
+  kexec: call liveupdate_reboot() before kexec
+  liveupdate: luo_session: add sessions support
+  liveupdate: luo_ioctl: add user interface
+  liveupdate: luo_file: implement file systems callbacks
+  liveupdate: luo_session: Add ioctls for file preservation
+  liveupdate: luo_flb: Introduce File-Lifecycle-Bound global state
+  docs: add luo documentation
+  MAINTAINERS: add liveupdate entry
+  selftests/liveupdate: Add userspace API selftests
+  selftests/liveupdate: Add kexec-based selftest for session lifecycle
+  selftests/liveupdate: Add kexec test for multiple and empty sessions
+  tests/liveupdate: Add in-kernel liveupdate test
+
+Pratyush Yadav (6):
+  mm: shmem: use SHMEM_F_* flags instead of VM_* flags
+  mm: shmem: allow freezing inode mapping
+  mm: shmem: export some functions to internal.h
+  liveupdate: luo_file: add private argument to store runtime state
+  mm: memfd_luo: allow preserving memfd
+  docs: add documentation for memfd preservation via LUO
+
+ Documentation/core-api/index.rst              |   1 +
+ Documentation/core-api/liveupdate.rst         |  71 ++
+ Documentation/mm/index.rst                    |   1 +
+ Documentation/mm/memfd_preservation.rst       |  23 +
+ Documentation/userspace-api/index.rst         |   1 +
+ .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+ Documentation/userspace-api/liveupdate.rst    |  20 +
+ MAINTAINERS                                   |  15 +
+ include/linux/liveupdate.h                    | 265 +++++
+ include/linux/liveupdate/abi/luo.h            | 238 +++++
+ include/linux/liveupdate/abi/memfd.h          |  88 ++
+ include/linux/shmem_fs.h                      |  23 +
+ include/uapi/linux/liveupdate.h               | 216 +++++
+ kernel/kexec_core.c                           |   5 +
+ kernel/liveupdate/Kconfig                     |  27 +
+ kernel/liveupdate/Makefile                    |   9 +
+ kernel/liveupdate/luo_core.c                  | 252 +++++
+ kernel/liveupdate/luo_file.c                  | 906 ++++++++++++++++++
+ kernel/liveupdate/luo_flb.c                   | 658 +++++++++++++
+ kernel/liveupdate/luo_internal.h              |  95 ++
+ kernel/liveupdate/luo_ioctl.c                 | 223 +++++
+ kernel/liveupdate/luo_session.c               | 600 ++++++++++++
+ lib/Kconfig.debug                             |  23 +
+ lib/tests/Makefile                            |   1 +
+ lib/tests/liveupdate.c                        | 143 +++
+ mm/Makefile                                   |   1 +
+ mm/internal.h                                 |   6 +
+ mm/memfd_luo.c                                | 671 +++++++++++++
+ mm/shmem.c                                    |  50 +-
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/liveupdate/.gitignore |   3 +
+ tools/testing/selftests/liveupdate/Makefile   |  40 +
+ tools/testing/selftests/liveupdate/config     |   5 +
+ .../testing/selftests/liveupdate/do_kexec.sh  |  16 +
+ .../testing/selftests/liveupdate/liveupdate.c | 348 +++++++
+ .../selftests/liveupdate/luo_kexec_simple.c   | 114 +++
+ .../selftests/liveupdate/luo_multi_session.c  | 190 ++++
+ .../selftests/liveupdate/luo_test_utils.c     | 168 ++++
+ .../selftests/liveupdate/luo_test_utils.h     |  39 +
+ 39 files changed, 5539 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/core-api/liveupdate.rst
+ create mode 100644 Documentation/mm/memfd_preservation.rst
+ create mode 100644 Documentation/userspace-api/liveupdate.rst
+ create mode 100644 include/linux/liveupdate.h
+ create mode 100644 include/linux/liveupdate/abi/luo.h
+ create mode 100644 include/linux/liveupdate/abi/memfd.h
+ create mode 100644 include/uapi/linux/liveupdate.h
+ create mode 100644 kernel/liveupdate/luo_core.c
+ create mode 100644 kernel/liveupdate/luo_file.c
+ create mode 100644 kernel/liveupdate/luo_flb.c
+ create mode 100644 kernel/liveupdate/luo_internal.h
+ create mode 100644 kernel/liveupdate/luo_ioctl.c
+ create mode 100644 kernel/liveupdate/luo_session.c
+ create mode 100644 lib/tests/liveupdate.c
+ create mode 100644 mm/memfd_luo.c
+ create mode 100644 tools/testing/selftests/liveupdate/.gitignore
+ create mode 100644 tools/testing/selftests/liveupdate/Makefile
+ create mode 100644 tools/testing/selftests/liveupdate/config
+ create mode 100755 tools/testing/selftests/liveupdate/do_kexec.sh
+ create mode 100644 tools/testing/selftests/liveupdate/liveupdate.c
+ create mode 100644 tools/testing/selftests/liveupdate/luo_kexec_simple.c
+ create mode 100644 tools/testing/selftests/liveupdate/luo_multi_session.c
+ create mode 100644 tools/testing/selftests/liveupdate/luo_test_utils.c
+ create mode 100644 tools/testing/selftests/liveupdate/luo_test_utils.h
+
+-- 
+2.52.0.rc1.455.g30608eb744-goog
+
