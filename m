@@ -1,808 +1,117 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626FB1CD1E4
-	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 01:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCF02116F6
+	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 06:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763169969; cv=none; b=MPg+PucN+RXZFibhjb2DjqFZyDeqsvMsjVbpropD1vUKgybGxpMoW6G2x5UpY9xvT5vAxIoCxbh1lR/GzEhWR/FINfwbv8APhs9zOmnFhjmgivaxRja8n6fIN2ls2TIvXw7A5HfP82QsSyvunlpQD7w5Ua5zy+8xVb3zBYVpOC0=
+	t=1763188550; cv=none; b=YkZbo9qPflLo7sje3lSi6kU8Z3sTml0GJxQJvISZ3XZcUtGnqW/hP3Xd6ObXMcdGuqgzbRy0OiScjqBWkjyqxv0IF6ZaYjut2b2BunkkYln13hnm4wICA4LHfh92KV14OvBOAP9qhjucioVNFdwN5IeZ7cp26wEAxw1AdFHRlUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763169969; c=relaxed/simple;
-	bh=Fc/2LECSauEg8ifd/nb3H70h+5XEWPPCPxt6MKnMOiY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ckeeQ0n1rtMcnYT/iCSFIAPkOWGX9pcFS4a1SG68asTxL6aEdGwRTD/RqwxhrEtHJoOuQf7Yl4jJHiMcNvou/Q3s3GgSokatpBQYknm92BsNnuYPlKwDx87fs/idOhjse5d69A756jodTHmm0ii1LnLKfB/7QgXkPte7Jx1lHhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eHsT/8hN; arc=none smtp.client-ip=209.85.214.172
+	s=arc-20240116; t=1763188550; c=relaxed/simple;
+	bh=uqaism/QJbclragkxlE4HR4kpiXL6LTLzjMt2F4uKf4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WFig+M96OqpmoRWgerFgJtzX9skQzhrmMxrZslvBqxxgr2HeE+hrl9Bv1GdaxfIR92Jy/4AEBuODXas3yoFr23OUwEM7M3NVrJrSsVMniLhsmTj4gy+Jxg0iUhPlhjVirYb7FNC6+eZAkVhvyQpVtG+AAWoi6OZAzvpdg5MKH60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=auA50SrN; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eHsT/8hN"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-297d4ac44fbso27368005ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 17:26:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="auA50SrN"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b4755f37c3eso1885112a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 22:35:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763169967; x=1763774767; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J/NAdrAJXJ7V++HAwaXsRm6bl9T7tiP6tNNPXSHhIbM=;
-        b=eHsT/8hNUfkXf8v5M0PTzDQS4yPdMKnjDzjRVlM6hQ+IidGCa8FMGl+KIxUm2xn4Jg
-         5w9LJOxPU6zhRfdg+rA8lSodaMwXD1dRTrzl4BTqCKkjY3lFRQRhALNT+fnERgZN7qov
-         TFo95yYj2V/TXOiHxSih+GeOXc+cTA8/n9aqC/usffaHNU8a6jAKTIsG9e0SRUq+1dNp
-         g6PiPn7+Y9cRGVJW/vh+ADKPkHk49l6iruwSU9jvM/xGWTnHTN9a0Kr0jCHKLWzkHjW3
-         ZunMFkXKrQqSLpdh6CrdyQoX3Hbrf6tfuJrpJEbnAq1Fot4CR/MN07JTEug/CY51XX7N
-         Eklg==
+        d=gmail.com; s=20230601; t=1763188546; x=1763793346; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AGui+AdzM7aan5lAJ1kcgBs7yX90mlPwYwEf2onMajU=;
+        b=auA50SrNxph5I6CjYSYB63UIbOYXYe4BPzZ0gK1yM/aimi5oY20AF108YAHbTV0OHz
+         GVgNrmh4ycmY7WPMXDLUvApu1V2K91v7iIRLlwbYElzRBNeZoqymC8+IQ6lOvSp63vHG
+         2OMJrxv9a6yL8LYy5nlUVvq0wp3xgZuA5cK87QWH9Q/LyShoHAvR1sGkZ16rvjhw4X5B
+         aopSTcKvQSFBJJN1hLLrNWvwKg7u0u8MYnmdKIK6Q3OKxTdI5I7HKsa+4S2DnfiKN2yJ
+         958PdsJtqAMZUZR/jcqNJXLH/LOLYZBhmACWuoOhvk9F4/ygkWD7niB4tsAEsLX+hajn
+         rqEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763169967; x=1763774767;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J/NAdrAJXJ7V++HAwaXsRm6bl9T7tiP6tNNPXSHhIbM=;
-        b=NC8ya2+/B0jhl7yEbKvhdgPIvQRetnsCR0LviB4je4eZ/Ui2tA0Ffds5BNo0FHo0Gh
-         XdUcb3f+AZry8NgGtXsAN4prgB+sTQG+MjPMvJeX82S8XUtzjjbgWMfqfECq9jj4T273
-         xC7h9ggxCyq2GqJZtYHpvr4w/d5GTxne1LU6DfafPnivLMUtBoVJEjd5Cr5mGK0VLRZu
-         myFbSyrf0hb/5TWiS6/3+z9WzMo8oqQgWFiWlzfab+UwM/7gxVR5NA5E9wRDi3C8aP5O
-         AuYzAYHu2dqpjLtNq5FUy2qBjXHBdtB30iLlDYAGeR1CJrf+cAYOqORFjL9bBJM7yDNB
-         +iNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUq0bHysSbsRjkJQPsRVjTZU/cACXIoL/AUEcrQ7w/BJFGQUZzYybRAfDr5rIQJIASVMaFYqC1r+I8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yye/UZ6Nq2fMvlOhdp8Izld1WdoneVclktYKB8ML8ptIVohaxs9
-	CswQVxWqC4ADlqWglRjqnT5f9gywS2VtmErNJzMp5Uq1NobGVyuXKQ00
-X-Gm-Gg: ASbGncu97Mj7YazDtxa20cDcmSGAnStocpeGeCSPcByZ6BMJeu1HxjEOatcKM40AeMu
-	DMt1OZNW4Rv2uqEnr7PI9j8OXOBF5UNvU9v3XJc9iZD/JT5Fo4AgqRKo3k6cchjQnJm+a/JTZet
-	41giOzce63c5yayxjc+yb60X6/uu8gwYncAKYv67oRFcU+eWZTBaQ22B9Strnxr8D2tkv/nvXzB
-	lthGybIJIJBssgenVlK12F5ZhRTxD5fTx3CiqOOTt8LrDsBaQBaKjCn13SW9UG29nwTYOmXkceH
-	ffYk3zJ1y5+bbqxHQPiZ7GnC2J7FOXXtnFxBYss2FuinMrppw3WoAW4O42LJ6KVu67yCx/8mN6a
-	NHGtkY3gH/ehsKLZIAgyfW4RXzAPNJfqa/vDMlJ4ol+20Hr9e/LocWj3m8VFoKAbxdEp1umsIhI
-	wL
-X-Google-Smtp-Source: AGHT+IHeqhLvVvlM9/xTM+0AaLsrpTomwoR7pKv2D+U8a04CPxe4gwL0u+MLY6wNTBQ1PmV9r66FFw==
-X-Received: by 2002:a17:903:1112:b0:295:7423:530a with SMTP id d9443c01a7336-2986801b5a3mr60472515ad.29.1763169966379;
-        Fri, 14 Nov 2025 17:26:06 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2bed39sm68345165ad.77.2025.11.14.17.26.04
+        d=1e100.net; s=20230601; t=1763188546; x=1763793346;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AGui+AdzM7aan5lAJ1kcgBs7yX90mlPwYwEf2onMajU=;
+        b=plQ+DqVKVUCfW+AbIAx2qRtkjfsXhCNFVQPoz9/lNMUnVw3SgfQMpyHp/Pwqz0+gC9
+         GbizhUMV8bhWCzo1AORJyAdZ4f7g/MZZ0FuAWL8l8+h00qgrTH5FqfcppqMAjkYfmMHB
+         ewnctxsNhZtdru4LavwUUl7K+v+L+J8mdYwT0I4epDytoYmAXRHwC+45v1JUt6jeTi/1
+         g8EU9N69POzYOxyZqy5osPsZtwTYsmIvUaR9vT5RrAjOLzHFNaJj5d5hCJ0PKf1lRuUj
+         2ll3/Pm8IGfbSdEO3OjS+CQme6alFTJyRQ2uywFNnAB4gyl8v44V2eFsbXHbivWGLIKf
+         Xj0A==
+X-Forwarded-Encrypted: i=1; AJvYcCUvhjFW7/EUiAowS5RtD9rZIqyY361gCUkw0mjYoTfQB2wIW7MmRiQA0DRJgy/SNme+apqhi4AqOiA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGe3BUT33o0tQK/FokNTzBQ0spxjJFcP2bvCEejt45msQ+WaLt
+	3rksBIYwTkcfLuk497+yQNzoQzyCpFFZGSMQknE3wMunEX+2J225HFtx
+X-Gm-Gg: ASbGncsFXGlborUUU3wVGtVpvs4uGe3cmXbppueyXbUx7xXLzR/CGx2WbXhxXHuHTPt
+	j7NPNq09HP/fn7qXfN6HmFzJ+GnKB+aTNLc+LgvH+/iSvgt2rSRpmf4xtzsOGs2lAC04Izz3gTs
+	NRRZHsdcIeS/xiLTTDoTXkzoRZvULJCse5RLjneJK8HlviBBOZmEFfPUgpv9f9pH6KD0vge1TyS
+	52pA3+VYqqu1WyMz2Wcn6we+1u1ljkgaAV24PWaFa0rKLVMLVHjABa3pk4BrrlEUWwfqY/Qy/fL
+	gIXjdVtUEHbtsrAm++3PkUiozWNiOUQdq2AMnX+64GKaYaUYt7twOdE5fpre6Fi/JDHWIumGtjU
+	2yKn1/SuqpRvZsiUKIJaqgo1i2DxiahDbG9vhneb305Nk9t1oz/G+muUdLsAHzvGE7EGWYUV9wS
+	MQ6o2JmA9HJqU=
+X-Google-Smtp-Source: AGHT+IH+R922UmhrzHHqhEhIc4l+mUYiBtLGewqFO+dYoCs3UdZ2ghbwO/7KvLaGEanZEaAkyDOAxQ==
+X-Received: by 2002:a05:7300:d80d:b0:2a4:3593:c7d4 with SMTP id 5a478bee46e88-2a4abb32dfdmr1994874eec.20.1763188546369;
+        Fri, 14 Nov 2025 22:35:46 -0800 (PST)
+Received: from fedora ([172.59.161.218])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a49da0662dsm19056274eec.2.2025.11.14.22.35.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Nov 2025 17:26:05 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 3A37C4209E72; Sat, 15 Nov 2025 08:25:55 +0700 (WIB)
-Date: Sat, 15 Nov 2025 08:25:54 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Levente =?utf-8?B?UsOpdsOpc3o=?= <levente.revesz@eilabs.com>,
-	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v1 1/1] Documentation: gpio: Add a compatibility and
- feature list for PCA953x
-Message-ID: <aRfWouKGA7q2ufCV@archie.me>
-References: <20251112224924.2091880-1-andriy.shevchenko@linux.intel.com>
+        Fri, 14 Nov 2025 22:35:46 -0800 (PST)
+From: Alex Tran <alex.t.tran@gmail.com>
+To: ast@kernel.org,
+	daniel@iogearbox.net,
+	andrii@kernel.org,
+	corbet@lwn.net
+Cc: martin.lau@linux.dev,
+	eddyz87@gmail.com,
+	song@kernel.org,
+	yonghong.song@linux.dev,
+	john.fastabend@gmail.com,
+	kpsingh@kernel.org,
+	sdf@fomichev.me,
+	haoluo@google.com,
+	jolsa@kernel.org,
+	bpf@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alex Tran <alex.t.tran@gmail.com>
+Subject: [PATCH bpf-next v1] docs: bpf: map_array: specify BPF_MAP_TYPE_PERCPU_ARRAY value size limit
+Date: Fri, 14 Nov 2025 22:35:31 -0800
+Message-ID: <20251115063531.2302903-1-alex.t.tran@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QdtxYz/JQTq6lKFi"
-Content-Disposition: inline
-In-Reply-To: <20251112224924.2091880-1-andriy.shevchenko@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
+Specify value size limit for BPF_MAP_TYPE_PERCPU_ARRAY which
+is PCPU_MIN_UNIT_SIZE (32 kb). In percpu allocator (mm: percpu), 
+any request with a size greater than PCPU_MIN_UNIT_SIZE is rejected. 
 
---QdtxYz/JQTq6lKFi
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+---
+ Documentation/bpf/map_array.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-On Wed, Nov 12, 2025 at 11:48:20PM +0100, Andy Shevchenko wrote:
-> diff --git a/Documentation/driver-api/gpio/pca953x.rst b/Documentation/dr=
-iver-api/gpio/pca953x.rst
-> new file mode 100644
-> index 000000000000..4bd7cf1120cb
-> --- /dev/null
-> +++ b/Documentation/driver-api/gpio/pca953x.rst
-> @@ -0,0 +1,552 @@
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +PCA953x I=C2=B2C GPIO expander compatibility list
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +:Author: Levente R=C3=A9v=C3=A9sz <levente.revesz@eilabs.com>
-> +
-> +I went through all the datasheets and created this note listing
-> +chip functions and register layouts.
+diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
+index f2f51a53e8ae..fa56ff75190c 100644
+--- a/Documentation/bpf/map_array.rst
++++ b/Documentation/bpf/map_array.rst
+@@ -15,8 +15,9 @@ of constant size. The size of the array is defined in ``max_entries`` at
+ creation time. All array elements are pre-allocated and zero initialized when
+ created. ``BPF_MAP_TYPE_PERCPU_ARRAY`` uses a different memory region for each
+ CPU whereas ``BPF_MAP_TYPE_ARRAY`` uses the same memory region. The value
+-stored can be of any size, however, all array elements are aligned to 8
+-bytes.
++stored can be of any size for ``BPF_MAP_TYPE_ARRAY`` and not more than
++``PCPU_MIN_UNIT_SIZE`` (32 kB) for ``BPF_MAP_TYPE_PERCPU_ARRAY``. All
++array elements are aligned to 8 bytes.
+ 
+ Since kernel 5.5, memory mapping may be enabled for ``BPF_MAP_TYPE_ARRAY`` by
+ setting the flag ``BPF_F_MMAPABLE``. The map definition is page-aligned and
+-- 
+2.51.0
 
-Nit: above first-person intro can be instead edited to:
-
-This document lists chip functions and register layouts for all chips
-supported by PCA953x driver.
-
-> +
-> +Overview of chips
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Chips with the basic 4 registers
-> +--------------------------------
-> +
-> +These chips have 4 register banks: input, output, invert and direction.
-> +Each of these banks contains (lines/8) registers, one for each GPIO port.
-> +
-> +Banks offset is always a power of 2:
-> +
-> +- 4 lines  -> bank offset is 1
-> +- 8 lines  -> bank offset is 1
-> +- 16 lines -> bank offset is 2
-> +- 24 lines -> bank offset is 4
-> +- 32 lines -> bank offset is 4
-> +- 40 lines -> bank offset is 8
-> +
-> +For example, register layout of GPIO expander with 24 lines:
-> +
-> ++------+-----------------+--------+
-> +| addr | function        | bank   |
-> ++=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=
-=3D=3D=3D=3D=3D=3D=3D=3D+
-> +|  00  | input port0     |        |
-> ++------+-----------------+        |
-> +|  01  | input port1     | bank 0 |
-> ++------+-----------------+        |
-> +|  02  | input port2     |        |
-> ++------+-----------------+--------+
-> +|  03  | n/a             |        |
-> ++------+-----------------+--------+
-> +|  04  | output port0    |        |
-> ++------+-----------------+        |
-> +|  05  | output port1    | bank 1 |
-> ++------+-----------------+        |
-> +|  06  | output port2    |        |
-> ++------+-----------------+--------+
-> +|  07  | n/a             |        |
-> ++------+-----------------+--------+
-> +|  08  | invert port0    |        |
-> ++------+-----------------+        |
-> +|  09  | invert port1    | bank 2 |
-> ++------+-----------------+        |
-> +|  0A  | invert port2    |        |
-> ++------+-----------------+--------+
-> +|  0B  | n/a             |        |
-> ++------+-----------------+--------+
-> +|  0C  | direction port0 |        |
-> ++------+-----------------+        |
-> +|  0D  | direction port1 | bank 3 |
-> ++------+-----------------+        |
-> +|  0E  | direction port2 |        |
-> ++------+-----------------+--------+
-> +|  0F  | n/a             |        |
-> ++------+-----------------+--------+
-> +
-> +.. note::
-> +     This is followed by all supported chips, except by pcal6534.
-
-Do you mean aforementioned banks offset arrangement?
-
-> +
-> +The table below shows the offsets for each of the compatible chips:
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +compatible lines interrupt input output invert direction
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +pca9536        4        no    00     01     02        03
-> +pca9537        4       yes    00     01     02        03
-> +pca6408        8       yes    00     01     02        03
-> +tca6408        8       yes    00     01     02        03
-> +pca9534        8       yes    00     01     02        03
-> +pca9538        8       yes    00     01     02        03
-> +pca9554        8       yes    00     01     02        03
-> +tca9554        8       yes    00     01     02        03
-> +pca9556        8        no    00     01     02        03
-> +pca9557        8        no    00     01     02        03
-> +pca6107        8       yes    00     01     02        03
-> +pca6416       16       yes    00     02     04        06
-> +tca6416       16       yes    00     02     04        06
-> +pca9535       16       yes    00     02     04        06
-> +pca9539       16       yes    00     02     04        06
-> +tca9539       16       yes    00     02     04        06
-> +pca9555       16       yes    00     02     04        06
-> +max7318       16       yes    00     02     04        06
-> +tca6424       24       yes    00     04     08        0C
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +
-> +Chips with additional timeout_en register
-> +-----------------------------------------
-> +
-> +These Maxim chips have a bus timeout function which can be enabled in
-> +the timeout_en register. This is present in only two chips. Defaults to
-> +timeout disabled.
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +compatible lines interrupt input output invert direction timeout_en
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +max7310        8        no    00     01     02        03         04
-> +max7312       16       yes    00     02     04        06         08
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Chips with additional int_mask register
-> +---------------------------------------
-> +
-> +These chips have an interrupt mask register in addition to the 4 basic
-> +registers. The interrupt masks default to all interrupts disabled. To
-> +use interrupts with these chips, the driver has to set the int_mask
-> +register.
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +compatible lines interrupt input output invert direction int_mask
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +pca9505       40       yes    00     08     10        18       20
-> +pca9506       40       yes    00     08     10        18       20
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Chips with additional int_mask and out_conf registers
-> +-----------------------------------------------------
-> +
-> +This chip has an interrupt mask register, and an output port
-> +configuration register, which can select between push-pull and
-> +open-drain modes. Each bit controls two lines. Both of these registers
-> +are present in PCAL chips as well, albeit the out_conf works
-> +differently.
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +compatible lines interrupt input output invert direction int_mask out_co=
-nf
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +pca9698       40       yes    00     08     10        18       20       =
-28
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +pca9698 also has a "master output" register for setting all outputs per
-> +port to the same value simultaneously, and a chip specific mode register
-> +for various additional chip settings.
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D
-> +compatible master_output mode
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D
-> +pca9698               29   2A
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D
-> +
-> +Chips with LED blink and intensity control
-> +------------------------------------------
-> +
-> +These Maxim chips have no invert register.
-> +
-> +They have two sets of output registers (output0 and output1). An internal
-> +timer alternates the effective output between the values set in these
-> +registers, if blink mode is enabled in the blink register. The
-> +master_intensity register and the intensity registers together define
-> +the PWM intensity value for each pair of outputs.
-> +
-> +These chips can be used as simple GPIO expanders if the driver handles t=
-he
-> +input, output0 and direction registers.
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +compatible lines interrupt input output0 direction output1 master_intens=
-ity blink intensity
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +max7315        8       yes    00      01        03      09              =
- 0E    0F        10
-> +max7313       16       yes    00      02        06      0A              =
- 0E    0F        10
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Basic PCAL chips
-> +----------------
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +compatible lines interrupt input output invert direction
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +pcal6408       8       yes    00     01     02        03
-> +pcal9554b      8       yes    00     01     02        03
-> +pcal6416      16       yes    00     02     04        06
-> +pcal9535      16       yes    00     02     04        06
-> +pcal9555a     16       yes    00     02     04        06
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +
-> +These chips have several additional features:
-> +
-> +    1. output drive strength setting (out_strength)
-> +    2. input latch (in_latch)
-> +    3. pull-up/pull-down (pull_in, pull_sel)
-> +    4. push-pull/open-drain outputs (out_conf)
-> +    5. interrupt mask and interrupt status (int_mask, int_status)
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +compatible out_strength in_latch pull_en pull_sel int_mask int_status ou=
-t_conf
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +pcal6408             40       42      43       44       45         46   =
-    4F
-> +pcal9554b            40       42      43       44       45         46   =
-    4F
-> +pcal6416             40       44      46       48       4A         4C   =
-    4F
-> +pcal9535             40       44      46       48       4A         4C   =
-    4F
-> +pcal9555a            40       44      46       48       4A         4C   =
-    4F
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Currently the driver has support for the input latch, pull-up/pull-down
-> +and uses int_mask and int_status for interrupts.
-> +
-> +PCAL chips with extended interrupt and output configuration functions
-> +---------------------------------------------------------------------
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +compatible lines interrupt input output invert direction
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +pcal6524      24       yes    00     04     08        0C
-> +pcal6534      34       yes    00     05     0A        0F
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +
-> +These chips have the full PCAL register set, plus the following function=
-s:
-> +
-> +    1. interrupt event selection: level, rising, falling, any edge
-> +    2. clear interrupt status per line
-> +    3. read input without clearing interrupt status
-> +    4. individual output config (push-pull/open-drain) per output line
-> +    5. debounce inputs
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +compatible out_strength in_latch pull_en pull_sel int_mask int_status ou=
-t_conf
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +pcal6524             40       48      4C       50       54       58     =
-    5C
-> +pcal6534             30       3A      3F       44       49       4E     =
-    53
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +compatible int_edge int_clear input_status indiv_out_conf debounce debou=
-nce_count
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +pcal6524         60        68           6C             70       74      =
-       76
-> +pcal6534         54        5E           63             68       6D      =
-       6F
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +
-> +As can be seen in the table above, pcal6534 does not follow the usual
-> +bank spacing rule. Its banks are closely packed instead.
-> +
-> +PCA957X chips with a completely different register layout
-> +---------------------------------------------------------
-> +
-> +These chips have the basic 4 registers, but at unusual addresses.
-> +
-> +Additionally, they have:
-> +
-> +    1. pull-up/pull-down (pull_sel)
-> +    2. a global pull enable, defaults to disabled (config)
-> +    3. interrupt mask, interrupt status (int_mask, int_status)
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=
-=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +compatible lines interrupt input invert config pull_sel direction output=
- int_mask int_status
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=
-=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +pca9574        8       yes    00     01     02       03        04     05=
-       06         07
-> +pca9575       16       yes    00     02     04       06        08     0A=
-       0C         0E
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=
-=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Currently the driver supports none of the advanced features.
-> +
-> +XRA1202
-> +-------
-> +
-> +Basic 4 registers, plus advanced features:
-> +
-> +    1. interrupt mask, defaults to interrupts disabled
-> +    2. interrupt status
-> +    3. interrupt event selection, level, rising, falling, any edge
-> +       (int_mask, rising_mask, falling_mask)
-> +    4. pull-up (no pull-down)
-> +    5. tri-state
-> +    6. debounce
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +compatible lines interrupt input output invert direction pullup_en
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +xra1202        8       yes    00     01     02        03        04
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D =3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +compatible int_mask tristate int_status rising_mask falling_mask debounce
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +xra1202          05       06         07          08           09       0A
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=
-=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Overview of functions
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +This section lists chip functions that are supported by the driver
-> +already, or are at least common in multiple chips.
-> +
-> +Input, Output, Invert, Direction
-> +--------------------------------
-> +
-> +The basic 4 GPIO functions are present in all but one chip category, i.e.
-> +`Chips with LED blink and intensity control`_ are missing the invert
-> +register.
-> +
-> +3 different layouts are used for these registers:
-> +
-> +    1. banks 0, 1, 2, 3 with bank offsets of 2^n
-> +        - all other chips
-> +
-> +    2. banks 0, 1, 2, 3 with closely packed banks
-> +        - pcal6534
-> +
-> +    3. banks 0, 5, 1, 4 with bank offsets of 2^n
-> +        - pca9574
-> +        - pca9575
-> +
-> +Interrupts
-> +----------
-> +
-> +Only an interrupt mask register
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +The same layout is used for all of these:
-> +
-> +    1. bank 5 with bank offsets of 2^n
-> +        - pca9505
-> +        - pca9506
-> +        - pca9698
-> +
-> +Interrupt mask and interrupt status registers
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +These work the same way in all of the chips: mask and status have
-> +one bit per line, 1 in the mask means interrupt enabled.
-> +
-> +Layouts:
-> +
-> +    1. base offset 0x40, bank 5 and bank 6, bank offsets of 2^n
-> +        - pcal6408
-> +        - pcal6416
-> +        - pcal9535
-> +        - pcal9554b
-> +        - pcal9555a
-> +        - pcal6524
-> +
-> +    2. base offset 0x30, bank 5 and 6, closely packed banks
-> +        - pcal6534
-> +
-> +    3. bank 6 and 7, bank offsets of 2^n
-> +        - pca9574
-> +        - pca9575
-> +
-> +    4. bank 5 and 7, bank offsets of 2^n
-> +        - xra1202
-> +
-> +Interrupt on specific edges
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +`PCAL chips with extended interrupt and output configuration functions`_
-> +have an int_edge register. This contains 2 bits per line, one of 4 events
-> +can be selected for each line:
-> +
-> +    0: level, 1: rising edge, 2: falling edge, 3: any edge
-> +
-> +Layouts:
-> +
-> +    1. base offset 0x40, bank 7, bank offsets of 2^n
-> +
-> +        - pcal6524
-> +
-> +    2. base offset 0x30, bank 7 + offset 0x01, closely packed banks
-> +       (out_conf is 1 byte, not (lines/8) bytes, hence the 0x01 offset)
-> +
-> +        - pcal6534
-> +
-> +`XRA1202`_ chips have a different mechanism for the same thing: they have
-> +a rising mask and a falling mask, with one bit per line.
-> +
-> +Layout:
-> +
-> +    1. bank 5, bank offsets of 2^n
-> +
-> +Input latch
-> +-----------
-> +
-> +Only `Basic PCAL chips`_ and
-> +`PCAL chips with extended interrupt and output configuration functions`_
-> +have this function. When the latch is enabled, the interrupt is not clea=
-red
-> +until the input port is read. When the latch is disabled, the interrupt
-> +is cleared even if the input register is not read, if the input pin retu=
-rns
-> +to the logic value it had before generating the interrupt. Defaults to l=
-atch
-> +disabled.
-> +
-> +Currently the driver enables the latch for each line with interrupt
-> +enabled.
-> +
-> +    1. base offset 0x40, bank 2, bank offsets of 2^n
-> +        - pcal6408
-> +        - pcal6416
-> +        - pcal9535
-> +        - pcal9554b
-> +        - pcal9555a
-> +        - pcal6524
-> +
-> +    2. base offset 0x30, bank 2, closely packed banks
-> +        - pcal6534
-> +
-> +Pull-up and pull-down
-> +---------------------
-> +
-> +`Basic PCAL chips`_ and
-> +`PCAL chips with extended interrupt and output configuration functions`_
-> +use the same mechanism: their pull_en register enables the pull-up or pu=
-ll-down
-> +function, and their pull_sel register chooses the direction. They all us=
-e one
-> +bit per line.
-> +
-> +    0: pull-down, 1: pull-up
-> +
-> +Layouts:
-> +
-> +    1. base offset 0x40, bank 3 (en) and 4 (sel), bank offsets of 2^n
-> +        - pcal6408
-> +        - pcal6416
-> +        - pcal9535
-> +        - pcal9554b
-> +        - pcal9555a
-> +        - pcal6524
-> +
-> +    2. base offset 0x30, bank 3 (en) and 4 (sel), closely packed banks
-> +        - pcal6534
-> +
-> +`PCA957X chips with a completely different register layout`_ have a pull=
-_sel
-> +register with one bit per line, and a global pull_en bit in their config
-> +register.
-> +
-> +Layout:
-> +
-> +    1. bank 2 (config), bank 3 (sel), bank offsets of 2^n
-> +        - pca9574
-> +        - pca9575
-> +
-> +`XRA1202`_ chips can only pull-up. They have a pullup_en register.
-> +
-> +Layout:
-> +
-> +    1. bank 4, bank offsets of 2^n
-> +        - xra1202
-> +
-> +Push-pull and open-drain
-> +------------------------
-> +
-> +`Chips with additional int_mask and out_conf registers`_ have this funct=
-ion,
-> +but only for select IO ports. Register has 1 bit per 2 lines. In pca9698,
-> +only port0 and port1 have this function.
-> +
-> +    0: open-drain, 1: push-pull
-> +
-> +Layout:
-> +
-> +    1. base offset 5*bankoffset
-> +        - pca9698
-> +
-> +`Basic PCAL chips`_ have 1 bit per port in one single out_conf register.
-> +Only whole ports can be configured.
-> +
-> +    0: push-pull, 1: open-drain
-> +
-> +Layout:
-> +
-> +    1. base offset 0x4F
-> +        - pcal6408
-> +        - pcal6416
-> +        - pcal9535
-> +        - pcal9554b
-> +        - pcal9555a
-> +
-> +`PCAL chips with extended interrupt and output configuration functions`_
-> +can set this for each line individually. They have the same per-port out=
-_conf
-> +register as `Basic PCAL chips`_, but they also have an indiv_out_conf re=
-gister
-> +with one bit per line, which inverts the effect of the port-wise setting.
-> +
-> +    0: push-pull, 1: open-drain
-> +
-> +Layouts:
-> +
-> +    1. base offset 0x40 + 7*bankoffset (out_conf),
-> +       base offset 0x60, bank 4 (indiv_out_conf) with bank offset of 2^n
-> +
-> +        - pcal6524
-> +
-> +    2. base offset 0x30 + 7*banksize (out_conf),
-> +       base offset 0x54, bank 4 (indiv_out_conf), closely packed banks
-> +
-> +        - pcal6534
-> +
-> +This function is currently not supported by the driver.
-> +
-> +Output drive strength
-> +---------------------
-> +
-> +Only PCAL chips have this function. 2 bits per line.
-> +
-> +=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +bits drive strength
-> +=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +  00          0.25x
-> +  01          0.50x
-> +  10          0.75x
-> +  11          1.00x
-> +=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +    1. base offset 0x40, bank 0 and 1, bank offsets of 2^n
-> +        - pcal6408
-> +        - pcal6416
-> +        - pcal9535
-> +        - pcal9554b
-> +        - pcal9555a
-> +        - pcal6524
-> +
-> +    2. base offset 0x30, bank 0 and 1, closely packed banks
-> +        - pcal6534
-> +
-> +Currently not supported by the driver.
-> +
-> +Datasheets
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +- MAX7310: https://datasheets.maximintegrated.com/en/ds/MAX7310.pdf
-> +- MAX7312: https://datasheets.maximintegrated.com/en/ds/MAX7312.pdf
-> +- MAX7313: https://datasheets.maximintegrated.com/en/ds/MAX7313.pdf
-> +- MAX7315: https://datasheets.maximintegrated.com/en/ds/MAX7315.pdf
-> +- MAX7318: https://datasheets.maximintegrated.com/en/ds/MAX7318.pdf
-> +- PCA6107: https://pdf1.alldatasheet.com/datasheet-pdf/view/161780/TI/PC=
-A6107.html
-> +- PCA6408A: https://www.nxp.com/docs/en/data-sheet/PCA6408A.pdf
-> +- PCA6416A: https://www.nxp.com/docs/en/data-sheet/PCA6416A.pdf
-> +- PCA9505: https://www.nxp.com/docs/en/data-sheet/PCA9505_9506.pdf
-> +- PCA9505: https://www.nxp.com/docs/en/data-sheet/PCA9505_9506.pdf
-> +- PCA9534: https://www.nxp.com/docs/en/data-sheet/PCA9534.pdf
-> +- PCA9535: https://www.nxp.com/docs/en/data-sheet/PCA9535_PCA9535C.pdf
-> +- PCA9536: https://www.nxp.com/docs/en/data-sheet/PCA9536.pdf
-> +- PCA9537: https://www.nxp.com/docs/en/data-sheet/PCA9537.pdf
-> +- PCA9538: https://www.nxp.com/docs/en/data-sheet/PCA9538.pdf
-> +- PCA9539: https://www.nxp.com/docs/en/data-sheet/PCA9539_PCA9539R.pdf
-> +- PCA9554: https://www.nxp.com/docs/en/data-sheet/PCA9554_9554A.pdf
-> +- PCA9555: https://www.nxp.com/docs/en/data-sheet/PCA9555.pdf
-> +- PCA9556: https://www.nxp.com/docs/en/data-sheet/PCA9556.pdf
-> +- PCA9557: https://www.nxp.com/docs/en/data-sheet/PCA9557.pdf
-> +- PCA9574: https://www.nxp.com/docs/en/data-sheet/PCA9574.pdf
-> +- PCA9575: https://www.nxp.com/docs/en/data-sheet/PCA9575.pdf
-> +- PCA9698: https://www.nxp.com/docs/en/data-sheet/PCA9698.pdf
-> +- PCAL6408A: https://www.nxp.com/docs/en/data-sheet/PCAL6408A.pdf
-> +- PCAL6416A: https://www.nxp.com/docs/en/data-sheet/PCAL6416A.pdf
-> +- PCAL6524: https://www.nxp.com/docs/en/data-sheet/PCAL6524.pdf
-> +- PCAL6534: https://www.nxp.com/docs/en/data-sheet/PCAL6534.pdf
-> +- PCAL9535A: https://www.nxp.com/docs/en/data-sheet/PCAL9535A.pdf
-> +- PCAL9554B: https://www.nxp.com/docs/en/data-sheet/PCAL9554B_PCAL9554C.=
-pdf
-> +- PCAL9555A: https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf
-> +- TCA6408A: https://www.ti.com/lit/gpn/tca6408a
-> +- TCA6416: https://www.ti.com/lit/gpn/tca6416
-> +- TCA6424: https://www.ti.com/lit/gpn/tca6424
-> +- TCA9539: https://www.ti.com/lit/gpn/tca9539
-> +- TCA9554: https://www.ti.com/lit/gpn/tca9554
-> +- XRA1202: https://assets.maxlinear.com/web/documents/xra1202_1202p_101_=
-042213.pdf
-
-The rest LGTM.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---QdtxYz/JQTq6lKFi
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaRfWmwAKCRD2uYlJVVFO
-o3+sAQDXySP2ut4Kww3pvhvjcByonRU8zGBYtXBJdQ+tRIv0HwD+JboozY1j7U+u
-Np1XdyRkYgljEQE7f7p4wXeGJG7Wkws=
-=M/qj
------END PGP SIGNATURE-----
-
---QdtxYz/JQTq6lKFi--
