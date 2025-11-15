@@ -1,164 +1,89 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7633064A7
-	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 18:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C640245020;
+	Sat, 15 Nov 2025 19:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763231356; cv=none; b=lRT2G4TzxwgOx710L7fEBLi9OsZyWDrqcaJlbLUMGhHP0UAS91K+hk69os1CTMfnvRGbvZPXFrPu9R9DP3rJ/xWXIJNETZmyFpRsHjfKPGXNwSiTCUh7z5dToFLrpq7+y9CIKJDm5vR5W/osVuIF5s24lGbkkhz0fd0d7983bLE=
+	t=1763236170; cv=none; b=Owmb+a0tLZgGYLUMnn/VnQJFpWO2bKbxc5L9/VdqMtO6Iq6UQa4uUTpGSUxd2kJb+muRSKR56RGGoDAh17E73BI+XqLcpkrpW5CF3as6gp+VgNvZNwDrWJxGhC5IeigVF1YAByPJR/z9Gg1XaBDfnlQNinAKZ3E6EtiVoktfaJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763231356; c=relaxed/simple;
-	bh=Xkp+AlOrp77vDyfTjWGA5vol4JLYgJgv4g0+c9b+DoE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=raVV+j3+ABm2ihRgs97zXBhLc5HSafgsMoqvrazGY6XZ6tTBLydokl/FtLbSPx9IZWg5rW0tGBI3OytcpLze+zXBB7cVzA6VzsjawLNPVMHjtsSTBtnweQH98DJnsQEzzTQ65FeSRLlma/S2ICz3s74KCmEXilowFKHX6kFSyig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net; spf=none smtp.mailfrom=dpplabs.com; dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b=k/byuNno; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=reznichenko.net
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dpplabs.com
+	s=arc-20240116; t=1763236170; c=relaxed/simple;
+	bh=3V1Fy9ViaaQY/0jnDSl+WwzZFp/8UOyrCxw/t7OdckM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ppbtFOaUgWqTrHYq1f792CP9EtAHGJiiGY4f9wXkXe0TYY4usIS8xDPe0n1NVEqrhFTssa0AmXwsIuB5KYPae/VjsjHT9jNQT5OM1Z4WHPPpcOLsShAQ3frar7V0KPu8YQ/Uq4Azns+HlTMUL9SHy89xGKo85V9jHr5Ozs4CNgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mGXZAVYi; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=reznichenko.net header.i=@reznichenko.net header.b="k/byuNno"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7b9a98b751eso2024689b3a.1
-        for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 10:29:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=reznichenko.net; s=google; t=1763231352; x=1763836152; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iej97Lk0IpH9rmKjnGruuelwGjs+gRKjN3lzcMuN5y8=;
-        b=k/byuNnoM9yy0zbpbuKZ8ZqeEKIDtQDCGxU+OWlbtGOM2FaU2m3AFwJHMfXzhMda3k
-         Nmst1Jwe+R1yV6P71qeXnhDnyNGMeiK0f0d86nwQr05sEXkkdGxOvzFImCxhq++HM3zE
-         fzRLQtkVvIS3DoxjBWZLGk3ysNT2gik3t40krDDp0PvZrxEwvZstuuKSWSB+9zlvZc+e
-         fUpS+zIL7YNraxpHDQrW0brrRcovkEQv9y7EWcuCSIYe8Ix7RJR1tE8alyC3nFKx3sUW
-         8ikwO7zNs1CvYWmOCyHj3ynvlJ1H34OFjSbm8aQhZmNOBRSEPNeXtcOW3M8xv1jVrQZ8
-         3dSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763231352; x=1763836152;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iej97Lk0IpH9rmKjnGruuelwGjs+gRKjN3lzcMuN5y8=;
-        b=c9jEPEBT//Y5B/6blg+spVVu+X2H9Af9ZJH+ArIDfuahkjJ3Vxrjjbp6VaRTqKO1O0
-         OIq/+BIvC/pRkQF1M3Mhns8jnHKHjR34JZhCbKdLA2GKdBAcLzpt0INkkYlWoyIyPiUe
-         /VDGxH9YaCh4E6VwDXNDkaUE0Oso4n+NgtgRW5uNreDTzTcAQfIzKmZlUYY9ocU6pLEL
-         Tm/Yg0Ge+ueQ7WMNy6PLysTxp4wWOhycHgnk86Mld/tONEPIx+q+8qQHo1fW40tyICUU
-         570jnU5979PnngUsHhgwr2nikjy8vn3fDubngkztbArUgbUFJADPzKTcM5u/fvIDTNd4
-         2Ipw==
-X-Forwarded-Encrypted: i=1; AJvYcCUfqkCwezEOLjtHdcimdjbkVrh0hehPfzez5sLs+mfRpBLnHAvq6wRR7Hl8ZX73LSTTeyg1//Sg0PA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywxn5wjq5XbYaSbcN2EJ8f6JsRbTDVN9hxTY0A9fdmUGnqxRByW
-	mxuuLUvhCK4CJqhIj4/wMFl2RYpi7mhKtKKnG6aNsnLQ2bFcZgC2tdqPLYwxMSp3lgc=
-X-Gm-Gg: ASbGncv8DqG0CsrcjBLdZvZF/umlUdAeu/gsjwMa5EBJb9wqC7ehz/U4OQW7hK6eP5F
-	1nmcfRrV46hK/PodmBe+59WsDhNxaaR8Xx7Xaulstdq4NfPOOVQZnTiDnIzj/XtUKEAfrIDbeqH
-	vqFiJOObXaPWh8tMuujPlBZLyRCLQkP+6zOp4Fl0Me0dUipmoOnUrxdppZ2dIW17t1nebKfwGDG
-	+Xf6WSOVgvj05k4S8HV6NSIRlhN1fTC+t12P5ZldY0HvX1IsPN8ChJcPB050+AthrJmQ51egiq2
-	yghzsD6QHqwEDc1u36IaJigeWTz8fBijKFBNrv+7ncG83/WHGQY3n9HxSGcsECNgDQo1rwqxka5
-	kp7EG7r3tJQr4oPNpOLsJCqE5hl+bbGPpG/KRAbZtVQUQVW3vrq9CvMM+pPDh5gdtO8lAD6OeLN
-	1Niq+omO3UK5aocGx7
-X-Google-Smtp-Source: AGHT+IFr+7VrQ2I3mNfNSDZrGqD2SF80pfacPUgADezFX6U8zJsGzZnjhP08LKSVROpYiRoE/ISCgQ==
-X-Received: by 2002:a05:6a00:460e:b0:781:2291:1045 with SMTP id d2e1a72fcca58-7ba3a0bd788mr8487955b3a.8.1763231352049;
-        Sat, 15 Nov 2025 10:29:12 -0800 (PST)
-Received: from z440.. ([2601:1c0:4502:2d00:b19a:5e09:9d0:f111])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b9251c99aasm8686206b3a.28.2025.11.15.10.29.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Nov 2025 10:29:11 -0800 (PST)
-From: Igor Reznichenko <igor@reznichenko.net>
-To: linux@roeck-us.net,
-	corbet@lwn.net
-Cc: linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation/hwmon: Fix broken datasheet links for zl6100
-Date: Sat, 15 Nov 2025 10:29:08 -0800
-Message-ID: <20251115182908.1357793-1-igor@reznichenko.net>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mGXZAVYi"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=8/KsR/WjzaOM+swE8xd3DELPIr1rW/uTNlwSdG+iOJo=; b=mGXZAVYiHcZip00J95o9zpXApI
+	VTkYUQJNj/VqFv3A1I6/g9m+jDzvqS5ubbyZU+FQ1kS6g9J5MDqDSHl6L5/+ySegutARjO9h+kuCY
+	WWaP5OAGP0c5qFStHefUk5dltP5ULkoOECBjmil/ERUFF1mQGimm5ev2GBozQnK7a/uyvdlTdg9YN
+	Pf7plBZL+1IHGFbp/XII4aoc94qQ8PjN4JEjSbpglHnXieAIwh1FB0wRfUCyB5quarmMzLrnl6nN6
+	uz6P3UtqMnHGQC0/2uZmfMbAeB0wbmbHk/77EGlNLnhN8SIODzd3H9XMw4Mlzvw7ZwFOXfPBoKDoX
+	urfRkCRA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vKMGy-0000000E1zt-22oK;
+	Sat, 15 Nov 2025 19:49:24 +0000
+Message-ID: <ffb17faf-4c08-4327-bb2f-4c3b02dfbb4e@infradead.org>
+Date: Sat, 15 Nov 2025 11:49:23 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: parse-headers.rst: Fix a typo
+To: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20251115114233.32239-1-ankitkhushwaha.linux@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251115114233.32239-1-ankitkhushwaha.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Some of the datasheet links contained .pdf suffix which resulted in 404.
-This patch updates the links to the correct URLs on Renesas website.
 
-Signed-off-by: Igor Reznichenko <igor@reznichenko.net>
----
- Documentation/hwmon/zl6100.rst | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/hwmon/zl6100.rst b/Documentation/hwmon/zl6100.rst
-index d42ed9d3ac69..1513c9d2d461 100644
---- a/Documentation/hwmon/zl6100.rst
-+++ b/Documentation/hwmon/zl6100.rst
-@@ -9,7 +9,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://www.renesas.com/us/en/document/dst/zl2004-datasheet.pdf
-+    Datasheet: https://www.renesas.com/us/en/document/dst/zl2004-datasheet
- 
-   * Renesas / Intersil / Zilker Labs ZL2005
- 
-@@ -17,7 +17,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://www.renesas.com/us/en/document/dst/zl2005-datasheet.pdf
-+    Datasheet: https://www.renesas.com/us/en/document/dst/zl2005-datasheet
- 
-   * Renesas / Intersil / Zilker Labs ZL2006
- 
-@@ -25,7 +25,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://www.renesas.com/us/en/document/dst/zl2006-datasheet.pdf
-+    Datasheet: https://www.renesas.com/us/en/document/dst/zl2006-datasheet
- 
-   * Renesas / Intersil / Zilker Labs ZL2008
- 
-@@ -33,7 +33,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://www.renesas.com/us/en/document/dst/zl2008-datasheet.pdf
-+    Datasheet: https://www.renesas.com/us/en/document/dst/zl2008-datasheet
- 
-   * Renesas / Intersil / Zilker Labs ZL2105
- 
-@@ -41,7 +41,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://www.renesas.com/us/en/document/dst/zl2105-datasheet.pdf
-+    Datasheet: https://www.renesas.com/us/en/document/dst/zl2105-datasheet
- 
-   * Renesas / Intersil / Zilker Labs ZL2106
- 
-@@ -49,7 +49,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://www.renesas.com/us/en/document/dst/zl2106-datasheet.pdf
-+    Datasheet: https://www.renesas.com/us/en/document/dst/zl2106-datasheet
- 
-   * Renesas / Intersil / Zilker Labs ZL6100
- 
-@@ -57,7 +57,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://www.renesas.com/us/en/document/dst/zl6100-datasheet.pdf
-+    Datasheet: https://www.renesas.com/us/en/document/dst/zl6100-datasheet
- 
-   * Renesas / Intersil / Zilker Labs ZL6105
- 
-@@ -65,7 +65,7 @@ Supported chips:
- 
-     Addresses scanned: -
- 
--    Datasheet: https://www.renesas.com/us/en/document/dst/zl6105-datasheet.pdf
-+    Datasheet: https://www.renesas.com/us/en/document/dst/zl6105-datasheet
- 
-   * Renesas / Intersil / Zilker Labs ZL8802
- 
+On 11/15/25 3:42 AM, Ankit Khushwaha wrote:
+> Replace "vantage" with "advantage" in the description of userspace API
+> cross-references.
+> 
+> Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+> ---
+>  Documentation/doc-guide/parse-headers.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
+> index bd34a6d00ca9..a7bb01ff04eb 100644
+> --- a/Documentation/doc-guide/parse-headers.rst
+> +++ b/Documentation/doc-guide/parse-headers.rst
+> @@ -5,7 +5,7 @@ Including uAPI header files
+>  Sometimes, it is useful to include header files and C example codes in
+>  order to describe the userspace API and to generate cross-references
+>  between the code and the documentation. Adding cross-references for
+> -userspace API files has an additional vantage: Sphinx will generate warnings
+> +userspace API files has an additional advantage: Sphinx will generate warnings
+
+Yeah, I prefer "advantage," but the definition of "vantage" also fits
+here IMO.
+
+>  if a symbol is not found at the documentation. That helps to keep the
+>  uAPI documentation in sync with the Kernel changes.
+>  The :ref:`parse_headers.py <parse_headers>` provides a way to generate such
+> --
+> 2.51.1
+> 
+
 -- 
-2.43.0
+~Randy
 
