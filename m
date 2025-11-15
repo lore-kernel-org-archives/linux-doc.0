@@ -1,64 +1,64 @@
 Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D8927F747
-	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 23:34:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F8727FD7D
+	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 23:34:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763249677; cv=none; b=Uvlja+COkBqWbE6ZNWzBKrin3YZbb4FABqFx/guetOcxnTW1nSornkHs4FHcGuIqSzLqVVEHSHe4o2rgWB7jw9ds1zvwCbIgVztX4nBwOlClWs/seoCdMjNClE91es+j1cnB8teWkEhZ/m8eH9coFJrEXDwnAbR86yxtfVheA88=
+	t=1763249681; cv=none; b=ii/FEidZrN5Jw2/zhYQ2Dgc3QyMZh3KK81Nq85K9Dzd2Qg5QRVQbsS1K/Nd72RPfi4VzXiDIrKyTp3Bt7mCm/6SYj0xEruSLR12whfvB61Vi8PzJeOITYNVYif82N6rtc/eRt8cojmPUateMs2sI6JNjSv0wM1jEd9ORKEzyyuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763249677; c=relaxed/simple;
-	bh=iH6e2dbZhxNGawYVnoeitVB8B9t7TUQvEkiyaf4Tegw=;
+	s=arc-20240116; t=1763249681; c=relaxed/simple;
+	bh=2mrQ965aNOyL25lReCyXI/DAGszixk+DgWv0xAAZqf8=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p3IsyVVam2EGhIil1ySvskR+DAp7LOeVmrm0Z4P+zkiz4a2GVgebEUWbO4/sSMUzN1/BxRX483iKkThpeQMf1mg2mswDEGK0AsqDqwWvQYPfpd61XOHCOWjfuqLxJTDwr6dVMA5Av21C9bO6WgLHfEq5qKNWlRHqDZU/bxa6RJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=AykjmslO; arc=none smtp.client-ip=209.85.128.171
+	 MIME-Version; b=uz7p7kYhDyVltwWVJObveFbgyM+XaYNDLOM0EHhmq9W9zMBZGt4PuQZNhiLtqPighmIJVIpPI9V4KG9DWYZlNS8vDiVZZSX5dKc40C9YCDgk39OpK8F7l7al/yvQshzoTx00a1Sv733B7ozFsXqhn1OQN7cP2Add9bYNxH0YrIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=ifdsKQen; arc=none smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="AykjmslO"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-786d1658793so28973577b3.1
-        for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 15:34:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="ifdsKQen"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-7866375e943so25808877b3.0
+        for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 15:34:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763249673; x=1763854473; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763249677; x=1763854477; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WkjwaQDLlS9Yr5+HyVNaGiCitPd127gM/CMqs5Sb1tM=;
-        b=AykjmslO++YzOQz1+BrIYUf3j8mlyDpI3qflfsfKrohqm1bCvzDm98nYz6/M7dbEBn
-         rWbWvsVCI1pSzRFxlcYMR5WkPk/05pqVq1c2eWikreG9KaAOiHGPpoVu4PU6R+cGG0gP
-         XrSrVjIYz+wHsAVwEBUjVROhZIfU2krFNe5AMnr5s3ghtPWbkdbdzzoB6ypezkv1Jaaz
-         c5vTKv9BogUHkQZbWhhJOuFGw+0xZSXmPqO6d0nLFCjqyxr39H3WiGTXCKX7S6encq4u
-         jEzpa3H5pWAo4lk4LR8iitUEj7qh3YfXucQXWTDeiHyKESsXAmLt42LDTt1KT33hc6gC
-         QwKw==
+        bh=tXGZnSu70DIN08Y0wZgdajU/gnoj90NX2WHdQr/BE9Y=;
+        b=ifdsKQenuCkFbYlErcumtEHB7MCaBK+jrTWYSop+MA1bI9SXOMY9vZuXKirW4wWNSM
+         Qe7ELLdfAe9e62omxkkDndWMjc2hTk2yQ8p5UbnwTmcZ+97CLWVji40SlMxMe3Sdjn7x
+         H4dXBI7ES+KA+cY1Rp0ljwSSR0hkcDu0lmPpj9/GGCrEGA62q+4vJQhFLAuCV52yUlgy
+         RQFrRPgGqJ/wLXwrMcuu4yRAdIFkoV+CQN6mcFASWo9Ua6ra8c4Yl4zRFY/rj1AoRApX
+         euVsoZ+2lZ6wekiH4l49wQ7bW44FvQGuuCF06Ublhl5Jg2DQVGEeW9/V92RV7eE5Zsjk
+         Aanw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763249673; x=1763854473;
+        d=1e100.net; s=20230601; t=1763249677; x=1763854477;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=WkjwaQDLlS9Yr5+HyVNaGiCitPd127gM/CMqs5Sb1tM=;
-        b=j39FPfvY8yST54iUml47vKGcGtBTYzLvav0oopR08cZMnlI91kLld2+G/wC0c+WFUP
-         Oy6dTewoMykA2GHx0tOqk+UcNFIdzw5XJe58z7hJXtyn7B6/sGSQcl3TclDFPT9vv8XX
-         b4AN5ttQ5SQRFrs2yVHtwyL0RC6heorv44f0aFti3dS5gAo8HJ5dUYdvSSeg0LfOKCPl
-         oTlfEITmA+IlCQE55m5eNoIElFM50bstbMrjoi9PXXGGr38ayyqssqOOFhlhPE8AWRz9
-         Cpe4R3UIX/6w0rhlmutRy5z6aXvpsNoLGaKLT3mQLIKSMRAEFaWUpjJxbztRNKytf4vk
-         YnOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUg2lBQiOp9t8UkRt+Yi/cgvwRwxPgWsOMMZpQbvvpIsg7ZjfKTUXxgZYZPLLdxNSiRHf67kGzVBHs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1f0DoA6UZnni87lvOjyxavAA+PSSzOV6FVeYAfaNm5020EMK3
-	g7+ryRuGRw81ZPbCnTvQ7Dy+FA/8aMVAQh0zlPnX+grOhV7MNVGzIiIMTahGBkx00KU=
-X-Gm-Gg: ASbGncsr0emnL7nup+oQ9Hj0zsLR1fMkLOHiXSoj+6fHtEozd+fRrDe7N9K3LizUDYe
-	2roZ6cvMrwMRw75ytRSLVy/TLOwahhov4N4iLhWHlfF5Ndnrg0nJFVQ8fTyVxz3ZCEDlwY6ONQP
-	8l5IUMUT6WWN9WuvPnUHJz+fJheVX9PDItxcO/ZiXb0srMZpogx6zSs/QYrSQjHVRsA82TlTjEe
-	hE6A7CrWI/ygN/elrkhhsnXWciD3II/kAn2RFdaR8JAJH6aC0xmq1E571ZROSsrJh2sq/61+2Su
-	w78iwmxkvlNqtRBs+L4yJbn8NZok7goCe9gfYxzdCduqn+wttFN2g5FL7atCuRvG4Wz06mcrcPh
-	OIdEtzp0feMrujcW4sO+9yCq0XXMh7lfjLF1vJeJf0otI20IDV1dTRnzYyhMo4W+8SqLJgxBcNk
-	hx0QF6ZUM9/qzFie6VDHWQxKqsygFYUAdUacySQe6oOCb8/pH4wl9vpd3Wyu+4qp4QmaSb
-X-Google-Smtp-Source: AGHT+IGIvzvWx+seWY3lDwubxMit7pfqszZynxJfb+7BhQKgt/q2GPlXgRc870pYq2BGK02AYhbTJA==
-X-Received: by 2002:a05:690c:868a:10b0:788:161c:7117 with SMTP id 00721157ae682-78929dff2b5mr118300507b3.8.1763249673543;
-        Sat, 15 Nov 2025 15:34:33 -0800 (PST)
+        bh=tXGZnSu70DIN08Y0wZgdajU/gnoj90NX2WHdQr/BE9Y=;
+        b=N7Kpu2YiErTdF0WoP2YG/f1rIoBgAZ+Olksd07R8Ot6MPFdAvsz8ACG1h7QQTc/UuE
+         FSWlcIuypJtCW7GoqQdF6vmFARBfJWOAxSSCO4V6P4NheRFBAu3Ifc1m/AboKsaAtj+p
+         KW3g0YgsMHtJT32271uE5m+tkZ4Pt9nDuIqOHqRTJ/SEQnI1fNBbL9lJ4RF2NuUfJ0Id
+         dT8l3ANVvv7RuSedlCPLHbK1SD6YCOFYmeA+URUKcXhfOXCiokKS5YyrFyx37cSfyJK+
+         swYjYu88iDWBLwRcpRx+sSsHdNVJSYKMxCQKfEuJhB0Tc2nkbNB8ttwMZRfpsrWe+Ton
+         G2ZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/qZ81hJ35YxjTAQlDyxNiRvPcrRYGha/uGkgv/0m/P58ZkWJHBC82eo8Mam1t6AldP3p6xghfozI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4vvHvqICW2zy0Nym3pIwxpHTHSzfKBpKd3RKQzAo7uUQettPE
+	slqYd3/LpEun6fAF3RHPLjkU2lkr9XyDTmop2VTRNS9pKRyyv3NDePeLjOLwZAs/eXg=
+X-Gm-Gg: ASbGncv07O2mHx8DQNhGMqCKFEKgSFfHwag7SjWYMRv6CMLqOq7lDitmHTstvk2HZv9
+	QyHQsiQw8JDjldgZ3zLR3SsdoOYEw5awVHzFVkF+TMhVQvavehtjpcKXv3xlvFNYPqHpha0SzvZ
+	79BWcqsNe6PhMjRkqQ3bkyWyXQ3f/qsfQaLf/hyCrrZROMgI/FwuNA5OB5cdhj+26mXZUhQ5BYG
+	AnRkEhUdJAL1DweeDTt3IZWfG6NzMTceFwrh+8jNasFuDJPFJwQzyUpT5hjqbCfE23aTKg38p1g
+	iNlLVzT42FWooBondYiyCuKHNMLJBaTeb6g4Cnjap7sCAxiLJnuBbWM4uDYTGyfJjfSteFodE8J
+	H6H7QhYzHxcgi0svJQGTThz8iN+ZEx/1aKxsXogy7QFvsO8/roClOu9gAJBkUo972tTiMorEiNY
+	n52/h+5nVdJVBxM+O6BZ7aY8NTWbpCHiNJy8Hm0rW5/hoKGsar6JEZh0OP/lAZWarqSAxA
+X-Google-Smtp-Source: AGHT+IEr4ZSX5F0ShTJnhoCAiRSreIR9tV+TAE+bMcxkAeUYbXHH2oKIfnq7gg9dS89JT0P8DLy0LQ==
+X-Received: by 2002:a05:690c:9304:b0:784:8286:fde3 with SMTP id 00721157ae682-78929ee3a37mr62160337b3.42.1763249677538;
+        Sat, 15 Nov 2025 15:34:37 -0800 (PST)
 Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7882218774esm28462007b3.57.2025.11.15.15.34.30
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7882218774esm28462007b3.57.2025.11.15.15.34.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Nov 2025 15:34:32 -0800 (PST)
+        Sat, 15 Nov 2025 15:34:37 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -133,9 +133,9 @@ To: pratyush@kernel.org,
 	hughd@google.com,
 	skhawaja@google.com,
 	chrisl@kernel.org
-Subject: [PATCH v6 07/20] liveupdate: luo_session: Add ioctls for file preservation
-Date: Sat, 15 Nov 2025 18:33:53 -0500
-Message-ID: <20251115233409.768044-8-pasha.tatashin@soleen.com>
+Subject: [PATCH v6 09/20] docs: add luo documentation
+Date: Sat, 15 Nov 2025 18:33:55 -0500
+Message-ID: <20251115233409.768044-10-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
 In-Reply-To: <20251115233409.768044-1-pasha.tatashin@soleen.com>
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
@@ -147,387 +147,138 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introducing the userspace interface and internal logic required to
-manage the lifecycle of file descriptors within a session. Previously, a
-session was merely a container; this change makes it a functional
-management unit.
-
-The following capabilities are added:
-
-A new set of ioctl commands are added, which operate on the file
-descriptor returned by CREATE_SESSION. This allows userspace to:
-- LIVEUPDATE_SESSION_PRESERVE_FD: Add a file descriptor to a session
-  to be preserved across the live update.
-- LIVEUPDATE_SESSION_RETRIEVE_FD: Retrieve a preserved file in the
-  new kernel using its unique token.
-- LIVEUPDATE_SESSION_FINISH: finish session
-
-The session's .release handler is enhanced to be state-aware. When a
-session's file descriptor is closed, it correctly unpreserves
-the session based on its current state before freeing all
-associated file resources.
+Add the documentation files for the Live Update Orchestrator
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- include/uapi/linux/liveupdate.h | 103 ++++++++++++++++++
- kernel/liveupdate/luo_session.c | 187 +++++++++++++++++++++++++++++++-
- 2 files changed, 286 insertions(+), 4 deletions(-)
+ Documentation/core-api/index.rst           |  1 +
+ Documentation/core-api/liveupdate.rst      | 64 ++++++++++++++++++++++
+ Documentation/userspace-api/index.rst      |  1 +
+ Documentation/userspace-api/liveupdate.rst | 20 +++++++
+ 4 files changed, 86 insertions(+)
+ create mode 100644 Documentation/core-api/liveupdate.rst
+ create mode 100644 Documentation/userspace-api/liveupdate.rst
 
-diff --git a/include/uapi/linux/liveupdate.h b/include/uapi/linux/liveupdate.h
-index 6e04254ee535..3902ffab4c53 100644
---- a/include/uapi/linux/liveupdate.h
-+++ b/include/uapi/linux/liveupdate.h
-@@ -53,6 +53,14 @@ enum {
- 	LIVEUPDATE_CMD_RETRIEVE_SESSION = 0x01,
- };
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index 6cbdcbfa79c3..5eb0fbbbc323 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -138,6 +138,7 @@ Documents that don't fit elsewhere or which have yet to be categorized.
+    :maxdepth: 1
  
-+/* ioctl commands for session file descriptors */
-+enum {
-+	LIVEUPDATE_CMD_SESSION_BASE = 0x40,
-+	LIVEUPDATE_CMD_SESSION_PRESERVE_FD = LIVEUPDATE_CMD_SESSION_BASE,
-+	LIVEUPDATE_CMD_SESSION_RETRIEVE_FD = 0x41,
-+	LIVEUPDATE_CMD_SESSION_FINISH = 0x42,
-+};
-+
- /**
-  * struct liveupdate_ioctl_create_session - ioctl(LIVEUPDATE_IOCTL_CREATE_SESSION)
-  * @size:	Input; sizeof(struct liveupdate_ioctl_create_session)
-@@ -110,4 +118,99 @@ struct liveupdate_ioctl_retrieve_session {
- #define LIVEUPDATE_IOCTL_RETRIEVE_SESSION \
- 	_IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_RETRIEVE_SESSION)
+    librs
++   liveupdate
+    netlink
  
-+/* Session specific IOCTLs */
+ .. only:: subproject and html
+diff --git a/Documentation/core-api/liveupdate.rst b/Documentation/core-api/liveupdate.rst
+new file mode 100644
+index 000000000000..deacc098d024
+--- /dev/null
++++ b/Documentation/core-api/liveupdate.rst
+@@ -0,0 +1,64 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+/**
-+ * struct liveupdate_session_preserve_fd - ioctl(LIVEUPDATE_SESSION_PRESERVE_FD)
-+ * @size:  Input; sizeof(struct liveupdate_session_preserve_fd)
-+ * @fd:    Input; The user-space file descriptor to be preserved.
-+ * @token: Input; An opaque, unique token for preserved resource.
-+ *
-+ * Holds parameters for preserving a file descriptor.
-+ *
-+ * User sets the @fd field identifying the file descriptor to preserve
-+ * (e.g., memfd, kvm, iommufd, VFIO). The kernel validates if this FD type
-+ * and its dependencies are supported for preservation. If validation passes,
-+ * the kernel marks the FD internally and *initiates the process* of preparing
-+ * its state for saving. The actual snapshotting of the state typically occurs
-+ * during the subsequent %LIVEUPDATE_IOCTL_PREPARE execution phase, though
-+ * some finalization might occur during freeze.
-+ * On successful validation and initiation, the kernel uses the @token
-+ * field with an opaque identifier representing the resource being preserved.
-+ * This token confirms the FD is targeted for preservation and is required for
-+ * the subsequent %LIVEUPDATE_SESSION_RETRIEVE_FD call after the live update.
-+ *
-+ * Return: 0 on success (validation passed, preservation initiated), negative
-+ * error code on failure (e.g., unsupported FD type, dependency issue,
-+ * validation failed).
-+ */
-+struct liveupdate_session_preserve_fd {
-+	__u32		size;
-+	__s32		fd;
-+	__aligned_u64	token;
-+};
++========================
++Live Update Orchestrator
++========================
++:Author: Pasha Tatashin <pasha.tatashin@soleen.com>
 +
-+#define LIVEUPDATE_SESSION_PRESERVE_FD					\
-+	_IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_SESSION_PRESERVE_FD)
++.. kernel-doc:: kernel/liveupdate/luo_core.c
++   :doc: Live Update Orchestrator (LUO)
 +
-+/**
-+ * struct liveupdate_session_retrieve_fd - ioctl(LIVEUPDATE_SESSION_RETRIEVE_FD)
-+ * @size:  Input; sizeof(struct liveupdate_session_RETRIEVE_fd)
-+ * @fd:    Output; The new file descriptor representing the fully restored
-+ *         kernel resource.
-+ * @token: Input; An opaque, token that was used to preserve the resource.
-+ *
-+ * Retrieve a previously preserved file descriptor.
-+ *
-+ * User sets the @token field to the value obtained from a successful
-+ * %LIVEUPDATE_IOCTL_FD_PRESERVE call before the live update. On success,
-+ * the kernel restores the state (saved during the PREPARE/FREEZE phases)
-+ * associated with the token and populates the @fd field with a new file
-+ * descriptor referencing the restored resource in the current (new) kernel.
-+ * This operation must be performed *before* signaling completion via
-+ * %LIVEUPDATE_IOCTL_FINISH.
-+ *
-+ * Return: 0 on success, negative error code on failure (e.g., invalid token).
-+ */
-+struct liveupdate_session_retrieve_fd {
-+	__u32		size;
-+	__s32		fd;
-+	__aligned_u64	token;
-+};
++LUO Sessions
++============
++.. kernel-doc:: kernel/liveupdate/luo_session.c
++   :doc: LUO Sessions
 +
-+#define LIVEUPDATE_SESSION_RETRIEVE_FD					\
-+	_IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_SESSION_RETRIEVE_FD)
++LUO Preserving File Descriptors
++===============================
++.. kernel-doc:: kernel/liveupdate/luo_file.c
++   :doc: LUO File Descriptors
 +
-+/**
-+ * struct liveupdate_session_finish - ioctl(LIVEUPDATE_SESSION_FINISH)
-+ * @size:     Input; sizeof(struct liveupdate_session_finish)
-+ * @reserved: Input; Must be zero. Reserved for future use.
-+ *
-+ * Signals the completion of the restoration process for a retrieved session.
-+ * This is the final operation that should be performed on a session file
-+ * descriptor after a live update.
-+ *
-+ * This ioctl must be called once all required file descriptors for the session
-+ * have been successfully retrieved (using %LIVEUPDATE_SESSION_RETRIEVE_FD) and
-+ * are fully restored from the userspace and kernel perspective.
-+ *
-+ * Upon success, the kernel releases its ownership of the preserved resources
-+ * associated with this session. This allows internal resources to be freed,
-+ * typically by decrementing reference counts on the underlying preserved
-+ * objects.
-+ *
-+ * If this operation fails, the resources remain preserved in memory. Userspace
-+ * may attempt to call finish again. The resources will otherwise be reset
-+ * during the next live update cycle.
-+ *
-+ * Return: 0 on success, negative error code on failure.
-+ */
-+struct liveupdate_session_finish {
-+	__u32		size;
-+	__u32		reserved;
-+};
++LUO File Lifecycle Bound Global Data
++====================================
++.. kernel-doc:: kernel/liveupdate/luo_flb.c
++   :doc: LUO File Lifecycle Bound Global Data
 +
-+#define LIVEUPDATE_SESSION_FINISH					\
-+	_IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_SESSION_FINISH)
++Live Update Orchestrator ABI
++============================
++.. kernel-doc:: include/linux/liveupdate/abi/luo.h
++   :doc: Live Update Orchestrator ABI
 +
- #endif /* _UAPI_LIVEUPDATE_H */
-diff --git a/kernel/liveupdate/luo_session.c b/kernel/liveupdate/luo_session.c
-index cb74bfaba479..82ba6e3578f5 100644
---- a/kernel/liveupdate/luo_session.c
-+++ b/kernel/liveupdate/luo_session.c
-@@ -174,26 +174,189 @@ static void luo_session_remove(struct luo_session_header *sh,
- 	sh->count--;
- }
++Public API
++==========
++.. kernel-doc:: include/linux/liveupdate.h
++
++.. kernel-doc:: include/linux/liveupdate/abi/luo.h
++
++.. kernel-doc:: kernel/liveupdate/luo_core.c
++   :export:
++
++.. kernel-doc:: kernel/liveupdate/luo_flb.c
++   :export:
++
++.. kernel-doc:: kernel/liveupdate/luo_file.c
++   :export:
++
++Internal API
++============
++.. kernel-doc:: kernel/liveupdate/luo_core.c
++   :internal:
++
++.. kernel-doc:: kernel/liveupdate/luo_flb.c
++   :internal:
++
++.. kernel-doc:: kernel/liveupdate/luo_session.c
++   :internal:
++
++.. kernel-doc:: kernel/liveupdate/luo_file.c
++   :internal:
++
++See Also
++========
++
++- :doc:`Live Update uAPI </userspace-api/liveupdate>`
++- :doc:`/core-api/kho/concepts`
+diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+index b8c73be4fb11..8a61ac4c1bf1 100644
+--- a/Documentation/userspace-api/index.rst
++++ b/Documentation/userspace-api/index.rst
+@@ -61,6 +61,7 @@ Everything else
+    :maxdepth: 1
  
-+static int luo_session_finish_one(struct luo_session *session)
-+{
-+	guard(mutex)(&session->mutex);
-+	return luo_file_finish(session);
-+}
+    ELF
++   liveupdate
+    netlink/index
+    sysfs-platform_profile
+    vduse
+diff --git a/Documentation/userspace-api/liveupdate.rst b/Documentation/userspace-api/liveupdate.rst
+new file mode 100644
+index 000000000000..04210a6cf6d6
+--- /dev/null
++++ b/Documentation/userspace-api/liveupdate.rst
+@@ -0,0 +1,20 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+static void luo_session_unfreeze_one(struct luo_session *session)
-+{
-+	guard(mutex)(&session->mutex);
-+	luo_file_unfreeze(session);
-+}
++================
++Live Update uAPI
++================
++:Author: Pasha Tatashin <pasha.tatashin@soleen.com>
 +
-+static int luo_session_freeze_one(struct luo_session *session)
-+{
-+	guard(mutex)(&session->mutex);
-+	return luo_file_freeze(session);
-+}
++ioctl interface
++===============
++.. kernel-doc:: kernel/liveupdate/luo_ioctl.c
++   :doc: LUO ioctl Interface
 +
- static int luo_session_release(struct inode *inodep, struct file *filep)
- {
- 	struct luo_session *session = filep->private_data;
- 	struct luo_session_header *sh;
-+	int err = 0;
- 
- 	/* If retrieved is set, it means this session is from incoming list */
--	if (session->retrieved)
-+	if (session->retrieved) {
- 		sh = &luo_session_global.incoming;
--	else
++ioctl uAPI
++===========
++.. kernel-doc:: include/uapi/linux/liveupdate.h
 +
-+		err = luo_session_finish_one(session);
-+		if (err) {
-+			pr_warn("Unable to finish session [%s] on release\n",
-+				session->name);
-+		} else {
-+			luo_session_remove(sh, session);
-+			luo_session_free(session);
-+		}
++See Also
++========
 +
-+	} else {
- 		sh = &luo_session_global.outgoing;
- 
--	luo_session_remove(sh, session);
--	luo_session_free(session);
-+		scoped_guard(mutex, &session->mutex)
-+			luo_file_unpreserve_files(session);
-+		luo_session_remove(sh, session);
-+		luo_session_free(session);
-+	}
-+
-+	return err;
-+}
-+
-+static int luo_session_preserve_fd(struct luo_session *session,
-+				   struct luo_ucmd *ucmd)
-+{
-+	struct liveupdate_session_preserve_fd *argp = ucmd->cmd;
-+	int err;
-+
-+	guard(mutex)(&session->mutex);
-+	err = luo_preserve_file(session, argp->token, argp->fd);
-+	if (err)
-+		return err;
-+
-+	err = luo_ucmd_respond(ucmd, sizeof(*argp));
-+	if (err)
-+		pr_warn("The file was successfully preserved, but response to user failed\n");
-+
-+	return err;
-+}
-+
-+static int luo_session_retrieve_fd(struct luo_session *session,
-+				   struct luo_ucmd *ucmd)
-+{
-+	struct liveupdate_session_retrieve_fd *argp = ucmd->cmd;
-+	struct file *file;
-+	int err;
-+
-+	argp->fd = get_unused_fd_flags(O_CLOEXEC);
-+	if (argp->fd < 0)
-+		return argp->fd;
-+
-+	guard(mutex)(&session->mutex);
-+	err = luo_retrieve_file(session, argp->token, &file);
-+	if (err < 0)
-+		goto  err_put_fd;
-+
-+	err = luo_ucmd_respond(ucmd, sizeof(*argp));
-+	if (err)
-+		goto err_put_file;
-+
-+	fd_install(argp->fd, file);
- 
- 	return 0;
-+
-+err_put_file:
-+	fput(file);
-+err_put_fd:
-+	put_unused_fd(argp->fd);
-+
-+	return err;
-+}
-+
-+static int luo_session_finish(struct luo_session *session,
-+			      struct luo_ucmd *ucmd)
-+{
-+	struct liveupdate_session_finish *argp = ucmd->cmd;
-+	int err = luo_session_finish_one(session);
-+
-+	if (err)
-+		return err;
-+
-+	return luo_ucmd_respond(ucmd, sizeof(*argp));
-+}
-+
-+union ucmd_buffer {
-+	struct liveupdate_session_finish finish;
-+	struct liveupdate_session_preserve_fd preserve;
-+	struct liveupdate_session_retrieve_fd retrieve;
-+};
-+
-+struct luo_ioctl_op {
-+	unsigned int size;
-+	unsigned int min_size;
-+	unsigned int ioctl_num;
-+	int (*execute)(struct luo_session *session, struct luo_ucmd *ucmd);
-+};
-+
-+#define IOCTL_OP(_ioctl, _fn, _struct, _last)                                  \
-+	[_IOC_NR(_ioctl) - LIVEUPDATE_CMD_SESSION_BASE] = {                    \
-+		.size = sizeof(_struct) +                                      \
-+			BUILD_BUG_ON_ZERO(sizeof(union ucmd_buffer) <          \
-+					  sizeof(_struct)),                    \
-+		.min_size = offsetofend(_struct, _last),                       \
-+		.ioctl_num = _ioctl,                                           \
-+		.execute = _fn,                                                \
-+	}
-+
-+static const struct luo_ioctl_op luo_session_ioctl_ops[] = {
-+	IOCTL_OP(LIVEUPDATE_SESSION_FINISH, luo_session_finish,
-+		 struct liveupdate_session_finish, reserved),
-+	IOCTL_OP(LIVEUPDATE_SESSION_PRESERVE_FD, luo_session_preserve_fd,
-+		 struct liveupdate_session_preserve_fd, token),
-+	IOCTL_OP(LIVEUPDATE_SESSION_RETRIEVE_FD, luo_session_retrieve_fd,
-+		 struct liveupdate_session_retrieve_fd, token),
-+};
-+
-+static long luo_session_ioctl(struct file *filep, unsigned int cmd,
-+			      unsigned long arg)
-+{
-+	struct luo_session *session = filep->private_data;
-+	const struct luo_ioctl_op *op;
-+	struct luo_ucmd ucmd = {};
-+	union ucmd_buffer buf;
-+	unsigned int nr;
-+	int ret;
-+
-+	nr = _IOC_NR(cmd);
-+	if (nr < LIVEUPDATE_CMD_SESSION_BASE || (nr - LIVEUPDATE_CMD_SESSION_BASE) >=
-+	    ARRAY_SIZE(luo_session_ioctl_ops)) {
-+		return -EINVAL;
-+	}
-+
-+	ucmd.ubuffer = (void __user *)arg;
-+	ret = get_user(ucmd.user_size, (u32 __user *)ucmd.ubuffer);
-+	if (ret)
-+		return ret;
-+
-+	op = &luo_session_ioctl_ops[nr - LIVEUPDATE_CMD_SESSION_BASE];
-+	if (op->ioctl_num != cmd)
-+		return -ENOIOCTLCMD;
-+	if (ucmd.user_size < op->min_size)
-+		return -EINVAL;
-+
-+	ucmd.cmd = &buf;
-+	ret = copy_struct_from_user(ucmd.cmd, op->size, ucmd.ubuffer,
-+				    ucmd.user_size);
-+	if (ret)
-+		return ret;
-+
-+	return op->execute(session, &ucmd);
- }
- 
- static const struct file_operations luo_session_fops = {
- 	.owner = THIS_MODULE,
- 	.release = luo_session_release,
-+	.unlocked_ioctl = luo_session_ioctl,
- };
- 
- /* Create a "struct file" for session */
-@@ -391,6 +554,8 @@ int luo_session_deserialize(void)
- 		session->count = sh->ser[i].count;
- 		session->files = sh->ser[i].files ? phys_to_virt(sh->ser[i].files) : 0;
- 		session->pgcnt = sh->ser[i].pgcnt;
-+		scoped_guard(mutex, &session->mutex)
-+			luo_file_deserialize(session);
- 	}
- 
- 	kho_restore_free(sh->header_ser);
-@@ -405,9 +570,14 @@ int luo_session_serialize(void)
- 	struct luo_session_header *sh = &luo_session_global.outgoing;
- 	struct luo_session *session;
- 	int i = 0;
-+	int err;
- 
- 	guard(rwsem_write)(&sh->rwsem);
- 	list_for_each_entry(session, &sh->list, list) {
-+		err = luo_session_freeze_one(session);
-+		if (err)
-+			goto err_undo;
-+
- 		strscpy(sh->ser[i].name, session->name,
- 			sizeof(sh->ser[i].name));
- 		sh->ser[i].count = session->count;
-@@ -418,4 +588,13 @@ int luo_session_serialize(void)
- 	sh->header_ser->count = sh->count;
- 
- 	return 0;
-+
-+err_undo:
-+	list_for_each_entry_continue_reverse(session, &sh->list, list) {
-+		luo_session_unfreeze_one(session);
-+		i--;
-+		memset(&sh->ser[i], 0, sizeof(sh->ser[i]));
-+	}
-+
-+	return err;
- }
++- :doc:`Live Update Orchestrator </core-api/liveupdate>`
 -- 
 2.52.0.rc1.455.g30608eb744-goog
 
