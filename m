@@ -1,84 +1,75 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCF02116F6
-	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 06:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2865D296BC2
+	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 11:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763188550; cv=none; b=YkZbo9qPflLo7sje3lSi6kU8Z3sTml0GJxQJvISZ3XZcUtGnqW/hP3Xd6ObXMcdGuqgzbRy0OiScjqBWkjyqxv0IF6ZaYjut2b2BunkkYln13hnm4wICA4LHfh92KV14OvBOAP9qhjucioVNFdwN5IeZ7cp26wEAxw1AdFHRlUw=
+	t=1763206972; cv=none; b=f2WljpeUSs/u/scjY9VXQAaGsrEuTWC8yfYlQk1QlRWE6k6PvMvOcyq9exp2abQcuffzhRBJKVXU480ldgBzb4a3skiyMmQEHBxuPoS0nRHmizWvMTkZ/fHK69MokwjuXZkD3VuJS1a78uP8SUIIIXTBRaNiyaTDjvinsgSd5ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763188550; c=relaxed/simple;
-	bh=uqaism/QJbclragkxlE4HR4kpiXL6LTLzjMt2F4uKf4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WFig+M96OqpmoRWgerFgJtzX9skQzhrmMxrZslvBqxxgr2HeE+hrl9Bv1GdaxfIR92Jy/4AEBuODXas3yoFr23OUwEM7M3NVrJrSsVMniLhsmTj4gy+Jxg0iUhPlhjVirYb7FNC6+eZAkVhvyQpVtG+AAWoi6OZAzvpdg5MKH60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=auA50SrN; arc=none smtp.client-ip=209.85.215.174
+	s=arc-20240116; t=1763206972; c=relaxed/simple;
+	bh=rFp/Xdva3jGM52uO5VTslo8C6wRd3X+KrevwjEi0We0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dWQkIrzB0sBCWQCFoenaSi7vkDgIehj6AvVAFtIL06MCBtPKBwI89+RQFJpMSLF1ZQ26A72JuA8iUwWIzAntp7xAFT2siHMYqPhK56M4/rw84+8bGxgT5y6pl7mERNltn1fP/TBXVt9HSTHynVm69ku6rcSxrLI/l+55oDauxv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q37oaH8M; arc=none smtp.client-ip=209.85.210.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="auA50SrN"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b4755f37c3eso1885112a12.3
-        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 22:35:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q37oaH8M"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-7b852bb31d9so3268049b3a.0
+        for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 03:42:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763188546; x=1763793346; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763206970; x=1763811770; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AGui+AdzM7aan5lAJ1kcgBs7yX90mlPwYwEf2onMajU=;
-        b=auA50SrNxph5I6CjYSYB63UIbOYXYe4BPzZ0gK1yM/aimi5oY20AF108YAHbTV0OHz
-         GVgNrmh4ycmY7WPMXDLUvApu1V2K91v7iIRLlwbYElzRBNeZoqymC8+IQ6lOvSp63vHG
-         2OMJrxv9a6yL8LYy5nlUVvq0wp3xgZuA5cK87QWH9Q/LyShoHAvR1sGkZ16rvjhw4X5B
-         aopSTcKvQSFBJJN1hLLrNWvwKg7u0u8MYnmdKIK6Q3OKxTdI5I7HKsa+4S2DnfiKN2yJ
-         958PdsJtqAMZUZR/jcqNJXLH/LOLYZBhmACWuoOhvk9F4/ygkWD7niB4tsAEsLX+hajn
-         rqEA==
+        bh=rFp/Xdva3jGM52uO5VTslo8C6wRd3X+KrevwjEi0We0=;
+        b=Q37oaH8MhnxabfHlWHdad4awYfOV7KRWBA3djkdSYx9BPDMG7t5IXe0mk143IBYqas
+         frjgGPIBEC8dAymC3aR1ZXH4LgHcF95HIBZzTgkG23iA0tYLfxYp1l0+gjbH5ez4vHxk
+         b6QCImleJtxeYctEZN9RE50gDS2XxbV2ZHahS4rvuOuhj+gJNU3zoQLhnYIYQnDErsFd
+         0MVgVVRO94cds5DYP3KB6oYAgUPc4FTQ7LKHT5O7xtXCWuQNJnEFC52qrEe8UApqqynE
+         VKhz0t3eKbUvpjfs359xshgSNigxTCVrjWLde/dO8vKdDYtFEQ9tw19BQai1Ym/vPfFW
+         3yLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763188546; x=1763793346;
+        d=1e100.net; s=20230601; t=1763206970; x=1763811770;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AGui+AdzM7aan5lAJ1kcgBs7yX90mlPwYwEf2onMajU=;
-        b=plQ+DqVKVUCfW+AbIAx2qRtkjfsXhCNFVQPoz9/lNMUnVw3SgfQMpyHp/Pwqz0+gC9
-         GbizhUMV8bhWCzo1AORJyAdZ4f7g/MZZ0FuAWL8l8+h00qgrTH5FqfcppqMAjkYfmMHB
-         ewnctxsNhZtdru4LavwUUl7K+v+L+J8mdYwT0I4epDytoYmAXRHwC+45v1JUt6jeTi/1
-         g8EU9N69POzYOxyZqy5osPsZtwTYsmIvUaR9vT5RrAjOLzHFNaJj5d5hCJ0PKf1lRuUj
-         2ll3/Pm8IGfbSdEO3OjS+CQme6alFTJyRQ2uywFNnAB4gyl8v44V2eFsbXHbivWGLIKf
-         Xj0A==
-X-Forwarded-Encrypted: i=1; AJvYcCUvhjFW7/EUiAowS5RtD9rZIqyY361gCUkw0mjYoTfQB2wIW7MmRiQA0DRJgy/SNme+apqhi4AqOiA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGe3BUT33o0tQK/FokNTzBQ0spxjJFcP2bvCEejt45msQ+WaLt
-	3rksBIYwTkcfLuk497+yQNzoQzyCpFFZGSMQknE3wMunEX+2J225HFtx
-X-Gm-Gg: ASbGncsFXGlborUUU3wVGtVpvs4uGe3cmXbppueyXbUx7xXLzR/CGx2WbXhxXHuHTPt
-	j7NPNq09HP/fn7qXfN6HmFzJ+GnKB+aTNLc+LgvH+/iSvgt2rSRpmf4xtzsOGs2lAC04Izz3gTs
-	NRRZHsdcIeS/xiLTTDoTXkzoRZvULJCse5RLjneJK8HlviBBOZmEFfPUgpv9f9pH6KD0vge1TyS
-	52pA3+VYqqu1WyMz2Wcn6we+1u1ljkgaAV24PWaFa0rKLVMLVHjABa3pk4BrrlEUWwfqY/Qy/fL
-	gIXjdVtUEHbtsrAm++3PkUiozWNiOUQdq2AMnX+64GKaYaUYt7twOdE5fpre6Fi/JDHWIumGtjU
-	2yKn1/SuqpRvZsiUKIJaqgo1i2DxiahDbG9vhneb305Nk9t1oz/G+muUdLsAHzvGE7EGWYUV9wS
-	MQ6o2JmA9HJqU=
-X-Google-Smtp-Source: AGHT+IH+R922UmhrzHHqhEhIc4l+mUYiBtLGewqFO+dYoCs3UdZ2ghbwO/7KvLaGEanZEaAkyDOAxQ==
-X-Received: by 2002:a05:7300:d80d:b0:2a4:3593:c7d4 with SMTP id 5a478bee46e88-2a4abb32dfdmr1994874eec.20.1763188546369;
-        Fri, 14 Nov 2025 22:35:46 -0800 (PST)
-Received: from fedora ([172.59.161.218])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a49da0662dsm19056274eec.2.2025.11.14.22.35.44
+        bh=rFp/Xdva3jGM52uO5VTslo8C6wRd3X+KrevwjEi0We0=;
+        b=UcD2w7xiiBSPAejvMILwQrQoyPbhiZysYYZIGFtMu/Uaa2jxrV/cHH1BEVpGTas6KU
+         4ZWWcUK/kyftFhO476BMvScQ4IySwxFzXZDv8uNBwXx0NOUBsoSg8ipkQMQgHGRitkOC
+         er3q2rjtSgvt9i7tLMvAnb512ly60RP7P8bdW3N/ILcTQcd+a+a9fLkk/YiiblF/OeVi
+         wptev5cFSTIXSx5iSTYnkidr1utS3StdQvLMGP6zaTRZa5ettVO6/hitqb8HfWXdukmT
+         7PEzsm3x2BVCSgJmSNNHBbHtqJQqd8lKr9q6XpYjF9gw3YcR7fOzYO4V5VG3Qx136h/3
+         RcXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVyovgOKqgM8f0aYSbYPZaV+nZHWkRGf1CQgbWnWw9synAY2bYH5m3JZ3snmJidUtka2pkPFYtLUQk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKVersNt/Ca6ITQY2xJ5LnpKw/lZefQa/o2LpHbT8IxUo/TiF3
+	xWW35iZFNvnZC8HjTSz/wUip6u8JP+DecmOk8o7WXPDWV5/BjbJykG2w
+X-Gm-Gg: ASbGncswquYhmWPQDIE/Rfz7jjesvQOr3iQ7sDcVsn3Q9rxNepU7YzQhg7/QNjB7uHS
+	GTbehzd/OsMO3PCmrUJIxniZZN+B/kl1cIWqGKrSZHlvFk0Pyfn4qYHtgyQL6lLYU7D95hvmWiV
+	hV6fmLRrhl5iJU1Xw0sW8qo2dK8fz2UTWV6y3K6/5IzA95UzpdnXr0tmW2etWoAYnHCJoKM34MW
+	PHYiprBfdF0J4ff942TjKjwlXCfvat7/yXRv4mdVsBoODMnE6RGQtzX0A/1FFpQnbU1S/OiWwZ3
+	Qk7+ZQqhNCjD2CBa90CSeGQN5v6ltd8H/tOZSSyDgOvSIZmHuCUpflowTQKE9tUneZV/JfJ2fal
+	nvnhZ2T5JKNBNesLiqMIW3QN9VP1pZaK26BU34zW8ZhYlhpS91NgpEaqEQjdLanPn7thJU9XAaZ
+	GWjqBsZPSKdWYJnKkdeAX3Pt/Otv2cQab3aKVRk/ru
+X-Google-Smtp-Source: AGHT+IEAG2AbkEWEgsSkZu+MuSB+v5gfeMLkTTWEBMu2OjiTHCx/hYVcdA04MxhoZG6sPEBcfl+3xg==
+X-Received: by 2002:a62:e715:0:b0:7aa:9723:3217 with SMTP id d2e1a72fcca58-7ba3bb8ed77mr5901432b3a.25.1763206970351;
+        Sat, 15 Nov 2025 03:42:50 -0800 (PST)
+Received: from fedora ([103.120.31.122])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b921cb6f44sm7982772b3a.0.2025.11.15.03.42.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Nov 2025 22:35:46 -0800 (PST)
-From: Alex Tran <alex.t.tran@gmail.com>
-To: ast@kernel.org,
-	daniel@iogearbox.net,
-	andrii@kernel.org,
-	corbet@lwn.net
-Cc: martin.lau@linux.dev,
-	eddyz87@gmail.com,
-	song@kernel.org,
-	yonghong.song@linux.dev,
-	john.fastabend@gmail.com,
-	kpsingh@kernel.org,
-	sdf@fomichev.me,
-	haoluo@google.com,
-	jolsa@kernel.org,
-	bpf@vger.kernel.org,
+        Sat, 15 Nov 2025 03:42:49 -0800 (PST)
+From: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
 	linux-kernel@vger.kernel.org,
-	Alex Tran <alex.t.tran@gmail.com>
-Subject: [PATCH bpf-next v1] docs: bpf: map_array: specify BPF_MAP_TYPE_PERCPU_ARRAY value size limit
-Date: Fri, 14 Nov 2025 22:35:31 -0800
-Message-ID: <20251115063531.2302903-1-alex.t.tran@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
+Subject: [PATCH] docs: parse-headers.rst: Fix a typo
+Date: Sat, 15 Nov 2025 17:12:33 +0530
+Message-ID: <20251115114233.32239-1-ankitkhushwaha.linux@gmail.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,31 +78,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Specify value size limit for BPF_MAP_TYPE_PERCPU_ARRAY which
-is PCPU_MIN_UNIT_SIZE (32 kb). In percpu allocator (mm: percpu), 
-any request with a size greater than PCPU_MIN_UNIT_SIZE is rejected. 
+Replace "vantage" with "advantage" in the description of userspace API
+cross-references.
 
-Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+Signed-off-by: Ankit Khushwaha <ankitkhushwaha.linux@gmail.com>
 ---
- Documentation/bpf/map_array.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Documentation/doc-guide/parse-headers.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
-index f2f51a53e8ae..fa56ff75190c 100644
---- a/Documentation/bpf/map_array.rst
-+++ b/Documentation/bpf/map_array.rst
-@@ -15,8 +15,9 @@ of constant size. The size of the array is defined in ``max_entries`` at
- creation time. All array elements are pre-allocated and zero initialized when
- created. ``BPF_MAP_TYPE_PERCPU_ARRAY`` uses a different memory region for each
- CPU whereas ``BPF_MAP_TYPE_ARRAY`` uses the same memory region. The value
--stored can be of any size, however, all array elements are aligned to 8
--bytes.
-+stored can be of any size for ``BPF_MAP_TYPE_ARRAY`` and not more than
-+``PCPU_MIN_UNIT_SIZE`` (32 kB) for ``BPF_MAP_TYPE_PERCPU_ARRAY``. All
-+array elements are aligned to 8 bytes.
- 
- Since kernel 5.5, memory mapping may be enabled for ``BPF_MAP_TYPE_ARRAY`` by
- setting the flag ``BPF_F_MMAPABLE``. The map definition is page-aligned and
--- 
-2.51.0
+diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
+index bd34a6d00ca9..a7bb01ff04eb 100644
+--- a/Documentation/doc-guide/parse-headers.rst
++++ b/Documentation/doc-guide/parse-headers.rst
+@@ -5,7 +5,7 @@ Including uAPI header files
+ Sometimes, it is useful to include header files and C example codes in
+ order to describe the userspace API and to generate cross-references
+ between the code and the documentation. Adding cross-references for
+-userspace API files has an additional vantage: Sphinx will generate warnings
++userspace API files has an additional advantage: Sphinx will generate warnings
+ if a symbol is not found at the documentation. That helps to keep the
+ uAPI documentation in sync with the Kernel changes.
+ The :ref:`parse_headers.py <parse_headers>` provides a way to generate such
+--
+2.51.1
 
