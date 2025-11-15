@@ -1,284 +1,472 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06365305E33;
-	Fri, 14 Nov 2025 22:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763158681; cv=fail; b=TBdgS3ZaYcSH7OHpGAOcbMtNoRh+dE6f+e+81beUj/t38bkTs5kscOMSWKjuK9kb3nUzww7TTYxVnifD2ZZn6tL96yPS8MSKZnzHQlKiZ0oIpvIAqv0EvY4r4JjdlcsvIIaeNTmM1VouVKt8TPsA2tA5pWwzbmv+ywkjnHSqcIA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763158681; c=relaxed/simple;
-	bh=FS3cJkmxrcmKipYMJiYqdcw/9Nea2XbNImVl4dBmBCo=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cRLjUFNw0dQMnZ0nigpJNQEXYhaWPKtCfngboUehI6ZQ+lEfAmEK4gSEuvAZA4ysViy6OLEKr9DR02rVKin2AZoRRpmGpOWhDV9q+tuUTOc5qLPQm+w6sq1pYBlCoO+ojwAG9qJfwozHMSm729q2eBa4648VtNCohkRVcVKs1tA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gduz+6WP; arc=fail smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3C239FD9
+	for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 00:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763166186; cv=none; b=sQ9V/ohupprydPmo7lRe90UQesdN4hwXo5iA2ZMzTHt7XTpOz9gg2cK6WiGLAPUB8wg3bU/LPtvGe0xMbTIqhaSNddNJyJlaZx2AWwBykC3p/Cg2uf9WRiYsI5KIlyRWXuv1Yv5RvTe0WcJ2cg4WQGf84aTCsoECxfb6nshbdrc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763166186; c=relaxed/simple;
+	bh=dfivsJK1JxftKQMeSC9M0/NiAuNgHgAkhlY8zaT2DVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JrtsdFZArfuFc+qSDu2sgNLVAcPPpjYcV1MTgg1RtktxoVhAsSGQfwbsDL5e1HQv7y20W32+oiVOZqQsgqk9MHKRKESsUp7nox0vj0x7EntLMh4Fp+AFQHTNBXU7ukc8UVP0dhRkKIZwmBREy1v4caFBm/YWbEdvochv28amZ4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eEAOo7t2; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=BspZcQO2; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gduz+6WP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763158680; x=1794694680;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=FS3cJkmxrcmKipYMJiYqdcw/9Nea2XbNImVl4dBmBCo=;
-  b=gduz+6WPJPo1z19sp+0Wo/njEsYWUrEqgD7Q00kRaez9Lv69Ks8c/Z8b
-   /GotPgjTK8YxkDQj/DJp2evDIpYfHLJ+z1PHH2znAENucfefY6NMLUYD9
-   Fu5SBc7zuqVfXJGGE4YWKiK0K0nDW4Qz3/TlfUxS1Ubi28vkWr0yUGGYD
-   QTHp1HUmCUVwM3t+ARY42+HhQCmJV8KZWN6aV8WaFnGsquUYBiaFFIFRo
-   AZ++CXwy0aPoDcBORghuZnURKySDx6loL1jN1D5kZKeX6BEQYo724hwYy
-   PvYxPT4HB/QfdbnDDPtJkYcYeTPU2xHLb3d9DTlNijlRipsKazRmwqEBF
-   g==;
-X-CSE-ConnectionGUID: WYkQm7vITbWSukq9ClHxUg==
-X-CSE-MsgGUID: 71WX9rIiT2WeeAuFkoD2ag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="76723598"
-X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="76723598"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 14:17:59 -0800
-X-CSE-ConnectionGUID: U1zbQ1KrR2OOY1ii0/+i0w==
-X-CSE-MsgGUID: brw/yzpwQMqaIjYjl7bmeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="189700465"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 14:17:59 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 14 Nov 2025 14:17:58 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Fri, 14 Nov 2025 14:17:58 -0800
-Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.30) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 14 Nov 2025 14:17:58 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UN0EYqm5mAVa1fIW4RcubNnFumYSYvv1V5+ZB8L0ObBXkslnmKbcQqitXmLxIJvHvwOBtwur0iXvjvgxA3Q6M4N3HdwKsYLgtcGFQ2XyzYVAiSLl1NIHvY4ryOM61Ytkmjc11hgRg2N5/orQY/YHmW4SUx3IqKhcRV3c7a5rfTr5QICFTn2V7J5S0D8tzo1L/IN/WHUif8SecvMFpX0MdX4yyc0DpsldZVn5RkKCwdPBEd0QvpfS275iXqnhNroGwxAi5I/Gi7VAheN9v69tgwcYpiZwTbVMU9oymuUeS/LtYc5nXRNJQ99zbSuSwhL/kkV5ohU+v2WBeAbnxII08Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PL4v9BoP8X5OFZDqOYyyxcinl7DiwloENrODJ/xgNzo=;
- b=fVmlyg2SArNha/vHRSHPWYiapU8PHUuJU0z1QPggj26kvUey1UbuvYeRuF7gSyGE2xqxTApUfwGGvgn9tvHteK/T6Paz/OxgjlH68IWCzuqesYUDx8NI+BqXKsvNFvp2HXS/2p9zC6BuJ4PoSJEYF8kq+URfoJK39NN0gyroA1yF6hXPnia9ljVHKgIwWAauf9+PZOHk9f6VBHtgWZEBI1kc4xv72TSEWWRgB+PG5KA8xSIni2TT+MjOHYRIMJ2KkTUYPgk1f5U7mk5FbOyzGISCBySERC6W+i//Tq3wx9CsIzbgUQkvRPs6l4R6Jkvgo/VNB/uqf20+VW2xzZ942w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by MW5PR11MB5857.namprd11.prod.outlook.com (2603:10b6:303:19d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Fri, 14 Nov
- 2025 22:17:55 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.9320.013; Fri, 14 Nov 2025
- 22:17:55 +0000
-Message-ID: <136d9c83-e816-4188-ae0d-322478a57a68@intel.com>
-Date: Fri, 14 Nov 2025 14:17:53 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] x86,fs/resctrl: Factor MBA parse-time conversion to be
- per-arch
-To: Dave Martin <Dave.Martin@arm.com>, <linux-kernel@vger.kernel.org>
-CC: Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>, "Ben
- Horgan" <ben.horgan@arm.com>, Thomas Gleixner <tglx@linutronix.de>, "Ingo
- Molnar" <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, "Jonathan
- Corbet" <corbet@lwn.net>, <x86@kernel.org>, <linux-doc@vger.kernel.org>
-References: <20251031154225.14799-1-Dave.Martin@arm.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <20251031154225.14799-1-Dave.Martin@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0073.namprd03.prod.outlook.com
- (2603:10b6:303:b6::18) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eEAOo7t2";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="BspZcQO2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763166182;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9nfgz45M8HKc3HZ16FndRlHChjpCjyLQc5Rl+pawHCw=;
+	b=eEAOo7t2Jc6ICw0aeexPAnK++fwHO2YpSONolW7qZo4ofjIguCRgby03SGlh8aT6B25gBC
+	wi9HJP3PDYbfS7Xok0C2RVjUedn4fLjFKCBQcNCant4hEvfxH3OK7+TKr5uS8/E5/K0z+V
+	6wYR24DKd4lhopiV+T0TkA4CGtvLFUY=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-96-Lvs4600jOm-fuPZJvSQsBg-1; Fri, 14 Nov 2025 19:23:00 -0500
+X-MC-Unique: Lvs4600jOm-fuPZJvSQsBg-1
+X-Mimecast-MFC-AGG-ID: Lvs4600jOm-fuPZJvSQsBg_1763166179
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8b25c61abe2so1227770085a.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Nov 2025 16:23:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1763166179; x=1763770979; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9nfgz45M8HKc3HZ16FndRlHChjpCjyLQc5Rl+pawHCw=;
+        b=BspZcQO2CEprDlQ6lRGpPyi91yw1PW4F3uyejf/8pkfHAKJExm0XX/vfLvja26BO+d
+         6BuschW+4R6MmXKm6pu+Eirc7aIDZ9XW+MHr4t57502yhxw3wNE/PUJudE4pv5oN+N9B
+         5iXj6nx+c2Nbuu+xagCRfw4CwN3laHSQYIjUF0JEMHvi47DiET6ik24vJ0+XzIc47cI0
+         hxV2+N/zd0OCmEvsL3+vlMRSy74kB5qSOpOal0CPoJY4TmIrWp3lahzqVlvV1T2e83fj
+         I4rdrfJSwrMr/x6iLIVbS9VH6qLj288fHxSc9EfsjalV/5KKuq5n0OInvdtZcgcbnBnO
+         V2jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763166179; x=1763770979;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9nfgz45M8HKc3HZ16FndRlHChjpCjyLQc5Rl+pawHCw=;
+        b=KR+uQvH8S07//bfygKc5wybPhVjgDpioIIY78CSHX1zNBhifZj0TeLbEYPDt+RhjDO
+         w9XHECl1zvyBEhgaWYRRh9E0ejZ29B8f2f31dkZ6it1SUsXXziPebdrUHqfdRrwkPKLO
+         NHYar2Xyqp61nkkNXSxN/nup+8SEyROr/6SuH8AC5s4Iga9UBwAr1XSmVYDhEyX+nZEr
+         s2IWIboXVU+oa0lEx/Lnp39+Jd/Rh70XpZtZ/FjUsPmXYRzXAn+hJPL2MWrBOSJ4dLYp
+         1ZL97J+wyhA35A+/CpmZQx14xx5oFp20HfZYdH9WvENY/mx2UW8NUwYND/L4W7UIN9BK
+         nyIA==
+X-Forwarded-Encrypted: i=1; AJvYcCUoz1yztt5MvWfA4/W1OARtT6qJMyjQri/lLhE23zxwIjQp6YRKtq3hqjd1GwzesPSHLRY3NHIQnB8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxldXONk/x3m4TP6FN/AV2vwEcsBcBFUfo2awoIVscbSkhvgxWa
+	YhErHP/cdBaWcbxsQHOIXPUI1UNC/0Dv23HNSzxtvbBkDbPGMroZX+ODGII0yMUQ94ss9xkwOuS
+	+utZnMCo5566nGzUh/x+1Ue3FpTld2Nozsvt95weK0FcdzLy8Cmwlb/Gfp7RXHg==
+X-Gm-Gg: ASbGnctiU+XMuifxkIZhLwJ/yI1s/OKyCYa9KOpvk6Ha9DtjLzC+6DB6Tj+xN3MnyGT
+	f4RE4nzthFldLsdJ4p5f/6/RB76BCdR+hjSuKBJOqG17QQurqlROd+b3vkP2JtdetuoizwR/Qpp
+	InlipOfl8ELal3nWoZynTI4Tsl9k+TZbnxGiVcbr6IrAYVk3GRRxrt1SWHSl2kTZ08cs4OWzGHr
+	8BjUHbP3+UaFCimsSpYkAxpVXvGKRqT3zoHvR3VYnQng9qqILZN3qdNJw1z9NAAVIpUgOmTCb0E
+	gEhIcBBnQZsHpw9AiitRdCgrWjYBhZmZgfmbDUtdudodlRz5sxv8Qdy3klaxEOuk8WmGiKc8t6Y
+	UVV6Fah7ExG3DZ2pbbW7DylhyaXl41dDkGpBOV7/jpVy/
+X-Received: by 2002:a05:620a:45a9:b0:89e:eeb7:40f5 with SMTP id af79cd13be357-8b2c31ca8abmr621203885a.71.1763166179404;
+        Fri, 14 Nov 2025 16:22:59 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFWqnB1QZVpUgj8IZTzTXtYCwN5HMTXu8fDZfWlDItKvg59/ftNW1oV+yvUtCQtHSJbVohIcQ==
+X-Received: by 2002:a05:620a:45a9:b0:89e:eeb7:40f5 with SMTP id af79cd13be357-8b2c31ca8abmr621202085a.71.1763166178919;
+        Fri, 14 Nov 2025 16:22:58 -0800 (PST)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b2aef2f936sm440475985a.29.2025.11.14.16.22.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Nov 2025 16:22:57 -0800 (PST)
+Date: Fri, 14 Nov 2025 19:22:55 -0500
+From: Brian Masney <bmasney@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>, Stephen Boyd <sboyd@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Russell King <linux@armlinux.org.uk>, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC v4 00/12] clk: add support for v1 / v2 clock rate
+ negotiation and kunit tests
+Message-ID: <aRfH35-jhM-qOrbb@redhat.com>
+References: <20250923-clk-tests-docs-v4-0-9205cb3d3cba@redhat.com>
+ <20250925-eager-delectable-frog-fcbb5d@penduick>
+ <aNVPqHldkVzbyvix@redhat.com>
+ <20250930-brawny-pastel-wildcat-4ba8d8@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|MW5PR11MB5857:EE_
-X-MS-Office365-Filtering-Correlation-Id: b40fc27e-42a6-4369-88e2-08de23cba909
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cmFZY044T1h3NXlhcXpuSCtzRnZmMHhwTHpXUkx2dTJTdHlHamtSTlNteVpP?=
- =?utf-8?B?TDVZWUJHRmRnVXBVKzJYdEJnNEhQSndpUHpoMkYvUVNlR2t4TTNWaWdjMU41?=
- =?utf-8?B?N0FTQ1dyaHZIN1g3S05HQitTbkJudnF4ZlQwMUNWNGZRWVlYTFdZN1RPZWdE?=
- =?utf-8?B?SzBSdFpmV0RLRXd0TEY2bzJ5NUNsRC8rWSt1RExhMXJRMkpyS1NoaHlOUGNm?=
- =?utf-8?B?cjJKTURrS25qUDhTVG5vNHFUcmNBc2hVVXVwcllKWGpLdytXN2Q3WStPcjJB?=
- =?utf-8?B?TlRVb0ticmpKVVA1cHllelNqKzlXRGEyS01XR01iamMzWHF4ZkJxWWRONW9x?=
- =?utf-8?B?a1UxakZSVDJ1RE9MTnYxSG9xYVZyNVAzZnNJRnd1SDJhamZBaUtDN2g4czJE?=
- =?utf-8?B?Vm1qWmFzNWY4T0dSZmtMdWJNT3ZQbk1veGdKaG1LOVppK3lqMDV3QkMvZGNv?=
- =?utf-8?B?OFREODZmOU9yT3I2U2kxOUk4emlwMjI1Z04zTktpc2JseHFVdGRCNElzOFFn?=
- =?utf-8?B?elNoUjg4M1dGTmlyMnNjRGt4M2p0VGQzelBxa0Q5dzcvcVBlOWQ0VTNURGxi?=
- =?utf-8?B?SnZScjdNVXg0c1VMdFlPbHIvQzlIWitWMGRLbXVlbS8rMm5UL1BDOFdKMXRz?=
- =?utf-8?B?UWJIbHlqQkd0angwTUhJMzcvOFRVYXhld3RSOWdEOXlNV0RBbXJoWUtMcWdn?=
- =?utf-8?B?ZHNkUUxlVTlUOEdFUlN6QTRKWlhFYjFWSjV3c1dsWWZXV0Z6ckdwRDRyN0V1?=
- =?utf-8?B?TjdINXZjaENQNmVsaVpUdmM1dGhFZk9sVzZUckFaRTBwbnk3N2svK2VxYzdU?=
- =?utf-8?B?bUxWMSt6dFNIWUEvMXlkL1UzeW4vb09ncnFELzBxTWtSVnUvN0FTcFhHSFVC?=
- =?utf-8?B?bE9IcXl6Y3RYQmdrSXI0TGFtVjZGQ1Boei9LbUVLNXpOa1hJV3FmYUFQeEhl?=
- =?utf-8?B?TXJNTnVocjNJTjNRYU5lR1lwdW5OYzVSTnVMeWJsaTZZamN6Zzd5aDNqSXlt?=
- =?utf-8?B?eGJLYXVhWG15cjVvSnF6S01NUnNBL1BxTWM5S09CYkpmOUlsbU80NjBjclp4?=
- =?utf-8?B?aHN4VW9pTW1tR1o4R1F5S24rQVNweHBkOGllakhxSkNoTnA4bmNwZDh1L1B5?=
- =?utf-8?B?YmFBc1UzODFTVk85bGk0MFZJei9mS0VxRDEzRUo2YjloZ1VwQktiSFpWYnFT?=
- =?utf-8?B?K28rN01pSi84Qjk2Z0FoK0lDZmY3VitYUDdUV3dwMEhGNVRFemV3RXJwWXpU?=
- =?utf-8?B?N3NFVFJ6L1YxWEtJWldScTFQYnRyWFUvNWY2RzRFOTBleVVtU2EweTRPeUpO?=
- =?utf-8?B?M0tMczU2N0h4a0tGZ1hMZ1RVVmdIUlpmUUhRMVN3M0N1dFB1RG9uTlQyMEo5?=
- =?utf-8?B?N21GNTFVWVQ4cTl6dy9Kck5wZXFmdGF3ZHRVbTVzanpGSGRFTi9tNHc5dTBo?=
- =?utf-8?B?TUxETUZ5YUNhSmJ4ZWhmZXpoT0lZMjBLQWtXVndjS3JSRmsrRnVhNStmc1Jj?=
- =?utf-8?B?ZzAxK09ybytvVnduS0wxOEZ1dlBxR2w1WnZwdE0zZVN3Tkd5SWhoTGkvaFJD?=
- =?utf-8?B?Yk1KdDNpNTN2eitwUWRqMnluOG92RG91bnQyK0tpQTVtejlHdWJxKzVIVSt1?=
- =?utf-8?B?TGNuZWEvdktRSDFlSU0zRDNoM3J5NEw0RWxDNjljVGpDU1V6dE9SU2Jmd2dy?=
- =?utf-8?B?RHA5UEZBUUIyK2dGYk9HWnc1dlhWbDlOS0xPazBnZ2hXNjkrRW1VaURKNG5x?=
- =?utf-8?B?MUdmeEZNR21XYzI0MHl5VlFsM1E4eVdYcXBQbkJCbkN1ZjBrWHp6SHpNd05R?=
- =?utf-8?B?d0R4RDY5Tks4L21udDhib3kvNjJzU2RRZER5dVZzS0U1TjljVHNPUnVQMnQy?=
- =?utf-8?B?am1ldHNjT2hJV2NRQzFwVGN0Q211dzFDSW1UdWlzUE85eVU1MFFyd3V5R1F5?=
- =?utf-8?Q?COKBMaITew7SdTYuH2fursQFWLFPSp50?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MHlqRmVtVHNuMjJicGpCZndHakhPMG5GbXRMRmUxWUp5RUNTN0VyNWNweTBs?=
- =?utf-8?B?MkYxbnBFYlQxYlZyUHZPNWhDTDM0VGVnSkV2TDJqTWFqTVg2aWZETEU3c2VE?=
- =?utf-8?B?dUJERUNPc1p1ZUFHMTEvKzJhTTFEOFBLTG9MdGN3TTVpN2ZRQUo0RHBxQU5J?=
- =?utf-8?B?SEI4bG41elM3ZHIrekdFeDdobGNnN1czMUVrb01SM0UwMVJ2Wmw2dWZjcjZp?=
- =?utf-8?B?SVMyZFVrWDlLNUM2VlNjMkdETUlvU0dxcVZ6QUNOYXQxZHhTN3hYQ1l3bTVO?=
- =?utf-8?B?VStRall0SlAyZXNSRGFjK2k3TUg0di9sc1JUdDI2RnZNeXZMUWRkL3pVcjVx?=
- =?utf-8?B?QlpSR0dJVFZIWWE5dnErM0V2dWp0SEc5VndFUmZzU2tjMUZDNUw0ZnU4T25B?=
- =?utf-8?B?SzJQZ3VrSGRNMmdvdkMwb21pc0NhTWZ1RXdzZlpMRjl2WC9pNHlxdnNVVTBG?=
- =?utf-8?B?MmFCa05ZQ1Y2M2FrcEN2RUhZQ3NoaS9FZGViaDNwS3FyaFp2clJuWnNTYmNR?=
- =?utf-8?B?MVFiYlBua2oyUytsOWtkVGVGNVBsTmNqa1ZuaWVpMG9CbmVSSGlkU0dZSGhP?=
- =?utf-8?B?SFIrdlhSdlJwYVNtUVV6amJDZGJXb2hHd2lydHFrMjR4SlA1ZnNJalQ0RWxv?=
- =?utf-8?B?NFM3ODZxcHl0V0tldVJERHc3OXVUYk1xRFZNaDhyMW5ualNCcVBucXJCYUpq?=
- =?utf-8?B?UDhmMldDWGpKT3JwTGZYRUhKRUh6MDdQVENWdkhYZEJ1QUxIeEJGTzlwbTFQ?=
- =?utf-8?B?MTJUbWtxMzFXbUJzZmlWNFFod3A1K3dKS1FrTGx4L2ExemFoL2NBSlBjNkQ0?=
- =?utf-8?B?SzNsdkRwWm84VEJRQWVaS1d3OEV4R0RrWmlSYzJFcDM5eGZYSTRMbU9GaWxL?=
- =?utf-8?B?VFQ2MGYwNVpuN1NqTFVIYWVnRG15VjdEMDJZQ054SjBxdjFNMm85a29mRW1H?=
- =?utf-8?B?UXJoZFhXYkhkdnorVDBzc0lqVm1YZ3UvdHAyRXYrK01pUkdlSml1UUZ1TkUz?=
- =?utf-8?B?RnJZOGVrWDIxYWtDd2o1a2c1Tm43MVVpdlZMbkhVL1hmTDIrK0lFbno3a3hn?=
- =?utf-8?B?WkRVK0Z1UEhIWFZaYWdXQUo5VSsrNk1jWXNTK0pjdHZqWTBYWDJxejRONm9E?=
- =?utf-8?B?MDJIVExINzNHclFXWUNZdTRwMmN2QVhWWWxXMVdISThNMjMxaVpHWTNVTk9o?=
- =?utf-8?B?MmRNb1YvSXcvcENwZ0FZNFZhMS9NMEVmcEhsTmtNSm9hVnNHS2R4cmpPYnhF?=
- =?utf-8?B?bjhaTy9NVy9hVWR2SmZJQTBrMWhmb3V4cXJNYmlSY2ZYLzNTRmVSQnJqanpz?=
- =?utf-8?B?djFIYUtrdW04Y1o3dWY1ampWVGZ2N2M4akZibmQ0WGxnMmt6MkhUcDkxV2g5?=
- =?utf-8?B?MlV4M0VYZnp0MGQ1U0V1UnBTMXIxQytMM0dGRDVGVDhvbWFPQWhzbEI5ZnJK?=
- =?utf-8?B?c3ZNenhYTEcvR3ZzNFErTWpiT3d4RUpuRDQ5ZXlGSkdHRXdUbmUyeGU5QXRD?=
- =?utf-8?B?ZnNzcEM5ZVhHKy8zRzJYcWR0aVZab3ZKMXQwdFM0ai9MQ3UxUnpwYVJVZ0JX?=
- =?utf-8?B?djlFVjhxYTRyWlE1Q1JPcXBtNWJzaUZZWDlvaFJmb2Z4THBQa0UrZVNhQjd3?=
- =?utf-8?B?TWxKYzVCNzdyOWpWRnpRR25LU09pSzhSSVd2azVkUHNzV2F6MnVSa2M0Y0JD?=
- =?utf-8?B?aE1xM3BuYVRwNUJRVEdEL0p6ekswTVAzdTRDdTl2UzRMMjM0dENvbENOcHBm?=
- =?utf-8?B?VTNiY3poMUFYL0N0NksrMGdZckFPVGtJYW1ZNjNYM2sySHg4YXM3ZnBZUGxm?=
- =?utf-8?B?dHFEeVF2MnpBUG5vRnd1bXZpRXdFUVJKU3luQUYyNzl4YjRhQWVKdGVRaFRN?=
- =?utf-8?B?K0hUNUd0UmtOMTVtVmNtclhOaUVmcGtuUkJzdE5wT3RKQkd2Q2h1dERTcjJT?=
- =?utf-8?B?TWtoWlB6LzdLcTZTREtnRmR5ZjlTZFhDR1lQK01iR0pwTHYveDF1bEJ2V1Zs?=
- =?utf-8?B?YzZjNG5tWUdTT1VyaU5EUnJFemRxa2lHb0RLOEJyQXg2bUYxOHRBOWVLVEFP?=
- =?utf-8?B?ZVMydjdxWEg5amNLTVF2NzI0Q2pKY05jUjd0UXBQNWRuajBNMnA5VXZaV2dj?=
- =?utf-8?B?OUJoOE5rdmxmeWd0c1dtWUpROUlBMEpYTnYwaVNBMmpCeGJ1T1A4bWxick9m?=
- =?utf-8?B?L0E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b40fc27e-42a6-4369-88e2-08de23cba909
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 22:17:55.6223
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: njzS29+I2rpsGqFQ5smARikPkPC1lCYApgrxo6nRN17xtzmgersCn63UcMkIxCV7urhoG4TOJ9ZLSHOtUx5bWq3LvU3foNBbypRTAgxV5uU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5857
-X-OriginatorOrg: intel.com
+Content-Type: multipart/mixed; boundary="0oaKZJC2peXkS6zF"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250930-brawny-pastel-wildcat-4ba8d8@houat>
+User-Agent: Mutt/2.2.14 (2025-02-20)
 
-Hi Dave,
 
-On 10/31/25 8:41 AM, Dave Martin wrote:
-> The control value parser for the MB resource currently coerces the
-> memory bandwidth percentage value from userspace to be an exact
-> multiple of the rdt_resource::resctrl_membw::bw_gran parameter.
+--0oaKZJC2peXkS6zF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+Hi Maxime (and Stephen),
+
+On Tue, Sep 30, 2025 at 01:28:52PM +0200, Maxime Ripard wrote:
+> On Thu, Sep 25, 2025 at 10:20:24AM -0400, Brian Masney wrote:
+> > On Thu, Sep 25, 2025 at 02:14:14PM +0200, Maxime Ripard wrote:
+> > > On Tue, Sep 23, 2025 at 10:39:19AM -0400, Brian Masney wrote:
+> > > > The Common Clock Framework is expected to keep a clock’s rate stable
+> > > > after setting a new rate with:
+> > > > 
+> > > >     clk_set_rate(clk, NEW_RATE);
+> > > > 
+> > > > Clock consumers do not know about the clock hierarchy, sibling clocks,
+> > > > or the type of clocks involved. However, several longstanding issues
+> > > > affect how rate changes propagate through the clock tree when
+> > > > CLK_SET_RATE_PARENT is involved, and the parent's clock rate is changed:
+> > > > 
+> > > > - A clock in some cases can unknowingly change a sibling clock's rate.
+> > > >   More details about this particular case are documented at:
+> > > >   https://lore.kernel.org/linux-clk/20250528-clk-wip-v2-v2-2-0d2c2f220442@redhat.com/
+> > > > 
+> > > > - No negotiation is done with the sibling clocks, so an inappropriate
+> > > >   or less than ideal parent rate can be selected.
+> > > > 
+> > > > A selection of some real world examples of where this shows up is at
+> > > > [1]. DRM needs to run at precise clock rates, and this issue shows up
+> > > > there, however will also show up in other subsystems that require
+> > > > precise clock rates, such as sound.
+> > > > 
+> > > > An unknown subset of existing boards are unknowingly dependent on the
+> > > > existing behavior, so it's risky to change the way the rate negotiation
+> > > > logic is done in the clk core.
+> > > > 
+> > > > This series adds support for v1 and v2 rate negotiation logic to the clk
+> > > > core. When a child determines that a parent rate change needs to occur
+> > > > when the v2 logic is used, the parent negotiates with all nodes in that
+> > > > part of the clk subtree and picks the first rate that's acceptable to
+> > > > all nodes.
+> > > > 
+> > > > Kunit tests are introduced to illustrate the problem, and are updated
+> > > > later in the series to illustrate that the v2 negotiation logic works
+> > > > as expected, while keeping compatibility with v1.
+> > > > 
+> > > > I marked this as a RFC since Stephen asked me in a video call to not
+> > > > add a new member to struct clk_core, however I don't see how to do this
+> > > > any other way.
+> > > > 
+> > > > - The clk core doesn’t, and shouldn’t, know about the internal state the
+> > > >   various clk providers.
+> > > > - Child clks shouldn’t have to know the internal state of the parent clks.
+> > > > - Currently this information is not exposed in any way to the clk core.
+> > > 
+> > > I recall from that video call that Stephen asked:
+> > > 
+> > > - to indeed not introduce a new op
+> > > - to evaluate the change from top to bottom, but to set it bottom to top
+> > > - to evaluate the rate by letting child clocks expose an array of the
+> > >   parent rates they would like, and to intersect all of them to figure
+> > >   out the best parent rate.
+> > > 
+> > > It looks like you followed none of these suggestions, so explaining why
+> > > you couldn't implement them would be a great first step.
+> > > 
+> > > Also, you sent an RFC, on what would you like a comment exactly?
+> > 
+> > Stephen asked me to not introduce a new clk op, however I don't see a
+> > clean way to do this any other way. Personally, I think that we need a
+> > new clk op for this use case for the reasons I outlined on the cover
+> > letter.
 > 
-> On MPAM systems, this results in somewhat worse-than-worst-case
-> rounding, since the bandwidth granularity advertised to resctrl by the
-> MPAM driver is in general only an approximation to the actual hardware
-> granularity on these systems, and the hardware bandwidth allocation
-> control value is not natively a percentage -- necessitating a further
-> conversion in the resctrl_arch_update_domains() path, regardless of the
-> conversion done at parse time.
+> So his suggestion was to base the whole logic on clk_ops.determine_rate.
+> You're saying that it would violate parent/child abstraction. Can you
+> explain why you think that is the case, because it's really not obvious
+> to me.
 > 
-> Allow the arch to provide its own parse-time conversion that is
-> appropriate for the hardware, and move the existing conversion to x86.
-> This will avoid accumulated error from rounding the value twice on MPAM
-> systems.
-> 
-> Clarify the documentation, but avoid overly exact promises.
-> 
-> Clamping to bw_min and bw_max still feels generic: leave it in the core
-> code, for now.
+> Additionally, and assuming that we indeed need something similar to your
+> suggestion, determinate_rate takes a pointer to struct clk_rate_request.
+> Why did you choose to create a new op instead of adding the check_rate
+> pointer to clk_rate_request?
 
-I think they are only theoretically generic since arch sets them and resctrl
-uses to enforce user input. Arch can thus theoretically set them to whatever
-the u32 used to represent it allows. Of course, doing something like this makes
-the interface even harder for users to use.
+Sorry about the delayed response. I've been busy with other projects at
+work.
 
-> 
-> No functional change.
-> 
-> Signed-off-by: Dave Martin <Dave.Martin@arm.com>
-> 
-> ---
+I attached a patch that puts the negotiate_rates member on struct
+clk_rate_request instead of struct clk_ops. In order to get this to
+work, it also required adding it to struct clk_core and
+struct clk_init_data as well. I made this so that this patch applies
+on top of this series.
 
-...
+I think the clk_rate_request approach is very ugly, and adding it to
+struct clk_ops like I have it in this series is the way to go.
 
-> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-> index b7f35b07876a..fbbcf5421346 100644
-> --- a/Documentation/filesystems/resctrl.rst
-> +++ b/Documentation/filesystems/resctrl.rst
-> @@ -144,12 +144,11 @@ with respect to allocation:
->  		user can request.
->  
->  "bandwidth_gran":
-> -		The granularity in which the memory bandwidth
-> -		percentage is allocated. The allocated
-> -		b/w percentage is rounded off to the next
-> -		control step available on the hardware. The
-> -		available bandwidth control steps are:
-> -		min_bandwidth + N * bandwidth_gran.
-> +		The approximate granularity in which the memory bandwidth
-> +		percentage is allocated. The allocated bandwidth percentage
-> +		is rounded up to the next control step available on the
-> +		hardware. The available hardware steps are no larger than
-> +		this value.
->  
->  "delay_linear":
->  		Indicates if the delay scale is linear or
-> @@ -737,8 +736,10 @@ The minimum bandwidth percentage value for each cpu model is predefined
->  and can be looked up through "info/MB/min_bandwidth". The bandwidth
->  granularity that is allocated is also dependent on the cpu model and can
->  be looked up at "info/MB/bandwidth_gran". The available bandwidth
-> -control steps are: min_bw + N * bw_gran. Intermediate values are rounded
-> -to the next control step available on the hardware.
-> +control steps are, approximately, min_bw + N * bw_gran.  The steps may
-> +appear irregular due to rounding to an exact percentage: bw_gran is the
-> +maximum interval between the percentage values corresponding to any two
-> +adjacent steps in the hardware.
+I'm giving a talk at Linux Plumbers in Tokyo next month:
 
-What can bw_gran be expected to be on Arm systems? Could existing usage be supported with
-MPAM setting bw_gran to 1?
+    Fixing Clock Tree Propagation in the Common Clk Framework 
+    https://lpc.events/event/19/contributions/2152/
 
-What will these control steps actually look like when the user views the schemata file
-on an Arm system?
+Stephen will be there as well, and hopefully we can reach consensus
+about an acceptable approach to fix this.
 
-With resctrl "coercing" the user provided value before providing it to the architecture
-it controls these control steps to match what the documentation states above. If resctrl
-instead provides the value directly to the architecture I see nothing preventing the
-architecture from ignoring resctrl's "contract" with user space documented above and
-using arbitrary control steps since it also controls resctrl_arch_get_config() that is
-displayed directly to user space. What guarantee is there that resctrl_arch_get_config()
-will display a value that is "approximately" min_bw + N * bw_gran? This seems like opening
-the door even wider for resctrl to become architecture specific ... with this change the
-schemata file becomes a direct channel between user space and the arch that risks users
-needing to tread carefully when switching between different architectures.
+My round_rate to determine_rate conversion will drop one member from
+struct clk_ops, so maybe that'll help, and we can have a trade?
+There's currently only one outstanding patch series remaining in
+drivers/phy that's blocking me from posting what I have to remove
+round_rate from the clk core:
 
-Reinette
+https://lore.kernel.org/linux-clk/20251106-phy-clk-route-rate-v2-resend-v1-0-e2058963bfb1@redhat.com/T/
+
+I'll bug Vinod on email again so that we can hopefully get that in for
+v6.19. (No response on IRC yesterday.) If not, I see that he's giving a
+talk at Plumbers and I'll bug him in person after his talk.
+
+Brian
+
+--0oaKZJC2peXkS6zF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment;
+	filename=0001-HACK-clk-move-negotiate_rates-member-from-struct-clk.patch
+
+From 469c29a4d14a83155a280df4679a43ad4af2e1b4 Mon Sep 17 00:00:00 2001
+From: Brian Masney <bmasney@redhat.com>
+Date: Fri, 14 Nov 2025 18:45:06 -0500
+Subject: [PATCH] HACK: clk: move negotiate_rates member from struct clk_ops to
+ struct clk_rate_request
+Content-type: text/plain
+
+Demonstrate one way to move the negotiate_rates member from struct
+clk_ops to struct clk_rate_request. Personally I think it's much cleaner
+to have this on struct clk_ops.
+
+Signed-off-by: Brian Masney <bmasney@redhat.com>
+---
+ Documentation/driver-api/clk.rst |  8 +++++---
+ drivers/clk/clk.c                | 11 ++++++++---
+ drivers/clk/clk_test.c           | 32 +++++++++++++++++++++++++-------
+ include/linux/clk-provider.h     | 19 ++++++++++++-------
+ 4 files changed, 50 insertions(+), 20 deletions(-)
+
+diff --git a/Documentation/driver-api/clk.rst b/Documentation/driver-api/clk.rst
+index c46ee62ba5bd..47ed511432db 100644
+--- a/Documentation/driver-api/clk.rst
++++ b/Documentation/driver-api/clk.rst
+@@ -75,9 +75,6 @@ the operations defined in clk-provider.h::
+ 		void		(*disable)(struct clk_hw *hw);
+ 		int		(*is_enabled)(struct clk_hw *hw);
+ 		void		(*disable_unused)(struct clk_hw *hw);
+-		bool            (*negotiate_rates)(struct clk_hw *hw,
+-					           struct clk_rate_request *req,
+-					           bool (*check_rate)(struct clk_core *, unsigned long));
+ 		unsigned long	(*recalc_rate)(struct clk_hw *hw,
+ 						unsigned long parent_rate);
+ 		long		(*round_rate)(struct clk_hw *hw,
+@@ -103,6 +100,11 @@ the operations defined in clk-provider.h::
+ 					      struct dentry *dentry);
+ 	};
+ 
++Note: The negotiate_rates callback is not part of struct clk_ops. Instead, it
++is specified in struct clk_init_data during clock registration and is copied
++to struct clk_rate_request for use during rate negotiations. It is invoked
++through the rate request structure rather than through ops.
++
+ Hardware clk implementations
+ ============================
+ 
+diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+index 926b7d4b9ab8..8014eb719266 100644
+--- a/drivers/clk/clk.c
++++ b/drivers/clk/clk.c
+@@ -130,6 +130,9 @@ struct clk_parent_map {
+ struct clk_core {
+ 	const char		*name;
+ 	const struct clk_ops	*ops;
++	bool			(*negotiate_rates)(struct clk_hw *hw,
++						   struct clk_rate_request *req,
++						   bool (*check_rate)(struct clk_core *, unsigned long));
+ 	struct clk_hw		*hw;
+ 	struct module		*owner;
+ 	struct device		*dev;
+@@ -427,8 +430,8 @@ static bool clk_core_is_enabled(struct clk_core *core)
+ 
+ static int clk_core_use_v2_rate_negotiation(struct clk_core *core)
+ {
+-	bool has_v2_ops = core->ops->negotiate_rates ||
+-	                  (core->parent && core->parent->ops->negotiate_rates);
++	bool has_v2_ops = core->negotiate_rates ||
++		(core->parent && core->parent->negotiate_rates);
+ 
+ 	return has_v2_ops && modparam_clk_v2_rate_negotiation;
+ }
+@@ -1713,6 +1716,7 @@ static void clk_core_init_rate_req(struct clk_core * const core,
+ 
+ 	req->core = core;
+ 	req->rate = rate;
++	req->negotiate_rates = core->negotiate_rates;
+ 	clk_core_get_boundaries(core, &req->min_rate, &req->max_rate);
+ 
+ 	parent = core->parent;
+@@ -2504,7 +2508,7 @@ static struct clk_core *clk_calc_new_rates(struct clk_core *core,
+ 		struct clk_rate_request req;
+ 
+ 		clk_core_init_rate_req(top, &req, top->new_rate);
+-		if (!top->ops->negotiate_rates(top->hw, &req, clk_check_rate))
++		if (!req.negotiate_rates || !req.negotiate_rates(top->hw, &req, clk_check_rate))
+ 			return NULL;
+ 
+ 		clk_accept_rate_negotiations(top);
+@@ -4511,6 +4515,7 @@ __clk_register(struct device *dev, struct device_node *np, struct clk_hw *hw)
+ 		goto fail_ops;
+ 	}
+ 	core->ops = init->ops;
++	core->negotiate_rates = init->negotiate_rates;
+ 
+ 	core->dev = dev;
+ 	clk_pm_runtime_init(core);
+diff --git a/drivers/clk/clk_test.c b/drivers/clk/clk_test.c
+index ff53b8bdf872..be2a49d2e446 100644
+--- a/drivers/clk/clk_test.c
++++ b/drivers/clk/clk_test.c
+@@ -122,7 +122,6 @@ static const struct clk_ops clk_dummy_rate_ops = {
+ 	.recalc_rate = clk_dummy_recalc_rate,
+ 	.determine_rate = clk_dummy_determine_rate,
+ 	.set_rate = clk_dummy_set_rate,
+-	.negotiate_rates = clk_dummy_negotiate_rates,
+ };
+ 
+ static const struct clk_ops clk_dummy_maximize_rate_ops = {
+@@ -218,7 +217,6 @@ static const struct clk_ops clk_dummy_div_ops = {
+ 	.recalc_rate = clk_dummy_div_recalc_rate,
+ 	.determine_rate = clk_dummy_div_determine_rate,
+ 	.set_rate = clk_dummy_div_set_rate,
+-	.negotiate_rates = clk_dummy_div_negotiate_rates,
+ };
+ 
+ struct clk_dummy_gate {
+@@ -755,6 +753,26 @@ struct clk_rate_change_sibling_div_div_context {
+ static int clk_rate_change_sibling_div_div_test_init(struct kunit *test)
+ {
+ 	struct clk_rate_change_sibling_div_div_context *ctx;
++	struct clk_init_data parent_init = {
++		.name = "parent",
++		.ops = &clk_dummy_rate_ops,
++		.negotiate_rates = clk_dummy_negotiate_rates,
++		.flags = 0,
++	};
++	struct clk_init_data child1_init = {
++		.name = "child1",
++		.ops = &clk_dummy_div_ops,
++		.negotiate_rates = clk_dummy_div_negotiate_rates,
++		.flags = CLK_SET_RATE_PARENT,
++		.num_parents = 1,
++	};
++	struct clk_init_data child2_init = {
++		.name = "child2",
++		.ops = &clk_dummy_div_ops,
++		.negotiate_rates = clk_dummy_div_negotiate_rates,
++		.flags = CLK_SET_RATE_PARENT,
++		.num_parents = 1,
++	};
+ 	int ret;
+ 
+ 	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+@@ -762,22 +780,22 @@ static int clk_rate_change_sibling_div_div_test_init(struct kunit *test)
+ 		return -ENOMEM;
+ 	test->priv = ctx;
+ 
+-	ctx->parent.hw.init = CLK_HW_INIT_NO_PARENT("parent", &clk_dummy_rate_ops, 0);
++	ctx->parent.hw.init = &parent_init;
+ 	ctx->parent.negotiate_step_size = 1 * HZ_PER_MHZ;
+ 	ctx->parent.rate = 24 * HZ_PER_MHZ;
+ 	ret = clk_hw_register_kunit(test, NULL, &ctx->parent.hw);
+ 	if (ret)
+ 		return ret;
+ 
+-	ctx->child1.hw.init = CLK_HW_INIT_HW("child1", &ctx->parent.hw, &clk_dummy_div_ops,
+-					     CLK_SET_RATE_PARENT);
++	child1_init.parent_hws = (const struct clk_hw*[]) { &ctx->parent.hw };
++	ctx->child1.hw.init = &child1_init;
+ 	ctx->child1.div = 1;
+ 	ret = clk_hw_register_kunit(test, NULL, &ctx->child1.hw);
+ 	if (ret)
+ 		return ret;
+ 
+-	ctx->child2.hw.init = CLK_HW_INIT_HW("child2", &ctx->parent.hw, &clk_dummy_div_ops,
+-					     CLK_SET_RATE_PARENT);
++	child2_init.parent_hws = (const struct clk_hw*[]) { &ctx->parent.hw };
++	ctx->child2.hw.init = &child2_init;
+ 	ctx->child2.div = 1;
+ 	ret = clk_hw_register_kunit(test, NULL, &ctx->child2.hw);
+ 	if (ret)
+diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+index 9041b17ba99e..bc162afc8cd8 100644
+--- a/include/linux/clk-provider.h
++++ b/include/linux/clk-provider.h
+@@ -53,6 +53,9 @@ struct dentry;
+  *			requested constraints.
+  * @best_parent_hw:	The most appropriate parent clock that fulfills the
+  *			requested constraints.
++ * @negotiate_rates:	When a child clk requests a new rate that requires a rate
++ *			change from the parent, this negotiates a new parent rate that's
++ *			acceptable to all of the children.
+  *
+  */
+ struct clk_rate_request {
+@@ -62,6 +65,9 @@ struct clk_rate_request {
+ 	unsigned long max_rate;
+ 	unsigned long best_parent_rate;
+ 	struct clk_hw *best_parent_hw;
++	bool (*negotiate_rates)(struct clk_hw *hw,
++				struct clk_rate_request *req,
++				bool (*check_rate)(struct clk_core *, unsigned long));
+ };
+ 
+ void clk_hw_init_rate_request(const struct clk_hw *hw,
+@@ -129,10 +135,6 @@ struct clk_duty {
+  * @restore_context: Restore the context of the clock after a restoration
+  *		of power.
+  *
+- * @negotiate_rates: When a child clk requests a new rate that requires a rate
+- *		change from the parent, this negotiates a new parent rate that's
+- *		acceptable to all of the children.
+- *
+  * @recalc_rate: Recalculate the rate of this clock, by querying hardware. The
+  *		parent rate is an input parameter.  It is up to the caller to
+  *		ensure that the prepare_mutex is held across this call. If the
+@@ -246,9 +248,6 @@ struct clk_ops {
+ 	void		(*disable_unused)(struct clk_hw *hw);
+ 	int		(*save_context)(struct clk_hw *hw);
+ 	void		(*restore_context)(struct clk_hw *hw);
+-	bool		(*negotiate_rates)(struct clk_hw *hw,
+-					   struct clk_rate_request *req,
+-					   bool (*check_rate)(struct clk_core *, unsigned long));
+ 	unsigned long	(*recalc_rate)(struct clk_hw *hw,
+ 					unsigned long parent_rate);
+ 	long		(*round_rate)(struct clk_hw *hw, unsigned long rate,
+@@ -295,6 +294,9 @@ struct clk_parent_data {
+  *
+  * @name: clock name
+  * @ops: operations this clock supports
++ * @negotiate_rates: When a child clk requests a new rate that requires a rate
++ *		change from the parent, this negotiates a new parent rate that's
++ *		acceptable to all of the children.
+  * @parent_names: array of string names for all possible parents
+  * @parent_data: array of parent data for all possible parents (when some
+  *               parents are external to the clk controller)
+@@ -306,6 +308,9 @@ struct clk_parent_data {
+ struct clk_init_data {
+ 	const char		*name;
+ 	const struct clk_ops	*ops;
++	bool			(*negotiate_rates)(struct clk_hw *hw,
++						   struct clk_rate_request *req,
++						   bool (*check_rate)(struct clk_core *, unsigned long));
+ 	/* Only one of the following three should be assigned */
+ 	const char		* const *parent_names;
+ 	const struct clk_parent_data	*parent_data;
+-- 
+2.51.1
+
+
+--0oaKZJC2peXkS6zF--
+
