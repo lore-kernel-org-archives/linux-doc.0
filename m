@@ -1,544 +1,178 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849D630FC22
-	for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 18:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B304919D093
+	for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 19:01:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763319255; cv=none; b=h0h5xEs6vjidTcICGOX1STm2TPA9E6aAvOKNpqZPqY5WC1xRke7NijNn86Aor5DIvX59efXIy9wjYMqmiDjK2xfL+5EkPx6rArTbiswyRDU1N+1uKf2ZsKmNiZ6jsmpk0gJpBaMEPrOR78lACM2XqF1QwyfuZkhPv0K4ANFK3Kk=
+	t=1763319680; cv=none; b=IGqFrJAp3SoR5Gny4XbFNYbQQl9bCdxHLUHGVBMQGyx3kKh+F5GUnr1HnIWDCK5AsA7Vr/uVAzePDKfN2jzO/vF3rpNEI0IMgvKpCTMLewKIIJssZNRFjLKftnhECt/boPGsWUI7upL5B87exGIlw31r3MLrqS/wYrpxly2rMho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763319255; c=relaxed/simple;
-	bh=1TioA97m703e5AJb04vx9Ka+wmw+uBLInwRZoOGwq9U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=RnPnaKCjMaS7J0/VrFY6XT3R+CoEFyBADxqYfXVnM/dh6xBB/Y63zbMAf29TUVaoeF1Qm3/kgXZncM+Z+nXFy6YKoVn2yIC21rNh2a9209n/wbWBDwEE011y4pBomNCdjxL7XbxoSU26rGcMq7QcRcUIZuZKbq2VLenXi3syr8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dMFr36Cd; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1763319680; c=relaxed/simple;
+	bh=cZS0PxUQPTpcN54RYE/jYvXcW+/9c/VgJLoIs03CWoU=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=ZXrDNCdJ3q7toAcQ2exiI9oFALetQkn3TZfmnw0UWpLecvBJpj6xN9ZmpOqjGlW251oZ7iFEdHEbimwRWJq31a7MAMeGNyQsJtjspaQwI+mH9b9PYNmJgxNFAQ8I/jE7KhqU9HV96cGNO88DJX0gEmdAHVBSPVwe3WOEBvobwFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KBApSxH2; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dMFr36Cd"
-Message-ID: <c8b46600-d40f-41b4-a5a3-99300ef1a2eb@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1763319241;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/fxW02oqxRR0shu5+kTOAPvOk1qA6Rm/ysLiY5ikXEY=;
-	b=dMFr36Cdydmmjf0hR6IX+hik30+iJEqG5/cXs2Hv3ThbWtirOSnwxbrOh53Dur6FUtNfY5
-	GS5zCWKsWu4cGyC4Qgbdsx9EdRPfF+Mvp7g/52mgOnpRXRcCWgV4zrftWac18hvHXth8HE
-	ls+xJvtbrLaubtvPbYoPhY6/b5iyTUc=
-Date: Sun, 16 Nov 2025 10:53:34 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KBApSxH2"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b4755f37c3eso2462815a12.3
+        for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 11:01:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763319678; x=1763924478; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=YOGEXFxwW48TjZB0mw3iozFgJleZ3SAxTi5WfDILBEc=;
+        b=KBApSxH29kpjdiofXPV4IApRHe+VlYIcX6RbMVFIjVygEWNxuv+Vz0J0zRHieNEXO8
+         zEIRrS5tm+ilpsC5fdQ4auOKc9vU/4vaFBoQd9Fcx5cCNTseselzk1F3rtaYU1gTCvo7
+         RFlouxWP/TGMiEz1SN9J39pk16sIVnqxzQTgeBxVUOLx4zQfXjVQRBumGJemYSsw2cK7
+         Sekemg45OyRwWsy6G3UBB0NncxLptr3mQjQEW1+rFY3Zl0gFcPANn70D1IqryFQqZ9B0
+         I41dO8HBTIXm/ffj5kmSeHOfmsINSIXb06ED/FYAcaIiWt+IggAwyJrpiT3qrba0em5f
+         77rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763319678; x=1763924478;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YOGEXFxwW48TjZB0mw3iozFgJleZ3SAxTi5WfDILBEc=;
+        b=o2Ysb5VZP5N4q5sTL4wvqJIDY20E8JBQq3QK2C5G4/59FkXyuWFGAif2Xl9HeBciIl
+         Ik4ufDlaNo+1QOozcZUxpYVSTwsBF8VlCW7xqLuwOC4tOgQ81wYYIi/ZuaBQEnQqlaV/
+         2vvlvkTI0PN1ZHpjqO+bAzXDPn20wtWevqj2wOcJg2JLK0CtSQKGZPabGsl9/0L4pPsa
+         0+WU1h7Jm4OPwlJIn0Zf2mIap5u2SQQumitG3Fx7NVIe/r/iyzAYux+cZtldaao41XTT
+         otYdKPGQl2fXul3Al7e4006JWs8NQuBOQhGVe+4CEm/QAEH5Zf1TZ/uu0DNi/tA7LOgH
+         FXhA==
+X-Forwarded-Encrypted: i=1; AJvYcCXYNdvTHSxfMoY6zU8lL3uWJ0jmo1Rt8uS1dFnmaBQCta38A7u++jvc+i92vXwjrqJkD9f/TSCbhb0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaKUl6F7oog0g/zb+cvXGqgqzIjCZLROJi0jf8CNEI0srzf0sg
+	bC7ctptNNzlfR73uWtOfXFCl8DioyJGNt6UmdVqlEpuBmRQhjPp6xPv3
+X-Gm-Gg: ASbGncuUzH+2n4kK75aDY3bZBjfoCCo7UX8RAWb84Tvqwf9VMBCNclRJ2fcOpDyIWan
+	vXAgBokl1cJglW1zSZJzzSb/LNN7U9P6pxxCJQvQmE9ALZU4oE5vWtrYwpg8wFXSqYFkhKWMBKM
+	viic5NnK7muBYYxSFM7JJ3Y3L789fW41wFGmD8+HwGfGXgsZ51YRhTfDWy9FpIg6yRQsZUk/l6r
+	8f2m3lCP9/GS1RBiuSBfP6SD41TUbQobSe5COVtosXdxMcpeiHY2PFofGa32ksmZtxCeHRgx5Yy
+	kYjImI+8QjUGA0WkNppSWqagYCup0GdUf7TVWpEr4gE8wgvz3L3sk/nv5Hkig7YRLufy3clPKqH
+	whIv+yqwdjXThohIhDequy7+tf0Ehnu8yMY7Xd35Pd6tKKZpIRFYFKd4gkorxFrzSjdGbwGk2vY
+	Q9R6sxBT9polxfOKQnEgu+Jw==
+X-Google-Smtp-Source: AGHT+IGzAZalYPBCrBdPjLHParF3LDK8Sa973po1LUxsJ1+1Lsk5MmBi0pKSSk4XLoBThUNykmuT9g==
+X-Received: by 2002:a05:7301:4384:b0:2a4:3593:c7da with SMTP id 5a478bee46e88-2a4abd49e41mr3789692eec.26.1763319677891;
+        Sun, 16 Nov 2025 11:01:17 -0800 (PST)
+Received: from ehlo.thunderbird.net ([2607:fb91:1be4:38b7:ac39:c338:9a5e:57f4])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a49db102f5sm29610809eec.4.2025.11.16.11.01.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Nov 2025 11:01:16 -0800 (PST)
+Date: Sun, 16 Nov 2025 11:01:13 -0800
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Armin Wolf <W_Armin@gmx.de>,
+ =?ISO-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Len Brown <lenb@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+CC: Mario Limonciello <superm1@kernel.org>, Zhixin Zhang <zhangzx36@lenovo.com>,
+ Mia Shao <shaohz1@lenovo.com>, Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_1/3=5D_acpi=3A_platform=5Fpr?=
+ =?US-ASCII?Q?ofile_-_Add_max-power_profile_option?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <7050cadc-9cb7-4f9b-8393-247bddb56965@gmx.de>
+References: <20251113212639.459896-1-derekjohn.clark@gmail.com> <20251113212639.459896-2-derekjohn.clark@gmail.com> <7050cadc-9cb7-4f9b-8393-247bddb56965@gmx.de>
+Message-ID: <CFD27662-0044-4AF3-8E66-65229324CECF@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 18/20] selftests/liveupdate: Add kexec-based selftest
- for session lifecycle
-To: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
- jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, dmatlack@google.com,
- rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
- ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org,
- aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org,
- tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com,
- roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk,
- mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org,
- hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com,
- joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com,
- song@kernel.org, linux@weissschuh.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org,
- cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com,
- Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
- aleksander.lobakin@intel.com, ira.weiny@intel.com,
- andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
- bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
- stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
- brauner@kernel.org, linux-api@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, ajayachandra@nvidia.com,
- jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com,
- hughd@google.com, skhawaja@google.com, chrisl@kernel.org
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-19-pasha.tatashin@soleen.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <20251115233409.768044-19-pasha.tatashin@soleen.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-在 2025/11/15 15:34, Pasha Tatashin 写道:
-> Introduce a kexec-based selftest, luo_kexec_simple, to validate the
-> end-to-end lifecycle of a Live Update Orchestrator (LUO) session across
-> a reboot.
-> 
-> While existing tests verify the uAPI in a pre-reboot context, this test
-> ensures that the core functionality—preserving state via Kexec Handover
-> and restoring it in a new kernel—works as expected.
-> 
-> The test operates in two stages, managing its state across the reboot by
-> preserving a dedicated "state session" containing a memfd. This
-> mechanism dogfoods the LUO feature itself for state tracking, making the
-> test self-contained.
-> 
-> The test validates the following sequence:
-> 
-> Stage 1 (Pre-kexec):
->   - Creates a test session (test-session).
->   - Creates and preserves a memfd with a known data pattern into the test
->     session.
->   - Creates the state-tracking session to signal progression to Stage 2.
->   - Executes a kexec reboot via a helper script.
-> 
-> Stage 2 (Post-kexec):
->   - Retrieves the state-tracking session to confirm it is in the
->     post-reboot stage.
->   - Retrieves the preserved test session.
->   - Restores the memfd from the test session and verifies its contents
->     match the original data pattern written in Stage 1.
->   - Finalizes both the test and state sessions to ensure a clean
->     teardown.
-> 
-> The test relies on a helper script (do_kexec.sh) to perform the reboot
-> and a shared utility library (luo_test_utils.c) for common LUO
-> operations, keeping the main test logic clean and focused.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
->   tools/testing/selftests/liveupdate/.gitignore |   1 +
->   tools/testing/selftests/liveupdate/Makefile   |  32 ++++
->   .../testing/selftests/liveupdate/do_kexec.sh  |  16 ++
->   .../selftests/liveupdate/luo_kexec_simple.c   | 114 ++++++++++++
->   .../selftests/liveupdate/luo_test_utils.c     | 168 ++++++++++++++++++
->   .../selftests/liveupdate/luo_test_utils.h     |  39 ++++
->   6 files changed, 370 insertions(+)
->   create mode 100755 tools/testing/selftests/liveupdate/do_kexec.sh
->   create mode 100644 tools/testing/selftests/liveupdate/luo_kexec_simple.c
->   create mode 100644 tools/testing/selftests/liveupdate/luo_test_utils.c
->   create mode 100644 tools/testing/selftests/liveupdate/luo_test_utils.h
-> 
-> diff --git a/tools/testing/selftests/liveupdate/.gitignore b/tools/testing/selftests/liveupdate/.gitignore
-> index af6e773cf98f..daeef116174d 100644
-> --- a/tools/testing/selftests/liveupdate/.gitignore
-> +++ b/tools/testing/selftests/liveupdate/.gitignore
-> @@ -1 +1,2 @@
->   /liveupdate
-> +/luo_kexec_simple
-> diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/testing/selftests/liveupdate/Makefile
-> index 2a573c36016e..1563ac84006a 100644
-> --- a/tools/testing/selftests/liveupdate/Makefile
-> +++ b/tools/testing/selftests/liveupdate/Makefile
-> @@ -1,7 +1,39 @@
->   # SPDX-License-Identifier: GPL-2.0-only
-> +
-> +KHDR_INCLUDES ?= -I../../../../usr/include
->   CFLAGS += -Wall -O2 -Wno-unused-function
->   CFLAGS += $(KHDR_INCLUDES)
-> +LDFLAGS += -static
-> +OUTPUT ?= .
-> +
-> +# --- Test Configuration (Edit this section when adding new tests) ---
-> +LUO_SHARED_SRCS := luo_test_utils.c
-> +LUO_SHARED_HDRS += luo_test_utils.h
-> +
-> +LUO_MANUAL_TESTS += luo_kexec_simple
-> +
-> +TEST_FILES += do_kexec.sh
->   
->   TEST_GEN_PROGS += liveupdate
->   
-> +# --- Automatic Rule Generation (Do not edit below) ---
-> +
-> +TEST_GEN_PROGS_EXTENDED += $(LUO_MANUAL_TESTS)
-> +
-> +# Define the full list of sources for each manual test.
-> +$(foreach test,$(LUO_MANUAL_TESTS), \
-> +	$(eval $(test)_SOURCES := $(test).c $(LUO_SHARED_SRCS)))
-> +
-> +# This loop automatically generates an explicit build rule for each manual test.
-> +# It includes dependencies on the shared headers and makes the output
-> +# executable.
-> +# Note the use of '$$' to escape automatic variables for the 'eval' command.
-> +$(foreach test,$(LUO_MANUAL_TESTS), \
-> +	$(eval $(OUTPUT)/$(test): $($(test)_SOURCES) $(LUO_SHARED_HDRS) \
-> +		$(call msg,LINK,,$$@) ; \
-> +		$(Q)$(LINK.c) $$^ $(LDLIBS) -o $$@ ; \
-> +		$(Q)chmod +x $$@ \
-> +	) \
-> +)
-> +
->   include ../lib.mk
-> diff --git a/tools/testing/selftests/liveupdate/do_kexec.sh b/tools/testing/selftests/liveupdate/do_kexec.sh
-> new file mode 100755
-> index 000000000000..3c7c6cafbef8
-> --- /dev/null
-> +++ b/tools/testing/selftests/liveupdate/do_kexec.sh
-> @@ -0,0 +1,16 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +set -e
-> +
-> +# Use $KERNEL and $INITRAMFS to pass custom Kernel and optional initramfs
-> +
-> +KERNEL="${KERNEL:-/boot/bzImage}"
-> +set -- -l -s --reuse-cmdline "$KERNEL"
-> +
-> +INITRAMFS="${INITRAMFS:-/boot/initramfs}"
-> +if [ -f "$INITRAMFS" ]; then
-> +    set -- "$@" --initrd="$INITRAMFS"
-> +fi
-> +
-> +kexec "$@"
-> +kexec -e
+On November 16, 2025 8:13:17 AM PST, Armin Wolf <W_Armin@gmx=2Ede> wrote:
+>Am 13=2E11=2E25 um 22:26 schrieb Derek J=2E Clark:
+>
+>> Some devices, namely Lenovo Legion devices, have an "extreme" mode wher=
+e
+>> power draw is at the maximum limit of the cooling hardware=2E Add a new
+>> "max-power" platform profile to properly reflect this operating mode=2E
+>>=20
+>> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel=2Eorg>
+>> Acked-by: Rafael J=2E Wysocki (Intel) <rafael@kernel=2Eorg>
+>> Signed-off-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
+>> ---
+>>   Documentation/ABI/testing/sysfs-class-platform-profile | 2 ++
+>>   drivers/acpi/platform_profile=2Ec                        | 1 +
+>>   include/linux/platform_profile=2Eh                       | 1 +
+>>   3 files changed, 4 insertions(+)
+>>=20
+>> diff --git a/Documentation/ABI/testing/sysfs-class-platform-profile b/D=
+ocumentation/ABI/testing/sysfs-class-platform-profile
+>> index dc72adfb830a=2E=2Efcab26894ec3 100644
+>> --- a/Documentation/ABI/testing/sysfs-class-platform-profile
+>> +++ b/Documentation/ABI/testing/sysfs-class-platform-profile
+>> @@ -23,6 +23,8 @@ Description:	This file contains a space-separated lis=
+t of profiles supported
+>>   					power consumption with a slight bias
+>>   					towards performance
+>>   		performance		High performance operation
+>> +		max-power		Higher performance operation that may exceed
+>> +					internal battery draw limits when on AC power
+>
+>I am not sure if it is a good idea to allow platform_profile_cycle() to c=
+ycle into this
+>new max-power profile=2E The system could encounter a brownout if it is c=
+urrently operating
+>on battery power when selecting max-power=2E
+>
+>Maybe we should prevent platform_profile_cylce() from selecting max-power=
+?
 
-Thanks a lot. Just with kernel image, it is not enough to boot the host. 
-Adding initramfs will avoid the crash when the host boots.
-I have made tests to verify this.
+At least for Lenovo devices unplugging AC will automatically throttle the =
+ppt values to roughly equivalent to performance=2E It will look at a differ=
+ent WMI data block for the values when switched, so there's no risk for cyc=
+ling in this case=2E This seems like smart hardware design, but we've certa=
+inly seen bad hardware design so the concern is warranted=2E Perhaps it is =
+worth visiting if another vendor implements it differently? That being said=
+, what you're describing would match up with how the physical profile selec=
+tion button works, so it would align with consumer expectation=2E I have no=
+ strong feelings either way, but I'm a little concerned about meeting the m=
+erge window as this series fixes a pretty disruptive bug affecting 6=2E17 u=
+sers=2E
 
-Reviewed-by: Zhu Yanjun <yanjun.zhu@linux.dev>
+Regards,
+- Derek
 
-Zhu Yanjun
-
-> diff --git a/tools/testing/selftests/liveupdate/luo_kexec_simple.c b/tools/testing/selftests/liveupdate/luo_kexec_simple.c
-> new file mode 100644
-> index 000000000000..67ab6ebf9eec
-> --- /dev/null
-> +++ b/tools/testing/selftests/liveupdate/luo_kexec_simple.c
-> @@ -0,0 +1,114 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +/*
-> + * Copyright (c) 2025, Google LLC.
-> + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> + *
-> + * A simple selftest to validate the end-to-end lifecycle of a LUO session
-> + * across a single kexec reboot.
-> + */
-> +
-> +#include "luo_test_utils.h"
-> +
-> +/* Test-specific constants are now defined locally */
-> +#define KEXEC_SCRIPT "./do_kexec.sh"
-> +#define TEST_SESSION_NAME "test-session"
-> +#define TEST_MEMFD_TOKEN 0x1A
-> +#define TEST_MEMFD_DATA "hello kexec world"
-> +
-> +/* Constants for the state-tracking mechanism, specific to this test file. */
-> +#define STATE_SESSION_NAME "kexec_simple_state"
-> +#define STATE_MEMFD_TOKEN 999
-> +
-> +/* Stage 1: Executed before the kexec reboot. */
-> +static void run_stage_1(int luo_fd)
-> +{
-> +	int session_fd;
-> +
-> +	ksft_print_msg("[STAGE 1] Starting pre-kexec setup...\n");
-> +
-> +	ksft_print_msg("[STAGE 1] Creating state file for next stage (2)...\n");
-> +	create_state_file(luo_fd, STATE_SESSION_NAME, STATE_MEMFD_TOKEN, 2);
-> +
-> +	ksft_print_msg("[STAGE 1] Creating session '%s' and preserving memfd...\n",
-> +		       TEST_SESSION_NAME);
-> +	session_fd = luo_create_session(luo_fd, TEST_SESSION_NAME);
-> +	if (session_fd < 0)
-> +		fail_exit("luo_create_session for '%s'", TEST_SESSION_NAME);
-> +
-> +	if (create_and_preserve_memfd(session_fd, TEST_MEMFD_TOKEN,
-> +				      TEST_MEMFD_DATA) < 0) {
-> +		fail_exit("create_and_preserve_memfd for token %#x",
-> +			  TEST_MEMFD_TOKEN);
-> +	}
-> +
-> +	ksft_print_msg("[STAGE 1] Executing kexec...\n");
-> +	if (system(KEXEC_SCRIPT) != 0)
-> +		fail_exit("kexec script failed");
-> +	exit(EXIT_FAILURE);
-> +}
-> +
-> +/* Stage 2: Executed after the kexec reboot. */
-> +static void run_stage_2(int luo_fd, int state_session_fd)
-> +{
-> +	int session_fd, mfd, stage;
-> +
-> +	ksft_print_msg("[STAGE 2] Starting post-kexec verification...\n");
-> +
-> +	restore_and_read_stage(state_session_fd, STATE_MEMFD_TOKEN, &stage);
-> +	if (stage != 2)
-> +		fail_exit("Expected stage 2, but state file contains %d", stage);
-> +
-> +	ksft_print_msg("[STAGE 2] Retrieving session '%s'...\n", TEST_SESSION_NAME);
-> +	session_fd = luo_retrieve_session(luo_fd, TEST_SESSION_NAME);
-> +	if (session_fd < 0)
-> +		fail_exit("luo_retrieve_session for '%s'", TEST_SESSION_NAME);
-> +
-> +	ksft_print_msg("[STAGE 2] Restoring and verifying memfd (token %#x)...\n",
-> +		       TEST_MEMFD_TOKEN);
-> +	mfd = restore_and_verify_memfd(session_fd, TEST_MEMFD_TOKEN,
-> +				       TEST_MEMFD_DATA);
-> +	if (mfd < 0)
-> +		fail_exit("restore_and_verify_memfd for token %#x", TEST_MEMFD_TOKEN);
-> +	close(mfd);
-> +
-> +	ksft_print_msg("[STAGE 2] Test data verified successfully.\n");
-> +	ksft_print_msg("[STAGE 2] Finalizing test session...\n");
-> +	if (luo_session_finish(session_fd) < 0)
-> +		fail_exit("luo_session_finish for test session");
-> +	close(session_fd);
-> +
-> +	ksft_print_msg("[STAGE 2] Finalizing state session...\n");
-> +	if (luo_session_finish(state_session_fd) < 0)
-> +		fail_exit("luo_session_finish for state session");
-> +	close(state_session_fd);
-> +
-> +	ksft_print_msg("\n--- SIMPLE KEXEC TEST PASSED ---\n");
-> +}
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +	int luo_fd;
-> +	int state_session_fd;
-> +
-> +	luo_fd = luo_open_device();
-> +	if (luo_fd < 0)
-> +		ksft_exit_skip("Failed to open %s. Is the luo module loaded?\n",
-> +			       LUO_DEVICE);
-> +
-> +	/*
-> +	 * Determine the stage by attempting to retrieve the state session.
-> +	 * If it doesn't exist (ENOENT), we are in Stage 1 (pre-kexec).
-> +	 */
-> +	state_session_fd = luo_retrieve_session(luo_fd, STATE_SESSION_NAME);
-> +	if (state_session_fd == -ENOENT) {
-> +		run_stage_1(luo_fd);
-> +	} else if (state_session_fd >= 0) {
-> +		/* We got a valid handle, pass it directly to stage 2 */
-> +		run_stage_2(luo_fd, state_session_fd);
-> +	} else {
-> +		fail_exit("Failed to check for state session");
-> +	}
-> +
-> +	close(luo_fd);
-> +}
-> diff --git a/tools/testing/selftests/liveupdate/luo_test_utils.c b/tools/testing/selftests/liveupdate/luo_test_utils.c
-> new file mode 100644
-> index 000000000000..0a24105cbc54
-> --- /dev/null
-> +++ b/tools/testing/selftests/liveupdate/luo_test_utils.c
-> @@ -0,0 +1,168 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +/*
-> + * Copyright (c) 2025, Google LLC.
-> + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> + */
-> +
-> +#define _GNU_SOURCE
-> +
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <fcntl.h>
-> +#include <unistd.h>
-> +#include <sys/ioctl.h>
-> +#include <sys/syscall.h>
-> +#include <sys/mman.h>
-> +#include <errno.h>
-> +#include <stdarg.h>
-> +
-> +#include "luo_test_utils.h"
-> +
-> +int luo_open_device(void)
-> +{
-> +	return open(LUO_DEVICE, O_RDWR);
-> +}
-> +
-> +int luo_create_session(int luo_fd, const char *name)
-> +{
-> +	struct liveupdate_ioctl_create_session arg = { .size = sizeof(arg) };
-> +
-> +	snprintf((char *)arg.name, LIVEUPDATE_SESSION_NAME_LENGTH, "%.*s",
-> +		 LIVEUPDATE_SESSION_NAME_LENGTH - 1, name);
-> +
-> +	if (ioctl(luo_fd, LIVEUPDATE_IOCTL_CREATE_SESSION, &arg) < 0)
-> +		return -errno;
-> +
-> +	return arg.fd;
-> +}
-> +
-> +int luo_retrieve_session(int luo_fd, const char *name)
-> +{
-> +	struct liveupdate_ioctl_retrieve_session arg = { .size = sizeof(arg) };
-> +
-> +	snprintf((char *)arg.name, LIVEUPDATE_SESSION_NAME_LENGTH, "%.*s",
-> +		 LIVEUPDATE_SESSION_NAME_LENGTH - 1, name);
-> +
-> +	if (ioctl(luo_fd, LIVEUPDATE_IOCTL_RETRIEVE_SESSION, &arg) < 0)
-> +		return -errno;
-> +
-> +	return arg.fd;
-> +}
-> +
-> +int create_and_preserve_memfd(int session_fd, int token, const char *data)
-> +{
-> +	struct liveupdate_session_preserve_fd arg = { .size = sizeof(arg) };
-> +	long page_size = sysconf(_SC_PAGE_SIZE);
-> +	void *map = MAP_FAILED;
-> +	int mfd = -1, ret = -1;
-> +
-> +	mfd = memfd_create("test_mfd", 0);
-> +	if (mfd < 0)
-> +		return -errno;
-> +
-> +	if (ftruncate(mfd, page_size) != 0)
-> +		goto out;
-> +
-> +	map = mmap(NULL, page_size, PROT_WRITE, MAP_SHARED, mfd, 0);
-> +	if (map == MAP_FAILED)
-> +		goto out;
-> +
-> +	snprintf(map, page_size, "%s", data);
-> +	munmap(map, page_size);
-> +
-> +	arg.fd = mfd;
-> +	arg.token = token;
-> +	if (ioctl(session_fd, LIVEUPDATE_SESSION_PRESERVE_FD, &arg) < 0)
-> +		goto out;
-> +
-> +	ret = 0;
-> +out:
-> +	if (ret != 0 && errno != 0)
-> +		ret = -errno;
-> +	if (mfd >= 0)
-> +		close(mfd);
-> +	return ret;
-> +}
-> +
-> +int restore_and_verify_memfd(int session_fd, int token,
-> +			     const char *expected_data)
-> +{
-> +	struct liveupdate_session_retrieve_fd arg = { .size = sizeof(arg) };
-> +	long page_size = sysconf(_SC_PAGE_SIZE);
-> +	void *map = MAP_FAILED;
-> +	int mfd = -1, ret = -1;
-> +
-> +	arg.token = token;
-> +	if (ioctl(session_fd, LIVEUPDATE_SESSION_RETRIEVE_FD, &arg) < 0)
-> +		return -errno;
-> +	mfd = arg.fd;
-> +
-> +	map = mmap(NULL, page_size, PROT_READ, MAP_SHARED, mfd, 0);
-> +	if (map == MAP_FAILED)
-> +		goto out;
-> +
-> +	if (expected_data && strcmp(expected_data, map) != 0) {
-> +		ksft_print_msg("Data mismatch! Expected '%s', Got '%s'\n",
-> +			       expected_data, (char *)map);
-> +		ret = -EINVAL;
-> +		goto out_munmap;
-> +	}
-> +
-> +	ret = mfd;
-> +out_munmap:
-> +	munmap(map, page_size);
-> +out:
-> +	if (ret < 0 && errno != 0)
-> +		ret = -errno;
-> +	if (ret < 0 && mfd >= 0)
-> +		close(mfd);
-> +	return ret;
-> +}
-> +
-> +int luo_session_finish(int session_fd)
-> +{
-> +	struct liveupdate_session_finish arg = { .size = sizeof(arg) };
-> +
-> +	if (ioctl(session_fd, LIVEUPDATE_SESSION_FINISH, &arg) < 0)
-> +		return -errno;
-> +
-> +	return 0;
-> +}
-> +
-> +void create_state_file(int luo_fd, const char *session_name, int token,
-> +		       int next_stage)
-> +{
-> +	char buf[32];
-> +	int state_session_fd;
-> +
-> +	state_session_fd = luo_create_session(luo_fd, session_name);
-> +	if (state_session_fd < 0)
-> +		fail_exit("luo_create_session for state tracking");
-> +
-> +	snprintf(buf, sizeof(buf), "%d", next_stage);
-> +	if (create_and_preserve_memfd(state_session_fd, token, buf) < 0)
-> +		fail_exit("create_and_preserve_memfd for state tracking");
-> +
-> +	/*
-> +	 * DO NOT close session FD, otherwise it is going to be unpreserved
-> +	 */
-> +}
-> +
-> +void restore_and_read_stage(int state_session_fd, int token, int *stage)
-> +{
-> +	char buf[32] = {0};
-> +	int mfd;
-> +
-> +	mfd = restore_and_verify_memfd(state_session_fd, token, NULL);
-> +	if (mfd < 0)
-> +		fail_exit("failed to restore state memfd");
-> +
-> +	if (read(mfd, buf, sizeof(buf) - 1) < 0)
-> +		fail_exit("failed to read state mfd");
-> +
-> +	*stage = atoi(buf);
-> +
-> +	close(mfd);
-> +}
-> diff --git a/tools/testing/selftests/liveupdate/luo_test_utils.h b/tools/testing/selftests/liveupdate/luo_test_utils.h
-> new file mode 100644
-> index 000000000000..093e787b9f4b
-> --- /dev/null
-> +++ b/tools/testing/selftests/liveupdate/luo_test_utils.h
-> @@ -0,0 +1,39 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +/*
-> + * Copyright (c) 2025, Google LLC.
-> + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> + *
-> + * Utility functions for LUO kselftests.
-> + */
-> +
-> +#ifndef LUO_TEST_UTILS_H
-> +#define LUO_TEST_UTILS_H
-> +
-> +#include <errno.h>
-> +#include <string.h>
-> +#include <linux/liveupdate.h>
-> +#include "../kselftest.h"
-> +
-> +#define LUO_DEVICE "/dev/liveupdate"
-> +
-> +#define fail_exit(fmt, ...)						\
-> +	ksft_exit_fail_msg("[%s:%d] " fmt " (errno: %s)\n",	\
-> +			   __func__, __LINE__, ##__VA_ARGS__, strerror(errno))
-> +
-> +/* Generic LUO and session management helpers */
-> +int luo_open_device(void);
-> +int luo_create_session(int luo_fd, const char *name);
-> +int luo_retrieve_session(int luo_fd, const char *name);
-> +int luo_session_finish(int session_fd);
-> +
-> +/* Generic file preservation and restoration helpers */
-> +int create_and_preserve_memfd(int session_fd, int token, const char *data);
-> +int restore_and_verify_memfd(int session_fd, int token, const char *expected_data);
-> +
-> +/* Kexec state-tracking helpers */
-> +void create_state_file(int luo_fd, const char *session_name, int token,
-> +		       int next_stage);
-> +void restore_and_read_stage(int state_session_fd, int token, int *stage);
-> +
-> +#endif /* LUO_TEST_UTILS_H */
+>Other than that:
+>Reviewed-by: Armin Wolf <W_Armin@gmx=2Ede>
+>
+>>   		custom			Driver defined custom profile
+>>   		=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>   diff --git a/drivers/acpi/platform_profile=2Ec b/drivers/acpi/platfor=
+m_profile=2Ec
+>> index b43f4459a4f6=2E=2Eaa1dce05121b 100644
+>> --- a/drivers/acpi/platform_profile=2Ec
+>> +++ b/drivers/acpi/platform_profile=2Ec
+>> @@ -37,6 +37,7 @@ static const char * const profile_names[] =3D {
+>>   	[PLATFORM_PROFILE_BALANCED] =3D "balanced",
+>>   	[PLATFORM_PROFILE_BALANCED_PERFORMANCE] =3D "balanced-performance",
+>>   	[PLATFORM_PROFILE_PERFORMANCE] =3D "performance",
+>> +	[PLATFORM_PROFILE_MAX_POWER] =3D "max-power",
+>>   	[PLATFORM_PROFILE_CUSTOM] =3D "custom",
+>>   };
+>>   static_assert(ARRAY_SIZE(profile_names) =3D=3D PLATFORM_PROFILE_LAST)=
+;
+>> diff --git a/include/linux/platform_profile=2Eh b/include/linux/platfor=
+m_profile=2Eh
+>> index a299225ab92e=2E=2E855b28340e95 100644
+>> --- a/include/linux/platform_profile=2Eh
+>> +++ b/include/linux/platform_profile=2Eh
+>> @@ -24,6 +24,7 @@ enum platform_profile_option {
+>>   	PLATFORM_PROFILE_BALANCED,
+>>   	PLATFORM_PROFILE_BALANCED_PERFORMANCE,
+>>   	PLATFORM_PROFILE_PERFORMANCE,
+>> +	PLATFORM_PROFILE_MAX_POWER,
+>>   	PLATFORM_PROFILE_CUSTOM,
+>>   	PLATFORM_PROFILE_LAST, /*must always be last */
+>>   };
 
