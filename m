@@ -1,124 +1,116 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CF635CBC5
-	for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 14:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40084207A
+	for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 14:53:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763303788; cv=none; b=HGOWbR5XXNBb04bqSjfetff+eem2M1qhHIS9JQl00aa2nDkedXiLMmd8xzoDfWfSYUqj8rWyu38FtbZc6PCLSYqMDkcpnEvYCzb2Eu6PkqKXAUTgeaNc21K0AAUW9WSvUTpTEJ6EJrQz8saFB2rbb1sic2RiJvsntRXOeN7E+QY=
+	t=1763304799; cv=none; b=tyGuEfsQ9EsKYDxTriLGMLDjOs22d7lOYeMQezsBJWT3yCvsYfDqkC364gdrGvHfC9iDB/lKMFbPr9aXLsJzQvy09irKjb5wSIqDsJDB8a4EdrdDsm2NPDcrVyEeXJ2xfwRh0MsoRvsn9zehMbCZi64Qeoizi14/TabZvLix3Lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763303788; c=relaxed/simple;
-	bh=4NScxB0D32Ozgb1cjp08xR9+0LYResDTWlsurLKMKwA=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=nAxFmqIMGbaruz5IImPKbgtqtpnnfdh2iB2yWV6kvpa4xiE+TKCP11MAGcD++vXLJJm5qStRq30OHiQkI1QfkjRQ5ORqleVCYt7hHktaUUw/XkaEOeghIZSLKq08FsR7JMldk8i5iodrhfzoX0MD0/TP/iYDoAr89tnuQzfLgZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R/AejFoF; arc=none smtp.client-ip=209.85.128.171
+	s=arc-20240116; t=1763304799; c=relaxed/simple;
+	bh=0AW8S5qFROQZUAOynGCUO2r4Z3PpT9+FfiBPsbbKZZQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KnY3X+ZUNEBo551D9I/XShvyQiEC4pfbMYFQUYB8i8MygeiVzoD2B03bGlJR5CrOw6W8vVGA+a8fEsfbC0c32JpccQg2HJm9zMLKm4zpZmU4K4JCoa0nI9rPGcbmBGDucK6z7FUbv+Utn8HTIGFoWv3NgN7Sak0WKQyi+Hdovcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UOIvKQG5; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R/AejFoF"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-78802ac22abso33346707b3.3
-        for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 06:36:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UOIvKQG5"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-34374febdefso3625692a91.0
+        for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 06:53:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763303786; x=1763908586; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=H+F1DJD0GZc6bvHB+TDiZj6OgrECMAIQWaZ2LQwvMyk=;
-        b=R/AejFoFrQJOQg7i1hPAN3N8pRRjn9veXiSfIEDMtSNrcH3GWP9i5YII3ssYRfyZvc
-         DxWOXljYh4PU9CBVMpFCR6QMTRz6S7LbzzGGIj9V3Pag7CI+mz5qvEYr3bKfaE44lRBZ
-         UI91Ey3l/zbSDyI50V9MeFT6YL37NqXDJ7lwkvS7EUA/QgDOqwKcnPvLceZzKGc0zlTv
-         eJZyDlCSVd3xBE2uzvSDC+ab6IMAQiSPKoqxDozs0ACpJOk4s2cmfOmNN2x+Vc5lkbK3
-         VTLmITaJ4/CFeiGfqaLnV4/tHogrSs/FY01KdMFmlD4W8lGUwMMTr21nL07ek1KX0V84
-         1+mg==
+        d=gmail.com; s=20230601; t=1763304797; x=1763909597; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lzQbj6sIVzYVIzGBKc5nizFuf/mCVeM8J0t7zES7FqQ=;
+        b=UOIvKQG5T7CuVS0Xh9ys1nqF7s/ZY9tWNrVFafAhFjd06OsqODOQhrbZWnIkUE7n0J
+         W/Vls4EQn1USbLF4Q7lpomY/tlc3VzXOvdkKdUDzS5Rycg/6FbLLC32s4ozGTTRvT7EF
+         sxa01RuAOojM0AthMJH2YvARpCIFEY03H+uTdxgUa97DiRwL2En6V5gqBG9fqNHAuP4D
+         pnsAGTVi+kZnnCzmnSh/WxfkC1ac/OS7tWgYVX5g/DBYiqtZrEU+W/eZc8iQOvQYyfIl
+         ZuzHakM6MoPMoMhAT+aQ8bi0AbNDBC1ivCztJMrOjrUfTY2l5WwQQ6l12gtCp6VlzJ7S
+         FKtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763303786; x=1763908586;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H+F1DJD0GZc6bvHB+TDiZj6OgrECMAIQWaZ2LQwvMyk=;
-        b=t6fah0nwtZMQX3jj4BekSpnq08ZMtm2tle+RGtmbPG8OQAzrCTW/B8RV7klfKjI2Qr
-         r0a2mAFc/ixgll7Ai4/jP2lu6/y6jbqMO0ptzkodl4T1aojfZLbgefBTr45/GLC5rmP8
-         Mj4fQj8j60whY0K5OZHHNzJG9q7+BufXP2Vzvvav2p3ut97V/OElP2ZUeQ0VYVOHlV6A
-         QL22ZQ8/1M0VTL+1q0MMUrkBe3UBkfJFkneXd/sfBaACxlPr1P8vmgZUwiIWtRFRlXUU
-         jCJqPyQP5M7UXWyByEVJjVT3lMmr6+RHbaVnP7NY8oefcXvnnltfb4kEyD4NphXKxjnW
-         ygrg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNUoOfTUQHBh7mYeQYumioKojR/tvAotdiPEkASvKmCGVlJ7MGIUpEiAC8i0wiU3M51QIfax7IShE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyuxvdrQ2+GQMDT+9/XjWAGab8qGebi/XJk87Y8X0G2QtiB9za
-	12hoC2hgcNf9wgsxiNy5X3I2UBj+bnCjHcX10WZmSrgiHCO3zi6/BtZi
-X-Gm-Gg: ASbGncuIhzYWeH4FiDWSUdSjyJPUVFLPnxt0qSApZE7hNCeGHrg2nYYi8Za2/6OX+x3
-	ZoClmM5a2XHSt9U6/+gnD7SNCW6OGs01QLZ1bUmeTU/j+mk54zM0euJQL9Yqe0fh7Mh+83UcyMP
-	8+XdVz1kOc0veLuStnV8uryuqEpCMcCyQPYJ1ah1TIlTNh3C0s0xvP7BQHAojsbf2yDchxOxea2
-	9tEKI7bi00sBKljUeEsL4a5ZkxKQH0Epq63F2sulX708HDhkQAwf8Z4c3SpPUSSnsDw+KhnNOrL
-	KDk+eRUPyPfhtsuipAiw34duqItEmI/BnozhNUMV6jUFtHHNHTPh0UjtxuXAHIVt5lGVDR4xDd9
-	uIgC//C94t4ylTpuxh2HjxoqaJz+5sM/Ho6ZJ8hUKDzOsd3xYvha1LDx4uCKi/lG/fYrdWXFVa9
-	P4RQBnP60pPtGl4acwO1Qv4reFXX79oA5IRx2P0Kd8
-X-Google-Smtp-Source: AGHT+IHNIw6QIiDFPjc4EkBNFnRmBFkcbvwCydSVQ0KYuZPWWteIOQJm4rOkV5skYl/t6OkSO5fGIw==
-X-Received: by 2002:a05:690c:c019:b0:788:1086:8834 with SMTP id 00721157ae682-78929e0d1a3mr64629257b3.12.1763303785409;
-        Sun, 16 Nov 2025 06:36:25 -0800 (PST)
-Received: from [192.168.1.209] (89.208.240.37.16clouds.com. [89.208.240.37])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78821de192asm33464657b3.8.2025.11.16.06.36.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Nov 2025 06:36:24 -0800 (PST)
-From: Asuna <spriteovo@gmail.com>
-X-Google-Original-From: Asuna <SpriteOvO@gmail.com>
-Message-ID: <0bc61e6e-8a27-4711-8ce0-60b1e300ac31@gmail.com>
-Date: Sun, 16 Nov 2025 22:36:16 +0800
+        d=1e100.net; s=20230601; t=1763304797; x=1763909597;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lzQbj6sIVzYVIzGBKc5nizFuf/mCVeM8J0t7zES7FqQ=;
+        b=au3nvLuW12uk+OMnIvHXj8CgDi072VAL2qvYnTdi+RHWaXLQjfjtDEHMSLgbxpxLQl
+         SA3OfnfHF10j4D6kj9Y0oe5WRS2pcq0LZLGaO9AzFmMScWUxjsIfLTgOWvea2IFwjSd8
+         qzVulV/YBsL/RuofxVA3bNFil9fT0YK3WMzSV7uwb95cJcoYznRje5366Ul2o5K840yN
+         /wTjcsRAlt4n0t1z/U/scoDfcL114/EeCXmOvUmCVbxSTrNuPPnkxRIe7ysdHlAjLIrk
+         aoHHON/jzz4vwT/hE6axrwIy9F/sdORy9K75e3E/qPbDuA2Yh9donZ1xO3zb2denf0is
+         VJ4Q==
+X-Gm-Message-State: AOJu0YxJ7H8s74V6aZ1Urex0AZvI2aCeDo4zHs7OMdF23Q1pnV4GvGKJ
+	cvaqYrzw8qlQcO4vqIc2Wckd+8hpG8KajvdXDBcOrc6IGJVHelnYMN93
+X-Gm-Gg: ASbGncsREFaUbvke9q8ojgKy+hSdE/zzaIV18iaSheGPXQ6AHr7sGwODoXnwUFq52Xw
+	Nv2BNGiOnyIAFTAo0SpSFEA5YkDgQZYDUAxXAC186KeTBstHXBPVKeHsTOeq6v/AnGD6GX3Rq0W
+	AYEcCcHfvFB/4TK8xksUZEZq+6Xh3oMdLdrGQlNlLR6jkk28iSJD1L+1AEoCmZvFcoat/ImdV8c
+	tITQyxK/Qrw0jKXsutvplXLbzKWpswkyegPEJqTGeyfsv5kNwFO1r42Qu4S2SAb043sjoPlbVOK
+	AWFIR4ivN70vtbUcRsQmCWB0Q1scEacyEI7UQb4sUSdKUBFNK1ggvadVtnoh9O01BQap4z4Xcpw
+	ndcEVUSRzi27+yzEEy4puuDKsBBQ7forefYC+MNuvgwCHJcnO+ptL0vCTIG1hc/oqV0zPnaARzP
+	URkD3LhLFokUJeO8aKBdUJMX8M+B1XY6IqpPs=
+X-Google-Smtp-Source: AGHT+IFe5QgESx/F19/pFQ6mXRk/f1tp5vXZHZDwx+NNTjGl4DJxM9Mc9z7SxENMidr5mfQxZIVTFw==
+X-Received: by 2002:a17:90b:3a45:b0:341:2141:d809 with SMTP id 98e67ed59e1d1-343fa74b235mr10914824a91.26.1763304797053;
+        Sun, 16 Nov 2025 06:53:17 -0800 (PST)
+Received: from DESKTOP-8TIG9K0.localdomain ([119.28.20.50])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-343ea711edesm4963575a91.5.2025.11.16.06.53.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Nov 2025 06:53:16 -0800 (PST)
+From: Xie Yuanbin <qq570070308@gmail.com>
+To: corbet@lwn.net,
+	akpm@linux-foundation.org,
+	bp@alien8.de,
+	peterz@infradead.org,
+	mingo@kernel.org,
+	pmladek@suse.com,
+	paulmck@kernel.org,
+	pawan.kumar.gupta@linux.intel.com,
+	feng.tang@linux.alibaba.com,
+	kees@kernel.org,
+	arnd@arndb.de,
+	fvdl@google.com,
+	lirongqing@baidu.com,
+	bp@suse.de,
+	jpoimboe@kernel.org,
+	alexandre.chartre@oracle.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xie Yuanbin <qq570070308@gmail.com>
+Subject: [PATCH] Documentation/kernel-parameters: fix typo in retbleed= kernel parameter description
+Date: Sun, 16 Nov 2025 22:53:02 +0800
+Message-ID: <20251116145302.3681-1-qq570070308@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] RISC-V: re-enable gcc + rust builds
-To: Vivian Wang <wangruikang@iscas.ac.cn>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Han Gao <rabenda.cn@gmail.com>, Jason Montleon <jmontleo@redhat.com>,
- Conor Dooley <conor@kernel.org>
-Cc: rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-References: <20250914-gcc-rust-v3-v3-1-34d4d5864144@gmail.com>
- <73d55231-d1e5-400d-9446-1914a78c0db8@iscas.ac.cn>
-Content-Language: en-US
-In-Reply-To: <73d55231-d1e5-400d-9446-1914a78c0db8@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi everyone. Sorry I was inactive on this patch for a while. I'm getting 
-back into this work.
+Fixes a typo in the retbleed= parameter description, changing
+"migitation" to "mitigation".
 
-On 9/19/25 1:20 PM, Vivian Wang wrote:
-> I think instead of testing libclang version, it would make more sense to
-> feature test if bindgen the binary supports these flags, like what we
-> already do with $(cc-option,...).
->
-> Same for all the other version tests.
+Fixes: 7fbf47c7ce50 ("x86/bugs: Add AMD retbleed= boot parameter")
 
-Conor, since you've reviewed the v3 patch, do you think Vivian's 
-suggestion is a better solution? If so, I can start trying to make a v4 
-patch towards that path in the next few days.
+Signed-off-by: Xie Yuanbin <qq570070308@gmail.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-On 9/19/25 1:20 PM, Vivian Wang wrote:
->> [...]
->>   
->> +config TOOLCHAIN_MATCHES_ZICSR_ZIFENCEI
-> TOOLCHAIN_ACCEPTS_ZICSR_ZIFENCEI?
-
-The word "accepts" is not very clear to me, as this option may also be 
-YES when the toolchain does not recognize Zicsr/Zifencei in 
--march. Zicsr/Zifencei are always enabled, this option actually detects 
-if the same flags related to Zicsr/Zifencei (-march=_zicsr_zifencei or 
--misa-spec=2.2) can be recognized in multiple toolchains at the same 
-time without causing any errors.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 7e8af24c410a..a857e42d1d48 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6420,7 +6420,7 @@
+ 			that don't.
+ 
+ 			off          - no mitigation
+-			auto         - automatically select a migitation
++			auto         - automatically select a mitigation
+ 			auto,nosmt   - automatically select a mitigation,
+ 				       disabling SMT if necessary for
+ 				       the full mitigation (only on Zen1
+-- 
+2.51.0
 
