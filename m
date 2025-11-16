@@ -1,34 +1,37 @@
-Received: from mail-m32124.qiye.163.com (mail-m32124.qiye.163.com [220.197.32.124])
+Received: from mail-m15591.qiye.163.com (mail-m15591.qiye.163.com [101.71.155.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5382A6FBF
-	for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 08:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139DFEAF9
+	for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 09:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763283377; cv=none; b=pSgtU6LnycFbRI8DF1JXIw7nHT12BKLfCQs6ittNNR30ybTN48cL7T880bO2BFPjzexv20BgKq2J91nztcND09RlU2af9Ey72NmabrqAEn8LqXRmGRRyrOAOPwpKhdpyEMStmIBslA0UCF5kvXrnWK0ztxmgkuKTYCYF9BvdgsY=
+	t=1763284673; cv=none; b=P38EGyMjB16tR8IqA0lfLWd2wZC6CmCQVwsexYUfKiPDkJxHhk3h7rzXtvfif8W2jJCQZUm0rVpWLLZ1bqQ8HXBfp8QVj14Q5EhL8I1Y9DPhm8WrFa2skaI9faEBzAZEVFlBhkI86bIzSCMhRJd5ZxKpkpqhtOWLIno+vcNtvJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763283377; c=relaxed/simple;
-	bh=C2xsmL5bH+8CkFWkuHry3z2ElIXPFHHpG8npGc7YLBM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=pMj1g1WuHaKX3jjvKMbH2zE8VfJxFC/0JkdErH1EZEaTO7qSdaUNfxLY3ounzkwaiCq2279irgvVlZ/2L4042XEzy+7f/0DWAt/RIoIogbSCukeqbKv5rvo1NCSiKP0vH1dPMrE+rjK8X9TNBQ+r19/jt7Ss9O6xq6JlupsffqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=iCqDIGuj; arc=none smtp.client-ip=220.197.32.124
+	s=arc-20240116; t=1763284673; c=relaxed/simple;
+	bh=KFOOqqonmQshkmSToomFHPisuar2VI2j8xAV9tpr9ho=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QCNPhtzDAdsO0vs/WJB3JxuecU473oQRPsN9Ao6+SQrGkKmMJ16Y0XlvoVDaXsmb4SDpFIseS0ULj5nV7vuBIp6GvRkF29Pyu7NEqBi90OglKS7pifHzv6Pf9juhMAKiAp4GYsnrKWzrN/dxw/Rr4NVavnodzub4bh7idbaFlvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=iKmH86oV; arc=none smtp.client-ip=101.71.155.91
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="iCqDIGuj"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="iKmH86oV"
 Received: from localhost.localdomain (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 29ba25733;
-	Sun, 16 Nov 2025 16:51:03 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 29ba56936;
+	Sun, 16 Nov 2025 17:17:39 +0800 (GMT+08:00)
 From: ke zijie <kezijie@leap-io-kernel.com>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev
-Cc: dzm91@hust.edu.cn,
-	corbet@lwn.net,
+To: lkp@intel.com
+Cc: alexs@kernel.org,
+	doubled@leap-io-kernel.com,
 	linux-doc@vger.kernel.org,
-	doubled@leap-io-kernel.com
-Subject: [PATCH] docs: zh_CN: scsi: fix wrong reference to Configure.help
-Date: Sun, 16 Nov 2025 16:51:01 +0800
-Message-Id: <20251116085102.1740613-1-kezijie@leap-io-kernel.com>
+	oe-kbuild-all@lists.linux.dev,
+	ke zijie <kezijie@leap-io-kernel.com>
+Subject: [PATCH] docs: zh_CN: scsi: fix broken references in scsi-parameters.rst
+Date: Sun, 16 Nov 2025 17:16:56 +0800
+Message-Id: <20251116091656.1788887-1-kezijie@leap-io-kernel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <202511130315.WOiKJQTu-lkp@intel.com>
+References: <202511130315.WOiKJQTu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,45 +40,88 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a8bdc514309d8kunme4efcb9e325ef90
+X-HM-Tid: 0a9a8bf4abf709d8kunm0fae0246329af04
 X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCTUpOVhhCQx8YQ0gYHksYSlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0JKVUpLS1
-	VLWQY+
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDQ0JNVkgYGklMTEkdHh9KHlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg++
 DKIM-Signature: a=rsa-sha256;
-	b=iCqDIGujfzLSMaNqZdzj8XFkRx6s253wrLVPzMgj8KlV3YFPdBJYgrYlj6iZtuYpVguJf7Czkyi+8dqUMdjD0JEabjR/TMKsrMHwav5A3v+0HIqegc0BKZHA4Snc37BUxSbTSGqUa4e+s04i1rCYxo8dSIxFqHMiVtVHQqxSY2ceOQjBMc3HkFRl9Lnin1PbUyBL4QA4kcmeBGO08Pp53nTxT0U6YXhHhLTySRySYTDN8iRuipE/XuyqZ3rRj3eB5mFLJORCj9FfUrH++O/LDubd2fdY52it4eXzVeVTi0gKoX8a5PtELNwQGxva2gyqb+05PL42uhe2ZAGe9uzrDA==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=C2xsmL5bH+8CkFWkuHry3z2ElIXPFHHpG8npGc7YLBM=;
+	b=iKmH86oVxhdarER8UNeroYh2+GusAGEsHUqN6ok/+XCfnUvkFlXpbohZTIu5wm3LDbtDld3IeXzeIDflcFDxVR7IyqDor7azdpyOEGe6jOf/nzTYkQG4tmexi2YawTY8SAa5JJkoJL/h3t42ZVQ50IXqJFTFz+Dqc8sG867lihJWsZlR9qpIdCNt7QdoGVlFJYxp1UtDIapd7rtZSXNNTOToN5ltMu4gyuG0TslVkCsNf8UJw1NVqXJpJJBIsysWG9SYPRzlHaiigo37sdVyE2S/OloH1oMxpI7FgUiFRvMTz9j0TMSZ2l48ERz08ZLz1EtwJJ3JZAly5C9ywb3O+Q==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=Kk6pZ2Auo5LbAzp2gZb/w4HYA9Nswbh9mg5IA/Vd2KI=;
 	h=date:mime-version:subject:message-id:from;
 
-0day CI reported that scsi_mid_low_api.rst references a file
-Documentation/Configure.help, which has been removed long ago.
+0day CI reported several broken references under
+Documentation/translations/zh_CN/scsi/scsi-parameters.rst.
+These files do not exist under the translations directory.
+The correct references are the original English documents under
+Documentation/scsi/.
 
-The documentation text should wrap this filename in Sphinx literal
-markup (`` ``) and avoid producing a broken file reference.
-
-This patch fixes the incorrect reference.
+This patch updates all broken paths accordingly.
 
 Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202511130032.gevVvSte-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202511130315.WOiKJQTu-lkp@intel.com/
 Signed-off-by: ke zijie <kezijie@leap-io-kernel.com>
 ---
- Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../translations/zh_CN/scsi/scsi-parameters.rst  | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst b/Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst
-index f701945a1b1c..30ac3bb5b57c 100644
---- a/Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst
-+++ b/Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst
-@@ -1144,7 +1144,7 @@ struct scsi_host_template::use_new_eh_code标志
- 也已经被移除。
+diff --git a/Documentation/translations/zh_CN/scsi/scsi-parameters.rst b/Documentation/translations/zh_CN/scsi/scsi-parameters.rst
+index 53cdc3094a9a..ace777e070ea 100644
+--- a/Documentation/translations/zh_CN/scsi/scsi-parameters.rst
++++ b/Documentation/translations/zh_CN/scsi/scsi-parameters.rst
+@@ -31,16 +31,16 @@ SCSI内核参数
+ 			请查阅 drivers/scsi/advansys.c 文件头部。
 
- 在Linux内核2.4中，SCSI子系统的配置描述与其他Linux子系
--统的配置描述集中存放在Documentation/Configure.help
-+统的配置描述集中存放在 ``Documentation/Configure.help``
- 文件中。在Linux内核2.6中，SCSI子系统拥有独立的配置文
- 件drivers/scsi/Kconfig（体积更小），同时包含配置信息
- 与帮助信息。
+ 	aha152x=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/aha152x.rst。
++			请查阅 Documentation/scsi/aha152x.rst。
+
+ 	aha1542=	[HW,SCSI]
+ 			格式：<portbase>[,<buson>,<busoff>[,<dmaspeed>]]
+
+ 	aic7xxx=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/aic7xxx.rst。
++			请查阅 Documentation/scsi/aic7xxx.rst。
+
+ 	aic79xx=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/aic79xx.rst。
++			请查阅 Documentation/scsi/aic79xx.rst。
+
+ 	atascsi=	[HW,SCSI]
+ 			请查阅 drivers/scsi/atari_scsi.c。
+@@ -69,19 +69,19 @@ SCSI内核参数
+ 			请查阅 drivers/scsi/NCR_D700.c 文件头部。
+
+ 	ncr5380=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/g_NCR5380.rst。
++			请查阅 Documentation/scsi/g_NCR5380.rst。
+
+ 	ncr53c400=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/g_NCR5380.rst。
++			请查阅 Documentation/scsi/g_NCR5380.rst。
+
+ 	ncr53c400a=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/g_NCR5380.rst。
++			请查阅 Documentation/scsi/g_NCR5380.rst。
+
+ 	ncr53c8xx=	[HW,SCSI]
+
+ 	osst=		[HW,SCSI] SCSI磁带驱动
+ 			格式：<buffer_size>,<write_threshold>
+-			另请查阅 Documentation/translations/zh_CN/scsi/st.rst。
++			另请查阅 Documentation/scsi/st.rst。
+
+ 	scsi_debug_*=	[SCSI]
+ 			请查阅 drivers/scsi/scsi_debug.c。
+@@ -112,7 +112,7 @@ SCSI内核参数
+ 			请查阅 drivers/scsi/sim710.c 文件头部。
+
+ 	st=		[HW,SCSI] SCSI磁带参数（缓冲区大小等）
+-			请查阅 Documentation/translations/zh_CN/scsi/st.rst。
++			请查阅 Documentation/scsi/st.rst。
+
+ 	wd33c93=	[HW,SCSI]
+ 			请查阅 drivers/scsi/wd33c93.c 文件头部。
 --
 2.25.1
 
