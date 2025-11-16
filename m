@@ -1,526 +1,482 @@
-Received: from mail-m49215.qiye.163.com (mail-m49215.qiye.163.com [45.254.49.215])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B92EAF9
-	for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 07:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.215
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6672A6FBF
+	for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 07:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763277372; cv=none; b=GhMMfK5nvgunfG9GbO3XYWiKgSak85WDaXEwVTyvVH1aqzxpZhqpLq50xoUpKenYTGh/uvQq+sp74Scl4m5koqGsbdjN9KXJNvwZdHgzIoq4+Ipu3+MwEcHto9rDyl95cWYp6yQUUbejyPhJCQFIgDM1CVUzdlOvYhDQSYAPgag=
+	t=1763278591; cv=none; b=a6+1cCf9z3fO8rsqd6a/DC8c6aqLNbWe7Zv64mub5UbpnXSr1rGW3Ik9rlwlbHNN2pph3LJc/RoztGAlLHNr/qZm8atV1eqaNyyIBrlcenY29JvDthh38DzAAuC56K4BQ6kHMaPGCw+O9pgq2A/EhoEfPr6Xz5KzxAjigVI2gGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763277372; c=relaxed/simple;
-	bh=bVoEdO9bLtHiVFqkvQJcY/QgAnnd6qM1/y6AthRSTjA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tR7OJahFQ1n5rbjKoHT6pYuv5lTN+2S1R6Uu7/H7ELO7P766/3bjZZwYAibOUNe5Uy6SME2+3m18PQN7v1O0jNNqzR0Z8KjWPnH/B/qIpIkxieBhOzIGQunBrJYvjBXj6Tol5FkpDafK6YITV7YAdzCjSHwVA1033D9Lo3DvpPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=ERBtRURo; arc=none smtp.client-ip=45.254.49.215
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	s=arc-20240116; t=1763278591; c=relaxed/simple;
+	bh=f2kJNglJR+lhIK51Qx7RmMGS9CVHLOQpPyBb9NOfgoE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cZ25au9VdxEfds6CP3dimx/6q8s/JPzBiJmJxQidfEuUUflyJNl8qYkgGRMRSXYaR7RJcuHnWaOP5tdtK0RU4ShwyAs0Xdtb11R472mjgwKm5iRmT++1v/r8sVMl1Sv8YwH+X1H2RXpIEwYUAukyqEyQ7QwNsgrHTjIAXkUdr+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MPxyvR4X; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=mk5PcGd6; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="ERBtRURo"
-Received: from localhost.localdomain (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 29b707422;
-	Sun, 16 Nov 2025 10:40:06 +0800 (GMT+08:00)
-From: Yujie Zhang <yjzhang@leap-io-kernel.com>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev
-Cc: dzm91@hust.edu.cn,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	doubled@leap-io-kernel.com,
-	yjzhang@leap-io-kernel.com
-Subject: [PATCH 1/2] docs/zh_CN: Add libsas.rst translation
-Date: Sun, 16 Nov 2025 10:40:04 +0800
-Message-Id: <a19c9825d019ed84d95ed8f0ce2235e917a86eae.1763112421.git.yjzhang@leap-io-kernel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1763112421.git.yjzhang@leap-io-kernel.com>
-References: <cover.1763112421.git.yjzhang@leap-io-kernel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MPxyvR4X";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="mk5PcGd6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763278588;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HfvjKvTr84+DPxPNgRU8CK+51nhfY69WGkFL3D46kFU=;
+	b=MPxyvR4XA3RNkSEiizU1NnC+QG0qFaSE6tSweC0hK6sbBxJflFNIOiK0L0fvVc0zXiWjad
+	+yaE85Pj4vzWm4AH+yB7saCjqmWeUiEny7eUQMfedYJg5jvWktsfOPz+OT3CZsfDKp4Tz/
+	c5EWyewgLXo6nL09rEvLDYa3tYPmzLo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-132-saNyh1fhM3O_flBLJNidwA-1; Sun, 16 Nov 2025 02:36:27 -0500
+X-MC-Unique: saNyh1fhM3O_flBLJNidwA-1
+X-Mimecast-MFC-AGG-ID: saNyh1fhM3O_flBLJNidwA_1763278586
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-42b570776a3so1271069f8f.3
+        for <linux-doc@vger.kernel.org>; Sat, 15 Nov 2025 23:36:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1763278586; x=1763883386; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HfvjKvTr84+DPxPNgRU8CK+51nhfY69WGkFL3D46kFU=;
+        b=mk5PcGd6lHvJtrC3FXMrqRUxeo25gNyg8dZ/3RtWyKZ3z6jm3Pl5tf8sR8E3TA+AQe
+         TZYsy6nCVyzTUM3ge/PktlunC6GOQZrPKRhmJcqEkBxkxTTgM25s+YX3IZZwEI76etzm
+         vSqv9pZvEkBuqARN77DShV5gdzX6DcMpS46jHVVmIcd8GTshPSdhODMIm3mOFjB5b6oi
+         7TEuyNnzHq40aTNDpEP1J6q7xFcfMEzRYUFnx49xDF/RtoArN1knAHx7WKGCKjWqJKmP
+         gz+gsTpb+Q7/urLYJWgfZBoS/wjtBRkk5vdihWGUwYKz0pbaVBwO13S+Mz3zD//KnU90
+         DMcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763278586; x=1763883386;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HfvjKvTr84+DPxPNgRU8CK+51nhfY69WGkFL3D46kFU=;
+        b=gJbE2LHIIUcRH3JrijMIx5umlnE2dmrxBMiRK6gCQjLJ0S1JnPyBkGCqteU79Poev6
+         u9bQVSD8ACn4Ixm9lToImdf2XMa1FqDyfNCLk3L7k/PJIKIyyyZuZsSff3jOaHZH836Z
+         vhNHChYiFqofhmi17LJ9t4HlyPyOZQ0OMDQ/oUDY20ur5NRHovS81XuN+naDXfP0x3DU
+         j4KoPLBbka4VflYeNBS1kN33GoRahnztWup0jRWiLJ/rRYkhW01DlVPhctjZGWl/vfYy
+         lSi3oHKc6cCdSxeNIspyFgNCws13gCX9gM6NpbMkhbLN4+EiNwtHNJouLnxtjAFMg2F5
+         6hWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUjzQwFn79F63KrDlYkpSlugqwKt66sWfnkUMyB3XqVQzyeqPzTC9W6aulGPsIpM0f7MDJcqWMsbgQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgYod7pRdhYExqueh3VQbcnp1gy3dJz0pyUhLCYdrMXCrINT8c
+	dyYHh8zS2lFMKlcoEaLUond48V0jSNyG4ENJ/ybB0kYJoTbo311vgPGG40t8C+e2TWS51O3DvQR
+	SolUO2etLYEsP/82frUTk131NNAWeX3fLGoPjEFWNxL2EoS+6X0HI1oB26wH9hA==
+X-Gm-Gg: ASbGncvrvnhJ2rFBTwRmdzIDRIqPdOegzhjeBHe+fiz9aTXtgVJghFnFb+AupWLsOWj
+	4FFAwNERfgzh09IVzhesSXhtQkgJkGq3JwhtcYyLrUN0zTiJR88oVaCTC/Pbp4dGR6f7B9ym1Wf
+	uxICzu49DAMSrM/erCTJP2IrvQIlENrpapd2pnX7Nih2JICfipWb9jLAghcBkMIfoNymYKe6tJU
+	1rHnNXTe9HuH0iDXfEthl5SbFzqrhdxMshNyvnabqHlADBY/HRw3uQ4FgykXKW9aD4vuzrdqAC2
+	QX7LguuCS5XD7djrMYl6ygYnpoL3F3aGchOrdNS+Xt4qBP0sVnAPFNYQC1w9NFDmiPxns1hGFpR
+	01wXX1VVHX0/4FGYXNKs=
+X-Received: by 2002:a05:6000:2806:b0:42b:4061:23f3 with SMTP id ffacd0b85a97d-42b5938886amr5547724f8f.44.1763278585462;
+        Sat, 15 Nov 2025 23:36:25 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEHecAkzy4WK7HKxlbxQJRhSxQSUWEkQKG9rGExfa5k8AKxXbgHO/j7kSJs/rsWlSfDpHVX+w==
+X-Received: by 2002:a05:6000:2806:b0:42b:4061:23f3 with SMTP id ffacd0b85a97d-42b5938886amr5547703f8f.44.1763278584896;
+        Sat, 15 Nov 2025 23:36:24 -0800 (PST)
+Received: from redhat.com (IGLD-80-230-39-63.inter.net.il. [80.230.39.63])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53e7b074sm18938164f8f.7.2025.11.15.23.36.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Nov 2025 23:36:24 -0800 (PST)
+Date: Sun, 16 Nov 2025 02:36:22 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Andrew Lunn <andrew@lunn.ch>, Paolo Abeni <pabeni@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3 1/2] virtio: clean up features qword/dword terms
+Message-ID: <67ae57499e779aef2c5bd7ee354af5d4af39bf60.1763278093.git.mst@redhat.com>
+References: <cover.1763278093.git.mst@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a8a88b5df09d6kunme87d206954f5b2
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCTBlDVh9PTk4YS0lLHkNDGFYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
-	VLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=ERBtRURoUeKZMyETTj61wK0z6G6/fH95YYHUh6eYElE8/peSaH83NhyMlev1DjGrGCjgCYLg8mDygd1Y7efoJCRDw6rpAHieQJj76XpiGreWFM4+FT8BmPh6b+SbGSbd2mbAB+TQy5hklcvPlpadALmiQ/eZw/xda6FKpxDXqKr0fI41jNx8KP8wEYtAJ3WkkursGJGBsXTJL+4LoFLmTi57HO10PEmbTL5MNZLihQPYOqjlPPJjvUxRInuy8CNynZJars5qy0uYLEnFWho5qjqSepP7bZBPe6x5Qvva3IZI4Kn4DA5Vxxbn08N56pGhIjmLuAM9Jeq3FbhPTOI4fw==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=R+znd1ZfzVu/Sb2X3kgUbf5ifl9IKmoiKW9K9kYQdBY=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1763278093.git.mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 
-Translate .../scsi/libsas.rst into Chinese.
-Add libsas into .../scsi/index.rst.
+virtio pci uses word to mean "16 bits". mmio uses it to mean
+"32 bits".
 
-Update the translation through commit 25882c82f850
-("scsi: libsas: Delete lldd_clear_aca callback")
+To avoid confusion, let's avoid the term in core virtio
+altogether. Just say U64 to mean "64 bit".
 
-Signed-off-by: Yujie Zhang <yjzhang@leap-io-kernel.com>
+Fixes: e7d4c1c5a546 ("virtio: introduce extended features")
+Cc: "Paolo Abeni" <pabeni@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <492ef5aaa196d155d0535b5b6f4ad5b3fba70a1b.1761058528.git.mst@redhat.com>
 ---
- .../translations/zh_CN/scsi/index.rst         |   2 +-
- .../translations/zh_CN/scsi/libsas.rst        | 430 ++++++++++++++++++
- 2 files changed, 431 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/scsi/libsas.rst
+ drivers/vhost/net.c                    | 12 +++++------
+ drivers/virtio/virtio.c                | 12 +++++------
+ drivers/virtio/virtio_debug.c          | 10 ++++-----
+ drivers/virtio/virtio_pci_modern_dev.c |  6 +++---
+ include/linux/virtio.h                 |  2 +-
+ include/linux/virtio_config.h          |  2 +-
+ include/linux/virtio_features.h        | 29 +++++++++++++-------------
+ include/linux/virtio_pci_modern.h      |  8 +++----
+ scripts/lib/kdoc/kdoc_parser.py        |  2 +-
+ 9 files changed, 42 insertions(+), 41 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/scsi/index.rst b/Documentation/translations/zh_CN/scsi/index.rst
-index f13c419b134c..5eecbef4c9c0 100644
---- a/Documentation/translations/zh_CN/scsi/index.rst
-+++ b/Documentation/translations/zh_CN/scsi/index.rst
-@@ -50,6 +50,7 @@ SCSI主机适配器驱动
- .. toctree::
-    :maxdepth: 1
+diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
+index 35ded4330431..d057ea55f5ad 100644
+--- a/drivers/vhost/net.c
++++ b/drivers/vhost/net.c
+@@ -69,7 +69,7 @@ MODULE_PARM_DESC(experimental_zcopytx, "Enable Zero Copy TX;"
  
-+   libsas
-    sd-parameters
+ #define VHOST_DMA_IS_DONE(len) ((__force u32)(len) >= (__force u32)VHOST_DMA_DONE_LEN)
  
- Todolist:
-@@ -71,7 +72,6 @@ Todolist:
- * g_NCR5380
- * hpsa
- * hptiop
--* libsas
- * lpfc
- * megaraid
- * ncr53c8xx
-diff --git a/Documentation/translations/zh_CN/scsi/libsas.rst b/Documentation/translations/zh_CN/scsi/libsas.rst
-new file mode 100644
-index 000000000000..b6981ce8983b
---- /dev/null
-+++ b/Documentation/translations/zh_CN/scsi/libsas.rst
-@@ -0,0 +1,430 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/scsi/libsas.rst
-+
-+:翻译:
-+
-+ 张钰杰 Yujie Zhang <yjzhang@leap-io-kernel.com>
-+
-+:校译:
-+
-+
-+
-+=========
-+SAS 层
-+=========
-+
-+SAS 层是一个管理基础架构，用于管理 SAS LLDD。它位于 SCSI Core
-+与 SAS LLDD 之间。 体系结构如下: SCSI Core 关注的是 SAM/SPC 相
-+关的问题；SAS LLDD 及其序列控制器负责 PHY 层、OOB 信号以及链路
-+管理；而 SAS 层则负责以下任务::
-+
-+      * SAS Phy、Port 和主机适配器（HA）事件管理（事件由 LLDD
-+        生成，由 SAS 层处理）；
-+      * SAS 端口的管理（创建与销毁）；
-+      * SAS 域的发现与重新验证；
-+      * SAS 域内设备的管理；
-+      * SCSI 主机的注册与注销；
-+      * 将设备注册到 SCSI Core（SAS 设备）或 libata（SATA 设备）；
-+      * 扩展器的管理，并向用户空间导出扩展器控制接口。
-+
-+SAS LLDD 是一种 PCI 设备驱动程序。它负责 PHY 层和 OOB（带外）
-+信号的管理、厂商特定的任务，并向 SAS 层上报事件。
-+
-+SAS 层实现了 SAS 1.1 规范中定义的大部分 SAS 功能。
-+
-+sas_ha_struct 结构体用于向 SAS 层描述一个 SAS LLDD。该结构的
-+大部分字段由 SAS 层使用，但其中少数字段需要由 LLDD 进行初始化。
-+
-+在完成硬件初始化之后，应当在驱动的 probe() 函数中调用
-+sas_register_ha()。该函数会将 LLDD 注册到 SCSI 子系统中，创
-+建一个对应的 SCSI 主机，并将你的 SAS 驱动程序注册到其在 sysfs
-+下创建的 SAS 设备树中。随后该函数将返回。接着，你需要使能 PHY，
-+以启动实际的 OOB（带外）过程；此时驱动将开始调用 notify_* 系
-+列事件回调函数。
-+
-+结构体说明
-+======================
-+
-+``struct sas_phy``
-+------------------
-+
-+通常情况下，该结构体会被静态地嵌入到驱动自身定义的 PHY 结构体中,
-+例如::
-+
-+    struct my_phy {
-+	    blah;
-+	    struct sas_phy sas_phy;
-+	    bleh;
-+    }
-+
-+随后，在主机适配器（HA）的结构体中，所有的 PHY 通常以 my_phy
-+数组的形式存在（如下文所示）。
-+
-+在初始化各个 PHY 时，除了初始化驱动自定义的 PHY 结构体外，还
-+需要同时初始化其中的 sas_phy 结构体。
-+
-+一般来说，PHY 的管理由 LLDD 负责，而端口（port）的管理由 SAS
-+层负责。因此，PHY 的初始化与更新由 LLDD 完成，而端口的初始化与
-+更新则由 SAS 层完成。系统设计中规定，某些字段可由 LLDD 进行读
-+写，而 SAS 层只能读取这些字段；反之亦然。其设计目的是为了避免不
-+必要的锁操作。
-+
-+在该设计中，某些字段可由 LLDD 进行读写（RW），而 SAS 层仅可读
-+取这些字段；反之亦然。这样设计的目的在于避免不必要的锁操作。
-+
-+enabled
-+    - 必须设置(0/1)
-+
-+id
-+    - 必须设置[0,MAX_PHYS)]
-+
-+class, proto, type, role, oob_mode, linkrate
-+    - 必须设置。
-+
-+oob_mode
-+    - 当 OOB（带外信号）完成后，设置此字段，然后通知 SAS 层。
-+
-+sas_addr
-+    - 通常指向一个保存该 PHY 的 SAS 地址的数组，该数组可能位于
-+      驱动自定义的 my_phy 结构体中。
-+
-+attached_sas_addr
-+    - 当 LLDD 接收到 IDENTIFY 帧或 FIS 帧时，应在通知 SAS 层
-+      之前设置该字段。其设计意图在于：有时 LLDD 可能需要伪造或
-+      提供一个与实际不同的 SAS 地址用于该 PHY/端口，而该机制允许
-+      LLDD 这样做。理想情况下，应将 SAS 地址从 IDENTIFY 帧中
-+      复制过来；对于直接连接的 SATA 设备，也可以由 LLDD 生成一
-+      个 SAS 地址。后续的发现过程可能会修改此字段。
-+
-+frame_rcvd
-+    - 当接收到 IDENTIFY 或 FIS 帧时，将该帧复制到此处。正确的
-+      操作流程是获取锁 → 复制数据 → 设置 frame_rcvd_size → 释
-+      放锁 → 调用事件通知。该字段是一个指针，因为驱动无法精确确
-+      定硬件帧的大小；因此，实际的帧数据数组应定义在驱动自定义的
-+      PHY 结构体中，然后让此指针指向该数组。在持锁状态下，将帧从
-+      DMA 可访问内存区域复制到该数组中。
-+
-+sas_prim
-+    - 用于存放接收到的原语（primitive）。参见 sas.h。操作流程同
-+      样是：获取锁 → 设置 primitive → 释放锁 → 通知事件。
-+
-+port
-+    - 如果该 PHY 属于某个端口（port），此字段指向对应的 sas_port
-+      结构体。LLDD 仅可读取此字段。它由 SAS 层设置，用于指向当前
-+      PHY 所属的 sas_port。
-+
-+ha
-+    - 可以由 LLDD 设置；但无论是否设置，SAS 层都会再次对其进行赋值。
-+
-+lldd_phy
-+    - LLDD 应将此字段设置为指向自身定义的 PHY 结构体，这样当 SAS
-+      层调用某个回调并传入 sas_phy 时，驱动可以快速定位自身的 PHY
-+      结构体。如果 sas_phy 是嵌入式成员，也可以使用 container_of()
-+      宏进行访问——两种方式均可。
-+
-+
-+``struct sas_port``
-+-------------------
-+
-+LLDD 不应修改该结构体中的任何字段——它只能读取这些字段。这些字段的
-+含义应当是不言自明的。
-+
-+phy_mask 为 32 位，目前这一长度已足够使用，因为尚未听说有主机适配
-+器拥有超过8 个 PHY。
-+
-+lldd_port
-+    - 目前尚无明确用途。不过，对于那些希望在 LLDD 内部维护自身端
-+      口表示的驱动，实现时可以利用该字段。
-+
-+``struct sas_ha_struct``
-+------------------------
-+
-+它通常静态声明在你自己的 LLDD 结构中，用于描述您的适配器::
-+
-+    struct my_sas_ha {
-+	blah;
-+	struct sas_ha_struct sas_ha;
-+	struct my_phy phys[MAX_PHYS];
-+	struct sas_port sas_ports[MAX_PHYS]; /* (1) */
-+	bleh;
-+    };
-+
-+    (1) 如果你的 LLDD 没有自己的端口表示
-+
-+需要初始化（示例函数如下所示）。
-+
-+
-+pcidev
-+^^^^^^
-+
-+sas_addr
-+       - 由于 SAS 层不想弄乱内存分配等, 因此这指向静态分配的数
-+         组中的某个位置（例如，在您的主机适配器结构中），并保存您或
-+         制造商等给出的主机适配器的 SAS 地址。
-+
-+sas_port
-+^^^^^^^^
-+
-+sas_phy
-+      - 指向结构体的指针数组（参见上文关于 sas_addr 的说明）。
-+        这些指针必须设置。更多细节见下文说明。
-+
-+num_phys
-+       - 表示 sas_phy 数组中 PHY 的数量，同时也表示 sas_port
-+         数组中的端口数量。一个端口最多对应一个 PHY，因此最大端口数
-+         等于 num_phys。因此，结构中不再单独使用 num_ports 字段，
-+         而仅使用 num_phys。
-+
-+事件接口::
-+
-+	/* LLDD 调用以下函数来通知 SAS 类层发生事件 */
-+	void sas_notify_port_event(struct sas_phy *, enum port_event, gfp_t);
-+	void sas_notify_phy_event(struct sas_phy *, enum phy_event, gfp_t);
-+
-+端口事件通知::
-+
-+	/* SAS 类层调用以下回调来通知 LLDD 端口事件 */
-+	void (*lldd_port_formed)(struct sas_phy *);
-+	void (*lldd_port_deformed)(struct sas_phy *);
-+
-+如果 LLDD 希望在端口形成或解散时接收通知，则应将上述回调指针设
-+置为符合函数类型定义的处理函数。
-+
-+SAS LLDD 还应至少实现 SCSI 协议中定义的一种任务管理函数（TMFs）::
-+
-+	/* 任务管理函数. 必须在进程上下文中调用 */
-+	int (*lldd_abort_task)(struct sas_task *);
-+	int (*lldd_abort_task_set)(struct domain_device *, u8 *lun);
-+	int (*lldd_clear_task_set)(struct domain_device *, u8 *lun);
-+	int (*lldd_I_T_nexus_reset)(struct domain_device *);
-+	int (*lldd_lu_reset)(struct domain_device *, u8 *lun);
-+	int (*lldd_query_task)(struct sas_task *);
-+
-+如需更多信息，请参考 T10.org。
-+
-+端口与适配器管理::
-+
-+	/* 端口与适配器管理 */
-+	int (*lldd_clear_nexus_port)(struct sas_port *);
-+	int (*lldd_clear_nexus_ha)(struct sas_ha_struct *);
-+
-+SAS LLDD 至少应实现上述函数中的一个。
-+
-+PHY 管理::
-+
-+	/* PHY 管理 */
-+	int (*lldd_control_phy)(struct sas_phy *, enum phy_func);
-+
-+lldd_ha
-+    - 应设置为指向驱动的主机适配器（HA）结构体的指针。如果 sas_ha_struct
-+      被嵌入到更大的结构体中，也可以通过 container_of() 宏来获取。
-+
-+一个示例的初始化与注册函数可以如下所示：（该函数应在 probe()
-+函数的最后调用）但必须在使能 PHY 执行 OOB 之前调用::
-+
-+    static int register_sas_ha(struct my_sas_ha *my_ha)
-+    {
-+	    int i;
-+	    static struct sas_phy   *sas_phys[MAX_PHYS];
-+	    static struct sas_port  *sas_ports[MAX_PHYS];
-+
-+	    my_ha->sas_ha.sas_addr = &my_ha->sas_addr[0];
-+
-+	    for (i = 0; i < MAX_PHYS; i++) {
-+		    sas_phys[i] = &my_ha->phys[i].sas_phy;
-+		    sas_ports[i] = &my_ha->sas_ports[i];
-+	    }
-+
-+	    my_ha->sas_ha.sas_phy  = sas_phys;
-+	    my_ha->sas_ha.sas_port = sas_ports;
-+	    my_ha->sas_ha.num_phys = MAX_PHYS;
-+
-+	    my_ha->sas_ha.lldd_port_formed = my_port_formed;
-+
-+	    my_ha->sas_ha.lldd_dev_found = my_dev_found;
-+	    my_ha->sas_ha.lldd_dev_gone = my_dev_gone;
-+
-+	    my_ha->sas_ha.lldd_execute_task = my_execute_task;
-+
-+	    my_ha->sas_ha.lldd_abort_task     = my_abort_task;
-+	    my_ha->sas_ha.lldd_abort_task_set = my_abort_task_set;
-+	    my_ha->sas_ha.lldd_clear_task_set = my_clear_task_set;
-+	    my_ha->sas_ha.lldd_I_T_nexus_reset= NULL; (2)
-+	    my_ha->sas_ha.lldd_lu_reset       = my_lu_reset;
-+	    my_ha->sas_ha.lldd_query_task     = my_query_task;
-+
-+	    my_ha->sas_ha.lldd_clear_nexus_port = my_clear_nexus_port;
-+	    my_ha->sas_ha.lldd_clear_nexus_ha = my_clear_nexus_ha;
-+
-+	    my_ha->sas_ha.lldd_control_phy = my_control_phy;
-+
-+	    return sas_register_ha(&my_ha->sas_ha);
-+    }
-+
-+(2) SAS 1.1 未定义 I_T Nexus Reset TMF（任务管理功能）。
-+
-+事件
-+======
-+
-+事件是 SAS LLDD 唯一的通知 SAS 层发生任何情况的方式。
-+LLDD 没有其他方法可以告知 SAS 层其内部或 SAS 域中发生的事件。
-+
-+Phy 事件::
-+
-+	PHYE_LOSS_OF_SIGNAL, (C)
-+	PHYE_OOB_DONE,
-+	PHYE_OOB_ERROR,      (C)
-+	PHYE_SPINUP_HOLD.
-+
-+端口事件，通过 _phy_ 传递::
-+
-+	PORTE_BYTES_DMAED,      (M)
-+	PORTE_BROADCAST_RCVD,   (E)
-+	PORTE_LINK_RESET_ERR,   (C)
-+	PORTE_TIMER_EVENT,      (C)
-+	PORTE_HARD_RESET.
-+
-+主机适配器事件：
-+	HAE_RESET
-+
-+SAS LLDD 应能够生成以下事件::
-+
-+	- 来自 C 组的至少一个事件（可选），
-+	- 标记为 M（必需）的事件为必需事件（至少一种）；
-+	- 若希望 SAS 层处理域重新验证（domain revalidation），则
-+      应生成标记为 E（扩展器）的事件（仅需一种）；
-+	- 未标记的事件为可选事件。
-+
-+含义
-+
-+HAE_RESET
-+    - 当 HA 发生内部错误并被复位时。
-+
-+PORTE_BYTES_DMAED
-+    - 在接收到 IDENTIFY/FIS 帧时。
-+
-+PORTE_BROADCAST_RCVD
-+    - 在接收到一个原语时。
-+
-+PORTE_LINK_RESET_ERR
-+    - 定时器超时、信号丢失、丢失 DWS 等情况。 [1]_
-+
-+PORTE_TIMER_EVENT
-+    - DWS 复位超时定时器到期时。[1]_
-+
-+PORTE_HARD_RESET
-+    - 收到 Hard Reset 原语。
-+
-+PHYE_LOSS_OF_SIGNAL
-+    - 设备已断开连接。 [1]_
-+
-+PHYE_OOB_DONE
-+    - OOB 过程成功完成，oob_mode 有效。
-+
-+PHYE_OOB_ERROR
-+    - 执行 OOB 过程中出现错误，设备可能已断开。 [1]_
-+
-+PHYE_SPINUP_HOLD
-+    - 检测到 SATA 设备，但未发送 COMWAKE 信号。
-+
-+.. [1] 应设置或清除 phy 中相应的字段，或者从 tasklet 中调用
-+       内联函数 sas_phy_disconnected()，该函数只是一个辅助
-+       函数。
-+
-+执行命令（Execute Command）SCSI RPC::
-+
-+	int (*lldd_execute_task)(struct sas_task *, gfp_t gfp_flags);
-+
-+用于将任务排队提交给 SAS LLDD。@task 为要执行的任务，@gfp_mask
-+为定义调用者上下文的 gfp 掩码。
-+
-+此函数应实现 执行 SCSI RPC 命令。
-+
-+也就是说，当调用 lldd_execute_task() 时，命令应当立即在传输
-+层发出。SAS LLDD 中在任何层级上都不应再进行队列排放。
-+
-+返回值::
-+
-+   * 返回 -SAS_QUEUE_FULL 或 -ENOMEM 表示未排入队列；
-+   * 返回 0 表示任务已成功排入队列。
-+
-+::
-+
-+    struct sas_task {
-+	    dev —— 此任务目标设备；
-+	    task_proto —— 协议类型，为 enum sas_proto 中的一种；
-+	    scatter —— 指向散布/聚集（SG）列表数组的指针；
-+	    num_scatter —— SG 列表元素数量；
-+	    total_xfer_len —— 预计传输的总字节数；
-+	    data_dir —— 数据传输方向(PCI_DMA_*)；
-+	    task_done —— 任务执行完成时的回调函数。
-+    };
-+
-+发现
-+=========
-+
-+sysfs 树有以下用途::
-+
-+    a) 它显示当前时刻 SAS 域的物理布局，即展示当前物理世界中
-+       域的实际结构。
-+    b) 显示某些设备的参数。 _at_discovery_time_.
-+
-+下面是一个指向 tree(1) 程序的链接，该工具在查看 SAS 域时非常
-+有用：
-+ftp://mama.indstate.edu/linux/tree/
-+
-+我期望用户空间的应用程序最终能够为此创建一个图形界面。
-+
-+也就是说，sysfs 域树不会显示或保存某些状态变化，例如，如果你更
-+改了 READY LED 含义的设置，sysfs 树不会反映这种状态变化；但它
-+确实会显示域设备的当前连接状态。
-+
-+维护内部设备状态变化的职责由上层（命令集驱动）和用户空间负责。
-+
-+当某个设备或多个设备从域中拔出时，这一变化会立即反映在 sysfs
-+树中，并且这些设备会从系统中移除。
-+
-+结构体 domain_device 描述了 SAS 域中的任意设备。它完全由 SAS
-+层管理。一个任务会指向某个域设备，SAS LLDD 就是通过这种方式知
-+道任务应发送到何处。SAS LLDD 只读取 domain_device 结构的内容，
-+但不会创建或销毁它。
-+
-+用户空间中的扩展器管理
-+===================================
-+
-+在 sysfs 中的每个扩展器目录下，都有一个名为 "smp_portal" 的
-+文件。这是一个二进制的 sysfs 属性文件，它实现了一个 SMP 入口
-+（注意：这并不是一个 SMP 端口），用户空间程序可以通过它发送
-+SMP 请求并接收 SMP 响应。
-+
-+该功能的实现方式看起来非常简单:
-+
-+1. 构建要发送的 SMP 帧。其格式和布局在 SAS 规范中有说明。保持
-+   CRC 字段为 0。
-+
-+open(2)
-+
-+2. 以读写模式打开该扩展器的 SMP portal sysfs 文件。
-+
-+write(2)
-+
-+3. 将第 1 步中构建的帧写入文件。
-+
-+read(2)
-+
-+4. 读取与所构建帧预期返回长度相同的数据量。如果读取的数据量与
-+   预期不符，则表示发生了某种错误。
-+
-+close(2)
-+
-+整个过程在 "expander_conf.c" 文件中的函数 do_smp_func()
-+及其调用者中有详细展示。
-+
-+对应的内核实现位于 "sas_expander.c" 文件中。
-+
-+程序 "expander_conf.c" 实现了上述逻辑。它接收一个参数——扩展器
-+SMP portal 的 sysfs 文件名，并输出扩展器的信息，包括路由表内容。
-+
-+SMP portal 赋予了你对扩展器的完全控制权，因此请谨慎操作。
+-static const u64 vhost_net_features[VIRTIO_FEATURES_DWORDS] = {
++static const u64 vhost_net_features[VIRTIO_FEATURES_U64S] = {
+ 	VHOST_FEATURES |
+ 	(1ULL << VHOST_NET_F_VIRTIO_NET_HDR) |
+ 	(1ULL << VIRTIO_NET_F_MRG_RXBUF) |
+@@ -1720,7 +1720,7 @@ static long vhost_net_set_owner(struct vhost_net *n)
+ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+ 			    unsigned long arg)
+ {
+-	u64 all_features[VIRTIO_FEATURES_DWORDS];
++	u64 all_features[VIRTIO_FEATURES_U64S];
+ 	struct vhost_net *n = f->private_data;
+ 	void __user *argp = (void __user *)arg;
+ 	u64 __user *featurep = argp;
+@@ -1752,7 +1752,7 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+ 
+ 		/* Copy the net features, up to the user-provided buffer size */
+ 		argp += sizeof(u64);
+-		copied = min(count, VIRTIO_FEATURES_DWORDS);
++		copied = min(count, (u64)VIRTIO_FEATURES_U64S);
+ 		if (copy_to_user(argp, vhost_net_features,
+ 				 copied * sizeof(u64)))
+ 			return -EFAULT;
+@@ -1767,13 +1767,13 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+ 
+ 		virtio_features_zero(all_features);
+ 		argp += sizeof(u64);
+-		copied = min(count, VIRTIO_FEATURES_DWORDS);
++		copied = min(count, (u64)VIRTIO_FEATURES_U64S);
+ 		if (copy_from_user(all_features, argp, copied * sizeof(u64)))
+ 			return -EFAULT;
+ 
+ 		/*
+ 		 * Any feature specified by user-space above
+-		 * VIRTIO_FEATURES_MAX is not supported by definition.
++		 * VIRTIO_FEATURES_BITS is not supported by definition.
+ 		 */
+ 		for (i = copied; i < count; ++i) {
+ 			if (copy_from_user(&features, featurep + 1 + i,
+@@ -1783,7 +1783,7 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+ 				return -EOPNOTSUPP;
+ 		}
+ 
+-		for (i = 0; i < VIRTIO_FEATURES_DWORDS; i++)
++		for (i = 0; i < VIRTIO_FEATURES_U64S; i++)
+ 			if (all_features[i] & ~vhost_net_features[i])
+ 				return -EOPNOTSUPP;
+ 
+diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+index a09eb4d62f82..5bdc6b82b30b 100644
+--- a/drivers/virtio/virtio.c
++++ b/drivers/virtio/virtio.c
+@@ -53,7 +53,7 @@ static ssize_t features_show(struct device *_d,
+ 
+ 	/* We actually represent this as a bitstring, as it could be
+ 	 * arbitrary length in future. */
+-	for (i = 0; i < VIRTIO_FEATURES_MAX; i++)
++	for (i = 0; i < VIRTIO_FEATURES_BITS; i++)
+ 		len += sysfs_emit_at(buf, len, "%c",
+ 			       __virtio_test_bit(dev, i) ? '1' : '0');
+ 	len += sysfs_emit_at(buf, len, "\n");
+@@ -272,8 +272,8 @@ static int virtio_dev_probe(struct device *_d)
+ 	int err, i;
+ 	struct virtio_device *dev = dev_to_virtio(_d);
+ 	struct virtio_driver *drv = drv_to_virtio(dev->dev.driver);
+-	u64 device_features[VIRTIO_FEATURES_DWORDS];
+-	u64 driver_features[VIRTIO_FEATURES_DWORDS];
++	u64 device_features[VIRTIO_FEATURES_U64S];
++	u64 driver_features[VIRTIO_FEATURES_U64S];
+ 	u64 driver_features_legacy;
+ 
+ 	/* We have a driver! */
+@@ -286,7 +286,7 @@ static int virtio_dev_probe(struct device *_d)
+ 	virtio_features_zero(driver_features);
+ 	for (i = 0; i < drv->feature_table_size; i++) {
+ 		unsigned int f = drv->feature_table[i];
+-		if (!WARN_ON_ONCE(f >= VIRTIO_FEATURES_MAX))
++		if (!WARN_ON_ONCE(f >= VIRTIO_FEATURES_BITS))
+ 			virtio_features_set_bit(driver_features, f);
+ 	}
+ 
+@@ -303,7 +303,7 @@ static int virtio_dev_probe(struct device *_d)
+ 	}
+ 
+ 	if (virtio_features_test_bit(device_features, VIRTIO_F_VERSION_1)) {
+-		for (i = 0; i < VIRTIO_FEATURES_DWORDS; ++i)
++		for (i = 0; i < VIRTIO_FEATURES_U64S; ++i)
+ 			dev->features_array[i] = driver_features[i] &
+ 						 device_features[i];
+ 	} else {
+@@ -325,7 +325,7 @@ static int virtio_dev_probe(struct device *_d)
+ 		goto err;
+ 
+ 	if (drv->validate) {
+-		u64 features[VIRTIO_FEATURES_DWORDS];
++		u64 features[VIRTIO_FEATURES_U64S];
+ 
+ 		virtio_features_copy(features, dev->features_array);
+ 		err = drv->validate(dev);
+diff --git a/drivers/virtio/virtio_debug.c b/drivers/virtio/virtio_debug.c
+index d58713ddf2e5..ccf1955a1183 100644
+--- a/drivers/virtio/virtio_debug.c
++++ b/drivers/virtio/virtio_debug.c
+@@ -8,12 +8,12 @@ static struct dentry *virtio_debugfs_dir;
+ 
+ static int virtio_debug_device_features_show(struct seq_file *s, void *data)
+ {
+-	u64 device_features[VIRTIO_FEATURES_DWORDS];
++	u64 device_features[VIRTIO_FEATURES_U64S];
+ 	struct virtio_device *dev = s->private;
+ 	unsigned int i;
+ 
+ 	virtio_get_features(dev, device_features);
+-	for (i = 0; i < VIRTIO_FEATURES_MAX; i++) {
++	for (i = 0; i < VIRTIO_FEATURES_BITS; i++) {
+ 		if (virtio_features_test_bit(device_features, i))
+ 			seq_printf(s, "%u\n", i);
+ 	}
+@@ -26,7 +26,7 @@ static int virtio_debug_filter_features_show(struct seq_file *s, void *data)
+ 	struct virtio_device *dev = s->private;
+ 	unsigned int i;
+ 
+-	for (i = 0; i < VIRTIO_FEATURES_MAX; i++) {
++	for (i = 0; i < VIRTIO_FEATURES_BITS; i++) {
+ 		if (virtio_features_test_bit(dev->debugfs_filter_features, i))
+ 			seq_printf(s, "%u\n", i);
+ 	}
+@@ -50,7 +50,7 @@ static int virtio_debug_filter_feature_add(void *data, u64 val)
+ {
+ 	struct virtio_device *dev = data;
+ 
+-	if (val >= VIRTIO_FEATURES_MAX)
++	if (val >= VIRTIO_FEATURES_BITS)
+ 		return -EINVAL;
+ 
+ 	virtio_features_set_bit(dev->debugfs_filter_features, val);
+@@ -64,7 +64,7 @@ static int virtio_debug_filter_feature_del(void *data, u64 val)
+ {
+ 	struct virtio_device *dev = data;
+ 
+-	if (val >= VIRTIO_FEATURES_MAX)
++	if (val >= VIRTIO_FEATURES_BITS)
+ 		return -EINVAL;
+ 
+ 	virtio_features_clear_bit(dev->debugfs_filter_features, val);
+diff --git a/drivers/virtio/virtio_pci_modern_dev.c b/drivers/virtio/virtio_pci_modern_dev.c
+index 9e503b7a58d8..413a8c353463 100644
+--- a/drivers/virtio/virtio_pci_modern_dev.c
++++ b/drivers/virtio/virtio_pci_modern_dev.c
+@@ -401,7 +401,7 @@ void vp_modern_get_extended_features(struct virtio_pci_modern_device *mdev,
+ 	int i;
+ 
+ 	virtio_features_zero(features);
+-	for (i = 0; i < VIRTIO_FEATURES_WORDS; i++) {
++	for (i = 0; i < VIRTIO_FEATURES_BITS / 32; i++) {
+ 		u64 cur;
+ 
+ 		vp_iowrite32(i, &cfg->device_feature_select);
+@@ -427,7 +427,7 @@ vp_modern_get_driver_extended_features(struct virtio_pci_modern_device *mdev,
+ 	int i;
+ 
+ 	virtio_features_zero(features);
+-	for (i = 0; i < VIRTIO_FEATURES_WORDS; i++) {
++	for (i = 0; i < VIRTIO_FEATURES_BITS / 32; i++) {
+ 		u64 cur;
+ 
+ 		vp_iowrite32(i, &cfg->guest_feature_select);
+@@ -448,7 +448,7 @@ void vp_modern_set_extended_features(struct virtio_pci_modern_device *mdev,
+ 	struct virtio_pci_common_cfg __iomem *cfg = mdev->common;
+ 	int i;
+ 
+-	for (i = 0; i < VIRTIO_FEATURES_WORDS; i++) {
++	for (i = 0; i < VIRTIO_FEATURES_BITS / 32; i++) {
+ 		u32 cur = features[i >> 1] >> (32 * (i & 1));
+ 
+ 		vp_iowrite32(i, &cfg->guest_feature_select);
+diff --git a/include/linux/virtio.h b/include/linux/virtio.h
+index 96c66126c074..132a474e5914 100644
+--- a/include/linux/virtio.h
++++ b/include/linux/virtio.h
+@@ -177,7 +177,7 @@ struct virtio_device {
+ 	union virtio_map vmap;
+ #ifdef CONFIG_VIRTIO_DEBUG
+ 	struct dentry *debugfs_dir;
+-	u64 debugfs_filter_features[VIRTIO_FEATURES_DWORDS];
++	u64 debugfs_filter_features[VIRTIO_FEATURES_U64S];
+ #endif
+ };
+ 
+diff --git a/include/linux/virtio_config.h b/include/linux/virtio_config.h
+index a1af2676bbe6..69f84ea85d71 100644
+--- a/include/linux/virtio_config.h
++++ b/include/linux/virtio_config.h
+@@ -80,7 +80,7 @@ struct virtqueue_info {
+  *	Returns the first 64 feature bits.
+  * @get_extended_features:
+  *      vdev: the virtio_device
+- *      Returns the first VIRTIO_FEATURES_MAX feature bits (all we currently
++ *      Returns the first VIRTIO_FEATURES_BITS feature bits (all we currently
+  *      need).
+  * @finalize_features: confirm what device features we'll be using.
+  *	vdev: the virtio_device
+diff --git a/include/linux/virtio_features.h b/include/linux/virtio_features.h
+index f748f2f87de8..ea2ad8717882 100644
+--- a/include/linux/virtio_features.h
++++ b/include/linux/virtio_features.h
+@@ -4,15 +4,16 @@
+ 
+ #include <linux/bits.h>
+ 
+-#define VIRTIO_FEATURES_DWORDS	2
+-#define VIRTIO_FEATURES_MAX	(VIRTIO_FEATURES_DWORDS * 64)
+-#define VIRTIO_FEATURES_WORDS	(VIRTIO_FEATURES_DWORDS * 2)
++#define VIRTIO_FEATURES_U64S	2
++#define VIRTIO_FEATURES_BITS	(VIRTIO_FEATURES_U64S * 64)
++
+ #define VIRTIO_BIT(b)		BIT_ULL((b) & 0x3f)
+-#define VIRTIO_DWORD(b)		((b) >> 6)
++#define VIRTIO_U64(b)		((b) >> 6)
++
+ #define VIRTIO_DECLARE_FEATURES(name)			\
+ 	union {						\
+ 		u64 name;				\
+-		u64 name##_array[VIRTIO_FEATURES_DWORDS];\
++		u64 name##_array[VIRTIO_FEATURES_U64S];\
+ 	}
+ 
+ static inline bool virtio_features_chk_bit(unsigned int bit)
+@@ -22,9 +23,9 @@ static inline bool virtio_features_chk_bit(unsigned int bit)
+ 		 * Don't care returning the correct value: the build
+ 		 * will fail before any bad features access
+ 		 */
+-		BUILD_BUG_ON(bit >= VIRTIO_FEATURES_MAX);
++		BUILD_BUG_ON(bit >= VIRTIO_FEATURES_BITS);
+ 	} else {
+-		if (WARN_ON_ONCE(bit >= VIRTIO_FEATURES_MAX))
++		if (WARN_ON_ONCE(bit >= VIRTIO_FEATURES_BITS))
+ 			return false;
+ 	}
+ 	return true;
+@@ -34,26 +35,26 @@ static inline bool virtio_features_test_bit(const u64 *features,
+ 					    unsigned int bit)
+ {
+ 	return virtio_features_chk_bit(bit) &&
+-	       !!(features[VIRTIO_DWORD(bit)] & VIRTIO_BIT(bit));
++	       !!(features[VIRTIO_U64(bit)] & VIRTIO_BIT(bit));
+ }
+ 
+ static inline void virtio_features_set_bit(u64 *features,
+ 					   unsigned int bit)
+ {
+ 	if (virtio_features_chk_bit(bit))
+-		features[VIRTIO_DWORD(bit)] |= VIRTIO_BIT(bit);
++		features[VIRTIO_U64(bit)] |= VIRTIO_BIT(bit);
+ }
+ 
+ static inline void virtio_features_clear_bit(u64 *features,
+ 					     unsigned int bit)
+ {
+ 	if (virtio_features_chk_bit(bit))
+-		features[VIRTIO_DWORD(bit)] &= ~VIRTIO_BIT(bit);
++		features[VIRTIO_U64(bit)] &= ~VIRTIO_BIT(bit);
+ }
+ 
+ static inline void virtio_features_zero(u64 *features)
+ {
+-	memset(features, 0, sizeof(features[0]) * VIRTIO_FEATURES_DWORDS);
++	memset(features, 0, sizeof(features[0]) * VIRTIO_FEATURES_U64S);
+ }
+ 
+ static inline void virtio_features_from_u64(u64 *features, u64 from)
+@@ -66,7 +67,7 @@ static inline bool virtio_features_equal(const u64 *f1, const u64 *f2)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < VIRTIO_FEATURES_DWORDS; ++i)
++	for (i = 0; i < VIRTIO_FEATURES_U64S; ++i)
+ 		if (f1[i] != f2[i])
+ 			return false;
+ 	return true;
+@@ -74,14 +75,14 @@ static inline bool virtio_features_equal(const u64 *f1, const u64 *f2)
+ 
+ static inline void virtio_features_copy(u64 *to, const u64 *from)
+ {
+-	memcpy(to, from, sizeof(to[0]) * VIRTIO_FEATURES_DWORDS);
++	memcpy(to, from, sizeof(to[0]) * VIRTIO_FEATURES_U64S);
+ }
+ 
+ static inline void virtio_features_andnot(u64 *to, const u64 *f1, const u64 *f2)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < VIRTIO_FEATURES_DWORDS; i++)
++	for (i = 0; i < VIRTIO_FEATURES_U64S; i++)
+ 		to[i] = f1[i] & ~f2[i];
+ }
+ 
+diff --git a/include/linux/virtio_pci_modern.h b/include/linux/virtio_pci_modern.h
+index 48bc12d1045b..9a3f2fc53bd6 100644
+--- a/include/linux/virtio_pci_modern.h
++++ b/include/linux/virtio_pci_modern.h
+@@ -107,7 +107,7 @@ void vp_modern_set_extended_features(struct virtio_pci_modern_device *mdev,
+ static inline u64
+ vp_modern_get_features(struct virtio_pci_modern_device *mdev)
+ {
+-	u64 features_array[VIRTIO_FEATURES_DWORDS];
++	u64 features_array[VIRTIO_FEATURES_U64S];
+ 
+ 	vp_modern_get_extended_features(mdev, features_array);
+ 	return features_array[0];
+@@ -116,11 +116,11 @@ vp_modern_get_features(struct virtio_pci_modern_device *mdev)
+ static inline u64
+ vp_modern_get_driver_features(struct virtio_pci_modern_device *mdev)
+ {
+-	u64 features_array[VIRTIO_FEATURES_DWORDS];
++	u64 features_array[VIRTIO_FEATURES_U64S];
+ 	int i;
+ 
+ 	vp_modern_get_driver_extended_features(mdev, features_array);
+-	for (i = 1; i < VIRTIO_FEATURES_DWORDS; ++i)
++	for (i = 1; i < VIRTIO_FEATURES_U64S; ++i)
+ 		WARN_ON_ONCE(features_array[i]);
+ 	return features_array[0];
+ }
+@@ -128,7 +128,7 @@ vp_modern_get_driver_features(struct virtio_pci_modern_device *mdev)
+ static inline void
+ vp_modern_set_features(struct virtio_pci_modern_device *mdev, u64 features)
+ {
+-	u64 features_array[VIRTIO_FEATURES_DWORDS];
++	u64 features_array[VIRTIO_FEATURES_U64S];
+ 
+ 	virtio_features_from_u64(features_array, features);
+ 	vp_modern_set_extended_features(mdev, features_array);
+diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+index fe730099eca8..5d629aebc8f0 100644
+--- a/scripts/lib/kdoc/kdoc_parser.py
++++ b/scripts/lib/kdoc/kdoc_parser.py
+@@ -638,7 +638,7 @@ class KernelDoc:
+             (KernRe(r'(?:__)?DECLARE_FLEX_ARRAY\s*\(' + args_pattern + r',\s*' + args_pattern + r'\)', re.S), r'\1 \2[]'),
+             (KernRe(r'DEFINE_DMA_UNMAP_ADDR\s*\(' + args_pattern + r'\)', re.S), r'dma_addr_t \1'),
+             (KernRe(r'DEFINE_DMA_UNMAP_LEN\s*\(' + args_pattern + r'\)', re.S), r'__u32 \1'),
+-            (KernRe(r'VIRTIO_DECLARE_FEATURES\s*\(' + args_pattern + r'\)', re.S), r'u64 \1; u64 \1_array[VIRTIO_FEATURES_DWORDS]'),
++            (KernRe(r'VIRTIO_DECLARE_FEATURES\s*\(' + args_pattern + r'\)', re.S), r'u64 \1; u64 \1_array[VIRTIO_FEATURES_QWORDS]'),
+         ]
+ 
+         # Regexes here are guaranteed to have the end limiter matching
 -- 
-2.25.1
+MST
 
