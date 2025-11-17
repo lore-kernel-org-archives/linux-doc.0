@@ -1,177 +1,278 @@
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C9D28506C
-	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 11:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B824632D0C6;
+	Mon, 17 Nov 2025 11:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763377278; cv=none; b=HlTkJMXnNKRBcULAdOM2zt6661nfifOsehMYUVAUhtcua3l03rdakHh4uZXcwccDx2Qi8ZF23Z01SNar1U1T1yfC0D2hqV2O+P9aAmFCLF6fM8kTF37CzcL88JNVewJfzes3gN1kaQnG1eyNbWFWPkJ39KWTK9mqSExePcyDLD4=
+	t=1763377464; cv=none; b=DNaPW2/2Sf+HgQXuAjbOXhSIFhzeXImPbJqrZOotFalwUDR0ZpeWB3firlUNWRyPI7/5py53b77x+AB4IOUi6A/w6Qp6RiifgBr6N6aH8tCn3ZbZOcWOeow2L5xzbmkTeqKuYYmZWxcdk/S9+z5t5cMEARvzAJyi8sI4W5woEvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763377278; c=relaxed/simple;
-	bh=7DAQpoB3R+EJpl7MbBOx5A+ZlzdqP6pGt/EDi4xzIlE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ju3DdHgK22ClPpSLYN/vHxlj/aXISZ65Z1TFYVbcL5e8krYwC6PBgG7MEJffNDwrY8kX19QaGZvv3VIx7fdsFajE2wdifzZNIuVw+DlStS9+AB3kqpoLwvgqM8UcGydESJm61QjTwxTE3KRO2L+Rg7Tpk9VM8u3SrBVAg4xAfZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=id4994FU; arc=none smtp.client-ip=74.125.224.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763377464; c=relaxed/simple;
+	bh=WWE3t7I3SF3DlAE8BdmFrmCS1M/rFEV0vnSNWTBc5tM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TZEm0YP0PSLkIzYtK4kQXBv+IlFA0tmWtDbWAul6lNb3PAzwdrfU/iOl4XKU3wGCwppbCvTG+DTIHQ+7s1SBG6zDDg3ME6nRUPYnRyjH7RdJvAP7ve6BIER6fx8S/fvaR/O9qsytwdQ5fjoenzBgGnfaScsfqsExiWG9vxbygZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L0k3QEKi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="id4994FU"
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64107188baeso3653903d50.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 03:01:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763377274; x=1763982074; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/RSfdrwfxNJQiZz80hQXf9twz6yOQXKrW5ZfA5HxaxE=;
-        b=id4994FUPu51IRxHSspL9L3GiejmCAA8gq+5m8V5Qy/ts2ASYoQqTsF8SrZu1qJCqD
-         GUQLU1kAdP494s0MaMxk3g+bRWbLLQ5BPI6XIxP0wC9S3V9humxsjMA8QeCi1B/LHm5w
-         AXkpQrcUklRFpcssfQSH+obec9yFZUY19vuPSsAFftk2+3eEeuw6/DJGcfvHxXox61cA
-         i/3/UzvFQ9JdBpOWPQhGbPX5FT90aWLV8Y+ch9DgbpdNXYBbMtOxJibX6lfYdgRopu1w
-         tz3NewpHxpPpKQS3POc517AagIYVuMrvQtXQ5yFz/1WKQ5Nws47JvpRs7mMY5pTSnsWK
-         jK+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763377274; x=1763982074;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/RSfdrwfxNJQiZz80hQXf9twz6yOQXKrW5ZfA5HxaxE=;
-        b=Z+fxyPnhTXw1b2XrXXG9RxGYUGZGctnztC8sI/s144fZ6GZW4ML8hYJVFvrORCAPTE
-         ydPz+uHqDLOLsuVzdlZeLnuIOj03bzrhZ8ASbRGzB2GGQN0Ik1WdzicxGsB+qrKsXmKJ
-         YYcyfDQ0t5NRMz1qsXJGJyD3/pPtIP/hGGy+IAn+3tkArpYmR1grU9D7/p0C8vVOwXqA
-         f4RPNMUUF5VkZboQiHMnx9nvyBr3uY1qp/nJfynZphmwN/1znIuh+neWbSNXvOQ+QQo4
-         sxTFnDKYxaZX0xFlRacdtc3TAb/z/GNN3ySYgXE6t/bqnfdwFn2p4CN/sPND1F7D6NcQ
-         5mOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUleJ1rwZBsxRksF5Y8XsMRHbZP/v3UCPR+S2KtpPoWOPoexCPxpDv0ugdU2+b31IgUtB3Ilhx/uzU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxD1bYKCn2knrF7Ds5lOrZitUp103eCPV3reSY4JjHkm4/t2C0Y
-	2xHinx6j9CBziO71fhaPKyYO2C52vx1lxmk/JNR+2UnroLPZSwpbWJE8fgJ9M0Xjbyg0ZyBhFDz
-	ownhV4v58eHP5f6Y7L8CeFYqiqaTf23w2dEerSaNSjw==
-X-Gm-Gg: ASbGncsKpaWTJK7w0cPoz5tQ+xiN0nH5oR8TwNEEUC1IwFX+i8rL/x5XWHDzKvkd5k3
-	3hyeWbzOeK0tIwQb2qeICVmktZFBNlPIHjsVmBAwbAKQUnRl+6Sv2gYuTgBbwpCR9sqDEKVlbLz
-	BMMa/dIl0C43O3NFE6nOFBZpbvT93KUuzwJWmAuhusyaXN4uqKKNdLCYdQ9y69k3TKbQIE51qUT
-	bD/Cdv9uT0Bh7+lyCWFuC/RM2yi3e+V3qkmei2ZRH5CDBrWr3AfoX9pokDy3mGig5eyQCAWiHP2
-	LmE1kXQ=
-X-Google-Smtp-Source: AGHT+IEjvegoUIWfi8UaBD0jEKwHtT+y2Cbu5UHhJ+VHUPJu6okR0AoxTFiIq+cxtmlIxdFEnLzs3e2dtieQR/hKIVs=
-X-Received: by 2002:a05:690e:d86:b0:642:84a:7ba4 with SMTP id
- 956f58d0204a3-642084a7c6bmr1567493d50.85.1763377273901; Mon, 17 Nov 2025
- 03:01:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L0k3QEKi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78E08C4CEF5;
+	Mon, 17 Nov 2025 11:04:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763377464;
+	bh=WWE3t7I3SF3DlAE8BdmFrmCS1M/rFEV0vnSNWTBc5tM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L0k3QEKiD+rh0bxxX4fVCaTPVujvmto8tLg1+BtAac2R9g3v1tykJEAkfem0Pb348
+	 5J7cMEYG97oQY/jmtHQL4hq0YWVyu9sjQ+bamnEw24il8JGqUNljNbi2tNf1SE8M1o
+	 7kIb025ro7tzRhVKkfhrdWEt81mbmyXnC92DQCJfsIuoZ8JOBHVNmGYkW/+mcu+44H
+	 vlDwPn8Ru9Iwj+/+x4jmCovyEDM6GMzKw5WJR2gC21oZNSZMie6FbcjuKvoCZqs1zS
+	 vNI33MsNbl0wbkQ3l3Ms5VR1t1pU7GIybR5Pnkqj3TfEUhoojMKF9MbrI6OEw9HmVl
+	 BTlC8ggjtSRNQ==
+Date: Mon, 17 Nov 2025 13:03:59 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v6 15/20] mm: memfd_luo: allow preserving memfd
+Message-ID: <aRsBHy5aQ_Ypyy9r@kernel.org>
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+ <20251115233409.768044-16-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com> <20251113150217.3030010-14-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20251113150217.3030010-14-andriy.shevchenko@linux.intel.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 17 Nov 2025 12:00:38 +0100
-X-Gm-Features: AWmQ_bk2fwrMGKoLr3e8DW_NORum6cYwB-Ynf9Wgckyt3WUUk5QWFuYE7vXt0wM
-Message-ID: <CAPDyKFotmQyHzBim-8nib-KVvQaQgA_ELbgdC_Q4Y95-GrvRSw@mail.gmail.com>
-Subject: Re: [PATCH v3 13/21] mmc: mmc_test: Switch to use %ptSp
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Corey Minyard <corey@minyard.net>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	"Dr. David Alan Gilbert" <linux@treblig.org>, Alex Deucher <alexander.deucher@amd.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Vitaly Lifshits <vitaly.lifshits@intel.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>, 
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Sagi Maimon <maimon.sagi@gmail.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Karan Tilak Kumar <kartilak@cisco.com>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, Casey Schaufler <casey@schaufler-ca.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, 
-	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>, Max Kellermann <max.kellermann@ionos.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
-	intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-staging@lists.linux.dev, ceph-devel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Gustavo Padovan <gustavo@padovan.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
-	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Rodolfo Giometti <giometti@enneenne.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
-	Richard Cochran <richardcochran@gmail.com>, Stefan Haberland <sth@linux.ibm.com>, 
-	Jan Hoeppner <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Satish Kharat <satishkh@cisco.com>, Sesidhar Baddela <sebaddel@cisco.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251115233409.768044-16-pasha.tatashin@soleen.com>
 
-On Thu, 13 Nov 2025 at 16:03, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Sat, Nov 15, 2025 at 06:34:01PM -0500, Pasha Tatashin wrote:
+> From: Pratyush Yadav <ptyadav@amazon.de>
+> 
+> The ability to preserve a memfd allows userspace to use KHO and LUO to
+> transfer its memory contents to the next kernel. This is useful in many
+> ways. For one, it can be used with IOMMUFD as the backing store for
+> IOMMU page tables. Preserving IOMMUFD is essential for performing a
+> hypervisor live update with passthrough devices. memfd support provides
+> the first building block for making that possible.
+> 
+> For another, applications with a large amount of memory that takes time
+> to reconstruct, reboots to consume kernel upgrades can be very
+> expensive. memfd with LUO gives those applications reboot-persistent
+> memory that they can use to quickly save and reconstruct that state.
+> 
+> While memfd is backed by either hugetlbfs or shmem, currently only
+> support on shmem is added. To be more precise, support for anonymous
+> shmem files is added.
+> 
+> The handover to the next kernel is not transparent. All the properties
+> of the file are not preserved; only its memory contents, position, and
+> size. The recreated file gets the UID and GID of the task doing the
+> restore, and the task's cgroup gets charged with the memory.
+> 
+> Once preserved, the file cannot grow or shrink, and all its pages are
+> pinned to avoid migrations and swapping. The file can still be read from
+> or written to.
+> 
+> Use vmalloc to get the buffer to hold the folios, and preserve
+> it using kho_preserve_vmalloc(). This doesn't have the size limit.
+> 
+> Co-developed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
-
-Kind regards
-Uffe
+The order of signed-offs seems wrong, Pasha's should be the last one.
 
 > ---
->  drivers/mmc/core/mmc_test.c | 20 ++++++++------------
->  1 file changed, 8 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/mmc/core/mmc_test.c b/drivers/mmc/core/mmc_test.c
-> index a74089df4547..01d1e62c2ce7 100644
-> --- a/drivers/mmc/core/mmc_test.c
-> +++ b/drivers/mmc/core/mmc_test.c
-> @@ -586,14 +586,11 @@ static void mmc_test_print_avg_rate(struct mmc_test_card *test, uint64_t bytes,
->         rate = mmc_test_rate(tot, &ts);
->         iops = mmc_test_rate(count * 100, &ts); /* I/O ops per sec x 100 */
->
-> -       pr_info("%s: Transfer of %u x %u sectors (%u x %u%s KiB) took "
-> -                        "%llu.%09u seconds (%u kB/s, %u KiB/s, "
-> -                        "%u.%02u IOPS, sg_len %d)\n",
-> -                        mmc_hostname(test->card->host), count, sectors, count,
-> -                        sectors >> 1, (sectors & 1 ? ".5" : ""),
-> -                        (u64)ts.tv_sec, (u32)ts.tv_nsec,
-> -                        rate / 1000, rate / 1024, iops / 100, iops % 100,
-> -                        test->area.sg_len);
-> +       pr_info("%s: Transfer of %u x %u sectors (%u x %u%s KiB) took %ptSp seconds (%u kB/s, %u KiB/s, %u.%02u IOPS, sg_len %d)\n",
-> +               mmc_hostname(test->card->host), count, sectors, count,
-> +               sectors >> 1, (sectors & 1 ? ".5" : ""), &ts,
-> +               rate / 1000, rate / 1024, iops / 100, iops % 100,
-> +               test->area.sg_len);
->
->         mmc_test_save_transfer_result(test, count, sectors, ts, rate, iops);
->  }
-> @@ -3074,10 +3071,9 @@ static int mtf_test_show(struct seq_file *sf, void *data)
->                 seq_printf(sf, "Test %d: %d\n", gr->testcase + 1, gr->result);
->
->                 list_for_each_entry(tr, &gr->tr_lst, link) {
-> -                       seq_printf(sf, "%u %d %llu.%09u %u %u.%02u\n",
-> -                               tr->count, tr->sectors,
-> -                               (u64)tr->ts.tv_sec, (u32)tr->ts.tv_nsec,
-> -                               tr->rate, tr->iops / 100, tr->iops % 100);
-> +                       seq_printf(sf, "%u %d %ptSp %u %u.%02u\n",
-> +                                  tr->count, tr->sectors, &tr->ts, tr->rate,
-> +                                  tr->iops / 100, tr->iops % 100);
->                 }
->         }
->
-> --
-> 2.50.1
->
+
+...
+
+> +/**
+> + * DOC: memfd Live Update ABI
+> + *
+> + * This header defines the ABI for preserving the state of a memfd across a
+> + * kexec reboot using the LUO.
+> + *
+> + * The state is serialized into a Flattened Device Tree which is then handed
+> + * over to the next kernel via the KHO mechanism. The FDT is passed as the
+> + * opaque `data` handle in the file handler callbacks.
+> + *
+> + * This interface is a contract. Any modification to the FDT structure,
+> + * node properties, compatible string, or the layout of the serialization
+> + * structures defined here constitutes a breaking change. Such changes require
+> + * incrementing the version number in the MEMFD_LUO_FH_COMPATIBLE string.
+
+The same comment about contract as for the generic LUO documentation
+applies here (https://lore.kernel.org/all/aRnG8wDSSAtkEI_z@kernel.org/)
+
+> + *
+> + * FDT Structure Overview:
+> + *   The memfd state is contained within a single FDT with the following layout:
+
+...
+
+> +static struct memfd_luo_folio_ser *memfd_luo_preserve_folios(struct file *file, void *fdt,
+> +							     u64 *nr_foliosp)
+> +{
+
+If we are already returning nr_folios by reference, we might do it for
+memfd_luo_folio_ser as well and make the function return int.
+
+> +	struct inode *inode = file_inode(file);
+> +	struct memfd_luo_folio_ser *pfolios;
+> +	struct kho_vmalloc *kho_vmalloc;
+> +	unsigned int max_folios;
+> +	long i, size, nr_pinned;
+> +	struct folio **folios;
+
+pfolios and folios read like the former is a pointer to latter.
+I'd s/pfolios/folios_ser/
+
+> +	int err = -EINVAL;
+> +	pgoff_t offset;
+> +	u64 nr_folios;
+
+...
+
+> +	kvfree(folios);
+> +	*nr_foliosp = nr_folios;
+> +	return pfolios;
+> +
+> +err_unpreserve:
+> +	i--;
+> +	for (; i >= 0; i--)
+
+Maybe a single line
+
+	for (--i; i >= 0; --i)
+
+> +		kho_unpreserve_folio(folios[i]);
+> +	vfree(pfolios);
+> +err_unpin:
+> +	unpin_folios(folios, nr_folios);
+> +err_free_folios:
+> +	kvfree(folios);
+> +	return ERR_PTR(err);
+> +}
+> +
+> +static void memfd_luo_unpreserve_folios(void *fdt, struct memfd_luo_folio_ser *pfolios,
+> +					u64 nr_folios)
+> +{
+> +	struct kho_vmalloc *kho_vmalloc;
+> +	long i;
+> +
+> +	if (!nr_folios)
+> +		return;
+> +
+> +	kho_vmalloc = (struct kho_vmalloc *)fdt_getprop(fdt, 0, MEMFD_FDT_FOLIOS, NULL);
+> +	/* The FDT was created by this kernel so expect it to be sane. */
+> +	WARN_ON_ONCE(!kho_vmalloc);
+
+The FDT won't have FOLIOS property if size was zero, will it?
+I think that if we add kho_vmalloc handle to struct memfd_luo_private and
+pass that around it will make things easier and simpler.
+
+> +	kho_unpreserve_vmalloc(kho_vmalloc);
+> +
+> +	for (i = 0; i < nr_folios; i++) {
+> +		const struct memfd_luo_folio_ser *pfolio = &pfolios[i];
+> +		struct folio *folio;
+> +
+> +		if (!pfolio->foliodesc)
+> +			continue;
+
+How can this happen? Can pfolios be a sparse array?
+
+> +		folio = pfn_folio(PRESERVED_FOLIO_PFN(pfolio->foliodesc));
+> +
+> +		kho_unpreserve_folio(folio);
+> +		unpin_folio(folio);
+> +	}
+> +
+> +	vfree(pfolios);
+> +}
+
+...
+
+> +static void memfd_luo_finish(struct liveupdate_file_op_args *args)
+> +{
+> +	const struct memfd_luo_folio_ser *pfolios;
+> +	struct folio *fdt_folio;
+> +	const void *fdt;
+> +	u64 nr_folios;
+> +
+> +	if (args->retrieved)
+> +		return;
+> +
+> +	fdt_folio = memfd_luo_get_fdt(args->serialized_data);
+> +	if (!fdt_folio) {
+> +		pr_err("failed to restore memfd FDT\n");
+> +		return;
+> +	}
+> +
+> +	fdt = folio_address(fdt_folio);
+> +
+> +	pfolios = memfd_luo_fdt_folios(fdt, &nr_folios);
+> +	if (!pfolios)
+> +		goto out;
+> +
+> +	memfd_luo_discard_folios(pfolios, nr_folios);
+
+Does not this free the actual folios that were supposed to be preserved?
+
+> +	vfree(pfolios);
+> +
+> +out:
+> +	folio_put(fdt_folio);
+> +}
+
+...
+
+> +static int memfd_luo_retrieve(struct liveupdate_file_op_args *args)
+> +{
+> +	struct folio *fdt_folio;
+> +	const u64 *pos, *size;
+> +	struct file *file;
+> +	int len, ret = 0;
+> +	const void *fdt;
+> +
+> +	fdt_folio = memfd_luo_get_fdt(args->serialized_data);
+
+Why do we need to kho_restore_folio() twice? Here and in
+memfd_luo_finish()?
+
+> +	if (!fdt_folio)
+> +		return -ENOENT;
+> +
+> +	fdt = page_to_virt(folio_page(fdt_folio, 0));
+
+folio_address()
+
+
+-- 
+Sincerely yours,
+Mike.
