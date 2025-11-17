@@ -1,236 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C932D24B7;
-	Mon, 17 Nov 2025 09:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 147683271F7;
+	Mon, 17 Nov 2025 09:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.182.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763372928; cv=none; b=g8UwuOL9RRaf1gZ7YLkhbRcLrArNHwY7jffSA3KYlNi0T8QA7Njjxex7ch0uWTO7fjO5zCsKAotqE3NDX7IBqkMOfsEA8HM/kADCvF0wCeEUGHcYTj+faZwOBVxn19rkSAC8RJAzAI4WD56d3WTKsfl3bchvQ3LvDOl8KjSGKGw=
+	t=1763372973; cv=none; b=DLitou4MaqzpjcS1Oa/HpOwJBI92out5qOoXv1ngpM7fM7Mqxzw73vCcXbeRAq91/RiLYpqDRO2Y6XgzkuxWoePYC5qKShyxfFlTeZaAUCuQd3iVeMD5si6I0rjm79ylIb0Yn+YP4VmJSpYnkTuf4YiqUH6LCpDwmLZQW1j5M3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763372928; c=relaxed/simple;
-	bh=lm1w5FuS0DFB8h8yriOEHrATD1xOM/lURkIhKIQpwx4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CUDlf5qDz+gILLpTna6AFzSlGHzkH01fVeGrL1hejHB/PTj/XXJWGCyKsFsVAUG9Jpd6d+t1yPlTfdCgqmYn8ikai765XijUmZ3xsVDoXvEOmOiavwnf3jQEhqt7O79VO2U36xpkcZlatFKITdgPeAUxXiKdAwsPbSxkDeTCHfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SXc3AudH; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SXc3AudH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CEF7C4CEF5;
-	Mon, 17 Nov 2025 09:48:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763372928;
-	bh=lm1w5FuS0DFB8h8yriOEHrATD1xOM/lURkIhKIQpwx4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SXc3AudH1OcuTxWg9OhFFVFP1nWirXtdO1p8OrOMzac+67OuDLkRz4ILPP6fVSALp
-	 /FbXlUfKN2ZqyIZO3SFzOhbbbqmC2Z86SKwLoD9XyFGPsHtZU+1VwzcobeHdGPdC5m
-	 54CJLuAlBSE64se+irsZX2F5e70m/vq92kn/oHf3DGlIeWfbhsCCrasmYoDchg7fRR
-	 BY4na8GLM3cbXQevPwcrFoOhVgHiO9zWC/7t8Dh0EgtknybsgJlwU8qjyFgFQP+eV3
-	 ZlRWl0ggiJpxxK7ALwoCwBJzw5EWBAi4stEaB7qIPc7tc6pfgp491Hjf3BtbERlnOu
-	 LCc5gzOIltBsw==
-Date: Mon, 17 Nov 2025 11:48:24 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v6 11/20] mm: shmem: use SHMEM_F_* flags instead of VM_*
- flags
-Message-ID: <aRrvaHh-cP8jygAF@kernel.org>
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-12-pasha.tatashin@soleen.com>
+	s=arc-20240116; t=1763372973; c=relaxed/simple;
+	bh=xMhOnnj753qpQYwSZLgCWOUFm7iWrbd9xRT5c4gGFdk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FNBGDvrTXnEw8ui9vdUlydcLZY9xL/p7lWpE+87LdzSo/DP9JHR2ECIPccO8S9ixjknw473Jr9V7Xr+tzC0FZb/05xBTI3cWXkBprgdl2UhmODzAFpja2iN2W+Hi2qhu3/ybaTkNTtEKw7MUqueYP1aH7jq6/QpxsVTA/bzfy4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.182.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with SMTP id HwEQrAAnLqaT7xppRzX+AA--.35041S2;
+	Mon, 17 Nov 2025 17:49:07 +0800 (CST)
+Received: from [10.12.169.45] (unknown [10.12.169.45])
+	by gateway (Coremail) with SMTP id _____wAXH5uO7xppB0YTBA--.44008S2;
+	Mon, 17 Nov 2025 17:49:03 +0800 (CST)
+Message-ID: <7360539b-dffc-4f02-bd74-b2038be7a85b@hust.edu.cn>
+Date: Mon, 17 Nov 2025 17:49:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251115233409.768044-12-pasha.tatashin@soleen.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH linux-next v5] docs/zh_CN: Update the Chinese translation
+ of kbuild.rst
+To: Chenguang Zhao <zhaochenguang@kylinos.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ WangYuli <wangyuli@aosc.io>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251117093041.458075-1-zhaochenguang@kylinos.cn>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20251117093041.458075-1-zhaochenguang@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrAAnLqaT7xppRzX+AA--.35041S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxGr18WFWxJFWfurW8JFykAFb_yoWrJFWUpw
+	nxGryxJ3ZFyryYk3srKFWUuF4rGwn7Ga1jganrG3Z7tr12939Fqr1Uta4ktF97G348GFWD
+	WFWUWFy8CFy7AwUanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQ2b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
+	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Sat, Nov 15, 2025 at 06:33:57PM -0500, Pasha Tatashin wrote:
-> From: Pratyush Yadav <ptyadav@amazon.de>
-> 
-> shmem_inode_info::flags can have the VM flags VM_NORESERVE and
-> VM_LOCKED. These are used to suppress pre-accounting or to lock the
-> pages in the inode respectively. Using the VM flags directly makes it
-> difficult to add shmem-specific flags that are unrelated to VM behavior
-> since one would need to find a VM flag not used by shmem and re-purpose
-> it.
-> 
-> Introduce SHMEM_F_NORESERVE and SHMEM_F_LOCKED which represent the same
-> information, but their bits are independent of the VM flags. Callers can
-> still pass VM_NORESERVE to shmem_get_inode(), but it gets transformed to
-> the shmem-specific flag internally.
-> 
-> No functional changes intended.
-> 
-> Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-
+On 11/17/25 5:30 PM, Chenguang Zhao wrote:
+> Finish the translation of kbuild/kbuild.rst.
+>
+> Update to commit 5cbfb4da7e06 ("kbuild: doc: improve
+> KBUILD_BUILD_TIMESTAMP documentation")
+>
+> Signed-off-by: Chenguang Zhao <zhaochenguang@kylinos.cn>
 > ---
->  include/linux/shmem_fs.h |  6 ++++++
->  mm/shmem.c               | 28 +++++++++++++++-------------
->  2 files changed, 21 insertions(+), 13 deletions(-)
-> 
-> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> index 0e47465ef0fd..650874b400b5 100644
-> --- a/include/linux/shmem_fs.h
-> +++ b/include/linux/shmem_fs.h
-> @@ -10,6 +10,7 @@
->  #include <linux/xattr.h>
->  #include <linux/fs_parser.h>
->  #include <linux/userfaultfd_k.h>
-> +#include <linux/bits.h>
->  
->  struct swap_iocb;
->  
-> @@ -19,6 +20,11 @@ struct swap_iocb;
->  #define SHMEM_MAXQUOTAS 2
->  #endif
->  
-> +/* Suppress pre-accounting of the entire object size. */
-> +#define SHMEM_F_NORESERVE	BIT(0)
-> +/* Disallow swapping. */
-> +#define SHMEM_F_LOCKED		BIT(1)
+> v5:
+>   - Add spaces before and after English word and Arabic numerals
+>     as suggested by WangYu.
+> ---
+>   .../translations/zh_CN/kbuild/kbuild.rst      | 27 ++++++++++++++++---
+>   1 file changed, 24 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/translations/zh_CN/kbuild/kbuild.rst b/Documentation/translations/zh_CN/kbuild/kbuild.rst
+> index e5e2aebe1ebc..57f5cf5b2cdd 100644
+> --- a/Documentation/translations/zh_CN/kbuild/kbuild.rst
+> +++ b/Documentation/translations/zh_CN/kbuild/kbuild.rst
+> @@ -93,6 +93,16 @@ HOSTRUSTFLAGS
+>   -------------
+>   在构建主机程序时传递给 $(HOSTRUSTC) 的额外标志。
+>   
+> +PROCMACROLDFLAGS
+> +----------------
+> +用于链接 Rust 过程宏的标志。由于过程宏是由 rustc 在构建时加载的，
+> +因此必须以与当前使用的 rustc 工具链兼容的方式进行链接。
 > +
->  struct shmem_inode_info {
->  	spinlock_t		lock;
->  	unsigned int		seals;		/* shmem seals */
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 58701d14dd96..1d5036dec08a 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -175,20 +175,20 @@ static inline struct shmem_sb_info *SHMEM_SB(struct super_block *sb)
->   */
->  static inline int shmem_acct_size(unsigned long flags, loff_t size)
->  {
-> -	return (flags & VM_NORESERVE) ?
-> +	return (flags & SHMEM_F_NORESERVE) ?
->  		0 : security_vm_enough_memory_mm(current->mm, VM_ACCT(size));
->  }
->  
->  static inline void shmem_unacct_size(unsigned long flags, loff_t size)
->  {
-> -	if (!(flags & VM_NORESERVE))
-> +	if (!(flags & SHMEM_F_NORESERVE))
->  		vm_unacct_memory(VM_ACCT(size));
->  }
->  
->  static inline int shmem_reacct_size(unsigned long flags,
->  		loff_t oldsize, loff_t newsize)
->  {
-> -	if (!(flags & VM_NORESERVE)) {
-> +	if (!(flags & SHMEM_F_NORESERVE)) {
->  		if (VM_ACCT(newsize) > VM_ACCT(oldsize))
->  			return security_vm_enough_memory_mm(current->mm,
->  					VM_ACCT(newsize) - VM_ACCT(oldsize));
-> @@ -206,7 +206,7 @@ static inline int shmem_reacct_size(unsigned long flags,
->   */
->  static inline int shmem_acct_blocks(unsigned long flags, long pages)
->  {
-> -	if (!(flags & VM_NORESERVE))
-> +	if (!(flags & SHMEM_F_NORESERVE))
->  		return 0;
->  
->  	return security_vm_enough_memory_mm(current->mm,
-> @@ -215,7 +215,7 @@ static inline int shmem_acct_blocks(unsigned long flags, long pages)
->  
->  static inline void shmem_unacct_blocks(unsigned long flags, long pages)
->  {
-> -	if (flags & VM_NORESERVE)
-> +	if (flags & SHMEM_F_NORESERVE)
->  		vm_unacct_memory(pages * VM_ACCT(PAGE_SIZE));
->  }
->  
-> @@ -1551,7 +1551,7 @@ int shmem_writeout(struct folio *folio, struct swap_iocb **plug,
->  	int nr_pages;
->  	bool split = false;
->  
-> -	if ((info->flags & VM_LOCKED) || sbinfo->noswap)
-> +	if ((info->flags & SHMEM_F_LOCKED) || sbinfo->noswap)
->  		goto redirty;
->  
->  	if (!total_swap_pages)
-> @@ -2910,15 +2910,15 @@ int shmem_lock(struct file *file, int lock, struct ucounts *ucounts)
->  	 * ipc_lock_object() when called from shmctl_do_lock(),
->  	 * no serialization needed when called from shm_destroy().
->  	 */
-> -	if (lock && !(info->flags & VM_LOCKED)) {
-> +	if (lock && !(info->flags & SHMEM_F_LOCKED)) {
->  		if (!user_shm_lock(inode->i_size, ucounts))
->  			goto out_nomem;
-> -		info->flags |= VM_LOCKED;
-> +		info->flags |= SHMEM_F_LOCKED;
->  		mapping_set_unevictable(file->f_mapping);
->  	}
-> -	if (!lock && (info->flags & VM_LOCKED) && ucounts) {
-> +	if (!lock && (info->flags & SHMEM_F_LOCKED) && ucounts) {
->  		user_shm_unlock(inode->i_size, ucounts);
-> -		info->flags &= ~VM_LOCKED;
-> +		info->flags &= ~SHMEM_F_LOCKED;
->  		mapping_clear_unevictable(file->f_mapping);
->  	}
->  	retval = 0;
-> @@ -3062,7 +3062,7 @@ static struct inode *__shmem_get_inode(struct mnt_idmap *idmap,
->  	spin_lock_init(&info->lock);
->  	atomic_set(&info->stop_eviction, 0);
->  	info->seals = F_SEAL_SEAL;
-> -	info->flags = flags & VM_NORESERVE;
-> +	info->flags = (flags & VM_NORESERVE) ? SHMEM_F_NORESERVE : 0;
->  	info->i_crtime = inode_get_mtime(inode);
->  	info->fsflags = (dir == NULL) ? 0 :
->  		SHMEM_I(dir)->fsflags & SHMEM_FL_INHERITED;
-> @@ -5804,8 +5804,10 @@ static inline struct inode *shmem_get_inode(struct mnt_idmap *idmap,
->  /* common code */
->  
->  static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name,
-> -			loff_t size, unsigned long flags, unsigned int i_flags)
-> +				       loff_t size, unsigned long vm_flags,
-> +				       unsigned int i_flags)
->  {
-> +	unsigned long flags = (vm_flags & VM_NORESERVE) ? SHMEM_F_NORESERVE : 0;
->  	struct inode *inode;
->  	struct file *res;
->  
-> @@ -5822,7 +5824,7 @@ static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name,
->  		return ERR_PTR(-ENOMEM);
->  
->  	inode = shmem_get_inode(&nop_mnt_idmap, mnt->mnt_sb, NULL,
-> -				S_IFREG | S_IRWXUGO, 0, flags);
-> +				S_IFREG | S_IRWXUGO, 0, vm_flags);
->  	if (IS_ERR(inode)) {
->  		shmem_unacct_size(flags, size);
->  		return ERR_CAST(inode);
-> -- 
-> 2.52.0.rc1.455.g30608eb744-goog
-> 
+> +例如，当 rustc 使用的 C 库与用户希望用于主机程序的 C 库不同时，
+> +此设置会非常有用。
+> +
+> +如果未设置，则默认使用链接主机程序时传递的标志。
+> +
+>   HOSTLDFLAGS
+>   -----------
+>   链接主机程序时传递的额外选项。
+> @@ -135,12 +145,18 @@ KBUILD_OUTPUT
+>   指定内核构建的输出目录。
+>   
+>   在单独的构建目录中为预构建内核构建外部模块时，这个变量也可以指向内核输出目录。请注意，
+> -这并不指定外部模块本身的输出目录。
+> +这并不指定外部模块本身的输出目录(使用 KBUILD_EXTMOD_OUTPUT 来达到这个目的)。
+>   
+>   输出目录也可以使用 "O=..." 指定。
+>   
+>   设置 "O=..." 优先于 KBUILD_OUTPUT。
+>   
+> +KBUILD_EXTMOD_OUTPUT
+> +--------------------
+> +指定外部模块的输出目录
+> +
+> +设置 "MO=..." 优先于 KBUILD_EXTMOD_OUTPUT.
+> +
+>   KBUILD_EXTRA_WARN
+>   -----------------
+>   指定额外的构建检查。也可以通过在命令行传递 "W=..." 来设置相同的值。
+> @@ -290,8 +306,13 @@ IGNORE_DIRS
+>   KBUILD_BUILD_TIMESTAMP
+>   ----------------------
+>   将该环境变量设置为日期字符串，可以覆盖在 UTS_VERSION 定义中使用的时间戳
+> -（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。默认值是
+> -内核构建某个时刻的 date 命令输出。
+> +(运行内核时的 uname -v) 。该值必须是一个可以传递给 date -d 的字符串。例如::
 
--- 
-Sincerely yours,
-Mike.
+Please take a look at my comment carefully. Don't modify the Chinese 
+documentation directly.
+
+If you really want to do this, please directly revise the corresponding 
+English documentation - Documentation/kbuild/kbuild.rst.
+
+After your revision is accepted, we will sync it to our translated 
+documentation.
+
+Dongliang Mu
+
+> +
+> +	$ KBUILD_BUILD_TIMESTAMP="Mon Oct 13 00:00:00 UTC 2025" make
+> +
+> +默认值是内核构建某个时刻的 date 命令输出。如果提供该时戳，它还用于任何 initramfs 归
+> +档文件中的 mtime 字段。 Initramfs mtimes 是 32 位的，因此早于 Unix 纪元 1970 年，或
+> +晚于协调世界时 (UTC) 2106 年 2 月 7 日 6 时 28 分 15 秒的日期是无效的。
+>   
+>   KBUILD_BUILD_USER, KBUILD_BUILD_HOST
+>   ------------------------------------
+
