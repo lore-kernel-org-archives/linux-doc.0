@@ -1,59 +1,59 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECF0305E1F
-	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 18:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19D4277007
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 18:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763403648; cv=none; b=hX0bLdKt9PNWEh+zrnNjeG1TIvCfo4s/LIXUGpNAiO+qZU35eTJFtRjcNd3Tv8t2eWnaEXpj6wIZwQ++u57JlF4BAQBfnCD0ghJgnCpaiHXg9ZcbF6G448en2vD3yRZ/ljB+H5z3Tt23pIEkbhJXVKw9PUhWCz4Oy7+jcLgSjq0=
+	t=1763403869; cv=none; b=UHGZhE4BdpMraFRWU5RH4VEleSolehXCTBfUcMmvTLjK+0i02KpCHWFAhvXI5vNHF5oKOMtfcJh6pA8XGEUOQta42Kv707pL2xw1Cuw3cuaQplkbBFYJ1FS6YjtTeZdIRNo0eVYSzM7bgdsq2KGPwWWXgEz52lFeKf7U0N5zkvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763403648; c=relaxed/simple;
-	bh=CZtsj+hifIsZJbKTfeb8TuUonR9rJOLyCJoinWAfVZM=;
+	s=arc-20240116; t=1763403869; c=relaxed/simple;
+	bh=DSVaYS00Ppz/lXA0EJ/lwtUlZcIIPkWYwoyJByW18bU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H91UGlq+Op+2sOsrYBNF3D+AHnETJicl2r3jbrkdPmcX2k6h0nYfJkWp2O1jbOTa3JIRvAGBmPWzHL2pVDwaX5rFk0QT62LN/RLS7n6GwCoIB5yB5jdQXaScDcWzFD0SeoDkk5SZAxM6L21vVtvGgz/zR9eMJ8CQvTRgxwcAVY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=IpzOdkO/; arc=none smtp.client-ip=209.85.208.43
+	 To:Cc:Content-Type; b=LiBkcZ3cB0df+vfaU19MvclCo5IeLYePcX7Nnn9m6huD7k+N6yH/gQBJ2OOFwp8cOGrhjuNXWIgZlNk2YL6BvOlVAccRaEs2iL8JqVzZ+9JR4zKsNE0xN0cxHzt7LF/O4ja6hnU8cmHgJKJnohGRoo/FMQ+SaO7CxtlNdFtpyXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=S5uKRssT; arc=none smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="IpzOdkO/"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-641677916b5so8328608a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 10:20:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="S5uKRssT"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-64074f01a6eso7808082a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 10:24:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763403645; x=1764008445; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j8uyJ9UgvBm8P+z5AaxjU/5GgC74k2Y8kBRaWb+wv/8=;
-        b=IpzOdkO/TAphkuNLFQKOlMCFibMB7FXtwyELkClcZK/UQMitx5pYr6aLyTVD7HivrA
-         yZ9TyaHfpn1tXwTDvcz9UE1jK6kILYxxIprO1UczbPyJAhZQF/Zw5wKmGg5uBjvB/0Ed
-         wu9eUfc8dA9n4Sw2YarHZh4P0Mb7oNH+ULUozCRT/M4kNFBJulpSFaeq19eUR24SWdNA
-         tU62ePkikquYMiUW0xcCZfA0igD2z5u5cAGVoxi5edaVuxaUPurQM1FlznHFZ98QCjaD
-         olouksHmBWu3Fqn30s2sg1M/TWI9mLVwCrvGVuSL9o1TBhIuPeUTXIt8lrSAsnsOMwEv
-         35KA==
+        d=soleen.com; s=google; t=1763403866; x=1764008666; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DSVaYS00Ppz/lXA0EJ/lwtUlZcIIPkWYwoyJByW18bU=;
+        b=S5uKRssTjIvfjfTMkVJXvTmWkmBSbpslh9JXGqpBo16LqUCrWfQi2LrOCaDmpZt+F3
+         xiFyMPECkusxkEfJWMDqwwcy2gq7Z/UpbMbJIT1nCESE8RV2Mpy9DFugrSmxi36GetDE
+         9KxFbApN5ER1PvMLaCxKEeLoOL+sER9gW99arb/ujgI/bPL1xcDMuEikfssfim6MIGS7
+         o9VkifnnMbeFiwkVPMa+YjQ6LParO/uVXgGmxTtSQC9sbhhjCfhboPuZ/p3ZafvcXdNn
+         My4ZY6zl8rvcq//PL0JLyB3T/pcsCNFcL9+hWlibU8Eiwb8sp4vVNj9NouR0ujak2guu
+         lNSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763403645; x=1764008445;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=j8uyJ9UgvBm8P+z5AaxjU/5GgC74k2Y8kBRaWb+wv/8=;
-        b=mudMBRw9EtvIpytzPD07gZbtxb6A07qBop5MUbm59dR4qdoZQoEcDoQxBXeTGT2jqE
-         sRA77HD4Xo/cmom+PDGlUkkOHcXWdDSTUZ/ufFgtFNP3Edf2C0WwFxZvFrNpeWwBfq1k
-         cUroADQozgN5Ou1C7iUBQ3zYGiGRcihsQSprxngsZY8LmIhbvL2EEoYggvV9crimQFkA
-         214W1/6usAXBFLkdexv2rVO8MIHLVLzEpcMoFoccePyCxylfFowJPcJHbGMZbLiaZWWJ
-         jsIThNrLqgpR/WZ6pNVDettJAlkS3vwXTuf0A4k7xDhu4QZb5G13w85KxsswncYZoVzG
-         I5bQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVA+oY+DrGFFWmK8iKJJMOIzD14Q+jHSKW2hlA6mcWrmTEWeWzxbSTQa4zhXM2Nl5nTJ1/VGgnegwo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUb0flKpz/tappBl5yiqjMJTPit7D+jsXd05F/2ntj3221XDFm
-	kxPuYJmXKEPRYlvJYVW7olyrjp1vib3v2MQNlBRk4Ebiu5xDJqwMwIY63YfP+ztFNyYtOtmF1Bi
-	h/k8qxsjvSHhHgeu8G8kVTngh9zKC9czuaIP4eo0wPw==
-X-Gm-Gg: ASbGncuOudGVewwkEtlcY+6n1TLH8RpE1mBAFSoWD3yvEuZED2jD3HRY4P4mjy+qzV2
-	On1NTS7Rgkpl1wCP6l3Pn+kJN/M15+6Lve9DDixMd1Fc/p00pGINa4vm1F+vWkt7oKK6e6HwBzT
-	MzFQ/Q/aGDXM1HhqF38r9CTDi7M3ctnUuJ+WbalOS2BNTHnKF09MyrpRox50+4ek9mPmSdL62m2
-	JSmuxRfZPTGdfUk2mzMQaXwTIdcBhUfUdauF7DTDMk6TPVwh9JdZN8yIRCrKuL33x+I
-X-Google-Smtp-Source: AGHT+IGM1Tr15Cbgk4QQHnvYqnvMCGG164LW1Q1ssAN2iVzR9VtHS4h71YwFJlzXxkn+A9bvWz6u1Z5jGfTyNzSIJ9I=
-X-Received: by 2002:a05:6402:50d1:b0:640:c807:6af8 with SMTP id
- 4fb4d7f45d1cf-64350e9c5c3mr10832591a12.30.1763403644857; Mon, 17 Nov 2025
- 10:20:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763403866; x=1764008666;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DSVaYS00Ppz/lXA0EJ/lwtUlZcIIPkWYwoyJByW18bU=;
+        b=a5v4FZGmi4MFH+crY9dolvx/LHuYJpJCrueN5/2cFXRHxRA13zdLFRhjs025PlQM8f
+         ndUalkthoZ4cteK9dA/D+gXVK0echdO1ulimGmJtk4FowYeE7jypkaTyyNc8OzViEhxg
+         VU/9z+E4QYqzhiWUwf/YgExesed6VAuseXs4ZZs5YSG1jF6JsboXsvw+BWZo5kf6nlJC
+         gS7+SafizwN6tokqPGSH+JuoOdoneBDNq35q20KSVQunJO2RNYn1xMlWl6D1zlE4o3Bx
+         5Rub/nMxh+tYNVDY+KoLkzC86Q73zP98jQndTbB/Y2yUkBLwfaW4XhpArsgy3tdOEYt3
+         pYng==
+X-Forwarded-Encrypted: i=1; AJvYcCXj2fbFyrt0JRluMbupIYBy+fU6Kg4lKS1DHQXsmIeCJfbvLLHhhQ2D+wf6FJaSRi2ssNk5L4g0Rb8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVZcAzU8Lep40rRFNsJqggkUZUMCMok/iZdzmLRJzzAadpwkkW
+	N3DAj36sZXPhILVInTkZYr0qCUyV0s7lZaw2Q14OWyAztNJnhnyGCOSm62Cg5oy8jag+nU+laO8
+	WS8Ex92vRX3zYq3052c444qApjjRMaHv2zlv/qArYBA==
+X-Gm-Gg: ASbGncviW1/5RMCnE8aU9XMiQb6cetQoI07Cod2p485oaDqPpwGi/sRU63ZSeOrn+I4
+	/qKs0EAtPFeVB7zN72yFJj7vpjcXLrLe9qzrh0vOUOlONoCahjC1/E1fj0OSl5MOoJlcg20C9Lb
+	vwmPdJO1XKrHIbG1BWsvDSRRk2zbJ/sl3D2q1GhMqry5ok08iuGzBGq1p7tT1Q3oalz6InvCwvy
+	M/unVKeVtLr536G4SQcNvwKsuI9DCPiu+OmtTMZYGB8/yl+lEMb0otsxX6qujfhXNl2Y+N7ehia
+	ScM=
+X-Google-Smtp-Source: AGHT+IEEWqHLyN23GdmGqxp16gOz0H99ycEtpAQL2MFddiKttxJOs0DiTjbKI+yQFgL9TB9EokEIYjSn2RJfB01X0+U=
+X-Received: by 2002:a05:6402:2806:b0:643:60b6:3eed with SMTP id
+ 4fb4d7f45d1cf-64360b63f56mr10022358a12.31.1763403866324; Mon, 17 Nov 2025
+ 10:24:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,15 +61,16 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-11-pasha.tatashin@soleen.com> <aRrtmy--AWCEEbtg@kernel.org>
-In-Reply-To: <aRrtmy--AWCEEbtg@kernel.org>
+ <20251115233409.768044-19-pasha.tatashin@soleen.com> <c8b46600-d40f-41b4-a5a3-99300ef1a2eb@linux.dev>
+In-Reply-To: <c8b46600-d40f-41b4-a5a3-99300ef1a2eb@linux.dev>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 13:20:07 -0500
-X-Gm-Features: AWmQ_bngMkZtOLXtzvbIhDYg36rxAp3uf7c25ogdWq8dWGd7IJgw-yYh-gP9XSc
-Message-ID: <CA+CK2bCVf2RppZbALAuFZyZarWukzhwkmOgtG2PcKqUQuao6uw@mail.gmail.com>
-Subject: Re: [PATCH v6 10/20] MAINTAINERS: add liveupdate entry
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+Date: Mon, 17 Nov 2025 13:23:49 -0500
+X-Gm-Features: AWmQ_bmhggvke7xISGqUn7uC4niyXxh61OdHqC9kU_cJS8AOY1qqJ3NjJ9HlQrw
+Message-ID: <CA+CK2bCUG4BVqPJYL5nxC-Uvomx2JT=sE4DrhqFjrBf+zN_m3A@mail.gmail.com>
+Subject: Re: [PATCH v6 18/20] selftests/liveupdate: Add kexec-based selftest
+ for session lifecycle
+To: Zhu Yanjun <yanjun.zhu@linux.dev>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, 
 	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
 	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
 	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
@@ -94,52 +95,11 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
 	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 17, 2025 at 4:41=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
+> Thanks a lot. Just with kernel image, it is not enough to boot the host.
+> Adding initramfs will avoid the crash when the host boots.
+> I have made tests to verify this.
 >
-> On Sat, Nov 15, 2025 at 06:33:56PM -0500, Pasha Tatashin wrote:
-> > Add a MAINTAINERS file entry for the new Live Update Orchestrator
-> > introduced in previous patches.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  MAINTAINERS | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 500789529359..bc9f5c6f0e80 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -14464,6 +14464,17 @@ F:   kernel/module/livepatch.c
-> >  F:   samples/livepatch/
-> >  F:   tools/testing/selftests/livepatch/
-> >
-> > +LIVE UPDATE
-> > +M:   Pasha Tatashin <pasha.tatashin@soleen.com>
->
-> Please count me in :)
->
+> Reviewed-by: Zhu Yanjun <yanjun.zhu@linux.dev>
 
-Sure, added.
-
-> > +L:   linux-kernel@vger.kernel.org
-> > +S:   Maintained
-> > +F:   Documentation/core-api/liveupdate.rst
-> > +F:   Documentation/userspace-api/liveupdate.rst
-> > +F:   include/linux/liveupdate.h
-> > +F:   include/linux/liveupdate/
-> > +F:   include/uapi/linux/liveupdate.h
-> > +F:   kernel/liveupdate/
-> > +
-> >  LLC (802.2)
-> >  L:   netdev@vger.kernel.org
-> >  S:   Odd fixes
-> > --
-> > 2.52.0.rc1.455.g30608eb744-goog
-> >
->
-> --
-> Sincerely yours,
-> Mike.
+Thank you!
