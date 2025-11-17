@@ -1,163 +1,258 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9534C6C
-	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 14:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B319B333422;
+	Mon, 17 Nov 2025 14:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763388610; cv=none; b=rA8h2xdoFWXk9rTMUnsXpDx4ktJc7utxjiBM8xsFNEx56EkuBMX2gQI7itIwUJMyIoAhA9DXFRXjbDcb1iRrEqTi8bmi4BqBtmsAER1sZGt5yDGzmUY92b+Bat4Krb/GaAyinCIIWcJiIRa1Gq01FGFnDEJ8gNjX4tUvxXo+IL4=
+	t=1763388743; cv=none; b=mmw52X6uNf56gVxjlHVDOjwZfnW4GFJBbWxOo0AvScTiO7UncvmBPzdeyuTo2aAdMarHIrlqEzExBz2nuJn/A9lBJrKKpN6VRHrY7m2awkXeKZog07oKW7lW54JTf4U3AhFkgGlCs6jH30y4U5tYI5lHSVXauBho6Ee+jx9Yyb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763388610; c=relaxed/simple;
-	bh=ji/Y9Qq7wFGzKoh1h+90Adh1o23a0XJeM2uSU9uvfvo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oqgQRrOWUGBeGBquSFqlpZDAhwHVeFS49v/vMOmAxRcevutboodyi3t2k5ezzsuHh2TFnWT6Z/qfKuhR1tGbAPEIARjwHH/dEIwDqLsJpfEiajURdV8PyfAwBkcjC/NbTXLEU4G+deVY0xtGYqPUT2Dr585RCbi0nuR6Nvfd5M4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=fI36bZ2C; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763388743; c=relaxed/simple;
+	bh=5yg6DfXLMEycTfad8gw155LQsi7rD5glTzJcLTUpvoo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fXYDzsNoSHk3Nr740HoAy6Ze2FJ3oC2lb+nPC6GOzpVAiDZd+m5iFGFQcIt9yriAfscznfj2gd2YEVw1a1/dNHgXgZpY8hEY9/1dd3xW0En3mP1Z3TmA5uvLWs6onXEdnJ42q6NRdbiTziZCa27FiDDpsUiH/P9dww86lS5VtD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=d3MtSOOY; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="fI36bZ2C"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-64320b9bb4bso3220113a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 06:10:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763388605; x=1763993405; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3PGJ4MM2xZvUtFSBpssoTJJO3KUHMCo+rFkEgLZfONk=;
-        b=fI36bZ2Cd/qh4g9R+lz5NPae3/nblICrVl7RFEg9qFGGSM6MyPhMPgG1rrR8qiNahz
-         f+Q962bfAxR6K+qlQFlnfI5qxMl6akntKsp0p/rlq0T9tmCJB4lgyP+4DNDnOa9yqTy3
-         C+FCUsvW9Lvjs7FniB5f2YQnfts5dGhLTK8k8MuxQZNMFhik1MJt+JJeRzogpcZ007XT
-         KLZhSV1RB25chIA3MZV5FiAOHGqw3g2ZeUxO4AykVyTLv1BJnqzkO9z5LYvJ5yR17JSk
-         YZePBcZK56I8FLibQe6SUYf7qgpHbs8yqL7qI9fNM9vRhoJG7G6N9aN0nXgVJxWx1560
-         dMLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763388605; x=1763993405;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3PGJ4MM2xZvUtFSBpssoTJJO3KUHMCo+rFkEgLZfONk=;
-        b=MlZbwDwOIqBY8hWbPaHFMvejQlTM6toX4A1SxL01ws3P6mfJhR4lulkzNSKzo2srmU
-         r/9MWT75RQhxbDBMQdGj4jMpNb3AKDYmwsskDIBv62Nw54iUwbMZrD7vi7U/67oGhwxZ
-         TYTTlVzpnDtp55Zw86CsaiTCwLxVTgxizZcEJWFKSxgnM2JjOSzlWlJY/VgzHtv6v8tJ
-         gdclhL4lzahIo55/yZRbu/sYEjAiPeIv17R7WP5ibz9I3u+6VV2XrGAR/dScnRDmqS4I
-         34/0ZquZGuut0ZuMkuSn8rmvwY/scPRjDh1UhmfG15PvyvBbRpj7MZK+5OYRpfSPBGag
-         I+Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCUjxrtqTD8PQymsMBvTRnHIfj1lU2ouA+HFQKvo9jvhAhzb8wou/re5tC2wULoAfvbWdh0xkkFwrXM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2qzOvUzwfCtRyk0aTO5yBaFJGWgcbn0xFNwNu3prZV2MFTX39
-	qRKrDNzdB+8XtkilK/Fh/1wm2mqilLbbSwXPttSXUIuDwXLvqp91zw9+h/645LJ/4q4QcPP08T7
-	wlzNIuVHzQ2z7yQEO0f+xylwdmpQ6otw9e463pI9a2g==
-X-Gm-Gg: ASbGncsybrWUn2Je3OCCb6idkx6yuoLwbs1jPf538Gn2BnLHFtUlvcuhIB+DTfHGMLy
-	qd93CnGPsx/L2bEpk/piMGU8EGlFDIoz+XQSg3OjdzVve+Q1RTcAH3PPo5UPDm+RSqxg9TuuTg+
-	Ew7lEygWQPnF47FdejDXa+ztgFwq/s1aI/66iN+NYgp+OefECnubO7aemkx0GJjgYDPZU/DHgyn
-	7fxV9SMxHNwSvaGSIV9W7zodp4Q+b56JOhhQLgiFdMNkIA/Us4oMjthOQ==
-X-Google-Smtp-Source: AGHT+IHyLzyeccVSv3nqReJu90qTJog06h04xHxwwv6NgUkMio7F7ZWagqKrKcNrhIU9HnI/zZ5Tv0lJMZm643IIHWQ=
-X-Received: by 2002:a05:6402:13d3:b0:640:ef03:82de with SMTP id
- 4fb4d7f45d1cf-6434f80ffe7mr13322416a12.4.1763388605308; Mon, 17 Nov 2025
- 06:10:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="d3MtSOOY"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id E7CA11A1B7B;
+	Mon, 17 Nov 2025 14:12:18 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BC2C3606B9;
+	Mon, 17 Nov 2025 14:12:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D530910371D21;
+	Mon, 17 Nov 2025 15:12:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1763388737; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=PB5WlJ2VVYXWs9CSju8ciFxFwZiMzfHOl92xvMe6sOo=;
+	b=d3MtSOOYOJeOadCBLy5MuDFvmuToxJ4WY/zZ5wSdCq42bHLjhX+fJg+IXjXhvPvsBhz8zA
+	Yz/upzMUevJdEn5VLg7v2uRsEmHCXn8wi9zWyAvZK2KsXpDkAjGAZgEvpyBtxf+J249ykC
+	Zs3iu4N4xwfCJgZTJJXL9RlEp0d2Ppbw7fZQp2IW9Fq8TMu+QL4p6NlsayJpc7SBVCY1UE
+	ZjFTh275Fp8Zxi49V2iJaVZXAuNMqrx8HMG94gAcWLf54Zxq9wObPREqsuR9CghUbnTVBd
+	cCFQT6oyqOad8KUHE/NX+1yF+61f/oCbpTO5H8AR+tzoYEAZfEnKbZdUSSvd3w==
+Message-ID: <5da5b38f-1f34-4a1e-88a3-f7a90753e094@bootlin.com>
+Date: Mon, 17 Nov 2025 14:12:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251107210526.257742-1-pasha.tatashin@soleen.com>
- <20251107210526.257742-23-pasha.tatashin@soleen.com> <aRTs3ZouoL1CGHst@kernel.org>
- <CA+CK2bBVRHwBu6a77gkvsbmWkQFDcTvNo+5aOT586mie13zqqA@mail.gmail.com> <aRoZq2bYYm5MGihy@kernel.org>
-In-Reply-To: <aRoZq2bYYm5MGihy@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 09:09:27 -0500
-X-Gm-Features: AWmQ_bn46kZnBDhZ7XIZjxCaG1X1VXV9A3jh512R99RJsaOy_fU1KnHkeK4KJxI
-Message-ID: <CA+CK2bCeYfUGHo49PWqC4sngxKWP3MjcSL9EU7bNNCfsJtDCXg@mail.gmail.com>
-Subject: Re: [PATCH v5 22/22] tests/liveupdate: Add in-kernel liveupdate test
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn, 
-	linux@weissschuh.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org, 
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v2 05/32] drm/vkms: Introduce config for plane name
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-5-a49a2d4cba26@bootlin.com>
+ <aRXolNJJ5caay_H1@fedora>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <aRXolNJJ5caay_H1@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Sun, Nov 16, 2025 at 1:36=E2=80=AFPM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Wed, Nov 12, 2025 at 03:40:53PM -0500, Pasha Tatashin wrote:
-> > On Wed, Nov 12, 2025 at 3:24=E2=80=AFPM Mike Rapoport <rppt@kernel.org>=
- wrote:
-> > >
-> > > On Fri, Nov 07, 2025 at 04:03:20PM -0500, Pasha Tatashin wrote:
-> > > > Introduce an in-kernel test module to validate the core logic of th=
-e
-> > > > Live Update Orchestrator's File-Lifecycle-Bound feature. This
-> > > > provides a low-level, controlled environment to test FLB registrati=
-on
-> > > > and callback invocation without requiring userspace interaction or
-> > > > actual kexec reboots.
-> > > >
-> > > > The test is enabled by the CONFIG_LIVEUPDATE_TEST Kconfig option.
-> > > >
-> > > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > > > ---
-> > > >  kernel/liveupdate/luo_file.c     |   2 +
-> > > >  kernel/liveupdate/luo_internal.h |   8 ++
-> > > >  lib/Kconfig.debug                |  23 ++++++
-> > > >  lib/tests/Makefile               |   1 +
-> > > >  lib/tests/liveupdate.c           | 130 +++++++++++++++++++++++++++=
-++++
-> > > >  5 files changed, 164 insertions(+)
-> > > >  create mode 100644 lib/tests/liveupdate.c
-> > > >
-> > > > diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_f=
-ile.c
-> > > > index 713069b96278..4c0a75918f3d 100644
-> > > > --- a/kernel/liveupdate/luo_file.c
-> > > > +++ b/kernel/liveupdate/luo_file.c
-> > > > @@ -829,6 +829,8 @@ int liveupdate_register_file_handler(struct liv=
-eupdate_file_handler *fh)
-> > > >       INIT_LIST_HEAD(&fh->flb_list);
-> > > >       list_add_tail(&fh->list, &luo_file_handler_list);
-> > > >
-> > > > +     liveupdate_test_register(fh);
-> > > > +
-> > >
-> > > Do it mean that every flb user will be added here?
-> >
-> > No, FLB users will use:
-> >
-> > liveupdate_register_flb() from various subsystems. This
-> > liveupdate_test_register() is only to allow kernel test to register
-> > test-FLBs to every single file-handler for in-kernel testing purpose
-> > only.
->
-> Why the in kernel test cannot liveupdate_register_flb()?
 
-The kernel tests call liveupdate_register_flb() with every
-file-handler that registers with LUO. It is unreasonable to expect
-that all file handlers from various subsystems are going to be
-exported and accessible to kernel test.
 
->
-> > Pasha
->
-> --
-> Sincerely yours,
-> Mike.
+On 11/13/25 14:17, José Expósito wrote:
+> On Wed, Oct 29, 2025 at 03:36:42PM +0100, Louis Chauvet wrote:
+>> As planes can have a name in DRM, prepare VKMS to configure it using
+>> ConfigFS.
+>>
+>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>> ---
+>>   drivers/gpu/drm/vkms/vkms_config.c |  4 ++++
+>>   drivers/gpu/drm/vkms/vkms_config.h | 26 ++++++++++++++++++++++++++
+>>   drivers/gpu/drm/vkms/vkms_drv.h    |  5 +++--
+>>   drivers/gpu/drm/vkms/vkms_output.c |  6 +-----
+>>   drivers/gpu/drm/vkms/vkms_plane.c  |  6 ++++--
+>>   5 files changed, 38 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+>> index 858bec2d1312..bfafb5d2504d 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_config.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_config.c
+>> @@ -352,6 +352,8 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>>   		seq_puts(m, "plane:\n");
+>>   		seq_printf(m, "\ttype=%s\n",
+>>   			   drm_get_plane_type_name(vkms_config_plane_get_type(plane_cfg)));
+>> +		seq_printf(m, "\tname=%s\n",
+>> +			   vkms_config_plane_get_name(plane_cfg));
+> 
+> I discovered this while working on some basic IGT tests to validate
+> your changes.
+> 
+> I think that this triggers undefined behavior. printf() and friends
+> expect a non NULL value for %s:
+> https://stackoverflow.com/a/11589479
+> 
+> In my Fedora system, this prints "name=(null)", instead of an empty
+> string.
+> 
+> The same happens with the ConfigFS API:
+> 
+> $ cat /sys/kernel/config/vkms/test_plane_default_values/planes/plane0/name
+> (null)
+> 
+> We'd need to return in both places an empty string instead.
+
+Good catch, I will fix for v3!
+
+>>   	}
+>>   
+>>   	vkms_config_for_each_crtc(vkmsdev->config, crtc_cfg) {
+>> @@ -392,6 +394,7 @@ struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *config)
+>>   
+>>   	plane_cfg->config = config;
+>>   	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_OVERLAY);
+>> +	vkms_config_plane_set_name(plane_cfg, NULL);
+>>   	xa_init_flags(&plane_cfg->possible_crtcs, XA_FLAGS_ALLOC);
+>>   
+>>   	list_add_tail(&plane_cfg->link, &config->planes);
+>> @@ -404,6 +407,7 @@ void vkms_config_destroy_plane(struct vkms_config_plane *plane_cfg)
+>>   {
+>>   	xa_destroy(&plane_cfg->possible_crtcs);
+>>   	list_del(&plane_cfg->link);
+>> +	kfree_const(plane_cfg->name);
+>>   	kfree(plane_cfg);
+>>   }
+>>   EXPORT_SYMBOL_IF_KUNIT(vkms_config_destroy_plane);
+>> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
+>> index 4c8d668e7ef8..57342db5795a 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_config.h
+>> +++ b/drivers/gpu/drm/vkms/vkms_config.h
+>> @@ -35,6 +35,7 @@ struct vkms_config {
+>>    *
+>>    * @link: Link to the others planes in vkms_config
+>>    * @config: The vkms_config this plane belongs to
+>> + * @name: Name of the plane
+>>    * @type: Type of the plane. The creator of configuration needs to ensures that
+>>    *        at least one primary plane is present.
+>>    * @possible_crtcs: Array of CRTCs that can be used with this plane
+>> @@ -47,6 +48,7 @@ struct vkms_config_plane {
+>>   	struct list_head link;
+>>   	struct vkms_config *config;
+>>   
+>> +	const char *name;
+>>   	enum drm_plane_type type;
+>>   	struct xarray possible_crtcs;
+>>   
+>> @@ -288,6 +290,30 @@ vkms_config_plane_set_type(struct vkms_config_plane *plane_cfg,
+>>   	plane_cfg->type = type;
+>>   }
+>>   
+>> +/**
+>> + * vkms_config_plane_set_name() - Set the plane name
+>> + * @plane_cfg: Plane to set the name to
+>> + * @name: New plane name. The name is copied.
+>> + */
+>> +static inline void
+>> +vkms_config_plane_set_name(struct vkms_config_plane *plane_cfg,
+>> +			   const char *name)
+>> +{
+>> +	if (plane_cfg->name)
+>> +		kfree_const(plane_cfg->name);
+>> +	plane_cfg->name = kstrdup_const(name, GFP_KERNEL);
+>> +}
+>> +
+>> +/**
+>> + * vkms_config_plane_get_name - Get the plane name
+>> + * @plane_cfg: Plane to get the name from
+>> + */
+>> +static inline const char *
+>> +vkms_config_plane_get_name(const struct vkms_config_plane *plane_cfg)
+>> +{
+>> +	return plane_cfg->name;
+>> +}
+>> +
+>>   /**
+>>    * vkms_config_plane_attach_crtc - Attach a plane to a CRTC
+>>    * @plane_cfg: Plane to attach
+>> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+>> index db260df1d4f6..9ad286f043b5 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+>> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+>> @@ -225,6 +225,7 @@ struct vkms_output {
+>>   };
+>>   
+>>   struct vkms_config;
+>> +struct vkms_config_plane;
+>>   
+>>   /**
+>>    * struct vkms_device - Description of a VKMS device
+>> @@ -298,10 +299,10 @@ int vkms_output_init(struct vkms_device *vkmsdev);
+>>    * vkms_plane_init() - Initialize a plane
+>>    *
+>>    * @vkmsdev: VKMS device containing the plane
+>> - * @type: type of plane to initialize
+>> + * @config: plane configuration
+>>    */
+>>   struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+>> -				   enum drm_plane_type type);
+>> +				   struct vkms_config_plane *config);
+>>   
+>>   /* CRC Support */
+>>   const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
+>> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+>> index 2ee3749e2b28..22208d02afa4 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_output.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+>> @@ -19,11 +19,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>>   		return -EINVAL;
+>>   
+>>   	vkms_config_for_each_plane(vkmsdev->config, plane_cfg) {
+>> -		enum drm_plane_type type;
+>> -
+>> -		type = vkms_config_plane_get_type(plane_cfg);
+>> -
+>> -		plane_cfg->plane = vkms_plane_init(vkmsdev, type);
+>> +		plane_cfg->plane = vkms_plane_init(vkmsdev, plane_cfg);
+>>   		if (IS_ERR(plane_cfg->plane)) {
+>>   			DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
+>>   			return PTR_ERR(plane_cfg->plane);
+>> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+>> index e592e47a5736..73180cbb78b1 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+>> @@ -9,6 +9,7 @@
+>>   #include <drm/drm_gem_atomic_helper.h>
+>>   #include <drm/drm_gem_framebuffer_helper.h>
+>>   
+>> +#include "vkms_config.h"
+>>   #include "vkms_drv.h"
+>>   #include "vkms_formats.h"
+>>   
+>> @@ -217,7 +218,7 @@ static const struct drm_plane_helper_funcs vkms_plane_helper_funcs = {
+>>   };
+>>   
+>>   struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+>> -				   enum drm_plane_type type)
+>> +				   struct vkms_config_plane *config)
+>>   {
+>>   	struct drm_device *dev = &vkmsdev->drm;
+>>   	struct vkms_plane *plane;
+>> @@ -225,7 +226,8 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+>>   	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 0,
+>>   					   &vkms_plane_funcs,
+>>   					   vkms_formats, ARRAY_SIZE(vkms_formats),
+>> -					   NULL, type, NULL);
+>> +					   NULL, vkms_config_plane_get_type(config),
+>> +					   vkms_config_plane_get_name(config));
+>>   	if (IS_ERR(plane))
+>>   		return plane;
+>>   
+>>
+>> -- 
+>> 2.51.0
+>>
+
