@@ -1,95 +1,242 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5B0305059
-	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 05:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EA5191F91;
+	Mon, 17 Nov 2025 06:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763359084; cv=none; b=XonnB00gqO1r417y7quBUd+gitaRKODPg7DiCiw0SXsqssiWcvtIBpTUK27dwU72QsIIv6wcqjiinzmGtJb6pnK0679r4URJc3KJYtsU2scKSP0jVe7swDYXrrPDWtonGTc+tCfl/NMbydO7kTplk8C2M57g0HR03hekUkyuuR0=
+	t=1763362167; cv=none; b=kXrtBRHbsfLKyNk6OjT8LpNE9QGcjpMvfZcLd/J76J9/AtGHi944H0cmykfKDbhp1BjTht5udPgHpk+E2kji3cJc3lIhe5m8R47ayTpmQV6OKr9KYHMcjKsQ0UF+XRg9Pe8yUdlFckiK0OSNGZIcsHozU3wWHAW8BkroFRwpKxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763359084; c=relaxed/simple;
-	bh=+q4LqD2Kvx8jkQo2nfmTYbeHEY15owippezqEVwV2Ds=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ua+rjKuDngRD93VOvmpA5q4NzxnVzMes6AlaRE98+3k7yzRXFvuZqjRkeFBuNi0vee9ULv7mBL8MaeIKyO+4tlCaKOGnNDPj+oEQBUjYYxlR6+4poTkR5KQF4G7y8d8huHmtrqsxv+BI2PD5TXTrs5jLIYb2SZ6xPVVHSFjr4Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UVYYNyhF; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763362167; c=relaxed/simple;
+	bh=NwknJqAvjELBef7CTQsUf+fdvLXW0SsIGNW2s4GpATU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nxdbte+UH4PJAKfkg5DzpEpkjnmdvrskIE0YQAd+oGVhtEovy87M7w8FTHe23Q9qHJOXKkpRPwsJNHIMH37UBcM4qoSvVWG+Ptio/Msxlk7z41HBOibqizUglUF9A+sYzxzWabNUSL9FQ/+MYty48F73h1g4B/6SabKOtz0ceBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EbJaAZ9P; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UVYYNyhF"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-298250d7769so25579825ad.0
-        for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 21:58:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763359082; x=1763963882; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+q4LqD2Kvx8jkQo2nfmTYbeHEY15owippezqEVwV2Ds=;
-        b=UVYYNyhF9XuDBV8Voeu4Tjajs57obsgTRKvR5S/ML1P5UJQftFJv19oIvzOcpBrezR
-         YFw5jj2ZeV/SowkFwc3Cv1mCOZdIbNWnlJROJjqY7rxPCqpfer3Kzw4Vbr/ThLFwqs3r
-         boK4w1vVZGynVkjRPnZCX0CAPNwfVdE32TqxP0hNtkVLXtfYIc1Q49cBOVipZOI5Algd
-         u9sqzb46xUo56Rn8EnrTNqdmVdKizNUykD/CDfc2lzp6rT4fzefhM9FPcypeghasytaA
-         2cUA0R4Nr4RykAlsoIBc4tihdXDe+ALYNRbV28aCE0bWKf/dn9Lfp8EbvGmhHi43sCEx
-         e9uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763359082; x=1763963882;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+q4LqD2Kvx8jkQo2nfmTYbeHEY15owippezqEVwV2Ds=;
-        b=BcWL70jyFAbPz3pFiwxVP8qItdaS9ETlz0F4Mfu9NpbPIUFD7K2PJQLybFTp6kMvA7
-         UMhF1XbQnwTz9Lz6gDzjEN49OuG3HDUHoEo2rwgzV6i6CKKxJ1OvnLYXFNBGMnA36Psb
-         ARR8f5MEmvZyC5WowzJ/wgoGE/LB2MfoMFqV0ZF/QoeRtaANCONGsrWwwerNAuPdf1+c
-         peevFxker+qc5K4FHV7/vXF+TaMp5M8UkZemX3XDVOctrst4os2HsJJEThzVXns4MP//
-         YEv+RRamxNAv617scLKZDiuvXJmJ808YBcPiPi+X3TepLuMj8WAmGe0DctwG40/T/hvU
-         efdg==
-X-Forwarded-Encrypted: i=1; AJvYcCXdmnYJUkQjfEuhEt5NMQ9+by5rot9gTAKb8YClzMvWv0UK6FJyeV3sE/QcOM3oQe6EbQorqiUjmvI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCvpDJBBB2pKPP946YxRsk+MG1BCLenoDOgdWbbPT7c5fF7ONj
-	18ta84+2eRPt4tD7/lqIxu3gYc+4P0lmnuJ0acRlLfd22idnhooFaKaPSU1XEnGkkQgxXAJxK/v
-	T0W+d1TGtZBmnQ9iUMc/Q5h3Me0fXZLg=
-X-Gm-Gg: ASbGnctaGQeqUnRj82MGmTzb84gMytsD9b3ZRFD3jyO0bmdWtFydAXYu70h4gRHt9RN
-	MAtj0Am9nKp7zvyJXz+gEMKJZ+pcnGsp8QqV2L+IxKKmGlI0HZi1QhPmwwxY8TP51fTUJdoPlvV
-	5vuoC1RSzitqPgC1EbA+sxFFUm8GmwGqpmL365l+bB3KJYkOtcSvZEc83SHv13S/xLS8xv9Hj46
-	rUXnH62d7K2XfUqudeIbN/QpJJ6GNSOc4Ie0/fzlIg1a9WLgLBD5TnApEwrJXbpLao/T8pwE0Rl
-	E8/+vg==
-X-Google-Smtp-Source: AGHT+IFf+SziYRwB4AOk+V/V4rMZUh1qRahloBklIwWej8cNHCooyk92qFv7IuTK9p1nwyJpsVpLsH5QeyOIQgjIq6w=
-X-Received: by 2002:a05:701b:2513:b0:11b:ca88:c4f9 with SMTP id
- a92af1059eb24-11bca88c783mr1439206c88.2.1763359082251; Sun, 16 Nov 2025
- 21:58:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EbJaAZ9P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763362165; x=1794898165;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NwknJqAvjELBef7CTQsUf+fdvLXW0SsIGNW2s4GpATU=;
+  b=EbJaAZ9PcI1/6QojVkiX/LnOkvTDLOE8lS9sQLl6ja11CCoPZe466cHW
+   Z53uGZN3eZiCo7iAo7hIs6FtUrNlVp+Mr3LWE7a2qjdDte218IbFsu6of
+   8d/ZiYTJ8wpHnfwqI2WUIMCzlLPPGJm3iBAQkoUjDl9aY0xEHIrUD/cMO
+   J5ff2CsFEwHbuy7vwtsDfSiM0Y+Pl1a4k2jAOicR1iEuQw6KP0PdBOsa/
+   NJcXmBE42ybWNz2IMJUAjr3qX1g2plCPt/GyBZgVbvwQvWdI1Nkf4E7l/
+   p9bk1cnQdLsp0vocIItO52h+UUElIEitg/QoDQc5t6SHSKpAacYGPdo0o
+   A==;
+X-CSE-ConnectionGUID: 6YzamdK2RbCyNjmqVocvZA==
+X-CSE-MsgGUID: CqevdDW4REiPCgz4I7rOOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="82742143"
+X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; 
+   d="scan'208";a="82742143"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2025 22:49:25 -0800
+X-CSE-ConnectionGUID: nhKpCg9bTXCOXYLo0uFEMg==
+X-CSE-MsgGUID: 0yHV5K1bS8+1+aOBPtcH3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; 
+   d="scan'208";a="189668870"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 16 Nov 2025 22:49:21 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vKt38-0000EU-1M;
+	Mon, 17 Nov 2025 06:49:18 +0000
+Date: Mon, 17 Nov 2025 14:48:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, "Tsao, Anson" <anson.tsao@amd.com>,
+	"Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>,
+	"Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
+Subject: Re: [PATCH v2 3/5] drm/amdgpu: add UMA allocation setting helpers
+Message-ID: <202511171049.kFPjY5Br-lkp@intel.com>
+References: <20251114-vram-carveout-tuning-for-upstream-v2-3-4f6bdd48030d@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251106015148.54424-1-zhaochenguang@kylinos.cn>
- <7e6096ab-18bd-4438-8fbb-3f530ee9e69f@hust.edu.cn> <CAJy-AmkC_UBtk1VmmVOG-Y_UB4kKAZ9rq+3U6r==A1HVDjt9vw@mail.gmail.com>
- <CAD-N9QUUHmuC=jT+_mVKhMDstrb+9_-g+2zSKD3a9hrCtYnk1Q@mail.gmail.com>
-In-Reply-To: <CAD-N9QUUHmuC=jT+_mVKhMDstrb+9_-g+2zSKD3a9hrCtYnk1Q@mail.gmail.com>
-From: Alex Shi <seakeel@gmail.com>
-Date: Mon, 17 Nov 2025 13:57:23 +0800
-X-Gm-Features: AWmQ_bltgnH4WZZaiCxuxEJfMAzZnpDhkZUOTWXZ6x-xgff9t5d9Ld5DWvT9RfA
-Message-ID: <CAJy-Am=FXq2yEg05YNuYpd+BU+GSQiHQUmN+o5exCNsSQGrViA@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/zh_CN: Add kbuild timestamp Chinese translation
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, Chenguang Zhao <zhaochenguang@kylinos.cn>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	HUST OS Kernel Contribution <hust-os-kernel-patches@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251114-vram-carveout-tuning-for-upstream-v2-3-4f6bdd48030d@amd.com>
 
-Dongliang Mu <mudongliangabcd@gmail.com> =E4=BA=8E2025=E5=B9=B411=E6=9C=881=
-7=E6=97=A5=E5=91=A8=E4=B8=80 13:54=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Nov 17, 2025 at 1:32=E2=80=AFPM Alex Shi <seakeel@gmail.com> wrot=
-e:
-> >
-> > Applied, Thanks
->
-> Hi Alex,
->
-> Please revert this patch since I do not give my reviewed-by tag
+Hi Yo-Jung,
 
-Oops, Sorry. the patch reverted.
+kernel test robot noticed the following build errors:
 
-Thanks!
+[auto build test ERROR on ac9914fa72a5a917bb61c5e87bee6b8f9b751f33]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yo-Jung-Leo-Lin-AMD/drm-amdgpu-parse-UMA-size-getting-setting-bits-in-ATCS-mask/20251114-164505
+base:   ac9914fa72a5a917bb61c5e87bee6b8f9b751f33
+patch link:    https://lore.kernel.org/r/20251114-vram-carveout-tuning-for-upstream-v2-3-4f6bdd48030d%40amd.com
+patch subject: [PATCH v2 3/5] drm/amdgpu: add UMA allocation setting helpers
+config: parisc-randconfig-002-20251117 (https://download.01.org/0day-ci/archive/20251117/202511171049.kFPjY5Br-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511171049.kFPjY5Br-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511171049.kFPjY5Br-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_device.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_kms.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/atombios_crtc.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/atom.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_fence.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_object.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_gart.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_encoders.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_display.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_gem.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_ring.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_cs.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_bios.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/atombios_dp.o: in function `amdgpu_acpi_set_uma_allocation_size':
+>> (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_afmt.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_trace_points.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/atombios_encoders.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_sa.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/atombios_i2c.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_vm_tlb_fence.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_ib.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_pll.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_sync.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_preempt_mgr.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_virt.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_vf_error.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_sched.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_ids.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_mmhub.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_hdp.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_csa.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_nbio.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_umc.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_rap.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_fw_attestation.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_securedisplay.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_mca.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_lsdma.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_ring_mux.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_aca.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+   hppa-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.o: in function `amdgpu_acpi_set_uma_allocation_size':
+   (.text.amdgpu_acpi_set_uma_allocation_size+0x0): multiple definition of `amdgpu_acpi_set_uma_allocation_size'; drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o:(.text.amdgpu_acpi_set_uma_allocation_size+0x0): first defined here
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
