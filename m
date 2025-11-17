@@ -1,126 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E641287507;
-	Mon, 17 Nov 2025 11:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D642823EA9D
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 11:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763378056; cv=none; b=eBCrs9sCdLhhVIeNZqDHnb7PzdMVwbzIYI5KihpnERuYMR4V/FVR66n8WxhWjO+ji80L9MovWxg7qLn7KkfGz/nYgpuvrXogYcL24Wkq6OecPY3k/OIqCU2K19gAqmlakXSYH3JUe2kwciYPMmwdH33zN9hMp1aG4BRDRZoJ7DQ=
+	t=1763378583; cv=none; b=S5BoTdTsriLIAP6qHjjKtUFkx3+KtXbh7nJ08QSUc5ysOJdEejGkcAFw57/P3gJ8I8/wmQPwrhYwHyGWM3r7qSZHK5+Y6uEsjDiOglJQfh6SrT6yrZxU8512SLzHiiasCHi4/hxsuyoAZARCGhGEmppHqGqi0Pl46z2T5es5cDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763378056; c=relaxed/simple;
-	bh=a+Glbj+KjklqVqK02cJKv38+Iv5JmdqR17E30pDPyGg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gAKtdgyDO3u1c/6arkmnzfNBC2beP3HdiSTz+QEqTnl1U26DyqeQVlyPj3KjlNe7OHEM/fVX4L3aike9hdZV5jlpKJUKIbjDHYhKGhBXsMYy4ddGYMTtxZi/xpt98eTChcRvmjgLa3rEBp3sqS0K5ES+xB6T04QERaQZenzs/C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d+36XpUk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763378583; c=relaxed/simple;
+	bh=Bh2Ifga+AdDZUMyP0EbB5NBn7C7TkJVK77CbBRzldfc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u3hheaPryd9Y2VCSmOl5XF1Ni2dX/onEmOoR2hdIULoPjZ+LLwRKwGMir8/BJ/7Ne1AlYCDGMVflWsezT5B1LvZCHpNEGBA+Ea//cDQKGrqj/gzR0z9cdagIJD57KQmH6LOJI2Kr5Y+0uzU7nh42LxBDQY+agTOh/0Gs33XaTJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dNLoPj/c; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d+36XpUk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8A25C4CEF5;
-	Mon, 17 Nov 2025 11:13:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763378055;
-	bh=a+Glbj+KjklqVqK02cJKv38+Iv5JmdqR17E30pDPyGg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d+36XpUkgooOOplYjFcXSlkiRz9QJ9mw3TH5MHjiR6eSeLeykbimRz9eODBPmYD4f
-	 Ej5+lc/S0OkUv84FBV83fgl+AKDrJNl+kGSPHK549sQ8fWypqZkB4JnN2UYUeJDApu
-	 7qry8j+l66Ji7mT8iOgQWAU2FD9W+xkoybuLpEhH/qyA0gfSxOzw7azcWlz9JWNXTP
-	 64UKmeUlQIpxjTIydSTLHMsFBE8EQUgngt5ecZ0+6dOCpxMKxShHCRMDZ3UQICc2Vb
-	 xy5Os9Jr0mPExUf8Ubchkkc3k4+8GbI0RUjVMScWeibdxclYKM23yJpGreGXsCilWw
-	 XrlAzdRBdVg7w==
-Date: Mon, 17 Nov 2025 13:13:51 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v6 20/20] tests/liveupdate: Add in-kernel liveupdate test
-Message-ID: <aRsDb-4bXFQ9Zmtu@kernel.org>
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-21-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dNLoPj/c"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-29806bd4776so5598865ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 03:23:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763378581; x=1763983381; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Bh2Ifga+AdDZUMyP0EbB5NBn7C7TkJVK77CbBRzldfc=;
+        b=dNLoPj/chsEt7oRFcFsemdhE2dvGLDFzmiKKwGw0oiw1/Mi0Oyykodhb2wHENkyRbi
+         wKnV/kywjjAINf1fIHMZwp1wDzctLHCzA6riYWoH6goeh/kxmCfrU31yjSki9cj9cAgd
+         lIqvNeZPEtZtrPB/co4s2yW7Zz1ev+HAw2RVp8GNUBRMGlfV+wA/P3/KBm3/4wDtTJIb
+         cfX1bXx2NM+cChgXgZF1CuNqvj6+pc5OeZSaGcySNvJ6UrPWEHiGMapBGJ/xnpEBIxN3
+         hkWjOD+g4mPfVP7Q950p+pmdkFAQQ88xG2TIZ2orB/5NicWzyuTUmvnV19iAPgKZ6o5q
+         KmLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763378581; x=1763983381;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Bh2Ifga+AdDZUMyP0EbB5NBn7C7TkJVK77CbBRzldfc=;
+        b=wfuHaD744FK8c6vzn+gPSreGZL0qrJgj6tYJqpdHdijcO3nMo0zKcPuCV0Kz4xOd5V
+         WsqgL3quMrMZgDEC2k35r+0ja7d806P3GR68ObGgnFFJomQ25cWxfHZmmhrpdRqAiS0V
+         iG8fTYmLKqJpqnqZqKSgmAfTq2vxXBD6Zk1RlauTXs8gQTk2ZM83uDTFVQnWVQsTDoC5
+         TpusxB5zl7grcGEvV/w3Ua7z1WJBq1E93XGK6FShXGID2OuGXrK713pQawdEz0oEpVep
+         EgKt3YzMc/FNc5zH2yisigM3V40mbV+ExRCYHPajgxlLN928ln3tpnRTUQNOkjZkrwTJ
+         gcVQ==
+X-Gm-Message-State: AOJu0Yxw+QpU/atJKnkFZYGCFi2jIDgGSU/Hp3OwwSqmaPJezPa3YALk
+	Js+k87CHP35LZrL7IAVYSZBpI4ckQC2dMKr/fkNd1D4T3DOe3E346K7yuNTDUh+qsgYn+akDZ4S
+	0/GEFMBwEBu8DwQTtVrvZIMXQeZf68wg=
+X-Gm-Gg: ASbGncvJtJM9Hflb6vgHX5sbba8NcjiHexrnZ2+2undMJN4GYt5LQ6usN5Ka6mTTsA2
+	ABQvvuI6JTdYsJxa2NCTWFjaEt25Cs/dZF1R4TL6XmzuXk4A9TeX23rRjanTsQNv+hr0/hJm82t
+	0zEZMtVJC3rinmTqpw/T4ov2HjeKapUNhxevqx5oGbSKwiC7PNp8v0QQPUEtHrbrEH8Slf+W4fr
+	EADztrtTrOiZpOQlSkZNZ4OOx/LcjLNYYJ1c2S3eWbGOpiCbA25LxPHmhKUhBDWHWZltyZxa6PJ
+	UUW4dPvVhq416ehvg5HaT2dsbS3nC/YRiqXYm7l2+rH8z7qOBrAmjhNwAlyVRfjs2VQk98Og3m4
+	+tvV8Ivuns4g=
+X-Google-Smtp-Source: AGHT+IEon8qi3nIiW41AtjOXAHWa5s1kDvSgobRhLk7geCIBmPbZKiZHF7sUmdEFSSozK6VyhfxiCekRLtGsgMgwiXw=
+X-Received: by 2002:a05:7022:ff4b:b0:11b:65e:f33 with SMTP id
+ a92af1059eb24-11b49152d40mr4376344c88.1.1763378581015; Mon, 17 Nov 2025
+ 03:23:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251115233409.768044-21-pasha.tatashin@soleen.com>
+References: <cover.1763370163.git.mchehab+huawei@kernel.org>
+ <CANiq72=79rhJ5Sh+yp2vRSuSLD=nyR2DuQ26hFeBmyszRC3ALA@mail.gmail.com> <6sczezthaixabzw5lddhemrx2yivfdf65zfvpew7tpzl3gqire@vjx4rpju5wxc>
+In-Reply-To: <6sczezthaixabzw5lddhemrx2yivfdf65zfvpew7tpzl3gqire@vjx4rpju5wxc>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 17 Nov 2025 12:22:48 +0100
+X-Gm-Features: AWmQ_bleD_hySJlDD44vxewbmcxDrcM6R5j_Dc8d2Va-QFjLD3jo96glDB4SKS0
+Message-ID: <CANiq72m3deG_QsH8-AskTR9LcNL=G6E9o2fu+oi9RVXn1PK_+Q@mail.gmail.com>
+Subject: Re: [PATCH 0/1] fix rustdoc build detection
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Carlos Bilbao <carlos.bilbao@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, 
+	Miguel Ojeda <ojeda@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 15, 2025 at 06:34:06PM -0500, Pasha Tatashin wrote:
-> Introduce an in-kernel test module to validate the core logic of the
-> Live Update Orchestrator's File-Lifecycle-Bound feature. This
-> provides a low-level, controlled environment to test FLB registration
-> and callback invocation without requiring userspace interaction or
-> actual kexec reboots.
-> 
-> The test is enabled by the CONFIG_LIVEUPDATE_TEST Kconfig option.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
->  include/linux/liveupdate/abi/luo.h |   5 +
->  kernel/liveupdate/luo_file.c       |   2 +
->  kernel/liveupdate/luo_internal.h   |   6 ++
->  lib/Kconfig.debug                  |  23 +++++
->  lib/tests/Makefile                 |   1 +
->  lib/tests/liveupdate.c             | 143 +++++++++++++++++++++++++++++
->  6 files changed, 180 insertions(+)
->  create mode 100644 lib/tests/liveupdate.c
-> 
-> diff --git a/include/linux/liveupdate/abi/luo.h b/include/linux/liveupdate/abi/luo.h
-> index 85596ce68c16..cdcace9b48f5 100644
-> --- a/include/linux/liveupdate/abi/luo.h
-> +++ b/include/linux/liveupdate/abi/luo.h
-> @@ -230,4 +230,9 @@ struct luo_flb_ser {
->  	u64 count;
->  } __packed;
->  
-> +/* Kernel Live Update Test ABI */
-> +#ifdef CONFIG_LIVEUPDATE_TEST
-> +#define LIVEUPDATE_TEST_FLB_COMPATIBLE(i)	"liveupdate-test-flb-v" #i
-> +#endif
-> +
->  #endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
-> diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-> index df337c9c4f21..9a531096bdb5 100644
-> --- a/kernel/liveupdate/luo_file.c
-> +++ b/kernel/liveupdate/luo_file.c
-> @@ -834,6 +834,8 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
->  	INIT_LIST_HEAD(&fh->flb_list);
->  	list_add_tail(&fh->list, &luo_file_handler_list);
->  
-> +	liveupdate_test_register(fh);
-> +
+On Mon, Nov 17, 2025 at 11:48=E2=80=AFAM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Sure, Sphinx (including kernel-doc) build and rust doca build are
+> independent. Yet, Makefile "htmldocs" target currently does both.
+>
+> It could make sense to have a separate target if one want to build
+> them both, e.g. something like:
 
-Why this cannot be called from the test?
+My understanding (Cc'ing Carlos) is that the idea was that `htmldocs`
+built the Rust docs if possible.
 
->  	return 0;
->  }
->  
+I don't mind if that is changed etc., but I think it is important to
+keep the `rustdoc` target simple and focused: it is a "basic"
+operation (which is also used to lint docs too), and way faster than
+building the HTML docs, and it doesn't depend on them.
 
--- 
-Sincerely yours,
-Mike.
+Apologies if I put it perhaps a bit too tersely in my previous message
+-- everyone contributing to Rust code is supposed to rely on that
+target to test their commits, and needing the whole Sphinx setup would
+make the target way worse in practice.
+
+Now, in the future, if we start relying on generating references for
+the Rust docs from the C side and things like that (which is my plan,
+but it is long term: first item in
+https://github.com/Rust-for-Linux/linux/issues/350), we may need to
+rethink things a bit (i.e. we may need to run a subset of the kernel
+normal docs to build the Rust docs), but even then ideally we should
+only introduce the minimal dependency needed.
+
+I hope that clarifies -- thanks!
+
+Cheers,
+Miguel
