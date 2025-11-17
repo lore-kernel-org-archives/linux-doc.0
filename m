@@ -1,68 +1,69 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96992C3255
-	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 16:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143DB2773EC
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 16:27:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763396690; cv=none; b=M+NhxQPhGGyC9Ny3qm5rM+Vg4uMtTgr4n9YuIkdm+nLbSbT0Soqd/PhBRZsnFc70VybiA3J7ZZpIlQyxQjaaSGhwhrWC5Rsl9eyVOESyYpSDT6Rn5LbAxuTrAYauu/Dy3he93z+BoJwW9RCW+HT6G9Mksy8VhFKtcNLGuWLtI2M=
+	t=1763396867; cv=none; b=n8XPSX/Ic3sbpV0ePBO9TcJ1746ra/MxXH0ECQaDaa3H/IG9K2lOsEWfRGUGoscetLBh3SfyKdW1JxJJt3Rf+EiB/GUdsixAKz/272IZRpVMFHGQnc6CAeehlNdU5kmyRwDZk2cgIf1sMEbaCkRdHeEHHmkA4422OUuP7YjAsP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763396690; c=relaxed/simple;
-	bh=j1NtNnwpVS/q9dNzBdOhDm6Gxs/NWAjE+l7LKHs9768=;
+	s=arc-20240116; t=1763396867; c=relaxed/simple;
+	bh=+Tri3+Y75EFKL4gc7BucYZKcTlL+uMjzyQqIuhRwO0w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HlC7SyenuZJOFY0sB+57m7aj9aJk/O4gt1LRFHfVALD/xNhdImRbwyRj1uGhXkq6nzGaRnxP5XH5Twn67dI1eXd9aDUAOk1hArzxTRBAax3HK7tR3kh3lN/77EfadC8A+rASfeE5S+DSE9AT8nywpispr+YiVHBQRN7Q03jtxdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lRNJ/zvK; arc=none smtp.client-ip=209.85.210.171
+	 In-Reply-To:Content-Type; b=Dx/oodZRrrdJeSnTqbBa4Sp96NDRzJUUgzEoAphF4+G/67G3OLSmU9POFAGqGjt3hlLLQYV/c3OWwn1uy28nCDIlp4G0DHSUNDctI/UnKnQZyUOnUIdiG826d/AH7MNvbvtTlTuIukaoZqjoFj5kBvgg+//xf9XbYu59UQ+CP04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lvHfauPI; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lRNJ/zvK"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7acd9a03ba9so4263774b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 08:24:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lvHfauPI"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3438231df5fso5340341a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 08:27:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763396687; x=1764001487; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763396865; x=1764001665; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=tVZzQN53aCeKux09wlbSkuOTj+sacZw/sU/G+Vwp6gQ=;
-        b=lRNJ/zvKdwajPT13ASiQkOizmjFsXBaKtxviCBDWCLj2lH4cexKicoJtSoUw4YeTlQ
-         3fTZPvX9JTSbYSZgDxfBdywjt2d0d7maTb4HpIEOii9rZQqTc+a4pPfnKVojvNwl0XAx
-         nGAzoZFoaVNz/vHSnRMnqqIDUTna3hoL8qUn30AYZGkQAWAYEi/Lsk+X0PS51Svsyf/q
-         CZw8k8pdGGEmzbBZpWARkqSstnaUScjyCPvJjfRRt1yQEw0gvXR1XYARPMZyI+eD+g46
-         jU9/vEvpfDOPc9pyDPr+ilJpYg2ImaXhM5c5K/Pgaf4uV+8C1YFruFc5KCW537iXeYRD
-         h4hQ==
+        bh=g9bXO5ksyx851MCyyDIbfVy53xQYO9Txx5ddxxITMLs=;
+        b=lvHfauPI14kTvuFK1px0MsWz+5rdDx0ib2X7AKuQnM+5XRw+N08lmFALoGJ5RgZrTm
+         j/Rx6RvXI39lgjso1eEIWNTANm5kPtDzNe4O+gc4d72RK66Ok7cggH83W0qoAE2H5woR
+         EGjY6neoJzNs3jk1Ptv78bUaY7iQM7Q6WJ5kHGjQMc3f4kgbPHDeAqv98xQnUIxt3mXq
+         Ggpe7/hC0YI1rBLKkq/sl2P0hC7aBcQS6MZ534iPCLwEnsCqVJC9ZxcMW3zMbzcplf7M
+         ZZEvh2qnNqlyCJS+PVEZ5xen5wIrNbi3S+8VkD9PzYdFZSftAAGSofyIXkA/S8U1XtQI
+         ygkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763396687; x=1764001487;
+        d=1e100.net; s=20230601; t=1763396865; x=1764001665;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tVZzQN53aCeKux09wlbSkuOTj+sacZw/sU/G+Vwp6gQ=;
-        b=lipE2yu2CdF/XXApHF/GU3GIdC/DXBh9ghuI1RCDFR0GYDV+lJvBhyM8xI9gAU1x0t
-         ECEGt6Hu6kYYMbzETx0oEDsivGpESPHj5pk9FLZSXZu1KOXR0Gl+RTb1npC03/WvrIOq
-         yBK7FpFqo1lDDwk2SzOMLcfLCbAR6nUuKzBrejVhcwfPAG7tsADycMz02ST3ZleWIn7r
-         HdOeKpzCDdeI0Azvzjlw9lKE5vSX6e/mnh75J8vmU4Ixl4IKnP8pkuN4X6PqTXEAYoHs
-         ZbU1p345W3Z7Hd3/j0cAYXROkmOZPjrkGUGd9EUhQuypEoh14WAmGczE6+JCL2te6Kyh
-         mc9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXFkmqcHH/R0Hq/Dun80rO70EmTrbYF/9jufssYNXXH4w+7wCz2ZZ92htSRkMUjPyszDU08CJaJYdY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyWqHA4BeoIG5pUVEAcX++Dm5oLItlBwwwAJNAaYCUUr0v/5U4
-	8ddsZOc2GpEL7j309N3U/C6Zis5nFuMKDp9QSS2LojRtJtqZOsrBS4S/
-X-Gm-Gg: ASbGncsFwUux5qkMWFA5eC9u/OnCMg91MT/x3xwH6cJaUjAIsrVH8daeUNahuM3LZRb
-	kXsZ2V/6+oYxs1dCsUggVJ/tgzVS7eRUVa/OUEifN9cnwPynspiSePtv5Gt7WfJDbkJwFiSoj6V
-	oWZczVIh0EgFfNSceG0ETt8yDD30CCO5DE7Bz4hRcsKVsgAm32Q1dM2AhX0gjfjWc+PpJMOGlQn
-	gEbEakGwe1TaAFoN+VvOhOevLlsbqUCKWuEwaojL2pu4g9I54UciYXM6I8Rjst/+KFTczKE213e
-	ARrXvF2oyb+SMBTgh1fZ3uCtAkkjAGE2o51mzDowbIcu/uvNZRZ8XkypsGBpmbMrU6VkCEPH5+v
-	r85y1U3aDcAEGWtMPDbM3lXfU/36Q7dGTHoLj59fbgKm1MIHMCQebGRb2CT01s9vfjIVdc/k6wN
-	BdcJ6niJ8ZTQo30qx0qe1ddPA7+6nJSbzKv5MRWgJRCDyCHtCe6f0QH8PIf2nYLxkZzNmXYw==
-X-Google-Smtp-Source: AGHT+IGzhUke4tR9hxJdcZPABaBDnitgzpljAF27CD7HgBXH4Y73D4udkEDzpPk41/gnM4znAiIqbg==
-X-Received: by 2002:a05:6a20:700a:b0:35d:b5a1:a61d with SMTP id adf61e73a8af0-35db5a1a9a2mr6206844637.26.1763396686909;
-        Mon, 17 Nov 2025 08:24:46 -0800 (PST)
+        bh=g9bXO5ksyx851MCyyDIbfVy53xQYO9Txx5ddxxITMLs=;
+        b=dKl7UdEDpuXeMAamB+ha9NaGAgHCI8nAKa7amEMPKKkklwUH0pUSjEy+Ua5htluq9t
+         Lyc0xX75PHsF9jdYtYci/grb6AdhCqSsqBicokwobaUrc+ZgUJDUixEv2PA3901SZNJl
+         6lIUPpeCwLshw3r/negEWTA6swRSMkLhm7/eU7X7IJAox/BTxk38cExDxR5y+wwJsZ8N
+         rA4OP4sFP32IBXbgdBtPU+YuV1nV381HSo1c9LyKKM1EKj5d3HPUqG3jHNM4RsQojn8z
+         JdsGLWrEBDfSWtHr10/yWculsmz64k0h9Rc1gzVYN1oPxAQuPiAclT1Or/z7o0YZLcc5
+         SSPA==
+X-Forwarded-Encrypted: i=1; AJvYcCUTmSCDlYNZKWslCGWNC+BOr+KBpDZJyDx+p3+IWkqvkfCfQ5LqCKAFCyXe8fLQB9HVLzmI9mRhrTI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTNXVSO5axf8rck6lpCP2FBBCAJExfK+kCOvSraI3JLGN0GvPQ
+	lWy7oXdpNfqkM4k94ZcwP0tjF6fhAlo7p2bYxzHNTkZxElFsMcGBcQRx
+X-Gm-Gg: ASbGncuLUcHWRgPm4/5tEXxLK8L8PSyohav8ksXiEcZxaZRwfxdXW2IB3QI+Leru+09
+	M66ZUmH2pcYuxU+I8+9Jf//xW/0ihUl+Cf6Z9JYjPnYUp64SXCCpJh1vf80K33e4r5Edt5WVQ14
+	GZwwc78WxTN1eyorIrDfB8NkzT7VC1hyAa3W4S/1e00BkPIPlMnAQZELwNbhMPQRQLEjwfNPzsG
+	RcrWlUOvJDp/v5nBnFvdWB7WmZ0O1tkiF8AiRhZATqm7aMU+370/QrnoEMpXlv+FfKAVIScROvH
+	oJh3N1RAwKyAahxpY5CXh0M9VbSMlk0nW8oU/QX+v8VVMy4h/yPKdLiv/1eGw/YmHO8JLZLfZRi
+	CSV/32pCVo+dDhPP5x+61FWhsO9tMAlNs3fXn85pVFLmFqROOf+JYGuJPtMVsFh7bhSAyQ5Quz0
+	cJWV6AqHKRC8aAVnx4a5xa8UVgGETwjdOJ050Yo6ZcpzS4JHVF/4PfgfF7BWeH76xFwUX/P/I5U
+	vgH8f20
+X-Google-Smtp-Source: AGHT+IHzLJJ5Y3QBnuwz3zctFFWMcGjBrgknfml8ngA07+MHeXbweTwUzUs3p/Rw21AlWCRbdW2vOw==
+X-Received: by 2002:a17:90b:4a4f:b0:33b:ba55:f5eb with SMTP id 98e67ed59e1d1-343f9d91d06mr12418122a91.1.1763396865313;
+        Mon, 17 Nov 2025 08:27:45 -0800 (PST)
 Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b92772e713sm13425960b3a.54.2025.11.17.08.24.44
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-343eacc6c37sm5827402a91.14.2025.11.17.08.27.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Nov 2025 08:24:46 -0800 (PST)
+        Mon, 17 Nov 2025 08:27:44 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <77cc198c-10a4-4b10-a420-88a30f9e5282@roeck-us.net>
-Date: Mon, 17 Nov 2025 08:24:43 -0800
+Message-ID: <89beb0aa-57f5-4baa-b59e-0beaca6f002f@roeck-us.net>
+Date: Mon, 17 Nov 2025 08:27:42 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +71,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] hwmon: Add driver for wsen tids-2521020222501
+Subject: Re: [PATCH 3/4] dt-bindings: Add tids in bindings and wsen as vendor
 To: Thomas Marangoni <Thomas.Marangoni@becom-group.com>,
  linux-hwmon@vger.kernel.org
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
@@ -83,7 +84,7 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org
 References: <20251117123809.47488-1-Thomas.Marangoni@becom-group.com>
- <20251117123809.47488-2-Thomas.Marangoni@becom-group.com>
+ <20251117123809.47488-4-Thomas.Marangoni@becom-group.com>
 Content-Language: en-US
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
@@ -129,718 +130,48 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
  FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
  np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20251117123809.47488-2-Thomas.Marangoni@becom-group.com>
+In-Reply-To: <20251117123809.47488-4-Thomas.Marangoni@becom-group.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 On 11/17/25 04:38, Thomas Marangoni wrote:
-> This commit adds support for the wsen tids-2521020222501. It is a
+> This patch adds the tids driver to the bindings as trivial-devices
+> and adds the WSEN manufacturer to the vendor-prefixes.
 
-What is the relevance of "-2521020222501" ? As far as I can see it is just
-the order code, and the sensor is just "WSEN-TIDS", as suggested by the
-documentation. I would sugest to drop the number unless it has some actual
-relevance - and, if it does, provide a rationale for it that is better than
-"this is the oder code". The order code can change anytime, after all.
+This patch should be the first patch in the series.
 
-> low cost and small-form-factor i2c temperature sensor.
-> 
-> It supports the following features:
-> - Continuous temperature reading in four intervals: 5 ms, 10 ms,
->    20 ms and 40 ms.
-> - Low temperature alarm
-> - High temperature alarm
-> 
-> The driver supports following hwmon features:
-> - hwmon_temp_input
-> - hwmon_temp_min_alarm
-> - hwmon_temp_max_alarm
-> - hwmon_temp_min_hyst
-> - hwmon_temp_max_hyst
-> - hwmon_chip_update_interval
-> 
-> Additional notes:
-> - The update interval only supports four fixed values.
-> - The alarm is reset on reading.
 > ---
-
-If available, please send me a register dump so I can implement unit test code.
-
-
->   drivers/hwmon/Kconfig  |  10 +
->   drivers/hwmon/Makefile |   1 +
->   drivers/hwmon/tids.c   | 560 +++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 571 insertions(+)
->   create mode 100644 drivers/hwmon/tids.c
+>   Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>   2 files changed, 4 insertions(+)
 > 
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 8c852bcac26f..5e578241001f 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -2647,6 +2647,16 @@ config SENSORS_WM8350
->   	  This driver can also be built as a module. If so, the module
->   	  will be called wm8350-hwmon.
+> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+> index 2eff6f274302..e120767ce119 100644
+> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
+> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+> @@ -488,6 +488,8 @@ properties:
+>             - ti,tsc2003
+>               # Winbond/Nuvoton H/W Monitor
+>             - winbond,w83793
+> +            # Temperature sensor with i2c interface
+> +          - wsen,tids-2521020222501
+
+I think this should just be "wsen,tids".
+
 >   
-> +config SENSORS_TIDS
-> +	tristate "TIDS"
-> +	depends on I2C
-> +	help
-> +	  If you say yes here you get support for the temperature
-> +	  sensor WSEN TIDS from Würth Elektronik.
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called tids.
-> +
->   config SENSORS_ULTRA45
->   	tristate "Sun Ultra45 PIC16F747"
->   	depends on SPARC64
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index a8de5bc69f2a..def052b2bdfa 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -244,6 +244,7 @@ obj-$(CONFIG_SENSORS_W83L785TS)	+= w83l785ts.o
->   obj-$(CONFIG_SENSORS_W83L786NG)	+= w83l786ng.o
->   obj-$(CONFIG_SENSORS_WM831X)	+= wm831x-hwmon.o
->   obj-$(CONFIG_SENSORS_WM8350)	+= wm8350-hwmon.o
-> +obj-$(CONFIG_SENSORS_TIDS) += tids.o
->   obj-$(CONFIG_SENSORS_XGENE)	+= xgene-hwmon.o
->   
->   obj-$(CONFIG_SENSORS_OCC)	+= occ/
-> diff --git a/drivers/hwmon/tids.c b/drivers/hwmon/tids.c
-> new file mode 100644
-> index 000000000000..0176a5e8b574
-> --- /dev/null
-> +++ b/drivers/hwmon/tids.c
-> @@ -0,0 +1,560 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +/*
-> + * Copyright (c) BECOM Electronics GmbH
-> + *
-> + * wsen_tids_2521020222501.c - Linux hwmon driver for WSEN-TIDS
-> + *                             2521020222501 Temperature sensor
-> + *
-> + * Author: Thomas Marangoni <thomas.marangoni@becom-group.com>
-> + */
-> +
-> +#include <linux/bits.h>
-> +#include <linux/delay.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/hwmon-sysfs.h>
-
-Unnecessary include.
-
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +/*
-> + * TIDS registers
-> + */
-> +#define TIDS_CMD_DEVICE_ID	0x01
-> +#define TIDS_CMD_T_H_LIMIT	0x02
-> +#define TIDS_CMD_T_L_LIMIT	0x03
-> +#define TIDS_CMD_CTRL		0x04
-> +#define TIDS_CMD_STATUS		0x05
-> +#define TIDS_CMD_DATA_T_L	0x06
-> +#define TIDS_CMD_DATA_T_H	0x07
-> +#define TIDS_CMD_SOFT_REST	0x0C
-> +
-> +/*
-> + * TIDS device IDs
-> + */
-> +#define TIDS_ID_2521020222501 0xa0
-> +
-Not used.
-
-> +enum tids_update_interval {
-> +	tids_update_interval_40ms = 0,
-> +	tids_update_interval_20ms = 1,
-> +	tids_update_interval_10ms = 2,
-> +	tids_update_interval_5ms = 3,
-> +};
-> +
-> +/* TIDS control register */
-> +static const struct reg_field tids_reg_field_ctrl_one_shot =
-> +	REG_FIELD(TIDS_CMD_CTRL, 0, 0);
-> +static const struct reg_field tids_reg_field_ctrl_freerun =
-> +	REG_FIELD(TIDS_CMD_CTRL, 2, 2);
-> +static const struct reg_field tids_reg_field_ctrl_if_add_inc =
-> +	REG_FIELD(TIDS_CMD_CTRL, 3, 3);
-> +static const struct reg_field tids_reg_field_ctrl_avg =
-> +	REG_FIELD(TIDS_CMD_CTRL, 4, 5);
-> +static const struct reg_field tids_reg_field_ctrl_bdu =
-> +	REG_FIELD(TIDS_CMD_CTRL, 6, 6);
-> +/* TIDS status register */
-> +static const struct reg_field tids_reg_field_status_busy =
-> +	REG_FIELD(TIDS_CMD_STATUS, 0, 0);
-> +static const struct reg_field tids_reg_field_status_over_thl =
-> +	REG_FIELD(TIDS_CMD_STATUS, 1, 1);
-> +static const struct reg_field tids_reg_field_status_under_tll =
-> +	REG_FIELD(TIDS_CMD_STATUS, 2, 2);
-> +/* TIDS reset register */
-> +static const struct reg_field tids_reg_field_soft_reset =
-> +	REG_FIELD(TIDS_CMD_SOFT_REST, 1, 1);
-> +
-
-I seem to be missing something. Why would it make sense to allocate
-all those regmap fields and not just use regmap_update_bits() ?
-I don't see any benefit in that complexity, especially for single-bit
-"fields".
-
-> +struct tids_data {
-> +	struct i2c_client *client;
-> +
-> +	struct regmap *regmap;
-> +
-> +	/* regmap field for ctrl register */
-> +	struct regmap_field *reg_ctrl_one_shot;
-> +	struct regmap_field *reg_ctrl_freerun;
-> +	struct regmap_field *reg_ctrl_if_add_inc;
-> +	struct regmap_field *reg_ctrl_avg;
-> +	struct regmap_field *reg_ctrl_bdu;
-> +
-> +	/* regmap field for status register */
-> +	struct regmap_field *reg_status_busy;
-> +	struct regmap_field *reg_status_over_thl;
-> +	struct regmap_field *reg_status_under_tll;
-> +
-> +	/* regmap field for soft reset register*/
-> +	struct regmap_field *reg_soft_reset;
-> +
-> +	int irq;
-> +	int temperature;
-> +};
-> +
-> +static ssize_t tids_interval_read(struct device *dev, long *val)
-> +{
-> +	int ret = 0;
-> +	unsigned int avg_value = 0;
-
-Unnecessary initializations.
-
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +
-> +	ret = regmap_field_read(data->reg_ctrl_avg, &avg_value);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	switch (avg_value) {
-> +	case tids_update_interval_40ms:
-> +		*val = 40;
-> +		break;
-> +	case tids_update_interval_20ms:
-> +		*val = 20;
-> +		break;
-> +	case tids_update_interval_10ms:
-> +		*val = 10;
-> +		break;
-> +	case tids_update_interval_5ms:
-> +		*val = 5;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-
-Reading a value from a chip can not return -EINVAL.
-EINVAL is "Invalid argument", or bad user input, not bad data from a chip.
-
-On top of that, the regmap field is defined as two bits. The value returned
-can not be out of range. A simple array read would do the trick.
-
-static u8 update_intervals[] = { 40, 20, 10, 5 };
-
-return update_intervals[avg_value];
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static ssize_t tids_interval_write(struct device *dev, long val)
-> +{
-> +	unsigned int avg_value = 0;
-> +	struct tids_data *data = dev_get_drvdata(dev);
-
-Again, please avoid unnecessary variable initializations. I am not going to
-mention this again; please fix everywhere.
-
-Also, please use "reverse christmas tree" (longest declaration first)
-for variable declarations.
-
-> +
-> +	switch (val) {
-> +	case 40:
-> +		avg_value = tids_update_interval_40ms;
-> +		break;
-> +	case 20:
-> +		avg_value = tids_update_interval_20ms;
-> +		break;
-> +	case 10:
-> +		avg_value = tids_update_interval_10ms;
-> +		break;
-> +	case 5:
-> +		avg_value = tids_update_interval_5ms;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-
-This code should, similar to other drivers, approximate the provided value.
-instead of letting the user figure out valid values. I would suggest to use
-find_closest() or find_closest_descending() to determine valid values.
-
-> +	return regmap_field_write(data->reg_ctrl_avg, avg_value);
-> +}
-> +
-> +static int tids_temperature1_read(struct device *dev, long *val)
-> +{
-> +	int ret;
-> +	u8 buf[2] = { 0 };
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +
-> +	ret = regmap_bulk_read(data->regmap, TIDS_CMD_DATA_T_L, buf, 2);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	// temperature in °mC
-> +	*val = (((s16)(buf[1] << 8) | buf[0])) * 10;
-> +
-> +	return 0;
-> +}
-> +
-> +static ssize_t tids_temperature_alarm_read(struct device *dev, u32 attr,
-> +					   long *val)
-> +{
-> +	int ret = 0;
-> +	unsigned int reg_data = 0;
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +
-> +	if (attr == hwmon_temp_min_alarm)
-> +		ret = regmap_field_read(data->reg_status_under_tll, &reg_data);
-> +	else if (attr == hwmon_temp_max_alarm)
-> +		ret = regmap_field_read(data->reg_status_over_thl, &reg_data);
-> +	else
-> +		return -EOPNOTSUPP;
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	*val = reg_data;
-> +
-> +	return 0;
-> +}
-> +
-> +static int tids_temperature_hyst_read(struct device *dev, u32 attr, long *val)
-> +{
-> +	int ret;
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +	unsigned int reg_data = 0;
-> +
-> +	if (attr == hwmon_temp_min_hyst)
-> +		ret = regmap_read(data->regmap, TIDS_CMD_T_L_LIMIT, &reg_data);
-> +	else if (attr == hwmon_temp_max_hyst)
-> +		ret = regmap_read(data->regmap, TIDS_CMD_T_H_LIMIT, &reg_data);
-> +	else
-> +		return -EOPNOTSUPP;
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	// temperature from register conversion in °mC
-> +	*val = (((u8)reg_data - 63) * 640);
-> +
-> +	return 0;
-> +}
-> +
-> +static ssize_t tids_temperature_hyst_write(struct device *dev, u32 attr,
-> +					   long val)
-> +{
-> +	u8 reg_data = 0;
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +
-> +	// temperature in °mC
-> +	if (val < -39680 || val > 122880)
-> +		return -EINVAL;
-
-Please use clamp_val().
-
-> +
-> +	// temperature to register conversion in °mC
-
-You are using c++ comment style for single-line comments and C comment style for
-multi-line comments. I am not a friend of C++-style comments, but I accept it.
-However, I do ask for consistency. Either/or, please, but not both.
-
-> +	reg_data = (u8)((val / 640) + 63);
-
-Candidate for DIV_ROUND_CLOSEST() ?
-
-> +
-> +	if (attr == hwmon_temp_min_hyst)
-> +		return regmap_write(data->regmap, TIDS_CMD_T_L_LIMIT, reg_data);
-> +	else if (attr == hwmon_temp_max_hyst)
-> +		return regmap_write(data->regmap, TIDS_CMD_T_H_LIMIT, reg_data);
-> +	else
-> +		return -EOPNOTSUPP;
-> +}
-> +
-> +static umode_t tids_hwmon_visible(const void *data,
-> +				  enum hwmon_sensor_types type, u32 attr,
-> +				  int channel)
-> +{
-> +	umode_t mode = 0;
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_input:
-> +		case hwmon_temp_min_alarm:
-> +		case hwmon_temp_max_alarm:
-> +			mode = 0444;
-> +			break;
-> +		case hwmon_temp_min_hyst:
-> +		case hwmon_temp_max_hyst:
-> +			mode = 0644;
-> +			break;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	case hwmon_chip:
-> +		switch (attr) {
-> +		case hwmon_chip_update_interval:
-> +			mode = 0644;
-> +			break;
-> +		default:
-> +			break;
-> +		}
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return mode;
-> +}
-> +
-> +static int tids_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-> +			   u32 attr, int channel, long *val)
-> +{
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_input:
-> +			return tids_temperature1_read(dev, val);
-> +		case hwmon_temp_min_alarm:
-> +		case hwmon_temp_max_alarm:
-> +			return tids_temperature_alarm_read(dev, attr, val);
-> +		case hwmon_temp_min_hyst:
-> +		case hwmon_temp_max_hyst:
-> +			return tids_temperature_hyst_read(dev, attr, val);
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	case hwmon_chip:
-> +		switch (attr) {
-> +		case hwmon_chip_update_interval:
-> +			return tids_interval_read(dev, val);
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static int tids_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
-> +			    u32 attr, int channel, long val)
-> +{
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_min_hyst:
-> +		case hwmon_temp_max_hyst:
-> +			return tids_temperature_hyst_write(dev, attr, val);
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	case hwmon_chip:
-> +		switch (attr) {
-> +		case hwmon_chip_update_interval:
-> +			return tids_interval_write(dev, val);
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static const struct hwmon_channel_info *const tids_info[] = {
-> +	HWMON_CHANNEL_INFO(chip, HWMON_C_UPDATE_INTERVAL),
-> +	HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT | HWMON_T_MIN_ALARM |
-> +					 HWMON_T_MAX_ALARM | HWMON_T_MIN_HYST |
-> +					 HWMON_T_MAX_HYST),
-
-Why do you use "hyst" for limit attributes ? A hysteresis without limit does
-not make sense. The datasheet says that those are limits (thresholds),
-not hysteresis values. The datasheet doesn't even mention the term
-"hysteresis".
-
-> +	NULL
-> +};
-> +
-> +static const struct hwmon_ops tids_ops = {
-> +	.is_visible = tids_hwmon_visible,
-> +	.read		= tids_hwmon_read,
-> +	.write		= tids_hwmon_write,
-> +};
-> +
-> +static const struct hwmon_chip_info tids_chip_info = {
-> +	.ops	= &tids_ops,
-> +	.info	= tids_info,
-> +};
-> +
-> +static bool tids_regmap_writeable_reg(struct device *dev, unsigned int reg)
-> +{
-> +	if (reg >= 0x02 && reg <= 0x04)
-> +		return true;
-> +
-> +	if (reg == 0x0c)
-> +		return true;
-> +
-
-Registers are defined. Please use the definitions here and in the functions below.
-
-> +	return false;
-> +}
-> +
-> +static bool tids_regmap_readable_reg(struct device *dev, unsigned int reg)
-> +{
-> +	if (reg >= 0x01 && reg <= 0x07)
-> +		return true;
-> +
-> +	if (reg == 0x0c)
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
-> +static bool tids_regmap_volatile_reg(struct device *dev, unsigned int reg)
-> +{
-> +	if (reg >= 0x05 && reg <= 0x07)
-> +		return true;
-> +
-> +	if (reg == 0x0c)
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
-> +static const struct regmap_config regmap_config = {
-> +	.reg_bits			= 8,
-> +	.val_bits			= 8,
-> +	.max_register		= TIDS_CMD_SOFT_REST,
-> +	.writeable_reg		= tids_regmap_writeable_reg,
-> +	.readable_reg		= tids_regmap_readable_reg,
-> +	.volatile_reg		= tids_regmap_volatile_reg,
-> +	.use_single_read	= 0,
-> +};
-> +
-> +static int tids_probe_regmap(struct tids_data *data)
-> +{
-> +	struct device *dev = &data->client->dev;
-> +
-> +	/* Init regmap */
-> +	data->regmap = devm_regmap_init_i2c(data->client, &regmap_config);
-> +	if (IS_ERR(data->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(data->regmap),
-> +				     "regmap initialization failed\n");
-> +
-> +	/* Allocate regmap_field for ctrl register */
-> +	data->reg_ctrl_one_shot = devm_regmap_field_alloc(
-> +		dev, data->regmap, tids_reg_field_ctrl_one_shot);
-> +	if (IS_ERR(data->reg_ctrl_one_shot))
-> +		return dev_err_probe(
-> +			dev, PTR_ERR(data->reg_ctrl_one_shot),
-> +			"regmap_field reg_ctrl_one_shot initialization failed\n");
-> +
-> +	data->reg_ctrl_freerun = devm_regmap_field_alloc(
-> +		dev, data->regmap, tids_reg_field_ctrl_freerun);
-> +	if (IS_ERR(data->reg_ctrl_freerun))
-> +		return dev_err_probe(
-> +			dev, PTR_ERR(data->reg_ctrl_freerun),
-> +			"regmap_field reg_ctrl_freerun initialization failed\n");
-> +
-> +	data->reg_ctrl_if_add_inc = devm_regmap_field_alloc(
-> +		dev, data->regmap, tids_reg_field_ctrl_if_add_inc);
-> +	if (IS_ERR(data->reg_ctrl_if_add_inc))
-> +		return dev_err_probe(
-> +			dev, PTR_ERR(data->reg_ctrl_if_add_inc),
-> +			"regmap_field reg_ctrl_if_add_inc initialization failed\n");
-> +
-> +	data->reg_ctrl_avg = devm_regmap_field_alloc(dev, data->regmap,
-> +						     tids_reg_field_ctrl_avg);
-> +	if (IS_ERR(data->reg_ctrl_avg))
-> +		return dev_err_probe(
-> +			dev, PTR_ERR(data->reg_ctrl_avg),
-> +			"regmap_field reg_ctrl_avg initialization failed\n");
-> +
-> +	data->reg_ctrl_bdu = devm_regmap_field_alloc(dev, data->regmap,
-> +						     tids_reg_field_ctrl_bdu);
-> +	if (IS_ERR(data->reg_ctrl_bdu))
-> +		return dev_err_probe(
-> +			dev, PTR_ERR(data->reg_ctrl_bdu),
-> +			"regmap_field reg_ctrl_bdu initialization failed\n");
-> +
-> +	/* Allocate regmap_field for status register */
-> +	data->reg_status_busy = devm_regmap_field_alloc(
-> +		dev, data->regmap, tids_reg_field_status_busy);
-> +	if (IS_ERR(data->reg_status_busy))
-> +		return dev_err_probe(
-> +			dev, PTR_ERR(data->reg_status_busy),
-> +			"regmap_field reg_status_busy initialization failed\n");
-> +
-> +	data->reg_status_over_thl = devm_regmap_field_alloc(
-> +		dev, data->regmap, tids_reg_field_status_over_thl);
-> +	if (IS_ERR(data->reg_status_over_thl))
-> +		return dev_err_probe(
-> +			dev, PTR_ERR(data->reg_status_over_thl),
-> +			"regmap_field reg_status_over_thl initialization failed\n");
-> +
-> +	data->reg_status_under_tll = devm_regmap_field_alloc(
-> +		dev, data->regmap, tids_reg_field_status_under_tll);
-> +	if (IS_ERR(data->reg_status_under_tll))
-> +		return dev_err_probe(
-> +			dev, PTR_ERR(data->reg_status_under_tll),
-> +			"regmap_field reg_status_under_tll initialization failed\n");
-> +
-> +	/* Allocate regmap_field for software_reset */
-> +	data->reg_soft_reset = devm_regmap_field_alloc(
-> +		dev, data->regmap, tids_reg_field_soft_reset);
-> +	if (IS_ERR(data->reg_soft_reset))
-> +		return dev_err_probe(
-> +			dev, PTR_ERR(data->reg_soft_reset),
-> +			"regmap_field reg_soft_reset initialization failed\n");
-
-Following up on the above, that is a lot of code just to avoid using regmap_update_bits().
-Again, what am I missing ?
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int tids_probe(struct i2c_client *client)
-> +{
-> +	struct device *device = &client->dev;
-> +	struct device *hwmon_dev;
-> +	struct tids_data *data;
-> +	unsigned int value;
-> +	int ret = 0;
-> +
-> +	data = devm_kzalloc(device, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	data->client = client;
-> +
-> +	ret = tids_probe_regmap(data);
-> +	if (ret != 0)
-> +		return ret;
-> +
-> +	/* Read device id, to check if i2c is working */
-> +	ret = regmap_read(data->regmap, TIDS_CMD_DEVICE_ID, &value);
-> +	if (ret < 0)
-> +		return ret;
-
-Why read this but not check it ?
-
-> +
-> +	/* Triggering soft reset */
-> +	ret = regmap_field_write(data->reg_soft_reset, 1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = regmap_field_write(data->reg_soft_reset, 0);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Allowing bulk read */
-> +	ret = regmap_field_write(data->reg_ctrl_if_add_inc, 1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set meassurement interval */
-> +	ret = regmap_field_write(data->reg_ctrl_avg, tids_update_interval_40ms);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set device to free run mode */
-> +	ret = regmap_field_write(data->reg_ctrl_freerun, 1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Don't update temperature register until high and low value are read */
-> +	ret = regmap_field_write(data->reg_ctrl_bdu, 1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-
-Please move this code into a separate _init function. Also, is it really necessary
-to write all those control register values bit by bit ? If so, that should be explained
-since it adds a lot of non-obvious complexity to the code.
-
-> +	hwmon_dev = devm_hwmon_device_register_with_info(
-> +		device, device->driver->name, data, &tids_chip_info, NULL);
-
-Just use "tids" instead of "device->driver->name".
-
-> +
-> +	return PTR_ERR_OR_ZERO(hwmon_dev);
-> +}
-> +
-> +static int tids_suspend(struct device *dev)
-> +{
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +
-> +	return regmap_field_write(data->reg_ctrl_freerun, 0);
-> +}
-> +
-> +static int tids_resume(struct device *dev)
-> +{
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +
-> +	return regmap_field_write(data->reg_ctrl_freerun, 1);
-> +}
-> +
-> +static DEFINE_SIMPLE_DEV_PM_OPS(tids_dev_pm_ops, tids_resume, tids_suspend);
-> +
-> +static const struct i2c_device_id tids_id[] = {
-> +	{ "tids", 0 },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(i2c, tids_id);
-> +
-> +static const struct of_device_id tids_of_match[] = {
-> +	{ .compatible = "wsen,tids-2521020222501" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, tids_of_match);
-> +
-> +static struct i2c_driver tids_driver = {
-> +	.class	= I2C_CLASS_HWMON,
-> +	.driver = {
-> +		.name			= "tids",
-> +		.pm				= pm_sleep_ptr(&tids_dev_pm_ops),
-> +		.of_match_table = tids_of_match,
-> +	},
-> +	.probe		= tids_probe,
-> +	.id_table	= tids_id,
-> +};
-> +
-> +module_i2c_driver(tids_driver);
-> +
-> +MODULE_AUTHOR("Thomas Marangoni <Thomas.Marangoni@becom-group.com>");
-> +MODULE_DESCRIPTION("WSEN TIDS temperature sensor driver");
-> +MODULE_LICENSE("GPL");
+>   required:
+>     - compatible
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index 42d2bc0ce027..2cf753fdf5a7 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -1823,6 +1823,8 @@ patternProperties:
+>       description: Wobo
+>     "^wolfvision,.*":
+>       description: WolfVision GmbH
+> +  "^wsen,.*":
+> +    description: Würth Elektronik eiSos GmbH & Co. KG
+>     "^x-powers,.*":
+>       description: X-Powers
+>     "^xen,.*":
 
