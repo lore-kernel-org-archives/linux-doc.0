@@ -1,150 +1,129 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05D2258ED9
-	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 18:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC27A265CA7;
+	Mon, 17 Nov 2025 18:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763404228; cv=none; b=m9NeFCh+fjNUdLP5/VotduyOkJ+A/ciiMDQl+j+t+0ewDy4OMdeuXvGVewtz8+1TGCjp11iXaLRVdG3hd0FDDu4ecF0NhokrMIaORt4PVeZUkgX4ar//yh3bEvMX7PuOyU4q8KSKtqUG5yrUYa9pU4VSIV+2luIjFBeZ/dEg8ak=
+	t=1763404245; cv=none; b=kJPQDcFgZib1rvS0+BDxD9IKJX2THy8hKxb5HoFIEI0OLTEX3pW2AyX0MSn9QF1CxGgdQA+Q/pp2OhoOmRCAUtXLf9AGCMIa0v2QA2vTQdv4sMsQ0+kPzF8xGDX8qXHBawrSRpixP67MkfU8P3n22JsimBuQ9Y7Sm58yr3ZDL7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763404228; c=relaxed/simple;
-	bh=XmGPnc3Nhnm1pE/IxNN2voQ/65Pq6bmkez9grZd7nic=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gfHxARf1+BMWfGDjZJao6JMf1Nz4NcD8hBK97CX8Sp/lbmGiXIt02a7GoY4rhStzOmFo5Xo+DTh+6obK3Kb+qSvugyzYisPvWfNerDzYj9BK2uV4539tymaapeVh4A1e/wjIUItl0Z2YpCgaJ/cDJlU5lxtjCUPlAkaupHQNUH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=XQBhjdNm; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763404245; c=relaxed/simple;
+	bh=BB+auAPSaWW0qREZgyoFhp/O9F7pIgaZ5weQweXGPXE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HJkUdAJUmgduhzNaVv3A1q5prO+GiSjsq12OwhU5hNM4DFsJy6rVw2+vGVIL8rgoLxU7Y6q5yXlLUMji1RUPdOi1P9duXZKnzYjGM3ZPDlXLQ/ZRG/vsXuvNkIzdeFm9UHSN/RSyB8PdKnybGLWT5CWvg6eLPJGdFL0SDPeWkWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ZSDQbRBI; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="XQBhjdNm"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6417313bddaso7599391a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 10:30:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763404225; x=1764009025; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mo7Fpew4SCWgreWKkBa60zvQOZX9oGrQ6m1RkCiDUC0=;
-        b=XQBhjdNm8mbkVN0tkxf1aaX9kmALdiA2V4APUS7DHQrvHclx6lcc8m7Et9wUGYcoKI
-         7xvcriNTjyK4SOHajOKl9I+rQFutvt3f38qj9jcxe9wkcxmh1MwH6usB4A8ZCu9FaXFf
-         /+Zu+vfKRIww2iioDFPLi8AlNVJ0JWKunRiUYUC8+EI4kS+jDsIoWeWs2MX8lo2sNlju
-         c1GdqeCARWjYXtfoYmd+OkrBGdr30CcmwSSwKjbznkJnnG3d6FRRDvQuS6zh9z2Cpx0G
-         o3hpo9e0hmPQK3Ah1hqPEbeFbLzfNPv1WxfNmD/E2lksTn31QuycufYZ/rhB7Cu1qzg+
-         Sggg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763404225; x=1764009025;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mo7Fpew4SCWgreWKkBa60zvQOZX9oGrQ6m1RkCiDUC0=;
-        b=dZW5tC0iYv92aMlW5k6zUy8G42ZHqVZeISX4tzZNfzyPBOj++7jvEGFAvgWkMisLdx
-         ND+iIXO9kugJ6I1gwgWKwLzcDhO/zOHUL63quhXJFVwFNyxF1IjIN1zkf0lJ7wC8LmDQ
-         JFcDwy1AiGFiZMDXD4ayoOr8WSyJhuTSr6tWEGD/F/YKm22w88DBmm/tevdlB6IRkWjs
-         PzmhbE2f9nX43w3DebP4NB9Gkh2H7atymDoA5ls/25Ma8TMAHyi2/qdI41HnqicBkosW
-         peODpr5772fti34HyeQAAlXoC8EOHoBvorN/g21K0vbpz4Hqr7HzaQ/1Yda+G73ky9CF
-         a7fA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEFlpNwuGHABgLbFo1uXJqJ2FoSu61WNE15CoAZeLf88VpTk1efmjNOK0xEQAortUq8asQu1EVLwk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0dZ0ezwjPP7SohDw/KapTHBkWBKzhsb2/lQQq31MX0vNzjUl8
-	ZM3pSbXZ+6g6g2K9RruD7K/tLU8abIeo5HIN/CzhM5E1wrUVnmu0ekY/pkJDV3hTJ6CdJPHqeOF
-	VfXl1Zp3SEAceiQJZpMldBTegtNMLIUwVcT7HYa/2lg==
-X-Gm-Gg: ASbGnctL1djTT6yprI8zIHbxgihhJIyJAAK8QlULWufcjNfNaFG0k5oaslPSfrYJvVG
-	YHmzMTKITHC7HeyRja9PrH21ntf5WN3G8dZ4f/iE8cQ89X5MnM+sZJvmUEgPKNe5LyvN0ujDUp0
-	Jx6M8iF3kx9uTxw0hHiSspwNT0rV0nLeNE42OTMMiMy6GjwASiaNaU3EMaJs6EyhZhLZhMCAvLg
-	b3IexRid13R3hUXF7O7IsP14ftJskIJBE+s4HCwEnroK1fQjSUa17LmkrmkompLyy6M
-X-Google-Smtp-Source: AGHT+IGbft8Z+rAKPet8Z4NE8LDyUX4MgwKnPbmIzDODsbkkevdfT0+fNvskHAAOPS9NtBXhUCGNpo/Yz/tzbQHQBNw=
-X-Received: by 2002:a05:6402:27c8:b0:641:8b4d:cc6f with SMTP id
- 4fb4d7f45d1cf-64350e899b0mr11672843a12.23.1763404225103; Mon, 17 Nov 2025
- 10:30:25 -0800 (PST)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ZSDQbRBI"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 138D940E024F;
+	Mon, 17 Nov 2025 18:30:39 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id nawrX4O69IBu; Mon, 17 Nov 2025 18:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1763404233; bh=+eneKW8K7UrutKZOwotXHXcUfrqGSpDfjTLnElI6pBM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZSDQbRBI6qy/coLOxGdlQb94N0/5AK1FpgtunhUMwYttskOp7Un+5PERvHaNCDXIA
+	 VTb647+fsEIXhNnHMX8IeNM0XxMu8dzGDbx1lSxeZ82jLJxLKAhK4ShAMRPzsEGuOv
+	 n6rh8blIyEmUVx9al2f5QhHh7Znwq846c6gREJmrXHHN1w/TxTk4q7szMVeJHpDzK/
+	 c/XPLjWPV1O5SmvRLqDdmogtMfIjt9vYZNpPkdbirlKmNLjhvzlZ/dh31Fyh/FeUnF
+	 pi5TVwMLKIPgvaRE0TgQ4wPlrQjAPx6DsSbYPmAwv84783xBoOtgsdiGa4kb7zsfQp
+	 HoJCPkrUWXlZ7wxKZ1hFtrbWTTzmOAbsaYoimEAFc8nfGydYzTYzCWBME0XMPQbUag
+	 utV2G+kjf+Mx18a0OQj/N6xvSFB/TNxDLyJfaEYeno9zble40lTE4BP8jJTl5GEHJs
+	 DtC5GqfQE/+Dh7vLyn91hww2yQV5hqM2ouChFwWjonv+8ZGTKaPV63IZu1IRUq2L9b
+	 a1H+qZTXX5ofe3LzzSKhJGP0tTrcX6V/foG1YodxvAhgaGDTIFvy17WU4Xule12KwO
+	 6T/lKy2jzVVilA9JsNA52CMZ9dTmQWUsFseFsjLVDvQ3CYcRsK7Dp96CR9BcDWrVnC
+	 VgtKVoMFkEiV2Yn8iOX2E4ME=
+Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id C27BA40E016D;
+	Mon, 17 Nov 2025 18:30:06 +0000 (UTC)
+Date: Mon, 17 Nov 2025 19:29:58 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Sohil Mehta <sohil.mehta@intel.com>
+Cc: x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Sean Christopherson <seanjc@google.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org
+Subject: Re: [PATCH v12 6/8] x86/traps: Communicate a LASS violation in #GP
+ message
+Message-ID: <20251117182958.GBaRtppoY2uANW2JI8@fat_crate.local>
+References: <20251113224204.50391-1-sohil.mehta@intel.com>
+ <20251113224204.50391-7-sohil.mehta@intel.com>
+ <20251117144840.GIaRs1yNEYjdNF0SHu@fat_crate.local>
+ <bfce23cc-bf7f-494e-a443-baea41f33381@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-3-pasha.tatashin@soleen.com> <aRnG8wDSSAtkEI_z@kernel.org>
- <CA+CK2bDu2FdzyotSwBpGwQtiisv=3f6gC7DzOpebPCxmmpwMYw@mail.gmail.com> <aRoi-Pb8jnjaZp0X@kernel.org>
-In-Reply-To: <aRoi-Pb8jnjaZp0X@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 13:29:47 -0500
-X-Gm-Features: AWmQ_bmhhbDUMBKFxNnFMOPCeOApSAwekkwuL9HuN6ynW1cSRitKeGbWllXoez0
-Message-ID: <CA+CK2bBEs2nr0TmsaV18S-xJTULkobYgv0sU9=RCdReiS0CbPQ@mail.gmail.com>
-Subject: Re: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <bfce23cc-bf7f-494e-a443-baea41f33381@intel.com>
 
-On Sun, Nov 16, 2025 at 2:16=E2=80=AFPM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Sun, Nov 16, 2025 at 09:55:30AM -0500, Pasha Tatashin wrote:
-> > On Sun, Nov 16, 2025 at 7:43=E2=80=AFAM Mike Rapoport <rppt@kernel.org>=
- wrote:
-> > >
-> > > > +static int __init liveupdate_early_init(void)
-> > > > +{
-> > > > +     int err;
-> > > > +
-> > > > +     err =3D luo_early_startup();
-> > > > +     if (err) {
-> > > > +             pr_err("The incoming tree failed to initialize proper=
-ly [%pe], disabling live update\n",
-> > > > +                    ERR_PTR(err));
-> > >
-> > > How do we report this to the userspace?
-> > > I think the decision what to do in this case belongs there. Even if i=
-t's
-> > > down to choosing between plain kexec and full reboot, it's still a po=
-licy
-> > > that should be implemented in userspace.
-> >
-> > I agree that policy belongs in userspace, and that is how we designed
-> > it. In this specific failure case (ABI mismatch or corrupt FDT), the
-> > preserved state is unrecoverable by the kernel. We cannot parse the
-> > incoming data, so we cannot offer it to userspace.
-> >
-> > We report this state by not registering the /dev/liveupdate device.
-> > When the userspace agent attempts to initialize, it receives ENOENT.
-> > At that point, the agent exercises its policy:
-> >
-> > - Check dmesg for the specific error and report the failure to the
-> > fleet control plane.
->
-> Hmm, this is not nice. I think we still should register /dev/liveupdate a=
-nd
-> let userspace discover this error via /dev/liveupdate ABIs.
+On Mon, Nov 17, 2025 at 09:24:20AM -0800, Sohil Mehta wrote:
+> The page fault error messages have similar logic:
+> 
+> if (address < PAGE_SIZE && !user_mode(regs))
+> 	pr_alert("BUG: kernel NULL pointer dereference, address: %px\n",
+> 		(void *)address);
+> 
+> I believe the check is to account for arithmetic or other operations
+> that may have happened on the "NULL" pointer before it is dereferenced.
 
-Not registering the device is the correct approach here for two reasons:
+Ah ok, that makes sense. That comment still reads weird:
 
-1. This follows the standard Linux driver pattern. If a driver fails
-to initialize its underlying resources (hardware, firmware, or in this
-case, the incoming FDT), it does not register a character device.
-2. Registering a "zombie" device that exists solely to return errors
-adds significant complexity. We would need to introduce a specific
-"broken" state to the state machine and add checks to IOCTLs to reject
-commands with a specific error code.
++       /*
++        * If LASS is active, a NULL pointer dereference generates a #GP
++        * instead of a #PF.
++        */
++       if (*addr < PAGE_SIZE)
 
-Pasha
+It says "if LASS is active" but the check if
+(cpu_feature_enabled(X86_FEATURE_LASS)) is below it.
+
+I guess you want to have
+
+	if (cpu_feature_enabled(X86_FEATURE_LASS)) {
+		if (*addr < PAGE_SIZE)
+			return GP_NULL_POINTER;
+		else
+			return GP_LASS_VIOLATION;
+	}
+
+so that it is perfectly clear.
+
+Then the catch-all GP_CANONICAL will take care of the absurd cases, if we ever
+hit them.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
