@@ -1,115 +1,312 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F27332917;
-	Mon, 17 Nov 2025 21:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629282D7DC7;
+	Mon, 17 Nov 2025 21:38:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763413902; cv=none; b=EMMfvs5BsKcHUykS1h08U2g+WUalqVgGk8y6eJ9NShGN0WQwzcxTwfGryc1cKXQm9NBRYx02g1dbH5pC6Ffi7NBqVj6+dxLdSfSF9GMZQh0HfIPQZ8PbHbisibhG51rXRBA4HxAtcSkGuuNpDVtQfQn0EbGGEXedwM/KWIbEcL4=
+	t=1763415488; cv=none; b=mhvrBDLpPB66mt3+HrD/TqtU8Jn+NYiHfAXSvZe8ksffs2ilSchahDWgbr4P0E67W060iuuwezaFI8AQpQr88PFRbv9PS+a41KvZ2bwuFQU994RK1XQXOkKOg19zDVpNPF8kXjew7iDD07bSG7wewO8T3sYH0IiU9qATq+puTcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763413902; c=relaxed/simple;
-	bh=bie3kN86Jb07qh+6ZaiIlQYo+zkE09+CG7RupsGe1d0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gBbcU6qwjQoq7o4MkHGCOvz9dlC3EijaJC9WmD5esH9zjo3Du2amHF56pBFkqTMR1eg98sBrNHORiqhukJt/g0fYE7mQ7CdNfPqASMJeIwtb7CxWN/bKAS1mhSD+8Z5LAFGOv7kGzhsDc5qUprbUzigLFoEnsjN8a1ecaesRDpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7QLXXaH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763415488; c=relaxed/simple;
+	bh=FcWe/f4DHlsFSPh0dXKYaR2XG+f7LkWGW945ziAYDpE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y45CUhE6MMVx76b1S+D06EFAvpfE9anLq/RRwc/cvFtdhRUHRkIsoC7bK4WiM50Ds0+TAarPpqaYnd66IpMOgYz9tr7NopRMSaUV8tgPKU90RWC7xNZUDXk9Oia4j2coMBJBeKzYAtn0qEtqtUvcBREwHerDZaETxRSEOQJT5SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSzULxUL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7QLXXaH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B44A7C2BCB0;
-	Mon, 17 Nov 2025 21:11:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSzULxUL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04073C113D0;
+	Mon, 17 Nov 2025 21:38:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763413901;
-	bh=bie3kN86Jb07qh+6ZaiIlQYo+zkE09+CG7RupsGe1d0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B7QLXXaHf0sITCv4iAsxWlaf7s4zlfoviVYz/0zLfBC9hHK4TW5L+fRcWEH2flkZx
-	 F8dUOHmtLf4SGQMlAX8YIg99ukJF8vz+tfpNCqDW8UAogvgq/g5brKADLQLJJMC0uO
-	 IfGTLHUpNnVmfQNMRlWel9DQB0hWfJhAFG/jmDY854HSXjnOWCKUBdItbWhTrPh9N6
-	 pd9o23MWct8ZxEnMv9y3CpZ7RpxlQq4v9AhEGbOYN56ObB6PyKQX9/7q4dhKY2NHK7
-	 EkIQ9GGmutwSAt1xFi3zvMlFrSGw2eMb7eTS+KRyWzGWfLkfyExS0RRjfv1SNFFbAc
-	 LmuWGRjhMeAkQ==
-Date: Mon, 17 Nov 2025 23:11:14 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v6 04/20] liveupdate: luo_session: add sessions support
-Message-ID: <aRuPcjyNBZqlZuEm@kernel.org>
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-5-pasha.tatashin@soleen.com>
- <aRoEduya5EO8Xc1b@kernel.org>
- <CA+CK2bC_z_6hgYu_qB7cBK2LrBSs8grjw7HCC+QrtUSrFuN5ZQ@mail.gmail.com>
+	s=k20201202; t=1763415486;
+	bh=FcWe/f4DHlsFSPh0dXKYaR2XG+f7LkWGW945ziAYDpE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZSzULxULJyHKD3NxkdEB5QCtNJH8jSDR+eE+oKzYYtmlR4A6J8TCjV6GSOQOhzBwE
+	 eDXm1QrP9gLLhgba136T0kL6qX+4/ypek4SCAF7Dvt94dRVoaqFjPRVrFheV1zzzgx
+	 z86Qb58aOM6yNxtP9CdZXS8RxKQhB/KfV9CrNgbi5Zs2n/+c0e/Cnx4yGn6N/uvjHU
+	 Eb864532jV/xDJgu2BDfivdgZDtHMlXWiSARDg2WuaC7PssD+8xqS9eeTTFv+m6H3Q
+	 ycYbEFEAXUppyhDr8W/I/d4A67uvtiEEv0xdDh/aH6swGlqk1l3+Ud/hTv0I1laXWx
+	 gerS274AgP7ew==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	josh@joshtriplett.org,
+	kees@kernel.org,
+	konstantin@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org,
+	workflows@vger.kernel.org,
+	joe@perches.com,
+	rdunlap@infradead.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v3] README: restructure with role-based documentation and guidelines
+Date: Mon, 17 Nov 2025 16:38:01 -0500
+Message-ID: <20251117213801.4077535-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+CK2bC_z_6hgYu_qB7cBK2LrBSs8grjw7HCC+QrtUSrFuN5ZQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 17, 2025 at 10:09:28AM -0500, Pasha Tatashin wrote:
-> 
-> > > +     }
-> > > +
-> > > +     for (int i = 0; i < sh->header_ser->count; i++) {
-> > > +             struct luo_session *session;
-> > > +
-> > > +             session = luo_session_alloc(sh->ser[i].name);
-> > > +             if (IS_ERR(session)) {
-> > > +                     pr_warn("Failed to allocate session [%s] during deserialization %pe\n",
-> > > +                             sh->ser[i].name, session);
-> > > +                     return PTR_ERR(session);
-> > > +             }
-> >
-> > The allocated sessions still need to be freed if an insert fails ;-)
-> 
-> No. We have failed to deserialize, so anyways the machine will need to
-> be rebooted by the user in order to release the preserved resources.
-> 
-> This is something that Jason Gunthrope also mentioned regarding IOMMU:
-> if something is not correct (i.e., if a session cannot finish for some
-> reason), don't add complicated "undo" code that cleans up all
-> resources. Instead, treat them as a memory leak and allow a reboot to
-> perform the cleanup.
-> 
-> While in this particular patch the clean-up looks simple, later in the
-> series we are adding file deserialization to each session to this
-> function. So, the clean-up will look like this: we would have to free
-> the resources for each session we deserialized, and also free the
-> resources for files that were deserialized for those sessions, only to
-> still boot into a "maintenance" mode where bunch of resources are not
-> accessible from which the machine would have to be rebooted to get
-> back to a normal state. This code will never be tested, and never be
-> used, so let's use reboot to solve this problem, where devices are
-> going to be properly reset, and memory is going to be properly freed.
+Reorganize README to provide targeted documentation paths for different user
+roles including developers, researchers, security experts, maintainers, and AI
+coding assistants. Add quick start section and essential docs links.
 
-A part of this explanation should be a comment in the code.
+Include proper attribution requirements for AI-assisted contributions using
+Assisted-by tags with agent details and tools used.
 
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+Changes in v3:
+- Replace "Agentic Coding" terminology with clearer "AI Coding Assistants"
+- Add concrete examples of proper Assisted-by tag usage with multiple formats
+- Add "Bad examples" section showing anti-patterns to avoid
+- Add detailed tool categorization distinguishing specialized vs basic tools
+- Add explicit format specification: $AGENT_NAME:$MODEL_VERSION [$TOOL1] ...
+- Expand section description to clarify it applies to both AI tools and
+  developers using AI tools
+
+ README                | 212 +++++++++++++++++++++++++++++++++++++++---
+ scripts/checkpatch.pl |   1 +
+ 2 files changed, 202 insertions(+), 11 deletions(-)
+
+diff --git a/README b/README
+index fd903645e6de0..3c8a39cb86710 100644
+--- a/README
++++ b/README
+@@ -1,18 +1,208 @@
+ Linux kernel
+ ============
+ 
+-There are several guides for kernel developers and users. These guides can
+-be rendered in a number of formats, like HTML and PDF. Please read
+-Documentation/admin-guide/README.rst first.
++The Linux kernel is the core of any Linux operating system. It manages hardware,
++system resources, and provides the fundamental services for all other software.
+ 
+-In order to build the documentation, use ``make htmldocs`` or
+-``make pdfdocs``.  The formatted documentation can also be read online at:
++Quick Start
++-----------
+ 
+-    https://www.kernel.org/doc/html/latest/
++* Report a bug: See Documentation/admin-guide/reporting-issues.rst
++* Get the latest kernel: https://kernel.org
++* Build the kernel: make defconfig && make -j$(nproc)
++* Join the community: https://lore.kernel.org/
+ 
+-There are various text files in the Documentation/ subdirectory,
+-several of them using the reStructuredText markup notation.
++Essential Documentation
++-----------------------
+ 
+-Please read the Documentation/process/changes.rst file, as it contains the
+-requirements for building and running the kernel, and information about
+-the problems which may result by upgrading your kernel.
++All users should be familiar with:
++
++* Building requirements: Documentation/process/changes.rst
++* Code of Conduct: Documentation/process/code-of-conduct.rst
++* License: COPYING (GPLv2)
++
++Documentation can be built with make htmldocs or viewed online at:
++https://www.kernel.org/doc/html/latest/
++
++
++Who Are You?
++============
++
++Find your role below:
++
++* New Kernel Developer - Getting started with kernel development
++* Academic Researcher - Studying kernel internals and architecture
++* Security Expert - Hardening and vulnerability analysis
++* Backport/Maintenance Engineer - Maintaining stable kernels
++* System Administrator - Configuring and troubleshooting
++* Maintainer - Leading subsystems and reviewing patches
++* Hardware Vendor - Writing drivers for new hardware
++* Distribution Maintainer - Packaging kernels for distros
++* AI Coding Assistants - AI assistants working with kernel code
++
++
++For Specific Users
++==================
++
++New Kernel Developer
++--------------------
++
++Welcome! Start your kernel development journey here:
++
++* Getting Started: Documentation/process/development-process.rst
++* Your First Patch: Documentation/process/submitting-patches.rst
++* Coding Style: Documentation/process/coding-style.rst
++* Build System: Documentation/kbuild/index.rst
++* Development Tools: Documentation/dev-tools/index.rst
++* Kernel Hacking Guide: Documentation/kernel-hacking/hacking.rst
++* Core APIs: Documentation/core-api/index.rst
++
++Academic Researcher
++-------------------
++
++Explore the kernel's architecture and internals:
++
++* Researcher Guidelines: Documentation/process/researcher-guidelines.rst
++* Memory Management: Documentation/mm/index.rst
++* Scheduler: Documentation/scheduler/index.rst
++* Networking Stack: Documentation/networking/index.rst
++* Filesystems: Documentation/filesystems/index.rst
++* RCU (Read-Copy Update): Documentation/RCU/index.rst
++* Locking Primitives: Documentation/locking/index.rst
++* Power Management: Documentation/power/index.rst
++
++Security Expert
++---------------
++
++Security documentation and hardening guides:
++
++* Security Documentation: Documentation/security/index.rst
++* LSM Development: Documentation/security/lsm-development.rst
++* Self Protection: Documentation/security/self-protection.rst
++* Reporting Vulnerabilities: Documentation/process/security-bugs.rst
++* CVE Procedures: Documentation/process/cve.rst
++* Embargoed Hardware Issues: Documentation/process/embargoed-hardware-issues.rst
++* Security Features: Documentation/userspace-api/seccomp_filter.rst
++
++Backport/Maintenance Engineer
++-----------------------------
++
++Maintain and stabilize kernel versions:
++
++* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
++* Backporting Guide: Documentation/process/backporting.rst
++* Applying Patches: Documentation/process/applying-patches.rst
++* Subsystem Profile: Documentation/maintainer/maintainer-entry-profile.rst
++* Git for Maintainers: Documentation/maintainer/configure-git.rst
++
++System Administrator
++--------------------
++
++Configure, tune, and troubleshoot Linux systems:
++
++* Admin Guide: Documentation/admin-guide/index.rst
++* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
++* Sysctl Tuning: Documentation/admin-guide/sysctl/index.rst
++* Tracing/Debugging: Documentation/trace/index.rst
++* Performance Security: Documentation/admin-guide/perf-security.rst
++* Hardware Monitoring: Documentation/hwmon/index.rst
++
++Maintainer
++----------
++
++Lead kernel subsystems and manage contributions:
++
++* Maintainer Handbook: Documentation/maintainer/index.rst
++* Pull Requests: Documentation/maintainer/pull-requests.rst
++* Managing Patches: Documentation/maintainer/modifying-patches.rst
++* Rebasing and Merging: Documentation/maintainer/rebasing-and-merging.rst
++* Development Process: Documentation/process/maintainer-handbooks.rst
++* Maintainer Entry Profile: Documentation/maintainer/maintainer-entry-profile.rst
++* Git Configuration: Documentation/maintainer/configure-git.rst
++
++Hardware Vendor
++---------------
++
++Write drivers and support new hardware:
++
++* Driver API Guide: Documentation/driver-api/index.rst
++* Driver Model: Documentation/driver-api/driver-model/driver.rst
++* Device Drivers: Documentation/driver-api/infrastructure.rst
++* Bus Types: Documentation/driver-api/driver-model/bus.rst
++* Device Tree Bindings: Documentation/devicetree/bindings/
++* Power Management: Documentation/driver-api/pm/index.rst
++* DMA API: Documentation/core-api/dma-api.rst
++
++Distribution Maintainer
++-----------------------
++
++Package and distribute the kernel:
++
++* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
++* ABI Documentation: Documentation/ABI/README
++* Kernel Configuration: Documentation/kbuild/kconfig.rst
++* Module Signing: Documentation/admin-guide/module-signing.rst
++* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
++* Tainted Kernels: Documentation/admin-guide/tainted-kernels.rst
++
++AI Coding Assistants
++--------------------
++
++Guidelines for AI assistants and developers using AI tools when working
++with kernel code:
++
++* How to Do Kernel Development: Documentation/process/howto.rst
++* Coding Style: Documentation/process/coding-style.rst
++* Submitting Patches: Documentation/process/submitting-patches.rst
++* Submit Checklist: Documentation/process/submit-checklist.rst
++* Programming Language: Documentation/process/programming-language.rst
++
++Critical Requirements:
++
++* License: Use proper SPDX identifiers per
++  Documentation/process/license-rules.rst; kernel code is generally
++  GPL-2.0-only unless documented exceptions apply (see COPYING)
++* Signed-off-by: Agents MUST NOT add Signed-off-by tags
++  (Only humans can legally certify code submission rights)
++* Attribution: Agents MUST add Assisted-by tag:
++  Format: Assisted-by: $AGENT_NAME:$MODEL_VERSION [$TOOL1] [$TOOL2] ...
++
++Examples of Proper Attribution:
++
++Good examples:
++  Assisted-by: AI-Tool:model-version-1.0 coccinelle
++  Assisted-by: AI-Assistant:v2.5.0
++  Assisted-by: Code-Helper:model-2024-04-09 sparse smatch
++  Assisted-by: ML-Agent:version-2024-11
++
++Bad examples (DO NOT USE):
++  Assisted-by: AI                          # Too vague
++  Assisted-by: AI-Tool coccinelle git      # Don't list basic tools
++  Signed-off-by: AI Assistant <ai@...>     # NEVER - AI cannot sign off
++
++Tool Categories:
++
++Specialized tools (SHOULD list if used):
++  - coccinelle: Semantic patch tool for C code transformations
++  - sparse: Semantic checker for C programs
++  - smatch: Static analysis tool for C
++  - cppcheck: Static analysis for C/C++
++  - clang-tidy: Clang-based linter
++  - Custom analysis scripts you created
++
++Basic tools (DON'T list - assumed to be used):
++  - git: Version control
++  - checkpatch.pl: Kernel style checker
++  - gcc/clang: Compilers
++  - make: Build system
++  - Standard editors (vim, emacs, nano, etc.)
++
++
++Communication and Support
++=========================
++
++* Mailing Lists: https://lore.kernel.org/
++* IRC: #kernelnewbies on irc.oftc.net
++* Bugzilla: https://bugzilla.kernel.org/
++* MAINTAINERS file: Lists subsystem maintainers and mailing lists
++* Email Clients: Documentation/process/email-clients.rst
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 92669904eecc7..6e92e0f46ae61 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -641,6 +641,7 @@ our $signature_tags = qr{(?xi:
+ 	Reviewed-by:|
+ 	Reported-by:|
+ 	Suggested-by:|
++	Assisted-by:|
+ 	To:|
+ 	Cc:
+ )};
 -- 
-Sincerely yours,
-Mike.
+2.51.0
+
