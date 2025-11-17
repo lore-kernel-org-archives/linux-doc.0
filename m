@@ -1,80 +1,44 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mail-24416.protonmail.ch (mail-24416.protonmail.ch [109.224.244.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC27A265CA7;
-	Mon, 17 Nov 2025 18:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2807330147C
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 18:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763404245; cv=none; b=kJPQDcFgZib1rvS0+BDxD9IKJX2THy8hKxb5HoFIEI0OLTEX3pW2AyX0MSn9QF1CxGgdQA+Q/pp2OhoOmRCAUtXLf9AGCMIa0v2QA2vTQdv4sMsQ0+kPzF8xGDX8qXHBawrSRpixP67MkfU8P3n22JsimBuQ9Y7Sm58yr3ZDL7w=
+	t=1763404547; cv=none; b=P+HBqiYyg4/HQDlx2VmdEhP+v8af6fSndQhNAt6cbpCAud8ZV/aaaLKSC2EuFcwKUKuU2IkymfE3pGRBB32jzAvxn+uDqEnd+Lm071370LYJQtiUf8Yd4EqIIDpRrOM7ADv3UUfndHBFX5MBWKAFjvMqK6k9cmbCUJlZ9QLrkYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763404245; c=relaxed/simple;
-	bh=BB+auAPSaWW0qREZgyoFhp/O9F7pIgaZ5weQweXGPXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HJkUdAJUmgduhzNaVv3A1q5prO+GiSjsq12OwhU5hNM4DFsJy6rVw2+vGVIL8rgoLxU7Y6q5yXlLUMji1RUPdOi1P9duXZKnzYjGM3ZPDlXLQ/ZRG/vsXuvNkIzdeFm9UHSN/RSyB8PdKnybGLWT5CWvg6eLPJGdFL0SDPeWkWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ZSDQbRBI; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1763404547; c=relaxed/simple;
+	bh=cjOZijZfv+gCL+Wryb9wI/c0+cE3KEtDjZPAz76nomk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=e3yKNHOIrXiDu0HhFT1I+4+FIdWGnQTXhTrHxfA2bAqjz7Xyt+2EzbYnYHCbrFsY+mnByvsi3cC5ONc8GyhxFNvgawfwghNa+GHlKT4W9XU3vy8uKNfmNSYZmin3FwTnii2f7HpnZgwoBhq7Ntss4g5i5+xyqYgW6pKG9f31MH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=Ow9517Gl; arc=none smtp.client-ip=109.224.244.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ZSDQbRBI"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 138D940E024F;
-	Mon, 17 Nov 2025 18:30:39 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id nawrX4O69IBu; Mon, 17 Nov 2025 18:30:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1763404233; bh=+eneKW8K7UrutKZOwotXHXcUfrqGSpDfjTLnElI6pBM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZSDQbRBI6qy/coLOxGdlQb94N0/5AK1FpgtunhUMwYttskOp7Un+5PERvHaNCDXIA
-	 VTb647+fsEIXhNnHMX8IeNM0XxMu8dzGDbx1lSxeZ82jLJxLKAhK4ShAMRPzsEGuOv
-	 n6rh8blIyEmUVx9al2f5QhHh7Znwq846c6gREJmrXHHN1w/TxTk4q7szMVeJHpDzK/
-	 c/XPLjWPV1O5SmvRLqDdmogtMfIjt9vYZNpPkdbirlKmNLjhvzlZ/dh31Fyh/FeUnF
-	 pi5TVwMLKIPgvaRE0TgQ4wPlrQjAPx6DsSbYPmAwv84783xBoOtgsdiGa4kb7zsfQp
-	 HoJCPkrUWXlZ7wxKZ1hFtrbWTTzmOAbsaYoimEAFc8nfGydYzTYzCWBME0XMPQbUag
-	 utV2G+kjf+Mx18a0OQj/N6xvSFB/TNxDLyJfaEYeno9zble40lTE4BP8jJTl5GEHJs
-	 DtC5GqfQE/+Dh7vLyn91hww2yQV5hqM2ouChFwWjonv+8ZGTKaPV63IZu1IRUq2L9b
-	 a1H+qZTXX5ofe3LzzSKhJGP0tTrcX6V/foG1YodxvAhgaGDTIFvy17WU4Xule12KwO
-	 6T/lKy2jzVVilA9JsNA52CMZ9dTmQWUsFseFsjLVDvQ3CYcRsK7Dp96CR9BcDWrVnC
-	 VgtKVoMFkEiV2Yn8iOX2E4ME=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id C27BA40E016D;
-	Mon, 17 Nov 2025 18:30:06 +0000 (UTC)
-Date: Mon, 17 Nov 2025 19:29:58 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Sean Christopherson <seanjc@google.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v12 6/8] x86/traps: Communicate a LASS violation in #GP
- message
-Message-ID: <20251117182958.GBaRtppoY2uANW2JI8@fat_crate.local>
-References: <20251113224204.50391-1-sohil.mehta@intel.com>
- <20251113224204.50391-7-sohil.mehta@intel.com>
- <20251117144840.GIaRs1yNEYjdNF0SHu@fat_crate.local>
- <bfce23cc-bf7f-494e-a443-baea41f33381@intel.com>
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="Ow9517Gl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1763404543; x=1763663743;
+	bh=zH5WVIO3cxOwoV7JqKcP1ToXH/X437vo+cbBXaQZW1Q=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=Ow9517GlVkdXb0QK4zjYxuQOHLNlXBQV1cDfbfieA47R/oZppYFaXLUldJ1Tsq5ih
+	 cSQWOVBUEIXNRzU9Z0PwoISODUhBmTaVt175wXQkO+pXpKxbHzlR9FcwRIpzz9Tqw+
+	 IR2AUVjxkUQt58ykh1SuYyNEC2vg9WKSs0zAWb2vchX/qb4b2aj56AuCLDjILSWJKR
+	 y7thVVzmNLOKb57GussgLz8hjrzaxtGyskBAQgEksXSAQcDYFI0X/MRtnGpRX/UsQ8
+	 0/Q9NgRR+AM3VtjauiR5MqSjMmNx7MddjrniFxSo0IFFpcXYNxvJBOr2L2aXvHBWr7
+	 wsuBdyxI2rtlA==
+Date: Mon, 17 Nov 2025 18:35:38 +0000
+To: Alexander Potapenko <glider@google.com>
+From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
+Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org,
+	Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 04/18] kasan: sw_tags: Support tag widths less than 8 bits
+Message-ID: <6rh6ynwrmh7afqkfyfphiy6rv2xjpdpcotzooqfye6lg7rddhe@betrc4geghsk>
+In-Reply-To: <CAG_fn=VUx7GkcjuYO3oRH7ptgKVtzQNChW1xKL+1SPfJ=XvWwQ@mail.gmail.com>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <8319582016f3e433bf7cd1c88ce7858c4a3c60fa.1761763681.git.m.wieczorretman@pm.me> <CAG_fn=VUx7GkcjuYO3oRH7ptgKVtzQNChW1xKL+1SPfJ=XvWwQ@mail.gmail.com>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 89bdc726c809a41792e2e4dd98d31d2c2e8b87c5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,48 +46,24 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <bfce23cc-bf7f-494e-a443-baea41f33381@intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 17, 2025 at 09:24:20AM -0800, Sohil Mehta wrote:
-> The page fault error messages have similar logic:
-> 
-> if (address < PAGE_SIZE && !user_mode(regs))
-> 	pr_alert("BUG: kernel NULL pointer dereference, address: %px\n",
-> 		(void *)address);
-> 
-> I believe the check is to account for arithmetic or other operations
-> that may have happened on the "NULL" pointer before it is dereferenced.
+On 2025-11-10 at 18:37:59 +0100, Alexander Potapenko wrote:
+>> +++ b/include/linux/kasan-tags.h
+>> @@ -2,13 +2,16 @@
+>>  #ifndef _LINUX_KASAN_TAGS_H
+>>  #define _LINUX_KASAN_TAGS_H
+>>
+>> +#include <asm/kasan.h>
+>
+>In Patch 07, this is changed to `#include <asm/kasan-tags.h>` what is
+>the point of doing that?
+>Wouldn't it be better to move the addition of kasan-tags.h for
+>different arches to this patch from Patch 07?
 
-Ah ok, that makes sense. That comment still reads weird:
+I wanted to keep the split between adding the generalized definitions
+that Samuel did here, and my arch specific changes. Thought it'd be
+easier to review for people if it was kept this way. But maybe it's a
+good idea to just move the asm/kasan-tags changes here too, I'll
+rearange the code a bit between these two patches.
 
-+       /*
-+        * If LASS is active, a NULL pointer dereference generates a #GP
-+        * instead of a #PF.
-+        */
-+       if (*addr < PAGE_SIZE)
-
-It says "if LASS is active" but the check if
-(cpu_feature_enabled(X86_FEATURE_LASS)) is below it.
-
-I guess you want to have
-
-	if (cpu_feature_enabled(X86_FEATURE_LASS)) {
-		if (*addr < PAGE_SIZE)
-			return GP_NULL_POINTER;
-		else
-			return GP_LASS_VIOLATION;
-	}
-
-so that it is perfectly clear.
-
-Then the catch-all GP_CANONICAL will take care of the absurd cases, if we ever
-hit them.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
