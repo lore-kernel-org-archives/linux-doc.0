@@ -1,87 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6913F3370F0;
-	Mon, 17 Nov 2025 21:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69BB25BF18;
+	Mon, 17 Nov 2025 21:05:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763413349; cv=none; b=pGhonb/rqZQFZ6XotaUWjIhL8+wBr+eUmc410jp1kjSSE9eVnghjUZHu8zY3GC3cJ35M6bhz9FO+fRJrHhutm1t4NXD/IShpLjyQH7hW26Itihp1oKUORzQdIozxNwC6Vsc55r9gtd4TnZhPg3OIIPsk+QOPhL3qS7KxxD2tgt8=
+	t=1763413543; cv=none; b=HX8Ua0IeNa/czgfa6Ls2MO8Ny/jo9Ju/JC4LxoGjuDE+f8+G2T5JwfFWFLtwW+waD5DG5I/seeED+Mn62NDbN+BvpoaoFrPIxSCp+gH1p+ZE6SFs/p3a/F+1TlX+JRMywFGrQexppBs7oQK5fGd8nQS8tGWotjsMiJ+HM+MVbPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763413349; c=relaxed/simple;
-	bh=bE0iENGKX931P1EKdTaVZ4dDp+hh3qF3ZbwQ/1IU8a4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fSeHwn9VCzhks+U7pInk0jnseiDj2jZ219WP85ZX18FQrVrFqSFxxjfJo9ULmPqvyoLatgHnWxDy3i7uAHfj1djBsijqYxfqkjKZzyvOJ8gNXFF8DIZaOIKbWcUOwZYCRymNKufCZylZGKfiDBAFREVdF+Nms8VvshGDGFhBOgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kcyvUuOP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763413543; c=relaxed/simple;
+	bh=vX0RgenvtHRJqNATnowFhh/xzwC45LGhd8zfOW/YcSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oz3Xj9whaLOubtuRVBYKYzoBJpE6zfaScBABYib4Gp4aWxgglIQtlKtS7L4PlKLsmH811MPK2M0K+kUwzz85M1y/RUZyRWPHg9L2OleKoGW/Q56Tw6pYCfcdoVSFTfbVJOVJioHELK1ZPIPVuNEJWOYRTZPQ29Hi/meCiUO9bF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mIbGksYJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kcyvUuOP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1F2DC116B1;
-	Mon, 17 Nov 2025 21:02:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mIbGksYJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13C9CC19421;
+	Mon, 17 Nov 2025 21:05:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763413348;
-	bh=bE0iENGKX931P1EKdTaVZ4dDp+hh3qF3ZbwQ/1IU8a4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kcyvUuOPrdgEKf+IiV3Mi2NKan7arkgRprfH91oavZjFzs0eoDWaaZz79bMU+Fmge
-	 /AV0gI4kU8w85+0kRmMIEO3oioTpSlLpCnIWv7Vy93oifWgB0HWCFo9j9jNL6oNKg6
-	 E8AfflGx+KvsYNur2oB7lDY1aJTMon55P/UQZbTpqhI7NcSspyICzblzBnjCzBcedx
-	 9dMk0U/X+Bb/3X48uLP1Rs95dHVt1LSAocSBqocq89Sc/5bbQ79zwhMST+1P2a/LD0
-	 WYQHHGKdxVfXtdqXq5SaAUv618wWJnlHJ7WWyU74Yy7dejZ8L/tYbqf9z/tSMGqYM6
-	 bGQJgHvy0l/RA==
-From: Catalin Marinas <cmarinas@kernel.org>
-To: Will Deacon <will@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	David Spickett <david.spickett@arm.com>,
-	Thiago Jung Bauermann <thiago.bauermann@linaro.org>,
-	Luis Machado <luis.machado.foss@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] arm64/sme: Support disabling streaming mode via ptrace on SME only systems
-Date: Mon, 17 Nov 2025 21:00:59 +0000
-Message-ID: <176341325906.789443.15370787298292895484.b4-ty@arm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251015-arm64-sme-ptrace-sme-only-v2-0-33c7b2f27cbf@kernel.org>
-References: <20251015-arm64-sme-ptrace-sme-only-v2-0-33c7b2f27cbf@kernel.org>
+	s=k20201202; t=1763413543;
+	bh=vX0RgenvtHRJqNATnowFhh/xzwC45LGhd8zfOW/YcSM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mIbGksYJvNHHKqcnEkxP8edGCkFvrR3zIlacYJ/GfH25Vv7qTIVyrFKH5sk31x0yZ
+	 xei+n4/cKhC86cLFzgajOHFrRuzy9Cf4NfBHjUYYpp0CoA35nA6AulbEH6m9QsaiRP
+	 j1DTCkXcSjm7izViODv57OuwLXGHry7hOOLvnIWve8ZFi70kPLjCwoPZn/T+iS3iMV
+	 rB8SMgpHVZ70/BTPln3obMUZOvsm2vNDyY6atz57c34ZQGgRN69rzy70cjVuaXdMHV
+	 Jz6kL5EugQncLiwGz7CwcyM4akaYfMZrA7Dh6fmt85JSxwEixmrs1XXvoRl3A8eWzO
+	 2HUdgkejx4kxg==
+Date: Mon, 17 Nov 2025 23:05:16 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
+Message-ID: <aRuODFfqP-qsxa-j@kernel.org>
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+ <20251115233409.768044-3-pasha.tatashin@soleen.com>
+ <aRnG8wDSSAtkEI_z@kernel.org>
+ <CA+CK2bDu2FdzyotSwBpGwQtiisv=3f6gC7DzOpebPCxmmpwMYw@mail.gmail.com>
+ <aRoi-Pb8jnjaZp0X@kernel.org>
+ <CA+CK2bBEs2nr0TmsaV18S-xJTULkobYgv0sU9=RCdReiS0CbPQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bBEs2nr0TmsaV18S-xJTULkobYgv0sU9=RCdReiS0CbPQ@mail.gmail.com>
 
-From: Catalin Marinas <catalin.marinas@arm.com>
-
-On Wed, 15 Oct 2025 18:56:35 +0100, Mark Brown wrote:
-> Currently it is not possible to disable streaming mode via ptrace on SME
-> only systems, the interface for doing this is to write via NT_ARM_SVE but
-> such writes will be rejected on a system without SVE support. Enable this
-> functionality by allowing userspace to write SVE_PT_REGS_FPSIMD format data
-> via NT_ARM_SVE with the vector length set to 0 on SME only systems. Such
-> writes currently error since we require that a vector length is specified
-> which should minimise the risk that existing software is relying on current
-> behaviour.
+On Mon, Nov 17, 2025 at 01:29:47PM -0500, Pasha Tatashin wrote:
+> On Sun, Nov 16, 2025 at 2:16 PM Mike Rapoport <rppt@kernel.org> wrote:
+> >
+> > On Sun, Nov 16, 2025 at 09:55:30AM -0500, Pasha Tatashin wrote:
+> > > On Sun, Nov 16, 2025 at 7:43 AM Mike Rapoport <rppt@kernel.org> wrote:
+> > > >
+> > > > > +static int __init liveupdate_early_init(void)
+> > > > > +{
+> > > > > +     int err;
+> > > > > +
+> > > > > +     err = luo_early_startup();
+> > > > > +     if (err) {
+> > > > > +             pr_err("The incoming tree failed to initialize properly [%pe], disabling live update\n",
+> > > > > +                    ERR_PTR(err));
+> > > >
+> > > > How do we report this to the userspace?
+> > > > I think the decision what to do in this case belongs there. Even if it's
+> > > > down to choosing between plain kexec and full reboot, it's still a policy
+> > > > that should be implemented in userspace.
+> > >
+> > > I agree that policy belongs in userspace, and that is how we designed
+> > > it. In this specific failure case (ABI mismatch or corrupt FDT), the
+> > > preserved state is unrecoverable by the kernel. We cannot parse the
+> > > incoming data, so we cannot offer it to userspace.
+> > >
+> > > We report this state by not registering the /dev/liveupdate device.
+> > > When the userspace agent attempts to initialize, it receives ENOENT.
+> > > At that point, the agent exercises its policy:
+> > >
+> > > - Check dmesg for the specific error and report the failure to the
+> > > fleet control plane.
+> >
+> > Hmm, this is not nice. I think we still should register /dev/liveupdate and
+> > let userspace discover this error via /dev/liveupdate ABIs.
 > 
-> [...]
+> Not registering the device is the correct approach here for two reasons:
+> 
+> 1. This follows the standard Linux driver pattern. If a driver fails
+> to initialize its underlying resources (hardware, firmware, or in this
+> case, the incoming FDT), it does not register a character device.
+> 2. Registering a "zombie" device that exists solely to return errors
+> adds significant complexity. We would need to introduce a specific
+> "broken" state to the state machine and add checks to IOCTLs to reject
+> commands with a specific error code.
 
-I don't think we'll get gdb feedback soon. Thanks David for the LLDB
-ack.
+You can avoid that complexity if you register the device with a different
+fops, but that's technicality.
 
-Applied to arm64 (for-next/sme-ptrace-disable), thanks!
+Your point about treating the incoming FDT as an underlying resource that
+failed to initialize makes sense, but nevertheless userspace needs a
+reliable way to detect it and parsing dmesg is not something we should rely
+on.
 
-[1/3] arm64/sme: Support disabling streaming mode via ptrace on SME only systems
-      https://git.kernel.org/arm64/c/472800cd5e38
-[2/3] kselftst/arm64: Test NT_ARM_SVE FPSIMD format writes on non-SVE systems
-      https://git.kernel.org/arm64/c/eb9df6d69a96
-[3/3] kselftest/arm64: Cover disabling streaming mode without SVE in fp-ptrace
-      https://git.kernel.org/arm64/c/a0245b42f881
+> Pasha
 
 -- 
-Catalin
-
+Sincerely yours,
+Mike.
