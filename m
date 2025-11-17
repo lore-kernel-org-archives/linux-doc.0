@@ -1,129 +1,123 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4E7280024
-	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 18:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67846268C42;
+	Mon, 17 Nov 2025 18:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763403946; cv=none; b=OoFB/UBNw3B4Ar/OhTPM+6fUQIhCw9z5qqw03fMzBi2qCD0iu97v0KYCxljfFlHxGEFaoNnobHybVfmzSpuqCLdnT5en4MITNNZsxsBEl14UOgxfGfoSRV2jdmS3BzCf/LmfJB4EW8MwcV8CgaaYClXAlAxE4HMULE9jYfwk/oI=
+	t=1763404001; cv=none; b=kI6iTMcgLeWozjktPCUj/Sa7gisfXzVvNz7zipnMbRWww9y83Vc9UuPDOm/kXU4qdZFU1SMCY11sAEbywDBB2t0gTIw7l1dSO1a7Lp5xMzdjek9JAL6mf//8hEa6vFLD3EAuEOxM97SjPWGAFgrGaYgCxHPMk+uotLLp7MYzRBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763403946; c=relaxed/simple;
-	bh=dMycsWk6alcimZ9cye+sIiGHVio6V3dIKHH3BxJbFzo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H7+nFxKo1jpDKig/fig8JPITXYDILQVauhuaAMGLXho9meB4VGXTXvb8BmXHPUlFR3XzleVwJKs7CWwg9O8qoFvgIsJ1BOsR+jsBp0PpMS414k+WiNSlunaXfg3EKNFD3AgP/Fjtuu4xJCQFnas3ecEOIRrESTZW+HwVVqsywNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=JeQjlk53; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763404001; c=relaxed/simple;
+	bh=x2rhRWyTYOz39r1YkReuklq3bLWbVIozglXtChCm0Kc=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EJfu+urgIR+vtBM/UXwOt5bo/JfBDixnKywGdz3nR0vXVQqKpo7l9g8um6y7aH6HqmOG2x1to0jIeSHWRkEK61OEuwd/TELbxa7CN6BTxEOxetyfUdB36BWSQuq8IytO8yCYyKaZnLfBTAHNH+vxaPuODVwz9B5g6xu6NIS+JnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=BmWBhb8y; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="JeQjlk53"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6418738efa0so8009005a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 10:25:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763403943; x=1764008743; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dMycsWk6alcimZ9cye+sIiGHVio6V3dIKHH3BxJbFzo=;
-        b=JeQjlk53pq2zJjWMlm1xSgj7kGKmc5aUKot2CX4cKkELU/EEVPJhKR2EBqlXCae62H
-         Q5OQMucd7llOJItyTh7wjKn0xn8Tv2/pdb29l8JqeniatA7lqmQnlsy+9Lz9fJefWIZj
-         ohRtOO6qC3C4yDxmZhxEe08vq72Nn6/XiuXWrA0kn4yLxeDr3n9rTyJIk1cA/293oWSR
-         rHO/wdIcRZmkbETgJN9MFNeqyPNL1R14An0FPBEMK+Y9mltcU+XiExEGWiYZ+SoWYSE8
-         cNWVCvJ+3bZmtZe8hl+3lvFp1IdqEBr2BY2Jbg4K5jwzT+ESwa1Luzu0v4eyPLDOvHZi
-         v4Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763403943; x=1764008743;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dMycsWk6alcimZ9cye+sIiGHVio6V3dIKHH3BxJbFzo=;
-        b=WLmaRrhJ/TYBlfjlmpBE5d0IcBzizDXKNZc5T6I8IyFZi08Dl4/z3FIYKhYt9tG8Ab
-         Sg0GgJFKTcAQTXHjJ8JejiaymYJyWzjDPVUDXDZv4DSwf/U7tftWTwoQzLrdAiY44uUD
-         f3X0B7qHhGx7Wpe3PwWoIyCOXsbwtHcz1hsd9v/rmc6ElUH43EJ9rFvTjZEa4uKbTrlc
-         FAxOiKaI8X+w0wp8OieHO6u6vNESOkqA6jr9fjI87iR0O/g5W7hOhV5lxQvlSgQT1rz2
-         +Dibezee/pohHXM/9vqq/aA9QIiGo4YyqykZSPnYGl0Up913GmvZXysbQmiN4SpyPVPh
-         YN3A==
-X-Forwarded-Encrypted: i=1; AJvYcCXWZb9s7cXPItwxFwMdAysgH7Usw8H4EofK3emPEks2Qtia1SDKAQ6Y5fnxYwEgCzKkoFIwyx1nR3o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5KbJHgPTfTf6zx4HphRGhNI2ffRjmTFJvneGO7/6Xo410FS6o
-	nBGPoE6Phfg7/pU1qTySq/bKWycCse90oj4Tiw7bd2/09QU3Lsm7iFGd3qOl8cqE3DrRi9EBF6P
-	g5YkbbOKsfYjDQUoo+yE06gBYqBxdtZH8m8Fi6+PzXQ==
-X-Gm-Gg: ASbGncs1frGajEHvJiLhtiviXNEcW3W2CNhJ6bRa9vgSS4ZlMtDPm/PwLjAt2QpMB1u
-	GO12mlcd3Sf8IxnJsYgtr4HwrdYiriSVNKUhuBGfZRTxS8LAwkClhJ1SNo9kETbDBzI5z9KVbl5
-	7/1ncltZa6YSF+UUZxApmiGOroyvkmUDw5jCa82WN6hPoR6yuQIhUPwIau3MAhS7gqpNm4dh9bM
-	VzL/McLkcwOugcrnKvUcS3CbyRUGt0mM+I3tASaS0LvtyZV6ZghkLvOlQJqXJ+ix/5CVi1Luq3Q
-	xRg=
-X-Google-Smtp-Source: AGHT+IFhDEducLN7T5Jy1DwFvPprFdHcnJ42WfejgEYNti2gLXiHYmpyBjQ/4t56trSFuAgRCxac7v4hY1mMU4Ka3uY=
-X-Received: by 2002:a05:6402:23cc:b0:640:b497:bf77 with SMTP id
- 4fb4d7f45d1cf-64350e9eb61mr11509176a12.35.1763403943114; Mon, 17 Nov 2025
- 10:25:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="BmWBhb8y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1763403989; x=1763663189;
+	bh=jouESHi5Un7Q4FQfUgenF4mt4d6TLFLTX4D6FWFBOHM=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=BmWBhb8y1FXM46T3k5IgDeJH5cCnNwdX38PAg9lzWMGxrVMiyp8NjPRQTcbbizj/g
+	 69t7L4LA6qkWLHLkecbAmKQQGuetVTM/wd/mam+8EdCUhEFIF/ePa2kL3qNFLs/oKf
+	 Ibp3gCduBQaHDuUnc5YuBREn1r1alTqghFjCtT61nSKBlVrreJAxM5AOENEeWn/NKY
+	 LtzDBqcziU0aSFhb4e+z6Qfc0iX6ZA/HOIiaTniVoNWx5qAsltTOCdg18CfUaVsDSw
+	 YXNcI8U1iKzDsIAqfLAmKnuavaj/0s3FKw+fpYq6N5HkiIujW6erJDxznrFLNqHCZZ
+	 ubSe2mMF0zVjw==
+Date: Mon, 17 Nov 2025 18:26:19 +0000
+To: Marco Elver <elver@google.com>
+From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
+Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, pankaj.gupta@amd.com, glider@google.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org,
+	Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 17/18] x86/kasan: Logical bit shift for kasan_mem_to_shadow
+Message-ID: <jbmfvznqtzmeyejegflmznwfj7lzlshpmek7jgy7drjfla2btb@bqjufhxforw2>
+In-Reply-To: <CANpmjNM+ot5A-pRLhV6Esn=QvCeCStd9fG_pgwrVA=6pxD8aqw@mail.gmail.com>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <81848c9df2dc22e9d9104c8276879e6e849a5087.1761763681.git.m.wieczorretman@pm.me> <CANpmjNM+ot5A-pRLhV6Esn=QvCeCStd9fG_pgwrVA=6pxD8aqw@mail.gmail.com>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 8d14ced91bdd2f91cd367e805c79e65e22e0506e
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-12-pasha.tatashin@soleen.com> <aRrvaHh-cP8jygAF@kernel.org>
-In-Reply-To: <aRrvaHh-cP8jygAF@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 13:25:05 -0500
-X-Gm-Features: AWmQ_blTQifSbVFjHBESf3b3IYzXXqzrvc6uwjRPXvt2KinsJtxmdBdOtqW5SFc
-Message-ID: <CA+CK2bD_a=C0h-y4HDWPYV1VOWjM7V4gcocwekA6M9h5WbiqSg@mail.gmail.com>
-Subject: Re: [PATCH v6 11/20] mm: shmem: use SHMEM_F_* flags instead of VM_* flags
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 17, 2025 at 4:48=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
+On 2025-11-10 at 15:49:22 +0100, Marco Elver wrote:
+>On Wed, 29 Oct 2025 at 21:11, Maciej Wieczor-Retman
+><m.wieczorretman@pm.me> wrote:
+>>
+>> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>>
+>> While generally tag-based KASAN adopts an arithemitc bit shift to
+>> convert a memory address to a shadow memory address, it doesn't work for
+>> all cases on x86. Testing different shadow memory offsets proved that
+>> either 4 or 5 level paging didn't work correctly or inline mode ran into
+>> issues. Thus the best working scheme is the logical bit shift and
+>> non-canonical shadow offset that x86 uses for generic KASAN, of course
+>> adjusted for the increased granularity from 8 to 16 bytes.
+>>
+>> Add an arch specific implementation of kasan_mem_to_shadow() that uses
+>> the logical bit shift.
+>>
+>> The non-canonical hook tries to calculate whether an address came from
+>> kasan_mem_to_shadow(). First it checks whether this address fits into
+>> the legal set of values possible to output from the mem to shadow
+>> function.
+>>
+>> Tie both generic and tag-based x86 KASAN modes to the address range
+>> check associated with generic KASAN.
+>>
+>> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>> ---
+>> Changelog v4:
+>> - Add this patch to the series.
+>>
+>>  arch/x86/include/asm/kasan.h | 7 +++++++
+>>  mm/kasan/report.c            | 5 +++--
+>>  2 files changed, 10 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
+>> index 375651d9b114..2372397bc3e5 100644
+>> --- a/arch/x86/include/asm/kasan.h
+>> +++ b/arch/x86/include/asm/kasan.h
+>> @@ -49,6 +49,13 @@
+>>  #include <linux/bits.h>
+>>
+>>  #ifdef CONFIG_KASAN_SW_TAGS
+>> +static inline void *__kasan_mem_to_shadow(const void *addr)
+>> +{
+>> +       return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
+>> +               + KASAN_SHADOW_OFFSET;
+>> +}
 >
-> On Sat, Nov 15, 2025 at 06:33:57PM -0500, Pasha Tatashin wrote:
-> > From: Pratyush Yadav <ptyadav@amazon.de>
-> >
-> > shmem_inode_info::flags can have the VM flags VM_NORESERVE and
-> > VM_LOCKED. These are used to suppress pre-accounting or to lock the
-> > pages in the inode respectively. Using the VM flags directly makes it
-> > difficult to add shmem-specific flags that are unrelated to VM behavior
-> > since one would need to find a VM flag not used by shmem and re-purpose
-> > it.
-> >
-> > Introduce SHMEM_F_NORESERVE and SHMEM_F_LOCKED which represent the same
-> > information, but their bits are independent of the VM flags. Callers ca=
-n
-> > still pass VM_NORESERVE to shmem_get_inode(), but it gets transformed t=
-o
-> > the shmem-specific flag internally.
-> >
-> > No functional changes intended.
-> >
-> > Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
->
-> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>You're effectively undoing "kasan: sw_tags: Use arithmetic shift for
+>shadow computation" for x86 - why?
+>This function needs a comment explaining this.
 
-Thank you.
+Sure, I'll add a comment here.
 
-Pasha
+While the signed approach seems to work well for arm64 and risc-v it
+doesn't play well with x86 which wants to keep the top bit for
+canonicality checks.
+
+Trying to keep signed mem to shadow scheme for all corner cases on all
+configs always turned into ugly workarounds for something. There is a
+mechanism, when there is a fault, to guess if the address came from a
+KASAN check - some address format always didn't work when I tried
+validating 4 and 5 paging levels. One approach to getting the signed mem
+to shadow was also using a non-canonial kasan shadow offset. It worked
+great for paging as far as I remember (some 5 lvl fixup code could be
+removed) but it made the inline mode either hard to implement or much
+slower due to extended checks.
+
+>Also, the commit message just says "it doesn't work for all cases" - why?
+
+Fair enough, this was a little not verbose. I'll update the patch
+message with an explanation.
+
