@@ -1,289 +1,266 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C14D27F736
-	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 19:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763408625; cv=none; b=mWmPTipv/GMGpV+as2I3QBXeAgTm5ttp+UdRArCfG4TMQ3wbg43UOajmAX5ErMw8SWLFhGO4Qgomm80PARn8MbkzSu2ch0FeFB1rUSyRzElqyAwSQZWbRN2YnKOAYEMbPeip3agnlQs+ESqdRu9JFsK6E6TGQXAl8/nQRVuo8dU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763408625; c=relaxed/simple;
-	bh=E5EgLJxiFWrUrMU0P9eHzvAIhxVIjvec9Ov21Tuxix0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uyhU8GKQeaAmBc55wgQdVbNNaRe6RfabOZB94yDw+cCnuJqipr3HFxqXTf0CrkH7q2zlycjbdv1iGAMvODp7wZzDa+6lcNcPzgw7bvZjT4NTAoEGBqTHXIzCE+ABuvJkbsKaXAgwX8+JeGzrAW1XaoE6GrlVrLASw7YSdfGCkdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RWEWhdNV; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154492FB602;
+	Mon, 17 Nov 2025 19:45:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763408751; cv=fail; b=ML2awpEhbW2Ea7PFuwNWMT2q+nBW+WXy2iYB8b8ahaLR2BRHSrjpI4i9Z4EMHdvtxSPiMTyw5itEMouo1oNp7bNzqe0NgrdbDq7Sam8yf4ewADHVXilm79Lpia3JlmdJ7ZGeJDZ9h8qOzcK/ySfVdB6vbAe1hbI77iZP9ovPLYE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763408751; c=relaxed/simple;
+	bh=FOjr1U+2U+pi9XguSQ5VTjjP0aBOe8Azt+8nB+nDRCw=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZJkyNqQYG7NPdMGOg698UO9ErX/Yjice40YABULe4CoYcfGUjFsnrVOEESApqCsVBTUwOVLNY4MLb0IlF11CDxfpZ9pkuH5qM4PGK2cVXTorit7IUxpFscRIONXqX5xpzgFBX6/5Vs9cPso4AVbn4NDfizwtQEnYfgK28rIvsa4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0+9yTlQ; arc=fail smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWEWhdNV"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-29806bd4776so6188645ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 11:43:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763408623; x=1764013423; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/+5Hf3TIECg/WJ3vcEYDCdeJ1dVpbMxZKUO+m2nTD5o=;
-        b=RWEWhdNVeuhI2jfnzNfU6YOSY7ISbvhAdUD+wMTtuuC1ARVZ/occfLV6vfb7hz2zt6
-         +JZ3544CVW8GFbEupJlTyZGUVrFSivvo+kO/qSLukoUxaFTNizaoHNA4l94CRq/1TSIl
-         kL3bGweV2w3z+3RNOI89HfW3aIZExMnm0sbitXRAPRbPSGfCI6qUFm8K7mexM4sspdg0
-         FW1EreS+Y9+BysF5uMbIlLD7YMX0IaxAa8cYVadkNo2XQb302pNjGUsfoACEHegfidKy
-         GjWeGTlQ/2HKcVAD27aPwPz4fus9PeOOnETWgeKIYXvOcprJmiKks+fHnMQCEjMquZQM
-         B8HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763408623; x=1764013423;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/+5Hf3TIECg/WJ3vcEYDCdeJ1dVpbMxZKUO+m2nTD5o=;
-        b=Ytq8JgBdhdS+Ad5VpXUA3JqlUtHVRn8YZGfhQJNBaXZThLKIQV0+/Zu4kNdsLBMBQw
-         nnUVm7GW8RI0Kj0bFuWqzjeLlbWzl0/6OidB1jmfAYF/2lhfTEgMJkGjRyyZ7SyiiRbo
-         +XA31v1qgsDuV+rPPHzp0fqo3EKBucOH+s66QVz3GF6s0w0rFPhSsmGzknHlVSgJk4rV
-         PTADat5tyiqeWJmFoc5pbQ2q+gS9KJNZx8yzxB+S/+gChokEekDE8SqNte1Xq3nBdPuJ
-         OidZ9JauyIFQYRtY5S+/bUT2O+BcU4tkGSrtTHfNaJ1X8DeVR36Zvx3QnCl1C2uq6IJt
-         N/bg==
-X-Forwarded-Encrypted: i=1; AJvYcCUMIPvAG/dvKRzHwucGypqQTSiOaSVwWdapjBlDNkBSgkLF7wvKjctsoL8TB1Fce5yKp6t4FtW1Uqc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwGjnqp2UJQfovpNGAMAeqGD7hfEdzuzQTmNmhk28UBR3yi73f
-	hMmzqHyJh9mz7JStenTJ36YRLaREBmw+C+mUtiNT3ybLoXHcBkD64UHdYTjG7Pak3sQm/EKlVEB
-	c4YF5yxf0R1N6h9UyhNlCNPKx4GmAOng=
-X-Gm-Gg: ASbGnct8nxyIEB7Q8VaYEsSePYsF3HgUPiNUDt4xK9H+H1lj/ifkncRTjNhpMdJqcwX
-	gZo6jqcOdqazIFdl3AZWt7DbKEnbBlVzX/ix5mKkWv0A6xVoVVxAgn7KP4OZqVf8jNyXMLIe9Gy
-	Z/Jw583PtCb407Q0EqsVYHVIMpxx7D96uv/TxsmJwRIGFY1EmSvlC6g4095nTelxTpwwIpkRrNh
-	Vh/vW+OgoiWvapEP0ccM+q1voN/EemDEVjiS3Yk8C9su+L2axQ2J+kOWGlF
-X-Google-Smtp-Source: AGHT+IFJT7XNlWHFboAYjTqdvl7ansBxArPIS/GzhzEzb3yO8TC3LpcI1Q9gDnb4O5U1xZ57lT1Bq32f9CGrvBl2Zyo=
-X-Received: by 2002:a05:7022:e0d:b0:119:e55a:95a1 with SMTP id
- a92af1059eb24-11b493dbc02mr4800591c88.3.1763408623379; Mon, 17 Nov 2025
- 11:43:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0+9yTlQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763408750; x=1794944750;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=FOjr1U+2U+pi9XguSQ5VTjjP0aBOe8Azt+8nB+nDRCw=;
+  b=K0+9yTlQofFcSynefw6NflZwy07sYFmhK2/1paxCThc9sEcH7DvcH3zV
+   EoME0n6GfhQvQxe0HJZ0qhqf+sbQ9rzy5cAreWIuuKcPLf2NncFCkXtFs
+   A3rDOysG69prMJ77GRmbskbOWUmWKwWykWAzBZVsBjOcWPmw/aSpxEY19
+   CYifr3qPqt9Yi0dnCYNwQ9xfLWWsGwOflJJiOZuX34lh7WX355V6ObQYO
+   PaYuZmAvKbwEkdIaRF53Ngqb8ZXH1JQa0UUoG278uYON4k+dmbRFctUs9
+   1b5biWFzpz6pY7liVzrY2G+va2b+y9xaIDV8lSdUtEykVqP9NSwxN887a
+   w==;
+X-CSE-ConnectionGUID: q7ET5WoWR9OZJ9rBH2sUhw==
+X-CSE-MsgGUID: acZKjHPtQPm4bjaVfUIMAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="68025105"
+X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
+   d="scan'208";a="68025105"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 11:45:49 -0800
+X-CSE-ConnectionGUID: 4AFLQ9KKR0q81GTWXATTYw==
+X-CSE-MsgGUID: nIwJP1fGS1SREf0RimwKGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
+   d="scan'208";a="221449494"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 11:45:49 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 17 Nov 2025 11:45:48 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 17 Nov 2025 11:45:48 -0800
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.47) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 17 Nov 2025 11:45:48 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EyL8fmT0BO2jjg7GYyyl/f7byEnhGUDxAkYYX7ZHgiBqFefbvz3Q0fylB9eRj4KUU4dyH+S0akANtbAZrv4z9ieqenDH4dWQahDPBC8cXw31kAqnZ1GCL2O9SgH5nFD4Y7Vd2OyjQuY6kczO6SO1VEHtdwifrKRkkcGIc/jOacn8SvnE71dhcnTLFQVlOqwB8tcAg+cCiLB0Ly9UhzB6L3JuPqvngx+JPLhL+PoCzYya2rLGsR1GM7CuzwnLWZU0Cb+9CK5RveBswM1X5W10mvSZNiJJ87rp6Uj/P1RM7jj45F0NZcGTP6m3KphMiekc203SuPfY1+zU7EzSXC021w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2BBG194OUTn17KgJwT8UkhPCMq3E3QdgVQ6XwxSHsQU=;
+ b=JWOdI6y2NS0P47YtZqKjADc0ZJWrRvl+JN6IgcsukGq2TTrhUUh7k86UAL9z8tIddLJmfAy45SLwZF76DedmSn9zgqdOTniCoJDJ+/RGD7atT79Pi7ltBnSLs45FNam7N2SBiGKQSaq2PyloU96kF/E9CDp11TvB8gh2VpMTPZM/cFGwhyg1RMWfyP63djAiC4jLUlSsUqMKWYijzBrYvOR42Q97ss0HAVd61usg2fx59UTm8ixFnJFG64icpTHoyKDdfZ49jvKgJ8DGK1lkqLk915P3qqq+xLm3s4rax6nAlEnlBwYgsDg0/VVfN4uExVN/DmcU69iuSHhrlzZcOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB7989.namprd11.prod.outlook.com (2603:10b6:510:258::13)
+ by PH0PR11MB4808.namprd11.prod.outlook.com (2603:10b6:510:39::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 17 Nov
+ 2025 19:45:41 +0000
+Received: from PH8PR11MB7989.namprd11.prod.outlook.com
+ ([fe80::752b:acc8:a52:38ba]) by PH8PR11MB7989.namprd11.prod.outlook.com
+ ([fe80::752b:acc8:a52:38ba%7]) with mapi id 15.20.9320.013; Mon, 17 Nov 2025
+ 19:45:41 +0000
+Message-ID: <ff8564b5-8b64-4228-84cc-7e3c0156a886@intel.com>
+Date: Mon, 17 Nov 2025 11:45:38 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 6/8] x86/traps: Communicate a LASS violation in #GP
+ message
+Content-Language: en-US
+To: Borislav Petkov <bp@alien8.de>
+CC: <x86@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, "Thomas
+ Gleixner" <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, "H . Peter Anvin" <hpa@zytor.com>, Andy Lutomirski
+	<luto@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra
+	<peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, "Kirill A .
+ Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>, David Woodhouse
+	<dwmw@amazon.co.uk>, Sean Christopherson <seanjc@google.com>, Rick Edgecombe
+	<rick.p.edgecombe@intel.com>, Vegard Nossum <vegard.nossum@oracle.com>,
+	Andrew Cooper <andrew.cooper3@citrix.com>, Randy Dunlap
+	<rdunlap@infradead.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Kees Cook
+	<kees@kernel.org>, Tony Luck <tony.luck@intel.com>, Alexander Shishkin
+	<alexander.shishkin@linux.intel.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-efi@vger.kernel.org>
+References: <20251113224204.50391-1-sohil.mehta@intel.com>
+ <20251113224204.50391-7-sohil.mehta@intel.com>
+ <20251117144840.GIaRs1yNEYjdNF0SHu@fat_crate.local>
+ <bfce23cc-bf7f-494e-a443-baea41f33381@intel.com>
+ <20251117182958.GBaRtppoY2uANW2JI8@fat_crate.local>
+From: Sohil Mehta <sohil.mehta@intel.com>
+In-Reply-To: <20251117182958.GBaRtppoY2uANW2JI8@fat_crate.local>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0092.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::7) To PH8PR11MB7989.namprd11.prod.outlook.com
+ (2603:10b6:510:258::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251114-vram-carveout-tuning-for-upstream-v2-0-4f6bdd48030d@amd.com>
- <20251114-vram-carveout-tuning-for-upstream-v2-2-4f6bdd48030d@amd.com>
-In-Reply-To: <20251114-vram-carveout-tuning-for-upstream-v2-2-4f6bdd48030d@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 17 Nov 2025 14:43:32 -0500
-X-Gm-Features: AWmQ_bn-rx8YdtVYoFVyGRgVCjAn1BgDod9sCkmCCuCja0xAzzBGgF5NjOGu8mg
-Message-ID: <CADnq5_POzLjMetvQAW6gi8Emp5OM-VyrVmKGJ5t5w2S=5POjxw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] drm/amdgpu: add helper to read UMA carveout info
-To: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, "Tsao, Anson" <anson.tsao@amd.com>, 
-	"Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB7989:EE_|PH0PR11MB4808:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2a04452-299d-4710-f533-08de2611e3dd
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Nm81Y0lqeitHeUpCL1h5RHFQazdWUGpNWFlaTmtnTk9iZEtRMUNYQ0ZBV0Yr?=
+ =?utf-8?B?aXNnYmpsUmhKYU9TV2ZTOTZ4TFBZNk1EOGZMWTFVbjJQbklOTHlPekdHbGM3?=
+ =?utf-8?B?TDgvTzF6UTQzVHN5Ky9ZMmpXdWNQcVM3RkRYZERLTDJ0N2MwUTBvVjVsSGtQ?=
+ =?utf-8?B?aU8zd2RSR0UrU1BMTVhpZStpam1BRCtRRXBLOWNKbmYwZ2VaWHRiUnJRRjd1?=
+ =?utf-8?B?UHJHZWNjbHVnZ09HRkIrQzFzc1VtQ1BUTzkrb1VGZEVnR0ZtRXFGNHdGS3FQ?=
+ =?utf-8?B?TDNQdUFMdFpwUVZLUmxTNGZSaWloc1RPYXkxNlR1SjUyZmh4Mm9lSk82SWVs?=
+ =?utf-8?B?QXlSa2d3OVRtRmVxZjJ4bzBkNjd0TlJOaE5iUHhhaGVRUmEvaDIybkc2dU1o?=
+ =?utf-8?B?bFYwQlFDOXgxY2tJVVVCNlF1NGYvN0szUnRtME1idkhXbUJtaXFwd25lT0da?=
+ =?utf-8?B?K2ErYWt4R002VTRyQ3NrcmU5cmQyUnBIcXQ2aEJhWjR3T1lTdFRNOENEWS9Z?=
+ =?utf-8?B?a1J4Qmc3dFhtczJRWjVIWWFjdkJoVi9HeVpCRURybTBFbTlGRkRaSnNyOVI0?=
+ =?utf-8?B?U0pabDJFc1E4QmExa0RlQlBIdXFoVWlWYVdVZW9sS3RlSnVDdk1sUGVBMHJE?=
+ =?utf-8?B?ZVFkR1kzU0FmaWxEVVhtWDI0N01zdGoraFlDK2tzZXh1T0NsZDVrMDVzVGpw?=
+ =?utf-8?B?RlpJZWNCVElqc1F1VEEzQXBUVWlaQ2hJV2lUNTNxc1FpaUU1aEpoWkRqc1pP?=
+ =?utf-8?B?ZmJRV04yK1Iyc1pucXNwdE9mQUtPWktNYktUSnN0bVQ2OVQ1UUZiZFUrdER4?=
+ =?utf-8?B?ZzRuS0IvSzNOUnhyaCtna3ZCS2xPVUUweVJwekRDSzFUVkx5Y1lFTW9MQTVq?=
+ =?utf-8?B?Tm1USDdBcGhkK1ZEcVBIaUxvTDhrQ1hWbU1WTFFtRUdNeXRER0JBN3l1QUIv?=
+ =?utf-8?B?OHBOWHZTOGdKNVJFRTdsVWJDbUNQU1VvOFR6N1FwZlR1YSszV0NWUlB5NU5Y?=
+ =?utf-8?B?emlZVWVnQUkzM2NJc25vTndDR2Y3SUxTcVgxeDExaGxMbGZBdTIyQ0daRGNK?=
+ =?utf-8?B?dG1Jc1RXTFBoZ1lQZHM2SGI0VG93WEI3cjI0UlpvZW5CRDM0T2lwWjMzU1ln?=
+ =?utf-8?B?YjlIR0NsN202dTJJSUh4c0dWUVc4VEY1NHd4c2RUb0ppMUFMSDc0M1NuK3p4?=
+ =?utf-8?B?OUVOTGR5VVN4YS9QbjVZMjYxdEhNOVN1NWlUUXByUEJIK3BjVUNkNk0xRU5U?=
+ =?utf-8?B?TWJ6ZXRicFJjc0lzZThNUUJ3MmRzdS9kV1FTUDJPYmhoTUg4NHdGcHpxQVJN?=
+ =?utf-8?B?cWlOazFBbHpPVFVwRzNiWmhjRVZFS1hueWlSYzUwTmZUMUZwZkoyVkFFblRh?=
+ =?utf-8?B?MlFpTmVWREoxOWt4QXk4WDl6aVBlV0NEbTlnSzdMeFZYOWxkaVZIdjNEZndE?=
+ =?utf-8?B?aGhIYk5TKyt3VHc0YWhLTmN3STlCTnVGSVRqenRPcGlnVDdFa3pJWkN5bXVY?=
+ =?utf-8?B?KzJsY3RKaC8xRWxESmEyM0twSFpUS3RERGJ2TXdraFhONTJRc1RjRjlGbFFI?=
+ =?utf-8?B?SmtwaXBYL0lZYnJoV2RNTkxFRityaTl2c0x2Qm5JYUpVYnBiUkRoOURaSm9s?=
+ =?utf-8?B?YnkrTk5zbWlBME0vNEZOOWlZZDJPSTI0M0RQdFkwc09Tb0VOUFRFcUdKL0g2?=
+ =?utf-8?B?N3BCWEd0dEJOcDljWVZNZkluWDA0VmFWVFVVTnBvTCtOZisvMHFXWEdDMWJR?=
+ =?utf-8?B?U2pweFcwTFd0SmRkNWVEU0ZUZGdwaWdWYmluUURNbmNZeldqS0FNUlN4TlBF?=
+ =?utf-8?B?QnY5ZVJIazBKamo1TzZkdmNHLzFhWG5xcURTeHNvTU16ZmVubHpHVWlJOE9p?=
+ =?utf-8?B?S1VOOVR6MEw2ZktKNmQ4TXUzRHRsQkFnK2hTVXBoZUFwSy91VTZaL2F4VjBt?=
+ =?utf-8?Q?Rv9cCvEKq3PjrfGIibL5ewGyoXLFSqqm?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB7989.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bnZYL21WbHBTc2RQQTZNRHZuaC9hQmQrSUdXWDhZNTh0VzZhM3dTeDlKTkFJ?=
+ =?utf-8?B?c0pIVVM1YjJCT2MzeFFqK0o4YjUyUUpZcUhzR2pwQ3hEMmhlMXNHajJ2bFls?=
+ =?utf-8?B?dFEzU2EwOVRweTNESTEyN1NlME1nNjZvSFA1a2s0OWYvQXBXckdsYk1aVmEr?=
+ =?utf-8?B?Ky9MZDl1REY5dGwvaFNtR1ZPbTNjNHMrNnYyRDIvWGNMS1hyZ1JPdUN4anBS?=
+ =?utf-8?B?YThqbHBsOTBQV2tPbHdJNWErYWxoSk5uMzVscnd2cE5aU2l0MVJzM2Y2eUY0?=
+ =?utf-8?B?S0l5Nldvak5YNGlUYlYvUlZ3YlFySm5XcmQxaGgzT0VlTmNVZlNVMUlQV3FK?=
+ =?utf-8?B?elhEUjY0SEsvd2tacFRKU2pCdG1SVHBMdklUODR3ck1LNUlBL0tGRnhwc0Uz?=
+ =?utf-8?B?NkhXTnBMRGdOYUFaN0tVaFpYTFdyM3lmY3Q3WWJoeWRiMUVLOTh6RkZBdGRl?=
+ =?utf-8?B?MXRjd2RtS1Q5WjUxeXhXMjRUSlordjJ2ZDVwUHdxTlJPSGhDcTd3TTI0MjRU?=
+ =?utf-8?B?MGxDTG5YZ0Z5VEQ0WExGdHpIUTBGM1RqdUVPTHF1djhmUHZtVUJ0MjRrMUJw?=
+ =?utf-8?B?Z2ladWRjaW10TmEzQmRhQVBEcVZRNVNacXE2NUtwWTh0dG1IV3U1enBUMCti?=
+ =?utf-8?B?TmZlaVVzMUV2RjdjUmZ5ZEZEM1ZvellyMUh3V1N5T3c5eHd5d1ZheVFKQ29z?=
+ =?utf-8?B?a3BZMnJhak5uaXN2cXZXQ09ueXpIWS9mTWE1aXVoamZ4WmJKRUx1Qk9oTXYx?=
+ =?utf-8?B?U2lONENHRmRpYlpNcE1FTXNpMnZkVUpqV3RqNVFqRElsYkdUTkRGQXNTRnFD?=
+ =?utf-8?B?QUR4c0xaL3ptOUVlbWpvWG1ZekUzVFljS0dzM2tNem4vUFVUTUZnNEhJYnRv?=
+ =?utf-8?B?WllpK093MG5NT0xOMmYxRWtMR1hpY1NrUVozNjlMOWtOd0ZVYXBHYUdCTUN6?=
+ =?utf-8?B?ZDhGRVFBN3V6NnpXeHJudWlhM1IrUHdDOEkzbHFxN014OFNpaWVEQzd3WGN5?=
+ =?utf-8?B?dVAzVWU4TUNQZ3pURllVZ29VQURqYzVMbDk5elU1UzFvVVd5dDJXNUU4Rnpp?=
+ =?utf-8?B?MGJCSXVmblFSQjE4YUZ1VTMyUm5IaWhPMVZyOVQyUUsrNnFUTW8wOE5td3Bo?=
+ =?utf-8?B?QStHOU43WnV0b0lhMEFPVXJjMkN3N1R6TWsvSmNnS1JGeWZuRlduWnY1ODVT?=
+ =?utf-8?B?TFJZRTdLVWVOSUFvVldkNmZPWE9XbEpKMGpnWHhYVlZMK0NielcvWlFjZWM3?=
+ =?utf-8?B?UWw4MER5Q1M2T1ZoMzVsL2JqWEhDenRNamFEVW0rV3gzMnNIOWViaVNDeGUz?=
+ =?utf-8?B?R2pESUFxa1FjR2VESmZmbHVWWXdSVlFRcHdKKzJJQlFUMnlhcTVJOTlDb2xj?=
+ =?utf-8?B?MloyVXdUdURrZExxN0R2VGRQakpCd3d2aVhHU2VmdXIrbFdxUzdCS0dxY1ZJ?=
+ =?utf-8?B?SjVaRjA5VFJMMlhYYmptd0U3OUwvay9tUW9QbFM1bFVIU3B5bVBkdWJCRGJr?=
+ =?utf-8?B?L01lQldwOVQvSFJESTJtNXNJbUFSeTN5cE5kdDFYbUk4WE9UK3NPYktiRGZB?=
+ =?utf-8?B?MUZnSENGR0hlREU3QjhxbXRsVDN0RGJmYWtpZ25ITGNkSVRqcy92VXl3MEth?=
+ =?utf-8?B?NzlDZmt4MWNVZjNMN2lEek1uZDdLYzZvY0tBZ3dvTVlOVkhvem5MRVFZRzQv?=
+ =?utf-8?B?d3RISE1CakNoY285WEdVWDUydk9tWUpHbXQyYnlmMWYxOEpTWE14b2ZBYVZI?=
+ =?utf-8?B?aHdVQkpqU2RPN2Q1Q3NuU2tHV1AzS3YxRFVlQmtOaDdlVUxkZENOK0dSNm4w?=
+ =?utf-8?B?ZlRYR0M5aE9ZSUswQUYvNGJ1UlpWVkdtLzk4K055ZnhaZVY1RlNoWlloY3By?=
+ =?utf-8?B?MG1RL3RpWWx3TlYyUzRNVkswemhtRllGQ29RNlFWMjZEbmQzbHcvMmlyTW5X?=
+ =?utf-8?B?bE9iZnBKRHBXYkpYVVl3MTlSY3JDQVdKRjR6V25mK2ZvMmg2cGhXdGtOSnEv?=
+ =?utf-8?B?ZmJiUWRUZTBnRTVNNFlEbnB0eU1kcXZsdDFTUDN2aUF0eWl0UlY4aTlMRGR4?=
+ =?utf-8?B?SVRhUDBpOEh3elliMVRYem42N2dwTVZEM1pGTE43SmQ3WXVBZllESUQzcDRp?=
+ =?utf-8?Q?vH9C3IgEYIDRCUWifNGHfyb9b?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2a04452-299d-4710-f533-08de2611e3dd
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB7989.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 19:45:41.3843
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JOVLg6cSht+j3XcuQqVWwGeTA6kVcDztzQSqroCPrO5pgJyWefs/cCQnwbM/zI3j5NZjiTRhCX5WRIKLVtE/iw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4808
+X-OriginatorOrg: intel.com
 
-On Fri, Nov 14, 2025 at 3:52=E2=80=AFAM Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.=
-com> wrote:
->
-> Currently, the available UMA allocation configs in the integrated system
-> information table have not been parsed. Add a helper function to retrieve
-> and store these configs.
->
-> Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
+On 11/17/2025 10:29 AM, Borislav Petkov wrote:
+> 
+> Ah ok, that makes sense. That comment still reads weird:
+> 
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+I see. The idea with the comment was to clarify why the check is outside
+cpu_feature_enabled(X86_FEATURE_LASS). That clearly failed! :)
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h              | 32 +++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c         |  2 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c | 73 ++++++++++++++++++=
-++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h |  2 +
->  4 files changed, 109 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/am=
-dgpu/amdgpu.h
-> index a5574e84694b..2c1123291577 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -1675,6 +1675,38 @@ struct amdgpu_numa_info {
->         int nid;
->  };
->
-> +#define MAX_UMA_OPTION_NAME    28
-> +#define MAX_UMA_OPTION_ENTRIES 19
-> +
-> +#define AMDGPU_UMA_FLAG_AUTO   BIT(1)
-> +#define AMDGPU_UMA_FLAG_CUSTOM BIT(0)
-> +
-> +/**
-> + * struct amdgpu_uma_carveut_option - single UMA carveout option
-> + * @name: Name of the carveout option
-> + * @memory_carved: Amount of memory carved
-> + * @flags: ATCS flags supported by this option
-> + */
-> +struct amdgpu_uma_carveout_option {
-> +       char name[MAX_UMA_OPTION_NAME];
-> +       uint8_t memory_carved;
-> +       uint8_t flags;
-> +};
-> +
-> +/**
-> + * struct amdgpu_uma_carveut_info - table of available UMA carveout opti=
-ons
-> + * @num_entries: Number of available options
-> + * @uma_option_index: The index of the option currently applied
-> + * @update_lock: Lock to serialize changes to the option
-> + * @entries: The array of carveout options
-> + */
-> +struct amdgpu_uma_carveout_info {
-> +       uint8_t num_entries;
-> +       uint8_t uma_option_index;
-> +       struct mutex update_lock;
-> +       struct amdgpu_uma_carveout_option entries[MAX_UMA_OPTION_ENTRIES]=
-;
-> +};
-> +
->  /* ATCS Device/Driver State */
->  #define AMDGPU_ATCS_PSC_DEV_STATE_D0           0
->  #define AMDGPU_ATCS_PSC_DEV_STATE_D3_HOT       3
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_acpi.c
-> index 0743fd8620e4..d442dc442d34 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> @@ -38,6 +38,7 @@
->  #include "amdgpu_display.h"
->  #include "amd_acpi.h"
->  #include "atom.h"
-> +#include "amdgpu_atomfirmware.h"
->
->  /* Declare GUID for AMD _DSM method for XCCs */
->  static const guid_t amd_xcc_dsm_guid =3D GUID_INIT(0x8267f5d5, 0xa556, 0=
-x44f2,
-> @@ -125,6 +126,7 @@ struct amdgpu_atcs {
->         acpi_handle handle;
->
->         struct amdgpu_atcs_functions functions;
-> +       struct amdgpu_uma_carveout_info uma_info;
->  };
->
->  static struct amdgpu_acpi_priv {
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c b/drivers/g=
-pu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-> index 636385c80f64..b1463bb594aa 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-> @@ -296,6 +296,79 @@ static int convert_atom_mem_type_to_vram_type(struct=
- amdgpu_device *adev,
->         return vram_type;
->  }
->
-> +static int amdgpu_atomfirmware_get_uma_carveout_info_v2_3(struct amdgpu_=
-device *adev,
-> +                                                         union igp_info =
-*igp_info,
-> +                                                         struct amdgpu_u=
-ma_carveout_info *uma_info)
-> +{
-> +       struct uma_carveout_option *opts;
-> +       uint8_t nr_uma_options;
-> +       int i;
-> +
-> +       nr_uma_options =3D igp_info->v23.UMACarveoutIndexMax;
-> +
-> +       if (!nr_uma_options)
-> +               return -ENODEV;
-> +
-> +       if (nr_uma_options > MAX_UMA_OPTION_ENTRIES) {
-> +               drm_dbg(adev_to_drm(adev),
-> +                       "Number of UMA options exceeds max table size. Op=
-tions will not be parsed");
-> +               return -EINVAL;
-> +       }
-> +
-> +       uma_info->num_entries =3D nr_uma_options;
-> +       uma_info->uma_option_index =3D igp_info->v23.UMACarveoutIndex;
-> +
-> +       opts =3D igp_info->v23.UMASizeControlOption;
-> +
-> +       for (i =3D 0; i < nr_uma_options; i++) {
-> +               uma_info->entries[i].memory_carved =3D opts[i].memoryCarv=
-edGb;
-> +               uma_info->entries[i].flags =3D opts[i].uma_carveout_optio=
-n_flags.all8;
-> +               strscpy(uma_info->entries[i].name, opts[i].optionName, MA=
-X_UMA_OPTION_NAME);
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +int amdgpu_atomfirmware_get_uma_carveout_info(struct amdgpu_device *adev=
-,
-> +                                             struct amdgpu_uma_carveout_=
-info *uma_info)
-> +{
-> +       struct amdgpu_mode_info *mode_info =3D &adev->mode_info;
-> +       union igp_info *igp_info;
-> +       u16 data_offset, size;
-> +       u8 frev, crev;
-> +       int index;
-> +
-> +       if (!(adev->flags & AMD_IS_APU))
-> +               return -ENODEV;
-> +
-> +       index =3D get_index_into_master_table(atom_master_list_of_data_ta=
-bles_v2_1,
-> +                                           integratedsysteminfo);
-> +
-> +       if (!amdgpu_atom_parse_data_header(mode_info->atom_context,
-> +                                         index, &size,
-> +                                         &frev, &crev, &data_offset)) {
-> +               return -EINVAL;
-> +       }
-> +
-> +       igp_info =3D (union igp_info *)
-> +                       (mode_info->atom_context->bios + data_offset);
-> +
-> +       switch (frev) {
-> +       case 2:
-> +               switch (crev) {
-> +               case 3:
-> +                       return amdgpu_atomfirmware_get_uma_carveout_info_=
-v2_3(adev, igp_info, uma_info);
-> +               break;
-> +               default:
-> +                       break;
-> +               }
-> +               break;
-> +       default:
-> +               break;
-> +       }
-> +       return -ENODEV;
-> +}
-> +
->  int
->  amdgpu_atomfirmware_get_vram_info(struct amdgpu_device *adev,
->                                   int *vram_width, int *vram_type,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h b/drivers/g=
-pu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-> index 649b5530d8ae..67c8d105729b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-> @@ -32,6 +32,8 @@ void amdgpu_atomfirmware_scratch_regs_init(struct amdgp=
-u_device *adev);
->  int amdgpu_atomfirmware_allocate_fb_scratch(struct amdgpu_device *adev);
->  int amdgpu_atomfirmware_get_vram_info(struct amdgpu_device *adev,
->         int *vram_width, int *vram_type, int *vram_vendor);
-> +int amdgpu_atomfirmware_get_uma_carveout_info(struct amdgpu_device *adev=
-,
-> +                                             struct amdgpu_uma_carveout_=
-info *uma_info);
->  int amdgpu_atomfirmware_get_clock_info(struct amdgpu_device *adev);
->  int amdgpu_atomfirmware_get_gfx_info(struct amdgpu_device *adev);
->  bool amdgpu_atomfirmware_mem_ecc_supported(struct amdgpu_device *adev);
->
-> --
-> 2.43.0
->
+ > I guess you want to have
+> 
+> 	if (cpu_feature_enabled(X86_FEATURE_LASS)) {
+> 		if (*addr < PAGE_SIZE)
+> 			return GP_NULL_POINTER;
+> 		else
+> 			return GP_LASS_VIOLATION;
+> 	}
+> 
+> so that it is perfectly clear.
+> 
+
+You are right. The condition would typically hit only with LASS enabled.
+But since we are adding an extra hint for NULL pointers, I figured it
+would be helpful even without LASS (even though it is unlikely to happen).
+
+Therefore, the printed message isn't LASS specific either:
+Oops: general protection fault, kernel NULL pointer dereference 0x0:
+
+Also, it makes the code a tiny bit prettier (aesthetically, without the
+nested if). We now have 4 hints and a check for each:
+
+if (condition1)
+	return HINT_1;
+...
+
+if (condition4)
+	return HINT_4;
+
+
+Would this update to the comment help clarify?
+
+	/*
+	 * A NULL pointer dereference usually causes a #PF. However, it
+	 * can result in a #GP when LASS is active. Provide the same
+	 * hint in the rare case that the condition is hit without LASS.
+	 */
+	if (*addr < PAGE_SIZE)
+		return GP_NULL_POINTER;
+
+	/*
+	 * Assume that LASS caused the exception, because the address is
+	 * canonical and in the user half.
+	 */
+	if (cpu_feature_enabled(X86_FEATURE_LASS))
+		return GP_LASS_VIOLATION;
+
+
+Though, I won't push for it further. Code clarity is more important than
+reducing indentation.
+
+
