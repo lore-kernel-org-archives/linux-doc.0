@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33D514884C;
-	Mon, 17 Nov 2025 16:31:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E497299A8A;
+	Mon, 17 Nov 2025 16:33:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763397102; cv=none; b=d8PZLbiI9oNRpxxGFBobRXtm+ercfdO8jkf64bdxcUcuyZ4GlSPqJyF58O+/qQj8B9zmQaSVvk+qoXJVaIOhIl9T9G6CKb2h69POi6OmTzBlcTHM4nKDPE2AXumyu8xjYjcJpNCUHc4U3KBwkJk9gztGA5CXEFI9NzOvQwEdJoo=
+	t=1763397231; cv=none; b=tncCWpRXd2btbCxv3IWeSu1CDI7hmVZuI70aBLzHU42VCq3maA/S10DWMTf3V+gumEhSR4m+w7155uB6ywVGMLaxiqJ7+wdlQXfUTeeXlUYvCnj+2g3A8isgagOivPbTsTocqRxlEqrXZaRkxaPTBAP/81ckcYLJJo5RBqf1Cf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763397102; c=relaxed/simple;
-	bh=V2zY1ETyQRDK01tLZ42mxEb4Ap17uL4fVoksajMATwc=;
+	s=arc-20240116; t=1763397231; c=relaxed/simple;
+	bh=1Q1SOAiDfsnXhnhehY3Ec9ikpjnQmRtfrNFIyqBG+/g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gP/nBAeUH0qqM9TQCaa5Ymb9yUwCu2zOsVGWCfjF54x0qH8IhPdxq95WCZ9LGMY+t3ton3t973+0ZjqHBGfA42X3aHTHHJqXDJFXZ/EJcf3UaOLaNuk9QFOj8si6mKLD4tHWtkJe5D/94BfYqP1Ql1XEtaWhZmq5FHElCPKKQsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CKDVwb9C; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=XTdRybP+MNhe2JssGBwj5VnhbC9JI0m5JT4RPXmz9sS8j9Xnyysk5OJJppJs9SQjvN8+khz+E5tEzTx15owVTgo7GkJNGq2f8ATiqJKlLlvEB/xlZwPM1JZbb4julA5jPLDLlg8kgUZXzrFmeCIsDbX+HXotPRkSfx47kxREdRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hb5vHLop; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CKDVwb9C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 851B5C2BC86;
-	Mon, 17 Nov 2025 16:31:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hb5vHLop"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8448EC113D0;
+	Mon, 17 Nov 2025 16:33:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763397102;
-	bh=V2zY1ETyQRDK01tLZ42mxEb4Ap17uL4fVoksajMATwc=;
+	s=k20201202; t=1763397231;
+	bh=1Q1SOAiDfsnXhnhehY3Ec9ikpjnQmRtfrNFIyqBG+/g=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CKDVwb9CzcwhmjtudLLTgZB7LPLtMAvlwnCnnoyive0AGEOjXlhJ6CH3QwCX8ch7M
-	 NmPCc8swx4beqbwsWhu4NFz5rE12EdAnLlh1y0vVmctYtPEhwrXEnhTIT1rR2jLHrG
-	 z5mMtq7E3/eQz5OMG2Kj8+lidHq3ownecRVaEZcPL8OxsoPBPDt7NyDHtRQp213saw
-	 aAm7RVseZz9o43VFPuMDyvl7WQUCDGYRgIug7vU5ok0cGT4cYwrIXFluv6x0bsjgs2
-	 zJzFON19EfznLeLoWOAqSo+YD/ZU7cHgpsJJQRaaaFadnPbNOO+FGn2M89DmpVCGHZ
-	 TuUM5fCGI6YHA==
-Message-ID: <55612b5c-be7d-4176-bb0b-31a32c35c890@kernel.org>
-Date: Mon, 17 Nov 2025 17:31:34 +0100
+	b=Hb5vHLopLkdVEg1kX2HuACgID15I4SRGl8eSMSJJ62MrnFRgLnblwV6E1kyo/zQbi
+	 5X0fGxpvyBmBBgj4Yx1cNn5Yiebe2SlubUNjhg7qvfOUY49P++hMDweBgwu1rPoWDX
+	 gw/IzLHik44jBVcIFv71tGnPwsr8Cu5Qo/ZAzToEEcPctjufczlNLLabzKLdsOmiXP
+	 Jvcg1iBked2S+ldK/g7QGcSnou/a0cpxVARlaj1AuA7ShHAK1FZukOjLqFUufTXAlQ
+	 nWZgFH79p25BQQGCh0OM/33id18uYJ9+EhjEldgOMcmKKYWyDtYmyYjsnIr2CNLeUM
+	 6Tq9smTRO0AxA==
+Message-ID: <9da933d7-0922-47fe-9e7a-f7ef2d89803a@kernel.org>
+Date: Mon, 17 Nov 2025 17:33:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] MAINTAINERS: Add tids driver as maintained
+Subject: Re: [PATCH 3/4] dt-bindings: Add tids in bindings and wsen as vendor
 To: Thomas Marangoni <Thomas.Marangoni@becom-group.com>,
  linux-hwmon@vger.kernel.org
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
@@ -48,7 +48,7 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  mani@kernel.org, dev@kael-k.io, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20251117123809.47488-1-Thomas.Marangoni@becom-group.com>
- <20251117123809.47488-5-Thomas.Marangoni@becom-group.com>
+ <20251117123809.47488-4-Thomas.Marangoni@becom-group.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -94,27 +94,23 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251117123809.47488-5-Thomas.Marangoni@becom-group.com>
+In-Reply-To: <20251117123809.47488-4-Thomas.Marangoni@becom-group.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 17/11/2025 13:38, Thomas Marangoni wrote:
-> I've added myself as maintainer for the tids driver.
+> This patch adds the tids driver to the bindings as trivial-devices
+> and adds the WSEN manufacturer to the vendor-prefixes.
 > ---
->  MAINTAINERS | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ec635515c0c4..3f981252fa2a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -27965,6 +27965,12 @@ F:	Documentation/ABI/stable/sysfs-platform-wmi-bmof
->  F:	Documentation/wmi/devices/wmi-bmof.rst
->  F:	drivers/platform/x86/wmi-bmof.c
->  
-> +WSEN TIDS DRIVER
 
-S > O.
+You need to run checkpatch...
+
+Please do not use "This commit/patch/change", but imperative mood. See
+longer explanation here:
+https://elixir.bootlin.com/linux/v6.16/source/Documentation/process/submitting-patches.rst#L94
+
+Also, do not reference driver. Explain here hardware, why this is a
+trivial device.
 
 Best regards,
 Krzysztof
