@@ -1,60 +1,59 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A09E30F95E
-	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 20:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BA031B114
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 20:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763410127; cv=none; b=FbNX8+UQfSp2Qy0l2zi1jCzrDRuxtPYZigp3jTcgKeTof0eVsguB/dOb7CvtB76SoPpga/Cay4Tph5eoAD0C0lzXFLkwHKi2J3yIzVxrlwba4wtZqFAH3uPoA9AVRFVSgP0IIf4orJ8z1AraE9g0Y7epWEz+fqVQZ+xXK04lJck=
+	t=1763410657; cv=none; b=FoShQAb4PpEYa0LIKZ3pXHOfdcpozSCKdSugjq/DUJ67qXe0ky/lKxy9DzTO5/ZD/e9/z1xtR0Ao13shW+RmN8Qg1husOATYBxUM6LODWFUPypsm3EA5XzJbwJdBgp0M0vKG/2olb8Bt18xNuR69NiZPXUEaVj9sv2ZorBQdUQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763410127; c=relaxed/simple;
-	bh=Yw1aZQl8vl8/93QETkjfeEjlH/aNdRcNmurvSzAuBsM=;
+	s=arc-20240116; t=1763410657; c=relaxed/simple;
+	bh=S33O+CF2B1r3tkcDztO9KxprMMVy543GWsitFXBZZIM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bActRrfgkq2nQeb+EX71SwB03Ss51iQGOngytRN1e88MnCNH6+k4PXpDn0+LMCDlpuapnYxyke6TYJJHbEbpsOShLTse3LxmSRiinrofMRTkD2Pd2DJN6TEjBglEgZRY8ho6oqg0XDq/wQY3Rm2piQmdU4AjnPRCmbTC5T4twBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KxpktJBj; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=Pe/X+odsePDzl00uGbGcNc/MlqGdDTUERtDehxSFerCaEd4az3bjin/1sQQHToC+KEXqTG795lvZ0QuPa1DZR3t5L2euIY1yYdA21+mePILFkmhSAonz9NNGcOJPYQNodRRRarQ02GP+jbOYgx6W2dA1z/b7GbvYGp144pQhuok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=VSEiF0ni; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KxpktJBj"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-591c98ebe90so5112688e87.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 12:08:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="VSEiF0ni"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-640a3317b89so7161724a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 12:17:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763410123; x=1764014923; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763410653; x=1764015453; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=B8IeajO+LKfiTWjgb9/LynkoZi0BDB3SfDWMQAsNP9Q=;
-        b=KxpktJBjKPbBpynuF8Pz/0fn3yQOHh4y658WI53aV6eNhHAqfzu812ml/fWQua+uJv
-         hPzpni+Q8xqYGSZRDTalnBYoILuBGC0DdrOkm6LJba5j/o95Ak3vkGvQwOGd3QPY4QAq
-         mVriFdLSpNAy1Jh9Xq7CUiFGgE7jcnSRSFxfth+G2NsPvG6ojV8uwgmiwUjCvK332Ihj
-         yBeXwbfCxdhhR3Gh4Fwn3G7ucUrNx7oSP9t2yANx3kKDLVyBcweqAKkFOzxZH1GfzxQh
-         Ps32Gt0eRCQWtmt/1ZZM0r8o0tlLbr26FpsxfHKBpzMlSfC1QnekXoPMnWruaxJQS/4C
-         Q+Bg==
+        bh=S33O+CF2B1r3tkcDztO9KxprMMVy543GWsitFXBZZIM=;
+        b=VSEiF0niubI0/T1KkAyD6Jo1VIJgW5qOyli6sh6xtCuKlNwx7nkMIDeNbeEmY/ggDM
+         iqot6HUzbBRC4iyPdUjF3f64CrBQJ+AY8trjtbRKH1JkbVbPwgTktAUXcy0+zFHqSZYq
+         3kXVPSjsCTnAlHkwgQsmyJrjc11eVSC3EoLxztHxnz3t6QPQQUTTkWCjZ38TNFWBlEyf
+         1m6i2io51I2wdRKgXKYmN0SjKcN78/ji2w8A1WxqMH0OLiQiGgsFTuIHPZK+Yvv91CyG
+         HWK4b8QQkVnIJDCGDmOHyH2g6GzeIQjA6EjOFCi0rO+2yaQG7978KNbfDc1iG5VHbkPW
+         Y9Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763410123; x=1764014923;
+        d=1e100.net; s=20230601; t=1763410653; x=1764015453;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=B8IeajO+LKfiTWjgb9/LynkoZi0BDB3SfDWMQAsNP9Q=;
-        b=O48gZ2U84kwg3g3Z5mnoVxmXnkgJvH6WCLi3oco5ty2bGN2u3ucheSUkqKhCJ3G7Ym
-         YxTB1MoYCW8muKpVfKkAw7AIKjhvAntX4P+9aiQsLwfcAeSBNFijAHKaaBC4nChBUhdq
-         h5epxxB0oEwsfBKvK/hciDUuf5vcU+zbCJiypORLEF4Ax4IZPEDpbaZyJ8ESK6zLTpxc
-         aQbPwPTHhGXYY4ZhinOHy58bxAX2syqIeNhvTBWa77Tri7n1AxqQxM8ZcHWU065XWbBa
-         dd2DTTGSB0RJO7CmkYLX2yJnNmM6JBvidRPYWTKx5XI8uFn9TBb0IdwGdQDtob68cllx
-         MMcA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6xxVvywRGEy5EO72FfBvmUvW34kqRWzjcM8qR7rRF118QkqXgdAoBkiZ1Y930BV0UJo01cZu7f5g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnedNiGCHpKRTari75nyROI0IRVBorjRZN7mmpyI9t7ACWPhF5
-	zM7doFCo03MhiuzpYkZBvAogzYKxSunRYtNI9YkSmmuJN0S1a8blZrnO4+zMBhvug/YmrOq7+u7
-	mpWJv9mDIUWY343eBj4bU4N2oBeKBtgIeTQ2vcT5X
-X-Gm-Gg: ASbGncvgAHnp4UoKVC/6BSxTp1xuAH2krkKRtIlioXgyZiXp75shCHEfgfjecuMIEhu
-	FEILY/Hqqm1V8PlHDtkEaXK4wusy8hQXAbeX5JOJaKgYkXKCipECNy2h+U5ZsYYP0jv53/AsTau
-	D146X99Kg0o4gOV3dIj9mhzELoQF0PUFqznsrWz7acNcbat4rWVGGCWhUAoydcKLm2jb0J2ORLG
-	euSyTmJn+6VzwtzwMlEJTe0sgSvRcvSHzvMcu1W8zXyy6NTCa5pczwRKsmp6bRUGeoy1+hD5r3r
-	bFANQWeC3DAa/W36
-X-Google-Smtp-Source: AGHT+IHojPwd3v72NJVpkRmb3ZkvRiR6CtkdMhnImHWMeD919h0DtLK7G2dHr+aPFZd7TlllVFDo3XPzHq7+z0cC59I=
-X-Received: by 2002:a05:6512:b17:b0:594:27c6:a03 with SMTP id
- 2adb3069b0e04-595841af94fmr4509003e87.13.1763410122875; Mon, 17 Nov 2025
- 12:08:42 -0800 (PST)
+        bh=S33O+CF2B1r3tkcDztO9KxprMMVy543GWsitFXBZZIM=;
+        b=IA+zJmlseNRTgPaAffqXiumMe1tnI8igg5XeHV7wBNU/Wo/biP2x7oMvR0kkSsCVNW
+         ZyC0ud2gOww9dxGEEuyiWAtURpHSI20RjR6ZtmGouN5BUSwwDV0C3G8bM4/iR/zfBWVt
+         J4jvQhzFdVvD2B2tWCYJNFZKSQGjnnILqGCtOeAP4Q4vUO7t7pAozMxMM+ff55tyqq86
+         NvbPC7M7yNJdcX7uMAIZpmrGqNH9KMFPWokFpTiuwQQ6W5ihuMNd51CGwlYv0CXk1K/T
+         A31LWZIFK/Ws4QnaicCpSnfeNMlujN+g9jp5LaUjZ2uU9ZF16m+CLsxpexWSMqyIAs3V
+         0MDA==
+X-Forwarded-Encrypted: i=1; AJvYcCW8g5OKxbUKkS+qRMWBTDgUkhML4O1d1A7Q55WC6ImGR/SXynxPncwafq6cqtR91beifdW4Q1RnBKI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCXl1KSQFbpBnSjdCwbFOWvAp4XhmpwhODsC6fZnwBvCJJGU4l
+	ZdC+6869lDq9t54v/oRCBN8T/eO7pFHoenA4VVPxjeZwCAX+pZTbuV+H0UT8PmOn8pPpL66bVQ7
+	MPgsfhAgfD2t/WDn2XIvwMOEsZJTfbOFq/vn4EBYTKA==
+X-Gm-Gg: ASbGncvOTrVINvh3JMR84POuIyziwKZ0yxE1t4HWvxNxgFVFkXqlNqt+YDF/QNpWTyX
+	UY8GmCXvy582VC8MOueFwecNyt1cqIj7/M5DI1hkFkRHCvdf69pbOsypKs1tJleEdlPbkvmbrQi
+	GlyOIFwuXl9d9xfA5R9o7LEqTGzt6eFdoEDcssqZGfPSh4u9ungzzMjyHuuWoFuLRjAaMaERAAw
+	z7V3uQmn62xt9UnqTFpphMZBxYonYyv3N9s4EJqm0ePS4YZgdOoNhj0KrOqnE+5VeUZ
+X-Google-Smtp-Source: AGHT+IFItSdGQdOgeoVWjbSlLG/sP/FZzoFWO1rtvgD6y2lU/+PX1v1prFL+slWcS3blQ8WlJsrEVKQ7VXI5F5genq4=
+X-Received: by 2002:a05:6402:50cd:b0:640:ebe3:dd55 with SMTP id
+ 4fb4d7f45d1cf-64350e04b82mr11009068a12.6.1763410653320; Mon, 17 Nov 2025
+ 12:17:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,15 +61,14 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-19-pasha.tatashin@soleen.com> <CALzav=edxTsa7uO7XxiUSx+DZiX169T4WL39vYsn3_WcUuVKrg@mail.gmail.com>
-In-Reply-To: <CALzav=edxTsa7uO7XxiUSx+DZiX169T4WL39vYsn3_WcUuVKrg@mail.gmail.com>
-From: David Matlack <dmatlack@google.com>
-Date: Mon, 17 Nov 2025 12:08:14 -0800
-X-Gm-Features: AWmQ_bn0yHZxh94v8VlTzlMn4GZr7M3WPHVUsDMCpZs3Y3uXKCxbVDFrAaiWm-s
-Message-ID: <CALzav=f+6hQ-UYBpwmAyKHPmtvEq-Q=mOL20_rZmAcTyd87+Vg@mail.gmail.com>
-Subject: Re: [PATCH v6 18/20] selftests/liveupdate: Add kexec-based selftest
- for session lifecycle
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
+ <20251115233409.768044-18-pasha.tatashin@soleen.com> <CALzav=eskApQk6kstsQWThwV=h4Qmd85kAw3CxZt=6hj=JS-Xw@mail.gmail.com>
+In-Reply-To: <CALzav=eskApQk6kstsQWThwV=h4Qmd85kAw3CxZt=6hj=JS-Xw@mail.gmail.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 17 Nov 2025 15:16:56 -0500
+X-Gm-Features: AWmQ_bm_MkoZE--tsc-fA0lwBQn6VGwYgaMcS7NtBv5sswRv0JDdatkuBxPFasI
+Message-ID: <CA+CK2bD-57sMM1pm9GkdrpRkvk5qCf3CfQ1yr1q=X5+e4dgmoA@mail.gmail.com>
+Subject: Re: [PATCH v6 17/20] selftests/liveupdate: Add userspace API selftests
+To: David Matlack <dmatlack@google.com>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, 
 	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
 	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
@@ -97,51 +95,39 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 17, 2025 at 11:27=E2=80=AFAM David Matlack <dmatlack@google.com=
-> wrote:
-
-> Putting it all together, here is what I'd recommend for this Makefile
-> (drop-in replacement for the current Makefile). This will also make it
-> easier for me to share the library code with VFIO selftests, which
-> I'll need to do in the VFIO series.
+On Mon, Nov 17, 2025 at 2:39=E2=80=AFPM David Matlack <dmatlack@google.com>=
+ wrote:
 >
-> (Sorry in advance for the line wrap. I had to send this through gmail.)
+> On Sat, Nov 15, 2025 at 3:34=E2=80=AFPM Pasha Tatashin
+> <pasha.tatashin@soleen.com> wrote:
+>
+> > diff --git a/tools/testing/selftests/liveupdate/.gitignore b/tools/test=
+ing/selftests/liveupdate/.gitignore
+> > new file mode 100644
+> > index 000000000000..af6e773cf98f
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/liveupdate/.gitignore
+> > @@ -0,0 +1 @@
+> > +/liveupdate
+>
+> I would recommend the following .gitignore so you don't have to keep
+> updating it every time there's a new executable or other build
+> artifact. This is what we use in the KVM and VFIO selftests.
 
-Oops I dropped the build rule for liveupdate.c. Here it is with that includ=
-ed:
+Good idea, I will do that.
 
-# SPDX-License-Identifier: GPL-2.0-only
+Thanks,
+Pasha
 
-LIBLIVEUPDATE_C +=3D luo_test_utils.c
-
-TEST_GEN_PROGS +=3D liveupdate
-TEST_GEN_PROGS_EXTENDED +=3D luo_kexec_simple
-TEST_GEN_PROGS_EXTENDED +=3D luo_multi_session
-
-TEST_FILES +=3D do_kexec.sh
-
-include ../lib.mk
-
-CFLAGS +=3D $(KHDR_INCLUDES)
-CFLAGS +=3D -Wall -O2 -Wno-unused-function
-CFLAGS +=3D -MD
-CFLAGS +=3D $(EXTRA_CFLAGS)
-
-LIBLIVEUPDATE_O :=3D $(patsubst %.c, $(OUTPUT)/%.o, $(LIBLIVEUPDATE_C))
-TEST_PROGS :=3D $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED)
-TEST_PROGS_O :=3D $(patsubst %, %.o, $(TEST_PROGS))
-
-TEST_DEP_FILES +=3D $(patsubst %.o, %.d, $(LIBLIVEUPDATE_O))
-TEST_DEP_FILES +=3D $(patsubst %.o, %.d, $(TEST_PROGS_O))
--include $(TEST_DEP_FILES)
-
-$(LIBLIVEUPDATE_O): $(OUTPUT)/%.o: %.c
-        $(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c $< -o $@
-
-$(TEST_PROGS): %: %.o $(LIBLIVEUPDATE_O)
-        $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH) $<
-$(LIBLIVEUPDATE_O) $(LDLIBS) -o $@
-
-EXTRA_CLEAN +=3D $(LIBLIVEUPDATE_O)
-EXTRA_CLEAN +=3D $(TEST_PROGS_O)
-EXTRA_CLEAN +=3D $(TEST_DEP_FILES)
+>
+> # SPDX-License-Identifier: GPL-2.0-only
+> *
+> !/**/
+> !*.c
+> !*.h
+> !*.S
+> !*.sh
+> !*.mk
+> !.gitignore
+> !config
+> !Makefile
