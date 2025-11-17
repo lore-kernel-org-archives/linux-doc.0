@@ -1,99 +1,122 @@
-Received: from mail-06.mail-europe.com (mail-06.mail-europe.com [85.9.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11A032E756;
-	Mon, 17 Nov 2025 18:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74718303A1D
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 19:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763405917; cv=none; b=Isto43x3vG/mj6460lDasaKVfYslz0PJFg3+5DiXdR6NsVW/ESueAbFTSRWX5vYYTfyLj5N8DHB3btWBFAAfklDP1EOTv9MC/0x0AjCgZQuNslcQfdVd7M1UNWUDbgvMW3NJiELFroh8uWzCTI7v5PK2LGrqQyrvikr2JeEh1Ek=
+	t=1763406054; cv=none; b=jRYU9kXSkfJvD+KrtDzAhKzgj+xj6RZwotFulDZOGoXjJsd826wyPEQiRz3nzX8IoFjmCvo/R4X1okOSkoukxASeDCr+Iwvgk5Skb1qUZVDf8/hOSHiIhWnVLsXuaym50xSXUtfilBVQOX9e3SJUNlJwWxFLQWJZorJ72tXdSNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763405917; c=relaxed/simple;
-	bh=bA/G9mt1u4rsjAb46FDifK77cEAdgWvY/zjnEtGtv7U=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f168BO/xmMci9Wy8WM5n7wkv5S6hhOYIcNyh63SveOIqi9KFgJd+rzKBnkSgLzLatVcrXuMNleOc6+wij3w6yirJU85dGtO+Ym0WMV3rePelP6NBfEbYO7/m0LbaNMzY8RLPmLs8GO1mxns9o8BrmkLTDi64+GD8jWk/2yTM9xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=aSMS2vsg; arc=none smtp.client-ip=85.9.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1763406054; c=relaxed/simple;
+	bh=9LwQ8cgiBx+GR9gi4Ze2NRYHzMsmpVYF+u+bBwx5cCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TFBSjh8mEy+YV7055T8gGxBuXku7D4cIBHZR1UHMpIRv2du3ZHSGxNg3AtiKIZacUVK2zmN/5jwzjKMaWMqtTydd1ZeK7i8CQKAmebCc5B8+P6MlAn+gbXJyMyv+0i77gx7odKT3GASFNfrTF47TdYEwbsnvtcSQ8KOlHNPILmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bb7vhjgo; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="aSMS2vsg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1763405903; x=1763665103;
-	bh=fhxihtRxC0rWih6zRhIQ0MI/4P4VUJvqw2WCiJpsAFs=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=aSMS2vsgjqhABOKKmX+n7L/nYKJ4HsmbQTEgXiTOoY3Cd2FK585onBnDDSJ+D1ZmH
-	 dj6ZPber0hjFh12DL2S+g5C29ScBlcj2WoRImmKPbgy4i8WhVJyy1lvNs9oM4w0oU/
-	 CdnnnUK2oTosOTZImq1kqIdX65kFrGdsMX9ZnjZQ6L7F4kO+aqbkZ1DTfWbTj6eQdK
-	 rjx8bj6r7nJy22ERnAhd4ghyneoMQLaymChmrZsLvuFej+A7MHrbAXuLjU92A95Q/f
-	 87n5KZbG4GiCTECbznvPERG1bGaG3N+iGeAnP03gABCYzQCdmLEbvi1S4rUGkQhQr2
-	 v1Q7mLEQN4nTw==
-Date: Mon, 17 Nov 2025 18:58:12 +0000
-To: Alexander Potapenko <glider@google.com>
-From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
-Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org,
-	Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 10/18] x86/mm: Physical address comparisons in fill_p*d/pte
-Message-ID: <j6s4vcbtgjas2ktnpx7etguc2nccxa3o5hz3vabes7fn7gfb5e@xxbiwnnps64e>
-In-Reply-To: <CAG_fn=Ut9JUpStLiO+GsoBpn3d_EyyttcuBby=EKzuxkKdcKcw@mail.gmail.com>
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <da6cee1f1e596da12ef6e57202c26ec802f7528a.1761763681.git.m.wieczorretman@pm.me> <CAG_fn=Ut9JUpStLiO+GsoBpn3d_EyyttcuBby=EKzuxkKdcKcw@mail.gmail.com>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 5443841a22fdb0cd19c2ceb9e40b8cdbb4f4e884
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bb7vhjgo"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2980d9b7df5so48415775ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 11:00:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763406052; x=1764010852; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H0lS2cED24LXASEO8Kaw1E9xKUmdy8WEPj1E8PP+Wtk=;
+        b=Bb7vhjgo8i3MdNxVG4EuzsP0kY56sHhKC0hWXy3SNDE+0Ky7g2//Vfq9gp+Z3YGBG2
+         kEV2VMszuPQ4nQazsSKgdPOTiRGD1zm95jdORpTJBag6XwmEn5c2/HvrxvuQ0/2Y921F
+         UvQBWH0YZMZjhyeFp2YU/N52BH0iW//+scsr+miVtegB+9hZP+42GsqTErMJdr37zFTf
+         YF7gzWQjdjmNsm/SlxP/4ZKN6wnkOMpf8uEmxEjzhHoPjE0GreCvD45hd39nEQskXra/
+         bg/GnRKMnZp3vn2z/u0j8s3BNDcw8sZ4BbHamAFyvnzIlSksGSxQ/4P1O7k3ELztEwXd
+         9h3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763406052; x=1764010852;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=H0lS2cED24LXASEO8Kaw1E9xKUmdy8WEPj1E8PP+Wtk=;
+        b=cP7IQy9jSxuVuxeEL2CREbi0poRPoZcqfCFq4wY3SkpM4vbE5sNSnftEyrhhSRS5IA
+         dNDzocP7jOPkgz/YpP1Sg5AYHwRdGbV3ZtGtbz2ShXpTASBYWiLZECwNMYsp3rwVgVCe
+         3WyluimsVM/sV57JQEPa7m+ZTZkENbkK7jil8xkCchVC8a19Bu90p6nEUtUhpFKgC3yQ
+         rUE8YBGFM35C+UxDwf50wUVgBgvTQ+XpiTGYThZIaGDTwp6ZJIFS37aoTJQzk/Wrv9wf
+         u87KljnyHeTIh5SuxA8dZWNyjrbIRXFqZMDzAqT1raZnPAVnkY2w+wMn+RKt2OTCZzZo
+         VALg==
+X-Forwarded-Encrypted: i=1; AJvYcCUQkohdiLonymljp0Ndki90/oko+DYuSY95AF5UyOobHkCKyWY9v3R7gJB3E9k9HTecotZTkQF19CE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6rnXoUH/hLldSH2Cc0PleEgVmxvdnCxG8+chfhwrN9CHDir7L
+	3UeWCo3HKfEWtGBrkeecB0tIs77tsAqeBUWzY39bwUvzXM/jwGSEkiPN
+X-Gm-Gg: ASbGncvcr/5N5jbmyW+mvIPmGPomkroXe1O1/hWKEZs0P8BboVqhBmAcKCGTKf2/iOt
+	iQL2znDFaoX6pr4fr5j3goqx1l6Y2IGbxwM36oZcgC8old898XcVQQZ4mkwpD3Qtr9qZY84EiDl
+	Gh9zAKRDkOPukIUAZ1+cJgiRO2ibJRWz++NrTtPBiMcpP6y0NuC9Qn5aGKc4TYOT3ZKsXI+Ati5
+	4QlYpW3jC9ULO1xqiljoTBhg8AOdRLTUyak/w6fXr9LIESHPuMPfyEccNiuRsyDGxg5PDOt2q/2
+	8BC93wKUvvRRWAq6HUTr8MAahqnOJvv/khwNtMsRXEdhAUyQn1MhLOauqtMO34xkv+t0KmCbDDl
+	1JmoLOtopH1l9DN7aoeWYIC3sNnV+MDBd+al771Z61eabEcjVhmhpx26h1ly9i7UW+7C7Fw+l5M
+	aqw4MxnRMhZYkm0/723DUvCimDBmseeLduhzc9XtbRiBg9
+X-Google-Smtp-Source: AGHT+IGDVNZOalPoeGLRx0StV1WyF6OuSXplI/tFFH2YjaxRb6M+ZouwxCgXlyJ+r8uHMpC01NlQdg==
+X-Received: by 2002:a17:903:198d:b0:298:2af7:8d26 with SMTP id d9443c01a7336-2986a76a26dmr169206325ad.54.1763406050080;
+        Mon, 17 Nov 2025 11:00:50 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2376f6sm146281525ad.21.2025.11.17.11.00.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Nov 2025 11:00:49 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 17 Nov 2025 11:00:48 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 06/11] hwmon: Add Apple Silicon SMC hwmon driver
+Message-ID: <7a445358-ce9e-4180-99dd-1a771c8ffa98@roeck-us.net>
+References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+ <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
 
-On 2025-11-10 at 17:24:38 +0100, Alexander Potapenko wrote:
->On Wed, Oct 29, 2025 at 9:07=E2=80=AFPM Maciej Wieczor-Retman
-><m.wieczorretman@pm.me> wrote:
->>
->> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
->>
->> Calculating page offset returns a pointer without a tag. When comparing
->> the calculated offset to a tagged page pointer an error is raised
->> because they are not equal.
->>
->> Change pointer comparisons to physical address comparisons as to avoid
->> issues with tagged pointers that pointer arithmetic would create. Open
->> code pte_offset_kernel(), pmd_offset(), pud_offset() and p4d_offset().
->> Because one parameter is always zero and the rest of the function
->> insides are enclosed inside __va(), removing that layer lowers the
->> complexity of final assembly.
->>
->> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
->> ---
->> Changelog v2:
->> - Open code *_offset() to avoid it's internal __va().
->>
->>  arch/x86/mm/init_64.c | 11 +++++++----
->>  1 file changed, 7 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
->> index 0e4270e20fad..2d79fc0cf391 100644
->> --- a/arch/x86/mm/init_64.c
->> +++ b/arch/x86/mm/init_64.c
->> @@ -269,7 +269,10 @@ static p4d_t *fill_p4d(pgd_t *pgd, unsigned long va=
-ddr)
->>         if (pgd_none(*pgd)) {
->>                 p4d_t *p4d =3D (p4d_t *)spp_getpage();
->>                 pgd_populate(&init_mm, pgd, p4d);
->> -               if (p4d !=3D p4d_offset(pgd, 0))
->> +
->> +               if (__pa(p4d) !=3D (pgtable_l5_enabled() ?
->> +                                 __pa(pgd) :
->> +                                 (unsigned long)pgd_val(*pgd) & PTE_PFN=
-_MASK))
->
->Did you test with both 4- and 5-level paging?
->If I understand correctly, p4d and pgd are supposed to be the same
->under !pgtable_l5_enabled().
+On Wed, Nov 12, 2025 at 09:16:52PM +1000, James Calligeros wrote:
+> The System Management Controller on Apple Silicon devices is responsible
+> for integrating and exposing the data reported by the vast array of
+> hardware monitoring sensors present on these devices. It is also
+> responsible for fan control, and allows users to manually set fan
+> speeds if they so desire. Add a hwmon driver to expose current,
+> power, temperature, and voltage monitoring sensors, as well as
+> fan speed monitoring and control via the SMC on Apple Silicon devices.
+> 
+> The SMC firmware has no consistency between devices, even when they
+> share an SoC. The FourCC keys used to access sensors are almost
+> random. An M1 Mac mini will have different FourCCs for its CPU core
+> temperature sensors to an M1 MacBook Pro, for example. For this
+> reason, the valid sensors for a given device are specified in a
+> child of the SMC Devicetree node. The driver uses this information
+> to determine which sensors to make available at runtime.
+> 
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
+> Co-developed-by: Janne Grunau <j@jannau.net>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 
-Yes, I do test on both paging modes. Looking at p4d_offset() I think I
-got the cases reversed somehow. Weird that it didn't raise any issues
-afterwards. Thanks for pointing it out :)
+Applied to hwmon-next.
 
+Note that I can not apply the devicetree patch (2/11), presumably since it depends
+on the first patch of the series.
+
+Guenter
