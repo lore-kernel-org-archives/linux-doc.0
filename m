@@ -1,25 +1,40 @@
-Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10D7F3246E6;
-	Mon, 17 Nov 2025 09:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.182.222
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0433271F9
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 09:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763373264; cv=none; b=C0om5Z2jbha6Zv616OKwyKChg3IIbSXMT5M5ulfyZOt04YEUpUZOcuhDL4CJ2HAWA5W9kZqtwHx2RLiE2pylWO0PvslnA5N30BgoMT3tjxorBaSewmaN85ZBHBtYJnJLa6Phd2N74C2DX7n5eljgnOIBOEyoaIGSI3dijf2ODxg=
+	t=1763373421; cv=none; b=qk6c7hklwyyACAGyDt4cxbjZmfD948r4yc6S808Nkg3ExU+PcpwKvBQB602rCmscLkq17iqJoS67sWG/bQwsajd1HtYRskXnmjQq/mkleubYnnCy0gGVvKdW75zZml8mL6OPLPGKIUQyrvLDpeoUtVHe13DWlCUP+L4t6+9yH/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763373264; c=relaxed/simple;
-	bh=e/1ndWKHQevQlH017SzGKyQQCFZZVFvU9imDyhCgz/o=;
+	s=arc-20240116; t=1763373421; c=relaxed/simple;
+	bh=6Po2lY94+I0OgfyOI2O1vx8AzkWK2+zaeIWgYkrNNRY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T5CYqSdLrFKlGPoBvizY0gIJLYUVk0kHu0wxV+YywtzjxVdspZeOfXXReLXEQXqEl77dLjiPYUd6PXFhTm/gLCN3uEQKLKwntO1BskCfkWQGEyI9m2QeKtUUYxNbtDmS9UFd08WBABpmBs7RCi4v4gVu7PRPCFxNq1gDDh/ciH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.182.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrABXOXq58Bpp5lztBQ--.25206S2;
-	Mon, 17 Nov 2025 17:54:01 +0800 (CST)
-Received: from [10.12.169.45] (unknown [10.12.169.45])
-	by gateway (Coremail) with SMTP id _____wCnP1O48BppUksTBA--.20154S2;
-	Mon, 17 Nov 2025 17:54:01 +0800 (CST)
-Message-ID: <b559d575-9c2b-4651-9f0c-2a26dcb48a3f@hust.edu.cn>
-Date: Mon, 17 Nov 2025 17:54:00 +0800
+	 In-Reply-To:Content-Type; b=Dp8nedodbCIsOKGT9P1hX/uvu1WJbuSRgkMpZ/0teVxnIY+Ny23cbw1VhWqJG19ApQqll74RAwyvIH2FK6ClQCvWTLLYp4Iur/Wovwr3SkXbZN6w40AqAvh6vdYPx9HV3rSygPjpt+DqbPo3QAUl3Y5MwFgSh1QQYaNoZzk4Eb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fwsOViIp; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fwsOViIp"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id B34271A1B6A;
+	Mon, 17 Nov 2025 09:56:50 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 853FB606B9;
+	Mon, 17 Nov 2025 09:56:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4444610371CF1;
+	Mon, 17 Nov 2025 10:56:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1763373409; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=N93QnAOp/+Ulcj05q2iTIq2QyDQKGiHJoy+Qk31s7ww=;
+	b=fwsOViIp1XMGYwAG5xJQXLMRhJErZ3J5eLcAnguCtbUhO3mkB5u7gQPxqsEy8zPN5SwRjZ
+	9WqFKojzhg1fKVnfpzYrTJ/D0fYE4fsd4CVZgpRoEYlSMI+2T36nJ622YWleEHOoserQn2
+	4KhSN/apOtgiOc41CDQTQjxbBJqwd+zFOaqRO6PgtV5D3ffDILx8QGG8yldo29jyg6bjWA
+	npsD50KY4H6YN+O9BweLXQa+ujgjz2g/WomI0UeoKT8DI3WlNTf/kqvY0JSwbp5IdacERm
+	thSMhPffMD7m0Fxomde08nQzHMliQdDSJR0/y2kdjSOty65/jwKQcWcYTaHevQ==
+Message-ID: <f2ee5ce4-418a-4170-9b0f-26bac570e72e@bootlin.com>
+Date: Mon, 17 Nov 2025 09:56:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,114 +42,140 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH linux-next v5] docs/zh_CN: Update the Chinese translation
- of kbuild.rst
-To: Chenguang Zhao <zhaochenguang@kylinos.cn>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
- WangYuli <wangyuli@aosc.io>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251117093041.458075-1-zhaochenguang@kylinos.cn>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20251117093041.458075-1-zhaochenguang@kylinos.cn>
+Subject: Re: [PATCH RESEND v2 06/32] drm/vkms: Introduce configfs for plane
+ name
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ victoria@system76.com, sebastian.wick@redhat.com,
+ thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251029-vkms-all-config-v2-0-a49a2d4cba26@bootlin.com>
+ <20251029-vkms-all-config-v2-6-a49a2d4cba26@bootlin.com>
+ <aRXpeE2fCRj4uyBY@fedora>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <aRXpeE2fCRj4uyBY@fedora>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrABXOXq58Bpp5lztBQ--.25206S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxGr18WFWxJFWfurW8JFykAFb_yoW5tF1Upw
-	nxWry7J3WDtryYy3srKFW8uF1rGw1xGa12qa17C3Wxtr12939Fqr1Uta4ktr9rG348GFWD
-	GFyUWFy8CFy7CwUanT9S1TB71UUUUbJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQ2b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	1q6r43M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCF04
-	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_GFv_Wrylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU-zBTDUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+X-Last-TLS-Session-Version: TLSv1.3
 
 
-On 11/17/25 5:30 PM, Chenguang Zhao wrote:
-> Finish the translation of kbuild/kbuild.rst.
->
-> Update to commit 5cbfb4da7e06 ("kbuild: doc: improve
-> KBUILD_BUILD_TIMESTAMP documentation")
+
+On 11/13/25 14:21, José Expósito wrote:
+> On Wed, Oct 29, 2025 at 03:36:43PM +0100, Louis Chauvet wrote:
+>> Planes can have name, create a plane attribute to configure it. Currently
+>> plane name is mainly used in logs.
+>>
+>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>> ---
+>>   Documentation/gpu/vkms.rst           |  3 ++-
+>>   drivers/gpu/drm/vkms/vkms_configfs.c | 32 ++++++++++++++++++++++++++++++++
+>>   2 files changed, 34 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+>> index 3574e01b928d..1fe6e420c963 100644
+>> --- a/Documentation/gpu/vkms.rst
+>> +++ b/Documentation/gpu/vkms.rst
+>> @@ -87,10 +87,11 @@ Start by creating one or more planes::
+>>   
+>>     sudo mkdir /config/vkms/my-vkms/planes/plane0
+>>   
+>> -Planes have 1 configurable attribute:
+>> +Planes have 2 configurable attributes:
+>>   
+>>   - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
+>>     exposed by the "type" property of a plane)
+>> +- name: Name of the plane
+> 
+> I'd like to mention again my comment on limiting the name to a set of
+> well-known characters [1].
+> 
+> The reason is that, in libinput, we had a format string vulnerability
+> due to the kernel exposing devices with names containing strings like
+> "%s" in the name (CVE-2022-1215):
+> https://gitlab.freedesktop.org/libinput/libinput/-/issues/752
+> 
+> In my opinion, we should avoid surprising user-space too much and allow
+> only a set of "safe" characters.
+> 
+> Maybe I'm too cautious, as this is valid code, but I'd like to bring up
+> the discussion again to see if someone else agrees or disagrees.
+> 
+> [1] https://lore.kernel.org/all/aPtgCUX5kixTh2ua@fedora/
+
+Sorry, I completely forgot to send my mail drafts for your comments... 
+It was mainly "Will do for v2" except here:
 
 
-Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+For me this should not be a kernel concern, when the userspace read a 
+file/folder name, it can be anything, so the userspace should do the 
+proper sanitization.
 
+For libinput it was "easy" to exploit because unauthenticated users can 
+create any device name, but for VKMS, you must already be a 
+"privilegied" user (can write to configfs). I don't see the added value 
+for a kernel-side limitation, it will be more code for almost no 
+security improvement.
 
->
-> Signed-off-by: Chenguang Zhao <zhaochenguang@kylinos.cn>
-> ---
-> v5:
->   - Add spaces before and after English word and Arabic numerals
->     as suggested by WangYu.
-> ---
->   .../translations/zh_CN/kbuild/kbuild.rst      | 27 ++++++++++++++++---
->   1 file changed, 24 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/translations/zh_CN/kbuild/kbuild.rst b/Documentation/translations/zh_CN/kbuild/kbuild.rst
-> index e5e2aebe1ebc..57f5cf5b2cdd 100644
-> --- a/Documentation/translations/zh_CN/kbuild/kbuild.rst
-> +++ b/Documentation/translations/zh_CN/kbuild/kbuild.rst
-> @@ -93,6 +93,16 @@ HOSTRUSTFLAGS
->   -------------
->   在构建主机程序时传递给 $(HOSTRUSTC) 的额外标志。
->   
-> +PROCMACROLDFLAGS
-> +----------------
-> +用于链接 Rust 过程宏的标志。由于过程宏是由 rustc 在构建时加载的，
-> +因此必须以与当前使用的 rustc 工具链兼容的方式进行链接。
-> +
-> +例如，当 rustc 使用的 C 库与用户希望用于主机程序的 C 库不同时，
-> +此设置会非常有用。
-> +
-> +如果未设置，则默认使用链接主机程序时传递的标志。
-> +
->   HOSTLDFLAGS
->   -----------
->   链接主机程序时传递的额外选项。
-> @@ -135,12 +145,18 @@ KBUILD_OUTPUT
->   指定内核构建的输出目录。
->   
->   在单独的构建目录中为预构建内核构建外部模块时，这个变量也可以指向内核输出目录。请注意，
-> -这并不指定外部模块本身的输出目录。
-> +这并不指定外部模块本身的输出目录(使用 KBUILD_EXTMOD_OUTPUT 来达到这个目的)。
->   
->   输出目录也可以使用 "O=..." 指定。
->   
->   设置 "O=..." 优先于 KBUILD_OUTPUT。
->   
-> +KBUILD_EXTMOD_OUTPUT
-> +--------------------
-> +指定外部模块的输出目录
-> +
-> +设置 "MO=..." 优先于 KBUILD_EXTMOD_OUTPUT.
-> +
->   KBUILD_EXTRA_WARN
->   -----------------
->   指定额外的构建检查。也可以通过在命令行传递 "W=..." 来设置相同的值。
-> @@ -290,8 +306,13 @@ IGNORE_DIRS
->   KBUILD_BUILD_TIMESTAMP
->   ----------------------
->   将该环境变量设置为日期字符串，可以覆盖在 UTS_VERSION 定义中使用的时间戳
-> -（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。默认值是
-> -内核构建某个时刻的 date 命令输出。
-> +(运行内核时的 uname -v) 。该值必须是一个可以传递给 date -d 的字符串。例如::
-> +
-> +	$ KBUILD_BUILD_TIMESTAMP="Mon Oct 13 00:00:00 UTC 2025" make
-> +
-> +默认值是内核构建某个时刻的 date 命令输出。如果提供该时戳，它还用于任何 initramfs 归
-> +档文件中的 mtime 字段。 Initramfs mtimes 是 32 位的，因此早于 Unix 纪元 1970 年，或
-> +晚于协调世界时 (UTC) 2106 年 2 月 7 日 6 时 28 分 15 秒的日期是无效的。
->   
->   KBUILD_BUILD_USER, KBUILD_BUILD_HOST
->   ------------------------------------
+If you really think this is important, do you know if the kernel have a 
+helper to do this kind of checks? I did not found anything in strings.h 
+and I don't want to implement it in VKMS.
+
+>>   Continue by creating one or more CRTCs::
+>>   
+>> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+>> index 07ab794e1052..be6c3ba998b9 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+>> @@ -322,10 +322,42 @@ static ssize_t plane_type_store(struct config_item *item, const char *page,
+>>   	return (ssize_t)count;
+>>   }
+>>   
+>> +static ssize_t plane_name_show(struct config_item *item, char *page)
+>> +{
+>> +	struct vkms_configfs_plane *plane;
+>> +	const char *name;
+>> +
+>> +	plane = plane_item_to_vkms_configfs_plane(item);
+>> +
+>> +	scoped_guard(mutex, &plane->dev->lock)
+>> +		name = vkms_config_plane_get_name(plane->config);
+>> +
+>> +	return sprintf(page, "%s\n", name);
+>> +}
+>> +
+>> +static ssize_t plane_name_store(struct config_item *item, const char *page,
+>> +				size_t count)
+>> +{
+>> +	struct vkms_configfs_plane *plane;
+>> +
+>> +	plane = plane_item_to_vkms_configfs_plane(item);
+>> +
+>> +	scoped_guard(mutex, &plane->dev->lock) {
+>> +		if (plane->dev->enabled)
+>> +			return -EBUSY;
+>> +
+>> +		vkms_config_plane_set_name(plane->config, page);
+>> +	}
+>> +
+>> +	return (ssize_t)count;
+>> +}
+>> +
+>>   CONFIGFS_ATTR(plane_, type);
+>> +CONFIGFS_ATTR(plane_, name);
+>>   
+>>   static struct configfs_attribute *plane_item_attrs[] = {
+>>   	&plane_attr_type,
+>> +	&plane_attr_name,
+>>   	NULL,
+>>   };
+>>   
+>>
+>> -- 
+>> 2.51.0
+>>
 
