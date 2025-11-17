@@ -1,106 +1,123 @@
-Received: from mail-244124.protonmail.ch (mail-244124.protonmail.ch [109.224.244.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC77328617;
-	Mon, 17 Nov 2025 18:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783C8307481
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 18:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763405000; cv=none; b=LWDqPsepXbZ05itQQ4KSlQx9gBbtaAm5H+iG4uZf6Bbx/B6A4BOVnOeTpqYXGgEXaiwzIsKpsbtk0nQtpAW+T7aX1eArxzbOBrBQxTTZIa3i6BoqGEsbqUZyesRNC4r7Vok1gIGNpsGRlebwYNJoSAE5URSl44xkmVlJt4QfEIY=
+	t=1763405069; cv=none; b=GrnjfgrvpbPFLF7qQ1S181jdlnhlYEU1WWsPYbYYNDUeH2/iFWAAtoU40jl7xC6iA9l77twqNqR32zNFKDVAgdoShfmqaw7x/8ZPYKfNbexuM0hplU6OI9GqTlsmii+R5SAvExHfpiS9EQP5VZdFOIgJgdG4iXEGAkjjGvtt0KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763405000; c=relaxed/simple;
-	bh=6pKTzcMGLfqwUQVmfHQOkKnu6jwKpE1aNNYysBG8ve8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nvk29Xar3S1DtOgCavwC9ThX+nQlU+LZ2jVhwFZBOtOaGhvQWYkC61Fdl45uWAdOyfelZzIa00GNsB23yg7UdUJzfkbnfoKo2ooBwoEi+ksLQPDd5oCwHbbzVVvdpVQsULzFqxWRHpiyGXS/zaStizcShJvLa52Wedu7igYnhiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=h6XWinzQ; arc=none smtp.client-ip=109.224.244.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1763405069; c=relaxed/simple;
+	bh=jMrH/ZmNqpYeJLFgobm11jMJ7I0km6rEckJ6Z9B2Uqg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nFBLW5uty9zz7fCOe+lvJoVfs6Djy706HwHFYRUu7P0wVLerBviZhaQYtpA/EDDL/kMrz31B16mHJP6OMhoGu9GNp8aFvVcwUji1pze8Hx5kuwfLyrsKiXot8PzkCp5Bc6+fa16yk81vL5XifOzMoUvM9a/kODAM6vTI07NMKxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=U1wXuAMv; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="h6XWinzQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1763404993; x=1763664193;
-	bh=+lJV/EDhYGKx5mOX0qR2rU2PR81YfrrZnkEYQ//hRhU=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=h6XWinzQKp8D5CNY87Oa4RWY/kKWJKZBE6qNvqcw1rbJHPtnOUbihBOimh98MWfLV
-	 2NN4ZeZ3TnoxsssymM+T8mK6KuXihwDQF3RmO7k/DBoOpCU6VI4fCVbqnfG/xF9Btx
-	 sc8wYjQMFnII0JJmBK7yg/fI2XpG5HXFbHFTnnLuBLgIbNB4v7ahSkExGxDO1YwXHV
-	 MqNYX+gthKlwCPgEne66RZEjKBvlPBgVqlk7zMPCy6U7hbZlGzEozZB3FDWBuJdMgK
-	 l7vfSfDaAUCHBN/aQrFSRnN6Qtgy/aKM3G8OihotTxcLieiPrjGVsucbVvybrnrQl3
-	 fkzFLFPT1YyiQ==
-Date: Mon, 17 Nov 2025 18:43:09 +0000
-To: Alexander Potapenko <glider@google.com>
-From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
-Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org,
-	Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 09/18] mm/execmem: Untag addresses in EXECMEM_ROX related pointer arithmetic
-Message-ID: <5ty6jsrleekmymktmyayidc5jdvqvzz622vsh4fqk3rjtgyalu@argn7tfm3efv>
-In-Reply-To: <CAG_fn=V4jVyS41MDxJeN-A2zk6WhTnxp7m3FRWmkXMpy5f+haA@mail.gmail.com>
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <d6443aca65c3d36903eb9715d37811eed1931cc1.1761763681.git.m.wieczorretman@pm.me> <CAG_fn=V4jVyS41MDxJeN-A2zk6WhTnxp7m3FRWmkXMpy5f+haA@mail.gmail.com>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 267961a08d80088fa15811f1ce81d028c93e6629
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="U1wXuAMv"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-640bd9039fbso7928719a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 10:44:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1763405066; x=1764009866; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jMrH/ZmNqpYeJLFgobm11jMJ7I0km6rEckJ6Z9B2Uqg=;
+        b=U1wXuAMvZU7H0GNii+4j0rqaGkT1q8fPJ2VYzWzk5BBRfi3AZb+E75Hh+E3Y7ceJt/
+         VWYw53hkjadxriHVmIMTZXBsuOHjieT6j8+rECYPtom1WXUeReurtU+002gtohdNlwbd
+         eagID9PSa/ZpAlLJ7QVTUIw+VypfLC4Qwu1yIFv5uJPxi5l9wIzHKDzl3uvVKgzcbwT+
+         HW4AQYTBtXFoD6XrXlC/dfzGrc+hjtrOplon40hxVux7N4sE9BXPuMQa2mN8Hb9fSwR+
+         qRIF5F3VKifEy3y5SCRyekc7ggqn+lA23DuDEHZ4+XB/YtE/KHeeWh0/O0kDSCVLgSUq
+         FIfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763405066; x=1764009866;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jMrH/ZmNqpYeJLFgobm11jMJ7I0km6rEckJ6Z9B2Uqg=;
+        b=vtEHwbADdIUdVfbPyxcss84L03rYdwS+3u6vtpALEloOp7inO6yyDMjj6U0nLE1dLt
+         s66Cm+xL63aT70jVjibCUPou9LCeiOM9v5yhAmMtAuof1ZRmdd9ZPUm2xmV5JnwLoHiq
+         DNsgRt2v09DkZHKRSE9cu2JjSKVm0Bgr+BARIvZbwNfeSRxqrV3s4+VexgC6lZmJO1Sv
+         GrC+CwwEyl+MoX4XJstJy1nPVHQuXpHgqOqaRtDpevvSnOWHqPMhlOUFavbDAFBHBwgR
+         gwnuLXgmi5KCPRT7qChTLMNuAveaGwMTo+dJ4Q/6cw5F7hFaheXAOXELRE4s4zxxgjqE
+         W4LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXHiv6JpqIZSfzLkJIvfk3Oxgt88aqjv/MpaHavdwVWpDBxHZcWqeiaNjok3OtF6w+7AInO0aRz5kg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOru4slQ9iaUtr03WhNTAET51Up3wangk2I/P+eQIvwBXMm2nw
+	rTN4xpcSLr/S3XJHhr6mplOksNlSSfrhpE+cL3F+SgSae7Or7AEijHkujuVpAArLFA0fqDBLAgc
+	am4V6nJVnMBIRb6j8N0Df8Al3PyvpHRJzG5vjcrH5ug==
+X-Gm-Gg: ASbGnctUNCm66fNSqqLz5OIc+IwZOciuKmkT4ekVA3c0mxYiw5Gtwbx/5dA1mvBBvMc
+	UmKWqOWkIv+942p3LQPcgMTRPR2NFkiArBGfGrad0ZF8rjRwPCieBi0PvkhFPdUMQrxP9c7/YfT
+	REmPeIho12reDmA/f3QGCKDL7aTTaNv+HKMQYSMyRu05JYskeL0l4hqCEJgvFS3Bv3Ul2FhYq1X
+	LEDFWt0+ZL2UqwTvyH+swT8s/CVqwXHt7aB2lRxxaseCjRu+uZE2Bmo+ZV0bQ+wSMYoVUw8PEmT
+	sGw=
+X-Google-Smtp-Source: AGHT+IGuvNw77dXDtTPV0AYardMXM6grq7vkCAHZp53MffW9vtH9Ev6zRMSce2XWGa9IMF6cKfb7xBeYsNCCNwLKBNY=
+X-Received: by 2002:a05:6402:5213:b0:641:72a8:c91c with SMTP id
+ 4fb4d7f45d1cf-64350e9b333mr11717643a12.27.1763405065655; Mon, 17 Nov 2025
+ 10:44:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+ <20251115233409.768044-14-pasha.tatashin@soleen.com> <aRr1aw45EYSFTCw9@kernel.org>
+In-Reply-To: <aRr1aw45EYSFTCw9@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 17 Nov 2025 13:43:47 -0500
+X-Gm-Features: AWmQ_bny7bEklZsVXOjnwEc2I8Kpi65plOcoXCf1e7YrheuK91-BqnEf_WUIt4k
+Message-ID: <CA+CK2bDpLfxLZMwNZLmg+K+uU4YaUefJx+xfD+kQchKpkHping@mail.gmail.com>
+Subject: Re: [PATCH v6 13/20] mm: shmem: export some functions to internal.h
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 2025-11-11 at 10:13:57 +0100, Alexander Potapenko wrote:
->On Wed, Oct 29, 2025 at 8:08=E2=80=AFPM Maciej Wieczor-Retman
-><m.wieczorretman@pm.me> wrote:
->>
->> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
->>
->> ARCH_HAS_EXECMEM_ROX was re-enabled in x86 at Linux 6.14 release.
->> vm_reset_perms() calculates range's start and end addresses using min()
->> and max() functions. To do that it compares pointers but, with KASAN
->> software tags mode enabled, some are tagged - addr variable is, while
->> start and end variables aren't. This can cause the wrong address to be
->> chosen and result in various errors in different places.
->>
->> Reset tags in the address used as function argument in min(), max().
->>
->> execmem_cache_add() adds tagged pointers to a maple tree structure,
->> which then are incorrectly compared when walking the tree. That results
->> in different pointers being returned later and page permission violation
->> errors panicking the kernel.
->>
->> Reset tag of the address range inserted into the maple tree inside
->> execmem_vmalloc() which then gets propagated to execmem_cache_add().
->>
->> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
->Acked-by: Alexander Potapenko <glider@google.com>
+On Mon, Nov 17, 2025 at 5:14=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
+te:
 >
->> diff --git a/mm/execmem.c b/mm/execmem.c
->> index 810a4ba9c924..fd11409a6217 100644
->> --- a/mm/execmem.c
->> +++ b/mm/execmem.c
->> @@ -59,7 +59,7 @@ static void *execmem_vmalloc(struct execmem_range *ran=
-ge, size_t size,
->>                 return NULL;
->>         }
->>
->> -       return p;
->> +       return kasan_reset_tag(p);
+> On Sat, Nov 15, 2025 at 06:33:59PM -0500, Pasha Tatashin wrote:
+> > From: Pratyush Yadav <ptyadav@amazon.de>
+> >
+> > shmem_inode_acct_blocks(), shmem_recalc_inode(), and
+> > shmem_add_to_page_cache() are used by shmem_alloc_and_add_folio(). This
+> > functionality will also be used in the future by Live Update
+> > Orchestrator (LUO) to recreate memfd files after a live update.
 >
->I think a comment would be nice here.
->
->
->> --- a/mm/vmalloc.c
->> +++ b/mm/vmalloc.c
->> @@ -3328,7 +3328,7 @@ static void vm_reset_perms(struct vm_struct *area)
->>          * the vm_unmap_aliases() flush includes the direct map.
->>          */
->>         for (i =3D 0; i < area->nr_pages; i +=3D 1U << page_order) {
->> -               unsigned long addr =3D (unsigned long)page_address(area-=
->pages[i]);
->> +               unsigned long addr =3D (unsigned long)kasan_reset_tag(pa=
-ge_address(area->pages[i]));
->
->Ditto
+> I'd rephrase this a bit to say that it will be used by memfd integration
+> into LUO to emphasize this stays inside mm.
 
-Thanks, will add some comments on why these are needed.
+Done
 
+>
+> Other than that
+
+
+>
+> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+
+Thank you.
