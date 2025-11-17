@@ -1,207 +1,272 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013031.outbound.protection.outlook.com [40.93.196.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B058B32F74D;
-	Mon, 17 Nov 2025 15:07:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763392053; cv=fail; b=ASmNdIctrAPMumGWbbBGUY7Y72bbx6/TfBR3ZWafcRCnNaDsPEV7o/8+Lp58fQ4nHUDu4eqsnVE6fblUGvU9lF9Oh+WCox1AsIe0uQ8PA9lPIsnd7UJ1nBmVn4hZHAchaPrnStADBKjllOd4AagfJOv4z/3Ctrzpt05XROoOw6c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763392053; c=relaxed/simple;
-	bh=3ND/h8cF6VA7Tql6a/jSXrcU6Uwpp8OA1zTSWTcHNJI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kap+2UE+5bNNSzZ8v12mWb94F4Hc7DYI3LsARZa5k7gIIL4J+pW1Np02XdpzXozUAuz90gudAw+Rsj74tai/tOFwvaG8fb6RRxw/OU4rIdN4uxyy/So245uaIEpzZ8nKoEhHZUdpRmQw/votmdyebM9neRUV9oGGd9PUuIlPiXM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Lf8LqIKP; arc=fail smtp.client-ip=40.93.196.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A90257459
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 15:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763392210; cv=none; b=BC/R5Pc9CFp+tmTxXNGWfrlG/rrQF9Ph+12bsTbdnhtlSAcV5U5hlOQxglvMWfQkdiAB7SJtK2ZUQ2Hirf2t4w3wdV09eCmjMzRKWHjbUuKaZ3xCEZAd2V/LpEwsWwPQLa2RxDnm8Y9majvngUADb/wysrIJNzPdxqf+dJ5SEIE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763392210; c=relaxed/simple;
+	bh=O+V4AMyNh4uVjqUHrTpj49PuAqNdgV98a59O8ozBiT8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iLTaJK+A+2HHHdjpnaLMNAzXbOUrPSsASDRec3ggWIbWDBuf1yANNB0sDeZYbDrmyjhA3fc3GoXIMMdl2Cl7kn5hEh+3uxS95Jk0XSIhTW7xJJ/o3QJuiUjt8Y/7cjVyUw8Nt3rarsQpDHjeGCCC8qUGYa8qL/XBx3IjIAdk7nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=G+FZEsMp; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Lf8LqIKP"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ueFtdCCT0jKKq+cjiLG8L2seqm3sxqaupnQuWZOJV3vHIkEbpak7dVr8V20NTMqi4ucNZY46lVbAFGHUzZuegbfhEvFey3KIi/YvaXtEw7T4jl/DnXrbTdfOLPR/FwH1UmEqEuOwqBxwXQfovrGRYL1p0NxE13NKpRcE9IoYEA690Ime4S8coNGEwcM8fma8TUjB41OYWOXJUy2djKi9Gb0NcyHXnWrfP8gNznmQQj7PxsXfLyYC+prVe9DX2xylbOx2f91j711NnYJrbvGOAlFPU6tJIpG2SrbZYb7ZCK5tztgtvkD7965F8cdFWjfJxq9gZDdshgCuY26aay9IEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lH3m09XO240rahE4Ho6Qy3cJWkhJBOknmQZxRr0j5tU=;
- b=jqK4kLwfetQrnBPeTq2+SMjWiwRE+Yj2D/J2AhNVW7qpUc2Ma0vKkuJjjFHPD8TNt+pXelmLM7naPp9kIRGI11as/4sxZQyIjEXm67lS2K+A6rMzU7PmcepNZprIe/+a0EbQYbPZFKKaUuNUq0dn42PhLp6T77DfGmVyeWKdYH/8feIHB3zcpu9n0ga3PR8Nl6wROV0D2PuEOkGFYmfiTIF7+6V/sGxDbWVHgy1KSP14sMQdTSGlC7lvN6gfbL77VvdOZPuwTmubj29WDHTne5nkxnNuOb746ffJBy15s8bzMDJN4L0I2r5NScpoYvx2wkJv/V4m2tDxiDNqh54R2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lH3m09XO240rahE4Ho6Qy3cJWkhJBOknmQZxRr0j5tU=;
- b=Lf8LqIKPZ7UpS18uq36bdj1opzuf3+cJwBaceO4CLcDQ0t63cXeqprXHgfIoeJP1xDhAd8CUxb1CeP0ub6qCIm5ZPa30+3V5F1g8pN2kUmCcPcCOJ0cjXmiFleBFYFBU0KGLChZtCV+dXx511spqH3LsOWdIScd0k+uabUnNPx0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by DM4PR12MB6085.namprd12.prod.outlook.com
- (2603:10b6:8:b3::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.22; Mon, 17 Nov
- 2025 15:07:27 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::8d61:56ca:a8ea:b2eb]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::8d61:56ca:a8ea:b2eb%8]) with mapi id 15.20.9320.021; Mon, 17 Nov 2025
- 15:07:26 +0000
-Message-ID: <4102be40-7334-4845-b812-8481fbbc62ca@amd.com>
-Date: Mon, 17 Nov 2025 09:07:20 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 00/33] x86,fs/resctrl: Support AMD Assignable
- Bandwidth Monitoring Counters (ABMC)
-To: Drew Fustini <fustini@kernel.org>, Babu Moger <babu.moger@amd.com>
-Cc: corbet@lwn.net, tony.luck@intel.com, reinette.chatre@intel.com,
- Dave.Martin@arm.com, james.morse@arm.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
- hpa@zytor.com, kas@kernel.org, rick.p.edgecombe@intel.com,
- akpm@linux-foundation.org, paulmck@kernel.org, frederic@kernel.org,
- pmladek@suse.com, rostedt@goodmis.org, kees@kernel.org, arnd@arndb.de,
- fvdl@google.com, seanjc@google.com, thomas.lendacky@amd.com,
- pawan.kumar.gupta@linux.intel.com, perry.yuan@amd.com,
- manali.shukla@amd.com, sohil.mehta@intel.com, xin@zytor.com,
- Neeraj.Upadhyay@amd.com, peterz@infradead.org, tiala@microsoft.com,
- mario.limonciello@amd.com, dapeng1.mi@linux.intel.com, michael.roth@amd.com,
- chang.seok.bae@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev,
- kvm@vger.kernel.org, peternewman@google.com, eranian@google.com,
- gautham.shenoy@amd.com
-References: <cover.1757108044.git.babu.moger@amd.com> <aRoJAbfn+oBkc/sb@x1>
-Content-Language: en-US
-From: Babu Moger <bmoger@amd.com>
-In-Reply-To: <aRoJAbfn+oBkc/sb@x1>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN6PR01CA0021.prod.exchangelabs.com (2603:10b6:805:b6::34)
- To IA0PPF9A76BB3A6.namprd12.prod.outlook.com (2603:10b6:20f:fc04::bdc)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="G+FZEsMp"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-640aa1445c3so6732528a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 07:10:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1763392205; x=1763997005; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dP2LHZDimsWJcFP9x1EBqhMw+V3jN7gWuVzxTdsDvKU=;
+        b=G+FZEsMpJEGAD+DukLY1nz+kdQnSzXrErP3HUeZj4TW8BqWd3f6CP4ciZz1EHCd4+U
+         6xjAyi6tp0comxeeuwGGMEhvbwvFz5ro79Ig9Ic8X0+HOOYmYyKAJsM2dGpiWZEwXwd5
+         jNScAl3/eXcXas7M3g8oqVKg+RCbcFQaBxxYhfJvVg7k02gn8kfdciKTvCjbyzdz/Ai/
+         1yk38Z295oa4+NnMaJU80CKatwlIm1Jfva/g5Fg/9hmC2W0GHRujs1Z6xW63IOevbfkt
+         ZiCneHoL02eUJVXQeCUsitRWt9I+OkoS8TEN4riQebQeOIhiQzqFEj7dbdPoemL9sO6C
+         wVVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763392205; x=1763997005;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dP2LHZDimsWJcFP9x1EBqhMw+V3jN7gWuVzxTdsDvKU=;
+        b=vJWNR+0Go8qVdFv8DyMY4KfUJjreHtZA6FM54p+ARrOm6RbYcOA1q+/vvoD140bMk3
+         ybQwoC7U52tu3STuyJTZVV8CidbxP8F9Ie9Q3IO5F38HxWPBwgJxN5F38PDE0QWtG5kF
+         wrcdvAlTgwXjkNxomisNAH0DBSgqP2mJM+7knh3hQSoGWzl6lgYSdixb5SK8G3dJal2f
+         RxII6gevFbWqHpdmgTVsv4Plg7M4jUxnT8l3/UZsVHWt1MHapsnlllWRw4gW4yImQ92q
+         gxzQcFY90Z0hW+mAFU9ZPNfy5fhv7IIbHqpS2c2DTI+3zCsJnc6vrSixxQdQkFMybPvE
+         0uxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX39b/machQ7lq1WbPeman9FuW5Or/D16lxGPmB+6MqLa8BZSnCdtxYbEfkJvk8k+9DLwzuUVUIMbM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlapoNPpBOTNYdhftMYBMwYM4sZKin60HS/5kFNbtX+mIJ5FJb
+	BugysDG2xBJqPRItSnSwbVhUXnlYZsqn9ERmKn6rt6toMHixOoYnRPYg0+l8tp0dQMyFPpjkboL
+	xWZg4USLd0hBeoy3KBKsCrhfaNXM3I0ImFXcZCtC73w==
+X-Gm-Gg: ASbGncuOLNlcAh/8tGTa/zWvTbCnITjaUUCKPPpSoUYK/TUVUb5lNZpVUTAyf0+BlhC
+	ps/om5PjPQzE4UBDJlanO4Rl9j/UpR0GO+nreMhvYYmKrt+6NLhI0dxWmkgbmWKrN0Khr2tS9In
+	me8YlWQzUzd/Y/zMxxfVKEFyr88A+G7F3V7ZuIFgbM6hkx5fmURsKaVbv8OoGoCw/M3nQV6lUai
+	eg/ylOkHyHGyw42eTrTSOBeSiQnt0Yg51yMAi9fA8u7byQjaXbzRHek9MS3cMB0NL2H
+X-Google-Smtp-Source: AGHT+IE14EI84+1nV9PNUG6pyDkb7Qkp/5p7KJ3U1mYqA34EgSz0oKhHHX1OOhrjgCkHr3Z59mY5mFsJkBFb4s2zZDw=
+X-Received: by 2002:a05:6402:2809:b0:640:fb1f:e95c with SMTP id
+ 4fb4d7f45d1cf-64350e8ecefmr12877833a12.20.1763392205305; Mon, 17 Nov 2025
+ 07:10:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|DM4PR12MB6085:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6c4e4550-eb4f-44e9-210e-08de25eb04d1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Mnk4KzBhQVR5cDNqY3VHamo2bXk0ckl6cEt0NC8veGdMWE0rTFFNS0FVUmlE?=
- =?utf-8?B?VWtYaHg0dVA2OFlqbndPa05yakpUcE5QTUdSZVk4alBpVVhDRm5aaUVDMUR2?=
- =?utf-8?B?WTdKUWMwVWwrTXh5cU1LMmxaSUFHV1hDQzlJeUQxK2JLTzdLRzcxZlhpaWo1?=
- =?utf-8?B?eWZsSjR2a1pGbXVFRHAyMzFqL2M0cGh5Zi9oWGNKOTVtdjhXa3ZPUzRaYno0?=
- =?utf-8?B?RUxaVktjS3hIQm5jR0Uya0xUTGpaMDFJSjc2YTBLc2NtZTNINTJSQ2t0Z3Rz?=
- =?utf-8?B?cHAvWHp6ekJxRmtPMWdnU3l3SGs5ZmVZeDJsYmo1Yko4eXErd25lNnlxZkJS?=
- =?utf-8?B?c0RwcmNvVEdEWW1TU1BUMG40R1Nvb2NrdElOanhQZVNwYkxUVWx1eDFnMnBs?=
- =?utf-8?B?enJQN3NxbldEbU1hWEZqNENReXZkd25IWE9QRFZNMERNQWZwM0oySUxRd1VU?=
- =?utf-8?B?WUlKTXhyRHJWMXFCZUZnOEthUElaOTJDTTZrN0VORFhJVG51STlueU9hQjBX?=
- =?utf-8?B?Y0FzSWFJR2lpcFBYR1ZrQ0tmdmZBaUVob3c2VzNQMFJLSnlHVHJoQzNVdURw?=
- =?utf-8?B?dG9BRXhtSWxnUGZCL2hXd3VONThBTjd2K1FCdktneUh0NEdVWmVqQ1VCLytG?=
- =?utf-8?B?bTdMNzAzZ1NVU3MxYUp1NDhpaXJJMDc2TnozYTlsWXB4MDIvNnhIeGNpTHVw?=
- =?utf-8?B?dTBJZVI0UHJZMjRHbmJBRHpqdWJaQjY2MHlOMzExS3QzN3NSSklpWlF1a2No?=
- =?utf-8?B?MHorV1JhUFRPWHlWaHpNRGYwV3ozLyttV21CeFcyaGNpSFBkU3Q4K2FlQmtK?=
- =?utf-8?B?emZMTm5lTXJIN1BCTXJBd1RYQUExSmhEakFMdDErUTRtSmt2NXRBZUNhZ3lm?=
- =?utf-8?B?NkVFNDlQRG5lYW91THFhaStQclg4MFZCbVFHZU1Bd01uVUIrZU5WV3NwZU9P?=
- =?utf-8?B?M3RXYmJrV1QwcVVzaGUyWEJnaVBxZEc2b0lyTndIN0ZuNUJKdE1IbWZVZUpu?=
- =?utf-8?B?amlCTThIWGRYd3lhbFVUZUZVcElDaC92QVlPaTJJZHBOVzRLOFlMbkxiOGpL?=
- =?utf-8?B?ZjRTUkVWZWRid00vVFNsQytiNTV3TzFQbUFQdkJFaTUzeVVuVU8rY01CaUZx?=
- =?utf-8?B?OXozZGRnL2lLV0JaVDE1MWZtcjFpOWpSYVFqaHJrSjdEM1B0T1hhWU12R1Jp?=
- =?utf-8?B?YjlnWk9YS1oxbUtkRERzb2NWbjVYclJ5YVFYOWVLamhmOXNweUlseExOSFox?=
- =?utf-8?B?WW43VnhyTlZISFQraVVIV3MxakJ6anIraEdPaFR0MHBSSnNSWDBVN0lyYWtq?=
- =?utf-8?B?MStMVDBXSDlvK1pWN1lhT005WVhXS05CSjkyeUNIZkU3dlBoQzZYenJtcG1V?=
- =?utf-8?B?NUpjcDdWYWxCM0dxcHRFYWhZMXdpb2JQSS9NS21CZW1YTklVNExrOEFYd2pt?=
- =?utf-8?B?TVd0b2ZrVk5hbnhuV1grdXR5ZzYzSTJWOTlYOWdRRk5PVnBJcHZvQmNIY09I?=
- =?utf-8?B?S1JtSEJ5RHQ4T1F0OTE5TE5hRCt6SXdsQTdtdWhEdWFwNVdXMGdLK2tJUzRD?=
- =?utf-8?B?aFhNVXBHZUZqNzJicEhFQmk4ZGRXMi9WRExubDVpVXdYWjNqdVJnM3dvRjBI?=
- =?utf-8?B?ZWcyRkk3THBBZEVpeHBXU0wzOFBldWtBWTk0bjN0eFc4MVhZVlZSRk8yWUlR?=
- =?utf-8?B?ek16bjZJcTFPekJ5TTB0b3M2TG9Pb1EydUZ6VjNmaGdlMmVDVXIrakZiS1M3?=
- =?utf-8?B?UnlwVkNTQ1ZwMUpSMUNCMzhkdTJaOUxRVmlwWkxnTmhaUG43UUJqK2hZaEtV?=
- =?utf-8?B?VnN5V3Z2YkV5N2VDYmprTmpJbEl5RmNPeFlYbzZ6THRGNURVVkJiZ2V5RVJS?=
- =?utf-8?B?K3ZtN2xkL05sMU0rTVdXbjJPOExIYkFtYUl0V21JUUs1YjRTZ1VkRTFQRHdU?=
- =?utf-8?Q?cV4CTOo0Et6P8HdCjzzJC1xyZy/WtE87?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NE55cWcvOXRxRUFyc3llSy9qUTNPcURGeGhLUWg4R21KTFR5NElFR21jelJR?=
- =?utf-8?B?T0hOY2Y2TFdEU1AvNi9oM0xRUUlRS0xMZ3o0ZHJjS01WcEFic3BTcHp4Mms3?=
- =?utf-8?B?b0FWbkkzSCt6UlBkcVF4aHRTWGQvUENBT056dFlSa2QxeFc5REZlMDNCdDJa?=
- =?utf-8?B?UHhSWi9zaHo1c2VCSkdPdTZYL1NFTTlUeDl4ZytpclQrTEFOMkQvMGdZc0Nw?=
- =?utf-8?B?Z1pRZW40dWM5SWEvYWkwQ1dwdDZ5VU84MFIxK0ZweWFTQ2FRT1E3ZHhXWTVH?=
- =?utf-8?B?ejVnV2Nhd3UyK1N4bUFrdzU2SS9mdENlSDFSZm1hMEpMYUpQT1FRN2ZBTzhV?=
- =?utf-8?B?aStSMXE3ZVN2dTl4SGZTZERST0V2aDBndkFpUVVlRXArWi8xNm8wWjZiZkwx?=
- =?utf-8?B?ZkZPbzZUN1JaZG9kMU0vTVBOS2ZaUmFDY3Z5MDNQRTlVeTVqZ29ZWDRlcFd6?=
- =?utf-8?B?aTM5MVJNRktYdjQrYmUvUmoxT2xtS29JNTRBK2NKNWh0RnA2cG9JSGM1TVpG?=
- =?utf-8?B?Uzd2YTR2UWYvVzE3UFM2VXFIdGcyYThaTHdETVFmdGV3NU1aL0lpdzVkMEoz?=
- =?utf-8?B?aERJM0J5bnlnbnpGV1ZxeUIwZU15MzQ5bEN5Tm9hejJkbjByZ01WSnFXbEV0?=
- =?utf-8?B?dWZaN3lid0VTWS9ETnMydjg2cElDNEZYWkVlWGhPTy8yV3MzUUFPZ3RWQ1E2?=
- =?utf-8?B?RXFFa2o2MGxEMUY2eXNZT28vY1d5aUhVcmtqYjdnTk95RUUvakZueWpuVGw1?=
- =?utf-8?B?L3hoMGJIZzFMRzFXNTByQTNOcnNkdEdxV2V0SnpRUjRTeXZ0TjlyYjNrbHJD?=
- =?utf-8?B?YjR2bEdrcEhBd0dQWjVzNmpUVWRpcDB6QllXQVZMcXp4SFRWZ1BSK0huZVFk?=
- =?utf-8?B?ajZIanJuTFhsdElONE9KN204NHBLRXQzZHZ2MFNaRngxVHZWODRKVzJtUDdT?=
- =?utf-8?B?NnhPeEhOM3ZvVzB3KytpZTI3UnZDQ0M1V1M4S2Y2SjcrRUtZcXJWTWJIbE1u?=
- =?utf-8?B?V1JmV1UvRkJrTmhSdTVUTUhSaEZCMUtaMnRGTjRIQ1pVbEdOWG14VG5PcVdK?=
- =?utf-8?B?Vk92Z1ltMnYwN2ZhaFFZRE9KQVRPM1Y3OGlXZjV4NldPSkFyZ2RMYzgvbjdR?=
- =?utf-8?B?b1M5ZTU1blNIN3hacllrNFpqRnNpYytVOE82T2wzd2R0V1BRVCtmeWdGTFlr?=
- =?utf-8?B?MnpmZFBDUU5QMWZvRElpa1dRblp2ZGQzU3lBNFJUUCs0L1I0bC9zSVZSZGhB?=
- =?utf-8?B?N1JPR3MxbytyTlJmWUIzYjE1WkxWNFV4ZEpvWjFHbWpqbnJQdGI2NnAxeXdn?=
- =?utf-8?B?ZS9TcTQ2SlNrY3hwbHF1RmFKZ1VqWjZScUdBc1plTW9NU1NRY1JRTmh3b204?=
- =?utf-8?B?VW9jWnBTZDlYWHd6bW9wUVNncDVKVFN5RUdieUdlR0xMS01kYjFYTG1RSlRk?=
- =?utf-8?B?Y0x2K2VlWDl5S2NyWkNzc1BNTEErWCtwSTZGTENleU40THpmSXAwa25MZ0Ry?=
- =?utf-8?B?dm9VTmtIcnpMc0xaVk9TMjZ2TXBJNVJOaHJBU0tWYTdIU29FK2JlaGpIb0FM?=
- =?utf-8?B?ZjlHQmtMYzRHaGRMaE5JNVRrR1Q4Y2p0Y0JKV1hUK3k3NmpCdHNmeFRiTFVK?=
- =?utf-8?B?QkJXNmN3Qm1Rc2d0SVppdkFacm9saStrcVAvbWdDdHZHNTRnK2ltR3BWTVJM?=
- =?utf-8?B?STByb1NJQXNUdVQ2eHNLd2ZoTVNTOW1sdVFCN2kyNitTcTRGSk8wb0lMMStQ?=
- =?utf-8?B?SWQxZWxKSTc1Tk1TVmpwaUxrL3pPa1BYQmlxS2ZaVVg1UWgrOGQ1cmJDZmhJ?=
- =?utf-8?B?RjhlMWdXMURnZEFLVkN5dHBKUGdBQ0p2RnZrUys2Sm5jV2prbUk2TEl4djdP?=
- =?utf-8?B?TkxYN1VNRmV3UjVSdW5ITG4yNkU4QnFSVEVTRW1kYUJqVXVvQ3RvT280eVpD?=
- =?utf-8?B?MWY5NHRIejF6akdSY2dWeGcwSkphMTQ0U0M2b2I1TFo3K1JaSzRHUUh2Yit5?=
- =?utf-8?B?NStvTnZiRTBZV1E3YTgvSWZXNUpzOXZLU0JJd2lrVFRjdytEK2R1bUlORUhu?=
- =?utf-8?B?WlZ3ZUlaYnBmWi9OTEhTY3R2OGN3WE90bldTSi9aZHhSUVExdk8rR3JBUDBT?=
- =?utf-8?Q?H5z8=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c4e4550-eb4f-44e9-210e-08de25eb04d1
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 15:07:26.4153
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iGlz4kuikaUkcppIPqzGd1MFyFkNhe5XaxDEDCGiOpQaz8MMoRIPHpSvBzhc9Toe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6085
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+ <20251115233409.768044-5-pasha.tatashin@soleen.com> <aRoEduya5EO8Xc1b@kernel.org>
+In-Reply-To: <aRoEduya5EO8Xc1b@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 17 Nov 2025 10:09:28 -0500
+X-Gm-Features: AWmQ_bmj83X6sEGtJOzbfwBfqdKgU7Rrd4Q7eSBnGujAPm0UgvTXUn65F7Vknl4
+Message-ID: <CA+CK2bC_z_6hgYu_qB7cBK2LrBSs8grjw7HCC+QrtUSrFuN5ZQ@mail.gmail.com>
+Subject: Re: [PATCH v6 04/20] liveupdate: luo_session: add sessions support
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Drew,
-
-On 11/16/25 11:25, Drew Fustini wrote:
-> On Fri, Sep 05, 2025 at 04:33:59PM -0500, Babu Moger wrote:
->> This series adds the support for Assignable Bandwidth Monitoring Counters
->> (ABMC). It is also called QoS RMID Pinning feature.
->>
->> Series is written such that it is easier to support other assignable
->> features supported from different vendors.
-> Is there a way to find out which EPYC parts support ABMC?
+> > +/**
+> > + * struct luo_session_ser - Represents the serialized metadata for a LUO session.
+> > + * @name:    The unique name of the session, copied from the `luo_session`
+> > + *           structure.
 >
-> I'm rebasing the RISC-V resctrl support on 6.18 and I noticed there are
-> a lot of changes to how events work. I've been reading the ABMC code
-> but I would like to get a better feel for how it works.
+> I'd phase it as
 >
-> I found an EPYC 9124P on Cherry Servers which I was able to experiment
-> with using resctrl on x86. It has the following in cpuinfo:
+>                 The unique name of the session provided by the userspace at
+>                 the time of session creation.
+
+Done
+
 >
-> cat_l3 cdp_l3 cqm cqm_llc cqm_mbm_local cqm_mbm_total cqm_occup_llc mba
+> > + * @files:   The physical address of a contiguous memory block that holds
+> > + *           the serialized state of files.
 >
-> It also has SMBA and BMEC based on the contents of /sys/fs/resctrl.
+> Maybe add                                    ^ in this session?
+
+Done
+
 >
-> Ideally, I'd like to find a bare metal EPYC server that has ABMC, too.
+> > + * @pgcnt:   The number of pages occupied by the `files` memory block.
+> > + * @count:   The total number of files that were part of this session during
+> > + *           serialization. Used for iteration and validation during
+> > + *           restoration.
+> > + *
+> > + * This structure is used to package session-specific metadata for transfer
+> > + * between kernels via Kexec Handover. An array of these structures (one per
+> > + * session) is created and passed to the new kernel, allowing it to reconstruct
+> > + * the session context.
+> > + *
+> > + * If this structure is modified, LUO_SESSION_COMPATIBLE must be updated.
+>
+> This comment applies to the luo_session_header_ser description as well.
 
-Looks like you are on Zen 4 system. ABMC is available on Zen 5 or later 
-servers.
+Done
 
-#lscpu
-Vendor ID:                AuthenticAMD
-Model name:            AMD EPYC 9655 96-Core Processor
-CPU family:              26
+>
+> > + */
+> > +struct luo_session_ser {
+> > +     char name[LIVEUPDATE_SESSION_NAME_LENGTH];
+> > +     u64 files;
+> > +     u64 pgcnt;
+> > +     u64 count;
+> > +} __packed;
+> > +
+> >  #endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
+> > diff --git a/include/uapi/linux/liveupdate.h b/include/uapi/linux/liveupdate.h
+> > index df34c1642c4d..d2ef2f7e0dbd 100644
+> > --- a/include/uapi/linux/liveupdate.h
+> > +++ b/include/uapi/linux/liveupdate.h
+> > @@ -43,4 +43,7 @@
+> >  /* The ioctl type, documented in ioctl-number.rst */
+> >  #define LIVEUPDATE_IOCTL_TYPE                0xBA
+> >
+> > +/* The maximum length of session name including null termination */
+> > +#define LIVEUPDATE_SESSION_NAME_LENGTH 56
+>
+> You decided not to bump it to 64 in the end? ;-)
 
-Thanks for trying.
+I bumped it to 64, but in the next patch, I will fix it in the next version.
 
--Babu Moger
+>
+> > +
+> >  #endif /* _UAPI_LIVEUPDATE_H */
+> > diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
+> > index 413722002b7a..83285e7ad726 100644
+> > --- a/kernel/liveupdate/Makefile
+> > +++ b/kernel/liveupdate/Makefile
+> > @@ -2,7 +2,8 @@
+> >
+> >  luo-y :=                                                             \
+> >               luo_core.o                                              \
+> > -             luo_ioctl.o
+> > +             luo_ioctl.o                                             \
+> > +             luo_session.o
+> >
+> >  obj-$(CONFIG_KEXEC_HANDOVER)         += kexec_handover.o
+> >  obj-$(CONFIG_KEXEC_HANDOVER_DEBUG)   += kexec_handover_debug.o
+>
+> ...
+>
+> > +int luo_session_retrieve(const char *name, struct file **filep)
+> > +{
+> > +     struct luo_session_header *sh = &luo_session_global.incoming;
+> > +     struct luo_session *session = NULL;
+> > +     struct luo_session *it;
+> > +     int err;
+> > +
+> > +     scoped_guard(rwsem_read, &sh->rwsem) {
+> > +             list_for_each_entry(it, &sh->list, list) {
+> > +                     if (!strncmp(it->name, name, sizeof(it->name))) {
+> > +                             session = it;
+> > +                             break;
+> > +                     }
+> > +             }
+> > +     }
+> > +
+> > +     if (!session)
+> > +             return -ENOENT;
+> > +
+> > +     scoped_guard(mutex, &session->mutex) {
+> > +             if (session->retrieved)
+> > +                     return -EINVAL;
+> > +     }
+> > +
+> > +     err = luo_session_getfile(session, filep);
+> > +     if (!err) {
+> > +             scoped_guard(mutex, &session->mutex)
+> > +                     session->retrieved = true;
+>
+> Retaking the mutex here seems a bit odd.
+> Do we really have to lock session->mutex in luo_session_getfile()?
+
+Moved it out of luo_session_getfile(), and added
+lockdep_assert_held(&session->mutex); to luo_session_getfile
 
 
+> > +int luo_session_deserialize(void)
+> > +{
+> > +     struct luo_session_header *sh = &luo_session_global.incoming;
+> > +     int err;
+> > +
+> > +     if (luo_session_is_deserialized())
+> > +             return 0;
+> > +
+> > +     luo_session_global.deserialized = true;
+> > +     if (!sh->active) {
+> > +             INIT_LIST_HEAD(&sh->list);
+> > +             init_rwsem(&sh->rwsem);
+> > +             return 0;
+>
+> How this can happen? luo_session_deserialize() is supposed to be called
+> from ioctl and luo_session_global.incoming should be set up way earlier.
+
+No LUO was passed from the previous kernel, so
+luo_session_global.incoming.active stays false, as it is not
+participating.
+
+> And, why don't we initialize ->list and ->rwsem statically?
+
+Good idea, done.
+
+> > +     }
+> > +
+> > +     for (int i = 0; i < sh->header_ser->count; i++) {
+> > +             struct luo_session *session;
+> > +
+> > +             session = luo_session_alloc(sh->ser[i].name);
+> > +             if (IS_ERR(session)) {
+> > +                     pr_warn("Failed to allocate session [%s] during deserialization %pe\n",
+> > +                             sh->ser[i].name, session);
+> > +                     return PTR_ERR(session);
+> > +             }
+>
+> The allocated sessions still need to be freed if an insert fails ;-)
+
+No. We have failed to deserialize, so anyways the machine will need to
+be rebooted by the user in order to release the preserved resources.
+
+This is something that Jason Gunthrope also mentioned regarding IOMMU:
+if something is not correct (i.e., if a session cannot finish for some
+reason), don't add complicated "undo" code that cleans up all
+resources. Instead, treat them as a memory leak and allow a reboot to
+perform the cleanup.
+
+While in this particular patch the clean-up looks simple, later in the
+series we are adding file deserialization to each session to this
+function. So, the clean-up will look like this: we would have to free
+the resources for each session we deserialized, and also free the
+resources for files that were deserialized for those sessions, only to
+still boot into a "maintenance" mode where bunch of resources are not
+accessible from which the machine would have to be rebooted to get
+back to a normal state. This code will never be tested, and never be
+used, so let's use reboot to solve this problem, where devices are
+going to be properly reset, and memory is going to be properly freed.
