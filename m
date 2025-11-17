@@ -1,202 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799032D7DC7;
-	Mon, 17 Nov 2025 09:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B713271EF
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 09:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763370792; cv=none; b=Mz6zvsrADgACDLbsr5bzEXSaTnCS1NeyvOT9Mjq2um7OKexrDN2evJZxWGNR2CkLXpQEGSFtpCi1bsoPtz2UHE4ny4EbxcoEgagvJOX9vZVt+ZeUBpaflBigXAukPxZ8R019wDPF3I9XZ+S6VLM2OBgBT7w7C12molFo9mcnerg=
+	t=1763371174; cv=none; b=o/fUape3HLU9N2fDvOvk1RSQzYQOIrGiBVyZ2L/q9YMDFug0zw5uex7oAHlypU8pkAqW54x35ahUf1QE0HvJflRDaBrK+wETuO5stoq8ItnrK7akwcyfknOurr1WuBjDM8CNUBltjGnzFptOeDaIVXq9k39H8Gq2kSk+sfRn9zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763370792; c=relaxed/simple;
-	bh=5jZoEh4YzmKyE3iOabhCY2SYx6Jd8m5uSIHLCJuzqGs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V6bTgvdJSQ9cshfHKZ4EIsJ8zdESMfMIa9watb3sUzxBbiUsRin9hmwF4/mo6xfXR37DJaLQRhZ888curkoICrhnYLtddG43x4wpCz4WLf6tG3JUHR6qjTAUzg0/By26RhV/PYk41LSbz3AqpPSdWF/vQj3KkiVhTBP8KVIcCWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RU98JPs1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763371174; c=relaxed/simple;
+	bh=WDPdm+YP+6oF677OAg2ugjnlKPLsO4ptRzvA/O1ew6M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jH7zoUvcaNo0WCQ1OJHTdeui7hcYPfwb+br0OYhUTbKZnTyl895ZkFxOiJ5vnPqOHVVGw830IISUg3tX6GM9FgkbFnLWp9SWP9VurHk7WSIxoH6iuQjsfhOBoSgjnAwnEUEkA1zvxS6r7oT1g8lL6TE7G/ynBLBbB0peSwny4mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=idVX3u/B; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RU98JPs1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12618C116B1;
-	Mon, 17 Nov 2025 09:13:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763370792;
-	bh=5jZoEh4YzmKyE3iOabhCY2SYx6Jd8m5uSIHLCJuzqGs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RU98JPs1ZWlJKETFMW8NGs7XndawhlCBZyrcJpq0Eka8GRCMIkwRXbhdNDZLu8XAr
-	 Xzt+LtCGP4F5aQPlVPtKmNLCuVOP1aUvOSQ/tzclPOAihEq4jEWEOkrN77QNPQ6PT7
-	 ONogx61lNQwRLAiwSN2NF9eEYvvtAwaCp299tEoreaiooZSidnJY1jTvXZ3HSyxPst
-	 qjOypZ4/vJrB4FwpSAQeOFU4kqUCWpLBnhGMxcq69zgDCxHPe8FHj/O7V6sZJpry9D
-	 onGz7SKQ6hT91mMXXQ2GGHLDTTxPADtMIPX1gXQRV5ACD7jBWJnlugCe/duxCPTivI
-	 z+lKqBga5qRcw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vKvIL-0000000GgtA-2uJt;
-	Mon, 17 Nov 2025 10:13:09 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	"Jonathan Corbet" <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Alex Gaynor" <alex.gaynor@gmail.com>,
-	"Alice Ryhl" <aliceryhl@google.com>,
-	"Andreas Hindborg" <a.hindborg@kernel.org>,
-	"Benno Lossin" <lossin@kernel.org>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	"Boqun Feng" <boqun.feng@gmail.com>,
-	"Danilo Krummrich" <dakr@kernel.org>,
-	"Gary Guo" <gary@garyguo.net>,
-	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
-	"Miguel Ojeda" <ojeda@kernel.org>,
-	"Trevor Gross" <tmgross@umich.edu>,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH 1/1] docs: makefile: move rustdoc check to the build wrapper
-Date: Mon, 17 Nov 2025 10:12:51 +0100
-Message-ID: <a9b172c926a4b30360530c34adc44f3789ec2b27.1763370163.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <cover.1763370163.git.mchehab+huawei@kernel.org>
-References: <cover.1763370163.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="idVX3u/B"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b997ae045b7so210297a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 01:19:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763371171; x=1763975971; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WDPdm+YP+6oF677OAg2ugjnlKPLsO4ptRzvA/O1ew6M=;
+        b=idVX3u/Bvf+1V6gknatyFtfUFPWpbhltIJQ0XDClZDXCKhFhiZ2hmgGJhU+eBJ6ben
+         fW2DyVFmdQUyJtKloXtbW9wj8tblV5efvYJfsCADWpImONUvG+6QDMHzYG117jhYDtRW
+         Y+DyWL6BkBMkQXy/ERYxNXbPX1fkWBESKuT/C/9C+szZKYxNTK8lBr+T3sqk6fhn5GWy
+         qSZfe0nqpHlutqmAQKcjxGy7hNxjXHCtllpKYRHbqr7ej4Ls76PD4pZwB2FpPxzHk5F6
+         RhXqMaI9SFuXsIHm+CpguvMGAmXXHwmFVP4/sQ5Srgyi6kEPAbG22CNmeM9Z8HCiudJH
+         UtEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763371171; x=1763975971;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WDPdm+YP+6oF677OAg2ugjnlKPLsO4ptRzvA/O1ew6M=;
+        b=uQoQxziM4YRfUAqnV+JH4RjPtgNxoihjSvC8kEvDx14dxo+TcDpJukfK7q5QHRiBRy
+         Uen+z+MlRRokAwkGW9bNpMn2BMPGZT4cSfoMuiSK0JY8de/K3bB3u5330oSdITTJAhHY
+         OMViCSMkp73eNpSC0MANgrlL5vvHns4YgjOLj7kZLyv4TyhzKvALh8t4cb43b4wiZubm
+         zhvY9QoEISeUcXVGlojcS1Nv7st26HmkozAGVygYEZyBN89pyWqRO+oRABzv9KCnnNVT
+         YByilYUQ7XGBlWkKzeWDYf1Ep3N0CMZ9ByoPv0R9JHveBbzNAZa8ekeQKybAjsqtXjkS
+         1DHw==
+X-Gm-Message-State: AOJu0YzmHeBTAhpcB1u8QM5LzIrMkTG4Aws4D+XfK8PhIc852ShYPyKu
+	eXDpVjxiQDxaFldeTMNaMg4nRivdw0vfkzLYmSufnAEtEoBidMApg5qZ8QHjOPhmUIMUmfFw9XF
+	mc7MXzrrZlvHw0mZgZG76aLYp3SpjW2k=
+X-Gm-Gg: ASbGnctyZxUVyCUUyy4FTxfJvLsMiSHeJ3m225C1TVPOZq0aDG6rFHj2GR9ET6vNLKD
+	aQz/Hd/FSSyzEany6Lz8iSEjGHqlkXX803mtfACHSnCtMrMxvuonKgGCKpPjIqGhf7pf47yKIgV
+	BMWTfxQXet8baHWBZaANmKySqB0Apl7HiZUQZxRN9NQbVj5PkxJO34EXwAsaGL8iSvLcOOLMwJK
+	KjCkoLocsto6QWHSiPPQMS5XNau1U3Q4L5DjoT0UakcST2c1SskJPplyzVfcG3rWHqeeI8MH7PJ
+	XyREF02AFWBVM31s437HBs0vGwMye+zWD9lskjh820jQE6vUViNo9AnSiSIIAczBXU75czBqZPh
+	CHZE=
+X-Google-Smtp-Source: AGHT+IHS2rKvGa9gCP2psxLJRTnJmB6/wVFaZM/rGGuYxM67yE5u+3d7j0ZDvMkMMTEbRBscJuynSvrhozqkwJ61yjs=
+X-Received: by 2002:a05:7301:4549:b0:2a4:3592:cf8b with SMTP id
+ 5a478bee46e88-2a4add3bf38mr3906737eec.2.1763371171036; Mon, 17 Nov 2025
+ 01:19:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <cover.1763370163.git.mchehab+huawei@kernel.org>
+In-Reply-To: <cover.1763370163.git.mchehab+huawei@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 17 Nov 2025 10:19:18 +0100
+X-Gm-Features: AWmQ_bmie3P0Pgdg2dmVUglEqECil2eh3ipiUSEi6j4U34lH7JJMvWamiGtN6HU
+Message-ID: <CANiq72=79rhJ5Sh+yp2vRSuSLD=nyR2DuQ26hFeBmyszRC3ALA@mail.gmail.com>
+Subject: Re: [PATCH 0/1] fix rustdoc build detection
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, 
+	Miguel Ojeda <ojeda@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The makefile logic to detect if rust is enabled is not working
-the way it was expected. Move it to be inside the wrapper
-script.
+On Mon, Nov 17, 2025 at 10:13=E2=80=AFAM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Another alternative would be to modify the rustdoc target inside
+> rust Makefile to make it dependent on htmldocs, but that would require
+> more work.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/Makefile          |  6 -----
- tools/docs/sphinx-build-wrapper | 41 +++++++++++++++++++++++++--------
- 2 files changed, 32 insertions(+), 15 deletions(-)
+Why? No, there is no need to build any htmldocs to build the Rust
+documentation, so that would be wrong.
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index d514ab6761dc..d4c42aa89439 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -42,12 +42,6 @@ FONTS_CONF_DENY_VF ?= $(HOME)/deny-vf
- # User-friendly check for sphinx-build
- HAVE_SPHINX := $(shell if which $(SPHINXBUILD) >/dev/null 2>&1; then echo 1; else echo 0; fi)
- 
--ifneq ($(wildcard $(srctree)/.config),)
--ifeq ($(CONFIG_RUST),y)
--	RUSTDOC=--rustdoc
--endif
--endif
--
- ifeq ($(HAVE_SPHINX),0)
- 
- .DEFAULT:
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 1efaca3d16aa..a554176b5a06 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -119,6 +119,29 @@ class SphinxBuilder:
- 
-         return path
- 
-+    def check_rust(self):
-+        """
-+        Checks if Rust is enabled
-+        """
-+        self.rustdoc = False
-+
-+        config = os.path.join(self.srctree, ".config")
-+
-+        if not os.path.isfile(config):
-+            return
-+
-+        re_rust = re.compile(r"CONFIG_RUST=(m|y)")
-+
-+        try:
-+            with open(config, "r", encoding="utf-8") as fp:
-+                for line in fp:
-+                    if re_rust.match(line):
-+                        self.rustdoc = True
-+                        return
-+
-+        except OSError as e:
-+            print(f"Failed to open {config}", file=sys.stderr)
-+
-     def get_sphinx_extra_opts(self, n_jobs):
-         """
-         Get the number of jobs to be used for docs build passed via command
-@@ -236,6 +259,8 @@ class SphinxBuilder:
- 
-         self.get_sphinx_extra_opts(n_jobs)
- 
-+        self.check_rust()
-+
-         #
-         # If venv command line argument is specified, run Sphinx from venv
-         #
-@@ -306,7 +331,7 @@ class SphinxBuilder:
- 
-             return subprocess.call(cmd, *args, **pwargs)
- 
--    def handle_html(self, css, output_dir, rustdoc):
-+    def handle_html(self, css, output_dir):
-         """
-         Extra steps for HTML and epub output.
- 
-@@ -327,7 +352,8 @@ class SphinxBuilder:
-             except (OSError, IOError) as e:
-                 print(f"Warning: Failed to copy CSS: {e}", file=sys.stderr)
- 
--        if rustdoc:
-+        if self.rustdoc:
-+            print("Building rust docs")
-             if "MAKE" in self.env:
-                 cmd = [self.env["MAKE"]]
-             else:
-@@ -622,7 +648,7 @@ class SphinxBuilder:
-         shutil.rmtree(self.builddir, ignore_errors=True)
- 
-     def build(self, target, sphinxdirs=None,
--              theme=None, css=None, paper=None, deny_vf=None, rustdoc=False,
-+              theme=None, css=None, paper=None, deny_vf=None,
-               skip_sphinx=False):
-         """
-         Build documentation using Sphinx. This is the core function of this
-@@ -671,7 +697,7 @@ class SphinxBuilder:
- 
-             args.extend(["-D", f"latex_elements.papersize={paper}paper"])
- 
--        if rustdoc:
-+        if self.rustdoc:
-             args.extend(["-t", "rustdoc"])
- 
-         if not sphinxdirs:
-@@ -749,7 +775,7 @@ class SphinxBuilder:
-             # Ensure that each html/epub output will have needed static files
-             #
-             if target in ["htmldocs", "epubdocs"]:
--                self.handle_html(css, output_dir, rustdoc)
-+                self.handle_html(css, output_dir)
- 
-         #
-         # Step 2: Some targets (PDF and info) require an extra step once
-@@ -804,9 +830,6 @@ def main():
-     parser.add_argument('--deny-vf',
-                         help="Configuration to deny variable fonts on pdf builds")
- 
--    parser.add_argument('--rustdoc', action="store_true",
--                        help="Enable rustdoc build. Requires CONFIG_RUST")
--
-     parser.add_argument("-v", "--verbose", action='store_true',
-                         help="place build in verbose mode")
- 
-@@ -834,7 +857,7 @@ def main():
- 
-     builder.build(args.target, sphinxdirs=args.sphinxdirs,
-                   theme=args.theme, css=args.css, paper=args.paper,
--                  rustdoc=args.rustdoc, deny_vf=args.deny_vf,
-+                  deny_vf=args.deny_vf,
-                   skip_sphinx=args.skip_sphinx_build)
- 
- if __name__ == "__main__":
--- 
-2.51.1
-
+Cheers,
+Miguel
