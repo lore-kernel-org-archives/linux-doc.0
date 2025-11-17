@@ -1,82 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781FA22FE11;
-	Mon, 17 Nov 2025 02:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030B51E5B64
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 03:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763348049; cv=none; b=WNzpVsGaj4CbUTyK4MFoQN6rw/7wAA8CWNjyHZXf9vgVUNoQZIMdmwnVQqb/XeZC27IKEI50Do17dVYiponOoQ+EZp/5jnoV9AhD7kXQS8A7OUq5ZcRZl+gBqFJ62MXGPUU6mUkgsvPV3RhATYsaSYARJsV/FNj10Q+M8w97Bk8=
+	t=1763349024; cv=none; b=raZ+DBnVD1qffGFlxeJufwM35230HSLcEB99MWejIPBiuVfnfk0yj9nwyOSaerrfgrQcFxuh/uGKHSL1cHX4FIkaVKsU5/uwyc0+Iryj7g8Spbc3jBxpI11ENc5ivOAMemdhbv8RwyITfnqZk/sodCNZEulMSpxiFjeNpfmgtKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763348049; c=relaxed/simple;
-	bh=gT/Jws3TUOkv78ezuhBECn5hn2F6V7xxYmqRwPANJYE=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=BalYQpneS6/D+CRkW2RbmPCPsAcHOl5A7kYmhhzjugOf7PFQmw6e3YrnyIW7wZ01gxE88H4XImXG67IONWAz1/jFICGPQ1idDEsIKGjMG3KL4K3insfTLof0hNTGX5hNXHIJYUq2ptX7ASzpTu2fnph5et57aSfNKT5KNUrdoIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=bQLyaVBd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763349024; c=relaxed/simple;
+	bh=KwkWTHqIdBLfSjywwKS8mZViqAho/uKguXMaQfCPYEo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MC9hPJhZkdjSbHTlwF3+0pgDW9aF2KX8cpemxpfEDqR4rUte9kdwiXZnNa5xxceyTsgoymFkw3BCw5hV6SbCN3DTvgE0xuPU1mWtMfSD2GcSRqJT04hJ0rkcmwUIi0IxPekLQ1xllkd2H9IeQ8MgDFzW+0UJBuPFJQFa0JbeP5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kVAyj0f2; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="bQLyaVBd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D54D8C116D0;
-	Mon, 17 Nov 2025 02:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1763348048;
-	bh=gT/Jws3TUOkv78ezuhBECn5hn2F6V7xxYmqRwPANJYE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bQLyaVBdbyyM0oXtWKIvXOqoUHpgxlgK76A/wKmfxsmbwJ8Q8MJDoTghEtIMGocF8
-	 Evr+ry6/+JjQBdutYhbOJrfavqGhrLBedJ7368KUCce+O982gvu3WJH3U9itu8l0qj
-	 ayUgSBpevbPlBYCVx+7S9qMk6srbxSOGxd+WdmWA=
-Date: Sun, 16 Nov 2025 18:54:06 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
- rppt@kernel.org, dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
- rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
- kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
- masahiroy@kernel.org, tj@kernel.org, yoann.congal@smile.fr,
- mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
- axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
- vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com,
- david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org,
- anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
- bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
- myungjoo.ham@samsung.com, yesanishhere@gmail.com,
- Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
- aleksander.lobakin@intel.com, ira.weiny@intel.com,
- andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
- bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
- stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
- brauner@kernel.org, linux-api@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, ajayachandra@nvidia.com,
- jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, witu@nvidia.com,
- hughd@google.com, skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v6 01/20] liveupdate: luo_core: luo_ioctl: Live Update
- Orchestrator
-Message-Id: <20251116185406.0fb85a3c52c16c91af1a0c80@linux-foundation.org>
-In-Reply-To: <20251115233409.768044-2-pasha.tatashin@soleen.com>
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
-	<20251115233409.768044-2-pasha.tatashin@soleen.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kVAyj0f2"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7a9cdf62d31so4667212b3a.3
+        for <linux-doc@vger.kernel.org>; Sun, 16 Nov 2025 19:10:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763349022; x=1763953822; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7hwVjAxpOZToTGqfUIP8woZ4spcPPvZlQGxtuhtvS7o=;
+        b=kVAyj0f2rOWUn10w6Wa3NWfOmBCVFQrN2yRqsIIpNqRTHtbGAJLnijxskaBTjtLCOD
+         zePRCa9XRCT83jKbbQrPV0VT4qv7BsYZBMJtZsHn1xe21KjAuYSopWOFsjIn4sSULEKw
+         EkYBA5nL0T2zkNYQUwC0CIXUhlfDENK08TBqMDWyfbZVAkGLergPURolHsdxKG5jesC6
+         PF36J0z6Kk3CyMzdCpLUlu3kHtjG+cchHmRGUJZ6KhgHFUE/B8rfYhtlmx/mEVWa5Vvw
+         /Ex7KN30dLNJlT9Kj7Nywpecc7QMuq5SsbvrqQUM2X6Jd+0i2FU+ltZjlTyfZv4rBbBq
+         HfaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763349022; x=1763953822;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7hwVjAxpOZToTGqfUIP8woZ4spcPPvZlQGxtuhtvS7o=;
+        b=UbQ7dL4IjLWBXcKWob4sNHPI4jLzfwUtuN4qC9qNiBcxkKL9t/S9cI1iy0j8K75Vjk
+         jc03b9e+s9Y+c61criaKtN3H+aKz3Z5lvXNmIfH1ORT9zu/4sHZMczPtp3qdRxwBDgEn
+         UFxg0E1ic/TEi8NxF9fFrQiUCIWRyz5GMZ52YtxacfYG7K6WAV53uTH801wCfhEwxK3Z
+         6aLzmEcSDk9o1qaY9P30H20j5uqoyLY7mnKmE688Ah9jeKRnLOUB0EdP8rh7MIBZMjd7
+         YODgUDT3B/yKDPfY0tm3rRyiHW8VlIe7CmcMdLasvTaG1CKie/0cEzdUel0k5qyeWk7w
+         d/mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVcTrfcNvAucujN70YFp7QWdUdr4zuZYkXb5lDy7bbZRmUxlf5qnd68hquol9hURyYXHzpwsnMR5+A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySBDXeetzd4PwtJBcO6AQ69TUxtkGLzmwbmm5sBUQU1X27bt0W
+	b1eAw1JUqAbjE1CerZ5BJK5V7rmWXQPjr3zTPGORkK1WBjJLKzLWz6Ve
+X-Gm-Gg: ASbGncsx2Y9OR7Eww5XWfII/ZOFV2k1JOKNW6BloHzj5hnawbF8JLP/FQryDW/asnR5
+	BnETfT+UD56wf8tryJbLKc/romgZDXZjI30Yb1ieEDYjF7GLqzmGWAZjI4VKNs/4INEg1cGoZ8c
+	vebV4HVAH9//9G6V88mF6rotCbczaF0olG1ogitg9WGGLbw+JDLnzqvZumvA7scMFvQsNAYyczk
+	EvSMQihX7dIPVnQIMuo7+jvMTjBpnyWSsxQHp27S18XKaQsdLtymZiZYdplkx4AwRzSLnyx5ib6
+	KTzuABPFxX/mIs3qjyTM4K3H7ShdttXfld7NHfNYORiBZ+n0kNxTIRd+cAWkXqyoam4TiTHSaOf
+	q+7SQCyoNAedcFHloNBCx+7S4AG8A60rGM7m350HGPbsaGkTJak2BojtXwPnssi+BJFJFD93axZ
+	UTKMOVIlwo+fFWgkR/IFs=
+X-Google-Smtp-Source: AGHT+IHam6C6QuknGeD3kkf4bhbtS71Whx06JMQo1zqax8fpO/s5JVsWS1eh6JI/8lnaqRirI9cq7Q==
+X-Received: by 2002:a05:6a20:a11f:b0:35d:d477:a7d7 with SMTP id adf61e73a8af0-35dd477ab32mr6249535637.7.1763349022214;
+        Sun, 16 Nov 2025 19:10:22 -0800 (PST)
+Received: from aheev.home ([106.215.169.184])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bc36db22439sm11054860a12.4.2025.11.16.19.10.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Nov 2025 19:10:21 -0800 (PST)
+From: Ally Heev <allyheev@gmail.com>
+Date: Mon, 17 Nov 2025 08:40:12 +0530
+Subject: [PATCH RESEND v4] checkpatch: add uninitialized pointer with
+ __free attribute check
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
+ David Hunter <david.hunter.linux@gmail.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+ linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, 
+ Geert Uytterhoeven <geert@linux-m68k.org>, Ally Heev <allyheev@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3515; i=allyheev@gmail.com;
+ h=from:subject:message-id; bh=KwkWTHqIdBLfSjywwKS8mZViqAho/uKguXMaQfCPYEo=;
+ b=owGbwMvMwCU2zXbRFfvr1TKMp9WSGDKlJokd3vXi8bVnnr+YAyQOPRLUn2qfY3fFyjFg8pnfS
+ 6+Lng993lHKwiDGxSArpsjCKCrlp7dJakLc4aRvMHNYmUCGMHBxCsBE3NQYGZ6dKFqdFfzt28Y5
+ qawOqVG2X2fWmhROC7VzrOC9+v1x7C5GhvbbrqUl1XkSzm41N9Lmv2na+GFFlt1LpfUpAvJ+fGs
+ XcgIA
+X-Developer-Key: i=allyheev@gmail.com; a=openpgp;
+ fpr=01151A4E2EB21A905EC362F6963DA2D43FD77B1C
 
-On Sat, 15 Nov 2025 18:33:47 -0500 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+uninitialized pointers with __free attribute can cause undefined
+behavior as the memory randomly assigned to the pointer is freed
+automatically when the pointer goes out of scope.
+add check in checkpatch to detect such issues.
 
-> Introduce LUO, a mechanism intended to facilitate kernel updates while
-> keeping designated devices operational across the transition (e.g., via
-> kexec). 
+Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
+Acked-by: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Ally Heev <allyheev@gmail.com>
+---
+Testing:
+ran checkpatch.pl before and after the change on
+crypto/asymmetric_keys/x509_public_key.c, which has
+both initialized with NULL and uninitialized pointers
+---
+Changes in v4:
+- fixed UNINITIALIZED_PTR_WITH_FREE description
+- Link to v3: https://lore.kernel.org/r/20251025-aheev-checkpatch-uninitialized-free-v3-1-a67f72b1c2bd@gmail.com
 
-Thanks, I updated mm.git's mm-unstable branch to this version.  I
-expect at least one more version as a result of feedback for this v6.
+Changes in v3:
+- remove $FreeAttribute
+- Link to v2: https://lore.kernel.org/r/20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com
 
-I wasn't able to reproduce Stephen's build error
-(https://lkml.kernel.org/r/20251117093614.1490d048@canb.auug.org.au)
-with this series.
+Changes in v2:
+- change cover letter and title to reflect new changes
+- fix regex to handle multiple declarations in a single line case
+- convert WARN to ERROR for uninitialized pointers
+- add a new WARN for pointers initialized with NULL
+- NOTE: tried handling multiple declarations on a single line by splitting
+        them and matching the parts with regex, but, it turned out to be
+	complex and overkill. Moreover, multi-line declarations pose a threat
+- Link to v1: https://lore.kernel.org/r/20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com
+---
+ Documentation/dev-tools/checkpatch.rst | 5 +++++
+ scripts/checkpatch.pl                  | 6 ++++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index d5c47e560324fb2399a5b1bc99c891ed1de10535..c61a3892a60c13f7c5ba89e969e39a93a3dcd5bc 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -1009,6 +1009,11 @@ Functions and Variables
+ 
+       return bar;
+ 
++  **UNINITIALIZED_PTR_WITH_FREE**
++    Pointers with __free attribute should be initialized. Not doing so
++    may lead to undefined behavior as the memory assigned (garbage,
++    in case not initialized) to the pointer is freed automatically
++    when the pointer goes out of scope.
+ 
+ Permissions
+ -----------
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 92669904eecc7a8d2afd3f2625528e02b6d17cd6..e697d81d71c0b3628f7b59807e8bc40d582621bb 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -7721,6 +7721,12 @@ sub process {
+ 				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$here\n$stat\n");
+ 			}
+ 		}
++
++# check for uninitialized pointers with __free attribute
++		while ($line =~ /\*\s*($Ident)\s+__free\s*\(\s*$Ident\s*\)\s*[,;]/g) {
++			ERROR("UNINITIALIZED_PTR_WITH_FREE",
++			      "pointer '$1' with __free attribute should be initialized\n" . $herecurr);
++		}
+ 	}
+ 
+ 	# If we have no input at all, then there is nothing to report on
+
+---
+base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
+change-id: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
+
+Best regards,
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQBFRpOLrIakF7DYvaWPaLUP9d7HAUCaQ2YPwAKCRCWPaLUP9d7
+HDkPAP9+gFqrD4O5qsYZzxGFwfXPAY7F8TM0lfYy7fLNxA2brAEAwLyLuyN0h7qg
+N7da1PWuOGK8tKeZ9dR4r3gFdlbZMAo=
+=zo4P
+-----END PGP SIGNATURE-----
+-- 
+Ally Heev <allyheev@gmail.com>
 
