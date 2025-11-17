@@ -1,286 +1,136 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2274731D756
-	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 12:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458EF328B68;
+	Mon, 17 Nov 2025 12:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763382486; cv=none; b=VAuoem6u8HL/OJxm2iuzG+A/O/apqGw/DNA7VG6lg7HiBwG+nNJD8iqHnu5zaVyxryUEmJpjpljbXZJE0DlxXo64yNItM91R73G12P1v+57BlkfroKVnfBktxCOv7IA93D1wSUty4nMT+j7aQY0v+IjXvCC3kMnnOrxyzRPffxk=
+	t=1763382728; cv=none; b=Xti3oILQz6ufaQ+qqxTjlkTAydt8sDePub4wYXcXEVNFr5rvQNKBQIcAQzvtOYbIEXkCNE2WUn21pRzGDrVM5Qdz8UXPKuPm/MtVQRiTe65KSS2bZNhJQrT8BvZ8XcBvs26hGFr5S7j9U0Q02C5qfTDtypeSWk+ARAvA+HRcAkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763382486; c=relaxed/simple;
-	bh=KemoD6CyOf/MF3W1iBVO0Gc16lK80LE9a13RkNc1XQQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t5r+lPHBWnszEoEr2ebYFDLKDa/xv6Toam3knEwvq+p/GPIze2BKAoDs91MgBpsjnGh9BeLKTRwl8fCMYELzgHeoLyQW1TeCGiCvchWvNoaJqWHBEphNqcavFBZ/6EmgZWNLxHkaGiLgUZIa677I3ctVXMXNV3VnCpRbbXRNmNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MZVlA0iZ; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763382728; c=relaxed/simple;
+	bh=oSuDduPLmSf7ZVEnaOqNaQ/eXPFwV7dBPob1W0m18zk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t+6Iu25SAgFI6rb5AFblxRq3u2DOozFJl2/BAT6XA7jmR2iPoko/YmvWb5wjHpugzzRLzzLV3xTz8LLjaC1fk0Nth5KOFTih94AYEe2RDqmhtWKxjZJbMFL1ITjGlF5jpnypTYeaM+5uE0Br9bZcR35NRVo7shZt3K/MCkVjdUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XYijf66L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MZVlA0iZ"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2960771ec71so7596275ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 04:28:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763382484; x=1763987284; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BxFwABS4E9AqqW3H7WCXTzoCQXbQOjdnmgdZA6SbR24=;
-        b=MZVlA0iZ1w7fsq8ACH7FFMRU4+2RLUIshHin2j/NPnT2LGhq9qPg12sajBs4QBl7Fn
-         7SVjqxA/Xljv2vFsXZ2nYYkxGzMOvxQ6TX8BEh2MR9MRZ1c25fJYb85igX3afUPLr80z
-         cDQws1Ws+J+PfKt1PqHeU9JNCe06842tNGkD0cxv/4cc5CLqM7EqVKVi9SmWnOSW8BB3
-         lhNZ18sXZQTFEAYJrwLrWyUKjg55EGgwD0QF4nEw3a4oi+5+MlzP/PXY00KDVhgNZJST
-         QqxoP0AeMI8qrkz9s2/VQ4RpO9uVPtRDqaSo7ne2PLl7uv3cTwHmIKcjJK32wJoEY3jq
-         XN4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763382484; x=1763987284;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BxFwABS4E9AqqW3H7WCXTzoCQXbQOjdnmgdZA6SbR24=;
-        b=LZKL0BTBAY+wSoMylKtHOuj7YLyZ0IWO4Wou/V9CRbjxPGefgq7bQgaK+xg2JhXJpw
-         FS5RIjgbj4AjPvS+miz2aJBLYXIVrQ9vEwQzz7BaO4fH3i1OKX4cZWdsZdg3lnSn0ma/
-         5s+gBwGajgqTGKVFFLGFKo9wWjt944qQBvYZ54A9gOXQ8CF3j7RnrXVpWX3XqcTEBdm1
-         jQIN81s74PZkPnz6ldN0FZkDvNpfqL5AtQex0hG1Hs8tb9Hl5GLbJa87qeadUutOGkxZ
-         xR66bEAFuJXZrErcup1zNJjXmsP3HZHSruixVfnHKotYFR7xLFB4Ug7/d0ohClwHpZL4
-         tppA==
-X-Forwarded-Encrypted: i=1; AJvYcCWnH/W4B/W5QjFKd+vzJtzgY7Mc373oS4Oc2wdDvjR2zUV4I57NJtk767DJKfnHRW+OukEFU2LLu/k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyopEC6MRMMLRGtGzEbS0T6yqCx86bOWQkEfZcye4aZDOeZVCgl
-	sBfL1W88DXZGZcmmagvweyRQe4DKg8wCWImbyFuLSxIPaAA0kgBBzPkSFvP7aeZQ
-X-Gm-Gg: ASbGncsP0jkj3kNn1hc+047YNUzaBQvmSU9p9jQdZE3Vf8l8lVcOKkFo+4W1rnyO6R1
-	EPl6nKuBnDON2v7u07IPV5GtgjdEK+Q3/9L6y2BSszm7IAA8E2tizk/aXdS4MvY+33KKJkiOUoE
-	x5ZT/k8ntfGRkBHyME9iAVbjkSbcNgtMIhMyKoUKm0kHiy41i+yojxch4y7p1yFK0dnvl5CD6AB
-	li/aPafEpHLO2Z4YhC4WYtZAQQFVtxkfxA7Qe4ZkMIYWVms7cjvEjysKXwEMl2ns/Ka8G26kWfZ
-	3Yydhzdt+E7PutPdsoeDYeZcDEDc1qpmdhsYWf1ouzGieLoJEtP2CeRaT/gpA2DEb2eQvLoNuhT
-	hA48dH/Eah3/R0ljpwZUBVwDEaOHLJTiLmmSAzumL9YwGIhl5xXkJYoKAz26XDSfCzS0jVhg/EK
-	8XXX2ZPPk21Ve90CQwt0UfzZqBHMzB
-X-Google-Smtp-Source: AGHT+IG//xVmBBm8Lcd2pfIWDTXsKbwEnW3B3WB83QwmOBkRuUAs/3VQEOXgbd0NazUgZkeqTpOWGg==
-X-Received: by 2002:a17:902:ecd0:b0:277:c230:bfca with SMTP id d9443c01a7336-2986a6d55e0mr69417135ad.4.1763382484230;
-        Mon, 17 Nov 2025 04:28:04 -0800 (PST)
-Received: from elitemini.flets-east.jp ([2400:4050:d860:9700:75bf:9e2e:8ac9:3001])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2b1055sm139841435ad.59.2025.11.17.04.28.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 04:28:03 -0800 (PST)
-From: Masaharu Noguchi <nogunix@gmail.com>
-To: jaegeuk@kernel.org,
-	chao@kernel.org
-Cc: corbet@lwn.net,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bagasdotme@gmail.com,
-	akiyks@gmail.com,
-	nogunix@gmail.com
-Subject: [PATCH v5] docs: f2fs: wrap ASCII tables in literal blocks to fix LaTeX build
-Date: Mon, 17 Nov 2025 21:27:54 +0900
-Message-ID: <20251117122754.297742-1-nogunix@gmail.com>
-X-Mailer: git-send-email 2.51.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XYijf66L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06F5FC2BC87;
+	Mon, 17 Nov 2025 12:32:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763382727;
+	bh=oSuDduPLmSf7ZVEnaOqNaQ/eXPFwV7dBPob1W0m18zk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XYijf66LYL+SbCRsL80zmY5eH1rCV5s+Qw1nU4HtJiNkoL0+oHJghIJW8cdzq9Yz3
+	 aO89v49WGP/1oh+l5BPySiKV5TNLsP3ipyHfRuuAIUJjMRZIJXJI1g1tphv2Me32qt
+	 1N+kZqLRZwWTT7ubxAh2qBHnlNazVWTxZup1YKLpq32TPY4PrDLVgwRZ8e8ocCP8nk
+	 XaH4lHfzj2RORQ+fYihFtOa4dgOXDM1sDJlrrr9gB+c9nTzqOtpqcp8R4qB9ln/WWF
+	 N5a8L3G7bY6ign4h7u6i2wyLh8hdbSORJpRqEIPNzAHAhwufbHKakgMX6QKv6lN9c9
+	 LXg3/+hzHHTuw==
+Date: Mon, 17 Nov 2025 13:32:03 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Carlos Bilbao <carlos.bilbao@kernel.org>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, Miguel
+ Ojeda <ojeda@kernel.org>
+Subject: Re: [PATCH 0/1] fix rustdoc build detection
+Message-ID: <20251117133203.71b97d47@foz.lan>
+In-Reply-To: <CANiq72m3deG_QsH8-AskTR9LcNL=G6E9o2fu+oi9RVXn1PK_+Q@mail.gmail.com>
+References: <cover.1763370163.git.mchehab+huawei@kernel.org>
+	<CANiq72=79rhJ5Sh+yp2vRSuSLD=nyR2DuQ26hFeBmyszRC3ALA@mail.gmail.com>
+	<6sczezthaixabzw5lddhemrx2yivfdf65zfvpew7tpzl3gqire@vjx4rpju5wxc>
+	<CANiq72m3deG_QsH8-AskTR9LcNL=G6E9o2fu+oi9RVXn1PK_+Q@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Sphinx's LaTeX builder fails when converting the nested ASCII tables in
-f2fs.rst, producing the following error:
+Em Mon, 17 Nov 2025 12:22:48 +0100
+Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> escreveu:
 
-  "Markup is unsupported in LaTeX: longtable does not support nesting a table."
+> On Mon, Nov 17, 2025 at 11:48=E2=80=AFAM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> >
+> > Sure, Sphinx (including kernel-doc) build and rust doca build are
+> > independent. Yet, Makefile "htmldocs" target currently does both.
+> >
+> > It could make sense to have a separate target if one want to build
+> > them both, e.g. something like: =20
+>=20
+> My understanding (Cc'ing Carlos) is that the idea was that `htmldocs`
+> built the Rust docs if possible.
+>=20
+> I don't mind if that is changed etc., but I think it is important to
+> keep the `rustdoc` target simple and focused: it is a "basic"
+> operation (which is also used to lint docs too), and way faster than
+> building the HTML docs, and it doesn't depend on them.
 
-Wrap the affected ASCII tables in literal code blocks to force Sphinx to
-render them verbatim. This prevents nested longtables and fixes the PDF
-build failure on Sphinx 8.2.x.
+Heh, the same applies to the current usage of htmldocs - specially
+when SPHINXDIRS is used, e.g. one doing, for instance:
 
-Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
+	make SPHINXDOCS=3Ddriver-api/<subsystem>
 
----
-Changes in v5:
- - Fix commit reference style (commit <sha1> ("<title>"))
- - Move version history below '---' per canonical format
- - Update Link: tags to lore.kernel.org where possible
- - No code changes from v4
+may not be interested on building rust docs, which, on such case,
+may be a lot slower than a partial build. Also, I don't think that
+rustdoc currently does something similar to SPHINXDOCS.
 
-Changes in v4:
- - Rebased on commit 62242ac51061 ("Documentation: f2fs: Reword title")
- - Cleaned up Changelog placement
- - Verified `make htmldocs` and `make pdfdocs` build fine
+So, at least for me, it does make sense to have separate targets
+for Sphinx, Rust and both (*).
 
-Changes in v3:
- - Replace TABs inside ASCII tables with spaces
+(*) now, how such targets would be named is a completely different
+    question.
 
-Changes in v2:
- - Wrap nested ASCII tables in literal blocks
- - Add missing blank lines around code blocks
+> Apologies if I put it perhaps a bit too tersely in my previous message
+> -- everyone contributing to Rust code is supposed to rely on that
+> target to test their commits, and needing the whole Sphinx setup would
+> make the target way worse in practice.
 
-Link: https://www.spinics.net/lists/kernel/msg5929575.html
-Link: https://www.spinics.net/lists/kernel/msg5921848.html
-Link: https://www.spinics.net/lists/kernel/msg5918264.html
-Link: https://www.spinics.net/lists/kernel/msg5875662.html
----
- Documentation/filesystems/f2fs.rst | 131 +++++++++++++++--------------
- 1 file changed, 69 insertions(+), 62 deletions(-)
+Agreed.
 
-diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
-index a8d02fe5be83..cb90d1ae82d0 100644
---- a/Documentation/filesystems/f2fs.rst
-+++ b/Documentation/filesystems/f2fs.rst
-@@ -188,34 +188,36 @@ fault_type=%d		 Support configuring fault injection type, should be
- 			 enabled with fault_injection option, fault type value
- 			 is shown below, it supports single or combined type.
- 
--			 ===========================      ==========
--			 Type_Name                        Type_Value
--			 ===========================      ==========
--			 FAULT_KMALLOC                    0x00000001
--			 FAULT_KVMALLOC                   0x00000002
--			 FAULT_PAGE_ALLOC                 0x00000004
--			 FAULT_PAGE_GET                   0x00000008
--			 FAULT_ALLOC_BIO                  0x00000010 (obsolete)
--			 FAULT_ALLOC_NID                  0x00000020
--			 FAULT_ORPHAN                     0x00000040
--			 FAULT_BLOCK                      0x00000080
--			 FAULT_DIR_DEPTH                  0x00000100
--			 FAULT_EVICT_INODE                0x00000200
--			 FAULT_TRUNCATE                   0x00000400
--			 FAULT_READ_IO                    0x00000800
--			 FAULT_CHECKPOINT                 0x00001000
--			 FAULT_DISCARD                    0x00002000
--			 FAULT_WRITE_IO                   0x00004000
--			 FAULT_SLAB_ALLOC                 0x00008000
--			 FAULT_DQUOT_INIT                 0x00010000
--			 FAULT_LOCK_OP                    0x00020000
--			 FAULT_BLKADDR_VALIDITY           0x00040000
--			 FAULT_BLKADDR_CONSISTENCE        0x00080000
--			 FAULT_NO_SEGMENT                 0x00100000
--			 FAULT_INCONSISTENT_FOOTER        0x00200000
--			 FAULT_TIMEOUT                    0x00400000 (1000ms)
--			 FAULT_VMALLOC                    0x00800000
--			 ===========================      ==========
-+			 .. code-block:: none
-+
-+			     ===========================      ==========
-+			     Type_Name                        Type_Value
-+			     ===========================      ==========
-+			     FAULT_KMALLOC                    0x00000001
-+			     FAULT_KVMALLOC                   0x00000002
-+			     FAULT_PAGE_ALLOC                 0x00000004
-+			     FAULT_PAGE_GET                   0x00000008
-+			     FAULT_ALLOC_BIO                  0x00000010 (obsolete)
-+			     FAULT_ALLOC_NID                  0x00000020
-+			     FAULT_ORPHAN                     0x00000040
-+			     FAULT_BLOCK                      0x00000080
-+			     FAULT_DIR_DEPTH                  0x00000100
-+			     FAULT_EVICT_INODE                0x00000200
-+			     FAULT_TRUNCATE                   0x00000400
-+			     FAULT_READ_IO                    0x00000800
-+			     FAULT_CHECKPOINT                 0x00001000
-+			     FAULT_DISCARD                    0x00002000
-+			     FAULT_WRITE_IO                   0x00004000
-+			     FAULT_SLAB_ALLOC                 0x00008000
-+			     FAULT_DQUOT_INIT                 0x00010000
-+			     FAULT_LOCK_OP                    0x00020000
-+			     FAULT_BLKADDR_VALIDITY           0x00040000
-+			     FAULT_BLKADDR_CONSISTENCE        0x00080000
-+			     FAULT_NO_SEGMENT                 0x00100000
-+			     FAULT_INCONSISTENT_FOOTER        0x00200000
-+			     FAULT_TIMEOUT                    0x00400000 (1000ms)
-+			     FAULT_VMALLOC                    0x00800000
-+			     ===========================      ==========
- mode=%s			 Control block allocation mode which supports "adaptive"
- 			 and "lfs". In "lfs" mode, there should be no random
- 			 writes towards main area.
-@@ -296,14 +298,15 @@ nocheckpoint_merge	 Disable checkpoint merge feature.
- compress_algorithm=%s	 Control compress algorithm, currently f2fs supports "lzo",
- 			 "lz4", "zstd" and "lzo-rle" algorithm.
- compress_algorithm=%s:%d Control compress algorithm and its compress level, now, only
--			 "lz4" and "zstd" support compress level config.
+>=20
+> Now, in the future, if we start relying on generating references for
+> the Rust docs from the C side and things like that (which is my plan,
+> but it is long term: first item in
+> https://github.com/Rust-for-Linux/linux/issues/350), we may need to
+> rethink things a bit (i.e. we may need to run a subset of the kernel
+> normal docs to build the Rust docs), but even then ideally we should
+> only introduce the minimal dependency needed.
+
+IMO, this is a separate discussion, as you may need a different
+toolset.
+
+The way I see, for issue #350 IMO the best would be to create a=20
+Sphinx extension similar to:
+
+	Documentation/sphinx/parser_yaml.py
+
+E.g. you would create a parser_rust.py module there, which would
+generate ReST output from the rust code(*). Besides allowing cross
+references between Sphinx, C and Rust, this would also allow
+generating epub and pdf output.
+
+(*) In practice, teaching rustdoc how to produce ReST output.
+    Alternatively, rustdoc could generate a markdown output and use
+    a sphinx markdown extension at parser_rust.py, to convert from
+    MD to ReST like this extension:
+
+	https://www.sphinx-doc.org/en/master/usage/markdown.html
+
+Besides allowing cross references between Sphinx, C and Rust, a Sphinx
+extension would also allow generating epub and pdf output, removing
+all extra Makefile (or wrapper) code related to rustdoc.
+
 -
--                         =========      ===========
--			 algorithm	level range
--                         =========      ===========
--			 lz4		3 - 16
--			 zstd		1 - 22
--                         =========      ===========
-+			 "lz4" and "zstd" support compress level config::
-+
-+				 =========      ===========
-+				 algorithm      level range
-+				 =========      ===========
-+				 lz4            3 - 16
-+				 zstd           1 - 22
-+				 =========      ===========
-+
- compress_log_size=%u	 Support configuring compress cluster size. The size will
- 			 be 4KB * (1 << %u). The default and minimum sizes are 16KB.
- compress_extension=%s	 Support adding specified extension, so that f2fs can enable
-@@ -368,38 +371,42 @@ errors=%s		 Specify f2fs behavior on critical errors. This supports modes:
- 			 the partition in read-only mode. By default it uses "continue"
- 			 mode.
- 
--			 ====================== =============== =============== ========
--			 mode			continue	remount-ro	panic
--			 ====================== =============== =============== ========
--			 access ops		normal		normal		N/A
--			 syscall errors		-EIO		-EROFS		N/A
--			 mount option		rw		ro		N/A
--			 pending dir write	keep		keep		N/A
--			 pending non-dir write	drop		keep		N/A
--			 pending node write	drop		keep		N/A
--			 pending meta write	keep		keep		N/A
--			 ====================== =============== =============== ========
-+			 .. code-block:: none
-+
-+			     ====================== =============== =============== ========
-+			     mode                   continue        remount-ro      panic
-+			     ====================== =============== =============== ========
-+			     access ops             normal          normal          N/A
-+			     syscall errors         -EIO            -EROFS          N/A
-+			     mount option           rw              ro              N/A
-+			     pending dir write      keep            keep            N/A
-+			     pending non-dir write  drop            keep            N/A
-+			     pending node write     drop            keep            N/A
-+			     pending meta write     keep            keep            N/A
-+			     ====================== =============== =============== ========
- nat_bits		 Enable nat_bits feature to enhance full/empty nat blocks access,
- 			 by default it's disabled.
- lookup_mode=%s		 Control the directory lookup behavior for casefolded
- 			 directories. This option has no effect on directories
- 			 that do not have the casefold feature enabled.
- 
--			 ================== ========================================
--			 Value		    Description
--			 ================== ========================================
--			 perf		    (Default) Enforces a hash-only lookup.
--					    The linear search fallback is always
--					    disabled, ignoring the on-disk flag.
--			 compat		    Enables the linear search fallback for
--					    compatibility with directory entries
--					    created by older kernel that used a
--					    different case-folding algorithm.
--					    This mode ignores the on-disk flag.
--			 auto		    F2FS determines the mode based on the
--					    on-disk `SB_ENC_NO_COMPAT_FALLBACK_FL`
--					    flag.
--			 ================== ========================================
-+			 .. code-block:: none
-+
-+			     ================== ========================================
-+			     Value              Description
-+			     ================== ========================================
-+			     perf               (Default) Enforces a hash-only lookup.
-+					        The linear search fallback is always
-+					        disabled, ignoring the on-disk flag.
-+			     compat             Enables the linear search fallback for
-+					        compatibility with directory entries
-+					        created by older kernel that used a
-+					        different case-folding algorithm.
-+					        This mode ignores the on-disk flag.
-+			     auto               F2FS determines the mode based on the
-+					        on-disk `SB_ENC_NO_COMPAT_FALLBACK_FL`
-+					        flag.
-+			     ================== ========================================
- ======================== ============================================================
- 
- Debugfs Entries
--- 
-2.51.1
 
+Another alternative would be to use intersphinx, but I guess
+making it working would be a lot more complex - as we don't even
+support it yet on our current Sphinx output.
+=09
+
+Thanks,
+Mauro
