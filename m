@@ -1,25 +1,25 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDD9225F79A;
-	Mon, 17 Nov 2025 09:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10D7F3246E6;
+	Mon, 17 Nov 2025 09:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.182.222
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763373208; cv=none; b=GU8cmfdiPcbJoIl5kXWYXTxvK2kPjDDOjToPF5biwejQPWjb15zVODGHcrdirw12qZOGkrCJio7hIepzGClJj7qy2tPhXR2821OX5MdfTww+VlvQWR54Qi+YNYRI/iQXK5VL+zpZGRZzr9IWRe8tnsMNicH78ZbXKr5adKwrZQ4=
+	t=1763373264; cv=none; b=C0om5Z2jbha6Zv616OKwyKChg3IIbSXMT5M5ulfyZOt04YEUpUZOcuhDL4CJ2HAWA5W9kZqtwHx2RLiE2pylWO0PvslnA5N30BgoMT3tjxorBaSewmaN85ZBHBtYJnJLa6Phd2N74C2DX7n5eljgnOIBOEyoaIGSI3dijf2ODxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763373208; c=relaxed/simple;
-	bh=Iuj4gNh2d2u94mkfcPr2Cuq7aXprPw9pOI0C3jBraNY=;
+	s=arc-20240116; t=1763373264; c=relaxed/simple;
+	bh=e/1ndWKHQevQlH017SzGKyQQCFZZVFvU9imDyhCgz/o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YNqzooDEKr+ZUrGsrFQ37Gl8PdXC2hg87o+CfDpmcA9dpUBtYf6MJaCpAZgLM4s+j/Y9NmY/v4d4yGtZ5X4/Tg5xOC8i9n896YPnYOWxbhyZM3tIlRexZ4+dIk7rDSs6fnTXzrPlJtWn/QnCIzve8NSZF71nUCo8xpK3L/xLmFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
+	 In-Reply-To:Content-Type; b=T5CYqSdLrFKlGPoBvizY0gIJLYUVk0kHu0wxV+YywtzjxVdspZeOfXXReLXEQXqEl77dLjiPYUd6PXFhTm/gLCN3uEQKLKwntO1BskCfkWQGEyI9m2QeKtUUYxNbtDmS9UFd08WBABpmBs7RCi4v4gVu7PRPCFxNq1gDDh/ciH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.182.222
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
 Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrACnrLBk8Bppxzb+AA--.56728S2;
-	Mon, 17 Nov 2025 17:52:36 +0800 (CST)
+	by app1 (Coremail) with SMTP id HgEQrABXOXq58Bpp5lztBQ--.25206S2;
+	Mon, 17 Nov 2025 17:54:01 +0800 (CST)
 Received: from [10.12.169.45] (unknown [10.12.169.45])
-	by gateway (Coremail) with SMTP id _____wDHgplg8BppMUkTBA--.17822S2;
-	Mon, 17 Nov 2025 17:52:32 +0800 (CST)
-Message-ID: <756c4b99-0d4c-44e0-86f8-f463e96331db@hust.edu.cn>
-Date: Mon, 17 Nov 2025 17:52:31 +0800
+	by gateway (Coremail) with SMTP id _____wCnP1O48BppUksTBA--.20154S2;
+	Mon, 17 Nov 2025 17:54:01 +0800 (CST)
+Message-ID: <b559d575-9c2b-4651-9f0c-2a26dcb48a3f@hust.edu.cn>
+Date: Mon, 17 Nov 2025 17:54:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,25 +38,25 @@ From: Dongliang Mu <dzm91@hust.edu.cn>
 In-Reply-To: <20251117093041.458075-1-zhaochenguang@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrACnrLBk8Bppxzb+AA--.56728S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxGr18WFWxJFWfurW8JFykAFb_yoW5tFWDp3
-	ZxWry7J3WDtryYv3srKFWUur4rGw1xGa12qay7G3Wxtr12939Fqr1UJa4ktF97G348GFWD
-	GFyUWFyUCFy7CwUanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:HgEQrABXOXq58Bpp5lztBQ--.25206S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxGr18WFWxJFWfurW8JFykAFb_yoW5tF1Upw
+	nxWry7J3WDtryYy3srKFW8uF1rGw1xGa12qa17C3Wxtr12939Fqr1Uta4ktr9rG348GFWD
+	GFyUWFy8CFy7CwUanT9S1TB71UUUUbJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUQ2b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
 	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
 	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	1q6r43M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
 	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
 	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCF04
 	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	Jr0_Gr1l4IxYO2xFxVAFwI0_GFv_Wrylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
 	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
+	cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
 	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU-zBTDUUUU
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
@@ -65,6 +65,11 @@ On 11/17/25 5:30 PM, Chenguang Zhao wrote:
 >
 > Update to commit 5cbfb4da7e06 ("kbuild: doc: improve
 > KBUILD_BUILD_TIMESTAMP documentation")
+
+
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+
+
 >
 > Signed-off-by: Chenguang Zhao <zhaochenguang@kylinos.cn>
 > ---
@@ -123,13 +128,6 @@ On 11/17/25 5:30 PM, Chenguang Zhao wrote:
 > -（运行内核时的 uname -v）。该值必须是一个可以传递给 date -d 的字符串。默认值是
 > -内核构建某个时刻的 date 命令输出。
 > +(运行内核时的 uname -v) 。该值必须是一个可以传递给 date -d 的字符串。例如::
-
-Sorry, my problem. Ignore my previous email.
-
-For linux-next, this must be synced.
-
-Dongliang Mu
-
 > +
 > +	$ KBUILD_BUILD_TIMESTAMP="Mon Oct 13 00:00:00 UTC 2025" make
 > +
