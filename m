@@ -1,259 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-08.mail-europe.com (mail-08.mail-europe.com [57.129.93.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59469287253;
-	Mon, 17 Nov 2025 09:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BDF2D0C8C;
+	Mon, 17 Nov 2025 09:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.129.93.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763372749; cv=none; b=j0or7kROCOXtBDBfQoNQt4xVZU5y+ZmuKVtItVUfGjCCmoA8ezg5A9OV25SvPqHdhdcSxN1CFq+wl2su1xfGF89JCA8MO1pyYRXi6y9s0BY2sJKZsSHrLv3sa1pTyTNY1aWj+XwbAV01FfqNHHZihhhYmZgG28XD63ZakPGMJko=
+	t=1763372864; cv=none; b=hrrngSKfXehrmnbCU4Na6oY7HhGBGglaL2hotJAEidpyTCSgVBx7ocz7xeaHUIwA+83UrpMZUpOarEWtuitqUUiKzwwsQ0+yaM/QJpv/gQf/rRyO4xk7vGAcgh+vJKbfuyGzrHbhdzPrPTJ6A2xr0JXqsL+6Ms2IHVJJ39p0Xcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763372749; c=relaxed/simple;
-	bh=UnEBb9KmVyEOpfaxRcsyWGouQv67Vbf8M9m6APFtp3g=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C/kKQ3S1V8FlrZZVn6OwJEdTyRPu+atJkVkobAHtl0OyWhNrdGecABIePkX3MNYnhfKl4pfDxjjb+jKGVpedf0/Yw+SDEh9q5pQcVyQtb/vAG0wmjkWcJlizt7KurbUTw6pbi4Vh/SYU0ww/SUhMPKmNFcqpdm8DFI87m+ZP5KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WYLkYir9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763372864; c=relaxed/simple;
+	bh=d5Vf5iyzChW6Mpz0zplhVRlqd7j1Cbo+M0BhKDpMZDg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H+OiG+mhVDcJ7JAkWoYMN4TUdFV8UDCJG0sS0wiJrYl5UCZP4qtNlL8NkMZtHrvMz0/CDJ0V9EjHEs+X/ZIACwj6SmCweRWM0hyN6Lhn6Pu53qp5uB1JDJlz4XlKcTqn2EwtWD3OLI6Vp1tG34aeKH7wmZNiwS2kdKWvLs9cS7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=mcrsu2KI; arc=none smtp.client-ip=57.129.93.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WYLkYir9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA5DC2BCB4;
-	Mon, 17 Nov 2025 09:45:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763372748;
-	bh=UnEBb9KmVyEOpfaxRcsyWGouQv67Vbf8M9m6APFtp3g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WYLkYir9FGfBbWrgNzogFd4ji2kmh5AGJvuClJV4tlytM/B+ODM9F6elmMlEg65iM
-	 ECDTVSsTsTcA8JuIEHpQlOhDiLhACBmztvoRRlsbzmqgrzRxaxWrpc905SOfgpQIcq
-	 RiaL4WTEvTGXSKZsEfF61Lx3UOs8CpS9LvMmbJWFvqxMII6eOuxYSoGQ8Jgkuz6bC4
-	 a+bTu4qofVPAd4rK8XB+1dF94gzInxZbNDbuclWwwRke+r7OuJ1zsy8h5XeLtopbEB
-	 Sp+rYyE5UMNyiw63pk/tgFBGy9+tL1fp9yDpNxRwnKiZwn358Ev6mrkBA5gpQzeF+Q
-	 +qAaVts5FUdIQ==
-Date: Mon, 17 Nov 2025 10:45:43 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: add support for handling global variables
-Message-ID: <20251117104543.42419bc5@foz.lan>
-In-Reply-To: <d85e3f24-dbcd-4f28-b31f-a77661fc66fb@infradead.org>
-References: <80f85eacc306e62de8c9c68712c653ba290c2ff2.1757262141.git.mchehab+huawei@kernel.org>
-	<d85e3f24-dbcd-4f28-b31f-a77661fc66fb@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="mcrsu2KI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1763372848; x=1763632048;
+	bh=ihq7qfJz6+gs5FNsdIMwz9cXAydO9ORjjGo1TVl8LXw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=mcrsu2KIWRBuWP34fnaTEh2MJNkVwIexwJGZLPXXX8yXyfC6BVMRE0pwA0f836XBU
+	 UpCxiJRetz1cvCIHZAK97aG637iimF1G6z/rv35RGWp/5AHDknha1iBHirylJDw7M+
+	 306KxxrDTs2lhPnbOZQ8W//vM6e3Yq0mySSt3Jj72gcEiVI/wkkaKvxxXGcJFfbZGQ
+	 Xf3TP+8S6SNTxCKDROm1/FW3BdZ/Xx/MNDofPUimmPwmBY1JUkJsGtEbSHUpH0zpBu
+	 R4nsgQ8dvLZLK5ODLUBLrAnXcP6hEEmkdZOTveuEmMB8lVsdZigLkuR3CPDc5gq2r1
+	 XrzHunj7MULtQ==
+Date: Mon, 17 Nov 2025 09:47:20 +0000
+To: Peter Zijlstra <peterz@infradead.org>
+From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
+Cc: xin@zytor.com, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, glider@google.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org,
+	Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 15/18] x86/kasan: Handle UD1 for inline KASAN reports
+Message-ID: <a4vtlaxadmqod44sriwf2b6cf5fzzvngl6f5s2vg6ziebahjtv@yctbqspkdn2b>
+In-Reply-To: <20251111102719.GH278048@noisy.programming.kicks-ass.net>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <8b0daaf83752528418bf2dd8d08906c37fa31f69.1761763681.git.m.wieczorretman@pm.me> <20251111102719.GH278048@noisy.programming.kicks-ass.net>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: c252819bcd42668f3ed4c2d3435f49dcbb5a823f
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Em Tue, 9 Sep 2025 00:27:20 -0700
-Randy Dunlap <rdunlap@infradead.org> escreveu:
+On 2025-11-11 at 11:27:19 +0100, Peter Zijlstra wrote:
+>On Wed, Oct 29, 2025 at 08:09:51PM +0000, Maciej Wieczor-Retman wrote:
+>> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>>
+>> Inline KASAN on x86 should do tag mismatch reports by passing the
+>> metadata through the UD1 instruction and the faulty address through RDI,
+>> a scheme that's already used by UBSan and is easy to extend.
+>>
+>> The current LLVM way of passing KASAN software tag mode metadata is done
+>> using the INT3 instruction. However that should be changed because it
+>> doesn't align to how the kernel already handles UD1 for similar use
+>> cases. Since inline software tag-based KASAN doesn't work on x86 due to
+>> missing compiler support it can be fixed and the INT3 can be changed to
+>> UD1 at the same time.
+>>
+>> Add a kasan component to the #UD decoding and handling functions.
+>>
+>> Make part of that hook - which decides whether to die or recover from a
+>> tag mismatch - arch independent to avoid duplicating a long comment on
+>> both x86 and arm64 architectures.
+>>
+>
+>> diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
+>> index 396071832d02..375651d9b114 100644
+>> --- a/arch/x86/include/asm/kasan.h
+>> +++ b/arch/x86/include/asm/kasan.h
+>> @@ -6,6 +6,24 @@
+>>  #include <linux/kasan-tags.h>
+>>  #include <linux/types.h>
+>>  #define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
+>> +
+>> +/*
+>> + * LLVM ABI for reporting tag mismatches in inline KASAN mode.
+>> + * On x86 the UD1 instruction is used to carry metadata in the ECX regi=
+ster
+>> + * to the KASAN report. ECX is used to differentiate KASAN from UBSan w=
+hen
+>> + * decoding the UD1 instruction.
+>> + *
+>> + * SIZE refers to how many bytes the faulty memory access
+>> + * requested.
+>> + * WRITE bit, when set, indicates the access was a write, otherwise
+>> + * it was a read.
+>> + * RECOVER bit, when set, should allow the kernel to carry on after
+>> + * a tag mismatch. Otherwise die() is called.
+>> + */
+>> +#define KASAN_ECX_RECOVER=090x20
+>> +#define KASAN_ECX_WRITE=09=090x10
+>> +#define KASAN_ECX_SIZE_MASK=090x0f
+>> +#define KASAN_ECX_SIZE(ecx)=09(1 << ((ecx) & KASAN_ECX_SIZE_MASK))
+>>  #define KASAN_SHADOW_SCALE_SHIFT 3
+>
+>> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+>> index 6b22611e69cc..40fefd306c76 100644
+>> --- a/arch/x86/kernel/traps.c
+>> +++ b/arch/x86/kernel/traps.c
+>> @@ -179,6 +179,9 @@ __always_inline int decode_bug(unsigned long addr, s=
+32 *imm, int *len)
+>>  =09if (X86_MODRM_REG(v) =3D=3D 0)=09/* EAX */
+>>  =09=09return BUG_UD1_UBSAN;
+>>
+>> +=09if (X86_MODRM_REG(v) =3D=3D 1)=09/* ECX */
+>> +=09=09return BUG_UD1_KASAN;
+>> +
+>>  =09return BUG_UD1;
+>>  }
+>>
+>> @@ -357,6 +360,11 @@ static noinstr bool handle_bug(struct pt_regs *regs=
+)
+>>  =09=09}
+>>  =09=09break;
+>>
+>> +=09case BUG_UD1_KASAN:
+>> +=09=09kasan_inline_handler(regs);
+>> +=09=09handled =3D true;
+>> +=09=09break;
+>> +
+>>  =09default:
+>>  =09=09break;
+>>  =09}
+>
+>> +void kasan_inline_handler(struct pt_regs *regs)
+>> +{
+>> +=09int metadata =3D regs->cx;
+>> +=09u64 addr =3D regs->di;
+>> +=09u64 pc =3D regs->ip;
+>> +=09bool recover =3D metadata & KASAN_ECX_RECOVER;
+>> +=09bool write =3D metadata & KASAN_ECX_WRITE;
+>> +=09size_t size =3D KASAN_ECX_SIZE(metadata);
+>> +
+>> +=09if (user_mode(regs))
+>> +=09=09return;
+>> +
+>> +=09if (!kasan_report((void *)addr, size, write, pc))
+>> +=09=09return;
+>> +
+>> +=09kasan_die_unless_recover(recover, "Oops - KASAN", regs, metadata, di=
+e);
+>> +}
+>
+>I'm confused. Going by the ARM64 code, the meta-data is constant per
+>site -- it is encoded in the break immediate.
+>
+>And I suggested you do the same on x86 by using the single byte
+>displacement instruction encoding.
+>
+>=09ud1=090xFF(%ecx), %ecx
+>
+>Also, we don't have to use a fixed register for the address, you can do:
+>
+>=09ud1=090xFF(%ecx), %reg
+>
+>and have %reg tell us what register the address is in.
+>
+>Then you can recover the meta-data from the displacement immediate and
+>the address from whatever register is denoted.
+>
+>This avoids the 'callsite' from having to clobber cx and move the address
+>into di.
+>
+>What you have here will work, and I don't suppose we care about code
+>density with KASAN much, but it could've been so much better :/
 
-> Hi Mauro,
->=20
-> I have a few patch nits below, then some testing info.
->=20
->=20
-> On 9/7/25 9:22 AM, Mauro Carvalho Chehab wrote:
-> > Specially on kAPI, sometimes it is desirable to be able to
-> > describe global variables that are part of kAPI.
-> >=20
-> > Documenting vars with Sphinx is simple, as we don't need
-> > to parse a data struct. All we need is the variable
-> > declaration and use natice C domain ::c:var: to format it
-> > for us.
-> >=20
-> > Add support for it.
-> >=20
-> > Link: https://lore.kernel.org/linux-doc/491c3022-cef8-4860-a945-c9c4a3b=
-63c09@infradead.org/T/#m947c25d95cb1d96a394410ab1131dc8e9e5013f1
-> > Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  scripts/lib/kdoc/kdoc_output.py | 31 +++++++++++++++++++++++++++++++
-> >  scripts/lib/kdoc/kdoc_parser.py | 25 ++++++++++++++++++++++++-
-> >  2 files changed, 55 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_ou=
-tput.py
-> > index 1eca9a918558..405a5c407522 100644
-> > --- a/scripts/lib/kdoc/kdoc_output.py
-> > +++ b/scripts/lib/kdoc/kdoc_output.py
-> > @@ -199,6 +199,10 @@ class OutputFormat:
-> >              self.out_enum(fname, name, args)
-> >              return self.data
-> > =20
-> > +        if dtype =3D=3D "global":
-> > +            self.out_global(fname, name, args)
-> > +            return self.data
-> > +
-> >          if dtype =3D=3D "typedef":
-> >              self.out_typedef(fname, name, args)
-> >              return self.data
-> > @@ -227,6 +231,9 @@ class OutputFormat:
-> >      def out_enum(self, fname, name, args):
-> >          """Outputs an enum"""
-> > =20
-> > +    def out_global(self, fname, name, args):
-> > +        """Outputs a global variable"""
-> > +
-> >      def out_typedef(self, fname, name, args):
-> >          """Outputs a typedef"""
-> > =20
-> > @@ -472,6 +479,18 @@ class RestFormat(OutputFormat):
-> >          self.lineprefix =3D oldprefix
-> >          self.out_section(args)
-> > =20
-> > +    def out_global(self, fname, name, args):
-> > +        oldprefix =3D self.lineprefix
-> > +        ln =3D args.declaration_start_line
-> > +        prototype =3D args.other_stuff["var_type"]
-> > +
-> > +        self.data +=3D f"
-> >=20
-> > .. c:var:: {prototype}
-> >=20
-> > " =20
->=20
-> Are the 5 lines above supposed to be on one line?  Did git send-email spl=
-it that up for you?
-> There are a few others like this below.
-> patch(1) complains when I try to apply the patch from this email.
+Thanks for checking the patch out, maybe I got too focused on just
+getting clang to work. You're right, I'll try using the displacement
+encoding.
 
-This was a problem with my the mailbomb script I wrote in Python.
-I was unable to make it transparent to encoding. Also, it replaced
-\n with new lines.
+I was attempting a few different encodings because clang was fussy about
+putting data where I wanted it. The one in the patch worked fine and I
+thought it'd be consistent with the form that UBSan uses. But yeah, I'll
+work on it more.
 
-I ended rolling back to my old Perl script.
+I'll also go and rebase my series onto your WARN() hackery one since
+there are a lot of changes to traps.c.
 
->=20
-> > +
-> > +        self.print_lineno(ln)
-> > +        self.lineprefix =3D "  "
-> > +        self.output_highlight(args.get('purpose', ''))
-> > +        self.data +=3D "
-> > "
-> > +
-> >      def out_typedef(self, fname, name, args):
-> > =20
-> >          oldprefix =3D self.lineprefix
-> > @@ -772,6 +791,18 @@ class ManFormat(OutputFormat):
-> >              self.data +=3D f'.SH "{section}"' + "
-> > "
-> >              self.output_highlight(text)
-> > =20
-> > +    def out_global(self, fname, name, args):
-> > +        out_name =3D self.arg_name(args, name)
-> > +        prototype =3D args.other_stuff["var_type"]
-> > +
-> > +        self.data +=3D f'.TH "{self.modulename}" 9 "{out_name}" "{self=
-.man_date}" "API Manual" LINUX' + "
-> > "
-> > +
-> > +        self.data +=3D ".SH NAME
-> > "
-> > +        self.data +=3D f"{prototype} \- {args['purpose']} =20
->=20
-> Python complains about the "\-" above. Other places nearby use "\\-"
-
-Again, this was due to the mailbomb script not being transparent.
-
-> so I changed it to that instead. Hope that's OK.
-
-Yeah, \\ is the right way.
-
->=20
-> > "
-> > +
-> > +        self.data +=3D ".SH SYNOPSIS
-> > "
-> > +        self.data +=3D f"enum {name}" + " {
-> > "
-> > +
-> >      def out_typedef(self, fname, name, args):
-> >          module =3D self.modulename
-> >          purpose =3D args.get('purpose')
-> > diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_pa=
-rser.py
-> > index 574972e1f741..e2a3f4574894 100644
-> > --- a/scripts/lib/kdoc/kdoc_parser.py
-> > +++ b/scripts/lib/kdoc/kdoc_parser.py
-> > @@ -64,7 +64,7 @@ type_param =3D KernRe(r"@(\w*((\.\w+)|(->\w+))*(\.\.\=
-.)?)", cache=3DFalse)
-> >  # Tests for the beginning of a kerneldoc block in its various forms.
-> >  #
-> >  doc_block =3D doc_com + KernRe(r'DOC:\s*(.*)?', cache=3DFalse)
-> > -doc_begin_data =3D KernRe(r"^\s*\*?\s*(struct|union|enum|typedef)=08\s=
-*(\w*)", cache =3D False)
-> > +doc_begin_data =3D KernRe(r"^\s*\*?\s*(struct|union|enum|typedef|globa=
-l)=08\s*(\w*)", cache =3D False)
-> >  doc_begin_func =3D KernRe(str(doc_com) +			# initial " * '
-> >                          r"(?:\w+\s*\*\s*)?" + 		# type (not captured)
-> >                          r'(?:define\s+)?' + 		# possible "define" (not=
- captured)
-> > @@ -886,6 +886,27 @@ class KernelDoc:
-> >          self.output_declaration('enum', declaration_name,
-> >                                  purpose=3Dself.entry.declaration_purpo=
-se)
-> > =20
-> > +    def dump_global(self, ln, proto):
-> > +        """
-> > +        Stores global variables that are part of kAPI.
-> > +        """
-> > +        VAR_ATTRIBS =3D [
-> > +            "extern",
-> > +        ]
-> > +        OPTIONAL_VAR_ATTR =3D "^(?:" + "|".join(VAR_ATTRIBS) + ")?"
-> > +
-> > +        r=3D KernRe(OPTIONAL_VAR_ATTR + r"(\w.*)\s+([\w_]+)[\d\]\[]*\s=
-*;(?:#.*)?$")
-> > +        if not r.match(proto):
-> > +           self.emit_msg(ln,f"{proto}: can't parse variable")
-> > +           return
-> > +
-> > +        declaration_name =3D r.group(2)
-> > +        var_type =3D r.group(0)
-> > +
-> > +        self.output_declaration("global", declaration_name,
-> > +                                var_type=3Dvar_type,
-> > +                                purpose=3Dself.entry.declaration_purpo=
-se)
-> > +
-> >      def dump_declaration(self, ln, prototype):
-> >          """
-> >          Stores a data declaration inside self.entries array.
-> > @@ -897,6 +918,8 @@ class KernelDoc:
-> >              self.dump_typedef(ln, prototype)
-> >          elif self.entry.decl_type in ["union", "struct"]:
-> >              self.dump_struct(ln, prototype)
-> > +        elif self.entry.decl_type =3D=3D "global":
-> > +            self.dump_global(ln, prototype)
-> >          else:
-> >              # This would be a bug
-> >              self.emit_message(ln, f'Unknown declaration type: {self.en=
-try.decl_type}') =20
-> So, I grabbed some global data from 6-8 places in the kernel and put them=
- intoinit/kdoc-globals-test.c. Then I modified Documentation/core-api/kerne=
-l-api.rst
-> like this at the end of that file:
->=20
-> +
-> +Kernel Globals
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> +
-> +.. kernel-doc:: init/kdoc-globals-test.c
-> +   :identifiers:
->=20
-> The html output says
-> "Kernel Globals"
-> but nothing else.
-
-With the version I sent yesterday, after replacing:
-
-	global -> var
-
-the symbols are there.
-
-Thanks,
-Mauro
