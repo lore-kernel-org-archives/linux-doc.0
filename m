@@ -1,102 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16FD30FC20;
-	Mon, 17 Nov 2025 11:04:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E641287507;
+	Mon, 17 Nov 2025 11:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763377499; cv=none; b=nF3R0QKT4k3WufLNd6j4TC8o9ErLYbhpgGnlx9alG9PAzR9KBBK4+ymGW6ZoxwYG1Mm6laXj+T0qKTDgB9fzf6fXF8FTLMPkSA0Zy0IkfjjWd7SjasWB8VBBiTNlkhV806iKxJ0OfNcKtkAtvvw9Cn9/BgIvQEWWO+xpAeAd0Rc=
+	t=1763378056; cv=none; b=eBCrs9sCdLhhVIeNZqDHnb7PzdMVwbzIYI5KihpnERuYMR4V/FVR66n8WxhWjO+ji80L9MovWxg7qLn7KkfGz/nYgpuvrXogYcL24Wkq6OecPY3k/OIqCU2K19gAqmlakXSYH3JUe2kwciYPMmwdH33zN9hMp1aG4BRDRZoJ7DQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763377499; c=relaxed/simple;
-	bh=QewPk4zco+6xv+zW7ousvKXwZ8/tVkAJu1PKD6W3ibk=;
+	s=arc-20240116; t=1763378056; c=relaxed/simple;
+	bh=a+Glbj+KjklqVqK02cJKv38+Iv5JmdqR17E30pDPyGg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xj1b6YhEmOAO53KJKgosINhZ43eQRsVkk5ch2+4x+5iC2XYksQYI9qK+llqgEnJzwImn6Sq1ntUwxXLaiTVcpFeVWWSuACe6YiH0gImtZqlupIgm2bkPmvrMkS+KPXfCni1LH5mhK35FPFotHbegDLmgqZet+mzIeMJmUd9f+s8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LU5wIfZx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gAKtdgyDO3u1c/6arkmnzfNBC2beP3HdiSTz+QEqTnl1U26DyqeQVlyPj3KjlNe7OHEM/fVX4L3aike9hdZV5jlpKJUKIbjDHYhKGhBXsMYy4ddGYMTtxZi/xpt98eTChcRvmjgLa3rEBp3sqS0K5ES+xB6T04QERaQZenzs/C8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d+36XpUk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LU5wIfZx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35A87C4CEF1;
-	Mon, 17 Nov 2025 11:04:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d+36XpUk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8A25C4CEF5;
+	Mon, 17 Nov 2025 11:13:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763377499;
-	bh=QewPk4zco+6xv+zW7ousvKXwZ8/tVkAJu1PKD6W3ibk=;
+	s=k20201202; t=1763378055;
+	bh=a+Glbj+KjklqVqK02cJKv38+Iv5JmdqR17E30pDPyGg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LU5wIfZxDeF8aMVN3PLI8PDvrux5/5oZoK/Ae+s6/yEGUdBx0E1CZu0Pp8PivhgYF
-	 srst9LJ8SQIjW4JOH+e4rtZjewXLEDthG28BPMvKgy6+IyTSFbVY4W31MKXj0XBN6P
-	 aZ9s5lePasR7ASNPVWhU/TQiHWz8TfZib9rN1FsY1LMWlLXqgBhZBED8+xNJtK8FfL
-	 amFedI1epT9BJhMLOqxhsRyiJqC3nIJdU0VPOi98FoTbrkMoSnz2EiO+ImQn6QHzK2
-	 bi71mKimxMBlUA79hZKK3ssiUMK7M36q/En90Gl7Z54gpw7Q5Blitk1nYe0v74qKib
-	 2SGaKuGzxcefA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vKx2X-0000000Gn6G-0NKr;
-	Mon, 17 Nov 2025 12:04:57 +0100
-Date: Mon, 17 Nov 2025 12:04:57 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, 
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 1/1] docs: makefile: move rustdoc check to the build
- wrapper
-Message-ID: <kjpquyekvw7fwrndoomtge7fnxtfefihqlikj6xcqtazrr6l77@424ufup7v45o>
-References: <cover.1763370163.git.mchehab+huawei@kernel.org>
- <a9b172c926a4b30360530c34adc44f3789ec2b27.1763370163.git.mchehab+huawei@kernel.org>
- <CANiq72=bYzj6iU7PCm+VMBTeBbgUcL8nwrvUut9p4ph+3+itaQ@mail.gmail.com>
+	b=d+36XpUkgooOOplYjFcXSlkiRz9QJ9mw3TH5MHjiR6eSeLeykbimRz9eODBPmYD4f
+	 Ej5+lc/S0OkUv84FBV83fgl+AKDrJNl+kGSPHK549sQ8fWypqZkB4JnN2UYUeJDApu
+	 7qry8j+l66Ji7mT8iOgQWAU2FD9W+xkoybuLpEhH/qyA0gfSxOzw7azcWlz9JWNXTP
+	 64UKmeUlQIpxjTIydSTLHMsFBE8EQUgngt5ecZ0+6dOCpxMKxShHCRMDZ3UQICc2Vb
+	 xy5Os9Jr0mPExUf8Ubchkkc3k4+8GbI0RUjVMScWeibdxclYKM23yJpGreGXsCilWw
+	 XrlAzdRBdVg7w==
+Date: Mon, 17 Nov 2025 13:13:51 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v6 20/20] tests/liveupdate: Add in-kernel liveupdate test
+Message-ID: <aRsDb-4bXFQ9Zmtu@kernel.org>
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+ <20251115233409.768044-21-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72=bYzj6iU7PCm+VMBTeBbgUcL8nwrvUut9p4ph+3+itaQ@mail.gmail.com>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <20251115233409.768044-21-pasha.tatashin@soleen.com>
 
-On Mon, Nov 17, 2025 at 10:20:46AM +0100, Miguel Ojeda wrote:
-> On Mon, Nov 17, 2025 at 10:13 AM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > The makefile logic to detect if rust is enabled is not working
-> > the way it was expected. Move it to be inside the wrapper
-> > script.
+On Sat, Nov 15, 2025 at 06:34:06PM -0500, Pasha Tatashin wrote:
+> Introduce an in-kernel test module to validate the core logic of the
+> Live Update Orchestrator's File-Lifecycle-Bound feature. This
+> provides a low-level, controlled environment to test FLB registration
+> and callback invocation without requiring userspace interaction or
+> actual kexec reboots.
 > 
-> Hmm... Could the commit explain a bit why this didn't work and why now it does?
+> The test is enabled by the CONFIG_LIVEUPDATE_TEST Kconfig option.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
+>  include/linux/liveupdate/abi/luo.h |   5 +
+>  kernel/liveupdate/luo_file.c       |   2 +
+>  kernel/liveupdate/luo_internal.h   |   6 ++
+>  lib/Kconfig.debug                  |  23 +++++
+>  lib/tests/Makefile                 |   1 +
+>  lib/tests/liveupdate.c             | 143 +++++++++++++++++++++++++++++
+>  6 files changed, 180 insertions(+)
+>  create mode 100644 lib/tests/liveupdate.c
+> 
+> diff --git a/include/linux/liveupdate/abi/luo.h b/include/linux/liveupdate/abi/luo.h
+> index 85596ce68c16..cdcace9b48f5 100644
+> --- a/include/linux/liveupdate/abi/luo.h
+> +++ b/include/linux/liveupdate/abi/luo.h
+> @@ -230,4 +230,9 @@ struct luo_flb_ser {
+>  	u64 count;
+>  } __packed;
+>  
+> +/* Kernel Live Update Test ABI */
+> +#ifdef CONFIG_LIVEUPDATE_TEST
+> +#define LIVEUPDATE_TEST_FLB_COMPATIBLE(i)	"liveupdate-test-flb-v" #i
+> +#endif
+> +
+>  #endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
+> diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
+> index df337c9c4f21..9a531096bdb5 100644
+> --- a/kernel/liveupdate/luo_file.c
+> +++ b/kernel/liveupdate/luo_file.c
+> @@ -834,6 +834,8 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
+>  	INIT_LIST_HEAD(&fh->flb_list);
+>  	list_add_tail(&fh->list, &luo_file_handler_list);
+>  
+> +	liveupdate_test_register(fh);
+> +
 
-I don't know exactly why this was not working.
+Why this cannot be called from the test?
 
-I guess one of the issues is that the "rustdoc" target becomes
-undefined if RUST is not enabled, e.g. rust/Makefile is lacking something
-like:
-
-    ifdef CONFIG_RUST
-    ...
-    else
-    rustdoc rustdoc-core rustdoc-macros rustdoc-compiler_builtins:
-            $(warning Rust is not enabled. Can't build $<)    
-    endif
-
-But this is not enough to explain the issues I'm getting.
-
-Maybe the other issues are cache related.
-
-In any case, here, with Fedora 43, on some cases, when I run:
-
-    make htmldocs  # or make SPHINXDIRS=xxx htmldocs
-
-it sometimes, after building the docs, it tries to run:
-
-    make LLVM=1 rustdoc
-
-as this is not a defined target when CONFIG_RUST is not
-present, this causes it to build the entire code.
+>  	return 0;
+>  }
+>  
 
 -- 
-Thanks,
-Mauro
+Sincerely yours,
+Mike.
