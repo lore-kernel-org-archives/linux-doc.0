@@ -1,176 +1,166 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D29C2C375A;
-	Mon, 17 Nov 2025 16:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EAC304BDA
+	for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 17:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763397258; cv=none; b=q/kJ8BJdNklMzQ5bvUEAtuVB+6b6fW9ysURmu7oF8FRdLVZhpnAIK6WhOH13i8lypKxJsiUFX/cTNCoXAE0CvVvALTD/1O+f8OZfw2xXetBCZrDKu40OJX/AbApqtcPCLAIhzHlRP+KTxVAwPRefxGYSBzoI0g9PhxKjlSI0MVY=
+	t=1763399785; cv=none; b=CFdK5lXmD+54Ba5oOlsdvoDlB4QJ2PMTIi6AZ3IrlQrnaO95IRFhzNwMq0gA59kKRj+r/IG/mHP1uhxufzwmDDb/pRv92hXHLASIRNVoEywj/K4IuHoErnEC8DNYkD20QkmlhiKzanIk8k0rSG1uN24BSgP2jnFP32hiBPRH6Cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763397258; c=relaxed/simple;
-	bh=QEA58ISPvgLYWLEqr1jJGitDS6An6AkVJmZcob3iw2c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s3NqX/WqOJIRZJuihQqZpzWgUP/2e3TXL/4NXYnDY3eP4CQ+JlPevdvU3q7kue3qhGdul/tzIMsxr7N6yBnq2/CBctCdqzyXH37Jw71OzWLmQTQ0V1V2BPbizt+dCVVpjfPgbN8DgeaIl7CzevL51NfmNj/TVuDrN2iCNfhB78M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
-Received: from Mobilestation.localdomain (unknown [183.6.59.216])
-	by APP-05 (Coremail) with SMTP id zQCowABXT2BiThtpY5sTAQ--.27246S3;
-	Tue, 18 Nov 2025 00:33:53 +0800 (CST)
-From: Yao Zihong <zihong.plct@isrc.iscas.ac.cn>
-To: linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: ajones@ventanamicro.com,
-	zihong.plct@isrc.iscas.ac.cn,
-	zihongyao@outlook.com,
-	zhangyin2018@iscas.ac.cn,
+	s=arc-20240116; t=1763399785; c=relaxed/simple;
+	bh=2sNLnkk8V5VHxiND7V+FoGQrjFZ2T5dAZtQ/cFM2bC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=evrdp7vDfAwOcCsQknGzGvkfURZzjKjXiCsX0xWD09iEqB3bqdrPwP/OSVCR9qYg3A3sFwXBz9KAywGKbhG6RVOeJdItjc4NlevQrLamgZEcjTNzyU+vXAL26M84QBa6z3LCH4qBK0NMfydlrc35KXk6pnP3BASzqP/2l3SvXok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=St0q6+iO; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="St0q6+iO"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4ee04609ffaso9134271cf.3
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 09:16:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1763399780; x=1764004580; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=P1EKuTl21MaZwOVAnrWkECo68IZFcqZRr/UNlppTPmo=;
+        b=St0q6+iOpxbQP/6k4YKopb2b5abxIoNmFDBUjCQhyPHK+h7d8HKH6xaNs1SrXfm6OZ
+         SX3+iU7AfSkVpcl9Oh20UsDOxLGNyrTJJc60M57mpWVYDN6AnVbBn3x/F0Pr/nl/c57p
+         5jOlIOnA23o0k+wKKWoTyTffzSAy9/U+iWg/cLqgA3zQq/msJHRR/LgxbQaTSBBwO6MZ
+         HKzAgSbvvmGmW1PFfxSgqU9DWWWbgWBmTKIdeGJueyBjy9frttHn2vvAydk/HIgrAZxw
+         cGoTxy1YwOwm3TyCYh3mvEIbvhY1xGP7VBnVqBapoxOOhc2WUKsxkMK9G0cuu6VQah0D
+         A6aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763399780; x=1764004580;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P1EKuTl21MaZwOVAnrWkECo68IZFcqZRr/UNlppTPmo=;
+        b=Vn2WukhOU4z4JjjnSyMUP28LolheXb6DQ9FQKX6gZuvfmpynVJx0/iq7dTRmfIaYPV
+         EZ3bUac7vLpsVCgDd7StvWVVRMhm5E1WYE4eOoeBVeP0/fNv9WIQhYBlULKNO+T2rB75
+         NZD7p/0dsII0RTLAdZsM+SWT+e0nvyWuZ4KUC1rFkqQeUH51zoNR+TduCrcIheIFCcAO
+         vWZmQ37+Dn4clWRiOiYDLyiQal2TSzsZLJuv4ZdeczU6+W4TqDPpE6SCJv8XOWul3oYy
+         Z2hhZ6bcvVTksVaI1ewwmHqxMs8v3SPK1hHTbT+w5x1PS34QtwDKPKo3R0ulAlfLzWPj
+         knhw==
+X-Forwarded-Encrypted: i=1; AJvYcCWDCzcFVNKUOJLoNA8oji8ylQ7yNJoIO7rLVFl7+2r+IklRdr89EA30Rc9Aot6l2KJv5MKaQEmxM7k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFQniNAW9wUL7CQ5oWU1s69faFU4+7u9GMW0w73j47a2C0qwX/
+	sxi4RV8G4cYNm923ApCv9ucjccQ8u6bCu6TuumqJAGfQsMBO4/K2I6nOsUPiaY8dFEA=
+X-Gm-Gg: ASbGncvnZifEf9Sc2iEnoKOpEiGNhTxbf+V7WS+82676m69yZfRVg1OxpsD439cwdh6
+	FXuuLanA86hb7sSZ/aOYy4dWDpkh+FhtC7Ac2ET8p6q725i1Vyj0gEiGFfnLFQtORZ4UMyJ5Iyy
+	DDxFyQTPeeh+YHc6zQR9jWlNtbZXD6RofhOGPKs1Q/P/O0s6ahrzqtYPSXgv32fFoR8t96Uu2iv
+	xrdm0ug71tgjhfKRjBTVvQD9009jTEKTSCKW3JTbdCZPRdl0tHLiz74BjmMC+nu5sHUYbdRukXY
+	qCl5mho+nHOh0WV+mi18RUtQ/7WpA2oUjrfifNuZqaWl4shIXcVc88ZcWF7HddYVzE3U2dwN7Pg
+	v+cU6tNkwQzLIZiVcqsR6vA8HiZc7zwZPjSUcCJAtYlErl1fzJdkdcgovAMY4epAxczYj8G+zjr
+	YacArSRGLBZwRnkqEwdAz0AsUKr2HLCB/ojiyvdsjoNFDlFzhQiomt5GIh
+X-Google-Smtp-Source: AGHT+IHdomOA3fXFLRj5Qifi24Z8ILoy1R2tZQWL9HXByV1pnhKykseLX/aaxM1vhUTUzCoPwrvJjg==
+X-Received: by 2002:a05:622a:22aa:b0:4ec:ef20:ac52 with SMTP id d75a77b69052e-4edfc87511cmr159168241cf.79.1763399780286;
+        Mon, 17 Nov 2025 09:16:20 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ee1c21ea34sm32656311cf.30.2025.11.17.09.16.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Nov 2025 09:16:19 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vL2pv-000000005PX-0G4a;
+	Mon, 17 Nov 2025 13:16:19 -0400
+Date: Mon, 17 Nov 2025 13:16:19 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Alex Williamson <alex@shazbot.org>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Cyan Yang <cyan.yang@sifive.com>,
-	Yunhui Cui <cuiyunhui@bytedance.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	=?UTF-8?q?Miquel=20Sabat=C3=A9=20Sol=C3=A0?= <mikisabate@gmail.com>,
-	Nam Cao <namcao@linutronix.de>,
-	Jingwei Wang <wangjingwei@iscas.ac.cn>,
-	Aleksa Paunovic <aleksa.paunovic@htecgroup.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH v4 1/2] riscv: hwprobe: Expose Zicbop extension and its block size
-Date: Tue, 18 Nov 2025 00:32:39 +0800
-Message-ID: <20251117163333.31182-2-zihong.plct@isrc.iscas.ac.cn>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20251117163333.31182-1-zihong.plct@isrc.iscas.ac.cn>
-References: <20251117163333.31182-1-zihong.plct@isrc.iscas.ac.cn>
+	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v7 00/11] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+Message-ID: <20251117171619.GB17968@ziepe.ca>
+References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
+ <20251110134218.5e399b0f.alex@shazbot.org>
+ <da399efa-ad5b-4bdc-964d-b6cc4a4fc55d@amd.com>
+ <20251117083620.4660081a.alex@shazbot.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABXT2BiThtpY5sTAQ--.27246S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxGw1Utw1DGw17urW5Ar1DWrg_yoWrAw1kpF
-	4DZrsxWFs8Cw4xCFWxt3WkZrn5J3Z7Kw43KF1Uu3yUJFW7trWrXr9xtFsIyr1DtFyFva92
-	gF4agrZYya9rArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUH2b7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
-	8067AKxVWUGwA2048vs2IY020Ec7CjxVAFwI0_JFI_Gr1l8cAvFVAK0II2c7xJM28CjxkF
-	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcV
-	CY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aVCY
-	1x0267AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I
-	8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCF
-	s4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFI
-	xGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wrylc7CjxVAKzI0EY4vE52x0
-	82I5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Jl1DUUUU
-	U==
-X-CM-SenderInfo: p2lk00vjoszunw6l223fol2u1dvotugofq/
+In-Reply-To: <20251117083620.4660081a.alex@shazbot.org>
 
-- Add `RISCV_HWPROBE_EXT_ZICBOP` to report the presence of the
-  Zicbop extension.
-- Add `RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE` to expose the block
-  size (in bytes) when Zicbop is supported.
-- Update hwprobe.rst to document the new extension bit and block
-  size key, following the existing Zicbom/Zicboz style.
+On Mon, Nov 17, 2025 at 08:36:20AM -0700, Alex Williamson wrote:
+> On Tue, 11 Nov 2025 09:54:22 +0100
+> Christian König <christian.koenig@amd.com> wrote:
+> 
+> > On 11/10/25 21:42, Alex Williamson wrote:
+> > > On Thu,  6 Nov 2025 16:16:45 +0200
+> > > Leon Romanovsky <leon@kernel.org> wrote:
+> > >   
+> > >> Changelog:
+> > >> v7:
+> > >>  * Dropped restore_revoke flag and added vfio_pci_dma_buf_move
+> > >>    to reverse loop.
+> > >>  * Fixed spelling errors in documentation patch.
+> > >>  * Rebased on top of v6.18-rc3.
+> > >>  * Added include to stddef.h to vfio.h, to keep uapi header file independent.  
+> > > 
+> > > I think we're winding down on review comments.  It'd be great to get
+> > > p2pdma and dma-buf acks on this series.  Otherwise it's been posted
+> > > enough that we'll assume no objections.  Thanks,  
+> > 
+> > Already have it on my TODO list to take a closer look, but no idea when that will be.
+> > 
+> > This patch set is on place 4 or 5 on a rather long list of stuff to review/finish.
+> 
+> Hi Christian,
+> 
+> Gentle nudge.  Leon posted v8[1] last week, which is not drawing any
+> new comments.  Do you foresee having time for review that I should
+> still hold off merging for v6.19 a bit longer?  Thanks,
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-Signed-off-by: Yao Zihong <zihong.plct@isrc.iscas.ac.cn>
----
- Documentation/arch/riscv/hwprobe.rst  | 8 +++++++-
- arch/riscv/include/asm/hwprobe.h      | 2 +-
- arch/riscv/include/uapi/asm/hwprobe.h | 2 ++
- arch/riscv/kernel/sys_hwprobe.c       | 6 ++++++
- 4 files changed, 16 insertions(+), 2 deletions(-)
+I really want this merged this cycle, along with the iommufd part,
+which means it needs to go into your tree by very early next week on a
+shared branch so I can do the iommufd part on top.
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 2f449c9b15bd..52f12af43b9d 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -275,6 +275,9 @@ The following keys are defined:
-        ratified in commit 49f49c842ff9 ("Update to Rafified state") of
-        riscv-zabha.
- 
-+  * :c:macro:`RISCV_HWPROBE_EXT_ZICBOP`: The Zicbop extension is supported, as
-+       ratified in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
-+
- * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar values to
-      :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key was
-      mistakenly classified as a bitmask rather than a value.
-@@ -369,4 +372,7 @@ The following keys are defined:
- 
-     * :c:macro:`RISCV_HWPROBE_VENDOR_EXT_XSFVFWMACCQQQ`: The Xsfvfwmaccqqq
-         vendor extension is supported in version 1.0 of Matrix Multiply Accumulate
--	Instruction Extensions Specification.
-\ No newline at end of file
-+	Instruction Extensions Specification.
-+
-+* :c:macro:`RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE`: An unsigned int which
-+  represents the size of the Zicbop block in bytes.
-diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-index 58f8dda73259..8c572a464719 100644
---- a/arch/riscv/include/asm/hwprobe.h
-+++ b/arch/riscv/include/asm/hwprobe.h
-@@ -8,7 +8,7 @@
- 
- #include <uapi/asm/hwprobe.h>
- 
--#define RISCV_HWPROBE_MAX_KEY 14
-+#define RISCV_HWPROBE_MAX_KEY 15
- 
- static inline bool riscv_hwprobe_key_is_valid(__s64 key)
- {
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 5d30a4fae37a..9cc508be54c5 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -82,6 +82,7 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_EXT_ZAAMO		(1ULL << 56)
- #define		RISCV_HWPROBE_EXT_ZALRSC	(1ULL << 57)
- #define		RISCV_HWPROBE_EXT_ZABHA		(1ULL << 58)
-+#define		RISCV_HWPROBE_EXT_ZICBOP	(1ULL << 59)
- #define RISCV_HWPROBE_KEY_CPUPERF_0	5
- #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
- #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-@@ -107,6 +108,7 @@ struct riscv_hwprobe {
- #define RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE	12
- #define RISCV_HWPROBE_KEY_VENDOR_EXT_SIFIVE_0	13
- #define RISCV_HWPROBE_KEY_VENDOR_EXT_MIPS_0	14
-+#define RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE	15
- /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
- 
- /* Flags */
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index 199d13f86f31..6b33fd88bf3e 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -122,6 +122,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
- 		EXT_KEY(ZCB);
- 		EXT_KEY(ZCMOP);
- 		EXT_KEY(ZICBOM);
-+		EXT_KEY(ZICBOP);
- 		EXT_KEY(ZICBOZ);
- 		EXT_KEY(ZICNTR);
- 		EXT_KEY(ZICOND);
-@@ -302,6 +303,11 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOM))
- 			pair->value = riscv_cbom_block_size;
- 		break;
-+	case RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE:
-+		pair->value = 0;
-+		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOP))
-+			pair->value = riscv_cbop_block_size;
-+		break;
- 	case RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS:
- 		pair->value = user_max_virt_addr();
- 		break;
--- 
-2.47.2
+It is the last blocking kernel piece to conclude the viommu support
+roll out into qemu for iommufd which quite a lot of people have been
+working on for years now.
 
+IMHO there is nothing profound in the dmabuf patch, it was written by
+the expert in the new DMA API operation, and doesn't form any
+troublesome API contracts. It is also the same basic code as from the
+v1 in July just moved into dmabuf .c files instead of vfio .c files at
+Christoph's request.
+
+My hope is DRM folks will pick up the baton and continue to improve
+this to move other drivers away from dma_map_resource(). Simona told
+me people have wanted DMA API improvements for ages, now we have them,
+now is the time!
+
+Any remarks after the fact can be addressed incrementally.
+
+If there are no concrete technical remarks please take it. 6 months is
+long enough to wait for feedback.
+
+Thanks,
+Jason
