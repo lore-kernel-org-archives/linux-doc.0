@@ -1,186 +1,440 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AB12E11D7;
-	Tue, 18 Nov 2025 18:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3294926ED55;
+	Tue, 18 Nov 2025 18:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763490909; cv=none; b=XaQFT+ucWTxvx3YHnMPJD5TFT/rh5Phw9Ll9nlHA3rMsTdzNm8CeOeCVG2X0XuLqPmq2G/1RunlKG3q9JhqY7Tc7GCNjeO4Vn/sUrLOAtjodWDezFSu2StgNDBFp2LmO5KilhLtAMpZkc7Fpq1L/KEUE28FdnCZaI6dBNxwxT54=
+	t=1763491659; cv=none; b=gWpq0vrVcDaIG8ghXaHF/LuFplfSu9nxGdfMLPu63vSYLm4rJUQhhNyGbGD8kTTCd9AdMvc019k+nMM0WPAQ5nLbjMG8nkVsM8rOuIjy7sohlmF8rgVTasIms55OAsgHiUbc/GcWygbrwwethfwg1tfobNCq2QFXvNEPpAeQjzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763490909; c=relaxed/simple;
-	bh=kBdXhc+A+wT4FZp9yNpWWziklK2/ynCoRGDow6mU3dw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TQoX2StaDL7W/+pwn5bK0eC+CwLQtkNBFJXqI43rSe/i9AHTBwcYv/u+PxvwWtZxHMKtV6Jn9HM2Gpu8T4y+Pxfl8tiIS/X8DZK4I/qAx/g9dtH+z8MRQI1Y3yIXFPKIJPDQH9tiZ1Cg4zHIGstUNjTIYZlO0LuYfJrx4WkctBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aMp1R5tY; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763491659; c=relaxed/simple;
+	bh=dI557IzjBg+aoll10VbJtzW5WvO7r6LnJ1ovtwntK0Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sm/pjQBLguurRsteFtiY7KRwMlmqOf0XgvsUpRcOxLUdTFAVlRS2l0NdbwQnV9QKVhZK2rm33ZQKlC0P2hej1Ettnkybu3R8qal+FHlbUfhYw5byY/45NMremdLtHY6Il0I7oH1b4KCSPFwGe5AlLpSammPeG18QS4O03+G5Tfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com; spf=pass smtp.mailfrom=qti.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=j3dcFiCA; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qti.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aMp1R5tY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763490908; x=1795026908;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=kBdXhc+A+wT4FZp9yNpWWziklK2/ynCoRGDow6mU3dw=;
-  b=aMp1R5tYnZSf3mPIEBhicKwWFk0dQ7+EF2TEbWxpl0KNM4GPzv3TE7JE
-   dOsQ5YitfrrKOwsbq102llwuqdk8M/7iKUunPEor8Lfwy3KuoNOpF6aWx
-   vtxrNX5CLxXlAsX2r4Uay3aybvsVreqU5bJ6VR3dYGTLu94InRDdwyZz7
-   8FgPpki+QCrGnZ2R5oxetzhdUrOBwMuinhNQrQC8HWW9ank2fj97Jx4j9
-   M3MaJC2uPVcmd1nIjmix5v0D0UJJO0Eo+YkU4kSELBNXHBLioxQvjcbAl
-   PKvzTQ0QLT9eN8hsrAQacg81CptEikeU07eXSu1Vz+G5T2y8ZpZ0WIBdm
-   w==;
-X-CSE-ConnectionGUID: 0z5tgAobQaWMF+RjVAdhiw==
-X-CSE-MsgGUID: Uw6YAPTsS1uccyWX1hTiVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="76979999"
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="76979999"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 10:31:58 -0800
-X-CSE-ConnectionGUID: Gf76gajzT92lT0TA/wE9Sw==
-X-CSE-MsgGUID: jtqyMQBPQUiAnhI9pJqeKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="190088965"
-Received: from sohilmeh.sc.intel.com ([172.25.103.65])
-  by orviesa006.jf.intel.com with ESMTP; 18 Nov 2025 10:31:58 -0800
-From: Sohil Mehta <sohil.mehta@intel.com>
-To: x86@kernel.org,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A . Shutemov" <kas@kernel.org>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	Xin Li <xin@zytor.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Sean Christopherson <seanjc@google.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kees Cook <kees@kernel.org>,
-	Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: [PATCH v13 8/8] x86/cpu: Enable LASS during CPU initialization
-Date: Tue, 18 Nov 2025 10:29:10 -0800
-Message-ID: <20251118182911.2983253-9-sohil.mehta@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251118182911.2983253-1-sohil.mehta@intel.com>
-References: <20251118182911.2983253-1-sohil.mehta@intel.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="j3dcFiCA"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AIG58Of3412655;
+	Tue, 18 Nov 2025 18:47:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=6T5FxOXCUR6OFi3n2m/sEy
+	WvWB+9syMTR8R3bFDNJ1o=; b=j3dcFiCAYY+/VuRofrwRaNfo8tfWS2cxY/bZs1
+	/fBeZ2W92cU9p1KkW6UQngoHl/rYqTRDFy0LfRwGI2GeeaWRJ/bQUwtj0Spt+H21
+	KONqL8YRFY6uxczzY4yQtJ1UNJbAwZnZKEqwBCMaifozFy5kauOObEENDG5E8Edg
+	6ij7kiq9SlPk+Ds+pZFWfBQxro8Ji8KFdMEp/wBX2jNXKDrkr/ScAgjbxECGqTQB
+	/SqwkngSAjcjWqOv8+mrfDFjIC7uF80ka+a74iItlolb9pZM3v18E3uZzosARNBa
+	AYFaeyXa7eoHtnrV11Hpzn1o/5ThDXPEaphvdFFww5mhF0Dg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4agv0v0hsc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Nov 2025 18:47:13 +0000 (GMT)
+Received: from pps.filterd (NALASPPMTA01.qualcomm.com [127.0.0.1])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AIIlCsx030829;
+	Tue, 18 Nov 2025 18:47:12 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by NALASPPMTA01.qualcomm.com (PPS) with ESMTP id 4ags6133ye-1;
+	Tue, 18 Nov 2025 18:47:12 +0000
+Received: from NALASPPMTA01.qualcomm.com (NALASPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5AIIlCZP030824;
+	Tue, 18 Nov 2025 18:47:12 GMT
+Received: from hu-grahamr-lv.qualcomm.com (hu-grahamr-lv.qualcomm.com [10.81.26.100])
+	by NALASPPMTA01.qualcomm.com (PPS) with ESMTP id 5AIIlBjZ030815;
+	Tue, 18 Nov 2025 18:47:12 +0000
+From: Graham Roff <grahamr@qti.qualcomm.com>
+Date: Tue, 18 Nov 2025 10:46:51 -0800
+Subject: [PATCH v2] Support conditional deps using "depends on X if Y"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251118-kconfig_conditional_deps-v2-1-e360792edaed@qti.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIABq/HGkC/3WN0Q6CMAxFf4X02ZF1BBSf/A9DyBwbNCKDDYmG8
+ O9WEh996c1pek9XiDaQjXBOVgh2oUh+YFCHBEynh9YKaphBSZUjykLcjR8ctTVHQzNf675u7Bh
+ Fjg5NKTN3KjLg+hiso9euvlbMHcXZh/f+acHv9ic9/pcuKFBo55TCsrRG3i7TTOn01L3xj0fKA
+ 6pt2z760K+YxwAAAA==
+X-Change-ID: 20251106-kconfig_conditional_deps-51f1c903f863
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
+        Graham Roff <grahamr@qti.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763491631; l=12076;
+ i=grahamr@qti.qualcomm.com; s=20251107; h=from:subject:message-id;
+ bh=aDiiIghxUKNDDOKqWjgHEApkvh9pq/v9UORIIqWS4os=;
+ b=Bnyuq3D50/IfadcK5uuYo4tqn2jCbh4xIh6sYRUyOz4qljhJUesrtlIuRwbr1hZ+PQk3POfaI
+ fagZKkJyu6XAa70zvOe2In8r4QUhDmx7RC5bnn7Iw7FHU+KeQF5deRW
+X-Developer-Key: i=grahamr@qti.qualcomm.com; a=ed25519;
+ pk=p33S3GCPECgmJDBDEtJ/OWLHwPs1vGD4QhZS0FTdjBk=
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDE1MSBTYWx0ZWRfXzucbzeX6hQ2V
+ a7jBaGT8zp3H4JaNguxKTlJMz7SNZz5VZPjVShUhzVpMEdLQC2tVtOP5i8YDP7GSRewxmxqhXUj
+ tIKtrBJAD8uQhVnp6A9monTMu2d0oMGPnH6IY2V6Lb7TU8ufMTYTrJcuKNjFPHP6gSu+u6vIUw8
+ lzeMt2T9rnVMLf+oJCw//eSrCPQbi9jrO1IonBaixz/xkXNQRj22U3mOtkjyROas96L1iy85NGR
+ zp000Mc0PnyjhwNBuphNH4lKvidAMQkTgF8IXKxsJ1OQQICKa95ltl/vbARRbhKHeFTZYaBKofU
+ YQrD9HMN8Ei+iflzO5s5rC2RiLBWKsuFpesAn04snlMIoNXECI3IJ08n2SW/T8OsGyZS7iS3F7O
+ 4UZ301YKk5WyG2ZZd3uTWqy/SyH1RA==
+X-Authority-Analysis: v=2.4 cv=S8XUAYsP c=1 sm=1 tr=0 ts=691cbf32 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=07d9gI8wAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=dg4UtMH5AAAA:8
+ a=4rq6sG36krBe0J94lTMA:9 a=QEXdDO2ut3YA:10 a=e2CUPOnPG4QKp8I52DXD:22
+ a=byNfn09xH3PuSfgbYLsR:22 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: MVaLpumkf0e3KsXKqXcJzmyW4SGP8RaB
+X-Proofpoint-GUID: MVaLpumkf0e3KsXKqXcJzmyW4SGP8RaB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-18_02,2025-11-18_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 adultscore=0 suspectscore=0 bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 spamscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511180151
 
-Linear Address Space Separation (LASS) mitigates a class of side-channel
-attacks that rely on speculative access across the user/kernel boundary.
-Enable LASS along with similar security features if the platform
-supports it.
+From: Nicolas Pitre <nico@fluxnic.net>
 
-While at it, remove the comment above the SMAP/SMEP/UMIP/LASS setup
-instead of updating it, as the whole sequence is quite self-explanatory.
+Extend the "depends on" syntax to support conditional dependencies
+using "depends on X if Y". While functionally equivalent to "depends
+on X || (Y == n)", "depends on X if Y" is much more readable and
+makes the kconfig language uniform in supporting the "if <expr>"
+suffix.
+This also improves readability for "optional" dependencies, which
+are the subset of conditional dependencies where X is Y.
+Previously such optional dependencies had to be expressed as
+the counterintuitive "depends on X || !X", now this can be
+represented as "depends on X if X".
 
-Some EFI runtime and boot services may rely on 1:1 mappings in the lower
-half during early boot and even after SetVirtualAddressMap(). To avoid
-tripping LASS, the initial CR4 programming would need to be delayed
-until EFI has completely finished entering virtual mode (including
-efi_free_boot_services()). Also, LASS would need to be temporarily
-disabled while switching to efi_mm to avoid potential faults on stray
-runtime accesses.
+The change is implemented by converting the "X if Y" syntax into the
+"X || (Y == n)" syntax during "depends on" token processing.
 
-Similarly, legacy vsyscall page accesses are flagged by LASS resulting
-in a #GP (instead of a #PF). Without LASS, the #PF handler emulates the
-accesses and returns the appropriate values. Equivalent emulation
-support is required in the #GP handler with LASS enabled. In case of
-vsyscall XONLY (execute only) mode, the faulting address is readily
-available in the RIP which would make it easier to reuse the #PF
-emulation logic.
+Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
 
-For now, keep it simple and disable LASS if either of those are compiled
-in. Though not ideal, this makes it easier to start testing LASS support
-in some environments. In future, LASS support can easily be expanded to
-support EFI and legacy vsyscalls.
+[Graham Roff: Rewrote commit message and redid patch for latest kernel]
 
-Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-Reviewed-by: Dave Hansen <dave.hansen@linux.intel.com>
+Signed-off-by: Graham Roff <grahamr@qti.qualcomm.com>
 ---
-For reference, here are the relevant discussion links regarding EFI and
-legacy vsyscalls:
+This patch updates an earlier one that was not merged to work on 
+the latest kernel release.
 
-https://lore.kernel.org/lkml/CAMj1kXGyTo=4Va1PevMQyCauEKSutfSPo6je0Ps09TabhTe4zQ@mail.gmail.com/
-https://lore.kernel.org/lkml/bbb68600-eea9-45d8-90d1-bc4619186a4d@intel.com/
-https://lore.kernel.org/lkml/CAMj1kXFQaGaz37MNKXXjhUKy_mP-5teCDj80-hjUPHw4x+TKrA@mail.gmail.com/
-https://lore.kernel.org/lkml/d1b5698e-94ab-45a2-a472-4488895d55bb@intel.com/
+Link: https://lwn.net/ml/linux-kernel/nycvar.YSQ.7.76.2004231102480.2671@knanqh.ubzr/#t
 
-v12:
- - Disable LASS when EFI support is compiled in.
- - Pick up review tag.
+Support for this change has been expressed by a number of developers
+since the original patch was proposed back in 2020, and has recently
+also been raised as a patch to the Zephyr kconfig system.
+One specific use is when mapping the Bluetooth specification to Kconfig,
+as it explicitly provides dependencies between features as conditional
+on other features. Many other cases exist where the "slightly
+counterintuitive" (quoted from the Kconfig specification) expression 
+"depends on BAR || !BAR" has been used when a proper "if" condition 
+would be more readable. Some examples:
 
-v11:
- - Disable LASS if vsyscall emulation support is compiled in.
- - Drop Rick's review tag because of the new changes.
+arch/arm64/Kconfig:
+  depends on ARM64_64K_PAGES || !ARM64_VA_BITS_52 -->
+  depends on ARM64_64K_PAGES if ARM64_VA_BITS_52
+arch/mips/Kconfig:
+  depends on SYS_SUPPORTS_HOTPLUG_CPU || !SMP -->
+  depends on SYS_SUPPORTS_HOTPLUG_CPU if SMP
+arch/riscv/Kconfig:
+  depends on CC_HAS_MIN_FUNCTION_ALIGNMENT || !RISCV_ISA_C -->
+  depends on CC_HAS_MIN_FUNCTION_ALIGNMENT if RISCV_ISA_C
+arch/x86/Kconfig:
+  depends on X86_64 || !SPARSEMEM -->
+  depends on X86_64 if SPARSEMEM
+drivers/acpi/Kconfig:
+  depends on ACPI_WMI || !X86 -->
+  depends on ACPI_WMI if X86
+drivers/bluetooth/Kconfig:
+  depends on USB || !BT_HCIBTUSB_MTK
+  depends on USB if BT_HCIBTUSB_MTK
+mm/Kconfig:
+  depends on !ARM || CPU_CACHE_VIPT -->
+  depends on CPU_CACHE_VIPT if ARM
+kernel/Kconfig.locks:
+  depends on !PREEMPTION || ARCH_INLINE_READ_UNLOCK -->
+  depends on ARCH_INLINE_READ_UNLOCK if PREEMPTION
+
+The earlier patch discussion ended without a real conclusion and should
+be revisited now.
 ---
- arch/x86/kernel/cpu/common.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+Changes in v2:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v1: https://lore.kernel.org/r/20251107-kconfig_conditional_deps-v1-1-aff22199ec0b@qti.qualcomm.com
+---
+ Documentation/kbuild/kconfig-language.rst          | 22 +++++++++++++++---
+ scripts/kconfig/lkc.h                              |  2 +-
+ scripts/kconfig/menu.c                             | 12 +++++++++-
+ scripts/kconfig/parser.y                           |  6 ++---
+ scripts/kconfig/tests/conditional_dep/Kconfig      | 27 ++++++++++++++++++++++
+ scripts/kconfig/tests/conditional_dep/__init__.py  | 14 +++++++++++
+ .../kconfig/tests/conditional_dep/expected_config1 | 10 ++++++++
+ .../kconfig/tests/conditional_dep/expected_config2 |  8 +++++++
+ .../kconfig/tests/conditional_dep/expected_config3 | 10 ++++++++
+ scripts/kconfig/tests/conditional_dep/test_config1 |  4 ++++
+ scripts/kconfig/tests/conditional_dep/test_config2 |  7 ++++++
+ scripts/kconfig/tests/conditional_dep/test_config3 |  6 +++++
+ 12 files changed, 120 insertions(+), 8 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 02d97834a1d4..8afcbfd48a8a 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -405,6 +405,28 @@ static __always_inline void setup_umip(struct cpuinfo_x86 *c)
- 	cr4_clear_bits(X86_CR4_UMIP);
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index abce88f15d7c..9ff3e530b2b4 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -118,7 +118,7 @@ applicable everywhere (see syntax).
+   This is a shorthand notation for a type definition plus a value.
+   Optionally dependencies for this default value can be added with "if".
+ 
+-- dependencies: "depends on" <expr>
++- dependencies: "depends on" <expr> ["if" <expr>]
+ 
+   This defines a dependency for this menu entry. If multiple
+   dependencies are defined, they are connected with '&&'. Dependencies
+@@ -134,6 +134,16 @@ applicable everywhere (see syntax).
+ 	bool "foo"
+ 	default y
+ 
++  The dependency definition itself may be conditional by appending "if"
++  followed by an expression. For example::
++
++    config FOO
++	tristate
++	depends on BAR if BAZ
++
++  meaning that FOO is constrained by the value of BAR only if BAZ is
++  also set.
++
+ - reverse dependencies: "select" <symbol> ["if" <expr>]
+ 
+   While normal dependencies reduce the upper limit of a symbol (see
+@@ -602,8 +612,14 @@ Some drivers are able to optionally use a feature from another module
+ or build cleanly with that module disabled, but cause a link failure
+ when trying to use that loadable module from a built-in driver.
+ 
+-The most common way to express this optional dependency in Kconfig logic
+-uses the slightly counterintuitive::
++The recommended way to express this optional dependency in Kconfig logic
++uses the conditional form::
++
++  config FOO
++	tristate "Support for foo hardware"
++	depends on BAR if BAR
++
++This slightly counterintuitive style is also widely used::
+ 
+   config FOO
+ 	tristate "Support for foo hardware"
+diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
+index 56548efc14d7..798985961215 100644
+--- a/scripts/kconfig/lkc.h
++++ b/scripts/kconfig/lkc.h
+@@ -82,7 +82,7 @@ void menu_warn(const struct menu *menu, const char *fmt, ...);
+ struct menu *menu_add_menu(void);
+ void menu_end_menu(void);
+ void menu_add_entry(struct symbol *sym, enum menu_type type);
+-void menu_add_dep(struct expr *dep);
++void menu_add_dep(struct expr *dep, struct expr *cond);
+ void menu_add_visibility(struct expr *dep);
+ struct property *menu_add_prompt(enum prop_type type, const char *prompt,
+ 				 struct expr *dep);
+diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+index 0f1a6513987c..b2d8d4e11e07 100644
+--- a/scripts/kconfig/menu.c
++++ b/scripts/kconfig/menu.c
+@@ -127,8 +127,18 @@ static struct expr *rewrite_m(struct expr *e)
+ 	return e;
  }
  
-+static __always_inline void setup_lass(struct cpuinfo_x86 *c)
-+{
-+	if (!cpu_feature_enabled(X86_FEATURE_LASS))
-+		return;
-+
-+	/*
-+	 * Legacy vsyscall page access causes a #GP when LASS is active.
-+	 * Disable LASS because the #GP handler doesn't support vsyscall
-+	 * emulation.
-+	 *
-+	 * Also disable LASS when running under EFI, as some runtime and
-+	 * boot services rely on 1:1 mappings in the lower half.
-+	 */
-+	if (IS_ENABLED(CONFIG_X86_VSYSCALL_EMULATION) ||
-+	    IS_ENABLED(CONFIG_EFI)) {
-+		setup_clear_cpu_cap(X86_FEATURE_LASS);
-+		return;
+-void menu_add_dep(struct expr *dep)
++void menu_add_dep(struct expr *dep, struct expr *cond)
+ {
++	if (cond) {
++		/*
++		 * We have "depends on X if Y" and we want:
++		 *	Y != n --> X
++		 *	Y == n --> y
++		 * That simplifies to: (X || (Y == n))
++		 */
++		dep = expr_alloc_or(dep,
++				expr_trans_compare(cond, E_EQUAL, &symbol_no));
 +	}
-+
-+	cr4_set_bits(X86_CR4_LASS);
-+}
-+
- /* These bits should not change their value after CPU init is finished. */
- static const unsigned long cr4_pinned_mask = X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP |
- 					     X86_CR4_FSGSBASE | X86_CR4_CET | X86_CR4_FRED;
-@@ -2015,10 +2037,10 @@ static void identify_cpu(struct cpuinfo_x86 *c)
- 	/* Disable the PN if appropriate */
- 	squash_the_stupid_serial_number(c);
+ 	current_entry->dep = expr_alloc_and(current_entry->dep, dep);
+ }
  
--	/* Set up SMEP/SMAP/UMIP */
- 	setup_smep(c);
- 	setup_smap(c);
- 	setup_umip(c);
-+	setup_lass(c);
+diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
+index 49b79dde1725..6d1bbee38f5d 100644
+--- a/scripts/kconfig/parser.y
++++ b/scripts/kconfig/parser.y
+@@ -323,7 +323,7 @@ if_entry: T_IF expr T_EOL
+ {
+ 	printd(DEBUG_PARSE, "%s:%d:if\n", cur_filename, cur_lineno);
+ 	menu_add_entry(NULL, M_IF);
+-	menu_add_dep($2);
++	menu_add_dep($2, NULL);
+ 	$$ = menu_add_menu();
+ };
  
- 	/* Enable FSGSBASE instructions if available. */
- 	if (cpu_has(c, X86_FEATURE_FSGSBASE)) {
+@@ -422,9 +422,9 @@ help: help_start T_HELPTEXT
+ 
+ /* depends option */
+ 
+-depends: T_DEPENDS T_ON expr T_EOL
++depends: T_DEPENDS T_ON expr if_expr T_EOL
+ {
+-	menu_add_dep($3);
++	menu_add_dep($3, $4);
+ 	printd(DEBUG_PARSE, "%s:%d:depends on\n", cur_filename, cur_lineno);
+ };
+ 
+diff --git a/scripts/kconfig/tests/conditional_dep/Kconfig b/scripts/kconfig/tests/conditional_dep/Kconfig
+new file mode 100644
+index 000000000000..ea2bdef9016c
+--- /dev/null
++++ b/scripts/kconfig/tests/conditional_dep/Kconfig
+@@ -0,0 +1,27 @@
++# SPDX-License-Identifier: GPL-2.0
++# Test Kconfig file for conditional dependencies.
++
++config FOO
++    bool "FOO symbol"
++
++config BAR
++    bool "BAR symbol"
++
++config TEST_BASIC
++    bool "Test basic conditional dependency"
++    depends on FOO if BAR
++    default y
++
++config TEST_COMPLEX
++    bool "Test complex conditional dependency"
++    depends on (FOO && BAR) if (FOO || BAR)
++    default y
++
++config BAZ
++    tristate "BAZ symbol"
++
++config TEST_OPTIONAL
++    tristate "Test simple optional dependency"
++    depends on BAZ if BAZ
++    default y
++
+diff --git a/scripts/kconfig/tests/conditional_dep/__init__.py b/scripts/kconfig/tests/conditional_dep/__init__.py
+new file mode 100644
+index 000000000000..ab16df6487ec
+--- /dev/null
++++ b/scripts/kconfig/tests/conditional_dep/__init__.py
+@@ -0,0 +1,14 @@
++# SPDX-License-Identifier: GPL-2.0
++"""
++Correctly handle conditional dependencies.
++"""
++
++def test(conf):
++    assert conf.oldconfig('test_config1') == 0
++    assert conf.config_matches('expected_config1')
++
++    assert conf.oldconfig('test_config2') == 0
++    assert conf.config_matches('expected_config2')
++
++    assert conf.oldconfig('test_config3') == 0
++    assert conf.config_matches('expected_config3')
+diff --git a/scripts/kconfig/tests/conditional_dep/expected_config1 b/scripts/kconfig/tests/conditional_dep/expected_config1
+new file mode 100644
+index 000000000000..2ad02aa66b06
+--- /dev/null
++++ b/scripts/kconfig/tests/conditional_dep/expected_config1
+@@ -0,0 +1,10 @@
++#
++# Automatically generated file; DO NOT EDIT.
++# Main menu
++#
++CONFIG_FOO=y
++CONFIG_BAR=y
++CONFIG_TEST_BASIC=y
++CONFIG_TEST_COMPLEX=y
++CONFIG_BAZ=y
++CONFIG_TEST_OPTIONAL=y
+diff --git a/scripts/kconfig/tests/conditional_dep/expected_config2 b/scripts/kconfig/tests/conditional_dep/expected_config2
+new file mode 100644
+index 000000000000..b4b19cf50730
+--- /dev/null
++++ b/scripts/kconfig/tests/conditional_dep/expected_config2
+@@ -0,0 +1,8 @@
++#
++# Automatically generated file; DO NOT EDIT.
++# Main menu
++#
++# CONFIG_FOO is not set
++CONFIG_BAR=y
++CONFIG_BAZ=y
++CONFIG_TEST_OPTIONAL=y
+diff --git a/scripts/kconfig/tests/conditional_dep/expected_config3 b/scripts/kconfig/tests/conditional_dep/expected_config3
+new file mode 100644
+index 000000000000..c788f6c710e1
+--- /dev/null
++++ b/scripts/kconfig/tests/conditional_dep/expected_config3
+@@ -0,0 +1,10 @@
++#
++# Automatically generated file; DO NOT EDIT.
++# Main menu
++#
++# CONFIG_FOO is not set
++# CONFIG_BAR is not set
++CONFIG_TEST_BASIC=y
++CONFIG_TEST_COMPLEX=y
++# CONFIG_BAZ is not set
++CONFIG_TEST_OPTIONAL=y
+diff --git a/scripts/kconfig/tests/conditional_dep/test_config1 b/scripts/kconfig/tests/conditional_dep/test_config1
+new file mode 100644
+index 000000000000..5cc1ecedcba3
+--- /dev/null
++++ b/scripts/kconfig/tests/conditional_dep/test_config1
+@@ -0,0 +1,4 @@
++# Basic check that everything can be configured if selected.
++CONFIG_FOO=y
++CONFIG_BAR=y
++CONFIG_BAZ=m
+diff --git a/scripts/kconfig/tests/conditional_dep/test_config2 b/scripts/kconfig/tests/conditional_dep/test_config2
+new file mode 100644
+index 000000000000..1175c5307308
+--- /dev/null
++++ b/scripts/kconfig/tests/conditional_dep/test_config2
+@@ -0,0 +1,7 @@
++# If FOO is not selected, then TEST_BASIC should fail the conditional
++# dependency since BAR is set.
++# TEST_COMPLEX will fail dependency as it depends on both FOO and BAR
++# if either of those is selected.
++CONFIG_FOO=n
++CONFIG_BAR=y
++CONFIG_BAZ=y
+diff --git a/scripts/kconfig/tests/conditional_dep/test_config3 b/scripts/kconfig/tests/conditional_dep/test_config3
+new file mode 100644
+index 000000000000..3815ad744e89
+--- /dev/null
++++ b/scripts/kconfig/tests/conditional_dep/test_config3
+@@ -0,0 +1,6 @@
++# If FOO is not selected, but BAR is also not selected, then TEST_BASIC 
++# should pass since the dependency on FOO is conditional on BAR.
++# TEST_COMPLEX should be also set since neither FOO nor BAR are selected
++# so it has no dependencies.
++CONFIG_FOO=n
++CONFIG_BAR=n
+
+---
+base-commit: a1388fcb52fcad3e0b06e2cdd0ed757a82a5be30
+change-id: 20251106-kconfig_conditional_deps-51f1c903f863
+
+Best regards,
 -- 
-2.43.0
+Graham Roff <grahamr@qti.qualcomm.com>
 
