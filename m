@@ -1,81 +1,80 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAB336999C;
-	Tue, 18 Nov 2025 16:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5073002C6;
+	Tue, 18 Nov 2025 16:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763484288; cv=none; b=KO9lU/DhreZ52W8udRG784EbzzYTZ4+5pWI5fxv/HsVX9DwiI+Hy99xGvUaxWcNccNaPufc1mu1UevWA+AbLtp99LJhEtBBQLw3K5fSzRZqlmLA/lYMUN5bZXsE2+BJioN3aKBwkJE+YzV+78b/S32NFpM/EahgZ667J2+WFFI4=
+	t=1763484556; cv=none; b=j5+m9aram5tsjIaIo8oEpvznrQ06Ila5I8e3rqiZ/iVqxqoRzlHPxt80vEpB4zh+syTgcbgVBk7YZ4N73FfRIa2F9ECD8tWVLgrTA/0msZZ223Syl5n+aSicvyYuUiFjCdB3Vkv7bQeqILrIxgilZ4maecmGwDcvcCm9Ts0wqYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763484288; c=relaxed/simple;
-	bh=eeiand6FsHJ9QNtj/P3A/ZWqzz6MH5WBDsv7062M3O8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HeFvfPbaJaLRyv76E6vFraizk0AOGeM+ReeGSJ1nfaYLmbuBbadcdbW0d8OKRhScpfiyWDOo5QMQHGmFk1M9rvyM8qr3lFFoCDgRvaJTTAObrWyzh9ja0C4v09I8rndAOjNrErOiZPM3sLI5DFm9vsU5UriSHwzUkuvSqqQIbhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hg6aYFQ5; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1763484556; c=relaxed/simple;
+	bh=QSba0GChagr/PZU9fAUadbaWeTmnY6lPHivMegNemIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kw990mSw/P/MVYqz3Q4s/Zvoo8yNar9jrvTC2/zvYzffIRO/0bmoDfOI0Fa7ownooRAV/JVVKy4cB6zW3a5wIRX91WkEVkL1Ifa4LRDauNw2kTHr5ece1IeMzt9HVH/afGGsTL87zTI40CYSL0XGLPvq8KKOFVSmMl0WzCrIwyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N+1DB5Yr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hg6aYFQ5"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1ABA840C3B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1763484286; bh=H/22w94yDaxoRrCKuiOegxO7bzTy3ofHOU/Y0wcrf/Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hg6aYFQ5HnMpiqtLXelCJef40iswqaYMLF2ENueV0mGbkrXh+qyMF2sVLvhQrtAnA
-	 NKQ8zIkWro/84YbNX0l+halqAM5M19SnCYn8FR8wscKdmHL41Rxi1WQQAcL/4MPgW0
-	 lbrFENZOMdfIvaCspV3hWKp8/YzB1UToLQWjXzy3nqR4LQGERgw15ZIUGj5hk9gHpg
-	 1tOHKeOEh56q3nHRusiH5l8TacUO2m1RUbFIK8vldNFkdyoDQ/1YvpxTv63SA73THe
-	 XumXHR9jLIxJTMeGK3cbbkMZscZ6LbQNGKkRNr83RgjP/PUSzeAtiVb1ohtGCK8UYp
-	 AMC64TtQWAYuA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1ABA840C3B;
-	Tue, 18 Nov 2025 16:44:46 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Convert get_feat to Python
-In-Reply-To: <20251111231232.3955f1fb@foz.lan>
-References: <cover.1762877066.git.mchehab+huawei@kernel.org>
- <87a50swl6d.fsf@trenco.lwn.net> <20251111231232.3955f1fb@foz.lan>
-Date: Tue, 18 Nov 2025 09:44:45 -0700
-Message-ID: <87h5ur47eq.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N+1DB5Yr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1852BC4CEFB;
+	Tue, 18 Nov 2025 16:49:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763484555;
+	bh=QSba0GChagr/PZU9fAUadbaWeTmnY6lPHivMegNemIA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N+1DB5Yr+qICAxQK28yuurTxo2AhMEHibqOIn+3fXJWz5C+rXT7kqH8LV2KpEoZkI
+	 mwFt6bfisub8MIDF/s0pGx6IWpX7juruBtlD3CcdEPvOK6nNCjk7SwwgJFHGZVbmoa
+	 6MRy70biO1bQ5woauhntvv8EDFCF21Dpp+h1qz3lrChLQjYte2x3wKIxnlTMS0jN94
+	 9BeiLc/TaYW5oPTXoLN5ejm4RKtw2gWvSEzicDOFw416y5CAUBWojnlcBre0HZMT69
+	 kiLMmVw4i3H50moLer0t6F0Mk229tnNZh1WSD3njCh12h904S/+zzrawbKcZLz894D
+	 GvY8N71RkcqNA==
+Date: Tue, 18 Nov 2025 08:49:13 -0800
+From: Kees Cook <kees@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
+	josh@joshtriplett.org, konstantin@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, rostedt@goodmis.org,
+	workflows@vger.kernel.org, joe@perches.com, rdunlap@infradead.org
+Subject: Re: [PATCH v3] README: restructure with role-based documentation and
+ guidelines
+Message-ID: <202511180848.8A660DDB@keescook>
+References: <20251117213801.4077535-1-sashal@kernel.org>
+ <87wm3n47u6.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87wm3n47u6.fsf@trenco.lwn.net>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Tue, Nov 18, 2025 at 09:35:29AM -0700, Jonathan Corbet wrote:
+> That said, I have one quibble :)
+> 
+> > +Examples of Proper Attribution:
+> > +
+> > +Good examples:
+> > +  Assisted-by: AI-Tool:model-version-1.0 coccinelle
+> > +  Assisted-by: AI-Assistant:v2.5.0
+> > +  Assisted-by: Code-Helper:model-2024-04-09 sparse smatch
+> > +  Assisted-by: ML-Agent:version-2024-11
+> > +
+> > +Bad examples (DO NOT USE):
+> > +  Assisted-by: AI                          # Too vague
+> > +  Assisted-by: AI-Tool coccinelle git      # Don't list basic tools
+> > +  Signed-off-by: AI Assistant <ai@...>     # NEVER - AI cannot sign off
+> 
+> I don't think this belongs here - we don't have examples of good SOB
+> lines - or of anything else.  What this needs, instead, is a link to
+> Dave's tools document once that goes in.
+> 
+> (We also, in truth, do not yet have a consensus on what the attribution
+> tags should be, and here isn't the place to try to form one.)
 
-> Em Tue, 11 Nov 2025 10:09:30 -0700
-> Jonathan Corbet <corbet@lwn.net> escreveu:
->
->> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
->> 
->> > Hi Jon,
->> >
->> > That's the final series to complete the migration of documentation
->> > build: it converts get_feat from Perl to Python.
->> >
->> > With that, no Sphinx in-kernel extensions use fork anymore to call
->> > ancillary scripts: everything is now importing Python methods
->> > directly from the libraries.  
->> 
->> This, of course, conflicts with my library move ...  Maybe we review
->> that and I go first this time? :)
->
-> Sure, go ahead with the library move, while this is reviewed. 
->
-> This one is trivial enough to be rebased on the top of it.
+Agreed -- I love the new sections, but we need to drop the Assisted-by
+portion until we've had the in-person discussions at Maintainers/LPC.
 
-That time has come ... we should still be able to get this one into 6.19
-if all goes well.
+-Kees
 
-Thanks,
-
-jon
+-- 
+Kees Cook
