@@ -1,232 +1,273 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC952770FE
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 01:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FF9328B4C
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 02:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763430712; cv=none; b=DfaQDxnWNnaVaN6xTpAnVc8hYmpmPYSnWmdbxRMG8gTs4FP5gzzhcxtPG53YocQuwpM95p2GQFLa3O4araUXJ+uxlzQKbdbdzdFBt8oPNZrjwlJMqIsRkfgGI7FoF5r2dJfDTwmP36QAxLOMRr5ugpIk343K3wrkcARd+f1yfSM=
+	t=1763431243; cv=none; b=utgQ9P5ImbayB9HaLkoQzHe+YaqHtzizrnre4K+CAGkeUwQ5sC8kCHTUHDwVTH7v6w4tYKRPGSy2JQWnmVBQSLuIFVgT6YuQEMj9HZfJl3HuHOh6rbsoj6cQC4QWGerfeOLoRReaHRbP5ptbQClsdowAYXKrznB+U2SB07SRssU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763430712; c=relaxed/simple;
-	bh=gtkyDVFsA0CgKUWzy7x4VX7CFszA/g9L4t/QPg5JOv8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R78R9+xAEQfybqZR/DQdOqZ1aOxgQq42f1KDMWtIkN3V+rSpWt0vZTb7tdtGc1tRlH9rdk2wrHJQ/FhjNQgBpqxGW9LvM/kjbm9n3xC6p+XULcwF6Ow6NyUEV2cJKxhRyO0sMmcYC+vbU+4qNht68oyOvsWOcDIh13/haCOPXLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Gdgjtwb8; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1763431243; c=relaxed/simple;
+	bh=kaylDlwQl1VqEc/tlQkL21uVVJ3iIahDpahKHEmXXhk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WMqN4BENXtGCrJW1v2ltdL4/PXLyNAscHGOYdG7fTEIIhUkkSBJ+5FeZtRivO0KPH0wFURJsQLZCgSvpQoOUtTlRlwvLkr0hcSFj8kPElE60RI7M8pdWivV4SCrg6+XxtI22SKJqA0ymRLim2V3kJZ9l/zsL8BqvHnszAqnOptM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gzr1Exz2; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Gdgjtwb8"
-Message-ID: <1f5870b0-211e-40f7-836d-7118654ce3fd@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1763430706;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GgdFyYdjLWX26O/Dv7raGq/r+Y4ZFUsIweZ/+DGKd1Q=;
-	b=Gdgjtwb897ZkvvkBDuzXjoQkISu7/ug0Wxgc3LJr5AepSb73HCsAhxtgXOTBxBDlcr33Op
-	s6/Bw7X+cG1xBfY/uYjLhVqlOZEXOqQTzrucIYNRSlDOaoY6ZGGnHlAcu+C4apw+jYSkaE
-	ABiXxyt7Yn+BzE/A1k9vsD7OaDOZ1uE=
-Date: Tue, 18 Nov 2025 09:51:36 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gzr1Exz2"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b73545723ebso889575866b.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 18:00:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763431237; x=1764036037; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PjtZZ70/Qu6YbmmA5LKoN6Z9gQ7S03ZL5L4ASTauTjE=;
+        b=Gzr1Exz2UtCbx9H8bYllUE7F8FfsmpCgPHLF3mH8yNdxr4DqsLcSrrh8ZZFlqzWia5
+         TqBH56SKYbDyYwN5DF1HaRggjz5d7baptmy0NZMDlUtyf5prJ8DD9zZssUnw/SvXIjPn
+         jiQSlv/hSF09d7ycR9rRAxojY8gUvBofMOPSslLEYQ2LmzXS98s3csbtsbp6ANPdiLDI
+         0B+3RDBBPddzP+Qoj8Fv79+TsC2CR4tR9tGIjYuEbtcOXKr53QhsoFfGNhN7mDrcAuGv
+         hTYUUUrdXwRIQoo+reliu54M3GAQDH37YuO1mSZUq3R/AVxiWXBhGX1Kg4hHPrf+MX28
+         dr6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763431237; x=1764036037;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PjtZZ70/Qu6YbmmA5LKoN6Z9gQ7S03ZL5L4ASTauTjE=;
+        b=qxlx99Jt6CneQOFyRQ+AU4Txfz5l49CNIRqhUSZWiY47HP7ur8YKv8XaKlnjDkuNeS
+         3dM269hFmkj5zLykl7rrvIF90GskRxOXp6rgNRhjGUZ5qajsmCuZOd8pbE1UNa16/VeX
+         ipoucVTjdBzMMIfI9t/FhceI+LH3BQ+/WIG4/G2nXbll9qWK2h1Ts55NVDFeOzz39394
+         TMfWwpcOm5sKoXN3kIA+tCligi0O6el6i9qWdkWV4VDCASWmXkv95n4WtUbvwW3jImtm
+         C73yEMvS8NpbUHYL2i9PpTQhop5vq08A9fzenrgu2Y7qeNO8ndDOuGQL0IBIV8eNe19U
+         mWeg==
+X-Forwarded-Encrypted: i=1; AJvYcCWWYinKkSuelQkp7BFB5FGz1HEtYhGjo4cnAeDHXLhf0JXlDDDjFBr+Xx0u3M3935ecf1D95/ImdRE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLUk2IgRK6LQJ4xJ02tMa319kbkba3mRYTv7XO5/O+eU7sDj8+
+	QdHNanBYgUUrFAFR97BVOLVV9dbMbkskIVYdZYbXAS+Hh4vqj6ENhaOm
+X-Gm-Gg: ASbGnct6T5piDLsVcPkTgeMLTeKnYeUrhNvUlZMx8pEeIZCfvN+wReGtfKIF6CE0fXP
+	VCoWLfukPmBDeHZTxtrNwZRuQP2Xisqs21fx1ahmTCHXIHIEw04uHqpeXkba+Y77Z5oPhbiffBx
+	1UWxNvayYW1gAmt5d63Vdq9a7BrZMHu5s4Whue7GZDNCxNE/05fPKVhUAM4AZQIv6Nm7LdOJrKM
+	mslZ6RHHKF4+lVEjSVDqT0XNXYFhMlhh7PFlFWrhZgJmCSlivMf0rxGJtWRB8qOR4VQSs5xfB8h
+	vUaG0S/HL6a1JNsCorDoDayRg2TSW9DjfshV2rN+YjXGifOXXtRBw/T4gMzf8CLtLJ+XmqbQM8g
+	svuXy/iyCKGzcwT6/yJGs5ScdlpR27uDXTvc4OxpxzmslPiZPaXHzdNgHbPqrTOxQ08AAOc21R8
+	FuDoAG+fmtlPivkQ==
+X-Google-Smtp-Source: AGHT+IEIbHsmAR4qI1U7kAkJFbuJ0gMBeLqnpNcnfrzyBKIrXirysQ6AKJVPv8sKWVks0bFN76WI/A==
+X-Received: by 2002:a17:907:d18:b0:b73:9b4a:5c02 with SMTP id a640c23a62f3a-b739b4a5cb6mr723067766b.49.1763431237209;
+        Mon, 17 Nov 2025 18:00:37 -0800 (PST)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fd7f37bsm1199178666b.35.2025.11.17.18.00.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 17 Nov 2025 18:00:35 -0800 (PST)
+Date: Tue, 18 Nov 2025 02:00:34 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Nico Pache <npache@redhat.com>
+Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, david@redhat.com, ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
+	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+	baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+	wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+	sunnanyong@huawei.com, vishal.moola@gmail.com,
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+	kas@kernel.org, aarcange@redhat.com, raquini@redhat.com,
+	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+	cl@gentwo.org, jglisse@google.com, surenb@google.com,
+	zokeefe@google.com, hannes@cmpxchg.org, rientjes@google.com,
+	mhocko@suse.com, rdunlap@infradead.org, hughd@google.com,
+	lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org,
+	jannh@google.com, pfalcato@suse.de
+Subject: Re: [PATCH v12 mm-new 13/15] khugepaged: avoid unnecessary mTHP
+ collapse attempts
+Message-ID: <20251118020034.rdgisvkqs53lwabz@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20251022183717.70829-1-npache@redhat.com>
+ <20251022183717.70829-14-npache@redhat.com>
+ <20251109024013.fzt7xxpmxwi75xgr@master>
+ <CAA1CXcA9zaGqLPHnJWH=fKPUjb02dV+rKgfmsRZOGdeukiC8eg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 2/3] docs/zh_CN: Add blk-mq.rst translation
-To: ke zijie <kezijie@leap-io-kernel.com>, alexs@kernel.org
-Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- wangyuli@aosc.io, doubled@leap-io-kernel.com
-References: <cover.1763366835.git.kezijie@leap-io-kernel.com>
- <c7a80affd45be8c11a236472977cdffab16e895a.1763366835.git.kezijie@leap-io-kernel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <c7a80affd45be8c11a236472977cdffab16e895a.1763366835.git.kezijie@leap-io-kernel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <CAA1CXcA9zaGqLPHnJWH=fKPUjb02dV+rKgfmsRZOGdeukiC8eg@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-
-在 2025/11/17 16:27, ke zijie 写道:
-> Translate .../block/blk-mq.rst into Chinese.
-> Add blk-mq into .../block/index.rst.
+On Mon, Nov 17, 2025 at 11:16:53AM -0700, Nico Pache wrote:
+>On Sat, Nov 8, 2025 at 7:40 PM Wei Yang <richard.weiyang@gmail.com> wrote:
+>>
+>> On Wed, Oct 22, 2025 at 12:37:15PM -0600, Nico Pache wrote:
+>> >There are cases where, if an attempted collapse fails, all subsequent
+>> >orders are guaranteed to also fail. Avoid these collapse attempts by
+>> >bailing out early.
+>> >
+>> >Signed-off-by: Nico Pache <npache@redhat.com>
+>> >---
+>> > mm/khugepaged.c | 31 ++++++++++++++++++++++++++++++-
+>> > 1 file changed, 30 insertions(+), 1 deletion(-)
+>> >
+>> >diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>> >index e2319bfd0065..54f5c7888e46 100644
+>> >--- a/mm/khugepaged.c
+>> >+++ b/mm/khugepaged.c
+>> >@@ -1431,10 +1431,39 @@ static int collapse_scan_bitmap(struct mm_struct *mm, unsigned long address,
+>> >                       ret = collapse_huge_page(mm, address, referenced,
+>> >                                                unmapped, cc, mmap_locked,
+>> >                                                order, offset);
+>> >-                      if (ret == SCAN_SUCCEED) {
+>> >+
+>> >+                      /*
+>> >+                       * Analyze failure reason to determine next action:
+>> >+                       * - goto next_order: try smaller orders in same region
+>> >+                       * - continue: try other regions at same order
+>> >+                       * - break: stop all attempts (system-wide failure)
+>> >+                       */
+>> >+                      switch (ret) {
+>> >+                      /* Cases were we should continue to the next region */
+>> >+                      case SCAN_SUCCEED:
+>> >                               collapsed += 1UL << order;
+>> >+                              fallthrough;
+>> >+                      case SCAN_PTE_MAPPED_HUGEPAGE:
+>> >                               continue;
+>> >+                      /* Cases were lower orders might still succeed */
+>> >+                      case SCAN_LACK_REFERENCED_PAGE:
+>> >+                      case SCAN_EXCEED_NONE_PTE:
+>> >+                      case SCAN_EXCEED_SWAP_PTE:
+>> >+                      case SCAN_EXCEED_SHARED_PTE:
+>> >+                      case SCAN_PAGE_LOCK:
+>> >+                      case SCAN_PAGE_COUNT:
+>> >+                      case SCAN_PAGE_LRU:
+>> >+                      case SCAN_PAGE_NULL:
+>> >+                      case SCAN_DEL_PAGE_LRU:
+>> >+                      case SCAN_PTE_NON_PRESENT:
+>> >+                      case SCAN_PTE_UFFD_WP:
+>> >+                      case SCAN_ALLOC_HUGE_PAGE_FAIL:
+>> >+                              goto next_order;
+>> >+                      /* All other cases should stop collapse attempts */
+>> >+                      default:
+>> >+                              break;
+>> >                       }
+>> >+                      break;
+>>
+>> One question here:
 >
-> Update the translation through commit 41bd33df4e18.
-> ("docs: block: blk-mq.rst: correct places -> place")
+>Hi Wei Yang,
 >
-> Reviewed-by: WangYuli <wangyl5933@chinaunicom.cn>
-> Signed-off-by: ke zijie <kezijie@leap-io-kernel.com>
-> ---
->   .../translations/zh_CN/block/blk-mq.rst       | 130 ++++++++++++++++++
->   .../translations/zh_CN/block/index.rst        |   3 +-
->   2 files changed, 132 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/block/blk-mq.rst
+>Sorry I forgot to get back to this email.
 >
-> diff --git a/Documentation/translations/zh_CN/block/blk-mq.rst b/Documentation/translations/zh_CN/block/blk-mq.rst
-> new file mode 100644
-> index 000000000000..db2d6eb0db8b
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/block/blk-mq.rst
-> @@ -0,0 +1,130 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/block/blk-mq.rst
-> +
-> +:翻译:
-> +
-> + 柯子杰 kezijie <kezijie@leap-io-kernel.com>
-> +
-> +:校译:
-> +
-> +
-> +
-> +================================================
-> +多队列块设备 I/O 排队机制 (blk-mq)
-> +================================================
-> +
-> +多队列块设备 I/O 排队机制提供了一组 API，使高速存储设备能够同时在多个队列中
-> +处理并发的 I/O 请求并将其提交到块设备，从而实现极高的每秒输入/输出操作次数
-> +(IOPS)，充分发挥现代存储设备的并行能力。
-> +
-> +介绍
-> +====
-> +
-> +背景
-> +----
-> +
-> +磁盘从 Linux 内核开发初期就已成为事实上的标准。块 I/O 子系统的目标是尽可能
-> +为此类设备提供最佳性能，因为它们在进行随机访问时代价极高，性能瓶颈主要在机械
-> +运动部件上，其速度远低于存储栈中其他任何层。其中一个软件优化例子是根据硬盘磁
-> +头当前的位置重新排序读/写请求。
-> +
-> +然而，随着固态硬盘和非易失性存储的发展，它们没有机械部件，也不存在随机访问代
-> +码，并能够进行高速并行访问，存储栈的瓶颈从存储设备转移到了操作系统。为了充分
-> +利用这些设备设计中的并行性，引入了多队列机制。
-> +
-> +原来的设计只有一个队列来存储块设备 I/O 请求，并且只使用一个锁。由于缓存中的
-> +脏数据和多处理器共享单锁的瓶颈，这种设计在 SMP 系统中扩展性不佳。当不同进程
-> +（或同一进程在不同 CPU 上）同时执行块设备 I/O 时，该单队列模型还会出现严重
-> +的拥塞问题。为了解决这些问题，blk-mq API 引入了多个队列，每个队列在本地 CPU
-> +上拥有独立的入口点，从而消除了对全局锁的需求。关于其具体工作机制的更深入说明，
-> +请参见下一节（ `工作原理`_ ）。
-> +
-> +工作原理
-> +--------
-> +
-> +当用户空间执行对块设备的 I/O（例如读写文件）时，blk-mq 便会介入：它将存储和
-> +管理发送到块设备的 I/O 请求，充当用户空间（文件系统，如果存在的话）与块设备驱
-> +动之间的中间层。
-> +
-> +blk-mq 由两组队列组成：软件暂存队列和硬件派发队列。当请求到达块层时，它会尝
-> +试最短路径：直接发送到硬件队列。然而，有两种情况下可能不会这样做：如果该层有
-> +IO 调度器或者是希望合并请求。在这两种情况下，请求将被发送到软件队列。
-> +
-> +随后，在软件队列中的请求被处理后，请求会被放置到硬件队列。硬件队列是第二阶段
-> +的队列，硬件可以直接访问并处理这些请求。然而，如果硬件没有足够的资源来接受更
-> +多请求，blk-mq 会将请求放置在临时队列中，待硬件资源充足时再发送。
-> +
-> +软件暂存队列
-> +~~~~~~~~~~~~
-> +
-> +在这些请求未直接发送到驱动时，块设备 I/O 子系统会将请求添加到软件暂存队列中
-> +（由 struct blk_mq_ctx 表示）。一个请求可能包含一个或多个 BIO。它们通过 struct bio
-> +数据结构到达块层。块层随后会基于这些 BIO 构建新的结构体 struct request，用于
-> +与设备驱动通信。每个队列都有自己的锁，队列数量由每个 CPU 和每个 node 为基础
-> +来决定。
-> +
-> +暂存队列可用于合并相邻扇区的请求。例如，对扇区3-6、6-7、7-9的请求可以合并
-> +为对扇区3-9的一个请求。即便 SSD 或 NVM 的随机访问和顺序访问响应时间相同，
-> +合并顺序访问的请求仍可减少单独请求的数量。这种合并请求的技术称为 plugging。
-> +
-> +此外，I/O 调度器还可以对请求进行重新排序以确保系统资源的公平性（例如防止某
-> +个应用出现“饥饿”现象）或是提高 I/O 性能。
-> +
-> +I/O 调度器
-> +^^^^^^^^^^
-> +
-> +块层实现了多种调度器，每种调度器都遵循一定启发式规则以提高 I/O 性能。它们是
-> +“可插拔”的(plug and play)，可在运行时通过 sysfs 选择。你可以在这里阅读更
-> +多关于 Linux IO 调度器知识 `here
-> +<https://www.kernel.org/doc/html/latest/block/index.html>`_。调度只发
-> +生在同一队列内的请求之间，因此无法合并不同队列的请求，否则会造成缓存冲突并需
-> +要为每个队列加锁。调度后，请求即可发送到硬件。可能选择的调度器之一是 NONE 调
-> +度器，这是最直接的调度器：它只将请求放到进程所在的软件队列，不进行重新排序。
-> +当设备开始处理硬件队列中的请求时（运行硬件队列），映射到该硬件队列的软件队列
-> +会按映射顺序依次清空。
-> +
-> +硬件派发队列
-> +~~~~~~~~~~~~~
-> +
-> +硬件队列（由 struct blk_mq_hw_ctx 表示）是设备驱动用来映射设备提交队列
-> +（或设备 DMA 环缓存）的结构体，它是块层提交路径在底层设备驱动接管请求之前的
-> +最后一个阶段。运行此队列时，块层会从相关软件队列中取出请求，并尝试派发到硬件。
-> +
-> +如果请求无法直接发送到硬件，它们会被加入到请求的链表(``hctx->dispatch``) 中。
-> +随后，当块层下次运行该队列时，会优先发送位于 ``dispatch`` 链表中的请求，
-> +以确保那些最早准备好发送的请求能够得到公平调度。硬件队列的数量取决于硬件及
-> +其设备驱动所支持的硬件上下文数，但不会超过系统的CPU核心数。在这个阶段不
-> +会发生重新排序，每个软件队列都有一组硬件队列来用于提交请求。
-> +
-> +.. note::
-> +
-> +        块层和设备协议都不保证请求完成顺序。此问题需由更高层处理，例如文件系统。
-> +
-> +基于标识的完成机制
-> +~~~~~~~~~~~~~~~~~~~
-> +
-> +为了指示哪一个请求已经完成，每个请求都会被分配一个整数标识，该标识的取值范围
-> +是从0到分发队列的大小。这个标识由块层生成，并在之后由设备驱动使用，从而避
-> +免了为每个请求再单独创建冗余的标识符。当请求在驱动中完成时，驱动会将该标识返
-> +回给块层，以通知该请求已完成。这样，块层就无需再进行线性搜索来确定是哪一个
-> +I/O 请求完成了。
-> +
-> +更多阅读
-> +--------
-> +
 
-> +- `Linux Block IO: Introducing Multi-queue SSD Access on Multi-core Systems <http://kernel.dk/blk-mq.pdf>`_
-> +
-> +- `NOOP scheduler <https://en.wikipedia.org/wiki/Noop_scheduler>`_
-> +
-> +- `Null block device driver <https://www.kernel.org/doc/html/latest/block/null_blk.html>`_
+No problem, thanks for taking a look.
 
-Translating it(only name)?
-
-
-Thanks,
-
-Yanteng
-
-> +
-> +源代码
-> +======
-> +
-> +该API在以下内核代码中:
-> +
-> +include/linux/blk-mq.h
-> +
-> +block/blk-mq.c
-> \ No newline at end of file
-> diff --git a/Documentation/translations/zh_CN/block/index.rst b/Documentation/translations/zh_CN/block/index.rst
-> index 45172f6d2659..41fec45b5a3c 100644
-> --- a/Documentation/translations/zh_CN/block/index.rst
-> +++ b/Documentation/translations/zh_CN/block/index.rst
-> @@ -18,10 +18,11 @@ Block
->   .. toctree::
->      :maxdepth: 1
+>>
+>> Suppose we have iterated several orders and not collapse successfully yet. So
+>> the mthp_bitmap_stack[] would look like this:
+>>
+>> [8 7 6 6]
+>>        ^
+>>        |
 >
-> +   blk-mq
-> +
->   TODOList:
->   * bfq-iosched
->   * biovecs
-> -* blk-mq
->   * cmdline-partition
->   * data-integrity
->   * deadline-iosched
-> --
-> 2.25.1
+>so we always pop before pushing. So it would go
 >
+>[9]
+>pop
+>if (collapse fails)
+>[8 8]
+>lets say we pop and successfully collapse a order 8
+>[8]
+>Then we fail the other order 8
+>[7 7]
+>now if we succeed the first order 7
+>[7 6 6]
+>I believe we are now in the state you wanted to describe.
+>
+>>
+>> Now we found this one pass the threshold check, but it fails with other
+>> result.
+>
+>ok lets say we pass the threshold checks, but the collapse fails for
+>any reason that is described in the
+>/* Cases were lower orders might still succeed */
+>In this case we would continue to order 5 (or lower). Once we are done
+>with this branch of the tree we go back to the other order 6 collapse.
+>and eventually the order 7.
+>
+>>
+>> Current code looks it would give up at all, but we may still have a chance to
+>> collapse the above 3 range?
+>
+>for cases under /* All other cases should stop collapse attempts */
+>Yes we would bail out and skip some collapses. I tried to think about
+>all the cases were we would still want to continue trying, vs cases
+>where the system is probably out of resources or hitting some major
+>failure, and we should just break out (as others will probably fail
+>too).
+>
+
+Thanks, your explanation is very clear.
+
+>But this is also why I separated this patch out on its own. I was
+>hoping to have some more focus on the different cases, and make sure I
+>handled them in the best possible way. So I really appreciate the
+>question :)
+>
+>* I did some digging through old message to find this *
+>
+>I believe these are the remaining cases. If these are hit I figured
+>it's better to abort.
+>
+
+I agree we need to take care of those cases.
+
+>/* cases where we must stop collapse attempts */
+>case SCAN_CGROUP_CHARGE_FAIL:
+>case SCAN_COPY_MC:
+>case SCAN_ADDRESS_RANGE:
+>case SCAN_PMD_NULL:
+>case SCAN_ANY_PROCESS:
+>case SCAN_VMA_NULL:
+>case SCAN_VMA_CHECK:
+>case SCAN_SCAN_ABORT:
+>case SCAN_PMD_NONE:
+>case SCAN_PAGE_ANON:
+>case SCAN_PMD_MAPPED:
+>case SCAN_FAIL:
+>
+>Please let me know if you think we should move these to either the
+>`continue` or `next order` cases.
+
+Take a look into these cases, it looks good to me now.
+
+Also one of my concern is this coding style is a little hard to maintain. In
+case we introduce a new result, we should remember to add it here. Otherwise
+we may stop the collapse too early.
+
+While it maybe a separate work after this patch set merged.
+
+>
+>Cheers,
+>-- Nico
+>
+>>
+>> >               }
+>> >
+>> > next_order:
+>> >--
+>> >2.51.0
+>>
+>> --
+>> Wei Yang
+>> Help you, Help me
+>>
+
+-- 
+Wei Yang
+Help you, Help me
