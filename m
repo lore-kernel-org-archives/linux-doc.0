@@ -1,160 +1,131 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B5835A953
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 14:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465E92FF64A;
+	Tue, 18 Nov 2025 15:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763477980; cv=none; b=GjX7SIO4LtgIeEm9bikmU+rVrBSHRDaBic1fsvGTaACdm+n4fHsCPIcARYdX1GrvtrXeRzPzlQa1I4T0/wwl3GDIuk7iOquCQP1MIQ+ZQ0AulKUUBUf0PYOw1eWPUQ0CXWsfBvrTT2Yn/gmqKwlGgfDY30JIn0YNVK+UM1befl0=
+	t=1763478405; cv=none; b=kMnIXD06041B2eFVknQTSMD46MMtHxKgdP231+knztWhWVqR9Cv5dmaKfFwb3gsMwFbYnad2EJF7YZmIQQ11mZEZwkDeIvxzkoVdPVkXkC6ZvUcWwMukxIGQDyvVAGxbbEJejUfSFJ3sYZwyoHCJJUJBq/z6pGm80W4xfJR/y28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763477980; c=relaxed/simple;
-	bh=yCZWg4HDLfx+KlOFPmT2qV/mW2ZLzgnFX5/2HTcppS4=;
+	s=arc-20240116; t=1763478405; c=relaxed/simple;
+	bh=76+2f+4hsDZ7pFzkCao+UBvMyvqOyAsPTXWZOrXZ64A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r14ro7gb3MJ/6mjTOaXzu9xP0A9QRheOnxyrmU6oKxFOcnvsGR2hkWoqPC0lTkSVlZnapVamjWNLlIjlzsmP9wLBWW8pWxfG4sYCp2OA8GEOnIVtYIaTJZtFGRZcCdOS54ER18Ubpcr3T666oam8kBTlntusjiYHk+EaMLy+XHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=er7kMnPx; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=kl28nCVHotxLs7UftShYkAy3FOTGfS+5tggF6Cb7oG0jkWTRR0nr3kY9a5oIvzFpHxQXDhc2qDsLOwsqCf6Zutjv25FlfHzSLM1qyu2UqVhZ8INy+ARHeSHWW5LB9AGtTBQ2fL2psgbgoXLUNqmZtJdj6rvJiUH0NNJeznCFYp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gVqLXxCo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="er7kMnPx"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4edb7c8232aso80251841cf.3
-        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 06:59:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1763477977; x=1764082777; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6zUAnqwUQ7mMEKfAAq0Pm8CCEggD/qceLgK2oNv/WhY=;
-        b=er7kMnPxEnnCHS03TpdmRNrOEitAyOOf8yVpFrYKaO+QdD8Th6DRFAFJNqEIuj+t69
-         i3f+yxOyp798g3jbaoQjk07GnCnqdj5omEQnf9sTu3i8ICNIXiITPWnZRwTO73YgkhSw
-         G+W8mmVFGfL7fxxdcjvsiduCOzpOyNVUc7SMCU0pEkmD5vMkSmVDG45JPMxihPOMmzHM
-         OghNRBvgE/XQ1m1fHbyXTiBlLMO83ID+CXl5vDLmGpVUpJ7SOqCmcJCx0T4Z19Wx4o/3
-         lpXsu1BmgEjN4bdCvRm5QYQrK+YyCz4CdL0yMNwjN88Fw3wxnC9nYPXagRHr7e3oo8Pj
-         OZzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763477977; x=1764082777;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6zUAnqwUQ7mMEKfAAq0Pm8CCEggD/qceLgK2oNv/WhY=;
-        b=M5kg46vVPpjiiAJUagSfGYHcr+JqGL7GsP9BDlVll5Q9HPfd9QZsy9E3BhHurab2uk
-         epObW8Z3cqk2y4BzpVOGj8OvHubSMIkhMiyTQT8QBShU22zaPoa8rBDiTkhGFTtd4MDc
-         tYRA56RZ40nsIX5zoy9Mj2C0VoqGEbnMrY6ObbHsC8DAJhIZYSIdXLYa2lTzCJ4FxJ5e
-         xoujcxa03CIY0lDzn4wBsM2WUDlqUFZuE6+GqPR6Fh1g7dY6lcF2pT5r4MuqeiyezIat
-         OSOp3G7PEHk+kGrD1yAVulrORrxAz0GX5eOTWlQviLID/rUXQ3b+WS22lwfyQG1SNTe5
-         i9VQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVqrW+BAoD1T3ngglLlJ9I8HP9RIBop1Ay4O6YP8qWiu8ClRCyRIkyGASTuS6hs34eO32ljED7DHBw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyR0g38qBfXBpEG39Z5cWyCF0B+0FcgwRT8QswhORKfcmhPhdtH
-	KkYLfe9MMQN4QhRcOO2P2TFhMgddKjc6kZVzy5gdbqoXje3sABOZQKiPDxVSCMPh/WI=
-X-Gm-Gg: ASbGncus8UiH85P16pL6O7CByZndi4Sn6LVwBWdYhOd8vbUKdG8+nAa4TkqI32zHbRl
-	KfdVxnuFI7auzOpoB0SdWapbwsFeGnrDNeOWPB6eHuYHeEpEJ3n6eUGd27HZDWgiQq7RO4hs9oy
-	+4Tv5i4sE2dwdqBqJOx7y+B+R3Jj5AbDK+/zqG6eOIsTt8jCw8f3tuEE73mhELc8nUqDY/zDbEZ
-	7kEinK0ANP4xnUNRRdmgdd23kp/6uPY8sQno6+hzLS6uvDkcvKX+zfO0ckLbfauEXv+5orNOwLe
-	gMUE+wag2fdMFc1eNTpp18Gno8G5YcnLw3rmMJ+xJVEDfNLs9fj1bgTlWroAukKnhh8YM1NpM+N
-	x+lgn/V0LffeYnZnG7S6w9H4IFHuSpFIyBkfOq8qi1RJQkMDFPW1K3ROQZYUioYSOkl5RJr3Vhn
-	OQ/nfz9ur64dkF8oGE7hL3G5A5dV5bFNqaY4LmxKn+vzjEO1pUNudx0tTA1jb7VSMTrr8=
-X-Google-Smtp-Source: AGHT+IFmOGfhY23WsMGsPUUjQKfSR05e4XRcukJGt61kp9ViFdOBWiVKVUUuzQ+TB82GrGuUAmTsrw==
-X-Received: by 2002:a05:622a:1a08:b0:4ee:1563:2829 with SMTP id d75a77b69052e-4ee15632a6bmr144570871cf.72.1763477977218;
-        Tue, 18 Nov 2025 06:59:37 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ee275abad5sm34184941cf.14.2025.11.18.06.59.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 06:59:36 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vLNB9-00000000NQI-239J;
-	Tue, 18 Nov 2025 10:59:35 -0400
-Date: Tue, 18 Nov 2025 10:59:35 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, iommu@lists.linux.dev,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v7 00/11] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <20251118145935.GI17968@ziepe.ca>
-References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
- <20251110134218.5e399b0f.alex@shazbot.org>
- <da399efa-ad5b-4bdc-964d-b6cc4a4fc55d@amd.com>
- <20251117083620.4660081a.alex@shazbot.org>
- <20251117171619.GB17968@ziepe.ca>
- <3599880e-5b50-4bad-949b-0d3b1fb25f3f@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVqLXxCo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 274F2C19421;
+	Tue, 18 Nov 2025 15:06:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763478404;
+	bh=76+2f+4hsDZ7pFzkCao+UBvMyvqOyAsPTXWZOrXZ64A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gVqLXxCoHubWmmYGMBSppHz6v+K6gOlZuSYxfANkq1RKW8ckeEAIrlml2vKMxAe5L
+	 3C8zjm11dqTah0Vkmy2M8q3igXZkmU+HXuX48hcaI8METAODITZD7cxnwl2IMKPiXP
+	 otr7qxYH6DGeVFsBC2ronbizF4drLwhTO4cKnQUZC7lBlo0I2qlELAAZm/qaFIqsjG
+	 HfRaIi6Y5JnNl3ZWxHIr/R7/kiqKBhKBd1W+81GC9ZMcqhlXX4EWL9wpc7TXvC/n65
+	 fdY1qa4EgfHtTIYbz0kzbq1HE98C977U9Rl1R9Gg51/HhI1YNVY1YoDlShCZkuqVyr
+	 rOJgoCOWRfH0g==
+Date: Tue, 18 Nov 2025 17:06:20 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, pratyush@kernel.org,
+	jasonmiu@google.com, graf@amazon.com, dmatlack@google.com,
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
+	vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, parav@nvidia.com, leonro@nvidia.com,
+	witu@nvidia.com, hughd@google.com, skhawaja@google.com,
+	chrisl@kernel.org
+Subject: Re: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
+Message-ID: <aRyLbB8yoQwUJ3dh@kernel.org>
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+ <20251115233409.768044-3-pasha.tatashin@soleen.com>
+ <aRnG8wDSSAtkEI_z@kernel.org>
+ <CA+CK2bDu2FdzyotSwBpGwQtiisv=3f6gC7DzOpebPCxmmpwMYw@mail.gmail.com>
+ <aRoi-Pb8jnjaZp0X@kernel.org>
+ <CA+CK2bBEs2nr0TmsaV18S-xJTULkobYgv0sU9=RCdReiS0CbPQ@mail.gmail.com>
+ <aRuODFfqP-qsxa-j@kernel.org>
+ <CA+CK2bAEdNE0Rs1i7GdHz8Q3DK9Npozm8sRL8Epa+o50NOMY7A@mail.gmail.com>
+ <aRxWvsdv1dQz8oZ4@kernel.org>
+ <20251118140300.GK10864@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3599880e-5b50-4bad-949b-0d3b1fb25f3f@amd.com>
+In-Reply-To: <20251118140300.GK10864@nvidia.com>
 
-On Tue, Nov 18, 2025 at 03:37:41PM +0100, Christian König wrote:
+On Tue, Nov 18, 2025 at 10:03:00AM -0400, Jason Gunthorpe wrote:
+> On Tue, Nov 18, 2025 at 01:21:34PM +0200, Mike Rapoport wrote:
+> > On Mon, Nov 17, 2025 at 11:22:54PM -0500, Pasha Tatashin wrote:
+> > > > You can avoid that complexity if you register the device with a different
+> > > > fops, but that's technicality.
+> > > >
+> > > > Your point about treating the incoming FDT as an underlying resource that
+> > > > failed to initialize makes sense, but nevertheless userspace needs a
+> > > > reliable way to detect it and parsing dmesg is not something we should rely
+> > > > on.
+> > > 
+> > > I see two solutions:
+> > > 
+> > > 1. LUO fails to retrieve the preserved data, the user gets informed by
+> > > not finding /dev/liveupdate, and studying the dmesg for what has
+> > > happened (in reality in fleets version mismatches should not be
+> > > happening, those should be detected in quals).
+> > > 2. Create a zombie device to return some errno on open, and still
+> > > study dmesg to understand what really happened.
+> > 
+> > User should not study dmesg. We need another solution.
+> > What's wrong with e.g. ioctl()?
+> 
+> It seems very dangerous to even boot at all if the next kernel doesn't
+> understand the serialization information..
+> 
+> IMHO I think we should not even be thinking about this, it is up to
+> the predecessor environment to prevent it from happening. The ideas to
+> use ELF metadata/etc to allow a pre-flight validation are the right
+> solution.
+> 
+> If we get into the next kernel and it receives information it cannot
+> process it should just BUG_ON and die, or some broad equivalent. 
+> It is a catastrophic orchestration error, and we don't need some fine
+> grain recovery or userspace visibility. Crash dump the system and
+> reboot it.
 
-> Skimming over it my only concern is patch #6 which adds the helper
-> to the common DMA-buf code and that in turn would need an in-deep
-> review which I currently don't have time for.
+I was under impression Pasha wanted to get up to the userspace no matter
+what.
 
-I think you should trust Leon on the implementation. He knows what he
-is doing here when it comes to the DMA API, since he made all the
-patches so far to use it.
+panic() in liveupdate_early_init() makes perfect sense to me. Parsing dmesg
+does not.
+ 
+> IOW, I would not invest time in this.
+> 
+> Jason
 
-Please consider just reviewing the exported function signature:
-
-+struct sg_table *dma_buf_map(struct dma_buf_attachment *attach,
-+			     struct p2pdma_provider *provider,
-+			     struct dma_buf_phys_vec *phys_vec,
-+			     size_t nr_ranges, size_t size,
-+			     enum dma_data_direction dir)
-
-If issues are discovered inside the implementation later on then Leon
-will be available to fix them.
-
-The code is intended to implement that basic function signature which
-can be thought of as dma_map_resource() done correctly for PCI
-devices.
-
-> So if we could keep those inside the VFIO driver for now I think
-> that should be good to go.
-
-That was several versions ago. Christoph is very strongly against
-this, he wants to see the new DMA API used by wrapper functions in
-subsytems related to how the subsystem's data structures work rather
-than proliferate into drivers. I agree with this, so we need to go in
-this direction.
-
-Other options, like put the code in the DMA API area, are also not
-going to be agreed because we really don't want this weird DMABUF use
-of no-struct page scatterlist to leak out beyond DMABUF.
-
-So, this is the start of a DMA mapping helper API for DMABUF related
-data structures, it introduces a simplified mapping entry point for
-drivers that only use MMIO.
-
-As I said I expect this API surface to progress as other DRM drivers
-are updated (hopefully DRM community will take on this), but there is
-nothing wrong with starting by having a basic entry point for a narrow
-use case.
-
-Thanks,
-Jason
+-- 
+Sincerely yours,
+Mike.
