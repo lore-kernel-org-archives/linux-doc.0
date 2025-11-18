@@ -1,297 +1,115 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E5F2737EE
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 00:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2402E645
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 01:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763425499; cv=none; b=Bi4IuNFE5I6Kw+XY1MAyTfWUDUHyeCueAw0btwShL5eGAvBeCMMfQzzYcd2wyz+aZxWHNq3CLxAfoOPwuS6o1/UXEec5pVCUQTFpl0VVld1PMKyrfWVN8gZm2YlMIQNrA2f+xAR6rr0XhNZofW5aS5fUCBCsFsRRhfz0qyL9g2E=
+	t=1763427746; cv=none; b=s738ptCGUia4rEm/gJYLVsZL90GOty+7eK0SrYNGphzLfE14fZCKA61fCfWGX1JNKDgnUA4QY5MDq4OaX1m/+TQ0GS19IVvE+UQEEC4VH2OvRz7AanF7cPe+K6ihEUyIPn9rKz+3x/PTQzb1XiUykCADJ3Yd6om1HM1TcDoDKeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763425499; c=relaxed/simple;
-	bh=VBV4wTTE4imuwCtDr+8mVLpoDQnQGoRXrQDIn/8Nmdk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RGcAZFKSUMMKd0qMfmgIBIjXHLIz6qpuq4vFaKKfrtNb1V3b/tbMbGrwU0Y617FvOVc5NMuhlP/ubXiemtDjN8cjFZinBZiIFW1UdDuEKOTXtJNCDlwWupcEHS5erBDkxrpGF/9C+YxxfFHBGtlsKtxgerpl4CZTPDOQ+dX3528=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jCSypgpE; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763427746; c=relaxed/simple;
+	bh=dOG/uOFHdQG486MEyE24WfsyUUt88SEMEnTKTvO2jpE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kFTjdQOB4XvzSu6FEpV1n4q4LBALEsMl+jcqXlmnVUvrKNRvOAVxbCfgro9dOwQpIRMHTz051DlnEqz/6E2/Vb6KSK0XBVHsNd5ZUjdvL32vhxa8cMdDHtK4r17DSFvzJlPNKWD7cy9wQVoun8NiymYCQYcGTJiAOPTFrhtEL0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=aHMkKCFb; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jCSypgpE"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-786a85a68c6so51799227b3.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 16:24:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="aHMkKCFb"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b73b24f1784so155862566b.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 17:02:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763425495; x=1764030295; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GenjXWqNInuYwre7qbdm1o4nfBEHIUP7s9yd4imsMSU=;
-        b=jCSypgpEWAMyarruHDWV+nByd0bFtRniVhw6oe47Rmz70CMBiY7UWd2YKjrwE3ucRC
-         SEc35fprsPwLQ1d0B3Wi1xZEErwrWVjlLl9yBgcDc7IlgIWJS40EcS9HoZ/yIN7cOxbk
-         4sOt1I8hx5RMbtAYVdH27S20zuTdh7CDgwC2MpHnWQuHnT4fjDNTl/wu7l2L/VcxmCtM
-         xzUQX6CdplIKyw4AWqgJIKS8APJKiTr0B7Rb3xiCDLrSIyHOoVmNxgt62mCDXwoM2M7A
-         Tn4z0AURtChYhEGlDJdZ7KItk5RAQ+yQQ9KctFZLYNohtZDdIgPZt+0J6qgvlYEyzCAM
-         rpiA==
+        d=soleen.com; s=google; t=1763427743; x=1764032543; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+cw+/Wg2GGP58Te+av5x0rFdkRrTQIR2igB2FJ9iW7w=;
+        b=aHMkKCFbIjjMsglH4tftvOd1iPI3PetYnhL1SuAd8sysWfon1HYhR4KI1zw4O9y3Lc
+         AnN4DmIxV6h3b6B7OocuD4K0PT/T8U8EvrmGE1jqLrdi8NYc+n8yFaCsQ1iwVhK9TOdT
+         /tkkcq6uCfE4ygEZG2OTpztsz9G6nywJoNXhmm8h7hGhm5hAFO2xKmfr8SMtpw2UEFDt
+         mFYTMsi6qJ/jiCpNnkwpZQAgQIwbg/SR9pwAyLsjgJnoQwjrr9VgLZHBDIKa93vh6oDi
+         UnctA1z2ckPDRirbDIJfoJ5Sl2a8Q9oVgH5nE7ssNko1pKDsdciv5P7v7lkhvzDjum9K
+         OU7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763425495; x=1764030295;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GenjXWqNInuYwre7qbdm1o4nfBEHIUP7s9yd4imsMSU=;
-        b=CUrvViy8TAXUvFO1YPKjTaybLY1EXhKf6uJ5jqACRH6LvJ+s1fXD+8jeR5cA5M0HkU
-         TMuWWi1ad0HMsz1pg4vAXxjTmEe5c4cR3eoDis93oC2cGenq0fKVl6gPFjxR9nMtFTHh
-         ctFfvVWJCpEHjH59r5RzivLiQh5aAjv+OGbiGZ8X6XzMdB6oEAB9YZLNP0dIb7DyIOH5
-         57HDjzn4H19PFOcDqWZfO5gp3OturCc/wduCdsFa2dzp6xJFpbQefoG0KGIhlt1oLDjU
-         DOXZ+o5XT7G5eVgkZKWnz8GiS1HPL082l6Euz+wcOHSpCGPnofLqTtzUD+1nO+SxwVC/
-         PPwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVryHgKIy1QUeWBOmi2Ggk3itlExQraV+Ro15fW0HVv9Zc5ngBy+LQrCheasZe3cnbZTWoFCmA96tY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgMTdtveaqRiz5gX/0JOOzKhbEf3tQ73eAHb/KQqa/Z7j0LDBY
-	s6u8XQ8L2FwsbP2OUAjk3QCejgsx0aKwSzdW///InVDcXI2wQuqG9Xa4
-X-Gm-Gg: ASbGncu6ycdohNeCvDcgj5qeYRUk0rv/HmhGm4/aEPT6Ml601v9dAGHwz2zHoXJnSaf
-	XUJhXtw9xDrjn2QHG3PIQ50ysYp2hjeGSZFIE8SY2bXP5K+aNwGoldxvlwr+FSIQ7t5f78lfoaP
-	JAWKO9nodbVNF2Jntv6VpsfZWkgKTVJ83hURYIHh/GEje0bLVEEETgDEHWje6KsL+t8S2AYbtx9
-	cO28poZRxUt/UH+pcQizLWerW306lKepJgcqJB2Wqe/k4IpYyGFychw2qg4g3OH7GHhSZN2/ZEY
-	C3rRuF1x+KIhFx44ppZWvg/8qiszcLzEdD+Q6rtohwal5SyuQ4TtJym7giImwbvKcPEDmvVlbNf
-	HZZfQt19fubBHITuj+NuFU5WVhaoYAfcQwS44pULFmtgU6zdbMr3juk5RkBw69rbxhU9keCqFKt
-	712kMdsAIW0wspYh69oez8
-X-Google-Smtp-Source: AGHT+IG3sVHIKUgzGse+OqII+TDOwybzXE1KBDn6uL/BlWk2Z3KoPdn+jhe/F8558MWvBkxr5uFXQg==
-X-Received: by 2002:a05:690e:2598:b0:63f:a2a7:8f1f with SMTP id 956f58d0204a3-641e75bf86bmr8550441d50.27.1763425495455;
-        Mon, 17 Nov 2025 16:24:55 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:41::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-788221224d8sm47135867b3.38.2025.11.17.16.24.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 16:24:53 -0800 (PST)
-From: Daniel Zahka <daniel.zahka@gmail.com>
-To: Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Srujana Challa <schalla@marvell.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Brett Creeley <brett.creeley@amd.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Linu Cherian <lcherian@marvell.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Jerin Jacob <jerinj@marvell.com>,
-	hariprasad <hkelam@marvell.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Mark Bloch <mbloch@nvidia.com>,
-	Ido Schimmel <idosch@nvidia.com>,
-	Petr Machata <petrm@nvidia.com>,
-	Manish Chopra <manishc@marvell.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Vlad Dumitrescu <vdumitrescu@nvidia.com>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Subject: [PATCH net-next v4 6/6] selftest: netdevsim: test devlink default params
-Date: Mon, 17 Nov 2025 16:24:32 -0800
-Message-ID: <20251118002433.332272-7-daniel.zahka@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251118002433.332272-1-daniel.zahka@gmail.com>
-References: <20251118002433.332272-1-daniel.zahka@gmail.com>
+        d=1e100.net; s=20230601; t=1763427743; x=1764032543;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+cw+/Wg2GGP58Te+av5x0rFdkRrTQIR2igB2FJ9iW7w=;
+        b=oCw/WuRYbN5cPOmawBZdVHoZ/Pzv6sAAHCTIemsIb+MlDf5gtnrvgChSvl46AdX+Ch
+         NR1R2G0YtZFKyQle4EqimWyqegdYNViDWDK6gopZW1zEakJDpBN3NYlszrmVaUqu3asi
+         UiYfquFzVK2FmeeJm0/Rqx6Uc1kSC11jCoLkWv24ddXS6oYrGregCguzlW7z4Kfw3EdF
+         O8breybASP6LipXJS+Y84ktoYRfEnGTaapdEBbdvPTfwKbfOJAJfZtI86BLI2MPxgzlR
+         e1llAAl5F+RnsWaKlQIP+aLXi/g8yvopr5dhLXL0oj8qXfszsPx4fZgTl+3gfjNgAlqh
+         t0ZA==
+X-Forwarded-Encrypted: i=1; AJvYcCVmSSYrsCYMyBidZMlMqhXl0uo6JBxqU1MX1WmZh6OvKJAi+09BtKnKGZlv2O/b65ostQ4W1vyiv4M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywwqmi9hyTuentPG2wpZSL081QfdSKeSTFQ2XBGsanKTu6v98xH
+	FT0HQ/S3V0tEQjE93/X+QgOxb6eEiUvMGST7Je18KebvlfrZ/RFybM5gYo+Lg2CKWIM4W2cCUEq
+	eKOoStM/98Q4rAbnRkj0lDBr3dropQIwKSTYaVV65cQ==
+X-Gm-Gg: ASbGnctCZsPlABTjXQF5/J0CXap8hTfBdsVSGm6+r8jSizgM5RgzE/D+X6mmn3cUMXw
+	1ufUDr7f25ChVREA2w9L5dUxg0E8rbsI9Rp1Wnhn+g/GgRhD/1vCIFS9Qet4bgGyU4/xoBwswuF
+	Ccex+WGNND3/lW4Ufl3NVXeJDi8GqF3dFh4suDXZFrxYoAK938kyAAUceQ21Ux0rMKZjSTEpwTY
+	jnOk4wbfuIF1Mlr6ZNXMeNgs47HCIGdso0gBQ21LD+WftiH6URtn/9vS/eYPQzkvpJM
+X-Google-Smtp-Source: AGHT+IEFucR6Z0lEuhSbJuwGX3vRvxY860i7bZcpqu5KZQIcl4X/kvFT9wlEbXjqZjCXA8pyp+lFBWxPEEnLN4BIodw=
+X-Received: by 2002:a17:906:7953:b0:b70:d1ea:2748 with SMTP id
+ a640c23a62f3a-b758bb55399mr152503266b.11.1763427743312; Mon, 17 Nov 2025
+ 17:02:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+ <20251115233409.768044-19-pasha.tatashin@soleen.com> <CALzav=edxTsa7uO7XxiUSx+DZiX169T4WL39vYsn3_WcUuVKrg@mail.gmail.com>
+ <CALzav=f+6hQ-UYBpwmAyKHPmtvEq-Q=mOL20_rZmAcTyd87+Vg@mail.gmail.com> <CALzav=ekHM8a3yYHHUJNgtYVwLYf1hFhEmrXJjHUXRt=xrSy4A@mail.gmail.com>
+In-Reply-To: <CALzav=ekHM8a3yYHHUJNgtYVwLYf1hFhEmrXJjHUXRt=xrSy4A@mail.gmail.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 17 Nov 2025 20:01:45 -0500
+X-Gm-Features: AWmQ_blONNqJhD4RUEUKi4TjsBuu-Py_fKb6YYrA1AzgX3PH5Kzk_E-GtwNe-iI
+Message-ID: <CA+CK2bCfuewEA858nG7WTkBG-hSPpAHP6JRgCRSGmyRTL24oNQ@mail.gmail.com>
+Subject: Re: [PATCH v6 18/20] selftests/liveupdate: Add kexec-based selftest
+ for session lifecycle
+To: David Matlack <dmatlack@google.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
+	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Test querying default values and resetting to default values for
-netdevsim devlink params.
+> > TEST_PROGS_O := $(patsubst %, %.o, $(TEST_PROGS))
+> >
+> > TEST_DEP_FILES += $(patsubst %.o, %.d, $(LIBLIVEUPDATE_O))
+> > TEST_DEP_FILES += $(patsubst %.o, %.d, $(TEST_PROGS_O))
+> > -include $(TEST_DEP_FILES)
+> >
+> > $(LIBLIVEUPDATE_O): $(OUTPUT)/%.o: %.c
+> >         $(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c $< -o $@
+> >
+> > $(TEST_PROGS): %: %.o $(LIBLIVEUPDATE_O)
+> >         $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH) $<
+> > $(LIBLIVEUPDATE_O) $(LDLIBS) -o $@
+> >
+> > EXTRA_CLEAN += $(LIBLIVEUPDATE_O)
+> > EXTRA_CLEAN += $(TEST_PROGS_O)
+> > EXTRA_CLEAN += $(TEST_DEP_FILES)
 
-This should cover the basic paths of interest: driverinit and
-non-driverinit cmodes, as well as bool and non-bool value
-type. Default param values of type bool are encoded with u8 netlink
-type as opposed to flag type, so that userspace can distinguish
-"not-present" from false.
-
-Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
----
- .../drivers/net/netdevsim/devlink.sh          | 113 +++++++++++++++++-
- 1 file changed, 107 insertions(+), 6 deletions(-)
-
-diff --git a/tools/testing/selftests/drivers/net/netdevsim/devlink.sh b/tools/testing/selftests/drivers/net/netdevsim/devlink.sh
-index 030762b203d7..e642da9dd0c1 100755
---- a/tools/testing/selftests/drivers/net/netdevsim/devlink.sh
-+++ b/tools/testing/selftests/drivers/net/netdevsim/devlink.sh
-@@ -3,7 +3,8 @@
- 
- lib_dir=$(dirname $0)/../../../net/forwarding
- 
--ALL_TESTS="fw_flash_test params_test regions_test reload_test \
-+ALL_TESTS="fw_flash_test params_test  \
-+	   params_default_test regions_test reload_test \
- 	   netns_reload_test resource_test dev_info_test \
- 	   empty_reporter_test dummy_reporter_test rate_test"
- NUM_NETIFS=0
-@@ -78,17 +79,28 @@ fw_flash_test()
- param_get()
- {
- 	local name=$1
-+	local attr=${2:-value}
-+	local cmode=${3:-driverinit}
- 
- 	cmd_jq "devlink dev param show $DL_HANDLE name $name -j" \
--	       '.[][][].values[] | select(.cmode == "driverinit").value'
-+	       '.[][][].values[] | select(.cmode == "'"$cmode"'").'"$attr"
- }
- 
- param_set()
- {
- 	local name=$1
- 	local value=$2
-+	local cmode=${3:-driverinit}
- 
--	devlink dev param set $DL_HANDLE name $name cmode driverinit value $value
-+	devlink dev param set $DL_HANDLE name $name cmode $cmode value $value
-+}
-+
-+param_set_default()
-+{
-+	local name=$1
-+	local cmode=${2:-driverinit}
-+
-+	devlink dev param set $DL_HANDLE name $name default cmode $cmode
- }
- 
- check_value()
-@@ -97,12 +109,18 @@ check_value()
- 	local phase_name=$2
- 	local expected_param_value=$3
- 	local expected_debugfs_value=$4
-+	local cmode=${5:-driverinit}
- 	local value
-+	local attr="value"
- 
--	value=$(param_get $name)
--	check_err $? "Failed to get $name param value"
-+	if [[ "$phase_name" == *"default"* ]]; then
-+		attr="default"
-+	fi
-+
-+	value=$(param_get $name $attr $cmode)
-+	check_err $? "Failed to get $name param $attr"
- 	[ "$value" == "$expected_param_value" ]
--	check_err $? "Unexpected $phase_name $name param value"
-+	check_err $? "Unexpected $phase_name $name param $attr"
- 	value=$(<$DEBUGFS_DIR/$name)
- 	check_err $? "Failed to get $name debugfs value"
- 	[ "$value" == "$expected_debugfs_value" ]
-@@ -135,6 +153,89 @@ params_test()
- 	log_test "params test"
- }
- 
-+value_to_debugfs()
-+{
-+	local value=$1
-+
-+	case "$value" in
-+		true)
-+			echo "Y"
-+			;;
-+		false)
-+			echo "N"
-+			;;
-+		*)
-+			echo "$value"
-+			;;
-+	esac
-+}
-+
-+test_default()
-+{
-+	local param_name=$1
-+	local new_value=$2
-+	local expected_default=$3
-+	local cmode=${4:-driverinit}
-+	local default_debugfs=$(value_to_debugfs $expected_default)
-+	local new_debugfs=$(value_to_debugfs $new_value)
-+	local expected_debugfs
-+
-+	expected_debugfs=$default_debugfs
-+	check_value $param_name initial-default $expected_default $expected_debugfs $cmode
-+
-+	param_set $param_name $new_value $cmode
-+	check_err $? "Failed to set $param_name to $new_value"
-+
-+	expected_debugfs=$([ "$cmode" == "runtime" ] && echo "$new_debugfs" || echo "$default_debugfs")
-+	check_value $param_name post-set $new_value $expected_debugfs $cmode
-+
-+	devlink dev reload $DL_HANDLE
-+	check_err $? "Failed to reload device"
-+
-+	expected_debugfs=$new_debugfs
-+	check_value $param_name post-reload-new-value $new_value $expected_debugfs $cmode
-+
-+	param_set_default $param_name $cmode
-+	check_err $? "Failed to set $param_name to default"
-+
-+	expected_debugfs=$([ "$cmode" == "runtime" ] && echo "$default_debugfs" || echo "$new_debugfs")
-+	check_value $param_name post-set-default $expected_default $expected_debugfs $cmode
-+
-+	devlink dev reload $DL_HANDLE
-+	check_err $? "Failed to reload device"
-+
-+	expected_debugfs=$default_debugfs
-+	check_value $param_name post-reload-default $expected_default $expected_debugfs $cmode
-+}
-+
-+params_default_test()
-+{
-+	RET=0
-+
-+	if ! devlink dev param help 2>&1 | grep -q "value VALUE | default"; then
-+		echo "SKIP: devlink cli missing default feature"
-+		return
-+	fi
-+
-+	# Remove side effects of previous tests. Use plain param_set, because
-+	# param_set_default is a feature under test here.
-+	param_set max_macs 32 driverinit
-+	check_err $? "Failed to reset max_macs to default value"
-+	param_set test1 true driverinit
-+	check_err $? "Failed to reset test1 to default value"
-+	param_set test2 1234 runtime
-+	check_err $? "Failed to reset test2 to default value"
-+
-+	devlink dev reload $DL_HANDLE
-+	check_err $? "Failed to reload device for clean state"
-+
-+	test_default max_macs 16 32 driverinit
-+	test_default test1 false true driverinit
-+	test_default test2 100 1234 runtime
-+
-+	log_test "params default test"
-+}
-+
- check_region_size()
- {
- 	local name=$1
--- 
-2.47.3
-
+Took your suggestion, thank you!
