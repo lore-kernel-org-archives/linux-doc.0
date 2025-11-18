@@ -1,86 +1,80 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8007334DB47;
-	Tue, 18 Nov 2025 16:38:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAB336999C;
+	Tue, 18 Nov 2025 16:44:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763483898; cv=none; b=eHHnbSpXbKCMye80jmubEe49/9KP7Pl+8BL8bhUhOaQT9YXSDZpjJ28cIv7zRH+QC/DiIWwNizmjWd4tLB2UP/qO1b/Ai5/isLqJMzOX067w9OW3wtjC6nWC+q6JXnKNYaReQbA66fyf1FvdQKL/lNNcbt0AtvOO/eAgxCJQ5+8=
+	t=1763484288; cv=none; b=KO9lU/DhreZ52W8udRG784EbzzYTZ4+5pWI5fxv/HsVX9DwiI+Hy99xGvUaxWcNccNaPufc1mu1UevWA+AbLtp99LJhEtBBQLw3K5fSzRZqlmLA/lYMUN5bZXsE2+BJioN3aKBwkJE+YzV+78b/S32NFpM/EahgZ667J2+WFFI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763483898; c=relaxed/simple;
-	bh=UfkrHVio+Czb+hNRlOF8S3mEHz7UJpwxt5CAozAtf5U=;
+	s=arc-20240116; t=1763484288; c=relaxed/simple;
+	bh=eeiand6FsHJ9QNtj/P3A/ZWqzz6MH5WBDsv7062M3O8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Mv631mTx8A0R9B0xJd8h/wGznqaAqDGg1aEdRgXe51Wz5Nh/HAQt1/I2lY4aCNSFB8bypX6QBywpl3m0rU7G515EERmsNuPfjjC9RJ6zBePWMJoCZH9hqs+XH2FsQsFoa/gnNeoYLAAK4Zt/GI9qdr5H560mT1R8ZYdM4vWb6uM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Xs9LYbGd; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=HeFvfPbaJaLRyv76E6vFraizk0AOGeM+ReeGSJ1nfaYLmbuBbadcdbW0d8OKRhScpfiyWDOo5QMQHGmFk1M9rvyM8qr3lFFoCDgRvaJTTAObrWyzh9ja0C4v09I8rndAOjNrErOiZPM3sLI5DFm9vsU5UriSHwzUkuvSqqQIbhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hg6aYFQ5; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Xs9LYbGd"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A2B0240C3E
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hg6aYFQ5"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1ABA840C3B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1763483896; bh=4DSR+e5zgphjkdqy1n3flsSBWx54VvMwDl5bi6C9QUg=;
+	t=1763484286; bh=H/22w94yDaxoRrCKuiOegxO7bzTy3ofHOU/Y0wcrf/Q=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Xs9LYbGdMAjA6L7s8EFxtA0g8bw9rWJC0l9r2iiObUTHOalpZw+hc8iPu4Qd14oZF
-	 9mM8xxHEEkFXhQw3hA/WD4chNw10BH2tUbFtt7oRP2qUev1VDlYMyD4N+hIvDYKY/k
-	 QdqmnBCMOZjFH21N0x2y4F1DEYBoQ7fqTCGiXMbcOxgM5rs3xAG3Q46IDFKwmKeSNU
-	 cNC0xqYUwN6Wz1GJp0UXLRFJsxhtr+pqYxo7CFdBiHtqs4BTV21RmCfRDZZRS4cG/u
-	 ATB+hL3/el2pV+zHdOVPVO2FEUZmRg4HDmQfJg5FYgA9nE+FUpthzP+XyF4qTSrrtJ
-	 zM3lhEKgqktYA==
+	b=hg6aYFQ5HnMpiqtLXelCJef40iswqaYMLF2ENueV0mGbkrXh+qyMF2sVLvhQrtAnA
+	 NKQ8zIkWro/84YbNX0l+halqAM5M19SnCYn8FR8wscKdmHL41Rxi1WQQAcL/4MPgW0
+	 lbrFENZOMdfIvaCspV3hWKp8/YzB1UToLQWjXzy3nqR4LQGERgw15ZIUGj5hk9gHpg
+	 1tOHKeOEh56q3nHRusiH5l8TacUO2m1RUbFIK8vldNFkdyoDQ/1YvpxTv63SA73THe
+	 XumXHR9jLIxJTMeGK3cbbkMZscZ6LbQNGKkRNr83RgjP/PUSzeAtiVb1ohtGCK8UYp
+	 AMC64TtQWAYuA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A2B0240C3E;
-	Tue, 18 Nov 2025 16:38:16 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1ABA840C3B;
+	Tue, 18 Nov 2025 16:44:46 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Miguel Ojeda
- <miguel.ojeda.sandonis@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Alice Ryhl <aliceryhl@google.com>, Andreas Hindborg
- <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, =?utf-8?Q?Bj?=
- =?utf-8?Q?=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>, Boqun Feng <boqun.feng@gmail.com>, Danilo
- Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Trevor Gross
- <tmgross@umich.edu>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 1/1] docs: makefile: move rustdoc check to the build
- wrapper
-In-Reply-To: <kjpquyekvw7fwrndoomtge7fnxtfefihqlikj6xcqtazrr6l77@424ufup7v45o>
-References: <cover.1763370163.git.mchehab+huawei@kernel.org>
- <a9b172c926a4b30360530c34adc44f3789ec2b27.1763370163.git.mchehab+huawei@kernel.org>
- <CANiq72=bYzj6iU7PCm+VMBTeBbgUcL8nwrvUut9p4ph+3+itaQ@mail.gmail.com>
- <kjpquyekvw7fwrndoomtge7fnxtfefihqlikj6xcqtazrr6l77@424ufup7v45o>
-Date: Tue, 18 Nov 2025 09:38:15 -0700
-Message-ID: <87seeb47pk.fsf@trenco.lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Convert get_feat to Python
+In-Reply-To: <20251111231232.3955f1fb@foz.lan>
+References: <cover.1762877066.git.mchehab+huawei@kernel.org>
+ <87a50swl6d.fsf@trenco.lwn.net> <20251111231232.3955f1fb@foz.lan>
+Date: Tue, 18 Nov 2025 09:44:45 -0700
+Message-ID: <87h5ur47eq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> On Mon, Nov 17, 2025 at 10:20:46AM +0100, Miguel Ojeda wrote:
->> On Mon, Nov 17, 2025 at 10:13=E2=80=AFAM Mauro Carvalho Chehab
->> <mchehab+huawei@kernel.org> wrote:
->> >
->> > The makefile logic to detect if rust is enabled is not working
->> > the way it was expected. Move it to be inside the wrapper
->> > script.
->>=20
->> Hmm... Could the commit explain a bit why this didn't work and why now i=
-t does?
+> Em Tue, 11 Nov 2025 10:09:30 -0700
+> Jonathan Corbet <corbet@lwn.net> escreveu:
 >
-> I don't know exactly why this was not working.
+>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>> 
+>> > Hi Jon,
+>> >
+>> > That's the final series to complete the migration of documentation
+>> > build: it converts get_feat from Perl to Python.
+>> >
+>> > With that, no Sphinx in-kernel extensions use fork anymore to call
+>> > ancillary scripts: everything is now importing Python methods
+>> > directly from the libraries.  
+>> 
+>> This, of course, conflicts with my library move ...  Maybe we review
+>> that and I go first this time? :)
+>
+> Sure, go ahead with the library move, while this is reviewed. 
+>
+> This one is trivial enough to be rebased on the top of it.
 
-I would feel a lot better if we knew what the real problem is before
-applying fixes for it.  Otherwise something seems certain to come and
-bite us at some point.
+That time has come ... we should still be able to get this one into 6.19
+if all goes well.
 
 Thanks,
 
