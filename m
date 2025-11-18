@@ -1,162 +1,191 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867323624C5
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 15:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF768361DD7;
+	Tue, 18 Nov 2025 15:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763479151; cv=none; b=rMzDgsyfnvKkqDkTjHjfzW5l6ZEii2o7dQmNA3EaRAupS59ibEVdOo66O4418jqdu84jQMAlPJCQ3qZfoyDs5jvQvRLgfLO9u+RxOl7ktJ7HRP9akhf1cYRxsMzr9rHuofg7TGxmAo60fhbMkB/HxgAad0PNq/F9jB4Wm2lbvRs=
+	t=1763479518; cv=none; b=fgMjvi/nfzqCDL56hzF4xuSHOxISfBINVEAJibe+VTBYUwYVTH3En40LFE38Bkcn1a27fVfItkHPdY70CJI0NAN6uRevvKSgjcsPY/0GYIyR6BlqNzfkTMBfgzvQoOF1WPpBo9HWG1l9x+9i5ipz+YLi+k56BX4mWbqSQxiWO7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763479151; c=relaxed/simple;
-	bh=hk0ZXs9FzwYps2jxvQYT5vEXRk0C4Qe8Vs15fTPcizc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WPPJfkOrucXrWf/8VSqQoJPs6IoINITO15xB1QMFGZdmEmILHyC596MihjpVUFRb5oB3v3rh0OwEL3KZqUJ5VZjRZ3hrdPgTtqPDOTqbp2YsTbBtxLXtzSdxG4A4xLqH8GzERSIMin7b6qB2dm1HWmg6B5vjPK5dzOrf9O8ec+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=LyTWWGQq; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763479518; c=relaxed/simple;
+	bh=b8qR1fNCOUcGmFlXBqf2Jmbglcn0cz6vrnKg5k3I8HY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KgoZneLy6v/l/lgb/zJMPPl3EJDQyna2nEj/yLnCAUojoju98Icev28XYJ++DkkMqrr3r1q5HvTJRNcPBc4vHGFssyKOdzpe0DncPDVMkTQQOb9lPq0Dq2PyFArLhi/sI407nF5GxAivBUZGq8QTeC/J+2KbBugWfaMZRbHs2vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=mEE4eUYj; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="LyTWWGQq"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6417313bddaso9052791a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 07:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763479148; x=1764083948; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hk0ZXs9FzwYps2jxvQYT5vEXRk0C4Qe8Vs15fTPcizc=;
-        b=LyTWWGQq/MS5Oc5q/vluF3zrsa08FP9Mv9wwXDtpU4ZbuwWAMFtMVgoEBHN0LitWnL
-         JkrHgRWceTDrk6qmuCuYbtXQ3OSCwW48EZWSN4NKMrRnzMhkRxxjYjdB0E2W3P2E9/ON
-         F8MslExmuSsuKtEte6M6x92HyJ8CRtJownbcTOLCqLasBKKAoVmyXjiaI8Yoc9CJuHDB
-         nVlNmbOXV2reLHYzOi5lXhQAX+BF5v9AYIaeatKRJzpDyLKOnaGYCxD4ttS5Qm6Mqb7C
-         aVZB83HrAKwrlBZFJ8FMaqyoTN1I6Sais39TD9COrnagpvdycj9RsQr2APvmaxvFE+nl
-         bcVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763479148; x=1764083948;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hk0ZXs9FzwYps2jxvQYT5vEXRk0C4Qe8Vs15fTPcizc=;
-        b=g7Oxkij8VtszgyjMKfiK62kRs/V9Q4vETrxiqHM30uWrhwDlYcBB+us71Q8vFZEmU8
-         rzl/tXSso9SFJ9TUASRxROEpliesH+bXFNlARcrlvGZUvzXjFKysxZLAgy2ImznQyind
-         ech6+dFM8TCbyuv4akct7dcciACw5v1+ry68W+4G6aLKK9BIHKWvZwizibVuOPyRBZhB
-         SVALXRITM/NODvRXRjCXIRSed2BcV3/hQ7/jHeDlpGsXUkS3jESpAphzJ+WlPemNm2HE
-         capGOdgV5C0I2amNK3toDJ6aRQUrnVCv48HiiBxoxeB9uqE3v+wH/Sa7GWwd718w/28H
-         +W9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXLnwYvFYP3CR9br2C8ynm+r/Txl/te0HYBoywRGi62FECxFY1lxDGC08zwW2LJZxbZ+bJAwNVNvOY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlS5HEAXa2mv0//THHxMH89+i1pojyaswi8QJ/wKkPzkEIuOWZ
-	+hWu6rfx7aVCU3xodHbcBgaHqTHu0PeLNd783/i4UqkHLdUzxT5T4Hj2iFVJql5aTeWafT1Z9tU
-	4X7bPzF/0SMmCkWBfgt2PpvO8XyCvgtI6iA63uLDmWw==
-X-Gm-Gg: ASbGncuYVVRr6RBh/QyEpYiP2Mkn7A4XgdsyzswQA25muuHTrV67BNTNgNWF+3ea2wc
-	qnpzBw+gPbslEgETcJn8hgxyopv67XqWdE7JG2KP9K+8EjhC2KdUHRjZcLugmbxs07x91lR7iK/
-	5+RenhlIirjU7Xn9hDMeEawo3X5uIq1WKMRlE8xZ51/o2F8vCXiuqrEK12aSU9nSAnOmJIz+KWh
-	YX90cqIj/Ed6NMtJmXMbqktY1L76WwEiVp2KkBG7gH7u2qHlUfQ3zRWUJoxGYR22c6C
-X-Google-Smtp-Source: AGHT+IH73uaGXtkqWxA+vOqKSKXyc2f3xkXFQtsjUi4wNeWbkqpozwjKaxfRNk8v2eP437M4d3oprpw2Yh3MBItYnTs=
-X-Received: by 2002:a05:6402:1d54:b0:641:9aac:e4a9 with SMTP id
- 4fb4d7f45d1cf-64350e20d78mr16134284a12.15.1763479146917; Tue, 18 Nov 2025
- 07:19:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="mEE4eUYj"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5AI1tqs7028393;
+	Tue, 18 Nov 2025 15:23:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=b8qR1f
+	NCOUcGmFlXBqf2Jmbglcn0cz6vrnKg5k3I8HY=; b=mEE4eUYjgklKf8ckwZAhDy
+	SemFjclSHph4OIcNgGIRB33yKEvmDkUgpvf4MsjpE3xo0akxzvjylX58YARmSJ5h
+	c2Ooip5l5xKCeB+ZszFhhCXGu1T0RI/6rBGNycK4VKLDmLOQLbQF8xC71MwsdRpI
+	0oQIclRsJ2BH/z3isyuBtV/G5oGzzxcyO/U8jZGhW63jDjC0GT2rEygs7Nywqf0o
+	LKYkHjV4YQgao5GRKh0XTFLZa5uyctdwxj2IR2IjesWo4ulffbUPV3WfYorlMzp9
+	3UQws93x7ragECUHS6LnyzjaTYBragG1GGke7RSE/IYNqSxXY5az/LqI4/4Qzsew
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4aejmsk7vk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Nov 2025 15:23:16 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AICQoFw006967;
+	Tue, 18 Nov 2025 15:23:15 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4af62jbj06-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Nov 2025 15:23:15 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5AIFNBfr40042972
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Nov 2025 15:23:12 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C34CE20040;
+	Tue, 18 Nov 2025 15:23:11 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9A79420043;
+	Tue, 18 Nov 2025 15:23:10 +0000 (GMT)
+Received: from [9.152.212.246] (unknown [9.152.212.246])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 18 Nov 2025 15:23:10 +0000 (GMT)
+Message-ID: <55871dc5-2467-4558-be5b-0296d478a6d1@linux.ibm.com>
+Date: Tue, 18 Nov 2025 16:23:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-3-pasha.tatashin@soleen.com> <aRnG8wDSSAtkEI_z@kernel.org>
- <CA+CK2bDu2FdzyotSwBpGwQtiisv=3f6gC7DzOpebPCxmmpwMYw@mail.gmail.com>
- <aRoi-Pb8jnjaZp0X@kernel.org> <CA+CK2bBEs2nr0TmsaV18S-xJTULkobYgv0sU9=RCdReiS0CbPQ@mail.gmail.com>
- <aRuODFfqP-qsxa-j@kernel.org> <CA+CK2bAEdNE0Rs1i7GdHz8Q3DK9Npozm8sRL8Epa+o50NOMY7A@mail.gmail.com>
- <aRxWvsdv1dQz8oZ4@kernel.org> <20251118140300.GK10864@nvidia.com> <aRyLbB8yoQwUJ3dh@kernel.org>
-In-Reply-To: <aRyLbB8yoQwUJ3dh@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 18 Nov 2025 10:18:28 -0500
-X-Gm-Features: AWmQ_bmBeX4hEJXb1SebGbQCukqm3GOn5m3ynIQiDheXLPwAAGR4LZnSH-Cy4rU
-Message-ID: <CA+CK2bBFtG3LWmCtLs-5vfS8FYm_r24v=jJra9gOGPKKcs=55g@mail.gmail.com>
-Subject: Re: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, pratyush@kernel.org, jasonmiu@google.com, 
-	graf@amazon.com, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 18/21] s390/dasd: Switch to use %ptSp
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Corey Minyard <corey@minyard.net>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+        "Dr. David Alan Gilbert" <linux@treblig.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Ulf Hansson
+ <ulf.hansson@linaro.org>,
+        Aleksandr Loktionov
+ <aleksandr.loktionov@intel.com>,
+        Vitaly Lifshits
+ <vitaly.lifshits@intel.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
+        Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+        Sagi Maimon <maimon.sagi@gmail.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Karan Tilak Kumar <kartilak@cisco.com>,
+        Hans Verkuil <hverkuil+cisco@kernel.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>,
+        Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+        Max Kellermann <max.kellermann@ionos.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rodolfo Giometti
+ <giometti@enneenne.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Jan Hoeppner <hoeppner@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev
+ <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Satish Kharat <satishkh@cisco.com>,
+        Sesidhar Baddela <sebaddel@cisco.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Xiubo Li
+ <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
+ <20251113150217.3030010-19-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US
+From: Stefan Haberland <sth@linux.ibm.com>
+In-Reply-To: <20251113150217.3030010-19-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: z5vCIuXQoxQhVWpfGoNnS3CQXWBOkQvm
+X-Authority-Analysis: v=2.4 cv=Rv3I7SmK c=1 sm=1 tr=0 ts=691c8f65 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=QyXUC8HyAAAA:8 a=VnNF1IyMAAAA:8 a=JNz3O4sEs4oywJvo4n4A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=UhEZJTgQB8St2RibIkdl:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22
+ a=QOGEsqRv6VhmHaoFNykA:22
+X-Proofpoint-GUID: z5vCIuXQoxQhVWpfGoNnS3CQXWBOkQvm
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE1MDAzMiBTYWx0ZWRfX7xgDi9VMkHy1
+ xY1Kr5CN6JO103EZyDLYmJUVyCiuwKR/4uc3+Lmy/gvg5ECzM4sd6vU0zWqCHklppK8uLUvWjGX
+ HwwwwH+Ce8Jw0NQCUNjE3exfborRXuQ4RjSB1HZACxh4RkWbE7BpIzojfb5TKd4SBA0XBh10Euo
+ CsCaHasXAGt43yERBXoTQ5hFXFxjF+AK1zNBNgHfBYOInKsNmRYBkGYznwzarJkxLc/UdbEghnq
+ kmXAnC8NgaNRASHp2cZtXrz3YttsT408eVXN4mQFU8o8MSMzbwi3Kptdqy/18crsQhyL56cLX4n
+ RnZa0fHWW+S36zf2ZHPlGEIVPwtibWxtWTZqXsygWW1T/83Ban6/JWLGXi3iADfuOgd8HUjrRri
+ jkkd9Ckpow854pIeK6bG7rGX3zWg/g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-18_01,2025-11-18_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 clxscore=1011 phishscore=0 priorityscore=1501
+ spamscore=0 lowpriorityscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510240000 definitions=main-2511150032
 
-On Tue, Nov 18, 2025 at 10:06=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wr=
-ote:
+Am 13.11.25 um 15:32 schrieb Andy Shevchenko:
+
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
 >
-> On Tue, Nov 18, 2025 at 10:03:00AM -0400, Jason Gunthorpe wrote:
-> > On Tue, Nov 18, 2025 at 01:21:34PM +0200, Mike Rapoport wrote:
-> > > On Mon, Nov 17, 2025 at 11:22:54PM -0500, Pasha Tatashin wrote:
-> > > > > You can avoid that complexity if you register the device with a d=
-ifferent
-> > > > > fops, but that's technicality.
-> > > > >
-> > > > > Your point about treating the incoming FDT as an underlying resou=
-rce that
-> > > > > failed to initialize makes sense, but nevertheless userspace need=
-s a
-> > > > > reliable way to detect it and parsing dmesg is not something we s=
-hould rely
-> > > > > on.
-> > > >
-> > > > I see two solutions:
-> > > >
-> > > > 1. LUO fails to retrieve the preserved data, the user gets informed=
- by
-> > > > not finding /dev/liveupdate, and studying the dmesg for what has
-> > > > happened (in reality in fleets version mismatches should not be
-> > > > happening, those should be detected in quals).
-> > > > 2. Create a zombie device to return some errno on open, and still
-> > > > study dmesg to understand what really happened.
-> > >
-> > > User should not study dmesg. We need another solution.
-> > > What's wrong with e.g. ioctl()?
-> >
-> > It seems very dangerous to even boot at all if the next kernel doesn't
-> > understand the serialization information..
-> >
-> > IMHO I think we should not even be thinking about this, it is up to
-> > the predecessor environment to prevent it from happening. The ideas to
-> > use ELF metadata/etc to allow a pre-flight validation are the right
-> > solution.
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
 
-100% agreed, this is the goal.
+Thanks, looks good to me.
 
-> > If we get into the next kernel and it receives information it cannot
-> > process it should just BUG_ON and die, or some broad equivalent.
+Acked-by: Stefan Haberland <sth@linux.ibm.com> 
 
-I initially had a panic() that would kill the kernel, but after
-further consideration, I realized that we can still boot into
-"maintenance" mode and allow the user to decide when and how to reboot
-the machine back to a normal state.
 
-Crashing during early boot has its own disadvantages: the crash kernel
-is not available. Also, because live-update has to be very fast, the
-console is likely to be disabled. Therefore, getting to userspace and
-allowing the user to investigate what happened (e.g., automatically
-retrieving dmesg or a core dump and filing a bug) before rebooting
-seems like the most sensible approach.
-
-This won't leak data, as /dev/liveupdate is completely disabled, so
-nothing preserved in memory will be recoverable.
-
-Pasha
