@@ -1,124 +1,148 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E793702E4
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 22:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CAC3168FB
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 22:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763503369; cv=none; b=r0i/J/fJEDM8br8jxi4ntEEumKp4gpG87Aut8Wxq5Nh5LAY3geAdbC7TLedaxAif01weCudM7+s7urXY9I5Iz8IjuqCcDgKBLHJEGONvkohhwGiORrQJziSf5ucXjb8qqm9ao6sKiLP9WuEyyudrl/zbZ9+iIeLBGSisgVM/Gn4=
+	t=1763503676; cv=none; b=sKXFzseWVhhSCXtMbpqfFHmOPOkLsy1XgyVot0fpqgJmcQknndi7DrcTKGL5WaQJ3ilOTFgFz3PkgPGSVxgqshlrH2p3fCjf4QuOmsx4o6Mo7h6yG7CWhLLQdlCx7FWJzvAU0CH4umMafyWMW3JHKKqzlGNFRRHKuHu0+QrTpfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763503369; c=relaxed/simple;
-	bh=YCFULhcxAgKGD6Fu4nfO2Q1c8WwStVF7Bfc7c/+DIyc=;
+	s=arc-20240116; t=1763503676; c=relaxed/simple;
+	bh=AgyH+nOFFLOOLPQj19SMqqrRCiMHwP0eevW9Zl1x2hs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Mtw0KBwZlLr1NHN6riVVrdFUIL2GnW79dY+CT3RSYFAnQD7E6iJhvSgndbjZPY2K0LPt9ZPB0V5sfJaIHmg5wBeHVUbuUbYirI+oj1oAsPxlS84PkN19vipix5wDnRiLH2m/zF/JQ7KBruXjHCxyCnJTwxRF9bZhp1Hq9mPfhLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IFcUuyT8; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=exxX6EikYLyK54KgKrG6SwujXgakfsa4Z+K/pxh+a8VYF5w1aKlaQ459T2wfoO3gPqjs3SFGt91N6x0OyOnSEBY4DLZzrW5KUJ1wVjFg9PrsOMg7AsZiVWuUYH2Kh3IMZmgZpp92IUS1E95AQ4DQKAZMupzx82Q3qTtb2rqQ8Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=EmLe9qpj; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IFcUuyT8"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-bc07266d011so192360a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 14:02:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="EmLe9qpj"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-640c1fda178so868281a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 14:07:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763503368; x=1764108168; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763503673; x=1764108473; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pnEXeMjZ0hBeMtgsOWCTWuUi2e3FlgHPCN/8EUoo/LE=;
-        b=IFcUuyT83EzXvDiWXmmrnqssJnw14hoCu2E88wNR9E7uyHFb8iJrnz07fv3pGuZb9q
-         uohJQjl85uqybt1mLV3bbGupKojXgqIccXXG7T6XhVc9557vsT12pILR+Kxg1z9Fodsf
-         u3A9UX6v831Pyvfq5AdNofJWAR9S5JZr13UECjpuR2Fn+JNqplNPSKDixPVYlDabe3dR
-         5mvUjg2njLCgwPk5p1A5vMtu4S6g9o/f8gTlgnvk4XzAvnxasxG+mmxCferT0tYXPinh
-         DhFaBQXDCPKBlFNl5v3MyXYjP/Qf9iDlr2qCS9WkRgRHG+2ecgA3PzgAHAp5gN/N6oWh
-         YdBQ==
+        bh=AgyH+nOFFLOOLPQj19SMqqrRCiMHwP0eevW9Zl1x2hs=;
+        b=EmLe9qpjaCR6ceFXW9jDbuScNd4gCxIe3H+c9tGUAcikTWQnjgVmjbeme9yb7hFCOb
+         4u2PZLi5EMQ7zkRHpf4Hzhnw7nGFlTY/NlVIPejardOZ4qYAt5x4IJRMDc5Efok+KEkf
+         wcxjLvdItmraEQp1iV1Ajn47IBnLOTDZ6WBlwehEeqbAcWuFYoc6Dr8XJ1goZSeRFpFC
+         QLKWHnRPU6661yvHUPBu2WqD5aZOoI842ct/k2Nk1BAMDs1WuzdOwV5BJCZyrjfwN48H
+         jXEy7+daHCAwZe1L+J9DdBdkDmXWmgWjGwN1MMHbyMNxFXM8JEedIvahbDxnoNSWQHp3
+         Ug+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763503368; x=1764108168;
+        d=1e100.net; s=20230601; t=1763503673; x=1764108473;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=pnEXeMjZ0hBeMtgsOWCTWuUi2e3FlgHPCN/8EUoo/LE=;
-        b=CjnZOlbnHKgIz046rk5/AFVQWauTn6qJWny/C6ku7ocWQ2oZip61t5Ib+T+LLOhgXX
-         gvbRQiRAF/lKeUWB32zyeAIx6rvZGREl8e0XE/dxciFaOT6QVBpEdBGbhMVaut2o7/3o
-         nrjxi7h5APajW6MTXmJFKCKLryzYacLpO/cSDg8fXozu9LvXih5K70hc3uEsnyYn3jDJ
-         z0Qeln4arIZAF+AmGzjNQ1MMJy+OQV+Sgw0I+k4UVJ393FdoapFiFfIkYTrLojzFZv6w
-         MPL4lN9YGXORHgBPdFC6CdkHqTCeEged5yqI0kB/NoCFZk33dkxkdiym7XTDO3H993uG
-         136w==
-X-Forwarded-Encrypted: i=1; AJvYcCW4PkT+p1V0EiSRj6pcltJK82xHKicXdUmYm9GB4z7Cv65U4W3t5KCb50ZR4XN9G3jRS3ygdL45dDc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNM9pUPlb+i3UTgdi7bx/jZZXo6a9bFp5TtKt2xRJXO4KBWQ9+
-	osoIKP5RNN96WsvPQUDY5k7dsrMl9fbmreOWSGMFL0QvyiBdsG+Rzci5spyJxm9+NrOtxoRywis
-	+RNjz8QQrJt9Q2VL0u/x0OaATGK9g29I=
-X-Gm-Gg: ASbGnctXMXddVRrLNu0tsjRXQDDO3fOLVFBC9lfbcg8ayRO7p+FwzIlx8SVOKdIMysV
-	1WU1bec6H5frn7Wy/hOrkwr9SkfuIjih3a3xSr+Y8P6uF2IIGOX1RAm/Ot3UMkUsv2yK5oPG84c
-	+mSzciNvG+E8l+p7dN6N0XwBo8EII0GpfN7Y1izdUwNjEPTZJZDBxv+YP50CmiP8r5oem1UPU7c
-	uX5KsG0tr3PO0N7xFcmzcPN5Q7hV8t/znAbvV72wIlQEeC4RcHxGMtnNScOzhe+fyIpbvEVgx5R
-	1RvStYx84M7TSMAaw/pJG/EfqbVqUF8lR1AeSOoXhkYgeMCN5vHXYvy/GxjLjtpk00O55styo7a
-	ukiKQA6NQbe3J0g==
-X-Google-Smtp-Source: AGHT+IH7rCgMdfX3UmCZHiTFv0d4wSFQcC+v2Dt1NUsbF6aijRcdZPzSDVZOg7Rk2sjC8+Szq7V1PdxyUI3aMVmjJ58=
-X-Received: by 2002:a05:693c:408d:b0:2a4:3593:2c07 with SMTP id
- 5a478bee46e88-2a6c985b102mr1783503eec.0.1763503367413; Tue, 18 Nov 2025
- 14:02:47 -0800 (PST)
+        bh=AgyH+nOFFLOOLPQj19SMqqrRCiMHwP0eevW9Zl1x2hs=;
+        b=unpBTzgko579aultGjUytzCjinQK1YimI/H6Z/CvauhVUdSu2YeiTSGddxER6ENPUl
+         ztiMrBLI36sj9ySDOnNLILReYrsXYwsJJrRZBULm1eYyHX0/DZWcbhaZjpswE4TQWADS
+         38/7eBdFygjAZRKGmaEv2yZGW2lLrz3QXlofMtP6D/ps2V1auPK5ja/SvOwfvbNP7pt2
+         FgR8U3F/THv4TK46VC5x30q83WDa2VGc3MOYL7WIwHSG/5mexfvF9fmSg3kxYhkgTsXf
+         gJvF+0DUN7w9t+8HQIC628G5PmGDiFiVi7o62sz1GhM3zsPuwwywz/A467SJvVAqeTKs
+         X8Dw==
+X-Forwarded-Encrypted: i=1; AJvYcCUQP0doNfMzVO65E6Bol1hGaPDxZtf5V9Ks0M7vnV1vJ538ZXxK0gAJeQ6VsfKRZDiVGuaFqBclOgU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxei5LE7ArquIaJTYNWGxWSqUAKb1ufA0iZQTcsj07G0a2FqJr0
+	czFr7wmMdkRiP3dPmDC9x+aZUbxi5cXrkk5pw9dYBFu3v2Doqi/SGnLAGqm4mUilWDtRmbAO9H4
+	IGpEfyjJXpfNInpAdDlGFMnzWxSnxbVTeI0YvjYg0fg==
+X-Gm-Gg: ASbGncvvcoHOQ/RhYVaZbuOX3j+84r0iAunFO8/Yy6WD7VoNw9VvnZDvW7K7cE3B8Sr
+	8JVG4k6wIGkLsQeXg98JouxjaeGUU5p4104k7Yf3I+AgqYkn9woQnSL0459lH2YpH9WeZz0okwz
+	ttNTMhCoI+adjE/+AH89AP8os9a+OxOqsqFadb2B/QH8gXy6w9G7Ev+c9PN0YexsBniaclx3zyr
+	klMCnfvDzHNXRBajHIZ0BGsaG+F/bDXOuhMLYvXx8IqLchXIgBqCRfzP5kIjQAX1+ZW/VHS8jRo
+	smg=
+X-Google-Smtp-Source: AGHT+IHtDqrk0qniYZc5AFwR5DqbAOIqGAY4cBt02gO8xxQprKgTQdf+fJMHgzuhx8eUZMd/TIJzeZERktIMHFkuZIY=
+X-Received: by 2002:a05:6402:13cb:b0:640:ca0a:dc1c with SMTP id
+ 4fb4d7f45d1cf-64350e04b49mr16432565a12.7.1763503672627; Tue, 18 Nov 2025
+ 14:07:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1763370163.git.mchehab+huawei@kernel.org>
- <CANiq72=79rhJ5Sh+yp2vRSuSLD=nyR2DuQ26hFeBmyszRC3ALA@mail.gmail.com>
- <6sczezthaixabzw5lddhemrx2yivfdf65zfvpew7tpzl3gqire@vjx4rpju5wxc>
- <CANiq72m3deG_QsH8-AskTR9LcNL=G6E9o2fu+oi9RVXn1PK_+Q@mail.gmail.com> <20251117133203.71b97d47@foz.lan>
-In-Reply-To: <20251117133203.71b97d47@foz.lan>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 18 Nov 2025 23:02:35 +0100
-X-Gm-Features: AWmQ_bl2zqT17C8BhXtKQ0Z0YfPJU7JdKtjPIIuQFIyZbcgkn3IpFhWSC-Yv9dA
-Message-ID: <CANiq72kGvfB2wqAv-d7F9racGoSX+TOmezA=ip-E4ouva-0U=Q@mail.gmail.com>
-Subject: Re: [PATCH 0/1] fix rustdoc build detection
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Carlos Bilbao <carlos.bilbao@kernel.org>, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, 
-	Miguel Ojeda <ojeda@kernel.org>
+References: <aRoi-Pb8jnjaZp0X@kernel.org> <CA+CK2bBEs2nr0TmsaV18S-xJTULkobYgv0sU9=RCdReiS0CbPQ@mail.gmail.com>
+ <aRuODFfqP-qsxa-j@kernel.org> <CA+CK2bAEdNE0Rs1i7GdHz8Q3DK9Npozm8sRL8Epa+o50NOMY7A@mail.gmail.com>
+ <aRxWvsdv1dQz8oZ4@kernel.org> <20251118140300.GK10864@nvidia.com>
+ <aRyLbB8yoQwUJ3dh@kernel.org> <CA+CK2bBFtG3LWmCtLs-5vfS8FYm_r24v=jJra9gOGPKKcs=55g@mail.gmail.com>
+ <20251118153631.GB90703@nvidia.com> <CA+CK2bC6sZe1qYd4=KjqDY-eUb95RBPK-Us+-PZbvkrVsvS5Cw@mail.gmail.com>
+ <20251118161526.GD90703@nvidia.com>
+In-Reply-To: <20251118161526.GD90703@nvidia.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 18 Nov 2025 17:07:15 -0500
+X-Gm-Features: AWmQ_blpcRzsFKrW-N42BrQ1n1NLtjzkNBwejiuKy6hBEe6k9J5ADY-OfS4GodI
+Message-ID: <CA+CK2bCguutAdsXETdDSEPCPT_=OQupgyTfGKQuxi924mOfhTQ@mail.gmail.com>
+Subject: Re: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Mike Rapoport <rppt@kernel.org>, pratyush@kernel.org, jasonmiu@google.com, 
+	graf@amazon.com, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 17, 2025 at 1:32=E2=80=AFPM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+On Tue, Nov 18, 2025 at 11:15=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> w=
+rote:
 >
-> Heh, the same applies to the current usage of htmldocs - specially
-> when SPHINXDIRS is used, e.g. one doing, for instance:
+> On Tue, Nov 18, 2025 at 10:46:35AM -0500, Pasha Tatashin wrote:
+> > > > This won't leak data, as /dev/liveupdate is completely disabled, so
+> > > > nothing preserved in memory will be recoverable.
+> > >
+> > > This seems reasonable, but it is still dangerous.
+> > >
+> > > At the minimum the KHO startup either needs to succeed, panic, or fai=
+l
+> > > to online most of the memory (ie run from the safe region only)
+> >
+> > Allowing degrade booting using only scratch memory sounds like a very
+> > good compromise. This allows the live-update boot to stay alive as a
+> > sort of "crash kernel," particularly since kdump functionality is not
+> > available here. However, it would require some work in KHO to enable
+> > such a feature.
+> >
+> > > The above approach works better for things like VFIO or memfd where
+> > > you can boot significantly safely. Not sure about iommu though, if
+> > > iommu doesn't deserialize properly then it probably corrupts all
+> > > memory too.
+> >
+> > Yes, DMA may corrupt memory if KHO is broken, *but* we are discussing
+> > broken LUO recovering, the KHO preserved memory should still stay as
+> > preserved but unretriable, so DMA activity should only happen to those
+> > regions...
 >
->         make SPHINXDOCS=3Ddriver-api/<subsystem>
+> If the iommu is not preserved then normal iommu boot will possibly set
+> the translation the identiy and it will scribble over random memory.
 >
-> may not be interested on building rust docs, which, on such case,
-> may be a lot slower than a partial build. Also, I don't think that
-> rustdoc currently does something similar to SPHINXDOCS.
+> You can't rely on the translation being present and only reaching kho
+> preserved memroy if the iommu can't restore itself.
 
-If you mean building the Rust docs introduces extra work for people
-building the HTML docs when that happens automatically, then yeah,
-definitely.
+In this case, we cannot even rely on having "safe" memory, i.e. this
+scratch only boot to preserve dmesg/core etc, this is unfortunate. Is
+there a way to avoid defaulting to identify mode when we are booting
+into the "maintenance" mode?
 
-Perhaps it could be skipped depending on what folders are requested.
+Thanks,
+Pasha
 
-> E.g. you would create a parser_rust.py module there, which would
-> generate ReST output from the rust code(*).
-
-To clarify, the idea of the "external references map file" in that
-issue isn't to stop using `rustdoc`, but rather to allow `rustdoc` to
-have (at least) the references to C items (e.g. a link to the rendered
-`printk` docs at least to the source code where it is defined). In
-other words, it is about allowing developrers to just write something
-like [`printk()`] and the system would figure out how to link to the
-right docs automatically.
-
-We don't plan to stop using `rustdoc` -- its output is specialized for
-Rust which makes it quite nice.
-
-`rustdoc` can export JSON and that should be possible to use easily
-from a Sphinx plugin without having to parse Rust from scratch, to at
-least get some degree of Sphinx support. That would be nice for the
-other outputs support like PDF as you mention, yeah, as well as having
-independent-to-the-config docs. We discussed it a few times, but it
-has never been a high priority, especially since `rustdoc` does its
-job quite well.
-
-Cheers,
-Miguel
+>
+> Jason
