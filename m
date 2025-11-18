@@ -1,293 +1,265 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6612A2EC095;
-	Tue, 18 Nov 2025 23:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763509853; cv=none; b=V9lrVW1ermoJT7mu1r0x9Cp7MH60MzC3GjI1cNciJuegkDZQQejqS6fzHsCs/3S25+pJoMLj+bgcbdxagSBhNpW0wqhSlnCTwNmluxLZB0r7KZPu7xgnJ9VP9hq0Cs76S7NbuN88w2qfF13BCsQPJGq4OAbGi9qppzWIO3uFoJo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763509853; c=relaxed/simple;
-	bh=JEdSbiWrCem/+F4NflzwZ5EOCbCS8Lunynkw3N++wJo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ahfB5celz/OQ5w/ftS1xUuDCdpzgzDZWwWqcYzfj0tdrH9AtVku3QDfGfu+++d3qAiLD9xl0gB6W6d4bFHBws/wQ3RolQEY+uJzVXKLHpyXA1xOfvV9TEHhnhAuvJg2EQ/2juNCx/QvQvTZKLaR7yfSSSDLUJNdncPmTdzZoEmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GTbeKlos; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7EC27E1D5;
+	Tue, 18 Nov 2025 23:56:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763510181; cv=fail; b=F8kkDApQJUNa/PsRvQS51ZaW3qAgT8FsUrYaNz/GS4LkWunScF7H8O94hho4cNe0sRvXE/+w9/z8qpjd6zNhneBju9Hx0g7cHqMKJiQbWSHvBl6VAsekBFXE9f9FrdzqHITwBWKE8TISGq7f9w+b2MNkOc/sQICdFTibupyF+qs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763510181; c=relaxed/simple;
+	bh=c0n17xVOHyFQBRWKN/aSsNKZ4YWkhz3J71Xq0bnXXEM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=jFRDtHEBcMBwZtp3ZxHgMYo0MBBl1T4VuIz3NOPaDavMPas3pStj42jlSYA/RtDiwxmvvOKQnLLalPwb73KwJbSe0ScYjDC3LtISN6ymKv+bvMT7OhA9p5bfvPWXROV33VQoQ44O9n3TUgg82eupp1G4wsbh89PFv6JL9ppEI24=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g3+vpR43; arc=fail smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GTbeKlos"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=S+4pHcIfeGOhO1zC7EvJdmse4jjZi1/vWgwL5gb3rT0=; b=GTbeKlosJqErIIUB2f6is0M+nh
-	b4wsY9/SI92by16fHFiwl80r/K67YGZZU3bbGucEBfcd2b5dvgnKMgcK5kLt0/4r2aKo/15hgQP2h
-	Emqnjc74Bscs339zwb+G7EhN096uh+KWN5aFN3ESEAlpDgx9Ef644jLuboloAhCoCy13cUBwQ+W7U
-	PwTgqNgLk0HXKIffrnaLrgTSxNoUnwkf0+b+R3Q4rN6rztUJ93BIA2kVcJp/bjVyBOoBFuw+DMzJA
-	k4Nj6mDB7V/maCTY8wMHKhbuXvJL+4/1xAfUzuVEU0GpYlI5tqyXvEf2obNOr15mvVvpVT2QDHZ04
-	KJEQvMtA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLVTC-00000001FmP-3349;
-	Tue, 18 Nov 2025 23:50:46 +0000
-Message-ID: <0b5d265d-fcc0-42f0-88e9-0722a035f8ca@infradead.org>
-Date: Tue, 18 Nov 2025 15:50:44 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g3+vpR43"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763510180; x=1795046180;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=c0n17xVOHyFQBRWKN/aSsNKZ4YWkhz3J71Xq0bnXXEM=;
+  b=g3+vpR43CVJlMYuGdoaC8tkTIkk4FtuJZe/aiKJKudkm/2dbfDJhl4xD
+   rtA9VrSP5qMiIT7amY/QsMMmd/Zm8MO5m7Mf9IpjEtc8IGcf+atVZ/gQI
+   XuVEta7nz24T6q12jWwZGyYQpnPRJLONKHjFkzOp9seBFIjBIDxJ6mQnD
+   w4ISW+cfMopCQNl9ZwWGQEjEnpcQPec2qrrSt4ADnjRBzCM/RxTTfo/7I
+   WbCLcqTOEzO20W4wBupxiSRFBMWuIcsNopRax1YmHMy6D4MjNqdFc6f7y
+   i/C5WHDfY1yRItuTg4hHd3srFipa2iloUPMc8nVoXOe04l1wAc+aKqz/F
+   Q==;
+X-CSE-ConnectionGUID: 7OpYfxniQyG+ct79b+Y+3g==
+X-CSE-MsgGUID: Qn+597IASzOdlSckyhMMGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="91020734"
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="91020734"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 15:56:19 -0800
+X-CSE-ConnectionGUID: bKuvKGK0TLeL3ytr366xZA==
+X-CSE-MsgGUID: vNuxDQ4BTfaWqS9OFRb0SQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="191029253"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 15:56:18 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 18 Nov 2025 15:56:18 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Tue, 18 Nov 2025 15:56:18 -0800
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.59) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 18 Nov 2025 15:56:17 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=O86nubght9a/3pe0J/Eh9T8DFnex9p2+PxukW652246J7KlxUh8kWNMgto3sKWskNx700avTuHs9o2tv/3hV/xTz2c6bpBGn6WiOK/worTA4+TP+V2CsfgzFyfw8+pd35v4ZpPuG3Sm5URqEJsERuYzO85pY1O6Os98pCpkrCOkgBHGLUtf8uiYekbB28nmfi1iRUQhlm52I6q/AV+hSsEuAtJ19vlPaVqxkraMfoZH1x01Z/o4Y9QxW3ORDZ3gq0V5OKI9cFVRZ6QSHNRIY5k79TqFSXqU1tMEcCtbYph6JTMDq+5d8sUd3QLOiFTM+gZ7/PS4yv+3VAKzpcr93ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Sq61xRYuZ3+RGUxWQJiZuRXpaSbCqY3wHUVLXy7blqs=;
+ b=EnV39yXJwfM80bLOrSscal3iaESe/ySjwUH0xT/2J/e+Zgvmr/8rW3v+oWkLcTBGjKR6YX4gGqHomQSvebG/6cLc0ar3+A3UOJ96NXlLObGN/Ae/d7gFSHkmmO9x251wGWQSPgy/WpteZcvW8pnvzHV89DkjVkN9xyg9Z1Egm85cdcfVTmiPswkUBlom8lq5r/kVHt5Oun73hcBMnB3N7uBKESUdwYMxmauZ7vZnSa26vOmJRTMArAeW/+ztgBzazvtXM6cK0qjH1w4H6fnK4w9zHe1v+C/DNugkQU1iGattAemCjQEr//biqu3T/jgL+4IvaRdMFuevggDa+myC6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by PH3PPFF2B8F6C64.namprd11.prod.outlook.com (2603:10b6:518:1::d60) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.22; Tue, 18 Nov
+ 2025 23:56:15 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1%5]) with mapi id 15.20.9343.009; Tue, 18 Nov 2025
+ 23:56:15 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>, "Robin
+ Murphy" <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
+	<will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Sumit Semwal
+	<sumit.semwal@linaro.org>, =?iso-8859-1?Q?Christian_K=F6nig?=
+	<christian.koenig@amd.com>, Kees Cook <kees@kernel.org>, "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>, Ankit Agrawal <ankita@nvidia.com>, "Yishai
+ Hadas" <yishaih@nvidia.com>, Shameer Kolothum <skolothumtho@nvidia.com>, Alex
+ Williamson <alex@shazbot.org>, Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs
+	<mochs@nvidia.com>, "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-mm@kvack.org"
+	<linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "kvm@vger.kernel.org"
+	<kvm@vger.kernel.org>, "linux-hardening@vger.kernel.org"
+	<linux-hardening@vger.kernel.org>, "Kasireddy, Vivek"
+	<vivek.kasireddy@intel.com>
+Subject: RE: [PATCH v8 10/11] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Thread-Topic: [PATCH v8 10/11] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Thread-Index: AQHcUvHJUsSz328bbEaizAQHYSZo87T4ET6ggAB4LYCAAJvxAA==
+Date: Tue, 18 Nov 2025 23:56:14 +0000
+Message-ID: <BN9PR11MB5276EF47D26AB55B2CD456EE8CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-10-fd9aa5df478f@nvidia.com>
+ <BN9PR11MB527610F3240E677BE9720C2B8CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20251118142849.GG17968@ziepe.ca>
+In-Reply-To: <20251118142849.GG17968@ziepe.ca>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|PH3PPFF2B8F6C64:EE_
+x-ms-office365-filtering-correlation-id: 92e33f49-54d1-4391-b96b-08de26fe0efd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700021;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?4e12kQ8YGI8p7YEpca/Olq4xZsw9pUMXW1+c2ylx4kKOZa+3UM++hkhJK6?=
+ =?iso-8859-1?Q?tKH8qRiu+4pLrP/CFLaYwL/ST/kuFpU+N5uzrN5GPr8qU/jbEfbZ3VjQCM?=
+ =?iso-8859-1?Q?rxG5T1yPUmtbn/8e6LP7r6Ez0+hq5iVdSiS7bmJHWH7ThQ9RUjv14pwVvF?=
+ =?iso-8859-1?Q?a1USt3kZsCFZ3Ez4vihz5nRrPBSI2ejGgWBo7uYnRKvW3yUWpKXZa1WqZf?=
+ =?iso-8859-1?Q?DDacMokOOTR8uW6eu8TW566ZCRwtmskErw6HdxRT68Cr049gVKWES57v5P?=
+ =?iso-8859-1?Q?wI5Qz4Hopw2/AAEwMld6el73H0/bT8Z0rat/7rUjifww7jUezUgdccc7+2?=
+ =?iso-8859-1?Q?2w2eU/CTK0YYnJtFv4W/URAwZNjKyYZjjuqxDuMJkOUD/t/yogwutyTC6n?=
+ =?iso-8859-1?Q?Dh76B7gkkQOVpQyAL5vZCJJwjt1dojGgb14dIf276+0rYEMt8LdwxpDqeC?=
+ =?iso-8859-1?Q?BKEKLwvUDUGOZfAwV6hMUuwgXIT8iveTSoqPZvtEdNvV2LR+C1Mrz/EEpD?=
+ =?iso-8859-1?Q?54UM7nfVsPFXXRV/DI4pGwZp3AKeJC7xQ2tr3WfS+42cqwuEphXNC1mb6S?=
+ =?iso-8859-1?Q?Srbl8H/CKHeugZ+obyGqPsWgMuAR8DMdwj/kxr8l15ScikcftCHNy7fWlP?=
+ =?iso-8859-1?Q?qOy+1HAx+Vcmvs+pJHKTJutzE7oqQyXTMMCFWCEX9UxqJMKanMVlUmJsj4?=
+ =?iso-8859-1?Q?ipz65Hg/nw3/+dbq5scUzJjZpu7t9JqiqfSw7jIUON9Jxa47bBlzwrgGyt?=
+ =?iso-8859-1?Q?MR2X49JTxUkprkGluHlAIqUM4IsIk/4lBHcxwXGBG2axeATpC+Iahh/dYE?=
+ =?iso-8859-1?Q?O75+5tGMq+jUEG5fnpbk2SmpJ53jpAIiSIRbte16fcviuXuHslJyfGtKAj?=
+ =?iso-8859-1?Q?ruGBJCElHl+AQ317sN8iuRKoCuzS8TIG32Wte6jJru8EMUKxXBTjXwnjRa?=
+ =?iso-8859-1?Q?dnWC747TJCYRnK++Ny8Wwg4KhomAVd73VIDEZGszzixUbnunqKzU8Hapm0?=
+ =?iso-8859-1?Q?LX2U7E3/KLBpvuSW8iqdF9kZDiCSW207qFtRrBKnlea+U6xwbBGIyK6UPr?=
+ =?iso-8859-1?Q?C9d4qyE5SuBgOgbZiVlG4LlfBV0Hg38v7/2YymZ8MpgklgMD7mVTF1FSLe?=
+ =?iso-8859-1?Q?qfyjUStfwRVctlR2P5B1aTUMlfOFug57vSzIzjAdsQg0F/6h5H6HWUB0rB?=
+ =?iso-8859-1?Q?M0UIjIiibeKsFaIFn0x5DnTWczHhw12Jwc9nQtIbsT2D3bVWe969pveORD?=
+ =?iso-8859-1?Q?7ouWUcCKU7pM+1+semEr0tEUnwf52ptQTOWAfheRKaldugux9T+SczHRpk?=
+ =?iso-8859-1?Q?weV3V67+Lx1o8sJWutHOJ9WQcIrqiloNXxsE37lxCEEvzwmhe5GmcDuoW/?=
+ =?iso-8859-1?Q?jfx0Ln5cIA6YjbGg5uDNFORe3VNxU4qi+ZiJ4C8dhQoQ4SmynCDxaU0c0d?=
+ =?iso-8859-1?Q?V8Ou8Tpa2zNDgQT+Q7lvVOMBJDzxg/ISoM4yf+oU2X3gJwYReurcpYcz69?=
+ =?iso-8859-1?Q?0i2Weyz3B2t6oOh+iU53XCoplZ+MP68crhjWp0ZLfc8oONte2aCh7F3d1p?=
+ =?iso-8859-1?Q?GBXxhoVUwixEcLC1LDAHButLuOju?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?ydFwOKLqxAtotg6s+eCUQl3cRChf2US51mKp73caqi4rV8PiDpf3MZZuU4?=
+ =?iso-8859-1?Q?Mh39rSVQ3FHInAx0iOWRLOtrBwHIYt0OZgBKyEXZV9QNVhZtQ7k1zMl1JB?=
+ =?iso-8859-1?Q?ksJMg78AjOU8PfXFcHXF2ga1zDy0x2aY6N2k/htbVFjqa+kPFpD2Zr9DKx?=
+ =?iso-8859-1?Q?GN3YSt4/jymMGHi6VLp6Q9ytf7skUjbd5NOMIKayMIbXHi8MxxJ/Pxu49L?=
+ =?iso-8859-1?Q?wXHOQmUvWy4ZZMYoyyE2PeVBWavzHwGEX44tiD1fWkcROYwmIab3DIgeqe?=
+ =?iso-8859-1?Q?z3/A4xdVcKNEjmzZK4sfXiaUCAtmivOyxWxAzSoGmttA2XB2CcSj+GuDWY?=
+ =?iso-8859-1?Q?TN64UMazzS/NqzhR9Q/quAeEiLUGhCrbchi1HF5wXKbM6IggogyXPcJ4c+?=
+ =?iso-8859-1?Q?RWQv5862WWQ24VDSuF84/JPNSoxYPQynduBLJQyxcpg+4aAidhjhtSo/FJ?=
+ =?iso-8859-1?Q?58bLUVscPLl/5Q/654jQ2HuLG15Ril1cj5wfUydc+JXOU7OA2Hew2iaxe+?=
+ =?iso-8859-1?Q?g1PXoBTxVR8E+i/9Rb7uyKK4VV/hZz3GY/OAQnTRGKUnjdK3qcT9PHKRCj?=
+ =?iso-8859-1?Q?AhlDdDJp7aqhzjfluc78Aj5zVHk5n07sih6sEmtVHhcTBOtlYLvEQQP2B5?=
+ =?iso-8859-1?Q?ekKdPnTHHHUfcCj02auchs/EhiXobxa13SFWT5Xhc1TQnm0eXB+u2OnEe3?=
+ =?iso-8859-1?Q?1Hiul/QqdfsKnBTjxNPFQ5nmTbRZUemoTDSSiS/uqXrldNVcz3wNjMtBK0?=
+ =?iso-8859-1?Q?zwBM87TZw7bR0UWf0pnspqHAn/hx5zj1N9H96S9IsowBwx0yjDYLEPOZ+G?=
+ =?iso-8859-1?Q?Il5Z6ctvhl35NPaLnvm6LSQmsP1y+rUfY9S3ZiP96y/5MFMfk/alvS9x/p?=
+ =?iso-8859-1?Q?XlAQRzs9v13MRlL23/bbYPwbT3Qb5AxFhVa81DBl5c1+LuCQLrwx4HbTsN?=
+ =?iso-8859-1?Q?r/lVHCHD+hNe2jfekqnuL0bpEy+/2GlonRyoleKcJ9qQcYJ5IaPHkg9HR/?=
+ =?iso-8859-1?Q?+VAVp38bZdjtUCGgG+RYtqxBTJLeFd87C4nfe3Mbu7XfLslWBYuOO5oceR?=
+ =?iso-8859-1?Q?RuTnGABN5gB1uwVRYXIXRsgrCUHWnw7OrZJnGHPvIoV8SymJaejCTtwKWY?=
+ =?iso-8859-1?Q?D8CgU9pSo4zxjstcZCZ/3ZwG5YswLYFcHcfES2D/syPohT51xn4nt9ACjn?=
+ =?iso-8859-1?Q?BHrzBExf53tpO9ugjWFyjDT5DWcDvyguGdG6e8BZ6NK8GBTfmudWr9UCGo?=
+ =?iso-8859-1?Q?Hlk4vc5sIbbHEjyJmaHCJzJ1QlmeGb6wSuzXKq2xbG16SEm/SELzFUBSBU?=
+ =?iso-8859-1?Q?7ZDXr3Rh6pvRlKuaHReZYT0xwVbG1iYyB0xYBebdBnQrGd0fGb/gX7N3Zc?=
+ =?iso-8859-1?Q?bco1IDDiIMBnlJ56UzOhrJUuX13JiKvlSFy4vWNTG2ZHPVY4Pj6ZCTMT+h?=
+ =?iso-8859-1?Q?RZtXcLM0kHIJ2k8CjWpm60W/wH4hdiEPRVYX6fmmLXP7oIpRyVwL3sRORj?=
+ =?iso-8859-1?Q?At6BOd+OSZI/+Bg4sc15ijdGxBPuTE/Ebjkz4H3ckF/VOlWt7qZkVKzXrw?=
+ =?iso-8859-1?Q?Mk5tM71CsNB1bPpJiNcTO3S6spNxG04WS5lP9PjxhrvSAFC8ffFMCd2cSi?=
+ =?iso-8859-1?Q?yILX5tRnC8FubokAo6ZFfzTQ1X+SpCIxWv?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] kernel-doc: add support for handling global
- variables
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-kernel@vger.kernel.org
-References: <cover.1763291890.git.mchehab+huawei@kernel.org>
- <2d3108a03afc4e48de85835667f5875af97b6a38.1763291890.git.mchehab+huawei@kernel.org>
- <3a27a1ff-7277-43d5-b1f2-4b26ef5595ec@infradead.org>
- <20251118100237.46c7082a@foz.lan>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251118100237.46c7082a@foz.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92e33f49-54d1-4391-b96b-08de26fe0efd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2025 23:56:14.7911
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KDRL3+SlVUSP0XlfwlIc1Fvz0PJK346nYZzk17RmHKjUaGvJt1K9BBtJBSsCuYDcF03iwQHB3Jf051bPeFLKVg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFF2B8F6C64
+X-OriginatorOrg: intel.com
 
+> From: Jason Gunthorpe <jgg@ziepe.ca>
+> Sent: Tuesday, November 18, 2025 10:29 PM
+>=20
+> On Tue, Nov 18, 2025 at 07:33:23AM +0000, Tian, Kevin wrote:
+> > > From: Leon Romanovsky <leon@kernel.org>
+> > > Sent: Tuesday, November 11, 2025 5:58 PM
+> > >
+> > > -		if (!new_mem)
+> > > +		if (!new_mem) {
+> > >  			vfio_pci_zap_and_down_write_memory_lock(vdev);
+> > > -		else
+> > > +			vfio_pci_dma_buf_move(vdev, true);
+> > > +		} else {
+> > >  			down_write(&vdev->memory_lock);
+> > > +		}
+> >
+> > shouldn't we notify move before zapping the bars? otherwise there is
+> > still a small window in between where the exporter already has the
+> > mapping cleared while the importer still keeps it...
+>=20
+> zapping the VMA and moving/revoking the DMABUF are independent
+> operations that can happen in any order. They effect different kinds
+> of users. The VMA zap prevents CPU access from userspace, the DMABUF
+> move prevents DMA access from devices.
 
+The comment was triggered by the description about UAF in the=20
+commit msg.
 
-On 11/18/25 1:02 AM, Mauro Carvalho Chehab wrote:
-> Em Mon, 17 Nov 2025 22:59:24 -0800
-> Randy Dunlap <rdunlap@infradead.org> escreveu:
-> 
->> Hi,
->>
->> On 11/16/25 3:23 AM, Mauro Carvalho Chehab wrote:
->>> Specially on kAPI, sometimes it is desirable to be able to
->>> describe global variables that are part of kAPI.
->>>
->>> Documenting vars with Sphinx is simple, as we don't need
->>> to parse a data struct. All we need is the variable
->>> declaration and use natice C domain ::c:var: to format it
->>> for us.
->>>
->>> Add support for it.
->>>
->>> Link: https://lore.kernel.org/linux-doc/491c3022-cef8-4860-a945-c9c4a3b63c09@infradead.org/T/#m947c25d95cb1d96a394410ab1131dc8e9e5013f1
->>> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
->>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->>> ---
->>>  scripts/lib/kdoc/kdoc_output.py | 45 ++++++++++++++++++++++++++
->>>  scripts/lib/kdoc/kdoc_parser.py | 56 ++++++++++++++++++++++++++++++++-
->>>  2 files changed, 100 insertions(+), 1 deletion(-)  
->>
->> Thanks for the update. It's looking much better.
-> 
-> Great!
-> 
->> I have a few comments/questions, all about typedefs.
-> 
-> The new version was made to be bug-compatible with the Perl version,
-> so it just mimics whatever it was there. Both Jon and I verified
-> to be sure that the output was identical (except for whitespaces).
+>=20
+> The order has to be like the above because vfio_pci_dma_buf_move()
+> must be called under the memory lock and
+> vfio_pci_zap_and_down_write_memory_lock() gets the memory lock..
 
-I see.
+make sense.
 
-> If you look at dump_typedef(), typedefs can be mapped on different ways,
-> depending on its actual meaning:
-> 
->     def dump_typedef(self, ln, proto):
-> ...
-> 
-> 	# Parse function typedef prototypes
-> ...
->             self.output_declaration('function', declaration_name,
->                                     typedef=True,
->                                     functiontype=return_type,
->                                     purpose=self.entry.declaration_purpose)
-> ...
->         #
->         # Not a function, try to parse a simple typedef.
->         #
-> ...
->             self.output_declaration('typedef', declaration_name,
->                                     purpose=self.entry.declaration_purpose)
-> 
-> Also, the actual output is modified by the highlight logic at kdoc_output:
-> 
-> 	# match expressions used to find embedded type information
-> 	type_constant = KernRe(r"\b``([^\`]+)``\b", cache=False)
-> 	type_constant2 = KernRe(r"\%([-_*\w]+)", cache=False)
-> 	type_func = KernRe(r"(\w+)\(\)", cache=False)
-> 	type_param_ref = KernRe(r"([\!~\*]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
-> 
-> 	# Special RST handling for func ptr params
-> 	type_fp_param = KernRe(r"\@(\w+)\(\)", cache=False)
-> 
-> 	# Special RST handling for structs with func ptr params
-> 	type_fp_param2 = KernRe(r"\@(\w+->\S+)\(\)", cache=False)
-> 
-> 	type_env = KernRe(r"(\$\w+)", cache=False)
-> 	type_enum = KernRe(r"\&(enum\s*([_\w]+))", cache=False)
-> 	type_struct = KernRe(r"\&(struct\s*([_\w]+))", cache=False)
-> 	type_typedef = KernRe(r"\&(typedef\s*([_\w]+))", cache=False)
-> 	type_union = KernRe(r"\&(union\s*([_\w]+))", cache=False)
-> 	type_member = KernRe(r"\&([_\w]+)(\.|->)([_\w]+)", cache=False)
-> 	type_fallback = KernRe(r"\&([_\w]+)", cache=False)
-> 	type_member_func = type_member + KernRe(r"\(\)", cache=False)
-> 
-> 	highlights = [
-> 	    (type_constant, r"``\1``"),
-> 	    (type_constant2, r"``\1``"),
-> 
-> 	    # Note: need to escape () to avoid func matching later
-> 	    (type_member_func, r":c:type:`\1\2\3\\(\\) <\1>`"),
-> 	    (type_member, r":c:type:`\1\2\3 <\1>`"),
-> 	    (type_fp_param, r"**\1\\(\\)**"),
-> 	    (type_fp_param2, r"**\1\\(\\)**"),
-> 	    (type_func, r"\1()"),
-> 	    (type_enum, r":c:type:`\1 <\2>`"),
-> 	    (type_struct, r":c:type:`\1 <\2>`"),
-> 	    (type_typedef, r":c:type:`\1 <\2>`"),
-> 	    (type_union, r":c:type:`\1 <\2>`"),
-> 
-> 	    # in rst this can refer to any type
-> 	    (type_fallback, r":c:type:`\1`"),
-> 	    (type_param_ref, r"**\1\2**")
-> 	]
-> 
-> On other words, "normal" typedefs use:
-> 
-> 	type_typedef = KernRe(r"\&(typedef\s*([_\w]+))", cache=False)
-> 	(type_typedef, r":c:type:`\1 <\2>`"),
-> 
-> 
-> but function typedefs have a different threatment (see out_function) at
-> the RestFormat class.
-> 
->>
->>
->> type vs typedef in output (html)
->>
->> typedefs are usually output as "type":
->> Example 1:
->>
->> 	type func_desc_t
->>
->> although thp_order_fn_t is output as:
->> Example 2:
->>
->> 	thp_order_fn_t
->> 	Typedef: Get the suggested THP orders from a BPF program for allocation
->> + more syntax and description.
-> 
-> I was unable to find kernel-doc markups for the above at linux-next
-> or at docs-next.
+> > > +	down_write(&vdev->memory_lock);
+> > > +	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm)
+> > > {
+> > > +		if (!get_file_active(&priv->dmabuf->file))
+> > > +			continue;
+> > > +
+> > > +		dma_resv_lock(priv->dmabuf->resv, NULL);
+> > > +		list_del_init(&priv->dmabufs_elm);
+> > > +		priv->vdev =3D NULL;
+> > > +		priv->revoked =3D true;
+> > > +		dma_buf_move_notify(priv->dmabuf);
+> > > +		dma_resv_unlock(priv->dmabuf->resv);
+> > > +		vfio_device_put_registration(&vdev->vdev);
+> > > +		fput(priv->dmabuf->file);
+> >
+> > dma_buf_put(priv->dmabuf), consistent with other places.
+>=20
+> Someone else said this, I don't agree, the above got the get via
+>=20
+> get_file_active() instead of a dma_buf version..
+>=20
+> So we should pair with get_file_active() vs fput().
+>=20
+> Christian rejected the idea of adding a dmabuf wrapper for
+> get_file_active(), oh well.
 
-Yeah, I couldn't find it in the kernel source tree either. Maybe I took
-some existing source code and modified it. IDK.
-
-> Hard to tell without seeing the exact kernel-doc markups you're
-> referring to, but see my comments above.
-> 
->>
->> Is the difference in the 2 examples above just that the first one has
->> no additional description or parameters?
->>
->> 3. typedef struct msi_alloc_info isn't output as a typedef at all,
->> but instead as a struct. But the kernel-doc for this typedef is
->> messed up (as taken from include/asm-generic/msi.h):
->>
->> /**
->>  * struct msi_alloc_info - Default structure for MSI interrupt allocation.
->>  * @desc:	Pointer to msi descriptor
->>  * @hwirq:	Associated hw interrupt number in the domain
->>  * @scratchpad:	Storage for implementation specific scratch data
->>  *
->>  * Architectures can provide their own implementation by not including
->>  * asm-generic/msi.h into their arch specific header file.
->>  */
->> typedef struct msi_alloc_info {
->> 	struct msi_desc			*desc;
->> 	irq_hw_number_t			hwirq;
->> 	unsigned long			flags;
->> 	union {
->> 		unsigned long		ul;
->> 		void			*ptr;
->> 	} scratchpad[NUM_MSI_ALLOC_SCRATCHPAD_REGS];
->> } msi_alloc_info_t;
->>
->> a. It's a typedef, not a struct -- but we may want to print the struct (?).
-> 
-> It is both:
-> 
-> 	struct msi_alloc_info
-> 	typedef msi_alloc_info_t
-
-OK.
-
-> The kernel-doc declaration is for the struct, not for the typedef.
-
-Oh.
-
-> Ok, one could have two kernel-doc markups if this would be declared
-> in separate:
-> 	 /**
-> 	  * struct msi_alloc_info - Default structure for MSI interrupt allocation.
-> ...
-> 	  */
-> 	struct msi_alloc_info {
-> 	 	struct msi_desc			*desc;
-> 	 	irq_hw_number_t			hwirq;
-> 	 	unsigned long			flags;
-> 	 	union {
-> 	 		unsigned long		ul;
-> 	 		void			*ptr;
-> 	 	} scratchpad[NUM_MSI_ALLOC_SCRATCHPAD_REGS];
-> 	};
-> 
-> 	 /**
-> 	  * typedef msi_alloc_info_t - Default typedef for MSI interrupt allocation.
-> ...
-> 	  */
-> 	typedef struct msi_alloc_info msi_alloc_info_t;
-> 
->> b. The first line of the comment should be:
->>  * typedef msi_alloc_info_t - Default structure for MSI interrupt allocation.
-
-OK.
-
->> Hopefully a warning can be printed for this.
-> 
-> It won't be hard to add a warning, but the point is that, in this
-> specific case, the intent seems to document only the struct to
-> ensure that newer usages won't use typedef anymore.
-> 
-> Also, right now, we don't produce any warning if one does:
-> 
-> 	 /**
-> 	  * struct msi_alloc_info - Default structure for MSI interrupt allocation.
-> ...
-> 	  */
-> 	struct msi_alloc_info {
-> 	 	struct msi_desc			*desc;
-> 	 	irq_hw_number_t			hwirq;
-> 	 	unsigned long			flags;
-> 	 	union {
-> 	 		unsigned long		ul;
-> 	 		void			*ptr;
-> 	 	} scratchpad[NUM_MSI_ALLOC_SCRATCHPAD_REGS];
-> 	};
-> 
-> 	typedef struct msi_alloc_info msi_alloc_info_t;
-> 
-> So, what's the point of having a warning?
-I think that you have already explained what's going on, so
-no point.
-
-Thanks for your assistance.
-
--- 
-~Randy
+Okay then vfio_pci_dma_buf_move() should be changed. It uses
+get_file_active() to pair dma_buf_put().
 
