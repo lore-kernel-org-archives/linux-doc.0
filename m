@@ -1,105 +1,86 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764943A1CF7;
-	Tue, 18 Nov 2025 16:35:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8007334DB47;
+	Tue, 18 Nov 2025 16:38:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763483732; cv=none; b=TSiW3C7PggtnR3M38F2Fj88XrwToPj/sc1lxVBVlT3LX4SdzcWxwxdzBmmZK+5Cxc6GFRehIw+ZZbz8mNI0nTjGahHt6lMUlISAHQ6koHzg1uVD+GqKYAevYdPa4anyXNGWAnnMYo3tDHFZjTYf0m9XwViy3TurWEKoV3TGHYm8=
+	t=1763483898; cv=none; b=eHHnbSpXbKCMye80jmubEe49/9KP7Pl+8BL8bhUhOaQT9YXSDZpjJ28cIv7zRH+QC/DiIWwNizmjWd4tLB2UP/qO1b/Ai5/isLqJMzOX067w9OW3wtjC6nWC+q6JXnKNYaReQbA66fyf1FvdQKL/lNNcbt0AtvOO/eAgxCJQ5+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763483732; c=relaxed/simple;
-	bh=XG2/0NHbz5h1NeW5vRPlEIFWpPEF81/RkJA/MakjhaY=;
+	s=arc-20240116; t=1763483898; c=relaxed/simple;
+	bh=UfkrHVio+Czb+hNRlOF8S3mEHz7UJpwxt5CAozAtf5U=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=u+dqG0G2ieVUw6R4CSM/hbZhvg5hUjHZzcprBq4pxyucTg7XWdPAv7TP6MrCaJg8DjB3NPuWibxWJzw7EukZythxA8qiDS8O7VHTVCHBUwE8O9HME5qtreZ4dEIOTfe0q9oAqEZ+KH5FSGlNy9v+KL1Hbt+Tf0Q/9WJL0vPpoSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EUJpjVZH; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Mv631mTx8A0R9B0xJd8h/wGznqaAqDGg1aEdRgXe51Wz5Nh/HAQt1/I2lY4aCNSFB8bypX6QBywpl3m0rU7G515EERmsNuPfjjC9RJ6zBePWMJoCZH9hqs+XH2FsQsFoa/gnNeoYLAAK4Zt/GI9qdr5H560mT1R8ZYdM4vWb6uM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Xs9LYbGd; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EUJpjVZH"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AC5A240C48
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Xs9LYbGd"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A2B0240C3E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1763483730; bh=c6E0Cc8VknrY5JDkYvyrX0Q8/d43A/ouaT2Kw+6iT/o=;
+	t=1763483896; bh=4DSR+e5zgphjkdqy1n3flsSBWx54VvMwDl5bi6C9QUg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EUJpjVZHN5yrIYX1IIMojhIJ+H8CZ3HnpULEoGm178vsXU4X4463JLMgVF2Qnvb5v
-	 9N8xEtGIeSd5AEQpdVxdjA9CGK0Z32eQ5MRwnVgeem2Aiqwm+SiJVbKDMcD0vgF0r2
-	 ucNe0ETSdp9VTdW3ooBROYs9OheGS/y2xOygao4hkbKUUmGeK1iyIE6aWepAc0XEBy
-	 uD/uNmIq2b9F+Ehgqtc4eccrVAhbLv8ZMFrRzEOBNg+Iuz+ja/c1XnvV0PvEczxIgq
-	 l7OQZppjIjrSbbczTb5dTsrrZDn2SMLANAanFAkQQxaWUEZDk8+O27PLnC87vCnmUN
-	 rm26LiubopQsQ==
+	b=Xs9LYbGdMAjA6L7s8EFxtA0g8bw9rWJC0l9r2iiObUTHOalpZw+hc8iPu4Qd14oZF
+	 9mM8xxHEEkFXhQw3hA/WD4chNw10BH2tUbFtt7oRP2qUev1VDlYMyD4N+hIvDYKY/k
+	 QdqmnBCMOZjFH21N0x2y4F1DEYBoQ7fqTCGiXMbcOxgM5rs3xAG3Q46IDFKwmKeSNU
+	 cNC0xqYUwN6Wz1GJp0UXLRFJsxhtr+pqYxo7CFdBiHtqs4BTV21RmCfRDZZRS4cG/u
+	 ATB+hL3/el2pV+zHdOVPVO2FEUZmRg4HDmQfJg5FYgA9nE+FUpthzP+XyF4qTSrrtJ
+	 zM3lhEKgqktYA==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AC5A240C48;
-	Tue, 18 Nov 2025 16:35:30 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id A2B0240C3E;
+	Tue, 18 Nov 2025 16:38:16 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Cc: josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
- linux-kernel@vger.kernel.org, rostedt@goodmis.org,
- workflows@vger.kernel.org, joe@perches.com, rdunlap@infradead.org, Sasha
- Levin <sashal@kernel.org>
-Subject: Re: [PATCH v3] README: restructure with role-based documentation
- and guidelines
-In-Reply-To: <20251117213801.4077535-1-sashal@kernel.org>
-References: <20251117213801.4077535-1-sashal@kernel.org>
-Date: Tue, 18 Nov 2025 09:35:29 -0700
-Message-ID: <87wm3n47u6.fsf@trenco.lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Miguel Ojeda
+ <miguel.ojeda.sandonis@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Alice Ryhl <aliceryhl@google.com>, Andreas Hindborg
+ <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, =?utf-8?Q?Bj?=
+ =?utf-8?Q?=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Boqun Feng <boqun.feng@gmail.com>, Danilo
+ Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Trevor Gross
+ <tmgross@umich.edu>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 1/1] docs: makefile: move rustdoc check to the build
+ wrapper
+In-Reply-To: <kjpquyekvw7fwrndoomtge7fnxtfefihqlikj6xcqtazrr6l77@424ufup7v45o>
+References: <cover.1763370163.git.mchehab+huawei@kernel.org>
+ <a9b172c926a4b30360530c34adc44f3789ec2b27.1763370163.git.mchehab+huawei@kernel.org>
+ <CANiq72=bYzj6iU7PCm+VMBTeBbgUcL8nwrvUut9p4ph+3+itaQ@mail.gmail.com>
+ <kjpquyekvw7fwrndoomtge7fnxtfefihqlikj6xcqtazrr6l77@424ufup7v45o>
+Date: Tue, 18 Nov 2025 09:38:15 -0700
+Message-ID: <87seeb47pk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Sasha Levin <sashal@kernel.org> writes:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Reorganize README to provide targeted documentation paths for different user
-> roles including developers, researchers, security experts, maintainers, and AI
-> coding assistants. Add quick start section and essential docs links.
+> On Mon, Nov 17, 2025 at 10:20:46AM +0100, Miguel Ojeda wrote:
+>> On Mon, Nov 17, 2025 at 10:13=E2=80=AFAM Mauro Carvalho Chehab
+>> <mchehab+huawei@kernel.org> wrote:
+>> >
+>> > The makefile logic to detect if rust is enabled is not working
+>> > the way it was expected. Move it to be inside the wrapper
+>> > script.
+>>=20
+>> Hmm... Could the commit explain a bit why this didn't work and why now i=
+t does?
 >
-> Include proper attribution requirements for AI-assisted contributions using
-> Assisted-by tags with agent details and tools used.
->
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
-> Changes in v3:
-> - Replace "Agentic Coding" terminology with clearer "AI Coding Assistants"
-> - Add concrete examples of proper Assisted-by tag usage with multiple formats
-> - Add "Bad examples" section showing anti-patterns to avoid
-> - Add detailed tool categorization distinguishing specialized vs basic tools
-> - Add explicit format specification: $AGENT_NAME:$MODEL_VERSION [$TOOL1] ...
-> - Expand section description to clarify it applies to both AI tools and
->   developers using AI tools
->
->  README                | 212 +++++++++++++++++++++++++++++++++++++++---
->  scripts/checkpatch.pl |   1 +
->  2 files changed, 202 insertions(+), 11 deletions(-)
+> I don't know exactly why this was not working.
 
-Overall I really like this change.  We could quibble forever about the
-details, but that's probably not worthwhile.
-
-That said, I have one quibble :)
-
-> +Examples of Proper Attribution:
-> +
-> +Good examples:
-> +  Assisted-by: AI-Tool:model-version-1.0 coccinelle
-> +  Assisted-by: AI-Assistant:v2.5.0
-> +  Assisted-by: Code-Helper:model-2024-04-09 sparse smatch
-> +  Assisted-by: ML-Agent:version-2024-11
-> +
-> +Bad examples (DO NOT USE):
-> +  Assisted-by: AI                          # Too vague
-> +  Assisted-by: AI-Tool coccinelle git      # Don't list basic tools
-> +  Signed-off-by: AI Assistant <ai@...>     # NEVER - AI cannot sign off
-
-I don't think this belongs here - we don't have examples of good SOB
-lines - or of anything else.  What this needs, instead, is a link to
-Dave's tools document once that goes in.
-
-(We also, in truth, do not yet have a consensus on what the attribution
-tags should be, and here isn't the place to try to form one.)
+I would feel a lot better if we knew what the real problem is before
+applying fixes for it.  Otherwise something seems certain to come and
+bite us at some point.
 
 Thanks,
 
