@@ -1,100 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-24417.protonmail.ch (mail-24417.protonmail.ch [109.224.244.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC05F3538BE;
-	Tue, 18 Nov 2025 11:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80395307AF7
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 11:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763465475; cv=none; b=lAWPhakv28XwMolInznAre/X3RSxZKU/GtAcoB531fXsSkDXdA77C/DNbZz7K7+GryEJa8VwJkwKIdWHVYp/LShMv4Rhxaxn9veXIRQqLmFH71lEdlO9ImMGLEFGBOtKI2Dvo6jk8idZt1oqxuIJgUYcstJCzxhAW/TTAw1GTtc=
+	t=1763465829; cv=none; b=nft5ZqkXKbSalEI48HKbrxOqxTq+T3PzwuIJ+1KrlxPett/ISkAHvwvaFG2jXahoMGVlvM439NNk83mr/g/k37SoBXrNI6zOfjcXB3Fyw2tVg3I/Q3wIoNFz7ShEoQa10IN38m4rB5Bje5cT0h8b2yESnq9yYL3oQCdYahXSe08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763465475; c=relaxed/simple;
-	bh=TDbb2U/vh1bt7ZPBFidhpKgCXs1OsPq/ve44MJ2AfpY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HuV51jLoJNb4fII5mAJMEKA7pRrVPkssvkzhuQ7h/hxwPjB6yi9hZL+m6tK0cu3AjdRsIeE6+KxneOuJ3iG61fyGyC42lCAXxIMDpZd1Hcqc5jMR2YthQGJy28/QfZxt4fWkQ9uPL2ZLUGbKwBK/ctwZJ+w9ZhqO94MSi7zz1As=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fdNW3Shx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763465829; c=relaxed/simple;
+	bh=oIEKShPj8LhZa0LzPnG+pc1whx8d811sljdY12ZVdWg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=afhQBAuM3YHddBpvnysmnct78xfiYN2VF38P5e4p9ThIp9pUW5EK6VZmE5JKR5NcI95gZw0on9W0enWxQyj/AZNFT524O3ofwGQty+7b8sNr5FR6KN0ovDGNZZX1Us0OENzdR6KSrnbVuortsL8q7s3B2s8/NtrBq6BRNx4sQGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=A62qJ3HV; arc=none smtp.client-ip=109.224.244.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fdNW3Shx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12F6BC2BCB1;
-	Tue, 18 Nov 2025 11:30:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763465475;
-	bh=TDbb2U/vh1bt7ZPBFidhpKgCXs1OsPq/ve44MJ2AfpY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fdNW3ShxByK3KPJ6f/r4xo57HHF29jYKzlWJMzAoEG5qhL4vUeTW7q0vODegzHk7x
-	 Fcht3rxnbZ0AavV8SEB946ijmPMW63uMz1a6R3WkynBS68yVMJHaDkrh5Vi2CJxKij
-	 mL9IWsuiO1hWsOgISGtBoNd7dui5+O7QMhgUupFQl+q75AQCLry25dVxM7lSoo5bCX
-	 myydjdFJZlkHu8XkDHAhal5Sn5XDPCIw+PLb82EM6sTiT7UHDrQDrG8g3phkrgwzHz
-	 JLOWWFQitPFaMb1HLyyXjecgPX26uBVyuXrodjRAsemgX7QeO14EYdKbQE9Bq8GUpJ
-	 QFR4M+EFzMI8Q==
-Date: Tue, 18 Nov 2025 13:30:47 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v6 20/20] tests/liveupdate: Add in-kernel liveupdate test
-Message-ID: <aRxY53gBbeH-6L0Y@kernel.org>
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-21-pasha.tatashin@soleen.com>
- <aRsDb-4bXFQ9Zmtu@kernel.org>
- <CA+CK2bCfPeY558f499JHKN7aekDzsxQkZJ9Uz4e+saR0qtXyfg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="A62qJ3HV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1763465822; x=1763725022;
+	bh=DE/tg0nJoToaNRa0UqK6uA3/ue+ZalTDQdxOe/ZUB5I=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=A62qJ3HVc/QcFo3EtY8f3xbhHwUHHS73FKrm5NfXWUzkSzKMpPSlwVVOHMs992Ntn
+	 TcokQ5u/tjEK627OMqjj1qaY5+gMYz7abk+5IQtsTR5DpJNASN32IN8GYdQFZXhy0a
+	 smfh1qEFWDrtY7OlyebMVnAL+/VMy8ImKJ0FQo1No/NbT/jAQge7GNBbsmuIBua3Fk
+	 PGJaIMpARX4R4JEW8jciC+zf0IJqnbjhtwItFaSaJl1JYRXvtNbWPPHsQf1MxD4yLR
+	 TuRDUrxA0XL2uIIrSikjiLnz8S4JKgtyCgzLxEoQVqgZh5/J/YPxSzVSiUDoEzwexX
+	 2rOnoL0lhYHzQ==
+Date: Tue, 18 Nov 2025 11:36:54 +0000
+To: Alexander Potapenko <glider@google.com>
+From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de, surenb@google.com, ardb@kernel.org,
+	Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 14/18] x86: Minimal SLAB alignment
+Message-ID: <wzxmteswfsj3idgwyai7m3ou7kulfmxerxkq56xfhoqhvpz3tq@omy5z7eb3esp>
+In-Reply-To: <CAG_fn=W033hGM7_jnj0irwW0gc6McLw2nbhfZROWfieqKTxVdQ@mail.gmail.com>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <0ca5d46e292e5074c119c7c58e6ec9901fb0ed73.1761763681.git.m.wieczorretman@pm.me> <CAG_fn=W033hGM7_jnj0irwW0gc6McLw2nbhfZROWfieqKTxVdQ@mail.gmail.com>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 91807d56d4653d1f85cedcda318ac58c40da2783
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+CK2bCfPeY558f499JHKN7aekDzsxQkZJ9Uz4e+saR0qtXyfg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 17, 2025 at 02:00:15PM -0500, Pasha Tatashin wrote:
-> > >  #endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
-> > > diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-> > > index df337c9c4f21..9a531096bdb5 100644
-> > > --- a/kernel/liveupdate/luo_file.c
-> > > +++ b/kernel/liveupdate/luo_file.c
-> > > @@ -834,6 +834,8 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
-> > >       INIT_LIST_HEAD(&fh->flb_list);
-> > >       list_add_tail(&fh->list, &luo_file_handler_list);
-> > >
-> > > +     liveupdate_test_register(fh);
-> > > +
-> >
-> > Why this cannot be called from the test?
-> 
-> Because test does not have access to all file_handlers that are being
-> registered with LUO.
+On 2025-11-10 at 18:48:35 +0100, Alexander Potapenko wrote:
+>> diff --git a/arch/x86/include/asm/cache.h b/arch/x86/include/asm/cache.h
+>> index 69404eae9983..3232583b5487 100644
+>> --- a/arch/x86/include/asm/cache.h
+>> +++ b/arch/x86/include/asm/cache.h
+>> @@ -21,4 +21,8 @@
+>>  #endif
+>>  #endif
+>>
+>> +#ifdef CONFIG_KASAN_SW_TAGS
+>> +#define ARCH_SLAB_MINALIGN (1ULL << KASAN_SHADOW_SCALE_SHIFT)
+>
+>I don't think linux/linkage.h (the only header included here) defines
+>KASAN_SHADOW_SCALE_SHIFT, does it?
 
-Unless I'm missing something, an FLB users registers a file handlers and
-let's LUO know that it will need FLB. Why the test can't do the same?
- 
-> Pasha
+I revised all the x86 and non-arch places where ARCH_SLAB_MINALIGN is used =
+and
+all these places also include linux/slab.h which does include
+KASAN_SHADOW_SCALE_SHIFT. So there are no cases where it's undefined.
 
--- 
-Sincerely yours,
-Mike.
+The minalign makes sense defined here but including kasan headers causes
+compilation errors all over the place. And I don't think moving
+KASAN_SHADOW_SCALE_SHIFT here makes much sense?
+
