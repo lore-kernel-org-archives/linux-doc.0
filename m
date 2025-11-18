@@ -1,59 +1,60 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DC828002B
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 04:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D620428727C
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 04:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763439814; cv=none; b=rF1hsX72QBmRw8WaFrLSboEeG+p5U+Dk+Ka8Ui7oohMnMNztQJ540YtW0QIxn+Ccj0aPKdTNSasROJO5oyI7pbf9NGoj9GizmSJQLgF1+ekVt9JhUg2vjFcUDNyxju6ATyV1/GslD4/vU0BVBmpIi6iOWW13VR0hhVbLcUw833E=
+	t=1763440149; cv=none; b=JRLQ5Z/zj0SWeZx4wnfjsDUikbuz34dVrLbJ7B9YxH/k1JZeC7lQIHV2zbU0C/FfoKbEkqDxEBjve7sm7s6rKICIFT3ai3pJnXq6jD0LUNqES10cEBxH6ZNB4HLwDw2CLU9sYsGqT6jwpwqbTkL2Wreao2zs7wCG7oDVHFiObes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763439814; c=relaxed/simple;
-	bh=yHOZfK0pWU/GvMRSsb/xaHbV4r5va663wkrxdVP9VvY=;
+	s=arc-20240116; t=1763440149; c=relaxed/simple;
+	bh=X6KnXlrlW3t/I9mrc0okamZX2WiqE0y9NcPRZWpOOdc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jLbvE/Bq77k2/Fs46/jtzXE29fitaIDudTHqe3ydjqh5nSrnweGmuaLSjjnC2QwhrU4wLGpTTd+qVW++/7aAFUQTCb1bY2FvPudC/7QzJ2a+ZMbe1DMab8foMYojrc71xHZ1CXSotcf0rMtzh64wfPr3HBXCFlJfrGo5UkSyTWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Ncs1zvpk; arc=none smtp.client-ip=209.85.208.44
+	 To:Cc:Content-Type; b=CwdYIR8yTiDlB3trAiNWDT2GvvmxnwGanDFdf6IJV3c/dOlhDl0vE49cxZtlENbDh7/CbeHAXqxRGTmBneri3h2RDe1aYludLhxX7T6ch++41lnRgmltF4r6tC5Rvqyt29BuzRvisPpL/AN/9mSuaqmS8oa8wsLJ+QycbHTHujo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=PCVedF94; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Ncs1zvpk"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-640aaa89697so6627881a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 20:23:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PCVedF94"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-64088c6b309so8010486a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 20:29:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763439811; x=1764044611; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yHOZfK0pWU/GvMRSsb/xaHbV4r5va663wkrxdVP9VvY=;
-        b=Ncs1zvpkoQyBjEEPlcBVK7x6tqaMkk+Tyr2e8gKH4v79eq7IPiONZeN/xGnVASF3qc
-         1Sa2ixZ+vSkBv8Zp9f1E0ZEgD7N5J5+SIHBlk0ojCPyD6aoK5O3wrZt6DMDYG3/YqLgd
-         uR+WmibXr15R6jiuP1FrFxX2t98ISFIKGoD7WNInMXqAkl2V23Fq9ss1AZ993EPtGSlk
-         VO8l2xJr1RdopwMRlYkDIKRxpJGY9LHBmkWDOzkJgDZ1uV7C2iSYpzGY+fkMUPcVko4j
-         y8PBk77GfKeswNnW4vcUtLk4vvCsaUcm8OD24/bhIxBqSBBU4muX3Ys3bwhT3VjQZxp7
-         GQ2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763439811; x=1764044611;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=soleen.com; s=google; t=1763440146; x=1764044946; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yHOZfK0pWU/GvMRSsb/xaHbV4r5va663wkrxdVP9VvY=;
-        b=m7Pjg6n4bIH68Ho4YBnQafbspbeZpxsuLHvN/EtyD4xDEWgrNxjE6/2oNlU1qpXaLI
-         ewYxel9JqBvHlaa95nb06gPse31f35AkCtrpAxRL3/DLZZ+vHwZj8I9fvuAHCAo2REuA
-         FDiqd42yIaKO+nZyJ+8fyCquj88ng0nhjCVWMEehuLIbDrzA8Hj8FBLjjC6m2uc3rvK0
-         bK8LecdY0J0/KjOEzv0kwHwWJ3W9V/U9OqRqyda7zkW5+H9G5tOpnwdQZdeOm3ZNzwtK
-         DLGoBpjB7wneD+vU6tKT/Bbwz5GYXqK5PHDFDiKo0ylerO8DFa2pbYFF0GZcvrNyw+TW
-         CjBw==
-X-Forwarded-Encrypted: i=1; AJvYcCXsDmIqjf38Gi+G/azt164LnOia71iKexI+MTCTOFbQ4EnlQg/7ZBd03uKtq6oTb4SBVEmBxDvNy+c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzubYUcgluVHwyPSa3EDfUDOVeQKYDAG5XybxEmKgT0IaLMNV5S
-	ghpY/7oD6ROWGipB1NIo5GPcQxsim6WQI/CihujJzUODp+H1fcdt/F/X+cGab++HfcDt6Xh77Fp
-	6uiz7D/aNBwVBhUc52a0t1GQK9Pe55UDCFmuvyM2HIA==
-X-Gm-Gg: ASbGnctYR6SPALiPfG/1lqXikuMmiMW/vf7s7ciq3KeH6dgXr/dGr9EpKpGncVbGqqg
-	+ydQgRACLusm1rwj5rvNVBLUU+FpqChG9vjghLBIBbRwbZqU4TqjcYw5Y78vn/iY15tDrGBrrRM
-	JTseYZ6K1ac19wT4BF9m6rno7Li6Y0iErK8/MRF+yCpjX0ZxL6gk1OFkv3W0ikW2tbGyD6t9SW/
-	dXf17wmqnqXmZgrlpMOiPQ4pOrW3TjN5T6mMAakKx9claj70Jbj4EhrFRaPFPgq6HxobsTLIN4E
-	jxk=
-X-Google-Smtp-Source: AGHT+IHcXQAOPbW77p032BCA1yf03kdrt9TXEreALO4fe3G9Md4L5c16ZrMCE1/XunuQOVa5pqVrU/kpO2uPmj8xqWM=
-X-Received: by 2002:a05:6402:3508:b0:640:c849:cee3 with SMTP id
- 4fb4d7f45d1cf-64350ec18a5mr12648190a12.34.1763439810816; Mon, 17 Nov 2025
- 20:23:30 -0800 (PST)
+        bh=nVK4IdpOEfypRyCSONdTJzqLYJ2T4mhuvQFJg1heiHk=;
+        b=PCVedF94X8LrJryuCcqF5hEsK2SqZcqiple3XkA3ILr5WOj6MYvnVM8RMKxL4c6T0k
+         n6v0dQyNapdOomwNAMRT897eA9VGSrQ20Ho7UkoqLzB5ms1QD37IWqi3u8+uCr1REGxx
+         vOESGmVIwIe8oPnnsNHRJKoGaHs7StUx+ckNZUsJFLmXyorIMV5HJ2eZ74XWY+IS/ZrT
+         NO60eSOuNF3+KM6P5XJ37Jhb9ZB8IZxJ+VAwtkOz25D12NW5AnXSRv14CTDDoLlLQPeo
+         UeZnPivTNCYoFOMNrzaB2D+KM4FuneVYFGisvGLNZGfH/eiOoyGz3E0xC11WOi/wM4ok
+         enOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763440146; x=1764044946;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nVK4IdpOEfypRyCSONdTJzqLYJ2T4mhuvQFJg1heiHk=;
+        b=h7RiGECnuPSickx7/zVToU/YP+uZXZA6sWT0hk9xDjX/9fzdsDtYh80kZw4UoTLorH
+         psdfpgqW/NqMesFXPgK5TfWLH+btpJjIOnmLYc4xOyjH6qlBRRgRAaMIgIMEa2DyS0b6
+         NleL6L35i6GE5nM4cwAiFnIbnYAjWLklUXyrO9hZs/x+IZDVCD4aM18by4fY/uiPYDUV
+         FidcvEV8E0XC4xxOxjfOAUVC0lINlz52SOjaeX9UwZOQvIZzULYhY0IBWo7UDEhykz/S
+         bIMNkn9Bt8shyPOyXNd2/eTZxE1xXhOrLlp70UW0FiFS+HIy/LrsX4tE8gfyyhnvYPpC
+         XPvw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkxiluiFY36BjNDvWaHHuleHOPjNcntluTwyyqSOdsTdUXWMKETCf0t5bvfOAk++7fTQSqYwidUUc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZRXGMa/m/mjYrFEipDO54gE8kowLM1eCwqdbV3pHR6OZ3IRSc
+	UVEMz1PGuSg5SidPvwIDwXuxdEVKS+KE4IysXGFgBx+vXUA53N2JyK/j9cQ3t/ZnatEj8fXYMGn
+	CT0m/KPWo9T5XORHVlcYIGLoJi2vAPTVCebZem+exbw==
+X-Gm-Gg: ASbGncs2Bxa+drD8GKylv629eoCdvaU8Sx1mzfdCJTMgetuLbrW8I/vgDFndhaog8Ep
+	1cpT29qNQClvFcTC+kkUlbqfdbxYuIsMuFzow+iyiXI2n7wZ7OSE0fo6i1vC2PuXpoH8wrT3qu2
+	2p4nChqIDJCqgjgHXxASkNRT9P+85/lFOVNpyHAB/10mYKcfMl2dvqC0qMhEe6kkbqjXDcgFJQD
+	729idK1vdHuAbZ5SutWMka4D+kV5poSIhjKWEGkRpNSD/2sMgHpT/UH3a+/IBzKBjlku1OdjsQ6
+	JfE=
+X-Google-Smtp-Source: AGHT+IF6ySItcOMgaBoEyxRCTrysqlaU4//aieWHoBgnptA91clHqaU2ww5S0PiyBiCx/e+NYj7wY0E/YvrpgMWF5v4=
+X-Received: by 2002:a05:6402:35d6:b0:640:9993:3cb8 with SMTP id
+ 4fb4d7f45d1cf-64350e039ffmr13236688a12.5.1763440146078; Mon, 17 Nov 2025
+ 20:29:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,16 +62,14 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-3-pasha.tatashin@soleen.com> <aRnG8wDSSAtkEI_z@kernel.org>
- <CA+CK2bDu2FdzyotSwBpGwQtiisv=3f6gC7DzOpebPCxmmpwMYw@mail.gmail.com>
- <aRoi-Pb8jnjaZp0X@kernel.org> <CA+CK2bBEs2nr0TmsaV18S-xJTULkobYgv0sU9=RCdReiS0CbPQ@mail.gmail.com>
- <aRuODFfqP-qsxa-j@kernel.org>
-In-Reply-To: <aRuODFfqP-qsxa-j@kernel.org>
+ <20251115233409.768044-5-pasha.tatashin@soleen.com> <aRoEduya5EO8Xc1b@kernel.org>
+ <CA+CK2bC_z_6hgYu_qB7cBK2LrBSs8grjw7HCC+QrtUSrFuN5ZQ@mail.gmail.com> <aRuPcjyNBZqlZuEm@kernel.org>
+In-Reply-To: <aRuPcjyNBZqlZuEm@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 23:22:54 -0500
-X-Gm-Features: AWmQ_bmu9XJ4F2q03zVpJ7QCWl2e5iEfuoUmDpvTnYNqaWiEdVtcHIOkeQ1NtZs
-Message-ID: <CA+CK2bAEdNE0Rs1i7GdHz8Q3DK9Npozm8sRL8Epa+o50NOMY7A@mail.gmail.com>
-Subject: Re: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
+Date: Mon, 17 Nov 2025 23:28:28 -0500
+X-Gm-Features: AWmQ_bnXjUULcNqlTihBFO8sKCACG8mKavb9e7Sf8PiMX_A8JxJdQG4B0RQX_fk
+Message-ID: <CA+CK2bC1HviYczgs8=sh8Rt6rxgPgWuda4DGYpg+oLfHn5b2ow@mail.gmail.com>
+Subject: Re: [PATCH v6 04/20] liveupdate: luo_session: add sessions support
 To: Mike Rapoport <rppt@kernel.org>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
@@ -97,24 +96,53 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
 	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> You can avoid that complexity if you register the device with a different
-> fops, but that's technicality.
+On Mon, Nov 17, 2025 at 4:11=E2=80=AFPM Mike Rapoport <rppt@kernel.org> wro=
+te:
 >
-> Your point about treating the incoming FDT as an underlying resource that
-> failed to initialize makes sense, but nevertheless userspace needs a
-> reliable way to detect it and parsing dmesg is not something we should rely
-> on.
+> On Mon, Nov 17, 2025 at 10:09:28AM -0500, Pasha Tatashin wrote:
+> >
+> > > > +     }
+> > > > +
+> > > > +     for (int i =3D 0; i < sh->header_ser->count; i++) {
+> > > > +             struct luo_session *session;
+> > > > +
+> > > > +             session =3D luo_session_alloc(sh->ser[i].name);
+> > > > +             if (IS_ERR(session)) {
+> > > > +                     pr_warn("Failed to allocate session [%s] duri=
+ng deserialization %pe\n",
+> > > > +                             sh->ser[i].name, session);
+> > > > +                     return PTR_ERR(session);
+> > > > +             }
+> > >
+> > > The allocated sessions still need to be freed if an insert fails ;-)
+> >
+> > No. We have failed to deserialize, so anyways the machine will need to
+> > be rebooted by the user in order to release the preserved resources.
+> >
+> > This is something that Jason Gunthrope also mentioned regarding IOMMU:
+> > if something is not correct (i.e., if a session cannot finish for some
+> > reason), don't add complicated "undo" code that cleans up all
+> > resources. Instead, treat them as a memory leak and allow a reboot to
+> > perform the cleanup.
+> >
+> > While in this particular patch the clean-up looks simple, later in the
+> > series we are adding file deserialization to each session to this
+> > function. So, the clean-up will look like this: we would have to free
+> > the resources for each session we deserialized, and also free the
+> > resources for files that were deserialized for those sessions, only to
+> > still boot into a "maintenance" mode where bunch of resources are not
+> > accessible from which the machine would have to be rebooted to get
+> > back to a normal state. This code will never be tested, and never be
+> > used, so let's use reboot to solve this problem, where devices are
+> > going to be properly reset, and memory is going to be properly freed.
+>
+> A part of this explanation should be a comment in the code.
 
-I see two solutions:
+Done.
 
-1. LUO fails to retrieve the preserved data, the user gets informed by
-not finding /dev/liveupdate, and studying the dmesg for what has
-happened (in reality in fleets version mismatches should not be
-happening, those should be detected in quals).
-2. Create a zombie device to return some errno on open, and still
-study dmesg to understand what really happened.
-
-I think that 1 is better
-
-Pasha
+>
+> --
+> Sincerely yours,
+> Mike.
