@@ -1,116 +1,102 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF6B3254AB;
-	Tue, 18 Nov 2025 11:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69185350A15;
+	Tue, 18 Nov 2025 11:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763465057; cv=none; b=cIKERNbIS+uDlo9asxms8E4BWwvx/D3uIDdnGLtdgabV2S+SxWECGsQwPQwxBdr5WaaV4+BxURWuJ/IEgu6bD69h5K9xLrO3M7FEtnEJxHVisztBKNJ2kcgeMWQyny0kqWAoKcPD0IYx6+Rn3qfl1VRTZEJ5VMvPBfNwjl2/+O4=
+	t=1763465307; cv=none; b=RBZMvy9JeT0J9nYJgSLhRDEZ90oIez6ruSW+8Fqu9YIbwA4I2jyIE0/drE8ZdBBj4n3s/cUSpwwgAVaFjfGaUovA81JeLxMMngNbbLxPSuxjsl9pyEEOb/m2iHVLVykImT2iUqEBBEGNufajWm6jQg4hKgi012Wjbz3J4Lni+Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763465057; c=relaxed/simple;
-	bh=95RGFT/dhcOn0/N6C6fU5jw+MwuagCZufD9NT8Bkv5g=;
+	s=arc-20240116; t=1763465307; c=relaxed/simple;
+	bh=B3Ck+ZeJMAqa97fGHBodXk952kfsyzlVaAaz1fhsUjU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MIGM7+li9T3z1BVf0vdXc3HmQkEAvGPZntVMqdwi8oQEBd/i/SJkXKUOuTK9nAn6wscD0dtD0jmXkrauGJj/6mv1XZ09Ht0qu9o27a5BAkFmhKySEilJzX4lSgrHlkICFMmZYuYHO6wwYTlAM7GySewz+XhyMQj+fIwQofhiux4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=cF1KwkMX; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=t8m4eQLQkVpwIcLgeqvfIUpWzJa+XJdEHnd6Ma5+966zU37kFXc3MpY+gBYzh/tA+Pwc+VvHffTY5c/Qa9fQO8z7Oq8tq1k1WG/u1k+PvNoTTvuYf4s3FiajWp3Nd14b1vNLf+BRAd8t7DYbAlAMgSpscyqLwNecIe8np4cjAUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQLu+9rZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="cF1KwkMX"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2FA9040E0258;
-	Tue, 18 Nov 2025 11:24:12 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id fKhnvmpBsDvn; Tue, 18 Nov 2025 11:24:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1763465045; bh=1kLZ5cyCs9UDKm0LBbgOUZyb5nF3nDZlDxQEsPSnVdg=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQLu+9rZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFA73C2BCB2;
+	Tue, 18 Nov 2025 11:28:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763465306;
+	bh=B3Ck+ZeJMAqa97fGHBodXk952kfsyzlVaAaz1fhsUjU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cF1KwkMXQazRUOyIwJVFysULhOSIcknlBbylO3ziLKe6W99FKcAfkWr1s+eBQcKss
-	 V9WjpT4ROnyIkbou8nlFHV4cnu/sNvdxvFtmvxAurcCnSOVZFw67Jn4HsB5f1/9Z0i
-	 jKuf0/jmGIzi9jYSSH+ourYIwo01OboG8Tau2mEivci5tSXB3bHjXyzOZKiVTADIbC
-	 3G7XF8fBs5Q8Cw2ReXKBEO9LsD8qwfOlBH+XRY94dnGyW7hzGVEgtlbMbWl3zE7FMI
-	 ippz1GZYbJVcX8J5by38wKPjdQ1qZR7aFkU+PEL2v4B1qYomooNGn4EOqPbSp90sDX
-	 Ken3zf0j7TcO6BAN/1HqBneWM+BSBiYAkkL9K67CR4k0ZUiNbrrwyMbHPOEkcdMESL
-	 GWEqNIN3ZiS30oxKu+9MLylEpkQpKg1H2ZjoiacQWZrRcmzmXJLIkgROObHwTjnFkO
-	 x7qUWLPJPi0aptq47baslnNGIps4K26aikHIyXJS16bW02Td1+04dUJpkoDWHkG+fR
-	 SbRUyCy5YNTNFOa41zlVURKra0MAJjnn1kG81Wkbxiuya+b6fT0vc0hN0rHsQg77cn
-	 F9qD3WK1DqogexehP1t+0mur95Na4dmJTsZ84Mbk7AqlliMa15AOnZGxlMx8lWNi60
-	 rTptPugGiquJ7YtRAQyvA/V4=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 81B4740E0216;
-	Tue, 18 Nov 2025 11:23:39 +0000 (UTC)
-Date: Tue, 18 Nov 2025 12:23:38 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Kirill A . Shutemov" <kas@kernel.org>, Xin Li <xin@zytor.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Sean Christopherson <seanjc@google.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: Re: [PATCH v12 6/8] x86/traps: Communicate a LASS violation in #GP
- message
-Message-ID: <20251118112338.GDaRxXOqONunUHGgV6@fat_crate.local>
-References: <20251113224204.50391-1-sohil.mehta@intel.com>
- <20251113224204.50391-7-sohil.mehta@intel.com>
- <20251117144840.GIaRs1yNEYjdNF0SHu@fat_crate.local>
- <bfce23cc-bf7f-494e-a443-baea41f33381@intel.com>
- <20251117182958.GBaRtppoY2uANW2JI8@fat_crate.local>
- <ff8564b5-8b64-4228-84cc-7e3c0156a886@intel.com>
+	b=GQLu+9rZRRAXOUo92WAJWcJwMQwCECdt5VEQNNd+yp5MfU6CT/SCqQGSMA1LzumqT
+	 NfCkJGz3WVbw4jmetvEnNdBIZtFyXHwH0Uv1STbCTH3FpF6egZEea/8IThMQV2AnE7
+	 Xva49r63Ie+VmHsEwIVC3bWqvEFIsND9oBQ2SEDO0+Ttol+YON6Nqe0C0GMP8C0p/x
+	 nFs3/rjxgKCHsFSL3CWTeJs90Qo4ldWBUDxa8ow5mCspZWSwIXVih7aEib8XXJ+3jN
+	 3u9YDrfXHY0BGetjelUPwh1a9YTF4bmTsULA+0awTrM4pf/hzkdGxtAY8qVHPr80PG
+	 yj/Y/ua4PKjzw==
+Date: Tue, 18 Nov 2025 13:28:00 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v6 08/20] liveupdate: luo_flb: Introduce
+ File-Lifecycle-Bound global state
+Message-ID: <aRxYQKrQeP8BzR_2@kernel.org>
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+ <20251115233409.768044-9-pasha.tatashin@soleen.com>
+ <aRrtRfJaaIHw5DZN@kernel.org>
+ <CA+CK2bBxVNRkJ-8Qv1AzfHEwpxnc4fSxdzKCL_7ku0TMd6Rjow@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ff8564b5-8b64-4228-84cc-7e3c0156a886@intel.com>
+In-Reply-To: <CA+CK2bBxVNRkJ-8Qv1AzfHEwpxnc4fSxdzKCL_7ku0TMd6Rjow@mail.gmail.com>
 
-On Mon, Nov 17, 2025 at 11:45:38AM -0800, Sohil Mehta wrote:
-> Would this update to the comment help clarify?
-
-Yap, that LGTM.
-
-> 	/*
-> 	 * A NULL pointer dereference usually causes a #PF. However, it
-> 	 * can result in a #GP when LASS is active. Provide the same
-> 	 * hint in the rare case that the condition is hit without LASS.
-> 	 */
-> 	if (*addr < PAGE_SIZE)
-> 		return GP_NULL_POINTER;
+On Mon, Nov 17, 2025 at 10:54:29PM -0500, Pasha Tatashin wrote:
+> >
+> > The concept makes sense to me, but it's hard to review the implementation
+> > without an actual user.
 > 
-> 	/*
-> 	 * Assume that LASS caused the exception, because the address is
-> 	 * canonical and in the user half.
-> 	 */
-> 	if (cpu_feature_enabled(X86_FEATURE_LASS))
-> 		return GP_LASS_VIOLATION;
+> There are three users: we will have HugeTLB support that is going to
+> be posted as RFC in a few weeks. Also, in two weeks we are going to
+> have an updated VFIO and IOMMU series posted both using FLBs. In the
+> mean time, this series provides an FLB in-kernel test that verifies
+> that multiple FLBs can be attached to File-Handlers, and the basic
+> interfaces are working.
+ 
+Which means that essentially there won't be a real kernel user for FLB for
+a while.
+We usually don't merge dead code because some future patchset depends on
+it.
 
-Thx.
+I think it should stay in mm-nonmm-unstable if Andrew does not mind keeping
+it there until the first user is going to land and then FLB will move
+upstream along with that user.
+
+If keeping FLB in mm tree is an issue we can set up an integration tree for
+LUO/KHO.
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Sincerely yours,
+Mike.
