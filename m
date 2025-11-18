@@ -1,150 +1,160 @@
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F302C361DBD
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 14:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B5835A953
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 14:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763477849; cv=none; b=n0zld0hkKqzNCw2bPFuCEWXG1+SY/5PMdBn5kr5CypEYdVS3v87S5Oo4eb3ZS/MTuK2Yi/f2yy+EtMNhn3iltWaR+8wOnVZlPUbYwX3K5yzmzXu8rnOp7jLwYPbIvmyN4kJDgQUgjAyxLeK71GjG1hk/2XbVOD87BBp2mesfidg=
+	t=1763477980; cv=none; b=GjX7SIO4LtgIeEm9bikmU+rVrBSHRDaBic1fsvGTaACdm+n4fHsCPIcARYdX1GrvtrXeRzPzlQa1I4T0/wwl3GDIuk7iOquCQP1MIQ+ZQ0AulKUUBUf0PYOw1eWPUQ0CXWsfBvrTT2Yn/gmqKwlGgfDY30JIn0YNVK+UM1befl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763477849; c=relaxed/simple;
-	bh=ruYCHusFkEH9KG2jSmGmY93iY/CEiGTZkjjn416cp2I=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=Fafipu6HNGzNHczyCdjareBtFqzcdwDxC500Mmhp3t4UmkeIHZqOkzG/Wifxbh/1NXfxlCwXrY0NXqcOFe3KY+QdWEEj9TIYjev6AlV1BEuYPb6VwxXsb9a4AlK/5wtS6OHa4YdUDpetEYB3MZq0wek5t/JPhcR0JrIJGe2AmAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-949056882beso284580739f.2
-        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 06:57:27 -0800 (PST)
+	s=arc-20240116; t=1763477980; c=relaxed/simple;
+	bh=yCZWg4HDLfx+KlOFPmT2qV/mW2ZLzgnFX5/2HTcppS4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r14ro7gb3MJ/6mjTOaXzu9xP0A9QRheOnxyrmU6oKxFOcnvsGR2hkWoqPC0lTkSVlZnapVamjWNLlIjlzsmP9wLBWW8pWxfG4sYCp2OA8GEOnIVtYIaTJZtFGRZcCdOS54ER18Ubpcr3T666oam8kBTlntusjiYHk+EaMLy+XHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=er7kMnPx; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="er7kMnPx"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4edb7c8232aso80251841cf.3
+        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 06:59:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1763477977; x=1764082777; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6zUAnqwUQ7mMEKfAAq0Pm8CCEggD/qceLgK2oNv/WhY=;
+        b=er7kMnPxEnnCHS03TpdmRNrOEitAyOOf8yVpFrYKaO+QdD8Th6DRFAFJNqEIuj+t69
+         i3f+yxOyp798g3jbaoQjk07GnCnqdj5omEQnf9sTu3i8ICNIXiITPWnZRwTO73YgkhSw
+         G+W8mmVFGfL7fxxdcjvsiduCOzpOyNVUc7SMCU0pEkmD5vMkSmVDG45JPMxihPOMmzHM
+         OghNRBvgE/XQ1m1fHbyXTiBlLMO83ID+CXl5vDLmGpVUpJ7SOqCmcJCx0T4Z19Wx4o/3
+         lpXsu1BmgEjN4bdCvRm5QYQrK+YyCz4CdL0yMNwjN88Fw3wxnC9nYPXagRHr7e3oo8Pj
+         OZzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763477847; x=1764082647;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+        d=1e100.net; s=20230601; t=1763477977; x=1764082777;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u763Shby4GQU/5OqcoMKzhO+KKK/dvga9Fa7xrTqfVg=;
-        b=oHEHiMFRCIX0X5tX4ZuQ6ZIE8EvDaqHRLKXqcU13sy6i6+t8OHLhdvYOhxMwIk4Z3B
-         h7223zxF7bEKXEA13y/yNNNQALsTMZRP/bLqxNxP9IWIi5+cVInRzlzA3bLOZfAF8A4u
-         r3UhMboyaOxgzNNxjFfBGmrZLiZofgwoBs3f8HumWVVMfHE6IgGWUUtf/EdoyNdha5ZK
-         PDRk+EUE1ffEqv8Y/5CfWfrLioJcRge94v4iv4qLoqFtnEOMde8hm3zYEkNV0nPssrWA
-         b/nqb1x6NnloacQr6ywqmwXQjYjPvFauc32KxASxTwoBc5AcSXaq4WeeC/vbdliucpWw
-         yYWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVZ2XEsLfjs4fzo9+ZLTSuQp4VvLkmbEql7c5asNiFGE05kVarQdv2ry7lK2h3jD0voRtkylOzlTqw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPIqB3URIhGzxdhH/e8ylvPEVd0AJd+2xNOXfkpufGqlZCfL84
-	oD6ztDVhnaf8o/tJLdmP0ubc8cf/mXD1rTm2KAxAKYYDSPjlbISbPZ30KIhtbY85WnK94WD8vEF
-	Gbb+5l9BN1xqX/ewsNve+P1SuGg5PX6nR7y3RxpGltP5XZPfQKJTd++LSze0=
-X-Google-Smtp-Source: AGHT+IHa4N09KYI8/WNwIltWNhmJKlXVmJu3DeOqrGZ0vlm1Y96bjs9AjcmNtJPRcyC9kLIx3VFX6ZXPa2RYWqnjo0rNI9BKaFSd
+        bh=6zUAnqwUQ7mMEKfAAq0Pm8CCEggD/qceLgK2oNv/WhY=;
+        b=M5kg46vVPpjiiAJUagSfGYHcr+JqGL7GsP9BDlVll5Q9HPfd9QZsy9E3BhHurab2uk
+         epObW8Z3cqk2y4BzpVOGj8OvHubSMIkhMiyTQT8QBShU22zaPoa8rBDiTkhGFTtd4MDc
+         tYRA56RZ40nsIX5zoy9Mj2C0VoqGEbnMrY6ObbHsC8DAJhIZYSIdXLYa2lTzCJ4FxJ5e
+         xoujcxa03CIY0lDzn4wBsM2WUDlqUFZuE6+GqPR6Fh1g7dY6lcF2pT5r4MuqeiyezIat
+         OSOp3G7PEHk+kGrD1yAVulrORrxAz0GX5eOTWlQviLID/rUXQ3b+WS22lwfyQG1SNTe5
+         i9VQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVqrW+BAoD1T3ngglLlJ9I8HP9RIBop1Ay4O6YP8qWiu8ClRCyRIkyGASTuS6hs34eO32ljED7DHBw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR0g38qBfXBpEG39Z5cWyCF0B+0FcgwRT8QswhORKfcmhPhdtH
+	KkYLfe9MMQN4QhRcOO2P2TFhMgddKjc6kZVzy5gdbqoXje3sABOZQKiPDxVSCMPh/WI=
+X-Gm-Gg: ASbGncus8UiH85P16pL6O7CByZndi4Sn6LVwBWdYhOd8vbUKdG8+nAa4TkqI32zHbRl
+	KfdVxnuFI7auzOpoB0SdWapbwsFeGnrDNeOWPB6eHuYHeEpEJ3n6eUGd27HZDWgiQq7RO4hs9oy
+	+4Tv5i4sE2dwdqBqJOx7y+B+R3Jj5AbDK+/zqG6eOIsTt8jCw8f3tuEE73mhELc8nUqDY/zDbEZ
+	7kEinK0ANP4xnUNRRdmgdd23kp/6uPY8sQno6+hzLS6uvDkcvKX+zfO0ckLbfauEXv+5orNOwLe
+	gMUE+wag2fdMFc1eNTpp18Gno8G5YcnLw3rmMJ+xJVEDfNLs9fj1bgTlWroAukKnhh8YM1NpM+N
+	x+lgn/V0LffeYnZnG7S6w9H4IFHuSpFIyBkfOq8qi1RJQkMDFPW1K3ROQZYUioYSOkl5RJr3Vhn
+	OQ/nfz9ur64dkF8oGE7hL3G5A5dV5bFNqaY4LmxKn+vzjEO1pUNudx0tTA1jb7VSMTrr8=
+X-Google-Smtp-Source: AGHT+IFmOGfhY23WsMGsPUUjQKfSR05e4XRcukJGt61kp9ViFdOBWiVKVUUuzQ+TB82GrGuUAmTsrw==
+X-Received: by 2002:a05:622a:1a08:b0:4ee:1563:2829 with SMTP id d75a77b69052e-4ee15632a6bmr144570871cf.72.1763477977218;
+        Tue, 18 Nov 2025 06:59:37 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ee275abad5sm34184941cf.14.2025.11.18.06.59.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 06:59:36 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vLNB9-00000000NQI-239J;
+	Tue, 18 Nov 2025 10:59:35 -0400
+Date: Tue, 18 Nov 2025 10:59:35 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v7 00/11] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+Message-ID: <20251118145935.GI17968@ziepe.ca>
+References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
+ <20251110134218.5e399b0f.alex@shazbot.org>
+ <da399efa-ad5b-4bdc-964d-b6cc4a4fc55d@amd.com>
+ <20251117083620.4660081a.alex@shazbot.org>
+ <20251117171619.GB17968@ziepe.ca>
+ <3599880e-5b50-4bad-949b-0d3b1fb25f3f@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:174b:b0:433:2240:a516 with SMTP id
- e9e14a558f8ab-4348c93d24amr231835385ab.30.1763477847195; Tue, 18 Nov 2025
- 06:57:27 -0800 (PST)
-Date: Tue, 18 Nov 2025 06:57:27 -0800
-In-Reply-To: <20251118100046.2944392-1-skorodumov.dmitry@huawei.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <691c8957.a70a0220.3124cb.00cd.GAE@google.com>
-Subject: [syzbot ci] Re: ipvlan: support mac-nat mode
-From: syzbot ci <syzbot+ci8641603e6d3479de@syzkaller.appspotmail.com>
-To: andrew@lunn.ch, andrey.bokhanko@huawei.com, corbet@lwn.net, 
-	davem@davemloft.net, edumazet@google.com, horms@kernel.org, kuba@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
-	shuah@kernel.org, skorodumov.dmitry@huawei.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3599880e-5b50-4bad-949b-0d3b1fb25f3f@amd.com>
 
-syzbot ci has tested the following series
+On Tue, Nov 18, 2025 at 03:37:41PM +0100, Christian König wrote:
 
-[v4] ipvlan: support mac-nat mode
-https://lore.kernel.org/all/20251118100046.2944392-1-skorodumov.dmitry@huawei.com
-* [PATCH net-next 01/13] ipvlan: Support MACNAT mode
-* [PATCH net-next 02/13] ipvlan: macnat: Handle rx mcast-ip and unicast eth
-* [PATCH net-next 03/13] ipvlan: Forget all IP when device goes down
-* [PATCH net-next 04/13] ipvlan: Support IPv6 in macnat mode.
-* [PATCH net-next 05/13] ipvlan: Fix compilation warning about __be32 -> u32
-* [PATCH net-next 06/13] ipvlan: Make the addrs_lock be per port
-* [PATCH net-next 07/13] ipvlan: Take addr_lock in ipvlan_open()
-* [PATCH net-next 08/13] ipvlan: Don't allow children to use IPs of main
-* [PATCH net-next 09/13] ipvlan: const-specifier for functions that use iaddr
-* [PATCH net-next 10/13] ipvlan: Common code from v6/v4 validator_event
-* [PATCH net-next 11/13] ipvlan: common code to handle ipv6/ipv4 address events
-* [PATCH net-next 12/13] ipvlan: Ignore PACKET_LOOPBACK in handle_mode_l2()
-* [PATCH net-next 13/13] selftests: drv-net: selftest for ipvlan-macnat mode
+> Skimming over it my only concern is patch #6 which adds the helper
+> to the common DMA-buf code and that in turn would need an in-deep
+> review which I currently don't have time for.
 
-and found the following issue:
-WARNING: suspicious RCU usage in ipvlan_addr_event
+I think you should trust Leon on the implementation. He knows what he
+is doing here when it comes to the DMA API, since he made all the
+patches so far to use it.
 
-Full report is available here:
-https://ci.syzbot.org/series/e483b93a-1063-4c8a-b0e2-89530e79768b
+Please consider just reviewing the exported function signature:
 
-***
++struct sg_table *dma_buf_map(struct dma_buf_attachment *attach,
++			     struct p2pdma_provider *provider,
++			     struct dma_buf_phys_vec *phys_vec,
++			     size_t nr_ranges, size_t size,
++			     enum dma_data_direction dir)
 
-WARNING: suspicious RCU usage in ipvlan_addr_event
+If issues are discovered inside the implementation later on then Leon
+will be available to fix them.
 
-tree:      net-next
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/netdev/net-next.git
-base:      c99ebb6132595b4b288a413981197eb076547c5a
-arch:      amd64
-compiler:  Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
-config:    https://ci.syzbot.org/builds/ac5af6f3-6b14-4e35-9d81-ee1522de3952/config
+The code is intended to implement that basic function signature which
+can be thought of as dma_map_resource() done correctly for PCI
+devices.
 
-8021q: adding VLAN 0 to HW filter on device batadv0
-=============================
-WARNING: suspicious RCU usage
-syzkaller #0 Not tainted
------------------------------
-drivers/net/ipvlan/ipvlan.h:128 suspicious rcu_dereference_check() usage!
+> So if we could keep those inside the VFIO driver for now I think
+> that should be good to go.
 
-other info that might help us debug this:
+That was several versions ago. Christoph is very strongly against
+this, he wants to see the new DMA API used by wrapper functions in
+subsytems related to how the subsystem's data structures work rather
+than proliferate into drivers. I agree with this, so we need to go in
+this direction.
 
+Other options, like put the code in the DMA API area, are also not
+going to be agreed because we really don't want this weird DMABUF use
+of no-struct page scatterlist to leak out beyond DMABUF.
 
-rcu_scheduler_active = 2, debug_locks = 1
-2 locks held by syz-executor/5984:
- #0: ffffffff8f2cc248 (rtnl_mutex){+.+.}-{4:4}, at: inet_rtm_newaddr+0x3b0/0x18b0
- #1: ffffffff8f39d9b0 ((inetaddr_chain).rwsem){++++}-{4:4}, at: blocking_notifier_call_chain+0x54/0x90
+So, this is the start of a DMA mapping helper API for DMABUF related
+data structures, it introduces a simplified mapping entry point for
+drivers that only use MMIO.
 
-stack backtrace:
-CPU: 1 UID: 0 PID: 5984 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0x189/0x250
- lockdep_rcu_suspicious+0x140/0x1d0
- ipvlan_addr_event+0x60b/0x950
- notifier_call_chain+0x1b6/0x3e0
- blocking_notifier_call_chain+0x6a/0x90
- __inet_insert_ifa+0xa13/0xbf0
- inet_rtm_newaddr+0xf3a/0x18b0
- rtnetlink_rcv_msg+0x7cf/0xb70
- netlink_rcv_skb+0x208/0x470
- netlink_unicast+0x82f/0x9e0
- netlink_sendmsg+0x805/0xb30
- __sock_sendmsg+0x21c/0x270
- __sys_sendto+0x3bd/0x520
- __x64_sys_sendto+0xde/0x100
- do_syscall_64+0xfa/0xfa0
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f711f191503
-Code: 64 89 02 48 c7 c0 ff ff ff ff eb b7 66 2e 0f 1f 84 00 00 00 00 00 90 80 3d 61 70 22 00 00 41 89 ca 74 14 b8 2c 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 75 c3 0f 1f 40 00 55 48 83 ec 30 44 89 4c 24
-RSP: 002b:00007ffc44b05f28 EFLAGS: 00000202 ORIG_RAX: 000000000000002c
-RAX: ffffffffffffffda RBX: 00007f711ff14620 RCX: 00007f711f191503
-RDX: 0000000000000028 RSI: 00007f711ff14670 RDI: 0000000000000003
-RBP: 0000000000000001 R08: 00007ffc44b05f44 R09: 000000000000000c
-R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000003
-R13: 0000000000000000 R14: 00007f711ff14670 R15: 0000000000000000
- </TASK>
-syz-executor (5984) used greatest stack depth: 19864 bytes left
+As I said I expect this API surface to progress as other DRM drivers
+are updated (hopefully DRM community will take on this), but there is
+nothing wrong with starting by having a basic entry point for a narrow
+use case.
 
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+Thanks,
+Jason
