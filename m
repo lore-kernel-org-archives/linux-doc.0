@@ -1,125 +1,90 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C9835E526
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 16:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0013730ED;
+	Tue, 18 Nov 2025 16:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763483311; cv=none; b=p4vxagHljqDRxeLx7c3Op49FuJ8XNIgnXcG3Abv7MoCxTSCKH4ckPfiVAKKEGtngKZRAQ7C3rcHT7v+g2v5/VT8hvx4Ml2U7G8zOVz91y+fMjQbbHCvBtYkSZGN2WSXd3WDPT9zjUVq+s525+n7uPrGdFbMKqukGnNb4CciZ7sQ=
+	t=1763483488; cv=none; b=iwAbu/uVc7rawKe3tKGjohj1/w9qv26bBbCvL/QydFtkLx0JxHVUc1B0BjL6DnLGF0GL9g9g/t+YPEJtQMxvulNtTGepTYIq7BVnCOVGpb30HsLJgOT3ZFl4YN1TngjoJB53Ttvi36frl42Ud0gn/Lg4xg+xGEOJJDBbaBZ0p+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763483311; c=relaxed/simple;
-	bh=2gYGham6RcUhZnNfLTEyX5K2IIqX9Oa8+TtMYKSDzf0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YJ8XNvTaKczFwVnLBe8WpXeTnxw/FMWWmy9ytB8jxgg7hdfv4hSxt78oB0H/SwYAS4myoSzn60dxPj6FcV9y6B7avBExd8VV1CvPuw3gur3MHAPrvcYBDKPdz2L4LAQKCgALUUKNm8x+F/Zcjlhg0DK4/6fZYH+4lZdy55vLwtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=i2ein0+h; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763483488; c=relaxed/simple;
+	bh=F9+GESOjuM+M3gt3ai9Ro032/kzBXGp7spyY0XQIUFo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KKAHnL9HSgSqmvJxPlmUMXe2UuSqFuKYRKv60Ldbtvs33mV5g8SP9mVEkpQ/lCE7Q9JVQxzAW4I91Hs7qbNtBJKpl3/425E2FvKfEgC0vzLlUkkw1wXaPx4MWCXN3GEO2OrfjyJK4oNW7ME6qr56pAnPODjTnaxhW0gpaCNPGcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=SdW/iSLu; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i2ein0+h"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4779a637712so23194725e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 08:28:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763483307; x=1764088107; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9NYmdp5K7GoriQTdww1h5siZo6lfJrXIe/VnMyhW40E=;
-        b=i2ein0+hZTZXaud6ghJKswJyyXXLG8tDT7pYqcb8Ypu5pVElLd2dQlyYPSbRMfTedY
-         oD075VEoOixQTExva13woMElboCRkZdPmhEjFAKe792L9gbFlG+1TkROJLQmwOlkXWSP
-         RIzmGdNe11Ygp6pZOWAiuQHB7pZTitARt5I34iNwiBDEsVc1RbxS8MVHKuM9xelIrw9O
-         8Iz3a20CqSaPDN8ziSC6FfElfPOTETVpLiC625W7sRoJnw3GA0uN98Hxb9HsfWQN1JGD
-         5ZGM+J5N0zL1b1eu1VA5cXYpHrVWMeRjEiJo6ZEGkCMvgbODx55wyAMTOnRGJgizuKVU
-         Ob0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763483307; x=1764088107;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9NYmdp5K7GoriQTdww1h5siZo6lfJrXIe/VnMyhW40E=;
-        b=cg0rrEmQ/9wsHOuD59LjzjwhssZV1/8p9fbQyR5D54T1nim6HvLPepPbvTAWm/5Op0
-         W0wFslOFEKIwMFOQWMHsSzRRjBW3W9biRXGrNCehtaSWQHWD8pi1ybO3b9nBTvEiCSRH
-         F0yzedOi+q7kvgwlPvS/OQDhcds2YZem3MD55nzq6sIaaZ5ovNffffacPqDpyuSHBJ3+
-         XLKNCGseQr6agZ7A1fJOmVnaVbzgvCOPq8x3yM+25tW5KmCSHxMomXRPkE2IvCW5H/7x
-         Cpul9MbdGPHvUEi6DRv7r9wP2/vuO4n0C5yk0V17dDxpLHYrHZX4nsVpVhD6gVETtKOs
-         2yjA==
-X-Forwarded-Encrypted: i=1; AJvYcCXlsoBX9ubhAZawRf4f0UaaOjL+EI2zjp14v3pZdLY72il7I8vcMf6nu1Nw86hTAp08EwT9tfrzYMA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRleiJdHtQnkKu0peLsdxu8W231u5/lpEXMDVbXOkPJ/E3o2KM
-	3ZXiSsZewKUdlmICsiHGy5k9bhOUvk3g6O2PbkfY78SmKhgQd39gUwawdHqhG8qTUzY=
-X-Gm-Gg: ASbGncv0ejWXTMnZXZafed0mWnGYtH99+JL/3X0601TU21nHSGV8/h/wy102ksRYehX
-	xL0zMnSJG5zazy/DTETpYtoju58bVUduGtDqOeyY101Gy7oPDoTTjJJbI3I2NoG5qCSrrfg83Jj
-	9T0OlfnClqDXZVwpMY/MFNcWi5/3xZXpxGRY50YOkh830ubokynm4gg5WMn8oe2F+2wHP+hKmyk
-	iNXPuHfPnq1y4QLsfDgtsMBaLKZ5Lh5ODI2CrwMLif/OEpQ4Y3s24SapAJGpRogkZyoxVKW1X9b
-	SOvJupnuXI5op41eXUbVB/48FOB48gHqUfWVUCeyAH0yn2zdgIBAK4hJL8kTPYZYas26J7FaMUx
-	GeK/cfGyBgrPqXOF2CVZlkhjeIA91+6ajpFOD1fCA7KINhB0OrxUchQkjJxQ8YErtbjl5JcAXh/
-	Lmqytd/34Fao5inW12Eg9rpKKp3zAsjmc=
-X-Google-Smtp-Source: AGHT+IHN5ZZ7TsSfy3KB6ZJXobAnrt1PfBhAPwW1cYqyewtyOySvk+eWd5Ld3sR20w2QmFj0p3m0Xw==
-X-Received: by 2002:a05:600c:1c9b:b0:477:9fa0:74ed with SMTP id 5b1f17b1804b1-4779fa07915mr98104425e9.26.1763483307312;
-        Tue, 18 Nov 2025 08:28:27 -0800 (PST)
-Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9dea7fcsm20369125e9.8.2025.11.18.08.28.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 08:28:26 -0800 (PST)
-From: James Clark <james.clark@linaro.org>
-Date: Tue, 18 Nov 2025 16:28:03 +0000
-Subject: [PATCH v5 13/13] coresight: docs: Document etm4x timestamp
- interval option
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="SdW/iSLu"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B607740C42
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1763483485; bh=lFHFc4QEt5XHraAor9JKQdRc6P1MjY+0+/NCLSAvubw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=SdW/iSLuuRnpRCWt+1v2ZDE3+ngkfMFT5TUvyJD2Tp5JpWEvN/orf0n84IJIqI1mZ
+	 gz4a2OJQVRw+WXnkbaROnFa65s9lwalLdz/wjA2iryuIuXXCqvglHlS0p1zEXUs7xb
+	 SgL7Kn1k9V3pI9fjWeusBbHNXpqSG6KMIgMORn/wCOoPfj2v1Ilyc4fK3z5ycprTE0
+	 3qd4TZM2HGPOUlNUkjgTqpdkV84V4ToG1pCpfWzsqCsjNOSZXbcRqtNARbepda26Vd
+	 7wZI+aKYeiRY67aFaD5X4Un+7YanDljxb3V39TvAeYyGfbLuahd2+2nXvdRdy1FfXT
+	 YiFMuAMnFT/NQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id B607740C42;
+	Tue, 18 Nov 2025 16:31:25 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: eanut 6 <jiakaipeanut@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] Documentation/admin-guide: fix typo and comment in
+ cscope example
+In-Reply-To: <CAFb8wJvoKtiOA0DZqNJhHALe97=BFkGeLwDYpK=x7L1woLQ6NQ@mail.gmail.com>
+References: <CAFb8wJvoKtiOA0DZqNJhHALe97=BFkGeLwDYpK=x7L1woLQ6NQ@mail.gmail.com>
+Date: Tue, 18 Nov 2025 09:31:24 -0700
+Message-ID: <871plv5mlf.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251118-james-cs-syncfreq-v5-13-82efd7b1a751@linaro.org>
-References: <20251118-james-cs-syncfreq-v5-0-82efd7b1a751@linaro.org>
-In-Reply-To: <20251118-james-cs-syncfreq-v5-0-82efd7b1a751@linaro.org>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Mike Leach <mike.leach@linaro.org>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@arm.com>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- James Clark <james.clark@linaro.org>
-X-Mailer: b4 0.14.0
+Content-Type: text/plain
 
-Document how the new field is used, maximum value and the interaction
-with SYNC timestamps.
+eanut 6 <jiakaipeanut@gmail.com> writes:
 
-Signed-off-by: James Clark <james.clark@linaro.org>
----
- Documentation/trace/coresight/coresight.rst | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+Thanks for working to improve our documentation.
 
-diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-index 806699871b80..d461de4e067e 100644
---- a/Documentation/trace/coresight/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -613,8 +613,20 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
-      - Session local version of the system wide setting: :ref:`ETM_MODE_RETURNSTACK
-        <coresight-return-stack>`
-    * - timestamp
--     - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
--       <coresight-timestamp>`
-+     - Controls generation and interval of timestamps.
-+
-+       0 = off, 1 = minimum interval .. 15 = maximum interval.
-+
-+       Values 1 - 14 use a counter that decrements every cycle to generate a
-+       timestamp on underflow. The reload value for the counter is 2 ^ (interval
-+       - 1). If the value is 1 then the reload value is 1, if the value is 11
-+       then the reload value is 1024 etc.
-+
-+       Setting the maximum interval (15) will disable the counter generated
-+       timestamps, freeing the counter resource, leaving only ones emitted when
-+       a SYNC packet is generated. The sync interval is controlled with
-+       TRCSYNCPR.PERIOD which is every 4096 bytes of trace by default.
-+
-    * - cc_threshold
-      - Cycle count threshold value. If nothing is provided here or the provided value is 0, then the
-        default value i.e 0x100 will be used. If provided value is less than minimum cycles threshold
+> This patch updates the Linux documentation for cscope, fixing two issues:
+> 1. Corrects the typo in the command line:
+>        c"scope -d -p10  ->  cscope -d -p10
+> 2. Fixes the related documentation comment for clarity and correctness:
+>        cscope by default cscope.out database.
+>        ->
+>        cscope by default uses the cscope.out database.
+>
+> Changes since v1:
+>  * Added the second fix for the documentation comment line.
+> Thanks to Randy Dunlap for pointing out this additional correction.
 
--- 
-2.34.1
+This kind of information belongs below the "---" line so that the
+maintainer doesn't have to edit it out later.
 
+> References:
+>  * [PATCH] Documentation/admin-guide: fix typo in cscope command example
+> https://lore.kernel.org/linux-doc/6017104c-740d-43db-bc53-58751ec57282@infradead.org/T/#t
+>
+> Signed-off-by: Jiakai Xu <jiakaiPeanut@gmail.com>
+> ---
+>  Documentation/admin-guide/workload-tracing.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/workload-tracing.rst
+> b/Documentation/admin-guide/workload-tracing.rst
+
+This patch has been line-wrapped by your email client and does not
+apply.  Please, before resending, send the patch to yourself and be sure
+that you can apply the result.
+
+Thanks,
+
+jon
