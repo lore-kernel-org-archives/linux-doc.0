@@ -1,61 +1,61 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7A32DF3CC
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 21:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E793702E4
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 22:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763502024; cv=none; b=W6WREb9AGQINl/PYTQQcx6ySWQBVgiaAZ3UJz3cqYlHa/NRrtNJlnr83lxjjEYbSfI3a6bd7R3oO/Tm8hJcAxqdue2n802tbyIjdzZSzOqGs5jP0tN9UPf8YW3p0N970hfPa3JoiT4YbTPcrVxvS+U4EpHGFWMFWHVjggUtS72c=
+	t=1763503369; cv=none; b=r0i/J/fJEDM8br8jxi4ntEEumKp4gpG87Aut8Wxq5Nh5LAY3geAdbC7TLedaxAif01weCudM7+s7urXY9I5Iz8IjuqCcDgKBLHJEGONvkohhwGiORrQJziSf5ucXjb8qqm9ao6sKiLP9WuEyyudrl/zbZ9+iIeLBGSisgVM/Gn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763502024; c=relaxed/simple;
-	bh=m7gFvkGfmOZggDFwMgNxUjTpu97bLxBQ0YSHsx/qj0o=;
+	s=arc-20240116; t=1763503369; c=relaxed/simple;
+	bh=YCFULhcxAgKGD6Fu4nfO2Q1c8WwStVF7Bfc7c/+DIyc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZdEEVOiz4kRQ15FB2oiHJrHjK0qDKpubGPoIndjttCYMVvCRZdFVtFqFP1bznOuAmlIYNTXfYXOlTShqH3tS2joRyjd644ZM3wBqwVCCKjhUZDNrKjSNSsUeOaqkmq1BVx/tLnGbSzyiQDJnknjJOWyM8IclhaOEgNDBndiRpsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K40LTPRC; arc=none smtp.client-ip=209.85.214.174
+	 To:Cc:Content-Type; b=Mtw0KBwZlLr1NHN6riVVrdFUIL2GnW79dY+CT3RSYFAnQD7E6iJhvSgndbjZPY2K0LPt9ZPB0V5sfJaIHmg5wBeHVUbuUbYirI+oj1oAsPxlS84PkN19vipix5wDnRiLH2m/zF/JQ7KBruXjHCxyCnJTwxRF9bZhp1Hq9mPfhLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IFcUuyT8; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K40LTPRC"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-297cf964774so9559815ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 13:40:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IFcUuyT8"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-bc07266d011so192360a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 14:02:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763502023; x=1764106823; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763503368; x=1764108168; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m7gFvkGfmOZggDFwMgNxUjTpu97bLxBQ0YSHsx/qj0o=;
-        b=K40LTPRCOiqatdxWTjMQX/FGrvY1RARds65JOnhIgKapT4ES2m2kfBnCpe2SQQiGjF
-         BuRs1UW2krdt2c8fqgGUdOBWmfhFc9Ieyde/PdXC6fK+MZRmaXyw8w37XRJL6Wym+YGx
-         FmD7bJNXC7ZLZEKmuxkkB8rrpqNah3Gm83GVcUsCtlS5ai5V1guBAHVBTEB5N6SBJrbE
-         L+XWi1IbvJpUeD/1a6DRhs2JHERtNt4KI4+C21FoEdJ7I+wPgeDuc73VzRy2Y3bWs1M1
-         1rP6di5tMzZ7rktWP/oOsK/SFcNjWkuZSJWOkJqi5a/dOxIIXFbo1H8ds3H6LFIxXSHT
-         28Yg==
+        bh=pnEXeMjZ0hBeMtgsOWCTWuUi2e3FlgHPCN/8EUoo/LE=;
+        b=IFcUuyT83EzXvDiWXmmrnqssJnw14hoCu2E88wNR9E7uyHFb8iJrnz07fv3pGuZb9q
+         uohJQjl85uqybt1mLV3bbGupKojXgqIccXXG7T6XhVc9557vsT12pILR+Kxg1z9Fodsf
+         u3A9UX6v831Pyvfq5AdNofJWAR9S5JZr13UECjpuR2Fn+JNqplNPSKDixPVYlDabe3dR
+         5mvUjg2njLCgwPk5p1A5vMtu4S6g9o/f8gTlgnvk4XzAvnxasxG+mmxCferT0tYXPinh
+         DhFaBQXDCPKBlFNl5v3MyXYjP/Qf9iDlr2qCS9WkRgRHG+2ecgA3PzgAHAp5gN/N6oWh
+         YdBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763502023; x=1764106823;
+        d=1e100.net; s=20230601; t=1763503368; x=1764108168;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=m7gFvkGfmOZggDFwMgNxUjTpu97bLxBQ0YSHsx/qj0o=;
-        b=ANEnLTqITnSMTbxklBtsOATslbxS8ImmFEVL702R+mWyoXMRRR5xcvkvqn8qRmbFtf
-         0Kj8uantma5WCgmTs92vw+tkz0ITaACyl5ZTYp42Z66V4XMDaLy0FrHuF7F7f96HsyU/
-         s5dVDtOvAftIA4Ozlyc6G69vP/wlLse0Pas5+doaw4gnUpRktv1WCqAcvLs7Ac/3Ztyk
-         DYCSsT87GYRRHDcjHoyjn2bDQOgixrJ+dOMz36xx5myp6wsLiqXvfRD0tn2BM1p9cDV2
-         xDrv1cgzlFNzj1QKZR3IbOwQOdlAe3KLHwCFN3WH/lGB0Nm6bcB3WnbZF8owjrlfpQOO
-         Zgdw==
-X-Forwarded-Encrypted: i=1; AJvYcCUr/8MXM84AYoZAWEgiohz/PXQW5cctQK+B/9zfQzyicoy3F8JVKHMdstrkp9LX67YJniyk2/ALmfs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3DcxhU4lUI9fG2eY28v5jVdKEc58p6zMPV227zy2Z+3p/tMBz
-	u4DK5rqLUgCKaJWNiOhlBJLLrtf1jSxabPlRZ8URyP9S/x7lrhijwxMfr8udjuzVLXI8ANOq61+
-	qsNTAfEEhQwwbjfrPahkRdYBw2rNeraw=
-X-Gm-Gg: ASbGncvWfrw1nF9IO3SqZ0DCB13irXD7VUFFbPnZGgIdED+Sm5OkI8b3+SJQgUv7f1V
-	bx5jiUK1bhLo/2iPPFTcKqlbC6XXgurrZE1fVTVZugabhdoNtnDkkHokFhFfFQd/TnxGV00AoZ8
-	hytbZ51LppCkAnCBpyRj23i+HXd+xJ76jZNBbqhYThtN4EJzJGMGcGlW4dUPyJV6dqXqewg3lLY
-	xWRfzDo7b56Ddl2D4gNg4FuO6JVWd/LphHlIgHsnNX+SyeJ5j0CcuBoqBuvu34NXWJeoUMuwWM/
-	+Mcj10dXq43Q62QB3QfjFoSQHnNncpj24IpefNsVQr+T7HWDEgPbjVN0Wvf1/m5BxTYREXU4tJZ
-	wdwVTIqe7w+Bxb5ecOE9I3mp4
-X-Google-Smtp-Source: AGHT+IESdMsbDBfVYr5r2d9Q1hGcQbREvBUpqxz/8E2BmwSwQue6J22hjUpK/Jg3x7qPuJL/pyQtB2mgYzDH8c8DvXs=
+        bh=pnEXeMjZ0hBeMtgsOWCTWuUi2e3FlgHPCN/8EUoo/LE=;
+        b=CjnZOlbnHKgIz046rk5/AFVQWauTn6qJWny/C6ku7ocWQ2oZip61t5Ib+T+LLOhgXX
+         gvbRQiRAF/lKeUWB32zyeAIx6rvZGREl8e0XE/dxciFaOT6QVBpEdBGbhMVaut2o7/3o
+         nrjxi7h5APajW6MTXmJFKCKLryzYacLpO/cSDg8fXozu9LvXih5K70hc3uEsnyYn3jDJ
+         z0Qeln4arIZAF+AmGzjNQ1MMJy+OQV+Sgw0I+k4UVJ393FdoapFiFfIkYTrLojzFZv6w
+         MPL4lN9YGXORHgBPdFC6CdkHqTCeEged5yqI0kB/NoCFZk33dkxkdiym7XTDO3H993uG
+         136w==
+X-Forwarded-Encrypted: i=1; AJvYcCW4PkT+p1V0EiSRj6pcltJK82xHKicXdUmYm9GB4z7Cv65U4W3t5KCb50ZR4XN9G3jRS3ygdL45dDc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNM9pUPlb+i3UTgdi7bx/jZZXo6a9bFp5TtKt2xRJXO4KBWQ9+
+	osoIKP5RNN96WsvPQUDY5k7dsrMl9fbmreOWSGMFL0QvyiBdsG+Rzci5spyJxm9+NrOtxoRywis
+	+RNjz8QQrJt9Q2VL0u/x0OaATGK9g29I=
+X-Gm-Gg: ASbGnctXMXddVRrLNu0tsjRXQDDO3fOLVFBC9lfbcg8ayRO7p+FwzIlx8SVOKdIMysV
+	1WU1bec6H5frn7Wy/hOrkwr9SkfuIjih3a3xSr+Y8P6uF2IIGOX1RAm/Ot3UMkUsv2yK5oPG84c
+	+mSzciNvG+E8l+p7dN6N0XwBo8EII0GpfN7Y1izdUwNjEPTZJZDBxv+YP50CmiP8r5oem1UPU7c
+	uX5KsG0tr3PO0N7xFcmzcPN5Q7hV8t/znAbvV72wIlQEeC4RcHxGMtnNScOzhe+fyIpbvEVgx5R
+	1RvStYx84M7TSMAaw/pJG/EfqbVqUF8lR1AeSOoXhkYgeMCN5vHXYvy/GxjLjtpk00O55styo7a
+	ukiKQA6NQbe3J0g==
+X-Google-Smtp-Source: AGHT+IH7rCgMdfX3UmCZHiTFv0d4wSFQcC+v2Dt1NUsbF6aijRcdZPzSDVZOg7Rk2sjC8+Szq7V1PdxyUI3aMVmjJ58=
 X-Received: by 2002:a05:693c:408d:b0:2a4:3593:2c07 with SMTP id
- 5a478bee46e88-2a6c985b102mr1764622eec.0.1763502022617; Tue, 18 Nov 2025
- 13:40:22 -0800 (PST)
+ 5a478bee46e88-2a6c985b102mr1783503eec.0.1763503367413; Tue, 18 Nov 2025
+ 14:02:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,39 +63,62 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <cover.1763370163.git.mchehab+huawei@kernel.org>
- <a9b172c926a4b30360530c34adc44f3789ec2b27.1763370163.git.mchehab+huawei@kernel.org>
- <CANiq72=bYzj6iU7PCm+VMBTeBbgUcL8nwrvUut9p4ph+3+itaQ@mail.gmail.com>
- <kjpquyekvw7fwrndoomtge7fnxtfefihqlikj6xcqtazrr6l77@424ufup7v45o>
- <87seeb47pk.fsf@trenco.lwn.net> <20251118201152.038e2749@foz.lan>
-In-Reply-To: <20251118201152.038e2749@foz.lan>
+ <CANiq72=79rhJ5Sh+yp2vRSuSLD=nyR2DuQ26hFeBmyszRC3ALA@mail.gmail.com>
+ <6sczezthaixabzw5lddhemrx2yivfdf65zfvpew7tpzl3gqire@vjx4rpju5wxc>
+ <CANiq72m3deG_QsH8-AskTR9LcNL=G6E9o2fu+oi9RVXn1PK_+Q@mail.gmail.com> <20251117133203.71b97d47@foz.lan>
+In-Reply-To: <20251117133203.71b97d47@foz.lan>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 18 Nov 2025 22:40:09 +0100
-X-Gm-Features: AWmQ_bkcbMVHRNfLk8B5J9LKqf_dQCkbxN2gNZ8Y9MnrnK9xQ4gHVkEqkHAlbFc
-Message-ID: <CANiq72nC9HH4tZT6dTgiEpkBUktY5i3tVtnNtKjZhKAvAVrdBQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] docs: makefile: move rustdoc check to the build wrapper
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Carlos Bilbao <carlos.bilbao@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Date: Tue, 18 Nov 2025 23:02:35 +0100
+X-Gm-Features: AWmQ_bl2zqT17C8BhXtKQ0Z0YfPJU7JdKtjPIIuQFIyZbcgkn3IpFhWSC-Yv9dA
+Message-ID: <CANiq72kGvfB2wqAv-d7F9racGoSX+TOmezA=ip-E4ouva-0U=Q@mail.gmail.com>
+Subject: Re: [PATCH 0/1] fix rustdoc build detection
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Carlos Bilbao <carlos.bilbao@kernel.org>, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, 
+	Miguel Ojeda <ojeda@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 18, 2025 at 8:12=E2=80=AFPM Mauro Carvalho Chehab
+On Mon, Nov 17, 2025 at 1:32=E2=80=AFPM Mauro Carvalho Chehab
 <mchehab+huawei@kernel.org> wrote:
 >
-> Me too, but the bug is very annoying ;-)
+> Heh, the same applies to the current usage of htmldocs - specially
+> when SPHINXDIRS is used, e.g. one doing, for instance:
 >
-> I'll try to seek for some time to better understand it, maybe
-> next week.
+>         make SPHINXDOCS=3Ddriver-api/<subsystem>
+>
+> may not be interested on building rust docs, which, on such case,
+> may be a lot slower than a partial build. Also, I don't think that
+> rustdoc currently does something similar to SPHINXDOCS.
 
-I will try to find a moment to take a look too... This happens with
-only the new wrapper, right? Or is it something that happened even
-before? If the latter, I remember testing the logic that Carlos added
-a long time ago, but maybe something changed in the meantime.
+If you mean building the Rust docs introduces extra work for people
+building the HTML docs when that happens automatically, then yeah,
+definitely.
+
+Perhaps it could be skipped depending on what folders are requested.
+
+> E.g. you would create a parser_rust.py module there, which would
+> generate ReST output from the rust code(*).
+
+To clarify, the idea of the "external references map file" in that
+issue isn't to stop using `rustdoc`, but rather to allow `rustdoc` to
+have (at least) the references to C items (e.g. a link to the rendered
+`printk` docs at least to the source code where it is defined). In
+other words, it is about allowing developrers to just write something
+like [`printk()`] and the system would figure out how to link to the
+right docs automatically.
+
+We don't plan to stop using `rustdoc` -- its output is specialized for
+Rust which makes it quite nice.
+
+`rustdoc` can export JSON and that should be possible to use easily
+from a Sphinx plugin without having to parse Rust from scratch, to at
+least get some degree of Sphinx support. That would be nice for the
+other outputs support like PDF as you mention, yeah, as well as having
+independent-to-the-config docs. We discussed it a few times, but it
+has never been a high priority, especially since `rustdoc` does its
+job quite well.
 
 Cheers,
 Miguel
