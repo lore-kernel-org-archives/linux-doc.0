@@ -1,102 +1,97 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF6C2DF14C;
-	Tue, 18 Nov 2025 06:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC3D2F2918
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 06:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763448738; cv=none; b=Es9Kg6lkqxRLnph88PvnM3FicYnrUSdGV2NJ+4B4IZ1JYfiSYAn/b6Y1fdtUcaX4dX8o48aK0g8ux0xprNzVMl2v1THKNiDybIxle6DVFvJqeP9+bEAVjmJHWyp0LIdY2wkna9TDFBKC9zbnqwXCzuMEQpBc9Ti7LWG/s0AYDjM=
+	t=1763449018; cv=none; b=srcrwX5bsDD456cAwjJXQxTMKmvmY2PobLUfigHcq7eBF+m1WWzDWMXJ/UC4szZrsvkOQELB6Tj3boecM7vNgd5AJ7s8ViI/vEqSY1Yall4k8DAbr0btKe4HbiXMmSax65CKzYX3FjkyChKAGBXsRiekzF3RqQcNaA8uHWWOKbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763448738; c=relaxed/simple;
-	bh=/BVIUoRrDlh9vtAUkprERJclpkGdtxjVqDLLXR6j3i0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uzA7W/hygW7G9KRp5urcOZc+dshJ6Ur7aVWdE8NouodyARbceJu9SHax7m2hiwqVl9DUnfcardXgSmeWF8WIfsestBSaoOssoA6n0smuawzAXThlvbPM+a/4qtaMEB0RB7qmXx7uIrD8JH5ccWltd/hwa88AbTQKEP7AR0CxHOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yUfSSp5/; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1763449018; c=relaxed/simple;
+	bh=yP/G1BqoS+wnMXWLE9nfcRvcMRIMvhh4xGuSidx+u3Y=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=PqUljDQ8/IGWzrbcdb54QwBmgkHUw2Ap319PaBnqBHDMLTB+rvh3xkhudCF5jHKsZFeAuwgwXLEDA3oN+bD2SrXGG80QUbS9sTrhOc7hTZIsO/0liGw/FcJ7cpwT1CzG0vsA0CTZQuwbG5hVMkm7a23vZR1XMvP1L7PrMfa9OpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ESN9KTRs; arc=none smtp.client-ip=209.85.161.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yUfSSp5/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=PKdU+SuMxQVQRm/oRdzeN9Dv7ebkdOSs/qG7Ulmy45o=; b=yUfSSp5//kxGqi5HhjXbbsbj2b
-	F+3ZtbTVHAH4bvk0IITiYCbPFnvODDU59opuMoDlIezgVUzHLA6fsb6lziAd+/Qluf+1VKzAcaW94
-	GDWP8LKJHW8Ygmixgzqih+JpzxWRBtwI1O0DzWB3fZT74XIwhjjxaBVmAgtmf6GowpGPO/1R0fMPz
-	JTSjbxl4whNWhiQRGhh4CUfJByYAt4sZjXC2udm2n3rYQuxuIOESvi60LSA+AK/wmsTfLStyl9I6d
-	Wk9d2sbvWQLRmr+1+yYAO/A4WpndsVxc0OwLt0eq5yqzZcgLsZ95l7P2p7Z/bxgpOPRyK6bTjtZQm
-	tiM7siZw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vLFZX-0000000HVxz-3WDH;
-	Tue, 18 Nov 2025 06:52:15 +0000
-Message-ID: <8dafb220-aa22-4412-b4a9-0b57b5ff6eea@infradead.org>
-Date: Mon, 17 Nov 2025 22:52:15 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ESN9KTRs"
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-6571763793bso2208801eaf.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 22:56:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763449016; x=1764053816; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eR7oRX3zoJvcN3y85JYH6/0LVrEFQ0JSOA8fVCbdpWo=;
+        b=ESN9KTRs0bI2YbeWpNBzl6EUOaGz9geYRoJnNbxhSdOW95Op02pGnYrSh9HOaVve9U
+         /emR+qub/CzIVWH+bmBT09hXNLjdu8gdrj14eY0taxu2eGdtA9UyAvAbrA9b2r52VXRn
+         tvyZYyS7+lEavCsJNZM28rCo5nZ8/Pb1khiAPDkilh2zmwpoWY/hzcO+lSvT2IIGlLxS
+         dOJ0MGa2cIK/1S3vbUJ5Mct5xQm5PJITl6KkzL8+F1XHSCPkgkf+RK0mnJpDzb5YNvpQ
+         Vzq9gldR7Be+2AJZU6E11vV7zdtytLMngqVqoDJjyMi/mLUYMCo7JZ1aDrB5cO5V7PIF
+         8deA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763449016; x=1764053816;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eR7oRX3zoJvcN3y85JYH6/0LVrEFQ0JSOA8fVCbdpWo=;
+        b=pJ3R7xOrnisyilFGatbUkhADTQRVhOXbjbAItQ+jN0DjyT7BGDxisAHO1JOtVl8Uzq
+         hvqpv55uyA8aRC3R/76xp1vESAoa5nH3bca/6lgXyBE2NQ2ikqLkj3lbMwNhyk4UrrED
+         onCXmwVJIhYdrch0+Ygy7kJG+0vyYObPdEcYHi7QEyVj+TTT/kkQUoiImuEKgcivjW/L
+         Q/cqhEQ3W0y1ErgEXIFjlpGj87HGcP6rPHOwunMgw5aHDALf76SIQr/myDBb82heo8wa
+         e1W0J4O4WyvhHooEArWauR+N6pDqzgrtZDRm6O1JA6RbVNlZKRoxZzeWBQvwcWAzEinP
+         tebA==
+X-Gm-Message-State: AOJu0YzEOo4ncfhjzKVKBIgCb/bNPys9AFtWVVvvdBd8KLsAUr6KskBL
+	rPs+pUcaZRh68lVQ7QlhHlOKTA0eauiEZ5CvNWHb6VPacrKVcQiuqxRMkosn43eadwMQ/ZzhwxV
+	SBqWD8T6yvEK6O5DBXjaBYw24aE5R69zIN7teLnQ=
+X-Gm-Gg: ASbGncvbmoPuEMe2h2ZPehGuVehiYktJv+KwUIGrTr8IRNnlYADS/CQk9ZfxvieVun+
+	6FOVaWITmAhXzkMfMRhbBI4tR5hIcMDMwxJCrvMDQrUUZ5hbb1gAOEbnS22OppaB9HOIFDo4Rf9
+	mKslCf9iDrnM1uv6p1vkcgAaNJD2pOkVVQV6+q/TPVLKgtUXve9eTSxAbSzs7t49kBEo9cFY4+b
+	EHcB/Ws2wtyJI8HLz/0jLmzHF0RZlaPhbOI3D/mdEkcbCdbpOc4Zm6EIBj6
+X-Google-Smtp-Source: AGHT+IEbZ63dg8PrbLOkhSJwZJ47RVEwAJi4DfPPkCGCPM+JElWST9Jt1+7XEZUtCk7fYKOsLhYbwYyef30H2f72hT4=
+X-Received: by 2002:a05:6871:2b10:b0:3ec:3b04:510d with SMTP id
+ 586e51a60fabf-3ec3b047f97mr3763611fac.35.1763449015879; Mon, 17 Nov 2025
+ 22:56:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] docs: media: v4l2-ioctl.h: document two global
- variables
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-References: <cover.1763291890.git.mchehab+huawei@kernel.org>
- <fc7e0f482b17fe9dc663848c469265205ea0f6ae.1763291890.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <fc7e0f482b17fe9dc663848c469265205ea0f6ae.1763291890.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: eanut 6 <jiakaipeanut@gmail.com>
+Date: Tue, 18 Nov 2025 14:56:45 +0800
+X-Gm-Features: AWmQ_bkmCsokEFqsiNMrpllBZhl4Enhuked4Uju2mHLIvDORAoUDTvnWNxpX_4c
+Message-ID: <CAFb8wJv4pUusuW-NsSsa-v-WuHZmbHS8Ha9mydqQPrBAMMQt6w@mail.gmail.com>
+Subject: [PATCH] Documentation/admin-guide: fix typo in cscope command example
+To: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+The documentation previously had a typo:
+  c"scope -d -p10
+which would confuse users. This patch corrects it to:
+  cscope -d -p10
 
+Signed-off-by: Jiakai Xu <jiakaiPeanut@gmail.com>
+---
+ Documentation/admin-guide/workload-tracing.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 11/16/25 3:23 AM, Mauro Carvalho Chehab wrote:
-> The media kAPI has two global variables at v4l2-ioctl.h. Document
-> them.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+diff --git a/Documentation/admin-guide/workload-tracing.rst
+b/Documentation/admin-guide/workload-tracing.rst
+index d6313890ee41..dbdbed4a1b41 100644
+--- a/Documentation/admin-guide/workload-tracing.rst
++++ b/Documentation/admin-guide/workload-tracing.rst
+@@ -196,7 +196,7 @@ Let=E2=80=99s checkout the latest Linux repository and
+build cscope database::
+   cscope -R -p10  # builds cscope.out database before starting browse sess=
+ion
+   cscope -d -p10  # starts browse session on cscope.out database
 
-LGTM.
-
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-> ---
->  include/media/v4l2-ioctl.h | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
-> index 6f7a58350441..ed63841a100c 100644
-> --- a/include/media/v4l2-ioctl.h
-> +++ b/include/media/v4l2-ioctl.h
-> @@ -663,7 +663,22 @@ void v4l_printk_ioctl(const char *prefix, unsigned int cmd);
->  struct video_device;
->  
->  /* names for fancy debug output */
-> +
-> +/**
-> + * var v4l2_field_names - Helper array mapping V4L2_FIELD_* to strings.
-> + *
-> + * Specially when printing debug messages, it is interesting to output
-> + * the field order at the V4L2 buffers. This array associates all possible
-> + * values of field pix format from V4L2 API into a string.
-> + */
->  extern const char *v4l2_field_names[];
-> +
-> +/**
-> + * var v4l2_type_names - Helper array mapping V4L2_BUF_TYPE_* to strings.
-> + *
-> + * When printing debug messages, it is interesting to output the V4L2 buffer
-> + * type number with a name that represents its content.
-> + */
->  extern const char *v4l2_type_names[];
->  
->  #ifdef CONFIG_COMPAT
-
--- 
-~Randy
+-Note: Run "cscope -R -p10" to build the database and c"scope -d -p10" to
++Note: Run "cscope -R -p10" to build the database and "cscope -d -p10" to
+ enter into the browsing session. cscope by default cscope.out database.
+ To get out of this mode press ctrl+d. -p option is used to specify the
+ number of file path components to display. -p10 is optimal for browsing
+--=20
+2.34.1
