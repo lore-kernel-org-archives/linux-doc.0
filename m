@@ -1,58 +1,59 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC482773C3
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 04:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DC828002B
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 04:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763439259; cv=none; b=lXfG7erpgKWUIaEX/MNfWra9+lFCVt3l0o0pyFm/1aH1SehDzaoQ+0rzaIDhWj0dKTpXT3QRhRzLDST17QgdLOPvI/DCC7v3NaN8Rkx85yEx1U3Ww2/K9SR7ULiaWBt/LDYRqiagXy6364xMe01YYvWCOkYE4uu24JexZH1jyzI=
+	t=1763439814; cv=none; b=rF1hsX72QBmRw8WaFrLSboEeG+p5U+Dk+Ka8Ui7oohMnMNztQJ540YtW0QIxn+Ccj0aPKdTNSasROJO5oyI7pbf9NGoj9GizmSJQLgF1+ekVt9JhUg2vjFcUDNyxju6ATyV1/GslD4/vU0BVBmpIi6iOWW13VR0hhVbLcUw833E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763439259; c=relaxed/simple;
-	bh=ts1YP1pM3KgXnMVQbSukSL8QcmoDGRWp0/OUxrRR1xM=;
+	s=arc-20240116; t=1763439814; c=relaxed/simple;
+	bh=yHOZfK0pWU/GvMRSsb/xaHbV4r5va663wkrxdVP9VvY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UsM+ACyuoz2GclHiWGhXKyeUjFgVVh/HAGuMMaHLQ+zpWaNJ/X8jv4j4wC4iDfzEGohfkGXsNUZTCnqqk4kcZsmABmPlEjv12vB8iGVgfH6OEFJiIB8nl0hVukkKxc8lqtoSFAE4SPkzNw7QZjqPWeuVtfWT/l1qjKzUGCwhhIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=X8UhUr/u; arc=none smtp.client-ip=209.85.208.53
+	 To:Cc:Content-Type; b=jLbvE/Bq77k2/Fs46/jtzXE29fitaIDudTHqe3ydjqh5nSrnweGmuaLSjjnC2QwhrU4wLGpTTd+qVW++/7aAFUQTCb1bY2FvPudC/7QzJ2a+ZMbe1DMab8foMYojrc71xHZ1CXSotcf0rMtzh64wfPr3HBXCFlJfrGo5UkSyTWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Ncs1zvpk; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="X8UhUr/u"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-64162c04f90so8121047a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 20:14:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Ncs1zvpk"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-640aaa89697so6627881a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 20:23:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763439256; x=1764044056; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763439811; x=1764044611; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=07HeZKjyOA8sg+0j8XO2NQGRkS4H44zMUY+FSrwKOW8=;
-        b=X8UhUr/uDMN8miCltzMbNWGLcTUtbXmoeDmt9YDmo3R36JQP6r6agnLotGnTdNtPiX
-         Exf26RpcbpXEIPw0Q4BTDiOc0QpZq3axJWZbPQpyhOTq23zV+58m/DTqNpnrRGyCVOlY
-         dOB4VfbV0ycLFcL3pQeEuLSKtQveAbfU4NGHrSUbsmXqiqYq5WiAZpioazvRdyKwe2em
-         hR/RGZgwkOXcrnr2p2VVpEKM6242vsuRPrbV/frGbGYDmt3fVwLSsQMyDTDJD1N6vaur
-         dm8H6fsNmobg/yyGuwqzitl5V/TYutGvl6c3M0eisyMdKyyBKjCbV9KuQog19b+NS3Yv
-         XIOg==
+        bh=yHOZfK0pWU/GvMRSsb/xaHbV4r5va663wkrxdVP9VvY=;
+        b=Ncs1zvpkoQyBjEEPlcBVK7x6tqaMkk+Tyr2e8gKH4v79eq7IPiONZeN/xGnVASF3qc
+         1Sa2ixZ+vSkBv8Zp9f1E0ZEgD7N5J5+SIHBlk0ojCPyD6aoK5O3wrZt6DMDYG3/YqLgd
+         uR+WmibXr15R6jiuP1FrFxX2t98ISFIKGoD7WNInMXqAkl2V23Fq9ss1AZ993EPtGSlk
+         VO8l2xJr1RdopwMRlYkDIKRxpJGY9LHBmkWDOzkJgDZ1uV7C2iSYpzGY+fkMUPcVko4j
+         y8PBk77GfKeswNnW4vcUtLk4vvCsaUcm8OD24/bhIxBqSBBU4muX3Ys3bwhT3VjQZxp7
+         GQ2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763439256; x=1764044056;
+        d=1e100.net; s=20230601; t=1763439811; x=1764044611;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=07HeZKjyOA8sg+0j8XO2NQGRkS4H44zMUY+FSrwKOW8=;
-        b=IG6GmbsNjrRvshwvx+cjeEJQ5T3oPFMzN/fzq01dWC4g91phai6VmRiqLwkq0wD9Hn
-         I5vhb7hqV4W4nyYuVGnvX1Ba94vrhBpIuVzxXzoHThnHVyp9bN1jXZqnc9jY8j+UPbCq
-         CllNv1mLuAL894Tia3ukEGrR56ProbxMp7dyzIEcOBaRGHZaZ8IczDh3OFlkNsWnnXOp
-         H3DGaeSnHvhofqAk3cu217P4zIhAQL3yxmEnYYQOOgiVFeLFXc+spc/I/bBpomStTvM8
-         jgtZzyvKMnhEJMw78HKbIdTUms+64DrTBQiZUlMeO2RwV2JEDYgnDWCCoUMTiuHy3Co5
-         QZNg==
-X-Forwarded-Encrypted: i=1; AJvYcCXwofL7QhCkhyDnMNisW4CbCyMToXqu6BDVz1mX79WC1QWNrFPJuo2ZQw8l4TTzoCYyl6cD/ircNug=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAmeXLLhxUeuYfJpBUAXh2VOqY25ounHILRNjBHybJBAbCstvD
-	rvKbCcI1oqslIOe3zacQLWJZBIP1aziIzrHJBn/02JSemj6yR8QwLQm1Dqf0Wc0ci//CGaXhuhz
-	z7+rdecInHEQSGOVoskRmB9GydgZqJDkEEnlPtuYNwA==
-X-Gm-Gg: ASbGnctmettA3WwZP1s1MDj9jdwxJbmhunkXdw07hQcDtJuXOk+ORCjc9JRDZeHUIMb
-	hrFLwfwMEsbGDwhQAyivhj7XSjJGytZlr9YYMEjo5iF/snRjL+7lAdiU4dH0+f3R0VfCaR3USaO
-	gsqWbMY0Z3zQxyNz2xyw9N3hzBIJvc5pyIejKbWw0+qCK9id9yTBFt6EZI6uXO/OgI/a9ZzIdjx
-	HeLhAFBmIo2TajjAu2g6zTlragMX5xXDjklP9uncOW26lJNkYsfLFJcWq0JV6RHJylc
-X-Google-Smtp-Source: AGHT+IF7odRYhWUKE4hEH/yqZovWuRxLWp+QjpvspuEPYgC7PACIvotSh+56pMkd5f5Wg4bGjW+/7/Gip+y+Hfcb0Tw=
-X-Received: by 2002:a05:6402:1445:b0:640:e75a:f95d with SMTP id
- 4fb4d7f45d1cf-64350e06df6mr15371153a12.15.1763439255422; Mon, 17 Nov 2025
- 20:14:15 -0800 (PST)
+        bh=yHOZfK0pWU/GvMRSsb/xaHbV4r5va663wkrxdVP9VvY=;
+        b=m7Pjg6n4bIH68Ho4YBnQafbspbeZpxsuLHvN/EtyD4xDEWgrNxjE6/2oNlU1qpXaLI
+         ewYxel9JqBvHlaa95nb06gPse31f35AkCtrpAxRL3/DLZZ+vHwZj8I9fvuAHCAo2REuA
+         FDiqd42yIaKO+nZyJ+8fyCquj88ng0nhjCVWMEehuLIbDrzA8Hj8FBLjjC6m2uc3rvK0
+         bK8LecdY0J0/KjOEzv0kwHwWJ3W9V/U9OqRqyda7zkW5+H9G5tOpnwdQZdeOm3ZNzwtK
+         DLGoBpjB7wneD+vU6tKT/Bbwz5GYXqK5PHDFDiKo0ylerO8DFa2pbYFF0GZcvrNyw+TW
+         CjBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXsDmIqjf38Gi+G/azt164LnOia71iKexI+MTCTOFbQ4EnlQg/7ZBd03uKtq6oTb4SBVEmBxDvNy+c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzubYUcgluVHwyPSa3EDfUDOVeQKYDAG5XybxEmKgT0IaLMNV5S
+	ghpY/7oD6ROWGipB1NIo5GPcQxsim6WQI/CihujJzUODp+H1fcdt/F/X+cGab++HfcDt6Xh77Fp
+	6uiz7D/aNBwVBhUc52a0t1GQK9Pe55UDCFmuvyM2HIA==
+X-Gm-Gg: ASbGnctYR6SPALiPfG/1lqXikuMmiMW/vf7s7ciq3KeH6dgXr/dGr9EpKpGncVbGqqg
+	+ydQgRACLusm1rwj5rvNVBLUU+FpqChG9vjghLBIBbRwbZqU4TqjcYw5Y78vn/iY15tDrGBrrRM
+	JTseYZ6K1ac19wT4BF9m6rno7Li6Y0iErK8/MRF+yCpjX0ZxL6gk1OFkv3W0ikW2tbGyD6t9SW/
+	dXf17wmqnqXmZgrlpMOiPQ4pOrW3TjN5T6mMAakKx9claj70Jbj4EhrFRaPFPgq6HxobsTLIN4E
+	jxk=
+X-Google-Smtp-Source: AGHT+IHcXQAOPbW77p032BCA1yf03kdrt9TXEreALO4fe3G9Md4L5c16ZrMCE1/XunuQOVa5pqVrU/kpO2uPmj8xqWM=
+X-Received: by 2002:a05:6402:3508:b0:640:c849:cee3 with SMTP id
+ 4fb4d7f45d1cf-64350ec18a5mr12648190a12.34.1763439810816; Mon, 17 Nov 2025
+ 20:23:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,13 +61,16 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-13-pasha.tatashin@soleen.com> <aRr0CQsV16usRW1J@kernel.org>
-In-Reply-To: <aRr0CQsV16usRW1J@kernel.org>
+ <20251115233409.768044-3-pasha.tatashin@soleen.com> <aRnG8wDSSAtkEI_z@kernel.org>
+ <CA+CK2bDu2FdzyotSwBpGwQtiisv=3f6gC7DzOpebPCxmmpwMYw@mail.gmail.com>
+ <aRoi-Pb8jnjaZp0X@kernel.org> <CA+CK2bBEs2nr0TmsaV18S-xJTULkobYgv0sU9=RCdReiS0CbPQ@mail.gmail.com>
+ <aRuODFfqP-qsxa-j@kernel.org>
+In-Reply-To: <aRuODFfqP-qsxa-j@kernel.org>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 23:13:39 -0500
-X-Gm-Features: AWmQ_blVntX9altpCY4SXrXyEKO7X1UIHIxI-cPMY5rvalxcvtOdur6QxS28SKk
-Message-ID: <CA+CK2bC7O4B=R7Wb2wZ7QYH2_Ujo-REXVqUX1ukfPJ-XDubtLA@mail.gmail.com>
-Subject: Re: [PATCH v6 12/20] mm: shmem: allow freezing inode mapping
+Date: Mon, 17 Nov 2025 23:22:54 -0500
+X-Gm-Features: AWmQ_bmu9XJ4F2q03zVpJ7QCWl2e5iEfuoUmDpvTnYNqaWiEdVtcHIOkeQ1NtZs
+Message-ID: <CA+CK2bAEdNE0Rs1i7GdHz8Q3DK9Npozm8sRL8Epa+o50NOMY7A@mail.gmail.com>
+Subject: Re: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
 To: Mike Rapoport <rppt@kernel.org>
 Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
 	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
@@ -94,76 +98,23 @@ Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
 	chrisl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-> > +/* Must be called with inode lock taken exclusive. */
-> > +static inline void shmem_i_mapping_freeze(struct inode *inode, bool freeze)
+> You can avoid that complexity if you register the device with a different
+> fops, but that's technicality.
 >
-> _mapping usually refers to operations on struct address_space.
-> It seems that all shmem methods that take inode are just shmem_<operation>,
-> so shmem_freeze() looks more appropriate.
+> Your point about treating the incoming FDT as an underlying resource that
+> failed to initialize makes sense, but nevertheless userspace needs a
+> reliable way to detect it and parsing dmesg is not something we should rely
+> on.
 
-Done, renamed to shmem_freeze()
+I see two solutions:
 
->
-> > +{
-> > +     if (freeze)
-> > +             SHMEM_I(inode)->flags |= SHMEM_F_MAPPING_FROZEN;
-> > +     else
-> > +             SHMEM_I(inode)->flags &= ~SHMEM_F_MAPPING_FROZEN;
-> > +}
-> > +
-> >  /*
-> >   * If fallocate(FALLOC_FL_KEEP_SIZE) has been used, there may be pages
-> >   * beyond i_size's notion of EOF, which fallocate has committed to reserving:
-> > diff --git a/mm/shmem.c b/mm/shmem.c
-> > index 1d5036dec08a..05c3db840257 100644
-> > --- a/mm/shmem.c
-> > +++ b/mm/shmem.c
-> > @@ -1292,7 +1292,8 @@ static int shmem_setattr(struct mnt_idmap *idmap,
-> >               loff_t newsize = attr->ia_size;
-> >
-> >               /* protected by i_rwsem */
-> > -             if ((newsize < oldsize && (info->seals & F_SEAL_SHRINK)) ||
-> > +             if ((info->flags & SHMEM_F_MAPPING_FROZEN) ||
->
-> A corner case: if newsize == oldsize this will be a false positive
+1. LUO fails to retrieve the preserved data, the user gets informed by
+not finding /dev/liveupdate, and studying the dmesg for what has
+happened (in reality in fleets version mismatches should not be
+happening, those should be detected in quals).
+2. Create a zombie device to return some errno on open, and still
+study dmesg to understand what really happened.
 
-Added a fix.
+I think that 1 is better
 
-Thanks,
 Pasha
-
->
-> > +                 (newsize < oldsize && (info->seals & F_SEAL_SHRINK)) ||
-> >                   (newsize > oldsize && (info->seals & F_SEAL_GROW)))
-> >                       return -EPERM;
-> >
-> > @@ -3289,6 +3290,10 @@ shmem_write_begin(const struct kiocb *iocb, struct address_space *mapping,
-> >                       return -EPERM;
-> >       }
-> >
-> > +     if (unlikely((info->flags & SHMEM_F_MAPPING_FROZEN) &&
-> > +                  pos + len > inode->i_size))
-> > +             return -EPERM;
-> > +
-> >       ret = shmem_get_folio(inode, index, pos + len, &folio, SGP_WRITE);
-> >       if (ret)
-> >               return ret;
-> > @@ -3662,6 +3667,11 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
-> >
-> >       inode_lock(inode);
-> >
-> > +     if (info->flags & SHMEM_F_MAPPING_FROZEN) {
-> > +             error = -EPERM;
-> > +             goto out;
-> > +     }
-> > +
-> >       if (mode & FALLOC_FL_PUNCH_HOLE) {
-> >               struct address_space *mapping = file->f_mapping;
-> >               loff_t unmap_start = round_up(offset, PAGE_SIZE);
-> > --
-> > 2.52.0.rc1.455.g30608eb744-goog
-> >
->
-> --
-> Sincerely yours,
-> Mike.
