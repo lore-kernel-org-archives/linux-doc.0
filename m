@@ -1,177 +1,150 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0ED35E521
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 14:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F302C361DBD
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 14:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763477798; cv=none; b=QVPGgFR9kLY7gMwi2PKNPaosa4seM59HND7RvL63ALpSCFt8eVIoux3LCYag5vCCU07UZx1wZwu2UhnEJwW/gHl6ODHXl/oJlXgUfUwpHByci/2Y5Plvg4Sacy9tfsWPfbtJ/xKmB6iBPBt6zSBOWOlC0JL6gGvjHWKEBlPDfmQ=
+	t=1763477849; cv=none; b=n0zld0hkKqzNCw2bPFuCEWXG1+SY/5PMdBn5kr5CypEYdVS3v87S5Oo4eb3ZS/MTuK2Yi/f2yy+EtMNhn3iltWaR+8wOnVZlPUbYwX3K5yzmzXu8rnOp7jLwYPbIvmyN4kJDgQUgjAyxLeK71GjG1hk/2XbVOD87BBp2mesfidg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763477798; c=relaxed/simple;
-	bh=gSblTBuib/DsPgf51W9AKdDlVBmMrOZuq9XqBR+F1Mg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rs+fH0Bed7mGe/TLhFgK+Xqu4eF4HPHY+LL0aVgaJVE8P0uWswOwK+R263NZXthvfgnwmr7qurtOz9p5ZCugbGCMc4tWldDUqNQ6w6eUdR3Tg+EyH1S85raGs10oJL00Yhgv7VdIH+sjH7Zj6f8zKHoGFbVSXhOx5aixa76Hjyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RPBrSkXS; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RPBrSkXS"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4777771ed1aso39053665e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 06:56:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763477795; x=1764082595; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=erEHQ4pvbvg9bgc6g+PKRhvaKSni7/5fNBZmCyyjnTM=;
-        b=RPBrSkXSCdy1PXsRaZQebTUCKek+7FaNeCNncOukHZLAITh64MY3LT6l0m1fU0s5Kx
-         pD5QLShmAnP35S89yGhkj2+8v9ed8v0ETYJVoJSClCbv/CHVzZusISvyo3T0SWqxddGX
-         ULKXuh8cX5UtGhF3MIdiyOhRIV4BzADsM2xfM7/tVfbzIZymOzCjVvhEDz8G5Hxm+kgT
-         NbMlVyjn+JtsElXXgZ788I5UHqoCk//kGO9kEoQbtmRzp1+WD1PlOKSEwUqLOpnQbh+I
-         Z4aPhG2DJUW7P5U5GTMBwLwpu4CzWxR2sHlInoWL69+qeFg0jxUIUap133lj5Vcooh1I
-         QrfA==
+	s=arc-20240116; t=1763477849; c=relaxed/simple;
+	bh=ruYCHusFkEH9KG2jSmGmY93iY/CEiGTZkjjn416cp2I=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=Fafipu6HNGzNHczyCdjareBtFqzcdwDxC500Mmhp3t4UmkeIHZqOkzG/Wifxbh/1NXfxlCwXrY0NXqcOFe3KY+QdWEEj9TIYjev6AlV1BEuYPb6VwxXsb9a4AlK/5wtS6OHa4YdUDpetEYB3MZq0wek5t/JPhcR0JrIJGe2AmAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-949056882beso284580739f.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 06:57:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763477795; x=1764082595;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=erEHQ4pvbvg9bgc6g+PKRhvaKSni7/5fNBZmCyyjnTM=;
-        b=FSu4fttMU1l0mVPyESBMUMqJ5Nmn8YbczSnhAwTrxKaC1yaeNiO5VAcwDiQeA8lcPi
-         cPKSqP6VkWX8ZgOqs+y6ghxafJOQiUBw+OL9zCOBBsftZMGnYZ4ucWJXhv03W3LtFWL+
-         xEPGml62y0lvu1rAG01GuFCNvBqlSmS6w/XiiCqohLVYNQSd8+fvvfoJi/h8JTR98FMO
-         x0Sv7SZD8fT1IGuBTQoLaAD1eYyN3vfpTudWKf/EI3qOacxO0wH6KN1MPqlAmYnvDcQN
-         dX8AX4qrGwWFQkG66qieGJD5B3cW6kmGZiOPersYaEe+uPEdGosyfxPGTUx3tYfDV3HG
-         dB4g==
-X-Forwarded-Encrypted: i=1; AJvYcCW2P5/QQmLJvG93yZgNiT0T1TCou305n7fExLbDsPetGwB/zYruQSLuCqmnd6fy2XMcHZ7AgRHKBaA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0doo6uXLXCThhiEjrBeCBvKF2T7wIwvUtAWu195Cxo7RHUlyN
-	0IgSOYjJT1lQJy3tEs7qfeDSt2/2k3ooACbLcCmq8pi2dU7RobfPYTIxp+cIWtSxRsb/Lnwe56m
-	MZ9ndF0c=
-X-Gm-Gg: ASbGncs2en9Zz6iVwiP+Xbtl7JBlpD6CBO1l6kst3U1aL5eVTf94bg2yEXAN3SWtGp7
-	X4sey/YJtdJvV729EIgIYFBXZMRUnzZ+n5WRHYmTwMEgm/mgqTZHe5DcAFUWcV88kNhxfv9eFv3
-	n4iPmEzUNOwjLRbog1rY6fwCSgHVOpxYA0PNmf27nu1cgrEDlzPsmeXA05dqvB4ZbDbfHNRTxIQ
-	UjdTZziLL1op8tXTvXX/+ueaqFBMJh6a16PNzra3k03JNvzt+YEcCvRndkk2iD/OXi11zIFcTv0
-	NiOV5VLbLGg1KkdGms7UJIJdxgM911DAyg8i/qHpO0BEmUJH6i8IZUGewhfqiqPDhGrhxC7L55A
-	hNZ3L0zO6FWLzM6hNKRnS0819QkwKGiFyIHH+N0ZeUBITOerxGCfyXmhdFnO3OJTTuuOz3yVD6u
-	LFQJRQACN/zjsvTtNT
-X-Google-Smtp-Source: AGHT+IH5rPcLsF1PsanW87LKAAXsro5M9DDqlKkuIu9cobKHCgs8dMk+WcC9kiNwue3QlRTwXXWRBQ==
-X-Received: by 2002:a05:600c:1d15:b0:477:aed0:f3fd with SMTP id 5b1f17b1804b1-477aed0fad1mr12311775e9.8.1763477795371;
-        Tue, 18 Nov 2025 06:56:35 -0800 (PST)
-Received: from [192.168.1.3] ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4779d722bc5sm192660755e9.2.2025.11.18.06.56.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Nov 2025 06:56:34 -0800 (PST)
-Message-ID: <0334300a-ae81-4b55-a3b0-c6137e13be6a@linaro.org>
-Date: Tue, 18 Nov 2025 14:56:33 +0000
+        d=1e100.net; s=20230601; t=1763477847; x=1764082647;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u763Shby4GQU/5OqcoMKzhO+KKK/dvga9Fa7xrTqfVg=;
+        b=oHEHiMFRCIX0X5tX4ZuQ6ZIE8EvDaqHRLKXqcU13sy6i6+t8OHLhdvYOhxMwIk4Z3B
+         h7223zxF7bEKXEA13y/yNNNQALsTMZRP/bLqxNxP9IWIi5+cVInRzlzA3bLOZfAF8A4u
+         r3UhMboyaOxgzNNxjFfBGmrZLiZofgwoBs3f8HumWVVMfHE6IgGWUUtf/EdoyNdha5ZK
+         PDRk+EUE1ffEqv8Y/5CfWfrLioJcRge94v4iv4qLoqFtnEOMde8hm3zYEkNV0nPssrWA
+         b/nqb1x6NnloacQr6ywqmwXQjYjPvFauc32KxASxTwoBc5AcSXaq4WeeC/vbdliucpWw
+         yYWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVZ2XEsLfjs4fzo9+ZLTSuQp4VvLkmbEql7c5asNiFGE05kVarQdv2ry7lK2h3jD0voRtkylOzlTqw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPIqB3URIhGzxdhH/e8ylvPEVd0AJd+2xNOXfkpufGqlZCfL84
+	oD6ztDVhnaf8o/tJLdmP0ubc8cf/mXD1rTm2KAxAKYYDSPjlbISbPZ30KIhtbY85WnK94WD8vEF
+	Gbb+5l9BN1xqX/ewsNve+P1SuGg5PX6nR7y3RxpGltP5XZPfQKJTd++LSze0=
+X-Google-Smtp-Source: AGHT+IHa4N09KYI8/WNwIltWNhmJKlXVmJu3DeOqrGZ0vlm1Y96bjs9AjcmNtJPRcyC9kLIx3VFX6ZXPa2RYWqnjo0rNI9BKaFSd
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 04/13] coresight: Hide unused ETMv3 format attributes
-To: Leo Yan <leo.yan@arm.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
- Mike Leach <mike.leach@linaro.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20251112-james-cs-syncfreq-v4-0-165ba21401dc@linaro.org>
- <20251112-james-cs-syncfreq-v4-4-165ba21401dc@linaro.org>
- <20251114145521.GD3568724@e132581.arm.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20251114145521.GD3568724@e132581.arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6e02:174b:b0:433:2240:a516 with SMTP id
+ e9e14a558f8ab-4348c93d24amr231835385ab.30.1763477847195; Tue, 18 Nov 2025
+ 06:57:27 -0800 (PST)
+Date: Tue, 18 Nov 2025 06:57:27 -0800
+In-Reply-To: <20251118100046.2944392-1-skorodumov.dmitry@huawei.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <691c8957.a70a0220.3124cb.00cd.GAE@google.com>
+Subject: [syzbot ci] Re: ipvlan: support mac-nat mode
+From: syzbot ci <syzbot+ci8641603e6d3479de@syzkaller.appspotmail.com>
+To: andrew@lunn.ch, andrey.bokhanko@huawei.com, corbet@lwn.net, 
+	davem@davemloft.net, edumazet@google.com, horms@kernel.org, kuba@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
+	shuah@kernel.org, skorodumov.dmitry@huawei.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+
+syzbot ci has tested the following series
+
+[v4] ipvlan: support mac-nat mode
+https://lore.kernel.org/all/20251118100046.2944392-1-skorodumov.dmitry@huawei.com
+* [PATCH net-next 01/13] ipvlan: Support MACNAT mode
+* [PATCH net-next 02/13] ipvlan: macnat: Handle rx mcast-ip and unicast eth
+* [PATCH net-next 03/13] ipvlan: Forget all IP when device goes down
+* [PATCH net-next 04/13] ipvlan: Support IPv6 in macnat mode.
+* [PATCH net-next 05/13] ipvlan: Fix compilation warning about __be32 -> u32
+* [PATCH net-next 06/13] ipvlan: Make the addrs_lock be per port
+* [PATCH net-next 07/13] ipvlan: Take addr_lock in ipvlan_open()
+* [PATCH net-next 08/13] ipvlan: Don't allow children to use IPs of main
+* [PATCH net-next 09/13] ipvlan: const-specifier for functions that use iaddr
+* [PATCH net-next 10/13] ipvlan: Common code from v6/v4 validator_event
+* [PATCH net-next 11/13] ipvlan: common code to handle ipv6/ipv4 address events
+* [PATCH net-next 12/13] ipvlan: Ignore PACKET_LOOPBACK in handle_mode_l2()
+* [PATCH net-next 13/13] selftests: drv-net: selftest for ipvlan-macnat mode
+
+and found the following issue:
+WARNING: suspicious RCU usage in ipvlan_addr_event
+
+Full report is available here:
+https://ci.syzbot.org/series/e483b93a-1063-4c8a-b0e2-89530e79768b
+
+***
+
+WARNING: suspicious RCU usage in ipvlan_addr_event
+
+tree:      net-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/netdev/net-next.git
+base:      c99ebb6132595b4b288a413981197eb076547c5a
+arch:      amd64
+compiler:  Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+config:    https://ci.syzbot.org/builds/ac5af6f3-6b14-4e35-9d81-ee1522de3952/config
+
+8021q: adding VLAN 0 to HW filter on device batadv0
+=============================
+WARNING: suspicious RCU usage
+syzkaller #0 Not tainted
+-----------------------------
+drivers/net/ipvlan/ipvlan.h:128 suspicious rcu_dereference_check() usage!
+
+other info that might help us debug this:
 
 
+rcu_scheduler_active = 2, debug_locks = 1
+2 locks held by syz-executor/5984:
+ #0: ffffffff8f2cc248 (rtnl_mutex){+.+.}-{4:4}, at: inet_rtm_newaddr+0x3b0/0x18b0
+ #1: ffffffff8f39d9b0 ((inetaddr_chain).rwsem){++++}-{4:4}, at: blocking_notifier_call_chain+0x54/0x90
 
-On 14/11/2025 2:55 pm, Leo Yan wrote:
-> On Wed, Nov 12, 2025 at 03:22:10PM +0000, James Clark wrote:
->> ETMv3 only has a few attributes, and setting unused ones results in an
->> error, so hide them to begin with.
->>
->> Signed-off-by: James Clark <james.clark@linaro.org>
->> ---
->>   drivers/hwtracing/coresight/coresight-etm-perf.c | 19 +++++++++++++++++++
->>   1 file changed, 19 insertions(+)
->>
->> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
->> index 17afa0f4cdee..91132abca244 100644
->> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
->> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
->> @@ -106,8 +106,27 @@ static struct attribute *etm_config_formats_attr[] = {
->>   	NULL,
->>   };
->>   
->> +static umode_t etm_format_attr_is_visible(struct kobject *kobj,
->> +					  struct attribute *attr, int unused)
->> +{
->> +	/* ETM4 has all attributes */
->> +	if (IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X))
->> +		return attr->mode;
->> +
->> +	/* ETM3 only has these attributes */
->> +	if (attr == &format_attr_cycacc.attr ||
->> +	    attr == &format_attr_timestamp.attr ||
->> +	    attr == &format_attr_retstack.attr ||
->> +	    attr == &format_attr_sinkid.attr ||
->> +	    attr == &format_attr_configid.attr)
-> 
-> Do we support configid for ETM3?
-> 
+stack backtrace:
+CPU: 1 UID: 0 PID: 5984 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x189/0x250
+ lockdep_rcu_suspicious+0x140/0x1d0
+ ipvlan_addr_event+0x60b/0x950
+ notifier_call_chain+0x1b6/0x3e0
+ blocking_notifier_call_chain+0x6a/0x90
+ __inet_insert_ifa+0xa13/0xbf0
+ inet_rtm_newaddr+0xf3a/0x18b0
+ rtnetlink_rcv_msg+0x7cf/0xb70
+ netlink_rcv_skb+0x208/0x470
+ netlink_unicast+0x82f/0x9e0
+ netlink_sendmsg+0x805/0xb30
+ __sock_sendmsg+0x21c/0x270
+ __sys_sendto+0x3bd/0x520
+ __x64_sys_sendto+0xde/0x100
+ do_syscall_64+0xfa/0xfa0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f711f191503
+Code: 64 89 02 48 c7 c0 ff ff ff ff eb b7 66 2e 0f 1f 84 00 00 00 00 00 90 80 3d 61 70 22 00 00 41 89 ca 74 14 b8 2c 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 75 c3 0f 1f 40 00 55 48 83 ec 30 44 89 4c 24
+RSP: 002b:00007ffc44b05f28 EFLAGS: 00000202 ORIG_RAX: 000000000000002c
+RAX: ffffffffffffffda RBX: 00007f711ff14620 RCX: 00007f711f191503
+RDX: 0000000000000028 RSI: 00007f711ff14670 RDI: 0000000000000003
+RBP: 0000000000000001 R08: 00007ffc44b05f44 R09: 000000000000000c
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000003
+R13: 0000000000000000 R14: 00007f711ff14670 R15: 0000000000000000
+ </TASK>
+syz-executor (5984) used greatest stack depth: 19864 bytes left
 
-They're "activated" in etm_setup_aux() so this would be for both ETM3 
-and 4. But they're only subsequently "enabled" for ETM4. So no, they're 
-not supported. I'll hide this attribute too.
 
-I can leave it for a later fix if we want to stop activating them, but I 
-don't think it does any harm.
+***
 
->> +		return attr->mode;
-> 
-> It is good to give a bit information why only these attributes
-> supported, e.g.,
-> 
->    /*
->     * ETM3 only support subset attributes (see ETM3X_SUPPORTED_OPTIONS),
->     * keep 'sinkid' attr for specifying sink ID.
->     */
-> 
-> Two side topics but not issues caused this patch:
-> 
-> - Since CTXTID/CTXTID2 is only used for ETM4x, we can remove "#if
->    IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)" from the
->    format_attr_contextid_show() function.
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
 
-Will change to CONFIG_ARM64 as mentioned on the other thread.
-
-> 
-> - etm_parse_event_config() does not check attr->config3, thus user
->    sets 'cc_threshold' it will slip without any error report.
-
-Will ignore this comment as mentioned on patch 7, we're not doing any 
-errors for unsupported arguments anymore.
-
-> 
-> Thanks,
-> Leo
-> 
->> +
->> +	return 0;
->> +}
->> +
->>   static const struct attribute_group etm_pmu_format_group = {
->>   	.name   = "format",
->> +	.is_visible = etm_format_attr_is_visible,
->>   	.attrs  = etm_config_formats_attr,
->>   };
->>   
->>
->> -- 
->> 2.34.1
->>
-
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
