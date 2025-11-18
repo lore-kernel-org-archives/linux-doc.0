@@ -1,913 +1,284 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D32432C956;
-	Tue, 18 Nov 2025 10:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763460061; cv=none; b=aNmRw7F6HmKDeM1Z1cT0ZuiasJ6XnPmnEXHXqHIqzZScfXUx5KfcSQQ9yLE+IGSELXteYUODt5EqzJz1mdJ8m9wLEJ+TvznbJkGeCoNbOGchF4pLqdcEXM1jTXQq1aqIgJEGOarKYAwSlgJOvqfI1PMuJD5H+t0mJUt+yFZJT4c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763460061; c=relaxed/simple;
-	bh=33gNGmrZXc6tBQKteKInpShsFOY0YZlvdakTKjCFMDA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FD4F2AknH9ufulm+W7IYIATzG6OUeD1o7muNajLmk8InFI5/yJfK+hu5g2psRLFOqE4g7d4/okRjB6FZLRutJgjvTdKLu2rkhQY1kT7QbzkU8H9v0l9m/y/+Txv4TDhxO7gaie0DBFf9UIISHmN6BwLG+KNqMMzC+QMFGZ1V04A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4d9g8Z2LLjzJ467N;
-	Tue, 18 Nov 2025 18:00:14 +0800 (CST)
-Received: from mscpeml500004.china.huawei.com (unknown [7.188.26.250])
-	by mail.maildlp.com (Postfix) with ESMTPS id 55B7C1402F3;
-	Tue, 18 Nov 2025 18:00:56 +0800 (CST)
-Received: from huawei-ThinkCentre-M920t.huawei.com (10.123.122.223) by
- mscpeml500004.china.huawei.com (7.188.26.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 18 Nov 2025 13:00:55 +0300
-From: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>
-To: <netdev@vger.kernel.org>, Simon Horman <horms@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <andrey.bokhanko@huawei.com>, <edumazet@google.com>, Dmitry Skorodumov
-	<skorodumov.dmitry@huawei.com>, "David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>
-Subject: [PATCH net-next 01/13] ipvlan: Support MACNAT mode
-Date: Tue, 18 Nov 2025 13:00:33 +0300
-Message-ID: <20251118100046.2944392-2-skorodumov.dmitry@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251118100046.2944392-1-skorodumov.dmitry@huawei.com>
-References: <20251118100046.2944392-1-skorodumov.dmitry@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE3134320F;
+	Tue, 18 Nov 2025 10:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763461172; cv=fail; b=WemqXc79aLFMANp/h7kZwiecfdvRmoCSYts3GaUx4/sAxGRO7x2xYeubUOk9gv7EseQWqHsMF2RrcA+yBfW7fhwpgwTg2Gsky6zqqYtGGcwA1Nt5Rb4C7ArIqVxg/TKmK7Xt7LCFTIQbROCtMv2zWIy2X00cxKBXJ8BPFHcHKjQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763461172; c=relaxed/simple;
+	bh=d2FNTytGtZ53VKN9zIBZcTNUa0rj1LNB4pUrzR9/tNM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UtS2iWszv8pHhEuM4477HltZnW4iEfkDT0F7sWuY2UO0dwsxDeXVMm7pBvDBRJdRwJtcaZE5cRoBT2pnFkltGyTky7eqHa4MF5Ae6NxZ58ROeJcCTuD8gQ8Rwf8TLQlu9v3rPptwk/nwexMZ78Z3fPCZxRRCJsub5zg19omeiwU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=TR68TXqj; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=iIwDjg9Z; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="TR68TXqj";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="iIwDjg9Z"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5AI9CDe1007841;
+	Tue, 18 Nov 2025 10:18:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=qsb5wH3T3F6rhGHk7DsnRdSMIQc4F3lgVOnHE0S143o=; b=
+	TR68TXqjSePgA09QOgx8fQt6rnzp+PujL8NN/HDwzz1FZBrMRjz55bmfzoYB6f9u
+	+8O50Sq5T3nqak/InjK9C1GzzwJDaguXdAuNYfqVXyeJi8oAOw8tiy0MCroPyMf3
+	5xWRrnVX3xtLsOHq9jtHQ/07cQyQ+Ia+THCxP5bDSUmL8mBxjd0DxMu4iXjE9z67
+	Gv+L780hJhCjsJbLk4HEVp5/In0xLs+qLtH+9onGb8taDLsug7PtLzEfiZLaGSti
+	TkUXGkXgrA/UDXlAXFnaqjbHmOB+61bmSVRLQnRhTZc9RNNlU2EcehZroWd/svMN
+	of/UjUrK7BRHBZRSvel3vw==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4aejbbvgyw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Nov 2025 10:18:39 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5AI9NsrV040040;
+	Tue, 18 Nov 2025 10:18:39 GMT
+Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011045.outbound.protection.outlook.com [40.93.194.45])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4aefyk8qpj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Nov 2025 10:18:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bW04fsgsQ4ANdEX00urwnkrGRGfO2AIc5poXEoH8HH0rvZZsBnZdHyuWd//rhh8EF06IZFfkjt7lQSVzgjQJ0ZeL+dd1tomILJPE4gS/HozHnG7rGtY++Zmu7klKjO3N42hmoQU6+wNYs898drkEdSVb6Xcp1n0jDDwuBMMboUafEbRircLz3htFkOrAaR4+NeSLSSrkZYLVawJ1NMNJcJc9tUZfiuVKtiIETcsygyE1yEiDvJ1oJyAOnhcAe0IBdljxEsk2I+nS64QM2vIQrEzkVnYrHLukRc1eN+jdsUJv9bH7BJcczeTtqi5uuqNPJxtt6ciX3wKoe3ZuKyNDPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qsb5wH3T3F6rhGHk7DsnRdSMIQc4F3lgVOnHE0S143o=;
+ b=uaMfKxjNj2PfgB9ivSpFRZmdgQs+iwzdao4tghqWoGvPWimO/Rek2gHpXw37jihr89qd47l47Kb/cAMgBmjM600pLMKmEvRv+fRE9c6U1OUtoUJRMWwV6PGERrOxHXMvpzzAv/547UcOxsUDsmCkc40HBZYPLZ4a9wg9T5Duz/td58+y8ZLr3Jjpe+/oYhq2uhyY6FpGAtUGiTwQg+VssrcCgOD/HiObRiyrWpwQvewbQRDlSvbUnOEQxayqVouxhBE9GmlidkjDhSvJ8tfXZFNFvtsidaOQCqG2CMf3QvVWze2L8jbXxSsSIy1n6ROqgdfo4F1DTjTRv0AXGdZraw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qsb5wH3T3F6rhGHk7DsnRdSMIQc4F3lgVOnHE0S143o=;
+ b=iIwDjg9Z6WMpVI0UbVrY+QhSoDyf3Dv6f8LYOxMngBwPjOW/2ncjbglKEdp6+i8FySdTdinBkpeBT+UAuNZtddKz/KyvbBoI/PxSFeGeZb7oOlNgr1ASbl56CHctSbjA6Uzfa39InkphaeKyGz2MC/+DOET1hoSCy3vs5NjQ9o0=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by IA4PR10MB8756.namprd10.prod.outlook.com (2603:10b6:208:562::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Tue, 18 Nov
+ 2025 10:18:24 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%7]) with mapi id 15.20.9343.009; Tue, 18 Nov 2025
+ 10:18:24 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+        Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+        Lance Yang <lance.yang@linux.dev>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, Andrei Vagin <avagin@gmail.com>
+Subject: [PATCH v4 2/9] mm: add atomic VMA flags and set VM_MAYBE_GUARD as such
+Date: Tue, 18 Nov 2025 10:17:44 +0000
+Message-ID: <97e57abed09f2663077ed7a36fb8206e243171a9.1763460113.git.lorenzo.stoakes@oracle.com>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <cover.1763460113.git.lorenzo.stoakes@oracle.com>
+References: <cover.1763460113.git.lorenzo.stoakes@oracle.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO3P123CA0019.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:388::15) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mscpeml500003.china.huawei.com (7.188.49.51) To
- mscpeml500004.china.huawei.com (7.188.26.250)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|IA4PR10MB8756:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac50dbc3-5450-40d7-5078-08de268bceb5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?EpzpSwFgRwt/BVHyDh1mvQTIxiJF5MlZH1Q/JOZoYa81Yp57kCjbaGi8C11H?=
+ =?us-ascii?Q?kp7+pQHMoiOTlkGZqGxZzjr/WQ6ywTcc6w5ZrQd5zVnNQDhdGBImoSAcp/t/?=
+ =?us-ascii?Q?9ZGUHUx+lxZ7sIhD4nlsRVnRM5PWJCpPNMkh+G8daqapSZ1J3NJBN5JD3oCv?=
+ =?us-ascii?Q?DgGR2Wvnfkv9a0s/00GGTq/hc2cBUdIOgzZVPm+rrZTrSqvgMm1N/v8eo2BG?=
+ =?us-ascii?Q?IhXbGjByrM7heAg7tJqqCuVcDXigO50OVyeHpgsfcTQBMtG4rLKi19Poo/6Q?=
+ =?us-ascii?Q?RHbT6OeB08K2I6womb/rYwuN6I0vFAbkANkJ5BWGzPUOb/OyUWVYpG3wl11t?=
+ =?us-ascii?Q?BlrJ85OGx3BZgVxLnnU37InAnLV/bshOde/nri55rx76FCxXmk+WjhvJObHy?=
+ =?us-ascii?Q?YxJvq2/RH5kJPttOoZWYc1i+MuSjWSUHGRiG6hK3MScdfOuAsftnCtjWttb8?=
+ =?us-ascii?Q?wnNF8EkyPZn7VRsrVYXo3DQOilL/jYbvsN6KgqqPou4V+CPGXhDizrAcGn8r?=
+ =?us-ascii?Q?ZU70NqAaj7kaYiN+2WyE5OQ5Fd1to5gAUa8rydPiIlJCI3n4SJ38Sbeee/fl?=
+ =?us-ascii?Q?JwYrGXa2+dp1FDBjD2oFDayH9rH7yP118fBl2+a3dpDv0O/EvLwERgxKbjG3?=
+ =?us-ascii?Q?0mB+J0gClVeP8aB7R66HNMzbdBJbXJYvpDDRDn5cFTkUzJ+3P7rwxfxJHWCh?=
+ =?us-ascii?Q?PR52+OEBxukNfF4iKFUDbb0TRxWZiBM4hPaKj4skn3/7pq6psj6HPUEFYpxi?=
+ =?us-ascii?Q?zPJBKRaeaMi8pRIZVkf7EMmkx1a/8z/+00+Bwe4FlpVmBzpOgrh3h/sBDyku?=
+ =?us-ascii?Q?NHCqrI5h01gf2oIp5x0/QBinAng+vr+E//4OzYc4gAoIseN2hvbnbG1Iok6V?=
+ =?us-ascii?Q?lfuSmmxc9NT1mWwwHCclzDXJwD0vbNqPjrizcJha3DsvLiCEAUXSLvxy5K2U?=
+ =?us-ascii?Q?wwRLwzwVAnJ+q41zQFxoa4u0t+pGRkCAlvLNTFUTsPDiS/pLc/OE08t3pZ5d?=
+ =?us-ascii?Q?4uMEhWiHPs2T6vepBFb5eBznctHXTECp/kIJIeLLIZ7OF196ZIe/5QL9nzGa?=
+ =?us-ascii?Q?JuveiBzv3D+loRHSWeZc0WVOPsdstpXVy3jLGURVmr5uUj9MhEZQaDCBOUPb?=
+ =?us-ascii?Q?zPPpNz0vRUhunDn+bEL1r1pXon94g6g518UGVUwad/TEg19DAFci0tT0wkAK?=
+ =?us-ascii?Q?IWU84+GZvLso9IDdDrXDERsLebhyjQjkevi2R4+P1ZBKm2RDaqMjYRoishca?=
+ =?us-ascii?Q?cC9W+4LAtnhV7xZgBKJ41wc50r6wWGvbNRxsxd0V5JLGrSHf/dq4FNRAJ+vb?=
+ =?us-ascii?Q?Rlog/fxC51w5Wa70tcp/Juy2U77rgBmrT44YaBT82Kaf1Xe+VySZyin+U4gM?=
+ =?us-ascii?Q?H6sjRsOsFdNcb34JN7wkiVWjWE+9JTSdOTKDyPEX46hcZGudUb9VOkUTM46U?=
+ =?us-ascii?Q?AyGnPQE5q/yaGOuQnVSLCy1vUWQ7ROYZ?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?1uDnZ3Ghx1qCZZ55fZKLrWHzSToHcR1x2ahRkzMkjcm3vDvdD/HOBfhY3MC7?=
+ =?us-ascii?Q?rVFNThSwP7fjwUMXrC14BH+KRsMUJk0GkAZiZnV7QIps20Fyuf2G7VkZ9TYE?=
+ =?us-ascii?Q?HiwdtJmQ6MR2JYJ64EeRlKpa+D0aGIRlxbB8AAoStc7vIPUyWUywG6wtw3hA?=
+ =?us-ascii?Q?YLHGE2F8mnTPXcf4FUfAGB49/5AShkrA5fDGqs4aWO60vUInfsmAW8dU9S2I?=
+ =?us-ascii?Q?0cfPyacOKiG6lVh9uumX0y4mHOHVcJOBphGNp1WYXVWcmq9EJw/Bj9E4nR6X?=
+ =?us-ascii?Q?wBmv4wP3TQsz8IKDokpSOBEB7H+mNHglpXBpKqDLJcIeCmOCOOvk1Dubm8i0?=
+ =?us-ascii?Q?H+pPf5pxIOOvB/CI3LSP7d1NNbGihYVB3kePS8lqA1bF2r0EL8ylS9gFRQCb?=
+ =?us-ascii?Q?wWt9/Fi8Gab781yZgkSesfmYPvbsZArvJRZ5kGt0Za2Kw29GuaqKidUBcruR?=
+ =?us-ascii?Q?2gqAmme5yGjpGZc+iekaGlKs91We5xSZyw7l9YxIpkkmVv5lx4nhE61OxLqZ?=
+ =?us-ascii?Q?WU6ZeBzvHh1vBbhQG5LCrlTKcTUGbXGVjXyaXQ4U4pRFe0Rj3myLlm2Osr+I?=
+ =?us-ascii?Q?hpy3bBDMPVoacZf1e5yVRR8+5PReEEbeZWCxfAlAkVfwQ+EEb1qdVpj3Gqjn?=
+ =?us-ascii?Q?xet8yoi4lfvkn3/TsG6GpuUIcTMPqzXs4eIbmOhzl4OaGVCY+UMda11Gghbg?=
+ =?us-ascii?Q?G1IlzP0JVnYdEyP6vbqUAGyHPZbW+HGJ1HiI5cvui6pXEKOjgjh9NhSRU3xf?=
+ =?us-ascii?Q?4nC0muq0QrdNWZi62BE9r+EKoWNmS0Kz2O6mKbst08jokF06AWwCOncSx9rE?=
+ =?us-ascii?Q?jniESZ8fOkw6Ziea1tdmKQrtOLOHnjMGcFQEnWjJrg9U3jkmMahwlybQfOEq?=
+ =?us-ascii?Q?sJJk7q+XyRPuvJS1bNTTUTjHSrw0IzQpjfytlY4wiTFgr9GcIOXTqecS4XPN?=
+ =?us-ascii?Q?qUpuMoEhQ5GlFjYQYy8rwUlrnnn1r4MU7RY00f0l8iv8v4tRuvUhHrRWLVmL?=
+ =?us-ascii?Q?gVLT1HSTjINMKTO6Hojpb695bQ2BeYK5faHQP34x8Dzg2GQWkGCfTpB3Z0sW?=
+ =?us-ascii?Q?Spt79cJ3W7DWANBeSdG2+PsqzllF6GP7Shj17cIKJo2zr/+K4r77xjX5bolQ?=
+ =?us-ascii?Q?j1JDVRDOa76RPgHneCUDNNwhdD9UnsDLwPYF5ZWQU8Btct70rCurPovsrWCJ?=
+ =?us-ascii?Q?lmTD2M8nAW6vTBlXEuz/Ru9rLke9dXXdgiduWMFcGUFwR+aO3EUden2j/yWa?=
+ =?us-ascii?Q?anrA4T1Ymw35zwtoStk82Alocl6DhwS9RtIc4cPuiCOJXpVuqLOGiRnDXPnA?=
+ =?us-ascii?Q?ZbJGtKM8vxHi6NK+TPb76h+2zqsZoWE3eu6mzSoxMr99eqRq5RjTcxU+H6YH?=
+ =?us-ascii?Q?HCD6DeFbHS7cbHfu2/5jG1jGyShMF/K68U+EtyGsn7bF5/2prbVY+q09/ldz?=
+ =?us-ascii?Q?6snBpPVGNM4yv8NtbCfzjjuIrLd5U4K4m2JA3vWUNGlchBdf97inJjrBD7ZN?=
+ =?us-ascii?Q?/Hk55X1xigTdwO8+hYyLsT9mW44RwUCOF/rMqkX9vnvYXSWMka3/n604oFYS?=
+ =?us-ascii?Q?x2q8og9qvwyS1bcl+AsXKiqBA6VL6fXTNy44kEIoWSvRejHnwSXGuvkW8dQp?=
+ =?us-ascii?Q?oA=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	JxNcFjl7Y63m12x4JFagC4xyNjW11umPWXEQOjpau37U/xI+i72/yEfuQWSZs+eyuKb9dUGHud2saQMn7Q8dHiECxoBf29DkDYeZwDZ6gLW1UyRR3UanFIe43QShRZ8Er/gCRN4qm8SJPyDh2IHh8NkCOiKGRz3cVODAg/1X3ndiHoxz+zMg3Gih87IG6NGLf9N/g42APASlkLHKYxp2HmKTeFuo8eJp8aZ8wOLjbWMVlDBGlVMEV/H5lYmdMyulh6L+3GnHuQt97nms8+PHhidzjR/HbZ1nnBwBgQmeijTLmUkED2lDNSK2OgQrMd6jySl+C/eecA5s7PA/aKXbiDgGCFfbvxepONMBihSNrZ+hnZIC7KZ3rhEdHfBYR4mZBGevAfY3V/WsEUhPeDijj8vzGnPPXcYVLfGJRHtTyTFOFgLpf+3qZLrBTyZ/4Zk8pwlSsKp1xAKA9gek7MLdeh3W0RVvJSQaJu0I1UyiOAZOR1mkBjaEM9kaqcOOXN+qr6XCRcr7BIEmoYyqCmq+vCvtIsgr9YIAvWQLW4sZV1FGvj1s4nhVVJdSkxnT9snLwdf09tKNvjtqCYsvZHP25jtm3tWGwQui4tr5gF4RBrg=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac50dbc3-5450-40d7-5078-08de268bceb5
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2025 10:18:24.4110
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kHnue1r6aUOkmwCuymNzrjKhTmfG9jEF3H2Y6PyOhMW2i98ri7c1k2G3wcVmBoo7JR3z7A6TyyvTRFyls6LFeuOZkUVX+CjjySBha/32AV0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR10MB8756
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-17_04,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0 spamscore=0
+ adultscore=0 mlxscore=0 mlxlogscore=995 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
+ definitions=main-2511180082
+X-Proofpoint-GUID: 9YUnt2O-f3duCxjATJFTX7UK9fpbKDuD
+X-Authority-Analysis: v=2.4 cv=JZyxbEKV c=1 sm=1 tr=0 ts=691c47ff b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=6UeiqGixMTsA:10
+ a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
+ a=_GmWhKkRMyt_Xr-G3xIA:9 cc=ntf awl=host:12099
+X-Proofpoint-ORIG-GUID: 9YUnt2O-f3duCxjATJFTX7UK9fpbKDuD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE1MDAzMiBTYWx0ZWRfX529o8I1qLZP9
+ LPiAc7s3LjlazUGWbPdPf53NJ0A7OdWx/Y/TmeuORVnbjq4Bbs8W3rbNfhPPUUMf/rAG3RDj4DE
+ s6eARfv58NP8UbdyEfrvhah4Ok2M7qwS5Kdn5SUj7UsJEizbpCIrc/x+ZH594oIZMRUPjo+bsev
+ U+7NzbNLTYMXZK/STgKGPwn2iYeMo3alrvsCdrPC0dN/9mdkwfaM0pZ/5Vyznp33PL4+kVUhdQ5
+ 34Fkc29dp0Viyc2+v9the5Xu7aYdSP9kZmH9Go8ALG9Tigoauim1mCI5+LXwZoqhEAR4o+qDzOT
+ n9JHCLHMlzTYUbzlq3o/xPtXQSgabT1umzgegt3hfPaHbrk7VT/IYfm7dmPMFHTBseySMOl30mh
+ 0XIflgRO7GnXSTIVIjOLd+ePbi8sp9SLX7f6LCzxElCHR4f/zzE=
 
-Now it is possible to create link in L2_MACNAT mode.
+This patch adds the ability to atomically set VMA flags with only the mmap
+read/VMA read lock held.
 
-This mode is intended for the desktop virtual machines, for
-bridging to Wireless interfaces.
+As this could be hugely problematic for VMA flags in general given that
+all other accesses are non-atomic and serialised by the mmap/VMA locks, we
+implement this with a strict allow-list - that is, only designated flags
+are allowed to do this.
 
-The mode should be specified while creating first child interface.
-It is not possible to change it after this.
+We make VM_MAYBE_GUARD one of these flags.
 
-In contrast to L2 mode, MACNAT mode learns MAC and IP addresses
-from outgoing traffic of child interfaces. MAC address is translated
-for TX and RX traffic.
-
-The maximum number of addresses on child interface is limited.
-There can be IPVLAN_MAX_MACNAT_ADDRS of each (ipv4/ipv6) types.
-
-So far patching is implemented for Ethernet Header and ARPs.
-
-Also, dev_add_pack() protocol is attached to the main port
-to support communication from main to child interfaces.
-
-ToDo: support IPv6 Neighbours Discovery.
-
-Signed-off-by: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>
+Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- Documentation/networking/ipvlan.rst |  20 ++
- drivers/net/ipvlan/ipvlan.h         |  28 +++
- drivers/net/ipvlan/ipvlan_core.c    | 300 ++++++++++++++++++++++++++--
- drivers/net/ipvlan/ipvlan_main.c    | 148 ++++++++++++--
- include/uapi/linux/if_link.h        |   1 +
- 5 files changed, 457 insertions(+), 40 deletions(-)
+ include/linux/mm.h | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/Documentation/networking/ipvlan.rst b/Documentation/networking/ipvlan.rst
-index 895d0ccfd596..c6fb2e6068b0 100644
---- a/Documentation/networking/ipvlan.rst
-+++ b/Documentation/networking/ipvlan.rst
-@@ -90,6 +90,26 @@ works in this mode and hence it is L3-symmetric (L3s). This will have slightly l
- performance but that shouldn't matter since you are choosing this mode over plain-L3
- mode to make conn-tracking work.
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 36b9418c00fc..03776aab3837 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -518,6 +518,9 @@ extern unsigned int kobjsize(const void *objp);
+ /* This mask represents all the VMA flag bits used by mlock */
+ #define VM_LOCKED_MASK	(VM_LOCKED | VM_LOCKONFAULT)
  
-+4.4 L2_MACNAT mode:
-+-------------------
++/* These flags can be updated atomically via VMA/mmap read lock. */
++#define VM_ATOMIC_SET_ALLOWED VM_MAYBE_GUARD
 +
-+This mode extends the L2 mode and is primarily designed for desktop virtual
-+machines that need to bridge to wireless interfaces. In standard L2 mode,
-+you must configure IP addresses on slave interfaces to enable frame
-+multiplexing between slaves and the master.
-+
-+In L2_MACNAT mode, IPVLAN automatically learns IPv4/IPv6 and MAC addresses
-+from outgoing packets. For transmitted packets, the source MAC address
-+is replaced with the MAC address of the main interface. Received packets
-+are routed to the interface that previously used the destination address,
-+and the destination MAC is replaced with the learned MAC address.
-+
-+This enables slave interfaces to automatically obtain IP addresses
-+via DHCP and IPv6 autoconfiguration.
-+
-+Additionally, dev_add_pack() is configured on the master interface to capture
-+outgoing frames and multiplex them to slave interfaces when necessary.
-+
- 5. Mode flags:
- ==============
- 
-diff --git a/drivers/net/ipvlan/ipvlan.h b/drivers/net/ipvlan/ipvlan.h
-index 50de3ee204db..c690e313ef6b 100644
---- a/drivers/net/ipvlan/ipvlan.h
-+++ b/drivers/net/ipvlan/ipvlan.h
-@@ -39,6 +39,8 @@
- 
- #define IPVLAN_QBACKLOG_LIMIT	1000
- 
-+#define IPVLAN_MAX_MACNAT_ADDRS	4
-+
- typedef enum {
- 	IPVL_IPV6 = 0,
- 	IPVL_ICMPV6,
-@@ -78,11 +80,13 @@ struct ipvl_addr {
- 		struct in6_addr	ip6;	 /* IPv6 address on logical interface */
- 		struct in_addr	ip4;	 /* IPv4 address on logical interface */
- 	} ipu;
-+	u8			hwaddr[ETH_ALEN];
- #define ip6addr	ipu.ip6
- #define ip4addr ipu.ip4
- 	struct hlist_node	hlnode;  /* Hash-table linkage */
- 	struct list_head	anode;   /* logical-interface linkage */
- 	ipvl_hdr_type		atype;
-+	u64			tstamp;
- 	struct rcu_head		rcu;
- };
- 
-@@ -91,6 +95,7 @@ struct ipvl_port {
- 	possible_net_t		pnet;
- 	struct hlist_head	hlhead[IPVLAN_HASH_SIZE];
- 	struct list_head	ipvlans;
-+	struct packet_type	ipvl_ptype;
- 	u16			mode;
- 	u16			flags;
- 	u16			dev_id_start;
-@@ -103,6 +108,7 @@ struct ipvl_port {
- 
- struct ipvl_skb_cb {
- 	bool tx_pkt;
-+	void *mark;
- };
- #define IPVL_SKB_CB(_skb) ((struct ipvl_skb_cb *)&((_skb)->cb[0]))
- 
-@@ -151,12 +157,34 @@ static inline void ipvlan_clear_vepa(struct ipvl_port *port)
- 	port->flags &= ~IPVLAN_F_VEPA;
+ /* Arch-specific flags to clear when updating VM flags on protection change */
+ #ifndef VM_ARCH_CLEAR
+ # define VM_ARCH_CLEAR	VM_NONE
+@@ -860,6 +863,47 @@ static inline void vm_flags_mod(struct vm_area_struct *vma,
+ 	__vm_flags_mod(vma, set, clear);
  }
  
-+static inline bool ipvlan_is_macnat(struct ipvl_port *port)
++static inline bool __vma_flag_atomic_valid(struct vm_area_struct *vma,
++				       int bit)
 +{
-+	return port->mode == IPVLAN_MODE_L2_MACNAT;
++	const vm_flags_t mask = BIT(bit);
++
++	/* Only specific flags are permitted */
++	if (WARN_ON_ONCE(!(mask & VM_ATOMIC_SET_ALLOWED)))
++		return false;
++
++	return true;
 +}
 +
-+static inline void ipvlan_mark_skb(struct sk_buff *skb, struct net_device *dev)
++/*
++ * Set VMA flag atomically. Requires only VMA/mmap read lock. Only specific
++ * valid flags are allowed to do this.
++ */
++static inline void vma_flag_set_atomic(struct vm_area_struct *vma, int bit)
 +{
-+	IPVL_SKB_CB(skb)->mark = dev;
++	/* mmap read lock/VMA read lock must be held. */
++	if (!rwsem_is_locked(&vma->vm_mm->mmap_lock))
++		vma_assert_locked(vma);
++
++	if (__vma_flag_atomic_valid(vma, bit))
++		set_bit(bit, &ACCESS_PRIVATE(vma, __vm_flags));
 +}
 +
-+static inline bool ipvlan_is_skb_marked(struct sk_buff *skb,
-+					struct net_device *dev)
++/*
++ * Test for VMA flag atomically. Requires no locks. Only specific valid flags
++ * are allowed to do this.
++ *
++ * This is necessarily racey, so callers must ensure that serialisation is
++ * achieved through some other means, or that races are permissible.
++ */
++static inline bool vma_flag_test_atomic(struct vm_area_struct *vma, int bit)
 +{
-+	return (IPVL_SKB_CB(skb)->mark == dev);
++	if (__vma_flag_atomic_valid(vma, bit))
++		return test_bit(bit, &vma->vm_flags);
++
++	return false;
 +}
 +
- void ipvlan_init_secret(void);
- unsigned int ipvlan_mac_hash(const unsigned char *addr);
- rx_handler_result_t ipvlan_handle_frame(struct sk_buff **pskb);
-+void ipvlan_skb_crossing_ns(struct sk_buff *skb, struct net_device *dev);
- void ipvlan_process_multicast(struct work_struct *work);
-+void ipvlan_multicast_enqueue(struct ipvl_port *port,
-+			      struct sk_buff *skb, bool tx_pkt);
- int ipvlan_queue_xmit(struct sk_buff *skb, struct net_device *dev);
- void ipvlan_ht_addr_add(struct ipvl_dev *ipvlan, struct ipvl_addr *addr);
-+int ipvlan_add_addr(struct ipvl_dev *ipvlan,
-+		    void *iaddr, bool is_v6, const u8 *hwaddr);
-+void ipvlan_del_addr(struct ipvl_dev *ipvlan, void *iaddr, bool is_v6);
- struct ipvl_addr *ipvlan_find_addr(const struct ipvl_dev *ipvlan,
- 				   const void *iaddr, bool is_v6);
- bool ipvlan_addr_busy(struct ipvl_port *port, void *iaddr, bool is_v6);
-diff --git a/drivers/net/ipvlan/ipvlan_core.c b/drivers/net/ipvlan/ipvlan_core.c
-index d7e3ddbcab6f..ba67cd8663e2 100644
---- a/drivers/net/ipvlan/ipvlan_core.c
-+++ b/drivers/net/ipvlan/ipvlan_core.c
-@@ -225,6 +225,42 @@ unsigned int ipvlan_mac_hash(const unsigned char *addr)
- 	return hash & IPVLAN_MAC_FILTER_MASK;
- }
- 
-+static int ipvlan_macnat_xmit_phydev(struct ipvl_port *port,
-+				     struct sk_buff *skb,
-+				     bool lyr3h_valid,
-+				     void *lyr3h, int addr_type)
-+{
-+	struct sk_buff *orig_skb = skb;
-+
-+	skb = skb_unshare(skb, GFP_ATOMIC);
-+	if (!skb)
-+		return NET_XMIT_DROP;
-+
-+	/* Use eth-addr of main as source. */
-+	skb_reset_mac_header(skb);
-+	ether_addr_copy(skb_eth_hdr(skb)->h_source, port->dev->dev_addr);
-+
-+	if (!lyr3h_valid) {
-+		lyr3h = ipvlan_get_L3_hdr(port, skb, &addr_type);
-+		orig_skb = skb; /* no need to reparse */
-+	}
-+
-+	/* ToDo: Handle ICMPv6 for neighbours discovery.*/
-+	if (lyr3h && addr_type == IPVL_ARP) {
-+		if (skb != orig_skb)
-+			lyr3h = ipvlan_get_L3_hdr(port, skb, &addr_type);
-+
-+		if (lyr3h) {
-+			struct arphdr *arph = (struct arphdr *)lyr3h;
-+
-+			ether_addr_copy((u8 *)(arph + 1), port->dev->dev_addr);
-+		}
-+	}
-+
-+	skb->dev = port->dev;
-+	return dev_queue_xmit(skb);
-+}
-+
- void ipvlan_process_multicast(struct work_struct *work)
+ static inline void vma_set_anonymous(struct vm_area_struct *vma)
  {
- 	struct ipvl_port *port = container_of(work, struct ipvl_port, wq);
-@@ -285,9 +321,25 @@ void ipvlan_process_multicast(struct work_struct *work)
- 
- 		if (tx_pkt) {
- 			/* If the packet originated here, send it out. */
--			skb->dev = port->dev;
--			skb->pkt_type = pkt_type;
--			dev_queue_xmit(skb);
-+			if (ipvlan_is_macnat(port)) {
-+				/* Inject as rx-packet to main dev. */
-+				nskb = skb_clone(skb, GFP_ATOMIC);
-+				if (nskb) {
-+					consumed = true;
-+					local_bh_disable();
-+					nskb->pkt_type = pkt_type;
-+					nskb->dev = port->dev;
-+					dev_forward_skb(port->dev, nskb);
-+					local_bh_enable();
-+				}
-+				/* Send out */
-+				ipvlan_macnat_xmit_phydev(port, skb, false,
-+							  NULL, -1);
-+			} else {
-+				skb->dev = port->dev;
-+				skb->pkt_type = pkt_type;
-+				dev_queue_xmit(skb);
-+			}
- 		} else {
- 			if (consumed)
- 				consume_skb(skb);
-@@ -299,7 +351,7 @@ void ipvlan_process_multicast(struct work_struct *work)
- 	}
- }
- 
--static void ipvlan_skb_crossing_ns(struct sk_buff *skb, struct net_device *dev)
-+void ipvlan_skb_crossing_ns(struct sk_buff *skb, struct net_device *dev)
- {
- 	bool xnet = true;
- 
-@@ -311,8 +363,36 @@ static void ipvlan_skb_crossing_ns(struct sk_buff *skb, struct net_device *dev)
- 		skb->dev = dev;
- }
- 
--static int ipvlan_rcv_frame(struct ipvl_addr *addr, struct sk_buff **pskb,
--			    bool local)
-+static int ipvlan_macnat_rx_skb(struct ipvl_addr *addr, int addr_type,
-+				struct sk_buff *skb)
-+{
-+	/* Here we have non-shared skb and free to modify it. */
-+	struct ethhdr *eth = eth_hdr(skb);
-+
-+	if (addr_type == IPVL_ARP) {
-+		struct arphdr *arph = arp_hdr(skb);
-+		u8 *arp_ptr = (u8 *)(arph + 1);
-+		u8 *dsthw = arp_ptr + addr->master->dev->addr_len + sizeof(u32);
-+		const u8 *phy_addr = addr->master->phy_dev->dev_addr;
-+
-+		/* Some access points may do ARP-proxy and answers us back.
-+		 * Client may treat this as address-conflict.
-+		 */
-+		if (ether_addr_equal(eth->h_source, phy_addr) &&
-+		    ether_addr_equal(eth->h_dest, phy_addr) &&
-+		    is_zero_ether_addr(dsthw)) {
-+			return NET_RX_DROP;
-+		}
-+		if (ether_addr_equal(dsthw, phy_addr))
-+			ether_addr_copy(dsthw, addr->hwaddr);
-+	}
-+
-+	ether_addr_copy(eth->h_dest, addr->hwaddr);
-+	return NET_RX_SUCCESS;
-+}
-+
-+static int ipvlan_rcv_frame(struct ipvl_addr *addr, int addr_type,
-+			    struct sk_buff **pskb, bool local)
- {
- 	struct ipvl_dev *ipvlan = addr->master;
- 	struct net_device *dev = ipvlan->dev;
-@@ -322,10 +402,8 @@ static int ipvlan_rcv_frame(struct ipvl_addr *addr, struct sk_buff **pskb,
- 	struct sk_buff *skb = *pskb;
- 
- 	len = skb->len + ETH_HLEN;
--	/* Only packets exchanged between two local slaves need to have
--	 * device-up check as well as skb-share check.
--	 */
--	if (local) {
-+
-+	if (local || ipvlan_is_macnat(ipvlan->port)) {
- 		if (unlikely(!(dev->flags & IFF_UP))) {
- 			kfree_skb(skb);
- 			goto out;
-@@ -336,6 +414,13 @@ static int ipvlan_rcv_frame(struct ipvl_addr *addr, struct sk_buff **pskb,
- 			goto out;
- 
- 		*pskb = skb;
-+		if (ipvlan_is_macnat(ipvlan->port) && !local) {
-+			if (ipvlan_macnat_rx_skb(addr, addr_type, skb) !=
-+			    NET_RX_SUCCESS) {
-+				kfree_skb(skb);
-+				goto out;
-+			}
-+		}
- 	}
- 
- 	if (local) {
-@@ -414,6 +499,120 @@ struct ipvl_addr *ipvlan_addr_lookup(struct ipvl_port *port, void *lyr3h,
- 	return addr;
- }
- 
-+static bool is_ipv4_usable(__be32 addr)
-+{
-+	return !ipv4_is_lbcast(addr) && !ipv4_is_multicast(addr) &&
-+	       !ipv4_is_zeronet(addr);
-+}
-+
-+#if IS_ENABLED(CONFIG_IPV6)
-+static bool is_ipv6_usable(const struct in6_addr *addr)
-+{
-+	return !ipv6_addr_is_multicast(addr) && !ipv6_addr_loopback(addr) &&
-+	       !ipv6_addr_any(addr);
-+}
-+#endif
-+
-+static void __ipvlan_macnat_addr_learn(struct ipvl_dev *ipvlan,
-+				       void *addr, bool is_v6,
-+				       const u8 *hwaddr)
-+{
-+	const ipvl_hdr_type atype = is_v6 ? IPVL_IPV6 : IPVL_IPV4;
-+	struct ipvl_addr *ipvladdr, *oldest = NULL;
-+	unsigned int naddrs = 0;
-+
-+	spin_lock_bh(&ipvlan->addrs_lock);
-+
-+	if (ipvlan_addr_busy(ipvlan->port, addr, is_v6))
-+		goto out_unlock;
-+
-+	list_for_each_entry_rcu(ipvladdr, &ipvlan->addrs, anode) {
-+		if (ipvladdr->atype != atype)
-+			continue;
-+		naddrs++;
-+		if (!oldest || time_before64(ipvladdr->tstamp, oldest->tstamp))
-+			oldest = ipvladdr;
-+	}
-+
-+	if (naddrs < IPVLAN_MAX_MACNAT_ADDRS) {
-+		oldest = NULL;
-+	} else {
-+		ipvlan_ht_addr_del(oldest);
-+		list_del_rcu(&oldest->anode);
-+	}
-+
-+	ipvlan_add_addr(ipvlan, addr, is_v6, hwaddr);
-+
-+out_unlock:
-+	spin_unlock_bh(&ipvlan->addrs_lock);
-+	if (oldest)
-+		kfree_rcu(oldest, rcu);
-+}
-+
-+static void ipvlan_macnat_addr_learn(struct ipvl_dev *ipvlan, void *lyr3h,
-+				     int addr_type, const u8 *hwaddr)
-+{
-+	struct ipvl_addr *ipvladdr;
-+	void *addr = NULL;
-+	bool is_v6;
-+
-+	switch (addr_type) {
-+#if IS_ENABLED(CONFIG_IPV6)
-+	/* No need to handle IPVL_ICMPV6, it never has valid src-address. */
-+	case IPVL_IPV6: {
-+		struct ipv6hdr *ip6h;
-+
-+		ip6h = (struct ipv6hdr *)lyr3h;
-+		if (!is_ipv6_usable(&ip6h->saddr))
-+			return;
-+		is_v6 = true;
-+		addr = &ip6h->saddr;
-+		break;
-+	}
-+#endif
-+	case IPVL_IPV4: {
-+		struct iphdr *ip4h;
-+		__be32 *i4addr;
-+
-+		ip4h = (struct iphdr *)lyr3h;
-+		i4addr = &ip4h->saddr;
-+		if (!is_ipv4_usable(*i4addr))
-+			return;
-+		is_v6 = false;
-+		addr = i4addr;
-+		break;
-+	}
-+	case IPVL_ARP: {
-+		struct arphdr *arph;
-+		unsigned char *arp_ptr;
-+		__be32 *i4addr;
-+
-+		arph = (struct arphdr *)lyr3h;
-+		arp_ptr = (unsigned char *)(arph + 1);
-+		arp_ptr += ipvlan->port->dev->addr_len;
-+		i4addr = (__be32 *)arp_ptr;
-+		if (!is_ipv4_usable(*i4addr))
-+			return;
-+		is_v6 = false;
-+		addr = i4addr;
-+		break;
-+	}
-+	default:
-+		return;
-+	}
-+
-+	/* handle situation when MAC changed, but IP is the same. */
-+	ipvladdr = ipvlan_ht_addr_lookup(ipvlan->port, addr, is_v6);
-+	if (ipvladdr && !ether_addr_equal(ipvladdr->hwaddr, hwaddr)) {
-+		/* del_addr is safe to call, because we are inside xmit. */
-+		ipvlan_del_addr(ipvladdr->master, addr, is_v6);
-+		ipvladdr = NULL;
-+	}
-+
-+	if (!ipvladdr)
-+		__ipvlan_macnat_addr_learn(ipvlan, addr, is_v6, hwaddr);
-+}
-+
- static noinline_for_stack int ipvlan_process_v4_outbound(struct sk_buff *skb)
- {
- 	struct net_device *dev = skb->dev;
-@@ -561,8 +760,8 @@ static int ipvlan_process_outbound(struct sk_buff *skb)
- 	return ret;
- }
- 
--static void ipvlan_multicast_enqueue(struct ipvl_port *port,
--				     struct sk_buff *skb, bool tx_pkt)
-+void ipvlan_multicast_enqueue(struct ipvl_port *port,
-+			      struct sk_buff *skb, bool tx_pkt)
- {
- 	if (skb->protocol == htons(ETH_P_PAUSE)) {
- 		kfree_skb(skb);
-@@ -607,7 +806,7 @@ static int ipvlan_xmit_mode_l3(struct sk_buff *skb, struct net_device *dev)
- 				consume_skb(skb);
- 				return NET_XMIT_DROP;
- 			}
--			ipvlan_rcv_frame(addr, &skb, true);
-+			ipvlan_rcv_frame(addr, addr_type, &skb, true);
- 			return NET_XMIT_SUCCESS;
- 		}
- 	}
-@@ -634,7 +833,7 @@ static int ipvlan_xmit_mode_l2(struct sk_buff *skb, struct net_device *dev)
- 					consume_skb(skb);
- 					return NET_XMIT_DROP;
- 				}
--				ipvlan_rcv_frame(addr, &skb, true);
-+				ipvlan_rcv_frame(addr, -1, &skb, true);
- 				return NET_XMIT_SUCCESS;
- 			}
- 		}
-@@ -661,6 +860,61 @@ static int ipvlan_xmit_mode_l2(struct sk_buff *skb, struct net_device *dev)
- 	return dev_queue_xmit(skb);
- }
- 
-+static int ipvlan_xmit_mode_macnat(struct sk_buff *skb, struct net_device *dev)
-+{
-+	struct ipvl_dev *ipvlan = netdev_priv(dev);
-+	struct ethhdr *eth = skb_eth_hdr(skb);
-+	struct ipvl_addr *addr;
-+	int addr_type;
-+	void *lyr3h;
-+
-+	/* Ignore tx-packets from host and don't allow to use main addr. */
-+	if (ether_addr_equal(eth->h_source, dev->dev_addr) ||
-+	    ether_addr_equal(eth->h_source, ipvlan->phy_dev->dev_addr))
-+		goto out_drop;
-+
-+	/* Mark SKB in advance */
-+	skb = skb_share_check(skb, GFP_ATOMIC);
-+	if (!skb)
-+		return NET_XMIT_DROP;
-+	ipvlan_mark_skb(skb, ipvlan->phy_dev);
-+
-+	lyr3h = ipvlan_get_L3_hdr(ipvlan->port, skb, &addr_type);
-+	if (lyr3h)
-+		ipvlan_macnat_addr_learn(ipvlan, lyr3h, addr_type,
-+					 eth->h_source);
-+
-+	if (is_multicast_ether_addr(eth->h_dest)) {
-+		skb_reset_mac_header(skb);
-+		ipvlan_skb_crossing_ns(skb, NULL);
-+		ipvlan_multicast_enqueue(ipvlan->port, skb, true);
-+		return NET_XMIT_SUCCESS;
-+	} else if (ether_addr_equal(eth->h_dest, ipvlan->phy_dev->dev_addr)) {
-+		/* It is a packet from child with destination to main port.
-+		 * Pass it to main.
-+		 */
-+		skb->pkt_type = PACKET_HOST;
-+		skb->dev = ipvlan->phy_dev;
-+		dev_forward_skb(ipvlan->phy_dev, skb);
-+		return NET_XMIT_SUCCESS;
-+	} else if (lyr3h) {
-+		addr = ipvlan_addr_lookup(ipvlan->port, lyr3h, addr_type, true);
-+		if (addr) {
-+			if (ipvlan_is_private(ipvlan->port))
-+				goto out_drop;
-+
-+			ipvlan_rcv_frame(addr, addr_type, &skb, true);
-+			return NET_XMIT_SUCCESS;
-+		}
-+	}
-+
-+	return ipvlan_macnat_xmit_phydev(ipvlan->port, skb, true, lyr3h,
-+					 addr_type);
-+out_drop:
-+	consume_skb(skb);
-+	return NET_XMIT_DROP;
-+}
-+
- int ipvlan_queue_xmit(struct sk_buff *skb, struct net_device *dev)
- {
- 	struct ipvl_dev *ipvlan = netdev_priv(dev);
-@@ -675,6 +929,8 @@ int ipvlan_queue_xmit(struct sk_buff *skb, struct net_device *dev)
- 	switch(port->mode) {
- 	case IPVLAN_MODE_L2:
- 		return ipvlan_xmit_mode_l2(skb, dev);
-+	case IPVLAN_MODE_L2_MACNAT:
-+		return ipvlan_xmit_mode_macnat(skb, dev);
- 	case IPVLAN_MODE_L3:
- #ifdef CONFIG_IPVLAN_L3S
- 	case IPVLAN_MODE_L3S:
-@@ -724,8 +980,7 @@ static rx_handler_result_t ipvlan_handle_mode_l3(struct sk_buff **pskb,
- 
- 	addr = ipvlan_addr_lookup(port, lyr3h, addr_type, true);
- 	if (addr)
--		ret = ipvlan_rcv_frame(addr, pskb, false);
--
-+		ret = ipvlan_rcv_frame(addr, addr_type, pskb, false);
- out:
- 	return ret;
- }
-@@ -737,17 +992,23 @@ static rx_handler_result_t ipvlan_handle_mode_l2(struct sk_buff **pskb,
- 	struct ethhdr *eth = eth_hdr(skb);
- 	rx_handler_result_t ret = RX_HANDLER_PASS;
- 
--	if (is_multicast_ether_addr(eth->h_dest)) {
--		if (ipvlan_external_frame(skb, port)) {
--			struct sk_buff *nskb = skb_clone(skb, GFP_ATOMIC);
-+	/* Ignore already seen packets. */
-+	if (ipvlan_is_skb_marked(skb, port->dev))
-+		return RX_HANDLER_PASS;
- 
-+	if (is_multicast_ether_addr(eth->h_dest)) {
-+		if (ipvlan_external_frame(skb, port) ||
-+		    ipvlan_is_macnat(port)) {
- 			/* External frames are queued for device local
- 			 * distribution, but a copy is given to master
- 			 * straight away to avoid sending duplicates later
- 			 * when work-queue processes this frame. This is
- 			 * achieved by returning RX_HANDLER_PASS.
- 			 */
-+			struct sk_buff *nskb = skb_clone(skb, GFP_ATOMIC);
-+
- 			if (nskb) {
-+				ipvlan_mark_skb(skb, port->dev);
- 				ipvlan_skb_crossing_ns(nskb, NULL);
- 				ipvlan_multicast_enqueue(port, nskb, false);
- 			}
-@@ -770,6 +1031,7 @@ rx_handler_result_t ipvlan_handle_frame(struct sk_buff **pskb)
- 
- 	switch (port->mode) {
- 	case IPVLAN_MODE_L2:
-+	case IPVLAN_MODE_L2_MACNAT:
- 		return ipvlan_handle_mode_l2(pskb, port);
- 	case IPVLAN_MODE_L3:
- 		return ipvlan_handle_mode_l3(pskb, port);
-diff --git a/drivers/net/ipvlan/ipvlan_main.c b/drivers/net/ipvlan/ipvlan_main.c
-index 660f3db11766..f27af7709a5b 100644
---- a/drivers/net/ipvlan/ipvlan_main.c
-+++ b/drivers/net/ipvlan/ipvlan_main.c
-@@ -16,6 +16,15 @@ static int ipvlan_set_port_mode(struct ipvl_port *port, u16 nval,
- 
- 	ASSERT_RTNL();
- 	if (port->mode != nval) {
-+		/* Don't allow switch off the learnable bridge mode.
-+		 * Flags also must be set from the first port-link setup.
-+		 */
-+		if (port->mode == IPVLAN_MODE_L2_MACNAT ||
-+		    (nval == IPVLAN_MODE_L2_MACNAT && port->count > 1)) {
-+			netdev_err(port->dev, "MACNAT mode cannot be changed.\n");
-+			return -EINVAL;
-+		}
-+
- 		list_for_each_entry(ipvlan, &port->ipvlans, pnode) {
- 			flags = ipvlan->dev->flags;
- 			if (nval == IPVLAN_MODE_L3 || nval == IPVLAN_MODE_L3S) {
-@@ -40,7 +49,10 @@ static int ipvlan_set_port_mode(struct ipvl_port *port, u16 nval,
- 			ipvlan_l3s_unregister(port);
- 		}
- 		port->mode = nval;
-+		if (port->mode == IPVLAN_MODE_L2_MACNAT)
-+			dev_add_pack(&port->ipvl_ptype);
- 	}
-+
- 	return 0;
- 
- fail:
-@@ -59,6 +71,67 @@ static int ipvlan_set_port_mode(struct ipvl_port *port, u16 nval,
- 	return err;
- }
- 
-+static int ipvlan_macnat_port_rcv(struct sk_buff *skb, struct net_device *wdev,
-+				  struct packet_type *pt,
-+				  struct net_device *orig_wdev)
-+{
-+	struct ipvl_port *port;
-+	struct ipvl_addr *addr;
-+	struct ethhdr *eth;
-+	int addr_type;
-+	void *lyr3h;
-+
-+	port = container_of(pt, struct ipvl_port, ipvl_ptype);
-+	/* We are interested only in outgoing packets.
-+	 * rx-path is handled in rx_handler().
-+	 */
-+	if (skb->pkt_type != PACKET_OUTGOING ||
-+	    ipvlan_is_skb_marked(skb, port->dev))
-+		goto out;
-+
-+	skb = skb_share_check(skb, GFP_ATOMIC);
-+	if (!skb)
-+		goto no_mem;
-+
-+	/* data should point to eth-header */
-+	skb_push(skb, skb->data - skb_mac_header(skb));
-+	skb->dev = port->dev;
-+	eth = eth_hdr(skb);
-+
-+	if (is_multicast_ether_addr(eth->h_dest)) {
-+		ipvlan_skb_crossing_ns(skb, NULL);
-+		skb->protocol = eth_type_trans(skb, skb->dev);
-+		skb->pkt_type = PACKET_HOST;
-+		ipvlan_mark_skb(skb, port->dev);
-+		ipvlan_multicast_enqueue(port, skb, false);
-+		return NET_RX_SUCCESS;
-+	}
-+
-+	lyr3h = ipvlan_get_L3_hdr(port, skb, &addr_type);
-+	if (!lyr3h)
-+		goto out;
-+
-+	addr = ipvlan_addr_lookup(port, lyr3h, addr_type, true);
-+	if (addr) {
-+		struct ipvl_dev *ipvlan = addr->master;
-+		int ret, len;
-+
-+		ipvlan_skb_crossing_ns(skb, ipvlan->dev);
-+		skb->protocol = eth_type_trans(skb, skb->dev);
-+		skb->pkt_type = PACKET_HOST;
-+		ipvlan_mark_skb(skb, port->dev);
-+		len = skb->len + ETH_HLEN;
-+		ret = netif_rx(skb);
-+		ipvlan_count_rx(ipvlan, len, ret == NET_RX_SUCCESS, false);
-+		return NET_RX_SUCCESS;
-+	}
-+
-+out:
-+	dev_kfree_skb(skb);
-+no_mem:
-+	return NET_RX_DROP;
-+}
-+
- static int ipvlan_port_create(struct net_device *dev)
- {
- 	struct ipvl_port *port;
-@@ -84,6 +157,11 @@ static int ipvlan_port_create(struct net_device *dev)
- 	if (err)
- 		goto err;
- 
-+	port->ipvl_ptype.func = ipvlan_macnat_port_rcv;
-+	port->ipvl_ptype.type = htons(ETH_P_ALL);
-+	port->ipvl_ptype.dev = dev;
-+	port->ipvl_ptype.list.prev = LIST_POISON2;
-+
- 	netdev_hold(dev, &port->dev_tracker, GFP_KERNEL);
- 	return 0;
- 
-@@ -100,6 +178,8 @@ static void ipvlan_port_destroy(struct net_device *dev)
- 	netdev_put(dev, &port->dev_tracker);
- 	if (port->mode == IPVLAN_MODE_L3S)
- 		ipvlan_l3s_unregister(port);
-+	if (port->ipvl_ptype.list.prev != LIST_POISON2)
-+		dev_remove_pack(&port->ipvl_ptype);
- 	netdev_rx_handler_unregister(dev);
- 	cancel_work_sync(&port->wq);
- 	while ((skb = __skb_dequeue(&port->backlog)) != NULL) {
-@@ -189,10 +269,13 @@ static int ipvlan_open(struct net_device *dev)
- 	else
- 		dev->flags &= ~IFF_NOARP;
- 
--	rcu_read_lock();
--	list_for_each_entry_rcu(addr, &ipvlan->addrs, anode)
--		ipvlan_ht_addr_add(ipvlan, addr);
--	rcu_read_unlock();
-+	/* for learnable, addresses will be obtained from tx-packets. */
-+	if (!ipvlan_is_macnat(ipvlan->port)) {
-+		rcu_read_lock();
-+		list_for_each_entry_rcu(addr, &ipvlan->addrs, anode)
-+			ipvlan_ht_addr_add(ipvlan, addr);
-+		rcu_read_unlock();
-+	}
- 
- 	return 0;
- }
-@@ -581,11 +664,21 @@ int ipvlan_link_new(struct net_device *dev, struct rtnl_newlink_params *params,
- 	INIT_LIST_HEAD(&ipvlan->addrs);
- 	spin_lock_init(&ipvlan->addrs_lock);
- 
--	/* TODO Probably put random address here to be presented to the
--	 * world but keep using the physical-dev address for the outgoing
--	 * packets.
-+	/* Flags are per port and latest update overrides. User has
-+	 * to be consistent in setting it just like the mode attribute.
- 	 */
--	eth_hw_addr_set(dev, phy_dev->dev_addr);
-+	if (data && data[IFLA_IPVLAN_MODE])
-+		mode = nla_get_u16(data[IFLA_IPVLAN_MODE]);
-+
-+	if (mode != IPVLAN_MODE_L2_MACNAT) {
-+		/* TODO Probably put random address here to be presented to the
-+		 * world but keep using the physical-dev addr for the outgoing
-+		 * packets.
-+		 */
-+		eth_hw_addr_set(dev, phy_dev->dev_addr);
-+	} else {
-+		eth_hw_addr_random(dev);
-+	}
- 
- 	dev->priv_flags |= IFF_NO_RX_HANDLER;
- 
-@@ -597,6 +690,9 @@ int ipvlan_link_new(struct net_device *dev, struct rtnl_newlink_params *params,
- 	port = ipvlan_port_get_rtnl(phy_dev);
- 	ipvlan->port = port;
- 
-+	if (data && data[IFLA_IPVLAN_FLAGS])
-+		port->flags = nla_get_u16(data[IFLA_IPVLAN_FLAGS]);
-+
- 	/* If the port-id base is at the MAX value, then wrap it around and
- 	 * begin from 0x1 again. This may be due to a busy system where lots
- 	 * of slaves are getting created and deleted.
-@@ -625,19 +721,13 @@ int ipvlan_link_new(struct net_device *dev, struct rtnl_newlink_params *params,
- 	if (err)
- 		goto remove_ida;
- 
--	/* Flags are per port and latest update overrides. User has
--	 * to be consistent in setting it just like the mode attribute.
--	 */
--	if (data && data[IFLA_IPVLAN_FLAGS])
--		port->flags = nla_get_u16(data[IFLA_IPVLAN_FLAGS]);
--
--	if (data && data[IFLA_IPVLAN_MODE])
--		mode = nla_get_u16(data[IFLA_IPVLAN_MODE]);
--
- 	err = ipvlan_set_port_mode(port, mode, extack);
- 	if (err)
- 		goto unlink_netdev;
- 
-+	if (ipvlan_is_macnat(port))
-+		dev_set_allmulti(dev, 1);
-+
- 	list_add_tail_rcu(&ipvlan->pnode, &port->ipvlans);
- 	netif_stacked_transfer_operstate(phy_dev, dev);
- 	return 0;
-@@ -657,6 +747,9 @@ void ipvlan_link_delete(struct net_device *dev, struct list_head *head)
- 	struct ipvl_dev *ipvlan = netdev_priv(dev);
- 	struct ipvl_addr *addr, *next;
- 
-+	if (ipvlan_is_macnat(ipvlan->port))
-+		dev_set_allmulti(dev, -1);
-+
- 	spin_lock_bh(&ipvlan->addrs_lock);
- 	list_for_each_entry_safe(addr, next, &ipvlan->addrs, anode) {
- 		ipvlan_ht_addr_del(addr);
-@@ -793,6 +886,9 @@ static int ipvlan_device_event(struct notifier_block *unused,
- 		break;
- 
- 	case NETDEV_CHANGEADDR:
-+		if (ipvlan_is_macnat(port))
-+			break;
-+
- 		list_for_each_entry(ipvlan, &port->ipvlans, pnode) {
- 			eth_hw_addr_set(ipvlan->dev, dev->dev_addr);
- 			call_netdevice_notifiers(NETDEV_CHANGEADDR, ipvlan->dev);
-@@ -813,7 +909,8 @@ static int ipvlan_device_event(struct notifier_block *unused,
- }
- 
- /* the caller must held the addrs lock */
--static int ipvlan_add_addr(struct ipvl_dev *ipvlan, void *iaddr, bool is_v6)
-+int ipvlan_add_addr(struct ipvl_dev *ipvlan, void *iaddr, bool is_v6,
-+		    const u8 *hwaddr)
- {
- 	struct ipvl_addr *addr;
- 
-@@ -822,6 +919,7 @@ static int ipvlan_add_addr(struct ipvl_dev *ipvlan, void *iaddr, bool is_v6)
- 		return -ENOMEM;
- 
- 	addr->master = ipvlan;
-+	addr->tstamp = get_jiffies_64();
- 	if (!is_v6) {
- 		memcpy(&addr->ip4addr, iaddr, sizeof(struct in_addr));
- 		addr->atype = IPVL_IPV4;
-@@ -831,6 +929,8 @@ static int ipvlan_add_addr(struct ipvl_dev *ipvlan, void *iaddr, bool is_v6)
- 		addr->atype = IPVL_IPV6;
- #endif
- 	}
-+	if (hwaddr)
-+		ether_addr_copy(addr->hwaddr, hwaddr);
- 
- 	list_add_tail_rcu(&addr->anode, &ipvlan->addrs);
- 
-@@ -843,7 +943,7 @@ static int ipvlan_add_addr(struct ipvl_dev *ipvlan, void *iaddr, bool is_v6)
- 	return 0;
- }
- 
--static void ipvlan_del_addr(struct ipvl_dev *ipvlan, void *iaddr, bool is_v6)
-+void ipvlan_del_addr(struct ipvl_dev *ipvlan, void *iaddr, bool is_v6)
- {
- 	struct ipvl_addr *addr;
- 
-@@ -884,7 +984,7 @@ static int ipvlan_add_addr6(struct ipvl_dev *ipvlan, struct in6_addr *ip6_addr)
- 			  "Failed to add IPv6=%pI6c addr for %s intf\n",
- 			  ip6_addr, ipvlan->dev->name);
- 	else
--		ret = ipvlan_add_addr(ipvlan, ip6_addr, true);
-+		ret = ipvlan_add_addr(ipvlan, ip6_addr, true, NULL);
- 	spin_unlock_bh(&ipvlan->addrs_lock);
- 	return ret;
- }
-@@ -928,6 +1028,9 @@ static int ipvlan_addr6_validator_event(struct notifier_block *unused,
- 	if (!ipvlan_is_valid_dev(dev))
- 		return NOTIFY_DONE;
- 
-+	if (ipvlan_is_macnat(ipvlan->port))
-+		return notifier_from_errno(-EADDRNOTAVAIL);
-+
- 	switch (event) {
- 	case NETDEV_UP:
- 		if (ipvlan_addr_busy(ipvlan->port, &i6vi->i6vi_addr, true)) {
-@@ -952,7 +1055,7 @@ static int ipvlan_add_addr4(struct ipvl_dev *ipvlan, struct in_addr *ip4_addr)
- 			  "Failed to add IPv4=%pI4 on %s intf.\n",
- 			  ip4_addr, ipvlan->dev->name);
- 	else
--		ret = ipvlan_add_addr(ipvlan, ip4_addr, false);
-+		ret = ipvlan_add_addr(ipvlan, ip4_addr, false, NULL);
- 	spin_unlock_bh(&ipvlan->addrs_lock);
- 	return ret;
- }
-@@ -999,6 +1102,9 @@ static int ipvlan_addr4_validator_event(struct notifier_block *unused,
- 	if (!ipvlan_is_valid_dev(dev))
- 		return NOTIFY_DONE;
- 
-+	if (ipvlan_is_macnat(ipvlan->port))
-+		return notifier_from_errno(-EADDRNOTAVAIL);
-+
- 	switch (event) {
- 	case NETDEV_UP:
- 		if (ipvlan_addr_busy(ipvlan->port, &ivi->ivi_addr, false)) {
-diff --git a/include/uapi/linux/if_link.h b/include/uapi/linux/if_link.h
-index 3b491d96e52e..64ecb1d739d0 100644
---- a/include/uapi/linux/if_link.h
-+++ b/include/uapi/linux/if_link.h
-@@ -1269,6 +1269,7 @@ enum ipvlan_mode {
- 	IPVLAN_MODE_L2 = 0,
- 	IPVLAN_MODE_L3,
- 	IPVLAN_MODE_L3S,
-+	IPVLAN_MODE_L2_MACNAT,
- 	IPVLAN_MODE_MAX
- };
- 
+ 	vma->vm_ops = NULL;
 -- 
-2.25.1
+2.51.2
 
