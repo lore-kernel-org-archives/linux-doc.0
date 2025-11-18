@@ -1,47 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0013730ED;
-	Tue, 18 Nov 2025 16:31:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764943A1CF7;
+	Tue, 18 Nov 2025 16:35:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763483488; cv=none; b=iwAbu/uVc7rawKe3tKGjohj1/w9qv26bBbCvL/QydFtkLx0JxHVUc1B0BjL6DnLGF0GL9g9g/t+YPEJtQMxvulNtTGepTYIq7BVnCOVGpb30HsLJgOT3ZFl4YN1TngjoJB53Ttvi36frl42Ud0gn/Lg4xg+xGEOJJDBbaBZ0p+Y=
+	t=1763483732; cv=none; b=TSiW3C7PggtnR3M38F2Fj88XrwToPj/sc1lxVBVlT3LX4SdzcWxwxdzBmmZK+5Cxc6GFRehIw+ZZbz8mNI0nTjGahHt6lMUlISAHQ6koHzg1uVD+GqKYAevYdPa4anyXNGWAnnMYo3tDHFZjTYf0m9XwViy3TurWEKoV3TGHYm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763483488; c=relaxed/simple;
-	bh=F9+GESOjuM+M3gt3ai9Ro032/kzBXGp7spyY0XQIUFo=;
+	s=arc-20240116; t=1763483732; c=relaxed/simple;
+	bh=XG2/0NHbz5h1NeW5vRPlEIFWpPEF81/RkJA/MakjhaY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KKAHnL9HSgSqmvJxPlmUMXe2UuSqFuKYRKv60Ldbtvs33mV5g8SP9mVEkpQ/lCE7Q9JVQxzAW4I91Hs7qbNtBJKpl3/425E2FvKfEgC0vzLlUkkw1wXaPx4MWCXN3GEO2OrfjyJK4oNW7ME6qr56pAnPODjTnaxhW0gpaCNPGcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=SdW/iSLu; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=u+dqG0G2ieVUw6R4CSM/hbZhvg5hUjHZzcprBq4pxyucTg7XWdPAv7TP6MrCaJg8DjB3NPuWibxWJzw7EukZythxA8qiDS8O7VHTVCHBUwE8O9HME5qtreZ4dEIOTfe0q9oAqEZ+KH5FSGlNy9v+KL1Hbt+Tf0Q/9WJL0vPpoSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EUJpjVZH; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="SdW/iSLu"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B607740C42
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EUJpjVZH"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AC5A240C48
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1763483485; bh=lFHFc4QEt5XHraAor9JKQdRc6P1MjY+0+/NCLSAvubw=;
+	t=1763483730; bh=c6E0Cc8VknrY5JDkYvyrX0Q8/d43A/ouaT2Kw+6iT/o=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=SdW/iSLuuRnpRCWt+1v2ZDE3+ngkfMFT5TUvyJD2Tp5JpWEvN/orf0n84IJIqI1mZ
-	 gz4a2OJQVRw+WXnkbaROnFa65s9lwalLdz/wjA2iryuIuXXCqvglHlS0p1zEXUs7xb
-	 SgL7Kn1k9V3pI9fjWeusBbHNXpqSG6KMIgMORn/wCOoPfj2v1Ilyc4fK3z5ycprTE0
-	 3qd4TZM2HGPOUlNUkjgTqpdkV84V4ToG1pCpfWzsqCsjNOSZXbcRqtNARbepda26Vd
-	 7wZI+aKYeiRY67aFaD5X4Un+7YanDljxb3V39TvAeYyGfbLuahd2+2nXvdRdy1FfXT
-	 YiFMuAMnFT/NQ==
+	b=EUJpjVZHN5yrIYX1IIMojhIJ+H8CZ3HnpULEoGm178vsXU4X4463JLMgVF2Qnvb5v
+	 9N8xEtGIeSd5AEQpdVxdjA9CGK0Z32eQ5MRwnVgeem2Aiqwm+SiJVbKDMcD0vgF0r2
+	 ucNe0ETSdp9VTdW3ooBROYs9OheGS/y2xOygao4hkbKUUmGeK1iyIE6aWepAc0XEBy
+	 uD/uNmIq2b9F+Ehgqtc4eccrVAhbLv8ZMFrRzEOBNg+Iuz+ja/c1XnvV0PvEczxIgq
+	 l7OQZppjIjrSbbczTb5dTsrrZDn2SMLANAanFAkQQxaWUEZDk8+O27PLnC87vCnmUN
+	 rm26LiubopQsQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B607740C42;
-	Tue, 18 Nov 2025 16:31:25 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id AC5A240C48;
+	Tue, 18 Nov 2025 16:35:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: eanut 6 <jiakaipeanut@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2] Documentation/admin-guide: fix typo and comment in
- cscope example
-In-Reply-To: <CAFb8wJvoKtiOA0DZqNJhHALe97=BFkGeLwDYpK=x7L1woLQ6NQ@mail.gmail.com>
-References: <CAFb8wJvoKtiOA0DZqNJhHALe97=BFkGeLwDYpK=x7L1woLQ6NQ@mail.gmail.com>
-Date: Tue, 18 Nov 2025 09:31:24 -0700
-Message-ID: <871plv5mlf.fsf@trenco.lwn.net>
+To: Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
+Cc: josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, rostedt@goodmis.org,
+ workflows@vger.kernel.org, joe@perches.com, rdunlap@infradead.org, Sasha
+ Levin <sashal@kernel.org>
+Subject: Re: [PATCH v3] README: restructure with role-based documentation
+ and guidelines
+In-Reply-To: <20251117213801.4077535-1-sashal@kernel.org>
+References: <20251117213801.4077535-1-sashal@kernel.org>
+Date: Tue, 18 Nov 2025 09:35:29 -0700
+Message-ID: <87wm3n47u6.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,40 +52,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-eanut 6 <jiakaipeanut@gmail.com> writes:
+Sasha Levin <sashal@kernel.org> writes:
 
-Thanks for working to improve our documentation.
-
-> This patch updates the Linux documentation for cscope, fixing two issues:
-> 1. Corrects the typo in the command line:
->        c"scope -d -p10  ->  cscope -d -p10
-> 2. Fixes the related documentation comment for clarity and correctness:
->        cscope by default cscope.out database.
->        ->
->        cscope by default uses the cscope.out database.
+> Reorganize README to provide targeted documentation paths for different user
+> roles including developers, researchers, security experts, maintainers, and AI
+> coding assistants. Add quick start section and essential docs links.
 >
-> Changes since v1:
->  * Added the second fix for the documentation comment line.
-> Thanks to Randy Dunlap for pointing out this additional correction.
-
-This kind of information belongs below the "---" line so that the
-maintainer doesn't have to edit it out later.
-
-> References:
->  * [PATCH] Documentation/admin-guide: fix typo in cscope command example
-> https://lore.kernel.org/linux-doc/6017104c-740d-43db-bc53-58751ec57282@infradead.org/T/#t
+> Include proper attribution requirements for AI-assisted contributions using
+> Assisted-by tags with agent details and tools used.
 >
-> Signed-off-by: Jiakai Xu <jiakaiPeanut@gmail.com>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 > ---
->  Documentation/admin-guide/workload-tracing.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+> Changes in v3:
+> - Replace "Agentic Coding" terminology with clearer "AI Coding Assistants"
+> - Add concrete examples of proper Assisted-by tag usage with multiple formats
+> - Add "Bad examples" section showing anti-patterns to avoid
+> - Add detailed tool categorization distinguishing specialized vs basic tools
+> - Add explicit format specification: $AGENT_NAME:$MODEL_VERSION [$TOOL1] ...
+> - Expand section description to clarify it applies to both AI tools and
+>   developers using AI tools
 >
-> diff --git a/Documentation/admin-guide/workload-tracing.rst
-> b/Documentation/admin-guide/workload-tracing.rst
+>  README                | 212 +++++++++++++++++++++++++++++++++++++++---
+>  scripts/checkpatch.pl |   1 +
+>  2 files changed, 202 insertions(+), 11 deletions(-)
 
-This patch has been line-wrapped by your email client and does not
-apply.  Please, before resending, send the patch to yourself and be sure
-that you can apply the result.
+Overall I really like this change.  We could quibble forever about the
+details, but that's probably not worthwhile.
+
+That said, I have one quibble :)
+
+> +Examples of Proper Attribution:
+> +
+> +Good examples:
+> +  Assisted-by: AI-Tool:model-version-1.0 coccinelle
+> +  Assisted-by: AI-Assistant:v2.5.0
+> +  Assisted-by: Code-Helper:model-2024-04-09 sparse smatch
+> +  Assisted-by: ML-Agent:version-2024-11
+> +
+> +Bad examples (DO NOT USE):
+> +  Assisted-by: AI                          # Too vague
+> +  Assisted-by: AI-Tool coccinelle git      # Don't list basic tools
+> +  Signed-off-by: AI Assistant <ai@...>     # NEVER - AI cannot sign off
+
+I don't think this belongs here - we don't have examples of good SOB
+lines - or of anything else.  What this needs, instead, is a link to
+Dave's tools document once that goes in.
+
+(We also, in truth, do not yet have a consensus on what the attribution
+tags should be, and here isn't the place to try to form one.)
 
 Thanks,
 
