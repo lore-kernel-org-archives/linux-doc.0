@@ -1,202 +1,267 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BC73FC2
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 00:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C159925A633
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 00:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763424397; cv=none; b=BYR6do4xMf87LLDh9gC+5Pu8midxY5giv4kL+egFPSQ7w1iZcWmFj6U/GncnV2T526GFyqHgez7Kx0J+9sxtt4ylcAOb9h/7va2V2wGZ5GGMZxec38zNL0Hx4isCDKhSJw3xJtIQCxyjHQiVHsB7aUCLZKo/m0Y1sGpKwIh8baE=
+	t=1763425479; cv=none; b=oSDblD2V3uesXjD/WtvWve8oMQtJ/PvgtUnQyTcbptYiAvWuQTJRLUXq25TbV3w3Hb6HCU17gzwMVtcHdv29sS0eUV54ecrwFpYf+jRlRyMF1bxmTr4T6TN9lDF5vXcqQN3wfT3aZiJ03SVjdb7iNkX2ncQjkRjzOz1etwAk1WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763424397; c=relaxed/simple;
-	bh=rk9BkAFB9pdLx2olw5XHN6msU0jlCk1qBAL54eaWXh0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jMpxH/gCSv1x8UgNb9vN8ntxpzsMr2L44G2HPM2AnEe7rnjZjGrF12Xt9jIeoIE/21sdH2v3DY1RpMlCLyZR11WVlYGSy5/xGGmO8bXqabekSCIgm17+F2/LZ4/LY1dYQrtgS14S66h/wdIVbsxUIoo2wkFi2SFCHrFExBzaRLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3qgVtAJ3; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1763425479; c=relaxed/simple;
+	bh=t5qlC/z0jbPcIgQmc6xi5TA+xYD1USfzHwCFjZ9ECdc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MC1ycVLEGaeZwgqU937uyIuUM3I5LxCYgCIoSvzvWrw1TPnP4sVh06BCprSxPdXrhSSfP0bqcjjmuFGeym4tnMyOXgvV9PAZz8F7lciteXHy33ZupxIVt1RoOyNX5mTKlo8xS5FIMU71z3eGUefdnj6En2BicQ9CfkytJYBSBhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Atn02gD1; arc=none smtp.client-ip=74.125.224.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3qgVtAJ3"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7ba55660769so3164006b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 16:06:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Atn02gD1"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-63e1e1bf882so4170876d50.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 16:24:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763424394; x=1764029194; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1v4fRZdVLhKe/ktZvpTDlH6fFhc+2rF0aLfRAFXmPdc=;
-        b=3qgVtAJ3lvQRcYfWoRq16P3YXc5lv2KdpdEBCVnTc76+vq3jnAQ5/Xb869vp0ltXgn
-         ZhfxgUDMpZfOOJJoMyMsXVUsV+u3ohEWeR6b0S3+GSqlsNi/SZmk+POZ48b7jlDdCTI+
-         N+wB3ezS9PmMBZVSOSkh3Xf8kSIagm1Z3t3mxk2BtHy1zOuVp3kg+/nRO3JwnGsYiM1w
-         HaSRhz4bEo7mtvYnagaLWI5gCu/3bftl//4Ev9kzy4L6aoE3fJp1WK/1v62Jo81osa1P
-         7u5CumnDkhogztvL0KQyLnuiJUZ1xUqabpET3vqkOZaGSUBRqaTDvzXsEdnP0TtTl75d
-         qcLQ==
+        d=gmail.com; s=20230601; t=1763425477; x=1764030277; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p0UP7FJ+3v7dtudpFsNUQFNBayZALtyMMn0oBcAVymM=;
+        b=Atn02gD1chJz74pkB+VhtbATPQAw40Z1z5+lfhVcacqsDIxGrmy/XXAVaBVXgVR33z
+         XHvA4m4GiP3feC6y1ohPbnDZOA0wkgB9gY2gtl3xuN29y3WIQJHilANxwkLbtulJ8w8j
+         bQ5+i9+cIMwaqetz79Sb3AcUssQeGX12xngb2Wj8sJv/U6H3GK6BEuWEXFGZS6+pqsg3
+         YuCUI2NLHl3gBcDtac4KM5nbxpS0AFLALCe+x/VyQG88h6WlRyFYrBgzM3d+aeCxAzJv
+         Xu6CftzfLIJjBpwwoorFt61NNgb07/Xes0iKKFhFjSd1rwSqxxEqhkU7NCOVmjLdmiPG
+         CQaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763424394; x=1764029194;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1v4fRZdVLhKe/ktZvpTDlH6fFhc+2rF0aLfRAFXmPdc=;
-        b=i//il8uSMuCaCjdJ9spUowCSrXivrY8gD0wjax/uZSvFxUesdJE/yjj6jEvEzYaG+T
-         tBv6SjL4trhvTkia7rQm9Ycyx1tiDtvMLjh8IfCPObBoBMmFe+5h7PMuEy0l4KjscUxT
-         yHkHYlyRCcC0GVWZLciBU1OGlSAnPyNKL+rE+Epuq6Ya1oS6vk3JWqq1NOly3vpnzj4c
-         5uNOb6cZFE3RSAfGwhUw8Z+gfWzKilJKuUzTTclZDSetqD1ZWo5pGcHTHGHjvZ5TFM79
-         Cng7fKV4ojZYEE2CGIPfyt+xtVOHjI4iyVQlCci33GsEnCci3sdg7IL7nDnU2eior4cY
-         qr+A==
-X-Forwarded-Encrypted: i=1; AJvYcCU755tcvTeDGLitZv3AWGSrHo1ljaxbmt/jPX2t2PoeFFMYJidcBLWieF6wLD0ktuI8+/qttEylGvg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0bydxVeEU3fjXXnmj408fXZ87oVknr1w7+6OASKMIjhfZpmrp
-	uISvU/v660t8x2DxJoeaMsKwUkLUCoPRdE+vIbNkfCeRsLMIlPRLDkhCb2PQPcOsVA==
-X-Gm-Gg: ASbGnctNkZwxGdVj2GOaR58T4ohD6X9iUee9cjguWbWrWwahXo/KGiBDAtwmFqslFV1
-	MQrci6WNzsdS51nosdXJ5wJgoKo6abCkeoc9iUIl6mr6Hro062953OxklrS4Z3Q0q0YrTdRgeVJ
-	vaJsGDWpmifBBmCAL9fjPknSsi9Nl4fZ1CUpfn6x4ydsr2GTre+IMdl9Dufr4bOCZYQaWkNC/80
-	xC+4nVSYmL2M+yhibSXXzNGifMEPD7m6tUni4qDdCw0XsWFLqbpjnjReJqfQfs2hQcj6RUyNBrK
-	PCZd3whB4QkyFcYmVZM2M+uh1Glb5E3ip86XqkisIdno0RHdHvr3vZDZR/LqUSwxPh+YSUVOv5A
-	BDUt0Z1pKwmaP0Q7KfZXaFpywsUELhM04iJoZRAzPj/WQzxP2hLz/8ojQ6kmtH5JKn8eFNGpgR+
-	zSdV2Z1w7IrAJUg5xu2c8ynIQQsZj/9WCSmiIEav2PHukBFedP45TXVCJJz6DgOTU=
-X-Google-Smtp-Source: AGHT+IHkJBvRbGUG30Kr3T5gR1UjB+qV085NIT1CUVV/7jNIJcaOzKed5XoscCfn8280NZXc0GRAQQ==
-X-Received: by 2002:a05:6a00:2d1e:b0:7b8:c7f7:645e with SMTP id d2e1a72fcca58-7ba3c07eeebmr19714686b3a.17.1763424393959;
-        Mon, 17 Nov 2025 16:06:33 -0800 (PST)
-Received: from google.com (132.200.185.35.bc.googleusercontent.com. [35.185.200.132])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b924be37fbsm14602912b3a.1.2025.11.17.16.06.32
+        d=1e100.net; s=20230601; t=1763425477; x=1764030277;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p0UP7FJ+3v7dtudpFsNUQFNBayZALtyMMn0oBcAVymM=;
+        b=JMYhy5FiiJfaIFGRa0SVKqMVomBqkLUaPG5VjC8OwTyNehXCj+VNSLtG5CbROr7ojR
+         CRWHGBSMHIwY9ZeI87PQOFzZkEp/sD3VsYKl/rG1HB9MWLIffajtOKtZLlBeFq0xb4VQ
+         RgO/FNwu5yyWIzBXXxaawzU7Jep+OcYend6proEwzBu5ZwiMsOqQz2rCiUXTmZbXUPbh
+         JSU/ksOEdSCheE0tFKANoFmj5DdIXG2xhZLkFY39kbRkedi+UkYggKFJSalyR1+GsKgK
+         wyL7pnsk08rLubnmLO+YxntMOFnQ5Lr/U0qTvnu8+mRk1Sk29kJvmKoT7DH0G15CDZvf
+         ZuFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVZeYWNhUgOWs3NE3ej5g3l9Gy1keWYn5HcN8pcNXyHh3qZNDPqNLkqQwPoZTttNPw1GIp1iSDom74=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeGZZ9yfvApWqrqz6RWiALuGD57+hWIbnywInaZSP14bqDS0GP
+	ub2BGWgJz8CYqcgj1lazsaJ02mCl1LStknCj99uTUIfczEexxIpGZmsg
+X-Gm-Gg: ASbGncuWUGlubFeWe88xFGqlSkgKHdApeBI5pX1iez5i+2ANhpM6WB+iLUZjrBgHzNi
+	8c5RZPqgrdapLuLvp5X2/i//C+Yb7bdhaR7ah7uvugNFKl0up4IFF3s1B7lbc+GS/CdNqjXzdbv
+	4LqZ3DlQLKfzi5PpWn8FwQm0fDbNLkby27UHsThyqQ85zVdvRQqyAo5oDvfMEeKcJBvCXomypcW
+	VPU0l+0xj9WU34dFxzMH7HB9UNhRX6cm/fPesmjN7DusRuiDQY3svfp1hajF6YyMKFflGyApps8
+	dFDdjHknj9pybb3bvzhi0D6B6HbBWuKv4LlXPOEr8HAxeTUSRo7+f1oz99XKu5PmNCLNpWA9SY7
+	jUYOyEhiB6nBgKJ2FNXGgsmR45yhrhNm9vwle3f68DXyx5hDW5bQiS7Xfs+PC2tQ/D6YcUFjedw
+	zs/yIau485DCYj3RN+ZpGeWY9kPl10wHY=
+X-Google-Smtp-Source: AGHT+IF09w2yBxQlT5cuZ8Zztc5mXfSzI+lOaJf05Wl57QjCQS10rQlMLicMrBGLYzfxkfyy4w2WyA==
+X-Received: by 2002:a05:690c:6810:b0:786:5f03:2b33 with SMTP id 00721157ae682-78929dff31dmr252313157b3.1.1763425476694;
+        Mon, 17 Nov 2025 16:24:36 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:70::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78821e5d6d3sm46794597b3.25.2025.11.17.16.24.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 16:06:33 -0800 (PST)
-Date: Tue, 18 Nov 2025 00:06:28 +0000
-From: David Matlack <dmatlack@google.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	rppt@kernel.org, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v6 18/20] selftests/liveupdate: Add kexec-based selftest
- for session lifecycle
-Message-ID: <aRu4hBPz2g-cealt@google.com>
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-19-pasha.tatashin@soleen.com>
+        Mon, 17 Nov 2025 16:24:35 -0800 (PST)
+From: Daniel Zahka <daniel.zahka@gmail.com>
+To: Jiri Pirko <jiri@resnulli.us>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Srujana Challa <schalla@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Brett Creeley <brett.creeley@amd.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Linu Cherian <lcherian@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Jerin Jacob <jerinj@marvell.com>,
+	hariprasad <hkelam@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Mark Bloch <mbloch@nvidia.com>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Petr Machata <petrm@nvidia.com>,
+	Manish Chopra <manishc@marvell.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Vlad Dumitrescu <vdumitrescu@nvidia.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>
+Cc: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Subject: [PATCH net-next v4 0/6] devlink: net/mlx5: implement swp_l4_csum_mode via devlink params
+Date: Mon, 17 Nov 2025 16:24:26 -0800
+Message-ID: <20251118002433.332272-1-daniel.zahka@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251115233409.768044-19-pasha.tatashin@soleen.com>
+Content-Transfer-Encoding: 8bit
 
-On 2025-11-15 06:34 PM, Pasha Tatashin wrote:
+This series introduces a new devlink feature for querying param
+default values, and resetting params to their default values. This
+feature is then used to implement a new mlx5 driver param.
 
-> +/* Stage 1: Executed before the kexec reboot. */
-> +static void run_stage_1(int luo_fd)
-> +{
-> +	int session_fd;
-> +
-> +	ksft_print_msg("[STAGE 1] Starting pre-kexec setup...\n");
-> +
-> +	ksft_print_msg("[STAGE 1] Creating state file for next stage (2)...\n");
-> +	create_state_file(luo_fd, STATE_SESSION_NAME, STATE_MEMFD_TOKEN, 2);
-> +
-> +	ksft_print_msg("[STAGE 1] Creating session '%s' and preserving memfd...\n",
-> +		       TEST_SESSION_NAME);
-> +	session_fd = luo_create_session(luo_fd, TEST_SESSION_NAME);
-> +	if (session_fd < 0)
-> +		fail_exit("luo_create_session for '%s'", TEST_SESSION_NAME);
-> +
-> +	if (create_and_preserve_memfd(session_fd, TEST_MEMFD_TOKEN,
-> +				      TEST_MEMFD_DATA) < 0) {
-> +		fail_exit("create_and_preserve_memfd for token %#x",
-> +			  TEST_MEMFD_TOKEN);
-> +	}
-> +
-> +	ksft_print_msg("[STAGE 1] Executing kexec...\n");
-> +	if (system(KEXEC_SCRIPT) != 0)
-> +		fail_exit("kexec script failed");
-> +	exit(EXIT_FAILURE);
+The series starts with two pure refactor patches: one that passes
+through the extack to devlink_param::get() implementations. And a
+second small refactor that prepares the netlink tlv handling code in
+the devlink_param::get() path to better handle default parameter
+values.
 
-Can we separate the kexec from the test and allow the user/automation to
-trigger it however is appropriate for their system? The current
-do_kexec.sh script does not do any sort of graceful shutdown, and I bet
-everyone will have different ways of initiating kexec on their systems.
+The third patch introduces the uapi and driver api for default
+parameter values. The driver api is opt-in, and both the uapi and
+driver api preserve existing behavior when not used by drivers or
+older userapace binaries.
 
-For example, something like this (but sleeping in the child instead of
-busy waiting):
+The fourth patch introduces the a new mlx5 driver param,
+swp_l4_csum_mode, for controlling tx csum behavior. The "l4_only"
+value of this param is a dependency for PSP initialization on CX7
+NICs.
 
-diff --git a/tools/testing/selftests/liveupdate/luo_kexec_simple.c b/tools/testing/selftests/liveupdate/luo_kexec_simple.c
-index 67ab6ebf9eec..513693bfb77b 100644
---- a/tools/testing/selftests/liveupdate/luo_kexec_simple.c
-+++ b/tools/testing/selftests/liveupdate/luo_kexec_simple.c
-@@ -24,6 +24,7 @@
- static void run_stage_1(int luo_fd)
- {
- 	int session_fd;
-+	int ret;
- 
- 	ksft_print_msg("[STAGE 1] Starting pre-kexec setup...\n");
- 
-@@ -42,10 +43,17 @@ static void run_stage_1(int luo_fd)
- 			  TEST_MEMFD_TOKEN);
- 	}
- 
--	ksft_print_msg("[STAGE 1] Executing kexec...\n");
--	if (system(KEXEC_SCRIPT) != 0)
--		fail_exit("kexec script failed");
--	exit(EXIT_FAILURE);
-+	ksft_print_msg("[STAGE 1] Forking child process to hold session open\n");
-+	ret = fork();
-+	if (ret < 0)
-+		fail_exit("fork() failed");
-+	if (!ret)
-+		for (;;) {}
-+
-+	ksft_print_msg("[STAGE 1] Child Process: %d\n", ret);
-+	ksft_print_msg("[STAGE 1] Complete!\n");
-+	ksft_print_msg("[STAGE 1] Execute kexec to continue\n");
-+	exit(0);
- }
- 
- /* Stage 2: Executed after the kexec reboot. */
+Lastly, the series introduces a new driver param with cmode runtime to
+netdevsim, and then uses this param in a new testcase for netdevsim
+devlink params.
 
-> +int main(int argc, char *argv[])
-> +{
-> +	int luo_fd;
-> +	int state_session_fd;
-> +
-> +	luo_fd = luo_open_device();
-> +	if (luo_fd < 0)
-> +		ksft_exit_skip("Failed to open %s. Is the luo module loaded?\n",
-> +			       LUO_DEVICE);
-> +
-> +	/*
-> +	 * Determine the stage by attempting to retrieve the state session.
-> +	 * If it doesn't exist (ENOENT), we are in Stage 1 (pre-kexec).
-> +	 */
-> +	state_session_fd = luo_retrieve_session(luo_fd, STATE_SESSION_NAME);
+Here are some examples of using the default param uapi with the devlink
+cli. Note the devlink cli binary I am using has changes which I am
+posting in accompanying series targeting iproute2-next:
 
-I don't think the test should try to infer the stage from the state of
-the system. If a user runs this test, then does the kexec, then runs
-this test again and the session can't be retrieved, that should be a
-test failure (not just run stage 1 again).
+  # netdevsim
+./devlink dev param show netdevsim/netdevsim0
+netdevsim/netdevsim0:
+  name max_macs type generic
+    values:
+      cmode driverinit value 32 default 32
+  name test1 type driver-specific
+    values:
+      cmode driverinit value true default true
 
-I think it'd be better to require the user to pass in what stage of the
-test should be run when invoking the test. e.g.
+  # set to false
+./devlink dev param set netdevsim/netdevsim0 name test1 value false cmode driverinit
+./devlink dev param show netdevsim/netdevsim0
+netdevsim/netdevsim0:
+  name max_macs type generic
+    values:
+      cmode driverinit value 32 default 32
+  name test1 type driver-specific
+    values:
+      cmode driverinit value false default true
 
- $ ./luo_kexec_simple stage_2
+  # set back to default
+./devlink dev param set netdevsim/netdevsim0 name test1 default cmode driverinit
+./devlink dev param show netdevsim/netdevsim0
+netdevsim/netdevsim0:
+  name max_macs type generic
+    values:
+      cmode driverinit value 32 default 32
+  name test1 type driver-specific
+    values:
+      cmode driverinit value true default true
+
+ # mlx5 params on cx7
+./devlink dev param show pci/0000:01:00.0
+pci/0000:01:00.0:
+  name max_macs type generic
+    values:
+      cmode driverinit value 128 default 128
+...
+  name swp_l4_csum_mode type driver-specific
+    values:
+      cmode permanent value default default default
+
+  # set to l4_only
+./devlink dev param set pci/0000:01:00.0 name swp_l4_csum_mode value l4_only cmode permanent
+./devlink dev param show pci/0000:01:00.0 name swp_l4_csum_mode
+pci/0000:01:00.0:
+  name swp_l4_csum_mode type driver-specific
+    values:
+      cmode permanent value l4_only default default
+
+  # reset to default
+./devlink dev param set pci/0000:01:00.0 name swp_l4_csum_mode default cmode permanent
+./devlink dev param show pci/0000:01:00.0 name swp_l4_csum_mode
+pci/0000:01:00.0:
+  name swp_l4_csum_mode type driver-specific
+    values:
+      cmode permanent value default default default
+
+CHANGES:
+v4:
+  - add test case for default params.
+  - add new cmode runtime test param to netdevsim.
+  - introduce uapi and driver api for supporting default param values.
+  - rename device_default to default in mlx5 patch.
+v3: https://lore.kernel.org/netdev/20251107204347.4060542-1-daniel.zahka@gmail.com/
+  - fix warnings about undocumented param in intel ice driver
+v2: https://lore.kernel.org/netdev/20251103194554.3203178-1-daniel.zahka@gmail.com/
+  - fix indentation issue in new mlx5.rst entry
+  - use extack in mlx5_nv_param_devlink_swp_l4_csum_mode_get()
+  - introduce extack patch.
+v1: https://lore.kernel.org/netdev/20251022190932.1073898-1-daniel.zahka@gmail.com/
+
+Daniel Zahka (6):
+  devlink: pass extack through to devlink_param::get()
+  devlink: refactor devlink_nl_param_value_fill_one()
+  devlink: support default values for param-get and param-set
+  net/mlx5: implement swp_l4_csum_mode via devlink params
+  netdevsim: register a new devlink param with default value interface
+  selftest: netdevsim: test devlink default params
+
+ Documentation/netlink/specs/devlink.yaml      |   9 +
+ .../networking/devlink/devlink-params.rst     |  10 +
+ Documentation/networking/devlink/mlx5.rst     |  14 ++
+ .../marvell/octeontx2/otx2_cpt_devlink.c      |   6 +-
+ drivers/net/ethernet/amd/pds_core/core.h      |   3 +-
+ drivers/net/ethernet/amd/pds_core/devlink.c   |   3 +-
+ .../net/ethernet/broadcom/bnxt/bnxt_devlink.c |   6 +-
+ .../net/ethernet/intel/i40e/i40e_devlink.c    |   3 +-
+ .../net/ethernet/intel/ice/devlink/devlink.c  |  14 +-
+ .../marvell/octeontx2/af/rvu_devlink.c        |  15 +-
+ .../marvell/octeontx2/nic/otx2_devlink.c      |   6 +-
+ drivers/net/ethernet/mellanox/mlx4/main.c     |   6 +-
+ .../net/ethernet/mellanox/mlx5/core/devlink.h |   3 +-
+ .../net/ethernet/mellanox/mlx5/core/eswitch.c |   3 +-
+ .../mellanox/mlx5/core/eswitch_offloads.c     |   3 +-
+ .../net/ethernet/mellanox/mlx5/core/fs_core.c |   3 +-
+ .../ethernet/mellanox/mlx5/core/fw_reset.c    |   3 +-
+ .../mellanox/mlx5/core/lib/nv_param.c         | 238 +++++++++++++++++-
+ .../mellanox/mlxsw/spectrum_acl_tcam.c        |   3 +-
+ .../ethernet/netronome/nfp/devlink_param.c    |   3 +-
+ drivers/net/ethernet/qlogic/qed/qed_devlink.c |   3 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   3 +-
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      |   3 +-
+ drivers/net/ethernet/ti/cpsw_new.c            |   6 +-
+ drivers/net/netdevsim/dev.c                   |  55 ++++
+ drivers/net/netdevsim/netdevsim.h             |   1 +
+ drivers/net/wwan/iosm/iosm_ipc_devlink.c      |   3 +-
+ include/net/devlink.h                         |  45 +++-
+ include/net/dsa.h                             |   3 +-
+ include/uapi/linux/devlink.h                  |   3 +
+ net/devlink/netlink_gen.c                     |   5 +-
+ net/devlink/param.c                           | 180 +++++++++----
+ net/dsa/devlink.c                             |   3 +-
+ .../drivers/net/netdevsim/devlink.sh          | 113 ++++++++-
+ 34 files changed, 689 insertions(+), 91 deletions(-)
+
+-- 
+2.47.3
+
