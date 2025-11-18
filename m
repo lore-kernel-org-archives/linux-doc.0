@@ -1,243 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70DC2F360E;
-	Tue, 18 Nov 2025 12:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53702221277
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 12:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763468662; cv=none; b=KU8Df35GNu6HOV8Ze5/xTreNC3EHdkTFAOi0aevYfDLfQx42eTF2Yj2T+2N963Dppi7tYbQ9y/pOWAiVjIWMvgd+B341qv6m0dSTSp0ZtvaHY/K3kOXJ+9FsU+7ch/+D8jfWuE3kkDRlNLce8re5NcVPRpDiFWEElB40hOBlCVo=
+	t=1763469027; cv=none; b=DZpw/XvXbUlQ2L/1eVGBIZT0I5gSxw+9VD/RFFUxJbJjWV6HcHjT2vrIJr9IjVXJDZQMue8h6FcIt0IZHH5b1YQd9BVkKVIKko7iZUaN8DHx++MtErNkJgEgYgASVYr+B7slwwFhGnB5kGvenVoM4FDIYz6hFtx8r4j2/R0QYbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763468662; c=relaxed/simple;
-	bh=Ujd1vHHs8n7n0Zl6KcKppsafbBUvouKTUrsZTFmdcVY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=dfKKs8VwtsqNpeGxGf7NkJlOZpJ0nxh7F4Zt4ZIMAdbKwdMVjTQsKq0TtenfaQxmf8Gs8CbuPJATGNCA7mVLr6vc8+1+wOg3mEL5AZyAGrLXmHE/IZjNSyNwHu/0vYG2jr33IGL2sUhq6Ui+7ASdmwnAjiv7jAoszlrmO169+1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QOhwkB+P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763469027; c=relaxed/simple;
+	bh=8B9ouElv+xeFaTKAh9MT9KBQGuCsWdhQ9skK5QulCOM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ND9fyBnp2VNieXb716qmB8QOfT8acPIuCTteJlyKqXOke8L6uqJA72qkhJICAGbc+Whje/ATFJ6iULvvLbPqSAoBZ2vMsn7ryZuOSu304xdP8G4Zn1FFsNBXRmICZzjoqwl6S7ivpVf1y8Y52KGfoeVU0lf5osnQ7N+9/7sqe7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O83kRwuv; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ib+GeaHr; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QOhwkB+P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04C3AC19423;
-	Tue, 18 Nov 2025 12:24:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763468662;
-	bh=Ujd1vHHs8n7n0Zl6KcKppsafbBUvouKTUrsZTFmdcVY=;
-	h=Date:Subject:Cc:From:To:References:In-Reply-To:From;
-	b=QOhwkB+PlDbxWHVgnHGDmP2KdQV132Yt+PgGyUmfqtTquFASNlHHBPfBoojYbxq2N
-	 tNz5mo5n1xvxnc95Nu3ywqyb6N+gKz/Y4euW3lp63LTSVwn2rxTeeCl2KbLIxUxtlI
-	 MVNK2fomCIk5Sf0EsMGEneXJsAZeilkG+VnSaeGG19ywzPzevchPo1IOj6zRZwYi0H
-	 BUka57Wf2dy9xUbaEAEIex3K/9bboAe9X7ufldLzHb94jFOPd9MTl3ZDuCfK8kdqDd
-	 9GJiHWdwa32dvqzn4WxFp3WueHxOxyYL80a0d+17eJFvVWvTZjK+0gbaQ4yJUs40Oa
-	 lGxmLnbB0OB/Q==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O83kRwuv";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ib+GeaHr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763469024;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m1y6PrlUAcuxkkEloRxo0vMvd5pujl1anuTqxEZ8o/Q=;
+	b=O83kRwuvD5AKFvQbFu6mrpO9JcXSk/KF+Xooa27/DRka+F8uuo/EEMh6SfG2wgaRcXlfry
+	DnpsEUkCjNiA/JwkIgf2SLruFZagfTWR69uUe3Y44BqT195CnNuzkUfl3SQT2OjKd0J0hT
+	fizHXj0aec845wY6SgcWNuEH+rnenQ0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-652-x9h_rhUCNrirMSuoTyFGDg-1; Tue, 18 Nov 2025 07:30:22 -0500
+X-MC-Unique: x9h_rhUCNrirMSuoTyFGDg-1
+X-Mimecast-MFC-AGG-ID: x9h_rhUCNrirMSuoTyFGDg_1763469022
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-477563e531cso45668975e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 04:30:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1763469021; x=1764073821; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=m1y6PrlUAcuxkkEloRxo0vMvd5pujl1anuTqxEZ8o/Q=;
+        b=ib+GeaHrpuu/avH9sUKzdMZIMuxV5MZqO5tDHbpN9aEOCFtPnmRi7sRZFCHcwhMshZ
+         bhVdMgo2Z/C/8gNeQlA0vgLAfmwiEEGpd/g6Bq62EMLN1lRswsPVN+zLcrscKMW2Gdsk
+         KYFv4V9Wp7weLllmBsnsnaTAvvH8a46HCyWDrPJzKUEf7kJiW6n34urmlZ1QU2BLF837
+         wsOlAVG0mBJHydb7XzU38+hadvYD6sl1m7A6S+D41YSzlyu2vh1VBh8M3ZEjrLjLbwvH
+         y8YhzUVSiwQ4+TThCmSBe8pn96Dpe0WnLL98wps+V9LWFDfkT61UmdX+txmP8p7L0Pld
+         GIsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763469021; x=1764073821;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m1y6PrlUAcuxkkEloRxo0vMvd5pujl1anuTqxEZ8o/Q=;
+        b=Kx5xQFjShq0ISJhfrtClXA7HEi+5u4mSaD/j3su6PeJiknfVnti++KXUouPcTufXAp
+         5rjfSmp5fufaRyNYth94rIlKzlXJEiRURJQaTpssLCi9Y1a1HXqta8UGEL709Ld2oVXz
+         XvRoC7F10V2IdiWdp+/w10sSg/Z6kiNWU9QhKrcuGdJgLEnbzBBpXgIMJXgr7F2dFcPu
+         MniJI2T8jGHZasLU6/0QeQQSfCvQi+iaK2QQzlbQ+6qNHn9Wf8qo5ei1U7C5d9O1swoz
+         gH0dM31NY45zTQ4cnCRTcW7j3fcUsDGC3NqfXCK2aYZyYIhaVC9kCswfsfchaatk+T9V
+         gefw==
+X-Forwarded-Encrypted: i=1; AJvYcCXEkiXlE7Vmx1RAbfhmU6IEwgx3l6u3AJZeHHOIJFCHFPzOa2+i5Y2XME8z/X8k5ZYNRUS+tgzqUXQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz33QfqVwx6cFMtnOPepEZKE+ur5vaA4GoySMLMs2fdjFxauaoW
+	jJzfn0VETt7Y9OFWKltHixt4Zk6DVBMF+oMdLYVHHnkLDFPMmSdSAYSQR16oihu+JQPrOpaq8Ad
+	v/xbtaHq4k/v+cxjHBue6sWjTM9fCuDsnIEUCJh6qds8SwwA898pwkCpmLtGD5w==
+X-Gm-Gg: ASbGncvkhv2MPnLoKl2dkEkl+m/M5dwnwV7STww8mOMkLuUGpZfHoxGFBL2hzN8Usdi
+	r/KoBHe1xed3SJOCZkNjc0Mla45vkwEhAVzjVnEZ5YeTuyczY6Owx6PMkwnijLmxTSyS3gmx//o
+	wwv+KiNsgbIxjbEuzFFReIXYARF466lHMimqtCbfiaSGYkFVVI0uHmnE4WbpDLWYixz47YS1Ji7
+	Hg961tSHB9iyWiwN5YusEoA4NT1ZKQJczb0ZF9B1Xa0l6BmmJgrBAjmZ4/8K9VhXG1TKgJiA0GF
+	LZkTgDIQGh2uQDrUzz8hUs798bLx71JazFucKsHM61ND7YKJuATDLCPVL3s8gA+OJn1dvI2aHUY
+	Aye5Fjb3RTI+U
+X-Received: by 2002:a05:600c:4513:b0:477:2f7c:314f with SMTP id 5b1f17b1804b1-4778fe5c820mr175963395e9.10.1763469021619;
+        Tue, 18 Nov 2025 04:30:21 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFOZAD7E1uZGLJ36i/AdVTCJbTikjjEi/nzH5t0pOPTGX1/txTaGcM5dmDEUHhqBH4ogD1aHQ==
+X-Received: by 2002:a05:600c:4513:b0:477:2f7c:314f with SMTP id 5b1f17b1804b1-4778fe5c820mr175962585e9.10.1763469021119;
+        Tue, 18 Nov 2025 04:30:21 -0800 (PST)
+Received: from [192.168.88.32] ([212.105.155.41])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9dcd891sm15757525e9.7.2025.11.18.04.30.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Nov 2025 04:30:20 -0800 (PST)
+Message-ID: <715746f8-d1f0-485a-ab83-2f768722698f@redhat.com>
+Date: Tue, 18 Nov 2025 13:30:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=88b3ebf9c52789b01c7edf90a0b4102275a8c8724fa135a9cd14319e9fa4;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Tue, 18 Nov 2025 13:24:02 +0100
-Message-Id: <DEBTGMKJKVAC.OT51M7UDN4IV@kernel.org>
-Subject: Re: [PATCH 16/19] mtd: spi-nor: Add steps for testing locking
- support
-Cc: "Sean Anderson" <sean.anderson@linux.dev>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, "Steam Lin" <STLin2@winbond.com>,
- <linux-mtd@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Miquel Raynal" <miquel.raynal@bootlin.com>, "Tudor Ambarus"
- <tudor.ambarus@linaro.org>, "Pratyush Yadav" <pratyush@kernel.org>,
- "Richard Weinberger" <richard@nod.at>, "Vignesh Raghavendra"
- <vigneshr@ti.com>, "Jonathan Corbet" <corbet@lwn.net>
-X-Mailer: aerc 0.20.0
-References: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com> <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-16-487bc7129931@bootlin.com>
-In-Reply-To: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-16-487bc7129931@bootlin.com>
-
---88b3ebf9c52789b01c7edf90a0b4102275a8c8724fa135a9cd14319e9fa4
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 net-next 05/14] tcp: ECT_1_NEGOTIATION and NEEDS_ACCECN
+ identifiers
+To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com, parav@nvidia.com,
+ linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
+ dsahern@kernel.org, kuniyu@google.com, bpf@vger.kernel.org,
+ netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
+ kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
+ jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
+ donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
+ shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
+ ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
+ g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
+ mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
+ Jason_Livingood@comcast.com, vidhi_goel@apple.com
+Cc: Olivier Tilmans <olivier.tilmans@nokia.com>
+References: <20251114071345.10769-1-chia-yu.chang@nokia-bell-labs.com>
+ <20251114071345.10769-6-chia-yu.chang@nokia-bell-labs.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20251114071345.10769-6-chia-yu.chang@nokia-bell-labs.com>
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri Nov 14, 2025 at 6:53 PM CET, Miquel Raynal wrote:
-> As recently raised on the mailing list, it may be useful to propose a
-> list of steps to go through in order to proove the devices have been
-> described correctly, especially since all the block protection
-> information is not stored in any kind of table and is instead filled
-> manually by developpers.
->
-> Use the debugfs output to ease the comparison between expectations and
-> reality.
->
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> ---
->  Documentation/driver-api/mtd/spi-nor.rst | 118 +++++++++++++++++++++++++=
-++++++
->  1 file changed, 118 insertions(+)
->
-> diff --git a/Documentation/driver-api/mtd/spi-nor.rst b/Documentation/dri=
-ver-api/mtd/spi-nor.rst
-> index 148fa4288760b6ba47d530ed72c5ef81397d598f..d56ff5c42a98af23a65097c9b=
-77cd20ef2504a49 100644
-> --- a/Documentation/driver-api/mtd/spi-nor.rst
-> +++ b/Documentation/driver-api/mtd/spi-nor.rst
-> @@ -203,3 +203,121 @@ section, after the ``---`` marker.
->      mtd.writesize =3D 1
->      mtd.oobsize =3D 0
->      regions =3D 0
-> +
-> +5) If your flash supports locking, also follow the following test
-> +   procedure to make sure it correctly behaves. These tests must be
-> +   conducted with #WP high (no hardware protection) or the `no-wp`
-> +   property in the DT node.
+On 11/14/25 8:13 AM, chia-yu.chang@nokia-bell-labs.com wrote:
+> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+> 
+> Two CA module flags are added in this patch related to AccECN negotiation.
+> First, a new CA module flag (TCP_CONG_NEEDS_ACCECN) defines that the CA
+> expects to negotiate AccECN functionality using the ECE, CWR and AE flags
+> in the TCP header.
+> 
+> Second, during ECN negotiation, ECT(0) in the IP header is used. This patch
+> enables CA to control whether ECT(0) or ECT(1) should be used on a per-segment
+> basis. A new flag (TCP_CONG_ECT_1_NEGOTIATION) defines the expected ECT value
+> in the IP header by the CA when not-yet initialized for the connection.
+> 
+> The detailed AccECN negotiaotn during the 3WHS can be found in the AccECN spec:
+>   https://tools.ietf.org/id/draft-ietf-tcpm-accurate-ecn-28.txt
+> 
+> Co-developed-by: Olivier Tilmans <olivier.tilmans@nokia.com>
+> Signed-off-by: Olivier Tilmans <olivier.tilmans@nokia.com>
+> Signed-off-by: Ilpo Järvinen <ij@kernel.org>
+> Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
 
-Or? If WPn is low, the no-wp property doesn't matter. It's hardware
-write protected. Also there is that corner case, where you can
-actually fully lock your flash: WPn hard tied to low. Be aware, that
-you can enable locking even if WPn is tied low. That has the use
-case to initially program the flash and then lock it forever. So we
-might add a warning note, that WPn should somehow be controllable
-(or be sure that is tied high) before conducting the locking tests.
+Acked-by: Paolo Abeni <pabeni@redhat.com>
 
-> +
-> +   Test full chip locking and make sure expectations, the MEMISLOCKED
-> +   ioctl output, the debugfs output and experimental results are all
-> +   aligned::
-> +
-> +    root@1:~# alias show_sectors=3D'grep -A4 "locked sectors" /sys/kerne=
-l/debug/spi-nor/spi0.0/params'
-> +    root@1:~# flash_lock -u /dev/mtd0
-> +    root@1:~# flash_lock -i /dev/mtd0
-> +    Device: /dev/mtd0
-> +    Start: 0
-> +    Len: 0x4000000
-> +    Lock status: unlocked
-> +    Return code: 0
-> +    root@1:~# mtd_debug erase /dev/mtd0 0 2097152
-> +    Erased 2097152 bytes from address 0x00000000 in flash
-> +    root@1:~# mtd_debug write /dev/mtd0 0 2097152 spi_test
-> +    Copied 2097152 bytes from spi_test to address 0x00000000 in flash
-> +    root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read
-> +    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
-> +    root@1:~# sha256sum spi*
-> +    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  sp=
-i_read
-> +    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  sp=
-i_test
-> +    root@1:~# show_sectors
-> +    software locked sectors
-> +     region (in hex)   | status   | #blocks
-> +     ------------------+----------+--------
-> +     00000000-03ffffff | unlocked | 1024
-> +
-> +    root@1:~# flash_lock -l /dev/mtd0
-> +    root@1:~# flash_lock -i /dev/mtd0
-> +    Device: /dev/mtd0
-> +    Start: 0
-> +    Len: 0x4000000
-> +    Lock status: locked
-> +    Return code: 1
-> +    root@1:~# mtd_debug erase /dev/mtd0 0 2097152
-> +    Erased 2097152 bytes from address 0x00000000 in flash
-> +    root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read
-> +    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
-> +    root@1:~# sha256sum spi*
-> +    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  sp=
-i_read
-> +    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  sp=
-i_test
-> +    root@1:~# dd if=3D/dev/urandom of=3D./spi_test2 bs=3D1M count=3D2
-> +    2+0 records in
-> +    2+0 records out
-> +    root@1:~# mtd_debug write /dev/mtd0 0 2097152 spi_test2
-> +    Copied 2097152 bytes from spi_test to address 0x00000000 in flash
-> +    root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read2
-> +    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
-> +    root@1:~# sha256sum spi*
-> +    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  sp=
-i_read
-> +    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  sp=
-i_read2
-> +    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  sp=
-i_test
-> +    bea9334df51c620440f86751cba0799214a016329f1736f9456d40cf40efdc88  sp=
-i_test2
-> +    root@1:~# show_sectors
-> +    software locked sectors
-> +     region (in hex)   | status   | #blocks
-> +     ------------------+----------+--------
-> +     00000000-03ffffff |   locked | 1024
-> +
-> +   Once we trust the debugfs output we can use it to test various
-> +   situations. Check top locking/unlocking (end of the device)::
-> +
-> +    root@1:~# bs=3D$(cat /sys/class/mtd/mtd0/erasesize)
-> +    root@1:~# size=3D$(cat /sys/class/mtd/mtd0/size)
-> +
-> +    root@1:~# flash_lock -u /dev/mtd0
-> +    root@1:~# flash_lock -l /dev/mtd0 $(($size - (2 * $bs))) 2 # last tw=
-o
-> +    root@1:~# show_sectors
-> +    software locked sectors
-> +     region (in hex)   | status   | #blocks
-> +     ------------------+----------+--------
-> +     00000000-03fdffff | unlocked | 1022
-> +     03fe0000-03ffffff |   locked | 2
-> +    root@1:~# flash_lock -u /dev/mtd0 $(($size - (2 * $bs))) 1 # last on=
-e
-
-huh? shouldn't that be 1 * $bs?
-
--michael
-
-> +    root@1:~# show_sectors
-> +    software locked sectors
-> +     region (in hex)   | status   | #blocks
-> +     ------------------+----------+--------
-> +     00000000-03feffff | unlocked | 1023
-> +     03ff0000-03ffffff |   locked | 1
-> +
-> +   If the flash features 4 block protection bits (BP), we can protect
-> +   more than 4MB (typically 128 64kiB-blocks or more), with a finer
-> +   grain than locking the entire device::
-> +
-> +    root@1:~# flash_lock -u /dev/mtd0
-> +    root@1:~# flash_lock -l /dev/mtd0 $(($size - (2**7 * $bs))) $((2**7)=
-)
-> +    root@1:~# show_sectors
-> +    software locked sectors
-> +     region (in hex)   | status   | #blocks
-> +     ------------------+----------+--------
-> +     00000000-037fffff | unlocked | 896
-> +     03800000-03ffffff |   locked | 128
-> +
-> +   If the flash features a Top/Bottom (TB) bit, we can protect the
-> +   beginning of the flash::
-> +
-> +    root@1:~# flash_lock -u /dev/mtd0
-> +    root@1:~# flash_lock -l /dev/mtd0 0 2 # first two
-> +    root@1:~# show_sectors
-> +    software locked sectors
-> +     region (in hex)   | status   | #blocks
-> +     ------------------+----------+--------
-> +     00000000-0001ffff |   locked | 2
-> +     00020000-03ffffff | unlocked | 1022
-> +    root@1:~# flash_lock -u /dev/mtd0 $bs 1 # first one
-> +    root@1:~# show_sectors
-> +    software locked sectors
-> +     region (in hex)   | status   | #blocks
-> +     ------------------+----------+--------
-> +     00000000-0000ffff |   locked | 1
-> +     00010000-03ffffff | unlocked | 1023
-
-
---88b3ebf9c52789b01c7edf90a0b4102275a8c8724fa135a9cd14319e9fa4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaRxlZBIcbXdhbGxlQGtl
-cm5lbC5vcmcACgkQEic87j4CH/jnWQF/YcjvJj5uDE4v8uMIMItrSnk/FG9GqcPf
-m/z5ARU2xHsoJeKzfeOJZ0W2TYdXEIiwAYDWUIkyUsy+vlDZ0xg6b0g/Mc5G5hJ2
-RQA4NVGzKFIfR3tVf5LDMGYvnXWIBv4sAww=
-=gmqo
------END PGP SIGNATURE-----
-
---88b3ebf9c52789b01c7edf90a0b4102275a8c8724fa135a9cd14319e9fa4--
