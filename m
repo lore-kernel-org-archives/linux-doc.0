@@ -1,148 +1,108 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CAC3168FB
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 22:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BCE1FD4;
+	Tue, 18 Nov 2025 22:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763503676; cv=none; b=sKXFzseWVhhSCXtMbpqfFHmOPOkLsy1XgyVot0fpqgJmcQknndi7DrcTKGL5WaQJ3ilOTFgFz3PkgPGSVxgqshlrH2p3fCjf4QuOmsx4o6Mo7h6yG7CWhLLQdlCx7FWJzvAU0CH4umMafyWMW3JHKKqzlGNFRRHKuHu0+QrTpfQ=
+	t=1763505389; cv=none; b=f+ktDppeYg3Q+6Kqb4KLEPGbV3FaM6IG+P0TmXi2tNgLEKJ7FHXbByB2DgAt8QuXGE+hwkoEt0vLU4H9Pv9L+WVEcK3lyNGIEMNOK9Zlw/bSUWop7nnlLa1ZM5gJeIcvAUaixf0e3kOeRhL/npN9v2fD5QJGibtmbWc4EFQtPMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763503676; c=relaxed/simple;
-	bh=AgyH+nOFFLOOLPQj19SMqqrRCiMHwP0eevW9Zl1x2hs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=exxX6EikYLyK54KgKrG6SwujXgakfsa4Z+K/pxh+a8VYF5w1aKlaQ459T2wfoO3gPqjs3SFGt91N6x0OyOnSEBY4DLZzrW5KUJ1wVjFg9PrsOMg7AsZiVWuUYH2Kh3IMZmgZpp92IUS1E95AQ4DQKAZMupzx82Q3qTtb2rqQ8Ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=EmLe9qpj; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763505389; c=relaxed/simple;
+	bh=4d7MX1whtq6+TcTCFIYoNmUkaDKM3v7BcC/5WjB9lr4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tOZkGZc/PwqU/IHWXW/ObMqQrOQr9yIXSdsrlx+peOXkshbmzKbswSOO03r9/2L2yab+fLgmX/C9/XD4mRw7DC5CM1n0ofnZEviN6dlh6mV+bTho3SqOOlXX7S9zCWBHxd8jSMe0Cz3GyEDlaigPXK/AzuQb7dR9fATkXC+RkfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TpXpTggl; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="EmLe9qpj"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-640c1fda178so868281a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 14:07:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763503673; x=1764108473; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AgyH+nOFFLOOLPQj19SMqqrRCiMHwP0eevW9Zl1x2hs=;
-        b=EmLe9qpjaCR6ceFXW9jDbuScNd4gCxIe3H+c9tGUAcikTWQnjgVmjbeme9yb7hFCOb
-         4u2PZLi5EMQ7zkRHpf4Hzhnw7nGFlTY/NlVIPejardOZ4qYAt5x4IJRMDc5Efok+KEkf
-         wcxjLvdItmraEQp1iV1Ajn47IBnLOTDZ6WBlwehEeqbAcWuFYoc6Dr8XJ1goZSeRFpFC
-         QLKWHnRPU6661yvHUPBu2WqD5aZOoI842ct/k2Nk1BAMDs1WuzdOwV5BJCZyrjfwN48H
-         jXEy7+daHCAwZe1L+J9DdBdkDmXWmgWjGwN1MMHbyMNxFXM8JEedIvahbDxnoNSWQHp3
-         Ug+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763503673; x=1764108473;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AgyH+nOFFLOOLPQj19SMqqrRCiMHwP0eevW9Zl1x2hs=;
-        b=unpBTzgko579aultGjUytzCjinQK1YimI/H6Z/CvauhVUdSu2YeiTSGddxER6ENPUl
-         ztiMrBLI36sj9ySDOnNLILReYrsXYwsJJrRZBULm1eYyHX0/DZWcbhaZjpswE4TQWADS
-         38/7eBdFygjAZRKGmaEv2yZGW2lLrz3QXlofMtP6D/ps2V1auPK5ja/SvOwfvbNP7pt2
-         FgR8U3F/THv4TK46VC5x30q83WDa2VGc3MOYL7WIwHSG/5mexfvF9fmSg3kxYhkgTsXf
-         gJvF+0DUN7w9t+8HQIC628G5PmGDiFiVi7o62sz1GhM3zsPuwwywz/A467SJvVAqeTKs
-         X8Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQP0doNfMzVO65E6Bol1hGaPDxZtf5V9Ks0M7vnV1vJ538ZXxK0gAJeQ6VsfKRZDiVGuaFqBclOgU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxei5LE7ArquIaJTYNWGxWSqUAKb1ufA0iZQTcsj07G0a2FqJr0
-	czFr7wmMdkRiP3dPmDC9x+aZUbxi5cXrkk5pw9dYBFu3v2Doqi/SGnLAGqm4mUilWDtRmbAO9H4
-	IGpEfyjJXpfNInpAdDlGFMnzWxSnxbVTeI0YvjYg0fg==
-X-Gm-Gg: ASbGncvvcoHOQ/RhYVaZbuOX3j+84r0iAunFO8/Yy6WD7VoNw9VvnZDvW7K7cE3B8Sr
-	8JVG4k6wIGkLsQeXg98JouxjaeGUU5p4104k7Yf3I+AgqYkn9woQnSL0459lH2YpH9WeZz0okwz
-	ttNTMhCoI+adjE/+AH89AP8os9a+OxOqsqFadb2B/QH8gXy6w9G7Ev+c9PN0YexsBniaclx3zyr
-	klMCnfvDzHNXRBajHIZ0BGsaG+F/bDXOuhMLYvXx8IqLchXIgBqCRfzP5kIjQAX1+ZW/VHS8jRo
-	smg=
-X-Google-Smtp-Source: AGHT+IHtDqrk0qniYZc5AFwR5DqbAOIqGAY4cBt02gO8xxQprKgTQdf+fJMHgzuhx8eUZMd/TIJzeZERktIMHFkuZIY=
-X-Received: by 2002:a05:6402:13cb:b0:640:ca0a:dc1c with SMTP id
- 4fb4d7f45d1cf-64350e04b49mr16432565a12.7.1763503672627; Tue, 18 Nov 2025
- 14:07:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TpXpTggl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763505388; x=1795041388;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4d7MX1whtq6+TcTCFIYoNmUkaDKM3v7BcC/5WjB9lr4=;
+  b=TpXpTgglDx/qfDHTkhLNX3JC9kno16Qp7VenPBE/gkBzj+wczRUEbAAX
+   udklC/8j9y/DAKJO5jAr0haUJB1mZp8DMLH6NybQ8uYRcfqWS2KygejWG
+   xPvN5gfeyZgdW57mM8sRxx46lkCPxi/oqcjsYM7fnvAixCL6X8zo7fn47
+   z3A/sbQlavbkHqBz4QvNWYRz+l88bVn6adhTSoc6hhy3kQX6CfqiFl/Nu
+   LGrwP71mJ2++rikJWzpr7aWWxhroupad7EpXxNugTa40PqMCe60979tL6
+   OBY3ahdMO/usIt6NwjV+DHk2gVbR/PEuPG9jS2uvv6U7lv9ZL+F/PSA59
+   Q==;
+X-CSE-ConnectionGUID: dQXHhrtcTmqWUcnSvbYQJw==
+X-CSE-MsgGUID: XA2ee8tqQ6a5+8N69HgZpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="69392577"
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="69392577"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 14:36:27 -0800
+X-CSE-ConnectionGUID: kXsO1TCVQMSFe7vhePqajg==
+X-CSE-MsgGUID: gROB/VIdQ3uuB7O4Kl5fUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="195810857"
+Received: from spandruv-desk.jf.intel.com ([10.54.55.20])
+  by fmviesa004.fm.intel.com with ESMTP; 18 Nov 2025 14:36:25 -0800
+From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To: rafael@kernel.org,
+	daniel.lezcano@linaro.org
+Cc: corbet@lwn.net,
+	linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: [PATCH] docs: driver-api/thermal/intel_dptf: Add new workload type hint
+Date: Tue, 18 Nov 2025 14:36:19 -0800
+Message-ID: <20251118223620.554798-1-srinivas.pandruvada@linux.intel.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aRoi-Pb8jnjaZp0X@kernel.org> <CA+CK2bBEs2nr0TmsaV18S-xJTULkobYgv0sU9=RCdReiS0CbPQ@mail.gmail.com>
- <aRuODFfqP-qsxa-j@kernel.org> <CA+CK2bAEdNE0Rs1i7GdHz8Q3DK9Npozm8sRL8Epa+o50NOMY7A@mail.gmail.com>
- <aRxWvsdv1dQz8oZ4@kernel.org> <20251118140300.GK10864@nvidia.com>
- <aRyLbB8yoQwUJ3dh@kernel.org> <CA+CK2bBFtG3LWmCtLs-5vfS8FYm_r24v=jJra9gOGPKKcs=55g@mail.gmail.com>
- <20251118153631.GB90703@nvidia.com> <CA+CK2bC6sZe1qYd4=KjqDY-eUb95RBPK-Us+-PZbvkrVsvS5Cw@mail.gmail.com>
- <20251118161526.GD90703@nvidia.com>
-In-Reply-To: <20251118161526.GD90703@nvidia.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 18 Nov 2025 17:07:15 -0500
-X-Gm-Features: AWmQ_blpcRzsFKrW-N42BrQ1n1NLtjzkNBwejiuKy6hBEe6k9J5ADY-OfS4GodI
-Message-ID: <CA+CK2bCguutAdsXETdDSEPCPT_=OQupgyTfGKQuxi924mOfhTQ@mail.gmail.com>
-Subject: Re: [PATCH v6 02/20] liveupdate: luo_core: integrate with KHO
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Mike Rapoport <rppt@kernel.org>, pratyush@kernel.org, jasonmiu@google.com, 
-	graf@amazon.com, dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 18, 2025 at 11:15=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> w=
-rote:
->
-> On Tue, Nov 18, 2025 at 10:46:35AM -0500, Pasha Tatashin wrote:
-> > > > This won't leak data, as /dev/liveupdate is completely disabled, so
-> > > > nothing preserved in memory will be recoverable.
-> > >
-> > > This seems reasonable, but it is still dangerous.
-> > >
-> > > At the minimum the KHO startup either needs to succeed, panic, or fai=
-l
-> > > to online most of the memory (ie run from the safe region only)
-> >
-> > Allowing degrade booting using only scratch memory sounds like a very
-> > good compromise. This allows the live-update boot to stay alive as a
-> > sort of "crash kernel," particularly since kdump functionality is not
-> > available here. However, it would require some work in KHO to enable
-> > such a feature.
-> >
-> > > The above approach works better for things like VFIO or memfd where
-> > > you can boot significantly safely. Not sure about iommu though, if
-> > > iommu doesn't deserialize properly then it probably corrupts all
-> > > memory too.
-> >
-> > Yes, DMA may corrupt memory if KHO is broken, *but* we are discussing
-> > broken LUO recovering, the KHO preserved memory should still stay as
-> > preserved but unretriable, so DMA activity should only happen to those
-> > regions...
->
-> If the iommu is not preserved then normal iommu boot will possibly set
-> the translation the identiy and it will scribble over random memory.
->
-> You can't rely on the translation being present and only reaching kho
-> preserved memroy if the iommu can't restore itself.
+Add documentation for longer term classification of workload type for
+power or performance.
 
-In this case, we cannot even rely on having "safe" memory, i.e. this
-scratch only boot to preserve dmesg/core etc, this is unfortunate. Is
-there a way to avoid defaulting to identify mode when we are booting
-into the "maintenance" mode?
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+---
+ .../driver-api/thermal/intel_dptf.rst         | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-Thanks,
-Pasha
+diff --git a/Documentation/driver-api/thermal/intel_dptf.rst b/Documentation/driver-api/thermal/intel_dptf.rst
+index c51ac793dc06..916bf0f36a03 100644
+--- a/Documentation/driver-api/thermal/intel_dptf.rst
++++ b/Documentation/driver-api/thermal/intel_dptf.rst
+@@ -409,3 +409,26 @@ based on the processor generation.
+ 		Limit 1 from being exhausted.
+ 
+ 	4 – Unknown: Can't classify.
++
++	On processors starting from Panther Lake additional hints are provided.
++	The hardware analyzes workload residencies over an extended period to
++	determine whether the workload classification tends toward idle/battery
++	life states or sustained/performance states. Based on this long-term
++	analysis, it classifies:
++
++	Power Classification: If the workload exhibits more idle or battery life
++	residencies, it is classified as "power".
++
++	Performance Classification: If the workload exhibits more sustained or
++	performance residencies, it is classified as "performance".
++
++	This approach enables applications to ignore short-term workload
++	fluctuations and instead respond to longer-term power vs. performance
++	trends.
++
++	Residency thresholds for this classification are CPU generation-specific.
++	Classification is reported via bit 4 of the workload_type_index:
++
++	Bit 4 = 1: Power classification
++
++	Bit 4 = 0: Performance classification
+-- 
+2.51.0
 
->
-> Jason
