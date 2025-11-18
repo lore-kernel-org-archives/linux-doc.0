@@ -1,273 +1,295 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FF9328B4C
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 02:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E81E1A08A3
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 02:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763431243; cv=none; b=utgQ9P5ImbayB9HaLkoQzHe+YaqHtzizrnre4K+CAGkeUwQ5sC8kCHTUHDwVTH7v6w4tYKRPGSy2JQWnmVBQSLuIFVgT6YuQEMj9HZfJl3HuHOh6rbsoj6cQC4QWGerfeOLoRReaHRbP5ptbQClsdowAYXKrznB+U2SB07SRssU=
+	t=1763431352; cv=none; b=XRsMhP7iT4zdokkFQcaqeriHBmI/i31eqB68LkFdnYn2VzAKg/TPDJaKos9mvEv984Efv+4qtDP+jLEZl2/4ebsF7RFzBuVokL2frvUpR3MpArKzpfdetdG6purQEGw5iyn6XpaQE++LeFR0BHMx74FybB0H7V2SmzyNG5LQdw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763431243; c=relaxed/simple;
-	bh=kaylDlwQl1VqEc/tlQkL21uVVJ3iIahDpahKHEmXXhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WMqN4BENXtGCrJW1v2ltdL4/PXLyNAscHGOYdG7fTEIIhUkkSBJ+5FeZtRivO0KPH0wFURJsQLZCgSvpQoOUtTlRlwvLkr0hcSFj8kPElE60RI7M8pdWivV4SCrg6+XxtI22SKJqA0ymRLim2V3kJZ9l/zsL8BqvHnszAqnOptM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gzr1Exz2; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763431352; c=relaxed/simple;
+	bh=2Rl1YLX0fl10aDYC1CWUKiuEhL1OluHajH+MWg2pwDc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rN+0keqrlTvFOeksRO0VFaTyJ/c4lX5YPEDAlJpNe12v64nigaskti7H/XoJAgMTuMNNTaUeotNKVQkuId6U6LgS5yyCXUiH7HFd0m/E+lKVGDUvAfXrXJ0X0912icgUqZdvlv1Cfhnt7doZocRKvX3C7vRdEbWA6x/o78wZ8AE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AzakQnzh; arc=none smtp.client-ip=95.215.58.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gzr1Exz2"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b73545723ebso889575866b.1
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 18:00:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763431237; x=1764036037; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PjtZZ70/Qu6YbmmA5LKoN6Z9gQ7S03ZL5L4ASTauTjE=;
-        b=Gzr1Exz2UtCbx9H8bYllUE7F8FfsmpCgPHLF3mH8yNdxr4DqsLcSrrh8ZZFlqzWia5
-         TqBH56SKYbDyYwN5DF1HaRggjz5d7baptmy0NZMDlUtyf5prJ8DD9zZssUnw/SvXIjPn
-         jiQSlv/hSF09d7ycR9rRAxojY8gUvBofMOPSslLEYQ2LmzXS98s3csbtsbp6ANPdiLDI
-         0B+3RDBBPddzP+Qoj8Fv79+TsC2CR4tR9tGIjYuEbtcOXKr53QhsoFfGNhN7mDrcAuGv
-         hTYUUUrdXwRIQoo+reliu54M3GAQDH37YuO1mSZUq3R/AVxiWXBhGX1Kg4hHPrf+MX28
-         dr6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763431237; x=1764036037;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PjtZZ70/Qu6YbmmA5LKoN6Z9gQ7S03ZL5L4ASTauTjE=;
-        b=qxlx99Jt6CneQOFyRQ+AU4Txfz5l49CNIRqhUSZWiY47HP7ur8YKv8XaKlnjDkuNeS
-         3dM269hFmkj5zLykl7rrvIF90GskRxOXp6rgNRhjGUZ5qajsmCuZOd8pbE1UNa16/VeX
-         ipoucVTjdBzMMIfI9t/FhceI+LH3BQ+/WIG4/G2nXbll9qWK2h1Ts55NVDFeOzz39394
-         TMfWwpcOm5sKoXN3kIA+tCligi0O6el6i9qWdkWV4VDCASWmXkv95n4WtUbvwW3jImtm
-         C73yEMvS8NpbUHYL2i9PpTQhop5vq08A9fzenrgu2Y7qeNO8ndDOuGQL0IBIV8eNe19U
-         mWeg==
-X-Forwarded-Encrypted: i=1; AJvYcCWWYinKkSuelQkp7BFB5FGz1HEtYhGjo4cnAeDHXLhf0JXlDDDjFBr+Xx0u3M3935ecf1D95/ImdRE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLUk2IgRK6LQJ4xJ02tMa319kbkba3mRYTv7XO5/O+eU7sDj8+
-	QdHNanBYgUUrFAFR97BVOLVV9dbMbkskIVYdZYbXAS+Hh4vqj6ENhaOm
-X-Gm-Gg: ASbGnct6T5piDLsVcPkTgeMLTeKnYeUrhNvUlZMx8pEeIZCfvN+wReGtfKIF6CE0fXP
-	VCoWLfukPmBDeHZTxtrNwZRuQP2Xisqs21fx1ahmTCHXIHIEw04uHqpeXkba+Y77Z5oPhbiffBx
-	1UWxNvayYW1gAmt5d63Vdq9a7BrZMHu5s4Whue7GZDNCxNE/05fPKVhUAM4AZQIv6Nm7LdOJrKM
-	mslZ6RHHKF4+lVEjSVDqT0XNXYFhMlhh7PFlFWrhZgJmCSlivMf0rxGJtWRB8qOR4VQSs5xfB8h
-	vUaG0S/HL6a1JNsCorDoDayRg2TSW9DjfshV2rN+YjXGifOXXtRBw/T4gMzf8CLtLJ+XmqbQM8g
-	svuXy/iyCKGzcwT6/yJGs5ScdlpR27uDXTvc4OxpxzmslPiZPaXHzdNgHbPqrTOxQ08AAOc21R8
-	FuDoAG+fmtlPivkQ==
-X-Google-Smtp-Source: AGHT+IEIbHsmAR4qI1U7kAkJFbuJ0gMBeLqnpNcnfrzyBKIrXirysQ6AKJVPv8sKWVks0bFN76WI/A==
-X-Received: by 2002:a17:907:d18:b0:b73:9b4a:5c02 with SMTP id a640c23a62f3a-b739b4a5cb6mr723067766b.49.1763431237209;
-        Mon, 17 Nov 2025 18:00:37 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fd7f37bsm1199178666b.35.2025.11.17.18.00.35
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 17 Nov 2025 18:00:35 -0800 (PST)
-Date: Tue, 18 Nov 2025 02:00:34 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Nico Pache <npache@redhat.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, david@redhat.com, ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
-	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
-	baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
-	wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
-	sunnanyong@huawei.com, vishal.moola@gmail.com,
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
-	kas@kernel.org, aarcange@redhat.com, raquini@redhat.com,
-	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
-	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
-	cl@gentwo.org, jglisse@google.com, surenb@google.com,
-	zokeefe@google.com, hannes@cmpxchg.org, rientjes@google.com,
-	mhocko@suse.com, rdunlap@infradead.org, hughd@google.com,
-	lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org,
-	jannh@google.com, pfalcato@suse.de
-Subject: Re: [PATCH v12 mm-new 13/15] khugepaged: avoid unnecessary mTHP
- collapse attempts
-Message-ID: <20251118020034.rdgisvkqs53lwabz@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20251022183717.70829-1-npache@redhat.com>
- <20251022183717.70829-14-npache@redhat.com>
- <20251109024013.fzt7xxpmxwi75xgr@master>
- <CAA1CXcA9zaGqLPHnJWH=fKPUjb02dV+rKgfmsRZOGdeukiC8eg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AzakQnzh"
+Message-ID: <7a30982d-6c3e-49d4-a22c-2a29aec61b95@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1763431347;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0clijypqbgoPobaEjAsmDu484aKZ2pVbVKS1oLSKjXw=;
+	b=AzakQnzh+9Cln8rGDWWckpTgZI2g2DyV07vbnAQ3VtmW1Ke6lE5UKEaLj57SxAyy9sAXyN
+	IySshe9XVOH6pdMm57zBsBLE+a+gnDvEQtxQLaVcxCiwnGgN3kgC5AtcEGO6YvIyphyOqc
+	lhjItFMEEhbQYoikjGfe1P3YaNS78mM=
+Date: Tue, 18 Nov 2025 10:02:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Subject: Re: [PATCH v3 3/3] docs/zh_CN: Add data-integrity.rst translation
+To: ke zijie <kezijie@leap-io-kernel.com>, alexs@kernel.org
+Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
+ wangyuli@aosc.io, doubled@leap-io-kernel.com
+References: <cover.1763366835.git.kezijie@leap-io-kernel.com>
+ <a30e43d25be989cad6a24dfcb847e9642b9582ef.1763366835.git.kezijie@leap-io-kernel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <a30e43d25be989cad6a24dfcb847e9642b9582ef.1763366835.git.kezijie@leap-io-kernel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA1CXcA9zaGqLPHnJWH=fKPUjb02dV+rKgfmsRZOGdeukiC8eg@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Nov 17, 2025 at 11:16:53AM -0700, Nico Pache wrote:
->On Sat, Nov 8, 2025 at 7:40 PM Wei Yang <richard.weiyang@gmail.com> wrote:
->>
->> On Wed, Oct 22, 2025 at 12:37:15PM -0600, Nico Pache wrote:
->> >There are cases where, if an attempted collapse fails, all subsequent
->> >orders are guaranteed to also fail. Avoid these collapse attempts by
->> >bailing out early.
->> >
->> >Signed-off-by: Nico Pache <npache@redhat.com>
->> >---
->> > mm/khugepaged.c | 31 ++++++++++++++++++++++++++++++-
->> > 1 file changed, 30 insertions(+), 1 deletion(-)
->> >
->> >diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->> >index e2319bfd0065..54f5c7888e46 100644
->> >--- a/mm/khugepaged.c
->> >+++ b/mm/khugepaged.c
->> >@@ -1431,10 +1431,39 @@ static int collapse_scan_bitmap(struct mm_struct *mm, unsigned long address,
->> >                       ret = collapse_huge_page(mm, address, referenced,
->> >                                                unmapped, cc, mmap_locked,
->> >                                                order, offset);
->> >-                      if (ret == SCAN_SUCCEED) {
->> >+
->> >+                      /*
->> >+                       * Analyze failure reason to determine next action:
->> >+                       * - goto next_order: try smaller orders in same region
->> >+                       * - continue: try other regions at same order
->> >+                       * - break: stop all attempts (system-wide failure)
->> >+                       */
->> >+                      switch (ret) {
->> >+                      /* Cases were we should continue to the next region */
->> >+                      case SCAN_SUCCEED:
->> >                               collapsed += 1UL << order;
->> >+                              fallthrough;
->> >+                      case SCAN_PTE_MAPPED_HUGEPAGE:
->> >                               continue;
->> >+                      /* Cases were lower orders might still succeed */
->> >+                      case SCAN_LACK_REFERENCED_PAGE:
->> >+                      case SCAN_EXCEED_NONE_PTE:
->> >+                      case SCAN_EXCEED_SWAP_PTE:
->> >+                      case SCAN_EXCEED_SHARED_PTE:
->> >+                      case SCAN_PAGE_LOCK:
->> >+                      case SCAN_PAGE_COUNT:
->> >+                      case SCAN_PAGE_LRU:
->> >+                      case SCAN_PAGE_NULL:
->> >+                      case SCAN_DEL_PAGE_LRU:
->> >+                      case SCAN_PTE_NON_PRESENT:
->> >+                      case SCAN_PTE_UFFD_WP:
->> >+                      case SCAN_ALLOC_HUGE_PAGE_FAIL:
->> >+                              goto next_order;
->> >+                      /* All other cases should stop collapse attempts */
->> >+                      default:
->> >+                              break;
->> >                       }
->> >+                      break;
->>
->> One question here:
->
->Hi Wei Yang,
->
->Sorry I forgot to get back to this email.
->
 
-No problem, thanks for taking a look.
+在 2025/11/17 16:27, ke zijie 写道:
+> Translate .../block/data-integrity.rst into Chinese.
+> Add data-integrity into .../block/index.rst.
+>
+> Update the translation through commit c6e56cf6b2e7
+> ("block: move integrity information into queue_limits")
+>
+> Reviewed-by: WangYuli <wangyl5933@chinaunicom.cn>
+> Signed-off-by: ke zijie <kezijie@leap-io-kernel.com>
+> ---
+>   .../zh_CN/block/data-integrity.rst            | 193 ++++++++++++++++++
+>   .../translations/zh_CN/block/index.rst        |   2 +-
+>   2 files changed, 194 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/block/data-integrity.rst
+>
+> diff --git a/Documentation/translations/zh_CN/block/data-integrity.rst b/Documentation/translations/zh_CN/block/data-integrity.rst
+> new file mode 100644
+> index 000000000000..0f05c7d4ce37
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/block/data-integrity.rst
+> @@ -0,0 +1,193 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/block/data-integrity.rst
+> +
+> +:翻译:
+> +
+> + 柯子杰 kezijie <kezijie@leap-io-kernel.com>
+> +
+> +:校译:
+> +
+> +
+> +==========
+> +数据完整性
+> +==========
+> +
+> +1. 引言
+> +=======
+> +
+> +现代文件系统对数据和元数据都进行了校验和保护以防止数据损坏。然而，这种损坏的
+> +检测是在读取时才进行，这可能发生在数据写入数月之后。到那时，应用程序尝试写入
+> +的原始数据很可能已经丢失。
+> +
+> +解决方案是确保磁盘实际存储的内容就是应用程序想存储的。SCSI 协议族（如 SBC
+> +数据完整性字段、SCC 保护提案）以及 SATA/T13（外部路径保护）最近新增的功能，
+> +通过在 I/O 中附加完整性元数据的方式，试图解决这一问题。完整性元数据（在
+> +SCSI 术语中称为保护信息）包括每个扇区的校验和，以及一个递增计数器，用于确保
+> +各扇区按正确顺序被写入盘。在某些保护方案中，还能保证 I/O 写入磁盘的正确位置。
+> +
+> +当前的存储控制器和设备实现了多种保护措施，例如校验和和数据清理。但这些技术通
+> +常只在各自的独立域内工作，或最多仅在 I/O 路径的相邻节点之间发挥作用。DIF 及
+> +其它数据完整性拓展有意思的点在于保护格式定义明确，I/O 路径上的每个节点都可以
+> +验证 I/O 的完整性，如检测到损坏可直接拒绝。这不仅可以防止数据损坏，还能够隔
+> +离故障点。
+> +
+> +2. 数据完整性拓展
+> +=================
+> +
+> +如上所述，这些协议扩展只保护控制器与存储设备之间的路径。然而，许多控制器实际
+> +上允许操作系统与完整性元数据(IMD)交互。我们一直与多家 FC/SAS HBA 厂商合作，
+> +使保护信息能够在其控制器与操作系统之间传输。
+> +
+> +SCSI 数据完整性字段通过在每个扇区后附加8字节的保护信息来实现。数据 + 完整
+> +性元数据存储在磁盘的520字节扇区中。数据 + IMD 在控制器与目标设备之间传输
+> +时是交错组合在一起的。T13 提案的方式类似。
+> +
+> +由于操作系统处理520字节（甚至 4104 字节）扇区非常不便，我们联系了多家 HBA
+> +厂商，并鼓励它们分离数据与完整性元数据的 scatter-gather lists。
+> +
+> +控制器在写入时会交错组合数据和完整性元数据缓冲区的数据在一起，并在读取时会拆
 
->>
->> Suppose we have iterated several orders and not collapse successfully yet. So
->> the mthp_bitmap_stack[] would look like this:
->>
->> [8 7 6 6]
->>        ^
->>        |
->
->so we always pop before pushing. So it would go
->
->[9]
->pop
->if (collapse fails)
->[8 8]
->lets say we pop and successfully collapse a order 8
->[8]
->Then we fail the other order 8
->[7 7]
->now if we succeed the first order 7
->[7 6 6]
->I believe we are now in the state you wanted to describe.
->
->>
->> Now we found this one pass the threshold check, but it fails with other
->> result.
->
->ok lets say we pass the threshold checks, but the collapse fails for
->any reason that is described in the
->/* Cases were lower orders might still succeed */
->In this case we would continue to order 5 (or lower). Once we are done
->with this branch of the tree we go back to the other order 6 collapse.
->and eventually the order 7.
->
->>
->> Current code looks it would give up at all, but we may still have a chance to
->> collapse the above 3 range?
->
->for cases under /* All other cases should stop collapse attempts */
->Yes we would bail out and skip some collapses. I tried to think about
->all the cases were we would still want to continue trying, vs cases
->where the system is probably out of resources or hitting some major
->failure, and we should just break out (as others will probably fail
->too).
->
+会将xxxxx和xxxx的数据交错（or 交叉）在一起，
 
-Thanks, your explanation is very clear.
 
->But this is also why I separated this patch out on its own. I was
->hoping to have some more focus on the different cases, and make sure I
->handled them in the best possible way. So I really appreciate the
->question :)
+Thanks,
+
+Yanteng
+
+> +分它们。这样，Linux 就能直接通过 DMA 将数据缓冲区传输到主机内存或从主机内存
+> +读取，而无需修改页缓存。
+> +
+> +此外，SCSI 与 SATA 规范要求的16位 CRC 校验在软件中计算代价较高。基准测试发
+> +现，计算此校验在高负载情形下显著影响系统性能。一些控制器允许在操作系统接口处
+> +使用轻量级校验。例如 Emulex 支持 TCP/IP 校验。操作系统提供的 IP 校验在写入
+> +时会转换为16位 CRC，读取时则相反。这允许 Linux 或应用程序以极低的开销生成
+> +完整性元数据（与软件 RAID5 相当）。
+> +
+> +IP 校验在检测位错误方面比 CRC 弱，但关键在于数据缓冲区与完整性元数据缓冲区
+> +的分离。只有这两个不同的缓冲区匹配，I/O 才能完成。
+> +
+> +数据与完整性元数据缓冲区的分离以及校验选择被称为数据完整性扩展。由于这些扩展
+> +超出了协议主体(T10、T13)的范围，Oracle 及其合作伙伴正尝试在存储网络行业协
+> +会内对其进行标准化。
+> +
+> +3. 内核变更
+> +===========
+> +
+> +Linux 中的数据完整性框架允许将保护信息固定到 I/O 上，并在支持该功能的控制器
+> +之间发送和接收。
+> +
+> +SCSI 和 SATA 中完整性扩展的优势在于，它们能够保护从应用程序到存储设备的整个
+> +路径。然而，这同时也是最大的劣势。这意味着保护信息必须采用磁盘可以理解的格式。
+> +
+> +通常，Linux/POSIX 应用程序并不关心所访问存储设备的具体细节。虚拟文件系统层
+> +和块层会让硬件扇区大小和传输协议对应用程序完全透明。
+> +
+> +然而，在准备发送到磁盘的保护信息时，就需要这种细节。因此，端到端保护方案的概
+> +念实际上违反了层次结构。应用程序完全不应该知道它访问的是 SCSI 还是 SATA 磁盘。
+> +
+> +Linux 中实现的数据完整性支持尝试将这些细节对应用程序隐藏。就应用程序（以及在
+> +某种程度上内核）而言，完整性元数据是附加在 I/O 上的不透明信息。
+> +
+> +当前实现允许块层自动为任何 I/O 生成保护信息。最终目标是将用户数据的完整性元
+> +数据计算移至用户空间。内核中产生的元数据和其他 I/O 仍将使用自动生成接口。
+> +
+> +一些存储设备允许为每个硬件扇区附加一个16位的标识值。这个标识空间的所有者是
+> +块设备的所有者，也就是在多数情况下由文件系统掌控。文件系统可以利用这额外空间
+> +按需为扇区附加标识。由于标识空间有限，块接口允许通过交错方式对更大的数据块标
+> +识。这样，8*16位的信息可以附加到典型的 4KB 文件系统块上。
+> +
+> +这也意味着诸如 fsck 和 mkfs 等应用程序需要能够从用户空间访问并操作这些标记。
+> +为此，正在开发一个透传接口。
+> +
+> +4. 块层实现细节
+> +===============
+> +
+> +4.1 Bio
+> +--------
+> +
+> +当启用 CONFIG_BLK_DEV_INTEGRITY 时，数据完整性补丁会在 struct bio 中添加
+> +一个新字段。调用 bio_integrity(bio) 会返回一个指向 struct bip 的指针，该
+> +结构体包含了该 bio 的完整性负载。本质上，bip 是一个精简版的 struct bio，其
+> +中包含一个 bio_vec，用于保存完整性元数据以及所需的维护信息（bvec 池、向量计
+> +数等）。
+> +
+> +内核子系统可以通过调用 bio_integrity_alloc(bio) 来为某个 bio 启用数据完整
+> +性保护。该函数会分配并附加一个 bip 到该 bio 上。
+> +
+> +随后使用 bio_integrity_add_page() 将包含完整性元数据的单独页面附加到该 bio。
+> +
+> +调用 bio_free() 会自动释放bip。
+> +
+> +4.2 块设备
+> +-----------
+> +
+> +块设备可以在 queue_limits 结构中的 integrity 子结构中设置完整性信息。
+> +
+> +对于分层块设备，需要选择一个适用于所有子设备的完整性配置文件。可以使用
+> +queue_limits_stack_integrity() 来协助完成该操作。目前，DM 和 MD linear、
+> +RAID0 和 RAID1 已受支持。而RAID4/5/6因涉及应用标签仍需额外的开发工作。
+> +
+> +5.0 块层完整性API
+> +==================
+> +
+> +5.1 普通文件系统
+> +-----------------
+> +
+> +    普通文件系统并不知道其下层块设备具备发送或接收完整性元数据的能力。
+> +    在执行写操作时，块层会在调用 submit_bio() 时自动生成完整性元数据。
+> +    在执行读操作时，I/O 完成后会触发完整性验证。
+> +
+> +    IMD 的生成与验证行为可以通过以下开关控制::
+> +
+> +      /sys/block/<bdev>/integrity/write_generate
+> +
+> +    and::
+> +
+> +      /sys/block/<bdev>/integrity/read_verify
+> +
+> +    flags.
+> +
+> +5.2 具备完整性感知的文件系统
+> +----------------------------
+> +
+> +    具备完整性感知能力的文件系统可以在准备 I/O 时附加完整性元数据，
+> +    并且如果底层块设备支持应用标签空间，也可以加以利用。
+> +
+> +
+> +    `bool bio_integrity_prep(bio);`
+> +
+> +      要为写操作生成完整性元数据或为读操作设置缓冲区，文件系统必须调用
+> +      bio_integrity_prep(bio)。
+> +
+> +      在调用此函数之前，必须先设置好 bio 的数据方向和起始扇区，并确
+> +      保该 bio 已经添加完所有的数据页。调用者需要自行保证，在 I/O 进行
+> +      期间 bio 不会被修改。如果由于某种原因准备失败，则应当以错误状态
+> +      完成该 bio。
+> +
+> +5.3 传递已有的完整性元数据
+> +--------------------------
+> +
+> +    能够自行生成完整性元数据或可以从用户空间传输完整性元数据的文件系统，
+> +    可以使用如下接口：
+> +
+> +
+> +    `struct bip * bio_integrity_alloc(bio, gfp_mask, nr_pages);`
+> +
+> +      为 bio 分配完整性负载并挂载到 bio 上。nr_pages 表示需要在
+> +      integrity bio_vec list 中存储多少页保护数据（类似 bio_alloc）。
+> +
+> +      完整性负载将在 bio_free() 被调用时释放。
+> +
+> +
+> +    `int bio_integrity_add_page(bio, page, len, offset);`
+> +
+> +      将包含完整性元数据的一页附加到已有的 bio 上。该 bio 必须已有 bip，
+> +      即必须先调用 bio_integrity_alloc()。对于写操作，页中的完整
+> +      性元数据必须采用目标设备可识别的格式，但有一个例外，当请求在 I/O 栈
+> +      中传递时，扇区号会被重新映射。这意味着通过此接口添加的页在 I/O 过程
+> +      中可能会被修改！完整性元数据中的第一个引用标签必须等于 bip->bip_sector。
+> +
+> +      只要 bip bio_vec array（nr_pages）有空间，就可以继续通过
+> +      bio_integrity_add_page()添加页。
+> +
+> +      当读操作完成后，附加的页将包含从存储设备接收到的完整性元数据。
+> +      接收方需要处理这些元数据，并在操作完成时验证数据完整性
+> +
+> +
+> +----------------------------------------------------------------------
+> +
+> +2007-12-24 Martin K. Petersen <martin.petersen@oracle.com>
+> \ No newline at end of file
+> diff --git a/Documentation/translations/zh_CN/block/index.rst b/Documentation/translations/zh_CN/block/index.rst
+> index 41fec45b5a3c..cd38cfcce47b 100644
+> --- a/Documentation/translations/zh_CN/block/index.rst
+> +++ b/Documentation/translations/zh_CN/block/index.rst
+> @@ -19,12 +19,12 @@ Block
+>      :maxdepth: 1
 >
->* I did some digging through old message to find this *
+>      blk-mq
+> +   data-integrity
 >
->I believe these are the remaining cases. If these are hit I figured
->it's better to abort.
+>   TODOList:
+>   * bfq-iosched
+>   * biovecs
+>   * cmdline-partition
+> -* data-integrity
+>   * deadline-iosched
+>   * inline-encryption
+>   * ioprio
+> --
+> 2.25.1
 >
-
-I agree we need to take care of those cases.
-
->/* cases where we must stop collapse attempts */
->case SCAN_CGROUP_CHARGE_FAIL:
->case SCAN_COPY_MC:
->case SCAN_ADDRESS_RANGE:
->case SCAN_PMD_NULL:
->case SCAN_ANY_PROCESS:
->case SCAN_VMA_NULL:
->case SCAN_VMA_CHECK:
->case SCAN_SCAN_ABORT:
->case SCAN_PMD_NONE:
->case SCAN_PAGE_ANON:
->case SCAN_PMD_MAPPED:
->case SCAN_FAIL:
->
->Please let me know if you think we should move these to either the
->`continue` or `next order` cases.
-
-Take a look into these cases, it looks good to me now.
-
-Also one of my concern is this coding style is a little hard to maintain. In
-case we introduce a new result, we should remember to add it here. Otherwise
-we may stop the collapse too early.
-
-While it maybe a separate work after this patch set merged.
-
->
->Cheers,
->-- Nico
->
->>
->> >               }
->> >
->> > next_order:
->> >--
->> >2.51.0
->>
->> --
->> Wei Yang
->> Help you, Help me
->>
-
--- 
-Wei Yang
-Help you, Help me
