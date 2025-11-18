@@ -1,256 +1,74 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A802353888;
-	Tue, 18 Nov 2025 15:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-106118.protonmail.ch (mail-106118.protonmail.ch [79.135.106.118])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAAF34DB67;
+	Tue, 18 Nov 2025 15:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763480880; cv=none; b=l8gvzyD4hUmm2MXngofX+g96lj/OeVVky4mEhNGZku8ZyKHlaMff8Ow3pQbxOjd1gi8Iq4ds524OMtseku7dxekHufT0TCGwPrA9V4xrFwsonw3oCHbU2jPgG2uiyQNOLCnEoQyP0vYoDE+OQRlAExAbGdQ2l0N99YH6oPS+Xqo=
+	t=1763480993; cv=none; b=FncQu56DWgn73sjlgI7h0CUeSi+AyDj7ofYu6MT9Mvb9ISzVnTaIf2U182yoVUfSt1NqIfejpR/bOZT8Vs6dgSwvIodwBmOJi8cAJ+VkBHc17vEi1PJxyOtcN2KBJFf7/P8bXXRnFR5k4dDcTB6Up1v4tE3Hqpte+8bsGAXoj50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763480880; c=relaxed/simple;
-	bh=cda+I7fz7lwIQP7+AghFT2kub08E5CyJy5NRL/w5rSI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JkYcsOdvIxwz9SoMM2NDeXxFHHlaAfDKNc/oUrac5o1RVyCu+T5Ra1Zt5d4Pi3eVz5PA+N1CA+2F4PYQra05QXsiRY3QJ/HYpftTR24cpyOncsU/2rUfsQ6lKBs//f2K5QxaI8iekb1xixFgEj1Xt/cAQVheuzc2YsSSJM+V8Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2EF5DFEC;
-	Tue, 18 Nov 2025 07:47:49 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.66])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2707C3F66E;
-	Tue, 18 Nov 2025 07:47:55 -0800 (PST)
-Date: Tue, 18 Nov 2025 15:47:42 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
-	James Morse <james.morse@arm.com>, Ben Horgan <ben.horgan@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	x86@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] x86,fs/resctrl: Factor MBA parse-time conversion to
- be per-arch
-Message-ID: <aRyVHqeHaRtrKqvG@e133380.arm.com>
-References: <20251031154225.14799-1-Dave.Martin@arm.com>
- <136d9c83-e816-4188-ae0d-322478a57a68@intel.com>
+	s=arc-20240116; t=1763480993; c=relaxed/simple;
+	bh=MfLbaN0dJ19hVIu6xn27SwSPpBPbATDQqKhaL7vSpK0=;
+	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sepvZHnyRbFN4zgFyLOf2JFpyu826fX0eeP9hHKoi9C1RNAL7/qJEHJoCbMEVuWmZQyZij0BZ9xH7pFy2m9TxDk++G9jupQ/tN/wv2RUy1ID+ry3ZeaYZu2KkrGcWIqtaauQkOKYomKbNKTB/2vY3IssRbaYZS7ZOarwSP2QcEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=VU/bLwEu; arc=none smtp.client-ip=79.135.106.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="VU/bLwEu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1763480981; x=1763740181;
+	bh=a9ZfR2miDizST+NAQHBsA4FP50QJXQbD9wrCS0aDhy8=;
+	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=VU/bLwEuIA8h9TCyJ9L4mIWEDwhoUAZ5oktm+sibJB8c9aTCHAxh4iEjZUrUcj6WK
+	 DdWYM7vyaQOmZlh5HL5Rop5CGc1TZipkU5l3spES7VnHm/wUUlnVytrI8uH5q7ufRi
+	 fJw0DGDWl+PDb+suCmmvDLbYmrbGD/oONn1SpgQgOMNsVeLROqr98iWpCJYovuu/sN
+	 41PWpyT55lKaZwMubphsuvZFYg/YtTETtW1C8gMcytVRWd8U1Gal8gOTSiTCz1xJ+K
+	 7NTB37EXbP+Q7djtplgrpcbD/6KUccafGQHCQks1468PHcx+U+AH4aBTr4zCMgXQ4E
+	 UAncnjv3o9aLg==
+Date: Tue, 18 Nov 2025 15:49:28 +0000
+To: Alexander Potapenko <glider@google.com>, xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de,
+	surenb@google.com, ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
+From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
+Subject: Re: [PATCH v6 06/18] x86/kasan: Add arch specific kasan functions
+Message-ID: <tide3xvqthah7m7ji6bfzb5i3ofabgwf45bn3qvvzsurnswh6z@wjxzriavwlp5>
+In-Reply-To: <6nifmxti2xfbnrdtxbosojfw52sofc7zkyjcbcyeawz5lt372f@h6ksdfqddk4z>
+References: <cover.1761763681.git.m.wieczorretman@pm.me> <5be986faa12ed1176889c3ba25852c42674305f4.1761763681.git.m.wieczorretman@pm.me> <CAG_fn=XFXFAvKS2+bc66FR+gw7rfSybETAOBUR_vneaVdF5F9A@mail.gmail.com> <6nifmxti2xfbnrdtxbosojfw52sofc7zkyjcbcyeawz5lt372f@h6ksdfqddk4z>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 2d31863a5f203112dd7296a62db9ab5faf481d58
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <136d9c83-e816-4188-ae0d-322478a57a68@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Reinette,
+On 2025-11-17 at 18:41:35 +0000, Maciej Wiecz=C3=B3r-Retman wrote:
+>On 2025-11-11 at 10:31:13 +0100, Alexander Potapenko wrote:
+>>> +#ifdef CONFIG_64BIT
+>>> +static inline void *__tag_set(const void *__addr, u8 tag)
+>>> +{
+>>> +       u64 addr =3D (u64)__addr;
+>>> +
+>>> +       addr &=3D ~__tag_shifted(KASAN_TAG_MASK);
+>>
+>>KASAN_TAG_MASK is only defined in Patch 07, does this patch compile?
+>
+>Seems I forgot to remove it from patch 7. It's originally defined
+>in the mmzone.h file and looked cleaner there according to Andrey.
+>
+>Thanks for noticing it's still in patch 7, I'll get rid of it.
 
-On Fri, Nov 14, 2025 at 02:17:53PM -0800, Reinette Chatre wrote:
-> Hi Dave,
-> 
-> On 10/31/25 8:41 AM, Dave Martin wrote:
-> > The control value parser for the MB resource currently coerces the
-> > memory bandwidth percentage value from userspace to be an exact
-> > multiple of the rdt_resource::resctrl_membw::bw_gran parameter.
-> > 
-> > On MPAM systems, this results in somewhat worse-than-worst-case
-> > rounding, since the bandwidth granularity advertised to resctrl by the
-> > MPAM driver is in general only an approximation to the actual hardware
-> > granularity on these systems, and the hardware bandwidth allocation
-> > control value is not natively a percentage -- necessitating a further
-> > conversion in the resctrl_arch_update_domains() path, regardless of the
-> > conversion done at parse time.
-> > 
-> > Allow the arch to provide its own parse-time conversion that is
-> > appropriate for the hardware, and move the existing conversion to x86.
-> > This will avoid accumulated error from rounding the value twice on MPAM
-> > systems.
-> > 
-> > Clarify the documentation, but avoid overly exact promises.
-> > 
-> > Clamping to bw_min and bw_max still feels generic: leave it in the core
-> > code, for now.
-> 
-> I think they are only theoretically generic since arch sets them and resctrl
-> uses to enforce user input. Arch can thus theoretically set them to whatever
-> the u32 used to represent it allows. Of course, doing something like this makes
-> the interface even harder for users to use.
+You were right before, after removing that define in patch 7 it doesn't
+compile. I think I'll just open code this definition here:
 
-Hence, "feels".
+>>> +       addr &=3D ~__tag_shifted((1UL << KASAN_TAG_WIDTH) - 1);
 
-This could perhaps be refined, but I didn't see an obvious reason to
-change the way this works, right now.
+I don't see a nicer solution here if taking things from mmzone.h is out
+of the question. I suppose a #ifndef KASAN_TAG_MASK placed here that
+would just shadow the one in mmzone.h could work too?
 
-Or, is there a problem here that I'm missing?
-
-> 
-> > 
-> > No functional change.
-> > 
-> > Signed-off-by: Dave Martin <Dave.Martin@arm.com>
-> > 
-> > ---
-> 
-> ...
-> 
-> > diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-> > index b7f35b07876a..fbbcf5421346 100644
-> > --- a/Documentation/filesystems/resctrl.rst
-> > +++ b/Documentation/filesystems/resctrl.rst
-> > @@ -144,12 +144,11 @@ with respect to allocation:
-> >  		user can request.
-> >  
-> >  "bandwidth_gran":
-> > -		The granularity in which the memory bandwidth
-> > -		percentage is allocated. The allocated
-> > -		b/w percentage is rounded off to the next
-> > -		control step available on the hardware. The
-> > -		available bandwidth control steps are:
-> > -		min_bandwidth + N * bandwidth_gran.
-> > +		The approximate granularity in which the memory bandwidth
-> > +		percentage is allocated. The allocated bandwidth percentage
-> > +		is rounded up to the next control step available on the
-> > +		hardware. The available hardware steps are no larger than
-> > +		this value.
-> >  
-> >  "delay_linear":
-> >  		Indicates if the delay scale is linear or
-> > @@ -737,8 +736,10 @@ The minimum bandwidth percentage value for each cpu model is predefined
-> >  and can be looked up through "info/MB/min_bandwidth". The bandwidth
-> >  granularity that is allocated is also dependent on the cpu model and can
-> >  be looked up at "info/MB/bandwidth_gran". The available bandwidth
-> > -control steps are: min_bw + N * bw_gran. Intermediate values are rounded
-> > -to the next control step available on the hardware.
-> > +control steps are, approximately, min_bw + N * bw_gran.  The steps may
-> > +appear irregular due to rounding to an exact percentage: bw_gran is the
-> > +maximum interval between the percentage values corresponding to any two
-> > +adjacent steps in the hardware.
-> 
-> What can bw_gran be expected to be on Arm systems? Could existing usage be supported with
-> MPAM setting bw_gran to 1?
-
-Architecturally, ceil(100.0 / (1 << b)), where 1 <= b <= 16.
-
-So, the possible values are
-
-	1, 2, 4, 7, 13, 25, 50
-
-(with 25 and 50 being the only ones that are exact).
-
-In practice, something like 6 <= b <= 8 is probably more typical; this
-would give advertised bandwidth_gran values of 2 or 1.
-
-
-Re your question about existing usage, were you suggesting
-unconditionally setting bw_gran to 1?
-
-Since the values are converted to/from hardware representation in
-resctrl_arch_update_domains() / resctrl_arch_get_config(), we
-don't have a problem, provided that the value doesn't get rounded in
-advance by bw_validate().
-
-But if bw_gran is always 1, it will mislead userspace about the
-precision.  This feels stranger for userspace than fine differences in
-precisely which percentage values get read out of schemata.
-
-> What will these control steps actually look like when the user views the schemata file
-> on an Arm system?
-
-It depends on the number of bits in the hardware value (the parameter b
-above).  Picking the smallest, non-trivial value 3:
-
-	schemata	hardware (MBW_MAX)
-
-	 13		0
-	 25		1
-	 38		2
-	 50		3
-	 63		4
-	 75		5
-	 88		6
-	100		7
-
-As currently implemented, I believe that writing the values from the
-"schemata" column above will result in the corresponding values from
-the "hardware" column being written to the hardware.  Achitecturally,
-there is no guaranteed representation for 0%; we would advertise min=13,
-max=100 in info/.)
-
-A round-to-nearest policy is followed for intermediate values on write.
-
-	(hardware value = round(schemata value * 8.0 / 100.0) - 1).)
-
-Reading the value back translates the value from the "hardware" column
-back to the unique value in the "schemata" column.
-
-	(schemata value = round((hardware value + 1) * 100.0 / (1 << b)).)
-
-
-In this case, bandwidth_gran would be advertised as 13, which is the
-largest step that can be seen in the read-back values.
-
-
-I would rather avoid promising precisely which values can be read out;
-merely that they are consistent with the approximate precision defined
-by the bandwidth_gran parameter.
-
-> 
-> With resctrl "coercing" the user provided value before providing it to the architecture
-> it controls these control steps to match what the documentation states above. If resctrl
-> instead provides the value directly to the architecture I see nothing preventing the
-> architecture from ignoring resctrl's "contract" with user space documented above and
-> using arbitrary control steps since it also controls resctrl_arch_get_config() that is
-> displayed directly to user space. What guarantee is there that resctrl_arch_get_config()
-> will display a value that is "approximately" min_bw + N * bw_gran? This seems like opening
-
-No guarantee, but there will only be one resctrl_arch_preconvert_bw()
-per arch.  We'd expect the functions to be simple, so this doesn't feel
-like an excessive maintenance burden?
-
-(All the resctrl_arch_foo() hooks have to do the right thing after all,
-otherwise nothing will work.)
-
-
-With this patch, resctrl_arch_preconvert_bw() and
-resctrl_arch_{update_domains,get_config}() between them must provide
-the correct behaviour.
-
-But even today, resctrl_arch_update_domains() and
-resctrl_arch_get_config() have to do the right thing in order for
-bandwidth control values to be handled correctly, as seen through the
-schemata interface.
-
-(x86's job is easy, because the generic interface between the resctrl
-core and the arch interface happens to be expressed in terms of raw x86
-MSR values due to the history.  But other arches don't get the benefit
-of that.)
-
-
-The reason for this patch is the generic code can't do the right thing
-for MPAM, unless there is a hook into the arch code, arch-/hardware-
-specific knowledge is added in the core code, or unless a misleading
-bw_gran value is advertised.
-
-I tried to take the pragmatic approach, but I'm open to suggestions if
-you'd prefer this to be factored in another way.
-
-> the door even wider for resctrl to become architecture specific ... with this change the
-> schemata file becomes a direct channel between user space and the arch that risks users
-> needing to tread carefully when switching between different architectures.
-
-There doesn't feel like a magic solution here.
-
-Exact bandwidth and flow control behaviour is extremely dependent on
-hardware topology and the design of interconnects and on dynamic system
-load.  An interface that is generic and rigorously defined, yet also
-simple enough to be reasonably usable by portable software would
-probably not be implementable on any real hardware platform.
-
-So, if it's useful to have a generic interface at all, hardware and
-software are going to have to meet in the middle somewhere...
-
-(The historical behaviour -- and even the interface -- of MB is not
-generic either, right?)
-
-Cheers
----Dave
