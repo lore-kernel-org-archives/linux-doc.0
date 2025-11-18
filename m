@@ -1,123 +1,97 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m32118.qiye.163.com (mail-m32118.qiye.163.com [220.197.32.118])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE19328625
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 02:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BAF81F2C45
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 03:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763434752; cv=none; b=rq+sigLxhzgX7Il0XWC8FrcJhPVqevYcuc1xcKfAcw1xLcVhFNWiC4QmOdehXzaW1FD7fdhp9/loQGOgMQOptUXm93paxwF5WrgNbg3cHzbRL5t4po8DhGK1sxOJ6OtGPNFP0MO0GQI8Ai3amMsP+EbVdtUSMtk6LJGleZGnmL4=
+	t=1763435840; cv=none; b=ibzy7kihlEolPR21IlfamA9+P+B/emXhYcrJdJBFW7ARy5JB9gS48BjLnHQY0+So5y5RVnenWEKQsbtqNIBe/HHx+L8foUeQGpCSUUlcsyYD/uNDj0FrYt+RvloHXzTKWd6uHPjvHjiYuKY2UZqNC6b5lZP8nGgcxDr2kg2COb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763434752; c=relaxed/simple;
-	bh=BUBQVqhYuDQpDKj8kaZMnE/33PjZCxGNIoQaBsNI2GI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H++g3KHJZQj+30+bgKLWWipneZvf8XR9JDQnprem4QvS8mqQ9371gsPb4jOIspZkPg/OAiR5o1ti7UsiH2WhOEUdWNumijbr58oY2CQulEwpQZQQjD8tuhYZCdwVb164fDWr8HOdD7rvFvo5Knw1ogQwarHkqbdRcwA7GLjftp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=S09RxRum; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763435840; c=relaxed/simple;
+	bh=JswsXCguy91hiDu7enVnb5Us06XyOvzX1yz1O72wke8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sk20IJnzw9IA3Z3Qe+XHbiugVcQheh1Nb8TSUXV3WQk1ORXmpi2AvdZMVvsmeVy9UQALhidtwDR97bm8igVxQjAu574Mx6+6Tk/f9TwLC7StkG7/DRNwVGJUwAHyR89UPPFDZdRj46ZKjBiz5iN7NdLiAvvanVilMa0Kt6gqVdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=aH16ghCT; arc=none smtp.client-ip=220.197.32.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="S09RxRum"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b734fcbf1e3so755278066b.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 18:59:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763434747; x=1764039547; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uyA/z3+NX1r8lmPy90ZzbFhLB6Y/TGoAYT7nzfduTWI=;
-        b=S09RxRum2xa9YUFARKFQLyZAIUb8pzrLmc5No4pxbFN+0VZWRe2eAA3w9TdG+UWb0I
-         djrbsFgJmBy3SIxTG2f1dkRjT4C7HYeWKwBeSFma16HkIEuXNSzQ2hsS3kB17R2/GOqv
-         p4m1geAB8IsA+7AMUClVb3R3Qg0pGN7Ba4V36qUTpdK0yJpkNitMFoyW5fINQUMXbMW9
-         w3pN+WvtgyQkYLc8yarZpknb4hbDt466t4ChGD6/o7tk1pltNHmYjQoBL04Zxl9+Z/EX
-         U4S56eyXw6C3jcvIfeZ8BBnmWW+2tzKj6u+vjIfXh+KP8c5FDQbyU5yyTuhJIwFcl4g5
-         3MyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763434747; x=1764039547;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uyA/z3+NX1r8lmPy90ZzbFhLB6Y/TGoAYT7nzfduTWI=;
-        b=HE5COP+PGHVwjbxWNMh+wqO0Xr0ClfoojjLon8i3+rlQj+fE9tMpmlFuhgckdQxJ1a
-         Qk9huOL/zUvRZTGYqtprOcxhbg2RFZJ6t4nuXfb1sT5ycY7uCjGDJCUtGbcfHjhROaFD
-         V+5VIMsbn2EmTtIke39K+eqxBUtJGCdt+/BnRwlsME3o80KqrJ8K4jhB58VkXzMO3iXz
-         tV7R3m8E8IO/ox9kuxx6hU7sEgd4AkzJlpegSsfiROguy4UOye+7QEdLJKBygKKO2h9d
-         9xAPKjvjXaCBo/nhYi6ZuDFwkTmFMeHwtmpTkhyL8IsMZrAnGX9dY+deNKLbD7IDNsNq
-         Kuhg==
-X-Forwarded-Encrypted: i=1; AJvYcCWzD5EX12Vd0NqMxOwsRg+GowN3FV47Cwn1Iy6WidVcJgYHshxyTl6f05WETkfXFMo7izn1iF8P0zA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEuSfgKIY6PF8OGMtQGfuMaBlS85l8bwqVczA19uaUh25jdTeR
-	waZV3KFur9UGlYyF85xppE6csi7Nl7HGKz0x0Xjq4ACYrDUZcRKY7OGvhb9+9Ty12KwQVXFGc02
-	cOHzvR2RBQULGTYK1mI6xcSsZnfsNoWISjXOzphu6XA==
-X-Gm-Gg: ASbGnct0EsBdie/67rmuoh9/HxwaPYqXTpWkFb6sv5IgVuuG9TXMutGzUo6+o3SYngh
-	pHmQYOzc9/ufXdsYNzokZu+1oeLaOzvVFNbT7UTwEkIzAldW7kVnToKIVSq+QNbKafx0a3WwWKY
-	ol41OXat22bTiZ0GaYhY5SJQr/5THrvmiMx4cKVSlbDEZ6jIAjy0kszeV9ByC3YKFaCw31C+dKu
-	MYG7VGKzDod0ZkDJz4zqTqQqQbixqBINV1vBICa66V1xp1vEzj963CSDlYJN+Dmwh6qSv7U0UQL
-	ipw=
-X-Google-Smtp-Source: AGHT+IE+Xmu/XKzqDItZxK55uKODQ4pXWe1jCDf3/zyE5l7HA0zpyHUAc1wH5fOIbLOq/qTekDcDuTCEd4KGgBq5NiA=
-X-Received: by 2002:a17:907:d9e:b0:b73:9792:919b with SMTP id
- a640c23a62f3a-b739792959cmr714211466b.13.1763434747412; Mon, 17 Nov 2025
- 18:59:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="aH16ghCT"
+Received: from [10.0.66.19] (unknown [1.203.157.252])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 29ed66137;
+	Tue, 18 Nov 2025 11:11:59 +0800 (GMT+08:00)
+Message-ID: <0a3f9f2e-5323-4797-b146-56ece9ffc153@leap-io-kernel.com>
+Date: Tue, 18 Nov 2025 11:11:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-8-pasha.tatashin@soleen.com> <aRoXGYC4GeAoNKPl@kernel.org>
-In-Reply-To: <aRoXGYC4GeAoNKPl@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 17 Nov 2025 21:58:31 -0500
-X-Gm-Features: AWmQ_bmEx3-y1qL666uuCkHAOhqd8xREWBuFy8c9Q6i-THXVQGPt4k4Gmg9IHVA
-Message-ID: <CA+CK2bDyKzeZBZvNM7OdSm5dBt3ADjsyXc2X3_YedV_xnphMww@mail.gmail.com>
-Subject: Re: [PATCH v6 07/20] liveupdate: luo_session: Add ioctls for file preservation
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] docs/zh_CN: Add blk-mq.rst translation
+To: Yanteng Si <si.yanteng@linux.dev>, alexs@kernel.org
+Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
+ wangyuli@aosc.io, doubled@leap-io-kernel.com
+References: <cover.1763366835.git.kezijie@leap-io-kernel.com>
+ <c7a80affd45be8c11a236472977cdffab16e895a.1763366835.git.kezijie@leap-io-kernel.com>
+ <1f5870b0-211e-40f7-836d-7118654ce3fd@linux.dev>
+From: ke zj <kezijie@leap-io-kernel.com>
+In-Reply-To: <1f5870b0-211e-40f7-836d-7118654ce3fd@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9a94f29cac09d8kunmd76e9e80493d629
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZHRhJVh4fTx4eS0weGE9NHlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=aH16ghCTUUevxgOwGaqyP1B+ksJjY4eD1daCDMed8VPBROz5AZQO0xRaiO74h0zTzRCAFgdc7czrJ3FLVhE0t9L0j3HSy1EosNaVAUmyqekhqYQP/bZrgcwuJYqToDf30hLBC8ukTiWfBqbyPUWnElFIz7Ty5p8heWPloAxCqoPdsaaSMHN+dQfO/s5d6Wo5HY/M9xLGQ+8cMsPd6jkxTr2n6Bf1Q/OnIJ9VM9CZHy4eAsM9WV15w0Ob7AacwpN3bKkBkwUEXb2PaegmoLvtBpVGPReSPMYED5hQRqvHdVIreDh9Ab8YqgOiN/lD8vG9qpWsvnh5TkV6iZyHdmhLAw==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=un8tAkhq9/pwmpwKWqrrjD0AN5srT/totbIQSy2FBZY=;
+	h=date:mime-version:subject:message-id:from;
 
-> >  static int luo_session_release(struct inode *inodep, struct file *filep)
-> >  {
-> >       struct luo_session *session = filep->private_data;
-> >       struct luo_session_header *sh;
-> > +     int err = 0;
-> >
-> >       /* If retrieved is set, it means this session is from incoming list */
-> > -     if (session->retrieved)
-> > +     if (session->retrieved) {
-> >               sh = &luo_session_global.incoming;
-> > -     else
-> > +
-> > +             err = luo_session_finish_one(session);
-> > +             if (err) {
-> > +                     pr_warn("Unable to finish session [%s] on release\n",
-> > +                             session->name);
->
->                         return err;
->
-> and then else can go away here and luo_session_remove() and
-> luo_session_free() can be moved outside if (session->retrieved).
+在 2025/11/18 9:51, Yanteng Si 写道:
+>> +基于标识的完成机制
+>> +~~~~~~~~~~~~~~~~~~~
+>> +
+>> +为了指示哪一个请求已经完成，每个请求都会被分配一个整数标识，该标识的 
+>> 取值范围
+>> +是从0到分发队列的大小。这个标识由块层生成，并在之后由设备驱动使用，从 
+>> 而避
+>> +免了为每个请求再单独创建冗余的标识符。当请求在驱动中完成时，驱动会将 
+>> 该标识返
+>> +回给块层，以通知该请求已完成。这样，块层就无需再进行线性搜索来确定是 
+>> 哪一个
+>> +I/O 请求完成了。
+>> +
+>> +更多阅读
+>> +--------
+>> +
+> 
+Hi Yanteng,
 
-Done.
+Thanks for the suggestion.
+
+I’ve translated the titles in the “Further reading” section as follows:
+>> +- `Linux Block IO: Introducing Multi-queue SSD Access on Multi-core 
+>> Systems <http://kernel.dk/blk-mq.pdf>`_
+`Linux 块 I/O：多队列 SSD 并发访问简介 <http://kernel.dk/blk-mq.pdf>`_
+>> +
+>> +- `NOOP scheduler <https://en.wikipedia.org/wiki/Noop_scheduler>`_
+`NOOP 调度器 <https://en.wikipedia.org/wiki/Noop_scheduler>`_
+>> +
+>> +- `Null block device driver <https://www.kernel.org/doc/html/latest/ 
+>> block/null_blk.html>`_
+`Null 块设备驱动程序 
+<https://www.kernel.org/doc/html/latest/block/null_blk.html>`_
+> 
+> Translating it(only name)?
+Is this translation acceptable?
 
 Thanks,
-Pasha
+Ke Zijie
+> 
+> 
+> Thanks,
+> 
+> Yanteng
+
