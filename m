@@ -1,108 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BCE1FD4;
-	Tue, 18 Nov 2025 22:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8571527E1D5
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 23:02:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763505389; cv=none; b=f+ktDppeYg3Q+6Kqb4KLEPGbV3FaM6IG+P0TmXi2tNgLEKJ7FHXbByB2DgAt8QuXGE+hwkoEt0vLU4H9Pv9L+WVEcK3lyNGIEMNOK9Zlw/bSUWop7nnlLa1ZM5gJeIcvAUaixf0e3kOeRhL/npN9v2fD5QJGibtmbWc4EFQtPMc=
+	t=1763506978; cv=none; b=OExbj/FAVj7c8SyDg08YPv0YutQmDaTQwCnfwCuCgJUiZ+f0qDVyYrsW0EBKybn5AU8maMTee1uYP0OTOrpfJm74MWNsd7bKdYZMOrh7lVIBDmtFijm/8krDxpwuswfrI126w0SX5vB2Efk2fijtIHSBMlC9sXm6ts3uLMhDqgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763505389; c=relaxed/simple;
-	bh=4d7MX1whtq6+TcTCFIYoNmUkaDKM3v7BcC/5WjB9lr4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tOZkGZc/PwqU/IHWXW/ObMqQrOQr9yIXSdsrlx+peOXkshbmzKbswSOO03r9/2L2yab+fLgmX/C9/XD4mRw7DC5CM1n0ofnZEviN6dlh6mV+bTho3SqOOlXX7S9zCWBHxd8jSMe0Cz3GyEDlaigPXK/AzuQb7dR9fATkXC+RkfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TpXpTggl; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1763506978; c=relaxed/simple;
+	bh=scFNZX9ag0i6pgwb7zn5W5v2rOxL4+aniwaNGa7QpTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GkSZhaB1tiflWCFaAFg/4+sxdujK1MRtAL+In5jAG7xYKG61B42y2lqCxGAJTG1PlGarlHEtVde5aYkkOorOne3inHxc5gToMWNmB4vCKeEEV2iSOhkTJEOxhf8cNG10I1lYL/esZNKtdqlaIwhzv98NXEaO7d32oEoz2GTe8q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=PGtrMolH; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TpXpTggl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763505388; x=1795041388;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4d7MX1whtq6+TcTCFIYoNmUkaDKM3v7BcC/5WjB9lr4=;
-  b=TpXpTgglDx/qfDHTkhLNX3JC9kno16Qp7VenPBE/gkBzj+wczRUEbAAX
-   udklC/8j9y/DAKJO5jAr0haUJB1mZp8DMLH6NybQ8uYRcfqWS2KygejWG
-   xPvN5gfeyZgdW57mM8sRxx46lkCPxi/oqcjsYM7fnvAixCL6X8zo7fn47
-   z3A/sbQlavbkHqBz4QvNWYRz+l88bVn6adhTSoc6hhy3kQX6CfqiFl/Nu
-   LGrwP71mJ2++rikJWzpr7aWWxhroupad7EpXxNugTa40PqMCe60979tL6
-   OBY3ahdMO/usIt6NwjV+DHk2gVbR/PEuPG9jS2uvv6U7lv9ZL+F/PSA59
-   Q==;
-X-CSE-ConnectionGUID: dQXHhrtcTmqWUcnSvbYQJw==
-X-CSE-MsgGUID: XA2ee8tqQ6a5+8N69HgZpQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="69392577"
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="69392577"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 14:36:27 -0800
-X-CSE-ConnectionGUID: kXsO1TCVQMSFe7vhePqajg==
-X-CSE-MsgGUID: gROB/VIdQ3uuB7O4Kl5fUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="195810857"
-Received: from spandruv-desk.jf.intel.com ([10.54.55.20])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Nov 2025 14:36:25 -0800
-From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To: rafael@kernel.org,
-	daniel.lezcano@linaro.org
-Cc: corbet@lwn.net,
-	linux-pm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH] docs: driver-api/thermal/intel_dptf: Add new workload type hint
-Date: Tue, 18 Nov 2025 14:36:19 -0800
-Message-ID: <20251118223620.554798-1-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="PGtrMolH"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8b2e530a748so295497385a.0
+        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 15:02:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1763506975; x=1764111775; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V9774m00qC+l22EqhxH404c/5WuwECoHlv+7tMAloKg=;
+        b=PGtrMolH6Qz2B+82VKf1tqJiPDAxYTw1ids62c39Hjs96vRIcsgVJLYiUmwdEnCZtd
+         +cip3SWdQ1IAz+Wc9ftRRHpkdn635dM17uGQggs02cjVxhL14Pyn8YNfqVoGmOq9J/7T
+         wa3EIqW9TPC8OrvrngjqzH5aXDB6ZC8za0V3t98PCbk+XDHVS+i9UVe2MiA2sDZaGCw9
+         SJ6oFOpBWUPpMIrZaEXmW2/8PBOA6Kcx5SqFZ4VRW89JehH10ySlJf/qqsZRhb8BfYjF
+         xbSVLqnwywsiz63rrA8JtuloT1Is74xQn1fLg51SzLGsuOB4IJOoEKMMQ2ZKzgScxY2+
+         +Lqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763506975; x=1764111775;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V9774m00qC+l22EqhxH404c/5WuwECoHlv+7tMAloKg=;
+        b=oelLtma/zZXfSxBitgdUbJjwFfleHJsgQrAGpSuNuc27IdRHz5U8oQJATSJIsyyvLN
+         RpZkPzi7tSCRCYq/tCleBEgAfr5IhuK5k8YXr/CHnxqqwbqeDWTzWaxFDTf+7kBZH+ry
+         Pxomb1Kk7igY3BTMnIanEPkF6ZJS574LP1t1pKFlZZojxBZh7RaeEV9om+aJhbzbA6Ex
+         nf7fNkkvVSTKJTdjwS2UiR0rGHYRPdzCrXgjK84wvcdpfnk1mBqEDbQMpXxWbQrwJkBH
+         FoB2qKJZe7AVyKmo0vcaFCfmwpEuiAYTZoq/4rGXOiqSwmGTNp4VciUr1e3DJWSr4oHx
+         pyJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUgLzz0zUwTAieiB+PPrmRUAYF8eGmr35Zy/XU6h0bfmaDF1k/sr2K3i6tVUj64Ho/eExtRq1QRufY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3WX3k5Jc06TF1xlsl0nezDDpvYGhzl91NN0xu5KEbtN9vkwEu
+	0ou4zrO5XRSFR5aNhXrLxno13Dj+mEuH+ZXxjfZUPl/gioF6ApcRFYrhxyBQxvqKvYE=
+X-Gm-Gg: ASbGnctCYOcKxdCs7N4iHd7j9y/NY7yUDoAXFK8E8pcpBcCj8P5mbRT0bVmO/TuyN98
+	qQm7fD4adsSXOh3+U2e/ELbHQCPEIZ+mV0m1TU9JzS2BZQx8vArrW3NwiqT21LjlpDVxI+k3KnM
+	JKcl/u8VqYN7oj8cILtAzj+TtErG4R6njeXA4u4rPORxaQmnOMcO9nPJ7R3Py7QQ+z6Hya52eUw
+	BRB0lNNO8/b978kIP3FYJ+ZDfh/cc3QFPLdHQdSPw316TktgypDxzS0EA5quxE9qvMW+17ykNQH
+	rTf13blQOwImEtsPuDytEQb8c/S2FYEZA8ciiAS6MgTTdSNdqAIb2VElcUpR5TmLftA2lctEra4
+	s8ZPM8xwAztcFkGMAZCM4AvJOj5glxrna9exUpW95xqygP39+EVabzP0kV6Rn5pdSffzipeMXBA
+	2Zp5RPvtfTXAujv+QUR3SHj0cQ7fMY5CXXFmCh8Rp791/FZhNnIdJoshDs
+X-Google-Smtp-Source: AGHT+IE7qxNdGTB3O4Cyd9l/l5kqP+7hVSaobWOJQOGThUG/TNMz01RlkEIy242KlmPT6y0A+36Y2Q==
+X-Received: by 2002:a05:620a:4454:b0:8b2:eab0:629a with SMTP id af79cd13be357-8b2eab06506mr1265910785a.70.1763506975311;
+        Tue, 18 Nov 2025 15:02:55 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b2da3e4cf4sm883665285a.10.2025.11.18.15.02.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 15:02:54 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vLUiq-00000000W6g-43N6;
+	Tue, 18 Nov 2025 19:02:52 -0400
+Date: Tue, 18 Nov 2025 19:02:52 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
+	Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [PATCH v8 06/11] dma-buf: provide phys_vec to scatter-gather
+ mapping routine
+Message-ID: <20251118230252.GJ17968@ziepe.ca>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
 
-Add documentation for longer term classification of workload type for
-power or performance.
+On Tue, Nov 11, 2025 at 11:57:48AM +0200, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Add dma_buf_map() and dma_buf_unmap() helpers to convert an array of
+> MMIO physical address ranges into scatter-gather tables with proper
+> DMA mapping.
+> 
+> These common functions are a starting point and support any PCI
+> drivers creating mappings from their BAR's MMIO addresses. VFIO is one
+> case, as shortly will be RDMA. We can review existing DRM drivers to
+> refactor them separately. We hope this will evolve into routines to
+> help common DRM that include mixed CPU and MMIO mappings.
+> 
+> Compared to the dma_map_resource() abuse this implementation handles
+> the complicated PCI P2P scenarios properly, especially when an IOMMU
+> is enabled:
+> 
+>  - Direct bus address mapping without IOVA allocation for
+>    PCI_P2PDMA_MAP_BUS_ADDR, using pci_p2pdma_bus_addr_map(). This
+>    happens if the IOMMU is enabled but the PCIe switch ACS flags allow
+>    transactions to avoid the host bridge.
+> 
+>    Further, this handles the slightly obscure, case of MMIO with a
+>    phys_addr_t that is different from the physical BAR programming
+>    (bus offset). The phys_addr_t is converted to a dma_addr_t and
+>    accommodates this effect. This enables certain real systems to
+>    work, especially on ARM platforms.
+> 
+>  - Mapping through host bridge with IOVA allocation and DMA_ATTR_MMIO
+>    attribute for MMIO memory regions (PCI_P2PDMA_MAP_THRU_HOST_BRIDGE).
+>    This happens when the IOMMU is enabled and the ACS flags are forcing
+>    all traffic to the IOMMU - ie for virtualization systems.
+> 
+>  - Cases where P2P is not supported through the host bridge/CPU. The
+>    P2P subsystem is the proper place to detect this and block it.
+> 
+> Helper functions fill_sg_entry() and calc_sg_nents() handle the
+> scatter-gather table construction, splitting large regions into
+> UINT_MAX-sized chunks to fit within sg->length field limits.
+> 
+> Since the physical address based DMA API forbids use of the CPU list
+> of the scatterlist this will produce a mangled scatterlist that has
+> a fully zero-length and NULL'd CPU list. The list is 0 length,
+> all the struct page pointers are NULL and zero sized. This is stronger
+> and more robust than the existing mangle_sg_table() technique. It is
+> a future project to migrate DMABUF as a subsystem away from using
+> scatterlist for this data structure.
+> 
+> Tested-by: Alex Mastro <amastro@fb.com>
+> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/dma-buf/dma-buf.c | 235 ++++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/dma-buf.h   |  18 ++++
+>  2 files changed, 253 insertions(+)
 
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
- .../driver-api/thermal/intel_dptf.rst         | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
+I've looked at this enough times now, the logic for DMA mapping and
+the construction of the scatterlist is good:
 
-diff --git a/Documentation/driver-api/thermal/intel_dptf.rst b/Documentation/driver-api/thermal/intel_dptf.rst
-index c51ac793dc06..916bf0f36a03 100644
---- a/Documentation/driver-api/thermal/intel_dptf.rst
-+++ b/Documentation/driver-api/thermal/intel_dptf.rst
-@@ -409,3 +409,26 @@ based on the processor generation.
- 		Limit 1 from being exhausted.
- 
- 	4 – Unknown: Can't classify.
-+
-+	On processors starting from Panther Lake additional hints are provided.
-+	The hardware analyzes workload residencies over an extended period to
-+	determine whether the workload classification tends toward idle/battery
-+	life states or sustained/performance states. Based on this long-term
-+	analysis, it classifies:
-+
-+	Power Classification: If the workload exhibits more idle or battery life
-+	residencies, it is classified as "power".
-+
-+	Performance Classification: If the workload exhibits more sustained or
-+	performance residencies, it is classified as "performance".
-+
-+	This approach enables applications to ignore short-term workload
-+	fluctuations and instead respond to longer-term power vs. performance
-+	trends.
-+
-+	Residency thresholds for this classification are CPU generation-specific.
-+	Classification is reported via bit 4 of the workload_type_index:
-+
-+	Bit 4 = 1: Power classification
-+
-+	Bit 4 = 0: Performance classification
--- 
-2.51.0
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
+Jason
