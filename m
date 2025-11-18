@@ -1,94 +1,270 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C03226CE23;
-	Tue, 18 Nov 2025 08:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A2535CBA5;
+	Tue, 18 Nov 2025 09:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763455520; cv=none; b=TvNat8TLmc4vPcLewMQjaF48NF5aXLDTg5Xd34PM5Ol0eqKJ1NEaNfqTHb0o+XlCB3RoJYCodbQNJP4jnON0DQKWPw70vO9m7v975Ur6IqKNB4srce8dBAQqPOsWDjtkGFs5WdzvFmmXWjwTGF0BS/jVTwuBT2/biJgyESBbSzs=
+	t=1763456563; cv=none; b=Q/R56JfioRfr7IITWQJM3OjA7WGOx6Rj0mOmh5UmXtllwzxOVRbrW0JhLeDdjP1Goe+krIj3p5XeZ68o6RHeyZK2F1WYjDTrE/zUNSxKbh883sHfVFTdm/OasDAxgPD3ftGNmGmN4XqsQfOEGsyYqDx5nxXeovR1uCTNVciV9hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763455520; c=relaxed/simple;
-	bh=ChTxPLFlWr1lSX3akZs188rfnwDUuv11s05nw4ZOZIg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=WyQjcJ1hwV9bu2PksELfmkkq/D9a1S9qBL3mnIfssMbXQn+mE/+atfl3UtfY3ij336vUr9GZNJMrFQfsQN/et5SoV4UW13rCbHu7X5sS2SN+EYLAPVgFkLy8KO74GLv9+uwWVv5APHkeS6PybbgobvhOhYEn5nqf8AGfZ3tCQKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4d9dSH6kFkznTvj;
-	Tue, 18 Nov 2025 16:43:43 +0800 (CST)
-Received: from kwepemf200017.china.huawei.com (unknown [7.202.181.10])
-	by mail.maildlp.com (Postfix) with ESMTPS id 02B1C18001B;
-	Tue, 18 Nov 2025 16:45:12 +0800 (CST)
-Received: from [10.67.121.58] (10.67.121.58) by kwepemf200017.china.huawei.com
- (7.202.181.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 18 Nov
- 2025 16:45:10 +0800
-Message-ID: <14efdd1b-677d-488b-8dce-b1131d6928ae@hisilicon.com>
-Date: Tue, 18 Nov 2025 16:45:10 +0800
+	s=arc-20240116; t=1763456563; c=relaxed/simple;
+	bh=irHVLMIGvVlfsLhhW2kJnfj55H9fR3D1SlK3f2dBMoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=I6TXf+FbF8rtnXy/ogURDOpYZYCgTJ2cRHzpTOTYdhNoA/zisPBKHhdufdBJZzufogPl1u9JRkEKev74wbdMyPUfRAnYeRZe9Mieky64S3r/D9CuCo88vs5TduLrbvcS0EYh2NHGZEaMrY19sqxVwjfXhk4K1ePUudgalm9TnHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bmkRoHfi; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bmkRoHfi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 691FFC4AF0B;
+	Tue, 18 Nov 2025 09:02:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763456563;
+	bh=irHVLMIGvVlfsLhhW2kJnfj55H9fR3D1SlK3f2dBMoU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bmkRoHfiRRqs3Arg89iP0Pfjltgb2+qGxHWBugt2j3I4uk/EhIPg0ogEKJyQIIC2Q
+	 KTA0Hp2nYUbu/SSb9bT5fRtVCiwfAVnBlfJCg+Y21wpf8PI4LLNialBVTUQ/vIVNrD
+	 RP4HiYm8KtSvYEOq/1vtAMPKdCGP10al1sb1x7FEHzu9XpRJynu4ynjFibNsUuJ6OJ
+	 MseG+56fVe5XRZ3K5w+5O65KtoxmzTQIAwUEy/TIz7wULdBnRhehCg8TtUcVe9wAXx
+	 YrghA7IMWPM4C79KlJsBraCwYg42O2RAbYwun7wjkm2acb0YXGcyVb2NubzCNt0W7F
+	 n7NtH0CYwk4sQ==
+Date: Tue, 18 Nov 2025 10:02:37 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] kernel-doc: add support for handling global
+ variables
+Message-ID: <20251118100237.46c7082a@foz.lan>
+In-Reply-To: <3a27a1ff-7277-43d5-b1f2-4b26ef5595ec@infradead.org>
+References: <cover.1763291890.git.mchehab+huawei@kernel.org>
+ <2d3108a03afc4e48de85835667f5875af97b6a38.1763291890.git.mchehab+huawei@kernel.org>
+ <3a27a1ff-7277-43d5-b1f2-4b26ef5595ec@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Importance: high
+X-Priority: 1 (Highest)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/8] Enhanced autonomous selection and improvements
-To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
-	<viresh.kumar@linaro.org>, <lenb@kernel.org>, <robert.moore@intel.com>,
-	<corbet@lwn.net>, <pierre.gondois@arm.com>, <zhenglifeng1@huawei.com>,
-	<rdunlap@infradead.org>, <ray.huang@amd.com>, <gautham.shenoy@amd.com>,
-	<mario.limonciello@amd.com>, <perry.yuan@amd.com>, <ionela.voinescu@arm.com>,
-	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
-	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <bbasu@nvidia.com>
-References: <20251105113844.4086250-1-sumitg@nvidia.com>
-Content-Language: en-US
-From: Jie Zhan <zhanjie9@hisilicon.com>
-In-Reply-To: <20251105113844.4086250-1-sumitg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf200017.china.huawei.com (7.202.181.10)
 
+Em Mon, 17 Nov 2025 22:59:24 -0800
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-
-On 11/5/2025 7:38 PM, Sumit Gupta wrote:
-> This patch series enhances the ACPI CPPC CPUFREQ driver with
-> comprehensive support for autonomous performance selection, expanded
-> runtime control interfaces and improvements.
+> Hi,
 > 
-> It adds support for below:
-> - Expose sysfs to read/write the Minimum/Maximum Performance Registers
->   using frequency (kHz), with internal conversion to performance values.
->   Also, update the policy min/max accordingly.
->     /sys/.../cpufreq/policy*/min_perf and max_perf
+> On 11/16/25 3:23 AM, Mauro Carvalho Chehab wrote:
+> > Specially on kAPI, sometimes it is desirable to be able to
+> > describe global variables that are part of kAPI.
+> > 
+> > Documenting vars with Sphinx is simple, as we don't need
+> > to parse a data struct. All we need is the variable
+> > declaration and use natice C domain ::c:var: to format it
+> > for us.
+> > 
+> > Add support for it.
+> > 
+> > Link: https://lore.kernel.org/linux-doc/491c3022-cef8-4860-a945-c9c4a3b63c09@infradead.org/T/#m947c25d95cb1d96a394410ab1131dc8e9e5013f1
+> > Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  scripts/lib/kdoc/kdoc_output.py | 45 ++++++++++++++++++++++++++
+> >  scripts/lib/kdoc/kdoc_parser.py | 56 ++++++++++++++++++++++++++++++++-
+> >  2 files changed, 100 insertions(+), 1 deletion(-)  
 > 
-> - Expose sysfs to read/write the Performance Limited Register.
->     /sys/.../cpufreq/policy*/perf_limited
+> Thanks for the update. It's looking much better.
+
+Great!
+
+> I have a few comments/questions, all about typedefs.
+
+The new version was made to be bug-compatible with the Perl version,
+so it just mimics whatever it was there. Both Jon and I verified
+to be sure that the output was identical (except for whitespaces).
+
+If you look at dump_typedef(), typedefs can be mapped on different ways,
+depending on its actual meaning:
+
+    def dump_typedef(self, ln, proto):
+...
+
+	# Parse function typedef prototypes
+...
+            self.output_declaration('function', declaration_name,
+                                    typedef=True,
+                                    functiontype=return_type,
+                                    purpose=self.entry.declaration_purpose)
+...
+        #
+        # Not a function, try to parse a simple typedef.
+        #
+...
+            self.output_declaration('typedef', declaration_name,
+                                    purpose=self.entry.declaration_purpose)
+
+Also, the actual output is modified by the highlight logic at kdoc_output:
+
+	# match expressions used to find embedded type information
+	type_constant = KernRe(r"\b``([^\`]+)``\b", cache=False)
+	type_constant2 = KernRe(r"\%([-_*\w]+)", cache=False)
+	type_func = KernRe(r"(\w+)\(\)", cache=False)
+	type_param_ref = KernRe(r"([\!~\*]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
+
+	# Special RST handling for func ptr params
+	type_fp_param = KernRe(r"\@(\w+)\(\)", cache=False)
+
+	# Special RST handling for structs with func ptr params
+	type_fp_param2 = KernRe(r"\@(\w+->\S+)\(\)", cache=False)
+
+	type_env = KernRe(r"(\$\w+)", cache=False)
+	type_enum = KernRe(r"\&(enum\s*([_\w]+))", cache=False)
+	type_struct = KernRe(r"\&(struct\s*([_\w]+))", cache=False)
+	type_typedef = KernRe(r"\&(typedef\s*([_\w]+))", cache=False)
+	type_union = KernRe(r"\&(union\s*([_\w]+))", cache=False)
+	type_member = KernRe(r"\&([_\w]+)(\.|->)([_\w]+)", cache=False)
+	type_fallback = KernRe(r"\&([_\w]+)", cache=False)
+	type_member_func = type_member + KernRe(r"\(\)", cache=False)
+
+	highlights = [
+	    (type_constant, r"``\1``"),
+	    (type_constant2, r"``\1``"),
+
+	    # Note: need to escape () to avoid func matching later
+	    (type_member_func, r":c:type:`\1\2\3\\(\\) <\1>`"),
+	    (type_member, r":c:type:`\1\2\3 <\1>`"),
+	    (type_fp_param, r"**\1\\(\\)**"),
+	    (type_fp_param2, r"**\1\\(\\)**"),
+	    (type_func, r"\1()"),
+	    (type_enum, r":c:type:`\1 <\2>`"),
+	    (type_struct, r":c:type:`\1 <\2>`"),
+	    (type_typedef, r":c:type:`\1 <\2>`"),
+	    (type_union, r":c:type:`\1 <\2>`"),
+
+	    # in rst this can refer to any type
+	    (type_fallback, r":c:type:`\1`"),
+	    (type_param_ref, r"**\1\2**")
+	]
+
+On other words, "normal" typedefs use:
+
+	type_typedef = KernRe(r"\&(typedef\s*([_\w]+))", cache=False)
+	(type_typedef, r":c:type:`\1 <\2>`"),
+
+
+but function typedefs have a different threatment (see out_function) at
+the RestFormat class.
+
 > 
-> - When toggling autonomous selection, synchronize the policy limits
->   by updating the policy min/max.
 > 
-> - System-wide autonomous mode configuration via 'auto_sel_mode' boot
->   parameter. Mode can be switched dynamically on individual CPUs.
+> type vs typedef in output (html)
 > 
-> - Generic sysfs helper functions to reduce code duplication.
+> typedefs are usually output as "type":
+> Example 1:
+> 
+> 	type func_desc_t
+> 
+> although thp_order_fn_t is output as:
+> Example 2:
+> 
+> 	thp_order_fn_t
+> 	Typedef: Get the suggested THP orders from a BPF program for allocation
+> + more syntax and description.
 
-Hi Sumit,
+I was unable to find kernel-doc markups for the above at linux-next
+or at docs-next.
 
-My biggest question is what do we design for users to use all this CPPC
-autosel stuff in the cppc_cpufreq driver?
+Hard to tell without seeing the exact kernel-doc markups you're
+referring to, but see my comments above.
 
-Is it just exposing most of the related interfaces through sysfs and then
-we let userspace to play with it (probably with a userspace tool) or
-something like the amd_pstate_epp driver?
+> 
+> Is the difference in the 2 examples above just that the first one has
+> no additional description or parameters?
+> 
+> 3. typedef struct msi_alloc_info isn't output as a typedef at all,
+> but instead as a struct. But the kernel-doc for this typedef is
+> messed up (as taken from include/asm-generic/msi.h):
+> 
+> /**
+>  * struct msi_alloc_info - Default structure for MSI interrupt allocation.
+>  * @desc:	Pointer to msi descriptor
+>  * @hwirq:	Associated hw interrupt number in the domain
+>  * @scratchpad:	Storage for implementation specific scratch data
+>  *
+>  * Architectures can provide their own implementation by not including
+>  * asm-generic/msi.h into their arch specific header file.
+>  */
+> typedef struct msi_alloc_info {
+> 	struct msi_desc			*desc;
+> 	irq_hw_number_t			hwirq;
+> 	unsigned long			flags;
+> 	union {
+> 		unsigned long		ul;
+> 		void			*ptr;
+> 	} scratchpad[NUM_MSI_ALLOC_SCRATCHPAD_REGS];
+> } msi_alloc_info_t;
+> 
+> a. It's a typedef, not a struct -- but we may want to print the struct (?).
 
-Since this is quite a large change, we may need a guideline of how it's
-gonna be used so we would have a clue of how it should be made.
+It is both:
 
-Cheers,
-Jie
+	struct msi_alloc_info
+	typedef msi_alloc_info_t
+
+The kernel-doc declaration is for the struct, not for the typedef.
+
+Ok, one could have two kernel-doc markups if this would be declared
+in separate:
+	 /**
+	  * struct msi_alloc_info - Default structure for MSI interrupt allocation.
+...
+	  */
+	struct msi_alloc_info {
+	 	struct msi_desc			*desc;
+	 	irq_hw_number_t			hwirq;
+	 	unsigned long			flags;
+	 	union {
+	 		unsigned long		ul;
+	 		void			*ptr;
+	 	} scratchpad[NUM_MSI_ALLOC_SCRATCHPAD_REGS];
+	};
+
+	 /**
+	  * typedef msi_alloc_info_t - Default typedef for MSI interrupt allocation.
+...
+	  */
+	typedef struct msi_alloc_info msi_alloc_info_t;
+
+> b. The first line of the comment should be:
+>  * typedef msi_alloc_info_t - Default structure for MSI interrupt allocation.
+> 
+> Hopefully a warning can be printed for this.
+
+It won't be hard to add a warning, but the point is that, in this
+specific case, the intent seems to document only the struct to
+ensure that newer usages won't use typedef anymore.
+
+Also, right now, we don't produce any warning if one does:
+
+	 /**
+	  * struct msi_alloc_info - Default structure for MSI interrupt allocation.
+...
+	  */
+	struct msi_alloc_info {
+	 	struct msi_desc			*desc;
+	 	irq_hw_number_t			hwirq;
+	 	unsigned long			flags;
+	 	union {
+	 		unsigned long		ul;
+	 		void			*ptr;
+	 	} scratchpad[NUM_MSI_ALLOC_SCRATCHPAD_REGS];
+	};
+
+	typedef struct msi_alloc_info msi_alloc_info_t;
+
+So, what's the point of having a warning?
+
+Thanks,
+Mauro
