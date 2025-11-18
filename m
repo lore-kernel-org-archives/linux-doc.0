@@ -1,106 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21D3313526;
-	Mon, 17 Nov 2025 22:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BC73FC2
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 00:06:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763419417; cv=none; b=dnRuYeOr7IJfxmSw8Jy7F0Y2Dz10R9+Mv0wdltBeCTPSLk263mF7oxlqRmkiScwLZGMx54kJdea6SbQrY3RZ6+zo6whFJw+/j/EbbaybrHdyS/hsfixH9gIu11rzkU++2vGLTqX4p68njdy/HrlciYZdrfe0o393c+F0q32siKQ=
+	t=1763424397; cv=none; b=BYR6do4xMf87LLDh9gC+5Pu8midxY5giv4kL+egFPSQ7w1iZcWmFj6U/GncnV2T526GFyqHgez7Kx0J+9sxtt4ylcAOb9h/7va2V2wGZ5GGMZxec38zNL0Hx4isCDKhSJw3xJtIQCxyjHQiVHsB7aUCLZKo/m0Y1sGpKwIh8baE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763419417; c=relaxed/simple;
-	bh=fvcx/Gt9WjAEJUY/t8KcGE1aZ2anNZHWj8y8rDypI98=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=Fey3hA7Bxpx073u7ov+1L0cHFcsC3FrNHktxJqdmSdkIX0qE6bNhaeeRWpSogXxVh1kj25kOeECAgfB7gxkO/irnOV/MVPX2Vk1xqSahar6rbX+rjogQtpb+JiPVBdoE+grTxEOBnGQwYt7T86YcngiWjIJO6vFawyjLCSl+2JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=FyEeWQ8i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763424397; c=relaxed/simple;
+	bh=rk9BkAFB9pdLx2olw5XHN6msU0jlCk1qBAL54eaWXh0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jMpxH/gCSv1x8UgNb9vN8ntxpzsMr2L44G2HPM2AnEe7rnjZjGrF12Xt9jIeoIE/21sdH2v3DY1RpMlCLyZR11WVlYGSy5/xGGmO8bXqabekSCIgm17+F2/LZ4/LY1dYQrtgS14S66h/wdIVbsxUIoo2wkFi2SFCHrFExBzaRLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3qgVtAJ3; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="FyEeWQ8i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24759C4CEFB;
-	Mon, 17 Nov 2025 22:43:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1763419416;
-	bh=fvcx/Gt9WjAEJUY/t8KcGE1aZ2anNZHWj8y8rDypI98=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FyEeWQ8iSZBK+XnCJYC79Ys+cl+vTmK23FjMTSIBT8qxfqwAdGJWPQrUDKKb25F3X
-	 9LOCFYq7rd7q0KO1765OIQTvs/NItDf3p96v++AKHzUHor95T0Ma5HfgoXwMW2St7d
-	 Ck8Z+BeQg9aiz6mwKaoXhpAMMmJ5dCexanDIw1M8=
-Date: Mon, 17 Nov 2025 14:43:32 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@redhat.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Steven Rostedt
- <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Zi Yan <ziy@nvidia.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, Ryan
- Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
- <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, Andrei
- Vagin <avagin@gmail.com>
-Subject: Re: [PATCH v3 3/8] mm: implement sticky VMA flags
-Message-Id: <20251117144332.d338e8368d59c3ab665db986@linux-foundation.org>
-In-Reply-To: <cf58c518-05d0-494f-8fe4-571879834031@lucifer.local>
-References: <cover.1762531708.git.lorenzo.stoakes@oracle.com>
-	<1ee529ff912f71b3460d0d21bc5b32ca89d63513.1762531708.git.lorenzo.stoakes@oracle.com>
-	<cf58c518-05d0-494f-8fe4-571879834031@lucifer.local>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3qgVtAJ3"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7ba55660769so3164006b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 16:06:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1763424394; x=1764029194; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1v4fRZdVLhKe/ktZvpTDlH6fFhc+2rF0aLfRAFXmPdc=;
+        b=3qgVtAJ3lvQRcYfWoRq16P3YXc5lv2KdpdEBCVnTc76+vq3jnAQ5/Xb869vp0ltXgn
+         ZhfxgUDMpZfOOJJoMyMsXVUsV+u3ohEWeR6b0S3+GSqlsNi/SZmk+POZ48b7jlDdCTI+
+         N+wB3ezS9PmMBZVSOSkh3Xf8kSIagm1Z3t3mxk2BtHy1zOuVp3kg+/nRO3JwnGsYiM1w
+         HaSRhz4bEo7mtvYnagaLWI5gCu/3bftl//4Ev9kzy4L6aoE3fJp1WK/1v62Jo81osa1P
+         7u5CumnDkhogztvL0KQyLnuiJUZ1xUqabpET3vqkOZaGSUBRqaTDvzXsEdnP0TtTl75d
+         qcLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763424394; x=1764029194;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1v4fRZdVLhKe/ktZvpTDlH6fFhc+2rF0aLfRAFXmPdc=;
+        b=i//il8uSMuCaCjdJ9spUowCSrXivrY8gD0wjax/uZSvFxUesdJE/yjj6jEvEzYaG+T
+         tBv6SjL4trhvTkia7rQm9Ycyx1tiDtvMLjh8IfCPObBoBMmFe+5h7PMuEy0l4KjscUxT
+         yHkHYlyRCcC0GVWZLciBU1OGlSAnPyNKL+rE+Epuq6Ya1oS6vk3JWqq1NOly3vpnzj4c
+         5uNOb6cZFE3RSAfGwhUw8Z+gfWzKilJKuUzTTclZDSetqD1ZWo5pGcHTHGHjvZ5TFM79
+         Cng7fKV4ojZYEE2CGIPfyt+xtVOHjI4iyVQlCci33GsEnCci3sdg7IL7nDnU2eior4cY
+         qr+A==
+X-Forwarded-Encrypted: i=1; AJvYcCU755tcvTeDGLitZv3AWGSrHo1ljaxbmt/jPX2t2PoeFFMYJidcBLWieF6wLD0ktuI8+/qttEylGvg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0bydxVeEU3fjXXnmj408fXZ87oVknr1w7+6OASKMIjhfZpmrp
+	uISvU/v660t8x2DxJoeaMsKwUkLUCoPRdE+vIbNkfCeRsLMIlPRLDkhCb2PQPcOsVA==
+X-Gm-Gg: ASbGnctNkZwxGdVj2GOaR58T4ohD6X9iUee9cjguWbWrWwahXo/KGiBDAtwmFqslFV1
+	MQrci6WNzsdS51nosdXJ5wJgoKo6abCkeoc9iUIl6mr6Hro062953OxklrS4Z3Q0q0YrTdRgeVJ
+	vaJsGDWpmifBBmCAL9fjPknSsi9Nl4fZ1CUpfn6x4ydsr2GTre+IMdl9Dufr4bOCZYQaWkNC/80
+	xC+4nVSYmL2M+yhibSXXzNGifMEPD7m6tUni4qDdCw0XsWFLqbpjnjReJqfQfs2hQcj6RUyNBrK
+	PCZd3whB4QkyFcYmVZM2M+uh1Glb5E3ip86XqkisIdno0RHdHvr3vZDZR/LqUSwxPh+YSUVOv5A
+	BDUt0Z1pKwmaP0Q7KfZXaFpywsUELhM04iJoZRAzPj/WQzxP2hLz/8ojQ6kmtH5JKn8eFNGpgR+
+	zSdV2Z1w7IrAJUg5xu2c8ynIQQsZj/9WCSmiIEav2PHukBFedP45TXVCJJz6DgOTU=
+X-Google-Smtp-Source: AGHT+IHkJBvRbGUG30Kr3T5gR1UjB+qV085NIT1CUVV/7jNIJcaOzKed5XoscCfn8280NZXc0GRAQQ==
+X-Received: by 2002:a05:6a00:2d1e:b0:7b8:c7f7:645e with SMTP id d2e1a72fcca58-7ba3c07eeebmr19714686b3a.17.1763424393959;
+        Mon, 17 Nov 2025 16:06:33 -0800 (PST)
+Received: from google.com (132.200.185.35.bc.googleusercontent.com. [35.185.200.132])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b924be37fbsm14602912b3a.1.2025.11.17.16.06.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Nov 2025 16:06:33 -0800 (PST)
+Date: Tue, 18 Nov 2025 00:06:28 +0000
+From: David Matlack <dmatlack@google.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	rppt@kernel.org, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v6 18/20] selftests/liveupdate: Add kexec-based selftest
+ for session lifecycle
+Message-ID: <aRu4hBPz2g-cealt@google.com>
+References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
+ <20251115233409.768044-19-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251115233409.768044-19-pasha.tatashin@soleen.com>
 
-On Mon, 17 Nov 2025 20:02:03 +0000 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+On 2025-11-15 06:34 PM, Pasha Tatashin wrote:
 
-> Sorry to be a pain here, and can respin if it's easier, but can we update the
-> text of the comments below? As in discussion with Liam off-list we agreed that
-> the current wording is rather unclear and we can do a lot better.
-> 
-> I provide the improved version inline below:
+> +/* Stage 1: Executed before the kexec reboot. */
+> +static void run_stage_1(int luo_fd)
+> +{
+> +	int session_fd;
+> +
+> +	ksft_print_msg("[STAGE 1] Starting pre-kexec setup...\n");
+> +
+> +	ksft_print_msg("[STAGE 1] Creating state file for next stage (2)...\n");
+> +	create_state_file(luo_fd, STATE_SESSION_NAME, STATE_MEMFD_TOKEN, 2);
+> +
+> +	ksft_print_msg("[STAGE 1] Creating session '%s' and preserving memfd...\n",
+> +		       TEST_SESSION_NAME);
+> +	session_fd = luo_create_session(luo_fd, TEST_SESSION_NAME);
+> +	if (session_fd < 0)
+> +		fail_exit("luo_create_session for '%s'", TEST_SESSION_NAME);
+> +
+> +	if (create_and_preserve_memfd(session_fd, TEST_MEMFD_TOKEN,
+> +				      TEST_MEMFD_DATA) < 0) {
+> +		fail_exit("create_and_preserve_memfd for token %#x",
+> +			  TEST_MEMFD_TOKEN);
+> +	}
+> +
+> +	ksft_print_msg("[STAGE 1] Executing kexec...\n");
+> +	if (system(KEXEC_SCRIPT) != 0)
+> +		fail_exit("kexec script failed");
+> +	exit(EXIT_FAILURE);
 
-np,
+Can we separate the kexec from the test and allow the user/automation to
+trigger it however is appropriate for their system? The current
+do_kexec.sh script does not do any sort of graceful shutdown, and I bet
+everyone will have different ways of initiating kexec on their systems.
 
- include/linux/mm.h               |    7 +++----
- tools/testing/vma/vma_internal.h |    7 +++----
- 2 files changed, 6 insertions(+), 8 deletions(-)
+For example, something like this (but sleeping in the child instead of
+busy waiting):
 
---- a/include/linux/mm.h~mm-implement-sticky-vma-flags-fix-2
-+++ a/include/linux/mm.h
-@@ -549,10 +549,9 @@ extern unsigned int kobjsize(const void
-  *                pressure on the memory system forcing the kernel to generate
-  *                new VMAs when old one could be extended instead.
-  *
-- *    VM_STICKY - If one VMA has flags which most be 'sticky', that is ones
-- *                which should propagate to all VMAs, but the other does not,
-- *                the merge should still proceed with the merge logic applying
-- *                sticky flags to the final VMA.
-+ *    VM_STICKY - When merging VMAs, VMA flags must match, unless they are
-+ *                'sticky'. If any sticky flags exist in either VMA, we simply
-+ *                set all of them on the merged VMA.
-  */
- #define VM_IGNORE_MERGE (VM_SOFTDIRTY | VM_STICKY)
+diff --git a/tools/testing/selftests/liveupdate/luo_kexec_simple.c b/tools/testing/selftests/liveupdate/luo_kexec_simple.c
+index 67ab6ebf9eec..513693bfb77b 100644
+--- a/tools/testing/selftests/liveupdate/luo_kexec_simple.c
++++ b/tools/testing/selftests/liveupdate/luo_kexec_simple.c
+@@ -24,6 +24,7 @@
+ static void run_stage_1(int luo_fd)
+ {
+ 	int session_fd;
++	int ret;
  
---- a/tools/testing/vma/vma_internal.h~mm-implement-sticky-vma-flags-fix-2
-+++ a/tools/testing/vma/vma_internal.h
-@@ -139,10 +139,9 @@ extern unsigned long dac_mmap_min_addr;
-  *                pressure on the memory system forcing the kernel to generate
-  *                new VMAs when old one could be extended instead.
-  *
-- *    VM_STICKY - If one VMA has flags which most be 'sticky', that is ones
-- *                which should propagate to all VMAs, but the other does not,
-- *                the merge should still proceed with the merge logic applying
-- *                sticky flags to the final VMA.
-+ *    VM_STICKY - When merging VMAs, VMA flags must match, unless they are
-+ *                'sticky'. If any sticky flags exist in either VMA, we simply
-+ *                set all of them on the merged VMA.
-  */
- #define VM_IGNORE_MERGE (VM_SOFTDIRTY | VM_STICKY)
+ 	ksft_print_msg("[STAGE 1] Starting pre-kexec setup...\n");
  
-_
+@@ -42,10 +43,17 @@ static void run_stage_1(int luo_fd)
+ 			  TEST_MEMFD_TOKEN);
+ 	}
+ 
+-	ksft_print_msg("[STAGE 1] Executing kexec...\n");
+-	if (system(KEXEC_SCRIPT) != 0)
+-		fail_exit("kexec script failed");
+-	exit(EXIT_FAILURE);
++	ksft_print_msg("[STAGE 1] Forking child process to hold session open\n");
++	ret = fork();
++	if (ret < 0)
++		fail_exit("fork() failed");
++	if (!ret)
++		for (;;) {}
++
++	ksft_print_msg("[STAGE 1] Child Process: %d\n", ret);
++	ksft_print_msg("[STAGE 1] Complete!\n");
++	ksft_print_msg("[STAGE 1] Execute kexec to continue\n");
++	exit(0);
+ }
+ 
+ /* Stage 2: Executed after the kexec reboot. */
 
+> +int main(int argc, char *argv[])
+> +{
+> +	int luo_fd;
+> +	int state_session_fd;
+> +
+> +	luo_fd = luo_open_device();
+> +	if (luo_fd < 0)
+> +		ksft_exit_skip("Failed to open %s. Is the luo module loaded?\n",
+> +			       LUO_DEVICE);
+> +
+> +	/*
+> +	 * Determine the stage by attempting to retrieve the state session.
+> +	 * If it doesn't exist (ENOENT), we are in Stage 1 (pre-kexec).
+> +	 */
+> +	state_session_fd = luo_retrieve_session(luo_fd, STATE_SESSION_NAME);
+
+I don't think the test should try to infer the stage from the state of
+the system. If a user runs this test, then does the kexec, then runs
+this test again and the session can't be retrieved, that should be a
+test failure (not just run stage 1 again).
+
+I think it'd be better to require the user to pass in what stage of the
+test should be run when invoking the test. e.g.
+
+ $ ./luo_kexec_simple stage_2
