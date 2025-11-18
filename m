@@ -1,62 +1,64 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C159925A633
-	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 00:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BC7267B02
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 00:24:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763425479; cv=none; b=oSDblD2V3uesXjD/WtvWve8oMQtJ/PvgtUnQyTcbptYiAvWuQTJRLUXq25TbV3w3Hb6HCU17gzwMVtcHdv29sS0eUV54ecrwFpYf+jRlRyMF1bxmTr4T6TN9lDF5vXcqQN3wfT3aZiJ03SVjdb7iNkX2ncQjkRjzOz1etwAk1WE=
+	t=1763425482; cv=none; b=EhJYp5ZnWSbPvtBq4dozJODlcUG2N3a7HiYOYNsUXDT1NBpZ6xE9ACS86dVisjTdPt33iU+VBvGQOOXeCZ+64BwwkeTv6zTME4/3xsV2YXHEAnFHuvQA1YnfZW+R7oRlOJyq57tgS8tNeQLyVa+e68+Feq/18TGHP7N0j9PXTGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763425479; c=relaxed/simple;
-	bh=t5qlC/z0jbPcIgQmc6xi5TA+xYD1USfzHwCFjZ9ECdc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MC1ycVLEGaeZwgqU937uyIuUM3I5LxCYgCIoSvzvWrw1TPnP4sVh06BCprSxPdXrhSSfP0bqcjjmuFGeym4tnMyOXgvV9PAZz8F7lciteXHy33ZupxIVt1RoOyNX5mTKlo8xS5FIMU71z3eGUefdnj6En2BicQ9CfkytJYBSBhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Atn02gD1; arc=none smtp.client-ip=74.125.224.50
+	s=arc-20240116; t=1763425482; c=relaxed/simple;
+	bh=1xbWQAE5+xyEQZzMn9qi0tA16JVq4xNMa5Ez6PtOzxk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Rqzq+qMmpaxsF2HtKHfc0YAkArBmHKZ6MepbqxKHHMAJuXVf8eJE4mC/mgxTAQqmSTUYkSLFqrelufGQSGaQg5sbBmBWr1RwD/0vocYcm9SaTMWjNXoF/3cD7yfhA5zvvCe0wkZwvwCEJGezHkriDFULWAkB3al5aVVI464tLaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HogIyrAD; arc=none smtp.client-ip=74.125.224.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Atn02gD1"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-63e1e1bf882so4170876d50.1
-        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 16:24:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HogIyrAD"
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-641e4744e59so3695699d50.2
+        for <linux-doc@vger.kernel.org>; Mon, 17 Nov 2025 16:24:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763425477; x=1764030277; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p0UP7FJ+3v7dtudpFsNUQFNBayZALtyMMn0oBcAVymM=;
-        b=Atn02gD1chJz74pkB+VhtbATPQAw40Z1z5+lfhVcacqsDIxGrmy/XXAVaBVXgVR33z
-         XHvA4m4GiP3feC6y1ohPbnDZOA0wkgB9gY2gtl3xuN29y3WIQJHilANxwkLbtulJ8w8j
-         bQ5+i9+cIMwaqetz79Sb3AcUssQeGX12xngb2Wj8sJv/U6H3GK6BEuWEXFGZS6+pqsg3
-         YuCUI2NLHl3gBcDtac4KM5nbxpS0AFLALCe+x/VyQG88h6WlRyFYrBgzM3d+aeCxAzJv
-         Xu6CftzfLIJjBpwwoorFt61NNgb07/Xes0iKKFhFjSd1rwSqxxEqhkU7NCOVmjLdmiPG
-         CQaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763425477; x=1764030277;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1763425479; x=1764030279; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p0UP7FJ+3v7dtudpFsNUQFNBayZALtyMMn0oBcAVymM=;
-        b=JMYhy5FiiJfaIFGRa0SVKqMVomBqkLUaPG5VjC8OwTyNehXCj+VNSLtG5CbROr7ojR
-         CRWHGBSMHIwY9ZeI87PQOFzZkEp/sD3VsYKl/rG1HB9MWLIffajtOKtZLlBeFq0xb4VQ
-         RgO/FNwu5yyWIzBXXxaawzU7Jep+OcYend6proEwzBu5ZwiMsOqQz2rCiUXTmZbXUPbh
-         JSU/ksOEdSCheE0tFKANoFmj5DdIXG2xhZLkFY39kbRkedi+UkYggKFJSalyR1+GsKgK
-         wyL7pnsk08rLubnmLO+YxntMOFnQ5Lr/U0qTvnu8+mRk1Sk29kJvmKoT7DH0G15CDZvf
-         ZuFg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZeYWNhUgOWs3NE3ej5g3l9Gy1keWYn5HcN8pcNXyHh3qZNDPqNLkqQwPoZTttNPw1GIp1iSDom74=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeGZZ9yfvApWqrqz6RWiALuGD57+hWIbnywInaZSP14bqDS0GP
-	ub2BGWgJz8CYqcgj1lazsaJ02mCl1LStknCj99uTUIfczEexxIpGZmsg
-X-Gm-Gg: ASbGncuWUGlubFeWe88xFGqlSkgKHdApeBI5pX1iez5i+2ANhpM6WB+iLUZjrBgHzNi
-	8c5RZPqgrdapLuLvp5X2/i//C+Yb7bdhaR7ah7uvugNFKl0up4IFF3s1B7lbc+GS/CdNqjXzdbv
-	4LqZ3DlQLKfzi5PpWn8FwQm0fDbNLkby27UHsThyqQ85zVdvRQqyAo5oDvfMEeKcJBvCXomypcW
-	VPU0l+0xj9WU34dFxzMH7HB9UNhRX6cm/fPesmjN7DusRuiDQY3svfp1hajF6YyMKFflGyApps8
-	dFDdjHknj9pybb3bvzhi0D6B6HbBWuKv4LlXPOEr8HAxeTUSRo7+f1oz99XKu5PmNCLNpWA9SY7
-	jUYOyEhiB6nBgKJ2FNXGgsmR45yhrhNm9vwle3f68DXyx5hDW5bQiS7Xfs+PC2tQ/D6YcUFjedw
-	zs/yIau485DCYj3RN+ZpGeWY9kPl10wHY=
-X-Google-Smtp-Source: AGHT+IF09w2yBxQlT5cuZ8Zztc5mXfSzI+lOaJf05Wl57QjCQS10rQlMLicMrBGLYzfxkfyy4w2WyA==
-X-Received: by 2002:a05:690c:6810:b0:786:5f03:2b33 with SMTP id 00721157ae682-78929dff31dmr252313157b3.1.1763425476694;
-        Mon, 17 Nov 2025 16:24:36 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:70::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78821e5d6d3sm46794597b3.25.2025.11.17.16.24.34
+        bh=1ljCssSW6IWc47fAOpN2D2O5CGmYwlG9vfoURuWTtT0=;
+        b=HogIyrADbmPESE46oZxK8JFdgnvbzxdsgvfb2Dk4+67mNgiK7db2/8szXJxFRP8C/F
+         r8GaPASyUYm+0J+r0tVdYocNHIefhIGHA1eJpDt2D19qIqYJcui0NeSZfPgTu5LXDjRj
+         rWpV84AMgPxMfBHFstSDW/XM/E/zFL0u3VeTIP4jy83ukHtfJo26VyNgjyEVrC3Gks9m
+         pG9jvSCuuVfitsSoXce1vu6jkYgtVIf+s3iujpG6+9FUgJl4Xs43fQYJJ4oBGfjt9dgh
+         7lASvirAVH9KFJ8sAhS5ns0cFkNXZFPHnio1jlONrt3JzjS0gKNZmaIgx+RMFOeJwfZA
+         GxFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763425479; x=1764030279;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1ljCssSW6IWc47fAOpN2D2O5CGmYwlG9vfoURuWTtT0=;
+        b=YOmhFEJTId3Hy8+nCFiXVql023Kw6wTBTd1XuoFKMhvO/Gidu1zZbrpcdzLfjyiNVn
+         CE1oLVOwnhbO1kJx0jj8a+BUK3b/WyMBefmdIr3pdZssXWkX2P7OeJzOj4JaI0VoG8Iu
+         2GVVtvtBzzKRYdki5/vQyCrJWi0juqccaJdAzheyvkY9VGxAlqnApiXHuhuJhhdhtlxN
+         dtOeWZ3MGPGYresqTXDufOSH1pdVetPvVgPT4lgNhpRjJWjmJYE9A/7jAJyCJOLzvC1o
+         WgrGm7srJ4aGTSZBdKJK0PjcPONK14aWssbF6ca8TZXVM4WffnJkbKmZs0SpYcOl/7tW
+         yW5g==
+X-Forwarded-Encrypted: i=1; AJvYcCWPo9I2xvFaKx1u66iiZQ6onIsOoK9cg5l3idHt0nCYiJ23ZUaaPJGwW+Ga1KspZJ+3QuGJI8slUj0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywl4RQceMNTyBofWwuD0KFB82sbKhe4SwYZ7I0j+xLqeUaZMrEX
+	iA84Y8lOMSZSv94oXQhFT6yO9pACh3z6ivK19UtYAIq3xQ5ZWc+TMhOT
+X-Gm-Gg: ASbGnctQ0gxsqMd33KnwAvzJeboL8fZsdVLECLL0Sv6u17rAmVp9GpnSHUQg3tIpR2C
+	KjpgzWwLg3OeNTe91YBfxD3NDB6/eP5u7xblNXs43rmCxbhgLat0i2iyXqxflhhG1vAj/bl5SdX
+	ujal/NsuFOUIkhkSZ9OhogzuCuMx5/ezNyMlendp4eNm+Yb7vto823WgetPDCi9f1zG3QHxzwmZ
+	VqdzdDFvoz5EoidJ5U6dVQz41tLeL0kCT+RD2hZ4CqFkoKwwrxpFUk1Fk2o9fo7RZYUdE+AveCi
+	bNZaZrXnlAbi0e4MYp17ZIETKD/rIp1/R/lRr9+AoRT00C8+HFGN5cZcgGkokexMxh2Bb1jRp7K
+	JyTeKBZMGttP9jOparOG1/A9ySQFjQOwgHXrUTx1USDH+/a0YRC6Mu8a1V3jnIcyXPEGDqZRfdR
+	/na9t2vK5ViVbmXNGprBnmgm5IiIGUwbM=
+X-Google-Smtp-Source: AGHT+IFlvwk4VDAaYQ4YpgCFG2GfRVSt+h8HOauqPq8NkfD79+BO4q1nyulC+CFWo0Dly6F3lh0f2Q==
+X-Received: by 2002:a53:c04a:0:10b0:640:6d2f:468d with SMTP id 956f58d0204a3-641e76a1556mr9866021d50.43.1763425479284;
+        Mon, 17 Nov 2025 16:24:39 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:48::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78821e76af5sm47260047b3.27.2025.11.17.16.24.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 16:24:35 -0800 (PST)
+        Mon, 17 Nov 2025 16:24:37 -0800 (PST)
 From: Daniel Zahka <daniel.zahka@gmail.com>
 To: Jiri Pirko <jiri@resnulli.us>,
 	"David S. Miller" <davem@davemloft.net>,
@@ -105,10 +107,12 @@ To: Jiri Pirko <jiri@resnulli.us>,
 Cc: netdev@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-rdma@vger.kernel.org
-Subject: [PATCH net-next v4 0/6] devlink: net/mlx5: implement swp_l4_csum_mode via devlink params
-Date: Mon, 17 Nov 2025 16:24:26 -0800
-Message-ID: <20251118002433.332272-1-daniel.zahka@gmail.com>
+Subject: [PATCH net-next v4 1/6] devlink: pass extack through to devlink_param::get()
+Date: Mon, 17 Nov 2025 16:24:27 -0800
+Message-ID: <20251118002433.332272-2-daniel.zahka@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251118002433.332272-1-daniel.zahka@gmail.com>
+References: <20251118002433.332272-1-daniel.zahka@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -117,151 +121,605 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series introduces a new devlink feature for querying param
-default values, and resetting params to their default values. This
-feature is then used to implement a new mlx5 driver param.
+Allow devlink_param::get() handlers to report error messages via
+extack. This function is called in a few different contexts, but not
+all of them will have an valid extack to use.
 
-The series starts with two pure refactor patches: one that passes
-through the extack to devlink_param::get() implementations. And a
-second small refactor that prepares the netlink tlv handling code in
-the devlink_param::get() path to better handle default parameter
-values.
+When devlink_param::get() is called from param_get_doit or
+param_get_dumpit contexts, pass the extack through so that drivers can
+report errors when retrieving param values. devlink_param::get() is
+called from the context of devlink_param_notify(), pass NULL in for
+the extack.
 
-The third patch introduces the uapi and driver api for default
-parameter values. The driver api is opt-in, and both the uapi and
-driver api preserve existing behavior when not used by drivers or
-older userapace binaries.
+Reviewed-by: Saeed Mahameed <saeedm@nvidia.com>
+Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
+---
 
-The fourth patch introduces the a new mlx5 driver param,
-swp_l4_csum_mode, for controlling tx csum behavior. The "l4_only"
-value of this param is a dependency for PSP initialization on CX7
-NICs.
+Notes:
+    v3:
+    - fix warnings about undocumented param in intel ice driver
 
-Lastly, the series introduces a new driver param with cmode runtime to
-netdevsim, and then uses this param in a new testcase for netdevsim
-devlink params.
+ .../marvell/octeontx2/otx2_cpt_devlink.c      |  6 ++++--
+ drivers/net/ethernet/amd/pds_core/core.h      |  3 ++-
+ drivers/net/ethernet/amd/pds_core/devlink.c   |  3 ++-
+ .../net/ethernet/broadcom/bnxt/bnxt_devlink.c |  6 ++++--
+ .../net/ethernet/intel/i40e/i40e_devlink.c    |  3 ++-
+ .../net/ethernet/intel/ice/devlink/devlink.c  | 14 ++++++++++----
+ .../marvell/octeontx2/af/rvu_devlink.c        | 15 ++++++++++-----
+ .../marvell/octeontx2/nic/otx2_devlink.c      |  6 ++++--
+ drivers/net/ethernet/mellanox/mlx4/main.c     |  6 ++++--
+ .../net/ethernet/mellanox/mlx5/core/eswitch.c |  3 ++-
+ .../mellanox/mlx5/core/eswitch_offloads.c     |  3 ++-
+ .../net/ethernet/mellanox/mlx5/core/fs_core.c |  3 ++-
+ .../ethernet/mellanox/mlx5/core/fw_reset.c    |  3 ++-
+ .../mellanox/mlx5/core/lib/nv_param.c         |  9 ++++++---
+ .../mellanox/mlxsw/spectrum_acl_tcam.c        |  3 ++-
+ .../ethernet/netronome/nfp/devlink_param.c    |  3 ++-
+ drivers/net/ethernet/qlogic/qed/qed_devlink.c |  3 ++-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |  3 ++-
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      |  3 ++-
+ drivers/net/ethernet/ti/cpsw_new.c            |  6 ++++--
+ drivers/net/wwan/iosm/iosm_ipc_devlink.c      |  3 ++-
+ include/net/devlink.h                         |  3 ++-
+ include/net/dsa.h                             |  3 ++-
+ net/devlink/param.c                           | 19 +++++++++++--------
+ net/dsa/devlink.c                             |  3 ++-
+ 25 files changed, 89 insertions(+), 46 deletions(-)
 
-Here are some examples of using the default param uapi with the devlink
-cli. Note the devlink cli binary I am using has changes which I am
-posting in accompanying series targeting iproute2-next:
-
-  # netdevsim
-./devlink dev param show netdevsim/netdevsim0
-netdevsim/netdevsim0:
-  name max_macs type generic
-    values:
-      cmode driverinit value 32 default 32
-  name test1 type driver-specific
-    values:
-      cmode driverinit value true default true
-
-  # set to false
-./devlink dev param set netdevsim/netdevsim0 name test1 value false cmode driverinit
-./devlink dev param show netdevsim/netdevsim0
-netdevsim/netdevsim0:
-  name max_macs type generic
-    values:
-      cmode driverinit value 32 default 32
-  name test1 type driver-specific
-    values:
-      cmode driverinit value false default true
-
-  # set back to default
-./devlink dev param set netdevsim/netdevsim0 name test1 default cmode driverinit
-./devlink dev param show netdevsim/netdevsim0
-netdevsim/netdevsim0:
-  name max_macs type generic
-    values:
-      cmode driverinit value 32 default 32
-  name test1 type driver-specific
-    values:
-      cmode driverinit value true default true
-
- # mlx5 params on cx7
-./devlink dev param show pci/0000:01:00.0
-pci/0000:01:00.0:
-  name max_macs type generic
-    values:
-      cmode driverinit value 128 default 128
-...
-  name swp_l4_csum_mode type driver-specific
-    values:
-      cmode permanent value default default default
-
-  # set to l4_only
-./devlink dev param set pci/0000:01:00.0 name swp_l4_csum_mode value l4_only cmode permanent
-./devlink dev param show pci/0000:01:00.0 name swp_l4_csum_mode
-pci/0000:01:00.0:
-  name swp_l4_csum_mode type driver-specific
-    values:
-      cmode permanent value l4_only default default
-
-  # reset to default
-./devlink dev param set pci/0000:01:00.0 name swp_l4_csum_mode default cmode permanent
-./devlink dev param show pci/0000:01:00.0 name swp_l4_csum_mode
-pci/0000:01:00.0:
-  name swp_l4_csum_mode type driver-specific
-    values:
-      cmode permanent value default default default
-
-CHANGES:
-v4:
-  - add test case for default params.
-  - add new cmode runtime test param to netdevsim.
-  - introduce uapi and driver api for supporting default param values.
-  - rename device_default to default in mlx5 patch.
-v3: https://lore.kernel.org/netdev/20251107204347.4060542-1-daniel.zahka@gmail.com/
-  - fix warnings about undocumented param in intel ice driver
-v2: https://lore.kernel.org/netdev/20251103194554.3203178-1-daniel.zahka@gmail.com/
-  - fix indentation issue in new mlx5.rst entry
-  - use extack in mlx5_nv_param_devlink_swp_l4_csum_mode_get()
-  - introduce extack patch.
-v1: https://lore.kernel.org/netdev/20251022190932.1073898-1-daniel.zahka@gmail.com/
-
-Daniel Zahka (6):
-  devlink: pass extack through to devlink_param::get()
-  devlink: refactor devlink_nl_param_value_fill_one()
-  devlink: support default values for param-get and param-set
-  net/mlx5: implement swp_l4_csum_mode via devlink params
-  netdevsim: register a new devlink param with default value interface
-  selftest: netdevsim: test devlink default params
-
- Documentation/netlink/specs/devlink.yaml      |   9 +
- .../networking/devlink/devlink-params.rst     |  10 +
- Documentation/networking/devlink/mlx5.rst     |  14 ++
- .../marvell/octeontx2/otx2_cpt_devlink.c      |   6 +-
- drivers/net/ethernet/amd/pds_core/core.h      |   3 +-
- drivers/net/ethernet/amd/pds_core/devlink.c   |   3 +-
- .../net/ethernet/broadcom/bnxt/bnxt_devlink.c |   6 +-
- .../net/ethernet/intel/i40e/i40e_devlink.c    |   3 +-
- .../net/ethernet/intel/ice/devlink/devlink.c  |  14 +-
- .../marvell/octeontx2/af/rvu_devlink.c        |  15 +-
- .../marvell/octeontx2/nic/otx2_devlink.c      |   6 +-
- drivers/net/ethernet/mellanox/mlx4/main.c     |   6 +-
- .../net/ethernet/mellanox/mlx5/core/devlink.h |   3 +-
- .../net/ethernet/mellanox/mlx5/core/eswitch.c |   3 +-
- .../mellanox/mlx5/core/eswitch_offloads.c     |   3 +-
- .../net/ethernet/mellanox/mlx5/core/fs_core.c |   3 +-
- .../ethernet/mellanox/mlx5/core/fw_reset.c    |   3 +-
- .../mellanox/mlx5/core/lib/nv_param.c         | 238 +++++++++++++++++-
- .../mellanox/mlxsw/spectrum_acl_tcam.c        |   3 +-
- .../ethernet/netronome/nfp/devlink_param.c    |   3 +-
- drivers/net/ethernet/qlogic/qed/qed_devlink.c |   3 +-
- .../net/ethernet/stmicro/stmmac/stmmac_main.c |   3 +-
- drivers/net/ethernet/ti/am65-cpsw-nuss.c      |   3 +-
- drivers/net/ethernet/ti/cpsw_new.c            |   6 +-
- drivers/net/netdevsim/dev.c                   |  55 ++++
- drivers/net/netdevsim/netdevsim.h             |   1 +
- drivers/net/wwan/iosm/iosm_ipc_devlink.c      |   3 +-
- include/net/devlink.h                         |  45 +++-
- include/net/dsa.h                             |   3 +-
- include/uapi/linux/devlink.h                  |   3 +
- net/devlink/netlink_gen.c                     |   5 +-
- net/devlink/param.c                           | 180 +++++++++----
- net/dsa/devlink.c                             |   3 +-
- .../drivers/net/netdevsim/devlink.sh          | 113 ++++++++-
- 34 files changed, 689 insertions(+), 91 deletions(-)
-
+diff --git a/drivers/crypto/marvell/octeontx2/otx2_cpt_devlink.c b/drivers/crypto/marvell/octeontx2/otx2_cpt_devlink.c
+index 215a1a8ba7e9..07a74f702c3a 100644
+--- a/drivers/crypto/marvell/octeontx2/otx2_cpt_devlink.c
++++ b/drivers/crypto/marvell/octeontx2/otx2_cpt_devlink.c
+@@ -24,7 +24,8 @@ static int otx2_cpt_dl_egrp_delete(struct devlink *dl, u32 id,
+ }
+ 
+ static int otx2_cpt_dl_uc_info(struct devlink *dl, u32 id,
+-			       struct devlink_param_gset_ctx *ctx)
++			       struct devlink_param_gset_ctx *ctx,
++			       struct netlink_ext_ack *extack)
+ {
+ 	ctx->val.vstr[0] = '\0';
+ 
+@@ -32,7 +33,8 @@ static int otx2_cpt_dl_uc_info(struct devlink *dl, u32 id,
+ }
+ 
+ static int otx2_cpt_dl_t106_mode_get(struct devlink *dl, u32 id,
+-				     struct devlink_param_gset_ctx *ctx)
++				     struct devlink_param_gset_ctx *ctx,
++				     struct netlink_ext_ack *extack)
+ {
+ 	struct otx2_cpt_devlink *cpt_dl = devlink_priv(dl);
+ 	struct otx2_cptpf_dev *cptpf = cpt_dl->cptpf;
+diff --git a/drivers/net/ethernet/amd/pds_core/core.h b/drivers/net/ethernet/amd/pds_core/core.h
+index 0b53a1fab46d..4a6b35c84dab 100644
+--- a/drivers/net/ethernet/amd/pds_core/core.h
++++ b/drivers/net/ethernet/amd/pds_core/core.h
+@@ -255,7 +255,8 @@ int pdsc_dl_flash_update(struct devlink *dl,
+ 			 struct devlink_flash_update_params *params,
+ 			 struct netlink_ext_ack *extack);
+ int pdsc_dl_enable_get(struct devlink *dl, u32 id,
+-		       struct devlink_param_gset_ctx *ctx);
++		       struct devlink_param_gset_ctx *ctx,
++		       struct netlink_ext_ack *extack);
+ int pdsc_dl_enable_set(struct devlink *dl, u32 id,
+ 		       struct devlink_param_gset_ctx *ctx,
+ 		       struct netlink_ext_ack *extack);
+diff --git a/drivers/net/ethernet/amd/pds_core/devlink.c b/drivers/net/ethernet/amd/pds_core/devlink.c
+index d8dc39da4161..b576be626a29 100644
+--- a/drivers/net/ethernet/amd/pds_core/devlink.c
++++ b/drivers/net/ethernet/amd/pds_core/devlink.c
+@@ -22,7 +22,8 @@ pdsc_viftype *pdsc_dl_find_viftype_by_id(struct pdsc *pdsc,
+ }
+ 
+ int pdsc_dl_enable_get(struct devlink *dl, u32 id,
+-		       struct devlink_param_gset_ctx *ctx)
++		       struct devlink_param_gset_ctx *ctx,
++		       struct netlink_ext_ack *extack)
+ {
+ 	struct pdsc *pdsc = devlink_priv(dl);
+ 	struct pdsc_viftype *vt_entry;
+diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c
+index 67ca02d84c97..15de802bbac4 100644
+--- a/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c
++++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c
+@@ -1086,7 +1086,8 @@ static int bnxt_hwrm_nvm_req(struct bnxt *bp, u32 param_id, void *msg,
+ }
+ 
+ static int bnxt_dl_nvm_param_get(struct devlink *dl, u32 id,
+-				 struct devlink_param_gset_ctx *ctx)
++				 struct devlink_param_gset_ctx *ctx,
++				 struct netlink_ext_ack *extack)
+ {
+ 	struct bnxt *bp = bnxt_get_bp_from_dl(dl);
+ 	struct hwrm_nvm_get_variable_input *req;
+@@ -1168,7 +1169,8 @@ static int bnxt_dl_msix_validate(struct devlink *dl, u32 id,
+ }
+ 
+ static int bnxt_remote_dev_reset_get(struct devlink *dl, u32 id,
+-				     struct devlink_param_gset_ctx *ctx)
++				     struct devlink_param_gset_ctx *ctx,
++				     struct netlink_ext_ack *extack)
+ {
+ 	struct bnxt *bp = bnxt_get_bp_from_dl(dl);
+ 
+diff --git a/drivers/net/ethernet/intel/i40e/i40e_devlink.c b/drivers/net/ethernet/intel/i40e/i40e_devlink.c
+index bc205e3077c7..229179ccc131 100644
+--- a/drivers/net/ethernet/intel/i40e/i40e_devlink.c
++++ b/drivers/net/ethernet/intel/i40e/i40e_devlink.c
+@@ -24,7 +24,8 @@ static int i40e_max_mac_per_vf_set(struct devlink *devlink,
+ 
+ static int i40e_max_mac_per_vf_get(struct devlink *devlink,
+ 				   u32 id,
+-				   struct devlink_param_gset_ctx *ctx)
++				   struct devlink_param_gset_ctx *ctx,
++				   struct netlink_ext_ack *extack)
+ {
+ 	struct i40e_pf *pf = devlink_priv(devlink);
+ 
+diff --git a/drivers/net/ethernet/intel/ice/devlink/devlink.c b/drivers/net/ethernet/intel/ice/devlink/devlink.c
+index 938914abbe06..d88b7f3fd1f9 100644
+--- a/drivers/net/ethernet/intel/ice/devlink/devlink.c
++++ b/drivers/net/ethernet/intel/ice/devlink/devlink.c
+@@ -610,11 +610,13 @@ static int ice_update_tx_topo_user_sel(struct ice_pf *pf, int layers)
+  * @devlink: pointer to the devlink instance
+  * @id: the parameter ID to set
+  * @ctx: context to store the parameter value
++ * @extack: netlink extended ACK structure
+  *
+  * Return: zero on success and negative value on failure.
+  */
+ static int ice_devlink_tx_sched_layers_get(struct devlink *devlink, u32 id,
+-					   struct devlink_param_gset_ctx *ctx)
++					   struct devlink_param_gset_ctx *ctx,
++					   struct netlink_ext_ack *extack)
+ {
+ 	struct ice_pf *pf = devlink_priv(devlink);
+ 	int err;
+@@ -1349,7 +1351,8 @@ static const struct devlink_ops ice_sf_devlink_ops;
+ 
+ static int
+ ice_devlink_enable_roce_get(struct devlink *devlink, u32 id,
+-			    struct devlink_param_gset_ctx *ctx)
++			    struct devlink_param_gset_ctx *ctx,
++			    struct netlink_ext_ack *extack)
+ {
+ 	struct ice_pf *pf = devlink_priv(devlink);
+ 	struct iidc_rdma_core_dev_info *cdev;
+@@ -1415,7 +1418,8 @@ ice_devlink_enable_roce_validate(struct devlink *devlink, u32 id,
+ 
+ static int
+ ice_devlink_enable_iw_get(struct devlink *devlink, u32 id,
+-			  struct devlink_param_gset_ctx *ctx)
++			  struct devlink_param_gset_ctx *ctx,
++			  struct netlink_ext_ack *extack)
+ {
+ 	struct ice_pf *pf = devlink_priv(devlink);
+ 	struct iidc_rdma_core_dev_info *cdev;
+@@ -1522,11 +1526,13 @@ static int ice_devlink_local_fwd_str_to_mode(const char *mode_str)
+  * @devlink: Pointer to the devlink instance.
+  * @id: The parameter ID to set.
+  * @ctx: Context to store the parameter value.
++ * @extack: netlink extended ACK structure
+  *
+  * Return: Zero.
+  */
+ static int ice_devlink_local_fwd_get(struct devlink *devlink, u32 id,
+-				     struct devlink_param_gset_ctx *ctx)
++				     struct devlink_param_gset_ctx *ctx,
++				     struct netlink_ext_ack *extack)
+ {
+ 	struct ice_pf *pf = devlink_priv(devlink);
+ 	struct ice_port_info *pi;
+diff --git a/drivers/net/ethernet/marvell/octeontx2/af/rvu_devlink.c b/drivers/net/ethernet/marvell/octeontx2/af/rvu_devlink.c
+index 3735372539bd..0f9953eaf1b0 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/af/rvu_devlink.c
++++ b/drivers/net/ethernet/marvell/octeontx2/af/rvu_devlink.c
+@@ -1233,7 +1233,8 @@ static int rvu_af_dl_dwrr_mtu_set(struct devlink *devlink, u32 id,
+ }
+ 
+ static int rvu_af_dl_dwrr_mtu_get(struct devlink *devlink, u32 id,
+-				  struct devlink_param_gset_ctx *ctx)
++				  struct devlink_param_gset_ctx *ctx,
++				  struct netlink_ext_ack *extack)
+ {
+ 	struct rvu_devlink *rvu_dl = devlink_priv(devlink);
+ 	struct rvu *rvu = rvu_dl->rvu;
+@@ -1259,7 +1260,8 @@ enum rvu_af_dl_param_id {
+ };
+ 
+ static int rvu_af_npc_exact_feature_get(struct devlink *devlink, u32 id,
+-					struct devlink_param_gset_ctx *ctx)
++					struct devlink_param_gset_ctx *ctx,
++					struct netlink_ext_ack *extack)
+ {
+ 	struct rvu_devlink *rvu_dl = devlink_priv(devlink);
+ 	struct rvu *rvu = rvu_dl->rvu;
+@@ -1314,7 +1316,8 @@ static int rvu_af_npc_exact_feature_validate(struct devlink *devlink, u32 id,
+ }
+ 
+ static int rvu_af_dl_npc_mcam_high_zone_percent_get(struct devlink *devlink, u32 id,
+-						    struct devlink_param_gset_ctx *ctx)
++						    struct devlink_param_gset_ctx *ctx,
++						    struct netlink_ext_ack *extack)
+ {
+ 	struct rvu_devlink *rvu_dl = devlink_priv(devlink);
+ 	struct rvu *rvu = rvu_dl->rvu;
+@@ -1376,7 +1379,8 @@ static int rvu_af_dl_npc_mcam_high_zone_percent_validate(struct devlink *devlink
+ }
+ 
+ static int rvu_af_dl_npc_def_rule_cntr_get(struct devlink *devlink, u32 id,
+-					   struct devlink_param_gset_ctx *ctx)
++					   struct devlink_param_gset_ctx *ctx,
++					   struct netlink_ext_ack *extack)
+ {
+ 	struct rvu_devlink *rvu_dl = devlink_priv(devlink);
+ 	struct rvu *rvu = rvu_dl->rvu;
+@@ -1402,7 +1406,8 @@ static int rvu_af_dl_npc_def_rule_cntr_set(struct devlink *devlink, u32 id,
+ }
+ 
+ static int rvu_af_dl_nix_maxlf_get(struct devlink *devlink, u32 id,
+-				   struct devlink_param_gset_ctx *ctx)
++				   struct devlink_param_gset_ctx *ctx,
++				   struct netlink_ext_ack *extack)
+ {
+ 	struct rvu_devlink *rvu_dl = devlink_priv(devlink);
+ 	struct rvu *rvu = rvu_dl->rvu;
+diff --git a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_devlink.c b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_devlink.c
+index e13ae5484c19..a72694219df4 100644
+--- a/drivers/net/ethernet/marvell/octeontx2/nic/otx2_devlink.c
++++ b/drivers/net/ethernet/marvell/octeontx2/nic/otx2_devlink.c
+@@ -48,7 +48,8 @@ static int otx2_dl_mcam_count_set(struct devlink *devlink, u32 id,
+ }
+ 
+ static int otx2_dl_mcam_count_get(struct devlink *devlink, u32 id,
+-				  struct devlink_param_gset_ctx *ctx)
++				  struct devlink_param_gset_ctx *ctx,
++				  struct netlink_ext_ack *extack)
+ {
+ 	struct otx2_devlink *otx2_dl = devlink_priv(devlink);
+ 	struct otx2_nic *pfvf = otx2_dl->pfvf;
+@@ -84,7 +85,8 @@ static int otx2_dl_ucast_flt_cnt_set(struct devlink *devlink, u32 id,
+ }
+ 
+ static int otx2_dl_ucast_flt_cnt_get(struct devlink *devlink, u32 id,
+-				     struct devlink_param_gset_ctx *ctx)
++				     struct devlink_param_gset_ctx *ctx,
++				     struct netlink_ext_ack *extack)
+ {
+ 	struct otx2_devlink *otx2_dl = devlink_priv(devlink);
+ 	struct otx2_nic *pfvf = otx2_dl->pfvf;
+diff --git a/drivers/net/ethernet/mellanox/mlx4/main.c b/drivers/net/ethernet/mellanox/mlx4/main.c
+index 03d2fc7d9b09..2de226951e19 100644
+--- a/drivers/net/ethernet/mellanox/mlx4/main.c
++++ b/drivers/net/ethernet/mellanox/mlx4/main.c
+@@ -174,7 +174,8 @@ MODULE_PARM_DESC(port_type_array, "Array of port types: HW_DEFAULT (0) is defaul
+ static atomic_t pf_loading = ATOMIC_INIT(0);
+ 
+ static int mlx4_devlink_ierr_reset_get(struct devlink *devlink, u32 id,
+-				       struct devlink_param_gset_ctx *ctx)
++				       struct devlink_param_gset_ctx *ctx,
++				       struct netlink_ext_ack *extack)
+ {
+ 	ctx->val.vbool = !!mlx4_internal_err_reset;
+ 	return 0;
+@@ -189,7 +190,8 @@ static int mlx4_devlink_ierr_reset_set(struct devlink *devlink, u32 id,
+ }
+ 
+ static int mlx4_devlink_crdump_snapshot_get(struct devlink *devlink, u32 id,
+-					    struct devlink_param_gset_ctx *ctx)
++					    struct devlink_param_gset_ctx *ctx,
++					    struct netlink_ext_ack *extack)
+ {
+ 	struct mlx4_priv *priv = devlink_priv(devlink);
+ 	struct mlx4_dev *dev = &priv->dev;
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.c b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.c
+index 25af8bd7f077..90643ddae099 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.c
+@@ -1969,7 +1969,8 @@ static int mlx5_devlink_esw_multiport_set(struct devlink *devlink, u32 id,
+ }
+ 
+ static int mlx5_devlink_esw_multiport_get(struct devlink *devlink, u32 id,
+-					  struct devlink_param_gset_ctx *ctx)
++					  struct devlink_param_gset_ctx *ctx,
++					  struct netlink_ext_ack *extack)
+ {
+ 	struct mlx5_core_dev *dev = devlink_priv(devlink);
+ 
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
+index 8ebca0d17f65..8de6c7f6c294 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
+@@ -2618,7 +2618,8 @@ static int esw_port_metadata_set(struct devlink *devlink, u32 id,
+ }
+ 
+ static int esw_port_metadata_get(struct devlink *devlink, u32 id,
+-				 struct devlink_param_gset_ctx *ctx)
++				 struct devlink_param_gset_ctx *ctx,
++				 struct netlink_ext_ack *extack)
+ {
+ 	struct mlx5_core_dev *dev = devlink_priv(devlink);
+ 
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c b/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c
+index 2b755a0035ce..0a6031a64c6f 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/fs_core.c
+@@ -3833,7 +3833,8 @@ static int mlx5_fs_mode_set(struct devlink *devlink, u32 id,
+ }
+ 
+ static int mlx5_fs_mode_get(struct devlink *devlink, u32 id,
+-			    struct devlink_param_gset_ctx *ctx)
++			    struct devlink_param_gset_ctx *ctx,
++			    struct netlink_ext_ack *extack)
+ {
+ 	struct mlx5_core_dev *dev = devlink_priv(devlink);
+ 
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/fw_reset.c b/drivers/net/ethernet/mellanox/mlx5/core/fw_reset.c
+index 89e399606877..2bceb42c98cc 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/fw_reset.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/fw_reset.c
+@@ -73,7 +73,8 @@ static int mlx5_fw_reset_enable_remote_dev_reset_set(struct devlink *devlink, u3
+ }
+ 
+ static int mlx5_fw_reset_enable_remote_dev_reset_get(struct devlink *devlink, u32 id,
+-						     struct devlink_param_gset_ctx *ctx)
++						     struct devlink_param_gset_ctx *ctx,
++						     struct netlink_ext_ack *extack)
+ {
+ 	struct mlx5_core_dev *dev = devlink_priv(devlink);
+ 	struct mlx5_fw_reset *fw_reset;
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c b/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c
+index f0ab5ef95fc2..3d2195338d39 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/lib/nv_param.c
+@@ -200,7 +200,8 @@ static const char *const
+ 
+ static int
+ mlx5_nv_param_devlink_cqe_compress_get(struct devlink *devlink, u32 id,
+-				       struct devlink_param_gset_ctx *ctx)
++				       struct devlink_param_gset_ctx *ctx,
++				       struct netlink_ext_ack *extack)
+ {
+ 	struct mlx5_core_dev *dev = devlink_priv(devlink);
+ 	u32 mnvda[MLX5_ST_SZ_DW(mnvda_reg)] = {};
+@@ -302,7 +303,8 @@ static int mlx5_nv_param_read_per_host_pf_conf(struct mlx5_core_dev *dev,
+ }
+ 
+ static int mlx5_devlink_enable_sriov_get(struct devlink *devlink, u32 id,
+-					 struct devlink_param_gset_ctx *ctx)
++					 struct devlink_param_gset_ctx *ctx,
++					 struct netlink_ext_ack *extack)
+ {
+ 	struct mlx5_core_dev *dev = devlink_priv(devlink);
+ 	u32 mnvda[MLX5_ST_SZ_DW(mnvda_reg)] = {};
+@@ -413,7 +415,8 @@ static int mlx5_devlink_enable_sriov_set(struct devlink *devlink, u32 id,
+ }
+ 
+ static int mlx5_devlink_total_vfs_get(struct devlink *devlink, u32 id,
+-				      struct devlink_param_gset_ctx *ctx)
++				      struct devlink_param_gset_ctx *ctx,
++				      struct netlink_ext_ack *extack)
+ {
+ 	struct mlx5_core_dev *dev = devlink_priv(devlink);
+ 	u32 mnvda[MLX5_ST_SZ_DW(mnvda_reg)] = {};
+diff --git a/drivers/net/ethernet/mellanox/mlxsw/spectrum_acl_tcam.c b/drivers/net/ethernet/mellanox/mlxsw/spectrum_acl_tcam.c
+index b1d08e958bf9..69f9da9fb305 100644
+--- a/drivers/net/ethernet/mellanox/mlxsw/spectrum_acl_tcam.c
++++ b/drivers/net/ethernet/mellanox/mlxsw/spectrum_acl_tcam.c
+@@ -1489,7 +1489,8 @@ mlxsw_sp_acl_tcam_vregion_rehash(struct mlxsw_sp *mlxsw_sp,
+ 
+ static int
+ mlxsw_sp_acl_tcam_region_rehash_intrvl_get(struct devlink *devlink, u32 id,
+-					   struct devlink_param_gset_ctx *ctx)
++					   struct devlink_param_gset_ctx *ctx,
++					   struct netlink_ext_ack *extack)
+ {
+ 	struct mlxsw_core *mlxsw_core = devlink_priv(devlink);
+ 	struct mlxsw_sp_acl_tcam *tcam;
+diff --git a/drivers/net/ethernet/netronome/nfp/devlink_param.c b/drivers/net/ethernet/netronome/nfp/devlink_param.c
+index 0e1a3800f371..85e3b19e6165 100644
+--- a/drivers/net/ethernet/netronome/nfp/devlink_param.c
++++ b/drivers/net/ethernet/netronome/nfp/devlink_param.c
+@@ -81,7 +81,8 @@ static const struct nfp_devlink_param_u8_arg nfp_devlink_u8_args[] = {
+ 
+ static int
+ nfp_devlink_param_u8_get(struct devlink *devlink, u32 id,
+-			 struct devlink_param_gset_ctx *ctx)
++			 struct devlink_param_gset_ctx *ctx,
++			 struct netlink_ext_ack *extack)
+ {
+ 	const struct nfp_devlink_param_u8_arg *arg;
+ 	struct nfp_pf *pf = devlink_priv(devlink);
+diff --git a/drivers/net/ethernet/qlogic/qed/qed_devlink.c b/drivers/net/ethernet/qlogic/qed/qed_devlink.c
+index 94c5689b5abd..0c5278c0598c 100644
+--- a/drivers/net/ethernet/qlogic/qed/qed_devlink.c
++++ b/drivers/net/ethernet/qlogic/qed/qed_devlink.c
+@@ -121,7 +121,8 @@ void qed_fw_reporters_destroy(struct devlink *devlink)
+ }
+ 
+ static int qed_dl_param_get(struct devlink *dl, u32 id,
+-			    struct devlink_param_gset_ctx *ctx)
++			    struct devlink_param_gset_ctx *ctx,
++			    struct netlink_ext_ack *extack)
+ {
+ 	struct qed_devlink *qed_dl = devlink_priv(dl);
+ 	struct qed_dev *cdev;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index d202f604161e..df949104f1f5 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -7489,7 +7489,8 @@ static int stmmac_dl_ts_coarse_set(struct devlink *dl, u32 id,
+ }
+ 
+ static int stmmac_dl_ts_coarse_get(struct devlink *dl, u32 id,
+-				   struct devlink_param_gset_ctx *ctx)
++				   struct devlink_param_gset_ctx *ctx,
++				   struct netlink_ext_ack *extack)
+ {
+ 	struct stmmac_devlink_priv *dl_priv = devlink_priv(dl);
+ 	struct stmmac_priv *priv = dl_priv->stmmac_priv;
+diff --git a/drivers/net/ethernet/ti/am65-cpsw-nuss.c b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
+index d5f358ec9820..5924db6be3fe 100644
+--- a/drivers/net/ethernet/ti/am65-cpsw-nuss.c
++++ b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
+@@ -3068,7 +3068,8 @@ static void am65_cpsw_init_host_port_emac(struct am65_cpsw_common *common)
+ }
+ 
+ static int am65_cpsw_dl_switch_mode_get(struct devlink *dl, u32 id,
+-					struct devlink_param_gset_ctx *ctx)
++					struct devlink_param_gset_ctx *ctx,
++					struct netlink_ext_ack *extack)
+ {
+ 	struct am65_cpsw_devlink *dl_priv = devlink_priv(dl);
+ 	struct am65_cpsw_common *common = dl_priv->common;
+diff --git a/drivers/net/ethernet/ti/cpsw_new.c b/drivers/net/ethernet/ti/cpsw_new.c
+index 8b9e2078c602..ab88d4c02cbd 100644
+--- a/drivers/net/ethernet/ti/cpsw_new.c
++++ b/drivers/net/ethernet/ti/cpsw_new.c
+@@ -1618,7 +1618,8 @@ static const struct devlink_ops cpsw_devlink_ops = {
+ };
+ 
+ static int cpsw_dl_switch_mode_get(struct devlink *dl, u32 id,
+-				   struct devlink_param_gset_ctx *ctx)
++				   struct devlink_param_gset_ctx *ctx,
++				   struct netlink_ext_ack *extack)
+ {
+ 	struct cpsw_devlink *dl_priv = devlink_priv(dl);
+ 	struct cpsw_common *cpsw = dl_priv->cpsw;
+@@ -1753,7 +1754,8 @@ static int cpsw_dl_switch_mode_set(struct devlink *dl, u32 id,
+ }
+ 
+ static int cpsw_dl_ale_ctrl_get(struct devlink *dl, u32 id,
+-				struct devlink_param_gset_ctx *ctx)
++				struct devlink_param_gset_ctx *ctx,
++				struct netlink_ext_ack *extack)
+ {
+ 	struct cpsw_devlink *dl_priv = devlink_priv(dl);
+ 	struct cpsw_common *cpsw = dl_priv->cpsw;
+diff --git a/drivers/net/wwan/iosm/iosm_ipc_devlink.c b/drivers/net/wwan/iosm/iosm_ipc_devlink.c
+index 33d6342124bc..301a9d294d30 100644
+--- a/drivers/net/wwan/iosm/iosm_ipc_devlink.c
++++ b/drivers/net/wwan/iosm/iosm_ipc_devlink.c
+@@ -21,7 +21,8 @@ static struct iosm_coredump_file_info list[IOSM_NOF_CD_REGION] = {
+ 
+ /* Get the param values for the specific param ID's */
+ static int ipc_devlink_get_param(struct devlink *dl, u32 id,
+-				 struct devlink_param_gset_ctx *ctx)
++				 struct devlink_param_gset_ctx *ctx,
++				 struct netlink_ext_ack *extack)
+ {
+ 	struct iosm_devlink *ipc_devlink = devlink_priv(dl);
+ 
+diff --git a/include/net/devlink.h b/include/net/devlink.h
+index d01046ef0577..5f479227144d 100644
+--- a/include/net/devlink.h
++++ b/include/net/devlink.h
+@@ -490,7 +490,8 @@ struct devlink_param {
+ 	enum devlink_param_type type;
+ 	unsigned long supported_cmodes;
+ 	int (*get)(struct devlink *devlink, u32 id,
+-		   struct devlink_param_gset_ctx *ctx);
++		   struct devlink_param_gset_ctx *ctx,
++		   struct netlink_ext_ack *extack);
+ 	int (*set)(struct devlink *devlink, u32 id,
+ 		   struct devlink_param_gset_ctx *ctx,
+ 		   struct netlink_ext_ack *extack);
+diff --git a/include/net/dsa.h b/include/net/dsa.h
+index 97d5f401cfcf..e40cdc12f7f3 100644
+--- a/include/net/dsa.h
++++ b/include/net/dsa.h
+@@ -1251,7 +1251,8 @@ struct dsa_switch_ops {
+ 			     dsa_devlink_param_get, dsa_devlink_param_set, NULL)
+ 
+ int dsa_devlink_param_get(struct devlink *dl, u32 id,
+-			  struct devlink_param_gset_ctx *ctx);
++			  struct devlink_param_gset_ctx *ctx,
++			  struct netlink_ext_ack *extack);
+ int dsa_devlink_param_set(struct devlink *dl, u32 id,
+ 			  struct devlink_param_gset_ctx *ctx,
+ 			  struct netlink_ext_ack *extack);
+diff --git a/net/devlink/param.c b/net/devlink/param.c
+index 6b233b13b69a..3dbd023e4c36 100644
+--- a/net/devlink/param.c
++++ b/net/devlink/param.c
+@@ -174,11 +174,12 @@ devlink_param_cmode_is_supported(const struct devlink_param *param,
+ 
+ static int devlink_param_get(struct devlink *devlink,
+ 			     const struct devlink_param *param,
+-			     struct devlink_param_gset_ctx *ctx)
++			     struct devlink_param_gset_ctx *ctx,
++			     struct netlink_ext_ack *extack)
+ {
+ 	if (!param->get)
+ 		return -EOPNOTSUPP;
+-	return param->get(devlink, param->id, ctx);
++	return param->get(devlink, param->id, ctx, extack);
+ }
+ 
+ static int devlink_param_set(struct devlink *devlink,
+@@ -250,7 +251,8 @@ static int devlink_nl_param_fill(struct sk_buff *msg, struct devlink *devlink,
+ 				 unsigned int port_index,
+ 				 struct devlink_param_item *param_item,
+ 				 enum devlink_command cmd,
+-				 u32 portid, u32 seq, int flags)
++				 u32 portid, u32 seq, int flags,
++				 struct netlink_ext_ack *extack)
+ {
+ 	union devlink_param_value param_value[DEVLINK_PARAM_CMODE_MAX + 1];
+ 	bool param_value_set[DEVLINK_PARAM_CMODE_MAX + 1] = {};
+@@ -275,7 +277,7 @@ static int devlink_nl_param_fill(struct sk_buff *msg, struct devlink *devlink,
+ 				return -EOPNOTSUPP;
+ 		} else {
+ 			ctx.cmode = i;
+-			err = devlink_param_get(devlink, param, &ctx);
++			err = devlink_param_get(devlink, param, &ctx, extack);
+ 			if (err)
+ 				return err;
+ 			param_value[i] = ctx.val;
+@@ -357,7 +359,7 @@ static void devlink_param_notify(struct devlink *devlink,
+ 	if (!msg)
+ 		return;
+ 	err = devlink_nl_param_fill(msg, devlink, port_index, param_item, cmd,
+-				    0, 0, 0);
++				    0, 0, 0, NULL);
+ 	if (err) {
+ 		nlmsg_free(msg);
+ 		return;
+@@ -400,7 +402,8 @@ static int devlink_nl_param_get_dump_one(struct sk_buff *msg,
+ 		err = devlink_nl_param_fill(msg, devlink, 0, param_item,
+ 					    DEVLINK_CMD_PARAM_GET,
+ 					    NETLINK_CB(cb->skb).portid,
+-					    cb->nlh->nlmsg_seq, flags);
++					    cb->nlh->nlmsg_seq, flags,
++					    cb->extack);
+ 		if (err == -EOPNOTSUPP) {
+ 			err = 0;
+ 		} else if (err) {
+@@ -509,8 +512,8 @@ int devlink_nl_param_get_doit(struct sk_buff *skb,
+ 		return -ENOMEM;
+ 
+ 	err = devlink_nl_param_fill(msg, devlink, 0, param_item,
+-				    DEVLINK_CMD_PARAM_GET,
+-				    info->snd_portid, info->snd_seq, 0);
++				    DEVLINK_CMD_PARAM_GET, info->snd_portid,
++				    info->snd_seq, 0, info->extack);
+ 	if (err) {
+ 		nlmsg_free(msg);
+ 		return err;
+diff --git a/net/dsa/devlink.c b/net/dsa/devlink.c
+index f41f9fc2194e..ed342f345692 100644
+--- a/net/dsa/devlink.c
++++ b/net/dsa/devlink.c
+@@ -182,7 +182,8 @@ static const struct devlink_ops dsa_devlink_ops = {
+ };
+ 
+ int dsa_devlink_param_get(struct devlink *dl, u32 id,
+-			  struct devlink_param_gset_ctx *ctx)
++			  struct devlink_param_gset_ctx *ctx,
++			  struct netlink_ext_ack *extack)
+ {
+ 	struct dsa_switch *ds = dsa_devlink_to_ds(dl);
+ 
 -- 
 2.47.3
 
