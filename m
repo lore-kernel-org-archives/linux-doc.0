@@ -1,74 +1,108 @@
-Received: from mail-106118.protonmail.ch (mail-106118.protonmail.ch [79.135.106.118])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAAF34DB67;
-	Tue, 18 Nov 2025 15:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153B2368288
+	for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 15:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763480993; cv=none; b=FncQu56DWgn73sjlgI7h0CUeSi+AyDj7ofYu6MT9Mvb9ISzVnTaIf2U182yoVUfSt1NqIfejpR/bOZT8Vs6dgSwvIodwBmOJi8cAJ+VkBHc17vEi1PJxyOtcN2KBJFf7/P8bXXRnFR5k4dDcTB6Up1v4tE3Hqpte+8bsGAXoj50=
+	t=1763481591; cv=none; b=ZYn95nlgCutFwQwPWxUXKgrdII9qKfEGjxbxbYDg73cVPY0h9Bd37lSpW6x2QzUk/ygl+fU4fmhBIHoHojJnybfjbvGO6Ng8o098xJAeQkbewTM1R8XvHEWJM287pZM2xdd5YZf70Y8oCIMzfUrswqnwFGzmgA4ZITA7unXd2H4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763480993; c=relaxed/simple;
-	bh=MfLbaN0dJ19hVIu6xn27SwSPpBPbATDQqKhaL7vSpK0=;
-	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sepvZHnyRbFN4zgFyLOf2JFpyu826fX0eeP9hHKoi9C1RNAL7/qJEHJoCbMEVuWmZQyZij0BZ9xH7pFy2m9TxDk++G9jupQ/tN/wv2RUy1ID+ry3ZeaYZu2KkrGcWIqtaauQkOKYomKbNKTB/2vY3IssRbaYZS7ZOarwSP2QcEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=VU/bLwEu; arc=none smtp.client-ip=79.135.106.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1763481591; c=relaxed/simple;
+	bh=QCkD8d2HX5temq0Rl9bOMIilfrQLk0hv8G6GhqRjUe4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FNoZqP37avzldqIc/LEeuLWzFzcgQ85BfqUsK3ZbWG7s9QQP8z3vY/V2vU7KAGHSOz8LZJnzjY7zIawvpDYlJRKLnG+OsI68kRXEvaAI2pbyBR2FHWVQrD///7JrIwbDkXbiW3B5qpoKmxxx9UTAJyFypJYciuDi+6QnrYAZANk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ix0y3WMJ; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="VU/bLwEu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1763480981; x=1763740181;
-	bh=a9ZfR2miDizST+NAQHBsA4FP50QJXQbD9wrCS0aDhy8=;
-	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=VU/bLwEuIA8h9TCyJ9L4mIWEDwhoUAZ5oktm+sibJB8c9aTCHAxh4iEjZUrUcj6WK
-	 DdWYM7vyaQOmZlh5HL5Rop5CGc1TZipkU5l3spES7VnHm/wUUlnVytrI8uH5q7ufRi
-	 fJw0DGDWl+PDb+suCmmvDLbYmrbGD/oONn1SpgQgOMNsVeLROqr98iWpCJYovuu/sN
-	 41PWpyT55lKaZwMubphsuvZFYg/YtTETtW1C8gMcytVRWd8U1Gal8gOTSiTCz1xJ+K
-	 7NTB37EXbP+Q7djtplgrpcbD/6KUccafGQHCQks1468PHcx+U+AH4aBTr4zCMgXQ4E
-	 UAncnjv3o9aLg==
-Date: Tue, 18 Nov 2025 15:49:28 +0000
-To: Alexander Potapenko <glider@google.com>, xin@zytor.com, peterz@infradead.org, kaleshsingh@google.com, kbingham@kernel.org, akpm@linux-foundation.org, nathan@kernel.org, ryabinin.a.a@gmail.com, dave.hansen@linux.intel.com, bp@alien8.de, morbo@google.com, jeremy.linton@arm.com, smostafa@google.com, kees@kernel.org, baohua@kernel.org, vbabka@suse.cz, justinstitt@google.com, wangkefeng.wang@huawei.com, leitao@debian.org, jan.kiszka@siemens.com, fujita.tomonori@gmail.com, hpa@zytor.com, urezki@gmail.com, ubizjak@gmail.com, ada.coupriediaz@arm.com, nick.desaulniers+lkml@gmail.com, ojeda@kernel.org, brgerst@gmail.com, elver@google.com, pankaj.gupta@amd.com, mark.rutland@arm.com, trintaeoitogc@gmail.com, jpoimboe@kernel.org, thuth@redhat.com, pasha.tatashin@soleen.com, dvyukov@google.com, jhubbard@nvidia.com, catalin.marinas@arm.com, yeoreum.yun@arm.com, mhocko@suse.com, lorenzo.stoakes@oracle.com, samuel.holland@sifive.com, vincenzo.frascino@arm.com, bigeasy@linutronix.de,
-	surenb@google.com, ardb@kernel.org, Liam.Howlett@oracle.com, nicolas.schier@linux.dev, ziy@nvidia.com, kas@kernel.org, tglx@linutronix.de, mingo@redhat.com, broonie@kernel.org, corbet@lwn.net, andreyknvl@gmail.com, maciej.wieczor-retman@intel.com, david@redhat.com, maz@kernel.org, rppt@kernel.org, will@kernel.org, luto@kernel.org, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, x86@kernel.org, linux-kbuild@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
-From: =?utf-8?Q?Maciej_Wiecz=C3=B3r-Retman?= <m.wieczorretman@pm.me>
-Subject: Re: [PATCH v6 06/18] x86/kasan: Add arch specific kasan functions
-Message-ID: <tide3xvqthah7m7ji6bfzb5i3ofabgwf45bn3qvvzsurnswh6z@wjxzriavwlp5>
-In-Reply-To: <6nifmxti2xfbnrdtxbosojfw52sofc7zkyjcbcyeawz5lt372f@h6ksdfqddk4z>
-References: <cover.1761763681.git.m.wieczorretman@pm.me> <5be986faa12ed1176889c3ba25852c42674305f4.1761763681.git.m.wieczorretman@pm.me> <CAG_fn=XFXFAvKS2+bc66FR+gw7rfSybETAOBUR_vneaVdF5F9A@mail.gmail.com> <6nifmxti2xfbnrdtxbosojfw52sofc7zkyjcbcyeawz5lt372f@h6ksdfqddk4z>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 2d31863a5f203112dd7296a62db9ab5faf481d58
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ix0y3WMJ"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-297f35be2ffso79120055ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 07:59:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1763481588; x=1764086388; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KoAq4ZOnT/rp2A2Dqykoq7B/YkJy4g18nEwG9bbgTCo=;
+        b=Ix0y3WMJOKYQTn9tpp4v/vwfmNUfSa2sKhoHB1sYI6xsYKSILuG8uMm0dzBQSk8Q6W
+         drpD+m/JOcaoEsQyIXTdrvRP6Jz0T3ao/U7vrSWXmnesYhT9mNONtIZdC+H31cH69HpK
+         NCodV0Mj09fWTpwa2itqGgRriePl/iENi7mZxEqkX81dx2xJNZa77azPKYhNl/D46BK8
+         h3J4UePfBpzQolv1ttpZyLbTyLvXlqUIScgK4/sy/djfTePea22Gun1hhMUm4pblAak6
+         WX0H5h3JH6aos2LugXo/ISIDJEKnzvyhkP+qPb47yWlXqQKRCuwztPPcJPJ662sezUND
+         YjYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763481588; x=1764086388;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KoAq4ZOnT/rp2A2Dqykoq7B/YkJy4g18nEwG9bbgTCo=;
+        b=haIzFqrlk0KbbjPBWOpw8iYS+2EExpdbP7GDm+AEmwI2hV0/24Ye8mVJZVViVNYcjd
+         SO1vV+wNeF9YZz45xy4gA+I0RJlfeH+sEa9ZZXA6g1KYSXU/zX5Ra+I+8S0MSwXwaois
+         bppRKL4xp6h/LjHJO9uLOgvBc4d1O/xk5C8/puAK+Pu/Vtf97K1VOhvxJ3nZOy+Q/5+8
+         hlcPWZf+kY7nM08s6q12SCtrG6uss9/t1lKxvsKKJ6Pa4xSObULJm3561XjO0DastkSt
+         vDKGmk/renAHMe20LsBW3DtbOATbUYIaIfQmew8SVx4Q6pVGRF3fTp7Zyp5z9NGadXna
+         O/uA==
+X-Forwarded-Encrypted: i=1; AJvYcCUNBGSo/H5sD6hHBFJ7InL79EkDflxw5o9clkXZamrhSHwMs9wfXbxuHuzWYT5+XwEifz+f2ctUlZY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwgHATxYkNzieQPEQ7tbwRgVJRclFiG7PLZI5UqaKMSg9gZat2E
+	UQkt+jaYvgr1RLfPXyakj9LmtoXS7Tm7RgsIAhEUS8FnLPCtr3sa3Chlmyb7TKNpyTI=
+X-Gm-Gg: ASbGncuOj+beCMyjPqp8TGHQCsLiVHzwO0fA8vIkM4Ty4L5ebKptSTGl4BZr2+FjeRc
+	2muI75kmRDfItd7HGHUdJ5/LUGURbx6ZGItfZA0BoaxWMf3qGMnBIEf4FFbddSbFcnrrvluvhHK
+	kYm0jSoN19nGfcSl1yMlxZHR+KN+TdkxLAVUUi+5ySqammRxbRzvYL7MUYtEyDpWgOfGepiCgF7
+	j8PKvbkbkFjA28S3xdptCUltrr1RSjlbGtR+tU6AiqqphFeLSkz0GLLQmqO9I0dH3Uquw+zrfWX
+	2gbsWNwbgS0gDiFt/I/3gNiQmgUoyU4UCLQEB1/zftFt8HI5tL30pwUIxepPQh53/av5r0Z4a09
+	MvgOpS5yLR9MfnTJ9zXdj9w7p7ngx/rB1018h4VU4zN4tkHxB916CdGuoxkE9dhTWyRLX/q1y5p
+	n4iom8voetN7JXf1NiOcQeVIxM
+X-Google-Smtp-Source: AGHT+IEahplMq1XGZhU6h+/qGLbY8HO4nkNbHfdqTlJ5mF/D+bvz3FgFZjG7PWcQsGuNCS0ImKNuZQ==
+X-Received: by 2002:a17:902:d551:b0:295:9db1:ff3b with SMTP id d9443c01a7336-2986a6bbdf2mr208106695ad.6.1763481588326;
+        Tue, 18 Nov 2025 07:59:48 -0800 (PST)
+Received: from p14s ([2604:3d09:148c:c800:5650:f012:168c:76e0])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2c0577sm178835205ad.78.2025.11.18.07.59.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 07:59:47 -0800 (PST)
+Date: Tue, 18 Nov 2025 08:59:45 -0700
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Daniel Baluta <daniel.baluta@nxp.com>
+Cc: corbet@lwn.net, andersson@kernel.org, dan.j.williams@intel.com,
+	cedric.xing@intel.com, pasha.tatashin@soleen.com,
+	kevin.tian@intel.com, skhawaja@google.com, yesanishhere@gmail.com,
+	taimoorzaeem@gmail.com, linux@treblig.org,
+	arnaud.pouliquen@foss.st.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	rdunlap@infradead.org, daniel.baluta@gmail.com, imx@lists.linux.dev
+Subject: Re: [PATCH 0/2] Documentation: Move rpmsg.rst and remoteproc.rst out
+ of staging
+Message-ID: <aRyX8etm-Mcn_94F@p14s>
+References: <20251114065746.901649-1-daniel.baluta@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251114065746.901649-1-daniel.baluta@nxp.com>
 
-On 2025-11-17 at 18:41:35 +0000, Maciej Wiecz=C3=B3r-Retman wrote:
->On 2025-11-11 at 10:31:13 +0100, Alexander Potapenko wrote:
->>> +#ifdef CONFIG_64BIT
->>> +static inline void *__tag_set(const void *__addr, u8 tag)
->>> +{
->>> +       u64 addr =3D (u64)__addr;
->>> +
->>> +       addr &=3D ~__tag_shifted(KASAN_TAG_MASK);
->>
->>KASAN_TAG_MASK is only defined in Patch 07, does this patch compile?
->
->Seems I forgot to remove it from patch 7. It's originally defined
->in the mmzone.h file and looked cleaner there according to Andrey.
->
->Thanks for noticing it's still in patch 7, I'll get rid of it.
+On Fri, Nov 14, 2025 at 08:57:43AM +0200, Daniel Baluta wrote:
+> Try to find a better place for rpmsg.rst and remoteproc.rst files.
+> Having them in staging suggest that rpmsg / remoteproc are not mature
+> enough which is not true.
+> 
+> Daniel Baluta (2):
+>   Documentation: Move rpmsg.rst and remoteproc.rst out of staging
+>   Documentation: Fix filenames for remoteproc/rpmsg
+> 
+>  Documentation/driver-api/index.rst                   | 2 ++
+>  Documentation/{staging => driver-api}/remoteproc.rst | 2 +-
+>  Documentation/{staging => driver-api}/rpmsg.rst      | 4 ++--
+>  Documentation/staging/index.rst                      | 2 --
+>  MAINTAINERS                                          | 4 ++--
+>  5 files changed, 7 insertions(+), 7 deletions(-)
+>  rename Documentation/{staging => driver-api}/remoteproc.rst (99%)
+>  rename Documentation/{staging => driver-api}/rpmsg.rst (99%)
 
-You were right before, after removing that define in patch 7 it doesn't
-compile. I think I'll just open code this definition here:
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
->>> +       addr &=3D ~__tag_shifted((1UL << KASAN_TAG_WIDTH) - 1);
-
-I don't see a nicer solution here if taking things from mmzone.h is out
-of the question. I suppose a #ifndef KASAN_TAG_MASK placed here that
-would just shadow the one in mmzone.h could work too?
-
+> 
+> -- 
+> 2.45.2
+> 
