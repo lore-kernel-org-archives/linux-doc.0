@@ -1,243 +1,280 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A20C1F0E32
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 22:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4474320C48A
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 22:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763591003; cv=none; b=bKRP0aYntv7KFCNk4be/Iprvz0Ggj1yftSZQaV6S3UPAOS3HCMSfekIBpLltQ81aK7vd/RleSZ/eTkBxpHYQtMYLGVkW4XcaIYzSzdRGa8wKd1B4H5K48y6z0byVqzYYb6gHkdvxKNjgKyos0FV2J7YuE1KFi6Ad7/F3zx5UHhw=
+	t=1763591153; cv=none; b=DOjgH/FMDtLFACer5hRXqQm69pokmF9YoazIBfb3sjfWDPURqY8tLBXbNu1JcBbJxSZ2gH7mxzNwpRDWULwqgxAdBnRd7jTjiNc9XBu4wBNaoizthWt1jFs/X2996VkhTuw4c2biJYuBdlSqtns70Fnq0hh4OWzXuzGJdfS5OC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763591003; c=relaxed/simple;
-	bh=kOPSLINu5BIGD8wdi0XJOT8GqQnnCfeWFAvT8Y/uBl8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FWJLIXaXC2j/z2Q1tM6dVCiBb0G0WW/+EufSKfK19kLooLCAxRu3TDzarfDNVSErStMasGFAaBbSCa0s22n8cplDIvSnvdtk+vbazr8i1VQCNcbMK1+s39jpaGpjKEWIs/8AvAJPgketPu/hGs3Mb6aQXott3/xHiF9j064BC4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jyidim6w; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1763591153; c=relaxed/simple;
+	bh=xglFJUSvPG5UXUDya1AhriAXfBb43C1XIg0pBbiWIfA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NHjwR6oHNZgShuIA6AaDR5K9wWpEvRgB0nF6KTNiWuEYCaMbhUFFZ7QCXmpEbREIKupByQCAwnUPGJGLOklm34J3tcfB76hnXSl52yu37n3ZhM4ZWjBsW0ZsZHvYqCXIQpnpGx4Y466weQUTsEgwWV4cfmGkmpte//rElpeHRos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FwVt7tpG; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jyidim6w"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7baf61be569so227088b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 14:23:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FwVt7tpG"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-37a3a4d3d53so1478411fa.3
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 14:25:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763591001; x=1764195801; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=X8UCcv8WJcfbX/BhlHKUUmS50h9EVe0DKujQxp7fJEI=;
-        b=Jyidim6wHtonYGNGCVd2D9BBE10uuW2MXfKINNIxlGDjb/PRIpOElX/lcnBJvJNPmo
-         9FkvHUlbmcItgvsMQej98W5IKpF1Bc5VTBuR8n62jGNWgbOKz6D2RQJAb5saa4PhWpR5
-         ZspJZjiceXoHuUEpXRFyiv9hhrEyqsb6G1gxrT0NUf9uCWGRaysoobzyenCOivjBWZO6
-         RrvKv//TEunyLdQnYr+UwtHlJtQxjO4u7cAb/z7a2AuFLEeqa48bUxQjq3a0y8hAm9om
-         elXiK51AWDV2pfj/jbZkPni/be8TCXsoV1rhNJBjUMUwMLKWPvLnB3pnNWhAG4uACdMD
-         nFJg==
+        d=gmail.com; s=20230601; t=1763591149; x=1764195949; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QIHrPRGK7VOE478WBP+TOLRFYgGuOjtNsJuovM1QrMk=;
+        b=FwVt7tpGUB3pRodX8TxUTfARUWZTskg399VrcJWJbZpDMKOzps+hHvrZXIXB62j2+J
+         PajNhy49olLni0/jAbmsfrdBGQ4ojHFmLrHvxCfHFHLFG3b53lNthpn6gV+DfV5435aO
+         XxXFg5DpfBuPwaJscm/zXEz+qXhnNwciCIE/0FOd1XI4o3GqKfeL+bJU6zp9s54cv/SH
+         QxZHriZ4vMfF42e5VLpA+lx+OwIcKHODG4PfAaU9ivu2J16UaldgyviJqfmAqWGkphVf
+         1lE8AIdIEddOjolPI5/ApWNnPayNtCkE/pe0cHqEpzUJkA6hzHkUYaLuahUftWbhmC0A
+         axVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763591001; x=1764195801;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=X8UCcv8WJcfbX/BhlHKUUmS50h9EVe0DKujQxp7fJEI=;
-        b=ayVRh4R0EbMrJbpUDY3GUbXtSCMrz9G9QIaRDrWB0gAeSaTSSb4nBYv9ahogCqFH6Y
-         kzDgToepm4ef96ZgBpApNS2uai8u8hapi8UI2tei5jSrFKm0HejQ8JbgQzEQKvKTw/ep
-         req8N3c9iwMDH1gcEwWBkKq8QyKjI9JMLR4Lw2yogbGULpddfXSdgIxOXtdZEDHQm9Pq
-         2eSfY2718ga7vunRUn0fCk5GzWKRWqgy+Vfm50ooNdiARKOISDhv9rXgBhsuAJ72BZGI
-         WE06tHQD6qgg2gZ/7qtvksWISl3RsSx8jhrgakeCjA9UM8psHBBBGq/pVSPsWPgzFrZm
-         8Unw==
-X-Forwarded-Encrypted: i=1; AJvYcCXCsZc43kljqgLXSy4x/E0BS5kr+XaI8VA8U1BavPqH82cjGw0OxEQwTiR3wwWqjPXce9TkOlTkQQ4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFxQvkRkkUPdn+uPbOh4o8XCoid4x74CCQY5bNwxmZ2dlrQG57
-	fWD3Yp0e2u5bBfsJbjD8koHexw6qwrv7n9u28JLfb8XAupaqIUNM3/ZQ
-X-Gm-Gg: ASbGnctEYM7a60Kw+WiTfjcZtSgm+pjLwheUihPnZQf3w/dAnH/SVrDHSKEotCeP1AL
-	nqhRIOXt7iU9084wB1UWaC/SXujeF6KzQglfarQQIoDM1uYRM/30tw2LxNgBdGDXac4MTVLTp+9
-	aPa3VQCrzUVnQH+rBOw+Xu/fQAxc/FGDwAui1IOaHr9/cm9DykswiybVD8dqNImEm50nqBjl/n9
-	iYuRTOwZsKrn90wRrMxDFlJUj4VuJIUi2ZRWrJHrRK7XfmUDG1TD+aOR1ZTo08B8P/TAj+V4BrL
-	NWEJw9v8/Ltz1PLJUYuJ+0xlor4oY+Va0Bid8YDkqWfzyBBEYtvVvq1BGFQS3hTlabmjSMo7WPV
-	XY4SkxF6Wm8gdzmp4tATjfXDJUWLh1BM96VXU0CsQmB0fLHEJ2hfXmG1/oMOwFdPQvmzf+cVUpI
-	HCJ+EOvztgeWgPPZciRNy/gFsJACiCcV60qk1zJCC5gSWIGc7urYclfBr4NkQ4wyUUrWtyY3JpM
-	SMgtuS1
-X-Google-Smtp-Source: AGHT+IGLyyUhWxITKqLXs3xMSNmqH+iaLGjGmw+PkUvYoUNNvU8QhUaV0xMzsenVLMrOnXg9dKZzIw==
-X-Received: by 2002:a05:6a20:2586:b0:33e:6885:2bd4 with SMTP id adf61e73a8af0-3613b5eb0e7mr1319930637.29.1763591000803;
-        Wed, 19 Nov 2025 14:23:20 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f023fba8sm385465b3a.41.2025.11.19.14.23.18
+        d=1e100.net; s=20230601; t=1763591149; x=1764195949;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QIHrPRGK7VOE478WBP+TOLRFYgGuOjtNsJuovM1QrMk=;
+        b=HE5BQkYeGObv+tRZfvcfWhxMzunuaq3q/mIl8pJydykRQR14DkegoPAfXPnWjb1Bss
+         2mEmlNmEs9B5NWxHZnqX0FcnGIAEtA5Jqp6L52ydh9VKsPxkmGqq230ZKdMqSQZWSUA9
+         6NXz8FF0NzqnPqYOs3AGI/4KXpP5DWI3BsA2w2k9qE9olV3eTC5FOe2oji8UM3mrff0I
+         LMlfRnr7lsRfIis6vsQTWGpLWSUjN0l8z7kMQaNipzzJnxsxfXEwlBxvXdiwSNPF6Y40
+         1teidoTLLIxZ9ab3rIsV1H36h3QBa9E7JN/bqPIogPBmnDIJd07kUloTdGTHujwdy/MF
+         fKYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVvD6JozV/OduJmpkLNLplJv4wj/CJLSYkx564Q8IdUmCYqpuTgxnwpOAx6zCLCTpxjWuMJZlqto5o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwP1M6brNgVBbLY3f8NT5ukBYx9IO+rDNJEcrsadWPf0nzAz/mj
+	n/uBv14h3iqpOsWUZvoAX7qvpJ/7V6sXJNylv6FSp1u2RnqiMQgnTIQj
+X-Gm-Gg: ASbGncsl9jQDVmtW+kBfPciMp5xXdM9oyvoX4pyinvijt6bElDOX5Dx7vn5z6g3cDvW
+	5qYH7L9Yjndv6VsN+4CPp8mxS0d6tdyBjUpieiQbtaG+N82Jq+RGnEs5ch7fn1mJYcvn/cxH9Y+
+	7E0Deku64szdY/R2SyGmX0iIVLbhOOd693ahGkvWTCiDKw8qiPWMjQTUDW9B4DIdALU/iOeqAth
+	Tz60MPnB/iXHZplVOrOYQkwj4ACM2zweBnd4s7SmOcWSZNE7CrgyNRnMtuL3XVpsE8wClUkrfLy
+	CI3dfw7SkyzEfM2g2dSOBk0VLQXw0Mlgx1Eal2X+kbmyyWvATOCda4nM160PbGA+eva5vSGypH2
+	AyQdJkc6bEI3hbn9x+C5izXXznLel/tBSJ4yZNAntQobon35PhEFDVHQIvLrrvMpcb6mh264JbW
+	zMh9qzKX45dL8jSyH/1yxY4s1nUQLjtw==
+X-Google-Smtp-Source: AGHT+IH4N1JSat2pulJqXvhrCb4PBABQ8mFvFLi3pb8dARcuOUHcUR7ZoJ5G2Q7xHRD7Cj2gwMDPSg==
+X-Received: by 2002:a05:651c:1112:b0:378:e055:3150 with SMTP id 38308e7fff4ca-37cc7fe85d5mr586601fa.5.1763591149108;
+        Wed, 19 Nov 2025 14:25:49 -0800 (PST)
+Received: from localhost ([109.167.240.218])
+        by smtp.gmail.com with UTF8SMTPSA id 38308e7fff4ca-37cc6bbe18dsm1183461fa.33.2025.11.19.14.25.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Nov 2025 14:23:19 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <6b5cd51f-be90-4646-9cfa-278e16c09dbe@roeck-us.net>
-Date: Wed, 19 Nov 2025 14:23:17 -0800
+        Wed, 19 Nov 2025 14:25:48 -0800 (PST)
+From: Askar Safin <safinaskar@gmail.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+	Gao Xiang <hsiangkao@linux.alibaba.com>,
+	Art Nikpal <email2tema@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Graf <graf@amazon.com>,
+	Rob Landley <rob@landley.net>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	linux-arch@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	initramfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Michal Simek <monstr@monstr.eu>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dave Young <dyoung@redhat.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Jessica Clarke <jrtc27@jrtc27.com>,
+	Nicolas Schichan <nschichan@freebox.fr>,
+	David Disseldorp <ddiss@suse.de>,
+	patches@lists.linux.dev
+Subject: [PATCH v4 0/3] initrd: remove half of classic initrd support
+Date: Wed, 19 Nov 2025 22:24:04 +0000
+Message-ID: <20251119222407.3333257-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] hwmon: Add driver for wsen tids
-To: Thomas Marangoni <Thomas.Marangoni@becom-group.com>,
- linux-hwmon@vger.kernel.org
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- Jonathan.Cameron@huawei.com, michal.simek@amd.com, nuno.sa@analog.com,
- Frank.Li@nxp.com, wenswang@yeah.net, apokusinski01@gmail.com,
- dixitparmar19@gmail.com, vassilisamir@gmail.com, paweldembicki@gmail.com,
- heiko@sntech.de, neil.armstrong@linaro.org, kever.yang@rock-chips.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, mani@kernel.org, dev@kael-k.io,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20251119125145.2402620-1-Thomas.Marangoni@becom-group.com>
- <20251119125145.2402620-4-Thomas.Marangoni@becom-group.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20251119125145.2402620-4-Thomas.Marangoni@becom-group.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 11/19/25 04:51, Thomas Marangoni wrote:
-> Add support for the wsen tids. It is a low cost
-> and small-form-factor i2c temperature sensor.
-> 
+This patchset will not affect anyone, who showed up in these lists.
+See [5] for details.
 
-Additional feedback:
+Intro
+====
+This patchset removes half of classic initrd (initial RAM disk) support,
+i. e. linuxrc code path, which was deprecated in 2020.
+Initramfs still stays, RAM disk itself (brd) still stays.
+And other half of initrd stays, too.
+init/do_mounts* are listed in VFS entry in
+MAINTAINERS, so I think this patchset should go through VFS tree.
+I tested the patchset on 8 (!!!) archs in Qemu (see details below).
+If you still use initrd, see below for workaround.
 
-> +
-> +static ssize_t tids_interval_write(struct device *dev, long val)
-> +{
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +	unsigned int avg_value;
-> +
-> +	avg_value = find_closest_descending(val, update_intervals,
-> +					    ARRAY_SIZE(update_intervals));
-> +
+In 2020 deprecation notice was put to linuxrc initrd code path.
+In v1 I tried to remove initrd
+fully, but Nicolas Schichan reported that he still uses
+other code path (root=/dev/ram0 one) on million devices [4].
+root=/dev/ram0 code path did not contain deprecation notice.
 
-Turns out find_closest_descending() can not handle large negative values
-(close to the limit) correctly. val needs to be clamped to a reasonable range
-(say, [0, 100]) before passing it to find_closest_descending().
+So, in this version of patchset I remove deprecated code path,
+i. e. linuxrc one, while keeping other, i. e. root=/dev/ram0 one.
 
-> +	return regmap_write_bits(data->regmap, TIDS_REG_CTRL,
-> +				 TIDS_CTRL_AVG_MASK,
-> +				 avg_value << TIDS_CTRL_AVG_SHIFT);
-> +}
-> +
-> +static int tids_temperature1_read(struct device *dev, long *val)
+Also I put deprecation notice to remaining code path, i. e. to
+root=/dev/ram0 one. I plan to send patches for full removal
+of initrd after one year, i. e. in January 2027 (of course,
+initramfs will still work).
 
-The "1" in the function name is really not needed here.
+Also, I tried to make this patchset small to make sure it
+can be reverted easily. I plan to send cleanups later.
 
-> +{
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +	u8 buf[2] = { 0 };
-> +	int ret;
-> +
-> +	ret = regmap_bulk_read(data->regmap, TIDS_REG_DATA_T_L, buf, 2);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* temperature in °mC */
-> +	*val = (((s16)(buf[1] << 8) | buf[0])) * 10;
-> +
-> +	return 0;
-> +}
-> +
-> +static ssize_t tids_temperature_alarm_read(struct device *dev, u32 attr,
-> +					   long *val)
-> +{
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	if (attr == hwmon_temp_min_alarm)
-> +		ret = regmap_test_bits(data->regmap, TIDS_REG_STATUS,
-> +				       TIDS_STATUS_UNDER_TLL_MASK);
-> +	else if (attr == hwmon_temp_max_alarm)
-> +		ret = regmap_test_bits(data->regmap, TIDS_REG_STATUS,
-> +				       TIDS_STATUS_OVER_THL_MASK);
-> +	else
-> +		return -EOPNOTSUPP;
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	*val = ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static int tids_temperature_minmax_read(struct device *dev, u32 attr, long *val)
-> +{
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +	unsigned int reg_data = 0;
-> +	int ret;
-> +
-> +	if (attr == hwmon_temp_min)
-> +		ret = regmap_read(data->regmap, TIDS_REG_T_L_LIMIT, &reg_data);
-> +	else if (attr == hwmon_temp_max)
-> +		ret = regmap_read(data->regmap, TIDS_REG_T_H_LIMIT, &reg_data);
-> +	else
-> +		return -EOPNOTSUPP;
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* temperature from register conversion in °mC */
-> +	*val = (((u8)reg_data - 63) * 640);
-> +
-> +	return 0;
-> +}
-> +
-> +static ssize_t tids_temperature_minmax_write(struct device *dev, u32 attr,
-> +					     long val)
-> +{
-> +	struct tids_data *data = dev_get_drvdata(dev);
-> +	u8 reg_data;
-> +
-> +	/* temperature in °mC */
-> +	val = clamp_val(val, -39680, 122880);
+Details
+====
+Other user-visible changes:
 
-(0 - 63) * 640 = -40320
+- Removed kernel command line parameters "load_ramdisk" and
+"prompt_ramdisk", which did nothing and were deprecated
+- Removed /proc/sys/kernel/real-root-dev . It was used
+for initrd only
+- Command line parameters "noinitrd" and "ramdisk_start=" are deprecated
 
-While this is a bit below the "official" limit, it is the default value in
-the chip register. Writing a limit that is read from the chip should be supported,
-so the range should be clamped to [-40320, 122880].
+Testing
+====
+I tested my patchset on many architectures in Qemu using my Rust
+program, heavily based on mkroot [1].
 
-Thanks,
-Guenter
+I used the following cross-compilers:
+
+aarch64-linux-musleabi
+armv4l-linux-musleabihf
+armv5l-linux-musleabihf
+armv7l-linux-musleabihf
+i486-linux-musl
+i686-linux-musl
+mips-linux-musl
+mips64-linux-musl
+mipsel-linux-musl
+powerpc-linux-musl
+powerpc64-linux-musl
+powerpc64le-linux-musl
+riscv32-linux-musl
+riscv64-linux-musl
+s390x-linux-musl
+sh4-linux-musl
+sh4eb-linux-musl
+x86_64-linux-musl
+
+taken from this directory [2].
+
+So, as you can see, there are 18 triplets, which correspond to 8 subdirs in arch/.
+
+For every triplet I tested that:
+- Initramfs still works (both builtin and external)
+- Direct boot from disk still works
+- Remaining initrd code path (root=/dev/ram0) still works
+
+Workaround
+====
+If "retain_initrd" is passed to kernel, then initramfs/initrd,
+passed by bootloader, is retained and becomes available after boot
+as read-only magic file /sys/firmware/initrd [3].
+
+No copies are involved. I. e. /sys/firmware/initrd is simply
+a reference to original blob passed by bootloader.
+
+This works even if initrd/initramfs is not recognized by kernel
+in any way, i. e. even if it is not valid cpio archive, nor
+a fs image supported by classic initrd.
+
+This works both with my patchset and without it.
+
+This means that you can emulate classic initrd so:
+link builtin initramfs to kernel; in /init in this initramfs
+copy /sys/firmware/initrd to some file in / and loop-mount it.
+
+This is even better than classic initrd, because:
+- You can use fs not supported by classic initrd, for example erofs
+- One copy is involved (from /sys/firmware/initrd to some file in /)
+as opposed to two when using classic initrd
+
+Still, I don't recommend using this workaround, because
+I want everyone to migrate to proper modern initramfs.
+But still you can use this workaround if you want.
+
+Also: it is not possible to directly loop-mount
+/sys/firmware/initrd . Theoretically kernel can be changed
+to allow this (and/or to make it writable), but I think nobody needs this.
+And I don't want to implement this.
+
+On Qemu's -initrd and GRUB's initrd
+====
+Don't panic, this patchset doesn't remove initramfs
+(which is used by nearly all Linux distros). And I don't
+have plans to remove it.
+
+Qemu's -initrd option and GRUB's initrd command refer
+to initrd bootloader mechanism, which is used to
+load both initrd and (external) initramfs.
+
+So, if you use Qemu's -initrd or GRUB's initrd,
+then you likely use them to pass initramfs, and thus
+you are safe.
+
+v1: https://lore.kernel.org/lkml/20250913003842.41944-1-safinaskar@gmail.com/
+
+v1 -> v2 changes:
+- A lot. I removed most patches, see cover letter for details
+
+v2: https://lore.kernel.org/lkml/20251010094047.3111495-1-safinaskar@gmail.com/
+
+v2 -> v3 changes:
+- Commit messages
+- Expanded docs for "noinitrd"
+- Added link to /sys/firmware/initrd workaround to pr_warn
+
+v3: https://lore.kernel.org/lkml/20251017060956.1151347-1-safinaskar@gmail.com/
+
+v3 -> v4 changes:
+- Changed "September 2026" to "January 2027" (i. e. after 2026 LTS release)
+
+[1] https://github.com/landley/toybox/tree/master/mkroot
+[2] https://landley.net/toybox/downloads/binaries/toolchains/latest
+[3] https://lore.kernel.org/all/20231207235654.16622-1-graf@amazon.com/
+[4] https://lore.kernel.org/lkml/20250918152830.438554-1-nschichan@freebox.fr/
+[5] https://lore.kernel.org/lkml/20251022082604.25437-1-safinaskar@gmail.com/
+
+Askar Safin (3):
+  init: remove deprecated "load_ramdisk" and "prompt_ramdisk" command
+    line parameters
+  initrd: remove deprecated code path (linuxrc)
+  init: remove /proc/sys/kernel/real-root-dev
+
+ .../admin-guide/kernel-parameters.txt         |  12 +-
+ Documentation/admin-guide/sysctl/kernel.rst   |   6 -
+ arch/arm/configs/neponset_defconfig           |   2 +-
+ fs/init.c                                     |  14 ---
+ include/linux/init_syscalls.h                 |   1 -
+ include/linux/initrd.h                        |   2 -
+ include/uapi/linux/sysctl.h                   |   1 -
+ init/do_mounts.c                              |  11 +-
+ init/do_mounts.h                              |  18 +--
+ init/do_mounts_initrd.c                       | 107 ++----------------
+ init/do_mounts_rd.c                           |  24 +---
+ 11 files changed, 23 insertions(+), 175 deletions(-)
+
+
+base-commit: 6a23ae0a96a600d1d12557add110e0bb6e32730c (v6.18-rc6)
+-- 
+2.47.3
 
