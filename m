@@ -1,64 +1,64 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9390136B04C
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 15:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C572835E53D
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 15:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763567147; cv=none; b=E9Pfhi8kek2jWTO2+dnC4Lo+U7gn+IEses3msRHtABLgsbW/Ud2QxSb5QmHdw+/e6fhcZuJvr1AvsC8DNKufInXwjjYbKxWzIvp2IMC5A/Nf565VzPejWdSkJ+pVc/o6aFGZTwdD8ZsRNSD/mM9WBj2Yf55KN4NN9a+0kiyENDI=
+	t=1763567148; cv=none; b=cSWH05s45EbqVbILMk09ZEDxmY4DbCT/W98UM/EooUz4b0y0sWa7NXE5MzVXBWcNNxCX30FKFcG+ovV8OBUjGsYftkk9OdeZOr/9SsfOAhYMKAENqPufWx52d5qrgf8gEKnQH2f1Viam4FaVRhOEl/p8/OfVUfC43+PPcUoyFGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763567147; c=relaxed/simple;
-	bh=JX9G2IddNBochneGYWQCKynmuHEMYdz6GZlhqVo2tUg=;
+	s=arc-20240116; t=1763567148; c=relaxed/simple;
+	bh=oxMJ7nEx298nSQNAUvIm+RfzZDeUkq7JnffHAGnHY2g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AS4x8CALOukuZ1z3ZGCbjt5Z/uChlbfjq7ryHXr4U/qVUOOXRx4M4+mAEtTCUrJU0KbA5+emDziNG5+4uWFNpilYZdk9cGkBoHAlXzw+cpi4x+jC2x9MWZCWGv+m9esOpDdcJ8p1td1Wo9MvPNzLRtf3UppaL8w4Qcx9S1wVbHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rAnSdbFB; arc=none smtp.client-ip=209.85.221.48
+	 MIME-Version; b=HZlFCgT7A6fgLGXbvXmi0nNKn/bqAgSqkA9Z9EFJJNHqObeAQ9W+VyukRMsOvLGoMjYtRKWtQmc91O6Uk3cHu8ETKWycX18DBwfq09T2xY3JaJ9xFxUQy9/752h3eV8sSuSjyMCgZ++fXMOQ9Wj6+5iqyCnNpQPnjvo7hjhX/aY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FsCbIJad; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rAnSdbFB"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42b3c5defb2so4677053f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 07:45:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FsCbIJad"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-42b32900c8bso3968835f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 07:45:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763567139; x=1764171939; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1763567141; x=1764171941; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JjJbR05GJTjvP4eC8iuNclWxk1mMm5RuLT4aWNn+uIg=;
-        b=rAnSdbFBCLvJLjGUsRP/QcCxvZOZSBH0Zgq71o4AlrJ42jn5rslMLmFXW2AxVikkjc
-         TCFSyFvag+KDqaGb+sGs6y6Xav09Zyp10l3ZPFhA94o2Ri3OzwIj02xzj+m0FuSPn/Gv
-         hD1RwrF7bt3oyLRQ5AQJ5JdP2XYKa+DRSBQ8FahHCby8Rmw4HIxn1MEMOVXs7a2B6/2u
-         EVKQhhdTnuxBtaFrS4GyTGu+YV6B791L869p/wQHxmNOdi+WqgZOXrqw3s6bGiwy5FTy
-         Tw6bwTM4dfJLyCpzNUExW1r8gLRr75kF8oll6wI7RdBr3kTbO/KRsqKSb6aLjhuH5/bX
-         l6IQ==
+        bh=ERGSngcgAQCpMTKH+vT5ZfmIUQiWuwubvJ1CKsgHOkU=;
+        b=FsCbIJadiUYCr6ejMirqwdULle+dFIB303mznY92UxGov8aRpXM1+QZ0YZAJZUD4WL
+         dEklnlMCpvxXLYdxfYsOMAAtdJ7Y89yogdYrFJamQiRz30daYx5LMFbN32HWiJubddSV
+         yKSmzvQbxm0kZ9/kKiXGX8ElkghkgmgldHj7ofdE/8tU2HEt33UbAYAY1F3di2i4/P0U
+         23nzNwXa9vf8tpAXj4yyp7i95O+QXZpgrtz3n/IVl1PCKWqIBOzKJ876OYZYt+aiyuMe
+         u+98CAqWIInRKYI88txn1aq/8lAHBVFah13SAXvoapuq9p6LywhU7eCXy7B7xaClvy7C
+         x/IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763567139; x=1764171939;
+        d=1e100.net; s=20230601; t=1763567141; x=1764171941;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JjJbR05GJTjvP4eC8iuNclWxk1mMm5RuLT4aWNn+uIg=;
-        b=Dlku56YC1vB0qncyNez67KGvtWoqF1m0Nxin3tKwtDatygYIrTW3xsN0iXfzxVTffU
-         bCermOHuVadDZu5LW9PgBEfzL3iYLmd7ONAV4qPqMcjesbbcERbsn9/mLyPpBa5c9MB9
-         2YZTVhXZsfRR02SJzwVyC3gVhphnbEgktbAUvcrDrg8zxCOH+aQvcw03ezkA38W4c8+6
-         dgS4WUxddw/tIslttqHzJq1QqqBj24PiBdrrKNuUQcnBySm4k9MElP2Tr+nNNl5r8nQm
-         TrB2ZicpdHAIF+ShD0LFWVnzMx6KvyV0teYAl0IxMV8rk2IOr4ceK/XBBrGxqsR3DSfy
-         EJAg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfkm1d0FVluSx2EUT2vEJVJy7Jes9t4yCSWI+7abyxjvc3MVjTG6XvK0VHsj0x+poibqZhI6/PeZg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzi+q4bg1nmmG7jhH1ShvoQTLdf5+kwq+raEt61CYEqfeZDTbSP
-	E3vVSso3Y2Ng2hEIhBqvfxBtdOLw6fRh8JjsppxHsNL4W24oXiCQcsl06JRHtltWerI=
-X-Gm-Gg: ASbGnct8HMKyTtptHAsiRExXYbxVTDNCIUgufws4FVGYdUBXaGNheaKARs/XFkVEp9D
-	3uRySmhocFPXb0hL8TYn5NMaaatgSVuNLle4qT1ILFZ54Rt8a9KA57zt3Y6v7aLiP34lCJv+0X2
-	EMpSIAPuILY5VNMo8EmVbfxc7mWwvcBcQzaovAt67AJhtyanHqYqyoq2p+wD37V1bRt0BZETjEB
-	Xa8WKbQVPUQs+oeV6VxTCj5xLs8tPx7BVIvnkAohxtHCH2yZ/dfAIZ5f0ju4n1bygu95eyPUjZA
-	ZlO/bAizFufPG/g3/gUi4t43MAhcwTpm+sraYaP5peNc/NciznaKYTM6t07U8rwUiB+awjac7LO
-	t5+qPCEIgyIxGROGM5+kDFfTjqJcyv4Wrm7e2H2y+g8ZzDOx+gCBHNWD9oV2wqhh1N5h9fnxRpd
-	4AhmOtcbE5n30sZgZGdO/FYgcWhtorWg==
-X-Google-Smtp-Source: AGHT+IEyhedKwAlBM3EiuchJNsF2kJSsWS7yZo6BNIFhuE+C/7ka0URI4Q7HQ+TXxvH0Bkqj0xsuVQ==
-X-Received: by 2002:a05:6000:2c11:b0:429:cd3f:f43b with SMTP id ffacd0b85a97d-42b5933e404mr19233459f8f.4.1763567139371;
-        Wed, 19 Nov 2025 07:45:39 -0800 (PST)
+        bh=ERGSngcgAQCpMTKH+vT5ZfmIUQiWuwubvJ1CKsgHOkU=;
+        b=jUrRmhEH3WRipG/xUT3z3QXQgBSETLRPsVFukMyFOdLBbWdZL0Mv5oA3SxDLeqXC3I
+         DtbkHXB+BlSmCE8CDpQQ522SQi9Z4WfoDIZDuZ7uLyQ0K5Maw7z5ONiAyJit1+rzxBk+
+         u6kILiINueOS4DYPZR3lwD38v3JmqwBke1jWv+fn4+tdQpPLP+fqoFoCSdyXFa2x5tM/
+         XQxjHLg4PhocSLKW3l0DUcnFApQ3lChK7sfDGwsCfb0N04CYPpTZnWA2r9FC/2ISB28a
+         L1ZZIsWkfPJGzqiiWevkzVOdLv8wggnpj46s7MjTLKLBD1SuGzlj7VKssiBiLd15c8Ap
+         cxWA==
+X-Forwarded-Encrypted: i=1; AJvYcCXuK/PRR05RLF2Gmqzu7xvBZsvltX0r1KEIXzy6KNYSPkTMgTwnHnxGFZtPEJkjdAXQXe48t9RwWAA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyg9LULrbB2xpSoTxK5wKoUfe6Lan4tmRmhTjbg83c9TzxL6k8M
+	qvvTCVIgO7QFIqAa8jNgGC1lt+orUO4LGAmc9iOplZjSZ4omP4TRauNZRy4m82yuVew=
+X-Gm-Gg: ASbGncswGM7tDR8wwn1GAyNGeqjpOB7clHTFTxCdvYRhb/WHEq7dadVO+6rs1JVQnOo
+	Fjl5P/TrxOKqDDC2+nzv2/wL2CcD0l7zlRrDiDVbbeTts0ZuO8Gil4AqxHFVmKx+ngt68A/syK6
+	BkAZS9giv8Sf6mYs6kN6h658poiJ7Xy0NDKx0UNztHsWn09pdHXdzXfn09cmS0PoP4KUwQ6mkp2
+	mu0cvGYyhTnv54/44/w7sYB9YgqN/bsRk2k61zherPwebtSRceV2eAsmasrh8VrQcj2xVLJbTDh
+	+ldYkMP2JKDwBLrKr15B9/z6vxvGaXv3jB9PE4pom5ms2evKacgis6DWDl04eWBjcafDkbT6c/e
+	c9Q+UtJhu7UvM+zqB9WSsulVd6Slja2DW5nxpVQpVjNXMUdFqDDKhJFH4ffr9eXZPszUfX2uBXc
+	NFfnnYvDWBcpKQ/HHRLp4148YvMvxxuA==
+X-Google-Smtp-Source: AGHT+IGbRbXBdWPtS8s2pezZSC/ny/HyWuyG8gk1o+dQWRtSU7DtMYRlEtgHBlikDrn4myL+c90Kfw==
+X-Received: by 2002:a05:6000:2410:b0:42b:3978:158e with SMTP id ffacd0b85a97d-42cb1f9e99amr2655929f8f.30.1763567141134;
+        Wed, 19 Nov 2025 07:45:41 -0800 (PST)
 Received: from eugen-station.. ([82.76.24.202])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53dea1c9sm38765632f8f.0.2025.11.19.07.45.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53dea1c9sm38765632f8f.0.2025.11.19.07.45.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 07:45:39 -0800 (PST)
+        Wed, 19 Nov 2025 07:45:40 -0800 (PST)
 From: Eugen Hristev <eugen.hristev@linaro.org>
 To: linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -83,9 +83,9 @@ Cc: tudor.ambarus@linaro.org,
 	tony.luck@intel.com,
 	kees@kernel.org,
 	Eugen Hristev <eugen.hristev@linaro.org>
-Subject: [PATCH 13/26] mm/init-mm: Annotate static information into meminspect
-Date: Wed, 19 Nov 2025 17:44:14 +0200
-Message-ID: <20251119154427.1033475-14-eugen.hristev@linaro.org>
+Subject: [PATCH 14/26] panic: Annotate static information into meminspect
+Date: Wed, 19 Nov 2025 17:44:15 +0200
+Message-ID: <20251119154427.1033475-15-eugen.hristev@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251119154427.1033475-1-eugen.hristev@linaro.org>
 References: <20251119154427.1033475-1-eugen.hristev@linaro.org>
@@ -98,58 +98,45 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Annotate vital static information into inspection table:
- - init_mm
- - swapper_pg_dir
- - _sinittext
- - _einittext
- - _end
- - _text
- - _stext
- - _etext
+ - tainted_mask
+ - taint_flags
 
 Information on these variables is stored into dedicated inspection section.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
 ---
- mm/init-mm.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ kernel/panic.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/mm/init-mm.c b/mm/init-mm.c
-index 4600e7605cab..6931549bb7a2 100644
---- a/mm/init-mm.c
-+++ b/mm/init-mm.c
-@@ -7,6 +7,7 @@
- #include <linux/cpumask.h>
- #include <linux/mman.h>
- #include <linux/pgtable.h>
+diff --git a/kernel/panic.c b/kernel/panic.c
+index 24cc3eec1805..e99539e18054 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -37,6 +37,7 @@
+ #include <linux/context_tracking.h>
+ #include <linux/seq_buf.h>
+ #include <linux/sys_info.h>
 +#include <linux/meminspect.h>
+ #include <trace/events/error_report.h>
+ #include <asm/sections.h>
  
- #include <linux/atomic.h>
- #include <linux/user_namespace.h>
-@@ -19,6 +20,13 @@
- 
- const struct vm_operations_struct vma_dummy_vm_ops;
- 
-+MEMINSPECT_AREA_ENTRY(_sinittext, sizeof(void *));
-+MEMINSPECT_AREA_ENTRY(_einittext, sizeof(void *));
-+MEMINSPECT_AREA_ENTRY(_end, sizeof(void *));
-+MEMINSPECT_AREA_ENTRY(_text, sizeof(void *));
-+MEMINSPECT_AREA_ENTRY(_stext, sizeof(void *));
-+MEMINSPECT_AREA_ENTRY(_etext, sizeof(void *));
-+
- /*
-  * For dynamically allocated mm_structs, there is a dynamically sized cpumask
-  * at the end of the structure, the size of which depends on the maximum CPU
-@@ -48,6 +56,9 @@ struct mm_struct init_mm = {
- 	INIT_MM_CONTEXT(init_mm)
+@@ -56,6 +57,7 @@ static unsigned int __read_mostly sysctl_oops_all_cpu_backtrace;
+ int panic_on_oops = IS_ENABLED(CONFIG_PANIC_ON_OOPS);
+ static unsigned long tainted_mask =
+ 	IS_ENABLED(CONFIG_RANDSTRUCT) ? (1 << TAINT_RANDSTRUCT) : 0;
++MEMINSPECT_SIMPLE_ENTRY(tainted_mask);
+ static int pause_on_oops;
+ static int pause_on_oops_flag;
+ static DEFINE_SPINLOCK(pause_on_oops_lock);
+@@ -662,6 +664,8 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
+ 	TAINT_FLAG(FWCTL,			'J', ' ', true),
  };
  
-+MEMINSPECT_SIMPLE_ENTRY(init_mm);
-+MEMINSPECT_AREA_ENTRY(swapper_pg_dir, sizeof(void *));
++MEMINSPECT_SIMPLE_ENTRY(taint_flags);
 +
- void setup_initial_init_mm(void *start_code, void *end_code,
- 			   void *end_data, void *brk)
- {
+ #undef TAINT_FLAG
+ 
+ static void print_tainted_seq(struct seq_buf *s, bool verbose)
 -- 
 2.43.0
 
