@@ -1,170 +1,225 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11022074.outbound.protection.outlook.com [52.101.66.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFF235772F
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 12:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763556543; cv=none; b=apQSE/r95LtOa7DAH+nmD6V/qqAPJXgWSFskGo3fdgWp+d7zqwsKYQ3QG/GCNB2YGipBZO4lafL69RITB/dBC6TvLlkNw5m7kjT28XkcFsJ7fVUD4Wpz8mIB9x9J/AR2ncbR2tGLImnWoJYN/o9C2I1EqmwzA4FDRN8tCx7Y7fo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763556543; c=relaxed/simple;
-	bh=UZNBewuvwkPWj+bu4O3n8vX8SbsHsZYXgD064ZW+wME=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AWj9lf9qcXSt0cE1xfvh+wN+hC4r1bTLp+o0imjCg/LsKFgBkW9q/AaaGTPSxfnridlpmaF7E4MiJxQa1InEiwsQpEydOF5FkUZ2OBASQ0DkEJDSZpuXVvxyUUokwkvGBK84unH/ubdpHG6nRRyfpBZSLjqQAzxd83drZ8azqD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XyBNZwEk; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=C7C/e5Ox; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACFFD358D12;
+	Wed, 19 Nov 2025 12:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763556732; cv=fail; b=m/lPI0t2FNQnBb1/U2a+FQTLPNhhpCTNXgMuJqSLV/u7a7DS2gkKAedSn3f5H++7aLWlIJ8RXhLjAt2SeP9JKKJCybBR/Dh7tiUirBton1bshUPgEQJOLeR1KTkdWdqjWIO3QuuJc6SX0WJcN91plqjgbzT735FO4+GQS7q1LsA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763556732; c=relaxed/simple;
+	bh=Zoaxh2j3clEXjA77Hbur96y+Q2vOqW3+de/WS5WWWPE=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Rwvmc3BB4ZVMjo0UdJSGliqTTVe5xMeenDNbXvV3b41H3R70cV0isch/jDLCgrfcceKaiyDYawyWy7yeDWujAi2thGTSbTqmTctLKE32mDlaPihhSwnGpIkEZupXI/sTyExGkPJGMdVxvh1QG3Jv3Wc0o0nl1dltlprXP1HPnSg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=becom-group.com; spf=pass smtp.mailfrom=becom-group.com; dkim=pass (1024-bit key) header.d=BECOMElectronics.onmicrosoft.com header.i=@BECOMElectronics.onmicrosoft.com header.b=aAreRv68; arc=fail smtp.client-ip=52.101.66.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=becom-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=becom-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XyBNZwEk";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="C7C/e5Ox"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1763556540;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=efzFAXa6AqvKlr68xmTUgqr7OrHhr6l1HfrVAauk7zk=;
-	b=XyBNZwEk4nm5xu8Yv7jWIJ/bNwmTNI3iLJ5GtfGLmr3CQ1uu36W5hfNm/vUytmf2Rj/3RQ
-	/F8MMMGYrS6Tr4PtgsIqo8fc1QpsNBJSNeEt8Mu+TZ/6nAyxarHPA7tY+KK8e489BYw+by
-	vEvuO8js/hzEO7r8ZtWVWo3kNUEwheU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-439-XW8bXk9LNmqkkpoC6T4Q7g-1; Wed, 19 Nov 2025 07:48:59 -0500
-X-MC-Unique: XW8bXk9LNmqkkpoC6T4Q7g-1
-X-Mimecast-MFC-AGG-ID: XW8bXk9LNmqkkpoC6T4Q7g_1763556538
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4775e00b16fso40958515e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 04:48:58 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=BECOMElectronics.onmicrosoft.com header.i=@BECOMElectronics.onmicrosoft.com header.b="aAreRv68"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ppxBCdRS4B5t1s8BLqCGrP7uUftZg8EX7bMhsv4A6ciXRx6P2dsJA0ajnYc7rGYSlYnnH99ZjNjoywQ0rxXKOygUZERjPQo07gydOkwo1FB4cdaF8WHXW+Q3Wy2MeGgp8RChe7AZiGP6OirO+v97kL8fEYEsAHB/STXr54ULFdMcY34b8jF/QT6aW8KTBeSg0czBFRToRorxkG2szVlitjgReoCB2a1rONd8HKCM+ApfQpb+hdkHvAmNyDCSmkGFn9dKHzu3P4YJMVO9wDIGnpIF6gf/TS6poL0dwm2wiSYDCSvR+prG0N2Q98O+W60WNFyGvlV4hzUA95Ne65pjZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=14IF1xXukIBpRWu2nj+0JEBmBqhG8O9rhFxJNQ2+12Y=;
+ b=tcFkcQ2+A6EGKtxThEM2WVM714o1ISQwxP2sLzji9p6irUvHuBQPyGPshGuSjt1FK98klBBN8AFVEWzQvbmA/idvmKKZwc3+JAyWE/1FD1f3SyKvkqsTO75OlV3lZZ4ZeAZibQwwNRHAJkFX4RAlb/+N6LJXrAebnOSCaaht36vnPmGTiSQHcDXFHLqXzHz8zVRYOqk6dpKctcQzr1jpbqOZbLXm+x/L4Fcm2tnHrCVXVlJ11DuomvYRSiVhs8evmqroz+ci7YLyWsbJ0Oyg0eHHvfc0135oYnEzhkpWHiAJGkw8Li9iTLSHMJwwLjU515ZVMiovtnaTW90OSgONIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=becom-group.com; dmarc=pass action=none
+ header.from=becom-group.com; dkim=pass header.d=becom-group.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1763556538; x=1764161338; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=efzFAXa6AqvKlr68xmTUgqr7OrHhr6l1HfrVAauk7zk=;
-        b=C7C/e5OxFboNzS8m1t5dKea5dZs0Nqemx5VNAyS4V2udOfYctUTj2De0vzprMRklfA
-         n3w1Mgd3TzD+NnHKap47yfCXshuADswNZhBjdS5qSODybS5FAOpg6k9f31+v9Mog2g9A
-         YHqc3dmZuEZ0SSZocHliCffdTUluxvJ+/3rHUi6olkh/k4BhILq29ruCCEphYB4ChMtz
-         ftlIA1IXwMgRJoIWAWH8U6pK8wcgkcZGxdr2uZfmWFIs/zfWGAWckGcvF5U1dYqmLryG
-         UQoarNVJZbwkOtckDW5yHCMhPJXb9OCo1yUfjTj3TvrtncLybSNM9tNlI4NdGpBUnSjD
-         +OpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763556538; x=1764161338;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=efzFAXa6AqvKlr68xmTUgqr7OrHhr6l1HfrVAauk7zk=;
-        b=ndfvIWSjDvYUj2nCouA6nB7ywrBrIMUwyVJb1C7746nZoPHQlrHHtk4DZ6caI/F/xq
-         9jQGtRNjFbhdzM82eNRdS+LEdcUlmDmvuNB0x/6D4JLzvk1VEjpoujw7kn01vJFoV2+b
-         xldVG0Zy7cnrrHozA4MEkAzeXjDWm3ulDnliuwiVwz1n/+cA1gMqp7ORqx2vJWtUn614
-         LDMcOHk6bpBldSySAEnt+Q8WeuZINtWz1M1oGY2cF+KwlqMZzgVDSLKJLucFglLFfIj+
-         ge2wpZiOLifokDF8eBPy9GnJ5qtg+Rh6Pkfov2wX6txeXbK/RTa5xT6iJbtl+knUFpoR
-         1c+A==
-X-Forwarded-Encrypted: i=1; AJvYcCWf0btcWChVtLsAIZypg3Gafha1wzRK1qKOKIyt1WE958dm8PWSFvA4P0ndqnpd7X8U3dgRhzlt0I4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywbfg3tS6cpTYEU/pQSvqGVpsibg274vNrJgfKF+CBlT2K7KzRA
-	P70mpxHLH9ZHyV83rHwtsDH+POzoVLU8zKGde/3bE4IWGHJGYHSEv9l7HBmnyQchw1+8j7p/3Lf
-	895lihKcNzhYoc0l4eFvMqqV6MeEQzfQGocpaP4yybRsn+vbdjdz5+X+qNgqXNQ==
-X-Gm-Gg: ASbGnctP88Z5VmjffmemE0t/ldASF+mU7UZquawlzRSHRbYg5/WtdqvzA5Td+ZxYv+q
-	rnHpXEKPeDz+Lo19uJe5crSOsfzOMVbl12q3+ojumGy/TtXTMrexpbwpTlUMrKSMBVpbY0gXf+6
-	y8VcUQiGzJ7oin2Kif0DIer1jrkCCk8MVm2sNbCPVcB6jYputGsALkXugX8WBzCbckUCxEObm2/
-	l0GnDov8PE38N7kTS3d7dX3RthZ647ZfI5hQvf0J81R41Iks3yxrNq6iQlLJYq46gkIVlhHqDzH
-	ggkSB3CatVEjZqU5QNTttS2YMHuf8K/Ra/06Nqno5CtDtXbH2jP6aqaDJJFxdds6urmihgE8Veb
-	oyhU0yFDJahuVVQCvkp/CkKq8743daw==
-X-Received: by 2002:a05:600c:45c4:b0:477:7658:572a with SMTP id 5b1f17b1804b1-4778fea84d9mr173008245e9.20.1763556537876;
-        Wed, 19 Nov 2025 04:48:57 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF3vS0uApFcgFVlL2gt/R9GTQH3kJDQoD3RSC3xgY4lk5mLnK8+RM+7y+ofmIidRok8jpEiHw==
-X-Received: by 2002:a05:600c:45c4:b0:477:7658:572a with SMTP id 5b1f17b1804b1-4778fea84d9mr173007825e9.20.1763556537409;
-        Wed, 19 Nov 2025 04:48:57 -0800 (PST)
-Received: from redhat.com (IGLD-80-230-39-63.inter.net.il. [80.230.39.63])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9e19875sm38753245e9.16.2025.11.19.04.48.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 04:48:56 -0800 (PST)
-Date: Wed, 19 Nov 2025 07:48:53 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
-	Jason Wang <jasowang@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-	virtualization@lists.linux.dev, netdev@vger.kernel.org,
+ d=BECOMElectronics.onmicrosoft.com;
+ s=selector2-BECOMElectronics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=14IF1xXukIBpRWu2nj+0JEBmBqhG8O9rhFxJNQ2+12Y=;
+ b=aAreRv684Ww/tQMAp6wR0Q0KhHpx+HBkqKakdtLiTZQyhAX76yKxDL1TV00+IMAidoyMbW4jCjNMADuvdIAD9d6inGOijk5XvX/pIXEBE/fzgjerz/5rgNUCTpXWsNssjZudaYNPRHuLl6NQ0UgPJvjktG+PjSg6fx1C6eRM8G8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=becom-group.com;
+Received: from PAXPR01MB8613.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:232::12) by AS5PR01MB12563.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:753::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Wed, 19 Nov
+ 2025 12:52:05 +0000
+Received: from PAXPR01MB8613.eurprd01.prod.exchangelabs.com
+ ([fe80::5ca2:88f2:e3ee:8eab]) by PAXPR01MB8613.eurprd01.prod.exchangelabs.com
+ ([fe80::5ca2:88f2:e3ee:8eab%5]) with mapi id 15.20.9343.009; Wed, 19 Nov 2025
+ 12:52:05 +0000
+From: Thomas Marangoni <Thomas.Marangoni@becom-group.com>
+To: linux-hwmon@vger.kernel.org
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux@roeck-us.net,
+	corbet@lwn.net,
+	Jonathan.Cameron@huawei.com,
+	michal.simek@amd.com,
+	nuno.sa@analog.com,
+	Frank.Li@nxp.com,
+	wenswang@yeah.net,
+	apokusinski01@gmail.com,
+	dixitparmar19@gmail.com,
+	vassilisamir@gmail.com,
+	paweldembicki@gmail.com,
+	heiko@sntech.de,
+	neil.armstrong@linaro.org,
+	kever.yang@rock-chips.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	mani@kernel.org,
+	dev@kael-k.io,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	Mike Christie <michael.christie@oracle.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH v5 2/2] vhost: switch to arrays of feature bits
-Message-ID: <20251119074746-mutt-send-email-mst@kernel.org>
-References: <cover.1763535083.git.mst@redhat.com>
- <fbf51913a243558ddfee96d129d37d570fa23946.1763535083.git.mst@redhat.com>
- <4204ed4b-0da1-407f-84e0-e23e2ce65fc7@redhat.com>
+	Thomas Marangoni <Thomas.Marangoni@becom-group.com>
+Subject: [PATCH v2 0/4] hwmon: Add driver for wsen-tids temperature driver
+Date: Wed, 19 Nov 2025 13:51:37 +0100
+Message-ID: <20251119125145.2402620-1-Thomas.Marangoni@becom-group.com>
+X-Mailer: git-send-email 2.51.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1P189CA0017.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:802:2a::30) To PAXPR01MB8613.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:232::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4204ed4b-0da1-407f-84e0-e23e2ce65fc7@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR01MB8613:EE_|AS5PR01MB12563:EE_
+X-MS-Office365-Filtering-Correlation-Id: a03b1e9e-faf7-4dcb-9d94-08de276a717f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MTA4ek4zblJSaTd1L2tzclhMR2tPeVBXTHk2dGk4Uk8wT3hpdmplVDMvSDZm?=
+ =?utf-8?B?Z1dsWE03MHlRVDN5aFppU3RHYzZ0TVpNbS9qTVM3SXZBaExLWU5HR2x5aysv?=
+ =?utf-8?B?Um9hNHVJUE03UG5UZ3JyVllKQWJ1N1hNbk8xTjZsSWZGa2M0d0tpMDJVUEZL?=
+ =?utf-8?B?V092bWpOcHpBYUVDY3pLSFNpMWlqQWV5RE5ROHE1Z2pwR1E1THVHMk9ZZ294?=
+ =?utf-8?B?YTFnNmtoNXlkTEYrN1p6cEFsT2VQdXF5UXhrY2hUR01tRWYxWVhXbHVRd2Mx?=
+ =?utf-8?B?dWtBVUowQ2NaYU84Z3UxcUh4MS9xYjEwUGhjZEZMT3duZXVNaCtDblRmZHdH?=
+ =?utf-8?B?L2VqUTBzdkpjdnd5S3hoN1AySHlKWWRCUUNwWWFkb2ZoczUvUjd1dmU0NU1x?=
+ =?utf-8?B?M2lVNklZQXQxbUhpeTg5YU9zWFJNVmx2NlRTRUpFcC9ZS0lESXYrZDFESFUw?=
+ =?utf-8?B?NGRrcGF1bGRJWXdwdEhOQTJFSFFBekJiSTBDVWtHSXp0ZE5sQXRVcVljVE5Z?=
+ =?utf-8?B?VXdFUDl3dXNFUTRVc09CU0toTG9CYTFtTjEzVnlJU1FZczBSNjhoMHNMMWZi?=
+ =?utf-8?B?OVRNUlFnZFZCTWQ1QzJHNkRiRldjU2wxQjVJMjhDdHJmc1FUZmxHdmxFTUE5?=
+ =?utf-8?B?M3U4a3l5SXVWQUpSbE16MjhVZU9STDQ4T0NKbmtqZGMvQUFxRXdqUFhhUG9Z?=
+ =?utf-8?B?SkxqT0FqV2YrYU5zNjdabkdmcWE3RGljc3VmUS9ydTdhYjQwMUdRNXUyVS9s?=
+ =?utf-8?B?WTVCZkVJM05ZaEVDK0NMbXZwZEo0d0wrWlY5V3kweGpiZ2dwY29BTjMxT2Y2?=
+ =?utf-8?B?OEhEdkVMZStRR1hJcW9GVk5mQVcwZnFlWHpGY1JOZnBMbmpOQ2pTc3JLT1c5?=
+ =?utf-8?B?ZnpNek8xQmxJQzY1eVZKbzdDT0JrMzAwTGQrQmd0dEg0eEpZZkpUUGx5N1JF?=
+ =?utf-8?B?WWJ0TzlZQk9Hdm5xTDlmN04xcm5zUkI0N0NFS0F5SWtYWEdUK3ZjTTNySmQ1?=
+ =?utf-8?B?SVBmYndoT0t3VTVxY2xlTmE3cmR4WXNvcE9zenNPNzBURXFWbmxxMTdYTHVq?=
+ =?utf-8?B?OTErYUx1dnk0ZzkyQjhPQjJHeUhtMStHUUsrS29Oa0dNTVBJRUVSUU9CeGRo?=
+ =?utf-8?B?RzNvZFU3cjh0dU5OV2JSOUZ1ZU4yck5LeXBUa3JHY3V0Rk93N1lGQ0lORDRC?=
+ =?utf-8?B?TnB1c3AzQVpneVVNWGdvVzJKSlNVWldEUEN4dThNWnBBSXo3bmxkRW83WWRX?=
+ =?utf-8?B?T3BZZUg0dkhkZFE0bFhzdE1jMnNFT3FFeEdKUkhMN2lZWDZVVm9JcTI1NnVo?=
+ =?utf-8?B?c3E3V1I2Z0c4eWNsSTJyeisxbWF6RkRZMjlTSm56alZxSzFUNEhPcFF2Um9M?=
+ =?utf-8?B?TU5ib3dKMC9ycVlNVHFvUWtzclpHQWF5TDUvZjd2T3JSbks1SGp0cU5YelJl?=
+ =?utf-8?B?NVVicE1makxsRTQrY1dDU3QyVTBmdTdYcHVOZE12WDhFSkFJZG8vREhzSmdR?=
+ =?utf-8?B?dWg3eC9TY2pPc2VxUG4vVFlLcGE0b1BnVG9STDFpRkdqMjFKcXhYc1BuMmtk?=
+ =?utf-8?B?ZktDcDNKdWpRU3RjSU80YzRBYTZyR0ZuakxxdFd6Z3dhQ1QvUzhQNllraFJ0?=
+ =?utf-8?B?OUZHS1ZtbVNDdWY1YXV5cXBiMGdMVlBnNmI3eTFneXJLa0ZRQjR5bndlNlpy?=
+ =?utf-8?B?L2xyMWJJZmFGRCtuRVg2MEpqcUZJN0tZL09icFJwSEpsU005L0NMMnNtL3BQ?=
+ =?utf-8?B?TW96Njd4dU4vaDIyM1FmUHUrWU5KTXRiN1ZrNVhxSjdBV3hDZ09mVW5JSmk2?=
+ =?utf-8?B?djhNejI3Sm9FRkhRUURNSFk0cTVPR0RLUEZyV3lXa2hkZUNDc01wdWpiV0dt?=
+ =?utf-8?B?ZlZ6d2V4VXZNdE8wRS9GcjlUTjViNjNmVUFVb2RDMzM2Q2dKS25qdENGbVVX?=
+ =?utf-8?Q?nMcWwU6y4Xd2S1uoBcNIeWNJI9ShBJ0D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR01MB8613.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TkU4c20zWkFDdkFXREpSSk5IY3NmZ1lGZTdIV0ZZcDF2RjVnTE90WFcwNkpY?=
+ =?utf-8?B?enc2NjNEZWxWbEtGQ0hjNDVqTnIzenhyNEJCQWpIUjJWM2NTN0Y1VWVnN1V2?=
+ =?utf-8?B?WDhJZ1JtSWZuS0FaeTVNU0JwRHlvaE02citiRW5FeGN1cmlPL3ZPUDd2bTVs?=
+ =?utf-8?B?dno2TTJLS25ySWI2VnBTQzYrMVB0QnFaRytvYklsSVBXcGhrSHZRY1ZCc0d2?=
+ =?utf-8?B?MFlpWjFxeEsvQkx3Mk00RzNxdzJuNE41czFkcDg3UENTK0tFOHhUcHROKytw?=
+ =?utf-8?B?WFJQK1RFRWdIM0xpaVJHd0xIN0lHWHRDREJjblVKUW85ekFFZ3J0N2VuTWcr?=
+ =?utf-8?B?T0YyajVjRVVBRGFxS2hTYkloazJyTUFiYmtsVFRYelBhRGV3OTlQL1lLSEFl?=
+ =?utf-8?B?QzZ2VmtSb1FRNGxoVVFRbHhob1AzbHU1WTIyNHcrcTFkSUFOaXIrUmMyMk40?=
+ =?utf-8?B?NVBXYTRrS3VWUEtVNDgrT2JTbmJ2aTAyYWlWNW5zWmtodEJSank4K2NGMmZG?=
+ =?utf-8?B?Y2c5VEdQc0ExTWdYRnR5SWpheGFLTnNxY3ZvWVU0eHdFb3hpYVpYYWwwSEUv?=
+ =?utf-8?B?djNCQVdGVTlWQnJHOU5mc1M0a3NVcXBlUWIzeTJIb1IxMHBoaDhRMzUvYXhk?=
+ =?utf-8?B?b2kwY3lSTUdVZ0tFS285YVEwcUh4empxK0xIeTZXeStzdFVKYWExRDVCNC81?=
+ =?utf-8?B?SkxYZU85aUNNSWdNMHdQUitIUE93cHZVRGVoMndSVUJqYnAxdlVPL1FvYjUy?=
+ =?utf-8?B?anpsQThjZkxXT1JrbzdrOXBqb3JXc0ZUcjAvYmZXZ2J1U0hLa3JWTEJLb3RI?=
+ =?utf-8?B?akNCU3h1bUhqM3pBcWp5MWUxajlqSUtvQnNYbm1EQ1NOQzFDOHoxeG9WMk4w?=
+ =?utf-8?B?S045UmoxZlgxNlVqU3UvU2YwZ2pYazE1dXBPSVpnMEJsWmtuQ1hEYlY4czA2?=
+ =?utf-8?B?S1dkNkZhbmdTdStBeFllRUM4VVZqaEtGamsyV2d5SENoWGZhRG9CbUhJKytS?=
+ =?utf-8?B?MjlvV3JlYm5rSXdZUGhmQVdQeXFzOE9LclJ5QnpITGlZMG9yM2I0ZTU5Rjdh?=
+ =?utf-8?B?bXN1eTBwWnlTUkhZTkNuM0hvaXpRKzJQeE15V3dHcVE4NS9QWDZyYUdDNE5G?=
+ =?utf-8?B?aGRXZ0o2M2FaS3d3Vms4RlhXSUJQTE1NNFkvTEdReUQyNEt0RTUrWTRROFRS?=
+ =?utf-8?B?TUtqOTh5c0JnMzcxeGhVRFRSaHkxTUNNdVZMNVUyVHQrUWJFUzNsL2ZmaFA5?=
+ =?utf-8?B?WGE5ZU1tcWttT1NBRFpGVW92SmNkRndFanB0bjdBOE5wRGF4UXI5b1lSQ1RB?=
+ =?utf-8?B?ZllvYThhZEEwUytYSkNNUFM1cnQ1TGhjZ3dPYUFHNlpzQTVJN01IWWNoQ2pH?=
+ =?utf-8?B?UTB6b0FWQlNnY1orU3hEcHUwQUZHd3BRRlY3eTltTERZUTdMUDdNK2VsNVph?=
+ =?utf-8?B?NWZBT3hmWEVubWpPRUU0V3NySitobWJOazB3RHBlTWg0aU1tVjRXYmxQTWxK?=
+ =?utf-8?B?SEgvYmpKTGJ2VGZqaUdBNHprbDNyRzNPK0tVbnMzQ281N2lHUVJoc3hraGJV?=
+ =?utf-8?B?YXRad0d6N1ZzY0hCV0lhQTVna2Q4ZGtIcy9NOTBEZGF1QUtwU0ZZaDFXRGhm?=
+ =?utf-8?B?OTZCT29yaml1NzN6UCtkMGFXNjIwb2NrbWhIdkRWTkc4djU5OGtQaXZOKzg3?=
+ =?utf-8?B?ek5BRWxEcVhjaWlBVnZLVWZRYjNBUXZZMlg5dlJHVU9DeEFkNjNGdjZzMGhn?=
+ =?utf-8?B?dGNJVG9ybXhCRXhNZzhyTE5GWmwxY2ZsaGZtcTJ2Nm01S0hNZXRVVTdGaVox?=
+ =?utf-8?B?YWRCNWkyZ0d6bytNMm93REh2VGRJd3NDUzJVbTNlU0pnUTFnbUNaRXdhU3lB?=
+ =?utf-8?B?ZEgySXpRZ0g5QXNsUnlvVmZ1N3F4aE9tQXJjUkI2TjJrK3FQRDJYQU00YXJr?=
+ =?utf-8?B?cWw4c2tmMlNXL3dOVFo4SGJzZ0tkcTB1M1ZJdzduSGQrOUQvUDZ2eXE2Qi9V?=
+ =?utf-8?B?SitRODhnZWMzL244ZFdSem50bzNuSjdLdnMxM3l1RmNwWlRkVUlDTC9oRTJo?=
+ =?utf-8?B?bi9PNmlxSEpzQXFDbXd2b0JaOGpla2dma1VvY2VrWVJScnhJNngrdjBsK2FP?=
+ =?utf-8?B?czZrWmloVUdGWnpBMTRLYm9ZZmVmVEkwTE16dURBSWZtdFkxU2IrejRSQjAv?=
+ =?utf-8?B?Qnc9PQ==?=
+X-OriginatorOrg: becom-group.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a03b1e9e-faf7-4dcb-9d94-08de276a717f
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR01MB8613.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 12:52:05.8322
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 738f6472-f50a-488c-ab88-c200fd976533
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JTjJ8a2JYriEglQt+cIz5twe6VSbVfJWWdE0t1Uft3Jofqd2SA2voAaiRSVj5/Y+GFq32OkpGjjJyiHwZj+KAx+3c6WwhYvktYcQps6AR/s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR01MB12563
 
-On Wed, Nov 19, 2025 at 12:04:12PM +0100, Paolo Abeni wrote:
-> On 11/19/25 7:55 AM, Michael S. Tsirkin wrote:
-> > @@ -1720,6 +1720,7 @@ static long vhost_net_set_owner(struct vhost_net *n)
-> >  static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
-> >  			    unsigned long arg)
-> >  {
-> > +	const DEFINE_VHOST_FEATURES_ARRAY(features_array, vhost_net_features);
-> 
-> I'm sorry for the late feedback, I was drowning in other stuff.
-> 
-> I have just a couple of non blocking suggestions, feel free to ignore.
+This patch series introduces a hwmon driver for wsen-tids temperature driver.
+
+Following hwmon functions are supported:
+- HWMON_T_INPUT
+- HWMON_T_MIN
+- HWMON_T_MAX
+- HWMON_T_MIN_ALARM
+- HWMON_T_MAX_ALARM
+- HWMON_C_UPDATE_INTERVAL
+
+A register dump from the device with i2cdump:
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00: 00 a0 00 00 4c 00 80 0c 17 e0 00 00 00 00 04 00
+
+---
+V1: https://lore.kernel.org/linux-hwmon/20251117123809.47488-1-Thomas.Marangoni@becom-group.com/
+
+Changes since v1:
+- Reworked regmap fields to regular regmap functions
+- Reworded documentation
+- Replaced temp_min_hyst with temp_min function
+- Replaced temp_max_hyst with temp_max function
+- Renamed tids-2521020222501 to tids
+
+Thomas Marangoni (4):
+  dt-bindings: Add trivial-devices for WSEN-tids temperature sensor and
+    wsen as vendor-prefix
+  MAINTAINERS: Add tids driver as maintained
+  hwmon: Add driver for wsen tids
+  hwmon: documentation: add tids
+
+ .../devicetree/bindings/trivial-devices.yaml  |   2 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ Documentation/hwmon/tids.rst                  |  61 +++
+ MAINTAINERS                                   |   7 +
+ drivers/hwmon/Kconfig                         |  10 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/tids.c                          | 447 ++++++++++++++++++
+ 7 files changed, 530 insertions(+)
+ create mode 100644 Documentation/hwmon/tids.rst
+ create mode 100644 drivers/hwmon/tids.c
 
 
-Oh this is really nice.
-I did exactly this and the diff is smaller while the compiler
-was smart enough to figure it out and the generated code is the same.
-
-Thanks!
-
-
-> I think that if you rename `vhost_net_features` as
-> `vhost_net_features_bits` and `features_array` as `vhost_net_features`
-> the diffstat could be smaller and possibly clearer.
-> 
-> >  	u64 all_features[VIRTIO_FEATURES_U64S];
-> >  	struct vhost_net *n = f->private_data;
-> >  	void __user *argp = (void __user *)arg;
-> > @@ -1734,14 +1735,14 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
-> >  			return -EFAULT;
-> >  		return vhost_net_set_backend(n, backend.index, backend.fd);
-> >  	case VHOST_GET_FEATURES:
-> > -		features = vhost_net_features[0];
-> > +		features = VHOST_FEATURES_U64(vhost_net_features, 0);
-> 
-> Here and below you could use directly:
-> 
-> 		features = features_array[0];
-> 
-> if you apply the rename mentioned above, this chunk and the following 3
-> should not be needed.
-> 
-> [...]> diff --git a/drivers/vhost/test.c b/drivers/vhost/test.c
-> > index 42c955a5b211..af727fccfe40 100644
-> > --- a/drivers/vhost/test.c
-> > +++ b/drivers/vhost/test.c
-> > @@ -308,6 +308,12 @@ static long vhost_test_set_backend(struct vhost_test *n, unsigned index, int fd)
-> >  	return r;
-> >  }
-> >  
-> > +static const int vhost_test_features[] = {
-> > +	VHOST_FEATURES
-> > +};
-> > +
-> > +#define VHOST_TEST_FEATURES VHOST_FEATURES_U64(vhost_test_features, 0)
-> 
-> If you rename `VHOST_FEATURES` to `VHOST_FEATURES_BITS` and
-> `VHOST_TEST_FEATURES` to `VHOST_FEATURES`, the following two chunks
-> should not be needed.
-> 
-> Thanks,
-> 
-> Paolo
+base-commit: fe4d0dea039f2befb93f27569593ec209843b0f5
+-- 
+2.51.1
 
