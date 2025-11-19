@@ -1,270 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2072E6CAA;
-	Wed, 19 Nov 2025 07:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7DB2EFD8C
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 07:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763538240; cv=none; b=ObypwnXFNLwG9EBbJKnkUFpV46Ahxt4ptJQIgEap0eafYeOm1nWesgxdn7Ga7Ta11qaa4pfUu3puP5sPprnzTxTgzNCjnl5zJhW7XhyXldBw46aEqPqvoDFDkIj1CVfeH0mvznDVM/ZF6lCpVO+t5Jk8gP00q3ISOUl4qh71iSA=
+	t=1763538730; cv=none; b=TUXcUnnWpLZJwnLieCacEzdFysqYKZvkItwlTXxjClCpjlry/PGyKlKdorye9XeALqNDvLUwx/FnnMEmBTnikyy2pNMZPKOd1jhEtpgbpfe1w7tG4XVEdpCw4rkp80xx+BRoyXukR+l7Nrw6fwpHw7s+bUJ7Pujunkk4FDzZt64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763538240; c=relaxed/simple;
-	bh=ciDG10X1fqzgeCrD9c6jTn43Mwk0L9Y3KBjj20IeoZo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G8n0aPc54T/j6p0NOI5FAR2fsYspxL/uJBABDtJtmezncaj7Gwxhm4CpuRMvMKmxxw6cdNU+diQ8c1fd1Q4upxiIQSvwixcaNRFtLj6IPfQdHDk43ZnHr47im7aEbZayiLDhWATqev/MnYSaKCp7oyi1VXNlQWET2cQXL+FjCnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mTVcyad5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763538730; c=relaxed/simple;
+	bh=+knjy1mYLTtcSi7oSKXUL41zdpNqO3yYJh2KmNDyZEs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=us25OU0zI40InHSls9nU+c9+78uxcKuETVRJAwxPBYoPKCi7LHSQxXRKqsTx7kDIOuLfWfDkqIJuLblgs8OolkvYE0NH28jBcr+g7cCuCIYbtlAgQMbVPgU/icjblghQY2KOhl+NY89h/xEMLIf/LQN/Itr1VI6p5f8qiwtH34k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=BcKXW1Mz; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mTVcyad5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0618C113D0;
-	Wed, 19 Nov 2025 07:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763538239;
-	bh=ciDG10X1fqzgeCrD9c6jTn43Mwk0L9Y3KBjj20IeoZo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mTVcyad5WnPehajNMzRoNxen+2rDuPMBPL/GTdgrdS5oxDScsT1zyQw7eh/hbXIsS
-	 nfCqoGYKX9oahnxyGrKzSKeYM/2JZ39JUyAZ7A6DrXHX02v4/2l/JHbC3Jlq5ex86l
-	 AkB7KO6soHz7QB08Jgch/eNBbtEPjqH5nYoekzAYSRE5xtYI7ouHQR1zvXvqJkagxP
-	 chGm/bG7s+U/oDxZptvjvfqpr7a9D2Iwwk6UfU8g8wuDyuiLqM1C0TcCEprRYro3hq
-	 VPn09OH7zuRcaoSmqdBoC45Wj5/k3c2aW2zMODtrpgjYMZCiLY/BiSzjmxb/9V9Wv5
-	 YlK89zr7hbr4w==
-Date: Wed, 19 Nov 2025 08:43:53 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, josh@joshtriplett.org,
- kees@kernel.org, konstantin@linuxfoundation.org,
- linux-kernel@vger.kernel.org, rostedt@goodmis.org,
- workflows@vger.kernel.org, joe@perches.com, rdunlap@infradead.org
-Subject: Re: [PATCH v4] README: restructure with role-based documentation
- and guidelines
-Message-ID: <20251119084353.658db390@foz.lan>
-In-Reply-To: <20251119023832.1095490-1-sashal@kernel.org>
-References: <20251119023832.1095490-1-sashal@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="BcKXW1Mz"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5959105629bso3322315e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 23:52:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763538726; x=1764143526; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jwU2GYwNQnlMl5NP0rEc93dyZ4Rb4vZCEVrGNl0M5D8=;
+        b=BcKXW1Mz2kS4ad9RUT4V/S/z6gZIUd7ai0/ppQ59wIi5OuDWw7c/SLIeycdzmAxdQs
+         8vmqaWtY+bcXQbQRMLaTm76F+yYdBEbHxLzGdxXB52qpZtDEDaebU6BegYj+zeFWKfko
+         /1qByGQRVBu7ojS9Oitp03BL/mRexA6mpia8sYiBpZAzVW/62O4RK+tHC1IQWeMzCx00
+         PbphROe8glWxwo/94aExA3lNefD1AcZrKFzIqMO/Zqw6YCv9k5qBOMArw75OPfnAdgq1
+         RQrJVhMQSkEh/5Z9+wucWgn8VN7gc3UUoug1R8iDvjVbl/MvGUU/lO3ONS/zRlb6UnBQ
+         W1fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763538726; x=1764143526;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jwU2GYwNQnlMl5NP0rEc93dyZ4Rb4vZCEVrGNl0M5D8=;
+        b=gJL2WbmU5hjz7SGDJ0ESlBwcaizXqf5/BC1v8es8NjwTFdzFn9qRVkWkO3lkNkZqGK
+         QsvkS0bIkgIt8CwUNvs6+JrMNwrAz1poO/LarkhePDt+Co6Zfx8BjQgDHqX+N0dcQ4VQ
+         VB54hEheAjOqv5eTxtyebXBAXjfHirdn9VLiuwBdBCchknwscJa7XL1PH0fmF6xcbNWN
+         BuwwhlK0NQ1nJKkV1I0NVyjMIMVbgloO5GGk9fsUuqWTudiPCUX3JNv9v83JLsYaRaDb
+         iC0uCnci8mARIhquHEt9jEPEbya6U7fBx4Bqt4fna7OT6loGRAJnarhOmG4EPFflyMec
+         PpCA==
+X-Forwarded-Encrypted: i=1; AJvYcCXyqkjG/DTHkEJGBZby1aPQGccKY/J6hZVhFwk+yePzem5OAVurL9ptPnac+ZAikMlkiiVtrtairJw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyB4Ccea20trzyxGYtiPztd8Sg7sANpQ9pvaw5Co0riPcLwXu7N
+	UWO7lXoxglBEDsJRrPcbQ1M7q70qJVI8nM6HvJ7L3kqsO5qO7Zsb9UGUCARG7oTSvvl+XIRSf9d
+	bMTpNQtKlHhoxWWK4Xbx3eIDfYh/69a68oHk+hpVZAQ==
+X-Gm-Gg: ASbGnctpXx45h+hD3+3V5KKzLKnWCQoFY/cIrjfY/ppjaDYblGpzI6ekPR0F2FbE0/J
+	zhbBnYdJpGcA9iXf8QWWi5YYYD4V05PAPBHBPkVGUGgKL80dl2Ugc2Ms61pJ9z745daQ9PZMHEl
+	V6UwbSHFm+65Fz0YpMYTvKz1xXaJcZTR+oLvdSEX8YQYxiyWQgQy++z+H0S2RZEyoZ3Cwks/kxf
+	mudz4BAmz3AuWN9PqMo+QOp9Im9Ki9BauyYdDDghuuIOcT+ur0YK6xr6u4doI+7EmbbYx5zsz8i
+	1aB5HCcBrcOpVMIad/0mDixJxZrKqJOWsxXV/g==
+X-Google-Smtp-Source: AGHT+IFA3Go2eF2BwWY09oJ0Cc5G6GOR510iuyfBNrQSzFMWx2OC2w4uzCKM6347Afhcs+F0I7XinNKiUc9fRkF7AiU=
+X-Received: by 2002:a05:6512:2347:b0:595:9d26:f54b with SMTP id
+ 2adb3069b0e04-5959d26f656mr992072e87.41.1763538726125; Tue, 18 Nov 2025
+ 23:52:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20251112224924.2091880-1-andriy.shevchenko@linux.intel.com>
+ <aRfWouKGA7q2ufCV@archie.me> <aRzBGhsLA_s1rJbM@smile.fi.intel.com>
+In-Reply-To: <aRzBGhsLA_s1rJbM@smile.fi.intel.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 19 Nov 2025 08:51:54 +0100
+X-Gm-Features: AWmQ_bmHzMwCGa44nLscoV9Y_lW3wDvmdoRMJQt6LG4KvSbBvmhm78b506Tofc4
+Message-ID: <CAMRc=Mci_jEp-8TW9+hAyb=viMy69SXDSE99k0Rsss_0b7ZY1w@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] Documentation: gpio: Add a compatibility and
+ feature list for PCA953x
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, =?UTF-8?B?TGV2ZW50ZSBSw6l2w6lzeg==?= <levente.revesz@eilabs.com>, 
+	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, 
+	Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Em Tue, 18 Nov 2025 21:38:32 -0500
-Sasha Levin <sashal@kernel.org> escreveu:
+On Tue, Nov 18, 2025 at 7:55=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Sat, Nov 15, 2025 at 08:25:54AM +0700, Bagas Sanjaya wrote:
+> > On Wed, Nov 12, 2025 at 11:48:20PM +0100, Andy Shevchenko wrote:
+>
+> When answering to the long email, please remove unrelated context.
+> Thanks.
+>
+> ...
+>
+> > > +I went through all the datasheets and created this note listing
+> > > +chip functions and register layouts.
+> >
+> > Nit: above first-person intro can be instead edited to:
+> >
+> > This document lists chip functions and register layouts for all chips
+> > supported by PCA953x driver.
+>
+> I believe it's fine to leave author's original text here. Also the propos=
+ed
+> version is not so clear how these document was assembled.
+>
+> ...
+>
+> > > +.. note::
+> > > +     This is followed by all supported chips, except by pcal6534.
+> >
+> > Do you mean aforementioned banks offset arrangement?
+>
+> Yes. The chapters are per the stuff explained in them, so everything in o=
+ne
+> chapter or section is related to the entire chapter or section.
+>
+> ...
+>
+> > The rest LGTM.
+>
+> Thank your for looking into this.
+>
 
-> Reorganize README to provide targeted documentation paths for different user
-> roles including developers, researchers, security experts, maintainers, and AI
-> coding assistants. Add quick start section and essential docs links.
-> 
-> Include proper attribution requirements for AI-assisted contributions using
-> Assisted-by tags with agent details and tools used.
-> 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Is there anything else to address or is it good to go?
 
-I liked the new version. Yet, IMO License requires some changes. After
-that, feel free to add:
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-> ---
-> 
-> Changes since v3:
-> 
->  - No AI hype :)
->  - Link to a guide for building the kernel
-> 
-> 
->  README | 160 +++++++++++++++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 149 insertions(+), 11 deletions(-)
-> 
-> diff --git a/README b/README
-> index fd903645e6de0..1fc993d7cf07e 100644
-> --- a/README
-> +++ b/README
-> @@ -1,18 +1,156 @@
->  Linux kernel
->  ============
->  
-> -There are several guides for kernel developers and users. These guides can
-> -be rendered in a number of formats, like HTML and PDF. Please read
-> -Documentation/admin-guide/README.rst first.
-> +The Linux kernel is the core of any Linux operating system. It manages hardware,
-> +system resources, and provides the fundamental services for all other software.
->  
-> -In order to build the documentation, use ``make htmldocs`` or
-> -``make pdfdocs``.  The formatted documentation can also be read online at:
-> +Quick Start
-> +-----------
->  
-> -    https://www.kernel.org/doc/html/latest/
-> +* Report a bug: See Documentation/admin-guide/reporting-issues.rst
-
-Perhaps you might add a link to Documentation/process/security-bugs.rst
-as well, although it is already there at reporting-issues.rst.
-
-> +* Get the latest kernel: https://kernel.org
-> +* Build the kernel: See Documentation/admin-guide/quickly-build-trimmed-linux.rst
-> +* Join the community: https://lore.kernel.org/
->  
-> -There are various text files in the Documentation/ subdirectory,
-> -several of them using the reStructuredText markup notation.
-> +Essential Documentation
-> +-----------------------
->  
-> -Please read the Documentation/process/changes.rst file, as it contains the
-> -requirements for building and running the kernel, and information about
-> -the problems which may result by upgrading your kernel.
-> +All users should be familiar with:
-> +
-> +* Building requirements: Documentation/process/changes.rst
-> +* Code of Conduct: Documentation/process/code-of-conduct.rst
-> +* License: COPYING (GPLv2)
-
-Hmm... "GPLv2" doesn't fit all, as it is GPL-2.0 WITH Linux-syscall-note,
-plus, as stated on COPYING:
-
-	"In addition, other licenses may also apply."
-
-As we don't want to repeat the entire COPYING text here, better
-to just point to the file, e.g.
-
-	License: see COPYING
-
-> +
-> +Documentation can be built with make htmldocs or viewed online at:
-> +https://www.kernel.org/doc/html/latest/
-> +
-> +
-> +Who Are You?
-> +============
-> +
-> +Find your role below:
-> +
-> +* New Kernel Developer - Getting started with kernel development
-> +* Academic Researcher - Studying kernel internals and architecture
-> +* Security Expert - Hardening and vulnerability analysis
-> +* Backport/Maintenance Engineer - Maintaining stable kernels
-> +* System Administrator - Configuring and troubleshooting
-> +* Maintainer - Leading subsystems and reviewing patches
-> +* Hardware Vendor - Writing drivers for new hardware
-> +* Distribution Maintainer - Packaging kernels for distros
-> +
-> +
-> +For Specific Users
-> +==================
-> +
-> +New Kernel Developer
-> +--------------------
-> +
-> +Welcome! Start your kernel development journey here:
-> +
-> +* Getting Started: Documentation/process/development-process.rst
-> +* Your First Patch: Documentation/process/submitting-patches.rst
-> +* Coding Style: Documentation/process/coding-style.rst
-> +* Build System: Documentation/kbuild/index.rst
-> +* Development Tools: Documentation/dev-tools/index.rst
-> +* Kernel Hacking Guide: Documentation/kernel-hacking/hacking.rst
-> +* Core APIs: Documentation/core-api/index.rst
-> +
-> +Academic Researcher
-> +-------------------
-> +
-> +Explore the kernel's architecture and internals:
-> +
-> +* Researcher Guidelines: Documentation/process/researcher-guidelines.rst
-> +* Memory Management: Documentation/mm/index.rst
-> +* Scheduler: Documentation/scheduler/index.rst
-> +* Networking Stack: Documentation/networking/index.rst
-> +* Filesystems: Documentation/filesystems/index.rst
-> +* RCU (Read-Copy Update): Documentation/RCU/index.rst
-> +* Locking Primitives: Documentation/locking/index.rst
-> +* Power Management: Documentation/power/index.rst
-> +
-> +Security Expert
-> +---------------
-> +
-> +Security documentation and hardening guides:
-> +
-> +* Security Documentation: Documentation/security/index.rst
-> +* LSM Development: Documentation/security/lsm-development.rst
-> +* Self Protection: Documentation/security/self-protection.rst
-> +* Reporting Vulnerabilities: Documentation/process/security-bugs.rst
-> +* CVE Procedures: Documentation/process/cve.rst
-> +* Embargoed Hardware Issues: Documentation/process/embargoed-hardware-issues.rst
-> +* Security Features: Documentation/userspace-api/seccomp_filter.rst
-> +
-> +Backport/Maintenance Engineer
-> +-----------------------------
-> +
-> +Maintain and stabilize kernel versions:
-> +
-> +* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
-> +* Backporting Guide: Documentation/process/backporting.rst
-> +* Applying Patches: Documentation/process/applying-patches.rst
-> +* Subsystem Profile: Documentation/maintainer/maintainer-entry-profile.rst
-> +* Git for Maintainers: Documentation/maintainer/configure-git.rst
-> +
-> +System Administrator
-> +--------------------
-> +
-> +Configure, tune, and troubleshoot Linux systems:
-> +
-> +* Admin Guide: Documentation/admin-guide/index.rst
-> +* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
-> +* Sysctl Tuning: Documentation/admin-guide/sysctl/index.rst
-> +* Tracing/Debugging: Documentation/trace/index.rst
-> +* Performance Security: Documentation/admin-guide/perf-security.rst
-> +* Hardware Monitoring: Documentation/hwmon/index.rst
-> +
-> +Maintainer
-> +----------
-> +
-> +Lead kernel subsystems and manage contributions:
-> +
-> +* Maintainer Handbook: Documentation/maintainer/index.rst
-> +* Pull Requests: Documentation/maintainer/pull-requests.rst
-> +* Managing Patches: Documentation/maintainer/modifying-patches.rst
-> +* Rebasing and Merging: Documentation/maintainer/rebasing-and-merging.rst
-> +* Development Process: Documentation/process/maintainer-handbooks.rst
-> +* Maintainer Entry Profile: Documentation/maintainer/maintainer-entry-profile.rst
-> +* Git Configuration: Documentation/maintainer/configure-git.rst
-> +
-> +Hardware Vendor
-> +---------------
-> +
-> +Write drivers and support new hardware:
-> +
-> +* Driver API Guide: Documentation/driver-api/index.rst
-> +* Driver Model: Documentation/driver-api/driver-model/driver.rst
-> +* Device Drivers: Documentation/driver-api/infrastructure.rst
-> +* Bus Types: Documentation/driver-api/driver-model/bus.rst
-> +* Device Tree Bindings: Documentation/devicetree/bindings/
-> +* Power Management: Documentation/driver-api/pm/index.rst
-> +* DMA API: Documentation/core-api/dma-api.rst
-> +
-> +Distribution Maintainer
-> +-----------------------
-> +
-> +Package and distribute the kernel:
-> +
-> +* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
-> +* ABI Documentation: Documentation/ABI/README
-> +* Kernel Configuration: Documentation/kbuild/kconfig.rst
-> +* Module Signing: Documentation/admin-guide/module-signing.rst
-> +* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
-> +* Tainted Kernels: Documentation/admin-guide/tainted-kernels.rst
-> +
-> +
-> +
-> +Communication and Support
-> +=========================
-> +
-> +* Mailing Lists: https://lore.kernel.org/
-> +* IRC: #kernelnewbies on irc.oftc.net
-> +* Bugzilla: https://bugzilla.kernel.org/
-> +* MAINTAINERS file: Lists subsystem maintainers and mailing lists
-> +* Email Clients: Documentation/process/email-clients.rst
-
-
-
-Thanks,
-Mauro
+Bart
