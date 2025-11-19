@@ -1,64 +1,64 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B5036921F
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 15:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585A536A028
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 15:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763567142; cv=none; b=eAc0l5dTQiib4Jhb82aLrHe7UhcL20ERq58p53NOHOlDEY3upTjXDTQyeRLu/x42zsTpuiW5jFg1DReaZpjwgPpwo2+DZZVtXo+nS2uXX+jc4vYJbc9f2JBXtkCeBPCY2s2EDidE/2JS0n3KGsqo8UH2/cYM8yYBJ4sMt9dR8JY=
+	t=1763567146; cv=none; b=Fs5pCgPjurErfcvClnZbcX+xCMCR6VBia+9cn9EZpnYwrOfXTZ77SSsj9mzq8CXLWSq+0k00ICmk4ccoobt1giaX7Yi3aUpWPPVnAtMSqyesMU8aoq2niV9Q8OxSLSTiTOHwi9KMh5PxUdztVkZldtR8/W08fGd38FrhY4l8n4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763567142; c=relaxed/simple;
-	bh=3D6cMAtJFcH0eGhpLiRPBCAWIwBu4/DIokVo2lKhkeY=;
+	s=arc-20240116; t=1763567146; c=relaxed/simple;
+	bh=bdt5n2rAVI8cStNvPmdZt8oM87hfXgPy8mlP/xL4jOQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sAlsDapMAw+IuWu7K32qYKeJbnowcYHLrtpUPZV8MDx9KXLOpTKbJu3I1P9F66ZUBMiQxpK2Wk/nR18ikmi1jOP4v9TnqEPN69MuYPLdidQ7H9jkAqP5t+go4m/F2Kcd7n3Ek/wFSD7IEjLPVb4WMqmcFek6rqhZzhwMYvlCDI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pYLbNjJI; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=ZaPIg8lyvtAFZ3Yltj90CfpP7AVjilaQgQJMcSyq3BrqRLzG5NrpVMWQCKAKhhGchMwrohKElazip6saZEXyw6ZlkDZln1Hd4Nt4aOk4lBFW8hFokMSC000b/xVDAmmmlzluaqtLkMYXjqP9j0SqvxDkMr0I4y+rOm1a+7pGGhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bz492DHl; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pYLbNjJI"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42b379cd896so3987842f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 07:45:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bz492DHl"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42b39d51dcfso3930699f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 07:45:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763567136; x=1764171936; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1763567138; x=1764171938; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1EgUtWpxUoehpDvVbPcVA+GkHlZFESzHxIeFdx8HGLc=;
-        b=pYLbNjJIY4xqxEIuEns8uXjvZ7F9isi/7jugo5Qj7mhP9MDL/QpwdMISZcJdNL9qP/
-         y9ZVXz8oEfwgevPWLkpZcPeLF47jsOb/XLf6/K0XXuPwugKhs+phJYcFTU6ZYG5E4S/r
-         o+Gp6z+r3MWbQ861Bcu8Uuld23esVOU+yE3rs15fEovLoc4dr+ngBE2HsPuDyaaBMk7k
-         PRsZEYjW7PPvzzPVl2RzcO++pOHfy+eUzYEjW15SHSG2mnuw9/5gHaT85gJU5KvJyeWx
-         dle+WOQC/9zPb3r7giPWeiI3kW7J2GODRp8Myf5WewGW6sR4l53Vhkhm3IGgtNkPpyaU
-         tTVw==
+        bh=slnZKLktel7FGULom0AhklQ/3aJdt8tuo66g65NOCPI=;
+        b=bz492DHl5yOzE9yJqimKdlgCFvBmcsPkvDkuBNCriAVZnkeSAqY3nP7LGbyBZvdxbW
+         oc2HOPgDgVH18yyt6HjNfvydEL8GIuHXv2Pofai7w1UKXlmII3hPumvCXNOvOePSROSi
+         e/2BiBnIWC2n2sNn+FoRECLcoeEkoo+4CnwCEhpQwBpUULBVqNYLT4F1hgITIZqkJLqQ
+         bfeKsPz9KlTRqx2ZVlK2A6artCAtJV32H7NQpEOqVUMiDR1uo3umGlgdSfA+RVSV9ygb
+         zLmQSslT7dn9MaSqtfyzoxsSoi+0bpd+NdlBvr5Az29P7gmjqheUCt9rGNgINWi3WwuL
+         Kn/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763567136; x=1764171936;
+        d=1e100.net; s=20230601; t=1763567138; x=1764171938;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1EgUtWpxUoehpDvVbPcVA+GkHlZFESzHxIeFdx8HGLc=;
-        b=YJDdED9qXfAYwYebfONUMeVIobFQk5NxLWLRseqHAFALJdLTTH1ZNnB2efXaKfK8ED
-         6Hg0+QnuBTgCfkWVR2dNouz6QyFpmFXolpGjaEzsn4DYax9X64AAYi/beLJ8Q9Y2fbum
-         3awIarPe7Be/uhehCefv0YBFajAhspG7Dr9/4QBS+1Q8LoIcjQI5v5TgmuASf6ZXCX0L
-         OBWf439bWw+M0olMbQzO2Vmm6K7s/UynbRyvudpZ1nOa3BgGK2i0H31beT4AwTMfmfcJ
-         /bDlmfSckIwXF/FzuaUgjA/IKFCha9DW7E/bOazMuYNnbbhGGuiulDEDC8vULGu3mQKL
-         iG9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXrMeRqXvzmF78x1SyEyo+5QVW18OLNCaOz3Ko+KGQ7N22xbTbMXHzXAAPwFx+T+2FvSTMsR4L0ZNo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdwsXzxN1S4O/AY/26/quASr7OwbVMldgwFUvmNptxUIi7sEb6
-	taowYRLgkwekUgGNET7B/o6l6fyXVQBeSxfYNNR4UR4/k34zFEOUYlSQ6Ff4aWcUdds=
-X-Gm-Gg: ASbGncuohBhQZqPSwDq/yLJVQWFln7s9OzQKE2DU25lQjQctix4XgENcMKWhngNO6Ek
-	Af8FJUgO/Yl+vYQx3hXbFfPBpWUaXRgxYn8cln+YGsmfr6NWEOFb8opVsNAsczkMY/QFnDdzu17
-	CrkVaLPXpbOPnxN8ONP6O/zMfFyPOVrZ8nBPiPPxumq6rUf1fm6KCBYt2MWX0pAxI+uihawULri
-	+sE9T6fPeGXo6AKSndzGQ6qVfFkrIkQCa9wlPeSARmPTw72jSHHTeXTTqinWGSvZiPRd1bwu0xQ
-	xmQJUFlCkq7ueIk0+t6lrw93aYfz4eVxy0Czs+dXXrrG5J/ufmmucnNJqzmwqUuIwNVKna1cd+O
-	ndpSZXWpplabbeqlv69F1hxTiGU1qGthqg6BqaI5yoMlwes0w5UCCLHm6FlqSPVzUO0yPB6Dc9S
-	WU/3MVSp/eLaYljMvp9CcXJXNRMc+4hA==
-X-Google-Smtp-Source: AGHT+IGKFFWZ+AqolHJ3imLY6SMDSF30b2mMpFX+Q/YU64RzAj2P3ofwp9AZZn8blv/guB2oFBfRQw==
-X-Received: by 2002:a5d:5f93:0:b0:42b:43cc:982e with SMTP id ffacd0b85a97d-42b595a497fmr21650580f8f.36.1763567135863;
-        Wed, 19 Nov 2025 07:45:35 -0800 (PST)
+        bh=slnZKLktel7FGULom0AhklQ/3aJdt8tuo66g65NOCPI=;
+        b=jjAd7HCqn6BaQhmn9zcHbTzRbkEprU0j3npMMcapaTWuAt15py/ssI0ORRo003i3nH
+         NXLkFS6FbjofWtwMV2SZnihDOMy0lmrFNIJAifK/FYXDdURmH+cumzV7sAET5yGA/z6h
+         OaQygnPH+FhoJrQ41oOtV0om656RXS72XtdznhaimfzDHBbm3j+mtW8x7Xt4QvCybhWt
+         FM3+OnQOTLbfGUhUO+BC7yj1hfSmLmH/zuw99HefSuEJ0ugn1HjeW88tQj4V0/xhfEQv
+         r15upbQ7PuKKSeYS2qSaQMJBQWQTKTmr/JGFjHEpdZHH9rVvkM1QgX8dDNnPDOQNMTsX
+         nuVA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0hBLWPi2M2ggajgBcGO8I9g1yYJLtmslRLnYMzsq4GJtS48Q6hWe6qrFo0PG6olpEUTo4bbzRD7s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6+J3DzB2EFZW5bXczHR8C6RmgRUvPk1hc53c1ZOpIXFzWFLTI
+	mMTOH8zmDiokh7EREeLo+8PmvmMB+fLpa+Poko5rKToimTpCZH8eqv8gIbwI+iOW8Bs=
+X-Gm-Gg: ASbGnctWIXiJITPet9ww95z0EHog/+2rDNskLYd2x4ts5JxxTJz30BLMQRLCp0ztyV2
+	xw/cHwk5UoxsSL8dL9RNNeiGArgugYvLDyRcH5EnN8pt1YkkpLYoUEC+EcI1HfksbLiZXofRgrT
+	VQ9XQESt0vm+DHPZD9kPgTXqG4et/DcK67xcgiRJh3iw1uQULz8saeLfCd8sElAL+TrqKyzOSzs
+	fu7wG8STwcQseKZ4ZM66u9zmrx6NX5VNs+FNitYZqJnLKFW68xdDoDufLKby3HWxptfXatT8LEx
+	nDd8HfwGqdTTqxEt6D2QLlVsvb/I9U9NAxWMud8+W19If44J3VBFn80P/1x1dmYIbZOMV1wUL/c
+	hR9K8BMKgI4pLop39AxdENYAnAVELAItVgX2lRIUK9V0Wj6ElmYNQqj0w0nozLO/rZajfK6dxvD
+	4nIw/LhDQtqNPWqxo78akJ/wY2a3ROehJQtjAUfux/
+X-Google-Smtp-Source: AGHT+IH9XA5XKwB+eYd4P52AVjjtUkCjRx7TcK6UtIfvF/aP3IOPVELnIO3YhYk8yezAw62YpuQ83g==
+X-Received: by 2002:a5d:64e7:0:b0:42b:47da:c313 with SMTP id ffacd0b85a97d-42b593395a0mr22250899f8f.3.1763567137600;
+        Wed, 19 Nov 2025 07:45:37 -0800 (PST)
 Received: from eugen-station.. ([82.76.24.202])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53dea1c9sm38765632f8f.0.2025.11.19.07.45.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53dea1c9sm38765632f8f.0.2025.11.19.07.45.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 07:45:35 -0800 (PST)
+        Wed, 19 Nov 2025 07:45:37 -0800 (PST)
 From: Eugen Hristev <eugen.hristev@linaro.org>
 To: linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -83,9 +83,9 @@ Cc: tudor.ambarus@linaro.org,
 	tony.luck@intel.com,
 	kees@kernel.org,
 	Eugen Hristev <eugen.hristev@linaro.org>
-Subject: [PATCH 11/26] kernel/vmcore_info: Register dynamic information into meminspect
-Date: Wed, 19 Nov 2025 17:44:12 +0200
-Message-ID: <20251119154427.1033475-12-eugen.hristev@linaro.org>
+Subject: [PATCH 12/26] kernel/configs: Register dynamic information into meminspect
+Date: Wed, 19 Nov 2025 17:44:13 +0200
+Message-ID: <20251119154427.1033475-13-eugen.hristev@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251119154427.1033475-1-eugen.hristev@linaro.org>
 References: <20251119154427.1033475-1-eugen.hristev@linaro.org>
@@ -97,36 +97,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Register vmcoreinfo information into inspection table.
-Because the size of the info is computed after all entries are being
-added, there is no point in registering the whole page, rather, call
-the inspection registration once everything is in place with the right size.
-A second reason is that the vmcoreinfo is added as a region inside
-the ELF coreimage note, there is no point in having blank space at the end.
+Register kernel_config_data information into inspection table.
+Debugging tools look for the start and end markers, so we need to capture
+those as well into the region.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
 ---
- kernel/vmcore_info.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ kernel/configs.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/kernel/vmcore_info.c b/kernel/vmcore_info.c
-index e066d31d08f8..6a9658d6ec9a 100644
---- a/kernel/vmcore_info.c
-+++ b/kernel/vmcore_info.c
-@@ -14,6 +14,7 @@
- #include <linux/cpuhotplug.h>
- #include <linux/memblock.h>
- #include <linux/kmemleak.h>
+diff --git a/kernel/configs.c b/kernel/configs.c
+index a28c79c5f713..139ecc74bcee 100644
+--- a/kernel/configs.c
++++ b/kernel/configs.c
+@@ -15,6 +15,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/init.h>
+ #include <linux/uaccess.h>
 +#include <linux/meminspect.h>
  
- #include <asm/page.h>
- #include <asm/sections.h>
-@@ -227,6 +228,9 @@ static int __init crash_save_vmcoreinfo_init(void)
- 	arch_crash_save_vmcoreinfo();
- 	update_vmcoreinfo_note();
+ /*
+  * "IKCFG_ST" and "IKCFG_ED" are used to extract the config data from
+@@ -64,6 +65,11 @@ static int __init ikconfig_init(void)
  
-+	meminspect_register_id_va(MEMINSPECT_ID_VMCOREINFO,
-+				  (void *)vmcoreinfo_data, vmcoreinfo_size);
+ 	proc_set_size(entry, &kernel_config_data_end - &kernel_config_data);
+ 
++	/* Register 8 bytes before and after, to catch the marker too */
++	meminspect_lock_register_id_va(MEMINSPECT_ID_CONFIG,
++			     (void *)&kernel_config_data - 8,
++			     &kernel_config_data_end - &kernel_config_data + 16);
 +
  	return 0;
  }
