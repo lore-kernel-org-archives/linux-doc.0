@@ -1,26 +1,33 @@
-Received: from mail-m3285.qiye.163.com (mail-m3285.qiye.163.com [220.197.32.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5796A30C601
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 07:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9BA33557E;
+	Wed, 19 Nov 2025 09:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763539029; cv=none; b=p5dZLPhcux5kwRM5wO3pfopZsONGXa5h+pj+LhX2Gp43d+lUK9/1cL30R7BMkVz3dLcslo71d8ZdhAQokVfwc9E6gDc3oQH2LbpU9NjVC7i86qGiD/FFMrNlVL258nJVxbCDUqqjz0S0o0/b71HG8g8LGbXLsG+cmZ+KE7NDWXQ=
+	t=1763543212; cv=none; b=sGcyaQ9DsFXIopTsVtcVumAJjduaj7UwGyAtLscozZcVrm+DKbVfnUbDCsJndnCcxnwS3jIX8iRVnWc8wydCwN7ubcCXq3R2JhriptM0CR/jvEWXxGfYZ4Y0gSegH+bA9F/v0E1IUlWGEWaKVtC2q1W/AJpweeRmY/PRGN4HYCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763539029; c=relaxed/simple;
-	bh=hZPh2/FqLJDdfMQ+u48VxQfUx7m4NNuINUQUbhqdzDU=;
+	s=arc-20240116; t=1763543212; c=relaxed/simple;
+	bh=9VkQQVp1GUJZvklIUdL6yF9pgR7bsQTx3z4kO9z5dMw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=atCVfqzHGzMCIW4eJKQQRklYOylsnYjyPTMWTWahIG48zMCjJQriXV8kTzgNMIUI0zlRa8oBwbLmo90mte+HZ0JKlv+fWM8xlYN/ZClg2H18D7vRJeCY82xGzvoIfNQHKzYztIKq4daxsybqtp22+XXULfqLjREQRWsvRwP4O5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=LFWY06qF; arc=none smtp.client-ip=220.197.32.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	 In-Reply-To:Content-Type; b=gkZhfmJS5BzGr6ln5WbU+ofXXRD6NBfaXwOc7I5ERbjyvNOZ0TGrvzY+ifxts/HWblOegGwV46qaUHZtZzhPtizra7c4RLz1qox3odaq61zG3F9P932K+JPbxna64SFdQeOlLObpb/e48hbJ8yiMdfmdAIp6qXHw7Bn56gYWDp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OtVFxRZI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="LFWY06qF"
-Received: from [10.0.66.19] (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2a1cbe3b4;
-	Wed, 19 Nov 2025 15:51:54 +0800 (GMT+08:00)
-Message-ID: <2d85a076-b398-4e0b-8376-0bc7f1236708@leap-io-kernel.com>
-Date: Wed, 19 Nov 2025 15:51:53 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OtVFxRZI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB818C19422;
+	Wed, 19 Nov 2025 09:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763543209;
+	bh=9VkQQVp1GUJZvklIUdL6yF9pgR7bsQTx3z4kO9z5dMw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OtVFxRZIeWCKgm/wX8Mh4xSUKUsDu7TC61ZcbwB7p755P/p8D1UbOzn887vZKWsiT
+	 LT8Hkl3H3DdI8TLAeKktrX3yWPQQeQzoD5az9ce9h9AJFO474lVbcQaSZN4cdtnOd8
+	 qMzgerN86Kq5LjGLmF8Xvx0kt31CQR/SNyrzETsVCfIlrjxK/jwXc0n9+UEq8FW+87
+	 frsGoVcUKPI4zE7zMA2vs5hS+GVhuQnNfj1tCMielj1RrXvfjcbkBaPmp99gNYG86X
+	 g8w2OOyBsEud9UYPSoka4/54CHPtP2JqM1W+W7dvk4+P26CuXNiNahahWDLbiZIptV
+	 UKv7ewASeZOgA==
+Message-ID: <9b18ee75-bf06-46d7-96f3-395cb159217b@kernel.org>
+Date: Wed, 19 Nov 2025 10:06:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -28,57 +35,54 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] docs/zh_CN: Add block/index.rst translation
-To: Yanteng Si <si.yanteng@linux.dev>, alexs@kernel.org
-Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- wangyuli@aosc.io, doubled@leap-io-kernel.com
-References: <cover.1763535919.git.kezijie@leap-io-kernel.com>
- <3e4c8bab2c3d5f55daea8dca604981d486256d19.1763535919.git.kezijie@leap-io-kernel.com>
- <e2a979ee-7dcb-424e-893b-e60333259e15@linux.dev>
-From: ke zj <kezijie@leap-io-kernel.com>
-In-Reply-To: <e2a979ee-7dcb-424e-893b-e60333259e15@linux.dev>
+Subject: Re: [PATCH v4 2/9] mm: add atomic VMA flags and set VM_MAYBE_GUARD as
+ such
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Andrei Vagin <avagin@gmail.com>
+References: <cover.1763460113.git.lorenzo.stoakes@oracle.com>
+ <97e57abed09f2663077ed7a36fb8206e243171a9.1763460113.git.lorenzo.stoakes@oracle.com>
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Content-Language: en-US
+In-Reply-To: <97e57abed09f2663077ed7a36fb8206e243171a9.1763460113.git.lorenzo.stoakes@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a9b193de109d8kunmac7a11d658fd9fc
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCSE1DVkwaSBgZS0pIGU5MT1YVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
-	VLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=LFWY06qFYavghA0nbukOUaqbNSxz8V/2rw1PlAdH73TE+zV8uUoblMK/hzzpCtyzlYtsPijbQJB1ngT5zh1QBwQEvhQspIEF/H9QYyz0IhkOC/MOy+ShAvhkbq2W9yu1MhiNcXZMONWptIQeiv3kw8bjWF1dJdA+17FSuDgTGYwbltd7rgj22q1PiqzXw8ZKDTHWgF3zpdJo9p9dvGtYEzHpPBS4XEQrzt6wILMivEqV6ZTFBKRN0YXoFWw3M+4k5OguN/tWZgfcx2w4rlmDUnyunUXXeru36VqbUjx3bfOCr0viDZu68CtBbyswnv6VkOOq72hCraD8JqQRLansJw==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=GAwSn5kRXMRW/plLwfvoTyDPutgbpgLNR3gUQev72es=;
-	h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 7bit
 
-在 2025/11/19 15:21, Yanteng Si 写道:
->> Translate .../block/index.rst into Chinese and update subsystem-apis.rst
->> translation.
->>
->> Update the translation through commit 56cdea92ed91
->> ("Documentation/block: drop the request.rst file")
->>
->> Reviewed-by: WangYuli <wangyl5933@chinaunicom.cn>
->> Signed-off-by: ke zijie <kezijie@leap-io-kernel.com>
+On 18.11.25 11:17, Lorenzo Stoakes wrote:
+> This patch adds the ability to atomically set VMA flags with only the mmap
+> read/VMA read lock held.
 > 
-> So, what happened between v4 and v5?  need a cover letter to write this.
+> As this could be hugely problematic for VMA flags in general given that
+> all other accesses are non-atomic and serialised by the mmap/VMA locks, we
+> implement this with a strict allow-list - that is, only designated flags
+> are allowed to do this.
 > 
+> We make VM_MAYBE_GUARD one of these flags.
 > 
-> Thanks,
-> 
-> Yanteng
-Hi Yanteng,
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
 
-I planned to add your
-"Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>"
-to every patch in the v5 series, but due to my oversight I only added it 
-to one patch.
+IIUC all other flag modifications need a write lock, so this should just 
+work.
 
-I’m very sorry for the mistake.
+Acked-by: David Hildenbrand (Red Hat) <david@kernel.org>
 
-Could you please advise whether I should resend the series as v5 (fixing 
-the tags) or move on to v6 to correct it?
+-- 
+Cheers
 
-Thanks again for your review and patience.
-
-Best regards,
-Ke Zijie
+David
