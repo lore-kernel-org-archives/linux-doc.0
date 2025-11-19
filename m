@@ -1,94 +1,69 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C517435FF4D
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 13:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646CA35F8D5;
+	Wed, 19 Nov 2025 13:30:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763558835; cv=none; b=Pgzy6OiYYr2sD2ueOcfbzDDU5bqMD72LZWpi7R53WxJczuiJ/TI0Aveau1R8HSULnwJ/QXMFO5zvUITF+FqXnPWJzd3HNzet/Pn/oagmxrP0hEGw8NHrwXsLIACXLIaBsBwpsn2/iXiNCHoGXE4XQdHHz7S00y40EvNYHvP6lqM=
+	t=1763559006; cv=none; b=OsxAGs2Y6GLMGTc9RE1o86bmKfN9qh7YHNhLXd/zPbBSjqPucs00ELuz01jUGreovu+j7xoMtuhnelfjMF5WQqNj07mw6YNBFvpkReilu/lXxHFTQ/fZddzwzV2qxiu7AmTKfuZMQKNoyxdpZDeT65Zke+Dos2nT7/PSpk7L7pU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763558835; c=relaxed/simple;
-	bh=atfchYGWfOCiDBgRzlxK4SjGe18cMWhMQruGelsdE74=;
+	s=arc-20240116; t=1763559006; c=relaxed/simple;
+	bh=T77xD4ouQwJfrrfoYJul3nkxhRgI6f45RqfVLeuXla0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D5IVb60NR0kXnHv06qNil2QEPzbVz78N9Ay5emqbmTp96iqThDSVenVUHje2bMaThNUQ6r6W9/NvVXoH+5UYjtR8vddAPz3evQ/r1TkcEyz9D7WLKPqYUPMOZApvLaI08zL/Ii7kEAZcDLy6InihwY9KDbm+x4TzV8iuNBbekpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RMWOXnF/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9LYejATv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RMWOXnF/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9LYejATv; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=SV2ksn5aIc874Bm0gUUWa5npBeqC0QNTxP9cpad0e8/DxZBpnAMj3tiHW+emQUJZj3FBxzhl+zlWL46XLQ6CLc3jVzGjGuGdLabiYV97B45YWUrQrJ6K94ii4loEvzDMqzVQ8ZLVgy45bllcJDNj7qbLRBgzkXgQUad5jNZW0Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CJmkRcmE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RMWOXnF/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9LYejATv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RMWOXnF/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9LYejATv"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1DF202122F;
-	Wed, 19 Nov 2025 13:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763558832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pQ44aemiqJtq0zuhYxg46Kkv6bvog9XT2UPmBVw0jms=;
-	b=RMWOXnF/ZNFkgMlOeBmixrq5P+Jky/xvy/zWvHNTcg2baoZYZUB4kLAyTLQHYQLNNUxnE9
-	BYPR/O6m4Q5pHJm3SRZi7hEwLL7f2LHn7gfzSMpbSgiGgt3fXJYQH/arQ+gewvWAUt4kIa
-	u71FSPx6juE+l1yS8fvxYJxBijv/A9c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763558832;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pQ44aemiqJtq0zuhYxg46Kkv6bvog9XT2UPmBVw0jms=;
-	b=9LYejATvmFovj4posftKnmnywuSGp3r7VTCOjjB+7yjVLxPMUHMF6HNd8YUzKj7pHJxX5k
-	EB4N0NtjKCDF2NDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1763558832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pQ44aemiqJtq0zuhYxg46Kkv6bvog9XT2UPmBVw0jms=;
-	b=RMWOXnF/ZNFkgMlOeBmixrq5P+Jky/xvy/zWvHNTcg2baoZYZUB4kLAyTLQHYQLNNUxnE9
-	BYPR/O6m4Q5pHJm3SRZi7hEwLL7f2LHn7gfzSMpbSgiGgt3fXJYQH/arQ+gewvWAUt4kIa
-	u71FSPx6juE+l1yS8fvxYJxBijv/A9c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1763558832;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pQ44aemiqJtq0zuhYxg46Kkv6bvog9XT2UPmBVw0jms=;
-	b=9LYejATvmFovj4posftKnmnywuSGp3r7VTCOjjB+7yjVLxPMUHMF6HNd8YUzKj7pHJxX5k
-	EB4N0NtjKCDF2NDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B21B3EA62;
-	Wed, 19 Nov 2025 13:27:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nnHREq7FHWl4NgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 19 Nov 2025 13:27:10 +0000
-Date: Wed, 19 Nov 2025 13:27:08 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	David Hildenbrand <david@redhat.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jann Horn <jannh@google.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Andrei Vagin <avagin@gmail.com>, Aishwarya.TCV@arm.com
-Subject: Re: [PATCH v3 3/8] mm: implement sticky VMA flags
-Message-ID: <4dodae73i5ganur6llvbbxcojt4uailsxs6sr5w2jr4a7tzxkf@26rmrmcdjvlz>
-References: <cover.1762531708.git.lorenzo.stoakes@oracle.com>
- <1ee529ff912f71b3460d0d21bc5b32ca89d63513.1762531708.git.lorenzo.stoakes@oracle.com>
- <25cb4b6a-035b-4193-a8db-685fc4c58507@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CJmkRcmE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B920DC19425;
+	Wed, 19 Nov 2025 13:30:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763559005;
+	bh=T77xD4ouQwJfrrfoYJul3nkxhRgI6f45RqfVLeuXla0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CJmkRcmExDwPt0NuCANFi896HuCFEIGU3LYAoLvhl8S3uU9mfBypEzVSr32GsqZy0
+	 9/i6r19RZmZ62wtupphqnAO8hbyri/wPrlx+2egmQAVVAfXzAjAQg9//PYFGan5bni
+	 pk0qcg+vRudcykukDUhBBIgqjiqJBtVsRDmSGRqW0pz5Gglk6LGSk41HQnN10/vOll
+	 y837YDb/TkXoHX8I8N3jo+MHBgeNPV8Cz170FjUyldCJaY8TGh2bFXWSLULpw+FO6d
+	 eb4+355odBMqKRZiIPwYiwF+iwiQXKJMUxv42Leegovr8lnDq2Mv1Ats+WCCrLVsSJ
+	 k/AyOs5u/QaIA==
+Date: Wed, 19 Nov 2025 15:30:00 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+	Alex Mastro <amastro@fb.com>, Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [PATCH v8 06/11] dma-buf: provide phys_vec to scatter-gather
+ mapping routine
+Message-ID: <20251119133000.GB18335@unreal>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
+ <BN9PR11MB5276BC3C0BDA85F0259A35058CD7A@BN9PR11MB5276.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -97,61 +72,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <25cb4b6a-035b-4193-a8db-685fc4c58507@sirena.org.uk>
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLikzfga1gh8n9q3k5e6mrznp7)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,linux-foundation.org,lwn.net,redhat.com,suse.cz,kernel.org,google.com,suse.com,goodmis.org,efficios.com,nvidia.com,linux.alibaba.com,arm.com,linux.dev,vger.kernel.org,kvack.org,gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
+In-Reply-To: <BN9PR11MB5276BC3C0BDA85F0259A35058CD7A@BN9PR11MB5276.namprd11.prod.outlook.com>
 
-On Wed, Nov 19, 2025 at 01:16:36PM +0000, Mark Brown wrote:
-> On Fri, Nov 07, 2025 at 04:11:48PM +0000, Lorenzo Stoakes wrote:
-> > It is useful to be able to designate that certain flags are 'sticky', that
-> > is, if two VMAs are merged one with a flag of this nature and one without,
-> > the merged VMA sets this flag.
+On Wed, Nov 19, 2025 at 05:54:55AM +0000, Tian, Kevin wrote:
+> > From: Leon Romanovsky <leon@kernel.org>
+> > Sent: Tuesday, November 11, 2025 5:58 PM
+> > +
+> > +	if (dma->state && dma_use_iova(dma->state)) {
+> > +		WARN_ON_ONCE(mapped_len != size);
 > 
-> I'm seeing regressions on multiple arm64 platforms in at least the LTP
-> clone302 and madvise10 selftests, both of which have bisected to one of
-> the fixups to this patch.  Especially given the other tests that also
-> bisected to the same place I've not investigated further.  There's a
-> number of other LTP tests that started failing today including relevant
-> seeming ones munlockall01, mprotect04, madvise10, mprotect03 and
-> futex_cmp_requeue01 but I don't have bisects to confirm they're the same
-> thing.
->
+> then "goto err_unmap_dma".
 
-Thanks for the reports!
- 
-> clone302:
+It never should happen, there is no need to provide error unwind to
+something that you won't get.
+
 > 
-> tst_buffers.c:57: TINFO: Test is using guarded buffers
-> tst_tmpdir.c:316: TINFO: Using /tmp/LTP_clorMwMMw as tmpdir (nfs filesystem)
-> tst_test.c:1953: TINFO: LTP version: 20250530
-> tst_test.c:1956: TINFO: Tested kernel: 6.18.0-rc6-next-20251119 #1 SMP PREEMPT @1763523415 aarch64
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
 
-next-20251119 still has the v3 version of the patchset, which is Known Bad(tm)
-after a couple of buggy fixups. v4 should hopefully work properly.
-
--- 
-Pedro
+Thanks
