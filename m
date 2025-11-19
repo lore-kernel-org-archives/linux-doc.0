@@ -1,144 +1,305 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC0335A95B
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 15:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B24285CB6;
+	Wed, 19 Nov 2025 15:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763565344; cv=none; b=FX9CgZeaU/Ea60FqOG2xUZfwMciJbWuED3Baya+L5cCdQZ4Utsv0uEVdC+0P9gPdfSZjbLgaDFUWQHbiEICItloC4YOM7TltRz/B+jEATAgDTEBPt2U8R4vSzaYXBWW2rQM2PUA3FEjddj6H2i6fc9JtH89uXG5R1ymso80GQLU=
+	t=1763566876; cv=none; b=InXmhKLKDbK/aW/YX5c3FR6NY1XmgQxSA2KSvdmNUs4wVT36fKCz/mRBRkAB86iJon2df1sWl0lu7WNjtb1OfsTrysqgvrsKACMQYuQZ67Lu3CjDvYFXrVQX7aylS2Fx+x2s8uKpdb9nrpTia+/2APWmT1gI4b7AI42KYn2cPkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763565344; c=relaxed/simple;
-	bh=WVF378LbFwLBB2wVbn6cwzLPzlccU3KtYUUzAqIYrzg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GxdIRGUnXTEZB9glxEyYoz8naJnSGcFIB3TyW/w7hYGFgYaLEzg6+ECL51H9VQ5sKesUeSZ8PJTQ+ZiPKxAUreooTb0PkTyNk26c3qfn4Lk8CLnpp1vlLBUNKjEzGHoprVT0krG/gRrGmdzm/5IytNa6cNXkEgulTXIbw/agDSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZJdwe86q; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763566876; c=relaxed/simple;
+	bh=+tu5xEE2csr5lj4QfalL/akMO0Iwzk3kuQR0JJgfkqQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZW/os156ObB8wxAnA/7S1DtH9xEoiwkyEtRC34ghemRQXpx3IjdFkcsUE4ulLgN+eOB4ohWh7DgKyeRN63SeJDpaURtOWqr3wXBPdRQWm9m/or9NuThWuqKMmwvap0dbYTNLnut8GCsOSZHGEZMkA4198FmxCjF6DvMvb5TGHo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QZA36zm5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZJdwe86q"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47790b080e4so30047305e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 07:15:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763565341; x=1764170141; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=40FUCiNe37Fnq+88hPBjHQqzpAUST38gJZwEDLQ1fMw=;
-        b=ZJdwe86q+4Q/6YI37dQA4ZWLB+Cxk+F05Ct9ypBKlK+t/VYWSYZV5TYkwnA0lqBjdw
-         YJOR8aDRymr41O4IExT2FYKZ6lx7DyfnKtBMA3eZPzs/6uRUaERvbATxqOZgCpvGxuRO
-         7TBjuoN8+fed3IHk6deVz8LhcD0mDoKXCjjmdkbPqYMyuzSX5M2ViwUfv0cEvXRw7PkF
-         7m0oSal1McamvJ30Bww8l+jy1kASqWtA4s0fDtDmXGFGYRmVTVhHgwSyricZxeTwyEmj
-         uM6/cKQg1GvTeCo9cVPClRXyORNTpfOeLTj25mW64Va4KwOGuJqg/27ow9YXdHamHbo4
-         IUww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763565341; x=1764170141;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=40FUCiNe37Fnq+88hPBjHQqzpAUST38gJZwEDLQ1fMw=;
-        b=X8mfpdt6gH6AwC9FrpNpDaBVxy5ieD4CSl4fGP0xK6HUW6LXIQ3IM5iDANYrbx+ewC
-         bx5jaiMaGWD3M1BDJExtmQyzsNZAcCX74jma9gWljrPfzwz7AtecpQFNDVMmirYFVKiR
-         s0EqlXL6xvOucwsZezyZl1uYfdXuh3kZBtGgpWd6N9tOWLSuYP6n+AciLpGIzDF7Mrlh
-         UcuzUcSyma1HW7WsHhjuJHyUEmhZPUPiJniMUmofum6zH9+cGs7k6jjnkfJ0yEOT2i/R
-         eRxxcNNjYpzgMH8JhA+dlPz0NboY+OIP7MMDY7iaRy8C3EJ8+jPUklQIpKoLhHg/08PT
-         BULA==
-X-Forwarded-Encrypted: i=1; AJvYcCXzAQo7RSAMGKung6lMFLSm+5YTsfZ6fwn2OrL9O2TiMPYP8VfwK5UoQnnxmBOeb/v2/w1JZRgXgRM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNYt9RuWdJSYpgXzaB61pnHdKD01yb/64VTexpDCJw/Mk3e3mU
-	0j6iqZg91Z4Jcl3uIFi5DHV8LqZPfNwxSwfIizSpjQ6jvhuTAUqdvV4i/AeU3kSqdMg=
-X-Gm-Gg: ASbGncsbuGddQ/4/9KcxNB5HNWKFXNmzOcGRd59ipPvKIbdeRqjJ/Oc3zSgdmpcXuTT
-	iBf4B/97WuW0OjrqRKKhefjzRdMgC5zr2LzdMBAu0ovTbHtteJBJEj8jlBGQFGj0s09IhPTrqEE
-	zAH6vq8TyyIAk9lisCUeGCFzc5GUGOvcBb7t858NASkNGOyXKmiY5+cLqWBqCCih5EdYCA5p6O8
-	XbEd0HQiODbjQPaSTcBdcb/f+lxlXUGCD/8eEHI/BFigQQaucP6tYfLRBxxP2arWdqD59y1gDXF
-	DIl1dadVuAahR1RukINYlu2Qra2x2m2DNJc/mJJnNVZrDIieZdjZCR/M86x5JZ/NVVVOKUPnTy4
-	WusGIS+36vT+chiYmBZK/WtKEMrZE2S1rKH8bm2Z2OqMIkeXhFpzqacvDMuV8Dj7JTfGj8ruT0t
-	y/bG5e6bub9CUayWoYspd4r33npw4=
-X-Google-Smtp-Source: AGHT+IEdJcHPoiyWTs3kHkkIy8jDxEKTn292cUpANiNFB7Utp4jeLkleNQmmD+5zgCoeUg929Agzig==
-X-Received: by 2002:a5d:5f49:0:b0:42b:36f4:cd21 with SMTP id ffacd0b85a97d-42b593742e7mr20124823f8f.40.1763565340777;
-        Wed, 19 Nov 2025 07:15:40 -0800 (PST)
-Received: from [192.168.1.3] ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f0b62dsm38526469f8f.24.2025.11.19.07.15.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Nov 2025 07:15:40 -0800 (PST)
-Message-ID: <b503a2aa-2f63-49f1-a7c5-c8c19cb5922f@linaro.org>
-Date: Wed, 19 Nov 2025 15:15:39 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QZA36zm5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B957C2BCB2;
+	Wed, 19 Nov 2025 15:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763566873;
+	bh=+tu5xEE2csr5lj4QfalL/akMO0Iwzk3kuQR0JJgfkqQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QZA36zm5JLd7o0QBgL/m337GXPzMm86iJP+sqGrJjj1yhmQahzCnAAdePGwI0czJ9
+	 rt4OUD/ZwcM93t/K+PUcYG/mPoxd3i5GXITekoSzYkf+zK+1puSkDtnkTCfXWs++0m
+	 M9zKcwUgAkxFOEXC/RFEX/wz1Iq7Syn6vdULPDfvt40zK7+wJ2eDruSfFEgrILevfv
+	 d1Sb/+sY9emGTM3ScYXG3ovMIORPEms7/vnPk+lNN/iOHrUpZto2zHikmZMZUuTeXw
+	 q5uBEXiMRpmdS+1CbaUYpBm+Kas3khufe9slupFE9daJ6PwQfcbycL8K+e+GM1qvBy
+	 uhz+0UV4rK9dw==
+Date: Wed, 19 Nov 2025 17:41:08 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
+	Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
+ scatter-gather mapping routine
+Message-ID: <20251119154108.GK18335@unreal>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
+ <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
+ <20251119134245.GD18335@unreal>
+ <6714dc49-6b5c-4d58-9a43-95bb95873a97@amd.com>
+ <20251119145007.GJ18335@unreal>
+ <26d7ecab-33ed-4aab-82d5-954b0d1d1718@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/13] coresight: Interpret perf config with
- ATTR_CFG_GET_FLD()
-To: Leo Yan <leo.yan@arm.com>, Mike Leach <mike.leach@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251118-james-cs-syncfreq-v5-0-82efd7b1a751@linaro.org>
- <20251118-james-cs-syncfreq-v5-8-82efd7b1a751@linaro.org>
- <CAJ9a7VgQH4yc8490CQSv1S6k+=Uc6dEjyEpgRp1EwUQdwdxOHQ@mail.gmail.com>
- <416cf32d-d647-46dd-bcef-acc019490561@linaro.org>
- <CAJ9a7Vg9HsMsTP-zroTgaaKWTPkSXE1u5WMORuqMLKSDDz2HSw@mail.gmail.com>
- <43a60afe-5170-4801-ae70-9243cf7b45b8@linaro.org>
- <20251119123647.GC8204@e132581.arm.com>
- <a199db90-a344-40e0-8628-b4c3b56fc92c@linaro.org>
- <20251119143751.GD8204@e132581.arm.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20251119143751.GD8204@e132581.arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <26d7ecab-33ed-4aab-82d5-954b0d1d1718@amd.com>
 
-
-
-On 19/11/2025 2:37 pm, Leo Yan wrote:
-> On Wed, Nov 19, 2025 at 01:55:15PM +0000, James Clark wrote:
+On Wed, Nov 19, 2025 at 03:53:30PM +0100, Christian König wrote:
 > 
-> [...]
 > 
->>>     static ssize_t format_attr_contextid_show(struct device *dev,
->>>                                               struct device_attribute *attr,
->>>                                               char *page)
->>>     {
->>>     #if IS_ENABLED(CONFIG_ARM64)
->>>          if (is_kernel_in_hyp_mode())
->>>                  return contextid2_show(dev, attr, page);
->>>     #endif
->>>
->>>          return contextid1_show(dev, attr, page);
->>
->> Not having an #else implies that the contextid1_show() part is valid when
->> !CONFIG_ARM64, but that isn't right. That's why I had the WARN_ON because
->> it's dead code.
+> On 11/19/25 15:50, Leon Romanovsky wrote:
+> > On Wed, Nov 19, 2025 at 03:11:01PM +0100, Christian König wrote:
+> >> On 11/19/25 14:42, Leon Romanovsky wrote:
+> >>> On Wed, Nov 19, 2025 at 02:16:57PM +0100, Christian König wrote:
+> >>>>
+> >>>>
+> >>>> On 11/11/25 10:57, Leon Romanovsky wrote:
+> >>>>> From: Leon Romanovsky <leonro@nvidia.com>
+> >>>>>
+> >>>>> Add dma_buf_map() and dma_buf_unmap() helpers to convert an array of
+> >>>>> MMIO physical address ranges into scatter-gather tables with proper
+> >>>>> DMA mapping.
+> >>>>>
+> >>>>> These common functions are a starting point and support any PCI
+> >>>>> drivers creating mappings from their BAR's MMIO addresses. VFIO is one
+> >>>>> case, as shortly will be RDMA. We can review existing DRM drivers to
+> >>>>> refactor them separately. We hope this will evolve into routines to
+> >>>>> help common DRM that include mixed CPU and MMIO mappings.
+> >>>>>
+> >>>>> Compared to the dma_map_resource() abuse this implementation handles
+> >>>>> the complicated PCI P2P scenarios properly, especially when an IOMMU
+> >>>>> is enabled:
+> >>>>>
+> >>>>>  - Direct bus address mapping without IOVA allocation for
+> >>>>>    PCI_P2PDMA_MAP_BUS_ADDR, using pci_p2pdma_bus_addr_map(). This
+> >>>>>    happens if the IOMMU is enabled but the PCIe switch ACS flags allow
+> >>>>>    transactions to avoid the host bridge.
+> >>>>>
+> >>>>>    Further, this handles the slightly obscure, case of MMIO with a
+> >>>>>    phys_addr_t that is different from the physical BAR programming
+> >>>>>    (bus offset). The phys_addr_t is converted to a dma_addr_t and
+> >>>>>    accommodates this effect. This enables certain real systems to
+> >>>>>    work, especially on ARM platforms.
+> >>>>>
+> >>>>>  - Mapping through host bridge with IOVA allocation and DMA_ATTR_MMIO
+> >>>>>    attribute for MMIO memory regions (PCI_P2PDMA_MAP_THRU_HOST_BRIDGE).
+> >>>>>    This happens when the IOMMU is enabled and the ACS flags are forcing
+> >>>>>    all traffic to the IOMMU - ie for virtualization systems.
+> >>>>>
+> >>>>>  - Cases where P2P is not supported through the host bridge/CPU. The
+> >>>>>    P2P subsystem is the proper place to detect this and block it.
+> >>>>>
+> >>>>> Helper functions fill_sg_entry() and calc_sg_nents() handle the
+> >>>>> scatter-gather table construction, splitting large regions into
+> >>>>> UINT_MAX-sized chunks to fit within sg->length field limits.
+> >>>>>
+> >>>>> Since the physical address based DMA API forbids use of the CPU list
+> >>>>> of the scatterlist this will produce a mangled scatterlist that has
+> >>>>> a fully zero-length and NULL'd CPU list. The list is 0 length,
+> >>>>> all the struct page pointers are NULL and zero sized. This is stronger
+> >>>>> and more robust than the existing mangle_sg_table() technique. It is
+> >>>>> a future project to migrate DMABUF as a subsystem away from using
+> >>>>> scatterlist for this data structure.
+> >>>>>
+> >>>>> Tested-by: Alex Mastro <amastro@fb.com>
+> >>>>> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+> >>>>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> >>>>> ---
+> >>>>>  drivers/dma-buf/dma-buf.c | 235 ++++++++++++++++++++++++++++++++++++++++++++++
+> >>>>>  include/linux/dma-buf.h   |  18 ++++
+> >>>>>  2 files changed, 253 insertions(+)
+> >>>>>
+> >>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> >>>>> index 2bcf9ceca997..cb55dff1dad5 100644
+> >>>>> --- a/drivers/dma-buf/dma-buf.c
+> >>>>> +++ b/drivers/dma-buf/dma-buf.c
+> >>>>> @@ -1254,6 +1254,241 @@ void dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
+> >>>>>  }
+> >>>>>  EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_attachment_unlocked, "DMA_BUF");
+> >>>>>  
+> >>>>> +static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+> >>>>> +					 dma_addr_t addr)
+> >>>>> +{
+> >>>>> +	unsigned int len, nents;
+> >>>>> +	int i;
+> >>>>> +
+> >>>>> +	nents = DIV_ROUND_UP(length, UINT_MAX);
+> >>>>> +	for (i = 0; i < nents; i++) {
+> >>>>> +		len = min_t(size_t, length, UINT_MAX);
+> >>>>> +		length -= len;
+> >>>>> +		/*
+> >>>>> +		 * DMABUF abuses scatterlist to create a scatterlist
+> >>>>> +		 * that does not have any CPU list, only the DMA list.
+> >>>>> +		 * Always set the page related values to NULL to ensure
+> >>>>> +		 * importers can't use it. The phys_addr based DMA API
+> >>>>> +		 * does not require the CPU list for mapping or unmapping.
+> >>>>> +		 */
+> >>>>> +		sg_set_page(sgl, NULL, 0, 0);
+> >>>>> +		sg_dma_address(sgl) = addr + i * UINT_MAX;
+> >>>>> +		sg_dma_len(sgl) = len;
+> >>>>> +		sgl = sg_next(sgl);
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	return sgl;
+> >>>>> +}
+> >>>>> +
+> >>>>> +static unsigned int calc_sg_nents(struct dma_iova_state *state,
+> >>>>> +				  struct dma_buf_phys_vec *phys_vec,
+> >>>>> +				  size_t nr_ranges, size_t size)
+> >>>>> +{
+> >>>>> +	unsigned int nents = 0;
+> >>>>> +	size_t i;
+> >>>>> +
+> >>>>> +	if (!state || !dma_use_iova(state)) {
+> >>>>> +		for (i = 0; i < nr_ranges; i++)
+> >>>>> +			nents += DIV_ROUND_UP(phys_vec[i].len, UINT_MAX);
+> >>>>> +	} else {
+> >>>>> +		/*
+> >>>>> +		 * In IOVA case, there is only one SG entry which spans
+> >>>>> +		 * for whole IOVA address space, but we need to make sure
+> >>>>> +		 * that it fits sg->length, maybe we need more.
+> >>>>> +		 */
+> >>>>> +		nents = DIV_ROUND_UP(size, UINT_MAX);
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	return nents;
+> >>>>> +}
+> >>>>> +
+> >>>>> +/**
+> >>>>> + * struct dma_buf_dma - holds DMA mapping information
+> >>>>> + * @sgt:    Scatter-gather table
+> >>>>> + * @state:  DMA IOVA state relevant in IOMMU-based DMA
+> >>>>> + * @size:   Total size of DMA transfer
+> >>>>> + */
+> >>>>> +struct dma_buf_dma {
+> >>>>> +	struct sg_table sgt;
+> >>>>> +	struct dma_iova_state *state;
+> >>>>> +	size_t size;
+> >>>>> +};
+> >>>>> +
+> >>>>> +/**
+> >>>>> + * dma_buf_map - Returns the scatterlist table of the attachment from arrays
+> >>>>> + * of physical vectors. This funciton is intended for MMIO memory only.
+> >>>>> + * @attach:	[in]	attachment whose scatterlist is to be returned
+> >>>>> + * @provider:	[in]	p2pdma provider
+> >>>>> + * @phys_vec:	[in]	array of physical vectors
+> >>>>> + * @nr_ranges:	[in]	number of entries in phys_vec array
+> >>>>> + * @size:	[in]	total size of phys_vec
+> >>>>> + * @dir:	[in]	direction of DMA transfer
+> >>>>> + *
+> >>>>> + * Returns sg_table containing the scatterlist to be returned; returns ERR_PTR
+> >>>>> + * on error. May return -EINTR if it is interrupted by a signal.
+> >>>>> + *
+> >>>>> + * On success, the DMA addresses and lengths in the returned scatterlist are
+> >>>>> + * PAGE_SIZE aligned.
+> >>>>> + *
+> >>>>> + * A mapping must be unmapped by using dma_buf_unmap().
+> >>>>> + */
+> >>>>> +struct sg_table *dma_buf_map(struct dma_buf_attachment *attach,
+> >>>>
+> >>>> That is clearly not a good name for this function. We already have overloaded the term *mapping* with something completely different.
+> >>>
+> >>> This function performs DMA mapping, so what name do you suggest instead of dma_buf_map()?
+> >>
+> >> Something like dma_buf_phys_vec_to_sg_table(). I'm not good at naming either.
+> > 
+> > Can I call it simply dma_buf_mapping() as I plan to put that function in dma_buf_mapping.c
+> > file per-your request.
 > 
-> Based on ETMv3/v4 spec, would contextid1 always be valid ?  (Though we do
-> not support context ID for ETMv3 yet).
+> No, just completely drop the term "mapping" here. This is about phys_vector to sg_table conversion and nothing else.
+
+We have both map and unmap, so dma_buf_*_to_*() can be applicable to dma_buf_map() only.
+And it is not simple conversion, most of the logic is actually handles mapping:
+
+  137         for (i = 0; i < nr_ranges; i++) {
+  138                 if (!dma->state) {
+  139                         addr = pci_p2pdma_bus_addr_map(provider,
+  140                                                        phys_vec[i].paddr);
+  141                 } else if (dma_use_iova(dma->state)) {
+  142                         ret = dma_iova_link(attach->dev, dma->state,
+  143                                             phys_vec[i].paddr, 0,
+  144                                             phys_vec[i].len, dir,
+  145                                             DMA_ATTR_MMIO);
+  146                         if (ret)
+  147                                 goto err_unmap_dma;
+  148
+  149                         mapped_len += phys_vec[i].len;
+  150                 } else {
+  151                         addr = dma_map_phys(attach->dev, phys_vec[i].paddr,
+  152                                             phys_vec[i].len, dir,
+  153                                             DMA_ATTR_MMIO);
+  154                         ret = dma_mapping_error(attach->dev, addr);
+  155                         if (ret)
+  156                                 goto err_unmap_dma;
+  157                 }
+  158
+  159                 if (!dma->state || !dma_use_iova(dma->state))
+  160                         sgl = fill_sg_entry(sgl, phys_vec[i].len, addr);
+  161         }
+  162
+  163         if (dma->state && dma_use_iova(dma->state)) {
+  164                 WARN_ON_ONCE(mapped_len != size);
+  165                 ret = dma_iova_sync(attach->dev, dma->state, 0, mapped_len);
+  166                 if (ret)
+  167                         goto err_unmap_dma;
+  168
+  169                 sgl = fill_sg_entry(sgl, mapped_len, dma->state->addr);
+  170         }
+
+SG table conversion is only two lines (160 and 169) which are here
+because of DMABUF dependency on SG.
+
+What about dma_buf_phys_vec_mapping()/dma_buf_phys_vec_unmapping()?
+
 > 
-
-It's not currently supported for ETMv3 in perf mode, which is the 
-relevant thing here. So format_attr_contextid_show() never gets called 
-for ETMv3 (equivalent to !CONFIG_ARM64).
-
-Based on the spec it may be supported, but that's a different discussion 
-and I doubt anyone wants it so it's unlikely to be added.
-
->> Personally I would drop the is_visible(). It makes sense for dynamically
->> hidden things, but these are all compile time. IMO it's cleaner to just not
->> include them to begin with, rather than include and then hide them. Then the
->> extra condition in format_attr_contextid_show() isn't needed because the
->> function doesn't exist:
+> That we create an IOVA mapping when the access needs to go through the root complex is an implementation detail.
 > 
-> This is fine for me, though in general I think the dynamic approach is
-> readable and extendable than the compile-time approach.
+> > 
+> > Regarding SG, the long term plan is to remove SG table completely, so at
+> > least external users of DMABUF shouldn't be exposed to internal implementation
+> > details (SG table).
 > 
-> Thanks,
-> Leo
+> Hui? Well I suggested to remove the sg_table, but that doesn't mean that implementations shouldn't be aware of that.
 
-I agree in a perfect world, but it seems to have caused confusion and 
-wasn't that clean because is_kernel_in_hyp_mode() only exists for arm64.
+VFIO which is first user of this interface. It doesn't care how
+internally DMABUF handles array of phys_vecs. Today, it is sg_table,
+tomorrow it will be something else.
 
-I'll send a new version without it.
+Thanks
 
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Thanks
+> 
