@@ -1,191 +1,73 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B24306B3F
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 22:26:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767DD2DE6FF;
+	Wed, 19 Nov 2025 22:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763591220; cv=none; b=jiwfssTnozUgya8IYJYnqxWvc89B2BcQCfTEz5RbfoiLnfdvacZZzu9UE8TCKgzrvOogfPfPkyLNxm4GpnLenjUvAVJCdhWyXah6DmJLtnJ8gV83uuQF0zIA+vMtV6es+4V52nJNAlujpiNJ56Xw3fq7MojqZOaD5p9UQTT4ODg=
+	t=1763591681; cv=none; b=qWbY/gMzbjx+FUmeMfHqeWYYtyNXcCuqH1Lfk6CV9dn57yJ2+4fgxOzszieIapcVRCGTywXjPDm9teR2dR/5VwDFucMj1oRayqsmtt2MO9TO4ETo3KAFWseORS5cFGn6/TMJ28bpkMoVBDYt7XmBf8YxG4xmEd8wgYFirE/Ag5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763591220; c=relaxed/simple;
-	bh=qOnnawt4egcjVD3EMm4ADkZ2z7Vo9vrDOjzvgdq3kes=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EeBurcFnV3v08ev3CAhDhWnL//5U5/Wlg3OM7upqz+9o0/+OJXfs1g0Sr1aj6O7s0CwBecTfvrziQA0zfgxQiciHtMFhnHbz41RZPXmyfXCcuCNNHUUX1f7OJW86UsWqGzfPEsoBmzcdOv4aJP6qVHwvr65y9aTrTrQ1wrpcxzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R8k/DZ8/; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763591681; c=relaxed/simple;
+	bh=65DZtkgL4wY699e+vvnuJV4J0GyOEKW8wNIUyJt210k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HpbLBV9skjS9vRW2Ur6NTdAOglncuxcdNPuPSxgNF0HZWcQtE3khE7BfTciCRXEz0/thwp0mSqS1nvRfE7n9LD7NKWSFr8cev1xWSzvsydZ73jdNmd0jtrw871YhfQKlxKbTML7D/VZ+w1vQd9SVPy0zgENzTDyZFJSt3wVMFG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XeSo+tey; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R8k/DZ8/"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5957f617ff0so215762e87.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 14:26:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763591216; x=1764196016; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IBHV1EUw0WBXSKlFcI/NhGu5XRuHQn0XLzAOgD+DTYU=;
-        b=R8k/DZ8/ZkWu1ODdCi03BUhd0F6wJ+SI26jz55vpEOV1pSnPERLev3IwAQeGU9Ksnb
-         xjiOXUCNbqNR3md5yGCT9dIVKjPaIS3mpoLpkuyO+XWoQLOU2mnh+9SDElRz5SHfHh3Q
-         B0Wp03c6n0pUeFnj//hlczVj1aLV2ivD34FgWCLm3Wp2rJmju2T6TENUxfmee1/qUvse
-         xHh5AEGWJi1knuZfskaA8eIhL5PpmlkU5smszODFrAzYd+ZNUXTteOUwRFrOEC4wNHEL
-         l9c+nmG/rJdGmgVVAigFNQxltkX3V8NVu3TMSbQcqLexwAuvZ+VR2gIcAI3nv0pI67PG
-         Rfkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763591216; x=1764196016;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IBHV1EUw0WBXSKlFcI/NhGu5XRuHQn0XLzAOgD+DTYU=;
-        b=Thqes1iRYlhnWr0z5J8XIsoi65DnYr/EgpNthwPO27AFg0GOVqitARzvrh74yAP0A7
-         1tamxoxh/FRI8+hjFBJQNUxCa3S2MUFwPXxyrkGMpzLMCpIKZjBXeu8KNa7+s2b6PIsP
-         Kr6vbrF0TLLY/rKe70ldzXGTQ5RoUEiSZJYCDggdjISAMi+rZ9QXtZlSTaq0aizUJSFl
-         FAwPL/IycxrNASwb4rKb5pWc9fnOB5Qk3OgZK1nqqQMILyQ2j8kMwapP7TuIegpb+4ns
-         +ijsQzBdegCutcjXZKIGdum7Q3IbMdf86XyOkJXn7TGuARyxbtjdNTqHJgl7ycxa1wSD
-         f/Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCW/iREWe9tPaCJYmX9Sxpz5MaIf4wSx25biEGCE6c8W8vVFz+HcK6rSUz61TN0VzNFNo7FW/eN6iwE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLW/kAV7BP++YsAmwCXYdc8L5K9qgQUfuDt0XcikPC+55bE3tK
-	z25A/pvPoP7eEvGPzcpZaEs681CeKZh3wpqqVU1C9pfmadOKcS1QEe8M
-X-Gm-Gg: ASbGncvs9hgmbgC9FuVLFEmfCWwl/oc04IL8CuQmUW4pTWhqzCFA5qjlqVUoYf/AvPC
-	UwxR4b+2kA9YCzi8KiGsNJ3PNcLEqz3LxND76zm0wjVffgf/LD2DVztYn+KAni8sqga4U7YKGXs
-	5tynAo7MG8IAcUSA9ZCzpzshM3N7BD9iI8RtiTjI49wL0ih+ADfGyebv94IexLP3yXFJSu8/YZJ
-	BhwJLdXllsR31OxcI54eJhxwMTCqRzDCvcuz8KGYv/Y9WvkPpRd/rOG0Dza9gkUq7anWQKMflRj
-	MZsr4zBL5xeuXSevA75eZVkRg+tTy5Lo/QNrzacM9nqna3Jh6T0qHsRNrU8u+a+nSpe3I8dkgC2
-	aF0OuNoUPj/ym2tBoYfh01zXBXGgz/7BGscj1Hrx3k/arfFBU3D5XinYyFUTseK4AXPAgh2kXdY
-	PMnaKK6jxv
-X-Google-Smtp-Source: AGHT+IFgA9RKL+uFTnctiFZKqulaPxewVQd+eAgCSkyCWbVEq5Iah76Q4RixKmx92rXz16tT6l4F2g==
-X-Received: by 2002:a05:6512:3d08:b0:594:25e6:8a3a with SMTP id 2adb3069b0e04-5969e2e74d7mr178185e87.20.1763591216022;
-        Wed, 19 Nov 2025 14:26:56 -0800 (PST)
-Received: from localhost ([109.167.240.218])
-        by smtp.gmail.com with UTF8SMTPSA id 2adb3069b0e04-5969db8989csm168021e87.39.2025.11.19.14.26.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Nov 2025 14:26:54 -0800 (PST)
-From: Askar Safin <safinaskar@gmail.com>
-To: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Julian Stecklina <julian.stecklina@cyberus-technology.de>,
-	Gao Xiang <hsiangkao@linux.alibaba.com>,
-	Art Nikpal <email2tema@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alexander Graf <graf@amazon.com>,
-	Rob Landley <rob@landley.net>,
-	Lennart Poettering <mzxreary@0pointer.de>,
-	linux-arch@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	initramfs@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Michal Simek <monstr@monstr.eu>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dave Young <dyoung@redhat.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Jessica Clarke <jrtc27@jrtc27.com>,
-	Nicolas Schichan <nschichan@freebox.fr>,
-	David Disseldorp <ddiss@suse.de>,
-	patches@lists.linux.dev
-Subject: [PATCH v4 3/3] init: remove /proc/sys/kernel/real-root-dev
-Date: Wed, 19 Nov 2025 22:24:07 +0000
-Message-ID: <20251119222407.3333257-4-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251119222407.3333257-1-safinaskar@gmail.com>
-References: <20251119222407.3333257-1-safinaskar@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XeSo+tey"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB774C4CEF5;
+	Wed, 19 Nov 2025 22:34:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763591680;
+	bh=65DZtkgL4wY699e+vvnuJV4J0GyOEKW8wNIUyJt210k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XeSo+teyP0eCwedZBnBRUsbhf5eYianc90Phb4taVnk0lkYD7JfB0nZk3YiYjbKvi
+	 Ci5lUp0A6UBqKbXh0QV3ifkBmlHpAhgldMKkzvoN0zV4yQEahJFznJD8PcyiAe39NJ
+	 tRQQuUBt/tKBORmwCYEmPMveZgf+TwluaG9DSvqWZtWIm4mOQP7VAAMiKb/H0icxum
+	 tO0YcCcPBun4iE72xXvd4CMx7bed39wV3UgedmcFiruw269IcG6DxHVf0diG5MNJJc
+	 BBaC3zV3hWz0buD93VsE0lxMw50xn4/f8LGeanvgDCpDrz+3atluA276vM5waNE52M
+	 NnrbZiFSC2n/Q==
+Date: Wed, 19 Nov 2025 14:34:40 -0800
+From: Kees Cook <kees@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, josh@joshtriplett.org,
+	konstantin@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	rostedt@goodmis.org, workflows@vger.kernel.org, joe@perches.com,
+	rdunlap@infradead.org
+Subject: Re: [PATCH v4] README: restructure with role-based documentation and
+ guidelines
+Message-ID: <202511191434.9CA5301@keescook>
+References: <20251119023832.1095490-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119023832.1095490-1-sashal@kernel.org>
 
-It is not used anymore.
+On Tue, Nov 18, 2025 at 09:38:32PM -0500, Sasha Levin wrote:
+> Reorganize README to provide targeted documentation paths for different user
+> roles including developers, researchers, security experts, maintainers, and AI
+> coding assistants. Add quick start section and essential docs links.
+> 
+> Include proper attribution requirements for AI-assisted contributions using
+> Assisted-by tags with agent details and tools used.
+> 
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+> 
+> Changes since v3:
+> 
+>  - No AI hype :)
+>  - Link to a guide for building the kernel
 
-Signed-off-by: Askar Safin <safinaskar@gmail.com>
----
- Documentation/admin-guide/sysctl/kernel.rst |  6 ------
- include/uapi/linux/sysctl.h                 |  1 -
- init/do_mounts_initrd.c                     | 20 --------------------
- 3 files changed, 27 deletions(-)
+Thanks! With the other comments in the v4 thread fixed:
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index f3ee807b5d8b..218265babaf9 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1215,12 +1215,6 @@ that support this feature.
- ==  ===========================================================================
- 
- 
--real-root-dev
--=============
--
--See Documentation/admin-guide/initrd.rst.
--
--
- reboot-cmd (SPARC only)
- =======================
- 
-diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
-index 63d1464cb71c..1c7fe0f4dca4 100644
---- a/include/uapi/linux/sysctl.h
-+++ b/include/uapi/linux/sysctl.h
-@@ -92,7 +92,6 @@ enum
- 	KERN_DOMAINNAME=8,	/* string: domainname */
- 
- 	KERN_PANIC=15,		/* int: panic timeout */
--	KERN_REALROOTDEV=16,	/* real root device to mount after initrd */
- 
- 	KERN_SPARC_REBOOT=21,	/* reboot command on Sparc */
- 	KERN_CTLALTDEL=22,	/* int: allow ctl-alt-del to reboot */
-diff --git a/init/do_mounts_initrd.c b/init/do_mounts_initrd.c
-index fe335dbc95e0..892e69ab41c4 100644
---- a/init/do_mounts_initrd.c
-+++ b/init/do_mounts_initrd.c
-@@ -8,31 +8,11 @@
- 
- unsigned long initrd_start, initrd_end;
- int initrd_below_start_ok;
--static unsigned int real_root_dev;	/* do_proc_dointvec cannot handle kdev_t */
- static int __initdata mount_initrd = 1;
- 
- phys_addr_t phys_initrd_start __initdata;
- unsigned long phys_initrd_size __initdata;
- 
--#ifdef CONFIG_SYSCTL
--static const struct ctl_table kern_do_mounts_initrd_table[] = {
--	{
--		.procname       = "real-root-dev",
--		.data           = &real_root_dev,
--		.maxlen         = sizeof(int),
--		.mode           = 0644,
--		.proc_handler   = proc_dointvec,
--	},
--};
--
--static __init int kernel_do_mounts_initrd_sysctls_init(void)
--{
--	register_sysctl_init("kernel", kern_do_mounts_initrd_table);
--	return 0;
--}
--late_initcall(kernel_do_mounts_initrd_sysctls_init);
--#endif /* CONFIG_SYSCTL */
--
- static int __init no_initrd(char *str)
- {
- 	pr_warn("noinitrd option is deprecated and will be removed soon\n");
+Reviewed-by: Kees Cook <kees@kernel.org>
+
+-Kees
+
 -- 
-2.47.3
-
+Kees Cook
