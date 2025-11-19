@@ -1,68 +1,69 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944F936C5B5
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 16:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2A436C593
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 16:18:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763569110; cv=none; b=WaxZwbOiuXN7Svg/oQUJRXN7rAHEhtQ8sXtNWkBtoVzgt1aRrtEMF3J6AcDzCPTCSHGR8n2Dwmz//71aWbBaTLoBxbpKz39SXU+AilJ2dYmPSBSdCfLGJH9Tau0c4ZVlb3Ib4aza4Y/O5JZ38dAJfML4hOEI1bBbuikI3aHvgDI=
+	t=1763569110; cv=none; b=nbJej+S4BeoUjVr3yOJYnS44fSO2hXrrB2p+LxZn5/GFr+4KBHbDJ/GqkpPz4DViZ5TsZDBSQSCZ8pewv2hMFHyZ6zrbcUcHp1fjdPyj7K9f4YvWU5TVysWEM3u8qpEyfxnA5RQelRimwj0nD9SDs6HL0hO27VtCwLUCIVdrYhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763569110; c=relaxed/simple;
-	bh=N+Q6R1XCPpnjYjCPIVjDvoCYHZZK5o2FhEXZTAuBfSI=;
+	bh=TNcEQrNzvvULvrZwY1bi1KT31/DfIBlyOCzRtRN9s5s=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RJhZG7CEmyT4zXQ4ZiDAz/ymEWq+jE/ai5MTB6MhJwDDNlZ9zc4QLyprv/38TgQBO/7zVbHeyqWpb0h2hZrhJc43ah4iJ/lvt7FSIfwgj2VMxQLNYob9bSgoKSFqeBr9w+FwO3oQMQlJcRs4d8kA4Sg93/1e4r9QUfL1iqHITKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l1c4pYum; arc=none smtp.client-ip=209.85.128.52
+	 In-Reply-To:To:Cc; b=qWe6O+knl+8mRBCYxJ1ZTgehIDjb6e5sphhlbdzDLBeHLy+TpKy/UJTxsphYBl2wgUg2V4StEXDMVX6bHs4pGwQeDDPrec7CN8i/LUaedTeWuz3HOkw1k7KVjzgic2HVJVmtLrrcjOqUCsvfs2Reld2z1Y81n2YOfpSPEsBVi98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hYNBGJIJ; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l1c4pYum"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-477632b0621so45824925e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 08:18:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hYNBGJIJ"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47790b080e4so30470585e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 08:18:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763569106; x=1764173906; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1763569107; x=1764173907; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=s7Cp0IQzkfAKXAya/Lg64jqfJ1j/YiOKK8shdTQX7JE=;
-        b=l1c4pYumW61zGl7kO6koiKP98jNxJkmDJa9MsOcKV7hii+iJIsZGH9HwDZysYHkUmo
-         F/TFEVwxd8Vb8v5SK1i1cAcIcYHIrtqtGcHTwntQzlEfvMHWyrZzpB7BTnVTBGthzUj4
-         zQll3nmPvl5v8PpWqzC/095l1CxJG7fiKdu6wkS8jtbZlUC3dqhWVK/PI5NlfFFqFJs4
-         iIzvOdlG2EmUwRX4sulw3puWesLiqiXDTLeBhgjldpuUuruX8J7vIeQvfgw62wuwOpkh
-         p/8bXONWQAJPu416ZvexOcZHHkEJjGwK9+Ab0d7Be5OXgrNvR+o2OOSmctgE+UgL9qv1
-         PMnw==
+        bh=tm65IZSOvcLW22I95NQ1DesGTVpSHNfrfkgnxYh1pRw=;
+        b=hYNBGJIJECxC/TAbaTduMZf/SDNBavclDjlt5/Kw+H2aytvzAxhAfniyGD/E6OHtZq
+         HPs0X0c+8tpZBjXHeMNopNuwSH8JV7OD7zzrgAH8KD8q12lqQ0OcW/f8miz7NnXrIMEG
+         nFZWWkvkwXMeFWO2Rr6pEaxepn0UvlvIvGkCor1E1xSYE9lpn8YWNJEOzSwa6w1zqrv+
+         j0jwYOsKbp9W9y9T6oM9KLDxon0W0x26XEx/bDAnb3cBF6bA1dNzmAk+eTBfowgF0kOw
+         5iLfjURiXL5ay818UG9E/sFSc6XAK1rHZesGJBWVcdqc9kL/h7ZLv+smN/bhrpUC9BKD
+         lnRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763569106; x=1764173906;
+        d=1e100.net; s=20230601; t=1763569107; x=1764173907;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=s7Cp0IQzkfAKXAya/Lg64jqfJ1j/YiOKK8shdTQX7JE=;
-        b=KKDelnwTtoiFJ6J5XEUSlnoYVpzRwl2bXFERLOtR4Ea6FrfBkae7Q2G+4Pvhwx8i98
-         dDsM7I7O9pa6O5pxcG1C68jCqa10sNFTJy/u59Ufl57Fasbn219rnEyfqB/KBkenBP5Y
-         OyYf1A0NdOPGfKZ4TlDTjS4jOchtTQCDAAbtuERusDSN4KhApv2Lnww8JPHtOanFdSZJ
-         0PxTuS8WrMHAZckTqBhY+99P0e7oghBZw6WBdSSYhrAl4GIhe5jDfcgfANO+IEWdEERJ
-         4FnqfMrt/q4oMWi3NJdLFgLvT8KAGpFqns2s7kESD2iqLYOCOCOyp/+rEOIFSf7msg29
-         +lsg==
-X-Forwarded-Encrypted: i=1; AJvYcCVpHeLa8p+MraIH2xFaJNZfqoge6gqCy98Yc0oj7Bk/KfgMSemF1kA3fqlffYxknSdbnPHilkJfAmA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw031EcVQzRpef0R4BRz+YY6aQ4KAFcnN2rkSSeKKcMQQEWJM0V
-	u8w2dH/eUVnrbao4W3U0kwGbBh7r9o6i1Jd9q4W+Od2U/YpWNoy17u1uffjTYKZpscQ=
-X-Gm-Gg: ASbGncs1JKe64pEP1Kb41wQt6oIKF5+BI1pOMwm5ngapmrHsKIHSM8wVE4aMrcscsaA
-	azcNlbEDlKac5m2w7UaMyld3Obs6qetBOR/KHxyzxA9tWCEjrMCQeCnuPBTzVWZY8ROpQ+4twIH
-	H0Emjee7+NLQMZ+nDRdje8rY/2EdtD7bPoFavvpcSRj302C7248WWDB5FtCg1x6EgUF/AM+L9k1
-	HzbD6y5KZLOiKMen+LGWqy4p62HzM/tLdXNzJFQuVO/y66RZbUJRdyW59upWfOa0UosTfl8Xkke
-	sqppEsUK0ZmPC3IHcoxwLs5N3CHaMU+EcedDq18ePlYmStWDhFw2Nwao2S9I3H/PRqaptGypavl
-	w8zHFCAkWwza/R5zvucizKgu6ByreTzvRICIqFBLAVSiSZ+Ws2UTMcp/Rtr5NpZ8kxSdrkujsuY
-	CTfWh4PpPjsC/PTTM4GQLo
-X-Google-Smtp-Source: AGHT+IFq5cBVYvvZ+7oVK13tQ0GTA3nshqd52t9/fz8kEaZfjoRl+N1fTrpRLi6jbMCiDb9ubVJALg==
-X-Received: by 2002:a05:600c:35d6:b0:477:ae31:1311 with SMTP id 5b1f17b1804b1-477ae3116a6mr51188885e9.13.1763569105548;
-        Wed, 19 Nov 2025 08:18:25 -0800 (PST)
+        bh=tm65IZSOvcLW22I95NQ1DesGTVpSHNfrfkgnxYh1pRw=;
+        b=r3TxReygDIDa9e95sMop/Po40QJbMfP4Jxws7oNQfT6KABQBh2sFcGkaPoHgs7mhPm
+         zItp9JTV67ABOH/rWOrWIxhUD5vuqKZTbdpoAvYXhtVG1zzEFRsyUzFNwIBI4clBVhLu
+         rm6z7ATm2cW4DUG64tqKLrFrcr5/3bAs7sS91oydKprFQBw9XPQ3NavetI5HnFrI3+2f
+         M+YbH2jlXp5YKmzIeyhbGqM0LRq0O+DzX2ZcVTRCXGq9SFd6Ta9U6vF6OvwnXvaStZqS
+         0SwojQe5QZ9wLEYjX/ajo7bGkmjLGtEmaSFiG/Ob3TyJpcHnba24++uuiWzh8RRVpmNU
+         5QTg==
+X-Forwarded-Encrypted: i=1; AJvYcCVbSMf94e0OQXXbvs2LuaUiw6QE1BcsLvIM1+rRqsbqSZpmclAB/larSEKxObIhjlOPfjUOzVdyD0Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvwjAvbD3aTzXz+jhGQU74q5X8fJAkgZvO/GZrAXiClfJYA/aI
+	FjIKPXxX9OmEt6w5SuOzrWR2qIOHx37xAGXwBaKzziL1yYFffe+XVeEXsNKJZQQZZfjdKs93rli
+	HPNqA3f0=
+X-Gm-Gg: ASbGncuOr2dHY9+HcmoNm8P/6K2tqofJOdkS4MT8it30aZUc32g4RbZ7vXgkmCJng3Y
+	Oms4JKW5awWAf6JBvZaODBN59/t70gCxEwYduWGm9XI3AYwBn7dh7hAvQt9Cx+ziYjixykED2BR
+	BE+PLhnOVwYoHGCAUXcl74R2fxcplPsPnnh0XjLqVCpxRV5uMTR7VwVK1KUr8lm8uUkt8I7tftV
+	ovFFfvHqz95fvpReAXJAKjI4F53dQEUpYFj84kzm17dK938gfWGB0lD051t3y7mExVS99yYhtqj
+	wYsLI27T8fnIhNuoK/FVp9IxuMHCl3tUwFmiT+tgFad8jFADERoo9vjQu/jF8TsSKQ86QIvmBLZ
+	o5Ru3LxP1H+QxkYrkZk7Mqr3eHGA5/pWCUIShmD1cQlnpnB4IRrZsgB4OpwFPB8gJPjTyPJV9a1
+	COPIM6usfoYKqHnfgztWPT
+X-Google-Smtp-Source: AGHT+IFFA2/5WMyi43JL9wYl1E+HXHvpaVVjq0ooJOqK0iATycUimsaSxmDoPtbjIuyl7D1kIpWgmw==
+X-Received: by 2002:a05:600c:8b8a:b0:477:952d:fc11 with SMTP id 5b1f17b1804b1-47795418dcbmr192758345e9.16.1763569106515;
+        Wed, 19 Nov 2025 08:18:26 -0800 (PST)
 Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b10142d3sm63205425e9.5.2025.11.19.08.18.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b10142d3sm63205425e9.5.2025.11.19.08.18.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 08:18:25 -0800 (PST)
+        Wed, 19 Nov 2025 08:18:26 -0800 (PST)
 From: James Clark <james.clark@linaro.org>
-Date: Wed, 19 Nov 2025 16:18:03 +0000
-Subject: [PATCH v6 07/13] coresight: Don't reject unrecognized ETMv3 format
- attributes
+Date: Wed, 19 Nov 2025 16:18:04 +0000
+Subject: [PATCH v6 08/13] coresight: Interpret perf config with
+ ATTR_CFG_GET_FLD()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +72,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-james-cs-syncfreq-v6-7-740d24a29e51@linaro.org>
+Message-Id: <20251119-james-cs-syncfreq-v6-8-740d24a29e51@linaro.org>
 References: <20251119-james-cs-syncfreq-v6-0-740d24a29e51@linaro.org>
 In-Reply-To: <20251119-james-cs-syncfreq-v6-0-740d24a29e51@linaro.org>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -84,36 +85,62 @@ Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
  James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-config isn't the only field, there are also config1, config2, etc.
-Rejecting unrecognized attributes is therefore inconsistent as it wasn't
-done for all fields. It was only necessary when we were directly
-programming attr->config into ETMCR and didn't hide the unsupported
-fields, but now it's not needed so remove it.
+The "config:" string construction in format_attr_contextid_show() can be
+removed because it either showed the existing context1 or context2
+formats which have already been generated, so can be called themselves.
 
-Reviewed-by: Leo Yan <leo.yan@arm.com>
+The other conversions are straightforward replacements.
+
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- drivers/hwtracing/coresight/coresight-etm3x-core.c | 7 -------
- 1 file changed, 7 deletions(-)
+ drivers/hwtracing/coresight/coresight-etm-perf.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/hwtracing/coresight/coresight-etm3x-core.c b/drivers/hwtracing/coresight/coresight-etm3x-core.c
-index 4511fc2f8d72..584d653eda81 100644
---- a/drivers/hwtracing/coresight/coresight-etm3x-core.c
-+++ b/drivers/hwtracing/coresight/coresight-etm3x-core.c
-@@ -333,13 +333,6 @@ static int etm_parse_event_config(struct etm_drvdata *drvdata,
- 	if (config->mode)
- 		etm_config_trace_mode(config);
- 
--	/*
--	 * At this time only cycle accurate, return stack  and timestamp
--	 * options are available.
--	 */
--	if (attr->config & ~ETM3X_SUPPORTED_OPTIONS)
--		return -EINVAL;
+diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+index bf4b105e0f41..3c8a6f795094 100644
+--- a/drivers/hwtracing/coresight/coresight-etm-perf.c
++++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+@@ -77,10 +77,9 @@ static ssize_t format_attr_contextid_show(struct device *dev,
+ 					  struct device_attribute *attr,
+ 					  char *page)
+ {
+-	int pid_fmt = ETM_OPT_CTXTID;
 -
- 	config->ctrl = 0;
+-	pid_fmt = is_kernel_in_hyp_mode() ? ETM_OPT_CTXTID2 : ETM_OPT_CTXTID;
+-	return sprintf(page, "config:%d\n", pid_fmt);
++	if (is_kernel_in_hyp_mode())
++		return contextid2_show(dev, attr, page);
++	return contextid1_show(dev, attr, page);
+ }
  
- 	if (ATTR_CFG_GET_FLD(attr, cycacc))
+ static struct device_attribute format_attr_contextid =
+@@ -319,7 +318,7 @@ static bool sinks_compatible(struct coresight_device *a,
+ static void *etm_setup_aux(struct perf_event *event, void **pages,
+ 			   int nr_pages, bool overwrite)
+ {
+-	u32 id, cfg_hash;
++	u32 sink_hash, cfg_hash;
+ 	int cpu = event->cpu;
+ 	cpumask_t *mask;
+ 	struct coresight_device *sink = NULL;
+@@ -332,13 +331,12 @@ static void *etm_setup_aux(struct perf_event *event, void **pages,
+ 	INIT_WORK(&event_data->work, free_event_data);
+ 
+ 	/* First get the selected sink from user space. */
+-	if (event->attr.config2 & GENMASK_ULL(31, 0)) {
+-		id = (u32)event->attr.config2;
+-		sink = user_sink = coresight_get_sink_by_id(id);
+-	}
++	sink_hash = ATTR_CFG_GET_FLD(&event->attr, sinkid);
++	if (sink_hash)
++		sink = user_sink = coresight_get_sink_by_id(sink_hash);
+ 
+ 	/* check if user wants a coresight configuration selected */
+-	cfg_hash = (u32)((event->attr.config2 & GENMASK_ULL(63, 32)) >> 32);
++	cfg_hash = ATTR_CFG_GET_FLD(&event->attr, configid);
+ 	if (cfg_hash) {
+ 		if (cscfg_activate_config(cfg_hash))
+ 			goto err;
 
 -- 
 2.34.1
