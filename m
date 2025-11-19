@@ -1,246 +1,268 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD22C1FBEA8;
-	Wed, 19 Nov 2025 02:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763520318; cv=fail; b=Pww4sBaRS8N3tYqYVZJp8ycA7CvmV5c0KvxsMobMp8wamAO/DwEOGcF1lCol2QyUJJ1dU9qMU12BwdOjSwsqQV0hXAsDykM5j5J0MEQgjUjNiV84j8Az+IWQZSEPVJ3E3L4/70y/ekaZSV+Y9YSz1XJ9iWJi1wGPWJ1tXFXGnZM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763520318; c=relaxed/simple;
-	bh=9cDasjNRLxjTazxam2m3Omdh6bLQ0VDdQ6VN663KmTM=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=p2kfU/jDWrCFodp1sx7z/NsDiiO9vuOgx3lGwpgLPcckLl2IelbuYiOVNupnucor4HSuCifD0LPGEzpiBuSo2D8upbQJvNm2JVznuysiZINVr2SifcWplOMBVepn3vSX48xlE3RzN23/6N3BVDUe3YmDTXT7z6sTh/sdTuIURZ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gdbl/PxP; arc=fail smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D1A2222CC
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 02:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763520642; cv=none; b=hC5OR5gmeKGlVFuy3ieoBuGL6c7mn4GT3i+0XjyLnHgdG36oUpNQbEb36CcH3xr/kLJB0xgENof/GEM7joipq9Pe0B41eixrLkeW1GqZJwYN+hGw7Pc4TaFY80lvQZ7u1YEyttSyJ6ES06lVwFQlsVn8p8mYIhLQYx6YIPbJgzw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763520642; c=relaxed/simple;
+	bh=oASI8lZvOzwQn6SpNUuGmAnjqOmTkocC/M3zGkdECog=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FP97jOcPQHLSPLRbqHB38sDJ3ZnOwEp137k6/4ZGtcQZKMxtWDla9gFxhebOJaIeWM2k9AlwEDOe4ff2I6/EpxW4tuaODAHu145lrRTjDgRWrCtvm84xqKtybyNNtPNaF0M5/y9A9seIK8L9qPOR561+VLUYJbRYfyHnJ0tjsOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aMeaE7X8; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gdbl/PxP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763520317; x=1795056317;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=9cDasjNRLxjTazxam2m3Omdh6bLQ0VDdQ6VN663KmTM=;
-  b=Gdbl/PxPx573RQK6GHonHrUoYubbPgHaKUhGSGd6MIunSwunelhRAEv6
-   falZZyROQXD7yuFpUQ1f16dEiSakZSTKbYP1gw8eQFUPzxCCE/vQDat3a
-   B3ga/Y9Rkz4S0SuBCbMEYkk7v+Lt/CcOeZQ7jsHAIoYlfl/ea0MgQaAn4
-   El0gESVWm4vD7WN7ZoWhn572tY81YoqNQTwOCp4IhOagCSt05KLsc8nkk
-   nKdLte9DQ3/XTgMWtiY8mDWIck6XFm0WcqdUrWf39Aq1MXdwv2gBEj6ZE
-   SLhDaYaRiwZzNZCiU0pQA/aiYvT42iaOlgEgM5cFMfl3IF7me0v6IU9jw
-   Q==;
-X-CSE-ConnectionGUID: 88tV1sqWRxGtuEAFfxKx6A==
-X-CSE-MsgGUID: 9R19e6uiTU+loIXTGSVCJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="82945363"
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="82945363"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 18:45:17 -0800
-X-CSE-ConnectionGUID: uRmmIKsMQcm8W3k7r9th+Q==
-X-CSE-MsgGUID: ENiWMFlvRfCDpqu5zvqwog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="190583709"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 18:45:15 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 18 Nov 2025 18:45:14 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Tue, 18 Nov 2025 18:45:14 -0800
-Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.61) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 18 Nov 2025 18:45:14 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mprrfqf3c3Ius8McY4SNT72tVrBZVZjluoGARXk7aqnidyk+IFOWsU2VZXa/UUy/y2NPd5cSlxFGHSzYkje6US0kbwYde9tAAlkbhP4nKz2j26BosM0zOqY3hBXNKEQjSSfCnrYBSzJQ4Ryry7B/1dYikucSDdBrqCWLiRIqQuMLJePzbhTXiwV/tI4Kn6FSJzvb0zTAOaMxNLI6pSu72oZaCf+F5lpHBFPIOEHEaOHqgraOIN0iYBYkkWWjNfuWGih8ppIX5CFTS7znCkty8T9xoRN/bNkQ06WhmoGQNoUy1r/8wE6Nh4V3zfZrVTZstIvKO7MM1jzi8GFuxjNxPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yh++ChXASuBb3b4F8/n/6ZUAjyqckXaasaIyu9ERpRk=;
- b=EGJJBJjkmv0fe9l20YrLBJe9VdpNRpDyIUbMRw5lE7Gq1FQI0S6HkKrmlg7Mgdf87S/uNeUnYTPyhrvAryqhe2z8UXbhT1lKeutP3xG2RLGZuvBVmn1LZD0qXCn0yrwdBEGBTMmK7b6mLkvh6weJOqFLaphdtc0uwc84EsJ1PBrWxAeZdp196Du0aZD/NKyv7ME9NrFTIw9HMIF+wzhpmZflnLkLTwx925V+Cjs7bnV6BJ4+M+d6Y1cmNtqVdY+XHxBDK5+x8Jp2+e/zWx2XDHXwFy9sFS00LV/741fTLQ0lcid1BWd4mBCiGzW+9EY1+fRCl/CntOSvZQNh3Pelaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
- by PH3PPF2CAD058EC.namprd11.prod.outlook.com (2603:10b6:518:1::d12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Wed, 19 Nov
- 2025 02:45:12 +0000
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::fdc2:40ba:101d:40bf]) by CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::fdc2:40ba:101d:40bf%6]) with mapi id 15.20.9343.009; Wed, 19 Nov 2025
- 02:45:12 +0000
-Date: Wed, 19 Nov 2025 10:44:59 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: "Xin Li (Intel)" <xin@zytor.com>
-CC: <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <pbonzini@redhat.com>, <seanjc@google.com>,
-	<corbet@lwn.net>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<luto@kernel.org>, <peterz@infradead.org>, <andrew.cooper3@citrix.com>,
-	<hch@infradead.org>, <sohil.mehta@intel.com>
-Subject: Re: [PATCH v9 07/22] KVM: VMX: Initialize VMCS FRED fields
-Message-ID: <aR0vK3z1owwM8X8H@intel.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-8-xin@zytor.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251026201911.505204-8-xin@zytor.com>
-X-ClientProxiedBy: KUZPR02CA0012.apcprd02.prod.outlook.com
- (2603:1096:d10:33::10) To CH3PR11MB8660.namprd11.prod.outlook.com
- (2603:10b6:610:1ce::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aMeaE7X8"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-78a6c7ac3caso4519797b3.0
+        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 18:50:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763520639; x=1764125439; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V2piU0LZ9m4ZEPcYM7zXazGE2L2mQPsKP360MC0AEh4=;
+        b=aMeaE7X8bqmwdKMmeZQmJFA3LmQ1tC8w5E4WX24TwTDXBngMLmn6vyqvemq63Asq+S
+         eM6qgfM89koSAHo2HoRmZoNTEIHcgX+FLRl2snXLg51XZE05PB1Hmtvhw8RAMr+fjK2w
+         9O9TzTN3qkK9dm57ALCJzOO2mH9wVMqAZPSLT/s56eOZaWX94wVktRp0VsBBgdVvA1H/
+         06HyuwM8Yj5fZmJlC8J+LgjWR3bRCVZOO7s0SrATbZS7Ngf/y34X3+R5HimYo3BfKVbN
+         C+M0yso8XyOLw1/ko2RQmyIKAChnM0f3xv6wSQ1N3liWAsMrxxsF2zSalfYmWIYz6AjN
+         IsDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763520639; x=1764125439;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V2piU0LZ9m4ZEPcYM7zXazGE2L2mQPsKP360MC0AEh4=;
+        b=wV6qYmV6OYhNdhRZZ7bragW3zQKOL7M6ig2k54qZfmirE+fACW56xLp/e09d8xF36U
+         VehGpDXDiqH31nhaNi/vPiD1RnDSJDwNWGw11Wn0+jnE7nnqEd/vYnk1C0fDuCwv0t5h
+         KgQK/0Mn9WmX8J3k+kSZbJAFP8bcglLJYdGsJuuPQY7P/GyBLW3YP3Lq9+RRrRh65CX2
+         N1m+1N2r4+6aigQBGYm4eycDaVGVb74j64HtXhN0sRELw1v6ZglViJXPbBfrO489ov0b
+         NZ4YqKhDsSC2DKLRpwrYyiQ1LQf59V/02RwHZpaV3TbR+ivmWCOhqG9yVGXQlRvhbxqV
+         5A1g==
+X-Forwarded-Encrypted: i=1; AJvYcCV7R24es9eVjEVB8iA4pwwds9z65/ITJP9TGfgg9Gz6sNaMxi88Ac1hlNSTHsuapa5jOSwQ39puzhk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxrqiJXeYQa6qfyIHTpRnHDXelr/H5hfrAip4zOTUTnLKdJN0m
+	3SjRv5R4aADTSsXDuZ5hoVqNrXsi3mfEFeAfra4v0SnnEX80lIjvaaa3
+X-Gm-Gg: ASbGnctc1gtx3lnlJwSHPfh+bT23bwRkltPMm6I+FQtswwZIKv40eMl2C/yEddfgQPs
+	eH1sfaLNMGAdDx6QG+NM7iHiRHxEzUEpLYS2rEH74xg+zr2cXfgymCju5msAbEuIq0YWsjkkrOj
+	cFo2SIJelKj3lJG2zb5iO2nkSfX0CfRCrkqlspDEuXP4WHcIsgtADz0c2pFUDt5gShz6FV84o2V
+	PJZnL9onjQPhaSo5eMJNe5mSxct3l44St5Egvfdlv5fZr8XY0o6cjeGf1Emsgae+FW+4xzlZNJt
+	6SJ3sT5uZD0/6TwFO/gWoLrbHQmWkYtOGMgioMRocKPSXPmyCHe6FytvRHHMIjT/NR+yhbOLNvm
+	vMvd+YW+4MWjo+/sy8dbFjbEOilefp0M1I5qharyFfBYR1wCwsKiwneRfTrOLUOZGKUW3Et4+nL
+	W4qkBhGectlNk38uNDDbuu
+X-Google-Smtp-Source: AGHT+IHmPfuA1AfzD47/iHwlrM3QKsLm8uiu8WFR1L4/8ZeMuu0e/fGVu7V4aOsTJ5TB7osUk7vFCA==
+X-Received: by 2002:a05:690c:6610:b0:787:d0a2:1cb1 with SMTP id 00721157ae682-78929f16b05mr167103887b3.53.1763520639152;
+        Tue, 18 Nov 2025 18:50:39 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:53::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7882214a45fsm58420747b3.41.2025.11.18.18.50.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 18:50:38 -0800 (PST)
+From: Daniel Zahka <daniel.zahka@gmail.com>
+To: Jiri Pirko <jiri@resnulli.us>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Srujana Challa <schalla@marvell.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Brett Creeley <brett.creeley@amd.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Linu Cherian <lcherian@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Jerin Jacob <jerinj@marvell.com>,
+	hariprasad <hkelam@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Mark Bloch <mbloch@nvidia.com>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Petr Machata <petrm@nvidia.com>,
+	Manish Chopra <manishc@marvell.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Vlad Dumitrescu <vdumitrescu@nvidia.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>
+Cc: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Subject: [PATCH net-next v5 0/6] devlink: net/mlx5: implement swp_l4_csum_mode via devlink params
+Date: Tue, 18 Nov 2025 18:50:30 -0800
+Message-ID: <20251119025038.651131-1-daniel.zahka@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|PH3PPF2CAD058EC:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87b7003f-530a-40a7-6bd0-08de2715a8ce
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5FiuZVAvCvab84QlyuW3noZj00IsXcSXRL33ut5KAPYCqfHAaiZk0VUKrOYC?=
- =?us-ascii?Q?fp+Tb3ys8jBeTGoyR4w6LeG1YsU/5TcAF5QUWjjPNQ815djjBxZbeTmasS+8?=
- =?us-ascii?Q?NJ7GUKDrZ7zp5XzAxnLm5t856QcTKx+ljMO4jzGKPfFEwoK30rOEiy0I/Any?=
- =?us-ascii?Q?0i5rvDP/OzGdb09RGQWHvR1J01Wuzwoo+ttSr5UdQtk57w4v4cPypFA6T2Md?=
- =?us-ascii?Q?Ops7YRCtW1D45DwOkMxajb/LFls9L0+h2Wq7BCoox0cK6p7zK4ULvd+lyRO0?=
- =?us-ascii?Q?xgOFjZT5jA1hlh+n45ny+9a+g8MUJfNv1L8KyFrqJ6ia5pDyPQNFJtTr1v3/?=
- =?us-ascii?Q?3VCQfSb2bidsByn5hCevkg5ajri25DE4wOwfBveoID1w+iUgkp69dGi8fMwH?=
- =?us-ascii?Q?7OHIXSb1nB/1q8t+IYQJchGewxxNufaM/W1eAaldKE6vAvb2ljY5G5Y3GgOU?=
- =?us-ascii?Q?IY9E0qWvfwNLjx3PMfUJ/SkOsyPmlkiDHe7KTYI61TMjOQFDyyBYhy0J3FMd?=
- =?us-ascii?Q?rUZ43oOKOT/QekDVA7YEeRsqAsAV/TzJXneluLUA08a07joJ30pDGiNwQ0J8?=
- =?us-ascii?Q?GoJ7rHkhjfsnfhUXqSN2iYVeUCE2G9cu4U/2r3KHhTkDAodejuoJFrxpCtkU?=
- =?us-ascii?Q?NZTAo1Ma3k0AUnRhgdfVFBNXQ3lne815Ih0e7iW2MErO/eHPBWl8nM0lEeiG?=
- =?us-ascii?Q?vfCdoC+bAdM9tiwbWk9vRBKyS3ufrQi0dvAvw+rNSUoIPSils+FCIhkCYg+u?=
- =?us-ascii?Q?1Wlu8d51ryN6EiYQ7x17MZiv2pIs4qaZ8IDwepORd17dikmb623w6xJv/Ay2?=
- =?us-ascii?Q?VPPdO+aYfzb/oqP6mMY5J5A9fN/MYtGiioGRKRP698+K5ybUA7v7bIBhrz3Y?=
- =?us-ascii?Q?6Z6jPTf50bU8y4O4SZtcuqBQymgyQLdMl2NSQm3d4U2O+skKyBPrvGLWJEGb?=
- =?us-ascii?Q?TMPoU7qgsXbgKbBwDneUfnrlWK4FXlCWDZ69BGIFn5cGP54/DBBPYdDCOw2E?=
- =?us-ascii?Q?HH98ovwvXlBHyOZgiA6RcibScjnDAtdJgyw5xteJ8na9Zz62tf7thhEq0vIA?=
- =?us-ascii?Q?9Eo3IjmxIcLbfCmcLrJIQOxlOzGbpJOql2F9QrPE+cek+wjtbRWze/oxv1PE?=
- =?us-ascii?Q?S4Rwi8MM3PKwkaIr+MfYVpvGbF4bpF21Fwag6lj0rwkUHpKWhHkJSo4kMBgV?=
- =?us-ascii?Q?umsGycUvzzEuw1OO6VgljecAEzBwDXOVb1bn5ahzG8S6FfE1nPglTQwR280o?=
- =?us-ascii?Q?DFqLKFghSBWBlJo6kYdsP//6NlmGn8E0UXZmfzah3Q+D8mV0P8kRnvdkOx0N?=
- =?us-ascii?Q?M0cszkqFI54x4r8R7Hru957fnojQEqLemFZ34zmlpwKpNeYQS8KhZ4QjOozU?=
- =?us-ascii?Q?9baBB5m9Oo4pXo7NtCEpDADO+9GJ/FEyyLjSao3boVADWVLT5erQ1QDr/K3N?=
- =?us-ascii?Q?G5QCeEQ1iGMMJfJZYeUr0EC0KuDVsOi9?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BX0RMnjB+gvtORH3tZXZz4sJLQCRfXsquyZilusgFvXsWVmhc6MjfB4j++Vk?=
- =?us-ascii?Q?KFAQ8/6YUhICech0aZeM0EHwOinZCOQqspnCQv6YPl+TC22z22T5QDSLPXUi?=
- =?us-ascii?Q?3arJbxVYvvlyE2MGAPmlI3MNe0wAK7J7g2QmF19wfaJmwEKDItHRetx4hAEx?=
- =?us-ascii?Q?Vdf0/A7OGmHgZvV+8hGSizvnIvcHwBCA+Wi/UbGkkPmVfOn7fa1wsxBG7R+K?=
- =?us-ascii?Q?PhJn374UhMJ22JLfaPvMt2VUjTDYm9L8M3AE0cgF1liYCxBCVR+JRs0+R9HA?=
- =?us-ascii?Q?Xbt00PDyadG9Gn/B4Hg1TOXpDlFpaL+iMi3PMGCg/GIVmJs7xTcSol9LX4So?=
- =?us-ascii?Q?NpmCB/tBhvk08T2Vlo2WKONsg6J2gmRr7YDiYmec8+dWcLx7XK38MkCs5xgF?=
- =?us-ascii?Q?ovlz96Q7annyxE6pEGbr0yO5d+aD6VLpujfKgS20KN6uuJGMC+OsnEYI04BK?=
- =?us-ascii?Q?VgGWZaMuhQucEne2byFmTUoAB/XqP96SM/caFtSpXEj7rRWeEmK//knCfZFQ?=
- =?us-ascii?Q?cuO4dbeYwHFzyAXcoW6wHmvnNXbioNqIPiimbC85uCOKm5Z2bvFSwJjGdg25?=
- =?us-ascii?Q?KTcj+B8ELxFrCcF/9IThLGZnbr4lEXEnsL3YgrM4U8yBhQpkOCK6GvtA8EtP?=
- =?us-ascii?Q?rd34FVYeNxhc9PJ8jagx3qIah3QPuPo0K7KuWiX2dsuAsTAW/OreCwFU0/0F?=
- =?us-ascii?Q?Y5pLe4v0daaeGRreiQtmslQPMM2jYaU8p3TfA0sgo7cORGGRUtgY3hk39Vfw?=
- =?us-ascii?Q?rYP5vQ+SATcJ0N0Xn9OT2vPE0Y8cBvdzL4g7c14K9oXLE3kAy9AhS4Fb+Y1W?=
- =?us-ascii?Q?p79OwIrIJE0s4L9OngBGACYknfpYBkjZM8P1uVEJ06xqDuQaA/lw6ssW5F34?=
- =?us-ascii?Q?rKgbiVvupQLeGXSPvAM50/o4Ach05vPDGE3He2Kj5lCqaoDrD+hRJ2Em2tDt?=
- =?us-ascii?Q?oTTVSuTpSZT0lpbEhYiKLFxPUnaNsEmDOpu+tjok00HJqfikms5h4uuJeI1l?=
- =?us-ascii?Q?/w0M3yBEx19F3NKNV35giPiW8Al6nVOdiz0le79ntm67mhNOJ48OgYgY28en?=
- =?us-ascii?Q?/Iaf74Spr3EzMvZ9wJYJOrOaBbVEggsEhK39l5lltNpUb96214yx/hX1RISm?=
- =?us-ascii?Q?mQZWrP6dzrqP1Nmhr7uSpUaity1hi8P1UWf7gNL8AxKzaYrKKcrODuUURw1c?=
- =?us-ascii?Q?1pQUQOVJV/Gy9+Z7Hy83BE+MQJdLhmaxPzn16QOj8CpkbhrCFcCvzEmh2ROI?=
- =?us-ascii?Q?G+M7eIzg4CfcYjE+En1bHeblA54ZDvrFXZ+OoK/PIsxrrJpdMSzKayLU92wN?=
- =?us-ascii?Q?NOl8+KWusmdDPT+vsrxdgiebxm9OVauQdSfIkWjrj46r6w+j0IMGM4Cj7m36?=
- =?us-ascii?Q?t1UADPoIQK+pVe1ysl6pUGJWVZMz2t1J5XGQB41l+03MVWhhbpQRRmRX6OKH?=
- =?us-ascii?Q?UkOQ3supJyg/OIDSlyUdgl/WE+wQrcWvKzpYf5p5xOkDg/cC1sSPclBxaFaR?=
- =?us-ascii?Q?qcPoer+OKnmafsP6p8IIUGO7QsYonMmd+N8cN3xTM2a/NKiWmQ+gxTEy12y7?=
- =?us-ascii?Q?HTtA4EMi67VdVtZz9dOV1sbMR64vn/wbMHOlyxb0?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87b7003f-530a-40a7-6bd0-08de2715a8ce
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 02:45:11.9730
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ymcvjOiGZ9TJZ1Jk4qwlwiEud9kVzLQUvDa7WaBDlxVVeke+9R+ZWcJjvfH7wwoKx0VFMR2wS3DttJRwEY42Rw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF2CAD058EC
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On Sun, Oct 26, 2025 at 01:18:55PM -0700, Xin Li (Intel) wrote:
->From: Xin Li <xin3.li@intel.com>
->
->Initialize host VMCS FRED fields with host FRED MSRs' value and
->guest VMCS FRED fields to 0.
->
->FRED CPU state is managed in 9 new FRED MSRs:
->        IA32_FRED_CONFIG,
->        IA32_FRED_STKLVLS,
->        IA32_FRED_RSP0,
->        IA32_FRED_RSP1,
->        IA32_FRED_RSP2,
->        IA32_FRED_RSP3,
->        IA32_FRED_SSP1,
->        IA32_FRED_SSP2,
->        IA32_FRED_SSP3,
->as well as a few existing CPU registers and MSRs:
->        CR4.FRED,
->        IA32_STAR,
->        IA32_KERNEL_GS_BASE,
->        IA32_PL0_SSP (also known as IA32_FRED_SSP0).
->
->CR4, IA32_KERNEL_GS_BASE and IA32_STAR are already well managed.
->Except IA32_FRED_RSP0 and IA32_FRED_SSP0, all other FRED CPU state
->MSRs have corresponding VMCS fields in both the host-state and
->guest-state areas.  So KVM just needs to initialize them, and with
->proper VM entry/exit FRED controls, a FRED CPU will keep tracking
->host and guest FRED CPU state in VMCS automatically.
->
->Signed-off-by: Xin Li <xin3.li@intel.com>
->Signed-off-by: Xin Li (Intel) <xin@zytor.com>
->Tested-by: Shan Kang <shan.kang@intel.com>
->Tested-by: Xuelian Guo <xuelian.guo@intel.com>
+This series introduces a new devlink feature for querying param
+default values, and resetting params to their default values. This
+feature is then used to implement a new mlx5 driver param.
 
-Reviewed-by: Chao Gao <chao.gao@intel.com>
+The series starts with two pure refactor patches: one that passes
+through the extack to devlink_param::get() implementations. And a
+second small refactor that prepares the netlink tlv handling code in
+the devlink_param::get() path to better handle default parameter
+values.
 
-one nit below,
+The third patch introduces the uapi and driver api for default
+parameter values. The driver api is opt-in, and both the uapi and
+driver api preserve existing behavior when not used by drivers or
+userspace.
 
->@@ -8717,6 +8748,11 @@ __init int vmx_hardware_setup(void)
-> 
-> 	kvm_caps.inapplicable_quirks &= ~KVM_X86_QUIRK_IGNORE_GUEST_PAT;
-> 
->+	if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
->+		rdmsrl(MSR_IA32_FRED_CONFIG, kvm_host.fred_config);
->+		rdmsrl(MSR_IA32_FRED_STKLVLS, kvm_host.fred_stklvls);
+The fourth patch introduces a new mlx5 driver param, swp_l4_csum_mode,
+for controlling tx csum behavior. The "l4_only" value of this param is
+a dependency for PSP initialization on CX7 NICs.
 
-s/rdmsrl/rdmsrq
+Lastly, the series introduces a new driver param with cmode runtime to
+netdevsim, and then uses this param in a new testcase for netdevsim
+devlink params.
 
->+	}
->+
-> 	return r;
-> }
-> 
->diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
->index f3dc77f006f9..0c1fbf75442b 100644
->--- a/arch/x86/kvm/x86.h
->+++ b/arch/x86/kvm/x86.h
->@@ -52,6 +52,9 @@ struct kvm_host_values {
-> 	u64 xss;
-> 	u64 s_cet;
-> 	u64 arch_capabilities;
->+
->+	u64 fred_config;
->+	u64 fred_stklvls;
-> };
-> 
-> void kvm_spurious_fault(void);
->-- 
->2.51.0
->
+Here are some examples of using the default param uapi with the devlink
+cli. Note the devlink cli binary I am using has changes which I am
+posting in accompanying series targeting iproute2-next:
+
+  # netdevsim
+./devlink dev param show netdevsim/netdevsim0
+netdevsim/netdevsim0:
+  name max_macs type generic
+    values:
+      cmode driverinit value 32 default 32
+  name test1 type driver-specific
+    values:
+      cmode driverinit value true default true
+
+  # set to false
+./devlink dev param set netdevsim/netdevsim0 name test1 value false cmode driverinit
+./devlink dev param show netdevsim/netdevsim0
+netdevsim/netdevsim0:
+  name max_macs type generic
+    values:
+      cmode driverinit value 32 default 32
+  name test1 type driver-specific
+    values:
+      cmode driverinit value false default true
+
+  # set back to default
+./devlink dev param set netdevsim/netdevsim0 name test1 default cmode driverinit
+./devlink dev param show netdevsim/netdevsim0
+netdevsim/netdevsim0:
+  name max_macs type generic
+    values:
+      cmode driverinit value 32 default 32
+  name test1 type driver-specific
+    values:
+      cmode driverinit value true default true
+
+ # mlx5 params on cx7
+./devlink dev param show pci/0000:01:00.0
+pci/0000:01:00.0:
+  name max_macs type generic
+    values:
+      cmode driverinit value 128 default 128
+...
+  name swp_l4_csum_mode type driver-specific
+    values:
+      cmode permanent value default default default
+
+  # set to l4_only
+./devlink dev param set pci/0000:01:00.0 name swp_l4_csum_mode value l4_only cmode permanent
+./devlink dev param show pci/0000:01:00.0 name swp_l4_csum_mode
+pci/0000:01:00.0:
+  name swp_l4_csum_mode type driver-specific
+    values:
+      cmode permanent value l4_only default default
+
+  # reset to default
+./devlink dev param set pci/0000:01:00.0 name swp_l4_csum_mode default cmode permanent
+./devlink dev param show pci/0000:01:00.0 name swp_l4_csum_mode
+pci/0000:01:00.0:
+  name swp_l4_csum_mode type driver-specific
+    values:
+      cmode permanent value default default default
+
+CHANGES:
+v5:
+  - use define instead of magic value for test2 param default handlers
+v4: https://lore.kernel.org/netdev/20251118002433.332272-1-daniel.zahka@gmail.com/
+  - add test case for default params.
+  - add new cmode runtime test param to netdevsim.
+  - introduce uapi and driver api for supporting default param values.
+  - rename device_default to default in mlx5 patch.
+v3: https://lore.kernel.org/netdev/20251107204347.4060542-1-daniel.zahka@gmail.com/
+  - fix warnings about undocumented param in intel ice driver
+v2: https://lore.kernel.org/netdev/20251103194554.3203178-1-daniel.zahka@gmail.com/
+  - fix indentation issue in new mlx5.rst entry
+  - use extack in mlx5_nv_param_devlink_swp_l4_csum_mode_get()
+  - introduce extack patch.
+v1: https://lore.kernel.org/netdev/20251022190932.1073898-1-daniel.zahka@gmail.com/
+
+Daniel Zahka (6):
+  devlink: pass extack through to devlink_param::get()
+  devlink: refactor devlink_nl_param_value_fill_one()
+  devlink: support default values for param-get and param-set
+  net/mlx5: implement swp_l4_csum_mode via devlink params
+  netdevsim: register a new devlink param with default value interface
+  selftest: netdevsim: test devlink default params
+
+ Documentation/netlink/specs/devlink.yaml      |   9 +
+ .../networking/devlink/devlink-params.rst     |  10 +
+ Documentation/networking/devlink/mlx5.rst     |  14 ++
+ .../marvell/octeontx2/otx2_cpt_devlink.c      |   6 +-
+ drivers/net/ethernet/amd/pds_core/core.h      |   3 +-
+ drivers/net/ethernet/amd/pds_core/devlink.c   |   3 +-
+ .../net/ethernet/broadcom/bnxt/bnxt_devlink.c |   6 +-
+ .../net/ethernet/intel/i40e/i40e_devlink.c    |   3 +-
+ .../net/ethernet/intel/ice/devlink/devlink.c  |  14 +-
+ .../marvell/octeontx2/af/rvu_devlink.c        |  15 +-
+ .../marvell/octeontx2/nic/otx2_devlink.c      |   6 +-
+ drivers/net/ethernet/mellanox/mlx4/main.c     |   6 +-
+ .../net/ethernet/mellanox/mlx5/core/devlink.h |   3 +-
+ .../net/ethernet/mellanox/mlx5/core/eswitch.c |   3 +-
+ .../mellanox/mlx5/core/eswitch_offloads.c     |   3 +-
+ .../net/ethernet/mellanox/mlx5/core/fs_core.c |   3 +-
+ .../ethernet/mellanox/mlx5/core/fw_reset.c    |   3 +-
+ .../mellanox/mlx5/core/lib/nv_param.c         | 238 +++++++++++++++++-
+ .../mellanox/mlxsw/spectrum_acl_tcam.c        |   3 +-
+ .../ethernet/netronome/nfp/devlink_param.c    |   3 +-
+ drivers/net/ethernet/qlogic/qed/qed_devlink.c |   3 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   3 +-
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      |   3 +-
+ drivers/net/ethernet/ti/cpsw_new.c            |   6 +-
+ drivers/net/netdevsim/dev.c                   |  56 +++++
+ drivers/net/netdevsim/netdevsim.h             |   1 +
+ drivers/net/wwan/iosm/iosm_ipc_devlink.c      |   3 +-
+ include/net/devlink.h                         |  45 +++-
+ include/net/dsa.h                             |   3 +-
+ include/uapi/linux/devlink.h                  |   3 +
+ net/devlink/netlink_gen.c                     |   5 +-
+ net/devlink/param.c                           | 180 +++++++++----
+ net/dsa/devlink.c                             |   3 +-
+ .../drivers/net/netdevsim/devlink.sh          | 116 ++++++++-
+ 34 files changed, 693 insertions(+), 91 deletions(-)
+
+-- 
+2.47.3
+
