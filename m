@@ -1,64 +1,64 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F77332ED5D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14E13A1CF7
 	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 15:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763567162; cv=none; b=Q2ey3Me2Ej8i/Xcr2g5A1remhWVrPmO2QwExLRkR2AZyFf8nEIq3H4vZ1z8jtn3NG+VhRvyzsyNdSbokJULHo0scz8BHdmk06exYnXmhcxq6AEi5rxDENEGh6oEBfnLiyDLfjFk/zCaaYSisYHSK8GzsrRqHhxTpqHKHHfU21B0=
+	t=1763567161; cv=none; b=RLwkhB41toK7oyquxHF02oxTfxfZy9sUqlDCqQxzUKG8EUxbJIhira+6v2rOT9N2ple/896y4tAFoe8oijtBHg2IV5ceb0hgvkmRLHaqbVGOACUdmPcwQgeGQG4VlQ89VLvbmefRrI/qpp4Y7HrQjhouJU5qUzBiejHx/2tFKSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763567162; c=relaxed/simple;
-	bh=oMOJLuZhCOnY0w0cY4R3cwCR+B/zhszgawQsUmZz21o=;
+	s=arc-20240116; t=1763567161; c=relaxed/simple;
+	bh=seLIx9q9vL0GJtrOwhh44Y8oeZ01I2U3Qbuzz6J6f2s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=twpgQexlCjm891ghWfBSOv8LEFTMKRyX+FQQZ0DLmSqvkpX9l5QxLacjVVfXbOBiwL7FWCMnBMxrfu01/WgFiPfwxPq1KtkjOjjsukWvje5JGQsaKrWjamTjMb0+1hagyH5jQcDUFjnsLcOB8ML83JDaK03cRzaO1feG1w3W9U4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nbcbpaj9; arc=none smtp.client-ip=209.85.221.46
+	 MIME-Version; b=GIEN11GeZztowIM23YUrWxHgRCkyw79zWPkkhWtOo0BDuUdQd6Oz0+CAvxAF/n/Fulj1RgCkg4msmi2yLC5bYPv6Z97UvdeHh39bFp3GypKEzoQJP/8aUEU7MXZ2EADZfbX5XrI8ZoHw3qZfsqdYushiBjniRP3ErKA2ei1WSv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OlsKOf7C; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nbcbpaj9"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42b2e9ac45aso4466365f8f.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OlsKOf7C"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42b3c965ca9so3588539f8f.1
         for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 07:45:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763567155; x=1764171955; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1763567153; x=1764171953; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CEWvhI86IGkr275YCXI4U9akHZM2f251P0zZm4c5HV0=;
-        b=nbcbpaj9MDGTBG2ZCwZwK3LgPpIz0tMB0ap1DqlvjBXvufiLgu5rtDDVtwkPLgNqfI
-         o4NYkoWEt3FLcXmu6dL9PZGRVuqNh3UNpSsGeY8BCZo63wuPKa5E8f4eGYYhnQyQJZam
-         08AaKGKIGbZeT5a1zhT1ZcZwHo/C4fK+VV8OHvXI8MH3lFWpdLrebSZ2Z58hKizgokp0
-         Ai5/abu78NWX1TtrOUL2CREoPN1OgJfR/Sa8iKztlpiTwBs531ZQYTlKrnjuH8q8i7WE
-         +47cckejnY2EfW+rEn1EnfXX32XQjCAWv6+sRahgUTSZsPxPqNllZ5eE+T9BA6gFU6Pr
-         zfQQ==
+        bh=Y7Ucs3kp0oXjJAHNPlew8LSoAGCaHnYy/9pb2BVOQfw=;
+        b=OlsKOf7CJM2UCkg8sSzf3D6dnC50mCYotNLiG83mI1qis2cSNEl6iYyMVoNUiPWFtn
+         q+XeohqZ2L4g2rfVHlxX/Z74xnezMqq6Q2RDI7kKiJAAVdhgk1bmjDpTEad7w+oD+d5r
+         XhwrehKHLA8zA/6PTLm1D8myUX20MDo61BthVNchOC3ajJi+FtetAbFElpDNH0txiQfl
+         YkpKzG5UU3whCwYwxvP6bNGvK5NjG96/oE4wLDMc20Z9xA4rAsIdLgPvh/YVk9Ey+l4D
+         ICFEIP6vLzLnMBBLHX1AFbnh29b1KM9hSgdIu/yPFwLWWVFyENhMFbVyN3hTLNk7gE9T
+         2itQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763567155; x=1764171955;
+        d=1e100.net; s=20230601; t=1763567153; x=1764171953;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=CEWvhI86IGkr275YCXI4U9akHZM2f251P0zZm4c5HV0=;
-        b=FVRQsNA7SF8mnlIwjNjoEE30EFNRi0mKFGLIEZX+yi6A99A/SSxo3b0rZsQ6UlJI0G
-         Kqj8E2lB8IPX10OTpkM+4TsHMj8HjqR1TeQNaec9z5mWFcEN0v21JmFWRRJsvhaMR5NV
-         RBIXyCT04DG9AUBb5w2g5p04Rs2Ni4xuY8nX/RfhfbCiUiFmoxJEGI2SoSssMLGMdM5Y
-         mjCeh7Lrbzb7AW9V6Oz/VQCJOCV4z+bGv2jtezR6gOBzoDbHaH2Weh4EIfYU8dchpRHf
-         iBzpm3YVHlNV+NofuGduh6Xm2rUEXHyLMVAEB0gSQ4rVaHPqhEkgIu6DZJA3hmZaAZTg
-         bByg==
-X-Forwarded-Encrypted: i=1; AJvYcCWL+R3pLtclPp1lrPflGPlODI3aswKPdqikmqR6EVWqU+bcbUVN7ZZWQuYgQACXyEcZYdbs0fMXfCE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0pwUKOp2i9HG8d8PIG28yyf03lL/n9NB8ieMkqLQcxbFli3Wn
-	/J8Umb5P1fC60BuASuQF3bUF8z3yYrO1N+VgFcMb0KOcjCman8D7T6hmhKNEKqQAm/0=
-X-Gm-Gg: ASbGnctszQnis0k7Vev5J797iGpskoumyoUHN2TSOzj7McnYuBbabXOread34HTZ3SA
-	00R+HrjNyhPxdSCgbLR+eU2807CGMAK9vHsoAgotig2qgpp3jL7Q0L5ORkhcUNepdxi3nTxD2OL
-	3knIzP1sMq+yG614Cl44KBGqafO7pYkaesmU7lYHDTcUqwOHRqm8motv8SCcx8DV6ZA31yXXoVF
-	TVp64XftTRw2HKDsx9f5+XLqMz3deHEknCPvGTwLN1cVJ9I3aRFAgzrxupCBPipaoCFwSqRqz2q
-	ILdbbsEuq6+p8ySZLrTcSPzARsEpVXzcSafmvQOEd3F20Rb9ftq9Kr/hTJjyq6MbAeDXi+pzssL
-	zBZTcBMfG5QyXObVclNZUNM6Rni69yZWXrxKUUyTa/ytOz3sCThR2ZRhM5wLT7y4uW+lfS1FfS/
-	g9qNrsCaPFLWBhuYTRxGr+U9wPirNDVg9h4V6Fq7mG
-X-Google-Smtp-Source: AGHT+IGkk7cUbQZnXjGag8yPABXUYogSDTvlv9CsdaEjFL1fCOMxhsVRR8P5cnyld7ERa3Ar7rkUkQ==
-X-Received: by 2002:a05:6000:22c1:b0:42b:3ab7:b8a4 with SMTP id ffacd0b85a97d-42b5938b4b1mr19940877f8f.33.1763567155275;
-        Wed, 19 Nov 2025 07:45:55 -0800 (PST)
+        bh=Y7Ucs3kp0oXjJAHNPlew8LSoAGCaHnYy/9pb2BVOQfw=;
+        b=Czig0wgZgX2lZ5mtqqZvFrIDj4stY4Elcw3P45ahDV/WV99Mb8jDgzU4tAqsqs3GPL
+         1T4tInfqVeohaJYemWBRFDAu26Ny11Vz/7hQrTvDR4DpnhRLZHgjBS92FDnsTCzCvmt3
+         moGSn1J4sAMl33YUraDMD6msF/yllON7nL2ONBcTn5hDKXXbtzUwYvi0z1SUZlDu3Nq9
+         MZaRh0PLGBTAgUP0Zh7AC5Bf5QIsTM6OUGElKBy4nJmiaiTzHtqBwkuAZC9UDyKY4+f9
+         m3SjcoFzTyVAUJ+bl9M4D3HgVLb6QpMSOFoDQjsaN6wf9mObpDNdFDyc8b2NwDbDZkHc
+         QTtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXVWM45J6NEP8YBF2BS4Iuij8GbP3bvM3DGk9sJxU67VyMNkkqggQfB+kPzTm2gbiCND6976huGfg8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYlTnu9XqsTPKb8RFUic1Sry3KYztTsV+nhF4DzHCWmMedbKIN
+	oKqBgxm4UckGELZ0naooOUMi1gxx0oJzTq35imFcT05JzZBVnsSFyJpFapopjxGVfgM=
+X-Gm-Gg: ASbGncvLg/++iHKUuJR9dugdLd7aI6tCbi79k2SZbBoMPSPZZhgB9G4zgmo/qw7iIsR
+	Kthmf8rsxgN3PXe4XMsGq5p02wAtPsBeoXYMrjzar5fba/sIVtr8oX0sB8BXd6RaQKDRvN9Ak1B
+	jQjcZquFs5k0C88sbgDnvlnI6FxeckKbnaSpsueih4UKzWq7LWgwrixtze/z36j9zXjwi2iRBKR
+	YBRt8NvjOkqfq0Mti33AafsDT23ONsp5BEZjEsiCnDiacFk2hAg760CzVQndDdVB071HfUtKLRI
+	OAiGUk1LvHMx0a7VMWbppzjPKDbtu/nSqS7VJ3NwLpSPnO5Q56m+A9ZxXNitvSK4bENf/P1M4G5
+	yyoEM1V+5Q78xyQE+vd5e7jddy6JBt076LKF1vRsxwScJ65D+pyErJILzjPAa9rmAgQq14bTCQa
+	yJNspAthbbhgD/IqlIxtRqrAs07tSwDA==
+X-Google-Smtp-Source: AGHT+IFMxVwxw3DtlUhFwveVzixkh9p9iHWd+faYE31GhqiINsGSMiGzAK7z2FWSCj0eS8F6/aaKoQ==
+X-Received: by 2002:a05:6000:2510:b0:42b:3e20:f1b4 with SMTP id ffacd0b85a97d-42cb1f1de66mr3206403f8f.5.1763567153508;
+        Wed, 19 Nov 2025 07:45:53 -0800 (PST)
 Received: from eugen-station.. ([82.76.24.202])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53dea1c9sm38765632f8f.0.2025.11.19.07.45.53
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53dea1c9sm38765632f8f.0.2025.11.19.07.45.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 07:45:54 -0800 (PST)
+        Wed, 19 Nov 2025 07:45:53 -0800 (PST)
 From: Eugen Hristev <eugen.hristev@linaro.org>
 To: linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -83,9 +83,9 @@ Cc: tudor.ambarus@linaro.org,
 	tony.luck@intel.com,
 	kees@kernel.org,
 	Eugen Hristev <eugen.hristev@linaro.org>
-Subject: [PATCH 22/26] remoteproc: qcom: Extract minidump definitions into a header
-Date: Wed, 19 Nov 2025 17:44:23 +0200
-Message-ID: <20251119154427.1033475-23-eugen.hristev@linaro.org>
+Subject: [PATCH 21/26] printk: Register information into meminspect
+Date: Wed, 19 Nov 2025 17:44:22 +0200
+Message-ID: <20251119154427.1033475-22-eugen.hristev@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251119154427.1033475-1-eugen.hristev@linaro.org>
 References: <20251119154427.1033475-1-eugen.hristev@linaro.org>
@@ -97,165 +97,92 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Extract the minidump definitions into a header such that the
-definitions can be reused by other drivers.
-No other change, purely moving the definitions.
+Annotate vital static information into meminspect:
+ - prb_descs
+ - prb_infos
+ - prb
+ - prb_data
+ - printk_rb_static
+ - printk_rb_dynamic
+
+Information on these variables is stored into inspection table.
+
+Register dynamic information into meminspect:
+ - new_descs
+ - new_infos
+ - new_log_buf
+This information is being allocated as a memblock, so call
+memblock_mark_inspect to mark the block accordingly.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
 ---
- drivers/remoteproc/qcom_common.c  | 56 +------------------------
- include/linux/soc/qcom/minidump.h | 68 +++++++++++++++++++++++++++++++
- 2 files changed, 69 insertions(+), 55 deletions(-)
- create mode 100644 include/linux/soc/qcom/minidump.h
+ kernel/printk/printk.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/remoteproc/qcom_common.c b/drivers/remoteproc/qcom_common.c
-index 8c8688f99f0a..4f1c8d005c97 100644
---- a/drivers/remoteproc/qcom_common.c
-+++ b/drivers/remoteproc/qcom_common.c
-@@ -18,6 +18,7 @@
- #include <linux/rpmsg/qcom_smd.h>
- #include <linux/slab.h>
- #include <linux/soc/qcom/mdt_loader.h>
-+#include <linux/soc/qcom/minidump.h>
- #include <linux/soc/qcom/smem.h>
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 5aee9ffb16b9..8b5aba2527ac 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -49,6 +49,7 @@
+ #include <linux/sched/debug.h>
+ #include <linux/sched/task_stack.h>
+ #include <linux/panic.h>
++#include <linux/meminspect.h>
  
- #include "remoteproc_internal.h"
-@@ -28,61 +29,6 @@
- #define to_ssr_subdev(d) container_of(d, struct qcom_rproc_ssr, subdev)
- #define to_pdm_subdev(d) container_of(d, struct qcom_rproc_pdm, subdev)
+ #include <linux/uaccess.h>
+ #include <asm/sections.h>
+@@ -513,10 +514,16 @@ static u32 log_buf_len = __LOG_BUF_LEN;
+ #endif
+ _DEFINE_PRINTKRB(printk_rb_static, CONFIG_LOG_BUF_SHIFT - PRB_AVGBITS,
+ 		 PRB_AVGBITS, &__log_buf[0]);
++MEMINSPECT_NAMED_ENTRY(prb_descs, _printk_rb_static_descs);
++MEMINSPECT_NAMED_ENTRY(prb_infos, _printk_rb_static_infos);
++MEMINSPECT_NAMED_ENTRY(prb_data, __log_buf);
++MEMINSPECT_SIMPLE_ENTRY(printk_rb_static);
  
--#define MAX_NUM_OF_SS           10
--#define MAX_REGION_NAME_LENGTH  16
--#define SBL_MINIDUMP_SMEM_ID	602
--#define MINIDUMP_REGION_VALID		('V' << 24 | 'A' << 16 | 'L' << 8 | 'I' << 0)
--#define MINIDUMP_SS_ENCR_DONE		('D' << 24 | 'O' << 16 | 'N' << 8 | 'E' << 0)
--#define MINIDUMP_SS_ENABLED		('E' << 24 | 'N' << 16 | 'B' << 8 | 'L' << 0)
--
--/**
-- * struct minidump_region - Minidump region
-- * @name		: Name of the region to be dumped
-- * @seq_num:		: Use to differentiate regions with same name.
-- * @valid		: This entry to be dumped (if set to 1)
-- * @address		: Physical address of region to be dumped
-- * @size		: Size of the region
-- */
--struct minidump_region {
--	char	name[MAX_REGION_NAME_LENGTH];
--	__le32	seq_num;
--	__le32	valid;
--	__le64	address;
--	__le64	size;
--};
--
--/**
-- * struct minidump_subsystem - Subsystem's SMEM Table of content
-- * @status : Subsystem toc init status
-- * @enabled : if set to 1, this region would be copied during coredump
-- * @encryption_status: Encryption status for this subsystem
-- * @encryption_required : Decides to encrypt the subsystem regions or not
-- * @region_count : Number of regions added in this subsystem toc
-- * @regions_baseptr : regions base pointer of the subsystem
-- */
--struct minidump_subsystem {
--	__le32	status;
--	__le32	enabled;
--	__le32	encryption_status;
--	__le32	encryption_required;
--	__le32	region_count;
--	__le64	regions_baseptr;
--};
--
--/**
-- * struct minidump_global_toc - Global Table of Content
-- * @status : Global Minidump init status
-- * @md_revision : Minidump revision
-- * @enabled : Minidump enable status
-- * @subsystems : Array of subsystems toc
-- */
--struct minidump_global_toc {
--	__le32				status;
--	__le32				md_revision;
--	__le32				enabled;
--	struct minidump_subsystem	subsystems[MAX_NUM_OF_SS];
--};
--
- struct qcom_ssr_subsystem {
- 	const char *name;
- 	struct srcu_notifier_head notifier_list;
-diff --git a/include/linux/soc/qcom/minidump.h b/include/linux/soc/qcom/minidump.h
-new file mode 100644
-index 000000000000..25247a6216e2
---- /dev/null
-+++ b/include/linux/soc/qcom/minidump.h
-@@ -0,0 +1,68 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Qualcomm Minidump definitions
-+ *
-+ * Copyright (C) 2016 Linaro Ltd
-+ * Copyright (C) 2015 Sony Mobile Communications Inc
-+ * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-+ */
-+
-+#ifndef __QCOM_MINIDUMP_H__
-+#define __QCOM_MINIDUMP_H__
-+
-+#define MAX_NUM_OF_SS           10
-+#define MAX_REGION_NAME_LENGTH  16
-+#define SBL_MINIDUMP_SMEM_ID	602
-+#define MINIDUMP_REGION_VALID		('V' << 24 | 'A' << 16 | 'L' << 8 | 'I' << 0)
-+#define MINIDUMP_SS_ENCR_DONE		('D' << 24 | 'O' << 16 | 'N' << 8 | 'E' << 0)
-+#define MINIDUMP_SS_ENABLED		('E' << 24 | 'N' << 16 | 'B' << 8 | 'L' << 0)
-+
-+/**
-+ * struct minidump_region - Minidump region
-+ * @name		: Name of the region to be dumped
-+ * @seq_num:		: Use to differentiate regions with same name.
-+ * @valid		: This entry to be dumped (if set to 1)
-+ * @address		: Physical address of region to be dumped
-+ * @size		: Size of the region
-+ */
-+struct minidump_region {
-+	char	name[MAX_REGION_NAME_LENGTH];
-+	__le32	seq_num;
-+	__le32	valid;
-+	__le64	address;
-+	__le64	size;
-+};
-+
-+/**
-+ * struct minidump_subsystem - Subsystem's SMEM Table of content
-+ * @status : Subsystem toc init status
-+ * @enabled : if set to 1, this region would be copied during coredump
-+ * @encryption_status: Encryption status for this subsystem
-+ * @encryption_required : Decides to encrypt the subsystem regions or not
-+ * @region_count : Number of regions added in this subsystem toc
-+ * @regions_baseptr : regions base pointer of the subsystem
-+ */
-+struct minidump_subsystem {
-+	__le32	status;
-+	__le32	enabled;
-+	__le32	encryption_status;
-+	__le32	encryption_required;
-+	__le32	region_count;
-+	__le64	regions_baseptr;
-+};
-+
-+/**
-+ * struct minidump_global_toc - Global Table of Content
-+ * @status : Global Minidump init status
-+ * @md_revision : Minidump revision
-+ * @enabled : Minidump enable status
-+ * @subsystems : Array of subsystems toc
-+ */
-+struct minidump_global_toc {
-+	__le32				status;
-+	__le32				md_revision;
-+	__le32				enabled;
-+	struct minidump_subsystem	subsystems[MAX_NUM_OF_SS];
-+};
-+
-+#endif
+ static struct printk_ringbuffer printk_rb_dynamic;
++MEMINSPECT_SIMPLE_ENTRY(printk_rb_dynamic);
+ 
+ struct printk_ringbuffer *prb = &printk_rb_static;
++MEMINSPECT_SIMPLE_ENTRY(prb);
+ 
+ /*
+  * We cannot access per-CPU data (e.g. per-CPU flush irq_work) before
+@@ -1190,6 +1197,7 @@ void __init setup_log_buf(int early)
+ 		       new_log_buf_len);
+ 		goto out;
+ 	}
++	memblock_mark_inspect(virt_to_phys(new_log_buf), new_log_buf_len);
+ 
+ 	new_descs_size = new_descs_count * sizeof(struct prb_desc);
+ 	new_descs = memblock_alloc(new_descs_size, LOG_ALIGN);
+@@ -1198,6 +1206,7 @@ void __init setup_log_buf(int early)
+ 		       new_descs_size);
+ 		goto err_free_log_buf;
+ 	}
++	memblock_mark_inspect(virt_to_phys(new_descs), new_descs_size);
+ 
+ 	new_infos_size = new_descs_count * sizeof(struct printk_info);
+ 	new_infos = memblock_alloc(new_infos_size, LOG_ALIGN);
+@@ -1206,6 +1215,7 @@ void __init setup_log_buf(int early)
+ 		       new_infos_size);
+ 		goto err_free_descs;
+ 	}
++	memblock_mark_inspect(virt_to_phys(new_infos), new_infos_size);
+ 
+ 	prb_rec_init_rd(&r, &info, &setup_text_buf[0], sizeof(setup_text_buf));
+ 
+@@ -1258,8 +1268,10 @@ void __init setup_log_buf(int early)
+ 
+ err_free_descs:
+ 	memblock_free(new_descs, new_descs_size);
++	memblock_clear_inspect(virt_to_phys(new_descs), new_descs_size);
+ err_free_log_buf:
+ 	memblock_free(new_log_buf, new_log_buf_len);
++	memblock_clear_inspect(virt_to_phys(new_log_buf), new_log_buf_len);
+ out:
+ 	print_log_buf_usage_stats();
+ }
 -- 
 2.43.0
 
