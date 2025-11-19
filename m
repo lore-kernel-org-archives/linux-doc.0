@@ -1,69 +1,68 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E207E369219
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 16:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FF333A71A
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 16:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763569155; cv=none; b=nvSjakSqHQ6Uch1XTog8einEebSthVCt5mH3GzrJHEODkclr2zy1EoVEsChdLT2VpUymS5AhGgTBB/pJa+vuskJCcokw3dDO7M9rLypWpehRVSn/+ohn7+jis3p05hl7tMP2pkeCcVAeE2MVI6PK0BwM0vGVWDbJ/2VYiq03q8g=
+	t=1763569196; cv=none; b=Ib8uV5HI0nddhEBfVjw9nRpCL42N7WMEODxDER7dAqQzXS6K/rytN73OyGgaf8jb01oS+iQrrNF2f4t+7rOax7PYOQ5B9lwstjHL8Rc/stkJtRQzQQ1tFfqlLlxe6Ih6C5LAlZdId1EneeEFc8SA7bfugVLDvEHiVJnIi75LqBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763569155; c=relaxed/simple;
-	bh=TA2fn/MPowLU/Otx4A+G3fody4U0W0BzBMJVKJEuXbc=;
+	s=arc-20240116; t=1763569196; c=relaxed/simple;
+	bh=PytOZzTAioEaMxmqRTBvSzOZkl5VeEfXc7Gpm4o827k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V+VqNBqRdL2QqwwRy4O8MRqzSQRsZeOiqd16Q8i0gmQCANGJL8xPYaDbqFFNg2R8dJFaHyanDvK9XZKG78tQng6VTf8iZF990fTQGJUi4XAXsjLNI9ZDh35AY6jtDd0Hq0Ue06SrU6FSbj23m+QHyAxOPl+NjSEIF4zWGa9/JWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G10a9wMa; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=bu4Lx+MHSHdUuQIwpVpKDg/aV9Vo/k9BFr7/Oaz2bSWOOUxfi524y3XXxwk7CKOki810WZ9Mhax3Dix6I+QFPxDgynjIc16LXzi9JwNm5icfhB0T3JEH93FCct1A7Sou3xdz8U9YGVGmeUUVIDVt+yDj8GFi8Z99C8WfItagHHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=i7J7c6lb; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G10a9wMa"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-297dc3e299bso68187055ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 08:19:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i7J7c6lb"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4775ae5684fso35409785e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 08:19:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763569152; x=1764173952; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=+6HDqJUm16rryB8P6WaTAzJpsQ5pMTyvGVVzWJ0edS8=;
-        b=G10a9wMabq+2glmFGtjKKzgI3URJ7uhoeNCPvP08hwHPcL0bLpGxWakJ53soG6KVTp
-         DxrXHJW/qqfNdWny1zaYsfLKBn2H8LBQu9qG1JD6jQ8cZL9CaVFA4yJU7XqZu6JU/pxN
-         68r5A33Ogq1ylkOO1iFA+oKV9FY0Ks57F83SCYh+B55WpdYtEmYGwOyVu1D4cOdCeqtM
-         304V9/OhrNVDlVkZ2y3qs11IgqAgOPEGk91/W1CccVPuaup0WvdlEO/i+GSXxM2Q74Ng
-         xZ26XHd3igi3ozyJABH0gmsdyerlD6bC0uT0ISi60Twh/TKgizubPBXtbRs4s+nIo8sZ
-         jBYA==
+        d=linaro.org; s=google; t=1763569192; x=1764173992; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s+urd6hZuWEo3shlMiSBaDb8+AZAhwgeZeQG9S0pL0o=;
+        b=i7J7c6lbrMqM4bhWz2El1n5qY2ckcy1Hb+MurA/Y8nNsbyzVeBbQI6VXaXz2TNOV4n
+         pvx1D3BMmxAWRBpjDoswA6pj/X9E3gQJ40wJIh5cLC3lywSy5pj6xbbt1C/t4Q5GxvOb
+         fOeaFYGSm54aF1MOAY/Khap1OsuVpugDVBe3h0432kXcNSZQbeccwEm/O/KFwINVVMiX
+         SETGkX/u4Gac9Tx26Vdi+9JWmpg73mkTdOAao8m2XjyD3vUjWW9s7BEdRGG95m/gk0OC
+         jd0cY1O2JBX4hYl3kHzS6aCX0qF1nbUVw8DqujzgGHSHD3p7j8jAHxlKSpYGTfg/kbQT
+         DHlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763569152; x=1764173952;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+6HDqJUm16rryB8P6WaTAzJpsQ5pMTyvGVVzWJ0edS8=;
-        b=q4koZFPccqZd9ACs20GLMZbsHuSzllGa+T+gGY7OC5f11kyWOOeHP6ctHI7EpEW4rP
-         TFZ2+EMK1pqPs/FybckJtk/pcUbfLYzy4YvXlHRPecGtUcViKyZIANOtrVHbv+TiStgU
-         DBUGODqNr+7E+H/8YptANJPyJo7DQj8NA4wL1bdJFeOnLbg9N5hXY1YwPl422IEyqW2i
-         0/L2qiJp4gn3hl2QEMgi9HfZjuFq1uYrN+20oNNiBiygp5PAfTg5+8o7fqL+P7sAv1aD
-         B0K99z0Ju3QmrXXV7PznvOUQE/uN51sDMA1zdRHR/QCd70tgn8wwa2Ibu665RKleu+eK
-         63aQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU89t2t+n2vwVXWt/Rf5T1zyp9THBpftZ3VypJR/LAH8jryfHYUlceB3QHO9CnkhwTfuw/D7LC/zV8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7ULbZ6SkmhVmLTinC0yAye1Jt6i2kIyj6leU5kxxJ8VXxLP96
-	Wk0kIUmqZzmWE6OOhq1RtietC8cd0MoA+71VPv3ul8iyAuIJcR0OhKXz
-X-Gm-Gg: ASbGnctRi6Z8cAqlzUNRhe7NtajTGD8cDBIGeNr6xBr6Sry7ZufFxj4hvG9/5DV2utf
-	w34SP5FaL4dmpEfGt809YFhr/8p72AzztQKEWSZnxsngtrBDZFyvAUQVSDtORlzUcQjoyUhvTAd
-	wS1P/P2+QJ6lFO/GCa5CKuZXDMqV/HIi9AbGi4v5ZVyfkg76emuL3UpF00155hxuSK4K64NuVif
-	8vGt0GV+atysjZ/kLKTE1BBtT93CqTkQSXED84fbR1vtnkS1n1XwMchqFuYdXqdUUKDckw391Qd
-	HNfl/49UCyQji10IZ8wDoxgC8GQgAInHh4irhSwYT00/tYOygzFWLBYbqjunQ+L2cl9N0iD7fEc
-	H6XBPwCGr9GFxCFWIkzmTjuGlxgzxmy7LZrP9mOzzgl/t7Jj5iG1DoCvvJuKvRQPqTxudUropbg
-	td3mZcrwJEgW+8mAs1R1NS+CRzlIae3hK75PiZG3eTsM2fNES5YqTxoGoZHQQt1WrjarTUsPQTT
-	xtcEnm1
-X-Google-Smtp-Source: AGHT+IE30doPMpAYBt7MYn70T78ZfSqhQ5JpdF8FnEk1gF/jJn1jAtJCRLq4lC+btIz3WcyY9hL+jQ==
-X-Received: by 2002:a17:903:3c2b:b0:295:6d30:e25f with SMTP id d9443c01a7336-2986a75e7b9mr230173205ad.53.1763569152013;
-        Wed, 19 Nov 2025 08:19:12 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7b9250d24b9sm20095126b3a.17.2025.11.19.08.19.10
+        d=1e100.net; s=20230601; t=1763569192; x=1764173992;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s+urd6hZuWEo3shlMiSBaDb8+AZAhwgeZeQG9S0pL0o=;
+        b=F2u6wzeLVIFDmXG98qrUfVmevbiNCbnsfXUc64c1q4LnrWNs503fLVFgEy5osYGRT6
+         4S1upHxwyAz5V3uyS99zNBCiT7CRODo3eaTZ2B8JVoMeG+9PhWXwr/326yF0BbXwQGyZ
+         RVao3kabdyeikZ1FpLgpSpQ1/TzqouXeAZtrorr2ZWxcOoMbsVlUkTZjiSosm1VR/cSG
+         r2+1xWN+A3xvLOgSWAn+SQP8iwhAORVxPamA0sCEIJwTaFoFTr/SJtL36lhtV6/jmifG
+         OTolsdPZybDosuWQPFCgC6cA3LELa64xlUnCgkayVRI6RKkC2zVLEh3BXRilxxxQkhYL
+         1hSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXcS7rDpCezytKwnegTJjU3CV3nHBotjXzfY6CLWgFvE+wExuB3V2IQZKQ1jaI5ZVHCR0GStDlLuyM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqLg2om72h8q3UXZWaMS8L8UKjR36Cf73jS6yvgSXlFetg5TUj
+	gi2pvPu6l6uBHYmbdEI/BhqjlMViT4tyt4WOQI2S0a7f9/fB1delQoXKhpY09GT8F5+7U9voor7
+	nfP+hB6XNPg==
+X-Gm-Gg: ASbGnctX0BevD9sCozF7GrOY9AqNMPPaD+477xKcKE8dLG6+0xDMWbRtUmJOd5HsKWM
+	KjC5ZH2yg+PMII0IdV1aWELoBHphBzigpGcFrpXfQXXgcOMYuJ1Xo1hD/+pEouW2CaFp8ZGGLDf
+	X7znitDjj3tptuutld1GZh0xl5nvBZ7H+k2QbS8RFyFUkPU/cjIjSb7Y0mP4qjr7IsR4LPwl/vg
+	zN85/XIJshJz/vVjHMSu0KFKn0fWi5QQgSNlAuJaQARCJh+I81XTaNeoYuh996FBYyasx1Tr2zr
+	Tsdl3Odsf25UXooyUqZ2eT3LsF79nwVJ4VW1skoG1rQyAVIv5XY9frrETQIxQnK5841Yl4S3jTt
+	KEFI7HgJt1Vq090FkxDDKCknJufJY6gWIahFOzvvpV1DMiM/uzrPMsU49x/frHpXL4iAIArhD72
+	oFsDsYKV1Prs0hyyXiyZx8VFSvM6v5
+X-Google-Smtp-Source: AGHT+IFwK5aAXHXIDIc3E2JseMPHhoLC/8O7sdHZVlYBJKdiPiGNYDVrkfdVj41qV4fzGcHy4cnIEg==
+X-Received: by 2002:a05:600c:4513:b0:477:2f7c:314f with SMTP id 5b1f17b1804b1-4778fe5c820mr231183085e9.10.1763569190918;
+        Wed, 19 Nov 2025 08:19:50 -0800 (PST)
+Received: from [192.168.0.39] ([82.76.24.202])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b0ffc90fsm61424875e9.2.2025.11.19.08.19.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Nov 2025 08:19:11 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <9f3e270b-f17f-4442-83ad-40d51ac27598@roeck-us.net>
-Date: Wed, 19 Nov 2025 08:19:09 -0800
+        Wed, 19 Nov 2025 08:19:50 -0800 (PST)
+Message-ID: <060e7412-8f1f-4d31-af39-79213c560e85@linaro.org>
+Date: Wed, 19 Nov 2025 18:19:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,165 +70,169 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] hwmon: documentation: add tids
-To: Thomas Marangoni <Thomas.Marangoni@becom-group.com>,
- linux-hwmon@vger.kernel.org
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- Jonathan.Cameron@huawei.com, michal.simek@amd.com, nuno.sa@analog.com,
- Frank.Li@nxp.com, wenswang@yeah.net, apokusinski01@gmail.com,
- dixitparmar19@gmail.com, vassilisamir@gmail.com, paweldembicki@gmail.com,
- heiko@sntech.de, neil.armstrong@linaro.org, kever.yang@rock-chips.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, mani@kernel.org, dev@kael-k.io,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20251119125145.2402620-1-Thomas.Marangoni@becom-group.com>
- <20251119125145.2402620-5-Thomas.Marangoni@becom-group.com>
+Subject: Re: [PATCH 25/26] dt-bindings: reserved-memory: Add Google Kinfo
+ Pixel reserved memory
+To: Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, tglx@linutronix.de,
+ andersson@kernel.org, pmladek@suse.com, rdunlap@infradead.org,
+ corbet@lwn.net, david@redhat.com, mhocko@suse.com
+Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
+ linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
+ jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org
+References: <20251119154427.1033475-1-eugen.hristev@linaro.org>
+ <20251119154427.1033475-26-eugen.hristev@linaro.org>
+ <e73bdb23-c27b-4a18-b7e3-942f2d40b726@kernel.org>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20251119125145.2402620-5-Thomas.Marangoni@becom-group.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Eugen Hristev <eugen.hristev@linaro.org>
+In-Reply-To: <e73bdb23-c27b-4a18-b7e3-942f2d40b726@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/19/25 04:51, Thomas Marangoni wrote:
-> Add tids driver documentation
+
+
+On 11/19/25 18:02, Krzysztof Kozlowski wrote:
+> On 19/11/2025 16:44, Eugen Hristev wrote:
+>> Add documentation for Google Kinfo Pixel reserved memory area.
 > 
-> Signed-off-by: Thomas Marangoni <Thomas.Marangoni@becom-group.com>
-> ---
->   Documentation/hwmon/tids.rst | 61 ++++++++++++++++++++++++++++++++++++
-
-Needs to be added to Documentation/hwmon/index.rst.
-
-I'd suggest to combine patches 2, 3, and 4 into a single patch.
-
->   1 file changed, 61 insertions(+)
->   create mode 100644 Documentation/hwmon/tids.rst
+> Above and commit msg describe something completely else than binding. In
+> the binding you described kinfo Linux driver, above you suggest this is
+> some sort of reserved memory.
 > 
-> diff --git a/Documentation/hwmon/tids.rst b/Documentation/hwmon/tids.rst
-> new file mode 100644
-> index 000000000000..254c4a90e6f8
-> --- /dev/null
-> +++ b/Documentation/hwmon/tids.rst
-> @@ -0,0 +1,61 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Kernel driver tids
-> +===================
-> +
-> +Supported Chips:
-> +
-> +  * WSEN TIDS
-> +
-> +    Prefix: 'tids'
-> +
-> +    Addresses scanned: None
-> +
-> +    Datasheet:
-> +
-> +      English: https://www.we-online.com/components/products/manual/Manual-um-wsen-tids-2521020222501%20(rev1.2).pdf
-> +
-> +Author: Thomas Marangoni <Thomas.Marangoni@becom-group.com>
-> +
-> +
-> +Description
-> +-----------
-> +
-> +This driver implements support for the WSEN TIDS chip, a temperature
+>>
+>> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
+>> ---
+>>  .../reserved-memory/google,kinfo.yaml         | 49 +++++++++++++++++++
+>>  MAINTAINERS                                   |  5 ++
+>>  2 files changed, 54 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/reserved-memory/google,kinfo.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/reserved-memory/google,kinfo.yaml b/Documentation/devicetree/bindings/reserved-memory/google,kinfo.yaml
+>> new file mode 100644
+>> index 000000000000..12d0b2815c02
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/reserved-memory/google,kinfo.yaml
+>> @@ -0,0 +1,49 @@
+>> +# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/reserved-memory/google,kinfo.yaml#
+> 
+> Filename based on the compatible.
+> 
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Google Pixel Kinfo reserved memory
+>> +
+>> +maintainers:
+>> +  - Eugen Hristev <eugen.hristev@linaro.org>
+>> +
+>> +description:
+>> +  This binding describes the Google Pixel Kinfo reserved memory, a region
+> 
+> Don't use "This binding", but please describe here hardware.
+> 
+>> +  of reserved-memory used to store data for firmware/bootloader on the Pixel
+>> +  platform. The data stored is debugging information on the running kernel.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - const: google,kinfo
+>> +
+>> +  memory-region:
+>> +    maxItems: 1
+>> +    description: Reference to the reserved-memory for the data
+> 
+> This does not match description. Unfortunately it looks like you added a
+> node just to instantiate Linux driver and this is not allowed.
+> 
+> If this was some special reserved memory region, then it would be part
+> of reserved memory bindings - see reserved-memory directory.
 
-This driver implements support -> This driver supports
+I sent this patch for reserved-memory directory, where all the
+reserved-memory bindings reside. Or maybe I do not understand your
+comment ?>
+> Compatible suggests that it is purely Linux driver, so another hint.
 
-> +sensor. Temperature is measured in degree celsius. In sysfs interface,
-> +all values are scaled by 1000, i.e. the value for 31.5 degrees celsius is 31500.
-> +
+This reserved memory area is used by both Linux and firmware. Linux
+stores some information into this reserved memory to be used by the
+firmware/bootloader in some specific scenarios (e.g. crash or recovery
+situations)
+As the firmware reserves this memory for this specific purpose, it is
+natural to inform Linux that the memory should not be used by another
+purpose, but by the purpose it was reserved for.
+Which would be the best way to have Linux understand where is this
+memory area so it could be handled?
 
-This is per ABI and does not need to be mentioned. If you want to mention any
-details, the operating temperature and range and the current consumption (from the
-introduction in the datasheet) would be acceptable.
 
-> +Usage Notes
-> +-----------
-> +
-> +The device communicates with the I2C protocol. Sensors can have the I2C
-> +address 0x38 or 0x3F. See Documentation/i2c/instantiating-devices.rst for methods
-> +to instantiate the device.
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +=============== ============================================
-> +temp1_input     Measured temperature in millidegrees Celsius
-> +update_interval The interval for polling the sensor, in
-> +                milliseconds. Writable. Supported values are
-> +                5, 10, 20 or 40.
-> +temp1_max       The temperature in millidegrees Celsius, that
-> +                is triggering the temp1_max_alarm. Writable.
-> +                The lowest supported value is -39680 and the
-> +                highest supported value is 122880. Values are
-> +                saved in steps of 640.
-> +temp1_min       The temperature in millidegrees Celsius, that
-> +                is triggering the temp1_min_alarm. Writable.
-> +                The lowest supported value is -39680 and the
-> +                highest supported value is 122880. Values are
-> +                saved in steps of 640.
-> +temp1_max_alarm The alarm will be triggered when the level
-> +                reaches the value specified in
-> +                temp1_max. It will reset automatically
-> +                once it has been read.
+> 
+> Looks like this is a SoC specific thing, so maybe this should be folded
+> in some of the soc drivers.
+> 
+Not really soc specific. Any soc who implements this at firmware level
+can use it. The firmware can reserve some memory for this specific
+purpose and then pass it to Linux, so Linux can fill it up.
+It just happens that the Pixel phone has this implemented right now, but
+it is not constrained to Pixel only.
 
-The datasheet suggests that it should be "exceeds", not "reaches".
-I'd suggest to use "temperature", not "level".
+Instantiating this driver with a call like platform_device_register_data
+would make the driver unaware of where exactly the firmware looks for
+the data. This is right now passed through the DT node. Do you have a
+better suggestion on how to pass it ?
 
-> +temp1_min_alarm The alarm will be triggered when the level
-> +                reaches the value specified in
+> 
+> 
+>> +
+>> +required:
+>> +  - compatible
+>> +  - memory-region
+>> +
+>> +additionalProperties: true
+>> +
+>> +examples:
+>> +  - |
+>> +    reserved-memory {
+>> +      #address-cells = <1>;
+>> +      #size-cells = <1>;
+>> +      ranges;
+>> +
+>> +      kinfo_region: smem@fa00000 {
+>> +          reg = <0xfa00000 0x1000>;
+>> +          no-map;
+>> +      };
+>> +    };
+> 
+> Anyway, drop, not relevant.
+> 
+> 
+>> +
+>> +    debug-kinfo {
+>> +        compatible = "google,debug-kinfo";
+> 
+> Device node with only one phandle to reserved memory region is a proof
+> it is not a real device.
+> 
+> Also,
+> Please use scripts/get_maintainers.pl to get a list of necessary people
+> and lists to CC (and consider --no-git-fallback argument, so you will
+> not CC people just because they made one commit years ago). It might
+> happen, that command when run on an older kernel, gives you outdated
+> entries. Therefore please be sure you base your patches on recent Linux
+> kernel.
+> 
+> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+> people, so fix your workflow. Tools might also fail if you work on some
+> ancient tree (don't, instead use mainline) or work on fork of kernel
+> (don't, instead use mainline). Just use b4 and everything should be
+> fine, although remember about `b4 prep --auto-to-cc` if you added new
+> patches to the patchset.
+> 
+Thanks for your review and suggestions
 
-Same here. Per datasheet: "Temperature is lower than low limit".
-The datasheet says "exceeds the low limit", but that isn't technically
-correct, because that means "higher than". "when the temperature is
-lower than" should work.
-
-> +                temp1_min. It will reset automatically
-> +                once it has been read.
-> +=============== ============================================
+> 
+> Best regards,
+> Krzysztof
+> 
 
