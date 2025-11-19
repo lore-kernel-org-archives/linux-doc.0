@@ -1,226 +1,263 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8476630504D
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 09:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEB934844B
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 10:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763545806; cv=none; b=bA9HMPXWVTN5iCyxWoS+SWJb183WDoklTDpgn2LyNSlhDTqD3Bl7K2lEEbQ7Iu4ENe1FLBpajxmPs/Nd3bw0amiO5UPZbmtj2goUwKPim6WYSZHhv49VbB5160zaeT/gG0OXh63A0JgaE3MyFXnwSQPS1ZuUZp/Qb2EmPiv2Ws0=
+	t=1763546969; cv=none; b=UAZQE1ETKxeKp1lgscQAvLpsTJ7OzaLn15hQsfxS6/UsyGVD/aXpaDXG6PqaEZnYr6FDJUvrO4qbw63NMWMpM609H9KPP4rLilAxc0NZM3+sQ5F2gKuf4GMjgAYw/yWocjv9/jnh+0WW07z1ZLnzf4MDwI7Fi/rcmC0Q73MukuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763545806; c=relaxed/simple;
-	bh=1TOp3TyNqp9fvTognm5EaBymbRnEbazC0vxgnfiwNVQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eXbb9ZEjut/8kG9AsapwaDTiDpGNQoZNW0ocbbvDL1RIpaqbzd5C62GNMaZCJ9/XMCtOr7Hb+R3ZfWZVIcrdVp6MulmrQoXUciIFi6+eJgeNxqKwIw8su6Yk6smP3BTyXaTtjI5PgO+harr5ojnu74601Ht6TuskwFCvNNdBdq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NDCz8PCM; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1763546969; c=relaxed/simple;
+	bh=OJvuqh8SyRe//eizJsEe1K247PQ8bD47X5Q22nudA1U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BcHA7R+QkK6BKwzYecxCuYr73eFB4Uy0cNvaDKsOoA3K8Yu8iM7lZwJGq0oOVplGbSJ5+Wqz1CVAvseI2wv2F8okWHUrXV73D5RaySLqvWvyHPo2GpoewACEEWSWk0ZTh0ntZepWtFzu44ejxl40JfwM23RemIbEWnORMrzMV74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Me68I3F7; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NDCz8PCM"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id BB6904E41794;
-	Wed, 19 Nov 2025 09:50:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 9190460720;
-	Wed, 19 Nov 2025 09:50:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D22C810371A18;
-	Wed, 19 Nov 2025 10:49:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763545802; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=RrIjwcjwliZ95lPsOv8XtZAnAsO3R4A3FRoqGR2mI7g=;
-	b=NDCz8PCM2Nkvg9vaH8fUswy6MvH7QqLHVik27q6zknsVFM3ymgUpBZoCgJOm3wK4ZhAvGg
-	IbY1ET4w44no3ZXy7ziwRYbdlBgyco0O7Sq/IK60yIV8hgvnpPnPeZmINbccHHKHzybi8k
-	/nY8hhDhJUO7g179uU9lCQl8ZQqNgkWOYWz6K+L9VIZjeToDsdIoP1wCzJq0MwSmgo+9LI
-	eQp15tOtt4ArbVhjuRMpiufS0+OM/LZIo2KCHbJNDFl8XoT86W1sGRrIR/vuaOV75KObXw
-	4kUzbJZCtxN7c5WTJ2Q9VLPgGp81MQXYdBYFXxpQGi3ojTo9JTbuQE3ntc5/pg==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: "Michael Walle" <mwalle@kernel.org>
-Cc: "Tudor Ambarus" <tudor.ambarus@linaro.org>,  "Pratyush Yadav"
- <pratyush@kernel.org>,  "Richard Weinberger" <richard@nod.at>,  "Vignesh
- Raghavendra" <vigneshr@ti.com>,  "Jonathan Corbet" <corbet@lwn.net>,
-  "Sean Anderson" <sean.anderson@linux.dev>,  "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>,  "Steam Lin" <STLin2@winbond.com>,
-  <linux-mtd@lists.infradead.org>,  <linux-kernel@vger.kernel.org>,
-  <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 15/19] mtd: spi-nor: debugfs: Add locking support
-In-Reply-To: <DEBTY3TV74T2.2N3VRS6HGWDXD@kernel.org> (Michael Walle's message
-	of "Tue, 18 Nov 2025 13:46:52 +0100")
-References: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com>
-	<20251114-winbond-v6-18-rc1-spi-nor-swp-v1-15-487bc7129931@bootlin.com>
-	<DEBTY3TV74T2.2N3VRS6HGWDXD@kernel.org>
-User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Wed, 19 Nov 2025 10:49:57 +0100
-Message-ID: <87o6oycpx6.fsf@bootlin.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Me68I3F7"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b735ce67d1dso851790366b.3
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 02:09:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1763546963; x=1764151763; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mZmwnZeJsVmH4Emd6Sk7OTkRxBmCW6aXF7g1I/Zjods=;
+        b=Me68I3F7En431raJbedjbBOoq/VSyrLNPSHh1NDSm7hS35yUH6C/wWOVtLpKfCtyKl
+         pgezovtS+J6QjL9ajtb55htcb981QToFRQ+otMIJfwMjjV11g4S/+ihLcnAz/y8U6bMQ
+         vvXmi1cN/61t0y6wCN8KE5mqZ1KQunNOGGjztAYvEIM9rtm2yLoN1BWHaoGQB0l04TCm
+         cnIlJieWZmh52VixvgLDVLIKN7Oy65N1tNxRLoCQ5ndqdmyKOMCwQZUDSWQdLd5mGVUn
+         Hr8IR746a3flbusR85EkV3KQPqkp5ZhtLalhLau2pCQSTiay13R7j/1/SFqpcCg/+jVE
+         uPQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763546964; x=1764151764;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mZmwnZeJsVmH4Emd6Sk7OTkRxBmCW6aXF7g1I/Zjods=;
+        b=GCg4RjJ9luogD1+AHXOiIOSdQvSwPudOGzE4x1L3CrWbPSrr02ctFmMCrKvprATj5v
+         vCRpanm5BTlDhKrBvlzLzwXZwJV2zkrfWVwMgsMqPoZg+lJSQPX1KhwzEcatIYNSl4NB
+         liCy3RNoydRLlu6TvNpFdjhX05bU9jjv5fVwf5BWYoiNEbWLVa6cLWrULbfmPeuqXRCh
+         w0Rabw3FHIzGMyY8PyGEqncwgozS4kddIwfQ87HnUForZBleSaf3myBdjIzIkvVRchrz
+         IdYtOd0PtrBd6/MpZK4pqotxvxstuex0ba4jsllmCon0tOASqlnjbK7swZF/Rh+aqsQN
+         ZH7A==
+X-Forwarded-Encrypted: i=1; AJvYcCXZ38dTU3S6I+bbulLRcV4UBtnQsXMEcf2SiXf0iLJBxeiW4+2izeWO6G6AT5IV969cZYxu9KHzdNQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0w95d6HrR1AOH7brm3F/G4vQabAcnzmLXyPePytEKZ83/rqBm
+	6uYTwWUgun3oPNmE2zSlE6aC6/6RUY++/c0mU6NZxvDEtknSrdzOK/jXlhpk4pdOCOY=
+X-Gm-Gg: ASbGncuwO5SgS9UhT6cN9S9fI9fctAagvjP8xjNNmnU0dkZoJrwDj9MxqOQTmCzyOb6
+	1n9duv5KTlwRkWjC+Vw8x5Lg66Byi3LhdsiN+LJquCmsC5LBtbHRlZj+GHtkuxWo4ZwzDg7tp9W
+	EhdmVW5icaWNQY4pSHNR4ykXPzlf16KNyPOIcKaCVOU7RV1M38Tr1yJLcdtEvV7AePPWsQa7SdS
+	KojyivEi+lbexC9/j4cFngbjGw00n8dgcZaPojqpg6eOOGN3rYbY97Wl2QidKcumlU5P38Q3W7y
+	9xZ6fOjp5OLy2oWsaH2WGJJtYQUxYxYQ5F6p6yiPi2hQ8PVyk9lVQrZESM+e6zvMmhKQPY1LQP4
+	GlsDi5jr5pcFpYHuADTB9ro27UBulv9Eexn3Mz4iwKkhlJl0dHk8vgxvlNLwctM9+Z238QMLLxF
+	tW3u2ZkzfLgO5so2CAC/Bhzkbi
+X-Google-Smtp-Source: AGHT+IHL60A5nBupA1OyvdeZdvK8rVJqcdAj2UJ8GMSSqilZDEkvpcYDaNSL65+yyn9lVOsemK499g==
+X-Received: by 2002:a17:907:1c81:b0:b72:d2df:641c with SMTP id a640c23a62f3a-b736795d498mr2006941666b.49.1763546963352;
+        Wed, 19 Nov 2025 02:09:23 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fda8bc8sm1594056066b.49.2025.11.19.02.09.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 02:09:22 -0800 (PST)
+Date: Wed, 19 Nov 2025 11:08:01 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Corey Minyard <corey@minyard.net>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Vitaly Lifshits <vitaly.lifshits@intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Sagi Maimon <maimon.sagi@gmail.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Karan Tilak Kumar <kartilak@cisco.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+	linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+	ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Gustavo Padovan <gustavo@padovan.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Rodolfo Giometti <giometti@enneenne.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Stefan Haberland <sth@linux.ibm.com>,
+	Jan Hoeppner <hoeppner@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Satish Kharat <satishkh@cisco.com>,
+	Sesidhar Baddela <sebaddel@cisco.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v3 19/21] scsi: fnic: Switch to use %ptSp
+Message-ID: <aR2XAYWTEgMZu_Mx@pathway.suse.cz>
+References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
+ <20251113150217.3030010-20-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251113150217.3030010-20-andriy.shevchenko@linux.intel.com>
 
-Hello,
+On Thu 2025-11-13 15:32:33, Andy Shevchenko wrote:
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
 
-On 18/11/2025 at 13:46:52 +01, "Michael Walle" <mwalle@kernel.org> wrote:
+I was about to commit the changes into printk/linux.git and
+found a mistake during the final double check, see below.
 
-> On Fri Nov 14, 2025 at 6:53 PM CET, Miquel Raynal wrote:
->> The ioctl output may be counter intuitive in some cases. Asking for a
->> "locked status" over a region that is only partially locked will return
->> "unlocked" whereas in practice maybe the biggest part is actually
->> locked.
->>
->> Knowing what is the real software locking state through debugfs would be
->> very convenient for development/debugging purposes, hence this proposal
->> for adding two extra blocks at the end of the file:
->> - A "software locked sectors" array which lists every section, if it is
->> locked or not, showing both the address ranges and the sizes in numbers
->> of blocks.
->
-> I know the file is called software write protection (or swp) but
-> it's really a hardware write protection, isn't it?
+> diff --git a/drivers/scsi/fnic/fnic_trace.c b/drivers/scsi/fnic/fnic_trace.c
+> index cdc6b12b1ec2..0a849a195a8e 100644
+> --- a/drivers/scsi/fnic/fnic_trace.c
+> +++ b/drivers/scsi/fnic/fnic_trace.c
+> @@ -215,30 +213,26 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
+>  {
+>  	int len = 0;
+>  	int buf_size = debug->buf_size;
+> -	struct timespec64 val1, val2;
+> +	struct timespec64 val, val1, val2;
+>  	int i = 0;
+>  
+> -	ktime_get_real_ts64(&val1);
+> +	ktime_get_real_ts64(&val);
+>  	len = scnprintf(debug->debug_buffer + len, buf_size - len,
+>  		"------------------------------------------\n"
+>  		 "\t\tTime\n"
+>  		"------------------------------------------\n");
+>  
+> +	val1 = timespec64_sub(val, stats->stats_timestamps.last_reset_time);
+> +	val2 = timespec64_sub(val, stats->stats_timestamps.last_read_time);
+>  	len += scnprintf(debug->debug_buffer + len, buf_size - len,
+> -		"Current time :          [%lld:%ld]\n"
+> -		"Last stats reset time:  [%lld:%09ld]\n"
+> -		"Last stats read time:   [%lld:%ld]\n"
+> -		"delta since last reset: [%lld:%ld]\n"
+> -		"delta since last read:  [%lld:%ld]\n",
+> -	(s64)val1.tv_sec, val1.tv_nsec,
+> -	(s64)stats->stats_timestamps.last_reset_time.tv_sec,
+> -	stats->stats_timestamps.last_reset_time.tv_nsec,
+> -	(s64)stats->stats_timestamps.last_read_time.tv_sec,
+> -	stats->stats_timestamps.last_read_time.tv_nsec,
+> -	(s64)timespec64_sub(val1, stats->stats_timestamps.last_reset_time).tv_sec,
+> -	timespec64_sub(val1, stats->stats_timestamps.last_reset_time).tv_nsec,
+> -	(s64)timespec64_sub(val1, stats->stats_timestamps.last_read_time).tv_sec,
+> -	timespec64_sub(val1, stats->stats_timestamps.last_read_time).tv_nsec);
+> +			 "Current time :          [%ptSp]\n"
+> +			 "Last stats reset time:  [%ptSp]\n"
+> +			 "Last stats read time:   [%ptSp]\n"
+> +			 "delta since last reset: [%ptSp]\n"
+> +			 "delta since last read:  [%ptSp]\n",
 
-Well, it depends on your configuration I guess? Without #WP pin I don't
-know how to call that. I had in mind that software meant "using the BP
-pins" and "hardware" meant "toggling #WP". But I have no strong opinion
-about this wording.
+Both delta times are printed at the end.
 
->> - Some kind of mapping of the locked sectors, which pictures the entire
->> flash. It may be verbose, so perhaps we'll drop it in the end. I found
->> it very useful to really get a clearer mental model of what was
->> locked/unlocked, but the array just before is already a good source of
->> information.
->>
->> Here is an example of output, what is after the "sector map" is new.
->>
->> $ cat /sys/kernel/debug/spi-nor/spi0.0/params
->> name		(null)
->> id		ef a0 20 00 00 00
->> size		64.0 MiB
->> write size	1
->> page size	256
->> address nbytes	4
->> flags		HAS_SR_TB | 4B_OPCODES | HAS_4BAIT | HAS_LOCK | HAS_16BIT_SR | HA=
-S_SR_TB_BIT6 | HAS_4BIT_BP | SOFT_RESET | NO_WP
->>
->> opcodes
->>  read		0xec
->>   dummy cycles	6
->>  erase		0xdc
->>  program	0x34
->>  8D extension	none
->>
->> protocols
->>  read		1S-4S-4S
->>  write		1S-1S-4S
->>  register	1S-1S-1S
->>
->> erase commands
->>  21 (4.00 KiB) [1]
->>  dc (64.0 KiB) [3]
->>  c7 (64.0 MiB)
->>
->> sector map
->>  region (in hex)   | erase mask | overlaid
->>  ------------------+------------+---------
->>  00000000-03ffffff |     [   3] | no
->>
->> software locked sectors
->
-> drop "software" here.
+> +			 &val,
+> +			 &stats->stats_timestamps.last_reset_time, &val1,
+> +			 &stats->stats_timestamps.last_read_time, &val2);
 
-Okay.
+I think that this should be:
 
->
->>  region (in hex)   | status   | #blocks
->>  ------------------+----------+--------
->>  00000000-03ffffff | unlocked | 1024
->
-> I really like that.
+			 &stats->stats_timestamps.last_reset_time,
+			 &stats->stats_timestamps.last_read_time,
+			 &val1, &val2);
 
-:-)
+>  	stats->stats_timestamps.last_read_time = val1;
 
->> 64kiB-sectors locking map (x: locked, .: unlocked)
->> |.......................................................................=
-...........................................................................=
-...........................................................................=
-...........................................................................=
-...........................................................................=
-...........................................................................=
-...........................................................................=
-...........................................................................=
-...........................................................................=
-...........................................................................=
-...........................................................................=
-...........................................................................=
-...........................................................................=
-..........................
->>  ...........................|
->
-> Maybe put it into an own file. In any case, a sane line wrapping
-> would be good. And add a leading offset, ie, "0000: xxxx.....".
+The original code stored the current time in "val1". This should be:
 
-I was unsure about doing that, but yes that makes sense. May I call it
-"locked_sectors_map"?
+	stats->stats_timestamps.last_read_time = val;
 
-[...]
+> @@ -416,8 +410,8 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
+>  	jiffies_to_timespec64(stats->misc_stats.last_ack_time, &val2);
 
->> +	sr[0] =3D nor->bouncebuf[0];
->> +
->> +	if (!(nor->flags & SNOR_F_NO_READ_CR)) {
->> +		ret =3D spi_nor_read_cr(nor, nor->bouncebuf + 1);
->> +		if (ret)
->> +			return ret;
->> +	}
->> +
->> +	sr[1] =3D nor->bouncebuf[1];
->
-> Shouldn't that go into the former if conditional? bouncebuf[1] might
-> never be read.
+Just for record. Another values are stored into @val1 and @val2 at
+this point.
 
-Yes, that's correct. I don't remember why I did it this way, probably a
-bug, I'll move that line.
+>  	len += scnprintf(debug->debug_buffer + len, buf_size - len,
+> -		  "Last ISR time: %llu (%8llu.%09lu)\n"
+> -		  "Last ACK time: %llu (%8llu.%09lu)\n"
+> +		  "Last ISR time: %llu (%ptSp)\n"
+> +		  "Last ACK time: %llu (%ptSp)\n"
+>  		  "Max ISR jiffies: %llu\n"
+>  		  "Max ISR time (ms) (0 denotes < 1 ms): %llu\n"
+>  		  "Corr. work done: %llu\n"
+> @@ -437,10 +431,8 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
+>  		  "Number of rport not ready: %lld\n"
+>  		 "Number of receive frame errors: %lld\n"
+>  		 "Port speed (in Mbps): %lld\n",
+> -		  (u64)stats->misc_stats.last_isr_time,
+> -		  (s64)val1.tv_sec, val1.tv_nsec,
+> -		  (u64)stats->misc_stats.last_ack_time,
+> -		  (s64)val2.tv_sec, val2.tv_nsec,
+> +		  (u64)stats->misc_stats.last_isr_time, &val1,
+> +		  (u64)stats->misc_stats.last_ack_time, &val2,
 
-> Also, until now, reading the "params" debug file never interacts
-> with the flash, but with this patch it does. We don't do locking
-> here which looks wrong. Maybe we should just cache the protection
-> bits. Not sure.
+So, this is correct!
 
-I guess caching the status registers makes sense, but we'll still have a
-possible race when accessing the 2 registers. Is it okay to
-ignore this very unlikely case in debugfs? Otherwise I might just lock
-the entire device for the time we access the cached registers.
+>  		  (u64)atomic64_read(&stats->misc_stats.max_isr_jiffies),
+>  		  (u64)atomic64_read(&stats->misc_stats.max_isr_time_ms),
+>  		  (u64)atomic64_read(&stats->misc_stats.corr_work_done),
 
->> +	spi_nor_get_locked_range_sr(nor, sr, &lock_start, &lock_length);
->> +	if (!lock_length || lock_length =3D=3D params->size) {
->> +		seq_printf(s, " %08llx-%08llx | %s | %llu\n", 0ULL, params->size - 1,
->> +			   lock_length ? "  locked" : "unlocked", params->size / min_prot_le=
-n);
->> +	} else if (!lock_start) {
->> +		seq_printf(s, " %08llx-%08llx | %s | %llu\n", 0ULL, lock_length - 1,
->> +			   "  locked", lock_length / min_prot_len);
->> +		seq_printf(s, " %08llx-%08llx | %s | %llu\n", lock_length, params->si=
-ze - 1,
->> +			   "unlocked", (params->size - lock_length) / min_prot_len);
->> +	} else {
->> +		seq_printf(s, " %08llx-%08llx | %s | %llu\n", 0ULL, lock_start - 1,
->> +			   "unlocked", lock_start / min_prot_len);
->> +		seq_printf(s, " %08llx-%08llx | %s | %llu\n", lock_start, params->siz=
-e - 1,
->> +			   "  locked", lock_length / min_prot_len);
->> +	}
->> +
->> +	seq_printf(s, "\n%dkiB-sectors locking map (x: locked, .: unlocked)\n",
->> +		   min_prot_len / 1024);
->> +	seq_puts(s, "|");
->> +	for (i =3D 0; i < params->size; i +=3D min_prot_len)
->> +		seq_printf(s, spi_nor_is_locked_sr(nor, i, min_prot_len, sr) ? "x" : =
-".");
->
-> As mentioned above, newlines as well as a leading offset counter
-> would be nice :)
 
-Arf, I was hoping I could escape that step, but ok, fair enough :-)
+Now, I think that there is no need to resend the entire huge patchset.
 
-Miqu=C3=A8l
+I could either fix this when comitting or commit the rest and
+you could send only this patch for review.
+
+Best Regards,
+Petr
+
+PS: All other patches look good. Well, nobody acked 7th patch yet.
+    But I think that the change is pretty straightforward and
+    we could do it even without an ack.
