@@ -1,97 +1,81 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2A32D7392;
-	Wed, 19 Nov 2025 18:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E613002D0;
+	Wed, 19 Nov 2025 18:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763577512; cv=none; b=A+SaYOXfLD9tbz8YHEQkizP5ZSwDtFDPWzL0XQmDlB2yFuhtv4t4RVH4FeNMdqNEiAH3rw1ceJFI7pWYm3N3Mu0HDTnSQCT/Qy59bLQDrQN1vjfBXIX3GKySqo46ooTxhE2Le5Lo9b4RcCXFonz1dkNPa/2RjFt2/h7rrj3S4v8=
+	t=1763577521; cv=none; b=lgopxxRuWtORiLNpZ4l45ZXlLzbrU7U2mcWw2RfsiR8ABK8DgbmPFdN2RADrEzZGmNw3OU82472NoJd4FDCMJ9ygTjzLwsYIDoq/Zh9D4fvgmI8/G86fqD6Uxzpem/a4VjLlifguc4YIBfMEJjtdbP7iiRU3uuZR3Qv+TqawHyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763577512; c=relaxed/simple;
-	bh=7IgUbXwpQA4km+F7Dfoe93VgXivuE2hBFLK/C0BSZ9w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l2IMp9Oux6J6b2+lTlNDfUigBj5+qQ1GEaz0fhCzCCufOiZoQrAJsuFzPNXweNnlE16gndimXJEFgGdb4k/w9FQXVitORewXIGMMj2qQROappeJ3QoWAOujRdoir/Rfx86lJKszaONGZlbA4PjLUgAZ5zdBSTuqiKOyQzoUiDiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id C8AB716060D;
-	Wed, 19 Nov 2025 18:38:10 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf10.hostedemail.com (Postfix) with ESMTPA id 81EA330;
-	Wed, 19 Nov 2025 18:38:06 +0000 (UTC)
-Date: Wed, 19 Nov 2025 13:38:36 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Eugen Hristev <eugen.hristev@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, tglx@linutronix.de, andersson@kernel.org,
- pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
- mhocko@suse.com, tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, linux-arch@vger.kernel.org,
- tony.luck@intel.com, kees@kernel.org
-Subject: Re: [PATCH 00/26] Introduce meminspect
-Message-ID: <20251119133836.47d9ae73@gandalf.local.home>
-In-Reply-To: <b0102b82-9ae8-4e01-ba27-44b78b710fca@linaro.org>
-References: <20251119154427.1033475-1-eugen.hristev@linaro.org>
-	<20251119131534.392277e3@gandalf.local.home>
-	<b0102b82-9ae8-4e01-ba27-44b78b710fca@linaro.org>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1763577521; c=relaxed/simple;
+	bh=HvQBiOaS5pNwDBn1SZfwxuH2i8dN0uHP5R2UidJ8f2M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AisWOOY0zFs9AVVLIxYG9zsHqcfj4sd4GfPOUMw579iKqI8fMMXFYtnH6tSzhmfbQVmxwxC9Gosdlpw3NAs+lEQtiKO+0k3NmonNK3dsvswnavT+nfzx4Mc5QbIfhTR7GGzW2yrvAjukSk5qBhfioQUtx8to8qe/Xx5CXzrgB1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CHvFGoGB; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CHvFGoGB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 586AAC4CEF5;
+	Wed, 19 Nov 2025 18:38:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763577520;
+	bh=HvQBiOaS5pNwDBn1SZfwxuH2i8dN0uHP5R2UidJ8f2M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CHvFGoGBQbpeh3Ni3x4IJx5DdnS2/e93jLB9D03/RIJXm/96BY2dqjfbMGk00/wn+
+	 xILTablONNNvgBDYigt5TI84JTR6P7nw5p8qYYKUu2DcE4H6WUGLdYan6efnuedoPp
+	 EMtWs2FM4lKHaoYzUXeD6j5fWqUQ0EP4Umo+K/UsPPdheYdqi/GZZOfHTWIaZy0wdY
+	 I5YQtKgU7ktQ5PhthM0r8asw3i3hVp8l3zZmsLocrkoY1qMlr1JFZUEaj8/qXesVjA
+	 6+ynL54GdF1AVYu50Y2LVwTIUSqoZXjOUwyVX1Kuc0XJXXlv9MSjugKI92ZOxlATm8
+	 X5jNwrzhcajlw==
+Date: Wed, 19 Nov 2025 18:38:35 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jic23@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
+	andy@kernel.org, Michael.Hennerich@analog.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+	cosmin.tanislav@analog.com, marcelo.schmitt1@gmail.com
+Subject: Re: [PATCH v2 1/3] dt-bindings: iio: adc: Add AD4134
+Message-ID: <20251119-mandarin-amusement-70fe9914ecf8@spud>
+References: <cover.1763478299.git.marcelo.schmitt@analog.com>
+ <a8d891521ba8c9b4924ead29e5dba163b43d88ed.1763478299.git.marcelo.schmitt@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: cc1o33w6u6owrkxkfh83ifny9egjgrsa
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 81EA330
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18eQxzjFElSFMQBkWmqdnIUBJkOF0f6iiE=
-X-HE-Tag: 1763577486-542771
-X-HE-Meta: U2FsdGVkX18hYyFLn4NceFAtmtr2U9i2vMLdUUZa/XY9sbc18Qd8d0XqWxwjkyLUW391A4PmfVST6fTOPo9/v/GlV/882/v3PjE3Q5zfS5DD1vsLm+4ecyYB6S0zd8UbhIjnn5oMxPSN9iXqq6UxrC6D2V+tXEx8ZTe18jJnlx5L3nYf++HdtV6ezZc8QQOsd5Sji+bCYcQ6BWUI2yZNs93T38KE14+xuHs3A5shJ2l0kZqx610Kyw6apiwgHfwv9/5JD181MK+WYyNpUzWoatcjkFOIYbmW/eiebkRWkR1PTFbDxKfNL2AREBIQ9kzXso7tg4Agi6AvAp3c/q8HXYwDktY4Ul7c6O7qpQnkvKOsmFMGedUEWwFLRTKDlkmz
-
-On Wed, 19 Nov 2025 20:24:23 +0200
-Eugen Hristev <eugen.hristev@linaro.org> wrote:
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tZ/e2rX/dw+jzYoi"
+Content-Disposition: inline
+In-Reply-To: <a8d891521ba8c9b4924ead29e5dba163b43d88ed.1763478299.git.marcelo.schmitt@analog.com>
 
 
-> The problem is that all the meta-data is not allocated inside the
-> preallocated buffer. The meta-data is kmalloced all around the code. I
-> mean the structs that hold the information on what's in the buffer. You
-> know what I mean.
-> And all these kmalloced things, turn out to be in order of hundreds just
-> on a kernel boot, which I tested. This is not feasible for the
-> meminspect table, as it would get overcrowded very easily.
-> I thought of perhaps trying to kmalloc all of them in a dedicated cache,
-> but I haven't progressed on that. Another idea would be to try to
-> recreate the meta, but I have not found a way to do it yet.>
-> > That is, by using the persistent ring buffer code with the meminspect, if
-> > the firmware doesn't save the memory across reboots but allows you to dump
-> > it to disk, you can enable tracing within the persistent ring buffer, on
-> > crash, extract the buffer, and then use trace-cmd to rebuild a trace.dat
-> > file that you can now inspect, and see the trace that lead up to the crash.  
-> I used 'crash' tool with trace plugin and I am able to see all the trace
-> contents, but, with the limitation above. (To achieve this, I dumped a
-> huge area to include it, so , not feasible for my goal )
+--tZ/e2rX/dw+jzYoi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Can't you at boot up just run:
+On Tue, Nov 18, 2025 at 02:32:22PM -0300, Marcelo Schmitt wrote:
+> +  powerdown-gpios:
+> +    description:
+> +      Active low GPIO connected to the /PDN pin. Forces the device into full
+> +      power-down mode when broght low. Pull this input to IOVDD for normal
+> +      operation.
 
-   trace-cmd restore -c -o trace-head.dat
+s/broght/brought/
 
-?
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-That records all the meta data of the running machine, and places it into a
-trace-head.dat file. You can save that off anywhere.
+--tZ/e2rX/dw+jzYoi
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Then after a crash, if you split the buffers up into individual cpu raw data
-files, you can then run:
+-----BEGIN PGP SIGNATURE-----
 
-  trace-cmd restore -o trace.dat -i trace-head.dat trace-cpu0.raw trace-cpu1.raw ...
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaR4OqwAKCRB4tDGHoIJi
+0tOTAP0XHgXpJtfu94jefXE8gIyVONQi6X1bq6MTbTE2RBh2BgEAzKvYVsdrdiRW
+aZroxqroO9GpPwbaUHnG3vSKJFwf8wg=
+=18KS
+-----END PGP SIGNATURE-----
 
-And it will create a trace.dat file for you that you can read with:
-
-  trace-cmd report trace.dat
-
--- Steve
+--tZ/e2rX/dw+jzYoi--
