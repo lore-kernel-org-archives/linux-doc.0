@@ -1,199 +1,243 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495EC306D26
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 22:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A20C1F0E32
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 22:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763590385; cv=none; b=Rh+Vs1SISkcEPFmpLc0Eik/c14BwioXbUAtvHXzkDQb2wXrlPtFQlOdMZWu3RgY5Amlp/LKh0rVMfjxaHVhtIf8BKh4IiEPhi60suzcd40rt0cO3iBOvonbBBomGeEkeojGv6kF9xqkgW3ef4M1WdTKN+ETlRkJZarqMJpmO9JI=
+	t=1763591003; cv=none; b=bKRP0aYntv7KFCNk4be/Iprvz0Ggj1yftSZQaV6S3UPAOS3HCMSfekIBpLltQ81aK7vd/RleSZ/eTkBxpHYQtMYLGVkW4XcaIYzSzdRGa8wKd1B4H5K48y6z0byVqzYYb6gHkdvxKNjgKyos0FV2J7YuE1KFi6Ad7/F3zx5UHhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763590385; c=relaxed/simple;
-	bh=0r7R5FGvy0RXdYfaciazSHP/k6sy56Z0pCJRwQ5fY7M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pq7RisLf8d7yKVMj4NY3vkbU8quXtnGKkw6HJ5H67DsU+unrYwr8DwvHF2KsJTBUt/xbp9LdSRqwRO60lXILpLo1X5GWZAc4Ufy3r0I0g8htWBwCoHgO4CnN0Zf6drSwMkuu8GV/Oj0aZOoMbW+NqAr55iYEaTZcQTpGjoNi74s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=L6v3xULV; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763591003; c=relaxed/simple;
+	bh=kOPSLINu5BIGD8wdi0XJOT8GqQnnCfeWFAvT8Y/uBl8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FWJLIXaXC2j/z2Q1tM6dVCiBb0G0WW/+EufSKfK19kLooLCAxRu3TDzarfDNVSErStMasGFAaBbSCa0s22n8cplDIvSnvdtk+vbazr8i1VQCNcbMK1+s39jpaGpjKEWIs/8AvAJPgketPu/hGs3Mb6aQXott3/xHiF9j064BC4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jyidim6w; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="L6v3xULV"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-64320b9bb4bso413967a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 14:13:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jyidim6w"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7baf61be569so227088b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 14:23:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763590382; x=1764195182; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jmO/rmQDeDDD4oFLN2kD77+FOiHPR0yrD5sudAmDUFo=;
-        b=L6v3xULVVDqIxPP4b1FuHfWXPbWXhUB+5NXUmRtpRm1qMFYQ3FnzePaTAXxo6WDtxq
-         rlfHhhjeGD6fhwBwfxbgsEZDXm+zfzaF79h1dp+a4w+FxaUC08ab0U3L5K0gAtDW5mqy
-         5c7q0Gd8inTTHMuJgOoJ1DpvxXLhvBzUQhW+OO1N0YFyRTAxydyuhZFiUdxz+4xxw9dM
-         vieAAxXrgV9O1myy0A7N1PHv4LJ7tuTVoRQVX5m8K96aSYbJYpRhTlXaTCyGScEkBZDO
-         g7D6NH73LGazx3PkwA7sZiuLhsO0W+7qhCp1bxS/7iFFQNGAqpHQmYzUBbVPsVtSu3rP
-         NT6A==
+        d=gmail.com; s=20230601; t=1763591001; x=1764195801; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=X8UCcv8WJcfbX/BhlHKUUmS50h9EVe0DKujQxp7fJEI=;
+        b=Jyidim6wHtonYGNGCVd2D9BBE10uuW2MXfKINNIxlGDjb/PRIpOElX/lcnBJvJNPmo
+         9FkvHUlbmcItgvsMQej98W5IKpF1Bc5VTBuR8n62jGNWgbOKz6D2RQJAb5saa4PhWpR5
+         ZspJZjiceXoHuUEpXRFyiv9hhrEyqsb6G1gxrT0NUf9uCWGRaysoobzyenCOivjBWZO6
+         RrvKv//TEunyLdQnYr+UwtHlJtQxjO4u7cAb/z7a2AuFLEeqa48bUxQjq3a0y8hAm9om
+         elXiK51AWDV2pfj/jbZkPni/be8TCXsoV1rhNJBjUMUwMLKWPvLnB3pnNWhAG4uACdMD
+         nFJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763590382; x=1764195182;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jmO/rmQDeDDD4oFLN2kD77+FOiHPR0yrD5sudAmDUFo=;
-        b=hVqImJl19QkWf/AIPBIlxc+Sl96eD0XE5eAZUlN00jv5txW74gUwfq2V0eRvOeYpkW
-         cTYXQKQNsYG5r4C2Q4CPUdzhpWGf2T7vKSa5g9Xno9aDxcx5fVg+eGk7QJkn9cMQP5Uu
-         bfsOc0BheWIuphCjm4qr8RJevNhsUthRbpS4co7MG28iHcAykzyiZu1U8SKL60SyE+AH
-         maDuagIJf3xR351pdZELJzWbs18xl/+vhuDNq8SGUb9b0fExgRCDS38ugQNt4CDCkGUU
-         TetPjhsyFPAiGe78V3wrqv+i1u0ocuIk2gglvAFTEaIfAxNgOGZJ18q1wn6nEbDnrgY9
-         49Yw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPD7j0qlyijcAAeKiCd38clAqVcNDAeiYgJPfdViGwQeq35uKuhNNfNtk1cIaz0YB8ZsQlDgpLb7I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQo2joWbNFOj6HEFIkIkFRaKFfjWi1EBhM2f/GmaAnxVvRVZW5
-	6SLk00+3UTWzW0D4x+KQCu8OnJ0ZvqKM6A4acqcKuDO03SwGI2XQiEAbBX2Yn+q7dPcOSm3sKhd
-	k2LW4PZ+uLSHdw8PmPoMY3XLthx8U1co/69IRzhJVEA==
-X-Gm-Gg: ASbGncumLy6u7E9GgCU/23AvTc9aWZDI2IIDTdF1p8mXnACKYAuPRWyRuOsARBkZxe0
-	ocLf0YFEyprhiaPs91LgqB3S7rzE1PHhO3JJiFpd4WFKZQIwVais0oHSsFGSCBURO38gMDanzVu
-	xqunhdpRqVFsKLD2ulxO/o1L/ciMxE8pt4dI9q+U13/Di62hDS/NAtK3HKzqTOFILzAchv8SpWh
-	0M66wdC2cev6EHzqgdLx9dFPiWIW9Iz4ctT0Mk6uUPVePEh5GQC0/DPNGxf4DlYGWmWDz0BTCzD
-	LVfYzZjeLRNQUA==
-X-Google-Smtp-Source: AGHT+IFw6kDorU2RenWoIYJjhBpjj+66hDpPciDjAImJ3B8hxUcjgpzXU/StGuyx3A6WKe/RvhzZdqNdpa9gP61f3nc=
-X-Received: by 2002:a05:6402:3492:b0:640:b625:b920 with SMTP id
- 4fb4d7f45d1cf-6453966533fmr137250a12.6.1763590381585; Wed, 19 Nov 2025
- 14:13:01 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763591001; x=1764195801;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X8UCcv8WJcfbX/BhlHKUUmS50h9EVe0DKujQxp7fJEI=;
+        b=ayVRh4R0EbMrJbpUDY3GUbXtSCMrz9G9QIaRDrWB0gAeSaTSSb4nBYv9ahogCqFH6Y
+         kzDgToepm4ef96ZgBpApNS2uai8u8hapi8UI2tei5jSrFKm0HejQ8JbgQzEQKvKTw/ep
+         req8N3c9iwMDH1gcEwWBkKq8QyKjI9JMLR4Lw2yogbGULpddfXSdgIxOXtdZEDHQm9Pq
+         2eSfY2718ga7vunRUn0fCk5GzWKRWqgy+Vfm50ooNdiARKOISDhv9rXgBhsuAJ72BZGI
+         WE06tHQD6qgg2gZ/7qtvksWISl3RsSx8jhrgakeCjA9UM8psHBBBGq/pVSPsWPgzFrZm
+         8Unw==
+X-Forwarded-Encrypted: i=1; AJvYcCXCsZc43kljqgLXSy4x/E0BS5kr+XaI8VA8U1BavPqH82cjGw0OxEQwTiR3wwWqjPXce9TkOlTkQQ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFxQvkRkkUPdn+uPbOh4o8XCoid4x74CCQY5bNwxmZ2dlrQG57
+	fWD3Yp0e2u5bBfsJbjD8koHexw6qwrv7n9u28JLfb8XAupaqIUNM3/ZQ
+X-Gm-Gg: ASbGnctEYM7a60Kw+WiTfjcZtSgm+pjLwheUihPnZQf3w/dAnH/SVrDHSKEotCeP1AL
+	nqhRIOXt7iU9084wB1UWaC/SXujeF6KzQglfarQQIoDM1uYRM/30tw2LxNgBdGDXac4MTVLTp+9
+	aPa3VQCrzUVnQH+rBOw+Xu/fQAxc/FGDwAui1IOaHr9/cm9DykswiybVD8dqNImEm50nqBjl/n9
+	iYuRTOwZsKrn90wRrMxDFlJUj4VuJIUi2ZRWrJHrRK7XfmUDG1TD+aOR1ZTo08B8P/TAj+V4BrL
+	NWEJw9v8/Ltz1PLJUYuJ+0xlor4oY+Va0Bid8YDkqWfzyBBEYtvVvq1BGFQS3hTlabmjSMo7WPV
+	XY4SkxF6Wm8gdzmp4tATjfXDJUWLh1BM96VXU0CsQmB0fLHEJ2hfXmG1/oMOwFdPQvmzf+cVUpI
+	HCJ+EOvztgeWgPPZciRNy/gFsJACiCcV60qk1zJCC5gSWIGc7urYclfBr4NkQ4wyUUrWtyY3JpM
+	SMgtuS1
+X-Google-Smtp-Source: AGHT+IGLyyUhWxITKqLXs3xMSNmqH+iaLGjGmw+PkUvYoUNNvU8QhUaV0xMzsenVLMrOnXg9dKZzIw==
+X-Received: by 2002:a05:6a20:2586:b0:33e:6885:2bd4 with SMTP id adf61e73a8af0-3613b5eb0e7mr1319930637.29.1763591000803;
+        Wed, 19 Nov 2025 14:23:20 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f023fba8sm385465b3a.41.2025.11.19.14.23.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Nov 2025 14:23:19 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <6b5cd51f-be90-4646-9cfa-278e16c09dbe@roeck-us.net>
+Date: Wed, 19 Nov 2025 14:23:17 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-19-pasha.tatashin@soleen.com> <aR40oVOxZ-dezpy0@google.com>
-In-Reply-To: <aR40oVOxZ-dezpy0@google.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 19 Nov 2025 17:12:24 -0500
-X-Gm-Features: AWmQ_bn2ZiiYRRhjdL5Zxy3O1nTVtrU9qOIx56eMo9t0_SUIdxuoIchWFpNGDbY
-Message-ID: <CA+CK2bBoantuwMxqe1=PnRO+RX86Qo0epf89kbmZx5z8i2ivLQ@mail.gmail.com>
-Subject: Re: [PATCH v6 18/20] selftests/liveupdate: Add kexec-based selftest
- for session lifecycle
-To: David Matlack <dmatlack@google.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] hwmon: Add driver for wsen tids
+To: Thomas Marangoni <Thomas.Marangoni@becom-group.com>,
+ linux-hwmon@vger.kernel.org
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+ Jonathan.Cameron@huawei.com, michal.simek@amd.com, nuno.sa@analog.com,
+ Frank.Li@nxp.com, wenswang@yeah.net, apokusinski01@gmail.com,
+ dixitparmar19@gmail.com, vassilisamir@gmail.com, paweldembicki@gmail.com,
+ heiko@sntech.de, neil.armstrong@linaro.org, kever.yang@rock-chips.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, mani@kernel.org, dev@kael-k.io,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20251119125145.2402620-1-Thomas.Marangoni@becom-group.com>
+ <20251119125145.2402620-4-Thomas.Marangoni@becom-group.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20251119125145.2402620-4-Thomas.Marangoni@becom-group.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 19, 2025 at 4:20=E2=80=AFPM David Matlack <dmatlack@google.com>=
- wrote:
->
-> On 2025-11-15 06:34 PM, Pasha Tatashin wrote:
->
-> > diff --git a/tools/testing/selftests/liveupdate/do_kexec.sh b/tools/tes=
-ting/selftests/liveupdate/do_kexec.sh
-> > new file mode 100755
-> > index 000000000000..3c7c6cafbef8
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/liveupdate/do_kexec.sh
-> > @@ -0,0 +1,16 @@
-> > +#!/bin/sh
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +set -e
-> > +
-> > +# Use $KERNEL and $INITRAMFS to pass custom Kernel and optional initra=
-mfs
->
-> It'd be nice to use proper command line options for KERNEL and INITRAMFS
-> instead of relying on environment variables.
+On 11/19/25 04:51, Thomas Marangoni wrote:
+> Add support for the wsen tids. It is a low cost
+> and small-form-factor i2c temperature sensor.
+> 
 
-Now that tests and do_kexec are separate, I do not think we should
-complicate do_kexec.sh to support every possible environment. On most
-modern distros kexec is managed via systemd, and the load and reboot
-commands are going to be handled through systemd. do_kexec.sh is meant
-for a very simplistic environment such as with busybox rootfs to
-perform selftests.
+Additional feedback:
 
-> e.g.
->
->   ./do_kexec.sh -k <kernel> -i <initramfs>
->
-> > +
-> > +KERNEL=3D"${KERNEL:-/boot/bzImage}"
-> > +set -- -l -s --reuse-cmdline "$KERNEL"
->
-> I've observed --reuse-cmdline causing overload of the kernel command
-> line when doing repeated kexecs, since it includes the built-in command
-> line (CONFIG_CMDLINE) which then also gets added by the next kernel
-> during boot.
-
-There is a problem with CONFIG_CMDLINE + KEXEC, ideally, it should be
-addressed in the kernel
-
->
-> Should we have something like this instead?
->
-> diff --git a/tools/testing/selftests/liveupdate/do_kexec.sh b/tools/testi=
-ng/selftests/liveupdate/do_kexec.sh
-> index 3c7c6cafbef8..2590a870993d 100755
-> --- a/tools/testing/selftests/liveupdate/do_kexec.sh
-> +++ b/tools/testing/selftests/liveupdate/do_kexec.sh
-> @@ -4,8 +4,16 @@ set -e
->
->  # Use $KERNEL and $INITRAMFS to pass custom Kernel and optional initramf=
-s
->
-> +# Determine the boot command line we need to pass to the kexec kernel.  =
-Note
-> +# that the kernel will append to it its builtin command line, so make su=
-re we
-> +# subtract the builtin command to avoid accumulating kernel parameters a=
-nd
-> +# eventually overflowing the command line.
-> +full_cmdline=3D$(cat /proc/cmdline)
-> +builtin_cmdline=3D$(zcat /proc/config.gz|grep CONFIG_CMDLINE=3D|cut -f2 =
--d\")
-
-This also implies we have /proc/config.gz or CONFIG_IKCONFIG_PROC ...
-
-> +cmdline=3D${full_cmdline/$builtin_cmdline /}
 > +
->  KERNEL=3D"${KERNEL:-/boot/bzImage}"
-> -set -- -l -s --reuse-cmdline "$KERNEL"
-> +set -- -l -s --command-line=3D"${cmdline}" "$KERNEL"
->
->  INITRAMFS=3D"${INITRAMFS:-/boot/initramfs}"
->  if [ -f "$INITRAMFS" ]; then
->
-> > +
-> > +INITRAMFS=3D"${INITRAMFS:-/boot/initramfs}"
-> > +if [ -f "$INITRAMFS" ]; then
-> > +    set -- "$@" --initrd=3D"$INITRAMFS"
-> > +fi
-> > +
-> > +kexec "$@"
-> > +kexec -e
->
-> Consider separating the kexec load into its own script, in case systems h=
-ave
-> their own ways of shutting down for kexec.
+> +static ssize_t tids_interval_write(struct device *dev, long val)
+> +{
+> +	struct tids_data *data = dev_get_drvdata(dev);
+> +	unsigned int avg_value;
+> +
+> +	avg_value = find_closest_descending(val, update_intervals,
+> +					    ARRAY_SIZE(update_intervals));
+> +
 
-I think, if do_kexec.sh does not work (load + reboot), the user should
-use whatever the standard way on a distro to do kexec.
+Turns out find_closest_descending() can not handle large negative values
+(close to the limit) correctly. val needs to be clamped to a reasonable range
+(say, [0, 100]) before passing it to find_closest_descending().
 
->
-> e.g. a kexec_load.sh script that does everything that do_kexec.sh does ex=
-ecpt
-> the `kexec -e`. Then do_kexec.sh just calls kexec_load.sh and kexec -e.
+> +	return regmap_write_bits(data->regmap, TIDS_REG_CTRL,
+> +				 TIDS_CTRL_AVG_MASK,
+> +				 avg_value << TIDS_CTRL_AVG_SHIFT);
+> +}
+> +
+> +static int tids_temperature1_read(struct device *dev, long *val)
+
+The "1" in the function name is really not needed here.
+
+> +{
+> +	struct tids_data *data = dev_get_drvdata(dev);
+> +	u8 buf[2] = { 0 };
+> +	int ret;
+> +
+> +	ret = regmap_bulk_read(data->regmap, TIDS_REG_DATA_T_L, buf, 2);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/* temperature in °mC */
+> +	*val = (((s16)(buf[1] << 8) | buf[0])) * 10;
+> +
+> +	return 0;
+> +}
+> +
+> +static ssize_t tids_temperature_alarm_read(struct device *dev, u32 attr,
+> +					   long *val)
+> +{
+> +	struct tids_data *data = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	if (attr == hwmon_temp_min_alarm)
+> +		ret = regmap_test_bits(data->regmap, TIDS_REG_STATUS,
+> +				       TIDS_STATUS_UNDER_TLL_MASK);
+> +	else if (attr == hwmon_temp_max_alarm)
+> +		ret = regmap_test_bits(data->regmap, TIDS_REG_STATUS,
+> +				       TIDS_STATUS_OVER_THL_MASK);
+> +	else
+> +		return -EOPNOTSUPP;
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	*val = ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int tids_temperature_minmax_read(struct device *dev, u32 attr, long *val)
+> +{
+> +	struct tids_data *data = dev_get_drvdata(dev);
+> +	unsigned int reg_data = 0;
+> +	int ret;
+> +
+> +	if (attr == hwmon_temp_min)
+> +		ret = regmap_read(data->regmap, TIDS_REG_T_L_LIMIT, &reg_data);
+> +	else if (attr == hwmon_temp_max)
+> +		ret = regmap_read(data->regmap, TIDS_REG_T_H_LIMIT, &reg_data);
+> +	else
+> +		return -EOPNOTSUPP;
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/* temperature from register conversion in °mC */
+> +	*val = (((u8)reg_data - 63) * 640);
+> +
+> +	return 0;
+> +}
+> +
+> +static ssize_t tids_temperature_minmax_write(struct device *dev, u32 attr,
+> +					     long val)
+> +{
+> +	struct tids_data *data = dev_get_drvdata(dev);
+> +	u8 reg_data;
+> +
+> +	/* temperature in °mC */
+> +	val = clamp_val(val, -39680, 122880);
+
+(0 - 63) * 640 = -40320
+
+While this is a bit below the "official" limit, it is the default value in
+the chip register. Writing a limit that is read from the chip should be supported,
+so the range should be clamped to [-40320, 122880].
+
+Thanks,
+Guenter
+
