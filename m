@@ -1,64 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064B62E9ED6;
-	Wed, 19 Nov 2025 09:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24763375CB
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 09:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763543472; cv=none; b=Qur2IQpsRK8pC93NPYhQCWPiZAOVhKCsdV4zGLxwz60Ipi5FjgF3hDLrpjPqZcSyVtWEv41UCQMsR+8hK8wR0x3F2A+aiWk3HnF4qSvz4zotqulbq9WX2JdEmzov5D/9Omrz7qjr7GKe9KxAlCI1cElp1mag0fYSyl+mSgztcOY=
+	t=1763543633; cv=none; b=UgBGONRKq/lU6Gv5WkVQ0fQ3I1cB5/VdD9XZnP1ry+73zYjdA3ZatOVttGFM5+9hSm6MQvp4DyjP235tCabUa3xk1fQ4awCNv7/RL/X/k6SkkmuYNLtzkSAkMZbJmZujQ06CN+fw2cstASGCRJ9nJ75tZKIbw4toSwHhDjuuITc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763543472; c=relaxed/simple;
-	bh=Q/1kVKdXBer7CmaZG7HzHlZfLUuG+in1nDAl3ME36c4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ARBBd3+ZuyXZsziEoY3LFQuYJPIDwqiy6k6QeAu2m6c3GScvFKQGSLKAZ1b0b99lNzg1NkjTvQ3AADf/8ne7Ofl1I552M0MebXMnrqqCk2ZUXTwYXSYna3WEGXHFZchACfHdq7EHiiXN+ZRM2m31Ug/gSf5nSqTyJezOGyqQZi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ENeBLE5s; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1763543633; c=relaxed/simple;
+	bh=SwAf6Q7/J6cwntk2+IGC5jzf5hBghbZ1t807N2gYSMQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XXgMzl3uMEEYHX5OuMFkC+uExZsjgtWFlqmVhlK0020tDwZqjeAASWG1kHfnY4uC4vB+vvf+jUE1bGzwjForTzItDfk2e1iEO0yfHqxnhGtwLaYJWjtnbr8ET8gwXvzITw5uHjKPasrd7Lp+Zaxc2dcn3rsPPASAwEl03jBycWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YORGXyt9; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ENeBLE5s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763543471; x=1795079471;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Q/1kVKdXBer7CmaZG7HzHlZfLUuG+in1nDAl3ME36c4=;
-  b=ENeBLE5sXTTrowUTzJj6bdB4jOcF/ERln8cZOQi+if6md369Czm1qL5s
-   Urk1CjpRlzBoDlF93yIxUrtvqhLlDPhjgreq5doDjJWL1ZYpzaRIvUHsx
-   mnqTL8bY5DxAIfbAgoKKz+rz7Lp+xdTmB8mzvWy3t2TLNszlHeqyp6z6i
-   g5Id9yP5Wncbt5fleH2zzCJgZ/YB63zcgxiDjR+TmibXz2Utg2q4h3OS8
-   +AsTpXzrjijMkLHEVty8+aKmMU2hXuqTBgTU5rgxVdNoaj/QyclFkHUMp
-   eOpcQG7bBBOxRtg8hBFLfZhrjxVuj9jS1bjxazkc0QJVjVVt9NV0j4QgC
-   g==;
-X-CSE-ConnectionGUID: 0F8pNGOPTPqGQS+ocwkd1Q==
-X-CSE-MsgGUID: +4hxV5nmRNO7NEf6w6g73A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="76934018"
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="76934018"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 01:11:10 -0800
-X-CSE-ConnectionGUID: 5Ly7XDjhQa2aR/AZjQSkGA==
-X-CSE-MsgGUID: o/QQkq09SsiWzDwC+CjFqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="190801433"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.245])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 01:11:08 -0800
-Date: Wed, 19 Nov 2025 11:11:06 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
-	Levente =?iso-8859-1?B?Uul26XN6?= <levente.revesz@eilabs.com>,
-	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v1 1/1] Documentation: gpio: Add a compatibility and
- feature list for PCA953x
-Message-ID: <aR2Jqrjb5dN9LeWq@smile.fi.intel.com>
-References: <20251112224924.2091880-1-andriy.shevchenko@linux.intel.com>
- <aRfWouKGA7q2ufCV@archie.me>
- <aRzBGhsLA_s1rJbM@smile.fi.intel.com>
- <CAMRc=Mci_jEp-8TW9+hAyb=viMy69SXDSE99k0Rsss_0b7ZY1w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YORGXyt9"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 9C89CC11185;
+	Wed, 19 Nov 2025 09:13:20 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C6C9460720;
+	Wed, 19 Nov 2025 09:13:42 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3BD8810371970;
+	Wed, 19 Nov 2025 10:13:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1763543622; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=vMMrY05Eqt0VUIufdiGTc8WpNMw7bbAM4JjsWqLutZI=;
+	b=YORGXyt9XK/2WQhb33i0122+Dbh14Djvx2VbyxvxdSiZAAaNY0BvxK77iHRxaG3A46clT/
+	rOD2vms2HCX0wia2ZRT6ft7fW+xbNJcrf1WDYvKcEr4bXQhMK0kF3B4zJdpyPuP1nDgmxZ
+	UusgFtSAD4KOFZrUcHKpqmTPRmkKawMkjyKi1d2aSlBaWNKtuZjDqTGxH92qr8xXMszIVr
+	I9+afPllRCFn8KXtfzWThSOVRzZpQ7Jg9sNWEDfRmCMcBezlWp6fuji1Lv3cOzrXEyLDdi
+	xlinBHr15Tdc/yjVzKXfZ+NHHjTlDniQwBPtXn8NWlT1BHu2t893D5mEma+nig==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: "Michael Walle" <mwalle@kernel.org>
+Cc: "Tudor Ambarus" <tudor.ambarus@linaro.org>,  "Pratyush Yadav"
+ <pratyush@kernel.org>,  "Richard Weinberger" <richard@nod.at>,  "Vignesh
+ Raghavendra" <vigneshr@ti.com>,  "Jonathan Corbet" <corbet@lwn.net>,
+  "Sean Anderson" <sean.anderson@linux.dev>,  "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>,  "Steam Lin" <STLin2@winbond.com>,
+  <linux-mtd@lists.infradead.org>,  <linux-kernel@vger.kernel.org>,
+  <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 02/19] mtd: spi-nor: swp: Improve locking user experience
+In-Reply-To: <DEBPI49KKW00.3MSWMX9HQL7JZ@kernel.org> (Michael Walle's message
+	of "Tue, 18 Nov 2025 10:17:55 +0100")
+References: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com>
+	<20251114-winbond-v6-18-rc1-spi-nor-swp-v1-2-487bc7129931@bootlin.com>
+	<DEBPI49KKW00.3MSWMX9HQL7JZ@kernel.org>
+User-Agent: mu4e 1.12.7; emacs 30.2
+Date: Wed, 19 Nov 2025 10:13:36 +0100
+Message-ID: <87bjkye667.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,31 +58,72 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=Mci_jEp-8TW9+hAyb=viMy69SXDSE99k0Rsss_0b7ZY1w@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Wed, Nov 19, 2025 at 08:51:54AM +0100, Bartosz Golaszewski wrote:
-> On Tue, Nov 18, 2025 at 7:55 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Sat, Nov 15, 2025 at 08:25:54AM +0700, Bagas Sanjaya wrote:
-> > > On Wed, Nov 12, 2025 at 11:48:20PM +0100, Andy Shevchenko wrote:
+On 18/11/2025 at 10:17:55 +01, "Michael Walle" <mwalle@kernel.org> wrote:
 
-...
+> On Fri Nov 14, 2025 at 6:53 PM CET, Miquel Raynal wrote:
+>> In the case of a single block being locked, if the user want to fully
+>> unlock the device it has two possibilities:
+>> - either it asks to unlock the entire device, and this works;
+>> - or it asks to unlock just the blocks that are currently locked, which
+>> fails.
+>>
+>> It fails because the conditions "can_be_top" and "can_be_bottom" are
+>> true. Indeed, in this case, we unlock everything, to the TB bit does not
+>> matter. However in the current implementation, use_top would be true (as
+>> this is the favourite option) and lock_len, which in practice should be
+>> reduced down to 0, is set to "nor->params->size - (ofs + len)" which is
+>> a positive number. This is wrong.
+>
+> This only happens if you try to unlock the first sector, correct? If
+> my maths are correct, trying it on the last sector, lock_len should
+> be 0, i.e in that case "ofs + len =3D=3D size".
+>
+> If it's the first sector (or sectors), lock_len will end up with
+> "size - N * 64k", which is clearly wrong.
 
-> > > The rest LGTM.
-> >
-> > Thank your for looking into this.
-> 
-> Is there anything else to address or is it good to go?
+That's it. Actually I forgot to mention it was happening only with the
+first sectors, not the last ones, so yes you are correct, it matches my
+maths and experiments.
 
-I believe it's good to go, as per last Bagas' email (as I read it). In any case
-it's documentation and can be amended in-tree.
+>> An easy way is to simply add an extra condition. In the unlock() path,
+>> if we can achieve the results from both sides, it means we unlock
+>> everything and lock_len must simply be 0.
+>>
+>> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+>> ---
+>> For me, this result was clearly unexpected, but I am not sure this
+>> qualifies as a fix.
+>
+> That's definetly a bug, esp. because it will lock an entire
+> unrelated region. And it seems to go back all the to commit
+> 3dd8012a8eeb "mtd: spi-nor: add TB (Top/Bottom) protect support").
+>
+>> ---
+>>  drivers/mtd/spi-nor/swp.c | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/mtd/spi-nor/swp.c b/drivers/mtd/spi-nor/swp.c
+>> index 9b07f83aeac76dce2109f90dfa1534c9bd93330d..9bc5a356444665ad8824e9e1=
+2d679fd551b3e67d 100644
+>> --- a/drivers/mtd/spi-nor/swp.c
+>> +++ b/drivers/mtd/spi-nor/swp.c
+>> @@ -281,7 +281,9 @@ static int spi_nor_sr_unlock(struct spi_nor *nor, lo=
+ff_t ofs, u64 len)
+>>  	use_top =3D can_be_top;
+>>=20=20
+>>  	/* lock_len: length of region that should remain locked */
+>> -	if (use_top)
+>> +	if (can_be_top && can_be_bottom)
+>> +		lock_len =3D 0;
+>
+> Could you please add a comment stating that if both are true, it
+> means that both adjacent regions are unlocked and thus the entire
+> flash will be unlocked.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Ofc.
 
-
+Thanks,
+Miqu=C3=A8l
