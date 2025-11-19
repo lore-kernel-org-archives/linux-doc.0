@@ -1,274 +1,192 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39BF220698
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 06:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A246120E334
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 06:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763534904; cv=none; b=pq9Mgee3wDMn56OJjsccHdos0bw+Jd/CIGXaz+PVPXXEHk4VN/ARsl1pjFs67oszXjSvFUJIDs9oiIsw7N5nnSdH/aqlQ8HZaqEwdFw3ws2WkFM8duzAeWWF7KcwU9j2gwjgS/dJ3yBTlyzftVjr+PJKt6FfxJIBK0md5Ih8S30=
+	t=1763535248; cv=none; b=cpreb1xI2tVA4nIyl4RgyYP+5h/B48e7fD7D5ef4MGhCI2vV8dQQj7yvYklE+q+8LrPd9eMMnSWFWRJhoJlqIsiR/P/priyb5mpmEtKmdvaJXrn6XxRe+/GPXK0oi299ZID2YSbJGG0gUC/KT8qix57ecvkI6mFyrdnPM6v7nMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763534904; c=relaxed/simple;
-	bh=cfL/qChyiOlSZFcaGN0cqWliv6N4QJiA3obaUopa91M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e/1q42Os9m/xxZIN7Niiyx/mQwMp8lhi6FxQG0i18kwzvB7IOmLtWf5s3ukFVqQMxO0/XA9845yni4zkz/vVltvsqrMSWQT0IJ7+K8pDVYUc4fAgyngdGQs35/I8plv2AI1flagFYHA8l4dUgN3It/2XDSkYopurXTtZ+bD97VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hj5vrCv9; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1763535248; c=relaxed/simple;
+	bh=c6iEQjBee6A/wie6G8Q6LazEnH0UOGUalPNLQFibx5w=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZbYVPrlsztrxprJv6kNipDVL6/f7/tq/F01E10fj1X6MO8AJ/Che1YITkXZhgBItYEjSuHmGRlD6tbQFV/5VQbT56bH30/0i8IMATXKjeCsBV/LOPrzCyNYaOvswGxr72/ScaS8XRL6baGxQ2CN85zE274CrlZR78COrJY3e+MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M6IhmAnZ; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hj5vrCv9"
-Message-ID: <8bc838d6-cdc4-4526-a276-23bdbfca72d4@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1763534899;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=69sNoz79ab/5dQRc7+D3ieSfu6y34A+eOYjIEtw37ws=;
-	b=hj5vrCv9M1oDA63aKjo/Ecy7haGUZQjsD43Ea3U5XP2uPKB4W0zgOvdILOuV3KEjkybuSp
-	dLQERGhApTFNpuBfZb8iurXQL1twXkRbg6xJel96cOUD6btzGqUmGngo/kC2mFvyDFZQ91
-	GCXAsBPiwFMkNwmgodZRPichggLxKWk=
-Date: Wed, 19 Nov 2025 14:48:15 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M6IhmAnZ"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7aab7623f42so7402532b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 22:54:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763535246; x=1764140046; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=E38F5iOCPuww5nf63JyXNJFqV8JGs8VUEvNS436chC8=;
+        b=M6IhmAnZhCmDAxJ6+rwatoxSzjmUIdQBjZTw6GmK94PahmrSO7LZX8/CajRVbiisr2
+         8p9DhM81U80bxNk9lWQrQWoVuKIzQnX/TiyEpus6jxARGVcvyipeZeiSjq27mdYkd0v5
+         xYed+LdrptsdyYOoKeUG9pMEwO7u5vzQkIN5NR8G4kIbirDHmrfX3mP7mge9Uwa9IG7e
+         Jx/V6rydRS2nbNT19jVpxnth8vSrnmUi35EdZq0taDRKBob6aYILp6fWtXmeRMSG8Wlz
+         Tce+b5YEsn5wK2ZL9E0DWvQbdaK+S8wMz7TgiMTUDHH6qnDaX+He2WLT+tzXvG8nwIqG
+         gFvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763535246; x=1764140046;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=E38F5iOCPuww5nf63JyXNJFqV8JGs8VUEvNS436chC8=;
+        b=PBCeRZeqkqFBHiYriWHFaXCzNBTC79XpGvBhVfV/7Vwkwp+xCBQc4w3FtzJkyIRrpa
+         D7UyoULFBQt8vMTTEqyp8Xw1xL5s7qRMxss6D959uYknUuwRaK6LzhTyjR1peut4Uk2z
+         LTKZ/OalU5SFu+u+vWkiO3aK3QX/Xu4oV2LgrujyIocXE2IFIfIaOtWaXE/d9xoUJ41n
+         iX3WKGouz0ArbbZ/+Y2UKtytcvgXAur3ocISH5Pwowf2iE2n/Is4wdI/2Zf9+piyHh8G
+         TMoVxgFgQzhH5gAD+mVdAnR70QuXbBpa4nJO/KDCXh6uJ3Q+FB9m3ioTx69PYF313IFP
+         eQYA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3+yhS8rLPdYHu1jrgqi2h9OakbkF2OyBoP3JBXkAg/puWhki2gQ5q5LLMD1jygRN68ol0IIG2kY0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywy2wuUDMz80j7+cG35s5Y3vJ/o/ZbbOcgqwOynaxlpkUIAUrgx
+	901i+GduVr0Fvs026m48xBEvyQM0UsoKd8l8DRwTAhi2GltTS/2f7tmr
+X-Gm-Gg: ASbGncu7oAH95AnSxrLvPr1AzQVsAHGFGjRzxfLdwhod7PfDXnFJc+6b4Ey7/qt1UrK
+	xOojn/a0G9O9zucWCmAnrzCE84YErGl49+LpPe/Hp3rYxm2ea5vmMsl+ynAWFt3Ukp+Qv8Rsolq
+	p/6twOHryhxl/chrRUqy8VIxjTzsaK4Y6eRVPlQ8MwrMQ021Oo0a7d27u39GTg7EfaMquR9Url1
+	b7jsHaEWSRA9TgVPdRKmv04rk5Jal+Fz/lNsXGbDhSwfObtvIfVQ+dyC5YrBz03vwTZ0vO/lzl8
+	MY0nfzuEQdZfs7pW5ALm5MYHR2dooN+979GMdI1zMPK8TAOB9uSQ1+vlwGbCmNcw5lLHx3A23zE
+	dm/xWZsTm6BLdyzEEb/aWr1Ei5DIILeye7jSM5C5vvryU1R9YS5Vu8RsaIJ3srUWJU6e46jweJe
+	U4E7fG5rrV13F3BBkMNoswtdAKanMkAakRiYcrLtOrg4Vk/OhdYPvt
+X-Google-Smtp-Source: AGHT+IEjnUsFYS10TLbM75bHXZXCUsiqQdjKngnrPrJ8OU9rffukFhVefJ8mrLpSM76VWL08dDLKJw==
+X-Received: by 2002:a05:6a21:3397:b0:35d:cc9a:8bbb with SMTP id adf61e73a8af0-35dcc9a8d3emr15383274637.47.1763535245724;
+        Tue, 18 Nov 2025 22:54:05 -0800 (PST)
+Received: from ?IPv6:2401:4900:60d7:2218:52ea:a17:db14:a44? ([2401:4900:60d7:2218:52ea:a17:db14:a44])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bc37507fc7bsm17221460a12.23.2025.11.18.22.53.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 22:54:05 -0800 (PST)
+Message-ID: <24e675622cd33404f8717189205658b016332131.camel@gmail.com>
+Subject: Re: [PATCH RESEND v4] checkpatch: add uninitialized pointer with
+ __free attribute check
+From: ally heev <allyheev@gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
+	 <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, Jonathan Corbet
+	 <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
+ <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, Geert Uytterhoeven	
+ <geert@linux-m68k.org>, James Bottomley
+ <James.Bottomley@hansenpartnership.com>
+Date: Wed, 19 Nov 2025 12:23:56 +0530
+In-Reply-To: <20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
+References: 
+	<20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 3/3] docs/zh_CN: Add data-integrity.rst translation
-To: ke zijie <kezijie@leap-io-kernel.com>, alexs@kernel.org
-Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- wangyuli@aosc.io, doubled@leap-io-kernel.com
-References: <cover.1763519072.git.kezijie@leap-io-kernel.com>
- <d29f57501ff98aa7dfad3d8dd13b1da1fe35a90d.1763519072.git.kezijie@leap-io-kernel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <d29f57501ff98aa7dfad3d8dd13b1da1fe35a90d.1763519072.git.kezijie@leap-io-kernel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-
-在 2025/11/19 10:38, ke zijie 写道:
-> Translate .../block/data-integrity.rst into Chinese.
-> Add data-integrity into .../block/index.rst.
->
-> Update the translation through commit c6e56cf6b2e7
-> ("block: move integrity information into queue_limits")
->
-> Reviewed-by: WangYuli <wangyl5933@chinaunicom.cn>
-> Signed-off-by: ke zijie <kezijie@leap-io-kernel.com>
-Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
-
-
-Thanks,
-
-Yanteng
+On Mon, 2025-11-17 at 08:40 +0530, Ally Heev wrote:
+> uninitialized pointers with __free attribute can cause undefined
+> behavior as the memory randomly assigned to the pointer is freed
+> automatically when the pointer goes out of scope.
+> add check in checkpatch to detect such issues.
+>=20
+> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@su=
+swa.mountain/
+> Acked-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Ally Heev <allyheev@gmail.com>
 > ---
->   .../zh_CN/block/data-integrity.rst            | 193 ++++++++++++++++++
->   1 file changed, 193 insertions(+)
->   create mode 100644 Documentation/translations/zh_CN/block/data-integrity.rst
->
-> diff --git a/Documentation/translations/zh_CN/block/data-integrity.rst b/Documentation/translations/zh_CN/block/data-integrity.rst
-> new file mode 100644
-> index 000000000000..4d7768cd7e98
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/block/data-integrity.rst
-> @@ -0,0 +1,193 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/block/data-integrity.rst
-> +
-> +:翻译:
-> +
-> + 柯子杰 kezijie <kezijie@leap-io-kernel.com>
-> +
-> +:校译:
-> +
-> +
-> +==========
-> +数据完整性
-> +==========
-> +
-> +1. 引言
-> +=======
-> +
-> +现代文件系统对数据和元数据都进行了校验和保护以防止数据损坏。然而，这种损坏的
-> +检测是在读取时才进行，这可能发生在数据写入数月之后。到那时，应用程序尝试写入
-> +的原始数据很可能已经丢失。
-> +
-> +解决方案是确保磁盘实际存储的内容就是应用程序想存储的。SCSI 协议族（如 SBC
-> +数据完整性字段、SCC 保护提案）以及 SATA/T13（外部路径保护）最近新增的功能，
-> +通过在 I/O 中附加完整性元数据的方式，试图解决这一问题。完整性元数据（在
-> +SCSI 术语中称为保护信息）包括每个扇区的校验和，以及一个递增计数器，用于确保
-> +各扇区按正确顺序被写入盘。在某些保护方案中，还能保证 I/O 写入磁盘的正确位置。
-> +
-> +当前的存储控制器和设备实现了多种保护措施，例如校验和和数据清理。但这些技术通
-> +常只在各自的独立域内工作，或最多仅在 I/O 路径的相邻节点之间发挥作用。DIF 及
-> +其它数据完整性拓展有意思的点在于保护格式定义明确，I/O 路径上的每个节点都可以
-> +验证 I/O 的完整性，如检测到损坏可直接拒绝。这不仅可以防止数据损坏，还能够隔
-> +离故障点。
-> +
-> +2. 数据完整性拓展
-> +=================
-> +
-> +如上所述，这些协议扩展只保护控制器与存储设备之间的路径。然而，许多控制器实际
-> +上允许操作系统与完整性元数据(IMD)交互。我们一直与多家 FC/SAS HBA 厂商合作，
-> +使保护信息能够在其控制器与操作系统之间传输。
-> +
-> +SCSI 数据完整性字段通过在每个扇区后附加8字节的保护信息来实现。数据 + 完整
-> +性元数据存储在磁盘的520字节扇区中。数据 + IMD 在控制器与目标设备之间传输
-> +时是交错组合在一起的。T13 提案的方式类似。
-> +
-> +由于操作系统处理520字节（甚至 4104 字节）扇区非常不便，我们联系了多家 HBA
-> +厂商，并鼓励它们分离数据与完整性元数据的 scatter-gather lists。
-> +
-> +控制器在写入时会将数据缓冲区和完整性元数据缓冲区的数据交错在一起，并在读取时
-> +会拆分它们。这样，Linux 就能直接通过 DMA 将数据缓冲区传输到主机内存或从主机
-> +内存读取，而无需修改页缓存。
-> +
-> +此外，SCSI 与 SATA 规范要求的16位 CRC 校验在软件中计算代价较高。基准测试发
-> +现，计算此校验在高负载情形下显著影响系统性能。一些控制器允许在操作系统接口处
-> +使用轻量级校验。例如 Emulex 支持 TCP/IP 校验。操作系统提供的 IP 校验在写入
-> +时会转换为16位 CRC，读取时则相反。这允许 Linux 或应用程序以极低的开销生成
-> +完整性元数据（与软件 RAID5 相当）。
-> +
-> +IP 校验在检测位错误方面比 CRC 弱，但关键在于数据缓冲区与完整性元数据缓冲区
-> +的分离。只有这两个不同的缓冲区匹配，I/O 才能完成。
-> +
-> +数据与完整性元数据缓冲区的分离以及校验选择被称为数据完整性扩展。由于这些扩展
-> +超出了协议主体(T10、T13)的范围，Oracle 及其合作伙伴正尝试在存储网络行业协
-> +会内对其进行标准化。
-> +
-> +3. 内核变更
-> +===========
-> +
-> +Linux 中的数据完整性框架允许将保护信息固定到 I/O 上，并在支持该功能的控制器
-> +之间发送和接收。
-> +
-> +SCSI 和 SATA 中完整性扩展的优势在于，它们能够保护从应用程序到存储设备的整个
-> +路径。然而，这同时也是最大的劣势。这意味着保护信息必须采用磁盘可以理解的格式。
-> +
-> +通常，Linux/POSIX 应用程序并不关心所访问存储设备的具体细节。虚拟文件系统层
-> +和块层会让硬件扇区大小和传输协议对应用程序完全透明。
-> +
-> +然而，在准备发送到磁盘的保护信息时，就需要这种细节。因此，端到端保护方案的概
-> +念实际上违反了层次结构。应用程序完全不应该知道它访问的是 SCSI 还是 SATA 磁盘。
-> +
-> +Linux 中实现的数据完整性支持尝试将这些细节对应用程序隐藏。就应用程序（以及在
-> +某种程度上内核）而言，完整性元数据是附加在 I/O 上的不透明信息。
-> +
-> +当前实现允许块层自动为任何 I/O 生成保护信息。最终目标是将用户数据的完整性元
-> +数据计算移至用户空间。内核中产生的元数据和其他 I/O 仍将使用自动生成接口。
-> +
-> +一些存储设备允许为每个硬件扇区附加一个16位的标识值。这个标识空间的所有者是
-> +块设备的所有者，也就是在多数情况下由文件系统掌控。文件系统可以利用这额外空间
-> +按需为扇区附加标识。由于标识空间有限，块接口允许通过交错方式对更大的数据块标
-> +识。这样，8*16位的信息可以附加到典型的 4KB 文件系统块上。
-> +
-> +这也意味着诸如 fsck 和 mkfs 等应用程序需要能够从用户空间访问并操作这些标记。
-> +为此，正在开发一个透传接口。
-> +
-> +4. 块层实现细节
-> +===============
-> +
-> +4.1 Bio
-> +--------
-> +
-> +当启用 CONFIG_BLK_DEV_INTEGRITY 时，数据完整性补丁会在 struct bio 中添加
-> +一个新字段。调用 bio_integrity(bio) 会返回一个指向 struct bip 的指针，该
-> +结构体包含了该 bio 的完整性负载。本质上，bip 是一个精简版的 struct bio，其
-> +中包含一个 bio_vec，用于保存完整性元数据以及所需的维护信息（bvec 池、向量计
-> +数等）。
-> +
-> +内核子系统可以通过调用 bio_integrity_alloc(bio) 来为某个 bio 启用数据完整
-> +性保护。该函数会分配并附加一个 bip 到该 bio 上。
-> +
-> +随后使用 bio_integrity_add_page() 将包含完整性元数据的单独页面附加到该 bio。
-> +
-> +调用 bio_free() 会自动释放bip。
-> +
-> +4.2 块设备
-> +-----------
-> +
-> +块设备可以在 queue_limits 结构中的 integrity 子结构中设置完整性信息。
-> +
-> +对于分层块设备，需要选择一个适用于所有子设备的完整性配置文件。可以使用
-> +queue_limits_stack_integrity() 来协助完成该操作。目前，DM 和 MD linear、
-> +RAID0 和 RAID1 已受支持。而RAID4/5/6因涉及应用标签仍需额外的开发工作。
-> +
-> +5.0 块层完整性API
-> +==================
-> +
-> +5.1 普通文件系统
-> +-----------------
-> +
-> +    普通文件系统并不知道其下层块设备具备发送或接收完整性元数据的能力。
-> +    在执行写操作时，块层会在调用 submit_bio() 时自动生成完整性元数据。
-> +    在执行读操作时，I/O 完成后会触发完整性验证。
-> +
-> +    IMD 的生成与验证行为可以通过以下开关控制::
-> +
-> +      /sys/block/<bdev>/integrity/write_generate
-> +
-> +    and::
-> +
-> +      /sys/block/<bdev>/integrity/read_verify
-> +
-> +    flags.
-> +
-> +5.2 具备完整性感知的文件系统
-> +----------------------------
-> +
-> +    具备完整性感知能力的文件系统可以在准备 I/O 时附加完整性元数据，
-> +    并且如果底层块设备支持应用标签空间，也可以加以利用。
-> +
-> +
-> +    `bool bio_integrity_prep(bio);`
-> +
-> +      要为写操作生成完整性元数据或为读操作设置缓冲区，文件系统必须调用
-> +      bio_integrity_prep(bio)。
-> +
-> +      在调用此函数之前，必须先设置好 bio 的数据方向和起始扇区，并确
-> +      保该 bio 已经添加完所有的数据页。调用者需要自行保证，在 I/O 进行
-> +      期间 bio 不会被修改。如果由于某种原因准备失败，则应当以错误状态
-> +      完成该 bio。
-> +
-> +5.3 传递已有的完整性元数据
-> +--------------------------
-> +
-> +    能够自行生成完整性元数据或可以从用户空间传输完整性元数据的文件系统，
-> +    可以使用如下接口：
-> +
-> +
-> +    `struct bip * bio_integrity_alloc(bio, gfp_mask, nr_pages);`
-> +
-> +      为 bio 分配完整性负载并挂载到 bio 上。nr_pages 表示需要在
-> +      integrity bio_vec list 中存储多少页保护数据（类似 bio_alloc）。
-> +
-> +      完整性负载将在 bio_free() 被调用时释放。
-> +
-> +
-> +    `int bio_integrity_add_page(bio, page, len, offset);`
-> +
-> +      将包含完整性元数据的一页附加到已有的 bio 上。该 bio 必须已有 bip，
-> +      即必须先调用 bio_integrity_alloc()。对于写操作，页中的完整
-> +      性元数据必须采用目标设备可识别的格式，但有一个例外，当请求在 I/O 栈
-> +      中传递时，扇区号会被重新映射。这意味着通过此接口添加的页在 I/O 过程
-> +      中可能会被修改！完整性元数据中的第一个引用标签必须等于 bip->bip_sector。
-> +
-> +      只要 bip bio_vec array（nr_pages）有空间，就可以继续通过
-> +      bio_integrity_add_page()添加页。
-> +
-> +      当读操作完成后，附加的页将包含从存储设备接收到的完整性元数据。
-> +      接收方需要处理这些元数据，并在操作完成时验证数据完整性
-> +
-> +
-> +----------------------------------------------------------------------
-> +
-> +2007-12-24 Martin K. Petersen <martin.petersen@oracle.com>
-> \ No newline at end of file
-> --
-> 2.25.1
->
+> Testing:
+> ran checkpatch.pl before and after the change on
+> crypto/asymmetric_keys/x509_public_key.c, which has
+> both initialized with NULL and uninitialized pointers
+> ---
+> Changes in v4:
+> - fixed UNINITIALIZED_PTR_WITH_FREE description
+> - Link to v3: https://lore.kernel.org/r/20251025-aheev-checkpatch-uniniti=
+alized-free-v3-1-a67f72b1c2bd@gmail.com
+>=20
+> Changes in v3:
+> - remove $FreeAttribute
+> - Link to v2: https://lore.kernel.org/r/20251024-aheev-checkpatch-uniniti=
+alized-free-v2-0-16c0900e8130@gmail.com
+>=20
+> Changes in v2:
+> - change cover letter and title to reflect new changes
+> - fix regex to handle multiple declarations in a single line case
+> - convert WARN to ERROR for uninitialized pointers
+> - add a new WARN for pointers initialized with NULL
+> - NOTE: tried handling multiple declarations on a single line by splittin=
+g
+>         them and matching the parts with regex, but, it turned out to be
+> 	complex and overkill. Moreover, multi-line declarations pose a threat
+> - Link to v1: https://lore.kernel.org/r/20251021-aheev-checkpatch-uniniti=
+alized-free-v1-1-18fb01bc6a7a@gmail.com
+> ---
+>  Documentation/dev-tools/checkpatch.rst | 5 +++++
+>  scripts/checkpatch.pl                  | 6 ++++++
+>  2 files changed, 11 insertions(+)
+>=20
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-t=
+ools/checkpatch.rst
+> index d5c47e560324fb2399a5b1bc99c891ed1de10535..c61a3892a60c13f7c5ba89e96=
+9e39a93a3dcd5bc 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -1009,6 +1009,11 @@ Functions and Variables
+> =20
+>        return bar;
+> =20
+> +  **UNINITIALIZED_PTR_WITH_FREE**
+> +    Pointers with __free attribute should be initialized. Not doing so
+> +    may lead to undefined behavior as the memory assigned (garbage,
+> +    in case not initialized) to the pointer is freed automatically
+> +    when the pointer goes out of scope.
+> =20
+>  Permissions
+>  -----------
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 92669904eecc7a8d2afd3f2625528e02b6d17cd6..e697d81d71c0b3628f7b59807=
+e8bc40d582621bb 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -7721,6 +7721,12 @@ sub process {
+>  				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$here\=
+n$stat\n");
+>  			}
+>  		}
+> +
+> +# check for uninitialized pointers with __free attribute
+> +		while ($line =3D~ /\*\s*($Ident)\s+__free\s*\(\s*$Ident\s*\)\s*[,;]/g)=
+ {
+> +			ERROR("UNINITIALIZED_PTR_WITH_FREE",
+> +			      "pointer '$1' with __free attribute should be initialized\n" . =
+$herecurr);
+> +		}
+>  	}
+> =20
+>  	# If we have no input at all, then there is nothing to report on
+>=20
+> ---
+> base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
+> change-id: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
+>=20
+> Best regards,
+> -----BEGIN PGP SIGNATURE-----
+>=20
+> iHUEABYKAB0WIQQBFRpOLrIakF7DYvaWPaLUP9d7HAUCaQ2YPwAKCRCWPaLUP9d7
+> HDkPAP9+gFqrD4O5qsYZzxGFwfXPAY7F8TM0lfYy7fLNxA2brAEAwLyLuyN0h7qg
+> N7da1PWuOGK8tKeZ9dR4r3gFdlbZMAo=3D
+> =3Dzo4P
+> -----END PGP SIGNATURE-----
+
+There's an ongoing discussion about making this rule global
+https://lore.kernel.org/lkml/58fd478f408a34b578ee8d949c5c4b4da4d4f41d.camel=
+@HansenPartnership.com/.
+I will wait till weekend before making any more changes.
+
+Also, CCing James Bottomley
