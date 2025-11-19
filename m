@@ -1,289 +1,250 @@
-Received: from mail-m1973187.qiye.163.com (mail-m1973187.qiye.163.com [220.197.31.87])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BDB314D0B
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 07:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.87
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763537111; cv=none; b=WtnO8ZUf2dWc/9faslI1qLPDaf3a67Q6IjdetN7B1+R8Vj44EUDp6Xu08+rMI+agXkZi69Z7uceq6d+8g15q3Y0j2n3Gpp7YaDHfv4n6Y1eihGcC4d2S9ZFXgNjWuMVW1iwIHNcSmYpe1S7GnGqE+FBPLsr4jNRq8Ta1vfFQosU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763537111; c=relaxed/simple;
-	bh=PFSc6UbgDTZkeRL0BWbIWw9/Zj8E9GNjAmcSrwJ9HZ0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QTGr7PsOryvXLGzwduTglAFRy2tPAawRWF47n9dYm34QAhs56RC4OwrQ9JOorhRkybPxFxhjkHOGP3/5rmI5KN2ukA9/Lj5g9d7pYY8PEkLuoCSesuaDsCb6vev0i5/1/PLyt9IQGp92Ul/MThM7d7H2wEXi7wQdWPLZh7VNnZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=UweEAzs0; arc=none smtp.client-ip=220.197.31.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95712322C89;
+	Wed, 19 Nov 2025 07:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763537231; cv=fail; b=YiNcEt6HF0p4h5HtNSY6ffHVpA5uufo7QhJe2jNPBE8r2p82RZ2d1g+/MWgGPohdfSqqiC4KZFPwuJemZJ9kMO3nSvBWdXea3pPKBtcZ9sCWWYOPpFhGRfJYjQbvdovTT7C7HRZ8Sc6RIi4ufRkGUnnNDG028ehlj7DD8l275nc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763537231; c=relaxed/simple;
+	bh=p9uo4g7tDhDOsO/gf5PwOLo4ty84+aju8mNv78eiS/I=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=i/XTI1uyGfyIs+xx3KwAl6++8XsmQDxNMQeO9s0uBCF3e8bX/adDbyvvC91Hqc73PHaIbJu4oeD93Udzyv909GrFMQa14NUDKuKgmsi98m963JD47pkTB0v7zDP9hPcY+zBsB2KDZBb/bSfzgtLixC2CcDkpLMNdQ57zTcHFRHw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSyqFakd; arc=fail smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="UweEAzs0"
-Received: from localhost.localdomain (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2a1aef7ef;
-	Wed, 19 Nov 2025 15:09:41 +0800 (GMT+08:00)
-From: ke zijie <kezijie@leap-io-kernel.com>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev
-Cc: dzm91@hust.edu.cn,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	wangyuli@aosc.io,
-	doubled@leap-io-kernel.com
-Subject: [PATCH v5 3/3] docs/zh_CN: Add data-integrity.rst translation
-Date: Wed, 19 Nov 2025 15:09:37 +0800
-Message-Id: <0a77b351575619cf504c2711753f62893407c605.1763535919.git.kezijie@leap-io-kernel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1763535919.git.kezijie@leap-io-kernel.com>
-References: <cover.1763535919.git.kezijie@leap-io-kernel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSyqFakd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763537230; x=1795073230;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=p9uo4g7tDhDOsO/gf5PwOLo4ty84+aju8mNv78eiS/I=;
+  b=nSyqFakdG72Wv1UQE1vouEkPVbEijFqq/L1zKTSg++ufCm7X9PPIF+uq
+   r8kqAORxX6E9zbsFgDWD+TK07uKjLzZgf1p1xNkAW7MePcNgqgjqAV1qi
+   pq715Hgu4AMdbm3WNLf/NvbJ319m9rnGTdP8kbZNSmdG4pRAfcZ4agjvE
+   nQH5pcKUVDF0p0zNXb3BkWsokMQimAIo6crq+zVLcg93mYYI7G2S3d4FF
+   YAYF5qw+H5LI1fcusdNSDnCDM+pTaHMUuvphw54GJmCCfPOpIKEJZ85Tt
+   3BTDmyAnPc6tfZaMBBBVP06qjCYq6dCCSJJwRFX6w6Rf55J5Ay9kVxJ68
+   Q==;
+X-CSE-ConnectionGUID: mFKhCN5XT6Oo9QHNdH/t0g==
+X-CSE-MsgGUID: nfFjNfCwQUe/tJp9UbNBNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="88224185"
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="88224185"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 23:27:08 -0800
+X-CSE-ConnectionGUID: cpyscY2CS465khO/2z+M4g==
+X-CSE-MsgGUID: FY/LUt6RQyKHrCsQKW4JYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="190632548"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 23:27:06 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 18 Nov 2025 23:27:05 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Tue, 18 Nov 2025 23:27:05 -0800
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.8) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 18 Nov 2025 23:27:04 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lAdJP53aTnRMkGON0+Bl5pFVENyTLfsb518d22vQxmFxM/PcPH6ndNX48xicPT2ZMZ3IlfMYz639mkli8fRQAYS4RC1zVaKfTaWB5MuKnW+vDoxCc9i1+1H2GzXjl6VzzcI2+zDnDtJv+kisg7QvXEcn8m77js0pS1+K8AmiqSkV6Xc9Obx17Y/0SFjlsDgDEC5uHQNQuc7wdvx1lPQe75VBFzlWWZNyu92iqMJpIRYdsLW8Yg3twmAzAQpB9HSlMDQGj3Ct2PW1SAAurmEUV/e9nzlLckHM3acVSXrrGgtcmln0CxFvWDZkpTqYe/3DDDOJDfEundLBXcHxSEncxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KQ7f166yU+Eyr3ahUl5ol9TBB7LVL26lRVAGxVDPCng=;
+ b=s05anJnWZDCDUPnF32VyTE+CQCe1Mzzkv/XevpzHi//i7XpDCdlrxYOp9dfdKFLc1NK8aKmeh0qUyiua4itYKzOOJBmqCp96XuXyKR0jKqUPvNTh3IIOOoxEeL3je28yuRS5oajOEcNQhSrZc/1SyDRUOTAnISuWxDrXCWUqrCh/oCeeaM5goZ8umXkS0UB19MU/GtmCRQCgbjU2ehkoCpJDV0qdBoukzhuMVOXNDX3EJXV9NBrzmt4VrGWfR5Nl78pGkFZkwvdoN9H11yead6pMateOp+rY6pQiUb7tBfDRmF9osePI2aGNw48uFfFBu4g5kF8uVgUHOMbXUXp42w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
+ by PH3PPF4B53DB4B3.namprd11.prod.outlook.com (2603:10b6:518:1::d1d) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Wed, 19 Nov
+ 2025 07:26:57 +0000
+Received: from CH3PR11MB8660.namprd11.prod.outlook.com
+ ([fe80::fdc2:40ba:101d:40bf]) by CH3PR11MB8660.namprd11.prod.outlook.com
+ ([fe80::fdc2:40ba:101d:40bf%6]) with mapi id 15.20.9343.009; Wed, 19 Nov 2025
+ 07:26:57 +0000
+Date: Wed, 19 Nov 2025 15:26:44 +0800
+From: Chao Gao <chao.gao@intel.com>
+To: "Xin Li (Intel)" <xin@zytor.com>
+CC: <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <pbonzini@redhat.com>, <seanjc@google.com>,
+	<corbet@lwn.net>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<luto@kernel.org>, <peterz@infradead.org>, <andrew.cooper3@citrix.com>,
+	<hch@infradead.org>, <sohil.mehta@intel.com>
+Subject: Re: [PATCH v9 15/22] KVM: x86: Mark CR4.FRED as not reserved
+Message-ID: <aR1xNLrhqEWu+rmE@intel.com>
+References: <20251026201911.505204-1-xin@zytor.com>
+ <20251026201911.505204-16-xin@zytor.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20251026201911.505204-16-xin@zytor.com>
+X-ClientProxiedBy: KU0P306CA0084.MYSP306.PROD.OUTLOOK.COM
+ (2603:1096:d10:2b::9) To CH3PR11MB8660.namprd11.prod.outlook.com
+ (2603:10b6:610:1ce::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a9af2971109d8kunmdeaeea3a589459f
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaHk1DVktISkgZGklMSx4fH1YVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
-	VLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=UweEAzs0cS1SHaQFbwvJVova321FSmK2NaBXLvrzLTDjh554WAjLZErRdhwvIygGzEGf+CIE9PbhuuB8Y6qXR4qaz5IASs1zn7TBw23mwQBTTj7JwZLchcpGArEICvAjgsU9NdIej7iImmvsi8zsmiMfoe/mlbIPIIms/+S9y8UeN8dpPJtPEvcMT8CB/K81zNXTuNBMoeWlk0lnzycbe6b/1uWyHiz/BggTLK2sr1rP/5Pz02pqpVZZd8ovhWDe5cKdGbnc3eKznpm8TFF/LRObNUMv3SCxWHtwmogkXwM8m1tY21tiBspA8VL78WC5DZv91b7tiFRsYp7nES9Ybg==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=CAvXOAB55KJpJBW1mXmXUvSaHS1dLdMs06mzssWifvU=;
-	h=date:mime-version:subject:message-id:from;
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|PH3PPF4B53DB4B3:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a0451d7-a2c1-41f4-2a65-08de273d059e
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?oKjGnZEzYT+Cs8QMj5E/LdMuXfV50tlooXKFdxy5xxkoIUnYGiOqCKQCQ4gC?=
+ =?us-ascii?Q?A+mI8aIZ6UBvG+bzC16TxJRvGrq5jhZAG9p02aib9sqwxreg79/+e9TJOyhw?=
+ =?us-ascii?Q?paJhxXiURsxkmafFNE1r8d4Af0bUBwQzX/VrCu+b1XCzbLduYiVri2VFSGUF?=
+ =?us-ascii?Q?9/UwObr0gSEG383SnyGgcV8nyM7Hk1lkaOPpedqUcoPxg9z6TfpUa709Dnwg?=
+ =?us-ascii?Q?MXJ7VfU3fy2PXSNdiAkQVAVv/LBlcnvFnH4ilA+B6WNGPiq/Kv5rCb3lCqpo?=
+ =?us-ascii?Q?0eADmWqkPxqkhE4LmOWxTBJCiVuSna5caeoUaMs2l/BiL4kpvi5zJh+CkOHy?=
+ =?us-ascii?Q?UBCRx3Z5F7qHOR/2RnawJgN8N0ggc1L7UAZYYfuIOAPI+QfY7bk6IOiAwTIv?=
+ =?us-ascii?Q?TrVdEE7GdX7qcbLSC5VAXF/vCg0s3gU6sPxYrW5wlLjFy27dD8NDg1qVHP4/?=
+ =?us-ascii?Q?F+XuusODn0mUO/nrzBLp1ENPH2Q4GGgbFTB7xplALZ8QVc6/z2/NwpU86Zbw?=
+ =?us-ascii?Q?rpXhWIm+MdFPjZXH408vInlfe2YiRkG0jN4RJkwTqRdDu95cfzM0sGPH8c57?=
+ =?us-ascii?Q?p3grMxNMbRZoYHnxJh3UfyVyzGSE+mU/THVctoESknWbHycrBZRwOmfHjBBb?=
+ =?us-ascii?Q?1Wp7BoMXLio1QWcgUX5O89gOP5g2Qj/tEvKyIAiSZ6JVrhIsj1pZsS5JbY/P?=
+ =?us-ascii?Q?ZhY95K7tYa1gj42F+1/i27V3o7WrqujyDskMUevRW0eAwY5ivF96VHFEYnrx?=
+ =?us-ascii?Q?NJCsYffc3H+JOCqxNv/Ft8QfnymPGuyNlhPZpADWqn6z4QayX10z3fIK41aY?=
+ =?us-ascii?Q?jo8jUrt4MEV61HNDCe7450S7eSP+zsop1fVhEePCEPI0VVv1G8AwtTiIB+c3?=
+ =?us-ascii?Q?CzSC/IpTwo6ZSwY8jbWutx1DUsYRFqPZGlpfAw/6FCP8vgS9YwfciHBlmeXj?=
+ =?us-ascii?Q?G2nQY0qc/1uuXSVQnAJ1uvxgag5gJRdTVa3+sF0oB9cANSDlgB4YWcYAzDO0?=
+ =?us-ascii?Q?wANI4GQ4d7inlcVzjcAQ5GAG0+7XLYd/Vmai6uGbGBDMElLBBVeKi+RexPTY?=
+ =?us-ascii?Q?xD598damWs1xXjgWTQ5S9CoQjyQG83UMUier9Yt/QKC6P78wFkoSHtslT9Tb?=
+ =?us-ascii?Q?dq6tKOVkwM/KCftoLl7rsu59QMGU9WWkhzIb0hUmxqlWhbn7vk3FrzqKBMPC?=
+ =?us-ascii?Q?jfHHtgNcX+jvBNgWPJAtt20l31xgiBFIS0t9Z65I04Qb28HxkdfSqZpdaQNH?=
+ =?us-ascii?Q?atT7BRVtsZh+wSkPv/C/iKBEnXwuXySgvXAAV25xYJQiI3zlYVlxI8E2Hu0b?=
+ =?us-ascii?Q?9yjCqOluUwTfiglpOf5O6YBcSRFF/RnooLuWaafrLPnbFC9kxqAtZAG3Xh8A?=
+ =?us-ascii?Q?WQf0cSc1MU5RWQ9CT2b+NCvNwCKQjuKwS3uLBaYtJZD5C2XgBQ5iIYDAf6/q?=
+ =?us-ascii?Q?4a2xPaRScsMxNyvFkg7F2BDQFH0+lU3o?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?u/kTUP7QodAfJHdmAlmutL37l+frZqS7nZk/OX2lADjnkmo2aDDjt9ChsEfj?=
+ =?us-ascii?Q?mXQNrqlfYUpDTqbB772SDitif1LQD8Y6Ps7yxmSHnNDeR2KRbiXoXsB6nAGD?=
+ =?us-ascii?Q?uJTou9HcBO/y2tIe2mKK7PhxPtRxxDjgjm7uKlQQ3IsmNGdHF67+PZ8n+6Am?=
+ =?us-ascii?Q?aULs/xNAIZxsR5oC+NYXY2fw4JSDqosXU5hgAX9rZXNQOlAJ705a8MN9UUAd?=
+ =?us-ascii?Q?rNKSu91FABixaS/3kM7Kvk5LHWLiSw+OFwFaGNwdOFCYqdV1SNdwUbe+GmCZ?=
+ =?us-ascii?Q?6P8NRmAgUCai335m1ZR5ljxQfMfTvxGQj9ZtqkMRQX+JLXHDu0LMFbIAJJki?=
+ =?us-ascii?Q?dt8kovQZ+Tt4Gs3LYAXrG1dybr3697aeBef3Tl/vs7SJTUgayGW02T4VSjmI?=
+ =?us-ascii?Q?SH6nvn96HtnQTNt3QwbAmiE59ATJv2XaQmj0uu69giOokqmudgTHn/96Nu7G?=
+ =?us-ascii?Q?8k9XRUV44sXxV6NiNPxXllZlNZcJDTnwhnq4uxjOCpU4EDg4MSSWbS5MGUKR?=
+ =?us-ascii?Q?3FiHYD/HHWgazJAfDCeKntOTm23OXI3lLoIN2tCcWvliEXW8nwP28qUJBluY?=
+ =?us-ascii?Q?sjM9JGo++VLRwA2zydZs4foi0+D8Fwf8F9MjpI/p0FUjEpqm+LNoTHjFR4zg?=
+ =?us-ascii?Q?TUyqWp4W+1YP+Y1EZslHaJ50thZ/mE3sZLZcoAOThT0al28JVreXgOit+Ipd?=
+ =?us-ascii?Q?K4m6N+5y/9fCZt5eidN+KPro3bbgoGvYkIyvMasJcAOSE+TVhyGn3FaJXi0E?=
+ =?us-ascii?Q?V80lcWROJWcpmzPDPf0FIMuBCWMVuxi6vD653no7U5A+uJxqXVj+X35jRz+0?=
+ =?us-ascii?Q?iZTo1scwcaOPo850a0ekCDmcHWcfAjBFbQsDuLXCgpX7BoPdkZV+lnB8+CB2?=
+ =?us-ascii?Q?DmkqBtucb5cFl6UXSpr+XFwdcoXkF0MLIZZ+nsIQrJtJesc4bLPPH8Ln/Jcm?=
+ =?us-ascii?Q?LTkJfUieM/T1tnRJOL+ynKcpXSJsMJcU0j2tq5LZLv23oRLFib8edMR5Z4u0?=
+ =?us-ascii?Q?BILEm2QlSzzmQbmlb7qLNh1OijskN+dS+muZ1I+k0zpSxjDyKn9Bz3Z1wF3m?=
+ =?us-ascii?Q?nuEaY5UnxaM/fe+rUPFE8QzP6lytqQViIhGPBxdGQ/YaTIvbE84Qk88KnGRM?=
+ =?us-ascii?Q?tJGajdxp3ex75FpFaYoFt/ZSTnu86Z5T3GbLbxBpVtEbJAzk5YGIJtmr3bsp?=
+ =?us-ascii?Q?4dWnHVYJCBg69w3slRWS0DHkgy31W/ikA5uUEp9/1tOvu8iMYFrU4pSFgjQf?=
+ =?us-ascii?Q?mYkqY3hX5oWiw+lwAGrJ1W79ppjbvFW5/luDA29Rq7JMom/3CoteTXGab6JT?=
+ =?us-ascii?Q?ED9L05WbzhzvuBLZdjnVBilZe+HulHtwLK0tgG+8H86xj02Fm/7P7mgF1pQr?=
+ =?us-ascii?Q?VZhFOivI1dzzpuYcDVxV5JYbMMyeNucDV9TF05lpOAOb+LawyMxGpbX3oiu6?=
+ =?us-ascii?Q?G1qDjup21u1WHETOftfDoqXCd5zD907pOnGibU2T3QMnqQerQMA+0r3B6l+H?=
+ =?us-ascii?Q?ZG17/oLeWtx0uJm8XxZ7mjRw2rCVMDArV2bIJ/CRUbobvorOy85u6JVt6D+1?=
+ =?us-ascii?Q?6gu2EO7qW6NygSi2yZlTRnbwzV579kuWMMDE8W0n?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a0451d7-a2c1-41f4-2a65-08de273d059e
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 07:26:57.5236
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w1eQPYxKwtsiJMeAN6pniumsXYArKIEw28qFrxCUamYH3O5DBvrstHbkXxNnT1w36cWd0ro4xGeYP+5LdK6G1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF4B53DB4B3
+X-OriginatorOrg: intel.com
 
-Translate .../block/data-integrity.rst into Chinese.
-Add data-integrity into .../block/index.rst.
+On Sun, Oct 26, 2025 at 01:19:03PM -0700, Xin Li (Intel) wrote:
+>From: Xin Li <xin3.li@intel.com>
+>
+>The CR4.FRED bit, i.e., CR4[32], is no longer a reserved bit when
+>guest cpu cap has FRED, i.e.,
+>  1) All of FRED KVM support is in place.
+>  2) Guest enumerates FRED.
+>
+>Otherwise it is still a reserved bit.
+>
+>Signed-off-by: Xin Li <xin3.li@intel.com>
+>Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+>Tested-by: Shan Kang <shan.kang@intel.com>
+>Tested-by: Xuelian Guo <xuelian.guo@intel.com>
 
-Update the translation through commit c6e56cf6b2e7
-("block: move integrity information into queue_limits")
+I am not sure about two things regarding CR4.FRED and emulator code:
 
-Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
-Reviewed-by: WangYuli <wangyl5933@chinaunicom.cn>
-Signed-off-by: ke zijie <kezijie@leap-io-kernel.com>
----
- .../zh_CN/block/data-integrity.rst            | 192 ++++++++++++++++++
- .../translations/zh_CN/block/index.rst        |   2 +-
- 2 files changed, 193 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/block/data-integrity.rst
+1. Should kvm_set_cr4() reject setting CR4.FRED when the vCPU isn't in long
+   mode? The concern is that emulator code may call kvm_set_cr4(). This could
+   cause VM-entry failure if CR4.FRED is set in other modes.
 
-diff --git a/Documentation/translations/zh_CN/block/data-integrity.rst b/Documentation/translations/zh_CN/block/data-integrity.rst
-new file mode 100644
-index 000000000000..b31aa9ef8954
---- /dev/null
-+++ b/Documentation/translations/zh_CN/block/data-integrity.rst
-@@ -0,0 +1,192 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/block/data-integrity.rst
-+
-+:翻译:
-+
-+ 柯子杰 kezijie <kezijie@leap-io-kernel.com>
-+
-+:校译:
-+
-+==========
-+数据完整性
-+==========
-+
-+1. 引言
-+=======
-+
-+现代文件系统对数据和元数据都进行了校验和保护以防止数据损坏。然而，这种损坏的
-+检测是在读取时才进行，这可能发生在数据写入数月之后。到那时，应用程序尝试写入
-+的原始数据很可能已经丢失。
-+
-+解决方案是确保磁盘实际存储的内容就是应用程序想存储的。SCSI 协议族（如 SBC
-+数据完整性字段、SCC 保护提案）以及 SATA/T13（外部路径保护）最近新增的功能，
-+通过在 I/O 中附加完整性元数据的方式，试图解决这一问题。完整性元数据（在
-+SCSI 术语中称为保护信息）包括每个扇区的校验和，以及一个递增计数器，用于确保
-+各扇区按正确顺序被写入盘。在某些保护方案中，还能保证 I/O 写入磁盘的正确位置。
-+
-+当前的存储控制器和设备实现了多种保护措施，例如校验和和数据清理。但这些技术通
-+常只在各自的独立域内工作，或最多仅在 I/O 路径的相邻节点之间发挥作用。DIF 及
-+其它数据完整性拓展有意思的点在于保护格式定义明确，I/O 路径上的每个节点都可以
-+验证 I/O 的完整性，如检测到损坏可直接拒绝。这不仅可以防止数据损坏，还能够隔
-+离故障点。
-+
-+2. 数据完整性拓展
-+=================
-+
-+如上所述，这些协议扩展只保护控制器与存储设备之间的路径。然而，许多控制器实际
-+上允许操作系统与完整性元数据(IMD)交互。我们一直与多家 FC/SAS HBA 厂商合作，
-+使保护信息能够在其控制器与操作系统之间传输。
-+
-+SCSI 数据完整性字段通过在每个扇区后附加8字节的保护信息来实现。数据 + 完整
-+性元数据存储在磁盘的520字节扇区中。数据 + IMD 在控制器与目标设备之间传输
-+时是交错组合在一起的。T13 提案的方式类似。
-+
-+由于操作系统处理520字节（甚至 4104 字节）扇区非常不便，我们联系了多家 HBA
-+厂商，并鼓励它们分离数据与完整性元数据的 scatter-gather lists。
-+
-+控制器在写入时会将数据缓冲区和完整性元数据缓冲区的数据交错在一起，并在读取时
-+会拆分它们。这样，Linux 就能直接通过 DMA 将数据缓冲区传输到主机内存或从主机
-+内存读取，而无需修改页缓存。
-+
-+此外，SCSI 与 SATA 规范要求的16位 CRC 校验在软件中计算代价较高。基准测试发
-+现，计算此校验在高负载情形下显著影响系统性能。一些控制器允许在操作系统接口处
-+使用轻量级校验。例如 Emulex 支持 TCP/IP 校验。操作系统提供的 IP 校验在写入
-+时会转换为16位 CRC，读取时则相反。这允许 Linux 或应用程序以极低的开销生成
-+完整性元数据（与软件 RAID5 相当）。
-+
-+IP 校验在检测位错误方面比 CRC 弱，但关键在于数据缓冲区与完整性元数据缓冲区
-+的分离。只有这两个不同的缓冲区匹配，I/O 才能完成。
-+
-+数据与完整性元数据缓冲区的分离以及校验选择被称为数据完整性扩展。由于这些扩展
-+超出了协议主体(T10、T13)的范围，Oracle 及其合作伙伴正尝试在存储网络行业协
-+会内对其进行标准化。
-+
-+3. 内核变更
-+===========
-+
-+Linux 中的数据完整性框架允许将保护信息固定到 I/O 上，并在支持该功能的控制器
-+之间发送和接收。
-+
-+SCSI 和 SATA 中完整性扩展的优势在于，它们能够保护从应用程序到存储设备的整个
-+路径。然而，这同时也是最大的劣势。这意味着保护信息必须采用磁盘可以理解的格式。
-+
-+通常，Linux/POSIX 应用程序并不关心所访问存储设备的具体细节。虚拟文件系统层
-+和块层会让硬件扇区大小和传输协议对应用程序完全透明。
-+
-+然而，在准备发送到磁盘的保护信息时，就需要这种细节。因此，端到端保护方案的概
-+念实际上违反了层次结构。应用程序完全不应该知道它访问的是 SCSI 还是 SATA 磁盘。
-+
-+Linux 中实现的数据完整性支持尝试将这些细节对应用程序隐藏。就应用程序（以及在
-+某种程度上内核）而言，完整性元数据是附加在 I/O 上的不透明信息。
-+
-+当前实现允许块层自动为任何 I/O 生成保护信息。最终目标是将用户数据的完整性元
-+数据计算移至用户空间。内核中产生的元数据和其他 I/O 仍将使用自动生成接口。
-+
-+一些存储设备允许为每个硬件扇区附加一个16位的标识值。这个标识空间的所有者是
-+块设备的所有者，也就是在多数情况下由文件系统掌控。文件系统可以利用这额外空间
-+按需为扇区附加标识。由于标识空间有限，块接口允许通过交错方式对更大的数据块标
-+识。这样，8*16位的信息可以附加到典型的 4KB 文件系统块上。
-+
-+这也意味着诸如 fsck 和 mkfs 等应用程序需要能够从用户空间访问并操作这些标记。
-+为此，正在开发一个透传接口。
-+
-+4. 块层实现细节
-+===============
-+
-+4.1 Bio
-+--------
-+
-+当启用 CONFIG_BLK_DEV_INTEGRITY 时，数据完整性补丁会在 struct bio 中添加
-+一个新字段。调用 bio_integrity(bio) 会返回一个指向 struct bip 的指针，该
-+结构体包含了该 bio 的完整性负载。本质上，bip 是一个精简版的 struct bio，其
-+中包含一个 bio_vec，用于保存完整性元数据以及所需的维护信息（bvec 池、向量计
-+数等）。
-+
-+内核子系统可以通过调用 bio_integrity_alloc(bio) 来为某个 bio 启用数据完整
-+性保护。该函数会分配并附加一个 bip 到该 bio 上。
-+
-+随后使用 bio_integrity_add_page() 将包含完整性元数据的单独页面附加到该 bio。
-+
-+调用 bio_free() 会自动释放bip。
-+
-+4.2 块设备
-+-----------
-+
-+块设备可以在 queue_limits 结构中的 integrity 子结构中设置完整性信息。
-+
-+对于分层块设备，需要选择一个适用于所有子设备的完整性配置文件。可以使用
-+queue_limits_stack_integrity() 来协助完成该操作。目前，DM 和 MD linear、
-+RAID0 和 RAID1 已受支持。而RAID4/5/6因涉及应用标签仍需额外的开发工作。
-+
-+5.0 块层完整性API
-+==================
-+
-+5.1 普通文件系统
-+-----------------
-+
-+    普通文件系统并不知道其下层块设备具备发送或接收完整性元数据的能力。
-+    在执行写操作时，块层会在调用 submit_bio() 时自动生成完整性元数据。
-+    在执行读操作时，I/O 完成后会触发完整性验证。
-+
-+    IMD 的生成与验证行为可以通过以下开关控制::
-+
-+      /sys/block/<bdev>/integrity/write_generate
-+
-+    and::
-+
-+      /sys/block/<bdev>/integrity/read_verify
-+
-+    flags.
-+
-+5.2 具备完整性感知的文件系统
-+----------------------------
-+
-+    具备完整性感知能力的文件系统可以在准备 I/O 时附加完整性元数据，
-+    并且如果底层块设备支持应用标签空间，也可以加以利用。
-+
-+
-+    `bool bio_integrity_prep(bio);`
-+
-+      要为写操作生成完整性元数据或为读操作设置缓冲区，文件系统必须调用
-+      bio_integrity_prep(bio)。
-+
-+      在调用此函数之前，必须先设置好 bio 的数据方向和起始扇区，并确
-+      保该 bio 已经添加完所有的数据页。调用者需要自行保证，在 I/O 进行
-+      期间 bio 不会被修改。如果由于某种原因准备失败，则应当以错误状态
-+      完成该 bio。
-+
-+5.3 传递已有的完整性元数据
-+--------------------------
-+
-+    能够自行生成完整性元数据或可以从用户空间传输完整性元数据的文件系统，
-+    可以使用如下接口：
-+
-+
-+    `struct bip * bio_integrity_alloc(bio, gfp_mask, nr_pages);`
-+
-+      为 bio 分配完整性负载并挂载到 bio 上。nr_pages 表示需要在
-+      integrity bio_vec list 中存储多少页保护数据（类似 bio_alloc）。
-+
-+      完整性负载将在 bio_free() 被调用时释放。
-+
-+
-+    `int bio_integrity_add_page(bio, page, len, offset);`
-+
-+      将包含完整性元数据的一页附加到已有的 bio 上。该 bio 必须已有 bip，
-+      即必须先调用 bio_integrity_alloc()。对于写操作，页中的完整
-+      性元数据必须采用目标设备可识别的格式，但有一个例外，当请求在 I/O 栈
-+      中传递时，扇区号会被重新映射。这意味着通过此接口添加的页在 I/O 过程
-+      中可能会被修改！完整性元数据中的第一个引用标签必须等于 bip->bip_sector。
-+
-+      只要 bip bio_vec array（nr_pages）有空间，就可以继续通过
-+      bio_integrity_add_page()添加页。
-+
-+      当读操作完成后，附加的页将包含从存储设备接收到的完整性元数据。
-+      接收方需要处理这些元数据，并在操作完成时验证数据完整性
-+
-+
-+----------------------------------------------------------------------
-+
-+2007-12-24 Martin K. Petersen <martin.petersen@oracle.com>
-\ No newline at end of file
-diff --git a/Documentation/translations/zh_CN/block/index.rst b/Documentation/translations/zh_CN/block/index.rst
-index 442ee1025b36..f2ae5096ed68 100644
---- a/Documentation/translations/zh_CN/block/index.rst
-+++ b/Documentation/translations/zh_CN/block/index.rst
-@@ -17,12 +17,12 @@ Block
-    :maxdepth: 1
+2. mk_cr_64() drops the high 32 bits of the new CR4 value. So, CR4.FRED is always
+   dropped. This may need an update.
 
-    blk-mq
-+   data-integrity
 
- TODOList:
- * bfq-iosched
- * biovecs
- * cmdline-partition
--* data-integrity
- * deadline-iosched
- * inline-encryption
- * ioprio
---
-2.25.1
+This patch itself looks good, so:
 
+Reviewed-by: Chao Gao <chao.gao@intel.com>
+
+>---
+>
+>Change in v5:
+>* Add TB from Xuelian Guo.
+>
+>Change in v4:
+>* Rebase on top of "guest_cpu_cap".
+>
+>Change in v3:
+>* Don't allow CR4.FRED=1 before all of FRED KVM support is in place
+>  (Sean Christopherson).
+>---
+> arch/x86/include/asm/kvm_host.h | 2 +-
+> arch/x86/kvm/x86.h              | 2 ++
+> 2 files changed, 3 insertions(+), 1 deletion(-)
+>
+>diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+>index 5fff22d837aa..558f260a1afd 100644
+>--- a/arch/x86/include/asm/kvm_host.h
+>+++ b/arch/x86/include/asm/kvm_host.h
+>@@ -142,7 +142,7 @@
+> 			  | X86_CR4_OSXSAVE | X86_CR4_SMEP | X86_CR4_FSGSBASE \
+> 			  | X86_CR4_OSXMMEXCPT | X86_CR4_LA57 | X86_CR4_VMXE \
+> 			  | X86_CR4_SMAP | X86_CR4_PKE | X86_CR4_UMIP \
+>-			  | X86_CR4_LAM_SUP | X86_CR4_CET))
+>+			  | X86_CR4_LAM_SUP | X86_CR4_CET | X86_CR4_FRED))
+> 
+> #define CR8_RESERVED_BITS (~(unsigned long)X86_CR8_TPR)
+> 
+>diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
+>index 4f5d12d7136e..e9c6f304b02e 100644
+>--- a/arch/x86/kvm/x86.h
+>+++ b/arch/x86/kvm/x86.h
+>@@ -687,6 +687,8 @@ static inline bool __kvm_is_valid_cr4(struct kvm_vcpu *vcpu, unsigned long cr4)
+> 	if (!__cpu_has(__c, X86_FEATURE_SHSTK) &&       \
+> 	    !__cpu_has(__c, X86_FEATURE_IBT))           \
+> 		__reserved_bits |= X86_CR4_CET;         \
+>+	if (!__cpu_has(__c, X86_FEATURE_FRED))          \
+>+		__reserved_bits |= X86_CR4_FRED;        \
+> 	__reserved_bits;                                \
+> })
+> 
+>-- 
+>2.51.0
+>
