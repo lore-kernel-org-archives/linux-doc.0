@@ -1,232 +1,356 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E86315777
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 06:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B936C31A067
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 06:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763533444; cv=none; b=X+JBmUUAZfk5KDZV1yog7+6CtctMQaq6uD1R1bJlE5BA1l76pH4oddQN8qkG56Tb1a7N5SO46KCX8qyEQ+Nszj9uQkVAbTdhNjQ1o/SXZwp0V4WPk05fP+VvFM3hb8u/oDsYx9+u5VnR9iDlF8sQ2P0i4ZD5ioMy8dZy9fMx+P8=
+	t=1763533588; cv=none; b=Y3AN4Zy9Eglp+XKRaVSEtH6t0rTUDV63ChJTW1RedU3UKiY4jjrbJXGutLcracy12i2Mf3Ciw1Mvk7zUikoisnY7y3JMFLKUUyRDAGtJUYODcatIctHEt22iL5LO/42sc6T+LgoMuSta554hBTRsNCcHieKbhKsqTb5b0kXegAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763533444; c=relaxed/simple;
-	bh=8UJkSXBHt/Bpt4IcYPR3yfOjACRnlnE1YrAChLikYSY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R1riKiz704DzDTqmvdy+wu6asVTOr4EdM8USe5LV8vT95imfjwyG6b6gPXuYnLEt1QV02t7PFRQDs1oIRZg7ZRUwpnbdo/WX2wgbESEbmxJrqsyfwq7JIdcSqedsn6Fe3aaZWy3fBpGFmzplbzt+3Upg9YVTFHRq7qgct/ExF2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jjM2euPg; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763533588; c=relaxed/simple;
+	bh=5EDc/f+VmsHhTS8Xoex2CMoDeMz7q9mQHhQgB7L90Ng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UhA06uts4dhj5Kf31ibjUgvMB2707nHHwSCtSjlDcFA+TdPIbYcPElqRbt5sWw5e1iBxysYlnS+YiElWH2dPIXa48WO4JlQd8aOI2W51BXquRuxmQzBZ/YN3m3cF/8aj0wCWjiaCjMsSSihJKHvxoDrW/BblrUul4bGBSHzR41g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HAKSS9uy; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=g7yEL0VI; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jjM2euPg"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-29516a36affso77148215ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 22:24:02 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HAKSS9uy";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="g7yEL0VI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763533584;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y1HKVzAgxx7i6yZ83N1XooYE8usn83cITm9aQzQHukg=;
+	b=HAKSS9uyszSNjKnzz0qK+EnvJXllAxrfuxxCqQb7bLlCKBeFPB/hTPqtUVHEOfXm8T/NEb
+	E4DfUlhmOPy+qcGFgU1+7pQdNx4SOw5Vwo8AN+J14FiZdZtXu9hgvUK3AGwFc4f2WYBbd2
+	E94grnOSuunCNAcDYxmiqUweSisFqoM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-10-7VqbTKdCPxKc-RLpCktOHA-1; Wed, 19 Nov 2025 01:26:23 -0500
+X-MC-Unique: 7VqbTKdCPxKc-RLpCktOHA-1
+X-Mimecast-MFC-AGG-ID: 7VqbTKdCPxKc-RLpCktOHA_1763533582
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-429cd1d0d98so4300639f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 18 Nov 2025 22:26:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763533442; x=1764138242; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5QeZxKjzFMmQXxkgs+pg+gMUlc3U8fT7h313iH8Thm8=;
-        b=jjM2euPgnOtk78vORKsHpFWi4dR6ior5HCwlq+7UK6h3akfkhN5vbnAM4Y7BaucoI+
-         HbX0Coh20WpllJm02NVz3p9t8QPo7RKFmudUJD4+Z9h2T59e9qppfJiT2Cr3U3dGyA02
-         FqSWcp+eU3Yw0dKcULbjIIl20Nr4Ed6kDhXS52tXv1rfO1y5Enu2C7Zk7KOcLllS/6hG
-         v/sZJxZqfHvHeVHX8LrFFtDEhyL/0D3zcA8LpPi+PnHE0VPdm63hCkYI3yXjifRN9sju
-         QPFHnqb2wlWJXF7wZ4P68499UaIwm8GqUTm0xOYBHV5sFHAa79oe3A4E7yaZ+Dwaartd
-         BNXw==
+        d=redhat.com; s=google; t=1763533582; x=1764138382; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=y1HKVzAgxx7i6yZ83N1XooYE8usn83cITm9aQzQHukg=;
+        b=g7yEL0VI2JbRyVQg5jLA7SxM2YqkQc+8obmmUwZX9fPJQ/QirrvAKksAPU3j8kGmIJ
+         kycnioDgDr4GreC5j/r7+1zP4evqyk3yZVlKv1iqDjkVRMIdLHizCkZLRUp8GUyJrJSh
+         C8GXJkVOrYz6ECiuh7/qwF6mAAnrmw2Lw1PAaNdv58HtGkyMOLS0MbsRZlZx3IypbDIC
+         Jxw3UcUz39p52HbH/T3Wag3qwPoUAckcdsgyRa0U7KW5Pp2YvIOxOMoCTbHzmBJhipNh
+         RZUXsiUfdsIo/y1k8Nfpw+7GaNo4AADQI9N6VupDwU9Ytm7/BOacX1KPvIKDmLnTTbRM
+         aczA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763533442; x=1764138242;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5QeZxKjzFMmQXxkgs+pg+gMUlc3U8fT7h313iH8Thm8=;
-        b=eKBQofyC+skRmCPFc2F2zKsNmiT7R6NRRxa5rYQMXC1PbR1lEPaPnkb8vNfaSLM97L
-         pZLb+OEJtylbNT7kM5gqAP7rau6r3ygX8HhmRoXafRnQqx+VnQVptb07RNJqipASs0+a
-         xJsB7QGVm06XZ1G8EB6ONxdEfSp0AYAg7SEPfl5gv+3GIRq/CDtWGVb3IwWkEJtxrdzR
-         bRmwouPnK/3JXtVrRRQQWAR4AhA6WwnQ9B39xJ0NclBETfNT9R5ssUUoMd0u1f7QJEyv
-         oT+pgYVxC9TPdxeOn+OzeJX+F/5lQNIx24viOosSYPeUdig0eUeRjBgKgXU+Y2fT44VS
-         ISvw==
-X-Forwarded-Encrypted: i=1; AJvYcCW/b8uMxLUAXc1NRAt4guJgDYMeB8WO32solmRSpPAcUD8yL8Z2eqWpU7CnU3Gzph1be4Bj8J4X2kI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuJzJk/aKCWwRDtEOyaJ3etl2O5YdxgWsWe8QMph779ovtEJkZ
-	MGCTJ3FtOGsI5ZTUukMoq1/PcM6ekxG1VcFfQnbroWQaDuS5EufHroLeYmU3lw==
-X-Gm-Gg: ASbGncvYn2xjxP2Nz/O9KwyeeSa+ODD8CNydDgH0ZaSRRiuIAn3JCplZqOU0846idEa
-	vcvjTNbYOdpuxA+5IO/AKXr7DQQbwep37p3gVYFD8Ncm46w/TvwRFc+uh9Vhi1WtDw/Cw7lBw4i
-	sWP+JsvM3nS6iNptFlpiczbKwHw8wqbN1o1ssOKwLg3cObw6u9oD5xmAakR4J/5YredIvtJvyYh
-	O/rqnDd8WLTxtw6IGObGGPU9d9QW2YnyMvQa2VKVWQBIZj9dOI936vMmy+2gE+IGKYmgLCgRG+l
-	PMzJsiLUGS5C6uX4auBHCRvRp1PeRvRSK5csRzMyEuQEMepboc6cqZXGMna4S/BJb/AJoiy0zuL
-	b2j5cg/NbWsvQlwOuCQBsld5J7LWjMsr+/N9hoEaGD+RT26AWXiBGUClhzvEUoPrj2QobFANcdc
-	7Kiwwf0juhIXDcRH/m
-X-Google-Smtp-Source: AGHT+IGNIuudTtun/NKqD9KEi5rCwUr6jFRNgsRTqw4qCLlprUmKnFU/9mq4Q+BrqzN6NtuFGjCMhw==
-X-Received: by 2002:a17:903:2448:b0:295:560a:e474 with SMTP id d9443c01a7336-2986a72c309mr198629625ad.32.1763533441655;
-        Tue, 18 Nov 2025 22:24:01 -0800 (PST)
-Received: from localhost ([46.232.121.212])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2bebe1sm191411335ad.82.2025.11.18.22.24.00
+        d=1e100.net; s=20230601; t=1763533582; x=1764138382;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y1HKVzAgxx7i6yZ83N1XooYE8usn83cITm9aQzQHukg=;
+        b=D6vWoOw9XDbbJ9aMY7DUvetFIE+4m1Q+hPa6khzV3i06LyKBwwpCwgEExqdvR2hVGv
+         ZlAQMjd65o97gar9nWeM1yo6/RP7QoWqmEkb7/VXoQUnZB+YDgW5DP+WOacxvhFLxAL6
+         yksRpZj5E08gKwtU78WVZBMjHflho6PBuRl3P3Y9LS+t2zMLA68+HyVVitSadG/WH8nj
+         Ozsg3kS2qIpc2dgKUikbmAsdDrmWb1TLywxXjA6JNtWQhMfuTRh2yonj4hPhHgKc80Ib
+         hvBPTnLdquZ7gcxzgw2piDaoK2/qWoVOcwg/0lbYSfx7aGh2CnBho2COerArxPtW2yjx
+         Vc/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUi39o7U828pVq0WB1INbAud+mGw2xNfUjVrpbV4W91WGHmJhaPWiqRk+KYVa6KGLbdR1kQt0EaXG8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx33rQWV+7hPyKpdyZ2vf+KfZYv6N+m2ms25nQTmlClgGdlNeph
+	gJE8nuc3YGOiQ7Sl3jCRVPO1+wOr3ODIp8TtT8naNVCc8tcBgc8Qvr/0RBIN/rgmVaQZ4uSC1br
+	/3RsrnIHmTPds7t+Hrq2/CIKBPq708oNM8a/ejBR6ZuGDTVBFqt9Y7MMS34+G7A==
+X-Gm-Gg: ASbGncvNRg5a3Aq4s4/PygTCyghNg7A4C2SvxXnfdoxvJSeszs9LITfrESBrUpMcOpB
+	RQP9Aq4etAD0X/l3sp8UKNaaW42TokPsue7pwipsHxqicrCNAKIg0TbjnkDbQ/nQnJnBTROr2a9
+	rucGejKfRXVm44vWaeRyXKzCBpQ5XaOxMJHTm9cE6iVO3dwBSqleI/CSXYn3I3P/uD9qUEIJSc+
+	GBMfqP8fs6agrjzFIWG+9zx8cEQBCPgxwfPWOELCSu2s8lxvVbCaySR2d1f46BDmC+nTHGWhCmq
+	poWJobO9al99VS+dHU93MPZMGwlMAKPmfVvNhOx30zYei2oNwyXG3P25I/CP87UmC5ZuhYBKeSd
+	rlrsoDtHoMVlnmhCR2QME6fLcfEkXnQ==
+X-Received: by 2002:a5d:64e7:0:b0:429:cd3f:f45f with SMTP id ffacd0b85a97d-42b5933dc54mr17627892f8f.7.1763533581546;
+        Tue, 18 Nov 2025 22:26:21 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGHbEIgDvwzU/PwaPvTTi3zQKc9nOXwTgJs02XEdEtPndPNL32NuK0ZEl+WnP3eYo21GNBnmw==
+X-Received: by 2002:a5d:64e7:0:b0:429:cd3f:f45f with SMTP id ffacd0b85a97d-42b5933dc54mr17627860f8f.7.1763533581006;
+        Tue, 18 Nov 2025 22:26:21 -0800 (PST)
+Received: from redhat.com (IGLD-80-230-39-63.inter.net.il. [80.230.39.63])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f206e2sm36522931f8f.41.2025.11.18.22.26.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 22:24:00 -0800 (PST)
-From: Frank Cen <focksor@gmail.com>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Frank Cen <focksor@gmail.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4] docs/zh_CN: Add trace debugging Chinese translation
-Date: Wed, 19 Nov 2025 14:22:42 +0800
-Message-ID: <20251119062300.596150-1-focksor@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Tue, 18 Nov 2025 22:26:20 -0800 (PST)
+Date: Wed, 19 Nov 2025 01:26:17 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Mike Christie <michael.christie@oracle.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH v4 2/2] vhost: switch to arrays of feature bits
+Message-ID: <20251119012322-mutt-send-email-mst@kernel.org>
+References: <cover.1763278904.git.mst@redhat.com>
+ <17c98c7304b6d78d2d59893ba7295c2f64ab1224.1763278904.git.mst@redhat.com>
+ <CACGkMEu28fHr7Bo5Zm4chwOj-xBmTYcHM3TfXRx8OZ3OhO8q8Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACGkMEu28fHr7Bo5Zm4chwOj-xBmTYcHM3TfXRx8OZ3OhO8q8Q@mail.gmail.com>
 
-Translate .../trace/debugging.rst into Chinese.
+On Wed, Nov 19, 2025 at 10:03:58AM +0800, Jason Wang wrote:
+> On Sun, Nov 16, 2025 at 3:45 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > The current interface where caller has to know in which 64 bit chunk
+> > each bit is, is inelegant and fragile.
+> > Let's simply use arrays of bits.
+> > By using unroll macros text size grows only slightly.
+> >
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >  drivers/vhost/net.c   | 34 +++++++++++++++++++---------------
+> >  drivers/vhost/scsi.c  |  9 ++++++---
+> >  drivers/vhost/test.c  | 10 ++++++++--
+> >  drivers/vhost/vhost.h | 42 ++++++++++++++++++++++++++++++++++--------
+> >  drivers/vhost/vsock.c | 10 ++++++----
+> >  5 files changed, 73 insertions(+), 32 deletions(-)
+> >
+> > diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
+> > index d057ea55f5ad..00d00034a97e 100644
+> > --- a/drivers/vhost/net.c
+> > +++ b/drivers/vhost/net.c
+> > @@ -69,15 +69,15 @@ MODULE_PARM_DESC(experimental_zcopytx, "Enable Zero Copy TX;"
+> >
+> >  #define VHOST_DMA_IS_DONE(len) ((__force u32)(len) >= (__force u32)VHOST_DMA_DONE_LEN)
+> >
+> > -static const u64 vhost_net_features[VIRTIO_FEATURES_U64S] = {
+> > -       VHOST_FEATURES |
+> > -       (1ULL << VHOST_NET_F_VIRTIO_NET_HDR) |
+> > -       (1ULL << VIRTIO_NET_F_MRG_RXBUF) |
+> > -       (1ULL << VIRTIO_F_ACCESS_PLATFORM) |
+> > -       (1ULL << VIRTIO_F_RING_RESET) |
+> > -       (1ULL << VIRTIO_F_IN_ORDER),
+> > -       VIRTIO_BIT(VIRTIO_NET_F_GUEST_UDP_TUNNEL_GSO) |
+> > -       VIRTIO_BIT(VIRTIO_NET_F_HOST_UDP_TUNNEL_GSO),
+> > +static const int vhost_net_features[] = {
+> > +       VHOST_FEATURES,
+> > +       VHOST_NET_F_VIRTIO_NET_HDR,
+> > +       VIRTIO_NET_F_MRG_RXBUF,
+> > +       VIRTIO_F_ACCESS_PLATFORM,
+> > +       VIRTIO_F_RING_RESET,
+> > +       VIRTIO_F_IN_ORDER,
+> > +       VIRTIO_NET_F_GUEST_UDP_TUNNEL_GSO,
+> > +       VIRTIO_NET_F_HOST_UDP_TUNNEL_GSO
+> >  };
+> >
+> >  enum {
+> > @@ -1734,14 +1734,14 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+> >                         return -EFAULT;
+> >                 return vhost_net_set_backend(n, backend.index, backend.fd);
+> >         case VHOST_GET_FEATURES:
+> > -               features = vhost_net_features[0];
+> > +               features = VHOST_FEATURES_U64(vhost_net_features, 0);
+> >                 if (copy_to_user(featurep, &features, sizeof features))
+> >                         return -EFAULT;
+> >                 return 0;
+> >         case VHOST_SET_FEATURES:
+> >                 if (copy_from_user(&features, featurep, sizeof features))
+> >                         return -EFAULT;
+> > -               if (features & ~vhost_net_features[0])
+> > +               if (features & ~VHOST_FEATURES_U64(vhost_net_features, 0))
+> >                         return -EOPNOTSUPP;
+> >
+> >                 virtio_features_from_u64(all_features, features);
+> > @@ -1753,9 +1753,13 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+> >                 /* Copy the net features, up to the user-provided buffer size */
+> >                 argp += sizeof(u64);
+> >                 copied = min(count, (u64)VIRTIO_FEATURES_U64S);
+> > -               if (copy_to_user(argp, vhost_net_features,
+> > -                                copied * sizeof(u64)))
+> > -                       return -EFAULT;
+> > +
+> > +               {
+> > +                       const DEFINE_VHOST_FEATURES_ARRAY(features, vhost_net_features);
+> > +
+> > +                       if (copy_to_user(argp, features, copied * sizeof(u64)))
+> > +                               return -EFAULT;
+> > +               }
+> 
+> Any reason to use a standalone block here?
 
-Update the translation through commit c44a14f216f4
-("tracing: Enforce the persistent ring buffer to be page aligned")
+Just so we can name the variable "features", as well as
+having the declaration stand out a bit more.
 
-Signed-off-by: Frank Cen <focksor@gmail.com>
----
- .../translations/zh_CN/trace/debugging.rst    | 132 ++++++++++++++++++
- 1 file changed, 132 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/trace/debugging.rst
 
-diff --git a/Documentation/translations/zh_CN/trace/debugging.rst b/Documentation/translations/zh_CN/trace/debugging.rst
-new file mode 100644
-index 000000000000..dc0006622659
---- /dev/null
-+++ b/Documentation/translations/zh_CN/trace/debugging.rst
-@@ -0,0 +1,132 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+:Original: Documentation/trace/debugging.rst
-+:翻译:
-+
-+ 岑发亮 Frank Cen <focksor@gmail.com>
-+
-+==================
-+使用追踪器进行调试
-+==================
-+
-+Copyright 2024 Google LLC.
-+
-+:Author:   Steven Rostedt <rostedt@goodmis.org>
-+:License:  The GNU Free Documentation License, Version 1.2
-+          (dual licensed under the GPL v2)
-+
-+- Written for: 6.12
-+
-+引言
-+----
-+跟踪框架对于调试 Linux 内核非常有用。本文记录了使用追踪器进行调试的各种方法。
-+
-+首先，确保已经挂载了 tracefs 文件系统::
-+
-+ $ sudo mount -t tracefs tracefs /sys/kernel/tracing
-+
-+
-+使用 trace_printk()
-+-------------------
-+
-+trace_printk() 是一个非常轻量级的工具，可以在内核中除 "noinstr" 部分外的任何上下文使用。
-+它可以在正常、软中断、硬中断甚至 NMI 上下文中使用。
-+跟踪数据以无锁的方式写入到环形缓冲区 (tracing ring buffer) 中。
-+为了使其更轻量，当可能时，它会只记录格式字符串的指针，并将原始参数保存到缓冲区中。格式和参数
-+将在读取环形缓冲区时再进行处理。这样，格式化处理就不会在热路径（即记录追踪的地方）中完成。
-+
-+trace_printk() 只用于调试，绝不应添加到内核的子系统中。如果需要调试跟踪，请添加跟踪事件。
-+如果在内核中发现 trace_printk()，则 dmesg 中会出现以下内容::
-+
-+  **********************************************************
-+  **   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
-+  **                                                      **
-+  ** trace_printk() being used. Allocating extra memory.  **
-+  **                                                      **
-+  ** This means that this is a DEBUG kernel and it is     **
-+  ** unsafe for production use.                           **
-+  **                                                      **
-+  ** If you see this message and you are not debugging    **
-+  ** the kernel, report this immediately to your vendor!  **
-+  **                                                      **
-+  **   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
-+  **********************************************************
-+
-+
-+调试内核崩溃
-+------------
-+有多种方法可以在内核崩溃时获取系统状态。你可以通过 printk 中的 oops 消息来实现，也可以使用
-+kexec/kdump。但是这些方法只能显示崩溃时的情况，而如果能够知道在崩溃发生之前发生了什么则非常
-+有帮助。tracing ring buffer 默认情况下是一个循环缓冲区，它会用较新的事件覆盖较旧的事件。
-+当崩溃发生时，ring buffer 的内容会是导致崩溃的所有事件。
-+
-+在进行调试时，有一些内核命令行参数非常有用。第一个参数是 ftrace_dump_on_oops，当系统发生
-+oops 时，它会将 tracing ring buffer 的内容输出到控制台。如果控制台的这些输出能够被记录
-+下来那将会非常有帮助。但是如果你使用的是串口控制台，建议将环形缓冲区设得相对较小一些，否则可能
-+需要几分钟甚至数小时才能完成环形缓冲区的转储工作。下面是一个内核命令行示例::
-+
-+  ftrace_dump_on_oops trace_buf_size=50K
-+
-+注意，tracing buffer 由每个 CPU 的缓冲区组成，每个缓冲区又被划分为默认大小为 PAGE_SIZE
-+的子缓冲区。上面的 trace_buf_size 选项将每个 CPU 的缓冲区设置为 50K，因此在一台有 8 个
-+CPU 的机器上，实际上缓冲区总大小是 400K。
-+
-+跨重启的持久缓冲区
-+------------------
-+如果系统内存允许，可以在内存中的特定位置指定 tracing ring buffer。如果该位置在重启时保持
-+不变且内存数据未被修改，则该可以在下一次启动后读取该环形缓冲区。有如下两种方法为缓冲区保留内存。
-+
-+相对更可靠的方法（在 x86 上）是先使用 memmap 内核命令行选项来保留内存，然后将该内存指定用于
-+trace_instance。这需要对系统的物理内存布局有一定的了解。使用这种方法的优点是环形缓冲区的内存
-+位置将始终保持不变::
-+
-+  memmap==12M$0x284500000 trace_instance=boot_map@0x284500000:12M
-+
-+如上参数中，memmap 选项在物理内存地址 0x284500000 处保留了 12 兆字节的内存。而紧随其后的
-+trace_instance 选项将在同一位置创建一个名为 "boot_map" 的 trace instance（跟踪实例），
-+这个实例使用与保留的内存相同的大小。由于环形缓冲区要被划分为每个 CPU 的缓冲区，因此这 12MB
-+内存将被均匀地分配给所有 CPU。如果你有 8 个 CPU，那么每个 CPU 的环形缓冲区大小将是 1.5MB。
-+注意这其中还要包括元数据，因此环形缓冲区实际可使用的内存还会稍微小一些。
-+
-+另一种更通用但没那么可靠的在启动时分配环形缓冲区映射的方法是使用 reserve_mem 选项::
-+
-+  reserve_mem=12M:4096:trace trace_instance=boot_map@trace
-+
-+上面的 reserve_mem 会在启动时寻找 12MB 按 4096 字节对齐的可用内存。这块内存会被标记为
-+"trace" 以供后续的命令行选项使用。
-+
-+trace_instance 选项创建了一个名为 "boot_map" 的跟踪实例，并将使用由 reserve_mem 预留
-+并标记为 "trace" 的内存。这种方法更通用，但不那么可靠。由于 KASLR（内核地址空间布局随机化）
-+机制的存在，reserve_mem 保留的内存位置可能会有所不同。当这种情况发生时，环形缓冲区将不会是
-+在上次启动时写入的内容，并且整个缓冲区将会被重置。
-+
-+有时我们可以通过指定更大的对齐字节的方式来防止 KASLR 改变 reserve_mem 预留内存的位置。
-+通过这个方法，你可能会发现缓冲区的位置会更一致::
-+
-+  reserve_mem=12M:0x2000000:trace trace_instance=boot_map@trace
-+
-+在启动时，为环形缓冲区保留的内存将会经过校验。系统会通过一系列测试以确保缓冲区内包含有效数据。
-+如果测试通过，该环形缓冲区会被设置为可被实例读取；如果测试未通过，则其会被清空并重新初始化。
-+
-+这块内存的布局在不同的内核版本可能也会不同，因此只有相同的内核版本才能保证其工作正常。在不同
-+的内核版本之间切换时，可能会由于内存布局不同而导致缓冲区被标记为非法。
-+
-+注意：映射的地址和大小都必须符合架构的页面对齐要求。
-+
-+在启动阶段使用 trace_printk()
-+-----------------------------
-+默认情况下， trace_printk() 的内容会进入 top level tracing instance（顶级跟踪实例）。
-+但这个实例在重启时不会被保留。为了让 trace_printk() 的内容以及一些其它的内部 tracing
-+能够进入被保留的缓冲区（例如 dump stacks），你可以在内核命令行中为 trace_printk() 指定
-+目标实例，或者在启动后通过 trace_printk_dest 选项进行设置。
-+
-+启动后::
-+
-+  echo 1 > /sys/kernel/tracing/instances/boot_map/options/trace_printk_dest
-+
-+在内核命令行设置::
-+
-+  reserve_mem=12M:4096:trace trace_instance=boot_map^traceprintk^traceoff@trace
-+
-+如果在内核命令行中设置，建议同时使用 "traceoff" 标志来禁用追踪，并在启动后再重新启用追踪。
-+否则，最近一次启动的追踪信息将与上一次启动的追踪信息会混在一起，可能会变得难以阅读。
--- 
-2.43.0
+> >
+> >                 /* Zero the trailing space provided by user-space, if any */
+> >                 if (clear_user(argp, size_mul(count - copied, sizeof(u64))))
+> > @@ -1784,7 +1788,7 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+> >                 }
+> >
+> >                 for (i = 0; i < VIRTIO_FEATURES_U64S; i++)
+> > -                       if (all_features[i] & ~vhost_net_features[i])
+> > +                       if (all_features[i] & ~VHOST_FEATURES_U64(vhost_net_features, i))
+> >                                 return -EOPNOTSUPP;
+> >
+> >                 return vhost_net_set_features(n, all_features);
+> > diff --git a/drivers/vhost/scsi.c b/drivers/vhost/scsi.c
+> > index 98e4f68f4e3c..04fcbe7efd77 100644
+> > --- a/drivers/vhost/scsi.c
+> > +++ b/drivers/vhost/scsi.c
+> > @@ -197,11 +197,14 @@ enum {
+> >  };
+> >
+> >  /* Note: can't set VIRTIO_F_VERSION_1 yet, since that implies ANY_LAYOUT. */
+> > -enum {
+> > -       VHOST_SCSI_FEATURES = VHOST_FEATURES | (1ULL << VIRTIO_SCSI_F_HOTPLUG) |
+> > -                                              (1ULL << VIRTIO_SCSI_F_T10_PI)
+> > +static const int vhost_scsi_features[] = {
+> > +       VHOST_FEATURES,
+> > +       VIRTIO_SCSI_F_HOTPLUG,
+> > +       VIRTIO_SCSI_F_T10_PI
+> >  };
+> >
+> > +#define VHOST_SCSI_FEATURES VHOST_FEATURES_U64(vhost_scsi_features, 0)
+> > +
+> >  #define VHOST_SCSI_MAX_TARGET  256
+> >  #define VHOST_SCSI_MAX_IO_VQ   1024
+> >  #define VHOST_SCSI_MAX_EVENT   128
+> > diff --git a/drivers/vhost/test.c b/drivers/vhost/test.c
+> > index 42c955a5b211..af727fccfe40 100644
+> > --- a/drivers/vhost/test.c
+> > +++ b/drivers/vhost/test.c
+> > @@ -308,6 +308,12 @@ static long vhost_test_set_backend(struct vhost_test *n, unsigned index, int fd)
+> >         return r;
+> >  }
+> >
+> > +static const int vhost_test_features[] = {
+> > +       VHOST_FEATURES
+> > +};
+> > +
+> > +#define VHOST_TEST_FEATURES VHOST_FEATURES_U64(vhost_test_features, 0)
+> > +
+> >  static long vhost_test_ioctl(struct file *f, unsigned int ioctl,
+> >                              unsigned long arg)
+> >  {
+> > @@ -328,14 +334,14 @@ static long vhost_test_ioctl(struct file *f, unsigned int ioctl,
+> >                         return -EFAULT;
+> >                 return vhost_test_set_backend(n, backend.index, backend.fd);
+> >         case VHOST_GET_FEATURES:
+> > -               features = VHOST_FEATURES;
+> > +               features = VHOST_TEST_FEATURES;
+> >                 if (copy_to_user(featurep, &features, sizeof features))
+> >                         return -EFAULT;
+> >                 return 0;
+> >         case VHOST_SET_FEATURES:
+> >                 if (copy_from_user(&features, featurep, sizeof features))
+> >                         return -EFAULT;
+> > -               if (features & ~VHOST_FEATURES)
+> > +               if (features & ~VHOST_TEST_FEATURES)
+> >                         return -EOPNOTSUPP;
+> >                 return vhost_test_set_features(n, features);
+> >         case VHOST_RESET_OWNER:
+> > diff --git a/drivers/vhost/vhost.h b/drivers/vhost/vhost.h
+> > index 621a6d9a8791..d8f1af9a0ff1 100644
+> > --- a/drivers/vhost/vhost.h
+> > +++ b/drivers/vhost/vhost.h
+> > @@ -14,6 +14,7 @@
+> >  #include <linux/atomic.h>
+> >  #include <linux/vhost_iotlb.h>
+> >  #include <linux/irqbypass.h>
+> > +#include <linux/unroll.h>
+> >
+> >  struct vhost_work;
+> >  struct vhost_task;
+> > @@ -279,14 +280,39 @@ void vhost_iotlb_map_free(struct vhost_iotlb *iotlb,
+> >                                 eventfd_signal((vq)->error_ctx);\
+> >         } while (0)
+> >
+> > -enum {
+> > -       VHOST_FEATURES = (1ULL << VIRTIO_F_NOTIFY_ON_EMPTY) |
+> > -                        (1ULL << VIRTIO_RING_F_INDIRECT_DESC) |
+> > -                        (1ULL << VIRTIO_RING_F_EVENT_IDX) |
+> > -                        (1ULL << VHOST_F_LOG_ALL) |
+> > -                        (1ULL << VIRTIO_F_ANY_LAYOUT) |
+> > -                        (1ULL << VIRTIO_F_VERSION_1)
+> > -};
+> > +#define VHOST_FEATURES \
+> > +       VIRTIO_F_NOTIFY_ON_EMPTY, \
+> > +       VIRTIO_RING_F_INDIRECT_DESC, \
+> > +       VIRTIO_RING_F_EVENT_IDX, \
+> > +       VHOST_F_LOG_ALL, \
+> > +       VIRTIO_F_ANY_LAYOUT, \
+> > +       VIRTIO_F_VERSION_1
+> > +
+> > +static inline u64 vhost_features_u64(const int *features, int size, int idx)
+> > +{
+> > +       unsigned long res = 0;
+> 
+> Should this be u64?
+
+Ugh. Yes.
+
+> > +
+> > +       unrolled_count(VIRTIO_FEATURES_BITS)
+> > +       for (int i = 0; i < size; ++i) {
+> > +               int bit = features[i];
+> > +
+> > +               if (virtio_features_chk_bit(bit) && VIRTIO_U64(bit) == idx)
+> > +                       res |= VIRTIO_BIT(bit);
+> > +       }
+> > +       return res;
+> > +}
+> > +
+> > +#define VHOST_FEATURES_U64(features, idx) \
+> > +       vhost_features_u64(features, ARRAY_SIZE(features), idx)
+> > +
+> > +#define DEFINE_VHOST_FEATURES_ARRAY_ENTRY(idx, features) \
+> > +       [idx] = VHOST_FEATURES_U64(features, idx),
+> > +
+> > +#define DEFINE_VHOST_FEATURES_ARRAY(array, features) \
+> > +       u64 array[VIRTIO_FEATURES_U64S] = { \
+> > +               UNROLL(VIRTIO_FEATURES_U64S, \
+> > +                      DEFINE_VHOST_FEATURES_ARRAY_ENTRY, features) \
+> > +       }
+> >
+> >  /**
+> >   * vhost_vq_set_backend - Set backend.
+> > diff --git a/drivers/vhost/vsock.c b/drivers/vhost/vsock.c
+> > index ae01457ea2cd..16662f2b87c1 100644
+> > --- a/drivers/vhost/vsock.c
+> > +++ b/drivers/vhost/vsock.c
+> > @@ -29,12 +29,14 @@
+> >   */
+> >  #define VHOST_VSOCK_PKT_WEIGHT 256
+> >
+> > -enum {
+> > -       VHOST_VSOCK_FEATURES = VHOST_FEATURES |
+> > -                              (1ULL << VIRTIO_F_ACCESS_PLATFORM) |
+> > -                              (1ULL << VIRTIO_VSOCK_F_SEQPACKET)
+> > +static const int vhost_vsock_features[] = {
+> > +       VHOST_FEATURES,
+> > +       VIRTIO_F_ACCESS_PLATFORM,
+> > +       VIRTIO_VSOCK_F_SEQPACKET
+> >  };
+> >
+> > +#define VHOST_VSOCK_FEATURES VHOST_FEATURES_U64(vhost_vsock_features, 0)
+> > +
+> >  enum {
+> >         VHOST_VSOCK_BACKEND_FEATURES = (1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2)
+> >  };
+> > --
+> > MST
+> >
+> 
+> Thanks
 
