@@ -1,102 +1,201 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B823557FE;
-	Wed, 19 Nov 2025 13:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1D93594F
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 13:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763560453; cv=none; b=QzOdF5G13VqBmY4vjnUNid+aid26TsvEEkBNmECtPMqy3NqN6mPaz+rh0aE4/7p4b5TKGd0p8Ocw+9JGr1UpzUTmpEC1r1KG2jCbctyjNyKVVGfqs1Lh1sLX6OypoixUE1kXoIvk6/1sBeZIy/fBXiDOjZDtmhXWm/XEhFvKMEo=
+	t=1763560520; cv=none; b=CctiP9JwPtNCdjXhl3/Yg+8J7XYyULxJF7U3UC92M1q/MNiYftjUR1Ri6tImqjdOxy8du4JlXlSluk/mxAGpQbjxZ3i25Xb3mYzTKHcODhIcxMr1+t12CYmYLOxh1uxSh0MBC+8YtogAgiqTI3aZtLzJl2H0W0eOlZAaZZl6brA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763560453; c=relaxed/simple;
-	bh=khDyF27Ua+YvAG563h+Mn5TVNwmjUpzwzSeY1s3ZrlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dHJGOzqvLrVDp5HA4s0CqGek0EQ7BvH6BbDejjkyTHgk5QxbmXDzDu3BKji5dLODdEHDlS5IRYWnQkNhwyx5xSD/yooWtvFMBi5ps3agUomSZIHSf/4yDUh95NQPvLKijjQFyDe5xQHnJpZBFKtqG0ayLVEwH5t60EkTJY+KMVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lOc+pw0S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763560520; c=relaxed/simple;
+	bh=opPOOG1O6YWZJsndEVn+IOBeaBmKbK+Sds2Gv96QrM4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eM6EaU7Y0QGNMuazS1P9U+xueBincb03mYuHuLPnBVlyrhbzyplOEL3UohfrguQqTmmyGzGN0/yO7dW9OYU6xtBzOg3R5KNkIiDTjfHugmYnrnfqpkL5CXhTdwoOEU59X9J4KDhINkrfY10+cpb9r3jMJozUbMgSmBJzm9DuiV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DCQFRJXh; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lOc+pw0S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4089C2BCB6;
-	Wed, 19 Nov 2025 13:54:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763560452;
-	bh=khDyF27Ua+YvAG563h+Mn5TVNwmjUpzwzSeY1s3ZrlM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lOc+pw0SropUFqAbVYzMoWEHW1jJDTrt97jUDXz56yN0le/B+KOyXK6xnERbWqNdy
-	 LBjMT4gf6zJ5xLQ64pQkqww1I8qSD+7y/IDRApuyDvzXjq9BFKkEOeCi8bxA/oo1gH
-	 70+OJhKd6XWXCZEn57dkcHhMJy+/OipA/ho8GrlgsWfIHeiMPKdy6djUHim0G3aLYZ
-	 Smu4HN5s73AeSqAjTtbTpkSpzB4YO7/XVcv9jfbhTGeKtpPOUqXybhXbJn04qeXgZf
-	 DJ8SJ2zHpC/cN0o1khK2H92TSVtXxhG0/mnVCa20BOeZHJlnQ/YkrpnwOm6k6yFofi
-	 vqwHi5UdKLC/g==
-Date: Wed, 19 Nov 2025 15:54:07 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Cc: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
-	Alex Mastro <amastro@fb.com>, Nicolin Chen <nicolinc@nvidia.com>
-Subject: Re: [PATCH v8 09/11] vfio/pci: Enable peer-to-peer DMA transactions
- by default
-Message-ID: <20251119135407.GG18335@unreal>
-References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
- <20251111-dmabuf-vfio-v8-9-fd9aa5df478f@nvidia.com>
- <BN9PR11MB52767F78317AF3AB94A5B7D38CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
- <aRzUpmUkDy-qN5c1@kbusch-mbp>
- <BN9PR11MB52768D54FF42AB11C49202C98CD7A@BN9PR11MB5276.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DCQFRJXh"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-47755de027eso46042815e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 05:55:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1763560517; x=1764165317; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+q6MH2wUYmWiA2m/aB7uSk/4x8ihBeWt9CWI89JZj8I=;
+        b=DCQFRJXhtKz2Z49BmcV2EWeq/8xcAhpXmNcb+iMni7QlmTenAp2QGBe9sNNZwi/QhA
+         62FPcB6WKbb/o3807+059x1Gm5UkyTsgnb9Sd2pllOLNydrMduzNNFfJ2aGZB0ydcHJy
+         RyfFrk4DW2z28O1r1Dlg34Aupbgq9Grrf0uqo1hEXI2K2ZFXdxS6FmGYOQPCi7oJ/8Cv
+         km6xX0ECYZXnU9TCKvoCzpx/aG3VikkXuxvAgjlUx1Xhn6tNzpAl9KSjljvfttevMJib
+         Xa2Xjz4NkCvPYG7nU7zpk/t8sprAC9SmyZKH06wFXCwDWbzW03iG2vMKkjG1LfXuH5n/
+         6HKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763560517; x=1764165317;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+q6MH2wUYmWiA2m/aB7uSk/4x8ihBeWt9CWI89JZj8I=;
+        b=owHTmxxEOwdumyxVfX5ArBJvcTRmorRAHaDmEkC5TDPv/s/Wg8bUd/bnnjI1P/EYBN
+         kS9F81+wOuPW8azXCpzwMruqkTdpD+8A4apCUAGat0OVq/psq7ZH5JRWZ0/g5H2I6C+u
+         WLwOdQV+U4v2vta0yaThFyxSViCSVC1xwPkM9eDpIEjhegTdFBKnc1aQbZ8VrNa2mKlg
+         P/a6oVOpMcMTXzhotjozbmBqO1X/ikIJto4m+oGbZym8Er3U9Ks/klWNO3evfYErWUbk
+         lD6dsGMUUre2qoVpeAPMuF+ziBfAzmvLaODt/GsLaWCVex6MfgZOwBnPXQtYuH9QFUhH
+         yjQw==
+X-Forwarded-Encrypted: i=1; AJvYcCX8578GlD4iLq9dVcssAg0nBwkdyLu+B7jE/GGzdIo3TnlDYcf2YqQNRJWc9ShT6Nin1Q6aIndJocY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyQ580Tq364MlvaSHaWDmvs+ek0drImYmIEfkUKHYYrWrndRAQ
+	v3LF30jWO2eXL1QeVlrxsfPSwbtlfUMed84xz/jUCKRpc+PT0Hu3P0Khv9aqL3g/9R4=
+X-Gm-Gg: ASbGncvZo6F4bofADZ/M/N9zQR5zjOmPF9uAAvDsIt24B0AixXvCv32YiVI2ViKKzfl
+	S5C4AzeTH1lsB/nLXmmpilDdNndmsoED4a1zxjI+Co89nNmoyiS6m6DO8fOYrB1Yx4ZIlWXMR5U
+	j/FuO9Y10htqA7B6qTz5gnNhS7NGznzooX/YJ0Qk76jxEQuE6pzn2NeTYtNaTyCSLHHMGTQeGdK
+	R3niD9T2MK2Qy1Dds6CM+56vxfXLjWlX1Zulp153sTewdKOKITt+uKlV0VXiyhRGd7GO+qW360E
+	Br4duOFeq0UHBk0xkSwKKCGAFTaFh00DkuGZtL8+iMZO5XgD4Trb72zOIrwKyN45YV2Kez+ZLeu
+	kaIQm4NPO9wRJ0Bij5cXWxWBo8UlnisXAlGILbYI91fhAKKCNsSBfbsMAFxRDBf7/bJdWRvuvtp
+	lAiLc6dZYDUDpdKbwUKTPi0azT/uTSOc63lTpqew==
+X-Google-Smtp-Source: AGHT+IEkdbSdxiPZRPo/BfGmPl8Z82ZAzyIqM965RgSEKLzus7ZjC7qYxPL1XYrZ3Hts2RXQnznpcg==
+X-Received: by 2002:a05:600c:190b:b0:471:131f:85aa with SMTP id 5b1f17b1804b1-4778fe4a039mr165734565e9.13.1763560517126;
+        Wed, 19 Nov 2025 05:55:17 -0800 (PST)
+Received: from [192.168.1.3] ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b1012af0sm49846635e9.6.2025.11.19.05.55.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Nov 2025 05:55:16 -0800 (PST)
+Message-ID: <a199db90-a344-40e0-8628-b4c3b56fc92c@linaro.org>
+Date: Wed, 19 Nov 2025 13:55:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB52768D54FF42AB11C49202C98CD7A@BN9PR11MB5276.namprd11.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/13] coresight: Interpret perf config with
+ ATTR_CFG_GET_FLD()
+To: Leo Yan <leo.yan@arm.com>
+Cc: Mike Leach <mike.leach@linaro.org>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20251118-james-cs-syncfreq-v5-0-82efd7b1a751@linaro.org>
+ <20251118-james-cs-syncfreq-v5-8-82efd7b1a751@linaro.org>
+ <CAJ9a7VgQH4yc8490CQSv1S6k+=Uc6dEjyEpgRp1EwUQdwdxOHQ@mail.gmail.com>
+ <416cf32d-d647-46dd-bcef-acc019490561@linaro.org>
+ <CAJ9a7Vg9HsMsTP-zroTgaaKWTPkSXE1u5WMORuqMLKSDDz2HSw@mail.gmail.com>
+ <43a60afe-5170-4801-ae70-9243cf7b45b8@linaro.org>
+ <20251119123647.GC8204@e132581.arm.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20251119123647.GC8204@e132581.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 19, 2025 at 12:02:02AM +0000, Tian, Kevin wrote:
-> > From: Keith Busch <kbusch@kernel.org>
-> > Sent: Wednesday, November 19, 2025 4:19 AM
-> > 
-> > On Tue, Nov 18, 2025 at 07:18:36AM +0000, Tian, Kevin wrote:
-> > > > From: Leon Romanovsky <leon@kernel.org>
-> > > > Sent: Tuesday, November 11, 2025 5:58 PM
-> > > >
-> > > > From: Leon Romanovsky <leonro@nvidia.com>
-> > >
-> > > not required with only your own s-o-b
-> > 
-> > That's automatically appended when the sender and signer don't match.
-> > It's not uncommon for developers to send from a kernel.org email but
-> > sign off with a corporate account, or the other way around.
+
+
+On 19/11/2025 12:36 pm, Leo Yan wrote:
+> On Wed, Nov 19, 2025 at 12:00:30PM +0000, James Clark wrote:
 > 
-> Good to know.
+> [...]
+> 
+>> ...  But then to make
+>> the code match the warning it might also make sense to change CONFIG_ARM64
+>> back to CONFIG_CORESIGHT_SOURCE_ETM4X, which Leo suggested to change. Maybe
+>> I can just delete the warning text, practically this warning can never be
+>> hit.
+> 
+> Armv8 CPUs can runs in aarch32 mode, strictly speaking, we should also
+> can run ETMv4 driver in aarch32 mode as well.  Then CONFIG_ARM64 is the
+> right choice, this can remind us that `is_kernel_in_hyp_mode()` is
+> always stick to aarch64 mode.
+> 
 
-Yes, in addition, I used to separate between code authorship and my
-open-source activity. Code belongs to my employer and this is why corporate
-address is used as an author, but all emails and communications are coming from
-my kernel.org account.
+For the avoidance of confusion, in this case CONFIG_ARM64 and 
+CONFIG_CORESIGHT_SOURCE_ETM4X are 100% equivalent and there's no 
+functional difference. Yes maybe 32 bit userspace can be traced from 
+ETMv4, but that's not really related with how this code is compiled.
 
-Thanks
+>    static ssize_t format_attr_contextid_show(struct device *dev,
+>                                              struct device_attribute *attr,
+>                                              char *page)
+>    {
+>    #if IS_ENABLED(CONFIG_ARM64)
+>         if (is_kernel_in_hyp_mode())
+>                 return contextid2_show(dev, attr, page);
+>    #endif
+> 
+>         return contextid1_show(dev, attr, page);
+
+Not having an #else implies that the contextid1_show() part is valid 
+when !CONFIG_ARM64, but that isn't right. That's why I had the WARN_ON 
+because it's dead code.
+
+Personally I would drop the is_visible(). It makes sense for dynamically 
+hidden things, but these are all compile time. IMO it's cleaner to just 
+not include them to begin with, rather than include and then hide them. 
+Then the extra condition in format_attr_contextid_show() isn't needed 
+because the function doesn't exist:
+
+GEN_PMU_FORMAT_ATTR(cycacc);
+GEN_PMU_FORMAT_ATTR(timestamp);
+GEN_PMU_FORMAT_ATTR(retstack);
+GEN_PMU_FORMAT_ATTR(sinkid);
+
+#if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
+
+/* contextid1 enables tracing CONTEXTIDR_EL1 for ETMv4 */
+GEN_PMU_FORMAT_ATTR(contextid1);
+/* contextid2 enables tracing CONTEXTIDR_EL2 for ETMv4 */
+GEN_PMU_FORMAT_ATTR(contextid2);
+GEN_PMU_FORMAT_ATTR(branch_broadcast);
+/* preset - if sink ID is used as a configuration selector */
+GEN_PMU_FORMAT_ATTR(preset);
+/* config ID - set if a system configuration is selected */
+GEN_PMU_FORMAT_ATTR(configid);
+GEN_PMU_FORMAT_ATTR(cc_threshold);
+
+/*
+  * contextid always traces the "PID".  The PID is in CONTEXTIDR_EL1
+  * when the kernel is running at EL1; when the kernel is at EL2,
+  * the PID is in CONTEXTIDR_EL2.
+  */
+static ssize_t format_attr_contextid_show(struct device *dev,
+					  struct device_attribute *attr,
+					  char *page)
+{
+	if (is_kernel_in_hyp_mode())
+		return contextid2_show(dev, attr, page);
+	return contextid1_show(dev, attr, page);
+}
+
+static struct device_attribute format_attr_contextid =
+	__ATTR(contextid, 0444, format_attr_contextid_show, NULL);
+#endif
+
+/*
+  * ETMv3 only uses the first 3 attributes for programming itself (see
+  * ETM3X_SUPPORTED_OPTIONS). Sink ID is also supported for selecting a
+  * sink in both, but not used for configuring the ETM. The remaining
+  * attributes are ETMv4 specific.
+  */
+static struct attribute *etm_config_formats_attr[] = {
+	&format_attr_cycacc.attr,
+	&format_attr_timestamp.attr,
+	&format_attr_retstack.attr,
+	&format_attr_sinkid.attr,
+#if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
+	&format_attr_contextid.attr,
+	&format_attr_contextid1.attr,
+	&format_attr_contextid2.attr,
+	&format_attr_preset.attr,
+	&format_attr_configid.attr,
+	&format_attr_branch_broadcast.attr,
+	&format_attr_cc_threshold.attr,
+#endif
+	NULL,
+};
+>    }
+> 
+> Thanks,
+> Leo
+
