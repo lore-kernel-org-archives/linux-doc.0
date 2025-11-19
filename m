@@ -1,185 +1,157 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14A835E53C
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 13:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C517435FF4D
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 13:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763558716; cv=none; b=jE+AuFyPJclgV28Q4MKFGcARKjYzJmuaqE5epLx0xSApv4uKcuG5DbrJQHRfTqFcns6QoZrx7qt+aoK2jcw/G+yrQnii4w68Os5KBMmDhlvd3cJA6+ZrjFrh14mFDylu2MdP9W8HzBo9Uj3dfXVpMC7RbSJ4yRV70F5n00UOduQ=
+	t=1763558835; cv=none; b=Pgzy6OiYYr2sD2ueOcfbzDDU5bqMD72LZWpi7R53WxJczuiJ/TI0Aveau1R8HSULnwJ/QXMFO5zvUITF+FqXnPWJzd3HNzet/Pn/oagmxrP0hEGw8NHrwXsLIACXLIaBsBwpsn2/iXiNCHoGXE4XQdHHz7S00y40EvNYHvP6lqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763558716; c=relaxed/simple;
-	bh=NY4W006Vmm4O8KX13k1mpx8rxHpApVfJH2xGg7x9Lfs=;
+	s=arc-20240116; t=1763558835; c=relaxed/simple;
+	bh=atfchYGWfOCiDBgRzlxK4SjGe18cMWhMQruGelsdE74=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A39GTjKWtAFotkTMnZn0K4cNIcpFoNdx5QtLMo3lmwqtiwxJJjlk98E5j9BPeEYW2X/IaSVsosFY6ifUwBVS7hyuvGLe43dTAZjKojMcstpvRlkiM//KvcgyoypKEDkOiiAw27xNg4BdmKJYuztu2jELkQt40W3q/KLdeNAF79Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=WMfJevXW; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=D5IVb60NR0kXnHv06qNil2QEPzbVz78N9Ay5emqbmTp96iqThDSVenVUHje2bMaThNUQ6r6W9/NvVXoH+5UYjtR8vddAPz3evQ/r1TkcEyz9D7WLKPqYUPMOZApvLaI08zL/Ii7kEAZcDLy6InihwY9KDbm+x4TzV8iuNBbekpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RMWOXnF/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9LYejATv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RMWOXnF/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9LYejATv; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="WMfJevXW"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4ee1879e6d9so43148461cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 05:25:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1763558713; x=1764163513; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7FcA8gVt6NKvMsMWTMSBQuU8SYBlABMNBdbtn9F9iv8=;
-        b=WMfJevXWqU3CRU2AHZ4/IK/wY+6nPWRcEwraHsRz8KDG1ijClMR7G9IMKrHNcSkml6
-         uvAsh5rLHr6z7QMHuiddDP5u7ySsTrbmvBiSEaRfIbiTEg4T+EyqwuDj6qvP1Gi4ynzl
-         1Yyd6lkGWpXGvLNmMmXvWAHOugKBbY3LnZC473Sgx4w/MLtN0gyaXN1wIlc4MdtY1PZc
-         Mv78ThOUOJbmHwU7y1/kA0/5bQB6tqj3kMJhg+KIl0nk2JjqWWx9BUmZhrEIO9aElB6z
-         3NpQY8He2tWwR7LjI1fXnqHlIf/Fu2dHJ9DG+XIENzU3PcWORuGmfl/m/lVDxT77cRMR
-         0mtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763558713; x=1764163513;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7FcA8gVt6NKvMsMWTMSBQuU8SYBlABMNBdbtn9F9iv8=;
-        b=Cn0GLstQxukF/8GUok0cg1UYC/TTJ3btaop2RoH7CEWFpo5YF3qs/Xd+usHD3rqwUk
-         hR31I+YPSWE9TDPsr4YUqJZ9MxosDubBYJtimULIYsXMPBOEx888uluJ53LTG+mPHczc
-         oExP2Hdf6PqpAj4cpi9OwnFYDTnXnc9neUdM5+NTDKpCGqOdPvE1AoOS1dyiZtX+6eL9
-         4oRjFb6wnE1Q24/TovHPQxwHs1TffEhhfvQPqiPL5Z8LOazc+A2PkWWUzTsgbtFGjo9e
-         fIolGvAMB4jel2TlJuUao2elojY5zoXtq02v9naNNAxmJdzgNlXXf4YKJ5sxnMo/gx3n
-         pDMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWt1g6nOmQmMODnQqZN7UJZvonmCXTXjBEEAWshEOehOPP1dcxnySxKIaKizvunLjSbXW4rLJIJD6M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAI1oJcD+z1TLtfQaj1bYHGhW2dtV9HhPBBVLkKCu+HOP79ylI
-	WuEtTgcoUeAJ94Zgq0kR52JXFNlGNv/f+mZR5YWqmC5psok4gyj/hROm+o5kAImwCNs=
-X-Gm-Gg: ASbGnctJjy2JDpMd8+n7GPZg2rcOf7QDSt243Y58/Oxn+PbinpstQvB+VPK+9CFu7FL
-	m0Mef//mfm/JMgByPcT0Yqc9mbaJ8e2WExB8yEyAjHPgZuAc2vuHDon01Iz0IhhqVjOC+TjHHqa
-	22RSYazsRkELEfxQup6fgjpzazt7EQosI/9Q2uyPZA+GaxuGlZxAtTSDfDuDxxEBBfXEbBun+f4
-	bq5um8eMEfjHFFs4U5LB/olfZr/HOalY5aLnlhmyI2LqlMDU0Z6idFMTbS8IzhIbuFI2ThjNipQ
-	vQEJn9xmyl+JaxSqrlP+px45gpeLqZk+7RBr61AXRrZb+qVGN8LPE7LXAHnh0ywS3g/wlRAQSYO
-	eqsub+RA6lIVHvYKWJ5m74uoZ60MR2N55bupGgqSlpVN+WDJMyBN0jTArZFOTSgqHb46b8FePNB
-	ZvHn++2+TS9sMNM58Glwet2pukZZWYOtK0/73l7MGD4mRIP2ljHd62/xHWxCQ3ey5o3YY50ZBDj
-	E5h3A==
-X-Google-Smtp-Source: AGHT+IGcHnQoF5t1hy3jZRVLXrR3AGxUUwufE8qFpbPEJxiBipRIqKgpWukFR+qkVncUWaOAApoSpg==
-X-Received: by 2002:a05:622a:1a8d:b0:4ee:219e:e66 with SMTP id d75a77b69052e-4ee219e1ccbmr140009891cf.83.1763558712629;
-        Wed, 19 Nov 2025 05:25:12 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88286588be1sm133530266d6.47.2025.11.19.05.25.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 05:25:11 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vLiBL-00000000Z6L-0jbP;
-	Wed, 19 Nov 2025 09:25:11 -0400
-Date: Wed, 19 Nov 2025 09:25:11 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, iommu@lists.linux.dev,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
-	Nicolin Chen <nicolinc@nvidia.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
- scatter-gather mapping routine
-Message-ID: <20251119132511.GK17968@ziepe.ca>
-References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
- <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
- <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RMWOXnF/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9LYejATv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RMWOXnF/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9LYejATv"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1DF202122F;
+	Wed, 19 Nov 2025 13:27:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763558832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pQ44aemiqJtq0zuhYxg46Kkv6bvog9XT2UPmBVw0jms=;
+	b=RMWOXnF/ZNFkgMlOeBmixrq5P+Jky/xvy/zWvHNTcg2baoZYZUB4kLAyTLQHYQLNNUxnE9
+	BYPR/O6m4Q5pHJm3SRZi7hEwLL7f2LHn7gfzSMpbSgiGgt3fXJYQH/arQ+gewvWAUt4kIa
+	u71FSPx6juE+l1yS8fvxYJxBijv/A9c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763558832;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pQ44aemiqJtq0zuhYxg46Kkv6bvog9XT2UPmBVw0jms=;
+	b=9LYejATvmFovj4posftKnmnywuSGp3r7VTCOjjB+7yjVLxPMUHMF6HNd8YUzKj7pHJxX5k
+	EB4N0NtjKCDF2NDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763558832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pQ44aemiqJtq0zuhYxg46Kkv6bvog9XT2UPmBVw0jms=;
+	b=RMWOXnF/ZNFkgMlOeBmixrq5P+Jky/xvy/zWvHNTcg2baoZYZUB4kLAyTLQHYQLNNUxnE9
+	BYPR/O6m4Q5pHJm3SRZi7hEwLL7f2LHn7gfzSMpbSgiGgt3fXJYQH/arQ+gewvWAUt4kIa
+	u71FSPx6juE+l1yS8fvxYJxBijv/A9c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763558832;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pQ44aemiqJtq0zuhYxg46Kkv6bvog9XT2UPmBVw0jms=;
+	b=9LYejATvmFovj4posftKnmnywuSGp3r7VTCOjjB+7yjVLxPMUHMF6HNd8YUzKj7pHJxX5k
+	EB4N0NtjKCDF2NDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B21B3EA62;
+	Wed, 19 Nov 2025 13:27:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id nnHREq7FHWl4NgAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Wed, 19 Nov 2025 13:27:10 +0000
+Date: Wed, 19 Nov 2025 13:27:08 +0000
+From: Pedro Falcato <pfalcato@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	David Hildenbrand <david@redhat.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jann Horn <jannh@google.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Andrei Vagin <avagin@gmail.com>, Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v3 3/8] mm: implement sticky VMA flags
+Message-ID: <4dodae73i5ganur6llvbbxcojt4uailsxs6sr5w2jr4a7tzxkf@26rmrmcdjvlz>
+References: <cover.1762531708.git.lorenzo.stoakes@oracle.com>
+ <1ee529ff912f71b3460d0d21bc5b32ca89d63513.1762531708.git.lorenzo.stoakes@oracle.com>
+ <25cb4b6a-035b-4193-a8db-685fc4c58507@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
+In-Reply-To: <25cb4b6a-035b-4193-a8db-685fc4c58507@sirena.org.uk>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLikzfga1gh8n9q3k5e6mrznp7)];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[oracle.com,linux-foundation.org,lwn.net,redhat.com,suse.cz,kernel.org,google.com,suse.com,goodmis.org,efficios.com,nvidia.com,linux.alibaba.com,arm.com,linux.dev,vger.kernel.org,kvack.org,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
 
-On Wed, Nov 19, 2025 at 02:16:57PM +0100, Christian König wrote:
-> > +/**
-> > + * dma_buf_map - Returns the scatterlist table of the attachment from arrays
-> > + * of physical vectors. This funciton is intended for MMIO memory only.
-> > + * @attach:	[in]	attachment whose scatterlist is to be returned
-> > + * @provider:	[in]	p2pdma provider
-> > + * @phys_vec:	[in]	array of physical vectors
-> > + * @nr_ranges:	[in]	number of entries in phys_vec array
-> > + * @size:	[in]	total size of phys_vec
-> > + * @dir:	[in]	direction of DMA transfer
-> > + *
-> > + * Returns sg_table containing the scatterlist to be returned; returns ERR_PTR
-> > + * on error. May return -EINTR if it is interrupted by a signal.
-> > + *
-> > + * On success, the DMA addresses and lengths in the returned scatterlist are
-> > + * PAGE_SIZE aligned.
-> > + *
-> > + * A mapping must be unmapped by using dma_buf_unmap().
-> > + */
-> > +struct sg_table *dma_buf_map(struct dma_buf_attachment *attach,
+On Wed, Nov 19, 2025 at 01:16:36PM +0000, Mark Brown wrote:
+> On Fri, Nov 07, 2025 at 04:11:48PM +0000, Lorenzo Stoakes wrote:
+> > It is useful to be able to designate that certain flags are 'sticky', that
+> > is, if two VMAs are merged one with a flag of this nature and one without,
+> > the merged VMA sets this flag.
 > 
-> That is clearly not a good name for this function. We already have overloaded the term *mapping* with something completely different.
+> I'm seeing regressions on multiple arm64 platforms in at least the LTP
+> clone302 and madvise10 selftests, both of which have bisected to one of
+> the fixups to this patch.  Especially given the other tests that also
+> bisected to the same place I've not investigated further.  There's a
+> number of other LTP tests that started failing today including relevant
+> seeming ones munlockall01, mprotect04, madvise10, mprotect03 and
+> futex_cmp_requeue01 but I don't have bisects to confirm they're the same
+> thing.
+>
+
+Thanks for the reports!
+ 
+> clone302:
 > 
-> > +			     struct p2pdma_provider *provider,
-> > +			     struct dma_buf_phys_vec *phys_vec,
-> > +			     size_t nr_ranges, size_t size,
-> > +			     enum dma_data_direction dir)
-> > +{
-> > +	unsigned int nents, mapped_len = 0;
-> > +	struct dma_buf_dma *dma;
-> > +	struct scatterlist *sgl;
-> > +	dma_addr_t addr;
-> > +	size_t i;
-> > +	int ret;
-> > +
-> > +	dma_resv_assert_held(attach->dmabuf->resv);
-> > +
-> > +	if (WARN_ON(!attach || !attach->dmabuf || !provider))
-> > +		/* This function is supposed to work on MMIO memory only */
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	dma = kzalloc(sizeof(*dma), GFP_KERNEL);
-> > +	if (!dma)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	switch (pci_p2pdma_map_type(provider, attach->dev)) {
-> > +	case PCI_P2PDMA_MAP_BUS_ADDR:
-> > +		/*
-> > +		 * There is no need in IOVA at all for this flow.
-> > +		 */
-> > +		break;
-> > +	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-> > +		dma->state = kzalloc(sizeof(*dma->state), GFP_KERNEL);
-> > +		if (!dma->state) {
-> > +			ret = -ENOMEM;
-> > +			goto err_free_dma;
-> > +		}
-> > +
-> > +		dma_iova_try_alloc(attach->dev, dma->state, 0, size);
-> 
-> Oh, that is a clear no-go for the core DMA-buf code.
-> 
-> It's intentionally up to the exporter how to create the DMA
-> addresses the importer can work with.
+> tst_buffers.c:57: TINFO: Test is using guarded buffers
+> tst_tmpdir.c:316: TINFO: Using /tmp/LTP_clorMwMMw as tmpdir (nfs filesystem)
+> tst_test.c:1953: TINFO: LTP version: 20250530
+> tst_test.c:1956: TINFO: Tested kernel: 6.18.0-rc6-next-20251119 #1 SMP PREEMPT @1763523415 aarch64
 
-I can't fully understand this remark?
+next-20251119 still has the v3 version of the patchset, which is Known Bad(tm)
+after a couple of buggy fixups. v4 should hopefully work properly.
 
-> We could add something like a dma_buf_sg_helper.c or similar and put it in there.
-
-Yes, the intention is this function is an "exporter helper" that an
-exporter can call if it wants to help generate the scatterlist.
-
-So your "no-go" is just about what file it is in, not anything about
-how it works?
-
-Thanks,
-Jason
+-- 
+Pedro
