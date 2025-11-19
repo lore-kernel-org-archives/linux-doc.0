@@ -1,257 +1,188 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012031.outbound.protection.outlook.com [52.101.66.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5E5354714;
-	Wed, 19 Nov 2025 11:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763551335; cv=fail; b=cTnCSy5Iq7h96fqmuD0JMXM/J45u/09WAgsqkjWprn4E2cgZ7mR4BKdir2C2B79eW762fwIgYqgSZcQZNkm3NcSxSdrw5Ykx8t+Fig5UZiVbvidf/cI11onNRdSLARiQjXfNOSOZjhX0zczSIbXAhLyG94ju7+ErIKeeZEtNfGA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763551335; c=relaxed/simple;
-	bh=VLmfnES64JSQXAvmwRy4PWB9rN2YdRWEuXjCUNSNVWg=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZLfv0HXHiJVlbb1uXOOXGha0Fj0j/yeJy65myOEh7nANb709bYPyXjbocQsZBQPQkxBiARs5gWsaXIt0BAjt0x58L6MaRMBTqMki19QT3TssYipUSMqnzWcuuB3ckbI4s0jm6NbdxcO/VzL5SPKvERDikSAgUv4oYyWentgRuj0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=kmHJUzxg; arc=fail smtp.client-ip=52.101.66.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CECB342C8E
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 11:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763551574; cv=none; b=jLtAUYSCUlxXLoR4s4BvbVl5cE8m6Ykpf0zu/cPUk+8RjrC8f63IzN/joj9q60F5NUKrg0/6SMqeBwlhTJF7jrluZoKyGOiDblW4IUQ2WDxB/KqvHfcZ0MIcYGfZpoi5vEe7E7K3TP1KfUVrlGES7JccJrd3IuuymZ66wYX43ec=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763551574; c=relaxed/simple;
+	bh=VmQAL5PbKWFn77lQXs2vdQrJbqq+/TScMrUt1BqdGCo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Yp2kJWieuAajwph9QyK/rH7FTT5+gDR3vcao1i/m1ckMqJkIaYrO2cYr4UuHSNC4QJ5F/ex8aZqHAniwbawYUebkzzSfIzdbXeFWa+Mx9CxUSD2QQdFvdvW/IIbJcBgQhMi2C7qZnOKQjud9H+bhAXzTATTGlCphQhvjnmntTG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h6liX80A; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="kmHJUzxg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=twpL/WE6M2MFMWiI2OOcnaLNDZokEm9Ev+h7gPLPXwBfmxLMp18OF/n/JZ/FkK4L1R9lzMjJBdpqtYT7XMEQzeOT+X60YH9C6hZX/dEYv6RCrJslAMfs2Kn2ke8ngaktkMhWPHoFjMajgSjXAohUQmllQnyy+svomBkKCh7EW61DpPKvBlpev/Za7++gev05KM+leEvN59t/c6iozUui3EyxwxvMSVo8oLz186Kwz+W21Y1AuhV5+Mpxn8WVJzzWESajZGmwFOpl7ny4nO2K/sQxxE2tXkQJiaNnI6Dc2ndmd0zppCRH/DjWLghhBvf10VdUH1WbWeLwP8OFBoq0tA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iMmEAGkgLZGCmBQO8i/5+RiG0m5rf5esPYqtZIkVAYs=;
- b=wHltJnGpG9fTEXwszmzuyGro90TdqwIAxGKrkOES7MhjE7qVgc94KsNtxf9RUmE7/5XobU7vez294CwfLKn+dzX2wV3WAlBt+5vbn3n3gL1OdKE3cJaFGAwKeXvd9m1P/2q26GAekRqQA/CA98+e9ifZVsX1KX072LuOdYdUMMUjZh+8MqonY4mmMUmT/6PW7eD29FBKX5466oyvMDTk6aNZWKpKkQ78U13LIcnWCqD9A5bV+TN7ul4IpB2V4VYTAi8g+YqIYv4Q34kmmfelz5Fq8Rb0xnl6lxcTkqmB82uQ5u+Sp68KW0xVuknmB09uhSD/kvEQe2vab9YaUdHcwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nokia-bell-labs.com; dmarc=pass action=none
- header.from=nokia-bell-labs.com; dkim=pass header.d=nokia-bell-labs.com;
- arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iMmEAGkgLZGCmBQO8i/5+RiG0m5rf5esPYqtZIkVAYs=;
- b=kmHJUzxgWOKt4NvqC/K3e8+9tmz2bkanCQE0pWFElo/kIKenda0gYjFjajCoS0fZQpd9kDaC2jfQ7Hd8nwg7i8l8iQpP377EpaPneiwvWVrC+QDkgj1A4DS5dlLcxhI5fsLnd9fpg8x1H+Hi2+iN+Oc232BM+HaB78cPjdlZ0ATqY93v/ngjLRs6hVwoe6xh2Aup8BUgES0mUwtxel4Rfuyg0Wl2XnA8Rwbs8fsbXLdxn/v5rKYDDqY4Y9yX0aSAVPHkvIXqgY5LRPMHLJtee/vWhbLht+OvmoqvI0TF7+JtdQnDTLNQoJ5pi6rz6HqH3ngoLEcIkDHIm79Qs8VstA==
-Received: from PAXPR07MB7984.eurprd07.prod.outlook.com (2603:10a6:102:133::12)
- by AM7PR07MB6455.eurprd07.prod.outlook.com (2603:10a6:20b:137::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.19; Wed, 19 Nov
- 2025 11:22:09 +0000
-Received: from PAXPR07MB7984.eurprd07.prod.outlook.com
- ([fe80::b7f8:dc0a:7e8d:56]) by PAXPR07MB7984.eurprd07.prod.outlook.com
- ([fe80::b7f8:dc0a:7e8d:56%2]) with mapi id 15.20.9343.009; Wed, 19 Nov 2025
- 11:22:08 +0000
-From: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-To: Paolo Abeni <pabeni@redhat.com>, "edumazet@google.com"
-	<edumazet@google.com>, "parav@nvidia.com" <parav@nvidia.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "corbet@lwn.net"
-	<corbet@lwn.net>, "horms@kernel.org" <horms@kernel.org>, "dsahern@kernel.org"
-	<dsahern@kernel.org>, "kuniyu@google.com" <kuniyu@google.com>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "dave.taht@gmail.com" <dave.taht@gmail.com>,
-	"jhs@mojatatu.com" <jhs@mojatatu.com>, "kuba@kernel.org" <kuba@kernel.org>,
-	"stephen@networkplumber.org" <stephen@networkplumber.org>,
-	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>, "jiri@resnulli.us"
-	<jiri@resnulli.us>, "davem@davemloft.net" <davem@davemloft.net>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "donald.hunter@gmail.com"
-	<donald.hunter@gmail.com>, "ast@fiberby.net" <ast@fiberby.net>,
-	"liuhangbin@gmail.com" <liuhangbin@gmail.com>, "shuah@kernel.org"
-	<shuah@kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "ij@kernel.org" <ij@kernel.org>,
-	"ncardwell@google.com" <ncardwell@google.com>, "Koen De Schepper (Nokia)"
-	<koen.de_schepper@nokia-bell-labs.com>, "g.white@cablelabs.com"
-	<g.white@cablelabs.com>, "ingemar.s.johansson@ericsson.com"
-	<ingemar.s.johansson@ericsson.com>, "mirja.kuehlewind@ericsson.com"
-	<mirja.kuehlewind@ericsson.com>, cheshire <cheshire@apple.com>,
-	"rs.ietf@gmx.at" <rs.ietf@gmx.at>, "Jason_Livingood@comcast.com"
-	<Jason_Livingood@comcast.com>, Vidhi Goel <vidhi_goel@apple.com>
-Subject: RE: [PATCH v6 net-next 03/14] net: update commnets for
- SKB_GSO_TCP_ECN and SKB_GSO_TCP_ACCECN
-Thread-Topic: [PATCH v6 net-next 03/14] net: update commnets for
- SKB_GSO_TCP_ECN and SKB_GSO_TCP_ACCECN
-Thread-Index: AQHcVTY/Vojp0P94/0mOC8z6JaaJb7T4W/UAgAFx7lCAAAltAIAAAXMA
-Date: Wed, 19 Nov 2025 11:22:08 +0000
-Message-ID:
- <PAXPR07MB79840A45F8DCE6A6956ABEC2A3D7A@PAXPR07MB7984.eurprd07.prod.outlook.com>
-References: <20251114071345.10769-1-chia-yu.chang@nokia-bell-labs.com>
- <20251114071345.10769-4-chia-yu.chang@nokia-bell-labs.com>
- <d87782d4-567d-4753-8435-fd52cd5b88da@redhat.com>
- <PAXPR07MB79842DF3D2028BB3366F0AF6A3D7A@PAXPR07MB7984.eurprd07.prod.outlook.com>
- <6d4aad6e-ebe0-4c52-a8a4-9ed38ca50774@redhat.com>
-In-Reply-To: <6d4aad6e-ebe0-4c52-a8a4-9ed38ca50774@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nokia-bell-labs.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR07MB7984:EE_|AM7PR07MB6455:EE_
-x-ms-office365-filtering-correlation-id: 34c60a76-e9ae-4696-cf44-08de275de0c0
-x-ld-processed: 5d471751-9675-428d-917b-70f44f9630b0,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|7416014|921020|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?TBnILb2DWiqkIXv/v5/R2S7k1Byw8OdGzvlqBIvMxQzqc/5S1E6Rz5N8Gq1n?=
- =?us-ascii?Q?/6j8pUFI8uabP3KDgQeloY29xIBX4tYilEPKhwNc9Pgd2YQS+Kt+s2FYMgHa?=
- =?us-ascii?Q?fo+2n8nN3Ezq8SUuXle8lCqskOL1POUz0L5ck/ayazf3vWX6SvaIVnkvnGXg?=
- =?us-ascii?Q?t0VKojdkT5Qis17FcrHKpGfgx0ZCI7rkmXnR1K4nA2lMo2rNiUcY0LCrIdeV?=
- =?us-ascii?Q?Jx2gGV7dnGurlXL62N8hDRaCUmx7gJH7PuxK0taG2U6tannvYVT5oLCBCVRz?=
- =?us-ascii?Q?g23zGhIWWDPYWGFosfQwY7l1/WjUszw4MV3zwfO0GAj8Vplnyat9/GGjse/G?=
- =?us-ascii?Q?pzKUCgYbaOEPMp2VVn+LneAQvJAIgL7z6jkj3zVlW8+qaCWbAFYJ7yQM3CSi?=
- =?us-ascii?Q?m2pFRr/qA8u9So9/vfTomYCXW5W0+P+BL9yUhRBlKhWIT8oy8oPVdCGcWhpU?=
- =?us-ascii?Q?iUawamzGRsZSjLbz/8BJ4pKiY5OaQLQvVjGDE+wtNUUWpNJ244QpH2+DsPjQ?=
- =?us-ascii?Q?YwxdUjEud4qJXTHMd77vCQvFspXaPiCfXtvDl+fSDHCCJYCD8TFs5rDd4ud7?=
- =?us-ascii?Q?ygYG6kdx87hqW+Y2CAkjiAcutfGuDofIkhTRAZnX5e+z+UnN68As8Fn3iJ8S?=
- =?us-ascii?Q?9KM/yge1RfdHDrk/EXw23jV7e3ln8Y7HpeheQqkT6+VceSme5Bs0rZFlNK4u?=
- =?us-ascii?Q?xzgUBGB5fxH/VCPo7+5Cw5SEWslJXH9gOGtbuqxs+VaPDEa8DT+CJX0W91jf?=
- =?us-ascii?Q?8I21RHvOJZi5EdsvXY7y1RW9qkaQZjwBJGtx/x7cVa9nqclNoMh8Duuh1XqQ?=
- =?us-ascii?Q?r3+8PqVcSdq01CGhhCu1XupWp377SB0NXTI5dyhCCp/IXpWvrn0td5TjCWk1?=
- =?us-ascii?Q?BM/d6C/6CAG/swKJqfRALMHQEs437pfgQTGRB0z6X949IAs4hFHIucW8ooIa?=
- =?us-ascii?Q?aJ7mJ82VnoGxbmLTF29aOyeagxKbr3QQTrLRb1pfgGirOyRI8gBnUNfK+bRO?=
- =?us-ascii?Q?bu4olp9MXTC/KxJYuOHbUAABGXAKvzG4nm2ocm7Hsb9JNx152yGM2DrR24wE?=
- =?us-ascii?Q?MwMfGOZ3evyhjyEl9eK9EjSuHMU1Mz1C1/Wvc/Rw5WVzSf1H2+3hfm+ohKEu?=
- =?us-ascii?Q?peqdHryNyXJHCXZ3UPPlTWhiqjx10KwzqomDj1RjdzL4okyyNk22neZHeyGW?=
- =?us-ascii?Q?yxQX7SlsSTubIQH1REpNLOTO5IxweFJoyLY+7GbWMdWduxW9ccf8F2hQkm3Z?=
- =?us-ascii?Q?N+euAUFI7kKfnZYNLxiwfNQUGX/0m3ioUzJmtN5zCxEXEA0ydmXD/eQXmqub?=
- =?us-ascii?Q?T/O9pinonXVmmQJqXe6xBhjWXTVgRzyyhEcyxCIKd5xb1O7cg6sjPo/SaDre?=
- =?us-ascii?Q?pMbYgL7MWT9W5rlD/2oxCQFpzeyVxGQFVBV6GAQ7bRZrXwMdEOGuTrCBlYK3?=
- =?us-ascii?Q?qx6+8htErJgExJOaUZ6qxk5h8/LxnSp7LhgqheLb59vYDQWhnR7cvdDUYzgY?=
- =?us-ascii?Q?J3kB2ZuCNgqH5qQGTVYZg9ZF+vx5+uotktBaIokz77XeCe91k3+HacfZZw?=
- =?us-ascii?Q?=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR07MB7984.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?qDfS9FrnIukUKvC7AhmW9/kqLyd1lCOvXhcgIZ6LzCDzLPZJOyXVZLQVNii3?=
- =?us-ascii?Q?g2Wer/N08i/AJFQMwyKlXZeHhj4zKe6arPd5S1Nv0ti4qrVy5grRs0p441Es?=
- =?us-ascii?Q?xMU58UzXIc/fLFltcoOSq/N6ILybb9xypo/hfU2iHxkeFyuWemcUjibilfcO?=
- =?us-ascii?Q?N7DFKrGNffF+gAdPEL0QTJ1/93DibZOKxfx5k83LXDpp8uNEX7+gV6PYcQ0w?=
- =?us-ascii?Q?k3+xb+MojarCJReLEDid0QV+u74eoTaiL/dB8fEAJv1VTzvhuGt9NsUmBLtN?=
- =?us-ascii?Q?wf5rctxFU9a0hJ156kQPOSYeEXyGLLa/6lkGBxpKqsU4hi3lQsU+3yT6exVt?=
- =?us-ascii?Q?37Wtniv4wVRGsE64obmOBGrXrirdyw60FMsdAlAiD8RxVTAqHyjQMoS+OQtb?=
- =?us-ascii?Q?k2UtyYXgfqtkPcXqVTSz0rSwZU5mv5CKWtLvL/aiB5/zgqGt9za9zlPUl5YM?=
- =?us-ascii?Q?Oy0BRnIOlRihdwSqTE848zgry13PEDG1OmyxNZirUyYviJQTKyN3TxGCyxr4?=
- =?us-ascii?Q?Cl9gapjFPDIlvURAlSm1PD33NecylWih6hNcW2oK3AAzYdQus91uqmf+AE/0?=
- =?us-ascii?Q?7TSn6B5rciqcy2YFQGqHoZErZzsUrd54GJL7hrowlGe/Z3MAokVCMzjCJ1PN?=
- =?us-ascii?Q?OUaN1mNaoO84Fnui7pluEOAQB6vvgaRNY5PHm/mQvu0XnnnxzZoEYYwQVlGS?=
- =?us-ascii?Q?XXNOsvcpPOJ70TKgZzmJfkbira6gS77zmWCwsLs82m9HNm3PXhtYY4VUo/Xx?=
- =?us-ascii?Q?PUaEhLwMHFyVVJGPK1JbqiacPkShKx4k4tPXuOMTboNvJWiGl4VmiuYetKTG?=
- =?us-ascii?Q?LsITAfJiWp/JULWwHwt87BQYQGAHYAStfzMRAZnZt92lxNajDiEdgFrdr2/V?=
- =?us-ascii?Q?tkKJHiVxF4erEMt/xCj1xMgboYV3g6njsJUxVSeTxA9yXaEE4SYgxYRepKfs?=
- =?us-ascii?Q?0yPBTSZKYTd0EkiFXXnr4i7u4DWS6qtHbVEM0t/HbfmeeUOTHeONmFAE35Al?=
- =?us-ascii?Q?hUth0HQuci+aLyh6zUFa0uQiWsdDb7jwvdY/5BBdltQICqPi+aDAiPXUs5TD?=
- =?us-ascii?Q?gVRVtcqPDkjKKb95t+3IncjokxoQariH61nsHuKUpz5J8K61LwDXPNNTG276?=
- =?us-ascii?Q?4dQIhC7JUibD41G9KdPRdzet4GJOrM4ZIoQ2fQEsp9npKCk2DTWOx9ymZ07h?=
- =?us-ascii?Q?wLslrFwPCTyD9OEq57Hg8GY1kvpnNep7lcK+dDhg7QpvHpECAh2FgKe4VQWP?=
- =?us-ascii?Q?LRLTdh/OOQ+1ywuzoPPgYy5X/cpB9UF2ueDZTZVdrRZjxwL+4ebaCvPd6suU?=
- =?us-ascii?Q?1ihV6XMQEefVumQQeD/qW+T/9TAm7aM54P7WMvtu06kZ90e+I7/IJZnFdZP2?=
- =?us-ascii?Q?lhP/aig2ISndrVCGiOB/wEwZjKYbLe5YOpJmgj3Kww+1bqvWxPKuYpGgEg64?=
- =?us-ascii?Q?dKQ85x1Qvj8jjxUn8lrkArnSG1YKWA5NZ+HDksK5LWF4U20R/cDuJ6S6VCve?=
- =?us-ascii?Q?I6B9N+3IpQmU/TPQeWs9SJIEQXZxBsevlor+y3u+0sxwKdQ6sqNStPljjhre?=
- =?us-ascii?Q?Vp2/QEKNLQ7aozJsrKdIf8AVMn9dlupmW6bkLZtLH0PEe6Qr58/DkfYysVF7?=
- =?us-ascii?Q?xQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h6liX80A"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-477a1c28778so40859925e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 03:26:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1763551570; x=1764156370; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9oWUgdV1H4j7xM7VCXc76DVxug1qnbqfi8eo3se1cmc=;
+        b=h6liX80AlHJdjWxlgkZz/9Ya3btNy7wzfUEl6byh4rxc1RbVaXD/tn+2fNmTLZ5B9W
+         M7gbznUzM0Hd1A2P5Y/2eKpwRFxv2ISkHGUgZRZqLlusUfiUVkR3zMby65Ryg1FYfD4j
+         73Aor06+Ped5UJr9l4nWVqyOl6oMD5mKKk6KqxAr3cVQzWJqleYlp/aWMO3u5lGRzYyP
+         aop0KYZYOd1FlS6xssd9lYzkda5a8Cq2+2i+iTBpLJch3t+POHEilLEmJ1CrnJ450quq
+         n1fH2bII2rfrdPMuwDaAxzmtDQf/41HEwwj/9JhiEZ6vKXqY2NjOcci/TLrA5g4u8DaC
+         B4zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763551570; x=1764156370;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9oWUgdV1H4j7xM7VCXc76DVxug1qnbqfi8eo3se1cmc=;
+        b=tYC43KRWp8Ox5JM7czlv05/TCY1dlsdVsFFpRng4+ssTOj3lwEjDBIsrlWQyggZFlH
+         qEftbpm+pL6zLblN4L5X/iRryGNHSk1/M0G6fL9B2cy0nkTajF2SXVkbDfyRPRsdStyv
+         pseLiBSy2DNL1wPp1yVhXd2xzcJh46S2laYnetmjdx41jtScn/CwpOqYwfxzhEWey6F0
+         lyPhReEZ79g8bewio5lyLtlun8t1HLa9KVwO3Eu59Bfu8M717Urxh2EzQ2yKz2O1zKhJ
+         h9zRf55qY4I4GH+mRkoGg9pw/u0SQFO7pyxARW4ZbCkJ3bCDaylrZP++SgvLly6sLlfW
+         8quA==
+X-Forwarded-Encrypted: i=1; AJvYcCUawpAVruCrOI6TJ270QeoJQ5b2jR/9q/bHQJebxTqquhraayZ1URsqg3XzM1tugARg9e0BEvai9FQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvTDJ0WS09Wov7uKBRV9gDQ3RZZoJ3IlSm/X1PQT856a6hsBHx
+	4J5sHT/0dqFyTxJhRZCHe3/13bS+rtQLfxIXZH4z84NYrA44C6bE3vfaB0dFBIw7v9Y=
+X-Gm-Gg: ASbGncu15PhG1UJBO8x8umeTmzWvDphl5bZ4YRx246Lccntt2sbXq/iMJ3UMjEz9WY5
+	w9b1opg0cySFbJ2MbmQiadI9gBZ0/u2tPMkHXUJW1onc00HyqIsYWYj/pYs3z5TMlHNynBcRuF+
+	k7alcm64KS5lmy1pjucXezKaxtcV9gGx8OqgtiiOSr2jBnGzOt4lcUkcnbob5W+nuGQmqOdtYu/
+	ktbV1q1xiPK3lt4XHCs43a4vnHXqmXFvreFZXRXnqNNr+wbYqL6rTjq8zFiqO+Qiy8/x8HVB+5O
+	RCDZHbR6Cobc1AcNy2xzydjGd5h/7Q0//QPgAajTUV1Fzt0QRJU6EWpx9X/2YfQPUAk9HHkN4FU
+	TacbaLC6h9AoH47fE85VMAmtufCQ06SDN77zk7WuwQ07lr+tD14sf0MUcLlJDIBL8P/0wolMaB3
+	J8xG0NBVtJ8Sx4ik5x2oKEUhLOtC8=
+X-Google-Smtp-Source: AGHT+IGe8fJfkQN0l8WespUyvIlqiHPxZFXrEGy+rBfciXs6pY1j7OqqJ24AL/wb750j5kxbZz4Z/g==
+X-Received: by 2002:a05:600c:a47:b0:477:79c7:8994 with SMTP id 5b1f17b1804b1-4778fea195emr225174955e9.30.1763551570462;
+        Wed, 19 Nov 2025 03:26:10 -0800 (PST)
+Received: from [192.168.1.3] ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f206aasm37765550f8f.40.2025.11.19.03.26.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Nov 2025 03:26:10 -0800 (PST)
+Message-ID: <416cf32d-d647-46dd-bcef-acc019490561@linaro.org>
+Date: Wed, 19 Nov 2025 11:26:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nokia-bell-labs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR07MB7984.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34c60a76-e9ae-4696-cf44-08de275de0c0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2025 11:22:08.8770
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: URR3GeHydPf8KnIvUxNwR0IG5F0eWtkfnpuZqsdg7nkF2firmelzur622B5BAEyJSzZGQ90rB4NCijvZcUoBiuCW+U9X09ZgTRrba9uQotqyTO0JjEqq6jGdr7rYQy6X
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR07MB6455
-
-> -----Original Message-----
-> From: Paolo Abeni <pabeni@redhat.com>=20
-> Sent: Wednesday, November 19, 2025 11:40 AM
-> To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>; edumazet@g=
-oogle.com; parav@nvidia.com; linux-doc@vger.kernel.org; corbet@lwn.net; hor=
-ms@kernel.org; dsahern@kernel.org; kuniyu@google.com; bpf@vger.kernel.org; =
-netdev@vger.kernel.org; dave.taht@gmail.com; jhs@mojatatu.com; kuba@kernel.=
-org; stephen@networkplumber.org; xiyou.wangcong@gmail.com; jiri@resnulli.us=
-; davem@davemloft.net; andrew+netdev@lunn.ch; donald.hunter@gmail.com; ast@=
-fiberby.net; liuhangbin@gmail.com; shuah@kernel.org; linux-kselftest@vger.k=
-ernel.org; ij@kernel.org; ncardwell@google.com; Koen De Schepper (Nokia) <k=
-oen.de_schepper@nokia-bell-labs.com>; g.white@cablelabs.com; ingemar.s.joha=
-nsson@ericsson.com; mirja.kuehlewind@ericsson.com; cheshire <cheshire@apple=
-.com>; rs.ietf@gmx.at; Jason_Livingood@comcast.com; Vidhi Goel <vidhi_goel@=
-apple.com>
-> Subject: Re: [PATCH v6 net-next 03/14] net: update commnets for SKB_GSO_T=
-CP_ECN and SKB_GSO_TCP_ACCECN
->=20
->=20
-> CAUTION: This is an external email. Please be very careful when clicking =
-links or opening attachments. See the URL nok.it/ext for additional informa=
-tion.
->=20
->=20
->=20
-> On 11/19/25 11:24 AM, Chia-Yu Chang (Nokia) wrote:
-> > I was thinking to totally remove ECN from Rx path,
->=20
-> ??? do you mean you intend to remove the existing virtio_net ECN support?=
- I guess/hope I misread the above.
->=20
-> Note that removing features from virtio_net is an extreme pain at best, a=
-nd more probably simply impossible - see the UFO removal history.
->=20
-> Please clarify, thanks!
->=20
-> Paolo
-
-This ECN flag on RX path shall not be used in Rx path for forwarding scenar=
-io. But it can still be used on Tx path in virtio_net.
-
-And on RX path, new ACCECN flag shall be used to avoid breaking CWR flag fo=
-r latter GSO Tx in forwarding scenario.
-
-Let me borrow an example from Ilpo:
-
-SKB_GSO_TCP_ECN will not replicate the same TCP header flags in a forwardin=
-g scenario:
-Segment 1 CWR set
-Segment 2 CWR set
-
-GRO rx and GSO tx with SKB_GSO_TCP_ECN, after forwarding outputs these segm=
-ents:
-Segment 1 CWR set
-Segment 2 CWR cleared
-
-Thus, the ACE field in Segment 2 no longer contains the same value as it wa=
-s sent with.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/13] coresight: Interpret perf config with
+ ATTR_CFG_GET_FLD()
+To: Mike Leach <mike.leach@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@arm.com>,
+ Randy Dunlap <rdunlap@infradead.org>, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20251118-james-cs-syncfreq-v5-0-82efd7b1a751@linaro.org>
+ <20251118-james-cs-syncfreq-v5-8-82efd7b1a751@linaro.org>
+ <CAJ9a7VgQH4yc8490CQSv1S6k+=Uc6dEjyEpgRp1EwUQdwdxOHQ@mail.gmail.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <CAJ9a7VgQH4yc8490CQSv1S6k+=Uc6dEjyEpgRp1EwUQdwdxOHQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-So, maybe a table below better represent this?
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-|               |   SKB_GSO_TCP_ECN    |     SKB_GSO_TCP_ACCECN    |
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-|               | The 1st TCP segment  |   The TCP segment uses    |
-|    Tx path    | has CWR set and      |  the CWR flag as part of  |
-|               | suqsequent segments  |  ACE signal, and the CWR  |
-|               | have CWR cleared.    |   flag is not modified.   |
-+---------------+----------------------+---------------------------+
-|    Rx path    | Shall not be used to |  Used to indicate latter  |
-| of forwarding | avoid potential ACE  |  GSO Tx NOT to clear CWR  |
-|    scenario   |  signal corruption.  | flag from the 2nd segment |
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
 
+On 19/11/2025 9:32 am, Mike Leach wrote:
+> Hi James
+> 
+> On Tue, 18 Nov 2025 at 16:28, James Clark <james.clark@linaro.org> wrote:
+>>
+>> The "config:" string construction in format_attr_contextid_show() can be
+>> removed because it either showed the existing context1 or context2
+>> formats which have already been generated, so can be called themselves.
+>>
+>> The other conversions are straightforward replacements.
+>>
+>> Signed-off-by: James Clark <james.clark@linaro.org>
+>> ---
+>>   drivers/hwtracing/coresight/coresight-etm-perf.c | 26 +++++++++++++++---------
+>>   1 file changed, 16 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+>> index 28f1bfc4579f..1b9ae832a576 100644
+>> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+>> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+>> @@ -80,12 +80,19 @@ static ssize_t format_attr_contextid_show(struct device *dev,
+>>                                            struct device_attribute *attr,
+>>                                            char *page)
+>>   {
+>> -       int pid_fmt = ETM_OPT_CTXTID;
+>> +       /*
+>> +        * is_kernel_in_hyp_mode() isn't defined in arm32 so avoid calling it
+>> +        * even though is_visible() prevents this function from being called.
+>> +        */
+>> +#if IS_ENABLED(CONFIG_ARM64)
+>> +       if (is_kernel_in_hyp_mode())
+>> +               return contextid2_show(dev, attr, page);
+>>
+>> -#if IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X)
+>> -       pid_fmt = is_kernel_in_hyp_mode() ? ETM_OPT_CTXTID2 : ETM_OPT_CTXTID;
+>> +       return contextid1_show(dev, attr, page);
+>> +#else
+>> +       WARN_ONCE(1, "ETM contextid not supported on arm32\n");
+>> +       return 0;
+> 
+> Context ID is supported in aarch32 - and traced in etmv3 / ptm and etmv4.
+> 
+> Mike
+> 
 
-Chia-Yu
+Not in Perf mode unless I'm missing something:
+
+#define ETM3X_SUPPORTED_OPTIONS (ETMCR_CYC_ACC | \
+				 ETMCR_TIMESTAMP_EN | \
+				 ETMCR_RETURN_STACK)
+
+Only these options are currently accepted. I suppose the comment is 
+describing what the current behavior is, whether that is what we want is 
+another thing.
+
+But if we do start supporting context ID in ETMv3 we can update that 
+comment.
+
+>>   #endif
+>> -       return sprintf(page, "config:%d\n", pid_fmt);
+>>   }
+>>
+>>   static struct device_attribute format_attr_contextid =
+>> @@ -337,7 +344,7 @@ static bool sinks_compatible(struct coresight_device *a,
+>>   static void *etm_setup_aux(struct perf_event *event, void **pages,
+>>                             int nr_pages, bool overwrite)
+>>   {
+>> -       u32 id, cfg_hash;
+>> +       u32 sink_hash, cfg_hash;
+>>          int cpu = event->cpu;
+>>          cpumask_t *mask;
+>>          struct coresight_device *sink = NULL;
+>> @@ -350,13 +357,12 @@ static void *etm_setup_aux(struct perf_event *event, void **pages,
+>>          INIT_WORK(&event_data->work, free_event_data);
+>>
+>>          /* First get the selected sink from user space. */
+>> -       if (event->attr.config2 & GENMASK_ULL(31, 0)) {
+>> -               id = (u32)event->attr.config2;
+>> -               sink = user_sink = coresight_get_sink_by_id(id);
+>> -       }
+>> +       sink_hash = ATTR_CFG_GET_FLD(&event->attr, sinkid);
+>> +       if (sink_hash)
+>> +               sink = user_sink = coresight_get_sink_by_id(sink_hash);
+>>
+>>          /* check if user wants a coresight configuration selected */
+>> -       cfg_hash = (u32)((event->attr.config2 & GENMASK_ULL(63, 32)) >> 32);
+>> +       cfg_hash = ATTR_CFG_GET_FLD(&event->attr, configid);
+>>          if (cfg_hash) {
+>>                  if (cscfg_activate_config(cfg_hash))
+>>                          goto err;
+>>
+>> --
+>> 2.34.1
+>>
+> 
+> 
+
