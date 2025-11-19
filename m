@@ -1,38 +1,38 @@
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6C233C1A0
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 09:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8476630504D
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 09:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763545252; cv=none; b=RqPH+iKnWwQDmAxwMFZPSRw61V+emuZuJ3yVIqFcE1yNXQ1PviKW2YtXAwzBiA2GJQttF6ns/gF+cf/xxCJ1zVrAfr9/isPeKU75mYpadyBMU4sKgTZEsCjWzVDO+h7QGd0Emnxf2tHTv97EWpfsWezptlkSdAUDEzsfypnxVDE=
+	t=1763545806; cv=none; b=bA9HMPXWVTN5iCyxWoS+SWJb183WDoklTDpgn2LyNSlhDTqD3Bl7K2lEEbQ7Iu4ENe1FLBpajxmPs/Nd3bw0amiO5UPZbmtj2goUwKPim6WYSZHhv49VbB5160zaeT/gG0OXh63A0JgaE3MyFXnwSQPS1ZuUZp/Qb2EmPiv2Ws0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763545252; c=relaxed/simple;
-	bh=MpUfLXc4ymoYbADBTVZeRSlZSo3hlJwWTP2foFvxNsU=;
+	s=arc-20240116; t=1763545806; c=relaxed/simple;
+	bh=1TOp3TyNqp9fvTognm5EaBymbRnEbazC0vxgnfiwNVQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WNfJEyoosPyklyBXqItZNxs6fof7ffN0sMJki48GZlwQurJfjLT7uYND6aqML8iDcfqKNcy1gOJBh/lg1KKvwq0waNd0mlKk0qMK3Y5nNXUW5qOSr7JmOCAJbBMZj6kPnlV/3ikA8y21hGc+0QNB+zckHOCNz3aU/c6+TGRuDqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TrvcdYfX; arc=none smtp.client-ip=185.246.85.4
+	 MIME-Version:Content-Type; b=eXbb9ZEjut/8kG9AsapwaDTiDpGNQoZNW0ocbbvDL1RIpaqbzd5C62GNMaZCJ9/XMCtOr7Hb+R3ZfWZVIcrdVp6MulmrQoXUciIFi6+eJgeNxqKwIw8su6Yk6smP3BTyXaTtjI5PgO+harr5ojnu74601Ht6TuskwFCvNNdBdq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NDCz8PCM; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TrvcdYfX"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NDCz8PCM"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 0DF8D4E4179D;
-	Wed, 19 Nov 2025 09:40:48 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id BB6904E41794;
+	Wed, 19 Nov 2025 09:50:02 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C791960720;
-	Wed, 19 Nov 2025 09:40:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CBB4610371A18;
-	Wed, 19 Nov 2025 10:40:43 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 9190460720;
+	Wed, 19 Nov 2025 09:50:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D22C810371A18;
+	Wed, 19 Nov 2025 10:49:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1763545247; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1763545802; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=YNfgpMCjX3EWPNrJzZiFqR8Dz+zI867xnpEghzkIq5w=;
-	b=TrvcdYfXtwknUIvU/1kqKB+3XMQlBX/Rg45Uoe/MYTKTa5mtTTwCkID0SC60bDxwtmL5qC
-	aWn9VVRV0J9ysa2ztYe9FK89PHhFbXtRr4AMIM/FjzcMZhVWF9R+ihskpypxaWBIvv+drC
-	YX5TxUSkR/ul+q+hgfK6UauZItNFwJZvtTlI1fMI5lQhypfYDYItAzF5kDZSyRnV05V2l8
-	c9Hsz2rlqaMyudndrcK1ooCoafh8Qpvmg4bKz5Zqt0NXcdoDvlTr2oXVtJxYz1KgE/VlY7
-	PSyFVQiZbNNsPOfw8aTO7vv27jRFlE9z7jFjuaxF40CyhgWXbRH/K6csVanwTg==
+	bh=RrIjwcjwliZ95lPsOv8XtZAnAsO3R4A3FRoqGR2mI7g=;
+	b=NDCz8PCM2Nkvg9vaH8fUswy6MvH7QqLHVik27q6zknsVFM3ymgUpBZoCgJOm3wK4ZhAvGg
+	IbY1ET4w44no3ZXy7ziwRYbdlBgyco0O7Sq/IK60yIV8hgvnpPnPeZmINbccHHKHzybi8k
+	/nY8hhDhJUO7g179uU9lCQl8ZQqNgkWOYWz6K+L9VIZjeToDsdIoP1wCzJq0MwSmgo+9LI
+	eQp15tOtt4ArbVhjuRMpiufS0+OM/LZIo2KCHbJNDFl8XoT86W1sGRrIR/vuaOV75KObXw
+	4kUzbJZCtxN7c5WTJ2Q9VLPgGp81MQXYdBYFXxpQGi3ojTo9JTbuQE3ntc5/pg==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: "Michael Walle" <mwalle@kernel.org>
 Cc: "Tudor Ambarus" <tudor.ambarus@linaro.org>,  "Pratyush Yadav"
@@ -42,15 +42,15 @@ Cc: "Tudor Ambarus" <tudor.ambarus@linaro.org>,  "Pratyush Yadav"
  <thomas.petazzoni@bootlin.com>,  "Steam Lin" <STLin2@winbond.com>,
   <linux-mtd@lists.infradead.org>,  <linux-kernel@vger.kernel.org>,
   <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 16/19] mtd: spi-nor: Add steps for testing locking support
-In-Reply-To: <DEBTGMKJKVAC.OT51M7UDN4IV@kernel.org> (Michael Walle's message
-	of "Tue, 18 Nov 2025 13:24:02 +0100")
+Subject: Re: [PATCH 15/19] mtd: spi-nor: debugfs: Add locking support
+In-Reply-To: <DEBTY3TV74T2.2N3VRS6HGWDXD@kernel.org> (Michael Walle's message
+	of "Tue, 18 Nov 2025 13:46:52 +0100")
 References: <20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com>
-	<20251114-winbond-v6-18-rc1-spi-nor-swp-v1-16-487bc7129931@bootlin.com>
-	<DEBTGMKJKVAC.OT51M7UDN4IV@kernel.org>
+	<20251114-winbond-v6-18-rc1-spi-nor-swp-v1-15-487bc7129931@bootlin.com>
+	<DEBTY3TV74T2.2N3VRS6HGWDXD@kernel.org>
 User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Wed, 19 Nov 2025 10:40:42 +0100
-Message-ID: <87tsyqcqcl.fsf@bootlin.com>
+Date: Wed, 19 Nov 2025 10:49:57 +0100
+Message-ID: <87o6oycpx6.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,100 +61,166 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-Last-TLS-Session-Version: TLSv1.3
 
-On 18/11/2025 at 13:24:02 +01, "Michael Walle" <mwalle@kernel.org> wrote:
+Hello,
+
+On 18/11/2025 at 13:46:52 +01, "Michael Walle" <mwalle@kernel.org> wrote:
 
 > On Fri Nov 14, 2025 at 6:53 PM CET, Miquel Raynal wrote:
->> As recently raised on the mailing list, it may be useful to propose a
->> list of steps to go through in order to proove the devices have been
->> described correctly, especially since all the block protection
->> information is not stored in any kind of table and is instead filled
->> manually by developpers.
+>> The ioctl output may be counter intuitive in some cases. Asking for a
+>> "locked status" over a region that is only partially locked will return
+>> "unlocked" whereas in practice maybe the biggest part is actually
+>> locked.
 >>
->> Use the debugfs output to ease the comparison between expectations and
->> reality.
+>> Knowing what is the real software locking state through debugfs would be
+>> very convenient for development/debugging purposes, hence this proposal
+>> for adding two extra blocks at the end of the file:
+>> - A "software locked sectors" array which lists every section, if it is
+>> locked or not, showing both the address ranges and the sizes in numbers
+>> of blocks.
+>
+> I know the file is called software write protection (or swp) but
+> it's really a hardware write protection, isn't it?
+
+Well, it depends on your configuration I guess? Without #WP pin I don't
+know how to call that. I had in mind that software meant "using the BP
+pins" and "hardware" meant "toggling #WP". But I have no strong opinion
+about this wording.
+
+>> - Some kind of mapping of the locked sectors, which pictures the entire
+>> flash. It may be verbose, so perhaps we'll drop it in the end. I found
+>> it very useful to really get a clearer mental model of what was
+>> locked/unlocked, but the array just before is already a good source of
+>> information.
 >>
->> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
->> ---
->>  Documentation/driver-api/mtd/spi-nor.rst | 118 ++++++++++++++++++++++++=
-+++++++
->>  1 file changed, 118 insertions(+)
+>> Here is an example of output, what is after the "sector map" is new.
 >>
->> diff --git a/Documentation/driver-api/mtd/spi-nor.rst b/Documentation/dr=
-iver-api/mtd/spi-nor.rst
->> index 148fa4288760b6ba47d530ed72c5ef81397d598f..d56ff5c42a98af23a65097c9=
-b77cd20ef2504a49 100644
->> --- a/Documentation/driver-api/mtd/spi-nor.rst
->> +++ b/Documentation/driver-api/mtd/spi-nor.rst
->> @@ -203,3 +203,121 @@ section, after the ``---`` marker.
->>      mtd.writesize =3D 1
->>      mtd.oobsize =3D 0
->>      regions =3D 0
+>> $ cat /sys/kernel/debug/spi-nor/spi0.0/params
+>> name		(null)
+>> id		ef a0 20 00 00 00
+>> size		64.0 MiB
+>> write size	1
+>> page size	256
+>> address nbytes	4
+>> flags		HAS_SR_TB | 4B_OPCODES | HAS_4BAIT | HAS_LOCK | HAS_16BIT_SR | HA=
+S_SR_TB_BIT6 | HAS_4BIT_BP | SOFT_RESET | NO_WP
+>>
+>> opcodes
+>>  read		0xec
+>>   dummy cycles	6
+>>  erase		0xdc
+>>  program	0x34
+>>  8D extension	none
+>>
+>> protocols
+>>  read		1S-4S-4S
+>>  write		1S-1S-4S
+>>  register	1S-1S-1S
+>>
+>> erase commands
+>>  21 (4.00 KiB) [1]
+>>  dc (64.0 KiB) [3]
+>>  c7 (64.0 MiB)
+>>
+>> sector map
+>>  region (in hex)   | erase mask | overlaid
+>>  ------------------+------------+---------
+>>  00000000-03ffffff |     [   3] | no
+>>
+>> software locked sectors
+>
+> drop "software" here.
+
+Okay.
+
+>
+>>  region (in hex)   | status   | #blocks
+>>  ------------------+----------+--------
+>>  00000000-03ffffff | unlocked | 1024
+>
+> I really like that.
+
+:-)
+
+>> 64kiB-sectors locking map (x: locked, .: unlocked)
+>> |.......................................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+...........................................................................=
+..........................
+>>  ...........................|
+>
+> Maybe put it into an own file. In any case, a sane line wrapping
+> would be good. And add a leading offset, ie, "0000: xxxx.....".
+
+I was unsure about doing that, but yes that makes sense. May I call it
+"locked_sectors_map"?
+
+[...]
+
+>> +	sr[0] =3D nor->bouncebuf[0];
 >> +
->> +5) If your flash supports locking, also follow the following test
->> +   procedure to make sure it correctly behaves. These tests must be
->> +   conducted with #WP high (no hardware protection) or the `no-wp`
->> +   property in the DT node.
+>> +	if (!(nor->flags & SNOR_F_NO_READ_CR)) {
+>> +		ret =3D spi_nor_read_cr(nor, nor->bouncebuf + 1);
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+>> +
+>> +	sr[1] =3D nor->bouncebuf[1];
 >
-> Or? If WPn is low, the no-wp property doesn't matter.
-> It's hardware write protected.
+> Shouldn't that go into the former if conditional? bouncebuf[1] might
+> never be read.
 
-This is only correct if the SRP bit is set. If the SRP bit is unset, #WP
-low still has no impact. And this is why setting the no-wp property
-matters, because otherwise the SR_SRWD bit gets set at the first locking
-command.
+Yes, that's correct. I don't remember why I did it this way, probably a
+bug, I'll move that line.
 
-I disliked this behaviour as I actually got almost locked with
-a non drivable #WP pin and had to play with pinctrl in order to force it
-high and allow me to overwrite the SR_SRWD bit back.
+> Also, until now, reading the "params" debug file never interacts
+> with the flash, but with this patch it does. We don't do locking
+> here which looks wrong. Maybe we should just cache the protection
+> bits. Not sure.
 
-> Also there is that corner case, where you can
-> actually fully lock your flash: WPn hard tied to low. Be aware, that
-> you can enable locking even if WPn is tied low. That has the use
-> case to initially program the flash and then lock it forever. So we
-> might add a warning note, that WPn should somehow be controllable
-> (or be sure that is tied high) before conducting the locking tests.
+I guess caching the status registers makes sense, but we'll still have a
+possible race when accessing the 2 registers. Is it okay to
+ignore this very unlikely case in debugfs? Otherwise I might just lock
+the entire device for the time we access the cached registers.
 
-Yes, that is the situation I met, it is not documented anywhere except
-the code.
-
-My intent with this paragraph was to hint people not to conduct these
-tests under certain situations, but we can definitely improve that. What
-about:
-
-5) If your flash supports locking, please got through the following test
-   procedure to make sure it correctly behaves.
-
-   Warning: These tests may hard lock your device! Make sure:
-   - The device is not hard locked already (#WP strapped to low and
-     SR_SRWD bit set)
-   - If you have a #WP pin, you may want to set `no-wp` in your DT for
-     the time of the test, to only make use of software protection.
-
-Please amend this text if you still think it is missing his goal.
-
->> +    root@1:~# flash_lock -u /dev/mtd0
->> +    root@1:~# flash_lock -l /dev/mtd0 $(($size - (2 * $bs))) 2 # last t=
-wo
->> +    root@1:~# show_sectors
->> +    software locked sectors
->> +     region (in hex)   | status   | #blocks
->> +     ------------------+----------+--------
->> +     00000000-03fdffff | unlocked | 1022
->> +     03fe0000-03ffffff |   locked | 2
->> +    root@1:~# flash_lock -u /dev/mtd0 $(($size - (2 * $bs))) 1 # last o=
-ne
+>> +	spi_nor_get_locked_range_sr(nor, sr, &lock_start, &lock_length);
+>> +	if (!lock_length || lock_length =3D=3D params->size) {
+>> +		seq_printf(s, " %08llx-%08llx | %s | %llu\n", 0ULL, params->size - 1,
+>> +			   lock_length ? "  locked" : "unlocked", params->size / min_prot_le=
+n);
+>> +	} else if (!lock_start) {
+>> +		seq_printf(s, " %08llx-%08llx | %s | %llu\n", 0ULL, lock_length - 1,
+>> +			   "  locked", lock_length / min_prot_len);
+>> +		seq_printf(s, " %08llx-%08llx | %s | %llu\n", lock_length, params->si=
+ze - 1,
+>> +			   "unlocked", (params->size - lock_length) / min_prot_len);
+>> +	} else {
+>> +		seq_printf(s, " %08llx-%08llx | %s | %llu\n", 0ULL, lock_start - 1,
+>> +			   "unlocked", lock_start / min_prot_len);
+>> +		seq_printf(s, " %08llx-%08llx | %s | %llu\n", lock_start, params->siz=
+e - 1,
+>> +			   "  locked", lock_length / min_prot_len);
+>> +	}
+>> +
+>> +	seq_printf(s, "\n%dkiB-sectors locking map (x: locked, .: unlocked)\n",
+>> +		   min_prot_len / 1024);
+>> +	seq_puts(s, "|");
+>> +	for (i =3D 0; i < params->size; i +=3D min_prot_len)
+>> +		seq_printf(s, spi_nor_is_locked_sr(nor, i, min_prot_len, sr) ? "x" : =
+".");
 >
-> huh? shouldn't that be 1 * $bs?
+> As mentioned above, newlines as well as a leading offset counter
+> would be nice :)
 
-I don't think so:
-- first we lock the last two blocks (offset: size - 2 blocks, length: 2
-  blocks)
-- then we unlock the penultimate block so that only the last block
-  remains locked (offset: size - 2 blocks, length 1).
+Arf, I was hoping I could escape that step, but ok, fair enough :-)
 
-I we were doing flash_lock -u <mtd> $(($size - (1 * $bs))) 1, we would
-be asking to unlock the very last block and keep only the penultimate
-block locked, which would not be supported.
-
-Thanks,
 Miqu=C3=A8l
