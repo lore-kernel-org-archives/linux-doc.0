@@ -1,127 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sg-1-103.ptr.blmpb.com (sg-1-103.ptr.blmpb.com [118.26.132.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4F717D2;
-	Wed, 19 Nov 2025 15:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C8336E550
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 15:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.26.132.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763567408; cv=none; b=N99xdWoVmgJVUllSYTTA7BGdMb2DR4/hVsLE0SKsEwhmYiWcbmnTg2FBaw4oSH0Wpz9OmnwETME6TrgkIcQDJa2xzp6Kk8Ornk/ym2EYpn6QW5UZODFO2iLFpqIMrjSymDGgSWYmHp7hZffjJv4NLnrzklNM34hTPgNzchkRzTA=
+	t=1763567879; cv=none; b=fykTvpdJG2fEJSM6BLynBy9QLwRHL9v1BsOw01H2y0Gr96kk3dzX+pcpwc+cXf6PrSOdwiJBpHYXsok++C9hiuv0Q6Nz0CV/Y6d0jaEP0G1VaLKCNN+xcKneGg2bT2hg589SK9vluUBKW7NjZuPzpjVoB4RzeccEoIZnf0jVePw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763567408; c=relaxed/simple;
-	bh=mtl+IHM/JXtrCO8ISnitiGZcya/g9fsTYHXlgtCEzjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uyO14AnYKT/4hutPCI9e4BRS+TXDQ5aKcVakc2mhYGXqSyAUBVNeeuM0auo2DpH9ITtkvwBLVHb4hHoAUd6rL2Y3xNaR16hjxAYkHbBcDiqmM9CTK3C7vD7l06DJ8/BcIZG3b2UFYJxzk4VM31opoIc6bVw57CWSnRZ1RKwfwgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Laj4zYxh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763567879; c=relaxed/simple;
+	bh=mQ45HxHEz7bEk0U1Kg7KEiKQ1cBt2yG8qBc7T+EeuPs=;
+	h=Message-Id:To:Subject:References:Content-Type:Date:Cc:From:
+	 Mime-Version:In-Reply-To; b=pkV2XZxYKaL4LKBUNUpXbs+IguqNYoL44qonoCcQKbIJy1iEByj6+HKg5e0CBuQ9Ojr3kylbrAJ6NiNcepaFluaO+FmtBT1NmiinJ9kE/OIgfHtNcVRwXFFqMLntkPrPQwlT6KZKK345ch4wajXMkiJ1x1iQ/IGFctoebQZe8Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=UqQV/M0K; arc=none smtp.client-ip=118.26.132.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Laj4zYxh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3A51C2BCB0;
-	Wed, 19 Nov 2025 15:49:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763567407;
-	bh=mtl+IHM/JXtrCO8ISnitiGZcya/g9fsTYHXlgtCEzjQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Laj4zYxhFW+Cyz8oEoGr4IEUQkfwUMdLv7HRG6pEmMXhq+vvRB62wNZAYyCBhwMgW
-	 ydZ26okaryoinvEE8tIJbLlJoY1/cMOVAl5gZWnUjbENpW2a9mfRw+vAlvoqjU3euP
-	 pbkZQ00ScKclvx/Fc7+VWCtde1BoO4ZllGxuhaaQ6oHWiJx30xfmdUGu2l8xqahHsp
-	 T+hG+IPeCO3xnQsYkJ7VatBdtqrEHMzKKg55/4DdSBYnYup2E2b5/XfowD8zPoAvGV
-	 SUjpmYocHoRKpWNGz1Ow4h6dPUUWYAJv0jrXiCMFF0CA6h8rz5TtzNJHhRm6MSXZFU
-	 PqBSfmBBhtEiA==
-Date: Wed, 19 Nov 2025 21:19:25 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Corey Minyard <corey@minyard.net>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
-	Alex Deucher <alexander.deucher@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
-	Matthew Brost <matthew.brost@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Vitaly Lifshits <vitaly.lifshits@intel.com>, 
-	Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>, 
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Sagi Maimon <maimon.sagi@gmail.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Karan Tilak Kumar <kartilak@cisco.com>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, Casey Schaufler <casey@schaufler-ca.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, 
-	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>, Max Kellermann <max.kellermann@ionos.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org, 
-	netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev, 
-	ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Gustavo Padovan <gustavo@padovan.org>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>, 
-	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Rodolfo Giometti <giometti@enneenne.com>, 
-	Jonathan Lemon <jonathan.lemon@gmail.com>, Richard Cochran <richardcochran@gmail.com>, 
-	Stefan Haberland <sth@linux.ibm.com>, Jan Hoeppner <hoeppner@linux.ibm.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Satish Kharat <satishkh@cisco.com>, 
-	Sesidhar Baddela <sebaddel@cisco.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v3 15/21] PCI: epf-test: Switch to use %ptSp
-Message-ID: <wuyn4v625xw4n2jm4eiullfrprmjiw4aiwo4zudcp4ppd2yeva@s7vzfoinnavt>
-References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
- <20251113150217.3030010-16-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="UqQV/M0K"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1763567861; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=mQ45HxHEz7bEk0U1Kg7KEiKQ1cBt2yG8qBc7T+EeuPs=;
+ b=UqQV/M0KVnqVIbes+T1VV5SYDQBUho8kznxbAiYsToK+jUa4il3/H/XbholIfk2vhMtJjp
+ qBcw52taj1iZnwQoxlvwy6vQyl96TiF5DLpAY/hnB8OKpiyrxr3bxooNrdZddhA7V4FTh5
+ cModvja+7QNJsvuYxDrSOrVjKQI+lSnHCBf4TMYmvtLXrpNTTgkaB6Xadywgbtlfw2YI4R
+ 1HMOwLrt30weNo9TEwQpsV6nTf4bz4Zbwq3Jq/+Ttc+NwLbHFhn89RC5I13WCOSG9aNnOl
+ yfod9OGzB8lb4c9K7hvmAD7rJwuVYmdbbk2hWYvfNJf/0OF4eMx4QOpG4cabOQ==
+Message-Id: <b0b0f9d727b334fa569c726fc13490dd51d4fe42.7caea664.2799.41de.8705.9603c8f00a51@bytedance.com>
+To: "Paul Walmsley" <pjw@kernel.org>
+Subject: Re: [PATCH v4 00/10] riscv: Add Zalasr ISA extension support
+References: <20251020042056.30283-1-luxu.kernel@bytedance.com> <176355541475.758643.7685467502830246491.git-patchwork-notify@kernel.org>
+	<b7dc669e-cc48-f163-0146-0ef37dbd19ec@kernel.org>
+X-Lms-Return-Path: <lba+1691de8f3+3eb7e6+vger.kernel.org+luxu.kernel@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 19 Nov 2025 23:57:38 +0800
+Cc: <patchwork-bot+linux-riscv@kernel.org>, 
+	<linux-riscv@lists.infradead.org>, <corbet@lwn.net>, 
+	<paul.walmsley@sifive.com>, <palmer@dabbelt.com>, 
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <robh@kernel.org>, 
+	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <will@kernel.org>, 
+	<peterz@infradead.org>, <boqun.feng@gmail.com>, <mark.rutland@arm.com>, 
+	<anup@brainfault.org>, <atish.patra@linux.dev>, <pbonzini@redhat.com>, 
+	<shuah@kernel.org>, <parri.andrea@gmail.com>, <ajones@ventanamicro.com>, 
+	<brs@rivosinc.com>, <guoren@kernel.org>, <linux-doc@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>, 
+	<kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>, 
+	<linux-kselftest@vger.kernel.org>, <apw@canonical.com>, 
+	<joe@perches.com>, <lukas.bulwahn@gmail.com>
+From: =?utf-8?q?=E8=B7=AF=E6=97=AD?= <luxu.kernel@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251113150217.3030010-16-andriy.shevchenko@linux.intel.com>
+Mime-Version: 1.0
+In-Reply-To: <b7dc669e-cc48-f163-0146-0ef37dbd19ec@kernel.org>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 13, 2025 at 03:32:29PM +0100, Andy Shevchenko wrote:
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
-> 
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Hi Paul,
 
-Acked-by: Manivannan Sadhasivam <mani@kernel.org>
+I will continue with this work. And thanks for Andrea's feedback.
 
-- Mani
+Best Regards,
+Xu Lu
 
-> ---
->  drivers/pci/endpoint/functions/pci-epf-test.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-> index b05e8db575c3..debd235253c5 100644
-> --- a/drivers/pci/endpoint/functions/pci-epf-test.c
-> +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-> @@ -331,9 +331,8 @@ static void pci_epf_test_print_rate(struct pci_epf_test *epf_test,
->  		rate = div64_u64(size * NSEC_PER_SEC, ns * 1000);
->  
->  	dev_info(&epf_test->epf->dev,
-> -		 "%s => Size: %llu B, DMA: %s, Time: %llu.%09u s, Rate: %llu KB/s\n",
-> -		 op, size, dma ? "YES" : "NO",
-> -		 (u64)ts.tv_sec, (u32)ts.tv_nsec, rate);
-> +		 "%s => Size: %llu B, DMA: %s, Time: %ptSp s, Rate: %llu KB/s\n",
-> +		 op, size, dma ? "YES" : "NO", &ts, rate);
->  }
->  
->  static void pci_epf_test_copy(struct pci_epf_test *epf_test,
-> -- 
-> 2.50.1
-> 
+> From: "Paul Walmsley"<pjw@kernel.org>
+> Date:=C2=A0 Wed, Nov 19, 2025, 23:42
+> Subject:=C2=A0 Re: [PATCH v4 00/10] riscv: Add Zalasr ISA extension suppo=
+rt
+> To: <patchwork-bot+linux-riscv@kernel.org>
+> Cc: "Xu Lu"<luxu.kernel@bytedance.com>, <linux-riscv@lists.infradead.org>=
+, <corbet@lwn.net>, <paul.walmsley@sifive.com>, <palmer@dabbelt.com>, <aou@=
+eecs.berkeley.edu>, <alex@ghiti.fr>, <robh@kernel.org>, <krzk+dt@kernel.org=
+>, <conor+dt@kernel.org>, <will@kernel.org>, <peterz@infradead.org>, <boqun=
+.feng@gmail.com>, <mark.rutland@arm.com>, <anup@brainfault.org>, <atish.pat=
+ra@linux.dev>, <pbonzini@redhat.com>, <shuah@kernel.org>, <parri.andrea@gma=
+il.com>, <ajones@ventanamicro.com>, <brs@rivosinc.com>, <guoren@kernel.org>=
+, <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, <devicetree@=
+vger.kernel.org>, <kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>, <=
+linux-kselftest@vger.kernel.org>, <apw@canonical.com>, <joe@perches.com>, <=
+lukas.bulwahn@gmail.com>
+> Folks,
 
--- 
-மணிவண்ணன் சதாசிவம்
+>=C2=A0
+> On Wed, 19 Nov 2025, patchwork-bot+linux-riscv@kernel.org wrote:
+
+>=C2=A0
+> > This series was applied to riscv/linux.git (for-next)
+
+> > by Paul Walmsley <pjw@kernel.org>:
+
+>=C2=A0
+> This actually isn't true; I've only applied the first four patches (see=
+=C2=A0
+
+> below).
+
+>=C2=A0
+> > On Mon, 20 Oct 2025 12:20:46 +0800 you wrote:
+
+> > > This patch adds support for the Zalasr ISA extension, which supplies =
+the
+
+> > > real load acquire/store release instructions.
+
+> > >=C2=A0
+
+> > > The specification can be found here:
+
+> > > https://github.com/riscv/riscv-zalasr/blob/main/chapter2.adoc
+
+> > >=C2=A0
+
+> > > This patch seires has been tested with ltp on Qemu with Brensan's zal=
+asr
+
+> > > support patch[1].
+
+> > >=C2=A0
+
+> > > [...]
+
+> >=C2=A0
+
+> > Here is the summary with links:
+
+> > =C2=A0 - [v4,01/10] riscv: Add ISA extension parsing for Zalasr
+
+> > =C2=A0 =C2=A0 https://git.kernel.org/riscv/c/0597b9c8627e
+
+> > =C2=A0 - [v4,02/10] dt-bindings: riscv: Add Zalasr ISA extension descri=
+ption
+
+> > =C2=A0 =C2=A0 https://git.kernel.org/riscv/c/6e2a0ff70abe
+
+> > =C2=A0 - [v4,03/10] riscv: hwprobe: Export Zalasr extension
+
+> > =C2=A0 =C2=A0 https://git.kernel.org/riscv/c/d5e20628a882
+
+> > =C2=A0 - [v4,04/10] riscv: Introduce Zalasr instructions
+
+> > =C2=A0 =C2=A0 https://git.kernel.org/riscv/c/c4139ea6717c
+
+> > =C2=A0 - [v4,05/10] riscv: Apply Zalasr to smp_load_acquire/smp_store_r=
+elease
+
+> > =C2=A0 =C2=A0 (no matching commit)
+
+> > =C2=A0 - [v4,06/10] riscv: Apply acquire/release semantics to arch_xchg=
+/arch_cmpxchg operations
+
+> > =C2=A0 =C2=A0 (no matching commit)
+
+> > =C2=A0 - [v4,07/10] riscv: Apply acquire/release semantics to arch_atom=
+ic operations
+
+> > =C2=A0 =C2=A0 (no matching commit)
+
+> > =C2=A0 - [v4,08/10] riscv: Remove arch specific __atomic_acquire/releas=
+e_fence
+
+> > =C2=A0 =C2=A0 (no matching commit)
+
+> > =C2=A0 - [v4,09/10] RISC-V: KVM: Allow Zalasr extensions for Guest/VM
+
+> > =C2=A0 =C2=A0 (no matching commit)
+
+> > =C2=A0 - [v4,10/10] RISC-V: KVM: selftests: Add Zalasr extensions to ge=
+t-reg-list test
+
+> > =C2=A0 =C2=A0 (no matching commit)
+
+>=C2=A0
+> In terms of patches 5-8, we're still waiting for Xu Lu to update the=C2=
+=A0
+
+> patches based on Andrea's feedback. =C2=A0Xu Lu, are you still planning t=
+o=C2=A0
+
+> update these?
+
+>=C2=A0
+>=C2=A0
+> - Paul
+>=C2=A0
