@@ -1,156 +1,109 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45152F360B
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 19:45:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE39F2D97BA
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 19:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763581515; cv=none; b=Oz4Dff6wj3nrhdEPAQTw/GwJX411vd2uqLjU3taz99WR0WF58Li/EXu9dqGmTjiQj+/W9VxFotAe333wgMlEWWmvvgWdU+X7aNQpbK5UGra7FTgzG0elOQvvP2FNSUogMV55g7tfz+jyoL0oiT9Pet5T+fjCWGjB/rM4H6lyCCI=
+	t=1763582162; cv=none; b=Khk7c30OEYIGvowD/WhDn85Wy/I8CUJMt2DWA+F6Zej70oyi7AmPT6vlkhdtkY4uI8Ex78usKzlLRDTP60MCpIBjAE9yGr7cW5yH2ijh6utygkjI+ISlLA1eQzuYaHMwE3VIIiteNC078qUav87Jrg/b5vjH8XXXyBWdWdoQuX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763581515; c=relaxed/simple;
-	bh=ez/Kk64Qkn4faxtP6x8udD23BDfPOJ9+UM/Y/c2urgE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V7w3Vv5ndDv/OyBIQozqQ3Z6UWBa0exZzWou9Qpar1bTSJrm5vS2KWddp2Kk1KIUagh0mcAPGriFJZX/Y9rwZy4Rm6axNm/ApbRF/aci9CVp1NoDVWfUYc1b+cHWe/mb846d9njYpjBmV0OPQ4ZkDKhg8m2BZd1pqVN/KCtiwlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=L4UMvPAP; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1763582162; c=relaxed/simple;
+	bh=DN/DzA6q+86ev6MGPfAT+dLF+J2Uxfsbiqindp3jA1o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PCmsqTry4CcXaodqNtA8aX+zIYnWbranfMKWG16tIJiKBqbo9RuADV5NVSl/plLpwD7SirGAf6SC/9VnPFKk7kVBe5MSKH5l2JPCfmie8pn49VsdBorf8+dJNZFRnch48sN1QNBUTIhTJ6dTN24swtdMo4R8vvDG60S/ANBIx1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=b+5LHHKo; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="L4UMvPAP"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8b0f54370ecso9306585a.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 11:45:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="b+5LHHKo"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-295548467c7so1401425ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 11:55:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1763581508; x=1764186308; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ngigizqFoW1/n7l/UtYTJcb/TxX1OBEkHcoOUDKA/VA=;
-        b=L4UMvPAPhzDYWioXgmQd8KhZiNE1H6762XCtFNAqx3wKKkmE3xDSf3bYqxSobinIuO
-         ffuwmZf4NzL4SQmiwAjzsu/ZOlG/SbwHH1tHGDRnLj1H1TlRcyZMIZC/BRgq4dfjlO3U
-         ESSlmjSDSIMhj9vvFDraaZfgHrBPSBuhAP5sEf0rU9NEWTaa/MMIeM9OGXcBCaJR6aCu
-         5/d2TA8eKJeVFBWRihAEOITWaxSWulToVPH//ismSQUnwpXZ6weHPTMfogbiigG9Rd9l
-         3feBMqmQlMibdreY9QRmN8pwc1fk5yAOrG6R8cYPL9V3odhMjgag3rVKkdIy2DY7Ob+f
-         Ki9g==
+        d=paul-moore.com; s=google; t=1763582159; x=1764186959; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DN/DzA6q+86ev6MGPfAT+dLF+J2Uxfsbiqindp3jA1o=;
+        b=b+5LHHKo2uZFLgJwzREuY9gs6Zw+2e6wzfSVyCM6Eis7Crav0/UquXBkt3eWPsDkr1
+         zumaiIjnYOrQCagOg1M2UzdnVGm3MhCL43iRsDPC336Q2WCxQBcvPSe5leC4gw2poj7s
+         KsOFzixapMh3zBZemmBMkB2vuw8fEux8tQwtslZ2bLQ3n2gaiOIK1Uu0J9TWwaRmPCA+
+         pt6Y0hN/mNSTc+o/bby86XwRBgkwB+PebYDHdrqrwjXs9A5Hinsb/r9fsAi6ZI/yH2hl
+         sdlkuhJF03Ne6XEcF+wR8x9Cg5D3Y3iaZenTQdNJuE9JeHIAuVTfHPQjXHX1SWWjwTId
+         norw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763581508; x=1764186308;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ngigizqFoW1/n7l/UtYTJcb/TxX1OBEkHcoOUDKA/VA=;
-        b=u5Bto8qkBfot9i7Y1Pv3iSCF+DKWFRRZC8pJ8o83JKyrdw3OOuidhI9CkYZj5S3t9a
-         ntEG7uM9H/92vQsbBMFVJMPavHu9b+vBRutXCVEUA4lJ64OLNIWa74Fn4xHhc7zS0Q6C
-         KXGJENEtychJaJwcZHvOv420qHw3spwrMkeX1Q1gL8XeIOGwQhd+pE+vKjpl9TF1wbsp
-         QmpNWJDGMSdSOruoBbkd6E+0l+Ops4XDN4jdvkFaeaawV+KDmSYXP/G4kSHBq3Axsc8k
-         eLP4o+w1MdWD+diuVhLU/sIbUeMAIozJA1hHQlGC3yaHrNq/sZj1O7aKkCbsJbbnAVa/
-         5RJg==
-X-Forwarded-Encrypted: i=1; AJvYcCVbxmRnL6tAlnj3jzyiJ+wnvtUBcur1gR782bnBcl4/pdjMe4zdfMiVeD/WPY0r+CpTVJm8GwJ1pxA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0b2bujzy9/3t9rlHj1IIi2SwMCDP/xNB7xUrBTUYrZelOn55e
-	IvwlYUza5YvB94FtZuFGd3PF/zsnv5KUVRCuOPlWnDUEH7tOtUAV1OX8oNPC25Wzy4w=
-X-Gm-Gg: ASbGncvrNuItPWY1AxQTa1362peMfIsnPy+0gYFdx/KXRE3y0i4kGoh8QBiiotFALbx
-	ENPOL7uY4HL56xpuAXmWzLlFbitHL3grPuKVcsE5lWouuSrgGaOLESd+TSre+mH9d/3A+BFqN4p
-	MJf0anzTicSV0wzQkgt8C1SSTInMfcoHidHt7hMzS6wW7eHAm1wIB+JawRpAMYNoRLXYA/SRpzr
-	Bxuo9VQb+6dPzWdhUW6CMCDSUY+U11y8rjnIgbU74fNC8G+KyMCFBNVHdpdo9GKNEK1wNFKcjKa
-	I0MxuAO0UsIwVksukNRtubDOIkcRUhxLsFdtQ2jzObmNVdLkUVPhjwRgQnobCxbTG8jPjkZNapI
-	4C6r5bC/O8hh7aw8gI40flODHxiUYckg//gDtV3TNz+6BcSdli7QUMbJagS9Ut8fHif1JG0M6Sk
-	VZjhsTrTWZ2z4Lp75GNgYcjvmpRr7XuwleDytKS0zUOOeHZ/z13dj228rV
-X-Google-Smtp-Source: AGHT+IHM2All3T5KCtKB0YCjHC7VAw8938Pjcsqc0YyXScERh5oSqA8kZNdUfx1RTYUHZ+fIhtYAoA==
-X-Received: by 2002:a05:620a:44d4:b0:893:31da:1028 with SMTP id af79cd13be357-8b3274b5313mr86654885a.90.1763581507903;
-        Wed, 19 Nov 2025 11:45:07 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e447272sm1944186d6.5.2025.11.19.11.45.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 11:45:07 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vLo70-00000000bcb-3TE0;
-	Wed, 19 Nov 2025 15:45:06 -0400
-Date: Wed, 19 Nov 2025 15:45:06 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, iommu@lists.linux.dev,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v8 05/11] PCI/P2PDMA: Document DMABUF model
-Message-ID: <20251119194506.GS17968@ziepe.ca>
-References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
- <20251111-dmabuf-vfio-v8-5-fd9aa5df478f@nvidia.com>
- <9798b34c-618b-4e89-82b0-803bc655c82b@amd.com>
- <20251119133529.GL17968@ziepe.ca>
- <ad36ef4e-a485-4bbf-aaa9-67cd517ca018@amd.com>
+        d=1e100.net; s=20230601; t=1763582159; x=1764186959;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DN/DzA6q+86ev6MGPfAT+dLF+J2Uxfsbiqindp3jA1o=;
+        b=Gqjh2rbQVN2xGaLwCZ8p25Bi1rftzaB8sycFyEnELeYe5+/bGr8TcR556M6wqcSy5E
+         fvttQ/pBsXXL1lSWATmQo2esLRMkxA2n74V0D9g6q+hqRNOXMaYqeuBPS6nwCnW2N/NE
+         nzsgQgy8/sNVs7jMm1NCxfDzeOZtioGr+ws6FtS8YKUZ6LV4lnjcfXKTw4r+dapglb6j
+         +t519RT5LdrS/q7kDcn9Vn3pI7vDli0zxwLa67DBK9BVtGV1aBqOBF3lEGw0B4HIdjex
+         jMQSL0N2kQklJ2XX7CfzPMbcWj+HkwKfCTwMVNv1TWFdLemdoGhu5VJHZgHI+nrrpi54
+         QsMw==
+X-Forwarded-Encrypted: i=1; AJvYcCXj9ZAo9NSm4X3eKD+Bb/LLgKkc8yFHogbDRmf2x+R/4b8RMChK+jqF9hgNykL583zuALFlVci94JI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4u5XbSzZdAtJ4hArifSujf61YjMbQqJG1hpPv5hPtks0C8Tks
+	BdbMpRFPyABIVvKrRzm5DXi9qbOrhmvuYfVWvfjXf0D3T+tkxeFQN9OEx4oSz94ZzDGJSZnqfhW
+	Oz/HvuZfk+C7+t1AuYxJQLEDW00htvwQ7ygY7Bgtr
+X-Gm-Gg: ASbGnctfZ2pVoqo6OAqijanxn93pOK1s0USxOMDQywcSt9/FdcQoOR7iQf5UT4IIZsT
+	eUOVwFdzTXOoPDR/+gXQRzD6G8p3RTAvFRyqfIgpc8oDjG3KcorQYSl+ndadleVHB10Y0Mh6ryq
+	LFNV7O0VP95thkUZ8cNteeg7LRIhMeraPgIe2stsLq3MEQaszqiYhBvBbN+Yw2Tpjfmc7rq5MD1
+	AdGp3rG6EnODO5hvF49/ZGIC9i1933S3iDIFO2ebxx4eopfK662JYac5GCOpv5iaeI/Mls=
+X-Google-Smtp-Source: AGHT+IFH9MSHfJWp6YXFB42UsuMhoLOkEWsFTDtMBAdcLCsEfu9ycctu3VPOXdyMN2njeOgrz0I5tCYbRs8o2VLROfk=
+X-Received: by 2002:a17:903:19cd:b0:295:a1a5:baf7 with SMTP id
+ d9443c01a7336-29b5b0d7f17mr6451945ad.37.1763582159025; Wed, 19 Nov 2025
+ 11:55:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ad36ef4e-a485-4bbf-aaa9-67cd517ca018@amd.com>
+References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
+ <20250429-module-hashes-v3-7-00e9258def9e@weissschuh.net> <20251119112055.W1l5FOxc@linutronix.de>
+In-Reply-To: <20251119112055.W1l5FOxc@linutronix.de>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 19 Nov 2025 14:55:47 -0500
+X-Gm-Features: AWmQ_bn1L21n_pWrZnJvXRwL1Z-01d6qlYWdrkllcBBpENXLHykDJ3f6oq3wlNk
+Message-ID: <CAHC9VhTuf1u4B3uybZxdojcmz5sFG+_JHUCC=C0N=9gFDmurHg@mail.gmail.com>
+Subject: Re: [PATCH v3 7/9] module: Move lockdown check into generic module loader
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	=?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
+	Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>, 
+	Christian Heusel <christian@heusel.eu>, =?UTF-8?Q?C=C3=A2ju_Mihai=2DDrosi?= <mcaju95@gmail.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 19, 2025 at 03:06:18PM +0100, Christian König wrote:
-> On 11/19/25 14:35, Jason Gunthorpe wrote:
-> > On Wed, Nov 19, 2025 at 10:18:08AM +0100, Christian König wrote:
-> >>> +As this is not well-defined or well-supported in real HW the kernel defaults to
-> >>> +blocking such routing. There is an allow list to allow detecting known-good HW,
-> >>> +in which case P2P between any two PCIe devices will be permitted.
-> >>
-> >> That section sounds not correct to me. 
-> > 
-> > It is correct in that it describes what the kernel does right now.
-> > 
-> > See calc_map_type_and_dist(), host_bridge_whitelist(), cpu_supports_p2pdma().
-> 
-> Well I'm the one who originally suggested that whitelist and the description still doesn't sound correct to me.
-> 
-> I would write something like "The PCIe specification doesn't define the forwarding of transactions between hierarchy domains...."
-
-Ok
-
-> The previous text was actually much better than this summary since
-> now it leaves out the important information where all of this is
-> comes from.
-
-Well, IMHO, it doesn't "come from" anywhere, this is all
-implementation specific behaviors..
-
-> > ARM SOCs are frequently not supporting even on server CPUs.
+On Wed, Nov 19, 2025 at 6:20=E2=80=AFAM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+> On 2025-04-29 15:04:34 [+0200], Thomas Wei=C3=9Fschuh wrote:
+> > The lockdown check buried in module_sig_check() will not compose well
+> > with the introduction of hash-based module validation.
 >
-> IIRC ARM actually has a validation program for this, but I've forgotten the name of it again.
+> An explanation of why would be nice.
 
-I suspect you mean SBSA, and I know at least one new SBSA approved
-chip that doesn't have working P2P through the host bridge.. :(
- 
-> Randy should know the name of it and I think mentioning the status
-> of the vendors here would be a good idea.
+/me shrugs
 
-I think refer to the kernel code is best for what is currently permitted..
+I thought the explanation was sufficient.
 
-> The documentation makes it sound like DMA-buf is limited to not
-> using struct pages and direct I/O, but that is not true.
+> > Move it into module_integrity_check() which will work better.
+> >
+> > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
 
-Okay, I see what you mean, the intention was to be very strong and say
-if you are not using struct pages then you must using DMABUF or
-something like it to control lifetime. Not to say that was the only
-way how DMABUF can be used.
-
-Leon let's try to clarify that a bit more
-
-Jason
+--=20
+paul-moore.com
