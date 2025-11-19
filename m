@@ -1,221 +1,170 @@
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C31835FF69;
-	Wed, 19 Nov 2025 12:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFF235772F
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 12:49:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763556269; cv=none; b=B1wWcxg+fs1V8QLRFYGvaboNBiTv1UnBAurXUHVbI4y6IR7dvULZ0lumF0zJutiLcto2s3BND1qDiwROihZpUNB8p1QshqmhvUxH41B0d+f2zg72pBJBd9YVH7bDZRB4uRwhVqz3iY3o7AbQeVqM+11ixL26JZTGbzHwc+82rTc=
+	t=1763556543; cv=none; b=apQSE/r95LtOa7DAH+nmD6V/qqAPJXgWSFskGo3fdgWp+d7zqwsKYQ3QG/GCNB2YGipBZO4lafL69RITB/dBC6TvLlkNw5m7kjT28XkcFsJ7fVUD4Wpz8mIB9x9J/AR2ncbR2tGLImnWoJYN/o9C2I1EqmwzA4FDRN8tCx7Y7fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763556269; c=relaxed/simple;
-	bh=Rnru5ouamGLdHTyWUlFahVoXs373OdFK7aMwp2vqL8c=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zv/RWZC9WS4o2+Tf0rRHJCHefyxqp7cwFp+hlXHa3mzlu1VSNa7bkswUTesIrzmGU/MtvWFvANUbQE2YO6tKl6cZIHHtKMy8QcJ2VmzVvY2jBF7vwaVBzDkUCuz2QxISAt+A1fcGY4TYwhHBMljQVsztIkgS5/RcaTy3MTUSvDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=lXswAYIq; arc=none smtp.client-ip=113.46.200.224
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1763556543; c=relaxed/simple;
+	bh=UZNBewuvwkPWj+bu4O3n8vX8SbsHsZYXgD064ZW+wME=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AWj9lf9qcXSt0cE1xfvh+wN+hC4r1bTLp+o0imjCg/LsKFgBkW9q/AaaGTPSxfnridlpmaF7E4MiJxQa1InEiwsQpEydOF5FkUZ2OBASQ0DkEJDSZpuXVvxyUUokwkvGBK84unH/ubdpHG6nRRyfpBZSLjqQAzxd83drZ8azqD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XyBNZwEk; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=C7C/e5Ox; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="lXswAYIq"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=f4H1DyMnqMWXqfDqjmax/RukEGIiAKVw3Nhx0Pp/47o=;
-	b=lXswAYIqGP91adavjcMz/EDM1U2IgrVsicsR9DuyEy7ZIIVJXWMMasznqrJCF9Zwfg2kD6NZI
-	nI++14Me3jjtmYi3tEkeZV6SjzwqRG0pCrGcNyf0Be2cUSuvweXOEd4HcV6GMmDG6wBs00G9p75
-	r4WGt+KT5LwamaMggl2pdGQ=
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4dBLjM36Mgz1cyQ2;
-	Wed, 19 Nov 2025 20:42:31 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 977D118001B;
-	Wed, 19 Nov 2025 20:44:15 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.188.120) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 19 Nov 2025 20:44:14 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Markus Elfring <Markus.Elfring@web.de>, Pavan Chebbi
-	<pavan.chebbi@broadcom.com>, ALOK TIWARI <alok.a.tiwari@oracle.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Shen Chenyang
-	<shenchenyang1@hisilicon.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
-	<wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>, Luo Yang
-	<luoyang82@h-partners.com>, Meny Yossefi <meny.yossefi@huawei.com>, Gur Stavi
-	<gur.stavi@huawei.com>
-Subject: [PATCH net-next v07 8/9] hinic3: Add netdev notifier interfaces
-Date: Wed, 19 Nov 2025 20:43:41 +0800
-Message-ID: <ff986bcacacf77b6d86a241139eedee9fce4145c.1763555878.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1763555878.git.zhuyikai1@h-partners.com>
-References: <cover.1763555878.git.zhuyikai1@h-partners.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XyBNZwEk";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="C7C/e5Ox"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763556540;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=efzFAXa6AqvKlr68xmTUgqr7OrHhr6l1HfrVAauk7zk=;
+	b=XyBNZwEk4nm5xu8Yv7jWIJ/bNwmTNI3iLJ5GtfGLmr3CQ1uu36W5hfNm/vUytmf2Rj/3RQ
+	/F8MMMGYrS6Tr4PtgsIqo8fc1QpsNBJSNeEt8Mu+TZ/6nAyxarHPA7tY+KK8e489BYw+by
+	vEvuO8js/hzEO7r8ZtWVWo3kNUEwheU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-439-XW8bXk9LNmqkkpoC6T4Q7g-1; Wed, 19 Nov 2025 07:48:59 -0500
+X-MC-Unique: XW8bXk9LNmqkkpoC6T4Q7g-1
+X-Mimecast-MFC-AGG-ID: XW8bXk9LNmqkkpoC6T4Q7g_1763556538
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4775e00b16fso40958515e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 04:48:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1763556538; x=1764161338; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=efzFAXa6AqvKlr68xmTUgqr7OrHhr6l1HfrVAauk7zk=;
+        b=C7C/e5OxFboNzS8m1t5dKea5dZs0Nqemx5VNAyS4V2udOfYctUTj2De0vzprMRklfA
+         n3w1Mgd3TzD+NnHKap47yfCXshuADswNZhBjdS5qSODybS5FAOpg6k9f31+v9Mog2g9A
+         YHqc3dmZuEZ0SSZocHliCffdTUluxvJ+/3rHUi6olkh/k4BhILq29ruCCEphYB4ChMtz
+         ftlIA1IXwMgRJoIWAWH8U6pK8wcgkcZGxdr2uZfmWFIs/zfWGAWckGcvF5U1dYqmLryG
+         UQoarNVJZbwkOtckDW5yHCMhPJXb9OCo1yUfjTj3TvrtncLybSNM9tNlI4NdGpBUnSjD
+         +OpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763556538; x=1764161338;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=efzFAXa6AqvKlr68xmTUgqr7OrHhr6l1HfrVAauk7zk=;
+        b=ndfvIWSjDvYUj2nCouA6nB7ywrBrIMUwyVJb1C7746nZoPHQlrHHtk4DZ6caI/F/xq
+         9jQGtRNjFbhdzM82eNRdS+LEdcUlmDmvuNB0x/6D4JLzvk1VEjpoujw7kn01vJFoV2+b
+         xldVG0Zy7cnrrHozA4MEkAzeXjDWm3ulDnliuwiVwz1n/+cA1gMqp7ORqx2vJWtUn614
+         LDMcOHk6bpBldSySAEnt+Q8WeuZINtWz1M1oGY2cF+KwlqMZzgVDSLKJLucFglLFfIj+
+         ge2wpZiOLifokDF8eBPy9GnJ5qtg+Rh6Pkfov2wX6txeXbK/RTa5xT6iJbtl+knUFpoR
+         1c+A==
+X-Forwarded-Encrypted: i=1; AJvYcCWf0btcWChVtLsAIZypg3Gafha1wzRK1qKOKIyt1WE958dm8PWSFvA4P0ndqnpd7X8U3dgRhzlt0I4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywbfg3tS6cpTYEU/pQSvqGVpsibg274vNrJgfKF+CBlT2K7KzRA
+	P70mpxHLH9ZHyV83rHwtsDH+POzoVLU8zKGde/3bE4IWGHJGYHSEv9l7HBmnyQchw1+8j7p/3Lf
+	895lihKcNzhYoc0l4eFvMqqV6MeEQzfQGocpaP4yybRsn+vbdjdz5+X+qNgqXNQ==
+X-Gm-Gg: ASbGnctP88Z5VmjffmemE0t/ldASF+mU7UZquawlzRSHRbYg5/WtdqvzA5Td+ZxYv+q
+	rnHpXEKPeDz+Lo19uJe5crSOsfzOMVbl12q3+ojumGy/TtXTMrexpbwpTlUMrKSMBVpbY0gXf+6
+	y8VcUQiGzJ7oin2Kif0DIer1jrkCCk8MVm2sNbCPVcB6jYputGsALkXugX8WBzCbckUCxEObm2/
+	l0GnDov8PE38N7kTS3d7dX3RthZ647ZfI5hQvf0J81R41Iks3yxrNq6iQlLJYq46gkIVlhHqDzH
+	ggkSB3CatVEjZqU5QNTttS2YMHuf8K/Ra/06Nqno5CtDtXbH2jP6aqaDJJFxdds6urmihgE8Veb
+	oyhU0yFDJahuVVQCvkp/CkKq8743daw==
+X-Received: by 2002:a05:600c:45c4:b0:477:7658:572a with SMTP id 5b1f17b1804b1-4778fea84d9mr173008245e9.20.1763556537876;
+        Wed, 19 Nov 2025 04:48:57 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF3vS0uApFcgFVlL2gt/R9GTQH3kJDQoD3RSC3xgY4lk5mLnK8+RM+7y+ofmIidRok8jpEiHw==
+X-Received: by 2002:a05:600c:45c4:b0:477:7658:572a with SMTP id 5b1f17b1804b1-4778fea84d9mr173007825e9.20.1763556537409;
+        Wed, 19 Nov 2025 04:48:57 -0800 (PST)
+Received: from redhat.com (IGLD-80-230-39-63.inter.net.il. [80.230.39.63])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9e19875sm38753245e9.16.2025.11.19.04.48.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 04:48:56 -0800 (PST)
+Date: Wed, 19 Nov 2025 07:48:53 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+	Jason Wang <jasowang@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Mike Christie <michael.christie@oracle.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH v5 2/2] vhost: switch to arrays of feature bits
+Message-ID: <20251119074746-mutt-send-email-mst@kernel.org>
+References: <cover.1763535083.git.mst@redhat.com>
+ <fbf51913a243558ddfee96d129d37d570fa23946.1763535083.git.mst@redhat.com>
+ <4204ed4b-0da1-407f-84e0-e23e2ce65fc7@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4204ed4b-0da1-407f-84e0-e23e2ce65fc7@redhat.com>
 
-Add netdev notifier interfaces.
-As we stipulate that netdevices with a vlan depth greater than 1
-should disable the offload feature, Layer 1 vlan netdevices use
-notifier to modify vlan_features.
+On Wed, Nov 19, 2025 at 12:04:12PM +0100, Paolo Abeni wrote:
+> On 11/19/25 7:55 AM, Michael S. Tsirkin wrote:
+> > @@ -1720,6 +1720,7 @@ static long vhost_net_set_owner(struct vhost_net *n)
+> >  static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+> >  			    unsigned long arg)
+> >  {
+> > +	const DEFINE_VHOST_FEATURES_ARRAY(features_array, vhost_net_features);
+> 
+> I'm sorry for the late feedback, I was drowning in other stuff.
+> 
+> I have just a couple of non blocking suggestions, feel free to ignore.
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- .../net/ethernet/huawei/hinic3/hinic3_main.c  | 89 +++++++++++++++++++
- .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  1 +
- 2 files changed, 90 insertions(+)
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-index 1308653819ef..463609585f46 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-@@ -32,6 +32,61 @@
- #define HINIC3_RX_PENDING_LIMIT_LOW   2
- #define HINIC3_RX_PENDING_LIMIT_HIGH  8
- 
-+#define HINIC3_MAX_VLAN_DEPTH_OFFLOAD_SUPPORT  1
-+#define HINIC3_VLAN_CLEAR_OFFLOAD \
-+	(NETIF_F_IP_CSUM | NETIF_F_IPV6_CSUM | \
-+	 NETIF_F_SCTP_CRC | NETIF_F_RXCSUM | NETIF_F_ALL_TSO)
-+
-+/* used for netdev notifier register/unregister */
-+static DEFINE_MUTEX(hinic3_netdev_notifiers_mutex);
-+static int hinic3_netdev_notifiers_ref_cnt;
-+
-+static u16 hinic3_get_vlan_depth(struct net_device *netdev)
-+{
-+	u16 vlan_depth = 0;
-+
-+#if defined(CONFIG_VLAN_8021Q) || defined(CONFIG_VLAN_8021Q_MODULE)
-+	while (is_vlan_dev(netdev)) {
-+		netdev = vlan_dev_priv(netdev)->real_dev;
-+		vlan_depth++;
-+	}
-+#endif
-+	return vlan_depth;
-+}
-+
-+static int hinic3_netdev_event(struct notifier_block *notifier,
-+			       unsigned long event, void *ptr)
-+{
-+	struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(ndev);
-+	u16 vlan_depth;
-+
-+	if (!is_vlan_dev(ndev))
-+		return NOTIFY_DONE;
-+
-+	netdev_hold(ndev, &nic_dev->tracker, GFP_ATOMIC);
-+
-+	switch (event) {
-+	case NETDEV_REGISTER:
-+		vlan_depth = hinic3_get_vlan_depth(ndev);
-+		if (vlan_depth == HINIC3_MAX_VLAN_DEPTH_OFFLOAD_SUPPORT)
-+			ndev->vlan_features &= (~HINIC3_VLAN_CLEAR_OFFLOAD);
-+
-+		break;
-+
-+	default:
-+		break;
-+	}
-+
-+	netdev_put(ndev, &nic_dev->tracker);
-+
-+	return NOTIFY_DONE;
-+}
-+
-+static struct notifier_block hinic3_netdev_notifier = {
-+	.notifier_call = hinic3_netdev_event,
-+};
-+
- static void init_intr_coal_param(struct net_device *netdev)
- {
- 	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-@@ -309,6 +364,36 @@ static int hinic3_set_default_hw_feature(struct net_device *netdev)
- 	return 0;
- }
- 
-+static void hinic3_register_notifier(struct net_device *netdev)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	int err;
-+
-+	mutex_lock(&hinic3_netdev_notifiers_mutex);
-+	hinic3_netdev_notifiers_ref_cnt++;
-+	if (hinic3_netdev_notifiers_ref_cnt == 1) {
-+		err = register_netdevice_notifier(&hinic3_netdev_notifier);
-+		if (err) {
-+			dev_dbg(nic_dev->hwdev->dev,
-+				"Register netdevice notifier failed, err: %d\n",
-+				err);
-+			hinic3_netdev_notifiers_ref_cnt--;
-+		}
-+	}
-+	mutex_unlock(&hinic3_netdev_notifiers_mutex);
-+}
-+
-+static void hinic3_unregister_notifier(void)
-+{
-+	mutex_lock(&hinic3_netdev_notifiers_mutex);
-+	if (hinic3_netdev_notifiers_ref_cnt == 1)
-+		unregister_netdevice_notifier(&hinic3_netdev_notifier);
-+
-+	if (hinic3_netdev_notifiers_ref_cnt)
-+		hinic3_netdev_notifiers_ref_cnt--;
-+	mutex_unlock(&hinic3_netdev_notifiers_mutex);
-+}
-+
- static void hinic3_link_status_change(struct net_device *netdev,
- 				      bool link_status_up)
- {
-@@ -412,6 +497,8 @@ static int hinic3_nic_probe(struct auxiliary_device *adev,
- 	if (err)
- 		goto err_uninit_sw;
- 
-+	hinic3_register_notifier(netdev);
-+
- 	queue_delayed_work(nic_dev->workq, &nic_dev->periodic_work, HZ);
- 	netif_carrier_off(netdev);
- 
-@@ -422,6 +509,7 @@ static int hinic3_nic_probe(struct auxiliary_device *adev,
- 	return 0;
- 
- err_uninit_nic_feature:
-+	hinic3_unregister_notifier();
- 	hinic3_update_nic_feature(nic_dev, 0);
- 	hinic3_set_nic_feature_to_hw(nic_dev);
- 
-@@ -452,6 +540,7 @@ static void hinic3_nic_remove(struct auxiliary_device *adev)
- 
- 	netdev = nic_dev->netdev;
- 	unregister_netdev(netdev);
-+	hinic3_unregister_notifier();
- 
- 	disable_delayed_work_sync(&nic_dev->periodic_work);
- 	cancel_work_sync(&nic_dev->rx_mode_work);
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-index 9bd46541b3e3..899f60588d25 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-@@ -97,6 +97,7 @@ struct hinic3_intr_coal_info {
- struct hinic3_nic_dev {
- 	struct pci_dev                  *pdev;
- 	struct net_device               *netdev;
-+	netdevice_tracker               tracker;
- 	struct hinic3_hwdev             *hwdev;
- 	struct hinic3_nic_io            *nic_io;
- 
--- 
-2.43.0
+Oh this is really nice.
+I did exactly this and the diff is smaller while the compiler
+was smart enough to figure it out and the generated code is the same.
+
+Thanks!
+
+
+> I think that if you rename `vhost_net_features` as
+> `vhost_net_features_bits` and `features_array` as `vhost_net_features`
+> the diffstat could be smaller and possibly clearer.
+> 
+> >  	u64 all_features[VIRTIO_FEATURES_U64S];
+> >  	struct vhost_net *n = f->private_data;
+> >  	void __user *argp = (void __user *)arg;
+> > @@ -1734,14 +1735,14 @@ static long vhost_net_ioctl(struct file *f, unsigned int ioctl,
+> >  			return -EFAULT;
+> >  		return vhost_net_set_backend(n, backend.index, backend.fd);
+> >  	case VHOST_GET_FEATURES:
+> > -		features = vhost_net_features[0];
+> > +		features = VHOST_FEATURES_U64(vhost_net_features, 0);
+> 
+> Here and below you could use directly:
+> 
+> 		features = features_array[0];
+> 
+> if you apply the rename mentioned above, this chunk and the following 3
+> should not be needed.
+> 
+> [...]> diff --git a/drivers/vhost/test.c b/drivers/vhost/test.c
+> > index 42c955a5b211..af727fccfe40 100644
+> > --- a/drivers/vhost/test.c
+> > +++ b/drivers/vhost/test.c
+> > @@ -308,6 +308,12 @@ static long vhost_test_set_backend(struct vhost_test *n, unsigned index, int fd)
+> >  	return r;
+> >  }
+> >  
+> > +static const int vhost_test_features[] = {
+> > +	VHOST_FEATURES
+> > +};
+> > +
+> > +#define VHOST_TEST_FEATURES VHOST_FEATURES_U64(vhost_test_features, 0)
+> 
+> If you rename `VHOST_FEATURES` to `VHOST_FEATURES_BITS` and
+> `VHOST_TEST_FEATURES` to `VHOST_FEATURES`, the following two chunks
+> should not be needed.
+> 
+> Thanks,
+> 
+> Paolo
 
