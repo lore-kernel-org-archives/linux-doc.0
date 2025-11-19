@@ -1,64 +1,64 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70892368289
-	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 15:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B5036921F
+	for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 15:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763567141; cv=none; b=sevwaMu5nKeR274YbKM7Y1yFV1pXUxo/StMFBjeWE2Z+Skzch+GZ5kVizdOe69l3sRF8eozsttCkgFDEm781rWsi7eyStPN1HGUKNg0H6rA7PmJz5ln0Qj8c+eneOtXD1+7tUx01lMv/7MXYkhLWMHIK7wiPDAPeA4J2ftr1X5M=
+	t=1763567142; cv=none; b=eAc0l5dTQiib4Jhb82aLrHe7UhcL20ERq58p53NOHOlDEY3upTjXDTQyeRLu/x42zsTpuiW5jFg1DReaZpjwgPpwo2+DZZVtXo+nS2uXX+jc4vYJbc9f2JBXtkCeBPCY2s2EDidE/2JS0n3KGsqo8UH2/cYM8yYBJ4sMt9dR8JY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763567141; c=relaxed/simple;
-	bh=+VK7KRl6+Lq6c3QG0QoLNUfpAYwW2X9fA09G/NfS6uk=;
+	s=arc-20240116; t=1763567142; c=relaxed/simple;
+	bh=3D6cMAtJFcH0eGhpLiRPBCAWIwBu4/DIokVo2lKhkeY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HlmaIfwB5tulSXuh4ouSwY196zwRbdnZUhk/x+kpxxZv9fNbtkbOO4fZ601Mkkxf9qtGoFuQmQNZr/2G9cEVQIQow7J2abOgcgYZglA7GunQyJ7ctY+LndSqvmOEZpt/GLkrqzrpFHcBPBy0lC1Y1zATlQIKwA+tpXWqPEFBwtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j6sLEfh9; arc=none smtp.client-ip=209.85.221.50
+	 MIME-Version; b=sAlsDapMAw+IuWu7K32qYKeJbnowcYHLrtpUPZV8MDx9KXLOpTKbJu3I1P9F66ZUBMiQxpK2Wk/nR18ikmi1jOP4v9TnqEPN69MuYPLdidQ7H9jkAqP5t+go4m/F2Kcd7n3Ek/wFSD7IEjLPVb4WMqmcFek6rqhZzhwMYvlCDI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pYLbNjJI; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j6sLEfh9"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42b3c965cc4so606808f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 07:45:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pYLbNjJI"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42b379cd896so3987842f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 07:45:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763567134; x=1764171934; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1763567136; x=1764171936; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AuFAdi/dQ7TYcP6kPKC/D+o7MTxWjWW8Ku2RD10GvbQ=;
-        b=j6sLEfh9uv7+dsvFnDqDQa6anzRkocsy8dt+OoGqRNipZTLpbhM0kN8gp+hG0HbaBs
-         MMBo7xYfGVPH43vHvKGRCgch64x3w+5gOHyhKTn6HQ+sYqIorf4m52B2SrG4bBRx89Ci
-         k7s7HPQsG+hLYQe0dBWwwYUE3j83EEMt+amQKWLX6AugMw0fo3ZbbVB5M+piJ6Meo17+
-         DvU/V8qk2/79vb7SU4ODsNiDcw+a5f4qtSc80/uGNdJXinhamtY1cOT2Gtifllx8JCIq
-         7cY4R9Y0192OrEL58Af8mu4tpPfVY0/Be+sl7rGwPj7IfS35Td5zUv2USdiF44V8DV8K
-         PVjw==
+        bh=1EgUtWpxUoehpDvVbPcVA+GkHlZFESzHxIeFdx8HGLc=;
+        b=pYLbNjJIY4xqxEIuEns8uXjvZ7F9isi/7jugo5Qj7mhP9MDL/QpwdMISZcJdNL9qP/
+         y9ZVXz8oEfwgevPWLkpZcPeLF47jsOb/XLf6/K0XXuPwugKhs+phJYcFTU6ZYG5E4S/r
+         o+Gp6z+r3MWbQ861Bcu8Uuld23esVOU+yE3rs15fEovLoc4dr+ngBE2HsPuDyaaBMk7k
+         PRsZEYjW7PPvzzPVl2RzcO++pOHfy+eUzYEjW15SHSG2mnuw9/5gHaT85gJU5KvJyeWx
+         dle+WOQC/9zPb3r7giPWeiI3kW7J2GODRp8Myf5WewGW6sR4l53Vhkhm3IGgtNkPpyaU
+         tTVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763567134; x=1764171934;
+        d=1e100.net; s=20230601; t=1763567136; x=1764171936;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=AuFAdi/dQ7TYcP6kPKC/D+o7MTxWjWW8Ku2RD10GvbQ=;
-        b=VO/ZHl2q5tOv8IFmoPuLSeG+q8vgnRj2JyX1X3tNszkvPRGCJCVaFc9jEEJ0ryhxQ0
-         1uhTrdDPdgujO2FIvuQyOrxZx3sWn+hI/gM89HVbGStmHhbdtS1feDwM8/hfU9d2b220
-         Et6CJfByf/q+31f7tF793PavhQcUMy1dhAS6wzUgSpIMi9YgtEMwiu7sp72K4LNc9uje
-         H5YsT6YPdEQ52IYPybgMelTyzjZF6agqKkFZjZ3z6bH/FZkkAb6hhb3TB5QFDKg91CPq
-         nz/XvNV97WoBbA1ey0cL213h003nHOZg47KupbTWGA5X2Ov/7Qv5P90RML8m52mBbGUz
-         QltA==
-X-Forwarded-Encrypted: i=1; AJvYcCWxz7wTEiRO4mCJgAdmdenXcqdqxrf6hRBPm0gE8Xf0r1AZxsxnnP7AL3jykYVDKLwXx0dMBhtU+8A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIQ+w0A2nsH27Zfj740L6ftWTlkXP4bXj9T1Ks6pmAQy+pBzxA
-	6VjWdOZm9IoEgvALpB8P/pzfcnujubKbWMiMsc5VPvYWYAChqYUtwUptlZgdaAP2SHM=
-X-Gm-Gg: ASbGnctN5Gnp8LVZkUkLhEp4gJICYZUX333SeHljn2Jk493gG5lRUir883c5INvmF2b
-	mZ6mj2tp/zOzOArZ6rtH3nYTsdbJCStdyC+KOHj72tnRdk8BmAJJxtQpsy2R0+UVyBnrKmW8mrA
-	ZHBb6OXyFDZlACa7qx3cAHApQa/M1lYa2CXrpQ0zidovmSOWWYlQdyZ35AORmJmymL+CP/v/i9O
-	MazJb6mUTeYHw7lVJpXZylXgA4ece09zFG3k/xMJo972Aw2/8kyNqvl5oGrsS9X4ET7ZEKD7TA5
-	NMdDzenmgLMpZ7WkpKOOVkSiEKOSCbUf1x6QyzePf4Js4ejq37FnFXYrjAwpbBg78smsYJpbDFB
-	BC/4a3SFwnKv+UFOAukSz8+Hg8v0ukQQEGsTaLxwNVks8rjF6HWMwSekFfuAU0n2/r4Qb5bPbjT
-	+wZCyfpOjMtqMaBjpc/Lhum+CF/L2Vlw==
-X-Google-Smtp-Source: AGHT+IEEW1UNe8+i9pRkQXcVi1K6qHmkkggtbzPn6ocK+c8Bp9XYSPJPKkUMg9h5XQagLem1rvsEdA==
-X-Received: by 2002:a05:6000:26d0:b0:429:eb80:11f5 with SMTP id ffacd0b85a97d-42cb20e4a02mr3468125f8f.26.1763567134112;
-        Wed, 19 Nov 2025 07:45:34 -0800 (PST)
+        bh=1EgUtWpxUoehpDvVbPcVA+GkHlZFESzHxIeFdx8HGLc=;
+        b=YJDdED9qXfAYwYebfONUMeVIobFQk5NxLWLRseqHAFALJdLTTH1ZNnB2efXaKfK8ED
+         6Hg0+QnuBTgCfkWVR2dNouz6QyFpmFXolpGjaEzsn4DYax9X64AAYi/beLJ8Q9Y2fbum
+         3awIarPe7Be/uhehCefv0YBFajAhspG7Dr9/4QBS+1Q8LoIcjQI5v5TgmuASf6ZXCX0L
+         OBWf439bWw+M0olMbQzO2Vmm6K7s/UynbRyvudpZ1nOa3BgGK2i0H31beT4AwTMfmfcJ
+         /bDlmfSckIwXF/FzuaUgjA/IKFCha9DW7E/bOazMuYNnbbhGGuiulDEDC8vULGu3mQKL
+         iG9A==
+X-Forwarded-Encrypted: i=1; AJvYcCXrMeRqXvzmF78x1SyEyo+5QVW18OLNCaOz3Ko+KGQ7N22xbTbMXHzXAAPwFx+T+2FvSTMsR4L0ZNo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdwsXzxN1S4O/AY/26/quASr7OwbVMldgwFUvmNptxUIi7sEb6
+	taowYRLgkwekUgGNET7B/o6l6fyXVQBeSxfYNNR4UR4/k34zFEOUYlSQ6Ff4aWcUdds=
+X-Gm-Gg: ASbGncuohBhQZqPSwDq/yLJVQWFln7s9OzQKE2DU25lQjQctix4XgENcMKWhngNO6Ek
+	Af8FJUgO/Yl+vYQx3hXbFfPBpWUaXRgxYn8cln+YGsmfr6NWEOFb8opVsNAsczkMY/QFnDdzu17
+	CrkVaLPXpbOPnxN8ONP6O/zMfFyPOVrZ8nBPiPPxumq6rUf1fm6KCBYt2MWX0pAxI+uihawULri
+	+sE9T6fPeGXo6AKSndzGQ6qVfFkrIkQCa9wlPeSARmPTw72jSHHTeXTTqinWGSvZiPRd1bwu0xQ
+	xmQJUFlCkq7ueIk0+t6lrw93aYfz4eVxy0Czs+dXXrrG5J/ufmmucnNJqzmwqUuIwNVKna1cd+O
+	ndpSZXWpplabbeqlv69F1hxTiGU1qGthqg6BqaI5yoMlwes0w5UCCLHm6FlqSPVzUO0yPB6Dc9S
+	WU/3MVSp/eLaYljMvp9CcXJXNRMc+4hA==
+X-Google-Smtp-Source: AGHT+IGKFFWZ+AqolHJ3imLY6SMDSF30b2mMpFX+Q/YU64RzAj2P3ofwp9AZZn8blv/guB2oFBfRQw==
+X-Received: by 2002:a5d:5f93:0:b0:42b:43cc:982e with SMTP id ffacd0b85a97d-42b595a497fmr21650580f8f.36.1763567135863;
+        Wed, 19 Nov 2025 07:45:35 -0800 (PST)
 Received: from eugen-station.. ([82.76.24.202])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53dea1c9sm38765632f8f.0.2025.11.19.07.45.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53dea1c9sm38765632f8f.0.2025.11.19.07.45.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 07:45:33 -0800 (PST)
+        Wed, 19 Nov 2025 07:45:35 -0800 (PST)
 From: Eugen Hristev <eugen.hristev@linaro.org>
 To: linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -83,9 +83,9 @@ Cc: tudor.ambarus@linaro.org,
 	tony.luck@intel.com,
 	kees@kernel.org,
 	Eugen Hristev <eugen.hristev@linaro.org>
-Subject: [PATCH 10/26] mm/swapfile: Annotate static information into meminspect
-Date: Wed, 19 Nov 2025 17:44:11 +0200
-Message-ID: <20251119154427.1033475-11-eugen.hristev@linaro.org>
+Subject: [PATCH 11/26] kernel/vmcore_info: Register dynamic information into meminspect
+Date: Wed, 19 Nov 2025 17:44:12 +0200
+Message-ID: <20251119154427.1033475-12-eugen.hristev@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251119154427.1033475-1-eugen.hristev@linaro.org>
 References: <20251119154427.1033475-1-eugen.hristev@linaro.org>
@@ -97,36 +97,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Annotate vital static information into inspection table:
- - nr_swapfiles
-
-Information on these variables is stored into dedicated inspection section.
+Register vmcoreinfo information into inspection table.
+Because the size of the info is computed after all entries are being
+added, there is no point in registering the whole page, rather, call
+the inspection registration once everything is in place with the right size.
+A second reason is that the vmcoreinfo is added as a region inside
+the ELF coreimage note, there is no point in having blank space at the end.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
 ---
- mm/swapfile.c | 2 ++
- 1 file changed, 2 insertions(+)
+ kernel/vmcore_info.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/mm/swapfile.c b/mm/swapfile.c
-index 10760240a3a2..ee677be19041 100644
---- a/mm/swapfile.c
-+++ b/mm/swapfile.c
-@@ -42,6 +42,7 @@
- #include <linux/suspend.h>
- #include <linux/zswap.h>
- #include <linux/plist.h>
+diff --git a/kernel/vmcore_info.c b/kernel/vmcore_info.c
+index e066d31d08f8..6a9658d6ec9a 100644
+--- a/kernel/vmcore_info.c
++++ b/kernel/vmcore_info.c
+@@ -14,6 +14,7 @@
+ #include <linux/cpuhotplug.h>
+ #include <linux/memblock.h>
+ #include <linux/kmemleak.h>
 +#include <linux/meminspect.h>
  
- #include <asm/tlbflush.h>
- #include <linux/swapops.h>
-@@ -65,6 +66,7 @@ static void move_cluster(struct swap_info_struct *si,
+ #include <asm/page.h>
+ #include <asm/sections.h>
+@@ -227,6 +228,9 @@ static int __init crash_save_vmcoreinfo_init(void)
+ 	arch_crash_save_vmcoreinfo();
+ 	update_vmcoreinfo_note();
  
- static DEFINE_SPINLOCK(swap_lock);
- static unsigned int nr_swapfiles;
-+MEMINSPECT_SIMPLE_ENTRY(nr_swapfiles);
- atomic_long_t nr_swap_pages;
- /*
-  * Some modules use swappable objects and may try to swap them out under
++	meminspect_register_id_va(MEMINSPECT_ID_VMCOREINFO,
++				  (void *)vmcoreinfo_data, vmcoreinfo_size);
++
+ 	return 0;
+ }
+ 
 -- 
 2.43.0
 
