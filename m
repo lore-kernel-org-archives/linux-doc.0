@@ -1,93 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-out1.aaront.org (smtp-out1.aaront.org [52.0.59.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E582882D7;
-	Thu, 20 Nov 2025 10:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B110293B75;
+	Thu, 20 Nov 2025 10:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.0.59.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763632998; cv=none; b=UHB8sytnn18+I0cYSpYryeP5F9EUBSfhyaIwet1aoc5oTZpcfsJS3vdP5ANYHlqCFJkJ7YJY/g6j2obUkbIXGfcJCWTq6gyE9p2vEQVy04w2vEUHmOnWNTuExqzKOv9R7xjElwa2xGI1kq29zrYldIWATV/K1N7ocXXiqAVceLE=
+	t=1763634432; cv=none; b=ZGtcyuueJBBnBoGMNULMGU7/2YJSq9JESQRKYdnyQ5J2xa1liPrlAz+m223BfORU9UyHN2GEQyw/+Nyy4lWqUquYndxiZHnwQzTsOj/A0nxgfJX+RZbQ8UfsGkKg4vlG+cWkZnaxbS6GsN+JtfPmCfBmLOmVIJJFgXa6WT29qsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763632998; c=relaxed/simple;
-	bh=nN18XypDEK4Xp2Uwyzn2CyI2CYU2LLHnqRbvcxN/MOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YkZKsxbjmzwFFsnCamzc3TQTNZcIWHIod9adUL8u3eAAIPMVgvjhbnuoBzAjwDVwJdaVwsgNT3AHq5+tPZab6YHJ9fRsLwXo2dQ4g48+vI55UCHla69HfynkA5o/DKyBUTv0OxP1Us5yF5Oft+fm8gtiiTBqiyNBqLQ6ffXguNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G+hY+OMB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763634432; c=relaxed/simple;
+	bh=nRmJstFHUIEPKe3KR1FMQO3VgQZJLwbre1WpRkK1mNM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fflQiCr3yQDmzEIKv51qAXgjcPMPgC47NSpJh+yAFXosm1u+5ujh20Rl/YsU4KKG5+SagaJgezmg+B8+wZea1ZPdDtAtCtGzr317oIBaGhWfVNDDtJqHmpsMRvrqALoV9Wzy06ozALncqEG2xndSViAnCkRu3jELvhdsTJJ9iMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aaront.org; spf=pass smtp.mailfrom=aaront.org; dkim=permerror (0-bit key) header.d=aaront.org header.i=@aaront.org header.b=3O3VZVvO; dkim=pass (2048-bit key) header.d=aaront.org header.i=@aaront.org header.b=YGlO35hX; arc=none smtp.client-ip=52.0.59.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aaront.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aaront.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G+hY+OMB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FB98C4CEF1;
-	Thu, 20 Nov 2025 10:03:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763632997;
-	bh=nN18XypDEK4Xp2Uwyzn2CyI2CYU2LLHnqRbvcxN/MOk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G+hY+OMBFwxjvW/rHz3D9U5weCHQooOgK8MHfyA01kVMMV+A3AkZ438UHthcqeE9M
-	 /W8sa0sQXGzt/hW+GZKYO9qCVhuYOSwzWyvXmoHLLLXKCC71ccQychOWgBEc9/N4WR
-	 B4hzYRwhJYWOy/XMG9Ee6J/fv3T7TqpQvxDZRmSFypghKchjL3PUHlMTtC4LoafHEg
-	 8gc9esBn2NM5CJ6c+XmHXAeq018QsYls0PqZAWftuB8E+D1BJ3lzNPMBBHus01EitA
-	 yHaQJeOXigJlJYANOS70kHWQFawRWzvBrKbuTNC8S71WbHRGEk1IfIpBp5grsDiqGo
-	 BP3n3eU4f4VgA==
-Date: Thu, 20 Nov 2025 12:03:12 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
+	dkim=permerror (0-bit key) header.d=aaront.org header.i=@aaront.org header.b="3O3VZVvO";
+	dkim=pass (2048-bit key) header.d=aaront.org header.i=@aaront.org header.b="YGlO35hX"
+Received: from smtp-send1.aaront.org (localhost [IPv6:::1])
+	by smtp-out1.aaront.org (Postfix) with ESMTP id 4dBvff1Xm1zGq;
+	Thu, 20 Nov 2025 10:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/simple; d=aaront.org;
+    h=from:to:cc:subject:date:message-id:in-reply-to:references
+    :mime-version:content-transfer-encoding; s=ckha5xz4; bh=nRmJstFH
+    UIEPKe3KR1FMQO3VgQZJLwbre1WpRkK1mNM=; b=3O3VZVvOKDaAZHbujvSYYxW5
+    /zoMqUegcqmp/qlHKo6z319TcBO6s6bDX1qQozA38vWXwL2D1lRX7LEpETbXBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aaront.org; h=
+    from:to:cc:subject:date:message-id:in-reply-to:references
+    :mime-version:content-transfer-encoding; s=qvfkgsmx; bh=nRmJstFH
+    UIEPKe3KR1FMQO3VgQZJLwbre1WpRkK1mNM=; b=YGlO35hXjHc+6NImBiriSFIg
+    7kHQyYMK10okeJRx4YJoEHNfDE+yWHSoONJxZt7sRUJbwyni1KTNoDTi0eIW83zP
+    +9TbyfaUj9WiuAQO7T9p4vVDHW+x13RRhxkrxV+0CPlAAUf7vASDox+0H/zDMBG0
+    92FqDH0L9ESPtmiy2gUnuln1xsu04eXhXEcDPh4M0shyPn/nIFaFYZAPXsmxxZzV
+    ZoyPbat8vmypSTMhMskZk3a3XqXCepQo/khf9U1gwjluTvcaUSPazpAUavAXz4F1
+    UPd+MjnBx9ODUhOGI3VkWXVwthQFErVOHqts8lN+f9jkgr9xd7rtyfDduwww1w==
+Received: by smtp-send1.aaront.org (Postfix) id 4dBvfd2vb2zGp;
+	Thu, 20 Nov 2025 10:27:05 +0000 (UTC)
+From: Aaron Thompson <dev@aaront.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, iommu@lists.linux.dev,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org, Nicolin Chen <nicolinc@nvidia.com>,
-	Alex Mastro <amastro@fb.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v9 06/11] dma-buf: provide phys_vec to scatter-gather
- mapping routine
-Message-ID: <20251120100312.GV18335@unreal>
-References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
- <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
- <57b8876f-1399-4e4d-a44b-1177787aa17d@amd.com>
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Aaron Thompson <dev@aaront.org>
+Subject: [PATCH 1/2] debugfs: Remove redundant access mode checks
+Date: Thu, 20 Nov 2025 10:26:32 +0000
+Message-ID: <20251120102222.18371-2-dev@null.aaront.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251120102222.18371-1-dev@null.aaront.org>
+References: <20251120102222.18371-1-dev@null.aaront.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <57b8876f-1399-4e4d-a44b-1177787aa17d@amd.com>
 
-On Thu, Nov 20, 2025 at 10:33:36AM +0100, Christian König wrote:
-> On 11/20/25 10:28, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Add dma_buf_phys_vec_to_sgt() and dma_buf_free_sgt() helpers to convert
-> > an array of MMIO physical address ranges into scatter-gather tables with
-> > proper DMA mapping.
+debugfs_get_tree() can only be called if debugfs itself calls
+simple_pin_fs() or register_filesystem(), and those call paths also
+check the access mode.
 
-<...>
+debugfs_start_creating() checks the access mode so the checks in the
+debugfs_create_* functions are unnecessary.
 
-> > Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> > Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
-> > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> > Tested-by: Alex Mastro <amastro@fb.com>
-> > Tested-by: Nicolin Chen <nicolinc@nvidia.com>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Could be that this will backfire at some point, but I think we will never know without trying.
-> 
-> Acked-by: Christian König <christian.koenig@amd.com>
+An upcoming change will affect debugfs_allow, so doing this cleanup
+first will make that change simpler.
 
-Thanks a lot.
+Signed-off-by: Aaron Thompson <dev@aaront.org>
+---
+ fs/debugfs/inode.c | 18 ------------------
+ 1 file changed, 18 deletions(-)
+
+diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+index 661a99a7dfbe..b6e401c46b6b 100644
+--- a/fs/debugfs/inode.c
++++ b/fs/debugfs/inode.c
+@@ -287,9 +287,6 @@ static int debugfs_get_tree(struct fs_context *fc)
+ {
+ 	int err;
+ 
+-	if (!(debugfs_allow & DEBUGFS_ALLOW_API))
+-		return -EPERM;
+-
+ 	err = get_tree_single(fc, debugfs_fill_super);
+ 	if (err)
+ 		return err;
+@@ -434,11 +431,6 @@ static struct dentry *__debugfs_create_file(const char *name, umode_t mode,
+ 	if (IS_ERR(dentry))
+ 		return dentry;
+ 
+-	if (!(debugfs_allow & DEBUGFS_ALLOW_API)) {
+-		failed_creating(dentry);
+-		return ERR_PTR(-EPERM);
+-	}
+-
+ 	inode = debugfs_get_inode(dentry->d_sb);
+ 	if (unlikely(!inode)) {
+ 		pr_err("out of free dentries, can not create file '%s'\n",
+@@ -584,11 +576,6 @@ struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
+ 	if (IS_ERR(dentry))
+ 		return dentry;
+ 
+-	if (!(debugfs_allow & DEBUGFS_ALLOW_API)) {
+-		failed_creating(dentry);
+-		return ERR_PTR(-EPERM);
+-	}
+-
+ 	inode = debugfs_get_inode(dentry->d_sb);
+ 	if (unlikely(!inode)) {
+ 		pr_err("out of free dentries, can not create directory '%s'\n",
+@@ -631,11 +618,6 @@ struct dentry *debugfs_create_automount(const char *name,
+ 	if (IS_ERR(dentry))
+ 		return dentry;
+ 
+-	if (!(debugfs_allow & DEBUGFS_ALLOW_API)) {
+-		failed_creating(dentry);
+-		return ERR_PTR(-EPERM);
+-	}
+-
+ 	inode = debugfs_get_inode(dentry->d_sb);
+ 	if (unlikely(!inode)) {
+ 		pr_err("out of free dentries, can not create automount '%s'\n",
+-- 
+2.47.3
+
