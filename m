@@ -1,55 +1,55 @@
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896CE363C6F
-	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 15:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FDC3587BD
+	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 15:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763651658; cv=none; b=APd6NNYAAiREhoLin2aVjPQbbWU5FcbRUML5GUi4HJePMkOOgln6LCfxcy5ofShYB5KQmv4Y1Ko0OP86+cC03klL0XvcI+pVw9ppdoWOHWeDOI4FwIPB2StN+SWi1KPz7kuaXP3yfCAj1kJx0mZD1aG+ddrliLSGMvn+nw/TVPI=
+	t=1763651663; cv=none; b=gZ3dV2gU3JAc5/zp2y0tpUOGkNM4CcPoXfbaqSttX/J+7lnB/mJztuJ69ETtjdbFpUKRmw4At9PT42wngIF4rndZc3GaXUdnrkg3pUhorgls4P+/P9zbpnItpYPDePZXuvuZDZlufp+02F1ZyKAgR3JAW0qcOApYmPoxkVA3VLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763651658; c=relaxed/simple;
-	bh=Wp3vD9ZGffvalWLT8ptbKQ805EYjx8BzONTUt7n/RbE=;
+	s=arc-20240116; t=1763651663; c=relaxed/simple;
+	bh=VbJWJQZmBX4+csAoT1yUNldmDqG40I0IsN6jc/COgn4=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=M1w9eCchvyDderRFEZXaGcAZQglUMXUNeIY7JaPad0hOo2y7OjGx9EPtviITDnO1ZK5u3IU90M2Hc1DLwPSHMi0qzQepTRduEzD4eZqVGp20AtEEcHY6XwCHvWkDf6/R+z1Gex5yoLczVho6BJwY4J/MFSf0UACbvlIqXm4h36Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LbgENj+Z; arc=none smtp.client-ip=209.85.221.74
+	 To:Cc:Content-Type; b=eoYCXTmtbmpnl0Nrp98kI0BFL9jwIx/hh3mG1xMLv/dkJtkPfPTPsnAGar5JXCq94fxfYfmUTRtqPyvGnNRHFkqx+G3AlfRKDS5hYV4zao6sLcpzy9TyhPKDH2o8L2hHA3/+3x9tQUZ/UGWAKlubyWXZ1kvQNrg9IvxxxeYS5Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GrdudiZa; arc=none smtp.client-ip=209.85.128.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LbgENj+Z"
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-42b570776a3so573761f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 07:13:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GrdudiZa"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4779da35d27so12450695e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 07:13:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763651617; x=1764256417; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1763651628; x=1764256428; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mqBL95K9iMIYpMB+0uabPzgdi4RlMsfaN5hL0tFWKIQ=;
-        b=LbgENj+Z2XCBpkN6lAg+WivKYdozz+RSDvTznQ3CHeuuqOJlMFRqWXeOUYzF+d+BvK
-         /u8OYxB/bDJ+eg4ZSIak0tidRndbPa+tE3OFQZO/1K2cA1gEiS8QkKJwH7fbjFKj5FFo
-         FB7Ka6TvODj6Wub36hOtZh1b4Ik+VBh+ntuPiCEKQ9bRLX2kbNKFqgeAXxR5/Vk4a2lX
-         y5uxB/bHjrcc9qwvnVlwrwdIv88Ke7TW147FLq4yH0DbqTgRu46htxpzh2AtVgzcbZg5
-         XQHPDxtL08U/oc9VnJCIXoj1sk5iOVopvjqWbsXlSgY5o87gZOQIXOV/LB1oFE6Irgbh
-         JqoA==
+        bh=aJMOXRb0WgY3NkQlI/hPCIKlELlXVsKWBZcrKDKyFiM=;
+        b=GrdudiZaHvxb1ceX1CbrJeUQy6v+6Dja9fYK1GVBTfp5tDyfaWLBbkziOkp+4OATq1
+         vkzOMCn6UePQO6uF7yU5m6ZnAhoKEv2rMbK+rglsDKVfZbp41FKRInaOgg7L/m4X/X71
+         Qf7xw3ntI0rHCD7XRphR/0WgM1uXvmlbL2VpvsT6Nrgu8ameafysrzxZG0JZfyyJNH1E
+         WAMMz9z+y1jAt0MlLwb5NJjxq9Dz+Un6zFFOfHmd96Vee0Z964+CrgaG8kiDlaAyoUyT
+         jAzyYckkjya33dwP+UsD4A7XOTYa0KkswBE5ypf+yGk9uFGH0UmoVdLerP9WXZx8D/m2
+         UMow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763651617; x=1764256417;
+        d=1e100.net; s=20230601; t=1763651628; x=1764256428;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mqBL95K9iMIYpMB+0uabPzgdi4RlMsfaN5hL0tFWKIQ=;
-        b=Kqi26eYDYy1+OvMpxJR2VM808cebWeMg4GHNgU0+SJS6eYmOvyqvspMgqkaAtz0cZf
-         hNUgvzSTJWXYPaU0dex+NPSF5GDbXH3yIvxe5vjgz0YM4WVP8qb1PE/80+HE+hlAFlf3
-         ui6frYXH6gqMwmy8QTbVRey4EDxBmGqoyNgyahIRU0Du16NnQMPcG+HgJz3mxg7unzvg
-         iJ7mveBVeDvAtEE6etdmF1GBsEXHqwDq+wbViOxcGO2aISNG4eiBe30UO5rZK1dWfbIG
-         hdJNIupg/MxBI1cwxATSAqcEcr0YAwG+7gFSIexl86ZoBmYmVdxAPuzxGb6pDK8LSpov
-         HldQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVv3I21Wh0mByxOAxGAZJL6rYTRKofIb/eZuh25qxtm34zAE3yr8K9IeDAXNMlfVPcATG+RRr0fUm4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YweoYpigsjA/PI2Vyumy4rywvN0jp4qEraFenBWCUDzAROQLRIc
-	QRteJc4sneYeuw6ALicxNEXCiqT1Vz6bXXxgndWB5FIzCe+caqhJIG8nBmEI/CqRp8S+iAjBz2F
-	Lxw==
-X-Google-Smtp-Source: AGHT+IErpwOOAC9GArFSNTJou9QXZQdLdsB5GAFT/ziU0NSYCtEA5y7Y+T/bNl3TzMzM/I9IiVHNJedfXw==
-X-Received: from wruc15.prod.google.com ([2002:a5d:4f0f:0:b0:42b:2fcc:57d1])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:240b:b0:429:b2ad:f31e
- with SMTP id ffacd0b85a97d-42cb9a3f384mr3224742f8f.35.1763651616390; Thu, 20
- Nov 2025 07:13:36 -0800 (PST)
-Date: Thu, 20 Nov 2025 16:09:52 +0100
+        bh=aJMOXRb0WgY3NkQlI/hPCIKlELlXVsKWBZcrKDKyFiM=;
+        b=LBT6y2kNk6LT2ewDCpuKYqpAXQ9iVTscvI19WkZ6FX9yKTJ0x+nQj6Ct8PJ23QMhgx
+         S5Nnbup+GQ7vK0ZjUDpy22sK+CLfKB4IcyveenS86nvLowrCu7CV+NI0PpXO54RyU272
+         f+UAavpS+ZmPJkZGfbTmvX9hPf2E3A1y0tCbAU9QTAgBPcSoYkb+BqedYC8QQLNoX0VY
+         a7Fz07R7TQV0Z1bHymHXTbAonEfrxgFXKUAKE6AMT6NilZllkZSlwxxodKtypKJxg8j6
+         h8jfHIKWexzXK+fLKVuZDzV57Qi0Ok1yC8jTXKekctkrfrvHzFekV3PaUwdKWmz/zo8L
+         x6+g==
+X-Forwarded-Encrypted: i=1; AJvYcCWZqm+JV8qdrjhsQi3wnqyRoEDRLFE7fxo+ZcTX3XFsTqEu9m8J2ajc7Mvrhom/+4jRItT079PhaRY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzeZgkMUSOcbETbo89r4HkeKVcK2mWCaBIHyh613whzMA37wqm
+	JDBfj7QtSrxQngiUwnPhizJaWVEa9F6p9h+NfBbBZqeg8zmeuL5jsfuSLnajvGtzOIe+Q5+qDg6
+	DJw==
+X-Google-Smtp-Source: AGHT+IFOmV1c9L2LvdRR9E5a5WseLoVuoNabSykiYJeUUPoV60hKtqkuL5rUoQ3b9gFsGSgiTWOm153hKQ==
+X-Received: from wmpi31.prod.google.com ([2002:a05:600c:4b1f:b0:477:55c0:6392])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:4f49:b0:477:7991:5d1e
+ with SMTP id 5b1f17b1804b1-477b8a9fd96mr32224715e9.25.1763651627745; Thu, 20
+ Nov 2025 07:13:47 -0800 (PST)
+Date: Thu, 20 Nov 2025 16:09:55 +0100
 In-Reply-To: <20251120151033.3840508-7-elver@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20251120145835.3833031-2-elver@google.com> <20251120151033.3840508-7-elver@google.com>
 X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
-Message-ID: <20251120151033.3840508-28-elver@google.com>
-Subject: [PATCH v4 27/35] kfence: Enable context analysis
+Message-ID: <20251120151033.3840508-31-elver@google.com>
+Subject: [PATCH v4 30/35] stackdepot: Enable context analysis
 From: Marco Elver <elver@google.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
@@ -87,10 +87,7 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Enable context analysis for the KFENCE subsystem.
-
-Notable, kfence_handle_page_fault() required minor restructure, which
-also fixed a subtle race; arguably that function is more readable now.
+Enable context analysis for stackdepot.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
@@ -99,207 +96,117 @@ v4:
 
 v2:
 * Remove disable/enable_context_analysis() around headers.
-* Use __context_unsafe() instead of __no_context_analysis.
 ---
- mm/kfence/Makefile |  2 ++
- mm/kfence/core.c   | 20 +++++++++++++-------
- mm/kfence/kfence.h | 14 ++++++++------
- mm/kfence/report.c |  4 ++--
- 4 files changed, 25 insertions(+), 15 deletions(-)
+ lib/Makefile     |  1 +
+ lib/stackdepot.c | 20 ++++++++++++++------
+ 2 files changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/mm/kfence/Makefile b/mm/kfence/Makefile
-index 2de2a58d11a1..a503e83e74d9 100644
---- a/mm/kfence/Makefile
-+++ b/mm/kfence/Makefile
-@@ -1,5 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
+diff --git a/lib/Makefile b/lib/Makefile
+index 59ed5f881bcb..2e983f37d173 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -248,6 +248,7 @@ obj-$(CONFIG_POLYNOMIAL) += polynomial.o
+ # Prevent the compiler from calling builtins like memcmp() or bcmp() from this
+ # file.
+ CFLAGS_stackdepot.o += -fno-builtin
++CONTEXT_ANALYSIS_stackdepot.o := y
+ obj-$(CONFIG_STACKDEPOT) += stackdepot.o
+ KASAN_SANITIZE_stackdepot.o := n
+ # In particular, instrumenting stackdepot.c with KMSAN will result in infinite
+diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+index de0b0025af2b..166f50ad8391 100644
+--- a/lib/stackdepot.c
++++ b/lib/stackdepot.c
+@@ -61,18 +61,18 @@ static unsigned int stack_bucket_number_order;
+ /* Hash mask for indexing the table. */
+ static unsigned int stack_hash_mask;
  
-+CONTEXT_ANALYSIS := y
-+
- obj-y := core.o report.o
++/* The lock must be held when performing pool or freelist modifications. */
++static DEFINE_RAW_SPINLOCK(pool_lock);
+ /* Array of memory regions that store stack records. */
+-static void **stack_pools;
++static void **stack_pools __pt_guarded_by(&pool_lock);
+ /* Newly allocated pool that is not yet added to stack_pools. */
+ static void *new_pool;
+ /* Number of pools in stack_pools. */
+ static int pools_num;
+ /* Offset to the unused space in the currently used pool. */
+-static size_t pool_offset = DEPOT_POOL_SIZE;
++static size_t pool_offset __guarded_by(&pool_lock) = DEPOT_POOL_SIZE;
+ /* Freelist of stack records within stack_pools. */
+-static LIST_HEAD(free_stacks);
+-/* The lock must be held when performing pool or freelist modifications. */
+-static DEFINE_RAW_SPINLOCK(pool_lock);
++static __guarded_by(&pool_lock) LIST_HEAD(free_stacks);
  
- CFLAGS_kfence_test.o := -fno-omit-frame-pointer -fno-optimize-sibling-calls
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index 727c20c94ac5..9cf1eb9ff140 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -132,8 +132,8 @@ struct kfence_metadata *kfence_metadata __read_mostly;
- static struct kfence_metadata *kfence_metadata_init __read_mostly;
+ /* Statistics counters for debugfs. */
+ enum depot_counter_id {
+@@ -291,6 +291,7 @@ EXPORT_SYMBOL_GPL(stack_depot_init);
+  * Initializes new stack pool, and updates the list of pools.
+  */
+ static bool depot_init_pool(void **prealloc)
++	__must_hold(&pool_lock)
+ {
+ 	lockdep_assert_held(&pool_lock);
  
- /* Freelist with available objects. */
--static struct list_head kfence_freelist = LIST_HEAD_INIT(kfence_freelist);
--static DEFINE_RAW_SPINLOCK(kfence_freelist_lock); /* Lock protecting freelist. */
-+DEFINE_RAW_SPINLOCK(kfence_freelist_lock); /* Lock protecting freelist. */
-+static struct list_head kfence_freelist __guarded_by(&kfence_freelist_lock) = LIST_HEAD_INIT(kfence_freelist);
+@@ -338,6 +339,7 @@ static bool depot_init_pool(void **prealloc)
  
- /*
-  * The static key to set up a KFENCE allocation; or if static keys are not used
-@@ -253,6 +253,7 @@ static bool kfence_unprotect(unsigned long addr)
+ /* Keeps the preallocated memory to be used for a new stack depot pool. */
+ static void depot_keep_new_pool(void **prealloc)
++	__must_hold(&pool_lock)
+ {
+ 	lockdep_assert_held(&pool_lock);
+ 
+@@ -357,6 +359,7 @@ static void depot_keep_new_pool(void **prealloc)
+  * the current pre-allocation.
+  */
+ static struct stack_record *depot_pop_free_pool(void **prealloc, size_t size)
++	__must_hold(&pool_lock)
+ {
+ 	struct stack_record *stack;
+ 	void *current_pool;
+@@ -391,6 +394,7 @@ static struct stack_record *depot_pop_free_pool(void **prealloc, size_t size)
+ 
+ /* Try to find next free usable entry from the freelist. */
+ static struct stack_record *depot_pop_free(void)
++	__must_hold(&pool_lock)
+ {
+ 	struct stack_record *stack;
+ 
+@@ -428,6 +432,7 @@ static inline size_t depot_stack_record_size(struct stack_record *s, unsigned in
+ /* Allocates a new stack in a stack depot pool. */
+ static struct stack_record *
+ depot_alloc_stack(unsigned long *entries, unsigned int nr_entries, u32 hash, depot_flags_t flags, void **prealloc)
++	__must_hold(&pool_lock)
+ {
+ 	struct stack_record *stack = NULL;
+ 	size_t record_size;
+@@ -486,6 +491,7 @@ depot_alloc_stack(unsigned long *entries, unsigned int nr_entries, u32 hash, dep
  }
  
- static inline unsigned long metadata_to_pageaddr(const struct kfence_metadata *meta)
-+	__must_hold(&meta->lock)
+ static struct stack_record *depot_fetch_stack(depot_stack_handle_t handle)
++	__must_not_hold(&pool_lock)
  {
- 	unsigned long offset = (meta - kfence_metadata + 1) * PAGE_SIZE * 2;
- 	unsigned long pageaddr = (unsigned long)&__kfence_pool[offset];
-@@ -288,6 +289,7 @@ static inline bool kfence_obj_allocated(const struct kfence_metadata *meta)
- static noinline void
- metadata_update_state(struct kfence_metadata *meta, enum kfence_object_state next,
- 		      unsigned long *stack_entries, size_t num_stack_entries)
-+	__must_hold(&meta->lock)
- {
- 	struct kfence_track *track =
- 		next == KFENCE_OBJECT_ALLOCATED ? &meta->alloc_track : &meta->free_track;
-@@ -485,7 +487,7 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
- 	alloc_covered_add(alloc_stack_hash, 1);
- 
- 	/* Set required slab fields. */
--	slab = virt_to_slab((void *)meta->addr);
-+	slab = virt_to_slab(addr);
- 	slab->slab_cache = cache;
- 	slab->objects = 1;
- 
-@@ -514,6 +516,7 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
- static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool zombie)
- {
- 	struct kcsan_scoped_access assert_page_exclusive;
-+	u32 alloc_stack_hash;
- 	unsigned long flags;
- 	bool init;
- 
-@@ -546,9 +549,10 @@ static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool z
- 	/* Mark the object as freed. */
- 	metadata_update_state(meta, KFENCE_OBJECT_FREED, NULL, 0);
- 	init = slab_want_init_on_free(meta->cache);
-+	alloc_stack_hash = meta->alloc_stack_hash;
- 	raw_spin_unlock_irqrestore(&meta->lock, flags);
- 
--	alloc_covered_add(meta->alloc_stack_hash, -1);
-+	alloc_covered_add(alloc_stack_hash, -1);
- 
- 	/* Check canary bytes for memory corruption. */
- 	check_canary(meta);
-@@ -593,6 +597,7 @@ static void rcu_guarded_free(struct rcu_head *h)
-  * which partial initialization succeeded.
-  */
- static unsigned long kfence_init_pool(void)
-+	__context_unsafe(/* constructor */)
- {
- 	unsigned long addr, start_pfn;
- 	int i;
-@@ -1194,6 +1199,7 @@ bool kfence_handle_page_fault(unsigned long addr, bool is_write, struct pt_regs
- {
- 	const int page_index = (addr - (unsigned long)__kfence_pool) / PAGE_SIZE;
- 	struct kfence_metadata *to_report = NULL;
-+	unsigned long unprotected_page = 0;
- 	enum kfence_error_type error_type;
- 	unsigned long flags;
- 
-@@ -1227,9 +1233,8 @@ bool kfence_handle_page_fault(unsigned long addr, bool is_write, struct pt_regs
- 		if (!to_report)
- 			goto out;
- 
--		raw_spin_lock_irqsave(&to_report->lock, flags);
--		to_report->unprotected_page = addr;
- 		error_type = KFENCE_ERROR_OOB;
-+		unprotected_page = addr;
- 
- 		/*
- 		 * If the object was freed before we took the look we can still
-@@ -1241,7 +1246,6 @@ bool kfence_handle_page_fault(unsigned long addr, bool is_write, struct pt_regs
- 		if (!to_report)
- 			goto out;
- 
--		raw_spin_lock_irqsave(&to_report->lock, flags);
- 		error_type = KFENCE_ERROR_UAF;
- 		/*
- 		 * We may race with __kfence_alloc(), and it is possible that a
-@@ -1253,6 +1257,8 @@ bool kfence_handle_page_fault(unsigned long addr, bool is_write, struct pt_regs
- 
- out:
- 	if (to_report) {
-+		raw_spin_lock_irqsave(&to_report->lock, flags);
-+		to_report->unprotected_page = unprotected_page;
- 		kfence_report_error(addr, is_write, regs, to_report, error_type);
- 		raw_spin_unlock_irqrestore(&to_report->lock, flags);
- 	} else {
-diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
-index dfba5ea06b01..f9caea007246 100644
---- a/mm/kfence/kfence.h
-+++ b/mm/kfence/kfence.h
-@@ -34,6 +34,8 @@
- /* Maximum stack depth for reports. */
- #define KFENCE_STACK_DEPTH 64
- 
-+extern raw_spinlock_t kfence_freelist_lock;
-+
- /* KFENCE object states. */
- enum kfence_object_state {
- 	KFENCE_OBJECT_UNUSED,		/* Object is unused. */
-@@ -53,7 +55,7 @@ struct kfence_track {
- 
- /* KFENCE metadata per guarded allocation. */
- struct kfence_metadata {
--	struct list_head list;		/* Freelist node; access under kfence_freelist_lock. */
-+	struct list_head list __guarded_by(&kfence_freelist_lock);	/* Freelist node. */
- 	struct rcu_head rcu_head;	/* For delayed freeing. */
- 
- 	/*
-@@ -91,13 +93,13 @@ struct kfence_metadata {
- 	 * In case of an invalid access, the page that was unprotected; we
- 	 * optimistically only store one address.
- 	 */
--	unsigned long unprotected_page;
-+	unsigned long unprotected_page __guarded_by(&lock);
- 
- 	/* Allocation and free stack information. */
--	struct kfence_track alloc_track;
--	struct kfence_track free_track;
-+	struct kfence_track alloc_track __guarded_by(&lock);
-+	struct kfence_track free_track __guarded_by(&lock);
- 	/* For updating alloc_covered on frees. */
--	u32 alloc_stack_hash;
-+	u32 alloc_stack_hash __guarded_by(&lock);
- #ifdef CONFIG_MEMCG
- 	struct slabobj_ext obj_exts;
- #endif
-@@ -141,6 +143,6 @@ enum kfence_error_type {
- void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *regs,
- 			 const struct kfence_metadata *meta, enum kfence_error_type type);
- 
--void kfence_print_object(struct seq_file *seq, const struct kfence_metadata *meta);
-+void kfence_print_object(struct seq_file *seq, const struct kfence_metadata *meta) __must_hold(&meta->lock);
- 
- #endif /* MM_KFENCE_KFENCE_H */
-diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-index 10e6802a2edf..787e87c26926 100644
---- a/mm/kfence/report.c
-+++ b/mm/kfence/report.c
-@@ -106,6 +106,7 @@ static int get_stack_skipnr(const unsigned long stack_entries[], int num_entries
- 
- static void kfence_print_stack(struct seq_file *seq, const struct kfence_metadata *meta,
- 			       bool show_alloc)
-+	__must_hold(&meta->lock)
- {
- 	const struct kfence_track *track = show_alloc ? &meta->alloc_track : &meta->free_track;
- 	u64 ts_sec = track->ts_nsec;
-@@ -207,8 +208,6 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
- 	if (WARN_ON(type != KFENCE_ERROR_INVALID && !meta))
- 		return;
- 
--	if (meta)
--		lockdep_assert_held(&meta->lock);
- 	/*
- 	 * Because we may generate reports in printk-unfriendly parts of the
- 	 * kernel, such as scheduler code, the use of printk() could deadlock.
-@@ -263,6 +262,7 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
- 	stack_trace_print(stack_entries + skipnr, num_stack_entries - skipnr, 0);
- 
- 	if (meta) {
-+		lockdep_assert_held(&meta->lock);
- 		pr_err("\n");
- 		kfence_print_object(NULL, meta);
+ 	const int pools_num_cached = READ_ONCE(pools_num);
+ 	union handle_parts parts = { .handle = handle };
+@@ -502,7 +508,8 @@ static struct stack_record *depot_fetch_stack(depot_stack_handle_t handle)
+ 		return NULL;
  	}
+ 
+-	pool = stack_pools[pool_index];
++	/* @pool_index either valid, or user passed in corrupted value. */
++	pool = context_unsafe(stack_pools[pool_index]);
+ 	if (WARN_ON(!pool))
+ 		return NULL;
+ 
+@@ -515,6 +522,7 @@ static struct stack_record *depot_fetch_stack(depot_stack_handle_t handle)
+ 
+ /* Links stack into the freelist. */
+ static void depot_free_stack(struct stack_record *stack)
++	__must_not_hold(&pool_lock)
+ {
+ 	unsigned long flags;
+ 
 -- 
 2.52.0.rc1.455.g30608eb744-goog
 
