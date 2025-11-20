@@ -1,348 +1,267 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012007.outbound.protection.outlook.com [40.107.209.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229EA1386C9
-	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 13:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763643907; cv=none; b=U4pDL4Kkp8sxaZtJl/5ViKFH8bnT020Npe3ju5LdbxFnHuWxQMYJAGuTTisyAhx+eHC41fGU+Um3VFpO71JrgU7CrmDnVWo83xpcBXy8i7eiy0kTvoklOt4yLmLVaJB4f1jb9pwQiehXOQawM4BjPPKs2g63IU50HmaL2l7y8so=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763643907; c=relaxed/simple;
-	bh=5zsIxx8zrE0oQr7qJ+/dH5gDh+cY/KNa0yGRqsuR5qM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YEbvWsKrl16MI0AatDyxQ2o0GI4/qmTgOASne/HUHXzsp/sdFMfHpYtwvHyOx2n4kbhf7P53fV+puSqH+wVQ+QP3qmSx7+QALJXY2UaOMAqzMOZYOu+5CH1hGcdkREvjdMODE5tYzNy7uh9oRoToZja8vQE76bSRm16cq10Mc0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vYWJO/vx; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3972B33A026;
+	Thu, 20 Nov 2025 13:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763644411; cv=fail; b=LmLzxijVsieJzWucdeQMQuMXw5GH59Pt9ob9db/tp+ra5JsYYULSheeRPhz4jZdGVgwl8YFgEv1kFJe4gtso1PSLcFmNsE2LDWbXgOnWNifUI6NaBLnOmBMNjyiQ9+TmrQ70qRgltA172U76TtYRhMiaEROPQNNDmAbsUkfYNoo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763644411; c=relaxed/simple;
+	bh=cvbu+TYGWr8I482e3JdZi6DE1Dw6t7yTt2XWnE6OZoA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hQaS2bV8Ny0djv5kFR+YspmHVxvnlJMNqs6kV0QsSpWRmueoPinw53YTchOmrzcOFmV2QIFZFbw8iUZwi9DLkWyPZ/zgbuJ/mJQTPQEI4h+4psKnHmKWa8ZPZgANYLX8EVRMI/0+aDX2JvwY6NMy+xlX4lHSzwrRz3D1gCzMapc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Cd1D0Tnm; arc=fail smtp.client-ip=40.107.209.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vYWJO/vx"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-880570bdef8so8527216d6.3
-        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 05:05:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763643904; x=1764248704; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cp81uKru4wbNvqQa18pM3cXXjO6aiL2ymDVP2zgdSCU=;
-        b=vYWJO/vx9bPTphoNP8kJzNC2em5GYJ6pFBS6WVCgfEMqtAtG4ev7qMWSr0h3cc611G
-         fbA1yfYhRq96LkVHTKczfDqzsIv4jQHuK+AKVanEGt3m8JKAzmuUez0x+I7wiB0KyXjW
-         asbEW0+VLUs5fime8yGREPCX/qm+akkIPpEUsaH52p0RG6M/LdyKo9t+wKdXe9nPqjAR
-         07mXyLl0GMOa+bcBTDTSPWbOlQVrpd80UL1PToGFLqOZq/gKicJks3fu6Nx9wLBHMFJf
-         U7K7/yKlR1sQWP4jlXe/6cTlN1bjsnuycXePR5YK5kYghNqqkGR4QkR328mSrHBPKbbz
-         e6QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763643904; x=1764248704;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cp81uKru4wbNvqQa18pM3cXXjO6aiL2ymDVP2zgdSCU=;
-        b=iYLU+2OZ10X4Lc6g6omq3Z4GUL7fVZFNNIYJw8BCkvykU83lc+HWFwvA8vxGQIRkz7
-         0rvPWaOmczUu7gWbdoEIGABIMAYEzg9Fu0HoBY17pTUt88yqm4ErZHemP6aOjj6Aizgf
-         30w88Dh1LAxzSGUynm5RdFpajF0Ez8TuogrgWQso0tw8D8J+Bs2OdP5c0ikI7R8XDSX2
-         jcTbK+BAAbZ3JfpwGfrlLBStWCfvEVd6SWn/Nt7T15Nm/iSvUubF+UjsUmqoE91XdA4x
-         a/xBKwUqm603P6Yt7AdXnBOJimvuFJviiVlbwLBJsdjYLCAPe0Rs1Qu1drlbgbIQA6O4
-         FvpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXv9ROwK2+SIMIwVRhVV2aQlHLVH5WmfeSdsOXQ3NTHnEikBFFSUIEcwffWftc8w5MbJnaO20tWNGk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWBNN5CTSBc75kHTZCh7QoYqiHGGlHFyu1wIhB0p1nMEKBBlFA
-	R0OkZdzsTtwpp3/8dylHy4mvnWYvN6SJXsiboTJyX7d8vX/faJwBmIrcgb2NoC9MTQkLRK2m0er
-	FShAEqEDN3lpPnohUb0Qjx+jS7E1HmoDUNylhnJWcZOVWuiWL1X4oGRI=
-X-Gm-Gg: ASbGnctabzz5MHpYjBRwVhu3bKYNU/vVd4P6JkywyuG8M1K8Q9l/xDMWNgWhFyw+VUo
-	QZY48Oe4G+i3dPQhICSONOQe/+k18qi/N2GSJV1lWB/i+stZ6tgoMJb3B0iZ6KLO7ZpclmR8Xrw
-	mX7EW79p8UOsOhP3C2KcbM4esySYpZxa2/RB7RJu7k1kGtLQ+o7Fvv54LWP/6zQqrcKyRDo2pFv
-	5qfSQ5dRcPwuFwA0gGk+/+z8jW2woClPLntFTpCvfa812u6fTPlA1HA++A/BEferAyAu1OQ+cTm
-	02H417Uc1KTNghJ+et5Rkprz5A5k
-X-Google-Smtp-Source: AGHT+IFo/aSS/I5Woxf1qA/vvCJm6TdAHl+dgzCvKj51CgfGGOhvLqYrfFg/UH0QYaSj40AF9uzcSFIopG8Wvcb/bo8=
-X-Received: by 2002:ac8:59ca:0:b0:4ee:14c3:4e65 with SMTP id
- d75a77b69052e-4ee4945555cmr42191351cf.29.1763643903522; Thu, 20 Nov 2025
- 05:05:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Cd1D0Tnm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=genlCUHZqjdGiBqbgVCEc6JB6aVH46tU9g1xrfK6cgetmzKUjY2qsTI+Itw6yw5GsFN/+xX2+gElA8N1HlR+mFo3GQJWwHZ1HXkoKAH6P7luRiCTePpjb1JC0lXkzuMAXJVDIts/Ir/GiFTrHF9yrMjpirr62qpEb/JT9jojcBxHK5xTXAMOhHrDy37u3QFIP3F/aIWX3nPsXWVxY3FZVpIPIQPaoTEy/pLAl/GFVLIFBQSHZTfeC2p0l3k+DkfNtUXR/bgif9qWlLTMMzFBzuytlYsuxo5oU4Ql5ceWwOkSzl1A+/Lg1u1HxrosLCu2k5Y1RUbNEEGe3YVnHgV73w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=87Sc/t+asddKWEeiFTJPdF2VFlg6xfMms0SecW7lo70=;
+ b=jlw0OGNedHOXtIIZ6tdluKgZNS0kpMilhp7nEU4dPMoWaQZmpXd4JfU0MxqEP1+b4aLm3FyK/5oQBatzRtssb4mVWWXwSuRqu9cGC0/cjjaQpxL+n+WS9WnJK9P0NqF+kz8t1VRKQMHt9RaOOOw8qKZaytRf3kHiHOofKD2Y72wlhmd85xTSHGbTJHIQ3iX7LRWtBx3hNDpIHANRPuda38TlhPe9p/EXGcfcLebmut3VlzPkI3dq0Bw0iyOVmN5SwaPYVWR1DKXjm0gbdrTiO/yF2rrlS0PVwbPXwrUsQrQQXzmkxDUT7v+tovm7k8bnE68dO+bkUM2AYAuSNY9QXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=87Sc/t+asddKWEeiFTJPdF2VFlg6xfMms0SecW7lo70=;
+ b=Cd1D0TnmmY9uKwwVipisUU66HGyP2Vgtxc9BZFkQ2l7op1EqS8W9P5tDT89UPZCEN2c9flwI3jeWD5vnybmX3ztw8QtxnqWX2c+OVxqLe9TGKKmdwfc28qX62OXh0nF4meH9NvLPQFNKouIhujk0q30yOtmvLgi+CSoXkVWciQXJjyM2yDIVmUbkg7zaK5zkCg7UNvODTjpTpi6WMQ4RCRNYp4jec0giZbwNxU0cs8TPYhJAPP/irbDwj4beCnAMLv9XFVD3h2ov5lg/7z6jai0bGvlXVrrWZsXnXnYaAVaXQNLpsrwTaJ0Kd+7tczSW4Pb0iyJfT70xcja1nC165w==
+Received: from SA1P222CA0148.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:3c2::14)
+ by PH7PR12MB5928.namprd12.prod.outlook.com (2603:10b6:510:1db::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
+ 2025 13:13:23 +0000
+Received: from SN1PEPF00026367.namprd02.prod.outlook.com
+ (2603:10b6:806:3c2:cafe::fd) by SA1P222CA0148.outlook.office365.com
+ (2603:10b6:806:3c2::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.11 via Frontend Transport; Thu,
+ 20 Nov 2025 13:13:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SN1PEPF00026367.mail.protection.outlook.com (10.167.241.132) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Thu, 20 Nov 2025 13:13:23 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
+ 2025 05:13:08 -0800
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
+ 2025 05:13:07 -0800
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.6)
+ with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Thu, 20
+ Nov 2025 05:13:01 -0800
+From: Tariq Toukan <tariqt@nvidia.com>
+To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>
+CC: Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
+	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
+ Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
+	<mbloch@nvidia.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>, Gal Pressman <gal@nvidia.com>, Moshe Shemesh
+	<moshe@nvidia.com>, Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu
+	<cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>
+Subject: [PATCH net-next 00/14] devlink and mlx5: Support cross-function rate scheduling
+Date: Thu, 20 Nov 2025 15:09:12 +0200
+Message-ID: <1763644166-1250608-1-git-send-email-tariqt@nvidia.com>
+X-Mailer: git-send-email 2.8.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251118-james-cs-syncfreq-v5-0-82efd7b1a751@linaro.org> <20251118-james-cs-syncfreq-v5-3-82efd7b1a751@linaro.org>
-In-Reply-To: <20251118-james-cs-syncfreq-v5-3-82efd7b1a751@linaro.org>
-From: Mike Leach <mike.leach@linaro.org>
-Date: Thu, 20 Nov 2025 13:04:52 +0000
-X-Gm-Features: AWmQ_bnYbLkNGfXqgQNiuHzyH9NftZl88vYLYuzV3kIyrDY6MDUWnA1h9G1RZDg
-Message-ID: <CAJ9a7VhYaU=kAtvZtSnkj-9OicCWwqYQBX4Q3zDtCay-8=Y7Cg@mail.gmail.com>
-Subject: Re: [PATCH v5 03/13] coresight: Refactor etm4_config_timestamp_event()
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Leo Yan <leo.yan@arm.com>, Randy Dunlap <rdunlap@infradead.org>, coresight@lists.linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF00026367:EE_|PH7PR12MB5928:EE_
+X-MS-Office365-Filtering-Correlation-Id: 00ed1fbb-ad1a-4678-6b0b-08de283695b4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|36860700013|82310400026|30052699003|1800799024|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?cl9vhuWhhoDEfj/gTFMer9FLMayEFSonHyqNe2j4ZsVjKajHRrhBVYwxf89Y?=
+ =?us-ascii?Q?RzZZEUzlwe1RuBzP4C3szvTzu4zM25NnyUyXX0fM4ccrwMI1UiJEqOGLuoLW?=
+ =?us-ascii?Q?lh87cDmVseYWxP8iN7Bhru9hLEdSg0pKMl7c9yfzt+14ya26norK8QWCfJDS?=
+ =?us-ascii?Q?zciU0bl7w56X8liwABcqa36Mnm+62GVBtd/lLdFdOUZBEzvNnvf/81jJvDsz?=
+ =?us-ascii?Q?buskAiY2kFLcIKrnu044yvc/yPZCT/DL75aDaXtaduqNsDyRMdh97CA79lgP?=
+ =?us-ascii?Q?DgfriVvT4c5g6AX/DxXkG/4GJXVik76MSLoSrGdmluYxqVdUeIvVdvxZe1ei?=
+ =?us-ascii?Q?GVDzMXtb8KRRgFDhx2Tlba9c/WHT0RhGGJgbO/QZ2kRhXuUuSpvRJzttr906?=
+ =?us-ascii?Q?ZWJ/FPz9c2GelLnu5lLWABBAf0qemy1Aek5CYPpwjCZUMsgoqr170yDl3px1?=
+ =?us-ascii?Q?qthsrCaOEMHavYeS8qcckfjUt5VORiRFFMLbHmbUOzZjMj2jmOHmQgafC4NT?=
+ =?us-ascii?Q?R+9RequOv8M01SpuRjzg26ZQXJX59E3hRfM1syMp1WUxz9NUkrN4NspM+gWt?=
+ =?us-ascii?Q?Ztm2tCo4DXAvHhaHBKV5qw5q9zRV+h7F5zyrLSoRlKh9YvlKgLj3R2jiMaRO?=
+ =?us-ascii?Q?taJX9PmwqhyuUTjt+73LIf8ldpiVOghDj4cVBejuupNXiayJL2zki1BLHTmv?=
+ =?us-ascii?Q?hbiGUNM70SW8ssxG/cu0pj3E0r2MXgP7vIEiQ47yJLZW3jEJCN9S+IQHCwwN?=
+ =?us-ascii?Q?bQkprc0YpcrhVu5Y+lgcp5lYf2JPCqD0zLzS3YkMT46MXZbUn7yR8iImCtaE?=
+ =?us-ascii?Q?4n8RhjMsgOf7dHVixBoOkkcBZUrm+ODboxqW6RdPO8XjDMUvhZvcMzy0ddzn?=
+ =?us-ascii?Q?aWB24zpv0PuaVItodHqflBYqjiqEWLbOSl6L02tAlLS8hFAiJ/YCCayvB84o?=
+ =?us-ascii?Q?PTGyS9MuofuHFsEck8zpxpgZWEtgjhLg4VnkV8DgwvWlyf+Ta8NsfNI0QYgB?=
+ =?us-ascii?Q?2mn7D1ZtLb2eBEjCzfoC9fT0L3ZN1FNBJUBIXm1roQltdJGALEiutLqkUe90?=
+ =?us-ascii?Q?cf4oN4HDh5lwETboH8CPnxfY1X5OZ715EnFVOkNupuEwf465rEoWjFg8aEQW?=
+ =?us-ascii?Q?U5meH/t0O9oKmrDe9giHoHp+fpGcVuJTyZOOAZ9k6pucDhSruzEU+iz7W4AQ?=
+ =?us-ascii?Q?MR+/TcNQKMYqlRVmmFGj/zktqmVsbb/222bvEvCdigmeWk/7QOKkIuqik35y?=
+ =?us-ascii?Q?BIIn/PObvcQwom86+LwNdOWn5go4e7FkgxTTJR3BSmavkiGCo7r/74JWgcEt?=
+ =?us-ascii?Q?zPOPZ1dUhA/F441KelcwJqlGMq0mv1Tm3ZSiX0H/Ok2tW5j9hj6wOIq5BeFZ?=
+ =?us-ascii?Q?a/shlD+ZWGJ0QqfFKdA3d1OH4BRBWL4wc7cDQGBs9ID+b374bkuVD6L1nfwj?=
+ =?us-ascii?Q?Pg/cDwRhVwKVvENkL5Fp9cEOzBNDVXfT+SgmTVpB0UBtobjKmbARcGOJKsJZ?=
+ =?us-ascii?Q?9Z209TeznHPUdsaTQYu/EJILJJsfkNoRkMThQ9jnvWzNf4/nZl2kNW8Vd/XM?=
+ =?us-ascii?Q?1Fe02ly5KT4ReY84Low=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700013)(82310400026)(30052699003)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 13:13:23.6962
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00ed1fbb-ad1a-4678-6b0b-08de283695b4
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF00026367.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5928
 
-Hi James
+Hi,
 
-On Tue, 18 Nov 2025 at 16:28, James Clark <james.clark@linaro.org> wrote:
->
-> Remove some of the magic numbers and try to clarify some of the
-> documentation so it's clearer how this sets up the timestamp interval.
->
-> Return errors directly instead of jumping to out and returning ret,
-> nothing needs to be cleaned up at the end and it only obscures the flow
-> and return value.
->
-> Reviewed-by: Leo Yan <leo.yan@arm.com>
-> Signed-off-by: James Clark <james.clark@linaro.org>
-> ---
->  drivers/hwtracing/coresight/coresight-etm4x-core.c | 96 ++++++++++++++--------
->  drivers/hwtracing/coresight/coresight-etm4x.h      | 23 ++++--
->  2 files changed, 81 insertions(+), 38 deletions(-)
->
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> index 560975b70474..5d21af346799 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -642,18 +642,33 @@ static void etm4_enable_sysfs_smp_call(void *info)
->   * TRCRSCTLR1 (always true) used to get the counter to decrement.  From
->   * there a resource selector is configured with the counter and the
->   * timestamp control register to use the resource selector to trigger the
-> - * event that will insert a timestamp packet in the stream.
-> + * event that will insert a timestamp packet in the stream:
-> + *
-> + *  +--------------+
-> + *  | Resource 1   |   fixed "always-true" resource
-> + *  +--------------+
-> + *         |
-> + *  +------v-------+
-> + *  | Counter x    |   (reload to 1 on underflow)
-> + *  +--------------+
-> + *         |
-> + *  +------v--------------+
-> + *  | Resource Selector y |   (trigger on counter x == 0)
-> + *  +---------------------+
-> + *         |
-> + *  +------v---------------+
-> + *  | Timestamp Generator  |  (timestamp on resource y)
-> + *  +----------------------+
->   */
->  static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
->  {
-> -       int ctridx, ret = -EINVAL;
-> -       int counter, rselector;
-> -       u32 val = 0;
-> +       int ctridx;
-> +       int rselector;
->         struct etmv4_config *config = &drvdata->config;
->
->         /* No point in trying if we don't have at least one counter */
->         if (!drvdata->nr_cntr)
-> -               goto out;
-> +               return -EINVAL;
->
->         /* Find a counter that hasn't been initialised */
->         for (ctridx = 0; ctridx < drvdata->nr_cntr; ctridx++)
-> @@ -663,15 +678,19 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
->         /* All the counters have been configured already, bail out */
->         if (ctridx == drvdata->nr_cntr) {
->                 pr_debug("%s: no available counter found\n", __func__);
-> -               ret = -ENOSPC;
-> -               goto out;
-> +               return -ENOSPC;
->         }
->
->         /*
-> -        * Searching for an available resource selector to use, starting at
-> -        * '2' since every implementation has at least 2 resource selector.
-> -        * ETMIDR4 gives the number of resource selector _pairs_,
-> -        * hence multiply by 2.
-> +        * Searching for an available resource selector to use, starting at '2'
-> +        * since resource 0 is the fixed 'always returns false' resource and 1
-> +        * is the fixed 'always returns true' resource. See IHI0064H_b '7.3.64
-> +        * TRCRSCTLRn, Resource Selection Control Registers, n=2-31'. If there
-> +        * are no resources, there would also be no counters so wouldn't get
-> +        * here.
-> +        *
-> +        * ETMIDR4 gives the number of resource selector _pairs_, hence multiply
-> +        * by 2.
->          */
->         for (rselector = 2; rselector < drvdata->nr_resource * 2; rselector++)
->                 if (!config->res_ctrl[rselector])
-> @@ -680,13 +699,9 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
->         if (rselector == drvdata->nr_resource * 2) {
->                 pr_debug("%s: no available resource selector found\n",
->                          __func__);
-> -               ret = -ENOSPC;
-> -               goto out;
-> +               return -ENOSPC;
->         }
->
-> -       /* Remember what counter we used */
-> -       counter = 1 << ctridx;
-> -
->         /*
->          * Initialise original and reload counter value to the smallest
->          * possible value in order to get as much precision as we can.
-> @@ -694,26 +709,41 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
->         config->cntr_val[ctridx] = 1;
->         config->cntrldvr[ctridx] = 1;
->
-> -       /* Set the trace counter control register */
-> -       val =  0x1 << 16        |  /* Bit 16, reload counter automatically */
-> -              0x0 << 7         |  /* Select single resource selector */
-> -              0x1;                /* Resource selector 1, i.e always true */
-> -
-> -       config->cntr_ctrl[ctridx] = val;
-> -
-> -       val = 0x2 << 16         | /* Group 0b0010 - Counter and sequencers */
-> -             counter << 0;       /* Counter to use */
-> -
-> -       config->res_ctrl[rselector] = val;
-> +       /*
-> +        * Trace Counter Control Register TRCCNTCTLRn
-> +        *
-> +        * CNTCHAIN = 0, don't reload on the previous counter
-> +        * RLDSELF = true, reload counter automatically on underflow
-> +        * RLDTYPE = 0, one reload input resource
+This series by Cosmin and Jiri adds support for cross-function rate
+scheduling in devlink and mlx5.
+This is a different approach for the series discussed in [2] earlier
+this year. See detailed feature description by Cosmin below [1].
 
-These field descriptions should match the terminology in the spec -
-and this is not field in this register as defined in the spec - nor
-are the following really. The event format is generic - so need a
-event select macro, which is then applied to any register that needs
-it
+Code dependency:
+This series should apply cleanly after the pulling of
+'net-2025_11_19_05_03', specifically commit f94c1a114ac2 ("devlink:
+rate: Unset parent pointer in devl_rate_nodes_destroy").
 
-> +        * RLDSEL = RES_SEL_FALSE (0), reload on false resource (never reload)
-> +        * CNTTYPE = 0, one count input resource
+Regards,
+Tariq
 
 
+[1]
+devlink objects support rate management for TX scheduling, which
+involves maintaining a tree of rate nodes that corresponds to TX
+schedulers in hardware. 'man devlink-rate' has the full details.
 
-> +        * CNTSEL = RES_SEL_TRUE (1), count fixed 'always true' resource (always decrement)
-> +        */
-> +       config->cntr_ctrl[ctridx] = TRCCNTCTLRn_RLDSELF |
-> +                                   FIELD_PREP(TRCCNTCTLRn_RLDSEL_MASK, ETM_RES_SEL_FALSE) |
-> +                                   FIELD_PREP(TRCCNTCTLRn_CNTSEL_MASK, ETM_RES_SEL_TRUE);
->
+The tree of rate nodes is maintained per devlink object, protected by
+the devlink lock.
 
-So if we define generic event generators:-
+There exists hardware capable of instantiating TX scheduling trees
+spanning multiple functions of the same physical device (and thus
+devlink objects) and therefore the current API and locking scheme is
+insufficient.
 
-#define ETM4_SEL_RS_PAIR BIT(7)
-#defiine ETM4_RS_SEL_EVENT_SINGLE(rs_sel_idx) (GENMASK(4:0) & rs_sel_idx)
-#define ETM4_RS_SEL_EVENT_PAIR(rs_sel_pair_idx) ((GENMASK(3:0) &
-rs_sel_pair_idx) | ETM4_SEL_RS_PAIR)
+This patch series changes the devlink rate implementation and API to
+allow supporting such hardware and managing TX scheduling trees across
+multiple functions of a physical device.
 
-these are then reuseable for all registers that need the 8 bit event
-selectors, beyond just this register.
+Modeling this requires having devlink rate nodes with parents in other
+devlink objects. A naive approach that relies on the current
+one-lock-per-devlink model is impossible, as it would require in some
+cases acquiring multiple devlink locks in the correct order.
 
-Thus we now accurately define the fields in the TRCCNTCTLRn
+The solution proposed in this patch series consists of two parts:
 
-#define TRCCNTCTLRn_RLDEVENT_MASK  GENMASK(15, 8)
+1. Modeling the underlying physical NIC as a shared devlink object on
+   the faux bus and nesting all its PF devlink instances in it.
 
-and use
+2. Changing the devlink rate implementation to store rates in this
+   shared devlink object, if it exists, and use its lock to protect
+   against concurrent changes of the scheduling tree.
 
-FIELD_PREP(TRCCNTCTLRn_RLDEVENT_MASK,
-ETM4_RS_SEL_EVENT_SINGLE(ETM_RES_SEL_FALSE))
+With these in place, cross-esw scheduling support is added to mlx5.  The
+neat part about this approach is that it works for SFs as well, which
+are already nested in their parent PF instances.
 
-etc.
+V1 of this patch series was sent a long time ago [2], using a different
+approach of storing rates in a shared rate domain with special locking
+rules. This new approach uses standard devlink instances and nesting.
 
+Patches:
 
-> -       val = 0x0 << 7          | /* Select single resource selector */
-> -             rselector;          /* Resource selector */
-> +       /*
-> +        * Resource Selection Control Register TRCRSCTLRn
-> +        *
-> +        * PAIRINV = 0, INV = 0, don't invert
-> +        * GROUP = 2, SELECT = ctridx, trigger when counter 'ctridx' reaches 0
-> +        *
-> +        * Multiple counters can be selected, and each bit signifies a counter,
-> +        * so set bit 'ctridx' to select our counter.
-> +        */
-> +       config->res_ctrl[rselector] = FIELD_PREP(TRCRSCTLRn_GROUP_MASK, 2) |
-> +                                     FIELD_PREP(TRCRSCTLRn_SELECT_MASK, 1 << ctridx);
->
-> -       config->ts_ctrl = val;
-> +       /*
-> +        * Global Timestamp Control Register TRCTSCTLR
-> +        *
-> +        * TYPE = 0, one input resource
-> +        * SEL = rselector, generate timestamp on resource 'rselector'
-> +        */
-> +       config->ts_ctrl = FIELD_PREP(TRCTSCTLR_SEL_MASK, rselector);
->
+devlink rate changes for cross-device TX scheduling:
+devlink: Reverse locking order for nested instances
+documentation: networking: add shared devlink documentation
+devlink: Add helpers to lock nested-in instances
+devlink: Refactor devlink_rate_nodes_check
+devlink: Decouple rate storage from associated devlink object
+devlink: Add parent dev to devlink API
+devlink: Allow parent dev for rate-set and rate-new
+devlink: Allow rate node parents from other devlinks
 
-FIELD_PREP(TRCTSCTLR_EVENT_MASK, ETM4_RS_SEL_EVENT_SINGLE(rselector))
+mlx5 support for cross-devuce TX scheduling:
+net/mlx5: Introduce shared devlink instance for PFs on same chip
+net/mlx5: Expose a function to clear a vport's parent
+net/mlx5: Store QoS sched nodes in the sh_devlink
+net/mlx5: qos: Support cross-esw tx scheduling
+net/mlx5: qos: Enable cross-device scheduling
+net/mlx5: Document devlink rates and cross-esw scheduling
 
-
-> -       ret = 0;
-> -out:
-> -       return ret;
-> +       return 0;
->  }
->
->  static int etm4_parse_event_config(struct coresight_device *csdev,
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h b/drivers/hwtracing/coresight/coresight-etm4x.h
-> index d178d79d9827..b319335e9bc3 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x.h
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x.h
-> @@ -225,6 +225,19 @@
->  #define TRCRSCTLRn_GROUP_MASK                  GENMASK(19, 16)
->  #define TRCRSCTLRn_SELECT_MASK                 GENMASK(15, 0)
->
-> +#define TRCCNTCTLRn_CNTCHAIN                   BIT(17)
-> +#define TRCCNTCTLRn_RLDSELF                    BIT(16)
-> +#define TRCCNTCTLRn_RLDTYPE                    BIT(15)
-> +#define TRCCNTCTLRn_RLDSEL_MASK                        GENMASK(12, 8)
-per spec this should be
-TRCCNTCTLRn_RLDEVENT_MASK  GENMASK(15, 8)
-
-> +#define TRCCNTCTLRn_CNTTYPE_MASK               BIT(7)
-> +#define TRCCNTCTLRn_CNTSEL_MASK                        GENMASK(4, 0)
-
-per spec this should be
-TRCCNTCTLRn_CNTEVENT_MASK  GENMASK(7, 0)
+[2] https://lore.kernel.org/netdev/20250213180134.323929-1-tariqt@nvidia.com/
 
 
-> +
-> +#define TRCTSCTLR_TYPE                         BIT(7)
-> +#define TRCTSCTLR_SEL_MASK                     GENMASK(4, 0)
+Cosmin Ratiu (12):
+  devlink: Reverse locking order for nested instances
+  devlink: Add helpers to lock nested-in instances
+  devlink: Refactor devlink_rate_nodes_check
+  devlink: Decouple rate storage from associated devlink object
+  devlink: Add parent dev to devlink API
+  devlink: Allow parent dev for rate-set and rate-new
+  devlink: Allow rate node parents from other devlinks
+  net/mlx5: Expose a function to clear a vport's parent
+  net/mlx5: Store QoS sched nodes in the sh_devlink
+  net/mlx5: qos: Support cross-device tx scheduling
+  net/mlx5: qos: Enable cross-device scheduling
+  net/mlx5: Document devlink rates
 
-TRCTSCTLR_EVENT_MASK GENMASK(7:0)
+Jiri Pirko (2):
+  documentation: networking: add shared devlink documentation
+  net/mlx5: Introduce shared devlink instance for PFs on same chip
 
-> +
-> +#define ETM_RES_SEL_FALSE 0 /* Fixed function 'always false' resource selector */
-> +#define ETM_RES_SEL_TRUE  1 /* Fixed function 'always true' resource selector */
-> +
->  /*
->   * System instructions to access ETM registers.
->   * See ETMv4.4 spec ARM IHI0064F section 4.3.6 System instructions
-> @@ -824,7 +837,7 @@ struct etmv4_config {
->         u32                             eventctrl0;
->         u32                             eventctrl1;
->         u32                             stall_ctrl;
-> -       u32                             ts_ctrl;
-> +       u32                             ts_ctrl; /* TRCTSCTLR */
->         u32                             ccctlr;
->         u32                             bb_ctrl;
->         u32                             vinst_ctrl;
-> @@ -837,11 +850,11 @@ struct etmv4_config {
->         u32                             seq_rst;
->         u32                             seq_state;
->         u8                              cntr_idx;
-> -       u32                             cntrldvr[ETMv4_MAX_CNTR];
-> -       u32                             cntr_ctrl[ETMv4_MAX_CNTR];
-> -       u32                             cntr_val[ETMv4_MAX_CNTR];
-> +       u32                             cntrldvr[ETMv4_MAX_CNTR]; /* TRCCNTRLDVRn */
-> +       u32                             cntr_ctrl[ETMv4_MAX_CNTR];  /* TRCCNTCTLRn */
-> +       u32                             cntr_val[ETMv4_MAX_CNTR]; /* TRCCNTVRn */
->         u8                              res_idx;
-> -       u32                             res_ctrl[ETM_MAX_RES_SEL];
-> +       u32                             res_ctrl[ETM_MAX_RES_SEL]; /* TRCRSCTLRn */
->         u8                              ss_idx;
->         u32                             ss_ctrl[ETM_MAX_SS_CMP];
->         u32                             ss_status[ETM_MAX_SS_CMP];
->
-> --
-> 2.34.1
->
-
-Regards
-
-Mike
+ Documentation/netlink/specs/devlink.yaml      |  22 +-
+ .../networking/devlink/devlink-port.rst       |   2 +
+ .../networking/devlink/devlink-shared.rst     |  66 ++++
+ Documentation/networking/devlink/index.rst    |   3 +
+ Documentation/networking/devlink/mlx5.rst     |  33 ++
+ .../net/ethernet/mellanox/mlx5/core/Makefile  |   5 +-
+ .../net/ethernet/mellanox/mlx5/core/devlink.c |   1 +
+ .../mellanox/mlx5/core/esw/devlink_port.c     |   2 +-
+ .../net/ethernet/mellanox/mlx5/core/esw/qos.c | 324 ++++++++----------
+ .../net/ethernet/mellanox/mlx5/core/esw/qos.h |   3 -
+ .../net/ethernet/mellanox/mlx5/core/eswitch.c |   9 +-
+ .../net/ethernet/mellanox/mlx5/core/eswitch.h |  14 +-
+ .../net/ethernet/mellanox/mlx5/core/main.c    |  18 +
+ .../ethernet/mellanox/mlx5/core/sh_devlink.c  | 183 ++++++++++
+ .../ethernet/mellanox/mlx5/core/sh_devlink.h  |  16 +
+ include/linux/mlx5/driver.h                   |   5 +
+ include/net/devlink.h                         |   7 +
+ include/uapi/linux/devlink.h                  |   2 +
+ net/devlink/core.c                            |  48 ++-
+ net/devlink/dev.c                             |   7 +-
+ net/devlink/devl_internal.h                   |  11 +-
+ net/devlink/netlink.c                         |  67 +++-
+ net/devlink/netlink_gen.c                     |  23 +-
+ net/devlink/netlink_gen.h                     |   8 +
+ net/devlink/rate.c                            | 287 ++++++++++++----
+ 25 files changed, 873 insertions(+), 293 deletions(-)
+ create mode 100644 Documentation/networking/devlink/devlink-shared.rst
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.c
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.h
 
 -- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+2.31.1
+
