@@ -1,221 +1,226 @@
-Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB58429B77C;
-	Thu, 20 Nov 2025 02:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from mail-m1973185.qiye.163.com (mail-m1973185.qiye.163.com [220.197.31.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A0C16EB42
+	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 02:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763606065; cv=none; b=jYwr2+6wEACyI9/NLUcaLmsUifXbBN5ExkpJTnAy7p3OElohJhoQMm26cI68bu9bFpRCp+a2qJE05cD3EkQfWAaLYrFnQX9nPOuUlYG1HN6FbPXiY5dljp4orqw4Wi8XTBEnAx1IteB5BDMd3SMc11Ctbzlrxbh6eybJtMISwvI=
+	t=1763606578; cv=none; b=FZ6fijbVrZaJHMLAbzAu7IA6m96a/X3kisgxNDryksexD21pgU5Z5xHCpZ6X754kLFPkG9xEIe+lfp1sqU9aWleffZINcG2byESYquU5mkvdyrLOKGGi5uwZ+zPFldwqoEOaXaJ5kFnam+81nAMTfzLVn1sykbe4Ujj2MeswlEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763606065; c=relaxed/simple;
-	bh=/EG5zoBd9EOTX77N44tGF7qVruGgiPwa1ndxkUQivj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PgHiAhW590Z/lBWCgyPPXJGPgD4WHwVEQ9rqpjRujQgMNOSi3o1ixJLMv9o3Sjhn5kEJnb04Sr4jvxstHh0AtvAVvjQo1mZ7HoYLUUhqDYLZNOdP2M0iiWxT/7zFNcP+MCglsJoU5B4KlbeLJBVaxEnjTyWB8nFRgOARRSGmEkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-28-691e7e2be02d
-Date: Thu, 20 Nov 2025 11:34:13 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
-	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
-	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
-	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
-	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
-	tytso@mit.edu, david@fromorbit.com, amir73il@gmail.com,
-	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
-	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
-	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
-	jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
-	ngupta@vflare.org, linux-block@vger.kernel.org,
-	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
-	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
-	djwong@kernel.org, dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
-	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
-	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
-	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
-	yeoreum.yun@arm.com, netdev@vger.kernel.org,
-	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
-	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
-	sumit.semwal@linaro.org, gustavo@padovan.org,
-	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
-	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
-	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
-	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
-	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
-	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
-	yuzhao@google.com, baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com, joel.granados@kernel.org,
-	richard.weiyang@gmail.com, geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com, linux@treblig.org,
-	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
-	chenhuacai@kernel.org, francesco@valla.it,
-	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
-	masahiroy@kernel.org, brauner@kernel.org,
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v17 44/47] dept: introduce APIs to set page usage and use
- subclasses_evt for the usage
-Message-ID: <20251120023413.GA27403@system.software.com>
-References: <20251002081247.51255-1-byungchul@sk.com>
- <20251002081247.51255-45-byungchul@sk.com>
- <20251119105312.GA11582@system.software.com>
- <aR3WHf9QZ_dizNun@casper.infradead.org>
- <20251120020909.GA78650@system.software.com>
+	s=arc-20240116; t=1763606578; c=relaxed/simple;
+	bh=45xMnsFEaLw0YEXIonkSumE8rcs2NuyoXmzJd23FUok=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U0dWqAG8Jom7iDrvoMLFXcmOMyV1dCUs0PnT8xxXXX51ag8mp9fm8nFnDwZz03Ou6/NlBGG1PKDC6+ghJb38Fgyr0DnPPmTZwdi9tMfZM7s2KpgUf8VcNY1P+QtI/Gwwm4e7QO+ZRI/KgNN2nHxiiSjBSd1MxkUgilayczmZ/vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=sfwB1UBY; arc=none smtp.client-ip=220.197.31.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="sfwB1UBY"
+Received: from localhost.localdomain (unknown [1.203.157.252])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2a36cea8f;
+	Thu, 20 Nov 2025 10:27:30 +0800 (GMT+08:00)
+From: ke zijie <kezijie@leap-io-kernel.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	wangyuli@aosc.io,
+	doubled@leap-io-kernel.com
+Subject: [PATCH v6 2/3] docs/zh_CN: Add blk-mq.rst translation
+Date: Thu, 20 Nov 2025 10:27:27 +0800
+Message-Id: <3574ae90ee3ea6fbe00643cf485d4d8b630fb863.1763605033.git.kezijie@leap-io-kernel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1763605033.git.kezijie@leap-io-kernel.com>
+References: <cover.1763605033.git.kezijie@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251120020909.GA78650@system.software.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa2xTdRjG8z/3NlQPHZO/DI2pNjNVJkzQ18R4C4nni8a4xCyI0cYdXWPX
-	kTM2NiKkMIYTiK3VXTxls7twGKwIdgW34ZIxR3GXZoXN2kU6drNSt7mEbCW7sNkzYuTLm+d9
-	nie/vB9ejtTXMJs4i22vKNnMVgOjpbQz6+q2PHPwccvWrzwZED7UScHJ814G7i65SShrW6Xg
-	nivAwtzCHyysdgQQVF53keD1HyJgVjmBQI65WYhffRNmbl2m4ffENAJlcoWApeAACXVjURL8
-	gREEHU2HGfjTeZGEwcmHYGh+loGeiuMM/HOBAc/hDhpq3C4EpQ3nGais8VHQNtrOwvWpZQJu
-	VroIaPa9BbeUGAV9znoCquLJ1o8bwV1VSiTHbQIqzl0mYEE5y0J/w00KFLsR3MFBGsabZBaW
-	x7bBqicfoo4KCnpGwjT8ZB9lwTd8FcHc0BgB3hMxEsrb5ynwTSTTuqONFARaxwkYbD/JwIh3
-	lYZQZx8NN5pDyQsCvyYp8hkKxkYjNLQE+8nXcoSyG/cYwVvrRcLSogsJc6dKSaHMmVx/mZ4l
-	hVN904ywOP8bI3QkPJTQW4+Fr4NbhDY5ygoeX6FwpHuGFlqaTELDz3Hincxd2pdzRKulSJSe
-	e+Ujba4vECL2ND5RfGnCj+woio8hjsP8dtx4JvMY0qxJ+0QUqTbFG3Ft+4uqzfDpOBJZIFV7
-	A/80nvYn21qO5OvT8LneK7TaSeGtONH9A6tqHQ/4aP8yrZb0/N8IX3T6qfvBetzz3eSaJnkT
-	jqzECRVK8mn49Aqn2hr+JRxuca0xU/knceela4TKwXxMg8PyFLp/56P4SlOEciJefgArP4CV
-	/8d6EHkW6S22ojyzxbo9I7fEZinO+Dg/z4eST6scWH6/Fd0JZXUhnkOGdbrswGMWPW0uKijJ
-	60KYIw0bdMbXN1v0uhxzyX5Ryv9QKrSKBV0ojaMMG3WZiX05ev5T817xM1HcI0r/pQSn2WRH
-	O7/9QvI3HmeKCyt5FNghbT7iPbA1y5haYvNVL4ajw+LdmGmfktK6GNr9uStr11A8tffdDxyP
-	dL/xyXvPJoarUfOrT62kUM//JfelD1iH0r/cv0N5e6pGCkqFtZ0Oz7jGEa1WvklUDZR31WUW
-	Zz982/T97rYXssv1joPGC3fyr+00UAW55m0mUiow/wu4SwdtsAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0xTZxTPd7/7orPLtbLxKZtxNUSjwc1Ns7NHli1b4MbEjWQm6jYzm3kj
-	V0rBVhGWoMVaR5hzpVlLaFUYaEHAgm0lQwNBxDpUIo+JRKlYLSqTR6aAQ0pZ67LMf05+5/fK
-	+ePwWBVmFvGybpek12m0alZBKz7/wJS8cu9i+S13H4K+glYaJicKaThSX8dCoaeUgS53LYLB
-	yUIET2ecGMxNczTMWv0cTEzf4mCu2Y/A3m3FUOcroOBJQ4SFRxceI7AFQyyUDBfQMO46hMBx
-	38nB8MVUGB08x8Bc4AEFN6ZGELhCEQpCrT8gmLVnQFmFl4WZzmsYSmxdCH4NBjA8bIiKPv9t
-	BM3V+1kYspzB0Bt6Gf6YHGehw/YjC6PdRygYa2ChfH8zA0edVgSmynoW7Ec9NDTdOctB96Mw
-	BQN2KwW1nvUw6LpPwxVLBRW9L+o6nQDOEhMVHQ8psJ06R8G0q4aDq5UDNLiMSeDs7GXgbrWD
-	g3BwNcyVZ4G/9gEHgZ9tNLhHrzEf25D41HyYFmu8jZRo7pllxbpjdUiceWZF4sQJExbNluh6
-	YWQciwe8e8QTV0ZY8dnkdVZsniqnxcsVRCzuTBabHAFOPNByk0t7/yvFh9skrZwj6d/8aKsi
-	3ePvorKPL8ltvOdDRhQgRSiOJ8IaYrwXQEWI52khiRw7+26MZoVlpL9/GsfoeGE5GfG9XYQU
-	PBYqEsmpy+eZmGeBoCVT7W4uhpUCkINXw0zMpBL+ROSMxUf/K8wnHaWh5xgLK0h/ZJiKlWIh
-	kVRF+BgdJ7xH+rzW552vCEtJa+MlyoKUjhfSjhfSjv/T5QjXoHhZl5OpkbVrVxky0vN0cu6q
-	77IyPSj6k678cPFvaKI3tQ0JPFLPU27yvy6rGE2OIS+zDREeq+OVSZ+8JquU2zR530v6rG/1
-	u7WSoQ0l8rQ6Qbluo7RVJWzX7JIyJClb0v+nUnzcIiNKyZ6u+rL1SdpL2+mFZY9Nd/YuLZzB
-	r1r+2jJl8q9sGUv5Zd+AuequbvGenp4kb9rp4oadBz/bfD5i2ZGivl6p34eHNm7QlG1u/+bv
-	Hcaf3PX2ky1DN2/83rLzndS1h+xy8Ovx3QsWJuQOLEle193x6bxg/uHSLe1VYzg/f836NPfy
-	6i/eUNOGdM3qFVhv0PwDJjjDWY8DAAA=
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9a9f169b2b09d8kunm7a5293773a34c0
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZGh0YVkhMSRlMTx0aTh4dGlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
+	VLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=sfwB1UBYCTiCTkWC3JbHWsJ4kwMT8o1P7tQPYKESikvqK64u0iGakz3D97/FBk9fY/XRinGf5YWAe42ktup5IfzVQYwsH4YU80eja7wks9/2EUyfFibeOGOzMk14LdSgOmZEVXThj4K2SUGrxEHfm4MsX4ETtUVSaJL/RHukmmMDP9WRyEss8ZTl1RNRFQf6hc+5bqET24GbMcV/zGgXd9+jnvCvlDlEov8McF3LVf4Fr0EuRvZbsbzbansudpVQi5N5uoyuSaQ86dRj1JSSc9W8LdfDtPK9grGxTAbYWNJw/c7NkcDMkzUuAciCVAIDz8yVQi7eHwtiCXF+mRJ7ng==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=xPd+pnVT10BhQz3jqVvpRrsqm7eeQjK6ATKke7f3Qew=;
+	h=date:mime-version:subject:message-id:from;
 
-On Thu, Nov 20, 2025 at 11:09:09AM +0900, Byungchul Park wrote:
-> On Wed, Nov 19, 2025 at 02:37:17PM +0000, Matthew Wilcox wrote:
-> > On Wed, Nov 19, 2025 at 07:53:12PM +0900, Byungchul Park wrote:
-> > > On Thu, Oct 02, 2025 at 05:12:44PM +0900, Byungchul Park wrote:
-> > > > False positive reports have been observed since dept works with the
-> > > > assumption that all the pages have the same dept class, but the class
-> > > > should be split since the problematic call paths are different depending
-> > > > on what the page is used for.
-> > > >
-> > > > At least, ones in block device's address_space and ones in regular
-> > > > file's address_space have exclusively different usages.
-> > > >
-> > > > Thus, define usage candidates like:
-> > > >
-> > > >    DEPT_PAGE_REGFILE_CACHE /* page in regular file's address_space */
-> > > >    DEPT_PAGE_BDEV_CACHE    /* page in block device's address_space */
-> > > >    DEPT_PAGE_DEFAULT       /* the others */
-> > >
-> > > 1. I'd like to annotate a page to DEPT_PAGE_REGFILE_CACHE when the page
-> > >    starts to be associated with a page cache for fs data.
-> > >
-> > > 2. And I'd like to annotate a page to DEPT_PAGE_BDEV_CACHE when the page
-> > >    starts to be associated with meta data of fs e.g. super block.
-> > >
-> > > 3. Lastly, I'd like to reset the annotated value if any, that has been
-> > >    set in the page, when the page ends the assoication with either page
-> > >    cache or meta block of fs e.g. freeing the page.
-> > >
-> > > Can anyone suggest good places in code for the annotation 1, 2, 3?  It'd
-> > > be totally appreciated. :-)
-> > 
-> > I don't think it makes sense to track lock state in the page (nor
-> > folio).  Partly bcause there's just so many of them, but also because
-> > the locking rules don't really apply to individual folios so much as
-> > they do to the mappings (or anon_vmas) that contain folios.
-> 
-> Thank you for the suggestion!
-> 
-> Since two folios associated to different mappings might appear in the
-> same callpath that usually be classified to a single class, I need to
-> think how to reflect the suggestion.
-> 
-> I guess you wanted to tell me a folio can only be associated to a single
-> mapping at once.  Right?  If so, sure, I should reflect it.
-> 
-> > If you're looking to find deadlock scenarios, I think it makes more
-> > sense to track all folio locks in a given mapping as the same lock
-> > type rather than track each folio's lock status.
-> > 
-> > For example, let's suppose we did something like this in the
-> > page fault path:
-> > 
-> > Look up and lock a folio (we need folios locked to insert them into
-> > the page tables to avoid a race with truncate)
-> > Try to allocate a page table
-> > Go into reclaim, attempt to reclaim a folio from this mapping
-> > 
-> > We ought to detect that as a potential deadlock, regardless of which
-> > folio in the mapping we attempt to reclaim.  So can we track folio
-> 
-> Did you mean 'regardless' for 'potential' detection, right?
-> 
-> > locking at the mapping/anon_vma level instead?
-> 
-> Piece of cake.  Even though it may increase the number of DEPT classes,
-> I hope it will be okay.  I just need to know the points in code where
-> folios start/end being associated to their specific mappings.
+Translate .../block/blk-mq.rst into Chinese.
+Add blk-mq into .../block/index.rst.
 
-Assuming that I understand what you meant correctly, I can use the
-@mapping value in struct page as a second key in DEPT.  Of course, it
-doesn't guarantee unique ids of the mappings for ever.  However, I think
-it can be a good and quite simple start.
+Update the translation through commit 41bd33df4e18
+("docs: block: blk-mq.rst: correct places -> place")
 
-	Byungchul
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
+Reviewed-by: WangYuli <wangyl5933@chinaunicom.cn>
+Signed-off-by: ke zijie <kezijie@leap-io-kernel.com>
+---
+ .../translations/zh_CN/block/blk-mq.rst       | 130 ++++++++++++++++++
+ .../translations/zh_CN/block/index.rst        |   3 +-
+ 2 files changed, 132 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/block/blk-mq.rst
 
-> 	Byungchul
-> 
-> > ---
-> > 
-> > My current understanding of folio locking rules:
-> > 
-> > If you hold a lock on folio A, you can take a lock on folio B if:
-> > 
-> > 1. A->mapping == B->mapping and A->index < B->index
-> >    (for example writeback; we take locks on all folios to be written
-> >     back in order)
-> > 2. !S_ISBLK(A->mapping->host) and S_ISBLK(B->mapping->host)
-> > 3. S_ISREG(A->mapping->host) and S_ISREG(B->mapping->host) with
-> >    inode_lock() held on both and A->index < B->index
-> >    (the remap_range code)
+diff --git a/Documentation/translations/zh_CN/block/blk-mq.rst b/Documentation/translations/zh_CN/block/blk-mq.rst
+new file mode 100644
+index 000000000000..ccc08f76ff97
+--- /dev/null
++++ b/Documentation/translations/zh_CN/block/blk-mq.rst
+@@ -0,0 +1,130 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/block/blk-mq.rst
++
++:翻译:
++
++ 柯子杰 kezijie <kezijie@leap-io-kernel.com>
++
++:校译:
++
++
++
++================================================
++多队列块设备 I/O 排队机制 (blk-mq)
++================================================
++
++多队列块设备 I/O 排队机制提供了一组 API，使高速存储设备能够同时在多个队列中
++处理并发的 I/O 请求并将其提交到块设备，从而实现极高的每秒输入/输出操作次数
++(IOPS)，充分发挥现代存储设备的并行能力。
++
++介绍
++====
++
++背景
++----
++
++磁盘从 Linux 内核开发初期就已成为事实上的标准。块 I/O 子系统的目标是尽可能
++为此类设备提供最佳性能，因为它们在进行随机访问时代价极高，性能瓶颈主要在机械
++运动部件上，其速度远低于存储栈中其他任何层。其中一个软件优化例子是根据硬盘磁
++头当前的位置重新排序读/写请求。
++
++然而，随着固态硬盘和非易失性存储的发展，它们没有机械部件，也不存在随机访问代
++码，并能够进行高速并行访问，存储栈的瓶颈从存储设备转移到了操作系统。为了充分
++利用这些设备设计中的并行性，引入了多队列机制。
++
++原来的设计只有一个队列来存储块设备 I/O 请求，并且只使用一个锁。由于缓存中的
++脏数据和多处理器共享单锁的瓶颈，这种设计在 SMP 系统中扩展性不佳。当不同进程
++（或同一进程在不同 CPU 上）同时执行块设备 I/O 时，该单队列模型还会出现严重
++的拥塞问题。为了解决这些问题，blk-mq API 引入了多个队列，每个队列在本地 CPU
++上拥有独立的入口点，从而消除了对全局锁的需求。关于其具体工作机制的更深入说明，
++请参见下一节（ `工作原理`_ ）。
++
++工作原理
++--------
++
++当用户空间执行对块设备的 I/O（例如读写文件）时，blk-mq 便会介入：它将存储和
++管理发送到块设备的 I/O 请求，充当用户空间（文件系统，如果存在的话）与块设备驱
++动之间的中间层。
++
++blk-mq 由两组队列组成：软件暂存队列和硬件派发队列。当请求到达块层时，它会尝
++试最短路径：直接发送到硬件队列。然而，有两种情况下可能不会这样做：如果该层有
++IO 调度器或者是希望合并请求。在这两种情况下，请求将被发送到软件队列。
++
++随后，在软件队列中的请求被处理后，请求会被放置到硬件队列。硬件队列是第二阶段
++的队列，硬件可以直接访问并处理这些请求。然而，如果硬件没有足够的资源来接受更
++多请求，blk-mq 会将请求放置在临时队列中，待硬件资源充足时再发送。
++
++软件暂存队列
++~~~~~~~~~~~~
++
++在这些请求未直接发送到驱动时，块设备 I/O 子系统会将请求添加到软件暂存队列中
++（由 struct blk_mq_ctx 表示）。一个请求可能包含一个或多个 BIO。它们通过 struct bio
++数据结构到达块层。块层随后会基于这些 BIO 构建新的结构体 struct request，用于
++与设备驱动通信。每个队列都有自己的锁，队列数量由每个 CPU 和每个 node 为基础
++来决定。
++
++暂存队列可用于合并相邻扇区的请求。例如，对扇区3-6、6-7、7-9的请求可以合并
++为对扇区3-9的一个请求。即便 SSD 或 NVM 的随机访问和顺序访问响应时间相同，
++合并顺序访问的请求仍可减少单独请求的数量。这种合并请求的技术称为 plugging。
++
++此外，I/O 调度器还可以对请求进行重新排序以确保系统资源的公平性（例如防止某
++个应用出现“饥饿”现象）或是提高 I/O 性能。
++
++I/O 调度器
++^^^^^^^^^^
++
++块层实现了多种调度器，每种调度器都遵循一定启发式规则以提高 I/O 性能。它们是
++“可插拔”的(plug and play)，可在运行时通过 sysfs 选择。你可以在这里阅读更
++多关于 Linux IO 调度器知识 `here
++<https://www.kernel.org/doc/html/latest/block/index.html>`_。调度只发
++生在同一队列内的请求之间，因此无法合并不同队列的请求，否则会造成缓存冲突并需
++要为每个队列加锁。调度后，请求即可发送到硬件。可能选择的调度器之一是 NONE 调
++度器，这是最直接的调度器：它只将请求放到进程所在的软件队列，不进行重新排序。
++当设备开始处理硬件队列中的请求时（运行硬件队列），映射到该硬件队列的软件队列
++会按映射顺序依次清空。
++
++硬件派发队列
++~~~~~~~~~~~~~
++
++硬件队列（由 struct blk_mq_hw_ctx 表示）是设备驱动用来映射设备提交队列
++（或设备 DMA 环缓存）的结构体，它是块层提交路径在底层设备驱动接管请求之前的
++最后一个阶段。运行此队列时，块层会从相关软件队列中取出请求，并尝试派发到硬件。
++
++如果请求无法直接发送到硬件，它们会被加入到请求的链表(``hctx->dispatch``) 中。
++随后，当块层下次运行该队列时，会优先发送位于 ``dispatch`` 链表中的请求，
++以确保那些最早准备好发送的请求能够得到公平调度。硬件队列的数量取决于硬件及
++其设备驱动所支持的硬件上下文数，但不会超过系统的CPU核心数。在这个阶段不
++会发生重新排序，每个软件队列都有一组硬件队列来用于提交请求。
++
++.. note::
++
++        块层和设备协议都不保证请求完成顺序。此问题需由更高层处理，例如文件系统。
++
++基于标识的完成机制
++~~~~~~~~~~~~~~~~~~~
++
++为了指示哪一个请求已经完成，每个请求都会被分配一个整数标识，该标识的取值范围
++是从0到分发队列的大小。这个标识由块层生成，并在之后由设备驱动使用，从而避
++免了为每个请求再单独创建冗余的标识符。当请求在驱动中完成时，驱动会将该标识返
++回给块层，以通知该请求已完成。这样，块层就无需再进行线性搜索来确定是哪一个
++I/O 请求完成了。
++
++更多阅读
++--------
++
++- `Linux 块 I/O：多队列 SSD 并发访问简介 <http://kernel.dk/blk-mq.pdf>`_
++
++- `NOOP 调度器 <https://en.wikipedia.org/wiki/Noop_scheduler>`_
++
++- `Null 块设备驱动程序 <https://www.kernel.org/doc/html/latest/block/null_blk.html>`_
++
++源代码
++======
++
++该API在以下内核代码中:
++
++include/linux/blk-mq.h
++
++block/blk-mq.c
+\ No newline at end of file
+diff --git a/Documentation/translations/zh_CN/block/index.rst b/Documentation/translations/zh_CN/block/index.rst
+index 1a5b214657dc..442ee1025b36 100644
+--- a/Documentation/translations/zh_CN/block/index.rst
++++ b/Documentation/translations/zh_CN/block/index.rst
+@@ -16,10 +16,11 @@ Block
+ .. toctree::
+    :maxdepth: 1
+
++   blk-mq
++
+ TODOList:
+ * bfq-iosched
+ * biovecs
+-* blk-mq
+ * cmdline-partition
+ * data-integrity
+ * deadline-iosched
+--
+2.25.1
+
