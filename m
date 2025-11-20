@@ -1,453 +1,397 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AD327F74B;
-	Thu, 20 Nov 2025 03:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763607922; cv=fail; b=PrfzxwBIfijWkNQwuaMCVk5iItw0e9WubtveQCzmtrC+Czui786Bvty/TG5/Lu8OQfuJPER/h6kK+NRsF/tWxybkWvOO0CKVgTSEz25Lp7rnAWWddDDguMeAvnSXl5glrgLHd9YSh9ZMpubm3ZlDoEDg6fCpA2gT+dORIpSrXZQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763607922; c=relaxed/simple;
-	bh=JoRDdZjaaXMchAluhc28EcccewRPKoAF8CP8ossC1Mc=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=FhTlP1C7ACZTiiZ+3q3CRqNWI/8/AZdbT9KWueNi4aoqv5OSWHzHc3CrPTeQg+408p+TFgRqGbEzyM3DQ7BwgfqZrI8qTeuIv6sG6LHf9K4H0Bg8uwPKhksjZjk8qGYXkJv5/QzGbtQS6NGsTnaHPeX7qqkdYnZWih7WYRGxlcI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H70Bmzjq; arc=fail smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A3C2EFDA5
+	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 03:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763608138; cv=none; b=D3Z64X/ZnwOGMMtx6v/Ym9juwDJh27XcsW3DOaB/AfS8HgQzyBuXrkWiUeJTHZw5Lswb12qRewsuSmfjHnLC8q492eYJdcyuap17Y9DTjhAq9yuoNkvjZaj2KMe+zieoh6e021so8IANls+rWxj+C0xxQMiwtLyZ7KtcDnrCTcU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763608138; c=relaxed/simple;
+	bh=LDJQXStJhxuIVFUh0KGEALQ5QGsnk3BU7P04araX8Ik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A283FN8rdjSbxeJ4DhX7EwhPY08U3XEjJ8G3frsFy305hV0WET1j4alj/nfm5pBnds8bIyd4azvdf24755CwoSMKnajEOeeGrRmeldt8opFr/k6xENy+snLJ3T2h5XeQHmt9Q3+C3ulLvBAITC4lF/ZW/W4eCerA4UiIF62Rw1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HCeLUvJy; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H70Bmzjq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763607920; x=1795143920;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=JoRDdZjaaXMchAluhc28EcccewRPKoAF8CP8ossC1Mc=;
-  b=H70Bmzjq1FoLXGR0vrJhcis/6Z1IroDYnXX3ouMixqqH9eQYYHBNv+UJ
-   vJrYi7NIWggLT0Ryn/Zea6lMlsme8z405b+M2Gplfl1Te9hBN7rjZAehr
-   zNvLKxF8Foha6NgjhbPRuhCrjH68iudd2d4NZKhrCOQi762vcndrUJ+V8
-   dI/H86/c8+8TfToM5fU2s/YPIRVVglSLPmaDm/OuMTcyCD1lktK3VhzFk
-   j2xJwc1YhR4PsFuG+chwCKBkvZT/ovB3kE/C4Zu0qfRQrs+2B/Hg7lmAs
-   1O0OdyN3GXanDIrwzba2RV0zhJJ//V4ZdRoQ+/S3rXIo+TdZZw0PoaQ6d
-   A==;
-X-CSE-ConnectionGUID: HEXwIHX9SbW2XAK3M7M+TQ==
-X-CSE-MsgGUID: esGaE8rFTmmfhvOioTrNYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65543857"
-X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="65543857"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 19:05:18 -0800
-X-CSE-ConnectionGUID: tX7bqI9QRyCLGGx8Byte1Q==
-X-CSE-MsgGUID: FoX1FRsnR5ytdQHzf/H73A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="190499898"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 19:05:16 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 19 Nov 2025 19:05:14 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 19 Nov 2025 19:05:14 -0800
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.35) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 19 Nov 2025 19:05:15 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q+wQQMoyeCG2iuGcGf0IgTNCl6Hfsj2FvB9Myp4AUEDv4GT3Kss3y6w5Uiv9cvBqmQNc7vb7RWZdykhukZTVlegEqOBK3vnksWg6mKSY65huaopgIZUA8icTXYDUmeKp4qAepKMJPg/vC4fciM1u0KVyFhHF85ggWloYUxDw3A9xqAwDoE85gFTOJHS6RuNIGZIPtPNlwp61f7RibLWhORa23CKiza80RLbSl9Nwo1/xalviHlh/dzj+XZdY1l8ICFSxhae5aQDG+DIg0izck8n/vLMx6bPaFldKD5DjBPsQjfem9ueRwBFTmJsE9ITq73SrBNQKL6WZYXj+9pOYXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xlCuoYxcch6vPPiYyaZP7yfm3ePRVHyEIoUXxQYNhvs=;
- b=xUg0NIrypjpXc6jZ6TNE7RwLrdIgyIb+jy2Y5M9hJKT+nTLU35DCMJFvXf+dqLKoYJ//414koYK8YOv5UnnqfWWMUvNPmUgIyReRlF4dDZ9M3G7F9wWfPTw3m/VrTEaDkdYjHP9xOnDWfe5R2fGAL4Q0dXFwtpc008RR59nPPyGzwgp/tdcuUzoqd7ugvCi2XxKNVLiv7BeJxEsBJMyoR9tLXvxlhmwUmjm5FKv4UISnFfgFYtPZ/G9IRKI4rZ8NYOkozPlCew48Kuy55vj1KDxNT7ExjJi6Vxw2tWbJCm5GLBodmuuzh+guAhynA5YwMP5P7glZ2z4w467m4b/rXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by CH3PR11MB8494.namprd11.prod.outlook.com (2603:10b6:610:1ae::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
- 2025 03:05:12 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.9343.009; Thu, 20 Nov 2025
- 03:05:12 +0000
-Message-ID: <caa771e1-e86b-43b0-bc4e-09057f598fab@intel.com>
-Date: Wed, 19 Nov 2025 19:05:10 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] x86,fs/resctrl: Factor MBA parse-time conversion to be
- per-arch
-To: Dave Martin <Dave.Martin@arm.com>
-CC: <linux-kernel@vger.kernel.org>, Tony Luck <tony.luck@intel.com>, "James
- Morse" <james.morse@arm.com>, Ben Horgan <ben.horgan@arm.com>, Thomas
- Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
- Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter
- Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, <x86@kernel.org>,
-	<linux-doc@vger.kernel.org>
-References: <20251031154225.14799-1-Dave.Martin@arm.com>
- <136d9c83-e816-4188-ae0d-322478a57a68@intel.com>
- <aRyVHqeHaRtrKqvG@e133380.arm.com>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <aRyVHqeHaRtrKqvG@e133380.arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4P221CA0024.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:303:8b::29) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HCeLUvJy"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-29812589890so5052105ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 19:08:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763608133; x=1764212933; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=obhMPXIkkdooRW9j/Fgg6xtfxvhQxt5QkqAkScu5Ygg=;
+        b=HCeLUvJyRY55d6qXu4vyz62YnNnmbD2QKBRVxhnZGBNy4ryUFIWeudOnQYZtH906JB
+         7nN8Pyju33EDRmFssiOANgO8rUMh/kESSbEgwuaRm5jOVr7j+lGOqC7kh2/fcGZxrP0t
+         flzMlIM5uMqxziDnaMAZihE6jha0EjmyuVWZzFhbZJNZl3WVUu5q5u2xoV1gGi56hO7R
+         fJLhOyA5AAxdAJLg6KsJsP/blTZP1QmlgC6CLGthnSx0RNdLX2mAtHOHUbu1202EZwLD
+         tY/dYt/0/ClxvQaa2lnkBmVF+ETe0zFBlhXFgzjyFKqFB2ux0klUp4Sq+4w9vnq3q57E
+         MTwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763608133; x=1764212933;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=obhMPXIkkdooRW9j/Fgg6xtfxvhQxt5QkqAkScu5Ygg=;
+        b=ZGp5ht4dPxuMlXz+j9vo8aysigrstQXjkU4TgixtH5F3kw3thMeTFQ9JQYcKOdrFh6
+         DbPGTQkryTFFniid6EVT9PpNEAEaE0NbkGVMEwRLpTUxBOvnjRQoVrKK9uJm8WMfzKZS
+         +U3MSd/k0rhxHMMFXGZp/OjqpIZvcjD90jxqwXIuhVyJzjH+iOFEDCPfUuTyPHqPwiKE
+         JvrPAEnet0cH6hBufpwKyBuBiD2oEjM9rxf+6nQ7gZhveuZ3ecWsn3JLAMS8IVVWFLpc
+         jZyI5LidudI/clkEB8xV0Vi9DuvGkG0VJK/9vzUQ19t+A+0IBjZ8au/HnfO9mlCyExgk
+         JyiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUPXZdPyj+b0JA+W1viY4heShYwpZt6KLHh1wR/iederz1YGCIH6Ze82dx//pmv5tCNBVOz3RU1ZB0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnatnUQGCsU4V8G9Enk5v9MoRcX7Jr4WB4fYcXpusJ7nKllhjZ
+	/7IPa/lOcovQdPKIryzwNt0ZvE6PjeazmCKQqIuQfIpbSONhdUSkIoLt
+X-Gm-Gg: ASbGncsQ/Xtrd+hkUF51G6spZVlhqxcO4Rfmr6h/CRgTGW71DoP3afkZJ9e+dWVHGPR
+	4wsj02x/vRh0Ulh9IA2EZHR5Io4V2/fkrOGMtCADk30/+S73xIMgO7owt1z2Efd5nU2fSvH5n8E
+	p8+ehLla0lY3WAEL30T3GyYUMvd6xVGCXhhq/zg1Wgqy0a5Y5J7SBCdvsjHC5ileNwH0tJ7RoLu
+	wqiRBRX2kVcq9nP/iRsf5MCyxq1Lo9er7cClB2Wb0/ZNtZwsu8JbGfjy89sDBsvpsxZtP/rXj8F
+	UTtcopfwNnWd4oXAUHoNcCaQTy/pO4bfcKC3t5HeDXzIEnhD0XAeujIlqbTgnLaOo3Jf71VU4fV
+	dw2e+d6AKUCcuVecj7kg1RLGk3UfiAilAPScKyh15KdRm22AtWA9JHRTbf3DfLQXIktUXHa6LQs
+	RPYyBsYNfObWI=
+X-Google-Smtp-Source: AGHT+IF+i7eRVDL93AayD7pCpjsON/H/qC8/CmYibw5k9KhxkFq0GDgTD2VE7/kyvTrhs6frphltCQ==
+X-Received: by 2002:a17:903:40cb:b0:297:df17:54cd with SMTP id d9443c01a7336-29b5ebe28a2mr7905725ad.27.1763608132801;
+        Wed, 19 Nov 2025 19:08:52 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b29d706sm8451995ad.80.2025.11.19.19.08.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 19:08:51 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id AAB3D41D96E5; Thu, 20 Nov 2025 10:08:49 +0700 (WIB)
+Date: Thu, 20 Nov 2025 10:08:49 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+	jbaron@akamai.com
+Cc: ukaszb@chromium.org, louis.chauvet@bootlin.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 31/31] docs/dyndbg: add classmap info to howto
+Message-ID: <aR6GQeLW-sh9-A3W@archie.me>
+References: <20251118201842.1447666-1-jim.cromie@gmail.com>
+ <20251118201842.1447666-32-jim.cromie@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CH3PR11MB8494:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2f37214-8c96-4bbc-9509-08de27e19ef2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?STZyUytyMkJNTjdEQVl0ZDhHOHFoWTNwdlNNYWgvcXcrUGp0aXFUeTVkMXFr?=
- =?utf-8?B?czRvaEdyR2hBL1FOakNZclRoWHFuSlJPQUV6d0ExeTdhdGdVWFFhRkhtSldB?=
- =?utf-8?B?ZENUbmtXYmJiRkFDUW4xSlduSFh0MDNlTDVQMmI4OUg0bTVQYzI1emJoRTBK?=
- =?utf-8?B?cTE4SlJIMGxLMEpvUTFjNVJmcUZEazJKYzQ5NTgwaVZYNTJjeVdQT2RxUkxy?=
- =?utf-8?B?TFVqOW5PbmRYUkg4cS9nRE12Zi9iYnNKTU4xb09GQXIveVBUaFgya1hBaFJI?=
- =?utf-8?B?TEVIS0xUR3Y3S0ZVcFc4d3FBak1kWDJHMGQ5SkZ1cW5IZlk1NE5mR1hSdXpO?=
- =?utf-8?B?dmk1UnlBMjhuTFJPT29TVzVtYlo3OEVBK1lGUmJxd1hrTmVSdTRlaDlRdTZY?=
- =?utf-8?B?WEZacDNUZUwwd2RuNmM0M0lLTHhZRDZlV2gyREpuTmdUUEF6ZVNNUXRoVXc3?=
- =?utf-8?B?aTh2eC9vY0pTcmtCV0pXWDVqayswd2M3TWhydlpxVUFpMUJRazlJbWlTUVU4?=
- =?utf-8?B?aUlHUmtrc1BSY3Z4a2ZyUVg0Q1pVbzUxNHFuNWRTa2hValNrMkZYUUxNbWI1?=
- =?utf-8?B?eTkyRG0zNVJBTnJQeFNER0xEemtCbi9iWEhjQWcxdC8wWUoyYVJwMjFoWmpq?=
- =?utf-8?B?ZDZmUEUrTWlYSGdkSmQ0OEx1ZGt0ZWNvNlMvU2pJSFV6bGxVK2VUNEpGdVJK?=
- =?utf-8?B?TDcydzF4enVaVGZTK1J1cStMZFdUK29SYUVhNUhnazNPTGszWnNSbWZlc2Vp?=
- =?utf-8?B?SktLT1BvQ3V0ZWFIS0FWYVFuUXZLQTZMbENKNVNxamtaOURPcGpjTEkrekFp?=
- =?utf-8?B?TDZNdUJjclJkUDMzMUpxU2RlOG5Mald3dnNsUjE3NENnb2pGSFBCTkpkSVVv?=
- =?utf-8?B?ejM0Wlk5UFBYanZUbmFZM1BxcHZ6eWVucGNuNTZFLzlHVU90dkJEK2tUM2tE?=
- =?utf-8?B?QmNKMHVoUEcvVGtEd2JEVCthS0V0YlNvTGlNd0hMZHB6dURpdC9QTVo4TE5X?=
- =?utf-8?B?YnExbFdFYmJoVWtram1EREN5dXV2VWtGUXdIa3NrT21yd01RbTJKU1lWVlRC?=
- =?utf-8?B?ODZ3b1kzekZNLy9BN21xZnhKcHNPVnlJTnNxdG5uaUJEcVdUQ2dkUWpHaWJ4?=
- =?utf-8?B?UndOSXNseDJBaUp5dGluMzVTTmpJZXV0NEZJNXlhQ3AvcHBHY3RZNVY1WjRK?=
- =?utf-8?B?Q0pGNUpiVWVxWWRjK1h3S3RiNVdiSlo5VTN1MHJXOFUzbFk0Mlh0UEE5RzQ1?=
- =?utf-8?B?VEk3cjhqVHJ5NjlBSUpBUVRKUzhzSisxZlBqNC9tOU9nNWo5SVhSUWx6SnU2?=
- =?utf-8?B?RmttRnJhbUZBRzg0T3ZrZG0vR3JSaFFPNXQySWpoUDV2ZkZRTXNkNFZTNSs0?=
- =?utf-8?B?SXVqNG82aUtSMldGTGxqZEc4WUdRemk4MWpDdWNMVkZBWVNRRkdhTndXQm5N?=
- =?utf-8?B?dzVUWFFabEg4TlRHWmJyVXdvNVM3QlFpbnlOSkEzTEp2TVVyQ1hKWlNJdFFk?=
- =?utf-8?B?L0U5c1ZxcGZsM3JUVFgxOHFZK0psSVRid2s0WXdnRTNjZExTcWFzM0hjYkVp?=
- =?utf-8?B?R0xoakpubllVZmM0MEtzU3dGQUZyNkxabVliM29BTGZzZVlRaE50NnhOdlNV?=
- =?utf-8?B?Z2ZpOG0wWFEyOHM4NVdrL2U3eHJsYkpGNkxoZXBRTnNaeTFVRWV6ME9QZG1h?=
- =?utf-8?B?WkRVekp1R0YzeU5TN05xUnNyZWFJQ1I4ZVFUYi9jN3NxZHEvb2dkN0VxM2pZ?=
- =?utf-8?B?UUNIVVhwYm51S0UyRlVlU1BES3BVTS93MUg5Q1NJUCszdm1DaHZGV1BYTWw4?=
- =?utf-8?B?OFlRbHFsNWhCR09iMDhQdzhQcFJWUlpmSnNSOFpBandUanBiR2FHSkF2SEtx?=
- =?utf-8?B?cGxKWWFTS0YxZWhGOHlDR3BIZkJvS0puNnZGWGlTTmZuN0dCTXhvTkltNXpJ?=
- =?utf-8?Q?vFB48EZsx6bkEWafIRtj2wP1YCpTyCtu?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VG5DWW9IS1dwQ2Nzd3BZUVhQdVFMUUZmUE80LzA4SWhDV0ZSRVVYcHBkSHF2?=
- =?utf-8?B?S3ZjYkRRVkxzMzQxdDdCNkF3S1dxQVphSkE2S01qeW04VWxZMCtjMldld0t6?=
- =?utf-8?B?cHRWZUNaMkVIVHlibWkrVHV0b3c5Mlg1ZnNkeEhpdjlHbCtNU0lydE1kd2VL?=
- =?utf-8?B?M2hRTDZJaFV4QktMaTE4V1ZJYlpKbnRsWi9VOWhUN2kxQWY0YUN4TnZWTmFZ?=
- =?utf-8?B?akNlQVVpb0Q0cHNVWjFBbms1LzRTQVR4K3ozLzlFYUx6alFNYlhCNWlGZFdC?=
- =?utf-8?B?ZWtJSW13WkxDcEtyajlRd25lM2ExNE5sTDhkNnFkZHpZMklOTTNNUjFQbWNp?=
- =?utf-8?B?eE5oZVFRNmZMMTRBQ21sUm16RnF6SUVHS1lMWXNOaWszTnAzS0NEQldLeWVQ?=
- =?utf-8?B?OWRabWFnNWc2amJaaFpGUjlTNFgwS1c4c3RyK0pMTUFpeGxBR1h0Y1pDM3pZ?=
- =?utf-8?B?Q0lHMENpRkQxNzE3Z3I3ZVVPU3ZTRFdVOENNa1VyZm5UcUREakFScDNXMEd6?=
- =?utf-8?B?MnFScitjc2JnWDFWbnFwWEQyMituekcvdkpCaFNtR1NqZ1IzYjlwcTc3T2xJ?=
- =?utf-8?B?aThDTWtZL29aSUNoTUZnckI4cHhya3k1bjkyNlIvaFVoNlFnL2VQQ3dDS2VO?=
- =?utf-8?B?UUdIbHkzeWZGazVvRWdkSEF2SkVVcHBWNXVQM01TMnNSdlFIVGpuZ05mYStv?=
- =?utf-8?B?bFk5T0YwaGZ0WWNjQWc4QnlpbmVSazZ6UjFMRXhtNDZqLzBKWE9zVW1FRlBO?=
- =?utf-8?B?M2pPQk9qd2IyVG5nZVpPbVAyazVCMlBGamFRNWJPd25DMDIySDMvVHdleExF?=
- =?utf-8?B?QVRHSXJrczNrZStrSms5MVpSS3ZZaUNDc09FdU1IQTljR1laMVRwb0dvS1Qx?=
- =?utf-8?B?U2hFY0FPOHNMV0RtV1AxWTFhcko3eFFwNU5kY2h1WmR6WG5SYlByRjRPM3JG?=
- =?utf-8?B?VjNucUxxa0pmT3IzV3BGV0ZkWFlTSnBEK283ZkdEQUl2MUJYTVBFaXNvV3BJ?=
- =?utf-8?B?cHhOcS80R2YydGRNRUpqTjhrTXVlOERoZ0RPZXNjNlRlZEJsUys5RVBORU1Z?=
- =?utf-8?B?SEM0aTlLelBDWTZ6R0hRZ0hpbWNVQUY3Mm1venVKVi82SHFST1lKSVFIaEsw?=
- =?utf-8?B?eGkybE5JTWpIcmxGcWNkcFMwQy9uY2F3bUlLWGVJNkV2cnh0QTdNZEVYUE4x?=
- =?utf-8?B?MTRScFhhS1pGazRPZ2g1UW9BcndwMitjVnZaZEVJSG9qK2xpcG9qTUlJVFFQ?=
- =?utf-8?B?Ris1UTZ6NEhOdDFtQVh4N2p3d1crTjhVQVNMT3Z0L3J0T1kwODkwR3JVQmFK?=
- =?utf-8?B?a1FjTFVOMnNDT3NLdkhJZGZ0Uld6czE0NVNidFQ1dis0N0Z3dzFGamYzUDl1?=
- =?utf-8?B?R3dWQ0pYLzdlNHV2K0xRdFUrNkNKOFk2c21kMFd5aWluUU1ITy9rU2VLTzFG?=
- =?utf-8?B?Nkl0UFdFSVBZZSt6UDBKcFdQS1BmaytiSnVKNUo0d0FpT2lCUnZac2htVVRJ?=
- =?utf-8?B?UldGd0gwWnN0WXRLVHJHUEpiV2lucDN4cllvWnArNTdHbHdxcUpTSzlrV3Ja?=
- =?utf-8?B?S3c0dzlpanoxbXZwMEVnUFA1Y2o2cXdvTGlTQkQvSEF4SUIyS0hxUjA5Q3p2?=
- =?utf-8?B?cGwwQnZiNXlTU0VHTDhPdFlKYjJhUjBPaFgwZlJER0FjSWdtL0hlTWx4VVlr?=
- =?utf-8?B?b2pBVlNHSVYrbXVvTk9PZ2NDZTFQbHo0WXMzL0loT29acVRQOUZoRkdhTVow?=
- =?utf-8?B?Q2ZLMWthL3FkdmVzNjM1UDBqWXZvV0RHR0NJVWF4Sm5aUTlEM2NPNmNWSGxH?=
- =?utf-8?B?Qkl6UDFvRnhOM2hhMTI3U00wczNYQkJaWTNyem4za1ZrTXMrYTZ2NHNWYjl4?=
- =?utf-8?B?d3RyYm1uemI5MTZUWm0xL2F6VlREajR4WmJXcXlocHRvbjhZc04xc2JNdk03?=
- =?utf-8?B?cWxtRHhkcFRMNmVHRitWaXUrMFRwV0NDcUpLZ3Boc1g3SmpnMForbFNMV21o?=
- =?utf-8?B?R0RzWWJoZGN3ZldENHlEdXdaUTFkSDlMam43OGI1RmFmcFdJT0ZEMytkN1Bh?=
- =?utf-8?B?aVZrWEJTM3JCb3VhaWVoMXA1NHFubHZTNS94TEVjOFY2MTZFQXZsNko5TEdM?=
- =?utf-8?B?eng3OU9vU3M1UkVVdFJIc1REVHk1Wk1pSVVwcnJ5L2RJUUgrL1dzbFVwdk8v?=
- =?utf-8?B?dkE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2f37214-8c96-4bbc-9509-08de27e19ef2
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 03:05:12.3011
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mp1Rgy83dKa+SIzhhUZE0sKY4goGlhX/2xhT10kYuZUEMtMC3WZin3Frq/IoQqKbiAc5eh7o4M3hUr+iy0jsSBmWkP8LEGMCXzLyIxaOc5M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8494
-X-OriginatorOrg: intel.com
-
-Hi Dave,
-
-On 11/18/25 7:47 AM, Dave Martin wrote:
-> Hi Reinette,
-> 
-> On Fri, Nov 14, 2025 at 02:17:53PM -0800, Reinette Chatre wrote:
->> Hi Dave,
->>
->> On 10/31/25 8:41 AM, Dave Martin wrote:
->>> The control value parser for the MB resource currently coerces the
->>> memory bandwidth percentage value from userspace to be an exact
->>> multiple of the rdt_resource::resctrl_membw::bw_gran parameter.
->>>
->>> On MPAM systems, this results in somewhat worse-than-worst-case
->>> rounding, since the bandwidth granularity advertised to resctrl by the
->>> MPAM driver is in general only an approximation to the actual hardware
->>> granularity on these systems, and the hardware bandwidth allocation
->>> control value is not natively a percentage -- necessitating a further
->>> conversion in the resctrl_arch_update_domains() path, regardless of the
->>> conversion done at parse time.
->>>
->>> Allow the arch to provide its own parse-time conversion that is
->>> appropriate for the hardware, and move the existing conversion to x86.
->>> This will avoid accumulated error from rounding the value twice on MPAM
->>> systems.
->>>
->>> Clarify the documentation, but avoid overly exact promises.
->>>
->>> Clamping to bw_min and bw_max still feels generic: leave it in the core
->>> code, for now.
->>
->> I think they are only theoretically generic since arch sets them and resctrl
->> uses to enforce user input. Arch can thus theoretically set them to whatever
->> the u32 used to represent it allows. Of course, doing something like this makes
->> the interface even harder for users to use.
-> 
-> Hence, "feels".
-> 
-> This could perhaps be refined, but I didn't see an obvious reason to
-> change the way this works, right now.
-> 
-> Or, is there a problem here that I'm missing?
-
-No. We are in agreement.
-
-> 
->>
->>>
->>> No functional change.
->>>
->>> Signed-off-by: Dave Martin <Dave.Martin@arm.com>
->>>
->>> ---
->>
->> ...
->>
->>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
->>> index b7f35b07876a..fbbcf5421346 100644
->>> --- a/Documentation/filesystems/resctrl.rst
->>> +++ b/Documentation/filesystems/resctrl.rst
->>> @@ -144,12 +144,11 @@ with respect to allocation:
->>>  		user can request.
->>>  
->>>  "bandwidth_gran":
->>> -		The granularity in which the memory bandwidth
->>> -		percentage is allocated. The allocated
->>> -		b/w percentage is rounded off to the next
->>> -		control step available on the hardware. The
->>> -		available bandwidth control steps are:
->>> -		min_bandwidth + N * bandwidth_gran.
->>> +		The approximate granularity in which the memory bandwidth
->>> +		percentage is allocated. The allocated bandwidth percentage
->>> +		is rounded up to the next control step available on the
->>> +		hardware. The available hardware steps are no larger than
->>> +		this value.
->>>  
->>>  "delay_linear":
->>>  		Indicates if the delay scale is linear or
->>> @@ -737,8 +736,10 @@ The minimum bandwidth percentage value for each cpu model is predefined
->>>  and can be looked up through "info/MB/min_bandwidth". The bandwidth
->>>  granularity that is allocated is also dependent on the cpu model and can
->>>  be looked up at "info/MB/bandwidth_gran". The available bandwidth
->>> -control steps are: min_bw + N * bw_gran. Intermediate values are rounded
->>> -to the next control step available on the hardware.
->>> +control steps are, approximately, min_bw + N * bw_gran.  The steps may
->>> +appear irregular due to rounding to an exact percentage: bw_gran is the
->>> +maximum interval between the percentage values corresponding to any two
->>> +adjacent steps in the hardware.
->>
->> What can bw_gran be expected to be on Arm systems? Could existing usage be supported with
->> MPAM setting bw_gran to 1?
-> 
-> Architecturally, ceil(100.0 / (1 << b)), where 1 <= b <= 16.
-> 
-> So, the possible values are
-> 
-> 	1, 2, 4, 7, 13, 25, 50
-> 
-> (with 25 and 50 being the only ones that are exact).
-> 
-> In practice, something like 6 <= b <= 8 is probably more typical; this
-> would give advertised bandwidth_gran values of 2 or 1.
-> 
-> 
-> Re your question about existing usage, were you suggesting
-> unconditionally setting bw_gran to 1?
-
-Yes, I *was* suggesting that. I considered bw_gran of 1 to be a "safe" value that
-provides architecture with most flexibility. Now that you have provided more
-insight on how MPAM uses this value I agree that bw_gran of 1 is not appropriate
-for MPAM.
-
-> 
-> Since the values are converted to/from hardware representation in
-> resctrl_arch_update_domains() / resctrl_arch_get_config(), we
-> don't have a problem, provided that the value doesn't get rounded in
-> advance by bw_validate().
-> 
-> But if bw_gran is always 1, it will mislead userspace about the
-> precision.  This feels stranger for userspace than fine differences in
-> precisely which percentage values get read out of schemata.
-> 
->> What will these control steps actually look like when the user views the schemata file
->> on an Arm system?
-> 
-> It depends on the number of bits in the hardware value (the parameter b
-> above).  Picking the smallest, non-trivial value 3:
-> 
-> 	schemata	hardware (MBW_MAX)
-> 
-> 	 13		0
-> 	 25		1
-> 	 38		2
-> 	 50		3
-> 	 63		4
-> 	 75		5
-> 	 88		6
-> 	100		7
-> 
-> As currently implemented, I believe that writing the values from the
-> "schemata" column above will result in the corresponding values from
-> the "hardware" column being written to the hardware.  Achitecturally,
-> there is no guaranteed representation for 0%; we would advertise min=13,
-> max=100 in info/.)
-> 
-> A round-to-nearest policy is followed for intermediate values on write.
-> 
-> 	(hardware value = round(schemata value * 8.0 / 100.0) - 1).)
-> 
-> Reading the value back translates the value from the "hardware" column
-> back to the unique value in the "schemata" column.
-> 
-> 	(schemata value = round((hardware value + 1) * 100.0 / (1 << b)).)
-> 
-> 
-> In this case, bandwidth_gran would be advertised as 13, which is the
-> largest step that can be seen in the read-back values.
-
-Thank you very much for these details. I appreciate having a better understanding
-on how the hardware enforces these control steps instead of some software emulation.
-With these steps enforced in this way on the architecture side it creates 
-confidence that the user space expectations from interface can be met directly
-by architecture.
-
-> I would rather avoid promising precisely which values can be read out;
-> merely that they are consistent with the approximate precision defined
-> by the bandwidth_gran parameter.
-
-ack. I believe the accompanied changes to resctrl.rst supports this.
-
-> 
->>
->> With resctrl "coercing" the user provided value before providing it to the architecture
->> it controls these control steps to match what the documentation states above. If resctrl
->> instead provides the value directly to the architecture I see nothing preventing the
->> architecture from ignoring resctrl's "contract" with user space documented above and
->> using arbitrary control steps since it also controls resctrl_arch_get_config() that is
->> displayed directly to user space. What guarantee is there that resctrl_arch_get_config()
->> will display a value that is "approximately" min_bw + N * bw_gran? This seems like opening
-> 
-> No guarantee, but there will only be one resctrl_arch_preconvert_bw()
-> per arch.  We'd expect the functions to be simple, so this doesn't feel
-> like an excessive maintenance burden?
-
-Agree.
-
-> 
-> (All the resctrl_arch_foo() hooks have to do the right thing after all,
-> otherwise nothing will work.)
-> 
-> 
-> With this patch, resctrl_arch_preconvert_bw() and
-> resctrl_arch_{update_domains,get_config}() between them must provide
-> the correct behaviour.
-
-Right. This blurs the lines of responsibility. I interpret this as:
-"resctrl fs makes promises to user space that resctrl fs *and* the architecture are
- responsible to keep"
-
-> 
-> But even today, resctrl_arch_update_domains() and
-> resctrl_arch_get_config() have to do the right thing in order for
-> bandwidth control values to be handled correctly, as seen through the
-> schemata interface.
-
-ack.
-
-> 
-> (x86's job is easy, because the generic interface between the resctrl
-> core and the arch interface happens to be expressed in terms of raw x86
-> MSR values due to the history.  But other arches don't get the benefit
-> of that.)
-
-That is just the benefit of being the first architecture to be supported.
-If determined to cause headaches elsewhere it can surely change.
-> The reason for this patch is the generic code can't do the right thing
-> for MPAM, unless there is a hook into the arch code, arch-/hardware-
-> specific knowledge is added in the core code, or unless a misleading
-> bw_gran value is advertised.
-Understood.
-
-> 
-> I tried to take the pragmatic approach, but I'm open to suggestions if
-> you'd prefer this to be factored in another way.
-
-I am ok with this approach and will respond to the patch details separately.
-
-> 
->> the door even wider for resctrl to become architecture specific ... with this change the
->> schemata file becomes a direct channel between user space and the arch that risks users
->> needing to tread carefully when switching between different architectures.
-> 
-> There doesn't feel like a magic solution here.
-> 
-> Exact bandwidth and flow control behaviour is extremely dependent on
-> hardware topology and the design of interconnects and on dynamic system
-> load.  An interface that is generic and rigorously defined, yet also
-> simple enough to be reasonably usable by portable software would
-> probably not be implementable on any real hardware platform.
-> 
-> So, if it's useful to have a generic interface at all, hardware and
-> software are going to have to meet in the middle somewhere...
-
-I believe that we could also use above as a quote in support of the schema
-description work.
-
-> 
-> (The historical behaviour -- and even the interface -- of MB is not
-> generic either, right?)
-
-Right. Even so, I prefer to use MB as motivation to do things better rather
-than an excuse to make things worse.
-
-Reinette
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HVQbqimanuPfAVD/"
+Content-Disposition: inline
+In-Reply-To: <20251118201842.1447666-32-jim.cromie@gmail.com>
 
 
+--HVQbqimanuPfAVD/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Nov 18, 2025 at 01:18:41PM -0700, Jim Cromie wrote:
+> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Document=
+ation/admin-guide/dynamic-debug-howto.rst
+> index 1ceadf4f28f9..adac32a5cd23 100644
+> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+> @@ -146,7 +146,9 @@ keywords are:::
+>    "1-30" is valid range but "1 - 30" is not.
+> =20
+> =20
+> -The meanings of each keyword are:
+> +Keywords:::
+> +
+> +The meanings of each keyword are::
+> =20
+>  func
+>      The given string is compared against the function name
+> @@ -194,16 +196,6 @@ format
+>  	format "nfsd: SETATTR"  // a neater way to match a format with whitespa=
+ce
+>  	format 'nfsd: SETATTR'  // yet another way to match a format with white=
+space
+> =20
+> -class
+> -    The given class_name is validated against each module, which may
+> -    have declared a list of known class_names.  If the class_name is
+> -    found for a module, callsite & class matching and adjustment
+> -    proceeds.  Examples::
+> -
+> -	class DRM_UT_KMS	# a DRM.debug category
+> -	class JUNK		# silent non-match
+> -	// class TLD_*		# NOTICE: no wildcard in class names
+> -
+>  line
+>      The given line number or range of line numbers is compared
+>      against the line number of each ``pr_debug()`` callsite.  A single
+> @@ -218,6 +210,24 @@ line
+>  	line -1605          // the 1605 lines from line 1 to line 1605
+>  	line 1600-          // all lines from line 1600 to the end of the file
+> =20
+> +class
+> +
+> +    The given class_name is validated against each module, which may
+> +    have declared a list of class_names it accepts.  If the class_name
+> +    accepted by a module, callsite & class matching and adjustment
+> +    proceeds.  Examples::
+> +
+> +	class DRM_UT_KMS	# a drm.debug category
+> +	class JUNK		# silent non-match
+> +	// class TLD_*		# NOTICE: no wildcard in class names
+> +
+> +.. note ::
+> +
+> +    Unlike other keywords, classes are "name-to-change", not
+> +    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
+> +
+> +Flags:::
+> +
+>  The flags specification comprises a change operation followed
+>  by one or more flag characters.  The change operation is one
+>  of the characters::
+> @@ -238,11 +248,15 @@ The flags are::
+>    s    Include the source file name
+>    l    Include line number
+> =20
+> +Notes:
+> +
+> +To query without changing	``+_`` or ``-_``.
+> +To clear all flags		``=3D_`` or ``-fslmpt``.
+> +
+>  For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
+>  the ``p`` flag has meaning, other flags are ignored.
+> =20
+> -Note the regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specification.
+> -To clear all flags at once, use ``=3D_`` or ``-fslmpt``.
+> +The regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specification.
+> =20
+> =20
+>  Debug messages during Boot Process
+> @@ -394,3 +408,92 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
+>  For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string=
+ is
+>  its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+>  in case ``prefix_str`` is built dynamically.
+> +
+> +Dynamic Debug Classmaps
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The "class" keyword selects prdbgs based on author supplied,
+> +domain-oriented names.  This complements the nested-scope keywords:
+> +module, file, function, line.
+> +
+> +The main difference from the others: classes must be named to be
+> +changed.  This protects them from unintended overwrite:
+> +
+> +  # IOW this cannot undo any drm.debug settings
+> +  :#> ddcmd -p
+> +
+> +This protection is needed; /sys/module/drm/parameters/debug is ABI.
+> +drm.debug is authoritative when dyndbg is not used, dyndbg-under-DRM
+> +is an implementation detail, and must not behave erratically, just
+> +because another admin fed >control something unrelated.
+> +
+> +So each class must be enabled individually (no wildcards):
+> +
+> +  :#> ddcmd class DRM_UT_CORE +p
+> +  :#> ddcmd class DRM_UT_KMS +p
+> +  # or more selectively
+> +  :#> ddcmd class DRM_UT_CORE module drm +p
+> +
+> +That makes direct >control wordy and annoying, but it is a secondary
+> +interface; it is not intended to replace the ABI, just slide in
+> +underneath and reimplement the guaranteed behavior.  So DRM would keep
+> +using the convenient way, and be able to trust it.
+> +
+> +  :#> echo 0x1ff > /sys/module/drm/parameters/debug
+> +
+> +That said, since the sysfs/kparam is the ABI, if the author omits the
+> +CLASSMAP_PARAM, theres no ABI to guard, and he probably wants a less
+> +pedantic >control interface.  In this case, protection is dropped.
+> +
+> +Dynamic Debug Classmap API
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +
+> +DYNAMIC_DEBUG_CLASSMAP_DEFINE(clname,type,_base,classnames) - this maps
+> +classnames (a list of strings) onto class-ids consecutively, starting
+> +at _base.
+> +
+> +DYNAMIC_DEBUG_CLASSMAP_USE(clname) & _USE_(clname,_base) - modules
+> +call this to refer to the var _DEFINEd elsewhere (and exported).
+> +
+> +DYNAMIC_DEBUG_CLASSMAP_PARAM(clname) - creates the sysfs/kparam,
+> +maps/exposes bits 0..N as class-names.
+> +
+> +Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
+> +dyndbg to update those classes.  "class FOO" queries are validated
+> +against the classes, this finds the classid to alter; classes are not
+> +directly selectable by their classid.
+> +
+> +NB: It is an inherent API limitation (due to int class_id defn) that
+> +the following are possible:
+> +
+> +  // these errors should be caught in review
+> +  __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
+> +  __pr_debug_cls(62, "un-known classid msg"); // this compiles, does not=
+hing
+> +
+> +There are 2 types of classmaps:
+> +
+> + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
+> + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
+> +
+> +DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
+> +refers to a DEFINEd classmap, and associates it to the param's
+> +data-store.  This state is then applied to DEFINEr and USEr modules
+> +when they're modprobed.
+> +
+> +The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
+> +amongst the contained classnames; all classes are independent in the
+> +control parser itself.  There is no implied meaning in names like "V4"
+> +or "PL_ERROR" vs "PL_WARNING".
+> +
+> +Modules or module-groups (drm & drivers) can define multiple
+> +classmaps, as long as they (all the classmaps) share the limited 0..62
+> +per-module-group _class_id range, without overlap.
+> +
+> +If a module encounters a conflict between 2 classmaps its _USEing or
+> +_DEFINEing, it can invoke the extended _USE_(name,_base) macro to
+> +de-conflict the respective ranges.
+> +
+> +``#define DEBUG`` will enable all pr_debugs in scope, including any
+> +class'd ones.  This won't be reflected in the PARAM readback value,
+> +but the class'd pr_debug callsites can be forced off by toggling the
+> +classmap-kparam all-on then all-off.
+
+Hmmm... the resulting htmldocs looks messy so I clean it up:
+
+---- >8 ----
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentat=
+ion/admin-guide/dynamic-debug-howto.rst
+index adac32a5cd232d..fd3dbae00cfc60 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -146,9 +146,10 @@ keywords are:::
+   "1-30" is valid range but "1 - 30" is not.
+=20
+=20
+-Keywords:::
++Keywords
++--------
+=20
+-The meanings of each keyword are::
++The meanings of each keyword are:
+=20
+ func
+     The given string is compared against the function name
+@@ -221,12 +222,13 @@ class
+ 	class JUNK		# silent non-match
+ 	// class TLD_*		# NOTICE: no wildcard in class names
+=20
+-.. note ::
++.. note::
+=20
+     Unlike other keywords, classes are "name-to-change", not
+-    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
++    "omitting-constraint-allows-change".  See :ref:`dyndbg-classmaps`.
+=20
+-Flags:::
++Flags
++-----
+=20
+ The flags specification comprises a change operation followed
+ by one or more flag characters.  The change operation is one
+@@ -248,10 +250,10 @@ The flags are::
+   s    Include the source file name
+   l    Include line number
+=20
+-Notes:
++.. note::
+=20
+-To query without changing	``+_`` or ``-_``.
+-To clear all flags		``=3D_`` or ``-fslmpt``.
++   * To query without changing:	``+_`` or ``-_``.
++   * To clear all flags:	``=3D_`` or ``-fslmpt``.
+=20
+ For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
+ the ``p`` flag has meaning, other flags are ignored.
+@@ -409,6 +411,8 @@ For ``print_hex_dump_debug()``/``print_hex_dump_bytes()=
+``, format string is
+ its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+ in case ``prefix_str`` is built dynamically.
+=20
++.. _dyndbg-classmaps:
++
+ Dynamic Debug Classmaps
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+@@ -417,7 +421,7 @@ domain-oriented names.  This complements the nested-sco=
+pe keywords:
+ module, file, function, line.
+=20
+ The main difference from the others: classes must be named to be
+-changed.  This protects them from unintended overwrite:
++changed.  This protects them from unintended overwrite::
+=20
+   # IOW this cannot undo any drm.debug settings
+   :#> ddcmd -p
+@@ -427,7 +431,7 @@ drm.debug is authoritative when dyndbg is not used, dyn=
+dbg-under-DRM
+ is an implementation detail, and must not behave erratically, just
+ because another admin fed >control something unrelated.
+=20
+-So each class must be enabled individually (no wildcards):
++So each class must be enabled individually (no wildcards)::
+=20
+   :#> ddcmd class DRM_UT_CORE +p
+   :#> ddcmd class DRM_UT_KMS +p
+@@ -437,7 +441,7 @@ So each class must be enabled individually (no wildcard=
+s):
+ That makes direct >control wordy and annoying, but it is a secondary
+ interface; it is not intended to replace the ABI, just slide in
+ underneath and reimplement the guaranteed behavior.  So DRM would keep
+-using the convenient way, and be able to trust it.
++using the convenient way, and be able to trust it::
+=20
+   :#> echo 0x1ff > /sys/module/drm/parameters/debug
+=20
+@@ -464,7 +468,7 @@ against the classes, this finds the classid to alter; c=
+lasses are not
+ directly selectable by their classid.
+=20
+ NB: It is an inherent API limitation (due to int class_id defn) that
+-the following are possible:
++the following are possible::
+=20
+   // these errors should be caught in review
+   __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
+@@ -472,8 +476,8 @@ the following are possible:
+=20
+ There are 2 types of classmaps:
+=20
+- DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
+- DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
++* DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
++* DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
+=20
+ DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
+ refers to a DEFINEd classmap, and associates it to the param's
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--HVQbqimanuPfAVD/
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaR6GPAAKCRD2uYlJVVFO
+o82NAP9o9bKdHzQr2WUnsmQEo2y9z1jOdX8J+HgUei4iaKFGoAEA7aYmQOKNkEme
+AThPfWzYb2VtrLEG2zkxC0iPslgWTAg=
+=vmiO
+-----END PGP SIGNATURE-----
+
+--HVQbqimanuPfAVD/--
