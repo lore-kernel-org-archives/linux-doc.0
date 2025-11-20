@@ -1,122 +1,98 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E431C2E1EFD
-	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 15:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0442F690E
+	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 15:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763651000; cv=none; b=S7bjfsT8nuxCQ/cGrPiJ2FL8ugz04r2oDuE2zcrU7pGDmlj9yzY6rgGzpps+G+Jd9GcwdV+gTK9/PLQS8lAI0lDUN2bEK70lucOR6EjFk8b45jWYme8/WLEy1dNuVp78IgKg2HG+c70m0pNkO5LNzDJcsDl7acPki5GlXTIaC8M=
+	t=1763651052; cv=none; b=pq2nxBESsmW5z4GetZ4e96u31SxP9IB8IYcr8DrDq1JHxiTqaBqcGNIaLLX2MuyhGddJZGAoFK5vIi6n9qRGUxkpRoWKZ5gCGoOwKTmQLU4ZSjrulTIb4CeCJMrVr1wzEJxGVcBJlT+5Y6W//skdg/xkfUT2SnMor0MVyT5IjxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763651000; c=relaxed/simple;
-	bh=tTGjUHrfXR5isY+lSEFNNwASkyVwRARVzePML9vCCTo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=FGjOmUoyzYwwufkqCdnv6k+K8x5ZXadO8z5/ay3eGRPWjzo1GBTgCUtKpUkwfqz67Gh9A67GH57q7BI/utXHxk0LunL07gigL6k8Zfo1z5tNKjY5Oa5++HvxSsW7ecX4scUidlZ2bSGi+syvDlwPsRNQA1d7bxkNNavA3YU0SB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pRDQkdoJ; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
+	s=arc-20240116; t=1763651052; c=relaxed/simple;
+	bh=b6BI20BMK2IEOBYOvcYQ38lXIvPRhStadOPbX2TI+Pc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h/cLWrhsF5ZzYgFRyNA4ygB9oiviqqneId6uLcETkQX5eba3bm0wEt/3zBbwBWc05DSe1q2Md9GuTBBqKIIFX7hcuIWZc5k77z8UeM0vBrgnnqPYKdSvDtCxnkkU72RT7JcVNA4NNBc+uYefljeOuaCv/lSeLaUFfngI4ImxvbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f2pOu2Ag; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pRDQkdoJ"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-640bae7d83aso1130055a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 07:03:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f2pOu2Ag"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7b99c2a5208so47303b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 07:04:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763650979; x=1764255779; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QTNBohfvQLfYyJiWHtGyLx9FZqAAISthRH9eXaAWBIw=;
-        b=pRDQkdoJOB8BfljkDcQrj/uje2IXL2T/x5eZ/wk8Uc4x/XefY5p5EFYXDGT51MXa7A
-         I9l55vHaC9zE4/cxhD6UmVf6gV7TpKWoE8cGMDsCdDbQnDkewx6hrqthpt4o94TtQL/u
-         MjbcVlir4o3Ji4GPc4Epv0fpq/JlTGllQX22aOwxrTB0zUpmz3DAEXUZAceGwEEaBHb5
-         lvxujEoCa4QrSLs6V+CUcQRu2XDzktl3P9vyuulCEbS3jrwzJgkkFTVq1OoRAkt1J6aW
-         ekIDBh2nsF6UpK2cJB/ae6naY0w2EbbMIvM2xruXokam9a5643ErVpY8TmJS9Kj3i8CB
-         WEwQ==
+        d=gmail.com; s=20230601; t=1763651043; x=1764255843; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YkPK0VHC/yXCC9PuyhpwMb7qXelw5gbsqi7xSTGSMsc=;
+        b=f2pOu2Ag7UGBBK52Vt2bYjPt+DBUshmYZcAxQQBhRQdO/YKbMf00Ftad59sz0gDJsm
+         z+3lV21J3VpsSJoAnLVR+qJQcFk+4aYb54L5ivp26vYIPlCuEU6ZYcjnAmoI5hsXg2Cs
+         fjeZqKO7KBpKUZo1JC/+EQU3anC7Vxo4rvRa7vdsXFyB+APhJYeIDFVBJlKR7naAj/F5
+         wyLlAnyUxFEfYHkJ40Jx5y3J+5Z4qW9i6ldlvbEQLc3AFMdZimjPZj1aAs6HN8FoVWGG
+         ZHhNf2/lY8ncARMjVdNF6/1yTEQ0guQAM2IprWMUXXPw1e8vedKeF7ulW8eqVJrz1o3p
+         4cOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763650979; x=1764255779;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QTNBohfvQLfYyJiWHtGyLx9FZqAAISthRH9eXaAWBIw=;
-        b=GMMKXKUOE+zLIP7Wp2ZWE5MZBEf3frzpnL/lMefBAW5rc9vFX3NcRjFqWB0o0t3njQ
-         mp4HzvxwdA3n2sQYVB477dvsLHjuWGBQ2a0zGU6CCnAqJRl1MorIJsIsuofqfG134oLv
-         LpbwrBI/INAZl1GDqbe1PjJvqYDq6oZSD/aORCn7rZ6yrjkr/IReYiqpKO0diN2C1C0V
-         f4mPorqpWsWifRaYJhXLx0tnTA5L0qflWLQAATLB+h3o9TZevpipyaowAUCnnwDfF4XK
-         YBYxv8WJERFPt3+7OD15PVCpDhY/iWuRj7CdurDzZio0AhPbHdNCJDXT02Jn8EWC8CCj
-         P54w==
-X-Forwarded-Encrypted: i=1; AJvYcCUZGNdQwixHDYRLh52ureUYTsjpKoFXLZlDbptt7f2pdqfOWRHveLePqnF5eBESYZKGlIWx61RVehk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzE2BgzDpOo6Q16LOr1QjqVDpqFH6v3dBBKiPuaC/pIF+dVo4DS
-	uuNRSO+tCjTFrE7WG1ECsUQCr9csvChMVCg9VDKe8h6FLa9WJsCKXWDGTlA5jsKDi3TDC4sHQjR
-	CmQ==
-X-Google-Smtp-Source: AGHT+IF9OaX/QGeSo05eKeUEdCvjlZVpqfgwLf4/MHL/rv8J5uT/4osVo9PFxwafA3Q6L9NfftMIvUQ5OA==
-X-Received: from edb10.prod.google.com ([2002:a05:6402:238a:b0:643:5f58:caa7])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:268d:b0:640:b1cf:f800
- with SMTP id 4fb4d7f45d1cf-6453d084770mr1885049a12.4.1763650978915; Thu, 20
- Nov 2025 07:02:58 -0800 (PST)
-Date: Thu, 20 Nov 2025 15:49:07 +0100
-In-Reply-To: <20251120145835.3833031-2-elver@google.com>
+        d=1e100.net; s=20230601; t=1763651043; x=1764255843;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YkPK0VHC/yXCC9PuyhpwMb7qXelw5gbsqi7xSTGSMsc=;
+        b=UndUc978cIfpanXsV/C3Ahs1PFdcRd3Spui/jPmeKQddUIVkdVHbtd33iKZNay6obr
+         +X6wUT9lkEnT+gayTNpvvoLHal9vQl/qQMffspNzy6/2xcDxJ9Gx5IxtPHHFgSHbblre
+         SWKy/RSxe/t+CBs8qCFK/Ynudtg04dqySY/smjC+GjjHBy5B09OxzgPS9KY7fhzIKQYC
+         4ZiRbg5Zc/A6jKj/L4P/iKjD6Eg2ZXaf0CRt+mFgS30WjYk1CeZCwdbEZkQIqlw2HwpH
+         Sm9WDpFLJG0wbJTjjWgB/TXJdDzq+HkO98XCUYeR0sgIsToC4RJKiId9JwT7VoBmmXzn
+         WENA==
+X-Gm-Message-State: AOJu0YyUbQr/yMzNE13UCm/ADeYkmlwCbGKyk8f5ijRIXdEcU+0VNRXZ
+	aX4TqNAq8rUzI5p7Kcqks5NftHLK39ZqzNe1bD2PJLyLpQCh9VL8/k5XlnfhbyiXzsw=
+X-Gm-Gg: ASbGncvG6wVCprp7Rs42TQ9LoP58tMvs0PB1Kk44O14Aaz2AdBFZk9enQ57PSemWfKH
+	2zIpc/a8iZib5pNiJSroZdf5RQz4z+8SkVYlnZd9n/zcjLYlVsRdsGY38ttuED4uFU5+WjOYwkD
+	6A8fGwUroOifScYs4bCq1dZLfozld3/bf4ylp7/WRkjcTwGut8JVLtzlXHxWdN9WNpWze5fsZ2Z
+	HJoqQmgWt1hZcMEYgpBbbzV86S3Y+mcw9/tUJozEonmjXaUakqXmam3VRIQX/JRcgd2SzGw/HSx
+	NjFinf5TPgTfI1SPvxT/JHi4CAvv4QW1T7hnEqOwK6e8utI06xOMSNFDSn19LukWKEGQTIemNTK
+	T+oj6cEH2SY3bKrO0/4yF/DF35USScSlHkBqN5FGSYTvqxIRnTM4uHNyCMU0HlA5R+oNnzFNKaS
+	S/yWhLkW9Ot1xiz1l/pJbHd8VuhZWZPbbrlJbrw2zB5NWwRHLLkvbgY8eY
+X-Google-Smtp-Source: AGHT+IHtGWy1UHSsSAeGIGqMEXLtnkw9aP3io3ks6Of0nJVkQmTZZKgcpRxnebBqgo5n06Dlf/qygg==
+X-Received: by 2002:a17:90b:4c42:b0:341:88c1:6a89 with SMTP id 98e67ed59e1d1-34727bced78mr2325590a91.2.1763651043007;
+        Thu, 20 Nov 2025 07:04:03 -0800 (PST)
+Received: from duke.home (111-242-117-115.dynamic-ip.hinet.net. [111.242.117.115])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3472694f137sm2819259a91.17.2025.11.20.07.04.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Nov 2025 07:04:02 -0800 (PST)
+From: Chu Wei Chang <chuweichang0319@gmail.com>
+To: akpm@linux-foundation.org
+Cc: linux-doc@vger.kernel.org,
+	Chu Wei Chang <chuweichang0319@gmail.com>
+Subject: [PATCH] lib/rbtree: add missing space after 'if'
+Date: Thu, 20 Nov 2025 23:03:20 +0800
+Message-ID: <20251120150320.16712-1-chuweichang0319@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251120145835.3833031-2-elver@google.com>
-X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
-Message-ID: <20251120145835.3833031-7-elver@google.com>
-Subject: [PATCH v4 05/35] checkpatch: Warn about context_unsafe() without comment
-From: Marco Elver <elver@google.com>
-To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
-	Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>, 
-	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
-	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
-	Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Triplett <josh@joshtriplett.org>, Justin Stitt <justinstitt@google.com>, 
-	Kees Cook <kees@kernel.org>, Kentaro Takeda <takedakn@nttdata.co.jp>, 
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
-	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
-	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Warn about applications of context_unsafe() without a comment, to
-encourage documenting the reasoning behind why it was deemed safe.
+Fix a minor coding style issue by adding a space after the
+'if'.
 
-Signed-off-by: Marco Elver <elver@google.com>
+Signed-off-by: Chu Wei Chang <chuweichang0319@gmail.com>
 ---
-v4:
-* Rename capability -> context analysis.
-* Avoid nested if.
----
- scripts/checkpatch.pl | 7 +++++++
- 1 file changed, 7 insertions(+)
+ lib/rbtree.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 92669904eecc..a5db6b583b88 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6722,6 +6722,13 @@ sub process {
- 			}
- 		}
+diff --git a/lib/rbtree.c b/lib/rbtree.c
+index 5114eda63..ee06cc09a 100644
+--- a/lib/rbtree.c
++++ b/lib/rbtree.c
+@@ -107,7 +107,7 @@ __rb_insert(struct rb_node *node, struct rb_root *root,
+ 		 * per 4), we don't want a red root or two
+ 		 * consecutive red nodes.
+ 		 */
+-		if(rb_is_black(parent))
++		if (rb_is_black(parent))
+ 			break;
  
-+# check for context_unsafe without a comment.
-+		if ($line =~ /\bcontext_unsafe\b/ &&
-+		    !ctx_has_comment($first_line, $linenr)) {
-+			WARN("CONTEXT_UNSAFE",
-+			     "context_unsafe without comment\n" . $herecurr);
-+		}
-+
- # check of hardware specific defines
- 		if ($line =~ m@^.\s*\#\s*if.*\b(__i386__|__powerpc64__|__sun__|__s390x__)\b@ && $realfile !~ m@include/asm-@) {
- 			CHK("ARCH_DEFINES",
+ 		gparent = rb_red_parent(parent);
 -- 
-2.52.0.rc1.455.g30608eb744-goog
+2.43.0
 
