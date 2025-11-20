@@ -1,356 +1,188 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1771369983;
-	Thu, 20 Nov 2025 17:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763658282; cv=none; b=WMPE7p31+/ouDZLHdi7vcz+UCTzx1cg2VACKiNhsX8CuUg6ciVdtu3B2Wg1KstVvDkGanZQsowY8MH1cCcB6ScckXyNXQWnc5VyULyYu5ZC4TKgrGhdQONpo2PXL9qLonO+JJRn+0H4ZlvNvXpgWFpWNX3jTh+rIpi4xcwkLr3U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763658282; c=relaxed/simple;
-	bh=+LGqzApB0GKl2SUNDu44TvAonaKxdw+2pE/+9E9tsTI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NtxxtsMJEX88R7pBQMpPKk8SU+9MQsD2r4Q+5DlrPdNxTVE4iH/Gkg6aM8LtxOCx9CwyiplWOXSfh99ZAyBms8iy2RVVNErmgY3+dYRvfF/7tyv39aOmKC6d8KDF7vjNLO49vL/GrdJHUQsDzcFuh5CQKfy2YqBhKmPJBdqrNH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70899339;
-	Thu, 20 Nov 2025 09:04:31 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.66])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6737B3F66E;
-	Thu, 20 Nov 2025 09:04:37 -0800 (PST)
-Date: Thu, 20 Nov 2025 17:04:35 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: linux-kernel@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
-	James Morse <james.morse@arm.com>, Ben Horgan <ben.horgan@arm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	x86@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] x86,fs/resctrl: Factor MBA parse-time conversion to
- be per-arch
-Message-ID: <aR9KIxMIDrf0V95D@e133380.arm.com>
-References: <20251031154225.14799-1-Dave.Martin@arm.com>
- <136d9c83-e816-4188-ae0d-322478a57a68@intel.com>
- <aRyVHqeHaRtrKqvG@e133380.arm.com>
- <caa771e1-e86b-43b0-bc4e-09057f598fab@intel.com>
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011001.outbound.protection.outlook.com [40.107.208.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBFF18DF80;
+	Thu, 20 Nov 2025 17:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763658803; cv=fail; b=cZMtZ/WcRndLy352712NiHmuZ1AOIHgN4Zk6dT5U8ap68vNKVSMzFxFl84RM2myRevnM7eq2dzVasOyZfmuVGFTNhwQ1t7lYfwT5TXdmbbKXrNRFxmDIzUHNie5HcAuB9WATSwTP6i8MSw4Ja0wn/v9haYvTlJaDnwvUKQQ264E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763658803; c=relaxed/simple;
+	bh=ueReyUd/clxUCPeYxsUeGzslCCZDKn3U4DhzTjw3Bhg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=n6gJqErEVwwj+IGO6TydnN8Mzt/m0aU5JDU/S68lT1mnr8FY61C1bEQNMbWf6V5+Ot/sLPxTO/kXeX6PLRjgzAw7eHdZKYTXC8IxiQFPB/PZbDSZvFiUy+x5y2wmL6nGNpYNCBoLWipvUdYw1pirczJexCcru5KDUXNiFUqAhr4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WhWJewt9; arc=fail smtp.client-ip=40.107.208.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WhWJewt9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qwlguWTWs4dEHYvVYsWQKogU3JCr5usPFPPpuryhTSEDQ0Pw7KtHEDw5B+YnoG/OC6nDsMSQQ1lN/uheFLWFVkLPpeEuafTc/U3iEDiotQhHytlYWu+Xh3MtVdkkO5J/PdTCIqwIdd8gGnqtvD3H58ZPsy+ai11hbmoHIidZg8kIOWshP2Lh8ldfO6LtToGfqm3MqM7UTlpF7Hp0/r2eVkPGjlsbrJDnXN5RmbPUoxzONT/ufb3kdihzU8EP7jmQ2jTZTiNDdBFOr/rF5K+g7Tbd4nZrtRS1egSJDCG2RUBFrYnB/xYJuwH+KbE8eUbsXtuPDoACaopJ73MUUMB7Uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ueReyUd/clxUCPeYxsUeGzslCCZDKn3U4DhzTjw3Bhg=;
+ b=V1u1ilDcDnXkLTkgm4JAKscpE3bqk4co9r+RfRpNGuibk2Nx4mNgF0oqSr9D2UeOKcnPVCWaIVDRL0wOeQMzY3Ka5yf1FwYHl276H96E9sxMnOE7wySiciUdj6MDzyHrV0mm71AsWhtpLbMMQAkntliC9ITMC2Fbr2+XN16gmlV9hTbCIIVuNJGTWhVi7+3K9lgvpBCcO1+F9fjyzKIcfW2l/q6hFudAgdu9NbEiKLi3rejoQZ2ijfvI8Uu9M1jxdnCENa7hixJmQbA0lBHb/ldhaPDtido2Gi1RrdLE//3IZBMug3M7ZR/EBT3unNiqqq3/9O0GTJQLAxkbd+zgZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ueReyUd/clxUCPeYxsUeGzslCCZDKn3U4DhzTjw3Bhg=;
+ b=WhWJewt9cWxCfLOafluiv3qZUVgaWFyqM7PtNGk/8if9DYzvXHrTF7J0pFvtWoIvvhtsaS/DfH7A2sCJh2L/wcSfz/WElMSo8C6xiUxcMH34l+Sdi6Yitc3ECfPsiFKkfkb9ZdGFvGkqcuRL9HqRv+BIXlUpCmCG571hxdTy5kiZH83fGfGZPU7rAYYiTEq1FpJnUEL7S7dEkE7KsZm204Qge9zU9fOQMGQR3/5YikwDqOqRUlfp5JetEMXqYIwaJfRrlJhRK3Luy96cPAMgFJbLHTPXptOhBY0paKPoekqzz8q+V9JLWoVOyRyMkfsOCJY8UDojonnXWgm1bwmLyA==
+Received: from SA1PR12MB7199.namprd12.prod.outlook.com (2603:10b6:806:2bc::21)
+ by DS5PPFBABE93B01.namprd12.prod.outlook.com (2603:10b6:f:fc00::65f) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
+ 2025 17:13:05 +0000
+Received: from SA1PR12MB7199.namprd12.prod.outlook.com
+ ([fe80::928c:89d8:e8d6:72dd]) by SA1PR12MB7199.namprd12.prod.outlook.com
+ ([fe80::928c:89d8:e8d6:72dd%6]) with mapi id 15.20.9343.009; Thu, 20 Nov 2025
+ 17:13:05 +0000
+From: Ankit Agrawal <ankita@nvidia.com>
+To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>, Robin
+ Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
+	<will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>, Jonathan
+ Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+	=?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, Kees Cook
+	<kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Yishai
+ Hadas <yishaih@nvidia.com>, Shameer Kolothum <skolothumtho@nvidia.com>, Kevin
+ Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>
+CC: Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-mm@kvack.org"
+	<linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "kvm@vger.kernel.org"
+	<kvm@vger.kernel.org>, "linux-hardening@vger.kernel.org"
+	<linux-hardening@vger.kernel.org>, Alex Mastro <amastro@fb.com>, Nicolin Chen
+	<nicolinc@nvidia.com>
+Subject: Re: [PATCH v9 11/11] vfio/nvgrace: Support get_dmabuf_phys
+Thread-Topic: [PATCH v9 11/11] vfio/nvgrace: Support get_dmabuf_phys
+Thread-Index: AQHcWgAs+ixHoXcoSUC3aT08aR+6zbT7uJlO
+Date: Thu, 20 Nov 2025 17:13:05 +0000
+Message-ID:
+ <SA1PR12MB719993F747B09154A3DDA788B0D4A@SA1PR12MB7199.namprd12.prod.outlook.com>
+References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+ <20251120-dmabuf-vfio-v9-11-d7f71607f371@nvidia.com>
+In-Reply-To: <20251120-dmabuf-vfio-v9-11-d7f71607f371@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR12MB7199:EE_|DS5PPFBABE93B01:EE_
+x-ms-office365-filtering-correlation-id: f48bc750-6a3a-4945-18f5-08de285811b4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|7416014|366016|376014|38070700021|921020;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?cjIaEK/tVvTVZXpwpovCni3KHELH8hQF3811i+HBgT7osmi1W5M7lYrRym?=
+ =?iso-8859-1?Q?m7kklAcGtKJlS/XSRYwQnfWUdg8IROUd2fsS7DyscezZKa1dlQ+GggrLGo?=
+ =?iso-8859-1?Q?knTmzwY9VuDNB6pXzcqcof1IQ4Ic/OajQSk8EShMConIUjyESs01do6+Zq?=
+ =?iso-8859-1?Q?OBqw3TIqS1hacvYIq1c4RueuRDj+aeD21L5AzMmgYlYHsJidlRnhim4U+Q?=
+ =?iso-8859-1?Q?dtluwfg0sMsh4Lu5h4J/OIZcklrhB6Ht8Zv2R69H/2m92qVdWCVUpr32Es?=
+ =?iso-8859-1?Q?j8kjZR5/HuIFsYnPqiFj8UlHAGBOXWwIZJ+iU1bpWcyA+C8NE09fLs5GZP?=
+ =?iso-8859-1?Q?IhsF67h5KvUqUsV22+uE+NHPyi/AtVvhYLd5mLv849Y5b1r4XTuQ17dHDj?=
+ =?iso-8859-1?Q?VQ4oRTJeASJE8439WE369lXBUpGozemRcKMiAnADtjm4IAmXXhrRUHUbcg?=
+ =?iso-8859-1?Q?vxiaXCpptaVEAn0RTWsJc/vhJ4/aX9Fmx7ex8ER0Vp3+eVTYSBKG+OqCY3?=
+ =?iso-8859-1?Q?aLsC5ia9uM9uM0OyTHBsTcSWoDrCpAYzJr90Vd1wMfcrj4e+ntFOAYlEhS?=
+ =?iso-8859-1?Q?C1HIsOJTpaMJGhOWzAs9F5Q14eAYkeXZYXLelmoLAGYKHISf4asxAkEOqI?=
+ =?iso-8859-1?Q?InGF6m5DJSR2KxVW0TTtHnZgJNyVFI/GJyWH0RPiF0LF5087rltlFGLbXv?=
+ =?iso-8859-1?Q?TH0mN+bGJG62S0zgnK6b5KP5wqz7gOtFUK81pcpwyGSALWCjLFYcUYix3l?=
+ =?iso-8859-1?Q?MTusY8VTfYHwDUJGUq25dvrBpNIrHHIoUMGB9ouW/ab3+wbq2yu0j2aGlB?=
+ =?iso-8859-1?Q?Oa1iE4I18PwROF2P332rknUaGRkcs6QTMV5wJZFEv/3mLj6N+PhI/E9ZbZ?=
+ =?iso-8859-1?Q?WCTtu5KCdAr1jQ1HOmvjAMolcX5Cl/6dIMsy8iVVd+VXR5oAM6MFhcP837?=
+ =?iso-8859-1?Q?Y/kUN11ncVWlejYV5T4DuV2HO1ggh02fG/djCa/NP6ok6rJBshD2EbUrom?=
+ =?iso-8859-1?Q?vgP/HcjyZ0vjxUURINun/gBfIw3IBHl/JXzTU6XrJMIYJGFwU2Vl38xTC5?=
+ =?iso-8859-1?Q?dRPzzc8SX47p/9Gzzw6q+j+n/x4ofqFZpD0W2vwd6o9GX2YTWl6h4Kbr7b?=
+ =?iso-8859-1?Q?hH6WGHVFaqAjWGORYBrZOyWE64UdYsay6obB+j899aR4+vGhPYjhVmYTVY?=
+ =?iso-8859-1?Q?EI2YDVMIs/FB26As2Bfi37vGX2G519OzoxVkXy13J0E7mJI/6iawxOcpRp?=
+ =?iso-8859-1?Q?WCZPRA86N0RG2PnLDkb5uRsmULCUbmVny/vcPNwgRblBvnD5JrVxYeEBi1?=
+ =?iso-8859-1?Q?6ayPCJBB9V+2FGamG7/2VY7qpwE7T3OrUfdiNXbJnYSdImXojdVfKABqn8?=
+ =?iso-8859-1?Q?tzIBLEIytFkjhwp67CqoUukqGX9FezOMJvWyGu4xRbnYKGDfprYeJRKhHu?=
+ =?iso-8859-1?Q?LtDHDJdiGcNFlTWbxmTG/aPugQr2zfF5tPJqD3CaY2PXVMYABOvouLqTde?=
+ =?iso-8859-1?Q?b9691L6jsriPcben23rJRs327Kn1c71O9RqlAKLNAjqfRSzMusVJwS5gpr?=
+ =?iso-8859-1?Q?72UZ9TMPTWkbOkVNyBZ/TeCuAn82a43OvEKWbKiaSdKBYVpC4g=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR12MB7199.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(38070700021)(921020);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?bM3zs/GB5WQ5w6MS44YWuO1rWrybf4KPCnHuPwF93xwb2YCUtZQQFW/+ey?=
+ =?iso-8859-1?Q?BPM13CQ+CiG018QzMGnt7PGhhOa7vclGHI5tWP26ePUCUXTKLEoaENjrVw?=
+ =?iso-8859-1?Q?/MbH2UqKO3i1Hvw9Apwfx271cn1DaVa/PzmblfmB5CxqkzE3uw8B8PJJZs?=
+ =?iso-8859-1?Q?p+uDSmsT07Y9kiARfPqiqSmFhtGQlpaojdY4QWhswt+JALrf3txGRAcWJq?=
+ =?iso-8859-1?Q?MGFqLSzoqOHFXJ3rYIoCVh5fpJIIVWf6DuA0sP34KheZUmk7NrUYCBwqR/?=
+ =?iso-8859-1?Q?AWlXmqyi6YOeQ4ruHnmhQkm3vsIlk2s2QsJDhpnWHharQHCtEi/frrgTMH?=
+ =?iso-8859-1?Q?nUP+aiFDQ0Sf01IYl9W+KT8KEjNyI5P+aJytDHEQZYRAWtJWlyTCjEPD3v?=
+ =?iso-8859-1?Q?aNSI7CopcUSo7XpRSx0504UrhK+qida9tl+k7DlDiTkfIzbr36sefSg5el?=
+ =?iso-8859-1?Q?m8YBUJ/u9dazsnEIsa5z8A+Qh/3aAhsehxQSDUt2TTr14MqNaw2mW9AnCR?=
+ =?iso-8859-1?Q?O2ejTEBn9yeg8P+nYc8Oo07hRjHloI9jrT1hhY7QbblHx1iczmgOEAAXpm?=
+ =?iso-8859-1?Q?UOYFv3oBE3uozP6JW09P+hTWOICr+VrAbIHtOYsMundVMR83jWR1KsM9YK?=
+ =?iso-8859-1?Q?JLogRaekCJil6c5kcwrrINr3cxBocM/O879aHc6Jf+kDzdB+sQKhDzPcVs?=
+ =?iso-8859-1?Q?D9pPZTsPAwatUFQelJXyK9w+mLeRA9mX1UqxBQUYukXeD43FcxMEbJykMT?=
+ =?iso-8859-1?Q?THRAxveYQfp+tQGgFZqNZHIkQpE2N/+MVWrWqTS24P4Y2AfElTiFO8+S6s?=
+ =?iso-8859-1?Q?0UfAnFIBgUgp1sDSlOSw8E/GXz0IIJPCzCKogpMFDdnWBZ1P8g6DpVU0ni?=
+ =?iso-8859-1?Q?UOFC1Glv1zv+7ikaaafioQ4NvGR1bxy19nQ8Oh8MbPtVijOLRcXiT+IB6w?=
+ =?iso-8859-1?Q?Jy5x2scVvEGBKBLYSsty4nfsNVJoCuxMkHrWG2biWDlbJaAPtnNUn/n7Lh?=
+ =?iso-8859-1?Q?tY/suT7DvXsOmjOXURW2aCFeYmpZIqOSsKJkX0ttPW9/t3HrUNDrtACo2u?=
+ =?iso-8859-1?Q?UaRQn/43/5DX0xJFViZOp4nTluyOHYy2Voi2pjnWpTTIaUMw6yyRh/Uh3X?=
+ =?iso-8859-1?Q?bfkfVrrvBYZ3tVdNsSMVOQBj53Q8/68gr3DbKH1ZsTUO20pEY76MnNcWhS?=
+ =?iso-8859-1?Q?h19wh0VesbYFy124LFo07jpyAJHQfEp0ORPmM+nYxHvYtg9j2fvPPatTY2?=
+ =?iso-8859-1?Q?NgrKgf5e+8kh1Hns/oD/imXX24wNhkn4WpEHJKXkKsr+xg7MEBqtX7q1sU?=
+ =?iso-8859-1?Q?+JwskaiS8Uow0gUKzdT20FvRfqgI0cpWdNA2Yz4iJDtRy64McqNKBcq++I?=
+ =?iso-8859-1?Q?23U9hDSJIGE9cNYLIJ+Vt+eEXqud4AUdX6hAjaJjWixjQ2m0mHWHfpBxeP?=
+ =?iso-8859-1?Q?smAAHcKYosb9QFTsyDSFmqmowjG5eC29ZQxgHA9B9n4h64bL8RSJKVvJhU?=
+ =?iso-8859-1?Q?1Xdk/Q0xx9yYacdet7578SmBNT6iIcR6mKp4swzZXR2IJhgCnlh6F7IK+K?=
+ =?iso-8859-1?Q?8Uuc5TB9FjdZSdGM6Npw7IDfzqjfm/Mok39u9G2f6krWbWjyGuR5PGqqPC?=
+ =?iso-8859-1?Q?edu99kGoC9Cag=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <caa771e1-e86b-43b0-bc4e-09057f598fab@intel.com>
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB7199.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f48bc750-6a3a-4945-18f5-08de285811b4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2025 17:13:05.2368
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g21sYZC9KoTgR7vpp+ZqzPYvTNoKNmeZbGKHTWNmdiPEYzcsidZk1+O10LVnwkfN0dTZr4V46jQKjj5xIEES6A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPFBABE93B01
 
-Hi Reinette,
-
-On Wed, Nov 19, 2025 at 07:05:10PM -0800, Reinette Chatre wrote:
-> Hi Dave,
-> 
-> On 11/18/25 7:47 AM, Dave Martin wrote:
-> > Hi Reinette,
-> > 
-> > On Fri, Nov 14, 2025 at 02:17:53PM -0800, Reinette Chatre wrote:
-> >> Hi Dave,
-> >>
-> >> On 10/31/25 8:41 AM, Dave Martin wrote:
-> >>> The control value parser for the MB resource currently coerces the
-> >>> memory bandwidth percentage value from userspace to be an exact
-> >>> multiple of the rdt_resource::resctrl_membw::bw_gran parameter.
-> >>>
-> >>> On MPAM systems, this results in somewhat worse-than-worst-case
-> >>> rounding, since the bandwidth granularity advertised to resctrl by the
-> >>> MPAM driver is in general only an approximation to the actual hardware
-> >>> granularity on these systems, and the hardware bandwidth allocation
-> >>> control value is not natively a percentage -- necessitating a further
-> >>> conversion in the resctrl_arch_update_domains() path, regardless of the
-> >>> conversion done at parse time.
-> >>>
-> >>> Allow the arch to provide its own parse-time conversion that is
-> >>> appropriate for the hardware, and move the existing conversion to x86.
-> >>> This will avoid accumulated error from rounding the value twice on MPAM
-> >>> systems.
-> >>>
-> >>> Clarify the documentation, but avoid overly exact promises.
-> >>>
-> >>> Clamping to bw_min and bw_max still feels generic: leave it in the core
-> >>> code, for now.
-> >>
-> >> I think they are only theoretically generic since arch sets them and resctrl
-> >> uses to enforce user input. Arch can thus theoretically set them to whatever
-> >> the u32 used to represent it allows. Of course, doing something like this makes
-> >> the interface even harder for users to use.
-> > 
-> > Hence, "feels".
-> > 
-> > This could perhaps be refined, but I didn't see an obvious reason to
-> > change the way this works, right now.
-> > 
-> > Or, is there a problem here that I'm missing?
-> 
-> No. We are in agreement.
-
-OK, thanks for clarifying.
-
-[...]
-
-> >>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-> >>> index b7f35b07876a..fbbcf5421346 100644
-> >>> --- a/Documentation/filesystems/resctrl.rst
-> >>> +++ b/Documentation/filesystems/resctrl.rst
-> >>> @@ -144,12 +144,11 @@ with respect to allocation:
-> >>>  		user can request.
-> >>>  
-> >>>  "bandwidth_gran":
-> >>> -		The granularity in which the memory bandwidth
-> >>> -		percentage is allocated. The allocated
-> >>> -		b/w percentage is rounded off to the next
-> >>> -		control step available on the hardware. The
-> >>> -		available bandwidth control steps are:
-> >>> -		min_bandwidth + N * bandwidth_gran.
-> >>> +		The approximate granularity in which the memory bandwidth
-> >>> +		percentage is allocated. The allocated bandwidth percentage
-> >>> +		is rounded up to the next control step available on the
-> >>> +		hardware. The available hardware steps are no larger than
-> >>> +		this value.
-> >>>  
-> >>>  "delay_linear":
-> >>>  		Indicates if the delay scale is linear or
-> >>> @@ -737,8 +736,10 @@ The minimum bandwidth percentage value for each cpu model is predefined
-> >>>  and can be looked up through "info/MB/min_bandwidth". The bandwidth
-> >>>  granularity that is allocated is also dependent on the cpu model and can
-> >>>  be looked up at "info/MB/bandwidth_gran". The available bandwidth
-> >>> -control steps are: min_bw + N * bw_gran. Intermediate values are rounded
-> >>> -to the next control step available on the hardware.
-> >>> +control steps are, approximately, min_bw + N * bw_gran.  The steps may
-> >>> +appear irregular due to rounding to an exact percentage: bw_gran is the
-> >>> +maximum interval between the percentage values corresponding to any two
-> >>> +adjacent steps in the hardware.
-> >>
-> >> What can bw_gran be expected to be on Arm systems? Could existing usage be supported with
-> >> MPAM setting bw_gran to 1?
-> > 
-> > Architecturally, ceil(100.0 / (1 << b)), where 1 <= b <= 16.
-> > 
-> > So, the possible values are
-> > 
-> > 	1, 2, 4, 7, 13, 25, 50
-> > 
-> > (with 25 and 50 being the only ones that are exact).
-> > 
-> > In practice, something like 6 <= b <= 8 is probably more typical; this
-> > would give advertised bandwidth_gran values of 2 or 1.
-> > 
-> > 
-> > Re your question about existing usage, were you suggesting
-> > unconditionally setting bw_gran to 1?
-> 
-> Yes, I *was* suggesting that. I considered bw_gran of 1 to be a "safe" value that
-> provides architecture with most flexibility. Now that you have provided more
-> insight on how MPAM uses this value I agree that bw_gran of 1 is not appropriate
-> for MPAM.
-
-Right.
-
-> > Since the values are converted to/from hardware representation in
-> > resctrl_arch_update_domains() / resctrl_arch_get_config(), we
-> > don't have a problem, provided that the value doesn't get rounded in
-> > advance by bw_validate().
-> > 
-> > But if bw_gran is always 1, it will mislead userspace about the
-> > precision.  This feels stranger for userspace than fine differences in
-> > precisely which percentage values get read out of schemata.
-> > 
-> >> What will these control steps actually look like when the user views the schemata file
-> >> on an Arm system?
-> > 
-> > It depends on the number of bits in the hardware value (the parameter b
-> > above).  Picking the smallest, non-trivial value 3:
-> > 
-> > 	schemata	hardware (MBW_MAX)
-> > 
-> > 	 13		0
-> > 	 25		1
-> > 	 38		2
-> > 	 50		3
-> > 	 63		4
-> > 	 75		5
-> > 	 88		6
-> > 	100		7
-> > 
-> > As currently implemented, I believe that writing the values from the
-> > "schemata" column above will result in the corresponding values from
-> > the "hardware" column being written to the hardware.  Achitecturally,
-> > there is no guaranteed representation for 0%; we would advertise min=13,
-> > max=100 in info/.)
-> > 
-> > A round-to-nearest policy is followed for intermediate values on write.
-> > 
-> > 	(hardware value = round(schemata value * 8.0 / 100.0) - 1).)
-> > 
-> > Reading the value back translates the value from the "hardware" column
-> > back to the unique value in the "schemata" column.
-> > 
-> > 	(schemata value = round((hardware value + 1) * 100.0 / (1 << b)).)
-> > 
-> > 
-> > In this case, bandwidth_gran would be advertised as 13, which is the
-> > largest step that can be seen in the read-back values.
-> 
-> Thank you very much for these details. I appreciate having a better understanding
-> on how the hardware enforces these control steps instead of some software emulation.
-> With these steps enforced in this way on the architecture side it creates 
-> confidence that the user space expectations from interface can be met directly
-> by architecture.
-> 
-> > I would rather avoid promising precisely which values can be read out;
-> > merely that they are consistent with the approximate precision defined
-> > by the bandwidth_gran parameter.
-> 
-> ack. I believe the accompanied changes to resctrl.rst supports this.
-
-OK, good.  Getting the rounding behaviour right so that the MPAM
-conversion is stable turned out to be a subtle business, so it's
-reassuring that if we find it isn't implemented quite right and need to
-fine-tune it later, we don't consider that an interface break (within
-reason).
-
-> >> With resctrl "coercing" the user provided value before providing it to the architecture
-> >> it controls these control steps to match what the documentation states above. If resctrl
-> >> instead provides the value directly to the architecture I see nothing preventing the
-> >> architecture from ignoring resctrl's "contract" with user space documented above and
-> >> using arbitrary control steps since it also controls resctrl_arch_get_config() that is
-> >> displayed directly to user space. What guarantee is there that resctrl_arch_get_config()
-> >> will display a value that is "approximately" min_bw + N * bw_gran? This seems like opening
-> > 
-> > No guarantee, but there will only be one resctrl_arch_preconvert_bw()
-> > per arch.  We'd expect the functions to be simple, so this doesn't feel
-> > like an excessive maintenance burden?
-> 
-> Agree.
-> 
-> > 
-> > (All the resctrl_arch_foo() hooks have to do the right thing after all,
-> > otherwise nothing will work.)
-> > 
-> > 
-> > With this patch, resctrl_arch_preconvert_bw() and
-> > resctrl_arch_{update_domains,get_config}() between them must provide
-> > the correct behaviour.
-> 
-> Right. This blurs the lines of responsibility. I interpret this as:
-> "resctrl fs makes promises to user space that resctrl fs *and* the architecture are
->  responsible to keep"
-
-Ack.  It's a joint responsbility.
-
-Thinking about it, I don't think that the value returned by
-resctrl_arch_preconvert_bw() is used in any way except for storing it
-into rdt_ctrl_domain::staged_configs[] for later consumption by
-resctrl_arch_update_domains().
-
-If so, the meaning of this value is really arch-determined.
-
-It is convenient for the x86 implementation to convert this to hardware
-form at parse time, whereas, because of the way the MPAM code is
-structured, it suits the MPAM driver better to convert it later on.
-
-In the x86 case, it means that the arch code doesn't have to
-distinguish much between input values for different kinds of control:
-it's just a matter of writing precomputed values to MSRs.  This keeps
-parts of the backend simple.
-
-In the MPAM case, it's more about encapsulating grungy arch-specific
-details in the driver.  The common resctrl structures don't contain all
-the information needed.  We might have to pull a lot of junk out of the
-private headers in order to the conversion in the context of an inline
-function called by the schemata parser.
-
-I think that it's likely that either all the conversion work is done in
-resctrl_arch_preconvert_bw() (e.g., x86), or all the work is done in
-the resctrl_arch_update_domains() backend (e.g., MPAM).  There's
-probably no good reason ever to split the work into two parts.
-
-Does that make sense?
-
-> > 
-> > But even today, resctrl_arch_update_domains() and
-> > resctrl_arch_get_config() have to do the right thing in order for
-> > bandwidth control values to be handled correctly, as seen through the
-> > schemata interface.
-> 
-> ack.
-> 
-> > 
-> > (x86's job is easy, because the generic interface between the resctrl
-> > core and the arch interface happens to be expressed in terms of raw x86
-> > MSR values due to the history.  But other arches don't get the benefit
-> > of that.)
-> 
-> That is just the benefit of being the first architecture to be supported.
-> If determined to cause headaches elsewhere it can surely change.
-> > The reason for this patch is the generic code can't do the right thing
-> > for MPAM, unless there is a hook into the arch code, arch-/hardware-
-> > specific knowledge is added in the core code, or unless a misleading
-> > bw_gran value is advertised.
-> Understood.
-> 
-> > 
-> > I tried to take the pragmatic approach, but I'm open to suggestions if
-> > you'd prefer this to be factored in another way.
-> 
-> I am ok with this approach and will respond to the patch details separately.
-
-OK, thanks -- I see you already replied, so I'll respond there.
-
-> > 
-> >> the door even wider for resctrl to become architecture specific ... with this change the
-> >> schemata file becomes a direct channel between user space and the arch that risks users
-> >> needing to tread carefully when switching between different architectures.
-> > 
-> > There doesn't feel like a magic solution here.
-> > 
-> > Exact bandwidth and flow control behaviour is extremely dependent on
-> > hardware topology and the design of interconnects and on dynamic system
-> > load.  An interface that is generic and rigorously defined, yet also
-> > simple enough to be reasonably usable by portable software would
-> > probably not be implementable on any real hardware platform.
-> > 
-> > So, if it's useful to have a generic interface at all, hardware and
-> > software are going to have to meet in the middle somewhere...
-> 
-> I believe that we could also use above as a quote in support of the schema
-> description work.
-> 
-> > 
-> > (The historical behaviour -- and even the interface -- of MB is not
-> > generic either, right?)
-> 
-> Right. Even so, I prefer to use MB as motivation to do things better rather
-> than an excuse to make things worse.
-> 
-> Reinette
-
-Cheap shot, I know.
-
-I guess that more is known now about what kinds of control behaviour
-are likely to exist than was known about when resctrl was first
-developed... though we still don't have a crystal ball.
-
-My aim is generalise enough to cover most of what we know about today,
-while not inventing pie-in-the-sky abstractions that may never be
-fully used...  It's a balancing act, though.
-
-There's a fine like between a "random nonportable junk" schema and
-reasonable exposure of an architecture-specific control that makes
-sense within resctrl but is unlikely to map onto other architectures.
-
-We should certainly push back on the latter, but could it be appropriate
-to expose arch-specific control types in some situations?  I don't like
-to rule it out absolutely.
-
-Cheers
----Dave
+> =0A=
+> The "CXL" ranges that are remapped into BAR 2 and BAR 4 areas are not PCI=
+=0A=
+> MMIO, they actually run over the CXL-like coherent interconnect and for=
+=0A=
+> the purposes of DMA behave identically to DRAM. We don't try to model thi=
+s=0A=
+> distinction between true PCI BAR memory that takes a real PCI path and th=
+e=0A=
+> "CXL" memory that takes a different path in the p2p framework for now.=0A=
+> =0A=
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>=0A=
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>=0A=
+> Tested-by: Alex Mastro <amastro@fb.com>=0A=
+> Tested-by: Nicolin Chen <nicolinc@nvidia.com>=0A=
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>=0A=
+> ---=0A=
+=0A=
+Reviewed-by: Ankit Agrawal <ankita@nvidia.com>=
