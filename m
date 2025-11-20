@@ -1,853 +1,289 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mail-m32100.qiye.163.com (mail-m32100.qiye.163.com [220.197.32.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A52217F29;
-	Thu, 20 Nov 2025 03:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BF2226D1E
+	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 03:43:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763610139; cv=none; b=Z4ydEBYgvJZGm/PIP9+4uDmW+XTeqTLQUwVKWk1Ox5N8CzvmK8o8P8QZ8YaFX3p+8U3BOpXN+fRspUTQ1xZZbKVo8lTLj3J5UrPztL7c7Zu3oUig32eTdstJWZoxsd4xonDy7X9uYdMfYbeaTgYByB6pLOdlMEVZawTW4/bZls8=
+	t=1763610190; cv=none; b=UmWx8ik9UJ+Zs5J0XFoeAExEEHN4EV+pVPpXPDAt8vBvG7rMjEmHZjLnzNobDrbzCNHNnzC+qxhCGT/esG+n96an+3df6PbRc9+II2O8MVjt6lKW9lrh2Cl0K2gw2Yff6G6uy5eGWG70wczZARdc5unVfNIy+na9EKlbuTGTc5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763610139; c=relaxed/simple;
-	bh=oDZXT4sv1K0W1YpV7lschRL0Y5czBdVRkSfBLa1GSU4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=alPLxqbra4MmRP626GNLxQRsKmeWkGqm71MAJypjDNfBW+HQOclc4hlEQGc9HBQfebPU682NOzoppK9qqt1qRmevk1i7a5EkEWIaQm3BmpNGn4mmn2dMD9y+4Go5kBAa0PgCT/dxYjE8gU939G1AiqPKjOJcI+b3v39c9aRuQCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=Fn+QVfxa; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1763610190; c=relaxed/simple;
+	bh=PFSc6UbgDTZkeRL0BWbIWw9/Zj8E9GNjAmcSrwJ9HZ0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=li0nmfMykwlPyPaP9TZzBxgnI4DjhqFelc5kY9UAQ7IYVYDlLTExYtnKHpYnnw4PBO+x7mIhddxBNcE1NILwI9HIZIKFQ1wEMYZoh5NXTyaCWWnphjEpuwIyZPzSDKXXj+GaY8rS/Qxi/NWswj3EhZPuXdxvbeh7btLvpdQxRSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=NLnnT3qF; arc=none smtp.client-ip=220.197.32.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="Fn+QVfxa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1763610103; x=1764214903; i=w_armin@gmx.de;
-	bh=yGCAfufdk5uS0AxJlXQPTK96nfX3x9IiOUSTFIkZ/is=;
-	h=X-UI-Sender-Class:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Fn+QVfxaSd0iv80J/t3/nHz27I4UZwNn/U8ZC4n7U53UXfe6mivDKKOhlfkOmgU5
-	 kgRauhVnYUVO4DvkYlaeaaST5QdgH9gBgq5HI8FkCbn8rwB7pbo+rAX0nrSM8VO8i
-	 0630u+KDujYVAtPnXhJ9kBRV3uPE/16oaWSQPsZsSqjEc+jYRZXbQsu6ke6hcooL/
-	 3q78rGoz1CXC5hCz3F75IQNumahYNZtk1y9z6f6LegSibcTox8sBJ1/Ir2R5lH/iY
-	 LPEKdA+esjJQNPXPZjwOc/UUo80AHXuuh2t0qaswri+onvVodEaAVl0bNeGH75Lnf
-	 A2AYMzyB3p+S2yHn8Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [127.0.0.1] ([93.202.247.91]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MpDNf-1vvqqv49BH-00oEAf; Thu, 20
- Nov 2025 04:41:43 +0100
-From: Armin Wolf <W_Armin@gmx.de>
-Date: Thu, 20 Nov 2025 04:41:18 +0100
-Subject: [PATCH RFC RESEND 8/8] thermal: core: Allow setting the parent
- device of thermal zone devices
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="NLnnT3qF"
+Received: from localhost.localdomain (unknown [1.203.157.252])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2a36cea93;
+	Thu, 20 Nov 2025 10:27:31 +0800 (GMT+08:00)
+From: ke zijie <kezijie@leap-io-kernel.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	wangyuli@aosc.io,
+	doubled@leap-io-kernel.com
+Subject: [PATCH v6 3/3] docs/zh_CN: Add data-integrity.rst translation
+Date: Thu, 20 Nov 2025 10:27:28 +0800
+Message-Id: <0a77b351575619cf504c2711753f62893407c605.1763605033.git.kezijie@leap-io-kernel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1763605033.git.kezijie@leap-io-kernel.com>
+References: <cover.1763605033.git.kezijie@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <20251120-thermal-device-v1-8-bbdad594d57a@gmx.de>
-References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
-In-Reply-To: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, Len Brown <lenb@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Ido Schimmel <idosch@nvidia.com>, 
- Petr Machata <petrm@nvidia.com>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
- linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
- linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
- ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
- linux-pci@vger.kernel.org, imx@lists.linux.dev, 
- linux-renesas-soc@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Provags-ID: V03:K1:R29awBHW0pqrjeABaMJFeDeacollc6WnJKGlNk9Wna3omHYXCjn
- m61RHMalT6Lb2k4YAfSPR7ytFyN0UtIL90dS+nXkcN4L3ICEvRK9gpAPBEyzklGXl/Lz2DD
- bg0fadpRxNvgexXTaEqozYWxR36WENOxDYp6KdPE4bWpFRrS270/z3yY1fChEG4kRsCNEH+
- sM5FUlwuIXR0Xxm961Frg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:i5pXje0rV6w=;1Ujnq5tb+zNr7M3rsTtP+kZayRV
- ancx6xUVQIUEwPlazkpjsn0EhKtNVDEvTKAAm7G/IocKkQGHhJK6CIDgUvc+z1yFjoYSWa2Nf
- qv6Um4zy7A4RDNI6ljHV+snROJ+bJBbb9XYvlekz/3FjLMzLmQNQVKsGBVVa5e2+i6i6z+fsE
- uE7/9j2V2YP+ZuSPfjjpyhSxm5IY9mN0R72HMcuxNdC4w/cxBnzTaiGHxIiKqJvXGEVYFAYHg
- 3iDKwfDxfA/qrQLIfLBp3ploR7tA83wNbenDn+I+84Smgh5MccRzozxkTIzMN/D5WRzXG2QCM
- pyHjfR1D3syCZHL+Yt7whWeZkN/d1Bu81ybw8s+VhaMuEjLTKitJkb/YgXfWvAf0TqE7RtXfI
- 3F8A4o8guFRerhww9JHLPukItZr7Ah8aMaPqtg2a657TqxLvberynPD7iHeNDqxZbi18oTZwT
- eeyfj7cdRqcOOHuw0nDozt8moLw/PJQPIb6/Owk3MHz82VwvRdiBMmHjG29pum5hZzmdoS+ld
- ai8NIAF8aWPLrn1SqCVHpa02TnDd7rc7dMDafnjqcu7kDEiDsqvlqjHSAuCt2vdxSWeCijeHo
- QCb2vxYXwd1icLLTwPmxRVk3ggzOGZdr2UXQ8LSzYyii8rEmtdm6E9PJUXQG/GfKlArSws2oy
- YF/NDGVVzCPDRvTpiNNdpb7hGdoVGi87D1BiHw+RtG86YffXhu9grU4+BdXi86TNwPi7J/yig
- Rv+TrkCbTxwTsGf4pv0ztKFHeY2mMKkxKp/zrTi8zhpm4K3tZxRgvgmvXlBitcHHDb8yBTQYN
- myNURH1vKgAv6a7u0ZyQm2oCYoetYeZp+cdeKa6QNsXqzdm2zpkSzHaamw/pbD7Yp7WQnZjJt
- y9Ix7PZZ9Nip5HyFZ9M3LaHuhUrnta2ZnBt1WwtycEweiKH73dGdkTRc4dUAqwraVSMX+hoXF
- LWFCRt88CxJ83KP/2v1Ch/IPkIcrbBtJIe89IWY05E0dVJ5S05QcaPCDL+SkwTyWSstkyAAr0
- 7/PRTT3yJN4v/cFrN5OoIN6f1+iN9tXx7DE/jzIAoqltNrRygDmZX1dns0TbC5aEkhTVPaKrU
- Fug4ut6B7ZsZW0SVFvgGSNcTXFp+0si66Evkue71uLaPRmnc9eZHM+uEE4hgBUyH2GQ/boRvl
- tx1+rAwNzb2D5t0YNz5zPvgzlv/hTgvHPuuoXiJQ2PvC/vypKyn5BZmq4IVcepLRO98LkRNzu
- TjWS8uQOXjEiz9oQ4oLNmNp9dqrsTnF+tkqThnDDo/+DecxlZyBX/SSaK3pYCfTfEKsNF0DsC
- U5gVe4Ae4eQ9ZKEI+CpHiL0AIBF+JNuJX4gregryFYdN1Bw863dUw7bhGmsPIz01sr9cTy/4X
- tDbq8CsbJzqB3fg81volZwzs2oDFVr0ANmDWqaetEGyR5LIL5ZM2gO5lx6cWYGT4EKzllDAl+
- q2fj/yGhi0rpxkSGIZNCBKjuNKwUQ5fmuF3f9fML+t7ItST8alo7yOCcu7cc4wPpbEIs1YhkF
- EIAaXLsZKnfBcKdvsDO19IW8zLqmqKT+B4+thHhauw/mXmnR2XSDXrYZ4UCrRBSjefKrJENKq
- Ku0RyBMH4eo9lJ6HFpfSJ/iCvqiSWvWfIgSrf4tHWLZLhWJ4tJ0amY8cDFISOiEgI+rr1z0+K
- MmEg4nEtLZqfuLC9pwdAeayj/TKXUPb3dn0p0H1gYUBJ4DycZDHZq2NwaghlPea9/JMgNaA7u
- O7IgjXcNJuuivBVOv6zJO/z/4i2+eXu2TGTuqfHEK4WDrhSSYYZb2gsHMTYZdh6gt2pYcoBsO
- 68Ne20WVbFMvshx+D1DwNG89v4eQ+t8yu7dbW9UMEAIICu7WwDEOUwZyqgY1Haj6lWC0laOIJ
- 6ZAQla0DiQEgzpngFTtovqZxSbA/6IhDVj93o1AucRG+wVkJCYwLMFIj+7gmcQjid7B3W+tr8
- iMg58xvii5sqcaqqei4iYOkphzk+e6jdOOsvUFE3WAFoaVYNDOAImPHJZOs7hm/YdfrtadIjS
- CvtxmZbhCu8r3Y++IxIik+F+56pLeSz9hfDieomnYM/EFHb0mgbcT9GvDHK5UvxlBnvbg0ZJK
- XQTnYDT0yWwdDm5Luqsu1fD/ZAR7l2djnhjlpySyVgYwwYkRnUUZ27m9lx3N9HzfrS9szQiFf
- n9x8YuOWTpSvlaWf8II7ALuJgcT9D+o88I9WhjISgvEKkBvyZrc2wZV9JlpAjeXU/wje/rCZN
- OXNDExMGHwP/UiHafdpT9S00f6Ye79bBYK8sc7ThBcPFmz3ou4tAvGDNuMQdc3m/0MzUZ0yPM
- m/Ww0xeGWxgnkeUWsN3ec7F1ES5rUaR6UJJShsdWm5WZH9Fmv+tPIOaSC4oPjBKENP1MSj+ZA
- 8fGtwO4ir4Z/FF8lpowMGfOyVNTFI8wuBImJZINPgJEnfLVjF+JU36KyDqhN5IjbM0WcXnHpU
- zI70mcU61SaYk9j34HcsiXS7uPaEZLS9lfcEdhUo1qyOaSnRirltKQ8+mwao1+93GTiduXJBU
- CtNF3f5W6mQl8+nid6sWLEd/SHzMM976NhYs8vKn22oyPeEsN9vCKOuO9oTtjDUre8DNHSubo
- YyYh+YkQhC0JFqcvsO0XUvctCIpRtcAJ8SznnDbAlviJJeh4l4/5PMxzGE08SD6ElDol2snXX
- sNgmt/5CAXIpA2l/zeskygdCWjFbtwdi3Rox7mFUePtB3CPm83VwjTmWsaIUtWJbVxLyBf8K7
- JeFFEgjmrkhZ5U9DtPnSQZe+1iHo4C6bveJWJjm5CFfX/rjPRXAcKZk0AprCXpsjY0Ma80aYj
- 421Wlb/et+PfGOO4os3Z8QWJ6bZQEsQbL3+y27EmPvZUFvAMkqetd0e/CfxQ4PDenE1BR3Ycp
- atjkgwg55XCKfCu1L+xxW5FAQz6d7uj6tIF8rxg918KuEqYMvLAUoMap3mcoge7Ti1fg7D72R
- H+Q5UTbHSmOg9C1AJk2IjgJRHPjY6djvtVJRioEI3jSIGa3zyt7C3qYuXpU0GiGrHXcau8ubj
- oDUJzvphKqLYCs7OSXsfvHZokVDyH/jOa9fJ2VM/oRIRbK1+XqZc1pxvbjVKO3arnH4cmADFj
- scNjKd1CXbS5VtN9u0GSu+sI8PYFybrAedAldJdDSgVUjL6Y8T+c5vwwpYAx52rLnDN0rFdUW
- ezWc89KKLgBr1dtYMrFtod4fFA4QXvGpZhfF99tdplWJkaI8cPlNEDRpG4pYOQYnkp/cnCQ3z
- 1r5hUhrkO3Yl+j1YEZtJhynaVZsAA6fp/OwDa+2+LqD8PlEnAGBj3ZWI08NxtNNqQZL4u7zoi
- bGtHk1GHr+9gN0lR9W4sbUL/96vBWBhnQAD+aWfO/m3Ij2H0EuFIOR05R4cIYTXtFvX66b9pX
- E35XRmi7hyhx++HRz+vIMRA1cBt1oNOmjK223gVGSxPDcjWJatPLMC23MUBlLJ88jocWipTLw
- hzu6gh+09028Wq8+mWF4xBlQ3jXJ/zgZPhYqw4cvA4jdZkW/cl4TsvJG1MPmjoHA2wzt5wpRx
- 7roW/nmsCfl2imQezYqTrdfs9nrpaqeMDx3Cl3KdHzSq4UTf96mIR1L/FMW3fjSLZidLxPws2
- arDE7GR2OAtLgUH+x2soDeOeRCF5hkZzpUSwpvasjQ6XrwYo4AQaoFeny5xkKmc5nB5XRmmAD
- wJP6Pum9txDDOLoIzWbmkR3GhYy3iKA3qfx9X7EzHDHaIEDWcKB+bbh7tbpQkKZbEyVAp0ExV
- 3vxQUDeZAhRSaHqjw/mMVlMz+jcsXUhNmeOHWmbDZyKEYZ4CNTgqzmFOc5UpgojFurYipk4IQ
- FwCFQLrpI9PcxZ4UM5qcMxAxAMWYxK+y6W0duWxnLVpWHH7+ChG+/iJ/ldmhONfkkV0hs+Is5
- 0VFN/82nNizjf9MMk3gy9+Qy2Syy1OUwjMS5chIxyEmTpXKYKxvKTPAw4YH2gdFf2LJ0L264n
- VMFB9g0aBIaD9SmzAVj7CZG8PRuBBHfiHXbLf+vmj6Kyxvq0EmqR4tBDJxx+61EG/JNVpFa/C
- 5qGS1vmWOh7QSlfsoEpG998/kaz+6ogG9SY+wee2zRHZRWMXz2odJXGCmKM/FdNpj/w4bgdqa
- PaNagGOnJ0/26HzvcG8NxIMkQ9LSemx+nRDtBC1gZi/RIfoZYn3HhIid4AKiq0s148gm+iDKY
- T7UTBo6Z+gid+dl9S0f8H16BQa5BRkL796krD6hUdCgOEhWOKzT4yMLNvukftIFJhtGS/odTK
- LKnYzb0sCpZYYm4kFd/pjB4lYouZ39Ho0XSATYkm+b9PDt1LGUq+G7JRjy/uf9+2Gd3FjrQ0l
- vK6ifiJHpTTeoBoEI2lfu8lS1cTx7s8aoFzDWQt5XwXuuI03iBKPI8/tfu2ZNrxG1yyeBqnjd
- muD2th438OFbaLYluU5omL1VomjG+SZOnqNE7zbcGXM69ZLwuAiDQw49k4yITsPUvZY1t8BkF
- EN6Jhha14mIsf9Y5I4bkfUvgPt7q9E3Q7K7H2CLlJpd9OHZj8/3jTb/ToXCyFeMZemyXpZmJw
- 1FI5XNQqM0vRDJl9f/Nba/2NRCegqSm403m2JapzKTGrvB2dDKHs55JSUxkB3e+CETZoZZtrU
- YC23kBWm7bjZTMMkfRCe9CoHSuxZe+/qnAYx+8m28ZItUv0BOfYCuFm0RRDC9ALMnnxbwMArp
- Mwfk1/GDcO1KtK0DXX+NGr2aHh1TnqwJuOOKnhW8eRWRCP417NxFMQUBsJbM1aOw3+6bKvI7W
- qk5r4unUjS0EzGqok2Zl0mJAxwKA/Fv+A9Rba57IDR2d5iJ2WlPJ/Rep5Nx9AIFy0eSyXP1Nq
- 0+Oyx+5xL48Mo7JMBwCGjOdMDPaiglc+Rp3t3Edx5LrtLbg6MlWgb5Xp/vsb+lp6bFtFOwLBM
- 0UH0HVKj0zkzgzOWpPkJrvcpU8Z7tL9jTKtUjR0dWhkCj901uETU3RY1lGWtGEywAZoOwJ9oT
- hkWF5lUtO0jtC3smHxw1CCEhnvuv9xpNetftWDuFgDMuJUN7SE9VsRnY6xmLJXflSpIec8dLl
- iv7aV0MXB6CZqosyTLwRwil+wakBpW3/uNqW9D6jPgjU00t/Z4S3/YH/3TjqUzekkQzvFqJSz
- CUfRTePltfG2wKPuR/dG5eCtG89lb7iEx8/m/04H1n//ydNxH8KBjvrNGn0TwXC5zGFRfG7ff
- HvbSsrD2jhnQFI+oi6Y+PLKNIKBgOEZRu8ahvNdYprZRAZaK/eQ==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9a9f169f2f09d8kunm7a5293773a3511
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaHR0ZVk1PTRpPSk4fSx0YTVYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
+	VLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=NLnnT3qFPaH4OWdORIQVUhNlVm1+RjEWj1juCRvOwnDfZcP7ocdFu8dWm0XE3g+tlr9y6IcYzIEukZO9sBinA/YlnAz/aP5Vpe6yqjKmFaUdDfKL36dg7eMBoShS7un8GSmBd/BCIyWkoejVDSamw+61tbur+j1/lRjNlv0Z5yys0F+6wZmpXUnpNEogJDllQPfDissHVp8nFjowtRb8rIIeXk0voO/I4gnGUnz21WClSZRY4O4Rj2FvdChluUVslVcAQLWWL8goOA4tItG1M7bJiq0fKQp57Lp9pDGfpW9TBFfbMw5pQDwXGzGbwRhCq1Rvt978FnuijqhPTDTuPw==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=CAvXOAB55KJpJBW1mXmXUvSaHS1dLdMs06mzssWifvU=;
+	h=date:mime-version:subject:message-id:from;
 
-Thermal zone devices currently have no parent device, potentially
-causing issues with suspend ordering and making it impossible for
-user space appications to associate a given thermal zone device with
-its parent device.
+Translate .../block/data-integrity.rst into Chinese.
+Add data-integrity into .../block/index.rst.
 
-Extend the functions used to register thermal zone devices to also
-accept a parent device pointer. Also update all users of those
-functions to provide a parent device pointer if available.
+Update the translation through commit c6e56cf6b2e7
+("block: move integrity information into queue_limits")
 
-Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-=2D--
- Documentation/driver-api/thermal/sysfs-api.rst     |  5 ++-
- drivers/acpi/thermal.c                             | 16 +++++---
- drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c |  4 +-
- drivers/net/ethernet/mellanox/mlxsw/core_thermal.c | 45 +++++++++++------=
-=2D----
- drivers/net/wireless/intel/iwlwifi/mld/thermal.c   |  2 +-
- drivers/net/wireless/intel/iwlwifi/mvm/tt.c        | 10 ++---
- drivers/platform/x86/acerhdf.c                     |  2 +-
- drivers/power/supply/power_supply_core.c           |  4 +-
- drivers/thermal/armada_thermal.c                   |  2 +-
- drivers/thermal/da9062-thermal.c                   |  2 +-
- drivers/thermal/dove_thermal.c                     |  2 +-
- drivers/thermal/imx_thermal.c                      |  2 +-
- .../intel/int340x_thermal/int3400_thermal.c        |  2 +-
- .../intel/int340x_thermal/int340x_thermal_zone.c   | 13 +++----
- .../int340x_thermal/processor_thermal_device_pci.c |  7 ++--
- drivers/thermal/intel/intel_pch_thermal.c          |  2 +-
- drivers/thermal/intel/intel_quark_dts_thermal.c    |  2 +-
- drivers/thermal/intel/intel_soc_dts_iosf.c         |  2 +-
- drivers/thermal/intel/x86_pkg_temp_thermal.c       |  6 +--
- drivers/thermal/kirkwood_thermal.c                 |  2 +-
- drivers/thermal/renesas/rcar_thermal.c             | 10 +++--
- drivers/thermal/spear_thermal.c                    |  2 +-
- drivers/thermal/testing/zone.c                     |  2 +-
- drivers/thermal/thermal_core.c                     |  7 +++-
- drivers/thermal/thermal_of.c                       |  9 +++--
- include/linux/thermal.h                            |  4 ++
- 26 files changed, 92 insertions(+), 74 deletions(-)
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
+Reviewed-by: WangYuli <wangyl5933@chinaunicom.cn>
+Signed-off-by: ke zijie <kezijie@leap-io-kernel.com>
+---
+ .../zh_CN/block/data-integrity.rst            | 192 ++++++++++++++++++
+ .../translations/zh_CN/block/index.rst        |   2 +-
+ 2 files changed, 193 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/block/data-integrity.rst
 
-diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentatio=
-n/driver-api/thermal/sysfs-api.rst
-index cf242cd16f2e..0a29bc949ef3 100644
-=2D-- a/Documentation/driver-api/thermal/sysfs-api.rst
-+++ b/Documentation/driver-api/thermal/sysfs-api.rst
-@@ -37,7 +37,8 @@ temperature) and throttle appropriate devices.
-     ::
-=20
- 	struct thermal_zone_device *
--	thermal_zone_device_register_with_trips(const char *type,
-+	thermal_zone_device_register_with_trips(struct device *parent,
-+                                        const char *type,
- 					const struct thermal_trip *trips,
- 					int num_trips, void *devdata,
- 					const struct thermal_zone_device_ops *ops,
-@@ -49,6 +50,8 @@ temperature) and throttle appropriate devices.
-     /sys/class/thermal folder as `thermal_zone[0-*]`. It tries to bind al=
-l the
-     thermal cooling devices registered to it at the same time.
-=20
-+    parent:
-+        parent device pointer.
-     type:
- 	the thermal zone type.
-     trips:
-diff --git a/drivers/acpi/thermal.c b/drivers/acpi/thermal.c
-index 99ad67bbd764..483e28ce0d67 100644
-=2D-- a/drivers/acpi/thermal.c
-+++ b/drivers/acpi/thermal.c
-@@ -607,16 +607,20 @@ static int acpi_thermal_register_thermal_zone(struct=
- acpi_thermal *tz,
- 					      unsigned int trip_count,
- 					      int passive_delay)
- {
-+	unsigned int polling_delay =3D tz->polling_frequency * 100;
- 	int result;
-=20
- 	if (trip_count)
--		tz->thermal_zone =3D thermal_zone_device_register_with_trips(
--					"acpitz", trip_table, trip_count, tz,
--					&acpi_thermal_zone_ops, NULL, passive_delay,
--					tz->polling_frequency * 100);
-+		tz->thermal_zone =3D thermal_zone_device_register_with_trips(&tz->devic=
-e->dev,
-+									   "acpitz", trip_table,
-+									   trip_count, tz,
-+									   &acpi_thermal_zone_ops,
-+									   NULL, passive_delay,
-+									   polling_delay);
- 	else
--		tz->thermal_zone =3D thermal_tripless_zone_device_register(
--					"acpitz", tz, &acpi_thermal_zone_ops, NULL);
-+		tz->thermal_zone =3D thermal_tripless_zone_device_register(&tz->device-=
->dev, "acpitz",
-+									 tz, &acpi_thermal_zone_ops,
-+									 NULL);
-=20
- 	if (IS_ERR(tz->thermal_zone))
- 		return PTR_ERR(tz->thermal_zone);
-diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c b/drivers/=
-net/ethernet/chelsio/cxgb4/cxgb4_thermal.c
-index 7bab8da8f6e6..05a1ec7df7a5 100644
-=2D-- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c
-+++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_thermal.c
-@@ -59,8 +59,8 @@ int cxgb4_thermal_init(struct adapter *adap)
- 	}
-=20
- 	snprintf(ch_tz_name, sizeof(ch_tz_name), "cxgb4_%s", adap->name);
--	ch_thermal->tzdev =3D thermal_zone_device_register_with_trips(ch_tz_name=
-, &trip, num_trip,
--								    adap,
-+	ch_thermal->tzdev =3D thermal_zone_device_register_with_trips(adap->pdev=
-_dev, ch_tz_name,
-+								    &trip, num_trip, adap,
- 								    &cxgb4_thermal_ops,
- 								    NULL, 0, 0);
- 	if (IS_ERR(ch_thermal->tzdev)) {
-diff --git a/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c b/drivers/=
-net/ethernet/mellanox/mlxsw/core_thermal.c
-index 1117d59b74fd..a1b1e9e8dd3d 100644
-=2D-- a/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c
-+++ b/drivers/net/ethernet/mellanox/mlxsw/core_thermal.c
-@@ -349,6 +349,8 @@ static const struct thermal_cooling_device_ops mlxsw_c=
-ooling_ops =3D {
- static int
- mlxsw_thermal_module_tz_init(struct mlxsw_thermal_module *module_tz)
- {
-+	unsigned int polling_delay =3D module_tz->parent->polling_delay;
-+	struct device *dev =3D module_tz->parent->bus_info->dev;
- 	char tz_name[40];
- 	int err;
-=20
-@@ -358,14 +360,12 @@ mlxsw_thermal_module_tz_init(struct mlxsw_thermal_mo=
-dule *module_tz)
- 	else
- 		snprintf(tz_name, sizeof(tz_name), "mlxsw-module%d",
- 			 module_tz->module + 1);
--	module_tz->tzdev =3D thermal_zone_device_register_with_trips(tz_name,
--							module_tz->trips,
--							MLXSW_THERMAL_NUM_TRIPS,
--							module_tz,
--							&mlxsw_thermal_module_ops,
--							&mlxsw_thermal_params,
--							0,
--							module_tz->parent->polling_delay);
-+	module_tz->tzdev =3D thermal_zone_device_register_with_trips(dev, tz_nam=
-e, module_tz->trips,
-+								   MLXSW_THERMAL_NUM_TRIPS,
-+								   module_tz,
-+								   &mlxsw_thermal_module_ops,
-+								   &mlxsw_thermal_params, 0,
-+								   polling_delay);
- 	if (IS_ERR(module_tz->tzdev)) {
- 		err =3D PTR_ERR(module_tz->tzdev);
- 		return err;
-@@ -466,6 +466,8 @@ mlxsw_thermal_modules_fini(struct mlxsw_thermal *therm=
-al,
- static int
- mlxsw_thermal_gearbox_tz_init(struct mlxsw_thermal_module *gearbox_tz)
- {
-+	unsigned int polling_delay =3D gearbox_tz->parent->polling_delay;
-+	struct device *dev =3D gearbox_tz->parent->bus_info->dev;
- 	char tz_name[40];
- 	int ret;
-=20
-@@ -475,13 +477,13 @@ mlxsw_thermal_gearbox_tz_init(struct mlxsw_thermal_m=
-odule *gearbox_tz)
- 	else
- 		snprintf(tz_name, sizeof(tz_name), "mlxsw-gearbox%d",
- 			 gearbox_tz->module + 1);
--	gearbox_tz->tzdev =3D thermal_zone_device_register_with_trips(tz_name,
--						gearbox_tz->trips,
--						MLXSW_THERMAL_NUM_TRIPS,
--						gearbox_tz,
--						&mlxsw_thermal_gearbox_ops,
--						&mlxsw_thermal_params, 0,
--						gearbox_tz->parent->polling_delay);
-+	gearbox_tz->tzdev =3D thermal_zone_device_register_with_trips(dev, tz_na=
-me,
-+								    gearbox_tz->trips,
-+								    MLXSW_THERMAL_NUM_TRIPS,
-+								    gearbox_tz,
-+								    &mlxsw_thermal_gearbox_ops,
-+								    &mlxsw_thermal_params, 0,
-+								    polling_delay);
- 	if (IS_ERR(gearbox_tz->tzdev))
- 		return PTR_ERR(gearbox_tz->tzdev);
-=20
-@@ -709,13 +711,12 @@ int mlxsw_thermal_init(struct mlxsw_core *core,
- 				 MLXSW_THERMAL_SLOW_POLL_INT :
- 				 MLXSW_THERMAL_POLL_INT;
-=20
--	thermal->tzdev =3D thermal_zone_device_register_with_trips("mlxsw",
--						      thermal->trips,
--						      MLXSW_THERMAL_NUM_TRIPS,
--						      thermal,
--						      &mlxsw_thermal_ops,
--						      &mlxsw_thermal_params, 0,
--						      thermal->polling_delay);
-+	thermal->tzdev =3D thermal_zone_device_register_with_trips(dev, "mlxsw",
-+								 thermal->trips,
-+								 MLXSW_THERMAL_NUM_TRIPS,
-+								 thermal, &mlxsw_thermal_ops,
-+								 &mlxsw_thermal_params, 0,
-+								 thermal->polling_delay);
- 	if (IS_ERR(thermal->tzdev)) {
- 		err =3D PTR_ERR(thermal->tzdev);
- 		dev_err(dev, "Failed to register thermal zone\n");
-diff --git a/drivers/net/wireless/intel/iwlwifi/mld/thermal.c b/drivers/ne=
-t/wireless/intel/iwlwifi/mld/thermal.c
-index 9e56e6e80ab7..56a0022d33db 100644
-=2D-- a/drivers/net/wireless/intel/iwlwifi/mld/thermal.c
-+++ b/drivers/net/wireless/intel/iwlwifi/mld/thermal.c
-@@ -256,7 +256,7 @@ static void iwl_mld_thermal_zone_register(struct iwl_m=
-ld *mld)
-=20
- 	sprintf(name, "iwlwifi_%u", atomic_inc_return(&counter) & 0xFF);
- 	mld->tzone =3D
--		thermal_zone_device_register_with_trips(name, trips,
-+		thermal_zone_device_register_with_trips(mld->dev, name, trips,
- 							IWL_MAX_DTS_TRIPS,
- 							mld, &tzone_ops,
- 							NULL, 0, 0);
-diff --git a/drivers/net/wireless/intel/iwlwifi/mvm/tt.c b/drivers/net/wir=
-eless/intel/iwlwifi/mvm/tt.c
-index b184f08230b9..e4777b815976 100644
-=2D-- a/drivers/net/wireless/intel/iwlwifi/mvm/tt.c
-+++ b/drivers/net/wireless/intel/iwlwifi/mvm/tt.c
-@@ -672,11 +672,11 @@ static void iwl_mvm_thermal_zone_register(struct iwl=
-_mvm *mvm)
- 		mvm->tz_device.trips[i].type =3D THERMAL_TRIP_PASSIVE;
- 		mvm->tz_device.trips[i].flags =3D THERMAL_TRIP_FLAG_RW_TEMP;
- 	}
--	mvm->tz_device.tzone =3D thermal_zone_device_register_with_trips(name,
--							mvm->tz_device.trips,
--							IWL_MAX_DTS_TRIPS,
--							mvm, &tzone_ops,
--							NULL, 0, 0);
-+	mvm->tz_device.tzone =3D thermal_zone_device_register_with_trips(mvm->de=
-v, name,
-+								       mvm->tz_device.trips,
-+								       IWL_MAX_DTS_TRIPS,
-+								       mvm, &tzone_ops,
-+								       NULL, 0, 0);
- 	if (IS_ERR(mvm->tz_device.tzone)) {
- 		IWL_DEBUG_TEMP(mvm,
- 			       "Failed to register to thermal zone (err =3D %ld)\n",
-diff --git a/drivers/platform/x86/acerhdf.c b/drivers/platform/x86/acerhdf=
-.c
-index c74937d475e5..abdb5749c169 100644
-=2D-- a/drivers/platform/x86/acerhdf.c
-+++ b/drivers/platform/x86/acerhdf.c
-@@ -656,7 +656,7 @@ static int __init acerhdf_register_thermal(void)
- 	if (IS_ERR(cl_dev))
- 		return -EINVAL;
-=20
--	thz_dev =3D thermal_zone_device_register_with_trips("acerhdf", trips, AR=
-RAY_SIZE(trips),
-+	thz_dev =3D thermal_zone_device_register_with_trips(NULL, "acerhdf", tri=
-ps, ARRAY_SIZE(trips),
- 							  NULL, &acerhdf_dev_ops,
- 							  &acerhdf_zone_params, 0,
- 							  (kernelmode) ? interval*1000 : 0);
-diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/supp=
-ly/power_supply_core.c
-index 9a28381e2607..cbc4bed17efa 100644
-=2D-- a/drivers/power/supply/power_supply_core.c
-+++ b/drivers/power/supply/power_supply_core.c
-@@ -1531,8 +1531,8 @@ static int psy_register_thermal(struct power_supply =
-*psy)
- 		struct thermal_zone_params tzp =3D {
- 			.no_hwmon =3D IS_ENABLED(CONFIG_POWER_SUPPLY_HWMON)
- 		};
--		psy->tzd =3D thermal_tripless_zone_device_register(psy->desc->name,
--				psy, &psy_tzd_ops, &tzp);
-+		psy->tzd =3D thermal_tripless_zone_device_register(&psy->dev, psy->desc=
-->name, psy,
-+								 &psy_tzd_ops, &tzp);
- 		if (IS_ERR(psy->tzd))
- 			return PTR_ERR(psy->tzd);
- 		ret =3D thermal_zone_device_enable(psy->tzd);
-diff --git a/drivers/thermal/armada_thermal.c b/drivers/thermal/armada_the=
-rmal.c
-index c2fbdb534f61..fc60b0bab627 100644
-=2D-- a/drivers/thermal/armada_thermal.c
-+++ b/drivers/thermal/armada_thermal.c
-@@ -871,7 +871,7 @@ static int armada_thermal_probe(struct platform_device=
- *pdev)
- 		/* Wait the sensors to be valid */
- 		armada_wait_sensor_validity(priv);
-=20
--		tz =3D thermal_tripless_zone_device_register(priv->zone_name,
-+		tz =3D thermal_tripless_zone_device_register(&pdev->dev, priv->zone_nam=
-e,
- 							   priv, &legacy_ops,
- 							   NULL);
- 		if (IS_ERR(tz)) {
-diff --git a/drivers/thermal/da9062-thermal.c b/drivers/thermal/da9062-the=
-rmal.c
-index a8d4b766ba21..c5368c2b53b9 100644
-=2D-- a/drivers/thermal/da9062-thermal.c
-+++ b/drivers/thermal/da9062-thermal.c
-@@ -196,7 +196,7 @@ static int da9062_thermal_probe(struct platform_device=
- *pdev)
- 	INIT_DELAYED_WORK(&thermal->work, da9062_thermal_poll_on);
- 	mutex_init(&thermal->lock);
-=20
--	thermal->zone =3D thermal_zone_device_register_with_trips(thermal->confi=
-g->name,
-+	thermal->zone =3D thermal_zone_device_register_with_trips(&pdev->dev, th=
-ermal->config->name,
- 								trips, ARRAY_SIZE(trips), thermal,
- 								&da9062_thermal_ops, NULL, pp_tmp,
- 								0);
-diff --git a/drivers/thermal/dove_thermal.c b/drivers/thermal/dove_thermal=
-.c
-index 723bc72f0626..101c6109b04a 100644
-=2D-- a/drivers/thermal/dove_thermal.c
-+++ b/drivers/thermal/dove_thermal.c
-@@ -139,7 +139,7 @@ static int dove_thermal_probe(struct platform_device *=
-pdev)
- 		return ret;
- 	}
-=20
--	thermal =3D thermal_tripless_zone_device_register("dove_thermal", priv,
-+	thermal =3D thermal_tripless_zone_device_register(&pdev->dev, "dove_ther=
-mal", priv,
- 							&ops, NULL);
- 	if (IS_ERR(thermal)) {
- 		dev_err(&pdev->dev,
-diff --git a/drivers/thermal/imx_thermal.c b/drivers/thermal/imx_thermal.c
-index 38c993d1bcb3..043e80756017 100644
-=2D-- a/drivers/thermal/imx_thermal.c
-+++ b/drivers/thermal/imx_thermal.c
-@@ -679,7 +679,7 @@ static int imx_thermal_probe(struct platform_device *p=
-dev)
- 		goto legacy_cleanup;
- 	}
-=20
--	data->tz =3D thermal_zone_device_register_with_trips("imx_thermal_zone",
-+	data->tz =3D thermal_zone_device_register_with_trips(dev, "imx_thermal_z=
-one",
- 							   trips,
- 							   ARRAY_SIZE(trips),
- 							   data,
-diff --git a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c b/dri=
-vers/thermal/intel/int340x_thermal/int3400_thermal.c
-index 41d3bc3ed8a2..ed21da8f0a47 100644
-=2D-- a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-+++ b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-@@ -594,7 +594,7 @@ static int int3400_thermal_probe(struct platform_devic=
-e *pdev)
-=20
- 	evaluate_odvp(priv);
-=20
--	priv->thermal =3D thermal_tripless_zone_device_register("INT3400 Thermal=
-", priv,
-+	priv->thermal =3D thermal_tripless_zone_device_register(&pdev->dev, "INT=
-3400 Thermal", priv,
- 							      &int3400_thermal_ops,
- 							      &int3400_thermal_params);
- 	if (IS_ERR(priv->thermal)) {
-diff --git a/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c =
-b/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c
-index 3d9efe69d562..3adccb7fc157 100644
-=2D-- a/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c
-+++ b/drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c
-@@ -160,13 +160,12 @@ struct int34x_thermal_zone *int340x_thermal_zone_add=
-(struct acpi_device *adev,
-=20
- 	int34x_zone->lpat_table =3D acpi_lpat_get_conversion_table(adev->handle)=
-;
-=20
--	int34x_zone->zone =3D thermal_zone_device_register_with_trips(
--							acpi_device_bid(adev),
--							zone_trips, trip_cnt,
--							int34x_zone,
--							&zone_ops,
--							&int340x_thermal_params,
--							0, 0);
-+	int34x_zone->zone =3D thermal_zone_device_register_with_trips(&adev->dev=
-,
-+								    acpi_device_bid(adev),
-+								    zone_trips, trip_cnt,
-+								    int34x_zone, &zone_ops,
-+								    &int340x_thermal_params,
-+								    0, 0);
- 	kfree(zone_trips);
-=20
- 	if (IS_ERR(int34x_zone->zone)) {
-diff --git a/drivers/thermal/intel/int340x_thermal/processor_thermal_devic=
-e_pci.c b/drivers/thermal/intel/int340x_thermal/processor_thermal_device_p=
-ci.c
-index 0d4dcc66e097..2b3116e23fa1 100644
-=2D-- a/drivers/thermal/intel/int340x_thermal/processor_thermal_device_pci=
-.c
-+++ b/drivers/thermal/intel/int340x_thermal/processor_thermal_device_pci.c
-@@ -371,10 +371,9 @@ static int proc_thermal_pci_probe(struct pci_dev *pde=
-v, const struct pci_device_
-=20
- 	psv_trip.temperature =3D get_trip_temp(pci_info);
-=20
--	pci_info->tzone =3D thermal_zone_device_register_with_trips("TCPU_PCI", =
-&psv_trip,
--							1, pci_info,
--							&tzone_ops,
--							&tzone_params, 0, 0);
-+	pci_info->tzone =3D thermal_zone_device_register_with_trips(&pdev->dev, =
-"TCPU_PCI", &psv_trip,
-+								  1, pci_info, &tzone_ops,
-+								  &tzone_params, 0, 0);
- 	if (IS_ERR(pci_info->tzone)) {
- 		ret =3D PTR_ERR(pci_info->tzone);
- 		goto err_del_legacy;
-diff --git a/drivers/thermal/intel/intel_pch_thermal.c b/drivers/thermal/i=
-ntel/intel_pch_thermal.c
-index fc326985796c..754527b2b09a 100644
-=2D-- a/drivers/thermal/intel/intel_pch_thermal.c
-+++ b/drivers/thermal/intel/intel_pch_thermal.c
-@@ -235,7 +235,7 @@ static int intel_pch_thermal_probe(struct pci_dev *pde=
-v,
-=20
- 	nr_trips +=3D pch_wpt_add_acpi_psv_trip(ptd, &ptd_trips[nr_trips]);
-=20
--	ptd->tzd =3D thermal_zone_device_register_with_trips(board_names[board_i=
-d],
-+	ptd->tzd =3D thermal_zone_device_register_with_trips(&pdev->dev, board_n=
-ames[board_id],
- 							   ptd_trips, nr_trips,
- 							   ptd, &tzd_ops,
- 							   NULL, 0, 0);
-diff --git a/drivers/thermal/intel/intel_quark_dts_thermal.c b/drivers/the=
-rmal/intel/intel_quark_dts_thermal.c
-index 89498eb29a89..d8d38b6ed452 100644
-=2D-- a/drivers/thermal/intel/intel_quark_dts_thermal.c
-+++ b/drivers/thermal/intel/intel_quark_dts_thermal.c
-@@ -376,7 +376,7 @@ static struct soc_sensor_entry *alloc_soc_dts(void)
- 	trips[QRK_DTS_ID_TP_HOT].temperature =3D get_trip_temp(QRK_DTS_ID_TP_HOT=
-);
- 	trips[QRK_DTS_ID_TP_HOT].type =3D THERMAL_TRIP_HOT;
-=20
--	aux_entry->tzone =3D thermal_zone_device_register_with_trips("quark_dts"=
-,
-+	aux_entry->tzone =3D thermal_zone_device_register_with_trips(NULL, "quar=
-k_dts",
- 								   trips,
- 								   QRK_MAX_DTS_TRIPS,
- 								   aux_entry,
-diff --git a/drivers/thermal/intel/intel_soc_dts_iosf.c b/drivers/thermal/=
-intel/intel_soc_dts_iosf.c
-index ea87439fe7a9..74638dac75e6 100644
-=2D-- a/drivers/thermal/intel/intel_soc_dts_iosf.c
-+++ b/drivers/thermal/intel/intel_soc_dts_iosf.c
-@@ -230,7 +230,7 @@ static int add_dts_thermal_zone(int id, struct intel_s=
-oc_dts_sensor_entry *dts,
- 		}
- 	}
- 	snprintf(name, sizeof(name), "soc_dts%d", id);
--	dts->tzone =3D thermal_zone_device_register_with_trips(name, trips,
-+	dts->tzone =3D thermal_zone_device_register_with_trips(NULL, name, trips=
-,
- 							     SOC_MAX_DTS_TRIPS,
- 							     dts, &tzone_ops,
- 							     NULL, 0, 0);
-diff --git a/drivers/thermal/intel/x86_pkg_temp_thermal.c b/drivers/therma=
-l/intel/x86_pkg_temp_thermal.c
-index 3fc679b6f11b..807126dc4bea 100644
-=2D-- a/drivers/thermal/intel/x86_pkg_temp_thermal.c
-+++ b/drivers/thermal/intel/x86_pkg_temp_thermal.c
-@@ -342,9 +342,9 @@ static int pkg_temp_thermal_device_add(unsigned int cp=
-u)
-=20
- 	INIT_DELAYED_WORK(&zonedev->work, pkg_temp_thermal_threshold_work_fn);
- 	zonedev->cpu =3D cpu;
--	zonedev->tzone =3D thermal_zone_device_register_with_trips("x86_pkg_temp=
-",
--			trips, thres_count,
--			zonedev, &tzone_ops, &pkg_temp_tz_params, 0, 0);
-+	zonedev->tzone =3D thermal_zone_device_register_with_trips(NULL, "x86_pk=
-g_temp", trips,
-+								 thres_count, zonedev, &tzone_ops,
-+								 &pkg_temp_tz_params, 0, 0);
- 	if (IS_ERR(zonedev->tzone)) {
- 		err =3D PTR_ERR(zonedev->tzone);
- 		goto out_kfree_zonedev;
-diff --git a/drivers/thermal/kirkwood_thermal.c b/drivers/thermal/kirkwood=
-_thermal.c
-index 4619e090f756..4827ad2bdb49 100644
-=2D-- a/drivers/thermal/kirkwood_thermal.c
-+++ b/drivers/thermal/kirkwood_thermal.c
-@@ -71,7 +71,7 @@ static int kirkwood_thermal_probe(struct platform_device=
- *pdev)
- 	if (IS_ERR(priv->sensor))
- 		return PTR_ERR(priv->sensor);
-=20
--	thermal =3D thermal_tripless_zone_device_register("kirkwood_thermal",
-+	thermal =3D thermal_tripless_zone_device_register(&pdev->dev, "kirkwood_=
-thermal",
- 							priv, &ops, NULL);
- 	if (IS_ERR(thermal)) {
- 		dev_err(&pdev->dev,
-diff --git a/drivers/thermal/renesas/rcar_thermal.c b/drivers/thermal/rene=
-sas/rcar_thermal.c
-index fdd7afdc4ff6..3d228e4c7b09 100644
-=2D-- a/drivers/thermal/renesas/rcar_thermal.c
-+++ b/drivers/thermal/renesas/rcar_thermal.c
-@@ -488,10 +488,12 @@ static int rcar_thermal_probe(struct platform_device=
- *pdev)
- 						dev, i, priv,
- 						&rcar_thermal_zone_ops);
- 		} else {
--			priv->zone =3D thermal_zone_device_register_with_trips(
--				"rcar_thermal", trips, ARRAY_SIZE(trips), priv,
--						&rcar_thermal_zone_ops, NULL, 0,
--						idle);
-+			priv->zone =3D thermal_zone_device_register_with_trips(dev, "rcar_ther=
-mal",
-+									     trips,
-+									     ARRAY_SIZE(trips),
-+									     priv,
-+									     &rcar_thermal_zone_ops,
-+									     NULL, 0, idle);
-=20
- 			ret =3D thermal_zone_device_enable(priv->zone);
- 			if (ret) {
-diff --git a/drivers/thermal/spear_thermal.c b/drivers/thermal/spear_therm=
-al.c
-index 603dadcd3df5..c5bba9d600d4 100644
-=2D-- a/drivers/thermal/spear_thermal.c
-+++ b/drivers/thermal/spear_thermal.c
-@@ -122,7 +122,7 @@ static int spear_thermal_probe(struct platform_device =
-*pdev)
- 	stdev->flags =3D val;
- 	writel_relaxed(stdev->flags, stdev->thermal_base);
-=20
--	spear_thermal =3D thermal_tripless_zone_device_register("spear_thermal",
-+	spear_thermal =3D thermal_tripless_zone_device_register(&pdev->dev, "spe=
-ar_thermal",
- 							      stdev, &ops, NULL);
- 	if (IS_ERR(spear_thermal)) {
- 		dev_err(&pdev->dev, "thermal zone device is NULL\n");
-diff --git a/drivers/thermal/testing/zone.c b/drivers/thermal/testing/zone=
-.c
-index c12c405225bb..5a7e9969582e 100644
-=2D-- a/drivers/thermal/testing/zone.c
-+++ b/drivers/thermal/testing/zone.c
-@@ -402,7 +402,7 @@ static int tt_zone_register_tz(struct tt_thermal_zone =
-*tt_zone)
-=20
- 	tt_zone->tz_temp =3D tt_zone->temp;
-=20
--	tz =3D thermal_zone_device_register_with_trips("test_tz", trips, i, tt_z=
-one,
-+	tz =3D thermal_zone_device_register_with_trips(NULL, "test_tz", trips, i=
-, tt_zone,
- 						     &tt_zone_ops, NULL, 0, 0);
- 	if (IS_ERR(tz))
- 		return PTR_ERR(tz);
-diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core=
-.c
-index 92e51d2e4535..9d8499999579 100644
-=2D-- a/drivers/thermal/thermal_core.c
-+++ b/drivers/thermal/thermal_core.c
-@@ -1475,6 +1475,7 @@ static void thermal_zone_init_complete(struct therma=
-l_zone_device *tz)
-=20
- /**
-  * thermal_zone_device_register_with_trips() - register a new thermal zon=
-e device
-+ * @parent:	parent device pointer
-  * @type:	the thermal zone device type
-  * @trips:	a pointer to an array of thermal trips
-  * @num_trips:	the number of trip points the thermal zone support
-@@ -1498,7 +1499,7 @@ static void thermal_zone_init_complete(struct therma=
-l_zone_device *tz)
-  * IS_ERR*() helpers.
-  */
- struct thermal_zone_device *
--thermal_zone_device_register_with_trips(const char *type,
-+thermal_zone_device_register_with_trips(struct device *parent, const char=
- *type,
- 					const struct thermal_trip *trips,
- 					int num_trips, void *devdata,
- 					const struct thermal_zone_device_ops *ops,
-@@ -1576,6 +1577,7 @@ thermal_zone_device_register_with_trips(const char *=
-type,
- 		tz->ops.critical =3D thermal_zone_device_critical;
-=20
- 	tz->device.class =3D thermal_class;
-+	tz->device.parent =3D parent;
- 	tz->devdata =3D devdata;
- 	tz->num_trips =3D num_trips;
- 	for_each_trip_desc(tz, td) {
-@@ -1651,12 +1653,13 @@ thermal_zone_device_register_with_trips(const char=
- *type,
- EXPORT_SYMBOL_GPL(thermal_zone_device_register_with_trips);
-=20
- struct thermal_zone_device *thermal_tripless_zone_device_register(
-+					struct device *parent,
- 					const char *type,
- 					void *devdata,
- 					const struct thermal_zone_device_ops *ops,
- 					const struct thermal_zone_params *tzp)
- {
--	return thermal_zone_device_register_with_trips(type, NULL, 0, devdata,
-+	return thermal_zone_device_register_with_trips(parent, type, NULL, 0, de=
-vdata,
- 						       ops, tzp, 0, 0);
- }
- EXPORT_SYMBOL_GPL(thermal_tripless_zone_device_register);
-diff --git a/drivers/thermal/thermal_of.c b/drivers/thermal/thermal_of.c
-index 1a51a4d240ff..e3359ca20d77 100644
-=2D-- a/drivers/thermal/thermal_of.c
-+++ b/drivers/thermal/thermal_of.c
-@@ -354,6 +354,7 @@ static void thermal_of_zone_unregister(struct thermal_=
-zone_device *tz)
-  * zone properties and registers new thermal zone with those
-  * properties.
-  *
-+ * @parent: parent device pointer
-  * @sensor: A device node pointer corresponding to the sensor in the devi=
-ce tree
-  * @id: An integer as sensor identifier
-  * @data: A private data to be stored in the thermal zone dedicated priva=
-te area
-@@ -364,7 +365,9 @@ static void thermal_of_zone_unregister(struct thermal_=
-zone_device *tz)
-  *	- ENOMEM: if one structure can not be allocated
-  *	- Other negative errors are returned by the underlying called function=
-s
-  */
--static struct thermal_zone_device *thermal_of_zone_register(struct device=
-_node *sensor, int id, void *data,
-+static struct thermal_zone_device *thermal_of_zone_register(struct device=
- *parent,
-+							    struct device_node *sensor,
-+							    int id, void *data,
- 							    const struct thermal_zone_device_ops *ops)
- {
- 	struct thermal_zone_device_ops of_ops =3D *ops;
-@@ -412,7 +415,7 @@ static struct thermal_zone_device *thermal_of_zone_reg=
-ister(struct device_node *
- 			of_ops.critical =3D thermal_zone_device_critical_shutdown;
- 	}
-=20
--	tz =3D thermal_zone_device_register_with_trips(np->name, trips, ntrips,
-+	tz =3D thermal_zone_device_register_with_trips(parent, np->name, trips, =
-ntrips,
- 						     data, &of_ops, &tzp,
- 						     pdelay, delay);
- 	if (IS_ERR(tz)) {
-@@ -478,7 +481,7 @@ struct thermal_zone_device *devm_thermal_of_zone_regis=
-ter(struct device *dev, in
- 	if (!ptr)
- 		return ERR_PTR(-ENOMEM);
-=20
--	tzd =3D thermal_of_zone_register(dev->of_node, sensor_id, data, ops);
-+	tzd =3D thermal_of_zone_register(dev, dev->of_node, sensor_id, data, ops=
-);
- 	if (IS_ERR(tzd)) {
- 		devres_free(ptr);
- 		return tzd;
-diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-index 29a608bf5f80..0c5a91313bd5 100644
-=2D-- a/include/linux/thermal.h
-+++ b/include/linux/thermal.h
-@@ -226,6 +226,7 @@ int thermal_zone_get_crit_temp(struct thermal_zone_dev=
-ice *tz, int *temp);
-=20
- #ifdef CONFIG_THERMAL
- struct thermal_zone_device *thermal_zone_device_register_with_trips(
-+					struct device *parent,
- 					const char *type,
- 					const struct thermal_trip *trips,
- 					int num_trips, void *devdata,
-@@ -235,6 +236,7 @@ struct thermal_zone_device *thermal_zone_device_regist=
-er_with_trips(
- 					unsigned int polling_delay);
-=20
- struct thermal_zone_device *thermal_tripless_zone_device_register(
-+					struct device *parent,
- 					const char *type,
- 					void *devdata,
- 					const struct thermal_zone_device_ops *ops,
-@@ -276,6 +278,7 @@ int thermal_zone_device_disable(struct thermal_zone_de=
-vice *tz);
- void thermal_zone_device_critical(struct thermal_zone_device *tz);
- #else
- static inline struct thermal_zone_device *thermal_zone_device_register_wi=
-th_trips(
-+					struct device *parent,
- 					const char *type,
- 					const struct thermal_trip *trips,
- 					int num_trips, void *devdata,
-@@ -285,6 +288,7 @@ static inline struct thermal_zone_device *thermal_zone=
-_device_register_with_trip
- { return ERR_PTR(-ENODEV); }
-=20
- static inline struct thermal_zone_device *thermal_tripless_zone_device_re=
-gister(
-+					struct device *parent,
- 					const char *type,
- 					void *devdata,
- 					struct thermal_zone_device_ops *ops,
+diff --git a/Documentation/translations/zh_CN/block/data-integrity.rst b/Documentation/translations/zh_CN/block/data-integrity.rst
+new file mode 100644
+index 000000000000..b31aa9ef8954
+--- /dev/null
++++ b/Documentation/translations/zh_CN/block/data-integrity.rst
+@@ -0,0 +1,192 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/block/data-integrity.rst
++
++:翻译:
++
++ 柯子杰 kezijie <kezijie@leap-io-kernel.com>
++
++:校译:
++
++==========
++数据完整性
++==========
++
++1. 引言
++=======
++
++现代文件系统对数据和元数据都进行了校验和保护以防止数据损坏。然而，这种损坏的
++检测是在读取时才进行，这可能发生在数据写入数月之后。到那时，应用程序尝试写入
++的原始数据很可能已经丢失。
++
++解决方案是确保磁盘实际存储的内容就是应用程序想存储的。SCSI 协议族（如 SBC
++数据完整性字段、SCC 保护提案）以及 SATA/T13（外部路径保护）最近新增的功能，
++通过在 I/O 中附加完整性元数据的方式，试图解决这一问题。完整性元数据（在
++SCSI 术语中称为保护信息）包括每个扇区的校验和，以及一个递增计数器，用于确保
++各扇区按正确顺序被写入盘。在某些保护方案中，还能保证 I/O 写入磁盘的正确位置。
++
++当前的存储控制器和设备实现了多种保护措施，例如校验和和数据清理。但这些技术通
++常只在各自的独立域内工作，或最多仅在 I/O 路径的相邻节点之间发挥作用。DIF 及
++其它数据完整性拓展有意思的点在于保护格式定义明确，I/O 路径上的每个节点都可以
++验证 I/O 的完整性，如检测到损坏可直接拒绝。这不仅可以防止数据损坏，还能够隔
++离故障点。
++
++2. 数据完整性拓展
++=================
++
++如上所述，这些协议扩展只保护控制器与存储设备之间的路径。然而，许多控制器实际
++上允许操作系统与完整性元数据(IMD)交互。我们一直与多家 FC/SAS HBA 厂商合作，
++使保护信息能够在其控制器与操作系统之间传输。
++
++SCSI 数据完整性字段通过在每个扇区后附加8字节的保护信息来实现。数据 + 完整
++性元数据存储在磁盘的520字节扇区中。数据 + IMD 在控制器与目标设备之间传输
++时是交错组合在一起的。T13 提案的方式类似。
++
++由于操作系统处理520字节（甚至 4104 字节）扇区非常不便，我们联系了多家 HBA
++厂商，并鼓励它们分离数据与完整性元数据的 scatter-gather lists。
++
++控制器在写入时会将数据缓冲区和完整性元数据缓冲区的数据交错在一起，并在读取时
++会拆分它们。这样，Linux 就能直接通过 DMA 将数据缓冲区传输到主机内存或从主机
++内存读取，而无需修改页缓存。
++
++此外，SCSI 与 SATA 规范要求的16位 CRC 校验在软件中计算代价较高。基准测试发
++现，计算此校验在高负载情形下显著影响系统性能。一些控制器允许在操作系统接口处
++使用轻量级校验。例如 Emulex 支持 TCP/IP 校验。操作系统提供的 IP 校验在写入
++时会转换为16位 CRC，读取时则相反。这允许 Linux 或应用程序以极低的开销生成
++完整性元数据（与软件 RAID5 相当）。
++
++IP 校验在检测位错误方面比 CRC 弱，但关键在于数据缓冲区与完整性元数据缓冲区
++的分离。只有这两个不同的缓冲区匹配，I/O 才能完成。
++
++数据与完整性元数据缓冲区的分离以及校验选择被称为数据完整性扩展。由于这些扩展
++超出了协议主体(T10、T13)的范围，Oracle 及其合作伙伴正尝试在存储网络行业协
++会内对其进行标准化。
++
++3. 内核变更
++===========
++
++Linux 中的数据完整性框架允许将保护信息固定到 I/O 上，并在支持该功能的控制器
++之间发送和接收。
++
++SCSI 和 SATA 中完整性扩展的优势在于，它们能够保护从应用程序到存储设备的整个
++路径。然而，这同时也是最大的劣势。这意味着保护信息必须采用磁盘可以理解的格式。
++
++通常，Linux/POSIX 应用程序并不关心所访问存储设备的具体细节。虚拟文件系统层
++和块层会让硬件扇区大小和传输协议对应用程序完全透明。
++
++然而，在准备发送到磁盘的保护信息时，就需要这种细节。因此，端到端保护方案的概
++念实际上违反了层次结构。应用程序完全不应该知道它访问的是 SCSI 还是 SATA 磁盘。
++
++Linux 中实现的数据完整性支持尝试将这些细节对应用程序隐藏。就应用程序（以及在
++某种程度上内核）而言，完整性元数据是附加在 I/O 上的不透明信息。
++
++当前实现允许块层自动为任何 I/O 生成保护信息。最终目标是将用户数据的完整性元
++数据计算移至用户空间。内核中产生的元数据和其他 I/O 仍将使用自动生成接口。
++
++一些存储设备允许为每个硬件扇区附加一个16位的标识值。这个标识空间的所有者是
++块设备的所有者，也就是在多数情况下由文件系统掌控。文件系统可以利用这额外空间
++按需为扇区附加标识。由于标识空间有限，块接口允许通过交错方式对更大的数据块标
++识。这样，8*16位的信息可以附加到典型的 4KB 文件系统块上。
++
++这也意味着诸如 fsck 和 mkfs 等应用程序需要能够从用户空间访问并操作这些标记。
++为此，正在开发一个透传接口。
++
++4. 块层实现细节
++===============
++
++4.1 Bio
++--------
++
++当启用 CONFIG_BLK_DEV_INTEGRITY 时，数据完整性补丁会在 struct bio 中添加
++一个新字段。调用 bio_integrity(bio) 会返回一个指向 struct bip 的指针，该
++结构体包含了该 bio 的完整性负载。本质上，bip 是一个精简版的 struct bio，其
++中包含一个 bio_vec，用于保存完整性元数据以及所需的维护信息（bvec 池、向量计
++数等）。
++
++内核子系统可以通过调用 bio_integrity_alloc(bio) 来为某个 bio 启用数据完整
++性保护。该函数会分配并附加一个 bip 到该 bio 上。
++
++随后使用 bio_integrity_add_page() 将包含完整性元数据的单独页面附加到该 bio。
++
++调用 bio_free() 会自动释放bip。
++
++4.2 块设备
++-----------
++
++块设备可以在 queue_limits 结构中的 integrity 子结构中设置完整性信息。
++
++对于分层块设备，需要选择一个适用于所有子设备的完整性配置文件。可以使用
++queue_limits_stack_integrity() 来协助完成该操作。目前，DM 和 MD linear、
++RAID0 和 RAID1 已受支持。而RAID4/5/6因涉及应用标签仍需额外的开发工作。
++
++5.0 块层完整性API
++==================
++
++5.1 普通文件系统
++-----------------
++
++    普通文件系统并不知道其下层块设备具备发送或接收完整性元数据的能力。
++    在执行写操作时，块层会在调用 submit_bio() 时自动生成完整性元数据。
++    在执行读操作时，I/O 完成后会触发完整性验证。
++
++    IMD 的生成与验证行为可以通过以下开关控制::
++
++      /sys/block/<bdev>/integrity/write_generate
++
++    and::
++
++      /sys/block/<bdev>/integrity/read_verify
++
++    flags.
++
++5.2 具备完整性感知的文件系统
++----------------------------
++
++    具备完整性感知能力的文件系统可以在准备 I/O 时附加完整性元数据，
++    并且如果底层块设备支持应用标签空间，也可以加以利用。
++
++
++    `bool bio_integrity_prep(bio);`
++
++      要为写操作生成完整性元数据或为读操作设置缓冲区，文件系统必须调用
++      bio_integrity_prep(bio)。
++
++      在调用此函数之前，必须先设置好 bio 的数据方向和起始扇区，并确
++      保该 bio 已经添加完所有的数据页。调用者需要自行保证，在 I/O 进行
++      期间 bio 不会被修改。如果由于某种原因准备失败，则应当以错误状态
++      完成该 bio。
++
++5.3 传递已有的完整性元数据
++--------------------------
++
++    能够自行生成完整性元数据或可以从用户空间传输完整性元数据的文件系统，
++    可以使用如下接口：
++
++
++    `struct bip * bio_integrity_alloc(bio, gfp_mask, nr_pages);`
++
++      为 bio 分配完整性负载并挂载到 bio 上。nr_pages 表示需要在
++      integrity bio_vec list 中存储多少页保护数据（类似 bio_alloc）。
++
++      完整性负载将在 bio_free() 被调用时释放。
++
++
++    `int bio_integrity_add_page(bio, page, len, offset);`
++
++      将包含完整性元数据的一页附加到已有的 bio 上。该 bio 必须已有 bip，
++      即必须先调用 bio_integrity_alloc()。对于写操作，页中的完整
++      性元数据必须采用目标设备可识别的格式，但有一个例外，当请求在 I/O 栈
++      中传递时，扇区号会被重新映射。这意味着通过此接口添加的页在 I/O 过程
++      中可能会被修改！完整性元数据中的第一个引用标签必须等于 bip->bip_sector。
++
++      只要 bip bio_vec array（nr_pages）有空间，就可以继续通过
++      bio_integrity_add_page()添加页。
++
++      当读操作完成后，附加的页将包含从存储设备接收到的完整性元数据。
++      接收方需要处理这些元数据，并在操作完成时验证数据完整性
++
++
++----------------------------------------------------------------------
++
++2007-12-24 Martin K. Petersen <martin.petersen@oracle.com>
+\ No newline at end of file
+diff --git a/Documentation/translations/zh_CN/block/index.rst b/Documentation/translations/zh_CN/block/index.rst
+index 442ee1025b36..f2ae5096ed68 100644
+--- a/Documentation/translations/zh_CN/block/index.rst
++++ b/Documentation/translations/zh_CN/block/index.rst
+@@ -17,12 +17,12 @@ Block
+    :maxdepth: 1
 
-=2D-=20
-2.39.5
+    blk-mq
++   data-integrity
+
+ TODOList:
+ * bfq-iosched
+ * biovecs
+ * cmdline-partition
+-* data-integrity
+ * deadline-iosched
+ * inline-encryption
+ * ioprio
+--
+2.25.1
 
