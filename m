@@ -1,198 +1,125 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010024.outbound.protection.outlook.com [52.101.201.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8859330B0E;
-	Thu, 20 Nov 2025 13:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763644507; cv=fail; b=V9s7886kbD+pH+5CHz5Mb1TwLJN5UAaYcTJ6g/y8bBNbX0GwpCH9FVE2A5aP5zETEpBfHu63SCXlMo4HTfYq+oHAbfLpb+bVN2k45dw4JUkuIQkkCbTwx45zyd8HB+GxFupjEYtV1amQJkg8CTTpSUn8zXLE8UCwoqOxKjByDCI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763644507; c=relaxed/simple;
-	bh=rvFJmylhuuqsw4pVJiuKIF4yciWktth2pmuLyqCafpM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q96i6nhI9qfra9I1Wp8CpNivy1Ynj9yOmHoeFxCyQ8ioRySxSpTjg/I2ud4GWvJZwvZXpUUL3YJ6pPpOfHxXqQTTJsG2odhzBgA14fQIG0LVcgCDq3Z7Q2FZVPivz1fI1DMIUi3uDjy6cp0+FAIGTeegMFb/yrml/g5qEBY+020=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hk5JVGdQ; arc=fail smtp.client-ip=52.101.201.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03BE33A70E
+	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 13:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763644851; cv=none; b=bTxQ5jpoxLciMxKegqEQ0ElF215kXVPn2iU6dzUfhnv0TC2sMP1K+nFZLdulwKRhPu+IvVu4m+rJwEXpS20pfVL3ifdreLVQdNuoduQePVMwFG+8WcSPMYmPHw4/LeEcmHt7i/s8co+SOHm/mIs5BWpZz/nAujB2PiBoQXckvvc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763644851; c=relaxed/simple;
+	bh=FAIy2u4gJscDNGUshiInImCPqOKl3iOKQJH6e6Bc4JI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=shi1vtpPivy5QZQkq644Ed6mUqHdJlw6Q1hnr/2RiTGZrP7RWACzA3hcwnUr/jWuY0Zl7NHXmiznGmTzkRG5CopuKpS5J7hLpLf7SPL10jjjGo3LWir6GTHay3WI6K8PlCYu+Yx3AfwXDDXTRvjFZnJ4FcMqFz4dHZFp7xf0zP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=jMJVlNB8; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hk5JVGdQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cw+4+7lJZEY3HmtbcxS/zPv6XvlNgYt8521eIkRNBR+xAbtfzvephajQv4CWmHSkdWkQPdTlp5dvVuFcdQSgU+OqpJagz8WnN28hOcuHWPndtzy2ODaF96EXVKi5lqqIzj1NDyGWTjwj6kaT0X1v7Di8HlT1aQZUr8Rjeb9U1DrwZK2c//qqw9tV8kUfVI1O5ruapX/eOezRTz4S7ONJowRjg2ixKIywMyWqV4+M98iLbv7e2hQDMwNJjep5zakWcv/2RO1iEcdFU+m5G3LnLX/NXJg1PbAvKq2ucfFXBiIY+wkKwEc3WYxjPFau6WczHEa9dNzpv84hVWlqixLQJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0VsQcyutSzrD9+Bmx/egBEONQLk4MXX0Rt2lxYWhEaY=;
- b=cQ9k1qSv/CNZMKTcYvVUKPBas/ZYDGyXuXQlhReHO3Y9SrBZ9iN4905+XXJloNxzQRg3APM9upZMhjVa/L56rMVM2EazMRQ4q0BUXLzmjL8N68RhQQDCb+rcefoIavzUjJn1fwGStugU4qGynJzX8fNgEYYmRfs8bzUr2+zDazzivTVSB4tD94JsaGlUH1/kRqz37FH94zq4brYej+bDo9nO6E00oACALmA/CBKtXM8z5nxC+6kNHQ4f/tQ8/dfah/Phf5SDXyCmgxktxp+g2XRSjwkMcmp37TXiV47ozM0KIF45wdm/BwruWc3w5xB7XCmxaPFq/2Q7APU4gyP2Hg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0VsQcyutSzrD9+Bmx/egBEONQLk4MXX0Rt2lxYWhEaY=;
- b=hk5JVGdQSMQWz7NIeUcegfCDIflTgn01a0i0ss/Kr/QZuTNk/LqXrBeD0esR2Z2JNbk8m8t0h2r//tXo3wwiL0/K822er0vPC/6QJcHOul/Hn/Swnsh+OH80zzEzD13ri/ItbLJVC32wNQypStA03zEvAXrhOF7tBVIwbKt+8MIzmZ7cbBE781PuoUGhD1ILXca7yvAtuvHgZIk3VWYThB/73Cf6TCJ1lMRZYF6ZpOfzoJBSZySEzKSAoL5vg5AX/G92L/KODJZhQmpWA+eDfpqL+nOstHeUuqYA2Bl1WsYJnKamzs1TSi0V1yEZs6D9M7QTY7SPMA6s+8g8kn14Pw==
-Received: from BN9PR03CA0354.namprd03.prod.outlook.com (2603:10b6:408:f6::29)
- by SA1PR12MB6869.namprd12.prod.outlook.com (2603:10b6:806:25d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
- 2025 13:14:59 +0000
-Received: from BN2PEPF000044AC.namprd04.prod.outlook.com
- (2603:10b6:408:f6:cafe::3a) by BN9PR03CA0354.outlook.office365.com
- (2603:10b6:408:f6::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Thu,
- 20 Nov 2025 13:14:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN2PEPF000044AC.mail.protection.outlook.com (10.167.243.107) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Thu, 20 Nov 2025 13:14:58 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
- 2025 05:14:40 -0800
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
- 2025 05:14:39 -0800
-Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Thu, 20
- Nov 2025 05:14:34 -0800
-From: Tariq Toukan <tariqt@nvidia.com>
-To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>
-CC: Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
- Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
-	<mbloch@nvidia.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-rdma@vger.kernel.org>, Gal Pressman <gal@nvidia.com>, Moshe Shemesh
-	<moshe@nvidia.com>, Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu
-	<cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>
-Subject: [PATCH net-next 14/14] net/mlx5: Document devlink rates
-Date: Thu, 20 Nov 2025 15:09:26 +0200
-Message-ID: <1763644166-1250608-15-git-send-email-tariqt@nvidia.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <1763644166-1250608-1-git-send-email-tariqt@nvidia.com>
-References: <1763644166-1250608-1-git-send-email-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="jMJVlNB8"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8b2ed01ba15so72054785a.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 05:20:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1763644847; x=1764249647; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GaI8T1P9V7HUSR5GC1P83jhUObFww+4fRanAKkUJgJM=;
+        b=jMJVlNB8LyM4AYZyl088cBiSIlJ90Q1dm2hb+qOJix1EHdJs4siUbnVhSfjdoo+d8b
+         CpJ6KfO7u7JniZDhdoBs1zVrqavLhdwn31rKFf/kVN8vkyxieUH5wcPJTih/9lZw+PEX
+         fzdm1aYuxKCanV8/aYUVsuP51mR3HV9FaHggDK4qYX5m3Eht6ufYvvO9vptn0SOijTOl
+         cfmQgVoxaFFQaCv0MtR3VFkL7VdP7LsWZJMB5e2tkAY+4CqMtLl57rP2UzUjo5ld0ad3
+         Ew7cnRVtQJOT76Gc3wbQzgtVC/yQSTJ4MullMwUuBOCRwifmwR9JypsEhj+RRVt4akF1
+         VX3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763644847; x=1764249647;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GaI8T1P9V7HUSR5GC1P83jhUObFww+4fRanAKkUJgJM=;
+        b=Kwc/vNlrpCqaV3xvIY4YZIlEKhuA9lFoKw4zRF76bA85QyPXtaiOqd8M6+zObBFVyP
+         +OSlqQKW9KxLrY+l2QmBwpFnuh1XWkSynNq1+oVwwNyp18wMdnojATUtcH3usGtb9Axt
+         jz3b+LeUQyI9v7oKGnkkhAmNA/4vqigXwCWlk5uisaH/vnkeZQv+d+nwtDRb8BrrXhNO
+         ++sNbYUaqQaGruA6wq8u6cpGLDY2ZUhEX2EfEPK1emJqlz6BJmxbT5FH+ABV/UGApP/6
+         AqoHFLn1k8YcwhEhVqmdf5wOWZXdhwON8uN10LKvepCnX1apogqU+lKqEdK1mckzKV4b
+         l0OA==
+X-Forwarded-Encrypted: i=1; AJvYcCXksbwu/RJC6Mh3XZ0XeCZAKVEKOCKp0h2N5N65aMRdzpL1MVdI8DMsT3wJTxvRNpIDJ8jahRcmpl8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYWjrRIkavmNOS8M/JsB5I55qbpX+nRYey1/Z3lrRoUud+10az
+	c4vnIeZKQ6/59xNiT+gfGako8GWiXvzidLJA+YL4+JA9XrZpNE7O4ulx+DPF1OVM3Gs=
+X-Gm-Gg: ASbGncvwLreyqI28SGox/z6pBnKgWV39K0AS37/JAWp2keVnIyn7+UpJPR2MxAJUY22
+	M/MtGJRIllF5V6tezr0oSXu6DON7f+LcfAnVJFrETZ+Qws9tcfbMdJtPDzppngBPKbyldQFAtJT
+	jnalTYBWF8ulJxH9Jw3MPvKhDNlTcyLX2Y/IBfVd3nf5VQnWsQ3vg/WoJzF1SmdzTUHWNw8hagf
+	joJDa3DnlYBC8Iv25ijgGtI52EGqMgG1wm2lJVmNJO1GKmyXbw260/S3GleOACN9IN9rkK7v5DU
+	XZyXhWeLLh0khnC162GPldgUfCF0v91obRsq+AVLbIFH1nbA3xjU//z6KMyaXxxpiLOom8LOYEI
+	otmcVsUr8sfImqR2mk9UdwcqBJFyArfLeSzGQ0soghc2M3yBkhc26dqVI7XBh+/NHp8ubT6PRzu
+	rVhseJYpxweDh9jlfUPQsIR9PchVBmeYqzk6iKCxNku+8hd6zctSP6vq3P
+X-Google-Smtp-Source: AGHT+IHQ4fmxCAI4/D2tK1B8sYqUFbudidu6PckWMercsX/iRS90WBjHNHkg95yPWC8b179KW1QKQA==
+X-Received: by 2002:a05:620a:318a:b0:89f:27dc:6536 with SMTP id af79cd13be357-8b32a193b85mr303322785a.54.1763644847316;
+        Thu, 20 Nov 2025 05:20:47 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b3295c13ccsm148498285a.26.2025.11.20.05.20.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Nov 2025 05:20:46 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vM4ac-00000000gLM-0tBz;
+	Thu, 20 Nov 2025 09:20:46 -0400
+Date: Thu, 20 Nov 2025 09:20:46 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
+	Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
+ scatter-gather mapping routine
+Message-ID: <20251120132046.GU17968@ziepe.ca>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
+ <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
+ <20251119132511.GK17968@ziepe.ca>
+ <69436b2a-108d-4a5a-8025-c94348b74db6@amd.com>
+ <20251119193114.GP17968@ziepe.ca>
+ <c115432c-b63d-4b99-be18-0bf96398e153@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000044AC:EE_|SA1PR12MB6869:EE_
-X-MS-Office365-Filtering-Correlation-Id: df631b7f-292d-42d4-0f7b-08de2836ce78
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|82310400026|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?iatKkzWl2BgrXOmwFGCASxsU7MLvmd834+7tuzkPpYmT0/O8NdXPhGMCRjwU?=
- =?us-ascii?Q?7On4EbGz65L/Gdq8qZlLF5Mtxx2gDn+WLjBOACmHPeYxIRGMf3C/JV6RXdWr?=
- =?us-ascii?Q?z1mrC8E+64TYh9GZsAjjb1pzVyCzA93yJ8qIcZJiGTYoKn/gKJNrViVE2wYQ?=
- =?us-ascii?Q?1CuZpialdmPfpi3rL5TIAAPEn+Jn0aWTTjBiA+WFx4JnECm+PQif+bh8evzC?=
- =?us-ascii?Q?8IZDUgyVwvFBMotvvVNVFqc8dwI/Dtbbc7uLym4FIS4GDyVG9GDL6Uvm8FRt?=
- =?us-ascii?Q?lnbGk9jGIs//6e9jahYMJU+4u7U8TEyF596igAVlb+Axw2VsRion7eQO9iH/?=
- =?us-ascii?Q?91wZY3zAJAPQD8J6d58EpgSO0166bb2oOs/SEfM2ikcsFZVB4hUevPbJudWx?=
- =?us-ascii?Q?02/cfswXiWS0FkwIhEelrW/8nrW3Dfxj4V+5jToNcpqQCSXoWTx1WARTht/n?=
- =?us-ascii?Q?t1utvQoyBl8t3MqsrsabRkKkZH8QqqPHRy668YJDNs/kV5ikOSwCT64P7pw/?=
- =?us-ascii?Q?QqXi3SBjTthajnnMi7PZE+7rWxG0B977R7MvPlqgO10DVuRwZv0RBN+Tgk+K?=
- =?us-ascii?Q?nx5aInQBKC0f9ihQRQP9E2vwnA2dKu+fK9Mewzi29w5NXgLNw+zBqwY6A4Ak?=
- =?us-ascii?Q?VElik0MtMoiagYWWck5opHXwVOxfhUBBrV448bF4Z1Dx0pYCPUehdGIH0rDy?=
- =?us-ascii?Q?T7XRXHWRsNg/RXbS92LAadg8RJK5DuXO/zDZAurpg+hcPoLkfCzfFIIs4Qsn?=
- =?us-ascii?Q?XiePrfB7GDX6ZGKZ/xC/k56LzDoiAF2Xfn9VDMC+hElBnvqa1V1HPRzGPadD?=
- =?us-ascii?Q?jvbMGXKFfk5/JIs9ttW3EumKI1THwLjyq2ebQ8aHNfhgOmkEHFrwtKhfg1XY?=
- =?us-ascii?Q?dNs0e4z4dN11x4UQhKwGMVhgwRkl4lCLpVQ3cGV6Id1z7oHB7om2YzqV9LGs?=
- =?us-ascii?Q?dikdR3+2k4XktZRKH6kHz5JeDYFFA/sJcYbbPfLVtsyPgrWfLou11yx57Umj?=
- =?us-ascii?Q?xh/ml13yFVV2UcUrDAMQLWLWjihIMT2Pa0AieZ96pDR8z4PSF0UKwpx+WaDx?=
- =?us-ascii?Q?8P4DOf/CJxI0HD3vrwet1CaX/Qm/Q9hYY1cWHoQ1bVDtjQk+knInG3mUyxfW?=
- =?us-ascii?Q?nB34F3JcuYTcaZpSBrxpckBDfztHHzoypMPBdD28aPMqBe0EYa4DIOjqA4Qu?=
- =?us-ascii?Q?9Z+Y4gvqZqazgd9jCyMo6p1Yoc9UzAlBTvArPL2f+QKWHWci4D+zekOlHNI/?=
- =?us-ascii?Q?F9gLV4HZnD/Uwox/JLRFl+DKza7+7O/ZmZHeVq74VEJn2S2UfaWTXMV9GhuP?=
- =?us-ascii?Q?/uILExGgK7LQDdQof919oGU326ZNhKmIiaZt9mRdCFFjLBjjRACqUjQszFi/?=
- =?us-ascii?Q?vwMiCvAgO0BqLVhZ8O2JxQtrv/v3iZJoxqqlfFFn/zGbA+eejqOi+Bzrv3Ru?=
- =?us-ascii?Q?JeE46whBB0RAuQVp6UpW77o4NwoRdmhTHqvIAma8ruB6rsCsC1K+tokNx4lI?=
- =?us-ascii?Q?+0IHf7533taVhY80nAxUreb/QTMt9lbGGGnosFoLZxB6lnaKX2ljrq3w5mPI?=
- =?us-ascii?Q?/SaJVyrvMMrSHQ68GZQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 13:14:58.8657
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: df631b7f-292d-42d4-0f7b-08de2836ce78
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000044AC.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6869
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c115432c-b63d-4b99-be18-0bf96398e153@amd.com>
 
-From: Cosmin Ratiu <cratiu@nvidia.com>
+On Thu, Nov 20, 2025 at 08:08:27AM +0100, Christian König wrote:
+> >> The exporter should be able to decide if it actually wants to use
+> >> P2P when the transfer has to go through the host bridge (e.g. when
+> >> IOMMU/bridge routing bits are enabled).
+> > 
+> > Sure, but this is a simplified helper for exporters that don't have
+> > choices where the memory comes from.
+> 
+> That is extremely questionable as justification to put that in common DMA-buf code.
 
-It seems rates were not documented in the mlx5-specific file, so add
-examples on how to limit VFs and groups and also provide an example of
-the intended way to achieve cross-esw scheduling.
+FWIW we already have patches for a RDMA exporter lined up to use it as
+well. That's two users already...
 
-Signed-off-by: Cosmin Ratiu <cratiu@nvidia.com>
-Reviewed-by: Carolina Jubran <cjubran@nvidia.com>
-Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
----
- Documentation/networking/devlink/mlx5.rst | 33 +++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
-
-diff --git a/Documentation/networking/devlink/mlx5.rst b/Documentation/networking/devlink/mlx5.rst
-index 0e5f9c76e514..eb260fd1e880 100644
---- a/Documentation/networking/devlink/mlx5.rst
-+++ b/Documentation/networking/devlink/mlx5.rst
-@@ -405,3 +405,36 @@ User commands examples:
- 
- .. note::
-    This command can run over all interfaces such as PF/VF and representor ports.
-+
-+Rates
-+=====
-+
-+mlx5 devices can limit transmission of individual VFs or a group of them via
-+the devlink-rate API in switchdev mode.
-+
-+User commands examples:
-+
-+- Print the existing rates::
-+
-+    $ devlink port function rate show
-+
-+- Set a max tx limit on traffic from VF0::
-+
-+    $ devlink port function rate set pci/0000:82:00.0/1 tx_max 10Gbit
-+
-+- Create a rate group with a max tx limit and adding two VFs to it::
-+
-+    $ devlink port function rate add pci/0000:82:00.0/group1 tx_max 10Gbit
-+    $ devlink port function rate set pci/0000:82:00.0/1 parent group1
-+    $ devlink port function rate set pci/0000:82:00.0/2 parent group1
-+
-+- Same scenario, with a min guarantee of 20% of the bandwidth for the first VFs::
-+
-+    $ devlink port function rate add pci/0000:82:00.0/group1 tx_max 10Gbit
-+    $ devlink port function rate set pci/0000:82:00.0/1 parent group1 tx_share 2Gbit
-+    $ devlink port function rate set pci/0000:82:00.0/2 parent group1
-+
-+- Cross-device scheduling::
-+
-+    $ devlink port function rate add pci/0000:82:00.0/group1 tx_max 10Gbit
-+    $ devlink port function rate set pci/0000:82:00.1/32769 parent pci/0000:82:00.0/group1
--- 
-2.31.1
-
+Jason
