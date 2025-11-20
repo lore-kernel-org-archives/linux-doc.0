@@ -1,397 +1,215 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A3C2EFDA5
-	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 03:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E606C248878
+	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 03:37:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763608138; cv=none; b=D3Z64X/ZnwOGMMtx6v/Ym9juwDJh27XcsW3DOaB/AfS8HgQzyBuXrkWiUeJTHZw5Lswb12qRewsuSmfjHnLC8q492eYJdcyuap17Y9DTjhAq9yuoNkvjZaj2KMe+zieoh6e021so8IANls+rWxj+C0xxQMiwtLyZ7KtcDnrCTcU=
+	t=1763609834; cv=none; b=UAYeVfTeQG0Wsu64Mdyjhs6FF7dKQrUz/zUcDU5ZkrTwAoZiO4EzB+WxwbHKLpGYYw7i4tzdKUlJzcqoU5IAkR4TxSN81de2PadTHbH1xpaE0ncDiuvK06wzhJS3hz/Nqjv31ZPAe8T+0FNdlpqmRqrFi9k5/bgZrAlx1e38i7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763608138; c=relaxed/simple;
-	bh=LDJQXStJhxuIVFUh0KGEALQ5QGsnk3BU7P04araX8Ik=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A283FN8rdjSbxeJ4DhX7EwhPY08U3XEjJ8G3frsFy305hV0WET1j4alj/nfm5pBnds8bIyd4azvdf24755CwoSMKnajEOeeGrRmeldt8opFr/k6xENy+snLJ3T2h5XeQHmt9Q3+C3ulLvBAITC4lF/ZW/W4eCerA4UiIF62Rw1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HCeLUvJy; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1763609834; c=relaxed/simple;
+	bh=ECDBbREziOCBdmljpaOyZYKnPyj7Q88QKnhf5KEHVVM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cQKZJh9Nu7fvQAVYKNdLj/dRT1Y5SojUzRNuQkMWVC2cRuS0NrruuyuBgA8NL5GOvAej3FykCdqG+TtcmPsF4HLwA5dRSInilXuLTlUqAtBb+N7PLqMmd7HkPuPBvoY2QRQWE5XfOSi3VmFBzKHTEMj+0bPB/DHZO7wSODi7G7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qsxa+VKd; arc=none smtp.client-ip=74.125.224.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HCeLUvJy"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-29812589890so5052105ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 19:08:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qsxa+VKd"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-640daf41b19so554397d50.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Nov 2025 19:37:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763608133; x=1764212933; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=obhMPXIkkdooRW9j/Fgg6xtfxvhQxt5QkqAkScu5Ygg=;
-        b=HCeLUvJyRY55d6qXu4vyz62YnNnmbD2QKBRVxhnZGBNy4ryUFIWeudOnQYZtH906JB
-         7nN8Pyju33EDRmFssiOANgO8rUMh/kESSbEgwuaRm5jOVr7j+lGOqC7kh2/fcGZxrP0t
-         flzMlIM5uMqxziDnaMAZihE6jha0EjmyuVWZzFhbZJNZl3WVUu5q5u2xoV1gGi56hO7R
-         fJLhOyA5AAxdAJLg6KsJsP/blTZP1QmlgC6CLGthnSx0RNdLX2mAtHOHUbu1202EZwLD
-         tY/dYt/0/ClxvQaa2lnkBmVF+ETe0zFBlhXFgzjyFKqFB2ux0klUp4Sq+4w9vnq3q57E
-         MTwg==
+        d=gmail.com; s=20230601; t=1763609831; x=1764214631; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LIkiaMiVquFyiirALpYhy26Yx4mEN1PZCumzzoxIfHM=;
+        b=Qsxa+VKd1mpF7UMBzUypqSeI2fpL9oercFH36BLY0JFDDSV1v6mzYlAvlrroyjRbw7
+         I/gd8y4I1aOQuqt89THFWvvobEQt6MjyL2cSH67gw6shL07YZaHBehY8b1UAcxooTtah
+         kHGDLiRh3BGI1WbaiJaq8yrqgu3aQ4gSRH5B35xbheyVT6GvSdVZT/T2opISaSr04BhS
+         s2SXG+j9E6ksMjKkWQz+Xwo2WeKSbaQRDmO+Sn4ajetlbrnhuv5qaB7Lr7mnvwFqFw6O
+         UftCsGlJ8Uj45P34gk0OkTjJEaEIhbw0OvMnLxiu1/0j3qSSH3LTD03EhQf4PSCqICTW
+         fYtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763608133; x=1764212933;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=obhMPXIkkdooRW9j/Fgg6xtfxvhQxt5QkqAkScu5Ygg=;
-        b=ZGp5ht4dPxuMlXz+j9vo8aysigrstQXjkU4TgixtH5F3kw3thMeTFQ9JQYcKOdrFh6
-         DbPGTQkryTFFniid6EVT9PpNEAEaE0NbkGVMEwRLpTUxBOvnjRQoVrKK9uJm8WMfzKZS
-         +U3MSd/k0rhxHMMFXGZp/OjqpIZvcjD90jxqwXIuhVyJzjH+iOFEDCPfUuTyPHqPwiKE
-         JvrPAEnet0cH6hBufpwKyBuBiD2oEjM9rxf+6nQ7gZhveuZ3ecWsn3JLAMS8IVVWFLpc
-         jZyI5LidudI/clkEB8xV0Vi9DuvGkG0VJK/9vzUQ19t+A+0IBjZ8au/HnfO9mlCyExgk
-         JyiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPXZdPyj+b0JA+W1viY4heShYwpZt6KLHh1wR/iederz1YGCIH6Ze82dx//pmv5tCNBVOz3RU1ZB0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnatnUQGCsU4V8G9Enk5v9MoRcX7Jr4WB4fYcXpusJ7nKllhjZ
-	/7IPa/lOcovQdPKIryzwNt0ZvE6PjeazmCKQqIuQfIpbSONhdUSkIoLt
-X-Gm-Gg: ASbGncsQ/Xtrd+hkUF51G6spZVlhqxcO4Rfmr6h/CRgTGW71DoP3afkZJ9e+dWVHGPR
-	4wsj02x/vRh0Ulh9IA2EZHR5Io4V2/fkrOGMtCADk30/+S73xIMgO7owt1z2Efd5nU2fSvH5n8E
-	p8+ehLla0lY3WAEL30T3GyYUMvd6xVGCXhhq/zg1Wgqy0a5Y5J7SBCdvsjHC5ileNwH0tJ7RoLu
-	wqiRBRX2kVcq9nP/iRsf5MCyxq1Lo9er7cClB2Wb0/ZNtZwsu8JbGfjy89sDBsvpsxZtP/rXj8F
-	UTtcopfwNnWd4oXAUHoNcCaQTy/pO4bfcKC3t5HeDXzIEnhD0XAeujIlqbTgnLaOo3Jf71VU4fV
-	dw2e+d6AKUCcuVecj7kg1RLGk3UfiAilAPScKyh15KdRm22AtWA9JHRTbf3DfLQXIktUXHa6LQs
-	RPYyBsYNfObWI=
-X-Google-Smtp-Source: AGHT+IF+i7eRVDL93AayD7pCpjsON/H/qC8/CmYibw5k9KhxkFq0GDgTD2VE7/kyvTrhs6frphltCQ==
-X-Received: by 2002:a17:903:40cb:b0:297:df17:54cd with SMTP id d9443c01a7336-29b5ebe28a2mr7905725ad.27.1763608132801;
-        Wed, 19 Nov 2025 19:08:52 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b29d706sm8451995ad.80.2025.11.19.19.08.51
+        d=1e100.net; s=20230601; t=1763609831; x=1764214631;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LIkiaMiVquFyiirALpYhy26Yx4mEN1PZCumzzoxIfHM=;
+        b=D9HPIuHizQMX3iTuwWMO0tZiiGzHIZU2/m7GzPULbU9IY3u0jw6NrBHfM1Xcdek5yB
+         bzMeVyy8yKceyhKLKvvtfda3T8rkt39nKngTsfsTniHUPccwlYBk2dIAlmzdhTfh5cur
+         e65zlLJu2gnlPVp8sgDo02AJo4KDdAUI4QTvLBPpkIUDSkvMzGWgHB7gVH/wKSqS1BPp
+         oJrwKBn+OC0NgZAYvP6BhvdCOtfGVd6UniNbggYD0hqi7i6amYeyEME2g2tz3K6QhEp7
+         c/l71SXRse9oWW03BEXhwJGXA/28KdfKraEcBPEobFNIxleRdDzxUligevEWAGEafbiv
+         A9xQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWOgSruNzff4wPigoi3rPnDFw1OZSxnAmTcSGztZnHW2SIaqLGpkXM6/Jok4BFwD/Iu88RizqtBAbw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPBgWub2zMfz3iBRp7fWqLk4THH7VqDe4sOlZzPjbyuMDXaaF1
+	25dHfc0jNpH039MFd6fcI2gZzbACjZfy1xAohnNowyVTNEf2PptoCm4f
+X-Gm-Gg: ASbGnctWUKNnHeTGuIO3GqITOCxNDMwDLN2RJRvoJYr4tiXgOux+9s4C18arCZ051qG
+	+CAGMFsDYfqeOnfQykL8W0Vk1DotpTnvqEqX6GPuVuqFcvEw2AKj0nS7ARv0tCF5yA9zOgC64GR
+	JHUdJmuchNB0GZf434EZwZ9VIjKY52t353qyxex5dzFexzs8R/ArN+FByRk3tZgo7MFhxUJ0iv4
+	KjMBDoMkMxUvRc7t9W2JpjhP4ffNrrGs6GOEiinnXwJhj6pdMhmV7lw26uNdo05lZzSnT1Ld51D
+	dpT4c/mr0h7rSxaY+fY5cppjDSgKrwbmIUpCuQYDVZIBGN+PovwfWrJ4Fr01rETYyfOPD1al4fM
+	eEj+GKSr3yLb1yx6kfVEaRpsviNkynjcyGJR7sPDKIURT6oxJ+tcTjMxFoMAUT61tMFFttZHUwc
+	7dbunCilrSrhSmUfqFelDuhg==
+X-Google-Smtp-Source: AGHT+IFKpR/FkxuF8iJIp+zHB2TEb80Y93lcc8kYP3bFlmrPbGL1JL+3IZD61Ppr98fvNX1s6GOhrQ==
+X-Received: by 2002:a05:690e:4009:b0:63f:b1fd:3850 with SMTP id 956f58d0204a3-642f8e16330mr648848d50.33.1763609830900;
+        Wed, 19 Nov 2025 19:37:10 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:50::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a798bd22fsm4151977b3.25.2025.11.19.19.37.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 19:08:51 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id AAB3D41D96E5; Thu, 20 Nov 2025 10:08:49 +0700 (WIB)
-Date: Thu, 20 Nov 2025 10:08:49 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
-	jbaron@akamai.com
-Cc: ukaszb@chromium.org, louis.chauvet@bootlin.com,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 31/31] docs/dyndbg: add classmap info to howto
-Message-ID: <aR6GQeLW-sh9-A3W@archie.me>
-References: <20251118201842.1447666-1-jim.cromie@gmail.com>
- <20251118201842.1447666-32-jim.cromie@gmail.com>
+        Wed, 19 Nov 2025 19:37:10 -0800 (PST)
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+Subject: [PATCH net-next v7 0/5] net: devmem: improve cpu cost of RX token
+ management
+Date: Wed, 19 Nov 2025 19:37:07 -0800
+Message-Id: <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-0-1abc8467354c@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HVQbqimanuPfAVD/"
-Content-Disposition: inline
-In-Reply-To: <20251118201842.1447666-32-jim.cromie@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOOMHmkC/5XQu26EMBCF4VexXO9EY2ODTbXvEaXwZQhWwkXYQ
+ bta8e6RKBJERz3S9x/Ni2daEmXeshdfaE05TSNvWXNjPPRu/CRIkbeMS5QajbSQw+JK6MFP3j8
+ p9980uBEirQMNUMIMZfqiEX7mXBZyA0grPYlGRY0VvzE+L9Slx1585yMVGOlR+MeN8T7lMi3Pf
+ coq9vtetSgvV1cBCNGqWtTWa63xPlBxb2Ea9tQqD7wQ13kJCMFgbCrto9LVia8OvKyv8xUgoFF
+ e1T46Y7oTr/94gbK6zmtAUE3wRndaaksnvv7nBarrfA0I5KwJnYoK/fE527b9Ahk4QLRzAgAA
+X-Change-ID: 20250829-scratch-bobbyeshleman-devmem-tcp-token-upstream-292be174d503
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, 
+ Willem de Bruijn <willemb@google.com>, Neal Cardwell <ncardwell@google.com>, 
+ David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Shuah Khan <shuah@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
+ Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Stanislav Fomichev <sdf@fomichev.me>, 
+ Bobby Eshleman <bobbyeshleman@meta.com>
+X-Mailer: b4 0.14.3
 
+This series improves the CPU cost of RX token management by adding an
+attribute to NETDEV_CMD_BIND_RX that configures sockets using the
+binding to avoid the xarray allocator and instead use a per-binding niov
+array and a uref field in niov.
 
---HVQbqimanuPfAVD/
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Improvement is ~13% cpu util per RX user thread.
+    
+Using kperf, the following results were observed:
 
-On Tue, Nov 18, 2025 at 01:18:41PM -0700, Jim Cromie wrote:
-> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Document=
-ation/admin-guide/dynamic-debug-howto.rst
-> index 1ceadf4f28f9..adac32a5cd23 100644
-> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -146,7 +146,9 @@ keywords are:::
->    "1-30" is valid range but "1 - 30" is not.
-> =20
-> =20
-> -The meanings of each keyword are:
-> +Keywords:::
-> +
-> +The meanings of each keyword are::
-> =20
->  func
->      The given string is compared against the function name
-> @@ -194,16 +196,6 @@ format
->  	format "nfsd: SETATTR"  // a neater way to match a format with whitespa=
-ce
->  	format 'nfsd: SETATTR'  // yet another way to match a format with white=
-space
-> =20
-> -class
-> -    The given class_name is validated against each module, which may
-> -    have declared a list of known class_names.  If the class_name is
-> -    found for a module, callsite & class matching and adjustment
-> -    proceeds.  Examples::
-> -
-> -	class DRM_UT_KMS	# a DRM.debug category
-> -	class JUNK		# silent non-match
-> -	// class TLD_*		# NOTICE: no wildcard in class names
-> -
->  line
->      The given line number or range of line numbers is compared
->      against the line number of each ``pr_debug()`` callsite.  A single
-> @@ -218,6 +210,24 @@ line
->  	line -1605          // the 1605 lines from line 1 to line 1605
->  	line 1600-          // all lines from line 1600 to the end of the file
-> =20
-> +class
-> +
-> +    The given class_name is validated against each module, which may
-> +    have declared a list of class_names it accepts.  If the class_name
-> +    accepted by a module, callsite & class matching and adjustment
-> +    proceeds.  Examples::
-> +
-> +	class DRM_UT_KMS	# a drm.debug category
-> +	class JUNK		# silent non-match
-> +	// class TLD_*		# NOTICE: no wildcard in class names
-> +
-> +.. note ::
-> +
-> +    Unlike other keywords, classes are "name-to-change", not
-> +    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
-> +
-> +Flags:::
-> +
->  The flags specification comprises a change operation followed
->  by one or more flag characters.  The change operation is one
->  of the characters::
-> @@ -238,11 +248,15 @@ The flags are::
->    s    Include the source file name
->    l    Include line number
-> =20
-> +Notes:
-> +
-> +To query without changing	``+_`` or ``-_``.
-> +To clear all flags		``=3D_`` or ``-fslmpt``.
-> +
->  For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
->  the ``p`` flag has meaning, other flags are ignored.
-> =20
-> -Note the regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specification.
-> -To clear all flags at once, use ``=3D_`` or ``-fslmpt``.
-> +The regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specification.
-> =20
-> =20
->  Debug messages during Boot Process
-> @@ -394,3 +408,92 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
->  For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string=
- is
->  its ``prefix_str`` argument, if it is constant string; or ``hexdump``
->  in case ``prefix_str`` is built dynamically.
-> +
-> +Dynamic Debug Classmaps
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The "class" keyword selects prdbgs based on author supplied,
-> +domain-oriented names.  This complements the nested-scope keywords:
-> +module, file, function, line.
-> +
-> +The main difference from the others: classes must be named to be
-> +changed.  This protects them from unintended overwrite:
-> +
-> +  # IOW this cannot undo any drm.debug settings
-> +  :#> ddcmd -p
-> +
-> +This protection is needed; /sys/module/drm/parameters/debug is ABI.
-> +drm.debug is authoritative when dyndbg is not used, dyndbg-under-DRM
-> +is an implementation detail, and must not behave erratically, just
-> +because another admin fed >control something unrelated.
-> +
-> +So each class must be enabled individually (no wildcards):
-> +
-> +  :#> ddcmd class DRM_UT_CORE +p
-> +  :#> ddcmd class DRM_UT_KMS +p
-> +  # or more selectively
-> +  :#> ddcmd class DRM_UT_CORE module drm +p
-> +
-> +That makes direct >control wordy and annoying, but it is a secondary
-> +interface; it is not intended to replace the ABI, just slide in
-> +underneath and reimplement the guaranteed behavior.  So DRM would keep
-> +using the convenient way, and be able to trust it.
-> +
-> +  :#> echo 0x1ff > /sys/module/drm/parameters/debug
-> +
-> +That said, since the sysfs/kparam is the ABI, if the author omits the
-> +CLASSMAP_PARAM, theres no ABI to guard, and he probably wants a less
-> +pedantic >control interface.  In this case, protection is dropped.
-> +
-> +Dynamic Debug Classmap API
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_DEFINE(clname,type,_base,classnames) - this maps
-> +classnames (a list of strings) onto class-ids consecutively, starting
-> +at _base.
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_USE(clname) & _USE_(clname,_base) - modules
-> +call this to refer to the var _DEFINEd elsewhere (and exported).
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_PARAM(clname) - creates the sysfs/kparam,
-> +maps/exposes bits 0..N as class-names.
-> +
-> +Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
-> +dyndbg to update those classes.  "class FOO" queries are validated
-> +against the classes, this finds the classid to alter; classes are not
-> +directly selectable by their classid.
-> +
-> +NB: It is an inherent API limitation (due to int class_id defn) that
-> +the following are possible:
-> +
-> +  // these errors should be caught in review
-> +  __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
-> +  __pr_debug_cls(62, "un-known classid msg"); // this compiles, does not=
-hing
-> +
-> +There are 2 types of classmaps:
-> +
-> + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
-> + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-> +
-> +DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
-> +refers to a DEFINEd classmap, and associates it to the param's
-> +data-store.  This state is then applied to DEFINEr and USEr modules
-> +when they're modprobed.
-> +
-> +The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-> +amongst the contained classnames; all classes are independent in the
-> +control parser itself.  There is no implied meaning in names like "V4"
-> +or "PL_ERROR" vs "PL_WARNING".
-> +
-> +Modules or module-groups (drm & drivers) can define multiple
-> +classmaps, as long as they (all the classmaps) share the limited 0..62
-> +per-module-group _class_id range, without overlap.
-> +
-> +If a module encounters a conflict between 2 classmaps its _USEing or
-> +_DEFINEing, it can invoke the extended _USE_(name,_base) macro to
-> +de-conflict the respective ranges.
-> +
-> +``#define DEBUG`` will enable all pr_debugs in scope, including any
-> +class'd ones.  This won't be reflected in the PARAM readback value,
-> +but the class'd pr_debug callsites can be forced off by toggling the
-> +classmap-kparam all-on then all-off.
+Before:
+	Average RX worker idle %: 13.13, flows 4, test runs 11
+After:
+	Average RX worker idle %: 26.32, flows 4, test runs 11
 
-Hmmm... the resulting htmldocs looks messy so I clean it up:
+Two other approaches were tested, but with no improvement. Namely, 1)
+using a hashmap for tokens and 2) keeping an xarray of atomic counters
+but using RCU so that the hotpath could be mostly lockless. Neither of
+these approaches proved better than the simple array in terms of CPU.
 
----- >8 ----
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentat=
-ion/admin-guide/dynamic-debug-howto.rst
-index adac32a5cd232d..fd3dbae00cfc60 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -146,9 +146,10 @@ keywords are:::
-   "1-30" is valid range but "1 - 30" is not.
-=20
-=20
--Keywords:::
-+Keywords
-+--------
-=20
--The meanings of each keyword are::
-+The meanings of each keyword are:
-=20
- func
-     The given string is compared against the function name
-@@ -221,12 +222,13 @@ class
- 	class JUNK		# silent non-match
- 	// class TLD_*		# NOTICE: no wildcard in class names
-=20
--.. note ::
-+.. note::
-=20
-     Unlike other keywords, classes are "name-to-change", not
--    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
-+    "omitting-constraint-allows-change".  See :ref:`dyndbg-classmaps`.
-=20
--Flags:::
-+Flags
-+-----
-=20
- The flags specification comprises a change operation followed
- by one or more flag characters.  The change operation is one
-@@ -248,10 +250,10 @@ The flags are::
-   s    Include the source file name
-   l    Include line number
-=20
--Notes:
-+.. note::
-=20
--To query without changing	``+_`` or ``-_``.
--To clear all flags		``=3D_`` or ``-fslmpt``.
-+   * To query without changing:	``+_`` or ``-_``.
-+   * To clear all flags:	``=3D_`` or ``-fslmpt``.
-=20
- For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
- the ``p`` flag has meaning, other flags are ignored.
-@@ -409,6 +411,8 @@ For ``print_hex_dump_debug()``/``print_hex_dump_bytes()=
-``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-=20
-+.. _dyndbg-classmaps:
-+
- Dynamic Debug Classmaps
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
-@@ -417,7 +421,7 @@ domain-oriented names.  This complements the nested-sco=
-pe keywords:
- module, file, function, line.
-=20
- The main difference from the others: classes must be named to be
--changed.  This protects them from unintended overwrite:
-+changed.  This protects them from unintended overwrite::
-=20
-   # IOW this cannot undo any drm.debug settings
-   :#> ddcmd -p
-@@ -427,7 +431,7 @@ drm.debug is authoritative when dyndbg is not used, dyn=
-dbg-under-DRM
- is an implementation detail, and must not behave erratically, just
- because another admin fed >control something unrelated.
-=20
--So each class must be enabled individually (no wildcards):
-+So each class must be enabled individually (no wildcards)::
-=20
-   :#> ddcmd class DRM_UT_CORE +p
-   :#> ddcmd class DRM_UT_KMS +p
-@@ -437,7 +441,7 @@ So each class must be enabled individually (no wildcard=
-s):
- That makes direct >control wordy and annoying, but it is a secondary
- interface; it is not intended to replace the ABI, just slide in
- underneath and reimplement the guaranteed behavior.  So DRM would keep
--using the convenient way, and be able to trust it.
-+using the convenient way, and be able to trust it::
-=20
-   :#> echo 0x1ff > /sys/module/drm/parameters/debug
-=20
-@@ -464,7 +468,7 @@ against the classes, this finds the classid to alter; c=
-lasses are not
- directly selectable by their classid.
-=20
- NB: It is an inherent API limitation (due to int class_id defn) that
--the following are possible:
-+the following are possible::
-=20
-   // these errors should be caught in review
-   __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
-@@ -472,8 +476,8 @@ the following are possible:
-=20
- There are 2 types of classmaps:
-=20
-- DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
-- DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+* DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
-+* DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-=20
- DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
- refers to a DEFINEd classmap, and associates it to the param's
+The attribute NETDEV_A_DMABUF_AUTORELEASE is added to toggle the
+optimization. It is an optional attribute and defaults to 0 (i.e.,
+optimization on).
 
-Thanks.
+To: David S. Miller <davem@davemloft.net>
+To: Eric Dumazet <edumazet@google.com>
+To: Jakub Kicinski <kuba@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+To: Simon Horman <horms@kernel.org>
+To: Kuniyuki Iwashima <kuniyu@google.com>
+To: Willem de Bruijn <willemb@google.com>
+To: Neal Cardwell <ncardwell@google.com>
+To: David Ahern <dsahern@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+To: Arnd Bergmann <arnd@arndb.de>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Andrew Lunn <andrew+netdev@lunn.ch>
+To: Shuah Khan <shuah@kernel.org>
+Cc: Stanislav Fomichev <sdf@fomichev.me>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arch@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 
---=20
-An old man doll... just what I always wanted! - Clara
+Changes in v7:
+- use netlink instead of sockopt (Stan)
+- restrict system to only one mode, dmabuf bindings can not co-exist
+  with different modes (Stan)
+- use static branching to enforce single system-wide mode (Stan)
+- Link to v6: https://lore.kernel.org/r/20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-0-ea98cf4d40b3@meta.com
 
---HVQbqimanuPfAVD/
-Content-Type: application/pgp-signature; name=signature.asc
+Changes in v6:
+- renamed 'net: devmem: use niov array for token management' to refer to
+  optionality of new config
+- added documentation and tests
+- make autorelease flag per-socket sockopt instead of binding
+  field / sysctl
+- many per-patch changes (see Changes sections per-patch)
+- Link to v5: https://lore.kernel.org/r/20251023-scratch-bobbyeshleman-devmem-tcp-token-upstream-v5-0-47cb85f5259e@meta.com
 
------BEGIN PGP SIGNATURE-----
+Changes in v5:
+- add sysctl to opt-out of performance benefit, back to old token release
+- Link to v4: https://lore.kernel.org/all/20250926-scratch-bobbyeshleman-devmem-tcp-token-upstream-v4-0-39156563c3ea@meta.com
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaR6GPAAKCRD2uYlJVVFO
-o82NAP9o9bKdHzQr2WUnsmQEo2y9z1jOdX8J+HgUei4iaKFGoAEA7aYmQOKNkEme
-AThPfWzYb2VtrLEG2zkxC0iPslgWTAg=
-=vmiO
------END PGP SIGNATURE-----
+Changes in v4:
+- rebase to net-next
+- Link to v3: https://lore.kernel.org/r/20250926-scratch-bobbyeshleman-devmem-tcp-token-upstream-v3-0-084b46bda88f@meta.com
 
---HVQbqimanuPfAVD/--
+Changes in v3:
+- make urefs per-binding instead of per-socket, reducing memory
+  footprint
+- fallback to cleaning up references in dmabuf unbind if socket
+  leaked tokens
+- drop ethtool patch
+- Link to v2: https://lore.kernel.org/r/20250911-scratch-bobbyeshleman-devmem-tcp-token-upstream-v2-0-c80d735bd453@meta.com
+
+Changes in v2:
+- net: ethtool: prevent user from breaking devmem single-binding rule
+  (Mina)
+- pre-assign niovs in binding->vec for RX case (Mina)
+- remove WARNs on invalid user input (Mina)
+- remove extraneous binding ref get (Mina)
+- remove WARN for changed binding (Mina)
+- always use GFP_ZERO for binding->vec (Mina)
+- fix length of alloc for urefs
+- use atomic_set(, 0) to initialize sk_user_frags.urefs
+- Link to v1: https://lore.kernel.org/r/20250902-scratch-bobbyeshleman-devmem-tcp-token-upstream-v1-0-d946169b5550@meta.com
+
+---
+Bobby Eshleman (5):
+      net: devmem: rename tx_vec to vec in dmabuf binding
+      net: devmem: refactor sock_devmem_dontneed for autorelease split
+      net: devmem: implement autorelease token management
+      net: devmem: document NETDEV_A_DMABUF_AUTORELEASE netlink attribute
+      selftests: drv-net: devmem: add autorelease tests
+
+ Documentation/netlink/specs/netdev.yaml           |  12 +++
+ Documentation/networking/devmem.rst               |  70 +++++++++++++
+ include/net/netmem.h                              |   1 +
+ include/net/sock.h                                |   7 +-
+ include/uapi/linux/netdev.h                       |   1 +
+ net/core/devmem.c                                 | 121 ++++++++++++++++++----
+ net/core/devmem.h                                 |  13 ++-
+ net/core/netdev-genl-gen.c                        |   5 +-
+ net/core/netdev-genl.c                            |  13 ++-
+ net/core/sock.c                                   | 103 ++++++++++++++----
+ net/ipv4/tcp.c                                    |  78 +++++++++++---
+ net/ipv4/tcp_ipv4.c                               |  13 ++-
+ net/ipv4/tcp_minisocks.c                          |   3 +-
+ tools/include/uapi/linux/netdev.h                 |   1 +
+ tools/testing/selftests/drivers/net/hw/devmem.py  |  22 +++-
+ tools/testing/selftests/drivers/net/hw/ncdevmem.c |  19 ++--
+ 16 files changed, 401 insertions(+), 81 deletions(-)
+---
+base-commit: 4c52142904b33b41c3ff7ee58670b4e3b3bf1120
+change-id: 20250829-scratch-bobbyeshleman-devmem-tcp-token-upstream-292be174d503
+
+Best regards,
+-- 
+Bobby Eshleman <bobbyeshleman@meta.com>
+
