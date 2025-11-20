@@ -1,152 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A132332C92E;
-	Thu, 20 Nov 2025 09:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF302EBBAA
+	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 09:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763630970; cv=none; b=N3uBw/qqIjsIhbWdd0G9OWxgtCO1pUnvnzhVGtvYRUg4TbHyTfI4GRpecX6BK7VkktTRLMeHp69RhHbzZBLSEEKnzD+kfTCOrrs84IA8aB8kWBHqK4F3h5P+PHQ2ZVzm2oH2MEr/RFHmEFqRbgFP2x73WCNKMQTIcxHGAn7Rjso=
+	t=1763631007; cv=none; b=T3f9XPPgDFDTE86VC0e80QNafGWvwH37K9LT/oxWXZdqkvLtjFEW1ouF4wV9J6h88hRW/sGMvp7oDgoQLvXVVAzZR+/y5sfIaCsUmr6JuIuYs28c/MN0wJTSEzIA9cltcKwVgpGoT9sktLmn0ZDg8T5DqzBPCo1yBj+MJ7o1n50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763630970; c=relaxed/simple;
-	bh=TYZN/mvASZVK9qFe7+ikMiLynVdctM3LNTh3cHN7Nb0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HL8V8J/GEzNRdcufjCRoZO9RdbcGxmutcCAUfsChtSXLY7r6KmzmM6w1G8LCHyZfedN6Bi+JEW4yR9jalyl3pPuiPM/Sa8MSWKUeJA/iK8QIIubw6Ixu4aBFdjsqysBCMAq/CRBY/Vcaxn/Zqr0jefa48KXURrw7m7fU68zYNgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g2l4BV16; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763631007; c=relaxed/simple;
+	bh=yQl6Am+yjM+jiH0K2AKGK6fLV8tbHJIiZjM0lPoL1lE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mLcpNz3rwPGoJ2YARI8ZYP4So3OTojNwYWdBGf0R1BjYVm4JFhRiQ+UnnQzvIusUz12lg8vUqxoWSXsTthqAe7GjFRETEMI7/xMry5p+7flRXk0cBIgo7+Gr+RYwwqpCMD2ljj/812cjFKcX3z+JPXG9Bg6kZQDVj37FTYAQBd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LkJdHGqH; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g2l4BV16"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DFDFC116C6;
-	Thu, 20 Nov 2025 09:29:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763630970;
-	bh=TYZN/mvASZVK9qFe7+ikMiLynVdctM3LNTh3cHN7Nb0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=g2l4BV16UqpfJQIQxe53UwLkUgeclXpzgA/cFuTY0DizNIs8fLTtXdJjVUpcCJxar
-	 jYV+7Rsr8RLZ27pc+2tQmbQkwpqYzQcY2hgAizwcxswbLH3gP0GnGnqVLbKYaNBbJ7
-	 +DBpB0sc3mFOe0PaC727RO4U75ehgm3/Z36NQ0UHXkJ4Ftvnu24r1CdqkaGNwlIm2s
-	 v3QD76BVntv/d1+THDqKCNcH2pCEDO1lZVWqZFJ+2MvwmzOiUf9v1SommTLXWRQHWH
-	 CkiF6pX8hIM4+FTq/NCnd+b2iRvTsIkcDvy9a4+AduKgjEgdD632hrpgr3/2p0ABQJ
-	 kohkYric/6tNg==
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex@shazbot.org>
-Cc: Krishnakant Jaju <kjaju@nvidia.com>,
-	Matt Ochs <mochs@nvidia.com>,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	Alex Mastro <amastro@fb.com>,
-	Nicolin Chen <nicolinc@nvidia.com>
-Subject: [PATCH v9 09/11] vfio/pci: Enable peer-to-peer DMA transactions by default
-Date: Thu, 20 Nov 2025 11:28:28 +0200
-Message-ID: <20251120-dmabuf-vfio-v9-9-d7f71607f371@nvidia.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
-References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LkJdHGqH"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7bab7c997eeso767951b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 01:30:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763631004; x=1764235804; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y0ahZnkbKTq/zXCngVOV5tNUB9eHwQteBjkic4SlaNw=;
+        b=LkJdHGqHa6ld60aK0jwh3vfQDfBL7YvT20Lef9wLzgef2/0kVrbgnn0E9X2FzUySE/
+         mCwQS99km2qsErzS+qX/l6SX1c2zSFbZWrm+aSavnNybRJzkblgyHyUG8E8Ang1OlLhq
+         m3jV9LGxzoXpUdtfAWBsgli08pmT+m11KghmtlsZHNXW5WTKKqeaMSR4F93OWwg1k0aN
+         iJh8Csg8J5SGt0lgGJ8WUT5GJcLoL5RMRVV1Muya1mGZmpk+x7VDmWCDwC7Ucln8HgW7
+         jkrL0IFtJ6uUOsPKUJ22D0h0zzGGVr79PwX66it6nkquXq1hZmI9Q7RzaJU38FZ5i1SG
+         9aRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763631004; x=1764235804;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y0ahZnkbKTq/zXCngVOV5tNUB9eHwQteBjkic4SlaNw=;
+        b=YHcw3nF3N8nM9BsCPnwNfVfM5PcCxe741Cn2Eg0vdW+ZRe6Srd4sv7eXFFAaLbb5Gs
+         L3ugQnBfzQyh6K39I1d1sPRZGCrsKrdgTbTmS+XVU4KZYjEDI8JOwA3jdHumapHzrV0i
+         W0UlppN9lWGFFCUX1K9CzEkPtcO8HwQ0kd3qDbKgC11xsBnQzfSQ+a33Dj9C1sIcsJze
+         GVwHPh5n0pbrwPfMsBIeEA4NWKpBpyxaRRzHApmCX71mpvyT7RSwGi+dyp2DsMnkEUkw
+         eOtzF4SnjCnBKjoAjOCnXvf3W91V39zTYOzXLgsNIE6pHgYTFuh3e9Wp9xajhPBbRdbV
+         lzWA==
+X-Forwarded-Encrypted: i=1; AJvYcCUfMvY2ndtCB5VyFEIh9GccticsHCbsVB6Um3L4jT97pK2+uwnlLaiMX/Be/DYNUX0InEDii3aZbu4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqIhF0pIsSaEsmh8nx0oSle6ayJAO6FsjSw5tJBeYULAJYw71W
+	5xgupixG5JTUsjb+jzYt/IBTtmSU2CPMu4wKM/9xBKmf1JM7+00lLSBueLHpvAqaa6I=
+X-Gm-Gg: ASbGncsKl6ylJ4CvkcbBxAS3c5voRlZFdh27GzTYYBT+uThgEDmzzyS9Y5kCqw84kLG
+	xnsqueooNDaq9ZOAmDmBuuJ438mwhN7vz6kT4Pr+iQbOxA/DhZ2TlDJpae8hSqKHdURTFxkDLhF
+	Zv6NC7K1IREb45nRDA/N/2W/aaDUzMGAJhV2qVF/vCn4Hg3uwyNqJuIhnsxmal+GjxAjgkwuByb
+	cUO+qxnPQvy0LLdFzWPKoxBdadIYtOwHbv5Ziysit1R56sq9GqcujEZ9ikJnlATbfCk24ishC1K
+	P7rXB70WgNIoLLdwpSuPYz+427lczfmrzXHeUFmYEd3y45cVK/wAzT2divcnDewwJkujDIiSu8o
+	5vpL4zRzCy9fp8V59xU+RBAcfkryPbO2PvLk4CkokZLsdeI1wOcDCRFglxwuCVifh32KyEE/s/9
+	hETLGsNQ4Qf+KdHSUcJA58yg==
+X-Google-Smtp-Source: AGHT+IFM1rG6BQ9QLPRgC9WRSoHnGffbzNzuoM89C5S7NauJeRqdu2h4JvYetmK1mXobCaM3XLB4rA==
+X-Received: by 2002:a05:6a00:10ce:b0:7ab:8d8a:1024 with SMTP id d2e1a72fcca58-7c3ee197dfemr2897250b3a.7.1763631004085;
+        Thu, 20 Nov 2025 01:30:04 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed379558sm2106554b3a.25.2025.11.20.01.30.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Nov 2025 01:30:03 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 5E84A41117C8; Thu, 20 Nov 2025 16:30:01 +0700 (WIB)
+Date: Thu, 20 Nov 2025 16:30:01 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+	jbaron@akamai.com
+Cc: ukaszb@chromium.org, louis.chauvet@bootlin.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 04/31] docs/dyndbg: explain flags parse 1st
+Message-ID: <aR7fmRgNmP60RJZz@archie.me>
+References: <20251118201842.1447666-1-jim.cromie@gmail.com>
+ <20251118201842.1447666-5-jim.cromie@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-a6db3
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tNRZFCgC3+laadDu"
+Content-Disposition: inline
+In-Reply-To: <20251118201842.1447666-5-jim.cromie@gmail.com>
 
-From: Leon Romanovsky <leonro@nvidia.com>
 
-Make sure that all VFIO PCI devices have peer-to-peer capabilities
-enables, so we would be able to export their MMIO memory through DMABUF,
+--tNRZFCgC3+laadDu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-VFIO has always supported P2P mappings with itself. VFIO type 1
-insecurely reads PFNs directly out of a VMA's PTEs and programs them
-into the IOMMU allowing any two VFIO devices to perform P2P to each
-other.
+On Tue, Nov 18, 2025 at 01:18:14PM -0700, Jim Cromie wrote:
+> -
+> -A match specification is a keyword, which selects the attribute of
+> -the callsite to be compared, and a value to compare against.  Possible
+> +Note: because the match-spec can be empty, the flags are checked 1st,
+> +then the pairs of keyword values.  Flag errs will hide keyword errs:
+> +
+> +  bash-5.2# ddcmd mod bar +foo
+> +  dyndbg: read 13 bytes from userspace
+> +  dyndbg: query 0: "mod bar +foo" mod:*
+> +  dyndbg: unknown flag 'o'
+> +  dyndbg: flags parse failed
+> +  dyndbg: processed 1 queries, with 0 matches, 1 errs
 
-All existing VMMs use this capability to export P2P into a VM where
-the VM could setup any kind of DMA it likes. Projects like DPDK/SPDK
-are also known to make use of this, though less frequently.
+The snippet above is shown as long-running paragraph instead, so I wrap it
+in literal code block:
 
-As a first step to more properly integrating VFIO with the P2P
-subsystem unconditionally enable P2P support for VFIO PCI devices. The
-struct p2pdma_provider will act has a handle to the P2P subsystem to
-do things like DMA mapping.
+---- >8 ----
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentat=
+ion/admin-guide/dynamic-debug-howto.rst
+index fd3dbae00cfc60..7690287cbe0c79 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -112,8 +112,8 @@ The match-spec's select *prdbgs* from the catalog, upon=
+ which to apply
+ the flags-spec, all constraints are ANDed together.  An absent keyword
+ is the same as keyword "*".
+=20
+-Note: because the match-spec can be empty, the flags are checked 1st,
+-then the pairs of keyword values.  Flag errs will hide keyword errs:
++Note that since the match-spec can be empty, the flags are checked first,
++then the pairs of keyword values.  Flag errs will hide keyword errs::
+=20
+   bash-5.2# ddcmd mod bar +foo
+   dyndbg: read 13 bytes from userspace
+@@ -122,9 +122,9 @@ then the pairs of keyword values.  Flag errs will hide =
+keyword errs:
+   dyndbg: flags parse failed
+   dyndbg: processed 1 queries, with 0 matches, 1 errs
+=20
+-So a match-spec is a keyword, which selects the attribute of the
++Hence, a match-spec is a keyword, which selects the attribute of the
+ callsite to be compared, and a value to compare against.  Possible
+-keywords are:::
++keywords are::
+=20
+   match-spec ::=3D 'func' string |
+ 		 'file' string |
 
-While real PCI devices have to support P2P (they can't even tell if an
-IOVA is P2P or not) there may be fake PCI devices that may trigger
-some kind of catastrophic system failure. To date VFIO has never
-tripped up on such a case, but if one is discovered the plan is to add
-a PCI quirk and have pcim_p2pdma_init() fail. This will fully block
-the broken device throughout any users of the P2P subsystem in the
-kernel.
+Thanks.
 
-Thus P2P through DMABUF will follow the historical VFIO model and be
-unconditionally enabled by vfio-pci.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-Tested-by: Alex Mastro <amastro@fb.com>
-Tested-by: Nicolin Chen <nicolinc@nvidia.com>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/vfio/pci/vfio_pci_core.c | 5 +++++
- 1 file changed, 5 insertions(+)
+--tNRZFCgC3+laadDu
+Content-Type: application/pgp-signature; name=signature.asc
 
-diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-index ca9a95716a85..142b84b3f225 100644
---- a/drivers/vfio/pci/vfio_pci_core.c
-+++ b/drivers/vfio/pci/vfio_pci_core.c
-@@ -28,6 +28,7 @@
- #include <linux/nospec.h>
- #include <linux/sched/mm.h>
- #include <linux/iommufd.h>
-+#include <linux/pci-p2pdma.h>
- #if IS_ENABLED(CONFIG_EEH)
- #include <asm/eeh.h>
- #endif
-@@ -2081,6 +2082,7 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
- {
- 	struct vfio_pci_core_device *vdev =
- 		container_of(core_vdev, struct vfio_pci_core_device, vdev);
-+	int ret;
- 
- 	vdev->pdev = to_pci_dev(core_vdev->dev);
- 	vdev->irq_type = VFIO_PCI_NUM_IRQS;
-@@ -2090,6 +2092,9 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
- 	INIT_LIST_HEAD(&vdev->dummy_resources_list);
- 	INIT_LIST_HEAD(&vdev->ioeventfds_list);
- 	INIT_LIST_HEAD(&vdev->sriov_pfs_item);
-+	ret = pcim_p2pdma_init(vdev->pdev);
-+	if (ret && ret != -EOPNOTSUPP)
-+		return ret;
- 	init_rwsem(&vdev->memory_lock);
- 	xa_init(&vdev->ctx);
- 
+-----BEGIN PGP SIGNATURE-----
 
--- 
-2.51.1
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaR7flQAKCRD2uYlJVVFO
+ozygAQDeqV2+eAL925SBI3I8R+CQGvz0yTuUJJ9a6KUiNhCDDgEAsMy6wTgxalgk
+ymAwck6TVuSNIyI5PoEJGZv83FrVLgs=
+=wp6p
+-----END PGP SIGNATURE-----
 
+--tNRZFCgC3+laadDu--
