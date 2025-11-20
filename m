@@ -1,200 +1,242 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C6A2F066A
-	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 09:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0912116E0;
+	Thu, 20 Nov 2025 09:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763630372; cv=none; b=PcnB7uCufRSfP9QSrAyt8VWD0a3IoKPohkp8hFiCBMnwwJ2m1ys8VMFLUO7HdOqx3ZBArs/NrUCEiZeoD8gequjDnC8V6y7WVbdX0kswHIP2BiybnOHfrAV3/g2atPFSo3Pz1PEc2pBURSsJybj668fBdaF2+/wjwqezb+AkvZ0=
+	t=1763630929; cv=none; b=LtN2qSuqbIpE0k0WG3EfOUlaeHqWDCSAIGFtylhDDFCbGy6zX+JtLj+tIX48njhIhdb2QY8YYV8xUmziwhzyWE+whuftDoAOG0Qwh+oxcpnU8WCsYbA3mYnSeGEcAGT0pgQXnCMJan519qlKBZkbf4YN6q7DN2Sue1bqe6sjCco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763630372; c=relaxed/simple;
-	bh=y5wMycaqef501Ldy2X5EI+znPj+titPOSLVRy2EdgVY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NgG+hCMbzhZXqo6kysndObUF/hQ8wIDavDbXSgDPKIYF9VKx9RtfA22UoUvodXl7Yu9EQeZDJLZ1M7miH3/dJw7wahnvdtJIKGQ9/iFT8s0eGgpbQ9+T3CLf35bBWW9iL2s1s0rdCXW1p5sbr6yrB28R8ckLmfx0ex8RTddTxsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zYwfHfNQ; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763630929; c=relaxed/simple;
+	bh=I2Ow+FoVVNgAF5HMTVEjWmPor12AxpDfs1Z6H54cyr8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FovNt3cDusOYW/LkNTihn2jfIhbx3ub0VkvOa5f4kMMuGiGuhx/srtogiI1Rj3scDdsUZhQBJHrUO6H3Fp3595NB1cPrMu8RQ8xhZ8xmjwabSQlf1WtUs/YDXAGzYf5nblhqHbGWIEvpqK/XApK4boBq3lCtlq+YKOnH5pMIfio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s4xF+5wM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zYwfHfNQ"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47778b23f64so3649805e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 01:19:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763630368; x=1764235168; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=20kuTsLD7mzN21Mbsnm6zJe9RI36sxYDFDB3fVbVRPA=;
-        b=zYwfHfNQ4okBDDKviwj/epI3v2+wP5et59yo50TIkeYSpe5vUAJ1BoA84LyipG2H0V
-         nTQ0xP5YqvNqWyyUqWh7xew2OSoic08IZkDyOU1OMSiPNQT0aJr1mvNlyAJ3hnV3dvC1
-         nq57dLZLz8C6Gu6IS8lYddHS+CfaBfPOrIIFJg240dbD3sZEkGWdO6nVv70CDBIn4+UC
-         zhiwOX39e6Hb6QCifCpYZ7piExzL0dmF5dhLn8FRPSAtmObTIFikeVBiJUT9s28zfDFK
-         3G7v/T+gpRTn5RPNkZg9peeB7fUgjxgeRATRfEPy8yd9P43MsHcMLVHFAYoq++IPU6Al
-         M8Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763630368; x=1764235168;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=20kuTsLD7mzN21Mbsnm6zJe9RI36sxYDFDB3fVbVRPA=;
-        b=a2RjY6KeBzSiAPcrqR1d40pr33FdLzT92HKqQAl51NvyDTLorfbZXzu8Kq34ya+ltK
-         MeuyaBTVjim2p8R8fhHf3GVoFjZsBDRUANTiG2P1B1bzrRNGC+YN3LlqAwzDUm/cRKVs
-         whrjkhbAMiF1olRLB5eGvg+h1LcwLnab04/xA+WnhqCkaHFjRY1hAXY4v9W7+DfL2NS1
-         Ni/EDh4lVgtw+hVe8wiH9NLP7k5ZxOduMS1Xg3vjCHatukRLNrJbbSZtuhA5WEZ4c9CP
-         ewpMSf8vXA+JHKL2c/Gg1B62TOc0vHxnJCHde7gPFa6OHl2P19OgNElTdsOMcK9UrgRn
-         6sFA==
-X-Forwarded-Encrypted: i=1; AJvYcCXiUHAlyPVjNIVnMvsQnMsQrKrkid+zBrguLM9DcHibdsdmz4Y7cJlqPXM79MQyUhwA4my9Ym0WMM8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysBBQBNbHAywdM8LqKPcLzeGLWEvEBafdEi9vxP8NZkn6PnKxY
-	PEN/cs3YatPKHloLufMya06I7gJJh8ZY3BTlEMp2aCb9N1MO2JvBWZyZ20bN7Hf7TcU=
-X-Gm-Gg: ASbGncsta5UqIL0c5KeSV4C0zvXZNQpqPSZYtF2kKHNWGllfpKIu1frDH8vTYrDtY5w
-	ZQhfxnVJF5Jqz5AvpGmmUPzmquEyOj35KjDekKxCZXSJj2IVSCrbOvKjbL74rrzrSYrYRe/gSU1
-	h15035fPzKrLDd6haHcbxhw99ivI/9mKZsorl2e7DHanJeGBxeKqEABRFDQ6qKZWxp76iUUXMEP
-	mwXXcyKR5TbJPZZ/KBG//Lj1SXePhJVtacT0q35L+RJjkfGeh7b/EqLlNg7yHWtf/18dNcw28RX
-	UDGkby+y7KnkTuBtdo5q2634lMBVTv/AOu/tmI2if8VFgPbq8KtA/UWv9EsCBY3w4LtIBvWYr/u
-	mbr9fzryJPtpHWWSVRGN5oFiPt3Ro5KOIqEnEa+RoJhQzkvYyk6jQJdPjgq6w5Hw5stFfGoAf+j
-	7XcuTu8d/4mj6ALbdR
-X-Google-Smtp-Source: AGHT+IG5tl/whbs/s+74YcG+m53Ghp9OLB4xBZ6tsdMgU8rY+wexmvaqdkIZY2ULXyjStCQ5oVkWfQ==
-X-Received: by 2002:a05:600c:358f:b0:477:9650:3175 with SMTP id 5b1f17b1804b1-477b835c667mr30933245e9.0.1763630367552;
-        Thu, 20 Nov 2025 01:19:27 -0800 (PST)
-Received: from [192.168.1.3] ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477b831ad3fsm36561245e9.12.2025.11.20.01.19.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Nov 2025 01:19:27 -0800 (PST)
-Message-ID: <d3dca311-5f2b-406f-a91b-0c5bf4dcb7ce@linaro.org>
-Date: Thu, 20 Nov 2025 09:19:25 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s4xF+5wM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1571C4CEF1;
+	Thu, 20 Nov 2025 09:28:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763630927;
+	bh=I2Ow+FoVVNgAF5HMTVEjWmPor12AxpDfs1Z6H54cyr8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=s4xF+5wMT4a8M94UXO4W8SX/ZHtbVxbZgyCr/zZ5AEZBu/b5ZsWpMuuX/n+r8u+h5
+	 4rH9JeGqKTNngFLaGXWvqxsGZ4yMgs1vFlNWwhUHJWM/6XvWGNFLVWSFy0CkQbXgTL
+	 gg1nPrdVyPsYvj/myW5kVgUbLFTZT1fViF0ZH/gb2yBqGDfoMNVpSnxjeERbZipKjH
+	 CiIUaWD/18OOt/YX1zmcUySs76rRrFCbbN8Z8HZL1FS5unC8MMWfa0rw3G41S5awu7
+	 2m3Haa7BYkL+Gt3HSqKUFqGLCyXFOaLHpYPLakvL+iVUzMzpKjlkOboqpB4QnfJ7QW
+	 i0kRKIqxKZ//A==
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>
+Cc: Krishnakant Jaju <kjaju@nvidia.com>,
+	Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Alex Mastro <amastro@fb.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: [PATCH v9 00/11] vfio/pci: Allow MMIO regions to be exported through dma-buf
+Date: Thu, 20 Nov 2025 11:28:19 +0200
+Message-ID: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 0/5] perf: arm_spe: Armv8.8 SPE features
-To: Namhyung Kim <namhyung@kernel.org>, Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, Leo Yan <leo.yan@arm.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
- kvmarm@lists.linux.dev
-References: <20251111-james-perf-feat_spe_eft-v10-0-1e1b5bf2cd05@linaro.org>
- <aR503-f-ZrnWzZh2@google.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <aR503-f-ZrnWzZh2@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20251016-dmabuf-vfio-6cef732adf5a
+X-Mailer: b4 0.15-dev-a6db3
+Content-Transfer-Encoding: 8bit
 
+Changelog:
+v9:
+ * Added Reviewed-by tags.
+ * Fixes to p2pdma documentation.
+ * Renamed dma_buf_map and unmap.
+ * Moved them to separate file.
+ * Used nvgrace_gpu_memregion() function instead of open-coded variant.
+ * Paired get_file_active() with fput().
+v8: https://patch.msgid.link/20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com
+ * Fixed spelling errors in p2pdma documentation file.
+ * Added vdev->pci_ops check for NULL in vfio_pci_core_feature_dma_buf().
+ * Simplified the nvgrace_get_dmabuf_phys() function.
+ * Added extra check in pcim_p2pdma_provider() to catch missing call
+   to pcim_p2pdma_init().
+v7: https://patch.msgid.link/20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com
+ * Dropped restore_revoke flag and added vfio_pci_dma_buf_move
+   to reverse loop.
+ * Fixed spelling errors in documentation patch.
+ * Rebased on top of v6.18-rc3.
+ * Added include to stddef.h to vfio.h, to keep uapi header file independent.
+v6: https://patch.msgid.link/20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com
+ * Fixed wrong error check from pcim_p2pdma_init().
+ * Documented pcim_p2pdma_provider() function.
+ * Improved commit messages.
+ * Added VFIO DMA-BUF selftest, not sent yet.
+ * Added __counted_by(nr_ranges) annotation to struct vfio_device_feature_dma_buf.
+ * Fixed error unwind when dma_buf_fd() fails.
+ * Document latest changes to p2pmem.
+ * Removed EXPORT_SYMBOL_GPL from pci_p2pdma_map_type.
+ * Moved DMA mapping logic to DMA-BUF.
+ * Removed types patch to avoid dependencies between subsystems.
+ * Moved vfio_pci_dma_buf_move() in err_undo block.
+ * Added nvgrace patch.
+v5: https://lore.kernel.org/all/cover.1760368250.git.leon@kernel.org
+ * Rebased on top of v6.18-rc1.
+ * Added more validation logic to make sure that DMA-BUF length doesn't
+   overflow in various scenarios.
+ * Hide kernel config from the users.
+ * Fixed type conversion issue. DMA ranges are exposed with u64 length,
+   but DMA-BUF uses "unsigned int" as a length for SG entries.
+ * Added check to prevent from VFIO drivers which reports BAR size
+   different from PCI, do not use DMA-BUF functionality.
+v4: https://lore.kernel.org/all/cover.1759070796.git.leon@kernel.org
+ * Split pcim_p2pdma_provider() to two functions, one that initializes
+   array of providers and another to return right provider pointer.
+v3: https://lore.kernel.org/all/cover.1758804980.git.leon@kernel.org
+ * Changed pcim_p2pdma_enable() to be pcim_p2pdma_provider().
+ * Cache provider in vfio_pci_dma_buf struct instead of BAR index.
+ * Removed misleading comment from pcim_p2pdma_provider().
+ * Moved MMIO check to be in pcim_p2pdma_provider().
+v2: https://lore.kernel.org/all/cover.1757589589.git.leon@kernel.org/
+ * Added extra patch which adds new CONFIG, so next patches can reuse
+ * it.
+ * Squashed "PCI/P2PDMA: Remove redundant bus_offset from map state"
+   into the other patch.
+ * Fixed revoke calls to be aligned with true->false semantics.
+ * Extended p2pdma_providers to be per-BAR and not global to whole
+ * device.
+ * Fixed possible race between dmabuf states and revoke.
+ * Moved revoke to PCI BAR zap block.
+v1: https://lore.kernel.org/all/cover.1754311439.git.leon@kernel.org
+ * Changed commit messages.
+ * Reused DMA_ATTR_MMIO attribute.
+ * Returned support for multiple DMA ranges per-dMABUF.
+v0: https://lore.kernel.org/all/cover.1753274085.git.leonro@nvidia.com
 
+---------------------------------------------------------------------------
+Based on "[PATCH v6 00/16] dma-mapping: migrate to physical address-based API"
+https://lore.kernel.org/all/cover.1757423202.git.leonro@nvidia.com/ series.
+---------------------------------------------------------------------------
 
-On 20/11/2025 1:54 am, Namhyung Kim wrote:
-> Hello,
-> 
-> On Tue, Nov 11, 2025 at 11:37:54AM +0000, James Clark wrote:
->> Support SPE_FEAT_FDS data source filtering.
-> 
-> What's the state of this series?  I can merge the tools part (3, 4, 5)
-> once the kernel part lands somewhere.
-> 
-> Thanks,
-> Namhyung
-> 
+This series extends the VFIO PCI subsystem to support exporting MMIO
+regions from PCI device BARs as dma-buf objects, enabling safe sharing of
+non-struct page memory with controlled lifetime management. This allows RDMA
+and other subsystems to import dma-buf FDs and build them into memory regions
+for PCI P2P operations.
 
-The SPE driver part was blocked on Peter's ack for the config4 change. 
-He's given it now so Will should be able to take the driver.
+The series supports a use case for SPDK where a NVMe device will be
+owned by SPDK through VFIO but interacting with a RDMA device. The RDMA
+device may directly access the NVMe CMB or directly manipulate the NVMe
+device's doorbell using PCI P2P.
+
+However, as a general mechanism, it can support many other scenarios with
+VFIO. This dmabuf approach can be usable by iommufd as well for generic
+and safe P2P mappings.
+
+In addition to the SPDK use-case mentioned above, the capability added
+in this patch series can also be useful when a buffer (located in device
+memory such as VRAM) needs to be shared between any two dGPU devices or
+instances (assuming one of them is bound to VFIO PCI) as long as they
+are P2P DMA compatible.
+
+The implementation provides a revocable attachment mechanism using dma-buf
+move operations. MMIO regions are normally pinned as BARs don't change
+physical addresses, but access is revoked when the VFIO device is closed
+or a PCI reset is issued. This ensures kernel self-defense against
+potentially hostile userspace.
+
+The series includes significant refactoring of the PCI P2PDMA subsystem
+to separate core P2P functionality from memory allocation features,
+making it more modular and suitable for VFIO use cases that don't need
+struct page support.
+
+-----------------------------------------------------------------------
+The series is based originally on
+https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
+but heavily rewritten to be based on DMA physical API.
+-----------------------------------------------------------------------
+The WIP branch can be found here:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio-v9
 
 Thanks
-James
 
->>
->> ---
->> Changes in v10:
->> - Pick up Peter's ack
->> - Slightly clarify commit message regarding the difference between the
->>    data source filter and the data source
->> - Link to v9: https://lore.kernel.org/r/20251029-james-perf-feat_spe_eft-v9-0-d22536b9cf94@linaro.org
->>
->> Changes in v9:
->> - Fix another typo in docs: s/data_src_filter/inv_data_src_filter/g
->> - Drop already applied patches for other features. Only the data source
->>    filtering patches remain.
->> - Rebase on latest perf-tools-next
->> - Link to v8: https://lore.kernel.org/r/20250901-james-perf-feat_spe_eft-v8-0-2e2738f24559@linaro.org
->>
->> Changes in v8:
->> - Define __spe_vers_imp before it's used
->> - "disable traps to PMSDSFR" -> "disable traps of PMSDSFR to EL2"
->> - Link to v7: https://lore.kernel.org/r/20250814-james-perf-feat_spe_eft-v7-0-6a743f7fa259@linaro.org
->>
->> Changes in v7:
->> - Fix typo in docs: s/data_src_filter/inv_data_src_filter/g
->> - Pickup trailers
->> - Link to v6: https://lore.kernel.org/r/20250808-james-perf-feat_spe_eft-v6-0-6daf498578c8@linaro.org
->>
->> Changes in v6:
->> - Rebase to resolve conflict with BRBE changes in el2_setup.h
->> - Link to v5: https://lore.kernel.org/r/20250721-james-perf-feat_spe_eft-v5-0-a7bc533485a1@linaro.org
->>
->> Changes in v5:
->> - Forgot to pickup tags from v4
->> - Forgot to drop test and review tags on v4 patches that were
->>    significantly modified
->> - Update commit message for data source filtering to mention inversion
->> - Link to v4: https://lore.kernel.org/r/20250721-james-perf-feat_spe_eft-v4-0-0a527410f8fd@linaro.org
->>
->> Changes in v4:
->> - Rewrite "const u64 feat_spe_eft_bits" inline
->> - Invert data source filter so that it's possible to exclude all data
->>    sources without adding an additional 'enable filter' flag
->> - Add a macro in el2_setup.h to check for an SPE version
->> - Probe valid filter bits instead of hardcoding them
->> - Take in Leo's commit to expose the filter bits as it depends on the
->>    new filter probing
->> - Link to v3: https://lore.kernel.org/r/20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org
->>
->> Changes in v3:
->> - Use PMSIDR_EL1_FDS instead of 1 << PMSIDR_EL1_FDS_SHIFT
->> - Add VNCR offsets
->> - Link to v2: https://lore.kernel.org/r/20250529-james-perf-feat_spe_eft-v2-0-a01a9baad06a@linaro.org
->>
->> Changes in v2:
->> - Fix detection of FEAT_SPE_FDS in el2_setup.h
->> - Pickup Marc Z's sysreg change instead which matches the json
->> - Restructure and expand docs changes
->> - Link to v1: https://lore.kernel.org/r/20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org
->>
->> ---
->> James Clark (5):
->>        perf: Add perf_event_attr::config4
->>        perf: arm_spe: Add support for filtering on data source
->>        tools headers UAPI: Sync linux/perf_event.h with the kernel sources
->>        perf tools: Add support for perf_event_attr::config4
->>        perf docs: arm-spe: Document new SPE filtering features
->>
->>   drivers/perf/arm_spe_pmu.c                |  37 +++++++++++
->>   include/uapi/linux/perf_event.h           |   2 +
->>   tools/include/uapi/linux/perf_event.h     |   2 +
->>   tools/perf/Documentation/perf-arm-spe.txt | 104 +++++++++++++++++++++++++++---
->>   tools/perf/tests/parse-events.c           |  13 +++-
->>   tools/perf/util/parse-events.c            |  11 ++++
->>   tools/perf/util/parse-events.h            |   1 +
->>   tools/perf/util/parse-events.l            |   1 +
->>   tools/perf/util/pmu.c                     |   8 +++
->>   tools/perf/util/pmu.h                     |   1 +
->>   10 files changed, 170 insertions(+), 10 deletions(-)
->> ---
->> base-commit: 081006b7c8e19406dc6674c6b6d086764d415b5c
->> change-id: 20250312-james-perf-feat_spe_eft-66cdf4d8fe99
->>
->> Best regards,
->> -- 
->> James Clark <james.clark@linaro.org>
->>
+---
+Jason Gunthorpe (2):
+      PCI/P2PDMA: Document DMABUF model
+      vfio/nvgrace: Support get_dmabuf_phys
+
+Leon Romanovsky (7):
+      PCI/P2PDMA: Separate the mmap() support from the core logic
+      PCI/P2PDMA: Simplify bus address mapping API
+      PCI/P2PDMA: Refactor to separate core P2P functionality from memory allocation
+      PCI/P2PDMA: Provide an access to pci_p2pdma_map_type() function
+      dma-buf: provide phys_vec to scatter-gather mapping routine
+      vfio/pci: Enable peer-to-peer DMA transactions by default
+      vfio/pci: Add dma-buf export support for MMIO regions
+
+Vivek Kasireddy (2):
+      vfio: Export vfio device get and put registration helpers
+      vfio/pci: Share the core device pointer while invoking feature functions
+
+ Documentation/driver-api/pci/p2pdma.rst |  97 +++++++---
+ block/blk-mq-dma.c                      |   2 +-
+ drivers/dma-buf/Makefile                |   2 +-
+ drivers/dma-buf/dma-buf-mapping.c       | 248 +++++++++++++++++++++++++
+ drivers/iommu/dma-iommu.c               |   4 +-
+ drivers/pci/p2pdma.c                    | 186 ++++++++++++++-----
+ drivers/vfio/pci/Kconfig                |   3 +
+ drivers/vfio/pci/Makefile               |   1 +
+ drivers/vfio/pci/nvgrace-gpu/main.c     |  52 ++++++
+ drivers/vfio/pci/vfio_pci.c             |   5 +
+ drivers/vfio/pci/vfio_pci_config.c      |  22 ++-
+ drivers/vfio/pci/vfio_pci_core.c        |  53 ++++--
+ drivers/vfio/pci/vfio_pci_dmabuf.c      | 316 ++++++++++++++++++++++++++++++++
+ drivers/vfio/pci/vfio_pci_priv.h        |  23 +++
+ drivers/vfio/vfio_main.c                |   2 +
+ include/linux/dma-buf-mapping.h         |  17 ++
+ include/linux/dma-buf.h                 |  11 ++
+ include/linux/pci-p2pdma.h              | 120 +++++++-----
+ include/linux/vfio.h                    |   2 +
+ include/linux/vfio_pci_core.h           |  42 +++++
+ include/uapi/linux/vfio.h               |  28 +++
+ kernel/dma/direct.c                     |   4 +-
+ mm/hmm.c                                |   2 +-
+ 23 files changed, 1101 insertions(+), 141 deletions(-)
+---
+base-commit: dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
+change-id: 20251016-dmabuf-vfio-6cef732adf5a
+
+Best regards,
+--  
+Leon Romanovsky <leonro@nvidia.com>
 
