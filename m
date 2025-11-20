@@ -1,55 +1,55 @@
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DCF3590A4
-	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 15:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACA1359FBF
+	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 15:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763651568; cv=none; b=BDkfNFqQD8B+Eexmi1TPQZ/4vY+nLPUD9NXWAFhRCGUUXE3ilXeV4I+vIDICMVCsGMxDSsyMy1GtFhxsu5oDaq0GLnekBPKceg1xTHyT91qn6zpu0ej7koudh4BKhqsaO7GWW1kRC29hm8sdWLpComNTwFAGJTPiDi0WwgAsWGQ=
+	t=1763651585; cv=none; b=ANPx1ucaX9n2k5BSl44/uFbv6E+qlAL2PDRt/QgD1bSy7YiaBQurFTIrgFe79ZoAP4XhFNHhipZTMpDjFHqUc9fEUeLONuxCzwPDGXMkQhUbGoPBRreVcvUzV/yZXX84ElGUmmSxKbD0uWU5FOoiz/mCLH34vetHKE2hctdwxNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763651568; c=relaxed/simple;
-	bh=kxFRVTFhBpdkAJPPAvjA33uY3sxge16MbJ+cvADLyIM=;
+	s=arc-20240116; t=1763651585; c=relaxed/simple;
+	bh=RUzla79vcrCNAl+iG6eEDpRpuL0clf23CJSIoLake0Q=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=fPe2gFIJqoy//bFkV7J7bOAbhlR4aZPeJDcPUIP9EpuRVgcqU00sIGDJgx3opoR0a2806ELT2nP9qdoFDkJWi3HizWZbuTcPLiXZPFDjbNApcGGXJ3gEyKxW5/Sb2UJYFiHF8LDBTJSepknMAFOV8TMcTnCzTdX7QUgVtqZPU34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xPJNNQtS; arc=none smtp.client-ip=209.85.221.74
+	 To:Cc:Content-Type; b=m93UyZZ4V943auPua7/49aO4ygNBRhqPSL47j1NlK5agqGwxSLpnFBDnkGHRbtWDx8cVHOE/0fTGnYwLypjJ8NWzrY0yowPeUFpzqPMudRFrnqbz7UO4azK4JflLO3fNNf89vZWUYquYCjTf6wVqZlaE6iRoc2cE/NhjJC1ThOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4jFiN0I4; arc=none smtp.client-ip=209.85.221.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xPJNNQtS"
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-42b487cda00so452813f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 07:12:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4jFiN0I4"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-42b352355a1so988064f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 07:12:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763651538; x=1764256338; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1763651564; x=1764256364; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hosCU2YAM4wmLhG6gCEf4XqbMRgXsIjIUxIgZVPv95A=;
-        b=xPJNNQtSgTtD6mSJ1HnWZK2MgqtmqhSG0geiu4JKIJo4391Ch6ZbVs+yz5FMVM/22a
-         XF1WYB2Oi16th54HAb6AxLkuDCdOwrfz/KlPgUC8BQcOpay60O5N8D7BQfiR47fyBm1V
-         TWIkazFyxkA/y7IIZdiDLwa5+zp2Z+DAeR+FtI0DM3P/d7ADUxsHm0K2IkI1lprs8DPA
-         Gzvui5zOlh08MUyEFk4wL3Y7PEmh/i1slKyUcPAV8hfMAD5TXpCklQORh21QtQi9vCQl
-         9oBiVtJjtATPjDSASTzab6HVhK/oVVRZD4aKFHSMcl7lWQLxk1CmiPbVASYYfVIg/nA3
-         Uqlw==
+        bh=yHFmEO19z4F9SK7KsUWIWORciiNuVWc+Iq1/rw+dtQM=;
+        b=4jFiN0I4tgBBGzcViuvesL6eyi3Dy0x70l86wjyv7RQPBbRk0ttxmcunaVrX6EEflN
+         Jd7S71q4ir9QWkbX/H9/658Q1grc/cyFbxt3g7owNdaGGWPhia4Z6gQPn8ivsxQHW4no
+         J+91U23X3NGNj0nraeO0PY5Z7dSFiwX05EGaHKE8d5G03X5Mt3qwiRjBuwHnAxK+B9DC
+         tUrG89xhGaPZoSN0Ukv5D0UkG7DEKJyvUe1ZvUiaOH6ZuMXQLtcZtHLexCHkKHEycPA0
+         D/W08FMNczqX+eWcHtBUPJO2B9dYbEeXSuqIeIdhbq6afaop1YDTpV595+ptbns7tviV
+         D1jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763651538; x=1764256338;
+        d=1e100.net; s=20230601; t=1763651564; x=1764256364;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hosCU2YAM4wmLhG6gCEf4XqbMRgXsIjIUxIgZVPv95A=;
-        b=kUh3cGh3c4K4PvNwE+uj0QjhWyVcTSaRn9QGMdXYJcx20PqMnAM2fDITCwlGc0GVyq
-         7EsrpLUIa4GcBxdlRCPLehVKn04+Y5A/gFE7iaO0x/DjkIDmMCGsBh9vAvPl5YxsAWw/
-         tzsIOQqAoOTZP0MIhKz6IjI4bckVybGt1PnKObl98+cLaBHHE3DJ+XDHueP4AVfmbek3
-         Lrlfrg2oCRdulNoh801Rj7mQHBiv130wgijvXaXoV+aXH/4YAyw7hS9jo0jQRm85r1i0
-         mbt7NLoNa4hG2e9DhLPxTo9KIz1qURxRQqbF6PVUONACdtjISj0zeYrgql1cCGC1nggl
-         p3QQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGWYDcPm6AIrDLjVEzAlESN4oZhJZmWzRvOdvTu3woJccfBY27xZ6Y8ylzUhlKXjZLAHmqdGBDjsA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHB7Tfa4U/oxi0v1ndeydnqHgRXlhKhtUpDrNiVIe/w4v95HZy
-	uJvfkkDf9qBfY0cb8FYerXTDPVHbDVQkxhjVjqVZr2rHEiv/D2FDlKbwF31Z0A/xs0dsR4P3OIw
-	Y5w==
-X-Google-Smtp-Source: AGHT+IGqdP+1ULXZ13/bvPdwqw8yuJ8l0jo0RTsoVAwzy0DYBXw9hGmu0iT83h/ma3EfKmKjOC5LfRBvFQ==
-X-Received: from wraj7.prod.google.com ([2002:a5d:4527:0:b0:42b:2aa2:e459])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:2505:b0:42b:3ed2:c08b
- with SMTP id ffacd0b85a97d-42cbb2b1a6emr2638286f8f.51.1763651537400; Thu, 20
- Nov 2025 07:12:17 -0800 (PST)
-Date: Thu, 20 Nov 2025 16:09:36 +0100
+        bh=yHFmEO19z4F9SK7KsUWIWORciiNuVWc+Iq1/rw+dtQM=;
+        b=eOVeSkwosF5IjRdmjeRA3D4pfjApIPWXVO2tx5ksYCU3CO3onH2TIAsx0IhP8Kmvjd
+         JUQhUubwyUu5dggkSm7DVcBL1N1IMZIy4rO5vdspG9ZVBJh4pvfNVjq4wSLtZ9KIAmwU
+         RXH0xuwrcOolfuvRx8WEeStT7r5HQyNNiTKK+UlzmjKEIrV9pQVTXCD+LmZC/LCzXQWp
+         6rsPjd8T01WVXtlYgLLJ40YnmF3D2itQJfyVPyeZ/QpU6tv3wlmcdzB2AtkgjFI7wEJS
+         EU3bii5Pjw79iZVmaG3YRXv5TCDoK61FTAmoNLGfFSGy2VLf2f35KtIIO5KQPBjlyHOI
+         g81g==
+X-Forwarded-Encrypted: i=1; AJvYcCUb81EB17vVe+dw7+lHb+KI5+7Eodkm4qm+sIBEdg4u0VI5xa3OTYoaIMZ/DAi05iH9fH/LPTLKnIU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkUUDv3YoR5PO9k4QrtBB7UqWkr1cKkoq8pg5zl1jErplq4pVU
+	2BsajzRRE3RQPDgLlYbqhajIud9B0vjxM6Cx+2TORXYYKVm7lOB0+OzS/klT/oQf5VgYy+wRQq7
+	iWQ==
+X-Google-Smtp-Source: AGHT+IEuTifEbUhdvE5i/Y5rsgIqB9EBfMLOeSF1GbDDxdQ2epjvOMdY+jN5N2aF7xQEE8cxTJX0dndqmg==
+X-Received: from wroy10.prod.google.com ([2002:adf:f14a:0:b0:42b:39b8:85b7])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:200c:b0:429:b963:cdd5
+ with SMTP id ffacd0b85a97d-42cba63e2c0mr3368120f8f.5.1763651564018; Thu, 20
+ Nov 2025 07:12:44 -0800 (PST)
+Date: Thu, 20 Nov 2025 16:09:40 +0100
 In-Reply-To: <20251120151033.3840508-7-elver@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20251120145835.3833031-2-elver@google.com> <20251120151033.3840508-7-elver@google.com>
 X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
-Message-ID: <20251120151033.3840508-12-elver@google.com>
-Subject: [PATCH v4 11/35] locking/seqlock: Support Clang's context analysis
+Message-ID: <20251120151033.3840508-16-elver@google.com>
+Subject: [PATCH v4 15/35] srcu: Support Clang's context analysis
 From: Marco Elver <elver@google.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
@@ -87,303 +87,362 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Add support for Clang's context analysis for seqlock_t.
+Add support for Clang's context analysis for SRCU.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
+v4:
+* Rename capability -> context analysis.
+
 v3:
-* __assert -> __assume rename
+* Switch to DECLARE_LOCK_GUARD_1_ATTRS() (suggested by Peter)
+* Support SRCU being reentrant.
 ---
  Documentation/dev-tools/context-analysis.rst |  2 +-
- include/linux/seqlock.h                      | 24 +++++++++++
- include/linux/seqlock_types.h                |  5 ++-
- lib/test_context-analysis.c                  | 43 ++++++++++++++++++++
- 4 files changed, 71 insertions(+), 3 deletions(-)
+ include/linux/srcu.h                         | 64 +++++++++++++-------
+ include/linux/srcutiny.h                     |  4 ++
+ include/linux/srcutree.h                     |  6 +-
+ lib/test_context-analysis.c                  | 24 ++++++++
+ 5 files changed, 77 insertions(+), 23 deletions(-)
 
 diff --git a/Documentation/dev-tools/context-analysis.rst b/Documentation/dev-tools/context-analysis.rst
-index 1f5d7c758219..598962f6cb40 100644
+index 05164804a92a..59fc8e4cc203 100644
 --- a/Documentation/dev-tools/context-analysis.rst
 +++ b/Documentation/dev-tools/context-analysis.rst
-@@ -80,7 +80,7 @@ Supported Kernel Primitives
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -81,7 +81,7 @@ Supported Kernel Primitives
  
  Currently the following synchronization primitives are supported:
--`raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`.
-+`raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`, `seqlock_t`.
+ `raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`, `seqlock_t`,
+-`bit_spinlock`, RCU.
++`bit_spinlock`, RCU, SRCU (`srcu_struct`).
  
  For context guards with an initialization function (e.g., `spin_lock_init()`),
  calling this function before initializing any guarded members or globals
-diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-index 5ce48eab7a2a..c79210d369ef 100644
---- a/include/linux/seqlock.h
-+++ b/include/linux/seqlock.h
-@@ -816,6 +816,7 @@ static __always_inline void write_seqcount_latch_end(seqcount_latch_t *s)
- 	do {								\
- 		spin_lock_init(&(sl)->lock);				\
- 		seqcount_spinlock_init(&(sl)->seqcount, &(sl)->lock);	\
-+		__assume_ctx_guard(sl);					\
- 	} while (0)
+diff --git a/include/linux/srcu.h b/include/linux/srcu.h
+index ada65b58bc4c..a0e2b8187100 100644
+--- a/include/linux/srcu.h
++++ b/include/linux/srcu.h
+@@ -21,7 +21,7 @@
+ #include <linux/workqueue.h>
+ #include <linux/rcu_segcblist.h>
+ 
+-struct srcu_struct;
++context_guard_struct(srcu_struct, __reentrant_ctx_guard);
+ 
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 
+@@ -53,7 +53,7 @@ int init_srcu_struct(struct srcu_struct *ssp);
+ #define SRCU_READ_FLAVOR_SLOWGP	SRCU_READ_FLAVOR_FAST
+ 						// Flavors requiring synchronize_rcu()
+ 						// instead of smp_mb().
+-void __srcu_read_unlock(struct srcu_struct *ssp, int idx) __releases(ssp);
++void __srcu_read_unlock(struct srcu_struct *ssp, int idx) __releases_shared(ssp);
+ 
+ #ifdef CONFIG_TINY_SRCU
+ #include <linux/srcutiny.h>
+@@ -107,14 +107,16 @@ static inline bool same_state_synchronize_srcu(unsigned long oldstate1, unsigned
+ }
+ 
+ #ifdef CONFIG_NEED_SRCU_NMI_SAFE
+-int __srcu_read_lock_nmisafe(struct srcu_struct *ssp) __acquires(ssp);
+-void __srcu_read_unlock_nmisafe(struct srcu_struct *ssp, int idx) __releases(ssp);
++int __srcu_read_lock_nmisafe(struct srcu_struct *ssp) __acquires_shared(ssp);
++void __srcu_read_unlock_nmisafe(struct srcu_struct *ssp, int idx) __releases_shared(ssp);
+ #else
+ static inline int __srcu_read_lock_nmisafe(struct srcu_struct *ssp)
++	__acquires_shared(ssp)
+ {
+ 	return __srcu_read_lock(ssp);
+ }
+ static inline void __srcu_read_unlock_nmisafe(struct srcu_struct *ssp, int idx)
++	__releases_shared(ssp)
+ {
+ 	__srcu_read_unlock(ssp, idx);
+ }
+@@ -186,6 +188,14 @@ static inline int srcu_read_lock_held(const struct srcu_struct *ssp)
+ 
+ #endif /* #else #ifdef CONFIG_DEBUG_LOCK_ALLOC */
+ 
++/*
++ * No-op helper to denote that ssp must be held. Because SRCU-protected pointers
++ * should still be marked with __rcu_guarded, and we do not want to mark them
++ * with __guarded_by(ssp) as it would complicate annotations for writers, we
++ * choose the following strategy: srcu_dereference_check() calls this helper
++ * that checks that the passed ssp is held, and then fake-acquires 'RCU'.
++ */
++static inline void __srcu_read_lock_must_hold(const struct srcu_struct *ssp) __must_hold_shared(ssp) { }
  
  /**
-@@ -832,6 +833,7 @@ static __always_inline void write_seqcount_latch_end(seqcount_latch_t *s)
-  * Return: count, to be passed to read_seqretry()
+  * srcu_dereference_check - fetch SRCU-protected pointer for later dereferencing
+@@ -199,9 +209,15 @@ static inline int srcu_read_lock_held(const struct srcu_struct *ssp)
+  * to 1.  The @c argument will normally be a logical expression containing
+  * lockdep_is_held() calls.
   */
- static inline unsigned read_seqbegin(const seqlock_t *sl)
-+	__acquires_shared(sl) __no_context_analysis
- {
- 	return read_seqcount_begin(&sl->seqcount);
- }
-@@ -848,6 +850,7 @@ static inline unsigned read_seqbegin(const seqlock_t *sl)
-  * Return: true if a read section retry is required, else false
+-#define srcu_dereference_check(p, ssp, c) \
+-	__rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+-				(c) || srcu_read_lock_held(ssp), __rcu)
++#define srcu_dereference_check(p, ssp, c)					\
++({										\
++	__srcu_read_lock_must_hold(ssp);					\
++	__acquire_shared_ctx_guard(RCU);					\
++	__auto_type __v = __rcu_dereference_check((p), __UNIQUE_ID(rcu),	\
++				(c) || srcu_read_lock_held(ssp), __rcu);	\
++	__release_shared_ctx_guard(RCU);					\
++	__v;									\
++})
+ 
+ /**
+  * srcu_dereference - fetch SRCU-protected pointer for later dereferencing
+@@ -244,7 +260,8 @@ static inline int srcu_read_lock_held(const struct srcu_struct *ssp)
+  * invoke srcu_read_unlock() from one task and the matching srcu_read_lock()
+  * from another.
   */
- static inline unsigned read_seqretry(const seqlock_t *sl, unsigned start)
-+	__releases_shared(sl) __no_context_analysis
+-static inline int srcu_read_lock(struct srcu_struct *ssp) __acquires(ssp)
++static inline int srcu_read_lock(struct srcu_struct *ssp)
++	__acquires_shared(ssp)
  {
- 	return read_seqcount_retry(&sl->seqcount, start);
- }
-@@ -872,6 +875,7 @@ static inline unsigned read_seqretry(const seqlock_t *sl, unsigned start)
-  * _irqsave or _bh variants of this function instead.
+ 	int retval;
+ 
+@@ -271,7 +288,8 @@ static inline int srcu_read_lock(struct srcu_struct *ssp) __acquires(ssp)
+  * where RCU is watching, that is, from contexts where it would be legal
+  * to invoke rcu_read_lock().  Otherwise, lockdep will complain.
   */
- static inline void write_seqlock(seqlock_t *sl)
-+	__acquires(sl) __no_context_analysis
+-static inline struct srcu_ctr __percpu *srcu_read_lock_fast(struct srcu_struct *ssp) __acquires(ssp)
++static inline struct srcu_ctr __percpu *srcu_read_lock_fast(struct srcu_struct *ssp) __acquires_shared(ssp)
++	__acquires_shared(ssp)
  {
- 	spin_lock(&sl->lock);
- 	do_write_seqcount_begin(&sl->seqcount.seqcount);
-@@ -885,6 +889,7 @@ static inline void write_seqlock(seqlock_t *sl)
-  * critical section of given seqlock_t.
+ 	struct srcu_ctr __percpu *retval;
+ 
+@@ -287,7 +305,7 @@ static inline struct srcu_ctr __percpu *srcu_read_lock_fast(struct srcu_struct *
+  * See srcu_read_lock_fast() for more information.
   */
- static inline void write_sequnlock(seqlock_t *sl)
-+	__releases(sl) __no_context_analysis
+ static inline struct srcu_ctr __percpu *srcu_read_lock_fast_notrace(struct srcu_struct *ssp)
+-	__acquires(ssp)
++	__acquires_shared(ssp)
  {
- 	do_write_seqcount_end(&sl->seqcount.seqcount);
- 	spin_unlock(&sl->lock);
-@@ -898,6 +903,7 @@ static inline void write_sequnlock(seqlock_t *sl)
-  * other write side sections, can be invoked from softirq contexts.
+ 	struct srcu_ctr __percpu *retval;
+ 
+@@ -307,7 +325,7 @@ static inline struct srcu_ctr __percpu *srcu_read_lock_fast_notrace(struct srcu_
+  * The same srcu_struct may be used concurrently by srcu_down_read_fast()
+  * and srcu_read_lock_fast().
   */
- static inline void write_seqlock_bh(seqlock_t *sl)
-+	__acquires(sl) __no_context_analysis
+-static inline struct srcu_ctr __percpu *srcu_down_read_fast(struct srcu_struct *ssp) __acquires(ssp)
++static inline struct srcu_ctr __percpu *srcu_down_read_fast(struct srcu_struct *ssp) __acquires_shared(ssp)
  {
- 	spin_lock_bh(&sl->lock);
- 	do_write_seqcount_begin(&sl->seqcount.seqcount);
-@@ -912,6 +918,7 @@ static inline void write_seqlock_bh(seqlock_t *sl)
-  * write_seqlock_bh().
+ 	WARN_ON_ONCE(IS_ENABLED(CONFIG_PROVE_RCU) && in_nmi());
+ 	RCU_LOCKDEP_WARN(!rcu_is_watching(), "RCU must be watching srcu_down_read_fast().");
+@@ -326,7 +344,8 @@ static inline struct srcu_ctr __percpu *srcu_down_read_fast(struct srcu_struct *
+  * then none of the other flavors may be used, whether before, during,
+  * or after.
   */
- static inline void write_sequnlock_bh(seqlock_t *sl)
-+	__releases(sl) __no_context_analysis
+-static inline int srcu_read_lock_nmisafe(struct srcu_struct *ssp) __acquires(ssp)
++static inline int srcu_read_lock_nmisafe(struct srcu_struct *ssp)
++	__acquires_shared(ssp)
  {
- 	do_write_seqcount_end(&sl->seqcount.seqcount);
- 	spin_unlock_bh(&sl->lock);
-@@ -925,6 +932,7 @@ static inline void write_sequnlock_bh(seqlock_t *sl)
-  * other write sections, can be invoked from hardirq contexts.
+ 	int retval;
+ 
+@@ -338,7 +357,8 @@ static inline int srcu_read_lock_nmisafe(struct srcu_struct *ssp) __acquires(ssp
+ 
+ /* Used by tracing, cannot be traced and cannot invoke lockdep. */
+ static inline notrace int
+-srcu_read_lock_notrace(struct srcu_struct *ssp) __acquires(ssp)
++srcu_read_lock_notrace(struct srcu_struct *ssp)
++	__acquires_shared(ssp)
+ {
+ 	int retval;
+ 
+@@ -369,7 +389,8 @@ srcu_read_lock_notrace(struct srcu_struct *ssp) __acquires(ssp)
+  * which calls to down_read() may be nested.  The same srcu_struct may be
+  * used concurrently by srcu_down_read() and srcu_read_lock().
   */
- static inline void write_seqlock_irq(seqlock_t *sl)
-+	__acquires(sl) __no_context_analysis
+-static inline int srcu_down_read(struct srcu_struct *ssp) __acquires(ssp)
++static inline int srcu_down_read(struct srcu_struct *ssp)
++	__acquires_shared(ssp)
  {
- 	spin_lock_irq(&sl->lock);
- 	do_write_seqcount_begin(&sl->seqcount.seqcount);
-@@ -938,12 +946,14 @@ static inline void write_seqlock_irq(seqlock_t *sl)
-  * seqlock_t write side section opened with write_seqlock_irq().
+ 	WARN_ON_ONCE(in_nmi());
+ 	srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NORMAL);
+@@ -384,7 +405,7 @@ static inline int srcu_down_read(struct srcu_struct *ssp) __acquires(ssp)
+  * Exit an SRCU read-side critical section.
   */
- static inline void write_sequnlock_irq(seqlock_t *sl)
-+	__releases(sl) __no_context_analysis
+ static inline void srcu_read_unlock(struct srcu_struct *ssp, int idx)
+-	__releases(ssp)
++	__releases_shared(ssp)
  {
- 	do_write_seqcount_end(&sl->seqcount.seqcount);
- 	spin_unlock_irq(&sl->lock);
+ 	WARN_ON_ONCE(idx & ~0x1);
+ 	srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NORMAL);
+@@ -400,7 +421,7 @@ static inline void srcu_read_unlock(struct srcu_struct *ssp, int idx)
+  * Exit a light-weight SRCU read-side critical section.
+  */
+ static inline void srcu_read_unlock_fast(struct srcu_struct *ssp, struct srcu_ctr __percpu *scp)
+-	__releases(ssp)
++	__releases_shared(ssp)
+ {
+ 	srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_FAST);
+ 	srcu_lock_release(&ssp->dep_map);
+@@ -413,7 +434,7 @@ static inline void srcu_read_unlock_fast(struct srcu_struct *ssp, struct srcu_ct
+  * See srcu_read_unlock_fast() for more information.
+  */
+ static inline void srcu_read_unlock_fast_notrace(struct srcu_struct *ssp,
+-						 struct srcu_ctr __percpu *scp) __releases(ssp)
++						 struct srcu_ctr __percpu *scp) __releases_shared(ssp)
+ {
+ 	srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_FAST);
+ 	__srcu_read_unlock_fast(ssp, scp);
+@@ -428,7 +449,7 @@ static inline void srcu_read_unlock_fast_notrace(struct srcu_struct *ssp,
+  * the same context as the maching srcu_down_read_fast().
+  */
+ static inline void srcu_up_read_fast(struct srcu_struct *ssp, struct srcu_ctr __percpu *scp)
+-	__releases(ssp)
++	__releases_shared(ssp)
+ {
+ 	WARN_ON_ONCE(IS_ENABLED(CONFIG_PROVE_RCU) && in_nmi());
+ 	srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_FAST);
+@@ -444,7 +465,7 @@ static inline void srcu_up_read_fast(struct srcu_struct *ssp, struct srcu_ctr __
+  * Exit an SRCU read-side critical section, but in an NMI-safe manner.
+  */
+ static inline void srcu_read_unlock_nmisafe(struct srcu_struct *ssp, int idx)
+-	__releases(ssp)
++	__releases_shared(ssp)
+ {
+ 	WARN_ON_ONCE(idx & ~0x1);
+ 	srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NMI);
+@@ -454,7 +475,7 @@ static inline void srcu_read_unlock_nmisafe(struct srcu_struct *ssp, int idx)
+ 
+ /* Used by tracing, cannot be traced and cannot call lockdep. */
+ static inline notrace void
+-srcu_read_unlock_notrace(struct srcu_struct *ssp, int idx) __releases(ssp)
++srcu_read_unlock_notrace(struct srcu_struct *ssp, int idx) __releases_shared(ssp)
+ {
+ 	srcu_check_read_flavor(ssp, SRCU_READ_FLAVOR_NORMAL);
+ 	__srcu_read_unlock(ssp, idx);
+@@ -469,7 +490,7 @@ srcu_read_unlock_notrace(struct srcu_struct *ssp, int idx) __releases(ssp)
+  * the same context as the maching srcu_down_read().
+  */
+ static inline void srcu_up_read(struct srcu_struct *ssp, int idx)
+-	__releases(ssp)
++	__releases_shared(ssp)
+ {
+ 	WARN_ON_ONCE(idx & ~0x1);
+ 	WARN_ON_ONCE(in_nmi());
+@@ -509,6 +530,7 @@ DEFINE_LOCK_GUARD_1(srcu, struct srcu_struct,
+ 		    _T->idx = srcu_read_lock(_T->lock),
+ 		    srcu_read_unlock(_T->lock, _T->idx),
+ 		    int idx)
++DECLARE_LOCK_GUARD_1_ATTRS(srcu, __assumes_ctx_guard(_T), /* */)
+ 
+ DEFINE_LOCK_GUARD_1(srcu_fast, struct srcu_struct,
+ 		    _T->scp = srcu_read_lock_fast(_T->lock),
+diff --git a/include/linux/srcutiny.h b/include/linux/srcutiny.h
+index 51ce25f07930..c194b3c7c43b 100644
+--- a/include/linux/srcutiny.h
++++ b/include/linux/srcutiny.h
+@@ -61,6 +61,7 @@ void synchronize_srcu(struct srcu_struct *ssp);
+  * index that must be passed to the matching srcu_read_unlock().
+  */
+ static inline int __srcu_read_lock(struct srcu_struct *ssp)
++	__acquires_shared(ssp)
+ {
+ 	int idx;
+ 
+@@ -68,6 +69,7 @@ static inline int __srcu_read_lock(struct srcu_struct *ssp)
+ 	idx = ((READ_ONCE(ssp->srcu_idx) + 1) & 0x2) >> 1;
+ 	WRITE_ONCE(ssp->srcu_lock_nesting[idx], READ_ONCE(ssp->srcu_lock_nesting[idx]) + 1);
+ 	preempt_enable();
++	__acquire_shared(ssp);
+ 	return idx;
  }
  
- static inline unsigned long __write_seqlock_irqsave(seqlock_t *sl)
-+	__acquires(sl) __no_context_analysis
- {
- 	unsigned long flags;
- 
-@@ -976,6 +986,7 @@ static inline unsigned long __write_seqlock_irqsave(seqlock_t *sl)
-  */
- static inline void
- write_sequnlock_irqrestore(seqlock_t *sl, unsigned long flags)
-+	__releases(sl) __no_context_analysis
- {
- 	do_write_seqcount_end(&sl->seqcount.seqcount);
- 	spin_unlock_irqrestore(&sl->lock, flags);
-@@ -998,6 +1009,7 @@ write_sequnlock_irqrestore(seqlock_t *sl, unsigned long flags)
-  * The opened read section must be closed with read_sequnlock_excl().
-  */
- static inline void read_seqlock_excl(seqlock_t *sl)
-+	__acquires_shared(sl) __no_context_analysis
- {
- 	spin_lock(&sl->lock);
- }
-@@ -1007,6 +1019,7 @@ static inline void read_seqlock_excl(seqlock_t *sl)
-  * @sl: Pointer to seqlock_t
-  */
- static inline void read_sequnlock_excl(seqlock_t *sl)
-+	__releases_shared(sl) __no_context_analysis
- {
- 	spin_unlock(&sl->lock);
- }
-@@ -1021,6 +1034,7 @@ static inline void read_sequnlock_excl(seqlock_t *sl)
-  * from softirq contexts.
-  */
- static inline void read_seqlock_excl_bh(seqlock_t *sl)
-+	__acquires_shared(sl) __no_context_analysis
- {
- 	spin_lock_bh(&sl->lock);
- }
-@@ -1031,6 +1045,7 @@ static inline void read_seqlock_excl_bh(seqlock_t *sl)
-  * @sl: Pointer to seqlock_t
-  */
- static inline void read_sequnlock_excl_bh(seqlock_t *sl)
-+	__releases_shared(sl) __no_context_analysis
- {
- 	spin_unlock_bh(&sl->lock);
- }
-@@ -1045,6 +1060,7 @@ static inline void read_sequnlock_excl_bh(seqlock_t *sl)
-  * hardirq context.
-  */
- static inline void read_seqlock_excl_irq(seqlock_t *sl)
-+	__acquires_shared(sl) __no_context_analysis
- {
- 	spin_lock_irq(&sl->lock);
- }
-@@ -1055,11 +1071,13 @@ static inline void read_seqlock_excl_irq(seqlock_t *sl)
-  * @sl: Pointer to seqlock_t
-  */
- static inline void read_sequnlock_excl_irq(seqlock_t *sl)
-+	__releases_shared(sl) __no_context_analysis
- {
- 	spin_unlock_irq(&sl->lock);
+@@ -84,11 +86,13 @@ static inline struct srcu_ctr __percpu *__srcu_ctr_to_ptr(struct srcu_struct *ss
  }
  
- static inline unsigned long __read_seqlock_excl_irqsave(seqlock_t *sl)
-+	__acquires_shared(sl) __no_context_analysis
+ static inline struct srcu_ctr __percpu *__srcu_read_lock_fast(struct srcu_struct *ssp)
++	__acquires_shared(ssp)
  {
- 	unsigned long flags;
- 
-@@ -1089,6 +1107,7 @@ static inline unsigned long __read_seqlock_excl_irqsave(seqlock_t *sl)
-  */
- static inline void
- read_sequnlock_excl_irqrestore(seqlock_t *sl, unsigned long flags)
-+	__releases_shared(sl) __no_context_analysis
- {
- 	spin_unlock_irqrestore(&sl->lock, flags);
+ 	return __srcu_ctr_to_ptr(ssp, __srcu_read_lock(ssp));
  }
-@@ -1125,6 +1144,7 @@ read_sequnlock_excl_irqrestore(seqlock_t *sl, unsigned long flags)
-  * parameter of the next read_seqbegin_or_lock() iteration.
-  */
- static inline void read_seqbegin_or_lock(seqlock_t *lock, int *seq)
-+	__acquires_shared(lock) __no_context_analysis
+ 
+ static inline void __srcu_read_unlock_fast(struct srcu_struct *ssp, struct srcu_ctr __percpu *scp)
++	__releases_shared(ssp)
  {
- 	if (!(*seq & 1))	/* Even */
- 		*seq = read_seqbegin(lock);
-@@ -1140,6 +1160,7 @@ static inline void read_seqbegin_or_lock(seqlock_t *lock, int *seq)
-  * Return: true if a read section retry is required, false otherwise
-  */
- static inline int need_seqretry(seqlock_t *lock, int seq)
-+	__releases_shared(lock) __no_context_analysis
- {
- 	return !(seq & 1) && read_seqretry(lock, seq);
+ 	__srcu_read_unlock(ssp, __srcu_ptr_to_ctr(ssp, scp));
  }
-@@ -1153,6 +1174,7 @@ static inline int need_seqretry(seqlock_t *lock, int seq)
-  * with read_seqbegin_or_lock() and validated by need_seqretry().
-  */
- static inline void done_seqretry(seqlock_t *lock, int seq)
-+	__no_context_analysis
- {
- 	if (seq & 1)
- 		read_sequnlock_excl(lock);
-@@ -1180,6 +1202,7 @@ static inline void done_seqretry(seqlock_t *lock, int seq)
-  */
- static inline unsigned long
- read_seqbegin_or_lock_irqsave(seqlock_t *lock, int *seq)
-+	__acquires_shared(lock) __no_context_analysis
- {
- 	unsigned long flags = 0;
+diff --git a/include/linux/srcutree.h b/include/linux/srcutree.h
+index 42098e0fa0b7..4bfd80f55043 100644
+--- a/include/linux/srcutree.h
++++ b/include/linux/srcutree.h
+@@ -207,7 +207,7 @@ struct srcu_struct {
+ #define DEFINE_SRCU(name)		__DEFINE_SRCU(name, /* not static */)
+ #define DEFINE_STATIC_SRCU(name)	__DEFINE_SRCU(name, static)
  
-@@ -1205,6 +1228,7 @@ read_seqbegin_or_lock_irqsave(seqlock_t *lock, int *seq)
+-int __srcu_read_lock(struct srcu_struct *ssp) __acquires(ssp);
++int __srcu_read_lock(struct srcu_struct *ssp) __acquires_shared(ssp);
+ void synchronize_srcu_expedited(struct srcu_struct *ssp);
+ void srcu_barrier(struct srcu_struct *ssp);
+ void srcu_torture_stats_print(struct srcu_struct *ssp, char *tt, char *tf);
+@@ -259,6 +259,7 @@ static inline struct srcu_ctr __percpu *__srcu_ctr_to_ptr(struct srcu_struct *ss
+  * implementations of this_cpu_inc().
   */
- static inline void
- done_seqretry_irqrestore(seqlock_t *lock, int seq, unsigned long flags)
-+	__no_context_analysis
+ static inline struct srcu_ctr __percpu notrace *__srcu_read_lock_fast(struct srcu_struct *ssp)
++	__acquires_shared(ssp)
  {
- 	if (seq & 1)
- 		read_sequnlock_excl_irqrestore(lock, flags);
-diff --git a/include/linux/seqlock_types.h b/include/linux/seqlock_types.h
-index dfdf43e3fa3d..7b195368e654 100644
---- a/include/linux/seqlock_types.h
-+++ b/include/linux/seqlock_types.h
-@@ -81,13 +81,14 @@ SEQCOUNT_LOCKNAME(mutex,        struct mutex,    true,     mutex)
-  *    - Comments on top of seqcount_t
-  *    - Documentation/locking/seqlock.rst
-  */
--typedef struct {
-+context_guard_struct(seqlock) {
- 	/*
- 	 * Make sure that readers don't starve writers on PREEMPT_RT: use
- 	 * seqcount_spinlock_t instead of seqcount_t. Check __SEQ_LOCK().
- 	 */
- 	seqcount_spinlock_t seqcount;
- 	spinlock_t lock;
--} seqlock_t;
-+};
-+typedef struct seqlock seqlock_t;
+ 	struct srcu_ctr __percpu *scp = READ_ONCE(ssp->srcu_ctrp);
  
- #endif /* __LINUX_SEQLOCK_TYPES_H */
+@@ -267,6 +268,7 @@ static inline struct srcu_ctr __percpu notrace *__srcu_read_lock_fast(struct src
+ 	else
+ 		atomic_long_inc(raw_cpu_ptr(&scp->srcu_locks));  // Y, and implicit RCU reader.
+ 	barrier(); /* Avoid leaking the critical section. */
++	__acquire_shared(ssp);
+ 	return scp;
+ }
+ 
+@@ -281,7 +283,9 @@ static inline struct srcu_ctr __percpu notrace *__srcu_read_lock_fast(struct src
+  */
+ static inline void notrace
+ __srcu_read_unlock_fast(struct srcu_struct *ssp, struct srcu_ctr __percpu *scp)
++	__releases_shared(ssp)
+ {
++	__release_shared(ssp);
+ 	barrier();  /* Avoid leaking the critical section. */
+ 	if (!IS_ENABLED(CONFIG_NEED_SRCU_NMI_SAFE))
+ 		this_cpu_inc(scp->srcu_unlocks.counter);  // Z, and implicit RCU reader.
 diff --git a/lib/test_context-analysis.c b/lib/test_context-analysis.c
-index 2b28d20c5f51..59c6642c582e 100644
+index f18b7252646d..bd75b5ade8ff 100644
 --- a/lib/test_context-analysis.c
 +++ b/lib/test_context-analysis.c
-@@ -6,6 +6,7 @@
- 
- #include <linux/build_bug.h>
- #include <linux/mutex.h>
-+#include <linux/seqlock.h>
+@@ -10,6 +10,7 @@
+ #include <linux/rcupdate.h>
+ #include <linux/seqlock.h>
  #include <linux/spinlock.h>
++#include <linux/srcu.h>
  
  /*
-@@ -208,3 +209,45 @@ static void __used test_mutex_cond_guard(struct test_mutex_data *d)
- 		d->counter++;
- 	}
+  * Test that helper macros work as expected.
+@@ -362,3 +363,26 @@ static void __used test_rcu_assert_variants(void)
+ 	lockdep_assert_in_rcu_read_lock_sched();
+ 	wants_rcu_held_sched();
  }
 +
-+struct test_seqlock_data {
-+	seqlock_t sl;
-+	int counter __guarded_by(&sl);
++struct test_srcu_data {
++	struct srcu_struct srcu;
++	long __rcu_guarded *data;
 +};
 +
-+static void __used test_seqlock_init(struct test_seqlock_data *d)
++static void __used test_srcu(struct test_srcu_data *d)
 +{
-+	seqlock_init(&d->sl);
-+	d->counter = 0;
++	init_srcu_struct(&d->srcu);
++
++	int idx = srcu_read_lock(&d->srcu);
++	long *data = srcu_dereference(d->data, &d->srcu);
++	(void)data;
++	srcu_read_unlock(&d->srcu, idx);
++
++	rcu_assign_pointer(d->data, NULL);
 +}
 +
-+static void __used test_seqlock_reader(struct test_seqlock_data *d)
++static void __used test_srcu_guard(struct test_srcu_data *d)
 +{
-+	unsigned int seq;
-+
-+	do {
-+		seq = read_seqbegin(&d->sl);
-+		(void)d->counter;
-+	} while (read_seqretry(&d->sl, seq));
-+}
-+
-+static void __used test_seqlock_writer(struct test_seqlock_data *d)
-+{
-+	unsigned long flags;
-+
-+	write_seqlock(&d->sl);
-+	d->counter++;
-+	write_sequnlock(&d->sl);
-+
-+	write_seqlock_irq(&d->sl);
-+	d->counter++;
-+	write_sequnlock_irq(&d->sl);
-+
-+	write_seqlock_bh(&d->sl);
-+	d->counter++;
-+	write_sequnlock_bh(&d->sl);
-+
-+	write_seqlock_irqsave(&d->sl, flags);
-+	d->counter++;
-+	write_sequnlock_irqrestore(&d->sl, flags);
++	guard(srcu)(&d->srcu);
++	(void)srcu_dereference(d->data, &d->srcu);
 +}
 -- 
 2.52.0.rc1.455.g30608eb744-goog
