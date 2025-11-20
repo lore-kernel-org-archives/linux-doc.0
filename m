@@ -1,41 +1,40 @@
 Received: from smtp-out1.aaront.org (smtp-out1.aaront.org [52.0.59.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766212BFC73;
-	Thu, 20 Nov 2025 10:27:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA1830FC0D;
+	Thu, 20 Nov 2025 10:32:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.0.59.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763634433; cv=none; b=H17bvi4OAelVcBGvPmqTboDgpbTbAdmKLgQyZrPqBdYvWJ0knt4cU1WtCZnwXzh5D+O2xAgny29aH6j5+ULA0LrbA80wkEsdzjmWDEnblf42mClARLBpZqCGWgAaC561fVXpHZpSY97TOk1JMEPNcV2FXhz0SdYMoD1ARgJqBpo=
+	t=1763634771; cv=none; b=cQ/2cbYErP3DqBiUBcd+iyy2LlHBc8bqJ1YnD2S1u41MQQls1bkzPAZ2q9DZKB8V3O7mDC94Jgh6vkXTkRq7nAZQN/S/uQ1//qrAAXZGLESQNkzt1aoaXHePFhNrWY/rxqiUgXDVHQmqgrYNqCOidBEsIBbiGHyXRorRyJVKxNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763634433; c=relaxed/simple;
-	bh=pNmm740bo2YJwK6MCyMRW4ph2BKQjXvDBA3Dx5InRdI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uXdujeSx2dQDEObdMpkKkt0Bqe+2BDxYsIvob/8/kcGuLrHK1ZcOSZd5J42cya7FLUl3hbp3ReNOglzLdmZJ7OKSmei77676TpBfl7f91o3z8hjPCcXpvuDO6WBTkGx5vNBpCs7OLbaVbboOi5mN1nYFRpZm/98reX3IMFs66TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aaront.org; spf=pass smtp.mailfrom=aaront.org; dkim=permerror (0-bit key) header.d=aaront.org header.i=@aaront.org header.b=jcxAL0Ds; dkim=pass (2048-bit key) header.d=aaront.org header.i=@aaront.org header.b=YmZOKyqw; arc=none smtp.client-ip=52.0.59.53
+	s=arc-20240116; t=1763634771; c=relaxed/simple;
+	bh=Fwlfi8rYxIwQm+nVBQKp7wwhTtWalTiEGbaZv0neBzI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NewpnomDCzwWqzsZtR3zO6l0hx8089VK0if/2/k2v+exjvkG+5PzYHaaRC3WkVJBC0Fg9w0ZUDhZUS4clj6CeiKE5hPuY6dOFpm8kPhovXCjtsH23Fn4x4qmrDehqBCRpt+cz/AdVz0VbANz3gDyr0Y1nJhgGiLAv0fV5UjkrfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aaront.org; spf=pass smtp.mailfrom=aaront.org; dkim=permerror (0-bit key) header.d=aaront.org header.i=@aaront.org header.b=TRW0jeLS; dkim=pass (2048-bit key) header.d=aaront.org header.i=@aaront.org header.b=Tsl0SJCT; arc=none smtp.client-ip=52.0.59.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aaront.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aaront.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=aaront.org header.i=@aaront.org header.b="jcxAL0Ds";
-	dkim=pass (2048-bit key) header.d=aaront.org header.i=@aaront.org header.b="YmZOKyqw"
+	dkim=permerror (0-bit key) header.d=aaront.org header.i=@aaront.org header.b="TRW0jeLS";
+	dkim=pass (2048-bit key) header.d=aaront.org header.i=@aaront.org header.b="Tsl0SJCT"
 Received: from smtp-send1.aaront.org (localhost [IPv6:::1])
-	by smtp-out1.aaront.org (Postfix) with ESMTP id 4dBvfk4HYrzGt;
-	Thu, 20 Nov 2025 10:27:10 +0000 (UTC)
+	by smtp-out1.aaront.org (Postfix) with ESMTP id 4dBvfL5rsVzG0;
+	Thu, 20 Nov 2025 10:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/simple; d=aaront.org;
-    h=from:to:cc:subject:date:message-id:in-reply-to:references
-    :mime-version:content-transfer-encoding; s=ckha5xz4; bh=pNmm740b
-    o2YJwK6MCyMRW4ph2BKQjXvDBA3Dx5InRdI=; b=jcxAL0DsIWAJdFq3TgUXgDgQ
-    LFAFG+sC3QJKbuzUjPXdhbHNYclp1QgoFNz5XB7XVGybzcB0JIhAv2+pYN2MAg==
+    h=from:to:cc:subject:date:message-id:mime-version
+    :content-transfer-encoding; s=ckha5xz4; bh=Fwlfi8rYxIwQm+nVBQKp7
+    wwhTtWalTiEGbaZv0neBzI=; b=TRW0jeLSQ0UZGJU8TAm0eSWWiqDmLRz0PgHIk
+    TIxcEHQOrzaIBuF2C22ekmViRuVpJ20G+wo9gstAQxrEtNmCQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aaront.org; h=
-    from:to:cc:subject:date:message-id:in-reply-to:references
-    :mime-version:content-transfer-encoding; s=qvfkgsmx; bh=pNmm740b
-    o2YJwK6MCyMRW4ph2BKQjXvDBA3Dx5InRdI=; b=YmZOKyqwOccCNxXuoXBWtK3v
-    HGegDzH6QSIxyxSPbR11AcPAvxC2h1XPiClAj4iouu4fx7njewLeJHvPJydOFPV6
-    RtnpeIzG3nYlajQUH6665LkCs64ackdMOyWHuhYRlZQIFuQ4l/OSbRNG0/2J7WEj
-    thHdxmG//Z4pP+4Jrgvi+MOpr9tzLxUG2nKlPDFT6/4CGR41LXZS1rfbTEOxmE8S
-    GYRET4i39z+K7oMZ91qXW3i3za6BPGHuX5DwZWnPi3F2Z8yUW1R3nHNyBNfUS8Uh
-    YC61kZucbBNtF0dKoVNvWN312VxoYzMLwWNmOqFQTG6GpZMpmcggEKLWCz2D6Q==
-Received: by smtp-send1.aaront.org (Postfix) id 4dBvfj5m7LzGq;
-	Thu, 20 Nov 2025 10:27:09 +0000 (UTC)
+    from:to:cc:subject:date:message-id:mime-version
+    :content-transfer-encoding; s=qvfkgsmx; bh=Fwlfi8rYxIwQm+nVBQKp7
+    wwhTtWalTiEGbaZv0neBzI=; b=Tsl0SJCTB+y3UzF8YacRMLOlUWtuwr7Aa1qOX
+    oV5fiic/BIVwnyvhkL8Zqba7IjDRQWIL7MzwbBbWZ1f5dgJE315ZZ6HKASYEovij
+    JRSC3dTTqmU2UCh5pQtKqzmbPr9mH6kaRP4RZgI670XCqE32v4BHS8rRS7r6KBT9
+    Z5BDkI2bYxhAJnGGhkeX8Mh/YAF37qbXHHX5S/9/y+rsKqBL/m0U07ty5z1u1fOK
+    uztykpw64SjlorH6o/RmdqGreUdeS1pudoKlJ+uF/PqpOuvAve0ICIQL/f0q8XzH
+    W13mt861PyRE0ayaXXlvVlyslVnk56/4aw7a4Y/6o+837PNmQ==
+Received: by smtp-send1.aaront.org (Postfix) id 4dBvfK6zlNzFS;
+	Thu, 20 Nov 2025 10:26:49 +0000 (UTC)
 From: Aaron Thompson <dev@aaront.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -45,12 +44,10 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Aaron Thompson <dev@aaront.org>
-Subject: [PATCH 2/2] debugfs: Remove broken no-mount mode
-Date: Thu, 20 Nov 2025 10:26:33 +0000
-Message-ID: <20251120102222.18371-3-dev@null.aaront.org>
+Subject: [PATCH 0/2] debugfs: Remove broken no-mount mode
+Date: Thu, 20 Nov 2025 10:26:31 +0000
+Message-ID: <20251120102222.18371-1-dev@null.aaront.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251120102222.18371-1-dev@null.aaront.org>
-References: <20251120102222.18371-1-dev@null.aaront.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,148 +56,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-debugfs access modes were added in Linux 5.10 (Dec 2020) [1], but the
-no-mount mode has behaved effectively the same as the off mode since
-Linux 5.12 (Apr 2021) [2]. The only difference is the specific error
-code returned by the debugfs_create_* functions, which is -ENOENT in
-no-mount mode and -EPERM in off mode.
+Hi all,
 
-Given that no-mount hasn't worked for several years with no complaints,
-just remove it.
+This patch removes the debugfs no-mount mode because it hasn't worked as
+intended for several years. When I noticed that it wasn't working, I first
+started coding a fix, which is straightforward. But after looking into the
+history, it seems pretty clear that this mode isn't being used, so I think it
+makes more sense to remove it.
 
-[1] a24c6f7bc923 ("debugfs: Add access restriction option")
+The code could be made a tiny bit simpler and more consistent if we change the
+off mode error code from -EPERM to -ENOENT. That would make the off case and the
+uninitialized case always the same. The documentation for the off mode
+specifically says that the error code is -EPERM however, so I stuck with that
+for now.
 
-[2] bc6de804d36b ("debugfs: be more robust at handling improper input in debugfs_lookup()")
-    56348560d495 ("debugfs: do not attempt to create a new file before the filesystem is initalized")
+Thanks!
 
-Signed-off-by: Aaron Thompson <dev@aaront.org>
----
- .../admin-guide/kernel-parameters.txt          |  6 +-----
- fs/debugfs/inode.c                             | 18 +++++++++++-------
- fs/debugfs/internal.h                          | 13 -------------
- lib/Kconfig.debug                              |  9 +--------
- 4 files changed, 13 insertions(+), 33 deletions(-)
+Aaron Thompson (2):
+  debugfs: Remove redundant access mode checks
+  debugfs: Remove broken no-mount mode
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6c42061ca20e..847a17efe289 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1113,12 +1113,8 @@
- 
- 	debugfs=    	[KNL,EARLY] This parameter enables what is exposed to
- 			userspace and debugfs internal clients.
--			Format: { on, no-mount, off }
-+			Format: { on, off }
- 			on: 	All functions are enabled.
--			no-mount:
--				Filesystem is not registered but kernel clients can
--			        access APIs and a crashkernel can be used to read
--				its content. There is nothing to mount.
- 			off: 	Filesystem is not registered and clients
- 			        get a -EPERM as result when trying to register files
- 				or directories within debugfs.
-diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-index b6e401c46b6b..0284b0256195 100644
---- a/fs/debugfs/inode.c
-+++ b/fs/debugfs/inode.c
-@@ -35,7 +35,7 @@
- static struct vfsmount *debugfs_mount;
- static int debugfs_mount_count;
- static bool debugfs_registered;
--static unsigned int debugfs_allow __ro_after_init = DEFAULT_DEBUGFS_ALLOW_BITS;
-+static bool debugfs_enabled __ro_after_init = IS_ENABLED(DEBUG_FS_ALLOW_ALL);
- 
- /*
-  * Don't allow access attributes to be changed whilst the kernel is locked down
-@@ -365,7 +365,7 @@ static struct dentry *debugfs_start_creating(const char *name,
- 	struct dentry *dentry;
- 	int error;
- 
--	if (!(debugfs_allow & DEBUGFS_ALLOW_API))
-+	if (!debugfs_enabled)
- 		return ERR_PTR(-EPERM);
- 
- 	if (!debugfs_initialized())
-@@ -885,21 +885,25 @@ static int __init debugfs_kernel(char *str)
- {
- 	if (str) {
- 		if (!strcmp(str, "on"))
--			debugfs_allow = DEBUGFS_ALLOW_API | DEBUGFS_ALLOW_MOUNT;
--		else if (!strcmp(str, "no-mount"))
--			debugfs_allow = DEBUGFS_ALLOW_API;
-+			debugfs_enabled = true;
- 		else if (!strcmp(str, "off"))
--			debugfs_allow = 0;
-+			debugfs_enabled = false;
-+		else if (!strcmp(str, "no-mount")) {
-+			pr_notice("debugfs=no-mount is a deprecated alias "
-+				  "for debugfs=off\n");
-+			debugfs_enabled = false;
-+		}
- 	}
- 
- 	return 0;
- }
- early_param("debugfs", debugfs_kernel);
-+
- static int __init debugfs_init(void)
- {
- 	int retval;
- 
--	if (!(debugfs_allow & DEBUGFS_ALLOW_MOUNT))
-+	if (!debugfs_enabled)
- 		return -EPERM;
- 
- 	retval = sysfs_create_mount_point(kernel_kobj, "debug");
-diff --git a/fs/debugfs/internal.h b/fs/debugfs/internal.h
-index 427987f81571..c95699b27a56 100644
---- a/fs/debugfs/internal.h
-+++ b/fs/debugfs/internal.h
-@@ -55,17 +55,4 @@ enum {
- 	HAS_IOCTL = 16
- };
- 
--#define DEBUGFS_ALLOW_API	BIT(0)
--#define DEBUGFS_ALLOW_MOUNT	BIT(1)
--
--#ifdef CONFIG_DEBUG_FS_ALLOW_ALL
--#define DEFAULT_DEBUGFS_ALLOW_BITS (DEBUGFS_ALLOW_MOUNT | DEBUGFS_ALLOW_API)
--#endif
--#ifdef CONFIG_DEBUG_FS_DISALLOW_MOUNT
--#define DEFAULT_DEBUGFS_ALLOW_BITS (DEBUGFS_ALLOW_API)
--#endif
--#ifdef CONFIG_DEBUG_FS_ALLOW_NONE
--#define DEFAULT_DEBUGFS_ALLOW_BITS (0)
--#endif
--
- #endif /* _DEBUGFS_INTERNAL_H_ */
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 3034e294d50d..d9ab42916143 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -679,7 +679,7 @@ choice
- 	help
- 	  This selects the default access restrictions for debugfs.
- 	  It can be overridden with kernel command line option
--	  debugfs=[on,no-mount,off]. The restrictions apply for API access
-+	  debugfs=[on,off]. The restrictions apply for API access
- 	  and filesystem registration.
- 
- config DEBUG_FS_ALLOW_ALL
-@@ -688,13 +688,6 @@ config DEBUG_FS_ALLOW_ALL
- 	  No restrictions apply. Both API and filesystem registration
- 	  is on. This is the normal default operation.
- 
--config DEBUG_FS_DISALLOW_MOUNT
--	bool "Do not register debugfs as filesystem"
--	help
--	  The API is open but filesystem is not loaded. Clients can still do
--	  their work and read with debug tools that do not need
--	  debugfs filesystem.
--
- config DEBUG_FS_ALLOW_NONE
- 	bool "No access"
- 	help
+ .../admin-guide/kernel-parameters.txt         |  6 +---
+ fs/debugfs/inode.c                            | 36 ++++++-------------
+ fs/debugfs/internal.h                         | 13 -------
+ lib/Kconfig.debug                             |  9 +----
+ 4 files changed, 13 insertions(+), 51 deletions(-)
+
+
+base-commit: 6a23ae0a96a600d1d12557add110e0bb6e32730c
 -- 
 2.47.3
 
