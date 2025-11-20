@@ -1,64 +1,64 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902C22135CE
-	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 14:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAE533A008
+	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 14:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763650361; cv=none; b=pSomTSC8D9sN9/xsuYTe63ZgmzTe0BJeqqZVoz4i70aCjyRn/pRXoEgoymYS/E9VF3VFit9vNNaZf3k0iXAlfnQNnJcU0mQC3NRkfaww47QhdNO+ntZ5USw8sQ7SVeHvL6HfzRsctGHcOUsW+ZZjlX4jnEFd6CkeCZ0nyOJpqfg=
+	t=1763650392; cv=none; b=IZiAShaeDK9IYRemIQLzYRasD1BaIGky2T7Yc9O5cdccAAC3VzixInqEX5awKgVLmhEw0gRK13OWu6Zf9uOwst3QLB/iBfDpMWHPx/hv63Dk0t+cWhRIj+PRU+jOhnBcLQUGr92KIoehMopuytiMYTgBzFgf29vAbWu9CBFdN90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763650361; c=relaxed/simple;
-	bh=qlVoOV1b0m1EsqTqevKebTa5adC2s2q0Xm1TYQIEY5c=;
+	s=arc-20240116; t=1763650392; c=relaxed/simple;
+	bh=Hs8Y4srjRXSDmflQe1JQvRGbJo0svHHlH0JZJV2BibQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OXFdBvsLadDgc8e0KqlARcwpTj7dcRV2emPewBvppTCK7rWJY8NZ+QsdXWaoFoGni7ASRFAT3uUqpbcEAhExJ2yxgcaw5Ot5PwvqPYi2kL8oCQv40cTBLVYTiWhGRsdq8A2yTmP4gPgJ2kHgyLz5CWeGnAYlNEaSNq1NEVmRLto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=1KgjbmiQ; arc=none smtp.client-ip=209.85.218.43
+	 Content-Type:Content-Disposition:In-Reply-To; b=qTMT1RWZJJY3VCV5HJM++1bJwGqUUIGhnNsKU0AYdIK9LuIHpVBgfx2wVq+1BLlTpyyTPBfHzAgz51TwRtdNWQacqcfXwrpf0Mn0qhKXRvmgvq+zP4Nrj7EN6zp1S3dVMCuntpsxxpfTqUaBSUMF3PQq115OQAP8Ejd5vL/a/eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=EaEoyWdu; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="1KgjbmiQ"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b7277324054so153971266b.0
-        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 06:52:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="EaEoyWdu"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-640c6577120so1655549a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 06:53:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1763650358; x=1764255158; darn=vger.kernel.org;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1763650389; x=1764255189; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qlVoOV1b0m1EsqTqevKebTa5adC2s2q0Xm1TYQIEY5c=;
-        b=1KgjbmiQcA2RVz54IvXXlSdGGsuG++U7UX4hfHSFB4tLAKJpux6kPxygEldzuHAZkq
-         wdoXebLApjfbrZ+2yY2brZByqzAdbURTMN5OaBc6uVa9cnhwXNHvXB/6mvg4585jXWdo
-         68uGnDjlfRdY2UK8IguwYer+G2pbFtwRfye2PlZ1YIAqq6xWLlt16XlrSBvRrnLMZpNR
-         x9tHhhmEBnj8LPysGf/Ct+Hxxl3JThedC7OTgE2wLqEnKL2vLxLEMUi1aOtGqRoNqVS8
-         gU8ZAR33ebFCTMg+LTGgZTi1D1aV+l7Knc4MDkGddR8GQ3RuRiPAoRbBd2R1CVEAFBx0
-         yNLg==
+        bh=Hs8Y4srjRXSDmflQe1JQvRGbJo0svHHlH0JZJV2BibQ=;
+        b=EaEoyWduEzmqyPeavUzgsFNnUa7ir9Ss7/cVWRn4tjus4OhJKWgyF+0XIXHnu1PKd4
+         ZkzflYIgmcJDHZ0qX5Npw7D6wHNNxqPV44h7J7tIyCjH5ZImw4jcvi2k991pzmkZEvrO
+         OnWUy3G25q0tA4OuOcOwvtGJIwlta9AygvQT/w1Z7xYEaQKop0p/1qUInMDgwNBqcQg4
+         CzQu1QIjvb6Vu2d9sSpRb8IZqOe/09zCLS7uKkue3xlvCwZJhU4CyVOyaxfFQy5MuoTR
+         /0uX0b048r9IcFkw1BjYGdNbM7f6zy0t/mY94T60GiTjfgl8Op7PQJFk69vz+eekH8l6
+         uSDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763650358; x=1764255158;
+        d=1e100.net; s=20230601; t=1763650389; x=1764255189;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qlVoOV1b0m1EsqTqevKebTa5adC2s2q0Xm1TYQIEY5c=;
-        b=njhi+bECaWka/C10kT1FZMYPcES4g3cNgxLDKb/4VwUMXsi+MCW4+4V/3LlZePnIt2
-         h5No3SfsUXn+a2VpDUbpOIBPjwvtDxDNqH29N/SaPBrDkaTZGFpA/fEt00GgO9dc5Hml
-         0c/c8u5LX53CTcVwWxKXzgXDo0EBwvVC9N8iFX+WzNwfb4Z7Yl1mPFoa2SJCIZMna3wY
-         AZe64xHmsmespv6S6b/g9/7xvNZuefvQ/DWzhUJQgfOge9EGsjGUMH0i1IXehV4ncAFv
-         mfBPgTpkLacLjiJAmBLUjYmR/s0SejZ+45SMekuFHq4eFxmGgGghF3HkdbZX3ZQQBJVU
-         IESA==
-X-Forwarded-Encrypted: i=1; AJvYcCVsmyCVHK9CTplCaHBZdUjE/iQFT0CC6tOOE051+MqbsGKCSzP4jDTvdEH1iPvJtar/SJJUjSrG838=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGUMP/RPH5xzvNPVgTbaLHF3gN+XOQ/vhNKq79j4b5MCVXU6sP
-	bIm8nuClbRN5hBMNxhpB6MfXZxBp3tY+xDe5TTOAc3qi+fBP7F5MhVGzMnrUhWHqXlU=
-X-Gm-Gg: ASbGncu7xTG7isxgnMoGqA4cpV0BlEyB1ITtziVWPoBrlKbmRXpQ2DOr9cFe1fVQMb5
-	cYT20f0kNDvUtvMpONAyndDGhdHSOoGi6JIMEg4+9SaVaWZ9hawf+rgyxcncskCliybSYoHg/RN
-	zbGdqCVO5fqppTk80X5jmcNp4p1qv0dVhnxLGgQoxqITzzRAm/0hClWdS2faiMvqLcbXSseoONa
-	ZMMXbj7DJa7ntb4Q6X4eFM2CjBbybuJs6L7kY2MBS71AXIW2uGUdSFVDy6hEnpAkuwRxtaE9Qqa
-	zoY6U3aCjjD+Z1+1wOcXZGSfjuH95oLf6NVXBKXn1gDsVQHfKddwRop//XydSw2UlERwi/3fxgs
-	hJhQnC81R8/qGMY2H6e/AXrcqJhteJkTU/63l2+U7r8GYfnuF0d5mG41Q5g2tyrdfQyAzAs+xqx
-	rIGiouEoLgsNjD66Sb0EI=
-X-Google-Smtp-Source: AGHT+IHij78wIttXL5qrzeJ5Fr4uMDiSvsvUdH/MMYd2AuxlJUx0L+zs8iuv/NdnITfidNIJsVOY8Q==
-X-Received: by 2002:a17:906:478b:b0:b6c:38d9:6935 with SMTP id a640c23a62f3a-b76552b9f32mr307984766b.24.1763650357685;
-        Thu, 20 Nov 2025 06:52:37 -0800 (PST)
+        bh=Hs8Y4srjRXSDmflQe1JQvRGbJo0svHHlH0JZJV2BibQ=;
+        b=cOXRaxdfl0LHHkiejEwxsUi8zbTtgbt4noja7hBPNdMTs87N9rp9g2sDH0ViY2WXeu
+         T15omvJvKG9p0L74P8MFJZzPlViOZwURawn6siGDdxctgzW9SO2mJ3intUnUbZ7G9CWj
+         uzOsom6C7Xyo9oWFle2lIxyUqFrQuckJcqDwHubJEzdH5cw/COi9e0Cmph+P3j4pL+St
+         kgzxcKG78xKxGEKpz2fu4cY50zF1nK/uleazMxn7JZX6l63z9z+tmPdshbl0wmDiUJHX
+         3te1rFmMEaie994jQbmGonp0EKqx2bz1IGECJ+zXyPTZRdm9K6JaOdDofkwgW9UkvOQ5
+         IMzw==
+X-Forwarded-Encrypted: i=1; AJvYcCUdvXT5PPw0HafG5Y7Wmg6T9trX+AqUyKt3CjxcQ0OL8WZYK04TSoN6oYUOoUtd65sfn+Q+/UFP7WQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxN4SNleLme0+0CfabbYRQ0owQ6p8/1oF92GrbNbnXubjqLz8Qv
+	/qewH/FnApPTXvCMscfY1POt5UmkYuoqQ9IIofjS6wprOIkbYJWiLSNj3HqXv0t77eA=
+X-Gm-Gg: ASbGncuLYmPGY1n6UiWfnG6OPnDaYLttGjR7VGIi20F7PHWftBQEcMMhajGWKFJnTun
+	xxkpfVAvi+unOWFa9gAcTnHORcb2SVrZymjcM4tMfGbYjI49qzA0U7vq8hBFbCyCcnhE9dgorUS
+	13QChXNZiZLOiCzMkod9R2eO+J3aLKZ+f3wvIH+RWqbChsvgDCoj9LdG/mrcJq7VsWL22JPyDHE
+	1EeG5qhFLjAwiJU8bbvL/hgyWG404DSlRoZZ7POw9VlYfpoYlyGVdlwvKN0WYWrY19TXJQR9TiH
+	oQOQDqwTNOT+saXzgBDHUnwu3xWrHsEKb47qcMPGOCC0rTxgbAek2a1UCV8nnonnumKDH0PPk53
+	eYvLTynGYIdeayq2bx3kAyoe59+3LteGPj236tIBaenZ47AWP+XvRA06YlcY6lSKwvJziV17oUD
+	5xVD+CIZDeKlTio5cnMp8=
+X-Google-Smtp-Source: AGHT+IH7CoEyCVFu/qkrb/nXh2Nvt6ZT+I/QXVymMAmlXeUbqUpzFWKvc2NGr9Yw1jk0rVm9T4o5hQ==
+X-Received: by 2002:a05:6402:27d3:b0:640:ebca:e66c with SMTP id 4fb4d7f45d1cf-64538227960mr2444296a12.23.1763650389157;
+        Thu, 20 Nov 2025 06:53:09 -0800 (PST)
 Received: from FV6GYCPJ69 ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-645363c56a4sm2255897a12.15.2025.11.20.06.52.36
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64536443a9csm2243827a12.29.2025.11.20.06.53.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Nov 2025 06:52:37 -0800 (PST)
-Date: Thu, 20 Nov 2025 15:52:33 +0100
+        Thu, 20 Nov 2025 06:53:08 -0800 (PST)
+Date: Thu, 20 Nov 2025 15:53:07 +0100
 From: Jiri Pirko <jiri@resnulli.us>
 To: Tariq Toukan <tariqt@nvidia.com>
 Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
@@ -69,11 +69,10 @@ Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
 	Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, 
 	Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>
-Subject: Re: [PATCH net-next 03/14] devlink: Add helpers to lock nested-in
- instances
-Message-ID: <hj37vfeodmmjpfrfa6vnwm3rwp7an4fzt7bvi4fwyusjzgbtrm@fc6j4szuodq6>
+Subject: Re: [PATCH net-next 04/14] devlink: Refactor devlink_rate_nodes_check
+Message-ID: <jpxxt7vxoltrf6r636rch4cd7tbharffrlgunsjfgnlud2lmx4@em5lcb5zhmcl>
 References: <1763644166-1250608-1-git-send-email-tariqt@nvidia.com>
- <1763644166-1250608-4-git-send-email-tariqt@nvidia.com>
+ <1763644166-1250608-5-git-send-email-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,14 +81,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1763644166-1250608-4-git-send-email-tariqt@nvidia.com>
+In-Reply-To: <1763644166-1250608-5-git-send-email-tariqt@nvidia.com>
 
-Thu, Nov 20, 2025 at 02:09:15PM +0100, tariqt@nvidia.com wrote:
+Thu, Nov 20, 2025 at 02:09:16PM +0100, tariqt@nvidia.com wrote:
 >From: Cosmin Ratiu <cratiu@nvidia.com>
 >
->Upcoming code will need to obtain a reference to locked nested-in
->devlink instances. Add helpers to lock, obtain an already locked
->reference and unlock/unref the nested-in instance.
+>devlink_rate_nodes_check() was used to verify there are no devlink rate
+>nodes created when switching the esw mode.
+>
+>Rate management code is about to become more complex, so refactor this
+>function:
+>- remove unused param 'mode'.
+>- add a new 'rate_filter' param.
+>- rename to devlink_rates_check().
+>- expose devlink_rate_is_node() to be used as a rate filter.
+>
+>This makes it more usable from multiple places, so use it from those
+>places as well.
 >
 >Signed-off-by: Cosmin Ratiu <cratiu@nvidia.com>
 >Reviewed-by: Carolina Jubran <cjubran@nvidia.com>
