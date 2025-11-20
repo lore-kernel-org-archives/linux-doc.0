@@ -1,55 +1,55 @@
 Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1421D35A934
-	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 15:13:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F89E361DA5
+	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 15:13:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763651620; cv=none; b=QMuKCavokKfNb/SBdu6Y/Izy49cEleh3QKgRAiiq81ZkaWj5xGrYF2rnfMxBEgu3KQTNpi+tO6O3AbKcQ2XsWzfXR6gSyi/J5cdmVWYaFTpXSnioUSQGO7jtHl4n8t/UKRx0brCL65rBbUKz58Qs+JiJWlDLW5GQFRti/59uWyA=
+	t=1763651627; cv=none; b=oiCtgMVbKv9r1imEuS2fVfv6EDCUJP0xt2xkNu/bBv/AIUSIw9p2Oi55MsNDnssiPTMMJyiblKxesFyc1fG+B2/q73GeIg+FH5wfkDKtqwPAelecmXv1O305slGsEY546zwZXoyjCwfGu0MZZK9XhHzFsJE76odwhHMDjiABOnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763651620; c=relaxed/simple;
-	bh=JSFE6OXplsVQRasUjLyJp87wPLoBhJo5boc6e5TlRPY=;
+	s=arc-20240116; t=1763651627; c=relaxed/simple;
+	bh=uf1gzv7z8skOrRT4+VFvC3of+qZ1MAXWLNFNhiBTmcE=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=RBN/eI5JZ9MmbFLoGfJYhH57nEI6gvontK4+HdRR5aJZeY6UKhNIsj5ua3KsG5kJmERLyfgJGHgkI6U8Ru/IzSUetxXr8SsV3xLJhxb1Emecxl7hh4lfjou7so77eWtTvp4pukyiknukV+CcZUxx05d+e4+1u+2ZyOVEWWtCTJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iCLMPfCc; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=QwZN0/2KWrrYIHpvpLD3eQL/oY8hLEgXGrTh6na/AbZlER7Nz9KBKS9IONpI2LdeAPq614MQIDLaHGGfa+RHcxrGg9vTsZ1H0OI0F9xJFEFuLKKBdZ+7hO45+yecMSzGD7plCOoaduBZwN3NUaAJWC9aN7fQnWzEnwnUAfaXqpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lIILdxAl; arc=none smtp.client-ip=209.85.128.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iCLMPfCc"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-477964c22e0so6885045e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 07:13:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lIILdxAl"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4779393221aso5902905e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 07:13:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763651613; x=1764256413; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1763651601; x=1764256401; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xNvl5AadBnBbkNqIZ5ePr/ep+DGb1qTLi02EcnmaTpQ=;
-        b=iCLMPfCc7jWhEpnYhobvI2CKA2SElpM9LR0+higIlNVPix1drSCs++UbXykawgetXH
-         UiK2Mlropxx9wOJeRRbYAassEHRQmIuimGssASlfFCMIHugwhSwj3b/fCzNmiq9VN+nt
-         nfzqFiywxCAnOPudXpRx+zUking//m8pTDAm28RHuO9pbcxIIYZA7l9QX4pAUeSVZbPP
-         eh6Nz4aythN+TVoBhg44bsA9fQEmI3pG42o6MSQ0gaXXDnwhtpTIkNZOQZ7qHP+DY1pe
-         pc31FewAdejDaVASt7E7NmYup1vOHoofrZHC3welUeiAxyB3/Q+FX0BPWg8UOt8wyTVB
-         +5Iw==
+        bh=FM+v7kmKwxv6mQJTQvhb3JUsaW+ES8Jzb95oMtr52Zo=;
+        b=lIILdxAlKrGx0wD+OonXryS7104irmjl5t2zr//jt0M+sf74iUcR63kNzpx8SymDR4
+         ZKwV/0h/10zumcIElg7vk/rtzhpGS4cG+kjyFVWdADWq63P4xn892vVQqfXewdRBtuqG
+         zMfc4XasqZfRY1y00lD7Qwxk6Tl8nB7SSWz0Bb3dDhdWtXuT2bXhpiE8xcJRDc5AeIJv
+         z+H39reQX9tCZoUtc1D01TC4ZT92RTu2UXP1ZUEL+zL40ZhqaBtTipztTeKeR6Mxw7TF
+         K9RTVKAtNPEixseb/BISEC/MA+6XuqZ4RD7e/MlbHG9mBu3m4TRq573HeYIyZLRYM57P
+         He7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763651613; x=1764256413;
+        d=1e100.net; s=20230601; t=1763651601; x=1764256401;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xNvl5AadBnBbkNqIZ5ePr/ep+DGb1qTLi02EcnmaTpQ=;
-        b=rtuazMdv9DU+p4jBYfN6vUYF529a7sVXNluey6AR2GGCSqXS2VDVcuhCNkxny44+v5
-         yvM+oQlkC3wn+lgIMlMRyMQfhpbUsgrdZV+KCoE5buS00L6I9vHLss/JEafbZmwd3VUr
-         w8gQvF8cLc8Y1E+aHZtd5pa5Zw78x6czMUy2b3Y3YKJU7RBVo62L/la7EvF8WUMSUYvS
-         lxSxEJa0781AbTCVFtskLWdoeAmym8gLYsD7Q+3KydhNJzXGwGDdtJieORhZjY6MVTpQ
-         bx7fEQ90YMJ5OCcZJeb8cXs8nff8KkZzMojxB1+NPyzClWSLL4A0c+elgRdxCUjjnvM2
-         gr3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUElwparr1z+ewU0bMsn/oTaj45FMpyQb2sf7751z8DZ+Lz5J28qc0L1bW/spEgnP36Lpr+jdKAgwE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVaUOSYi7DfDllUfhseaPk3/UBAGCz884rsYr+OfWYaPeXhb67
-	WXxlNUjzqteCScYmmmugt0R3+kROIpHIJvk1ZRNe4BhQ+HlEJZXZBBcinVf+FonRJdvvQtmgNqo
-	5iw==
-X-Google-Smtp-Source: AGHT+IF9W56E3BCf4ycfyNzV0Jbt7zmYcg646z2GlS6yDnrRg6LpKFxf4hnN1dp2GqjQ6ITkpBqUZJJJqw==
-X-Received: from wmbbd8.prod.google.com ([2002:a05:600c:1f08:b0:470:fd92:351d])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:1516:b0:477:14ba:28da
- with SMTP id 5b1f17b1804b1-477b9ea8f78mr18741385e9.5.1763651612613; Thu, 20
- Nov 2025 07:13:32 -0800 (PST)
-Date: Thu, 20 Nov 2025 16:09:51 +0100
+        bh=FM+v7kmKwxv6mQJTQvhb3JUsaW+ES8Jzb95oMtr52Zo=;
+        b=gXLLUGaCbj3NEuvsYxa884A2fqRmS2mNKommgqjfnj35sjxIsukDNYCOuYNQn8vIxn
+         2yXiOB8pIXlAQuX4Tr+PySnO3NPHC/kmzDe3UqwbiOVCDBsX3vRrPk+9BT2kgCahWhby
+         hKmPAAYbfFO4ExMbc/IU17i8+7hfx6UO1V276QbNi0MzO40Xq4IgD+eT4eJwGsLoO5Jf
+         +ARzXk5m7+Zkkr0csc2F0qXj900zmakNZ1YIlImSxzQezcSVkXBw05GF+Y3yu8WmRP7n
+         iiI8OT/Z5+/jYEJeajo9PbsGg1TkxFm90YQnvXAOuWnPNvuTDkYoNPvfUg1leLJ8Mhwz
+         Z58A==
+X-Forwarded-Encrypted: i=1; AJvYcCUCekATZCnDauKz7t7SM8vS2ZK8qN3cCbfDBFT1dE++XFntpKYbZnsE6NoVT54qWpm31JW1+4YS2Rw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMEODVgTmz9LtQjOB/ykmyH2hWJ+oqhp9jW9aVghQ9apT5eKbi
+	HzUPckdrMm9+afswj7DUQ4Xy2JPNL7bBq2CH1f9IwTz04hiCZbQp2Cikod1bCmyXC1TnTcOV17F
+	9Hg==
+X-Google-Smtp-Source: AGHT+IFa8gcAYDmSbcN98uTmCv7ow2f9WIs4txwLFz3cf4q2hwFdJRSgsIcTcuSjJZmiASAfOgD6nIwlVA==
+X-Received: from wmgi8.prod.google.com ([2002:a05:600c:2d88:b0:475:d94e:4d5d])
+ (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:458e:b0:46e:396b:f5ae
+ with SMTP id 5b1f17b1804b1-477bac0cfb5mr29573045e9.16.1763651595671; Thu, 20
+ Nov 2025 07:13:15 -0800 (PST)
+Date: Thu, 20 Nov 2025 16:09:47 +0100
 In-Reply-To: <20251120151033.3840508-7-elver@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20251120145835.3833031-2-elver@google.com> <20251120151033.3840508-7-elver@google.com>
 X-Mailer: git-send-email 2.52.0.rc1.455.g30608eb744-goog
-Message-ID: <20251120151033.3840508-27-elver@google.com>
-Subject: [PATCH v4 26/35] MAINTAINERS: Add entry for Context Analysis
+Message-ID: <20251120151033.3840508-23-elver@google.com>
+Subject: [PATCH v4 22/35] compiler-context-analysis: Remove Sparse support
 From: Marco Elver <elver@google.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>
@@ -87,39 +87,287 @@ Cc: "David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenry
 	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Add entry for all new files added for Clang's context analysis.
+Remove Sparse support as discussed at [1].
 
+The kernel codebase is still scattered with numerous places that try to
+appease Sparse's context tracking ("annotation for sparse", "fake out
+sparse", "work around sparse", etc.). Eventually, as more subsystems
+enable Clang's context analysis, these places will show up and need
+adjustment or removal of the workarounds altogether.
+
+Link: https://lore.kernel.org/all/20250207083335.GW7145@noisy.programming.kicks-ass.net/ [1]
+Link: https://lore.kernel.org/all/Z6XTKTo_LMj9KmbY@elver.google.com/ [2]
+Cc: Chris Li <sparse@chrisli.org>
+Cc: "Luc Van Oostenryck" <luc.vanoostenryck@gmail.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
 Signed-off-by: Marco Elver <elver@google.com>
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
 ---
 v4:
 * Rename capability -> context analysis.
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e64b94e6b5a9..0445478f74c7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6029,6 +6029,17 @@ M:	Nelson Escobar <neescoba@cisco.com>
- S:	Supported
- F:	drivers/infiniband/hw/usnic/
+v2:
+* New patch.
+---
+ Documentation/dev-tools/sparse.rst        | 19 -----
+ include/linux/compiler-context-analysis.h | 85 +++++++----------------
+ include/linux/rcupdate.h                  | 15 +---
+ 3 files changed, 28 insertions(+), 91 deletions(-)
+
+diff --git a/Documentation/dev-tools/sparse.rst b/Documentation/dev-tools/sparse.rst
+index dc791c8d84d1..37b20170835d 100644
+--- a/Documentation/dev-tools/sparse.rst
++++ b/Documentation/dev-tools/sparse.rst
+@@ -53,25 +53,6 @@ sure that bitwise types don't get mixed up (little-endian vs big-endian
+ vs cpu-endian vs whatever), and there the constant "0" really _is_
+ special.
  
-+CLANG CONTEXT ANALYSIS
-+M:	Marco Elver <elver@google.com>
-+R:	Bart Van Assche <bvanassche@acm.org>
-+L:	llvm@lists.linux.dev
-+S:	Maintained
-+F:	Documentation/dev-tools/context-analysis.rst
-+F:	include/linux/compiler-context-analysis.h
-+F:	lib/test_context-analysis.c
-+F:	scripts/Makefile.context-analysis
-+F:	scripts/context-analysis-suppression.txt
-+
- CLANG CONTROL FLOW INTEGRITY SUPPORT
- M:	Sami Tolvanen <samitolvanen@google.com>
- M:	Kees Cook <kees@kernel.org>
+-Using sparse for lock checking
+-------------------------------
+-
+-The following macros are undefined for gcc and defined during a sparse
+-run to use the "context" tracking feature of sparse, applied to
+-locking.  These annotations tell sparse when a lock is held, with
+-regard to the annotated function's entry and exit.
+-
+-__must_hold - The specified lock is held on function entry and exit.
+-
+-__acquires - The specified lock is held on function exit, but not entry.
+-
+-__releases - The specified lock is held on function entry, but not exit.
+-
+-If the function enters and exits without the lock held, acquiring and
+-releasing the lock inside the function in a balanced way, no
+-annotation is needed.  The three annotations above are for cases where
+-sparse would otherwise report a context imbalance.
+-
+ Getting sparse
+ --------------
+ 
+diff --git a/include/linux/compiler-context-analysis.h b/include/linux/compiler-context-analysis.h
+index 935e59089d75..6990cab7a4a9 100644
+--- a/include/linux/compiler-context-analysis.h
++++ b/include/linux/compiler-context-analysis.h
+@@ -250,57 +250,32 @@ static inline void _context_unsafe_alias(void **p) { }
+ 	extern const struct __ctx_guard_##ctx *name
+ 
+ /*
+- * Common keywords for static context analysis. Both Clang's "capability
+- * analysis" and Sparse's "context tracking" are currently supported.
+- */
+-#ifdef __CHECKER__
+-
+-/* Sparse context/lock checking support. */
+-# define __must_hold(x)		__attribute__((context(x,1,1)))
+-# define __must_not_hold(x)
+-# define __acquires(x)		__attribute__((context(x,0,1)))
+-# define __cond_acquires(ret, x) __attribute__((context(x,0,-1)))
+-# define __releases(x)		__attribute__((context(x,1,0)))
+-# define __acquire(x)		__context__(x,1)
+-# define __release(x)		__context__(x,-1)
+-# define __cond_lock(x, c)	((c) ? ({ __acquire(x); 1; }) : 0)
+-/* For Sparse, there's no distinction between exclusive and shared locks. */
+-# define __must_hold_shared	__must_hold
+-# define __acquires_shared	__acquires
+-# define __cond_acquires_shared __cond_acquires
+-# define __releases_shared	__releases
+-# define __acquire_shared	__acquire
+-# define __release_shared	__release
+-# define __cond_lock_shared	__cond_acquire
+-
+-#else /* !__CHECKER__ */
++ * Common keywords for static context analysis.
++ */
+ 
+ /**
+  * __must_hold() - function attribute, caller must hold exclusive context guard
+- * @x: context guard instance pointer
+  *
+  * Function attribute declaring that the caller must hold the given context
+- * guard instance @x exclusively.
++ * guard instance(s) exclusively.
+  */
+-# define __must_hold(x)		__requires_ctx_guard(x)
++#define __must_hold(...)	__requires_ctx_guard(__VA_ARGS__)
+ 
+ /**
+  * __must_not_hold() - function attribute, caller must not hold context guard
+- * @x: context guard instance pointer
+  *
+  * Function attribute declaring that the caller must not hold the given context
+- * guard instance @x.
++ * guard instance(s).
+  */
+-# define __must_not_hold(x)	__excludes_ctx_guard(x)
++#define __must_not_hold(...)	__excludes_ctx_guard(__VA_ARGS__)
+ 
+ /**
+  * __acquires() - function attribute, function acquires context guard exclusively
+- * @x: context guard instance pointer
+  *
+  * Function attribute declaring that the function acquires the given context
+- * guard instance @x exclusively, but does not release it.
++ * guard instance(s) exclusively, but does not release them.
+  */
+-# define __acquires(x)		__acquires_ctx_guard(x)
++#define __acquires(...)		__acquires_ctx_guard(__VA_ARGS__)
+ 
+ /*
+  * Clang's analysis does not care precisely about the value, only that it is
+@@ -327,17 +302,16 @@ static inline void _context_unsafe_alias(void **p) { }
+  *
+  * @ret may be one of: true, false, nonzero, 0, nonnull, NULL.
+  */
+-# define __cond_acquires(ret, x) __cond_acquires_impl_##ret(x)
++#define __cond_acquires(ret, x) __cond_acquires_impl_##ret(x)
+ 
+ /**
+  * __releases() - function attribute, function releases a context guard exclusively
+- * @x: context guard instance pointer
+  *
+  * Function attribute declaring that the function releases the given context
+- * guard instance @x exclusively. The associated context must be active on
++ * guard instance(s) exclusively. The associated context(s) must be active on
+  * entry.
+  */
+-# define __releases(x)		__releases_ctx_guard(x)
++#define __releases(...)		__releases_ctx_guard(__VA_ARGS__)
+ 
+ /**
+  * __acquire() - function to acquire context guard exclusively
+@@ -345,7 +319,7 @@ static inline void _context_unsafe_alias(void **p) { }
+  *
+  * No-op function that acquires the given context guard instance @x exclusively.
+  */
+-# define __acquire(x)		__acquire_ctx_guard(x)
++#define __acquire(x)		__acquire_ctx_guard(x)
+ 
+ /**
+  * __release() - function to release context guard exclusively
+@@ -353,7 +327,7 @@ static inline void _context_unsafe_alias(void **p) { }
+  *
+  * No-op function that releases the given context guard instance @x.
+  */
+-# define __release(x)		__release_ctx_guard(x)
++#define __release(x)		__release_ctx_guard(x)
+ 
+ /**
+  * __cond_lock() - function that conditionally acquires a context guard
+@@ -371,25 +345,23 @@ static inline void _context_unsafe_alias(void **p) { }
+  *
+  *	#define spin_trylock(l) __cond_lock(&lock, _spin_trylock(&lock))
+  */
+-# define __cond_lock(x, c)	__try_acquire_ctx_guard(x, c)
++#define __cond_lock(x, c)	__try_acquire_ctx_guard(x, c)
+ 
+ /**
+  * __must_hold_shared() - function attribute, caller must hold shared context guard
+- * @x: context guard instance pointer
+  *
+  * Function attribute declaring that the caller must hold the given context
+- * guard instance @x with shared access.
++ * guard instance(s) with shared access.
+  */
+-# define __must_hold_shared(x)	__requires_shared_ctx_guard(x)
++#define __must_hold_shared(...)	__requires_shared_ctx_guard(__VA_ARGS__)
+ 
+ /**
+  * __acquires_shared() - function attribute, function acquires context guard shared
+- * @x: context guard instance pointer
+  *
+  * Function attribute declaring that the function acquires the given
+- * context guard instance @x with shared access, but does not release it.
++ * context guard instance(s) with shared access, but does not release them.
+  */
+-# define __acquires_shared(x)	__acquires_shared_ctx_guard(x)
++#define __acquires_shared(...)	__acquires_shared_ctx_guard(__VA_ARGS__)
+ 
+ /**
+  * __cond_acquires_shared() - function attribute, function conditionally
+@@ -398,23 +370,22 @@ static inline void _context_unsafe_alias(void **p) { }
+  * @x: context guard instance pointer
+  *
+  * Function attribute declaring that the function conditionally acquires the
+- * given context guard instance @x with shared access, but does not release it. The
+- * function return value @ret denotes when the context guard is acquired.
++ * given context guard instance @x with shared access, but does not release it.
++ * The function return value @ret denotes when the context guard is acquired.
+  *
+  * @ret may be one of: true, false, nonzero, 0, nonnull, NULL.
+  */
+-# define __cond_acquires_shared(ret, x) __cond_acquires_impl_##ret(x, _shared)
++#define __cond_acquires_shared(ret, x) __cond_acquires_impl_##ret(x, _shared)
+ 
+ /**
+  * __releases_shared() - function attribute, function releases a
+  *                       context guard shared
+- * @x: context guard instance pointer
+  *
+  * Function attribute declaring that the function releases the given context
+- * guard instance @x with shared access. The associated context must be active
+- * on entry.
++ * guard instance(s) with shared access. The associated context(s) must be
++ * active on entry.
+  */
+-# define __releases_shared(x)	__releases_shared_ctx_guard(x)
++#define __releases_shared(...)	__releases_shared_ctx_guard(__VA_ARGS__)
+ 
+ /**
+  * __acquire_shared() - function to acquire context guard shared
+@@ -423,7 +394,7 @@ static inline void _context_unsafe_alias(void **p) { }
+  * No-op function that acquires the given context guard instance @x with shared
+  * access.
+  */
+-# define __acquire_shared(x)	__acquire_shared_ctx_guard(x)
++#define __acquire_shared(x)	__acquire_shared_ctx_guard(x)
+ 
+ /**
+  * __release_shared() - function to release context guard shared
+@@ -432,7 +403,7 @@ static inline void _context_unsafe_alias(void **p) { }
+  * No-op function that releases the given context guard instance @x with shared
+  * access.
+  */
+-# define __release_shared(x)	__release_shared_ctx_guard(x)
++#define __release_shared(x)	__release_shared_ctx_guard(x)
+ 
+ /**
+  * __cond_lock_shared() - function that conditionally acquires a context guard shared
+@@ -445,9 +416,7 @@ static inline void _context_unsafe_alias(void **p) { }
+  * shared access, if the boolean expression @c is true. The result of @c is the
+  * return value.
+  */
+-# define __cond_lock_shared(x, c) __try_acquire_shared_ctx_guard(x, c)
+-
+-#endif /* __CHECKER__ */
++#define __cond_lock_shared(x, c) __try_acquire_shared_ctx_guard(x, c)
+ 
+ /**
+  * __acquire_ret() - helper to acquire context guard of return value
+diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
+index 5cddb9019a99..dd12e738e073 100644
+--- a/include/linux/rcupdate.h
++++ b/include/linux/rcupdate.h
+@@ -1219,20 +1219,7 @@ rcu_head_after_call_rcu(struct rcu_head *rhp, rcu_callback_t f)
+ extern int rcu_expedited;
+ extern int rcu_normal;
+ 
+-DEFINE_LOCK_GUARD_0(rcu,
+-	do {
+-		rcu_read_lock();
+-		/*
+-		 * sparse doesn't call the cleanup function,
+-		 * so just release immediately and don't track
+-		 * the context. We don't need to anyway, since
+-		 * the whole point of the guard is to not need
+-		 * the explicit unlock.
+-		 */
+-		__release(RCU);
+-	} while (0),
+-	rcu_read_unlock())
+-
++DEFINE_LOCK_GUARD_0(rcu, rcu_read_lock(), rcu_read_unlock())
+ DECLARE_LOCK_GUARD_0_ATTRS(rcu, __acquires_shared(RCU), __releases_shared(RCU))
+ 
+ #endif /* __LINUX_RCUPDATE_H */
 -- 
 2.52.0.rc1.455.g30608eb744-goog
 
