@@ -1,447 +1,565 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011037.outbound.protection.outlook.com [52.101.52.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E35D2D1F44
-	for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 09:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763631119; cv=none; b=geQqY6PM2VMLIkK9Cn1s1J+z+Zd0i5msAHQMtTJoO+r9/S1ZQeiTMhcqTBDJIwYG5Hup3WIZohTYZBFmhIveVi3dBB8ZDfYP7mIhNad+2F2+7ZDK8t2b9gU+htw84AY3c09gZyAJuGWAIa1F/NJg49cvzjPzqchBzZ6YtN50hnA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763631119; c=relaxed/simple;
-	bh=Ck2p5rAFOhO7iuPt28pYNRCuC6uWWGlUGGMZqom00Pg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LZTDvaU8p19i/XjuIY9klj5+aJMEkhe0+t/XydFymRJdRAPinHPANJXTS5umrAPl7EvYJsiWVN0kHkferGLJdCXcO2cTY6oVUR4tpRl6qPmAMcVFO1aIguy7MpLI4ezy3bBpoIYTeAZvvO8dG/sTHLov11H1mwpSY8xVWZ87MQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=pass smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin.net header.i=@ursulin.net header.b=TCrnwClK; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ursulin.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56B331281D;
+	Thu, 20 Nov 2025 09:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763631234; cv=fail; b=aCABTdcO6rQmzrylHxP39JIrY54sZ3lHWK6aeb/ZtTv+XV1Rsv2UkS+lMDqQp1plPiSU69dqZ4DE9BlV5CkY3B2CUTJ3EOVNXdIAVDGpquI1tFC52JYIbFV8vzACVZjql2jdLak1MT3fhn4+TfppduQN0SOkjmGa/Py4Q9aIxPc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763631234; c=relaxed/simple;
+	bh=S08jKtNw+YUePRaDB4AaA79IeYu8SFrVGFr9sEKFhMc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=nx+DfbFMV29oiPipQeuN/WAO7AdpOjw2c6VX3jdN6Tk3xIcu6yu1ZugX9ULSdTTKibKnp97cFpKeOomAPUBvCyVVjmLBWklhVL/eGnznIFawI+1aWbzBYgDAOMopyaYBWGNPYLAiIgoOXp47G4B8FFyTzBbQtKurZTqAm4kPJNQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=O68aiD3o; arc=fail smtp.client-ip=52.101.52.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ursulin.net header.i=@ursulin.net header.b="TCrnwClK"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42b32ff5d10so1148482f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 20 Nov 2025 01:31:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin.net; s=google; t=1763631116; x=1764235916; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fqAzN+uhziH1nFW2iIiQXSt/9jzfbA+V2CT1GLLLYig=;
-        b=TCrnwClKm2S5TnzQSYrzMke7YnExpvsKs9I7NhaOcHXvlPk8vX8W7NISYqUXjQO+dv
-         xP4GKdYD6yw84yOqoq7OP7sZJZM79rG2+uQw/s9orahK8gOWLO/mk/pRqHmxvn3ITvt2
-         q6PMgEwgEPLZWC/+GYKACUjFtwWd6OcFEol6fBLfbAbjVU+LPB0H+EDWbKeitETF5tWt
-         cZ0phRAHHlNn1zuTIxpreHoEYNRpS6sJQc8DMti9djLfQhuyq+bQw+JyGvCRHNzmZhC/
-         mfZ3uX5d0RSsA8Lj/pTpuoH0jDQbO5hpeynlW9wWxMCO65fghwwFB96JLKDi3v9Rn5ro
-         zmoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763631116; x=1764235916;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fqAzN+uhziH1nFW2iIiQXSt/9jzfbA+V2CT1GLLLYig=;
-        b=hnaxHgO1dnW2276X/qCNhI8/NkyVrcU1/cUODXmhysZSaAYFoUsdPZgc/IX6trFUcJ
-         5z3blXd8XO0uWLyMK2Tveoue4Ks2vpHbyjB+H/mLc5/oXmSCMykJDg7kcBIGuR3ZHj94
-         qFPymBbN37jdpe3fPkI9H0CkSgQHZ0R0JURqjBMiEP2Uh5Yoa9+SZNThaoXcDRlRq3nk
-         yFMtFKIOE5lLdUo9vWo//R21ktVE30D+dbGzBRgnniXjvMtX39ha4cKBVSQRVxfvhw8B
-         wJ6baArmCscwi/ommXVfbr4zZQUMvj359RT5HxZlfaACUVbyWD/vZ8uGQSwpop7fnyuU
-         d1ng==
-X-Forwarded-Encrypted: i=1; AJvYcCXHee36oM0wxzYOU10bA1rAP9V49u8+zUWlop9PoHkGJrp3FEBwEDY402i3ivKVHWqPR9Xg7KBo3Bo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywzmka1rdGI+pabNcABOeeH2O6PfzSbuB4Jlme7id7nttB0ebCD
-	HUh3L929x2+qFz4KIs8vdxAZ6w5Po+R1UKzrWBirdc7Mi2bU+qaoqDJtvju6oUFDPl8=
-X-Gm-Gg: ASbGnctSdUGL45OXvdRYQ8tTFMKXiKD8jElH5+uEREZbuWZg8agppwJzqgSZvhwQx3T
-	720lkVDjc/1KeqUTi2SCbA3KxGkpUhOmhfExULgglvOAl/RDNPldYDC/pLOAE+tS3uNClPz/By+
-	9Bd3H/ecMi7CvEZTi3cAY5lf2SERO02KqDAlLktDu4Tel0Ccq/5A3rz47kDfc3dNXAK6Jh9zuRr
-	sdefwhnIgHNpUM2/V611+j1PizIV7n+qDXnfDua0mKsh2u809Cm6y/HM6AmlHYyvviJwZXfWRHm
-	96sKpMCQEPknqECJopTAHt3xIGhBMGhpkE6T44d8qH8zbUNUiVLpstNTegmbEKLzl5JI3ld1ws4
-	ta1bT3Zz0H4Bfr7yFNH8q3TO/Jcqwxmqcz/ESIWXUNFIqrU29EwKucmFxLvfaAcm9B48vC5NGSa
-	EoRQWz6VvO+oTzn54DuY0oWL6QhyPoKJux
-X-Google-Smtp-Source: AGHT+IFofUXdITOIuOkWXI5exYrEDPWRBJLEZCKD9E2oxWKfdypUIfwK6ij9knD1h1VBV36aBdBTXQ==
-X-Received: by 2002:adf:eb0c:0:b0:42b:3aa8:ff9f with SMTP id ffacd0b85a97d-42cba7c4d7fmr1465005f8f.28.1763631114510;
-        Thu, 20 Nov 2025 01:31:54 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7f2e460sm4293066f8f.7.2025.11.20.01.31.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Nov 2025 01:31:53 -0800 (PST)
-Message-ID: <fee6476e-3168-4f4f-ae2f-3ef65fe209b0@ursulin.net>
-Date: Thu, 20 Nov 2025 09:31:53 +0000
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="O68aiD3o"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q5ZQkjS5Q6Wzn0eqpijm2OUmUiuQQzTChu5E43MJ+5fqLUTRmIqNuf3N3ZzqP9PeX65dGnm+97rKWC/sMzP6ADbEOfLtuHaLl2ofBW4QagVVs0C3l8qcFyRY1MK21TLNekSrn1palSykN4W9enGsz2bGA2SxT3+8+lIJx6Y3/2o/peYNAbmsq042AwlbLEGJqS1Ouqa1OgOMqyEZ4nr9gNNfBD3CY8Mn9w3udmvIZoIBJVbBxYTZR5JkAmDkrUTxUppM/dc1NzEAHh0THd6sX14ScCMNd0r6uVaqYuUkfc4FcfI7S9Jk1tEyupnJvLyiJjWDtEPjQbfU4SepXyTTIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v+IKuHfz3VsjQjAkN6PhhIVHZeqYqNaWdj453DTQok8=;
+ b=gkpmEmEngSaQf0mhUGQu1CwKLlJ8jf0R3rWLn2P8b4dz9lrlnpv9Ewuj94K9BHZoj1UBb2neu6EMUm7rBOxYZUzx5/fz4T9XyHZTtKqc/2LCyCwTNy1m0DyB6GJjassdOFsaQYKOlBvYFyDqoZCp1eYBqI2CFrGqzm/5WnME0y6v0Ax0ZEJTfpmnfxu+yWNKm4/8k0NhV8qs3QKCfG+ttmdErqJGnb2vSyPkTPySI3Osz/+IB3VK5HLQGOHOsV0tbDV7vLQjUorFzFpWvKMbY8wyo8YAhu1p+rgu510WRAbgVe+HsI3bO+ppvbwfOIUnf2MmJmotl00Fvrr4I4d78w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v+IKuHfz3VsjQjAkN6PhhIVHZeqYqNaWdj453DTQok8=;
+ b=O68aiD3ojshtF65osjgU3NitFZWWXrT1ADuxm953qWyiDpzYrERCHO62WpijrIXn9Ubs+1wD+nPMNhFROPklevUyjyaRXLiJvoV+TUy0QCxak27caevEZTQGsyuzp0krDjnnUjisb/jiSwSqs30r4hNbEHusBq53BEhJFd4e+dI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ1PR12MB6097.namprd12.prod.outlook.com (2603:10b6:a03:488::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Thu, 20 Nov
+ 2025 09:33:45 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9320.021; Thu, 20 Nov 2025
+ 09:33:45 +0000
+Message-ID: <57b8876f-1399-4e4d-a44b-1177787aa17d@amd.com>
+Date: Thu, 20 Nov 2025 10:33:36 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 06/11] dma-buf: provide phys_vec to scatter-gather
+ mapping routine
+To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>, Kevin Tian
+ <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>
+Cc: Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ kvm@vger.kernel.org, linux-hardening@vger.kernel.org,
+ Nicolin Chen <nicolinc@nvidia.com>, Alex Mastro <amastro@fb.com>,
+ Jason Gunthorpe <jgg@nvidia.com>
+References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+ <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BN1PR10CA0019.namprd10.prod.outlook.com
+ (2603:10b6:408:e0::24) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 05/11] drm/i915: Use huge tmpfs mountpoint helpers
-To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Matthew Wilcox
- <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251114170303.2800-1-loic.molinari@collabora.com>
- <20251114170303.2800-6-loic.molinari@collabora.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251114170303.2800-6-loic.molinari@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ1PR12MB6097:EE_
+X-MS-Office365-Filtering-Correlation-Id: df5befd7-dad0-4e23-3e61-08de2817e6b2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?V21IZ1RsOEdWMlBOMTA0dDJRRlZ0ZTdiSlpBMmVzeWJ3MW1xYXhzWFV0QzNq?=
+ =?utf-8?B?a1dlNHRnbTAwcmNDNFR5dEhCS2swdTVkcnpvblZVZldLSFlMcjExRXU5U0Rk?=
+ =?utf-8?B?WGl5WWI0ZGdXaEJTQ2RLT3FwUi9nWnluUmc5S3ZnK1YxMWh5VlQxZUpLQ3Vu?=
+ =?utf-8?B?bGJPeDNnZ1hOa0F1OTVqZFJhSGZkaVZ2YXBwWnBUNVM2UVZjb3lYT0JvZ0px?=
+ =?utf-8?B?aVRZQ3JkY1kxSEg3SnlXWjZ2bFZGcUpzb05pdEphNFpOVWlRN1lDTzg3RlFk?=
+ =?utf-8?B?cURKeU03OUtONmhwNVRrbEI3MWJ5SlZpWUpsdU1TaElaWllHMTNGK3lIS2o2?=
+ =?utf-8?B?ZzFic24vSGxmSFhXL09ZTXA5ZnZPL05Kb24yYTBjMHRLUUhGVklzZVM5RFVH?=
+ =?utf-8?B?Z0t3TnhTc2Y3b1BkLzVBWFh3Sm5KK2VUZmI5WlFGbFRWMXR4S1dSYVQ3NTlB?=
+ =?utf-8?B?ZndabDVPSXZqNFNlNnNOelRRQVY0azNHaDJJQ05VU3BMc2RZMTRBTUVSZEpT?=
+ =?utf-8?B?a0xUTllTeU1NREFpcjhyMTExa3hxQkxmZ21CQnhpU3VBME05UkpuY1pheGRF?=
+ =?utf-8?B?eTIxWFRmVmhNUVRKdSt5bHBkU1I1KzIrUlBrWW1wUVRta21QYVI3am0yUGN5?=
+ =?utf-8?B?WTlzaG1sbFpyMnozOEFqSlhpNVhIMVRIQktLc2liWUp1a3J3RWZCRSt3dVY4?=
+ =?utf-8?B?ejJ4TTZvazA5aGJKVHpsdWZPa3N5ejJZYWdZT0JnZitKb3FtNVdOZWl3SDM0?=
+ =?utf-8?B?NWtXWWcyZjl1WWhBeTZ1ZDhUWXFGb2FPbVpMRlpmdXJRMnljc1h0UEdBb3Jp?=
+ =?utf-8?B?eE9aMXBZb2JidXM1UjNBUFNITGxPWVVrdGRrK0h6MzFackt6cW1XemFKbEsx?=
+ =?utf-8?B?NmZ3V2wwUXJjWDVwVk03VVhONjY3SVdVODNyTVRYM282dHVxSk54SWFRcE9p?=
+ =?utf-8?B?T2E5QjZXVm55dVMvcXJaOU1ldFJuUVo4eVFta2d2RXNXTG02Ym9yaUFabFFn?=
+ =?utf-8?B?SjVvbUFreFpHUnZHOEtJL1RyaHFwMVpOWTA2dW01ZENRZEg5T3dabDF3Zndt?=
+ =?utf-8?B?SjZsSEMrdW9Zc0RrWi9PemZrQU1mVU9YTkp6aHN6RjBXUG9IVndORHNsalQr?=
+ =?utf-8?B?dU5pODRrZGlOTjdaODBCV1E4YnhmanFiTDFCcWJTMkprMnZoZXFack5na3du?=
+ =?utf-8?B?SytFdXZETlBPalBqd29EaTlpc0gwSlZNb0pEVGIyZ3NSYmdNRVV3cDczSkhi?=
+ =?utf-8?B?R0picXpiTzJyRnZqR2tJZktEU2diVG90TnllMnFGL2lUSUFuak5IY3Z2b0dF?=
+ =?utf-8?B?VU42QTRVSEJoNG5PcWlIWitzeGVPcXhrc0ZSRGxjR0FnMGtRWDBrYnNVQUxX?=
+ =?utf-8?B?SUtDb1M4T3FtT1VVbnNKajF4NWZHaStIcE1hVlBQRSt5UEt5QkNXaVN0RGd2?=
+ =?utf-8?B?SENhQWl6NkNjQVBWMU0vb0hBSjZVcU5TcmpONjc4STZIMUs3NDRHclhyWkdQ?=
+ =?utf-8?B?RDBISTJwS0xHYTEwTTJMNlNiSWtBakhCYVdvMnJXVjF5VERpbXBsR0VVM0J1?=
+ =?utf-8?B?L3RaS2VlLzQ1dURwUWE5MldDZjMyc0dZbmJWa3BnRStJeXp4M3RCS0YreEgr?=
+ =?utf-8?B?VlUwdGlyYjRDRzlxcnB2WnVjUnpYZytsY2JMYjlCZWFySC9UQ2hLc3lGYnF2?=
+ =?utf-8?B?MER2S2p4M3RuMTZ5Vmc2ZnhUWkJkdzVvc2dtVU9la3lkUkZzOWpiYjUwbXlR?=
+ =?utf-8?B?V1RSRTZEWWswenJxbmZycURLWGkwbWdySXV5dlFzNWMrNVhGVkl6V2J6SEpk?=
+ =?utf-8?B?N1JOUGN3Qi9aYkViQ1c0NU1HTUhjVVNHOTM5MjI0SWo5aW1lZlZVYy9RWU9m?=
+ =?utf-8?B?Z2ZIb2svSlJ3SUxJTVlNVXpLRjd5Zk1QS2RZTlc1SCtWeUJoUXAxU0szQklt?=
+ =?utf-8?B?bzFzM3hmZ2U0Umk3YjNOZTlTSWJCOUptRjA2bFQzR1BiMlRqOG1BZ1MrNkRn?=
+ =?utf-8?Q?uWv58s/QtbMBsqtuOxJ9qjkMAKQsE0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aUNqRFBSVE5TQlZMUWtMUG82TTNPK0VqWkZFTDQycnFCZmkxODM2aTJUamJ5?=
+ =?utf-8?B?ZW01Sk9Eay9CNzBWa2J1ZmxwOUFMekdyZG9ydXhrVWFCeitKMW5wQWlJdzBz?=
+ =?utf-8?B?ZW5HekpKR3NlS0hvM21PcTFIQ2RBTTRuUUhqN2NocUZaSEN6Rmt5Zi94THdT?=
+ =?utf-8?B?RGdiQWt4Ti93cFVxSG54NzhVeTRCZEc1OGVKd1JJait6SEV0dGthYVF3RG1x?=
+ =?utf-8?B?eGhDVXhvQ1o1bXlRYlJCWFNKNElsTWFWcWlXY0dHTFZ0RGR4T1dsbjNzemV6?=
+ =?utf-8?B?ank0TXIxM1F3a05nT3FVbmVCc091NG9oR3pOYzJDVXA1dW0rN2JmWWZQTU1m?=
+ =?utf-8?B?VmprbkZJN0t1ak12TFVrUllOOEpMUzBHY2I1TlQwT2ozV2hSMlk1cGt0NGlC?=
+ =?utf-8?B?b00xVk11M2RGN2t0OVJRcmtKbXlBU2x5VEpUR0NFbWsxVHZkUmVaSm1DWmJz?=
+ =?utf-8?B?Zlk0ZmZKMWp2Zk9nLyt4d1h3U1F1STZ5ZmZUa1FXSWtlaUg3Wis3QWhueTdk?=
+ =?utf-8?B?WVp0bVBTbUVmaTJIc2o0MURIZWZsQ09xWlZGQnJUK2NraDZNQ2gwWHNLN2Zt?=
+ =?utf-8?B?aFFiZzlXZHlteDVJTm9MRm9pem1sR1hxRytFRWVhRGVlRzl6TFN1VkVmMjg1?=
+ =?utf-8?B?eENPVHUvai9WVEt2clR2NFprc1NBUTVBUmhSZVJzUkM0amVhZ2p6Y0ZxelZL?=
+ =?utf-8?B?SWEvT1lSVjE3b2d2V1N2MmFyVHc1bGlHbEUzSitEZEk3aTlHUFEwSjEzZzRF?=
+ =?utf-8?B?djJFMFc3ejRlWllxWURma0habFM1L1pNY2YxVXZuNFArWWVnalRQcy9vdTBX?=
+ =?utf-8?B?dVFFTUtndVlUTnhBUjc2bDFVVjdpa1BUM1A4VXQxMVA5cVhuMVFmbHlRN05t?=
+ =?utf-8?B?RUYxQVo5SWQvQ21BVFdHTi9LVkhFekNNem5paW9pRURVcEdyODJwSmJiamdG?=
+ =?utf-8?B?djJsWTBjcU5xNWNXbEhWWXlFSGw0dUFmaW5YU2R6enFPRXd0SmsrQ1ZqRXpM?=
+ =?utf-8?B?cnhnVmpHN3pZdk5PTnl0bnR2UHJreWVDeGdrZStqUDFhR3ZlLzAwcW83eWtt?=
+ =?utf-8?B?SThObDRseVFaUFFsMzNBczdhbERGZk53MHd6Ykd3L2RiOEQvMFp0ZWxsWVAw?=
+ =?utf-8?B?VFpRbmR2bjVmdnBGbzMrN2JVK3duU1Y3Y21JY3pGQ1YwSWxtVldKN2szTnJ1?=
+ =?utf-8?B?MmI5K1dWL0dMNWphTXdGRWRJMXQ3ZmtQUHhNSXZ4azRnQ0l1NElHZTVDM1p6?=
+ =?utf-8?B?eHZqdU5JZCtjRkZJd3hSY2JYWFF4bGp3alRkZEVZL0hWY3JnWnAvekYwUlZB?=
+ =?utf-8?B?dmx6RnAwRU80dytLWTA5bGVuaWUyUG9kNzc2ZTk0NDFybWsvc25qclVIbFZ4?=
+ =?utf-8?B?akpYeWRXT2Q3SmlHNUNmWVRaNkxYYUQybjRVaUhIQTdjZ3ZUK3lodkp6V1RJ?=
+ =?utf-8?B?bmw0UXRObEovNmdoZEVsbEpwczJkNG80K25kekRySmExQkhHUW9jVU4xbGVP?=
+ =?utf-8?B?VlV4NmhpSE96aThCbll5dU5xUGNBWmxOUUx1UHk3YnNBRGg0VGRCK0Z1TU1Z?=
+ =?utf-8?B?N3oyOTFyKzdYSXIxdGNUd05xSldvMGorRzNXcUU1Q0lkT2U2cVJnWlBCSUhB?=
+ =?utf-8?B?TVVaQjFpdlNWRzcxUkFPUlhsNXl1WDlBSzhVRVo0NFlWM0RUanQ2bFFwZDRw?=
+ =?utf-8?B?c2UvYzRkcmM0ZEZRNmhQNHhpWW9XOXM0V2JSVFZXWkxPRi9RQ3RDMzZ4M2NB?=
+ =?utf-8?B?MmFUUTd2SHIvM3YvVGlXOEZUV2MrNCt5MUp2NVhvajRmWVBCTjBNTjhpbzNt?=
+ =?utf-8?B?by9MZ3JaYW8xSVo0eGhhSkgyZUpQSlhWc3FROFYvUjB5STZxdXFNeWIvM2lw?=
+ =?utf-8?B?Mm43eC9PaS83NHFQbi9yYTlvTTJ0V0JNVk9MOFVtRk5jcVQ0TTZUWXRPZTNi?=
+ =?utf-8?B?QVZzL0hzc3dhQVNLSTFRSjc0UllwUUZ3cXZ4ODh5WDdGb2JNNWpaVzRzT1gz?=
+ =?utf-8?B?ajhJbkI2Um9SMnM4MWhHK2pqdzEzMnVnQ3lEcVJXM1BtNUhkdGUrYlRiRWg1?=
+ =?utf-8?B?Qy84S1FITjVQbVZLajlEVW5WaWc1a2syRVI3Y1UyeVZHczZ0Z2VkZlArekNK?=
+ =?utf-8?Q?aT+vBBxP6DNjQkkIcWTrGkEO8?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df5befd7-dad0-4e23-3e61-08de2817e6b2
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 09:33:45.4685
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yBDKvv6wi/qF93q75+tlUnrJj5OKYMoggjV2T9Ei4xe5Fvq1TVkWQz9XlSJB5k3n
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6097
 
-
-On 14/11/2025 17:02, Loïc Molinari wrote:
-> Make use of the new drm_gem_huge_mnt_create() and
-> drm_gem_get_huge_mnt() helpers to avoid code duplication. Now that
-> it's just a few lines long, the single function in i915_gemfs.c is
-> moved into v3d_gem_shmem.c.
+On 11/20/25 10:28, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> v3:
-> - use huge tmpfs mountpoint in drm_device
-> - move i915_gemfs.c into i915_gem_shmem.c
+> Add dma_buf_phys_vec_to_sgt() and dma_buf_free_sgt() helpers to convert
+> an array of MMIO physical address ranges into scatter-gather tables with
+> proper DMA mapping.
 > 
-> v4:
-> - clean up mountpoint creation error handling
+> These common functions are a starting point and support any PCI
+> drivers creating mappings from their BAR's MMIO addresses. VFIO is one
+> case, as shortly will be RDMA. We can review existing DRM drivers to
+> refactor them separately. We hope this will evolve into routines to
+> help common DRM that include mixed CPU and MMIO mappings.
 > 
-> v5:
-> - use drm_gem_has_huge_mnt() helper
+> Compared to the dma_map_resource() abuse this implementation handles
+> the complicated PCI P2P scenarios properly, especially when an IOMMU
+> is enabled:
 > 
-> v7:
-> - include <drm/drm_print.h> in i915_gem_shmem.c
+>  - Direct bus address mapping without IOVA allocation for
+>    PCI_P2PDMA_MAP_BUS_ADDR, using pci_p2pdma_bus_addr_map(). This
+>    happens if the IOMMU is enabled but the PCIe switch ACS flags allow
+>    transactions to avoid the host bridge.
 > 
-> v8:
-> - keep logging notice message with CONFIG_TRANSPARENT_HUGEPAGE=n
-> - don't access huge_mnt field with CONFIG_TRANSPARENT_HUGEPAGE=n
+>    Further, this handles the slightly obscure, case of MMIO with a
+>    phys_addr_t that is different from the physical BAR programming
+>    (bus offset). The phys_addr_t is converted to a dma_addr_t and
+>    accommodates this effect. This enables certain real systems to
+>    work, especially on ARM platforms.
 > 
-> v9:
-> - replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
-> - remove useless ternary op test in selftests/huge_pages.c
+>  - Mapping through host bridge with IOVA allocation and DMA_ATTR_MMIO
+>    attribute for MMIO memory regions (PCI_P2PDMA_MAP_THRU_HOST_BRIDGE).
+>    This happens when the IOMMU is enabled and the ACS flags are forcing
+>    all traffic to the IOMMU - ie for virtualization systems.
 > 
-> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-> ---
->   drivers/gpu/drm/i915/Makefile                 |  3 +-
->   drivers/gpu/drm/i915/gem/i915_gem_shmem.c     | 48 +++++++++----
->   drivers/gpu/drm/i915/gem/i915_gemfs.c         | 71 -------------------
->   drivers/gpu/drm/i915/gem/i915_gemfs.h         | 14 ----
->   .../gpu/drm/i915/gem/selftests/huge_pages.c   | 16 +++--
->   drivers/gpu/drm/i915/i915_drv.h               |  5 --
->   6 files changed, 47 insertions(+), 110 deletions(-)
->   delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
->   delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
+>  - Cases where P2P is not supported through the host bridge/CPU. The
+>    P2P subsystem is the proper place to detect this and block it.
 > 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 84ec79b64960..b5a8c0a6b747 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -169,8 +169,7 @@ gem-y += \
->   	gem/i915_gem_ttm_move.o \
->   	gem/i915_gem_ttm_pm.o \
->   	gem/i915_gem_userptr.o \
-> -	gem/i915_gem_wait.o \
-> -	gem/i915_gemfs.o
-> +	gem/i915_gem_wait.o
->   i915-y += \
->   	$(gem-y) \
->   	i915_active.o \
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> index 26dda55a07ff..15c2c6fde2ac 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -9,14 +9,16 @@
->   #include <linux/uio.h>
->   
->   #include <drm/drm_cache.h>
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_print.h>
->   
->   #include "gem/i915_gem_region.h"
->   #include "i915_drv.h"
->   #include "i915_gem_object.h"
->   #include "i915_gem_tiling.h"
-> -#include "i915_gemfs.h"
->   #include "i915_scatterlist.h"
->   #include "i915_trace.h"
-> +#include "i915_utils.h"
->   
->   /*
->    * Move folios to appropriate lru and release the batch, decrementing the
-> @@ -497,6 +499,7 @@ static int __create_shmem(struct drm_i915_private *i915,
->   			  resource_size_t size)
->   {
->   	unsigned long flags = VM_NORESERVE;
-> +	struct vfsmount *huge_mnt;
->   	struct file *filp;
->   
->   	drm_gem_private_object_init(&i915->drm, obj, size);
-> @@ -515,9 +518,9 @@ static int __create_shmem(struct drm_i915_private *i915,
->   	if (BITS_PER_LONG == 64 && size > MAX_LFS_FILESIZE)
->   		return -E2BIG;
->   
-> -	if (i915->mm.gemfs)
-> -		filp = shmem_file_setup_with_mnt(i915->mm.gemfs, "i915", size,
-> -						 flags);
-> +	huge_mnt = drm_gem_get_huge_mnt(&i915->drm);
-> +	if (huge_mnt)
-> +		filp = shmem_file_setup_with_mnt(huge_mnt, "i915", size, flags);
->   	else
->   		filp = shmem_file_setup("i915", size, flags);
->   	if (IS_ERR(filp))
-> @@ -644,21 +647,40 @@ i915_gem_object_create_shmem_from_data(struct drm_i915_private *i915,
->   
->   static int init_shmem(struct intel_memory_region *mem)
->   {
-> -	i915_gemfs_init(mem->i915);
-> -	intel_memory_region_set_name(mem, "system");
-> +	struct drm_i915_private *i915 = mem->i915;
->   
-> -	return 0; /* We have fallback to the kernel mnt if gemfs init failed. */
-> -}
-> +	/*
-> +	 * By creating our own shmemfs mountpoint, we can pass in
-> +	 * mount flags that better match our usecase.
-> +	 *
-> +	 * One example, although it is probably better with a per-file
-> +	 * control, is selecting huge page allocations ("huge=within_size").
-> +	 * However, we only do so on platforms which benefit from it, or to
-> +	 * offset the overhead of iommu lookups, where with latter it is a net
-> +	 * win even on platforms which would otherwise see some performance
-> +	 * regressions such a slow reads issue on Broadwell and Skylake.
-> +	 */
->   
-> -static int release_shmem(struct intel_memory_region *mem)
-> -{
-> -	i915_gemfs_fini(mem->i915);
-> -	return 0;
-> +	if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
-> +		goto no_thp;
-> +
-> +	drm_gem_huge_mnt_create(&i915->drm, "within_size");
-> +	if (drm_gem_get_huge_mnt(&i915->drm))
-> +		drm_info(&i915->drm, "Using Transparent Hugepages\n");
-> +	else
-> +		drm_notice(&i915->drm,
-> +			   "Transparent Hugepage support is recommended for optimal performance%s\n",
-> +			   GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
-> +						      " when IOMMU is enabled!");
-> +
-> + no_thp:
-> +	intel_memory_region_set_name(mem, "system");
-> +
-> +	return 0; /* We have fallback to the kernel mnt if huge mnt failed. */
->   }
->   
->   static const struct intel_memory_region_ops shmem_region_ops = {
->   	.init = init_shmem,
-> -	.release = release_shmem,
->   	.init_object = shmem_object_init,
->   };
->   
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-> deleted file mode 100644
-> index 1f1290214031..000000000000
-> --- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
-> +++ /dev/null
-> @@ -1,71 +0,0 @@
-> -// SPDX-License-Identifier: MIT
-> -/*
-> - * Copyright © 2017 Intel Corporation
-> - */
-> -
-> -#include <linux/fs.h>
-> -#include <linux/mount.h>
-> -#include <linux/fs_context.h>
-> -
-> -#include <drm/drm_print.h>
-> -
-> -#include "i915_drv.h"
-> -#include "i915_gemfs.h"
-> -#include "i915_utils.h"
-> -
-> -void i915_gemfs_init(struct drm_i915_private *i915)
-> -{
-> -	struct file_system_type *type;
-> -	struct fs_context *fc;
-> -	struct vfsmount *gemfs;
-> -	int ret;
-> -
-> -	/*
-> -	 * By creating our own shmemfs mountpoint, we can pass in
-> -	 * mount flags that better match our usecase.
-> -	 *
-> -	 * One example, although it is probably better with a per-file
-> -	 * control, is selecting huge page allocations ("huge=within_size").
-> -	 * However, we only do so on platforms which benefit from it, or to
-> -	 * offset the overhead of iommu lookups, where with latter it is a net
-> -	 * win even on platforms which would otherwise see some performance
-> -	 * regressions such a slow reads issue on Broadwell and Skylake.
-> -	 */
-> -
-> -	if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
-> -		return;
-> -
-> -	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
-> -		goto err;
-> -
-> -	type = get_fs_type("tmpfs");
-> -	if (!type)
-> -		goto err;
-> -
-> -	fc = fs_context_for_mount(type, SB_KERNMOUNT);
-> -	if (IS_ERR(fc))
-> -		goto err;
-> -	ret = vfs_parse_fs_string(fc, "source", "tmpfs");
-> -	if (!ret)
-> -		ret = vfs_parse_fs_string(fc, "huge", "within_size");
-> -	if (!ret)
-> -		gemfs = fc_mount_longterm(fc);
-> -	put_fs_context(fc);
-> -	if (ret)
-> -		goto err;
-> -
-> -	i915->mm.gemfs = gemfs;
-> -	drm_info(&i915->drm, "Using Transparent Hugepages\n");
-> -	return;
-> -
-> -err:
-> -	drm_notice(&i915->drm,
-> -		   "Transparent Hugepage support is recommended for optimal performance%s\n",
-> -		   GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
-> -					      " when IOMMU is enabled!");
-> -}
-> -
-> -void i915_gemfs_fini(struct drm_i915_private *i915)
-> -{
-> -	kern_unmount(i915->mm.gemfs);
-> -}
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.h b/drivers/gpu/drm/i915/gem/i915_gemfs.h
-> deleted file mode 100644
-> index 16d4333c9a4e..000000000000
-> --- a/drivers/gpu/drm/i915/gem/i915_gemfs.h
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -/* SPDX-License-Identifier: MIT */
-> -/*
-> - * Copyright © 2017 Intel Corporation
-> - */
-> -
-> -#ifndef __I915_GEMFS_H__
-> -#define __I915_GEMFS_H__
-> -
-> -struct drm_i915_private;
-> -
-> -void i915_gemfs_init(struct drm_i915_private *i915);
-> -void i915_gemfs_fini(struct drm_i915_private *i915);
-> -
-> -#endif
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> index bd08605a1611..28aef75630a2 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-> @@ -1316,7 +1316,7 @@ typedef struct drm_i915_gem_object *
->   
->   static inline bool igt_can_allocate_thp(struct drm_i915_private *i915)
->   {
-> -	return i915->mm.gemfs && has_transparent_hugepage();
-> +	return !!drm_gem_get_huge_mnt(&i915->drm);
->   }
->   
->   static struct drm_i915_gem_object *
-> @@ -1761,7 +1761,9 @@ static int igt_tmpfs_fallback(void *arg)
->   	struct drm_i915_private *i915 = arg;
->   	struct i915_address_space *vm;
->   	struct i915_gem_context *ctx;
-> -	struct vfsmount *gemfs = i915->mm.gemfs;
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +	struct vfsmount *huge_mnt = i915->drm.huge_mnt;
-> +#endif
->   	struct drm_i915_gem_object *obj;
->   	struct i915_vma *vma;
->   	struct file *file;
-> @@ -1782,10 +1784,12 @@ static int igt_tmpfs_fallback(void *arg)
->   	/*
->   	 * Make sure that we don't burst into a ball of flames upon falling back
->   	 * to tmpfs, which we rely on if on the off-chance we encounter a failure
-> -	 * when setting up gemfs.
-> +	 * when setting up a huge mountpoint.
->   	 */
->   
-> -	i915->mm.gemfs = NULL;
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +	i915->drm.huge_mnt = NULL;
-> +#endif
->   
->   	obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
->   	if (IS_ERR(obj)) {
-> @@ -1819,7 +1823,9 @@ static int igt_tmpfs_fallback(void *arg)
->   out_put:
->   	i915_gem_object_put(obj);
->   out_restore:
-> -	i915->mm.gemfs = gemfs;
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +	i915->drm.huge_mnt = huge_mnt;
-> +#endif
+> Helper functions fill_sg_entry() and calc_sg_nents() handle the
+> scatter-gather table construction, splitting large regions into
+> UINT_MAX-sized chunks to fit within sg->length field limits.
+> 
+> Since the physical address based DMA API forbids use of the CPU list
+> of the scatterlist this will produce a mangled scatterlist that has
+> a fully zero-length and NULL'd CPU list. The list is 0 length,
+> all the struct page pointers are NULL and zero sized. This is stronger
+> and more robust than the existing mangle_sg_table() technique. It is
+> a future project to migrate DMABUF as a subsystem away from using
+> scatterlist for this data structure.
+> 
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Tested-by: Alex Mastro <amastro@fb.com>
+> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
-Apart from this layering violation in the selftest, this version looks 
-good to me. I am just wondering if we could somehow improve this aspect. 
-I was thinking a self-test builds only special version of 
-i915_gem_object_create_shmem. Call chain is deep but there are flags 
-passed on:
+Could be that this will backfire at some point, but I think we will never know without trying.
 
-i915_gem_object_create_shmem
-   i915_gem_object_create_region
-     __i915_gem_object_create_region
-       err = mem->ops->init_object(
-
-So we could add a new helper like:
-
-selftests_create_shmem
-   i915_gem_object_create_region(...flags = 
-I915_BO_ALLOC_SELFTESTS_NOTHP...)
-
-And in __create_shmem we just make it:
-
-...
-huge_mnt = drm_gem_get_huge_mnt(&i915->drm) &&
-if (IS_ENABLED(..SELFTESTS..) &&
-     (flags & I915_BO_ALLOC_SELFTESTS_NOTHP))
-	huge_mnt = NULL;
-...
-
-It would avoid the ifdef and needing to play games with the DRM internals.
-
-How does that sound to you?
+Acked-by: Christian König <christian.koenig@amd.com>
 
 Regards,
+Christian.
 
-Tvrtko
+> ---
+>  drivers/dma-buf/Makefile          |   2 +-
+>  drivers/dma-buf/dma-buf-mapping.c | 248 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/dma-buf-mapping.h   |  17 +++
+>  include/linux/dma-buf.h           |  11 ++
+>  4 files changed, 277 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+> index 70ec901edf2c..2008fb7481b3 100644
+> --- a/drivers/dma-buf/Makefile
+> +++ b/drivers/dma-buf/Makefile
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  obj-y := dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
+> -	 dma-fence-unwrap.o dma-resv.o
+> +	 dma-fence-unwrap.o dma-resv.o dma-buf-mapping.o
+>  obj-$(CONFIG_DMABUF_HEAPS)	+= dma-heap.o
+>  obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
+>  obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
+> diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-mapping.c
+> new file mode 100644
+> index 000000000000..de494bcac5e9
+> --- /dev/null
+> +++ b/drivers/dma-buf/dma-buf-mapping.c
+> @@ -0,0 +1,248 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * DMA BUF Mapping Helpers
+> + *
+> + */
+> +#include <linux/dma-buf-mapping.h>
+> +#include <linux/dma-resv.h>
+> +
+> +static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+> +					 dma_addr_t addr)
+> +{
+> +	unsigned int len, nents;
+> +	int i;
+> +
+> +	nents = DIV_ROUND_UP(length, UINT_MAX);
+> +	for (i = 0; i < nents; i++) {
+> +		len = min_t(size_t, length, UINT_MAX);
+> +		length -= len;
+> +		/*
+> +		 * DMABUF abuses scatterlist to create a scatterlist
+> +		 * that does not have any CPU list, only the DMA list.
+> +		 * Always set the page related values to NULL to ensure
+> +		 * importers can't use it. The phys_addr based DMA API
+> +		 * does not require the CPU list for mapping or unmapping.
+> +		 */
+> +		sg_set_page(sgl, NULL, 0, 0);
+> +		sg_dma_address(sgl) = addr + i * UINT_MAX;
+> +		sg_dma_len(sgl) = len;
+> +		sgl = sg_next(sgl);
+> +	}
+> +
+> +	return sgl;
+> +}
+> +
+> +static unsigned int calc_sg_nents(struct dma_iova_state *state,
+> +				  struct dma_buf_phys_vec *phys_vec,
+> +				  size_t nr_ranges, size_t size)
+> +{
+> +	unsigned int nents = 0;
+> +	size_t i;
+> +
+> +	if (!state || !dma_use_iova(state)) {
+> +		for (i = 0; i < nr_ranges; i++)
+> +			nents += DIV_ROUND_UP(phys_vec[i].len, UINT_MAX);
+> +	} else {
+> +		/*
+> +		 * In IOVA case, there is only one SG entry which spans
+> +		 * for whole IOVA address space, but we need to make sure
+> +		 * that it fits sg->length, maybe we need more.
+> +		 */
+> +		nents = DIV_ROUND_UP(size, UINT_MAX);
+> +	}
+> +
+> +	return nents;
+> +}
+> +
+> +/**
+> + * struct dma_buf_dma - holds DMA mapping information
+> + * @sgt:    Scatter-gather table
+> + * @state:  DMA IOVA state relevant in IOMMU-based DMA
+> + * @size:   Total size of DMA transfer
+> + */
+> +struct dma_buf_dma {
+> +	struct sg_table sgt;
+> +	struct dma_iova_state *state;
+> +	size_t size;
+> +};
+> +
+> +/**
+> + * dma_buf_phys_vec_to_sgt - Returns the scatterlist table of the attachment
+> + * from arrays of physical vectors. This funciton is intended for MMIO memory
+> + * only.
+> + * @attach:	[in]	attachment whose scatterlist is to be returned
+> + * @provider:	[in]	p2pdma provider
+> + * @phys_vec:	[in]	array of physical vectors
+> + * @nr_ranges:	[in]	number of entries in phys_vec array
+> + * @size:	[in]	total size of phys_vec
+> + * @dir:	[in]	direction of DMA transfer
+> + *
+> + * Returns sg_table containing the scatterlist to be returned; returns ERR_PTR
+> + * on error. May return -EINTR if it is interrupted by a signal.
+> + *
+> + * On success, the DMA addresses and lengths in the returned scatterlist are
+> + * PAGE_SIZE aligned.
+> + *
+> + * A mapping must be unmapped by using dma_buf_free_sgt().
+> + *
+> + * NOTE: This function is intended for exporters. If direct traffic routing is
+> + * mandatory exporter should call routing pci_p2pdma_map_type() before calling
+> + * this function.
+> + */
+> +struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_buf_attachment *attach,
+> +					 struct p2pdma_provider *provider,
+> +					 struct dma_buf_phys_vec *phys_vec,
+> +					 size_t nr_ranges, size_t size,
+> +					 enum dma_data_direction dir)
+> +{
+> +	unsigned int nents, mapped_len = 0;
+> +	struct dma_buf_dma *dma;
+> +	struct scatterlist *sgl;
+> +	dma_addr_t addr;
+> +	size_t i;
+> +	int ret;
+> +
+> +	dma_resv_assert_held(attach->dmabuf->resv);
+> +
+> +	if (WARN_ON(!attach || !attach->dmabuf || !provider))
+> +		/* This function is supposed to work on MMIO memory only */
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	dma = kzalloc(sizeof(*dma), GFP_KERNEL);
+> +	if (!dma)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	switch (pci_p2pdma_map_type(provider, attach->dev)) {
+> +	case PCI_P2PDMA_MAP_BUS_ADDR:
+> +		/*
+> +		 * There is no need in IOVA at all for this flow.
+> +		 */
+> +		break;
+> +	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> +		dma->state = kzalloc(sizeof(*dma->state), GFP_KERNEL);
+> +		if (!dma->state) {
+> +			ret = -ENOMEM;
+> +			goto err_free_dma;
+> +		}
+> +
+> +		dma_iova_try_alloc(attach->dev, dma->state, 0, size);
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +		goto err_free_dma;
+> +	}
+> +
+> +	nents = calc_sg_nents(dma->state, phys_vec, nr_ranges, size);
+> +	ret = sg_alloc_table(&dma->sgt, nents, GFP_KERNEL | __GFP_ZERO);
+> +	if (ret)
+> +		goto err_free_state;
+> +
+> +	sgl = dma->sgt.sgl;
+> +
+> +	for (i = 0; i < nr_ranges; i++) {
+> +		if (!dma->state) {
+> +			addr = pci_p2pdma_bus_addr_map(provider,
+> +						       phys_vec[i].paddr);
+> +		} else if (dma_use_iova(dma->state)) {
+> +			ret = dma_iova_link(attach->dev, dma->state,
+> +					    phys_vec[i].paddr, 0,
+> +					    phys_vec[i].len, dir,
+> +					    DMA_ATTR_MMIO);
+> +			if (ret)
+> +				goto err_unmap_dma;
+> +
+> +			mapped_len += phys_vec[i].len;
+> +		} else {
+> +			addr = dma_map_phys(attach->dev, phys_vec[i].paddr,
+> +					    phys_vec[i].len, dir,
+> +					    DMA_ATTR_MMIO);
+> +			ret = dma_mapping_error(attach->dev, addr);
+> +			if (ret)
+> +				goto err_unmap_dma;
+> +		}
+> +
+> +		if (!dma->state || !dma_use_iova(dma->state))
+> +			sgl = fill_sg_entry(sgl, phys_vec[i].len, addr);
+> +	}
+> +
+> +	if (dma->state && dma_use_iova(dma->state)) {
+> +		WARN_ON_ONCE(mapped_len != size);
+> +		ret = dma_iova_sync(attach->dev, dma->state, 0, mapped_len);
+> +		if (ret)
+> +			goto err_unmap_dma;
+> +
+> +		sgl = fill_sg_entry(sgl, mapped_len, dma->state->addr);
+> +	}
+> +
+> +	dma->size = size;
+> +
+> +	/*
+> +	 * No CPU list included — set orig_nents = 0 so others can detect
+> +	 * this via SG table (use nents only).
+> +	 */
+> +	dma->sgt.orig_nents = 0;
+> +
+> +
+> +	/*
+> +	 * SGL must be NULL to indicate that SGL is the last one
+> +	 * and we allocated correct number of entries in sg_alloc_table()
+> +	 */
+> +	WARN_ON_ONCE(sgl);
+> +	return &dma->sgt;
+> +
+> +err_unmap_dma:
+> +	if (!i || !dma->state) {
+> +		; /* Do nothing */
+> +	} else if (dma_use_iova(dma->state)) {
+> +		dma_iova_destroy(attach->dev, dma->state, mapped_len, dir,
+> +				 DMA_ATTR_MMIO);
+> +	} else {
+> +		for_each_sgtable_dma_sg(&dma->sgt, sgl, i)
+> +			dma_unmap_phys(attach->dev, sg_dma_address(sgl),
+> +				       sg_dma_len(sgl), dir, DMA_ATTR_MMIO);
+> +	}
+> +	sg_free_table(&dma->sgt);
+> +err_free_state:
+> +	kfree(dma->state);
+> +err_free_dma:
+> +	kfree(dma);
+> +	return ERR_PTR(ret);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_phys_vec_to_sgt, "DMA_BUF");
+> +
+> +/**
+> + * dma_buf_free_sgt- unmaps the buffer
+> + * @attach:	[in]	attachment to unmap buffer from
+> + * @sgt:	[in]	scatterlist info of the buffer to unmap
+> + * @direction:	[in]	direction of DMA transfer
+> + *
+> + * This unmaps a DMA mapping for @attached obtained
+> + * by dma_buf_phys_vec_to_sgt().
+> + */
+> +void dma_buf_free_sgt(struct dma_buf_attachment *attach, struct sg_table *sgt,
+> +		      enum dma_data_direction dir)
+> +{
+> +	struct dma_buf_dma *dma = container_of(sgt, struct dma_buf_dma, sgt);
+> +	int i;
+> +
+> +	dma_resv_assert_held(attach->dmabuf->resv);
+> +
+> +	if (!dma->state) {
+> +		; /* Do nothing */
+> +	} else if (dma_use_iova(dma->state)) {
+> +		dma_iova_destroy(attach->dev, dma->state, dma->size, dir,
+> +				 DMA_ATTR_MMIO);
+> +	} else {
+> +		struct scatterlist *sgl;
+> +
+> +		for_each_sgtable_dma_sg(sgt, sgl, i)
+> +			dma_unmap_phys(attach->dev, sg_dma_address(sgl),
+> +				       sg_dma_len(sgl), dir, DMA_ATTR_MMIO);
+> +	}
+> +
+> +	sg_free_table(sgt);
+> +	kfree(dma->state);
+> +	kfree(dma);
+> +
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_free_sgt, "DMA_BUF");
+> diff --git a/include/linux/dma-buf-mapping.h b/include/linux/dma-buf-mapping.h
+> new file mode 100644
+> index 000000000000..a3c0ce2d3a42
+> --- /dev/null
+> +++ b/include/linux/dma-buf-mapping.h
+> @@ -0,0 +1,17 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * DMA BUF Mapping Helpers
+> + *
+> + */
+> +#ifndef __DMA_BUF_MAPPING_H__
+> +#define __DMA_BUF_MAPPING_H__
+> +#include <linux/dma-buf.h>
+> +
+> +struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_buf_attachment *attach,
+> +					 struct p2pdma_provider *provider,
+> +					 struct dma_buf_phys_vec *phys_vec,
+> +					 size_t nr_ranges, size_t size,
+> +					 enum dma_data_direction dir);
+> +void dma_buf_free_sgt(struct dma_buf_attachment *attach, struct sg_table *sgt,
+> +		      enum dma_data_direction dir);
+> +#endif
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index d58e329ac0e7..0bc492090237 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -22,6 +22,7 @@
+>  #include <linux/fs.h>
+>  #include <linux/dma-fence.h>
+>  #include <linux/wait.h>
+> +#include <linux/pci-p2pdma.h>
+>  
+>  struct device;
+>  struct dma_buf;
+> @@ -530,6 +531,16 @@ struct dma_buf_export_info {
+>  	void *priv;
+>  };
+>  
+> +/**
+> + * struct dma_buf_phys_vec - describe continuous chunk of memory
+> + * @paddr:   physical address of that chunk
+> + * @len:     Length of this chunk
+> + */
+> +struct dma_buf_phys_vec {
+> +	phys_addr_t paddr;
+> +	size_t len;
+> +};
+> +
+>  /**
+>   * DEFINE_DMA_BUF_EXPORT_INFO - helper macro for exporters
+>   * @name: export-info name
+> 
 
->   
->   	i915_vm_put(vm);
->   out:
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 95f9ddf22ce4..93a5af3de334 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -141,11 +141,6 @@ struct i915_gem_mm {
->   	 */
->   	atomic_t free_count;
->   
-> -	/**
-> -	 * tmpfs instance used for shmem backed objects
-> -	 */
-> -	struct vfsmount *gemfs;
-> -
->   	struct intel_memory_region *regions[INTEL_REGION_UNKNOWN];
->   
->   	struct notifier_block oom_notifier;
