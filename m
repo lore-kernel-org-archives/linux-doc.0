@@ -1,161 +1,733 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2477D3002B9
-	for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 19:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392F92DF3E7
+	for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 19:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763753734; cv=none; b=VueXmL2TwRIs9Eit9PrDtSukTK5Y9A7rX4UknezzHfPrpQ42KPQuEF+bNOgjdPZy65lvP/b5m1izL2M7aTbVvlqitAVKrYigUoAtk2r2sR1fpcZhLcCUUw9aL7J8ltq2fMcWZzUI3ChKrM+K1/GhGKrLnIyoZQFr6OM+ARU7KGU=
+	t=1763754077; cv=none; b=ppp6/jwR/KiU4P5MV/Si/GQaNMFlljPxKGxYVSDw5Y6yHOfSKA+JNHWY6pr3oHo6yCcj0zFcTXbnnrsggcUez9cJBLohd1pMZ+0DsUwIT4Vop2jLbNlaOUg2eW/uVJa2Rq02FNB3fvELQXN3IZYVyA51oWubDJqq9mTLnbWzKMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763753734; c=relaxed/simple;
-	bh=ssd7trdwb//a6L+Sw+uaGiYPGmeNiBfsFciGwGcYoA0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KV1ox+tw69excDVTkAX2Sky3qgHRGfofSkm0V1vL5HSMelcmc5jiY1P7KxAmmZdIfMmqMkXdWHcxryVt+GHmXaKVaKMst1yYh3VljzAMaL3a28MqpSn7TVcb7CP/jDzUpG4s4h+fg9nweNNfvGj743aiNkqJzFQn84V5HfUQrME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M+IcW/BP; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1763754077; c=relaxed/simple;
+	bh=pPAOUglscEHk0LAsq6ENKclK0mBrXFzepJ3l1K7wgvA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DGHX9hpxsxp0SwakAgnk7yY4VgR+85X9N/Uhk+GQpEU4JYPKFqYds8nsJ/f46yxWB5L3hqtzYxcLE/ge6c9BqFKmvK2s42PjgLCD1Ep8rFOMmPbTxJNVtUUmA8yANCqbevkVXV06EPbohjxY59jg0AaNh5gS2vO8kHATmzdNyAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c1jrSYaM; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M+IcW/BP"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso23020505e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 11:35:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c1jrSYaM"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7baf61be569so2734648b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 11:41:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763753730; x=1764358530; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UpgOvXCNlXgopds0RDI/6vX/kTvFLO9tMaU8rBilFFA=;
-        b=M+IcW/BPfzLS1c1LGDZjRIwa64c59WAaFJpRWc84ntkvLHGbCHLUtQjZodxf0iqhuA
-         GOQc1Yf8RvEQDPb1riThTX7h3Uny1sVFwF6PWK6F0+M3uEBuGIvMCNm8LVhhq9Jzh90E
-         pC35kQCa1NoTPSwH0Khi9w/88KrQ4lsjM78GdqJswc8ui2W/XK73V/lmhGopRAHl84sI
-         mZA4ytZJiGC1XV8K9TuzjNKD0fTpyv7cky+iZOrR3x6GS8LrsTCVSUZrgbuZuHy7+yGn
-         WHcbieL3gXb1u1E9Un6Eb/TYuHauokFT+39Ax9TCu1MP/ctadvE7+PZ3TZJkKKwHRA6g
-         ReaA==
+        d=gmail.com; s=20230601; t=1763754074; x=1764358874; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=3pjutzIK0WiW+XdulceENNLOK4Jz7zwNzHoou3tlA8o=;
+        b=c1jrSYaMaOJyWfmlicD/u2wyZ9fIDJEv565I7j010e9R3yzBkK6ojYbkld+2cp2gl2
+         TRSfay9RqIT4CEbznXTx8q1oGmIvClTMqK1rAeviB8BNwYJczljubsNa9zDCFvwZHvWK
+         tSJrF2ICaaBgRJS+ELfccpZPThlyWObERIgz/b3asn9kU5Mh4YQR4RfbSEjByxf9S6cN
+         rYs6i/FZU95xJKx67Y0yOxLAln1CJSyN0svFAptTDHyP9IszzmwbXMFrU7W0D5HHS+ce
+         HmWH8k94ktCMCpXiQCF6JzadeFqur6cLwLeOrv4GV6gqCxDOVBp24OwWpBmPiZ1K3gK/
+         GYkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763753730; x=1764358530;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UpgOvXCNlXgopds0RDI/6vX/kTvFLO9tMaU8rBilFFA=;
-        b=v8kXfOH5cEQ39r80pC9AlXfyfsR2dyUcL/3Z56bPVcOmtWLugXmZMJoJRCchz+w+lO
-         5O1vAD+cZxLH32vCsqPpGPVOryOyx8q0EWHbysFaF8KnBq/tJ4VXA4an0FK1OzTyMFgM
-         iVcBDlzhTHSEKokPFBcv6vJBFAohUsxk+cyoAfIaqby1D733DTeEEQVKY1hUSOcwa4ce
-         51SnO8gF6mVFAhiVqmVTJ46bCGoRsfVZRDKLT36FwyaLKm/bR6FBVsMIiCHSnRAsFao9
-         5CoyoMC3zc08OLo9fSBW9FORF+MbL6SzFH5RjtDEl0Sv0qD/hgSLLM0UnX1iKApKwf3W
-         4GPA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3JF3PnAlo5NfPG05s4BL+7VrbXNa2DND7E9vRDDka0Lht/vLVP+OGkG0Ih84lPPIUmZ4fVuS3GZs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzB81/cYtD2rcMybAV91t/tJX7Ulrks8iiA/a53dp8pkbsatq4n
-	s7Aemco4iPD5ko1a84QfxoDTA2uciZcspiPKGhmzbYChkQrAtk1kGBaE
-X-Gm-Gg: ASbGncvudlIa41VVzQ4Wtb7ylnSIkTmXxo90GWXUVSOFa/esVvpzpv7v83hoRXtk/eD
-	sxD/MxW155BDkvk6iKC8Bv2PCbF/vg/b/oPRbQdykAAtVpEKIDwTi2160FBdC8ZsFm1HBsJXlbm
-	XI4UwP4/loKh4WgZf02nlT2iev2u1/cLAIOAIIaS0pQuKfLLP706Xo+23NTGaG7pC7nm0HNAKjU
-	WNx49k4sfc0tufw5/qt4xiQApQpahFW1Xl24S6c46BHRWqeLZbsX5jcYPjOaOdE33bnrh5kCTxe
-	Bmdf82U1FA+s6Qei5os/rtWeHDGG1IneFQy2fLepRN6lE+dZNHkmquy3yzU5W7VSd6eIStxIwe5
-	3wvYp5MTjkXvAP4x2s23QIGHzm3Mrhs0mW5AmyNubJJ36gWddAC9PRAnMOCoeTBKD2QxHBG+S1G
-	cjw5Xh
-X-Google-Smtp-Source: AGHT+IGHmJQ/SUK/Uv0tWBBylSXC+SBhd5okhyM0xJCUkSd/MynCjS9RE29tfg6Rpn0kSFhSmIpQiA==
-X-Received: by 2002:a05:600c:4443:b0:475:da1a:5418 with SMTP id 5b1f17b1804b1-477c017484bmr38877365e9.1.1763753729949;
-        Fri, 21 Nov 2025 11:35:29 -0800 (PST)
-Received: from curiosity ([80.211.22.60])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-477bf3af0e1sm55186045e9.10.2025.11.21.11.35.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Nov 2025 11:35:29 -0800 (PST)
-From: Sergey Matyukevich <geomatsi@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>
-Cc: Charlie Jenkins <charlie@rivosinc.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	linux-riscv@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sergey Matyukevich <geomatsi@gmail.com>
-Subject: [PATCH] riscv: hwprobe: expose vector register length in bytes
-Date: Fri, 21 Nov 2025 22:35:10 +0300
-Message-ID: <20251121193524.1813200-1-geomatsi@gmail.com>
-X-Mailer: git-send-email 2.51.2
+        d=1e100.net; s=20230601; t=1763754074; x=1764358874;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3pjutzIK0WiW+XdulceENNLOK4Jz7zwNzHoou3tlA8o=;
+        b=ctrTeA6peDZtowOH0tyoiWZlthJkdaSJB40E4Vy4mNgt80mHJNNSi1BG5cN392kvzi
+         z4NoN6bFsZUn+LGQwxXVX5FqDMI6h/bUosKQUG+D7uRE546NQqO3HpJJ0OQZGRq5n3dw
+         2cO7Pqe4211QQMzE2fPTdti0IKKWEXOiHnI3aMlOK35g1vF2CXGfD4iJ6dKdcxav6/IR
+         UWeXt9vMbr8w7RZsQ8QFTleyKHCdqgxqlbPt+fiqpgyIQo+oMYnHLCTuHfP+aeUWWcHX
+         ufHd9hvEWh30P5Zu9k5PjW0H+llsvirOfKQNeH4WziXhWNpxbaqeE2F92WTWd6eAKOLL
+         sjDw==
+X-Forwarded-Encrypted: i=1; AJvYcCXicV6WIOcnTxnG288gn5aD5GVIsLItEc7EOpI8K4zg3BctahxquYKFOGjd2gWugIRss0ol6CpMCqs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxG5B32wEbeMqPPrHIpRZfGiKCuvIt5Ku/lGY1rmJCU7c/59gu6
+	2Ts0JzjFqO60X6bmGGECGqJKVHPT6eTmYsG7bYSxVXFitmJmR2wr2JmJ
+X-Gm-Gg: ASbGncvPGcurpM0csco8ropNq2WN3OYs1RHky/CCf3Dj62oMvHrIVakFvnH5Y1ezqwY
+	dolaZaTuicUPE1S+Do2sIYdyi35AoK07NSFbsQ+8l1NC19HRQorHWqNlZ4kUenMMKG8hON14pis
+	PQF/FfC5tW8WjGyfskq20SWR7ddXUkyudFAg4o7xVUk+3Njx0ea71bYEk4dE7Av6hRu8lzsSJ8G
+	G576Dtk8gCY/JRy/M5VyR7Pr/hdflxtBi+zY9A7BgQN+YV2b9S4FIwFsHWY2G0gkzraH0Np2B8S
+	B1umoicRSYXlEMQ+CPltiCX3kHfuZhQaPkUG4/zcBtT4u1YVWci0h2vkg2MbnbMnM3fLlZGbhx8
+	bs6kZjeSHI0E0sRBUKbunyPGhTwQ+N9Ha0CfKC80nz25Y19/mmvgiDBiI0N7nUG38xeiu9RS+RB
+	9m5z9nIBztmBpj1l4uYPcrwdwT1LsJBeAub+mQbxaydkUtJkwpKgjmCmG2UEc=
+X-Google-Smtp-Source: AGHT+IHY1z0vN1Yg2jzSCnnDF9UTvJwtbV2yMkhtK+Tyyjw8SkThZabl5ZGv6acwZj+Q+7hVyNuZtw==
+X-Received: by 2002:a05:6a20:6a09:b0:34f:99ce:4c31 with SMTP id adf61e73a8af0-36150f2bcaemr4034462637.46.1763754074306;
+        Fri, 21 Nov 2025 11:41:14 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f02423f6sm6840255b3a.39.2025.11.21.11.41.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Nov 2025 11:41:13 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <1420d635-5d12-402f-91c6-12cb79304352@roeck-us.net>
+Date: Fri, 21 Nov 2025 11:41:12 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] hwmon: add support for MCP998X
+To: victor.duicu@microchip.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, corbet@lwn.net
+Cc: marius.cristea@microchip.com, linux-hwmon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20251120071248.3767-1-victor.duicu@microchip.com>
+ <20251120071248.3767-3-victor.duicu@microchip.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20251120071248.3767-3-victor.duicu@microchip.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The vector register length can be obtained from the read-only CSR vlenb.
-However reading this CSR may be undesirable in some cases. XTheadVector
-extension is one example: existing implementations may not provide this
-register. On such platforms, vlenb is specified as device-tree property.
-Reading vlenb also initializes the application’s vector context, even
-though the application may decide not to use the vector extension based
-on the reported length.
+On 11/19/25 23:12, victor.duicu@microchip.com wrote:
+> From: Victor Duicu <victor.duicu@microchip.com>
+> 
+> This is the driver for Microchip MCP998X/33 and MCP998XD/33D
+> Multichannel Automotive Temperature Monitor Family.
+> 
+> Signed-off-by: Victor Duicu <victor.duicu@microchip.com>
+> ---
+...
+> +	if (priv->run_state) {
+> +		if (priv->wait_before_read) {
+> +			if (!time_after(jiffies, priv->time_limit))
+> +				mdelay(jiffies_to_msecs(priv->time_limit - jiffies));
 
-Meanwhile the kernel already determines vlenb at boot, either from the
-CSR or from the device tree. So add RISCV_HWPROBE_KEY_VECTOR_REG_LENGTH
-to expose the vector register length already known to the kernel.
+mdelay (busy wait) is kind of brutal.
 
-Signed-off-by: Sergey Matyukevich <geomatsi@gmail.com>
----
- Documentation/arch/riscv/hwprobe.rst  | 3 +++
- arch/riscv/include/asm/hwprobe.h      | 2 +-
- arch/riscv/include/uapi/asm/hwprobe.h | 1 +
- arch/riscv/kernel/sys_hwprobe.c       | 6 ++++++
- 4 files changed, 11 insertions(+), 1 deletion(-)
+> +			priv->wait_before_read = false;
+> +		}
+> +	} else {
+> +		ret = regmap_write(priv->regmap, MCP9982_ONE_SHOT_ADDR, 1);
+> +		if (ret)
+> +			return ret;
+> +
+> +		/*
+> +		 * In Standby state after writing in OneShot register wait for
+> +		 * the start of conversion and then poll the BUSY bit.
+> +		 */
+> +		mdelay(MCP9982_WAKE_UP_TIME_MS);
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 06c5280b728a..14437fe79276 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -379,3 +379,6 @@ The following keys are defined:
- 
- * :c:macro:`RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE`: An unsigned int which
-   represents the size of the Zicbop block in bytes.
-+
-+* :c:macro:`RISCV_HWPROBE_KEY_VECTOR_REG_LENGTH`: An unsigned int which
-+  represents the vector registers length in bytes.
-diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-index 8c572a464719..b10311c9a44c 100644
---- a/arch/riscv/include/asm/hwprobe.h
-+++ b/arch/riscv/include/asm/hwprobe.h
-@@ -8,7 +8,7 @@
- 
- #include <uapi/asm/hwprobe.h>
- 
--#define RISCV_HWPROBE_MAX_KEY 15
-+#define RISCV_HWPROBE_MAX_KEY 16
- 
- static inline bool riscv_hwprobe_key_is_valid(__s64 key)
- {
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 1edea2331b8b..bd6cd97c81f9 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -110,6 +110,7 @@ struct riscv_hwprobe {
- #define RISCV_HWPROBE_KEY_VENDOR_EXT_SIFIVE_0	13
- #define RISCV_HWPROBE_KEY_VENDOR_EXT_MIPS_0	14
- #define RISCV_HWPROBE_KEY_ZICBOP_BLOCK_SIZE	15
-+#define RISCV_HWPROBE_KEY_VECTOR_REG_LENGTH	16
- /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
- 
- /* Flags */
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index 0f701ace3bb9..3007432fbdf1 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -328,6 +328,12 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 		hwprobe_isa_vendor_ext_mips_0(pair, cpus);
- 		break;
- 
-+	case RISCV_HWPROBE_KEY_VECTOR_REG_LENGTH:
-+		pair->value = 0;
-+		if (has_vector() || has_xtheadvector())
-+			pair->value = riscv_v_vsize / 32;
-+		break;
-+
- 	/*
- 	 * For forward compatibility, unknown keys don't fail the whole
- 	 * call, but get their element key set to -1 and value set to 0
--- 
-2.51.2
+Even more so here, where the busy wait is a whopping 125 ms. Please either use
+usleep_range() or explain in detail why the busy wait is necessary. I can not really
+imagine a situation where the power savings of running in OneShot mode would outweigh
+125 ms of active CPU time.
+
+Guenter
+
+> +		ret = regmap_read_poll_timeout(priv->regmap, MCP9982_STATUS_ADDR,
+> +					       reg_status, !(reg_status & MCP9982_STATUS_BUSY),
+> +					       (mcp9982_update_interval[priv->interval_idx]) *
+> +					       USEC_PER_MSEC, 0);
+
+This is puzzling: There is no final timeout, meaning if the chip is stuck for some reason
+the code will be stuck as well. At the same time, the code _will_ sleep here for a full
+update interval befor echecking the status.
+
+All this warrants a detailed explanation.
+
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	switch (type) {
+> +	case hwmon_temp:
+> +		switch (attr) {
+> +		case hwmon_temp_input:
+> +			/*
+> +			 * The Block Read Protocol first returns the number of user readable
+> +			 * bytes, held in buff[0], followed by the data.
+> +			 */
+> +			ret = regmap_bulk_read(priv->regmap, MCP9982_TEMP_MEM_BLOCK_ADDR(channel),
+> +					       &buff, sizeof(buff));
+> +			if (ret)
+> +				return ret;
+> +
+> +			*val = get_unaligned_be16(buff + 1) >> 5;
+> +			*val = (*val - (MCP9982_OFFSET << 3)) * 125;
+> +
+> +			return 0;
+> +		case hwmon_temp_max:
+> +			if (channel)
+> +				addr = MCP9982_EXT_HIGH_LIMIT_ADDR(channel);
+> +			else
+> +				addr = MCP9982_INTERNAL_HIGH_LIMIT_ADDR;
+> +
+> +			return mcp9982_read_limit(priv, addr, val);
+> +		case hwmon_temp_max_alarm:
+> +			mask = BIT(channel);
+> +			*val = regmap_test_bits(priv->regmap, MCP9982_HIGH_LIMIT_STATUS_ADDR, mask);
+> +			if (*val < 0)
+> +				return *val;
+> +
+> +			return 0;
+> +		case hwmon_temp_min:
+> +			if (channel)
+> +				addr = MCP9982_EXT_LOW_LIMIT_ADDR(channel);
+> +			else
+> +				addr = MCP9982_INTERNAL_LOW_LIMIT_ADDR;
+> +
+> +			return mcp9982_read_limit(priv, addr, val);
+> +		case hwmon_temp_min_alarm:
+> +			mask = BIT(channel);
+> +			*val = regmap_test_bits(priv->regmap, MCP9982_LOW_LIMIT_STATUS_ADDR, mask);
+> +			if (*val < 0)
+> +				return *val;
+> +
+> +			return 0;
+> +		case hwmon_temp_crit:
+> +			return mcp9982_read_limit(priv, MCP9982_THERM_LIMIT_ADDR(channel), val);
+> +		case hwmon_temp_crit_alarm:
+> +			mask = BIT(channel);
+> +			*val = regmap_test_bits(priv->regmap, MCP9982_THERM_LIMIT_STATUS_ADDR,
+> +						mask);
+> +			if (*val < 0)
+> +				return *val;
+> +
+> +			return 0;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	case hwmon_chip:
+> +		switch (attr) {
+> +		case hwmon_chip_update_interval:
+> +			*val = mcp9982_update_interval[priv->interval_idx];
+> +			return 0;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int mcp9982_read_label(struct device *dev, enum hwmon_sensor_types type, u32 attr,
+> +			      int channel, const char **str)
+> +{
+> +	struct mcp9982_priv *priv = dev_get_drvdata(dev);
+> +
+> +	switch (type) {
+> +	case hwmon_temp:
+> +		switch (attr) {
+> +		case hwmon_temp_label:
+> +			if (priv->labels[channel]) {
+> +				*str = priv->labels[channel];
+> +				return 0;
+> +			} else {
+> +				return -EOPNOTSUPP;
+> +			}
+> +		default:
+> +			return -EOPNOTSUPP;
+> +		}
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static int mcp9982_write_limit(struct mcp9982_priv *priv, u8 address, long val)
+> +{
+> +	int ret;
+> +
+> +	/* Range is always -64 to 191.875°C. */
+> +	val = clamp_val(val, -64000, 191875);
+> +	val = (val + MCP9982_OFFSET * 1000) << 5;
+> +	val = DIV_ROUND_CLOSEST(val, 125);
+> +
+> +	switch (address) {
+> +	case MCP9982_INTERNAL_HIGH_LIMIT_ADDR:
+> +	case MCP9982_INTERNAL_LOW_LIMIT_ADDR:
+> +	case MCP9982_INTERNAL_THERM_LIMIT_ADDR:
+> +	case MCP9982_EXT_1_THERM_LIMIT_ADDR:
+> +	case MCP9982_EXT_2_THERM_LIMIT_ADDR:
+> +	case MCP9982_EXT_3_THERM_LIMIT_ADDR:
+> +	case MCP9982_EXT_4_THERM_LIMIT_ADDR:
+> +		val = val >> 8;
+> +		ret = regmap_write(priv->regmap, address, val);
+> +		if (ret)
+> +			return ret;
+> +
+> +		return 0;
+> +	default:
+> +		put_unaligned_be16(val, &val);
+
+What is this supposed to do ? Trying to avoid a local 2-byte buffer ?
+
+> +		ret = regmap_bulk_write(priv->regmap, address, &val, 2);
+> +		if (ret)
+> +			return ret;
+> +
+> +		return 0;
+> +	}
+> +}
+> +
+> +static int mcp9982_write(struct device *dev, enum hwmon_sensor_types type, u32 attr, int channel,
+> +			 long val)
+> +{
+> +	struct mcp9982_priv *priv = dev_get_drvdata(dev);
+> +	unsigned int previous_interval_idx, idx;
+> +	bool use_previous_interval = false;
+> +	unsigned long new_time_limit;
+> +	u8 addr;
+> +	int ret;
+> +
+> +	switch (type) {
+> +	case hwmon_chip:
+> +		switch (attr) {
+> +		case hwmon_chip_update_interval:
+> +			previous_interval_idx = priv->interval_idx;
+> +
+> +			/*
+> +			 * For MCP998XD and MCP9933D update interval
+> +			 * can't be slower than 1 second.
+> +			 */
+> +			if (priv->chip->hw_thermal_shutdown)
+> +				val = clamp(val, 0, 1000);
+> +
+> +			idx = find_closest_descending(val, mcp9982_update_interval,
+> +						      ARRAY_SIZE(mcp9982_update_interval));
+> +
+> +			ret = regmap_write(priv->regmap, MCP9982_CONV_ADDR, idx);
+> +			if (ret)
+> +				return ret;
+> +
+> +			priv->interval_idx = idx;
+> +
+> +			/*
+> +			 * When changing the interval time in Run mode, wait a delay based
+> +			 * on the previous value to ensure the new value becomes active.
+> +			 */
+> +			if (priv->run_state)
+> +				use_previous_interval = true;
+> +			else
+> +				return 0;
+> +			break;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +		break;
+> +	case hwmon_temp:
+> +		switch (attr) {
+> +		case hwmon_temp_max:
+> +			if (channel)
+> +				addr = MCP9982_EXT_HIGH_LIMIT_ADDR(channel);
+> +			else
+> +				addr = MCP9982_INTERNAL_HIGH_LIMIT_ADDR;
+> +
+> +			return ret = mcp9982_write_limit(priv, addr, val);
+> +		case hwmon_temp_min:
+> +			if (channel)
+> +				addr = MCP9982_EXT_LOW_LIMIT_ADDR(channel);
+> +			else
+> +				addr = MCP9982_INTERNAL_LOW_LIMIT_ADDR;
+> +
+> +			return mcp9982_write_limit(priv, addr, val);
+> +		case hwmon_temp_crit:
+> +			return mcp9982_write_limit(priv, MCP9982_THERM_LIMIT_ADDR(channel), val);
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	/*
+> +	 * Calculate the time point when it would be safe to read after
+> +	 * the current write operation in Run mode.
+> +	 * If, for example, we change update interval from a slower time
+> +	 * to a faster time, the change will become active after the
+> +	 * conversion with the slower time is finished. If we read before
+> +	 * the end of conversion, the value will be from the previous cycle.
+> +	 */
+> +	if (use_previous_interval) {
+> +		new_time_limit = msecs_to_jiffies(mcp9982_update_interval[previous_interval_idx]);
+> +		use_previous_interval = false;
+> +	} else {
+> +		new_time_limit = msecs_to_jiffies(mcp9982_update_interval[priv->interval_idx]);
+> +	}
+> +
+> +	new_time_limit += jiffies + msecs_to_jiffies(MCP9982_CONVERSION_TIME_MS);
+> +
+> +	if (time_after(new_time_limit, priv->time_limit)) {
+> +		priv->time_limit = new_time_limit;
+> +		priv->wait_before_read = true;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static umode_t mcp9982_is_visible(const void *_data, enum hwmon_sensor_types type, u32 attr,
+> +				  int channel)
+> +{
+> +	const struct mcp9982_priv *priv = _data;
+> +
+> +	if (!test_bit(channel, &priv->enabled_channel_mask))
+> +		return 0;
+> +
+> +	switch (type) {
+> +	case hwmon_temp:
+> +		switch (attr) {
+> +		case hwmon_temp_label:
+> +			if (priv->labels[channel])
+> +				return 0444;
+> +			else
+> +				return 0;
+> +		case hwmon_temp_input:
+> +		case hwmon_temp_min_alarm:
+> +		case hwmon_temp_max_alarm:
+> +		case hwmon_temp_crit_alarm:
+> +			return 0444;
+> +		case hwmon_temp_min:
+> +		case hwmon_temp_max:
+> +		case hwmon_temp_crit:
+> +			return 0644;
+> +		default:
+> +			return 0;
+> +		}
+> +	case hwmon_chip:
+> +		switch (attr) {
+> +		case hwmon_chip_update_interval:
+> +			return 0644;
+> +		default:
+> +			return 0;
+> +		}
+> +	default:
+> +		return 0;
+> +	}
+> +}
+> +
+> +static const struct hwmon_ops mcp9982_hwmon_ops = {
+> +	.is_visible = mcp9982_is_visible,
+> +	.read = mcp9982_read,
+> +	.read_string = mcp9982_read_label,
+> +	.write = mcp9982_write,
+> +};
+> +
+> +static int mcp9982_init(struct device *dev, struct mcp9982_priv *priv)
+> +{
+> +	unsigned int i;
+> +	int ret;
+> +	u8 val;
+> +
+> +	/* Chips 82/83 and 82D/83D do not support anti-parallel diode mode. */
+> +	if (!priv->chip->allow_apdd && priv->apdd_enable == 1)
+> +		return dev_err_probe(dev, -EINVAL, "Incorrect setting of APDD.\n");
+> +
+> +	/* Chips with "D" work only in Run state. */
+> +	if (priv->chip->hw_thermal_shutdown && !priv->run_state)
+> +		return dev_err_probe(dev, -EINVAL, "Incorrect setting of Power State.\n");
+> +
+> +	/*
+> +	 * For chips with "D" in the name, resistance error correction must be on
+> +	 * so that hardware shutdown feature can't be overridden.
+> +	 */
+> +	if (priv->chip->hw_thermal_shutdown)
+> +		if (!priv->recd34_enable || !priv->recd12_enable)
+> +			return dev_err_probe(dev, -EINVAL, "Incorrect setting of RECD.\n");
+> +
+> +	/*
+> +	 * Set default values in registers.
+> +	 * APDD, RECD12 and RECD34 are active on 0.
+> +	 */
+> +	val = FIELD_PREP(MCP9982_CFG_MSKAL, 1) |
+> +	      FIELD_PREP(MCP9982_CFG_RS, !priv->run_state) |
+> +	      FIELD_PREP(MCP9982_CFG_ATTHM, 1) |
+> +	      FIELD_PREP(MCP9982_CFG_RECD12, !priv->recd12_enable) |
+> +	      FIELD_PREP(MCP9982_CFG_RECD34, !priv->recd34_enable) |
+> +	      FIELD_PREP(MCP9982_CFG_RANGE, 1) | FIELD_PREP(MCP9982_CFG_DA_ENA, 0) |
+> +	      FIELD_PREP(MCP9982_CFG_APDD, !priv->apdd_enable);
+> +
+> +	ret = regmap_write(priv->regmap, MCP9982_CFG_ADDR, val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(priv->regmap, MCP9982_CONV_ADDR, MCP9982_DEFAULT_CONV_VAL);
+> +	if (ret)
+> +		return ret;
+> +	priv->interval_idx = MCP9982_DEFAULT_CONV_VAL;
+> +
+> +	ret = regmap_write(priv->regmap, MCP9982_HYS_ADDR, MCP9982_DEFAULT_HYS_VAL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(priv->regmap, MCP9982_CONSEC_ALRT_ADDR, MCP9982_DEFAULT_CONSEC_ALRT_VAL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(priv->regmap, MCP9982_RUNNING_AVG_ADDR, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(priv->regmap, MCP9982_HOTTEST_CFG_ADDR, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * Only external channels 1 and 2 support beta compensation.
+> +	 * Set beta auto-detection.
+> +	 */
+> +	for (i = 1; i < 3; i++)
+> +		if (test_bit(i, &priv->enabled_channel_mask)) {
+> +			ret = regmap_write(priv->regmap, MCP9982_EXT_BETA_CFG_ADDR(i),
+> +					   MCP9982_BETA_AUTODETECT);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +
+> +	/* Set default values for internal channel limits. */
+> +	if (test_bit(0, &priv->enabled_channel_mask)) {
+> +		ret = mcp9982_write_limit(priv, MCP9982_INTERNAL_HIGH_LIMIT_ADDR,
+> +					  MCP9982_HIGH_LIMIT_DEFAULT);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = mcp9982_write_limit(priv, MCP9982_INTERNAL_LOW_LIMIT_ADDR,
+> +					  MCP9982_LOW_LIMIT_DEFAULT);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = mcp9982_write_limit(priv, MCP9982_THERM_LIMIT_ADDR(0),
+> +					  MCP9982_HIGH_LIMIT_DEFAULT);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	/* Set ideality factor and limits to default for external channels. */
+> +	for (i = 1; i < MCP9982_MAX_NUM_CHANNELS; i++)
+> +		if (test_bit(i, &priv->enabled_channel_mask)) {
+> +			ret = regmap_write(priv->regmap, MCP9982_EXT_IDEAL_ADDR(i),
+> +					   MCP9982_IDEALITY_DEFAULT);
+> +			if (ret)
+> +				return ret;
+> +
+> +			ret = mcp9982_write_limit(priv, MCP9982_EXT_HIGH_LIMIT_ADDR(i),
+> +						  MCP9982_HIGH_LIMIT_DEFAULT);
+> +			if (ret)
+> +				return ret;
+> +
+> +			ret = mcp9982_write_limit(priv, MCP9982_EXT_LOW_LIMIT_ADDR(i),
+> +						  MCP9982_LOW_LIMIT_DEFAULT);
+> +			if (ret)
+> +				return ret;
+> +
+> +			ret = mcp9982_write_limit(priv, MCP9982_THERM_LIMIT_ADDR(i),
+> +						  MCP9982_HIGH_LIMIT_DEFAULT);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +
+> +	priv->wait_before_read = false;
+> +	priv->time_limit = jiffies;
+> +
+> +	return 0;
+> +}
+> +
+> +static int mcp9982_parse_fw_config(struct device *dev, int device_nr_channels)
+> +{
+> +	unsigned int reg_nr;
+> +	struct mcp9982_priv *priv = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	/* Initialise internal channel( which is always present ). */
+> +	priv->labels[0] = "internal diode";
+> +	priv->enabled_channel_mask = 1;
+> +
+> +	/* Default values to work on systems without devicetree or firmware nodes. */
+> +	if (!dev_fwnode(dev)) {
+> +		priv->num_channels = device_nr_channels;
+> +		priv->enabled_channel_mask = BIT(priv->num_channels) - 1;
+> +		priv->apdd_enable = false;
+> +		priv->recd12_enable = true;
+> +		priv->recd34_enable = true;
+> +		priv->run_state = true;
+> +		return 0;
+> +	}
+> +
+> +	priv->apdd_enable =
+> +		device_property_read_bool(dev, "microchip,enable-anti-parallel");
+> +
+> +	priv->recd12_enable =
+> +		device_property_read_bool(dev, "microchip,parasitic-res-on-channel1-2");
+> +
+> +	priv->recd34_enable =
+> +		device_property_read_bool(dev, "microchip,parasitic-res-on-channel3-4");
+> +
+> +	priv->run_state =
+> +		device_property_read_bool(dev, "microchip,power-state");
+> +
+> +	priv->num_channels = device_get_child_node_count(dev) + 1;
+> +
+> +	if (priv->num_channels > device_nr_channels)
+> +		return dev_err_probe(dev, -E2BIG,
+> +				     "More channels than the chip supports.\n");
+> +
+> +	/* Read information about the external channels. */
+> +	device_for_each_child_node_scoped(dev, child) {
+> +		reg_nr = 0;
+> +		ret = fwnode_property_read_u32(child, "reg", &reg_nr);
+> +		if (ret || !reg_nr || reg_nr >= device_nr_channels)
+> +			return dev_err_probe(dev, -EINVAL,
+> +			  "Channel reg is incorrectly set.\n");
+> +
+> +		fwnode_property_read_string(child, "label", &priv->labels[reg_nr]);
+> +		set_bit(reg_nr, &priv->enabled_channel_mask);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int mcp9982_probe(struct i2c_client *client)
+> +{
+> +	struct hwmon_chip_info mcp998x_chip_info;
+> +	const struct mcp9982_features *chip;
+> +	struct device *dev = &client->dev;
+> +	struct mcp9982_priv *priv;
+> +	struct device *hwmon_dev;
+> +	int ret;
+> +
+> +	priv = devm_kzalloc(dev, sizeof(struct mcp9982_priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->regmap = devm_regmap_init_i2c(client, &mcp9982_regmap_config);
+> +
+> +	if (IS_ERR(priv->regmap))
+> +		return dev_err_probe(dev, PTR_ERR(priv->regmap),
+> +				     "Cannot initialize register map.\n");
+> +
+> +	dev_set_drvdata(dev, priv);
+> +
+> +	chip = i2c_get_match_data(client);
+> +	if (!chip)
+> +		return -EINVAL;
+> +	priv->chip = chip;
+> +
+> +	ret = mcp9982_parse_fw_config(dev, chip->phys_channels);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = mcp9982_init(dev, priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	mcp998x_chip_info.ops = &mcp9982_hwmon_ops;
+> +	mcp998x_chip_info.info = mcp9985_info;
+> +
+> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, chip->name, priv,
+> +							 &mcp998x_chip_info, NULL);
+> +
+> +	return PTR_ERR_OR_ZERO(hwmon_dev);
+> +}
+> +
+> +static const struct i2c_device_id mcp9982_id[] = {
+> +	{ .name = "mcp9933", .driver_data = (kernel_ulong_t)&mcp9933_chip_config },
+> +	{ .name = "mcp9933d", .driver_data = (kernel_ulong_t)&mcp9933d_chip_config },
+> +	{ .name = "mcp9982", .driver_data = (kernel_ulong_t)&mcp9982_chip_config },
+> +	{ .name = "mcp9982d", .driver_data = (kernel_ulong_t)&mcp9982d_chip_config },
+> +	{ .name = "mcp9983", .driver_data = (kernel_ulong_t)&mcp9983_chip_config },
+> +	{ .name = "mcp9983d", .driver_data = (kernel_ulong_t)&mcp9983d_chip_config },
+> +	{ .name = "mcp9984", .driver_data = (kernel_ulong_t)&mcp9984_chip_config },
+> +	{ .name = "mcp9984d", .driver_data = (kernel_ulong_t)&mcp9984d_chip_config },
+> +	{ .name = "mcp9985", .driver_data = (kernel_ulong_t)&mcp9985_chip_config },
+> +	{ .name = "mcp9985d", .driver_data = (kernel_ulong_t)&mcp9985d_chip_config },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, mcp9982_id);
+> +
+> +static const struct of_device_id mcp9982_of_match[] = {
+> +	{
+> +		.compatible = "microchip,mcp9933",
+> +		.data = &mcp9933_chip_config,
+> +	}, {
+> +		.compatible = "microchip,mcp9933d",
+> +		.data = &mcp9933d_chip_config,
+> +	}, {
+> +		.compatible = "microchip,mcp9982",
+> +		.data = &mcp9982_chip_config,
+> +	}, {
+> +		.compatible = "microchip,mcp9982d",
+> +		.data = &mcp9982d_chip_config,
+> +	}, {
+> +		.compatible = "microchip,mcp9983",
+> +		.data = &mcp9983_chip_config,
+> +	}, {
+> +		.compatible = "microchip,mcp9983d",
+> +		.data = &mcp9983d_chip_config,
+> +	}, {
+> +		.compatible = "microchip,mcp9984",
+> +		.data = &mcp9984_chip_config,
+> +	}, {
+> +		.compatible = "microchip,mcp9984d",
+> +		.data = &mcp9984d_chip_config,
+> +	}, {
+> +		.compatible = "microchip,mcp9985",
+> +		.data = &mcp9985_chip_config,
+> +	}, {
+> +		.compatible = "microchip,mcp9985d",
+> +		.data = &mcp9985d_chip_config,
+> +	},
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, mcp9982_of_match);
+> +
+> +static struct i2c_driver mcp9982_driver = {
+> +	.driver	 = {
+> +		.name = "mcp9982",
+> +		.of_match_table = mcp9982_of_match,
+> +	},
+> +	.probe = mcp9982_probe,
+> +	.id_table = mcp9982_id,
+> +};
+> +module_i2c_driver(mcp9982_driver);
+> +
+> +MODULE_AUTHOR("Victor Duicu <victor.duicu@microchip.com>");
+> +MODULE_DESCRIPTION("MCP998X/33 and MCP998XD/33D Multichannel Automotive Temperature Monitor Driver");
+> +MODULE_LICENSE("GPL");
 
