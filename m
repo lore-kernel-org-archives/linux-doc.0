@@ -1,58 +1,89 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEEDC13C3F2;
-	Fri, 21 Nov 2025 18:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08902882DB;
+	Fri, 21 Nov 2025 18:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763749757; cv=none; b=cNXX3GoHAhzpADog874hbJ7UAKwNvFV2jZnuqCpq+ZbyIGIfswz2hDxNVMKk4fQzZV09H0CPdhf0qKsAN3/LGya3y6AiF3yiUL0nTdC62sGyAqYPROUBMsA1rFGdI594RYKErpDMZTigffkvpgkbo3MLYs9nxgmJ4ExDOjTCnsQ=
+	t=1763749849; cv=none; b=cOh2u6ANtz16h1h3NwZAMktBHE6YE3ioImP6vP57fXMg3jW7w2pTLwJ25dG7z8QYSxPGUWTAFTUtYpl6MhNwQ1vevdy3HuKjxHOksdD0JxhOv+n5o1Gv0n/rTUUdP2ukW/c97wdDEMbtwKKl6zpRv4h323/mriXqs+YT3NVl4j4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763749757; c=relaxed/simple;
-	bh=g8wkgLJdS3Cxn4Y/Wb0GziOv2f12ehUTxUi8Ye4ZJwM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uVVROZCzbHwJrRLqnTiT2flXhW0AD5BVVoe1cZPk0CGDSvf3bxM1sObq8RuPidQ5W8tMIdAo9jJTJKZflsiq47z0z/2QhDOzeNdf4G9pwTB101u896V1R+nRBM8p1ymtAOp2QcdXy5isfV0BYNgQ16VpFCxxCGlvLmrz/qjFMpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf16.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id 318371606DC;
-	Fri, 21 Nov 2025 18:29:13 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf16.hostedemail.com (Postfix) with ESMTPA id 5538E2000F;
-	Fri, 21 Nov 2025 18:29:10 +0000 (UTC)
-Message-ID: <c95d1fbc737442063a95e91f741464bc37795cb8.camel@perches.com>
-Subject: Re: [PATCH v5] README: restructure with role-based documentation
- and guidelines
-From: Joe Perches <joe@perches.com>
-To: Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
- linux-doc@vger.kernel.org
-Cc: josh@joshtriplett.org, kees@kernel.org, konstantin@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, rostedt@goodmis.org,
- workflows@vger.kernel.org, 	rdunlap@infradead.org, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>
-Date: Fri, 21 Nov 2025 10:29:09 -0800
-In-Reply-To: <20251121180009.2634393-1-sashal@kernel.org>
-References: <20251121180009.2634393-1-sashal@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	s=arc-20240116; t=1763749849; c=relaxed/simple;
+	bh=fi9S8EfVoFHwQDOKdElhfKtB84IzNSnmcI8//1Lr9eE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hkN7mWX72kvWZ2FrtuYVfj22zwO3BFKxTxumV1UbOWMsXlsPUZfTqOrN3dWObq65YWfjE6TNP8KHW44veCGUk/k/AmvMQ+ZPOmkMGqBMvOfpdyIu6imLuiKnZDcPysY97dfs9j5jzqPgi0mwr21m7weMxoWCrwB47g2DSaj7giM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nrTwGmyq; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nrTwGmyq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D0C1C4CEF1;
+	Fri, 21 Nov 2025 18:30:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763749849;
+	bh=fi9S8EfVoFHwQDOKdElhfKtB84IzNSnmcI8//1Lr9eE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nrTwGmyqCnrPG7MMfbGCTul3fvXsDQLFeZtq7G5UjpAM7RWOgUSJbutuSiIBGUBrF
+	 tCYEedNkOLPCnr2awl+JvgcGendMn0bsuF8hAz0hEquGzyBMLncPejiq1gqr1gg0t5
+	 i8L3RmQjlETFm/8XPSP8oSmzLWdrMJRK/72eGhvJod2Jk6ZLFCj6ljdBvJ8FJNdTdH
+	 asz7JSuCnBbDr4dNBOKp4zq55viGjIRRjElOxumT7l6vJsHkJUrAV+en2XSGkdiqMk
+	 dW2PfpIHZOjn6rx1Gg+u88Qeavuxe26t/9mrH1PjNg6WNI5PKYZdL7AmqqekIi44Wo
+	 fFzOPVOKd2zSA==
+Date: Fri, 21 Nov 2025 18:30:45 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Marius Cristea <marius.cristea@microchip.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: temperature: add support for
+ EMC1812
+Message-ID: <20251121-swimmable-lining-9cde54c6ab47@spud>
+References: <20251121-hw_mon-emc1812-v2-0-5b2070f8b778@microchip.com>
+ <20251121-hw_mon-emc1812-v2-1-5b2070f8b778@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Stat-Signature: fnw3r46rx1thg3xku4gpkki7y3gef7kj
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 5538E2000F
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/3+vO7cgGNyF/mg93zW8zjcLx5gdnvZDw=
-X-HE-Tag: 1763749750-636008
-X-HE-Meta: U2FsdGVkX1/1exYSmNChizg9jxaQzIuFo+TMeVlQ/YtUpQtb+4VSXFyDKxWQ2CqW49sqf38vURgzzs3e8aZEn2Mg3GQTZpaMjgg+gFSB1D6wWuiKIkIpE320Hw8Hi/larC+92m95HRXdV6PP2Zvn73IQ+CWG92qef6NSPR+cHK0l9l1p/bviq7WGCUUVMZZBzsBMeBsjA65f7J+oMOKtMFGIHmXkC8ZHtx7nHto0QTTrIdhlALsScuf7CP+XY7RHw9dC85VMGrZPCOscWIyTX9j5CTS1CEhUdoRMCg4y0AhAtxRNJuOgnMA/9kGjSdYq6Y0iBCk56OpD+DwZtkbKkFBImiYbZaGT
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dutviNx2RnugnChe"
+Content-Disposition: inline
+In-Reply-To: <20251121-hw_mon-emc1812-v2-1-5b2070f8b778@microchip.com>
 
-On Fri, 2025-11-21 at 13:00 -0500, Sasha Levin wrote:
-> Reorganize README to provide targeted documentation paths for different u=
-ser
-> roles including developers, researchers, security experts, and maintainer=
-s.
 
-Thank you Sasha.  Looks great.
+--dutviNx2RnugnChe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Nov 21, 2025 at 10:48:54AM +0200, Marius Cristea wrote:
+> This is the devicetree schema for Microchip EMC1812/13/14/15/33
+> Multichannel Low-Voltage Remote Diode Sensor Family.
+>=20
+> EMC1812 has one external remote temperature monitoring channel.
+> EMC1813 has two external remote temperature monitoring channels.
+> EMC1814 has three external remote temperature monitoring channels and
+> channels 2 and 3 supports anti parallel diode.
+> EMC1815 has four external remote temperature monitoring channels and
+> channels 1/2  and 3/4 supports anti parallel diode.
+> EMC1833 has two external remote temperature monitoring channels and
+> channels 1 and 2 supports anti parallel diode.
+>=20
+> Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
+
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
+
+--dutviNx2RnugnChe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaSCv1QAKCRB4tDGHoIJi
+0qvPAQCpauFh1MyKH0eUIZRrwP0dM0fsEdjvZI0mqtcJ5NznKgEAtavkj+JEmXJ6
+5m6ZXfWiKtVSzC4yV94N2l3w/UvFPQw=
+=MFkI
+-----END PGP SIGNATURE-----
+
+--dutviNx2RnugnChe--
