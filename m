@@ -1,347 +1,239 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010057.outbound.protection.outlook.com [52.101.201.57])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011001.outbound.protection.outlook.com [52.101.52.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0267F2989B5;
-	Fri, 21 Nov 2025 12:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F78C25F96D;
+	Fri, 21 Nov 2025 14:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.1
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763727447; cv=fail; b=uzK3L/HUwQdt4tFwK8lnBTb/DuGp4E8liPP9JroOcZf3j0L/LiQKGn9A7wgh1Se0qUCTLF5mhj78k41wtmxrcufz3sRa+HfBQUXSzbKs5Yr3MCwkXwmocVbA/mDWaXZ8P9G7Ja/UlNwP2Q1jBuEcPuQ+vlJPdtU7+5ek4Ih7Q8M=
+	t=1763733861; cv=fail; b=WqAseReGMFOf3ZomrUkyAtqLO1x6eu1E8ibHRuUoJ/N92FGXuYIDyrTMA9ZFGBrLzpeu4mPSRU6qtNavjeEew0CqcNZvhT9Ig3uSQEHgbdP4GnZDJT+aN28Gy9U+oqbjsMu3M9EKQSKNN1BZmvwSVxwX7Mnbglm3U78dmzkgSbs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763727447; c=relaxed/simple;
-	bh=diRLHIMg5nqxw2Ex+F3YACDiMbilHxzTCHq/m1fNEj8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WLqWgx3K1rgMUtRusKVPHlbg60pDvOSOeSAynPxUJcez2i/yWeH2kzKThPDahQLB6toPNexvXJZmu1ofPRYu5SI8KrouVPm2zO+8hQIFSW7OQuuRdhqqdHwcY4aeKCcE6MJKWi3xOsAyhb5LrIOwiKLuMg8xQt6fSTQwnO6scdo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pSU6xCWA; arc=fail smtp.client-ip=52.101.201.57
+	s=arc-20240116; t=1763733861; c=relaxed/simple;
+	bh=xsYxZ/lU/JFr7iYyGp4CD28AJYWKWnG68JX84wQ4F60=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=I4seOhH3z2AnEVXjC5d+S2cL9F1Fm8EG6Kyy+RnYkkITrXCyqdM1wn178XWUK0EZUo31jfr4tu0sZtydnCXjpXxNFFuG31b7Fxp2JieC1skRoiVpo9XZ8pMG4vUDnvMi6k2rX9P3cczxLgos7FE+OHWrB/6GJxzXMOyHYHbT9Cw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hlMAPzkT; arc=fail smtp.client-ip=52.101.52.1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pSU6xCWA"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hlMAPzkT"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fA50EdhaqJnhIpN7uyWavW6lS0vQUudO0sDNY6hPBbWLFGbaza+b9L2Sp07wUfor7otdeX2GlnQ7wKa14KXnlh66LdSPwtcVa9qKpwwxyYSbkKL9Jf4w69yFfPw5WtMwquiHkPRlIzYILD5BoHXvIUkdFtttiWTmXsPIvN+zBG2T48kyJVjyx4WsWh94OQvZKzbwrYwO+4RZ6m3W1Be/WxomnuSowapSm8gFaJedgNB8ns6R8p9LBtCcgLLXxyr1poaIwIraz2pRMD5YLp6mJeFvskIb7Z2lrgtNu66YlJE2l1VAbo9CD2fx/E265rnBzIa9fvDrE8zTmwK6BPq0EA==
+ b=Y05lq535EJ4DBFZLL4uYxjtOiFBc6DrYVOOkZpcDqYC8Vvnc7IQrJ6QjVBJNdKsiJg7bU5re1LtSqJjrVLgP16Jq2ysEkSYFNa3zTLE1BZv5UIM5SDyDhDhVHIzs4cTZ3yz8KxTnDd1N6iX4V9uicHos5UaCNhThIinJQGsNv88rfiXB1gwPmuKw/WMx3n7565HjxCk5x2z61E3dyGQ8YtbCUcaG/uQatSnsHlCwrvgDZIKIG1BdGc8Dxj4UpKCXWwV/pYsSG6meo6dAfpCpS3hGtlyYMRvkX5BOPwcSIt10IONf/ZVoJdO7zoLW1wg0CDLpqACgbdpJkPBMbUJZSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fd34vCUBOirASchP9G/JWEw4nKEapGeBMjpsSkx1LMo=;
- b=x1T5mxyTT7AsTgYQoWc1m+/TW/YVVV/urCNMHOUAn8zc1OFYPPJAUJWYt2sLm8hTC6xg8wOd+vp0O/nEhoytIvSznJKPXUDk9fe64+kcd9PJjzWbmV3j+52Cfd9E2/B7A0NZkAusZvoJuPDe5vkx1QCc5QFVC4Z3pHHIkB3Ydke1RGNjiGPILVc09nqn8OyL7AP8BPzLCc5CyU4txIUudwgASdi9zNBL5G1cQURBRkgqqvZQ8UMftu+PwbUgtRT73Xqx6OCS1n1rzTTWU8+Xcyw4rd60JSi+jLTD+BR+UH6nsYfpwais+g6ksFaDpRiogiyxcYW8qnYJTiKZ74leXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
+ bh=dj/1lHH1LmXj1IaJm8OoktoQZI4V8fZdmVgE8TR01Go=;
+ b=W5UBL+tCDWHlal6W989dTEWno1JYMIo5Eom5k9vc3pHJlajH/ck4Wko51Uns0+2TTB03NOkQAJLpBAGcCNX5+OHbBLMevm4iyK7XQvKgdvesZFxfdHHrhiYS2Ia+RqhNCwZsK6l5D7+N9HJKKaqtkxix9HkT2QcdhhydubG+roAo5+Ugsi2YUuyTkUaeirv/gactvM0Zg2eqHAca3/G7QXL6JxU1DDtrsDwwsNOYw2DBhz7I4TiVDcQgjbbX5avTIdry108sqnQXHIZ673kjb8NqWtOcZvDWFIQcfW4unygkvJDUZ8Uxv0c4VyUjy4yIFQbQIbd1d2rpjNvZrape2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fd34vCUBOirASchP9G/JWEw4nKEapGeBMjpsSkx1LMo=;
- b=pSU6xCWArVivz6oGBvasScMxw6SwxOKsGuUNc21MWd/LHGj23wF2RqzLlZ9Rh1NX8DsfKXHfB4DgOA9nFB4hILBZT2eKl9CAqkBcs8KM0PI+YGpNZ4z9mcWbWpqCxrFdyoeWt4SLCPI+piBjibpAPzwjBzBLOGA9iIsgnFSr3+Y=
-Received: from BN9PR03CA0760.namprd03.prod.outlook.com (2603:10b6:408:13a::15)
- by DS0PR12MB6559.namprd12.prod.outlook.com (2603:10b6:8:d1::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.14; Fri, 21 Nov 2025 12:17:18 +0000
-Received: from BN3PEPF0000B36F.namprd21.prod.outlook.com
- (2603:10b6:408:13a:cafe::26) by BN9PR03CA0760.outlook.office365.com
- (2603:10b6:408:13a::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.12 via Frontend Transport; Fri,
- 21 Nov 2025 12:17:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BN3PEPF0000B36F.mail.protection.outlook.com (10.167.243.166) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.1 via Frontend Transport; Fri, 21 Nov 2025 12:17:17 +0000
-Received: from rric.localdomain (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 21 Nov
- 2025 04:17:13 -0800
-From: Robert Richter <rrichter@amd.com>
-To: Alison Schofield <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
-	<dan.j.williams@intel.com>, Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Corbet <corbet@lwn.net>
-CC: <linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Gregory Price
-	<gourry@gourry.net>, "Fabio M. De Francesco"
-	<fabio.m.de.francesco@linux.intel.com>, Terry Bowman <terry.bowman@amd.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Robert Richter <rrichter@amd.com>,
-	<linux-doc@vger.kernel.org>
-Subject: [PATCH v1 2/2] Documentation/driver-api/cxl: ACPI PRM Address Translation Support and AMD Zen5 enablement
-Date: Fri, 21 Nov 2025 13:16:51 +0100
-Message-ID: <20251121121655.338491-2-rrichter@amd.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251121121655.338491-1-rrichter@amd.com>
-References: <20251121121655.338491-1-rrichter@amd.com>
+ bh=dj/1lHH1LmXj1IaJm8OoktoQZI4V8fZdmVgE8TR01Go=;
+ b=hlMAPzkTdp9FWGkmMC3hpT23gxO8Flj6zUiAF/aDhVpanJtQuRPyNUHdzHuV2wmw1NNjt5d9Gd4NRJ3IIpm71vL+KtOlZ/n4/LKIR9he4pqo5B5Ncxe9RmaemYydkbVE9jJzdcjthZfsxOFo1T4DEKVEFksRplkx0scPYqZmSH8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by CY8PR12MB7660.namprd12.prod.outlook.com
+ (2603:10b6:930:84::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Fri, 21 Nov
+ 2025 14:04:15 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::8d61:56ca:a8ea:b2eb]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::8d61:56ca:a8ea:b2eb%8]) with mapi id 15.20.9343.011; Fri, 21 Nov 2025
+ 14:04:15 +0000
+Message-ID: <73c0c936-9b5d-41ac-b028-d8d2009312a2@amd.com>
+Date: Fri, 21 Nov 2025 08:04:08 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 06/10] fs/resctrl: Add user interface to
+ enable/disable io_alloc feature
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, tony.luck@intel.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
+Cc: corbet@lwn.net, Dave.Martin@arm.com, james.morse@arm.com, x86@kernel.org,
+ hpa@zytor.com, akpm@linux-foundation.org, paulmck@kernel.org,
+ rdunlap@infradead.org, pmladek@suse.com, kees@kernel.org, arnd@arndb.de,
+ fvdl@google.com, seanjc@google.com, pawan.kumar.gupta@linux.intel.com,
+ xin@zytor.com, thomas.lendacky@amd.com, sohil.mehta@intel.com,
+ jarkko@kernel.org, chang.seok.bae@intel.com, ebiggers@google.com,
+ elena.reshetova@intel.com, ak@linux.intel.com, mario.limonciello@amd.com,
+ perry.yuan@amd.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, feng.tang@linux.alibaba.com
+References: <cover.1762995456.git.babu.moger@amd.com>
+ <c7d3037795e653e22b02d8fc73ca80d9b075031c.1762995456.git.babu.moger@amd.com>
+ <312511a1-ee7c-47da-b351-ee7d9adfe306@amd.com>
+ <65f94330-bd8f-436b-b02c-654f87e4bb29@intel.com>
+Content-Language: en-US
+From: Babu Moger <bmoger@amd.com>
+In-Reply-To: <65f94330-bd8f-436b-b02c-654f87e4bb29@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1PR05CA0001.namprd05.prod.outlook.com
+ (2603:10b6:806:2d2::6) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B36F:EE_|DS0PR12MB6559:EE_
-X-MS-Office365-Filtering-Correlation-Id: 18987167-940e-424b-a733-08de28f7e9ef
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|CY8PR12MB7660:EE_
+X-MS-Office365-Filtering-Correlation-Id: 044e6014-b50a-4c0f-8345-08de2906daad
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|82310400026|376014|36860700013|1800799024|13003099007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?N3NGRDJLS3BwcUxHd0tmYlc0Sk5tUHdzVHU0ZGZ5MjlmN3R2TWZMMElxR1pZ?=
- =?utf-8?B?YUNvWVJpUDdzdGc0ZHArTHIvQithbWJPMkhCNUU2aDFHcEViNk5sb1hWZk5j?=
- =?utf-8?B?NEM4azVhb29hRGVDYnhVTkRZVGhFMzNuUUh0QXlRaWtzMlFML2RVSVhNcTRU?=
- =?utf-8?B?bmpsZ2hvSHNFaFRQdllOSzh2SnFsT2xPZjNWK09VNm5BZFJIRnJaai9OVnBl?=
- =?utf-8?B?cGRxak5IUW43ZjJCcjJ6d0R0ZlhreHBWWmxTb3JKb1dETUtZKyttQ2M5TXVo?=
- =?utf-8?B?RzUySFZqd3p5dE5tSG9ad2tURDVqVVNGTGM3dFBmYkJWVll5UnZBVGpkUmdW?=
- =?utf-8?B?akkvVjVLendKWUFQSGVZbHF0OXFhRnhlVGVmNVljMzdjNU5HeWY1TTFCbjVa?=
- =?utf-8?B?SFowVFhJL2hvZ3ZwRU5RdUczL0Q3cE1HVTFENHRlN2RJa1RRT0RuWlFyUDZP?=
- =?utf-8?B?SmdNOGJERy85SHJzMHQxMm8zS2dwcW1xc1B4cFlCdE8zWlZ2M3dyYXUyTHdi?=
- =?utf-8?B?TW9rcmYveGh2dHV6U1FreTZHQ3VCZUZEdmdqdlV0eXhkWmRpalQvVDA5U2Ro?=
- =?utf-8?B?WFI4d0kxQWFveWI2aUxacTJydTZtdHRoT0ZXZUNTcEZiM3pWK2tQUEl3TDhu?=
- =?utf-8?B?Mk5jYXF1Wm02UkEyNjF0ZHo3UStlcXE4anAxekZMKzNyVWNwMXowbTB1MWtr?=
- =?utf-8?B?MGFaaWd0MzB5b2Nzd3BJY0ttTHBWU3JzVWdLdmxiTGtCTEtjQlpKZmU1Wm05?=
- =?utf-8?B?UWtEOHdOSThYQld2UEs0UmQwaXkySW1FZ3dPV1hqeHNIYk50Q0dVSlhyaFlP?=
- =?utf-8?B?VmFWc0YzMDZnajdOYjZuMTQza3R6ZkxZNWJpa2xLTzJFZTRtMnVzZnJrR1F6?=
- =?utf-8?B?QzA2bWQ1bUU1SCtUdDE4TWVQbENXTGQ3cityUm5qZjhsbkdTUmF3VFg4cklE?=
- =?utf-8?B?c3JYRWpIN0pvazloaVk3RkduMmFTZjFybVVNMzhrSnlRUGZVaDg4aGxpTTI3?=
- =?utf-8?B?QmNCdDJzdkhNZU5kaEVEVnBMbVMzenBmRVY0RGZTL2ZVOVVIODBQNXVUTkRD?=
- =?utf-8?B?TmlQOTRHOG5pbkVsVllid1FCNnphQkNUdThOSDQxZGRFVTBMTTB3V25hUXUw?=
- =?utf-8?B?N05oMG5DcVFHRnBNekhaNXRTblBmMXlqZlZ5M28wK2ZiTDlNRWxGOFd2eUhM?=
- =?utf-8?B?V2ptMlhrY2ZhaHZ1N1dMMFUwOC95Tm9UYVN6NGRBSVFNdHMvbTYwY0NQTlNm?=
- =?utf-8?B?QklKOXZhM3NxZ0hVZC9mNDNtU3llblZkVTRtcnFwYmcxbXlFNUw4d2Z4MWlT?=
- =?utf-8?B?MlNwUFJITzJ4clBDMzVlMWdvSlZURndPbm1JWWdha0ladCsrSWV2aFJVTHBz?=
- =?utf-8?B?YWRjN3VaNkhNZmZnaTZNNzZaWC9EM0dEZjNpV1ZlZmIzQ0VJL0E4YUZTbXdW?=
- =?utf-8?B?RlRHaExob2NPV0xPMWNOQ1h4a1Z2bVFFUEVXMzhLam95dm9PQ0F4YTdYWFZG?=
- =?utf-8?B?YWdkQmllc2NFVTdlQ3VXVXZ3d1VYbjh3MStEb3B2UEd1TVlteURaQ0FaYWRj?=
- =?utf-8?B?K1Y2b3BEa1dkcUJIWFN5NzI4ZThFWmtrR0hLUmZFYk9GZ2NreDZkTWFwQXVS?=
- =?utf-8?B?MlhwNTRycEdDUHNhV3RVMktsWjRYU1RTQjREQ0RjU0dKeDloVS8rNnZUQ0c0?=
- =?utf-8?B?YW50UEFLNGtWSDRyOFhlZnhvQzBoT0YySkRaV0FUVklBelRKRXg5YmdKK0JB?=
- =?utf-8?B?OVh3NnM2bHRIS2VsaHFrZ0M4amNwWm81TGFzU0ZZMnE3S0ZweWxINXNYeFBs?=
- =?utf-8?B?QzJXRlduUUI5VnQ2aWI2NEVPaEIzajNkREErTisvUktJUG1PeHhxc2lCUCtX?=
- =?utf-8?B?cDQrczg3eS9NZEFONWFDRWpzR1JCc2lweHNjNVJYOHN5cHluZFZkOFVIbjln?=
- =?utf-8?B?S0ZIczcrL2RSRnBDVU5qYkk4K3FHWUxPcFUyY2RmNXQ4eWF4b3hnTnpxTVQ3?=
- =?utf-8?B?QWl3cFU3L3g1NjJMWlhLdzFJcHN2UkxkVHJzZ0ZNbS9VUnh6MGxHaW5FZ3kw?=
- =?utf-8?Q?L6x1tz?=
+	=?utf-8?B?YkJaYUMxRXE3TGZ3R1ZnZnFSOGpEaDloS1IvdkFhWlJacy9rbTB5UVRWVU1F?=
+ =?utf-8?B?L3hENE5hZ3hYYXF5Z2F1NnBTZ3B2ajloTVVaM2ZmcitXbFEvQzNGd1grNVRr?=
+ =?utf-8?B?T2d3ZE1EdlBCc0pkM2VNNUVNc3JpclJhbzdGeVpTTnVZTU5JU25XcHBtR3Jr?=
+ =?utf-8?B?KzFjcnBrVFM4b0FaVnVEcWdZVzJBQWtoYklJdmVvUElQOC9JaDNwbWNsWExu?=
+ =?utf-8?B?WEZtalJOc2NMVURmNGFhZG9KajRudUVqQmVNUzMrWnZNU29jMzUrSnNUM01i?=
+ =?utf-8?B?T1Z6V2ZXQmtabUxUWjlKZlpDMmloTzdzQ21VK3JqMTU2elh6ZEU2UEkrNE94?=
+ =?utf-8?B?RE1yV0xOV3hWbWdLcUZxRWJUUlZENW9MZmkwVnZwODI4TlAwWTQzcGR3R1U0?=
+ =?utf-8?B?TzRFS1VGL1FlWDhjdnp1dGNnYVl3cC9oZndXM3luekpaZWcyTldQTFVjK1d5?=
+ =?utf-8?B?dFJYR0lFTWE2OWszb0wzNUszRFJXQnhnckdkQUhpUXg1dmpwWWVobjNKSElH?=
+ =?utf-8?B?Z3FsSHUzcGt3NG9RNE02UnZCbUd0YS9Fa2U1alBTQ0hvZDhuSldJL1RxSnpZ?=
+ =?utf-8?B?eUdTUUhZMmRjK2ZJakRFRXlHY1RwMytFZUp3QnVhcnFNS0tPdHpnM2RLOHlL?=
+ =?utf-8?B?V0J1MnB0VlR0TnZYdW1zWEFTY0FraFBQZi81RmtNU3NvRGlGT2FJelFJY3Rj?=
+ =?utf-8?B?M3k0WHB4eGFtdG1abFRzQVBKNHVkcXBjTTdaMk4wYS9jMmtMWTlwYVdGNVI0?=
+ =?utf-8?B?aEI3UGVFYXgyVjVycWM4M2xJdHpjNmFiSXl1QmxyK3gxaFB5aUF5a09hSy80?=
+ =?utf-8?B?d2JkQzlkT1RUcVJLS1NOandYdmhDTUo4QlMvdEZKMTVYY2k4MHpGcTFqL0ty?=
+ =?utf-8?B?Qm9ibzFhOXdBNjMxTE10STByVlZHVUNDenhTM0VKY0RYeHh1NXAzREFvVXJo?=
+ =?utf-8?B?OFBQTTdoTDkyU0VxMGtIWTc0NWlyRDY2TTVKZzNYOFp3YTJPTkdjVEFXK2Fs?=
+ =?utf-8?B?SHJPbHNkajBnMlNaV1JKYk9KTXVVaERLd2ZVMkN1Z09vYWw5cmdpeGxBUUFa?=
+ =?utf-8?B?T05tQ2s1OWVIY1JHZU5BTHR5eDZUQ2dJVDFtbWprTTkyZHF3czhHWXU0UDRN?=
+ =?utf-8?B?T1pJQVhnWWNJdThwTlQyVlByelVnc2RiQjg0UnVJYW05WGttTHZjZ2QvS3FH?=
+ =?utf-8?B?K0NqcGdqSjVGdXEydld6Q3dPMFhHNXFBTWxDMEQrZ3l1Qk5FWWgreDVIb3d1?=
+ =?utf-8?B?MkU4ZllqLzZPYUJoS2JWaHN6cml4MmRVRGRybVR0VjJ6dThjWWQwRDdUUmRW?=
+ =?utf-8?B?ZHhXdXpnZW9xbUZSVmdobjRhV1BJQXhPdU4zUlgrb0JqL3h1bTFwMFRiSzR3?=
+ =?utf-8?B?WnB2N0lyVGowYnhnWEFRODhMRkZXZXB5N2FVbDQ5UTFUay92eFhnU2J0bzEw?=
+ =?utf-8?B?aXgvZFlMNW54c3kwTHp1aVF5RWI3aXpzZEdtR1ZLWjdPblhNSXd0U1ZjMjFw?=
+ =?utf-8?B?YVVUSGdMZjBsTis0TjdpT25hMnZPakhPekxKcC9HNFl3STJuVVMzMFh4S2dW?=
+ =?utf-8?B?Mzd5NHdIZk5BR2JzQVZERkhYOGp5Sy8xdGx3dmdHWlpad25NN1BHWTFtV04r?=
+ =?utf-8?B?V2J5cU5TbGM2UjMyYk5vRmR2cDlJWHM3MExHay8rb2Yrdm5nQ2R1SVFEK1lM?=
+ =?utf-8?B?aStRWFl6dW5xRTVVc0tjUzhDaWdqSXRqMmFRY0wwRjdXM2Exby93N21CdkJ5?=
+ =?utf-8?B?VWJQY3BsSitqc1JvZTVORG5oamFZbUJCNWhSWVNoQ3ZnQ1YvTlZ1OWUzZGww?=
+ =?utf-8?B?eG5XdWxWcENPdWJhc2hxSWk5SGlUOTVxZDN5L0FubDVwNnF3RCtReThLVS9h?=
+ =?utf-8?B?UFlNT2ZRc3MyQzNpRFc1UE5VMFR4REdpWGRIdTYzVTU0dVhLbklPZ1RMV0Zv?=
+ =?utf-8?Q?vJ+qO5keZVmlMKqZbSu+UVc/nQ/WsnJk?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(376014)(36860700013)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?anNrN2lWWDJEOThTa2NNclpHeFZuWmVXbFU0UjF2NGowNFcrR0hGWGxuN1Fn?=
+ =?utf-8?B?cmZPbS9VZXhYZ1RrTUNaY1hJNTg1ZFkwbnk1TmRQS1RRRmI3UVRlVWdaU1R6?=
+ =?utf-8?B?TDFxcFZWMlBsNEU1MXB2cjdCZUM4VkhXT3l5TkJGQTVCRUlkNFoxVSttOWI4?=
+ =?utf-8?B?ZFZOVGZ1cXQvdUpSY0JhNEJER1dpdmlERmVKNGVLSThHWXVVTVlPN2ZMZlFV?=
+ =?utf-8?B?SVVXODJ6alpKb3hBRGZ4c2JSUmIxRnEwcXltUnNDTmNpc3c0ZHJLdlkzbzVU?=
+ =?utf-8?B?dkRaUDlBZnVUdWZacld2MnRyMnBUT0FDakxNOUVBUnF4dTdNWmRxTnQzT2lI?=
+ =?utf-8?B?bWhGRGQ2NGd0OEluR1M0eXN0RUpnMmZyaWE1b1Z1YlBsM01UM0trZGUvS2Zz?=
+ =?utf-8?B?MWRKQjUrQWZSYjA4cVBFMjBRWW4zWXFxYVYrOEpya2U4UkJxL2hHc1FZVndP?=
+ =?utf-8?B?aGQrMjFhQXBBL3krR3M0Ums4bitVN1JIVzg4c0VEdk9SY3kzODBQMDk1UFk0?=
+ =?utf-8?B?UmJoY1RjUUhBNFVFOUJCcE5aL3F2eCsvVU0xRGxsNmlBRzBjNUhEUzBnMXp4?=
+ =?utf-8?B?SjJmbktUOUQ1SmZ5bjVnMHRBUzFZUFZoMDM3WUFPNW9wMGxUeGZ3aS9UVk82?=
+ =?utf-8?B?NmtBRXpGTDFPMmsyVW5zeXMvdTY3amRIajBCNGJBeG5qYi9CbzAwdXhoekpq?=
+ =?utf-8?B?Q1daY0NNcnFsc1BmVGYwQU1UQVB1OGJFcHN5WFFCL1VPZ0psT3RtWUprczlP?=
+ =?utf-8?B?clBOSmJNbnExaTQzMlhyQmpEZmlDaFBDREEvSHpkUXJmOE5MNWVld0RwR2VL?=
+ =?utf-8?B?NGJway81MkplSGZKSnVSTDc3QzNpd3kzeHU3RGVJWTgrdXMyZ1dTejJJakE3?=
+ =?utf-8?B?QmlQOWIxdlRXTkhIbTRpZ1pKMHVlRXp0WEdpK0FaZDNHTDdlL0o2aFN4Q1k2?=
+ =?utf-8?B?Y29tVGhlVjVIeEliaVM4QkxhLzljV0g5eWpUNnFRTDI4TnI2SUtaZkhtZGlr?=
+ =?utf-8?B?QTMzVUJzSE9lUnNOSU1IQ2xXVjZxNkZBVzRqbEhXL2dhZlIwWGxST2lWZDBY?=
+ =?utf-8?B?VmVadjY5VFBWenI2WmV6aDkwZ3dHUkM1R1Q5L1ZNdXdPWG1QODN5RitvU1ps?=
+ =?utf-8?B?aGdiUnJ6YjNKSjN5dGJvWTdMQWUyRThxdWNjbGF3S1ZobU12dlNCY0gwMXMv?=
+ =?utf-8?B?NFJmYk84eHluRUF6bU1kV0txVzFJWkZ0NURYajkyK0xlNnJMSHpyN3BncTNY?=
+ =?utf-8?B?THhNZGZXemNyVGQyc25VYWk2TEtBMmJ2ZFloWHdyeVlvRWFrWVFvbnlIM1FO?=
+ =?utf-8?B?K0FxZ2pnVmRNRjNpNmdNRVN3RTRXZnd3TlN5TzVSOExaR3NYa1NGQi9lMHBs?=
+ =?utf-8?B?RW0xNjc0WFhNMysvK1liWnJRNFdPN1VFNmY4NUtyRlFHQXRvZ1NUUFdic2Np?=
+ =?utf-8?B?bWx4ZjVkblhJZnBvcm8vZ0lDSXVKcFBWK0RDUTd0RlhyV1EvNzhRcmRhZXRy?=
+ =?utf-8?B?U21pa1NtUFNqREIwWERGUlA2SXgvVDJPY3JXL1VERjV1YUFUSWxmNEVDV3pL?=
+ =?utf-8?B?SGgrVCtIaEhBRDdLRXA1eTNKc2haTExiTHgvRTVKK1dmN1c1MlBIUER3RGFF?=
+ =?utf-8?B?bWRLYzk5SlRNUXIyZkQvbERhRUZHZHVyNGhJek5TM28wT0xPcDVXcFVScy8x?=
+ =?utf-8?B?T3R6RFNLQ1EvbmM2aklPL2FzSGNWTGlHU0I5UVkwamtlR2d0bTBra3E3SFZX?=
+ =?utf-8?B?WXlYWklsQlNrZm91ckZwR3ZCYm5GTkFKV1Awdjl6cnFUMXpxZ0thZkRHcnho?=
+ =?utf-8?B?TzVPMDZESzY2UVp6Z1lTbWJXa0s0TkppdVFWVzJaMzQvcko4Z0JsNmJXNmxw?=
+ =?utf-8?B?WG5oYTliWW5UNTN4NHJWYVpJa3FqOG01Z0lQTy85WWptYmMwZS9BVXJZMG1a?=
+ =?utf-8?B?MFZmR0RmNkpqR2I4NlM3S01nd2NBZ3BJanUrblZrVlZHL1MzNW9Wb0ZKT0pZ?=
+ =?utf-8?B?VGNmYlQvSUo0TVBHeWI1dC92QkhnL1gwM3hYOWJnWCthbS9YWUZtS0d2SWRt?=
+ =?utf-8?B?SWRGeEtPSDlNWFFuaUh4cDVQNTZjb1h0VmdpY1JWT25OeDlteklnY1pCeVNE?=
+ =?utf-8?Q?dbBg=3D?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 12:17:17.9597
+X-MS-Exchange-CrossTenant-Network-Message-Id: 044e6014-b50a-4c0f-8345-08de2906daad
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 14:04:15.0877
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18987167-940e-424b-a733-08de28f7e9ef
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B36F.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6559
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FNppaZnhqaQjLyardu//H/krMnG1bt0CmlyCuv+MrznmR8aLfApudxDp5sT/qs8i
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7660
 
-This adds a convetion document for the following patch series:
+Hi Reinette,
 
- [v7,00/11] cxl: ACPI PRM Address Translation Support and AMD Zen5 enablement
- https://patchwork.kernel.org/project/cxl/cover/20251114213931.30754-1-rrichter@amd.com/
+On 11/20/25 22:40, Reinette Chatre wrote:
+> Hi Babu,
+>
+> On 11/20/25 10:35 AM, Babu Moger wrote:
+>> Hi Reinette,
+>>
+>> On 11/12/25 18:57, Babu Moger wrote:
+>>> AMD's SDCIAE forces all SDCI lines to be placed into the L3 cache portions
+>>> identified by the highest-supported L3_MASK_n register, where n is the
+>>> maximum supported CLOSID.
+>>>
+>>> To support AMD's SDCIAE, when io_alloc resctrl feature is enabled, reserve
+>>> the highest CLOSID exclusively for I/O allocation traffic making it no
+>>> longer available for general CPU cache allocation.
+>>>
+>>> Introduce user interface to enable/disable io_alloc feature and encourage
+>>> users to enable io_alloc only when running workloads that can benefit from
+>>> this functionality. On enable, initialize the io_alloc CLOSID with all
+>>> usable CBMs across all the domains.
+>>>
+>>> Since CLOSIDs are managed by resctrl fs, it is least invasive to make
+>>> "io_alloc is supported by maximum supported CLOSID" part of the initial
+>>> resctrl fs support for io_alloc. Take care to minimally (only in error
+>>> messages) expose this use of CLOSID for io_alloc to user space so that this
+>>> is not required from other architectures that may support io_alloc
+>>> differently in the future.
+>>>
+>>> When resctrl is mounted with "-o cdp" to enable code/data prioritization,
+>>> there are two L3 resources that can support I/O allocation: L3CODE and
+>>> L3DATA.  From resctrl fs perspective the two resources share a CLOSID and
+>>> the architecture's available CLOSID are halved to support this.  The
+>>> architecture's underlying CLOSID used by SDCIAE when CDP is enabled is the
+>>> CLOSID associated with the CDP_CODE resource, but from resctrl's perspective
+>>> there is only one CLOSID for both CDP_CODE and CDP_DATA. CDP_DATA is thus
+>>> not usable for general (CPU) cache allocation nor I/O allocation. Keep the
+>>> CDP_CODE and CDP_DATA I/O alloc status in sync to avoid any confusion to
+>>> user space. That is, enabling io_alloc on CDP_CODE does so on CDP_DATA and
+>>> vice-versa, and keep the I/O allocation CBMs of CDP_CODE and CDP_DATA in
+>>> sync.
+>>>
+>>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>>> ---
+>>> v12: Minor format fix in resctrl.rst.
+>>>        Added text about writable files in the info section.
+>>>        Removed Reviewed-by tag from Reinette as there are some new text changes from Dave.
+>> Only this patch needs "Reviewed-by" tag.
+>>
+>> Gentle reminder with upcoming holidays.
+> Thank you. I just added my "Reviewed-by" tag.
 
-Signed-off-by: Robert Richter <rrichter@amd.com>
----
- Documentation/driver-api/cxl/conventions.rst  |   1 +
- .../driver-api/cxl/conventions/cxl-atl.rst    | 175 ++++++++++++++++++
- 2 files changed, 176 insertions(+)
- create mode 100644 Documentation/driver-api/cxl/conventions/cxl-atl.rst
 
-diff --git a/Documentation/driver-api/cxl/conventions.rst b/Documentation/driver-api/cxl/conventions.rst
-index 53f31a229c8d..cf427afac58b 100644
---- a/Documentation/driver-api/cxl/conventions.rst
-+++ b/Documentation/driver-api/cxl/conventions.rst
-@@ -8,4 +8,5 @@ Compute Express Link: Linux Conventions
-    :caption: Contents
- 
-    conventions/cxl-lmh.rst
-+   conventions/cxl-atl.rst
-    conventions/template.rst
-diff --git a/Documentation/driver-api/cxl/conventions/cxl-atl.rst b/Documentation/driver-api/cxl/conventions/cxl-atl.rst
-new file mode 100644
-index 000000000000..9c14856e1782
---- /dev/null
-+++ b/Documentation/driver-api/cxl/conventions/cxl-atl.rst
-@@ -0,0 +1,175 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
-+
-+ACPI PRM CXL Address Translation
-+================================
-+
-+Document
-+--------
-+
-+CXL Revision 3.2, Version 1.0
-+
-+License
-+-------
-+
-+SPDX-License Identifier: CC-BY-4.0
-+
-+Creator/Contributors
-+--------------------
-+
-+- Robert Richter, AMD
-+
-+Summary of the Change
-+---------------------
-+
-+The CXL Fixed Memory Window Structure (CFMWS) describes zero or more
-+Host Physical Address (HPA) windows that are associated with each CXL
-+Host Bridge. The HPA ranges of an CFMWS may include addresses that are
-+currently assigned to CXL.mem devices, or an OS may assign ranges from
-+an address window to a device.
-+
-+Host-managed Device Memory is Device-attached memory that is mapped to
-+system coherent address space and accessible to the Host using
-+standard write-back semantics. The managed address range is configured
-+in the CXL HDM Decoder registers of the device. An HDM Decoder in a
-+device is responsible for converting HPA into DPA by stripping off
-+specific address bits.
-+
-+CXL devices and CXL bridges use the same HPA space. It is common
-+across all components that belong to the same host domain. The view of
-+the address region must be consistent on the CXL.mem path between the
-+Host and the Device.
-+
-+This is described in the current CXL specification (Table 1-1, 3.3.1,
-+8.2.4.20, 9.13.1, 9.18.1.3). [#cxl-spec-3.2]_
-+
-+Depending on the interconnect architecture of the platform, components
-+attached to a host may not share the same host physical address space.
-+Those platforms need address translation to convert an HPA between the
-+host and the attached component, such as a CXL device. The translation
-+mechanism is host-specific and implementation dependent.
-+
-+E.g., x86 AMD platforms use a Data Fabric that manages access to
-+physical memory. Devices have an own memory space and can be
-+configured to use 'Normalized addresses' different to System Physical
-+Addresses (SPA). Address translation is needed then. Details are
-+described also under x86 AMD
-+Documentation/admin-guide/RAS/address-translation.rst.
-+
-+Those AMD platforms provide PRM handlers in firmware to perform
-+various types of address translation, including for CXL endpoints.
-+AMD Zen5 systems implement the ACPI PRM CXL Address Translation
-+firmware call. The ACPI PRM handler has a specific GUID to uniquely
-+identify platforms with support of Normalized addressing. This is
-+documented in the ACPI v6.5 Porting Guide, Address Translation - CXL
-+DPA to System Physical Address.  [#amd-ppr-58088]_
-+
-+When in Normalized address mode, HDM decoder address ranges must be
-+configured and handled differently. Hardware addresses used in the HDM
-+decoder configurations of an endpoint are not SPA and need to be
-+translated from the endpoint's to its CXL host bridge's address range.
-+This is esp. important to find an endpoint's associated CXL Host
-+Bridge and HPA window described in the CFMWS. Also, the interleave
-+decoding is done by the Data Fabric and the endpoint does not perform
-+decoding when converting HPA to DPA. Instead, interleaving is switched
-+off for the endpoint (1 way). Finally, address translation might also
-+be needed to inspect the Endpoint's hardware addresses, such as during
-+profiling, tracing or error handling.
-+
-+For example, with Normalized addressing the HDM decoders could look as
-+following:
-+
-+.. code-block:: none
-+
-+ /sys/bus/cxl/devices/endpoint5/decoder5.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/endpoint5/decoder5.0/interleave_ways:1
-+ /sys/bus/cxl/devices/endpoint5/decoder5.0/size:0x2000000000
-+ /sys/bus/cxl/devices/endpoint5/decoder5.0/start:0x0
-+ /sys/bus/cxl/devices/endpoint8/decoder8.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/endpoint8/decoder8.0/interleave_ways:1
-+ /sys/bus/cxl/devices/endpoint8/decoder8.0/size:0x2000000000
-+ /sys/bus/cxl/devices/endpoint8/decoder8.0/start:0x0
-+ /sys/bus/cxl/devices/endpoint11/decoder11.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/endpoint11/decoder11.0/interleave_ways:1
-+ /sys/bus/cxl/devices/endpoint11/decoder11.0/size:0x2000000000
-+ /sys/bus/cxl/devices/endpoint11/decoder11.0/start:0x0
-+ /sys/bus/cxl/devices/endpoint13/decoder13.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/endpoint13/decoder13.0/interleave_ways:1
-+ /sys/bus/cxl/devices/endpoint13/decoder13.0/size:0x2000000000
-+ /sys/bus/cxl/devices/endpoint13/decoder13.0/start:0x0
-+
-+Note the endpoint interleaving configurations with a direct mapping
-+(1-way).
-+
-+With PRM calls, the kernel can determine the following mappings:
-+
-+.. code-block:: none
-+
-+ cxl decoder5.0: address mapping found for 0000:e2:00.0 (hpa -> spa):
-+   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-+ cxl decoder8.0: address mapping found for 0000:e3:00.0 (hpa -> spa):
-+   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-+ cxl decoder11.0: address mapping found for 0000:e4:00.0 (hpa -> spa):
-+   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-+ cxl decoder13.0: address mapping found for 0000:e1:00.0 (hpa -> spa):
-+   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-+
-+The corresponding CXL host bridge (HDM) decoders and root decoder
-+(CFMWS) show and match with the calculated endpoint mappings:
-+
-+.. code-block:: none
-+
-+ /sys/bus/cxl/devices/port1/decoder1.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/port1/decoder1.0/interleave_ways:4
-+ /sys/bus/cxl/devices/port1/decoder1.0/size:0x8000000000
-+ /sys/bus/cxl/devices/port1/decoder1.0/start:0x850000000
-+ /sys/bus/cxl/devices/port1/decoder1.0/target_list:0,1,2,3
-+ /sys/bus/cxl/devices/port1/decoder1.0/target_type:expander
-+ /sys/bus/cxl/devices/root0/decoder0.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/root0/decoder0.0/interleave_ways:1
-+ /sys/bus/cxl/devices/root0/decoder0.0/size:0x8000000000
-+ /sys/bus/cxl/devices/root0/decoder0.0/start:0x850000000
-+ /sys/bus/cxl/devices/root0/decoder0.0/target_list:7
-+
-+The following changes of the specification are needed:
-+
-+* Allow a CXL device to be in a different HPA space other than the
-+  host's space.
-+
-+* The platform can use implementation-specific address translation
-+  when crossing memory domains on the CXL.mem path between the Host
-+  and the Device.
-+
-+* The kernel (OSPM) determines Endpoint SPA range and interleaving
-+  configuration using platform specific address translation methods.
-+
-+Benefits of the Change
-+----------------------
-+
-+Without the change, the OSPM may not determine the memory region and
-+Root Decoder of an Endpoint and its corresponding HDM decoder. Region
-+creation would fail. Platforms with a different interconnect
-+architecture would fail to setup and use CXL.
-+
-+References
-+----------
-+
-+.. [#cxl-spec-3.2] Compute Express Link Specification, Revision 3.2, Version 1.0,
-+   https://www.computeexpresslink.org/
-+
-+.. [#amd-ppr-58088] AMD Family 1Ah Models 00h–0Fh and Models 10h–1Fh,
-+   ACPI v6.5 Porting Guide, Publication # 58088,
-+   https://www.amd.com/en/search/documentation/hub.html
-+
-+Detailed Description of the Change
-+----------------------------------
-+
-+Add the following paragraph in 8.2.4.20 CXL HDM Decoder Capability
-+Structure of the specification [#cxl-spec-3.2]_ to the end:
-+
-+"A device may use a different HPA space that is not common to other
-+components of the host domain. The platform is responsible for address
-+translation when crossing HPA spaces. The OSPM must determine the
-+interleaving configuration and perform address translation to HPA
-+ranges of the HDM decoders as needed. The translation mechanism is
-+host-specific and implementation dependent."
--- 
-2.47.3
+Thank you.
+
+>
+>> Hoping this series will be queued for next merge window.
+>>
+> I think it is getting late for new things.
+>
+
+Oh, okay. The series is ready now. It’s a pretty simple one, so I’ll let 
+you decide
+
+Thanks
+
+Babu
+
 
