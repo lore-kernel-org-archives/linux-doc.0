@@ -1,92 +1,85 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FBB2E0938;
-	Fri, 21 Nov 2025 17:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85BD34E763;
+	Fri, 21 Nov 2025 17:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763746102; cv=none; b=muHYQrgkm1nMAAVT3rpaesZagpioa1S7pDRPFqQCmStWONRWE793XZ5JDS4dmKIIuJzeiuS0yneQJMUfsjyy8CYSMOAaA/gecP99k04UL5qQwoe2M9ua8/OqyL9obcKF+tTRSRr9oD1PFDT+pukhDHPwXWvICsSQmUkb1hQBLys=
+	t=1763746237; cv=none; b=Xevy5uRl79kWu2lZKwsH6O3cAdM7hFNEcIQY6Tf56kbu0V+bnmDAgJbKEYKmaPTvzsc5VE5hL65VRYJ6WeIu58vlkzSYwJVpuE14aWhhFRjOWaj6W+aaJI8vIAV7kLVza5tffifzBxTrafyInTl1Byy1XgszqZErnMp47KWrHDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763746102; c=relaxed/simple;
-	bh=BfOnXDkWvVSwtZ3vsdvtrbFxauofmrfbJRK+gsLxcmo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LppRb0Yy41nvLvLCAY/BL0qWgAOLQr1vNeVQIpD04FKyTWJ3fwj1EjfgdEsys7/z1uGCEGAWg9xIueDS6LBAumMl4d8/OVNsJZWB8QLw9oWUgU+jiSf/7fpigkbzuJnVMjnoYpAUBFh+Ykylv3GI1JUDpNHAbJNYiabn0UJjrdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=gL6GNxEh; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1763746237; c=relaxed/simple;
+	bh=sNSkN4Z59CxZA7WG+OgkAd/kyxSs7LwijTfQVOzc7QA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Pj/yuh8VHNOreWDFykokC3N5T6IRo5d1lMWMtoH2wvL0zmjiPlqOcsuK3d3Azkt6nvs8VPStgZ5mb4tHBzuYeP9+rzXRtqd0sUr8pDVYlk47ByqDrXA+2vgV5zUIfm0MbFFEbqj5U45SWYaSuXgvgUBfPOEevFTzFaoER17Knhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=MJpB2xhN; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="gL6GNxEh"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A0CD340E01A5;
-	Fri, 21 Nov 2025 17:28:10 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 8uxNFsdJbFk3; Fri, 21 Nov 2025 17:28:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1763746086; bh=9DfeOlXoUBhAtEmTPyvzuLILDnp6ey90cftOwz+aOBE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gL6GNxEhkmWwOxSNsUfG3tazRZnd8VMEK666e7wbxVp41VSSqD2c8nPGH/+Y+OjVG
-	 kIDJfGrI/RbBmeWPI1LZmHZFm2BXKaIFvQ2FVhaz2hS9yFrmpm4hdot7RI7oYnTAoQ
-	 xDVGAgJOeQc+Az2Q8DJSPCYt9V+iNL4VwwYwLJanwqQFTpwXt9cfYV6A2OiKK/Y88c
-	 e4RkUwDV0PXMFzbl92cgexPaO9gSg5HpEcmqqtj+qT4x0s3YhqPyF5u/M9D44D5ZRh
-	 reOQ6Tn8xkWi3jVpYNaj9t99yjEinQ1QtbtMJmwkmZpn/Q+ShYgcqyO7N1lD1Ie0JH
-	 L3ZDOA7WjjyXyLcTV5/Y1baioNjpRGU7KxrvG2WSxn4N2K92Db3EN6ijJyRtO2c6V2
-	 FLa5k0WOi4/YCizv9sbkxNairSyKX77iDd3d8mzoR5k5lEnHdncLeNXljSlkDhFKud
-	 bV/TsLu2FhmfqrHem/cPUbSLufWa3qg+sLHTIZXrPm90Si7bxafnyyMDJUw/4t7uy2
-	 vVJexW4mBn1FPT2rkwgca1unXuF1rPJse1an0zPdZSJm2RVPWNuoTNdmC2FF2+3gds
-	 47HR5pAa6+NpwgDcG5aSkkfSq/tLfQk+gUzHDFytfgg5L7dCJpTn9Z+UmPHCvC/geh
-	 etEcfHGCNciyaRyesoRZglOc=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MJpB2xhN"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6139240AED
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1763746229; bh=hHSm+TpA4jklLPr6BJFmqbSm5j6eJsQ+p1DGwLQ60cs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=MJpB2xhNyAnWds1oNYzBAGWVgfIlmsLsFq82bzEZzxaAR9BDX9WUyMrySXO4amSAn
+	 Zg1WQBogvBLG+KPMOtIG/2X+rWFKbJ6FKQJvblmf4dD5VqwRa4tfEZ97BGZtL3r9KV
+	 KU+V3/j/joBuckUGQYAJvfbVtUnnxau+iRpOiKC7elEkxrN9EPPhaSM8YxagfgfD5D
+	 UONQBMppIRnN+cRqF+XQGbNZvqNvW1UZ3tM5GcGdB8YHTm/LLTmoG4u3TweqKSNg4m
+	 nE8TTl4zuZeOxdoP4ZR4fPJ6XVlvAjI0fMMy3i6hpM7VBP6iU0On48mEI2sPjjVh3d
+	 FJiN6ioBzp/xw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id C07CC40E0216;
-	Fri, 21 Nov 2025 17:27:31 +0000 (UTC)
-Date: Fri, 21 Nov 2025 18:27:23 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Babu Moger <babu.moger@amd.com>, tony.luck@intel.com,
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-	x86@kernel.org, corbet@lwn.net, Dave.Martin@arm.com,
-	james.morse@arm.com, hpa@zytor.com, akpm@linux-foundation.org,
-	paulmck@kernel.org, rdunlap@infradead.org, pmladek@suse.com,
-	kees@kernel.org, arnd@arndb.de, fvdl@google.com, seanjc@google.com,
-	pawan.kumar.gupta@linux.intel.com, xin@zytor.com,
-	thomas.lendacky@amd.com, sohil.mehta@intel.com, jarkko@kernel.org,
-	chang.seok.bae@intel.com, ebiggers@google.com,
-	elena.reshetova@intel.com, ak@linux.intel.com,
-	mario.limonciello@amd.com, perry.yuan@amd.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	peternewman@google.com, feng.tang@linux.alibaba.com
-Subject: Re: [PATCH v12 00/10] x86,fs/resctrl: Support L3 Smart Data Cache
- Injection Allocation Enforcement (SDCIAE)
-Message-ID: <20251121172723.GBaSCg-0l6MJM4QuRG@fat_crate.local>
-References: <cover.1762995456.git.babu.moger@amd.com>
- <3fddbb5b-a6ac-4465-afc0-6365225ba2bb@intel.com>
+	by ms.lwn.net (Postfix) with ESMTPSA id 6139240AED;
+	Fri, 21 Nov 2025 17:30:29 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jiakai Xu <jiakaipeanut@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Jiakai Xu <jiakaiPeanut@gmail.com>
+Subject: Re: [PATCH v3] Documentation/admin-guide: fix typo and comment in
+ cscope example
+In-Reply-To: <20251119065727.3500015-1-jiakaiPeanut@gmail.com>
+References: <20251119065727.3500015-1-jiakaiPeanut@gmail.com>
+Date: Fri, 21 Nov 2025 10:30:24 -0700
+Message-ID: <87o6ovthsf.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3fddbb5b-a6ac-4465-afc0-6365225ba2bb@intel.com>
+Content-Type: text/plain
 
-On Fri, Nov 21, 2025 at 08:05:36AM -0800, Reinette Chatre wrote:
-> Dear x86 maintainers,
-> 
-> Could you please consider this series for inclusion when you find is most appropriate?
+Jiakai Xu <jiakaipeanut@gmail.com> writes:
 
-Lemme take a look.
+> This patch updates the Linux documentation for cscope, fixing two issues:
+> 1. Corrects the typo in the command line:
+>        c"scope -d -p10  ->  cscope -d -p10
+> 2. Fixes the related documentation comment for clarity and correctness:
+>        cscope by default cscope.out database.
+>        ->
+>        cscope by default uses the cscope.out database.
+>
+> Signed-off-by: Jiakai Xu <jiakaiPeanut@gmail.com>
+> ---
+>
+> Changes since v2:
+>  * Fixed line-wrapping issues to ensure patch applies cleanly.
+>  * Formatting improvements in the commit message.
+> Thanks to Jonathan Corbet for pointing out this additional correction.
+>
+> Changes since v1:
+>  * Added the second fix for the documentation comment line.
+> Thanks to Randy Dunlap for pointing out this additional correction.
+>
+> References:
+>  * [PATCH] Documentation/admin-guide: fix typo in cscope command example
+> https://lore.kernel.org/linux-doc/6017104c-740d-43db-bc53-58751ec57282@infradead.org/T/#t
+>  * [PATCH v2] Documentation/admin-guide: fix typo and comment in cscope example
+> https://lore.kernel.org/linux-doc/871plv5mlf.fsf@trenco.lwn.net/T/#m10f8ec032dd57eaf7388939da3722c9f4b599b33
+>  Documentation/admin-guide/workload-tracing.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 
-Thx.
+Applied, thanks.
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+jon
