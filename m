@@ -1,107 +1,217 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02F3357A48;
-	Fri, 21 Nov 2025 16:09:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F1B34A77F;
+	Fri, 21 Nov 2025 16:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763741358; cv=none; b=i5XBImyvIJSd8YT/iri0KY3T/ASedk1Lb0EI3/mGoY3Cxo9mELghb1TZTPMo3eOuJTYnYZyqrwD80wKsBLolO4UgR26jFGAnVLbArGaphRpZ4yVCBTqeq1HZpcS/NOWgkR+9DN9fkZgtn3zEXgSv+lfmX0woizSyirAAgJB3eEs=
+	t=1763741379; cv=none; b=HNDHX0AlEp6osY+AfXtSItHFqOQYbBi9RI+mSQ467LjlY/3ujgTIZOGiJIisHw3OudXILJybR7BhW4ekYxThgKLQDmRNXzO4lwZfqId7dMpjZp3XiFp7keZ2D0bDjcpRoKJ6mU1FLOnKlVtnOdBeefy+NLIApUm4AE9OOEA/Lzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763741358; c=relaxed/simple;
-	bh=//OuOvMXeDV9xgqjwXYfwljPeKEYUBLLHfpTkq6K8+8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hIITaIEiE5AX5lm6Zt16hyeClz/VfexmbwXQE3j+I01P8lZjugh71upyQtXIMtiA0KmpHJoCHtCS0/2w3RvmTFpHvwKf3XPLiBoyES3LdF18WtPgl/n5oR4WqgzTYvyz9prpYDC84EdjLarX/VEp6RnDWEv4KVJMoR8TLK3Pu2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DXrPBIfz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763741379; c=relaxed/simple;
+	bh=nG7P1oCjgzr374XwEfDpCU0otxlN/IxC1AL7zG7plW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GSUJ1Z/8E6/jbmNrODgmTQgcp3Xs36ixhwysIePGYXeJZIpNQPI2XayhgY20nT2WUrt3+tWzfUUnArfWsQH0CdZh226xIY1rvKzBi2LBqcs0BBhvJrxv8YEUDtjq8VPKwdZ2RFqBm5ruiuPHPtm/zhuwndL8lFKjBv3+/xHznwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TUg3r7vF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DXrPBIfz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7E86C4CEF1;
-	Fri, 21 Nov 2025 16:09:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TUg3r7vF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5813DC4CEF1;
+	Fri, 21 Nov 2025 16:09:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763741357;
-	bh=//OuOvMXeDV9xgqjwXYfwljPeKEYUBLLHfpTkq6K8+8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DXrPBIfzI0rxVmeV3dm4FH1BWca0aQOsApup4El5ebC7/Wnbgl4eKyhSn1TIGGat+
-	 vzz/NrU+jaItZ8HFmGhr86j1xgwmOSYZSNYke4wL/syHqsVWZQukAqEhNqa+YNeBPk
-	 31QsKCYCoAkM38ieBYVKK5PUc7SbGf1eklyzn4hbLVOVv03psyu/FsTvwpQUJc32fZ
-	 7tY90oZuYPnRk61KoNosla/msm9JvWELMKFOGQibL0zU59vuJTMgJueCkMx3/vpyuS
-	 7FE3P69FI738zFjFu+4J6UR3L8bSD7oVpcGOKZ1Fj9BmljA4Dxgutytafxy0PEhDdT
-	 FX70hzkqbeyzw==
-Message-ID: <f8669e93-24a8-47e1-9ba9-66df9627e998@kernel.org>
-Date: Fri, 21 Nov 2025 17:09:08 +0100
+	s=k20201202; t=1763741378;
+	bh=nG7P1oCjgzr374XwEfDpCU0otxlN/IxC1AL7zG7plW8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TUg3r7vFrPHLbI6POotsYVdnrzH9JhWbjCNzW/mST+9BrMXS4WcH8/QtX9DxbnyxC
+	 1GzsCbsIH2mXidYQh6+k3ynj4OZs8xdX1o224BVfFyZ0qyGgnm3QR8sNXIKxCo4vRz
+	 gexxfq54Rj1xxk+VOcI9zeq3UUY/Plw1uCaqju1FQAYz9bUsxBgfTkz5QBt0+5FKZ5
+	 Zw0V7KOXfoyvgkIZLW0pQewB89tpJHdVvwmTdY2y6vrsHOn3VXhomMBfU5b7dzLAea
+	 yhMUWq35U/+yVw+UMppaCDeAjirpenMAFH55ToFz/DhnwiUCwTfI29flSUey54mJY1
+	 JL7Zu1gEamdPQ==
+Date: Fri, 21 Nov 2025 17:09:36 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Brian Masney <bmasney@redhat.com>
+Cc: Stephen Boyd <sboyd@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Russell King <linux@armlinux.org.uk>, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC v4 00/12] clk: add support for v1 / v2 clock rate
+ negotiation and kunit tests
+Message-ID: <mbbwnxoik3qhy6gcwglfdch2v2gdhz3uqoaeu3xujnec6uwnoy@lqexuvwyjyny>
+References: <20250923-clk-tests-docs-v4-0-9205cb3d3cba@redhat.com>
+ <20250925-eager-delectable-frog-fcbb5d@penduick>
+ <aNVPqHldkVzbyvix@redhat.com>
+ <20250930-brawny-pastel-wildcat-4ba8d8@houat>
+ <aRfH35-jhM-qOrbb@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/9] mm: implement sticky VMA flags
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Andrei Vagin <avagin@gmail.com>
-References: <cover.1763460113.git.lorenzo.stoakes@oracle.com>
- <22ad5269f7669d62afb42ce0c79bad70b994c58d.1763460113.git.lorenzo.stoakes@oracle.com>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Content-Language: en-US
-In-Reply-To: <22ad5269f7669d62afb42ce0c79bad70b994c58d.1763460113.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="5fgelsmvohxxbmes"
+Content-Disposition: inline
+In-Reply-To: <aRfH35-jhM-qOrbb@redhat.com>
 
-On 11/18/25 11:17, Lorenzo Stoakes wrote:
-> It is useful to be able to designate that certain flags are 'sticky', that
-> is, if two VMAs are merged one with a flag of this nature and one without,
-> the merged VMA sets this flag.
-> 
-> As a result we ignore these flags for the purposes of determining VMA flag
-> differences between VMAs being considered for merge.
-> 
-> This patch therefore updates the VMA merge logic to perform this action,
-> with flags possessing this property being described in the VM_STICKY
-> bitmap.
-> 
-> Those flags which ought to be ignored for the purposes of VMA merge are
-> described in the VM_IGNORE_MERGE bitmap, which the VMA merge logic is also
-> updated to use.
-> 
-> As part of this change we place VM_SOFTDIRTY in VM_IGNORE_MERGE as it
-> already had this behaviour, alongside VM_STICKY as sticky flags by
-> implication must not disallow merge.
-> 
-> Ultimately it seems that we should make VM_SOFTDIRTY a sticky flag in its
-> own right, but this change is out of scope for this series.
-> 
-> The only sticky flag designated as such is VM_MAYBE_GUARD, so as a result
-> of this change, once the VMA flag is set upon guard region installation,
-> VMAs with guard ranges will now not have their merge behaviour impacted as
-> a result and can be freely merged with other VMAs without VM_MAYBE_GUARD
-> set.
-> 
-> Also update the comments for vma_modify_flags() to directly reference
-> sticky flags now we have established the concept.
-> 
-> We also update the VMA userland tests to account for the changes.
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
-> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
 
-Acked-by: David Hildenbrand (Red Hat) <david@kernel.org>
+--5fgelsmvohxxbmes
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC v4 00/12] clk: add support for v1 / v2 clock rate
+ negotiation and kunit tests
+MIME-Version: 1.0
 
--- 
-Cheers
+On Fri, Nov 14, 2025 at 07:22:55PM -0500, Brian Masney wrote:
+> Hi Maxime (and Stephen),
+>=20
+> On Tue, Sep 30, 2025 at 01:28:52PM +0200, Maxime Ripard wrote:
+> > On Thu, Sep 25, 2025 at 10:20:24AM -0400, Brian Masney wrote:
+> > > On Thu, Sep 25, 2025 at 02:14:14PM +0200, Maxime Ripard wrote:
+> > > > On Tue, Sep 23, 2025 at 10:39:19AM -0400, Brian Masney wrote:
+> > > > > The Common Clock Framework is expected to keep a clock=E2=80=99s =
+rate stable
+> > > > > after setting a new rate with:
+> > > > >=20
+> > > > >     clk_set_rate(clk, NEW_RATE);
+> > > > >=20
+> > > > > Clock consumers do not know about the clock hierarchy, sibling cl=
+ocks,
+> > > > > or the type of clocks involved. However, several longstanding iss=
+ues
+> > > > > affect how rate changes propagate through the clock tree when
+> > > > > CLK_SET_RATE_PARENT is involved, and the parent's clock rate is c=
+hanged:
+> > > > >=20
+> > > > > - A clock in some cases can unknowingly change a sibling clock's =
+rate.
+> > > > >   More details about this particular case are documented at:
+> > > > >   https://lore.kernel.org/linux-clk/20250528-clk-wip-v2-v2-2-0d2c=
+2f220442@redhat.com/
+> > > > >=20
+> > > > > - No negotiation is done with the sibling clocks, so an inappropr=
+iate
+> > > > >   or less than ideal parent rate can be selected.
+> > > > >=20
+> > > > > A selection of some real world examples of where this shows up is=
+ at
+> > > > > [1]. DRM needs to run at precise clock rates, and this issue show=
+s up
+> > > > > there, however will also show up in other subsystems that require
+> > > > > precise clock rates, such as sound.
+> > > > >=20
+> > > > > An unknown subset of existing boards are unknowingly dependent on=
+ the
+> > > > > existing behavior, so it's risky to change the way the rate negot=
+iation
+> > > > > logic is done in the clk core.
+> > > > >=20
+> > > > > This series adds support for v1 and v2 rate negotiation logic to =
+the clk
+> > > > > core. When a child determines that a parent rate change needs to =
+occur
+> > > > > when the v2 logic is used, the parent negotiates with all nodes i=
+n that
+> > > > > part of the clk subtree and picks the first rate that's acceptabl=
+e to
+> > > > > all nodes.
+> > > > >=20
+> > > > > Kunit tests are introduced to illustrate the problem, and are upd=
+ated
+> > > > > later in the series to illustrate that the v2 negotiation logic w=
+orks
+> > > > > as expected, while keeping compatibility with v1.
+> > > > >=20
+> > > > > I marked this as a RFC since Stephen asked me in a video call to =
+not
+> > > > > add a new member to struct clk_core, however I don't see how to d=
+o this
+> > > > > any other way.
+> > > > >=20
+> > > > > - The clk core doesn=E2=80=99t, and shouldn=E2=80=99t, know about=
+ the internal state the
+> > > > >   various clk providers.
+> > > > > - Child clks shouldn=E2=80=99t have to know the internal state of=
+ the parent clks.
+> > > > > - Currently this information is not exposed in any way to the clk=
+ core.
+> > > >=20
+> > > > I recall from that video call that Stephen asked:
+> > > >=20
+> > > > - to indeed not introduce a new op
+> > > > - to evaluate the change from top to bottom, but to set it bottom t=
+o top
+> > > > - to evaluate the rate by letting child clocks expose an array of t=
+he
+> > > >   parent rates they would like, and to intersect all of them to fig=
+ure
+> > > >   out the best parent rate.
+> > > >=20
+> > > > It looks like you followed none of these suggestions, so explaining=
+ why
+> > > > you couldn't implement them would be a great first step.
+> > > >=20
+> > > > Also, you sent an RFC, on what would you like a comment exactly?
+> > >=20
+> > > Stephen asked me to not introduce a new clk op, however I don't see a
+> > > clean way to do this any other way. Personally, I think that we need a
+> > > new clk op for this use case for the reasons I outlined on the cover
+> > > letter.
+> >=20
+> > So his suggestion was to base the whole logic on clk_ops.determine_rate.
+> > You're saying that it would violate parent/child abstraction. Can you
+> > explain why you think that is the case, because it's really not obvious
+> > to me.
+> >=20
+> > Additionally, and assuming that we indeed need something similar to your
+> > suggestion, determinate_rate takes a pointer to struct clk_rate_request.
+> > Why did you choose to create a new op instead of adding the check_rate
+> > pointer to clk_rate_request?
+>=20
+> Sorry about the delayed response. I've been busy with other projects at
+> work.
+>=20
+> I attached a patch that puts the negotiate_rates member on struct
+> clk_rate_request instead of struct clk_ops. In order to get this to
+> work, it also required adding it to struct clk_core and
+> struct clk_init_data as well. I made this so that this patch applies
+> on top of this series.
+>=20
+> I think the clk_rate_request approach is very ugly, and adding it to
+> struct clk_ops like I have it in this series is the way to go.
 
-David
+I think I'm still confused about why we need negociate_rates in the
+first place.
+
+IIRC, Stephen's suggestion was something along the lines of "let's make
+determine_rate optionally return a list of possible parent rates in
+clk_rate_request and make the core find the intersection".
+
+Why do we need to involve the driver in such a scenario, and using
+negociate_rate in particular?
+
+> I'm giving a talk at Linux Plumbers in Tokyo next month:
+>=20
+>     Fixing Clock Tree Propagation in the Common Clk Framework=20
+>     https://lpc.events/event/19/contributions/2152/
+>=20
+> Stephen will be there as well, and hopefully we can reach consensus
+> about an acceptable approach to fix this.
+
+Yeah, discussing it at plumbers would probably be a good idea, and maybe
+try to record / transcribe the meeting so we can have the minutes too
+somewhere?
+Maxime
+
+--5fgelsmvohxxbmes
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSCOvwAKCRAnX84Zoj2+
+dvkHAYDI4mb/Yf6jo+x4KMwkGdi6B3EL2mWHQEzt9alv2kyPnXaa7n1A0qV5kQca
+JulkJrMBgPZxz7LkVuq1aIiWHurtmsjbtWGCuD9z/RTx0cqCx7or04LhgTA53jbg
+O4SLO7qo2w==
+=cpRy
+-----END PGP SIGNATURE-----
+
+--5fgelsmvohxxbmes--
