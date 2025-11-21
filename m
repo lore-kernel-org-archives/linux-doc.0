@@ -1,176 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E3633F8C9;
-	Fri, 21 Nov 2025 09:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CC433F8A4;
+	Fri, 21 Nov 2025 09:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763716362; cv=none; b=el4iEF7rpRvqKBeYVGV9/vc89XVjAGsvkGfSoVcN6TyRi/OwN9qntRGl+s/4O/51APRWfgcw43X7ic/9ONP5lzhLk9KB22plSdSj0hTJ2QU7or4SpsB2GRFHq0TM4DjPLFs+2KDrsTWC9Tn+CR63xLSnCE/CIKlGoxU9YOxhXxA=
+	t=1763717029; cv=none; b=AsgRu0J4vuiqZ14LXvnD/59yi9XHsnk9tz0yY87dGO2pBWXDvVdYUhQ/bhR1QBURUceHfKYy+PKXy1D0kAaaOy7GaYNsOjVWtCgoSyYtvlWxerWIVWm/c2wS8evSB9Vl62hOfibDBlQXuHYp88euDSIzHFOG2KEtJ1BOWq66IcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763716362; c=relaxed/simple;
-	bh=15nuVtp2N2stXB8GN4hJJfLJcIi3BWRlytIutu1iCxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oyirGmFTr2lQ84sJ6c4+7TMkZWkvOa+Vq/mX8xyuZs6rHa3YG+J77hXziLZ5lRYnMebVPIbMNEkQ0C1L4oRTPy0FGEmkmBCF1eSo6wf2E10ZWmYhCUbReXddldsmBM+LGmZD7HZxi1hGaDQ6RLsjsUd1D2Jy/AMfFx7ZlKcD+OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mo2AihOL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763717029; c=relaxed/simple;
+	bh=Bt2Hwt9sCR5WG2aRUAwBi8UUiftFYTbEFxblcAUpPr0=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=r9qRo/hzmYA/eYhe3g34odi7cMXWsjre6oW0UlLWoo5RY+x78L0MzK11rtzNkHP6uC8cjIZjMq2+PcVtqL1FfnAR9vypwhTx9H6z9YXMQu5Bpa+ezKgTUfVPZiG1wur8B+PE+JH7Dfr0pmriahp0wtMEjHt7q6ei/Px5FpqUbqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=5adxCFnY; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mo2AihOL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E513BC113D0;
-	Fri, 21 Nov 2025 09:12:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763716361;
-	bh=15nuVtp2N2stXB8GN4hJJfLJcIi3BWRlytIutu1iCxg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mo2AihOL07n40a/g241i7HyCHx8HhwgCo1lCqzz92ngMoWvkrJP20dBSdOAj5dH0g
-	 NQ/Ias2MHlHK0+laMztgheypK1SAzD9f2aBWx8xbkO6M9cv6PB5inPllwXmCF0ePXS
-	 DpxWnrVBI3iyl/UgKbEHY67FigqLnCEhuhoE/Ry/Mg8wvU8gZ2ygohpKo7o7oKizs3
-	 xvan3MaxDCL79djTYkXWEs+U1EOStJIk14pgqxfM7pXoclzO3xXyfjh4lcyMvwjHJe
-	 XKIMDq+l54nl9yOWfo3J5dU8fdD/i+i7u03KfT1WDsvsncCp5tddTEYR9/cCIzZjJs
-	 AYJu5OqROCmvA==
-Date: Fri, 21 Nov 2025 10:12:36 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Carlos Bilbao
- <carlos.bilbao@kernel.org>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, Miguel
- Ojeda <ojeda@kernel.org>
-Subject: Re: [PATCH 0/1] fix rustdoc build detection
-Message-ID: <20251121101236.5b1f9989@foz.lan>
-In-Reply-To: <cdadc017-8874-4af0-b62a-62f70ee5d9eb@gmail.com>
-References: <cover.1763370163.git.mchehab+huawei@kernel.org>
-	<CANiq72=79rhJ5Sh+yp2vRSuSLD=nyR2DuQ26hFeBmyszRC3ALA@mail.gmail.com>
-	<6sczezthaixabzw5lddhemrx2yivfdf65zfvpew7tpzl3gqire@vjx4rpju5wxc>
-	<CANiq72m3deG_QsH8-AskTR9LcNL=G6E9o2fu+oi9RVXn1PK_+Q@mail.gmail.com>
-	<cdadc017-8874-4af0-b62a-62f70ee5d9eb@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="5adxCFnY"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=HP4T9Ux78gNIlOGmGsvDsFgk5odPVemp6LKwfalw7UY=;
+	b=5adxCFnYtZP2WE1LbfvuKRRXT1JiztDVoW03rbWUI/v5H9cGRx+kWCpAgaUfizgE9Y6O2HdUE
+	TpGdLfyM9yjlcDiwechxX0z6rWUmBv/yUFhVPOQh75CmwUzlgaQTVHp3gSmbuKwQkJ1SVDidL9w
+	y23dAw0NO6DZhA4Gwb18TsU=
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4dCV916Swqz1prkV;
+	Fri, 21 Nov 2025 17:21:57 +0800 (CST)
+Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
+	by mail.maildlp.com (Postfix) with ESMTPS id B0F5018048D;
+	Fri, 21 Nov 2025 17:23:43 +0800 (CST)
+Received: from huawei.com (10.50.163.32) by kwepemr100010.china.huawei.com
+ (7.202.195.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 21 Nov
+ 2025 17:23:43 +0800
+From: Tian Zheng <zhengtian10@huawei.com>
+To: <maz@kernel.org>, <oliver.upton@linux.dev>, <catalin.marinas@arm.com>,
+	<corbet@lwn.net>, <pbonzini@redhat.com>, <will@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <zhengtian10@huawei.com>,
+	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <yezhenyu2@huawei.com>,
+	<xiexiangyou@huawei.com>, <zhengchuan@huawei.com>, <linuxarm@huawei.com>,
+	<joey.gouly@arm.com>, <kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<suzuki.poulose@arm.com>
+Subject: [PATCH v2 1/5] arm64/sysreg: Add HDBSS related register information
+Date: Fri, 21 Nov 2025 17:23:38 +0800
+Message-ID: <20251121092342.3393318-2-zhengtian10@huawei.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20251121092342.3393318-1-zhengtian10@huawei.com>
+References: <20251121092342.3393318-1-zhengtian10@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemr100010.china.huawei.com (7.202.195.125)
 
-Em Tue, 18 Nov 2025 17:23:48 -0600
-Carlos Bilbao <carlos.bilbao.osdev@gmail.com> escreveu:
+From: eillon <yezhenyu2@huawei.com>
 
-> Hey there,
->=20
-> On 11/17/25 05:22, Miguel Ojeda wrote:
-> > On Mon, Nov 17, 2025 at 11:48=E2=80=AFAM Mauro Carvalho Chehab
-> > <mchehab+huawei@kernel.org> wrote: =20
-> >> Sure, Sphinx (including kernel-doc) build and rust doca build are
-> >> independent. Yet, Makefile "htmldocs" target currently does both.
-> >>
-> >> It could make sense to have a separate target if one want to build
-> >> them both, e.g. something like: =20
-> > My understanding (Cc'ing Carlos) is that the idea was that `htmldocs`
-> > built the Rust docs if possible. =20
->=20
->=20
-> Thanks! I'll also take a look at this, although I fear it'll be complicat=
-ed
-> without a way to reproduce what Mauro experienced.
+The ARM architecture added the HDBSS feature and descriptions of
+related registers (HDBSSBR/HDBSSPROD) in the DDI0601(ID121123) version,
+add them to Linux.
 
-I was able to get the scenario on linux-next. It is a little bit
-tricky to reproduce.
-
-1) I did a build with:
-
-	$ make distclean
-	$ make SPHINXDIRS=3Dpeci htmldocs
-
-   rustdoc was not called.
-
-2) copied a .config that has CONFIG_RUST there:
-
-	$ cp config-rust .config
-	$ make SPHINXDIRS=3Dpeci htmldocs
-
-   rustdoc was not called.
-
-3) manually called rustdoc:
-
-	$ make rustdoc
-
-   rustdoc was built.
-
-4) now, I re-ran htmldocs:
-
-	$ make SPHINXDIRS=3Dpeci htmldocs
-
-   rustdoc was built.
-
-5) I replaced .config with a config without rust:
-
-	$ make allyesconfig
-	$ make SPHINXDIRS=3Dpeci htmldocs
-	...
-	Using alabaster theme
-	Using Python kernel-doc
-	  SYNC    include/config/auto.conf
-	  HOSTCC  scripts/basic/fixdep
-	  DESCEND objtool
-	  INSTALL libsubcmd_headers
-	  CC      scripts/mod/empty.o
-	  CC      scripts/mod/devicetable-offsets.s
-	  MKELF   scripts/mod/elfconfig.h
-	  HOSTCC  scripts/mod/modpost.o
-	  HOSTCC  scripts/mod/sumversion.o
-	  HOSTCC  scripts/mod/symsearch.o
-	  HOSTCC  scripts/mod/file2alias.o
-	  HOSTLD  scripts/mod/modpost
-	  CC      kernel/bounds.s
-	  CC      arch/x86/kernel/asm-offsets.s
-	  UPD     include/generated/asm-offsets.h
-	  CC      kernel/sched/rq-offsets.s
-	  CALL    scripts/checksyscalls.sh
-	make[4]: *** No rule to make target 'rustdoc'.  Stop.
-	make[3]: *** [Makefile:1855: rustdoc] Error 2
-	Ignored errors when building rustdoc: Command '['make', 'rustdoc']' return=
-ed non-zero exit status 2.. Is RUST enabled?
-
-There are other combinations that produce weird things.
-
-If, instead of step (5), we do:
-
-	$ echo >.config
-	$ LANG=3DC make SPHINXDIRS=3Dpeci htmldocs
-
-it will produce, after building htmldocs from Sphinx:
-
-	Using alabaster theme
-	Using Python kernel-doc
-	  SYNC    include/config/auto.conf
-	  HOSTCC  scripts/basic/fixdep
-	*
-	* Restart config...
-	*
-	*
-	* General setup
-	*
-	Compile also drivers which will not load (COMPILE_TEST) [N/y/?] (NEW)=20
-
+Signed-off-by: eillon <yezhenyu2@huawei.com>
+Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
 ---
+ arch/arm64/include/asm/esr.h     |  2 ++
+ arch/arm64/include/asm/kvm_arm.h |  1 +
+ arch/arm64/tools/sysreg          | 28 ++++++++++++++++++++++++++++
+ 3 files changed, 31 insertions(+)
 
-My understanding is that the issue is caused because (by purpose)
-make htmldocs doesn't sync configuration. It doesn't need, as
-building docs doesn't really depend on any .config flag.
+diff --git a/arch/arm64/include/asm/esr.h b/arch/arm64/include/asm/esr.h
+index e1deed824464..a6f3cf0b9b86 100644
+--- a/arch/arm64/include/asm/esr.h
++++ b/arch/arm64/include/asm/esr.h
+@@ -159,6 +159,8 @@
+ #define ESR_ELx_CM 		(UL(1) << ESR_ELx_CM_SHIFT)
 
-However, this check at the Makefile:
+ /* ISS2 field definitions for Data Aborts */
++#define ESR_ELx_HDBSSF_SHIFT	(11)
++#define ESR_ELx_HDBSSF		(UL(1) << ESR_ELx_HDBSSF_SHIFT)
+ #define ESR_ELx_TnD_SHIFT	(10)
+ #define ESR_ELx_TnD 		(UL(1) << ESR_ELx_TnD_SHIFT)
+ #define ESR_ELx_TagAccess_SHIFT	(9)
+diff --git a/arch/arm64/include/asm/kvm_arm.h b/arch/arm64/include/asm/kvm_arm.h
+index 1da290aeedce..b71122680a03 100644
+--- a/arch/arm64/include/asm/kvm_arm.h
++++ b/arch/arm64/include/asm/kvm_arm.h
+@@ -124,6 +124,7 @@
+ 			 TCR_EL2_ORGN0_MASK | TCR_EL2_IRGN0_MASK)
 
-	ifneq ($(wildcard $(srctree)/.config),)
-	ifeq ($(CONFIG_RUST),y)
-        	RUSTDOC=3D--rustdoc
-	endif
-	endif
+ /* VTCR_EL2 Registers bits */
++#define VTCR_EL2_HDBSS		(1UL << 45)
+ #define VTCR_EL2_DS		TCR_EL2_DS
+ #define VTCR_EL2_RES1		(1U << 31)
+ #define VTCR_EL2_HD		(1 << 22)
+diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
+index 1c6cdf9d54bb..f489703338b5 100644
+--- a/arch/arm64/tools/sysreg
++++ b/arch/arm64/tools/sysreg
+@@ -4408,6 +4408,34 @@ Sysreg	GCSPR_EL2	3	4	2	5	1
+ Fields	GCSPR_ELx
+ EndSysreg
 
-Uses a cached value of "CONFIG_RUST" from the last build, with may
-or may not be present anymore.
++Sysreg	HDBSSBR_EL2	3	4	2	3	2
++Res0	63:56
++Field	55:12	BADDR
++Res0	11:4
++Enum	3:0	SZ
++	0b0001	8KB
++	0b0010	16KB
++	0b0011	32KB
++	0b0100	64KB
++	0b0101	128KB
++	0b0110	256KB
++	0b0111	512KB
++	0b1000	1MB
++	0b1001	2MB
++EndEnum
++EndSysreg
++
++Sysreg	HDBSSPROD_EL2	3	4	2	3	3
++Res0	63:32
++Enum	31:26	FSC
++	0b000000	OK
++	0b010000	ExternalAbort
++	0b101000	GPF
++EndEnum
++Res0	25:19
++Field	18:0	INDEX
++EndSysreg
++
+ Sysreg	DACR32_EL2	3	4	3	0	0
+ Res0	63:32
+ Field	31:30	D15
+--
+2.33.0
 
-My patch solves this by not using the cached result, but, instead
-checking if CONFIG_RUST is enabled directly at the .config file.
-
-Thanks,
-Mauro
