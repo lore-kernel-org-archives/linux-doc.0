@@ -1,127 +1,190 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304E8339B4D;
-	Fri, 21 Nov 2025 07:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C0C33B6ED;
+	Fri, 21 Nov 2025 08:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763710929; cv=none; b=u3jLKwWlKIUDqsiiQr672vfIiteEprNxmFtPeJXcQMHquCUyTpC7SHT5Sj2tX7UIgwP9ufdlWZvRjsofByKthMrdICh/t/txqQ/kZQz/DjqizFU60j1NeWRKoBsmzpIzinANSX3vTKlrxRrturLRrxRIIlBFs2rel6CODhnl0us=
+	t=1763713809; cv=none; b=MC7Uy6QsCj6pfUZg96Ll9Hg1/95GmE2yNaUAkCcfFaWeHjedx7Y6czTAwDlLwbBplY0wTa1pceGuxRcjLzoByIbYJ6PErzrVoJPfH7zjU3NmdGaSPY4qBxtWpUv/HUXRIM6e+Q0DCHgWKybBh06FY3DAeQ/l9BhgR26x6hN1wxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763710929; c=relaxed/simple;
-	bh=O/owrQ7LTAA9ZbRZu64BC64XoYmRo+uhZTzeo+Ew2jc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VqfAKVNQn6zUXKv+zTzr13JkffqvcsCDPWxFbaAtUgdesYHo+4ZvhD0vS+JfUmuofXGA42X3IU43gJVv7vhV5lwKvGac2txH/SvRZIGk8pi+usr4d+IdRilpUTVjBrzHf2iG3Ve7hm7JM038HxwUBwfxawpk7tCOyUQQ8Ep2BHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OCp8Vjg5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763713809; c=relaxed/simple;
+	bh=UebrCM8ZgZMn8LQGSIROx+8tEIsDHzwRTJoeAwz824A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fJijagkZ0soQFwFvFTJ2Ue0A+B2ft7+X5qiYyJTILnUcqu468Ru8Kr+tNzvM+ERERTXol0zzbWMXs5RhB2l8XZU5CjGIC+FBRZd2fZ/KIdv6FLzmY8C8qc6IPZ5WiZdiZuYfK3KNpntHWtzsE/GEyX1EzIq472IoeMc9Q+VGoIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=icBxCpAo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCp8Vjg5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0F4DC4CEF1;
-	Fri, 21 Nov 2025 07:42:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="icBxCpAo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE695C4CEF1;
+	Fri, 21 Nov 2025 08:30:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763710928;
-	bh=O/owrQ7LTAA9ZbRZu64BC64XoYmRo+uhZTzeo+Ew2jc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OCp8Vjg5oImfKWfN4GXv7kmUMrNS5krBORtVRTmwcB4DOZvoX+/g/t4vr9ZWu6UJl
-	 1Vj7sFNlUll1T9YUQc4xpzO6PKziNve8YmQzv8+oTDniJ8ihFor/4t6HDeETH7XPnh
-	 0qzUx+skWQwrxymzZd4yqSdRZyo5Qm9O91YykG/j5f61W+s9sbvi1j4nNmvR6DSrSr
-	 IkeXOC0kXEpJjmiSHsc4BSNizwXT4L6AL6eRN87ViuHkHSr6r++BESWVogPdAjx1dI
-	 qCWxiIBByOU5w/PZ6VKwrk97r6+SckIe4Pi/3ecdSozDC1fXrYtDiogYDbOS5uXIBj
-	 XbOkJYPROPYqA==
-Date: Fri, 21 Nov 2025 09:42:03 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Alex Williamson <alex@shazbot.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, iommu@lists.linux.dev,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v9 10/11] vfio/pci: Add dma-buf export support for MMIO
- regions
-Message-ID: <20251121074203.GX18335@unreal>
-References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
- <20251120-dmabuf-vfio-v9-10-d7f71607f371@nvidia.com>
- <20251120170413.050ccbb5.alex@shazbot.org>
+	s=k20201202; t=1763713808;
+	bh=UebrCM8ZgZMn8LQGSIROx+8tEIsDHzwRTJoeAwz824A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=icBxCpAoEIPHVB/ZSlCG4k5XNGYG0doJSk1JQBKjf35Q3+406a5S0biq2X1n/d3nk
+	 tZnrlXMMjYb+keUzmCh1U0Wu5zvjaukHkPwh3vW+YyqGH1Ev3bPU53F82MPnj9Manz
+	 e6i7W4RSSZTy82yXqOy1bNT4/0K0oG9PmvglExph7lzbvKEiP+BFAgRjlt0UBllAuP
+	 rLiuLvA88lPK53T+tN+cdCNo/sYurax2cC5FbvBtVNx0Mf3blhER6f/TnIJTAmmR/l
+	 fD3QjeSMgadjukEJj5qcd4HUGPnx0WSuIIzzMrqHmS9vM0GBNNKvZMkHZ0qU+9FXxp
+	 PyOMYaEMt1jiA==
+Date: Fri, 21 Nov 2025 09:30:01 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Daniel Ferguson <danielf@os.amperecomputing.com>, Ard Biesheuvel
+ <ardb@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>, James
+ Morse <james.morse@arm.com>, Tony Luck <tony.luck@intel.com>, Borislav
+ Petkov <bp@alien8.de>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-edac@vger.kernel.org, Jason Tian
+ <jason@os.amperecomputing.com>, Shengwei Luo <luoshengwei@huawei.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, Shiju Jose
+ <shiju.jose@huawei.com>
+Subject: Re: [PATCH v6 0/5] Fix issues with ARM Processor CPER records
+Message-ID: <20251121093001.40e01849@foz.lan>
+In-Reply-To: <20250814-mauro_v3-v6-16-rev2-v6-0-e5538d534aa0@os.amperecomputing.com>
+References: <20250814-mauro_v3-v6-16-rev2-v6-0-e5538d534aa0@os.amperecomputing.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251120170413.050ccbb5.alex@shazbot.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 20, 2025 at 05:04:13PM -0700, Alex Williamson wrote:
-> On Thu, 20 Nov 2025 11:28:29 +0200
-> Leon Romanovsky <leon@kernel.org> wrote:
-> > diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> > index 142b84b3f225..51a3bcc26f8b 100644
-> > --- a/drivers/vfio/pci/vfio_pci_core.c
-> > +++ b/drivers/vfio/pci/vfio_pci_core.c
-> ...
-> > @@ -2487,8 +2500,11 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
-> >  
-> >  err_undo:
-> >  	list_for_each_entry_from_reverse(vdev, &dev_set->device_list,
-> > -					 vdev.dev_set_list)
-> > +					 vdev.dev_set_list) {
-> > +		if (__vfio_pci_memory_enabled(vdev))
-> > +			vfio_pci_dma_buf_move(vdev, false);
-> >  		up_write(&vdev->memory_lock);
-> > +	}
-> 
-> I ran into a bug here.  In the hot reset path we can have dev_sets
-> where one or more devices are not opened by the user.  The vconfig
-> buffer for the device is established on open.  However:
-> 
-> bool __vfio_pci_memory_enabled(struct vfio_pci_core_device *vdev)
-> {
->         struct pci_dev *pdev = vdev->pdev;
->         u16 cmd = le16_to_cpu(*(__le16 *)&vdev->vconfig[PCI_COMMAND]);
-> 	...
-> 
-> Leads to a NULL pointer dereference.
-> 
-> I think the most straightforward fix is simply to test the open_count
-> on the vfio_device, which is also protected by the dev_set->lock that
-> we already hold here:
-> 
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -2501,7 +2501,7 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
->  err_undo:
->         list_for_each_entry_from_reverse(vdev, &dev_set->device_list,
->                                          vdev.dev_set_list) {
-> -               if (__vfio_pci_memory_enabled(vdev))
-> +               if (vdev->vdev.open_count && __vfio_pci_memory_enabled(vdev))
->                         vfio_pci_dma_buf_move(vdev, false);
->                 up_write(&vdev->memory_lock);
->         }
-> 
-> Any other suggestions?  This should be the only reset path with this
-> nuance of affecting non-opened devices.  Thanks,
+Em Thu, 14 Aug 2025 09:52:51 -0700
+Daniel Ferguson <danielf@os.amperecomputing.com> escreveu:
 
-It seems right to me.
+> This is needed for both kernelspace and userspace properly handle
+> ARM processor CPER events.
+> 
+> Patch 1 of this series fix the UEFI 2.6+ implementation of the ARM
+> trace event, as the original implementation was incomplete.
+> Changeset e9279e83ad1f ("trace, ras: add ARM processor error trace event")
+> added such event, but it reports only some fields of the CPER record
+> defined on UEFI 2.6+ appendix N, table N.16.  Those are not enough
+> actually parse such events on userspace, as not even the event type
+> is exported.
 
-Thanks
+Hi Rafael/Ard,
+
+What's the status of this series? I'm not seeing it yet on linux-next.
+
+Regards,
+Mauro
 
 > 
-> Alex
+> Patch 2 fixes a compilation breakage when W=1;
+> 
+> Patch 3 adds a new helper function to be used by cper and ghes drivers to
+> display CPER bitmaps;
+> 
+> Patch 4 fixes CPER logic according with UEFI 2.9A errata. Before it, there
+> was no description about how processor type field was encoded. The errata
+> defines it as a bitmask, and provides the information about how it should
+> be encoded.
+> 
+> Patch 5 adds CPER functions to Kernel-doc.
+> 
+> This series was validated with the help of an ARM EINJ code for QEMU:
+> 
+> 	https://gitlab.com/mchehab_kernel/qemu/-/tree/qemu_submission
+> 
+> $ scripts/ghes_inject.py -d arm -p 0xdeadbeef -t cache,bus,micro-arch
+> 
+> [   11.094205] {1}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 0
+> [   11.095009] {1}[Hardware Error]: event severity: recoverable
+> [   11.095486] {1}[Hardware Error]:  Error 0, type: recoverable
+> [   11.096090] {1}[Hardware Error]:   section_type: ARM processor error
+> [   11.096399] {1}[Hardware Error]:   MIDR: 0x00000000000f0510
+> [   11.097135] {1}[Hardware Error]:   Multiprocessor Affinity Register (MPIDR): 0x0000000080000000
+> [   11.097811] {1}[Hardware Error]:   running state: 0x0
+> [   11.098193] {1}[Hardware Error]:   Power State Coordination Interface state: 0
+> [   11.098699] {1}[Hardware Error]:   Error info structure 0:
+> [   11.099174] {1}[Hardware Error]:   num errors: 2
+> [   11.099682] {1}[Hardware Error]:    error_type: 0x1a: cache error|bus error|micro-architectural error
+> [   11.100150] {1}[Hardware Error]:    physical fault address: 0x00000000deadbeef
+> [   11.111214] Memory failure: 0xdeadb: recovery action for free buddy page: Recovered
+> 
+> - 
+> 
+> I also tested the ghes and cper reports both with and without this
+> change, using different versions of rasdaemon, with and without
+> support for the extended trace event. Those are a summary of the
+> test results:
+> 
+> - adding more fields to the trace events didn't break userspace API:
+>   both versions of rasdaemon handled it;
+> 
+> - the rasdaemon patches to handle the new trace report was missing
+>   a backward-compatibility logic. I fixed already. So, rasdaemon
+>   can now handle both old and new trace events.
+> 
+> Btw, rasdaemon has gained support for the extended trace since its
+> version 0.5.8 (released in 2021). I didn't saw any issues there
+> complain about troubles on it, so either distros used on ARM servers
+> are using an old version of rasdaemon, or they're carrying on the trace
+> event changes as well.
+> 
+> ---
+> v6:
+>  - fix typo in Jonathans "reviewed-by" in patch 3
+>  - Link to v5: https://lore.kernel.org/linux-acpi/20250813-mauro_v3-v6-16-rev2-v5-0-954db8ccfbe6@os.amperecomputing.com
+> 
+> v5:
+>  - fix a few code formatting issues
+>  - remove "Co-developed-by: danielf" because his/my contribution was
+>    removed in v2.
+>  - adjust tag block
+>  - Link to v4: https://lore.kernel.org/linux-acpi/20250805-mauro_v3-v6-16-rev2-v4-0-ea538759841c@os.amperecomputing.com
+> 
+> v4:
+>  - rebase to kernel v6.16
+>  - modify commit message of patch 1, and adjust white spaces
+>    per Boris' suggestions.
+>  - Link to v3: https://lore.kernel.org/linux-acpi/cover.1725429659.git.mchehab+huawei@kernel.org
+> 
+> v3:
+>  - history of patch 1 improved with a chain of co-developed-by;
+>  - add a better description and an example on patch 3;
+>  - use BIT_ULL() on patch 3;
+>  - add a missing include on patch 4.
+> 
+> v2:
+>   - removed an uneeded patch adding #ifdef for CONFIG_ARM/ARM64;
+>   - cper_bits_to_str() now returns the number of chars filled at the buffer;
+>   - did a cosmetic (blank lines) improvement at include/linux/ras.h;
+>   - arm_event trace dynamic arrays renamed to pei_buf/ctx_buf/oem_buf.
+> 
+>     
+> 
+> ---
+> Changes in v6:
+> - EDITME: describe what is new in this series revision.
+> - EDITME: use bulletpoints and terse descriptions.
+> - Link to v5: https://lore.kernel.org/r/20250813-mauro_v3-v6-16-rev2-v5-0-954db8ccfbe6@os.amperecomputing.com
+> 
+> Jason Tian (1):
+>       RAS: Report all ARM processor CPER information to userspace
+> 
+> Mauro Carvalho Chehab (4):
+>       efi/cper: Adjust infopfx size to accept an extra space
+>       efi/cper: Add a new helper function to print bitmasks
+>       efi/cper: align ARM CPER type with UEFI 2.9A/2.10 specs
+>       docs: efi: add CPER functions to driver-api
+> 
+>  Documentation/driver-api/firmware/efi/index.rst | 11 +++--
+>  drivers/acpi/apei/ghes.c                        | 27 +++++------
+>  drivers/firmware/efi/cper-arm.c                 | 52 ++++++++++-----------
+>  drivers/firmware/efi/cper.c                     | 62 ++++++++++++++++++++++++-
+>  drivers/ras/ras.c                               | 40 +++++++++++++++-
+>  include/linux/cper.h                            | 12 +++--
+>  include/linux/ras.h                             | 16 +++++--
+>  include/ras/ras_event.h                         | 49 +++++++++++++++++--
+>  8 files changed, 210 insertions(+), 59 deletions(-)
+> 
+
+
+
+Thanks,
+Mauro
