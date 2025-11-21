@@ -1,88 +1,43 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA04302CAB
-	for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 17:58:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E57228F948;
+	Fri, 21 Nov 2025 17:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763747912; cv=none; b=PYlk7OES8HXZD2NQzz+oys9D4iDe6QcKL6QrQnJwiAOVl3wCgFKd/uJHyW1wSVlGaCab8DkW3aaD2cQuHhayC9Meq0ocfyg1rYgQpm2elW3iyEUcJMzykbE/x/vBifIgOpno4H45loCtDDCA6DgDNcde0B9jbuNvPCgnJn84RKk=
+	t=1763747966; cv=none; b=PLdKeJm13rf0xnyrP/yTiDqDu3l73Kjy7MDy4WNttmwYYXqnSJTsprYziqyrgoasJ2CscNGuEZwkQDWSEdzkGvdGnFhfx08GwwqYx0kAO8057WB6ayVmUTRgYiJiMtVLQ4rtfFhuYp43F1NsYoMczZ+G5n21HxopDM5FeAhvQz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763747912; c=relaxed/simple;
-	bh=jcychTIOgsj9PiSzpZOeK13KKMIRzWnTDs2r/eSb5Gg=;
+	s=arc-20240116; t=1763747966; c=relaxed/simple;
+	bh=qw8xtHsNX2lkUcj9Nrr20MMZRduTEzBJEup2i4clE4I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pqgggQXIAqhjZDsVYmQzImdU2czS4jZv9DajgekYRejad4eEtmLWl+drYtTmg8LxzXhnDM4ZHFm02sOqKMyasUZ14M6iLBa5LACPowLZuz8CTFahtvULLWxmKkY4Agc8yKCISi7fCu7NdX52AYcJ9jIKWjDNXy9fZ2EHXVKlAZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jPZB22Ig; arc=none smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=tIGH6IIkYBfi8qSvIG7XKJFhSXZuEEUkeiQs/KRJ6k3lYGpG1QQ3Rnkp3JKaE3EyKt6N/knLMldKikxQyzfSwUmQxRCa5KdNyJmdGJLgWdCx/VZr/bbZEr2ajLkkIocAQGU2YrwDGkWtjJJl6ujyKMQuAv4aCI0erCvTOwA4fFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EYf5he1o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jPZB22Ig"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-64308342458so106656d50.0
-        for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 09:58:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763747908; x=1764352708; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fxmx2K5QemyW9VFkBBRJoc8Q0bzKrj6dbV60qZm/emY=;
-        b=jPZB22IghxkrVV1h5GViRxVBL6gEhzFeta8FG9Ksp6l6PlPpDneLufoM8dtBA3jbgt
-         HzoW567bcvx1PWHiKel3sIl18iR8G8CPdY1mAc06pHsN6eY3STY6keLZOyuU2GN+usOI
-         JcleU7t6UzQlBOOX70OD6uFj6VS2sAcSp8JISj8ZetXMatWW3GyZyeXYLU+CZUgEQLyE
-         uLiB8WV9ktKgGMJSQo0noOfdt+1fdrc9UWLCdPP2F2jgKUD7QqJbyO5tra6h+Wh/tLce
-         IHEViM0jWpgM4Sfp2UZwd6Rog/IsqcurDwvMJJIzETEY5uk0hrD2n56XfXk+E9YjMRlB
-         s6Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763747908; x=1764352708;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fxmx2K5QemyW9VFkBBRJoc8Q0bzKrj6dbV60qZm/emY=;
-        b=YpzQUG/KugtgcXGAL1eBGlqffkpSNLzdU2hrTf2BeaRST2SjR4FVuxXjMjwWPbOBA0
-         JD2kSNf53lqQ2cZP04qyWxjhcBTn7Q/n0X+0HQ00GqaZ+EjXUUU41+obDMN/geoX3J/F
-         h58YlPWSlLd4cDrMwTzAHrQ/nHR9X4v/IaN+3DovnSl0U/LZaZ3bTsdBjjLkioq12Vrx
-         pHhqmweg5I9KUcl+lkVHA/kH0/V2RhdTBr8RppB7bu/iHLNpfOpktHEC26zV6v/Ki1iL
-         6hli0wCHaouXU+cP9rBCsVax2p2IOfAMH81iaOsXtweOoQTfjkQ7Yx1O8NDtDIl1riDx
-         fQFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWdgdFP6OvtW2lGQZAMm4KCCM9GJHM2lLmi5PhmZoSCzjkuCGsLj35sCgJBBNg8uDpAmY/3i15yEJc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyA8o2kS0mJ+z8tKy4mpJq+S3SuvWXG458D6Nprn5p/1Xno/HAR
-	RKjvD0kV9QsPJ2pntOmMwpwI7IN6GicbP6b5jbXCNdyIQSmQfMGJqn6O
-X-Gm-Gg: ASbGnctfNQuzLyglYC4aK5oS6wJFR48+nvgoPJBYWHHW55ThXEijAzMOr5004436dTL
-	A/cAvUDrp2dNc0IHppyHIM2U1nJzlVF7JQvRRygkrA+YvEFEKiZjFlKwKtixEZn/0d9ae9GUeAv
-	S90Y0CpH3qrvjNTb/9OS803ApOLZkOaUWNffXDozVM3gi7xRDzcXol8RUL6PpWsMrCpnr0wP10J
-	6Rb3Sr29k00400GMSASzXLb2aE+fQbVPRGrqU4DUhi+FTzeBvEb6QepZIiMFx3lzxQ0ASWIIax4
-	g5VQhCxGX8fz8vVbypySOmiPJ1fbJ7ZGMSGQ2mBryXnSzvVZkcas9FGJFgX0mZr2FHTCC9DfJRq
-	u7NKkigmDcyYWFDa/glqhPR/dw4fgabUsD/eQq97gFF57wNxQkncZHycfTzH4Y6OqX4z0cwmPL+
-	C1NjLMSvMgjwTGmkZwhRqusfSLPfFZ6vjM7PyWJZAhoG/UGRA=
-X-Google-Smtp-Source: AGHT+IGRk8rSAlGf4/9tw4DICK6xdl/0RAwBsdFmxxXyvXzuL4O6b/YdwSN1BI63M2Of7LIlE3O6iA==
-X-Received: by 2002:a53:e1ef:0:b0:63f:bf9d:e530 with SMTP id 956f58d0204a3-64302aafe33mr1647897d50.29.1763747908072;
-        Fri, 21 Nov 2025 09:58:28 -0800 (PST)
-Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:43::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-642f7048d7esm1906650d50.4.2025.11.21.09.58.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Nov 2025 09:58:27 -0800 (PST)
-Date: Fri, 21 Nov 2025 09:58:26 -0800
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Stanislav Fomichev <stfomichev@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v7 3/5] net: devmem: implement autorelease token
- managementy
-Message-ID: <aSCoQirZHzkMzrxz@devvm11784.nha0.facebook.com>
-References: <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-0-1abc8467354c@meta.com>
- <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-3-1abc8467354c@meta.com>
- <aSCV1ihk4pZoBDeI@mini-arch>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EYf5he1o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 680B9C116C6;
+	Fri, 21 Nov 2025 17:59:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763747965;
+	bh=qw8xtHsNX2lkUcj9Nrr20MMZRduTEzBJEup2i4clE4I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EYf5he1ouY16pWpPbCphnFCzi5qQppitk3XAQL3OY93xCeJU0xoNdsNRFgvS/NnhH
+	 0YpasOAZ0HhuSfTByCa0ss1U24klpZ3aM/XAbOET3iT4hfbZGg/FAwR5wEpS0IAAbi
+	 RZCYTMPR2WHkACmI+AQB7vrdWndqsLBf13OpjNUSJeL5epvNfWZfhFJNmpWOvHhxdR
+	 HwMJNUMl1yVsSflLSvxfTLwdCn3UVAqczwuB4J4yJ6IRqXvHLj4SdxVhKIB+1oR6DQ
+	 JfTuWW8ivxMI3IK3MhTtBxcpf7wefHmM/3gXH67nGuMw1kp1VoXChjpULq/rposUlv
+	 HKY+3OMpDXcUw==
+Date: Fri, 21 Nov 2025 17:59:23 +0000
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Masaharu Noguchi <nogunix@gmail.com>, chao@kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bagasdotme@gmail.com,
+	akiyks@gmail.com
+Subject: Re: [PATCH v5] docs: f2fs: wrap ASCII tables in literal blocks to
+ fix LaTeX build
+Message-ID: <aSCoe_0bMTaqQ6tD@google.com>
+References: <20251117122754.297742-1-nogunix@gmail.com>
+ <87fra7tgyk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -91,356 +46,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aSCV1ihk4pZoBDeI@mini-arch>
+In-Reply-To: <87fra7tgyk.fsf@trenco.lwn.net>
 
-On Fri, Nov 21, 2025 at 08:39:50AM -0800, Stanislav Fomichev wrote:
-> On 11/19, Bobby Eshleman wrote:
-> > From: Bobby Eshleman <bobbyeshleman@meta.com>
-> > 
-> > Add support for autorelease toggling of tokens using a static branch to
-> > control system-wide behavior. This allows applications to choose between
-> > two memory management modes:
-> > 
-> > 1. Autorelease on: Leaked tokens are automatically released when the
-> >    socket closes.
-> > 
-> > 2. Autorelease off: Leaked tokens are released during dmabuf unbind.
-> > 
-> > The autorelease mode is requested via the NETDEV_A_DMABUF_AUTORELEASE
-> > attribute of the NETDEV_CMD_BIND_RX message. Having separate modes per
-> > binding is disallowed and is rejected by netlink. The system will be
-> > "locked" into the mode that the first binding is set to. It can only be
-> > changed again once there are zero bindings on the system.
-> > 
-> > Disabling autorelease offers ~13% improvement in CPU utilization.
-> > 
-> > Static branching is used to limit the system to one mode or the other.
-> > 
-> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
-> > ---
-> > Changes in v7:
-> > - implement autorelease with static branch (Stan)
-> > - use netlink instead of sockopt (Stan)
-> > - merge uAPI and implementation patches into one patch (seemed less
-> >   confusing)
-> > 
-> > Changes in v6:
-> > - remove sk_devmem_info.autorelease, using binding->autorelease instead
-> > - move binding->autorelease check to outside of
-> >   net_devmem_dmabuf_binding_put_urefs() (Mina)
-> > - remove overly defensive net_is_devmem_iov() (Mina)
-> > - add comment about multiple urefs mapping to a single netmem ref (Mina)
-> > - remove overly defense netmem NULL and netmem_is_net_iov checks (Mina)
-> > - use niov without casting back and forth with netmem (Mina)
-> > - move the autorelease flag from per-binding to per-socket (Mina)
-> > - remove the batching logic in sock_devmem_dontneed_manual_release()
-> >   (Mina)
-> > - move autorelease check inside tcp_xa_pool_commit() (Mina)
-> > - remove single-binding restriction for autorelease mode (Mina)
-> > - unbind always checks for leaked urefs
-> > 
-> > Changes in v5:
-> > - remove unused variables
-> > - introduce autorelease flag, preparing for future patch toggle new
-> >   behavior
-> > 
-> > Changes in v3:
-> > - make urefs per-binding instead of per-socket, reducing memory
-> >   footprint
-> > - fallback to cleaning up references in dmabuf unbind if socket leaked
-> >   tokens
-> > - drop ethtool patch
-> > 
-> > Changes in v2:
-> > - always use GFP_ZERO for binding->vec (Mina)
-> > - remove WARN for changed binding (Mina)
-> > - remove extraneous binding ref get (Mina)
-> > - remove WARNs on invalid user input (Mina)
-> > - pre-assign niovs in binding->vec for RX case (Mina)
-> > - use atomic_set(, 0) to initialize sk_user_frags.urefs
-> > - fix length of alloc for urefs
-> > ---
-> >  Documentation/netlink/specs/netdev.yaml |  12 ++++
-> >  include/net/netmem.h                    |   1 +
-> >  include/net/sock.h                      |   7 +-
-> >  include/uapi/linux/netdev.h             |   1 +
-> >  net/core/devmem.c                       | 109 +++++++++++++++++++++++++++-----
-> >  net/core/devmem.h                       |  11 +++-
-> >  net/core/netdev-genl-gen.c              |   5 +-
-> >  net/core/netdev-genl.c                  |  13 +++-
-> >  net/core/sock.c                         |  57 +++++++++++++++--
-> >  net/ipv4/tcp.c                          |  78 ++++++++++++++++++-----
-> >  net/ipv4/tcp_ipv4.c                     |  13 +++-
-> >  net/ipv4/tcp_minisocks.c                |   3 +-
-> >  tools/include/uapi/linux/netdev.h       |   1 +
-> >  13 files changed, 262 insertions(+), 49 deletions(-)
-> > 
-> > diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
-> > index 82bf5cb2617d..913fccca4c4e 100644
-> > --- a/Documentation/netlink/specs/netdev.yaml
-> > +++ b/Documentation/netlink/specs/netdev.yaml
-> > @@ -562,6 +562,17 @@ attribute-sets:
-> >          type: u32
-> >          checks:
-> >            min: 1
-> > +      -
-> > +        name: autorelease
-> > +        doc: |
-> > +          Token autorelease mode. If true (1), leaked tokens are automatically
-> > +          released when the socket closes. If false (0), leaked tokens are only
-> > +          released when the dmabuf is unbound. Once a binding is created with a
-> > +          specific mode, all subsequent bindings system-wide must use the same
-> > +          mode.
-> > +
-> > +          Optional. Defaults to false if not specified.
-> > +        type: u8
-> >  
-> >  operations:
-> >    list:
-> > @@ -767,6 +778,7 @@ operations:
-> >              - ifindex
-> >              - fd
-> >              - queues
-> > +            - autorelease
-> >          reply:
-> >            attributes:
-> >              - id
-> > diff --git a/include/net/netmem.h b/include/net/netmem.h
-> > index 9e10f4ac50c3..80d2263ba4ed 100644
-> > --- a/include/net/netmem.h
-> > +++ b/include/net/netmem.h
-> > @@ -112,6 +112,7 @@ struct net_iov {
-> >  	};
-> >  	struct net_iov_area *owner;
-> >  	enum net_iov_type type;
-> > +	atomic_t uref;
-> >  };
-> >  
-> >  struct net_iov_area {
-> > diff --git a/include/net/sock.h b/include/net/sock.h
-> > index a5f36ea9d46f..797b21148945 100644
-> > --- a/include/net/sock.h
-> > +++ b/include/net/sock.h
-> > @@ -350,7 +350,7 @@ struct sk_filter;
-> >    *	@sk_scm_rights: flagged by SO_PASSRIGHTS to recv SCM_RIGHTS
-> >    *	@sk_scm_unused: unused flags for scm_recv()
-> >    *	@ns_tracker: tracker for netns reference
-> > -  *	@sk_user_frags: xarray of pages the user is holding a reference on.
-> > +  *	@sk_devmem_info: the devmem binding information for the socket
-> >    *	@sk_owner: reference to the real owner of the socket that calls
-> >    *		   sock_lock_init_class_and_name().
-> >    */
-> > @@ -579,7 +579,10 @@ struct sock {
-> >  	struct numa_drop_counters *sk_drop_counters;
-> >  	struct rcu_head		sk_rcu;
-> >  	netns_tracker		ns_tracker;
-> > -	struct xarray		sk_user_frags;
-> > +	struct {
-> > +		struct xarray				frags;
-> > +		struct net_devmem_dmabuf_binding	*binding;
-> > +	} sk_devmem_info;
-> >  
-> >  #if IS_ENABLED(CONFIG_PROVE_LOCKING) && IS_ENABLED(CONFIG_MODULES)
-> >  	struct module		*sk_owner;
-> > diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
-> > index 048c8de1a130..dff0be8223a4 100644
-> > --- a/include/uapi/linux/netdev.h
-> > +++ b/include/uapi/linux/netdev.h
-> > @@ -206,6 +206,7 @@ enum {
-> >  	NETDEV_A_DMABUF_QUEUES,
-> >  	NETDEV_A_DMABUF_FD,
-> >  	NETDEV_A_DMABUF_ID,
-> > +	NETDEV_A_DMABUF_AUTORELEASE,
-> >  
-> >  	__NETDEV_A_DMABUF_MAX,
-> >  	NETDEV_A_DMABUF_MAX = (__NETDEV_A_DMABUF_MAX - 1)
-> > diff --git a/net/core/devmem.c b/net/core/devmem.c
-> > index 4dee2666dd07..bba21c6cb195 100644
-> > --- a/net/core/devmem.c
-> > +++ b/net/core/devmem.c
-> > @@ -11,6 +11,7 @@
-> >  #include <linux/genalloc.h>
-> >  #include <linux/mm.h>
-> >  #include <linux/netdevice.h>
-> > +#include <linux/skbuff_ref.h>
-> >  #include <linux/types.h>
-> >  #include <net/netdev_queues.h>
-> >  #include <net/netdev_rx_queue.h>
-> > @@ -28,6 +29,17 @@
-> >  
-> >  static DEFINE_XARRAY_FLAGS(net_devmem_dmabuf_bindings, XA_FLAGS_ALLOC1);
-> >  
-> > +/* Static key to lock down autorelease to a single mode on a system.  When
-> > + * enabled: autorelease mode (leaked tokens released on socket close).  When
-> > + * disabled: manual mode (leaked tokens released on dmabuf unbind).  Once the
-> > + * first binding is created, the mode is locked system-wide and can not be
-> > + * changed until the system has zero bindings again.
-> > + *
-> > + * Protected by xa_lock of net_devmem_dmabuf_bindings.
-> > + */
-> > +DEFINE_STATIC_KEY_FALSE(tcp_devmem_ar_key);
-> > +EXPORT_SYMBOL(tcp_devmem_ar_key);
-> > +
-> >  static const struct memory_provider_ops dmabuf_devmem_ops;
-> >  
-> >  bool net_is_devmem_iov(struct net_iov *niov)
-> > @@ -116,6 +128,24 @@ void net_devmem_free_dmabuf(struct net_iov *niov)
-> >  	gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);
-> >  }
-> >  
-> > +static void
-> > +net_devmem_dmabuf_binding_put_urefs(struct net_devmem_dmabuf_binding *binding)
-> > +{
-> > +	int i;
-> > +
-> > +	for (i = 0; i < binding->dmabuf->size / PAGE_SIZE; i++) {
-> > +		struct net_iov *niov;
-> > +		netmem_ref netmem;
-> > +
-> > +		niov = binding->vec[i];
-> > +		netmem = net_iov_to_netmem(niov);
-> > +
-> > +		/* Multiple urefs map to only a single netmem ref. */
-> > +		if (atomic_xchg(&niov->uref, 0) > 0)
-> > +			WARN_ON_ONCE(!napi_pp_put_page(netmem));
-> > +	}
-> > +}
-> > +
-> >  void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
-> >  {
-> >  	struct netdev_rx_queue *rxq;
-> > @@ -143,6 +173,10 @@ void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
-> >  		__net_mp_close_rxq(binding->dev, rxq_idx, &mp_params);
-> >  	}
-> >  
-> > +	/* Clean up any lingering urefs from sockets that had autorelease
-> > +	 * disabled.
-> > +	 */
-> > +	net_devmem_dmabuf_binding_put_urefs(binding);
-> >  	net_devmem_dmabuf_binding_put(binding);
-> >  }
-> >  
-> > @@ -179,8 +213,10 @@ struct net_devmem_dmabuf_binding *
-> >  net_devmem_bind_dmabuf(struct net_device *dev,
-> >  		       struct device *dma_dev,
-> >  		       enum dma_data_direction direction,
-> > -		       unsigned int dmabuf_fd, struct netdev_nl_sock *priv,
-> > -		       struct netlink_ext_ack *extack)
-> > +		       unsigned int dmabuf_fd,
-> > +		       struct netdev_nl_sock *priv,
-> > +		       struct netlink_ext_ack *extack,
-> > +		       bool autorelease)
-> >  {
-> >  	struct net_devmem_dmabuf_binding *binding;
-> >  	static u32 id_alloc_next;
-> > @@ -231,14 +267,13 @@ net_devmem_bind_dmabuf(struct net_device *dev,
-> >  		goto err_detach;
-> >  	}
-> >  
-> > -	if (direction == DMA_TO_DEVICE) {
-> > -		binding->vec = kvmalloc_array(dmabuf->size / PAGE_SIZE,
-> > -					      sizeof(struct net_iov *),
-> > -					      GFP_KERNEL);
-> > -		if (!binding->vec) {
-> > -			err = -ENOMEM;
-> > -			goto err_unmap;
-> > -		}
-> > +	/* Used by TX and also by RX when socket has autorelease disabled */
-> > +	binding->vec = kvmalloc_array(dmabuf->size / PAGE_SIZE,
-> > +				      sizeof(struct net_iov *),
-> > +				      GFP_KERNEL | __GFP_ZERO);
-> > +	if (!binding->vec) {
-> > +		err = -ENOMEM;
-> > +		goto err_unmap;
-> >  	}
-> >  
-> >  	/* For simplicity we expect to make PAGE_SIZE allocations, but the
-> > @@ -292,25 +327,67 @@ net_devmem_bind_dmabuf(struct net_device *dev,
-> >  			niov = &owner->area.niovs[i];
-> >  			niov->type = NET_IOV_DMABUF;
-> >  			niov->owner = &owner->area;
-> > +			atomic_set(&niov->uref, 0);
-> >  			page_pool_set_dma_addr_netmem(net_iov_to_netmem(niov),
-> >  						      net_devmem_get_dma_addr(niov));
-> > -			if (direction == DMA_TO_DEVICE)
-> > -				binding->vec[owner->area.base_virtual / PAGE_SIZE + i] = niov;
-> > +			binding->vec[owner->area.base_virtual / PAGE_SIZE + i] = niov;
-> >  		}
-> >  
-> >  		virtual += len;
-> >  	}
-> >  
-> > -	err = xa_alloc_cyclic(&net_devmem_dmabuf_bindings, &binding->id,
-> > -			      binding, xa_limit_32b, &id_alloc_next,
-> > -			      GFP_KERNEL);
-> > +	/* Enforce system-wide autorelease mode consistency for RX bindings.
-> > +	 * TX bindings don't use autorelease (always false) since tokens aren't
-> > +	 * leaked in TX path. Only RX bindings must all have the same
-> > +	 * autorelease mode, never mixed.
-> > +	 *
-> > +	 * We use the xarray's lock to atomically check xa_empty() and toggle
-> > +	 * the static key, avoiding the race where two new bindings may try to
-> > +	 * set the static key to different states.
-> > +	 */
-> > +	xa_lock(&net_devmem_dmabuf_bindings);
-> > +
-> > +	if (direction == DMA_FROM_DEVICE) {
-> > +		if (!xa_empty(&net_devmem_dmabuf_bindings)) {
-> > +			bool mode;
-> > +
-> > +			mode = static_key_enabled(&tcp_devmem_ar_key);
-> > +
-> > +			/* When bindings exist, enforce that the mode does not
-> > +			 * change.
-> > +			 */
-> > +			if (mode != autorelease) {
-> > +				NL_SET_ERR_MSG_FMT(extack,
-> > +						   "System already configured with autorelease=%d",
-> > +						   mode);
-> > +				err = -EINVAL;
-> > +				goto err_unlock_xa;
-> > +			}
-> > +		} else {
-> > +			/* First binding sets the mode for all subsequent
-> > +			 * bindings.
-> > +			 */
-> > +			if (autorelease)
-> > +				static_branch_enable(&tcp_devmem_ar_key);
+On 11/21, Jonathan Corbet wrote:
+> Masaharu Noguchi <nogunix@gmail.com> writes:
 > 
-> [..]
+> > Sphinx's LaTeX builder fails when converting the nested ASCII tables in
+> > f2fs.rst, producing the following error:
+> >
+> >   "Markup is unsupported in LaTeX: longtable does not support nesting a table."
+> >
+> > Wrap the affected ASCII tables in literal code blocks to force Sphinx to
+> > render them verbatim. This prevents nested longtables and fixes the PDF
+> > build failure on Sphinx 8.2.x.
+> >
+> > Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+> > Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
 > 
-> > +			else
-> > +				static_branch_disable(&tcp_devmem_ar_key);
-> 
-> nit: don't think this is needed? DEFINE_STATIC_KEY_FALSE should already
-> have it disabled by default iiuc.
-> 
-> I was also expecting to see something in net_devmem_unbind_dmabuf to undo
-> this static_branch_enable(tcp_devmem_ar_key) and bring the system
-> back into the default state, but I can't find it. Am I missing
-> something?
+> Jaegeuk, are you planning to pick this up, or should I take it through
+> docs?
 
-So the way I've written it here is that the branch state always updates
-according to the mode of the first binding, so we can just ignore the
-branch state when unbind reaches zero bindings (it will update the next
-time we see a first binding anyway).
-
-... but I think your mental model is a bit simpler and probably fewer
-lines, and we can move to it for the next rev if Mina is okay with the
-overall approach.
-
-In that, we enforce that when no bindings are alive the branch is
-disabled, and only updates when the first binding mode is autorelease=1,
-the autorelease=0 case is a no-op when binding. Unbind restores to
-disabled when it sees no more bindings.
+Let me queue this in f2fs.git. May I get your SOB?
 
 > 
-> The rest looks good to me, thanks! Let's see if Mina sees any problems
-> with this approach. IMO, it's a bit easier to reason about two separate
-> code paths now.
-
-
-Thanks!
-
-Best,
-Bobby
+> Thanks,
+> 
+> jon
