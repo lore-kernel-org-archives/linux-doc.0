@@ -1,174 +1,166 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0E53597B;
-	Fri, 21 Nov 2025 18:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF732FD7D0;
+	Fri, 21 Nov 2025 19:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763751465; cv=none; b=sYK4FV6N2FSpflNqyUtqahpaAo/C9s+kulOkMeaCAOJcwykEPLI3ZE6qxoOcSWUpPaKhmBNyQgFfHntay3+x7qY5j0Xh71SJ0FPB6y2w+KUWLROCFJAYqkW7q3sFEkcBEoo2zBrIPNFzz6QSR/uPhsHx1b31Mo2w0OlMOfvR0T0=
+	t=1763752477; cv=none; b=ebO9EusyIVayR9phCDcSFPLPsUkfbbK/rimeJsgW0gxBmc6EEcciYhG/AlyX3rTEi7wSi+dc3XyluNHHZUpz5XyUxlHzaXqyV2Fry/oRK6PG9q4xY7PqbCSS59JpHbP8iZz9NzHdV0L2/rk112JVEMSW/bu6YYY3yJlGpRQIBMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763751465; c=relaxed/simple;
-	bh=/dk6Ai3+QotI1wqVHzgCNUvTLswT0XrkYaPzZ+4z8fg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZuH/Iu2Q0XLM+NAdwVf0SWlUn3IBRuXxFwhZTNu3asQwKtrEvQNK6wAW1W/+i9P710tJD6uFEcZDxKjjiGFIkv7qMnDLQPKEy26CSHEDTQbu9Jin8Tj2lw2sacWYC1JFhRzoBToOtOVxFmAWi3CTHD7x+Yf9/URGTUmE6OflbuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=oomZIlh5; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1763752477; c=relaxed/simple;
+	bh=fGWNibXFUGAhDYfqhQTSp+K9Mm1aNTTr8crCL6BSz6s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g/YG5H2sUrEvpSVBAs5wABz2tvZIRQ1fP6IrcnOXwoEdNLgpAyrT5hCqIditqCkOAFv/AmUYqptQPWAm2I28cyRUsr7fk0X8y1bV/Nhr/Qa1flQPecjVMwYMDxq0pXA/dMHbXyM+TbQ6YxZOTuL9WhFCUKWSBC6lH434AqAoApw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QGKAZJGP; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="oomZIlh5"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5ALEUr1g028867;
-	Fri, 21 Nov 2025 18:57:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=qyT3aV
-	XUS0qy3xeo2Jt8io+s2fQtl6tf6g20n+ujMFY=; b=oomZIlh5i8ZgfusUL0jIO3
-	yEPrQy6KLLHPDGGs08fGvw7ZM+U3/1tLWKppPyXi1mtv0Ub33cCcaget9qxws4lN
-	5CQVvzPKb3Ql9IfmFMRSbU38uMbva/TqzoY49CPkulLhRsJDI4JXaY32SdVUNw5A
-	Pb7shNKrPZ+X14J9SXg1ZHUPfPMNYONwJiN2mOpDDEYiI9gy/7dHJ4pu/dtzPaMb
-	qJ5PrB8TlOtKWHCRaqnK+3FaaFGIyuZp4DLtgu7UOmztFnvVSZQAF0hLqh4NUPED
-	rFptzgECpSgJp/WEfL+T5prmhQrHaWY/s/fScO4s0a3isUYM0P/CJ/8pbIAdrzcw
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4aejkadtfd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Nov 2025 18:57:30 +0000 (GMT)
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5ALIqxWp007111;
-	Fri, 21 Nov 2025 18:57:30 GMT
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4aejkadtf8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Nov 2025 18:57:29 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5ALGXlnL017381;
-	Fri, 21 Nov 2025 18:57:29 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4af6j25rnd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Nov 2025 18:57:29 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5ALIvRjZ6423114
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 21 Nov 2025 18:57:28 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B9DD85804B;
-	Fri, 21 Nov 2025 18:57:27 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0DAB658063;
-	Fri, 21 Nov 2025 18:57:26 +0000 (GMT)
-Received: from [9.61.252.112] (unknown [9.61.252.112])
-	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 21 Nov 2025 18:57:25 +0000 (GMT)
-Message-ID: <ab3158f0-7954-4a89-88da-6d7d69111e3b@linux.ibm.com>
-Date: Fri, 21 Nov 2025 10:57:24 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QGKAZJGP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763752475; x=1795288475;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fGWNibXFUGAhDYfqhQTSp+K9Mm1aNTTr8crCL6BSz6s=;
+  b=QGKAZJGPsDs7AIrvvRxTUb74haZct3x/p1NM3ofyLPBqAwYNtepsI+GR
+   qtz7ZpqJGG0dPMQSZ5O/if0FE1GZPTRYVrr47juQC+CyTD7yk6iekRa66
+   YTAeBiz/LxECM5yHF2OKHY9aT57/2QumayqVUftKgE+P9hHFwzS/Xe6+S
+   QLdaOJ3I3+DWetK1Vk6MFXLZcOTOXqUPf4zCQKZVpvWRvSuCzFKF+NKq1
+   9dKKAXvSS/6iRU7o2cA/gD2YWptKEzt328aGNDL0Jhjp5nYkRlmm+gwZ4
+   AImiZl+IN40Xe2Dc9km+4EmWDhGmlGUM2gsDBdQUmsimb3qGoVBgMKaTM
+   Q==;
+X-CSE-ConnectionGUID: xX6IkWpqToOA3LzIe+G3uA==
+X-CSE-MsgGUID: 1RlK06XmQpOjUfvhIrPWnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="68454996"
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
+   d="scan'208";a="68454996"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 11:14:35 -0800
+X-CSE-ConnectionGUID: 2Ijzr5YBT3aA7bLtsNb2Hw==
+X-CSE-MsgGUID: PUXp5Oq0QOCwVdGLd9G5ng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
+   d="scan'208";a="195936493"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 21 Nov 2025 11:14:28 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vMWaP-0006m3-1U;
+	Fri, 21 Nov 2025 19:14:25 +0000
+Date: Sat, 22 Nov 2025 03:13:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	tglx@linutronix.de, andersson@kernel.org, pmladek@suse.com,
+	rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
+	mhocko@suse.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-hardening@vger.kernel.org, jonechou@google.com,
+	rostedt@goodmis.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org,
+	Eugen Hristev <eugen.hristev@linaro.org>
+Subject: Re: [PATCH 03/26] mm/percpu: Annotate static information into
+ meminspect
+Message-ID: <202511220241.7y7acdEZ-lkp@intel.com>
+References: <20251119154427.1033475-4-eugen.hristev@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: PCI: Amend error recovery doc with
- pci_save_state() rules
-To: Lukas Wunner <lukas@wunner.de>, Bjorn Helgaas <helgaas@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-        Benjamin Block <bblock@linux.ibm.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-        Oliver OHalloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        Linas Vepstas <linasvepstas@gmail.com>, linux-doc@vger.kernel.org
-References: <077596ba70202be0e43fdad3bb9b93d356cbe4ec.1763746079.git.lukas@wunner.de>
-Content-Language: en-US
-From: Farhan Ali <alifm@linux.ibm.com>
-In-Reply-To: <077596ba70202be0e43fdad3bb9b93d356cbe4ec.1763746079.git.lukas@wunner.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: fs6KLg9GEKleGzJvCp6K6fCRZECaWYD9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE1MDAzMiBTYWx0ZWRfX5aCXAO1F2cPP
- uElBjQhxOAEeVYKYpPU3ckb9J9WKYdgjfRX+yP+lghOa+L/8Zg5tH6RCFS1HOErPhQaBL4lXmtv
- BXBFLz4ng4AtWDfEaFnG7Ycfs19Yn1+DG/CFD/ehAJBOTSha635k2L5o20fhKpR+VBRumJWCnRD
- DFGQvDtzBN6HZThvWycmCH5E+GSTq7qDJuCQGoCOHZP5aYwEYmMruNmkpbJONGxkheXJ3+psQag
- Ms6Ok9OwMcjIXKRx8M/SxBZfJDXF6QoPnupeG8/ys9FknWNKefZvZujlhmT0JnnSV3H1ixqkMx7
- LFZeLpu9tjJnBP+T8+cvN0NGGVR7ySAc/5j6Sl+3KSapZgmTe8KSS8YVK7CNXF+wZaQDpiDakf9
- qVyVFm+pJ8XPo5CgOFEgBzuFbfejeA==
-X-Proofpoint-ORIG-GUID: _dRHeuwYC4Sk6IJN0TT_cCPjuBL6GKfp
-X-Authority-Analysis: v=2.4 cv=XtL3+FF9 c=1 sm=1 tr=0 ts=6920b61a cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=RJpQON7kbKqcj-e44qYA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-21_05,2025-11-21_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 spamscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- adultscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510240000 definitions=main-2511150032
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119154427.1033475-4-eugen.hristev@linaro.org>
 
-Hi Lukas,
+Hi Eugen,
 
-Thanks for the update to documentation.
+kernel test robot noticed the following build errors:
 
-On 11/21/2025 9:31 AM, Lukas Wunner wrote:
-> After recovering from a PCI error through reset, affected devices are in
-> D0_uninitialized state and need to be brought into D0_active state by
-> re-initializing their Config Space registers (PCIe r7.0 sec 5.3.1.1).
->
-> To facilitate that, the PCI core provides pci_restore_state() and
-> pci_save_state() helpers.  Document rules governing their usage.
->
-> As Bjorn notes, so far no file in "Documentation/ includes anything about
-> the idea of a driver using pci_save_state() to capture the state it wants
-> to restore after an error", even though it is a common pattern in drivers.
-> So that's obviously a gap that should be closed.
->
-> Reported-by: Bjorn Helgaas <helgaas@kernel.org>
-> Closes: https://lore.kernel.org/r/20251113161556.GA2284238@bhelgaas/
-> Signed-off-by: Lukas Wunner <lukas@wunner.de>
-> ---
->   Documentation/PCI/pci-error-recovery.rst | 15 +++++++++++++++
->   1 file changed, 15 insertions(+)
->
-> diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI/pci-error-recovery.rst
-> index 5df481a..43bc4e3 100644
-> --- a/Documentation/PCI/pci-error-recovery.rst
-> +++ b/Documentation/PCI/pci-error-recovery.rst
-> @@ -326,6 +326,21 @@ be recovered, there is nothing more that can be done;  the platform
->   will typically report a "permanent failure" in such a case.  The
->   device will be considered "dead" in this case.
->   
-> +Drivers typically need to call pci_restore_state() after reset to
-> +re-initialize the device's config space registers and thereby
-> +bring it from D0\ :sub:`uninitialized` into D0\ :sub:`active` state
-> +(PCIe r7.0 sec 5.3.1.1).  The PCI core invokes pci_save_state()
-> +on enumeration after initializing config space to ensure that a
-> +saved state is available for subsequent error recovery.
-> +Drivers which modify config space on probe may need to invoke
-> +pci_save_state() afterwards to record those changes for later
-> +error recovery.  When going into system suspend, pci_save_state()
-> +is called for every PCI device and that state will be restored
-> +not only on resume, but also on any subsequent error recovery.
+[auto build test ERROR on rppt-memblock/fixes]
+[also build test ERROR on linus/master v6.18-rc6]
+[cannot apply to akpm-mm/mm-everything rppt-memblock/for-next next-20251121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Nit: Should we clarify in the above sentence on what calls the 
-pci_save_state() when going into suspend? My assumption is the 
-pci_save_state() is called by the PCI core and not the drivers?
+url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/kernel-Introduce-meminspect/20251119-235912
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock.git fixes
+patch link:    https://lore.kernel.org/r/20251119154427.1033475-4-eugen.hristev%40linaro.org
+patch subject: [PATCH 03/26] mm/percpu: Annotate static information into meminspect
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20251122/202511220241.7y7acdEZ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220241.7y7acdEZ-lkp@intel.com/reproduce)
 
-> +In the unlikely event that the saved state recorded on suspend
-> +is unsuitable for error recovery, drivers should call
-> +pci_save_state() on resume.
-> +
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511220241.7y7acdEZ-lkp@intel.com/
 
-What should the PCI core do if the saved state recorded is bad? should 
-we continue to restore the device with the recorded bad state? On s390 
-restoring the device with the bad state can break the device put into 
-error again.
+All errors (new ones prefixed by >>):
 
-Thanks
-
-Farhan
+>> mm/percpu.c:3350:25: error: use of undeclared identifier '__per_cpu_offset'; did you mean '__per_cpu_start'?
+    3350 | MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
+         |                         ^~~~~~~~~~~~~~~~
+         |                         __per_cpu_start
+   include/linux/meminspect.h:101:40: note: expanded from macro 'MEMINSPECT_SIMPLE_ENTRY'
+     101 |         MEMINSPECT_ENTRY(MEMINSPECT_ID_##sym, sym, sizeof(sym))
+         |                                               ^~~
+   include/linux/meminspect.h:92:29: note: expanded from macro 'MEMINSPECT_ENTRY'
+      92 |                                                .va = (void *)&(sym),            \
+         |                                                                ^~~
+   include/asm-generic/sections.h:42:13: note: '__per_cpu_start' declared here
+      42 | extern char __per_cpu_start[], __per_cpu_end[];
+         |             ^
+>> mm/percpu.c:3350:25: error: use of undeclared identifier '__per_cpu_offset'; did you mean '__per_cpu_start'?
+    3350 | MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
+         |                         ^~~~~~~~~~~~~~~~
+         |                         __per_cpu_start
+   include/linux/meminspect.h:101:52: note: expanded from macro 'MEMINSPECT_SIMPLE_ENTRY'
+     101 |         MEMINSPECT_ENTRY(MEMINSPECT_ID_##sym, sym, sizeof(sym))
+         |                                                           ^~~
+   include/linux/meminspect.h:93:22: note: expanded from macro 'MEMINSPECT_ENTRY'
+      93 |                                                .size = (sz),                    \
+         |                                                         ^~
+   include/asm-generic/sections.h:42:13: note: '__per_cpu_start' declared here
+      42 | extern char __per_cpu_start[], __per_cpu_end[];
+         |             ^
+>> mm/percpu.c:3350:1: error: invalid application of 'sizeof' to an incomplete type 'char[]'
+    3350 | MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/meminspect.h:101:51: note: expanded from macro 'MEMINSPECT_SIMPLE_ENTRY'
+     101 |         MEMINSPECT_ENTRY(MEMINSPECT_ID_##sym, sym, sizeof(sym))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/meminspect.h:93:22: note: expanded from macro 'MEMINSPECT_ENTRY'
+      93 |                                                .size = (sz),                    \
+         |                                                         ^~
+   3 errors generated.
 
 
+vim +3350 mm/percpu.c
+
+  3349	
+> 3350	MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
+  3351	/*
+  3352	 * pcpu_nr_pages - calculate total number of populated backing pages
+  3353	 *
+  3354	 * This reflects the number of pages populated to back chunks.  Metadata is
+  3355	 * excluded in the number exposed in meminfo as the number of backing pages
+  3356	 * scales with the number of cpus and can quickly outweigh the memory used for
+  3357	 * metadata.  It also keeps this calculation nice and simple.
+  3358	 *
+  3359	 * RETURNS:
+  3360	 * Total number of populated backing pages in use by the allocator.
+  3361	 */
+  3362	unsigned long pcpu_nr_pages(void)
+  3363	{
+  3364		return data_race(READ_ONCE(pcpu_nr_populated)) * pcpu_nr_units;
+  3365	}
+  3366	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
