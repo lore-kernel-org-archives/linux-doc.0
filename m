@@ -1,86 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75968330B37
-	for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 08:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E81833C188;
+	Fri, 21 Nov 2025 08:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763714471; cv=none; b=Cg9SUxCw7aBNNVHTFn9+iEaBNWlhmUQ5D5MinchxuPcpxO3aSs0SMQOz6Njkt/+u9gwJph3n/yXon4pbavXPory8PgC/nDQYqsC8thxQlHW8urVVaKkBKoq2kjyue2aSgjc5kay4imgVZl9LQQi4cjIm9oEYN/Nvf+v6AEutg7Q=
+	t=1763714962; cv=none; b=h91Ts+Yn53Qt4Tsd7A2AfNebtbal5Rw5TbYB3KgoqsalEpJVJGA4McvdUsF6YsVRnZkqPIHsEiQBcGEXyJeBGhRWVsZ81sDokxdt0/xN9VV6Uuodnz1uD+9CkWRjSindyskaatJ7OuTCTLwBL72lfcB7+Cq8vjybgDN5ptnNLwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763714471; c=relaxed/simple;
-	bh=DaciFNiZJdDzmwkQJHk/PAQ4JjEDIeUFvUYCaDDTZMI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pH6XK2ZcDfo+OkVaSg/Ymo86H0XW6wIeyG3ZPBz4OAXDs9nOAR2XbC5v3Ii06j/eT7KejZ9C1u6rCHBrwDioKratv28Y0KZOcCK8pqsj2ARew0oaxEkWedZttAPmP/OWpYYfaGmIVfIXo5q3aVN4JarW3+Do9t8pmc5KoHXmOS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nzk6O9e6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763714962; c=relaxed/simple;
+	bh=2a6B8T00wgK1+t9Ha00mHgSKtskeKDoJ0hM4NhfDVgU=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=hO0HkaIpDfR/I1MkhzdOq0o3C4Wi362mpsSFu0461kRHJok7haCZGNtetF3rG9OWWal1KgkMGyDq5on35oy99YCJmVb++WZ7aCGh9kKCR0/z2WveuQDxS2tE2VWI6Dc5yoOKS5WxUWuqVoh2HnqpEtd0SOcr2kRTYb+liffIvC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=M9SJGaXC; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nzk6O9e6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3169BC19424
-	for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 08:41:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763714471;
-	bh=DaciFNiZJdDzmwkQJHk/PAQ4JjEDIeUFvUYCaDDTZMI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Nzk6O9e6AQKntD2JXVbyRVvUL1AUBFDQBxR0fD8hL607V3qQ+Oz/eIh6UDh+OlIvP
-	 S4Z/0o/UHsTi/Gkd8WPfumYLUzQAQSjV9s8se7Nestq8j70sOVN9LAWvJ8IqGwNG4G
-	 VG/QcFClINXgV7k7f8NdlQHSAa7xSh9FqugkBW3yz8eYQJeF24PpAtmObl2KEt9Wyb
-	 rCT1YrocEhyZoWnLRbjl8Yr6YNisVX7MDA47sclDWzy3ZhlfHcatZpJlsiNhAlle4H
-	 zKjxrTduhQYK/26IJRIFb4em/VYnmQ4A/Dc2ctQR3PbPUV+Ry6Sj4eHZisSFhNm31+
-	 /XP29WyF1ismg==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-37a33b06028so16464651fa.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 00:41:11 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUFbgOr5kkwC67RJ/cSjDtXiAoavaXltsU6ex0KiR8QP4ot0xI7JbESXX5Xv8sXOfmkBu/2vTWa42g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTfRhyqB20Z5y+JA6m1dAcoVXCr3dP0ceMftoJvw0TuQnJz/9b
-	QuVFbIJA5A8xJFks4XOEbud0nsg/tHHSo4exrCW/uWqYCQI5mrWZDVECNhf+HR46Gt8FP/d3d3T
-	kvGEqQmMuxlGgZvnpxsSQJTDUcwZUWgk=
-X-Google-Smtp-Source: AGHT+IEZkw4pUOPUm1jcsxIwoiBKols3i04HAvuLgAx8hxH/RJuJuQ5mOXqJFQljvDNxVxtyEoY07KVcHagIosejyGY=
-X-Received: by 2002:a05:651c:1104:b0:37a:4611:9fe5 with SMTP id
- 38308e7fff4ca-37cd91db308mr3512481fa.18.1763714469415; Fri, 21 Nov 2025
- 00:41:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="M9SJGaXC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1763714958; x=1795250958;
+  h=from:subject:date:message-id:mime-version:
+   content-transfer-encoding:to:cc;
+  bh=2a6B8T00wgK1+t9Ha00mHgSKtskeKDoJ0hM4NhfDVgU=;
+  b=M9SJGaXC5ObZ42KRKDpR3UcHMPWTGjaPG0zTTsOoagBqsHRok7H8JLG/
+   JpdtbGLPeqSyDkNXg3WoepmNM2AfE9bGHRMfbh1h2Zn3rmUPQ9etg5s8+
+   N8eRDjyCgnfGansnVgErt2IZJusUkAG+1dhHw4I2Wt/hdC+a4axCj19Yz
+   m/qOitUkEK6iHLj+OkhKldOi1vqqL9YpwLyoyz+6TBIyQiMvuCugw4ud/
+   G2FRK9AYGRHC7msG6Eqb7X86aE9/PdzSAWRco/5sXNvpmgjBfk9Byntnw
+   CAyqQVrXRx4PMvUYPYjVGbmrDU/uOVx6RMHdJtWgAG8DYr8zhh0jKiEzh
+   w==;
+X-CSE-ConnectionGUID: wKnKnyE+RMO2awr1IOEsIA==
+X-CSE-MsgGUID: B0QPjaGKRf+49NXkrhn70g==
+X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; 
+   d="scan'208";a="56041597"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 21 Nov 2025 01:49:15 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Fri, 21 Nov 2025 01:49:02 -0700
+Received: from marius-VM.mshome.net (10.10.85.11) by chn-vm-ex04.mchp-main.com
+ (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Fri, 21 Nov 2025 01:48:59 -0700
+From: Marius Cristea <marius.cristea@microchip.com>
+Subject: [PATCH v2 0/2] Add support for Microchip EMC1812
+Date: Fri, 21 Nov 2025 10:48:53 +0200
+Message-ID: <20251121-hw_mon-emc1812-v2-0-5b2070f8b778@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250814-mauro_v3-v6-16-rev2-v6-0-e5538d534aa0@os.amperecomputing.com>
- <20251121093001.40e01849@foz.lan>
-In-Reply-To: <20251121093001.40e01849@foz.lan>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 21 Nov 2025 09:40:57 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXESiP+qSX+27MmPYGX9iWHjb-TEzQsWvdu=WmKcdORQSw@mail.gmail.com>
-X-Gm-Features: AWmQ_blgOiT1cZ50tRM36ay-nNSHXe_Hznnj3EG_3TWHRgTyXaTyKtnj5HzswWg
-Message-ID: <CAMj1kXESiP+qSX+27MmPYGX9iWHjb-TEzQsWvdu=WmKcdORQSw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/5] Fix issues with ARM Processor CPER records
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Daniel Ferguson <danielf@os.amperecomputing.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>, 
-	Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-efi@vger.kernel.org, linux-edac@vger.kernel.org, 
-	Jason Tian <jason@os.amperecomputing.com>, Shengwei Luo <luoshengwei@huawei.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Shiju Jose <shiju.jose@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHUnIGkC/13MQQ6CMBCF4auQWVsz0yBWV97DEANlamdRSlqDG
+ sLdrcSVy/8l71sgcxLOcK4WSDxLljiW0LsKrO/GOysZSoNGfSBErfzzFuKoOFgypJWj3mBTm+N
+ ACOU0JXby2sBrW9pLfsT03vyZvuuP0qd/aiaFqufaDaZzSE13CWJTtF6mvY0B2nVdP6wxk5CwA
+ AAA
+X-Change-ID: 20251002-hw_mon-emc1812-f1b806487d10
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Marius Cristea
+	<marius.cristea@microchip.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1705;
+ i=marius.cristea@microchip.com; h=from:subject:message-id;
+ bh=2a6B8T00wgK1+t9Ha00mHgSKtskeKDoJ0hM4NhfDVgU=;
+ b=owGbwMvMwCW2tbSTZa7u0x2Mp9WSGDIV1Ktsn4rN38O/r+L0scevFt5vvxLLcyC7jMNy0rzNz
+ 64/CvSO6ihlYRDjYpAVU2RZ8dZPrWrth8tKYpk6MHNYmUCGMHBxCsBEFpczMqzobXUICrWXuns4
+ VkDgTnD//3rNN5FOP72VNA7br8tYYcnwz+boQb77Z3fErX7wKYxTRcG9Zdf9O+8ieBimutyqYBe
+ T5wEA
+X-Developer-Key: i=marius.cristea@microchip.com; a=openpgp;
+ fpr=E32F8D4396E72E463E8CCD91446DE0ABD9140C3E
 
-On Fri, 21 Nov 2025 at 09:30, Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Em Thu, 14 Aug 2025 09:52:51 -0700
-> Daniel Ferguson <danielf@os.amperecomputing.com> escreveu:
->
-> > This is needed for both kernelspace and userspace properly handle
-> > ARM processor CPER events.
-> >
-> > Patch 1 of this series fix the UEFI 2.6+ implementation of the ARM
-> > trace event, as the original implementation was incomplete.
-> > Changeset e9279e83ad1f ("trace, ras: add ARM processor error trace event")
-> > added such event, but it reports only some fields of the CPER record
-> > defined on UEFI 2.6+ appendix N, table N.16.  Those are not enough
-> > actually parse such events on userspace, as not even the event type
-> > is exported.
->
-> Hi Rafael/Ard,
->
-> What's the status of this series? I'm not seeing it yet on linux-next.
->
+This is the hwmon driver for EMC1812/13/14/15/33 multichannel Low-Voltage
+Remote Diode Sensor Family. The chips in the family have one internal
+and different numbers of external channels, ranging from 1 (EMC1812) to
+4 channels (EMC1815).
+Reading diodes in anti-parallel connection is supported by EMC1814, EMC1815
+and EMC1833.
 
-I'll queue it up - thanks for the reminder.
+Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
+---
+Changes in v2:
+- update the interrupt section from yaml file
+- update index.rst
+- remove fault condition from internal sensor
+- remove unused members from structures
+- update the driver to work on systems without device tree or
+  firmware nodes
+- add missing include files
+- make NULL labels to be not visible
+- corect sign/unsign calculations
+- corect possible underflow for limits
+- Link to v1: https://lore.kernel.org/r/20251029-hw_mon-emc1812-v1-0-be4fd8af016a@microchip.com
+
+---
+Marius Cristea (2):
+      dt-bindings: hwmon: temperature: add support for EMC1812
+      hwmon: temperature: add support for EMC1812
+
+ .../bindings/hwmon/microchip,emc1812.yaml          | 182 ++++
+ Documentation/hwmon/emc1812.rst                    |  68 ++
+ Documentation/hwmon/index.rst                      |   1 +
+ MAINTAINERS                                        |   8 +
+ drivers/hwmon/Kconfig                              |  11 +
+ drivers/hwmon/Makefile                             |   1 +
+ drivers/hwmon/emc1812.c                            | 968 +++++++++++++++++++++
+ 7 files changed, 1239 insertions(+)
+---
+base-commit: d2b2fea3503e5e12b2e28784152937e48bcca6ff
+change-id: 20251002-hw_mon-emc1812-f1b806487d10
+
+Best regards,
+-- 
+Marius Cristea <marius.cristea@microchip.com>
+
