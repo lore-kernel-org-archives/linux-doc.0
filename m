@@ -1,175 +1,133 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B7C274FCB
-	for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 14:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C40F2BEFFE
+	for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 14:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763735765; cv=none; b=Sajw3VBv3nmWhytX/3gg9VCeQyL3MQo3yYlJuRoUP1H1j7qTYWhjrmgIJvCp6Wz0VSZH99A6dScefbWYwGw8wzC7kWEVgd45NbXJFp8MHrfoct1HpuQzT3mRiO4XXKGQdiWpoglrsALJGuNieS7jhci1kRo5nJ7S/iQsxbU0tX8=
+	t=1763737137; cv=none; b=KWK3hDI0hF1u0NPirUI6C1but9HoU1XZ6jzkqkybllou7v5TTB+aMAinK+iStY7BWnk2CLG4P7Txa9eAPK3F9dIe1VBZCnsOXnxWeoD8T4FaZOZKTyecoVqvm0At2WAkToHcdrRbAIQySvbFtgmFCwSSSMnmmMKe+zFSXewxX84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763735765; c=relaxed/simple;
-	bh=kcvdwzmTHjfImVyX48L1z8kmzHl3/BcWLpJ7S7bBj3M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IiVozl8SHDvpgSyNy/IpVEG3tJoIoDGcIkxdjiLynSTjnJDx/A+kWbybfrC2g2n9UyroPsyITWY+dpOKLXBj0Gb+Vi5n3bPv9mJNFJot//a3HoN6SsmVjL4MSs7r/rfmhVgZLVTqQPGyQ/65np+TEaCHF1dU6Cj0XDWMzrrGVB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=mraEb9pi; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1763737137; c=relaxed/simple;
+	bh=kQOa/7Vqn/o+DGb1Epy5e3sacOvXgFJLQ8VhQtumi84=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=K6s/s+0u2Huj+zGOyuYasrbPfSdJBB02cRKK1s5lDqEx0J72oqoi3GRtvfECVF12WR3GARUvrnTkchTLsfJJ0gC1gACilFu4wDZWJlsIjmv61WLUsm75HpNpeqaJsvMRIGB/3plejq4vmDKhj0y68pI5TCrbb55tFEFZIO+b6A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ig2Cq5my; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="mraEb9pi"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-591c98ebe90so2604954e87.3
-        for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 06:36:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ig2Cq5my"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2980ef53fc5so70891425ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 06:58:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1763735762; x=1764340562; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kcvdwzmTHjfImVyX48L1z8kmzHl3/BcWLpJ7S7bBj3M=;
-        b=mraEb9pi3/JcMbuoaXF58JeOq0GKs1fotivoH8EZ2pDNlvKjsRnJaLGWfNpqxyBlF/
-         bGEvDU6waTMWJI7SwK6hMc8gDL8919T++Fu9AZgU8KpkJOTxDcLZEu6h/HgsBNnXL5QW
-         boy2INfbdj3iYviDI2GUA5oIlC2fBQaF7n5CPgo63eQt4fa3ouDXNI0aw7P21g58fi56
-         znK1/0i2lRu9Mb4Y/86tFI8ahuoT6GpqKFgdTjx1iF2OqLU2HONTJxI1bP9LNPfbX0Bp
-         JWTZOeO0KoGOwJkIf9F9VAAazF5f5HEUXGXdYZCBXtAeQO7LhdBgohf+bQj74LuOsTYz
-         a8Jw==
+        d=google.com; s=20230601; t=1763737136; x=1764341936; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uOQ6Md0ZoYsLIfnoe91ZJxKLCoMUEeHUzr9dwQ+JQ7k=;
+        b=ig2Cq5myyisVEdqlUvcoKfgi8X6jxJrMEHm8tHH5hB+A9aT7xXWEz7J7NhxHzqsBvE
+         FlyPKSKUCeMNG2Fkb+S90apNtM/ok589xCQOgLOoOKd8BFhc7hBipWcaoO/Xs3K2GwnD
+         +LWOZrN7mMvppDntVr4CyJbUHRxfSL4j/EzV9a48CyB9PsnxOpAkJdPwVTVMMBHFZuxu
+         GSzH821N03mBgaEcFE7cgo7yLAi1E/+keTFkRL0iZBPOGPuHOj7KuALz2PXEh1Sxv61d
+         PAfG/Oe5+xDes5W0c3OfnwX9Tv3ScgpY2UYsjJT7051/+pt09GNQPD8WBnQQPB4ZOrO4
+         240g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763735762; x=1764340562;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kcvdwzmTHjfImVyX48L1z8kmzHl3/BcWLpJ7S7bBj3M=;
-        b=Wr/7z5HEY7FsRxyG0XMwFjVDTAhjVOv873cGk0eHHW7P+qakn6T01NjBk2rTiklIPU
-         1AcQaZHrCMYcL2LIxtNFX5Jn+YWRZkDBDuq8fTGYiwepTpSRwhouHqhnhDchVj1Wek26
-         M+3DZJbbpdhh6XBy04FngXys0Legx/iZLRaODNtr6gv+PdfI8i4zSkereAdnbfm9Bps9
-         uWBZb63mNXkJXKuDgkmJusiU8Iv8yAsrsjxmJnaw9332skddmjRmrTk08+SxN9FNl05Z
-         S+LNvpiqpSyMRCRFRNmvBs2/ktxqcY5BqT1zDFT3SP7yvTfvI8/jtEFeOEGBv8CItckT
-         k2Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCVwLB1ifZl2Ijx2Frm4EEoDQHGnoTl8OfsCzfkhtr3R6yX6EwUkynE2QyMS5bkGw77+U+UJaXAVh40=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKtxSD6H53LYW1At2DFRYIs62J8TkKL8Ah+NN3MaP7jM10sTqg
-	p45ejsF5QX7H0zcT2nTTkbtpLcRB4CmY2WAUG5ss/2KRpnFzVUs9JNqR/9JixTg/pBPsuwMkdkz
-	zMlKE3WtohSQjc0Vmo9bAmPxIP/+Y+YoX3NB6EadGgA==
-X-Gm-Gg: ASbGncv+UItWOADtZBvPBvE9a2tEY7jP5uD0qQQ4/HgncbKbFQIbvEiBd4vo/8B7eNy
-	LAgqji+2Xw0Dg52GeRsZu2NqCAz3EiwcEqotboN8g86FLzijUdaRNX7NrSl38OGR002IPVb9tWV
-	nkqkyNxT8IDf1k19YRg2xc2m0SIOye00vSDWVJtrxMngfcISq7wZAGJLFY4S0BaH5BTy+T12MI0
-	/R9Gz+WM6op6suncqlj0PTdKoNOYT5zAF3obd/cpPUyURZsgHXDY4yPPYZKKL7i8b/sx91+l3P5
-	ysZaKLB7oGZSX6L6V60rFVang4rMVCrNeaTqtw==
-X-Google-Smtp-Source: AGHT+IEt2uZ9UPqWbRRe+8fGSY15wdsKLC5t0faSbXjvG68jFZ1NGNH9efmvDAFLqXO77pWUDjtREMDkD8mv7aijzwE=
-X-Received: by 2002:a05:6512:685:b0:594:27eb:e130 with SMTP id
- 2adb3069b0e04-596a3ee50b6mr898634e87.46.1763735762108; Fri, 21 Nov 2025
- 06:36:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763737136; x=1764341936;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=uOQ6Md0ZoYsLIfnoe91ZJxKLCoMUEeHUzr9dwQ+JQ7k=;
+        b=byn9On9FGyMj1sVD0MERKl+/fVmbUe4vAPgBPYI4+DBkLR8Sja1PZva2JmQKZS8Ta9
+         2M1bKSwsXAwCt+wLr93PLDZNBrAWtJmqiWc0jTHC60AsS1CCMW4HOnbMFXoBwNhrzdv6
+         jvYRyq2twMjiUb1xZIiiBbx3iwdmULPTQx8DCxAfbdItN4S98AgqvrtrkyyEAR6jn+r7
+         BjsAdZDJUwK/+52z3VnG9mGteQwSpD74HO2cgidUwJvsnVZb1esIo9/I4FJgmjeqcvE4
+         fSk7N+Aa4AJlBmLBCz0cz4UHgVZ3/3M0Ucy9S2MFs72XffuhV1WVwEG3bQIB84yFQHKr
+         nJpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXbvbOh0LkPC/6zM2FahdYM+VoIyFFjfr23eTf2qz7T+roPVjA2RDv3eius69jD6bUVX2hLDiwrVIw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6Xfx158NEkz0nbJPd8z3XYBfDz9YQ1b1Q7S8dKEFEWdD/EbAX
+	G80fOB8RqgKiN3e0HxDDakGT/6rwDEDsp1Z/j59Q9cvGDVqgFH6TQmlnXJHxCAR3gUGG5pS1F57
+	VD+AXfw==
+X-Google-Smtp-Source: AGHT+IF9h5oFf5Yj0ERVvTP57cPFeQWYcSTjzk5WJKy+t2KY+UTJyP91sFHwzrMblOiNnxG8TWkWRGNQM14=
+X-Received: from pgcb184.prod.google.com ([2002:a63:67c1:0:b0:ba6:5f4d:31c])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f706:b0:295:7f1d:b02d
+ with SMTP id d9443c01a7336-29b6c50eaa9mr33830385ad.22.1763737135785; Fri, 21
+ Nov 2025 06:58:55 -0800 (PST)
+Date: Fri, 21 Nov 2025 06:58:53 -0800
+In-Reply-To: <1c76cb00-1fe1-4fd0-b7b9-86ddca6115ba@citrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251106-qcom-qce-cmd-descr-v8-0-ecddca23ca26@linaro.org>
- <20251106-qcom-qce-cmd-descr-v8-1-ecddca23ca26@linaro.org>
- <xozu7tlourkzuclx7brdgzzwomulrbznmejx5d4lr6dksasctd@zngg5ptmedej>
- <CAMRc=MdC7haZ9fkCNGKoGb-8R5iB0P2UA5+Fap8Svjq-WdE-=w@mail.gmail.com>
- <m4puer7jzmicbjrz54yx3fsrlakz7nwkuhbyfedqwco2udcivp@ctlklvrk3ixg>
- <CAMRc=MfkVoRGFLSp6gy0aWe_3iA2G5v0U7yvgwLp5JFjmqkzsw@mail.gmail.com> <66nhvrt4krn7lvmsrqoc5quygh7ckc36fax3fgol2feymqfbdp@lqlfye47cs2p>
-In-Reply-To: <66nhvrt4krn7lvmsrqoc5quygh7ckc36fax3fgol2feymqfbdp@lqlfye47cs2p>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 21 Nov 2025 15:35:50 +0100
-X-Gm-Features: AWmQ_bnh7zWBFnvkFmVPhxTMwiWW-abo3yO-revfh4tghVthdoeoEiGc0JMgThA
-Message-ID: <CAMRc=McYTdgoAR8AOz-n5JEroyndML1ZQvW=oxiheye3WQmvRw@mail.gmail.com>
-Subject: Re: [PATCH v8 01/11] dmaengine: Add DMA_PREP_LOCK/DMA_PREP_UNLOCK flags
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
-	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+References: <20251107093239.67012-1-amit@kernel.org> <20251107093239.67012-2-amit@kernel.org>
+ <aR913X8EqO6meCqa@google.com> <1c76cb00-1fe1-4fd0-b7b9-86ddca6115ba@citrix.com>
+Message-ID: <aSB-LUfcyx8B9MLr@google.com>
+Subject: Re: [PATCH v6 1/1] x86: kvm: svm: set up ERAPS support for guests
+From: Sean Christopherson <seanjc@google.com>
+To: Andrew Cooper <andrew.cooper3@citrix.com>
+Cc: Amit Shah <amit@kernel.org>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	x86@kernel.org, linux-doc@vger.kernel.org, amit.shah@amd.com, 
+	thomas.lendacky@amd.com, bp@alien8.de, tglx@linutronix.de, 
+	peterz@infradead.org, jpoimboe@kernel.org, pawan.kumar.gupta@linux.intel.com, 
+	corbet@lwn.net, mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com, 
+	pbonzini@redhat.com, daniel.sneddon@linux.intel.com, kai.huang@intel.com, 
+	sandipan.das@amd.com, boris.ostrovsky@oracle.com, Babu.Moger@amd.com, 
+	david.kaplan@amd.com, dwmw@amazon.co.uk
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 13, 2025 at 9:12=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> On Thu, Nov 13, 2025 at 04:52:56PM +0100, Bartosz Golaszewski wrote:
-> > On Thu, Nov 13, 2025 at 1:28=E2=80=AFPM Dmitry Baryshkov
-> > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > >
-> > > On Thu, Nov 13, 2025 at 11:02:11AM +0100, Bartosz Golaszewski wrote:
-> > > > On Tue, Nov 11, 2025 at 1:30=E2=80=AFPM Dmitry Baryshkov
-> > > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > > > >
-> > > > > On Thu, Nov 06, 2025 at 12:33:57PM +0100, Bartosz Golaszewski wro=
-te:
-> > > > > > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > > > > >
-> > > > > > Some DMA engines may be accessed from linux and the TrustZone
-> > > > > > simultaneously. In order to allow synchronization, add lock and=
- unlock
-> > > > > > flags for the command descriptor that allow the caller to reque=
-st the
-> > > > > > controller to be locked for the duration of the transaction in =
-an
-> > > > > > implementation-dependent way.
-> > > > >
-> > > > > What is the expected behaviour if Linux "locks" the engine and th=
-en TZ
-> > > > > tries to use it before Linux has a chance to unlock it.
-> > > > >
-> > > >
-> > > > Are you asking about the actual behavior on Qualcomm platforms or a=
-re
-> > > > you hinting that we should describe the behavior of the TZ in the d=
-ocs
-> > > > here? Ideally TZ would use the same synchronization mechanism and n=
-ot
-> > > > get in linux' way. On Qualcomm the BAM, once "locked" will not fetc=
-h
-> > > > the next descriptors on pipes other than the current one until
-> > > > unlocked so effectively DMA will just not complete on other pipes.
-> > > > These flags here however are more general so I'm not sure if we sho=
-uld
-> > > > describe any implementation-specific details.
-> > > >
-> > > > We can say: "The DMA controller will be locked for the duration of =
-the
-> > > > current transaction and other users of the controller/TrustZone wil=
-l
-> > > > not see their transactions complete before it is unlocked"?
-> > >
-> > > So, basically, we are providing a way to stall TZ's DMA transactions?
-> > > Doesn't sound good enough to me.
+On Fri, Nov 21, 2025, Andrew Cooper wrote:
+> On 20/11/2025 8:11 pm, Sean Christopherson wrote:
+> > The emulation requirements are not limited to shadow paging.  From the =
+APM:
 > >
-> > Can you elaborate because I'm not sure if you're opposed to the idea
-> > itself or the explanation is not good enough?
->
-> I find it a bit strange that the NS-OS (Linux) can cause side-effects to
-> the TZ. Please correct me if I'm wrong, but I assumed that TZ should be
-> able to function even when LInux is misbehaving.
->
+> >   The ERAPS feature eliminates the need to execute CALL instructions to=
+ clear
+> >   the return address predictor in most cases. On processors that suppor=
+t ERAPS,
+> >   return addresses from CALL instructions executed in host mode are not=
+ used in
+> >   guest mode, and vice versa. Additionally, the return address predicto=
+r is
+> >   cleared in all cases when the TLB is implicitly invalidated (see Sect=
+ion 5.5.3 =E2=80=9CTLB
+> >   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> >   Management,=E2=80=9D on page 159) and in the following cases:
+> >
+> >   =E2=80=A2 MOV CR3 instruction
+> >   =E2=80=A2 INVPCID other than single address invalidation (operation t=
+ype 0)
+>=20
+> I already asked AMD for clarification here.=C2=A0 AIUI, INVLPGB should be
+> included in this list, and that begs the question what else is missed
+> from the documentation.
+>=20
+> >
+> > Yes, KVM only intercepts MOV CR3 and INVPCID when NPT is disabled (or I=
+NVPCID is
+> > unsupported per guest CPUID), but that is an implementation detail, the=
+ instructions
+> > are still reachable via emulator, and KVM needs to emulate implicit TLB=
+ flush
+> > behavior.
+>=20
+> The Implicit flushes cover CR0.PG, CR4.{PSE,PGE,PCIDE,PKE}, SMI, RSM,
+> writes to MTRR MSR, #INIT, A20M, and "other model specific MSRs, see NDA
+> docs".
+>=20
+> The final part is very unhelpful in practice, and necessitates a RAS
+> flush on any emulated WRMSR, unless AMD are going to start handing out
+> the multi-coloured documents...
 
-Ok, so the consensus after talking to Qualcomm crypto engineers - and
-I understand this is Qualcomm-specific but it should apply to any
-similar use-cases - is this:
+Does Xen actually emulate guest TLB flushes on all emulated WRMSRs?  A RAS =
+flush
+seems like small peanuts compared to a TLB flush.
 
-If the TZ uses BAM locking and it locks the BAM and linux tries to
-write to the registers protected by this lock, we'll get an external
-abort. Making linux use it too addresses that potential problem.
+> The really fastpath MSRs are unintercepted and won't suffer this overhead=
+.
 
-Linux could potentially lock and never unlock the BAM but TZ could
-also just reset it. Also: linux could as well turn the entire device
-off. :)
-
-For the Qualcomm use-case this is not an issue - it's about making TZ
-and linux work together. I suppose the same would apply to any other
-users.
-
-If that could be contained within the crypto driver, there would be no
-issue. It's just that in order to pass this bit to the DMA controller,
-we need a generic flag. If you have better suggestions, please let me
-know.
-
-The flag has to be passed to the BAM driver at the time of calling of
-dmaengine_prep_slave_sg() and attrs seems to be the only way with the
-current interface. Off the top of my head: we could extend struct
-scatterlist to allow passing some arbitrary driver data but that
-doesn't sound like a good approach.
-
-Bart
+Heh, if an unintercepted MSR is on the "naughty list", wouldn't that break =
+shadow
+paging schemes that rely on intercepting architectural TLB flushes to synch=
+ronize
+shadow PTEs?
