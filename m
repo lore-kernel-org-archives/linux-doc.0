@@ -1,278 +1,129 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B615D4315A
-	for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 21:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C3E2737F4;
+	Fri, 21 Nov 2025 22:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763760686; cv=none; b=nf0BJyWhZnS0vnRo8HrJbLGcbD3U7O2ZfmwqFPZgg07DkfbFLl5rJqFbm/J9zJOYEmfLO4vxVuC1Ltill7wAnIX1qtK6qskGT+QW8eMUH8zfG6zU+ZS0LH6EbO02KUal46NcK1HMwO0m1KHwngB3gcjHnDhpMeAws+r0/EfTnGM=
+	t=1763763416; cv=none; b=aZr7qKfyAJzwInliofBkHXNZNESRPfw/SN1S+9yjQqSu8jy+P6ovNezg+WwymgRzwqfGmymNIU4ZNePGzRjoKSiQ62Oexdx1Lf2xYKnKPASq+OMqS708pXU3Dzki14kFIc50korRe+KkYBPw2cz8QrRTl/UMEuB/zkybEW7utc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763760686; c=relaxed/simple;
-	bh=51TGYrsgBnz8fkKL33FrJi93VLUlmGwP1Py2nYzy7Fg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=myKoHN4ItiiPiWlrwx1As0FPtQr2lgu5K2dpJGDtMpQ1Ul6HX+1sKpO4xxkaKH5AB56dF+4Fzzq/IyBo2KbO2sst194SEh9pFVy10OUtCU5FLVyaXxsHfJOd9i64osHHvaYtCZxkOF+blzOaZeKBLgvRpb1AxYDdoHRcYxZWmiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=FU5oByk/; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763763416; c=relaxed/simple;
+	bh=IZWfBJDaHCe7l541lCMHfRRvdDcJ9cS7vOHixV9h5tc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jv0c5weW4w/D0iXKMsjbpyMqkpZaMIY7lf1cvUYOt0zYtmd1IfNe3PJtNXqig8c0Bq3FLrymImRxFNPALxCxBbDVVsmAu7P27ITk+XPcZkln5seHzaJ6SfZezPfiljb3WcbDjQfedv9uYOi2VfeMceWlAS7eibuW583Nc5qyeC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cGOKcdcl; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="FU5oByk/"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-64149f78c0dso3732583a12.3
-        for <linux-doc@vger.kernel.org>; Fri, 21 Nov 2025 13:31:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763760683; x=1764365483; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+byFGoWk/0V52ELeDrnzRQimZK8yvBtN44GDPwhdBk0=;
-        b=FU5oByk/BiqfVPKMhVP7o1j5ToDaGm2herCIdfHyX0U1BClwhkrpvFnCtkRXaJi0fV
-         R6Ghd2xkNVUgtCk9p6OqW7tSGhKgZutrM5qu9cplMQbg5FB32aCyJrRG4dD+7rAAy9dy
-         4qKRZyQuTKBNRZlY+Ttkc+L4nNSyfFMbsJIrckmwbnpYXSOMdbF+6rk1BCE0EcUcBqaz
-         xYybISBe3KW3FZdkSrarJBM/JLcr6odNMBCa9G5Cs8ptmX29joJkqcaV73ag62rOXMGq
-         pd00qHzOIcoKZ1/9PEk6mX/ZUp8rQbGu8SXmORkLkdtLP92kX7wIAQC/QGiKChj5JIrQ
-         Sxiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763760683; x=1764365483;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+byFGoWk/0V52ELeDrnzRQimZK8yvBtN44GDPwhdBk0=;
-        b=EK1J+A/FBvuHXtR/qi4ZkrBQp73aT074sPvsaNnbgYydyJqvqE1yVujmZ8Hu6WgV9I
-         SeXZ6Li+79tc+W4BF0xUWP6VzMX8n3ton6/XKDhCw4CAIFa5BGbXBPzZPlBwHdwv3HCw
-         V4AbSLKEfBIbfGhyTK82dK+LioHI5rK0XaHge//T/icv2Ggn5EWBca2b0qcfrI67ZCtA
-         AiTnWFV0PSo76CNeGSLI4MSYA4oETHlQjH896XN8vH0LJkeKIyilnsn/T7W3+PuFvR5b
-         zFQDN+OTJYPyP0QoA2DXU8ZuPrJTgQ1EMVf1Iqd5VMbxJFyuWfAql+PxvdDbY8W8aKpY
-         +tVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVrvL+AlHuDyvxxtQCHCluBH6Dx7w9SlYdoTj1IT0U/jjhiwJslqRIgomwUsM5HZnyjtjkhSaGY3YY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQZMloSQcO6YFH7hNfipDvaiaZs3E+6lQM4rpPNSjrZlydfofO
-	axH8cVq9CIi7rQvVbaadBMu6NAijT0iJmQKaxFKmMe9zdPYGL3T9Ll4WwRIW7Qgwpzbi+NnCJUL
-	9O623DjBbg3HSa7ugyZiVtDv5YGOrvaXCuPb3KHlOYA==
-X-Gm-Gg: ASbGnctrs828p92hotiBSktoN22+t/mtg7/W6TflpcmTJMdKSsUZn8vh1KOlxJPjt4i
-	rq4HWn1otfTvqwlvvxFygNljrcFN1Vh9SVxhjlkQJuBYFKid4WBMTvPB95TL/i/UrVHvM/8U6YK
-	0ZzDQBJ8yJyAkktk+NEX1GXyDga1t9ZM6nxq6TBS16ag4VrB8lsilbK0bxOEQA8Nu4KGlTw8xXh
-	L9DFSILze9oWKwpfQdqWupyqG+tKuEU/zn4X8ut/IT6h6XuLUs4B7TCkHALu+s5zdU+
-X-Google-Smtp-Source: AGHT+IHb/TNH6HpXoXxdJqBqtls7NiUE5U9WcaIN1X3bEaIYHVHMwMKVOTZ0kii/oe8jLFgQnVtKbwI5uYAd2wY8FI4=
-X-Received: by 2002:a05:6402:20d1:10b0:640:f8a7:aa25 with SMTP id
- 4fb4d7f45d1cf-64555d0426fmr2711637a12.30.1763760682926; Fri, 21 Nov 2025
- 13:31:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cGOKcdcl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763763416; x=1795299416;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IZWfBJDaHCe7l541lCMHfRRvdDcJ9cS7vOHixV9h5tc=;
+  b=cGOKcdcl1fINBPXtRNWJgmOgmvIKEzbEJqHFJ7j1wxJdJ5GKS4Nu8w4l
+   cXosAIjUkYQKyQy+kiGPFlAxSXW4qCztbqbYHsPgHuwbn326L3RENMDks
+   Q8VLWJSy/kyfqXKNqD9eCHg5LSLWOJPy0W4ezN4U/xOxo+15/Us80d+CP
+   WCuxG/s25rX2VyZ894/H+2wiJqk8esaHCghfXOsEPt9viiXaztmQ3TpuI
+   MxTCv4ONwnG6W+p/NKfgsB8X2nF2NWtLQi65HnYjZtb3UHDm9SqTuOkv0
+   XDf7UmhawXIZn0971iVglxGeqzyAwBGaN8UWjwAscVuOezF/X/xJCxYot
+   w==;
+X-CSE-ConnectionGUID: s3ouSAZnSwq56Od/KUKvyg==
+X-CSE-MsgGUID: UeiYcK7cS3azNkFU46pZZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="88515029"
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
+   d="scan'208";a="88515029"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 14:16:55 -0800
+X-CSE-ConnectionGUID: TOehty9pSyCfviE3bYiNSw==
+X-CSE-MsgGUID: BIxr2Fa8QbCS5hbxVrvkJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
+   d="scan'208";a="192265938"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 21 Nov 2025 14:16:49 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vMZQs-0006vH-32;
+	Fri, 21 Nov 2025 22:16:46 +0000
+Date: Sat, 22 Nov 2025 06:16:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	tglx@linutronix.de, andersson@kernel.org, pmladek@suse.com,
+	rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
+	mhocko@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, tudor.ambarus@linaro.org,
+	mukesh.ojha@oss.qualcomm.com, linux-arm-kernel@lists.infradead.org,
+	linux-hardening@vger.kernel.org, jonechou@google.com,
+	rostedt@goodmis.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org,
+	Eugen Hristev <eugen.hristev@linaro.org>
+Subject: Re: [PATCH 12/26] kernel/configs: Register dynamic information into
+ meminspect
+Message-ID: <202511220511.nMJSuw8H-lkp@intel.com>
+References: <20251119154427.1033475-13-eugen.hristev@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251115233409.768044-1-pasha.tatashin@soleen.com>
- <20251115233409.768044-5-pasha.tatashin@soleen.com> <mafs08qfz1h3c.fsf@kernel.org>
-In-Reply-To: <mafs08qfz1h3c.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 21 Nov 2025 16:30:46 -0500
-X-Gm-Features: AWmQ_bmySwNVArPJNxXTzBmV6LhGk1Wdy9I8BgPPnIaZuGaVx8wlezdZ8VKPhXs
-Message-ID: <CA+CK2bDSSJhjx8fH1rsb3unS099pKWze-=WX1B2ZnE0LCMXUAw@mail.gmail.com>
-Subject: Re: [PATCH v6 04/20] liveupdate: luo_session: add sessions support
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com, hughd@google.com, skhawaja@google.com, chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119154427.1033475-13-eugen.hristev@linaro.org>
 
-> >  /*
-> >   * The LUO FDT hooks all LUO state for sessions, fds, etc.
-> > - * In the root it allso carries "liveupdate-number" 64-bit property that
-> > + * In the root it also carries "liveupdate-number" 64-bit property that
->
-> Nit: This needs a bit of patch massaging. Patch 2 added the typo, and
-> this patch fixes it. It would be better to just update patch 2.
+Hi Eugen,
 
-Yeap, this is fixed.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rppt-memblock/fixes]
+[also build test ERROR on linus/master v6.18-rc6]
+[cannot apply to akpm-mm/mm-everything rppt-memblock/for-next next-20251121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/kernel-Introduce-meminspect/20251119-235912
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock.git fixes
+patch link:    https://lore.kernel.org/r/20251119154427.1033475-13-eugen.hristev%40linaro.org
+patch subject: [PATCH 12/26] kernel/configs: Register dynamic information into meminspect
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251122/202511220511.nMJSuw8H-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220511.nMJSuw8H-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511220511.nMJSuw8H-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/configs.c:18:
+   kernel/configs.c: In function 'ikconfig_init':
+>> include/linux/meminspect.h:144:39: error: implicit declaration of function 'virt_to_phys'; did you mean 'virt_to_page'? [-Wimplicit-function-declaration]
+     144 |         meminspect_register_id_pa(id, virt_to_phys(va), size, MEMINSPECT_TYPE_REGULAR)
+         |                                       ^~~~~~~~~~~~
+   include/linux/meminspect.h:170:17: note: in expansion of macro 'meminspect_register_id_va'
+     170 |                 meminspect_register_id_va(__VA_ARGS__); \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/configs.c:69:9: note: in expansion of macro 'meminspect_lock_register_id_va'
+      69 |         meminspect_lock_register_id_va(MEMINSPECT_ID_CONFIG,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-> > + * This structure is located at the beginning of a contiguous block of
-> > + * physical memory preserved across the kexec. It provides the necessary
-> > + * metadata to interpret the array of session entries that follow.
-> > + */
-> > +struct luo_session_header_ser {
-> > +     u64 pgcnt;
->
-> Why do you need pgcnt here? Can't the size be inferred from count? And
-> since you use contiguous memory block, the folio will know its page
-> count anyway, right? The less we have in the ABI the better IMO.
+vim +144 include/linux/meminspect.h
 
-Right, I had pgnct because my allocators were using size as an
-argument, but we removed that, so pgcnt can also be removed.
+184ddf27f54a0b Eugen Hristev 2025-11-19  139  
+184ddf27f54a0b Eugen Hristev 2025-11-19  140  #define meminspect_register_pa(...) \
+184ddf27f54a0b Eugen Hristev 2025-11-19  141  	meminspect_register_id_pa(MEMINSPECT_ID_DYNAMIC, __VA_ARGS__, MEMINSPECT_TYPE_REGULAR)
+184ddf27f54a0b Eugen Hristev 2025-11-19  142  
+184ddf27f54a0b Eugen Hristev 2025-11-19  143  #define meminspect_register_id_va(id, va, size) \
+184ddf27f54a0b Eugen Hristev 2025-11-19 @144  	meminspect_register_id_pa(id, virt_to_phys(va), size, MEMINSPECT_TYPE_REGULAR)
+184ddf27f54a0b Eugen Hristev 2025-11-19  145  
 
-> Same for other structures below.
->
-> > +     u64 count;
-> > +} __packed;
-> > +
-> > +/**
-> > + * struct luo_session_ser - Represents the serialized metadata for a LUO session.
-> > + * @name:    The unique name of the session, copied from the `luo_session`
-> > + *           structure.
-> > + * @files:   The physical address of a contiguous memory block that holds
-> > + *           the serialized state of files.
-> > + * @pgcnt:   The number of pages occupied by the `files` memory block.
-> > + * @count:   The total number of files that were part of this session during
-> > + *           serialization. Used for iteration and validation during
-> > + *           restoration.
-> > + *
-> > + * This structure is used to package session-specific metadata for transfer
-> > + * between kernels via Kexec Handover. An array of these structures (one per
-> > + * session) is created and passed to the new kernel, allowing it to reconstruct
-> > + * the session context.
-> > + *
-> > + * If this structure is modified, LUO_SESSION_COMPATIBLE must be updated.
-> > + */
-> > +struct luo_session_ser {
-> > +     char name[LIVEUPDATE_SESSION_NAME_LENGTH];
-> > +     u64 files;
-> > +     u64 pgcnt;
-> > +     u64 count;
-> > +} __packed;
-> > +
-> >  #endif /* _LINUX_LIVEUPDATE_ABI_LUO_H */
-> [...]
-> > +/* Create a "struct file" for session */
-> > +static int luo_session_getfile(struct luo_session *session, struct file **filep)
-> > +{
-> > +     char name_buf[128];
-> > +     struct file *file;
-> > +
-> > +     guard(mutex)(&session->mutex);
-> > +     snprintf(name_buf, sizeof(name_buf), "[luo_session] %s", session->name);
-> > +     file = anon_inode_getfile(name_buf, &luo_session_fops, session, O_RDWR);
->
-> Nit: You can return the file directly and get rid of filep.
-
-I prefer returning error here.
-
->
-> > +     if (IS_ERR(file))
-> > +             return PTR_ERR(file);
-> > +
-> > +     *filep = file;
-> > +
-> > +     return 0;
-> > +}
-> [...]
-> > +int __init luo_session_setup_outgoing(void *fdt_out)
-> > +{
-> > +     struct luo_session_header_ser *header_ser;
-> > +     u64 header_ser_pa;
-> > +     int err;
-> > +
-> > +     header_ser = kho_alloc_preserve(LUO_SESSION_PGCNT << PAGE_SHIFT);
->
-> Nit: The naming is a bit confusing here. At first glance I thought this
-> was just allocating the header, but it allocates the whole session
-> serialization buffer.
-
-I made it a little clearer by adding "outgoing_buffer" local variable,
-and then assigning head_ser to this local variable.
-
-> > +     if (IS_ERR(header_ser))
-> > +             return PTR_ERR(header_ser);
-> > +     header_ser_pa = virt_to_phys(header_ser);
-> > +
-> > +     err = fdt_begin_node(fdt_out, LUO_FDT_SESSION_NODE_NAME);
-> > +     err |= fdt_property_string(fdt_out, "compatible",
-> > +                                LUO_FDT_SESSION_COMPATIBLE);
-> > +     err |= fdt_property(fdt_out, LUO_FDT_SESSION_HEADER, &header_ser_pa,
-> > +                         sizeof(header_ser_pa));
-> > +     err |= fdt_end_node(fdt_out);
-> > +
-> > +     if (err)
-> > +             goto err_unpreserve;
-> > +
-> > +     header_ser->pgcnt = LUO_SESSION_PGCNT;
-> > +     INIT_LIST_HEAD(&luo_session_global.outgoing.list);
-> > +     init_rwsem(&luo_session_global.outgoing.rwsem);
-> > +     luo_session_global.outgoing.header_ser = header_ser;
-> > +     luo_session_global.outgoing.ser = (void *)(header_ser + 1);
-> > +     luo_session_global.outgoing.active = true;
-> > +
-> > +     return 0;
-> > +
-> > +err_unpreserve:
-> > +     kho_unpreserve_free(header_ser);
-> > +     return err;
-> > +}
-> [...]
-> > +int luo_session_deserialize(void)
-> > +{
-> > +     struct luo_session_header *sh = &luo_session_global.incoming;
-> > +     int err;
-> > +
-> > +     if (luo_session_is_deserialized())
-> > +             return 0;
-> > +
-> > +     luo_session_global.deserialized = true;
-> > +     if (!sh->active) {
-> > +             INIT_LIST_HEAD(&sh->list);
-> > +             init_rwsem(&sh->rwsem);
->
-> Nit: it would be a bit simpler if LUO init always initialized this. And
-> then luo_session_setup_incoming() can fill the list if it has any data.
-> Slight reduction in code duplication and mental load.
-
-These are now statically initialized.
-
->
-> > +             return 0;
-> > +     }
-> > +
-> > +     for (int i = 0; i < sh->header_ser->count; i++) {
-> > +             struct luo_session *session;
-> > +
-> > +             session = luo_session_alloc(sh->ser[i].name);
-> > +             if (IS_ERR(session)) {
-> > +                     pr_warn("Failed to allocate session [%s] during deserialization %pe\n",
-> > +                             sh->ser[i].name, session);
-> > +                     return PTR_ERR(session);
-> > +             }
-> > +
-> > +             err = luo_session_insert(sh, session);
-> > +             if (err) {
-> > +                     luo_session_free(session);
-> > +                     pr_warn("Failed to insert session [%s] %pe\n",
-> > +                             session->name, ERR_PTR(err));
-> > +                     return err;
-> > +             }
-> > +
-> > +             session->count = sh->ser[i].count;
-> > +             session->files = sh->ser[i].files ? phys_to_virt(sh->ser[i].files) : 0;
-> > +             session->pgcnt = sh->ser[i].pgcnt;
-> > +     }
-> > +
-> > +     kho_restore_free(sh->header_ser);
-> > +     sh->header_ser = NULL;
-> > +     sh->ser = NULL;
-> > +
-> > +     return 0;
-> > +}
-> [...]
->
-> --
-> Regards,
-> Pratyush Yadav
-
-Thanks!
-
-Pasha
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
