@@ -1,145 +1,224 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31BB8248C;
-	Sat, 22 Nov 2025 05:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3C317A2F0;
+	Sat, 22 Nov 2025 07:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763788980; cv=none; b=oGYRpN3VGf7daKvoRp2owicnX107DdJ/8u02q4KJU/BwIacN1OCc555QZGddXWDF/dAy2IzSz3ZuGFyXwT7LYcRMS9FACad/f5C4oO/e1rYALOMDPNDH9o/ZoM8VI6VWQOof8hlLOQTtyWKSnsx9LPCZi2uWr92bBfs6JnZ46BM=
+	t=1763798150; cv=none; b=b2ddTg2nFDuufs2PyzaR+lk50IpAQCePpdwrZTg8lxliMKazMG9CB/2Q1/WkVG7JH8k4+q/dpOPy3mFMSTGWBTGiU8+cKufaUCnTDO9Ov9+De82/fzou6djYp5YYOjoIb7juqQLEd1baBNfAYXqyKKsfGcSUY0FYrjh6qW0Vh4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763788980; c=relaxed/simple;
-	bh=wEjAxsAYg0fns4hbL6oC/+qy5aQXSgsbyAJeWxJjerc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=quivEXi+vdMbnuMF5oXDwN7b46FX5/BW0yAiHIiEwp412aJmnnHysRMrz7PyDsIijibO+8tdiph4YumpYTtxv4mizEwO424cliSf+WUAcEP+DTWG3ZKh2DusTuWsWqROJzqptkTpmWYf1tsJ6wd3+Urbv4hVPV00RP+HsH9BTwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=O71ZRjK7; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1763798150; c=relaxed/simple;
+	bh=SXw40nk81lfewjY1S+9hPKCWNPlyLR4zHML4HwWfuNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nsLp58wfJS/P4Mv7EIxVIQFjnd1rP7rRaNsCePRqPdydqSZTVKX8gJ9KCYW1PM/n7fTO1aBCNeYrAgWTBJwMIgOGnl1VnnaCUslJZxlvWAYcvl1knUsCUQFABLdhSa5RfSQT9dXaF90ocm+nzRRKAYHG21OANbUx5BZAgFmnjMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QVM9mC5G; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="O71ZRjK7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ctiiXJqj43yt6JFDqmOGbkwRPsJgQSrgpqu+YQaEadw=; b=O71ZRjK77TRPcnC4NwHOF25PzM
-	QXIKzNKT5MHAYI9TGOp2dd9ftqObQfTYmmqaeudsDv+ftQNBr8lEf5215q5bHLh36kZ5KlHu+nUpY
-	oePTHC1A2TdwX92YkkNo79STpXJMmcxsDEUjETKuimRzLMtlv7Uet6XddETu2X2EslVlHPIOi8Y54
-	2ZRy/7DQWXkdKjJ2U4Ct3dDAUgN3pXND3NerPs+rDUUbb7Bj26zzf/zFxuzOOpRNbDd3WlaMGMmq8
-	h2UmE7ShTS8n/kkhvaLanI1hDi1wclKfrX7hDWjxcyofgAyAqLtUDPn0m70i7WUDS5mfoIGRRfQKe
-	XJUYTC0g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vMg5G-00000009HOl-42QK;
-	Sat, 22 Nov 2025 05:22:55 +0000
-Message-ID: <26083ba9-1979-4d14-8465-3f54f2f96d23@infradead.org>
-Date: Fri, 21 Nov 2025 21:22:53 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QVM9mC5G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763798149; x=1795334149;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SXw40nk81lfewjY1S+9hPKCWNPlyLR4zHML4HwWfuNQ=;
+  b=QVM9mC5GJ0P1V3L2M/VZh8bvwnbxYhpmWtr7FeFr+cRdbghWKhXAjUMq
+   nnmT6oTArYPZ2Z3woTbDhCbFA18yi6oeLw+knEOivXmaGf/V1Gh1gKH2i
+   2h3Wdarrpv1sm5J4aoGlBntQVFqdjpRAFMBqEZ0U1GXxGv7Ecgj/8+uvC
+   2oOkvmzMnWq3yTbrpsgxL3A2DamMS7n6bUmrPHKuu73BIqMa6CDiOAxgH
+   sMCiBihE3WaJQlx760FIZULJbH25La+HHUn6Qo2Oi5UL6hwszdi3TJUuW
+   2bH9ke2PDrVDLuDR6UPzAEwEXnFMYKWKusQx+DGdEt5zHZE5dfjKVsBf2
+   A==;
+X-CSE-ConnectionGUID: d4b1Iu1hTJeJdzQgIiiBfg==
+X-CSE-MsgGUID: ZCqV2pBfQ8KuUS2MaLu7Ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="69748450"
+X-IronPort-AV: E=Sophos;i="6.20,217,1758610800"; 
+   d="scan'208";a="69748450"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 23:55:48 -0800
+X-CSE-ConnectionGUID: wOeO3mLQSJuDwYi3qD24uQ==
+X-CSE-MsgGUID: AycttFy4TB+6j12x7ifhWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,217,1758610800"; 
+   d="scan'208";a="222833433"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 21 Nov 2025 23:55:43 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vMiT6-0007Gp-1a;
+	Sat, 22 Nov 2025 07:55:40 +0000
+Date: Sat, 22 Nov 2025 15:54:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	tglx@linutronix.de, andersson@kernel.org, pmladek@suse.com,
+	rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
+	mhocko@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, tudor.ambarus@linaro.org,
+	mukesh.ojha@oss.qualcomm.com, linux-arm-kernel@lists.infradead.org,
+	linux-hardening@vger.kernel.org, jonechou@google.com,
+	rostedt@goodmis.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org,
+	Eugen Hristev <eugen.hristev@linaro.org>
+Subject: Re: [PATCH 23/26] soc: qcom: Add minidump driver
+Message-ID: <202511221521.2OINSDPK-lkp@intel.com>
+References: <20251119154427.1033475-24-eugen.hristev@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 2/2] ras: mem: Add ACPI RAS2 memory driver
-To: shiju.jose@huawei.com, rafael@kernel.org, bp@alien8.de,
- akpm@linux-foundation.org, rppt@kernel.org, dferguson@amperecomputing.com,
- linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
- leo.duran@amd.com, Yazen.Ghannam@amd.com, mchehab@kernel.org
-Cc: jonathan.cameron@huawei.com, linuxarm@huawei.com, rientjes@google.com,
- jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
- naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
- somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
- duenwen@google.com, gthelen@google.com, wschwartz@amperecomputing.com,
- wbs@os.amperecomputing.com, nifan.cxl@gmail.com, tanxiaofei@huawei.com,
- prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
- kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
-References: <20251121182825.237-1-shiju.jose@huawei.com>
- <20251121182825.237-3-shiju.jose@huawei.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251121182825.237-3-shiju.jose@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119154427.1033475-24-eugen.hristev@linaro.org>
 
+Hi Eugen,
 
+kernel test robot noticed the following build warnings:
 
-On 11/21/25 10:28 AM, shiju.jose@huawei.com wrote:
-> diff --git a/Documentation/edac/scrub.rst b/Documentation/edac/scrub.rst
-> index 2cfa74fa1ffd..737a10da224f 100644
-> --- a/Documentation/edac/scrub.rst
-> +++ b/Documentation/edac/scrub.rst
-> @@ -340,3 +340,61 @@ controller or platform when unexpectedly high error rates are detected.
->  
->  Sysfs files for scrubbing are documented in
->  `Documentation/ABI/testing/sysfs-edac-ecs`
-> +
-> +3. ACPI RAS2 Hardware-based Memory Scrubbing
-> +
-> +3.1. On demand scrubbing for a specific memory region.
-> +
-> +3.1.1. Query the status of demand scrubbing
-> +
-> +# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_demand
-> +
-> +0
-> +
-> +3.1.2. Query what is device default/current scrub cycle setting.
-> +
-> +Applicable to both demand and background scrubbing.
-> +
-> +# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
-> +
-> +36000
-> +
+[auto build test WARNING on rppt-memblock/fixes]
+[also build test WARNING on linus/master v6.18-rc6]
+[cannot apply to akpm-mm/mm-everything rppt-memblock/for-next next-20251121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-What units (above)?
+url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/kernel-Introduce-meminspect/20251119-235912
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock.git fixes
+patch link:    https://lore.kernel.org/r/20251119154427.1033475-24-eugen.hristev%40linaro.org
+patch subject: [PATCH 23/26] soc: qcom: Add minidump driver
+config: nios2-randconfig-r123-20251122 (https://download.01.org/0day-ci/archive/20251122/202511221521.2OINSDPK-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511221521.2OINSDPK-lkp@intel.com/reproduce)
 
-> +3.1.3. Query the range of device supported scrub cycle for a memory region.
-> +
-> +# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/min_cycle_duration
-> +
-> +3600
-> +
-> +# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/max_cycle_duration
-> +
-> +86400
-> +
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511221521.2OINSDPK-lkp@intel.com/
 
-ditto.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/qcom/minidump.c:108:35: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/soc/qcom/minidump.c:154:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] seq_num @@     got unsigned int enum meminspect_uid const id @@
+   drivers/soc/qcom/minidump.c:154:22: sparse:     expected restricted __le32 [usertype] seq_num
+   drivers/soc/qcom/minidump.c:154:22: sparse:     got unsigned int enum meminspect_uid const id
+>> drivers/soc/qcom/minidump.c:184:19: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/soc/qcom/minidump.c:183:39: sparse: signed value source
 
-> +3.1.4. Program scrubbing for the memory region in RAS2 device to repeat every
-> +43200 seconds (half a day).
-> +
-> +# echo 43200 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
-> +
-> +3.1.5. Start 'demand scrubbing'.
-> +
-> +When a demand scrub is started, any background scrub currently in progress
-> +will be stopped and then automatically restarted once the demand scrub has
-> +completed.
+vim +108 drivers/soc/qcom/minidump.c
 
-Will it restart where it left off or at the beginning?
-
-> +
-> +# echo 1 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_demand
-> +
-> +3.2. Background scrubbing the entire memory
-> +
-> +3.2.1. Query the status of background scrubbing.
-> +
-> +# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_background
-> +
-> +0
-> +
-> +3.2.2. Program background scrubbing for RAS2 device to repeat in every 21600
-> +seconds (quarter of a day).
-> +
-> +# echo 21600 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
-> +
-> +3.2.3. Start 'background scrubbing'.
-> +
-> +# echo 1 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_background
+    93	
+    94	/**
+    95	 * qcom_md_get_region_index() - Lookup minidump region by id
+    96	 * @md: minidump data
+    97	 * @id: minidump region id
+    98	 *
+    99	 * Return: On success, it returns the internal region index, on failure,
+   100	 *	returns	negative error value
+   101	 */
+   102	static int qcom_md_get_region_index(struct minidump *md, int id)
+   103	{
+   104		unsigned int count = le32_to_cpu(md->toc->region_count);
+   105		unsigned int i;
+   106	
+   107		for (i = 0; i < count; i++)
+ > 108			if (md->regions[i].seq_num == id)
+   109				return i;
+   110	
+   111		return -ENOENT;
+   112	}
+   113	
+   114	/**
+   115	 * register_md_region() - Register a new minidump region
+   116	 * @priv: private data
+   117	 * @e: pointer to inspect entry
+   118	 *
+   119	 * Return: None
+   120	 */
+   121	static void __maybe_unused register_md_region(void *priv,
+   122						      const struct inspect_entry *e)
+   123	{
+   124		unsigned int num_region, region_cnt;
+   125		const char *name = "unknown";
+   126		struct minidump_region *mdr;
+   127		struct minidump *md = priv;
+   128	
+   129		if (!(e->va || e->pa) || !e->size) {
+   130			dev_dbg(md->dev, "invalid region requested\n");
+   131			return;
+   132		}
+   133	
+   134		if (e->id < ARRAY_SIZE(meminspect_id_to_md_string))
+   135			name = meminspect_id_to_md_string[e->id];
+   136	
+   137		if (qcom_md_get_region_index(md, e->id) >= 0) {
+   138			dev_dbg(md->dev, "%s:%d region is already registered\n",
+   139				name, e->id);
+   140			return;
+   141		}
+   142	
+   143		/* Check if there is a room for a new entry */
+   144		num_region = le32_to_cpu(md->toc->region_count);
+   145		if (num_region >= MAX_NUM_REGIONS) {
+   146			dev_dbg(md->dev, "maximum region limit %u reached\n",
+   147				num_region);
+   148			return;
+   149		}
+   150	
+   151		region_cnt = le32_to_cpu(md->toc->region_count);
+   152		mdr = &md->regions[region_cnt];
+   153		scnprintf(mdr->name, MAX_REGION_NAME_LENGTH, "K%.8s", name);
+ > 154		mdr->seq_num = e->id;
+   155		if (e->pa)
+   156			mdr->address = cpu_to_le64(e->pa);
+   157		else if (e->va)
+   158			mdr->address = cpu_to_le64(__pa(e->va));
+   159		mdr->size = cpu_to_le64(ALIGN(e->size, 4));
+   160		mdr->valid = cpu_to_le32(MINIDUMP_REGION_VALID);
+   161		region_cnt++;
+   162		md->toc->region_count = cpu_to_le32(region_cnt);
+   163	
+   164		dev_dbg(md->dev, "%s:%d region registered %llx:%llx\n",
+   165			mdr->name, mdr->seq_num, mdr->address, mdr->size);
+   166	}
+   167	
+   168	/**
+   169	 * unregister_md_region() - Unregister a previously registered minidump region
+   170	 * @priv: private data
+   171	 * @e: pointer to inspect entry
+   172	 *
+   173	 * Return: None
+   174	 */
+   175	static void __maybe_unused unregister_md_region(void *priv,
+   176							const struct inspect_entry *e)
+   177	{
+   178		struct minidump_region *mdr;
+   179		struct minidump *md = priv;
+   180		unsigned int region_cnt;
+   181		unsigned int idx;
+   182	
+   183		idx = qcom_md_get_region_index(md, e->id);
+ > 184		if (idx < 0) {
+   185			dev_dbg(md->dev, "%d region is not present\n", e->id);
+   186			return;
+   187		}
+   188	
+   189		mdr = &md->regions[0];
+   190		region_cnt = le32_to_cpu(md->toc->region_count);
+   191	
+   192		/*
+   193		 * Left shift one position all the regions located after the
+   194		 * region being removed, in order to fill the gap.
+   195		 * Then, zero out the last region at the end.
+   196		 */
+   197		memmove(&mdr[idx], &mdr[idx + 1], (region_cnt - idx - 1) * sizeof(*mdr));
+   198		memset(&mdr[region_cnt - 1], 0, sizeof(*mdr));
+   199		region_cnt--;
+   200		md->toc->region_count = cpu_to_le32(region_cnt);
+   201	}
+   202	
 
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
