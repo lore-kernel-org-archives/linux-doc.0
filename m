@@ -1,158 +1,246 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75A91547EE;
-	Sat, 22 Nov 2025 13:01:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E850F2147F9;
+	Sat, 22 Nov 2025 13:25:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763816506; cv=none; b=Hx/fQ2fkgUxbtYCLCfLai05E9Ox+O+jBQ5TfGcHqHO8mtYEiC5CETh8nkx+RrikebRl7RlbqVGQIY1MtG4Vudh9jzcYKLO1LD2lnDDu0KKDNiuTWv2+v9TXfBHey3WY6c41g4ytXWhKHX7m6acE3TfwWMZzka3HBWZQ3pqD/Z8c=
+	t=1763817928; cv=none; b=RDWHlAjhn7YR6/t6rANWXA9wR5+qLmRwpjFwB7jY6PYZLwWfhrE2xgtdu8Uu0MozTNn9VQXRiBxW519VTMVpojpZLjh8XwkNafczqjk4xFpUL0lV45RUzqD+6/hJdO4hxzTPfsFJLk4+NEku8OGVmraxOX1lA7v3mVxC0fl1Xko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763816506; c=relaxed/simple;
-	bh=lwudwfGOfRn0wSmhL4ydO5KrG5lWe6Pnfe86fM9oy6w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZSp/updqLggL2GwXJbq6d8CX6YJsKfh2V7DAuzjbJooF6HWGAJqvv/Fk+AUkKeeS/zK5CkKs9/rc+/THtgABiJ54E+wyytUCL8qX76owTXpNl0krib7AMUTc55YqsBlGlWsRXbZiLXSRWlNgZL/UevTA5rpkYHhPbRp/gSwr9LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5RLfjhX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763817928; c=relaxed/simple;
+	bh=e5AzHO81/a9aj3GGCW5h753xla0jVym/io664XMZHaI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=awNf2k0T2/BkbBsvZ5xGeuQqQzQTJ9LXk95RkUED6TZB5r4pHtBeW/yZEvK8F2Rcxs+lb3YQoWy7MSqEq+WTRCGWoDE8mOflOB7q/qOQlTFfCLpnnjfjzy5AkYTb7AhtNEnCGjRVuV7OS7QjN2KzIUb1PIbMInMonx/sL4gePJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MPFqf4s9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5RLfjhX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A77AC4CEF5;
-	Sat, 22 Nov 2025 13:01:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MPFqf4s9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36870C4CEF5;
+	Sat, 22 Nov 2025 13:25:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763816506;
-	bh=lwudwfGOfRn0wSmhL4ydO5KrG5lWe6Pnfe86fM9oy6w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W5RLfjhXGe8+IR47I4gCCO9msE51zdyB8GRDzoc/eKF0Eo4qRaBGyiPnpxARfL5YO
-	 YWTxq2E3WSuZsTgnjf/EUWKcEoiJWiTBzTFlkm8+giyl1C3UrVLRW1qd1ysRbrz33W
-	 oHBPO8DhDjckiINfOZ/8xMZAlwCdBeGMavbD+W/5lwlt2pe7RxGGQsvgCkjoaQmYdD
-	 s6JLGlMG8xyDGRnMX/6fkYDDFJa+MNn1YS27y8RUa0YyCarVyTq/lb0JYH68GiLMD6
-	 zjEdnxn11dHslwDwe6yp3AxpeP1jsjkI3FNut2wCmx0qwGtnYNMUUM+GS3M4nNpbfV
-	 hvVWBGKk0lexg==
-Message-ID: <f8b93a66-c755-497d-a425-c7b4baff5165@kernel.org>
-Date: Sat, 22 Nov 2025 14:01:40 +0100
+	s=k20201202; t=1763817927;
+	bh=e5AzHO81/a9aj3GGCW5h753xla0jVym/io664XMZHaI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=MPFqf4s97YnlpFpPgLeDgfSjRJDbo4g8ily8P1JGPTsEdLK4SavjKLSbGof22Tlsk
+	 1GXUs8Rgj342YdjdSXJMmnxmr5ZY4NScgsmX+lEXlaNAtM8rb5cPv2T2fcAx5VXqKH
+	 xVwo/q0If8WQDQAjb+fB0pD3APpSjI5DgURuyE8Wypb0CTSbSFKttkmBA+q7guCcPV
+	 f1LRXKToE/rvYbj3/ETtCMO599A8X/Yajovd4IYCtDwynCKBgYll4DVNTcJp1bVTxN
+	 ncMnxbsZvW5jK0t+hzsYQf7sAYzUwwOldwOFZe6TKYUEd89fThSlCDm5P5HnPAt951
+	 TsQca6TBCJTOA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vMncC-00000007UgK-44UT;
+	Sat, 22 Nov 2025 13:25:25 +0000
+Date: Sat, 22 Nov 2025 13:25:24 +0000
+Message-ID: <86tsymqjwb.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Tian Zheng <zhengtian10@huawei.com>
+Cc: <oliver.upton@linux.dev>,
+	<catalin.marinas@arm.com>,
+	<corbet@lwn.net>,
+	<pbonzini@redhat.com>,
+	<will@kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<yuzenghui@huawei.com>,
+	<wangzhou1@hisilicon.com>,
+	<yezhenyu2@huawei.com>,
+	<xiexiangyou@huawei.com>,
+	<zhengchuan@huawei.com>,
+	<linuxarm@huawei.com>,
+	<joey.gouly@arm.com>,
+	<kvmarm@lists.linux.dev>,
+	<kvm@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>,
+	<suzuki.poulose@arm.com>
+Subject: Re: [PATCH v2 3/5] KVM: arm64: Add support for FEAT_HDBSS
+In-Reply-To: <20251121092342.3393318-4-zhengtian10@huawei.com>
+References: <20251121092342.3393318-1-zhengtian10@huawei.com>
+	<20251121092342.3393318-4-zhengtian10@huawei.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v4] checkpatch: add uninitialized pointer with
- __free attribute check
-To: Ally Heev <allyheev@gmail.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
- Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- David Hunter <david.hunter.linux@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
- linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com,
- Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: zhengtian10@huawei.com, oliver.upton@linux.dev, catalin.marinas@arm.com, corbet@lwn.net, pbonzini@redhat.com, will@kernel.org, linux-kernel@vger.kernel.org, yuzenghui@huawei.com, wangzhou1@hisilicon.com, yezhenyu2@huawei.com, xiexiangyou@huawei.com, zhengchuan@huawei.com, linuxarm@huawei.com, joey.gouly@arm.com, kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, suzuki.poulose@arm.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 17/11/2025 04:10, Ally Heev wrote:
-> uninitialized pointers with __free attribute can cause undefined
-> behavior as the memory randomly assigned to the pointer is freed
-> automatically when the pointer goes out of scope.
-> add check in checkpatch to detect such issues.
+On Fri, 21 Nov 2025 09:23:40 +0000,
+Tian Zheng <zhengtian10@huawei.com> wrote:
 > 
-> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
-> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Ally Heev <allyheev@gmail.com>
+> From: eillon <yezhenyu2@huawei.com>
+> 
+> Armv9.5 introduces the Hardware Dirty Bit State Structure (HDBSS) feature,
+> indicated by ID_AA64MMFR1_EL1.HAFDBS == 0b0100.
+> 
+> Add the Kconfig for FEAT_HDBSS and support detecting and enabling the
+> feature. A CPU capability is added to notify the user of the feature.
+> 
+> Add KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl and basic framework for
+> ARM64 HDBSS support. Since the HDBSS buffer size is configurable and
+> cannot be determined at KVM initialization, an IOCTL interface is
+> required.
+> 
+> Actually exposing the new capability to user space happens in a later
+> patch.
+> 
+> Signed-off-by: eillon <yezhenyu2@huawei.com>
+> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
 > ---
-> Testing:
-> ran checkpatch.pl before and after the change on
-> crypto/asymmetric_keys/x509_public_key.c, which has
-> both initialized with NULL and uninitialized pointers
-> ---
-> Changes in v4:
-> - fixed UNINITIALIZED_PTR_WITH_FREE description
-> - Link to v3: https://lore.kernel.org/r/20251025-aheev-checkpatch-uninitialized-free-v3-1-a67f72b1c2bd@gmail.com
+>  arch/arm64/Kconfig                  | 14 ++++++++++++++
+>  arch/arm64/include/asm/cpucaps.h    |  2 ++
+>  arch/arm64/include/asm/cpufeature.h |  5 +++++
+>  arch/arm64/include/asm/kvm_host.h   |  4 ++++
+>  arch/arm64/include/asm/sysreg.h     | 12 ++++++++++++
+>  arch/arm64/kernel/cpufeature.c      |  9 +++++++++
+>  arch/arm64/tools/cpucaps            |  1 +
+>  include/uapi/linux/kvm.h            |  1 +
+>  tools/include/uapi/linux/kvm.h      |  1 +
+>  9 files changed, 49 insertions(+)
 > 
-> Changes in v3:
-> - remove $FreeAttribute
-> - Link to v2: https://lore.kernel.org/r/20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 6663ffd23f25..1edf75888a09 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -2201,6 +2201,20 @@ config ARM64_GCS
 > 
-> Changes in v2:
-> - change cover letter and title to reflect new changes
-> - fix regex to handle multiple declarations in a single line case
-> - convert WARN to ERROR for uninitialized pointers
-> - add a new WARN for pointers initialized with NULL
-> - NOTE: tried handling multiple declarations on a single line by splitting
->         them and matching the parts with regex, but, it turned out to be
-> 	complex and overkill. Moreover, multi-line declarations pose a threat
-> - Link to v1: https://lore.kernel.org/r/20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com
-> ---
->  Documentation/dev-tools/checkpatch.rst | 5 +++++
->  scripts/checkpatch.pl                  | 6 ++++++
->  2 files changed, 11 insertions(+)
+>  endmenu # "ARMv9.4 architectural features"
 > 
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index d5c47e560324fb2399a5b1bc99c891ed1de10535..c61a3892a60c13f7c5ba89e969e39a93a3dcd5bc 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -1009,6 +1009,11 @@ Functions and Variables
->  
->        return bar;
->  
-> +  **UNINITIALIZED_PTR_WITH_FREE**
-> +    Pointers with __free attribute should be initialized. Not doing so
+> +menu "ARMv9.5 architectural features"
+> +
+> +config ARM64_HDBSS
+> +	bool "Enable support for Hardware Dirty state tracking Structure (HDBSS)"
+> +	help
+> +	  Hardware Dirty state tracking Structure(HDBSS) enhances tracking
+> +	  translation table descriptors' dirty state to reduce the cost of
+> +	  surveying for dirtied granules.
+> +
+> +	  The feature introduces new assembly registers (HDBSSBR_EL2 and
+> +	  HDBSSPROD_EL2), which are accessed via generated register accessors.
 
+This last but means nothing to most people.
 
-I saw the other discussion and Linus re-iterated old approach/syntax
-preference, thus I think this should also include it, since it is de
-facto a coding style:
+But more importantly, I really don't want to see this as a config
+option. KVM comes with "battery included", and all features should be
+available at all times.
 
-"Pointers with __free attribute should be declared in the place of use
-and initialized (see include/linux/cleanup.h)......"
+> +
+> +endmenu # "ARMv9.5 architectural features"
+> +
+>  config ARM64_SVE
+>  	bool "ARM Scalable Vector Extension support"
+>  	default y
+> diff --git a/arch/arm64/include/asm/cpucaps.h b/arch/arm64/include/asm/cpucaps.h
+> index 9d769291a306..5e5a26f28dec 100644
+> --- a/arch/arm64/include/asm/cpucaps.h
+> +++ b/arch/arm64/include/asm/cpucaps.h
+> @@ -48,6 +48,8 @@ cpucap_is_possible(const unsigned int cap)
+>  		return IS_ENABLED(CONFIG_ARM64_GCS);
+>  	case ARM64_HAFT:
+>  		return IS_ENABLED(CONFIG_ARM64_HAFT);
+> +	case ARM64_HAS_HDBSS:
+> +		return IS_ENABLED(CONFIG_ARM64_HDBSS);
+>  	case ARM64_UNMAP_KERNEL_AT_EL0:
+>  		return IS_ENABLED(CONFIG_UNMAP_KERNEL_AT_EL0);
+>  	case ARM64_WORKAROUND_843419:
+> diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+> index e223cbf350e4..b231415a2b76 100644
+> --- a/arch/arm64/include/asm/cpufeature.h
+> +++ b/arch/arm64/include/asm/cpufeature.h
+> @@ -856,6 +856,11 @@ static inline bool system_supports_haft(void)
+>  	return cpus_have_final_cap(ARM64_HAFT);
+>  }
+> 
+> +static inline bool system_supports_hdbss(void)
+> +{
+> +	return cpus_have_final_cap(ARM64_HAS_HDBSS);
+> +}
+> +
+>  static __always_inline bool system_supports_mpam(void)
+>  {
+>  	return alternative_has_cap_unlikely(ARM64_MPAM);
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 64302c438355..d962932f0e5f 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -60,6 +60,10 @@
+> 
+>  #define KVM_HAVE_MMU_RWLOCK
+> 
+> +/* HDBSS entry field definitions */
+> +#define HDBSS_ENTRY_VALID BIT(0)
+> +#define HDBSS_ENTRY_IPA GENMASK_ULL(55, 12)
+> +
 
-Best regards,
-Krzysztof
+None of this is used here. Move it to the patch where it belongs.
+
+>  /*
+>   * Mode of operation configurable with kvm-arm.mode early param.
+>   * See Documentation/admin-guide/kernel-parameters.txt for more information.
+> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+> index c231d2a3e515..3511edea1fbc 100644
+> --- a/arch/arm64/include/asm/sysreg.h
+> +++ b/arch/arm64/include/asm/sysreg.h
+> @@ -1129,6 +1129,18 @@
+>  #define gicr_insn(insn)			read_sysreg_s(GICV5_OP_GICR_##insn)
+>  #define gic_insn(v, insn)		write_sysreg_s(v, GICV5_OP_GIC_##insn)
+> 
+> +/*
+> + * Definitions for the HDBSS feature
+> + */
+> +#define HDBSS_MAX_SIZE		HDBSSBR_EL2_SZ_2MB
+> +
+> +#define HDBSSBR_EL2(baddr, sz)	(((baddr) & GENMASK(55, 12 + sz)) | \
+> +				 FIELD_PREP(HDBSSBR_EL2_SZ_MASK, sz))
+> +#define HDBSSBR_BADDR(br)	((br) & GENMASK(55, (12 + HDBSSBR_SZ(br))))
+> +#define HDBSSBR_SZ(br)		FIELD_GET(HDBSSBR_EL2_SZ_MASK, br)
+
+This is a bit backward. When would you need to read-back and mask
+random bits off the register?
+
+> +
+> +#define HDBSSPROD_IDX(prod)	FIELD_GET(HDBSSPROD_EL2_INDEX_MASK, prod)
+> +
+
+As previously said, these definitions don't serve any purpose here,
+and would be better in the following patch.
+
+>  #define ARM64_FEATURE_FIELD_BITS	4
+> 
+>  #ifdef __ASSEMBLY__
+> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+> index e25b0f84a22d..f39973b68bdb 100644
+> --- a/arch/arm64/kernel/cpufeature.c
+> +++ b/arch/arm64/kernel/cpufeature.c
+> @@ -2710,6 +2710,15 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+>  		.matches = has_cpuid_feature,
+>  		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HAFT)
+>  	},
+> +#endif
+> +#ifdef CONFIG_ARM64_HDBSS
+> +	{
+> +		.desc = "Hardware Dirty state tracking structure (HDBSS)",
+> +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+> +		.capability = ARM64_HAS_HDBSS,
+> +		.matches = has_cpuid_feature,
+> +		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HDBSS)
+> +	},
+
+I think this is one of the features we should restrict to VHE. I don't
+imagine pKVM ever making use of this, and no non-VHE HW will ever
+build this.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
