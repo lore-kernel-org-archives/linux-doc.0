@@ -1,65 +1,65 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7282E8DE3
-	for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 22:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09A32EB841
+	for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 22:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763850280; cv=none; b=JpICLo/Bh2pm0bdfX9mLhlDqsLoepa6vOdKqBxvAodLes5Dz56B85wAhHXFBnJ7D8+CEswZioVcE7kSs1xQTsaqIuSkJhoGi4O/3qyEo+hHMJBOfCS0XdiuQI1KvoV84yQX5ecRXpjROiK/WJfRB0qkal8DDtxJ8B7D5P/TlNU0=
+	t=1763850285; cv=none; b=buv4zDSUL8xpOdOmSHI/AZXDO9XzL9EyokrbZANi0jw0vwSv2yISWJNYLJpfK47vw5yU37R6yDX006mdwuScL7rbApJdxKTlt7TjmkJay9gJ0zTrZjutUEcJmcyVNiOV9rcE7UUR2aLsuffJtATpthE4IiYfkkSUsXmA382GmUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763850280; c=relaxed/simple;
-	bh=qyFA0AVLodsieu/MOUPeDtGYSXYLnzDYcmyFDoYZ4n4=;
+	s=arc-20240116; t=1763850285; c=relaxed/simple;
+	bh=l7lKW7DaGzZAp2GvmYc9Wma/ghnFqf3j0aNhK2onjcA=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ijj+Xd3qbu893x99YgMS2v/uzXpv7Og+eSxSj/au8Zxsrj7L04Goy6FtYwaDivfzv4qz+bUhSFYeF0FYvJWlvpe7C2xC6/s8g/EC8QoAFRkEqhCXyZFsSRuKYSfo7SYXvpSrAsAliKcghcxQVu0qRntXkRJeX/+TMX+ZPcodAtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Ey4RFQnL; arc=none smtp.client-ip=209.85.128.181
+	 MIME-Version; b=DHrzNbF0tXCPdRngH0DZvpKbZ/uHojEXqXodaiVBK6JwM+88EzVkF7tpr06AEETdl3/VJM1C4GpzXtKz/9ok/eDb7YoxxH4b8mCHeCihcvIJTQAfeyJNqMB1dkskiPhdIDXcz3EiWgn2YGGmGtM3v94NePlOjeaX4pScE/4B57c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=UvF9Ga2y; arc=none smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Ey4RFQnL"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-786a85a68c6so30685267b3.3
-        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 14:24:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="UvF9Ga2y"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-787be077127so31823267b3.2
+        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 14:24:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763850275; x=1764455075; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763850279; x=1764455079; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=F5tajeHzp9hDN07gnwZlVCQmxSUhZpHiffHO9VM3nds=;
-        b=Ey4RFQnL1todxo3JlT9zqrwifowIc1ThEPlnrf11Wx4lEHquk3UBgc7FKjWWKykQAJ
-         5dzZnUJspafViNVxurays9MgBRe5dFe9OTebD+3JoGr4TiOWg0uCSI9mkQyPCPBEVa6E
-         K3NXpWyQSUorqauurmLHzbvt4EaeIYi1i1XNUIJylkVXqi52OG3aP4vwkgegyDe7Ix2y
-         JWqVNaCHxmf2qrHHU45m/uoMmbLrGf+Z0QMRSdDWwi4oPDPrBpbjZ4o8dcuejQHqSSrj
-         cuvbTcCkgMzlk2smSC3tl8+s4zIUMcZtg0iltbRjwu3D900+uQy04uwi/laHy7xEuOXV
-         NY7w==
+        bh=ejaHDjieDr/pDzy+upfATTsYn5XdzeNqJKeKiiB3q/I=;
+        b=UvF9Ga2yQz100beXkHJFU8H0xHEvjxRcGb1KjagcR08ZhX/fPhebJ3tRwRBk+xB9Iv
+         xRvIgs90n73qylvZ9hujvlaOxkrrPccdZ1Weux/EwhN7Y1PuGhSgCnaapR0VPyvgY/2T
+         CItOGbAmvRIgrkannHGrE8f62ppa2bEkEz+mxpI6FnX1PBJUJN+6Q+hxYabmx/ZeLkND
+         eAH1jHmI+D+jt4ruVeDzq60Fh3sd7lbYej0hd/ZztFo6imPwhV7tLHUoHQn4z/umvrnE
+         wvvi+TMVBADD9O/73gppt5SMjUUYSKXZJhvMIk0ExwliuCGOhraL4TnSjCk9KVsnGVzg
+         LbHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763850275; x=1764455075;
+        d=1e100.net; s=20230601; t=1763850279; x=1764455079;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=F5tajeHzp9hDN07gnwZlVCQmxSUhZpHiffHO9VM3nds=;
-        b=k1RuozLqiHJ4m3eWcQaAbCDbSk2M4PKwJjL1QTaZ37Tj83WiS/N7QcaFuYN0hLh9qo
-         Z6vpjh66Jr7SQ95ERpxzC+8LEzQwpffStepooQt/HojHHoeJqTpfdquEyrKrqCjl3XG3
-         iyCTFOTJKqtm+WkL7ibTcCC7xoxxmlpaOTmYpI3oIGQBdOXgP/nUCgHWYJ5OD7B7vmIx
-         k27/5X77uzg+V/6D3eLACYFm93cAI9FWQvX1xzsShle3DIrLwd3qQ9WxakN2Rccxsrx8
-         MwnNlMp8PY77jTWk/cc4Gjvo1CfK+5efrN3aAerFTmyruvJ2XK1E9NQHR8vE4B/yHHQA
-         0D9A==
-X-Forwarded-Encrypted: i=1; AJvYcCWKSGrxkSBZeqoWBu8ZbcrtmDq/jKiHgb+xDEzAhABCsSTA7SFyLrt6LqSOYk9CjBP+edvsOW3akUY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywc+B46bwWzes0RRdVzspuLsUFYRRGRaUNsfxkuC+P3NopAru0C
-	ar3XJPGeG98ZoaOsSzRARdluqbrKBRitI3DvgWTCCe6/WVpItDhIl5TgTH/fmpRRFqg=
-X-Gm-Gg: ASbGncsLIcbVxqfohnAlJmKfSK6OSDbBMHhPXceZIQcyjHvZB9+w+WqLiilGeLndZE1
-	pQNUZO41Q0ZOX0GySU06pljy7H+c0RWVmDeKmA3+Ha3VKqb68kGCiExgXQdu8cNBlCuoEmtHQhD
-	9RVHwXOAe5mkgRr0U2YLwG3ckInqXYzzaYF2Co4ajnj0pP81u7WEIkxQ4rbTdM8n/a3Gde6mwRN
-	IYBZEXXycT/ulIMwW8C1a3o+/C8hrZ36AJsuX2ucvp8gSNUIkRdrlIgq8PrjsvEWKUHhDNMuqpc
-	lCrmVHtBDv1hb9jVs5/FOJnUgYYNDHq3PzsMn4zjYsMA1sCL2jtmV1dTXLlYNiUx3DVUO1zlHSX
-	jvR6A9btjppDbnBQ1uOjHTqNQvTM4ZyHODzfvPTYrLkwyPtRXYNRUkFBqaPaOuCGXrR868nWz0G
-	37SeWAWUyj7tPRMItNqpktsBKeqisx3Qey16bcc0zxunZkAh+D25aYYL+LdwGUTZ5Rcy6xMABNG
-	PJXPe8=
-X-Google-Smtp-Source: AGHT+IFD6osaS2sP17uSKoOpkdrgAaGoOW4xxaV4WzN7kWyXMlqtMJ1zAdZWqXZh/Duto084HHI0jg==
-X-Received: by 2002:a05:690c:968a:b0:786:896d:8858 with SMTP id 00721157ae682-78a8b54d4a4mr55406797b3.47.1763850274503;
-        Sat, 22 Nov 2025 14:24:34 -0800 (PST)
+        bh=ejaHDjieDr/pDzy+upfATTsYn5XdzeNqJKeKiiB3q/I=;
+        b=PT5mzKASulyh6UA3xZQsR+NDPKe9kspH858yrE8m3rNWYtgkF07n8qaTPxWC+dCk93
+         EyRYHGamolZXmQeVWtotONfoSzbHU2PoDkziPWwypgzhYklpMxIXRiQKlEAWkBlpsV1p
+         dlROT6SRhltleS1IpS1ton8Kt+upA/3Wiwuu76Io+o0pRGavgSgW1WALZzaek2dJhCtN
+         EzEOB3nAthkqmGCME7eukso/hknTgsBM4/KdPPk8GK/jeh2uO6v+Kz++SHg9SEe503YG
+         Cj4VgjtdzSpD8NmIpxmS9RGGZDtGfLQ6eJc0db73Ckmc+tykTdpv6kof/8QxSGQqj6oR
+         DidQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUl8rgZ2l/C2cy00ADjdRIFA4Sn/HRiKz3jEPPGMh84mnMImvR/GVrfBb9msvy2V2Pj3XDxPDg9mSM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRloFRRgEejle5hM08SgNfLtCgbGhmsykC76eFDTFj2DsKPZ07
+	az+7QklpvtA0GdCjsK9kW7+Vz2Tarl8uwYBSClIGD5DVMo5QfB8S3X/gHBT4lAUV7Jc=
+X-Gm-Gg: ASbGncsK0JUZmCBIF8CXnAoHmjzBGEbbaUA6GHX9Lfi6VI49KHhkBfwg/8BXlxoWpwU
+	Xhc/UdY2sq6x7RD6eLFLIkmcFlVRsJlZbWDNpM5iIn6W/9ee+yitR/lYpe93MQFiLEFt71/+mXL
+	VoLH0MyvTUMY/+SZt/IrUzSf8TYm+mHnTmKp7Nm1c2Q+rITKWWLAww15jFiekoRLYKYMyrFFz3O
+	lEcdni7s+VBc06vTzvF5BlUHfjy4hut7MrmpCXT9GEgXPn1exbCd9P3N//kAtS/GxfdFx2e/KsP
+	rUJ66pYMea3OfpGT4GJbPhVsSehhRXfKppjsAFgC4I/p0xFA7vCJ6tk3srgZzGfVrjHnDKrqO/i
+	OwkDzMC0+pfcjRqMO6ThbkqeOa4eIlIz5+Kt4GqJYjEA7NBcTN9EG6WfQ/x+TyHonnojezYMLMo
+	2PDmgvRaxY5qiBzkbNKsD6ZT8WdJZxEIcXBwvGI5fmCz8nmOXaMDsn9d9nYIvlobeGOTDlJnscA
+	NV1hhw=
+X-Google-Smtp-Source: AGHT+IHaO2M7rzXS9aV6uHz8pg9B2XKFY+NkqugdpRPdeDAsg/9VEMgnKluajVBx51kFvPB+f80XFA==
+X-Received: by 2002:a05:690c:6a06:b0:787:e9bc:fa85 with SMTP id 00721157ae682-78a8b5780demr56833317b3.68.1763850278474;
+        Sat, 22 Nov 2025 14:24:38 -0800 (PST)
 Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a79779a4esm28858937b3.0.2025.11.22.14.24.32
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a79779a4esm28858937b3.0.2025.11.22.14.24.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 14:24:33 -0800 (PST)
+        Sat, 22 Nov 2025 14:24:38 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -134,9 +134,9 @@ To: pratyush@kernel.org,
 	hughd@google.com,
 	skhawaja@google.com,
 	chrisl@kernel.org
-Subject: [PATCH v7 19/22] selftests/liveupdate: add test infrastructure and scripts
-Date: Sat, 22 Nov 2025 17:23:46 -0500
-Message-ID: <20251122222351.1059049-20-pasha.tatashin@soleen.com>
+Subject: [PATCH v7 21/22] liveupdate: luo_flb: Introduce File-Lifecycle-Bound global state
+Date: Sat, 22 Nov 2025 17:23:48 -0500
+Message-ID: <20251122222351.1059049-22-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.52.0.rc2.455.g230fcf2819-goog
 In-Reply-To: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
 References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
@@ -148,597 +148,1238 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the testing infrastructure required to verify the liveupdate
-feature. This includes a custom init process, a test orchestration
-script, and a batch runner.
+Introduce a mechanism for managing global kernel state whose lifecycle
+is tied to the preservation of one or more files. This is necessary for
+subsystems where multiple preserved file descriptors depend on a single,
+shared underlying resource.
 
-The framework consists of:
+An example is HugeTLB, where multiple file descriptors such as memfd and
+guest_memfd may rely on the state of a single HugeTLB subsystem.
+Preserving this state for each individual file would be redundant and
+incorrect. The state should be preserved only once when the first file
+is preserved, and restored/finished only once the last file is handled.
 
-init.c:
-A lightweight init process that manages the kexec lifecycle.
-It mounts necessary filesystems, determines the current execution
-stage (1 or 2) via the kernel command line, and handles the
-kexec_file_load() sequence to transition between kernels.
+This patch introduces File-Lifecycle-Bound (FLB) objects to solve this
+problem. An FLB is a global, reference-counted object with a defined set
+of operations:
 
-luo_test.sh:
-The primary KTAP-compliant test driver. It handles:
-- Kernel configuration merging and building.
-- Cross-compilation detection for x86_64 and arm64.
-- Generation of the initrd containing the test binary and init.
-- QEMU execution with automatic accelerator detection (KVM, HVF,
- or TCG).
+- A file handler (struct liveupdate_file_handler) declares a dependency
+  on one or more FLBs via a new registration function,
+  liveupdate_register_flb().
+- When the first file depending on an FLB is preserved, the FLB's
+  .preserve() callback is invoked to save the shared global state. The
+  reference count is then incremented for each subsequent file.
+- Conversely, when the last file is unpreserved (before reboot) or
+  finished (after reboot), the FLB's .unpreserve() or .finish() callback
+  is invoked to clean up the global resource.
 
-run.sh:
-A wrapper script to discover and execute all `luo_*.c`
-tests across supported architectures, providing a summary of
-pass/fail/skip results.
+The implementation includes:
+
+- A new set of ABI definitions (luo_flb_ser, luo_flb_head_ser) and a
+  corresponding FDT node (luo-flb) to serialize the state of all active
+  FLBs and pass them via Kexec Handover.
+- Core logic in luo_flb.c to manage FLB registration, reference
+  counting, and the invocation of lifecycle callbacks.
+- An API (liveupdate_flb_*_locked/*_unlock) for other kernel subsystems
+  to safely access the live object managed by an FLB, both before and
+  after the live update.
+
+This framework provides the necessary infrastructure for more complex
+subsystems like IOMMU, VFIO, and KVM to integrate with the Live Update
+Orchestrator.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- tools/testing/selftests/liveupdate/init.c     | 174 ++++++++++
- .../testing/selftests/liveupdate/luo_test.sh  | 296 ++++++++++++++++++
- tools/testing/selftests/liveupdate/run.sh     |  68 ++++
- 3 files changed, 538 insertions(+)
- create mode 100644 tools/testing/selftests/liveupdate/init.c
- create mode 100755 tools/testing/selftests/liveupdate/luo_test.sh
- create mode 100755 tools/testing/selftests/liveupdate/run.sh
+ Documentation/core-api/liveupdate.rst |  11 +
+ include/linux/kho/abi/luo.h           |  76 +++
+ include/linux/liveupdate.h            | 150 ++++++
+ kernel/liveupdate/Makefile            |   1 +
+ kernel/liveupdate/luo_core.c          |   7 +-
+ kernel/liveupdate/luo_file.c          |  21 +-
+ kernel/liveupdate/luo_flb.c           | 701 ++++++++++++++++++++++++++
+ kernel/liveupdate/luo_internal.h      |   7 +
+ 8 files changed, 972 insertions(+), 2 deletions(-)
+ create mode 100644 kernel/liveupdate/luo_flb.c
 
-diff --git a/tools/testing/selftests/liveupdate/init.c b/tools/testing/selftests/liveupdate/init.c
+diff --git a/Documentation/core-api/liveupdate.rst b/Documentation/core-api/liveupdate.rst
+index b776b625c60f..6d9f8b0363f6 100644
+--- a/Documentation/core-api/liveupdate.rst
++++ b/Documentation/core-api/liveupdate.rst
+@@ -18,6 +18,11 @@ LUO Preserving File Descriptors
+ .. kernel-doc:: kernel/liveupdate/luo_file.c
+    :doc: LUO File Descriptors
+ 
++LUO File Lifecycle Bound Global Data
++====================================
++.. kernel-doc:: kernel/liveupdate/luo_flb.c
++   :doc: LUO File Lifecycle Bound Global Data
++
+ Live Update Orchestrator ABI
+ ============================
+ .. kernel-doc:: include/linux/kho/abi/luo.h
+@@ -39,6 +44,9 @@ Public API
+ .. kernel-doc:: kernel/liveupdate/luo_core.c
+    :export:
+ 
++.. kernel-doc:: kernel/liveupdate/luo_flb.c
++   :export:
++
+ .. kernel-doc:: kernel/liveupdate/luo_file.c
+    :export:
+ 
+@@ -47,6 +55,9 @@ Internal API
+ .. kernel-doc:: kernel/liveupdate/luo_core.c
+    :internal:
+ 
++.. kernel-doc:: kernel/liveupdate/luo_flb.c
++   :internal:
++
+ .. kernel-doc:: kernel/liveupdate/luo_session.c
+    :internal:
+ 
+diff --git a/include/linux/kho/abi/luo.h b/include/linux/kho/abi/luo.h
+index fc143f243871..ea21ad1535bf 100644
+--- a/include/linux/kho/abi/luo.h
++++ b/include/linux/kho/abi/luo.h
+@@ -33,6 +33,11 @@
+  *             compatible = "luo-session-v1";
+  *             luo-session-header = <phys_addr_of_session_header_ser>;
+  *         };
++ *
++ *         luo-flb {
++ *             compatible = "luo-flb-v1";
++ *             luo-flb-header = <phys_addr_of_flb_header_ser>;
++ *         };
+  *     };
+  *
+  * Main LUO Node (/):
+@@ -52,6 +57,17 @@
+  *     is the header for a contiguous block of memory containing an array of
+  *     `struct luo_session_ser`, one for each preserved session.
+  *
++ * File-Lifecycle-Bound Node (luo-flb):
++ *   This node describes all preserved global objects whose lifecycle is bound
++ *   to that of the preserved files (e.g., shared IOMMU state).
++ *
++ *   - compatible: "luo-flb-v1"
++ *     Identifies the FLB ABI version.
++ *   - luo-flb-header: u64
++ *     The physical address of a `struct luo_flb_header_ser`. This structure is
++ *     the header for a contiguous block of memory containing an array of
++ *     `struct luo_flb_ser`, one for each preserved global object.
++ *
+  * Serialization Structures:
+  *   The FDT properties point to memory regions containing arrays of simple,
+  *   `__packed` structures. These structures contain the actual preserved state.
+@@ -70,6 +86,16 @@
+  *     Metadata for a single preserved file. Contains the `compatible` string to
+  *     find the correct handler in the new kernel, a user-provided `token` for
+  *     identification, and an opaque `data` handle for the handler to use.
++ *
++ *   - struct luo_flb_header_ser:
++ *     Header for the FLB array. Contains the total page count of the
++ *     preserved memory block and the number of `struct luo_flb_ser` entries
++ *     that follow.
++ *
++ *   - struct luo_flb_ser:
++ *     Metadata for a single preserved global object. Contains its `name`
++ *     (compatible string), an opaque `data` handle, and the `count`
++ *     number of files depending on it.
+  */
+ 
+ #ifndef _LINUX_KHO_ABI_LUO_H
+@@ -159,4 +185,54 @@ struct luo_session_ser {
+ 	struct luo_file_set_ser file_set_ser;
+ } __packed;
+ 
++/* The max size is set so it can be reliably used during in serialization */
++#define LIVEUPDATE_FLB_COMPAT_LENGTH	48
++
++#define LUO_FDT_FLB_NODE_NAME	"luo-flb"
++#define LUO_FDT_FLB_COMPATIBLE	"luo-flb-v1"
++#define LUO_FDT_FLB_HEADER	"luo-flb-header"
++
++/**
++ * struct luo_flb_header_ser - Header for the serialized FLB data block.
++ * @pgcnt: The total number of pages occupied by the entire preserved memory
++ *         region, including this header and the subsequent array of
++ *         &struct luo_flb_ser entries.
++ * @count: The number of &struct luo_flb_ser entries that follow this header
++ *         in the memory block.
++ *
++ * This structure is located at the physical address specified by the
++ * `LUO_FDT_FLB_HEADER` FDT property. It provides the new kernel with the
++ * necessary information to find and iterate over the array of preserved
++ * File-Lifecycle-Bound objects and to manage the underlying memory.
++ *
++ * If this structure is modified, LUO_FDT_FLB_COMPATIBLE must be updated.
++ */
++struct luo_flb_header_ser {
++	u64 pgcnt;
++	u64 count;
++} __packed;
++
++/**
++ * struct luo_flb_ser - Represents the serialized state of a single FLB object.
++ * @name:    The unique compatibility string of the FLB object, used to find the
++ *           corresponding &struct liveupdate_flb handler in the new kernel.
++ * @data:    The opaque u64 handle returned by the FLB's .preserve() operation
++ *           in the old kernel. This handle encapsulates the entire state needed
++ *           for restoration.
++ * @count:   The reference count at the time of serialization; i.e., the number
++ *           of preserved files that depended on this FLB. This is used by the
++ *           new kernel to correctly manage the FLB's lifecycle.
++ *
++ * An array of these structures is created in a preserved memory region and
++ * passed to the new kernel. Each entry allows the LUO core to restore one
++ * global, shared object.
++ *
++ * If this structure is modified, LUO_FDT_FLB_COMPATIBLE must be updated.
++ */
++struct luo_flb_ser {
++	char name[LIVEUPDATE_FLB_COMPAT_LENGTH];
++	u64 data;
++	u64 count;
++} __packed;
++
+ #endif /* _LINUX_KHO_ABI_LUO_H */
+diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
+index c9503d2cda7b..31d58455d6ba 100644
+--- a/include/linux/liveupdate.h
++++ b/include/linux/liveupdate.h
+@@ -11,10 +11,12 @@
+ #include <linux/compiler.h>
+ #include <linux/kho/abi/luo.h>
+ #include <linux/list.h>
++#include <linux/mutex.h>
+ #include <linux/types.h>
+ #include <uapi/linux/liveupdate.h>
+ 
+ struct liveupdate_file_handler;
++struct liveupdate_flb;
+ struct liveupdate_session;
+ struct file;
+ 
+@@ -102,6 +104,114 @@ struct liveupdate_file_handler {
+ 	 * registered file handlers.
+ 	 */
+ 	struct list_head __private list;
++	/* A list of FLB dependencies. */
++	struct list_head __private flb_list;
++};
++
++/**
++ * struct liveupdate_flb_op_args - Arguments for FLB operation callbacks.
++ * @flb:       The global FLB instance for which this call is performed.
++ * @data:      For .preserve():    [OUT] The callback sets this field.
++ *             For .unpreserve():  [IN]  The handle from .preserve().
++ *             For .retrieve():    [IN]  The handle from .preserve().
++ * @obj:       For .preserve():    [OUT] Sets this to the live object.
++ *             For .retrieve():    [OUT] Sets this to the live object.
++ *             For .finish():      [IN]  The live object from .retrieve().
++ *
++ * This structure bundles all parameters for the FLB operation callbacks.
++ */
++struct liveupdate_flb_op_args {
++	struct liveupdate_flb *flb;
++	u64 data;
++	void *obj;
++};
++
++/**
++ * struct liveupdate_flb_ops - Callbacks for global File-Lifecycle-Bound data.
++ * @preserve:        Called when the first file using this FLB is preserved.
++ *                   The callback must save its state and return a single,
++ *                   self-contained u64 handle by setting the 'argp->data'
++ *                   field and 'argp->obj'.
++ * @unpreserve:      Called when the last file using this FLB is unpreserved
++ *                   (aborted before reboot). Receives the handle via
++ *                   'argp->data' and live object via 'argp->obj'.
++ * @retrieve:        Called on-demand in the new kernel, the first time a
++ *                   component requests access to the shared object. It receives
++ *                   the preserved handle via 'argp->data' and must reconstruct
++ *                   the live object, returning it by setting the 'argp->obj'
++ *                   field.
++ * @finish:          Called in the new kernel when the last file using this FLB
++ *                   is finished. Receives the live object via 'argp->obj' for
++ *                   cleanup.
++ * @owner:           Module reference
++ *
++ * Operations that manage global shared data with file bound lifecycle,
++ * triggered by the first file that uses it and concluded by the last file that
++ * uses it, across all sessions.
++ */
++struct liveupdate_flb_ops {
++	int (*preserve)(struct liveupdate_flb_op_args *argp);
++	void (*unpreserve)(struct liveupdate_flb_op_args *argp);
++	int (*retrieve)(struct liveupdate_flb_op_args *argp);
++	void (*finish)(struct liveupdate_flb_op_args *argp);
++	struct module *owner;
++};
++
++/*
++ * struct luo_flb_private_state - Private FLB state structures.
++ * @count: The number of preserved files currently depending on this FLB.
++ *         This is used to trigger the preserve/unpreserve/finish ops on the
++ *         first/last file.
++ * @data:  The opaque u64 handle returned by .preserve() or passed to
++ *         .retrieve().
++ * @obj:   The live kernel object returned by .preserve() or .retrieve().
++ * @lock:  A mutex that protects all fields within this structure, providing
++ *         the synchronization service for the FLB's ops.
++ */
++struct luo_flb_private_state {
++	long count;
++	u64 data;
++	void *obj;
++	struct mutex lock;
++};
++
++/*
++ * struct luo_flb_private - Keep separate incoming and outgoing states.
++ * @list:        A global list of registered FLBs.
++ * @outgoing:    The runtime state for the pre-reboot
++ *               (preserve/unpreserve) lifecycle.
++ * @incoming:    The runtime state for the post-reboot (retrieve/finish)
++ *               lifecycle.
++ * @users:       With how many File-Handlers this FLB is registered.
++ * @initialized: true when private fields have been initialized.
++ */
++struct luo_flb_private {
++	struct list_head list;
++	struct luo_flb_private_state outgoing;
++	struct luo_flb_private_state incoming;
++	int users;
++	bool initialized;
++};
++
++/**
++ * struct liveupdate_flb - A global definition for a shared data object.
++ * @ops:         Callback functions
++ * @compatible:  The compatibility string (e.g., "iommu-core-v1"
++ *               that uniquely identifies the FLB type this handler
++ *               supports. This is matched against the compatible string
++ *               associated with individual &struct liveupdate_flb
++ *               instances.
++ *
++ * This struct is the "template" that a driver registers to define a shared,
++ * file-lifecycle-bound object. The actual runtime state (the live object,
++ * refcount, etc.) is managed privately by the LUO core.
++ */
++struct liveupdate_flb {
++	const struct liveupdate_flb_ops *ops;
++	const char compatible[LIVEUPDATE_FLB_COMPAT_LENGTH];
++
++	/* private: */
++	struct luo_flb_private __private private;
+ };
+ 
+ #ifdef CONFIG_LIVEUPDATE
+@@ -123,6 +233,16 @@ int liveupdate_get_file_incoming(struct liveupdate_session *s, u64 token,
+ int liveupdate_get_token_outgoing(struct liveupdate_session *s,
+ 				  struct file *file, u64 *tokenp);
+ 
++int liveupdate_register_flb(struct liveupdate_file_handler *fh,
++			    struct liveupdate_flb *flb);
++int liveupdate_unregister_flb(struct liveupdate_file_handler *fh,
++			      struct liveupdate_flb *flb);
++
++int liveupdate_flb_incoming_locked(struct liveupdate_flb *flb, void **objp);
++void liveupdate_flb_incoming_unlock(struct liveupdate_flb *flb, void *obj);
++int liveupdate_flb_outgoing_locked(struct liveupdate_flb *flb, void **objp);
++void liveupdate_flb_outgoing_unlock(struct liveupdate_flb *flb, void *obj);
++
+ #else /* CONFIG_LIVEUPDATE */
+ 
+ static inline bool liveupdate_enabled(void)
+@@ -157,5 +277,35 @@ static inline int liveupdate_get_token_outgoing(struct liveupdate_session *s,
+ 	return -EOPNOTSUPP;
+ }
+ 
++static inline int liveupdate_register_flb(struct liveupdate_file_handler *fh,
++					  struct liveupdate_flb *flb)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int liveupdate_unregister_flb(struct liveupdate_file_handler *fh,
++					    struct liveupdate_flb *flb)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int liveupdate_flb_incoming_locked(struct liveupdate_flb *flb,
++						 void **objp)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline void liveupdate_flb_incoming_unlock(struct liveupdate_flb *flb,
++						  void *obj) { }
++
++static inline int liveupdate_flb_outgoing_locked(struct liveupdate_flb *flb,
++						 void **objp)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline void liveupdate_flb_outgoing_unlock(struct liveupdate_flb *flb,
++						  void *obj) { }
++
+ #endif /* CONFIG_LIVEUPDATE */
+ #endif /* _LINUX_LIVEUPDATE_H */
+diff --git a/kernel/liveupdate/Makefile b/kernel/liveupdate/Makefile
+index 7cad2eece32d..d2f779cbe279 100644
+--- a/kernel/liveupdate/Makefile
++++ b/kernel/liveupdate/Makefile
+@@ -3,6 +3,7 @@
+ luo-y :=								\
+ 		luo_core.o						\
+ 		luo_file.o						\
++		luo_flb.o						\
+ 		luo_session.o
+ 
+ obj-$(CONFIG_KEXEC_HANDOVER)		+= kexec_handover.o
+diff --git a/kernel/liveupdate/luo_core.c b/kernel/liveupdate/luo_core.c
+index bc90954252a3..d839be582aff 100644
+--- a/kernel/liveupdate/luo_core.c
++++ b/kernel/liveupdate/luo_core.c
+@@ -127,7 +127,9 @@ static int __init luo_early_startup(void)
+ 	if (err)
+ 		return err;
+ 
+-	return 0;
++	err = luo_flb_setup_incoming(luo_global.fdt_in);
++
++	return err;
+ }
+ 
+ static int __init liveupdate_early_init(void)
+@@ -164,6 +166,7 @@ static int __init luo_fdt_setup(void)
+ 	err |= fdt_property_string(fdt_out, "compatible", LUO_FDT_COMPATIBLE);
+ 	err |= fdt_property(fdt_out, LUO_FDT_LIVEUPDATE_NUM, &ln, sizeof(ln));
+ 	err |= luo_session_setup_outgoing(fdt_out);
++	err |= luo_flb_setup_outgoing(fdt_out);
+ 	err |= fdt_end_node(fdt_out);
+ 	err |= fdt_finish(fdt_out);
+ 	if (err)
+@@ -225,6 +228,8 @@ int liveupdate_reboot(void)
+ 	if (err)
+ 		return err;
+ 
++	luo_flb_serialize();
++
+ 	err = kho_finalize();
+ 	if (err) {
+ 		pr_err("kho_finalize failed %d\n", err);
+diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
+index 670649932de4..ecaa93bbcb12 100644
+--- a/kernel/liveupdate/luo_file.c
++++ b/kernel/liveupdate/luo_file.c
+@@ -286,6 +286,10 @@ int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
+ 	if (err)
+ 		goto err_files_mem;
+ 
++	err = luo_flb_file_preserve(fh);
++	if (err)
++		goto err_files_mem;
++
+ 	luo_file = kzalloc(sizeof(*luo_file), GFP_KERNEL);
+ 	if (!luo_file) {
+ 		err = -ENOMEM;
+@@ -315,6 +319,7 @@ int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
+ err_kfree:
+ 	mutex_destroy(&luo_file->mutex);
+ 	kfree(luo_file);
++	luo_flb_file_unpreserve(fh);
+ err_files_mem:
+ 	fput(file);
+ 	luo_free_files_mem(file_set);
+@@ -356,6 +361,7 @@ void luo_file_unpreserve_files(struct luo_file_set *file_set)
+ 		args.serialized_data = luo_file->serialized_data;
+ 		args.private_data = luo_file->private_data;
+ 		luo_file->fh->ops->unpreserve(&args);
++		luo_flb_file_unpreserve(luo_file->fh);
+ 
+ 		list_del(&luo_file->list);
+ 		file_set->count--;
+@@ -633,6 +639,7 @@ static void luo_file_finish_one(struct luo_file_set *file_set,
+ 	args.file = luo_file->file;
+ 	args.serialized_data = luo_file->serialized_data;
+ 	args.retrieved = luo_file->retrieved;
++	luo_flb_file_finish(luo_file->fh);
+ 
+ 	luo_file->fh->ops->finish(&args);
+ }
+@@ -856,6 +863,7 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
+ 		goto err_resume;
+ 	}
+ 
++	INIT_LIST_HEAD(&ACCESS_PRIVATE(fh, flb_list));
+ 	INIT_LIST_HEAD(&ACCESS_PRIVATE(fh, list));
+ 	list_add_tail(&ACCESS_PRIVATE(fh, list), &luo_file_handler_list);
+ 	luo_session_resume();
+@@ -876,25 +884,36 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
+  *
+  * It ensures safe removal by checking that:
+  * No live update session is currently in progress.
++ * No FLB registered with this file handler.
+  *
+  * If the unregistration fails, the internal test state is reverted.
+  *
+  * Return: 0 Success. -EOPNOTSUPP when live update is not enabled. -EBUSY A live
+- * update is in progress, can't quiesce live update.
++ * update is in progress, can't quiesce live update or FLB is registred with
++ * this file handler.
+  */
+ int liveupdate_unregister_file_handler(struct liveupdate_file_handler *fh)
+ {
++	int err = -EBUSY;
++
+ 	if (!liveupdate_enabled())
+ 		return -EOPNOTSUPP;
+ 
+ 	if (!luo_session_quiesce())
+ 		return -EBUSY;
+ 
++	if (!list_empty(&ACCESS_PRIVATE(fh, flb_list)))
++		goto err_resume;
++
+ 	list_del(&ACCESS_PRIVATE(fh, list));
+ 	module_put(fh->ops->owner);
+ 	luo_session_resume();
+ 
+ 	return 0;
++
++err_resume:
++	luo_session_resume();
++	return err;
+ }
+ 
+ /**
+diff --git a/kernel/liveupdate/luo_flb.c b/kernel/liveupdate/luo_flb.c
 new file mode 100644
-index 000000000000..ed11e04d0796
+index 000000000000..bbae99d973df
 --- /dev/null
-+++ b/tools/testing/selftests/liveupdate/init.c
-@@ -0,0 +1,174 @@
++++ b/kernel/liveupdate/luo_flb.c
+@@ -0,0 +1,701 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
 +/*
 + * Copyright (c) 2025, Google LLC.
 + * Pasha Tatashin <pasha.tatashin@soleen.com>
 + */
-+#include <fcntl.h>
-+#include <linux/kexec.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/mount.h>
-+#include <sys/reboot.h>
-+#include <sys/syscall.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
 +
-+#define COMMAND_LINE_SIZE 2048
-+#define KERNEL_IMAGE "/kernel"
-+#define INITRD_IMAGE "/initrd.img"
-+#define TEST_BINARY "/test_binary"
++/**
++ * DOC: LUO File Lifecycle Bound Global Data
++ *
++ * File-Lifecycle-Bound (FLB) objects provide a mechanism for managing global
++ * state that is shared across multiple live-updatable files. The lifecycle of
++ * this shared state is tied to the preservation of the files that depend on it.
++ *
++ * An FLB represents a global resource, such as the IOMMU core state, that is
++ * required by multiple file descriptors (e.g., all VFIO fds).
++ *
++ * The preservation of the FLB's state is triggered when the *first* file
++ * depending on it is preserved. The cleanup of this state (unpreserve or
++ * finish) is triggered when the *last* file depending on it is unpreserved or
++ * finished.
++ *
++ * Handler Dependency: A file handler declares its dependency on one or more
++ * FLBs by registering them via liveupdate_register_flb().
++ *
++ * Callback Model: Each FLB is defined by a set of operations
++ * (&struct liveupdate_flb_ops) that LUO invokes at key points:
++ *
++ *     - .preserve(): Called for the first file. Saves global state.
++ *     - .unpreserve(): Called for the last file (if aborted pre-reboot).
++ *     - .retrieve(): Called on-demand in the new kernel to restore the state.
++ *     - .finish(): Called for the last file in the new kernel for cleanup.
++ *
++ * This reference-counted approach ensures that shared state is saved exactly
++ * once and restored exactly once, regardless of how many files depend on it,
++ * and that its lifecycle is correctly managed across the kexec transition.
++ */
 +
-+static int mount_filesystems(void)
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/cleanup.h>
++#include <linux/err.h>
++#include <linux/errno.h>
++#include <linux/io.h>
++#include <linux/kexec_handover.h>
++#include <linux/kho/abi/luo.h>
++#include <linux/libfdt.h>
++#include <linux/list.h>
++#include <linux/liveupdate.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/slab.h>
++#include <linux/unaligned.h>
++#include "luo_internal.h"
++
++#define LUO_FLB_PGCNT		1ul
++#define LUO_FLB_MAX		(((LUO_FLB_PGCNT << PAGE_SHIFT) -	\
++		sizeof(struct luo_flb_header_ser)) / sizeof(struct luo_flb_ser))
++
++struct luo_flb_header {
++	struct luo_flb_header_ser *header_ser;
++	struct luo_flb_ser *ser;
++	bool active;
++};
++
++struct luo_flb_global {
++	struct luo_flb_header incoming;
++	struct luo_flb_header outgoing;
++	struct list_head list;
++	long count;
++};
++
++static struct luo_flb_global luo_flb_global = {
++	.list = LIST_HEAD_INIT(luo_flb_global.list),
++};
++
++/*
++ * struct luo_flb_link - Links an FLB definition to a file handler's internal
++ * list of dependencies.
++ * @flb:  A pointer to the registered &struct liveupdate_flb definition.
++ * @list: The list_head for linking.
++ */
++struct luo_flb_link {
++	struct liveupdate_flb *flb;
++	struct list_head list;
++};
++
++/* luo_flb_get_private - Access private field, and if needed initialize it. */
++static struct luo_flb_private *luo_flb_get_private(struct liveupdate_flb *flb)
 +{
-+	if (mount("devtmpfs", "/dev", "devtmpfs", 0, NULL) < 0) {
-+		fprintf(stderr, "INIT: Warning: Failed to mount devtmpfs\n");
-+		return -1;
++	struct luo_flb_private *private = &ACCESS_PRIVATE(flb, private);
++
++	if (!private->initialized) {
++		mutex_init(&private->incoming.lock);
++		mutex_init(&private->outgoing.lock);
++		INIT_LIST_HEAD(&private->list);
++		private->users = 0;
++		private->initialized = true;
 +	}
 +
-+	if (mount("debugfs", "/debugfs", "debugfs", 0, NULL) < 0) {
-+		fprintf(stderr, "INIT: Failed to mount debugfs\n");
-+		return -1;
-+	}
++	return private;
++}
 +
-+	if (mount("proc", "/proc", "proc", 0, NULL) < 0) {
-+		fprintf(stderr, "INIT: Failed to mount proc\n");
-+		return -1;
++static int luo_flb_file_preserve_one(struct liveupdate_flb *flb)
++{
++	struct luo_flb_private *private = luo_flb_get_private(flb);
++
++	scoped_guard(mutex, &private->outgoing.lock) {
++		if (!private->outgoing.count) {
++			struct liveupdate_flb_op_args args = {0};
++			int err;
++
++			args.flb = flb;
++			err = flb->ops->preserve(&args);
++			if (err)
++				return err;
++			private->outgoing.data = args.data;
++			private->outgoing.obj = args.obj;
++		}
++		private->outgoing.count++;
 +	}
 +
 +	return 0;
 +}
 +
-+static long kexec_file_load(int kernel_fd, int initrd_fd,
-+			    unsigned long cmdline_len, const char *cmdline,
-+			    unsigned long flags)
++static void luo_flb_file_unpreserve_one(struct liveupdate_flb *flb)
 +{
-+	return syscall(__NR_kexec_file_load, kernel_fd, initrd_fd, cmdline_len,
-+		       cmdline, flags);
++	struct luo_flb_private *private = luo_flb_get_private(flb);
++
++	scoped_guard(mutex, &private->outgoing.lock) {
++		private->outgoing.count--;
++		if (!private->outgoing.count) {
++			struct liveupdate_flb_op_args args = {0};
++
++			args.flb = flb;
++			args.data = private->outgoing.data;
++			args.obj = private->outgoing.obj;
++
++			if (flb->ops->unpreserve)
++				flb->ops->unpreserve(&args);
++
++			private->outgoing.data = 0;
++			private->outgoing.obj = NULL;
++		}
++	}
 +}
 +
-+static int kexec_load(void)
++static int luo_flb_retrieve_one(struct liveupdate_flb *flb)
 +{
-+	char cmdline[COMMAND_LINE_SIZE];
-+	int kernel_fd, initrd_fd, err;
-+	ssize_t len;
-+	int fd;
++	struct luo_flb_private *private = luo_flb_get_private(flb);
++	struct luo_flb_header *fh = &luo_flb_global.incoming;
++	struct liveupdate_flb_op_args args = {0};
++	bool found = false;
++	int err;
 +
-+	fd = open("/proc/cmdline", O_RDONLY);
-+	if (fd < 0) {
-+		fprintf(stderr, "INIT: Failed to read /proc/cmdline\n");
++	guard(mutex)(&private->incoming.lock);
 +
-+		return -1;
-+	}
-+
-+	len = read(fd, cmdline, sizeof(cmdline) - 1);
-+	close(fd);
-+	if (len < 0)
-+		return -1;
-+
-+	cmdline[len] = 0;
-+	if (len > 0 && cmdline[len - 1] == '\n')
-+		cmdline[len - 1] = 0;
-+
-+	strncat(cmdline, " luo_stage=2", sizeof(cmdline) - strlen(cmdline) - 1);
-+
-+	kernel_fd = open(KERNEL_IMAGE, O_RDONLY);
-+	if (kernel_fd < 0) {
-+		fprintf(stderr, "INIT: Failed to open kernel image\n");
-+		return -1;
-+	}
-+
-+	initrd_fd = open(INITRD_IMAGE, O_RDONLY);
-+	if (initrd_fd < 0) {
-+		fprintf(stderr, "INIT: Failed to open initrd image\n");
-+		close(kernel_fd);
-+		return -1;
-+	}
-+
-+	err = kexec_file_load(kernel_fd, initrd_fd, strlen(cmdline) + 1,
-+			      cmdline, 0);
-+
-+	close(initrd_fd);
-+	close(kernel_fd);
-+
-+	return err ? : 0;
-+}
-+
-+static int run_test(int stage)
-+{
-+	char stage_arg[32];
-+	int status;
-+	pid_t pid;
-+
-+	snprintf(stage_arg, sizeof(stage_arg), "--stage=%d", stage);
-+
-+	pid = fork();
-+	if (pid < 0)
-+		return -1;
-+
-+	if (!pid) {
-+		static const char *const argv[] = {TEST_BINARY, stage_arg, NULL};
-+
-+		execve(TEST_BINARY, argv, NULL);
-+		fprintf(stderr, "INIT: execve failed\n");
-+		_exit(1);
-+	}
-+
-+	waitpid(pid, &status, 0);
-+
-+	return (WIFEXITED(status) && WEXITSTATUS(status) == 0) ? 0 : -1;
-+}
-+
-+static int is_stage_2(void)
-+{
-+	char cmdline[COMMAND_LINE_SIZE];
-+	ssize_t len;
-+	int fd;
-+
-+	fd = open("/proc/cmdline", O_RDONLY);
-+	if (fd < 0)
++	if (private->incoming.obj)
 +		return 0;
 +
-+	len = read(fd, cmdline, sizeof(cmdline) - 1);
-+	close(fd);
++	if (!fh->active)
++		return -ENODATA;
 +
-+	if (len < 0)
-+		return 0;
++	for (int i = 0; i < fh->header_ser->count; i++) {
++		if (!strcmp(fh->ser[i].name, flb->compatible)) {
++			private->incoming.data = fh->ser[i].data;
++			private->incoming.count = fh->ser[i].count;
++			found = true;
++			break;
++		}
++	}
 +
-+	cmdline[len] = 0;
++	if (!found)
++		return -ENOENT;
 +
-+	return !!strstr(cmdline, "luo_stage=2");
++	args.flb = flb;
++	args.data = private->incoming.data;
++
++	err = flb->ops->retrieve(&args);
++	if (err)
++		return err;
++
++	private->incoming.obj = args.obj;
++
++	if (WARN_ON_ONCE(!private->incoming.obj))
++		return -EIO;
++
++	return 0;
 +}
 +
-+int main(int argc, char *argv[])
++static void luo_flb_file_finish_one(struct liveupdate_flb *flb)
 +{
-+	int current_stage;
++	struct luo_flb_private *private = luo_flb_get_private(flb);
++	u64 count;
 +
-+	if (mount_filesystems())
-+		goto err_reboot;
++	scoped_guard(mutex, &private->incoming.lock)
++		count = --private->incoming.count;
 +
-+	current_stage = is_stage_2() ? 2 : 1;
++	if (!count) {
++		struct liveupdate_flb_op_args args = {0};
 +
-+	printf("INIT: Starting Stage %d\n", current_stage);
++		if (!private->incoming.obj) {
++			int err = luo_flb_retrieve_one(flb);
 +
-+	if (current_stage == 1 && kexec_load()) {
-+		fprintf(stderr, "INIT: Failed to load kexec kernel\n");
-+		goto err_reboot;
++			if (WARN_ON(err))
++				return;
++		}
++
++		scoped_guard(mutex, &private->incoming.lock) {
++			args.flb = flb;
++			args.obj = private->incoming.obj;
++			flb->ops->finish(&args);
++
++			private->incoming.data = 0;
++			private->incoming.obj = NULL;
++		}
 +	}
++}
 +
-+	if (run_test(current_stage)) {
-+		fprintf(stderr, "INIT: Test binary returned failure\n");
-+		goto err_reboot;
++/**
++ * luo_flb_file_preserve - Notifies FLBs that a file is about to be preserved.
++ * @fh: The file handler for the preserved file.
++ *
++ * This function iterates through all FLBs associated with the given file
++ * handler. It increments the reference count for each FLB. If the count becomes
++ * 1, it triggers the FLB's .preserve() callback to save the global state.
++ *
++ * This operation is atomic. If any FLB's .preserve() op fails, it will roll
++ * back by calling .unpreserve() on any FLBs that were successfully preserved
++ * during this call.
++ *
++ * Context: Called from luo_preserve_file()
++ * Return: 0 on success, or a negative errno on failure.
++ */
++int luo_flb_file_preserve(struct liveupdate_file_handler *fh)
++{
++	struct list_head *flb_list = &ACCESS_PRIVATE(fh, flb_list);
++	struct luo_flb_link *iter;
++	int err = 0;
++
++	list_for_each_entry(iter, flb_list, list) {
++		err = luo_flb_file_preserve_one(iter->flb);
++		if (err)
++			goto exit_err;
 +	}
-+
-+	printf("INIT: Stage %d completed successfully.\n", current_stage);
-+	reboot(current_stage == 1 ? RB_KEXEC : RB_AUTOBOOT);
 +
 +	return 0;
 +
-+err_reboot:
-+	reboot(RB_AUTOBOOT);
++exit_err:
++	list_for_each_entry_continue_reverse(iter, flb_list, list)
++		luo_flb_file_unpreserve_one(iter->flb);
 +
-+	return -1;
-+}
-diff --git a/tools/testing/selftests/liveupdate/luo_test.sh b/tools/testing/selftests/liveupdate/luo_test.sh
-new file mode 100755
-index 000000000000..7d155956e2ff
---- /dev/null
-+++ b/tools/testing/selftests/liveupdate/luo_test.sh
-@@ -0,0 +1,296 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+
-+set -ue
-+
-+CROSS_COMPILE="${CROSS_COMPILE:-""}"
-+
-+test_dir=$(realpath "$(dirname "$0")")
-+kernel_dir=$(realpath "$test_dir/../../../..")
-+
-+workspace_dir=""
-+headers_dir=""
-+initrd=""
-+KEEP_WORKSPACE=0
-+
-+source "$test_dir/../kselftest/ktap_helpers.sh"
-+
-+function get_arch_conf() {
-+	local arch=$1
-+	if [[ "$arch" == "arm64" ]]; then
-+		QEMU_CMD="qemu-system-aarch64 -M virt -cpu max"
-+		KERNEL_IMAGE="Image"
-+		KERNEL_CMDLINE="console=ttyAMA0"
-+	elif [[ "$arch" == "x86" ]]; then
-+		QEMU_CMD="qemu-system-x86_64"
-+		KERNEL_IMAGE="bzImage"
-+		KERNEL_CMDLINE="console=ttyS0"
-+	else
-+		echo "Unsupported architecture: $arch"
-+		exit 1
-+	fi
++	return err;
 +}
 +
-+function usage() {
-+	cat <<EOF
-+$0 [-d build_dir] [-j jobs] [-t target_arch] [-T test_name] [-w workspace_dir] [-k] [-h]
-+Options:
-+	-d)	path to the kernel build directory (default: .luo_test_build.<arch>)
-+	-j)	number of jobs for compilation
-+	-t)	run test for target_arch (aarch64, x86_64)
-+	-T)	test name to run (default: luo_kexec_simple)
-+	-w)	custom workspace directory (default: creates temp dir)
-+	-k)	keep workspace directory after successful test
-+	-h)	display this help
-+EOF
++/**
++ * luo_flb_file_unpreserve - Notifies FLBs that a dependent file was unpreserved.
++ * @fh: The file handler for the unpreserved file.
++ *
++ * This function iterates through all FLBs associated with the given file
++ * handler, in reverse order of registration. It decrements the reference count
++ * for each FLB. If the count becomes 0, it triggers the FLB's .unpreserve()
++ * callback to clean up the global state.
++ *
++ * Context: Called when a preserved file is being cleaned up before reboot
++ *          (e.g., from luo_file_unpreserve_files()).
++ */
++void luo_flb_file_unpreserve(struct liveupdate_file_handler *fh)
++{
++	struct list_head *flb_list = &ACCESS_PRIVATE(fh, flb_list);
++	struct luo_flb_link *iter;
++
++	list_for_each_entry_reverse(iter, flb_list, list)
++		luo_flb_file_unpreserve_one(iter->flb);
 +}
 +
-+function cleanup() {
-+	local exit_code=$?
++/**
++ * luo_flb_file_finish - Notifies FLBs that a dependent file has been finished.
++ * @fh: The file handler for the finished file.
++ *
++ * This function iterates through all FLBs associated with the given file
++ * handler, in reverse order of registration. It decrements the incoming
++ * reference count for each FLB. If the count becomes 0, it triggers the FLB's
++ * .finish() callback for final cleanup in the new kernel.
++ *
++ * Context: Called from luo_file_finish() for each file being finished.
++ */
++void luo_flb_file_finish(struct liveupdate_file_handler *fh)
++{
++	struct list_head *flb_list = &ACCESS_PRIVATE(fh, flb_list);
++	struct luo_flb_link *iter;
 +
-+	if [ -z "$workspace_dir" ]; then
-+		ktap_finished
-+		return
-+	fi
-+
-+	if [ $exit_code -ne 0 ]; then
-+		echo "# Test failed (exit code $exit_code)."
-+		echo "# Workspace preserved at: $workspace_dir"
-+	elif [ "$KEEP_WORKSPACE" -eq 1 ]; then
-+		echo "# Workspace preserved (user request) at: $workspace_dir"
-+	else
-+		rm -fr "$workspace_dir"
-+	fi
-+	ktap_finished
-+}
-+trap cleanup EXIT
-+
-+function skip() {
-+	local msg=${1:-""}
-+	ktap_test_skip "$msg"
-+	exit "$KSFT_SKIP"
++	list_for_each_entry_reverse(iter, flb_list, list)
++		luo_flb_file_finish_one(iter->flb);
 +}
 +
-+function fail() {
-+	local msg=${1:-""}
-+	ktap_test_fail "$msg"
-+	exit "$KSFT_FAIL"
++/**
++ * liveupdate_register_flb - Associate an FLB with a file handler and register it globally.
++ * @fh:   The file handler that will now depend on the FLB.
++ * @flb:  The File-Lifecycle-Bound object to associate.
++ *
++ * Establishes a dependency, informing the LUO core that whenever a file of
++ * type @fh is preserved, the state of @flb must also be managed.
++ *
++ * On the first registration of a given @flb object, it is added to a global
++ * registry. This function checks for duplicate registrations, both for a
++ * specific handler and globally, and ensures the total number of unique
++ * FLBs does not exceed the system limit.
++ *
++ * Context: Typically called from a subsystem's module init function after
++ *          both the handler and the FLB have been defined and initialized.
++ * Return: 0 on success. Returns a negative errno on failure:
++ *         -EINVAL if arguments are NULL or not initialized.
++ *         -ENOMEM on memory allocation failure.
++ *         -EEXIST if this FLB is already registered with this handler.
++ *         -ENOSPC if the maximum number of global FLBs has been reached.
++ *         -EOPNOTSUPP if live update is disabled or not configured.
++ */
++int liveupdate_register_flb(struct liveupdate_file_handler *fh,
++			    struct liveupdate_flb *flb)
++{
++	struct luo_flb_private *private = luo_flb_get_private(flb);
++	struct list_head *flb_list = &ACCESS_PRIVATE(fh, flb_list);
++	struct luo_flb_link *link __free(kfree) = NULL;
++	struct liveupdate_flb *gflb;
++	struct luo_flb_link *iter;
++	int err;
++
++	if (!liveupdate_enabled())
++		return -EOPNOTSUPP;
++
++	if (WARN_ON(!flb->ops->preserve || !flb->ops->unpreserve ||
++		    !flb->ops->retrieve || !flb->ops->finish)) {
++		return -EINVAL;
++	}
++
++	/*
++	 * File handler must already be registered, as it initializes the
++	 * flb_list
++	 */
++	if (WARN_ON(list_empty(&ACCESS_PRIVATE(fh, list))))
++		return -EINVAL;
++
++	link = kzalloc(sizeof(*link), GFP_KERNEL);
++	if (!link)
++		return -ENOMEM;
++
++	/*
++	 * Ensure the system is quiescent (no active sessions).
++	 * This acts as a global lock for registration: no other thread can
++	 * be in this section, and no sessions can be creating/using FDs.
++	 */
++	if (!luo_session_quiesce())
++		return -EBUSY;
++
++	/* Check that this FLB is not already linked to this file handler */
++	err = -EEXIST;
++	list_for_each_entry(iter, flb_list, list) {
++		if (iter->flb == flb)
++			goto err_resume;
++	}
++
++	/*
++	 * If this FLB is not linked to global list it's the first time the FLB
++	 * is registered
++	 */
++	if (!private->users) {
++		if (WARN_ON(!list_empty(&private->list))) {
++			err = -EINVAL;
++			goto err_resume;
++		}
++
++		if (luo_flb_global.count == LUO_FLB_MAX) {
++			err = -ENOSPC;
++			goto err_resume;
++		}
++
++		/* Check that compatible string is unique in global list */
++		luo_list_for_each_private(gflb, &luo_flb_global.list, private.list) {
++			if (!strcmp(gflb->compatible, flb->compatible))
++				goto err_resume;
++		}
++
++		if (!try_module_get(flb->ops->owner)) {
++			err = -EAGAIN;
++			goto err_resume;
++		}
++
++		list_add_tail(&private->list, &luo_flb_global.list);
++		luo_flb_global.count++;
++	}
++
++	/* Finally, link the FLB to the file handler */
++	private->users++;
++	link->flb = flb;
++	list_add_tail(&no_free_ptr(link)->list, flb_list);
++	luo_session_resume();
++
++	return 0;
++
++err_resume:
++	luo_session_resume();
++	return err;
 +}
 +
-+function detect_cross_compile() {
-+	local target=$1
-+	local host=$(uname -m)
++/**
++ * liveupdate_unregister_flb - Remove an FLB dependency from a file handler.
++ * @fh:   The file handler that is currently depending on the FLB.
++ * @flb:  The File-Lifecycle-Bound object to remove.
++ *
++ * Removes the association between the specified file handler and the FLB
++ * previously established by liveupdate_register_flb().
++ *
++ * This function manages the global lifecycle of the FLB. It decrements the
++ * FLB's usage count. If this was the last file handler referencing this FLB,
++ * the FLB is removed from the global registry and the reference to its
++ * owner module (acquired during registration) is released.
++ *
++ * Context: This function ensures the session is quiesced (no active FDs
++ *          being created) during the update. It is typically called from a
++ *          subsystem's module exit function.
++ * Return: 0 on success.
++ *         -EOPNOTSUPP if live update is disabled.
++ *         -EBUSY if the live update session is active and cannot be quiesced.
++ *         -ENOENT if the FLB was not found in the file handler's list.
++ */
++int liveupdate_unregister_flb(struct liveupdate_file_handler *fh,
++			      struct liveupdate_flb *flb)
++{
++	struct luo_flb_private *private = luo_flb_get_private(flb);
++	struct list_head *flb_list = &ACCESS_PRIVATE(fh, flb_list);
++	struct luo_flb_link *iter;
++	int err = -ENOENT;
 +
-+	if [ -n "$CROSS_COMPILE" ]; then
-+		return
-+	fi
++	if (!liveupdate_enabled())
++		return -EOPNOTSUPP;
 +
-+	[[ "$host" == "arm64" ]] && host="aarch64"
-+	[[ "$target" == "arm64" ]] && target="aarch64"
++	/*
++	 * Ensure the system is quiescent (no active sessions).
++	 * This acts as a global lock for unregistration.
++	 */
++	if (!luo_session_quiesce())
++		return -EBUSY;
 +
-+	if [[ "$host" == "$target" ]]; then
-+		CROSS_COMPILE=""
-+		return
-+	fi
++	/* Find and remove the link from the file handler's list */
++	list_for_each_entry(iter, flb_list, list) {
++		if (iter->flb == flb) {
++			list_del(&iter->list);
++			kfree(iter);
++			err = 0;
++			break;
++		}
++	}
 +
-+	local candidate=""
-+	case "$target" in
-+		aarch64) candidate="aarch64-linux-gnu-" ;;
-+		x86_64)  candidate="x86_64-linux-gnu-" ;;
-+		*)       skip "Auto-detection for target '$target' not supported. Please set CROSS_COMPILE manually." ;;
-+	esac
++	if (err)
++		goto err_resume;
 +
-+	if command -v "${candidate}gcc" &> /dev/null; then
-+		CROSS_COMPILE="$candidate"
-+	else
-+		skip "Compiler '${candidate}gcc' not found. Please install it (e.g., 'apt install gcc-aarch64-linux-gnu') or set CROSS_COMPILE."
-+	fi
++	private->users--;
++	/*
++	 * If this is the last file-handler with which we are registred, remove
++	 * from the global list, and relese module reference.
++	 */
++	if (!private->users) {
++		list_del_init(&private->list);
++		luo_flb_global.count--;
++		module_put(flb->ops->owner);
++	}
++
++	luo_session_resume();
++
++	return 0;
++
++err_resume:
++	luo_session_resume();
++	return err;
 +}
 +
-+function build_kernel() {
-+	local build_dir=$1
-+	local make_cmd=$2
-+	local kimage=$3
-+	local target_arch=$4
++static int luo_flb_locked(struct liveupdate_flb *flb, bool incoming,
++			  void **objp)
++{
++	struct luo_flb_private *private = luo_flb_get_private(flb);
++	struct luo_flb_private_state *state;
 +
-+	local kconfig="$build_dir/.config"
-+	local common_conf="$test_dir/config"
-+	local arch_conf="$test_dir/config.$target_arch"
++	if (!liveupdate_enabled())
++		return -EOPNOTSUPP;
 +
-+	echo "# Building kernel in: $build_dir"
-+	$make_cmd defconfig
++	if (incoming) {
++		state = &private->incoming;
++		if (!state->obj) {
++			int err = luo_flb_retrieve_one(flb);
 +
-+	local fragments=""
-+	if [[ -f "$common_conf" ]]; then
-+		fragments="$fragments $common_conf"
-+	fi
++			if (err)
++				return err;
++		}
++	} else {
++		state = &private->outgoing;
 +
-+	if [[ -f "$arch_conf" ]]; then
-+		fragments="$fragments $arch_conf"
-+	fi
++		/* Sanity check that object exists */
++		if (WARN_ON_ONCE(!state->obj))
++			return -ENOENT;
++	}
 +
-+	if [[ -n "$fragments" ]]; then
-+		"$kernel_dir/scripts/kconfig/merge_config.sh" \
-+			-Q -m -O "$build_dir" "$kconfig" $fragments >> /dev/null
-+	fi
++	mutex_lock(&state->lock);
++	*objp = state->obj;
 +
-+	$make_cmd olddefconfig
-+	$make_cmd "$kimage"
-+	$make_cmd headers_install INSTALL_HDR_PATH="$headers_dir"
++	return 0;
 +}
 +
-+function mkinitrd() {
-+	local build_dir=$1
-+	local kernel_path=$2
-+	local test_name=$3
++static void luo_flb_unlock(struct liveupdate_flb *flb, bool incoming,
++			   void *obj)
++{
++	struct luo_flb_private *private = luo_flb_get_private(flb);
++	struct luo_flb_private_state *state;
 +
-+	# 1. Compile the test binary and the init process
-+	"$CROSS_COMPILE"gcc -static -O2 \
-+		-I "$headers_dir/include" \
-+		-I "$test_dir" \
-+		-o "$workspace_dir/test_binary" \
-+		"$test_dir/$test_name.c" "$test_dir/luo_test_utils.c"
++	state = incoming ? &private->incoming : &private->outgoing;
 +
-+	"$CROSS_COMPILE"gcc -s -static -Os -nostdinc -nostdlib		\
-+			-fno-asynchronous-unwind-tables -fno-ident	\
-+			-fno-stack-protector				\
-+			-I "$headers_dir/include"			\
-+			-I "$kernel_dir/tools/include/nolibc"		\
-+			-o "$workspace_dir/init" "$test_dir/init.c"
-+
-+	cat > "$workspace_dir/cpio_list_inner" <<EOF
-+dir /dev 0755 0 0
-+dir /proc 0755 0 0
-+dir /debugfs 0755 0 0
-+nod /dev/console 0600 0 0 c 5 1
-+file /init $workspace_dir/init 0755 0 0
-+file /test_binary $workspace_dir/test_binary 0755 0 0
-+EOF
-+
-+	# Generate inner_initrd.cpio
-+	"$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list_inner" > "$workspace_dir/inner_initrd.cpio"
-+
-+	cat > "$workspace_dir/cpio_list" <<EOF
-+dir /dev 0755 0 0
-+dir /proc 0755 0 0
-+dir /debugfs 0755 0 0
-+nod /dev/console 0600 0 0 c 5 1
-+file /init $workspace_dir/init 0755 0 0
-+file /kernel $kernel_path 0644 0 0
-+file /test_binary $workspace_dir/test_binary 0755 0 0
-+file /initrd.img $workspace_dir/inner_initrd.cpio 0644 0 0
-+EOF
-+
-+	# Generate the final initrd
-+	"$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list" > "$initrd"
-+	local size=$(du -h "$initrd" | cut -f1)
++	lockdep_assert_held(&state->lock);
++	state->obj = obj;
++	mutex_unlock(&state->lock);
 +}
 +
-+function run_qemu() {
-+	local qemu_cmd=$1
-+	local cmdline=$2
-+	local kernel_path=$3
-+	local serial="$workspace_dir/qemu.serial"
-+
-+	local accel="-accel tcg"
-+	local host_machine=$(uname -m)
-+
-+	[[ "$host_machine" == "arm64" ]] && host_machine="aarch64"
-+	[[ "$host_machine" == "x86_64" ]] && host_machine="x86_64"
-+
-+	if [[ "$qemu_cmd" == *"$host_machine"* ]]; then
-+		if [ -w /dev/kvm ]; then
-+			accel="-accel kvm"
-+		fi
-+	fi
-+
-+	cmdline="$cmdline liveupdate=on panic=-1"
-+
-+	echo "# Serial Log: $serial"
-+	timeout 30s $qemu_cmd -m 1G -smp 2 -no-reboot -nographic -nodefaults	\
-+		  $accel							\
-+		  -serial file:"$serial"					\
-+		  -append "$cmdline"						\
-+		  -kernel "$kernel_path"					\
-+		  -initrd "$initrd"
-+
-+	local ret=$?
-+
-+	if [ $ret -eq 124 ]; then
-+		fail "QEMU timed out"
-+	fi
-+
-+	grep "TEST PASSED" "$serial" &> /dev/null || fail "Liveupdate failed. Check $serial for details."
++/**
++ * liveupdate_flb_incoming_locked - Lock and retrieve the incoming FLB object.
++ * @flb:  The FLB definition.
++ * @objp: Output parameter; will be populated with the live shared object.
++ *
++ * Acquires the FLB's internal lock and returns a pointer to its shared live
++ * object for the incoming (post-reboot) path.
++ *
++ * If this is the first time the object is requested in the new kernel, this
++ * function will trigger the FLB's .retrieve() callback to reconstruct the
++ * object from its preserved state. Subsequent calls will return the same
++ * cached object.
++ *
++ * The caller MUST call liveupdate_flb_incoming_unlock() to release the lock.
++ *
++ * Return: 0 on success, or a negative errno on failure. -ENODATA means no
++ * incoming FLB data, -ENOENT means specific flb not found in the incoming
++ * data, and -EOPNOTSUPP when live update is disabled or not configured.
++ */
++int liveupdate_flb_incoming_locked(struct liveupdate_flb *flb, void **objp)
++{
++	return luo_flb_locked(flb, true, objp);
 +}
 +
-+function target_to_arch() {
-+	local target=$1
-+	case $target in
-+	     aarch64) echo "arm64" ;;
-+	     x86_64) echo "x86" ;;
-+	     *) skip "architecture $target is not supported"
-+	esac
++/**
++ * liveupdate_flb_incoming_unlock - Unlock an incoming FLB object.
++ * @flb: The FLB definition.
++ * @obj: The object that was returned by the _locked call
++ *
++ * Releases the internal lock acquired by liveupdate_flb_incoming_locked().
++ */
++void liveupdate_flb_incoming_unlock(struct liveupdate_flb *flb, void *obj)
++{
++	luo_flb_unlock(flb, true, obj);
 +}
 +
-+function main() {
-+	local build_dir=""
-+	local jobs=$(nproc)
-+	local target="$(uname -m)"
-+	local test_name="luo_kexec_simple"
-+	local workspace_arg=""
-+
-+	set -o errtrace
-+	trap skip ERR
-+
-+	while getopts 'hd:j:t:T:w:k' opt; do
-+		case $opt in
-+		d) build_dir="$OPTARG" ;;
-+		j) jobs="$OPTARG" ;;
-+		t) target="$OPTARG" ;;
-+		T) test_name="$OPTARG" ;;
-+		w) workspace_arg="$OPTARG" ;;
-+		k) KEEP_WORKSPACE=1 ;;
-+		h) usage; exit 0 ;;
-+		*) echo "Unknown argument $opt"; usage; exit 1 ;;
-+		esac
-+	done
-+
-+	ktap_print_header
-+	ktap_set_plan 1
-+
-+	if [ -n "$workspace_arg" ]; then
-+		workspace_dir="$(realpath -m "$workspace_arg")"
-+		mkdir -p "$workspace_dir"
-+	else
-+		workspace_dir=$(mktemp -d /tmp/luo-test.XXXXXXXX)
-+	fi
-+
-+	echo "# Workspace created at: $workspace_dir"
-+	headers_dir="$workspace_dir/usr"
-+	initrd="$workspace_dir/initrd.cpio"
-+
-+	detect_cross_compile "$target"
-+
-+	local arch=$(target_to_arch "$target")
-+
-+	if [ -z "$build_dir" ]; then
-+		build_dir="$kernel_dir/.luo_test_build.$arch"
-+	fi
-+
-+	mkdir -p "$build_dir"
-+	build_dir=$(realpath "$build_dir")
-+	get_arch_conf "$arch"
-+
-+	local make_cmd="make -s ARCH=$arch CROSS_COMPILE=$CROSS_COMPILE -j$jobs"
-+	local make_cmd_build="$make_cmd -C $kernel_dir O=$build_dir"
-+
-+	build_kernel "$build_dir" "$make_cmd_build" "$KERNEL_IMAGE" "$target"
-+
-+	local final_kernel="$build_dir/arch/$arch/boot/$KERNEL_IMAGE"
-+	mkinitrd "$build_dir" "$final_kernel" "$test_name"
-+
-+	run_qemu "$QEMU_CMD" "$KERNEL_CMDLINE" "$final_kernel"
-+	ktap_test_pass "$test_name succeeded"
++/**
++ * liveupdate_flb_outgoing_locked - Lock and retrieve the outgoing FLB object.
++ * @flb:  The FLB definition.
++ * @objp: Output parameter; will be populated with the live shared object.
++ *
++ * Acquires the FLB's internal lock and returns a pointer to its shared live
++ * object for the outgoing (pre-reboot) path.
++ *
++ * This function assumes the object has already been created by the FLB's
++ * .preserve() callback, which is triggered when the first dependent file
++ * is preserved.
++ *
++ * The caller MUST call liveupdate_flb_outgoing_unlock() to release the lock.
++ *
++ * Return: 0 on success, or a negative errno on failure.
++ */
++int liveupdate_flb_outgoing_locked(struct liveupdate_flb *flb, void **objp)
++{
++	return luo_flb_locked(flb, false, objp);
 +}
 +
-+main "$@"
-diff --git a/tools/testing/selftests/liveupdate/run.sh b/tools/testing/selftests/liveupdate/run.sh
-new file mode 100755
-index 000000000000..3f6b29a26648
---- /dev/null
-+++ b/tools/testing/selftests/liveupdate/run.sh
-@@ -0,0 +1,68 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
++/**
++ * liveupdate_flb_outgoing_unlock - Unlock an outgoing FLB object.
++ * @flb: The FLB definition.
++ * @obj: The object that was returned by the _locked call
++ *
++ * Releases the internal lock acquired by liveupdate_flb_outgoing_locked().
++ */
++void liveupdate_flb_outgoing_unlock(struct liveupdate_flb *flb, void *obj)
++{
++	luo_flb_unlock(flb, false, obj);
++}
 +
-+OUTPUT_DIR="results_$(date +%Y%m%d_%H%M%S)"
-+SCRIPT_DIR=$(dirname "$(realpath "$0")")
-+TEST_RUNNER="$SCRIPT_DIR/luo_test.sh"
++int __init luo_flb_setup_outgoing(void *fdt_out)
++{
++	struct luo_flb_header_ser *header_ser;
++	u64 header_ser_pa;
++	int err;
 +
-+TARGETS=("x86_64" "aarch64")
++	header_ser = kho_alloc_preserve(LUO_FLB_PGCNT << PAGE_SHIFT);
++	if (IS_ERR(header_ser))
++		return PTR_ERR(header_ser);
 +
-+GREEN='\033[0;32m'
-+RED='\033[0;31m'
-+YELLOW='\033[1;33m'
-+NC='\033[0m'
++	header_ser_pa = virt_to_phys(header_ser);
 +
-+PASSED=()
-+FAILED=()
-+SKIPPED=()
++	err = fdt_begin_node(fdt_out, LUO_FDT_FLB_NODE_NAME);
++	err |= fdt_property_string(fdt_out, "compatible",
++				   LUO_FDT_FLB_COMPATIBLE);
++	err |= fdt_property(fdt_out, LUO_FDT_FLB_HEADER, &header_ser_pa,
++			    sizeof(header_ser_pa));
++	err |= fdt_end_node(fdt_out);
 +
-+mkdir -p "$OUTPUT_DIR"
++	if (err)
++		goto err_unpreserve;
 +
-+TEST_NAMES=()
-+while IFS= read -r file; do
-+    TEST_NAMES+=("$(basename "$file" .c)")
-+done < <(find "$SCRIPT_DIR" -maxdepth 1 -name "luo_*.c" ! -name "luo_test_utils.c")
++	header_ser->pgcnt = LUO_FLB_PGCNT;
++	luo_flb_global.outgoing.header_ser = header_ser;
++	luo_flb_global.outgoing.ser = (void *)(header_ser + 1);
++	luo_flb_global.outgoing.active = true;
 +
-+if [ ${#TEST_NAMES[@]} -eq 0 ]; then
-+    echo "No tests found in $SCRIPT_DIR"
-+    exit 1
-+fi
++	return 0;
 +
-+for arch in "${TARGETS[@]}"; do
-+    for test_name in "${TEST_NAMES[@]}"; do
-+        log_file="$OUTPUT_DIR/${arch}_${test_name}.log"
-+        echo -n "  -> $arch $test_name ... "
++err_unpreserve:
++	kho_unpreserve_free(header_ser);
 +
-+        if "$TEST_RUNNER" -t "$arch" -T "$test_name" > "$log_file" 2>&1; then
-+            echo -e "${GREEN}PASS${NC}"
-+            PASSED+=("${arch}:${test_name}")
-+        else
-+            exit_code=$?
-+            if [ $exit_code -eq 4 ]; then
-+                echo -e "${YELLOW}SKIP${NC}"
-+                SKIPPED+=("${arch}:${test_name}")
-+            else
-+                echo -e "${RED}FAIL${NC}"
-+                FAILED+=("${arch}:${test_name}")
-+            fi
-+        fi
-+    done
-+    echo ""
-+done
++	return err;
++}
 +
-+echo "========================================="
-+echo "             TEST SUMMARY                "
-+echo "========================================="
-+echo -e "PASSED: ${GREEN}${#PASSED[@]}${NC}"
-+echo -e "FAILED: ${RED}${#FAILED[@]}${NC}"
-+for fail in "${FAILED[@]}"; do
-+    echo -e "  - $fail"
-+done
-+echo -e "SKIPPED: ${YELLOW}${#SKIPPED[@]}${NC}"
-+echo "Logs: $OUTPUT_DIR"
++int __init luo_flb_setup_incoming(void *fdt_in)
++{
++	struct luo_flb_header_ser *header_ser;
++	int err, header_size, offset;
++	const void *ptr;
++	u64 header_ser_pa;
 +
-+if [ ${#FAILED[@]} -eq 0 ]; then
-+    exit 0
-+else
-+    exit 1
-+fi
++	offset = fdt_subnode_offset(fdt_in, 0, LUO_FDT_FLB_NODE_NAME);
++	if (offset < 0) {
++		pr_err("Unable to get FLB node [%s]\n", LUO_FDT_FLB_NODE_NAME);
++
++		return -ENOENT;
++	}
++
++	err = fdt_node_check_compatible(fdt_in, offset,
++					LUO_FDT_FLB_COMPATIBLE);
++	if (err) {
++		pr_err("FLB node is incompatible with '%s' [%d]\n",
++		       LUO_FDT_FLB_COMPATIBLE, err);
++
++		return -EINVAL;
++	}
++
++	header_size = 0;
++	ptr = fdt_getprop(fdt_in, offset, LUO_FDT_FLB_HEADER, &header_size);
++	if (!ptr || header_size != sizeof(u64)) {
++		pr_err("Unable to get FLB header property '%s' [%d]\n",
++		       LUO_FDT_FLB_HEADER, header_size);
++
++		return -EINVAL;
++	}
++
++	header_ser_pa = get_unaligned((u64 *)ptr);
++	header_ser = phys_to_virt(header_ser_pa);
++
++	luo_flb_global.incoming.header_ser = header_ser;
++	luo_flb_global.incoming.ser = (void *)(header_ser + 1);
++	luo_flb_global.incoming.active = true;
++
++	return 0;
++}
++
++/**
++ * luo_flb_serialize - Serializes all active FLB objects for KHO.
++ *
++ * This function is called from the reboot path. It iterates through all
++ * registered File-Lifecycle-Bound (FLB) objects. For each FLB that has been
++ * preserved (i.e., its reference count is greater than zero), it writes its
++ * metadata into the memory region designated for Kexec Handover.
++ *
++ * The serialized data includes the FLB's compatibility string, its opaque
++ * data handle, and the final reference count. This allows the new kernel to
++ * find the appropriate handler and reconstruct the FLB's state.
++ *
++ * Context: Called from liveupdate_reboot() just before kho_finalize().
++ */
++void luo_flb_serialize(void)
++{
++	struct luo_flb_header *fh = &luo_flb_global.outgoing;
++	struct liveupdate_flb *gflb;
++	int i = 0;
++
++	luo_list_for_each_private(gflb, &luo_flb_global.list, private.list) {
++		struct luo_flb_private *private = luo_flb_get_private(gflb);
++
++		if (private->outgoing.count > 0) {
++			strscpy(fh->ser[i].name, gflb->compatible,
++				sizeof(fh->ser[i].name));
++			fh->ser[i].data = private->outgoing.data;
++			fh->ser[i].count = private->outgoing.count;
++			i++;
++		}
++	}
++
++	fh->header_ser->count = i;
++}
+diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+index 734469464664..fa9d2a77c394 100644
+--- a/kernel/liveupdate/luo_internal.h
++++ b/kernel/liveupdate/luo_internal.h
+@@ -123,4 +123,11 @@ int luo_file_deserialize(struct luo_file_set *file_set,
+ void luo_file_set_init(struct luo_file_set *file_set);
+ void luo_file_set_destroy(struct luo_file_set *file_set);
+ 
++int luo_flb_file_preserve(struct liveupdate_file_handler *fh);
++void luo_flb_file_unpreserve(struct liveupdate_file_handler *fh);
++void luo_flb_file_finish(struct liveupdate_file_handler *fh);
++int __init luo_flb_setup_outgoing(void *fdt);
++int __init luo_flb_setup_incoming(void *fdt);
++void luo_flb_serialize(void);
++
+ #endif /* _LINUX_LUO_INTERNAL_H */
 -- 
 2.52.0.rc2.455.g230fcf2819-goog
 
