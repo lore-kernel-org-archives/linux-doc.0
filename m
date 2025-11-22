@@ -1,100 +1,331 @@
-Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83160257851;
-	Sat, 22 Nov 2025 21:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E8D224AF9
+	for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 22:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763846912; cv=none; b=HWVCeecTCLZwVEmNVwfJB1/vWJ715w+ivad0eQ7FI1J1rFSfso9MthlBzxaTeMd4Y3Z43Rpc161uVSt1buAR8JQUdwDmB/P81PhFB9pzc4kxkeK4I4RlGzndi0/5fmhu2loIjmHey88qk2tuaHjyjZWNPluKCMH7wmwTFCsUBAc=
+	t=1763850241; cv=none; b=db8VKPyQAQHfd0fJQTcGWgncXodZSZqAFro9z9oLw6XEYxiroTC2H2V7wyCAQ/GdNEvwrX07xusW5EgyCwcfaBNgM3oqoA7qt58t1+0+LmjTJ+JQEn1d9ZVf7Is3lkELVrZ97ZGCZuPcksrGpwWSeG1C//p9/bl0j2PAUldjVUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763846912; c=relaxed/simple;
-	bh=O7bJcChPkT7xMOVHD6IAp5F4GI3Zzx+LfHPbPi4iXN8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I6sFrhdgq0fUz5BfsPe0Lm7+9qptK7s7+fYYA9SKu1fu36xZKj0RYHNVfUZQsewmKyqfr3I4dFNaogUmq7oBw3NBNs3x40PsEOZ0qHo/Zx2cj3ET9qn6gUpa4loa8Hc5CJpZ76gIm5no/pOGIQ/y9VfzEJSY+lTlf3eKi5htFBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 5F9A02BA973;
-	Sat, 22 Nov 2025 22:19:27 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id 3Il8KscnqSO8; Sat, 22 Nov 2025 22:19:26 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 196282BA979;
-	Sat, 22 Nov 2025 22:19:26 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id uSCWT8cKas0p; Sat, 22 Nov 2025 22:19:25 +0100 (CET)
-Received: from nailgun.corp.sigma-star.at (85-127-105-34.dsl.dynamic.surfer.at [85.127.105.34])
-	by lithops.sigma-star.at (Postfix) with ESMTPSA id 5146F2BA973;
-	Sat, 22 Nov 2025 22:19:25 +0100 (CET)
-From: Richard Weinberger <richard@nod.at>
-To: linux-mm@kvack.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	mhocko@suse.com,
-	surenb@google.com,
+	s=arc-20240116; t=1763850241; c=relaxed/simple;
+	bh=hPiPO5pjZbR+kxbNSrGZPyo3u+7EVTt3m9zoLAZiV3M=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ibjdwEVFLKb+9YxOjIiXy2T4Bd/gwWtRN0aZahJ3V4qhKXZmZ+CgAYnGJ2C/4oEYy5QsCUmMwAcYOT9rqHiIvDVgktuSoIng1JuC8pDGlbHkdx+HzamljqRs1+Cf+hMYFwcF+ziNSp9b3T5tYv+RvMCImhdQ39+o5UeEhOe06MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=WDoNgmNa; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="WDoNgmNa"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-78a7af9ff1dso30356747b3.1
+        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 14:23:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1763850237; x=1764455037; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MMVLPogxr4xn7qzv+KlhBxAlOABfTn1sftdMF1VGngg=;
+        b=WDoNgmNai7k1jskJomMSLs0Qyc3GZmNyp2TkVWREHCsiD+C2WbT8+uR6gr1zuW8G8U
+         SywvVyrXXlG0pFSXaa4SmjZ2pu/uLBAGxRxpRB/QmeishD6XWvrd4/4k32nbU5MG/Tea
+         eitKKcgcy/+eI78q5h3cjXgJrmi9978vO4UUrNVDOBSrAjxMesn9Ac2/sYhr99Q/+Qzw
+         YCbA7gERTc7FtdJd8QcL9n3dxeD1Md37cRWq9U2XwwQOiCsAL7x1SqAjce5Z+gZ5mn8U
+         vlOvo87JZsaQmDALxqEnS8i0QvLaMjXYi/oIcjQIyJa8Kj2eZcJ6W6RqJQjQWcJMHGzk
+         jz7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763850237; x=1764455037;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MMVLPogxr4xn7qzv+KlhBxAlOABfTn1sftdMF1VGngg=;
+        b=VO5q3Sl15jHSKm+Ni8fiLoduxyVjR6zr7yrp0nbtu7hSNBfuOC6J7VozFgEM+J9roZ
+         7mhDErTpXqr9LMfaMu6/ce3mdAIARuuhr7SaPu/JFr3zZu5jIhZZE0he0KV3IpcgcyPy
+         zxTNM66WgUrJRw2Bm2RYqQi71hkbDeBkxB1MZnTo6fxurdE8XrJ9CoxAnGJp08Q7MPNS
+         kpgukP/qvOW2kTXQv72SCEyUXWnRyWqeOGKV6ICXdOBNhvfF4eCjGCkluZPbWsKWdIP2
+         Kj55lCxRsBskG1NsrwRZ03QPeM6doiGteNwIpND+x4d1r64XKYyjwPO8wvfacW5JkTHN
+         CFjg==
+X-Forwarded-Encrypted: i=1; AJvYcCUcMsUvsCSyS3ma+5YXdXneJqWLrilnvQg1xijn2Ulp5/1W6+eVTEtURmpNtouXq2GiJS5vAhP9jb4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyP87UX3ILZm1/yjihnXA94iRlo+MoaVtPhkmi4fUTASNryfwgi
+	hGATSnZ98UjvrfPXdf3A/F08/v52fDf9zpCNVFxkXcrtS0N8aifcqdFXTYLt1/fA38Q=
+X-Gm-Gg: ASbGncun7rMTfTX2HNy4R69b7bJnIbnMWiBf6AWcH3KdqK/NIfGSNYe1A5Yiib2yUFd
+	PFLaxdygTaEyd9WjBJ2Ys4b/KunE8yplnXfPNDujK7VcGRAnSuNVMG0LMyuVdHw3AJRtgjH+iQB
+	dAbvN6QqLdJSjgbfGh3liZV1QzCcB7b8xvt2AFWFpeYZX711y1UzSJyWgp4ZHvbUsdVE6j+xNB7
+	f2Ltktm2rdHfbjM7n6+y0BAzdPWtjZ8rlN+fPImwytQXxthSncrbkh5Sy6Ww51VojbDg7Ow2aqS
+	Noe2AojgdZB6IbLNf2WpTZyU2BanZi5654NYq7s3fTGlYB5xNU1OX10fsrDLBPlR5Gu/Pb7hAon
+	P1SadnaYsLTbaNxiyHOn4Pc0e5kQVZ0j4kPdWi/JCvCVI6/tMQsINvpmBroDNjUx+t4+3V8xkwy
+	cJ7rDar6ODZacC7KpvDtNdeBk5gPIvOk2/ep8Nj61O2XRNYpmpBfQmGp4hP3LY1xN1JdNSjXRjf
+	9ralRY=
+X-Google-Smtp-Source: AGHT+IGXeP0hGbAFwfk3jugXNxMQcj4PmGg4Arhaop1PdEogmVGxKFjSmLggGBZBxrIKW7TxTkSmcQ==
+X-Received: by 2002:a05:690c:e3cf:b0:78a:8516:e863 with SMTP id 00721157ae682-78a8b472025mr63326207b3.16.1763850236895;
+        Sat, 22 Nov 2025 14:23:56 -0800 (PST)
+Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a79779a4esm28858937b3.0.2025.11.22.14.23.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Nov 2025 14:23:56 -0800 (PST)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: pratyush@kernel.org,
+	jasonmiu@google.com,
+	graf@amazon.com,
+	pasha.tatashin@soleen.com,
 	rppt@kernel.org,
-	vbabka@suse.cz,
-	Liam.Howlett@oracle.com,
-	lorenzo.stoakes@oracle.com,
-	david@kernel.org,
+	dmatlack@google.com,
+	rientjes@google.com,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com,
+	ojeda@kernel.org,
+	aliceryhl@google.com,
+	masahiroy@kernel.org,
 	akpm@linux-foundation.org,
-	Richard Weinberger <richard@nod.at>,
-	Vladimir Davydov <vdavydov@virtuozzo.com>,
-	Konstantin Khlebnikov <koct9i@gmail.com>,
-	Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH] pagemap: Update BUDDY flag documentation
-Date: Sat, 22 Nov 2025 22:19:20 +0100
-Message-ID: <20251122211920.3410371-1-richard@nod.at>
-X-Mailer: git-send-email 2.51.0
+	tj@kernel.org,
+	yoann.congal@smile.fr,
+	mmaurer@google.com,
+	roman.gushchin@linux.dev,
+	chenridong@huawei.com,
+	axboe@kernel.dk,
+	mark.rutland@arm.com,
+	jannh@google.com,
+	vincent.guittot@linaro.org,
+	hannes@cmpxchg.org,
+	dan.j.williams@intel.com,
+	david@redhat.com,
+	joel.granados@kernel.org,
+	rostedt@goodmis.org,
+	anna.schumaker@oracle.com,
+	song@kernel.org,
+	linux@weissschuh.net,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org,
+	gregkh@linuxfoundation.org,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	bartosz.golaszewski@linaro.org,
+	cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com,
+	yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com,
+	quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com,
+	ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com,
+	leon@kernel.org,
+	lukas@wunner.de,
+	bhelgaas@google.com,
+	wagi@kernel.org,
+	djeffery@redhat.com,
+	stuart.w.hayes@gmail.com,
+	ptyadav@amazon.de,
+	lennart@poettering.net,
+	brauner@kernel.org,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	saeedm@nvidia.com,
+	ajayachandra@nvidia.com,
+	jgg@nvidia.com,
+	parav@nvidia.com,
+	leonro@nvidia.com,
+	witu@nvidia.com,
+	hughd@google.com,
+	skhawaja@google.com,
+	chrisl@kernel.org
+Subject: [PATCH v7 00/22] Live Update Orchestrator
+Date: Sat, 22 Nov 2025 17:23:27 -0500
+Message-ID: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.52.0.rc2.455.g230fcf2819-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Since v4.6 the BUDDY flag is set for _all_ pages in the block
-and no longer just for the first one.
-This change was introduced by:
-commit 832fc1de01ae ("/proc/kpageflags: return KPF_BUDDY for "tail" buddy=
- pages")
+This series introduces the Live Update Orchestrator, a kernel subsystem
+designed to facilitate live kernel updates using a kexec-based reboot.
+This capability is critical for cloud environments, allowing hypervisors
+to be updated with minimal downtime for running virtual machines. LUO
+achieves this by preserving the state of selected resources, such as
+memory, devices and their dependencies, across the kernel transition.
 
-Strictly speaking, this was an ABI change, but as nobody has noticed
-since 2016, let's just update the documentation.
+As a key feature, this series includes support for preserving memfd file
+descriptors, which allows critical in-memory data, such as guest RAM or
+any other large memory region, to be maintained in RAM across the kexec
+reboot.
 
-Cc: Vladimir Davydov <vdavydov@virtuozzo.com>>
-Cc: Konstantin Khlebnikov <koct9i@gmail.com>
-Cc: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Richard Weinberger <richard@nod.at>
----
- Documentation/admin-guide/mm/pagemap.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The other series that use LUO, are VFIO [1], IOMMU [2], and PCI [3]
+preservations.
 
-diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/adm=
-in-guide/mm/pagemap.rst
-index e60e9211fd9b2..c57e61b5d8aa8 100644
---- a/Documentation/admin-guide/mm/pagemap.rst
-+++ b/Documentation/admin-guide/mm/pagemap.rst
-@@ -115,7 +115,8 @@ Short descriptions to the page flags
-     A free memory block managed by the buddy system allocator.
-     The buddy system organizes free memory in blocks of various orders.
-     An order N block has 2^N physically contiguous pages, with the BUDDY=
- flag
--    set for and _only_ for the first page.
-+    set for all pages.
-+    Before 4.6 only the first page of the block had the flag set.
- 15 - COMPOUND_HEAD
-     A compound page with order N consists of 2^N physically contiguous p=
-ages.
-     A compound page with order 2 takes the form of "HTTT", where H donat=
-es its
---=20
-2.51.0
+Github repo of this series [4].
+
+The core of LUO is a framework for managing the lifecycle of preserved
+resources through a userspace-driven interface. Key features include:
+
+- Session Management
+  Userspace agent (i.e. luod [5]) creates named sessions, each
+  represented by a file descriptor (via centralized agent that controls
+  /dev/liveupdate). The lifecycle of all preserved resources within a
+  session is tied to this FD, ensuring automatic kernel cleanup if the
+  controlling userspace agent crashes or exits unexpectedly.
+
+- File Preservation
+  A handler-based framework allows specific file types (demonstrated
+  here with memfd) to be preserved. Handlers manage the serialization,
+  restoration, and lifecycle of their specific file types.
+
+- File-Lifecycle-Bound State
+  A new mechanism for managing shared global state whose lifecycle is
+  tied to the preservation of one or more files. This is crucial for
+  subsystems like IOMMU or HugeTLB, where multiple file descriptors may
+  depend on a single, shared underlying resource that must be preserved
+  only once.
+
+- KHO Integration
+  LUO drives the Kexec Handover framework programmatically to pass its
+  serialized metadata to the next kernel. The LUO state is finalized and
+  added to the kexec image just before the reboot is triggered. In the
+  future this step will also be removed once stateless KHO is
+  merged [6].
+
+- Userspace Interface
+  Control is provided via ioctl commands on /dev/liveupdate for creating
+  and retrieving sessions, as well as on session file descriptors for
+  managing individual files.
+
+- Testing
+  The series includes a set of selftests, including userspace API
+  validation, kexec-based lifecycle tests for various session and file
+  scenarios, and a new in-kernel test module to validate the FLB logic.
+
+Changelog since v6 [7]
+- Collected Reviewed-by tags from Mike Rapoport,
+  Pratyush Yadav, and Zhu Yanjun. Addressed all outstanding comments.
+- Moved ABI headers from include/linux/liveupdate/abi/ to
+  include/linux/kho/abi/ to align with other future users of KHO and KHO
+  itself.
+- Separated internal APIs to allow kernel subsystems to preserve file
+  objects programmatically.
+- Introduced struct luo_file_set to manage groups of preserved files,
+  decoupling this logic from the luo_session structure. This simplifies
+  internal management and serialization.
+- Implemented luo_session_quiesce() and luo_session_resume() mechanisms.
+  These ensure that file handlers and FLBs can be safely unregistered
+  (liveupdate_unregister_file_handler, liveupdate_unregister_flb) by
+  preventing new operations while unregistration is in progress.
+- Added a comprehensive test orchestration framework. This includes a
+  custom init process (init.c) and scripts (luo_test.sh, run.sh) to
+  automate kexec testing within QEMU environments across x86_64 and
+  arm64.
+ 
+[1] https://lore.kernel.org/all/20251018000713.677779-1-vipinsh@google.com/
+[2] https://lore.kernel.org/linux-iommu/20250928190624.3735830-1-skhawaja@google.com
+[3] https://lore.kernel.org/linux-pci/20250916-luo-pci-v2-0-c494053c3c08@kernel.org
+[4] https://github.com/googleprodkernel/linux-liveupdate/tree/luo/v7
+[5] https://tinyurl.com/luoddesign
+[6] https://lore.kernel.org/all/20251020100306.2709352-1-jasonmiu@google.com
+[7] https://lore.kernel.org/all/20251115233409.768044-1-pasha.tatashin@soleen.com
+
+Pasha Tatashin (16):
+  liveupdate: luo_core: Live Update Orchestrator
+  liveupdate: luo_core: integrate with KHO
+  kexec: call liveupdate_reboot() before kexec
+  liveupdate: luo_session: add sessions support
+  liveupdate: luo_core: add user interface
+  liveupdate: luo_file: implement file systems callbacks
+  liveupdate: luo_session: Add ioctls for file preservation
+  docs: add luo documentation
+  MAINTAINERS: add liveupdate entry
+  selftests/liveupdate: Add userspace API selftests
+  selftests/liveupdate: Add kexec-based selftest for
+  selftests/liveupdate: Add kexec test for multiple and empty sessions
+  selftests/liveupdate: add test infrastructure and scripts
+  liveupdate: luo_file: Add internal APIs for file preservation
+  liveupdate: luo_flb: Introduce File-Lifecycle-Bound global state
+  tests/liveupdate: Add in-kernel liveupdate test
+
+Pratyush Yadav (6):
+  mm: shmem: use SHMEM_F_* flags instead of VM_* flags
+  mm: shmem: allow freezing inode mapping
+  mm: shmem: export some functions to internal.h
+  liveupdate: luo_file: add private argument to store runtime state
+  mm: memfd_luo: allow preserving memfd
+  docs: add documentation for memfd preservation via LUO
+
+ Documentation/core-api/index.rst              |   1 +
+ Documentation/core-api/liveupdate.rst         |  71 ++
+ Documentation/mm/index.rst                    |   1 +
+ Documentation/mm/memfd_preservation.rst       |  23 +
+ Documentation/userspace-api/index.rst         |   1 +
+ .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+ Documentation/userspace-api/liveupdate.rst    |  20 +
+ MAINTAINERS                                   |  16 +
+ include/linux/kho/abi/luo.h                   | 243 +++++
+ include/linux/kho/abi/memfd.h                 |  77 ++
+ include/linux/liveupdate.h                    | 311 ++++++
+ include/linux/shmem_fs.h                      |  23 +
+ include/uapi/linux/liveupdate.h               | 216 ++++
+ kernel/kexec_core.c                           |   5 +
+ kernel/liveupdate/Kconfig                     |  27 +
+ kernel/liveupdate/Makefile                    |   8 +
+ kernel/liveupdate/luo_core.c                  | 454 ++++++++
+ kernel/liveupdate/luo_file.c                  | 987 ++++++++++++++++++
+ kernel/liveupdate/luo_flb.c                   | 701 +++++++++++++
+ kernel/liveupdate/luo_internal.h              | 141 +++
+ kernel/liveupdate/luo_session.c               | 645 ++++++++++++
+ lib/Kconfig.debug                             |  23 +
+ lib/tests/Makefile                            |   1 +
+ lib/tests/liveupdate.c                        | 160 +++
+ mm/Makefile                                   |   1 +
+ mm/internal.h                                 |   6 +
+ mm/memfd_luo.c                                | 517 +++++++++
+ mm/shmem.c                                    |  57 +-
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/liveupdate/.gitignore |   9 +
+ tools/testing/selftests/liveupdate/Makefile   |  34 +
+ tools/testing/selftests/liveupdate/config     |  11 +
+ .../testing/selftests/liveupdate/do_kexec.sh  |  16 +
+ tools/testing/selftests/liveupdate/init.c     | 174 +++
+ .../testing/selftests/liveupdate/liveupdate.c | 348 ++++++
+ .../selftests/liveupdate/luo_kexec_simple.c   |  89 ++
+ .../selftests/liveupdate/luo_multi_session.c  | 162 +++
+ .../testing/selftests/liveupdate/luo_test.sh  | 296 ++++++
+ .../selftests/liveupdate/luo_test_utils.c     | 266 +++++
+ .../selftests/liveupdate/luo_test_utils.h     |  44 +
+ tools/testing/selftests/liveupdate/run.sh     |  68 ++
+ 41 files changed, 6235 insertions(+), 21 deletions(-)
+ create mode 100644 Documentation/core-api/liveupdate.rst
+ create mode 100644 Documentation/mm/memfd_preservation.rst
+ create mode 100644 Documentation/userspace-api/liveupdate.rst
+ create mode 100644 include/linux/kho/abi/luo.h
+ create mode 100644 include/linux/kho/abi/memfd.h
+ create mode 100644 include/linux/liveupdate.h
+ create mode 100644 include/uapi/linux/liveupdate.h
+ create mode 100644 kernel/liveupdate/luo_core.c
+ create mode 100644 kernel/liveupdate/luo_file.c
+ create mode 100644 kernel/liveupdate/luo_flb.c
+ create mode 100644 kernel/liveupdate/luo_internal.h
+ create mode 100644 kernel/liveupdate/luo_session.c
+ create mode 100644 lib/tests/liveupdate.c
+ create mode 100644 mm/memfd_luo.c
+ create mode 100644 tools/testing/selftests/liveupdate/.gitignore
+ create mode 100644 tools/testing/selftests/liveupdate/Makefile
+ create mode 100644 tools/testing/selftests/liveupdate/config
+ create mode 100755 tools/testing/selftests/liveupdate/do_kexec.sh
+ create mode 100644 tools/testing/selftests/liveupdate/init.c
+ create mode 100644 tools/testing/selftests/liveupdate/liveupdate.c
+ create mode 100644 tools/testing/selftests/liveupdate/luo_kexec_simple.c
+ create mode 100644 tools/testing/selftests/liveupdate/luo_multi_session.c
+ create mode 100755 tools/testing/selftests/liveupdate/luo_test.sh
+ create mode 100644 tools/testing/selftests/liveupdate/luo_test_utils.c
+ create mode 100644 tools/testing/selftests/liveupdate/luo_test_utils.h
+ create mode 100755 tools/testing/selftests/liveupdate/run.sh
+
+
+base-commit: 2cb7e27ffe3e3e1d8a837026462ebca22cba3b4f
+-- 
+2.52.0.rc2.455.g230fcf2819-goog
 
