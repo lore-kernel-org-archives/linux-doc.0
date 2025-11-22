@@ -1,65 +1,65 @@
 Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684DF2E284B
-	for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 22:24:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD842D0292
+	for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 22:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763850270; cv=none; b=XJpcV4CZjiUnUjECoJLPfzfb5+FoChXW2Pt9BdbrKpMgxvXwkCt1VVWHPRaQZasI+3FeZye0XBBNN4V5KnYft6Ist4Lur1lMZTzUsNq3RkEkn5PZM7nyplCRhzvtmvs/QkSpUfilf/2/E9+VVbEJZ4iGrGT8Hd+x2QmF2JyuI1A=
+	t=1763850272; cv=none; b=AfAHVaDtTneHqHqgthfzej/RPkCg84N98Y8HJxcUZmSZ1XBqeqFURqvde2HsZK/ipJ8jkiyZV7CrJjlZNxqiG4UtC56f6bhFUWl2a2bWv4b/+vJ3D4n6uEa+Jyqb8Yw+RSxUR5kOokMH60b6X+T+YDpJm55hHGdnI1hM5dFJG5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763850270; c=relaxed/simple;
-	bh=HckDMYe0+V7dIt+99RvEfUMzQcIYTFKI66vYhRUdjQA=;
+	s=arc-20240116; t=1763850272; c=relaxed/simple;
+	bh=t21FpQnpe7e8dy+sbs2+abPmQFphi4fmb0HjeKOEATg=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lje2L7RbG/y7nDRTNf9EtvL0snzdDPrvOZmxhzwWlS48ZuyneLLXBwIoqMh2D/KtIdPB+1vRjZQrGQBKr4DKvBxFvNqZYD0/hP3FrT4yJ+fsTInBVxEncRqYNDKMP1IaBZRr8ueNWO81DQb94m3iVMJZXezEcmrUlQyba8YxLto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=kUNpuhcm; arc=none smtp.client-ip=74.125.224.53
+	 MIME-Version; b=fjY8VcnZWG8OvnyLbJoYJskNemqvtUPV8PK6B8EOZrDNJSp9Gn/5eAP00wKRPD/ymia0RTz/fmP99VglbzSTfyxo+Dr+kUDdvt2HU0c5ShV+f7XlCTy4WW4xL9XnBtL2uNjq/OCANg+BJV+sURfI85REQsPECCcuHJ6pUwKmvHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=KDk4xEk/; arc=none smtp.client-ip=74.125.224.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="kUNpuhcm"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6420dc2e5feso2470010d50.3
-        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 14:24:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="KDk4xEk/"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-63fc8c337f2so2979426d50.0
+        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 14:24:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763850266; x=1764455066; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763850268; x=1764455068; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8oZaYRe5g0R4lweOQLAK81RG676DLPyUWLh/z30V3oE=;
-        b=kUNpuhcmhJRzDdbopx+yw1ynUATxeENtPf4tOwHPPENr78Xz1DbY8zuYNGC0GNDPTa
-         ZSk0TiTXYZP4GoAEH9ga0HJqU7yWWdru/Vbpyg2wwwpx4nYuC2OigJLFMpv3MSCnRcss
-         8VgrDTkHGCLQ2t+gaP6n4rUES77FYvAgAmH9IZYo/H9rQV17xQZyJy7R5ks7GABKkWi8
-         Grd5BW4wn5TyZ4RKzBrN6WPo8lbCWq4ImT2WC5mW72L4pS8dme6t1iJHvyM6T+b99QKd
-         M64TuQZrRsHu4DEhr8Ss9BfKanjC9absBmTvPnBPvDDnPORW8ckvh/ZjV71fAGyb5XFP
-         Xi9A==
+        bh=oN/lyGO3w6uNr+x1AiuxSkRfzjl2Tv5KHczYeMQDvoM=;
+        b=KDk4xEk/fDeoLgueRl4sFlBDmTgv8LzP1i0zjtyoVyTfVB4h1JxqVYaGwU/KktynMg
+         Mq1QprPWZkbbpHD5S8+7G/BbAb2x5ve+yCz6JtHKoOX547OVdXH/kUcb4sBrg9hexGik
+         r8z7yZxnbE+zgLntbqX9r9/ow5MoaDieUROEsNQelwadLYL691XMVgDOedcYyKQPIiYw
+         dUgXVQxBU5BhCZYTxR+FeDjUwTn3Te7BiMZW9ZxVIE2eEo3GC16Ce3fnp4AVS/gd6z1H
+         Xb6H4ijBwVQStvjVQnI4kfxKhxGyqlcTOeMyRypqqiNgoPsk/X5ujK3g9YmRWm4hVXak
+         PcjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763850266; x=1764455066;
+        d=1e100.net; s=20230601; t=1763850268; x=1764455068;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=8oZaYRe5g0R4lweOQLAK81RG676DLPyUWLh/z30V3oE=;
-        b=rjyNajQE50SEgnfMlXeFcTJvjwuXSX+Divqhe0+aSXdQze/usbH9yDK/M025nKl9iG
-         8h1G22Rvi3bOj2beRmLxGLsR88Ci0HWI1VVNd+xz/28cGK8idTQsXxbpiehcgIwO6ZP3
-         FyyRse96TewtOLaxvLMLV16ltot0PaUyZhShtSNlh846ButQHUl7gIQC+tlLJNWda/r6
-         /DBtJ99vrkQJ/VuI5ZulI+G+7z3UPFTL/akyOG/7LPGHV2GXKMRH1B+v2zFoF25wkR/E
-         kz55ri7/xIzGYkSMkAqtThsBqylLcTZv/OjOuGqpHD4eQpngNMuf6S1jeI4ZVQiLGxLO
-         upVg==
-X-Forwarded-Encrypted: i=1; AJvYcCU+7Jy2ypvW0yoQ2qO4zBraV8mrBmvZc1sB/DWHl87mP7yprkLO/f+Ci+UoZQetHUNhBGjSuvn19DA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6YkSu8ijjn3VV4C1OXta9c44xrwCYG5zNFSEbQ+ew+z7C1S50
-	hOJOlkxSyiezVqzo5RZcgmStA+psKxKdxT9+UDhDlBLYv8ULnJ68qWU/4Mx8Qx9jPJQ=
-X-Gm-Gg: ASbGnctMEhn9kficNAoWPtw8M7OCxwyZwdYuSBHH0HvierGKp5B2KVsQIDo9aVIZfGK
-	df8+AHNa/vRlvp9wYCRmzagqdefNUeFzIoFeNYcVzAXbys6u9aLetnb2N6aTOn7BiOhsSTARZtH
-	8BB4G2MQMMLfnj6NPXtaK9v8XuK6RJmv2LXp7qyvz5f2yRoh43xbU7yv2HlE2wrqzkLNYkWoz9s
-	YxaKHWWKaYqWgyf0QxeM/A+IRO+oGSJf9N1/+r8ODGXgCTLCg1D93cWP+8uIlGTGXUSYHvk2Zfj
-	K7vZbgQ3sV1Ytek96iNmn6EyWVX8LdzWHhG9TIVdw1EwWSXcF6RCbuZvBvTX4NIGvMvvQDAadDp
-	8M3L+Inu+47p3N2CdVBGq+9lPD7XjjWZG4eKQeSnZy02Ai2mIt9T651f8svO7Op5Z8jfCObNJ7B
-	8mHIkCrRF1UKF2su000JRfxowRAz6jLfnqYL1E5k3OcO2rwBcJ2MBNQRUP0bkE1sRqMyp3cXohp
-	YeEMSlez4dN3Awwlw==
-X-Google-Smtp-Source: AGHT+IFA8xiqyidX6vSHxt0Fa6KY7zq1D81H8XmTPSjBAk/TG7qP+fvxB9otYVm16cp+k+p4xO9fVA==
-X-Received: by 2002:a05:690e:118d:b0:63f:b634:4224 with SMTP id 956f58d0204a3-64302a427cemr5083872d50.21.1763850266314;
-        Sat, 22 Nov 2025 14:24:26 -0800 (PST)
+        bh=oN/lyGO3w6uNr+x1AiuxSkRfzjl2Tv5KHczYeMQDvoM=;
+        b=NnPQ2IJ00SmtZXUcrfzgfpCMu8VBesBs0ER9ynmExJrT21CYiGln5I8IoOOKnFwd6t
+         UGTQ+wMbYCAzthf8kRxh3yS0J50puEEeVZWpdPVPjrC77jSAQdvJmDdKl8eKDftqN4JI
+         WbNkKeXKlXp9ahIwYNaevE7K6YqxErrh8k6c5dCp/UYHoPB2d9iu/4hATf7Jes2TH2uB
+         AdgBXIDqS7UF8wwtQ0ms/u/Edc0diulGnU9gicvtJ0h/7uuI2qi2HZt0JhdVo/6SDtUI
+         CiEvfq8LSTBdyB5z90sgaWbuT+PpEF3ubzj1Ww5I+vaGMFyo++SispKIZv+vXW5ObmhC
+         Vd8g==
+X-Forwarded-Encrypted: i=1; AJvYcCXJRG16DwTyttgznlmJrq4GLlB0xcwu2FkH1BP3YzqvCCtK+3yD0KL1X/rH3TJZW21oh88YH2h7Bvo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJr9RcYQ9ximx+CxoFbWe7XzdvPuoQUf5iP4Mf7rMYJSCILYI8
+	/VAThlRnZH2rp28SGnS2HwILGE0FQy45S+/pox3oKaZl99JCTRKW1KUTEaP9KWGOgoY=
+X-Gm-Gg: ASbGncurmZzybL67/vamxV2GdbZuNnWnIxSbiG4mMdmIOWxj/WJYC/BAYEiGND6eOqg
+	0nobgDdJeWlbjPeGzV9nXDsD7KA0O42d0B/Bu/wErcudztTwNS59Bgaa7/F84+vXutqmRUAnE7b
+	+ogQsO2pFvH2QfMBuU+FVgFyKfmuZNWslLCJ3cLNecGqcJ5HEbpsQz/+ez1ykkif67DfFU8gS65
+	k6cD3ekdd33ukezXZ/mJgeWtlBi4VhKnJwJEBtk+AIf8cV47nrox2HJl0TzcnNho4by5ik2W1YB
+	vmEetB+9YFPB4JdGsyP0XmLq45VW+/V9EI44arGzByffPIxngo1e7cmawcuUyXPCEXA5XzmDnQm
+	uYQYzU/x12lWiCzNwMWfk8GD9xGcsJeLOqPTHpQLOQqpPPCj5j2T5eJ7taoW0Gg75tdKKorF5zI
+	G3sdcXwKf4HpomuyZOf2PmJtphLwNWrsw2R6PjdbPTuZtmwlOQdqlMjGl3NXrj7KjyHveix95ra
+	oVayPI=
+X-Google-Smtp-Source: AGHT+IF82eqDIem7nhAJwZNsrqSxav3QJ8c7jd8T4mCUjNEDwxXmd8be6sTBs6ajuflZe7SsNNOkLw==
+X-Received: by 2002:a05:690c:e1e:b0:786:5afa:375c with SMTP id 00721157ae682-78a8b56859emr99751897b3.67.1763850268245;
+        Sat, 22 Nov 2025 14:24:28 -0800 (PST)
 Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a79779a4esm28858937b3.0.2025.11.22.14.24.24
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a79779a4esm28858937b3.0.2025.11.22.14.24.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 14:24:25 -0800 (PST)
+        Sat, 22 Nov 2025 14:24:27 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -134,9 +134,9 @@ To: pratyush@kernel.org,
 	hughd@google.com,
 	skhawaja@google.com,
 	chrisl@kernel.org
-Subject: [PATCH v7 15/22] docs: add documentation for memfd preservation via LUO
-Date: Sat, 22 Nov 2025 17:23:42 -0500
-Message-ID: <20251122222351.1059049-16-pasha.tatashin@soleen.com>
+Subject: [PATCH v7 16/22] selftests/liveupdate: Add userspace API selftests
+Date: Sat, 22 Nov 2025 17:23:43 -0500
+Message-ID: <20251122222351.1059049-17-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.52.0.rc2.455.g230fcf2819-goog
 In-Reply-To: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
 References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
@@ -148,93 +148,496 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Pratyush Yadav <ptyadav@amazon.de>
+Introduce a selftest suite for LUO. These tests validate the core
+userspace-facing API provided by the /dev/liveupdate device and its
+associated ioctls.
 
-Add the documentation under the "Preserving file descriptors" section of
-LUO's documentation.
+The suite covers fundamental device behavior, session management, and
+the file preservation mechanism using memfd as a test case. This
+provides regression testing for the LUO uAPI.
 
-Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
-Co-developed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+The following functionality is verified:
+
+Device Access:
+    Basic open and close operations on /dev/liveupdate.
+    Enforcement of exclusive device access (verifying EBUSY on a
+    second open).
+
+Session Management:
+    Successful creation of sessions with unique names.
+    Failure to create sessions with duplicate names.
+
+File Preservation:
+    Preserving a single memfd and verifying its content remains
+    intact post-preservation.
+    Preserving multiple memfds within a single session, each with
+    unique data.
+    A complex scenario involving multiple sessions, each containing
+    a mix of empty and data-filled memfds.
+
+Note: This test suite is limited to verifying the pre-kexec
+functionality of LUO (e.g., session creation, file preservation).
+The post-kexec restoration of resources is not covered, as the kselftest
+framework does not currently support orchestrating a reboot and
+continuing execution in the new kernel.
+
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- Documentation/core-api/liveupdate.rst   |  7 +++++++
- Documentation/mm/index.rst              |  1 +
- Documentation/mm/memfd_preservation.rst | 23 +++++++++++++++++++++++
- MAINTAINERS                             |  1 +
- 4 files changed, 32 insertions(+)
- create mode 100644 Documentation/mm/memfd_preservation.rst
+ MAINTAINERS                                   |   1 +
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/liveupdate/.gitignore |   9 +
+ tools/testing/selftests/liveupdate/Makefile   |  27 ++
+ tools/testing/selftests/liveupdate/config     |  11 +
+ .../testing/selftests/liveupdate/liveupdate.c | 348 ++++++++++++++++++
+ 6 files changed, 397 insertions(+)
+ create mode 100644 tools/testing/selftests/liveupdate/.gitignore
+ create mode 100644 tools/testing/selftests/liveupdate/Makefile
+ create mode 100644 tools/testing/selftests/liveupdate/config
+ create mode 100644 tools/testing/selftests/liveupdate/liveupdate.c
 
-diff --git a/Documentation/core-api/liveupdate.rst b/Documentation/core-api/liveupdate.rst
-index e1f0c13d5b4a..b776b625c60f 100644
---- a/Documentation/core-api/liveupdate.rst
-+++ b/Documentation/core-api/liveupdate.rst
-@@ -23,6 +23,13 @@ Live Update Orchestrator ABI
- .. kernel-doc:: include/linux/kho/abi/luo.h
-    :doc: Live Update Orchestrator ABI
- 
-+The following types of file descriptors can be preserved
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   ../mm/memfd_preservation
-+
- Public API
- ==========
- .. kernel-doc:: include/linux/liveupdate.h
-diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
-index ba6a8872849b..7aa2a8886908 100644
---- a/Documentation/mm/index.rst
-+++ b/Documentation/mm/index.rst
-@@ -48,6 +48,7 @@ documentation, or deleted if it has served its purpose.
-    hugetlbfs_reserv
-    ksm
-    memory-model
-+   memfd_preservation
-    mmu_notifier
-    multigen_lru
-    numa
-diff --git a/Documentation/mm/memfd_preservation.rst b/Documentation/mm/memfd_preservation.rst
-new file mode 100644
-index 000000000000..66e0fb6d5ef0
---- /dev/null
-+++ b/Documentation/mm/memfd_preservation.rst
-@@ -0,0 +1,23 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+==========================
-+Memfd Preservation via LUO
-+==========================
-+
-+.. kernel-doc:: mm/memfd_luo.c
-+   :doc: Memfd Preservation via LUO
-+
-+Memfd Preservation ABI
-+======================
-+
-+.. kernel-doc:: include/linux/kho/abi/memfd.h
-+   :doc: DOC: memfd Live Update ABI
-+
-+.. kernel-doc:: include/linux/kho/abi/memfd.h
-+   :internal:
-+
-+See Also
-+========
-+
-+- :doc:`/core-api/liveupdate`
-+- :doc:`/core-api/kho/concepts`
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 425c46bba764..cabbf30d50e1 100644
+index cabbf30d50e1..83bac6c48c98 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -14473,6 +14473,7 @@ R:	Pratyush Yadav <pratyush@kernel.org>
- L:	linux-kernel@vger.kernel.org
- S:	Maintained
- F:	Documentation/core-api/liveupdate.rst
-+F:	Documentation/mm/memfd_preservation.rst
- F:	Documentation/userspace-api/liveupdate.rst
- F:	include/linux/liveupdate.h
- F:	include/linux/liveupdate/
+@@ -14480,6 +14480,7 @@ F:	include/linux/liveupdate/
+ F:	include/uapi/linux/liveupdate.h
+ F:	kernel/liveupdate/
+ F:	mm/memfd_luo.c
++F:	tools/testing/selftests/liveupdate/
+ 
+ LLC (802.2)
+ L:	netdev@vger.kernel.org
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index c46ebdb9b8ef..56e44a98d6a5 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -54,6 +54,7 @@ TARGETS += kvm
+ TARGETS += landlock
+ TARGETS += lib
+ TARGETS += livepatch
++TARGETS += liveupdate
+ TARGETS += lkdtm
+ TARGETS += lsm
+ TARGETS += membarrier
+diff --git a/tools/testing/selftests/liveupdate/.gitignore b/tools/testing/selftests/liveupdate/.gitignore
+new file mode 100644
+index 000000000000..661827083ab6
+--- /dev/null
++++ b/tools/testing/selftests/liveupdate/.gitignore
+@@ -0,0 +1,9 @@
++# SPDX-License-Identifier: GPL-2.0-only
++*
++!/**/
++!*.c
++!*.h
++!*.sh
++!.gitignore
++!config
++!Makefile
+diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/testing/selftests/liveupdate/Makefile
+new file mode 100644
+index 000000000000..620cb4ce85af
+--- /dev/null
++++ b/tools/testing/selftests/liveupdate/Makefile
+@@ -0,0 +1,27 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++TEST_GEN_PROGS += liveupdate
++
++include ../lib.mk
++
++CFLAGS += $(KHDR_INCLUDES)
++CFLAGS += -Wall -O2 -Wno-unused-function
++CFLAGS += -MD
++
++LIB_O := $(patsubst %.c, $(OUTPUT)/%.o, $(LIB_C))
++TEST_O := $(patsubst %, %.o, $(TEST_GEN_PROGS))
++TEST_O += $(patsubst %, %.o, $(TEST_GEN_PROGS_EXTENDED))
++
++TEST_DEP_FILES := $(patsubst %.o, %.d, $(LIB_O))
++TEST_DEP_FILES += $(patsubst %.o, %.d, $(TEST_O))
++-include $(TEST_DEP_FILES)
++
++$(LIB_O): $(OUTPUT)/%.o: %.c
++	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c $< -o $@
++
++$(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED): $(OUTPUT)/%: %.o $(LIB_O)
++	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH) $< $(LIB_O) $(LDLIBS) -o $@
++
++EXTRA_CLEAN += $(LIB_O)
++EXTRA_CLEAN += $(TEST_O)
++EXTRA_CLEAN += $(TEST_DEP_FILES)
+diff --git a/tools/testing/selftests/liveupdate/config b/tools/testing/selftests/liveupdate/config
+new file mode 100644
+index 000000000000..91d03f9a6a39
+--- /dev/null
++++ b/tools/testing/selftests/liveupdate/config
+@@ -0,0 +1,11 @@
++CONFIG_BLK_DEV_INITRD=y
++CONFIG_KEXEC_FILE=y
++CONFIG_KEXEC_HANDOVER=y
++CONFIG_KEXEC_HANDOVER_ENABLE_DEFAULT=y
++CONFIG_KEXEC_HANDOVER_DEBUGFS=y
++CONFIG_KEXEC_HANDOVER_DEBUG=y
++CONFIG_LIVEUPDATE=y
++CONFIG_LIVEUPDATE_TEST=y
++CONFIG_MEMFD_CREATE=y
++CONFIG_TMPFS=y
++CONFIG_SHMEM=y
+diff --git a/tools/testing/selftests/liveupdate/liveupdate.c b/tools/testing/selftests/liveupdate/liveupdate.c
+new file mode 100644
+index 000000000000..c2878e3d5ef9
+--- /dev/null
++++ b/tools/testing/selftests/liveupdate/liveupdate.c
+@@ -0,0 +1,348 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/*
++ * Copyright (c) 2025, Google LLC.
++ * Pasha Tatashin <pasha.tatashin@soleen.com>
++ */
++
++/*
++ * Selftests for the Live Update Orchestrator.
++ * This test suite verifies the functionality and behavior of the
++ * /dev/liveupdate character device and its session management capabilities.
++ *
++ * Tests include:
++ * - Device access: basic open/close, and enforcement of exclusive access.
++ * - Session management: creation of unique sessions, and duplicate name detection.
++ * - Resource preservation: successfully preserving individual and multiple memfds,
++ *   verifying contents remain accessible.
++ * - Complex multi-session scenarios involving mixed empty and populated files.
++ */
++
++#include <errno.h>
++#include <fcntl.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <unistd.h>
++
++#include <linux/liveupdate.h>
++
++#include "../kselftest.h"
++#include "../kselftest_harness.h"
++
++#define LIVEUPDATE_DEV "/dev/liveupdate"
++
++FIXTURE(liveupdate_device) {
++	int fd1;
++	int fd2;
++};
++
++FIXTURE_SETUP(liveupdate_device)
++{
++	self->fd1 = -1;
++	self->fd2 = -1;
++}
++
++FIXTURE_TEARDOWN(liveupdate_device)
++{
++	if (self->fd1 >= 0)
++		close(self->fd1);
++	if (self->fd2 >= 0)
++		close(self->fd2);
++}
++
++/*
++ * Test Case: Basic Open and Close
++ *
++ * Verifies that the /dev/liveupdate device can be opened and subsequently
++ * closed without errors. Skips if the device does not exist.
++ */
++TEST_F(liveupdate_device, basic_open_close)
++{
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist.", LIVEUPDATE_DEV);
++
++	ASSERT_GE(self->fd1, 0);
++	ASSERT_EQ(close(self->fd1), 0);
++	self->fd1 = -1;
++}
++
++/*
++ * Test Case: Exclusive Open Enforcement
++ *
++ * Verifies that the /dev/liveupdate device can only be opened by one process
++ * at a time. It checks that a second attempt to open the device fails with
++ * the EBUSY error code.
++ */
++TEST_F(liveupdate_device, exclusive_open)
++{
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist.", LIVEUPDATE_DEV);
++
++	ASSERT_GE(self->fd1, 0);
++	self->fd2 = open(LIVEUPDATE_DEV, O_RDWR);
++	EXPECT_LT(self->fd2, 0);
++	EXPECT_EQ(errno, EBUSY);
++}
++
++/* Helper function to create a LUO session via ioctl. */
++static int create_session(int lu_fd, const char *name)
++{
++	struct liveupdate_ioctl_create_session args = {};
++
++	args.size = sizeof(args);
++	strncpy((char *)args.name, name, sizeof(args.name) - 1);
++
++	if (ioctl(lu_fd, LIVEUPDATE_IOCTL_CREATE_SESSION, &args))
++		return -errno;
++
++	return args.fd;
++}
++
++/*
++ * Test Case: Create Duplicate Session
++ *
++ * Verifies that attempting to create two sessions with the same name fails
++ * on the second attempt with EEXIST.
++ */
++TEST_F(liveupdate_device, create_duplicate_session)
++{
++	int session_fd1, session_fd2;
++
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
++
++	ASSERT_GE(self->fd1, 0);
++
++	session_fd1 = create_session(self->fd1, "duplicate-session-test");
++	ASSERT_GE(session_fd1, 0);
++
++	session_fd2 = create_session(self->fd1, "duplicate-session-test");
++	EXPECT_LT(session_fd2, 0);
++	EXPECT_EQ(-session_fd2, EEXIST);
++
++	ASSERT_EQ(close(session_fd1), 0);
++}
++
++/*
++ * Test Case: Create Distinct Sessions
++ *
++ * Verifies that creating two sessions with different names succeeds.
++ */
++TEST_F(liveupdate_device, create_distinct_sessions)
++{
++	int session_fd1, session_fd2;
++
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
++
++	ASSERT_GE(self->fd1, 0);
++
++	session_fd1 = create_session(self->fd1, "distinct-session-1");
++	ASSERT_GE(session_fd1, 0);
++
++	session_fd2 = create_session(self->fd1, "distinct-session-2");
++	ASSERT_GE(session_fd2, 0);
++
++	ASSERT_EQ(close(session_fd1), 0);
++	ASSERT_EQ(close(session_fd2), 0);
++}
++
++static int preserve_fd(int session_fd, int fd_to_preserve, __u64 token)
++{
++	struct liveupdate_session_preserve_fd args = {};
++
++	args.size = sizeof(args);
++	args.fd = fd_to_preserve;
++	args.token = token;
++
++	if (ioctl(session_fd, LIVEUPDATE_SESSION_PRESERVE_FD, &args))
++		return -errno;
++
++	return 0;
++}
++
++/*
++ * Test Case: Preserve MemFD
++ *
++ * Verifies that a valid memfd can be successfully preserved in a session and
++ * that its contents remain intact after the preservation call.
++ */
++TEST_F(liveupdate_device, preserve_memfd)
++{
++	const char *test_str = "hello liveupdate";
++	char read_buf[64] = {};
++	int session_fd, mem_fd;
++
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
++	ASSERT_GE(self->fd1, 0);
++
++	session_fd = create_session(self->fd1, "preserve-memfd-test");
++	ASSERT_GE(session_fd, 0);
++
++	mem_fd = memfd_create("test-memfd", 0);
++	ASSERT_GE(mem_fd, 0);
++
++	ASSERT_EQ(write(mem_fd, test_str, strlen(test_str)), strlen(test_str));
++	ASSERT_EQ(preserve_fd(session_fd, mem_fd, 0x1234), 0);
++	ASSERT_EQ(close(session_fd), 0);
++
++	ASSERT_EQ(lseek(mem_fd, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd, read_buf, sizeof(read_buf)), strlen(test_str));
++	ASSERT_STREQ(read_buf, test_str);
++	ASSERT_EQ(close(mem_fd), 0);
++}
++
++/*
++ * Test Case: Preserve Multiple MemFDs
++ *
++ * Verifies that multiple memfds can be preserved in a single session,
++ * each with a unique token, and that their contents remain distinct and
++ * correct after preservation.
++ */
++TEST_F(liveupdate_device, preserve_multiple_memfds)
++{
++	const char *test_str1 = "data for memfd one";
++	const char *test_str2 = "data for memfd two";
++	char read_buf[64] = {};
++	int session_fd, mem_fd1, mem_fd2;
++
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
++	ASSERT_GE(self->fd1, 0);
++
++	session_fd = create_session(self->fd1, "preserve-multi-memfd-test");
++	ASSERT_GE(session_fd, 0);
++
++	mem_fd1 = memfd_create("test-memfd-1", 0);
++	ASSERT_GE(mem_fd1, 0);
++	mem_fd2 = memfd_create("test-memfd-2", 0);
++	ASSERT_GE(mem_fd2, 0);
++
++	ASSERT_EQ(write(mem_fd1, test_str1, strlen(test_str1)), strlen(test_str1));
++	ASSERT_EQ(write(mem_fd2, test_str2, strlen(test_str2)), strlen(test_str2));
++
++	ASSERT_EQ(preserve_fd(session_fd, mem_fd1, 0xAAAA), 0);
++	ASSERT_EQ(preserve_fd(session_fd, mem_fd2, 0xBBBB), 0);
++
++	memset(read_buf, 0, sizeof(read_buf));
++	ASSERT_EQ(lseek(mem_fd1, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd1, read_buf, sizeof(read_buf)), strlen(test_str1));
++	ASSERT_STREQ(read_buf, test_str1);
++
++	memset(read_buf, 0, sizeof(read_buf));
++	ASSERT_EQ(lseek(mem_fd2, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd2, read_buf, sizeof(read_buf)), strlen(test_str2));
++	ASSERT_STREQ(read_buf, test_str2);
++
++	ASSERT_EQ(close(mem_fd1), 0);
++	ASSERT_EQ(close(mem_fd2), 0);
++	ASSERT_EQ(close(session_fd), 0);
++}
++
++/*
++ * Test Case: Preserve Complex Scenario
++ *
++ * Verifies a more complex scenario with multiple sessions and a mix of empty
++ * and non-empty memfds distributed across them.
++ */
++TEST_F(liveupdate_device, preserve_complex_scenario)
++{
++	const char *data1 = "data for session 1";
++	const char *data2 = "data for session 2";
++	char read_buf[64] = {};
++	int session_fd1, session_fd2;
++	int mem_fd_data1, mem_fd_empty1, mem_fd_data2, mem_fd_empty2;
++
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
++	ASSERT_GE(self->fd1, 0);
++
++	session_fd1 = create_session(self->fd1, "complex-session-1");
++	ASSERT_GE(session_fd1, 0);
++	session_fd2 = create_session(self->fd1, "complex-session-2");
++	ASSERT_GE(session_fd2, 0);
++
++	mem_fd_data1 = memfd_create("data1", 0);
++	ASSERT_GE(mem_fd_data1, 0);
++	ASSERT_EQ(write(mem_fd_data1, data1, strlen(data1)), strlen(data1));
++
++	mem_fd_empty1 = memfd_create("empty1", 0);
++	ASSERT_GE(mem_fd_empty1, 0);
++
++	mem_fd_data2 = memfd_create("data2", 0);
++	ASSERT_GE(mem_fd_data2, 0);
++	ASSERT_EQ(write(mem_fd_data2, data2, strlen(data2)), strlen(data2));
++
++	mem_fd_empty2 = memfd_create("empty2", 0);
++	ASSERT_GE(mem_fd_empty2, 0);
++
++	ASSERT_EQ(preserve_fd(session_fd1, mem_fd_data1, 0x1111), 0);
++	ASSERT_EQ(preserve_fd(session_fd1, mem_fd_empty1, 0x2222), 0);
++	ASSERT_EQ(preserve_fd(session_fd2, mem_fd_data2, 0x3333), 0);
++	ASSERT_EQ(preserve_fd(session_fd2, mem_fd_empty2, 0x4444), 0);
++
++	ASSERT_EQ(lseek(mem_fd_data1, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd_data1, read_buf, sizeof(read_buf)), strlen(data1));
++	ASSERT_STREQ(read_buf, data1);
++
++	memset(read_buf, 0, sizeof(read_buf));
++	ASSERT_EQ(lseek(mem_fd_data2, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd_data2, read_buf, sizeof(read_buf)), strlen(data2));
++	ASSERT_STREQ(read_buf, data2);
++
++	ASSERT_EQ(lseek(mem_fd_empty1, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd_empty1, read_buf, sizeof(read_buf)), 0);
++
++	ASSERT_EQ(lseek(mem_fd_empty2, 0, SEEK_SET), 0);
++	ASSERT_EQ(read(mem_fd_empty2, read_buf, sizeof(read_buf)), 0);
++
++	ASSERT_EQ(close(mem_fd_data1), 0);
++	ASSERT_EQ(close(mem_fd_empty1), 0);
++	ASSERT_EQ(close(mem_fd_data2), 0);
++	ASSERT_EQ(close(mem_fd_empty2), 0);
++	ASSERT_EQ(close(session_fd1), 0);
++	ASSERT_EQ(close(session_fd2), 0);
++}
++
++/*
++ * Test Case: Preserve Unsupported File Descriptor
++ *
++ * Verifies that attempting to preserve a file descriptor that does not have
++ * a registered Live Update handler fails gracefully.
++ * Uses /dev/null as a representative of a file type (character device)
++ * that is not supported by the orchestrator.
++ */
++TEST_F(liveupdate_device, preserve_unsupported_fd)
++{
++	int session_fd, unsupported_fd;
++	int ret;
++
++	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->fd1 < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
++	ASSERT_GE(self->fd1, 0);
++
++	session_fd = create_session(self->fd1, "unsupported-fd-test");
++	ASSERT_GE(session_fd, 0);
++
++	unsupported_fd = open("/dev/null", O_RDWR);
++	ASSERT_GE(unsupported_fd, 0);
++
++	ret = preserve_fd(session_fd, unsupported_fd, 0xDEAD);
++	EXPECT_EQ(ret, -ENOENT);
++
++	ASSERT_EQ(close(unsupported_fd), 0);
++	ASSERT_EQ(close(session_fd), 0);
++}
++
++TEST_HARNESS_MAIN
 -- 
 2.52.0.rc2.455.g230fcf2819-goog
 
