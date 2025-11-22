@@ -1,148 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176EE23D7E6;
-	Sat, 22 Nov 2025 16:23:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA1F239E75
+	for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 17:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763828622; cv=none; b=OOtj3jmFTQsCs2Yll+lRkhB1soq49+p4A0bsSwrxP/4kgzZaeUVLwNIgT6X7A+9IbwQtuEMzJE84HlcG6hAFII0JeixBrLnH6uHVPHpBcRRb+95o1tZnQSO+b/RTnVDXptR+GXcbW66DOqCIrkOLhI8+b+uH3Dn3U0NWvc3KKJU=
+	t=1763832524; cv=none; b=Jm39t5KMfT0NgT/6Fs3W87GufUsYnI8RMvT9Omi62EDJd2iWKc7OPArcKHbnadIYvTK92GBwgtwvGrxtyY7hbPU201hNxhGuJx0UgvnY7KVQ3XvVPAV13y2CabAenBuc4RHehZ+3DKcIIVCdtKpgUdnABqtOrdtU99Y1+7yONXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763828622; c=relaxed/simple;
-	bh=KMqqBwj44p4qphVJeUmSKSm0+fweFHnjC7BLOlRrR24=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XJaTcJ57UlWliaucSn4jCSZcBTSmJDHWQ31NtzYTthrAhTyjB7DEZvW4NXNc3hUyS4taRmBMkXQZH2Nl/ipHCO4WRv8FrEWsFV/D8hADFAiXY9RDAFnY68XF60ZWf/87hsulIaDCCF+ZiPHswXS56GgPevvDeWlWnuYeJ4T1OEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mMlpZKx8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763832524; c=relaxed/simple;
+	bh=5MlvMXZYTtR3C+2ukJ2tJbzkGsByRH9qIzQcgZ1uih4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZIOgCOZZYZEgpZBWIbvs2pXvCcfheqVaDBu8VjPJ9hu+YXWHTstEiSgObjncNQFLPRhqIW7Z6POpxG5VIMGeH4T1E+VjwASLTLwA9nYBqxXNRPFI73RpOEBkr/DhD9izTJ+e9CM6yoG/lM0p0A/2eRoAL1V0jOqOh0C9YMG5FYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J5AfyTpI; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mMlpZKx8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96C25C113D0;
-	Sat, 22 Nov 2025 16:23:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763828621;
-	bh=KMqqBwj44p4qphVJeUmSKSm0+fweFHnjC7BLOlRrR24=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mMlpZKx8zmKMBNInoh6V2NVjfulX4oK1hI7skmvA6TOELnGW85vTcdTsxHj//sv1/
-	 B9qCzKTzjP9oMGV0O8tR9u3ERVXloUcMPn/wLJAC/ChOxfKHKj3IMB2p3vtchPIYwE
-	 Bqd4MB/TuRSrc9hjCw9lCYRl3/BWJNsjfqbLRmGqO0yCT52sZX2qLuebB/lAVe+0g1
-	 Rb5kNzj7z7lYpB2LWxbB4pxozpNnHNC+0cJNhMjw3v5jR1Sv3gPz75UC8OmwFPngk7
-	 pz4gme5hMZ0VFgsQhKHSiK7GT/3IoEBZw8kMuBREK7GK1JwcDVYWEuaN6Oh4/UdbD5
-	 93vPPP13VtrgA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vMqOh-00000007W12-19Ed;
-	Sat, 22 Nov 2025 16:23:39 +0000
-Date: Sat, 22 Nov 2025 16:23:38 +0000
-Message-ID: <87jyzif33p.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: z00939249 <zhengtian10@huawei.com>
-Cc: <oliver.upton@linux.dev>,
-	<catalin.marinas@arm.com>,
-	<corbet@lwn.net>,
-	<pbonzini@redhat.com>,
-	<will@kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<yuzenghui@huawei.com>,
-	<wangzhou1@hisilicon.com>,
-	<yezhenyu2@huawei.com>,
-	<xiexiangyou@huawei.com>,
-	<zhengchuan@huawei.com>,
-	<joey.gouly@arm.com>,
-	<kvmarm@lists.linux.dev>,
-	<kvm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>,
-	<suzuki.poulose@arm.com>
-Subject: Re: [PATCH v2 0/5] Support the FEAT_HDBSS introduced in Armv9.5
-In-Reply-To: <90180222-5399-442c-b7a3-e65b7d0e1378@huawei.com>
-References: <20251121092342.3393318-1-zhengtian10@huawei.com>
-	<86zf8fr9r2.wl-maz@kernel.org>
-	<90180222-5399-442c-b7a3-e65b7d0e1378@huawei.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J5AfyTpI"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7bb710d1d1dso4601404b3a.1
+        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 09:28:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763832521; x=1764437321; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5MlvMXZYTtR3C+2ukJ2tJbzkGsByRH9qIzQcgZ1uih4=;
+        b=J5AfyTpIqgeULMSs7LwLYb5BdhMx26AhFuqy7086YFy7JJdnMoVBVo1YhJys8YF4kA
+         WMOGLJ/rDg4ApWJPCNe++jE/8Hnaa0edMyvX++niezWL253ofUzE15a5W4RTzpRZStrh
+         0KHZ3oBDHnwm/NAtDoB7nmfDaEQFvaJV0w4xDIISWgSm1kgLs4QeQJLJ2QyDuKIn1FLd
+         wtLn1gFB2PBW3OI47nC2i7rtQRix0S85i8+UUtzooMWqVulLh8fDb7BZ/YOSu95TSk0b
+         ZjC3CjrqGGJzPvw1srhDqh6PXeyvYxS0+bdDcrTfbt/N8rOjz49D1ArAYuipNKISkLCC
+         TEYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763832521; x=1764437321;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5MlvMXZYTtR3C+2ukJ2tJbzkGsByRH9qIzQcgZ1uih4=;
+        b=bZrjw+gRqI5zoC/kD11JbNg+hlvSeO/3/0Qgx6ay1eIXUEgtskcoiiYrF3R/r/iIfS
+         fagXCNCTZKpu670cPISKWQ2IljOf8vrgtGJCwQRN20Xb2cYAsHUeINIm6i6CUqZr/bnK
+         ieP12cmu3JdEQYr8Hn0RIoF3yp5+Hx6ELcnwNKnH/OIY1Gudl35eyLvEGGrKke2Yy6aM
+         aR3n63rnjQJeKA9rdCGBhLt21zhK69+n6mgLVwlF4AHAeDky2TkhMfDOrOVV0K7UC9Ms
+         q5I6I3r8SAi1vu9sBPnsTKjoYlEFFqQ+38mBunmjxYlQT5Ys9Tcybn6RL7U3esfvyy1n
+         Q+0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUwomK/bHGB5KGiReULb2mxP/xYugq6XHgGHCbAIJ6o8KOuD4OR4vStCl+a9qejIZxK5BdU32iImJ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6W9u1eCOE0HvBLrgrsVNp6qpWdVMuOAfTuiLea9bMDIgfcPqf
+	QNeHU1i5hAyP1sHIedyuwfqB9Uk8K6DPenauNTFiL7RVlH7A/1vyHUw/HSnpTQ==
+X-Gm-Gg: ASbGncvnzPp4lezRWdm+IZKmXomprRlkEjTKZ/POyjwCc1/0jAJxzZbgMZtuO0udEK4
+	7bWMR0lu7BhM4OM9uQnEFzi6VrEH2sXtYIs9oolt6eHIVXKaOsnMeUgouamkR5m96iaeVgRArYk
+	2iinKwvBXN40GSL/PNtvd7L8JdAsBxgXauaCN96y+OF5qYAntq5a0ecYhqxEwCP7TZhy93o/9+z
+	n5m2/ghyeC5N1JvYadOInnqeD0zuOJCqzXkFg2f5o8oUBI+IaxjBj+Ih8LDowGSrL0Z76qvTK9t
+	w8AD/9mxbjNZoWE9kCc38yBPSOv2zFqbHMvdtEKX8ZgGD0s8CfzcgeLOr2cbIMbb/F3ltS3jcLI
+	V7hAIyHgzYcWFYoPdOoD/+ExPIP495R/wIWpuF3Adl5DiWmU9Cjil5oVJyeKNNxnLVcYSXrXh/6
+	FexweSQKwVaU6UWIdAeVoimfEKWcDzvsFyuD4bNf3wzcMIK91KZikJJ9cosw==
+X-Google-Smtp-Source: AGHT+IHProxUTYxUr7Eg0WsWEkqduy6WY8mRtpWbTz5oJpvvl87zL4seGtqYrXC96lkU4A+SdYOPVQ==
+X-Received: by 2002:a05:6a20:1586:b0:35f:2293:877f with SMTP id adf61e73a8af0-3614edd980emr7983683637.33.1763832520673;
+        Sat, 22 Nov 2025 09:28:40 -0800 (PST)
+Received: from ?IPv6:2401:4900:8fcd:4575:1ad3:3d1a:3314:cdd0? ([2401:4900:8fcd:4575:1ad3:3d1a:3314:cdd0])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f0243b19sm9534469b3a.37.2025.11.22.09.28.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Nov 2025 09:28:40 -0800 (PST)
+Message-ID: <96d8ddb6c04651224fc66bca825ba99292fc8f87.camel@gmail.com>
+Subject: Re: [PATCH RESEND v4] checkpatch: add uninitialized pointer with
+ __free attribute check
+From: ally heev <allyheev@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Dwaipayan Ray	
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
+ Perches	 <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy
+ Whitcroft	 <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
+ <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, Geert Uytterhoeven	
+ <geert@linux-m68k.org>
+Date: Sat, 22 Nov 2025 22:58:32 +0530
+In-Reply-To: <f8b93a66-c755-497d-a425-c7b4baff5165@kernel.org>
+References: 
+	<20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
+	 <f8b93a66-c755-497d-a425-c7b4baff5165@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: zhengtian10@huawei.com, oliver.upton@linux.dev, catalin.marinas@arm.com, corbet@lwn.net, pbonzini@redhat.com, will@kernel.org, linux-kernel@vger.kernel.org, yuzenghui@huawei.com, wangzhou1@hisilicon.com, yezhenyu2@huawei.com, xiexiangyou@huawei.com, zhengchuan@huawei.com, joey.gouly@arm.com, kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, suzuki.poulose@arm.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
 
-On Fri, 21 Nov 2025 10:21:16 +0000,
-z00939249 <zhengtian10@huawei.com> wrote:
-> 
-> On 2025/11/21 17:54, Marc Zyngier wrote:
-> > On Fri, 21 Nov 2025 09:23:37 +0000,
-> > Tian Zheng <zhengtian10@huawei.com> wrote:
-> >> 
-> >> This series of patches add support to the Hardware Dirty state tracking
-> >> Structure(HDBSS) feature, which is introduced by the ARM architecture
-> >> in the DDI0601(ID121123) version.
-> >> 
-> >> The HDBSS feature is an extension to the architecture that enhances
-> >> tracking translation table descriptors' dirty state, identified as
-> >> FEAT_HDBSS. The goal of this feature is to reduce the cost of surveying
-> >> for dirtied granules, with minimal effect on recording when a granule
-> >> has been dirtied.
-> >> 
-> >> The purpose of this feature is to make the execution overhead of live
-> >> migration lower to both the guest and the host, compared to existing
-> >> approaches (write-protect or search stage 2 tables).
-> >> 
-> >> After these patches, users(such as qemu) can use the
-> >> KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl to enable or disable the HDBSS
-> >> feature before and after the live migration.
-> >> 
-> >> This feature is similar to Intel's Page Modification Logging (PML),
-> >> offering hardware-assisted dirty tracking to reduce live migration
-> >> overhead. With PML support expanding beyond Intel, HDBSS introduces a
-> >> comparable mechanism for ARM.
-> > 
-> > Where is the change log describing what was changed compared to the
-> > previous version?
-> > 
-> > We gave you extensive comments back in March. You never replied to the
-> > feedback. And you now dump a whole set of patches, 6 months later,
-> > without the slightest indication of what has changed?
-> > 
-> > Why should we make the effort to review this again?
-> 
-> Apologies for the lack of proper changelog and the delayed follow-up
-> on the feedback provided in March. This was an oversight on our part
-> during the transition of maintainership for the HDBSS patch series. We
-> sincerely appreciate the thorough comments you shared earlier and
-> regret not responding in a timely manner.
-> 
-> Below is a summary of the changes made from v1 to v2.
-> 
-> v1:
-> https://lore.kernel.org/kvm/20250311040321.1460-1-yezhenyu2@huawei.com/
-> 
-> v1->v2 changes:
-> - Removed redundant macro definitions and switched to tool-generated.
-> - Split HDBSS interface and implementation into separate patches.
-> - Integrate system_supports_hdbss() into ARM feature initialization.
-> - Refactored HDBSS data structure to store meaningful values instead
-> of raw register contents.
-> - Fixed permission checks when applying DBM bits in page tables to
-> prevent potential memory corruption.
-> - Removed unnecessary dsb instructions.
-> - Drop the debugging printks.
-> - Merged the two patches "using ioctl to enable/disable the HDBSS
-> feature" and "support to handle the HDBSSF event" into one.
+On Sat, 2025-11-22 at 14:01 +0100, Krzysztof Kozlowski wrote:
+[...]
+> I saw the other discussion and Linus re-iterated old approach/syntax
+> preference, thus I think this should also include it, since it is de
+> facto a coding style:
+>=20
+> "Pointers with __free attribute should be declared in the place of use
+> and initialized (see include/linux/cleanup.h)......"
+>=20
+> Best regards,
+> Krzysztof
 
-Thanks for the update.
-
-Please make sure you always include such description in future version
-of this series. I hope the next version won't take as long (over 8
-months between versions is counter productive).
-
-	M.
-
--- 
-Jazz isn't dead. It just smells funny.
+Yes. I am planning to do it in v5 along with coding style doc update
