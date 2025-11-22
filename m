@@ -1,65 +1,65 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFBF2E7BCB
-	for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 22:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98AB2EA169
+	for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 22:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763850275; cv=none; b=GV4T3qrh3PVExQEBfEaY7KNAkF/QctAkhdZPghQscqd9gMOP6Y/z/kRcqDOJhBYP9iDFoT6OIzEhpEON4v5F5lKc/fRfSAWBW+/PbCYozIW6O4h6FgMm5+NoBgt2j7Yf2BG9yQqB742RjhfcSCRnEqjM0TQviDVeta5jdEiPpr4=
+	t=1763850280; cv=none; b=KxQV4Lv2mbxpMnao1phPqi+sh72jQJG+dL9/0YvpJA3FwCJtN2aSiQyNfLbzNe7eqFbvkxN6J47YXHerJ0kSg0AddidDf+k8+7qE35phhQo7pAugDEC+qRl8QHjvPq48fNb9dqvpQwODFZk1uIZv6thkf60rHyrtiUIi0sjs8xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763850275; c=relaxed/simple;
-	bh=g8BaDXPlSFt2H9JFAcuCge/l/OI9s/QmwnUe616Y5cI=;
+	s=arc-20240116; t=1763850280; c=relaxed/simple;
+	bh=QEEvS+jdUJeKKxkBIFzT0YN5eKSWf6n6Ab4j5opHktU=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mWLoITCq264WexzBVb9w7zdufcBVm+Q88xgBhJC8NGXvOBi++9G6LI3Be31W9bXOOygBB/8adggrz9LwWA56zu40FIZN9/IDwPB7dRlqGhQRelJhC9Ha99M0Ji6Av/FS90eIHt2zkl+uzLq0+ZVGVgG830k7ktW0+keHtFcKIjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=IhZJvQvI; arc=none smtp.client-ip=209.85.128.177
+	 MIME-Version; b=GyuF2ios1d/Kj9IKZSE3SnObu/S93mwWsWPfKpeI4BBtoW6sDLy0EV9amGg+n5BiBFeGrWbVDfvNnzZ70SJhBROjKBsQYdNgdmIirHW3Aehy3aFY5oK2HaCD8Yj4aMi6IlyBvjLjmTIRNyfEfjfcoXJI19bobfG9p8jScFcnCKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=YKXiKg4U; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="IhZJvQvI"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-787e35ab178so30360087b3.2
-        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 14:24:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="YKXiKg4U"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-787d5555274so32132377b3.1
+        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 14:24:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763850272; x=1764455072; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1763850276; x=1764455076; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4XTUTAjFFy7b91C6Dw70mD3UF1HxwVkQgHbYFhkd9nI=;
-        b=IhZJvQvIOkBSG/6kiShQye12aw9gU1YBCkPSlZVjNYbGBXpav3IxJvqAy/379yoFQv
-         Co1QAGJsDDmGuUa97ZY0PCVjnutx7j5CQLceD11mtCrvtb/TSE8F+38nc1NBmTnfWOp0
-         tUnwl4zmIR+wjH2QqASdzhb71ZYxJeLusLuLmCFULLGHFrDQlMoZpvK4G9gTGHVY0Ib4
-         Jt1gWxlYJmSJMXEI2zRR89euJwhpVtV6+WlC8gpGhwOZqmhxTX6/qYhpwsRO+siwVTVp
-         5n+50oiEcBcAty+i5P4gGV38/KBxISvyvWpd1G4EEFGyCAikPUbXdyhp66+eR4G/ti30
-         H/Gw==
+        bh=62PEQYDhS44k4KirgxolX0bFfpu4NqLUXaq5TcT1ZZY=;
+        b=YKXiKg4U+JHb2CGm1foeaVy/7iaXEaQwHDTDnKkGEaTFvvkXRfA7DwY1A8YF/FxA60
+         ZkgnR/TlESb1Nv5KdilQY0dRhuSQt1gf83oISgxFTQDjYh839JmKrztQEdiWEC51V3Kw
+         E2nzjU2b7JpcJsk2/jkRsIj6HOXRgX2dcQ7i9gRQey9KVl1zV5dYykwOJdpB3IK84Vfg
+         hTYXJrYksy4iFBWEcHloUKZmtNQDOdooFd+Gohjnh8cuoDaOB07xdi5Ymrc+SwUfcH14
+         iXv3U4rQMu6bQkBMuhRGowr2f3uCVvwbu76pkzaqIBFe17X47NtCyv7V+c+HFtmtdjfA
+         zdlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763850272; x=1764455072;
+        d=1e100.net; s=20230601; t=1763850276; x=1764455076;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=4XTUTAjFFy7b91C6Dw70mD3UF1HxwVkQgHbYFhkd9nI=;
-        b=KtcW6aFmxjfnBd4PY7lX0h+70+4cI4zIIUTG2kHE47ymu1411A3WTC3ny8xaxzPNDX
-         QyPx1yox+B0NM8bmZ2j48LA0UeYlM1PKhWWhy0LE6L5pWnd0m7ho+acGh77dykDxjVhf
-         QwIlMmzlsGzQm8UYxuImDqI6hAl/267cN1qnHvR4R41TcB/zNjKRsOLqWBpwDj/ObNxT
-         DumEMdvYtP9HT6XoRYAlhksiRW0Qj+gWj7Vox5Qpeju3VKPzOphxkbS0/X0PsMsH7Yqb
-         V8exCbI6ipSYHBSCoOmbrdguUTNSZks8BjUmodZPPQhdyqi2mwyzw6ZvEnip+izcxzDC
-         wm4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUnBSrfS5BQ7HDBI/IVFis8MJuv+FdOqp5NfhvtDJIoKA0ka3xao9TLg7Z2opk8toesnmEOD2413Gs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywsj8DoUgHOUgUPO6TeWESzh8tl/ry4L6ABIwZn/1X3KODRM87c
-	NmicQTHGn4K9CQ3mnbcfuPHR5pL4diCO5nnz/Ar84k8ZyvIyZ2TFYCwFxyD5ro5VOqc=
-X-Gm-Gg: ASbGncvQGxi+oUzrzw3E3+PK70GGFPd/Vqa/O0brUI7yfg2CyY8yFzd29yOMhm1SlnY
-	Cm1Qb6xSl7MH75oRTTzxNLBivljvjE+NVaWFlqlaJ14cYQ0MY8YlV1WW1g/xTRSI8pJE31yC0Pl
-	O5Poz/3TkxsIsd5rq3M8rVWT5Ic3yqj/gcMoJA5yFDhzz1XaLWkv9HvZYsCVF66l8Y0URKFZGCr
-	/qw+OCRbJpsh5jNlpZQIZRTsxqVGJj0jvr8SX7jkpkmllm/v6bHpvlU29rK/non/qHEQB5o7kWS
-	6kIsnRMDytFcH1FntFw7TGuiNrt+FHQTcXAXKEyyGapqpH5XTYnmGe14DxK2jbwytxOXToBiT/9
-	SUAXEBZSpztJ37yEaIyup8g78wAmidpii3shKh/fumhNoipM/oX6iJeZc7wi76HpqKJY91xflDU
-	/B1l61VHCKO7OfMLw4Fi/g0OMGP9Iig6DEsvKToLdJt/xDLENkud5RW6QDhvQClWJaQpC5gmHYD
-	RmOHrY=
-X-Google-Smtp-Source: AGHT+IH/eqBoS3mqhMhh4qvlka6WRIlDgWiw3QW9H2yTNLjxyq2DnfCNF4kdPEPBkXHTMSk/UtfxGQ==
-X-Received: by 2002:a05:690e:4286:10b0:641:f5bc:6960 with SMTP id 956f58d0204a3-64302b3f670mr4232320d50.76.1763850271944;
-        Sat, 22 Nov 2025 14:24:31 -0800 (PST)
+        bh=62PEQYDhS44k4KirgxolX0bFfpu4NqLUXaq5TcT1ZZY=;
+        b=jlHBj9s4S+sD6G65lc2DVz6rwXYfbpQzXjq63ZPzyRjnTkuJlKA8sRiCdWQdemJFhC
+         wHG3Yzepq/TbiTK9ySDSnB32EWHArYrpC4OpML4H2Foo/aHoLvAHguQpZwtk92WVl2yT
+         k65lDmm+BO6uI7Lhza4D/6tDSgM9sGoWYSuaUBXNS9VRHq8i3a6uAn2nqa2UbQPjLq0p
+         VMkMmO+eiO5Frze7R+QR8B3vz0xjtuBgBElwXipO3BMLTsZJd8GyqtcE02T9X3BHjil1
+         P/bX54cstXk8zKKeF7hAOr5qIlN7PTaXe0B9fmtCrygUVoSvkquAZj09pZS4sFP+kUyR
+         +xeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5akCD9BVR7FQJ8C8g0MWImNf/7IEBJM4f2ydbdZrnJ93tAOerLDGBzP+GblwMILH3/+B+ihlYe3M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfvArPrDwk4BIt/2BsLPt2kau2crNsjComc9GUDGF2SzTOrs+Y
+	L2Bx6nwj9DUbCHi88qLSNTyskLdPyzJQNQ1fm4hnG8Y3XqrX2xBJmQ9J9jmTtUm1K6M=
+X-Gm-Gg: ASbGncuXHIt4SJ3l26kZ38qin3bK/UYEXvnp1RvqiEodCGSuwDrnKNskhMhC7qKTqiu
+	rYAR0dasfbiWDWwB3Xs1exPm13IRR2tecU+DUWmN2LEsC2nKNqtAl6bNtz3YnxJ42KRvE9AY9jj
+	GkPcGxQaBJiLk80N+AWfBYWGm4ODXWULktcHaYgSwCoX/TkRAHydJtE0Hh5BVRgIXTnfjktBgfO
+	Ufv8kafGUjX2CTOAlV5dGdhEhjFXDaJ/HqgJIXH2KdP5brxy951F+hVhSDqaL/2B9h7xBJ0R1Iy
+	zRKh6YRV5RkhseS7Qjy7aHFq9M57RmJCMPEeUcXKQJUL1hud0oY7eVFJCqTZ2KXQQmi7cXPW+9R
+	IWMMmp79HeuaklqROkTlDJfpSzCPrFRHhxsgCZ+rFtetwGizzatctb+vWzNRuRInPbke/yHjfcT
+	W4Uqrj7l2tjC9lgnMqYEtn+Luj17XBo+SYUocYFovWdqPVtDHY3lftx0/MJyN70Z6i1c8+ch85Z
+	e5PavY=
+X-Google-Smtp-Source: AGHT+IHkNZ1O05/wx0JB3pi70sYZwOs5GclCpL45vuZfhM2JjOjXMdM7CjvQ81K6Kvb3Obn+lJkkcQ==
+X-Received: by 2002:a05:690c:3690:b0:788:182e:b29e with SMTP id 00721157ae682-78a8b47de80mr61772657b3.7.1763850276575;
+        Sat, 22 Nov 2025 14:24:36 -0800 (PST)
 Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a79779a4esm28858937b3.0.2025.11.22.14.24.30
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a79779a4esm28858937b3.0.2025.11.22.14.24.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 14:24:31 -0800 (PST)
+        Sat, 22 Nov 2025 14:24:36 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -134,9 +134,9 @@ To: pratyush@kernel.org,
 	hughd@google.com,
 	skhawaja@google.com,
 	chrisl@kernel.org
-Subject: [PATCH v7 18/22] selftests/liveupdate: Add kexec test for multiple and empty sessions
-Date: Sat, 22 Nov 2025 17:23:45 -0500
-Message-ID: <20251122222351.1059049-19-pasha.tatashin@soleen.com>
+Subject: [PATCH v7 20/22] liveupdate: luo_file: Add internal APIs for file preservation
+Date: Sat, 22 Nov 2025 17:23:47 -0500
+Message-ID: <20251122222351.1059049-21-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.52.0.rc2.455.g230fcf2819-goog
 In-Reply-To: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
 References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
@@ -148,232 +148,232 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce a new kexec-based selftest, luo_kexec_multi_session, to
-validate the end-to-end lifecycle of a more complex LUO scenario.
-
-While the existing luo_kexec_simple test covers the basic end-to-end
-lifecycle, it is limited to a single session with one preserved file.
-This new test significantly expands coverage by verifying LUO's ability
-to handle a mixed workload involving multiple sessions, some of which
-are intentionally empty. This ensures that the LUO core correctly
-preserves and restores the state of all session types across a reboot.
-
-The test validates the following sequence:
-
-Stage 1 (Pre-kexec):
-
-  - Creates two empty test sessions (multi-test-empty-1,
-    multi-test-empty-2).
-  - Creates a session with one preserved memfd (multi-test-files-1).
-  - Creates another session with two preserved memfds
-    (multi-test-files-2), each containing unique data.
-  - Creates a state-tracking session to manage the transition to
-    Stage 2.
-  - Executes a kexec reboot via the helper script.
-
-Stage 2 (Post-kexec):
-
-  - Retrieves the state-tracking session to confirm it is in the
-    post-reboot stage.
-  - Retrieves all four test sessions (both the empty and non-empty
-    ones).
-  - For the non-empty sessions, restores the preserved memfds and
-    verifies their contents match the original data patterns.
-  - Finalizes all test sessions and the state session to ensure a clean
-    teardown and that all associated kernel resources are correctly
-    released.
-
-This test provides greater confidence in the robustness of the LUO
-framework by validating its behavior in a more realistic, multi-faceted
-scenario.
+The core liveupdate mechanism allows userspace to preserve file
+descriptors. However, kernel subsystems often manage struct file
+objects directly and need to participate in the preservation process
+programmatically without relying solely on userspace interaction.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- tools/testing/selftests/liveupdate/Makefile   |   1 +
- .../selftests/liveupdate/luo_multi_session.c  | 162 ++++++++++++++++++
- 2 files changed, 163 insertions(+)
- create mode 100644 tools/testing/selftests/liveupdate/luo_multi_session.c
+ include/linux/liveupdate.h       | 23 +++++++++++
+ kernel/liveupdate/luo_file.c     | 71 ++++++++++++++++++++++++++++++++
+ kernel/liveupdate/luo_internal.h | 16 +++++++
+ 3 files changed, 110 insertions(+)
 
-diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/testing/selftests/liveupdate/Makefile
-index bbbec633970c..080754787ede 100644
---- a/tools/testing/selftests/liveupdate/Makefile
-+++ b/tools/testing/selftests/liveupdate/Makefile
-@@ -5,6 +5,7 @@ LIB_C += luo_test_utils.c
- TEST_GEN_PROGS += liveupdate
+diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
+index a7f6ee5b6771..c9503d2cda7b 100644
+--- a/include/linux/liveupdate.h
++++ b/include/linux/liveupdate.h
+@@ -15,11 +15,13 @@
+ #include <uapi/linux/liveupdate.h>
  
- TEST_GEN_PROGS_EXTENDED += luo_kexec_simple
-+TEST_GEN_PROGS_EXTENDED += luo_multi_session
+ struct liveupdate_file_handler;
++struct liveupdate_session;
+ struct file;
  
- TEST_FILES += do_kexec.sh
+ /**
+  * struct liveupdate_file_op_args - Arguments for file operation callbacks.
+  * @handler:          The file handler being called.
++ * @session:          The session this file belongs to.
+  * @retrieved:        The retrieve status for the 'can_finish / finish'
+  *                    operation.
+  * @file:             The file object. For retrieve: [OUT] The callback sets
+@@ -37,6 +39,7 @@ struct file;
+  */
+ struct liveupdate_file_op_args {
+ 	struct liveupdate_file_handler *handler;
++	struct liveupdate_session *session;
+ 	bool retrieved;
+ 	struct file *file;
+ 	u64 serialized_data;
+@@ -112,6 +115,14 @@ int liveupdate_reboot(void);
+ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh);
+ int liveupdate_unregister_file_handler(struct liveupdate_file_handler *fh);
  
-diff --git a/tools/testing/selftests/liveupdate/luo_multi_session.c b/tools/testing/selftests/liveupdate/luo_multi_session.c
-new file mode 100644
-index 000000000000..0ee2d795beef
---- /dev/null
-+++ b/tools/testing/selftests/liveupdate/luo_multi_session.c
-@@ -0,0 +1,162 @@
-+// SPDX-License-Identifier: GPL-2.0-only
++/* kernel can internally retrieve files */
++int liveupdate_get_file_incoming(struct liveupdate_session *s, u64 token,
++				 struct file **filep);
 +
-+/*
-+ * Copyright (c) 2025, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
++/* Get a token for an outgoing file, or -ENOENT if file is not preserved */
++int liveupdate_get_token_outgoing(struct liveupdate_session *s,
++				  struct file *file, u64 *tokenp);
++
+ #else /* CONFIG_LIVEUPDATE */
+ 
+ static inline bool liveupdate_enabled(void)
+@@ -134,5 +145,17 @@ static inline int liveupdate_unregister_file_handler(struct liveupdate_file_hand
+ 	return -EOPNOTSUPP;
+ }
+ 
++static inline int liveupdate_get_file_incoming(struct liveupdate_session *s,
++					       u64 token, struct file **filep)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int liveupdate_get_token_outgoing(struct liveupdate_session *s,
++						struct file *file, u64 *tokenp)
++{
++	return -EOPNOTSUPP;
++}
++
+ #endif /* CONFIG_LIVEUPDATE */
+ #endif /* _LINUX_LIVEUPDATE_H */
+diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
+index b235d1b562ad..670649932de4 100644
+--- a/kernel/liveupdate/luo_file.c
++++ b/kernel/liveupdate/luo_file.c
+@@ -299,6 +299,7 @@ int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
+ 	mutex_init(&luo_file->mutex);
+ 
+ 	args.handler = fh;
++	args.session = luo_session_from_file_set(file_set);
+ 	args.file = file;
+ 	err = fh->ops->preserve(&args);
+ 	if (err)
+@@ -350,6 +351,7 @@ void luo_file_unpreserve_files(struct luo_file_set *file_set)
+ 					   struct luo_file, list);
+ 
+ 		args.handler = luo_file->fh;
++		args.session = luo_session_from_file_set(file_set);
+ 		args.file = luo_file->file;
+ 		args.serialized_data = luo_file->serialized_data;
+ 		args.private_data = luo_file->private_data;
+@@ -377,6 +379,7 @@ static int luo_file_freeze_one(struct luo_file_set *file_set,
+ 		struct liveupdate_file_op_args args = {0};
+ 
+ 		args.handler = luo_file->fh;
++		args.session = luo_session_from_file_set(file_set);
+ 		args.file = luo_file->file;
+ 		args.serialized_data = luo_file->serialized_data;
+ 		args.private_data = luo_file->private_data;
+@@ -398,6 +401,7 @@ static void luo_file_unfreeze_one(struct luo_file_set *file_set,
+ 		struct liveupdate_file_op_args args = {0};
+ 
+ 		args.handler = luo_file->fh;
++		args.session = luo_session_from_file_set(file_set);
+ 		args.file = luo_file->file;
+ 		args.serialized_data = luo_file->serialized_data;
+ 		args.private_data = luo_file->private_data;
+@@ -581,6 +585,7 @@ int luo_retrieve_file(struct luo_file_set *file_set, u64 token,
+ 	}
+ 
+ 	args.handler = luo_file->fh;
++	args.session = luo_session_from_file_set(file_set);
+ 	args.serialized_data = luo_file->serialized_data;
+ 	err = luo_file->fh->ops->retrieve(&args);
+ 	if (!err) {
+@@ -606,6 +611,7 @@ static int luo_file_can_finish_one(struct luo_file_set *file_set,
+ 		struct liveupdate_file_op_args args = {0};
+ 
+ 		args.handler = luo_file->fh;
++		args.session = luo_session_from_file_set(file_set);
+ 		args.file = luo_file->file;
+ 		args.serialized_data = luo_file->serialized_data;
+ 		args.retrieved = luo_file->retrieved;
+@@ -623,6 +629,7 @@ static void luo_file_finish_one(struct luo_file_set *file_set,
+ 	guard(mutex)(&luo_file->mutex);
+ 
+ 	args.handler = luo_file->fh;
++	args.session = luo_session_from_file_set(file_set);
+ 	args.file = luo_file->file;
+ 	args.serialized_data = luo_file->serialized_data;
+ 	args.retrieved = luo_file->retrieved;
+@@ -889,3 +896,67 @@ int liveupdate_unregister_file_handler(struct liveupdate_file_handler *fh)
+ 
+ 	return 0;
+ }
++
++/**
++ * liveupdate_get_token_outgoing - Get the token for a preserved file.
++ * @s:      The outgoing liveupdate session.
++ * @file:   The file object to search for.
++ * @tokenp: Output parameter for the found token.
 + *
-+ * A selftest to validate the end-to-end lifecycle of multiple LUO sessions
-+ * across a kexec reboot, including empty sessions and sessions with multiple
-+ * files.
++ * Searches the list of preserved files in an outgoing session for a matching
++ * file object. If found, the corresponding user-provided token is returned.
++ *
++ * This function is intended for in-kernel callers that need to correlate a
++ * file with its liveupdate token.
++ *
++ * Context: Can be called from any context that can acquire the session mutex.
++ * Return: 0 on success, -ENOENT if the file is not preserved in this session.
 + */
-+
-+#include "luo_test_utils.h"
-+
-+#define SESSION_EMPTY_1 "multi-test-empty-1"
-+#define SESSION_EMPTY_2 "multi-test-empty-2"
-+#define SESSION_FILES_1 "multi-test-files-1"
-+#define SESSION_FILES_2 "multi-test-files-2"
-+
-+#define MFD1_TOKEN 0x1001
-+#define MFD2_TOKEN 0x2002
-+#define MFD3_TOKEN 0x3003
-+
-+#define MFD1_DATA "Data for session files 1"
-+#define MFD2_DATA "First file for session files 2"
-+#define MFD3_DATA "Second file for session files 2"
-+
-+#define STATE_SESSION_NAME "kexec_multi_state"
-+#define STATE_MEMFD_TOKEN 998
-+
-+/* Stage 1: Executed before the kexec reboot. */
-+static void run_stage_1(int luo_fd)
++int liveupdate_get_token_outgoing(struct liveupdate_session *s,
++				  struct file *file, u64 *tokenp)
 +{
-+	int s_empty1_fd, s_empty2_fd, s_files1_fd, s_files2_fd;
++	struct luo_file_set *file_set = luo_file_set_from_session(s);
++	struct luo_file *luo_file;
++	int err = -ENOENT;
 +
-+	ksft_print_msg("[STAGE 1] Starting pre-kexec setup for multi-session test...\n");
-+
-+	ksft_print_msg("[STAGE 1] Creating state file for next stage (2)...\n");
-+	create_state_file(luo_fd, STATE_SESSION_NAME, STATE_MEMFD_TOKEN, 2);
-+
-+	ksft_print_msg("[STAGE 1] Creating empty sessions '%s' and '%s'...\n",
-+		       SESSION_EMPTY_1, SESSION_EMPTY_2);
-+	s_empty1_fd = luo_create_session(luo_fd, SESSION_EMPTY_1);
-+	if (s_empty1_fd < 0)
-+		fail_exit("luo_create_session for '%s'", SESSION_EMPTY_1);
-+
-+	s_empty2_fd = luo_create_session(luo_fd, SESSION_EMPTY_2);
-+	if (s_empty2_fd < 0)
-+		fail_exit("luo_create_session for '%s'", SESSION_EMPTY_2);
-+
-+	ksft_print_msg("[STAGE 1] Creating session '%s' with one memfd...\n",
-+		       SESSION_FILES_1);
-+
-+	s_files1_fd = luo_create_session(luo_fd, SESSION_FILES_1);
-+	if (s_files1_fd < 0)
-+		fail_exit("luo_create_session for '%s'", SESSION_FILES_1);
-+	if (create_and_preserve_memfd(s_files1_fd, MFD1_TOKEN, MFD1_DATA) < 0) {
-+		fail_exit("create_and_preserve_memfd for token %#x",
-+			  MFD1_TOKEN);
++	list_for_each_entry(luo_file, &file_set->files_list, list) {
++		if (luo_file->file == file) {
++			if (tokenp)
++				*tokenp = luo_file->token;
++			err = 0;
++			break;
++		}
 +	}
 +
-+	ksft_print_msg("[STAGE 1] Creating session '%s' with two memfds...\n",
-+		       SESSION_FILES_2);
-+
-+	s_files2_fd = luo_create_session(luo_fd, SESSION_FILES_2);
-+	if (s_files2_fd < 0)
-+		fail_exit("luo_create_session for '%s'", SESSION_FILES_2);
-+	if (create_and_preserve_memfd(s_files2_fd, MFD2_TOKEN, MFD2_DATA) < 0) {
-+		fail_exit("create_and_preserve_memfd for token %#x",
-+			  MFD2_TOKEN);
-+	}
-+	if (create_and_preserve_memfd(s_files2_fd, MFD3_TOKEN, MFD3_DATA) < 0) {
-+		fail_exit("create_and_preserve_memfd for token %#x",
-+			  MFD3_TOKEN);
-+	}
-+
-+	close(luo_fd);
-+	daemonize_and_wait();
++	return err;
 +}
 +
-+/* Stage 2: Executed after the kexec reboot. */
-+static void run_stage_2(int luo_fd, int state_session_fd)
++/**
++ * liveupdate_get_file_incoming - Retrieves a preserved file for in-kernel use.
++ * @s:      The incoming liveupdate session (restored from the previous kernel).
++ * @token:  The unique token identifying the file to retrieve.
++ * @filep:  On success, this will be populated with a pointer to the retrieved
++ *          'struct file'.
++ *
++ * Provides a kernel-internal API for other subsystems to retrieve their
++ * preserved files after a live update. This function is a simple wrapper
++ * around luo_retrieve_file(), allowing callers to find a file by its token.
++ *
++ * The operation is idempotent; subsequent calls for the same token will return
++ * a pointer to the same 'struct file' object.
++ *
++ * The caller receives a new reference to the file and must call fput() when it
++ * is no longer needed. The file's lifetime is managed by LUO and any userspace
++ * file descriptors. If the caller needs to hold a reference to the file beyond
++ * the immediate scope, it must call get_file() itself.
++ *
++ * Context: Can be called from any context in the new kernel that has a handle
++ *          to a restored session.
++ * Return: 0 on success. Returns -ENOENT if no file with the matching token is
++ *         found, or any other negative errno on failure.
++ */
++int liveupdate_get_file_incoming(struct liveupdate_session *s, u64 token,
++				 struct file **filep)
 +{
-+	int s_empty1_fd, s_empty2_fd, s_files1_fd, s_files2_fd;
-+	int mfd1, mfd2, mfd3, stage;
++	return luo_retrieve_file(luo_file_set_from_session(s), token, filep);
++}
+diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+index c8973b543d1d..734469464664 100644
+--- a/kernel/liveupdate/luo_internal.h
++++ b/kernel/liveupdate/luo_internal.h
+@@ -84,6 +84,22 @@ struct luo_session {
+ 	struct mutex mutex;
+ };
+ 
++static inline struct liveupdate_session *luo_session_from_file_set(struct luo_file_set *file_set)
++{
++	struct luo_session *session;
 +
-+	ksft_print_msg("[STAGE 2] Starting post-kexec verification...\n");
++	session = container_of(file_set, struct luo_session, file_set);
 +
-+	restore_and_read_stage(state_session_fd, STATE_MEMFD_TOKEN, &stage);
-+	if (stage != 2) {
-+		fail_exit("Expected stage 2, but state file contains %d",
-+			  stage);
-+	}
-+
-+	ksft_print_msg("[STAGE 2] Retrieving all sessions...\n");
-+	s_empty1_fd = luo_retrieve_session(luo_fd, SESSION_EMPTY_1);
-+	if (s_empty1_fd < 0)
-+		fail_exit("luo_retrieve_session for '%s'", SESSION_EMPTY_1);
-+
-+	s_empty2_fd = luo_retrieve_session(luo_fd, SESSION_EMPTY_2);
-+	if (s_empty2_fd < 0)
-+		fail_exit("luo_retrieve_session for '%s'", SESSION_EMPTY_2);
-+
-+	s_files1_fd = luo_retrieve_session(luo_fd, SESSION_FILES_1);
-+	if (s_files1_fd < 0)
-+		fail_exit("luo_retrieve_session for '%s'", SESSION_FILES_1);
-+
-+	s_files2_fd = luo_retrieve_session(luo_fd, SESSION_FILES_2);
-+	if (s_files2_fd < 0)
-+		fail_exit("luo_retrieve_session for '%s'", SESSION_FILES_2);
-+
-+	ksft_print_msg("[STAGE 2] Verifying contents of session '%s'...\n",
-+		       SESSION_FILES_1);
-+	mfd1 = restore_and_verify_memfd(s_files1_fd, MFD1_TOKEN, MFD1_DATA);
-+	if (mfd1 < 0)
-+		fail_exit("restore_and_verify_memfd for token %#x", MFD1_TOKEN);
-+	close(mfd1);
-+
-+	ksft_print_msg("[STAGE 2] Verifying contents of session '%s'...\n",
-+		       SESSION_FILES_2);
-+
-+	mfd2 = restore_and_verify_memfd(s_files2_fd, MFD2_TOKEN, MFD2_DATA);
-+	if (mfd2 < 0)
-+		fail_exit("restore_and_verify_memfd for token %#x", MFD2_TOKEN);
-+	close(mfd2);
-+
-+	mfd3 = restore_and_verify_memfd(s_files2_fd, MFD3_TOKEN, MFD3_DATA);
-+	if (mfd3 < 0)
-+		fail_exit("restore_and_verify_memfd for token %#x", MFD3_TOKEN);
-+	close(mfd3);
-+
-+	ksft_print_msg("[STAGE 2] Test data verified successfully.\n");
-+
-+	ksft_print_msg("[STAGE 2] Finalizing all test sessions...\n");
-+	if (luo_session_finish(s_empty1_fd) < 0)
-+		fail_exit("luo_session_finish for '%s'", SESSION_EMPTY_1);
-+	close(s_empty1_fd);
-+
-+	if (luo_session_finish(s_empty2_fd) < 0)
-+		fail_exit("luo_session_finish for '%s'", SESSION_EMPTY_2);
-+	close(s_empty2_fd);
-+
-+	if (luo_session_finish(s_files1_fd) < 0)
-+		fail_exit("luo_session_finish for '%s'", SESSION_FILES_1);
-+	close(s_files1_fd);
-+
-+	if (luo_session_finish(s_files2_fd) < 0)
-+		fail_exit("luo_session_finish for '%s'", SESSION_FILES_2);
-+	close(s_files2_fd);
-+
-+	ksft_print_msg("[STAGE 2] Finalizing state session...\n");
-+	if (luo_session_finish(state_session_fd) < 0)
-+		fail_exit("luo_session_finish for state session");
-+	close(state_session_fd);
-+
-+	ksft_print_msg("\n--- MULTI-SESSION KEXEC TEST PASSED ---\n");
++	return (struct liveupdate_session *)session;
 +}
 +
-+int main(int argc, char *argv[])
++static inline struct luo_file_set *luo_file_set_from_session(struct liveupdate_session *s)
 +{
-+	return luo_test(argc, argv, STATE_SESSION_NAME,
-+			run_stage_1, run_stage_2);
++	struct luo_session *session = (struct luo_session *)s;
++
++	return &session->file_set;
 +}
++
+ int luo_session_create(const char *name, struct file **filep);
+ int luo_session_retrieve(const char *name, struct file **filep);
+ int __init luo_session_setup_outgoing(void *fdt);
 -- 
 2.52.0.rc2.455.g230fcf2819-goog
 
