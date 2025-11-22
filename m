@@ -1,104 +1,163 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA1F239E75
-	for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 17:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E80271A7B
+	for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 19:53:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763832524; cv=none; b=Jm39t5KMfT0NgT/6Fs3W87GufUsYnI8RMvT9Omi62EDJd2iWKc7OPArcKHbnadIYvTK92GBwgtwvGrxtyY7hbPU201hNxhGuJx0UgvnY7KVQ3XvVPAV13y2CabAenBuc4RHehZ+3DKcIIVCdtKpgUdnABqtOrdtU99Y1+7yONXc=
+	t=1763841238; cv=none; b=F9yXxJOmPd3ta9TSyw8NKlyVPncZ1rs7YLsjuV+ueeq4j2Sra5K1Rea+MeEeeaohZVC1hlQl85dpy1kP4v9i8BNR0aEX5gXK0MjtpyxIs64VaeoNDzzNrBTtf0iqB5hB8tCsUD7/eZXn7aQ1E+KNSJLbSAH5VYRuBoL7YSRDQAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763832524; c=relaxed/simple;
-	bh=5MlvMXZYTtR3C+2ukJ2tJbzkGsByRH9qIzQcgZ1uih4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZIOgCOZZYZEgpZBWIbvs2pXvCcfheqVaDBu8VjPJ9hu+YXWHTstEiSgObjncNQFLPRhqIW7Z6POpxG5VIMGeH4T1E+VjwASLTLwA9nYBqxXNRPFI73RpOEBkr/DhD9izTJ+e9CM6yoG/lM0p0A/2eRoAL1V0jOqOh0C9YMG5FYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J5AfyTpI; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763841238; c=relaxed/simple;
+	bh=Kj+BG0xdKGqNhRUvh68tbMkfYejpZnIN0MW2Q/oBVMQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JMfTiF4vmrfwgudvtHRt4ZBqH6EPWTqQUqm8pj25lvvdXR/l/JyNW5RNzvE8GJIrEIUdebOpIak0DPG8vb6gP2s8tLcOvOMKrJZ2d1WjMnhR9/isAcQYbKk9a85eKxWYtXbzkaYv5Tp8L/quLFpQ+bwheKZWGG0cLE4ng0Jw6hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=OJW5BCeU; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J5AfyTpI"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7bb710d1d1dso4601404b3a.1
-        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 09:28:41 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="OJW5BCeU"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b73875aa527so486620366b.3
+        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 11:53:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763832521; x=1764437321; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5MlvMXZYTtR3C+2ukJ2tJbzkGsByRH9qIzQcgZ1uih4=;
-        b=J5AfyTpIqgeULMSs7LwLYb5BdhMx26AhFuqy7086YFy7JJdnMoVBVo1YhJys8YF4kA
-         WMOGLJ/rDg4ApWJPCNe++jE/8Hnaa0edMyvX++niezWL253ofUzE15a5W4RTzpRZStrh
-         0KHZ3oBDHnwm/NAtDoB7nmfDaEQFvaJV0w4xDIISWgSm1kgLs4QeQJLJ2QyDuKIn1FLd
-         wtLn1gFB2PBW3OI47nC2i7rtQRix0S85i8+UUtzooMWqVulLh8fDb7BZ/YOSu95TSk0b
-         ZjC3CjrqGGJzPvw1srhDqh6PXeyvYxS0+bdDcrTfbt/N8rOjz49D1ArAYuipNKISkLCC
-         TEYQ==
+        d=linux-foundation.org; s=google; t=1763841234; x=1764446034; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=V8N0HudTgWpU/ayUVIeNFnWWwreLw332W8BlQTA6nQs=;
+        b=OJW5BCeUDKm30FYaUqkAIb3pAomdEtbSufjxmsynah8gUlp9zsd7xaKLo0gItLqNkr
+         Lp9RI+FmZ/+KJ6os6rPM5auHQJmkP2/xIJ0wYHit+yBrVH4MkJYbf3PFTKJEDWgcHjby
+         V3r80V3S3aP/l1ojws/TK1DvEyWf+4sIosT1M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763832521; x=1764437321;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5MlvMXZYTtR3C+2ukJ2tJbzkGsByRH9qIzQcgZ1uih4=;
-        b=bZrjw+gRqI5zoC/kD11JbNg+hlvSeO/3/0Qgx6ay1eIXUEgtskcoiiYrF3R/r/iIfS
-         fagXCNCTZKpu670cPISKWQ2IljOf8vrgtGJCwQRN20Xb2cYAsHUeINIm6i6CUqZr/bnK
-         ieP12cmu3JdEQYr8Hn0RIoF3yp5+Hx6ELcnwNKnH/OIY1Gudl35eyLvEGGrKke2Yy6aM
-         aR3n63rnjQJeKA9rdCGBhLt21zhK69+n6mgLVwlF4AHAeDky2TkhMfDOrOVV0K7UC9Ms
-         q5I6I3r8SAi1vu9sBPnsTKjoYlEFFqQ+38mBunmjxYlQT5Ys9Tcybn6RL7U3esfvyy1n
-         Q+0g==
-X-Forwarded-Encrypted: i=1; AJvYcCUwomK/bHGB5KGiReULb2mxP/xYugq6XHgGHCbAIJ6o8KOuD4OR4vStCl+a9qejIZxK5BdU32iImJ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6W9u1eCOE0HvBLrgrsVNp6qpWdVMuOAfTuiLea9bMDIgfcPqf
-	QNeHU1i5hAyP1sHIedyuwfqB9Uk8K6DPenauNTFiL7RVlH7A/1vyHUw/HSnpTQ==
-X-Gm-Gg: ASbGncvnzPp4lezRWdm+IZKmXomprRlkEjTKZ/POyjwCc1/0jAJxzZbgMZtuO0udEK4
-	7bWMR0lu7BhM4OM9uQnEFzi6VrEH2sXtYIs9oolt6eHIVXKaOsnMeUgouamkR5m96iaeVgRArYk
-	2iinKwvBXN40GSL/PNtvd7L8JdAsBxgXauaCN96y+OF5qYAntq5a0ecYhqxEwCP7TZhy93o/9+z
-	n5m2/ghyeC5N1JvYadOInnqeD0zuOJCqzXkFg2f5o8oUBI+IaxjBj+Ih8LDowGSrL0Z76qvTK9t
-	w8AD/9mxbjNZoWE9kCc38yBPSOv2zFqbHMvdtEKX8ZgGD0s8CfzcgeLOr2cbIMbb/F3ltS3jcLI
-	V7hAIyHgzYcWFYoPdOoD/+ExPIP495R/wIWpuF3Adl5DiWmU9Cjil5oVJyeKNNxnLVcYSXrXh/6
-	FexweSQKwVaU6UWIdAeVoimfEKWcDzvsFyuD4bNf3wzcMIK91KZikJJ9cosw==
-X-Google-Smtp-Source: AGHT+IHProxUTYxUr7Eg0WsWEkqduy6WY8mRtpWbTz5oJpvvl87zL4seGtqYrXC96lkU4A+SdYOPVQ==
-X-Received: by 2002:a05:6a20:1586:b0:35f:2293:877f with SMTP id adf61e73a8af0-3614edd980emr7983683637.33.1763832520673;
-        Sat, 22 Nov 2025 09:28:40 -0800 (PST)
-Received: from ?IPv6:2401:4900:8fcd:4575:1ad3:3d1a:3314:cdd0? ([2401:4900:8fcd:4575:1ad3:3d1a:3314:cdd0])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f0243b19sm9534469b3a.37.2025.11.22.09.28.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 09:28:40 -0800 (PST)
-Message-ID: <96d8ddb6c04651224fc66bca825ba99292fc8f87.camel@gmail.com>
-Subject: Re: [PATCH RESEND v4] checkpatch: add uninitialized pointer with
- __free attribute check
-From: ally heev <allyheev@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Dwaipayan Ray	
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
- Perches	 <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy
- Whitcroft	 <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
- <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, Geert Uytterhoeven	
- <geert@linux-m68k.org>
-Date: Sat, 22 Nov 2025 22:58:32 +0530
-In-Reply-To: <f8b93a66-c755-497d-a425-c7b4baff5165@kernel.org>
-References: 
-	<20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
-	 <f8b93a66-c755-497d-a425-c7b4baff5165@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+        d=1e100.net; s=20230601; t=1763841234; x=1764446034;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V8N0HudTgWpU/ayUVIeNFnWWwreLw332W8BlQTA6nQs=;
+        b=Queq/WKUeBcmuar+N9bff/5HjeOGtsIlK9FFC/v+B4h089VO+3B/tNbRmYtpasHRs4
+         ub4GCtdNN3cAWx48iHq/PaPaCZDtYWv8VBkCrC0W7aBW1VGS+w1SXfKd/onKwdgKm1Xc
+         REVW0wteRwEUKGJsl4Xb9sUDWFvbX6AILBJV+desc9v7JBrKzhdtF1n6hsR2V7SSwTLG
+         L0Ek6hza+4KOnRpc1jt/oYf7ElWYQBSFHrWQJHEwWvbq1qNCBIkAvsf0V/C1AtUXf1Bq
+         mWjaTIZE+d/JgQvKYOJaHKm6w8wXer7KfmSGgvGG7UZQ+U2Qr09bjUF/vjxeIhA0Easa
+         R8hw==
+X-Forwarded-Encrypted: i=1; AJvYcCWC/d4t5A5Oov2a2oKmAz9kH561Q4lT3L1BU2ykHCu3YwGuOijrHXy+nWifwFn2NVRP3D1VEERtSaA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPLTaBKjvtQLqKRKgef/IHMyv0YEJ2nC0acUSyd0fXfkKx6rF4
+	Q648GZOC/WBvuOcHd4sb4c7ZjTbW1MyoQkMz2OJGOQ0yXr2a1daOu1PGJDbiWNUrx7ZW20KrBhJ
+	HlNk5OlQ=
+X-Gm-Gg: ASbGncuJ5kQy+iPjGi/wx0K/n6A+Rmvsp++ZOuObi8e5Rw48Vm1cBIEQ7QAg7a38rUw
+	5jLCFSUV/WB8/lo4zsTFWscVzDrkU8o3IPnSTe4IuI8FFUlcN+cOl3auE1u8ZQYKmZbheC1e5cz
+	PvbWPZMPeVn0AV+7XpweCtRdIVvMe/feRmGipd69ujigGsL2l2zKWqk5ArL/qwD3FeszZ5Hmru/
+	tO/ByYQJPfKwWSzRKu8xzk0YVAaN7VAbJUKAffP8A7rrtebcLZlzHS0821B54MVV9mtQkSMsj9I
+	vGTMjn5bP64PZykQGCpLuFF44I44Bbc8c4mb9tR0oJI+q8I2H6n3f0DKhL2oEDWlj+voeGAeqeP
+	8fRpnpolY5WJlMd3FpByiA1EhaYxB2UoidB83qvklPq9qONypruy/t0PtncyhI5RCBfv2G7rAN/
+	w8/tQrx9iH71V6oK+dA6+BPylyfayr/nN3DDVSS1Iall20FTy/eOlnCbgYJR+2jF7lDTz0HYY=
+X-Google-Smtp-Source: AGHT+IE9x2JYUnKS3kU/bm4pLwmpR/bKtCskLl/EhnDupZFHwijWOiUzm/JmZ9dEmtzZU+QWUYhGKw==
+X-Received: by 2002:a17:907:9722:b0:b73:6cc5:bb1a with SMTP id a640c23a62f3a-b767159f4e5mr630434266b.16.1763841234276;
+        Sat, 22 Nov 2025 11:53:54 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7654d73430sm810957066b.24.2025.11.22.11.53.49
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Nov 2025 11:53:52 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b73875aa527so486615766b.3
+        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 11:53:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV0YhzLiZtR6OijoLG0q4qFTolu+0ToRLzRlcmqEIiTx4W6rOBPd2Nhf+JQUsEoOk41JcJDeLRvG/w=@vger.kernel.org
+X-Received: by 2002:a17:906:dc89:b0:b72:a899:168d with SMTP id
+ a640c23a62f3a-b767159ef70mr722565666b.13.1763841229122; Sat, 22 Nov 2025
+ 11:53:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20251122014258.do.018-kees@kernel.org> <20251122014304.3417954-2-kees@kernel.org>
+In-Reply-To: <20251122014304.3417954-2-kees@kernel.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sat, 22 Nov 2025 11:53:33 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiNnECns4B3qxRsCykkHwzovT+3wG738fUhq5E+3Lxxbg@mail.gmail.com>
+X-Gm-Features: AWmQ_bmh5uuI5AnMmiOZjFdonQtxoafj9Bhk7ARyKlTTPm6tMsrXbFYBvPbdku8
+Message-ID: <CAHk-=wiNnECns4B3qxRsCykkHwzovT+3wG738fUhq5E+3Lxxbg@mail.gmail.com>
+Subject: Re: [PATCH v5 2/4] slab: Introduce kmalloc_obj() and family
+To: Kees Cook <kees@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, "Gustavo A . R . Silva" <gustavoars@kernel.org>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>, 
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Marco Elver <elver@google.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org, 
+	Randy Dunlap <rdunlap@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, Vegard Nossum <vegard.nossum@oracle.com>, 
+	Harry Yoo <harry.yoo@oracle.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>, Yafang Shao <laoar.shao@gmail.com>, 
+	Tony Ambardar <tony.ambardar@gmail.com>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
+	Jan Hendrik Farr <kernel@jfarr.cc>, Alexander Potapenko <glider@google.com>, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 2025-11-22 at 14:01 +0100, Krzysztof Kozlowski wrote:
-[...]
-> I saw the other discussion and Linus re-iterated old approach/syntax
-> preference, thus I think this should also include it, since it is de
-> facto a coding style:
->=20
-> "Pointers with __free attribute should be declared in the place of use
-> and initialized (see include/linux/cleanup.h)......"
->=20
-> Best regards,
-> Krzysztof
+Honestly, I hate this.
 
-Yes. I am planning to do it in v5 along with coding style doc update
+In particular, I intensely dislike that horrendous 'SIZE' parameter to
+those helper macros, and this just needs to die.
+
+The argument for that horror is also just silly:
+
+On Fri, 21 Nov 2025 at 17:43, Kees Cook <kees@kernel.org> wrote:
+>
+> These each return the newly allocated pointer to the type (which may be
+> NULL on failure). For cases where the total size of the allocation is
+> needed, the kmalloc_obj_sz(), kmalloc_objs_sz(), and kmalloc_flex_sz()
+> family of macros can be used. For example:
+>
+>         size = struct_size(ptr, flex_member, count);
+>         ptr = kmalloc(size, gfp);
+>
+> becomes:
+>
+>         ptr = kmalloc_flex_sz(*ptr, flex_member, count, gfp, &size);
+
+That thing is ACTIVELY WORSE than the code it replaces.
+
+One of them makes sense and is legible toi a normal human.
+
+The other does not.
+
+The alleged advantage is apparently that you can do it on one line,
+but when that one line is just horrible garbage, that is not an
+advantyage at all.
+
+And the impact of that crazy SIZE on the macro expansions makes the
+whole thing entirely illegible.
+
+I will not merge anything this broken.
+
+The whole "limit to pre-defined size" argument is also just crazy,
+because now the SIZE parameter suddenly gets a second meaning. EVEN
+WORSE.
+
+Finally, I think the parts of this that aren't wrong are too limited,
+and do not go far enough.
+
+Because once you give that "alloc_obj()" an actual type, it should
+take the alignment of the type into account too.
+
+I also think this part:
+
++       typeof(VAR) *__obj_ptr = NULL;                                  \
++       if (!WARN_ON_ONCE(!__can_set_flex_counter(__obj_ptr->FAM, __count)) && \
+
+absolutely needs to die.  You just set __obj_ptr to NULL, and then you
+use __obj_ptr->FAM. Now, it so happens that __can_set_flex_counter()
+only cares about the *type*, but dammit, this kind of code sequence is
+simply not acceptable, and it needs to make that *explicit* by using
+sane syntax like perhaps just spelling that out, using VAR, not that
+NULL value.
+
+IOW. making it use something like "typeof(VAR.FAM)" might work. Not
+that crazy garbage.
+
+I never want to see this kind of horrendous patch again. Everything
+about it just screamed "disgusting".
+
+                        Linus
