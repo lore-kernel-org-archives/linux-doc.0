@@ -1,126 +1,90 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D131F37A1;
-	Sat, 22 Nov 2025 11:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC780469D;
+	Sat, 22 Nov 2025 12:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763811422; cv=none; b=pJCZmISewtPBNykUfkAZFD60YkFmtHPCsHMNtECyR2ZqdjVpf73EIr5vMEcdfYpWkFJJFeX6IkgCd25HfiRlHEmTSZJHxZuVUvHFSHW9p/pDWMYhPNUFiqW8es83KAoKvMLdxJdzHXz1VVpnuaaatCNVWCIS9tAriCeKHg+XDJ0=
+	t=1763815087; cv=none; b=NrVAJDOYdaHOYY7Rm3aJTP+WPt7GMYlQpIe+eXbgFkZmzBCcBpp+DorGAaGAnEOj/XKBbbCTrG3/g08mWfk+eBviDnHIQPh/HYxu7tYKR2u59QiRZU9ZqRZmqOznstFpusWPZOLIAQ7q3h27ljsxvRRWpJaL7ym5aGAqH5xM1fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763811422; c=relaxed/simple;
-	bh=3wFRhpyoBTISEUeWSI6RFRCI23Vl84wLgVvh+b7jTFU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BVj57IIlcdexDs5zBa4JF5Hu0mEBuV6xRnCwQtyghEV8e4BnuRBrskYcWMgh0ghr0suKBaNLGWBfTnq3a813UYIUwZwm0+ZwSUUFgEjJ8NoYNfIlkCCxjO/BCXZkLV6/wy5MI3XnlFRpLIeeGCL/dMqAEqNWRA5sTeJ0erOJ4I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=fFJl0DFF; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1763815087; c=relaxed/simple;
+	bh=+0gqiYmRyGMvbc4ri5o4JeM7HQTze8xLtNWwu4zX+ZY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tEMMOgJ+/To34nyWm1le5loTGf5DFmTPw6FNMOYlNzkhDN0TFCbKEHnoyXxEDowgYLF6TCFkTy2RAKO8EuMuPjxuZd9U2XEjghYCOS1b896DwHCQUWOQaXsysdArhM6j6vUqbt/iTYT4d+q3X8R0eKAiUQ4ytktoApTRgLPl5g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G/VKDz4i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="fFJl0DFF"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7757740E00DE;
-	Sat, 22 Nov 2025 11:36:54 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id EDmPM0qPi4Xi; Sat, 22 Nov 2025 11:36:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1763811410; bh=e+IxTgba59X5NTNporHArCj+R9MYjvwb1eYpYfEJANg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fFJl0DFFHsg6DZvn/4viW0HuYGGzFiOzYB7/+AIFk/mXPwii9u2fAXcp9zdmt5Pp2
-	 DPFwfQ3DxgVkbE77xLLHYv27KNste/IjXAaN2rJpFQCu1AwjvwCg1qAgTB7u/BPkLd
-	 6dvfTHjzxe8KeKwWIvnhqpoXR1pRNr1gTyoEbaaAWiORwyu3jmaaGNYl+Mvt6Pe+T1
-	 pHM36QfQwwYyvR9NGuAHi5xAKFYNYoE1cjR36BVHII+boDAROXmzm/x/QxHvCo1qJk
-	 YeS2EBmEQcmC9AT7qTvBR7aDF7whyw8sHg6MkhiJBukg5UzZRiEMCIkc/0O/C7MUcV
-	 VT6MIY9XbUtUbMxMZnsWUT8AytDpfdAMGGl4KuruIMo/0kyslHENfUfa3On3OFATkQ
-	 UHbJaYE8fIUQhZb3x4p9JDM8Vz25OicaY7VPkp6BooQjfOFrVuNxedEs5jKsT5B7Ff
-	 /F988/7Qn94VRaD8Sh/eKgnbDIxlTTfiIYEwS7lpxdEJGXtHGZkGOGWdvKWCJoXc3p
-	 TcILRx2ySw9SxsKZ7vpdzPq3GYLnGlbvERvhaM2CqdEm8dhtK6CqNd6IKx9EZ9zcDJ
-	 9voDxWnj0vSGPwyhAwis8qezutGum9CDEhE2ZhF72E2qqyp+KD6RME8bCl4flWXy3C
-	 Iu0iMJYLk2Zrqo8BUoIqdmrY=
-Received: from zn.tnic (pd9530da1.dip0.t-ipconnect.de [217.83.13.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 2E9A440E015A;
-	Sat, 22 Nov 2025 11:36:14 +0000 (UTC)
-Date: Sat, 22 Nov 2025 12:36:12 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Shiju Jose <shiju.jose@huawei.com>
-Cc: Daniel Ferguson <danielf@os.amperecomputing.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	"rafael@kernel.org" <rafael@kernel.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"rppt@kernel.org" <rppt@kernel.org>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>,
-	"lenb@kernel.org" <lenb@kernel.org>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	Linuxarm <linuxarm@huawei.com>,
-	"rientjes@google.com" <rientjes@google.com>,
-	"jiaqiyan@google.com" <jiaqiyan@google.com>,
-	"Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>,
-	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>,
-	"erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>,
-	"duenwen@google.com" <duenwen@google.com>,
-	"gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
-	tanxiaofei <tanxiaofei@huawei.com>,
-	"Zengtao (B)" <prime.zeng@hisilicon.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>,
-	wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: Re: [PATCH v12 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Message-ID: <20251122113612.GAaSGgLOTZHWXQgpzY@fat_crate.local>
-References: <20250912141155.GAaMQqK4vS8zHd1z4_@fat_crate.local>
- <9433067c142b45d583eb96587b929878@huawei.com>
- <20250917162253.GCaMrgXYXq2T4hFI0w@fat_crate.local>
- <20250917183608.000038c4@huawei.com>
- <20250919103950.GCaM0y9r6R6b5jfx8z@fat_crate.local>
- <6ac4ad35975142df986bfcb27d1e9b2c@huawei.com>
- <20251015223242.GBaPAhCuS7YWqu-aH0@fat_crate.local>
- <75e9bae2d30748d5b66c288135915cc3@huawei.com>
- <20251103131914.GEaQir0sdz4Te_ea0l@fat_crate.local>
- <409217e466a9497697a82e2ac8a6a5f7@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G/VKDz4i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E9EEC16AAE;
+	Sat, 22 Nov 2025 12:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763815087;
+	bh=+0gqiYmRyGMvbc4ri5o4JeM7HQTze8xLtNWwu4zX+ZY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=G/VKDz4itLwqeWW8GE2VS7VKb9ztgQyTPzyEJsHUerGZkLLAQTbfvBuMEcMjDouKh
+	 YSu76IiWlVSgyDRjAA6LcM7VyXs6xn9Dlowq6Osq23MaU7NmvkdPHt2tVRBm1Z/wtV
+	 gjlYgIvEDMa+KHZmfJ1dzd2fKFtvwi5nDVgEhfwFHbaHilDuZQX5XGA5MpNtkGOdk7
+	 RK12rAVIPAn+5XFbsyNJVSGf/D3M7x3IQKXE240M/wYwKo+rP9YieyGaRaqYXP85hf
+	 V+P0h21CE9VPYiSw6a2SOZ3tpnjGCQi2KGoqTjmW99NYaGUAQak6ykf9XD9W+E460d
+	 YTcMnj3JO8DDg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vMmsP-00000004plz-1ti0;
+	Sat, 22 Nov 2025 13:38:05 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	"Jonathan Corbet" <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	"Randy Dunlap" <rdunlap@infradead.org>
+Subject: [PATCH v4 0/5] kernel-doc: add support for documenting vars
+Date: Sat, 22 Nov 2025 13:37:54 +0100
+Message-ID: <cover.1763814816.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <409217e466a9497697a82e2ac8a6a5f7@huawei.com>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Tue, Nov 04, 2025 at 12:55:48PM +0000, Shiju Jose wrote:
-> Thanks Borislav for the valuable suggestion and it make sense. Since
-> presently we are not sure how reaching the end of the node work on
-> individual platforms,  can we do this as an optimization in the next stage?
-> and Can we start with basic demand scrubbing without address range control
-> in sysfs, but with user space set only scrub rate and enable_demand, kernel
-> set the node's addr range as Requested Address Range to start the demand
-> scrubbing on entire node, as you suggested?
+Hi Jon,
 
-Yap, I like starting simple and then delving into a more involved solution
-which is dictated by real life.
+As suggested and discussed with Randy, this small series add support
+for documenting variables using kernel-doc.
 
-Thx.
+- patch 1: add support for the new feature;
+- patch 2: extends to support DEFINE_*;
+- patch 3: document two media vars;
+- patch 4: fix an issue on kernel-doc.rst markups and automarkup;
+- patch 5: document it.
+
+On this version, I'm using "c:macro" to describe variables, as it
+avoids Sphinx C domain to try parse the variable. This makes it more
+flexible and easier to maintain in long term.
+
+---
+
+v4: 
+- document the new markup;
+- fix an issue on kernel-doc.rst due to automarkup;
+- add support for DEFINE_* macros
+
+Mauro Carvalho Chehab (5):
+  kernel-doc: add support for handling global variables
+  kernel-doc: add support to handle DEFINE_ variables
+  docs: media: v4l2-ioctl.h: document two global variables
+  docs: kernel-doc.rst: don't let automarkup mangle with consts
+  docs: kernel-doc.rst: document the new "var" kernel-doc markup
+
+ Documentation/doc-guide/kernel-doc.rst | 48 +++++++++++------
+ include/media/v4l2-ioctl.h             | 15 ++++++
+ tools/lib/python/kdoc/kdoc_output.py   | 46 ++++++++++++++++
+ tools/lib/python/kdoc/kdoc_parser.py   | 73 +++++++++++++++++++++++++-
+ 4 files changed, 166 insertions(+), 16 deletions(-)
 
 -- 
-Regards/Gruss,
-    Boris.
+2.51.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
+
