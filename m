@@ -1,100 +1,158 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA2835977;
-	Sat, 22 Nov 2025 12:54:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75A91547EE;
+	Sat, 22 Nov 2025 13:01:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763816058; cv=none; b=RrTkQeMHk+sOtew16JZofxf/hzbAD1dKzrcCc9AxR4IL9EPYVxa+arnJz9ibLftsmo3g+02z75tlKNJ/+dRutTAgVPF8ho5J/5WWwkvLbRjVgkBo30ZMGPEc3EP22ys7c4ygDSl8s/B+DD82Df2IsApXsUnfhFwKOXx2jPtzT38=
+	t=1763816506; cv=none; b=Hx/fQ2fkgUxbtYCLCfLai05E9Ox+O+jBQ5TfGcHqHO8mtYEiC5CETh8nkx+RrikebRl7RlbqVGQIY1MtG4Vudh9jzcYKLO1LD2lnDDu0KKDNiuTWv2+v9TXfBHey3WY6c41g4ytXWhKHX7m6acE3TfwWMZzka3HBWZQ3pqD/Z8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763816058; c=relaxed/simple;
-	bh=FR4E8hZalGj/6XCc4oY1XezvA/TPT41+qYdS/PdvxL4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j9ubjXcgjqZ8EhwcGj6uVKoBF5eA0vIOX9pAaYah8V2dQ3hBDX4tJ7/d+5aINk9bRqQoy5i1XQRkfVyOQSLY5YmrM+ZigRHohQFBpqGxWTKL+xqJ1zZD4NG6u+dw+D1ke3+XKQK+1n//pqR/8O1/wg7B3nRfJdDs7fNMCrA8DDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=teQPP7OG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763816506; c=relaxed/simple;
+	bh=lwudwfGOfRn0wSmhL4ydO5KrG5lWe6Pnfe86fM9oy6w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZSp/updqLggL2GwXJbq6d8CX6YJsKfh2V7DAuzjbJooF6HWGAJqvv/Fk+AUkKeeS/zK5CkKs9/rc+/THtgABiJ54E+wyytUCL8qX76owTXpNl0krib7AMUTc55YqsBlGlWsRXbZiLXSRWlNgZL/UevTA5rpkYHhPbRp/gSwr9LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5RLfjhX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="teQPP7OG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23D9CC4CEF5;
-	Sat, 22 Nov 2025 12:54:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5RLfjhX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A77AC4CEF5;
+	Sat, 22 Nov 2025 13:01:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763816058;
-	bh=FR4E8hZalGj/6XCc4oY1XezvA/TPT41+qYdS/PdvxL4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=teQPP7OGmS7K1rnsd+7oofZyDlXrWbuIbE4+cZB9/w4V9zBc1VH+Oumfx2SmSWfp9
-	 39TNXqP63o80SY2qBQlGRl5XT6W2CgMB0wWBoF3bgsRpCcO0Knj3eYS/d1dy4kFfY/
-	 EtC1YncnkpY1uzqYMnfxq7Xw7DEeRRMriFbRmvsEv/ERVTFIxpJMHUcQyFvqgbPU0J
-	 h8TPfAmOUPmg8Qij57brvYEgWmVv6HosWEBwOu/qaYdhDGwMvUdk0mm8j2sfM+M/yM
-	 v5GUxus2/M7WJGaEWKCZbI4RdBxRfymBuGBWCBnu5oBdskAkttF2ExQDC7fiRiB3sA
-	 O/ymaH+heZlOw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vMn84-00000007USt-0CFe;
-	Sat, 22 Nov 2025 12:54:16 +0000
-Date: Sat, 22 Nov 2025 12:54:15 +0000
-Message-ID: <86v7j2qlc8.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: <oliver.upton@linux.dev>,
-	<catalin.marinas@arm.com>,
-	<corbet@lwn.net>,
-	<pbonzini@redhat.com>,
-	<will@kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<yuzenghui@huawei.com>,
-	<wangzhou1@hisilicon.com>,
-	<yezhenyu2@huawei.com>,
-	<xiexiangyou@huawei.com>,
-	<zhengchuan@huawei.com>,
-	<linuxarm@huawei.com>,
-	<joey.gouly@arm.com>,
-	<kvmarm@lists.linux.dev>,
-	<kvm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>,
-	<suzuki.poulose@arm.com>
-Subject: Re: [PATCH v2 2/5] KVM: arm64: Support set the DBM attr during memory abort
-In-Reply-To: <20251121092342.3393318-3-zhengtian10@huawei.com>
-References: <20251121092342.3393318-1-zhengtian10@huawei.com>
-	<20251121092342.3393318-3-zhengtian10@huawei.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20201202; t=1763816506;
+	bh=lwudwfGOfRn0wSmhL4ydO5KrG5lWe6Pnfe86fM9oy6w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=W5RLfjhXGe8+IR47I4gCCO9msE51zdyB8GRDzoc/eKF0Eo4qRaBGyiPnpxARfL5YO
+	 YWTxq2E3WSuZsTgnjf/EUWKcEoiJWiTBzTFlkm8+giyl1C3UrVLRW1qd1ysRbrz33W
+	 oHBPO8DhDjckiINfOZ/8xMZAlwCdBeGMavbD+W/5lwlt2pe7RxGGQsvgCkjoaQmYdD
+	 s6JLGlMG8xyDGRnMX/6fkYDDFJa+MNn1YS27y8RUa0YyCarVyTq/lb0JYH68GiLMD6
+	 zjEdnxn11dHslwDwe6yp3AxpeP1jsjkI3FNut2wCmx0qwGtnYNMUUM+GS3M4nNpbfV
+	 hvVWBGKk0lexg==
+Message-ID: <f8b93a66-c755-497d-a425-c7b4baff5165@kernel.org>
+Date: Sat, 22 Nov 2025 14:01:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: zhengtian10@huawei.com, oliver.upton@linux.dev, catalin.marinas@arm.com, corbet@lwn.net, pbonzini@redhat.com, will@kernel.org, linux-kernel@vger.kernel.org, yuzenghui@huawei.com, wangzhou1@hisilicon.com, yezhenyu2@huawei.com, xiexiangyou@huawei.com, zhengchuan@huawei.com, linuxarm@huawei.com, joey.gouly@arm.com, kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, suzuki.poulose@arm.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v4] checkpatch: add uninitialized pointer with
+ __free attribute check
+To: Ally Heev <allyheev@gmail.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>,
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+ linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <20251117-aheev-checkpatch-uninitialized-free-v4-1-fbee16ffeab9@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 21 Nov 2025 09:23:39 +0000,
-Tian Zheng <zhengtian10@huawei.com> wrote:
+On 17/11/2025 04:10, Ally Heev wrote:
+> uninitialized pointers with __free attribute can cause undefined
+> behavior as the memory randomly assigned to the pointer is freed
+> automatically when the pointer goes out of scope.
+> add check in checkpatch to detect such issues.
 > 
-> From: eillon <yezhenyu2@huawei.com>
+> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
+> Acked-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Ally Heev <allyheev@gmail.com>
+> ---
+> Testing:
+> ran checkpatch.pl before and after the change on
+> crypto/asymmetric_keys/x509_public_key.c, which has
+> both initialized with NULL and uninitialized pointers
+> ---
+> Changes in v4:
+> - fixed UNINITIALIZED_PTR_WITH_FREE description
+> - Link to v3: https://lore.kernel.org/r/20251025-aheev-checkpatch-uninitialized-free-v3-1-a67f72b1c2bd@gmail.com
 > 
-> Add DBM support to automatically promote write-clean pages to
-> write-dirty, preventing users from being trapped in EL2 due to
-> missing write permissions.
+> Changes in v3:
+> - remove $FreeAttribute
+> - Link to v2: https://lore.kernel.org/r/20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com
 > 
-> Since the DBM attribute was introduced in ARMv8.1 and remains
-> optional in later architecture revisions, including ARMv9.5.
-
-What is the relevance of this statement?
-
+> Changes in v2:
+> - change cover letter and title to reflect new changes
+> - fix regex to handle multiple declarations in a single line case
+> - convert WARN to ERROR for uninitialized pointers
+> - add a new WARN for pointers initialized with NULL
+> - NOTE: tried handling multiple declarations on a single line by splitting
+>         them and matching the parts with regex, but, it turned out to be
+> 	complex and overkill. Moreover, multi-line declarations pose a threat
+> - Link to v1: https://lore.kernel.org/r/20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com
+> ---
+>  Documentation/dev-tools/checkpatch.rst | 5 +++++
+>  scripts/checkpatch.pl                  | 6 ++++++
+>  2 files changed, 11 insertions(+)
 > 
-> Support set the DBM attr during user_mem_abort().
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index d5c47e560324fb2399a5b1bc99c891ed1de10535..c61a3892a60c13f7c5ba89e969e39a93a3dcd5bc 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -1009,6 +1009,11 @@ Functions and Variables
+>  
+>        return bar;
+>  
+> +  **UNINITIALIZED_PTR_WITH_FREE**
+> +    Pointers with __free attribute should be initialized. Not doing so
 
-I don't think this commit message accurately describes what the code
-does. This merely adds support to the page table code to set the DBM
-bit in the S2 PTE, and nothing else.
 
-	M.
+I saw the other discussion and Linus re-iterated old approach/syntax
+preference, thus I think this should also include it, since it is de
+facto a coding style:
 
--- 
-Without deviation from the norm, progress is not possible.
+"Pointers with __free attribute should be declared in the place of use
+and initialized (see include/linux/cleanup.h)......"
+
+Best regards,
+Krzysztof
