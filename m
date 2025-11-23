@@ -1,115 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E9629AB1A;
-	Sun, 23 Nov 2025 15:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2F928D8DB
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 15:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763911811; cv=none; b=gbDrwQZ8ivVs6Lx8UB3+ZPUCG9diNoHI1/dB4ohYfTpvJahi/KeRjVwTkoaJkeL0SHdC9QJsm3JpvdbvtJoenbpzxOOruJnUJk/eyJWkOKZSlCaSlkFYSZ2l19fzXEdLQqB6yJnrVm6P21HZQZHaMRNh6XmevCdKm/e8P/NGZX8=
+	t=1763912311; cv=none; b=jShMF7GA5lv6rT2WhtGgrtg+pp4bOURxXSHOanKdlKSwaz9MFnMyHh44eVHOxlZRVzxVN/xSdJt9E6i3ZB1dm7XY7BBkDaUn3OgXFChiiIXIuqZLA3NZf5R8EwVbP9AlEhs7Ac0IIbG1nsju44mm9B4EHmg03gQ58RDW/Wc8RqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763911811; c=relaxed/simple;
-	bh=sbU7eVp3mgDSt5xPnwvjDRc6ZpRDTkp4dPpqxTd0hY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YcvjTy5MLcZtz6BEvObwkb+CADBfhCnxyh4SI5e9DY8NIxdvlEOOkLEnUULSJjHfAm4RFHTbGjfD9iAm1H06xneK39RBxkhekAuAUK+3jpQQJXcsS9ZPikzGWQyh+4XS+CQI0dSI93Tyc5Uri8xaQBxrrJn3jM3QTEtsQZgFMBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ce4qJKQr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763912311; c=relaxed/simple;
+	bh=gsW6Gxtd58A2MXfWTW33n+XnlcKIWJ1x+x9SvtsyZgU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=uSinS7AZfZbfrLi4PpkBblkjYtkkxDGNg1SK+6nt6xFWVjYUHTjxbBJH4W4FDcbFnvTVwBfcRyS93Phr/eC6dxUxz/X2ZBd6LMVy5Kgbt+1K4qGH67Mbz7Ei95zsw0xTk3gtPTba3xbIudbB3Eqn+36D8XVH5Vrx9FRLpFSTGPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=i3gDSZDR; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ce4qJKQr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75988C113D0;
-	Sun, 23 Nov 2025 15:29:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763911811;
-	bh=sbU7eVp3mgDSt5xPnwvjDRc6ZpRDTkp4dPpqxTd0hY4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ce4qJKQrDFTadmY+pK87YrLjQwwpdOXw9MPMemJsv5q6V5VTAgKNpSVXXF1HMX+gW
-	 y7ITTZq/qNsL893/WbfpCeXI6PDAv6UpSGA1e2QWGxtfOQ0t+Y0oyBVsChod3uc5X8
-	 uHrh0JXcsUDEbg5M0FdHOx19+BgL/yulj++EH4t50HlEz9gHX5HfsO4SthhtH3cz07
-	 Lo0dhFZMQmp69FEm+D4zkH9UOhE41QiB+AwudQFj+L5hIZI4O7HTkx/BpGcnc6Z7Hd
-	 z8BbYh1Fj7L6Jj+6jcnpKI4TM+UHGJAEuBy6lmziXqPX2tjtUFN2MqVhuraE7EsrDR
-	 DLHQ1ynahlaig==
-Date: Sun, 23 Nov 2025 17:29:44 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v7 09/22] MAINTAINERS: add liveupdate entry
-Message-ID: <aSMoaMlYwSh9oJAL@kernel.org>
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-10-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="i3gDSZDR"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 39F3840AD1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1763912302; bh=gsW6Gxtd58A2MXfWTW33n+XnlcKIWJ1x+x9SvtsyZgU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=i3gDSZDRrnHm6jdFE2fT9pmZgsvzxcmrT6P5oCWJ4CiSHHVHI8/7XZhHDOoDY3HEF
+	 ik8SOZAs2rBRH4hn27g95Z367wYwIaO3Mhl64LH6P6DPOM9SFa4GPCkFiUeIDhmuy4
+	 Cgw1bGQR5vnhI0bS0Jor54f3jqtm918vr0ZzbwAEkxL0F/6dTwnLxZCM6h++XJOZR5
+	 KKUMgIQoTkIUdY8Px1vAu1ZoFCuvlmoFacV3EdxTXzdwFkyHU6AbMe+arRx6f4zlYz
+	 t8mE1I4kE5dXE0RaL3M1BvcLIf1yVgfxP4vldib1QsmtoiOm2Bpr4+0b1Oje7ofxQ8
+	 KlvEpA8hV75xw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 39F3840AD1;
+	Sun, 23 Nov 2025 15:38:22 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: macrofun <baikefan@leap-io-kernel.com>, alexs@kernel.org,
+ si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 01/25] docs/zh_CN: Add index.rst translation
+In-Reply-To: <97d37d75edeaf8b609911702ec4e563cf414e85a.1763897036.git.baikefan@leap-io-kernel.com>
+References: <cover.1763897036.git.baikefan@leap-io-kernel.com>
+ <97d37d75edeaf8b609911702ec4e563cf414e85a.1763897036.git.baikefan@leap-io-kernel.com>
+Date: Sun, 23 Nov 2025 08:38:21 -0700
+Message-ID: <874iqksqs2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251122222351.1059049-10-pasha.tatashin@soleen.com>
+Content-Type: text/plain
 
-On Sat, Nov 22, 2025 at 05:23:36PM -0500, Pasha Tatashin wrote:
-> Add a MAINTAINERS file entry for the new Live Update Orchestrator
-> introduced in previous patches.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+macrofun <baikefan@leap-io-kernel.com> writes:
 
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Translate .../usb/index.rst into Chinese and update subsystem-apis.rst
+>
+> Update the translation through commit c26cee817f8b
+> ("usb: gadget: f_fs: add capability for dfu functional descriptor")
+>
+> Signed-off-by: macrofun <baikefan@leap-io-kernel.com>
 
-> ---
->  MAINTAINERS | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b46425e3b4d3..868d3d23fdea 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14466,6 +14466,18 @@ F:	kernel/module/livepatch.c
->  F:	samples/livepatch/
->  F:	tools/testing/selftests/livepatch/
->  
-> +LIVE UPDATE
-> +M:	Pasha Tatashin <pasha.tatashin@soleen.com>
-> +M:	Mike Rapoport <rppt@kernel.org>
-> +L:	linux-kernel@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/core-api/liveupdate.rst
-> +F:	Documentation/userspace-api/liveupdate.rst
-> +F:	include/linux/liveupdate.h
-> +F:	include/linux/liveupdate/
-> +F:	include/uapi/linux/liveupdate.h
-> +F:	kernel/liveupdate/
-> +
->  LLC (802.2)
->  L:	netdev@vger.kernel.org
->  S:	Odd fixes
-> -- 
-> 2.52.0.rc2.455.g230fcf2819-goog
-> 
-> 
+Please use your real, legal name in the signoff line.
 
--- 
-Sincerely yours,
-Mike.
+Out of curiosity, are these translations machine-generated?
+
+Thanks,
+
+jon
