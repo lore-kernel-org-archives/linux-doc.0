@@ -1,216 +1,749 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDD02594BD
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 19:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A664176026
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 19:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763927032; cv=none; b=JClg4YJxin3NfCmOidTNQlYrXupVYgH/DwFpXrytuoQ/bM5rH9+Xb75lRvk3vRySwavLE5mLfJUqsNLiosy50iQ5Q7e5riVisFbNh/v03H1KA3BtoEm6kPku+EDIy/3f0u2Se7zs+OmhO8jDtSwTkUUIPWLeLmjpoRHbbc7NxUE=
+	t=1763927296; cv=none; b=Mdbtoz72k4ROUJOrOC9iUy0Yc8gOx2urdfnR6mmEsMSpHoELEN1NHuItyUilS0TwhuNNGemmi8JF6FCoG9t41M1SHxmHrQ2+173g+aaN+e91jqyvhZymW680H8nOKXEE3RyzpV9g2SY0oVBLTOCqSG7wUIjXo0KX0/mtnmMZtiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763927032; c=relaxed/simple;
-	bh=rEXUF3WcLXgrqK9Z0mp+DKx3xAVF9PI7UZEW40+RQjk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C/aIF2k9+Nyo3oUJmLC7WytGh2eFuhx2T4Bk3BQ+BvTKel0qLD9s6F6A2IyvoeBXjcYSsPrA0mJheOy2dYgGl5MIJT+3fnLbJgR4eIrx6FMLmz4lzimv7PPwiDhf8t3KUImQyQC60hnR5mU8fRLWUr87SgnVjMnHfOVtqPNROxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=NPsAbqcu; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763927296; c=relaxed/simple;
+	bh=WQJL9ozrgY6dlfwtKWdc6XaQbzRy4r/BeFr7/xI5NiY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h9DX/MEUHgt3H8SA+KWUu7M4rFsm4oIlti/c/L3sEAlZY+A6LsNKXktYFja19jPctYs5boAFogpXUibTM9dRIrs9j3/hJJwnOsRftuHGDVHbXryJZnCGkra8MCLqL8hWAhjL+ozWqUc73FYjB/DvcwpNi8TCARZkQAUfJ+xTuHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LX66cndC; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="NPsAbqcu"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6417313bddaso5491392a12.3
-        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 11:43:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LX66cndC"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b736d883ac4so676691466b.2
+        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 11:48:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763927027; x=1764531827; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4t1Ki+s+9/qWluhdQjI8hbyhcgBh9iaju0gMHkm8x5A=;
-        b=NPsAbqcuvhy20tG+n/y/Vzs8SIQ1k3m9Mt6v4vBOTQQxB30LiIS8n9kj+Sc3aC0HsB
-         hqTBe8pm0nRS38sl7PUhi4DcgvTUwWrNPVCWo21hwaLAVtepLxbkB10/ghiG3i5JLYPL
-         R1ZyFN6Tu5XRy9bdtWaFE3NJK1ob3NNnpuYHcBN/qVmbNfeVTkB4RESZWwzJsm5pTgVO
-         JXl/ZWBPQ0cBIgdCnmL94p3lysV0wn86JNl02WUR+7SDS+5vcUmsXMHN6MPdCZrWZRzY
-         I+wV/UtLoxosF817ZgRuIq1h+nXoc+fOJ8m0Xm0ewlMQnezLZMo1TH1pFKewWBUSfVNf
-         3eKQ==
+        d=gmail.com; s=20230601; t=1763927292; x=1764532092; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jO+pEg7JwOGM6dglSEjgBtEB6ZjLDnLUgMElzIqZU2g=;
+        b=LX66cndCTHeAIuAXj59dQgAKtOVfPFvDGMUHgjFCl7TTHuwYlOa4n+v6nCVzX+4zK2
+         BMencDmkrP/+W6gQ5nLWnwardx1i+f0RdNQ8SRGI3kB7m7cmTgrbFzAY30rU4zb4lzFQ
+         GyraoQ0/k5LbmSZpHzMpBNRSDpmUOEfmRgl4v1jfcjCWZMt+YFXdwMS+OF3wg9o6tr4S
+         3dHEt8mZ1OuUdhIPbw19GDvOEDNkBYo7xMI+YRhjSKD+/J+5ppkFfbM1FYK9kL2JmJgw
+         EnlfwZDKFkEGgV1VqaVkS/1Xc2kswzz9qKG4iA3hrGYRoPLp1zfJ38m+qdJ0kppgx6Up
+         T9Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763927027; x=1764531827;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4t1Ki+s+9/qWluhdQjI8hbyhcgBh9iaju0gMHkm8x5A=;
-        b=T9I8prwfAn0Mh2qNfbISujONI6AoKzUKYHYWj5eXho6yao6fD9LMc1YXUdXR505RNK
-         w57BciUSNtQ0qs74ebEw1xcwIcvW0EHn9OQWALtc9SPwvqI9Y8Ur9BaGy/yY4kfJOHm1
-         vUB6ZO4aSOIpW2klh3uWgttgsKbezqjZTaInwb8GQCFRkkSDFnBdA76PJv6r3pQd6gto
-         TSA9yRFsha5Onf+MwlQs/dFJQIJsUz6Ox/+cldZggMm9KbS157MqTkOtgmYS6CDEdXb2
-         /7aR62BsLvxzXc23ntpA+rri+7sJUs06InDLC/1wJU5Y4U6ENwVfYrTn+C2+4QfIC7MJ
-         Tjtg==
-X-Forwarded-Encrypted: i=1; AJvYcCVleg2zZevvcGLZ3Jby37oQtTUJlofP2K8kXpyEKlXCkNSbg9lBprZkI2sVZWi2FKWaboy0ka3ZsgA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyd/vtHLDemw86R4qfHZtNWiqZjd1+OOrlEBeLzjqRbj8Ku1Ut5
-	rWD/RT5kyB+Mgsmyk1dNC7HXLS7oKrx0ln6NknDgOzFexTaRgy6wcAr4G1hHJKLjAumv6FJgHDv
-	HUQiqPCM93nXARFGHmcNDDrK6IKTH10MCWEuyNp2QyQ==
-X-Gm-Gg: ASbGncufKrS8rIVJixljl1oQ7EbrUB+9phWmanZFAlM6yTAjUULWT1xrjrSBKPeOw9R
-	qdvdp9PajBUnlQgkrgYcn4C6BBIKgsyMnoNAMmG1aFQ5Lidn36ucPW0VGTRrHFfcEVNCy9Dov8H
-	jb4mRtKEw2vvvpS9kO75FCb77k8IamVwdYjqvCdnTifM1O4VYfZUV+eB6AUf/MHQSF2JSiHgl1/
-	iXcW6ZLKOhbsfB/d2lgUDBqnOA2TfYddtEPLftqN9FobaUI8d+0VhNSgHkaNRpM0JkI
-X-Google-Smtp-Source: AGHT+IGshkG9OIG1LcK7+ITFx82jXeFu0RCBTWszC/GeEm+iNWkEZCqMd0w54WVkq/Ok7uWsEjBmuRSK5/xDmSViJXs=
-X-Received: by 2002:a05:6402:5414:b0:63e:405d:579c with SMTP id
- 4fb4d7f45d1cf-645546946edmr8066481a12.29.1763927027448; Sun, 23 Nov 2025
- 11:43:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763927292; x=1764532092;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jO+pEg7JwOGM6dglSEjgBtEB6ZjLDnLUgMElzIqZU2g=;
+        b=tlG4J/I1ZEXQQ35QaP+fL/MYqdqLmOErgg0cxhzHJLgDvVkZ3F9iTHA9giisAZ3jnX
+         r/Q9G2no2qBrEbaQRsuZpP/E/clehz1yDL6IahTTgo+qrnPrTMbk8Y0/lyJ+nWFDEK4n
+         mEQwZJ5hcva6K484etFmmLxyK3iepSaIqdAzeetsOy4/lr8q4U8GfvLQVumOVnY5Ucdx
+         7Wno4XULQE3NgcYjMTxjAeO1CUEHCSZG45XuHgGoi4lTdLldwo9zz3yyaTg+cH4ZhyHh
+         gNKd55P+dVVRC8W+OTTsph1XoHjeBvZ73MwyDS5eEuI17v8FLW87CzFMcoWtnei9QSFF
+         JmuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZETICYj0J5CPFEfedUGNnUaVFqVozbQPDfNRf+H7zspBpb2eQFKWS99CIoRAHWnaMDpt00QBbtus=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+somjN4rQ+23Hmbhvkij4G1eggacROYu76moTEmn6kkRN2w5Z
+	sR8MqVJtRPHLqWHR4GKOVjnUzxHhR4RARLk4lQTfg07cc727VrEoTQAT
+X-Gm-Gg: ASbGncvCfwvdO8vRrRxnswwxUMA7/HVlrzLM7V9p3pxK14pQ1XM8A7152GQla3nCThi
+	V1I1MnfVsFL1bi89c93LxBR9bA4dQotBuz+ie8qIReaeby4H6TMd3W7UdVn12mo92DGoAVnnpHV
+	npi6OSaxmcbrxuS5IppXoPA8E7awpRRzkyXMR4zb99JZxNRwspAhMU4pr6WwxuDYeAwuBPt3ZJ+
+	qHpazX6MvYvTkulQFyQXzYS0A7D1f4W/IFkDSnRgbXrrI7gS5M/929IfbjVxsv5Z4fZRtH61Xfx
+	74HwSwXbVV0pL8OwM4CnbAZouVjScVNvTwFKbdsB+ZPE+4BjfIWeZgS8Aq3XhAhx4R5occc/qJ4
+	eBkJQEdNPSCNlyCVSY7qtgDg5/IEiN8norFtGQBLH8o8OF7gz0M5SUkMUQ0schysGHeR8Jki2HH
+	wO5S8dOFFQ4ykmhATFzIfKD7tOYwkqQ3vwBV1sD2GU2y68i3NbC3h/OzbiqEzRzC/96tg=
+X-Google-Smtp-Source: AGHT+IE2MQ5j+w48lnReyH/IhLYNQNPJjllKEtf7E8mmH1c7d3EC/hRsgrmYnV8hbjKMpiA+VK29pw==
+X-Received: by 2002:a17:907:948e:b0:b73:70c9:1780 with SMTP id a640c23a62f3a-b767183c122mr1103189466b.41.1763927291619;
+        Sun, 23 Nov 2025 11:48:11 -0800 (PST)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:123e:4501:38ae:e5e8:159a:3b69])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7654cefe53sm1076781966b.13.2025.11.23.11.48.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Nov 2025 11:48:11 -0800 (PST)
+Date: Sun, 23 Nov 2025 20:48:09 +0100
+From: Jorge Marques <gastmaier@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 3/7] iio: adc: Add support for ad4062
+Message-ID: <ou6qwayt4g7qaoe5dm7tdg6jl5dwquslpfbok6on5r2q2wytyl@wlqxj5y6ircj>
+References: <20251013-staging-ad4062-v1-0-0f8ce7fef50c@analog.com>
+ <20251013-staging-ad4062-v1-3-0f8ce7fef50c@analog.com>
+ <20251018171032.144a126c@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-12-pasha.tatashin@soleen.com> <aSMoRRtanMkHo9Tr@kernel.org>
-In-Reply-To: <aSMoRRtanMkHo9Tr@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sun, 23 Nov 2025 14:43:11 -0500
-X-Gm-Features: AWmQ_bk6KdHNR7OHR5DSXBcEBpbGAclOQVNeD6WPZt65m_AQR-D_Xk2E-EHVSsU
-Message-ID: <CA+CK2bAVNed-biqAnyMySPuDkQQZPFnWp96vdm0ewVS20H2-Zw@mail.gmail.com>
-Subject: Re: [PATCH v7 11/22] mm: shmem: allow freezing inode mapping
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251018171032.144a126c@jic23-huawei>
 
-On Sun, Nov 23, 2025 at 10:29=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wr=
-ote:
->
-> On Sat, Nov 22, 2025 at 05:23:38PM -0500, Pasha Tatashin wrote:
-> > From: Pratyush Yadav <ptyadav@amazon.de>
-> >
-> > To prepare a shmem inode for live update, its index -> folio mappings
-> > must be serialized. Once the mappings are serialized, they cannot chang=
-e
-> > since it would cause the serialized data to become inconsistent. This
-> > can be done by pinning the folios to avoid migration, and by making sur=
-e
-> > no folios can be added to or removed from the inode.
-> >
-> > While mechanisms to pin folios already exist, the only way to stop
-> > folios being added or removed are the grow and shrink file seals. But
-> > file seals come with their own semantics, one of which is that they
-> > can't be removed. This doesn't work with liveupdate since it can be
-> > cancelled or error out, which would need the seals to be removed and th=
-e
-> > file's normal functionality to be restored.
-> >
-> > Introduce SHMEM_F_MAPPING_FROZEN to indicate this instead. It is
-> > internal to shmem and is not directly exposed to userspace. It function=
-s
-> > similar to F_SEAL_GROW | F_SEAL_SHRINK, but additionally disallows hole
-> > punching, and can be removed.
-> >
-> > Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  include/linux/shmem_fs.h | 17 +++++++++++++++++
-> >  mm/shmem.c               | 19 ++++++++++++++++---
-> >  2 files changed, 33 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> > index 650874b400b5..d34a64eafe60 100644
-> > --- a/include/linux/shmem_fs.h
-> > +++ b/include/linux/shmem_fs.h
-> > @@ -24,6 +24,14 @@ struct swap_iocb;
-> >  #define SHMEM_F_NORESERVE    BIT(0)
-> >  /* Disallow swapping. */
-> >  #define SHMEM_F_LOCKED               BIT(1)
-> > +/*
-> > + * Disallow growing, shrinking, or hole punching in the inode. Combine=
-d with
-> > + * folio pinning, makes sure the inode's mapping stays fixed.
-> > + *
-> > + * In some ways similar to F_SEAL_GROW | F_SEAL_SHRINK, but can be rem=
-oved and
-> > + * isn't directly visible to userspace.
-> > + */
-> > +#define SHMEM_F_MAPPING_FROZEN       BIT(2)
-> >
-> >  struct shmem_inode_info {
-> >       spinlock_t              lock;
-> > @@ -186,6 +194,15 @@ static inline bool shmem_file(struct file *file)
-> >       return shmem_mapping(file->f_mapping);
-> >  }
-> >
-> > +/* Must be called with inode lock taken exclusive. */
-> > +static inline void shmem_freeze(struct inode *inode, bool freeze)
-> > +{
-> > +     if (freeze)
-> > +             SHMEM_I(inode)->flags |=3D SHMEM_F_MAPPING_FROZEN;
-> > +     else
-> > +             SHMEM_I(inode)->flags &=3D ~SHMEM_F_MAPPING_FROZEN;
+On Sat, Oct 18, 2025 at 05:10:32PM +0100, Jonathan Cameron wrote:
+> On Mon, 13 Oct 2025 09:28:01 +0200
+> Jorge Marques <jorge.marques@analog.com> wrote:
+> 
+> > The AD4060/AD4062 are versatile, 16-bit/12-bit, successive approximation
+> > register (SAR) analog-to-digital converter (ADC) that enables low-power,
+> > high-density data acquisition solutions without sacrificing precision.
+> > This ADC offers a unique balance of performance and power efficiency,
+> > plus innovative features for seamlessly switching between
+> > high-resolution and low-power modes tailored to the immediate needs of
+> > the system. The AD4060/AD4062 are ideal for battery-powered, compact
+> > data acquisition and edge sensing applications.
+Hi Jonathan,
+
+Mostly acknowledgements and explanations, except a comment on ACQUIRE usage.
+
+> 
+> Little bit marketing heavy for a patch description.. I'd stick to
+> type, resolution and typical usecases. Skip the sacrificing precision etc
+> wording!  It'll just make the readers eyes glaze over ;)
+> 
+Yep, will tune down a bit. The description was from the website.
+> The mixing of regmap and direct accesses is a little unfortunate but seems unavoidable.
+> 
+Yes, it is not possible to use only the regmap due to the adc sample
+transfers that require reads without writing the address.
+> 
+> > 
+> > Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+> 
+> Various comments inline.  In general looks good for a v1.
+> 
+> 
+> > diff --git a/drivers/iio/adc/ad4062.c b/drivers/iio/adc/ad4062.c
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..e55a69c62694a71a4e29f29b9a2bfeec3b16c990
+> > --- /dev/null
+> > +++ b/drivers/iio/adc/ad4062.c
+> > @@ -0,0 +1,905 @@
+> 
+> > +#define     AD4062_REG_DEVICE_STATUS_DEVICE_RESET	BIT(6)
+> > +#define AD4062_REG_MIN_SAMPLE				0x45
+> > +#define AD4062_REG_IBI_STATUS				0x48
+> > +#define AD4062_REG_CONV_READ_LSB			0x50
+> > +#define AD4062_REG_CONV_READ				0x53
+> > +#define AD4062_REG_CONV_TRIGGER				0x59
+> > +#define AD4062_REG_CONV_AUTO				0x61
+> > +#define AD4062_MAX_REG					0x61
+> 
+> I'd define this in terms of the reg that it happens to be
+> #define AD4052_MAX_REG AD6062_REG_CONF_AUTO
+> 
+Ack.
+> 
+> > +#define AD4062_VIO_3V3		3300000
+> 
+> This is a real value rather than a magic number so better to not hide it in a define.
+> Just use the value inline.
+> 
+Ack.
+> 
+> > +#define AD4062_SPI_MAX_ADC_XFER_SPEED(x)	((x) >= AD4062_VIO_3V3 ? 83333333 : 58823529)
+> > +#define AD4062_SPI_MAX_REG_XFER_SPEED		16000000
+> So these might explain the locking in debugfs functions, but they aren't currently used.
+> So either use them or drop them.
+> 
+Those are dead code for this driver, I will remove as well as others
+unused defines.
+> > +
+> > +enum ad4062_grade {
+> > +	AD4062_2MSPS,
+> > +};
+
+Since only one speed grade is available in the market, this will be
+dropped and all usage simplified.
+
+> > +
+> > +enum ad4062_operation_mode {
+> > +	AD4062_SAMPLE_MODE = 0,
+> > +	AD4062_BURST_AVERAGING_MODE = 1,
+> > +	AD4062_MONITOR_MODE = 3,
+> > +};
+> > +
+> > +enum ad4062_gp_mode {
+> > +	AD4062_GP_DISABLED,
+> > +	AD4062_GP_INTR,
+> > +	AD4062_GP_DRDY,
+> > +};
+> > +
+> > +enum ad4062_interrupt_en {
+> > +	AD4062_INTR_EN_NEITHER,
+> Where these correspond to specific register values make sure
+> to specify those values with = 0x0 etc
+> 
+> I'd use defines unless the type is useful, for example as ad4062_operation_mode above is.
+> 
+Ack.
+> > +	AD4062_INTR_EN_MIN,
+> > +	AD4062_INTR_EN_MAX,
+> > +	AD4062_INTR_EN_EITHER,
+> > +};
+> 
+> > +struct ad4062_state {
+> > +	const struct ad4062_chip_info *chip;
+> > +	const struct ad4062_bus_ops *ops;
+> > +	enum ad4062_operation_mode mode;
+> > +	struct completion completion;
+> > +	struct iio_trigger *trigger;
+> > +	struct iio_dev *indio_dev;
+> > +	struct i3c_device *i3cdev;
+> > +	struct regmap *regmap;
+> > +	u16 sampling_frequency;
+> > +	int vref_uv;
+> > +	u8 raw[4] __aligned(IIO_DMA_MINALIGN);
+> As I mention below, many of the uses of this seem to be a single __be16 so
+> I'd suggestion a union with one of those so we know it's aligned and can use
+> sizeof() instead of hard coded 2s.  If you prefer just add a __be16 variable
+> after this as that always fits anyway (IIO_DMA_MINALIGN >= 8).
+> 
+Will do
+
+        union {
+                __be32 be32;
+                __be16 be16;
+                u8 bytes[4];
+        } buf __aligned(IIO_DMA_MINALIGN);
+
+> > +};
+> 
+> > +
+> > +static const struct iio_enum AD4062_2MSPS_conversion_freq_enum = {
+> > +	.items = AD4062_FS(AD4062_2MSPS),
+> > +	.num_items = AD4062_FS_LEN(AD4062_2MSPS),
+> > +	.set = ad4062_sampling_frequency_set,
+> > +	.get = ad4062_sampling_frequency_get,
+> > +};
+> > +
+> > +#define AD4062_EXT_INFO(grade)						\
+> > +static struct iio_chan_spec_ext_info grade##_ext_info[] = {		\
+> > +	IIO_ENUM("sampling_frequency", IIO_SHARED_BY_ALL,		\
+> > +		 &grade##_conversion_freq_enum),			\
+> 
+> if it's shared by all why can't you use the standard
+>  info_mask_shared_by_all = BIT(IIO_CHAN_INFO_SAMP_FREQ) ?
+> That enables simple in kernel use etc that is a pain with ext info.
+> 
+
+Yes definitely.
+> 
+> > +	IIO_ENUM_AVAILABLE("sampling_frequency", IIO_SHARED_BY_ALL,	\
+> > +			   &grade##_conversion_freq_enum),		\
+> 
+> And this should use the read_avail handling rather than being done this way.
+> ext_info is for stuff that isn't particularly standard or which doesn't
+> fit in the normal interfaces (like mount matrix).
+> 
+Ack.
+> > +	{ }								\
 > > +}
 > > +
-> >  /*
-> >   * If fallocate(FALLOC_FL_KEEP_SIZE) has been used, there may be pages
-> >   * beyond i_size's notion of EOF, which fallocate has committed to res=
-erving:
-> > diff --git a/mm/shmem.c b/mm/shmem.c
-> > index 1d5036dec08a..cb74a5d202ac 100644
-> > --- a/mm/shmem.c
-> > +++ b/mm/shmem.c
-> > @@ -1292,9 +1292,13 @@ static int shmem_setattr(struct mnt_idmap *idmap=
-,
-> >               loff_t newsize =3D attr->ia_size;
-> >
-> >               /* protected by i_rwsem */
-> > -             if ((newsize < oldsize && (info->seals & F_SEAL_SHRINK)) =
-||
-> > -                 (newsize > oldsize && (info->seals & F_SEAL_GROW)))
-> > -                     return -EPERM;
-> > +             if (newsize !=3D oldsize) {
-> > +                     if (info->flags & SHMEM_F_MAPPING_FROZEN)
-> > +                             return -EPERM;
-> > +                     if ((newsize < oldsize && (info->seals & F_SEAL_S=
-HRINK)) ||
-> > +                         (newsize > oldsize && (info->seals & F_SEAL_G=
-ROW)))
-> > +                             return -EPERM;
-> > +             }
-> >
-> >               if (newsize !=3D oldsize) {
->
-> I'd stick
->
->                         if (info->flags & SHMEM_F_MAPPING_FROZEN)
->                                 return -EPERM;
->
-> here and leave the seals check alone.
+> > +AD4062_EXT_INFO(AD4062_2MSPS);
+> > +
+> > +#define AD4062_CHAN(bits, grade) {							\
+> > +	.type = IIO_VOLTAGE,								\
+> > +	.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_RAW) |				\
+> > +				    BIT(IIO_CHAN_INFO_SCALE) |				\
+> > +				    BIT(IIO_CHAN_INFO_CALIBSCALE) |			\
+> > +				    BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),		\
+> > +	.info_mask_shared_by_type_available = BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),	\
+> > +	.indexed = 1,									\
+> > +	.channel = 0,									\
+> > +	.has_ext_scan_type = 1,								\
+> > +	.ext_scan_type = ad4062_scan_type_##bits##_s,					\
+> > +	.num_ext_scan_type = ARRAY_SIZE(ad4062_scan_type_##bits##_s),			\
+> > +	.ext_info = grade##_ext_info,							\
+> > +}
+> > +
+> > +static const struct ad4062_chip_info ad4060_chip_info = {
+> > +	.name = "ad4060",
+> > +	.channels = { AD4062_CHAN(12, AD4062_2MSPS) },
+> > +	.prod_id = 0x7A,
+> > +	.max_avg = AD4050_MAX_AVG,
+> > +	.grade = AD4062_2MSPS,
+> > +};
+> > +
+> > +static const struct ad4062_chip_info ad4062_chip_info = {
+> > +	.name = "ad4062",
+> > +	.channels = { AD4062_CHAN(16, AD4062_2MSPS) },
+> > +	.prod_id = 0x7C,
+> > +	.max_avg = AD4062_MAX_AVG,
+> > +	.grade = AD4062_2MSPS,
+> 
+> We'd normally only introduce elements to chip_info when then differ between
+> supported chips.  For now this .grade seems unnecessary complexity. 
+> 
+Yes, grade will be completely removed since the is only one speed grade
+in the market.
+> > +};
+> 
+> 
+> > +static int ad4062_check_ids(struct ad4062_state *st)
+> > +{
+> > +	int ret;
+> > +	u16 val;
+> > +
+> > +	ret = regmap_bulk_read(st->regmap, AD4062_REG_PROD_ID_1, &st->raw, 2);
+> 
+> You do a lot of __be16 reads in this driver. Maybe use a union for raw so we can
+> type these correctly and use sizeof() for that 2.
+Ack.
+> 
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	val = get_unaligned_be16(st->raw);
+> > +	if (val != st->chip->prod_id)
+> > +		dev_warn(&st->i3cdev->dev,
+> > +			 "Production ID x%x does not match known values", val);
+> > +
+> > +	ret = regmap_bulk_read(st->regmap, AD4062_REG_VENDOR_H, &st->raw, 2);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	val = get_unaligned_be16(st->raw);
+> > +	if (val != AD4062_I3C_VENDOR) {
+> > +		dev_err(&st->i3cdev->dev,
+> > +			"Vendor ID x%x does not match expected value\n", val);
+> > +		return -ENODEV;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> 
+> > +
+> > +static int ad4062_soft_reset(struct ad4062_state *st)
+> > +{
+> > +	u8 val = 0x81;
+> 
+> That probably wants to a define as definitely a magic number.
+> 
+Ack.
+> > +	int ret;
+> > +
+> > +	ret = regmap_write(st->regmap, AD4062_REG_INTERFACE_CONFIG_A, val);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	/* Wait AD4062 treset time */
+> > +	fsleep(5000);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int ad4062_setup(struct iio_dev *indio_dev, struct iio_chan_spec const *chan,
+> > +			const bool *ref_sel)
+> > +{
+> > +	struct ad4062_state *st = iio_priv(indio_dev);
+> > +	const struct iio_scan_type *scan_type;
+> > +	int ret;
+> > +
+> > +	scan_type = iio_get_current_scan_type(indio_dev, chan);
+> > +	if (IS_ERR(scan_type))
+> > +		return PTR_ERR(scan_type);
+> > +
+> > +	u8 val = FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_0, AD4062_GP_INTR) |
+> 
+> I'm a bit confused on why this routes anything to GP0 given we haven't requested that interrupt.
+> 
+Is used in the next commit, on v2 I will be more careful to define things
+only for the particular patch.
+> > +		 FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_1, AD4062_GP_DRDY);
+> > +
+> > +	ret = regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
+> > +				 AD4062_REG_GP_CONF_MODE_MSK_1 | AD4062_REG_GP_CONF_MODE_MSK_0,
+> > +				 val);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	val = FIELD_PREP(AD4062_REG_INTR_CONF_EN_MSK_0, (AD4062_INTR_EN_EITHER)) |
+> > +	      FIELD_PREP(AD4062_REG_INTR_CONF_EN_MSK_1, (AD4062_INTR_EN_NEITHER));
+> 
+> Filling val up here and using it much later seems odd. Probably better moved down.
+> Also excess brackets.
+> I'm lost on what this is doing though. Seems to be enabling interrupts that aren't
+> routed anywhere.
+Ack, reason same as above, belongs to the next commit.
+> 
+> > +
+> > +	ret = regmap_update_bits(st->regmap, AD4062_REG_ADC_MODES,
+> > +				 AD4062_REG_ADC_CONFIG_REF_EN_MSK,
+> > +				 FIELD_PREP(AD4062_REG_ADC_CONFIG_REF_EN_MSK,
+> > +					    *ref_sel));
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = regmap_write(st->regmap, AD4062_REG_DEVICE_STATUS,
+> > +			   AD4062_REG_DEVICE_STATUS_DEVICE_RESET);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return regmap_update_bits(st->regmap, AD4062_REG_INTR_CONF,
+> > +				  AD4062_REG_INTR_CONF_EN_MSK_0 | AD4062_REG_INTR_CONF_EN_MSK_1,
+> > +				  val);
+> > +}
+> 
+> > +
+> > +static int ad4062_request_irq(struct iio_dev *indio_dev)
+> > +{
+> > +	struct ad4062_state *st = iio_priv(indio_dev);
+> > +	struct device *dev = &st->i3cdev->dev;
+> > +	int ret;
+> > +
+> > +	ret = fwnode_irq_get_byname(dev_fwnode(&st->i3cdev->dev), "gp1");
+> > +	if (ret >= 0) {
+> > +		ret = devm_request_threaded_irq(dev, ret, NULL,
+> > +						 ad4062_irq_handler_drdy,
+> > +						 IRQF_ONESHOT, indio_dev->name,
+> > +						 indio_dev);
+> return directly here.
+Ack
+> > +	} else if (ret != -EPROBE_DEFER) {
+> I'd prefer we did the error handling first. It's a little fiddly but
+> something like
+Ack.
+> 
+> 	if (ret == -EPROBE_DEFER)
+> 		return ret;
+> 	if (ret < 0) { //I'd prefer an explicit match against whatever indicates nothing provided.
+> 		return ...
+> 
+> 	return devm_request_threaded_irq();
+> 
+> > +		ret = regmap_update_bits(st->regmap, AD4062_REG_ADC_IBI_EN,
+> > +					 AD4062_REG_ADC_IBI_EN_CONV_TRIGGER,
+> > +					 AD4062_REG_ADC_IBI_EN_CONV_TRIGGER);
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static const int ad4062_oversampling_avail[] = {
+> > +	1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096,
+> I don't mind this style, but you'll likely get feedback that you might as well
+> use
+> 	BIT(0), BIT(1),
+> etc here as it makes it less likely a typo will hid in these powers of 2.
+> 
+I think it is fine as is.
+> > +};
+> 
+> > +static int __ad4062_read_chan_raw(struct ad4062_state *st, int *val)
+> > +{
+> > +	struct i3c_device *i3cdev = st->i3cdev;
+> > +	u8 addr = AD4062_REG_CONV_TRIGGER;
+> > +	struct i3c_priv_xfer t[2] = {
+> > +		{
+> > +			.data.out = &addr,
+> > +			.len = 1,
+> > +			.rnw = false,
+> > +		},
+> > +		{
+> > +			.data.in = &st->raw,
+> > +			.len = 4,
+> > +			.rnw = true,
+> > +		}
+> > +	};
+> > +	int ret;
+> > +
+> > +	reinit_completion(&st->completion);
+> > +	/* Change address pointer to trigger conversion */
+> > +	ret = i3c_device_do_priv_xfers(i3cdev, &t[0], 1);
+> > +	if (ret)
+> > +		return ret;
+> > +	/*
+> > +	 * Single sample read should be used only for oversampling and
+> > +	 * sampling frequency pairs that take less than 1 sec.
+> > +	 */
+> > +	ret = wait_for_completion_timeout(&st->completion,
+> > +					  msecs_to_jiffies(1000));
+> > +	if (!ret)
+> > +		return -ETIMEDOUT;
+> > +
+> > +	ret = i3c_device_do_priv_xfers(i3cdev, &t[1], 1);
+> > +	if (ret)
+> > +		return ret;
+> > +	*val = get_unaligned_be32(st->raw);
+> > +	return ret;
+> 
+> return 0;
+> Makes it clear it must be 0 if we get here and that this is the 'good' exit path.
+> 
+Ack.
+> > +}
+> > +
+> > +static int ad4062_read_chan_raw(struct iio_dev *indio_dev, int *val)
+> > +{
+> > +	struct ad4062_state *st = iio_priv(indio_dev);
+> > +	int ret;
+> > +
+> > +	ret = pm_runtime_resume_and_get(&st->i3cdev->dev);
+> There is a nice new
+> 	ACQUIRE()/ACQUIRE_ERR() related set of conditional guards defined that
+> let you do this using cleanup.h style.
+> 
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9a0abc39450a3123fd52533a662fbd37e0d1508c
+> 
+> This looks like a perfect example of where those help.
+> 
+> When I catch up with review backlog I plan to look for other
+> places to use that infrastructure in IIO.
+> 
+I tried implementing, here becomes
 
-Done.
+        ACQUIRE(pm_runtime_active_try_enabled, pm)(&st->i3cdev->dev);
+        ret = ACQUIRE_ERR(pm_runtime_active_try_enabled, &pm);
 
->
-> Other than than
->
-> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+At buffer and monitor, since we put the device as active during the
+lifetime of the buffer and monitor mode, either I leave as is, or I bump
+the counter with pm_runtime_get_noresume, so when the method leaves, the
+counter drops to 1 and not 0, then on disable I drop the counter back to
+0 and queue the autosuspend with pm_runtime_put_autosuspend.
+> 
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = ad4062_set_operation_mode(st, st->mode);
+> > +	if (ret)
+> > +		goto out_error;
+> > +
+> > +	ret = __ad4062_read_chan_raw(st, val);
+> > +
+> > +out_error:
+> > +	pm_runtime_put_autosuspend(&st->i3cdev->dev);
+> > +	return ret;
+> > +}
+> 
+> 
+> > +static int ad4062_debugfs_reg_access(struct iio_dev *indio_dev, unsigned int reg,
+> > +				     unsigned int writeval, unsigned int *readval)
+> > +{
+> > +	struct ad4062_state *st = iio_priv(indio_dev);
+> > +	int ret;
+> > +
+> > +	if (!iio_device_claim_direct(indio_dev))
+> Add a comment on why reading registers isn't fine when buffered mode is in use.
+> 
+> If it's just a case of preventing writes that will change the state, then we typically
+> don't prevent those. It's a debug interface, no problem with people shooting themselves
+> in the foot.
+> 
+> If you are avoiding disrupting RMW sequences then use a local lock to ensure that
+> is atomic, not this big heavy one.
+> 
+I dropped the lock and will let the user mess-up the transfer.
+On buffer or monitor mode, a register access will cause the device to
+drop of those modes. For the buffer acquisition, it will stop filling up
+the buffer. The user can then recover the state by disabling and
+enabling again the buffer or monitor mode.
+> > +		return -EBUSY;
+> > +
+> > +	if (readval)
+> > +		ret = regmap_read(st->regmap, reg, readval);
+> > +	else
+> > +		ret = regmap_write(st->regmap, reg, writeval);
+> > +
+> > +	iio_device_release_direct(indio_dev);
+> > +	return ret;
+> > +}
+> 
+> > +
+> > +static int ad4062_regulators_get(struct ad4062_state *st, bool *ref_sel)
+> > +{
+> > +	struct device *dev = &st->i3cdev->dev;
+> > +	int uv;
+> > +
+> > +	uv = devm_regulator_get_enable_read_voltage(dev, "vio");
+> 
+> Why are you reading the voltages then throwing them away?
+> If we don't need to read it just use
+> devm_regulator_get_enabled()
+> 
+Ack, I will just enable vio, not read it.
+> 
+> > +	if (uv < 0)
+> > +		return dev_err_probe(dev, uv,
+> > +				     "Failed to enable and read vio voltage\n");
+> > +
+> > +	uv = devm_regulator_get_enable_read_voltage(dev, "vdd");
+> 
+> Unless there is some ordering constraint I don't know of, you shouldn't
+> fail on being unable to read the vdd voltage unless we are actually using it.
+> So try ref first and if that succeeds use devm_regulator_get_enabled(), if not
+> try the voltage reading approach..
+> 
 
-Thanks.
+Ack, I reordered it and won't read vdd if ref exists (!= -ENODEV).
 
->
-> --
-> Sincerely yours,
-> Mike.
+> > +	if (uv < 0)
+> > +		return dev_err_probe(dev, uv,
+> > +				     "Failed to enable vdd regulator\n");
+> > +
+> > +	st->vref_uv = devm_regulator_get_enable_read_voltage(dev, "ref");
+> > +	*ref_sel = st->vref_uv == -ENODEV;
+> > +	if (st->vref_uv == -ENODEV)
+> > +		st->vref_uv = uv;
+> > +	else if (st->vref_uv < 0)
+> > +		return dev_err_probe(dev, st->vref_uv,
+> > +				     "Failed to enable and read ref voltage\n");
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct i3c_device_id ad4062_id_table[] = {
+> > +	I3C_DEVICE(AD4062_I3C_VENDOR, ad4060_chip_info.prod_id, &ad4060_chip_info),
+> > +	I3C_DEVICE(AD4062_I3C_VENDOR, ad4062_chip_info.prod_id, &ad4062_chip_info),
+> > +	{}
+> Trivial but I'm trying to slowly standardize spacing in IIO for these and
+> a while back chose at random (more or less) to go with
+> 	{ }
+Ack.
+> 
+> > +};
+> > +MODULE_DEVICE_TABLE(i3c, ad4062_id_table);
+> > +
+> > +static int ad4062_probe(struct i3c_device *i3cdev)
+> > +{
+> > +	const struct i3c_device_id *id = i3c_device_match_id(i3cdev, ad4062_id_table);
+> > +	const struct ad4062_chip_info *chip = id->data;
+> > +	struct device *dev = &i3cdev->dev;
+> > +	struct iio_dev *indio_dev;
+> > +	struct ad4062_state *st;
+> > +	bool ref_sel;
+> > +	int ret;
+> > +
+> > +	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
+> > +	if (!indio_dev)
+> > +		return -ENOMEM;
+> > +
+> > +	st = iio_priv(indio_dev);
+> > +	st->i3cdev = i3cdev;
+> > +	i3cdev_set_drvdata(i3cdev, st);
+> > +	init_completion(&st->completion);
+> > +
+> > +	ret = ad4062_regulators_get(st, &ref_sel);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	st->regmap = devm_regmap_init_i3c(i3cdev, &ad4062_regmap_config);
+> > +	if (IS_ERR(st->regmap))
+> > +		return dev_err_probe(dev, PTR_ERR(st->regmap),
+> > +				     "Failed to initialize regmap\n");
+> > +
+> > +	st->mode = AD4062_SAMPLE_MODE;
+> > +	st->chip = chip;
+> > +	st->sampling_frequency = AD4062_FS_OFFSET(st->chip->grade);
+> > +	st->indio_dev = indio_dev;
+> > +
+> > +	indio_dev->modes = INDIO_DIRECT_MODE;
+> > +	indio_dev->num_channels = 1;
+> > +	indio_dev->info = &ad4062_info;
+> > +	indio_dev->name = chip->name;
+> > +	indio_dev->channels = chip->channels;
+> > +
+> > +	ret = ad4062_soft_reset(st);
+> > +	if (ret)
+> > +		return dev_err_probe(dev, ret, "AD4062 failed to soft reset\n");
+> > +
+> > +	ret = ad4062_check_ids(st);
+> > +	if (ret)
+> > +		return dev_err_probe(dev, ret,
+> > +				     "AD4062 fields assertions failed\n");
+> Seems like you print enough in the check_ids function that this print is
+> perhaps just confusing?  Maybe add a print in the only path in there that
+> doesn't already have one.
+Ack, I will remove this error message.
+> > +
+> > +	ret = ad4062_setup(indio_dev, indio_dev->channels, &ref_sel);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = ad4062_request_irq(indio_dev);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	pm_runtime_set_active(dev);
+> > +	ret = devm_pm_runtime_enable(dev);
+> > +	if (ret)
+> > +		return dev_err_probe(dev, ret, "Failed to enable pm_runtime\n");
+> > +
+> > +	pm_runtime_set_autosuspend_delay(dev, 1000);
+> > +	pm_runtime_use_autosuspend(dev);
+> > +
+> > +	ret = ad4062_request_ibi(i3cdev);
+> > +	if (ret)
+> > +		return dev_err_probe(dev, ret, "Failed to request i3c ibi\n");
+> > +
+> > +	return devm_iio_device_register(dev, indio_dev);
+> 
+> Related to below. There is a race on tear down as you'll remove some of the
+> i3c infrastructure before removing the userspace ABI that might result in
+> that being used.
+I submitted a patch at
+https://lore.kernel.org/linux-i3c/aRYLc%2F+KAD13g7T7@lizhi-Precision-Tower-5810/T/#t
+to allow using the devm_ based cleanup.
+As is, the devm_ calls occurs after i3c_device_remove, this that calls
+i3c_device_free_ibi and causes an exception if i3c_device_disable_ibi is
+not called.
+
+> 
+> > +}
+> > +
+> > +static void ad4062_remove(struct i3c_device *i3cdev)
+> > +{
+> > +	i3c_device_disable_ibi(i3cdev);
+> > +	i3c_device_free_ibi(i3cdev);
+> You should never mix devm_ based cleanup and manual cleanup.
+> 
+> Basic rule is that the 1st time you add something that needs non devm cleanup
+> for some reason then you must stop using any devm_ calls after that in probe().
+> 
+> There are some handy helpers for defining your own cleanup functions.
+> devm_add_action_or_reset() is helpful for extending how far we can use devm_
+> and typically solves this problem.
+> 
+Explained above, will use the devm_ helper in v2.
+> > +}
+> 
+> > +
+> > +static int ad4062_runtime_resume(struct device *dev)
+> > +{
+> > +	struct ad4062_state *st = dev_get_drvdata(dev);
+> > +	int ret;
+> > +
+> > +	ret = regmap_clear_bits(st->regmap, AD4062_REG_DEVICE_CONFIG,
+> > +				AD4062_REG_DEVICE_CONFIG_POWER_MODE_MSK);
+> If it failed, little point in sleeping.  I'd do
+> 	if (ret)
+> 		return ret;
+> 	
+> 	fsleep(4000);
+> 	return 0;
+> 
+> So the flow on error is clearer.
+Ack.
+> > +
+> > +	fsleep(4000);
+> > +	return ret;
+> > +}
+> > +
+> > +static const struct dev_pm_ops ad4062_pm_ops = {
+> > +	SET_RUNTIME_PM_OPS(ad4062_runtime_suspend, ad4062_runtime_resume, NULL)
+> Should have trailing comma.
+> 
+> Also rare that we can't just enable the system suspend/resume stuff that uses
+> the runtime PM callbacks by using:
+> DEFINE_RUNTIME_DEV_PM_OPS().  If we can't I'd add a comment on why not alongside
+> this code.
+> 
+> > +};
+> 
+> 
+Ack.
+
+Best regards,
+Jorge
