@@ -1,229 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0724A3E;
-	Sun, 23 Nov 2025 11:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A861F5EA
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 11:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763897273; cv=none; b=mQvRsBJxghmm5ZFo/kp/feAerDiqpw4+Kt0jbKBAZ77FrkX+Sna6OHU8xnI90xdosazlTHkUu3CdM4dlTFKymRdMqey8h2x/o2bqj7mYP73GLa5CebxCrprwbTnzDOo/2dsAM4iLlD3jABbtAtkWWL++cV2jzKj+PUMJZR3hd1o=
+	t=1763897308; cv=none; b=e8om1a7Z4ys4CjKsS2PaKj2qcBxpDKSjQqrFSj7fuDesgN0nYFGXLkQ28FztBQ9D7c4CuaYB6ao6UdZPaAo1U9moJyABX43QSchyt53advT6aQTssv1GmmdJyw6H5De5UibiHWYsrr4vpojesrc7TltXTCY2HOSWU3kDA33gs+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763897273; c=relaxed/simple;
-	bh=RJWIVQsLtFDoyAvibb81H4g0e9OZxXyGb1K+TZ25eXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=McNZmt+mUlj+GZLnd0ZwwiFdsgW1ZzWpARz4adhHQVitCgWtgZ2mNi2O4FIh4sHxuDZMlMk9on9xIdDMyOttpATQjshANXr+cgi2m6fT3CeSKngtn4QjG6HCLBnyr/kW2bcs0g72ZVLkp+TmUQchtTE3K3uM2YpMDEBXqes9wcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jZfhzArV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763897308; c=relaxed/simple;
+	bh=kT57LczMOH07o602knbDM/aHRy0H+ccN//PzLKyZxzo=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=TucMruImzZ8NyCT9JG1mRDZRqlGnK1DE7JLwJuGHYBGPx4kTQ0CWat3QnCos345n5GQO00uAYp3Z/c7RrymVzZ/q0+gCLo4mG4Gl9b40xPHRkxq7GDuTfJeB0kC75BbgzsROw1jtWpPhkWE1MAl0agrJEgV/EVvNA3dPJ2WF+oU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K6xdleZw; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jZfhzArV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81E13C113D0;
-	Sun, 23 Nov 2025 11:27:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763897273;
-	bh=RJWIVQsLtFDoyAvibb81H4g0e9OZxXyGb1K+TZ25eXY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jZfhzArVLsHjBLAt4XfmVUPyRn0SeJFdACvw4DklTg6IwoSkyvWAxaTwaUzX5RovI
-	 8Ro3Rybx/tN/ig+tzrDpbhvhKWQs91mVGH3w1TMmmJM8GuFTmx7TRTsvjR4gzEP3Wa
-	 FEDrs+JFT5Z5zVtyXtQ9gR2ileWiTGLSzoPSJMN6/ENL3Wo6C2Z8ZfNVbGgWThRiPv
-	 ACYYicPxsYIB9jNmgOh5MjWjbHIHPmz5Wa1wJtO4VeYlWidpQ4Gh4m9ob80amNlYY7
-	 CSHDsdJdaPIjLqr94IsAAz4Wy+fSieoJq2C2kUgoLQEWd5QCFEGKZRJZFGH7YDR9ja
-	 8Q5Wl2RANnndg==
-Date: Sun, 23 Nov 2025 13:27:31 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v7 02/22] liveupdate: luo_core: integrate with KHO
-Message-ID: <aSLvo0uXLOaE2JW6@kernel.org>
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-3-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K6xdleZw"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-299d40b0845so56128835ad.3
+        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 03:28:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763897306; x=1764502106; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=61tCAo806dIBQjZwytZtfz6gA3zKHHYqFzMOBDmk6es=;
+        b=K6xdleZwCLf3CVslr10e1K8GdK3uqzFed/vJYVeK5YhHDxUqOrTz1CVqq5VYfu6HL6
+         PLKyHZHWXHtzbCGqAj/IwOe7CCO+jaePXhumcL/ua9PrN0u0jRzWyWya92xBiOlRNRuR
+         +YXzyNJWTB7nQXuZ3UxVrnADe4cmfjdkaxmhhK53klYjDIoLVsWBs50qrKNOq4oiIsm5
+         zUiGMonpEP+Wkw1BPXcGU7TuZ3Jr0f3gPBjYnQArTipoG4WiQ9GVTZvxZqcx0rX8U+0j
+         YvEZnt//0QWFB5QdphN/86ucJKlPB2IieY1XcRPQLT3zIiDMZ8Rph71pm6U6Lbzqrtg0
+         R0gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763897306; x=1764502106;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=61tCAo806dIBQjZwytZtfz6gA3zKHHYqFzMOBDmk6es=;
+        b=KRGC50RgkMo694f+LPrOX9xJckQQZLyKwIBjJKkHI5QiO8oDJT8is+OEFNVfIDr3XO
+         qfaLS66Dh+kX5umtD99wmNLegn2GqOK6V7IhzodR4Jlnu6GyIuniR3f/VQk5A0SzWMb7
+         bw9FM2E2zG8TSnnYhDP/OaEFS1eQuqUT9I5YCyXuUQzXbDe/lnKhuUP/HMD3wzrZhSPY
+         k5VMgo6t0FxSuHGGsAn60Utmw7R0FhSsPaHSmaPhbynclfJ3QQ/EmdPwkMrOervKSYov
+         AWqf+AQ1+AdE85xLz8Im21jydBbFWLDq1giTN5Hn+wxYrb3+UgmUclvf0ebeou5sJTrY
+         i4GA==
+X-Forwarded-Encrypted: i=1; AJvYcCX6PXU3936BGZ4g1LqwtPuJhMng6jJ2/EXuuXr6o1zjWryeGlQYOxMiLfBJ9F0ZTu5044GetT0yJtE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqQyQUPjjXEKzE67Bs2MDXMH6bBEzLmmbBN1BPPAqCvJD5h4i9
+	87Mj3nOC7hqESQ3qKoo1JFlOxTOMggCoTJC4ZFoAOParFSWV31TaWrM8
+X-Gm-Gg: ASbGnctV/RVRN6vSaWzkryYuioqM0vKE7KCxT9yeRJk7CZBPO2/xIuvzs4IhjU4Rq62
+	tuv3EYSb3KkDmLA4S6f8bmWD+UrXXB1YT9V8pb0yU851AiKjJEeD1HZw58Xz9j10ig0OvsTuCzt
+	qvwrMoyooRXqvnXrTBZTt38LOrguKpOuFKrxCiAQQR2efAQPyCX4e5FBG6MN04R0eKxTNRIw30t
+	CpzH61HkFxFlfWtll+sK9t8nk/mV4gXhRYNSz5oiLuOX8IuDVI+DPDkUCG+rm1Gm5lXRZienWjg
+	3xoe3CYfHBCreFQkBvWHZw7o04j/sN6c6BjnSgYX9PReLg3qANhhw9VcTOvITjeZJQJPm1oOcyA
+	Mh+O9vx6O0tlXS1oRDnX3px3vxVUvIEPh7fkCPFIUCCPJXcV82l0T9PzLq3NF5ftQQqH7O9pg78
+	6qBbSE7TOVKY7H7q7nbVRnCcxytzHv4Y1Lcn6CsnHXqqxMVm8+eHe68BBq
+X-Google-Smtp-Source: AGHT+IFxWTJB63voHXky/YXI1TWJvYvO+sEuTf/VXA4Nb4YTLVhTU1RSL+X39WT0EdMWX3Np9XW0bA==
+X-Received: by 2002:a17:902:d592:b0:293:33b:a9b0 with SMTP id d9443c01a7336-29b6bf1a512mr87555105ad.32.1763897306035;
+        Sun, 23 Nov 2025 03:28:26 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b13e720sm102905925ad.42.2025.11.23.03.28.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Nov 2025 03:28:25 -0800 (PST)
+Message-ID: <dc0540b6-4f48-4d06-b68e-c4cb8be7a52e@gmail.com>
+Date: Sun, 23 Nov 2025 20:28:23 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251122222351.1059049-3-pasha.tatashin@soleen.com>
+User-Agent: Mozilla Thunderbird
+To: mchehab+huawei@kernel.org
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mchehab@kernel.org, rdunlap@infradead.org
+References: <cover.1763814816.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v4 0/5] kernel-doc: add support for documenting vars
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <cover.1763814816.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 22, 2025 at 05:23:29PM -0500, Pasha Tatashin wrote:
-> Integrate the LUO with the KHO framework to enable passing LUO state
-> across a kexec reboot.
+Hi Mauro,
+
+On Sat, 22 Nov 2025 13:37:54 +0100, Mauro Carvalho Chehab wrote:
+> Hi Jon,
 > 
-> This patch implements the lifecycle integration with KHO:
+> As suggested and discussed with Randy, this small series add support
+> for documenting variables using kernel-doc.
 > 
-> 1. Incoming State: During early boot (`early_initcall`), LUO checks if
->    KHO is active. If so, it retrieves the "LUO" subtree, verifies the
->    "luo-v1" compatibility string, and reads the `liveupdate-number` to
->    track the update count.
+> - patch 1: add support for the new feature;
+> - patch 2: extends to support DEFINE_*;
+> - patch 3: document two media vars;
+> - patch 4: fix an issue on kernel-doc.rst markups and automarkup;
+> - patch 5: document it.
 > 
-> 2. Outgoing State: During late initialization (`late_initcall`), LUO
->    allocates a new FDT for the next kernel, populates it with the basic
->    header (compatible string and incremented update number), and
->    registers it with KHO (`kho_add_subtree`).
+> On this version, I'm using "c:macro" to describe variables, as it
+> avoids Sphinx C domain to try parse the variable. This makes it more
+> flexible and easier to maintain in long term.
+
+In my test on top of current docs-next, I got two *new* warnings from
+"make cleandocs; make htmldocs":
+
+    .../Documentation/driver-api/media/v4l2-common:8: ../include/media/v4l2-ioctl.h:665: WARNING: Inline emphasis start-string without end-string. [docutils]
+    .../Documentation/driver-api/media/v4l2-common:8: ../include/media/v4l2-ioctl.h:678: WARNING: Inline emphasis start-string without end-string. [docutils]
+
+"scripts/kernel-doc -rst include/media/v4l2-ioctl.h" emits the following:
+
+    .. c:macro:: v4l2_field_names
+
+=>    extern const char *v4l2_field_names[];
+
+      Helper array mapping V4L2_FIELD_* to strings.
+
+      **Description**
+
+      Specially when printing debug messages, it is interesting to output
+      the field order at the V4L2 buffers. This array associates all possible
+      values of field pix format from V4L2 API into a string.
+
+
+
+
+    .. c:macro:: v4l2_type_names
+
+=>    extern const char *v4l2_type_names[];
+
+      Helper array mapping V4L2_BUF_TYPE_* to strings.
+
+      **Description**
+
+      When printing debug messages, it is interesting to output the V4L2 buffer
+      type number with a name that represents its content.
+
+I think those declaration signatures need to be inline-literal. 
+
+Thanks, Akira
+
 > 
-> 3. Finalization: The `liveupdate_reboot()` notifier is updated to invoke
->    `kho_finalize()`. This ensures that all memory segments marked for
->    preservation are properly serialized before the kexec jump.
-> 
-> LUO now depends on `CONFIG_KEXEC_HANDOVER`.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > ---
->  include/linux/kho/abi/luo.h      |  54 +++++++++++
->  kernel/liveupdate/luo_core.c     | 154 ++++++++++++++++++++++++++++++-
->  kernel/liveupdate/luo_internal.h |  22 +++++
->  3 files changed, 229 insertions(+), 1 deletion(-)
->  create mode 100644 include/linux/kho/abi/luo.h
->  create mode 100644 kernel/liveupdate/luo_internal.h
 > 
-> diff --git a/include/linux/kho/abi/luo.h b/include/linux/kho/abi/luo.h
-> new file mode 100644
-> index 000000000000..8523b3ff82d1
-> --- /dev/null
-> +++ b/include/linux/kho/abi/luo.h
-> @@ -0,0 +1,54 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +/*
-> + * Copyright (c) 2025, Google LLC.
-> + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> + */
-> +
-> +/**
-> + * DOC: Live Update Orchestrator ABI
-> + *
-> + * This header defines the stable Application Binary Interface used by the
-> + * Live Update Orchestrator to pass state from a pre-update kernel to a
-> + * post-update kernel. The ABI is built upon the Kexec HandOver framework
-> + * and uses a Flattened Device Tree to describe the preserved data.
-> + *
-> + * This interface is a contract. Any modification to the FDT structure, node
-> + * properties, compatible strings, or the layout of the `__packed` serialization
-> + * structures defined here constitutes a breaking change. Such changes require
-> + * incrementing the version number in the relevant `_COMPATIBLE` string to
-> + * prevent a new kernel from misinterpreting data from an old kernel.
-
-From v6 thread:
-
-> > I'd add a sentence that stresses that ABI changes are possible as long they
-> > include changes to the FDT version.
-> > This is indeed implied by the last paragraph, but I think it's worth
-> > spelling it explicitly.
-> >
-> > Another thing that I think this should mention is that compatibility is
-> > only guaranteed for the kernels that use the same ABI version.
+> v4: 
+> - document the new markup;
+> - fix an issue on kernel-doc.rst due to automarkup;
+> - add support for DEFINE_* macros
 > 
-> Sure, I will add both.
-
-Looks like it fell between the cracks :/
-
-> +static int __init liveupdate_early_init(void)
-> +{
-> +	int err;
-> +
-> +	err = luo_early_startup();
-> +	if (err) {
-> +		luo_global.enabled = false;
-> +		luo_restore_fail("The incoming tree failed to initialize properly [%pe], disabling live update\n",
-> +				 ERR_PTR(err));
-
-What's wrong with a plain panic()?
-
-> +	}
-> +
-> +	return err;
-> +}
-> +early_initcall(liveupdate_early_init);
-> +
-
-...
-
->  int liveupdate_reboot(void)
->  {
-> -	return 0;
-> +	int err;
-> +
-> +	if (!liveupdate_enabled())
-> +		return 0;
-> +
-> +	err = kho_finalize();
-> +	if (err) {
-> +		pr_err("kho_finalize failed %d\n", err);
-
-Nit: why not %pe?
-
-> +		/*
-> +		 * kho_finalize() may return libfdt errors, to aboid passing to
-> +		 * userspace unknown errors, change this to EAGAIN.
-> +		 */
-> +		err = -EAGAIN;
-> +	}
-> +
-> +	return err;
->  }
->  
->  /**
-> diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
-> new file mode 100644
-> index 000000000000..8612687b2000
-> --- /dev/null
-> +++ b/kernel/liveupdate/luo_internal.h
-> @@ -0,0 +1,22 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +/*
-> + * Copyright (c) 2025, Google LLC.
-> + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> + */
-> +
-> +#ifndef _LINUX_LUO_INTERNAL_H
-> +#define _LINUX_LUO_INTERNAL_H
-> +
-> +#include <linux/liveupdate.h>
-> +
-> +/*
-> + * Handles a deserialization failure: devices and memory is in unpredictable
-> + * state.
-> + *
-> + * Continuing the boot process after a failure is dangerous because it could
-> + * lead to leaks of private data.
-> + */
-> +#define luo_restore_fail(__fmt, ...) panic(__fmt, ##__VA_ARGS__)
-
-Let's add this when we have more than a single callsite.
-Just use panic() in liveupdate_early_init() and add the comment there.
-
-> +
-> +#endif /* _LINUX_LUO_INTERNAL_H */
+> Mauro Carvalho Chehab (5):
+>   kernel-doc: add support for handling global variables
+>   kernel-doc: add support to handle DEFINE_ variables
+>   docs: media: v4l2-ioctl.h: document two global variables
+>   docs: kernel-doc.rst: don't let automarkup mangle with consts
+>   docs: kernel-doc.rst: document the new "var" kernel-doc markup
+> 
+>  Documentation/doc-guide/kernel-doc.rst | 48 +++++++++++------
+>  include/media/v4l2-ioctl.h             | 15 ++++++
+>  tools/lib/python/kdoc/kdoc_output.py   | 46 ++++++++++++++++
+>  tools/lib/python/kdoc/kdoc_parser.py   | 73 +++++++++++++++++++++++++-
+>  4 files changed, 166 insertions(+), 16 deletions(-)
+> 
 > -- 
-> 2.52.0.rc2.455.g230fcf2819-goog
-> 
+> 2.51.1
 
--- 
-Sincerely yours,
-Mike.
