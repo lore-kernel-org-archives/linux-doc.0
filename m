@@ -1,33 +1,33 @@
-Received: from mail-m32104.qiye.163.com (mail-m32104.qiye.163.com [220.197.32.104])
+Received: from mail-m19731117.qiye.163.com (mail-m19731117.qiye.163.com [220.197.31.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3A4186E40
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 07:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447E128313D
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 07:45:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763883936; cv=none; b=p7rae2Zw3tm/3hKp9BUdOV81A/kYTAVCN83MVhJVle0yNKZgEEn7HA/wMjpOwtD73tUAItCq5fLdzv9y9wk/GOaKWd5cjys6PjlalwFwReiQJ0+8SgWL0FTYl+GJj6HwnpJqtRyLQM2hiOqV9vvq7LclACje3ysvT9aByIQZ/Do=
+	t=1763883936; cv=none; b=E5MOe6rRB0Kj2uthmwsfNyB8aR2HAKD0AWHy5rWWvq34YTgXRETDqqn1Sze6tlSdW1F1ldDeUpolIH6H1ErHxbjWeVKooO6PO4aMY5n904Hh7Iv4ntTYVPOxDGr99gCfXr5NJQcBBiPX0VdcpMOpkA5DZaMpT4brWWkEIh7eVvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763883936; c=relaxed/simple;
-	bh=QFJqGOwUiwm5yUb6wkGXYIZJyrENOjUilXZ+4rbgAiY=;
+	bh=4ShUc10MinjSj3RPfKZCIHZIfb5gjV9yxL6KSBZPLV4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qIH4Z7ufiX1g2Z9hx3fqLB3+7tlb8jozLYy4gpKZHJUEhtBBvoEoVl2fdNWAVcWjvEB3KDfjN2Aj7qdXf6v/oCYf7le18viTvVBL4QmML4FrmE7i6DZcKtqPGjUuIT7V7eYJmx2PlyNNevkQdvrcZ6/quOU9FVF8KjCa8eyLj8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=ofLiKHV7; arc=none smtp.client-ip=220.197.32.104
+	 MIME-Version:Content-Type; b=Oyth/spxQPY3YwJj1xF9Jd38zwDHRTGdJLVBz2gm0PKSIVIYFoFlEwES220R0nAY6JjpaZjGqtq1Zq7bFCsDlpcgqszDgrt9v2Q2O+nZNBBk8VWY+NDQbLKWwe30PsdQv2L4W91NO1Y45Ep6i5+F3+w3HSADkvkCszwmX5PZNjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=KBJ6cvrE; arc=none smtp.client-ip=220.197.31.117
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="ofLiKHV7"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="KBJ6cvrE"
 Received: from server001 (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99c3;
-	Sun, 23 Nov 2025 15:45:23 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99c7;
+	Sun, 23 Nov 2025 15:45:25 +0800 (GMT+08:00)
 From: macrofun <baikefan@leap-io-kernel.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
 Cc: dzm91@hust.edu.cn,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 15/25] docs/zh_CN: Add gadget-testing.rst translation
-Date: Sun, 23 Nov 2025 15:45:30 +0800
-Message-ID: <20251123074540.34161-16-baikefan@leap-io-kernel.com>
+Subject: [PATCH 17/25] docs/zh_CN: Add mass-storage.rst translation
+Date: Sun, 23 Nov 2025 15:45:32 +0800
+Message-ID: <20251123074540.34161-18-baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
 References: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
@@ -39,38 +39,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9aafacb98209d5kunm0cca7198286653
+X-HM-Tid: 0a9aafacbffb09d5kunm0cca719828665e
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDTUlKVkIaTh8dGU9CHUNCTFYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
-	VLWQY+
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCTR4YVk9LTEIYSx8ZH0JKGFYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0hKTkxOVUpLS1
+	VKQktLWQY+
 DKIM-Signature: a=rsa-sha256;
-	b=ofLiKHV7KbUZQi/Wi6Ig8YK/LylaMa39yC+1LirLGa33uEKF+L6GWmRLQMeSMrq7oaAbXmimU9Yr9AZQeVKhx+9etcLBnnHQtiMo4myXGZ9pqrJwZXyKwtzWpogoygpNDSsuGgUKi5wngREgLETK8gnMcAFak2fM+Lt4lxhYWKRa9jjSsvXaJQa8RG17jfd+qDsWISEFPN/I8Y8KdQ9tSFc5HA69U7sE6MAEpBavw8zM/UhRpkufPPP5/ZU3k+pEDWeSoHpoTFdrkeNWEzEA+ky1dWv+koWYjmO2cyCMH9n1oi2dvg8MjJ86dfBiNsv/YDkGuj2gWMrJZGVUdletyg==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=YTwTQvS2IKu39CDYL5h7vc/v5TaO9ocRw0KAh2CV+1I=;
+	b=KBJ6cvrEAeywAM/SEaYaeQ5iaj/Dk66CMMVFBQeNCuc3iD+hrxp20FRY081qpEx0HxAgXUl3R05XN7XtQJjUIVuGeKeoAJAnZxmDyQvVtAxfxiRBDLXztLfOysJ65p2HEoceFgnUrUEz+YlQ4Fy9XaiMmwmJvOEtHTYS6Dqne+/aDMZSfkBwc2/ppe6uEY4TwQ7/cbG28IpOjrvE//bKYD4h+UBdk1fbx+DPQLZx+cAMITXY8lO7Qm8ln0TGwlr1GqqedwC/a+k+0Wvny3gmZgEY5TG/sSQ1tRZyfgt4bYYG2SJ3ekL7bvTHQeQLeGiKRluA+IschY2gxBD1aXA7gQ==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=Euza916S4tXdJhbIjeaCuDX5e6hfMF6UfTFo2mdRXUQ=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/gadget-testing.rst into Chinese.
+docs/zh_CN: Add mass-storage.rst translation
 
-Update the translation through commit 5194439d70ba
-("Documentation: treewide: Replace remaining spinics links with lore")
+Update the translation through commit e4157519ad46
+("Documentation: usb: correct spelling")
 
 Signed-off-by: macrofun <baikefan@leap-io-kernel.com>
 ---
- .../translations/zh_CN/usb/gadget-testing.rst | 1068 +++++++++++++++++
- 1 file changed, 1068 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/usb/gadget-testing.rst
+ .../translations/zh_CN/usb/mass-storage.rst   | 196 ++++++++++++++++++
+ 1 file changed, 196 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/mass-storage.rst
 
-diff --git a/Documentation/translations/zh_CN/usb/gadget-testing.rst b/Documentation/translations/zh_CN/usb/gadget-testing.rst
+diff --git a/Documentation/translations/zh_CN/usb/mass-storage.rst b/Documentation/translations/zh_CN/usb/mass-storage.rst
 new file mode 100644
-index 000000000000..a8ee597d0d37
+index 000000000000..2e258ff27af1
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/gadget-testing.rst
-@@ -0,0 +1,1068 @@
++++ b/Documentation/translations/zh_CN/usb/mass-storage.rst
+@@ -0,0 +1,196 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/gadget-testing.rst
++:Original: Documentation/usb/mass-storage.rst
 +:翻译:
 +
 + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
@@ -79,1062 +79,190 @@ index 000000000000..a8ee597d0d37
 +
 +
 +
-+===========
-+Gadget 测试
-+===========
-+
-+本文件总结了关于USB gadget提供的基本功能测试的信息。
-+
-+.. contents
-+
-+   1. ACM功能
-+   2. ECM功能
-+   3. ECM子集功能
-+   4. EEM功能
-+   5. FFS功能
-+   6. HID功能
-+   7. LOOPBACK功能
-+   8. MASS STORAGE功能
-+   9. MIDI功能
-+   10. NCM功能
-+   11. OBEX功能
-+   12. PHONET功能
-+   13. RNDIS功能
-+   14. SERIAL功能
-+   15. SOURCESINK功能
-+   16. UAC1功能 (旧版实现)
-+   17. UAC2功能
-+   18. UVC功能
-+   19. PRINTER功能
-+   20. UAC1功能 (新API)
-+   21. MIDI2功能
-+
-+
-+1. ACM功能
-+===============
-+
-+该功能由usb_f_acm.ko模块提供。
-+
-+功能专用的configfs接口
-+-------------------------
-+
-+创建功能目录时使用的功能名称为"acm"。
-+ACM功能在其功能目录中仅提供一个属性：
-+
-+	port_num
-+
-+该属性是只读的。
-+系统中最多可以有4个ACM/通用串口/OBEX端口。
-+
-+
-+测试ACM功能
-+-----------
-+
-+在主机上::
-+
-+	cat > /dev/ttyACM<X>
-+
-+在设备上::
-+
-+	cat /dev/ttyGS<Y>
-+
-+然后反过来
-+
-+在设备上::
-+
-+	cat > /dev/ttyGS<Y>
-+
-+在主机上::
-+	cat /dev/ttyACM<X>
-+
-+2. ECM功能
-+===============
-+
-+该功能由usb_f_ecm.ko模块提供。
-+
-+功能专用的configfs接口
-+------------------------------------
-+
-+创建功能目录时使用的功能名称为"ecm"。
-+ECM功能在其功能目录中提供以下属性：
-+=============== ==================================================
-+ifname          与此功能实例关联的网络设备接口名称
-+qmult           高速和超高速的队列长度乘数
-+host_addr       主机端的MAC地址（USB以太网链接）
-+dev_addr        设备端的MAC地址（USB以太网链接）
-+=============== ==================================================
-+
-+创建 functions/ecm.<实例名> 后，
-+这些属性包含默认值：qmult 为 5，dev_addr 和 host_addr 随机选择。
-+如果功能尚未绑定，可以写入 ifname。
-+写入必须是接口模式，如 "usb%d"，
-+这将使网络核心选择下一个可用的 usbX 接口。默认设置为 "usb%d"。
-+
-+测试ECM功能
-+-----------
-+
-+配置设备和主机的IP地址。然后：
-+
-+在设备上::
-+
-+	ping <host's IP>
-+
-+在主机上::
-+	ping <device's IP>
-+
-+3. ECM子集功能
-+======================
-+
-+该功能由usb_f_ecm_subset.ko模块提供。
-+
-+功能专用的configfs接口
-+------------------------------------
-+
-+创建功能目录时使用的功能名称为"geth"。
-+ECM子集功能在其功能目录中提供以下属性：
-+
-+	=============== ==================================================
-+	ifname		与此功能实例关联的网络设备接口名称
-+	qmult		高速和超高速的队列长度乘数
-+	host_addr	主机端的MAC地址（USB以太网链接）
-+	dev_addr	设备端的MAC地址（USB以太网链接）
-+	=============== ==================================================
-+
-+创建 functions/ecm.<实例名> 后，
-+这些属性包含默认值：qmult 为 5，dev_addr 和 host_addr 随机选择。
-+如果功能尚未绑定，可以写入 ifname。
-+写入必须是接口模式，如 "usb%d"，
-+这将使网络核心选择下一个可用的 usbX 接口。
-+默认设置为 "usb%d"。
-+
-+测试ECM子集功能
-+----------------
-+
-+配置设备和主机的IP地址。然后：
-+
-+在设备上::
-+
-+	ping <host's IP>
-+
-+在主机上::
-+	ping <device's IP>
-+
-+4. EEM功能
-+===============
-+
-+该功能由usb_f_eem.ko模块提供。
-+
-+功能专用的configfs接口
-+------------------------------------
-+
-+创建功能目录时使用的功能名称为 "eem"。
-+EEM 功能在其功能目录中提供以下属性：
-+
-+	=============== ==================================================
-+	ifname		与该功能实例关联的网络设备接口名称
-+	qmult		高速和超高速的队列长度乘数
-+	host_addr	主机端的MAC地址（USB以太网链接）
-+	dev_addr	设备端的MAC地址（USB以太网链接）
-+	=============== ==================================================
-+
-+创建 functions/eem.<实例名> 后，
-+这些属性包含默认值：qmult 为 5，dev_addr 和 host_addr 随机选择。
-+如果功能尚未绑定，可以写入 ifname。
-+写入必须是接口模式，如 "usb%d"，这将使网络核心选择下一个可用的 usbX 接口。
-+默认设置为 "usb%d"。
-+
-+测试EEM功能
-+-----------
-+
-+配置设备和主机的IP地址。然后：
-+
-+在设备上::
-+
-+	ping <host's IP>
-+
-+在主机上::
-+	ping <device's IP>
-+
-+5. FFS功能
-+===============
-+
-+该功能由usb_f_fs.ko模块提供。
-+
-+功能专用的configfs接口
-+------------------------------------
-+
-+创建功能目录时使用的功能名称为"ffs"。
-+功能目录为空且不可修改。
-+
-+创建目录后，系统中会出现一个新的FunctionFS实例（一个“设备”）。
-+一旦可用，用户应遵循FunctionFS的标准使用流程（挂载它，运行实现功能的用户空间进程）。
-+通过向usb_gadget/<gadget>/UDC 写入合适的字符串即可启用gadget。
-+
-+FFS 功能在其功能目录中仅提供一个属性：
-+
-+	ready
-+
-+该属性为只读，用于指示功能是否准备好（1）被使用，
-+例如用户空间已向 ep0 写入描述符和字符串，从而可以启用 gadget。
-+
-+测试FFS功能
-+-----------
-+
-+在设备上：启动功能的用户空间守护进程，启用gadget
-+
-+在主机上：使用设备提供的USB功能
-+
-+6. HID功能
-+===============
-+
-+该功能由usb_f_hid.ko模块提供。
-+
-+功能专用的configfs接口
-+------------------------------------
-+
-+创建功能目录时使用的功能名称为"hid"。
-+HID功能在其功能目录中提供以下属性：
-+=============== ===========================================
-+protocol        HID 使用的协议
-+report_desc     用于 HID 报告的数据，除了通过 /dev/hidg<X> 传递的数据
-+report_length   HID 报告长度
-+subclass        HID 使用的子类
-+=============== ===========================================
-+
-+对于键盘，protocol 和 subclass 为 1，report_length 为 8，report_desc 如下::
-+
-+  $ hd my_report_desc
-+  00000000  05 01 09 06 a1 01 05 07  19 e0 29 e7 15 00 25 01  |..........)...%.|
-+  00000010  75 01 95 08 81 02 95 01  75 08 81 03 95 05 75 01  |u.......u.....u.|
-+  00000020  05 08 19 01 29 05 91 02  95 01 75 03 91 03 95 06  |....).....u.....|
-+  00000030  75 08 15 00 25 65 05 07  19 00 29 65 81 00 c0     |u...%e....)e...|
-+  0000003f
-+
-+可以通过 echo 将该字节序列存储到属性中::
-+
-+  $ echo -ne \\x05\\x01\\x09\\x06\\xa1.....
-+
-+测试 HID 功能
-+--------------
-+
-+设备端：
-+
-+- 创建 gadget
-+- 将 gadget 连接到主机，最好不是用于控制 gadget 的主机
-+- 运行一个向 /dev/hidg<N> 写入数据的程序，例如
-+  Documentation/usb/gadget_hid.rst 中的一个用户空间程序::
-+
-+	$ ./hid_gadget_test /dev/hidg0 keyboard
-+
-+主机端：
-+
-+- 观察来自 gadget 的按键
-+
-+7. LOOPBACK 功能
-+====================
-+
-+该功能由usb_f_ss_lb.ko模块提供。
-+
-+功能专用的 configfs 接口
-+------------------------
-+
-+创建功能目录时使用的功能名称为 "Loopback"。
-+LOOPBACK 功能在其功能目录中提供以下属性：
-+
-+	=============== =======================
-+	qlen		回环队列深度
-+	bulk_buflen	缓冲区长度
-+	=============== =======================
-+
-+测试 LOOPBACK 功能
-+-------------------
-+
-+设备端：运行 gadget
-+
-+主机端：test-usb (tools/usb/testusb.c)
-+8. MASS STORAGE 功能
-+====================
-+
-+该功能由usb_f_mass_storage.ko模块提供。
-+
-+功能专用的configfs接口
-+------------------------------------
-+
-+创建功能目录时使用的功能名称为 "mass_storage"。
-+MASS STORAGE 功能在其功能目录中提供以下属性：
-+
-+	=============== ==============================================
-+	stall		设置是否允许功能暂停 bulk 端点。
-+		        在某些已知无法正常工作的 USB 设备上被禁用。
-+		        建议设置为 true。
-+	num_buffers	管道缓冲区的数量。有效数字为 2..4。仅当
-+			     CONFIG_USB_GADGET_DEBUG_FILES 被设置时可用。
-+	=============== ==============================================
-+
-+目录中有默认的 lun.0，对应 SCSI LUN #0。
-+
-+可以通过 mkdir 添加新的 LUN::
-+
-+	$ mkdir functions/mass_storage.0/partition.5
-+
-+LUN 编号不必连续，但默认创建的 lun #0 必须存在。
-+最多可指定 8 个 LUN，名称必须遵循 <name>.<number> 格式，
-+数字可为 0..8。推荐命名约定为 "lun.<number>"，但非强制。
-+
-+每个 LUN 目录中包含以下属性文件：
-+
-+	=============== ==============================================
-+	file			指向 LUN 的后备文件的路径。
-+					如果 LUN 未标记为可移动，则为必需。
-+	ro				指定对 LUN 的访问应为只读的标志。
-+					如果启用了 CD-ROM 仿真，
-+					或者无法以读写模式打开 "filename"，则隐含为只读。
-+	removable		指定 LUN 应被标记为可移动的标志。
-+	cdrom			指定 LUN 应被报告为 CD-ROM 的标志。
-+	nofua			指定 SCSI WRITE(10,12) 中的 FUA 标志。
-+	forced_eject	仅在功能激活时有用。
-+	                写入非零字节会强制将后端文件从 LUN 分离，不管主机是否允许
-+	=============== ==============================================
-+
-+测试 MASS STORAGE 功能
-+----------------------
-+
-+设备端：连接 gadget 并启用
-+主机端：dmesg，查看 USB 驱动器是否出现（如果系统配置为自动挂载）
-+
-+9. MIDI 功能
-+================
-+
-+该功能由usb_f_midi.ko模块提供。
-+
-+功能专用的 configfs 接口
-+------------------------------------
-+
-+创建功能目录时使用的功能名称为 "midi"。
-+MIDI 功能在其功能目录中提供以下属性：
-+
-+	=============== ====================================
-+	buflen			MIDI 缓冲区长度
-+	id				USB MIDI 适配器的 ID 字符串
-+	in_ports		MIDI 输入端口数量
-+	index			USB MIDI 适配器的索引值
-+	out_ports		MIDI 输出端口数量
-+	qlen			USB 读取请求队列长度
-+	=============== ====================================
-+
-+测试 MIDI 功能
-+--------------
-+有两种情况：从 gadget 播放 mid 到主机，以及从主机播放 mid 到 gadget。
-+
-+1) 从 gadget 播放 mid 到主机：
-+
-+主机端::
-+
-+  $ arecordmidi -l
-+   Port    Client name                      Port name
-+   14:0    Midi Through                     Midi Through Port-0
-+   24:0    MIDI Gadget                      MIDI Gadget MIDI 1
-+  $ arecordmidi -p 24:0 from_gadget.mid
-+
-+gadget::
-+
-+  $ aplaymidi -l
-+   Port    Client name                      Port name
-+   20:0    f_midi                           f_midi
-+
-+  $ aplaymidi -p 20:0 to_host.mid
-+
-+2) 从主机到gadget播放mid
-+
-+gadget::
-+
-+  $ arecordmidi -l
-+   Port    Client name                      Port name
-+   20:0    f_midi                           f_midi
-+
-+  $ arecordmidi -p 20:0 from_host.mid
-+
-+主机端::
-+
-+  $ aplaymidi -l
-+   Port    Client name                      Port name
-+   14:0    Midi Through                     Midi Through Port-0
-+   24:0    MIDI Gadget                      MIDI Gadget MIDI 1
-+
-+  $ aplaymidi -p24:0 to_gadget.mid
-+
-+from_gadget.mid 应与 to_host.mid 听起来完全相同。
-+from_host.mid 应与 to_gadget.mid 听起来完全相同。
-+MIDI 文件可以通过例如安装了 timidity 的方式播放到扬声器或耳机::
-+
-+  $ aplaymidi -l
-+   Port    Client name                      Port name
-+   14:0    Midi Through                     Midi Through Port-0
-+   24:0    MIDI Gadget                      MIDI Gadget MIDI 1
-+  128:0    TiMidity                         TiMidity port 0
-+  128:1    TiMidity                         TiMidity port 1
-+  128:2    TiMidity                         TiMidity port 2
-+  128:3    TiMidity                         TiMidity port 3
-+
-+  $ aplaymidi -p 128:0 file.mid
-+
-+MIDI 端口可以使用 aconnect 工具逻辑连接::::
-+
-+  $ aconnect 24:0 128:0 # 在主机上尝试
-+
-+连接后，gadget 端播放的内容可在主机扬声器/耳机中听到。
-+
-+10. NCM 功能
-+============
-+
-+该功能由 usb_f_ncm.ko 模块提供。
-+
-+功能专用的 configfs 接口
-+--------------------------
-+
-+创建功能目录时使用的功能名称为 "ncm"。
-+NCM 功能在其功能目录中提供以下属性：
-+
-+	======================= ==================================================
-+	ifname					与该功能实例关联的网络设备接口名称
-+	qmult					高速度和超级速度的队列长度乘数
-+	host_addr				主机端的MAC地址（USB以太网链接）
-+	dev_addr				设备端的MAC地址（USB以太网链接）
-+	max_segment_size		点对点连接所需的分段大小。将MTU设置为14字节
-+	======================= ==================================================
-+
-+创建 functions/ncm.<实例名> 后，
-+这些属性包含默认值：qmult 为 5，dev_addr 和 host_addr 随机选择。
-+如果功能尚未绑定，可以写入 ifname。
-+写入必须是接口模式，如 "usb%d"，
-+这将使网络核心选择下一个可用的 usbX 接口。
-+默认设置为 "usb%d"。
-+
-+测试NCM功能
-+-----------
-+
-+配置设备和主机的 IP 地址，然后：
-+
-+在设备上::
-+
-+	ping <host's IP>
-+
-+在主机上::
-+	ping <device's IP>
-+
-+11. OBEX 功能
-+=============
-+
-+该功能由 usb_f_obex.ko 模块提供。
-+
-+功能专用的 configfs 接口
-+--------------------------
-+
-+创建功能目录时使用的功能名称为 "obex"。
-+OBEX 功能在其功能目录中仅提供一个属性：
-+
-+	port_num
-+
-+该属性为只读。
-+
-+系统中最多可以有 4 个 ACM/通用串口/OBEX 端口。
-+
-+测试 OBEX 功能
-+--------------
-+
-+在设备上::
-+
-+	seriald -f /dev/ttyGS<Y> -s 1024
-+
-+在主机上::
-+
-+	serialc -v <vendorID> -p <productID> -i<interface#> -a1 -s1024 \
-+                -t<out endpoint addr> -r<in endpoint addr>
-+
-+seriald和serialc是Felipe提供的工具，可在此获取：
-+
-+	https://github.com/felipebalbi/usb-tools.git master
-+
-+12. PHONET功能
-+==============
-+
-+该功能由 usb_f_phonet.ko 模块提供。
-+
-+功能专用的 configfs 接口
-+--------------------------
-+
-+创建功能目录时使用的功能名称为 "phonet"。
-+PHONET 功能在其功能目录中仅提供一个属性：
-+
-+	=============== ==================================================
-+	ifname		与该功能实例关联的网络设备接口名称
-+	=============== ==================================================
-+
-+测试 PHONET 功能
-+--------------------------
-+在没有特定硬件的情况下无法测试 SOCK_STREAM 协议，因此仅测试了 SOCK_DGRAM。
-+为使其工作，过去必须应用相应补丁。
-+
-+这些工具是必需的：
-+
-+git://git.gitorious.org/meego-cellular/phonet-utils.git
-+
-+在主机上::
-+
-+	$ ./phonet -a 0x10 -i usbpn0
-+	$ ./pnroute add 0x6c usbpn0
-+	$./pnroute add 0x10 usbpn0
-+	$ ifconfig usbpn0 up
-+
-+在设备上::
-+
-+	$ ./phonet -a 0x6c -i upnlink0
-+	$ ./pnroute add 0x10 upnlink0
-+	$ ifconfig upnlink0 up
-+
-+
-+在设备上::
-+	$ ./pnxmit -a 0x6c -r
-+
-+在主机上::
-+
-+	$ ./pnxmit -a 0x10 -s 0x6c
-+
-+作为结果，一些数据应该从主机发送到设备。
-+然后反过来：
-+
-+在主机上::
-+
-+	$ ./pnxmit -a 0x10 -r
-+
-+在设备上::
-+	$ ./pnxmit -a 0x6c -s 0x10
-+
-+13. RNDIS功能
-+=============
-+
-+该功能由usb_f_rndis.ko模块提供。
-+
-+功能特定的configfs接口
-+--------------------------
-+
-+创建功能目录时使用的功能名为"rndis"。
-+RNDIS功能在其功能目录中提供以下属性：
-+
-+	=============== ==================================================
-+	ifname			与该功能实例关联的网络设备接口名称
-+	qmult			高速和超高速模式的队列长度倍增器
-+	host_addr		主机端的MAC地址（USB以太网链接）
-+	dev_addr		设备端的MAC地址（USB以太网链接）
-+	=============== ==================================================
-+
-+创建functions/rndis.<实例名>后，
-+它们包含默认值：qmult为5，dev_addr和host_addr随机选择。
-+如果功能尚未绑定，可以写入ifname。
-+写入必须是类似"usb%d"的接口模式，
-+这将使网络核心选择下一个空闲的usbX接口。
-+默认值为"usb%d"。
-+
-+测试 RNDIS 功能
-+------------------
-+
-+配置设备和主机的IP地址。然后：
-+
-+在设备上::
-+
-+	ping <host's IP>
-+
-+在主机上::
-+	ping <device's IP>
-+
-+14. SERIAL功能
-+===================
-+
-+该功能由usb_f_gser.ko模块提供。
-+
-+功能专用的configfs接口
-+------------------------
-+
-+创建功能目录时使用的功能名为"gser"。
-+SERIAL功能在其功能目录中仅提供一个属性：
-+
-+	port_num
-+
-+该属性为只读。
-+
-+系统中最多可以有4个ACM/通用串口/OBEX端口。
-+
-+测试 SERIAL 功能
-+--------------------
-+
-+在主机上::
-+
-+	insmod usbserial
-+	echo VID PID >/sys/bus/usb-serial/drivers/generic/new_id
-+
-+在主机上::
-+
-+	cat > /dev/ttyUSB<X>
-+
-+在设备上::
-+	cat /dev/ttyGS<Y>
-+
-+then the other way round
-+
-+在目标端::
-+
-+	cat > /dev/ttyGS<Y>
-+
-+在主机上::
-+	cat /dev/ttyUSB<X>
-+
-+15. SOURCESINK功能
-+=======================
-+
-+该功能由usb_f_ss_lb.ko模块提供。
-+
-+功能专用的configfs接口
-+------------------------------------
-+
-+创建功能目录时使用的功能名为"SourceSink"。
-+SOURCESINK功能在其功能目录中提供以下属性：
-+
-+	=============== ==================================
-+	pattern			0 (全零), 1 (mod63), 2 (无)
-+	isoc_interval	1..16
-+	isoc_maxpacket	0 - 1023 (fs), 0 - 1024 (hs/ss)
-+	isoc_mult		0..2 (hs/ss only)
-+	isoc_maxburst	0..15 (ss only)
-+	bulk_buflen		缓冲区长度
-+	bulk_qlen		块传输队列深度
-+	iso_qlen		等时传输队列深度
-+	=============== ==================================
-+
-+测试SOURCESINK功能
-+------------------
-+
-+设备端：运行gadget
-+
-+主机端：test-usb (tools/usb/testusb.c)
-+
-+
-+16. UAC1功能 (legacy实现)
++=========================
++大容量存储Gadget (MSG)
 +=========================
 +
-+该功能由usb_f_uac1_legacy.ko模块提供。
-+
-+功能特定的configfs接口
-+------------------------
-+
-+创建功能目录时使用的功能名为"uac1_legacy"。
-+uac1功能在其功能目录中提供以下属性：
-+
-+	=============== ====================================
-+	audio_buf_size	audio缓冲区大小
-+	fn_cap			捕获pcm设备文件名
-+	fn_cntl			控制设备文件名
-+	fn_play			播放pcm设备文件名
-+	req_buf_size	ISO OUT端点请求缓冲区大小
-+	req_count		ISO OUT端点请求计数
-+	=============== ====================================
-+
-+这些属性具有合理的默认值。
-+
-+测试UAC1功能
-+------------
-+
-+设备端：运行gadget
-+
-+主机端::
-+
-+	aplay -l # should list our USB Audio Gadget
-+
-+17. UAC2功能
-+============
-+
-+该功能由usb_f_uac2.ko模块提供。
-+
-+功能特定的configfs接口
-+------------------------------------
-+
-+创建功能目录时使用的功能名为"uac2"。
-+uac2功能在其功能目录中提供以下属性：
-+================ ====================================================
-+c_chmask         捕获通道掩码
-+c_srate          捕获采样率列表（逗号分隔）
-+c_ssize          捕获样本大小（字节）
-+c_sync           捕获同步类型（异步/自适应）
-+c_mute_present   捕获静音控制启用
-+c_volume_present 捕获音量控制启用
-+c_volume_min     捕获音量控制最小值（以1/256 dB为单位）
-+c_volume_max     捕获音量控制最大值（以1/256 dB为单位）
-+c_volume_res     捕获音量控制分辨率（以1/256 dB为单位）
-+c_hs_bint        捕获HS/SS的bInterval（1-4：固定，0：自动）
-+fb_max           异步模式下的最大额外带宽
-+p_chmask         播放通道掩码
-+p_srate          播放采样率列表（逗号分隔）
-+p_ssize          播放样本大小（字节）
-+p_mute_present   播放静音控制启用
-+p_volume_present 播放音量控制启用
-+p_volume_min     播放音量控制最小值（以1/256 dB为单位）
-+p_volume_max     播放音量控制最大值（以1/256 dB为单位）
-+p_volume_res     播放音量控制分辨率（以1/256 dB为单位）
-+p_hs_bint        播放HS/SS的bInterval（1-4：固定，0：自动）
-+req_number       捕获和播放的预分配请求数
-+function_name    接口名称
-+if_ctrl_name     拓扑控制名称
-+clksrc_in_name   输入时钟名称
-+clksrc_out_name  输出时钟名称
-+p_it_name        播放输入终端名称
-+p_it_ch_name     播放输入第一个通道名称
-+p_ot_name        播放输出终端名称
-+p_fu_vol_name    播放功能单元名称
-+c_it_name        捕获输入终端名称
-+c_it_ch_name     捕获输入第一个通道名称
-+c_ot_name        捕获输出终端名称
-+c_fu_vol_name    捕获功能单元名称
-+c_terminal_type  捕获终端类型代码
-+p_terminal_type  播放终端类型代码
-+================ ====================================================
-+
-+这些属性具有合理的默认值。
-+
-+测试UAC2功能
-+------------
-+
-+设备端：运行gadget
-+主机端：aplay -l # 应列出我们的USB音频Gadget
-+
-+此功能不需要真实硬件支持，它仅发送音频流到/从主机。
-+若要在设备端实际听到声音，可使用类似如下命令::
-+
-+	$ arecord -f dat -t wav -D hw:2,0 | aplay -D hw:0,0 &
-+
-+例如::
-+
-+	$ arecord -f dat -t wav -D hw:CARD=UAC2Gadget,DEV=0 | \
-+	  aplay -D default:CARD=OdroidU3
-+
-+18. UVC功能
-+===========
-+
-+该功能由usb_f_uvc.ko模块提供。
-+
-+功能特定的configfs接口
-+----------------------
++概述
++====
 +
-+创建功能目录时使用的功能名为"uvc"。
-+uvc功能在其功能目录中提供以下属性：
-+=================== ================================================
-+streaming_interval  数据传输轮询端点的间隔
-+streaming_maxburst  超速伴随描述符的bMaxBurst
-+streaming_maxpacket 端点可发送或接收的最大包大小（选中此配置时）
-+function_name       接口名称
-+=================== ================================================
++ 大容量存储Gadget（或MSG）作为USB大容量存储设备，对主机表现为磁盘或CD-ROM驱动器。
++ 它支持多个逻辑单元(LUN)。
++ 每个LUN的后端存储由普通文件或块设备提供，
++ 可以限制为只读，
++ 并且Gadget可以指示其可移动和/或为CD-ROM（后者意味着只读访问）。
 +
-+还有"control"和"streaming"子目录，每个子目录包含若干子目录。提供了一些合理的默认值，但用户必须提供：
++  它的需求较低；
++  仅需一个bulk-in和一个bulk-out端点。
++  内存需求为两个16K缓冲区。
++  支持全速、高速和超高速操作。
 +
-+================== ====================================================
-+control header     在control/header创建，并从control/class/fs
-+	   				和/或control/class/ss链接
-+streaming header   在streaming/header创建，并从streaming/class/fs和/或streaming/class/hs和/或
-+		   			streaming/class/ss链接
-+format description 在streaming/mjpeg和/或
-+		   			streaming/uncompressed创建
-+frame description  在streaming/mjpeg/<format>和/或在
-+		   			streaming/uncompressed/<format>创建
-+================== ====================================================
++  注意，该驱动程序在某种程度上具有非移植性，因为它假设
++  一个内存/DMA缓冲区将可用于bulk-in和bulk-out
++  端点。对于大多数设备控制器来说，这不是问题，但
++  可能存在一些硬件限制，一个缓冲区不能
++  被多个端点使用。
 +
-+每个frame description包含帧间隔规范，每个规范由若干行间隔值组成。上述规则示例::
++  本文档描述了如何从用户态使用该Gadget，
++  它与大容量存储功能(MSF)及使用它的不同Gadget的关系，
++  以及与文件存储Gadget(FSG，
++  已不再包含于Linux)的区别。
++  仅会简要说明如何在复合Gadget中使用MSF。
 +
-+  # mkdir functions/uvc.usb0/control/header/h
-+  # cd functions/uvc.usb0/control/
-+  # ln -s header/h class/fs
-+  # ln -s header/h class/ss
-+  # mkdir -p functions/uvc.usb0/streaming/uncompressed/u/360p
-+  # cat <<EOF > functions/uvc.usb0/streaming/uncompressed/u/360p/dwFrameInterval
-+  666666
-+  1000000
-+  5000000
-+  EOF
-+  # cd $GADGET_CONFIGFS_ROOT
-+  # mkdir functions/uvc.usb0/streaming/header/h
-+  # cd functions/uvc.usb0/streaming/header/h
-+  # ln -s ../../uncompressed/u
-+  # cd ../../class/fs
-+  # ln -s ../../header/h
-+  # cd ../../class/hs
-+  # ln -s ../../header/h
-+  # cd ../../class/ss
-+  # ln -s ../../header/h
++模块参数
++========
 +
++  大容量存储Gadget接受以下大容量存储特定模块参数：
 +
-+测试UVC功能
-+-----------
++  - file=filename[,filename...]
 +
-+设备端：运行gadget，modprobe vivid::
++    此参数列出用于每个逻辑单元后端存储的文件或块设备路径。
++	最多可设置FSG_MAX_LUNS(8)个LUN。
++	如果指定更多文件，将被静默忽略。另见“luns”参数。
 +
-+  # uvc-gadget -u /dev/video<uvc video node #> -v /dev/video<vivid video node #>
++    注意 如果使用文件作为后端存储，则该文件不得被其他进程修改。
++	这是因为主机假定数据不会在其不知情的情况下改变。
++	可以读取，但如果逻辑单元可写，由于主机端缓冲，内容未定义。
 +
-+其中uvc-gadget程序位于：
-+	http://git.ideasonboard.org/uvc-gadget.git
-+
-+并应用以下补丁：
++    逻辑单元大小将向下舍入为完整逻辑块。
++	逻辑块大小为：模拟CD-ROM的LUN为2048字节，
++	后端文件为块设备则为设备块大小，否则为512字节。
 +
-+	https://lore.kernel.org/r/1386675637-18243-1-git-send-email-r.baldyga@samsung.com/
++  - removable=b[,b...]
 +
-+主机端::
++    指定每个逻辑单元是否可移动。b为“y”“Y”“1”为真，“n”“N”“0”为假。
 +
-+	luvcview -f yuv
++    如果逻辑单元可移动，Gadget将接受“弹出”SCSI请求(Start/Stop Unit)。
++	发送时，将关闭后端文件以模拟弹出，
++	在用户态为设备指定新后端文件之前，该逻辑单元不可被主机挂载。
 +
-+19. PRINTER功能
-+================
++    如果逻辑单元不可移动(默认)，必须在加载模块时通过“file”参数指定后端文件。
++	内置模块同理，无例外。
 +
-+该功能由usb_f_printer.ko模块提供。
++    默认值为false，但历史上曾为true。
++	现改为false以更好匹配FSG，并且更合理。
++	为了兼容旧内核，最好显式指定默认值。
++	如果依赖旧默认，现在需要显式指定“n”。
 +
-+功能特定的configfs接口
-+-------------------------
++    注意，“removable”表示逻辑单元的介质可被弹出或移除（如CD-ROM或读卡器），
++	不表示整个Gadget可从主机拔出；后者正确术语为“hot-unpluggable”。
 +
-+创建功能目录时使用的功能名为"printer"。
-+printer功能在其功能目录中提供以下属性：
++  - cdrom=b[,b...]
 +
-+==========	===========================================
-+pnp_string	传递给主机的即插即用字符串
-+q_len		每个端点的请求数
-+==========	===========================================
++    指定每个逻辑单元是否模拟CD-ROM，默认false。
 +
-+测试PRINTER功能
-+------------------
++  - ro=b[,b...]
 +
-+最基本的测试：
++    指定每个逻辑单元是否只读。防止主机修改后端文件。
 +
-+设备端：运行gadget::
++    如果标志为false但后端文件无法以读写模式打开，Gadget仍会回退为只读模式。
 +
-+	# ls -l /devices/virtual/usb_printer_gadget/
++    非CD-ROM逻辑单元默认false；模拟CD-ROM的逻辑单元强制为true。
 +
-+应该显示 g_printer<number>。
++  - nofua=b[,b...]
 +
-+如果 udev 处于活动状态，则应自动出现 /dev/g_printer<number>。
++    指定是否在给定逻辑单元的SCSI Write10和Write12命令中忽略FUA标志。
 +
-+主机端：
-+如果 udev 处于活动状态，则应自动出现例如 /dev/usb/lp0。
++    Windows默认在“优化移除模式”挂载可移动存储。
++	所有写入为同步写，
++	通过在SCSI Write(10,12)命令中设置FUA(Force Unit Access)位实现。
++	这会强制每次写入等待数据实际写出，阻止块层聚合I/O请求，显著降低性能。
 +
-+主机->设备传输：
++    注意，如果设备从USB供电且用户未卸载就拔出设备，数据可能丢失。
 +
-+设备端：
++    默认值为false。
 +
-+	# cat /dev/g_printer<number>
++  - luns=N
 +
-+主机端：
-+	# cat > /dev/usb/lp0
++    指定Gadget拥有的逻辑单元数，受FSG_MAX_LUNS(8)限制，超出值将被截断。
 +
-+设备->主机传输::
++    如果提供此参数，且“file”参数指定的文件数大于luns值，多余文件将被忽略。
 +
-+	# cat > /dev/g_printer<number>
++    若未指定，则逻辑单元数根据“file”参数指定的文件数推断；
++	若file参数也缺失，则假定为1。
 +
-+主机端::
-+	# cat /dev/usb/lp0
++  - stall=b
 +
-+更高级的测试可以使用Documentation/usb/gadget_printer.rst中描述的prn_example进行。
++    指定是否允许Gadget停止bulk端点。
++    默认值根据USB设备控制器类型确定，但通常为true。
 +
++  除上述参数外，Gadget还接受复合框架定义的参数（所有复合Gadget通用，列出如下）：
 +
-+20. UAC1功能（虚拟ALSA卡，使用u_audio API）
-+=============================================
++  - idVendor      -- USB Vendor ID (16 bit integer)
++  - idProduct     -- USB Product ID (16 bit integer)
++  - bcdDevice     -- USB Device version (BCD) (16 bit integer)
++  - iManufacturer -- USB Manufacturer string (string)
++  - iProduct      -- USB Product string (string)
++  - iSerialNumber -- SerialNumber string (string)
 +
-+该功能由usb_f_uac1.ko模块提供。
-+它将创建一个虚拟ALSA卡，音频流仅仅是
-+发送到和接收自它。
++sysfs entries
++=============
 +
-+功能特定的configfs接口
-+-------------------------
-+
-+创建功能目录时使用的功能名为"uac1"。
-+uac1功能在其功能目录中提供以下属性：
-+================ ====================================================
-+c_chmask         捕获通道掩码
-+c_srate          捕获采样率列表（逗号分隔）
-+c_ssize          捕获样本大小（字节）
-+c_mute_present   捕获静音控制启用
-+c_volume_present 捕获音量控制启用
-+c_volume_min     捕获音量控制最小值（以1/256 dB为单位）
-+c_volume_max     捕获音量控制最大值（以1/256 dB为单位）
-+c_volume_res     捕获音量控制分辨率（以1/256 dB为单位）
-+p_chmask         播放通道掩码
-+p_srate          播放采样率列表（逗号分隔）
-+p_ssize          播放样本大小（字节）
-+p_mute_present   播放静音控制启用
-+p_volume_present 播放音量控制启用
-+p_volume_min     播放音量控制最小值（以1/256 dB为单位）
-+p_volume_max     播放音量控制最大值（以1/256 dB为单位）
-+p_volume_res     播放音量控制分辨率（以1/256 dB为单位）
-+req_number       捕获和播放的预分配请求数
-+function_name    接口名称
-+p_it_name        播放输入端名称
-+p_it_ch_name     播放通道名称
-+p_ot_name        播放输出端名称
-+p_fu_vol_name    播放静音/音量功能单元名称
-+c_it_name        捕获输入端名称
-+c_it_ch_name     捕获通道名称
-+c_ot_name        捕获输出端名称
-+c_fu_vol_name    捕获静音/音量功能单元名称
-+================ ====================================================
++  对于每个逻辑单元，Gadget在sysfs层级创建目录。目录内创建以下文件：
 +
-+这些属性具有合理的默认值。
++  - file
 +
-+测试UAC1功能
-+----------------
++    读取返回逻辑单元的后端文件路径。
++	若无后端文件(仅在逻辑单元可移动时可能)，内容为空。
 +
-+设备端：运行gadget
-+主机端：aplay -l # 应该列出我们的USB音频设备
++    写入可更改逻辑单元的后端文件。
++	即使逻辑单元不可移动，也可执行此操作（主机可能认为奇怪）。
++	若主机通过Prevent-Allow Medium Removal SCSI命令禁止介质移除，可能失败。
 +
-+该功能不需要真实的硬件支持，它只是
-+向主机发送和接收音频数据流。为了
-+实际上在设备端听到声音，必须在设备端使用类似的命令：
++  - ro
 +
-+	$ arecord -f dat -t wav -D hw:2,0 | aplay -D hw:0,0 &
++    反映逻辑单元的ro标志状态。随时可读，若逻辑单元无后端文件打开，也可写入。
 +
-+例如::
++  - nofua
 +
-+	$ arecord -f dat -t wav -D hw:CARD=UAC1Gadget,DEV=0 | \
-+	  aplay -D default:CARD=OdroidU3
++    反映逻辑单元nofua标志状态，可读可写。
 +
++  - forced_eject
 +
-+21. MIDI2功能
-+================
++写入后，将强制从LUN分离后端文件，无论主机是否允许。
++写入内容无关，写入任意非零字节均会导致弹出。
++不可读取。
 +
-+该功能由usb_f_midi2.ko模块提供。
-+它将创建一个虚拟ALSA卡，其中包含一个UMP rawmidi设备，
-+UMP数据包被回环。
-+此外，还会创建一个传统的rawmidi设备。
-+UMP rawmidi还绑定了ALSA sequencer客户端。
++  其他参数值可从/sys/module/g_mass_storage/parameters/* 读取。
 +
-+功能特定的configfs接口
-+------------------------
++使用大容量存储功能的其他Gadget设备
++========================================
 +
-+创建功能目录时使用的功能名为"midi2"。
-+midi2功能在其功能目录中提供以下属性（作为卡顶层信息）：
++  大容量存储Gadget使用大容量存储功能(MSF)处理存储协议。
++  作为复合功能，MSF也可被其他Gadget使用（如g_multi和acm_ms）。
 +
-+=============   =================================================
-+process_ump     布尔标志，处理UMP Stream消息（0或1）
-+static_block    静态块的布尔标志（0或1）
-+iface_name      可选的接口名称字符串
-+=============   =================================================
++  前述信息对使用MSF的其他Gadget有效，但可能不支持大容量存储相关模块参数，
++  或参数带前缀。是否适用需查看Gadget文档或源代码。
 +
-+目录包含一个子目录"ep.0"，提供UMP端点（USB MIDI端点对）的属性：
++  想了解如何在Gadget中包含MSF，
++  可参考mass_storage.c、acm_ms.c和multi.c（按复杂度排序）。
 +
-+=============   =================================================
-+protocol_caps   MIDI协议能力；
-+                    1：MIDI 1.0，2：MIDI 2.0，或3：两者
-+protocol        默认MIDI协议（1或2）
-+ep_name         UMP Endpoint名称字符串
-+product_id      Product ID字符串
-+manufacturer    制造商ID号（24位）
-+family          设备系列ID号（16位）
-+model           设备型号ID号（16位）
-+sw_revision     软件版本号（32位）
-+=============   =================================================
++与文件存储 Gadget 的关系
++========================
 +
-+每个端点子目录包含子目录"block.0"，表示功能块0的信息，其属性为：
++  大容量存储功能(Mass Storage Function)，从而大容量存储Gadget(MSG)，
++  是基于文件存储Gadget(File Storage Gadget)的。
++  两者的区别在于，MSG是复合Gadget（即使用复合框架），而文件存储Gadget是传统Gadget。
++  从用户态的角度来看，这一区别并不重要，
++  但从内核开发者的角度来看，这意味着：
++  (i) MSG不重复处理基本USB协议命令所需的代码
++  (ii) MSF可以在任何其他复合Gadget中使用。
 +
-+=================   ===============================================
-+name                功能块名称字符串
-+direction           该功能块的方向
-+                        1：输入，2：输出，或3：双向
-+first_group         第一个UMP组号（0-15）
-+num_groups          该功能块中的组数（1-16）
-+midi1_first_group   第一个UMP组号，用于MIDI 1.0（0-15）
-+midi1_num_groups    MIDI 1.0的组数（0-16）
-+ui_hint             该功能块的UI提示
-+                        0：未知，1：接收器，2：发送器，3：两者
-+midi_ci_version     支持的MIDI-CI版本号（8位）
-+is_midi1            传统MIDI 1.0设备（0-2）
-+                        0：MIDI 2.0设备，
-+                        1：无限制的MIDI 1.0，或
-+                        2：低速的MIDI 1.0
-+sysex8_streams      最大SysEx8流数（8位）
-+active              功能块活动的布尔标志（0或1）
-+=================   ===============================================
++  因此，文件存储Gadget已在Linux 3.8中被移除。
++  所有用户都需要迁移到大容量存储Gadget。
++  两者从外部行为来看大体相同，唯一的区别如下：
 +
-+如需多个功能块，可创建"block.<num>"子目录（1,2,…），且编号必须连续。
-+功能块子目录也可动态删除。
++  1. 在FSG中，“removable”和“cdrom”模块参数会对所有逻辑单元统一设置标志，
++     而在MSG中，它们接受每个逻辑单元的y/n值列表。
++     如果只使用单个逻辑单元，这无关紧要；
++     但如果有多个逻辑单元，y/n值需要为每个逻辑单元重复指定。
++  2. FSG的“serial”“vendor”“product”和“release”模块参数，
++     在MSG中由复合层的参数分别处理，
++     对应名称为：“iSerialNumber”“idVendor”“idProduct”和“bcdDevice”。
 +
-+同样，如需多个UMP端点，可创建"ep.<num>"子目录，编号必须连续。
-+
-+若模拟不支持UMP v1.1的旧MIDI 2.0设备，可将`process_ump`设置为0，
-+忽略所有UMP v1.1请求。
-+
-+测试MIDI2功能
-+--------------
-+
-+在设备端：运行gadget，并执行::
-+
-+  $ cat /proc/asound/cards
-+
-+将显示包含MIDI2设备的新声卡。
-+
-+在主机端::
-+
-+  $ cat /proc/asound/cards
-+
-+将显示包含MIDI1或MIDI2设备的新声卡，具体取决于USB音频驱动程序的配置。
-+
-+在两者上，当主机启用ALSA sequencer时，可以找到
-+UMP MIDI客户端，如"MIDI 2.0 Gadget"。
-+
-+由于驱动程序只是简单地回环数据，因此不需要真实设备进行测试。
-+
-+要测试从gadget到主机的MIDI输入（例如模拟MIDI键盘），可以发送如下的MIDI流。
-+
-+在设备端::
-+
-+  $ aconnect -o
-+  ....
-+  client 20: 'MIDI 2.0 Gadget' [type=kernel,card=1]
-+      0 'MIDI 2.0        '
-+      1 'Group 1 (MIDI 2.0 Gadget I/O)'
-+  $ aplaymidi -p 20:1 to_host.mid
-+
-+在主机端::
-+
-+  $ aconnect -i
-+  ....
-+  client 24: 'MIDI 2.0 Gadget' [type=kernel,card=2]
-+      0 'MIDI 2.0        '
-+      1 'Group 1 (MIDI 2.0 Gadget I/O)'
-+  $ arecordmidi -p 24:1 from_gadget.mid
-+
-+如果你有支持UMP的应用程序，也可以使用UMP端口
-+发送/接收原始UMP数据包。例如，支持UMP的aseqdump程序
-+可以从UMP端口接收数据。在主机端::
-+
-+  $ aseqdump -u 2 -p 24:1
-+  Waiting for data. Press Ctrl+C to end.
-+  Source  Group    Event                  Ch  Data
-+   24:1   Group  0, Program change          0, program 0, Bank select 0:0
-+   24:1   Group  0, Channel pressure        0, value 0x80000000
-+
-+要测试从主机到gadget的MIDI输出（例如模拟MIDI合成器），则相反。
-+
-+在设备端::
-+
-+  $ arecordmidi -p 20:1 from_host.mid
-+
-+在主机端::
-+  $ aplaymidi -p 24:1 to_gadget.mid
-+
-+在主机端支持对altset 0上的MIDI 1.0的访问，
-+并且它在gadget上被翻译为UMP数据包。该功能仅绑定到功能块0。
-+
-+当前操作模式可通过ALSA控制元素"SND_CTL_IFACE_RAWMIDI"的“Operation Mode”查看。
-+例如::
-+
-+  $ amixer -c1 contents
-+  numid=1,iface=RAWMIDI,name='Operation Mode'
-+    ; type=INTEGER,access=r--v----,values=1,min=0,max=2,step=0
-+    : values=2
-+
-+其中0 = 未使用，1 = MIDI 1.0（altset 0），2 = MIDI 2.0（altset 1）。
-+上述示例显示当前运行模式为2，即MIDI 2.0。
++  3. MSG不支持FSG的测试模式，
++     因此FSG的“transport”“protocol”和“buflen”模块参数不被支持。
++     MSG始终使用SCSI协议，采用仅bulk传输模式和16 KiB缓冲区。
 --
 2.34.1
 
