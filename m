@@ -1,267 +1,73 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C7C76026
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 19:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B9D35962;
+	Sun, 23 Nov 2025 19:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763927335; cv=none; b=j8n9GcRbKqvFEVMdQT0ygbM/iXxBKUwP0EcRdFVwL+6Ip5QRJhJl1pqgprxACY/ucvKRyR94LZazifmaykqZXYHuIBmbejtYeXu+x4ZOl1hLQI/DmSDuazYh9aaHLlhYbtgsm4UMcA3Ww5VMZ0Xy1PhdPwN8+VW71fB+taC//3Y=
+	t=1763927713; cv=none; b=R8JQgEc0YbhcCVaE99QelMBMQu6Ub5wK0NVzAGFb9Yjrm3HXrdGI9LOHJLufXhKHaQ+DPMzXdG3WnIiluj3YH3XRc4dFks2VTSKCvFTZcj+MZYQ9pYQOE33P0p4uaiOTfVN/2RyW0JBhqLr4KJ8SKLRrM6VbqVHvAhdVpgs02ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763927335; c=relaxed/simple;
-	bh=+fNKvMvpCmvV9cI0Va6TcyljsLu3F06cewuvY7FNh7k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ux1b8iIgzazEHEQXMT1Iz3lmFYmeZ6W563eDft+6LbRurc4okgfNtfCd7rD8G9X7Nja2RSPLPdkpxo2ooGdeAlubaUGYqmQSIkc19iAl3WMf89GrzuUMeRRhTjBOIEiHxOkf2YStkiI4bRWVbL5wwNMI1r5opsoqreQchnv0ybE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KESPAWi7; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763927713; c=relaxed/simple;
+	bh=ONzvLa3ZaViSZ5gG52gKU5AhTjht5Jg3NT5f81KKlSw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DFAAqiDCZEJJCnFUfK6MFB6y1uHmV3lpoFATNlRMZVaceNRvJXxqgqdoaFihAlMAUXaXZ/g4hOpvGU1zH6TsbXYsLgIRKkA2gZYtdCl3qC1Fg12YGg4N591EjeGYCtJupNT71uCeblHdhMscTVBHJ87SUUEC7z0a6MW2xpwN9hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=skTlV8tc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KESPAWi7"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b727f452fffso771264666b.1
-        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 11:48:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763927330; x=1764532130; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NY48Fn40WcoOX8kcxK9n3pmoY2MNt9A/pKD1eZjB+vI=;
-        b=KESPAWi7V8eTC9/U7ZZBTAs9mw0zsiGiH5FZw63OJG6U9Mob5i6Mx/qPMXhP3dnLZC
-         ZO0LamDWvVZBFZKuxBW4Bw0pwXhcn4yxW20Ud24Wxw6MN2WuKyAGlWQ5wNCPtQbYvQLI
-         78TtyaUAifoGwRgKmengJVVdv5daAqJzZVDS61YE4U2iJMs/3fy5Zllmg+Ey84gQRE4H
-         rJTZ8VgnjIO6PRgvmXjAVhDCNOoQ2qm1ndphtJdzarXoN4khb0zK3Mu4ISCsOSFEdyIA
-         gHtSSthcOX5rAXr49s9VD/lwRM3Ue0kzwoN2Yg+gdllPrOB53KUqXxslelup24V+TiWs
-         woVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763927330; x=1764532130;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NY48Fn40WcoOX8kcxK9n3pmoY2MNt9A/pKD1eZjB+vI=;
-        b=bzk5DH0xHE/GviG0Rfhhakj7Ftoc8NQnwp6o6d7yhTeA3Cl+bLc5ZTvNCaep8eLAJV
-         EG8VmEU3wXHENJItZCHIQOPje2ESK/YeQi6H2dM1Qo5OJtr/lG/ifxfofkkWlKFsuiEg
-         Yo6r4CT7mk/pdXOHkxSjCcSMpS8pH1CqRwIj2Gme7+NM+3VvUNO1VvMGmL+OAIbIfx9E
-         F3RAT/tNlbX9RTnnVSGy6PaiTaEZf8Apcpd5bcR0TxBwSzNow7F5B/wAMo0LbwSuTidt
-         nYSV5UJ94NXdeXlvtC0SecfNA1bSX9KChLYOYWx1G0ZtLzG+kGFBZNMT0yvXPM97i+ce
-         wTqA==
-X-Forwarded-Encrypted: i=1; AJvYcCV4HjRv+IhlnLhUcBbfAFDXrNN7O8OUAbcGnXsFsMNk2cd38BMppzPYtrTk9OllAT+FSZXx+TazscU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrLGaoUunbFFBYWVQ8okgSgFHXV4/SxSnDUUrkwHrWdk/F8Z/W
-	c1wbESoCA7VXhrwm2aHUk149my8DhN2i1DakEtudInkhl7EwEPpBQ38K
-X-Gm-Gg: ASbGncuHDXRnFOzedCWCDT+20fBdgtDAA75PnWKG4k8H0BJRAs1ph6nmFi7GyoyJY11
-	sLSZ9FcLVL7por4Da87+jioo0OHEIVumNnPr2g5tD6dlR3IUwEL/XPkAcfxJgpbixnAR4MvEnIA
-	XQNdToFtCBaCuuc9IJRSbCRK07G+nsQ03oB1cKEMX7HgEdgT3GlwHjkipHbhCeN5AAYyel9xz8v
-	D9gKcafIkwjtPNfvYiLJ7DW3yhcyIBJ/NjzUlYJXaqpxz/EgkInQf939aEqBYjib5X26cT/xD/o
-	Zwd1vuXXRcmmxXigfBj4OHovArDZTVgNbrIFIwJk+LKkNPs17O7evVjcjJ7t4oRd3s5HazTIPar
-	vO0G+HVMW86N4wdq+a1HP+XR1xnBfbZB7Y5lPR4Ch3q2GtIvw8NU3HN7g8NyRV9MsFZXGs09VbW
-	1eimGKJhjqI9tO3oo1hHGnE45hOPV5vfCj8OAE2EyE1H+waq37Sz+Qn7xV52M2161eNWk=
-X-Google-Smtp-Source: AGHT+IEbd/yP3QJ65f1rfYvuIyzrG6WSCnDa64fB/u4r54gEgSqi1csW3UDCsVIvIHmm0BrHp5Rk6A==
-X-Received: by 2002:a17:906:d54a:b0:b72:6a39:49e6 with SMTP id a640c23a62f3a-b766ef1d09fmr1145143766b.18.1763927329276;
-        Sun, 23 Nov 2025 11:48:49 -0800 (PST)
-Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:123e:4501:38ae:e5e8:159a:3b69])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7654d7cb3bsm1096357666b.27.2025.11.23.11.48.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Nov 2025 11:48:49 -0800 (PST)
-Date: Sun, 23 Nov 2025 20:48:47 +0100
-From: Jorge Marques <gastmaier@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Jorge Marques <jorge.marques@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 7/7] iio: adc: ad4062: Add IIO Events support
-Message-ID: <xxwczo3pno3dkyn3jmtj7hwupeo3ywp27bwbtohexfgpdoo56j@apapxa2pymyw>
-References: <20251013-staging-ad4062-v1-0-0f8ce7fef50c@analog.com>
- <20251013-staging-ad4062-v1-7-0f8ce7fef50c@analog.com>
- <20251018172625.42f13f4a@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="skTlV8tc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D75FCC113D0;
+	Sun, 23 Nov 2025 19:55:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763927712;
+	bh=ONzvLa3ZaViSZ5gG52gKU5AhTjht5Jg3NT5f81KKlSw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=skTlV8tcUzDnx2NS3oZTafwFn37YIjjnSUVdOBv824NMHQ+dj9G0HAp8SEFSOrXTa
+	 Vm6RwVSDxdU5umROdYBSsirLxayteUVafAXZo3AbG60PFDpUDeajJitU5UVbG+3IfZ
+	 g8WG5HQIiQbHNZMhqCBJcFzTEHG0oL1zdIloVCRxiKWjWLZW0yTUrbXFRsbqmYv37M
+	 WTD7XlpSEIi5yc+d/whvBmMDK6vGXzlC0vRmzxl96b8QjYTOjfl+ZhGT7Hx2zdklFM
+	 izzBK/4PQb53PSkWoUsuMoOAcfpOPln+yrqaS8MfKbN8s0TcIQE403itH1Sw6ViSWq
+	 Nm1xpdMvXtnRg==
+From: SeongJae Park <sj@kernel.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 00/12] mm/damos/stat: introduce nr_snapshots, max_nr_snapshots and tracepoint
+Date: Sun, 23 Nov 2025 11:54:55 -0800
+Message-ID: <20251123195456.24755-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251123184329.85287-1-sj@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251018172625.42f13f4a@jic23-huawei>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 18, 2025 at 05:26:25PM +0100, Jonathan Cameron wrote:
-> On Mon, 13 Oct 2025 09:28:05 +0200
-> Jorge Marques <jorge.marques@analog.com> wrote:
-> 
-> > Adds support for IIO Events. Optionally, gp0 is assigned as Threshold
-> > Either signal, if not present, fallback to an I3C IBI with the same
-> > role.
-> > 
-> > Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-Hi Jonathan,
-> The one bit of this that I'm not sure on is the apparent dropping out
-> of monitor mode on most userspace interactions that cause register accesses.
-> That seems like a fairly unintuitive ABI. It might be better to block the access
-> until the events are turned off. Perhaps I missed something?
-> 
-I will change the behaviour to block access until monitor mode is disabled:
+On Sun, 23 Nov 2025 10:43:14 -0800 SeongJae Park <sj@kernel.org> wrote:
 
-          if (!iio_device_claim_direct(indio_dev))
-                  return -EBUSY;
-          if (st->wait_event) {
-                  ret = -EBUSY;
-                  goto out_release;
-          }
-> Thanks,
-> 
-> Jonathan
-> 
-> > ---
-> >  drivers/iio/adc/ad4062.c | 351 ++++++++++++++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 347 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/iio/adc/ad4062.c b/drivers/iio/adc/ad4062.c
-> > index 40b7c10b8ce7145b010bb11e8e4698baacb6b3d3..b5b12f81c71b52f244600ed23dad11253290b868 100644
-> > --- a/drivers/iio/adc/ad4062.c
-> > +++ b/drivers/iio/adc/ad4062.c
-> > @@ -13,6 +13,7 @@
-> 
-> > +/**
-> > + * A register access will cause the device to drop from monitor mode
-> > + * into configuration mode, update the state to reflect that.
-> > + */
-> > +static void ad4062_exit_monitor_mode(struct ad4062_state *st)
-> > +{
-> > +	if (st->wait_event) {
-> > +		pm_runtime_mark_last_busy(&st->i3cdev->dev);
-> 
-> > +		pm_runtime_put_autosuspend(&st->i3cdev->dev);
-> As elsewhere, no longer need to have the mark_last_busy() call here.
-> 
-Ack.
-> > +		st->wait_event = 0;
-> > +	}
-> > +}
-> 
-> > +static ssize_t sampling_frequency_available_show(struct device *dev,
-> > +						 struct device_attribute *attr,
-> > +						 char *buf)
-> > +{
-> > +	struct ad4062_state *st = iio_priv(dev_to_iio_dev(dev));
-> > +	int ret = 0;
-> > +
-> > +	for (u8 i = AD4062_FS_OFFSET(st->chip->grade);
-> > +	     i < AD4062_FS_LEN(st->chip->grade); i++)
-> > +		ret += sysfs_emit_at(buf, ret, "%s ", ad4062_conversion_freqs[i]);
-> > +
-> > +	ret += sysfs_emit_at(buf, ret, "\n");
-> > +	return ret;
-> 
-> Has slightly ugly format of " \n" at end rather than "\n"
-> There are various ways to handle this perhaps easiest is something like
-> 	for (u8 i = AD4062_FS_OFFSET(st->chip->grade);
-> 	     i < AD4062_FS_LEN(st->chip->grade); i++)
-> 		ret += sysfs_emit_at(buf, ret, "%s%c", ad4062_conversion_freqs[i],
-> 				      i != (AD4062_FS_LEN(st->chip_grade) - 1) ? "\n", " ");
-Thanks for the suggestion, I will use.
-> 
-> 
-> > +}
-> 
-> >  static irqreturn_t ad4062_poll_handler(int irq, void *p)
-> > @@ -523,6 +645,24 @@ static int ad4062_request_irq(struct iio_dev *indio_dev)
-> >  	struct device *dev = &st->i3cdev->dev;
-> >  	int ret;
-> >  
-> > +	ret = fwnode_irq_get_byname(dev_fwnode(&st->i3cdev->dev), "gp0");
-> > +	if (ret >= 0) {
-> > +		ret = devm_request_threaded_irq(dev, ret, NULL,
-> > +						ad4062_irq_handler_thresh,
-> > +						IRQF_ONESHOT, indio_dev->name,
-> > +						indio_dev);
-> > +		if (ret)
-> > +			return ret;
-> > +	} else if (ret != -EPROBE_DEFER) {
-> > +		ret = regmap_update_bits(st->regmap, AD4062_REG_ADC_IBI_EN,
-> > +					 AD4062_REG_ADC_IBI_EN_MAX | AD4062_REG_ADC_IBI_EN_MIN,
-> > +					 AD4062_REG_ADC_IBI_EN_MAX | AD4062_REG_ADC_IBI_EN_MIN);
-> > +		if (ret)
-> > +			return ret;
-> > +	} else {
-> > +		return ret;
-> 
-> As before. I'd prefer error cases handled first. The earlier code suggestion
-> doesn't quite work but something along those lines should be doable.
-> 
-Ack.
-> > +	}
-> > +
-> >  	ret = fwnode_irq_get_byname(dev_fwnode(&st->i3cdev->dev), "gp1");
-> >  	if (ret >= 0) {
-> >  		ret = devm_request_threaded_irq(dev, ret, NULL,
-> 
-> > @@ -779,6 +923,196 @@ static int ad4062_write_raw(struct iio_dev *indio_dev,
-> >  	return ret;
-> >  }
-> >  
-> > +static int ad4062_monitor_mode_enable(struct ad4062_state *st, bool enable)
-> > +{
-> > +	int ret = 0;
-> > +
-> > +	if (!enable)
-> > +		goto out_suspend;
-> > +
-> > +	ret = pm_runtime_resume_and_get(&st->i3cdev->dev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = ad4062_conversion_frequency_set(st, st->events_frequency);
-> > +	if (ret)
-> > +		goto out_suspend;
-> > +
-> > +	ret = ad4062_set_operation_mode(st, AD4062_MONITOR_MODE);
-> > +	if (ret)
-> > +		goto out_suspend;
-> > +
-> > +	return ret;
-> return 0;
->  
-Ack.
-> > +out_suspend:
-> > +	pm_runtime_put_autosuspend(&st->i3cdev->dev);
-> > +	return ret;
-> > +}
-> 
-> >  static int ad4062_triggered_buffer_postenable(struct iio_dev *indio_dev)
-> >  {
-> >  	struct ad4062_state *st = iio_priv(indio_dev);
-> > @@ -788,6 +1122,7 @@ static int ad4062_triggered_buffer_postenable(struct iio_dev *indio_dev)
-> >  	ret = pm_runtime_resume_and_get(&st->i3cdev->dev);
-> >  	if (ret)
-> >  		return ret;
-> > +	ad4062_exit_monitor_mode(st);
-> Hmm. So you always exist monitor mode if we enable the buffer. I assume that doesn't
-> change detection of events because the buffered mode also allows that?
-> 
-> Do we not need something to turn monitor mode on again once we disable buffered capture?
-No, the buffer mode does not work alongside monitor mode, I will add the
-lock 
+> Introduce three changes for improving DAMOS stat's provided information,
+> deterministic control, and reading usability.
 
-          if (st->wait_event)
-                  return -EBUSY;
+FYI, I'm not aiming to make this be merged in 6.19-rc1.
 
-> >  
-> >  	ret = ad4062_set_operation_mode(st, st->mode);
-> >  	if (ret)
-> > @@ -833,6 +1168,7 @@ static int ad4062_debugfs_reg_access(struct iio_dev *indio_dev, unsigned int reg
-> >  
-> >  	if (!iio_device_claim_direct(indio_dev))
-> >  		return -EBUSY;
-> > +	ad4062_exit_monitor_mode(st);
-> 
-> This probably needs a comment. Not obvious to me how you end up in with it enabled
-> again after the debugfs read / write finishes.
-> 
-You don't. Once a register access is done, it will drop of monitor mode
-or sample/buffer mode. But since it is a debug interface, that may be
-alright?
-> >  
-> >  	if (readval)
-> >  		ret = regmap_read(st->regmap, reg, readval);
 
-Best regards,
-Jorge
+Thanks,
+SJ
+
+[...]
