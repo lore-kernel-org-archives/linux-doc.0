@@ -1,190 +1,255 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1C815ECD7
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 19:08:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3BC15ECD7
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 19:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763924884; cv=none; b=SDPTNfp8yZ9cKA9arrvPTkz8q0b9gLGc90kcBWBwvzGdA9H9Jmlm/osHhboYhW1LP2SD1dAgO/OoiZzhdlI9Vy/eks09mS56QgiMcdy6yFQl1o/5Uw8oRDFRtJB60z24utIAu46LQQfvAmuELRPp76xiC1DKZEy/PjNnFeIpY7Y=
+	t=1763925056; cv=none; b=ZvrVH11SkrzYCv3oc/lFOg3Jxl7/EUBI9ELMrDhGBaSRdVp8Cc2a0dnUO6Gc/rUTc6IcoZJuV84A5QsMhnKidAlv7tBtorkl+QkziI7Mml7jQUnU5ZdDXUci4qTl5VtAn/AmM0YsJPGwyD3cyg8hIz8v5nM67AOAvVwxahQgeIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763924884; c=relaxed/simple;
-	bh=u1iySgEodnMhA8OEPFf3HwhjyXEF3ojGGdKR+IVaEQM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=csTa1i0Rm/bpypZ2DAnfCQhr0jHGn3Ai+PN5LDEyJ2jlq1QIUft5ISWWnzjQYwivoqGrwwXhAcIdHcrZ0awKkcofO6ZWat5GrSGg/b/+YSMZ4g8sY5y6JL4Yf4ay4NGm0f9gVmZcUixkt9QipnZ8i471b1FheIz8/jVWUVKnsAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=SvDIeMPe; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763925056; c=relaxed/simple;
+	bh=5Dk3WWXMaPnrxQkhzmNwe8zAo+cjrw2rB8aZpBmxU5o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KMR7uDek1RuZQQYcZm7JcjYPf/NRJLYwbBps0jhOLk7g3RIDIlBaeuQQWdzMPkfcFUzt3zDOcRYD5vF247iQOQv4a/WCz7WLUanNf8TkYxY/iuGdiXMGAU+yfQ4vXXYBY3N37HT7PjXZ7vJDhpNsQvsg/eKfFm01cXz3cMXiW5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XsJ3wixE; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="SvDIeMPe"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-640a0812658so5876446a12.0
-        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 11:08:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XsJ3wixE"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-297dc3e299bso35729795ad.1
+        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 11:10:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763924880; x=1764529680; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9klKgJBevyIJ9UZxwySgKudasKfMx5MCjdCZws9FhVo=;
-        b=SvDIeMPeQGzyMVjseul3WdIer2+I99GLKw4hqo/TQr+Vyct43RFUOQi+RcfMKMI/Y0
-         VbqsTax6R5/IBmjd3SSFWiQ/0WmKnpJzJKgF53c/qxZBpFepYfUr0BRcops2C3HWG7Mo
-         kfIfQyME/9EJHZV0rdQRgp1tW61q3H+XJCm9WvARdcr+rz5CjYDiLt4VYfHUxh15twqB
-         cJlT/NVpulORdFV/APNN6PCgmvPj2U37YGJbefLb3ZIigEl0D+ykf7D+XG/5hFev/ha3
-         TRU9mowxITD+kJ68e75b50IUzbSnPuCFfme7jZdDAAOQoOyH5xFu+lsbWUUqkMgvEHhq
-         FgfQ==
+        d=gmail.com; s=20230601; t=1763925053; x=1764529853; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AIHlhcFDlCZfZMCtwENVXGOj87xc8K+w3IyybVzXSoM=;
+        b=XsJ3wixE3nRi9sxoltkEysZkr87M3G29qCdRQCyi5wiEwhqLVd8JhnKY19xnlQV6xN
+         1bANAB7YCLNbqBylCjEk8b+DW0/xE8HB+t1xN/sJBRnANc6DWh0KO4QdEhh/U3T+RXPS
+         OqN7pZ95Jjz3PjEkDxXet1Z5046yTLUylKPiJLiPFs616Mj7+Mgw604ikOlAWuW7KmP3
+         OO0NCaAXHsbNb6goMP3ly7uCZXLc35t3MAMxamYEN7ZTsVLawGxoLfSbqW56azhQy0Zd
+         9QH32RRi1ucL6aYEGTYsgjEdbfhkGVpS5DKn14ZEf4ERkjUxY3XVOKxBzDs/CdGCt2Gy
+         eFAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763924880; x=1764529680;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1763925053; x=1764529853;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9klKgJBevyIJ9UZxwySgKudasKfMx5MCjdCZws9FhVo=;
-        b=GGBK+08GT5Ec5M/cjRIlainJ6BdB/vTN8zyuqN56VfGP3sAOikHKejO0cxB9XFZMYJ
-         d7s0We2rFn+g2h7xGysBVM9ZTa3qLIOWzL5AGn258ncT1MTJNsEpBHGbRrGaekS5kYc0
-         gaU/Lz5L7afRVeSxmp7Pb4WdcZIBpg9D2GVpH77TuZv13gwBGNZh4ccECXKJAQ1763TL
-         WVzIxtx7b0Mdi4m1JaLsdERY3NnX7OA7Uidar6BcvNtfskwvooVM0/ylwk3mm0+Luy3f
-         oRwMScxcT1f5A0MWqdJ91jT7XRlTbbgRpFTTg+4kG/VwRa0TnZ4dCeP2bwEp+OlaDoEA
-         D4Fw==
-X-Forwarded-Encrypted: i=1; AJvYcCXRT+VHLPSEZJ66EU3zEAzownKv8FTkkA0xIjVLZdKCuBBfuSLk0NLtsn3PT8X/iwDF9ZbCogR8WS4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMpUxaZOYxG/CRZxbqNQgzdrv47Q8oiYYWqPkklcxXLe60JfG8
-	UC6JUHDDgX83dHExcf6yecQHw2gpMl5986vnop0kJ2HlNJKQ79zZBohC0JBU0KkK2NKFl0KpziA
-	1+sxJ7f2uIcchs8KbN+BAKnmJSDoZ+sEY980u4cAyUw==
-X-Gm-Gg: ASbGncuBISOYOtMavg/gU7UpUY1THAtEo02sfeqWoyaSVPdD+WWOpbURmuvCbjmWIQ/
-	0OYVE9WI6R77dFy6PjhEXOLJik6LTTQ+v/+aCBvq0tCA6yxlXVwQYDcdWKQ8kSPibMWSZRDKAf+
-	RtxhTnByER+ppmSHs1rUXzJr7ynZe7f/RbuP4keEIVsn4XJAboMZNK9Y6CxIkActNRfsbzBdM3l
-	A1BINfsqi0i4gRJ2fkgqdDdluYp+M2k81adc6uNtUBz69sPMkvG1NLmDohS9Vhugjb4
-X-Google-Smtp-Source: AGHT+IFOPKZqtlSeAujqMHhI3nlxfVlasLRItw5Gn5lA8EUX2qTjBZTvohylQJZ+Rg9P0N2YJ5gu38vULtGu6oqEXEk=
-X-Received: by 2002:a05:6402:27d0:b0:640:ea4b:6a87 with SMTP id
- 4fb4d7f45d1cf-645546a47bfmr9166511a12.30.1763924879937; Sun, 23 Nov 2025
- 11:07:59 -0800 (PST)
+        bh=AIHlhcFDlCZfZMCtwENVXGOj87xc8K+w3IyybVzXSoM=;
+        b=Lo4EC8RWb4WSCzImL/dPIqUgA5umWillFf5nPWCG5qfcsSbhaOIxs03TYpFQ5Wpdjk
+         qXzmAgioh77lXQtQ8WDIKs4aMyYX2iPjVz/JJa6wMy87SSXAmLVPMKJNfwyBodZuIv5M
+         26EV5IxeCvqGzTPF/Bz+1R+knMV1KAD16rOocHCovkB6qv6uIkEDXKpSsrn63YODAo6p
+         LDIu5l11vW2DyUoTxWytlWQVHzOoef5GSDLRc/ykjS55/ML+pz+Q3R0sYqBaq/F2KpiI
+         GcxI46OlCH62wpxGC5ovo+lTpn/fAYsCp0dobM950ZoKJG0BvVv54gZBZAO88T9xCMyO
+         YrzA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7bW2+EJ2JiPrhk+DHSIhYh8b7TsFZJFcsiIE4N9misq/E6b69A8qb28YvfBX3M6Mk9JgjDwkphRQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwSP0SS3OPKME50QKwOGHMKuhx2ayqTmeEvoosyW/+xIW8TmNE
+	VtR5kvNyjq54TKkWA0cQJmAKtsDVAGzWN6TytOGX64otFEPsLnb/WNRh
+X-Gm-Gg: ASbGncuw7sH4azXx256jFtVaeZObMUMYxpCSxrkdmXt0M+jE65OESY0Xdve7+/F6A+Q
+	Tce8TQwlRw5Un8iJLyICpo0ngxjIQi5Y0KHnsk8uopbPNgY8S33EjhLLqmSDN29Q4Ia8KnE/+OT
+	HSuPNk73hJjTRvbpnnPSXbnyIhFtpDvcjfnCOYme1Hr/wsTMdU/K5XAzaaDx5SNTMB3mHqQqQMn
+	S2NqhmUVb+bMnXH/kX9JhISI5nb6/EDBTF20dbDkaDMWVtvbuCEGPoB7aSNrcQCItlvQdhRDzIG
+	SONWEkNYZ+040X0YEJZD5NgaLoHMrYELU9A4IJUuZsjrhjsUtfZnZv3PXmi0hqrIfzldi/eHIbH
+	ryxbMzkG2uD5u6UA97t5PuVTlaKK940ig19HhDGxSC99MNS0TOn3rMUNZ+KRO+HuwlU2MGLoqBj
+	tEJHtk1rFWUTb2iBT1HLdXkg==
+X-Google-Smtp-Source: AGHT+IFtFyoQBGCeygz7rw/XlQLfuLOGX/8UUzwFQ15n+r3y12JiFXj4EZnV2vMgsg6Ji3ClAYlb0Q==
+X-Received: by 2002:a17:903:4b0c:b0:297:f8d9:aad7 with SMTP id d9443c01a7336-29b6bf815fbmr100474125ad.50.1763925053254;
+        Sun, 23 Nov 2025 11:10:53 -0800 (PST)
+Received: from DESKTOP-P76LG1N.lan ([42.116.199.188])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b13e720sm109542655ad.42.2025.11.23.11.10.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Nov 2025 11:10:52 -0800 (PST)
+From: Nam Tran <trannamatk@gmail.com>
+To: lee@kernel.org
+Cc: pavel@kernel.org,
+	gregkh@linuxfoundation.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Nam Tran <trannamatk@gmail.com>
+Subject: [PATCH v18 0/3] leds: add new LED driver for TI LP5812
+Date: Mon, 24 Nov 2025 02:10:39 +0700
+Message-Id: <20251123191042.116917-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-5-pasha.tatashin@soleen.com> <aSMXM8ayzV2kx6Ws@kernel.org>
-In-Reply-To: <aSMXM8ayzV2kx6Ws@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sun, 23 Nov 2025 14:07:24 -0500
-X-Gm-Features: AWmQ_bmHjB6aEBO9sova9XMvan8ygXuOf4QeVdvSaQktHxLRV6AQzJ8ITGz3YWc
-Message-ID: <CA+CK2bDJhdTA_3hqqZtFS2hN59YfVYrG5S2WRNKNAJws-f9-gg@mail.gmail.com>
-Subject: Re: [PATCH v7 04/22] liveupdate: luo_session: add sessions support
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> > +     outgoing_buffer = kho_alloc_preserve(LUO_SESSION_PGCNT << PAGE_SHIFT);
-> > +     if (IS_ERR(outgoing_buffer))
-> > +             return PTR_ERR(header_ser);
->
-> Should be
->                 return PTR_ERR(outgoing_buffer);
+This patch series adds initial support for the TI LP5812,
+a 4x3 matrix RGB LED driver with autonomous engine control.
+This version provides a minimal, clean implementation focused
+on core functionality only. The goal is to upstream a solid
+foundation, with the expectation that additional features can
+be added incrementally in future patches.
 
-Thanks, fixed!
+The driver integrates with the LED multicolor framework and
+supports a set of basic sysfs interfaces for LED control and
+chip management.
 
->
-> Or, preferably, just drop outgoing_buffer and use header_ser everywhere.
->
-> > +     header_ser = outgoing_buffer;
-> > +     header_ser_pa = virt_to_phys(header_ser);
-> > +
-> > +     err = fdt_begin_node(fdt_out, LUO_FDT_SESSION_NODE_NAME);
-> > +     err |= fdt_property_string(fdt_out, "compatible",
-> > +                                LUO_FDT_SESSION_COMPATIBLE);
-> > +     err |= fdt_property(fdt_out, LUO_FDT_SESSION_HEADER, &header_ser_pa,
-> > +                         sizeof(header_ser_pa));
-> > +     err |= fdt_end_node(fdt_out);
-> > +
-> > +     if (err)
-> > +             goto err_unpreserve;
-> > +
-> > +     luo_session_global.outgoing.header_ser = header_ser;
-> > +     luo_session_global.outgoing.ser = (void *)(header_ser + 1);
-> > +     luo_session_global.outgoing.active = true;
-> > +
-> > +     return 0;
-> > +
-> > +err_unpreserve:
-> > +     kho_unpreserve_free(header_ser);
-> > +     return err;
-> > +}
->
-> ...
->
-> > +int luo_session_deserialize(void)
-> > +{
-> > +     struct luo_session_header *sh = &luo_session_global.incoming;
-> > +     static bool is_deserialized;
-> > +     static int err;
-> > +
-> > +     /* If has been deserialized, always return the same error code */
-> > +     if (is_deserialized)
-> > +             return err;
->
-> is_deserialized and err are uninitialized here.
+Signed-off-by: Nam Tran <trannamatk@gmail.com>
+---
+Changes in v18:
+- Mark `label` as required for all LED nodes for proper sysfs naming, including single-color
+  (led@[0-3]) and multi-color parent nodes (multi-led@[4-7]); remove previous Reviewed-by tag.
+- Simplified parse_drive_mode() logic: replaced nested if checks with continue to reduce indentation.
+- Use leds[i] instead of each in lp5812_register_leds() for clarity.
+- Remove wrapper function lp5812_auto_dc()
+- Define all magic numbers.
+- Handle parsing properties safely and removed unnecessary pre-initialization.
+- Rename lp5812_of_populate_pdata() to lp5812_of_probe().
+- Save chip in i2c_set_clientdata(), not led; use leds instead of led for the array in lp5812_probe().
+- Remove chip register map structure; use register addresses directly.
+- Minor formatting, blank line, comment clean-ups, and add email to MODULE_AUTHOR().
+- Link to v17: https://lore.kernel.org/linux-leds/20251021155927.140929-1-trannamatk@gmail.com/
 
-These are global local variables. They are automatically initialized
-to zero, and it is preferred in Linux source code to not set them to
-zero.
+Changes in v17:
+- Dropped direct_mode from ti,scan-mode property.
+- Updated logic so that omitting ti,scan-mode now implies direct-drive mode by default.
+- Refactor lp5812_parse_led_channel() to simplify function arguments.
+- Mark lp5812_cfg as const since it contains only static configuration data.
+- Link to v16: https://lore.kernel.org/linux-leds/20251013173551.108205-1-trannamatk@gmail.com/
 
-> > +
-> > +     is_deserialized = true;
-> > +     if (!sh->active)
-> > +             return 0;
-> > +
->
-> ...
->
-> > +/**
-> > + * luo_session_quiesce - Ensure no active sessions exist and lock session lists.
-> > + *
-> > + * Acquires exclusive write locks on both incoming and outgoing session lists.
-> > + * It then validates no sessions exist in either list.
-> > + *
-> > + * This mechanism is used during file handler un/registration to ensure that no
-> > + * sessions are currently using the handler, and no new sessions can be created
-> > + * while un/registration is in progress.
->
-> It makes sense to add something like this comment from luo_file.c here as well:
->
->          * This prevents registering new handlers while sessions are active or
->          * while deserialization is in progress.
+Changes in v16:
+- Renamed property 'ti,operation-mode' to 'ti,scan-mode'.
+- Simplified allowed values using regex pattern instead of long enum list.
+- Updated description accordingly and noted 'direct_mode' as default.
+- Updated core driver to match the binding change.
+- Link to v15: https://lore.kernel.org/linux-leds/20251005153337.94025-1-trannamatk@gmail.com/
 
-Done
+Changes in v15:
+- Removed all custom sysfs attributes; driver now fully relies on standard LED multicolor class interfaces.
+- Added new device tree property `ti,operation-mode` to configure direct, TCM, and mix scan modes.
+- Dropped previous Reviewed-by tag from the binding patch due to property addition.
+- Removed ABI documentation since no new sysfs entries are created.
+- Updated lp5812.rst documentation accordingly.
+- Link to v14: https://lore.kernel.org/linux-leds/20250907160944.149104-1-trannamatk@gmail.com/
 
->
-> > + *
-> > + * Return:
-> > + * true  - System is quiescent (0 sessions) and locked.
-> > + * false - Active sessions exist. The locks are released internally.
-> > + */
->
-> With those addressed:
->
-> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
->
->
-> --
-> Sincerely yours,
-> Mike.
+Changes in v14:
+- Replaced inline constants with proper macros for readability and maintainability.
+- Refactored lp5812_read() and lp5812_write() to simplify logic and improve clarity.
+- Updated lp5812_fault_clear() to use switch() instead of if/else chain.
+- Refactored parse_drive_mode() for cleaner logic, removed string parsing of concatenated data.
+- Updated activate_store() and led_current_store() to replace strsep()/kstrtoint() parsing with sscanf().
+- Removed redundant comments and renamed variables for better clarity.
+- Link to v13: https://lore.kernel.org/lkml/20250818012654.143058-1-trannamatk@gmail.com/
+
+Changes in v13:
+- Fixes build warnings reported by kernel test robot:
+  - Inconsistent indent in lp5812_probe()
+  - Uninitialized variable 'ret' in lp5812_multicolor_brightness()
+- Drop of_match_ptr() and directly assign of_match_table, as the driver is DT-only.
+- Link to v12: https://lore.kernel.org/lkml/20250728065814.120769-1-trannamatk@gmail.com/
+
+Changes in v12:
+- Reordered helper functions above lp5812_probe() for better structure.
+- Clarified DT-only support by removing fallback paths and i2c_device_id table.
+- Directly assign platform_data to the correct pointer instead of relying on
+  string comparisons (LP5812_SC_LED, LP5812_MC_LED) and container_of() casting.
+  This simplifies the logic and avoids unnecessary type checks.
+- Removed redundant messages.
+- Update ABI documentation to reflect reduced feature set.
+- Link to v11: https://lore.kernel.org/lkml/20250714172355.84609-1-trannamatk@gmail.com/
+
+Changes in v11:
+- Drop autonomous animation and other advanced features; reduce driver to core functionality only.
+- Simplify LED parsing to use a unified path.
+- Clean up and streamline code
+  - Use alphabetically ordered includes
+  - Remove redundant comments
+  - Fix style issues (e.g., comment capitalization, code placement)
+- Update ABI documentation to reflect reduced feature set.
+- Link to v10: https://lore.kernel.org/lkml/20250618183205.113344-1-trannamatk@gmail.com/
+
+Changes in v10:
+- Address feedback on v9 regarding missing Reviewed-by tag
+- Added explanation: binding structure changed significantly to integrate
+  with the standard leds-class-multicolor.yaml schema and support multi-led@
+  nodes with nested led@ subnodes. This change introduced a new patternProperties
+  hierarchy and removed the previous flat led@ layout used in the earlier versions.
+  So the Reviewed-by tag was dropped out of caution.
+- Address binding document feedback
+  - Use consistent quotes
+  - Replace 'max-cur' with the standard 'led-max-microamp'
+  - Remove 'led-cur' property
+  - Fix mixed indentation
+- Updated core driver to align with the updated binding schema.
+- Address core driver feedback
+  - Use for_each_available_child_of_node_scoped() to simplify the code
+  - Add a return checks for lp5812_write() and lp5812_read()
+  - Remove unneeded trailing commas
+  - Fix unsafe usage of stack-allocated strings
+- Link to v9: https://lore.kernel.org/lkml/20250617154020.7785-1-trannamatk@gmail.com/
+
+Changes in v9:
+- Move driver back to drivers/leds/rgb/
+- Integrate with LED multicolor framework
+- Refactor and simplify custom sysfs handling
+- Extend Device Tree binding to support multi-led@ nodes using leds-class-multicolor.yaml
+- Update documentation to reflect the updated sysfs.
+- Link to v8: https://lore.kernel.org/lkml/20250427082447.138359-1-trannamatk@gmail.com/
+
+Changes in v8:
+- Move driver to drivers/auxdisplay/ instead of drivers/leds/.
+- Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+- Move ti,lp5812.yaml binding to auxdisplay/ directory,
+  and update the title and $id to match new path.
+- No functional changes to the binding itself (keep Reviewed-by).
+- Update commit messages and patch titles to reflect the move.
+- Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
+
+Changes in v7:
+- Mark `chip_leds_map` as const.
+- Use consistent `ret` initialization.
+- Simplify the function `set_mix_sel_led()`.
+- Refactor `dev_config_show()` and `led_auto_animation_show()` to avoid temp buffer, malloc/free.
+- Simplify the code and ensure consistent use of mutex lock/unlock in show/store functions.
+- Remove `total_leds` and `total_aeu`.
+- Link to v6: https://lore.kernel.org/linux-leds/20250419184333.56617-1-trannamatk@gmail.com/
+
+Changes in v6:
+- Add `vcc-supply` property to describe the LP5812 power supply.
+- Remove `chan-name` property and entire LED subnodes, as they are not needed.
+- Update LP5812 LED driver node to Raspberry Pi 4 B Device Tree, based on updated binding.
+- Link to v5: https://lore.kernel.org/linux-leds/20250414145742.35713-1-trannamatk@gmail.com/
+
+Changes in v5:
+- Rebase on v6.15-rc2
+- Removed unused functions (lp5812_dump_regs, lp5812_update_bit).
+- Address Krzysztof's review comments
+- Link to v4: https://lore.kernel.org/linux-leds/20250405183246.198568-1-trannamatk@gmail.com/
+---
+
+Nam Tran (3):
+  dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
+  leds: add basic support for TI/National Semiconductor LP5812 LED
+    Driver
+  docs: leds: Document TI LP5812 LED driver
+
+ .../devicetree/bindings/leds/ti,lp5812.yaml   | 251 +++++++
+ Documentation/leds/index.rst                  |   1 +
+ Documentation/leds/leds-lp5812.rst            |  50 ++
+ MAINTAINERS                                   |  11 +
+ drivers/leds/rgb/Kconfig                      |  13 +
+ drivers/leds/rgb/Makefile                     |   1 +
+ drivers/leds/rgb/leds-lp5812.c                | 646 ++++++++++++++++++
+ drivers/leds/rgb/leds-lp5812.h                | 172 +++++
+ 8 files changed, 1145 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
+ create mode 100644 Documentation/leds/leds-lp5812.rst
+ create mode 100644 drivers/leds/rgb/leds-lp5812.c
+ create mode 100644 drivers/leds/rgb/leds-lp5812.h
+
+
+base-commit: 1af5c1d3a90246a15225fc7de0ed7e5f9b2f3f98
+-- 
+2.25.1
+
