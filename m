@@ -1,302 +1,534 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m49208.qiye.163.com (mail-m49208.qiye.163.com [45.254.49.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7E3285CA2
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 12:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B514485C4A
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 12:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763899442; cv=none; b=EjYVPqo1ToqOJuCbSMT2Xxn0yfBto4DFpWBCKVL3QnLKpbbsrj4rkaUm8EBNrMWcF0iVnEoQiWiM0/olaxyvovZZkoq8quRqKuPl7rVkDm556pNd2wvbBOKp2usKqsAzWX77QcJzr3KOtukNMG4YqrPT0oc6T1wcDjHAgPJ/MXc=
+	t=1763899895; cv=none; b=G87OMmONUyxVH1rgtT7Kdx0uyVx8nrjfOes7PHJOb9J8O2zISZn63u2MxRr+1JwpYEcT3u+vfWoDDk+ykrlk0U1jH4Iakow41e41jNKDV2TMESaQe5jRPvt2dapILFx6CXyV7pw8ST0CiFF0p333ntjZCJhZrq6sRZmKgOY3l58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763899442; c=relaxed/simple;
-	bh=oYtIosH0dW5hqrHgNrJe5OOHl1tev8dHqkLMKGUb38c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FKjl16K1OIhQBkMD5v0oc3n2qgS+OzOEO7cKJkO6geHzzHQagmZZKuYUz+7054OV16n7DIVEmNyz7qQFSwK7ECarDWIs90XGErOwoXkngib+ZNdIereTuj7XKF5UdT7WMsPKGJ8DeWkW+X8cNErVdOOuuNqLkMEB7t7dQ284NQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=fe7vA7jG; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763899895; c=relaxed/simple;
+	bh=QFjZgEqKCURa5FFVyPsmtFrg/supfsEyubkpLkPcKqI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ihdv2Zfh+E3Gzri3KUhi1MlR73FI7ylaVQzqRw5C1gXGIThv1poVy6KRSgD7UmXFDx2jS1Dg2knvVT22FuMA9IcirX+wBtrn7c7cd04cbEis6QIcG+CLiq0Od5QTT5TuIAUHe+iuD4RGL7eXymGbkfuc0j+2uCvYzkpkgZObM+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=ZVooJdJr; arc=none smtp.client-ip=45.254.49.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="fe7vA7jG"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6417313bddaso5170336a12.3
-        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 04:03:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763899437; x=1764504237; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yZ6437ATus0ug/QEfcQ75ODju9BI6cshDa1KKSODRwE=;
-        b=fe7vA7jGu1Bc25+wXVAyjp5nzeAv/sLq4ifVUJ2FJ3nR1E57vusPwUPHFnys2WxIum
-         EtfIpcZOqvC31IlDfmRqkdJ2dIXwvZne+tWUVKdfM7j4JQ+UxpsAjDp7X9aGfI9Qbvc+
-         Yj1sX8yQEKmcII0jLOlMDgHiUUSGwlqzyTRSq7y/akS7dl5+ktR7O4FhHadXAspQDNCk
-         uCRYBtl2ygcc7LiApA/whb5Ms2aS0UKSoVOzpzyVK7Z8Bltojw0Dkl1+Au2LZ4A8ft+b
-         /RvwzKZJkqXQQXyGX3Y+yO1ukLU1KBD5qvRW1jJSmHAgmLzelsGWrRVVQi/PxbYLiwKo
-         TbTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763899437; x=1764504237;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=yZ6437ATus0ug/QEfcQ75ODju9BI6cshDa1KKSODRwE=;
-        b=VFO42oO6Qe04VboigkaGYAxSqy1uYVnI38qfoXOkQo2RrB3/0+LPFW858AtFW4J673
-         /4hsTzZ1hwNUnqvp1JIoO/wKMCrqgZaiNzcMPoq9nbqfQKGBrT7P7PzqxToNoG8vVkxG
-         kA0k1z3AeLmwdNYqmUqCcU9JQZNQYTrDTJHRidXglJXcAV4PZkGz95t3ljMfyNRLfGmW
-         28CvxboonYN6Y+A9kmWAo8AWZHrj6iiPkpLNDitqCuPic1FZlbfISdBHt25T7qukWa/X
-         f9iZHIP55HxtFl4A7fmc74/Bl92Tx9wIl89iQgHED1FA0xiG6OY7l3p3i6UADXVlaI57
-         6CLw==
-X-Forwarded-Encrypted: i=1; AJvYcCVOXuXDXpKHLybcK9nR4LiHtjfhskL6hdw64/X4aPK77rI6WQOW9RFCtFvU31YBJLnCOOwA71s5Ybo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxP0v287PUqtjKvA99zz4Cz9PVW12EPB9/8uWNce/ovF9hdJjec
-	S7kd64BIQVxPMyzY8+Af3KWIOZeoD+PRzPQE8OIhfrbyja7zQpb7FYOzkmIaf4jN5b/8LDtCOxo
-	y/NwkuBqCEkmU7n8ErbIp47Z8RjkMBz+muzMQfpZ2pg==
-X-Gm-Gg: ASbGncvC18U6k8ccP33VvHuc/7yNi51NQpQz67WHrbpb6y4bh+n82CYxfjkoWShis1g
-	1SgvlByBNzPRd5PkgGsaq2z338eqOiXNgOZLGVWaxc7mXnnkdWVrSliwhOC/rpS6VD4xhT/gyh7
-	loAD6WzBSH5L1MInm+cuAAoNV+zT33u29JNM3YWzUhQjhoUKCqYbytgigTvI9fN+APWPMu2rQsm
-	Da6AsEtsZhmgB1JNupDTuzwdwt2fhOOPkVxJaVFrqwEW+Yb/avBDbMgelnVzIuQC+qS
-X-Google-Smtp-Source: AGHT+IHY4DpDIVQj3DszXOkjPRhgk1igiuds0AT/lVzEITdo2CXMJTFn5D87cQjW3K+5NSqSzXFewu7L010slYHUxPQ=
-X-Received: by 2002:a05:6402:1ed2:b0:640:80cc:f08e with SMTP id
- 4fb4d7f45d1cf-645546926damr7284637a12.26.1763899435959; Sun, 23 Nov 2025
- 04:03:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="ZVooJdJr"
+Received: from server001 (unknown [1.203.157.252])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2a90290fa;
+	Sun, 23 Nov 2025 19:56:02 +0800 (GMT+08:00)
+From: macrofun <baikefan@leap-io-kernel.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 10/25] docs/zh_CN: Add gadget_hid.rst translation
+Date: Sun, 23 Nov 2025 19:56:08 +0800
+Message-ID: <24670a5803653b6532541f4fe02ecb06f7efec5a.1763897036.git.baikefan@leap-io-kernel.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1763897036.git.baikefan@leap-io-kernel.com>
+References: <cover.1763897036.git.baikefan@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-3-pasha.tatashin@soleen.com> <aSLvo0uXLOaE2JW6@kernel.org>
-In-Reply-To: <aSLvo0uXLOaE2JW6@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sun, 23 Nov 2025 07:03:19 -0500
-X-Gm-Features: AWmQ_blpSM5U1pU28FozBhcwrN7bmkenjnD3bgD84GHtMLQK1GWO_h-EYfP_LEg
-Message-ID: <CA+CK2bCj2OAQjM-0rD+DP0t4v71j70A=HHdQ212ASxX=xoREXw@mail.gmail.com>
-Subject: Re: [PATCH v7 02/22] liveupdate: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9ab09232e509d5kunm2b5c8c0429adb0
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDTE8eVk9KGEtKQkpKTx0YGlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
+	VLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=ZVooJdJrCGTXaq6hX6gnkwCbA03eJxdNLjgAv4RTdQaAJzwaZgJbjbIkZPiGuiqCmshoVKP7JT0VLf060rpBuPUFsAezZGahl8RtL+jZsJX9vKT/yqVPIGjLvL+yspIIxexLIdG2qD/666zj+Ml9JhRSTLI8wo/OM+WiKroeL5f4yX7sz/hD23A9y+HTOmvIOAGjIaFO3qlTiMF8ekd4ooE5lOevCwwdWSqCt8EgQYGktDflDYFDMrVGxG7+Q88K3whKmYwAK3BRZ+92mWps8+YdQT7PkJufif3cODIpazFV5KyVo/3NGgI1Xzv/as3dtSVaukw6GDo5qAyng8zm1w==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=mnVuD6lagK0UI3sZYt3ig49msA/iVj8j4OArmqzpgXM=;
+	h=date:mime-version:subject:message-id:from;
 
-On Sun, Nov 23, 2025 at 6:27=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Sat, Nov 22, 2025 at 05:23:29PM -0500, Pasha Tatashin wrote:
-> > Integrate the LUO with the KHO framework to enable passing LUO state
-> > across a kexec reboot.
-> >
-> > This patch implements the lifecycle integration with KHO:
-> >
-> > 1. Incoming State: During early boot (`early_initcall`), LUO checks if
-> >    KHO is active. If so, it retrieves the "LUO" subtree, verifies the
-> >    "luo-v1" compatibility string, and reads the `liveupdate-number` to
-> >    track the update count.
-> >
-> > 2. Outgoing State: During late initialization (`late_initcall`), LUO
-> >    allocates a new FDT for the next kernel, populates it with the basic
-> >    header (compatible string and incremented update number), and
-> >    registers it with KHO (`kho_add_subtree`).
-> >
-> > 3. Finalization: The `liveupdate_reboot()` notifier is updated to invok=
-e
-> >    `kho_finalize()`. This ensures that all memory segments marked for
-> >    preservation are properly serialized before the kexec jump.
-> >
-> > LUO now depends on `CONFIG_KEXEC_HANDOVER`.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  include/linux/kho/abi/luo.h      |  54 +++++++++++
-> >  kernel/liveupdate/luo_core.c     | 154 ++++++++++++++++++++++++++++++-
-> >  kernel/liveupdate/luo_internal.h |  22 +++++
-> >  3 files changed, 229 insertions(+), 1 deletion(-)
-> >  create mode 100644 include/linux/kho/abi/luo.h
-> >  create mode 100644 kernel/liveupdate/luo_internal.h
-> >
-> > diff --git a/include/linux/kho/abi/luo.h b/include/linux/kho/abi/luo.h
-> > new file mode 100644
-> > index 000000000000..8523b3ff82d1
-> > --- /dev/null
-> > +++ b/include/linux/kho/abi/luo.h
-> > @@ -0,0 +1,54 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +
-> > +/*
-> > + * Copyright (c) 2025, Google LLC.
-> > + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> > + */
-> > +
-> > +/**
-> > + * DOC: Live Update Orchestrator ABI
-> > + *
-> > + * This header defines the stable Application Binary Interface used by=
- the
-> > + * Live Update Orchestrator to pass state from a pre-update kernel to =
-a
-> > + * post-update kernel. The ABI is built upon the Kexec HandOver framew=
-ork
-> > + * and uses a Flattened Device Tree to describe the preserved data.
-> > + *
-> > + * This interface is a contract. Any modification to the FDT structure=
-, node
-> > + * properties, compatible strings, or the layout of the `__packed` ser=
-ialization
-> > + * structures defined here constitutes a breaking change. Such changes=
- require
-> > + * incrementing the version number in the relevant `_COMPATIBLE` strin=
-g to
-> > + * prevent a new kernel from misinterpreting data from an old kernel.
->
-> From v6 thread:
->
-> > > I'd add a sentence that stresses that ABI changes are possible as lon=
-g they
-> > > include changes to the FDT version.
-> > > This is indeed implied by the last paragraph, but I think it's worth
-> > > spelling it explicitly.
-> > >
-> > > Another thing that I think this should mention is that compatibility =
-is
-> > > only guaranteed for the kernels that use the same ABI version.
-> >
-> > Sure, I will add both.
->
-> Looks like it fell between the cracks :/
+Translate .../usb/gadget_hid.rst into Chinese.
 
-Hm, when I was updating the patches, I included the first part, and
-then re-read the content, and I think it covers all points:
+Update the translation through commit ffeb1e9e897b
+("USB: Replace HTTP links with HTTPS ones")
 
-1. Changes are possible
-This interface is a contract. Any modification to the FDT structure, node
- * properties, compatible strings, or the layout of the `__packed` serializ=
-ation
- * structures defined here constitutes a breaking change. Such changes requ=
-ire
- * incrementing the version number in the relevant `_COMPATIBLE` string
+Signed-off-by: macrofun <baikefan@leap-io-kernel.com>
+---
+ .../translations/zh_CN/usb/gadget_hid.rst     | 462 ++++++++++++++++++
+ 1 file changed, 462 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/gadget_hid.rst
 
-So, change as long as you update versioning number
+diff --git a/Documentation/translations/zh_CN/usb/gadget_hid.rst b/Documentation/translations/zh_CN/usb/gadget_hid.rst
+new file mode 100644
+index 000000000000..3c1fa8ed3979
+--- /dev/null
++++ b/Documentation/translations/zh_CN/usb/gadget_hid.rst
+@@ -0,0 +1,462 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/usb/gadget_hid.rst
++:翻译:
++
++ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
++
++:校译:
++
++
++
++===========================
++Linux USB HID gadget驱动
++===========================
++
++简介
++====
++HID Gadget驱动提供USB人机接口设备（HID）的模拟实现。
++基础的HID处理由内核完成，
++HID报告可以通过对 /dev/hidgX 字符设备进行I/O来发送/接收。
++
++关于HID的更多细节请参考开发者页面：
++https://www.usb.org/developers/hidpage/
++
++配置
++====
++g_hid是一个 platform driver，因此要使用它，
++你需要在平台代码中添加 struct platform_device，
++定义你想要使用的HID功能描述符 —— 例如如下代码：::
++
++  #include <linux/platform_device.h>
++  #include <linux/usb/g_hid.h>
++
++  /* hid descriptor for a keyboard */
++  static struct hidg_func_descriptor my_hid_data = {
++	.subclass		= 0, /* 无子类 */
++	.protocol		= 1, /* 键盘 */
++	.report_length		= 8,
++	.report_desc_length	= 63,
++	.report_desc		= {
++		0x05, 0x01,	/* USAGE_PAGE (Generic Desktop)	          */
++		0x09, 0x06,	/* USAGE (Keyboard)                       */
++		0xa1, 0x01,	/* COLLECTION (Application)               */
++		0x05, 0x07,	/*   USAGE_PAGE (Keyboard)                */
++		0x19, 0xe0,	/*   USAGE_MINIMUM (Keyboard LeftControl) */
++		0x29, 0xe7,	/*   USAGE_MAXIMUM (Keyboard Right GUI)   */
++		0x15, 0x00,	/*   LOGICAL_MINIMUM (0)                  */
++		0x25, 0x01,	/*   LOGICAL_MAXIMUM (1)                  */
++		0x75, 0x01,	/*   REPORT_SIZE (1)                      */
++		0x95, 0x08,	/*   REPORT_COUNT (8)                     */
++		0x81, 0x02,	/*   INPUT (Data,Var,Abs)                 */
++		0x95, 0x01,	/*   REPORT_COUNT (1)                     */
++		0x75, 0x08,	/*   REPORT_SIZE (8)                      */
++		0x81, 0x03,	/*   INPUT (Cnst,Var,Abs)                 */
++		0x95, 0x05,	/*   REPORT_COUNT (5)                     */
++		0x75, 0x01,	/*   REPORT_SIZE (1)                      */
++		0x05, 0x08,	/*   USAGE_PAGE (LEDs)                    */
++		0x19, 0x01,	/*   USAGE_MINIMUM (Num Lock)             */
++		0x29, 0x05,	/*   USAGE_MAXIMUM (Kana)                 */
++		0x91, 0x02,	/*   OUTPUT (Data,Var,Abs)                */
++		0x95, 0x01,	/*   REPORT_COUNT (1)                     */
++		0x75, 0x03,	/*   REPORT_SIZE (3)                      */
++		0x91, 0x03,	/*   OUTPUT (Cnst,Var,Abs)                */
++		0x95, 0x06,	/*   REPORT_COUNT (6)                     */
++		0x75, 0x08,	/*   REPORT_SIZE (8)                      */
++		0x15, 0x00,	/*   LOGICAL_MINIMUM (0)                  */
++		0x25, 0x65,	/*   LOGICAL_MAXIMUM (101)                */
++		0x05, 0x07,	/*   USAGE_PAGE (Keyboard)                */
++		0x19, 0x00,	/*   USAGE_MINIMUM (Reserved)             */
++		0x29, 0x65,	/*   USAGE_MAXIMUM (Keyboard Application) */
++		0x81, 0x00,	/*   INPUT (Data,Ary,Abs)                 */
++		0xc0		/* END_COLLECTION                         */
++	}
++  };
++
++  static struct platform_device my_hid = {
++	.name			= "hidg",
++	.id			= 0,
++	.num_resources		= 0,
++	.resource		= 0,
++	.dev.platform_data	= &my_hid_data,
++  };
++
++你可以添加任意数量的HID功能，
++唯一的限制是gadget驱动所支持的中断端点数量。
++
++使用configfs进行配置
++======================
++
++与其通过添加虚拟的platform device和driver来向内核传递数据，不如这样做：
++如果HID是由configfs组成的gadget的一部分，
++hidg_func_descriptor.report_desc可以直接通过
++向configfs属性写入相应的字节流来传递给内核。
++
++发送和接收HID报告
++====================
++
++HID报告可以通过对/dev/hidgX字符设备执行
++read/write来发送或接收。下面是一个示例程序展示如何实现。
++
++hid_gadget_test是一个用于测试HID gadget驱动的小型交互程序。
++使用方式是指定一个hidg设备并设置设备类型（keyboard / mouse / joystick）
++—— 例如::
++
++	# hid_gadget_test /dev/hidg0 keyboard
++
++现在你进入了hid_gadget_test的提示界面。
++你可以输入任意组合的选项和值。
++可用的选项和值会在程序启动时列出。
++在键盘模式下，你最多可以发送六个值。
++
++例如输入： g i s t r --left-shift
++
++按回车后，会由HID gadget发送对应的报告。
++
++另一个有趣的例子是大小写锁定（caps lock）测试。
++输入--caps-lock 然后回车，gadget 会发送一个报告，
++并且你将收到主机端的回应，对应于 caps lock LED 的状态::
++
++	--caps-lock
++	recv report:2
++
++使用以下命令::
++
++	# hid_gadget_test /dev/hidg1 mouse
++
++你可以测试鼠标模拟。数值是两个有符号数。
++
++
++示例代码::
++
++    /* hid_gadget_test */
++
++    #include <pthread.h>
++    #include <string.h>
++    #include <stdio.h>
++    #include <ctype.h>
++    #include <fcntl.h>
++    #include <errno.h>
++    #include <stdio.h>
++    #include <stdlib.h>
++    #include <unistd.h>
++
++    #define BUF_LEN 512
++
++    struct options {
++	const char    *opt;
++	unsigned char val;
++  };
++
++  static struct options kmod[] = {
++	{.opt = "--left-ctrl",		.val = 0x01},
++	{.opt = "--right-ctrl",		.val = 0x10},
++	{.opt = "--left-shift",		.val = 0x02},
++	{.opt = "--right-shift",	.val = 0x20},
++	{.opt = "--left-alt",		.val = 0x04},
++	{.opt = "--right-alt",		.val = 0x40},
++	{.opt = "--left-meta",		.val = 0x08},
++	{.opt = "--right-meta",		.val = 0x80},
++	{.opt = NULL}
++  };
++
++  static struct options kval[] = {
++	{.opt = "--return",	.val = 0x28},
++	{.opt = "--esc",	.val = 0x29},
++	{.opt = "--bckspc",	.val = 0x2a},
++	{.opt = "--tab",	.val = 0x2b},
++	{.opt = "--spacebar",	.val = 0x2c},
++	{.opt = "--caps-lock",	.val = 0x39},
++	{.opt = "--f1",		.val = 0x3a},
++	{.opt = "--f2",		.val = 0x3b},
++	{.opt = "--f3",		.val = 0x3c},
++	{.opt = "--f4",		.val = 0x3d},
++	{.opt = "--f5",		.val = 0x3e},
++	{.opt = "--f6",		.val = 0x3f},
++	{.opt = "--f7",		.val = 0x40},
++	{.opt = "--f8",		.val = 0x41},
++	{.opt = "--f9",		.val = 0x42},
++	{.opt = "--f10",	.val = 0x43},
++	{.opt = "--f11",	.val = 0x44},
++	{.opt = "--f12",	.val = 0x45},
++	{.opt = "--insert",	.val = 0x49},
++	{.opt = "--home",	.val = 0x4a},
++	{.opt = "--pageup",	.val = 0x4b},
++	{.opt = "--del",	.val = 0x4c},
++	{.opt = "--end",	.val = 0x4d},
++	{.opt = "--pagedown",	.val = 0x4e},
++	{.opt = "--right",	.val = 0x4f},
++	{.opt = "--left",	.val = 0x50},
++	{.opt = "--down",	.val = 0x51},
++	{.opt = "--kp-enter",	.val = 0x58},
++	{.opt = "--up",		.val = 0x52},
++	{.opt = "--num-lock",	.val = 0x53},
++	{.opt = NULL}
++  };
++
++  int keyboard_fill_report(char report[8], char buf[BUF_LEN], int *hold)
++  {
++	char *tok = strtok(buf, " ");
++	int key = 0;
++	int i = 0;
++
++	for (; tok != NULL; tok = strtok(NULL, " ")) {
++
++		if (strcmp(tok, "--quit") == 0)
++			return -1;
++
++		if (strcmp(tok, "--hold") == 0) {
++			*hold = 1;
++			continue;
++		}
++
++		if (key < 6) {
++			for (i = 0; kval[i].opt != NULL; i++)
++				if (strcmp(tok, kval[i].opt) == 0) {
++					report[2 + key++] = kval[i].val;
++					break;
++				}
++			if (kval[i].opt != NULL)
++				continue;
++		}
++
++		if (key < 6)
++			if (islower(tok[0])) {
++				report[2 + key++] = (tok[0] - ('a' - 0x04));
++				continue;
++			}
++
++		for (i = 0; kmod[i].opt != NULL; i++)
++			if (strcmp(tok, kmod[i].opt) == 0) {
++				report[0] = report[0] | kmod[i].val;
++				break;
++			}
++		if (kmod[i].opt != NULL)
++			continue;
++
++		if (key < 6)
++			fprintf(stderr, "unknown option: %s\n", tok);
++	}
++	return 8;
++  }
++
++  static struct options mmod[] = {
++	{.opt = "--b1", .val = 0x01},
++	{.opt = "--b2", .val = 0x02},
++	{.opt = "--b3", .val = 0x04},
++	{.opt = NULL}
++  };
++
++  int mouse_fill_report(char report[8], char buf[BUF_LEN], int *hold)
++  {
++	char *tok = strtok(buf, " ");
++	int mvt = 0;
++	int i = 0;
++	for (; tok != NULL; tok = strtok(NULL, " ")) {
++
++		if (strcmp(tok, "--quit") == 0)
++			return -1;
++
++		if (strcmp(tok, "--hold") == 0) {
++			*hold = 1;
++			continue;
++		}
++
++		for (i = 0; mmod[i].opt != NULL; i++)
++			if (strcmp(tok, mmod[i].opt) == 0) {
++				report[0] = report[0] | mmod[i].val;
++				break;
++			}
++		if (mmod[i].opt != NULL)
++			continue;
++
++		if (!(tok[0] == '-' && tok[1] == '-') && mvt < 2) {
++			errno = 0;
++			report[1 + mvt++] = (char)strtol(tok, NULL, 0);
++			if (errno != 0) {
++				fprintf(stderr, "Bad value:'%s'\n", tok);
++				report[1 + mvt--] = 0;
++			}
++			continue;
++		}
++
++		fprintf(stderr, "unknown option: %s\n", tok);
++	}
++	return 3;
++  }
++
++  static struct options jmod[] = {
++	{.opt = "--b1",		.val = 0x10},
++	{.opt = "--b2",		.val = 0x20},
++	{.opt = "--b3",		.val = 0x40},
++	{.opt = "--b4",		.val = 0x80},
++	{.opt = "--hat1",	.val = 0x00},
++	{.opt = "--hat2",	.val = 0x01},
++	{.opt = "--hat3",	.val = 0x02},
++	{.opt = "--hat4",	.val = 0x03},
++	{.opt = "--hatneutral",	.val = 0x04},
++	{.opt = NULL}
++  };
++
++  int joystick_fill_report(char report[8], char buf[BUF_LEN], int *hold)
++  {
++	char *tok = strtok(buf, " ");
++	int mvt = 0;
++	int i = 0;
++
++	*hold = 1;
++
++	/* set default hat position: neutral */
++	report[3] = 0x04;
++
++	for (; tok != NULL; tok = strtok(NULL, " ")) {
++
++		if (strcmp(tok, "--quit") == 0)
++			return -1;
++
++		for (i = 0; jmod[i].opt != NULL; i++)
++			if (strcmp(tok, jmod[i].opt) == 0) {
++				report[3] = (report[3] & 0xF0) | jmod[i].val;
++				break;
++			}
++		if (jmod[i].opt != NULL)
++			continue;
++
++		if (!(tok[0] == '-' && tok[1] == '-') && mvt < 3) {
++			errno = 0;
++			report[mvt++] = (char)strtol(tok, NULL, 0);
++			if (errno != 0) {
++				fprintf(stderr, "Bad value:'%s'\n", tok);
++				report[mvt--] = 0;
++			}
++			continue;
++		}
++
++		fprintf(stderr, "unknown option: %s\n", tok);
++	}
++	return 4;
++  }
++
++  void print_options(char c)
++  {
++	int i = 0;
++
++	if (c == 'k') {
++		printf("	keyboard options:\n"
++		       "		--hold\n");
++		for (i = 0; kmod[i].opt != NULL; i++)
++			printf("\t\t%s\n", kmod[i].opt);
++		printf("\n	keyboard values:\n"
++		       "		[a-z] or\n");
++		for (i = 0; kval[i].opt != NULL; i++)
++			printf("\t\t%-8s%s", kval[i].opt, i % 2 ? "\n" : "");
++		printf("\n");
++	} else if (c == 'm') {
++		printf("	mouse options:\n"
++		       "		--hold\n");
++		for (i = 0; mmod[i].opt != NULL; i++)
++			printf("\t\t%s\n", mmod[i].opt);
++		printf("\n	mouse values:\n"
++		       "		Two signed numbers\n"
++		       "--quit to close\n");
++	} else {
++		printf("	joystick options:\n");
++		for (i = 0; jmod[i].opt != NULL; i++)
++			printf("\t\t%s\n", jmod[i].opt);
++		printf("\n	joystick values:\n"
++		       "		three signed numbers\n"
++		       "--quit to close\n");
++	}
++  }
++
++  int main(int argc, const char *argv[])
++  {
++	const char *filename = NULL;
++	int fd = 0;
++	char buf[BUF_LEN];
++	int cmd_len;
++	char report[8];
++	int to_send = 8;
++	int hold = 0;
++	fd_set rfds;
++	int retval, i;
++
++	if (argc < 3) {
++		fprintf(stderr, "Usage: %s devname mouse|keyboard|joystick\n",
++			argv[0]);
++		return 1;
++	}
++
++	if (argv[2][0] != 'k' && argv[2][0] != 'm' && argv[2][0] != 'j')
++	  return 2;
++
++	filename = argv[1];
++
++	if ((fd = open(filename, O_RDWR, 0666)) == -1) {
++		perror(filename);
++		return 3;
++	}
++
++	print_options(argv[2][0]);
++
++	while (42) {
++
++		FD_ZERO(&rfds);
++		FD_SET(STDIN_FILENO, &rfds);
++		FD_SET(fd, &rfds);
++
++		retval = select(fd + 1, &rfds, NULL, NULL, NULL);
++		if (retval == -1 && errno == EINTR)
++			continue;
++		if (retval < 0) {
++			perror("select()");
++			return 4;
++		}
++
++		if (FD_ISSET(fd, &rfds)) {
++			cmd_len = read(fd, buf, BUF_LEN - 1);
++			printf("recv report:");
++			for (i = 0; i < cmd_len; i++)
++				printf(" %02x", buf[i]);
++			printf("\n");
++		}
++
++		if (FD_ISSET(STDIN_FILENO, &rfds)) {
++			memset(report, 0x0, sizeof(report));
++			cmd_len = read(STDIN_FILENO, buf, BUF_LEN - 1);
++
++			if (cmd_len == 0)
++				break;
++
++			buf[cmd_len - 1] = '\0';
++			hold = 0;
++
++			memset(report, 0x0, sizeof(report));
++			if (argv[2][0] == 'k')
++				to_send = keyboard_fill_report(report, buf, &hold);
++			else if (argv[2][0] == 'm')
++				to_send = mouse_fill_report(report, buf, &hold);
++			else
++				to_send = joystick_fill_report(report, buf, &hold);
++
++			if (to_send == -1)
++				break;
++
++			if (write(fd, report, to_send) != to_send) {
++				perror(filename);
++				return 5;
++			}
++			if (!hold) {
++				memset(report, 0x0, sizeof(report));
++				if (write(fd, report, to_send) != to_send) {
++					perror(filename);
++					return 6;
++				}
++			}
++		}
++	}
++
++	close(fd);
++	return 0;
++  }
+-- 
+2.52.0
 
-2. Breaking if version is different:
-to prevent a new kernel from misinterpreting data from an old kernel.
-
-So, the next kernel can interpret only if the version is the same.
-
-Which point do you think is not covered?
-
->
-> > +static int __init liveupdate_early_init(void)
-> > +{
-> > +     int err;
-> > +
-> > +     err =3D luo_early_startup();
-> > +     if (err) {
-> > +             luo_global.enabled =3D false;
-> > +             luo_restore_fail("The incoming tree failed to initialize =
-properly [%pe], disabling live update\n",
-> > +                              ERR_PTR(err));
->
-> What's wrong with a plain panic()?
-
-Jason suggested using the luo_restore_fail() function instead of
-inserting panic() right in code somewhere in LUOv3 or earlier. It
-helps avoid sprinkling panics in different places, and also in case if
-we add the maintenance mode that we have discussed in LUOv6, we could
-update this function as a place where that mode would be switched on.
-
-> > +     }
-> > +
-> > +     return err;
-> > +}
-> > +early_initcall(liveupdate_early_init);
-> > +
->
-> ...
->
-> >  int liveupdate_reboot(void)
-> >  {
-> > -     return 0;
-> > +     int err;
-> > +
-> > +     if (!liveupdate_enabled())
-> > +             return 0;
-> > +
-> > +     err =3D kho_finalize();
-> > +     if (err) {
-> > +             pr_err("kho_finalize failed %d\n", err);
->
-> Nit: why not %pe?
-
-I believe, before my last clean-up of KHO it could return FDT error in
-addition to standard errno; but anyways, this code is going to be
-removed soon with stateless KHO, keeping err instead of %pe is fine (I
-can change this if I update this patch).
-
-> > +             /*
-> > +              * kho_finalize() may return libfdt errors, to aboid pass=
-ing to
-> > +              * userspace unknown errors, change this to EAGAIN.
-> > +              */
-> > +             err =3D -EAGAIN;
-> > +     }
-> > +
-> > +     return err;
-> >  }
-> >
-> >  /**
-> > diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_i=
-nternal.h
-> > new file mode 100644
-> > index 000000000000..8612687b2000
-> > --- /dev/null
-> > +++ b/kernel/liveupdate/luo_internal.h
-> > @@ -0,0 +1,22 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +
-> > +/*
-> > + * Copyright (c) 2025, Google LLC.
-> > + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> > + */
-> > +
-> > +#ifndef _LINUX_LUO_INTERNAL_H
-> > +#define _LINUX_LUO_INTERNAL_H
-> > +
-> > +#include <linux/liveupdate.h>
-> > +
-> > +/*
-> > + * Handles a deserialization failure: devices and memory is in unpredi=
-ctable
-> > + * state.
-> > + *
-> > + * Continuing the boot process after a failure is dangerous because it=
- could
-> > + * lead to leaks of private data.
-> > + */
-> > +#define luo_restore_fail(__fmt, ...) panic(__fmt, ##__VA_ARGS__)
->
-> Let's add this when we have more than a single callsite.
-> Just use panic() in liveupdate_early_init() and add the comment there.
-
-https://lore.kernel.org/all/CA+CK2bBEX6C6v63DrK-Fx2sE7fvLTZM=3DHX0y_j4aVDYc=
-frCXOg@mail.gmail.com/
-
-This is the reason I added this function. I like the current approach.
-
-Pasha
