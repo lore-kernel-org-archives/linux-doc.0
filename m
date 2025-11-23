@@ -1,161 +1,139 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m19731109.qiye.163.com (mail-m19731109.qiye.163.com [220.197.31.109])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A861F5EA
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 11:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E354A35
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 11:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.109
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763897308; cv=none; b=e8om1a7Z4ys4CjKsS2PaKj2qcBxpDKSjQqrFSj7fuDesgN0nYFGXLkQ28FztBQ9D7c4CuaYB6ao6UdZPaAo1U9moJyABX43QSchyt53advT6aQTssv1GmmdJyw6H5De5UibiHWYsrr4vpojesrc7TltXTCY2HOSWU3kDA33gs+A=
+	t=1763898967; cv=none; b=TdJcOv0ENfDcqmHeOF870P0bvxYb5yrSYCbjRRC6B4hUNgKBtlk4JSCRSet8ft7N8fzQ7LbqXIRkwpPqhBV/23K3CrTsRvDRFTSgaaH0V4ctn1FO6OwhaoA/Sgf6SdxzsSnlT2+lfJczXPgTxixa5wM/8g/vA9lCku2FgIJwby8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763897308; c=relaxed/simple;
-	bh=kT57LczMOH07o602knbDM/aHRy0H+ccN//PzLKyZxzo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=TucMruImzZ8NyCT9JG1mRDZRqlGnK1DE7JLwJuGHYBGPx4kTQ0CWat3QnCos345n5GQO00uAYp3Z/c7RrymVzZ/q0+gCLo4mG4Gl9b40xPHRkxq7GDuTfJeB0kC75BbgzsROw1jtWpPhkWE1MAl0agrJEgV/EVvNA3dPJ2WF+oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K6xdleZw; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763898967; c=relaxed/simple;
+	bh=EkmlMt6TmPaJgAfmLTt3GXfYHMcxCvYPySJ5Cq8RdG0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PbuP7pjRTmJBCL655PCLzldCmjtTOP+vzvXaqpqhiEncA69u9UyA1HiTV3DZEU9DHns3VamLsg7inIJF308TYYicheTjLNmIgm7jMlhM3C2h+Hg2vhzy+rGhsWKEp0N8B823k/5m+KFCaucpEvVjj3KJTrCiwnrivtq71elT3Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=RamzK5xZ; arc=none smtp.client-ip=220.197.31.109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K6xdleZw"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-299d40b0845so56128835ad.3
-        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 03:28:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763897306; x=1764502106; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=61tCAo806dIBQjZwytZtfz6gA3zKHHYqFzMOBDmk6es=;
-        b=K6xdleZwCLf3CVslr10e1K8GdK3uqzFed/vJYVeK5YhHDxUqOrTz1CVqq5VYfu6HL6
-         PLKyHZHWXHtzbCGqAj/IwOe7CCO+jaePXhumcL/ua9PrN0u0jRzWyWya92xBiOlRNRuR
-         +YXzyNJWTB7nQXuZ3UxVrnADe4cmfjdkaxmhhK53klYjDIoLVsWBs50qrKNOq4oiIsm5
-         zUiGMonpEP+Wkw1BPXcGU7TuZ3Jr0f3gPBjYnQArTipoG4WiQ9GVTZvxZqcx0rX8U+0j
-         YvEZnt//0QWFB5QdphN/86ucJKlPB2IieY1XcRPQLT3zIiDMZ8Rph71pm6U6Lbzqrtg0
-         R0gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763897306; x=1764502106;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=61tCAo806dIBQjZwytZtfz6gA3zKHHYqFzMOBDmk6es=;
-        b=KRGC50RgkMo694f+LPrOX9xJckQQZLyKwIBjJKkHI5QiO8oDJT8is+OEFNVfIDr3XO
-         qfaLS66Dh+kX5umtD99wmNLegn2GqOK6V7IhzodR4Jlnu6GyIuniR3f/VQk5A0SzWMb7
-         bw9FM2E2zG8TSnnYhDP/OaEFS1eQuqUT9I5YCyXuUQzXbDe/lnKhuUP/HMD3wzrZhSPY
-         k5VMgo6t0FxSuHGGsAn60Utmw7R0FhSsPaHSmaPhbynclfJ3QQ/EmdPwkMrOervKSYov
-         AWqf+AQ1+AdE85xLz8Im21jydBbFWLDq1giTN5Hn+wxYrb3+UgmUclvf0ebeou5sJTrY
-         i4GA==
-X-Forwarded-Encrypted: i=1; AJvYcCX6PXU3936BGZ4g1LqwtPuJhMng6jJ2/EXuuXr6o1zjWryeGlQYOxMiLfBJ9F0ZTu5044GetT0yJtE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqQyQUPjjXEKzE67Bs2MDXMH6bBEzLmmbBN1BPPAqCvJD5h4i9
-	87Mj3nOC7hqESQ3qKoo1JFlOxTOMggCoTJC4ZFoAOParFSWV31TaWrM8
-X-Gm-Gg: ASbGnctV/RVRN6vSaWzkryYuioqM0vKE7KCxT9yeRJk7CZBPO2/xIuvzs4IhjU4Rq62
-	tuv3EYSb3KkDmLA4S6f8bmWD+UrXXB1YT9V8pb0yU851AiKjJEeD1HZw58Xz9j10ig0OvsTuCzt
-	qvwrMoyooRXqvnXrTBZTt38LOrguKpOuFKrxCiAQQR2efAQPyCX4e5FBG6MN04R0eKxTNRIw30t
-	CpzH61HkFxFlfWtll+sK9t8nk/mV4gXhRYNSz5oiLuOX8IuDVI+DPDkUCG+rm1Gm5lXRZienWjg
-	3xoe3CYfHBCreFQkBvWHZw7o04j/sN6c6BjnSgYX9PReLg3qANhhw9VcTOvITjeZJQJPm1oOcyA
-	Mh+O9vx6O0tlXS1oRDnX3px3vxVUvIEPh7fkCPFIUCCPJXcV82l0T9PzLq3NF5ftQQqH7O9pg78
-	6qBbSE7TOVKY7H7q7nbVRnCcxytzHv4Y1Lcn6CsnHXqqxMVm8+eHe68BBq
-X-Google-Smtp-Source: AGHT+IFxWTJB63voHXky/YXI1TWJvYvO+sEuTf/VXA4Nb4YTLVhTU1RSL+X39WT0EdMWX3Np9XW0bA==
-X-Received: by 2002:a17:902:d592:b0:293:33b:a9b0 with SMTP id d9443c01a7336-29b6bf1a512mr87555105ad.32.1763897306035;
-        Sun, 23 Nov 2025 03:28:26 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b13e720sm102905925ad.42.2025.11.23.03.28.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Nov 2025 03:28:25 -0800 (PST)
-Message-ID: <dc0540b6-4f48-4d06-b68e-c4cb8be7a52e@gmail.com>
-Date: Sun, 23 Nov 2025 20:28:23 +0900
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="RamzK5xZ"
+Received: from server001 (unknown [1.203.157.252])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2a90290ed;
+	Sun, 23 Nov 2025 19:55:54 +0800 (GMT+08:00)
+From: macrofun <baikefan@leap-io-kernel.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 00/25] Add Chinese translation for USB subsystem
+Date: Sun, 23 Nov 2025 19:55:58 +0800
+Message-ID: <cover.1763897036.git.baikefan@leap-io-kernel.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: mchehab+huawei@kernel.org
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mchehab@kernel.org, rdunlap@infradead.org
-References: <cover.1763814816.git.mchehab+huawei@kernel.org>
-Subject: Re: [PATCH v4 0/5] kernel-doc: add support for documenting vars
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <cover.1763814816.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9ab092118409d5kunm2b5c8c0429ad7b
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZGUJLVhofGhgdHRlJHxkYSlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=RamzK5xZjdMu7+sLpzjI994kOcvKf8FjzAZpe26lRCsj90qAO1hnuWRejOsM7IkpKShrZTJTEdaS5isJ4r3ERJjJqKRma6OQhXECGO/tIUb3hfPYBJdgm8hirJLNzLj8Sw+gNYU0WG/PiroepYskAnPoshpQjhkow9k9r3W72ylAMas0GkYLyI2ZN4MpPsylUyjrm3DNdbVKNoHJ+yzBO8m4bDtHrSSs5RR9oIo7qhKc0j5RWDRXRnQlvVT7XHzCqhmToHNkXD5rBmnxxdsp8V+AX1kgSqXm5JA3raZ0FEYdYNEPU9zuSPB1b3oUSD49NQW4ThT0luT4JzEgP3xCew==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=9ijWiZHw/TC6UXbTHQwoOp1rxxzpAcCZZPP7oZ0/Z2E=;
+	h=date:mime-version:subject:message-id:from;
 
-Hi Mauro,
+This patch set adds Chinese translations for the USB documentation.
 
-On Sat, 22 Nov 2025 13:37:54 +0100, Mauro Carvalho Chehab wrote:
-> Hi Jon,
-> 
-> As suggested and discussed with Randy, this small series add support
-> for documenting variables using kernel-doc.
-> 
-> - patch 1: add support for the new feature;
-> - patch 2: extends to support DEFINE_*;
-> - patch 3: document two media vars;
-> - patch 4: fix an issue on kernel-doc.rst markups and automarkup;
-> - patch 5: document it.
-> 
-> On this version, I'm using "c:macro" to describe variables, as it
-> avoids Sphinx C domain to try parse the variable. This makes it more
-> flexible and easier to maintain in long term.
+Changes in v2:
+ - Update [PATCH 01/25] docs/zh_CN: Add index.rst translation
+   to include corresponding updates in
+   Documentation/translations/zh_CN/subsystem-apis.rst.
+v1:
+ - Link: https://lore.kernel.org/all/20251123074540.34161-1-baikefan@leap-io-kernel.com/
 
-In my test on top of current docs-next, I got two *new* warnings from
-"make cleandocs; make htmldocs":
+macrofun (25):
+  docs/zh_CN: Add index.rst translation
+  docs/zh_CN: Add acm.rst translation
+  docs/zh_CN: Add authorization.rst translation
+  docs/zh_CN: Add chipidea.rst translation
+  docs/zh_CN: Add dwc3.rst translation
+  docs/zh_CN: Add ehci.rst translation
+  docs/zh_CN: Add functionfs.rst translation
+  docs/zh_CN: Add functionfs-desc.rst translation
+  docs/zh_CN: Add gadget_configfs.rst translation
+  docs/zh_CN: Add gadget_hid.rst translation
+  docs/zh_CN: Add gadget_multi.rst translation
+  docs/zh_CN: Add gadget_printer.rst translation
+  docs/zh_CN: Add gadget_serial.rst translation
+  docs/zh_CN: Add gadget_uvc.rst translation
+  docs/zh_CN: Add gadget-testing.rst translation
+  docs/zh_CN: Add iuu_phoenix.rst translation
+  docs/zh_CN: Add mass-storage.rst translation
+  docs/zh_CN: Add misc_usbsevseg.rst translation
+  docs/zh_CN: Add mtouchusb.rst translation
+  docs/zh_CN: Add ohci.rst translation
+  docs/zh_CN: Add raw-gadget.rst translation
+  docs/zh_CN: Add usbmon.rst translation
+  docs/zh_CN: Add usb-serial.rst translation
+  docs/zh_CN: Add usb-help.rst translation
+  docs/zh_CN: Add CREDITS.rst translation
 
-    .../Documentation/driver-api/media/v4l2-common:8: ../include/media/v4l2-ioctl.h:665: WARNING: Inline emphasis start-string without end-string. [docutils]
-    .../Documentation/driver-api/media/v4l2-common:8: ../include/media/v4l2-ioctl.h:678: WARNING: Inline emphasis start-string without end-string. [docutils]
+ .../translations/zh_CN/subsystem-apis.rst     |    2 +-
+ Documentation/translations/zh_CN/usb/CREDITS  |  152 +++
+ Documentation/translations/zh_CN/usb/acm.rst  |  137 +++
+ .../translations/zh_CN/usb/authorization.rst  |  125 ++
+ .../translations/zh_CN/usb/chipidea.rst       |  143 +++
+ Documentation/translations/zh_CN/usb/dwc3.rst |   59 +
+ Documentation/translations/zh_CN/usb/ehci.rst |  217 ++++
+ .../zh_CN/usb/functionfs-desc.rst             |   43 +
+ .../translations/zh_CN/usb/functionfs.rst     |   94 ++
+ .../translations/zh_CN/usb/gadget-testing.rst | 1068 +++++++++++++++++
+ .../zh_CN/usb/gadget_configfs.rst             |  383 ++++++
+ .../translations/zh_CN/usb/gadget_hid.rst     |  462 +++++++
+ .../translations/zh_CN/usb/gadget_multi.rst   |  154 +++
+ .../translations/zh_CN/usb/gadget_printer.rst |  535 +++++++++
+ .../translations/zh_CN/usb/gadget_serial.rst  |  259 ++++
+ .../translations/zh_CN/usb/gadget_uvc.rst     |  372 ++++++
+ .../translations/zh_CN/usb/index.rst          |   50 +
+ .../translations/zh_CN/usb/iuu_phoenix.rst    |  100 ++
+ .../translations/zh_CN/usb/mass-storage.rst   |  196 +++
+ .../translations/zh_CN/usb/misc_usbsevseg.rst |   61 +
+ .../translations/zh_CN/usb/mtouchusb.rst      |   89 ++
+ Documentation/translations/zh_CN/usb/ohci.rst |   46 +
+ .../translations/zh_CN/usb/raw-gadget.rst     |   91 ++
+ .../translations/zh_CN/usb/usb-help.rst       |   28 +
+ .../translations/zh_CN/usb/usb-serial.rst     |  451 +++++++
+ .../translations/zh_CN/usb/usbmon.rst         |  379 ++++++
+ 26 files changed, 5695 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/usb/CREDITS
+ create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/authorization.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/chipidea.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/dwc3.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/ehci.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/functionfs-desc.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/functionfs.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/gadget-testing.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/gadget_configfs.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/gadget_hid.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/gadget_multi.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/gadget_printer.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/gadget_serial.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/gadget_uvc.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/index.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/iuu_phoenix.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/mass-storage.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/misc_usbsevseg.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/mtouchusb.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/ohci.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/raw-gadget.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/usb-help.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/usb-serial.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/usbmon.rst
 
-"scripts/kernel-doc -rst include/media/v4l2-ioctl.h" emits the following:
-
-    .. c:macro:: v4l2_field_names
-
-=>    extern const char *v4l2_field_names[];
-
-      Helper array mapping V4L2_FIELD_* to strings.
-
-      **Description**
-
-      Specially when printing debug messages, it is interesting to output
-      the field order at the V4L2 buffers. This array associates all possible
-      values of field pix format from V4L2 API into a string.
-
-
-
-
-    .. c:macro:: v4l2_type_names
-
-=>    extern const char *v4l2_type_names[];
-
-      Helper array mapping V4L2_BUF_TYPE_* to strings.
-
-      **Description**
-
-      When printing debug messages, it is interesting to output the V4L2 buffer
-      type number with a name that represents its content.
-
-I think those declaration signatures need to be inline-literal. 
-
-Thanks, Akira
-
-> 
-> ---
-> 
-> v4: 
-> - document the new markup;
-> - fix an issue on kernel-doc.rst due to automarkup;
-> - add support for DEFINE_* macros
-> 
-> Mauro Carvalho Chehab (5):
->   kernel-doc: add support for handling global variables
->   kernel-doc: add support to handle DEFINE_ variables
->   docs: media: v4l2-ioctl.h: document two global variables
->   docs: kernel-doc.rst: don't let automarkup mangle with consts
->   docs: kernel-doc.rst: document the new "var" kernel-doc markup
-> 
->  Documentation/doc-guide/kernel-doc.rst | 48 +++++++++++------
->  include/media/v4l2-ioctl.h             | 15 ++++++
->  tools/lib/python/kdoc/kdoc_output.py   | 46 ++++++++++++++++
->  tools/lib/python/kdoc/kdoc_parser.py   | 73 +++++++++++++++++++++++++-
->  4 files changed, 166 insertions(+), 16 deletions(-)
-> 
-> -- 
-> 2.51.1
+--
+2.52.0
 
