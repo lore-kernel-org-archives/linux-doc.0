@@ -1,33 +1,33 @@
-Received: from mail-m49247.qiye.163.com (mail-m49247.qiye.163.com [45.254.49.247])
+Received: from mail-m49215.qiye.163.com (mail-m49215.qiye.163.com [45.254.49.215])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0827D2C0286
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1972C11E9
 	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 11:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.247
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.215
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763898974; cv=none; b=SvWoalZZLOnvf62/6iN88BguTKs+DP29ALIZL/LOPHhSrZYuMHHlVI+fxdxEgHiVAD1paIs2fiyx3Fy/f9GTfXA40WOTriMFVCbiTvlW0QxblABVhS7yh1OvLxwUyK5gtlgwvJULwOweow/HOVFrAVm7tvQ5kCM00LV9itiXSkk=
+	t=1763898975; cv=none; b=KljpJmbSjVZKCft4h/kWHAI4LVqICtjYVyFZb35mr0GJPKd0QkbtnmtWz7dDjKL1rM652AkmR4AJhL+njtb4pf/YR7D5neodGHtJodix4xpmNir8zoDamAIL6WGmzKgc+sPndLwOfJG/hGM4xDuOImvmjgkuGeRMae3ikKIedxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763898974; c=relaxed/simple;
-	bh=ZxHv+BhdTGDdIOkVT0m1qRkLNtS9QkSZo72U8jGHofc=;
+	s=arc-20240116; t=1763898975; c=relaxed/simple;
+	bh=9AsMERy9sHLYyFPFZrASgXFbjKTjxCsz/DHoZwdnzVY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J2Xfh6E13ewJHjEsTR4JU3LPC5hf9dpXLuNYMBR2H/QUR1CYiy+OI6cEogPxAp8SXpMsRivSkR85H/oBamKEIYaUuH1VjjUkg52A0R1ALaRI27KtzuP6QrAV0ZEkeKwNlr0eOfANF9uEz0qcl9W0FqRKvFEReiiMxJHTl/TWflo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=HM7VXNCp; arc=none smtp.client-ip=45.254.49.247
+	 MIME-Version:Content-Type; b=V8wvAFakcfMHD7bFuUfaubhqVRcJmVcRmr4A0cGgwZdcF47nOp+oVJaG7w2jDP3PV0dFv9xQ62OTwXjKK0ULkho0UET1/emWFP9Eu1BCcLYmVG0W7EvoA1ZmtPVITg/1oTki1sy1riNMZPyofKXFuUcd57Pfcuj71vw1iaLdV9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=XHaV9R9H; arc=none smtp.client-ip=45.254.49.215
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="HM7VXNCp"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="XHaV9R9H"
 Received: from server001 (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2a9029105;
-	Sun, 23 Nov 2025 19:56:08 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2a90290f9;
+	Sun, 23 Nov 2025 19:56:01 +0800 (GMT+08:00)
 From: macrofun <baikefan@leap-io-kernel.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
 Cc: dzm91@hust.edu.cn,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v2 17/25] docs/zh_CN: Add mass-storage.rst translation
-Date: Sun, 23 Nov 2025 19:56:15 +0800
-Message-ID: <2ffd3745eeb3f0fabd26a3666471b6791867e16e.1763897036.git.baikefan@leap-io-kernel.com>
+Subject: [PATCH v2 09/25] docs/zh_CN: Add gadget_configfs.rst translation
+Date: Sun, 23 Nov 2025 19:56:07 +0800
+Message-ID: <7490f9faf83f7c4a97123c701153e9672e9c0505.1763897036.git.baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1763897036.git.baikefan@leap-io-kernel.com>
 References: <cover.1763897036.git.baikefan@leap-io-kernel.com>
@@ -39,38 +39,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ab0924b2309d5kunm2b5c8c0429adc8
+X-HM-Tid: 0a9ab0922f9f09d5kunm2b5c8c0429adad
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTkIYVkxDH0xCQ0JIGh9MT1YVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0hKTkxOVUpLS1
-	VKQktLWQY+
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDGRhPVk9DSBoaSUtMSx5LTFYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
+	VLWQY+
 DKIM-Signature: a=rsa-sha256;
-	b=HM7VXNCp6iPbANDvXcW+Gn9J4GdauEoUQ3tpREMSEI70q7Vpz87jV8/BNTdTlCQdPEyiLLWPDb6NgpaM+uuiMcbpO0IvTFWM/km13oxIZwsB58v7fxhfMnGMIT4M3Na9OS8IbK5eFxyC7X4CwfGlFdWm4BDJdFe2LYykU/AZwjNgVthrc5TS4Si3CdPtnrefJZgBy1Ag9Mwx6AbpemQenyOFnFyctOv+sKisUHeLNBlIgWVjrGQ+PR3LKlEG0ATOxVAHmwvrSK5FuZLE34tIw/UlJ+APQ5xqEAz8ZA3c6bEZAEUh/EVl8qdzim3ERszSCOvhp4fDCFX2wsBF/ArM6w==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=DspfQFnIUQ/C2oyn32cS2dutC7O3I5LLFL0d+SfwoOc=;
+	b=XHaV9R9HYJ/UJHbcozApT3MeHMg9MSJF7qcjtT1KS25015hotLvnDEdh2fDcFyNrPN4FrUuhbts2xNQdjGTGwIagjIKbxWyTIZp9Ita20nhlhOdcD4TgGd+DJ5TVcqg+Uaz9REY2IecWLxdFseldTS9SaTj6vXy8kUQ1UMQO6uKzYm44SpDvsTI4AmbzZiQ/vuMEOSpY6fFkTOIf5zk3jC/98bg9KSdrZUKC3StmzLkTgtIGfeKVuvxJsIrCLpwRL0RUxkG7fzUP1r5NHv6zQ3R96w7PNNu9TSwz1AD6q3WoVB9PBEjqxvUIWURYNHB9hJ76pE2t/OHpD64vfx/RuA==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=hOhh+qSOIp4s9MKxO2DLZz1b2N/f31raqq1cSeVSgkw=;
 	h=date:mime-version:subject:message-id:from;
 
-docs/zh_CN: Add mass-storage.rst translation
+Translate .../usb/gadget_configfs.rst into Chinese.
 
-Update the translation through commit e4157519ad46
-("Documentation: usb: correct spelling")
+Update the translation through commit 58992bf32830
+("Documentation: usb: gadget: Wrap remaining usage snippets in literal code block")
 
 Signed-off-by: macrofun <baikefan@leap-io-kernel.com>
 ---
- .../translations/zh_CN/usb/mass-storage.rst   | 196 ++++++++++++++++++
- 1 file changed, 196 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/usb/mass-storage.rst
+ .../zh_CN/usb/gadget_configfs.rst             | 383 ++++++++++++++++++
+ 1 file changed, 383 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/gadget_configfs.rst
 
-diff --git a/Documentation/translations/zh_CN/usb/mass-storage.rst b/Documentation/translations/zh_CN/usb/mass-storage.rst
+diff --git a/Documentation/translations/zh_CN/usb/gadget_configfs.rst b/Documentation/translations/zh_CN/usb/gadget_configfs.rst
 new file mode 100644
-index 000000000000..2e258ff27af1
+index 000000000000..6001020f89ca
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/mass-storage.rst
-@@ -0,0 +1,196 @@
++++ b/Documentation/translations/zh_CN/usb/gadget_configfs.rst
+@@ -0,0 +1,383 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/mass-storage.rst
++:Original: Documentation/usb/gadget_configfs.rst
 +:翻译:
 +
 + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
@@ -79,190 +79,377 @@ index 000000000000..2e258ff27af1
 +
 +
 +
-+=========================
-+大容量存储Gadget (MSG)
-+=========================
++=====================================
++通过configfs配置的Linux USB gadget
++=====================================
++
++2013年4月25日
 +
 +概述
 +====
 +
-+ 大容量存储Gadget（或MSG）作为USB大容量存储设备，对主机表现为磁盘或CD-ROM驱动器。
-+ 它支持多个逻辑单元(LUN)。
-+ 每个LUN的后端存储由普通文件或块设备提供，
-+ 可以限制为只读，
-+ 并且Gadget可以指示其可移动和/或为CD-ROM（后者意味着只读访问）。
++USB Linux Gadget是一种拥有UDC（USB设备控制器）的设备，
++可以连接到USB主机，为其扩展附加功能，例如串口或大容量存储功能。
 +
-+  它的需求较低；
-+  仅需一个bulk-in和一个bulk-out端点。
-+  内存需求为两个16K缓冲区。
-+  支持全速、高速和超高速操作。
++从主机的角度来看，一个gadget表现为一组配置，每个配置包含若干接口，
++从gadget的角度来看，这些接口被称为函数（function），
++每个函数代表例如一个串行连接或一个SCSI磁盘。
 +
-+  注意，该驱动程序在某种程度上具有非移植性，因为它假设
-+  一个内存/DMA缓冲区将可用于bulk-in和bulk-out
-+  端点。对于大多数设备控制器来说，这不是问题，但
-+  可能存在一些硬件限制，一个缓冲区不能
-+  被多个端点使用。
++Linux为gadget提供了若干可用函数。
 +
-+  本文档描述了如何从用户态使用该Gadget，
-+  它与大容量存储功能(MSF)及使用它的不同Gadget的关系，
-+  以及与文件存储Gadget(FSG，
-+  已不再包含于Linux)的区别。
-+  仅会简要说明如何在复合Gadget中使用MSF。
++创建一个gadget意味着要决定将有哪些配置，以及每个配置将提供哪些函数。
 +
-+模块参数
++Configfs（请参见 `Documentation/filesystems/configfs.rst`）非常适合用于
++告诉内核上述决策。本文档介绍了如何实现这一操作。
++
++同时，它还描述了configfs与gadget集成的设计方式。
++
++
++
++要求
++=====
++
++为了使其工作，configfs必须可用，因此在.config中CONFIGFS_FS必须为'y' 或 'm'。
++截至本文撰写时，USB_LIBCOMPOSITE会选择CONFIGFS_FS。
++
++
++
++使用方法
 +========
 +
-+  大容量存储Gadget接受以下大容量存储特定模块参数：
++::
 +
-+  - file=filename[,filename...]
++	$ modprobe libcomposite
++	$ mount none $CONFIGFS_HOME -t configfs
 +
-+    此参数列出用于每个逻辑单元后端存储的文件或块设备路径。
-+	最多可设置FSG_MAX_LUNS(8)个LUN。
-+	如果指定更多文件，将被静默忽略。另见“luns”参数。
++其中CONFIGFS_HOME是configfs的挂载点
 +
-+    注意 如果使用文件作为后端存储，则该文件不得被其他进程修改。
-+	这是因为主机假定数据不会在其不知情的情况下改变。
-+	可以读取，但如果逻辑单元可写，由于主机端缓冲，内容未定义。
++1. 创建gadget
++-------------
 +
-+    逻辑单元大小将向下舍入为完整逻辑块。
-+	逻辑块大小为：模拟CD-ROM的LUN为2048字节，
-+	后端文件为块设备则为设备块大小，否则为512字节。
++对于每个要创建的gadget，必须创建其对应的目录::
 +
-+  - removable=b[,b...]
++	$ mkdir $CONFIGFS_HOME/usb_gadget/<gadget name>
 +
-+    指定每个逻辑单元是否可移动。b为“y”“Y”“1”为真，“n”“N”“0”为假。
++例如::
 +
-+    如果逻辑单元可移动，Gadget将接受“弹出”SCSI请求(Start/Stop Unit)。
-+	发送时，将关闭后端文件以模拟弹出，
-+	在用户态为设备指定新后端文件之前，该逻辑单元不可被主机挂载。
++	$ mkdir $CONFIGFS_HOME/usb_gadget/g1
 +
-+    如果逻辑单元不可移动(默认)，必须在加载模块时通过“file”参数指定后端文件。
-+	内置模块同理，无例外。
++	...
++	...
++	...
 +
-+    默认值为false，但历史上曾为true。
-+	现改为false以更好匹配FSG，并且更合理。
-+	为了兼容旧内核，最好显式指定默认值。
-+	如果依赖旧默认，现在需要显式指定“n”。
++	$ cd $CONFIGFS_HOME/usb_gadget/g1
 +
-+    注意，“removable”表示逻辑单元的介质可被弹出或移除（如CD-ROM或读卡器），
-+	不表示整个Gadget可从主机拔出；后者正确术语为“hot-unpluggable”。
++每个gadget需要指定其厂商ID <VID>和产品ID <PID>::
 +
-+  - cdrom=b[,b...]
++	$ echo <VID> > idVendor
++	$ echo <PID> > idProduct
 +
-+    指定每个逻辑单元是否模拟CD-ROM，默认false。
++gadget还需要其序列号、厂商和产品字符串。
++为了有地方存放它们，需要为每种语言创建一个 strings 子目录，例如::
 +
-+  - ro=b[,b...]
++	$ mkdir strings/0x409
 +
-+    指定每个逻辑单元是否只读。防止主机修改后端文件。
++然后可以指定这些字符串::
 +
-+    如果标志为false但后端文件无法以读写模式打开，Gadget仍会回退为只读模式。
++	$ echo <serial number> > strings/0x409/serialnumber
++	$ echo <manufacturer> > strings/0x409/manufacturer
++	$ echo <product> > strings/0x409/product
 +
-+    非CD-ROM逻辑单元默认false；模拟CD-ROM的逻辑单元强制为true。
++进一步的自定义字符串描述符可以作为语言目录下的子目录创建，
++字符串文本写入该字符串目录下的"s"属性::
 +
-+  - nofua=b[,b...]
++	$ mkdir strings/0x409/xu.0
++	$ echo <string text> > strings/0x409/xu.0/s
 +
-+    指定是否在给定逻辑单元的SCSI Write10和Write12命令中忽略FUA标志。
++在函数驱动支持的情况下，函数可能允许这些自定义字符串描述符的符号链接，
++用以将这些字符串与类描述符关联。
 +
-+    Windows默认在“优化移除模式”挂载可移动存储。
-+	所有写入为同步写，
-+	通过在SCSI Write(10,12)命令中设置FUA(Force Unit Access)位实现。
-+	这会强制每次写入等待数据实际写出，阻止块层聚合I/O请求，显著降低性能。
++2. 创建配置
++-----------
 +
-+    注意，如果设备从USB供电且用户未卸载就拔出设备，数据可能丢失。
++每个gadget将由多个配置组成，必须创建其对应的目录::
 +
-+    默认值为false。
++        $ mkdir configs/<name>.<number>
 +
-+  - luns=N
++其中 <name> 可以是任何在文件系统中合法的字符串，
++<number> 是该配置的编号，例如::
 +
-+    指定Gadget拥有的逻辑单元数，受FSG_MAX_LUNS(8)限制，超出值将被截断。
++	$ mkdir configs/c.1
 +
-+    如果提供此参数，且“file”参数指定的文件数大于luns值，多余文件将被忽略。
++	...
++	...
++	...
 +
-+    若未指定，则逻辑单元数根据“file”参数指定的文件数推断；
-+	若file参数也缺失，则假定为1。
++每个配置也需要字符串，因此必须为每种语言创建一个子目录，例如::
 +
-+  - stall=b
++	$ mkdir configs/c.1/strings/0x409
 +
-+    指定是否允许Gadget停止bulk端点。
-+    默认值根据USB设备控制器类型确定，但通常为true。
++然后可以指定配置字符串::
++	$ echo <configuration> > configs/c.1/strings/0x409/configuration
 +
-+  除上述参数外，Gadget还接受复合框架定义的参数（所有复合Gadget通用，列出如下）：
++某些属性也可以为配置设置，例如::
 +
-+  - idVendor      -- USB Vendor ID (16 bit integer)
-+  - idProduct     -- USB Product ID (16 bit integer)
-+  - bcdDevice     -- USB Device version (BCD) (16 bit integer)
-+  - iManufacturer -- USB Manufacturer string (string)
-+  - iProduct      -- USB Product string (string)
-+  - iSerialNumber -- SerialNumber string (string)
++	$ echo 120 > configs/c.1/MaxPower
 +
-+sysfs entries
-+=============
++3. 创建函数
++-----------
 +
-+  对于每个逻辑单元，Gadget在sysfs层级创建目录。目录内创建以下文件：
++gadget 将提供若干函数，为每个函数必须创建其对应的目录::
 +
-+  - file
++	$ mkdir functions/<name>.<instance name>
 +
-+    读取返回逻辑单元的后端文件路径。
-+	若无后端文件(仅在逻辑单元可移动时可能)，内容为空。
++其中 <name> 对应于允许的函数名称之一，而 instance name
++是一个在文件系统中允许的任意字符串，例如::
 +
-+    写入可更改逻辑单元的后端文件。
-+	即使逻辑单元不可移动，也可执行此操作（主机可能认为奇怪）。
-+	若主机通过Prevent-Allow Medium Removal SCSI命令禁止介质移除，可能失败。
++  $ mkdir functions/ncm.usb0 # usb_f_ncm.ko gets loaded with request_module()
 +
-+  - ro
++  ...
++  ...
++  ...
 +
-+    反映逻辑单元的ro标志状态。随时可读，若逻辑单元无后端文件打开，也可写入。
++每个函数提供其特定的一组属性，可读或可写。
++在适用的情况下，需要根据具体情况对其进行写入。
++更多信息请参考 Documentation/ABI/testing/configfs-usb-gadget。
 +
-+  - nofua
++4. 将函数与其配置关联
++----------------------
 +
-+    反映逻辑单元nofua标志状态，可读可写。
++此时已创建若干 gadget，每个 gadget 都指定了若干配置并具有若干可用函数。
++接下来需要指定哪些函数在何种配置中可用（同一个函数可用于多个配置）。
++这是通过创建符号链接实现的::
 +
-+  - forced_eject
++	$ ln -s functions/<name>.<instance name> configs/<name>.<number>
 +
-+写入后，将强制从LUN分离后端文件，无论主机是否允许。
-+写入内容无关，写入任意非零字节均会导致弹出。
-+不可读取。
++例如::
 +
-+  其他参数值可从/sys/module/g_mass_storage/parameters/* 读取。
++	$ ln -s functions/ncm.usb0 configs/c.1
 +
-+使用大容量存储功能的其他Gadget设备
-+========================================
++	...
++	...
++	...
 +
-+  大容量存储Gadget使用大容量存储功能(MSF)处理存储协议。
-+  作为复合功能，MSF也可被其他Gadget使用（如g_multi和acm_ms）。
++5. 启用 gadget
++--------------
 +
-+  前述信息对使用MSF的其他Gadget有效，但可能不支持大容量存储相关模块参数，
-+  或参数带前缀。是否适用需查看Gadget文档或源代码。
++以上所有步骤的目的是组合 gadget 的配置和函数。
 +
-+  想了解如何在Gadget中包含MSF，
-+  可参考mass_storage.c、acm_ms.c和multi.c（按复杂度排序）。
++一个示例目录结构可能如下所示::
 +
-+与文件存储 Gadget 的关系
-+========================
++  .
++  ./strings
++  ./strings/0x409
++  ./strings/0x409/serialnumber
++  ./strings/0x409/product
++  ./strings/0x409/manufacturer
++  ./configs
++  ./configs/c.1
++  ./configs/c.1/ncm.usb0 -> ../../../../usb_gadget/g1/functions/ncm.usb0
++  ./configs/c.1/strings
++  ./configs/c.1/strings/0x409
++  ./configs/c.1/strings/0x409/configuration
++  ./configs/c.1/bmAttributes
++  ./configs/c.1/MaxPower
++  ./functions
++  ./functions/ncm.usb0
++  ./functions/ncm.usb0/ifname
++  ./functions/ncm.usb0/qmult
++  ./functions/ncm.usb0/host_addr
++  ./functions/ncm.usb0/dev_addr
++  ./UDC
++  ./bcdUSB
++  ./bcdDevice
++  ./idProduct
++  ./idVendor
++  ./bMaxPacketSize0
++  ./bDeviceProtocol
++  ./bDeviceSubClass
++  ./bDeviceClass
 +
-+  大容量存储功能(Mass Storage Function)，从而大容量存储Gadget(MSG)，
-+  是基于文件存储Gadget(File Storage Gadget)的。
-+  两者的区别在于，MSG是复合Gadget（即使用复合框架），而文件存储Gadget是传统Gadget。
-+  从用户态的角度来看，这一区别并不重要，
-+  但从内核开发者的角度来看，这意味着：
-+  (i) MSG不重复处理基本USB协议命令所需的代码
-+  (ii) MSF可以在任何其他复合Gadget中使用。
 +
-+  因此，文件存储Gadget已在Linux 3.8中被移除。
-+  所有用户都需要迁移到大容量存储Gadget。
-+  两者从外部行为来看大体相同，唯一的区别如下：
++这样的gadget必须最终被启用，以便USB主机能够枚举它。
 +
-+  1. 在FSG中，“removable”和“cdrom”模块参数会对所有逻辑单元统一设置标志，
-+     而在MSG中，它们接受每个逻辑单元的y/n值列表。
-+     如果只使用单个逻辑单元，这无关紧要；
-+     但如果有多个逻辑单元，y/n值需要为每个逻辑单元重复指定。
-+  2. FSG的“serial”“vendor”“product”和“release”模块参数，
-+     在MSG中由复合层的参数分别处理，
-+     对应名称为：“iSerialNumber”“idVendor”“idProduct”和“bcdDevice”。
++为了启用gadget，必须将其绑定到一个UDC（USB Device Controller）::
 +
-+  3. MSG不支持FSG的测试模式，
-+     因此FSG的“transport”“protocol”和“buflen”模块参数不被支持。
-+     MSG始终使用SCSI协议，采用仅bulk传输模式和16 KiB缓冲区。
++	$ echo <udc name> > UDC
++
++其中 <udc name> 是 /sys/class/udc/* 中的一个，例如::
++
++	$ echo s3c-hsotg > UDC
++
++
++6. 禁用 gadget
++--------------
++
++::
++
++	$ echo "" > UDC
++
++7. 清理
++-------
++
++从配置中移除函数::
++
++	$ rm configs/<config name>.<number>/<function>
++
++其中 <config name>.<number> 指定配置，
++<function> 是从配置中移除的函数的符号链接，例如::
++
++	$ rm configs/c.1/ncm.usb0
++
++	...
++	...
++	...
++
++移除配置中的strings目录::
++
++	$ rmdir configs/<config name>.<number>/strings/<lang>
++
++例如::
++
++	$ rmdir configs/c.1/strings/0x409
++
++	...
++	...
++	...
++
++然后移除配置::
++
++    $ rmdir configs/<config name>.<number>
++
++例如::
++
++    $ rmdir configs/c.1
++
++    ...
++    ...
++    ...
++
++移除函数（函数模块不会被卸载）::
++
++	$ rmdir functions/<name>.<instance name>
++
++例如::
++
++    $ rmdir functions/ncm.usb0
++
++    ...
++    ...
++    ...
++
++移除 gadget 中的 strings 目录::
++
++	$ rmdir strings/<lang>
++
++例如::
++	$ rmdir strings/0x409
++
++最后移除 gadget::
++
++	$ cd ..
++	$ rmdir <gadget name>
++
++例如::
++
++	$ rmdir g1
++
++
++
++
++实现设计
++===========
++
++下面介绍configfs的工作原理。
++在configfs中，有items和groups，二者都以目录的形式呈现。
++它们的区别在于group可以包含其他groups。
++下面的图中只展示了一个item。items和groups均可具有attributes，
++这些属性以文件的形式呈现。
++用户可以创建和删除目录，但不能删除文件；
++这些文件可能是只读或可读写的，具体取决于其代表的内容。
++
++configfs 的文件系统部分操作的是 config_items/groups 和
++configfs_attributes，它们是通用的，对于所有配置的元素类型相同。
++然而，它们被嵌入到用途特定的更大结构中。
++在下面的图中，有一个包含 config_item 的 “cs”，
++以及一个包含 configfs_attribute 的 “sa”。
++
++文件系统视图如下所示::
++
++  ./
++  ./cs        (directory)
++     |
++     +--sa    (file)
++     |
++     .
++     .
++     .
++
++每当用户读/写 “sa” 文件时，就会调用一个函数，
++该函数接收一个 struct config_item 和一个 struct configfs_attribute。
++在该函数中，使用众所周知的 container_of 技巧获取 “cs” 和 “sa”，
++然后调用适当的 sa 的函数（show 或 store），
++并传入 “cs” 和一个字符缓冲区。
++“show” 用于显示文件内容（将数据从 cs 复制到缓冲区），
++而 “store” 用于修改文件内容（将数据从缓冲区复制到 cs），
++但具体执行内容由实现者自行决定。
++
++::
++
++  typedef struct configured_structure cs;
++  typedef struct specific_attribute sa;
++
++                                         sa
++                         +----------------------------------+
++          cs             |  (*show)(cs *, buffer);          |
++  +-----------------+    |  (*store)(cs *, buffer, length); |
++  |                 |    |                                  |
++  | +-------------+ |    |       +------------------+       |
++  | | struct      |-|----|------>|struct            |       |
++  | | config_item | |    |       |configfs_attribute|       |
++  | +-------------+ |    |       +------------------+       |
++  |                 |    +----------------------------------+
++  | data to be set  |                .
++  |                 |                .
++  +-----------------+                .
++
++文件名由 config item/group 的设计者决定，
++而目录一般可以任意命名。
++一个group可以拥有若干其默认子group，由系统自动创建。
++
++有关configfs的更多信息请参阅
++`Documentation/filesystems/configfs.rst`.
++
++上述概念应用到USB gadgets时对应如下：
++
++1. 一个 gadget 有其 config group，其中包含一些属性（idVendor、
++   idProduct 等）和默认子 group（configs、functions、strings）。
++   向这些属性写入会导致信息被存储到合适的位置。
++   在 configs、functions 和 strings 子 group 中，用户可以创建
++   其子 group 以表示配置、功能以及某种语言下的一组字符串。
++
++2. 用户创建 configurations 和 functions，并在 configurations 中
++   创建指向 functions 的符号链接。
++   当 gadget 的 UDC 属性被写入时，也就是将 gadget 绑定到 UDC 时，
++   这些信息将被使用。
++   drivers/usb/gadget/configfs.c 中的代码会遍历所有 configurations，
++   并在每个 configuration 中遍历所有 functions 并绑定它们。
++   这样整个 gadget 就被绑定了。
++
++3. 文件 drivers/usb/gadget/configfs.c 包含以下代码：
++
++	- gadget的config_group
++	- gadget的默认 groups (configs, functions, strings)
++	- 将 functions 与 configurations 关联（符号链接）
++
++4. 每个 USB function 自然拥有其希望被配置的视图，
++   因此特定 functions 的 config_groups 定义在各自的
++   functions 实现文件 drivers/usb/gadget/f_*.c 中。
++
++5. function 的代码是这样编写的：它使用 usb_get_function_instance()，
++   该函数会调用 request_module。
++   因此，只要 modprobe 可以正常工作，特定 function 的模块就会自动加载。
++   请注意反向并不成立：在 gadget 被禁用并拆除之后，这些模块仍然保持加载状态。
 -- 
 2.52.0
 
