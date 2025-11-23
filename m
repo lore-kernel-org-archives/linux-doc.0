@@ -1,33 +1,33 @@
-Received: from mail-m1973181.qiye.163.com (mail-m1973181.qiye.163.com [220.197.31.81])
+Received: from mail-m3278.qiye.163.com (mail-m3278.qiye.163.com [220.197.32.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA4122D4DD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43ED28136F
 	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 07:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.81
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763884243; cv=none; b=lauHsuaj4vAZDLlZeUktqjyg7sEK/D8f4sZhhn/Y6MGP5nefvL9LbwEBIOaNE/uu0cIGY9irbAdHWi03iLUO74XjOsLSZtAxQnDKsuNxtyNS6JqsG27F0XbYCz/6kr8DYTIc+2u5iCWWyEzEPfh0BU1Vv0Ydsal/kMBZauUyw2Y=
+	t=1763884244; cv=none; b=XVUC3dewKsRJO7ds3yYTHtQquuooRXAgYynCrjaWBipAtBeJ9zhhK7ZhcpAg3KCuCG79Nj+FFoINm2Dt01chMRSWn7RgOxeWD1M4XEQtEA0ogE3iOE5iAkW4mCL8rvufhs0uN8GpGt6QOWAdHIuce1AW0kn0I/tBwYTQC0t6Iow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763884243; c=relaxed/simple;
-	bh=hUStUanHOrbd4+yNIoJELN7RATouHa4ox9UlRUXGung=;
+	s=arc-20240116; t=1763884244; c=relaxed/simple;
+	bh=3DxnU0XnBt+pFthSPUD935VSj6uwS5A8cc5Q5vQNNFE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KovbrHgNt+qF634+4eVygsfCoRKeS5n10gaGh7S4xc6zQeJ4h7EtiNFyulVWku52sW0z/MCTPkdRCOR2w15fOGzMiEeSKL7gibx8HkcaY06re2fUScyhxpH4dSJHwMmPKguLxObGf3W7LrAZz0xuor2/i0cUHdnkgmaqjH6oVlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=XP+PXPYD; arc=none smtp.client-ip=220.197.31.81
+	 MIME-Version:Content-Type; b=DnKO2Scd1GTlG0pcPyxR+P2hvq9AQWJpUtr5/qS3HLFO8/Yi55nebs+cpr4D0OmjGC6T9TNYMcw4vThXwjIo0G3PgwffyvaxX/HS7r5Oeo4ELcorhOtYP/A0oT6HGpczOdw6f0w0V/N5OV/n/T2hEIzahIq1aaieGgihmVObpKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=dHGJX64A; arc=none smtp.client-ip=220.197.32.78
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="XP+PXPYD"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="dHGJX64A"
 Received: from server001 (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99c2;
-	Sun, 23 Nov 2025 15:45:23 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99d1;
+	Sun, 23 Nov 2025 15:45:29 +0800 (GMT+08:00)
 From: macrofun <baikefan@leap-io-kernel.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
 Cc: dzm91@hust.edu.cn,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 14/25] docs/zh_CN: Add gadget_uvc.rst translation
-Date: Sun, 23 Nov 2025 15:45:29 +0800
-Message-ID: <20251123074540.34161-15-baikefan@leap-io-kernel.com>
+Subject: [PATCH 23/25] docs/zh_CN: Add usb-serial.rst translation
+Date: Sun, 23 Nov 2025 15:45:38 +0800
+Message-ID: <20251123074540.34161-24-baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
 References: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
@@ -39,38 +39,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9aafacb63c09d5kunm0cca719828664c
+X-HM-Tid: 0a9aafacd14d09d5kunm0cca719828667e
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDSUIaVhhCTk1OH0NCTx9NQlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
-	VLWQY+
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaTxoaVksYS0oeHUoYHhlMQlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0hKTkxOVUpLS1
+	VKQktLWQY+
 DKIM-Signature: a=rsa-sha256;
-	b=XP+PXPYDTNDvmkehvVqk1iRA9MTdcxLyhXsiHNQcfTa5GnNW/IrD2w77GkTqEycu6UXfx0AqNVXrLpqRSovSOhGWMmXAT+W84gsQD4C3OQJDloYUqss2HcxKArtsPvUHPEo7acjgovJwmlDuvlWBLix7zzTRqPGZlCMyaXa2WGD76pendeNRV+oy9cB+QSrQSesNYjXdFvEg1cgidnqU3t6IZql0U185gqqHcvl/UMmIlVavb07O7JSpUKzhEKeJSC+kjAVQYF7e3iRS+ex/bOexLawzJn35dk2P6W5jKR5CFjTksnwZVnBYtof1Hc+3LeLF9Vjs2u4Y2e8apS4wLg==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=aaDfUNN4p3scNLTe8T0++gqCK1LffRumO8XAVlwkev4=;
+	b=dHGJX64Ax/g3d/FfsTxRkSDLyUh0yzJd/be7EyUnL3Jof+NVxA4yj0RP884Hzi1BAq3bDuc2x3zi3h49KrdL8u8vI0gEChr9vp+PGpleQmTEcXqPqJHzE2mb/X9foj4Fm5HMPkhCXXsIfGLK0YCsLrnRcgqxbxeIhoYeSA+3AaSukXyXGnzeRBI1OPBYRjDW6T3bE4GT1u1Z/DwLXpw+Q0UAp8eQBmqH7EWcn94vNQg88GiQjW3vUpV8WN0qDEwVCkGOfq/13q1ouzxoFBEl5Mhk/+gvHlg8BmtoUp492o++bgRkcXPRPgC4hjhayFc7H7I4wMlcUpB9x73De1tPwA==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=OPnztA7MGYfvgTTIn9CRaNBGazrvg/u+zt5YEfa5Zxo=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/gadget_uvc.rst into Chinese.
+Translate .../usb/usb-serial.rst into Chinese.
 
-Update the translation through commit 16794ed32de9
-("docs: usb: fix reference to nonexistent file in UVC Gadget")
+Update the translation through commit 9e255e2b9afe
+("Documentation: drop optional BOMs")
 
 Signed-off-by: macrofun <baikefan@leap-io-kernel.com>
 ---
- .../translations/zh_CN/usb/gadget_uvc.rst     | 372 ++++++++++++++++++
- 1 file changed, 372 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/usb/gadget_uvc.rst
+ .../translations/zh_CN/usb/usb-serial.rst     | 451 ++++++++++++++++++
+ 1 file changed, 451 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/usb-serial.rst
 
-diff --git a/Documentation/translations/zh_CN/usb/gadget_uvc.rst b/Documentation/translations/zh_CN/usb/gadget_uvc.rst
+diff --git a/Documentation/translations/zh_CN/usb/usb-serial.rst b/Documentation/translations/zh_CN/usb/usb-serial.rst
 new file mode 100644
-index 000000000000..de53a05a2c76
+index 000000000000..480032530e11
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/gadget_uvc.rst
-@@ -0,0 +1,372 @@
++++ b/Documentation/translations/zh_CN/usb/usb-serial.rst
+@@ -0,0 +1,451 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/gadget_uvc.rst
++:Original: Documentation/usb/usb-serial.rst
 +:翻译:
 +
 + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
@@ -79,366 +79,445 @@ index 000000000000..de53a05a2c76
 +
 +
 +
-+======================
-+Linux UVC Gadget 驱动
-+======================
-+
-+概述
-+------
-+UVC Gadget 驱动是针对 USB 设备端硬件的驱动，
-+适用于在具有 USB 设备端硬件（例如带 OTG 接口的开发板）的 Linux 系统上运行。
-+
-+在设备系统上，一旦驱动绑定成功，它会以 V4L2 设备的形式出现，并具有输出能力。
-+
-+在主机端（通过 USB 连接后），
-+运行 UVC Gadget 驱动的设备（由相应用户空间程序控制）
-+应表现为符合 UVC 规范的摄像头，并能与任何支持 UVC 的程序正常工作。
-+设备端的用户空间程序可以将来自各种源的图像缓冲区排入队列，
-+通过 USB 传输。通常，这意味着转发来自摄像头传感器的缓冲区，
-+但缓冲区的来源完全由用户空间程序决定。
-+
-+配置设备内核
-+--------------
-+要启用 UVC Gadget 支持，必须在内核 Kconfig 中选择以下选项:
-+USB_CONFIGFS, USB_LIBCOMPOSITE, USB_CONFIGFS_F_UVC和
-+USB_F_UVC。
-+
-+通过 configfs 配置 Gadget
-+---------------------------
-+UVC Gadget 通过 configfs 使用 UVC 功能进行配置。
-+这种方式提供了很大灵活性，因为 UVC 设备的许多设置可以通过它控制。
-+
-+并非所有可用的属性都在此处描述。有关完整的枚举，
-+请参阅 Documentation/ABI/testing/configfs-usb-gadget-uvc
-+
-+前提条件
-+~~~~~~~~~~~
-+假设你已将 configfs 挂载到 `/sys/kernel/config` 并
-+创建了一个 gadget，路径为 `/sys/kernel/config/usb_gadget/g1`。
-+
-+UVC 功能
-+~~~~~~~~~~~
-+第一步是创建 UVC 功能：
-+
-+.. code-block:: bash
-+
-+	# These variables will be assumed throughout the rest of the document
-+	CONFIGFS="/sys/kernel/config"
-+	GADGET="$CONFIGFS/usb_gadget/g1"
-+	FUNCTION="$GADGET/functions/uvc.0"
-+
-+	mkdir -p $FUNCTION
-+
-+格式与帧
-+~~~~~~~~~~
-+
-+必须告诉 gadget 支持哪些格式，以及每种格式支持的帧大小和帧间隔。
-+当前实现中，gadget 无法拒绝主机要求设置的格式，
-+因此必须准确配置，以确保主机不会请求无法提供的格式。
-+
-+格式在 streaming/uncompressed 和 streaming/mjpeg configfs 分组下创建，
-+帧大小在格式下创建，结构如下：
-+
-+::
-+
-+	uvc.0 +
-+	      |
-+	      + streaming +
-+			  |
-+			  + mjpeg +
-+			  |       |
-+			  |       + mjpeg +
-+			  |	       |
-+			  |	       + 720p
-+			  |	       |
-+			  |	       + 1080p
-+			  |
-+			  + uncompressed +
-+					 |
-+					 + yuyv +
-+						|
-+						+ 720p
-+						|
-+						+ 1080p
-+
-+每个帧都可以配置宽度和高度，以及存储单个帧所需的最大缓冲区大小，
-+最后还可以配置该格式和帧大小所支持的帧间隔。
-+宽度和高度以像素为单位枚举，
-+帧间隔以 100ns 为单位。
-+例如，要为每个帧大小创建上面结构中 2、15 和 100 fps 的帧间隔，
-+可以这样操作：
-+
-+.. code-block:: bash
-+
-+	create_frame() {
-+		# 示例用法:
-+		# create_frame <width> <height> <group> <format name>
-+
-+		WIDTH=$1
-+		HEIGHT=$2
-+		FORMAT=$3
-+		NAME=$4
-+
-+		wdir=$FUNCTION/streaming/$FORMAT/$NAME/${HEIGHT}p
++==========
++USB 串口
++==========
 +
-+		mkdir -p $wdir
-+		echo $WIDTH > $wdir/wWidth
-+		echo $HEIGHT > $wdir/wHeight
-+		echo $(( $WIDTH * $HEIGHT * 2 )) > $wdir/dwMaxVideoFrameBufferSize
-+		cat <<EOF > $wdir/dwFrameInterval
-+	666666
-+	100000
-+	5000000
-+	EOF
-+	}
++简介
++====
 +
-+	create_frame 1280 720 uncompressed yuyv
-+	create_frame 1920 1080 uncompressed yuyv
++USB 串口驱动目前支持多种 USB 转串口转换器产品，以及一些通过用户空间串口接口与设备通信的设备。
 +
-+目前唯一支持的未压缩格式是YUYV，
-+详细说明请参见Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst。
++具体设备的信息请参阅下文各产品部分。
 +
-+颜色匹配描述符
-+~~~~~~~~~~~~~~
-+可以为你创建的每种格式指定一些色彩信息。
-+此步骤为可选操作，如果跳过该步骤，
-+将使用默认信息；
-+这些默认值遵循UVC规范中Color Matching Descriptor部分的定义。
 +
-+要创建颜色匹配描述符，需要先创建一个configfs item，
-+并将其三个属性设置为你期望的值，然后从希望关联的格式中链接到该item：
++配置
++====
 +
-+.. code-block:: bash
++  当前驱动可以同时处理最多 256 个不同的串口接口。
 +
-+	# Create a new Color Matching Descriptor
++  驱动使用的主设备号是 188，因此要使用该驱动，需要创建如下设备节点：::
 +
-+	mkdir $FUNCTION/streaming/color_matching/yuyv
-+	pushd $FUNCTION/streaming/color_matching/yuyv
++	mknod /dev/ttyUSB0 c 188 0
++	mknod /dev/ttyUSB1 c 188 1
++	mknod /dev/ttyUSB2 c 188 2
++	mknod /dev/ttyUSB3 c 188 3
++		.
++		.
++		.
++	mknod /dev/ttyUSB254 c 188 254
++	mknod /dev/ttyUSB255 c 188 255
 +
-+	echo 1 > bColorPrimaries
-+	echo 1 > bTransferCharacteristics
-+	echo 4 > bMatrixCoefficients
++  当设备连接并被驱动识别后，驱动会打印到系统日志，显示设备绑定到了哪个节点。
 +
-+	popd
 +
-+	# Create a symlink to the Color Matching Descriptor from the format's config item
-+	ln -s $FUNCTION/streaming/color_matching/yuyv $FUNCTION/streaming/uncompressed/yuyv
++支持的具体设备
++===================
 +
-+有关有效值的详细信息，请参阅UVC规范。
-+请注意，存在一个默认的Color Matching Descriptor，
-+任何没有链接到其他Color Matching Descriptor的格式都会使用它。
-+可以修改默认描述符的属性设置，但请注意，
-+如果你这样做，就会改变所有未链接到其他描述符的格式的默认设置。
 +
++ConnectTech WhiteHEAT 四口转换器
++-------------------------------------------
 +
-+头部链接
-+~~~~~~~~~~~~~~~
++  ConnectTech 提供了该设备的详细信息和测试用设备。
 +
-+UVC规范要求Format和Frame描述符之前必须有头部（Header），
-+用于描述随后不同Format描述符的数量和累计大小等信息。
-+在configfs中，这类操作是通过将表示头部的
-+configfs item与表示其他描述符的config item进行链接来实现的，方式如下：
++  该驱动由 Connect Tech Inc. 官方支持：
++  http://www.connecttech.com
 +
-+.. code-block:: bash
++  如有问题，请联系 Connect Tech 技术支持：support@connecttech.com
 +
-+	mkdir $FUNCTION/streaming/header/h
 +
-+	# This section links the format descriptors and their associated frames
-+	# to the header
-+	cd $FUNCTION/streaming/header/h
-+	ln -s ../../uncompressed/yuyv
-+	ln -s ../../mjpeg/mjpeg
++HandSpring Visor, Palm USB, 和 Clié USB驱动
++-------------------------------------------
 +
-+	# This section ensures that the header will be transmitted for each
-+	# speed's set of descriptors. If support for a particular speed is not
-+	# needed then it can be skipped here.
-+	cd ../../class/fs
-+	ln -s ../../header/h
-+	cd ../../class/hs
-+	ln -s ../../header/h
-+	cd ../../class/ss
-+	ln -s ../../header/h
-+	cd ../../../control
-+	mkdir header/h
-+	ln -s header/h class/fs
-+	ln -s header/h class/ss
++  该驱动适用于所有 HandSpring USB、Palm USB 及 Sony Clié USB 设备。
 +
++  设备尝试连接主机时，才会显示为有效 USB 设备。
++  此时设备会被正确枚举、分配端口，然后通信才可能进行。
++  设备移除或取消连接时，驱动会正确清理。
 +
-+扩展单元支持
-+~~~~~~~~~~~~~~~
++  注意：
++    要与设备通信，必须在尝试与设备交互前按下同步按钮。
++	这与现有的 pilot-xfer 等文档描述不同，但这是由于硬件原因的唯一方法。
 +
-+UVC扩展单元（XU）基本上提供了一个独立的单元，
-+可以向其发送控制的set和get请求。
-+这些控制请求的含义完全依赖于具体实现，
-+但可用于控制UVC规范之外的设置（例如启用或禁用视频效果）。
-+XU可以插入到UVC单元链中，也可以保持独立悬挂。
++    设备连接后，如果系统中没有其他 USB-串口设备）进行通信，
++	通常通过第二个端口（通常是 /dev/ttyUSB1，。
++	系统日志会显示用于 HotSync 的端口，
++	“Generic”端口可用于其他通信，例如 PPP 链接。
 +
-+配置扩展单元涉及在相应目录中创建一个条目，并适当地设置其属性，如下所示：
++    对于部分 Sony Clié 设备，必须使用 /dev/ttyUSB0，
++	尤其是 OS 版本 3.5 或升级过的设备。
++	系统日志会显示正确端口。
 +
-+.. code-block:: bash
++    如果按下同步按钮后系统日志没有输出，尝试先热复位，再冷复位。部分设备必须这样才能正常与 USB 通信。
 +
-+	mkdir $FUNCTION/control/extensions/xu.0
-+	pushd $FUNCTION/control/extensions/xu.0
++    未编译进内核的设备可以通过模块参数指定，例如：
++     modprobe visor vendor=0x54c product=0x66
 +
-+	# Set the bUnitID of the Processing Unit as the source for this
-+	# Extension Unit
-+	echo 2 > baSourceID
++    更多信息及邮件列表请访问：http://sourceforge.net/projects/usbvisor/
 +
-+	# Set this XU as the source of the default output terminal. This inserts
-+	# the XU into the UVC chain between the PU and OT such that the final
-+	# chain is IT > PU > XU.0 > OT
-+	cat bUnitID > ../../terminal/output/default/baSourceID
++    如有问题，请联系 Greg Kroah-Hartman：greg@kroah.com
 +
-+	# Flag some controls as being available for use. The bmControl field is
-+	# a bitmap with each bit denoting the availability of a particular
-+	# control. For example to flag the 0th, 2nd and 3rd controls available:
-+	echo 0x0d > bmControls
++PocketPC PDA驱动
++----------------
 +
-+	# Set the GUID; this is a vendor-specific code identifying the XU.
-+	echo -e -n "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10" > guidExtensionCode
++  该驱动通过 USB 数据线或底座，用于连接 Compaq iPAQ、HP Jornada、Casio EM500
++  等运行 Windows CE 3.0 或 PocketPC 2002 的 PDA。
 +
-+	popd
++  支持 ActiveSync 的大多数设备开箱即用。
++  对于其他设备，可通过模块参数指定产品和厂商 ID，
++  例如： modprobe ipaq vendor=0x3f0 product=0x1125
 +
-+bmControls属性和baSourceID属性是多值属性。
-+这意味着你可以向它们写入多个以换行符分隔的值。
-+例如，要标记第1、第2、第9和第10个控制可用，
-+你需要向bmControls写入两个值，如下所示：
++  驱动提供串口接口（通常为 /dev/ttyUSB0），可通过 PPP 建立 TCP/IP 链接与 PDA 通信，
++  进行文件传输、备份、邮件下载等。USB 的优势是速度快，可达 73~113 kB/s。
 +
-+.. code-block:: bash
++  使用 USB 连接还需要其他组件，详情见：http://synce.sourceforge.net
 +
-+	cat << EOF > bmControls
-+	0x03
-+	0x03
-+	EOF
++  连接后，可在 PDA 上使用 ftpView、Pocket Outlook，
++  在 Linux 上使用 xcerdisp、synce 工具。
 +
-+baSourceID属性的多值特性暗示了XU可以有多个输入，但请注意，这目前没有显著影响。
++  使用 Pocket IE 可参考：http://www.tekguru.co.uk/EM500/usbtonet.htm，Linux
++  可直接转发数据包，无需代理。
++  iPAQ 用户需在菜单关闭自动同步，然后启动 usbdial 建立连接。
 +
-+bControlSize属性表示bmControls属性的大小，
-+类似地，bNrInPins表示baSourceID属性的大小。
-+随着你设置bmControls和baSourceID，这两个属性会自动增减。
-+也可以手动增加或减少bControlSize，
-+这会导致条目被截断到新的大小，或者用0x00填充条目，例如：
++  若遇问题，可加载 usbserial 和 ipaq 模块并开启调试参数 debug=1，
++  检查系统日志；也可尝试软复位 PDA 后再连接。
 +
-+::
++  其他功能取决于 PDA。部分设备可进入 bootloader 模式，
++  通过 /dev/ttyUSB0 终端进行 USB Reflash。
++  此方法未测试，风险自负。
 +
-+	$ cat bmControls
-+	0x03
-+	0x05
++  问题请联系 Ganesh Varadarajan：ganesh@veritas.com
 +
-+	$ cat bControlSize
-+	2
 +
-+	$ echo 1 > bControlSize
-+	$ cat bmControls
-+	0x03
++Keyspan PDA串口适配器
++------------------------------
 +
-+	$ echo 2 > bControlSize
-+	$ cat bmControls
-+	0x03
-+	0x00
++  单端口 DB-9 串口适配器，多用于 iMac PDA，固件为自制。
++  也适用于 Xircom/Entrega 单口适配器。
 +
-+bNrInPins和baSourceID的功能相同。
++  当前状态：
 +
-+配置摄像头终端和处理单元的支持控制
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++   支持功能：
++     - 基本 I/O（可用 'cu' 测试）
++     - 串口阻塞写
++     - 波特率切换（最高 115200）
++     - 调制解调器控制引脚操作（TIOCM{GET,SET,BIS,BIC}）
 +
-+UVC链中的摄像头终端（Camera Terminal）和处理单元（Processing Unit）
-+也具有bmControls属性，其功能与扩展单元（XU）中的相同字段类似。
-+然而，与XU不同的是，这些单元的位标志含义在UVC规范中已有定义；
-+有关标志的枚举，请参阅“Camera Terminal Descriptor”和
-+“Processing Unit Descriptor”部分。
++发送 break（时长可能不准确）
 +
-+.. code-block:: bash
++   不支持功能：
++     - 设备字符串（内核日志中记录）带有尾随的二进制垃圾
++     - 设备 ID 不正确，可能与其他 Keyspan 产品冲突
++     - 切换波特率时应刷新发送/接收缓冲区以避免字符混乱
 +
-+        # Set the Processing Unit's bmControls, flagging Brightness, Contrast
-+        # and Hue as available controls:
-+        echo 0x05 > $FUNCTION/control/processing/default/bmControls
++   重要待办事项：
++     - 奇偶校验，7 位与 8 位字符，1 或 2 个停止位
++     - 硬件流控制
++     - 并非所有标准 USB 描述符都被处理：
++       Get_Status, Set_Feature, O_NONBLOCK, select()
 +
-+        # Set the Camera Terminal's bmControls, flagging Focus Absolute and
-+        # Focus Relative as available controls:
-+        echo 0x60 > $FUNCTION/control/terminal/camera/default/bmControls
++  如有问题，请联系 Brian Warner：warner@lothar.com
 +
-+如果你不设置这些字段，则默认情况下摄像头终端（Camera Terminal）
-+的自动曝光模式（Auto-Exposure Mode）控制
-+和处理单元（Processing Unit）的亮度（Brightness）控制
-+会被标记为可用；
-+如果不支持这些功能，你应将字段设置为0x00。
 +
-+请注意，摄像头终端或处理单元的bmControls字段大小由UVC规范固定，
-+因此此处的bControlSize属性为只读。
++Keyspan USA-系列串口适配器
++-------------------------------------------
 +
-+自定义字符串支持
-+~~~~~~~~~~~~~~~~~~~~~~~
++  单、双及四端口适配器，使用 Keyspan 官方固件。
 +
-+为USB设备各部分提供文本描述的字符串描述符（String Descriptor）
-+可以在USB configfs的常规位置定义，
-+然后可以从UVC功能根（UVC function root）或
-+扩展单元（Extension Unit）目录中链接这些字符串，
-+以将其作为描述符分配：
++  支持设备：USA-18X、USA-28X、USA-19、USA-19W、USA-49W，测试良好。USA-28 尚未支持。
 +
-+.. code-block:: bash
++  更多信息： http://www.carnationsoftware.com/carnation/Keyspan.html
 +
-+	# 在us-EN中创建一个字符串描述符，并从function root链接到它。
-+	# 链接的名称在这里很重要，因为它声明该描述符用于Interface Association Descriptor。
-+	# function root中其他重要的链接名称包括vs0_desc和vs1_desc，
-+	# 用于VideoStreaming接口0/1描述符。
++  问题请联系 Hugh Blemings：hugh@misc.nu
 +
-+	mkdir -p $GADGET/strings/0x409/iad_desc
-+	echo -n "Interface Associaton Descriptor" > $GADGET/strings/0x409/iad_desc/s
-+	ln -s $GADGET/strings/0x409/iad_desc $FUNCTION/iad_desc
 +
-+	# 由于从Extension Unit链接到String Descriptor会明确关联两者，
-+	# 因此该链接的名称不重要，可以自由设置。
++FTDI 单口串口驱动
++-----------------------------------------
 +
-+	mkdir -p $GADGET/strings/0x409/xu.0
-+	echo -n "A Very Useful Extension Unit" > $GADGET/strings/0x409/xu.0/s
-+	ln -s $GADGET/strings/0x409/xu.0 $FUNCTION/control/extensions/xu.0
++  支持设备：TripNav TN-200 USB GPS、Navis Engineering CH-4711 USB GPS
 +
-+中断端点
-+~~~~~~~~
++  问题请联系 Bill Ryder。
 +
-+VideoControl接口具有一个可选的中断端点，默认情况下处于禁用状态。
-+该端点用于支持UVC的延迟响应控制设置请求
-+（这些请求应通过中断端点响应，而不是占用端点0）。
-+目前尚不支持通过该端点发送数据，因此默认禁用以避免混淆。
-+如果你希望启用它，可以通过configfs属性进行设置：
 +
-+.. code-block:: bash
++ZyXEL omni.net lcd plus ISDN TA
++-----------------------------------------------
 +
-+	echo 1 > $FUNCTION/control/enable_interrupt_ep
++  请将使用情况和问题报告给 azummo@towertech.it
 +
-+带宽配置
-+~~~~~~~~
 +
-+有三个属性控制USB连接的带宽。
-+这些属性位于功能根目录中，可以在限制范围内设置：
-+.. code-block:: bash
++Cypress M8 CY4601 系列串口驱动
++-----------------------------------------
 +
-+	# streaming_interval sets bInterval. Values range from 1..255
-+	echo 1 > $FUNCTION/streaming_interval
++  该驱动在很大程度上由 Neil “koyama” Whelchel 开发。
++  自之前的版本以来，该驱动已得到改进，以支持动态串口设置并改善线路处理。
++  该驱动总体上是稳定的，并已在 SMP 机器（双 P2）上进行测试。
 +
-+	# streaming_maxpacket sets wMaxPacketSize. Valid values are 1024/2048/3072
-+	echo 3072 > $FUNCTION/streaming_maxpacket
++    CY4601 系列支持的芯片组：
 +
-+	# streaming_maxburst sets bMaxBurst. Valid values are 1..15
-+	echo 1 > $FUNCTION/streaming_maxburst
++		CY7C63723, CY7C63742, CY7C63743, CY7C64013
 +
++    支持的设备：
 +
-+这里传入的值会根据UVC规范限制在有效范围内（其取值依赖于USB连接速度）。
-+要了解这些设置如何影响带宽，应查阅UVC规范，
-+但经验法则是：增加streaming_maxpacket设置将提高带宽（从而提高最大可能的帧率），
-+如果USB连接运行在SuperSpeed模式下，
-+增加streaming_maxburst也有相同效果；
-+增加streaming_interval则会降低带宽和帧率。
++		- DeLorme 的 USB Earthmate GPS（SiRF Star II lp 架构）
++		- Cypress HID->COM RS232 适配器
 +
-+用户空间应用程序
-+---------------------
-+单独来看，UVC Gadget驱动本身并没有特别有趣的功能。
-+它必须与一个用户空间程序配合使用，该程序负责响应UVC控制请求，
-+并向驱动创建的V4L2设备填充待排队的缓冲区。
-+这些操作的实现方式依赖具体实现，并超出了本文档的范围，
-+但可以在以下位置找到参考应用程序：
-+https://gitlab.freedesktop.org/camera/uvc-gadget
++		注意：
++			Cypress Semiconductor 声明与该 HID 转 COM 设备无任何关联。
++
++     大多数使用 CY4601 系列芯片的设备都应该可以使用该驱动，
++	 只要它们遵循 CY4601 的 USB 串口规范。
++
++    技术说明：
++
++        Earthmate 默认的初始设置是
++		4800 波特率、8 数据位、无校验、1 停止位（4800 8N1）……
++		驱动启动时会以此设置初始化。
++		usbserial 核心负责其余的 termios 配置，
++		并提供一些自定义的 termios 设置，
++		以保证输出格式正确且可解析。
++
++	设备可以通过发送 NMEA 命令进入 sirf 模式::
++
++		$PSRF100,<protocol>,<baud>,<databits>,<stopbits>,<parity>*CHECKSUM
++		$PSRF100,0,9600,8,1,0*0C
++
++		之后只需将串口的termios设置改为与之匹配，即可开始通信。
++
++	据我所知，它几乎支持所有在线文档中列出的 Sirf 命令（适用于固件版本 2.31），
++	但有一些消息 ID 未知。
++
++	hid->com 适配器的最高波特率为 115200 bps。
++	请注意，该设备在提升线路电压方面存在问题，或者无法正确提升线路电压。
++	在使用 null modem 链接时不会有问题，
++	只要不要尝试将两个设备直接连接在一起而不改装适配器以提升线路电压。
++
++    该驱动支持 SMP（对称多处理器）环境。
++	在使用该驱动进行文件传输时，性能相对较低。
++	目前正在改进中，但我也愿意接受补丁。
++	这里使用 URB 队列或数据包缓冲区可能是一个可行的解决方案。
++
++    如果你有任何问题、遇到的故障、补丁或功能请求等，可以通过电子邮件联系我：
++    dignome@gmail.com（你的问题或补丁也可以提交到 usb-devel 邮件列表）。
++
++
++Digi AccelePort驱动
++--------------------------
++
++  该驱动支持 Digi AccelePort USB 2 和 4 端口设备，
++  包括 2 端口（外加一个并口）和 4 端口的 USB 串口转换器。
++  该驱动 尚不支持 Digi AccelePort USB 8。
++
++  该驱动在使用 usb-uhci 驱动的 SMP 系统下可以正常工作，
++  但在使用 uhci 驱动的 SMP 系统下无法工作。
++
++  总体来说，该驱动功能基本可用，
++  但仍有一些 ioctl 需要实现，并且最终测试和调试尚未完成。
++  USB 2 上的并口被支持为串口到并口的转换器；
++  换句话说，它在 Linux 上表现为另一个 USB 串口，
++  虽然实际上它是一个并口。
++  Digi AccelePort USB 8 尚未支持。
++
++  如对该驱动有任何问题或疑问，请联系 Peter Berger（pberger@brimson.com）或
++  Al Borchers（alborchers@steinerpoint.com）。
++
++Belkin USB 串口适配器F5U103
++-------------------------------------------
++
++  这是 Belkin 出品的单端口 DB-9/PS-2 串口适配器，固件由 eTEK Labs 提供。
++  Peracom 的单端口串口适配器以及 GoHubs 适配器也可使用该驱动。
++
++  当前状态：
++
++    经过测试，以下功能可用：
++
++      - 波特率    300-230400
++      - 数据位    5-8
++      - 停止位    1-2
++      - 校验       N,E,O,M,S
++      - 握手       无，软件 (XON/XOFF)，硬件 (CTSRTS,CTSDTR) [1]_
++      - 断开       设置和清除
++      - 行控制 输入/输出查询和控制 [2]_
++
++  .. [1]
++         硬件输入流控仅在固件版本高于 2.06 时启用。
++	     可阅读源码注释了解 Belkin 固件的已知问题。
++		 硬件输出流控在所有固件版本中均可使用。
++
++  .. [2]
++         输入查询（CTS、DSR、CD、RI）显示最后报告的状态。
++		 输出查询（DTR、RTS）显示最后请求的状态，
++		 可能与自动硬件流控设置的当前状态不一致。
++
++  待办事项：
++    - 添加真正的调制解调器控制线查询功能。目前跟踪中断报告的状态和请求的状态。
++    - 添加 UART 错误条件的错误报告回应用程序。
++    - 添加对刷新 ioctl 的支持。
++    - 添加所有其他缺失的功能。
++
++  如对该驱动有任何问题或疑问，请联系 William
++  Greathouse，邮箱：wgreathouse@smva.com
++
++Empeg empeg-car Mark I/II驱动
++------------------------------
++
++  这是一个实验性驱动，用于为 Empeg empeg-car MP3 播放器提供客户端同步工具的连接支持。
++
++  使用提示：
++    * 不要忘记为 ttyUSB{0,1,2,...} 创建设备节点
++    * modprobe empeg (modprobe 是你的朋友)
++    * emptool --usb /dev/ttyUSB0 (或者你为设备节点命名的其他名称)
++
++  如对该驱动有任何问题或疑问，请联系 Gary
++  Brubaker，邮箱：xavyer@ix.netcom.com
++
++
++MCT USB 单端口串口适配器 U232
++-------------------------------------------
++
++  该驱动用于 Magic Control Technology Corp 生产的 MCT USB-RS232 转换器
++  （25 针型号 U232-P25，也有 9 针型号 U232-P9）。
++  更多信息请访问制造商网站：http://www.mct.com.tw。
++
++  该驱动总体上是可用的，尽管仍需进行更多测试。
++  它是从 Belkin USB 串口适配器 F5U103 驱动派生而来，其
++  待办事项列表同样适用于该驱动。
++  该驱动也被发现适用于其他产品，这些产品具有相同的供应商 ID 但产品 ID 不同。
++  Sitecom 的 U232-P25 串口转换器使用产品 ID 0x230 和供应商 ID 0x711，
++  并且可以使用该驱动。
++  D-Link 的 DU-H3SP USB BAY 也可以使用该驱动。
++  如对该驱动有任何问题或疑问，请联系 Wolfgang
++  Grandegger，邮箱：wolfgang@ces.ch
++
++
++Inside Out Networks Edgeport驱动
++-----------------------------------
++
++  该驱动支持 Inside Out Networks 公司生产的所有设备，具体型号如下：
++
++       - Edgeport/4
++       - Rapidport/4
++       - Edgeport/4t
++       - Edgeport/2
++       - Edgeport/4i
++       - Edgeport/2i
++       - Edgeport/421
++       - Edgeport/21
++       - Edgeport/8
++       - Edgeport/8 Dual
++       - Edgeport/2D8
++       - Edgeport/4D8
++       - Edgeport/8i
++       - Edgeport/2 DIN
++       - Edgeport/4 DIN
++       - Edgeport/16 Dual
++
++  如对本驱动有任何问题或疑问，请联系 Greg Kroah-Hartman（greg@kroah.com）。
++
++
++REINER SCT cyberJack pinpad/e-com USB 智能卡读卡器
++--------------------------------------------------
++
++  该设备用于与 ISO 7816 兼容的接触式芯片卡通信，例如 GSM SIM 卡。
++
++  当前状态：
++
++    这是该 USB 智能卡读卡器的内核部分驱动。
++	同时，还提供了用户空间的 CT-API 驱动。
++	下载地址待定，目前可以向维护者（linux-usb@sii.li）请求获取。
++
++    如对本驱动有任何问题或疑问，请联系 linux-usb@sii.li。
++
++
++Prolific PL2303驱动
++----------------------
++
++  该驱动支持任何使用 Prolific PL2303 芯片的设备。
++  这包括多个单口 USB 转串口转换器、2010 年约 70% 的 USB GPS 设备，
++  以及一些 USB UPS。Aten（UC-232）和 IO-Data 的设备也能使用此驱动，
++  DCU-11 手机数据线也支持。
++
++   如对本驱动有任何问题或疑问，
++   请联系 Greg Kroah-Hartman（greg@kroah.com）。
++
++
++KL5KUSB105芯片组 / PalmConnect USB单端口适配器
++--------------------------------------------------------
++
++当前状态：
++
++  该驱动是通过分析 Palm 在 Windows 下的 USB 总线交互而开发的，
++  因此仍有许多功能缺失。
++  特别是串口 ioctl 有时是模拟的，
++  或者尚未实现。
++  不过，对 DSR 和 CTS 线路状态的支持已经实现（虽然不够完美），
++  所以常用的 autopilot 和 pilot-manager 守护程序调用可以正常工作。
++  驱动支持最高 115200 的波特率，
++  但握手（软件或硬件）尚不支持，
++  因此在进行大数据传输时，建议降低波特率以保证稳定性。
++
++  最新的驱动信息请访问：http://www.uuhaus.de/linux/palmconnect.html
++
++Winchiphead CH341 驱动
++------------------------
++
++  该驱动用于 Winchiphead CH341 USB-RS232 转换器。
++  该芯片还支持 IEEE 1284 并口、I2C 和 SPI，但驱动不支持这些功能。
++  协议是通过分析 Windows 驱动的行为得到的，目前没有公开的数据手册。
++
++  厂商官网：http://www.winchiphead.com/
++
++  如对本驱动有任何问题或疑问，请联系 frank@kingswood-consulting.co.uk
++
++Moschip MCS7720, MCS7715 驱动
++-------------------------------
++
++  这些芯片存在于多家厂商销售的设备中，
++  例如 Syba 和 Cables Unlimited，可能还有其他厂商。
++  MCS7720 提供两个串口，MCS7715 提供一个串口和一个标准 PC 并口。
++  对 7715 并口的支持需要通过单独选项启用，
++  该选项只有在设备驱动顶层配置菜单中先启用并口支持时才会出现。
++  目前并口仅支持兼容模式（不支持 ECP/EPP）。
++
++待办事项：
++
++    - 实现并口的 ECP/EPP 模式。
++    - 目前超过 115200 波特率的支持存在问题。
++    - 基于 Moschip MCS7703 的单串口设备可能可以通过在 usb_device_id 表中添加条目来支持该驱动。
++	  但我手头没有这些设备，所以无法确认。
++
++通用串口驱动
++-------------------------------------------
++
++  如果你的设备不属于上面列出的型号，或者不兼容这些型号，
++  可以尝试使用“通用”接口。该接口不会向设备发送任何控制消息，
++  也不支持任何设备流控制。
++  你的设备只需至少有一个 bulk 输入端点或一个 bulk 输出端点即可。
++
++  要让通用驱动识别你的设备，可以执行::
++
++	echo <vid> <pid> >/sys/bus/usb-serial/drivers/generic/new_id
++
++  其中 <vid> 和 <pid> 替换为设备厂商 ID 和产品 ID 的十六进制表示。
++  如果驱动是作为模块编译的，也可以在加载模块时提供一个 ID：::
++
++	insmod usbserial vendor=0x#### product=0x####
++
++  该驱动已成功用于连接 NetChip USB 开发板，
++  提供了一种开发 USB 固件而无需编写自定义驱动的方法。
++
++  如对该驱动有任何问题或疑问，请联系 Greg Kroah-Hartman，邮箱：greg@kroah.com。
++
++
++联系信息
++=====================
++
++  如果在使用上述驱动或任何指定设备时遇到问题，
++  请联系对应驱动的作者（联系方式已在上文列出），
++  或者加入 Linux-USB 邮件列表。
++  邮件列表的加入方式及可搜索的归档链接请见：http://www.linux-usb.org/。
++
++Greg Kroah-Hartman
++greg@kroah.com
 --
 2.34.1
 
