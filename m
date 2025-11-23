@@ -1,33 +1,33 @@
-Received: from mail-m1973177.qiye.163.com (mail-m1973177.qiye.163.com [220.197.31.77])
+Received: from mail-m1973181.qiye.163.com (mail-m1973181.qiye.163.com [220.197.31.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1886822D4DD
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 07:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA4122D4DD
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 07:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763884238; cv=none; b=nXMJy1pBP/rvwifCaUDV4dlwueyeBot23sDJDnrrx5qAuQylEEBD35Na0KaAQJslm17d2AJ7TgIj1/cdwaTq5Tglu/4H59C6b5U2dpDSD75R260mQA/DOZg/P+icoB9PZkSq1BX+ue/4Pe5pFp9ThM5D7CD8JZdgVcnnyvEJ8gc=
+	t=1763884243; cv=none; b=lauHsuaj4vAZDLlZeUktqjyg7sEK/D8f4sZhhn/Y6MGP5nefvL9LbwEBIOaNE/uu0cIGY9irbAdHWi03iLUO74XjOsLSZtAxQnDKsuNxtyNS6JqsG27F0XbYCz/6kr8DYTIc+2u5iCWWyEzEPfh0BU1Vv0Ydsal/kMBZauUyw2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763884238; c=relaxed/simple;
-	bh=3dlZjAxk7UI6Z2ZoRJwU85RuOz0Jx7FN62/JzmrKBKs=;
+	s=arc-20240116; t=1763884243; c=relaxed/simple;
+	bh=hUStUanHOrbd4+yNIoJELN7RATouHa4ox9UlRUXGung=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kag5lYr0f/6PsmXRhRMx1sothGY2VGyuxabTqhRoW3dn4VkEQqLkVZIDj6g6eDcfjF1oOPdR4QPceOwyWXcok6P47x+eIXSH21wRvUfo9aGC7p/+KLxj6ARP4fH1S7D363Yz2AZyGNcds2Wxk9shBhFwwnNdxIIPv/j/KH/y+LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=CsO/kYn6; arc=none smtp.client-ip=220.197.31.77
+	 MIME-Version:Content-Type; b=KovbrHgNt+qF634+4eVygsfCoRKeS5n10gaGh7S4xc6zQeJ4h7EtiNFyulVWku52sW0z/MCTPkdRCOR2w15fOGzMiEeSKL7gibx8HkcaY06re2fUScyhxpH4dSJHwMmPKguLxObGf3W7LrAZz0xuor2/i0cUHdnkgmaqjH6oVlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=XP+PXPYD; arc=none smtp.client-ip=220.197.31.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="CsO/kYn6"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="XP+PXPYD"
 Received: from server001 (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99b8;
-	Sun, 23 Nov 2025 15:45:18 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99c2;
+	Sun, 23 Nov 2025 15:45:23 +0800 (GMT+08:00)
 From: macrofun <baikefan@leap-io-kernel.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
 Cc: dzm91@hust.edu.cn,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 09/25] docs/zh_CN: Add gadget_configfs.rst translation
-Date: Sun, 23 Nov 2025 15:45:24 +0800
-Message-ID: <20251123074540.34161-10-baikefan@leap-io-kernel.com>
+Subject: [PATCH 14/25] docs/zh_CN: Add gadget_uvc.rst translation
+Date: Sun, 23 Nov 2025 15:45:29 +0800
+Message-ID: <20251123074540.34161-15-baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
 References: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
@@ -39,38 +39,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9aafaca3b909d5kunm0cca7198286627
+X-HM-Tid: 0a9aafacb63c09d5kunm0cca719828664c
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaH08dVh5JHh9LQh8ZHkxPTVYVFAkWGhdVEwETFh
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDSUIaVhhCTk1OH0NCTx9NQlYVFAkWGhdVEwETFh
 	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
 	VLWQY+
 DKIM-Signature: a=rsa-sha256;
-	b=CsO/kYn6r++5oQcCZVT1PYaW/05Gya+GBT+4pyQWgzNjqv7JuunBznC/ONjDSfA+nss/N40l92c1LTCDmd7x6IXtcSzNopAdoNqQSBWfIxDcG/gtJal8gGJJAmhBuhYnGcGyZKcfrQy5jfXU29tbX4ZqNnj38srxpkTIheT3ekVlnv3Sc860+UrHGEX6MiMSm2crqr7CCVOEIZazwJXdq6c5r1pUe55gQg1mQOy1p4rI62WnecZ4Adm1l+mXHPeLeCC8UGQXY4USl0PNHbJEEyiwywC/hZkNsnWdsTMa9dkVTF75gE/MBeDLJ5Mif2LhGu6MD48OKQDlCItGYgWW8A==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=Hh+vJF7n5rpDFA3Svfqp0UsrOJo4V5wKNNxxEsgK8KI=;
+	b=XP+PXPYDTNDvmkehvVqk1iRA9MTdcxLyhXsiHNQcfTa5GnNW/IrD2w77GkTqEycu6UXfx0AqNVXrLpqRSovSOhGWMmXAT+W84gsQD4C3OQJDloYUqss2HcxKArtsPvUHPEo7acjgovJwmlDuvlWBLix7zzTRqPGZlCMyaXa2WGD76pendeNRV+oy9cB+QSrQSesNYjXdFvEg1cgidnqU3t6IZql0U185gqqHcvl/UMmIlVavb07O7JSpUKzhEKeJSC+kjAVQYF7e3iRS+ex/bOexLawzJn35dk2P6W5jKR5CFjTksnwZVnBYtof1Hc+3LeLF9Vjs2u4Y2e8apS4wLg==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=aaDfUNN4p3scNLTe8T0++gqCK1LffRumO8XAVlwkev4=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/gadget_configfs.rst into Chinese.
+Translate .../usb/gadget_uvc.rst into Chinese.
 
-Update the translation through commit 58992bf32830
-("Documentation: usb: gadget: Wrap remaining usage snippets in literal code block")
+Update the translation through commit 16794ed32de9
+("docs: usb: fix reference to nonexistent file in UVC Gadget")
 
 Signed-off-by: macrofun <baikefan@leap-io-kernel.com>
 ---
- .../zh_CN/usb/gadget_configfs.rst             | 383 ++++++++++++++++++
- 1 file changed, 383 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/usb/gadget_configfs.rst
+ .../translations/zh_CN/usb/gadget_uvc.rst     | 372 ++++++++++++++++++
+ 1 file changed, 372 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/gadget_uvc.rst
 
-diff --git a/Documentation/translations/zh_CN/usb/gadget_configfs.rst b/Documentation/translations/zh_CN/usb/gadget_configfs.rst
+diff --git a/Documentation/translations/zh_CN/usb/gadget_uvc.rst b/Documentation/translations/zh_CN/usb/gadget_uvc.rst
 new file mode 100644
-index 000000000000..6001020f89ca
+index 000000000000..de53a05a2c76
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/gadget_configfs.rst
-@@ -0,0 +1,383 @@
++++ b/Documentation/translations/zh_CN/usb/gadget_uvc.rst
+@@ -0,0 +1,372 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/gadget_configfs.rst
++:Original: Documentation/usb/gadget_uvc.rst
 +:翻译:
 +
 + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
@@ -79,377 +79,366 @@ index 000000000000..6001020f89ca
 +
 +
 +
-+=====================================
-+通过configfs配置的Linux USB gadget
-+=====================================
-+
-+2013年4月25日
++======================
++Linux UVC Gadget 驱动
++======================
 +
 +概述
-+====
++------
++UVC Gadget 驱动是针对 USB 设备端硬件的驱动，
++适用于在具有 USB 设备端硬件（例如带 OTG 接口的开发板）的 Linux 系统上运行。
 +
-+USB Linux Gadget是一种拥有UDC（USB设备控制器）的设备，
-+可以连接到USB主机，为其扩展附加功能，例如串口或大容量存储功能。
++在设备系统上，一旦驱动绑定成功，它会以 V4L2 设备的形式出现，并具有输出能力。
 +
-+从主机的角度来看，一个gadget表现为一组配置，每个配置包含若干接口，
-+从gadget的角度来看，这些接口被称为函数（function），
-+每个函数代表例如一个串行连接或一个SCSI磁盘。
++在主机端（通过 USB 连接后），
++运行 UVC Gadget 驱动的设备（由相应用户空间程序控制）
++应表现为符合 UVC 规范的摄像头，并能与任何支持 UVC 的程序正常工作。
++设备端的用户空间程序可以将来自各种源的图像缓冲区排入队列，
++通过 USB 传输。通常，这意味着转发来自摄像头传感器的缓冲区，
++但缓冲区的来源完全由用户空间程序决定。
 +
-+Linux为gadget提供了若干可用函数。
-+
-+创建一个gadget意味着要决定将有哪些配置，以及每个配置将提供哪些函数。
-+
-+Configfs（请参见 `Documentation/filesystems/configfs.rst`）非常适合用于
-+告诉内核上述决策。本文档介绍了如何实现这一操作。
-+
-+同时，它还描述了configfs与gadget集成的设计方式。
-+
-+
-+
-+要求
-+=====
-+
-+为了使其工作，configfs必须可用，因此在.config中CONFIGFS_FS必须为'y' 或 'm'。
-+截至本文撰写时，USB_LIBCOMPOSITE会选择CONFIGFS_FS。
-+
-+
-+
-+使用方法
-+========
-+
-+::
-+
-+	$ modprobe libcomposite
-+	$ mount none $CONFIGFS_HOME -t configfs
-+
-+其中CONFIGFS_HOME是configfs的挂载点
-+
-+1. 创建gadget
-+-------------
-+
-+对于每个要创建的gadget，必须创建其对应的目录::
-+
-+	$ mkdir $CONFIGFS_HOME/usb_gadget/<gadget name>
-+
-+例如::
-+
-+	$ mkdir $CONFIGFS_HOME/usb_gadget/g1
-+
-+	...
-+	...
-+	...
-+
-+	$ cd $CONFIGFS_HOME/usb_gadget/g1
-+
-+每个gadget需要指定其厂商ID <VID>和产品ID <PID>::
-+
-+	$ echo <VID> > idVendor
-+	$ echo <PID> > idProduct
-+
-+gadget还需要其序列号、厂商和产品字符串。
-+为了有地方存放它们，需要为每种语言创建一个 strings 子目录，例如::
-+
-+	$ mkdir strings/0x409
-+
-+然后可以指定这些字符串::
-+
-+	$ echo <serial number> > strings/0x409/serialnumber
-+	$ echo <manufacturer> > strings/0x409/manufacturer
-+	$ echo <product> > strings/0x409/product
-+
-+进一步的自定义字符串描述符可以作为语言目录下的子目录创建，
-+字符串文本写入该字符串目录下的"s"属性::
-+
-+	$ mkdir strings/0x409/xu.0
-+	$ echo <string text> > strings/0x409/xu.0/s
-+
-+在函数驱动支持的情况下，函数可能允许这些自定义字符串描述符的符号链接，
-+用以将这些字符串与类描述符关联。
-+
-+2. 创建配置
-+-----------
-+
-+每个gadget将由多个配置组成，必须创建其对应的目录::
-+
-+        $ mkdir configs/<name>.<number>
-+
-+其中 <name> 可以是任何在文件系统中合法的字符串，
-+<number> 是该配置的编号，例如::
-+
-+	$ mkdir configs/c.1
-+
-+	...
-+	...
-+	...
-+
-+每个配置也需要字符串，因此必须为每种语言创建一个子目录，例如::
-+
-+	$ mkdir configs/c.1/strings/0x409
-+
-+然后可以指定配置字符串::
-+	$ echo <configuration> > configs/c.1/strings/0x409/configuration
-+
-+某些属性也可以为配置设置，例如::
-+
-+	$ echo 120 > configs/c.1/MaxPower
-+
-+3. 创建函数
-+-----------
-+
-+gadget 将提供若干函数，为每个函数必须创建其对应的目录::
-+
-+	$ mkdir functions/<name>.<instance name>
-+
-+其中 <name> 对应于允许的函数名称之一，而 instance name
-+是一个在文件系统中允许的任意字符串，例如::
-+
-+  $ mkdir functions/ncm.usb0 # usb_f_ncm.ko gets loaded with request_module()
-+
-+  ...
-+  ...
-+  ...
-+
-+每个函数提供其特定的一组属性，可读或可写。
-+在适用的情况下，需要根据具体情况对其进行写入。
-+更多信息请参考 Documentation/ABI/testing/configfs-usb-gadget。
-+
-+4. 将函数与其配置关联
-+----------------------
-+
-+此时已创建若干 gadget，每个 gadget 都指定了若干配置并具有若干可用函数。
-+接下来需要指定哪些函数在何种配置中可用（同一个函数可用于多个配置）。
-+这是通过创建符号链接实现的::
-+
-+	$ ln -s functions/<name>.<instance name> configs/<name>.<number>
-+
-+例如::
-+
-+	$ ln -s functions/ncm.usb0 configs/c.1
-+
-+	...
-+	...
-+	...
-+
-+5. 启用 gadget
++配置设备内核
 +--------------
++要启用 UVC Gadget 支持，必须在内核 Kconfig 中选择以下选项:
++USB_CONFIGFS, USB_LIBCOMPOSITE, USB_CONFIGFS_F_UVC和
++USB_F_UVC。
 +
-+以上所有步骤的目的是组合 gadget 的配置和函数。
++通过 configfs 配置 Gadget
++---------------------------
++UVC Gadget 通过 configfs 使用 UVC 功能进行配置。
++这种方式提供了很大灵活性，因为 UVC 设备的许多设置可以通过它控制。
 +
-+一个示例目录结构可能如下所示::
++并非所有可用的属性都在此处描述。有关完整的枚举，
++请参阅 Documentation/ABI/testing/configfs-usb-gadget-uvc
 +
-+  .
-+  ./strings
-+  ./strings/0x409
-+  ./strings/0x409/serialnumber
-+  ./strings/0x409/product
-+  ./strings/0x409/manufacturer
-+  ./configs
-+  ./configs/c.1
-+  ./configs/c.1/ncm.usb0 -> ../../../../usb_gadget/g1/functions/ncm.usb0
-+  ./configs/c.1/strings
-+  ./configs/c.1/strings/0x409
-+  ./configs/c.1/strings/0x409/configuration
-+  ./configs/c.1/bmAttributes
-+  ./configs/c.1/MaxPower
-+  ./functions
-+  ./functions/ncm.usb0
-+  ./functions/ncm.usb0/ifname
-+  ./functions/ncm.usb0/qmult
-+  ./functions/ncm.usb0/host_addr
-+  ./functions/ncm.usb0/dev_addr
-+  ./UDC
-+  ./bcdUSB
-+  ./bcdDevice
-+  ./idProduct
-+  ./idVendor
-+  ./bMaxPacketSize0
-+  ./bDeviceProtocol
-+  ./bDeviceSubClass
-+  ./bDeviceClass
++前提条件
++~~~~~~~~~~~
++假设你已将 configfs 挂载到 `/sys/kernel/config` 并
++创建了一个 gadget，路径为 `/sys/kernel/config/usb_gadget/g1`。
 +
++UVC 功能
++~~~~~~~~~~~
++第一步是创建 UVC 功能：
 +
-+这样的gadget必须最终被启用，以便USB主机能够枚举它。
++.. code-block:: bash
 +
-+为了启用gadget，必须将其绑定到一个UDC（USB Device Controller）::
++	# These variables will be assumed throughout the rest of the document
++	CONFIGFS="/sys/kernel/config"
++	GADGET="$CONFIGFS/usb_gadget/g1"
++	FUNCTION="$GADGET/functions/uvc.0"
 +
-+	$ echo <udc name> > UDC
++	mkdir -p $FUNCTION
 +
-+其中 <udc name> 是 /sys/class/udc/* 中的一个，例如::
++格式与帧
++~~~~~~~~~~
 +
-+	$ echo s3c-hsotg > UDC
++必须告诉 gadget 支持哪些格式，以及每种格式支持的帧大小和帧间隔。
++当前实现中，gadget 无法拒绝主机要求设置的格式，
++因此必须准确配置，以确保主机不会请求无法提供的格式。
 +
-+
-+6. 禁用 gadget
-+--------------
++格式在 streaming/uncompressed 和 streaming/mjpeg configfs 分组下创建，
++帧大小在格式下创建，结构如下：
 +
 +::
 +
-+	$ echo "" > UDC
++	uvc.0 +
++	      |
++	      + streaming +
++			  |
++			  + mjpeg +
++			  |       |
++			  |       + mjpeg +
++			  |	       |
++			  |	       + 720p
++			  |	       |
++			  |	       + 1080p
++			  |
++			  + uncompressed +
++					 |
++					 + yuyv +
++						|
++						+ 720p
++						|
++						+ 1080p
 +
-+7. 清理
-+-------
++每个帧都可以配置宽度和高度，以及存储单个帧所需的最大缓冲区大小，
++最后还可以配置该格式和帧大小所支持的帧间隔。
++宽度和高度以像素为单位枚举，
++帧间隔以 100ns 为单位。
++例如，要为每个帧大小创建上面结构中 2、15 和 100 fps 的帧间隔，
++可以这样操作：
 +
-+从配置中移除函数::
++.. code-block:: bash
 +
-+	$ rm configs/<config name>.<number>/<function>
++	create_frame() {
++		# 示例用法:
++		# create_frame <width> <height> <group> <format name>
 +
-+其中 <config name>.<number> 指定配置，
-+<function> 是从配置中移除的函数的符号链接，例如::
++		WIDTH=$1
++		HEIGHT=$2
++		FORMAT=$3
++		NAME=$4
 +
-+	$ rm configs/c.1/ncm.usb0
++		wdir=$FUNCTION/streaming/$FORMAT/$NAME/${HEIGHT}p
 +
-+	...
-+	...
-+	...
++		mkdir -p $wdir
++		echo $WIDTH > $wdir/wWidth
++		echo $HEIGHT > $wdir/wHeight
++		echo $(( $WIDTH * $HEIGHT * 2 )) > $wdir/dwMaxVideoFrameBufferSize
++		cat <<EOF > $wdir/dwFrameInterval
++	666666
++	100000
++	5000000
++	EOF
++	}
 +
-+移除配置中的strings目录::
++	create_frame 1280 720 uncompressed yuyv
++	create_frame 1920 1080 uncompressed yuyv
 +
-+	$ rmdir configs/<config name>.<number>/strings/<lang>
++目前唯一支持的未压缩格式是YUYV，
++详细说明请参见Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst。
 +
-+例如::
++颜色匹配描述符
++~~~~~~~~~~~~~~
++可以为你创建的每种格式指定一些色彩信息。
++此步骤为可选操作，如果跳过该步骤，
++将使用默认信息；
++这些默认值遵循UVC规范中Color Matching Descriptor部分的定义。
 +
-+	$ rmdir configs/c.1/strings/0x409
++要创建颜色匹配描述符，需要先创建一个configfs item，
++并将其三个属性设置为你期望的值，然后从希望关联的格式中链接到该item：
 +
-+	...
-+	...
-+	...
++.. code-block:: bash
 +
-+然后移除配置::
++	# Create a new Color Matching Descriptor
 +
-+    $ rmdir configs/<config name>.<number>
++	mkdir $FUNCTION/streaming/color_matching/yuyv
++	pushd $FUNCTION/streaming/color_matching/yuyv
 +
-+例如::
++	echo 1 > bColorPrimaries
++	echo 1 > bTransferCharacteristics
++	echo 4 > bMatrixCoefficients
 +
-+    $ rmdir configs/c.1
++	popd
 +
-+    ...
-+    ...
-+    ...
++	# Create a symlink to the Color Matching Descriptor from the format's config item
++	ln -s $FUNCTION/streaming/color_matching/yuyv $FUNCTION/streaming/uncompressed/yuyv
 +
-+移除函数（函数模块不会被卸载）::
-+
-+	$ rmdir functions/<name>.<instance name>
-+
-+例如::
-+
-+    $ rmdir functions/ncm.usb0
-+
-+    ...
-+    ...
-+    ...
-+
-+移除 gadget 中的 strings 目录::
-+
-+	$ rmdir strings/<lang>
-+
-+例如::
-+	$ rmdir strings/0x409
-+
-+最后移除 gadget::
-+
-+	$ cd ..
-+	$ rmdir <gadget name>
-+
-+例如::
-+
-+	$ rmdir g1
++有关有效值的详细信息，请参阅UVC规范。
++请注意，存在一个默认的Color Matching Descriptor，
++任何没有链接到其他Color Matching Descriptor的格式都会使用它。
++可以修改默认描述符的属性设置，但请注意，
++如果你这样做，就会改变所有未链接到其他描述符的格式的默认设置。
 +
 +
++头部链接
++~~~~~~~~~~~~~~~
++
++UVC规范要求Format和Frame描述符之前必须有头部（Header），
++用于描述随后不同Format描述符的数量和累计大小等信息。
++在configfs中，这类操作是通过将表示头部的
++configfs item与表示其他描述符的config item进行链接来实现的，方式如下：
++
++.. code-block:: bash
++
++	mkdir $FUNCTION/streaming/header/h
++
++	# This section links the format descriptors and their associated frames
++	# to the header
++	cd $FUNCTION/streaming/header/h
++	ln -s ../../uncompressed/yuyv
++	ln -s ../../mjpeg/mjpeg
++
++	# This section ensures that the header will be transmitted for each
++	# speed's set of descriptors. If support for a particular speed is not
++	# needed then it can be skipped here.
++	cd ../../class/fs
++	ln -s ../../header/h
++	cd ../../class/hs
++	ln -s ../../header/h
++	cd ../../class/ss
++	ln -s ../../header/h
++	cd ../../../control
++	mkdir header/h
++	ln -s header/h class/fs
++	ln -s header/h class/ss
 +
 +
-+实现设计
-+===========
++扩展单元支持
++~~~~~~~~~~~~~~~
 +
-+下面介绍configfs的工作原理。
-+在configfs中，有items和groups，二者都以目录的形式呈现。
-+它们的区别在于group可以包含其他groups。
-+下面的图中只展示了一个item。items和groups均可具有attributes，
-+这些属性以文件的形式呈现。
-+用户可以创建和删除目录，但不能删除文件；
-+这些文件可能是只读或可读写的，具体取决于其代表的内容。
++UVC扩展单元（XU）基本上提供了一个独立的单元，
++可以向其发送控制的set和get请求。
++这些控制请求的含义完全依赖于具体实现，
++但可用于控制UVC规范之外的设置（例如启用或禁用视频效果）。
++XU可以插入到UVC单元链中，也可以保持独立悬挂。
 +
-+configfs 的文件系统部分操作的是 config_items/groups 和
-+configfs_attributes，它们是通用的，对于所有配置的元素类型相同。
-+然而，它们被嵌入到用途特定的更大结构中。
-+在下面的图中，有一个包含 config_item 的 “cs”，
-+以及一个包含 configfs_attribute 的 “sa”。
++配置扩展单元涉及在相应目录中创建一个条目，并适当地设置其属性，如下所示：
 +
-+文件系统视图如下所示::
++.. code-block:: bash
 +
-+  ./
-+  ./cs        (directory)
-+     |
-+     +--sa    (file)
-+     |
-+     .
-+     .
-+     .
++	mkdir $FUNCTION/control/extensions/xu.0
++	pushd $FUNCTION/control/extensions/xu.0
 +
-+每当用户读/写 “sa” 文件时，就会调用一个函数，
-+该函数接收一个 struct config_item 和一个 struct configfs_attribute。
-+在该函数中，使用众所周知的 container_of 技巧获取 “cs” 和 “sa”，
-+然后调用适当的 sa 的函数（show 或 store），
-+并传入 “cs” 和一个字符缓冲区。
-+“show” 用于显示文件内容（将数据从 cs 复制到缓冲区），
-+而 “store” 用于修改文件内容（将数据从缓冲区复制到 cs），
-+但具体执行内容由实现者自行决定。
++	# Set the bUnitID of the Processing Unit as the source for this
++	# Extension Unit
++	echo 2 > baSourceID
++
++	# Set this XU as the source of the default output terminal. This inserts
++	# the XU into the UVC chain between the PU and OT such that the final
++	# chain is IT > PU > XU.0 > OT
++	cat bUnitID > ../../terminal/output/default/baSourceID
++
++	# Flag some controls as being available for use. The bmControl field is
++	# a bitmap with each bit denoting the availability of a particular
++	# control. For example to flag the 0th, 2nd and 3rd controls available:
++	echo 0x0d > bmControls
++
++	# Set the GUID; this is a vendor-specific code identifying the XU.
++	echo -e -n "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10" > guidExtensionCode
++
++	popd
++
++bmControls属性和baSourceID属性是多值属性。
++这意味着你可以向它们写入多个以换行符分隔的值。
++例如，要标记第1、第2、第9和第10个控制可用，
++你需要向bmControls写入两个值，如下所示：
++
++.. code-block:: bash
++
++	cat << EOF > bmControls
++	0x03
++	0x03
++	EOF
++
++baSourceID属性的多值特性暗示了XU可以有多个输入，但请注意，这目前没有显著影响。
++
++bControlSize属性表示bmControls属性的大小，
++类似地，bNrInPins表示baSourceID属性的大小。
++随着你设置bmControls和baSourceID，这两个属性会自动增减。
++也可以手动增加或减少bControlSize，
++这会导致条目被截断到新的大小，或者用0x00填充条目，例如：
 +
 +::
 +
-+  typedef struct configured_structure cs;
-+  typedef struct specific_attribute sa;
++	$ cat bmControls
++	0x03
++	0x05
 +
-+                                         sa
-+                         +----------------------------------+
-+          cs             |  (*show)(cs *, buffer);          |
-+  +-----------------+    |  (*store)(cs *, buffer, length); |
-+  |                 |    |                                  |
-+  | +-------------+ |    |       +------------------+       |
-+  | | struct      |-|----|------>|struct            |       |
-+  | | config_item | |    |       |configfs_attribute|       |
-+  | +-------------+ |    |       +------------------+       |
-+  |                 |    +----------------------------------+
-+  | data to be set  |                .
-+  |                 |                .
-+  +-----------------+                .
++	$ cat bControlSize
++	2
 +
-+文件名由 config item/group 的设计者决定，
-+而目录一般可以任意命名。
-+一个group可以拥有若干其默认子group，由系统自动创建。
++	$ echo 1 > bControlSize
++	$ cat bmControls
++	0x03
 +
-+有关configfs的更多信息请参阅
-+`Documentation/filesystems/configfs.rst`.
++	$ echo 2 > bControlSize
++	$ cat bmControls
++	0x03
++	0x00
 +
-+上述概念应用到USB gadgets时对应如下：
++bNrInPins和baSourceID的功能相同。
 +
-+1. 一个 gadget 有其 config group，其中包含一些属性（idVendor、
-+   idProduct 等）和默认子 group（configs、functions、strings）。
-+   向这些属性写入会导致信息被存储到合适的位置。
-+   在 configs、functions 和 strings 子 group 中，用户可以创建
-+   其子 group 以表示配置、功能以及某种语言下的一组字符串。
++配置摄像头终端和处理单元的支持控制
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+2. 用户创建 configurations 和 functions，并在 configurations 中
-+   创建指向 functions 的符号链接。
-+   当 gadget 的 UDC 属性被写入时，也就是将 gadget 绑定到 UDC 时，
-+   这些信息将被使用。
-+   drivers/usb/gadget/configfs.c 中的代码会遍历所有 configurations，
-+   并在每个 configuration 中遍历所有 functions 并绑定它们。
-+   这样整个 gadget 就被绑定了。
++UVC链中的摄像头终端（Camera Terminal）和处理单元（Processing Unit）
++也具有bmControls属性，其功能与扩展单元（XU）中的相同字段类似。
++然而，与XU不同的是，这些单元的位标志含义在UVC规范中已有定义；
++有关标志的枚举，请参阅“Camera Terminal Descriptor”和
++“Processing Unit Descriptor”部分。
 +
-+3. 文件 drivers/usb/gadget/configfs.c 包含以下代码：
++.. code-block:: bash
 +
-+	- gadget的config_group
-+	- gadget的默认 groups (configs, functions, strings)
-+	- 将 functions 与 configurations 关联（符号链接）
++        # Set the Processing Unit's bmControls, flagging Brightness, Contrast
++        # and Hue as available controls:
++        echo 0x05 > $FUNCTION/control/processing/default/bmControls
 +
-+4. 每个 USB function 自然拥有其希望被配置的视图，
-+   因此特定 functions 的 config_groups 定义在各自的
-+   functions 实现文件 drivers/usb/gadget/f_*.c 中。
++        # Set the Camera Terminal's bmControls, flagging Focus Absolute and
++        # Focus Relative as available controls:
++        echo 0x60 > $FUNCTION/control/terminal/camera/default/bmControls
 +
-+5. function 的代码是这样编写的：它使用 usb_get_function_instance()，
-+   该函数会调用 request_module。
-+   因此，只要 modprobe 可以正常工作，特定 function 的模块就会自动加载。
-+   请注意反向并不成立：在 gadget 被禁用并拆除之后，这些模块仍然保持加载状态。
++如果你不设置这些字段，则默认情况下摄像头终端（Camera Terminal）
++的自动曝光模式（Auto-Exposure Mode）控制
++和处理单元（Processing Unit）的亮度（Brightness）控制
++会被标记为可用；
++如果不支持这些功能，你应将字段设置为0x00。
++
++请注意，摄像头终端或处理单元的bmControls字段大小由UVC规范固定，
++因此此处的bControlSize属性为只读。
++
++自定义字符串支持
++~~~~~~~~~~~~~~~~~~~~~~~
++
++为USB设备各部分提供文本描述的字符串描述符（String Descriptor）
++可以在USB configfs的常规位置定义，
++然后可以从UVC功能根（UVC function root）或
++扩展单元（Extension Unit）目录中链接这些字符串，
++以将其作为描述符分配：
++
++.. code-block:: bash
++
++	# 在us-EN中创建一个字符串描述符，并从function root链接到它。
++	# 链接的名称在这里很重要，因为它声明该描述符用于Interface Association Descriptor。
++	# function root中其他重要的链接名称包括vs0_desc和vs1_desc，
++	# 用于VideoStreaming接口0/1描述符。
++
++	mkdir -p $GADGET/strings/0x409/iad_desc
++	echo -n "Interface Associaton Descriptor" > $GADGET/strings/0x409/iad_desc/s
++	ln -s $GADGET/strings/0x409/iad_desc $FUNCTION/iad_desc
++
++	# 由于从Extension Unit链接到String Descriptor会明确关联两者，
++	# 因此该链接的名称不重要，可以自由设置。
++
++	mkdir -p $GADGET/strings/0x409/xu.0
++	echo -n "A Very Useful Extension Unit" > $GADGET/strings/0x409/xu.0/s
++	ln -s $GADGET/strings/0x409/xu.0 $FUNCTION/control/extensions/xu.0
++
++中断端点
++~~~~~~~~
++
++VideoControl接口具有一个可选的中断端点，默认情况下处于禁用状态。
++该端点用于支持UVC的延迟响应控制设置请求
++（这些请求应通过中断端点响应，而不是占用端点0）。
++目前尚不支持通过该端点发送数据，因此默认禁用以避免混淆。
++如果你希望启用它，可以通过configfs属性进行设置：
++
++.. code-block:: bash
++
++	echo 1 > $FUNCTION/control/enable_interrupt_ep
++
++带宽配置
++~~~~~~~~
++
++有三个属性控制USB连接的带宽。
++这些属性位于功能根目录中，可以在限制范围内设置：
++.. code-block:: bash
++
++	# streaming_interval sets bInterval. Values range from 1..255
++	echo 1 > $FUNCTION/streaming_interval
++
++	# streaming_maxpacket sets wMaxPacketSize. Valid values are 1024/2048/3072
++	echo 3072 > $FUNCTION/streaming_maxpacket
++
++	# streaming_maxburst sets bMaxBurst. Valid values are 1..15
++	echo 1 > $FUNCTION/streaming_maxburst
++
++
++这里传入的值会根据UVC规范限制在有效范围内（其取值依赖于USB连接速度）。
++要了解这些设置如何影响带宽，应查阅UVC规范，
++但经验法则是：增加streaming_maxpacket设置将提高带宽（从而提高最大可能的帧率），
++如果USB连接运行在SuperSpeed模式下，
++增加streaming_maxburst也有相同效果；
++增加streaming_interval则会降低带宽和帧率。
++
++用户空间应用程序
++---------------------
++单独来看，UVC Gadget驱动本身并没有特别有趣的功能。
++它必须与一个用户空间程序配合使用，该程序负责响应UVC控制请求，
++并向驱动创建的V4L2设备填充待排队的缓冲区。
++这些操作的实现方式依赖具体实现，并超出了本文档的范围，
++但可以在以下位置找到参考应用程序：
++https://gitlab.freedesktop.org/camera/uvc-gadget
 --
 2.34.1
 
