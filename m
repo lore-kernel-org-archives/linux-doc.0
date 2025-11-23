@@ -1,263 +1,126 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A312D8767
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 18:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D558A2D73A6;
+	Sun, 23 Nov 2025 18:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763922271; cv=none; b=nsmM6eJFDPINkP93Mqx5oe+eC6UJVgz2fUQggzCCyxyd1gGpmZpRbsMkFyN7DkSn6VizFQV/nVMWTZWKpbleyCerufEa7yDodpjZjjyXCVhKR7MCZ78/aFKCd6jQi93l6l/uQOXeRp55rl7yOLpS0Fh2lAF4iTDxNlzEw5blukw=
+	t=1763923425; cv=none; b=MpA54GHRj1ml8brCGYaeP+K/MHs4NB1WTZBxZYPKGcRqYaruqbWVJ1k+KVviLsPY7yiwUEOaGCsPOCTIdR6uHrwztuoC0djRByl2HIxzieGToDTsYcTJm/Z+CD/XeLWyBT3PFEYgvFpDV/fq74i5DR57KdHvvyfh0+SEyhRFGQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763922271; c=relaxed/simple;
-	bh=zWrmp4jm1uS219v4VOV7zl6kilkCV46yS5P9NSn4tps=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UFewe9b0sfzwsnA2G/37pt7w0z7oJHDjOq26uVTr1uQiNqlmPtFc5cUHgKfQ7R+5tAy9vDSp55ZNDG9CEM3BuaCUNkAyj0VEbC/1zT6HNcQv4ODZ3nVrkXOun2ESTBDyHuRfpdoSG1jiPuiAneTzSu8LrhTcYh1zf/BWTAWltdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=NsJT3s1w; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763923425; c=relaxed/simple;
+	bh=/pmP4EMktKLgoBMD3SKTislBGBhK+hMUMXr37vr1LCI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V0ZoaYcRxPqrK+ym+YZjhJkddeJwO0FAzgMG+J+sfxuMHLpNyd2qO7A2eh3fBA6m8OZutMxAGLXFC8Hf2UdR1qbqjpuDuWY22VEZByqbRPWkQQLqwm2N2GSRsKYnfMy/y/cTM4J7ptVSBRToi8SYTEVeCVhAv+AhqL4bbh5qtdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oDw1OiBu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="NsJT3s1w"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-64149f78c0dso5378945a12.3
-        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 10:24:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763922268; x=1764527068; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HFe56QyFLZ7C1O66/b75IN12Xd7/FCpS86VjcSFE1yk=;
-        b=NsJT3s1wO1dTIojVGEIrqi3FRP9sl0k5hZOPspqSFJBDzQ+zafFLheO1FjzY3nWuiw
-         m1I4FbWsxXNnk3UwWjsZn6DxvnoQHbg6Qk/VrhIVe+t65kB/MvyNaWw0tpiMf1qQPLEO
-         6gIz6ARcslWBcS4UJcA1f/DM1vYANveeEPBVfDoQ8OuR339j0kWdiROrvW9oPMWb9xx8
-         kjb1rIjELyeNtrjlEm6bguZM3Qgmcge0t1tyCV39oLqsFw0bxTc5WcGbrGyqyqizLFz3
-         AJ3oC29jiaiQdOQQ4ZnKJXPyI3XfNbGq+oqAlU0H7Z+l033p1rJuEEafAezmbm2FiHSS
-         03MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763922268; x=1764527068;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HFe56QyFLZ7C1O66/b75IN12Xd7/FCpS86VjcSFE1yk=;
-        b=vyf/2k2a0WrCuCbLkb/Mbj7L81Yr5h59wY8d8CFNnkJjyJvHXtkADrnwoTTOTvx/WG
-         sIyS0Ovmj76vSrOKrCihezWacIJeZlGUSKKGoaRTZ+o7iFD3XANyY8dJjTQCznIudQAt
-         0DAY2Xn/ngqQ4GDrIh1auJN27WGTUChDD2arLPNPPuzyw8N3kDbdpuPsfeMqBnnOt0hn
-         7E/xSiGbuYOqtqU02V/qoueAUX9bQArHHjS0lGXnz92ezFiDXuYLLweFgQukOwD2CdOQ
-         5Q2bqTh3npZAQUItcW3gsaql5ciRknDuZGmgGJLeNbiSnd2fH9/jiY+vfT/wnwgpcFLi
-         X6jA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6Fv1QnqEkR4ydkYmpUChYfyh/0H1tnbwb9gypAQUF8PkI45Gn8CTZoX+qSgiu+QX2gU8gbxOxKs8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYcfbvpgFHP/2vU9kBukLrSCuCMNGJfM0S0THYQITtiFZMJGl2
-	Il0wwIxbQRFXYYbZwOXAngBqxVKkVbGud4jQ5TAkxCGJUj8QPdStQ3J3WgyqKstO0Bo6lfABqbC
-	0fUe28ITMGsMM5tzE2NdFnPaxT7asB6gTJ4G69Txskvt8zsAthHI9lMi7qg==
-X-Gm-Gg: ASbGncuUTrLooRFmr5tQxRCmhz7tmxs2sg8FHqMUafavRK0t4GQ+5g3MOHn2KywIzZm
-	VjdgIIZbNwAM/tlwYm+myUzc062gGOflCaHC4rjYaYO3+IbzgOUvLcfwqp6/77LxiaYT7Owykk4
-	9/m8rdqHB8qvRdJWrN1zl/nLx08g/jd2/yn2ThW/jrKp4Frpblo1dYwnu5Gm9IKL+zQlR4+Suon
-	EFaX1IiXqF6AKohVFlLES5EMlroyM+koOx6f5IRLmNkfXdAkU117el/ZihkhHvfQ8mm
-X-Google-Smtp-Source: AGHT+IF8Y2WxTfuU5MKgGu/HRLPR42VugdjCMxiGE2PPrS+V8RKZs1QDvf+5KSflk2e8n9lkLkfU7mQyoaO5u4Z1Zt0=
-X-Received: by 2002:a05:6402:4146:b0:645:cdc7:ed91 with SMTP id
- 4fb4d7f45d1cf-645cdc7f149mr424897a12.32.1763922267598; Sun, 23 Nov 2025
- 10:24:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oDw1OiBu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3232C113D0;
+	Sun, 23 Nov 2025 18:43:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763923424;
+	bh=/pmP4EMktKLgoBMD3SKTislBGBhK+hMUMXr37vr1LCI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oDw1OiBulVb+4PyhHj5wlxnpIfFM+xbGBo4ATR75+jNlSxbNZhRjH0NHtSbhjmqbc
+	 TzaU5F/Qzn30oaaDFAj5gdv0o1NwIAsVtuu0JsBtJNed0B0ldqG8wkOn+dpV8h1d0g
+	 IHfAr8Mi7popi/bTlxl1DkMVK2OdOkrqHuadzz+1UHHMMq1ZZ2K773qLVs+E/ytrZ4
+	 2NnIvc2R0mseiG7Udoky0YvPzkPNcN0rni+vXUZFkke2RWxzxHmIwN4pY9lJlQj+c4
+	 avlYSdc2Dd/x0eDNBe6oLJ5Z3lrr5egqR2SoZPFeeoXipABFxSaRDBMkoPnYEf26Ky
+	 N6DtTG4QYgDpQ==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: [RFC PATCH 00/12] mm/damos/stat: introduce nr_snapshots, max_nr_snapshots and tracepoint
+Date: Sun, 23 Nov 2025 10:43:14 -0800
+Message-ID: <20251123184329.85287-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-3-pasha.tatashin@soleen.com> <aSLvo0uXLOaE2JW6@kernel.org>
- <CA+CK2bCj2OAQjM-0rD+DP0t4v71j70A=HHdQ212ASxX=xoREXw@mail.gmail.com> <aSMXUKMhroThYrlU@kernel.org>
-In-Reply-To: <aSMXUKMhroThYrlU@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sun, 23 Nov 2025 13:23:51 -0500
-X-Gm-Features: AWmQ_bmZE4Rym1x6vlKRuOiWr1iby3GXQ6wajNbHf1G86dfGYpyZynlDRpPIzZY
-Message-ID: <CA+CK2bABbDYfu8r4xG3n30HY4cKFe74_RJP5nYJeOtAOOj+OUQ@mail.gmail.com>
-Subject: Re: [PATCH v7 02/22] liveupdate: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 23, 2025 at 9:17=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Sun, Nov 23, 2025 at 07:03:19AM -0500, Pasha Tatashin wrote:
-> > On Sun, Nov 23, 2025 at 6:27=E2=80=AFAM Mike Rapoport <rppt@kernel.org>=
- wrote:
-> > >
-> > > On Sat, Nov 22, 2025 at 05:23:29PM -0500, Pasha Tatashin wrote:
-> > > > Integrate the LUO with the KHO framework to enable passing LUO stat=
-e
-> > > > across a kexec reboot.
-> > > >
-> > > > This patch implements the lifecycle integration with KHO:
-> > > >
-> > > > 1. Incoming State: During early boot (`early_initcall`), LUO checks=
- if
-> > > >    KHO is active. If so, it retrieves the "LUO" subtree, verifies t=
-he
-> > > >    "luo-v1" compatibility string, and reads the `liveupdate-number`=
- to
-> > > >    track the update count.
-> > > >
-> > > > 2. Outgoing State: During late initialization (`late_initcall`), LU=
-O
-> > > >    allocates a new FDT for the next kernel, populates it with the b=
-asic
-> > > >    header (compatible string and incremented update number), and
-> > > >    registers it with KHO (`kho_add_subtree`).
-> > > >
-> > > > 3. Finalization: The `liveupdate_reboot()` notifier is updated to i=
-nvoke
-> > > >    `kho_finalize()`. This ensures that all memory segments marked f=
-or
-> > > >    preservation are properly serialized before the kexec jump.
-> > > >
-> > > > LUO now depends on `CONFIG_KEXEC_HANDOVER`.
-> > > >
-> > > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > > > ---
-> > > >  include/linux/kho/abi/luo.h      |  54 +++++++++++
-> > > >  kernel/liveupdate/luo_core.c     | 154 +++++++++++++++++++++++++++=
-+++-
-> > > >  kernel/liveupdate/luo_internal.h |  22 +++++
-> > > >  3 files changed, 229 insertions(+), 1 deletion(-)
-> > > >  create mode 100644 include/linux/kho/abi/luo.h
-> > > >  create mode 100644 kernel/liveupdate/luo_internal.h
-> > > >
-> > > > diff --git a/include/linux/kho/abi/luo.h b/include/linux/kho/abi/lu=
-o.h
-> > > > new file mode 100644
-> > > > index 000000000000..8523b3ff82d1
-> > > > --- /dev/null
-> > > > +++ b/include/linux/kho/abi/luo.h
-> > > > @@ -0,0 +1,54 @@
-> > > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > > +
-> > > > +/*
-> > > > + * Copyright (c) 2025, Google LLC.
-> > > > + * Pasha Tatashin <pasha.tatashin@soleen.com>
-> > > > + */
-> > > > +
-> > > > +/**
-> > > > + * DOC: Live Update Orchestrator ABI
-> > > > + *
-> > > > + * This header defines the stable Application Binary Interface use=
-d by the
-> > > > + * Live Update Orchestrator to pass state from a pre-update kernel=
- to a
-> > > > + * post-update kernel. The ABI is built upon the Kexec HandOver fr=
-amework
-> > > > + * and uses a Flattened Device Tree to describe the preserved data=
-.
-> > > > + *
-> > > > + * This interface is a contract. Any modification to the FDT struc=
-ture, node
-> > > > + * properties, compatible strings, or the layout of the `__packed`=
- serialization
-> > > > + * structures defined here constitutes a breaking change. Such cha=
-nges require
-> > > > + * incrementing the version number in the relevant `_COMPATIBLE` s=
-tring to
-> > > > + * prevent a new kernel from misinterpreting data from an old kern=
-el.
-> > >
-> > > From v6 thread:
-> > >
-> > > > > I'd add a sentence that stresses that ABI changes are possible as=
- long they
-> > > > > include changes to the FDT version.
-> > > > > This is indeed implied by the last paragraph, but I think it's wo=
-rth
-> > > > > spelling it explicitly.
-> > > > >
-> > > > > Another thing that I think this should mention is that compatibil=
-ity is
-> > > > > only guaranteed for the kernels that use the same ABI version.
-> > > >
-> > > > Sure, I will add both.
-> > >
-> > > Looks like it fell between the cracks :/
-> >
-> > Hm, when I was updating the patches, I included the first part, and
-> > then re-read the content, and I think it covers all points:
-> >
-> > 1. Changes are possible
-> > This interface is a contract. Any modification to the FDT structure, no=
-de
-> >  * properties, compatible strings, or the layout of the `__packed` seri=
-alization
-> >  * structures defined here constitutes a breaking change. Such changes =
-require
-> >  * incrementing the version number in the relevant `_COMPATIBLE` string
-> >
-> > So, change as long as you update versioning number
-> >
-> > 2. Breaking if version is different:
-> > to prevent a new kernel from misinterpreting data from an old kernel.
-> >
-> > So, the next kernel can interpret only if the version is the same.
-> >
-> > Which point do you think is not covered?
->
-> As I said, it's covered, but it's implied. I'd prefer these stated
-> explicitly.
+Introduce three changes for improving DAMOS stat's provided information,
+deterministic control, and reading usability.
 
-Added, thanks.
+DAMOS provides stats that are important for understanding its behavior.
+It lacks information about how many DAMON-generated monitoring output
+snapshots it has worked on.  Add a new stat, nr_snapshots, to show the
+information.
 
->
-> > > > +static int __init liveupdate_early_init(void)
-> > > > +{
-> > > > +     int err;
-> > > > +
-> > > > +     err =3D luo_early_startup();
-> > > > +     if (err) {
-> > > > +             luo_global.enabled =3D false;
-> > > > +             luo_restore_fail("The incoming tree failed to initial=
-ize properly [%pe], disabling live update\n",
-> > > > +                              ERR_PTR(err));
-> > >
-> > > What's wrong with a plain panic()?
-> >
-> > Jason suggested using the luo_restore_fail() function instead of
-> > inserting panic() right in code somewhere in LUOv3 or earlier. It
-> > helps avoid sprinkling panics in different places, and also in case if
-> > we add the maintenance mode that we have discussed in LUOv6, we could
-> > update this function as a place where that mode would be switched on.
->
-> I'd agree if we were to have a bunch of panic()s sprinkled in the code.
-> With a single one it's easier to parse panic() than lookup what
-> luo_restore_fail() means.
+Users can control DAMOS schemes in multiple ways.  Using the online
+parameters commit feature, they can install and uninstall DAMOS schemes
+whenever they want while keeping DAMON runs.  DAMOS quotas and
+watermarks can be used for manually or automatically turning on/off or
+adjusting the aggressiveness of the scheme.  DAMOS filters can be used
+for applying the scheme to specific memory entities based on their types
+and locations.  Some users want their DAMOS scheme to be applied to only
+specific number of DAMON snapshots, for more deterministic control.  One
+example use case is tracepoint based snapshot reading.  Add a new knob,
+max_nr_snapshots, to support this.  If the nr_snapshots parameter
+becomes same to or greater than the value of this parameter, the scheme
+is deactivated.
 
-The issue is that removing luo_restore_fail() removes the only
-dependency on luo_internal.h in this patch. This would require me to
-move the introduction of that header file to a later patch in the
-series, which is difficult to handle via a simple fix-up.
+Users can read DAMOS stats via DAMON's sysfs interface.  For deep level
+investigations on environments having advanced tools like perf and
+bpftrace, exposing the stats via a tracepoint can be useful.  Implement
+a new tracepoint, namely damon:damos_stat_after_apply_interval.
 
-Additionally, I still believe the abstraction is cleaner for future
-extensibility (like the maintenance mode), even if it currently wraps
-a single panic (which is actually a good thing, I have cleaned-up
-things substantially to have  a single point  of panic since v2).
-Therefore, it is my preference to keep it as is, unless a full series
-is needed to be re-sent.
+First five patches (patches 1-5) of this series implement the new stat,
+nr_snapshots, on the core layer (patch 1), expose on DAMON sysfs user
+interface (patch 2), and update documents (patches 3-5).
 
-Pasha
+Following six patches (patches 6-11) are for the new stat based DAMOS
+deactivation (max_nr_snapshots).  The first one (patch 6) of this group
+updates a kernel-doc comment before making further changes.  Then an
+implementation of it on the core layer (patch 7), an introduction of a
+new DAMON sysfs interface file for users of the feature (patch 8), and
+three updates of the documents (patches 9-11) follow.
+
+The final one (patch 12) introduces the new tracepoint that exposes the
+DAMOS stat values for each scheme apply interval.
+
+SeongJae Park (12):
+  mm/damon/core: introduce nr_snapshots damos stat
+  mm/damon/sysfs-schemes: introduce nr_snapshots damos stat file
+  Docs/mm/damon/design: update for nr_snapshots damos stat
+  Docs/admin-guide/mm/damon/usage: update for nr_snapshots damos stat
+  Docs/ABI/damon: update for nr_snapshots damos stat
+  mm/damon: update damos kerneldoc for stat field
+  mm/damon/core: implement max_nr_snapshots
+  mm/damon/sysfs-schemes: implement max_nr_snapshots file
+  Docs/mm/damon/design: update for max_nr_snapshots
+  Docs/admin-guide/mm/damon/usage: update for max_nr_snapshots
+  Docs/ABI/damon: update for max_nr_snapshots
+  mm/damon/core: add trace point for damos stat per apply interval
+
+ .../ABI/testing/sysfs-kernel-mm-damon         | 13 ++++++
+ Documentation/admin-guide/mm/damon/usage.rst  | 11 ++---
+ Documentation/mm/damon/design.rst             |  7 +++
+ include/linux/damon.h                         | 12 ++++--
+ include/trace/events/damon.h                  | 41 ++++++++++++++++++
+ mm/damon/core.c                               | 37 ++++++++++++++--
+ mm/damon/sysfs-schemes.c                      | 43 +++++++++++++++++++
+ 7 files changed, 153 insertions(+), 11 deletions(-)
+
+
+base-commit: 522f1a9fc5f1f0a11af39ba5bedae446322ca0a2
+-- 
+2.47.3
