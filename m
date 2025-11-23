@@ -1,33 +1,33 @@
-Received: from mail-m1973171.qiye.163.com (mail-m1973171.qiye.163.com [220.197.31.71])
+Received: from mail-m3273.qiye.163.com (mail-m3273.qiye.163.com [220.197.32.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CE024677B
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 08:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0752989B7
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 08:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763884846; cv=none; b=OH1Wwy/9iXGq37Xox2od82bli2Ei/5NpORWO821hawddeKIlNyHRRAU66tUyqS2EFr43+JCYxGwWEVHhyArCswgTLNUy/VeYtHeSU7gFwHRdIU1KbTZbAQC8GddX5JX4oRrpYyO1dANbUhMVFumC69dC1RMiMyb5XS4gI+nuoh4=
+	t=1763884846; cv=none; b=ec6SNyEnktNl2Zjyb0gmENUuUDWL5JXk4B4GuNX4rE1+6HLfJ3dPsM+Vz8qfjM6HrM60528SzkYqkpOF8VfppAhXveA4xJC5bCdFOiQe/6xXjaMUEhNZmMPtIHXWQ7hSp/q4jTXaJqxVMVITm46ncVsewJpOi0vUleHv+jZblLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763884846; c=relaxed/simple;
-	bh=v6+RJjjZI4hApeKygARoXagUivcGStSVCVX0uH/QNPg=;
+	bh=l53QICStTxLZQLlCexeDsGTac90GbXNjDtHUS6TnNdA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hTBB+UBu8ifpvUzMLfKJG3lo3zavLX9c0iFh7gdlDBg3BzNsgF4uhYDs7GJuUtJl2fpeyqBDH6z/Ont9Wl12HZVgq3CDQjoDm6WrTYf5Hm5XG4LIrE3IwkZgd0/FwG4s91LhErDctGl8tBBAOyhwLoB+Vq8kbD0XOnwG9bKHbDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=I7kfzzQz; arc=none smtp.client-ip=220.197.31.71
+	 MIME-Version:Content-Type; b=jzvMcLbmpaxmoVrF/r9SmV5JMZxYgxdHh6ujmZ7RgG3hBwXaSwXoy9y1hfGHENSDOrwaalfs34wlA2sVDQSjbDVSKeMcuZxkBI+EqBSiahgqJ83eT/8EeAKG4SCx4SA9DUZVbhvHlMEhhOaWzHLhQs6DpSaj6wR+qnMAfLuoe80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=p9F5rFN4; arc=none smtp.client-ip=220.197.32.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="I7kfzzQz"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="p9F5rFN4"
 Received: from server001 (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99c9;
-	Sun, 23 Nov 2025 15:45:26 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99c4;
+	Sun, 23 Nov 2025 15:45:24 +0800 (GMT+08:00)
 From: macrofun <baikefan@leap-io-kernel.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
 Cc: dzm91@hust.edu.cn,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 18/25] docs/zh_CN: Add misc_usbsevseg.rst translation
-Date: Sun, 23 Nov 2025 15:45:33 +0800
-Message-ID: <20251123074540.34161-19-baikefan@leap-io-kernel.com>
+Subject: [PATCH 16/25] docs/zh_CN: Add iuu_phoenix.rst translation
+Date: Sun, 23 Nov 2025 15:45:31 +0800
+Message-ID: <20251123074540.34161-17-baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
 References: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
@@ -39,38 +39,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9aafacc2fa09d5kunm0cca7198286663
+X-HM-Tid: 0a9aafacbcca09d5kunm0cca7198286657
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTkpMVk8YSUkYTk1LSBpNGFYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0hKTkxOVUpLS1
-	VKQktLWQY+
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaQhkdVkNKSUNMHU9JGB8YS1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
+	VLWQY+
 DKIM-Signature: a=rsa-sha256;
-	b=I7kfzzQzZ6xDhsadfa+MLhS5vVxR8d4CZ0DAuHuqJF4lEyuvILV5at9rWY2b3zwoZiPyQA0thomsW6jUSuLrP35LXwCj3ceSJtCsdAIEC9JeRgZAcXQ9JIKOCjhI+bAKtc6Bc55xsMfl4B03zri4RetBsMI99I87qdfLPJ3y3b/tSTn0vE7LeFKKi2Btz2F4EeeySmhGzui+HsMZVOjAhIBQCPeSEYIP5RsjhcHTMCmDP437hJT08iK73wyoVhwh1eYp3BG1p+jiZ3CFMLdR03n8cagV04+/2NSg0t3HDp5DWKmr3auRCFD5Cl11BWPJoF5yX8rtToSy3I9SHRJ0pg==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=T4WynKorSUCoiUPlv2xhS1hFCoIOA6WDydR3oHz0NPk=;
+	b=p9F5rFN4zkJ9Z6JgPoC75w0xMnenDYGAocI5iJTb0VAfr7ZK5vwxabGRbdWsRn0fs297bdXu5I4jtqKttifLVZTxKcYpkN9KsgKnLIwSXgbTPn+cnjQbyqX4Hn15MSi5hTMunuYK2xkAmpi5TSFrN/beICeIoYSHZYgGifWkBjRaF5ZaVbpSot/tnlTfkyPaAiGsx49oSWqz4RjvRIXP3hyhwMc0uEIBHniQOPYo8aYQyr445jNtpUkP1KPpjM+iVWXdgZf9DBDMkmxGOt0aK7Bz3mUcFDwr93SzLMcepbCqhOTr8OKjIr7luk9aRsSia6DdCzjo86F0AguQ//RaUQ==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=mgCg0Spk0yFa/rcsmd6y0N+erb5tbw+wyNHOwv4/Zes=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/misc_usbsevseg.rst into Chinese.
+Translate .../usb/iuu_phoenix.rst into Chinese.
 
 Update the translation through commit ecefae6db042
 ("docs: usb: rename files to .rst and add them to drivers-api")
 
 Signed-off-by: macrofun <baikefan@leap-io-kernel.com>
 ---
- .../translations/zh_CN/usb/misc_usbsevseg.rst | 61 +++++++++++++++++++
- 1 file changed, 61 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/usb/misc_usbsevseg.rst
+ .../translations/zh_CN/usb/iuu_phoenix.rst    | 100 ++++++++++++++++++
+ 1 file changed, 100 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/iuu_phoenix.rst
 
-diff --git a/Documentation/translations/zh_CN/usb/misc_usbsevseg.rst b/Documentation/translations/zh_CN/usb/misc_usbsevseg.rst
+diff --git a/Documentation/translations/zh_CN/usb/iuu_phoenix.rst b/Documentation/translations/zh_CN/usb/iuu_phoenix.rst
 new file mode 100644
-index 000000000000..4920e690a6ed
+index 000000000000..f86eef3f16d6
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/misc_usbsevseg.rst
-@@ -0,0 +1,61 @@
++++ b/Documentation/translations/zh_CN/usb/iuu_phoenix.rst
+@@ -0,0 +1,100 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/misc_usbsevseg.rst
++:Original: Documentation/usb/iuu_phoenix.rst
 +:翻译:
 +
 + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
@@ -79,55 +79,94 @@ index 000000000000..4920e690a6ed
 +
 +
 +
-+=================
-+USB 7段数字显示器
-+=================
++====================================
++Infinity Usb Unlimited 说明文档
++====================================
 +
-+由Delcom Engineering制造
++大家好，
 +
-+设备信息
-+--------
-+USB VENDOR_ID	0x0fc5
-+USB PRODUCT_ID	0x1227
-+6字符和8字符显示器均有PRODUCT_ID，
-+根据Delcom Engineering的说法，无法通过设备查询信息来区分它们。
++该模块提供一个串行接口，用于在Phoenix模式下使用你的IUU设备。
++加载此模块后，会生成一个ttyUSB[0-x]接口。
++你需要使用自己喜欢的应用程序来控制IUU设备。
 +
-+设备模式
-+--------
-+默认情况下，驱动假设显示器只有6个字符
-+6个字符的模式是：
++该驱动仍处于测试阶段，因此可能存在漏洞，你的系统可能会冻结。
++据我所知，我自己使用时从未遇到问题，但我并不是专家，
++因此如果你的系统不稳定，请不要责怪我。
 +
-+	MSB 0x06; LSB 0x3f
++你可以连接多个IUU设备，
++每个设备都有自己的设备文件（/dev/ttyUSB0、/dev/ttyUSB1……）。
 +
-+对于8字符显示器：
-+	MSB 0x08; LSB 0xff
 +
-+该设备可以接受“文本”，无论是原始、十六进制还是ASCII文本模式。
-+原始模式手动控制每个段，
-+十六进制模式期望每个字符的值在0-15之间，
-+ascii模式期望每个字符的值在'0'-'9'和'A'-'F'之间。
-+默认是ascii。
 +
-+设备操作
-+--------
-+1.	打开设备：
-+	echo 1 > /sys/bus/usb/.../powered
-+2.	设置设备模式：
-+	echo $mode_msb > /sys/bus/usb/.../mode_msb
-+	echo $mode_lsb > /sys/bus/usb/.../mode_lsb
-+3.	设置文本模式：
-+	echo $textmode > /sys/bus/usb/.../textmode
-+4.	设置文本（例如）：
-+	echo "123ABC" > /sys/bus/usb/.../text (ascii)
-+	echo "A1B2" > /sys/bus/usb/.../text (ascii)
-+	echo -ne "\x01\x02\x03" > /sys/bus/usb/.../text (hex)
-+5.	设置小数点位置。
-+	该设备有6个或8个小数点。
-+	要设置第n个小数点，请计算10的n次方
-+	并将其写入/sys/bus/usb/.../decimals
-+	要设置多个小数点，请将每个幂相加。
-+	例如，要设置第0和第3个小数点
-+	echo 1001 > /sys/bus/usb/.../decimals
++如何调节读卡器速度？
++======================
++
++可以在加载模块时使用一些参数。
++要使用参数，请先卸载已加载的模块，然后使用以下命令::
++
++    modprobe iuu_phoenix param=value
++
++如果是预编译模块，可以使用::
++
++    insmod iuu_phoenix param=value
++
++示例：::
++
++	modprobe iuu_phoenix clockmode=3
++
++ 参数包括：
++
++clockmode:
++	1=3Mhz579,2=3Mhz680,3=6Mhz (int)
++boost:
++	超频提升百分比 100 到 500 (int)
++cdmode:
++	卡检测模式
++	0=none, 1=CD, 2=!CD, 3=DSR, 4=!DSR, 5=CTS, 6=!CTS, 7=RING, 8=!RING (int)
++xmas:
++	是否启用xmas彩色 (bool)
++debug:
++	是否启用调试 (bool)
++
++-  clockmode 提供三种不同的基础设置，通常由不同软件采用：
++
++	1. 3Mhz579
++	2. 3Mhz680
++	3. 6Mhz
++
++-  boost 提供了一种超频读卡器的方式（我的最爱 :-)）。
++   例如，要比单纯的clockmode=3获得更高性能，可以使用：
++
++      modprobe boost=195
++
++   这会将读卡器基频设置为3Mhz579，但提升195%！
++   实际频率将为6979050 Hz（6Mhz979），速度比单纯的clockmode=3提高约10-20%！
++
++
++-  cdmode 可设置用于通知用户空间（ioctl响应）卡是否存在的信号。有八种信号可选。
++
++-  xmas 完全无用，只是为了你的视觉效果。这是我的一个朋友，
++   他很难过拥有像iuu这样好的设备却看不到所有可用的颜色范围。
++   所以我添加了这个选项，允许他看到很多颜色（每次活动都会随机改变颜色
++   和频率）
++
++-  debug 会生成大量调试信息。
++
++
++最后说明
++========
++
++无需担心串口设置，串口模拟是抽象的，
++因此任何速度或奇偶校验设置都可以工作（不会改变任何行为）。
++以后我可能会利用这些设置来计算boost，但这个功能真的有必要吗？
++
++自动检测功能使用串口CD。如果软件不支持该功能，请在软件中禁用检测机制。
++
++祝你使用愉快！
++
++ Alain Degreffe
++
++ eczema(at)ecze.com
 --
 2.34.1
 
