@@ -1,97 +1,97 @@
-Received: from mail-m19731112.qiye.163.com (mail-m19731112.qiye.163.com [220.197.31.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A505013AF2
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 08:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D645425BEE7;
+	Sun, 23 Nov 2025 09:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763887794; cv=none; b=j2A04miNA8g/RMNy377TdNGIjzAaYSZvvjrsBOEfXnt5uQp+DV5rM3z2jJlWOBsjZULLH628U1++YNbwOmF+zU7ynBizZ48WhO1GoVP6FK0wdCL4LEawLhTKwfNHZ8J+z/oxk8Y7zmKaiQwFPvuQp0uZfc0V00buJqWnFvYNO1o=
+	t=1763890154; cv=none; b=N7vMfXrfUSj/llLexKVCb8236ErkVPD//OsnpMLUOOz3ZJH6jyRArb0sMo7x8k9uKcyPkOUtYR6UUG5LQm+Fl3Tu/K1b+McWiDcsEsu6K+JheGySMlcwWudxIYCz29gskPM6DLsGzwdtMuCcL7AHBuMmLnnbzhTwakxImtq0uRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763887794; c=relaxed/simple;
-	bh=VV0JA7i+lS5GWlgGbDYDMd9n0deVm3PmGes9Ohd+g7M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iU8OsUIf6F08mcbF10wKLKfy3UTYdUyxNWGT5W7Yd39iAFadmVzCjvmudnl/B1SbreDfKn9hfPuPX0nG28cK/iVf+P6/FDwrFDUzyq5ZcT7PqLaNvyaKzMb7eLSIFtL75obQlhU+IYTuCVptz+U1PiNbI7R8Oe7knPl934P7meo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=jGM+pRhb; arc=none smtp.client-ip=220.197.31.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	s=arc-20240116; t=1763890154; c=relaxed/simple;
+	bh=BsCF5Vo0XWlxKJ/sd2YtUXNzzKo8ijMIlbF7CAcmddQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L/uW4d6RXfK88dF7WIwNwM53BJlbSskPXuCFcsFa01z1/IGv+RVjipuqxHLSKiYtIgnKLiLlQB97Amjngje0wUCXeFTKzlepycabC5Q57celTMWS2Xi9OcFDZVehaHoAxmz+3eAQj/S9sp7b6d3BRFfmiWKUiXEoFF8W/DVV0Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=khHRGrer; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="jGM+pRhb"
-Received: from [10.0.66.10] (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8ea852f;
-	Sun, 23 Nov 2025 16:49:48 +0800 (GMT+08:00)
-Message-ID: <e20f942c-bcd3-4187-830e-eee1de6e5a25@leap-io-kernel.com>
-Date: Sun, 23 Nov 2025 16:49:47 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="khHRGrer"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9630EC16AAE;
+	Sun, 23 Nov 2025 09:29:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763890153;
+	bh=BsCF5Vo0XWlxKJ/sd2YtUXNzzKo8ijMIlbF7CAcmddQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=khHRGrerO0B4QAeiYUvcoYrCRZ7uhsJTe+ITJfW9iphjYhW1N0sKuW0fM2MRwJw5g
+	 l5TQWitHCTush7XpYYXn86yoAgIkRd9Jwskf2hII2lEiVCE7zf5OOfdvlMrwa8vZjW
+	 Ik5A1AzJIUJHNbsmi9XzwA+YcND1G9ACaXTYc4WHni5+e1Z1jhbXz3uCmnpCgQ2m3H
+	 xVSHgwZBltr02JD/bKnR+CeUVLQl/hSqnsw87N+adQ/1gUneAjaJhpHJc+n/0k18+T
+	 x1fX5UifmLzM5F0ekSp9B9Kvbm9Hhy2/LQg7y3Qe21gYlJvr175L8foN4YrQkfmFk/
+	 c90tmT+r9YtYg==
+Date: Sun, 23 Nov 2025 11:29:04 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Richard Weinberger <richard@nod.at>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net, mhocko@suse.com,
+	surenb@google.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
+	lorenzo.stoakes@oracle.com, david@kernel.org,
+	akpm@linux-foundation.org,
+	Vladimir Davydov <vdavydov@virtuozzo.com>,
+	Konstantin Khlebnikov <koct9i@gmail.com>,
+	Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH] pagemap: Update BUDDY flag documentation
+Message-ID: <aSLT4J4UNh-0xiXN@kernel.org>
+References: <20251122211920.3410371-1-richard@nod.at>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs/zh_CN: Add wd719x.rst translation
-To: Alex Shi <seakeel@gmail.com>
-Cc: alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn,
- corbet@lwn.net, linux-doc@vger.kernel.org, doubled@leap-io-kernel.com
-References: <cover.1763112421.git.yjzhang@leap-io-kernel.com>
- <f9720c918de47890c536124e7866859c866c67f4.1763112421.git.yjzhang@leap-io-kernel.com>
- <CAJy-AmkoqiOEf3mqCzYWYSVEdttEQrOJ_29MpUHm9+GW6DcYcg@mail.gmail.com>
- <9f59f865-4fc2-411a-9978-ea86f39bc746@leap-io-kernel.com>
- <411b7025-a09c-4597-9b24-b6f8527ef77b@gmail.com>
-From: Yujie Zhang <yjzhang@leap-io-kernel.com>
-In-Reply-To: <411b7025-a09c-4597-9b24-b6f8527ef77b@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9aafe7b19109d6kunmb94270132f62e7
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZGk8fVhofTh0YTxhDTU0eS1YVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0hKTkxJVUpLS1
-	VKQktLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=jGM+pRhby0qOIg9ZkkHzrMWNNdnvUYvxydZysMZ53Kli7QcPiQGc+RdQRs/qtY2slFThzX9xdCaYHH28cAV2GcoZMhy/rjsZAzId8VXLOl2agiEvu+es4cZiKoQYAyfTuKu6pYT/PnzGye6eeQ4F6ZGyreIXwKPjpUrCyfFPitxGt+qvksPU7gvVLFg4pLjHpNyBRO2GhT6mri7xwHEOz+ibCQAU8l6fa4mL+4IpJwSy7LfqZP6bkUhaH7vQKIWSxERLBVJ7BlAmI7Bum6seQ2M/gwUd+kBW7wqRPOJVpDwoDKhS3Z0UM54zvgrt4hTmCcU67UBvyKjr9WGH4EjdLA==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=RwuxDHfI+XZmdXulZPfVgaLe7g3Jm+2Rmif2ZtWuF94=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251122211920.3410371-1-richard@nod.at>
 
-Hi Alex,
+On Sat, Nov 22, 2025 at 10:19:20PM +0100, Richard Weinberger wrote:
+> Since v4.6 the BUDDY flag is set for _all_ pages in the block
+> and no longer just for the first one.
+> This change was introduced by:
+> commit 832fc1de01ae ("/proc/kpageflags: return KPF_BUDDY for "tail" buddy pages")
+> 
+> Strictly speaking, this was an ABI change, but as nobody has noticed
+> since 2016, let's just update the documentation.
+> 
+> Cc: Vladimir Davydov <vdavydov@virtuozzo.com>>
+> Cc: Konstantin Khlebnikov <koct9i@gmail.com>
+> Cc: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Richard Weinberger <richard@nod.at>
 
-Thank you very much for your helpful feedback.
-﻿
-I have updated the formatting accordingly and sent out the v2 patch.
-If you notice anything else that should be improved, please kindly let 
-me know.
-Thanks again for your time and guidance.
-﻿
-Best regards,
-Yujie Zhang
+Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-在 2025/11/23 13:26, Alex Shi 写道:
+> ---
+>  Documentation/admin-guide/mm/pagemap.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> On 2025/11/23 12:00, Yujie Zhang wrote:
->> Hi Alex,
->>
->> Thanks for your review.
->>
->> I have run make htmldocs locally and the generated HTML output looks 
->> correct on my side — I didn’t see rendering issues or warnings related 
->> to this header section.
->>
->> Could you please point out which part of the format violates the RST 
->> rules, or what specific issue you observed in the HTML output?
->> I’d like to fix it properly.
-> 
-> https://en.wikipedia.org/wiki/ReStructuredText
-> https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
-> 
-> There's plenty docs of the RST syntax online. Please check and follow them.
-> 
->>
->> Thanks again for your feedback.
->>
->> Best regards,
->> Yujie Zhang
->>
->> 在 2025/11/22 22:29, Alex Shi 写道:
-> 
+> diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
+> index e60e9211fd9b2..c57e61b5d8aa8 100644
+> --- a/Documentation/admin-guide/mm/pagemap.rst
+> +++ b/Documentation/admin-guide/mm/pagemap.rst
+> @@ -115,7 +115,8 @@ Short descriptions to the page flags
+>      A free memory block managed by the buddy system allocator.
+>      The buddy system organizes free memory in blocks of various orders.
+>      An order N block has 2^N physically contiguous pages, with the BUDDY flag
+> -    set for and _only_ for the first page.
+> +    set for all pages.
+> +    Before 4.6 only the first page of the block had the flag set.
+>  15 - COMPOUND_HEAD
+>      A compound page with order N consists of 2^N physically contiguous pages.
+>      A compound page with order 2 takes the form of "HTTT", where H donates its
+> -- 
+> 2.51.0
 > 
 > 
 
+-- 
+Sincerely yours,
+Mike.
