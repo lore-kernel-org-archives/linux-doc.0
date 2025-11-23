@@ -1,33 +1,33 @@
-Received: from mail-m3278.qiye.163.com (mail-m3278.qiye.163.com [220.197.32.78])
+Received: from mail-m1973182.qiye.163.com (mail-m1973182.qiye.163.com [220.197.31.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A81E253944
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3EF25334B
 	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 07:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.78
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763883927; cv=none; b=DB6+jlC6ARpgDNtCUk1WkR2mjhCuDarI09zvbMq949povEWjtNKK4k6sufIltBb/d4FCMq1kco2/+8iyRf/UhRHcy6Srf59ckS60IahllVvMXiuD7UppVXk0fEVwUTr1nANuPp9UDyFb5N9acP6GWxVjCCsvWJIYfsSOyrqNrAw=
+	t=1763883927; cv=none; b=Bt8frx9NgTwycYjQKhT6GfygbTg5zuos73FJYI0MRO/kMxX6/CTowKucj+a29XPQO+pfjDPTm+2DHz6mBIW74rJMm4E2EWxeCIH9wq/lI4AL6YFnEZ/vHIaqH9VhOdvGLBOUX0a3hTYHotYZ4aXIfVcu8YSTSOg5z5wkPJlOyzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763883927; c=relaxed/simple;
-	bh=JmcyM4I//EP6YkEdGrJmKV4gAg1b2IR6q+AnZyiyj+A=;
+	bh=4ci62cEJmtuc7jfoT+8VFudz8VS3gyiBZDQ+NFoCq+0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bdHmWUFxuNzu5Gx4KpGRA9JyL3LqJgTel6vuSOqMSdNMippNfVt7JCOfwlzc3be5IWYXKu22rG8kAeOBRP04L5TxJUqs4CRI23skJaHmykVu6Pf77mDS9ix4YpMKpeXWTQOatNfLCxRCzpDL4YclA96bmHPQvf0vGR7fO+EfJkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=tkzoUEsR; arc=none smtp.client-ip=220.197.32.78
+	 MIME-Version:Content-Type; b=hNQ39Eu8mlOVVe+qEm5asWVqYCtiCObG9Wv5zQPSlxh+/VvAFvElngxSOUdA5RTl9WvaRAirNvhvgE/n6ZIrhVumdXrnC4f0spv0/SD3ur5oY/MWT7tyWuospmT42F2cDNtMm7b9a/bSKbKdSE4gvSif2Pp40hql/NVS+WUsYB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=EYrlA2FT; arc=none smtp.client-ip=220.197.31.82
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="tkzoUEsR"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="EYrlA2FT"
 Received: from server001 (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99b5;
-	Sun, 23 Nov 2025 15:45:16 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99b2;
+	Sun, 23 Nov 2025 15:45:15 +0800 (GMT+08:00)
 From: macrofun <baikefan@leap-io-kernel.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
 Cc: dzm91@hust.edu.cn,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 07/25] docs/zh_CN: Add functionfs.rst translation
-Date: Sun, 23 Nov 2025 15:45:22 +0800
-Message-ID: <20251123074540.34161-8-baikefan@leap-io-kernel.com>
+Subject: [PATCH 06/25] docs/zh_CN: Add ehci.rst translation
+Date: Sun, 23 Nov 2025 15:45:21 +0800
+Message-ID: <20251123074540.34161-7-baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
 References: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
@@ -39,38 +39,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9aafac9d2409d5kunm0cca719828661d
+X-HM-Tid: 0a9aafac99f309d5kunm0cca7198286618
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGUxIVh5LQh8dTUlJHUhKHVYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0NMVUpLS1
-	VLWQY+
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCSxhIVhkfGUlJTk0YSENJQ1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0hKTkxOVUpLS1
+	VKQktLWQY+
 DKIM-Signature: a=rsa-sha256;
-	b=tkzoUEsRpl/Cwn5sCPcACU6EN1dtMoBduy4wkqvOMyFMktDw6xJUmYkR1KnngDAhycgjcFnDSa+T/gAZ4Fw3B8q1oAWaR9GVCSWWJvpZDdNIXZZcUZh46NwPDurixZNe02aDFGSLYde4w7fwFdHvdiGRK8uCr491On8T474Dt1ZOZ6uTJRzwFS9LiDRuHMKLhMgnhzUeUm30Hr6eBNS7PqRYTH4S7V4opLYqdCzjNkK0Uc4mQMcgKe1BhMZ/fDkPRKK5qfX//ahNYGeuRhEWykyLQ966datjKTc4AOkM1x2Ci5IjDuCBagc/MWOsCZY2Z66P9lLCzxCrPrwavo+sfg==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=Jt/dHKSTgHx+tnkKEc6oVgdREZIfLtmsksfvCUY4YaQ=;
+	b=EYrlA2FTmiwWU8pq6uCS6nqK5XRJVAjWJ75ZSRwE7cBHC/goOikmt6+e4C9Y60olweU/sWrBuBTHbnFrxhdwDz3vObU7VjKoXWSoGV80lP3HOKuNv5UN7GsuPMincTeDFmbKCOfw43zv0lJjIFWjnqpBPiJiNRAxPrIqj2JDxEuyRp64q48ywYl1KHbnb1RefVedCY5/+sQZ32VQZM7rbbeq8dTnke8W7auLtTjMeCf1yG/Rt9yg1kcsctUPoib+JXU7E07e4JbQ2gHhOH5GJiswxBD8aDhFv2/obBLzELguOY334ae9ZgMnUjXEUMCQadClERcoanhHQHo/M/FAMA==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=2lxgmDXf1ke92cnS5v0JHTtVTJxv0X8SH8VvZgwLFYc=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/functionfs.rst into Chinese.
+Translate .../usb/ehci.rst into Chinese.
 
-Update the translation through commit c26cee817f8b
-("usb: gadget: f_fs: add capability for dfu functional descriptor")
+Update the translation through commit 570eb861243c
+("docs: usb: replace some characters")
 
 Signed-off-by: macrofun <baikefan@leap-io-kernel.com>
 ---
- .../translations/zh_CN/usb/functionfs.rst     | 94 +++++++++++++++++++
- 1 file changed, 94 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/usb/functionfs.rst
+ Documentation/translations/zh_CN/usb/ehci.rst | 217 ++++++++++++++++++
+ 1 file changed, 217 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/ehci.rst
 
-diff --git a/Documentation/translations/zh_CN/usb/functionfs.rst b/Documentation/translations/zh_CN/usb/functionfs.rst
+diff --git a/Documentation/translations/zh_CN/usb/ehci.rst b/Documentation/translations/zh_CN/usb/ehci.rst
 new file mode 100644
-index 000000000000..64e50272f9ae
+index 000000000000..1853e531261f
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/functionfs.rst
-@@ -0,0 +1,94 @@
++++ b/Documentation/translations/zh_CN/usb/ehci.rst
+@@ -0,0 +1,217 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/functionfs.rst
++:Original: Documentation/usb/ehci.rst
 +:翻译:
 +
 + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
@@ -79,88 +79,211 @@ index 000000000000..64e50272f9ae
 +
 +
 +
-+====================
-+FunctionFS的工作原理
-+====================
++=========
++EHCI 驱动
++=========
 +
-+概述
-+====
++2002年12月27日
 +
-+从内核角度来看，它只是一个具有特定行为的复合功能。
-+只有在用户空间驱动通过写入描述符和字符串完成注册之后，
-+它才能被添加到USB配置中（用户空间程序必须提供与
-+内核级复合函数在添加到配置时提供的相同信息）。
++EHCI驱动用于使用支持USB 2.0的主机控制器硬件与高速USB 2.0设备通信。
++USB 2.0标准兼容USB 1.1标准，它定义了三种传输速率：
 +
-+这尤其意味着复合初始化函数不能放在init段中（即不能使用__init标签）。
++    - 高速 480 Mbit/sec (60 MByte/sec)
++    - 全速 12 Mbit/sec (1.5 MByte/sec)
++    - 低速 1.5 Mbit/sec
++
++USB 1.1仅支持全速与低速。高速设备可以在USB 1.1系统上使用，
++但速度会下降到USB 1.1的速度。
++
++USB 1.1设备也可以在USB 2.0系统上使用。
++当它们插入EHCI控制器时，会被交由USB 1.1的伴随（companion）控制器处理，
++该控制器通常为OHCI或UHCI。
++
++当USB 1.1设备插入USB 2.0集线器时，
++它们通过集线器中的事务转换器（Transaction Translator，TT）与EHCI控制器交互，
++该转换器将低速或全速事务转换为高速分割事务，从而避免浪费传输带宽。
++
++截至本文撰写时，该驱动已在以下EHCI实现上成功运行（按字母顺序）：
++Intel、NEC、Philips 和 VIA。
++其他供应商的EHCI实现正在陆续问世；
++预计该驱动在这些实现上也可正常运行。
++
++自2001年年中开始，usb存储设备已可使用（在2.4版EHCI驱动下性能良好），
++集线器从2001年底开始可用，而其他类型的高速设备似乎因USB 2.0原生硬件
++普及较慢而推迟上市。从2002年初开始，带USB 2.0的系统陆续上市，
++并在2002年下半年变得更加普及。
++
++注意：USB 2.0的支持不仅仅包含EHCI，还需要对Linux-USB核心API进行一些修改，
++包括Hub驱动，但这些修改通常不会影响USB核心对USB设备驱动暴露的基本API。
++
++- David Brownell
++  <dbrownell@users.sourceforge.net>
 +
 +
-+从用户空间的角度来看，它是一个文件系统，挂载后会提供一个ep0文件。
-+用户空间驱动需要向该文件写入描述符和字符串。
-+无需关心端点、接口或字符串编号，只需提供描述符，
-+就像该函数是唯一函数一样（端点和字符串编号从 1 开始，接口编号从 0 开始）。
-+FunctionFS会根据需要自动修改编号，同时处理不同配置中编号不一致的情况。
++功能性
++======
 +
-+有关 FunctionFS 描述符的更多信息，请参见 :doc:`functionfs-desc`
++该驱动在x86硬件上定期测试，并已在PPC硬件上使用，因此大小端问题应已解决。
++相信它已经处理好所有PCI相关的细节，
++因此在具有特殊DMA映射问题的系统上I/O也应能正常运行。
 +
-+当描述符和字符串写入后，会出现"ep#"文件（每个声明的端点对应一个文件），
-+用于单个端点的通信处理。
-+同样，FunctionFS会处理实际端点编号及配置变更
-+（这意味着ep1文件可能实际映射到端点3，例如，当配置变化时可能映射到端点2）。
-+ep0用于接收事件和处理setup请求。
++传输类型
++--------
 +
-+当所有文件关闭时，该函数会自动禁用自身。
++截至本文撰写时，该驱动应能良好处理所有控制、批量和中断传输，
++包括通过USB 2.0 Hub中的事务转换器与USB 1.1设备的通信。但仍可能存在bug。
 +
-+此外，FunctionFS 的设计允许多次挂载，因此一个 gadget 可以使用多个 FunctionFS 函数。
-+每个 FunctionFS 实例通过挂载时使用的设备名称进行标识。
++高速等时ISO传输支持也已实现，但截至本文撰写时，还没有Linux驱动程序使用该支持。
 +
-+例如，一个gadget具有以太网（Ethernet）、MTP和HID接口，其中后两个通过FunctionFS实现。
-+在用户空间层面，操作可能如下所示::
++通过事务转换器实现的全速等时（Isochronous）传输目前尚未支持。
++需要注意的是，用于全速设备的等时拆分事务（split ISO）与高速
++等时传输在EHCI中采用完全不同的数据结构，因此相关代码几乎无
++法共用。因此，目前大多数USB音频和视频类设备即使连接到高速
++总线，也无法正常使用等时传输功能。
 +
-+  $ insmod g_ffs.ko idVendor=<ID> iSerialNumber=<string> functions=mtp,hid
-+  $ mkdir /dev/ffs-mtp && mount -t functionfs mtp /dev/ffs-mtp
-+  $ ( cd /dev/ffs-mtp && mtp-daemon ) &
-+  $ mkdir /dev/ffs-hid && mount -t functionfs hid /dev/ffs-hid
-+  $ ( cd /dev/ffs-hid && hid-daemon ) &
++驱动行为
++--------
 +
-+在内核层面，gadget会检查ffs_data->dev_name来识别其FunctionFS是为
-+MTP（"mtp"还是 HID（"hid"）设计的。
++所有类型的传输都可以排队。
++这意味着来自不同接口（或通过 usbfs）的控制传输不会互相干扰，
++并且中断传输可以使用1帧的周期，而无需担心由于中断处理成本导致的数据丢失。
 +
-+如果未提供 "functions" 模块参数，驱动只接受一个任意名称的函数。
 +
-+当提供functions模块参数时，只接受列出的名称函数。
-+特别是，如果"functions"参数的值只有一个元素，
-+则行为类似于未提供 "functions" 时；但只接受具有指定名称的函数。
++EHCI根集线器代码会将USB 1.1设备交给其伴随控制器处理。
++EHCI驱动无需了解其他控制器的驱动程序；
++已经正常工作的OHCI或UHCI驱动，无需因为EHCI的存在而做任何修改。
 +
-+只有在所有声明的函数文件系统都已挂载，
-+并且所有函数的USB描述符都已写入各自的ep0后，gadget才会注册。
++存在一些电源管理相关的问题；挂起/恢复行为目前不太正确。
 +
-+相反，当第一个 USB 函数关闭其端点时，gadget 会注销。
++此外，在调度周期性事务（中断和等时传输）时采用了一些简化处理。
++这些简化会限制可调度的周期性传输数量，并且无法使用小于1帧的轮询间隔。
 +
-+DMABUF接口
-+==========
++使用方式
++=========
 +
-+FunctionFS还支持基于DMABUF的接口，用户空间可以将外部创建的DMABUF对象附加到端点，
-+并随后使用它们进行数据传输。
++假设你有一个EHCI控制器（PCI 卡或主板上），并且已将此驱动编译为模块，可如下加载::
 +
-+用户空间应用程序可以使用此接口在多个接口之间共享DMABUF对象，
-+允许它以零拷贝的方式传输数据，例如在IIO和USB栈之间。
-+作为该接口的一部分，添加了三个新的IOCTL。这三个
-+IOCTL必须在数据端点（即非ep0）上执行。它们是：
++    # modprobe ehci-hcd
 +
-+  ``FUNCTIONFS_DMABUF_ATTACH(int)``
-+    将由文件描述符标识的DMABUF对象附加到数据端点。
-+    成功返回0，失败返回负errno值。
++卸载方式::
 +
-+  ``FUNCTIONFS_DMABUF_DETACH(int)``
-+    从数据端点分离给定的DMABUF对象（由文件描述符标识）。
-+    成功返回0，失败返回负errno值。
-+    注意，关闭端点的文件描述符会自动分离所有已附加的DMABUF。
++    # rmmod ehci-hcd
 +
-+  ``FUNCTIONFS_DMABUF_TRANSFER(struct usb_ffs_dmabuf_transfer_req *)``
-+    将之前附加的DMABUF排入传输队列。
-+    参数是一个结构体，其中封装DMABUF的文件描述符、要传输的字节大小
-+    （通常应与DMABUF的大小相对应），以及一个当前未使用的'flags'字段。
-+    返回0表示成功，返回负errno值表示失败。
++你还应加载一个伴随控制器的驱动，例如ohci-hcd或uhci-hcd。
++如果EHCI驱动出现问题，只需卸载其模块，
++伴随控制器驱动就会接手之前EHCI处理的所有设备（但速度更慢）。
++
++模块参数（传递给 modprobe）：
++
++    log2_irq_thresh (默认 0):
++    控制默认中断延迟的对数值（以微帧为单位）。
++    默认值 0 表示 1 个微帧（125 微秒）。
++    最大值 6 表示 2^6 = 64 个微帧。
++    该值控制 EHCI 控制器发出中断的频率。
++
++如果你在2.5内核上使用此驱动，并且启用了USB调试支持，
++你将在任何EHCI控制器的sysfs目录中看到三个文件：
++
++"async"
++输出异步调度队列，用于控制和批量传输。
++显示每个活动的qh和挂起的qtd，通常每个urb一个qtd。
++（对 usb-storage 做磁盘 I/O 时看看，可看到请求队列！）
++
++"periodic"
++输出周期性调度队列，用于中断和等时传输。不显示qtd。
++
++"registers"
++显示控制器寄存器状态。
++
++
++设备驱动程序通常不需要关心自己是否在 EHCI 上运行，
++但可能需要检查usb_device->speed == USB_SPEED_HIGH。
++高速设备可以执行全速（或低速）设备无法完成的操作，
++例如高带宽的周期性传输（中断或等时传输）。
++此外，设备描述符中的某些值（如周期性传输的轮询间隔）在高速模式下使用不同的编码方式。
++
++但务必通过USB 2.0集线器测试设备驱动。
++当使用事务转换器时，这些集线器会以不同方式报告某些故障（如断开连接）。
++一些驱动在遇到与OHCI或UHCI报告不同的故障时可能会表现异常。
++
++软件性能
++========
++
++USB 2.0吞吐量受两个主要因素制约：主机控制器处理请求的速度，以及设备响应请求的速度。
++所有设备都遵循480Mbit/sec的原始传输速率，
++但总吞吐量还会受到诸如单个高速数据包之间的延迟、驱动程序调度策略，
++以及系统整体负载等因素的影响。
++延迟也是性能考量因素。
++
++批量传输通常用于吞吐量是关键问题的场合。
++需要注意的是，批量传输总是以512字节的数据包为单位，
++并且在一个USB 2.0微帧中最多可容纳13个这样的数据包。
++八个USB 2.0微帧构成一个USB 1.1帧；
++一个微帧的时间为1毫秒 ÷ 8 = 125微秒。
++
++因此，当硬件和设备驱动软件都允许时，
++批量传输可提供超过50 MByte/sec的带宽。
++周期性传输模式（等时传输和中断传输）允许使用更大的数据包，
++从而使传输速率接近标称的480MBit/sec。
++
++硬件性能
++--------
++
++截至本文撰写时，单个USB 2.0设备的最大传输速率通常约为20 MByte/sec。
++这当然会随着时间发展而改变；一些设备现在更快，一些更慢。
++
++第一代NEC EHCI实现似乎存在约28 MByte/sec的硬件瓶颈。
++虽然这足以让单设备跑到20 MByte/sec，
++但将三个此类设备放在同一总线上不能达到60 MByte/sec。
++问题似乎在于控制器硬件无法同时进行USB与PCI访问，
++因此每个微帧中只尝试6或7次USB事务，而不是13次。
++（对于一个比其他产品早一年上市的芯片来说，这是个合理的折衷！）
++
++
++预计更新的实现会进一步优化这一点，
++通过投入更多芯片面积来解决问题，
++使新的主板芯片组更接近实现60 MByte/sec的目标。
++这包括NEC的更新实现，以及其他厂商的实现。
++
++
++主机接收来自EHCI控制器的请求完成中断的最小延迟为一个微帧（125 微秒）。
++该延迟是可调的；
++可以通过模块参数进行设置。
++默认情况下，ehci-hcd驱动使用最小延迟，
++这意味着当你发出控制或批量请求时，
++通常可以预期在不到250微秒内获知完成情况（具体取决于传输大小）。
++
++软件性能
++--------
++
++即使要达到20 MByte/sec的传输速率，Linux-USB设备驱动也必须保持EHCI队列满。
++这意味着发出较大的请求，或在需要发出一系列小请求时，使用批量排队（bulk queuing）。
++如果驱动未做到这一点，其性能结果将直接体现出来。
++
++
++在典型场景下，使用usb_bulk_msg() 以4 KB块循环写入
++会浪费超过一半的USB 2.0带宽。
++I/O完成与驱动发出下一次请求之间的延迟通常比一次I/O操作所需的时间更长。
++如果同样的循环改用16 KB块，会有所改善；使用128 KB块的序列则能大幅减少浪费。
++
++
++与其依赖如此大的I/O缓冲区来提高同步I/O的效率，
++不如直接向主机控制器队列多个（批量）请求，并等待它们全部完成，或在出错时取消。
++这种URB排队方式对所有USB 1.1主机控制器驱动也适用。
++
++
++在Linux 2.5内核中，定义了新的 usb_sg_*() API 调用；
++它们会将scatterlist中的所有缓冲区排入队列。
++它们还使用scatterlist的DMA映射（可能会应用 IOMMU）并减少中断（IRQ）次数，
++这些都有助于高速传输尽可能高效地运行。
++
++待办：
++   中断传输和等时（ISO）传输的性能问题。
++   这些周期性传输都是完全调度的，因此，主要问题可能在于如何触发高带宽模式。
++
++待办：
++   通过sysfs的uframe_periodic_max参数，可以分配超过标准80%的周期性带宽。
++   以下将对此进行说明。
 --
 2.34.1
 
