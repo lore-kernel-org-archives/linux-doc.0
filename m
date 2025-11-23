@@ -1,65 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDE71DE4DC;
-	Sun, 23 Nov 2025 15:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803D24F5E0
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 15:54:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763912897; cv=none; b=IaH1Zt3q3EdR9UJMCjQ7cvse3jCe1RZhfVf5fYkXsJxrfa6w7yel3OKPBtTxpMTmbWsgSRtYZzGvsa6EiNsxua8X/inBH/2kxRy2ESFuFniqMBzV6vnHZptM7EqUpuxjJd/QkGO5iLHixDZHi9COREE570mCuFRD3bgdPD8soYA=
+	t=1763913273; cv=none; b=JgB4+RZXfTrYdEenHYT+vmwcl1fuwDXCexshjhWZ1mUAY+VVaYk70ufAzkx3U6RCR4FmfLcSSO2NSPD9FMfwiXTfteC7WXnMQzEAwzZQ6Le4igJFTHLDI06X+QY5BNdun/bfupBoJtWFVIATGHTWqANYm0j6BxjEehYp3jLFDEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763912897; c=relaxed/simple;
-	bh=o5jgDCNTQXVfP4NRsI3yDEVhzmocDH9FvcpdxoKKU7c=;
+	s=arc-20240116; t=1763913273; c=relaxed/simple;
+	bh=Slp0CDEF7G02XWQScXnahPXav0/o+zCHrSvQZh8EG64=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nbc9s3LNDGd91PSKqQX673mbjNGNtlAr6aplbKM4iFUFjgFADA3j7Cc4B8pf+kEgTP+N/sT3LehGtwvH8PS1KBmiiIGTCXKg0zNyeO2IXg/I00BnXDCUOMh+7rv3YW618u0ATNn6rXCTuW8jFcrmz0NBC1Ilbal5f6qdXdhAAAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FwmBbpCf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ez8XdWKAFcoZaxSEI61yRoWkz462x7U7kfeY/VuiSCv1BWx+BqyKuiKjz7dewQ7jmOFF/m2aveYrbdHQUAcvBWBvN6IKSTjz2hEySs85P+OjyzKGap9myh2AaZU5GI29L3EcDqjsxx8EzTrnVTui0LmYtrNN6AcYcskVKjqJalc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=X9iLrPZd; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FwmBbpCf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F8D3C113D0;
-	Sun, 23 Nov 2025 15:47:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763912896;
-	bh=o5jgDCNTQXVfP4NRsI3yDEVhzmocDH9FvcpdxoKKU7c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FwmBbpCfluPNbVa8nNxo6qv3CPg0ynY53dii+jFo759U2j2PAl5zeYmMh6E0JMmPE
-	 WwQpU6awV4qjEG5YxIwCRw4y/63MIxWorq1LmMs1/LKoONkHSSD3bEHobrUldnrFet
-	 asluAC12CMOLpH/awxcqBQtCuel236oFDPMgCPkjjCkWS4yuB+7o8J80uY8GPTGfnO
-	 plEEB3X7ErYve841jf0cyBHV+SsmHnhw2xsC5ZhkJfQ4u2+/tXjuGdsXZDi3B/6Pa9
-	 dfKYcuPNcyq4pk7JqWEnQT+r2TfKtLTkX0MGEj2KVmiJpZ1loep4NwxtG/3KgfeoSr
-	 9eG3ny7UxekUg==
-Date: Sun, 23 Nov 2025 17:47:52 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
-	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
-	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
-	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
-	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
-	brauner@kernel.org, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
-	skhawaja@google.com, chrisl@kernel.org
-Subject: Re: [PATCH v7 14/22] mm: memfd_luo: allow preserving memfd
-Message-ID: <aSMsqD5mB2mHHH9v@kernel.org>
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-15-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="X9iLrPZd"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-429c7869704so2953316f8f.2
+        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 07:54:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1763913270; x=1764518070; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Slp0CDEF7G02XWQScXnahPXav0/o+zCHrSvQZh8EG64=;
+        b=X9iLrPZdIdKQgqty4X7Ln3HZOk9xVqUYOpFTGn2cZcGJQXnC+s77nt1d5uxVYljnxO
+         JdJqmi4te2BVOddOGkuuOoi5QXGlEGOKD+qMem5c4GNJXGrl/4H9oDJZf/vE/jz/WxYv
+         qoq9vwwdfTIpwYYd7LJ8uwv+ZMtKm43ESGuZceNozQYhX3NMXy4b13YGVeIP9h7dO1Ch
+         +cyBfSczQqs7VyCNV+u7CRBOn55y14nhneMU2VKqg9yJSxbCahkn+SYLTtFHkmLnFtml
+         wFJy8bBeIy53kVQE8YOno7yCbUwaqzkbgyOeoTeL/MOF5iIS9/bEEFRKhHirZkYw4cpU
+         UebQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763913270; x=1764518070;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Slp0CDEF7G02XWQScXnahPXav0/o+zCHrSvQZh8EG64=;
+        b=tRyTe75w6By/E0dRIXgLX58sR2Fhua8LsiQYgbWNtUGcSqSkxdEtgazT24Yb5dRtCL
+         ScpKs7ukAe/eEmL35A1vw8QwzmTkz2d7N2N269L0rU5HPToOHQdcTb+ybqmBGWFZGmZ/
+         r8uH2KsVcgJBB7DbLeWasVYtuZHt1og4uQ2QwQlJ52EKA3EETU1WGaz82Y5o/kv7tcGf
+         JJXFVmcnEYWnEIROUWEXsKOUyJ0PdrH9Zn60fxBgs/ukcgHyE7Z3+8WymS1S9nz7N2e7
+         LBbtgaAfvJdKBu3xj41ZSjFAXco0eIxHQoTfdoTogrDJXcsnI9a8XsvMLQ/qwr5MKOgZ
+         ed9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW9OZn4Fb1Dx9DZXRz0fRPsG0YCFv4ETycI4M0Wl15DN8eMVivj8hjUVIfPcifS065QN/WUgEpKqKo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRF2oJaD/+w6yPFtSEOqfshFDjq7rmN6PF6jw5ZtbYkfad7j79
+	T2Ixph4zClz0GJiWv1IKhg4hAE+zH+ckzDHiwsd9F+2kcPtLRjG1vpMelZAISsvb+qQ=
+X-Gm-Gg: ASbGncs3xC25IPxLYtjlniuLFVflp//e52QS6ZGDX4KnLoB/z6vYFkTo20DXrDDzhQC
+	TQBWPeGGIZXDuS0TYdGeLtgbvTXnCaxkqqCY9r17ulhWO9qJB72W6hQh793ovwz+ltZhhBLIFSw
+	2MQAVcZKQys+coPAEMDBJEJeg83C/bVBgEELDaChvJisRzAZeizS+pfM9y7+S3W8XwQUKGjYTsq
+	+9SFXMhG11MWsZdAsPplicr04HyMc3DPEIoOskaaK97l6fpOnC0VAcEg3HLwajrPu+AyxXj2YFK
+	cszM+Is2ghYQKFCRkHmpqkzSLUqyU60uJXcBSAatCOsqZEWjh14zcOYmu1/wrYGYe498LcTD2XV
+	qZhtWoVZqslC3G9KzmF0BCmNfyFcxx5Qg2U4bF2f60BU9IrpXwv3ZBLiRZE0rCv06x3QoV/MxgN
+	Nym790/b+hSQwJkZGxXNFDlA==
+X-Google-Smtp-Source: AGHT+IE1gIYZcGblkEjcjzhGPx7ekSZ38Z4/YRTJKsqSyw+yFbUgOc/+hKm7kUfLUBU5JT1QbWfp6g==
+X-Received: by 2002:a05:6000:2004:b0:3f7:b7ac:f3d2 with SMTP id ffacd0b85a97d-42cc1d3209amr9257644f8f.43.1763913269369;
+        Sun, 23 Nov 2025 07:54:29 -0800 (PST)
+Received: from FV6GYCPJ69 ([140.209.217.211])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fd8e54sm23722980f8f.40.2025.11.23.07.54.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Nov 2025 07:54:28 -0800 (PST)
+Date: Sun, 23 Nov 2025 16:54:25 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, 
+	Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>
+Subject: Re: [PATCH net-next V2 05/14] devlink: Decouple rate storage from
+ associated devlink object
+Message-ID: <nc6irnyr3vk5gkrdcn25uqm62yfl2yohhixz524inc2jk5czfg@zipw3kl462uy>
+References: <1763882580-1295213-1-git-send-email-tariqt@nvidia.com>
+ <1763882580-1295213-6-git-send-email-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,139 +82,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251122222351.1059049-15-pasha.tatashin@soleen.com>
+In-Reply-To: <1763882580-1295213-6-git-send-email-tariqt@nvidia.com>
 
-On Sat, Nov 22, 2025 at 05:23:41PM -0500, Pasha Tatashin wrote:
-> From: Pratyush Yadav <ptyadav@amazon.de>
-> 
-> The ability to preserve a memfd allows userspace to use KHO and LUO to
-> transfer its memory contents to the next kernel. This is useful in many
-> ways. For one, it can be used with IOMMUFD as the backing store for
-> IOMMU page tables. Preserving IOMMUFD is essential for performing a
-> hypervisor live update with passthrough devices. memfd support provides
-> the first building block for making that possible.
-> 
-> For another, applications with a large amount of memory that takes time
-> to reconstruct, reboots to consume kernel upgrades can be very
-> expensive. memfd with LUO gives those applications reboot-persistent
-> memory that they can use to quickly save and reconstruct that state.
-> 
-> While memfd is backed by either hugetlbfs or shmem, currently only
-> support on shmem is added. To be more precise, support for anonymous
-> shmem files is added.
-> 
-> The handover to the next kernel is not transparent. All the properties
-> of the file are not preserved; only its memory contents, position, and
-> size. The recreated file gets the UID and GID of the task doing the
-> restore, and the task's cgroup gets charged with the memory.
-> 
-> Once preserved, the file cannot grow or shrink, and all its pages are
-> pinned to avoid migrations and swapping. The file can still be read from
-> or written to.
-> 
-> Use vmalloc to get the buffer to hold the folios, and preserve
-> it using kho_preserve_vmalloc(). This doesn't have the size limit.
-> 
-> Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
-> Co-developed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
+Sun, Nov 23, 2025 at 08:22:51AM +0100, tariqt@nvidia.com wrote:
+>From: Cosmin Ratiu <cratiu@nvidia.com>
+>
+>Devlink rate leafs and nodes were stored in their respective devlink
+>objects pointed to by devlink_rate->devlink.
+>
+>This patch removes that association by introducing the concept of
+>'rate node devlink', which is where all rates that could link to each
+>other are stored. For now this is the same as devlink_rate->devlink.
+>
+>After this patch, the devlink rates stored in this devlink instance
+>could potentially be from multiple other devlink instances. So all rate
+>node manipulation code was updated to:
+>- correctly compare the actual devlink object during iteration.
+>- maybe acquire additional locks (noop for now).
+>
+>Signed-off-by: Cosmin Ratiu <cratiu@nvidia.com>
+>Reviewed-by: Carolina Jubran <cjubran@nvidia.com>
+>Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
 
-...
-
-> +static int memfd_luo_retrieve_folios(struct file *file,
-> +				     struct memfd_luo_folio_ser *folios_ser,
-> +				     u64 nr_folios)
-> +{
-> +	struct inode *inode = file_inode(file);
-> +	struct address_space *mapping = inode->i_mapping;
-> +	struct folio *folio;
-> +	long i = 0;
-> +	int err;
-> +
-> +	for (; i < nr_folios; i++) {
-> +		const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
-> +		phys_addr_t phys;
-> +		u64 index;
-> +		int flags;
-> +
-> +		if (!pfolio->pfn)
-> +			continue;
-> +
-> +		phys = PFN_PHYS(pfolio->pfn);
-> +		folio = kho_restore_folio(phys);
-> +		if (!folio) {
-> +			pr_err("Unable to restore folio at physical address: %llx\n",
-> +			       phys);
-> +			goto put_folios;
-> +		}
-> +		index = pfolio->index;
-> +		flags = pfolio->flags;
-> +
-> +		/* Set up the folio for insertion. */
-> +		__folio_set_locked(folio);
-> +		__folio_set_swapbacked(folio);
-> +
-> +		err = mem_cgroup_charge(folio, NULL, mapping_gfp_mask(mapping));
-> +		if (err) {
-> +			pr_err("shmem: failed to charge folio index %ld: %d\n",
-> +			       i, err);
-> +			goto unlock_folio;
-> +		}
-> +
-> +		err = shmem_add_to_page_cache(folio, mapping, index, NULL,
-> +					      mapping_gfp_mask(mapping));
-> +		if (err) {
-> +			pr_err("shmem: failed to add to page cache folio index %ld: %d\n",
-> +			       i, err);
-> +			goto unlock_folio;
-> +		}
-> +
-> +		if (flags & MEMFD_LUO_FOLIO_UPTODATE)
-> +			folio_mark_uptodate(folio);
-> +		if (flags & MEMFD_LUO_FOLIO_DIRTY)
-> +			folio_mark_dirty(folio);
-> +
-> +		err = shmem_inode_acct_blocks(inode, 1);
-> +		if (err) {
-> +			pr_err("shmem: failed to account folio index %ld: %d\n",
-> +			       i, err);
-> +			goto unlock_folio;
-> +		}
-> +
-> +		shmem_recalc_inode(inode, 1, 0);
-> +		folio_add_lru(folio);
-> +		folio_unlock(folio);
-> +		folio_put(folio);
-> +	}
-> +
-> +	return 0;
-> +
-> +unlock_folio:
-> +	folio_unlock(folio);
-> +	folio_put(folio);
-> +	i++;
- 
-I'd add a counter and use it int the below for loop.
-
-> +put_folios:
-> +	/*
-> +	 * Note: don't free the folios already added to the file. They will be
-> +	 * freed when the file is freed. Free the ones not added yet here.
-> +	 */
-> +	for (; i < nr_folios; i++) {
-> +		const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
-> +
-> +		folio = kho_restore_folio(pfolio->pfn);
-> +		if (folio)
-> +			folio_put(folio);
-> +	}
-> +
-> +	return err;
-> +}
-
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-
--- 
-Sincerely yours,
-Mike.
+Reviewed-by: Jiri Pirko <jiri@nvidia.com>
