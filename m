@@ -1,105 +1,263 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFEA14F125;
-	Sun, 23 Nov 2025 17:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A312D8767
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 18:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763917860; cv=none; b=K++/V/Ye4GGVMMVI7ch5SinaBQhunRrEKTwRMDur3QU1zyTRoLcqB3Emh9i2fEyBiGG7lfa8vfhEOl2Wr/vFks8NoQvdI+ykzmKf8W52C92HqLXJzSFP0cuJEvQjnjGysONQAlfgUyFSqJFNdH02yxRMuyLgOVcoUb24qn+tSc8=
+	t=1763922271; cv=none; b=nsmM6eJFDPINkP93Mqx5oe+eC6UJVgz2fUQggzCCyxyd1gGpmZpRbsMkFyN7DkSn6VizFQV/nVMWTZWKpbleyCerufEa7yDodpjZjjyXCVhKR7MCZ78/aFKCd6jQi93l6l/uQOXeRp55rl7yOLpS0Fh2lAF4iTDxNlzEw5blukw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763917860; c=relaxed/simple;
-	bh=1TvV2CIHODDVvcsCFmEG146E5nX65wm9DJeM5XXQwW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IyQw9rNx7Y83G9VuO8fNSOybgs1V6SSB1o2n2QAXsv+7Gc9tPvHD3YGy4/+kpJuhNrnrktc+uwsEljtsO+lRz3JfK2QMFP2CuWG67pZEaqa3Qpf9Qn0uhGhIeKtxybS0F4zI4I8mwZbjD9ip+dd6tC2uCcTOb79B/1Iixf9wJU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wo8WQpA6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=H8a+b7E4; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1763922271; c=relaxed/simple;
+	bh=zWrmp4jm1uS219v4VOV7zl6kilkCV46yS5P9NSn4tps=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UFewe9b0sfzwsnA2G/37pt7w0z7oJHDjOq26uVTr1uQiNqlmPtFc5cUHgKfQ7R+5tAy9vDSp55ZNDG9CEM3BuaCUNkAyj0VEbC/1zT6HNcQv4ODZ3nVrkXOun2ESTBDyHuRfpdoSG1jiPuiAneTzSu8LrhTcYh1zf/BWTAWltdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=NsJT3s1w; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wo8WQpA6";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="H8a+b7E4"
-Date: Sun, 23 Nov 2025 18:10:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1763917856;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1TvV2CIHODDVvcsCFmEG146E5nX65wm9DJeM5XXQwW8=;
-	b=wo8WQpA6NfO5oq1yU5MNIxMljtmOFymvIKwf+z4UpWIwlmWK66C9CioLMyGAOPzFA0j76x
-	feTDuA2whfyAklcQwWO/kFWvgwWMGymo+2py2F9m0snFPcsiGb2px0IjJZXqcGHrvur9VH
-	JltI0wdrt+vgV2fQLaCE9TaaYnJ1sEPv3Xcrqp0ibg+AnJOIAG+nn4YMVG874FGgvxpo2n
-	MJMTZztLqBmS37z8mUn6XD5/rXrSl5JNZ15qQTziNCOzq622/JthL+xDeTbEIH+I9kWOCg
-	JKL5L5uhHGwBitxvsz2++MsIcD4j/XrNx79t/M05VLbd8rdWlYJFtlifZn2GHw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1763917856;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1TvV2CIHODDVvcsCFmEG146E5nX65wm9DJeM5XXQwW8=;
-	b=H8a+b7E4pwlDvJgRrStalE/DblBpY6KGjVhb8qJAv2yo/f7vbjkwGdH54cVGXBkqaDHNNk
-	EznfI2lT8cZDOYBA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Paul Moore <paul@paul-moore.com>
-Cc: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
-	Arnout Engelen <arnout@bzzt.net>,
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
-	Christian Heusel <christian@heusel.eu>,
-	=?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v3 7/9] module: Move lockdown check into generic module
- loader
-Message-ID: <20251123171054.wnPvVQrF@linutronix.de>
-References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
- <20250429-module-hashes-v3-7-00e9258def9e@weissschuh.net>
- <20251119112055.W1l5FOxc@linutronix.de>
- <CAHC9VhTuf1u4B3uybZxdojcmz5sFG+_JHUCC=C0N=9gFDmurHg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="NsJT3s1w"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-64149f78c0dso5378945a12.3
+        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 10:24:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1763922268; x=1764527068; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HFe56QyFLZ7C1O66/b75IN12Xd7/FCpS86VjcSFE1yk=;
+        b=NsJT3s1wO1dTIojVGEIrqi3FRP9sl0k5hZOPspqSFJBDzQ+zafFLheO1FjzY3nWuiw
+         m1I4FbWsxXNnk3UwWjsZn6DxvnoQHbg6Qk/VrhIVe+t65kB/MvyNaWw0tpiMf1qQPLEO
+         6gIz6ARcslWBcS4UJcA1f/DM1vYANveeEPBVfDoQ8OuR339j0kWdiROrvW9oPMWb9xx8
+         kjb1rIjELyeNtrjlEm6bguZM3Qgmcge0t1tyCV39oLqsFw0bxTc5WcGbrGyqyqizLFz3
+         AJ3oC29jiaiQdOQQ4ZnKJXPyI3XfNbGq+oqAlU0H7Z+l033p1rJuEEafAezmbm2FiHSS
+         03MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763922268; x=1764527068;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HFe56QyFLZ7C1O66/b75IN12Xd7/FCpS86VjcSFE1yk=;
+        b=vyf/2k2a0WrCuCbLkb/Mbj7L81Yr5h59wY8d8CFNnkJjyJvHXtkADrnwoTTOTvx/WG
+         sIyS0Ovmj76vSrOKrCihezWacIJeZlGUSKKGoaRTZ+o7iFD3XANyY8dJjTQCznIudQAt
+         0DAY2Xn/ngqQ4GDrIh1auJN27WGTUChDD2arLPNPPuzyw8N3kDbdpuPsfeMqBnnOt0hn
+         7E/xSiGbuYOqtqU02V/qoueAUX9bQArHHjS0lGXnz92ezFiDXuYLLweFgQukOwD2CdOQ
+         5Q2bqTh3npZAQUItcW3gsaql5ciRknDuZGmgGJLeNbiSnd2fH9/jiY+vfT/wnwgpcFLi
+         X6jA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6Fv1QnqEkR4ydkYmpUChYfyh/0H1tnbwb9gypAQUF8PkI45Gn8CTZoX+qSgiu+QX2gU8gbxOxKs8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYcfbvpgFHP/2vU9kBukLrSCuCMNGJfM0S0THYQITtiFZMJGl2
+	Il0wwIxbQRFXYYbZwOXAngBqxVKkVbGud4jQ5TAkxCGJUj8QPdStQ3J3WgyqKstO0Bo6lfABqbC
+	0fUe28ITMGsMM5tzE2NdFnPaxT7asB6gTJ4G69Txskvt8zsAthHI9lMi7qg==
+X-Gm-Gg: ASbGncuUTrLooRFmr5tQxRCmhz7tmxs2sg8FHqMUafavRK0t4GQ+5g3MOHn2KywIzZm
+	VjdgIIZbNwAM/tlwYm+myUzc062gGOflCaHC4rjYaYO3+IbzgOUvLcfwqp6/77LxiaYT7Owykk4
+	9/m8rdqHB8qvRdJWrN1zl/nLx08g/jd2/yn2ThW/jrKp4Frpblo1dYwnu5Gm9IKL+zQlR4+Suon
+	EFaX1IiXqF6AKohVFlLES5EMlroyM+koOx6f5IRLmNkfXdAkU117el/ZihkhHvfQ8mm
+X-Google-Smtp-Source: AGHT+IF8Y2WxTfuU5MKgGu/HRLPR42VugdjCMxiGE2PPrS+V8RKZs1QDvf+5KSflk2e8n9lkLkfU7mQyoaO5u4Z1Zt0=
+X-Received: by 2002:a05:6402:4146:b0:645:cdc7:ed91 with SMTP id
+ 4fb4d7f45d1cf-645cdc7f149mr424897a12.32.1763922267598; Sun, 23 Nov 2025
+ 10:24:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+ <20251122222351.1059049-3-pasha.tatashin@soleen.com> <aSLvo0uXLOaE2JW6@kernel.org>
+ <CA+CK2bCj2OAQjM-0rD+DP0t4v71j70A=HHdQ212ASxX=xoREXw@mail.gmail.com> <aSMXUKMhroThYrlU@kernel.org>
+In-Reply-To: <aSMXUKMhroThYrlU@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Sun, 23 Nov 2025 13:23:51 -0500
+X-Gm-Features: AWmQ_bmZE4Rym1x6vlKRuOiWr1iby3GXQ6wajNbHf1G86dfGYpyZynlDRpPIzZY
+Message-ID: <CA+CK2bABbDYfu8r4xG3n30HY4cKFe74_RJP5nYJeOtAOOj+OUQ@mail.gmail.com>
+Subject: Re: [PATCH v7 02/22] liveupdate: luo_core: integrate with KHO
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAHC9VhTuf1u4B3uybZxdojcmz5sFG+_JHUCC=C0N=9gFDmurHg@mail.gmail.com>
 
-On 2025-11-19 14:55:47 [-0500], Paul Moore wrote:
-> On Wed, Nov 19, 2025 at 6:20=E2=80=AFAM Sebastian Andrzej Siewior
-> <bigeasy@linutronix.de> wrote:
-> > On 2025-04-29 15:04:34 [+0200], Thomas Wei=C3=9Fschuh wrote:
-> > > The lockdown check buried in module_sig_check() will not compose well
-> > > with the introduction of hash-based module validation.
+On Sun, Nov 23, 2025 at 9:17=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
+te:
+>
+> On Sun, Nov 23, 2025 at 07:03:19AM -0500, Pasha Tatashin wrote:
+> > On Sun, Nov 23, 2025 at 6:27=E2=80=AFAM Mike Rapoport <rppt@kernel.org>=
+ wrote:
+> > >
+> > > On Sat, Nov 22, 2025 at 05:23:29PM -0500, Pasha Tatashin wrote:
+> > > > Integrate the LUO with the KHO framework to enable passing LUO stat=
+e
+> > > > across a kexec reboot.
+> > > >
+> > > > This patch implements the lifecycle integration with KHO:
+> > > >
+> > > > 1. Incoming State: During early boot (`early_initcall`), LUO checks=
+ if
+> > > >    KHO is active. If so, it retrieves the "LUO" subtree, verifies t=
+he
+> > > >    "luo-v1" compatibility string, and reads the `liveupdate-number`=
+ to
+> > > >    track the update count.
+> > > >
+> > > > 2. Outgoing State: During late initialization (`late_initcall`), LU=
+O
+> > > >    allocates a new FDT for the next kernel, populates it with the b=
+asic
+> > > >    header (compatible string and incremented update number), and
+> > > >    registers it with KHO (`kho_add_subtree`).
+> > > >
+> > > > 3. Finalization: The `liveupdate_reboot()` notifier is updated to i=
+nvoke
+> > > >    `kho_finalize()`. This ensures that all memory segments marked f=
+or
+> > > >    preservation are properly serialized before the kexec jump.
+> > > >
+> > > > LUO now depends on `CONFIG_KEXEC_HANDOVER`.
+> > > >
+> > > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > > > ---
+> > > >  include/linux/kho/abi/luo.h      |  54 +++++++++++
+> > > >  kernel/liveupdate/luo_core.c     | 154 +++++++++++++++++++++++++++=
++++-
+> > > >  kernel/liveupdate/luo_internal.h |  22 +++++
+> > > >  3 files changed, 229 insertions(+), 1 deletion(-)
+> > > >  create mode 100644 include/linux/kho/abi/luo.h
+> > > >  create mode 100644 kernel/liveupdate/luo_internal.h
+> > > >
+> > > > diff --git a/include/linux/kho/abi/luo.h b/include/linux/kho/abi/lu=
+o.h
+> > > > new file mode 100644
+> > > > index 000000000000..8523b3ff82d1
+> > > > --- /dev/null
+> > > > +++ b/include/linux/kho/abi/luo.h
+> > > > @@ -0,0 +1,54 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > > +
+> > > > +/*
+> > > > + * Copyright (c) 2025, Google LLC.
+> > > > + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> > > > + */
+> > > > +
+> > > > +/**
+> > > > + * DOC: Live Update Orchestrator ABI
+> > > > + *
+> > > > + * This header defines the stable Application Binary Interface use=
+d by the
+> > > > + * Live Update Orchestrator to pass state from a pre-update kernel=
+ to a
+> > > > + * post-update kernel. The ABI is built upon the Kexec HandOver fr=
+amework
+> > > > + * and uses a Flattened Device Tree to describe the preserved data=
+.
+> > > > + *
+> > > > + * This interface is a contract. Any modification to the FDT struc=
+ture, node
+> > > > + * properties, compatible strings, or the layout of the `__packed`=
+ serialization
+> > > > + * structures defined here constitutes a breaking change. Such cha=
+nges require
+> > > > + * incrementing the version number in the relevant `_COMPATIBLE` s=
+tring to
+> > > > + * prevent a new kernel from misinterpreting data from an old kern=
+el.
+> > >
+> > > From v6 thread:
+> > >
+> > > > > I'd add a sentence that stresses that ABI changes are possible as=
+ long they
+> > > > > include changes to the FDT version.
+> > > > > This is indeed implied by the last paragraph, but I think it's wo=
+rth
+> > > > > spelling it explicitly.
+> > > > >
+> > > > > Another thing that I think this should mention is that compatibil=
+ity is
+> > > > > only guaranteed for the kernels that use the same ABI version.
+> > > >
+> > > > Sure, I will add both.
+> > >
+> > > Looks like it fell between the cracks :/
 > >
-> > An explanation of why would be nice.
->=20
-> /me shrugs
->=20
-> I thought the explanation was sufficient.
+> > Hm, when I was updating the patches, I included the first part, and
+> > then re-read the content, and I think it covers all points:
+> >
+> > 1. Changes are possible
+> > This interface is a contract. Any modification to the FDT structure, no=
+de
+> >  * properties, compatible strings, or the layout of the `__packed` seri=
+alization
+> >  * structures defined here constitutes a breaking change. Such changes =
+require
+> >  * incrementing the version number in the relevant `_COMPATIBLE` string
+> >
+> > So, change as long as you update versioning number
+> >
+> > 2. Breaking if version is different:
+> > to prevent a new kernel from misinterpreting data from an old kernel.
+> >
+> > So, the next kernel can interpret only if the version is the same.
+> >
+> > Which point do you think is not covered?
+>
+> As I said, it's covered, but it's implied. I'd prefer these stated
+> explicitly.
 
-Okay. So if it is just me and everyone is well aware then okay.
+Added, thanks.
 
-Sebastian
+>
+> > > > +static int __init liveupdate_early_init(void)
+> > > > +{
+> > > > +     int err;
+> > > > +
+> > > > +     err =3D luo_early_startup();
+> > > > +     if (err) {
+> > > > +             luo_global.enabled =3D false;
+> > > > +             luo_restore_fail("The incoming tree failed to initial=
+ize properly [%pe], disabling live update\n",
+> > > > +                              ERR_PTR(err));
+> > >
+> > > What's wrong with a plain panic()?
+> >
+> > Jason suggested using the luo_restore_fail() function instead of
+> > inserting panic() right in code somewhere in LUOv3 or earlier. It
+> > helps avoid sprinkling panics in different places, and also in case if
+> > we add the maintenance mode that we have discussed in LUOv6, we could
+> > update this function as a place where that mode would be switched on.
+>
+> I'd agree if we were to have a bunch of panic()s sprinkled in the code.
+> With a single one it's easier to parse panic() than lookup what
+> luo_restore_fail() means.
+
+The issue is that removing luo_restore_fail() removes the only
+dependency on luo_internal.h in this patch. This would require me to
+move the introduction of that header file to a later patch in the
+series, which is difficult to handle via a simple fix-up.
+
+Additionally, I still believe the abstraction is cleaner for future
+extensibility (like the maintenance mode), even if it currently wraps
+a single panic (which is actually a good thing, I have cleaned-up
+things substantially to have  a single point  of panic since v2).
+Therefore, it is my preference to keep it as is, unless a full series
+is needed to be re-sent.
+
+Pasha
