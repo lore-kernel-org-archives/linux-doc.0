@@ -1,33 +1,33 @@
-Received: from mail-m1973186.qiye.163.com (mail-m1973186.qiye.163.com [220.197.31.86])
+Received: from mail-m49246.qiye.163.com (mail-m49246.qiye.163.com [45.254.49.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69441263C7F
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 07:50:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFEE204F93
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 08:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763884245; cv=none; b=M6qBBmnbYmTJkfJVdt0VOf8eGgsEB8DOANDlMiI7NpuM2seX6eTM+p4XPaGBvVDp6Xem3rn4pw8prV9KoCkT8efjuwQ4wJ+GxycJuApQZGLWV0/30pk6BcNcQBNYyAPTGuqu0x46cdTwjC6GVye04mGdidnK5EHBQZslXcMjtuc=
+	t=1763884842; cv=none; b=sUdVDMM2f3ee0t/GtDcYr+K6OD1Xf6cubUi6Ml6+aTtT+hYQ7jON/Ww7MiMbJGOKFceWoeTvKV3cy9k1O3lgeM6yVM09MKhe8WL58z/LALJ0wqioMMOOf9VwLTfr9sno0j/claaA4Hb4tgAm9I04caJtyoAQ2f8nqEVahb6BHKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763884245; c=relaxed/simple;
-	bh=xwlnnTq3jGl8Z5zJpKZYLMFvjgl4TWf8C45au3hrVzo=;
+	s=arc-20240116; t=1763884842; c=relaxed/simple;
+	bh=ApqCkMMDFM5qbY/auSLXcvyyi2FyoMYi20xUlmJOO0Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bjo5PE0U5usr7dzBV0yVkOO/TBhlpX/j+CPbDVzmWXeZzYoMZFSuw0oqemXZ0va4XEgtkN7YybM+70a3p5BzFol8wVJoANZqxGhK7N6s2DVIpgU7JgF2/7kfuE6UKlD1E3sPPYLLhMaYRymqTp65C0ZEcHg7Xheapf6u0kOmdt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=aFLSaHT/; arc=none smtp.client-ip=220.197.31.86
+	 MIME-Version:Content-Type; b=X6mBSigK+/TyijXnvQRx97p6/S6cbR5STqPCHQTSHPBWW5/La/AQd1Q9J/+kYP9PRFnD+PaSYZDgoK0GL7vuAQ42I71QxF+V0EihW7v5d5csL1IEiihdMfdRT4jnIypo/6wGdvCDmgaujjDpmRnDpyLc3sxDoJdJkTvzOmNobKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=P+FPRZEP; arc=none smtp.client-ip=45.254.49.246
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="aFLSaHT/"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="P+FPRZEP"
 Received: from server001 (unknown [1.203.157.252])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99cb;
-	Sun, 23 Nov 2025 15:45:26 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2a8df99ac;
+	Sun, 23 Nov 2025 15:45:12 +0800 (GMT+08:00)
 From: macrofun <baikefan@leap-io-kernel.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
 Cc: dzm91@hust.edu.cn,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 19/25] docs/zh_CN: Add mtouchusb.rst translation
-Date: Sun, 23 Nov 2025 15:45:34 +0800
-Message-ID: <20251123074540.34161-20-baikefan@leap-io-kernel.com>
+Subject: [PATCH 02/25] docs/zh_CN: Add acm.rst translation
+Date: Sun, 23 Nov 2025 15:45:17 +0800
+Message-ID: <20251123074540.34161-3-baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
 References: <20251123074540.34161-1-baikefan@leap-io-kernel.com>
@@ -39,38 +39,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9aafacc5a909d5kunm0cca719828666a
+X-HM-Tid: 0a9aafac8d9609d5kunm0cca719828660b
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCH08YVh9KQ0kZTxkdQxlDH1YVFAkWGhdVEwETFh
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDGhlKVkpLTEtOTxhOH05PHVYVFAkWGhdVEwETFh
 	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWU9LSFVKS0hKTkxOVUpLS1
 	VKQktLWQY+
 DKIM-Signature: a=rsa-sha256;
-	b=aFLSaHT/IZyL4mi9R5pIO4GJtE5p1MyZb0dwyo1qxeBeH5n7TvaBNkoj9YA5jEW/rhPT8TBgS30Cl/nH4GeJlQhtUZWu+I32zVxapA2XorrHf95tO7k+DBU9JtloxDQ991IypJuuNV2Q+fjY+W63HUtwbNXE5zGVtKRcKDsHg3q694+ThZwP8+2WWV90R14QSKNTTmSJ8Znn50pwUx8T1SFy1LZDEx2qj26ZbyxUA6PITS22h8He9mO0VmvyU+KwNMTr0XJjneJMtlBk+uHDsUYbXza1soutda5J81mmZ4qnCVQ+TYZ0NyDmHkyOpYzU/W4HwwtXZfjmKrnGOww0rA==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=jMfHF9rHZq6nxjoSc19nR2RBByUe44Q025Od3sOwcr4=;
+	b=P+FPRZEPAt+f7KskSsIItOTdOAIV81YkPe9Xd34MYVH/BCK5dQ/DYe3GlM0ytAE+3xuRhBRw8z2fzC2c2Q+NRDbt9DOqj1+wcTxOCHgljBm1QsaBwI2dNEO7UzkgmQsQyTOMSgXuQFEyRiOzDDjtx8GoHp/O+O5vlVVLeiNmlEuqtyiA240WbYjIrqgGWUhTY5HjyZfNzomIIDupIC7HIEyg1jZgr5gAY3PVX7mb8bZ1D3WmY1wXugkuCGyLHgGW8AiW8mQsyB2deXXsslB1OJqWIP9o/u2rXIz34nIJ9HkTeJLN0GPD8V6O8uNyyiS1r7QU++MhyWuzwTEN1cxMjg==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=Wz3fxbsbDYANHJympmXhN9YjNtAapZRlgLtxJTgUbj4=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/mtouchusb.rst into Chinese.
+Translate .../usb/acm.rst into Chinese.
 
-Update the translation through commit 9e255e2b9afe
-("Documentation: drop optional BOMs")
+Update the translation through commit ecefae6db042
+("docs: usb: rename files to .rst and add them to drivers-api")
 
 Signed-off-by: macrofun <baikefan@leap-io-kernel.com>
 ---
- .../translations/zh_CN/usb/mtouchusb.rst      | 89 +++++++++++++++++++
- 1 file changed, 89 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/usb/mtouchusb.rst
+ Documentation/translations/zh_CN/usb/acm.rst | 137 +++++++++++++++++++
+ 1 file changed, 137 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
 
-diff --git a/Documentation/translations/zh_CN/usb/mtouchusb.rst b/Documentation/translations/zh_CN/usb/mtouchusb.rst
+diff --git a/Documentation/translations/zh_CN/usb/acm.rst b/Documentation/translations/zh_CN/usb/acm.rst
 new file mode 100644
-index 000000000000..11f847a6b428
+index 000000000000..974654410344
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/mtouchusb.rst
-@@ -0,0 +1,89 @@
++++ b/Documentation/translations/zh_CN/usb/acm.rst
+@@ -0,0 +1,137 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/mtouchusb.rst
++:Original: Documentation/usb/acm.rst
++
 +:翻译:
 +
 + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
@@ -78,84 +79,131 @@ index 000000000000..11f847a6b428
 +:校译:
 +
 +
++======================
++Linux ACM驱动 v0.16
++======================
 +
-+=================
-+mtouchusb驱动
-+=================
++版权所有(c) 1999 Vojtech Pavlik <vojtech@suse.cz>
 +
-+变更记录
-+=============
++由SuSE赞助
 +
-+- 0.3 - 基于原始触摸屏驱动的scanner和INSTALL创建
-+  （来源：freecode http://freecode.com/projects/3mtouchscreendriver）
++0. 免责声明
++~~~~~~~~~~~~~
++本程序是自由软件；您可以依据自由软件基金会发布的GNU通用公共许可证第2版，
++或（由您选择的）任何更高版本的规定，对本程序进行再发布和/或修改。
 +
-+- 针对 linux-2.4.18 进行了修改，然后是 2.4.19
++我们希望本程序有用，但不提供任何担保；甚至不包含对适销性或适用于特定目的的默示性担保。
++更多细节请参阅GNU通用公共许可证。
 +
-+- 使用 Linux Input 在 2.6.3 下完全重写
-+  不幸的是，目前不支持校准功能
++您应该已经随本程序收到GNU通用公共许可证副本；
++如果没有，请写信至：Free Software Foundation, Inc., 59
++Temple Place, Suite 330, Boston, MA 02111-1307 USA。
 +
-+- 1.4 - 为支持 EXII 5000UC 进行了多项修改并进行清理工作
-+  将复位方式从标准 USB 设备复位改为厂商复位
-+  将发送到主机的数据从补偿坐标改为原始坐标
-+  删除了 vendor/product 模块参数
-+  使用 EXII-5010UC 进行了多次成功测试
++如需联系作者，可通过电子邮件发送消息至 vojtech@suse.cz，
++或通过纸质邮件寄至：
++Vojtech Pavlik, Ucitelska 1576, Prague 8, 182 00, Czech Republic。
 +
-+所支持的硬件
-+==============
++为方便起见，本软件包中已包含GNU通用公共许可证第2版：参见文件COPYING。
 +
-+::
++1. 使用方法
++~~~~~~~~~~~~~
++drivers/usb/class/cdc-acm.c驱动可用于USB调制解调器和USB ISDN终端适配器，
++这些设备符合USB通用串行总线通信设备类（Universal Serial Bus
++Communication Device Class）的抽象控制模型（Abstract Control Model，
++USB CDC ACM）规范。
 +
-+        所有VendorID是0x0596，ProductID是0x0001的控制器
++许多调制解调器支持此驱动，以下是我所知道的一些型号：
 +
++	- 3Com OfficeConnect 56k
++	- 3Com Voice FaxModem Pro
++	- 3Com Sportster
++	- MultiTech MultiModem 56k
++	- Zoom 2986L FaxModem
++	- Compaq 56k FaxModem
++	- ELSA Microlink 56k
 +
-+        控制器描述                       零件编号
-+        ------------------------------------------------------
++我知道有一款ISDN终端适配器可以与ACM驱动一起使用：
 +
-+        USB Capacitive - 珍珠外壳        14-205  (已停产)
-+        USB Capacitive - 黑色外壳        14-124  (已停产)
-+        USB Capacitive - 无外壳          14-206  (已停产)
++	- 3Com USR ISDN Pro TA
 +
-+        USB Capacitive - 珍珠外壳        EXII-5010UC
-+        USB Capacitive - 黑色外壳        EXII-5030UC
-+        USB Capacitive - 无外壳          EXII-5050UC
++一些手机也可以通过USB连接。我知道以下机型可以正常工作：
 +
-+驱动说明
-+========
++	- SonyEricsson K800i
 +
-+安装很简单，只需将Linux Input、Linux USB和驱动添加到内核即可。
-+该驱动也可以选择构建为模块。
++不幸的是，许多调制解调器以及大多数ISDN终端适配器使用专有接口，
++因此无法与此驱动兼容。购买前请确认设备是否符合ACM规范。
 +
-+该驱动似乎是可能存在的两个Linux USB Input触摸屏驱动之一。
-+虽然3M提供了一个仅二进制可下载的驱动，但我坚持更新此驱动，
-+因为我希望在嵌入式应用中使用触摸屏，例如使用QTEmbedded、DirectFB等。
-+因此，我认为逻辑选择是使用Linux Input。
++要使用调制解调器，您需要加载以下模块：
 +
-+目前无法通过此驱动校准设备。即使设备可以校准，驱动也会从控制器获取原始坐标数据。
-+这意味着校准必须在用户态完成。
++	usbcore.ko
++	uhci-hcd.ko ohci-hcd.ko or ehci-hcd.ko
++	cdc-acm.ko
 +
-+控制器的屏幕分辨率现在为X和Y均为0到16384，用于报告原始触摸数据。
-+对于旧的和新的电容式USB控制器均相同。
++之后，调制解调器应该可以正常访问。
++你应该能够使用minicom、ppp和mgetty与它们进行通信。
 +
-+也许将来会在evdev中放置一个抽象函数，
-+以便可以从用户态请求通用功能，如校准、复位和厂商信息（驱动程序将处理厂商特定任务）。
++2. 验证驱动是否正常工作
++~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+待办事项
-+========
++第一步是检查 /sys/kernel/debug/usb/devices，其内容应类似如下::
 +
-+一旦可用，再次实现control urb以处理与设备的请求，例如校准等。
++  T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=12  MxCh= 2
++  B:  Alloc=  0/900 us ( 0%), #Int=  0, #Iso=  0
++  D:  Ver= 1.00 Cls=09(hub  ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
++  P:  Vendor=0000 ProdID=0000 Rev= 0.00
++  S:  Product=USB UHCI Root Hub
++  S:  SerialNumber=6800
++  C:* #Ifs= 1 Cfg#= 1 Atr=40 MxPwr=  0mA
++  I:  If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
++  E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=255ms
++  T:  Bus=01 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  2 Spd=12  MxCh= 0
++  D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
++  P:  Vendor=04c1 ProdID=008f Rev= 2.07
++  S:  Manufacturer=3Com Inc.
++  S:  Product=3Com U.S. Robotics Pro ISDN TA
++  S:  SerialNumber=UFT53A49BVT7
++  C:  #Ifs= 1 Cfg#= 1 Atr=60 MxPwr=  0mA
++  I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=acm
++  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
++  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
++  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
++  C:* #Ifs= 2 Cfg#= 2 Atr=60 MxPwr=  0mA
++  I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
++  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
++  I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
++  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
++  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
 +
-+免责声明
-+========
++其中以下三行（以及 Cls= 'comm' 和 'data' 类）非常重要，它们表示这是一个ACM设备。
++Driver=acm 表示acm驱动正在处理该设备。
++如果只看到 Cls=ff(vend.)，那么很不幸，这是一个厂商自定义接口设备::
 +
-+我不是MicroTouch/3M员工，也从未是。
-+3M不支持此驱动！如果只想使用X中支持的触摸驱动，请访问：
++    D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
++    I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
++    I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
 +
-+http://www.3m.com/3MTouchSystems/
++在系统日志中你应该看到::
 +
-+感谢
-+====
++  usb.c: USB new device connect, assigned device number 2
++  usb.c: kmalloc IF c7691fa0, numif 1
++  usb.c: kmalloc IF c7b5f3e0, numif 2
++  usb.c: skipped 4 class/vendor specific interface descriptors
++  usb.c: new device strings: Mfr=1, Product=2, SerialNumber=3
++  usb.c: USB device number 2 default language ID 0x409
++  Manufacturer: 3Com Inc.
++  Product: 3Com U.S. Robotics Pro ISDN TA
++  SerialNumber: UFT53A49BVT7
++  acm.c: probing config 1
++  acm.c: probing config 2
++  ttyACM0: USB ACM device
++  acm.c: acm_control_msg: rq: 0x22 val: 0x0 len: 0x0 result: 0
++  acm.c: acm_control_msg: rq: 0x20 val: 0x0 len: 0x7 result: 7
++  usb.c: acm driver claimed interface c7b5f3e0
++  usb.c: acm driver claimed interface c7b5f3f8
++  usb.c: acm driver claimed interface c7691fa0
 +
-+非常感谢3M Touch Systems提供的EXII-5010UC控制器进行测试！
++如果以上都正常，请启动minicom，将其设置为连接ttyACM设备，然后输入'at'。
++如果响应 "OK"，则说明一切工作正常。
 --
 2.34.1
 
