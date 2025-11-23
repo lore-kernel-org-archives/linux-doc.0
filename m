@@ -1,67 +1,67 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B872923956E
-	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 05:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81E425F99B
+	for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 06:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763875618; cv=none; b=JIg6UnSn+7C2o7Zi+HS2atUVS7F2Mu5SWj2kLfwcAIz26h4sTzosRIxnzjqniapgUS9w/ecvkGyUMHPnqW9cpHjFVYMW6PRaj4IA2WwaMWhtRXGJTtq6xwa+yrAgNdTj9x2yqCGJSPMR1LJ3kdx2fdnNKi1gcMAl/3uC0p/q8wo=
+	t=1763881083; cv=none; b=m0Nh7hfIpfBTKwNdKWQHWrkimzY8ERIJskqacncR//xc/b1IcBZyQeDhXrbhxmXgC3IXaYI9uqXf0sarB3OltuoUio7BKIZspINrOQjjt9f77t9TiWtHmaJTsdfK4ymSeFC4MV856WVWjFov++eEgQcJfpd3c+XIaiLc7PqHlIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763875618; c=relaxed/simple;
-	bh=TGXkRSEj59v4fmzhBVXcKvoc6qvXVWnQBpWAuPhQ9cs=;
+	s=arc-20240116; t=1763881083; c=relaxed/simple;
+	bh=X6Wl+GsUv9tb9D2ZvYsvZDKqKoy8NWR2CEfCfgI0xKQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tU/gaSa5FVKnBPeo/Z7gvI7h3QsKE3uRZda4yRGeBOwCFHhqAlItSl/WtwXMggo7aEtwUp2lmANeFWMI6/Lz5WgfNUIY/8k5xc0O1XmZNtWHd81u7j7T+nkEDNhzmDHtQi6cqKK54BBAtrPoerDciRp78cdpxv4G+ENziZ8dVEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fCrLgi/q; arc=none smtp.client-ip=74.125.224.54
+	 In-Reply-To:Content-Type; b=fdbujSo7AQ4oyuZemD4WfIkOcxqDE3HNrs9amIjJbT25mZOrL8qrPo7S1CAcIMhJR7/D3GMpnrsOPtLidM7mALe7s/3X2s+Pfhd27m0yAx2sy864Uhd+SsZ87TxYIz4+mJFYyDGwRXUAqLBzh9jiURY9h//R/MRVGZtfpOSDRSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lae+GEgi; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fCrLgi/q"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-640c857ce02so3057267d50.0
-        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 21:26:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lae+GEgi"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-47774d3536dso25404965e9.0
+        for <linux-doc@vger.kernel.org>; Sat, 22 Nov 2025 22:58:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763875616; x=1764480416; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763881079; x=1764485879; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=PjGpsM7kYRfJ1b5sKAhrTAL0C4ggpD13VM0bgZNvJkA=;
-        b=fCrLgi/qKGVqUuGUYsn/6yZ68RTI4GjmPbGkCXnzWVv2d1F6i8Ezk3wdNmHR9QLJD8
-         d3A1cxliWMHXiZ/hlhc6qoN3bzjE89J8XqTJ+1vDV/rTmTUQwyeYWzWqeozEweWqUIqa
-         UB4H+VJEq/02fZ6OsqOyqg98hoN7iSOR5T90+Jvj9VJacZ3GusUbwiWB5xFYPwjloYKN
-         sCu73+I00AXrHqLlBvSetHB8aX6osriQKeEwpxdANEoO2r/voZTOnmqNvv9Mly1uXPmS
-         xO0/5kIeeyBim9QKwP5IyZTsnw17ULAaukyOHZLtpAQuX4RqLqWFXRdhNEoeA0DodQy/
-         rDlw==
+        bh=uRVJRvrkA9r6FA5gPvj5O31mT6myPASpJOJtCaPGU+U=;
+        b=lae+GEgiIQGzocy1m+fSXOQouErV2WPA/WnROV6iDyQWaesQJOcKWXU3PJ/1OUwH+L
+         ruHDhXKVW+zfJRPCHRubp5rZpUeLzy7Ssu15XUavwFLurY2QsYuWNpsOYn5ATnXKfriH
+         E40fiQZ0jA6Pz7OM8zfGhZ4jnmf99nC6B7z1PWw3db0e0iMOVbn+wfOap60nx5Zo/lBq
+         DllQf6H7mYIXNMSVkGEPMQUcnndsLwKmqQVCfLQUQJccLT+n7PY4ThWiYH+cHmfu1sKD
+         x5TmvEF6oF4/UsLwfOiVx6UH05+yC4W2hC05PBpQOiwhBYUL7Jt3DlVJIL7i8cqmNnQN
+         e99A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763875616; x=1764480416;
+        d=1e100.net; s=20230601; t=1763881079; x=1764485879;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PjGpsM7kYRfJ1b5sKAhrTAL0C4ggpD13VM0bgZNvJkA=;
-        b=qHn/8M+DA+RVY7sBfm3d891200udlGbGUuhfMY6L003C5QoCy7gbS/VNUrqy6c9/Kz
-         7IzGyJdIkU3A7e0KNrsEXFcfUknYp5LAgqHHL3eghR5uO8+6/OWRqiyFldnU/pUBxKMr
-         SlmqUGQuPzzvDI0K5ursQxYvUT56S0iKoEXjF4uvY9pYY2L9RgTN8L0gK23P73conAqY
-         DbjCtaB/2iXyCtm1eLbFxBatiW8D0dsm5ppYJXuoex8mKDPUIBz1QQ3Nq78nq50km80w
-         vgB1y3PSfICdcm9rAtZAWa41/SerI/qOzEjUtRkb8e2Vk9W9UKQemvugkdNSoq/VlH5W
-         RyXA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/OIUErwSw0Z9o9mdPgjMCL57B3n2xCfwHWV33sDOXwOAadptwsJQEXW4/O7sOnHCiXBR3UiWPCcw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRFVHWz72Jf0Rhr3AfNHiaQEadeSVHUP6sY30c0T9F61Xzx+k/
-	3/SGS4wHfs/Mxm1QAfzV6EuCq2Xfj/bS8ln9LaZvNS/YGLwmYoHP0e91kLRTxWrqOlM=
-X-Gm-Gg: ASbGncvUwKsooLhoORf+/fbs5eN44YIvDrORgLt5Cmm8KiIiyZbfz/80tyCFekkdJY6
-	bPI4ndOrtechRKaNJatsH+xxtK9mT7wFuwuNG5kxKSYvlhkNSL3RvzbVCuLvNROXV2XJIDaugIC
-	Nx1RESswotb0HGRM/CazibFjLgQI9wnyI4O8SADKBuDA5CPabekyXxDehi6LW2jI3kXLPLHLju0
-	4AiY2IUYdheEt0Uf3HL5lsk/dMWs6TrDXex7jMWEOwXKEwsXY8x28A051g/kV3pAQ8VRJKYKeoP
-	RE0O92gvoquLdWSJc70IUWs5wzl3o+rxIrQpeVi6hGLrN26+Z7UhJNZH1Aj+5mJVU8tEXa+p14r
-	B4FFxCAde9kUT1yu8PWN6L1BWVvTpiovrPd2KQE4FM6TTDcqCGBkBp2OlxvQ2hHv6v5jU9Kv3cj
-	kh+tp/n2ieVbltkkrHBXwUld4MhPUEFatPhTlqfQ==
-X-Google-Smtp-Source: AGHT+IGSQt2BTiVNAI0ftQDsp6uHPWYBlgr1u3c0+GKuB+achzoTPUutVGMMtrB15Fti6j+iDLhFgQ==
-X-Received: by 2002:a05:690e:1403:b0:63f:b545:9981 with SMTP id 956f58d0204a3-64302a61134mr5220318d50.2.1763875615695;
-        Sat, 22 Nov 2025 21:26:55 -0800 (PST)
-Received: from [192.168.2.226] (104.194.78.75.16clouds.com. [104.194.78.75])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a79957082sm31908257b3.50.2025.11.22.21.26.50
+        bh=uRVJRvrkA9r6FA5gPvj5O31mT6myPASpJOJtCaPGU+U=;
+        b=s7dbpc5/d4C+flLq1xdOq68JheMsIB22vpDs774BixRUGEHHCyYyc1mJvv8yHRMzHY
+         D2c+SmMorMybPasBs7lmODJ8hXussnFk+c+8VBLcDjbQI5oTz8NtKyCfRuyRggZrrLp/
+         Iv+cpPrAqosvtCRjqhXjGokQ3AjJ6vNoDMFoGFfP05Xo12D2pOSv2/U+I7zBMh8M/QOb
+         iEbJJm5tmKdaSpd1tlTqYpe3azu+g9RTPtbAMs21Q7Prw8/RDCzPITEmgAtbxWgMBRFU
+         0q9SdQenHUt9deDcSe6rKkXLjC21hexwqpOae30IkP9BaWSEcYWgU8yGnlJlYMnFMThD
+         pncw==
+X-Forwarded-Encrypted: i=1; AJvYcCVHGB9lQ/kKJOynGOEG2C2DrG1FFanilnW1KAPWH5pStb4FU8Bu1PrTBXoi24PZadKol9UpCHMmLzE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhiT5dZnINjpJRjC5/4Seolzwiwpx4FEkdNBOmqGasGNx4sed6
+	WNw2zpwp3QGdN4SdGm9kfdmwdzU+eb1kG6hwUIWMWHbN7w04PIApcB6m
+X-Gm-Gg: ASbGncswlHGl469Ll0eWPbMZKhCFgMIX1aA8Rr+jgO0N2bSziTQAiedLluSktvjCCBM
+	X8MDNqRemxceYLGSTowu8nfJLpDgwX+VD6UCYc/jMNgeNRJO7LRJN2ZJh3u83jzRw9Pg2rT04oi
+	A2rePY/DxDIqDDcBzr90tYzkDAhS4xR0t+lQh74/Y+XyxtbmNLDfBVIhW5Wr8LRqlQZFWmwnIuO
+	9JdZlifuQmovyWKQJ/ZqdhvUYULJ3v0wTuxnpYaw9Yusi4oQkavUGs2A2cDYN4Hbvv/42/T235d
+	Wy/DHbtScDBshVU6rbV+OGPfAKjzHHPRGfbostLQecFJn+f328gNLi6gkH6AHP+vyWmfEQKzzoh
+	fXu6j52IDgHbj2OcQ+BpOxnImNgZ77MlPh0+0KvHYod2ckhI99qaKLS8FgG68ppYIS3PNQq00Ho
+	JheRq3exyEEyqfpj9LyGbORVhxTKHEw2QNuZQ=
+X-Google-Smtp-Source: AGHT+IHFAxOYU/3SO3J8aYD3YuAqZ07wcswkAErFmGjX6P2Bxhft7F/WMDyO2OFrbewioiPNPQbtkg==
+X-Received: by 2002:a05:600c:c8a:b0:471:5c0:94fc with SMTP id 5b1f17b1804b1-477c04cfb70mr82290215e9.6.1763881078919;
+        Sat, 22 Nov 2025 22:57:58 -0800 (PST)
+Received: from [10.125.200.125] ([165.85.126.96])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9dfb639sm119878835e9.13.2025.11.22.22.57.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Nov 2025 21:26:55 -0800 (PST)
-Message-ID: <411b7025-a09c-4597-9b24-b6f8527ef77b@gmail.com>
-Date: Sun, 23 Nov 2025 13:26:45 +0800
+        Sat, 22 Nov 2025 22:57:58 -0800 (PST)
+Message-ID: <f828d5d5-6ba3-4e9c-a7fb-3a0193f7e9bf@gmail.com>
+Date: Sun, 23 Nov 2025 08:57:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,44 +69,51 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs/zh_CN: Add wd719x.rst translation
-To: Yujie Zhang <yjzhang@leap-io-kernel.com>
-Cc: alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn,
- corbet@lwn.net, linux-doc@vger.kernel.org, doubled@leap-io-kernel.com
-References: <cover.1763112421.git.yjzhang@leap-io-kernel.com>
- <f9720c918de47890c536124e7866859c866c67f4.1763112421.git.yjzhang@leap-io-kernel.com>
- <CAJy-AmkoqiOEf3mqCzYWYSVEdttEQrOJ_29MpUHm9+GW6DcYcg@mail.gmail.com>
- <9f59f865-4fc2-411a-9978-ea86f39bc746@leap-io-kernel.com>
+Subject: Re: [PATCH net-next 00/14] devlink and mlx5: Support cross-function
+ rate scheduling
+To: Jakub Kicinski <kuba@kernel.org>, Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>,
+ Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
+ Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Mark Bloch <mbloch@nvidia.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, Gal Pressman <gal@nvidia.com>,
+ Moshe Shemesh <moshe@nvidia.com>, Carolina Jubran <cjubran@nvidia.com>,
+ Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>
+References: <1763644166-1250608-1-git-send-email-tariqt@nvidia.com>
+ <20251120193942.51832b96@kernel.org>
 Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <9f59f865-4fc2-411a-9978-ea86f39bc746@leap-io-kernel.com>
+From: Tariq Toukan <ttoukan.linux@gmail.com>
+In-Reply-To: <20251120193942.51832b96@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
-On 2025/11/23 12:00, Yujie Zhang wrote:
-> Hi Alex,
-> 
-> Thanks for your review.
-> 
-> I have run make htmldocs locally and the generated HTML output looks 
-> correct on my side — I didn’t see rendering issues or warnings related 
-> to this header section.
-> 
-> Could you please point out which part of the format violates the RST 
-> rules, or what specific issue you observed in the HTML output?
-> I’d like to fix it properly.
 
-https://en.wikipedia.org/wiki/ReStructuredText
-https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
+On 21/11/2025 5:39, Jakub Kicinski wrote:
+> On Thu, 20 Nov 2025 15:09:12 +0200 Tariq Toukan wrote:
+>> Code dependency:
+>> This series should apply cleanly after the pulling of
+>> 'net-2025_11_19_05_03', specifically commit f94c1a114ac2 ("devlink:
+>> rate: Unset parent pointer in devl_rate_nodes_destroy").
+> 
+> repost please, we don't do dependencies
+> 
 
-There's plenty docs of the RST syntax online. Please check and follow them.
+Hi,
 
-> 
-> Thanks again for your feedback.
-> 
-> Best regards,
-> Yujie Zhang
-> 
-> 在 2025/11/22 22:29, Alex Shi 写道:
+I submitted the code before my weekend as we have a gap of ~1.5 working 
+days (timezones + Friday). It could be utilized for collecting feedback 
+on the proposed solution, or even get it accepted.
+
+I referred to a net-* tag from the net branch, part of your regular 
+process, that was about to get merged any minute. Btw it was indeed 
+pulled before this response, so our series would in fact apply cleanly.
+
+Anyway, not a big deal, I'm re-posting the series now.
+
+Regards,
+Tariq
 
