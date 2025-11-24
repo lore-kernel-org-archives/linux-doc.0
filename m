@@ -1,134 +1,288 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E322222D1;
-	Mon, 24 Nov 2025 08:18:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1C11D5154;
+	Mon, 24 Nov 2025 08:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763972297; cv=none; b=Ph/HJm5jjkuJk8lpbNCyfQ+QIErNx50MIBfZmgrM7fpKab8G/HCHTy+mMnKS6MP7ile2dlUDChheKfaICSoqms60ozHkFRqrnIAcoAvNe38L7nPWNsZPzSWu3cDKVKWPfH2h8PkDJoOz0iy539vz7pc5H9rd4JWW/Mop0yNfXFY=
+	t=1763972332; cv=none; b=jOnUyLDKNJSn+Bjl3OEsuv7M6GV9gxNWNMyrLvm6JtQ3v/bBzfxKrRs2RrM39Tnp0zP+Z10CLVIOCXucr0UkBiaDwOqsE11t46GsM9dJoIVt7ZV6DogwgbiTfZZSQpXAPM+2L+M9kaYkhEvMFmP/EnAYzadilnCNlY2LE6PkJYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763972297; c=relaxed/simple;
-	bh=0xzX32DxzyVu4q46oHvMuew7OuDX12pbJhwiUJZPHck=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TTTL0siA1UHoC+QkxKSvRQkEE9Iix29EwbPTL4Y7n0avdP/x2+fKgMGtmEbwLtGEPN+sadTVV0HuVD9nmGAK7fghGg9FT+swU5l+NF9BGJgYOGR9+0eFCGNxZKu6OBWjIme0QOPG93oa49YERGqMewWNROP29SZRRCOOu2Ar7rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=prGmKAvg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763972332; c=relaxed/simple;
+	bh=WYWLQ0T4dkN8ERXG3u9J8ksvyh7k5Zp6ptzavMDxTI0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=alq3DNfgqoaFunODM4aLSNl6NSIQnYVxwCYoM7+6z9pXl9+FR7dscCGoRLf/wL3EpifNuhZNhSQQHR6bUstIxAPzo2ELcPZ62kMgt3qe3T8jZ4l9Bi3euuuY3nHgviEopUmOKz0KckCaGBwvrhw365nt2sjBaDweV7UQhEAfVlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q4nb9B6N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="prGmKAvg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33F87C4CEF1;
-	Mon, 24 Nov 2025 08:18:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q4nb9B6N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A781AC4CEF1;
+	Mon, 24 Nov 2025 08:18:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763972295;
-	bh=0xzX32DxzyVu4q46oHvMuew7OuDX12pbJhwiUJZPHck=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=prGmKAvgqAQl5/fBSHuxx3Mt/udCej20TpROxUOnYsrPoHIpjtZSSpLjfRKhfhudp
-	 8wdty7nWGv7pGo0wpDvQxsOORwTWDJa0Bj2TtmrPQscc8K/UUsJZULFasFCsht6wp1
-	 VIOIMP51RMFMuYUpI+B/8fDhyVPTyj2Y3ADn+YcEUOSOulcJafAuTPUtfDRPT832kp
-	 qMgmHW2K92DNlFrm44zaZdoZ3dUfdO8CPFkKhPPpVJE2RqFIQjjYAVnl2oppqpaTx/
-	 6V1ITMVpOLZZGWWOSJJ8sv2LMM66q2ckdCcf5Cs56+QZzxyrQ5DWfQDqSMzsZ/f89f
-	 njC/aVtplNp5w==
-Date: Mon, 24 Nov 2025 09:18:11 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Carlos Bilbao <carlos.bilbao@kernel.org>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, Miguel
- Ojeda <ojeda@kernel.org>
-Subject: Re: [PATCH 0/1] fix rustdoc build detection
-Message-ID: <20251124091811.47abd0a9@foz.lan>
-In-Reply-To: <CANiq72nhrQsUcxm-1bsBEaGVbRgmAC=mVxrQ+A7TLcVuOer9oQ@mail.gmail.com>
-References: <cover.1763370163.git.mchehab+huawei@kernel.org>
-	<CANiq72=79rhJ5Sh+yp2vRSuSLD=nyR2DuQ26hFeBmyszRC3ALA@mail.gmail.com>
-	<6sczezthaixabzw5lddhemrx2yivfdf65zfvpew7tpzl3gqire@vjx4rpju5wxc>
-	<CANiq72m3deG_QsH8-AskTR9LcNL=G6E9o2fu+oi9RVXn1PK_+Q@mail.gmail.com>
-	<20251117133203.71b97d47@foz.lan>
-	<CANiq72kGvfB2wqAv-d7F9racGoSX+TOmezA=ip-E4ouva-0U=Q@mail.gmail.com>
-	<20251121104057.5aecce59@foz.lan>
-	<CANiq72nhrQsUcxm-1bsBEaGVbRgmAC=mVxrQ+A7TLcVuOer9oQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1763972332;
+	bh=WYWLQ0T4dkN8ERXG3u9J8ksvyh7k5Zp6ptzavMDxTI0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Q4nb9B6NtVz90XW2XdKcz2w3HBHpJZR/aM1ZNR35r4yvDfhHSypM9mzA3W6YfsD/b
+	 CWTbTvQXuj2Ivelvod05bz13F/xMHSMh1eB4TIvqOhmzJgVuCYUbTaBRdIMDu+WsnQ
+	 Hv9hSiSlm6h42pfXMm7526csug76VGAcAJ2QBfe7LaRFocbC8f65jRuQcfxoz+Yj6F
+	 cDXFj8FL/XpKzmWpGWFT8PIva62JL2DAm1+v1Af9C+1qlUdrYFe5xrV3OBFSKfdEFW
+	 kYCoeLF1kbCOnDt1/j3vavEhYmdYkkkz/YxhVQ7NzlE5exG8jkVQg3JaMIns28yd2n
+	 VlYneYz7SNm7w==
+Date: Mon, 24 Nov 2025 10:18:28 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v7 06/22] liveupdate: luo_file: implement file systems
+ callbacks
+Message-ID: <aSQU1LlPDDsN2rUw@kernel.org>
+References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+ <20251122222351.1059049-7-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251122222351.1059049-7-pasha.tatashin@soleen.com>
 
-Em Mon, 24 Nov 2025 02:51:40 +0100
-Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> escreveu:
+On Sat, Nov 22, 2025 at 05:23:33PM -0500, Pasha Tatashin wrote:
+> This patch implements the core mechanism for managing preserved
+> files throughout the live update lifecycle. It provides the logic to
+> invoke the file handler callbacks (preserve, unpreserve, freeze,
+> unfreeze, retrieve, and finish) at the appropriate stages.
+> 
+> During the reboot phase, luo_file_freeze() serializes the final
+> metadata for each file (handler compatible string, token, and data
+> handle) into a memory region preserved by KHO. In the new kernel,
+> luo_file_deserialize() reconstructs the in-memory file list from this
+> data, preparing the session for retrieval.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-> On Fri, Nov 21, 2025 at 10:41=E2=80=AFAM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > I'm not talking about stop using rustdoc. I'm talking about using
-> > it to output on a format that Sphinx can understand, and let Sphinx
-> > do the final output, solving cross-references. =20
->=20
-> By stop using `rustdoc` I meant its "normal" (HTML) output, i.e. the
-> webpage with all its features and so on.
+With some comments below
+Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-I see.
+> ---
+>  include/linux/kho/abi/luo.h      |  39 +-
+>  include/linux/liveupdate.h       |  98 ++++
+>  kernel/liveupdate/Makefile       |   1 +
+>  kernel/liveupdate/luo_file.c     | 882 +++++++++++++++++++++++++++++++
+>  kernel/liveupdate/luo_internal.h |  38 ++
+>  5 files changed, 1057 insertions(+), 1 deletion(-)
+>  create mode 100644 kernel/liveupdate/luo_file.c
+> 
 
-> The JSON support is unstable so far:
->=20
->     https://github.com/rust-lang/rust/issues/76578
+...
 
-=46rom the issue timestamps, it seems that it doesn't have a high
-priority.
+> +int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
+> +{
+> +	struct liveupdate_file_op_args args = {0};
+> +	struct liveupdate_file_handler *fh;
+> +	struct luo_file *luo_file;
+> +	struct file *file;
+> +	int err;
+> +
+> +	if (luo_token_is_used(file_set, token))
+> +		return -EEXIST;
+> +
+> +	file = fget(fd);
+> +	if (!file)
+> +		return -EBADF;
+> +
+> +	err = luo_alloc_files_mem(file_set);
+> +	if (err)
+> +		goto  err_files_mem;
+> +
+> +	if (file_set->count == LUO_FILE_MAX) {
 
-> And even then, I imagine it will always still require a kernel config,
-> so that isn't an advantage either.
+This can be checked before getting the file and allocating memory, can't it?
 
-This doesn't seem to be an issue itself, as a new kernel config is easy=20
-to add.
+> +		err = -ENOSPC;
+> +		goto err_files_mem;
 
-> Thus trying to mimic what `rustdoc` does is probably going to be a lot
-> of work to maintain, to likely get a worse result than what `rustdoc`
-> already does.
+The goto label should say what it does, not what the error was.
 
-Perhaps one solution would be to write a new output plugin to make
-rustdoc produce a better output format that could be easily mapped
-by a Sphinx plugin (like producing an output on an enriched text
-format like Markdown or ReST).
+> +	}
+> +
+> +	err = -ENOENT;
+> +	luo_list_for_each_private(fh, &luo_file_handler_list, list) {
+> +		if (fh->ops->can_preserve(fh, file)) {
+> +			err = 0;
+> +			break;
+> +		}
+> +	}
+> +
+> +	/* err is still -ENOENT if no handler was found */
+> +	if (err)
+> +		goto err_files_mem;
+> +
+> +	luo_file = kzalloc(sizeof(*luo_file), GFP_KERNEL);
+> +	if (!luo_file) {
+> +		err = -ENOMEM;
+> +		goto err_files_mem;
+> +	}
+> +
+> +	luo_file->file = file;
+> +	luo_file->fh = fh;
+> +	luo_file->token = token;
+> +	luo_file->retrieved = false;
+> +	mutex_init(&luo_file->mutex);
+> +
+> +	args.handler = fh;
+> +	args.file = file;
+> +	err = fh->ops->preserve(&args);
+> +	if (err)
+> +		goto err_kfree;
+> +
+> +	luo_file->serialized_data = args.serialized_data;
+> +	list_add_tail(&luo_file->list, &file_set->files_list);
+> +	file_set->count++;
+> +
+> +	return 0;
+> +
+> +err_kfree:
+> +	mutex_destroy(&luo_file->mutex);
 
-I can't evaluate how easy/hard would be to do that, as I'm not
-familiar with Rust toolset.
+Don't think we need this, luo_file is freed in the next line.
 
-> Something that would work without a config could be way more
-> interesting for us to integrate into Sphinx.
+> +	kfree(luo_file);
+> +err_files_mem:
+> +	fput(file);
+> +	luo_free_files_mem(file_set);
 
-At Sphinx side, it won't be hard to pick references from rustdoc.
+I'd have the error path as
 
-At kernel_include extension:
+err_free_luo_file:
+	kfree(luo_file);
+err_free_files_mem:
+	luo_free_files_mem(file_set);
+err_put_file:
+	fput(file);
 
-	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/sphinx/kernel_include.py
+> +
+> +	return err;
+> +}
 
-I added a logic there to detect unsolved cross-references.
+...
 
-Currently, it just warns about unsolved references, but it won't=20
-be hard to modify a similar logic to solve it, pointing to a
-rustdoc reference (if those are stable enough).
+> +void luo_file_unpreserve_files(struct luo_file_set *file_set)
+> +{
+> +	struct luo_file *luo_file;
+> +
+> +	while (!list_empty(&file_set->files_list)) {
 
-Doing the reverse can be trickier, though: internally, Sphinx
-maps them via a C domain. The output plugin (html, pdf, ...)
-is what converts such reference into an html (or pdf) tag.
-Such mapping is version dependent.
+list_for_each_entry_safe_reverse()?
 
-There was a major rewrite at eh C domain on Sphinx 3.0 which
-changed such mapping, but other versions may have changed it as well.
+> +		struct liveupdate_file_op_args args = {0};
+> +
+> +		luo_file = list_last_entry(&file_set->files_list,
+> +					   struct luo_file, list);
+> +
+> +		args.handler = luo_file->fh;
+> +		args.file = luo_file->file;
+> +		args.serialized_data = luo_file->serialized_data;
+> +		luo_file->fh->ops->unpreserve(&args);
+> +
+> +		list_del(&luo_file->list);
+> +		file_set->count--;
+> +
+> +		fput(luo_file->file);
+> +		mutex_destroy(&luo_file->mutex);
+> +		kfree(luo_file);
+> +	}
+> +
+> +	luo_free_files_mem(file_set);
+> +}
 
-Also, there is an open issue that will likely change it once
-fixed:
+...
 
-	https://github.com/sphinx-doc/sphinx/issues/7819
-	https://github.com/sphinx-doc/sphinx/issues/8241
+> +int luo_file_finish(struct luo_file_set *file_set)
+> +{
+> +	struct list_head *files_list = &file_set->files_list;
+> +	struct luo_file *luo_file;
+> +	int err;
+> +
+> +	if (!file_set->count)
+> +		return 0;
+> +
+> +	list_for_each_entry(luo_file, files_list, list) {
+> +		err = luo_file_can_finish_one(file_set, luo_file);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	while (!list_empty(&file_set->files_list)) {
 
-(last one closed as duplicate of #7819)
+list_for_each_entry_safe_reverse()?
 
-So, creating cross-references from rustdoc to Sphinx could
-be tricky and hard to maintain, as it may require some checks
-at rust/rustdoc side to verify Sphinx version.
+> +		luo_file = list_last_entry(&file_set->files_list,
+> +					   struct luo_file, list);
+> +
+> +		luo_file_finish_one(file_set, luo_file);
+> +
+> +		if (luo_file->file)
+> +			fput(luo_file->file);
+> +		list_del(&luo_file->list);
+> +		file_set->count--;
+> +		mutex_destroy(&luo_file->mutex);
+> +		kfree(luo_file);
+> +	}
+> +
 
-Thanks,
-Mauro
+...
+
+> diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+> index 1292ac47eef8..c8973b543d1d 100644
+> --- a/kernel/liveupdate/luo_internal.h
+> +++ b/kernel/liveupdate/luo_internal.h
+> @@ -40,6 +40,28 @@ static inline int luo_ucmd_respond(struct luo_ucmd *ucmd,
+>   */
+>  #define luo_restore_fail(__fmt, ...) panic(__fmt, ##__VA_ARGS__)
+>  
+> +/* Mimics list_for_each_entry() but for private list head entries */
+> +#define luo_list_for_each_private(pos, head, member)				\
+> +	for (struct list_head *__iter = (head)->next;				\
+> +	     __iter != (head) &&						\
+> +	     ({ pos = container_of(__iter, typeof(*(pos)), member); 1; });	\
+> +	     __iter = __iter->next)
+
+Ideally something like this should go to include/linux/list.h, but it can
+be done later to avoid bikeshedding about the name :)
+
+And you can reuse most of list_for_each_entry, just replace the line that
+accesses __private member:
+
+#define luo_list_for_each_private(pos, head, member)			\
+	for (pos = list_first_entry(head, typeof(*pos), member);	\
+	     &ACCESS_PRIVATE(pos, member) != head;			\
+	     pos = list_next_entry(pos, member))
+
+-- 
+Sincerely yours,
+Mike.
