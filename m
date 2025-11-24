@@ -1,300 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16C81D555;
-	Mon, 24 Nov 2025 10:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED444274B32;
+	Mon, 24 Nov 2025 10:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763980401; cv=none; b=s2slUH2fEqDliR/7LN8dZwspI+TuVYdAv++HRIUJiwbmBYJ9DLtxcq3EjJRgE6oN/QX2MXpeXFKGgjd8YcWFrNvcjqJ6kPFwqD2L94whKcomBsDesAhWS99eIoOJQUYLlxjANGCnmi5amtwlCGMdka8vwJokU6tZac96uX+o9bY=
+	t=1763980781; cv=none; b=JTOqH7n2y/+RYfmeNJbz7wkDwcizwhpCGqe3+wYmHdeXrLDHtc9IQZHwuNdEjcygV27YCOe1D4W9ARtrfbhZxSCvqPL1iYroNoj/xomBLqaqe0k3EIDMv/OX5PPadrOapRDJ/z+35CvQrlxflyZCm9stmHZBap7e2blSjXJKsYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763980401; c=relaxed/simple;
-	bh=HNVb1N1/RPjWqxX1WO4WpghVU8NPAOP2ZybpahlmGFI=;
+	s=arc-20240116; t=1763980781; c=relaxed/simple;
+	bh=wG0LtNXrjp+tZ6+DjiOmVw4tWhV/2DPiV64zQMWzD6E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nVtWNv31mWDgtffcGbVAjA11F72mpBKzlCuKSfrwsaYM1+Yp3vaE9sSN1DnVhL8/Rmv+pAtx8+2KMN41EctZEI/4THP1XaNpvi6WaFxmQGW5/c3S1ujWxEI25WovBfCKfqgXT/MrpNENY+QGJexxXUboRiDsnZVLF/1nKxlD9TE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LYgLdkmC; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LbTrkqcqF3JRxH4yuaGMiDgXGWQ/7plYPfcK0yZKJLK1asI2XPK0z+VcLNlYEJwiCnzoAB/gsL1moSAa4xUbAFk/ZRnWHUKYlhaNGnh/u8ALcwRM2cN7mFiS4vbvLk6rhvTTEl2/lrFlEk7h64kWzPp9hMf5yrE6TuVmgu1tTw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=firEdU2g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LYgLdkmC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763980400; x=1795516400;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HNVb1N1/RPjWqxX1WO4WpghVU8NPAOP2ZybpahlmGFI=;
-  b=LYgLdkmCp+C7tgT/NQDNFiJXwYtzm4O3SSBqaMlVfB7uMq9GCwO1X9VS
-   RkTm2ywKb8HayuPjt26fLj7mDtHed5VDP3LX/KH83GSghIyDOkqetvV/A
-   ZLZl6yHgCSKPLayYPrDOCfwTxRG+mJ0YWyprsHegsIrONnMLkB/XK4Xkw
-   IpJJBq5XmG+N8LRdJZK/7fl7yQmvOOnotjfLtnWOaMsu+EsoIFqmVVmmy
-   kIMcBfaHDLi7XO7Zps+4Fg/mHH9axuTOnoaUsZlz1B3JGdJoB5kOTwsE0
-   Q+bBBOP9SyiKU5nqnH8eEE8uAy4dGhXePA1B4LE3PCAb/5CpeEGl7gSCJ
-   g==;
-X-CSE-ConnectionGUID: tHGKGyNkSsaLKR2cdC51JQ==
-X-CSE-MsgGUID: 3V5QjeRVSBG8YpYgGyiDLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="83590567"
-X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="83590567"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:33:19 -0800
-X-CSE-ConnectionGUID: 9WyeEq98S/mqJJOFd4PHPA==
-X-CSE-MsgGUID: MbV6DTrPQrWPF0mx8AuiAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="196468300"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:33:15 -0800
-Date: Mon, 24 Nov 2025 12:33:12 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 7/9] iio: adc: ad4062: Add IIO Events support
-Message-ID: <aSQ0aM2u49qzIZDm@smile.fi.intel.com>
-References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
- <20251124-staging-ad4062-v2-7-a375609afbb7@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="firEdU2g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0016EC4CEF1;
+	Mon, 24 Nov 2025 10:39:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763980780;
+	bh=wG0LtNXrjp+tZ6+DjiOmVw4tWhV/2DPiV64zQMWzD6E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=firEdU2gCtMh4N6YI19W5r3iOxB5sPvAIKExbAF0UKd6W/4+e4/WHnpUVVGhgtWBA
+	 a5pHIpAfdiYTEv1sen/+Y5y19BThHuf5QV7YsTbMjr03yNiePn6xxPFM9rBmFBGO/F
+	 TiEtraXUzP3fH1UnA4jBQAQTFMtojoqtoTg6/MraXPZFWcHy/puTwsedmw3WE0jHV2
+	 mylk4e1h00mN8rZh9xIGkDDB+u8aHBXDegba3zOnzn4UzfAVX9HfqEA2VqqP1N7+9d
+	 IFknDENgch1ihKzPP3CXf7xAiwSA7GPydZqDuHvGrkcGVvyUSstDSkj3J6juuaQQUN
+	 40rHR4ovEobtg==
+Date: Mon, 24 Nov 2025 11:39:37 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+Message-ID: <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="wbm42ghgit2cp5t3"
 Content-Disposition: inline
-In-Reply-To: <20251124-staging-ad4062-v2-7-a375609afbb7@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
 
-On Mon, Nov 24, 2025 at 10:18:06AM +0100, Jorge Marques wrote:
-> Adds support for IIO Events. Optionally, gp0 is assigned as Threshold
-> Either signal, if not present, fallback to an I3C IBI with the same
-> role.
 
-...
+--wbm42ghgit2cp5t3
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+MIME-Version: 1.0
 
-> +static ssize_t ad4062_events_frequency_store(struct device *dev,
-> +					     struct device_attribute *attr,
-> +					     const char *buf, size_t len)
-> +{
-> +	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
-> +	struct ad4062_state *st = iio_priv(indio_dev);
-> +	int val, ret;
-> +
-> +	if (!iio_device_claim_direct(indio_dev))
-> +		return -EBUSY;
-> +	if (st->wait_event) {
-> +		ret = -EBUSY;
-> +		goto out_release;
-> +	}
-> +
-> +	ret = kstrtoint(buf, 10, &val);
-> +	if (ret < 0)
-> +		goto out_release;
-> +
-> +	st->events_frequency = find_closest_descending(val, ad4062_conversion_freqs,
-> +						       ARRAY_SIZE(ad4062_conversion_freqs));
-> +	ret = 0;
-> +
-> +out_release:
-> +	iio_device_release_direct(indio_dev);
-> +	return ret ? ret : len;
-
-	return ret ?: len;
-
-> +}
-
-...
-
-> +static IIO_DEVICE_ATTR(sampling_frequency, 0644, ad4062_events_frequency_show,
-> +		       ad4062_events_frequency_store, 0);
-
-IIO_DEVICE_ATTR_RW()
-
-...
-
->  {
->  	struct ad4062_state *st = i3cdev_get_drvdata(i3cdev);
->  
-> -	if (iio_buffer_enabled(st->indio_dev))
-> -		iio_trigger_poll_nested(st->trigger);
-> -	else
-> -		complete(&st->completion);
-> +	if (st->wait_event) {
-> +		iio_push_event(st->indio_dev,
-> +			       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE, 0,
-> +						    IIO_EV_TYPE_THRESH,
-> +						    IIO_EV_DIR_EITHER),
-> +			       iio_get_time_ns(st->indio_dev));
-> +	} else {
-> +		if (iio_buffer_enabled(st->indio_dev))
-> +			iio_trigger_poll_nested(st->trigger);
-> +		else
-> +			complete(&st->completion);
-> +	}
-
-Less ping-pong:ish if you simply add a new code.
-
-	if (st->wait_event) {
-		iio_push_event(st->indio_dev,
-			       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE, 0,
-						    IIO_EV_TYPE_THRESH,
-						    IIO_EV_DIR_EITHER),
-			       iio_get_time_ns(st->indio_dev));
-
-		return;
-	}
-
+On Wed, Nov 19, 2025 at 02:05:37PM +0100, Luca Ceresoli wrote:
+> Several drivers (about 20) follow the same pattern:
+>=20
+>  1. get a pointer to a bridge (typically the next bridge in the chain) by
+>     calling of_drm_find_bridge()
+>  2. store the returned pointer in the private driver data, keep it until
+>     driver .remove
+>  3. dereference the pointer at attach time and possibly at other times
+>=20
+> of_drm_find_bridge() is now deprecated because it does not increment the
+> refcount and should be replaced with drm_of_find_bridge() +
+> drm_bridge_put().
+>=20
+> However some of those drivers have a complex code flow and adding a
+> drm_bridge_put() call in all the appropriate locations is error-prone,
+> leads to ugly and more complex code, and can lead to errors over time with
+> code flow changes.
+>=20
+> To handle all those drivers in a straightforward way, add a devm variant =
+of
+> drm_of_find_bridge() that adds a devm action to invoke drm_bridge_put()
+> when the said driver is removed. This allows all those drivers to put the
+> reference automatically and safely with a one line change:
+>=20
+>   - priv->next_bridge =3D of_drm_find_bridge(remote_np);
+>   + priv->next_bridge =3D devm_drm_of_find_bridge(dev, remote_np);
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
+>  include/drm/drm_bridge.h     |  5 +++++
+>  2 files changed, 35 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 09ad825f9cb8..c7baafbe5695 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -1446,6 +1446,36 @@ struct drm_bridge *drm_of_find_bridge(struct devic=
+e_node *np)
 >  }
-
-...
-
-> +static int ad4062_monitor_mode_enable(struct ad4062_state *st, bool enable)
+>  EXPORT_SYMBOL(drm_of_find_bridge);
+> =20
+> +/**
+> + * devm_drm_of_find_bridge - find the bridge corresponding to the device
+> + *			     node in the global bridge list and add a devm
+> + *			     action to put it
+> + *
+> + * @dev: device requesting the bridge
+> + * @np: device node
+> + *
+> + * On success the returned bridge refcount is incremented, and a devm
+> + * action is added to call drm_bridge_put() when @dev is removed. So the
+> + * caller does not have to put the returned bridge explicitly.
+> + *
+> + * RETURNS:
+> + * drm_bridge control struct on success, NULL on failure
+> + */
+> +struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct de=
+vice_node *np)
 > +{
-> +	int ret = 0;
-
-Unneeded assignment.
-
-> +	if (!enable) {
-> +		pm_runtime_put_autosuspend(&st->i3cdev->dev);
-> +		return 0;
-> +	}
-
-Just split to two functions and drop parameter 'enable',
-
-> +	ACQUIRE(pm_runtime_active_try_enabled, pm)(&st->i3cdev->dev);
-> +	ret = ACQUIRE_ERR(pm_runtime_active_try_enabled, &pm);
-> +	if (ret)
-> +		return ret;
+> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
 > +
-> +	ret = ad4062_conversion_frequency_set(st, st->events_frequency);
-> +	if (ret)
-> +		return ret;
+> +	if (bridge) {
+> +		int err =3D devm_add_action_or_reset(dev, drm_bridge_put_void, bridge);
 > +
-> +	ret = ad4062_set_operation_mode(st, AD4062_MONITOR_MODE);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pm_runtime_get_noresume(&st->i3cdev->dev);
-> +	return 0;
-> +}
-
-...
-
-> +static int ad4062_write_event_config(struct iio_dev *indio_dev,
-> +				     const struct iio_chan_spec *chan,
-> +				     enum iio_event_type type,
-> +				     enum iio_event_direction dir,
-> +				     bool state)
-> +{
-> +	struct ad4062_state *st = iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	if (!iio_device_claim_direct(indio_dev))
-> +		return -EBUSY;
-> +	if (st->wait_event == state) {
-> +		ret = 0;
-> +		goto out_release;
+> +		if (err)
+> +			return ERR_PTR(err);
 > +	}
 > +
-> +	ret = ad4062_monitor_mode_enable(st, state);
-> +	if (!ret)
-> +		st->wait_event = state;
-
-Please use regular patter to check for errors first.
-
-	if (st->wait_event == state)
-		ret = 0;
-	else
-		ret = ad4062_monitor_mode_enable(st, state);
-	if (ret)
-		goto out_release;
-
-	st->wait_event = state;
-
-Always think about readability first and then about size of the source code.
-
-> +out_release:
-> +	iio_device_release_direct(indio_dev);
-> +	return ret;
+> +	return bridge;
 > +}
+> +EXPORT_SYMBOL(devm_drm_of_find_bridge);
 
-...
+That's inherently unsafe though, because even if the bridge is removed
+other parts of DRM might still have a reference to it and could call
+into it.
 
-> +static int ad4062_read_event_value(struct iio_dev *indio_dev,
-> +				   const struct iio_chan_spec *chan,
-> +				   enum iio_event_type type,
-> +				   enum iio_event_direction dir,
-> +				   enum iio_event_info info, int *val,
-> +				   int *val2)
-> +{
-> +	struct ad4062_state *st = iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	if (!iio_device_claim_direct(indio_dev))
-> +		return -EBUSY;
-> +	if (st->wait_event) {
-> +		ret = -EBUSY;
-> +		goto out_release;
-> +	}
-> +
-> +	switch (info) {
-> +	case IIO_EV_INFO_VALUE:
-> +		ret = __ad4062_read_event_info_value(st, dir, val);
-> +		break;
-> +	case IIO_EV_INFO_HYSTERESIS:
-> +		ret = __ad4062_read_event_info_hysteresis(st, dir, val);
-> +		break;
-> +	default:
-> +		ret = -EINVAL;
-> +		break;
-> +	}
-> +
-> +out_release:
-> +	iio_device_release_direct(indio_dev);
-> +	return ret ? ret : IIO_VAL_INT;
+We'd then have dropped our reference to the next bridge, which could
+have been freed, and it's a use-after-free.
 
-	return ret ?: IIO_VAL_INT;
+It's more complicated than it sounds, because we only have access to the
+drm_device when the bridge is attached, so later than probe.
 
-> +}
+I wonder if we shouldn't tie the lifetime of that reference to the
+lifetime of the bridge itself, and we would give up the next_bridge
+reference only when we're destroyed ourselves.
 
-...
+Storing a list of all the references we need to drop is going to be
+intrusive though, so maybe the easiest way to do it would be to create a
+next_bridge field in drm_bridge, and only drop the reference stored
+there?
 
-> +static int __ad4062_write_event_info_value(struct ad4062_state *st,
-> +					   enum iio_event_direction dir, int val)
-> +{
-> +	u8 reg;
-> +
-> +	if (val > 2047 || val < -2048)
-> +		return -EINVAL;
+And possibly tie the whole thing together using a helper?
 
-There was already magic '11', perhaps define it and use there and here?
+Anyway, I'm not sure it should be a prerequisite to this series. I we do
+want to go the devm_drm_of_find_bridge route however, we should at least
+document that it's unsafe, and add a TODO entry to clean up the mess
+later on.
 
-#define x11	11 // needs a good name
+Maxime
 
-	if (val > BIT(x11) || val < -BIT(x11))
+--wbm42ghgit2cp5t3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +	if (dir == IIO_EV_DIR_RISING)
-> +		reg = AD4062_REG_MAX_LIMIT;
-> +	else
-> +		reg = AD4062_REG_MIN_LIMIT;
-> +	put_unaligned_be16(val, st->buf.bytes);
-> +
-> +	return regmap_bulk_write(st->regmap, reg, &st->buf.be16,
-> +				 sizeof(st->buf.be16));
-> +}
+-----BEGIN PGP SIGNATURE-----
 
--- 
-With Best Regards,
-Andy Shevchenko
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSQ16QAKCRAnX84Zoj2+
+drTLAX0QBwwX78SPwaYEqj6Om+7ADsxYhVrgX1HoD1xpc0ILj+Ur57K6wtKDIc5l
+JWSP6zkBgJA2DSWw4vHzHhFRbZQ+eGEUkynilMkrpEr/EsrHbAzT3gfgz8IOyhGR
+Vs8tk3i2Uw==
+=/E1G
+-----END PGP SIGNATURE-----
 
-
+--wbm42ghgit2cp5t3--
