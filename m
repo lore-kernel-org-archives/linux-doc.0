@@ -1,24 +1,24 @@
-Received: from mail-m49207.qiye.163.com (mail-m49207.qiye.163.com [45.254.49.207])
+Received: from mail-m49219.qiye.163.com (mail-m49219.qiye.163.com [45.254.49.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE804305E27
-	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 13:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3352307490
+	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 13:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763991240; cv=none; b=YfripUYIbn7dVZ5wIK+cXv9sWbFRpLFMYlbJoNJMgsCUXrweBmzw4BXy/OuP1e+qIU3aupVsn7YdyQTgVHDmyvZn+8kLoDiHe17S6458uiURgkTN41J41cfojCUH/tugF726bL2R3v118Ro3nYCroxkH6HJqudZWndYok7yobEg=
+	t=1763991245; cv=none; b=IvN//e0BiAEaaxGVKtRomlAmbHWWVMBonyj7IotA5rsXB+9IaFuQZ7C1ttEn55Xv8I9BydC6hjuVF4KTtDpbop6UuQ4wwWLOST2c5bdPBE5SrjPuoTdKtcs+0QjruzIC6olRaXrkWJ3eHmJx4FdqPAQ4QfQH8g/CL/zdKFfLVFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763991240; c=relaxed/simple;
-	bh=DLPOFwD19uOUQlGGnpJBVkJZ4OcqaAvve9hbxCbQ7ko=;
+	s=arc-20240116; t=1763991245; c=relaxed/simple;
+	bh=WheXOLFqqX7z6YtbXQuO4R7bW7AEymOGFVPNr2JYMkU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dk59/OZVGZvUM5qxjwgwW7KANKMnLhomCcjrjwZYnU8U5zrNRdzJglhwXWVKTNF6aculxxpXsLujDlz1b1yVKX+20H6WBHKK4tXozcRzpLv2FzYKwH22KQWMezamhxmqNuJPOS35AFYjJkgr7wXKZaI4krnDoI8Ut4hDucE5nwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=qkqxXYI6; arc=none smtp.client-ip=45.254.49.207
+	 MIME-Version:Content-Type; b=l3/tU5XqEW22Tz8jEubqWXfIN8IwNpDXF4P+Uc3wpBnUnEq2dSBZAmV8v8gXY88XgBB0d8kav1eCJqzhFZb7a7zfxrZC1iFkBgh3qVQu9v6NA1vb/attvP0SGzLYOZnae58UkGbZvdOkJli896WKYQcoDjNlHnlBn8XRNQ20kyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=ht3Ew0Ue; arc=none smtp.client-ip=45.254.49.219
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="qkqxXYI6"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="ht3Ew0Ue"
 Received: from server001 (unknown [222.130.22.244])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2ab2e035b;
-	Mon, 24 Nov 2025 21:33:43 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2ab2e0362;
+	Mon, 24 Nov 2025 21:33:48 +0800 (GMT+08:00)
 From: Kefan Bai <baikefan@leap-io-kernel.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
@@ -26,9 +26,9 @@ Cc: dzm91@hust.edu.cn,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org,
 	doubled@leap-io-kernel.com
-Subject: [PATCH v3 2/8] docs/zh_CN: Add acm.rst translation
-Date: Mon, 24 Nov 2025 21:34:06 +0800
-Message-ID: <17f3f62c3dc75f0260d2965df3cc39179f601f5c.1763984424.git.baikefan@leap-io-kernel.com>
+Subject: [PATCH v3 5/8] docs/zh_CN: Add dwc3.rst translation
+Date: Mon, 24 Nov 2025 21:34:09 +0800
+Message-ID: <5861f056f92d04534f0ac4a30a90a744e7592694.1763984424.git.baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1763984424.git.baikefan@leap-io-kernel.com>
 References: <cover.1763984424.git.baikefan@leap-io-kernel.com>
@@ -40,39 +40,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ab611fbcc09d5kunme2b32dc6369cc3
+X-HM-Tid: 0a9ab612121809d5kunme2b32dc6369cd8
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCSxgfVhpKH0wfSEtMGRlDT1YVFAkWGhdVEwETFh
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGk0fVk9NGRpKTExNS0geTVYVFAkWGhdVEwETFh
 	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MTlVKS0
 	tVSkJLS1kG
 DKIM-Signature: a=rsa-sha256;
-	b=qkqxXYI6UkK70PBhVDMZda312qoV/EN9ECZ69LLPcxtjADinkkzVTjL3jUNkKDoDZ1fnxae5uCd4cQ1MlD6bXk+1VU5+EVqEPw6tlCKsOaDaKHJi22V0arh5SoiNx0WKq1CIis7sYemOdZIW3yZkxBziosBaiZjNsESYMupCDS0TLAQNRWAUaT9/SHnY3GiVcSaM0tOkRvdxGH/qq21ZNg/WY7NBW+T4ilxOimjSjYx/0SAb8VfNd6J5N4kaAbOqI+p0GyzJszchnwf9G3lOKQAxJLXV0LUyphFeMkrgaBjZin0FWcs+EJn6QX5F4dX7oZjwOMge9bkEUDx1fg1o7g==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=+nj9xuSswEy6aEGom6ayF85GinToq2/Bazf5fmTL7Ps=;
+	b=ht3Ew0UeLfyozKlC6SuiqzRVp8XBSY/QGg/qpmVx10NpWhLxXxsCiXhMoh0/fFnyYmsS0K6oY2P4g7s0cInj+IF19z+ymNOl3k6TZZ/Xa5hhz4OLJ7anXAPy1sQ/QNxw/gvCHhpFN5GbgR8pKRS0hBI3h4vmULDIsGIhXyzZlkJZIiVCsm9zRitzeMCXE4n0I2MqbpzjUN1ZJpwqtVSK7xC/liGeb3MrPHizabMrtB17zFgQr6RaHbyWdDlplyAdiSZAun0atOni2wLKYGZ6om0mBHmaXVLFH2fzKYuw1MbGXXstKt0O+lamavbPn6Gj/nn7kAv4x99DwvKXypnmlg==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=n9qXxpaUuEdtmS+BQ29jkzcCuHC/iC547r+912xGp5E=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/acm.rst into Chinese
+Translate .../usb/dwc3.rst into Chinese
 
 Update the translation through commit ecefae6db042
 ("docs: usb: rename files to .rst and add them to drivers-api")
 
 Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
 ---
- Documentation/translations/zh_CN/usb/acm.rst | 137 +++++++++++++++++++
- 1 file changed, 137 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
+ Documentation/translations/zh_CN/usb/dwc3.rst | 60 +++++++++++++++++++
+ 1 file changed, 60 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/dwc3.rst
 
-diff --git a/Documentation/translations/zh_CN/usb/acm.rst b/Documentation/translations/zh_CN/usb/acm.rst
+diff --git a/Documentation/translations/zh_CN/usb/dwc3.rst b/Documentation/translations/zh_CN/usb/dwc3.rst
 new file mode 100644
-index 000000000000..62299f62f947
+index 000000000000..700aee545559
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/acm.rst
-@@ -0,0 +1,137 @@
++++ b/Documentation/translations/zh_CN/usb/dwc3.rst
+@@ -0,0 +1,60 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/acm.rst
-+
++:Original: Documentation/usb/dwc3.rst
 +:翻译:
 +
 + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
@@ -80,131 +79,55 @@ index 000000000000..62299f62f947
 +:校译:
 +
 +
-+======================
-+Linux ACM驱动 v0.16
-+======================
 +
-+版权所有(c) 1999 Vojtech Pavlik <vojtech@suse.cz>
++==========
++DWC3 驱动
++==========
 +
-+由SuSE赞助
 +
-+0. 免责声明
-+~~~~~~~~~~~~~
-+本程序是自由软件；您可以使用自由软件基金会发布的第2版GNU通用公共许可证，
-+或由您选择任何更高版本的许可证，对本程序进行再发布和/或修改。
++待完成
++~~~~~~
 +
-+我们希望本程序有用，但不提供任何担保；甚至不包含对适销性或适用于特定目的的默示性担保。
-+更多细节请参阅GNU通用公共许可证。
++在你阅读时可以随便挑点儿东西做 :)
 +
-+您应该已经随本程序收到GNU通用公共许可证副本；
-+如果没有，请写信至：Free Software Foundation, Inc., 59
-+Temple Place, Suite 330, Boston, MA 02111-1307 USA。
++- 将中断处理程序转换为基于每端点线程的IRQ
 +
-+如需联系作者，可通过电子邮件发送消息至 vojtech@suse.cz，
-+或通过纸质邮件寄至：
-+Vojtech Pavlik, Ucitelska 1576, Prague 8, 182 00, Czech Republic。
++  事实证明，一些DWC3命令大约需要~1ms才能完成。
++  当前代码会一直自旋等待命令完成，这是不好的设计。
 +
-+为方便起见，本软件包中已包含GNU通用公共许可证第2版：参见文件COPYING。
++  实现思路：
 +
-+1. 使用方法
-+~~~~~~~~~~~~~
-+drivers/usb/class/cdc-acm.c驱动可用于USB调制解调器和USB ISDN终端适配器，
-+这些设备符合USB通用串行总线通信设备类（Universal Serial Bus
-+Communication Device Class）的抽象控制模型（Abstract Control Model，
-+USB CDC ACM）规范。
++  - DWC core实现了一个用于按端点解复用中断的IRQ控制器。中断号在
++    probe阶段分配，并归属于该设备。如果硬件通过MSI为每个端点
++    提供独立的中断，那么这个虚拟的IRQ控制器就可以被硬件真实的端点
++    中断所取代。
 +
-+许多调制解调器支持此驱动，以下是我所知道的一些型号：
++  - 在调用usb_ep_enable()时会申请和分配中断资源，
++    在调用usb_ep_disable()时会释放中断资源。
++    最差的情况是32个中断，最少为ep0/1的两个中断。
++  - dwc3_send_gadget_ep_cmd()将在wait_for_completion_timeout()中休眠到命令完成。
++  - 中断处理程序分为以下几个部分：
 +
-+	- 3Com OfficeConnect 56k
-+	- 3Com Voice FaxModem Pro
-+	- 3Com Sportster
-+	- MultiTech MultiModem 56k
-+	- Zoom 2986L FaxModem
-+	- Compaq 56k FaxModem
-+	- ELSA Microlink 56k
++    - 设备的中断处理主程序
++      遍历每个事件，对其调用generic_handle_irq()。
++      在generic_handle_irq()返回后，确认事件计数器，最终完成中断处理。
 +
-+我知道有一款ISDN终端适配器可以与ACM驱动一起使用：
++    - 设备的中断处理线程
++      无
 +
-+	- 3Com USR ISDN Pro TA
++    - EP中断的处理主程序
++      读取事件并尝试处理它。所有需要休眠的操作都交给线程处理。
++      事件保存在每个端点的数据结构中。
++      需要注意：一旦把事件交给线程去处理，就要注意不要自己再去处理它，
++      否则可能会导致低优先级的事件先于高优先级事件被处理。
 +
-+一些手机也可以通过USB连接。我知道以下机型可以正常工作：
++    - EP中断的处理线程
++      处理剩余的EP工作，这些工作可能会导致休眠，例如等待命令完成。
 +
-+	- SonyEricsson K800i
++  延迟:
 +
-+不幸的是，许多调制解调器以及大多数ISDN终端适配器使用专有接口，
-+因此无法与此驱动兼容。购买前请确认设备是否符合ACM规范。
-+
-+要使用调制解调器，您需要加载以下模块：
-+
-+	usbcore.ko
-+	uhci-hcd.ko ohci-hcd.ko or ehci-hcd.ko
-+	cdc-acm.ko
-+
-+之后，调制解调器应该可以正常访问。
-+你应该能够使用minicom、ppp和mgetty与它们进行通信。
-+
-+2. 验证驱动是否正常工作
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+第一步是检查/sys/kernel/debug/usb/devices，其内容应该和下面这些类似::
-+
-+  T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=12  MxCh= 2
-+  B:  Alloc=  0/900 us ( 0%), #Int=  0, #Iso=  0
-+  D:  Ver= 1.00 Cls=09(hub  ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
-+  P:  Vendor=0000 ProdID=0000 Rev= 0.00
-+  S:  Product=USB UHCI Root Hub
-+  S:  SerialNumber=6800
-+  C:* #Ifs= 1 Cfg#= 1 Atr=40 MxPwr=  0mA
-+  I:  If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
-+  E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=255ms
-+  T:  Bus=01 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  2 Spd=12  MxCh= 0
-+  D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
-+  P:  Vendor=04c1 ProdID=008f Rev= 2.07
-+  S:  Manufacturer=3Com Inc.
-+  S:  Product=3Com U.S. Robotics Pro ISDN TA
-+  S:  SerialNumber=UFT53A49BVT7
-+  C:  #Ifs= 1 Cfg#= 1 Atr=60 MxPwr=  0mA
-+  I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=acm
-+  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-+  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-+  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
-+  C:* #Ifs= 2 Cfg#= 2 Atr=60 MxPwr=  0mA
-+  I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
-+  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
-+  I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
-+  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-+  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-+
-+其中以下三行（以及 Cls= 'comm' 和 'data' 类）非常重要，它们表示这是一个ACM设备。
-+Driver=acm表示acm驱动正在处理该设备。
-+如果只看到Cls=ff(vend.)，那么很不幸，这是一个厂商自定义接口设备::
-+
-+    D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
-+    I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
-+    I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
-+
-+在系统日志中你应该看到::
-+
-+  usb.c: USB new device connect, assigned device number 2
-+  usb.c: kmalloc IF c7691fa0, numif 1
-+  usb.c: kmalloc IF c7b5f3e0, numif 2
-+  usb.c: skipped 4 class/vendor specific interface descriptors
-+  usb.c: new device strings: Mfr=1, Product=2, SerialNumber=3
-+  usb.c: USB device number 2 default language ID 0x409
-+  Manufacturer: 3Com Inc.
-+  Product: 3Com U.S. Robotics Pro ISDN TA
-+  SerialNumber: UFT53A49BVT7
-+  acm.c: probing config 1
-+  acm.c: probing config 2
-+  ttyACM0: USB ACM device
-+  acm.c: acm_control_msg: rq: 0x22 val: 0x0 len: 0x0 result: 0
-+  acm.c: acm_control_msg: rq: 0x20 val: 0x0 len: 0x7 result: 7
-+  usb.c: acm driver claimed interface c7b5f3e0
-+  usb.c: acm driver claimed interface c7b5f3f8
-+  usb.c: acm driver claimed interface c7691fa0
-+
-+如果以上都正常，请启动minicom，将其设置为连接ttyACM设备，然后输入'at'。
-+如果响应 "OK"，则说明一切工作正常。
++   不应该增加延迟，因为中断线程具有较高优先级，会在用户空间普通任务之前运行
++   （除非用户更改了调度优先级）。
 --
 2.52.0
 
