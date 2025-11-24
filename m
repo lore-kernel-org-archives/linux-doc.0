@@ -1,68 +1,68 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF7C3770B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA483EA8D
 	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 00:23:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763943809; cv=none; b=cUTemmDqAbpivEgTGRtsst6R3bUiKJvVSNk4c33KQKg/UT+6dJkHKduhi2jU/CDsCNXoxDbtdYNjvkT4RhfwJtUh6DCRQNCTHdvemCbuFkFvTFRBGDpbewHjOlkOECgS5jARd+uMjnfyW+S6YruKxyUgXPbkvWzahpUfI1l1q8U=
+	t=1763943809; cv=none; b=NQ7Phujf/Kz/EBVs1AmmQ27TULsBDHs0GWE86adb3vUm7g01KdwSCQzzLCWdHUcHfzj54KKDxc1ITBWXsUZL3X5GQx4SovQgig/5Ta33rEzc95ufaoRmKJmR7qBRJpxYzypJVuy27BKUU/zHIjAqwq5WJoZmF1yLWP525mX+FTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763943809; c=relaxed/simple;
-	bh=UBNCi+JwEpdLbNq63Kw6zv29wcmJRW5azpG7favyCqE=;
+	bh=sTkBdKF2Bl395/5OqRTBusVdJ6qB+Rw9uaO1n0TJDaU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m+5AgMXNr/k4o4pTguhkMGk63J4u6UPEvkcnuJ3h8lG/cqvzxVWE1cloNVVKoMrliM+Egg0h0WfQw2lbKk9+7jUAWjxcDH0kcG/2C5vpiuk8CNK7/GH4Ck4mJDt/Y93Q5n9AVNASJXWGkBq7rcCiJjLPGt5zIcMeVXaJSPEPpkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JmOATdSM; arc=none smtp.client-ip=209.85.167.43
+	 In-Reply-To:To:Cc; b=KLzEa8aWdOE9cUuTKKq/pRK/K6H0942IVvceSybUAPNJ/zakZ8pFU1AMRe1oFxS93r8f+JAAQ6nSUJvqt9sY+PMejetY2LaGPmm6fnb+7FTC/q4ikdITKFppoImshn1MF7WFK0ytlBd0opB5ox4g9CuXo+OMoTvjTdPBuvSGd04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MxJ4OgUv; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JmOATdSM"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59447ca49afso2428898e87.1
-        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 16:23:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MxJ4OgUv"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5959187c5a9so2888111e87.1
+        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 16:23:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763943805; x=1764548605; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763943806; x=1764548606; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VmO7WeRHELfWemd3T0oTKOnUWLtTpQSTMpH/BoQx1+w=;
-        b=JmOATdSMd3cUQbpCBWUvrGF/jQVdat7ESe9LZJJEnoNMfUagl9BljHbkuVZ1DpnD0B
-         tNwk23b6nQfrEiwQ9teeS/OV+NOrFrdYiWiqyUNPZV3osvUDJcBWhTw1qWqslWFcaZEK
-         P0uJ7UEpKT/OO6XDK8rbYLthyZ2FxAl/RZGoS7KUnhAzchJePg/bIy0sfuqiXLwAfSRS
-         gWNlAi34tisJGVv3fjLWppPgPCryROKB7C4VhOq1nRWtDSODW7RSwiuiwIWhWzFe7XG3
-         ZsVcIYQWeeQde2qnZct7TFdazG8o9EEIhbw3YQR3SQoThlgFh5O2M2NG9DdJGBIIBH2J
-         hfEQ==
+        bh=2GKE54eSllGJNXgg9hY2liAKdUIlhKXmX5Ag1NTay1Y=;
+        b=MxJ4OgUv1qC201EOX+3Aj/psHUa96b89BKpFq3WoQDRGW3KqnaU3M/9nxOgIcoJUIi
+         InigXf27PljNPhwGlp91tJ+6Z/YHuGwZJha04wGqNLJFeye8VRr2Z0/LRLv5BxzDkRXQ
+         /EjxmpXEW/96qe0nu3Idg9GKOn4yPBTB7HgAYG1epoGkuaLcWYmI515aXhfpE/kravM0
+         ziY+2bz4eqEiecV5H4dAgZgSx4jAKJ680FU5DTF3LAUYs8/V1vOaZHQ4gwu+UUnW2ej4
+         WKJ1ef1sTZfnEcaxpRmtrqj8TdKzNN0J+bzC3N1i8E4VKzX4t2IJYjvcwQKVOlrmEkYo
+         TUyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763943805; x=1764548605;
+        d=1e100.net; s=20230601; t=1763943806; x=1764548606;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=VmO7WeRHELfWemd3T0oTKOnUWLtTpQSTMpH/BoQx1+w=;
-        b=Jn/g5ySYaheWNt4lJjNiTZ+Ln6jHKJ2OI3ibj/i358xZsGPq+kG8mdP4QI8QNEKeB0
-         KPZiHfKEtQSSE456/OXj/jduPE8hNQFnIpWZ8fB5/cAYFh2Gyx4aTBDzOwwSkhKLr23/
-         iNxQgg5rzRWBll3yo6+oRqDXMRCAGiMrgPSGbMsUg/hSa/skaXu7lKSigEAUIJwXz3/s
-         8KR/edRqFSIHnuFdTEPen7H0W9BkHdHjy85bgu9thExbPZwbw0BEhXFx0EE0K231CqRg
-         CgNEsbm1H5CCRERjGFnSuA2sMDY1x7JfcdOeS8O5YzR+xvfURjhe4dDP3n9aHDiKWTTs
-         AaEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXD69+6vZP+rY0FseGWX6YQCjwtdVh/fAcvGlquaaKAVNr1IDK440IOLA7TwnmQray1lS+/GXZAM/w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/Hw/u2SJP3PqKfIDC2LFoeVCbw/wwVeBMgvALt/UtJsInZU7a
-	pFWhw/rOuk+X0P7glK7UCtPQNZABBE2PK85iNhwUz74MQjGLJVX5/z7u
-X-Gm-Gg: ASbGncvkBnSPy3JvSVx2MAuWyekHKqE+dIkvGb+VpF4sVbTe6v/yeREygEjp5G/SUrA
-	tBOjQ6DfGi/HKUQtvgvuwe04yhxONwRvW1huzpf+F4GsyPNsHgHQFaGZvSBEmN415lVY628APtq
-	F9VBQsF8xzry2aqHPYmk+SOExiYu2oI0jTZxwusoQ8EnZ1c0dUrG8oKF6/TSC2N/L8sGBXdPrai
-	G2qOc0MwUORzU5czrfNGqZYtrImvqLwRTQgjJ06tQ+YtACZghBlNcvvFBChQtG+hEKhjbro/7PS
-	RF3/FDpCbRUtvNz6RMp3X/OmXGTELYejffolfHCwSfnC7LopJQn1gum1v8NiMjs2GoMb4AVYsld
-	tEdpCXlDzEYvIFIq3gAObRFGrprZ1to+zHeu2Rc1r+xRdD380MpfNFIpeOfrSXQ/n1RmZhw==
-X-Google-Smtp-Source: AGHT+IF4aoVvhwlxQOs8/bE5W87pZdLvSLg96T0R9i+b0fAYQSrBsEEdwuQJf/Z42sWlhlDPankRDg==
-X-Received: by 2002:a05:6512:3b29:b0:571:8fad:ecee with SMTP id 2adb3069b0e04-596a3eb3235mr3529623e87.21.1763943804905;
-        Sun, 23 Nov 2025 16:23:24 -0800 (PST)
+        bh=2GKE54eSllGJNXgg9hY2liAKdUIlhKXmX5Ag1NTay1Y=;
+        b=xB+zMac633/2XZQt0mR2K6AiCjuqVSmxhKhrnF+94CHHFW5WSziIw9IhCUZ1D7qbC3
+         vnfW8lcDvWTumi3rVOtElWF9amPDYNMVeK2OJOZkhLEnsI61AVOMJWdSKBMltgonoRb7
+         GX8i3VYmvcaXZEXKgPVvoKW+9cKYBFlE3ditszshiBhDM7wg+A9l+eoRHuhURLinIvfu
+         bqkj57aChK6AjHY6po/Uc2aKKhnIrT66nWCO3BlxJ6NCQKxwqTsJj7dLW5Ks1IWsi5/N
+         cpruv7XzU4h0JMsfVszgz5FS0x0eigKYfLuMP7aBtkAE4UIvEb6/2VZoEqtUikrRMyJo
+         2SvA==
+X-Forwarded-Encrypted: i=1; AJvYcCUb1/xVG6SpR1RAr1vgXSJPYRyvFqTU9jwFIjq4pyRTEhhhmoGzOqj0UibVDkLfVpNpEzRCgbKX96E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywosz5Zp9s/NEPIZ+fgkv7/tUi8hp0EtQ2kg8rheJztFwfsgP/d
+	/N6gSso/6g2J8vR9E6pjOH+ia6EGYt731CLStyer3vb/Ble34ibnXYWG
+X-Gm-Gg: ASbGnctaMwOIPn7o6KcwuatDNM/EpQ9Hg4cpS4mYqV0prtcAaLgvTZ28F9rMZoADJJM
+	3zxTCt5g5NTdFNlOAzCjSwxJbjv8YCzppdzAMRV28DGjwE84BKtqTt5QgVbSLEtTXiCFxmjjwZM
+	2qvCGytn6kwp78crnXZtdrSQc5puQuXQDvcDV8NoOILiZOar+i6wfhAW4NXRK+IcnclaMUYFajN
+	kHr3N+91eGx/u0pi8T42edkf6iRlXHRbb7Zaq6viF/Y9zQrBolYkgH7r8/BZVF/JohiPsUukHAe
+	2iWOTfl4bEGkRiXsmrD5FEvaUz4lcPg3rsEcpVlPOwK+5+Q/zhr2GlPuGd9tubme7beZxZ+75Pe
+	+uxSnzpF22/d7OqAHoZR5eWm41gdh/2oZtAnvyn7uCDAcNI8fcaBqfIC8rJLG5+Fv6mHQ6A==
+X-Google-Smtp-Source: AGHT+IEWwT4/ncaiOLuV73qylxP6v1jd62XgFGSBRwTlD52FtVaOl9gnPmEY64M2GGXzMxQbpMXxnA==
+X-Received: by 2002:a05:6512:3188:b0:595:7e9c:cdfa with SMTP id 2adb3069b0e04-596a3eb5e25mr3770473e87.6.1763943805776;
+        Sun, 23 Nov 2025 16:23:25 -0800 (PST)
 Received: from minun.felixc.at ([2a01:4f9:6b:1cc4::2])
-        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-5969dbd095dsm3708266e87.97.2025.11.23.16.23.23
+        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-5969dbd095dsm3708266e87.97.2025.11.23.16.23.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Nov 2025 16:23:24 -0800 (PST)
+        Sun, 23 Nov 2025 16:23:25 -0800 (PST)
 From: Asuna Yang <spriteovo@gmail.com>
 X-Google-Original-From: Asuna Yang <SpriteOvO@gmail.com>
-Date: Mon, 24 Nov 2025 01:23:21 +0100
-Subject: [PATCH v4 1/4] rust: export BINDGEN_TARGET from a separate
- Makefile
+Date: Mon, 24 Nov 2025 01:23:22 +0100
+Subject: [PATCH v4 2/4] rust: generate a fatal error if BINDGEN_TARGET is
+ undefined
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251124-gcc-rust-v4-v4-1-4e06e07421ae@gmail.com>
+Message-Id: <20251124-gcc-rust-v4-v4-2-4e06e07421ae@gmail.com>
 References: <20251124-gcc-rust-v4-v4-0-4e06e07421ae@gmail.com>
 In-Reply-To: <20251124-gcc-rust-v4-v4-0-4e06e07421ae@gmail.com>
 To: Nathan Chancellor <nathan@kernel.org>, 
@@ -95,65 +95,30 @@ Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  Asuna Yang <SpriteOvO@gmail.com>
 X-Mailer: b4 0.14.3
 
-A subsequent commit will add a new function `rust-bindgen-option` to
-`scripts/Kconfig.include`. The bindgen backend requires the `--target`
-option for cross compiling, but variable `BINDGEN_TARGET` in
-`rust/Makefile` cannot be exported to `scripts/Kconfig.include`.
+Generate a friendly fatal error if the target triplet is undefined for
+bindgen, rather than having the compiler generate obscure error messages
+during the build stage.
+
+This piece of code is copied from `scripts/Makefile.clang`.
 
 Signed-off-by: Asuna Yang <SpriteOvO@gmail.com>
 ---
- Makefile              | 2 ++
- rust/Makefile         | 8 --------
- scripts/Makefile.rust | 9 +++++++++
- 3 files changed, 11 insertions(+), 8 deletions(-)
+ scripts/Makefile.rust | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index fb4389aa5d5f..e4fcae38cc13 100644
---- a/Makefile
-+++ b/Makefile
-@@ -718,6 +718,8 @@ ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
- include $(srctree)/scripts/Makefile.clang
- endif
- 
-+include $(srctree)/scripts/Makefile.rust
-+
- # Include this also for config targets because some architectures need
- # cc-cross-prefix to determine CROSS_COMPILE.
- ifdef need-compiler
-diff --git a/rust/Makefile b/rust/Makefile
-index 7842ad0a4ea7..ae7cbbd89da3 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -300,14 +300,6 @@ bindgen_skip_c_flags := -mno-fp-ret-in-387 -mpreferred-stack-boundary=% \
- 	-fzero-init-padding-bits=% -mno-fdpic \
- 	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference
- 
--# Derived from `scripts/Makefile.clang`.
--BINDGEN_TARGET_x86	:= x86_64-linux-gnu
--BINDGEN_TARGET_arm64	:= aarch64-linux-gnu
--BINDGEN_TARGET_arm	:= arm-linux-gnueabi
--BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
--BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
--BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
--
- # All warnings are inhibited since GCC builds are very experimental,
- # many GCC warnings are not supported by Clang, they may only appear in
- # some configurations, with new GCC versions, etc.
 diff --git a/scripts/Makefile.rust b/scripts/Makefile.rust
-new file mode 100644
-index 000000000000..5c12b4b8c8b6
---- /dev/null
+index 5c12b4b8c8b6..b219244cd051 100644
+--- a/scripts/Makefile.rust
 +++ b/scripts/Makefile.rust
-@@ -0,0 +1,9 @@
-+# Derived from `scripts/Makefile.clang`.
-+BINDGEN_TARGET_x86	:= x86_64-linux-gnu
-+BINDGEN_TARGET_arm64	:= aarch64-linux-gnu
-+BINDGEN_TARGET_arm	:= arm-linux-gnueabi
-+BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
-+BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
-+BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
-+
-+export BINDGEN_TARGET
+@@ -6,4 +6,8 @@ BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
+ BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
+ BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
+ 
++ifeq ($(BINDGEN_TARGET),)
++$(error add '--target=' option to scripts/Makefile.rust)
++else
+ export BINDGEN_TARGET
++endif
 
 -- 
 2.51.1
