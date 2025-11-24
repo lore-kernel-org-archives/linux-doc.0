@@ -1,198 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494A321A449;
-	Mon, 24 Nov 2025 10:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B6F3BB5A;
+	Mon, 24 Nov 2025 10:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763980845; cv=none; b=UiGHr4/zfMZVGivOpm9MCzthOjNdjxX2G3X0UKIpw7eKbwwpBHrjatSF33Jmne2DNt8pJqa01Df3d3DbPkdN+QgRQwJgxTdAUIMdFg7SJfNK8y3+vq/tVs26iQFRmGo/Lt6EnWuL+OoLtMmSIBkDindqBFYeM3M2dMLc/UsMAfE=
+	t=1763981244; cv=none; b=SieBVKGyGz0182WR6mDbsDUkUsimhCQREPOQawgq1xIU1chMNfw4a/gMHbvM6e2/zTjvfwBjo1qtGtFCQYkcs72TJYmmEIZK6usnIgQt/eelfbJQs2I7UQAkqDdwkc+et/AyQWaHfLLNafLcZmeOFPnk/GcimZa04229AjO/nsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763980845; c=relaxed/simple;
-	bh=ODndMX6CiQo0rN0bWUTcqRFHIkrIyq5OhKM+gC7WSlU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pwEW+mhIKeDJLPcpW04ba6RmickgWCysEW52tM+tOAaa//ZGNw0bNVuNlCEiK/zbL45jyQKJL63oF33gYWWECiphTUrxIxTkdtZja4OJuOHLXhz7iDsp2Bv2JXP4babckS0TobecUlgexcoMwp4OLnQrCizgbZUDXPBd5kNFu0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lR4PXTcO; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763981244; c=relaxed/simple;
+	bh=6nxKEIZkVhailrIiW3XSVoQ+gWVPu3eKDnFphZtX1us=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FOkpLOHJoIxjiTNkSwUNLqybTwEpB24uD4U+nUIFmUm5LLKqMLtn1ipSUCOkHtVl11rgDzYtQMMh+VcRO9ux84FifHPSUP7Bq428N3DVecxSmVdUPblG8mbGUcZ9z8jzcyI2O+Z/qzpciKpkOwJDVTmCuSbTbw5DfjxmDzGhUoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2ko+iEi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lR4PXTcO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763980844; x=1795516844;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ODndMX6CiQo0rN0bWUTcqRFHIkrIyq5OhKM+gC7WSlU=;
-  b=lR4PXTcO4KdG1S3geKYOcFHMwNaX1P1aKtxCRW42ohzRA5EaQbg0LP0u
-   RL+L33ckjBcBzvSAnGkrzspZsA7a0tFEGXvm9NZZRA3TuTfH48QN9tMWv
-   mgr1E9T+iWqB0vm8tw/CArMr74JrgArJqhp2s+/enc4e63ESiVbMDHyya
-   9lYApFPuxHaONgY3bSN9UONNIWPdGq0tymA5ZP4pwAvXGSpbXtVL31cis
-   GFiZsUiQgcrux6a0kK89HBDvm1YVwbvNidLSgjUKsDw67uJ6s088V4U0R
-   Tu3g4esSujswxnKrrAMSV9gfqgLiPWMr7/rsD+NBzY57dAuWBKCbmIIJ6
-   w==;
-X-CSE-ConnectionGUID: 3ZRtXh61STaav41K3ezeqA==
-X-CSE-MsgGUID: YxFAtuUnSOm8/AKcKevZ4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="65673374"
-X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="65673374"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:40:44 -0800
-X-CSE-ConnectionGUID: RfhoPo0NS/CHVVhNnMLJNA==
-X-CSE-MsgGUID: P/Kbpg4aSmqK1jS2+CUXoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="197227696"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:40:40 -0800
-Date: Mon, 24 Nov 2025 12:40:37 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 9/9] iio: adc: ad4062: Add GPIO Controller support
-Message-ID: <aSQ2JUN05vmMQC1I@smile.fi.intel.com>
-References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
- <20251124-staging-ad4062-v2-9-a375609afbb7@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2ko+iEi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2C77C4CEF1;
+	Mon, 24 Nov 2025 10:47:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763981244;
+	bh=6nxKEIZkVhailrIiW3XSVoQ+gWVPu3eKDnFphZtX1us=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=B2ko+iEidiYGhvL3YmKCCuGt/1FAZGeXdFxjG6LTjNuCRFsjNc6VR40iFUsFsFuf7
+	 vtXLMwfFBgw8gTF2AgGo/NlhU9LF8iHWcC5axSVGFSapMdg+VC/Lg7kjnRF6zOhyua
+	 s3Se6r+3s4koBGppGnlbPoGOENiYWAykiE6wrK7Sw4v5RgWG3mZysysonlHbvnq3tU
+	 B10Cn5j99q6ZRrVpMhK6d+le2etUfRyWojoe33smrqjQQD9IbwBDexOfGr1xudZvcX
+	 lxa0fdPSP6KQQeMcDRYWzwL2ioy1UWsVhwtM2JPMipUCQQEdHYoqzJ/17iw6I7NZ8g
+	 y+ptXYfDRaCSg==
+Message-ID: <1a2329ef-50ff-4e48-87b4-3adc70ee8833@kernel.org>
+Date: Mon, 24 Nov 2025 11:47:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251124-staging-ad4062-v2-9-a375609afbb7@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] pagemap: Update BUDDY flag documentation
+To: Richard Weinberger <richard@nod.at>, linux-mm@kvack.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
+ mhocko@suse.com, surenb@google.com, rppt@kernel.org, vbabka@suse.cz,
+ Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com,
+ akpm@linux-foundation.org, Vladimir Davydov <vdavydov@virtuozzo.com>,
+ Konstantin Khlebnikov <koct9i@gmail.com>,
+ Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <20251122211920.3410371-1-richard@nod.at>
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20251122211920.3410371-1-richard@nod.at>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 24, 2025 at 10:18:08AM +0100, Jorge Marques wrote:
-> When gp0 or gp1 is not taken as an interrupt, expose them as gpo if
+On 11/22/25 22:19, Richard Weinberger wrote:
+> Since v4.6 the BUDDY flag is set for _all_ pages in the block
+> and no longer just for the first one.
+> This change was introduced by:
+> commit 832fc1de01ae ("/proc/kpageflags: return KPF_BUDDY for "tail" buddy pages")
+> 
+> Strictly speaking, this was an ABI change, but as nobody has noticed
+> since 2016, let's just update the documentation.
+> 
+> Cc: Vladimir Davydov <vdavydov@virtuozzo.com>>
+> Cc: Konstantin Khlebnikov <koct9i@gmail.com>
+> Cc: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Richard Weinberger <richard@nod.at>
+> ---
 
-GPO
-
-> gpio-contoller is set in the devicetree.
-
-Why can't gpio-regmap be used?
-
-...
-
-> +static int ad4062_gpio_get(struct gpio_chip *gc, unsigned int offset)
-> +{
-> +	struct ad4062_state *st = gpiochip_get_data(gc);
-> +	unsigned int reg_val;
-> +	int ret;
-> +
-> +	ret = regmap_read(st->regmap, AD4062_REG_GP_CONF, &reg_val);
-> +	if (ret)
-> +		return 0;
-
-> +	if (st->gpo_irq[offset])
-> +		return -ENODEV;
-
-Consider using valid_mask instead (.init_valid_mask() callback).
-Hmm... And it seems it's in place. I didn't get what is here then and
-why we need to do it after accessing the HW? If there are side-effects
-they must be described.
-
-> +	if (offset)
-> +		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_1, reg_val);
-> +	else
-> +		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_0, reg_val);
-> +
-> +	return reg_val == AD4062_GP_STATIC_HIGH ? 1 : 0;
-
-	return !!(reg_val == AD4062_GP_STATIC_HIGH);
-
-also will work.
-
-> +}
-
-> +static int ad4062_gpio_init_valid_mask(struct gpio_chip *gc,
-> +				       unsigned long *valid_mask,
-> +				       unsigned int ngpios)
-> +{
-> +	struct ad4062_state *st = gpiochip_get_data(gc);
-> +
-> +	bitmap_zero(valid_mask, ngpios);
-> +
-> +	if (!st->gpo_irq[0])
-> +		set_bit(0, valid_mask);
-> +	if (!st->gpo_irq[1])
-> +		set_bit(1, valid_mask);
-
-Why atomic bit set:s?
-
-
-> +	return 0;
-> +}
-> +
-> +static int ad4062_gpio_init(struct ad4062_state *st)
-> +{
-> +	struct device *dev = &st->i3cdev->dev;
-> +	struct gpio_chip *gc;
-> +	u8 val, mask;
-> +	int ret;
-
-> +	if ((st->gpo_irq[0] && st->gpo_irq[1]) ||
-> +	    !device_property_read_bool(dev, "gpio-controller"))
-> +		return 0;
-
-Do you need this? valid_mask should take care of this.
-
-> +	gc = devm_kzalloc(dev, sizeof(*gc), GFP_KERNEL);
-> +	if (!gc)
-> +		return -ENOMEM;
-> +
-> +	val = 0;
-> +	mask = 0;
-> +	if (!st->gpo_irq[0]) {
-> +		mask |= AD4062_REG_GP_CONF_MODE_MSK_0;
-> +		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_0, AD4062_GP_STATIC_LOW);
-> +	}
-> +	if (!st->gpo_irq[1]) {
-> +		mask |= AD4062_REG_GP_CONF_MODE_MSK_1;
-> +		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_1, AD4062_GP_STATIC_LOW);
-> +	}
-> +
-> +	ret = regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
-> +				 mask, val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_add_action_or_reset(dev, ad4062_gpio_disable, st);
-> +	if (ret)
-> +		return ret;
-> +
-> +	gc->parent = dev;
-> +	gc->label = st->chip->name;
-> +	gc->owner = THIS_MODULE;
-> +	gc->base = -1;
-> +	gc->ngpio = 2;
-> +	gc->init_valid_mask = ad4062_gpio_init_valid_mask;
-> +	gc->get_direction = ad4062_gpio_get_direction;
-> +	gc->set = ad4062_gpio_set;
-> +	gc->get = ad4062_gpio_get;
-> +	gc->can_sleep = true;
-> +
-> +	ret = devm_gpiochip_add_data(dev, gc, st);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Unable to register GPIO chip\n");
-> +
-> +	return 0;
-> +}
+Acked-by: David Hildenbrand (Red Hat) <david@kernel.org>
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Cheers
 
-
+David
