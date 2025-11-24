@@ -1,103 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A652BEC57;
-	Mon, 24 Nov 2025 18:36:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C662BE035;
+	Mon, 24 Nov 2025 18:50:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764009404; cv=none; b=RWaFZDVtCKZEZDXFKFyV5qmXZjm85pgt9S3AF9N6A2GaRx2+pn/SeKu5WDCUQF0pPXOlRDHP68/bC0EmOO3DzGJBw5t0jSlYZ3RCJRvAHDtLudThYYojxtiET40Gd7VjprJDnqD6UfvJIEQ6KOsT1ad8WJOQLJ6uosSDVOmMCfA=
+	t=1764010251; cv=none; b=FmJ/AC9Pn7GcWNJ7tLZszWj68dEeY0dvHJtlRfftiz1qX6qePqgNweeC8yPZWJSYrnSi4fEVcPPXtkUSja6ltYO3/QA10+hpXMfbtgkreopAyV0mSw3J4Fjk+z25/q47oSSD7O2ZOGy449tW0t4iYbsb6oH2S04Xn7EIMZEwhZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764009404; c=relaxed/simple;
-	bh=jMxics1T7D2zTTTxC0vYNoJLPcTUUbdGJ0mccHHyjHI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ue3BNbmShXrEJYOpM8so6cepCwNWTe4pAgYSPhsE22DLwqMfVW2GNry3NK98EsQu5A1lS9vTxrdCeoYmdexoqNI1mBqnpWWB3VW+HcFH+cywSLNMFjj7oLlpEVrsc2zZLFQDAWf3S4GfXWbstERmLDH5P7IBKFPBCFxz57aVT0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1fSJT7H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764010251; c=relaxed/simple;
+	bh=Lc2rgNw0FBZB7sMzSaFcGumFZq9VWirjAsP2esRZd+I=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=cfLjY9hrH7UaU/L0l2dWtiBqxAG1iE77Ved7AxJcDtQKsp90ThySyeKNbvr+Kslno1nq739f4drsw1De53BUEnsQ6M9PuEnvKQRw4GmiKu36/wL+UYh9yHLNii2OCA+vsyS4pCN0OvnGafms+FIeOj79/C9JyMJ6WffGiMlZ+sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qpx4Hciw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1fSJT7H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A174C4CEF1;
-	Mon, 24 Nov 2025 18:36:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qpx4Hciw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 104B3C116C6;
+	Mon, 24 Nov 2025 18:50:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764009403;
-	bh=jMxics1T7D2zTTTxC0vYNoJLPcTUUbdGJ0mccHHyjHI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y1fSJT7HmKhn2wr95Fzte+w0fDStdZ19Koc4ocZ9w9Lv1ZKt3nVWLGlA26AZcYIBd
-	 XKfwmqWPffprf14DmbfY6Hm5j/1/ejPGlDlwNuFIRw1N0GPXXidPvbRI1kZRjDkUst
-	 lxlN7EigtVgqc+fIfhuxCNIlYXK4ef8i04srNtF1wifrLNEVNM+NR7SpOAcbdGrg7v
-	 hihOY/jKZ7DoINdso0BUTLv4L5A9BvRRkePHheh15RSGNoF7D2cJfXEluSf/P5lGfT
-	 f4QtlDZ7HjBA/60fv0OV4KvirM84SvnkcqHiqUqHjnG8bEuDjFwXa/TWHaZHPowV6h
-	 Vynb3itZkcYog==
-Date: Mon, 24 Nov 2025 11:36:34 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Asuna Yang <spriteovo@gmail.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Vivian Wang <wangruikang@iscas.ac.cn>,
-	Han Gao <rabenda.cn@gmail.com>,
-	Jason Montleon <jmontleo@redhat.com>,
-	Conor Dooley <conor@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v4 3/4] rust: add a Kconfig function to test for support
- of bindgen options
-Message-ID: <20251124183634.GA1084995@ax162>
-References: <20251124-gcc-rust-v4-v4-0-4e06e07421ae@gmail.com>
- <20251124-gcc-rust-v4-v4-3-4e06e07421ae@gmail.com>
- <CANiq72k=XXRR6pw0Uhk89dmRHFYan6WzJhnDTC0T5oMYAaNnZw@mail.gmail.com>
- <ef617970-5539-400a-8717-dd96e82bf271@gmail.com>
- <CANiq72nDpBodFh5Zqy2p9jwWyfAiY6KcEEyugHeMDEmOR6Rogw@mail.gmail.com>
+	s=k20201202; t=1764010251;
+	bh=Lc2rgNw0FBZB7sMzSaFcGumFZq9VWirjAsP2esRZd+I=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Qpx4HciwZWwrS5FeBQwj6PE+DcmgEevKz8fRIWxiSNa4Osz6rz8dQth5AWG/xDoF5
+	 kqiTp/82HhbnrmXu4QL1yOqGkHexMh3Qmi52jQon6BSJWdegEeaetvvBAHAiCMGAlb
+	 SyHqxOpW/clCvBkGzffWvuIHCzmvNSgefMRxmyp6XOKZKnOegQ4EYH0JBjxNvvBKJe
+	 pRWV27jIVu33XS49vY5KYy65fhP9RR+s3PGqfwFseGz9/b1Q1eBJ9SBE60mcGPHu5f
+	 SnvOuo/qOaVQm4c9735Y7tGjkQ+XI9z2in/pwxWP/dInDVhr3RNcraihrlNC5tZ71m
+	 rrVBFBBXNsuDA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3428D3A86296;
+	Mon, 24 Nov 2025 18:50:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72nDpBodFh5Zqy2p9jwWyfAiY6KcEEyugHeMDEmOR6Rogw@mail.gmail.com>
+Subject: Re: [f2fs-dev] [PATCH v5] docs: f2fs: wrap ASCII tables in literal
+ blocks to fix LaTeX build
+From: patchwork-bot+f2fs@kernel.org
+Message-Id: 
+ <176401021399.42009.9871104675547871251.git-patchwork-notify@kernel.org>
+Date: Mon, 24 Nov 2025 18:50:13 +0000
+References: <20251117122754.297742-1-nogunix@gmail.com>
+In-Reply-To: <20251117122754.297742-1-nogunix@gmail.com>
+To: Masaharu Noguchi <nogunix@gmail.com>
+Cc: jaegeuk@kernel.org, chao@kernel.org, corbet@lwn.net,
+ linux-doc@vger.kernel.org, akiyks@gmail.com, linux-kernel@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, bagasdotme@gmail.com
 
-On Mon, Nov 24, 2025 at 04:08:36AM +0100, Miguel Ojeda wrote:
-> On Mon, Nov 24, 2025 at 3:42 AM Asuna Yang <spriteovo@gmail.com> wrote:
-> >
-> > I will separate them into two functions in the next revision,
-> > `bindgen-option` and `bindgen-backend-option` (or `bindgen-cc-option`?
-> > Which one do you prefer?).
+Hello:
+
+This patch was applied to jaegeuk/f2fs.git (dev)
+by Jaegeuk Kim <jaegeuk@kernel.org>:
+
+On Mon, 17 Nov 2025 21:27:54 +0900 you wrote:
+> Sphinx's LaTeX builder fails when converting the nested ASCII tables in
+> f2fs.rst, producing the following error:
 > 
-> If we don't need `bindgen-option` (the normal one I mean) so far,
-> perhaps we should skip it. On the other hand, `rustc-option-yn` is
-> there and is not used either (it was added for consistency). Up to the
-> Kbuild team, I guess.
+>   "Markup is unsupported in LaTeX: longtable does not support nesting a table."
+> 
+> Wrap the affected ASCII tables in literal code blocks to force Sphinx to
+> render them verbatim. This prevents nested longtables and fixes the PDF
+> build failure on Sphinx 8.2.x.
+> 
+> [...]
 
-I do not have a strong preference one way or the other. These macros
-tend to be low maintenance and do not take up much space regardless so
-preemptively adding it so that it is ready for use in the future is no
-big deal in my opinion.
+Here is the summary with links:
+  - [f2fs-dev,v5] docs: f2fs: wrap ASCII tables in literal blocks to fix LaTeX build
+    https://git.kernel.org/jaegeuk/f2fs/c/c0ee17208345
 
-> As for the name, no strong preference. `bindgen-backend-option` sounds
-> good, but `bindgen-cc-option` is more consistent with `cc-option` and
-> probably easier to understand for people new to `bindgen`, and anyway
-> the flags we pass there wouldn't make sense if the backend is not a C
-> compiler.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Yeah, I think either one sort of requires knowledge of bindgen to know
-the difference between a flag to bindgen and a flag to the C compiler
-behind bindgen so no strong preference from my side (Nicolas may feel
-differently).
 
-Cheers,
-Nathan
