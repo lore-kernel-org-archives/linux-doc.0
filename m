@@ -1,153 +1,117 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7084A26B742;
-	Mon, 24 Nov 2025 10:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A398522B594;
+	Mon, 24 Nov 2025 10:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763978418; cv=none; b=tmcIaaTnylosKdEbrUF4lJqeb/GlKD8bZPa1k/Hfrje0GDkqbTFsZSsJBsH1qRdwILdDQACQIyJHrJDcRryZhBywNpAcJNYhZ5EUt1016Zw022tIAlDqXyck9cEIgHm9+KpDc0gYzJpd21HHEeXw6yNzjKKzav16CGY4+XBaXH0=
+	t=1763979308; cv=none; b=hLhppldLRaWfRc+4fjXIT+x3YcP4FoYCeQGYsLVUitKuhZ5ajeoOE0h9uWNr/timsxUKCDqWf9FP6/vFVL9dY4dkGFn8YnDZrmHJj5RxnBi47ayp4zICvDP86EhHBEHk0Mrq8lOG4mNuPokQOSGGr1acXL9jSXAH+dEH04oM0cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763978418; c=relaxed/simple;
-	bh=bwk8PA2yKVbF2g//UG4+ZcDnvf9i2Q2+xtDKUf5v46M=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=tNN/EbLOLpKdQ/v43Lazk5dFLauNN0Nrt+/MUDIkZSJGujkZMK3mU3kaJ35sEbbnlDVktGDMJWV8c/ZSfSRJ0MOQxxCLg8fUmrfsm94a4AhLqcdVuuG8q/OIToQioWMsSvy8hWMrX+dw+qHP5gcLKfJ/cQZ7Iv9s3HFD+39ZgBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dFLrl6KdFzJ46dd;
-	Mon, 24 Nov 2025 17:59:19 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id A89871400D3;
-	Mon, 24 Nov 2025 18:00:11 +0800 (CST)
-Received: from dubpeml100008.china.huawei.com (7.214.145.227) by
- dubpeml500005.china.huawei.com (7.214.145.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 24 Nov 2025 10:00:11 +0000
-Received: from dubpeml100008.china.huawei.com ([7.214.145.227]) by
- dubpeml100008.china.huawei.com ([7.214.145.227]) with mapi id 15.02.1544.036;
- Mon, 24 Nov 2025 10:00:11 +0000
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Randy Dunlap <rdunlap@infradead.org>, "rafael@kernel.org"
-	<rafael@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "rppt@kernel.org"
-	<rppt@kernel.org>, "dferguson@amperecomputing.com"
-	<dferguson@amperecomputing.com>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "linux-acpi@vger.kernel.org"
-	<linux-acpi@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>, "lenb@kernel.org"
-	<lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>
-CC: Jonathan Cameron <jonathan.cameron@huawei.com>, Linuxarm
-	<linuxarm@huawei.com>, "rientjes@google.com" <rientjes@google.com>,
-	"jiaqiyan@google.com" <jiaqiyan@google.com>, "Jon.Grimm@amd.com"
-	<Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
-	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
-	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
-	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, tanxiaofei
-	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
- Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: RE: [PATCH v13 2/2] ras: mem: Add ACPI RAS2 memory driver
-Thread-Topic: [PATCH v13 2/2] ras: mem: Add ACPI RAS2 memory driver
-Thread-Index: AQHcWxSpDw4Z/LYIh0qhRo3faUcQr7T+KfGAgANpz1A=
-Date: Mon, 24 Nov 2025 10:00:11 +0000
-Message-ID: <78ee1bf7cfe34909bf09b429e81e63a7@huawei.com>
-References: <20251121182825.237-1-shiju.jose@huawei.com>
- <20251121182825.237-3-shiju.jose@huawei.com>
- <26083ba9-1979-4d14-8465-3f54f2f96d23@infradead.org>
-In-Reply-To: <26083ba9-1979-4d14-8465-3f54f2f96d23@infradead.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1763979308; c=relaxed/simple;
+	bh=g1TQ7XQeyLBDzYywTEPn9VRhpmBOP26943Ft+LrFK/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VLvYfFBIR1d9xgZZwdZfCvw4VbyvuKzvIKXTMADPQogX3CchdFjFLL7ESOyfqV0bWXpsY/KEgYZXJ662/BLUd57gP7Qt3jZgj7tMMF97iFDaSUo0UYPwxxfwhLFWMBPyzFTazIqPwIjCZyIqfANaavz38CuLC+7jGlMnWHQzSNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HB5Zq7JW; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HB5Zq7JW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A02B6C4CEF1;
+	Mon, 24 Nov 2025 10:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763979307;
+	bh=g1TQ7XQeyLBDzYywTEPn9VRhpmBOP26943Ft+LrFK/4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HB5Zq7JW2S0TfMR6GDL9y7IDj8+deKZELHKXeCfIUS212rSE2rluo8wGoHYm08aSm
+	 WSGXttii+tApWtA05NuNkOyVRm7663jQ+m5zYtqfPSJjGQ+69J7fv2T14T1EbDZtp/
+	 3hhBDojX5wbGPtvrDdFlDZio+EeyQd3utbr7xlpnTmhLdNAYEr5OKxXuoTg7q53Lsq
+	 vcFxgcQTKFPCDkM21aY3ignoCPtrahq18wVqeGZWA5GKg8iqLYw+pwVZGATKXxkmcx
+	 7XDwPDUT3rkdd+1lW5NFGajpEwyxPDJBliJOMdQ+UTmOeSQtzIl/0RPN9vZIIka+6D
+	 N3+rAJn8zEiRQ==
+Date: Mon, 24 Nov 2025 11:15:04 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 01/26] drm/bridge: add drm_of_find_bridge()
+Message-ID: <pv56bl4p7lfflloocozxaeufd6udkk3jhehrtne65cidrvlfwn@wvrkw6mjmhwp>
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-1-0db98a7fe474@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="twk7wjh5xuvkmppn"
+Content-Disposition: inline
+In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-1-0db98a7fe474@bootlin.com>
 
-DQoNCj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IFJhbmR5IER1bmxhcCA8cmR1
-bmxhcEBpbmZyYWRlYWQub3JnPg0KPlNlbnQ6IDIyIE5vdmVtYmVyIDIwMjUgMDU6MjMNCj5Ubzog
-U2hpanUgSm9zZSA8c2hpanUuam9zZUBodWF3ZWkuY29tPjsgcmFmYWVsQGtlcm5lbC5vcmc7IGJw
-QGFsaWVuOC5kZTsNCj5ha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnOyBycHB0QGtlcm5lbC5vcmc7
-DQo+ZGZlcmd1c29uQGFtcGVyZWNvbXB1dGluZy5jb207IGxpbnV4LWVkYWNAdmdlci5rZXJuZWwu
-b3JnOyBsaW51eC0NCj5hY3BpQHZnZXIua2VybmVsLm9yZzsgbGludXgtbW1Aa3ZhY2sub3JnOyBs
-aW51eC1kb2NAdmdlci5rZXJuZWwub3JnOw0KPnRvbnkubHVja0BpbnRlbC5jb207IGxlbmJAa2Vy
-bmVsLm9yZzsgbGVvLmR1cmFuQGFtZC5jb207DQo+WWF6ZW4uR2hhbm5hbUBhbWQuY29tOyBtY2hl
-aGFiQGtlcm5lbC5vcmcNCj5DYzogSm9uYXRoYW4gQ2FtZXJvbiA8am9uYXRoYW4uY2FtZXJvbkBo
-dWF3ZWkuY29tPjsgTGludXhhcm0NCj48bGludXhhcm1AaHVhd2VpLmNvbT47IHJpZW50amVzQGdv
-b2dsZS5jb207IGppYXFpeWFuQGdvb2dsZS5jb207DQo+Sm9uLkdyaW1tQGFtZC5jb207IGRhdmUu
-aGFuc2VuQGxpbnV4LmludGVsLmNvbTsNCj5uYW95YS5ob3JpZ3VjaGlAbmVjLmNvbTsgamFtZXMu
-bW9yc2VAYXJtLmNvbTsganRob3VnaHRvbkBnb29nbGUuY29tOw0KPnNvbWFzdW5kYXJhbS5hQGhw
-ZS5jb207IGVyZGVtYWt0YXNAZ29vZ2xlLmNvbTsgcGdvbmRhQGdvb2dsZS5jb207DQo+ZHVlbndl
-bkBnb29nbGUuY29tOyBndGhlbGVuQGdvb2dsZS5jb207DQo+d3NjaHdhcnR6QGFtcGVyZWNvbXB1
-dGluZy5jb207IHdic0Bvcy5hbXBlcmVjb21wdXRpbmcuY29tOw0KPm5pZmFuLmN4bEBnbWFpbC5j
-b207IHRhbnhpYW9mZWkgPHRhbnhpYW9mZWlAaHVhd2VpLmNvbT47IFplbmd0YW8gKEIpDQo+PHBy
-aW1lLnplbmdAaGlzaWxpY29uLmNvbT47IFJvYmVydG8gU2Fzc3UgPHJvYmVydG8uc2Fzc3VAaHVh
-d2VpLmNvbT47DQo+a2FuZ2thbmcuc2hlbkBmdXR1cmV3ZWkuY29tOyB3YW5naHVpcWlhbmcgPHdh
-bmdodWlxaWFuZ0BodWF3ZWkuY29tPg0KPlN1YmplY3Q6IFJlOiBbUEFUQ0ggdjEzIDIvMl0gcmFz
-OiBtZW06IEFkZCBBQ1BJIFJBUzIgbWVtb3J5IGRyaXZlcg0KPg0KPg0KPg0KPk9uIDExLzIxLzI1
-IDEwOjI4IEFNLCBzaGlqdS5qb3NlQGh1YXdlaS5jb20gd3JvdGU6DQo+PiBkaWZmIC0tZ2l0IGEv
-RG9jdW1lbnRhdGlvbi9lZGFjL3NjcnViLnJzdA0KPj4gYi9Eb2N1bWVudGF0aW9uL2VkYWMvc2Ny
-dWIucnN0IGluZGV4IDJjZmE3NGZhMWZmZC4uNzM3YTEwZGEyMjRmIDEwMDY0NA0KPj4gLS0tIGEv
-RG9jdW1lbnRhdGlvbi9lZGFjL3NjcnViLnJzdA0KPj4gKysrIGIvRG9jdW1lbnRhdGlvbi9lZGFj
-L3NjcnViLnJzdA0KPj4gQEAgLTM0MCwzICszNDAsNjEgQEAgY29udHJvbGxlciBvciBwbGF0Zm9y
-bSB3aGVuIHVuZXhwZWN0ZWRseSBoaWdoIGVycm9yDQo+cmF0ZXMgYXJlIGRldGVjdGVkLg0KPj4N
-Cj4+ICBTeXNmcyBmaWxlcyBmb3Igc2NydWJiaW5nIGFyZSBkb2N1bWVudGVkIGluDQo+PiBgRG9j
-dW1lbnRhdGlvbi9BQkkvdGVzdGluZy9zeXNmcy1lZGFjLWVjc2ANCj4+ICsNCj4+ICszLiBBQ1BJ
-IFJBUzIgSGFyZHdhcmUtYmFzZWQgTWVtb3J5IFNjcnViYmluZw0KPj4gKw0KPj4gKzMuMS4gT24g
-ZGVtYW5kIHNjcnViYmluZyBmb3IgYSBzcGVjaWZpYyBtZW1vcnkgcmVnaW9uLg0KPj4gKw0KPj4g
-KzMuMS4xLiBRdWVyeSB0aGUgc3RhdHVzIG9mIGRlbWFuZCBzY3J1YmJpbmcNCj4+ICsNCj4+ICsj
-IGNhdCAvc3lzL2J1cy9lZGFjL2RldmljZXMvYWNwaV9yYXNfbWVtMC9zY3J1YjAvZW5hYmxlX2Rl
-bWFuZA0KPj4gKw0KPj4gKzANCj4+ICsNCj4+ICszLjEuMi4gUXVlcnkgd2hhdCBpcyBkZXZpY2Ug
-ZGVmYXVsdC9jdXJyZW50IHNjcnViIGN5Y2xlIHNldHRpbmcuDQo+PiArDQo+PiArQXBwbGljYWJs
-ZSB0byBib3RoIGRlbWFuZCBhbmQgYmFja2dyb3VuZCBzY3J1YmJpbmcuDQo+PiArDQo+PiArIyBj
-YXQNCj4+ICsvc3lzL2J1cy9lZGFjL2RldmljZXMvYWNwaV9yYXNfbWVtMC9zY3J1YjAvY3VycmVu
-dF9jeWNsZV9kdXJhdGlvbg0KPj4gKw0KPj4gKzM2MDAwDQo+PiArDQo+DQo+V2hhdCB1bml0cyAo
-YWJvdmUpPw0KSW4gc2Vjb25kcy4NCg0KPg0KPj4gKzMuMS4zLiBRdWVyeSB0aGUgcmFuZ2Ugb2Yg
-ZGV2aWNlIHN1cHBvcnRlZCBzY3J1YiBjeWNsZSBmb3IgYSBtZW1vcnkgcmVnaW9uLg0KPj4gKw0K
-Pj4gKyMgY2F0IC9zeXMvYnVzL2VkYWMvZGV2aWNlcy9hY3BpX3Jhc19tZW0wL3NjcnViMC9taW5f
-Y3ljbGVfZHVyYXRpb24NCj4+ICsNCj4+ICszNjAwDQo+PiArDQo+PiArIyBjYXQgL3N5cy9idXMv
-ZWRhYy9kZXZpY2VzL2FjcGlfcmFzX21lbTAvc2NydWIwL21heF9jeWNsZV9kdXJhdGlvbg0KPj4g
-Kw0KPj4gKzg2NDAwDQo+PiArDQo+DQo+ZGl0dG8uDQpVbml0IC0gIFNlY29uZHMuDQo+DQo+PiAr
-My4xLjQuIFByb2dyYW0gc2NydWJiaW5nIGZvciB0aGUgbWVtb3J5IHJlZ2lvbiBpbiBSQVMyIGRl
-dmljZSB0bw0KPj4gK3JlcGVhdCBldmVyeQ0KPj4gKzQzMjAwIHNlY29uZHMgKGhhbGYgYSBkYXkp
-Lg0KPj4gKw0KPj4gKyMgZWNobyA0MzIwMCA+DQo+PiArL3N5cy9idXMvZWRhYy9kZXZpY2VzL2Fj
-cGlfcmFzX21lbTAvc2NydWIwL2N1cnJlbnRfY3ljbGVfZHVyYXRpb24NCj4+ICsNCj4+ICszLjEu
-NS4gU3RhcnQgJ2RlbWFuZCBzY3J1YmJpbmcnLg0KPj4gKw0KPj4gK1doZW4gYSBkZW1hbmQgc2Ny
-dWIgaXMgc3RhcnRlZCwgYW55IGJhY2tncm91bmQgc2NydWIgY3VycmVudGx5IGluDQo+PiArcHJv
-Z3Jlc3Mgd2lsbCBiZSBzdG9wcGVkIGFuZCB0aGVuIGF1dG9tYXRpY2FsbHkgcmVzdGFydGVkIG9u
-Y2UgdGhlDQo+PiArZGVtYW5kIHNjcnViIGhhcyBjb21wbGV0ZWQuDQo+DQo+V2lsbCBpdCByZXN0
-YXJ0IHdoZXJlIGl0IGxlZnQgb2ZmIG9yIGF0IHRoZSBiZWdpbm5pbmc/DQpJbiB0aGlzIGNhc2Us
-IHByZXNlbnRseSBrZXJuZWwgc2VuZCAnU1RBUlRfUEFUUk9MX1NDUlVCQkVSICcgY29tbWFuZCAg
-dG8gcmVzdGFydA0KdGhlIGJhY2tncm91bmQgc2NydWJiaW5nIGFuZCB0aHVzIHJlc3RhcnRzIGF0
-IHRoZSBiZWdpbm5pbmcgdW5sZXNzIEkgdGhpbmsgZmlybXdhcmUNCmhhcyBzb21lIGltcGxlbWVu
-dGF0aW9uIHRvIGRldGVjdCB0aGlzIGNhc2UgYW5kICAncmVzdW1lJyBiYWNrZ3JvdW5kIHNjcnVi
-YmluZw0Kd2hlcmUgaXQgaGFzIHN0b3BwZWQuIE90aGVyd2lzZSBJIHRoaW5rIFJBUzIgbWF5IGRl
-ZmluZSBzb21lIG5ldyBjb21tYW5kcyB0bw0KJ3BhdXNlJyBhbmQgJ3Jlc3VtZScgc2NydWJiaW5n
-IGlmIHRoYXQgbWFrZSBzZW5zZSBzbyB0aGF0IGtlcm5lbCBjb3VsZCBzZW5kIHRob3NlDQpjb21t
-YW5kcyB0byB0aGUgZmlybXdhcmUgZm9yIHRoaXMgY2FzZS4NCj4NCj4+ICsNCj4+ICsjIGVjaG8g
-MSA+IC9zeXMvYnVzL2VkYWMvZGV2aWNlcy9hY3BpX3Jhc19tZW0wL3NjcnViMC9lbmFibGVfZGVt
-YW5kDQo+PiArDQo+PiArMy4yLiBCYWNrZ3JvdW5kIHNjcnViYmluZyB0aGUgZW50aXJlIG1lbW9y
-eQ0KPj4gKw0KPj4gKzMuMi4xLiBRdWVyeSB0aGUgc3RhdHVzIG9mIGJhY2tncm91bmQgc2NydWJi
-aW5nLg0KPj4gKw0KPj4gKyMgY2F0IC9zeXMvYnVzL2VkYWMvZGV2aWNlcy9hY3BpX3Jhc19tZW0w
-L3NjcnViMC9lbmFibGVfYmFja2dyb3VuZA0KPj4gKw0KPj4gKzANCj4+ICsNCj4+ICszLjIuMi4g
-UHJvZ3JhbSBiYWNrZ3JvdW5kIHNjcnViYmluZyBmb3IgUkFTMiBkZXZpY2UgdG8gcmVwZWF0IGlu
-DQo+PiArZXZlcnkgMjE2MDAgc2Vjb25kcyAocXVhcnRlciBvZiBhIGRheSkuDQo+PiArDQo+PiAr
-IyBlY2hvIDIxNjAwID4NCj4+ICsvc3lzL2J1cy9lZGFjL2RldmljZXMvYWNwaV9yYXNfbWVtMC9z
-Y3J1YjAvY3VycmVudF9jeWNsZV9kdXJhdGlvbg0KPj4gKw0KPj4gKzMuMi4zLiBTdGFydCAnYmFj
-a2dyb3VuZCBzY3J1YmJpbmcnLg0KPj4gKw0KPj4gKyMgZWNobyAxID4NCj4+ICsvc3lzL2J1cy9l
-ZGFjL2RldmljZXMvYWNwaV9yYXNfbWVtMC9zY3J1YjAvZW5hYmxlX2JhY2tncm91bmQNCj4NCj4t
-LQ0KPn5SYW5keQ0KDQpUaGFua3MsDQpTaGlqdQ0KDQo=
+
+--twk7wjh5xuvkmppn
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH 01/26] drm/bridge: add drm_of_find_bridge()
+MIME-Version: 1.0
+
+Hi,
+
+On Wed, Nov 19, 2025 at 02:05:32PM +0100, Luca Ceresoli wrote:
+>  #ifdef CONFIG_OF
+> +/**
+> + * drm_of_find_bridge - find the bridge corresponding to the device node in
+> + *			the global bridge list
+> + * @np: device node
+> + *
+> + * The refcount of the returned bridge is incremented. Use drm_bridge_put()
+> + * when done with it.
+> + *
+> + * RETURNS:
+> + * drm_bridge control struct on success, NULL on failure
+> + */
+> +struct drm_bridge *drm_of_find_bridge(struct device_node *np)
+
+So the convention we've mostly had was that the first argument would
+define the prefix, ie. if we pass a drm_* pointer, the prefix is drm, if
+we pass a device_node pointer, then the prefix is of.
+
+Considering that convention, of_drm_find_bridge would be the ideal
+candidate, but we can't use that obviously. What about
+of_drm_find_and_get_bridge, or of_drm_get_bridge?
+
+Maxime
+
+--twk7wjh5xuvkmppn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSQwIwAKCRAnX84Zoj2+
+djjOAX4ybr+wl/+UOcOA2rBeNLXe/Z1dp5/tGgSDwtWjMs40Yd6/Hb5lNtxsjj1I
+6JoUoYYBgOFk70NFGGvi/mntXPXv6z3+wX+3vJ0TwGXmq/4KlMMLzOWyZ4+KUGTS
+PkzNnQ7Vlw==
+=S5GV
+-----END PGP SIGNATURE-----
+
+--twk7wjh5xuvkmppn--
