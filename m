@@ -1,114 +1,118 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A920C261B9D
-	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 09:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBD4263C8A;
+	Mon, 24 Nov 2025 09:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763976269; cv=none; b=nYqLZkK63ybiFEHjroYVwwvxyp+Vi80V91c3hPafq3jPPNdvZyqvKAt4g9eXf7mi7HqyrRhPoFp8U9tN2uHOp3YfbJjHnmax9mzsYKAuTN5IrP3+i/Y6ovIivsc0XKaTo0uEL/h7ugRMUjy8w6Z9e3LJRTzrU4jh0NBSo39QNRs=
+	t=1763976601; cv=none; b=t123m9tjTjTpcN5jVFhxHl2JIDg0u/AbIW/eKV3C6AFTsplYeHpPgjWiZGbWbWpcc4r7dxUmaVvmyWKvwnyycwDsrtyakzzEtsG1VZE+myknfMtstE6vgs/aYu/FVYHrAPHS09jwTuA/+SxNDB07mdPZFCz96CB0NHpMZmym58E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763976269; c=relaxed/simple;
-	bh=P3TNnHmbMQ7RiZfj11COEtOadWn9ZwdSOUvW0u0Lo8A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nb5gBV9dFSzvJpNKMWl4zoudPxaBS1FXBIdfUOJJkGyzzgzXneh2X1JyBHDhF3R+PjNNyO6DLJWeSTTCmZLLSt/O4A/BrqbKlODS+nnug9e/hJ9acNazPJhXTAhM+SLtihxPHcgFW4HRmlWE7M3KdVY8joSINcLDxaaoK0WTxUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZZdtpfeP; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZZdtpfeP"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-641977dc00fso5692830a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 01:24:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763976266; x=1764581066; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=slSocduRhMtJsbQHXkMC9k8pMNaviAqpRIeDggJm8mI=;
-        b=ZZdtpfePZFfUT/ZvhU2u/xPyRTq5AfkmYgwBxMgiIm7eNwOoFh9ZRn0tZvJR7Js6bv
-         qyaRbzaYX6bvV3RvEsVZm9GQDMRBdu3iRP9eJFDv5Wl2HtYi0i49qYVJA7+2cTVlIPRX
-         Lj1AQvJit2VCRos+jwBKM7u2pqXsbuJAaTJ4iZJ6yPn4X81ufl+9M8c8vmCQmVo67kHM
-         u7wsRiB1AJTQ9L4ETsKRRXA2AkJKdzSAoM4NbvGh0QP1uwPAqZMZkOCq4LGgCHUhhwMX
-         Je8I2P2viPlA2uIsQNLZs2Fwb6gDLY+Cur9+XIHp7LkZyEVBu+X1J0L4XQp4YVzIpUNa
-         s6WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763976266; x=1764581066;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=slSocduRhMtJsbQHXkMC9k8pMNaviAqpRIeDggJm8mI=;
-        b=c3gbWkGuzyUqD2MS9tmmgROwroVBc/zAHmDKhFAwnsSoGa9phnWDrqyN7gG6HAEPG4
-         9dJP2EErittNFXVhmZ3qEFXJeUVYjgsoo7EAo5jq1cwvGdneU1maObQa4fKMY8EEgsre
-         eWbaN84TI8vydQ14tfNdRIheGItaF8ehO2QDj61pxyD2QSCwllY6GS9bR2JxqiLTS0/B
-         NvLW1g3d+5xg5aukG3VyVcWx3ZUFpHezYCFUrNB1p01I1YJmas0FSB4gdbtfrhbiljoC
-         bU8VQz+vx53DIY8YzbMHvEeCkfkVsupJVCCcuwzSRmRZFREKMbq8Ulmy0/Cr8gjItpo4
-         rZsw==
-X-Forwarded-Encrypted: i=1; AJvYcCUfLVe80r2pmfZx0AVyDYEdyst6BhzGaDwrSBarTrU9wiMuBeoknN2DcJIbdGJqRD995fkOQe5KAQU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgjpFH1rxu6k1RvNYR9mHTQFxUuP7bZPtOJOWm2DOFiUi9gXbU
-	tNDCYgM9/x6P1Gm+dOYE6ZWQX6kisymUcXrmN+CBZlVH9lEOfClceVuK
-X-Gm-Gg: ASbGncvMnbVsN6FOILaG1AosRP0sM0kOY3M1Wtg8IXN1kcY2wElMdz89hiQZDGeSX3g
-	Aep4EsdnQW+ueNOm8qbflwn1NotSoHxzmgYx2Y8tynU4Do33i6wWXh2RvsLJOMJj2ZrND7eAJY6
-	iPKHwKDc4dqSDk19gIjoJ/zXfj1f7m/IsFo65OqcsvPkzoC+pSKT9kiaUHPT7gxEqnKIB1y83J9
-	66VUjSokJxdME2sp/FJ/iLGvLFDPWLEsSP6XjKejkEux0faJjIRj5xu0G9xkgjnLfpy9B7GGtnI
-	FCjL5FsuPbRCNK5zmOKqhZkd/kWtyHvykVVRJQUNILzbafJRhsfWjiQ+/kQoR2Kksw7gp/z/XXE
-	CNhI+KOhHOy7fAWkprb/Idfi0IsXYCA2Co+P7ukQ/T0O4pxgvG8iErM/KSfaCF3sNypuFOEUg7V
-	6bt9q+oH0yZitysljcpAcSnTV2eEKvsHGaI7oU6rhmB/mP/TU+jNQ1rmpWbBwVM1pRL7Jw
-X-Google-Smtp-Source: AGHT+IG43taRGXlMb7A2ZG4Z0Lz7XxTi1f/W9lGskn1Ni6JWJYwXfKHzRtFJ/vmRNLd6ClmF9wOYDQ==
-X-Received: by 2002:a17:907:8e96:b0:b47:2be3:bc75 with SMTP id a640c23a62f3a-b76718ab22emr1047239266b.60.1763976265537;
-        Mon, 24 Nov 2025 01:24:25 -0800 (PST)
-Received: from HYB-DlYm71t3hSl.ad.analog.com ([2a02:3033:267:9a21:9532:f12d:5875:dc2c])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7655028400sm1195719166b.56.2025.11.24.01.24.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 01:24:25 -0800 (PST)
-Date: Mon, 24 Nov 2025 10:24:22 +0100
-From: Jorge Marques <gastmaier@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	Jorge Marques <jorge.marques@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/7] iio: adc: Add support for ad4062
-Message-ID: <m4a3o4fbs5bhsru6fsmik3qtthvit3565lkp6itjyqzjbd55hd@whjpvtn7xngm>
-References: <20251013-staging-ad4062-v1-0-0f8ce7fef50c@analog.com>
- <20251013-staging-ad4062-v1-3-0f8ce7fef50c@analog.com>
- <20251018171032.144a126c@jic23-huawei>
- <ou6qwayt4g7qaoe5dm7tdg6jl5dwquslpfbok6on5r2q2wytyl@wlqxj5y6ircj>
- <aSQMjZbc75cQtFqJ@smile.fi.intel.com>
- <o4kt2of4xql4azufjgiecm4jzuexgm6nkvr7aghbwfk6qd7yqd@r4plggehzces>
- <aSQhTd5Z7KyvHtbG@smile.fi.intel.com>
+	s=arc-20240116; t=1763976601; c=relaxed/simple;
+	bh=WIEzxFEC/PnkxmuAIhUbJI67YAunydQmi9QG1iFd0E4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=rAWON3TdDk5QIL/E+3yFcIk25f17BL/afjXG2PQds5UPL9NpGDEjDQTK/N6gCWR2O1m0fJkziTCE9fcCdfRMBo96mOs+zYXPTCBal2sAtrlaHEXUafjJSe09Bo5bpHzPjlgSWanGh4IEQr4toTL9QeDMOyEJeRiY8VOEcF5yYfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dFL9j2N5PzJ46lR;
+	Mon, 24 Nov 2025 17:28:57 +0800 (CST)
+Received: from dubpeml500006.china.huawei.com (unknown [7.214.146.138])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1BE031400D3;
+	Mon, 24 Nov 2025 17:29:49 +0800 (CST)
+Received: from dubpeml100008.china.huawei.com (7.214.145.227) by
+ dubpeml500006.china.huawei.com (7.214.146.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 24 Nov 2025 09:29:48 +0000
+Received: from dubpeml100008.china.huawei.com ([7.214.145.227]) by
+ dubpeml100008.china.huawei.com ([7.214.145.227]) with mapi id 15.02.1544.036;
+ Mon, 24 Nov 2025 09:29:48 +0000
+From: Shiju Jose <shiju.jose@huawei.com>
+To: Randy Dunlap <rdunlap@infradead.org>, "rafael@kernel.org"
+	<rafael@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "rppt@kernel.org"
+	<rppt@kernel.org>, "dferguson@amperecomputing.com"
+	<dferguson@amperecomputing.com>, "linux-edac@vger.kernel.org"
+	<linux-edac@vger.kernel.org>, "linux-acpi@vger.kernel.org"
+	<linux-acpi@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"tony.luck@intel.com" <tony.luck@intel.com>, "lenb@kernel.org"
+	<lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
+	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>
+CC: Jonathan Cameron <jonathan.cameron@huawei.com>, Linuxarm
+	<linuxarm@huawei.com>, "rientjes@google.com" <rientjes@google.com>,
+	"jiaqiyan@google.com" <jiaqiyan@google.com>, "Jon.Grimm@amd.com"
+	<Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
+	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
+	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
+	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
+	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
+	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
+	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
+	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, tanxiaofei
+	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
+ Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
+	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: RE: [PATCH v13 2/2] ras: mem: Add ACPI RAS2 memory driver
+Thread-Topic: [PATCH v13 2/2] ras: mem: Add ACPI RAS2 memory driver
+Thread-Index: AQHcWxSpDw4Z/LYIh0qhRo3faUcQr7T+KJmAgANquEA=
+Date: Mon, 24 Nov 2025 09:29:48 +0000
+Message-ID: <9165f50de6fa43edba7a3e6d99eebe8b@huawei.com>
+References: <20251121182825.237-1-shiju.jose@huawei.com>
+ <20251121182825.237-3-shiju.jose@huawei.com>
+ <af7b6cdc-c0a7-4896-ba6b-6bb933898d37@infradead.org>
+In-Reply-To: <af7b6cdc-c0a7-4896-ba6b-6bb933898d37@infradead.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aSQhTd5Z7KyvHtbG@smile.fi.intel.com>
 
-On Mon, Nov 24, 2025 at 11:11:41AM +0200, Andy Shevchenko wrote:
-> On Mon, Nov 24, 2025 at 09:57:26AM +0100, Jorge Marques wrote:
-> > On Mon, Nov 24, 2025 at 09:43:09AM +0200, Andy Shevchenko wrote:
-> 
-> ...
-> 
-> > I will submitted v2 shortly.
-> 
-> I think the "shortly" is not needed, please take your time, this seems missed
-> v6.19-rc1 anyway.
-
-Hi Andy,
-
-I was submitting when this reached my mailbox. Still, noted the comment
-on your next e-mail and no pressure on the release window, I just didn't
-have further changes for this revision.
-
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
-Thanks,
-Jorge
+DQo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj5Gcm9tOiBSYW5keSBEdW5sYXAgPHJkdW5s
+YXBAaW5mcmFkZWFkLm9yZz4NCj5TZW50OiAyMiBOb3ZlbWJlciAyMDI1IDA1OjE4DQo+VG86IFNo
+aWp1IEpvc2UgPHNoaWp1Lmpvc2VAaHVhd2VpLmNvbT47IHJhZmFlbEBrZXJuZWwub3JnOyBicEBh
+bGllbjguZGU7DQo+YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZzsgcnBwdEBrZXJuZWwub3JnOw0K
+PmRmZXJndXNvbkBhbXBlcmVjb21wdXRpbmcuY29tOyBsaW51eC1lZGFjQHZnZXIua2VybmVsLm9y
+ZzsgbGludXgtDQo+YWNwaUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LW1tQGt2YWNrLm9yZzsgbGlu
+dXgtZG9jQHZnZXIua2VybmVsLm9yZzsNCj50b255Lmx1Y2tAaW50ZWwuY29tOyBsZW5iQGtlcm5l
+bC5vcmc7IGxlby5kdXJhbkBhbWQuY29tOw0KPllhemVuLkdoYW5uYW1AYW1kLmNvbTsgbWNoZWhh
+YkBrZXJuZWwub3JnDQo+Q2M6IEpvbmF0aGFuIENhbWVyb24gPGpvbmF0aGFuLmNhbWVyb25AaHVh
+d2VpLmNvbT47IExpbnV4YXJtDQo+PGxpbnV4YXJtQGh1YXdlaS5jb20+OyByaWVudGplc0Bnb29n
+bGUuY29tOyBqaWFxaXlhbkBnb29nbGUuY29tOw0KPkpvbi5HcmltbUBhbWQuY29tOyBkYXZlLmhh
+bnNlbkBsaW51eC5pbnRlbC5jb207DQo+bmFveWEuaG9yaWd1Y2hpQG5lYy5jb207IGphbWVzLm1v
+cnNlQGFybS5jb207IGp0aG91Z2h0b25AZ29vZ2xlLmNvbTsNCj5zb21hc3VuZGFyYW0uYUBocGUu
+Y29tOyBlcmRlbWFrdGFzQGdvb2dsZS5jb207IHBnb25kYUBnb29nbGUuY29tOw0KPmR1ZW53ZW5A
+Z29vZ2xlLmNvbTsgZ3RoZWxlbkBnb29nbGUuY29tOw0KPndzY2h3YXJ0ekBhbXBlcmVjb21wdXRp
+bmcuY29tOyB3YnNAb3MuYW1wZXJlY29tcHV0aW5nLmNvbTsNCj5uaWZhbi5jeGxAZ21haWwuY29t
+OyB0YW54aWFvZmVpIDx0YW54aWFvZmVpQGh1YXdlaS5jb20+OyBaZW5ndGFvIChCKQ0KPjxwcmlt
+ZS56ZW5nQGhpc2lsaWNvbi5jb20+OyBSb2JlcnRvIFNhc3N1IDxyb2JlcnRvLnNhc3N1QGh1YXdl
+aS5jb20+Ow0KPmthbmdrYW5nLnNoZW5AZnV0dXJld2VpLmNvbTsgd2FuZ2h1aXFpYW5nIDx3YW5n
+aHVpcWlhbmdAaHVhd2VpLmNvbT4NCj5TdWJqZWN0OiBSZTogW1BBVENIIHYxMyAyLzJdIHJhczog
+bWVtOiBBZGQgQUNQSSBSQVMyIG1lbW9yeSBkcml2ZXINCj4NCj4NCj4NCj5PbiAxMS8yMS8yNSAx
+MDoyOCBBTSwgc2hpanUuam9zZUBodWF3ZWkuY29tIHdyb3RlOg0KPj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvcmFzL0tjb25maWcgYi9kcml2ZXJzL3Jhcy9LY29uZmlnDQo+PiBpbmRleCBmYzRmNGJi
+OTRhNGMuLjdlN2FmZDJiMmJhNyAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvcmFzL0tjb25maWcN
+Cj4+ICsrKyBiL2RyaXZlcnMvcmFzL0tjb25maWcNCj4+IEBAIC00Niw0ICs0NiwxNiBAQCBjb25m
+aWcgUkFTX0ZNUE0NCj4+ICAJICBNZW1vcnkgd2lsbCBiZSByZXRpcmVkIGR1cmluZyBib290IHRp
+bWUgYW5kIHJ1biB0aW1lIGRlcGVuZGluZyBvbg0KPj4gIAkgIHBsYXRmb3JtLXNwZWNpZmljIHBv
+bGljaWVzLg0KPj4NCj4+ICtjb25maWcgTUVNX0FDUElfUkFTMg0KPj4gKwl0cmlzdGF0ZSAiTWVt
+b3J5IEFDUEkgUkFTMiBkcml2ZXIiDQo+PiArCWRlcGVuZHMgb24gQUNQSV9SQVMyDQo+PiArCWRl
+cGVuZHMgb24gRURBQw0KPj4gKwlkZXBlbmRzIG9uIEVEQUNfU0NSVUINCj4+ICsJaGVscA0KPj4g
+KwkgIFRoZSBkcml2ZXIgYmluZHMgdG8gdGhlIGF1eGlsaWFyeSBkZXZpY2UgYWRkZWQgYnkgdGhl
+IEFDUEkgUkFTMg0KPj4gKwkgIGZlYXR1cmUgdGFibGUgcGFyc2VyLiBUaGUgZHJpdmVyIHVzZXMg
+YSBQQ0MgY2hhbm5lbCBzdWJzcGFjZSB0bw0KPj4gKwkgIGNvbW11bmljYXRpbmcgd2l0aCB0aGUg
+QUNQSS1jb21wbGlhbnQgcGxhdGZvcm0gYW5kIHByb3ZpZGVzDQo+DQo+CSAgY29tbXVuaWNhdGUg
+d2l0aA0KVGhhbmtzIFJhbmR5IGZvciByZXZpZXdpbmcuIEkgd2lsbCBmaXguDQoNCj4NCj4+ICsJ
+ICBjb250cm9sIG9mIHRoZSBIVy1iYXNlZCBtZW1vcnkgc2NydWJiZXIgcGFyYW1ldGVycyB0byB0
+aGUgdXNlcg0KPj4gKwkgIHRocm91Z2ggdGhlIEVEQUMgc2NydWIgaW50ZXJmYWNlLg0KPg0KPi0t
+DQo+flJhbmR5DQo+DQoNClRoYW5rcywNClNoaWp1DQo=
