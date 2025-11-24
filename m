@@ -1,159 +1,158 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523DC274FEB
-	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 22:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4D4158538;
+	Mon, 24 Nov 2025 23:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764024852; cv=none; b=hi2o7zXpTmqMKUk0ZicTK72NxMxaZ3cNFB2zvAS7y1BtWuLh9E6Su2sPyPKuJBmibgBwUTnxrmFacm4blUtpPuMor49CtqKJ/0gexTmFejkr2Fbk2Xd+RbQHWQo05a7YEBCJ/QvBbhpJxAxVXzJH+7hV9qoyVIMT53cC75OWnhY=
+	t=1764025337; cv=none; b=dVgDVQr/yi/OtQrfQ/EBFKbiytp8QFeUMAkL0/BONGdLwiSmvNeCZnaBccIy3GaMGYhi8PF7L+L3/tizuyEo3ZrK6PX8VQSmBleOIG3mydzapmFqG2hqiJrCJ1TXKrolcA01j/DbbQbEXfdyw+siEeLdHp9ugC9bImpTmBX26nI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764024852; c=relaxed/simple;
-	bh=edKq4gtkzxoLJDHJUV/qXOeR42ANjUErbCsec00PxsU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cXPikltfgkqsTVOYfYPrvsnDoBYN/yrBH1ZlhExhQCl6d0vEAPuTicP59fXmVAnuz7+poMyfq4FoAQq8ijwe0b3v1XvYxb0vjEa5BJ2v916emgnARdQC85rbnILxQaHAz5+GHOaXxs6gdSB5DEFbRcnljy9XHRwTDlvO8tP96Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nSqaSfzM; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764025337; c=relaxed/simple;
+	bh=DSLLiMuqyJEXQi6w68HGHfvxNP1ssyS17ez06L6BWDc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h860t0jhoJINr03r6k5m8t0OIQZwtiENe2Eh/dJfCVRhla5azynFkO6ObDF+FBd8CPiEuXVJ+QHNU6r8XL79lCGngjQgXJE1+/t+mQP9bCz/lmZK9H0ys2C5mWa9cGg7iScPg5o6+Uo+vLqEwMljdlMlg3yjv5N0fBNsaMkDaJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ucZNos2R; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nSqaSfzM"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-787da30c53dso47154637b3.0
-        for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 14:54:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764024849; x=1764629649; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YWuMPsKKgatyo18s+vz5tnI0IJ4a05j03miER+N0IUE=;
-        b=nSqaSfzMWCA/MKQVhAL2rHeZ+7F6Bg34N15fhC0UJt+c69mhUmbd9ZVhTkVRWm7xGK
-         DqhXgKNnBy77BTXYz3DeGqEGXAhHfqPera0BbXOoHDGJ3GdIUN0ZltPOcslFn1epHfSU
-         E+jb/OAKGmaJ1v+3KihyrceQXeHUG0WHzefsfrpsY6oaGwzrUmr/N6H2zpnqAzh4RGvg
-         KswMV05Kvm8cLmEwagK1TPGFZVoDe13BtOUIA/T6T1LAq357GX/NucpMNdyNGNCBlnop
-         4DnRymuS/GovbMIFAjXCWKskPx6rStjeRA80Ix7m6PbD6Wnez1q/ovsrYQjXONZ6r5tY
-         Cx3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764024849; x=1764629649;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YWuMPsKKgatyo18s+vz5tnI0IJ4a05j03miER+N0IUE=;
-        b=JOZ0mbe9MnFa1rpW9WumHUaSm7tB0C5IztVQAAYd+V4DujG2BjFENfCGTcmj2D4DPX
-         wZ79q2mZNQyc9dGukdMhY7F1Oh2SMLBIcK6bQGA3x2VPytAa99CJTqTzDN85+LafVX92
-         iQaGgSwepGbmhMlsV0QIvK0UG12AaF2LdpDLywCoYdoAJ/ZTXvhBsKJxV9ZBCb/jrDnd
-         04/LxsYqKTXbnbZo0PmgwQkiM7UMCZQU+NaflnwE07r6/AHi3dg8IORGVgEQ+TuUipmt
-         OjyXhtv3naOuqFPf1tqG5Pc5uiZcK6Q7QQ014gM74DlCAy9+INPkqWB+G6LIF7g5Xg+a
-         8DjA==
-X-Forwarded-Encrypted: i=1; AJvYcCVF3aOXInwdKBtw3Vf+hdqiS3A7yyCpAqcsFxYDF+HoxPe8IkFpbLoP3h/nRxS9X3kV5sAcc/iiVvI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCJ2rbAMkFYWYnSDx/02lkStcHUkKzhZ2j91gE78zxQ/BkRufk
-	wmJhyu+mud6+1sHrqtAl8Vw5MDwjbcKd5R+bcMwgDTCL4Rt7Gr/rrzFa
-X-Gm-Gg: ASbGncsaztkhWadUP9g6qtPRT93pygdLQAU0dx2G5HH7U4Yvz6CPFo48yGZqQOit41M
-	PxH+eaDndlNekFOotFhUwmxXh1JF7CSBvMXIfPd8Fpw6X8rfzcivLC0uBONCYHVNRaJbB+XMag9
-	Yx5Q7Bjwrtgr/PAZHBOdTSCxUugMh421UQeaeLJGpB2lIlxA2X6S7quXJciX3ilQ9c4YX5seNuE
-	U7bM9Lsc76tG2eRabBmgeKp2L+27WP/c7ttEaJuxV+eHJlRjLhbdI4yHB98RvmHD1YGZ9i9gWSg
-	gr36MtcUEg4tLHtR9+6ds1i7DnIRVqWEc64mJGOYf9jOh6OJeHoBK1OUh4QYqcwxpfx0cW+SCbY
-	J6w4L4hU8CXgZ3ciSjNxG14Mk//9KgA9ep/HCM7Xo+0HaRJWVcpJgAahCArbzjXf29L052VV2in
-	if1aAVLjSo0zAWhvpJA6VzNA==
-X-Google-Smtp-Source: AGHT+IHWNL6nbfpxwuN4vaoDOcaitVPmqOrTZpRhfU4dCtIL5A3x3tBs6D5XV9tHVYVPQP1fZTsyiw==
-X-Received: by 2002:a53:c043:0:20b0:641:f5bc:6962 with SMTP id 956f58d0204a3-64302b3f5afmr8307288d50.78.1764024849231;
-        Mon, 24 Nov 2025 14:54:09 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:4f::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a79925c85sm49604297b3.37.2025.11.24.14.54.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 14:54:08 -0800 (PST)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mike Rapoport <rppt@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	kernel-team@meta.com
-Subject: [PATCH v2 1/2] mm/mm_init: Introduce a boot parameter for check_pages
-Date: Mon, 24 Nov 2025 14:54:06 -0800
-Message-ID: <20251124225408.2243564-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ucZNos2R"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=phK95OiKQw9Z7woyQUoFP5sDjuUQIt00WZDTIL2asvk=; b=ucZNos2RIgZP6F8n1TZZu5e/Tn
+	K6kqgDgR1ppk63CBfUckQMhWPUedRO+Ya8YVNPRCPad4Y0nbzhc9dCVoKuqXvMJglspdIMBwnSCit
+	PFCj0s+n1os/IJj9Ka3P5DUQRQuo3SdOmKLyjLJqqMDlTKwcKaNwvKmyTGk6HWFTwwM42dOHuGVjC
+	+I7+sKzoKunGQfXXcvRHb34Yh4T3n9w+O8n10aSrRgKGQK8K+Bt8dZiVRJFEaDCkF5kCYA/L5TQ7F
+	iykQnizdzI0oZF09/DXhfJUcxYH9K8jz+/uZDlh3+V47yWJ1f/SmK/cQFhdwAfY3O+UoNDfulb3hm
+	1eeY9c3w==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vNfZR-0000000CQRf-1Yi3;
+	Mon, 24 Nov 2025 23:02:09 +0000
+Message-ID: <e6ad8812-d59b-40ae-8404-4babf88ec14d@infradead.org>
+Date: Mon, 24 Nov 2025 15:02:08 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next V3 02/14] documentation: networking: add shared
+ devlink documentation
+To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>
+Cc: Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
+ Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+ Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
+ Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>,
+ Jiri Pirko <jiri@nvidia.com>
+References: <1764023259-1305453-1-git-send-email-tariqt@nvidia.com>
+ <1764023259-1305453-3-git-send-email-tariqt@nvidia.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <1764023259-1305453-3-git-send-email-tariqt@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Use-after-free and double-free bugs can be very difficult to track down.
-The kernel is good at tracking these and preventing bad pages from being
-used/created through simple checks gated behind "check_pages_enabled".
 
-Currently, the only ways to enable this flag is by building with
-CONFIG_DEBUG_VM, or as a side effect of other checks such as
-init_on_{alloc, free}, page_poisoning, or debug_pagealloc among others.
-These solutions are powerful, but may often be too coarse in balancing
-the performance vs. safety that a user may want, particularly in
-latency-sensitive production environments.
 
-Introduce a new boot parameter "check_pages", which enables page checking
-with no other side effects. It takes kstrbool-able inputs as an argument
-(i.e. 0/1, true/false, on/off, ...). This patch is backwards-compatible;
-setting CONFIG_DEBUG_VM still enables page checking.
+On 11/24/25 2:27 PM, Tariq Toukan wrote:
+> From: Jiri Pirko <jiri@nvidia.com>
+> 
+> Document shared devlink instances for multiple PFs on the same chip.
+> 
+> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
+> Reviewed-by: Cosmin Ratiu <cratiu@nvidia.com>
+> Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
+> ---
+>  .../networking/devlink/devlink-shared.rst     | 66 +++++++++++++++++++
+>  Documentation/networking/devlink/index.rst    |  1 +
+>  2 files changed, 67 insertions(+)
+>  create mode 100644 Documentation/networking/devlink/devlink-shared.rst
+> 
+> diff --git a/Documentation/networking/devlink/devlink-shared.rst b/Documentation/networking/devlink/devlink-shared.rst
+> new file mode 100644
+> index 000000000000..8377d524998f
+> --- /dev/null
+> +++ b/Documentation/networking/devlink/devlink-shared.rst
+> @@ -0,0 +1,66 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +============================
+> +Devlink Shared Instances
+> +============================
+> +
+> +Overview
+> +========
+> +
+> +Shared devlink instances allow multiple physical functions (PFs) on the same
+> +chip to share an additional devlink instance for chip-wide operations. This
+> +should be implemented within individual drivers alongside the individual PF
+> +devlink instances, not replacing them.
+> +
+> +The shared devlink instance should be backed by a faux device and should
+> +provide a common interface for operations that affect the entire chip
+> +rather than individual PFs.
+> +
+> +Implementation
+> +==============
+> +
+> +Architecture
+> +------------
+> +
+> +The implementation should use:
+> +
+> +* **Faux device**: Virtual device backing the shared devlink instance
+> +* **Chip identification**: PFs are grouped by chip using a driver-specific identifier
+> +* **Shared instance management**: Global list of shared instances with reference counting
+> +
+> +Initialization Flow
+> +-------------------
+> +
+> +1. **PF calls shared devlink init** during driver probe
+> +2. **Chip identification** using driver-specific method to determine device identity
+> +3. **Lookup existing shared instance** for this chip identifier
+> +4. **Create new shared instance** if none exists:
+> +
+> +   * Create faux device with chip identifier as name
+> +   * Allocate and register devlink instance
+> +   * Add to global shared instances list
+> +
+> +5. **Add PF to shared instance** PF list
+> +6. **Set nested devlink instance** dor the PF devlink instance
 
-Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
----
-v1 --> v2:
-- Changed check_pages from a build config into a boot config, as suggested
-  by Vlastimil.
-- Introduced the second patch, which decouples page checking from 
-  init_on_page_alloc and init_on_page_free.
----
+s/dor/for/
 
- Documentation/admin-guide/kernel-parameters.txt |  8 ++++++++
- mm/mm_init.c                                    | 11 ++++++++++-
- 2 files changed, 18 insertions(+), 1 deletion(-)
+> +
+> +Cleanup Flow
+> +------------
+> +
+> +1. **Cleanup** when PF is removed; destroy shared instance when last PF is removed
+> +
+> +Chip Identification
+> +-------------------
+> +
+> +PFs belonging to the same chip are identified using a driver-specific method.
+> +The driver is free to choose any identifier that is suitable for determining
+> +whether two PFs are part of the same device. Examples include VPD serial numbers,
+> +device tree properties, or other hardware-specific identifiers.
+> +
+> +Locking
+> +-------
+> +
+> +A global per-driver mutex protects the shared instances list and individual shared
+> +instance PF lists during registration/deregistration.
+> +
+> +Similarly to other nested devlink instance relationships, devlink lock of
+> +the shared instance should be always taken after the devlink lock of PF.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6c42061ca20e..0ba9561440a7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -669,6 +669,14 @@
- 			nokmem -- Disable kernel memory accounting.
- 			nobpf -- Disable BPF memory accounting.
- 
-+	check_pages=	[MM,EARLY] Enable sanity checking of pages after
-+			allocations / before freeing. This adds checks to catch
-+			double-frees, use-after-frees, and other sources of
-+			page corruption by inspecting page internals (flags,
-+			mapcount/refcount, memcg_data, etc.).
-+			Format: { "0" | "1" }
-+			Default: 0 (1 if CONFIG_DEBUG_VM is set)
-+
- 	checkreqprot=	[SELINUX] Set initial checkreqprot flag value.
- 			Format: { "0" | "1" }
- 			See security/selinux/Kconfig help text.
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index c6812b4dbb2e..01d46efc42b4 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -2525,6 +2525,14 @@ early_param("init_on_free", early_init_on_free);
- 
- DEFINE_STATIC_KEY_MAYBE(CONFIG_DEBUG_VM, check_pages_enabled);
- 
-+static bool _check_pages_enabled_early __initdata;
-+
-+static int __init early_check_pages(char *buf)
-+{
-+	return kstrtobool(buf, &_check_pages_enabled_early);
-+}
-+early_param("check_pages", early_check_pages);
-+
- /*
-  * Enable static keys related to various memory debugging and hardening options.
-  * Some override others, and depend on early params that are evaluated in the
-@@ -2591,7 +2599,8 @@ static void __init mem_debugging_and_hardening_init(void)
- 	 * of struct pages being allocated or freed. With CONFIG_DEBUG_VM it's
- 	 * enabled already.
- 	 */
--	if (!IS_ENABLED(CONFIG_DEBUG_VM) && want_check_pages)
-+	if (!IS_ENABLED(CONFIG_DEBUG_VM) && (_check_pages_enabled_early ||
-+					     want_check_pages))
- 		static_branch_enable(&check_pages_enabled);
- }
- 
+
 -- 
-2.47.3
+~Randy
+
