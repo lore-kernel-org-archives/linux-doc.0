@@ -1,252 +1,185 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C632D7805
-	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 19:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6D61A9F87
+	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 20:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764012309; cv=none; b=mNprn+2Uq+n+uGQY0t2/lCyqB/ttvynTg0RXG1b6LoS59WAKp+CaOpc7KIHPC1qFMIAVd0xw9/14x8UgVrBOamUNEAUXobYAsKlsyRMAnW+vLcDpKbxmsBpTgZf/yLSyUyJT0A1YnGHD9qSjDLxE5OXxC+8KoZ9hO6k/vwz2maQ=
+	t=1764014900; cv=none; b=dOppekQ3u1mer2Q6dBIGhwt3nQvp/qrNI1DA5OyDsEGRgFpKX+5y6fz2c/Lf3NWdCfKj/SxGsTs6ObymPfKO+YBqOH9GP3DITaYsk0zylfrRxeMsdzQyfB4/2SvcAVJlsjx+yaU1cdy51ysKKKPGexJ7u268qzyywZRN9fR0D/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764012309; c=relaxed/simple;
-	bh=t6ja05Yoli0eJ2t+zeQEqqmC6VeMw6q0fMbTrPzZhzo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QXsiJVv0JozlSjo8OnbxxsEkGGVglVV7AQbZEa8FZJX2eP+viht7Mdo94m6mTiLetdkNl+Iz5ITurcJB5e8ZjAGJmx+DeRt2yr9Whvp+GvURQGjzQI2utYBun+1i4WOw/vrPUkSRA76v4DFjkh6+pqowFB+R+oqVUVlHNfYNSko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UuxYxIEK; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764014900; c=relaxed/simple;
+	bh=+jM9DOdjBhyH7HlVHzP5atA4jvdGyiwhLOzyn6rPOkM=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=tqUoLSBrvvyerFXyTBxE6jWDAertiGfFfW690uKIoGnBzl3pbbJMfdJ2/w7Q+ZwaMjwFEJERZBDHGnVNPp+cgq1zxaQVBzUe9fA9G8uSn8spp/x7d/+p/D9HOuycPqQIX82EjD3UEkIVoTgWOFVtp4gJR3AdbCcUmbbFQXykyTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YFkX3Ulb; arc=none smtp.client-ip=209.85.128.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UuxYxIEK"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477b1cc8fb4so26956345e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 11:25:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YFkX3Ulb"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4779da35d27so58258675e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 12:08:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764012302; x=1764617102; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9jk37GvM71JhaWd5rL6T9q167IOkQkimPTz38uVA1jc=;
-        b=UuxYxIEKuYJ08ERETjGsuxXnbOYcXd1jeHbIs6WuyLprGEFAZQ1cTlMyIoDzSM2P8R
-         wFQkgqWABQ0XQfxOtC0FfuO88ttOUCw5y5rAMLEw4DBUNwUHKEIb0Y1yg4XIx/qgweiu
-         yNPGp/jmTpzMoY/EnU8TYBkg3rQvzcVAU3SSetQtOqpeerG668p5R4NEHUqmpli9p411
-         zoaLr+5g8jIGlt1+tet6q8YXnH7uwemuZ2BxFBXk63OSyJccvY2Si4cts6luEwQ7r4AT
-         tqe5+Ac1Lbsa9CK7fMTlL4S+xBSYqW3ZXvcr+F5ud4+dEwtozgW7VQ7o4brV92Ws4IWZ
-         R08g==
+        d=google.com; s=20230601; t=1764014897; x=1764619697; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=y6cF97FuMaXldX4nVRk2ef3Y1LkWTsSlt/45nS3G5EU=;
+        b=YFkX3UlbTEL/096ICRvWgKPTdhEHibBttvL4HVl6W/8jwp+mskMNqQJzI1n+o97EMg
+         dV3AL+ZZ9rUr4jyDOuOKJHIZ6s6LpCXccWgQBcuw5Beoljz6NcHrEwpJqunfajXHgmSu
+         1evdOfD8ui0eRStUDoPEb3oi4NTc+Ee8a01H2rMiRN8kFDbjPdeW8RopGPqxp4ds4yOb
+         eo/9pVMiSSqfAzQmQmAbpGFplF7sv9Vt/Lp0GECIYoXk+n+G7SZbX119yKzmsdoqqe43
+         vn6j96ZKKBmUXABMnCb57MpULKE/c62cP1cxh5SG5WDBsFtq78U5QQ3uANn63kZtWD6g
+         VCOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764012302; x=1764617102;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9jk37GvM71JhaWd5rL6T9q167IOkQkimPTz38uVA1jc=;
-        b=bFYWNdGxtWWZKdj34zmBq3JYET/OyMqWsYGw34/LWJgAwg/QTcBstIsPvkyXJdhGoD
-         yoek9ZDZWRk6bdys0mMo5BxgW+2dZMfDkspU8uli/ozov2X8NHDnoUWC4LRhIZwPMqLj
-         6MNKWdOlapFpjaNwZESMeU/6ZkNBDMtqloAqoN+HefYjJ+swwTgO3wG7nr2lw2AXfHbN
-         YBlz/dEh7bbzR0LigDTld/ZSo6z8CuKnWyWBc2NYnVTSgAlMmY1f63PzBRb+hdBTZjuh
-         WL1JWZvkEH2hesnNRdDP2Ln8bEkbHGrc4sLTmBE6oKIJjyL0phWYUhPTPWSJGRI6MTAa
-         5WCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX/23l4MmBAOpLAdBgOAOF7uGRCZnSVaDCnPq9q+77c4gQUUpoN2G4GTxALgfi/2wYSHpJtY61bTp4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQNGa3Ndrk/nyt1EFPDLrt2VI0XewjOv0Wm9FknEQC1sLTC0DX
-	lWpym2KoEy9UYrhXeUg9tAwzLcF7mO9jNgGH27AmLRjqgXSPVBMG6Etm
-X-Gm-Gg: ASbGnctDbGrF+hnZKNnnkt/D9o+DX+BJadYyArzrzqr/s8mUVN1nb9ya9JwQcCzZ7BI
-	LToHIOqCLGNUYPABmOAEx15S7pqoNPdh2NlM4wQZiO177s1lAWq+n21+2EPo1TN2Ttus4T0zjdw
-	Ha1wmaPe8on5j/9TOpMovgybSBazcJ/oAzhB8xX/AbGDsfYoeL8BTEckHo8ZFKhZEtigCFUHExd
-	XVwLSyPwYh0H7GekAQYnuKt0MgZB91E9hl4c24avGYys3mFT/Tru1Mm0ZYNnWz4K90ZGhwqN18l
-	K7N052jMnZtcaDqTvaPPfFBZto/MgpN5MJprv3RQxlYwZW7H8CwboY+0Cyk/KbyMHogI8GdgIcF
-	uB8rrOwqrTd95o1asv7Us7fk8gjizVNsUEEHKA9SiWOH2dI/hfaDumZxwBMPkOlW/Z7ln07Tn0s
-	3P5kpnXBChesq/TBppMSeLdaiN5LMJvJ1CsTS50/JjvHPqwOLr1EJo/2R+oQyFd54=
-X-Google-Smtp-Source: AGHT+IFeHLsoYr2AmZntomxO2DLGMgEciJ8EAmlBYd3tNaV7xwLFtpLjqhrJ3Jk53gAvqzID4Fk9Ww==
-X-Received: by 2002:a05:600c:3115:b0:477:b48d:ba7a with SMTP id 5b1f17b1804b1-477c01fd202mr126949555e9.32.1764012302165;
-        Mon, 24 Nov 2025 11:25:02 -0800 (PST)
-Received: from ?IPV6:2a03:83e0:1126:4:ce0:a4eb:eabc:d420? ([2620:10d:c092:500::5:5b96])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477bf3ba1b4sm214863705e9.15.2025.11.24.11.25.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Nov 2025 11:25:01 -0800 (PST)
-Message-ID: <a0f875f1-45ad-4dfc-b5c8-ecb51b242523@gmail.com>
-Date: Mon, 24 Nov 2025 19:24:58 +0000
+        d=1e100.net; s=20230601; t=1764014897; x=1764619697;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y6cF97FuMaXldX4nVRk2ef3Y1LkWTsSlt/45nS3G5EU=;
+        b=BJHpsKe/1HMZhxBdwfYv/06dGFyBVMD4SrZno8tg/9bUA8H0sjqFLltUi99KtsGKb8
+         40xeOh9Kj/ZZ+9hjGdvfBOwfwR+aucooowZGo570k2BYTHjLKkIei+ldRQl6I6T2wt9l
+         i5jAxgln7M+0MI3W4TLNYREJlyZOhNYwPYJoT3aXkrrfovWvqcEDZhUQ44TPD0e30890
+         sMCNVIFWeM7f/eBcZ4Nk6C6s4Jvr78MV8mtW9s1guH9zAE3LnslXtL/4TeII7KTg39Vd
+         deFqK6H87p3faFLhoriHhBQqFGLu2499E4557wxVD4VZQEnrxeLe8HJcs8XOrNHR66JK
+         TnTw==
+X-Forwarded-Encrypted: i=1; AJvYcCUgf/3SmouXEJVlcIxqiMt9dGdr5/DBQpxAUaMmz+G4DH10f0c9s6iRTTxEQyaWYeM5yjDZ1viRr0c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+rxoQYTrsYF4yCoomtNCOBdkPfY+haitRcweaSGFw/aTCsiZ+
+	2quak2Y7DHJWAs/zL72o2Mr0qePArif06n3wv1hrXqKK3+GQxfKtGESaQzrunlWR6iLNvjfspVZ
+	LmX4zxkDbY5j+Wg==
+X-Google-Smtp-Source: AGHT+IG4vi0WfkeqorYIMjrVx6w0lretQ4YoAiBDlLabyKHqm8PtvfTjZqcpq685F8sErkOoMo/2vMj7xrLQbg==
+X-Received: from wmcq20.prod.google.com ([2002:a05:600c:c114:b0:477:a656:6762])
+ (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:8b37:b0:477:76bf:e1fb with SMTP id 5b1f17b1804b1-47904b1ab30mr1341855e9.16.1764014897434;
+ Mon, 24 Nov 2025 12:08:17 -0800 (PST)
+Date: Mon, 24 Nov 2025 20:08:07 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 12/17] x86/e820: temporarily enable KHO scratch for
- memory below 1M
-To: Changyuan Lyu <changyuanl@google.com>, akpm@linux-foundation.org,
- linux-kernel@vger.kernel.org, Mike Rapoport <rppt@kernel.org>
-Cc: anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
- benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com,
- corbet@lwn.net, dave.hansen@linux.intel.com, devicetree@vger.kernel.org,
- dwmw2@infradead.org, ebiederm@xmission.com, graf@amazon.com, hpa@zytor.com,
- jgowans@amazon.com, kexec@lists.infradead.org, krzk@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, luto@kernel.org, mark.rutland@arm.com, mingo@redhat.com,
- pasha.tatashin@soleen.com, pbonzini@redhat.com, peterz@infradead.org,
- ptyadav@amazon.de, robh@kernel.org, rostedt@goodmis.org, rppt@kernel.org,
- saravanak@google.com, skinsburskii@linux.microsoft.com, tglx@linutronix.de,
- thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org,
- Breno Leitao <leitao@debian.org>, thevlad@meta.com
-References: <20250509074635.3187114-1-changyuanl@google.com>
- <20250509074635.3187114-13-changyuanl@google.com>
-Content-Language: en-GB
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <20250509074635.3187114-13-changyuanl@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.460.gd25c4c69ec-goog
+Message-ID: <20251124200811.2942432-1-smostafa@google.com>
+Subject: [PATCH v3 0/4] iommu: Add IOMMU_DEBUG_PAGEALLOC sanitizer
+From: Mostafa Saleh <smostafa@google.com>
+To: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
+	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
+	xiaqinxin@huawei.com, Mostafa Saleh <smostafa@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Overview
+--------
+This patch series introduces a new debugging feature,
+IOMMU_DEBUG_PAGEALLOC, designed to catch DMA use-after-free bugs
+and IOMMU mapping leaks from buggy drivers.
+
+The kernel has powerful sanitizers like KASAN and DEBUG_PAGEALLOC
+for catching CPU-side memory corruption. However, there is limited
+runtime sanitization for DMA mappings managed by the IOMMU. A buggy
+driver can free a page while it is still mapped for DMA, leading to
+memory corruption or use-after-free vulnerabilities when that page is
+reallocated and used for a different purpose.
+
+Inspired by DEBUG_PAGEALLOC, this sanitizer tracks IOMMU mappings on a
+per-page basis, as it=E2=80=99s not possible to unmap the pages, because it
+requires to lock and walk all domains on every kernel free, instead we
+rely on page_ext to add an IOMMU-specific mapping reference count for
+each page.
+And on each page allocated/freed from the kernel we simply check the
+count and WARN if it is not zero, and dumping page owner information
+if enabled.
+
+Concurrency
+-----------
+By design this check is racy where one caller can map pages just after
+the check, which can lead to false negatives.
+In my opinion this is acceptable for sanitizers (for ex KCSAN have
+that property).
+Otherwise we have to implement locks in iommu_map/unmap for all domains
+which is not favourable even for a debug feature.
+The sanitizer only guarantees that the refcount itself doesn=E2=80=99t get
+corrupted using atomics. And there are no false positives.
+
+CPU vs IOMMU Page Size
+----------------------
+IOMMUs can use different page sizes and which can be non-homogeneous;
+not even all of them have the same page size.
+
+To solve this, the refcount is always incremented and decremented in
+units of the smallest page size supported by the IOMMU domain. This
+ensures the accounting remains consistent regardless of the size of
+the map or unmap operation, otherwise double counting can happen.
+
+Testing & Performance
+---------------------
+This was tested on Morello with Arm64 + SMMUv3
+Did some tests on Qemu including different SMMUv3/CPU page size (arm64).
+
+I also ran dma_map_benchmark on Morello:
+
+echo dma_map_benchmark > /sys/bus/pci/devices/0000\:06\:00.0/driver_overrid=
+e
+echo 0000:06:00.0 >  /sys/bus/pci/devices/0000\:06\:00.0/driver/unbind
+echo 0000:06:00.0 > /sys/bus/pci/drivers/dma_map_benchmark/bind
+./dma_map_benchmark -t $threads -g $nr_pages
+
+CONFIG refers to "CONFIG_IOMMU_DEBUG_PAGEALLOC"
+cmdline refers to "iommu.debug_pagealloc"
+Numbers are (map latency)/(unmap latency), lower is better.
+
+			CONFIG=3Dn    CONFIG=3Dy    CONFIG=3Dy
+			            cmdline=3D0   cmdline=3D1
+4K - 1 thread		0.1/0.6     0.1/0.6     0.1/0.7
+4K - 4 threads		0.1/1.1     0.1/1.0     0.2/1.1
+1M - 1 thread		0.8/21.2    0.7/21.2    5.4/42.3
+1M - 4 threads		1.1/45.9    1.1/46.0    5.9/45.1
+
+Main changes in v3: (Most of them addressing Will comments)
+v2: https://lore.kernel.org/linux-iommu/20251106163953.1971067-1-smostafa@g=
+oogle.com/
+- Reword the Kconfig help
+- Use unmap_begin/end instead of unmap/remap
+- Use relaxed accessors when refcounting
+- Fix a bug with checking the returned address from iova_to_phys
+- Add more hardening checks (overflow)
+- Add more debug info on assertions (dump_page_owner())
+- Handle cases where unmap returns larger size as the core code seems
+  to tolerate that.
+- Drop Tested-by tags from Qinxin as the code logic changed
+
+Main changes in v2:
+v1: https://lore.kernel.org/linux-iommu/20251003173229.1533640-1-smostafa@g=
+oogle.com/
+- Address J=C3=B6rg comments about #ifdefs and static keys
+- Reword the Kconfig help
+- Drop RFC
+- Collect t-b from Qinxin
+- Minor cleanups
 
 
+Mostafa Saleh (4):
+  drivers/iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
+  drivers/iommu: Add calls for IOMMU_DEBUG_PAGEALLOC
+  drivers/iommu-debug-pagealloc: Track IOMMU pages
+  drivers/iommu-debug-pagealloc: Check mapped/unmapped kernel memory
 
-On 09/05/2025 08:46, Changyuan Lyu wrote:
-> From: Alexander Graf <graf@amazon.com>
-> 
-> KHO kernels are special and use only scratch memory for memblock
-> allocations, but memory below 1M is ignored by kernel after early boot
-> and cannot be naturally marked as scratch.
-> 
-> To allow allocation of the real-mode trampoline and a few (if any) other
-> very early allocations from below 1M forcibly mark the memory below 1M
-> as scratch.
-> 
-> After real mode trampoline is allocated, clear that scratch marking.
-> 
-> Signed-off-by: Alexander Graf <graf@amazon.com>
-> Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Co-developed-by: Changyuan Lyu <changyuanl@google.com>
-> Signed-off-by: Changyuan Lyu <changyuanl@google.com>
-> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
-> ---
->  arch/x86/kernel/e820.c   | 18 ++++++++++++++++++
->  arch/x86/realmode/init.c |  2 ++
->  2 files changed, 20 insertions(+)
-> 
-> diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
-> index 9920122018a0b..c3acbd26408ba 100644
-> --- a/arch/x86/kernel/e820.c
-> +++ b/arch/x86/kernel/e820.c
-> @@ -1299,6 +1299,24 @@ void __init e820__memblock_setup(void)
->  		memblock_add(entry->addr, entry->size);
->  	}
->  
-> +	/*
-> +	 * At this point memblock is only allowed to allocate from memory
-> +	 * below 1M (aka ISA_END_ADDRESS) up until direct map is completely set
-> +	 * up in init_mem_mapping().
-> +	 *
-> +	 * KHO kernels are special and use only scratch memory for memblock
-> +	 * allocations, but memory below 1M is ignored by kernel after early
-> +	 * boot and cannot be naturally marked as scratch.
-> +	 *
-> +	 * To allow allocation of the real-mode trampoline and a few (if any)
-> +	 * other very early allocations from below 1M forcibly mark the memory
-> +	 * below 1M as scratch.
-> +	 *
-> +	 * After real mode trampoline is allocated, we clear that scratch
-> +	 * marking.
-> +	 */
-> +	memblock_mark_kho_scratch(0, SZ_1M);
-> +
->  	/*
->  	 * 32-bit systems are limited to 4BG of memory even with HIGHMEM and
->  	 * to even less without it.
-> diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
-> index f9bc444a3064d..9b9f4534086d2 100644
-> --- a/arch/x86/realmode/init.c
-> +++ b/arch/x86/realmode/init.c
-> @@ -65,6 +65,8 @@ void __init reserve_real_mode(void)
->  	 * setup_arch().
->  	 */
->  	memblock_reserve(0, SZ_1M);
-> +
-> +	memblock_clear_kho_scratch(0, SZ_1M);
->  }
->  
->  static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
-
-Hello!
-
-I am working with Breno who reported that we are seeing the below warning at boot
-when rolling out 6.16 in Meta fleet. It is difficult to reproduce on a single host
-manually but we are seeing this several times a day inside the fleet.
-
- 20:16:33  ------------[ cut here ]------------
- 20:16:33  WARNING: CPU: 0 PID: 0 at mm/memblock.c:668 memblock_add_range+0x316/0x330
- 20:16:33  Modules linked in:
- 20:16:33  CPU: 0 UID: 0 PID: 0 Comm: swapper Tainted: G S                  6.16.1-0_fbk0_0_gc0739ee5037a #1 NONE 
- 20:16:33  Tainted: [S]=CPU_OUT_OF_SPEC
- 20:16:33  RIP: 0010:memblock_add_range+0x316/0x330
- 20:16:33  Code: ff ff ff 89 5c 24 08 41 ff c5 44 89 6c 24 10 48 63 74 24 08 48 63 54 24 10 e8 26 0c 00 00 e9 41 ff ff ff 0f 0b e9 af fd ff ff <0f> 0b e9 b7 fd ff ff 0f 0b 0f 0b cc cc cc cc cc cc cc cc cc cc cc
- 20:16:33  RSP: 0000:ffffffff83403dd8 EFLAGS: 00010083 ORIG_RAX: 0000000000000000
- 20:16:33  RAX: ffffffff8476ff90 RBX: 0000000000001c00 RCX: 0000000000000002
- 20:16:33  RDX: 00000000ffffffff RSI: 0000000000000000 RDI: ffffffff83bad4d8
- 20:16:33  RBP: 000000000009f000 R08: 0000000000000020 R09: 8000000000097101
- 20:16:33  R10: ffffffffff2004b0 R11: 203a6d6f646e6172 R12: 000000000009ec00
- 20:16:33  R13: 0000000000000002 R14: 0000000000100000 R15: 000000000009d000
- 20:16:33  FS:  0000000000000000(0000) GS:0000000000000000(0000) knlGS:0000000000000000
- 20:16:33  CR2: ffff888065413ff8 CR3: 00000000663b7000 CR4: 00000000000000b0
- 20:16:33  Call Trace:
- 20:16:33   <TASK>
- 20:16:33   ? __memblock_reserve+0x75/0x80
- 20:16:33   ? setup_arch+0x30f/0xb10
- 20:16:33   ? start_kernel+0x58/0x960
- 20:16:33   ? x86_64_start_reservations+0x20/0x20
- 20:16:33   ? x86_64_start_kernel+0x13d/0x140
- 20:16:33   ? common_startup_64+0x13e/0x140
- 20:16:33   </TASK>
- 20:16:33  ---[ end trace 0000000000000000 ]--- 
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ drivers/iommu/Kconfig                         |  19 ++
+ drivers/iommu/Makefile                        |   1 +
+ drivers/iommu/iommu-debug-pagealloc.c         | 172 ++++++++++++++++++
+ drivers/iommu/iommu.c                         |  12 +-
+ include/linux/iommu-debug-pagealloc.h         |  85 +++++++++
+ include/linux/mm.h                            |   5 +
+ mm/page_ext.c                                 |   4 +
+ 8 files changed, 302 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/iommu/iommu-debug-pagealloc.c
+ create mode 100644 include/linux/iommu-debug-pagealloc.h
 
 
-Rolling out with memblock=debug is not really an option in a large scale fleet due to the
-time added to boot. But I did try on one of the hosts (without reproducing the issue) and I see:
+base-commit: ac3fd01e4c1efce8f2c054cdeb2ddd2fc0fb150d
+--=20
+2.52.0.460.gd25c4c69ec-goog
 
-[    0.000616]  memory.cnt  = 0x6
-[    0.000617]  memory[0x0]	[0x0000000000001000-0x000000000009bfff], 0x000000000009b000 bytes flags: 0x40
-[    0.000620]  memory[0x1]	[0x000000000009f000-0x000000000009ffff], 0x0000000000001000 bytes flags: 0x40
-[    0.000621]  memory[0x2]	[0x0000000000100000-0x000000005ed09fff], 0x000000005ec0a000 bytes flags: 0x0
-...
-
-The 0x40 (MEMBLOCK_KHO_SCRATCH) is coming from memblock_mark_kho_scratch in e820__memblock_setup. I believe this
-should be under ifdef like the diff at the end? (Happy to send this as a patch for review if it makes sense).
-We have KEXEC_HANDOVER disabled in our defconfig, therefore MEMBLOCK_KHO_SCRATCH shouldnt be selected and
-we shouldnt have any MEMBLOCK_KHO_SCRATCH type regions in our memblock reservations.
-
-The other thing I did was insert a while(1) just before the warning and inspected the registers in qemu.
-R14 held the base register, and R15 held the size at that point.
-In the warning R14 is 0x100000 meaning that someone is reserving a region with a different flag to MEMBLOCK_NONE
-at the boundary of MEMBLOCK_KHO_SCRATCH.
-
-diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
-index c3acbd26408ba..26e4062a0bd09 100644
---- a/arch/x86/kernel/e820.c
-+++ b/arch/x86/kernel/e820.c
-@@ -1299,6 +1299,7 @@ void __init e820__memblock_setup(void)
-                memblock_add(entry->addr, entry->size);
-        }
- 
-+#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
-        /*
-         * At this point memblock is only allowed to allocate from memory
-         * below 1M (aka ISA_END_ADDRESS) up until direct map is completely set
-@@ -1316,7 +1317,7 @@ void __init e820__memblock_setup(void)
-         * marking.
-         */
-        memblock_mark_kho_scratch(0, SZ_1M);
--
-+#endif
-        /*
-         * 32-bit systems are limited to 4BG of memory even with HIGHMEM and
-         * to even less without it.
-diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
-index 88be32026768c..1cd80293a3e23 100644
---- a/arch/x86/realmode/init.c
-+++ b/arch/x86/realmode/init.c
-@@ -66,8 +66,9 @@ void __init reserve_real_mode(void)
-         * setup_arch().
-         */
-        memblock_reserve(0, SZ_1M);
--
-+#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
-        memblock_clear_kho_scratch(0, SZ_1M);
-+#endif
- }
- 
- static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
