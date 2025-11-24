@@ -1,171 +1,105 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012028.outbound.protection.outlook.com [52.101.48.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCE733507C;
-	Mon, 24 Nov 2025 22:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.28
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764023417; cv=fail; b=Y0pdG6zEap3w+hnvpgE/OdVHGnYaD29lUCJitfNvjhS9OZ1tWdgEffPWNAmxDnWJAx09stA1bmgblqkJOwuqHkIVoMR/ILsFz0psNos6AMSPIrHNbi71OzfKHx7MdfPzOtFTZEjHutZ4uKigt0Zo3GJLdkFSO+AZ9seQrAMR46k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764023417; c=relaxed/simple;
-	bh=eCQG3S/yOds8JQUOHWixmpPqBLMdmU/S/TtH7v9dU+k=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lA5rlBCHJaNUAKZO/7nBwiCVggKixwUw4Fcaz3LkRhpZeSa36WZbYrGteyeKEAhlDx2BUcFDW7GXL0mPLwCgaDsjuDKvT3ejYyBU70sZTzCDdPMzcvfaC+BSAegat/FusO1Q9fNiVHNvjbQFIp/SyYYenprccgldN2V9+ais8wU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LaCrT+8L; arc=fail smtp.client-ip=52.101.48.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7033C26E70E;
+	Mon, 24 Nov 2025 22:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764024849; cv=none; b=AJ57S/TlQT+ShqRaCz0qhbYU9KFCG9OKSmEIx0LsodLygNOuhGW/Dj3sW+V3ONSQqDRRcddmEPTer908PwSKqFRo7gtbURIySRdt+jp6x5UuyUdqjcFRmT/hYSVqHN3166ySTqb4nM1dI8+vhS6L+WgPRSVw7JLDTECX32BqYyY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764024849; c=relaxed/simple;
+	bh=BC240MSG5119oWxbshF7QWyxMleqYZRlgI7AAnOCTdY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=IEQUKNM/EZBuqfvmJgslHwRdFbNww9fcGKHnq2dOaIqWplmLlKg0NeXFYeCr09udgfHEYKM9IS7Vs6kF521AOYybZS0tuCT6pYUBLEvj/C6ZHFA46zkLigEYmxwnJ1Dyhn6DBoaEg2AdpYJfsiKuUtrwRkNEPYJFDgJ38EAHT24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PVbK/YME; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LaCrT+8L"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mYD/BtUaRM7l71INqKysEud9tU7jUPky+iMSjzymZU34xtWo0Ijk8BFszs9XsnLbufWMqor57schsAaSf00ydnD9VKpD/3f2YulMWuaNp8xX9hBo131Dfgz669HiFz1Za++hcdos20DYjcRrc9UJjliWLgLy17fNTrdoKPWQRRCkY/j8Xg+Wapr3iXCWV+V3kWz9ErboIrUiWdbepu86GYykGcpsLsBtJ/naQ0Ne7ygNxyTbWaoXXfXkyQviFccly84T+TVZuDzsuPuotiiykZUyoRPvqvWHIajBRMnwpz2uStBiR+obHSoEm7+DCrhe4JAQvTANoTJjJ24xBUGnCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/pAm2wQVgo0BwkiOeplsjOGdgWjn/yXUgEfaNOjFTP0=;
- b=abLph1Pj4Rz9jHmEZK/KRLvvHEYOUw/xHZLiIasd6wsxVsqFeF6zI1bFLHtJaLtiiIgtUqV8ecieyYBnZWH+Wp19xtvv3cfbBWB0wfAHm6+Gp8VczWIfEuBI0BVSzTP+EbAMDnZ1FXmjdV3uwWGv33T8brOLGToCgPMyMMn8pV0/R7M7peuciOEWq6/ODioxo2svuLvHp7wlc3JOTXlNBoBkphOYHlmtxgxm1CfR+8qjiGmAIW1UZHv37FLQlLVOfWBWjPf3pQSkw3zIxlv90nBqmvY/vjZ9lgAWIS+ZDUCP+5K5OBBi3QCTgCoh0x1uGQtclYDfakf1Zo5fDTMFkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/pAm2wQVgo0BwkiOeplsjOGdgWjn/yXUgEfaNOjFTP0=;
- b=LaCrT+8Ll4FBrMxsT6vUvk4tzyp++0k9rIi99PomnCWCi+E2brX8WShVHSg1FEcFYgJyUO2NTZhD4N7K6/9enJzCGaPryyjbdvfobXug0EiIeta+8J6woj93Gw3ecfUMPdgDYrZq3iH0WJzsWEj96brf2Sqir+tulEOYL3MBB0q4WjHmckfjZsk0+BS5h486JuXEaO/0HQP9M7sMoz8tGcVOFjj+20Z60oOK0vHbOoapmPJS+Dh/8o3EyDuIyrv3PRHe+vodH7b3Axg01eMqwcK3Lw3PEA/+HzqhbFueQUXTwhB2CKXf3boAp4AcHbUuiYUMeffTDzBwfNPoFpym+g==
-Received: from SA1P222CA0113.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:3c5::27)
- by IA1PR12MB9030.namprd12.prod.outlook.com (2603:10b6:208:3f2::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.16; Mon, 24 Nov
- 2025 22:30:06 +0000
-Received: from SA2PEPF00003AEA.namprd02.prod.outlook.com
- (2603:10b6:806:3c5:cafe::6b) by SA1P222CA0113.outlook.office365.com
- (2603:10b6:806:3c5::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.17 via Frontend Transport; Mon,
- 24 Nov 2025 22:29:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- SA2PEPF00003AEA.mail.protection.outlook.com (10.167.248.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Mon, 24 Nov 2025 22:30:04 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 24 Nov
- 2025 14:29:55 -0800
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Mon, 24 Nov 2025 14:29:54 -0800
-Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Mon, 24 Nov 2025 14:29:49 -0800
-From: Tariq Toukan <tariqt@nvidia.com>
-To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>
-CC: Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
- Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
-	<mbloch@nvidia.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-rdma@vger.kernel.org>, Gal Pressman <gal@nvidia.com>, Moshe Shemesh
-	<moshe@nvidia.com>, Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu
-	<cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>
-Subject: [PATCH net-next V3 13/14] net/mlx5: qos: Enable cross-device scheduling
-Date: Tue, 25 Nov 2025 00:27:38 +0200
-Message-ID: <1764023259-1305453-14-git-send-email-tariqt@nvidia.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <1764023259-1305453-1-git-send-email-tariqt@nvidia.com>
-References: <1764023259-1305453-1-git-send-email-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PVbK/YME"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EC06C4CEF1;
+	Mon, 24 Nov 2025 22:54:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764024849;
+	bh=BC240MSG5119oWxbshF7QWyxMleqYZRlgI7AAnOCTdY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=PVbK/YMEeFuUggJRkgUcS3aXBbXzFLLmnI9Brc13WJokHXTPMhfDuDlBRVQOl6rc5
+	 ZrxqKA1UwL2Cw6SQp3Au8/i6ZF2l9MsRWpKpA53AB4ugMv72ZtgdThE01kKplr9qh1
+	 ZDibUZxdWpGKxUfxJFWaSFnKyk63+JtA/T//NDjKOyJgd3B+ogw1kKlSOL7LlqllBU
+	 BB+OPy6QP8OUNjvFuy7WDO31rgQa4T8KuojwFHwvF4w/qrExQ/AsVtmBfvY5zYyjtW
+	 x2E+Xl+Uh1W+PYrBnnOz8GBwKjEJBz85qUHgu0805EARDNHoNRxbI4Pb0v0EUiFJ2i
+	 pyyLCSNUbFHpQ==
+Date: Mon, 24 Nov 2025 16:54:07 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Farhan Ali <alifm@linux.ibm.com>,
+	Benjamin Block <bblock@linux.ibm.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver OHalloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org,
+	linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+	Linas Vepstas <linasvepstas@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: PCI: Amend error recovery doc with
+ pci_save_state() rules
+Message-ID: <20251124225407.GA2722237@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AEA:EE_|IA1PR12MB9030:EE_
-X-MS-Office365-Filtering-Correlation-Id: afc76db8-9104-404f-de47-08de2ba90409
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?/4HR7YbNZcWqL8gW8dPicYZ1Vas6vlW+zr+UBmGxaKZDJBRiqlLQj+NCBe5L?=
- =?us-ascii?Q?565iwWHNLKsz7/wUvO9jeWU5AwJrvf6B7w3CQsyiTny0BgbMTRpJobnkDTVJ?=
- =?us-ascii?Q?0wJ6K8TRTH2Fiblf2eFoHob0D40n/dmOBgnG/fX7M7zxqBNO9C9e2sDAUt/0?=
- =?us-ascii?Q?WTvlbhLV9v6w1LzPSClSjM4pKJe1vc27Y8YFnJkySrF+Gd4nWDJ1xUsgCKua?=
- =?us-ascii?Q?JNg6RlJcg0OQwsSG6kOjHyKgtGZBcLSTLXcEpwSGmthcpdrbADWjziog18jw?=
- =?us-ascii?Q?3Qa4w34viXflsrfy7yhbBz5lwrulQYH3erEeaZ9gWI+aaMiHQmGzCHZbdCct?=
- =?us-ascii?Q?ex9gl9zstf4uLfKlPchJoYcgeYuqqYtmyWA4o0+GiMvpDs2BstwlkefhYHCQ?=
- =?us-ascii?Q?s5pilGnd5fAj1cEQHf5DarVKigjWMjMHNQwj6sgscdP/UyHo0khkDUSbg1mV?=
- =?us-ascii?Q?8K/pKM9WTC4CTsz5D9rkQwfb+IZTXwV2dLFtUusj/2CSQ+PKvKA+yMZ8aKYJ?=
- =?us-ascii?Q?kXkGlCkqiKMtjet8EwYuUTC3y0RkfOIYF89tSPzM93psoXcAmP6tL/vkuxUW?=
- =?us-ascii?Q?KonNdLfdmdBGIpT40mVVU2/cet+eb9CnCsbxQaJ33BvpB8d4n4ZxizZMzyk+?=
- =?us-ascii?Q?IjFF3j1VqRS2eMXHSuTn1KVyXBa+SeoiwEhfBxS6Zh1vd8TCdR/AYvfzydMt?=
- =?us-ascii?Q?FKoptrE5JXAoMc2GZb2MChecNMy9+9BdgDILcn3O6T81XB/z//C0Bdqzdy51?=
- =?us-ascii?Q?h/ehVcBlopCJObEdHp0XWTI1xeLjvhWUO6JdQZyqPqUuUfjNd4L0gfpDr56L?=
- =?us-ascii?Q?2vPk7w6XFIweCpx4PAme8Vya/LVPAIg5S5E+BRZKZWPw2Vz/sg5fj+3O0JMw?=
- =?us-ascii?Q?dOHldrDNGvqdXwe6kEYKhElrouYnM4KMz5LiJdrawnnvqi/3rzJ8LaEssRPl?=
- =?us-ascii?Q?17pT20nKRxqXUaUznGXaZ6s5UOabwPt6u0ZeGkB4u/VoLHuvYS5gD3a8hJ2V?=
- =?us-ascii?Q?8thBKUzcznFVDm+n8UZnQwZSg/I84t/sYCQn1DtwS5OGjMPL+7bSm1sSSbWK?=
- =?us-ascii?Q?unvZIycndQScXlMYuK4r7RC0wiFX0avuXjhCZi4Kx1bbGzZfEkzEMSgsMFnk?=
- =?us-ascii?Q?heoiQFps1V5NALSoTRr9svtGg9HiAYJ4SkT+0G1YvN4hi6+788tJp+/4+W90?=
- =?us-ascii?Q?kC7sZSkW7MmsouR2DBYrYjfzhn7BT376RszjH2CHpoguOKahmFGloHQ0ZY1d?=
- =?us-ascii?Q?L4c3I1F5O6Dkur8UCaFGGLPRdzixtWh8n6HMGMYVmcsFKu6KYSS9CwrqjbPu?=
- =?us-ascii?Q?IYPXhPv0k286cfbjr0Iuyl7MlyY9vDP2hPu2LukGok8xedHPSxpoyLjP8pFI?=
- =?us-ascii?Q?fPdDaiYLPDAqHkAqQEqRhS0vsxj3OarLonRTXKUKuCNr7IKQqWXJU/5w1Wid?=
- =?us-ascii?Q?2IF2cK3MxuDcuqjKoHa1iu/WY/nNqCG4rYdkhfFabjhh6wQOtKCxjLW5gyNK?=
- =?us-ascii?Q?mtGSNW5huvum+f+wGTP8HUBac3QL2lSGM9KwyAGeHII1V9KdEHSL0BW1RRqZ?=
- =?us-ascii?Q?jKJ53U46RBfv+BamEBM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 22:30:04.9115
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: afc76db8-9104-404f-de47-08de2ba90409
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003AEA.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9030
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <077596ba70202be0e43fdad3bb9b93d356cbe4ec.1763746079.git.lukas@wunner.de>
 
-From: Cosmin Ratiu <cratiu@nvidia.com>
+On Fri, Nov 21, 2025 at 06:31:17PM +0100, Lukas Wunner wrote:
+> After recovering from a PCI error through reset, affected devices are in
+> D0_uninitialized state and need to be brought into D0_active state by
+> re-initializing their Config Space registers (PCIe r7.0 sec 5.3.1.1).
+> 
+> To facilitate that, the PCI core provides pci_restore_state() and
+> pci_save_state() helpers.  Document rules governing their usage.
+> 
+> As Bjorn notes, so far no file in "Documentation/ includes anything about
+> the idea of a driver using pci_save_state() to capture the state it wants
+> to restore after an error", even though it is a common pattern in drivers.
+> So that's obviously a gap that should be closed.
+> 
+> Reported-by: Bjorn Helgaas <helgaas@kernel.org>
+> Closes: https://lore.kernel.org/r/20251113161556.GA2284238@bhelgaas/
+> Signed-off-by: Lukas Wunner <lukas@wunner.de>
 
-Enable the new devlink feature.
-All rate nodes will be stored in the shared device, when available.
-The shared instance lock will additionally be acquired by all rate
-manipulation code to protect against concurrent execution across
-different functions of the same physical device.
+Applied with Rafael's ack to pci/err for v6.19, thanks!
 
-Signed-off-by: Cosmin Ratiu <cratiu@nvidia.com>
-Reviewed-by: Carolina Jubran <cjubran@nvidia.com>
-Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
----
- drivers/net/ethernet/mellanox/mlx5/core/devlink.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/devlink.c b/drivers/net/ethernet/mellanox/mlx5/core/devlink.c
-index 887adf4807d1..343fb3c52fce 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/devlink.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/devlink.c
-@@ -380,6 +380,7 @@ static const struct devlink_ops mlx5_devlink_ops = {
- 	.rate_node_del = mlx5_esw_devlink_rate_node_del,
- 	.rate_leaf_parent_set = mlx5_esw_devlink_rate_leaf_parent_set,
- 	.rate_node_parent_set = mlx5_esw_devlink_rate_node_parent_set,
-+	.supported_cross_device_rate_nodes = true,
- #endif
- #ifdef CONFIG_MLX5_SF_MANAGER
- 	.port_new = mlx5_devlink_sf_port_new,
--- 
-2.31.1
-
+> ---
+>  Documentation/PCI/pci-error-recovery.rst | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI/pci-error-recovery.rst
+> index 5df481a..43bc4e3 100644
+> --- a/Documentation/PCI/pci-error-recovery.rst
+> +++ b/Documentation/PCI/pci-error-recovery.rst
+> @@ -326,6 +326,21 @@ be recovered, there is nothing more that can be done;  the platform
+>  will typically report a "permanent failure" in such a case.  The
+>  device will be considered "dead" in this case.
+>  
+> +Drivers typically need to call pci_restore_state() after reset to
+> +re-initialize the device's config space registers and thereby
+> +bring it from D0\ :sub:`uninitialized` into D0\ :sub:`active` state
+> +(PCIe r7.0 sec 5.3.1.1).  The PCI core invokes pci_save_state()
+> +on enumeration after initializing config space to ensure that a
+> +saved state is available for subsequent error recovery.
+> +Drivers which modify config space on probe may need to invoke
+> +pci_save_state() afterwards to record those changes for later
+> +error recovery.  When going into system suspend, pci_save_state()
+> +is called for every PCI device and that state will be restored
+> +not only on resume, but also on any subsequent error recovery.
+> +In the unlikely event that the saved state recorded on suspend
+> +is unsuitable for error recovery, drivers should call
+> +pci_save_state() on resume.
+> +
+>  Drivers for multi-function cards will need to coordinate among
+>  themselves as to which driver instance will perform any "one-shot"
+>  or global device initialization. For example, the Symbios sym53cxx2
+> -- 
+> 2.51.0
+> 
