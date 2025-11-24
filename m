@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419C72F7468;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851652F7AD7;
 	Mon, 24 Nov 2025 09:57:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763978276; cv=none; b=gw66tsHKjXZTPyn99/AFEP5q1eqIitdice62uF1sUhA1FQC4Nz9NsrUWuZmM0wwvwN/2KWA4F3gIfEok5hddAIckK/2R8LM8fgZau8Wvei2D2eK7OkRU1q8k11Sxv/Y916oNRGiEGmuqk3NJ0sNg7MMcKW2BZJIRVYtqYtdb5Zk=
+	t=1763978276; cv=none; b=Bbw3j8kYajxTPXt/ZUjVwZcsOAspXqklQHC5EUagQjuqsW0O6qkVzbXxMSxkPyyKy332scd5/UzJu3wXYH9wz4q1K9Xm/wT1+L0iMw2vUOlyung96VJPD126+9hvJZZzU3BkW77YScvJiksFUgITxZSe7e2fLmcuiuRkWek7GTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763978276; c=relaxed/simple;
-	bh=9Ismxj297GqUp52pxp1UAgRMzcZZT3Gw6Sjv2/ZSBZI=;
+	bh=WiyWZu0I2v9Q5Kn5QLFrux4dYHtK/j2mUZCTGm3fUBY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fbLFd87l4xOyS4yrkXX2IrOf0zpFwbi+wtkI3pXn3V23zyY92V3uTcxAP4NqbSXhiB4H+oyG3GbqZLstOTk4lMqEvN5/ecUwX4d3zhJgEWafIJ8oyKqq/g94NI2mmOzOmwldmg/G8LzuoPzWohY2HRSKkRrlz0JWUegw+bQ8UdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pkKUnHB3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=nSb+ccCBX8rctwA8KM4syhn3KIOF73mfHSKhET6BJwfw+EHm/v9WrCc1AHAK6lRn5JSfrwjZj61+W9dNNTormEW+1yiThM7JYvvor4rxdWj5XHGMplswxTKjRxW7PmptTYrFH4QMStclEndAFpH3z4MQXI4TVwXbEPvr3WpSXQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aUwF2xsL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pkKUnHB3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0AE0C19423;
-	Mon, 24 Nov 2025 09:57:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aUwF2xsL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F128C2BCB0;
+	Mon, 24 Nov 2025 09:57:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1763978276;
-	bh=9Ismxj297GqUp52pxp1UAgRMzcZZT3Gw6Sjv2/ZSBZI=;
+	bh=WiyWZu0I2v9Q5Kn5QLFrux4dYHtK/j2mUZCTGm3fUBY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pkKUnHB3iB7dcNti78RUUdH0cEwOBdpcp1d++SEF+jQSaaXnggv/nEfd4UXiWHqUX
-	 p0o5OqVHoj5VCSj73PwrnEt8Bu36B9I0b5SvpmxDDecZvhKahHCFGYvG9ongFzbn35
-	 ENzkxZGq2cDc2PAIG7LcYheot0E8CtRn06A3njEljRyaDi+cOgZvvQwOu3bET63J6e
-	 fQ+NCPR7pK7qA5V8Pi3CchA4tw8L2sMQx/GVYQtQPxbWaTQ2rTuLbTqIfvfS82IRuQ
-	 sJNvxeqBFMFJ34hxWKzevVyQTVPj/FH/+ic8Lmk2UIbELnpNqO5M1BNs28MnQSbUCy
-	 IM7EKJYolpOGg==
+	b=aUwF2xsLXz6xp9s6ey5tbsqum6f8QBDM8Ldnzs99c/BnVd/r73gdFQh+EzbTo8yjw
+	 us5tfFqguhd5x/kOFkogaHaJem6d4L/qPMwNnF3Ft97mNjJTpHMv+dX0cXQLHd9lJS
+	 geqIWRscyvQSV36d90/zogmNRAYYudqCd9wMulyEFWY1UtLDbl0WtJ+wB6VgbTWyMX
+	 9L2CSNsjw5+RhrTT2HBvI+EcSP9FvmfFxZpkBT1HHRMytqRAbaGurW9DPQfiHC/s7S
+	 EKTvYc2CMR5cDlDxf8Xf3sRNaOcFWjiRFlJaW5kyBUcsZTFV1pDMhdU9Hu1lzLN0fG
+	 WndlrTudDdNyw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vNTKU-000000013c4-0dRz;
+	id 1vNTKU-000000013cH-0yk3;
 	Mon, 24 Nov 2025 10:57:54 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
 	"Randy Dunlap" <rdunlap@infradead.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 2/5] kernel-doc: add support to handle DEFINE_ variables
-Date: Mon, 24 Nov 2025 10:57:43 +0100
-Message-ID: <a64ce3b4bda7d3010beaa889347ea32af4fd9ee2.1763978209.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v5 5/5] docs: kernel-doc.rst: document the new "var" kernel-doc markup
+Date: Mon, 24 Nov 2025 10:57:46 +0100
+Message-ID: <5291dedbe9aa0104764a31fe2bf2b08d675295d5.1763978209.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <cover.1763978209.git.mchehab+huawei@kernel.org>
 References: <cover.1763978209.git.mchehab+huawei@kernel.org>
@@ -52,96 +52,68 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Improve the parser and output plugin to work with macros,
-adding support for the common pattern of using DEFINE_*
-to create variables.
+Add a description containing the new syntax to document
+variables within kernel-doc markups.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_output.py |  5 ++---
- tools/lib/python/kdoc/kdoc_parser.py | 25 +++++++++++++++++++++----
- 2 files changed, 23 insertions(+), 7 deletions(-)
+ Documentation/doc-guide/kernel-doc.rst | 25 +++++++++++++++++++++----
+ 1 file changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
-index 8d811c2afaab..9f09c763a009 100644
---- a/tools/lib/python/kdoc/kdoc_output.py
-+++ b/tools/lib/python/kdoc/kdoc_output.py
-@@ -486,7 +486,7 @@ class RestFormat(OutputFormat):
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index 2e18a810f98b..0de0e344e10d 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -342,6 +342,18 @@ Typedefs with function prototypes can also be documented::
+    */
+    typedef void (*type_name)(struct v4l2_ctrl *arg1, void *arg2);
  
-         self.lineprefix = "  "
- 
--        self.data += f"\n\n.. c:macro:: {name}\n\n{self.lineprefix}{full_proto}\n\n"
-+        self.data += f"\n\n.. c:macro:: {name}\n\n{self.lineprefix}``{full_proto}``\n\n"
- 
-         self.print_lineno(ln)
-         self.output_highlight(args.get('purpose', ''))
-@@ -801,13 +801,12 @@ class ManFormat(OutputFormat):
- 
-     def out_var(self, fname, name, args):
-         out_name = self.arg_name(args, name)
--        prototype = args.other_stuff["var_type"]
-         full_proto = args.other_stuff["full_proto"]
- 
-         self.data += f'.TH "{self.modulename}" 9 "{out_name}" "{self.man_date}" "API Manual" LINUX' + "\n"
- 
-         self.data += ".SH NAME\n"
--        self.data += f"{prototype} \\- {args['purpose']}\n"
-+        self.data += f"{name} \\- {args['purpose']}\n"
- 
-         self.data += ".SH SYNOPSIS\n"
-         self.data += f"{full_proto}\n"
-diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index edb0fb5330e0..a3cd1bb0c8e7 100644
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -946,12 +946,27 @@ class KernelDoc:
-         # Store the full prototype before modifying it
-         #
-         full_proto = proto
-+        declaration_name = None
++Variables documentation
++-----------------------
 +
-+        #
-+        # Handle macro definitions
-+        #
-+        macro_prefixes = [
-+            KernRe(r"DEFINE_[\w_]+\s*\(([\w_]+)\)"),
-+        ]
++The general format of a kernel-doc variable comment is::
 +
-+        for r in macro_prefixes:
-+            match = r.search(proto)
-+            if match:
-+                declaration_name = match.group(1)
-+                break
- 
-         #
-         # Drop comments and macros to have a pure C prototype
-         #
--        for search, sub in sub_prefixes:
--            proto = search.sub(sub, proto)
-+        if not declaration_name:
-+            for r, sub in sub_prefixes:
-+                proto = r.sub(sub, proto)
- 
-         proto = proto.rstrip()
- 
-@@ -965,14 +980,16 @@ class KernelDoc:
-            return
- 
-         var_type = r.group(0)
--        declaration_name = r.group(1)
++  /**
++   * var var_name - Brief description.
++   *
++   * Description of the var_name variable.
++   */
++   extern int var_name;
 +
-+        if not declaration_name:
-+            declaration_name = r.group(1)
-+
-         default_val = r.group(2)
-         if default_val:
-             default_val = default_val.lstrip("=").strip()
+ Object-like macro documentation
+ -------------------------------
  
-         self.output_declaration("var", declaration_name,
-                                 full_proto=full_proto,
--                                var_type=var_type,
-                                 default_val=default_val,
-                                 purpose=self.entry.declaration_purpose)
+@@ -463,14 +475,18 @@ through the following syntax::
+ 
+ For further details, please refer to the `Sphinx C Domain`_ documentation.
+ 
++.. note::
++   Variables aren't automatically cross referenced. For those, you need to
++   explicitly add a C domain cross-reference.
++
+ Overview documentation comments
+ -------------------------------
+ 
+ To facilitate having source code and comments close together, you can include
+ kernel-doc documentation blocks that are free-form comments instead of being
+-kernel-doc for functions, structures, unions, enums, or typedefs. This could be
+-used for something like a theory of operation for a driver or library code, for
+-example.
++kernel-doc for functions, structures, unions, enums, typedefs or variables.
++This could be used for something like a theory of operation for a driver or
++library code, for example.
+ 
+ This is done by using a ``DOC:`` section keyword with a section title.
+ 
+@@ -538,7 +554,8 @@ identifiers: *[ function/type ...]*
+   Include documentation for each *function* and *type* in *source*.
+   If no *function* is specified, the documentation for all functions
+   and types in the *source* will be included.
+-  *type* can be a ``struct``, ``union``, ``enum``, or ``typedef`` identifier.
++  *type* can be a ``struct``, ``union``, ``enum``, ``typedef`` or ``var``
++  identifier.
+ 
+   Examples::
  
 -- 
 2.51.1
