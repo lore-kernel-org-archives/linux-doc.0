@@ -1,118 +1,187 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBD4263C8A;
-	Mon, 24 Nov 2025 09:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FEC2F5465;
+	Mon, 24 Nov 2025 09:36:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763976601; cv=none; b=t123m9tjTjTpcN5jVFhxHl2JIDg0u/AbIW/eKV3C6AFTsplYeHpPgjWiZGbWbWpcc4r7dxUmaVvmyWKvwnyycwDsrtyakzzEtsG1VZE+myknfMtstE6vgs/aYu/FVYHrAPHS09jwTuA/+SxNDB07mdPZFCz96CB0NHpMZmym58E=
+	t=1763976981; cv=none; b=ebGEJHxFfMyP6fj5/A1xpXU0vwCj6V4bDANTQYtXne2ASldlFKdTNmpMn9WSEvZfcAaxHziY4sOTIjjw63wYQrAT8QigZ6J7or4xBh5PDA07GNj6L8SV+Uo0osv0RE3+fA66IZMrxD0ht4Bt6f3n0ptH2/FHiCwhPL+XVDk6ur0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763976601; c=relaxed/simple;
-	bh=WIEzxFEC/PnkxmuAIhUbJI67YAunydQmi9QG1iFd0E4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=rAWON3TdDk5QIL/E+3yFcIk25f17BL/afjXG2PQds5UPL9NpGDEjDQTK/N6gCWR2O1m0fJkziTCE9fcCdfRMBo96mOs+zYXPTCBal2sAtrlaHEXUafjJSe09Bo5bpHzPjlgSWanGh4IEQr4toTL9QeDMOyEJeRiY8VOEcF5yYfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dFL9j2N5PzJ46lR;
-	Mon, 24 Nov 2025 17:28:57 +0800 (CST)
-Received: from dubpeml500006.china.huawei.com (unknown [7.214.146.138])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1BE031400D3;
-	Mon, 24 Nov 2025 17:29:49 +0800 (CST)
-Received: from dubpeml100008.china.huawei.com (7.214.145.227) by
- dubpeml500006.china.huawei.com (7.214.146.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 24 Nov 2025 09:29:48 +0000
-Received: from dubpeml100008.china.huawei.com ([7.214.145.227]) by
- dubpeml100008.china.huawei.com ([7.214.145.227]) with mapi id 15.02.1544.036;
- Mon, 24 Nov 2025 09:29:48 +0000
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Randy Dunlap <rdunlap@infradead.org>, "rafael@kernel.org"
-	<rafael@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "rppt@kernel.org"
-	<rppt@kernel.org>, "dferguson@amperecomputing.com"
-	<dferguson@amperecomputing.com>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "linux-acpi@vger.kernel.org"
-	<linux-acpi@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>, "lenb@kernel.org"
-	<lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>
-CC: Jonathan Cameron <jonathan.cameron@huawei.com>, Linuxarm
-	<linuxarm@huawei.com>, "rientjes@google.com" <rientjes@google.com>,
-	"jiaqiyan@google.com" <jiaqiyan@google.com>, "Jon.Grimm@amd.com"
-	<Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
-	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
-	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
-	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, tanxiaofei
-	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
- Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: RE: [PATCH v13 2/2] ras: mem: Add ACPI RAS2 memory driver
-Thread-Topic: [PATCH v13 2/2] ras: mem: Add ACPI RAS2 memory driver
-Thread-Index: AQHcWxSpDw4Z/LYIh0qhRo3faUcQr7T+KJmAgANquEA=
-Date: Mon, 24 Nov 2025 09:29:48 +0000
-Message-ID: <9165f50de6fa43edba7a3e6d99eebe8b@huawei.com>
-References: <20251121182825.237-1-shiju.jose@huawei.com>
- <20251121182825.237-3-shiju.jose@huawei.com>
- <af7b6cdc-c0a7-4896-ba6b-6bb933898d37@infradead.org>
-In-Reply-To: <af7b6cdc-c0a7-4896-ba6b-6bb933898d37@infradead.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1763976981; c=relaxed/simple;
+	bh=V0qerlrtNZqBpFKg+N9laGJk6nVd3gEUb27Uxk15PNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UiMjlu1+WNxiwzbjMc1PFhHz19PFiu+XaB7TaP/NIYRQlLNZkUb4AqDbxYt/cRFw1oKWS3Uqvcu9mZ3Al2MZQ6hwWRqrgtNfiwkxlq73v7u013LM/RIapNCHJxy87LYrRnSBHLpOYxCsLiOSAT83si9Qn+DMQefYxLRFmQ8RJlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HD5JNrH+; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HD5JNrH+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763976980; x=1795512980;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=V0qerlrtNZqBpFKg+N9laGJk6nVd3gEUb27Uxk15PNM=;
+  b=HD5JNrH+TtgocZv884PL23IyO6mHmdAa6RbaSq2IGGn4CRwRDAAEOI7u
+   +G6PsATyD1XuJbWKomASRihykrWsBiatz7KkZct8uEGWbc9ICrnHcERKH
+   Wu97AU2c06IU7yxoMYGcu3eQwKK/rtr9RmoBJ49BPfI9T1Bze/WpaLA8X
+   YeY8pGlXBzj7FZTlIlStrwn/j5L/Y/R9sZbNejJOH3l6mMiWcxN2uwLWd
+   KWY8rW3vRrKxDrpxvchB13cQjcVZrgmUfzBxIFULtQrwgDP9/OEK6l4ee
+   j1ajaCR0XCD0cSZwh8kks4HY/Qb3oyy5H7HzWwEi3DVnw9GX9MUMvVUYg
+   w==;
+X-CSE-ConnectionGUID: +/5t9wo+Sx+bQHudlKMVxQ==
+X-CSE-MsgGUID: EmQwJSCsRDm9awOGBguw7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="83360369"
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="83360369"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 01:36:19 -0800
+X-CSE-ConnectionGUID: 8Ppew+02R1yotk90oqeDzw==
+X-CSE-MsgGUID: XhIxGgG1RUCS0TUsoDinHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="191446304"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 01:36:15 -0800
+Date: Mon, 24 Nov 2025 11:36:12 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jorge Marques <jorge.marques@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 5/9] iio: adc: ad4062: Add IIO Trigger support
+Message-ID: <aSQnDMsE13zwM1YO@smile.fi.intel.com>
+References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
+ <20251124-staging-ad4062-v2-5-a375609afbb7@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251124-staging-ad4062-v2-5-a375609afbb7@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-DQo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj5Gcm9tOiBSYW5keSBEdW5sYXAgPHJkdW5s
-YXBAaW5mcmFkZWFkLm9yZz4NCj5TZW50OiAyMiBOb3ZlbWJlciAyMDI1IDA1OjE4DQo+VG86IFNo
-aWp1IEpvc2UgPHNoaWp1Lmpvc2VAaHVhd2VpLmNvbT47IHJhZmFlbEBrZXJuZWwub3JnOyBicEBh
-bGllbjguZGU7DQo+YWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZzsgcnBwdEBrZXJuZWwub3JnOw0K
-PmRmZXJndXNvbkBhbXBlcmVjb21wdXRpbmcuY29tOyBsaW51eC1lZGFjQHZnZXIua2VybmVsLm9y
-ZzsgbGludXgtDQo+YWNwaUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LW1tQGt2YWNrLm9yZzsgbGlu
-dXgtZG9jQHZnZXIua2VybmVsLm9yZzsNCj50b255Lmx1Y2tAaW50ZWwuY29tOyBsZW5iQGtlcm5l
-bC5vcmc7IGxlby5kdXJhbkBhbWQuY29tOw0KPllhemVuLkdoYW5uYW1AYW1kLmNvbTsgbWNoZWhh
-YkBrZXJuZWwub3JnDQo+Q2M6IEpvbmF0aGFuIENhbWVyb24gPGpvbmF0aGFuLmNhbWVyb25AaHVh
-d2VpLmNvbT47IExpbnV4YXJtDQo+PGxpbnV4YXJtQGh1YXdlaS5jb20+OyByaWVudGplc0Bnb29n
-bGUuY29tOyBqaWFxaXlhbkBnb29nbGUuY29tOw0KPkpvbi5HcmltbUBhbWQuY29tOyBkYXZlLmhh
-bnNlbkBsaW51eC5pbnRlbC5jb207DQo+bmFveWEuaG9yaWd1Y2hpQG5lYy5jb207IGphbWVzLm1v
-cnNlQGFybS5jb207IGp0aG91Z2h0b25AZ29vZ2xlLmNvbTsNCj5zb21hc3VuZGFyYW0uYUBocGUu
-Y29tOyBlcmRlbWFrdGFzQGdvb2dsZS5jb207IHBnb25kYUBnb29nbGUuY29tOw0KPmR1ZW53ZW5A
-Z29vZ2xlLmNvbTsgZ3RoZWxlbkBnb29nbGUuY29tOw0KPndzY2h3YXJ0ekBhbXBlcmVjb21wdXRp
-bmcuY29tOyB3YnNAb3MuYW1wZXJlY29tcHV0aW5nLmNvbTsNCj5uaWZhbi5jeGxAZ21haWwuY29t
-OyB0YW54aWFvZmVpIDx0YW54aWFvZmVpQGh1YXdlaS5jb20+OyBaZW5ndGFvIChCKQ0KPjxwcmlt
-ZS56ZW5nQGhpc2lsaWNvbi5jb20+OyBSb2JlcnRvIFNhc3N1IDxyb2JlcnRvLnNhc3N1QGh1YXdl
-aS5jb20+Ow0KPmthbmdrYW5nLnNoZW5AZnV0dXJld2VpLmNvbTsgd2FuZ2h1aXFpYW5nIDx3YW5n
-aHVpcWlhbmdAaHVhd2VpLmNvbT4NCj5TdWJqZWN0OiBSZTogW1BBVENIIHYxMyAyLzJdIHJhczog
-bWVtOiBBZGQgQUNQSSBSQVMyIG1lbW9yeSBkcml2ZXINCj4NCj4NCj4NCj5PbiAxMS8yMS8yNSAx
-MDoyOCBBTSwgc2hpanUuam9zZUBodWF3ZWkuY29tIHdyb3RlOg0KPj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvcmFzL0tjb25maWcgYi9kcml2ZXJzL3Jhcy9LY29uZmlnDQo+PiBpbmRleCBmYzRmNGJi
-OTRhNGMuLjdlN2FmZDJiMmJhNyAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvcmFzL0tjb25maWcN
-Cj4+ICsrKyBiL2RyaXZlcnMvcmFzL0tjb25maWcNCj4+IEBAIC00Niw0ICs0NiwxNiBAQCBjb25m
-aWcgUkFTX0ZNUE0NCj4+ICAJICBNZW1vcnkgd2lsbCBiZSByZXRpcmVkIGR1cmluZyBib290IHRp
-bWUgYW5kIHJ1biB0aW1lIGRlcGVuZGluZyBvbg0KPj4gIAkgIHBsYXRmb3JtLXNwZWNpZmljIHBv
-bGljaWVzLg0KPj4NCj4+ICtjb25maWcgTUVNX0FDUElfUkFTMg0KPj4gKwl0cmlzdGF0ZSAiTWVt
-b3J5IEFDUEkgUkFTMiBkcml2ZXIiDQo+PiArCWRlcGVuZHMgb24gQUNQSV9SQVMyDQo+PiArCWRl
-cGVuZHMgb24gRURBQw0KPj4gKwlkZXBlbmRzIG9uIEVEQUNfU0NSVUINCj4+ICsJaGVscA0KPj4g
-KwkgIFRoZSBkcml2ZXIgYmluZHMgdG8gdGhlIGF1eGlsaWFyeSBkZXZpY2UgYWRkZWQgYnkgdGhl
-IEFDUEkgUkFTMg0KPj4gKwkgIGZlYXR1cmUgdGFibGUgcGFyc2VyLiBUaGUgZHJpdmVyIHVzZXMg
-YSBQQ0MgY2hhbm5lbCBzdWJzcGFjZSB0bw0KPj4gKwkgIGNvbW11bmljYXRpbmcgd2l0aCB0aGUg
-QUNQSS1jb21wbGlhbnQgcGxhdGZvcm0gYW5kIHByb3ZpZGVzDQo+DQo+CSAgY29tbXVuaWNhdGUg
-d2l0aA0KVGhhbmtzIFJhbmR5IGZvciByZXZpZXdpbmcuIEkgd2lsbCBmaXguDQoNCj4NCj4+ICsJ
-ICBjb250cm9sIG9mIHRoZSBIVy1iYXNlZCBtZW1vcnkgc2NydWJiZXIgcGFyYW1ldGVycyB0byB0
-aGUgdXNlcg0KPj4gKwkgIHRocm91Z2ggdGhlIEVEQUMgc2NydWIgaW50ZXJmYWNlLg0KPg0KPi0t
-DQo+flJhbmR5DQo+DQoNClRoYW5rcywNClNoaWp1DQo=
+On Mon, Nov 24, 2025 at 10:18:04AM +0100, Jorge Marques wrote:
+> Adds support for IIO Trigger. Optionally, gp1 is assigned as Data Ready
+> signal, if not present, fallback to an I3C IBI with the same role.
+> The software trigger is allocated by the device, but must be attached by
+> the user before enabling the buffer. The purpose is to not impede
+> removing the driver due to the increased reference count when
+> iio_trigger_set_immutable or iio_trigger_get is used.
+
+We refer to the functions as func(). Mind the parentheses.
+
+...
+
+> +	struct ad4062_state *st = container_of(work, struct ad4062_state,
+> +					       trig_conv);
+
+I think the
+
+	struct ad4062_state *st =
+		container_of(work, struct ad4062_state, trig_conv);
+
+reads better.
+
+> +	int ret;
+
+...
+
+> +	/* Read current conversion, if at reg CONV_READ, stop bit triggers
+> +	 * next sample and does not need writing the address.
+> +	 */
+
+/*
+ * The multi-line comment style is as in
+ * this example. Please, check and update.
+ */
+
+> +static irqreturn_t ad4062_poll_handler(int irq, void *p)
+> +{
+> +	struct iio_poll_func *pf = p;
+> +	struct iio_dev *indio_dev = pf->indio_dev;
+> +	struct ad4062_state *st = iio_priv(indio_dev);
+> +
+> +	iio_trigger_notify_done(indio_dev->trig);
+> +	schedule_work(&st->trig_conv);
+> +
+> +	return IRQ_HANDLED;
+>  }
+
+...
+
+> +static int ad4062_triggered_buffer_postenable(struct iio_dev *indio_dev)
+> +{
+> +	struct ad4062_state *st = iio_priv(indio_dev);
+> +	int ret;
+> +
+> +	ret = pm_runtime_resume_and_get(&st->i3cdev->dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ad4062_set_operation_mode(st, st->mode);
+> +	if (ret)
+> +		goto out_mode_error;
+> +
+> +	/* CONV_READ requires read to trigger first sample. */
+> +	struct i3c_priv_xfer t[2] = {
+> +		{
+> +			.data.out = &st->reg_addr_conv,
+> +			.len = sizeof(st->reg_addr_conv),
+> +			.rnw = false,
+> +		},
+> +		{
+> +			.data.in = &st->buf.be32,
+> +			.len = sizeof(st->buf.be32),
+> +			.rnw = true,
+> +		}
+> +	};
+> +
+> +	ret = i3c_device_do_priv_xfers(st->i3cdev, t, st->gpo_irq[1] ? 2 : 1);
+> +	if (ret)
+> +		goto out_mode_error;
+> +	return 0;
+> +
+> +out_mode_error:
+> +	pm_runtime_put_autosuspend(&st->i3cdev->dev);
+> +
+> +	return ret;
+
+I guess with ACQUIRE() this function will look better, because the explicit
+reference count bumping (with an associated comment) is more descriptive on
+what's going on here with PM. Same for other related functions.
+
+> +}
+
+...
+
+>  	if (ret)
+>  		return dev_err_probe(dev, ret, "Failed to request i3c ibi\n");
+>  
+> +	INIT_WORK(&st->trig_conv, ad4062_trigger_work);
+
+This is mixture of devm_*() and non-devm_*() calls. How did you (stress) test
+the removal and error paths here? Wouldn't devm-helpers.h APIs help here to
+make / keep order correct?
+
+>  	return devm_iio_device_register(dev, indio_dev);
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
