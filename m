@@ -1,161 +1,128 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB89283CBF
-	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 16:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09F5314D17
+	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 16:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764000125; cv=none; b=WL08+l7RBD+zmGkEH/ex9UEPCNvSBoxNvtRX0dtmDVgGwiZLK28OpIYvdt7BCPbDRJ7wNzDVHmrUeULkK8mpVNNOEyNuzuZMx5iBYdhozGgdawHxKQW0LRVtc3SINvkmD3gRaCSI8a2OHTHsgnyyR9t+s7/Nsr1aP02mWElL1xk=
+	t=1764000198; cv=none; b=Z6uPvo0GaWvgeP9KMMlBBqLN2uhZYwOHDxZC9JYG0YGkhceKJKxY9v48U+zXdfqVbyzIpIkIFhywuDZaLxefzcbZDYxkxwXVX/wr8xetJeEdec//LojJ+NAiQhZ7+iVefMQFliPjXg2m+YnmCuw89CH4AiF0yWXokIMjDQCuL3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764000125; c=relaxed/simple;
-	bh=uHrLKA9wKl7gy2YAVA3r41woIoGizB3IbJZXarj74XI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gzovp6zzYnKk9mcL0uHOWdnSdEGHS5eYlKZkECp02+Hf8aeH2qzrF47FGWJYAEDcWSfymErT/NFRjSCf3Yb0xQcfO74zTQgcqoHbqq8DWc0VvmkGAkfuhoKH4BQjKaVxdklNePhfan3ADKopZY6szxJvH39WUDbe1wK1B03t92U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pdXfmvmb; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1764000198; c=relaxed/simple;
+	bh=iNYZTK8FqL7zYuodxjQVjn042PT5p2VJydpdS9njRwY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=qe6FluZvRY5w9WMIAQJVCE9a60zpcK5KuJd7GP+dc8u8IUbHMmGU38U1uz1cATgRWMgIVVfGEJge2TPZfMrLOJkduLtapQJgqIH1/30ZwwzCUqpJQ9bU6FTUCWBmT1c+82+GiTGgE9scJFY6oB3Cu9xcwnCmihcvV6COCVH0x+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=cc20tveb; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pdXfmvmb"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4779a4fc916so109315e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 08:02:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764000122; x=1764604922; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bLdELsThxmeB5YvfJC736dRFpSpC/jFiigw/6IO1T6A=;
-        b=pdXfmvmbGke7I21fnLK8wzNNxuAmLlBLgV/PRg0UsSJ8YfqWq2LB+eCFIPYRg0wiLI
-         IQeyr1E39Y02sGvEY44Rff5cWgdGWcin8/ujIYgZJazILXwalBy/EoBZ9naGvtMACFcY
-         eaXz8btoOMy4/VpCOjRSUNVP4ATztmZ1G4vlFblfLP1Ai7/+jSItUr3X3GmnpXRUaMCA
-         1rgxVCjQvjJfEFzdcJhxrTGROUndZJnPfOkqjUSOaakFc9OmqUE4PqIQ6ofT53s4iW5W
-         pX4x3jXMG7ON4rRTxiTwWQkhscF+SNIXyYSzWPqoOVkZjQUwX9dBq82ZI98P9BO3FaBD
-         vhzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764000122; x=1764604922;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bLdELsThxmeB5YvfJC736dRFpSpC/jFiigw/6IO1T6A=;
-        b=jUUcZ73lqDIaBF8GqAOhuia0w4w3/tMHrLpkaHTeFEDeO66IPKvjigJYQCZguJxfi7
-         8YjmrxvgSjC4zjujsHCFpCLdaY1V4ftfTHQm4lvOb82GJ1cPoNpU00hPQTAyZ6PpGxEO
-         reFXekRbpi/y6Yqidp0YjuA2+N95wLzd8BkhsELyVah3pWm5Lxg+UOeD0od7MR98GqBb
-         QJEssr/NoeOyn56DNW6F7bWu5bsCETtavdd01vSe6b2dqB9fvlNFSg/8X//2f1NHiS7p
-         xc+dQ6aJYuLm6R9KoBx2stTk0/VAw6i3O89XjjKkScuzGy+IJ8e/9JiUywLQSF2NtbTa
-         ELtg==
-X-Forwarded-Encrypted: i=1; AJvYcCXjytq25ut3t7++RnALoya5RX9TaVrbRKUxWmhhEOq0dSnEXARhDfwa++Duugd4zG74kfa3QpcVMIM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywhhz1pxL8pE8YYn7aAXUkslHKgMqb8aGgILTuSwUJLn4AOBqGn
-	lDWM/8U8FCMRfa4ozsIos1n90AcmYzwSG+WL1U65LziPJTKsHOXAhNWbBX1QRWVOTA==
-X-Gm-Gg: ASbGncs3ha5GlTnknt1VfNua4eYIvfJTGjJjWRB+jK/phthvg66ZsSgUSl1lK3QCNp/
-	SEOvZDg1zj4ZtEoNmjd2jJ82RbFB8lc5j0xQW1njemDctgRGQMCKNl/mYhkZEHAJVyQdtWnPjsR
-	DCYCyo9fwr0LTOit6APptvsu6xTHoUFmiIpXxRxoRL+HCn5KdMcmdOiaK04JT3RDEqF4TeY0dUp
-	UAb/EZJXUU+jwneLElfJXC9kOS5KOUuWlCblOHDb5YVUBlzyXjDub/Yc0FADIx1FHh2qvdR/16e
-	lkQHlZfGyX0lqjqx4zVsGHXkgXNMXrde+vkhGmvwH2bc8BdBguSQRheG/z4qRkOrs8mI9K6eLG5
-	xb8nFZbH6jvEdfaAu+idMB7wCELn/Q4nJVhuku4Ks/SO6h/K6WddhUiD+/THL4msUGrP+t15IRH
-	BScjzgQkK9BNModwF4bpLwJmxr4j0KJgxMUjMfHi2I3ej2pmyIlA==
-X-Google-Smtp-Source: AGHT+IF87Of2xq3NRiXHoW9YLLU17xS9MSG7Pyejbfo/XW5RRV/9hA3ItGRGycpv5nRxS4fk6hR8OA==
-X-Received: by 2002:a05:600c:888b:b0:477:73f4:26b with SMTP id 5b1f17b1804b1-477c5e8f119mr2244225e9.3.1764000122272;
-        Mon, 24 Nov 2025 08:02:02 -0800 (PST)
-Received: from google.com (54.140.140.34.bc.googleusercontent.com. [34.140.140.54])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477bf1e86b3sm239817465e9.6.2025.11.24.08.02.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 08:02:01 -0800 (PST)
-Date: Mon, 24 Nov 2025 16:01:58 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Will Deacon <will@kernel.org>
-Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
-	robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz,
-	surenb@google.com, mhocko@suse.com, jackmanb@google.com,
-	hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	rppt@kernel.org, Qinxin Xia <xiaqinxin@huawei.com>
-Subject: Re: [PATCH v2 3/4] drivers/iommu-debug-pagealloc: Track IOMMU pages
-Message-ID: <aSSBdu-P-E75-_iY@google.com>
-References: <20251106163953.1971067-1-smostafa@google.com>
- <20251106163953.1971067-4-smostafa@google.com>
- <aRW6Tf_G2ObR__vE@willie-the-truck>
- <aSRRizzS39jI3BjH@google.com>
- <aSR7U4pI_mYryFzh@willie-the-truck>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="cc20tveb"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 635361A1D26;
+	Mon, 24 Nov 2025 16:03:15 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 2CA36606FC;
+	Mon, 24 Nov 2025 16:03:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B4CDF10371A40;
+	Mon, 24 Nov 2025 17:03:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1764000193; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=p+QBWKtawqpPzZu9LPDyPm5gsgmOzV7hJRZ5Ebshggc=;
+	b=cc20tvebhyskRFsehgbMDtN58mFWJzw3+meTYMQYXrWdpw5VV3uKvGIpPD9HS8R83EmRZH
+	qALe8e5UUI6C7MJXNERyWBLmNk5WfzKKvn8Wss/BPa1OVvmct7arm5zW27QDKgInGVcz6k
+	oi6j2QLmL3GbqobdqI1pyE5V0TLsDjFvq2MBjZC1AlbLsk1PMdr+v727PXLGHuuUayjymh
+	vV+Lgfi2eIyHigvvg8KiU75iRe8JFjVl6qwYhTFrQuO5g/Z240s/dFBsN/mdGefIWxxz3z
+	LHntkwUmsv/8hiteqTu/SKAu006LhE9TFbOO34cMGYjkq2/kVuVeteyUjoVDQw==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aSR7U4pI_mYryFzh@willie-the-truck>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 24 Nov 2025 17:03:00 +0100
+Message-Id: <DEH1VJUEJ8HQ.MIS45UOLCPXL@bootlin.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 01/26] drm/bridge: add drm_of_find_bridge()
+Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>, "Alexey Brodkin"
+ <abrodkin@synopsys.com>, "Phong LE" <ple@baylibre.com>, "Liu Ying"
+ <victor.liu@nxp.com>, "Shawn Guo" <shawnguo@kernel.org>, "Sascha Hauer"
+ <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Adrien
+ Grassein" <adrien.grassein@gmail.com>, "Laurent Pinchart"
+ <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
+ <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
+ Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
+ "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>, "Chun-Kuang Hu"
+ <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Anitha Chrisanthus"
+ <anitha.chrisanthus@intel.com>, "Edmund Dea" <edmund.j.dea@intel.com>,
+ "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
+ <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
+ <alim.akhtar@samsung.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>
+To: "Maxime Ripard" <mripard@kernel.org>
+X-Mailer: aerc 0.20.1
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com> <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-1-0db98a7fe474@bootlin.com> <pv56bl4p7lfflloocozxaeufd6udkk3jhehrtne65cidrvlfwn@wvrkw6mjmhwp>
+In-Reply-To: <pv56bl4p7lfflloocozxaeufd6udkk3jhehrtne65cidrvlfwn@wvrkw6mjmhwp>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, Nov 24, 2025 at 03:35:47PM +0000, Will Deacon wrote:
-> On Mon, Nov 24, 2025 at 12:37:31PM +0000, Mostafa Saleh wrote:
-> > On Thu, Nov 13, 2025 at 11:00:29AM +0000, Will Deacon wrote:
-> > > On Thu, Nov 06, 2025 at 04:39:52PM +0000, Mostafa Saleh wrote:
-> > > > Using the new calls, use an atomic refcount to track how many times
-> > > > a page is mapped in any of the IOMMUs.
-> > > > 
-> > > > For unmap we need to use iova_to_phys() to get the physical address
-> > > > of the pages.
-> > > > 
-> > > > We use the smallest supported page size as the granularity of tracking
-> > > > per domain.
-> > > > This is important as it possible to map pages and unmap them with
-> > > > larger sizes (as in map_sg()) cases.
-> > > > 
-> > > > Signed-off-by: Mostafa Saleh <smostafa@google.com>
-> > > > Tested-by: Qinxin Xia <xiaqinxin@huawei.com>
-> > > > ---
-> > > >  drivers/iommu/iommu-debug-pagealloc.c | 74 +++++++++++++++++++++++++++
-> > > >  1 file changed, 74 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/iommu/iommu-debug-pagealloc.c b/drivers/iommu/iommu-debug-pagealloc.c
-> > > > index a6a2f844b09d..0e14104b971c 100644
-> > > > --- a/drivers/iommu/iommu-debug-pagealloc.c
-> > > > +++ b/drivers/iommu/iommu-debug-pagealloc.c
-> > > > @@ -27,16 +27,90 @@ struct page_ext_operations page_iommu_debug_ops = {
-> > > >  	.need = need_iommu_debug,
-> > > >  };
-> > > >  
-> > > > +static struct page_ext *get_iommu_page_ext(phys_addr_t phys)
-> > > > +{
-> > > > +	struct page *page = phys_to_page(phys);
-> > > > +	struct page_ext *page_ext = page_ext_get(page);
-> > > > +
-> > > > +	return page_ext;
-> > > > +}
-> > > > +
-> > > > +static struct iommu_debug_metadate *get_iommu_data(struct page_ext *page_ext)
-> > > > +{
-> > > > +	return page_ext_data(page_ext, &page_iommu_debug_ops);
-> > > > +}
-> > > > +
-> > > > +static void iommu_debug_inc_page(phys_addr_t phys)
-> > > > +{
-> > > > +	struct page_ext *page_ext = get_iommu_page_ext(phys);
-> > > > +	struct iommu_debug_metadate *d = get_iommu_data(page_ext);
-> > > > +
-> > > > +	WARN_ON(atomic_inc_return(&d->ref) <= 0);
-> > > 
-> > > Is it worth dumping some information about the page in addition to the
-> > > WARN_ON()? That way, you might be able to benefit from other debug
-> > > options (e.g. PAGE_OWNER) if they are enabled.
-> > 
-> > These WARN_ON are for overflows, which should never happen.
-> > I initially thought about using the refcount_t, but it didn’t seem
-> > suitable as refcount_add() expects that the refcount is already “1”
-> > indicating that an object was already created which doesn’t fit
-> > in the semantics of what this is. Similar for refcount_dec().
-> > 
-> > In the next patch there is a WARN_ON for the refcount check
-> > to capture the mis-behaving context, I will add a debug print with
-> > the leaked physical address in that case as this is the important one.
-> 
-> I was thinking specifically about calling dump_page_owner().
+Hello Maxime,
 
-I see, that makes sense.
+On Mon Nov 24, 2025 at 11:15 AM CET, Maxime Ripard wrote:
+> Hi,
+>
+> On Wed, Nov 19, 2025 at 02:05:32PM +0100, Luca Ceresoli wrote:
+>>  #ifdef CONFIG_OF
+>> +/**
+>> + * drm_of_find_bridge - find the bridge corresponding to the device nod=
+e in
+>> + *			the global bridge list
+>> + * @np: device node
+>> + *
+>> + * The refcount of the returned bridge is incremented. Use drm_bridge_p=
+ut()
+>> + * when done with it.
+>> + *
+>> + * RETURNS:
+>> + * drm_bridge control struct on success, NULL on failure
+>> + */
+>> +struct drm_bridge *drm_of_find_bridge(struct device_node *np)
+>
+> So the convention we've mostly had was that the first argument would
+> define the prefix, ie. if we pass a drm_* pointer, the prefix is drm, if
+> we pass a device_node pointer, then the prefix is of.
+>
+> Considering that convention, of_drm_find_bridge would be the ideal
+> candidate, but we can't use that obviously. What about
+> of_drm_find_and_get_bridge, or of_drm_get_bridge?
 
-Thanks,
-Mostafa
+Ah, it sounded the other way around during the old discussion [0]. :-) But
+no problem in using a different name of course. of_drm_get_bridge() looks
+like the best to me, so I'll rename that way in v2.
 
-> 
-> Will
+[0] https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a18ad=
+@houat/
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
