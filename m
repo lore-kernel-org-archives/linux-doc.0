@@ -1,132 +1,113 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783B7259C80
-	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 03:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E624343AA4
+	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 03:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763954059; cv=none; b=CLZfgG1YjJw81t50cykOZm/5hXNaIfofh2yuCGvJRvV0eYr4mrMSUCdDRqkDZ211URnMxhXcyGcMykXphdp7b2pA3aiGtSjs3IKiU1Agge4MsEudxqV9Ll0Zi+rs9J/UbQ25DyuAoVkGnJwhwBTdKhVfCrY5l9Twz7WjnelqU3E=
+	t=1763954203; cv=none; b=C5auQWkxGjmhl/91siquW5LIYUlGMAA9UFfkv2WqZqejypgunI0GFYZDG2GcgeGaFekOxb7Sk6lOX5OkFqPS2wTStNSORMnU5N/hLahyV5nlHGNS26bB4k4CM43t9iqEv4iS+Y9dqUzp4J7nx5w8XRNUP4xm9rUa5Unn6iHQmvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763954059; c=relaxed/simple;
-	bh=m7otrMWhBJM9ta+y1m0Kw4P0enGP7S7+XlIcKLt3qIQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Skr+MBvtg1jY5UG8w/tFbhY10wkVwlxdXXK0TsWlWtgFvAGnYlQPuDSwkey9Tr1/xGBK54wXtkD0PoVATDhwq7GcZcErzhWZEOZ7H9HjR84sLqYdbBWZrcsmMiLUHygQYrqHxI2qxwwbIf+J2enaLMdCxiOwlUnkTCe86JZmkYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=R4zZTJYQ; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763954203; c=relaxed/simple;
+	bh=Ufhtjp5u7Pkqbc2OT0mjv+rD9SRL5OTdGVJGSwd8UZM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CS4Jgym85KnAODuBdEClWesqvktDVlGBur1cJzF7MWA8FNHYIIHNHzhEz2Fx31jW2XT2J7ke5JPmVcXIuW8tJ1opkr0GsAk7XGg7ZwgYo5cZPWGKq0Xw5rkz8YUcNgsfph3f6EX4MayW1YbW7bjO1L0YPzwlq0YrgMY3SwQE4Aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQTaGcCG; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="R4zZTJYQ"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-64166a57f3bso5777656a12.1
-        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 19:14:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQTaGcCG"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-789524e6719so48879487b3.1
+        for <linux-doc@vger.kernel.org>; Sun, 23 Nov 2025 19:16:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763954056; x=1764558856; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZxWYYzGvXb7lNtyybtYmnOldPsxEU1v86JbAWbqU92g=;
-        b=R4zZTJYQ8Edmu3CjI8FZOt/tfdZatJjJcfAnV6s4bUjJ7ZvQ2Rhh8ANNQwYJ3gEhFW
-         aKrU1gfMUEmN5dFsBaoNhUY755lzg+dfdtvUy2lzSsa5I3le9CcVjjWNZYiD8ltWAgke
-         bBxvhn2XQY8NoS6KDwNBSmHkjfLKlXQawhVpmJ+cshiKRMt+t1RX3g5gVgsbex1YmWIT
-         Tyn5wnvLUs83XXipjPoRo1I/+Tq95WlZV/B6j04eTpcQPONgVJJZzo2oEg1W4p5gDEmH
-         vEM1vIVb4NhurLHBy/CRhdm3dOTdI/nYXzd0TrZl4OJRdMa8+W//S9b43wGhiec6HwLv
-         EqRg==
+        d=gmail.com; s=20230601; t=1763954201; x=1764559001; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZjyVN0WFpD6zel/1SQcb4kWsuE+t0YVPz778/EfYDIs=;
+        b=kQTaGcCGIUcU8eb8TwPKQRFpZPJ2ogh0UVRs4h90J3RvkLo7UhKPYIZPg5wHRt5lUY
+         //vzNvMKppdijJqE2f6V0UBnD7N/X4HDfwHuiR0zHc1I1jP0YF5C062ZQ1b5rJYhAy6/
+         8d3LJ2ZGkHUCGaEMjgkd/OOlFptVvlqaZiB7oJ/nR5LNaIEfIiEEV/5HeE4MrNn2tqNM
+         Jk8jLLqq0uzCnLypDwtXgPNZNmchg6bXNMG9ynQmO8vCZsfBf/pUtsRgEkrczshmDCWn
+         ltfH9e3LAeLEwA+kA3LXnLXu0vpTkM5oJu5kMfBPh1lj72P5xhtLVJJw3ieXt+KASscr
+         Fetw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763954056; x=1764558856;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZxWYYzGvXb7lNtyybtYmnOldPsxEU1v86JbAWbqU92g=;
-        b=XSiCQ2pXA3o0gDR/AVfU1O305PzEOVHeF7DaSdryEWhV//ll+DlPqOXft80oR85/9H
-         JHbF3SIonviom37+CTNuQpPWKrZ2997z5B1kjHvQ8Go9guoCCp35hA8B9/E695geDHkt
-         7PpBIPZJGYcPjRcSXIAgx1ySzCZaB11L2QsVmwghCThaYnilSSmOaDaFmDizfAsYHYgv
-         ZBoM+MZNclI1CFonFOKFtgPQp4WFONFFReKdj0KaPXcLcbPxkt5QMhyLwo8aotW7rioQ
-         5BQtnbNGiggSKgWT0V4VyJfVNy4D9DUfItfm2fAEWSg7sMw0rVhDV2dzA8vAIh63pVp3
-         OYzg==
-X-Forwarded-Encrypted: i=1; AJvYcCXvz5m/jKtrdk7Trx1PoU61ihhZyIsxeisSpkWRjo6R9ByFzz5QW8aBPEwt5hvsnvdb+xVsW0bntMQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1YpVUCfIjGyRwkuGiYlJa6yAcbDVFw1yFr59+61bmKyVXzlBg
-	Sks/wR+kgxyEKJpwVScez6SnKzILTC0LU0lN4ndfnLVYF4Zi+T2Ah+3LSoKnikqvbYHCDjPp/im
-	eemnqtbjofZnvY0w/TbsUmYgyq9ydQXMiAZXy4mCQ8Q==
-X-Gm-Gg: ASbGncsr4sS7zIdX5TPgrOcKyyodXGtC+hTQ8R1cdvp7aQ3yOW7zcRPDqNsJcs6YKbc
-	HSsKxYy1c2lLPqRJwNL2rgYTF5Y/GD0W3U18yNzR0FkrGMBoJ7n7W805Cy7MpOXh6a7A0E9LRx1
-	z9elGaE12hv2Q9WlFPwNnYIHtauBNp1DQggzVMMYS8dELHUDwsTVsNhr3wjwC6paKSxS5/EbuUw
-	PtUUbgoLqjRHMj7St3rr+wg+T6h0SeuLLS0Fj/fyo2WMDMdG+XBWQ7eIEP069zd+ByL
-X-Google-Smtp-Source: AGHT+IH67JP1UaR3gpoqZ3MrgHkQzMQhpp66V9UPwtAjbwPOvJT5SkZilFWd08WjSbu3wTcfKGr6KSLWlhGvqm+wzqg=
-X-Received: by 2002:a05:6402:40c5:b0:640:ebca:e66f with SMTP id
- 4fb4d7f45d1cf-6455469272fmr8497105a12.34.1763954055610; Sun, 23 Nov 2025
- 19:14:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763954201; x=1764559001;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZjyVN0WFpD6zel/1SQcb4kWsuE+t0YVPz778/EfYDIs=;
+        b=P6yRc9aYNsV+KdeAwfaGNM9vKj0AiHgIZ7otgT5L3TuabyZmbO6s/dB9wPwtWOVTNp
+         3FYwTFR4gsfx1Dp/Z6xKeUmSLfFdofvZsU2iGXBgu9UZ6PoY7aBQw0Z3mccd+RAwKAJz
+         LQImZG7htCKKKtSITRmhZJhnSzd4+7Gj9iAdUiomwJvl1+mOtS6F2OoHf2kUsOuVdP6I
+         r2GZa7V946j5tvZAMCnFlxe3Ek2GBZHxm9o8mWxa/XCcJWOGTE2k3oLl6gRvqfBjP7aZ
+         pq+pi7r0lrc+qAgDYSBKaCBCTprTxlt/zITEAKRK5vNOzvn+sjzNvN68LoDB2Wsf1RRM
+         qNhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUnMsc18JCWtj5Vxxpsx3OiBz1ARzcMJpbPYiijW83vngh969gJUz6EqB9weL8VLrEP1eDWxxz53jE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRpoiS8vKEKRz/WARRp6RQLJsU703ntPXxhRkPU2G+GeuUsVaS
+	b8OMuaLumpiWonz3YLjZS1tbuneW7P85enbh3DfqfNG51ojprN04LWLH
+X-Gm-Gg: ASbGncuzMqYQD//OBHb2Z7H2PL9psR+jUm06B5W4dP6HpTlrAC9UrX149J5qmfb01vI
+	Bp/KJEG4mtO74bvBJMWvo0PyFhrqAs8m2qr/AfngdQJoaAoG21nZPYtjVnNp5Y4LYMS8dPNQRTW
+	LMlbxZpb1SfLfw35n7vRixKda60Kmxd+wroKeTO/CBmUbGO4XmV1edGCUt83AmyXRH4KdSgikQ+
+	VNiP34ibYIGrvPklW0oT+UX6Iibficf8NZMqWlyowyQbQXngmFNWwZyaCy44ol4FYgpNKogJjmN
+	3kGogIe5ADl5ztBaanuh65QqyPiMbg8paiu4gW48xAcWtOtrzCu1rLFfS2EuSZVY1LYZ8aONLSl
+	ecYkcKU/9UJ5coyE4lXFHEjNYbwpoEb75LUbhEt+fcvWroLHRV7/fQQXTj+btLe+N2/2Ffgxxs/
+	5KJSTpxZm66Eh12bvsBTzAgrbTompSKIaHa5vLTg==
+X-Google-Smtp-Source: AGHT+IH3f1GXI4oxPb14EjMJk3wTjesLmudoALHKP8HE0tZUJLC1DK5Ecy5TU8w5/AMaWa6guMK0Mw==
+X-Received: by 2002:a05:690c:3803:b0:788:131:d049 with SMTP id 00721157ae682-78a8ab2f574mr84609987b3.11.1763954200834;
+        Sun, 23 Nov 2025 19:16:40 -0800 (PST)
+Received: from [192.168.2.226] (104.194.78.75.16clouds.com. [104.194.78.75])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a798b2a06sm40448797b3.24.2025.11.23.19.16.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Nov 2025 19:16:40 -0800 (PST)
+Message-ID: <4768c20a-daa4-4eba-8dbb-2c99d304cafb@gmail.com>
+Date: Mon, 24 Nov 2025 11:16:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-15-pasha.tatashin@soleen.com> <aSMsqD5mB2mHHH9v@kernel.org>
-In-Reply-To: <aSMsqD5mB2mHHH9v@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sun, 23 Nov 2025 22:13:39 -0500
-X-Gm-Features: AWmQ_bn9jKi7Ktx8U1VC5NBm-L4AbZd5N5WS8ORgDcSjrzKv7tbGyIW2qlGBRlc
-Message-ID: <CA+CK2bCrNC0uYdXbC+JK_bvk8BYFPSL=ZbTZ_T6LMHtoum+Z8Q@mail.gmail.com>
-Subject: Re: [PATCH v7 14/22] mm: memfd_luo: allow preserving memfd
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] docs/zh_CN: Add libsas.rst translation
+To: Yujie Zhang <yjzhang@leap-io-kernel.com>, alexs@kernel.org,
+ si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
+ doubled@leap-io-kernel.com
+References: <cover.1763886358.git.yjzhang@leap-io-kernel.com>
+ <6d5747ee48a66ef49f937b3cf97e7716b45ea35a.1763886358.git.yjzhang@leap-io-kernel.com>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <6d5747ee48a66ef49f937b3cf97e7716b45ea35a.1763886358.git.yjzhang@leap-io-kernel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> > +unlock_folio:
-> > +     folio_unlock(folio);
-> > +     folio_put(folio);
-> > +     i++;
->
-> I'd add a counter and use it int the below for loop.
 
-Done.
 
->
-> > +put_folios:
-> > +     /*
-> > +      * Note: don't free the folios already added to the file. They will be
-> > +      * freed when the file is freed. Free the ones not added yet here.
-> > +      */
-> > +     for (; i < nr_folios; i++) {
-> > +             const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
-> > +
-> > +             folio = kho_restore_folio(pfolio->pfn);
-> > +             if (folio)
-> > +                     folio_put(folio);
-> > +     }
-> > +
-> > +     return err;
-> > +}
->
-> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+On 2025/11/23 16:48, Yujie Zhang wrote:
+> diff --git a/Documentation/translations/zh_CN/scsi/libsas.rst b/Documentation/translations/zh_CN/scsi/libsas.rst
+> new file mode 100644
+> index 000000000000..7e1a726a6add
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/scsi/libsas.rst
+> @@ -0,0 +1,425 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/scsi/libsas.rst
+> +
+> +:翻译:
+> +
+> + 张钰杰 Yujie Zhang<yjzhang@leap-io-kernel.com>
+> +
+> +:校译:
+> +
+> +=======
+> +SAS 层
+> +=======
 
-Thanks!
+This heading contains an extra '='. Please review your patch for similar 
+formatting issues and fix them.
 
-Pasha
-
->
-> --
-> Sincerely yours,
-> Mike.
+Thanks
+Alex
