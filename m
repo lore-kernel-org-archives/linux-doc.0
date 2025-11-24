@@ -1,96 +1,75 @@
-Received: from mail-m49229.qiye.163.com (mail-m49229.qiye.163.com [45.254.49.229])
+Received: from mail-m19731109.qiye.163.com (mail-m19731109.qiye.163.com [220.197.31.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD5C2D5A13
-	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 06:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000AA2DC32C
+	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 06:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.109
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763965825; cv=none; b=argTAmIqqcQwXiBa+5f5C85RdgAtRktQquOhQf40vCsmp3tGaeUu0F+H7seuQh7Eeekb3G+Kw6RLhck15tS5eBrnbi086YqADaGkbynlVRBIZKr+MLp9c/sEIdAtzQ2e/UZuWwF1i80Zlde2NmSccjZ+DxMhf6+NtW7MyudEJYU=
+	t=1763966035; cv=none; b=br2EHRrqcR+7oK7sD0+tHKQeiwbtNEBE07jCESe5JMoc9wPagp6IozAFJMJDusHYDIZ/7GPhpkrRhyX1WxJ1J0OTSea5GMnjtf1cpQaKfiRy4h6FQxUcJEhEzoxa9wiMZul6uAgCrlcyjdSGf30XAzVP9C081XZnasbnVqSVEMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763965825; c=relaxed/simple;
-	bh=tsJblHOIbuZwGYCZxfevUi79Y16xWGFOO1QnPqcbtYg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C6zTt0jJCLR9JrcQk2KBSD9GJ4bW2fE/CLIzmsVoG9nYm72pn6IGpyUmqWZFDi9Rjz0uhbFSYe5nCWY4LlTR3cJjoiOFfBZugrHija0EdaF5M2M8hjBv8Z6qVI+8mk79CscJld79UBU8Ex1nBNvosFPnpkqjEqGTUF0aYmRmSSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=P5K9TLZ1; arc=none smtp.client-ip=45.254.49.229
+	s=arc-20240116; t=1763966035; c=relaxed/simple;
+	bh=6ZVdS3O7xRmPnjOKaNo3VgfCFk0lm4QHvfiWwW965RA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rlWdg/3Sb4mZQ2wUuKcLXTYje+k4fM+HTU0zTj5Zpr/dPo5l3NQ/QZM3QGdnAAFjXtF8nx+moIbY0LxIlmdYLU/ok2X5IKQkLqLYkuGGWc5ZPlDpTkpIIuZd7s+0lrwtNkMnDTe3PrLJuyzsZsBrRWYJPZcAuaHJSyhh1Dh3pQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=V+8/1IG3; arc=none smtp.client-ip=220.197.31.109
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="P5K9TLZ1"
-Received: from [10.0.66.10] (unknown [222.130.22.244])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2aa44dbe3;
-	Mon, 24 Nov 2025 14:30:18 +0800 (GMT+08:00)
-Message-ID: <5d0eb7b4-889a-4519-b470-96d49e418f51@leap-io-kernel.com>
-Date: Mon, 24 Nov 2025 14:30:17 +0800
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="V+8/1IG3"
+Received: from localhost.localdomain (unknown [222.130.22.244])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2aa428be7;
+	Mon, 24 Nov 2025 14:28:40 +0800 (GMT+08:00)
+From: Yujie Zhang <yjzhang@leap-io-kernel.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	doubled@leap-io-kernel.com,
+	yjzhang@leap-io-kernel.com
+Subject: [PATCH v3 0/2] docs/zh_CN: Add translations for libsas and wd719x
+Date: Mon, 24 Nov 2025 14:28:38 +0800
+Message-Id: <cover.1763964599.git.yjzhang@leap-io-kernel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] docs/zh_CN: Add libsas.rst translation
-To: Alex Shi <seakeel@gmail.com>, alexs@kernel.org, si.yanteng@linux.dev
-Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- doubled@leap-io-kernel.com
-References: <cover.1763886358.git.yjzhang@leap-io-kernel.com>
- <6d5747ee48a66ef49f937b3cf97e7716b45ea35a.1763886358.git.yjzhang@leap-io-kernel.com>
- <4768c20a-daa4-4eba-8dbb-2c99d304cafb@gmail.com>
-From: Yujie Zhang <yjzhang@leap-io-kernel.com>
-In-Reply-To: <4768c20a-daa4-4eba-8dbb-2c99d304cafb@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ab48e579909d6kunm45f9bbf839d482
+X-HM-Tid: 0a9ab48cd89609d6kunme0000f0039ce31
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZHUtNVh4YHktPH08YGEwYGlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MSVVKS0
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaSENPVkhDT0xIGBoaHx9OT1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk9ITFVKS0
 	tVSkJLS1kG
 DKIM-Signature: a=rsa-sha256;
-	b=P5K9TLZ1JxlDtWpaovfS+BTAv4wlvKFsdJ9NZ6jA3nhGtFKOAuuOHh/ceIZqfMYG60SyrzuYuwl8sQg7bActfjN++0Ac/uZs8IozHqqHzjy9oiZhzmnsXHFbB9ibaTeoA4uHxunwuJM5jZLNZ9yZUfbjZYUQDDNmK3NeI8ATY5XIrkX4n8YW59McyHkLfAD05B5YtDayhzLM5TQmLV3rIumA3VmQ/k/LqWox9NYa/mF2yr0I/vJcw0EiE2W1vcbeOQtTaNj+MreSyPavtpwUdyGtkeLE0nvB+tXvSNMgBb2JrQN4gF1Gg4RPhbcSQz5xaaGLAArSVkrC3UMfS3cvrw==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=9vzuD2a/q52ee8RnJx8fiwAdWwK3H4rxslC4TbshDx0=;
+	b=V+8/1IG3GoUlYyCT1t6GAjiiMrWmMW6aoX3YmoNAiixhp7oGuo1dEQVI/13JYoYf76Gm0ih/rO6R5vEi21svQJa/4qtO00J6Qz61TVujay255oEJV+WEywpkNCioQe74x2LEtLjPKVKYwA2T/MxvS7aJICqH18g/dkBnOkhKXvv0Bd1auCcx6a/iQ5fGK4U7iNJVj0k0R3ZbHrkq3mCULu2p+YardF41DjjOzL0z3WdEo39kEkacqtork0bbd/nrNWccFcQ3amBprX6HTtxYx3yf/alVtA5X6405/u6KErlM8LMlgyk9mkEElAtZXoEvN0loc55wwcbCuC6hM1pyOw==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=i1sG3fFMg+koYSBsfl1UgYnp7BnlsK0dUDWpGduPDMY=;
 	h=date:mime-version:subject:message-id:from;
 
-Hi Alex,
-﻿
-Thanks for your review.
-The issue with the extra '=' in the heading has been corrected, and the 
-patch has been checked for similar formatting issues.
-I’ve sent out the updated version.
-﻿
-Best regards,
-Yujie Zhang
+This series adds Chinese translations for libsas.rst and wd719x.rst
+under docs/zh_CN.
 
-在 2025/11/24 11:16, Alex Shi 写道:
-> 
-> 
-> On 2025/11/23 16:48, Yujie Zhang wrote:
->> diff --git a/Documentation/translations/zh_CN/scsi/libsas.rst b/ 
->> Documentation/translations/zh_CN/scsi/libsas.rst
->> new file mode 100644
->> index 000000000000..7e1a726a6add
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/scsi/libsas.rst
->> @@ -0,0 +1,425 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/scsi/libsas.rst
->> +
->> +:翻译:
->> +
->> + 张钰杰 Yujie Zhang<yjzhang@leap-io-kernel.com>
->> +
->> +:校译:
->> +
->> +=======
->> +SAS 层
->> +=======
-> 
-> This heading contains an extra '='. Please review your patch for similar 
-> formatting issues and fix them.
-> 
-> Thanks
-> Alex
-> 
-> 
+Changes in v3:
+ - Fix extra '=' in heading
+ - Link to v2: https://lore.kernel.org/all/cover.1763886358.git.yjzhang@leap-io-kernel.com/
+
+Changes in v2:
+ - Adjust document to follow RST syntax
+ - Link to v1: https://lore.kernel.org/all/cover.1763112421.git.yjzhang@leap-io-kernel.com/
+
+Yujie Zhang (2):
+  docs/zh_CN: Add libsas.rst translation
+  docs/zh_CN: Add wd719x.rst translation
+
+ .../translations/zh_CN/scsi/index.rst         |   4 +-
+ .../translations/zh_CN/scsi/libsas.rst        | 425 ++++++++++++++++++
+ .../translations/zh_CN/scsi/wd719x.rst        |  35 ++
+ 3 files changed, 462 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/scsi/libsas.rst
+ create mode 100644 Documentation/translations/zh_CN/scsi/wd719x.rst
+
+-- 
+2.25.1
 
