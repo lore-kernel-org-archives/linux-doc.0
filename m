@@ -1,150 +1,234 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FF7257859;
-	Mon, 24 Nov 2025 08:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F462F12B6
+	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 08:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763973260; cv=none; b=AItnycwNDeVMG9017X/Sf/M99L5OMK0INxzFPQz86hDEPl74mBR/S0PJ7pEvsShdVXdr1wwi39wGf9/XJCp64fOPnIc0NrAUfd7Kq+i17POWrJakB0IMX589G9QXuyiG7WdhX0PtwxwuXhTVckDeY8uRYaT9zQcvCfHnRXZAAzo=
+	t=1763974654; cv=none; b=OBY2eulo4qMfn1KVprK9OAd3I0gML4XZLvz7eX6B9eSi+1gtZvXO91QBqkTSqxSYdoaA2xpzS/hC5mVyYOtvU3COKAvXYtGO9i3Cm+szzVTynljmpQDuZV6pU/YJ/pLvxbSnwLpGGKdruFJyU3vSils9UaqIpVrgu8BMFsqpbyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763973260; c=relaxed/simple;
-	bh=wGZXJAQbtVTV9FHwtHp+4Bz8UrJFul/L4iMHsX4MgnE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hMZrdM+CefJucvI7LmYCudB8tGTa5rDFJVDpSAXAP0bdevnLG0LoPV/R5rmaEeNI9EapMZrPOaHGQH71EPMIba5nPJVMusi84gNZIvj6/E75kOjK831rOnqphLssLUvYi87u5RN9g43lNO686MDSiBVua18vhgt/FEfFPYEFDTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cSDIE3bJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763974654; c=relaxed/simple;
+	bh=0AX8ikb3o4EvRfATnP1q7RYE34mOvktGMpe4j6p64os=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=swAMxQ2lV+/g92H7FQIb7k3C1VSaWATO71veTOi/4DOSBIINBsyMAS8Ugm/ezByYyyXWo0lvHOfQogn90W0CROv1haaXEv6wdpDaa9ud2wRLMQ5J2+FBX9XNPuObNPediWKYk2GxkAv79YspxNJsbBKKgO23WKqxiTMoSFvt750=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nd0gYwv6; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cSDIE3bJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3539CC4CEF1;
-	Mon, 24 Nov 2025 08:34:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763973259;
-	bh=wGZXJAQbtVTV9FHwtHp+4Bz8UrJFul/L4iMHsX4MgnE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cSDIE3bJYijRV7Nw9AQRfw507aKbN5fhxY4bI3kI4ZLYQ2oqfmLa47THN81aUd0nF
-	 KPrhycRcNrCLQevcYozAFdEZpeXscdj35hpAzpc/l9RS5oS75uTuMDQH433C3TofGX
-	 0uwfv5v8scO3wkDLoVFmLpRJ7eHKS4Uu9zPZrPQ3ydk0YSC8M2jRaQX8YUWycwsHP4
-	 5PCRaLVeBKrsNORZS4pm3aCzsRS2ul7PcUt20va/D3cxM3XhtFnoGAyMqfduGxePzG
-	 gTG+3mgIk08zRi3iCmjgkatQ0SJwNlY0sybkOEYMtpSREczeoWbA7xzfopdDtHp4Rx
-	 LiUDJK9CahrHQ==
-Date: Mon, 24 Nov 2025 09:34:15 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Carlos Bilbao <carlos.bilbao@kernel.org>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, Miguel
- Ojeda <ojeda@kernel.org>
-Subject: Re: [PATCH 0/1] fix rustdoc build detection
-Message-ID: <20251124093415.679c698d@foz.lan>
-In-Reply-To: <20251124091811.47abd0a9@foz.lan>
-References: <cover.1763370163.git.mchehab+huawei@kernel.org>
-	<CANiq72=79rhJ5Sh+yp2vRSuSLD=nyR2DuQ26hFeBmyszRC3ALA@mail.gmail.com>
-	<6sczezthaixabzw5lddhemrx2yivfdf65zfvpew7tpzl3gqire@vjx4rpju5wxc>
-	<CANiq72m3deG_QsH8-AskTR9LcNL=G6E9o2fu+oi9RVXn1PK_+Q@mail.gmail.com>
-	<20251117133203.71b97d47@foz.lan>
-	<CANiq72kGvfB2wqAv-d7F9racGoSX+TOmezA=ip-E4ouva-0U=Q@mail.gmail.com>
-	<20251121104057.5aecce59@foz.lan>
-	<CANiq72nhrQsUcxm-1bsBEaGVbRgmAC=mVxrQ+A7TLcVuOer9oQ@mail.gmail.com>
-	<20251124091811.47abd0a9@foz.lan>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nd0gYwv6"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b73875aa527so629035166b.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 00:57:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763974650; x=1764579450; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gxRRZFjB1lIqcawHfAYFmVJWZp4LMXEe6DiIUrAIjIM=;
+        b=nd0gYwv6236F+2brovwyy4y3Ei8biyuBL5KCm26dT4OuTVqomRgpnCodYKLTsrVyqh
+         wK4v/lBT/LtOTeiq+zTw8kIzcR/o54JlUIiYGFtC/FRl5dsy7d2zIYvN/lh0G9paq760
+         ZNnxzbO/qzBrPCHCZBGaMt38foP2Ilc7QxR1EbsDG20BeW36SPhdH98dMU/3r9qRbKVX
+         rADRsSuHFh3mOH6WMgHtFOrdI4ZSPWqMpVUgSKTH7ZhViTMZTwxSW43tura2OgtB1+W8
+         7BrkT89EedYCVNPqDsCx6cda1y+fUH5Y77sK83CEUdt2wsg3IjnMFhFpNaNpwF7D87Ul
+         XsWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763974650; x=1764579450;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gxRRZFjB1lIqcawHfAYFmVJWZp4LMXEe6DiIUrAIjIM=;
+        b=cGrGWANioIxoAVCjhd+fE9x+cQxy2H49ayyOBzxmlZmeNShjUt4LGJbisQG38/rpUk
+         cp2gaQYn9Jrddt+zpI1CydnmgzsObU6K1p57fCfbXBcF3TCQZsM+Hjh8+yaWO/MFswPi
+         KmPLWkf/HjKYtXICJhMhGdrmP88WuwkZp9s8t/s8JZOntNMlNjfGT6fPa5tKpF1jxy9Q
+         B5kzQ4iaDCbI6nmwZoaGFOVzUnfKqaj5bRhnyQutZc7VnzFuQkPRjwVwo3EgUQstZl4O
+         /JEvBsKxT3EkNHB76LtWd1VujAP/fqiBAvhaEOpS2L5O+mGh+yQ4+//bKMTllbtwTUde
+         JWgA==
+X-Forwarded-Encrypted: i=1; AJvYcCVM/ENl6NzfOPhx2I/WoiG3JEG5gZqTYJLhtD4ldGUiiv98Wn6KsOB1J3OEcZxcFembMOtZFNX2f1k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxxV2yWFsZakxQliNZF1TcrSVZji9kI56OdiUM0aCWWm3pEtF+
+	Yms5F8+76iYwmJRpU/2RB9bqIiq/oNUZcOf2LvF0pvwkblA7JTbeMwFz
+X-Gm-Gg: ASbGncuGTZPKVrF4g9pmMhTnwUOMmNeGYLhzVydUKTTIPRxsqJtjyO4HbQgSwO289/r
+	NO5WTfG10t6ogBMiwG87a2JBVwufHy1S842JDdMwmt7Y99VmLat0+63HBa+KcAQkdd8h31UsScP
+	OQMXhm8/DnwBvnGIN7iL9TjRkN9GBgFoCO7qrpVXKzsuQqVzdgcybAT1KwH9USQ17oQEb142CYk
+	TJ9wqfNvJF8A/8D/98KooPrEJ3iTsYmtoyzszZOiSdq+czRSHfcbS9Nhc2ah/FIDWr6fsvG2z5B
+	FaE47WGkEuw+uPF3eYMjm2esSSZV2vTLnLJUbb9uytyWIzAU0epovo0O63iftP/YFmld4R3IM86
+	cCfAfT1cQoTzXDAKbxgnQXUbij/uBBufr6cUXgrkJaaKOyCvLK/LAjDvpyYF03GG961o3IeGhc9
+	7xL1bTtH0wa3DVWaQ3N4pgIIAxvPZhc4l/zKRKSQGrhPQXmuVwoqfY4qUVl1wE5UqcHuputjrBF
+	Sbrryc=
+X-Google-Smtp-Source: AGHT+IF7eVt0kYpi5bJtqaCQupLePEPQbTatmBLQkYhmxJBlR5P/QxBWZ0Gc9LnkJN6rBHjYeAf4FQ==
+X-Received: by 2002:a17:907:3ccb:b0:b73:883e:1517 with SMTP id a640c23a62f3a-b76715e626amr1130898266b.26.1763974650091;
+        Mon, 24 Nov 2025 00:57:30 -0800 (PST)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([2a02:3033:267:9a21:9532:f12d:5875:dc2c])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b765502a9cfsm1199697466b.57.2025.11.24.00.57.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Nov 2025 00:57:29 -0800 (PST)
+Date: Mon, 24 Nov 2025 09:57:26 +0100
+From: Jorge Marques <gastmaier@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	Jorge Marques <jorge.marques@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 3/7] iio: adc: Add support for ad4062
+Message-ID: <o4kt2of4xql4azufjgiecm4jzuexgm6nkvr7aghbwfk6qd7yqd@r4plggehzces>
+References: <20251013-staging-ad4062-v1-0-0f8ce7fef50c@analog.com>
+ <20251013-staging-ad4062-v1-3-0f8ce7fef50c@analog.com>
+ <20251018171032.144a126c@jic23-huawei>
+ <ou6qwayt4g7qaoe5dm7tdg6jl5dwquslpfbok6on5r2q2wytyl@wlqxj5y6ircj>
+ <aSQMjZbc75cQtFqJ@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aSQMjZbc75cQtFqJ@smile.fi.intel.com>
 
-Em Mon, 24 Nov 2025 09:18:11 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+On Mon, Nov 24, 2025 at 09:43:09AM +0200, Andy Shevchenko wrote:
+> On Sun, Nov 23, 2025 at 08:48:09PM +0100, Jorge Marques wrote:
+> > On Sat, Oct 18, 2025 at 05:10:32PM +0100, Jonathan Cameron wrote:
+> > > On Mon, 13 Oct 2025 09:28:01 +0200
+> > > Jorge Marques <jorge.marques@analog.com> wrote:
+> 
+> > Mostly acknowledgements and explanations, except a comment on ACQUIRE usage.
+> 
+> ...
+> 
 
-> Em Mon, 24 Nov 2025 02:51:40 +0100
-> Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> escreveu:
->=20
-> > On Fri, Nov 21, 2025 at 10:41=E2=80=AFAM Mauro Carvalho Chehab
-> > <mchehab+huawei@kernel.org> wrote:
-> > >
-> > > I'm not talking about stop using rustdoc. I'm talking about using
-> > > it to output on a format that Sphinx can understand, and let Sphinx
-> > > do the final output, solving cross-references. =20
-> >=20
-> > By stop using `rustdoc` I meant its "normal" (HTML) output, i.e. the
-> > webpage with all its features and so on.
->=20
-> I see.
->=20
-> > The JSON support is unstable so far:
-> >=20
-> >     https://github.com/rust-lang/rust/issues/76578
->=20
-> From the issue timestamps, it seems that it doesn't have a high
-> priority.
->=20
-> > And even then, I imagine it will always still require a kernel config,
-> > so that isn't an advantage either.
->=20
-> This doesn't seem to be an issue itself, as a new kernel config is easy=20
-> to add.
->=20
-> > Thus trying to mimic what `rustdoc` does is probably going to be a lot
-> > of work to maintain, to likely get a worse result than what `rustdoc`
-> > already does.
->=20
-> Perhaps one solution would be to write a new output plugin to make
-> rustdoc produce a better output format that could be easily mapped
-> by a Sphinx plugin (like producing an output on an enriched text
-> format like Markdown or ReST).
->=20
-> I can't evaluate how easy/hard would be to do that, as I'm not
-> familiar with Rust toolset.
->=20
-> > Something that would work without a config could be way more
-> > interesting for us to integrate into Sphinx.
->=20
-> At Sphinx side, it won't be hard to pick references from rustdoc.
->=20
-> At kernel_include extension:
->=20
-> 	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-Documentation/sphinx/kernel_include.py
->=20
-> I added a logic there to detect unsolved cross-references.
->=20
-> Currently, it just warns about unsolved references, but it won't=20
-> be hard to modify a similar logic to solve it, pointing to a
-> rustdoc reference (if those are stable enough).
->=20
-> Doing the reverse can be trickier, though: internally, Sphinx
-> maps them via a C domain. The output plugin (html, pdf, ...)
-> is what converts such reference into an html (or pdf) tag.
-> Such mapping is version dependent.
->=20
-> There was a major rewrite at eh C domain on Sphinx 3.0 which
-> changed such mapping, but other versions may have changed it as well.
->=20
-> Also, there is an open issue that will likely change it once
-> fixed:
->=20
-> 	https://github.com/sphinx-doc/sphinx/issues/7819
-> 	https://github.com/sphinx-doc/sphinx/issues/8241
->=20
-> (last one closed as duplicate of #7819)
->=20
-> So, creating cross-references from rustdoc to Sphinx could
-> be tricky and hard to maintain, as it may require some checks
-> at rust/rustdoc side to verify Sphinx version.
+Hi Andy,
 
-In time:
+> > > > +static int ad4062_read_chan_raw(struct iio_dev *indio_dev, int *val)
+> > > > +{
+> > > > +	struct ad4062_state *st = iio_priv(indio_dev);
+> > > > +	int ret;
+> > > > +
+> > > > +	ret = pm_runtime_resume_and_get(&st->i3cdev->dev);
+> > > There is a nice new
+> > > 	ACQUIRE()/ACQUIRE_ERR() related set of conditional guards defined that
+> > > let you do this using cleanup.h style.
+> > > 
+> > > https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9a0abc39450a3123fd52533a662fbd37e0d1508c
+> > > 
+> > > This looks like a perfect example of where those help.
+> > > 
+> > > When I catch up with review backlog I plan to look for other
+> > > places to use that infrastructure in IIO.
+> > > 
+> > I tried implementing, here becomes
+> > 
+> >         ACQUIRE(pm_runtime_active_try_enabled, pm)(&st->i3cdev->dev);
+> >         ret = ACQUIRE_ERR(pm_runtime_active_try_enabled, &pm);
+> > 
+> > At buffer and monitor, since we put the device as active during the
+> > lifetime of the buffer and monitor mode, either I leave as is, or I bump
+> > the counter with pm_runtime_get_noresume, so when the method leaves, the
+> > counter drops to 1 and not 0, then on disable I drop the counter back to
+> > 0 and queue the autosuspend with pm_runtime_put_autosuspend.
+> > > 
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	ret = ad4062_set_operation_mode(st, st->mode);
+> > > > +	if (ret)
+> > > > +		goto out_error;
+> > > > +
+> > > > +	ret = __ad4062_read_chan_raw(st, val);
+> > > > +
+> > > > +out_error:
+> > > > +	pm_runtime_put_autosuspend(&st->i3cdev->dev);
+> > > > +	return ret;
+> > > > +}
+> 
+> I read the above code, I read it again, I don't understand the reasoning.
+> The ACQUIRE() doesn't change the behaviour of the above code.
+> 
+> If you need to bump the reference counter, it should be done somewhere else
+> where it affects the flow, or this code has a bug.
+> 
+> If I miss something, please elaborate.
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
 
-by "rust/rustdoc side" I mean the cross-reference solver that
-would run inside the Makefile target that will be called after
-building Sphinx docs.=20
+The part highlighted does not require bumping the reference counter, but
+at the buffer acquisition and monitor mode, to not put the device back
+in low power mode during the lifetime of those operations.
 
-It will likely be external tools inside the Kernel tree to identify
-Sphinx and docutils versions, rust/rustodoc version, and do whatever
-other check would be needed to detect the tags format and modify
-the produced html output for the hyperlinks to work.
+Buffer more:
 
+  static int ad4062_triggered_buffer_postenable(struct iio_dev *indio_dev)
+  {
+          struct ad4062_state *st = iio_priv(indio_dev);
+          int ret;
 
-Thanks,
-Mauro
+	  // [ Some code ]
+
+          ACQUIRE(pm_runtime_active_try_enabled, pm)(&st->i3cdev->dev);
+          ret = ACQUIRE_ERR(pm_runtime_active_try_enabled, &pm);
+          if (ret)
+                  return ret;
+
+	  // [ More code ]
+
+          pm_runtime_get_noresume(&st->i3cdev->dev);
+          return 0;
+  }
+
+  static int ad4062_triggered_buffer_predisable(struct iio_dev *indio_dev)
+  {
+          struct ad4062_state *st = iio_priv(indio_dev);
+
+          pm_runtime_put_autosuspend(&st->i3cdev->dev);
+          return 0;
+  }
+
+Monitor mode:
+
+  static int ad4062_monitor_mode_enable(struct ad4062_state *st, bool enable)
+  {
+          int ret = 0;
+
+          if (!enable) {
+                  pm_runtime_put_autosuspend(&st->i3cdev->dev);
+                  return 0;
+          }
+
+          ACQUIRE(pm_runtime_active_try_enabled, pm)(&st->i3cdev->dev);
+          ret = ACQUIRE_ERR(pm_runtime_active_try_enabled, &pm);
+          if (ret)
+                  return ret;
+
+	  // [ Some code ]
+
+          pm_runtime_get_noresume(&st->i3cdev->dev);
+          return 0;
+  }
+
+The raw read does not require this behaviour, when the method returns,
+the device returns to low power mode:
+
+  static int ad4062_read_chan_raw(struct ad4062_state *st, int *val)
+  {
+          int ret;
+
+          ACQUIRE(pm_runtime_active_try_enabled, pm)(&st->i3cdev->dev);
+          ret = ACQUIRE_ERR(pm_runtime_active_try_enabled, &pm);
+          if (ret)
+                  return ret;
+
+          ret = ad4062_set_operation_mode(st, st->mode);
+          if (ret)
+                  return ret;
+
+          return __ad4062_read_chan_raw(st, val);
+  }
+
+I will submitted v2 shortly.
+
+Best Regards,
+Jorge
