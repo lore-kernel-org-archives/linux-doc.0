@@ -1,101 +1,122 @@
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD73319873
-	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 18:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCF13176E4
+	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 18:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764007529; cv=none; b=bzhNDyWxdxSVOrrBz/Gkq1h52FP3N3/n66djI9tZ3up3a3pUi6khzbkUAXXk2Lz+uoNV823AzvcmUGvN+JrI3/02vm5QiPCapb1UwP7oOHaYFwFg5/GivSIQLZTbOkzJ72h0yZe2rTzHFIUK5+mltcTzInAxcaxmBft7Lq9xiwY=
+	t=1764008623; cv=none; b=abSrWtMOEwdbJFLHBUONitgPYr1qqP1Tf6OVpuBr5Wr0SGfHhrRet6hfHDqkZYWMw6jQy555a05Jp4Uytz8YDYpyZy7AlN32xCScDgxMbsp/14bfSS325rINCrmzjdNUtB/MAke7OeCSyUZKqa2mF1EMEQSpfRHg+lEr5wOWjs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764007529; c=relaxed/simple;
-	bh=GM99jNtFBg9eAfZGF96theNI+24NOpjzjfDfzvMVYFc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LzSYm+H/GxymYKZv168K++/EMgYBOimCuIDINX1UwP1V7HsUoYqHWHuIY10b8T9H27l8xga1O3oSisJD+2biJXg0jIs00K4iomBXt98ObyZuY5WH9+oDPcoquYpBx7PKA8h0RDekHneMS9qTqFhXgy7YXIfQUp8u5/+656abKj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CiEt/pcT; arc=none smtp.client-ip=209.85.222.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764008623; c=relaxed/simple;
+	bh=2FX7rZXKca4g/J0UloZ6GYe00mJx2wV1IHK1gF3C2SY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t30AJce5HGaMNkyb3mOuyuJib/BEyCBBa7dudKrcaEMgGxTqqawbAAbA//UJ2E34z18vnZh0UjldqyuifHon6VXAXNnULVfjf4sM9nk/4wbq8tA8jgT+2WMzf0PvlHIm8PrlIEj7iIHCE3/MZHxCybsGwqHXRCTVkgjMv1rxD00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pcW16dNa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CiEt/pcT"
-Received: by mail-qk1-f195.google.com with SMTP id af79cd13be357-8b25ed53fcbso668267585a.0
-        for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 10:05:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764007526; x=1764612326; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fkyhXpuPT0zrloEd6KIaAv32fiIk6SauqOR2nMTqmEU=;
-        b=CiEt/pcTRZYKWt8sU2KJnGDNFV5h6g0vskGYwBgj4L0d39X5KrNJ/fzkR5sRdClNMI
-         4mzjX+/C4UMoF9dMJB9TNT3Gu0wYj/swDL9TJYGD7xpmnZULo0YgHBlJNbXA6iHeiwcM
-         5v9AWhmKAEq4SXqK+jRZXs845SKZZfVkskukVsJeq6tfce2vBo4ebknm4Ydm6mtXVrcw
-         cPOZvLnmQ8LSpKcVO7rFoYPPY0VTz3cd6pmWTpRg+u913eNzKytHfzvyCMrUatFjEUwO
-         Jz8JV2XC0jr22kfWdO2+KXoRRL2b6HdwkS3XDk/S4XsE8xsGLbl+Woby+ov+fc7H3Fv3
-         dMTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764007526; x=1764612326;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fkyhXpuPT0zrloEd6KIaAv32fiIk6SauqOR2nMTqmEU=;
-        b=ETbLD5DSuiPlnN43GmdTCWVBLpYhoTdEHOGuDHYe2HkFUUXiZx3UeL4I+WSLfbZDST
-         /G9AgY8uPRkHz0A3UgnvS9k2CJVhR+oM4UVK6opwGG4MskvoMfrh5Xh/QRVikvHtzxrJ
-         3l/JEB1T4kvKV/QjQYKRhdgnxgw8g6dXznF8pL9sBZOXCLxpbF4tGrT2JsCwumEeU+MG
-         hG6ZrB409V6CZjLK/P+2qTrb4vbOf65AxMS0b+S/qIAwB4YA20DECjIJZJdIGIBlH+Y6
-         d48J7w3X0OQpeGt54+HhMd9qWNCFWj0U/R0D4n+N47A+9TWUNkpipSnAlacHPr/jAM/x
-         8aRw==
-X-Forwarded-Encrypted: i=1; AJvYcCUXUo7afUhILL4GJxBgXx5o7hEIyQxQqiqSSUBRIOFunCe5bItKOiOVHwN5E5adGfV3a8F6f0ZGzp4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySHjgKf//DFyaEvVwg0xm1Fcsf2/N922KAO0fVceJWYbHtX6Wy
-	uAp+2Ur+rhJlHm+o1G6QrIbrF92oD1cCo1BJ8PZQwEQrjI0DtMzxngJZ
-X-Gm-Gg: ASbGncubIYgelzUddayJJqldj4yahd4oVJspH5lQ4A0ZleHbD1VL0JgVPkHM/dKyJkV
-	BE7RxPa2JY8azwXKDnr/HRMJ5RLAH/F/LQAA09O6Lnc9UymXoz12ZucBfZk2aNpmFO/oZOxB08Q
-	tRSR14I6eSRyJG4M+gfShbt2fM9IT8gcr290Aa8TewDFOhTcM5ehvspDgNyZQls4bWqV8z7HNoC
-	KuMKY97srNEjFahCIxqAvMloQ5cmQB9BTDhYJM+wST/rJq1ZccXpXigNcOuUydv+s7FunGkEff6
-	BYMlrOmk/0Hq17yvjHpqZ21uNVrcDlYnD+FEYzk1dWkgsQ2zFOr7IjBi0UXVF/FOZiwUbUxijA7
-	Vn4EtWwnN1/3xctcRNPJYAxsOCR2WiFBSk+Ib9R17+Frzrkp5oY95WePgNp6NpXwa4bKX0AiP/y
-	0lHf4L7AELuCHbVrtees7B
-X-Google-Smtp-Source: AGHT+IEZXVxnyRgBylh6s0H6pT4EOvLbvaL2Ql3+Vqt9j16ac/dnoqRTB2VIyVKPlOpq0Be09lszmw==
-X-Received: by 2002:a05:620a:1a28:b0:8b2:74e5:b3e with SMTP id af79cd13be357-8b33d24b0f1mr1673428485a.36.1764007525780;
-        Mon, 24 Nov 2025 10:05:25 -0800 (PST)
-Received: from biancapradeep.lan ([2605:a601:a619:8500::8])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b3295c13ccsm990309685a.26.2025.11.24.10.05.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 10:05:25 -0800 (PST)
-From: Hithashree Bojanala <bojanalahithashri@gmail.com>
-To: 
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Hithashri Bojanala <bojanalahithashri@gmail.com>
-Subject: [PATCH]  fix kmalloc bug in bpf_prog_alloc_no_stats
-Date: Mon, 24 Nov 2025 13:05:20 -0500
-Message-ID: <20251124180522.5350-1-bojanalahithashri@gmail.com>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pcW16dNa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72866C19424
+	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 18:23:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764008623;
+	bh=2FX7rZXKca4g/J0UloZ6GYe00mJx2wV1IHK1gF3C2SY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pcW16dNaGiF6s5vT4XTzPkGay8JLppf19s8pSJ047d+L+LgCwIxWzqt6YMH7lQcM2
+	 GIWpqDETt2LsAaYcskOBlzfsLmu/C3Hm9y9x1aWsF4oWaIfFEB3A1qzdfIlN5Psimc
+	 S96qMPVKWDujYE+s8zYqlh52jOUE3gaE2oLQnb7O/soEHrcVO5nUm3ohI7NmzoGblr
+	 sNcWD3kJM1nxUSp+d/dybSKfbD6qyoRQcD1LL+NaGpCs2PYIs+/M5Nbv4EDHAsg03V
+	 XlFDgO1CaErFZccsvMXUsF8HE0U0qK2y56k9mUjb4AhAZHBcmOz5n4SdiejBtkMEhs
+	 oVR5hk/OF7EnA==
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-44ffed84cccso515317b6e.0
+        for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 10:23:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX79wIlmAI/+h6BDprdkctN5UV5TXhT1IHWMJTzwyjLYxcRvnT/kODK2PoAkhydw2hUlyrC6CKyFqU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyGAIwpaooundbwuPpEBlENhWykBPQYeyXkcGTkz3wDfLscANa
+	BWr3L1S8qvwlNw7uitD83BqxgTCysHuUj9h+zgqomn/8F5d5pz8QBSKCdhJhv8OAMbySYAAbycG
+	67RyimdDFtffOUS78gzYLvxnWJDXAoSg=
+X-Google-Smtp-Source: AGHT+IE8USfY1TlzVhoxR68d6+kuU+3Zqd4gD73B+rh8Fu3seOp2TD6CFzvqRKbzETbK58xBjN4YE3uILspEa5NgttU=
+X-Received: by 2002:a05:6808:f8e:b0:450:ca65:ef63 with SMTP id
+ 5614622812f47-45115981923mr3951804b6e.24.1764008622715; Mon, 24 Nov 2025
+ 10:23:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <077596ba70202be0e43fdad3bb9b93d356cbe4ec.1763746079.git.lukas@wunner.de>
+In-Reply-To: <077596ba70202be0e43fdad3bb9b93d356cbe4ec.1763746079.git.lukas@wunner.de>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 24 Nov 2025 19:23:29 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0iSokgFwYLrXd-ZMYO8PABZwvfZBO-p5gKbETTcURp-oQ@mail.gmail.com>
+X-Gm-Features: AWmQ_blp4g0-S_IAjsDssU-F-OFcJ2Imj6eg_vHajqJ-TUa2ZdlupXjD1KnDNJw
+Message-ID: <CAJZ5v0iSokgFwYLrXd-ZMYO8PABZwvfZBO-p5gKbETTcURp-oQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: PCI: Amend error recovery doc with
+ pci_save_state() rules
+To: Lukas Wunner <lukas@wunner.de>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Farhan Ali <alifm@linux.ibm.com>, 
+	Benjamin Block <bblock@linux.ibm.com>, Niklas Schnelle <schnelle@linux.ibm.com>, 
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>, Oliver OHalloran <oohall@gmail.com>, linuxppc-dev@lists.ozlabs.org, 
+	linux-pci@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Linas Vepstas <linasvepstas@gmail.com>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Hithashri Bojanala <bojanalahithashri@gmail.com>
+On Fri, Nov 21, 2025 at 6:31=E2=80=AFPM Lukas Wunner <lukas@wunner.de> wrot=
+e:
+>
+> After recovering from a PCI error through reset, affected devices are in
+> D0_uninitialized state and need to be brought into D0_active state by
+> re-initializing their Config Space registers (PCIe r7.0 sec 5.3.1.1).
+>
+> To facilitate that, the PCI core provides pci_restore_state() and
+> pci_save_state() helpers.  Document rules governing their usage.
+>
+> As Bjorn notes, so far no file in "Documentation/ includes anything about
+> the idea of a driver using pci_save_state() to capture the state it wants
+> to restore after an error", even though it is a common pattern in drivers=
+.
+> So that's obviously a gap that should be closed.
+>
+> Reported-by: Bjorn Helgaas <helgaas@kernel.org>
+> Closes: https://lore.kernel.org/r/20251113161556.GA2284238@bhelgaas/
+> Signed-off-by: Lukas Wunner <lukas@wunner.de>
 
-fix https://syzkaller.appspot.com/bug?extid=d4264133b3e51212ea30
-vmalloc doesnt support __GFP_ACCOUNT
----
- kernel/bpf/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+It looks good to me, so
 
-diff --git a/kernel/bpf/core.c b/kernel/bpf/core.c
-index d595fe512498..ffe2658ce165 100644
---- a/kernel/bpf/core.c
-+++ b/kernel/bpf/core.c
-@@ -263,7 +263,8 @@ struct bpf_prog *bpf_prog_realloc(struct bpf_prog *fp_old, unsigned int size,
- 	if (pages <= fp_old->pages)
- 		return fp_old;
- 
--	fp = __vmalloc(size, gfp_flags);
-+	/*vmalloc doesn't support __GFP_ACCOUNT, so strip it for the vmalloc call */
-+	fp = __vmalloc(size, gfp_flags & ~__GFP_ACCOUNT);
- 	if (fp) {
- 		memcpy(fp, fp_old, fp_old->pages * PAGE_SIZE);
- 		fp->pages = pages;
--- 
-2.47.0
+Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
+> ---
+>  Documentation/PCI/pci-error-recovery.rst | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>
+> diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI=
+/pci-error-recovery.rst
+> index 5df481a..43bc4e3 100644
+> --- a/Documentation/PCI/pci-error-recovery.rst
+> +++ b/Documentation/PCI/pci-error-recovery.rst
+> @@ -326,6 +326,21 @@ be recovered, there is nothing more that can be done=
+;  the platform
+>  will typically report a "permanent failure" in such a case.  The
+>  device will be considered "dead" in this case.
+>
+> +Drivers typically need to call pci_restore_state() after reset to
+> +re-initialize the device's config space registers and thereby
+> +bring it from D0\ :sub:`uninitialized` into D0\ :sub:`active` state
+> +(PCIe r7.0 sec 5.3.1.1).  The PCI core invokes pci_save_state()
+> +on enumeration after initializing config space to ensure that a
+> +saved state is available for subsequent error recovery.
+> +Drivers which modify config space on probe may need to invoke
+> +pci_save_state() afterwards to record those changes for later
+> +error recovery.  When going into system suspend, pci_save_state()
+> +is called for every PCI device and that state will be restored
+> +not only on resume, but also on any subsequent error recovery.
+> +In the unlikely event that the saved state recorded on suspend
+> +is unsuitable for error recovery, drivers should call
+> +pci_save_state() on resume.
+> +
+>  Drivers for multi-function cards will need to coordinate among
+>  themselves as to which driver instance will perform any "one-shot"
+>  or global device initialization. For example, the Symbios sym53cxx2
+> --
+> 2.51.0
+>
