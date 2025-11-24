@@ -1,193 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED444274B32;
-	Mon, 24 Nov 2025 10:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494A321A449;
+	Mon, 24 Nov 2025 10:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763980781; cv=none; b=JTOqH7n2y/+RYfmeNJbz7wkDwcizwhpCGqe3+wYmHdeXrLDHtc9IQZHwuNdEjcygV27YCOe1D4W9ARtrfbhZxSCvqPL1iYroNoj/xomBLqaqe0k3EIDMv/OX5PPadrOapRDJ/z+35CvQrlxflyZCm9stmHZBap7e2blSjXJKsYI=
+	t=1763980845; cv=none; b=UiGHr4/zfMZVGivOpm9MCzthOjNdjxX2G3X0UKIpw7eKbwwpBHrjatSF33Jmne2DNt8pJqa01Df3d3DbPkdN+QgRQwJgxTdAUIMdFg7SJfNK8y3+vq/tVs26iQFRmGo/Lt6EnWuL+OoLtMmSIBkDindqBFYeM3M2dMLc/UsMAfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763980781; c=relaxed/simple;
-	bh=wG0LtNXrjp+tZ6+DjiOmVw4tWhV/2DPiV64zQMWzD6E=;
+	s=arc-20240116; t=1763980845; c=relaxed/simple;
+	bh=ODndMX6CiQo0rN0bWUTcqRFHIkrIyq5OhKM+gC7WSlU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LbTrkqcqF3JRxH4yuaGMiDgXGWQ/7plYPfcK0yZKJLK1asI2XPK0z+VcLNlYEJwiCnzoAB/gsL1moSAa4xUbAFk/ZRnWHUKYlhaNGnh/u8ALcwRM2cN7mFiS4vbvLk6rhvTTEl2/lrFlEk7h64kWzPp9hMf5yrE6TuVmgu1tTw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=firEdU2g; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pwEW+mhIKeDJLPcpW04ba6RmickgWCysEW52tM+tOAaa//ZGNw0bNVuNlCEiK/zbL45jyQKJL63oF33gYWWECiphTUrxIxTkdtZja4OJuOHLXhz7iDsp2Bv2JXP4babckS0TobecUlgexcoMwp4OLnQrCizgbZUDXPBd5kNFu0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lR4PXTcO; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="firEdU2g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0016EC4CEF1;
-	Mon, 24 Nov 2025 10:39:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763980780;
-	bh=wG0LtNXrjp+tZ6+DjiOmVw4tWhV/2DPiV64zQMWzD6E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=firEdU2gCtMh4N6YI19W5r3iOxB5sPvAIKExbAF0UKd6W/4+e4/WHnpUVVGhgtWBA
-	 a5pHIpAfdiYTEv1sen/+Y5y19BThHuf5QV7YsTbMjr03yNiePn6xxPFM9rBmFBGO/F
-	 TiEtraXUzP3fH1UnA4jBQAQTFMtojoqtoTg6/MraXPZFWcHy/puTwsedmw3WE0jHV2
-	 mylk4e1h00mN8rZh9xIGkDDB+u8aHBXDegba3zOnzn4UzfAVX9HfqEA2VqqP1N7+9d
-	 IFknDENgch1ihKzPP3CXf7xAiwSA7GPydZqDuHvGrkcGVvyUSstDSkj3J6juuaQQUN
-	 40rHR4ovEobtg==
-Date: Mon, 24 Nov 2025 11:39:37 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
-	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-Message-ID: <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
-References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
- <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lR4PXTcO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763980844; x=1795516844;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ODndMX6CiQo0rN0bWUTcqRFHIkrIyq5OhKM+gC7WSlU=;
+  b=lR4PXTcO4KdG1S3geKYOcFHMwNaX1P1aKtxCRW42ohzRA5EaQbg0LP0u
+   RL+L33ckjBcBzvSAnGkrzspZsA7a0tFEGXvm9NZZRA3TuTfH48QN9tMWv
+   mgr1E9T+iWqB0vm8tw/CArMr74JrgArJqhp2s+/enc4e63ESiVbMDHyya
+   9lYApFPuxHaONgY3bSN9UONNIWPdGq0tymA5ZP4pwAvXGSpbXtVL31cis
+   GFiZsUiQgcrux6a0kK89HBDvm1YVwbvNidLSgjUKsDw67uJ6s088V4U0R
+   Tu3g4esSujswxnKrrAMSV9gfqgLiPWMr7/rsD+NBzY57dAuWBKCbmIIJ6
+   w==;
+X-CSE-ConnectionGUID: 3ZRtXh61STaav41K3ezeqA==
+X-CSE-MsgGUID: YxFAtuUnSOm8/AKcKevZ4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="65673374"
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="65673374"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:40:44 -0800
+X-CSE-ConnectionGUID: RfhoPo0NS/CHVVhNnMLJNA==
+X-CSE-MsgGUID: P/Kbpg4aSmqK1jS2+CUXoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="197227696"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:40:40 -0800
+Date: Mon, 24 Nov 2025 12:40:37 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jorge Marques <jorge.marques@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 9/9] iio: adc: ad4062: Add GPIO Controller support
+Message-ID: <aSQ2JUN05vmMQC1I@smile.fi.intel.com>
+References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
+ <20251124-staging-ad4062-v2-9-a375609afbb7@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="wbm42ghgit2cp5t3"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
+In-Reply-To: <20251124-staging-ad4062-v2-9-a375609afbb7@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
+On Mon, Nov 24, 2025 at 10:18:08AM +0100, Jorge Marques wrote:
+> When gp0 or gp1 is not taken as an interrupt, expose them as gpo if
 
---wbm42ghgit2cp5t3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-MIME-Version: 1.0
+GPO
 
-On Wed, Nov 19, 2025 at 02:05:37PM +0100, Luca Ceresoli wrote:
-> Several drivers (about 20) follow the same pattern:
->=20
->  1. get a pointer to a bridge (typically the next bridge in the chain) by
->     calling of_drm_find_bridge()
->  2. store the returned pointer in the private driver data, keep it until
->     driver .remove
->  3. dereference the pointer at attach time and possibly at other times
->=20
-> of_drm_find_bridge() is now deprecated because it does not increment the
-> refcount and should be replaced with drm_of_find_bridge() +
-> drm_bridge_put().
->=20
-> However some of those drivers have a complex code flow and adding a
-> drm_bridge_put() call in all the appropriate locations is error-prone,
-> leads to ugly and more complex code, and can lead to errors over time with
-> code flow changes.
->=20
-> To handle all those drivers in a straightforward way, add a devm variant =
-of
-> drm_of_find_bridge() that adds a devm action to invoke drm_bridge_put()
-> when the said driver is removed. This allows all those drivers to put the
-> reference automatically and safely with a one line change:
->=20
->   - priv->next_bridge =3D of_drm_find_bridge(remote_np);
->   + priv->next_bridge =3D devm_drm_of_find_bridge(dev, remote_np);
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->
-> ---
->  drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
->  include/drm/drm_bridge.h     |  5 +++++
->  2 files changed, 35 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 09ad825f9cb8..c7baafbe5695 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1446,6 +1446,36 @@ struct drm_bridge *drm_of_find_bridge(struct devic=
-e_node *np)
->  }
->  EXPORT_SYMBOL(drm_of_find_bridge);
-> =20
-> +/**
-> + * devm_drm_of_find_bridge - find the bridge corresponding to the device
-> + *			     node in the global bridge list and add a devm
-> + *			     action to put it
-> + *
-> + * @dev: device requesting the bridge
-> + * @np: device node
-> + *
-> + * On success the returned bridge refcount is incremented, and a devm
-> + * action is added to call drm_bridge_put() when @dev is removed. So the
-> + * caller does not have to put the returned bridge explicitly.
-> + *
-> + * RETURNS:
-> + * drm_bridge control struct on success, NULL on failure
-> + */
-> +struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct de=
-vice_node *np)
+> gpio-contoller is set in the devicetree.
+
+Why can't gpio-regmap be used?
+
+...
+
+> +static int ad4062_gpio_get(struct gpio_chip *gc, unsigned int offset)
 > +{
-> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
+> +	struct ad4062_state *st = gpiochip_get_data(gc);
+> +	unsigned int reg_val;
+> +	int ret;
 > +
-> +	if (bridge) {
-> +		int err =3D devm_add_action_or_reset(dev, drm_bridge_put_void, bridge);
+> +	ret = regmap_read(st->regmap, AD4062_REG_GP_CONF, &reg_val);
+> +	if (ret)
+> +		return 0;
+
+> +	if (st->gpo_irq[offset])
+> +		return -ENODEV;
+
+Consider using valid_mask instead (.init_valid_mask() callback).
+Hmm... And it seems it's in place. I didn't get what is here then and
+why we need to do it after accessing the HW? If there are side-effects
+they must be described.
+
+> +	if (offset)
+> +		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_1, reg_val);
+> +	else
+> +		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_0, reg_val);
 > +
-> +		if (err)
-> +			return ERR_PTR(err);
+> +	return reg_val == AD4062_GP_STATIC_HIGH ? 1 : 0;
+
+	return !!(reg_val == AD4062_GP_STATIC_HIGH);
+
+also will work.
+
+> +}
+
+> +static int ad4062_gpio_init_valid_mask(struct gpio_chip *gc,
+> +				       unsigned long *valid_mask,
+> +				       unsigned int ngpios)
+> +{
+> +	struct ad4062_state *st = gpiochip_get_data(gc);
+> +
+> +	bitmap_zero(valid_mask, ngpios);
+> +
+> +	if (!st->gpo_irq[0])
+> +		set_bit(0, valid_mask);
+> +	if (!st->gpo_irq[1])
+> +		set_bit(1, valid_mask);
+
+Why atomic bit set:s?
+
+
+> +	return 0;
+> +}
+> +
+> +static int ad4062_gpio_init(struct ad4062_state *st)
+> +{
+> +	struct device *dev = &st->i3cdev->dev;
+> +	struct gpio_chip *gc;
+> +	u8 val, mask;
+> +	int ret;
+
+> +	if ((st->gpo_irq[0] && st->gpo_irq[1]) ||
+> +	    !device_property_read_bool(dev, "gpio-controller"))
+> +		return 0;
+
+Do you need this? valid_mask should take care of this.
+
+> +	gc = devm_kzalloc(dev, sizeof(*gc), GFP_KERNEL);
+> +	if (!gc)
+> +		return -ENOMEM;
+> +
+> +	val = 0;
+> +	mask = 0;
+> +	if (!st->gpo_irq[0]) {
+> +		mask |= AD4062_REG_GP_CONF_MODE_MSK_0;
+> +		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_0, AD4062_GP_STATIC_LOW);
+> +	}
+> +	if (!st->gpo_irq[1]) {
+> +		mask |= AD4062_REG_GP_CONF_MODE_MSK_1;
+> +		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_1, AD4062_GP_STATIC_LOW);
 > +	}
 > +
-> +	return bridge;
+> +	ret = regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
+> +				 mask, val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = devm_add_action_or_reset(dev, ad4062_gpio_disable, st);
+> +	if (ret)
+> +		return ret;
+> +
+> +	gc->parent = dev;
+> +	gc->label = st->chip->name;
+> +	gc->owner = THIS_MODULE;
+> +	gc->base = -1;
+> +	gc->ngpio = 2;
+> +	gc->init_valid_mask = ad4062_gpio_init_valid_mask;
+> +	gc->get_direction = ad4062_gpio_get_direction;
+> +	gc->set = ad4062_gpio_set;
+> +	gc->get = ad4062_gpio_get;
+> +	gc->can_sleep = true;
+> +
+> +	ret = devm_gpiochip_add_data(dev, gc, st);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Unable to register GPIO chip\n");
+> +
+> +	return 0;
 > +}
-> +EXPORT_SYMBOL(devm_drm_of_find_bridge);
 
-That's inherently unsafe though, because even if the bridge is removed
-other parts of DRM might still have a reference to it and could call
-into it.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-We'd then have dropped our reference to the next bridge, which could
-have been freed, and it's a use-after-free.
 
-It's more complicated than it sounds, because we only have access to the
-drm_device when the bridge is attached, so later than probe.
-
-I wonder if we shouldn't tie the lifetime of that reference to the
-lifetime of the bridge itself, and we would give up the next_bridge
-reference only when we're destroyed ourselves.
-
-Storing a list of all the references we need to drop is going to be
-intrusive though, so maybe the easiest way to do it would be to create a
-next_bridge field in drm_bridge, and only drop the reference stored
-there?
-
-And possibly tie the whole thing together using a helper?
-
-Anyway, I'm not sure it should be a prerequisite to this series. I we do
-want to go the devm_drm_of_find_bridge route however, we should at least
-document that it's unsafe, and add a TODO entry to clean up the mess
-later on.
-
-Maxime
-
---wbm42ghgit2cp5t3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSQ16QAKCRAnX84Zoj2+
-drTLAX0QBwwX78SPwaYEqj6Om+7ADsxYhVrgX1HoD1xpc0ILj+Ur57K6wtKDIc5l
-JWSP6zkBgJA2DSWw4vHzHhFRbZQ+eGEUkynilMkrpEr/EsrHbAzT3gfgz8IOyhGR
-Vs8tk3i2Uw==
-=/E1G
------END PGP SIGNATURE-----
-
---wbm42ghgit2cp5t3--
