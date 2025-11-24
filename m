@@ -1,142 +1,334 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD9E381C4;
-	Mon, 24 Nov 2025 07:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1B62E7F14;
+	Mon, 24 Nov 2025 07:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763970197; cv=none; b=S448+BPe9caqhMTUdm1q4a366UIpBxyTSANMUjuVz8snW7vqYP3AjQxTQpmhNlSCn0X7xdgB2D2po5qtM2XkgduS2IhR8WpoTqHWjqxw3scoHH4ziU4p3mXKEugAQojXMyFuzc3qBtS5OmnbySjcy6O0OZ9XK2wP+gx6SMGmtuo=
+	t=1763970896; cv=none; b=POisF7RSYLHWzTo7hJjodZgt1nMydJ8aWg0RbMyBlD9mKuPiW11b/lqxZmcNtABauDYaOr/Gor9HaYKqQubhuoi+P9i6Gh35YIFT9YfBc1k4KHBIgXOBOYlhhNUKaUXCHevdyUQK04R7srk9vUrE/hTzmE4EI5+xJ8KgYFJvxPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763970197; c=relaxed/simple;
-	bh=LYf+9XcisUREKO79eSRnlzkTlvJ/bWw47p/chnCxJoQ=;
+	s=arc-20240116; t=1763970896; c=relaxed/simple;
+	bh=GxSzjePlSmo3UxO8BdvyDyDiWI+1rs3wnEyy6hlkCKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LZKLIWeRMHITwBel/cUHz+z7SFrIlvIqoEAUZHBPLPrgof5Tr0MbxR9MhMdS3N5LA3PShwPvEE8tR386yZcMD/cHiPwGM9igSPvj5mU0KEI1kVUiv7VjOtZy3UeN4CTTdVqkvsw5e8BXWQfEw8wHymTZRpR3e+vUqeB8Igs6298=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C90MiOOU; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z/m9Epzv1gYBjDc1YBBlpeRNEL4AGBViPJ2nYvI2iwrI5bpMTIpree7CKPoHrknS6D5MKhlqrdXX7sH2HnyQOVZwOIQXH1GCS2ZKq5v27B2xgSQzL6mFCkK+sxi3jxDF2AlVqNMvbV+/PbNVMOragOrTZJknuJRr+YCBI6sR2Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKU9yvDN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C90MiOOU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763970196; x=1795506196;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LYf+9XcisUREKO79eSRnlzkTlvJ/bWw47p/chnCxJoQ=;
-  b=C90MiOOUE+mg3I1/gfdQ5G6+W5TLMPdM+anPtc5Lbb8EVkicPEmQ57ao
-   6kj9bRdq2AYiW89xFbiKdiF8b4brDIdXV1BztCiJt6h53OB7vm1qufIoz
-   N4367Sp75MPJ36CeZA7tDRbQW8P2ojD2CoRVK+91rfFqr1BrJxL5Yft5V
-   CUMMszkQXiqWzkZgFvWyKlbEaHnbXZu2w0RnD7siLoHvkf3TRHmE7dhbF
-   tV2isEZSXN0QxPRIk9+fwGh6tgGjdWHD4QwlXrmGkUGGujk2X8UwoGezn
-   do9K8X/zYP2TtJrNAAqP3sBC+oALHHyqLBSHBIlyMXF8rj5ejrhtyaTzf
-   A==;
-X-CSE-ConnectionGUID: xt80C35PTRCRI8kjdmwuuw==
-X-CSE-MsgGUID: XYXtV2SqQsqkFgTCZi0D0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="77325078"
-X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="77325078"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 23:43:15 -0800
-X-CSE-ConnectionGUID: 0oyGKiqwTa2T6lCyPNWCJg==
-X-CSE-MsgGUID: L53CV2/pRdS5j+ij0p6v5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="191544970"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 23:43:11 -0800
-Date: Mon, 24 Nov 2025 09:43:09 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jorge Marques <gastmaier@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Jorge Marques <jorge.marques@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/7] iio: adc: Add support for ad4062
-Message-ID: <aSQMjZbc75cQtFqJ@smile.fi.intel.com>
-References: <20251013-staging-ad4062-v1-0-0f8ce7fef50c@analog.com>
- <20251013-staging-ad4062-v1-3-0f8ce7fef50c@analog.com>
- <20251018171032.144a126c@jic23-huawei>
- <ou6qwayt4g7qaoe5dm7tdg6jl5dwquslpfbok6on5r2q2wytyl@wlqxj5y6ircj>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JKU9yvDN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AAE4C16AAE;
+	Mon, 24 Nov 2025 07:54:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763970895;
+	bh=GxSzjePlSmo3UxO8BdvyDyDiWI+1rs3wnEyy6hlkCKQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JKU9yvDNDyvfFrDA4ZITWehj+Dvbr5qW/VQsPyzWFvprnRUDIeYiuqLGKZNjPunnV
+	 /SBIit0kYksz6HfSeIuvx/iHGsw8XMEvIK83ZDQLzC4PmXh4V/D1CJqli0Ll6d4TkE
+	 SAyMv2W8VZJhTeX6UACR6f9l6bfXZ/k/SERlaFnFCBT15urJkAZwAIAyPUJv4d+VHJ
+	 JkZ4x6uJfsfbrd5lPMj3R4Op0ePl4EDCwbc3pmcP6FMsyjrwiPJOt7i6LQdWkyRm1b
+	 RTC8818U6PATHeFjxMvtXNKivl+uMltoaFYd2CJcQuAW5cQYV+Jtml2HanqnEen8H+
+	 A3UZeELgzIcTg==
+Date: Mon, 24 Nov 2025 09:54:30 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v7 19/22] selftests/liveupdate: add test infrastructure
+ and scripts
+Message-ID: <aSQPNuFIv0rRr2tp@kernel.org>
+References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+ <20251122222351.1059049-20-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ou6qwayt4g7qaoe5dm7tdg6jl5dwquslpfbok6on5r2q2wytyl@wlqxj5y6ircj>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251122222351.1059049-20-pasha.tatashin@soleen.com>
 
-On Sun, Nov 23, 2025 at 08:48:09PM +0100, Jorge Marques wrote:
-> On Sat, Oct 18, 2025 at 05:10:32PM +0100, Jonathan Cameron wrote:
-> > On Mon, 13 Oct 2025 09:28:01 +0200
-> > Jorge Marques <jorge.marques@analog.com> wrote:
+On Sat, Nov 22, 2025 at 05:23:46PM -0500, Pasha Tatashin wrote:
+> Subject: [PATCH v7 19/22] selftests/liveupdate: add test infrastructure and scripts
 
-> Mostly acknowledgements and explanations, except a comment on ACQUIRE usage.
+Maybe                                                ^ end to end
+
+> Add the testing infrastructure required to verify the liveupdate
+> feature. This includes a custom init process, a test orchestration
+> script, and a batch runner.
+
+And say here that it's end to end test.
+ 
+> The framework consists of:
+> 
+> init.c:
+> A lightweight init process that manages the kexec lifecycle.
+> It mounts necessary filesystems, determines the current execution
+> stage (1 or 2) via the kernel command line, and handles the
+> kexec_file_load() sequence to transition between kernels.
+> 
+> luo_test.sh:
+> The primary KTAP-compliant test driver. It handles:
+> - Kernel configuration merging and building.
+> - Cross-compilation detection for x86_64 and arm64.
+> - Generation of the initrd containing the test binary and init.
+> - QEMU execution with automatic accelerator detection (KVM, HVF,
+>  or TCG).
+> 
+> run.sh:
+> A wrapper script to discover and execute all `luo_*.c`
+> tests across supported architectures, providing a summary of
+> pass/fail/skip results.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
+>  tools/testing/selftests/liveupdate/init.c     | 174 ++++++++++
+>  .../testing/selftests/liveupdate/luo_test.sh  | 296 ++++++++++++++++++
+>  tools/testing/selftests/liveupdate/run.sh     |  68 ++++
+>  3 files changed, 538 insertions(+)
+>  create mode 100644 tools/testing/selftests/liveupdate/init.c
+>  create mode 100755 tools/testing/selftests/liveupdate/luo_test.sh
+>  create mode 100755 tools/testing/selftests/liveupdate/run.sh
+> 
 
 ...
 
-> > > +static int ad4062_read_chan_raw(struct iio_dev *indio_dev, int *val)
-> > > +{
-> > > +	struct ad4062_state *st = iio_priv(indio_dev);
-> > > +	int ret;
-> > > +
-> > > +	ret = pm_runtime_resume_and_get(&st->i3cdev->dev);
-> > There is a nice new
-> > 	ACQUIRE()/ACQUIRE_ERR() related set of conditional guards defined that
-> > let you do this using cleanup.h style.
-> > 
-> > https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9a0abc39450a3123fd52533a662fbd37e0d1508c
-> > 
-> > This looks like a perfect example of where those help.
-> > 
-> > When I catch up with review backlog I plan to look for other
-> > places to use that infrastructure in IIO.
-> > 
-> I tried implementing, here becomes
-> 
->         ACQUIRE(pm_runtime_active_try_enabled, pm)(&st->i3cdev->dev);
->         ret = ACQUIRE_ERR(pm_runtime_active_try_enabled, &pm);
-> 
-> At buffer and monitor, since we put the device as active during the
-> lifetime of the buffer and monitor mode, either I leave as is, or I bump
-> the counter with pm_runtime_get_noresume, so when the method leaves, the
-> counter drops to 1 and not 0, then on disable I drop the counter back to
-> 0 and queue the autosuspend with pm_runtime_put_autosuspend.
-> > 
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	ret = ad4062_set_operation_mode(st, st->mode);
-> > > +	if (ret)
-> > > +		goto out_error;
-> > > +
-> > > +	ret = __ad4062_read_chan_raw(st, val);
-> > > +
-> > > +out_error:
-> > > +	pm_runtime_put_autosuspend(&st->i3cdev->dev);
-> > > +	return ret;
-> > > +}
+> +static int is_stage_2(void)
+> +{
+> +	char cmdline[COMMAND_LINE_SIZE];
+> +	ssize_t len;
+> +	int fd;
+> +
+> +	fd = open("/proc/cmdline", O_RDONLY);
+> +	if (fd < 0)
+> +		return 0;
+> +
+> +	len = read(fd, cmdline, sizeof(cmdline) - 1);
+> +	close(fd);
+> +
+> +	if (len < 0)
+> +		return 0;
 
-I read the above code, I read it again, I don't understand the reasoning.
-The ACQUIRE() doesn't change the behaviour of the above code.
+Shouldn't we bail out of the test if read of command line failed?
 
-If you need to bump the reference counter, it should be done somewhere else
-where it affects the flow, or this code has a bug.
+> +
+> +	cmdline[len] = 0;
+> +
+> +	return !!strstr(cmdline, "luo_stage=2");
+> +}
+> +
 
-If I miss something, please elaborate.
+...
+
+> +function cleanup() {
+> +	local exit_code=$?
+> +
+> +	if [ -z "$workspace_dir" ]; then
+> +		ktap_finished
+> +		return
+> +	fi
+> +
+> +	if [ $exit_code -ne 0 ]; then
+> +		echo "# Test failed (exit code $exit_code)."
+> +		echo "# Workspace preserved at: $workspace_dir"
+> +	elif [ "$KEEP_WORKSPACE" -eq 1 ]; then
+> +		echo "# Workspace preserved (user request) at: $workspace_dir"
+> +	else
+> +		rm -fr "$workspace_dir"
+> +	fi
+> +	ktap_finished
+
+	exit $exit_code
+
+> +}
+
+...
+
+> +function build_kernel() {
+> +	local build_dir=$1
+> +	local make_cmd=$2
+> +	local kimage=$3
+> +	local target_arch=$4
+> +
+> +	local kconfig="$build_dir/.config"
+> +	local common_conf="$test_dir/config"
+> +	local arch_conf="$test_dir/config.$target_arch"
+> +
+> +	echo "# Building kernel in: $build_dir"
+> +	$make_cmd defconfig
+> +
+> +	local fragments=""
+> +	if [[ -f "$common_conf" ]]; then
+> +		fragments="$fragments $common_conf"
+> +	fi
+
+Without this CONFIG_LIVEUPDATE won't be set
+> +
+> +	if [[ -f "$arch_conf" ]]; then
+> +		fragments="$fragments $arch_conf"
+> +	fi
+> +
+> +	if [[ -n "$fragments" ]]; then
+> +		"$kernel_dir/scripts/kconfig/merge_config.sh" \
+> +			-Q -m -O "$build_dir" "$kconfig" $fragments >> /dev/null
+> +	fi
+
+I believe you can just
+
+	cat $common_conf $fragments >  $build_dir/.config
+	make olddefconfig
+
+without running defconfig at the beginning
+It will build faster, just make sure to add CONFIG_SERIAL_ to $arch_conf
+
+> +	$make_cmd olddefconfig
+> +	$make_cmd "$kimage"
+> +	$make_cmd headers_install INSTALL_HDR_PATH="$headers_dir"
+> +}
+> +
+> +function mkinitrd() {
+> +	local build_dir=$1
+> +	local kernel_path=$2
+> +	local test_name=$3
+> +
+> +	# 1. Compile the test binary and the init process
+
+Didn't find 2. ;-)
+Don't think we want the numbering here, plain comments are fine
+
+> +	"$CROSS_COMPILE"gcc -static -O2 \
+> +		-I "$headers_dir/include" \
+> +		-I "$test_dir" \
+> +		-o "$workspace_dir/test_binary" \
+> +		"$test_dir/$test_name.c" "$test_dir/luo_test_utils.c"
+
+This will have hard time cross-compiling with -nolibc toolchains
+
+> +
+> +	"$CROSS_COMPILE"gcc -s -static -Os -nostdinc -nostdlib		\
+> +			-fno-asynchronous-unwind-tables -fno-ident	\
+> +			-fno-stack-protector				\
+> +			-I "$headers_dir/include"			\
+> +			-I "$kernel_dir/tools/include/nolibc"		\
+> +			-o "$workspace_dir/init" "$test_dir/init.c"
+
+This failed for me with gcc 14.2.0 (Debian 14.2.0-19):
+
+/home/mike/git/linux/tools/testing/selftests/liveupdate/init.c: In function ‘run_test’:
+/home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:111:65: error: initializer element is not constant
+  111 |             static const char *const argv[] = {TEST_BINARY, stage_arg, NULL};
+      |                                                             ^~~~~~~~~
+
+/home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:111:65: note: (near initialization for ‘argv[1]’)
+/home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:113:37: error: passing argument 2 of ‘execve’ from incompatible pointer type [-Wincompatible-pointer-types]
+  113 |                 execve(TEST_BINARY, argv, NULL);
+      |                                     ^~~~
+      |                                     |
+      |                                     const char * const*
+In file included from /home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:16:
+/usr/include/unistd.h:572:52: note: expected ‘char * const*’ but argument is of type ‘const char * const*’
+  572 | extern int execve (const char *__path, char *const __argv[],
+      |                                        ~~~~~~~~~~~~^~~~~~~~
+
+> +
+> +	cat > "$workspace_dir/cpio_list_inner" <<EOF
+> +dir /dev 0755 0 0
+> +dir /proc 0755 0 0
+> +dir /debugfs 0755 0 0
+> +nod /dev/console 0600 0 0 c 5 1
+
+Don't you need /dev/liveupdate node?
+
+> +file /init $workspace_dir/init 0755 0 0
+> +file /test_binary $workspace_dir/test_binary 0755 0 0
+> +EOF
+> +
+> +	# Generate inner_initrd.cpio
+> +	"$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list_inner" > "$workspace_dir/inner_initrd.cpio"
+> +
+> +	cat > "$workspace_dir/cpio_list" <<EOF
+> +dir /dev 0755 0 0
+> +dir /proc 0755 0 0
+> +dir /debugfs 0755 0 0
+> +nod /dev/console 0600 0 0 c 5 1
+
+And here as well.
+
+> +file /init $workspace_dir/init 0755 0 0
+> +file /kernel $kernel_path 0644 0 0
+> +file /test_binary $workspace_dir/test_binary 0755 0 0
+> +file /initrd.img $workspace_dir/inner_initrd.cpio 0644 0 0
+> +EOF
+> +
+> +	# Generate the final initrd
+> +	"$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list" > "$initrd"
+> +	local size=$(du -h "$initrd" | cut -f1)
+> +}
+> +
+> +function run_qemu() {
+> +	local qemu_cmd=$1
+> +	local cmdline=$2
+> +	local kernel_path=$3
+> +	local serial="$workspace_dir/qemu.serial"
+> +
+> +	local accel="-accel tcg"
+> +	local host_machine=$(uname -m)
+> +
+> +	[[ "$host_machine" == "arm64" ]] && host_machine="aarch64"
+> +	[[ "$host_machine" == "x86_64" ]] && host_machine="x86_64"
+> +
+> +	if [[ "$qemu_cmd" == *"$host_machine"* ]]; then
+> +		if [ -w /dev/kvm ]; then
+> +			accel="-accel kvm"
+
+Just pass both kvm and tcg and let qemu complain.
+
+> +		fi
+> +	fi
+> +
+> +	cmdline="$cmdline liveupdate=on panic=-1"
+> +
+> +	echo "# Serial Log: $serial"
+> +	timeout 30s $qemu_cmd -m 1G -smp 2 -no-reboot -nographic -nodefaults	\
+> +		  $accel							\
+> +		  -serial file:"$serial"					\
+> +		  -append "$cmdline"						\
+> +		  -kernel "$kernel_path"					\
+> +		  -initrd "$initrd"
+> +
+> +	local ret=$?
+> +
+> +	if [ $ret -eq 124 ]; then
+> +		fail "QEMU timed out"
+> +	fi
+> +
+> +	grep "TEST PASSED" "$serial" &> /dev/null || fail "Liveupdate failed. Check $serial for details."
+> +}
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Sincerely yours,
+Mike.
