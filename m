@@ -1,68 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FEC2F5465;
-	Mon, 24 Nov 2025 09:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99021DEFE9;
+	Mon, 24 Nov 2025 09:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763976981; cv=none; b=ebGEJHxFfMyP6fj5/A1xpXU0vwCj6V4bDANTQYtXne2ASldlFKdTNmpMn9WSEvZfcAaxHziY4sOTIjjw63wYQrAT8QigZ6J7or4xBh5PDA07GNj6L8SV+Uo0osv0RE3+fA66IZMrxD0ht4Bt6f3n0ptH2/FHiCwhPL+XVDk6ur0=
+	t=1763977323; cv=none; b=a9YbMp9daI5sLlap/znnv8ghkVvBm0qZNtIgDVJKiTBHroUP/JbuglzCLNXhjRh1dawrig8YDyYsZEFkZr1BaNIhP7ycX4kSTpmCzmlWRiit7Uedyqanr6JyQbz9Pwru4ynTcpEcUL6RN363nwpWz8Cc2xr6gdJUXBJUUpL/4eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763976981; c=relaxed/simple;
-	bh=V0qerlrtNZqBpFKg+N9laGJk6nVd3gEUb27Uxk15PNM=;
+	s=arc-20240116; t=1763977323; c=relaxed/simple;
+	bh=ggo0FIh6yZF0vZdd1wccMpu7GQYzL53JaLhCrTFUHSc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UiMjlu1+WNxiwzbjMc1PFhHz19PFiu+XaB7TaP/NIYRQlLNZkUb4AqDbxYt/cRFw1oKWS3Uqvcu9mZ3Al2MZQ6hwWRqrgtNfiwkxlq73v7u013LM/RIapNCHJxy87LYrRnSBHLpOYxCsLiOSAT83si9Qn+DMQefYxLRFmQ8RJlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HD5JNrH+; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PxMR+jnN1zVEX52nQ9iWam/o1T8e6tsCPWUlF5Ypc9yGMXfeaJUp+f6FbAPs0qziVRPdMW4s04gy1c1DaA56Qkg6PYSvgwZmiWOGnICsRt8NXxvSLgwK2K2XjfeoKZgxDGN1RSMP3ut+o+tSfIN/elthx7ch8DFXQOau269dLqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=U58iFAJL; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HD5JNrH+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763976980; x=1795512980;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=V0qerlrtNZqBpFKg+N9laGJk6nVd3gEUb27Uxk15PNM=;
-  b=HD5JNrH+TtgocZv884PL23IyO6mHmdAa6RbaSq2IGGn4CRwRDAAEOI7u
-   +G6PsATyD1XuJbWKomASRihykrWsBiatz7KkZct8uEGWbc9ICrnHcERKH
-   Wu97AU2c06IU7yxoMYGcu3eQwKK/rtr9RmoBJ49BPfI9T1Bze/WpaLA8X
-   YeY8pGlXBzj7FZTlIlStrwn/j5L/Y/R9sZbNejJOH3l6mMiWcxN2uwLWd
-   KWY8rW3vRrKxDrpxvchB13cQjcVZrgmUfzBxIFULtQrwgDP9/OEK6l4ee
-   j1ajaCR0XCD0cSZwh8kks4HY/Qb3oyy5H7HzWwEi3DVnw9GX9MUMvVUYg
-   w==;
-X-CSE-ConnectionGUID: +/5t9wo+Sx+bQHudlKMVxQ==
-X-CSE-MsgGUID: EmQwJSCsRDm9awOGBguw7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="83360369"
-X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="83360369"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 01:36:19 -0800
-X-CSE-ConnectionGUID: 8Ppew+02R1yotk90oqeDzw==
-X-CSE-MsgGUID: XhIxGgG1RUCS0TUsoDinHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
-   d="scan'208";a="191446304"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 01:36:15 -0800
-Date: Mon, 24 Nov 2025 11:36:12 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 5/9] iio: adc: ad4062: Add IIO Trigger support
-Message-ID: <aSQnDMsE13zwM1YO@smile.fi.intel.com>
-References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
- <20251124-staging-ad4062-v2-5-a375609afbb7@analog.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="U58iFAJL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1763977313;
+	bh=ggo0FIh6yZF0vZdd1wccMpu7GQYzL53JaLhCrTFUHSc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U58iFAJLixclCXqRuNo0HJp1vUKu08nuKIB/G0v66x/wLz2rOHOAdU7iWZmANdZ0L
+	 OxN1WL/KFOB3VA2k+WEf+wGRZ0ObkZhP2BdZqKFF9GbzjB+opzoU/Ep9EEw+75oCNx
+	 En12qDqZaV2WgkqGfVMzxnf7Jo6mqaQMTEmZwMho=
+Date: Mon, 24 Nov 2025 10:41:52 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
+	Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, 
+	kpcyrd <kpcyrd@archlinux.org>, Christian Heusel <christian@heusel.eu>, 
+	=?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v3 0/9] module: Introduce hash-based integrity checking
+Message-ID: <a8802164-60c0-441f-973a-5fda415caff7@t-8ch.de>
+References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
+ <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
+ <20251119154834.A-tQsLzh@linutronix.de>
+ <20251123170502.Ai5Ig66Z@breakpoint.cc>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,117 +58,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251124-staging-ad4062-v2-5-a375609afbb7@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20251123170502.Ai5Ig66Z@breakpoint.cc>
 
-On Mon, Nov 24, 2025 at 10:18:04AM +0100, Jorge Marques wrote:
-> Adds support for IIO Trigger. Optionally, gp1 is assigned as Data Ready
-> signal, if not present, fallback to an I3C IBI with the same role.
-> The software trigger is allocated by the device, but must be attached by
-> the user before enabling the buffer. The purpose is to not impede
-> removing the driver due to the increased reference count when
-> iio_trigger_set_immutable or iio_trigger_get is used.
+Hi Sebastian,
 
-We refer to the functions as func(). Mind the parentheses.
+On 2025-11-23 18:05:02+0100, Sebastian Andrzej Siewior wrote:
+> On 2025-11-19 16:48:34 [+0100], Sebastian Andrzej Siewior wrote:
+> > I fully agree with this approach. I don't like the big hash array but I
+> > have an idea how to optimize that part. So I don't see a problem in the
+> > long term.
+> 
+> The following PoC creates a merkle tree from a set files ending with .ko
+> within the specified directory. It will write a .hash files containing
+> the required hash for each file for its validation. The root hash is
+> saved as "hash_root" and "hash_root.h" in the directory.
 
-...
+Thanks a lot!
 
-> +	struct ad4062_state *st = container_of(work, struct ad4062_state,
-> +					       trig_conv);
+> The Debian kernel shipps 4256 modules:
+> 
+> | $ time ./compute_hashes mods_deb
+> | Files 4256 levels: 13 root hash: 97f8f439d63938ed74f48ec46dbd75c2b5e5b49f012a414e89b6f0e0f06efe84
+> | 
+> | real    0m0,732s
+> | user    0m0,304s
+> | sys     0m0,427s
+> 
+> This computes the hashes for all the modules it found in the mods_deb
+> folder.
+> The kernel needs the root hash (for sha256 32 bytes) and the depth of
+> the tree (4 bytes). That are 36 bytes regardless of the number of
+> modules that are built.
+> In this case, the attached hash for each module is 420 bytes. This is 4
+> bytes (position in the tree) + 13 (depth) * 32.
+> The verification process requires 13 hash operation to hash through the
+> tree and verify against the root hash.
 
-I think the
+We'll need to store the proof together with the modules somewhere.
+Regular module signatures are stored as PKCS#7 and appended to the module
+file. If we can also encode the merkle proof as PKCS#7, the integration
+into the existing infrastructure should be much easier.
+It will require some changes to this series, but honestly the Merkle
+tree aproach looks like the clear winner here.
 
-	struct ad4062_state *st =
-		container_of(work, struct ad4062_state, trig_conv);
+> For convience, the following PoC can also be found at
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/mtree-hashed-mods.git/
+> 
+> which also includes a small testsuite.
 
-reads better.
-
-> +	int ret;
-
-...
-
-> +	/* Read current conversion, if at reg CONV_READ, stop bit triggers
-> +	 * next sample and does not need writing the address.
-> +	 */
-
-/*
- * The multi-line comment style is as in
- * this example. Please, check and update.
- */
-
-> +static irqreturn_t ad4062_poll_handler(int irq, void *p)
-> +{
-> +	struct iio_poll_func *pf = p;
-> +	struct iio_dev *indio_dev = pf->indio_dev;
-> +	struct ad4062_state *st = iio_priv(indio_dev);
-> +
-> +	iio_trigger_notify_done(indio_dev->trig);
-> +	schedule_work(&st->trig_conv);
-> +
-> +	return IRQ_HANDLED;
->  }
-
-...
-
-> +static int ad4062_triggered_buffer_postenable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4062_state *st = iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	ret = pm_runtime_resume_and_get(&st->i3cdev->dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ad4062_set_operation_mode(st, st->mode);
-> +	if (ret)
-> +		goto out_mode_error;
-> +
-> +	/* CONV_READ requires read to trigger first sample. */
-> +	struct i3c_priv_xfer t[2] = {
-> +		{
-> +			.data.out = &st->reg_addr_conv,
-> +			.len = sizeof(st->reg_addr_conv),
-> +			.rnw = false,
-> +		},
-> +		{
-> +			.data.in = &st->buf.be32,
-> +			.len = sizeof(st->buf.be32),
-> +			.rnw = true,
-> +		}
-> +	};
-> +
-> +	ret = i3c_device_do_priv_xfers(st->i3cdev, t, st->gpo_irq[1] ? 2 : 1);
-> +	if (ret)
-> +		goto out_mode_error;
-> +	return 0;
-> +
-> +out_mode_error:
-> +	pm_runtime_put_autosuspend(&st->i3cdev->dev);
-> +
-> +	return ret;
-
-I guess with ACQUIRE() this function will look better, because the explicit
-reference count bumping (with an associated comment) is more descriptive on
-what's going on here with PM. Same for other related functions.
-
-> +}
-
-...
-
->  	if (ret)
->  		return dev_err_probe(dev, ret, "Failed to request i3c ibi\n");
->  
-> +	INIT_WORK(&st->trig_conv, ad4062_trigger_work);
-
-This is mixture of devm_*() and non-devm_*() calls. How did you (stress) test
-the removal and error paths here? Wouldn't devm-helpers.h APIs help here to
-make / keep order correct?
-
->  	return devm_iio_device_register(dev, indio_dev);
-
--- 
-With Best Regards,
-Andy Shevchenko
+(...)
 
 
+Thomas
