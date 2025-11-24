@@ -1,239 +1,85 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80296313277
-	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 15:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAADD31355D;
+	Mon, 24 Nov 2025 15:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763999302; cv=none; b=Cr7ytmaI/iiG4TjX3lU8DtSkJogHRO5YCAHwP4/Crd2pO/2AZGoLwxNROpEXGh/extH4PrcZUmsbnuthLM9Bj+g5gyHesQC2vXbY+SJHWbr/SrdF+9pkEUkdO684c7vlw2pM6RDDbYXnNNTjHyLQIe7VlgoLqj2zOJJDZlS6+tw=
+	t=1763999395; cv=none; b=kRACPYpFxmaq7rsabO4HFpNWz5nVqZyxDcarOnkDy3viRCICHmrmacIn5bv0Rvi3kaGYVWCx4A/vnswXXof39XMHha4qMKw0r8vWU3piNpkVc76ABeCC8UdluYsAvzPcui+q6NLwHYIsTzS7HOYIoIwDGU9+eLyPDelxrLp/BHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763999302; c=relaxed/simple;
-	bh=k18PGx7b9UQSd+RHbvmvjkc795gJID3d8ne1906zMdQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tPM06ENli1NbCzYvgKOJH+s8/JSZBFlqkcKHpNEndKUg/1cTqBciBX/1AwAsuqqkYn2LansPwI18n8oZ+V27X1Z1TuMU8fMNQg0znVY/SonnurpHVVqqeQmJFIS8WsRGkWE8wReBjSjx8/omjMhmJY5sXdSxKPoTHOv5JqPIqkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BK8KdfI9; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763999395; c=relaxed/simple;
+	bh=Fc7xoFZ935GiHhrQjcCq85XhwHgbVkMldMDphDsctag=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=EJKu0KfiDJRttyETGOjm1TQdy511ddUwXHg/vuojHgLW3i/H+o9GqZbDo3DnWdt4PWdlHImfMAdt6pVVD/mKe9pmOj/ckfGr2B8qzhpHCxQzpB4SlGqN1kSxWe/UIWFTh4Qm69/X4sHclBMq62HpF4gO33KJ8rADxvyLDtu7qZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rX3IZj7Y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BK8KdfI9"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-786a822e73aso43613687b3.3
-        for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 07:48:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763999298; x=1764604098; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dhe14QqCiQiiyB/p8iyIjb6+UGtDhSJERPBSMqZWZ34=;
-        b=BK8KdfI9Cl/taNmr763LKb8oX3RRAe44b0+rxu0p4A+ttReNl6ieICm7ZiB3rUsRt/
-         UtAIYiYuVv87KPSsuSBvi/z42xYwLTkOSOgBzOAH10q22JremGKPwdDATwumIq0F2JUO
-         Gnc9TxKe3KbCaabyMWfBhGI3XrSx3JOImi2edQnG7wfigPF7fFbRMrGrHDWdwFODheBb
-         ZKKOYzbVBi24he1ur13PiADtV8DGXdZ8+GEY4ABUPAlh6EpLMeUkvlIeFVE9ylOhUz0N
-         n9TyWFYqNl0bZ+hxy20eB8QxWxlqQGuqYSwcs3E4aO0qDXQ4kr7vBMqRmRNBThbX/kum
-         5ggg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763999298; x=1764604098;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dhe14QqCiQiiyB/p8iyIjb6+UGtDhSJERPBSMqZWZ34=;
-        b=dYniIvEsbwMFwgrR8V3Tyjk/bm18eI1y5UhjTerDUYS1TekCyFIDJbrVkHSrNyeukh
-         jOZlFBwMBYTztZxty7eodlvD+8II3rBLTHblMdsO6/XQpZVa5/Vq1iQDAQoicNo7PCse
-         RK06uum/fKH8KvxmtfrVOVC68KWScxwT2J0Czt5JWT3642zwJTYTwsjfmGUQ7jX07kHU
-         fk1t/WLN3aZbmuBZ6PjDAUi0Yi0A7LwULkV2Zw2kd5qEqGzNA1wkmmgerbnWTV/4nCiB
-         M0lE6HaX9eXujjdB6kLKM/YGZ+qpEopQt07iLz82rM9y3HuErCXRK7CESjQyupjdI0if
-         /FSg==
-X-Forwarded-Encrypted: i=1; AJvYcCW2HAlJCjQvK0KKumyEiwUw1E0lmZP9qbznr9tYTpoR6lVmCH/rFd4bh9sWxhT3LDL3a5ehWVhEw24=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnUvsYM1HkuNq/IWnSSrQpZkpzOlOKzsaPpw1EBl5FErqiJX6x
-	5IVb636VL5AbZBhaZrW9VPPhieKBA0TUl6KS+RzZUGzSS+n1iizg8SgvgSFVOwMFL97RnkHmF13
-	tVNdouqiMuxgMQgm3ruiGL+80zn5/JHvylcpsf329aw==
-X-Gm-Gg: ASbGnctpR40/iOzFF99tZXUrEgK1DbFR9JqxEU0S7FDGxd/rW8473BP1SD7zwM/GlB9
-	jNc/xX2eoTi7aI0crrjsF2/2z3unHO01+ajX1qy4acoO8xxb4KxZ4ncyhPVBud3gm43vDFMCaZC
-	JdKVhxUe2v3Ji0yQF8smtH+aRRNQWxZYN6UnPXt3IP+A3czN9+ED7ISkOuhSFt2fU71aA/PqAMD
-	RPW6RVw2FEct6xv7xQ1B6YyPuIU+nT5B2BdO57kvkfhRjUUgsuMSjDFtt4QnvM964IjtbsRqdlc
-	pOp5Hxc=
-X-Google-Smtp-Source: AGHT+IFXLeEni9mHEbFQTU/eUct/W0PzmxnSk74uTOG+KIQijx0uZ3p8CfFH9qpt1kJGYDocY45XWQwqsmbH09VD3mM=
-X-Received: by 2002:a05:690e:18d:b0:63c:f5a7:40f with SMTP id
- 956f58d0204a3-64302acb21dmr6404480d50.67.1763999298028; Mon, 24 Nov 2025
- 07:48:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rX3IZj7Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E236C116C6;
+	Mon, 24 Nov 2025 15:49:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763999395;
+	bh=Fc7xoFZ935GiHhrQjcCq85XhwHgbVkMldMDphDsctag=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=rX3IZj7YWOEnIZo2QGOlGW/P/6jr+LOEA+NM/bQR4xyIb9enNc7yPs1zgJi/94oCj
+	 oPC+fEun122uYfvq2PgA1Eafgycrd7W5JeHko6QGdZJcvE2qa6LhuzaLb4yBCgHbKJ
+	 7vf6KFCZS9rfCXIxOIRZhEMqRd+LkUHWGpp5JqK7HNO+9V5clMZmvP7sb+Q891Kfzs
+	 YVsy0jJqRp0q6tDV0Qrapq8AvlkqojX7XfH4auBq7+tyAvXLAU7kvfNw65rXpiKQ01
+	 3wfKmg18V6Z1coXrOn32d/oik74h3gv5zjD+jxEFuKQYTxLErVPlToxoPwIJdtwWRU
+	 cYaJap70lRwOw==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org,  jasonmiu@google.com,  graf@amazon.com,
+  rppt@kernel.org,  dmatlack@google.com,  rientjes@google.com,
+  corbet@lwn.net,  rdunlap@infradead.org,  ilpo.jarvinen@linux.intel.com,
+  kanie@linux.alibaba.com,  ojeda@kernel.org,  aliceryhl@google.com,
+  masahiroy@kernel.org,  akpm@linux-foundation.org,  tj@kernel.org,
+  yoann.congal@smile.fr,  mmaurer@google.com,  roman.gushchin@linux.dev,
+  chenridong@huawei.com,  axboe@kernel.dk,  mark.rutland@arm.com,
+  jannh@google.com,  vincent.guittot@linaro.org,  hannes@cmpxchg.org,
+  dan.j.williams@intel.com,  david@redhat.com,  joel.granados@kernel.org,
+  rostedt@goodmis.org,  anna.schumaker@oracle.com,  song@kernel.org,
+  linux@weissschuh.net,  linux-kernel@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-mm@kvack.org,
+  gregkh@linuxfoundation.org,  tglx@linutronix.de,  mingo@redhat.com,
+  bp@alien8.de,  dave.hansen@linux.intel.com,  x86@kernel.org,
+  hpa@zytor.com,  rafael@kernel.org,  dakr@kernel.org,
+  bartosz.golaszewski@linaro.org,  cw00.choi@samsung.com,
+  myungjoo.ham@samsung.com,  yesanishhere@gmail.com,
+  Jonathan.Cameron@huawei.com,  quic_zijuhu@quicinc.com,
+  aleksander.lobakin@intel.com,  ira.weiny@intel.com,
+  andriy.shevchenko@linux.intel.com,  leon@kernel.org,  lukas@wunner.de,
+  bhelgaas@google.com,  wagi@kernel.org,  djeffery@redhat.com,
+  stuart.w.hayes@gmail.com,  lennart@poettering.net,  brauner@kernel.org,
+  linux-api@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  saeedm@nvidia.com,  ajayachandra@nvidia.com,  jgg@nvidia.com,
+  parav@nvidia.com,  leonro@nvidia.com,  witu@nvidia.com,
+  hughd@google.com,  skhawaja@google.com,  chrisl@kernel.org
+Subject: Re: [PATCH v7 08/22] docs: add luo documentation
+In-Reply-To: <20251122222351.1059049-9-pasha.tatashin@soleen.com> (Pasha
+	Tatashin's message of "Sat, 22 Nov 2025 17:23:35 -0500")
+References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+	<20251122222351.1059049-9-pasha.tatashin@soleen.com>
+Date: Mon, 24 Nov 2025 16:49:45 +0100
+Message-ID: <mafs0ldjvxwfa.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250902-kvm-arm64-sme-v8-0-2cb2199c656c@kernel.org> <20250902-kvm-arm64-sme-v8-11-2cb2199c656c@kernel.org>
-In-Reply-To: <20250902-kvm-arm64-sme-v8-11-2cb2199c656c@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Nov 2025 15:48:06 +0000
-X-Gm-Features: AWmQ_blKJPr9UiZ03PNJYKVppsgjz7HVl46QteqBVXyuwWp-raNgrqIbXILR-YA
-Message-ID: <CAFEAcA_GJ7gzn7aMCZYxHnJWvx4tHSHBKsOxtQ7NTb4gPjkMJQ@mail.gmail.com>
-Subject: Re: [PATCH v8 11/29] KVM: arm64: Document the KVM ABI for SME
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	Joey Gouly <joey.gouly@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Mark Rutland <mark.rutland@arm.com>, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Tue, 2 Sept 2025 at 12:45, Mark Brown <broonie@kernel.org> wrote:
+On Sat, Nov 22 2025, Pasha Tatashin wrote:
+
+> Add the documentation files for the Live Update Orchestrator
 >
-> SME, the Scalable Matrix Extension, is an arm64 extension which adds
-> support for matrix operations, with core concepts patterned after SVE.
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-Hi; apologies for not having got round to looking at this earlier.
+Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
 
-I haven't actually tried writing any code that uses this proposed
-ABI, but mostly it looks OK to me. I have a few nits below, but
-my main concern is the bits of text that say (or seem to say --
-maybe I'm misinterpreting them) that various parts of how userspace
-accesses the guest state (e.g. the fp regs) depend on the current
-state of the vcpu, rather than being only a function of how the
-vcpu was configured. That seems to me like it's unnecessarily awkward.
-(More detail below.)
+[...]
 
-> If SME is enabled for a guest without SVE then the FPSIMD Vn registers
-> must be accessed via the low 128 bits of the SVE Zn registers as is the
-> case when SVE is enabled. This is not ideal but allows access to SVCR and
-> the registers in any order without duplication or ambiguity about which
-> values should take effect. This may be an issue for VMMs that are
-> unaware of SME on systems that implement it without SVE if they let SME
-> be enabled, the lack of access to Vn may surprise them, but it seems
-> like an unusual implementation choice.
->
-> For SME unware VMMs on systems with both SVE and SME support the SVE
-> registers may be larger than expected, this should be less disruptive
-> than on a system without SVE as they will simply ignore the high bits of
-> the registers.
-
-I think that since enabling SME is something the VMM has to actively
-do, it isn't a big deal that they also need to do something in the
-fp or sve register access codepaths to handle SME. You can't get
-SME by surprise (same as you can't get SVE by surprise).
-
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  Documentation/virt/kvm/api.rst | 115 +++++++++++++++++++++++++++++------------
->  1 file changed, 81 insertions(+), 34 deletions(-)
->
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 6aa40ee05a4a..94a22407a1d4 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -406,7 +406,7 @@ Errors:
->               instructions from device memory (arm64)
->    ENOSYS     data abort outside memslots with no syndrome info and
->               KVM_CAP_ARM_NISV_TO_USER not enabled (arm64)
-> -  EPERM      SVE feature set but not finalized (arm64)
-> +  EPERM      SVE or SME feature set but not finalized (arm64)
->    =======    ==============================================================
->
->  This ioctl is used to run a guest virtual cpu.  While there are no
-> @@ -2601,11 +2601,11 @@ Specifically:
->  ======================= ========= ===== =======================================
->
->  .. [1] These encodings are not accepted for SVE-enabled vcpus.  See
-> -       :ref:`KVM_ARM_VCPU_INIT`.
-> +       :ref:`KVM_ARM_VCPU_INIT`.  They are also not accepted when SME is
-> +       enabled without SVE and the vcpu is in streaming mode.
-
-Does this mean that on an SME-no-SVE VM the VMM needs to know
-if the vcpu is currently in streaming mode or not to determine
-whether to read the FP registers as fp_regs or sve regs? That
-seems unpleasant -- I was expecting this to be strictly a
-matter of how the VM was configured (as it is with SVE).
-
->         The equivalent register content can be accessed via bits [127:0] of
-> -       the corresponding SVE Zn registers instead for vcpus that have SVE
-> -       enabled (see below).
-> +       the corresponding SVE Zn registers in these cases (see below).
->
->  arm64 CCSIDR registers are demultiplexed by CSSELR value::
->
-> @@ -2636,24 +2636,34 @@ arm64 SVE registers have the following bit patterns::
->    0x6050 0000 0015 060 <slice:5>        FFR bits[256*slice + 255 : 256*slice]
->    0x6060 0000 0015 ffff                 KVM_REG_ARM64_SVE_VLS pseudo-register
->
-> -Access to register IDs where 2048 * slice >= 128 * max_vq will fail with
-> -ENOENT.  max_vq is the vcpu's maximum supported vector length in 128-bit
-> -quadwords: see [2]_ below.
-> +arm64 SME registers have the following bit patterns:
-> +
-> +  0x6080 0000 0017 00 <n:5> <slice:5>   ZA.H[n] bits[2048*slice + 2047 : 2048*slice]
-> +  0x60XX 0000 0017 0100                 ZT0
-
-What's the XX here ?
-
-> +  0x6060 0000 0017 fffe                 KVM_REG_ARM64_SME_VLS pseudo-register
-> +
-> +Access to Z, P or ZA register IDs where 2048 * slice >= 128 * max_vq
-> +will fail with ENOENT.  max_vq is the vcpu's maximum supported vector
-> +length in 128-bit quadwords: see [2]_ below.
-
-What about FFR registers ? Is their ENOENT condition the same,
-or different?
-
-> +
-> +Access to the ZA and ZT0 registers is only available if SVCR.ZA is set
-> +to 1.
->
->  These registers are only accessible on vcpus for which SVE is enabled.
->  See KVM_ARM_VCPU_INIT for details.
->
-> -In addition, except for KVM_REG_ARM64_SVE_VLS, these registers are not
-> -accessible until the vcpu's SVE configuration has been finalized
-> -using KVM_ARM_VCPU_FINALIZE(KVM_ARM_VCPU_SVE).  See KVM_ARM_VCPU_INIT
-> -and KVM_ARM_VCPU_FINALIZE for more information about this procedure.
-> +In addition, except for KVM_REG_ARM64_SVE_VLS and
-> +KVM_REG_ARM64_SME_VLS, these registers are not accessible until the
-> +vcpu's SVE and SME configuration has been finalized using
-> +KVM_ARM_VCPU_FINALIZE(KVM_ARM_VCPU_VEC).  See KVM_ARM_VCPU_INIT and
-> +KVM_ARM_VCPU_FINALIZE for more information about this procedure.
->
-> -KVM_REG_ARM64_SVE_VLS is a pseudo-register that allows the set of vector
-> -lengths supported by the vcpu to be discovered and configured by
-> -userspace.  When transferred to or from user memory via KVM_GET_ONE_REG
-> -or KVM_SET_ONE_REG, the value of this register is of type
-> -__u64[KVM_ARM64_SVE_VLS_WORDS], and encodes the set of vector lengths as
-> -follows::
-> +KVM_REG_ARM64_SVE_VLS and KVM_ARM64_VCPU_SME_VLS are pseudo-registers
-> +that allows the set of vector lengths supported by the vcpu to be
-> +discovered and configured by userspace.  When transferred to or from
-> +user memory via KVM_GET_ONE_REG or KVM_SET_ONE_REG, the value of this
-> +register is of type __u64[KVM_ARM64_SVE_VLS_WORDS], and encodes the
-> +set of vector lengths as follows::
->
->    __u64 vector_lengths[KVM_ARM64_SVE_VLS_WORDS];
->
-> @@ -2665,19 +2675,25 @@ follows::
->         /* Vector length vq * 16 bytes not supported */
->
->  .. [2] The maximum value vq for which the above condition is true is
-> -       max_vq.  This is the maximum vector length available to the guest on
-> -       this vcpu, and determines which register slices are visible through
-> -       this ioctl interface.
-> +       max_vq.  This is the maximum vector length currently available to
-> +       the guest on this vcpu, and determines which register slices are
-> +       visible through this ioctl interface.
-> +
-> +       If SME is supported then the max_vq used for the Z and P registers
-> +       while SVCR.SM is 1 this vector length will be the maximum SME
-> +       vector length available for the guest, otherwise it will be the
-> +       maximum SVE vector length available.
-
-I can't figure out what this paragraph is trying to say, partly
-because it seems like it might be missing some text between
-"is 1" and "this vector length".
-
-In any case, the "while SVCR.SM is 1" part seems odd -- I
-don't think this ABI should care about the runtime vcpu state,
-only what the vcpu's max vector lengths were configured as.
-My expectation would be that the max_vq for VMM register
-access would be the maximum of the SVE and SME vector lengths
-configured for the vcpu.
-
-thanks
--- PMM
+-- 
+Regards,
+Pratyush Yadav
