@@ -1,74 +1,274 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6489013777E;
-	Mon, 24 Nov 2025 03:41:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C7C29B8E0
+	for <linux-doc@vger.kernel.org>; Mon, 24 Nov 2025 04:10:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763955680; cv=none; b=EZTJwzRBd+Qen66p7C6RuTq4dTTooX6D2Hdft1vi4gyK8APcMbZp5ng3A/FOFsgv946HZwxv3UPdLvFcLYDju0OsIt7SfhDVADIB2ROoDXbO7c/m5dwHhNCIA4QXmxXKS8VmJIQs2pyn1cJS/DkDbbPXXkyl3mWDxMN4zGEM9Yc=
+	t=1763957416; cv=none; b=eZ4OVSgoMvDHFOCieP+RTUpNLgLFV5X+DFgha/OJ7ykl9EUWWpJxQBaYJtqHFYHStqoTmIdLV1U+rl5BqyAD1FaPzaJS9DCZH1mB4UleUI5YH8bicXBqGPqOG0VkIKFWCgUJ3zuGbL0jZyWDi8kEDDSRlHHzWjhueJuOOLft2uU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763955680; c=relaxed/simple;
-	bh=fTuFPh1gu0pT5zDLKGliV0QGHjp+aJDjXG9OGuqkSg0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NOoR/prk5vLtz/Nkc6DMWoiMMSxDPGazTIc0MyGmGFd5YYyrAWMT/zawiSDW6g6c8wZ2s/3fbq6ozRz94MHMmagfz+5+aLWG5STehfTcTaDTPCPDYbXz6Nr5NfqKvcIbJtq8QH1tXsxroHoY7PbSGriGSOY56S4pp4wwfcISIfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ukll2hQZ; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1763957416; c=relaxed/simple;
+	bh=QNjvpiE3nF6XOBZ9LJnPQpvBYKIseqcDD9EyyZGs0Qs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sbXqUyCNnVbYDl8LH55vSP0472cV4pkrmf1N5ifhjrs0yCKUdcQiVsN3du8uKHbEWEuNoBYiIx4778rXkv86xRe+3m6Pg5oe4lKD35gtT+IgaBc5kbXXgpD4shSlWhoOjQZzZYc6n/JfBEDkBS3HLtmn427C5I7fKubgMxKEDhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=o6MjXa7s; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ukll2hQZ"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="o6MjXa7s"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=zer1I+uzfGatoSqzHCXNp2K0CqxAputY15cJMedciLk=; b=ukll2hQZ79ssaXHNnou1v7sv4f
-	SeRe9wnUM+sBkIwkNrMH9ytC4PtGA+c9zhmu9eO36i12x60e3xyka3iYPVkTjueK0Y8dBva0X9lW5
-	+irwUN7J6R/BT/xXxNePye1TIVa7zJ6uXPaxIr6E40ZNX5rfwpGhcmPTiB4oqHYmtwF8s9SzTAGb6
-	RSKVeLm3E4zwib0eGfVPh5A6vYYqR7W2UDaVJaOgI+y6/LH2gPn+KF13wRMEvi6wOxX5FTS2VV3bw
-	WTEtPqy2Y8f/e5zeSNNTvKdauLXUygn7a2aWO6y0degN0iOagRjJ2gtoNGVLZ1FHg7ef1DIj45Dez
-	wPiI9EJg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=LpCSwVo9oKNET8mexqBcD23WbwpPkcVAT2RUcVK9IMo=; b=o6MjXa7s2GM9TcX9T78VBiHNPS
+	X3/Ip7pJwXfBgwIQMOAS+8h4y0MYyKnRbKemNfnhK7fIGaSwsEDadUFfzi8BAEFfzNmvfcbG9taVQ
+	+5f4lQAuSAZUf3B7T+iZlb6Ln/vrmI2tKl9RJACDq98CmAMjDLMjFlHwExYO/Xmdt1k7cHiWz8CKz
+	h/ePEflIoZOvdUAf561LaRNriQYMVc3EAVC1/3jE+vteyCziiZEnILnSrtsfHR7Jwu1PAsSosHkGp
+	RaQMP+tiEZ5jtLSVd2A5AZRwrnZ1Bv1kxNnpX24EvVARhys6o8WRV86CZJRHzVK3pGlxvuF4zjH5l
+	TSw/Z2rQ==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNNS2-0000000B2Y5-3SXk;
-	Mon, 24 Nov 2025 03:41:18 +0000
-Message-ID: <52ca6fd7-9286-4d8d-8611-644d38d79484@infradead.org>
-Date: Sun, 23 Nov 2025 19:41:18 -0800
+	id 1vNNu1-0000000B3rS-1YyO;
+	Mon, 24 Nov 2025 04:10:13 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v2] docs: kdoc: various fixes for grammar, spelling, punctuation
+Date: Sun, 23 Nov 2025 20:10:11 -0800
+Message-ID: <20251124041011.3030571-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/5] docs: kernel-doc.rst: don't let automarkup mangle
- with consts
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org
-References: <cover.1763814816.git.mchehab+huawei@kernel.org>
- <f68f2da2a5eb1508c4c56b8f59719773b84b146b.1763814816.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <f68f2da2a5eb1508c4c56b8f59719773b84b146b.1763814816.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Correct grammar, spelling, and punctuation in comments, strings,
+print messages, logs.
 
+Change two instances of two spaces between words to just one space.
 
-On 11/22/25 4:37 AM, Mauro Carvalho Chehab wrote:
-> This document contains several words that tricks automarkup.
-> 
-> Ensure that all of them will be inside a ``const`` markup,
-> avoiding automarkup to touch them.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/doc-guide/kernel-doc.rst | 25 +++++++++++++------------
->  1 file changed, 13 insertions(+), 12 deletions(-)
+codespell was used to find misspelled words.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
+v2: rebased/updated from 2025-07-06 to v6.18-rc7-linux-next-20251121 kernel
 
-Thanks.
+@Jon, when is a good time for me to resend this patch so that you can
+apply it?
 
--- 
-~Randy
+ tools/lib/python/kdoc/kdoc_files.py     |    4 +--
+ tools/lib/python/kdoc/kdoc_output.py    |    8 +++----
+ tools/lib/python/kdoc/kdoc_parser.py    |   14 ++++++------
+ tools/lib/python/kdoc/kdoc_re.py        |   24 +++++++++++-----------
+ tools/lib/python/kdoc/python_version.py |    2 -
+ 5 files changed, 26 insertions(+), 26 deletions(-)
+
+--- linux-next-20251121.orig/tools/lib/python/kdoc/kdoc_files.py
++++ linux-next-20251121/tools/lib/python/kdoc/kdoc_files.py
+@@ -64,7 +64,7 @@ class GlobSourceFiles:
+ 
+     def parse_files(self, file_list, file_not_found_cb):
+         """
+-        Define an interator to parse all source files from file_list,
++        Define an iterator to parse all source files from file_list,
+         handling directories if any
+         """
+ 
+@@ -229,7 +229,7 @@ class KernelFiles():
+         Return output messages from a file name using the output style
+         filtering.
+ 
+-        If output type was not handled by the syler, return None.
++        If output type was not handled by the styler, return None.
+         """
+ 
+         # NOTE: we can add rules here to filter out unwanted parts,
+--- linux-next-20251121.orig/tools/lib/python/kdoc/kdoc_output.py
++++ linux-next-20251121/tools/lib/python/kdoc/kdoc_output.py
+@@ -8,7 +8,7 @@
+ Implement output filters to print kernel-doc documentation.
+ 
+ The implementation uses a virtual base class (OutputFormat) which
+-contains a dispatches to virtual methods, and some code to filter
++contains dispatches to virtual methods, and some code to filter
+ out output messages.
+ 
+ The actual implementation is done on one separate class per each type
+@@ -59,7 +59,7 @@ class OutputFormat:
+     OUTPUT_EXPORTED     = 2 # output exported symbols
+     OUTPUT_INTERNAL     = 3 # output non-exported symbols
+ 
+-    # Virtual member to be overriden at the  inherited classes
++    # Virtual member to be overridden at the inherited classes
+     highlights = []
+ 
+     def __init__(self):
+@@ -85,7 +85,7 @@ class OutputFormat:
+     def set_filter(self, export, internal, symbol, nosymbol, function_table,
+                    enable_lineno, no_doc_sections):
+         """
+-        Initialize filter variables according with the requested mode.
++        Initialize filter variables according to the requested mode.
+ 
+         Only one choice is valid between export, internal and symbol.
+ 
+@@ -212,7 +212,7 @@ class OutputFormat:
+             return self.data
+ 
+         # Warn if some type requires an output logic
+-        self.config.log.warning("doesn't now how to output '%s' block",
++        self.config.log.warning("doesn't know how to output '%s' block",
+                                 dtype)
+ 
+         return None
+--- linux-next-20251121.orig/tools/lib/python/kdoc/kdoc_parser.py
++++ linux-next-20251121/tools/lib/python/kdoc/kdoc_parser.py
+@@ -22,8 +22,8 @@ from kdoc.kdoc_item import KdocItem
+ #
+ # Regular expressions used to parse kernel-doc markups at KernelDoc class.
+ #
+-# Let's declare them in lowercase outside any class to make easier to
+-# convert from the python script.
++# Let's declare them in lowercase outside any class to make it easier to
++# convert from the Perl script.
+ #
+ # As those are evaluated at the beginning, no need to cache them
+ #
+@@ -133,7 +133,7 @@ struct_xforms = [
+     # TODO: use NestedMatch for FOO($1, $2, ...) matches
+     #
+     # it is better to also move those to the NestedMatch logic,
+-    # to ensure that parenthesis will be properly matched.
++    # to ensure that parentheses will be properly matched.
+     #
+     (KernRe(r'__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)', re.S),
+      r'DECLARE_BITMAP(\1, __ETHTOOL_LINK_MODE_MASK_NBITS)'),
+@@ -153,7 +153,7 @@ struct_xforms = [
+     (KernRe(r'DEFINE_DMA_UNMAP_LEN\s*\(' + struct_args_pattern + r'\)', re.S), r'__u32 \1'),
+ ]
+ #
+-# Regexes here are guaranteed to have the end limiter matching
++# Regexes here are guaranteed to have the end delimiter matching
+ # the start delimiter. Yet, right now, only one replace group
+ # is allowed.
+ #
+@@ -812,7 +812,7 @@ class KernelDoc:
+ 
+     def dump_struct(self, ln, proto):
+         """
+-        Store an entry for an struct or union
++        Store an entry for a struct or union
+         """
+         #
+         # Do the basic parse to get the pieces of the declaration.
+@@ -995,7 +995,7 @@ class KernelDoc:
+ 
+     def dump_function(self, ln, prototype):
+         """
+-        Stores a function of function macro inside self.entries array.
++        Stores a function or function macro inside self.entries array.
+         """
+ 
+         found = func_macro = False
+@@ -1230,7 +1230,7 @@ class KernelDoc:
+             #
+             else:
+                 self.emit_msg(ln,
+-                              f"This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst\n{line}")
++                              f"This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst\n{line}")
+                 self.state = state.NORMAL
+                 return
+             #
+--- linux-next-20251121.orig/tools/lib/python/kdoc/kdoc_re.py
++++ linux-next-20251121/tools/lib/python/kdoc/kdoc_re.py
+@@ -16,7 +16,7 @@ re_cache = {}
+ 
+ class KernRe:
+     """
+-    Helper class to simplify regex declaration and usage,
++    Helper class to simplify regex declaration and usage.
+ 
+     It calls re.compile for a given pattern. It also allows adding
+     regular expressions and define sub at class init time.
+@@ -27,7 +27,7 @@ class KernRe:
+ 
+     def _add_regex(self, string, flags):
+         """
+-        Adds a new regex or re-use it from the cache.
++        Adds a new regex or reuses it from the cache.
+         """
+         self.regex = re_cache.get(string, None)
+         if not self.regex:
+@@ -114,7 +114,7 @@ class NestedMatch:
+ 
+             '\\bSTRUCT_GROUP(\\(((?:(?>[^)(]+)|(?1))*)\\))[^;]*;'
+ 
+-    which is used to properly match open/close parenthesis of the
++    which is used to properly match open/close parentheses of the
+     string search STRUCT_GROUP(),
+ 
+     Add a class that counts pairs of delimiters, using it to match and
+@@ -136,13 +136,13 @@ class NestedMatch:
+     #       \bSTRUCT_GROUP\(
+     #
+     # is similar to: STRUCT_GROUP\((.*)\)
+-    # except that the content inside the match group is delimiter's aligned.
++    # except that the content inside the match group is delimiter-aligned.
+     #
+-    # The content inside parenthesis are converted into a single replace
++    # The content inside parentheses is converted into a single replace
+     # group (e.g. r`\1').
+     #
+     # It would be nice to change such definition to support multiple
+-    # match groups, allowing a regex equivalent to.
++    # match groups, allowing a regex equivalent to:
+     #
+     #   FOO\((.*), (.*), (.*)\)
+     #
+@@ -168,14 +168,14 @@ class NestedMatch:
+         but I ended using a different implementation to align all three types
+         of delimiters and seek for an initial regular expression.
+ 
+-        The algorithm seeks for open/close paired delimiters and place them
+-        into a stack, yielding a start/stop position of each match  when the
++        The algorithm seeks for open/close paired delimiters and places them
++        into a stack, yielding a start/stop position of each match when the
+         stack is zeroed.
+ 
+-        The algorithm shoud work fine for properly paired lines, but will
+-        silently ignore end delimiters that preceeds an start delimiter.
++        The algorithm should work fine for properly paired lines, but will
++        silently ignore end delimiters that precede a start delimiter.
+         This should be OK for kernel-doc parser, as unaligned delimiters
+-        would cause compilation errors. So, we don't need to rise exceptions
++        would cause compilation errors. So, we don't need to raise exceptions
+         to cover such issues.
+         """
+ 
+@@ -203,7 +203,7 @@ class NestedMatch:
+                     stack.append(end)
+                     continue
+ 
+-                # Does the end delimiter match what it is expected?
++                # Does the end delimiter match what is expected?
+                 if stack and d == stack[-1]:
+                     stack.pop()
+ 
+--- linux-next-20251121.orig/tools/lib/python/kdoc/python_version.py
++++ linux-next-20251121/tools/lib/python/kdoc/python_version.py
+@@ -139,7 +139,7 @@ class PythonVersion:
+ 
+         available_versions = PythonVersion.find_python(min_version)
+         if not available_versions:
+-            print(f"ERROR: Python version {python_ver} is not spported anymore\n")
++            print(f"ERROR: Python version {python_ver} is not supported anymore\n")
+             print("       Can't find a new version. This script may fail")
+             return
+ 
