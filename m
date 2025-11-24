@@ -1,135 +1,300 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6738926C3A2;
-	Mon, 24 Nov 2025 10:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16C81D555;
+	Mon, 24 Nov 2025 10:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763979739; cv=none; b=URKpHJStL/o55YWK9uvAtjw1nlf25SBJb7pxvdp2CdV5kvEzl0gUhzD9GWGdTi4yoC7BPW3lm5u3A8ltGnV1J6TzvzoH53zO5tAKjtknKRblOOVw/2PhNU0dvLH5oQ5ptnzD2F62LTB2qviOL6seO+nCF+DRZS3FQABHKeI3g9A=
+	t=1763980401; cv=none; b=s2slUH2fEqDliR/7LN8dZwspI+TuVYdAv++HRIUJiwbmBYJ9DLtxcq3EjJRgE6oN/QX2MXpeXFKGgjd8YcWFrNvcjqJ6kPFwqD2L94whKcomBsDesAhWS99eIoOJQUYLlxjANGCnmi5amtwlCGMdka8vwJokU6tZac96uX+o9bY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763979739; c=relaxed/simple;
-	bh=vG8b+2CQzdRnuQXiRJDw26mPA9qaScPOG3Xzi0JGSIg=;
+	s=arc-20240116; t=1763980401; c=relaxed/simple;
+	bh=HNVb1N1/RPjWqxX1WO4WpghVU8NPAOP2ZybpahlmGFI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xx5JAbDiL2mhjW6uf1RohA86rC8UZg0NcB7vcS6qECS/gJQWUqbt6B5Z8+WNTrkmJ7iUBBwYaggh4hL2VknCXdvIqxcCggJnwHWGAiCLjkd7IlU3rxv4d0hmJuIo2gQrKvQJ81RNns3v20LAIP8pNR18s1pIIPZ40e5Q59nAIOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMsA3xuF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=nVtWNv31mWDgtffcGbVAjA11F72mpBKzlCuKSfrwsaYM1+Yp3vaE9sSN1DnVhL8/Rmv+pAtx8+2KMN41EctZEI/4THP1XaNpvi6WaFxmQGW5/c3S1ujWxEI25WovBfCKfqgXT/MrpNENY+QGJexxXUboRiDsnZVLF/1nKxlD9TE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LYgLdkmC; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMsA3xuF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78505C4CEF1;
-	Mon, 24 Nov 2025 10:22:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763979739;
-	bh=vG8b+2CQzdRnuQXiRJDw26mPA9qaScPOG3Xzi0JGSIg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DMsA3xuF9whWsJmvFblKZ1a0SMk6HmlWL2PGt3P6I9UB9gKlBKJvxNQIqyImbB2+w
-	 UHDqEe8FqstWPN+9wTomzyjfG/nJt4TJRiJoekst0kKECYRqRT7jtRIkk8hFzL5cpW
-	 WjcNOLNfM+LqBrGYTCzeS06j67jahMW/oKuKHQQs2f8ax3g/uzePWvclNEv14OFg42
-	 fuB/Gi6exKUefjU9AyuIIPG5FeqOkqe3c2NJJnqQ4vFoHWKQW7HTlitlhXDHtFvS14
-	 zpA8tVRznNgsQhntyQDCPgEk4XiqTStdNb8uRAn/ORwmSfnDh7kQZOkLH5EmZgV0iM
-	 Ia9THk/Lp5cuw==
-Date: Mon, 24 Nov 2025 11:22:16 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
-	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 04/26] drm/bridge: make of_drm_find_bridge() a wrapper of
- drm_of_find_bridge()
-Message-ID: <wxxjp7fmsnh2k4huvg2thmfi6kcszdphrag3zosrnykn7abeua@cdlywqj32jd7>
-References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
- <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-4-0db98a7fe474@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LYgLdkmC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763980400; x=1795516400;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HNVb1N1/RPjWqxX1WO4WpghVU8NPAOP2ZybpahlmGFI=;
+  b=LYgLdkmCp+C7tgT/NQDNFiJXwYtzm4O3SSBqaMlVfB7uMq9GCwO1X9VS
+   RkTm2ywKb8HayuPjt26fLj7mDtHed5VDP3LX/KH83GSghIyDOkqetvV/A
+   ZLZl6yHgCSKPLayYPrDOCfwTxRG+mJ0YWyprsHegsIrONnMLkB/XK4Xkw
+   IpJJBq5XmG+N8LRdJZK/7fl7yQmvOOnotjfLtnWOaMsu+EsoIFqmVVmmy
+   kIMcBfaHDLi7XO7Zps+4Fg/mHH9axuTOnoaUsZlz1B3JGdJoB5kOTwsE0
+   Q+bBBOP9SyiKU5nqnH8eEE8uAy4dGhXePA1B4LE3PCAb/5CpeEGl7gSCJ
+   g==;
+X-CSE-ConnectionGUID: tHGKGyNkSsaLKR2cdC51JQ==
+X-CSE-MsgGUID: 3V5QjeRVSBG8YpYgGyiDLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="83590567"
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="83590567"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:33:19 -0800
+X-CSE-ConnectionGUID: 9WyeEq98S/mqJJOFd4PHPA==
+X-CSE-MsgGUID: MbV6DTrPQrWPF0mx8AuiAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="196468300"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.5])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:33:15 -0800
+Date: Mon, 24 Nov 2025 12:33:12 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jorge Marques <jorge.marques@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 7/9] iio: adc: ad4062: Add IIO Events support
+Message-ID: <aSQ0aM2u49qzIZDm@smile.fi.intel.com>
+References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
+ <20251124-staging-ad4062-v2-7-a375609afbb7@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="dmizbp3zdogu4qw3"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-4-0db98a7fe474@bootlin.com>
+In-Reply-To: <20251124-staging-ad4062-v2-7-a375609afbb7@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
+On Mon, Nov 24, 2025 at 10:18:06AM +0100, Jorge Marques wrote:
+> Adds support for IIO Events. Optionally, gp0 is assigned as Threshold
+> Either signal, if not present, fallback to an I3C IBI with the same
+> role.
 
---dmizbp3zdogu4qw3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 04/26] drm/bridge: make of_drm_find_bridge() a wrapper of
- drm_of_find_bridge()
-MIME-Version: 1.0
+...
 
-Hi,
+> +static ssize_t ad4062_events_frequency_store(struct device *dev,
+> +					     struct device_attribute *attr,
+> +					     const char *buf, size_t len)
+> +{
+> +	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+> +	struct ad4062_state *st = iio_priv(indio_dev);
+> +	int val, ret;
+> +
+> +	if (!iio_device_claim_direct(indio_dev))
+> +		return -EBUSY;
+> +	if (st->wait_event) {
+> +		ret = -EBUSY;
+> +		goto out_release;
+> +	}
+> +
+> +	ret = kstrtoint(buf, 10, &val);
+> +	if (ret < 0)
+> +		goto out_release;
+> +
+> +	st->events_frequency = find_closest_descending(val, ad4062_conversion_freqs,
+> +						       ARRAY_SIZE(ad4062_conversion_freqs));
+> +	ret = 0;
+> +
+> +out_release:
+> +	iio_device_release_direct(indio_dev);
+> +	return ret ? ret : len;
 
-On Wed, Nov 19, 2025 at 02:05:35PM +0100, Luca Ceresoli wrote:
-> of_drm_find_bridge() is identical to drm_of_find_bridge() except it does
-> not increment the refcount. Rewrite it as a wrapper and put the bridge
-> being returned so the behaviour is still the same.
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+	return ret ?: len;
 
-Kind of the same comment than on the TODO. Is it worth doing that patch
-when we could just remove it at the end of the series?
+> +}
 
-> ---
->  drivers/gpu/drm/drm_bridge.c | 14 +++-----------
->  1 file changed, 3 insertions(+), 11 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 6debbf20aaa8..09ad825f9cb8 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1460,19 +1460,11 @@ EXPORT_SYMBOL(drm_of_find_bridge);
->   */
->  struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+...
+
+> +static IIO_DEVICE_ATTR(sampling_frequency, 0644, ad4062_events_frequency_show,
+> +		       ad4062_events_frequency_store, 0);
+
+IIO_DEVICE_ATTR_RW()
+
+...
+
 >  {
-> -	struct drm_bridge *bridge;
-> -
-> -	mutex_lock(&bridge_lock);
-> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
-> =20
-> -	list_for_each_entry(bridge, &bridge_list, list) {
-> -		if (bridge->of_node =3D=3D np) {
-> -			mutex_unlock(&bridge_lock);
-> -			return bridge;
-> -		}
-> -	}
-> +	drm_bridge_put(bridge);
+>  	struct ad4062_state *st = i3cdev_get_drvdata(i3cdev);
+>  
+> -	if (iio_buffer_enabled(st->indio_dev))
+> -		iio_trigger_poll_nested(st->trigger);
+> -	else
+> -		complete(&st->completion);
+> +	if (st->wait_event) {
+> +		iio_push_event(st->indio_dev,
+> +			       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE, 0,
+> +						    IIO_EV_TYPE_THRESH,
+> +						    IIO_EV_DIR_EITHER),
+> +			       iio_get_time_ns(st->indio_dev));
+> +	} else {
+> +		if (iio_buffer_enabled(st->indio_dev))
+> +			iio_trigger_poll_nested(st->trigger);
+> +		else
+> +			complete(&st->completion);
+> +	}
 
-And if it does make sense to keep that patch, we should add a comment
-here to document why we are doing this.
+Less ping-pong:ish if you simply add a new code.
 
-Maxime
+	if (st->wait_event) {
+		iio_push_event(st->indio_dev,
+			       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE, 0,
+						    IIO_EV_TYPE_THRESH,
+						    IIO_EV_DIR_EITHER),
+			       iio_get_time_ns(st->indio_dev));
 
---dmizbp3zdogu4qw3
-Content-Type: application/pgp-signature; name="signature.asc"
+		return;
+	}
 
------BEGIN PGP SIGNATURE-----
+>  }
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSQx1wAKCRAnX84Zoj2+
-droMAX9AwjzNkiVVp54sB5cGjanhNIfAXN/GCN6vMwvaW4WE5QK8yK5sEqljCQtu
-qmElUSYBfiVitl5ixznQWTkWrB9qwjh7e/qpBdL40CpZ/bCkdh6quqMRu/qv6niz
-cBIXzVbHng==
-=8fBn
------END PGP SIGNATURE-----
+...
 
---dmizbp3zdogu4qw3--
+> +static int ad4062_monitor_mode_enable(struct ad4062_state *st, bool enable)
+> +{
+> +	int ret = 0;
+
+Unneeded assignment.
+
+> +	if (!enable) {
+> +		pm_runtime_put_autosuspend(&st->i3cdev->dev);
+> +		return 0;
+> +	}
+
+Just split to two functions and drop parameter 'enable',
+
+> +	ACQUIRE(pm_runtime_active_try_enabled, pm)(&st->i3cdev->dev);
+> +	ret = ACQUIRE_ERR(pm_runtime_active_try_enabled, &pm);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ad4062_conversion_frequency_set(st, st->events_frequency);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ad4062_set_operation_mode(st, AD4062_MONITOR_MODE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pm_runtime_get_noresume(&st->i3cdev->dev);
+> +	return 0;
+> +}
+
+...
+
+> +static int ad4062_write_event_config(struct iio_dev *indio_dev,
+> +				     const struct iio_chan_spec *chan,
+> +				     enum iio_event_type type,
+> +				     enum iio_event_direction dir,
+> +				     bool state)
+> +{
+> +	struct ad4062_state *st = iio_priv(indio_dev);
+> +	int ret;
+> +
+> +	if (!iio_device_claim_direct(indio_dev))
+> +		return -EBUSY;
+> +	if (st->wait_event == state) {
+> +		ret = 0;
+> +		goto out_release;
+> +	}
+> +
+> +	ret = ad4062_monitor_mode_enable(st, state);
+> +	if (!ret)
+> +		st->wait_event = state;
+
+Please use regular patter to check for errors first.
+
+	if (st->wait_event == state)
+		ret = 0;
+	else
+		ret = ad4062_monitor_mode_enable(st, state);
+	if (ret)
+		goto out_release;
+
+	st->wait_event = state;
+
+Always think about readability first and then about size of the source code.
+
+> +out_release:
+> +	iio_device_release_direct(indio_dev);
+> +	return ret;
+> +}
+
+...
+
+> +static int ad4062_read_event_value(struct iio_dev *indio_dev,
+> +				   const struct iio_chan_spec *chan,
+> +				   enum iio_event_type type,
+> +				   enum iio_event_direction dir,
+> +				   enum iio_event_info info, int *val,
+> +				   int *val2)
+> +{
+> +	struct ad4062_state *st = iio_priv(indio_dev);
+> +	int ret;
+> +
+> +	if (!iio_device_claim_direct(indio_dev))
+> +		return -EBUSY;
+> +	if (st->wait_event) {
+> +		ret = -EBUSY;
+> +		goto out_release;
+> +	}
+> +
+> +	switch (info) {
+> +	case IIO_EV_INFO_VALUE:
+> +		ret = __ad4062_read_event_info_value(st, dir, val);
+> +		break;
+> +	case IIO_EV_INFO_HYSTERESIS:
+> +		ret = __ad4062_read_event_info_hysteresis(st, dir, val);
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +		break;
+> +	}
+> +
+> +out_release:
+> +	iio_device_release_direct(indio_dev);
+> +	return ret ? ret : IIO_VAL_INT;
+
+	return ret ?: IIO_VAL_INT;
+
+> +}
+
+...
+
+> +static int __ad4062_write_event_info_value(struct ad4062_state *st,
+> +					   enum iio_event_direction dir, int val)
+> +{
+> +	u8 reg;
+> +
+> +	if (val > 2047 || val < -2048)
+> +		return -EINVAL;
+
+There was already magic '11', perhaps define it and use there and here?
+
+#define x11	11 // needs a good name
+
+	if (val > BIT(x11) || val < -BIT(x11))
+
+> +	if (dir == IIO_EV_DIR_RISING)
+> +		reg = AD4062_REG_MAX_LIMIT;
+> +	else
+> +		reg = AD4062_REG_MIN_LIMIT;
+> +	put_unaligned_be16(val, st->buf.bytes);
+> +
+> +	return regmap_bulk_write(st->regmap, reg, &st->buf.be16,
+> +				 sizeof(st->buf.be16));
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
