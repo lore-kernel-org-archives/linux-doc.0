@@ -1,151 +1,142 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8AF1C84BD
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 15:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FFF32824B
+	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 15:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764083905; cv=none; b=VzU2cJee0SyBKnYr+J+x3oXK4s/hs3Pj2CwQKwtigQJAfF84knWrtmmXDbBUtJK+xNx/LcPdv1WizXmr+ccz85kRNu9nWG6kIbq82DrctE8qwgsMLmNB861pjiHcRFtna+roQrhDOdJSg6crJW6c/dwJihjoFNWoNqPPhdmWO9c=
+	t=1764084412; cv=none; b=Ok5c1+u0rJlRDyqc/T1kf8uVBogaJCNf9m4GU92F0zgY1dveKx2fa3DX6PH9LHtCtGb9hjNpqUr3MYczUhg5JC7pkTUD7ak0SyC/MghyYYJGJ1lb6gwzRx5e/9iE/zoqFYOjm4yAy+H/scnVMLNNmJAie5tn9NHwjWw6zUhnD9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764083905; c=relaxed/simple;
-	bh=DsYokHG2TbxntUhInZ7n1fLbARG9fKvH875TbmWMMKA=;
+	s=arc-20240116; t=1764084412; c=relaxed/simple;
+	bh=GGkXuVhW5d2HmPdrO7UtjfY83b3fGHQxRBrk96HIXmQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XL5faDAHIBElrHp2M0fiwD2v5iv56vZ0QXf3P/bCXQSa2JOCO3WgjfodMFyhglGgqs92A9pQv4SvP42uxjLrJFxodJvIjwKDJ752bO4/yvU+2CVjNYBibw8P22bPxtDjmUnvq27TTpsiUT3Xj5vQhCvaPiPIYCua9e6herBwlTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=ZUgmPOVb; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 To:Cc:Content-Type; b=LGoDHRHxlM12oXLMxZ4nl5K9pMF3u/nASxARlakxm+YQcc39A7loFYm3LQFzOtpyo153dxE6khmcPXqyWhp9rZMtZDjegBwtsF4IZliJnnknxSB9A1Xda/ktI0ed8Ij/akXsCm20oYzJ+3veALzB2X4IwKw4fAoyqgLCAzhn7F8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=C3qgYV9V; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="ZUgmPOVb"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-64149f78c0dso8566561a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 07:18:22 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="C3qgYV9V"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b739b3fc2a0so165684766b.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 07:26:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764083901; x=1764688701; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TAsiLHds/qvfszqhkZLkqHZw/mWoHPv0/EdjTkOyfBM=;
-        b=ZUgmPOVbWaBicSUtZFncsbIDjcoQuBStQj+z0YXEDZ1l8ItHFFSMJi0bKlIPwgz3VJ
-         /Ya+CQVktg/AMXdLsh2vK+7q3FLHIk/MO6k/yOsVeBYyxd1/kJn4CR86jMKFwug1t5ig
-         C70NMziSVKaz9HdDF7GYwIbi75bDyU1x19GiYsubmrK6XI+65xmjySQjD2JjiIdq5xbY
-         FqKDG0L3ecrmr7PBDb8Ii2C+olMNRA/GRh96SUrbHlWp6m2zb96JSfY+gHkMb370+stV
-         jVQ2T5SHt8RVoUDG5yw7p7geslLV3WO5l+eJGMIHLbeGtYoOyE40/YKx003+wE1fbVPX
-         Mw9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764083901; x=1764688701;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1764084407; x=1764689207; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TAsiLHds/qvfszqhkZLkqHZw/mWoHPv0/EdjTkOyfBM=;
-        b=i0iPvTDoXQKNLFZfvYfAQA82XGvzsZ7WmY2bsoPRg6UzFGqKwDLi2t1E9dbmJXAxga
-         j7GajgsxIBaUA7kDRD7pAn0wnxU6/Ii9odoyGQ/Um6tg9l8s6yYpk1s789xZwVptvdm9
-         FP96vM5heNMMQOyN1aji6vRWdoDRAw45Ko18eIhnAqvK29OYQAP9RqjAaa+vrPVGLWl1
-         GnCEzFGnwCHimh/SYoXNr8hWhiz7odNB/+aAqPgvH4A+O8OiUoXTLxt3e6DAwW1RvXI3
-         w5vstH0UotynvI9+lyU/w8URhXjjRyM6LH+rV2XKCCLErEfri30NlrGrpCkTqOLb5dSi
-         pZ/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXMwNFY9JePVZWfgRKI/Txi85L6sprVyzpg5K8cBQXWVM6YURKQrJP23aI6B7PtEGmaAsTq/10HThs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxk33Xvx4NC1RuLr7FSehv6uR/Hw8FhQqTO4GP2rmsHxm0uUVkZ
-	VK3tKelY2xMGAzfkhy0bU0rW6t5A42SXYpgO9M+a22veG7VHKd+/giLEiPyNjzyAfEctt9NB6Z8
-	O03X4f4DQ4T8/1l8kuxyk+QmOU6h3kqnrJIBeaUf9CQ==
-X-Gm-Gg: ASbGncu0Vtf0KPdnLvXWlm1MpmAfeHu09aW2gm83NaKKjUJgGNbVBUkNVCjoti3mo2S
-	6zUFQws8Yt9nw7e4udukXRU5Sy3q6JWxV/sf7KqvGfUDSw718FiYY7bDHbiAMTyoUpYCo69OabW
-	Mk8eOjmxKLDHqODhrxT5VvDgo7Z2c4vqJ89GNqEhJ1YgPnu1958JLdFpDiY6/ezG4SnYoracV9U
-	OC4T7fv0YE25b9HsahuSw3Re2ZOeKQgbO4HkE2bhvmMQbMxgPPzscOP3tesDKRfIGLU
-X-Google-Smtp-Source: AGHT+IE0DHidFTCdre2PEQZkWO+6fXHnDyl1XZap9xXWaDlhJTWELszauIifJNX3sVuiB93zZccT0oD4UK2jv0u/xGI=
-X-Received: by 2002:a05:6402:1447:b0:643:ce6:a7e6 with SMTP id
- 4fb4d7f45d1cf-64555d22c5bmr13732647a12.31.1764083900798; Tue, 25 Nov 2025
- 07:18:20 -0800 (PST)
+        bh=wCZdld6CYrWFXkrUxJ5abCqUL/Pa1DX9edqJLOysax8=;
+        b=C3qgYV9VN8ZjK4m/5GRagJtt9FGG+yRqcO5GfhKOuesi6NHSb5/8uC6zS3M3/pAV5g
+         kwLVzaKiKmuNH4IDKShpzgsgVQSrN0XSltsy8vVsRr5V/Ou4Sn7wFcqdOhRJYpMnbWou
+         yS5gfsAjuQEamvphMRMr66eSYhTbiZ0KaPU4U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764084407; x=1764689207;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wCZdld6CYrWFXkrUxJ5abCqUL/Pa1DX9edqJLOysax8=;
+        b=HZU5P7RQm64rmUGtaSyML3t3K2+ix7rQZ6e06rIaFxYmMH9w0gomixM9NFwnfwBbA/
+         ClAxJwEwGW0Gwj3tII1lVJsuOy0mJb8RWlq78JThpzySNq+hwrEtMkQnvdUX+Ef3eEg9
+         l6hg7OLw6Ef6MmOpNMe5JyoLg7ENOj0WkSEoD7Sd6XAd5+DdOUKdbIm94YTBn/D1f7GQ
+         5nUJo6OcSak9z9OaepzR2mMaAZZZ7t9vcR1+eCAOO6yCaBw8ad0BPAGaLIgiJajb8kQO
+         Lqk6UPDkS4KdbLiDvG+3lj+x4t90ORirsKO9y3jI75Z280Rh+rej+dQSP4ku+vyy249a
+         TFXw==
+X-Forwarded-Encrypted: i=1; AJvYcCUlceOm73uYo/bKz/v8vvgMd37Mlvksxj/shnikIFVRUZfob4m6IrYysKVkmVY6j8n/qoxO3/kuCvc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdZmpFf4fy+vuj3AvNgoGd7mkOUrs+KBChvKz3BxGsIVjtaGHx
+	o75VS4ibklVbDbSzHjXBHuAxtLUkeP5coArtzBObFehwFecCNiifW2sV1tzApM+zWOGJMsa/ax4
+	J7d/xaUdM
+X-Gm-Gg: ASbGncsLz1JoXQbqT259Pz9s4WbArVep9FTLQLLNjdWsKOi3M0MoPsg1Bc4yzWFvvZg
+	s9puSmx6XzBHzhfLzaY6uun/lwx8JptSImU+3Z3YGZAeCd26NOO3j7dq2/2lOdh0k1TW9268ICf
+	cN0ZA4w5+Ly2PZRZizZglelDmkSy99wYsooTrXDxL7cJ8h/ZobHPyIroPDsdJcdR3m2Jj1r/hHy
+	BVls7aqHJAqvaY2mQuSRzMlfy/QPRswgS0vN6QCzscFomxeDNcY/+6Zdr0AgzGQYNBJL0vpEtl/
+	zXB8QuSFQwViqG+tECQGfT6reM6E+sRsmfTsl8a/j8+DfMNTweWn4JeFZS0Sp2s+7esyDSC/sBp
+	2bYbjfNyn2aIrJa1Ui9myUlRgGQD+9fCihE5Zlr4QWHEacymwYISPiVAGUZvOY8OMIDHidjgX1W
+	CQBRHg4Jrj1R5IjHBExHOb/H6pfSTgTgDXg7SC9vAkH+EmnA==
+X-Google-Smtp-Source: AGHT+IFWJ3g7IbXo7EuYtOWCzVxiM/RjIXvZ0yh24ZsUW2/hPnmbCrowt9DLuElSRZRYSz2Gy2u40g==
+X-Received: by 2002:a17:906:c142:b0:b70:b700:df98 with SMTP id a640c23a62f3a-b76c5356501mr323557366b.5.1764084407020;
+        Tue, 25 Nov 2025 07:26:47 -0800 (PST)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b766d386665sm1318041566b.53.2025.11.25.07.26.46
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Nov 2025 07:26:46 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42b31507ed8so4793189f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 07:26:46 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWP2DasPnCFd65KD9FSEj/6eURLBF5ZYfH7NTVI7rp+BrjNqQctIlYfWr/QNMeyuiPw5b7AMLHmrGU=@vger.kernel.org
+X-Received: by 2002:a05:6000:381:b0:42b:3ad7:fdd3 with SMTP id
+ ffacd0b85a97d-42e0f21e953mr3395597f8f.18.1764084405547; Tue, 25 Nov 2025
+ 07:26:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-7-pasha.tatashin@soleen.com> <mafs0tsyjxwoa.fsf@kernel.org>
- <mafs0pl97xwj0.fsf@kernel.org>
-In-Reply-To: <mafs0pl97xwj0.fsf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 25 Nov 2025 10:17:41 -0500
-X-Gm-Features: AWmQ_bm8wD9QREho2Mnzi5WuSu_89_AomH92z6tVmxt4j7_zxQmibtYMJWqN8Vs
-Message-ID: <CA+CK2bDAFgH1o8zo3NrD1AOtiSF-aqP17Omg0iaWr+_vSVtTQA@mail.gmail.com>
-Subject: Re: [PATCH v7 06/22] liveupdate: luo_file: implement file systems callbacks
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, lennart@poettering.net, brauner@kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, saeedm@nvidia.com, 
-	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, leonro@nvidia.com, 
-	witu@nvidia.com, hughd@google.com, skhawaja@google.com, chrisl@kernel.org
+References: <20251125130634.1080966-1-tzimmermann@suse.de>
+In-Reply-To: <20251125130634.1080966-1-tzimmermann@suse.de>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 25 Nov 2025 07:26:33 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=X_-t2AF5osp7Hamoe7WYE_2YWJZCaPaOj=9seSbnwwVA@mail.gmail.com>
+X-Gm-Features: AWmQ_bldhiBpRCqVYkj0GufunmE0LiqT8gw4vCTv4PiT8j1h28du9Cx4NWXFEj8
+Message-ID: <CAD=FV=X_-t2AF5osp7Hamoe7WYE_2YWJZCaPaOj=9seSbnwwVA@mail.gmail.com>
+Subject: Re: [PATCH 0/5] drm: Remove remaining support for kdb
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: simona@ffwll.ch, airlied@gmail.com, alexander.deucher@amd.com, 
+	christian.koenig@amd.com, lyude@redhat.com, dakr@kernel.org, deller@gmx.de, 
+	mripard@kernel.org, maarten.lankhorst@linux.intel.com, 
+	jason.wessel@windriver.com, danielt@kernel.org, 
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+	nouveau@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Nir Lichtman <nir@lichtman.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > +     if (err)
-> > +             goto  err_files_mem;
->
->  Nit:                ^^ two spaces here.
+Hi,
 
-Removed.
+On Tue, Nov 25, 2025 at 5:06=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+>
+> Remove the rest of the kbd support from DRM. Driver support has been
+> broken for years without anyone complaining.
+>
+> Kdb cannot use regular DRM mode setting, so DRM drivers have to
+> implement an additional hook to make it work (in theory). As outlined
+> by Sima in commit 9c79e0b1d096 ("drm/fb-helper: Give up on kgdb for
+> atomic drivers") from 2017, kdb is not compatible with DRM atomic mode
+> setting. Non-atomic mode setting meanwhile has become rare.
+>
+> Only 3 DRM drivers implement the hooks for kdb support. Amdgpu and
+> nouveau use non-atomic mode setting on older devices. But both drivers
+> have switched to generic fbdev emulation, which isn't compatible with
+> kdb. Radeon still runs kdb, but it doesn't work in practice. See the
+> commits in this series for details
+>
+> Therefore remove the remaining support for kdb from the DRM drivers
+> and from DRM fbdev emulation. Also remove the hooks from fbdev, as
+> there are no fbdev drivers with kdb support.
+>
+> If we ever want to address kdb support within DRM drivers, a place to
+> start would be the scanout buffers used by DRM's panic screen. These
+> use the current display mode. They can be written and flushed without
+> mode setting involved.
+>
+> Note: kdb over serial lines is not affected by this series and continues
+> to work as before.
+>
+> Thomas Zimmermann (5):
+>   drm/amdgpu: Do not implement mode_set_base_atomic callback
+>   drm/nouveau: Do not implement mode_set_base_atomic callback
+>   drm/radeon: Do not implement mode_set_base_atomic callback
+>   drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
+>   fbcon: Remove fb_debug_enter/_leave from struct fb_ops
 
->
-> > +
-> > +     if (file_set->count == LUO_FILE_MAX) {
-> > +             err = -ENOSPC;
-> > +             goto err_files_mem;
-> > +     }
-> > +
-> > +     err = -ENOENT;
-> > +     luo_list_for_each_private(fh, &luo_file_handler_list, list) {
-> > +             if (fh->ops->can_preserve(fh, file)) {
-> > +                     err = 0;
-> > +                     break;
-> > +             }
-> > +     }
-> > +
-> [...]
-> > +int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
-> > +{
-> > +     struct liveupdate_file_handler *fh_iter;
-> > +     int err;
-> > +
-> > +     if (!liveupdate_enabled())
-> > +             return -EOPNOTSUPP;
-> > +
-> > +     /* Sanity check that all required callbacks are set */
-> > +     if (!fh->ops->preserve || !fh->ops->unpreserve ||
-> > +         !fh->ops->retrieve || !fh->ops->finish) {
->
->  You are still missing a check for can_preserve() here. It is a mandatory
->  callback and luo_preserve_file() calls it without checking for NULL.
+Personally, I've never worked with kdb over anything other than
+serial, so this won't bother any of my normal workflows. That being
+said, at least as of a year ago someone on the lists was talking about
+using kdb with a keyboard and (presumably) a display. You can see a
+thread here:
 
-Added.
+http://lore.kernel.org/r/20241031192350.GA26688@lichtman.org
 
->
->  With these and Mike's comments addressed,
->
->  Reviewed-by: Pratyush Yadav <pratyush@kernel.org>
+Daniel may also have comments here?
 
-Thanks.
-
->
-> > +             return -EINVAL;
-> > +     }
-> > +
-> [...]
->
-> --
-> Regards,
-> Pratyush Yadav
+-Doug
