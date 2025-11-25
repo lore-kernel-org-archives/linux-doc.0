@@ -1,427 +1,176 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FEB32B998
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 17:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18EA273805
+	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 17:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764090300; cv=none; b=UN9qgrWgvOqrhdbIgeGrBvo8tkS8mS8ojf1aqv9G8qb3BVc8A+MG6EVUyntlZwegHw96amhWdaeXKmpeygzJFRL9cFXtOMVOGztpc2Ar8Q5mMxoIgcyNZHRshCVN49IQbC7Czv1GzomhTiz+tj2g/W53dNMZ9lv8fUlX1XkJxVo=
+	t=1764090695; cv=none; b=QBvA6Y2erFzTs4GbiNvDnCYg3zkL3te/B3O6rP/SD1sx+6amJ5R2SGftaR/51V1AUlGxxLZaw6+hJ684QhgkWhrOsAu26gUH3Tv4QUzFKx7Ch6BjrVh4csD1Jh9ojtRcrlkmAou4l/4+AgCCw4K4lRk+ZFdaCEsj0w4ESO4Edbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764090300; c=relaxed/simple;
-	bh=iJoCUX90kK6Hi6QO8UUOHy3R4sfD1pdw6tyQrAUqqnk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dQ1J8qIZimAZg8LvOWgd57oFS2pih6o6dvwHoZ4x/l3m8dxSx6cOpQqeGMBzLsMLSpV/9fc6O9ugKtuHXaYpe7HehVIKS3GIazqkQB4WTf2ID28BhGAp1Nxu9R/mWU0tTMN1I5D4PAdBNupRDPG0B70e5rmJtAU6Q9h+RBNueQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GBgwupMP; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764090695; c=relaxed/simple;
+	bh=JkWJ8zMwNXflYHUTcGdd62JuAjDjnrq+DEJ9vwRn4/E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=btlanBKrjerCcDgxxaUBLoMdM2bZ2v1ADe1PpTD9YMseoxpqY61UrTCcxWm644TDYvZHvAHHKNgYuuJ5fK/0xQ/r4q4ycVB31VH/5ipZAyR5WugsGdFjBZ5iWtIF1ThEvPBEQ6l4nUCkVbkkcfYf4NOwKwfk0bJgxohAmMkac0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=hpd7N+Cw; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GBgwupMP"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7ade456b6abso4655189b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 09:04:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="hpd7N+Cw"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-640860f97b5so8115035a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 09:11:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764090296; x=1764695096; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pYgo1d5vBv7JwZFnlBuT9v8v0agvYmWOE6awznPlpPk=;
-        b=GBgwupMP3mGm1Df4mi+l6W6mLC5Jzj8Xr/ajiWLRugD9ZSR3Xrnp+Y/8c1wmPXQGUW
-         ma6S/p/kaABVCqIKLz4wY6WHwCa7Gusd00YJtvfvskQ+eHo/yuxy46cLgPuU4aaWLX7e
-         Ih9vQOM2y3nlXxPgClnCcUe0rRtc1Z9xLsFTLlkeKIOJBS36px9ZfRUFAQHAVRhgHRJa
-         LHhAPLxYLUsKkO8duH17+6e2QjwefXblGT0a+TzAo5Yn0t8yAO68p13QYsaS0LgaQpd4
-         ic2mGy/vkB9KavC3qv7oqqCsJPB4ZyG0yOZZvzOad5evUO102t8TAgkqLP8IcneaxiYp
-         1sPQ==
+        d=soleen.com; s=google; t=1764090692; x=1764695492; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ly5LBt6mDypO/G6NdTT5RZY/q0zV3qr4fzhYNtYlqik=;
+        b=hpd7N+Cwrilo4buSu4NL0TRonaHPBoJUMCs+jkijiY8JPnqvrDzRAWTK2aBR+JEW5j
+         SDP/H4lrgtBUTHXCpS/nzM3QEZwOpwSh/l2b5F7K60T3C0V60Odv2W6jroQmG+7b1mxF
+         HnMq0jv2sqAJP5yU4jEWEtutI5TEfaLcs1N0MyfwzUAxttbTtFI0X6Uwp6wI41zLBL6z
+         5u/QagwB9x1HkdyEpV1xZqmQnLe4pz7F/kiLjJZAHCUzPQRk5aiobmnKEnDssMFWVX5G
+         PrIRDDaa5E5xtS08w+ig75Rfi67otatGWITH7bPqWjtBxa65veJ3ze1QOcwc1/7nD45J
+         yC/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764090296; x=1764695096;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pYgo1d5vBv7JwZFnlBuT9v8v0agvYmWOE6awznPlpPk=;
-        b=nlSo6o4kiIJUUsYqIcnkvjSKRTbg3WLbUZhyom36zOq6nW4uogVeQPcJpLC1h1p4vf
-         x57uwpw6DhSAN3GIR2/6eIPHkVlVLo4KT1JBmzeoAgjYHTSKF6lA24n28e5DiGmC3wRx
-         KMcwbU6g48/oflU1cYaT2aqt5tFqgwmnBI6lIQLoL8jzLQ1EUtRPDz1vj5tJynlbkMkW
-         sRkU6Ggx3letQ9XQHZsw03rhAgP1MO6p/o0gg8QmAO+BJNUlKwqmbWmUHGO0uPXWyAIa
-         7/Qpg0om6QWVoBd4fOR6pJ06tWkNypPh4rwSFDaZJcrTF2tPu56bxKqi1iH2v5q+jElk
-         4Ajw==
-X-Forwarded-Encrypted: i=1; AJvYcCXqEkgWTSUT6X5mB9LXadSHgkBFOH9VvUpua9QQXfH0af8gAWpqsNOegNJ5nmMKFPfAcDtkiTU6j0s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmjfX///wFCWMFZCb2x8JX+eiY1zLpM6MgknEjltsIyYslUrYc
-	Bd0dGwzIrBE1ZkcLn3fGL9DXiYNFq2tizqIe3/zWO80JbpG42c+xVaoN7YPWnUUK+fs=
-X-Gm-Gg: ASbGncsHlysnnbPaTWK0HU8rDAmd88r8G8zOBWY9qLA2hiTsRAItJVIXMsbLU3UQ7nC
-	fMgQLK+5EKItTFgG3kVjhSkkAlaw8icCFoL3kVDPl/Pt7Er29GwISFlRcvRhbwFO6HzRsEL4hxm
-	j7HkB1auFWIF+onOMrlACckTp43R5uPjGs3q4p2lC6ioV1n97gVTjNjDXa45x9XIiBeUTKyaSXU
-	sDFkQ9d8XPEmhl85JdrlsJW+yU7g3J2U/YjqmnYahWPiinny/Da1aWgyFvpnqdS3WetlePG3NK8
-	WZOzvSWaJLcrLChgYBcUXBS7p2ETzjPFl6Qo2wyBhqgq2UNuJJ2EhcqRMrkDKymg5pLaxVqATzv
-	It9n9bEvnTZNyCKPAJAvi6kVmSdMydwGSk90yXpSQ3h/+jgZwnP4JG/j3dH9tCuWUqwpKUFNC9N
-	3PY3ozieDZL54big==
-X-Google-Smtp-Source: AGHT+IE3HVI2OSwKYyz2J7aR+dAp3ud2KB0NZWfDEl2yFaQQfh/xXRFxm9LLeRPNFwq1q34sUk9S4w==
-X-Received: by 2002:a05:6a20:7490:b0:35e:bfe5:ee82 with SMTP id adf61e73a8af0-36150f1ed1emr18535116637.48.1764090295883;
-        Tue, 25 Nov 2025 09:04:55 -0800 (PST)
-Received: from p14s ([2604:3d09:148c:c800:c0c0:5a6c:d170:84a1])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed37b0c7sm18550669b3a.20.2025.11.25.09.04.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 09:04:55 -0800 (PST)
-Date: Tue, 25 Nov 2025 10:04:52 -0700
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-imx@nxp.com
-Subject: Re: [PATCH v5 2/5] remoteproc: imx_rproc: Populate devices under
- "rpmsg" subnode
-Message-ID: <aSXhtAcFBOgJoCWd@p14s>
-References: <20251104203315.85706-1-shenwei.wang@nxp.com>
- <20251104203315.85706-3-shenwei.wang@nxp.com>
+        d=1e100.net; s=20230601; t=1764090692; x=1764695492;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ly5LBt6mDypO/G6NdTT5RZY/q0zV3qr4fzhYNtYlqik=;
+        b=MEJBAEqxApCpcY57tt4vsRY6tnq9W5EN7J9y8TIBDbYbCtfgegE++wBqKYEO5CaX4h
+         IPtf33tUszzRAk+3Opv8UwsRfHnaZsxybMN5gzJjcCh51fk0R0maUg4A3dlvxZqW7P5x
+         jWv4LxfHz0zOHu9IhoLYhIo1+X/F+CCe+8yVA++ClgHG+w5nWKawFdR5QpS5hyD7NtWc
+         R/hhgMgTE98MYaXkziSfw6c5VMu+QWPTwf1nO30zoF1bXVvx5R8C+CnEZuEzwduQIza2
+         RnhkpoHLXFEx4dNwgW32xh8Y8CG5XsFw+rbbehZXSLNcWw2IEUXgAhcdcU74Qn1dCdjG
+         RraA==
+X-Forwarded-Encrypted: i=1; AJvYcCXMSuPHscnsS5pZE1k2OWwkZwnZlFA1E3zzUar33bHkNc3itiNqa6+TKvMKAByikea46+vTCJ39ZMs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKMx525nJyMsrTzhnLNkYgu+zlkH40nY5NEWQhWUhhmX0ERyOR
+	u2Wr/alrjksL+xFkZ/6dQEPszPN3CsgET7r8oNxwWIJN58gelT5Zt8ZmGEq3pne/kNIxP95DcDg
+	3SBbNtuuMYIT6R1P/RLmU0Q8zixznpeaAFYe7tY8pvw==
+X-Gm-Gg: ASbGncu6oD03/CCKtB8cniFEKEha6p2K2XFbUicB/pI7M8gMKspivbwEk85gH1U67LG
+	ayeYboJMAG3t5cBrHxQ2niuJM1pukFQgozXMMPIzfcE/9XACmuajKTfAEVYJ26tsGAQCYlyXtdS
+	iFvXCEUKbAT/axzGOFpNNdGPZfjIFGO/zJfNJGAXtbG1g/6miDVVzmdFkKnea73o7aZ1sY1CbuY
+	qQwOCEHqy/NwuDcrbI20ojh2yTbB+eAiB682WMzADT/qQbIhCpsxZJ+9RRyUGA3VevT
+X-Google-Smtp-Source: AGHT+IGrfsmrfzIW+aWRuJRmdKZisN9HOWvhufzxvxHfKz1E+SFLlkqO50B6RT0T1wYIyaZoNdq4RbNgdU/zWatA1zQ=
+X-Received: by 2002:a05:6402:1469:b0:637:e2b8:605b with SMTP id
+ 4fb4d7f45d1cf-645eb23f94cmr3816071a12.5.1764090691966; Tue, 25 Nov 2025
+ 09:11:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251104203315.85706-3-shenwei.wang@nxp.com>
+References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+ <20251122222351.1059049-22-pasha.tatashin@soleen.com> <CALzav=f+=c5XH7Uw9EGVb2P6VxsnpF76e0DXAAXhM0gsWPxw2w@mail.gmail.com>
+In-Reply-To: <CALzav=f+=c5XH7Uw9EGVb2P6VxsnpF76e0DXAAXhM0gsWPxw2w@mail.gmail.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 25 Nov 2025 12:10:54 -0500
+X-Gm-Features: AWmQ_blUNJXGJsZNTyk-wstisxWf95tP1YO8_RTqL2T5TqXUElAOHsjvRUxN7S8
+Message-ID: <CA+CK2bBXNkpkYFa8xX4L1redUAdyx40ggJhntysH4W=a2nh99A@mail.gmail.com>
+Subject: Re: [PATCH v7 21/22] liveupdate: luo_flb: Introduce
+ File-Lifecycle-Bound global state
+To: David Matlack <dmatlack@google.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, 
+	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
+	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
+	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
+	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
+	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
+	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
+	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
+	song@kernel.org, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
+	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
+	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Good morning, 
+On Mon, Nov 24, 2025 at 6:45=E2=80=AFPM David Matlack <dmatlack@google.com>=
+ wrote:
+>
+> On Sat, Nov 22, 2025 at 2:24=E2=80=AFPM Pasha Tatashin
+> <pasha.tatashin@soleen.com> wrote:
+>
+> > +int liveupdate_flb_incoming_locked(struct liveupdate_flb *flb, void **=
+objp);
+> > +void liveupdate_flb_incoming_unlock(struct liveupdate_flb *flb, void *=
+obj);
+> > +int liveupdate_flb_outgoing_locked(struct liveupdate_flb *flb, void **=
+objp);
+> > +void liveupdate_flb_outgoing_unlock(struct liveupdate_flb *flb, void *=
+obj);
+>
+> nit: "locked" should be "lock". "locked" is used for situations where
+> the lock must already be held by the caller.
 
-Here are some first-pass comments - more to come later.
+I am going to clean-up this API, and remove locked/unlocked; just
+return the object directly.
 
-On Tue, Nov 04, 2025 at 02:33:12PM -0600, Shenwei Wang wrote:
-> Register the RPMsg channel driver and populate remote devices defined
-> under the "rpmsg" subnode upon receiving their notification messages.
-> 
-> The following illustrates the expected DTS layout structure:
-> 
-> 	cm33: remoteproc-cm33 {
-> 		compatible = "fsl,imx8ulp-cm33";
-> 
-> 		rpmsg {
-> 			rpmsg-io-channel {
-> 				gpio@0 {
-> 					compatible = "fsl,imx-rpmsg-gpio";
-> 					reg = <0>;
-> 				};
-> 
-> 				gpio@1 {
-> 					compatible = "fsl,imx-rpmsg-gpio";
-> 					reg = <1>;
-> 				};
-> 
-> 				...
-> 			};
-> 
-> 			rpmsg-i2c-channel {
-> 				i2c@0 {
-> 					compatible = "fsl,imx-rpmsg-i2c";
-> 					reg = <0>;
-> 				};
-> 			};
-> 
-> 			...
-> 		};
-> 	};
+>
+> > @@ -633,6 +639,7 @@ static void luo_file_finish_one(struct luo_file_set=
+ *file_set,
+> >         args.file =3D luo_file->file;
+> >         args.serialized_data =3D luo_file->serialized_data;
+> >         args.retrieved =3D luo_file->retrieved;
+> > +       luo_flb_file_finish(luo_file->fh);
+> >
+> >         luo_file->fh->ops->finish(&args);
+>
+> I think luo_flb_file_finish() should be called after the file's
+> finish() callback. Otherwise the FLB data will be cleaned just before
+> the last file's finish() callback.
+>
+> i.e. The order should be
+>
+>   file1->finish()
+>   file2->finish()
+>   file3->finish() // last file
+>   flb->finish()
+>
+> rather than
+>
+>   file1->finish()
+>   file2->finish()
+>   flb->finish()
+>   file3->finish() // last file
 
-2 observations here:
+Yes, I will make this change in the next version of FLB patch
+(currently FLB has been dropped from LUO and will be sent separately
+since there currently no in-kernel users beside the self-test)
 
-(1) Why are you trying to introduce both i2c and GPIO in the same patchset?
-(2) My first impression is that i2c, GPIO and others should be bundled with the
-platform definitions for i2c and GPIO, with a phandle to the remote processor
-they hang off from.  My opinion may change once I have reviewed the other
-patches in this set.
+>
+> > +static void luo_flb_unlock(struct liveupdate_flb *flb, bool incoming,
+> > +                          void *obj)
+> > +{
+> > +       struct luo_flb_private *private =3D luo_flb_get_private(flb);
+> > +       struct luo_flb_private_state *state;
+> > +
+> > +       state =3D incoming ? &private->incoming : &private->outgoing;
+> > +
+> > +       lockdep_assert_held(&state->lock);
+> > +       state->obj =3D obj;
+>
+> I tripped over this when developing the PCI FLB state. The following
+> compiles fine and looks innocent enough:
+>
+>   liveupdate_flb_incoming_locked(&pci_liveupdate_flb, &ser);
+>   ...
+>   liveupdate_flb_incoming_unlock(&pci_liveupdate_flb, &ser);
+>
+> But this ends up corrupting state->obj.
+>
+> Do we have a use-case for replacing obj on unlock? If not I'd suggest
+> dropping it.
 
-> 
-> Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
-> ---
->  drivers/remoteproc/imx_rproc.c  | 146 ++++++++++++++++++++++++++++++++
->  include/linux/rpmsg/imx_rpmsg.h |  48 +++++++++++
->  2 files changed, 194 insertions(+)
->  create mode 100644 include/linux/rpmsg/imx_rpmsg.h
-> 
-> diff --git a/drivers/remoteproc/imx_rproc.c b/drivers/remoteproc/imx_rproc.c
-> index a6eef0080ca9..e21a7980c490 100644
-> --- a/drivers/remoteproc/imx_rproc.c
-> +++ b/drivers/remoteproc/imx_rproc.c
-> @@ -8,6 +8,7 @@
->  #include <linux/clk.h>
->  #include <linux/err.h>
->  #include <linux/firmware/imx/sci.h>
-> +#include <linux/rpmsg/imx_rpmsg.h>
->  #include <linux/interrupt.h>
->  #include <linux/kernel.h>
->  #include <linux/mailbox_client.h>
-> @@ -15,6 +16,8 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_address.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/of_platform.h>
->  #include <linux/of_reserved_mem.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_domain.h>
-> @@ -22,6 +25,7 @@
->  #include <linux/reboot.h>
->  #include <linux/regmap.h>
->  #include <linux/remoteproc.h>
-> +#include <linux/rpmsg.h>
->  #include <linux/workqueue.h>
->  
->  #include "imx_rproc.h"
-> @@ -1084,6 +1088,144 @@ static int imx_rproc_sys_off_handler(struct sys_off_data *data)
->  	return NOTIFY_DONE;
->  }
->  
-> +struct imx_rpmsg_driver {
-> +	struct rpmsg_driver rpdrv;
-> +	void *driver_data;
-> +};
-> +
-> +static char *channel_device_map[][2] = {
-> +	{"rpmsg-io-channel", "fsl,imx-rpmsg-gpio"},
-> +	{"rpmsg-i2c-channel", "fsl,imx-rpmsg-i2c"},
-> +};
-> +
-> +static int imx_rpmsg_endpoint_cb(struct rpmsg_device *rpdev, void *data,
-> +				 int len, void *priv, u32 src)
-> +{
-> +	struct imx_rpmsg_driver_data *drvdata;
-> +
-> +	drvdata = dev_get_drvdata(&rpdev->dev);
-> +	if (drvdata && drvdata->rx_callback)
-> +		return drvdata->rx_callback(rpdev, data, len, priv, src);
-> +
-> +	return 0;
-> +}
-> +
-> +static void imx_rpmsg_endpoint_remove(struct rpmsg_device *rpdev)
-> +{
-> +	of_platform_depopulate(&rpdev->dev);
-> +}
-> +
-> +static int imx_rpmsg_endpoint_probe(struct rpmsg_device *rpdev)
-> +{
-> +	struct imx_rpmsg_driver_data *drvdata;
-> +	struct imx_rpmsg_driver *imx_rpdrv;
-> +	struct device *dev = &rpdev->dev;
-> +	struct of_dev_auxdata *auxdata;
-> +	struct rpmsg_driver *rpdrv;
-> +	int i;
-> +
-> +	rpdrv = container_of(dev->driver, struct rpmsg_driver, drv);
-> +	imx_rpdrv = container_of(rpdrv, struct imx_rpmsg_driver, rpdrv);
-> +
-> +	if (!imx_rpdrv->driver_data)
-> +		return -EINVAL;
-> +
-> +	drvdata = devm_kmemdup(dev, imx_rpdrv->driver_data, sizeof(*drvdata), GFP_KERNEL);
-
-Something with the overall design of this feature doesn't work if you need to do
-this.
-
-> +	if (!drvdata)
-> +		return -ENOMEM;
-> +
-> +	i = drvdata->map_idx;
-> +	if (i >= ARRAY_SIZE(channel_device_map))
-> +		return -ENODEV;
-> +
-> +	auxdata = devm_kzalloc(dev, sizeof(*auxdata) * 2, GFP_KERNEL);
-> +	if (!auxdata)
-> +		return -ENOMEM;
-> +
-> +	drvdata->rpdev = rpdev;
-> +	auxdata[0].compatible = channel_device_map[i][1];
-> +	auxdata[0].platform_data = drvdata;
-> +	dev_set_drvdata(dev, drvdata);
-> +
-> +	of_platform_populate(drvdata->channel_node, NULL, auxdata, dev);
-> +	of_node_put(drvdata->channel_node);
-
-Why is there a need for of_node_put() when imx_of_rprmsg_node_init() is using
-for_each_child_of_node_scoped()?
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int imx_of_rpmsg_is_in_map(const char *name)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(channel_device_map); i++) {
-> +		if (strcmp(name, channel_device_map[i][0]) == 0)
-> +			return i;
-> +	}
-> +
-> +	return -1;
-
-Please return a real error code.
-
-> +}
-> +
-> +static int imx_of_rpmsg_register_rpdriver(struct device_node *channel,
-> +					  struct device *dev, int idx)
-> +{
-> +	struct imx_rpmsg_driver_data *driver_data;
-> +	struct imx_rpmsg_driver *rp_driver;
-> +	struct rpmsg_device_id *rpdev_id;
-> +
-> +	rpdev_id = devm_kzalloc(dev, sizeof(*rpdev_id) * 2, GFP_KERNEL);
-
-I had a really good time figuring out why 2 instances were needed.  Reviewing
-this work without a single line of comment isn't motivating.
-
-> +	if (!rpdev_id)
-> +		return -ENOMEM;
-> +
-> +	strscpy(rpdev_id[0].name, channel_device_map[idx][0], RPMSG_NAME_SIZE);
-> +
-> +	rp_driver = devm_kzalloc(dev, sizeof(*rp_driver), GFP_KERNEL);
-> +	if (!rp_driver)
-> +		return -ENOMEM;
-> +
-> +	driver_data = devm_kzalloc(dev, sizeof(*driver_data), GFP_KERNEL);
-> +	if (!driver_data)
-> +		return -ENOMEM;
-> +
-> +	driver_data->rproc_name = dev->of_node->name;
-> +	driver_data->channel_node = channel;
-> +	driver_data->map_idx = idx;
-
-struct rpmsg_device_id already contains a @driver_data.  As with my other
-comment above, something in the design of this feature is not working if you
-need to do something like this.
-
-> +
-> +	rp_driver->rpdrv.drv.name = channel_device_map[idx][0];
-> +	rp_driver->rpdrv.id_table = rpdev_id;
-> +	rp_driver->rpdrv.probe = imx_rpmsg_endpoint_probe;
-> +	rp_driver->rpdrv.remove = imx_rpmsg_endpoint_remove;
-> +	rp_driver->rpdrv.callback = imx_rpmsg_endpoint_cb;
-> +	rp_driver->driver_data = driver_data;
-> +
-> +	register_rpmsg_driver(&rp_driver->rpdrv);
-> +
-> +	return 0;
-> +}
-> +
-> +static int imx_of_rpmsg_node_init(struct platform_device *pdev)
-> +{
-> +	struct device_node *np __free(device_node);
-> +	struct device *dev = &pdev->dev;
-> +	int idx, ret;
-> +
-> +	np = of_get_child_by_name(dev->of_node, "rpmsg");
-> +	if (!np)
-> +		return 0;
-> +
-> +	for_each_child_of_node_scoped(np, child) {
-> +		idx = imx_of_rpmsg_is_in_map(child->name);
-> +		if (idx < 0)
-> +			ret = of_platform_default_populate(child, NULL, dev);
-
-Why is this called?
-
-> +		else
-> +			ret = imx_of_rpmsg_register_rpdriver(child, dev, idx);
-> +
-> +		if (ret < 0)
-> +			return ret;
-
-In case of an error, the reference to @np is not released.
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-
-If we were to keep the current design, all of the above should be in
-drivers/rpmsg/imx_rpmsg.c.
-
->  static int imx_rproc_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> @@ -1177,6 +1319,10 @@ static int imx_rproc_probe(struct platform_device *pdev)
->  		goto err_put_clk;
->  	}
->  
-> +	ret = imx_of_rpmsg_node_init(pdev);
-> +	if (ret < 0)
-> +		dev_info(dev, "populating 'rpmsg' node failed\n");
-> +
->  	return 0;
->  
->  err_put_clk:
-> diff --git a/include/linux/rpmsg/imx_rpmsg.h b/include/linux/rpmsg/imx_rpmsg.h
-> new file mode 100644
-> index 000000000000..04a5ad2d4a1d
-> --- /dev/null
-> +++ b/include/linux/rpmsg/imx_rpmsg.h
-> @@ -0,0 +1,48 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/* Copyright 2025 NXP */
-> +
-> +/*
-> + * @file linux/imx_rpmsg.h
-> + *
-> + * @brief Global header file for iMX RPMSG
-> + *
-> + * @ingroup RPMSG
-> + */
-> +#ifndef __LINUX_IMX_RPMSG_H__
-> +#define __LINUX_IMX_RPMSG_H__
-> +
-> +/* Category define */
-> +#define IMX_RMPSG_LIFECYCLE	1
-> +#define IMX_RPMSG_PMIC		2
-> +#define IMX_RPMSG_AUDIO		3
-> +#define IMX_RPMSG_KEY		4
-> +#define IMX_RPMSG_GPIO		5
-> +#define IMX_RPMSG_RTC		6
-> +#define IMX_RPMSG_SENSOR	7
-> +
-> +/* rpmsg version */
-> +#define IMX_RMPSG_MAJOR		1
-> +#define IMX_RMPSG_MINOR		0
-> +
-> +#define MAX_DEV_PER_CHANNEL	10
-> +
-> +struct imx_rpmsg_head {
-> +	u8 cate;	/* Category */
-> +	u8 major;	/* Major version */
-> +	u8 minor;	/* Minor version */
-> +	u8 type;	/* Message type */
-> +	u8 cmd;		/* Command code */
-> +	u8 reserved[5];
-> +} __packed;
-
-This structure is not used in this file, please remove.
-
-> +
-> +struct imx_rpmsg_driver_data {
-> +	int map_idx;
-> +	const char *rproc_name;
-> +	struct rpmsg_device *rpdev;
-> +	struct device_node *channel_node;
-> +	int (*rx_callback)(struct rpmsg_device *rpdev, void *data,
-> +			   int len, void *priv, u32 src);
-> +	void *channel_devices[MAX_DEV_PER_CHANNEL];
-> +};
-
-For the above 2 struct, proper documentation is needed.
-
-Thanks,
-Mathieu
-
-> +
-> +#endif /* __LINUX_IMX_RPMSG_H__ */
-> -- 
-> 2.43.0
-> 
+I can remove internal obj updates.
