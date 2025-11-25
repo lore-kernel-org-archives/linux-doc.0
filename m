@@ -1,270 +1,121 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59EA324716
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 13:06:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB23320CC3;
+	Tue, 25 Nov 2025 13:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764076018; cv=none; b=kwt5SKwfQvvyLg17TyqwWSVVVgI67rmTZ7DAOjs1ll8zsYTgwSE446WtG6pC0oCVIrD9T1Fhc3LJs9a9MDEGpukG0OSz87VKrv/6wiHH4Jx4m3SuR/CEQ7tIIpbbov/L5ATFZj2OY/u+voo4qzJFcYlsf44Jl/eFiKtLlBh7tS8=
+	t=1764076123; cv=none; b=MVe/ZwjHsxRB49y6dGhFo7uU1Qnkp9b1vDWza3fj+nJu+F2QRnn1J5r5tGlxs8I738hwe+z/IMlP9PZO7RziNXoVj7+E9LZUoiwiJ6RcF+ZIK8XC0fF+s1kQRP0wCjeRXGaBSpOKjIJrqmX2ymo8vZ+M6lniuOfLuHfAvo5PcfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764076018; c=relaxed/simple;
-	bh=4zSfbctcQ5ur6VKoGH92xMgDFjVBhISdb6kx0iH9rKI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e0KLNOykkrZdqE2k9+F5rNtjcrcHzxqb+BM7aXV85psaWDaazPHY7CblDT9oEqGR/xtM1OFpWtn+/6Rz3VRwTvndgbIPOTNoijuBFNU2Rs7gdNtOjZpbLdSexxgrzPnXS9zU/lOi9VDlzr+T2QXEXXSNPzc+5wwP5JILllMuPtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qNzN4Noz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=B9H8Zq0m; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qNzN4Noz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=B9H8Zq0m; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1764076123; c=relaxed/simple;
+	bh=dHFz6qR/I9ZFBforH40m7KtLMQ9NhVkinfXAsC6xU+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ElNpVTHoxU5DCSdLxk7D1U/oBYO2FuhrqR791FM+N8/PizlCna5ZZEYrRQFt0K/tcOQb84eZSFxAtuRHPZwir4gTzeEVp24WE5ZQUrstoDKBpitqe3Tkp17ahr/E/3J0Ra5yTQ7oz5nA45d0+64fw2zsw7WueuOyw0htK+c+z7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4XhmBKV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qNzN4Noz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B9H8Zq0m";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qNzN4Noz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B9H8Zq0m"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BBBEB5BD82;
-	Tue, 25 Nov 2025 13:06:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764076003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZgLD8DsaagC7UeXGC8JVSdO0+73pCjrNj616EWect5k=;
-	b=qNzN4NozQ48J/X/RGWafXBsH3FZCXYhtd9Wcqzt1u5FWKN52GDI1EoR3pxSuCW094TeXtY
-	g99guH1xVpriDikcpR+TBOe2s9JXIhLAh6le/NpF8dRx2LYrogZ7eNNkZOWaxKUw/vguOY
-	mNXcfN7S7In/Ucj5mu8A1xUMiwN6aNM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764076003;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZgLD8DsaagC7UeXGC8JVSdO0+73pCjrNj616EWect5k=;
-	b=B9H8Zq0miuo0RFANZ6NN+/eePEWVWH7dy+haPXL3Aaic+KZMpzf9JXje/yjo52BuoMWXs/
-	S2jFzif/dstS69DA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qNzN4Noz;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=B9H8Zq0m
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764076003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZgLD8DsaagC7UeXGC8JVSdO0+73pCjrNj616EWect5k=;
-	b=qNzN4NozQ48J/X/RGWafXBsH3FZCXYhtd9Wcqzt1u5FWKN52GDI1EoR3pxSuCW094TeXtY
-	g99guH1xVpriDikcpR+TBOe2s9JXIhLAh6le/NpF8dRx2LYrogZ7eNNkZOWaxKUw/vguOY
-	mNXcfN7S7In/Ucj5mu8A1xUMiwN6aNM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764076003;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZgLD8DsaagC7UeXGC8JVSdO0+73pCjrNj616EWect5k=;
-	b=B9H8Zq0miuo0RFANZ6NN+/eePEWVWH7dy+haPXL3Aaic+KZMpzf9JXje/yjo52BuoMWXs/
-	S2jFzif/dstS69DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3044F3EA65;
-	Tue, 25 Nov 2025 13:06:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MOiWCuOpJWkDFAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 25 Nov 2025 13:06:43 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: simona@ffwll.ch,
-	airlied@gmail.com,
-	alexander.deucher@amd.com,
-	christian.koenig@amd.com,
-	lyude@redhat.com,
-	dakr@kernel.org,
-	deller@gmx.de,
-	mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	jason.wessel@windriver.com,
-	danielt@kernel.org,
-	dianders@chromium.org
-Cc: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 5/5] fbcon: Remove fb_debug_enter/_leave from struct fb_ops
-Date: Tue, 25 Nov 2025 13:52:17 +0100
-Message-ID: <20251125130634.1080966-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251125130634.1080966-1-tzimmermann@suse.de>
-References: <20251125130634.1080966-1-tzimmermann@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4XhmBKV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D386C4CEF1;
+	Tue, 25 Nov 2025 13:08:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764076122;
+	bh=dHFz6qR/I9ZFBforH40m7KtLMQ9NhVkinfXAsC6xU+U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N4XhmBKVuKkpuROmmK4pPwB4aDpmhsMmOBJu0LOA/wCbUltTpWw7lpfRbgXtkVoNK
+	 id3bIy5xKOEFBIjmgEe1kTkRjxKMmiSGyf3rMaCLyRMTpTcAdCbogdS5qEflK5wDng
+	 1wlg18Sz2+kvbgjdsfqXEa0bM2ewgVoK3lwH5++i1nTQNlXSpPCMtrTbAYhFzvEdpg
+	 kUcWpe8KPiPktz3FzquYixQAHYMtN5A8B8O7sX3mC9jOBWm4vnIpt8UgASmK2MGA/h
+	 Pod7dUxXsiKWhPvykeECGahNqYUv1GLFELSQV0UJlqclrmAzKqsR/VCIrBpv2WJ5hh
+	 EiEs8aqGz5BLw==
+Date: Tue, 25 Nov 2025 15:08:17 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com,
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net,
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com,
+	kanie@linux.alibaba.com, ojeda@kernel.org, aliceryhl@google.com,
+	masahiroy@kernel.org, akpm@linux-foundation.org, tj@kernel.org,
+	yoann.congal@smile.fr, mmaurer@google.com, roman.gushchin@linux.dev,
+	chenridong@huawei.com, axboe@kernel.dk, mark.rutland@arm.com,
+	jannh@google.com, vincent.guittot@linaro.org, hannes@cmpxchg.org,
+	dan.j.williams@intel.com, david@redhat.com,
+	joel.granados@kernel.org, rostedt@goodmis.org,
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, gregkh@linuxfoundation.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
+	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
+	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
+	aleksander.lobakin@intel.com, ira.weiny@intel.com,
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de,
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net,
+	brauner@kernel.org, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, saeedm@nvidia.com,
+	ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com,
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com,
+	skhawaja@google.com, chrisl@kernel.org
+Subject: Re: [PATCH v7 02/22] liveupdate: luo_core: integrate with KHO
+Message-ID: <aSWqQWbeijvruDqf@kernel.org>
+References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+ <20251122222351.1059049-3-pasha.tatashin@soleen.com>
+ <aSLvo0uXLOaE2JW6@kernel.org>
+ <CA+CK2bCj2OAQjM-0rD+DP0t4v71j70A=HHdQ212ASxX=xoREXw@mail.gmail.com>
+ <aSMXUKMhroThYrlU@kernel.org>
+ <CA+CK2bABbDYfu8r4xG3n30HY4cKFe74_RJP5nYJeOtAOOj+OUQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: BBBEB5BD82
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,amd.com,redhat.com,kernel.org,gmx.de,linux.intel.com,windriver.com,chromium.org];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	R_RATELIMIT(0.00)[to_ip_from(RLgosu6qu4h11rje89ht7rjgg5)];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
+In-Reply-To: <CA+CK2bABbDYfu8r4xG3n30HY4cKFe74_RJP5nYJeOtAOOj+OUQ@mail.gmail.com>
 
-There are no implementations of fb_debug_enter and fb_debug_leave.
-Remove the callbacks from struct fb_ops and clean up the caller.
+On Sun, Nov 23, 2025 at 01:23:51PM -0500, Pasha Tatashin wrote:
+> On Sun, Nov 23, 2025 at 9:17 AM Mike Rapoport <rppt@kernel.org> wrote:
+> > > > > +static int __init liveupdate_early_init(void)
+> > > > > +{
+> > > > > +     int err;
+> > > > > +
+> > > > > +     err = luo_early_startup();
+> > > > > +     if (err) {
+> > > > > +             luo_global.enabled = false;
+> > > > > +             luo_restore_fail("The incoming tree failed to initialize properly [%pe], disabling live update\n",
+> > > > > +                              ERR_PTR(err));
+> > > >
+> > > > What's wrong with a plain panic()?
+> > >
+> > > Jason suggested using the luo_restore_fail() function instead of
+> > > inserting panic() right in code somewhere in LUOv3 or earlier. It
+> > > helps avoid sprinkling panics in different places, and also in case if
+> > > we add the maintenance mode that we have discussed in LUOv6, we could
+> > > update this function as a place where that mode would be switched on.
+> >
+> > I'd agree if we were to have a bunch of panic()s sprinkled in the code.
+> > With a single one it's easier to parse panic() than lookup what
+> > luo_restore_fail() means.
+> 
+> The issue is that removing luo_restore_fail() removes the only
+> dependency on luo_internal.h in this patch. This would require me to
+> move the introduction of that header file to a later patch in the
+> series, which is difficult to handle via a simple fix-up.
+> 
+> Additionally, I still believe the abstraction is cleaner for future
+> extensibility (like the maintenance mode), even if it currently wraps
+> a single panic (which is actually a good thing, I have cleaned-up
+> things substantially to have  a single point  of panic since v2).
+> Therefore, it is my preference to keep it as is, unless a full series
+> is needed to be re-sent.
 
-The field save_graphics in fbcon_par is also no longer required.
-Remove it as well.
+Well, let's keep it. If we won't see new users or extensions to
+luo_restore_fail() we can kill it later.
+ 
+> Pasha
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- Documentation/process/debugging/kgdb.rst | 28 ------------------------
- drivers/video/fbdev/core/fbcon.c         | 24 --------------------
- drivers/video/fbdev/core/fbcon.h         |  1 -
- include/linux/fb.h                       |  4 ----
- 4 files changed, 57 deletions(-)
-
-diff --git a/Documentation/process/debugging/kgdb.rst b/Documentation/process/debugging/kgdb.rst
-index b29b0aac2717..773b19aa1382 100644
---- a/Documentation/process/debugging/kgdb.rst
-+++ b/Documentation/process/debugging/kgdb.rst
-@@ -889,34 +889,6 @@ in the virtual console layer. On resuming kernel execution, the kernel
- debugger calls kgdboc_post_exp_handler() which in turn calls
- con_debug_leave().
- 
--Any video driver that wants to be compatible with the kernel debugger
--and the atomic kms callbacks must implement the ``mode_set_base_atomic``,
--``fb_debug_enter`` and ``fb_debug_leave operations``. For the
--``fb_debug_enter`` and ``fb_debug_leave`` the option exists to use the
--generic drm fb helper functions or implement something custom for the
--hardware. The following example shows the initialization of the
--.mode_set_base_atomic operation in
--drivers/gpu/drm/i915/intel_display.c::
--
--
--    static const struct drm_crtc_helper_funcs intel_helper_funcs = {
--    [...]
--            .mode_set_base_atomic = intel_pipe_set_base_atomic,
--    [...]
--    };
--
--
--Here is an example of how the i915 driver initializes the
--fb_debug_enter and fb_debug_leave functions to use the generic drm
--helpers in ``drivers/gpu/drm/i915/intel_fb.c``::
--
--
--    static struct fb_ops intelfb_ops = {
--    [...]
--           .fb_debug_enter = drm_fb_helper_debug_enter,
--           .fb_debug_leave = drm_fb_helper_debug_leave,
--    [...]
--    };
- 
- 
- Credits
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 7be9e865325d..34ea14412ace 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2289,28 +2289,6 @@ static bool fbcon_blank(struct vc_data *vc, enum vesa_blank_mode blank,
- 	return false;
- }
- 
--static void fbcon_debug_enter(struct vc_data *vc)
--{
--	struct fb_info *info = fbcon_info_from_console(vc->vc_num);
--	struct fbcon_par *par = info->fbcon_par;
--
--	par->save_graphics = par->graphics;
--	par->graphics = 0;
--	if (info->fbops->fb_debug_enter)
--		info->fbops->fb_debug_enter(info);
--	fbcon_set_palette(vc, color_table);
--}
--
--static void fbcon_debug_leave(struct vc_data *vc)
--{
--	struct fb_info *info = fbcon_info_from_console(vc->vc_num);
--	struct fbcon_par *par = info->fbcon_par;
--
--	par->graphics = par->save_graphics;
--	if (info->fbops->fb_debug_leave)
--		info->fbops->fb_debug_leave(info);
--}
--
- static int fbcon_get_font(struct vc_data *vc, struct console_font *font, unsigned int vpitch)
- {
- 	u8 *fontdata = vc->vc_font.data;
-@@ -3214,8 +3192,6 @@ static const struct consw fb_con = {
- 	.con_set_palette 	= fbcon_set_palette,
- 	.con_invert_region 	= fbcon_invert_region,
- 	.con_resize             = fbcon_resize,
--	.con_debug_enter	= fbcon_debug_enter,
--	.con_debug_leave	= fbcon_debug_leave,
- };
- 
- static ssize_t rotate_store(struct device *device,
-diff --git a/drivers/video/fbdev/core/fbcon.h b/drivers/video/fbdev/core/fbcon.h
-index 44ea4ae4bba0..1cd10a7faab0 100644
---- a/drivers/video/fbdev/core/fbcon.h
-+++ b/drivers/video/fbdev/core/fbcon.h
-@@ -79,7 +79,6 @@ struct fbcon_par {
- 	int    cursor_reset;
- 	int    blank_state;
- 	int    graphics;
--	int    save_graphics; /* for debug enter/leave */
- 	bool   initialized;
- 	int    rotate;
- 	int    cur_rotate;
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 05cc251035da..65fb70382675 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -304,10 +304,6 @@ struct fb_ops {
- 
- 	/* teardown any resources to do with this framebuffer */
- 	void (*fb_destroy)(struct fb_info *info);
--
--	/* called at KDB enter and leave time to prepare the console */
--	int (*fb_debug_enter)(struct fb_info *info);
--	int (*fb_debug_leave)(struct fb_info *info);
- };
- 
- #ifdef CONFIG_FB_TILEBLITTING
 -- 
-2.51.1
-
+Sincerely yours,
+Mike.
