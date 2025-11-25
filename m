@@ -1,200 +1,151 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C48C3770B
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 13:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D912571D4;
+	Tue, 25 Nov 2025 13:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764077581; cv=none; b=uA7PSw/0suGTIfLtuX/KQF/XXgloY8PO4FLpHf40KCT94o+2DIYhTbOpd3Tdi0U5A8mHXa1CscuXyKTMVXl2wGz+ai+C1LWlXJAarTrreJFC4XiWYSfB17Di3w81GFvXerXVBHMlYx5SLQ1z0Fh68xrp/jXgTz5jQ/D5+UPYm+Y=
+	t=1764078522; cv=none; b=Nt9gq1khj493vwe3fgyZeScntJZnqJAB6+gPAWm+SsmS1aYCTdm8IckZ+gP0/QhL5QIG8Xy4LC+S8CmTS/HeJbrWGHBzv6Mm5SRJhB6XMv8KctCHyXNxTfDMDvhqLseHyDWfEvGaemBFqQYvK6PEDgfol5gQq++gHUxhFsJ/RQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764077581; c=relaxed/simple;
-	bh=MnDKOoBSC1TVC+0JyofFcG76+xlRkRQjLfiBE/kEcr0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZSCYM1m+4tiT8HdmdgQYyXGNRpz1iP8frKh1XnugMILGZCvRM7lB+qHe4Umrlk9uklslcdVkM6YJHpmr+ofwAn3v1BEdvslJmwKEV/lH+9QsCd0b1+jobdBN3DJLLLQhm3MbJAuMYQC6woKwpFYzAONaNBRTz5+h/qqaVON/h2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T4E7TNWI; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764078522; c=relaxed/simple;
+	bh=qMRrDoHOcsks99zvgZZqkBP5LxJkyWPAJLlzUR7nP+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e8L95kmCYhYA95P7HuON0HGjVGrGEs92ZVUum/QaBQJ4Erd9i18gmkM8IhQoir3U+ZoQe8YMKdm7EJabqfi9dp4uDudLZwZeoYtdIXc9M73ABpc5Yy7xFsrqTJHoLra+E70oQHd09JjrIcgJgqYN2vBWCg6GWJn+b9AAlIOKiuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cctn4wiv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T4E7TNWI"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-297dd95ffe4so49086875ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 05:32:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764077579; x=1764682379; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vZ8TwQlg6Y5fZZwS5KDal2CdCamjB1K+UNXBBcg3Rco=;
-        b=T4E7TNWIFwRVohzzKvf1IhdB7wnqHCQqb6AiJVkZvUXZXHMno9m89q9F3me/PUmEJV
-         a0QNQNbx60md3BdyxPh0rkPtwnmav2xz/ZvILZKZrLYVazeLxoaODOIurVQy06Ag5B7D
-         E+KrqVClH1lCMH2ONuhGsz51yz+qy0hUF12qdtekadgbtxlfxbO7v+K691suTRGza9od
-         8OGD3TzUFi2x6wu2WdxVxRnYRmkoI7fTLRaKjv7g/kbwGeMoDqwYNn3jpaBB8zIchSBO
-         9JbPR9IiGwyR79hoTkJmrCCxLmEAIQBgx2OH6y0qprsQf9atF+vMMjTsvvoHwXzXonBD
-         KUvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764077579; x=1764682379;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vZ8TwQlg6Y5fZZwS5KDal2CdCamjB1K+UNXBBcg3Rco=;
-        b=xT7B7ebZmrEYpOK6CayeHuA1n9nC7x4SAAiokeHcMgXE5wslPGzBFlQufpe+G9fTQX
-         oa8vMUEo1lW48vH/HLrzrjooo6JuclCdfLwM3ZPFuTw3X0KGNSGsy/StsGIlInpRELZQ
-         e81GfCqDDOuURsyDG53VfPF/HSR7RSVLoe/UIXBlA9p7KqLHPUytUPeY1eMhJQ4q6YHq
-         Ts/baXhwtonZ0NcbagIz22wUw5BkLYXy8Eg9tnfGLx5NvavQPOLb9sbQjPSSXA7rHGcy
-         o/GLK2n1XGQJwClyCFDw0lSmsvGW8/o2q0pS92UNnUQGIj25mYyzErQbic276Fod53MP
-         XYAw==
-X-Forwarded-Encrypted: i=1; AJvYcCWfOzPZpWD9NR5RfKBty7FkCYk02bpXN5S7AxAcs1EIgyAln1ISI3NwDbMZ7Vdcj+khj7HSLsYRkCo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1ARx6XpH7JZxLNOCCR22lekHzd8KHCh/sIiWsv3Uix3Or1S7Q
-	5dP4LTPAysxMLNu1ldkxkIVBlyqvnPviqxXSlrySSlfMnsMSaHKLCdpb
-X-Gm-Gg: ASbGncvdCSoeoFlL/qg1d9FPxmrChVzBeqGc7fc1XNItlJtGbe8UL782EhRxJgDOljj
-	JuP6KIgwPKjceA+UIHwPZg6G6KkXt8E6oRnCixL0tYGohzO/QB09h8NqstyzR8YTjZydJ4Dsju8
-	Rbdtn9FUPFcF8R3d5SCmynee6JlahhyjLNz3DG72rZDUM/WKDbjn00b9wdVSBJsSTVNeSpz/hc+
-	N9gmmdes5rhqPGV6dXln7o0w6Dp2OLDPb7SuKARxeqpmUN1Iw8Uj0AqxJCH2R/xh67pwFZg/Dw1
-	1xxZbdDnQvp2UoiD+T7TCiyAYkfG6/4NPYcfUmjyBmv4XDa7QNia2hPXq6S9GGtql5LBXpdkOUw
-	860QBGNo2VaY5x7KK/MdjOxcMr/gWZ4+191MVjFiCtGpO/kBO69LwVOXg08N0fBV5iEynVutiMX
-	QK+IsflL92
-X-Google-Smtp-Source: AGHT+IGXR44l9YhEkTAV/tXptPvUsAeyj8n4KxA+qB/DgxfpuEhRvUm9603/BVTN30Wte9JOmQR6xQ==
-X-Received: by 2002:a17:903:40cf:b0:295:2c8e:8e56 with SMTP id d9443c01a7336-29bab19b205mr27432545ad.44.1764077578706;
-        Tue, 25 Nov 2025 05:32:58 -0800 (PST)
-Received: from aheev.home ([2401:4900:8fce:eb65:99e9:53c:32e6:4996])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b12f988sm165605945ad.27.2025.11.25.05.32.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 05:32:58 -0800 (PST)
-From: Ally Heev <allyheev@gmail.com>
-Date: Tue, 25 Nov 2025 19:02:45 +0530
-Subject: [PATCH RESEND v6] checkpatch: add uninitialized pointer with
- __free attribute check
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cctn4wiv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 068CDC4CEF1;
+	Tue, 25 Nov 2025 13:48:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764078521;
+	bh=qMRrDoHOcsks99zvgZZqkBP5LxJkyWPAJLlzUR7nP+k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cctn4wivDT5Fe+bxp//YG1wlwcVs966fkjZwcPMXNxK/5ZjPwsTEyI4BoPcZqOiZK
+	 gMSh46t7U92KDynXPlMA6pOWwJov8mWbLqe64FHlhJAlTog5ziqqLoL6aqJmVG0qcq
+	 dzwTI98Hyp1iPzMpymNgQL9PTKEMPZa3GnIB7rtILd6g3EhUUEZ6TVqZaEf10uDrUB
+	 JYn9dP+cG7rFpX04bYPrllH3SNxFgT8KSt2AL+yuQ2JuuGmtCbnL+/x3slNuMLW974
+	 IV2GMTZiturUAthSN4RNTG0e+wDzyCvGscdMnOp0GXs7eQaWUrKDbW401djnwzI0hK
+	 lsM/gY5UZTqmQ==
+Date: Tue, 25 Nov 2025 13:48:36 +0000
+From: Lee Jones <lee@kernel.org>
+To: Nam Tran <trannamatk@gmail.com>
+Cc: pavel@kernel.org, gregkh@linuxfoundation.org, rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v18 2/3] leds: add basic support for TI/National
+ Semiconductor LP5812 LED Driver
+Message-ID: <20251125134836.GC1127788@google.com>
+References: <20251123191042.116917-1-trannamatk@gmail.com>
+ <20251123191042.116917-3-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251125-aheev-checkpatch-uninitialized-free-v6-1-70e8bb1e9175@gmail.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
- Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>, 
- David Hunter <david.hunter.linux@gmail.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>, 
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
- linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, 
- Geert Uytterhoeven <geert@linux-m68k.org>, 
- James Bottomley <James.Bottomley@hansenpartnership.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Ally Heev <allyheev@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4311; i=allyheev@gmail.com;
- h=from:subject:message-id; bh=MnDKOoBSC1TVC+0JyofFcG76+xlRkRQjLfiBE/kEcr0=;
- b=owGbwMvMwCU2zXbRFfvr1TKMp9WSGDJVNzC/EhJqW/4hXPWR7EmnKvU1ehMZDjC1qm2f6sNhM
- uVsYvXdjlIWBjEuBlkxRRZGUSk/vU1SE+IOJ32DmcPKBDKEgYtTACaiLcnw3+XEop7ZB7fv8/rl
- NOPWOkWftx5iMl0HdwTsZeNf0uKqvI/hv+Nlp/sh/8+dLDx269Naweyjpx4GV23NXp1p5pFpelF
- nDQsA
-X-Developer-Key: i=allyheev@gmail.com; a=openpgp;
- fpr=01151A4E2EB21A905EC362F6963DA2D43FD77B1C
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251123191042.116917-3-trannamatk@gmail.com>
 
-uninitialized pointers with __free attribute can cause undefined
-behavior as the memory randomly assigned to the pointer is freed
-automatically when the pointer goes out of scope.
-add check in checkpatch to detect such issues.
+On Mon, 24 Nov 2025, Nam Tran wrote:
 
-Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
-Link: https://lore.kernel.org/all/58fd478f408a34b578ee8d949c5c4b4da4d4f41d.camel@HansenPartnership.com/
-Acked-by: Dan Williams <dan.j.williams@intel.com>
-Signed-off-by: Ally Heev <allyheev@gmail.com>
----
-Testing:
-ran checkpatch.pl before and after the change on
-crypto/asymmetric_keys/x509_public_key.c, which has
-both initialized with NULL and uninitialized pointers
----
-Changes in v6:
-- added declaration at the place of use suggestion
-- Link to v5: https://lore.kernel.org/r/20251124-aheev-checkpatch-uninitialized-free-v5-1-0c523b1a3f5a@gmail.com
+> The LP5812 is a 4x3 matrix RGB LED driver with an autonomous animation
+> engine and time-cross-multiplexing (TCM) support for up to 12 LEDs or
+> 4 RGB LEDs. Each LED can be configured through the related registers
+> to realize vivid and fancy lighting effects.
+> 
+> This patch adds minimal driver support for the LP5812, implementing
+> only the essential functionality: I2C communication with the device,
+> LED registration, brightness control in manual mode, and basic sysfs
+> interfaces for LED configuration and fault monitoring.
+> 
+> This patch adds minimal driver support for the LP5812, implementing
+> only the essential functionality: I2C communication with the device,
+> LED registration, brightness control in manual mode, and basic sysfs
+> interfaces for LED configuration and fault monitoring.
+> 
+> Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> ---
+>  MAINTAINERS                    |   4 +
+>  drivers/leds/rgb/Kconfig       |  13 +
+>  drivers/leds/rgb/Makefile      |   1 +
+>  drivers/leds/rgb/leds-lp5812.c | 646 +++++++++++++++++++++++++++++++++
+>  drivers/leds/rgb/leds-lp5812.h | 172 +++++++++
+>  5 files changed, 836 insertions(+)
+>  create mode 100644 drivers/leds/rgb/leds-lp5812.c
+>  create mode 100644 drivers/leds/rgb/leds-lp5812.h
 
-Changes in v5:
-- fixed checkpatch doc
-- Link to v4: https://lore.kernel.org/r/20251107-aheev-checkpatch-uninitialized-free-v4-1-4822a6ac728f@gmail.com
+[...]
 
-Changes in v4:
-- fixed UNINITIALIZED_PTR_WITH_FREE description
-- Link to v3: https://lore.kernel.org/r/20251025-aheev-checkpatch-uninitialized-free-v3-1-a67f72b1c2bd@gmail.com
+> +static ssize_t parse_drive_mode(struct lp5812_chip *chip, const char *str)
+> +{
+> +	int i;
+> +
+> +	chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = false;
+> +	chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = false;
+> +	chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = false;
+> +	chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = false;
+> +
+> +	if (sysfs_streq(str, LP5812_MODE_DIRECT_NAME)) {
+> +		chip->u_drive_mode.s_drive_mode.led_mode = LP5812_MODE_DIRECT_VALUE;
+> +		return 0;
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(chip_mode_map); i++) {
+> +		if (!sysfs_streq(str, chip_mode_map[i].mode_name))
+> +			continue;
+> +
+> +		chip->u_drive_mode.s_drive_mode.led_mode = chip_mode_map[i].mode;
+> +		chip->u_scan_order.s_scan_order.scan_order_0 = chip_mode_map[i].scan_order_0;
+> +		chip->u_scan_order.s_scan_order.scan_order_1 = chip_mode_map[i].scan_order_1;
+> +		chip->u_scan_order.s_scan_order.scan_order_2 = chip_mode_map[i].scan_order_2;
+> +		chip->u_scan_order.s_scan_order.scan_order_3 = chip_mode_map[i].scan_order_3;
 
-Changes in v3:
-- remove $FreeAttribute
-- Link to v2: https://lore.kernel.org/r/20251024-aheev-checkpatch-uninitialized-free-v2-0-16c0900e8130@gmail.com
+Where are all of these used?
 
-Changes in v2:
-- change cover letter and title to reflect new changes
-- fix regex to handle multiple declarations in a single line case
-- convert WARN to ERROR for uninitialized pointers
-- add a new WARN for pointers initialized with NULL
-- NOTE: tried handling multiple declarations on a single line by splitting
-        them and matching the parts with regex, but, it turned out to be
-	complex and overkill. Moreover, multi-line declarations pose a threat
-- Link to v1: https://lore.kernel.org/r/20251021-aheev-checkpatch-uninitialized-free-v1-1-18fb01bc6a7a@gmail.com
----
- Documentation/dev-tools/checkpatch.rst | 23 +++++++++++++++++++++++
- scripts/checkpatch.pl                  |  6 ++++++
- 2 files changed, 29 insertions(+)
+> +
+> +		switch (chip_mode_map[i].selection_led) {
+> +		case LP5812_MODE_MIX_SELECT_LED_0:
+> +			chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = true;
+> +			break;
+> +		case LP5812_MODE_MIX_SELECT_LED_1:
+> +			chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = true;
+> +			break;
+> +		case LP5812_MODE_MIX_SELECT_LED_2:
+> +			chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = true;
+> +			break;
+> +		case LP5812_MODE_MIX_SELECT_LED_3:
+> +			chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = true;
+> +			break;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +
+> +		return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index d5c47e560324fb2399a5b1bc99c891ed1de10535..b6e02fb91e85710fecfc0a5e5c83a8e7f32d1d3c 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -1009,6 +1009,29 @@ Functions and Variables
- 
-       return bar;
- 
-+  **UNINITIALIZED_PTR_WITH_FREE**
-+    Pointers with __free attribute should be declared at the place of use
-+    and initialized (see include/linux/cleanup.h). In this case
-+    declarations at the top of the function rule can be relaxed. Not doing
-+    so may lead to undefined behavior as the memory assigned (garbage,
-+    in case not initialized) to the pointer is freed automatically when
-+    the pointer goes out of scope.
-+
-+    Also see: https://lore.kernel.org/lkml/58fd478f408a34b578ee8d949c5c4b4da4d4f41d.camel@HansenPartnership.com/
-+
-+    Example::
-+
-+      type var __free(free_func);
-+      ... // var not used, but, in future someone might add a return here
-+      var = malloc(var_size);
-+      ...
-+
-+    should be initialized as::
-+
-+      ...
-+      type var __free(free_func) = malloc(var_size);
-+      ...
-+
- 
- Permissions
- -----------
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 92669904eecc7a8d2afd3f2625528e02b6d17cd6..e697d81d71c0b3628f7b59807e8bc40d582621bb 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -7721,6 +7721,12 @@ sub process {
- 				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$here\n$stat\n");
- 			}
- 		}
-+
-+# check for uninitialized pointers with __free attribute
-+		while ($line =~ /\*\s*($Ident)\s+__free\s*\(\s*$Ident\s*\)\s*[,;]/g) {
-+			ERROR("UNINITIALIZED_PTR_WITH_FREE",
-+			      "pointer '$1' with __free attribute should be initialized\n" . $herecurr);
-+		}
- 	}
- 
- 	# If we have no input at all, then there is nothing to report on
+[...]
 
----
-base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
-change-id: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
+> +union u_scan_order {
 
-Best regards,
+What is 'u'?
+
+> +	struct {
+> +		u8 scan_order_0:2;
+> +		u8 scan_order_1:2;
+> +		u8 scan_order_2:2;
+> +		u8 scan_order_3:2;
+> +	} s_scan_order;
+> +	u8 scan_order_val;
+> +};
+
+[...]
+
 -- 
-Ally Heev <allyheev@gmail.com>
-
+Lee Jones [李琼斯]
