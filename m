@@ -1,65 +1,65 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FB9330D3B
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 16:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5738C331225
+	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 16:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764089978; cv=none; b=kK+Td20Id0air5m+sZAJHe0WuLWYeRuA/pSMT/vxN37DidJoipkczy6u54Fl3O1JsywcCnjfAl386SOgcZkDowRtGXrJ/lgIrf+c1SIwaKW9NhJWG5QuUh9aTKCshJiX97Sr5l7xj0F+urbM4ReKUu6U/qwewnadfmcdmGt5D2U=
+	t=1764089980; cv=none; b=kDU21Wn3jp1p04A7nznLXMJIH/VRu1kQ4rUCPvsolJnvFsBKVOtrN+OxnUuEk0jnc+3hf2sO/nO1tmk74eiJTqxDubB3U2utb0JwOul5pOQJSTC+hb9zBc2cKcZPiQ3zrr0FY+6v/CvDVuc68uSW74bcb4T20f7Q4F73aPlXNAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764089978; c=relaxed/simple;
-	bh=FoZhYQ5anN9QvxDg+LqoX1tvpbpX6PKiEw9R3dzkS2M=;
+	s=arc-20240116; t=1764089980; c=relaxed/simple;
+	bh=fychgt9nAVC6qlaQbGXvu+POyBVW9WjNWP+jjeOAE6s=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W+e/2McFx3PxvweXwsQwbGLEvhd49S9U3Py4PgZEMKww7fsea0KHcr0cTfNnIa+prxOT+efLYuk/8fzpbg48xW45dqKxBMJN6S56xRS9OkrHS/IY7CaU8SUIb3QB9XSXUoaBdMqPIFUshhMgWA2CrQlp9dcyaB69FpDy93XxXCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=dV7ukRyG; arc=none smtp.client-ip=209.85.128.174
+	 MIME-Version; b=nwcrPPZKc3FdTNMUMF6hcUhPyXsbn2FFlWCgrJDozyzHx640kdrAaw0R/hWe65j8Vj6KF9ON2BsghNoQgIv6TVXZjC41UoQMbpo4MxvXOWENJsk3yo9+cDlC+bx3fHafKOyFWO7mps2ID2UWoO1W0kb8WIoW6NZ6iBrv2Xu9U/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=QFRoAdF3; arc=none smtp.client-ip=74.125.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="dV7ukRyG"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7895017c722so54442147b3.2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 08:59:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="QFRoAdF3"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-63f996d4e1aso6067489d50.0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 08:59:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764089975; x=1764694775; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1764089976; x=1764694776; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hoq1KHM//ceWZHYzHvP2GAeyKGu/ekSRGep2L5s8MQE=;
-        b=dV7ukRyG9SEBA9SKShE7DOH28K/puCDhSU4kH3DXKQwmCsxYqj5z8/4vI5U2MeSqB3
-         bSSAk8E1kvWuaBLmzEqt6rq29NiAPUi+f+UDHzEoJkc9TYwYKOKs0Qk6/WyRyH/DuPzw
-         g+5cZ529skDMd9aFdJQwDUwJqrEu0Ulrk1PyyhcsQDRkWp4fzIiKuTZrYjkb9u0eppXM
-         cc/maoQlRX1qTDXfL4k24Dm+BZ45CtiHhj4t0+glXygorgLcnA8Oa73YOn1DqXdx6vXc
-         PUac4RQoQmqsylQhtm2FRPCDrEcKS1s3TFDy01lW4STE1SdoprVogdlKtKO4860fp3dF
-         QtIQ==
+        bh=RKFulOeeZC8khoIo0yKZZlpL1Ef0ob1cKcWS/buX2aU=;
+        b=QFRoAdF3IFRPlbySoUDhL6X3A/qQ0oyijI7bkI/Dl/z7Cbhvia/AZ4zE3Ex6J6h6ro
+         h3zKdjHMyfYexWkM1dHg690qtCGlpYwPNC1XkdQldRKhR5Nr29oZdxj5GD8r31Wa8iq5
+         sTpZxldZSHHzGNHhNXiK1NVfWY09tPyCd6wDnRcmZQLPExPEf3JuTic5bOKQtsGFHYvA
+         41SM3gDNZNKe8HgcqpGm8tkE9f1zzaVtWJPKE6QuHcye1wwgNNUV4sJDj8udaJl0Tpnm
+         crXunP2f0rHlCq7vRIt8v3iS84L+37VEukQp5xyqK53ptQEBGgXb3vzpWK89maOJKs/A
+         cbtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764089975; x=1764694775;
+        d=1e100.net; s=20230601; t=1764089976; x=1764694776;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=hoq1KHM//ceWZHYzHvP2GAeyKGu/ekSRGep2L5s8MQE=;
-        b=VOSnEoc/Imyio7fMS20Vaisy6SyaxeaF13dfGTtVN2HkHdhkSNcUHN6tYwZbsuxK2T
-         siy4WDDkSx3SCMZ/YkpSOBdTEU9GPUQLGi/kIfWdReIOdlixTCuaMF9n+dYd3VETggY/
-         ipZveJ0tsYYE+gSPs0WtocsQeUm5LFKtEsSVhqbYXTKh80dIPNcMRfGS0wmG4B8LHFyH
-         MPdpytyXpvRLTK8CaBEC7rSvyz3DyEqntBMqE0tBwKSrET327GsuiDjdJuJIqCzSmRmp
-         9oAh5XgkfBezsiYBbq5Y/XBoKhOVq0az+Xog9C56CU5W4LQcg0DptVZGTA/8bb7mmKqW
-         nGIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVeV9WX8KqGIjuA2FWIEtoFvEjktCbhISHWnc8q0eceTqn0sgwAD8er/Roz3rr1N8MsL8YKf3TeigM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvPmNvUDxD7td9U1RLw4ZXZH45pqozd3DSFukvatYjvdT5csqd
-	yyqqeQhVR9gGrBt/khX8IAFVJfXhQuiLBU28UDZqcJUDyj0s2L6eLPcsecw8hywHNHo=
-X-Gm-Gg: ASbGnct7IguvXkd/3wlGGU0rOB4gJvX87hX6/CuzNoTAYs3hfiL9w84rHaFWDhXwf24
-	nF0Xcveodb6YPYu4smkqpCuObF3LlzMF7wTldMGgAsRyuGspOJEyBnP+8lnpyzWKwUyYZF55wiG
-	e0eUvXrNPWr24TSc2kL4/Mx7k5KrPmFiYE4fZ7i/gF0548gJ8PZRSGdGbUiUyCdLU+FibMB0j1p
-	8q01qZxTHIEiwzIMsAcRRVicfMUnmouHiVVv0f+w6FRADQd2NVSj73z1uOPGQbQfVkzQEeEpCCH
-	UuBpKE52bSmKqBkvDZCim4cs46JLXXNVJm9G5YCvGmy9HtwKXbwSpBJV8JAyvPJc6jqchLcMNCd
-	9eawgi8LABJ0BpdBhnxhm1fpFL6eVLOh+rbReAkQ4hCN8mRzzzA5WKmWXiHLhChu3hQOO5fCm90
-	d/gmCr4vQC14/AIgTmHkMJG8Jc4NOgU9XK6VXSdwUIbYQZ5YKsbOtq/KAnhMeYGAOPeaR0a8cVF
-	Uf9c84=
-X-Google-Smtp-Source: AGHT+IGhyqko2XNGAQ+MbliOV7Q7lZRrugm5nEIedcDe3Hixtd5DaNp0Tw4exj+v0JxhFqTVbLupfA==
-X-Received: by 2002:a05:690c:45c5:b0:786:45ce:9bd3 with SMTP id 00721157ae682-78ab6f345bamr29492047b3.34.1764089974430;
-        Tue, 25 Nov 2025 08:59:34 -0800 (PST)
+        bh=RKFulOeeZC8khoIo0yKZZlpL1Ef0ob1cKcWS/buX2aU=;
+        b=R8eszf54fowHjtp2P238SGPMaVoNBUT3/9Zn6lfyIOlsIe3OLOAzMki/BRmSQtdCi6
+         YY91LDDP6VBTqmToUG4hCO9yho63/JNKGvo6c7swi817dHWKpvAhafETl93MsIBdkoZY
+         QspkcWqXeZHuDoY2K7V6bh2eXCbilRwNj1bFupoET2QFcc2XqBj0eRUbzNEDchPlgKqS
+         /4YVWv5EmDepuZYLRvXPtIClQu97wJJmpRj8DdadzoA/djI0xe+tBruBJIy1AD/lunkj
+         MY5jT6YufaQYeu9nM4SlguzMFzfEwX98lBYeVAnGhK15dmYEn5Rmzu3JjRlfSpjdMiUM
+         IoOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV4lehxUwT85D5fywM7Snk8zC9VR/3WZDq3kg1bL79BXdh9z61bXwrdnhrJAbyXUAomu0JJCq1H7Lc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9D9JxF/06sAFTTar4TcbhqYhy+saMqVVAWlAkiTiWZeiSlGxs
+	Pk93kcPfNgnlCtS0eC3zJvk5jewlirHf6KsMcJkhh51LGArRMSilgZfmyIfv4szLeDw=
+X-Gm-Gg: ASbGnctEa9AUd/YQ6XdBMc92VGZ2PAupo63LS9ct+hor0EiXOtMFaZCv9SPEcwsGEHA
+	0wEa/wKYIOisDSsSYIljIBJO74MKJIhmS6x0xPaCnlCm44QvjoC+WXqzxrd0fa872PMoB7Sq3Rq
+	W9J/FN5Bf5C0W3Wpf2vOsJ5quWWBLkEXnQh4jrMpJgXF2lZ85AvRtDFO0QjpS13Qy0GY0Ptdxy/
+	hVeGY4Q5lxiFb2I/rAFl4AXRnlCWjq+4gZT99hXkZLYBDuwbrfxfWy4S7odCL2uXGkzAndsMUPc
+	DRB+I2uZ+H7+m3PtQ88ZW4mp4znuIsMvhOJ/wMl3evhPTrFbVp4DjPwgUNS/SN5h7gPEhuwV/5P
+	Bf16aXVQ7YQJkuIi69J1I8S1Ea3UNBe5fd0nM8xq857NCnZj0GOTB2YL493caHeIKcVLrgD2N9L
+	o1Lsn4SEGphXKrGAkatU9IEd3k7jGPw5C1CBxBe+V96QydFY3VTVoxMGR/SjvkHZN8DTd3HDokH
+	rs=
+X-Google-Smtp-Source: AGHT+IFFyrvPeYSGKaZ2gflHxpJKasjuM+nfTPdri6fpn7nF6c9WwHVJYxBbdaTgAkmoqf3bueMENQ==
+X-Received: by 2002:a53:d057:0:10b0:63f:a3d8:1b0e with SMTP id 956f58d0204a3-64302a3aa73mr10362858d50.12.1764089976255;
+        Tue, 25 Nov 2025 08:59:36 -0800 (PST)
 Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a798a5518sm57284357b3.14.2025.11.25.08.59.32
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a798a5518sm57284357b3.14.2025.11.25.08.59.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 08:59:33 -0800 (PST)
+        Tue, 25 Nov 2025 08:59:35 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -134,9 +134,9 @@ To: pratyush@kernel.org,
 	hughd@google.com,
 	skhawaja@google.com,
 	chrisl@kernel.org
-Subject: [PATCH v8 14/18] mm: memfd_luo: allow preserving memfd
-Date: Tue, 25 Nov 2025 11:58:44 -0500
-Message-ID: <20251125165850.3389713-15-pasha.tatashin@soleen.com>
+Subject: [PATCH v8 15/18] docs: add documentation for memfd preservation via LUO
+Date: Tue, 25 Nov 2025 11:58:45 -0500
+Message-ID: <20251125165850.3389713-16-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.52.0.460.gd25c4c69ec-goog
 In-Reply-To: <20251125165850.3389713-1-pasha.tatashin@soleen.com>
 References: <20251125165850.3389713-1-pasha.tatashin@soleen.com>
@@ -150,684 +150,92 @@ Content-Transfer-Encoding: 8bit
 
 From: Pratyush Yadav <ptyadav@amazon.de>
 
-The ability to preserve a memfd allows userspace to use KHO and LUO to
-transfer its memory contents to the next kernel. This is useful in many
-ways. For one, it can be used with IOMMUFD as the backing store for
-IOMMU page tables. Preserving IOMMUFD is essential for performing a
-hypervisor live update with passthrough devices. memfd support provides
-the first building block for making that possible.
-
-For another, applications with a large amount of memory that takes time
-to reconstruct, reboots to consume kernel upgrades can be very
-expensive. memfd with LUO gives those applications reboot-persistent
-memory that they can use to quickly save and reconstruct that state.
-
-While memfd is backed by either hugetlbfs or shmem, currently only
-support on shmem is added. To be more precise, support for anonymous
-shmem files is added.
-
-The handover to the next kernel is not transparent. All the properties
-of the file are not preserved; only its memory contents, position, and
-size. The recreated file gets the UID and GID of the task doing the
-restore, and the task's cgroup gets charged with the memory.
-
-Once preserved, the file cannot grow or shrink, and all its pages are
-pinned to avoid migrations and swapping. The file can still be read from
-or written to.
-
-Use vmalloc to get the buffer to hold the folios, and preserve
-it using kho_preserve_vmalloc(). This doesn't have the size limit.
+Add the documentation under the "Preserving file descriptors" section of
+LUO's documentation.
 
 Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
 Co-developed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 ---
- MAINTAINERS                   |   2 +
- include/linux/kho/abi/memfd.h |  77 +++++
- mm/Makefile                   |   1 +
- mm/memfd_luo.c                | 516 ++++++++++++++++++++++++++++++++++
- 4 files changed, 596 insertions(+)
- create mode 100644 include/linux/kho/abi/memfd.h
- create mode 100644 mm/memfd_luo.c
+ Documentation/core-api/liveupdate.rst   |  7 +++++++
+ Documentation/mm/index.rst              |  1 +
+ Documentation/mm/memfd_preservation.rst | 23 +++++++++++++++++++++++
+ MAINTAINERS                             |  1 +
+ 4 files changed, 32 insertions(+)
+ create mode 100644 Documentation/mm/memfd_preservation.rst
 
+diff --git a/Documentation/core-api/liveupdate.rst b/Documentation/core-api/liveupdate.rst
+index cca1993008d8..7960eb15a81f 100644
+--- a/Documentation/core-api/liveupdate.rst
++++ b/Documentation/core-api/liveupdate.rst
+@@ -23,6 +23,13 @@ Live Update Orchestrator ABI
+ .. kernel-doc:: include/linux/kho/abi/luo.h
+    :doc: Live Update Orchestrator ABI
+ 
++The following types of file descriptors can be preserved
++
++.. toctree::
++   :maxdepth: 1
++
++   ../mm/memfd_preservation
++
+ Public API
+ ==========
+ .. kernel-doc:: include/linux/liveupdate.h
+diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+index ba6a8872849b..7aa2a8886908 100644
+--- a/Documentation/mm/index.rst
++++ b/Documentation/mm/index.rst
+@@ -48,6 +48,7 @@ documentation, or deleted if it has served its purpose.
+    hugetlbfs_reserv
+    ksm
+    memory-model
++   memfd_preservation
+    mmu_notifier
+    multigen_lru
+    numa
+diff --git a/Documentation/mm/memfd_preservation.rst b/Documentation/mm/memfd_preservation.rst
+new file mode 100644
+index 000000000000..66e0fb6d5ef0
+--- /dev/null
++++ b/Documentation/mm/memfd_preservation.rst
+@@ -0,0 +1,23 @@
++.. SPDX-License-Identifier: GPL-2.0-or-later
++
++==========================
++Memfd Preservation via LUO
++==========================
++
++.. kernel-doc:: mm/memfd_luo.c
++   :doc: Memfd Preservation via LUO
++
++Memfd Preservation ABI
++======================
++
++.. kernel-doc:: include/linux/kho/abi/memfd.h
++   :doc: DOC: memfd Live Update ABI
++
++.. kernel-doc:: include/linux/kho/abi/memfd.h
++   :internal:
++
++See Also
++========
++
++- :doc:`/core-api/liveupdate`
++- :doc:`/core-api/kho/concepts`
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 868d3d23fdea..425c46bba764 100644
+index 425c46bba764..cabbf30d50e1 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -14469,6 +14469,7 @@ F:	tools/testing/selftests/livepatch/
- LIVE UPDATE
- M:	Pasha Tatashin <pasha.tatashin@soleen.com>
- M:	Mike Rapoport <rppt@kernel.org>
-+R:	Pratyush Yadav <pratyush@kernel.org>
+@@ -14473,6 +14473,7 @@ R:	Pratyush Yadav <pratyush@kernel.org>
  L:	linux-kernel@vger.kernel.org
  S:	Maintained
  F:	Documentation/core-api/liveupdate.rst
-@@ -14477,6 +14478,7 @@ F:	include/linux/liveupdate.h
++F:	Documentation/mm/memfd_preservation.rst
+ F:	Documentation/userspace-api/liveupdate.rst
+ F:	include/linux/liveupdate.h
  F:	include/linux/liveupdate/
- F:	include/uapi/linux/liveupdate.h
- F:	kernel/liveupdate/
-+F:	mm/memfd_luo.c
- 
- LLC (802.2)
- L:	netdev@vger.kernel.org
-diff --git a/include/linux/kho/abi/memfd.h b/include/linux/kho/abi/memfd.h
-new file mode 100644
-index 000000000000..da7d063474a1
---- /dev/null
-+++ b/include/linux/kho/abi/memfd.h
-@@ -0,0 +1,77 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Copyright (c) 2025, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ *
-+ * Copyright (C) 2025 Amazon.com Inc. or its affiliates.
-+ * Pratyush Yadav <ptyadav@amazon.de>
-+ */
-+
-+#ifndef _LINUX_KHO_ABI_MEMFD_H
-+#define _LINUX_KHO_ABI_MEMFD_H
-+
-+#include <linux/types.h>
-+#include <linux/kexec_handover.h>
-+
-+/**
-+ * DOC: memfd Live Update ABI
-+ *
-+ * This header defines the ABI for preserving the state of a memfd across a
-+ * kexec reboot using the LUO.
-+ *
-+ * The state is serialized into a packed structure `struct memfd_luo_ser`
-+ * which is handed over to the next kernel via the KHO mechanism.
-+ *
-+ * This interface is a contract. Any modification to the structure layout
-+ * constitutes a breaking change. Such changes require incrementing the
-+ * version number in the MEMFD_LUO_FH_COMPATIBLE string.
-+ */
-+
-+/**
-+ * MEMFD_LUO_FOLIO_DIRTY - The folio is dirty.
-+ *
-+ * This flag indicates the folio contains data from user. A non-dirty folio is
-+ * one that was allocated (say using fallocate(2)) but not written to.
-+ */
-+#define MEMFD_LUO_FOLIO_DIRTY		BIT(0)
-+
-+/**
-+ * MEMFD_LUO_FOLIO_UPTODATE - The folio is up-to-date.
-+ *
-+ * An up-to-date folio has been zeroed out. shmem zeroes out folios on first
-+ * use. This flag tracks which folios need zeroing.
-+ */
-+#define MEMFD_LUO_FOLIO_UPTODATE	BIT(1)
-+
-+/**
-+ * struct memfd_luo_folio_ser - Serialized state of a single folio.
-+ * @pfn:       The page frame number of the folio.
-+ * @flags:     Flags to describe the state of the folio.
-+ * @index:     The page offset (pgoff_t) of the folio within the original file.
-+ */
-+struct memfd_luo_folio_ser {
-+	u64 pfn:52;
-+	u64 flags:12;
-+	u64 index;
-+} __packed;
-+
-+/**
-+ * struct memfd_luo_ser - Main serialization structure for a memfd.
-+ * @pos:       The file's current position (f_pos).
-+ * @size:      The total size of the file in bytes (i_size).
-+ * @nr_folios: Number of folios in the folios array.
-+ * @folios:    KHO vmalloc descriptor pointing to the array of
-+ *             struct memfd_luo_folio_ser.
-+ */
-+struct memfd_luo_ser {
-+	u64 pos;
-+	u64 size;
-+	u64 nr_folios;
-+	struct kho_vmalloc folios;
-+} __packed;
-+
-+/* The compatibility string for memfd file handler */
-+#define MEMFD_LUO_FH_COMPATIBLE	"memfd-v1"
-+
-+#endif /* _LINUX_KHO_ABI_MEMFD_H */
-diff --git a/mm/Makefile b/mm/Makefile
-index 21abb3353550..7738ec416f00 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -100,6 +100,7 @@ obj-$(CONFIG_NUMA) += memory-tiers.o
- obj-$(CONFIG_DEVICE_MIGRATION) += migrate_device.o
- obj-$(CONFIG_TRANSPARENT_HUGEPAGE) += huge_memory.o khugepaged.o
- obj-$(CONFIG_PAGE_COUNTER) += page_counter.o
-+obj-$(CONFIG_LIVEUPDATE) += memfd_luo.o
- obj-$(CONFIG_MEMCG_V1) += memcontrol-v1.o
- obj-$(CONFIG_MEMCG) += memcontrol.o vmpressure.o
- ifdef CONFIG_SWAP
-diff --git a/mm/memfd_luo.c b/mm/memfd_luo.c
-new file mode 100644
-index 000000000000..4f6ba63b4310
---- /dev/null
-+++ b/mm/memfd_luo.c
-@@ -0,0 +1,516 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Copyright (c) 2025, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ *
-+ * Copyright (C) 2025 Amazon.com Inc. or its affiliates.
-+ * Pratyush Yadav <ptyadav@amazon.de>
-+ */
-+
-+/**
-+ * DOC: Memfd Preservation via LUO
-+ *
-+ * Overview
-+ * ========
-+ *
-+ * Memory file descriptors (memfd) can be preserved over a kexec using the Live
-+ * Update Orchestrator (LUO) file preservation. This allows userspace to
-+ * transfer its memory contents to the next kernel after a kexec.
-+ *
-+ * The preservation is not intended to be transparent. Only select properties of
-+ * the file are preserved. All others are reset to default. The preserved
-+ * properties are described below.
-+ *
-+ * .. note::
-+ *    The LUO API is not stabilized yet, so the preserved properties of a memfd
-+ *    are also not stable and are subject to backwards incompatible changes.
-+ *
-+ * .. note::
-+ *    Currently a memfd backed by Hugetlb is not supported. Memfds created
-+ *    with ``MFD_HUGETLB`` will be rejected.
-+ *
-+ * Preserved Properties
-+ * ====================
-+ *
-+ * The following properties of the memfd are preserved across kexec:
-+ *
-+ * File Contents
-+ *   All data stored in the file is preserved.
-+ *
-+ * File Size
-+ *   The size of the file is preserved. Holes in the file are filled by
-+ *   allocating pages for them during preservation.
-+ *
-+ * File Position
-+ *   The current file position is preserved, allowing applications to continue
-+ *   reading/writing from their last position.
-+ *
-+ * File Status Flags
-+ *   memfds are always opened with ``O_RDWR`` and ``O_LARGEFILE``. This property
-+ *   is maintained.
-+ *
-+ * Non-Preserved Properties
-+ * ========================
-+ *
-+ * All properties which are not preserved must be assumed to be reset to
-+ * default. This section describes some of those properties which may be more of
-+ * note.
-+ *
-+ * ``FD_CLOEXEC`` flag
-+ *   A memfd can be created with the ``MFD_CLOEXEC`` flag that sets the
-+ *   ``FD_CLOEXEC`` on the file. This flag is not preserved and must be set
-+ *   again after restore via ``fcntl()``.
-+ *
-+ * Seals
-+ *   File seals are not preserved. The file is unsealed on restore and if
-+ *   needed, must be sealed again via ``fcntl()``.
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/bits.h>
-+#include <linux/err.h>
-+#include <linux/file.h>
-+#include <linux/io.h>
-+#include <linux/kexec_handover.h>
-+#include <linux/kho/abi/memfd.h>
-+#include <linux/liveupdate.h>
-+#include <linux/shmem_fs.h>
-+#include <linux/vmalloc.h>
-+#include "internal.h"
-+
-+static int memfd_luo_preserve_folios(struct file *file,
-+				     struct kho_vmalloc *kho_vmalloc,
-+				     struct memfd_luo_folio_ser **out_folios_ser,
-+				     u64 *nr_foliosp)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct memfd_luo_folio_ser *folios_ser;
-+	unsigned int max_folios;
-+	long i, size, nr_pinned;
-+	struct folio **folios;
-+	int err = -EINVAL;
-+	pgoff_t offset;
-+	u64 nr_folios;
-+
-+	size = i_size_read(inode);
-+	/*
-+	 * If the file has zero size, then the folios and nr_folios properties
-+	 * are not set.
-+	 */
-+	if (!size) {
-+		*nr_foliosp = 0;
-+		*out_folios_ser = NULL;
-+		memset(kho_vmalloc, 0, sizeof(*kho_vmalloc));
-+		return 0;
-+	}
-+
-+	/*
-+	 * Guess the number of folios based on inode size. Real number might end
-+	 * up being smaller if there are higher order folios.
-+	 */
-+	max_folios = PAGE_ALIGN(size) / PAGE_SIZE;
-+	folios = kvmalloc_array(max_folios, sizeof(*folios), GFP_KERNEL);
-+	if (!folios)
-+		return -ENOMEM;
-+
-+	/*
-+	 * Pin the folios so they don't move around behind our back. This also
-+	 * ensures none of the folios are in CMA -- which ensures they don't
-+	 * fall in KHO scratch memory. It also moves swapped out folios back to
-+	 * memory.
-+	 *
-+	 * A side effect of doing this is that it allocates a folio for all
-+	 * indices in the file. This might waste memory on sparse memfds. If
-+	 * that is really a problem in the future, we can have a
-+	 * memfd_pin_folios() variant that does not allocate a page on empty
-+	 * slots.
-+	 */
-+	nr_pinned = memfd_pin_folios(file, 0, size - 1, folios, max_folios,
-+				     &offset);
-+	if (nr_pinned < 0) {
-+		err = nr_pinned;
-+		pr_err("failed to pin folios: %d\n", err);
-+		goto err_free_folios;
-+	}
-+	nr_folios = nr_pinned;
-+
-+	folios_ser = vcalloc(nr_folios, sizeof(*folios_ser));
-+	if (!folios_ser) {
-+		err = -ENOMEM;
-+		goto err_unpin;
-+	}
-+
-+	for (i = 0; i < nr_folios; i++) {
-+		struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
-+		struct folio *folio = folios[i];
-+		unsigned int flags = 0;
-+
-+		err = kho_preserve_folio(folio);
-+		if (err)
-+			goto err_unpreserve;
-+
-+		if (folio_test_dirty(folio))
-+			flags |= MEMFD_LUO_FOLIO_DIRTY;
-+		if (folio_test_uptodate(folio))
-+			flags |= MEMFD_LUO_FOLIO_UPTODATE;
-+
-+		pfolio->pfn = folio_pfn(folio);
-+		pfolio->flags = flags;
-+		pfolio->index = folio->index;
-+	}
-+
-+	err = kho_preserve_vmalloc(folios_ser, kho_vmalloc);
-+	if (err)
-+		goto err_unpreserve;
-+
-+	kvfree(folios);
-+	*nr_foliosp = nr_folios;
-+	*out_folios_ser = folios_ser;
-+
-+	/*
-+	 * Note: folios_ser is purposely not freed here. It is preserved
-+	 * memory (via KHO). In the 'unpreserve' path, we use the vmap pointer
-+	 * that is passed via private_data.
-+	 */
-+	return 0;
-+
-+err_unpreserve:
-+	for (i = i - 1; i >= 0; i--)
-+		kho_unpreserve_folio(folios[i]);
-+	vfree(folios_ser);
-+err_unpin:
-+	unpin_folios(folios, nr_folios);
-+err_free_folios:
-+	kvfree(folios);
-+
-+	return err;
-+}
-+
-+static void memfd_luo_unpreserve_folios(struct kho_vmalloc *kho_vmalloc,
-+					struct memfd_luo_folio_ser *folios_ser,
-+					u64 nr_folios)
-+{
-+	long i;
-+
-+	if (!nr_folios)
-+		return;
-+
-+	kho_unpreserve_vmalloc(kho_vmalloc);
-+
-+	for (i = 0; i < nr_folios; i++) {
-+		const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
-+		struct folio *folio;
-+
-+		if (!pfolio->pfn)
-+			continue;
-+
-+		folio = pfn_folio(pfolio->pfn);
-+
-+		kho_unpreserve_folio(folio);
-+		unpin_folio(folio);
-+	}
-+
-+	vfree(folios_ser);
-+}
-+
-+static int memfd_luo_preserve(struct liveupdate_file_op_args *args)
-+{
-+	struct inode *inode = file_inode(args->file);
-+	struct memfd_luo_folio_ser *folios_ser;
-+	struct memfd_luo_ser *ser;
-+	u64 nr_folios;
-+	int err = 0;
-+
-+	inode_lock(inode);
-+	shmem_freeze(inode, true);
-+
-+	/* Allocate the main serialization structure in preserved memory */
-+	ser = kho_alloc_preserve(sizeof(*ser));
-+	if (IS_ERR(ser)) {
-+		err = PTR_ERR(ser);
-+		goto err_unlock;
-+	}
-+
-+	ser->pos = args->file->f_pos;
-+	ser->size = i_size_read(inode);
-+
-+	err = memfd_luo_preserve_folios(args->file, &ser->folios,
-+					&folios_ser, &nr_folios);
-+	if (err)
-+		goto err_free_ser;
-+
-+	ser->nr_folios = nr_folios;
-+	inode_unlock(inode);
-+
-+	args->private_data = folios_ser;
-+	args->serialized_data = virt_to_phys(ser);
-+
-+	return 0;
-+
-+err_free_ser:
-+	kho_unpreserve_free(ser);
-+err_unlock:
-+	shmem_freeze(inode, false);
-+	inode_unlock(inode);
-+	return err;
-+}
-+
-+static int memfd_luo_freeze(struct liveupdate_file_op_args *args)
-+{
-+	struct memfd_luo_ser *ser;
-+
-+	if (WARN_ON_ONCE(!args->serialized_data))
-+		return -EINVAL;
-+
-+	ser = phys_to_virt(args->serialized_data);
-+
-+	/*
-+	 * The pos might have changed since prepare. Everything else stays the
-+	 * same.
-+	 */
-+	ser->pos = args->file->f_pos;
-+
-+	return 0;
-+}
-+
-+static void memfd_luo_unpreserve(struct liveupdate_file_op_args *args)
-+{
-+	struct inode *inode = file_inode(args->file);
-+	struct memfd_luo_ser *ser;
-+
-+	if (WARN_ON_ONCE(!args->serialized_data))
-+		return;
-+
-+	inode_lock(inode);
-+	shmem_freeze(inode, false);
-+
-+	ser = phys_to_virt(args->serialized_data);
-+
-+	memfd_luo_unpreserve_folios(&ser->folios, args->private_data,
-+				    ser->nr_folios);
-+
-+	kho_unpreserve_free(ser);
-+	inode_unlock(inode);
-+}
-+
-+static void memfd_luo_discard_folios(const struct memfd_luo_folio_ser *folios_ser,
-+				     u64 nr_folios)
-+{
-+	u64 i;
-+
-+	for (i = 0; i < nr_folios; i++) {
-+		const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
-+		struct folio *folio;
-+		phys_addr_t phys;
-+
-+		if (!pfolio->pfn)
-+			continue;
-+
-+		phys = PFN_PHYS(pfolio->pfn);
-+		folio = kho_restore_folio(phys);
-+		if (!folio) {
-+			pr_warn_ratelimited("Unable to restore folio at physical address: %llx\n",
-+					    phys);
-+			continue;
-+		}
-+
-+		folio_put(folio);
-+	}
-+}
-+
-+static void memfd_luo_finish(struct liveupdate_file_op_args *args)
-+{
-+	struct memfd_luo_folio_ser *folios_ser;
-+	struct memfd_luo_ser *ser;
-+
-+	if (args->retrieved)
-+		return;
-+
-+	ser = phys_to_virt(args->serialized_data);
-+	if (!ser)
-+		return;
-+
-+	if (ser->nr_folios) {
-+		folios_ser = kho_restore_vmalloc(&ser->folios);
-+		if (!folios_ser)
-+			goto out;
-+
-+		memfd_luo_discard_folios(folios_ser, ser->nr_folios);
-+		vfree(folios_ser);
-+	}
-+
-+out:
-+	kho_restore_free(ser);
-+}
-+
-+static int memfd_luo_retrieve_folios(struct file *file,
-+				     struct memfd_luo_folio_ser *folios_ser,
-+				     u64 nr_folios)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct address_space *mapping = inode->i_mapping;
-+	struct folio *folio;
-+	int err = -EIO;
-+	long i;
-+
-+	for (i = 0; i < nr_folios; i++) {
-+		const struct memfd_luo_folio_ser *pfolio = &folios_ser[i];
-+		phys_addr_t phys;
-+		u64 index;
-+		int flags;
-+
-+		if (!pfolio->pfn)
-+			continue;
-+
-+		phys = PFN_PHYS(pfolio->pfn);
-+		folio = kho_restore_folio(phys);
-+		if (!folio) {
-+			pr_err("Unable to restore folio at physical address: %llx\n",
-+			       phys);
-+			goto put_folios;
-+		}
-+		index = pfolio->index;
-+		flags = pfolio->flags;
-+
-+		/* Set up the folio for insertion. */
-+		__folio_set_locked(folio);
-+		__folio_set_swapbacked(folio);
-+
-+		err = mem_cgroup_charge(folio, NULL, mapping_gfp_mask(mapping));
-+		if (err) {
-+			pr_err("shmem: failed to charge folio index %ld: %d\n",
-+			       i, err);
-+			goto unlock_folio;
-+		}
-+
-+		err = shmem_add_to_page_cache(folio, mapping, index, NULL,
-+					      mapping_gfp_mask(mapping));
-+		if (err) {
-+			pr_err("shmem: failed to add to page cache folio index %ld: %d\n",
-+			       i, err);
-+			goto unlock_folio;
-+		}
-+
-+		if (flags & MEMFD_LUO_FOLIO_UPTODATE)
-+			folio_mark_uptodate(folio);
-+		if (flags & MEMFD_LUO_FOLIO_DIRTY)
-+			folio_mark_dirty(folio);
-+
-+		err = shmem_inode_acct_blocks(inode, 1);
-+		if (err) {
-+			pr_err("shmem: failed to account folio index %ld: %d\n",
-+			       i, err);
-+			goto unlock_folio;
-+		}
-+
-+		shmem_recalc_inode(inode, 1, 0);
-+		folio_add_lru(folio);
-+		folio_unlock(folio);
-+		folio_put(folio);
-+	}
-+
-+	return 0;
-+
-+unlock_folio:
-+	folio_unlock(folio);
-+	folio_put(folio);
-+put_folios:
-+	/*
-+	 * Note: don't free the folios already added to the file. They will be
-+	 * freed when the file is freed. Free the ones not added yet here.
-+	 */
-+	for (long j = i + 1; j < nr_folios; j++) {
-+		const struct memfd_luo_folio_ser *pfolio = &folios_ser[j];
-+
-+		folio = kho_restore_folio(pfolio->pfn);
-+		if (folio)
-+			folio_put(folio);
-+	}
-+
-+	return err;
-+}
-+
-+static int memfd_luo_retrieve(struct liveupdate_file_op_args *args)
-+{
-+	struct memfd_luo_folio_ser *folios_ser;
-+	struct memfd_luo_ser *ser;
-+	struct file *file;
-+	int err;
-+
-+	ser = phys_to_virt(args->serialized_data);
-+	if (!ser)
-+		return -EINVAL;
-+
-+	file = shmem_file_setup("", 0, VM_NORESERVE);
-+
-+	if (IS_ERR(file)) {
-+		pr_err("failed to setup file: %pe\n", file);
-+		return PTR_ERR(file);
-+	}
-+
-+	vfs_setpos(file, ser->pos, MAX_LFS_FILESIZE);
-+	file->f_inode->i_size = ser->size;
-+
-+	if (ser->nr_folios) {
-+		folios_ser = kho_restore_vmalloc(&ser->folios);
-+		if (!folios_ser) {
-+			err = -EINVAL;
-+			goto put_file;
-+		}
-+
-+		err = memfd_luo_retrieve_folios(file, folios_ser, ser->nr_folios);
-+		vfree(folios_ser);
-+		if (err)
-+			goto put_file;
-+	}
-+
-+	args->file = file;
-+	kho_restore_free(ser);
-+
-+	return 0;
-+
-+put_file:
-+	fput(file);
-+
-+	return err;
-+}
-+
-+static bool memfd_luo_can_preserve(struct liveupdate_file_handler *handler,
-+				   struct file *file)
-+{
-+	struct inode *inode = file_inode(file);
-+
-+	return shmem_file(file) && !inode->i_nlink;
-+}
-+
-+static const struct liveupdate_file_ops memfd_luo_file_ops = {
-+	.freeze = memfd_luo_freeze,
-+	.finish = memfd_luo_finish,
-+	.retrieve = memfd_luo_retrieve,
-+	.preserve = memfd_luo_preserve,
-+	.unpreserve = memfd_luo_unpreserve,
-+	.can_preserve = memfd_luo_can_preserve,
-+	.owner = THIS_MODULE,
-+};
-+
-+static struct liveupdate_file_handler memfd_luo_handler = {
-+	.ops = &memfd_luo_file_ops,
-+	.compatible = MEMFD_LUO_FH_COMPATIBLE,
-+};
-+
-+static int __init memfd_luo_init(void)
-+{
-+	int err = liveupdate_register_file_handler(&memfd_luo_handler);
-+
-+	if (err && err != -EOPNOTSUPP) {
-+		pr_err("Could not register luo filesystem handler: %pe\n",
-+		       ERR_PTR(err));
-+
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+late_initcall(memfd_luo_init);
 -- 
 2.52.0.460.gd25c4c69ec-goog
 
