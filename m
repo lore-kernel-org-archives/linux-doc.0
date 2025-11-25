@@ -1,380 +1,427 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F033321AD
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 16:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FEB32B998
+	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 17:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764089986; cv=none; b=l/1jw29lHTwS0DTFWIRWdIc9xIy9UVk0fTRz24pIEjRXhQ91awdHvgPsn9ZMihXFuUFaqU2d4QGF74qeW9w5i8YglNmu3SJjf10EfIbjwuA6RQrXgiE7uo2WFhvDyEhYKVxMSyMIwrHT7sQZlp+W+i5VKAgCzIVLa18o5r4j5nk=
+	t=1764090300; cv=none; b=UN9qgrWgvOqrhdbIgeGrBvo8tkS8mS8ojf1aqv9G8qb3BVc8A+MG6EVUyntlZwegHw96amhWdaeXKmpeygzJFRL9cFXtOMVOGztpc2Ar8Q5mMxoIgcyNZHRshCVN49IQbC7Czv1GzomhTiz+tj2g/W53dNMZ9lv8fUlX1XkJxVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764089986; c=relaxed/simple;
-	bh=G7Q0itscrNM8vJpPgM2kTNcPU4YmQP4p7bNpWy/a7kk=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HRAqAy8CN8x/2u8zaGn1ECYd2WGjr8ALhPWk1lf+EX0C0/U5z+zkaxMDmJ4B0G7VrYD+GzgtciSeWVJpkK5jn2ZXoCJyAOX6Nr+ng0a/z1ZDzTJz2n/zQbMhfHLzAz5xvNEVjT/MffIW6vVFd6soZ2e9wlexBFDnKPpG32fGIas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=UenYKkM/; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1764090300; c=relaxed/simple;
+	bh=iJoCUX90kK6Hi6QO8UUOHy3R4sfD1pdw6tyQrAUqqnk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dQ1J8qIZimAZg8LvOWgd57oFS2pih6o6dvwHoZ4x/l3m8dxSx6cOpQqeGMBzLsMLSpV/9fc6O9ugKtuHXaYpe7HehVIKS3GIazqkQB4WTf2ID28BhGAp1Nxu9R/mWU0tTMN1I5D4PAdBNupRDPG0B70e5rmJtAU6Q9h+RBNueQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GBgwupMP; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="UenYKkM/"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-78802ac2296so56318487b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 08:59:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GBgwupMP"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7ade456b6abso4655189b3a.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 09:04:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764089982; x=1764694782; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6vFlri8REH/qac3zTP1mpTsu23ZBhs3xYfWJv9me6+k=;
-        b=UenYKkM/KBIO10KPDFiut3GDa2YGiBynyrhPNKT5owCSZJWVhcYZ36ub05X50ZNk1e
-         JRdljqFOImAexPoA7Es7HcPMyBwesh1MOc2m16b7s1t8IKlWW5ShfPykxdeVSn14OqYz
-         cixbaKk9lBycxn+9ulbPn+qgHWeWOEEwEMbiRiywwM9moRAVNHO94zt0GM1bi9l4zyuI
-         Ki5xKWJ+DijN19qZ2kGy/qZlNHVhDjKHwLtzBbQp2w3RiU3wOTnjviLPPVaQ3yhxzOB3
-         xwHw8kF4NPbNUSqdiZ0H19cdzaN0MpQbaIqfOrrMgURHDmrZRNegOU1hZZ7Rfb+ZjQ3H
-         vRKA==
+        d=linaro.org; s=google; t=1764090296; x=1764695096; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pYgo1d5vBv7JwZFnlBuT9v8v0agvYmWOE6awznPlpPk=;
+        b=GBgwupMP3mGm1Df4mi+l6W6mLC5Jzj8Xr/ajiWLRugD9ZSR3Xrnp+Y/8c1wmPXQGUW
+         ma6S/p/kaABVCqIKLz4wY6WHwCa7Gusd00YJtvfvskQ+eHo/yuxy46cLgPuU4aaWLX7e
+         Ih9vQOM2y3nlXxPgClnCcUe0rRtc1Z9xLsFTLlkeKIOJBS36px9ZfRUFAQHAVRhgHRJa
+         LHhAPLxYLUsKkO8duH17+6e2QjwefXblGT0a+TzAo5Yn0t8yAO68p13QYsaS0LgaQpd4
+         ic2mGy/vkB9KavC3qv7oqqCsJPB4ZyG0yOZZvzOad5evUO102t8TAgkqLP8IcneaxiYp
+         1sPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764089982; x=1764694782;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6vFlri8REH/qac3zTP1mpTsu23ZBhs3xYfWJv9me6+k=;
-        b=Hb73Yl7eJevraMBmrbeHbFDO55gkAcyJQIeI62otmN2ShfpWRbJVRtr2oHl3r+N4NA
-         qLJlArylgb/ZfLtg8fXNSc4aN8aIdTydkhCXTmGqZv5eAIqjBDpCwXTfZfk4o5xCFwm0
-         kwRnJ7LFSS2SvUa0N4DjlOk1EgY87egkgQZadpFZykcVKTCCYVjmmZaGg0CrMVyjh1a3
-         ZttysE2T50phq+cyy8UmL73jI99dZtewi4fXz8rjd1/jn2NXehZS6xFBGEWvTBI9F1v3
-         xdm/lJg1oXN0nT0c8gZbmHGvrxxVIO5RlMAxuiA56fnZKynAG+NiRNGd3RcJDvqh5WMX
-         WjuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXGf0p1zKFrUeKyFPeyNOW4i8LMxnjAhB/QIRN65NE/bS9vqxRVkvJWmybS7B6ytvacGdPcnmwq2o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWH+zAgDUB36vO9mc6j0eNRB6Z26nraynypBgUqd+8zt6dBMh9
-	iXlU4Vvz8HNeEU7oqMTg6kckL1Js6g8LwfOgjPVBqp1tLK0jiZ1C7DPhlC6VfUiKYaU=
-X-Gm-Gg: ASbGncsB9GFcEGQc0TRSTmLWBIIMqtI0we7xfmLYWLUqmU/o9eZGLplGkELz3EyGuNg
-	WD4OUQKk552/K5L7/bcaypj8IabnZGYSExCw7HYXjWaP7Y+9pilHEwbvvGNEgaWdlj6Tsc59ekS
-	/FhkvMjt3/vW6PSbj0qJ6PjJ4ScwR02JrrQyFRLRQTBIxrMaNzcvY3TPvQvc0D9tMNlzJNBatMJ
-	XUXB+48nSp3Rut4aN2Zv0s7DnJ0xWpzZr6mlKUTl6Ef8sSpcLSX06kBNp73xcYwVCMimPe00NAf
-	da6agDqem/3fap1f9H9oXnbpZIKxPemcKRUdEEs+GmzYaCSD2Mbj+9ZUKjI42VAi7S+Yv/rKGAS
-	M4v7kFYe9hdche1xSLjrtnvwQu8wH03Qssp+7f7qO3e1UDrzO2LiztKnLtcPt46WlsSqaeNSCjZ
-	/9j6XEDtTQtuJWmh5j0U4rQTj3sfIA0dksYxs94Q13AWKMFVcWtxJKLZ7900rbBwEswdaPLuNT6
-	dA=
-X-Google-Smtp-Source: AGHT+IHRC9KjSLkE1gdlWKz3GVcjnQbHxjnBnEjPOoxO9pY/zLR64stKUm4wy05jQAzAnoAL6WDFUg==
-X-Received: by 2002:a05:690c:6c90:b0:783:7143:d825 with SMTP id 00721157ae682-78a8b497584mr142558557b3.25.1764089982243;
-        Tue, 25 Nov 2025 08:59:42 -0800 (PST)
-Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a798a5518sm57284357b3.14.2025.11.25.08.59.40
+        d=1e100.net; s=20230601; t=1764090296; x=1764695096;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pYgo1d5vBv7JwZFnlBuT9v8v0agvYmWOE6awznPlpPk=;
+        b=nlSo6o4kiIJUUsYqIcnkvjSKRTbg3WLbUZhyom36zOq6nW4uogVeQPcJpLC1h1p4vf
+         x57uwpw6DhSAN3GIR2/6eIPHkVlVLo4KT1JBmzeoAgjYHTSKF6lA24n28e5DiGmC3wRx
+         KMcwbU6g48/oflU1cYaT2aqt5tFqgwmnBI6lIQLoL8jzLQ1EUtRPDz1vj5tJynlbkMkW
+         sRkU6Ggx3letQ9XQHZsw03rhAgP1MO6p/o0gg8QmAO+BJNUlKwqmbWmUHGO0uPXWyAIa
+         7/Qpg0om6QWVoBd4fOR6pJ06tWkNypPh4rwSFDaZJcrTF2tPu56bxKqi1iH2v5q+jElk
+         4Ajw==
+X-Forwarded-Encrypted: i=1; AJvYcCXqEkgWTSUT6X5mB9LXadSHgkBFOH9VvUpua9QQXfH0af8gAWpqsNOegNJ5nmMKFPfAcDtkiTU6j0s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmjfX///wFCWMFZCb2x8JX+eiY1zLpM6MgknEjltsIyYslUrYc
+	Bd0dGwzIrBE1ZkcLn3fGL9DXiYNFq2tizqIe3/zWO80JbpG42c+xVaoN7YPWnUUK+fs=
+X-Gm-Gg: ASbGncsHlysnnbPaTWK0HU8rDAmd88r8G8zOBWY9qLA2hiTsRAItJVIXMsbLU3UQ7nC
+	fMgQLK+5EKItTFgG3kVjhSkkAlaw8icCFoL3kVDPl/Pt7Er29GwISFlRcvRhbwFO6HzRsEL4hxm
+	j7HkB1auFWIF+onOMrlACckTp43R5uPjGs3q4p2lC6ioV1n97gVTjNjDXa45x9XIiBeUTKyaSXU
+	sDFkQ9d8XPEmhl85JdrlsJW+yU7g3J2U/YjqmnYahWPiinny/Da1aWgyFvpnqdS3WetlePG3NK8
+	WZOzvSWaJLcrLChgYBcUXBS7p2ETzjPFl6Qo2wyBhqgq2UNuJJ2EhcqRMrkDKymg5pLaxVqATzv
+	It9n9bEvnTZNyCKPAJAvi6kVmSdMydwGSk90yXpSQ3h/+jgZwnP4JG/j3dH9tCuWUqwpKUFNC9N
+	3PY3ozieDZL54big==
+X-Google-Smtp-Source: AGHT+IE3HVI2OSwKYyz2J7aR+dAp3ud2KB0NZWfDEl2yFaQQfh/xXRFxm9LLeRPNFwq1q34sUk9S4w==
+X-Received: by 2002:a05:6a20:7490:b0:35e:bfe5:ee82 with SMTP id adf61e73a8af0-36150f1ed1emr18535116637.48.1764090295883;
+        Tue, 25 Nov 2025 09:04:55 -0800 (PST)
+Received: from p14s ([2604:3d09:148c:c800:c0c0:5a6c:d170:84a1])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed37b0c7sm18550669b3a.20.2025.11.25.09.04.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 08:59:41 -0800 (PST)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: pratyush@kernel.org,
-	jasonmiu@google.com,
-	graf@amazon.com,
-	pasha.tatashin@soleen.com,
-	rppt@kernel.org,
-	dmatlack@google.com,
-	rientjes@google.com,
-	corbet@lwn.net,
-	rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com,
-	kanie@linux.alibaba.com,
-	ojeda@kernel.org,
-	aliceryhl@google.com,
-	masahiroy@kernel.org,
-	akpm@linux-foundation.org,
-	tj@kernel.org,
-	yoann.congal@smile.fr,
-	mmaurer@google.com,
-	roman.gushchin@linux.dev,
-	chenridong@huawei.com,
-	axboe@kernel.dk,
-	mark.rutland@arm.com,
-	jannh@google.com,
-	vincent.guittot@linaro.org,
-	hannes@cmpxchg.org,
-	dan.j.williams@intel.com,
-	david@redhat.com,
-	joel.granados@kernel.org,
-	rostedt@goodmis.org,
-	anna.schumaker@oracle.com,
-	song@kernel.org,
-	linux@weissschuh.net,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	gregkh@linuxfoundation.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	bartosz.golaszewski@linaro.org,
-	cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com,
-	yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com,
-	quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com,
-	ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com,
-	leon@kernel.org,
-	lukas@wunner.de,
-	bhelgaas@google.com,
-	wagi@kernel.org,
-	djeffery@redhat.com,
-	stuart.w.hayes@gmail.com,
-	ptyadav@amazon.de,
-	lennart@poettering.net,
-	brauner@kernel.org,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	saeedm@nvidia.com,
-	ajayachandra@nvidia.com,
-	jgg@nvidia.com,
-	parav@nvidia.com,
-	leonro@nvidia.com,
-	witu@nvidia.com,
-	hughd@google.com,
-	skhawaja@google.com,
-	chrisl@kernel.org
-Subject: [PATCH v8 18/18] selftests/liveupdate: Add kexec test for multiple and empty sessions
-Date: Tue, 25 Nov 2025 11:58:48 -0500
-Message-ID: <20251125165850.3389713-19-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.52.0.460.gd25c4c69ec-goog
-In-Reply-To: <20251125165850.3389713-1-pasha.tatashin@soleen.com>
-References: <20251125165850.3389713-1-pasha.tatashin@soleen.com>
+        Tue, 25 Nov 2025 09:04:55 -0800 (PST)
+Date: Tue, 25 Nov 2025 10:04:52 -0700
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-imx@nxp.com
+Subject: Re: [PATCH v5 2/5] remoteproc: imx_rproc: Populate devices under
+ "rpmsg" subnode
+Message-ID: <aSXhtAcFBOgJoCWd@p14s>
+References: <20251104203315.85706-1-shenwei.wang@nxp.com>
+ <20251104203315.85706-3-shenwei.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251104203315.85706-3-shenwei.wang@nxp.com>
 
-Introduce a new kexec-based selftest, luo_kexec_multi_session, to
-validate the end-to-end lifecycle of a more complex LUO scenario.
+Good morning, 
 
-While the existing luo_kexec_simple test covers the basic end-to-end
-lifecycle, it is limited to a single session with one preserved file.
-This new test significantly expands coverage by verifying LUO's ability
-to handle a mixed workload involving multiple sessions, some of which
-are intentionally empty. This ensures that the LUO core correctly
-preserves and restores the state of all session types across a reboot.
+Here are some first-pass comments - more to come later.
 
-The test validates the following sequence:
+On Tue, Nov 04, 2025 at 02:33:12PM -0600, Shenwei Wang wrote:
+> Register the RPMsg channel driver and populate remote devices defined
+> under the "rpmsg" subnode upon receiving their notification messages.
+> 
+> The following illustrates the expected DTS layout structure:
+> 
+> 	cm33: remoteproc-cm33 {
+> 		compatible = "fsl,imx8ulp-cm33";
+> 
+> 		rpmsg {
+> 			rpmsg-io-channel {
+> 				gpio@0 {
+> 					compatible = "fsl,imx-rpmsg-gpio";
+> 					reg = <0>;
+> 				};
+> 
+> 				gpio@1 {
+> 					compatible = "fsl,imx-rpmsg-gpio";
+> 					reg = <1>;
+> 				};
+> 
+> 				...
+> 			};
+> 
+> 			rpmsg-i2c-channel {
+> 				i2c@0 {
+> 					compatible = "fsl,imx-rpmsg-i2c";
+> 					reg = <0>;
+> 				};
+> 			};
+> 
+> 			...
+> 		};
+> 	};
 
-Stage 1 (Pre-kexec):
+2 observations here:
 
-  - Creates two empty test sessions (multi-test-empty-1,
-    multi-test-empty-2).
-  - Creates a session with one preserved memfd (multi-test-files-1).
-  - Creates another session with two preserved memfds
-    (multi-test-files-2), each containing unique data.
-  - Creates a state-tracking session to manage the transition to
-    Stage 2.
-  - Executes a kexec reboot via the helper script.
+(1) Why are you trying to introduce both i2c and GPIO in the same patchset?
+(2) My first impression is that i2c, GPIO and others should be bundled with the
+platform definitions for i2c and GPIO, with a phandle to the remote processor
+they hang off from.  My opinion may change once I have reviewed the other
+patches in this set.
 
-Stage 2 (Post-kexec):
+> 
+> Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
+> ---
+>  drivers/remoteproc/imx_rproc.c  | 146 ++++++++++++++++++++++++++++++++
+>  include/linux/rpmsg/imx_rpmsg.h |  48 +++++++++++
+>  2 files changed, 194 insertions(+)
+>  create mode 100644 include/linux/rpmsg/imx_rpmsg.h
+> 
+> diff --git a/drivers/remoteproc/imx_rproc.c b/drivers/remoteproc/imx_rproc.c
+> index a6eef0080ca9..e21a7980c490 100644
+> --- a/drivers/remoteproc/imx_rproc.c
+> +++ b/drivers/remoteproc/imx_rproc.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/clk.h>
+>  #include <linux/err.h>
+>  #include <linux/firmware/imx/sci.h>
+> +#include <linux/rpmsg/imx_rpmsg.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/kernel.h>
+>  #include <linux/mailbox_client.h>
+> @@ -15,6 +16,8 @@
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/of_address.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/of_platform.h>
+>  #include <linux/of_reserved_mem.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+> @@ -22,6 +25,7 @@
+>  #include <linux/reboot.h>
+>  #include <linux/regmap.h>
+>  #include <linux/remoteproc.h>
+> +#include <linux/rpmsg.h>
+>  #include <linux/workqueue.h>
+>  
+>  #include "imx_rproc.h"
+> @@ -1084,6 +1088,144 @@ static int imx_rproc_sys_off_handler(struct sys_off_data *data)
+>  	return NOTIFY_DONE;
+>  }
+>  
+> +struct imx_rpmsg_driver {
+> +	struct rpmsg_driver rpdrv;
+> +	void *driver_data;
+> +};
+> +
+> +static char *channel_device_map[][2] = {
+> +	{"rpmsg-io-channel", "fsl,imx-rpmsg-gpio"},
+> +	{"rpmsg-i2c-channel", "fsl,imx-rpmsg-i2c"},
+> +};
+> +
+> +static int imx_rpmsg_endpoint_cb(struct rpmsg_device *rpdev, void *data,
+> +				 int len, void *priv, u32 src)
+> +{
+> +	struct imx_rpmsg_driver_data *drvdata;
+> +
+> +	drvdata = dev_get_drvdata(&rpdev->dev);
+> +	if (drvdata && drvdata->rx_callback)
+> +		return drvdata->rx_callback(rpdev, data, len, priv, src);
+> +
+> +	return 0;
+> +}
+> +
+> +static void imx_rpmsg_endpoint_remove(struct rpmsg_device *rpdev)
+> +{
+> +	of_platform_depopulate(&rpdev->dev);
+> +}
+> +
+> +static int imx_rpmsg_endpoint_probe(struct rpmsg_device *rpdev)
+> +{
+> +	struct imx_rpmsg_driver_data *drvdata;
+> +	struct imx_rpmsg_driver *imx_rpdrv;
+> +	struct device *dev = &rpdev->dev;
+> +	struct of_dev_auxdata *auxdata;
+> +	struct rpmsg_driver *rpdrv;
+> +	int i;
+> +
+> +	rpdrv = container_of(dev->driver, struct rpmsg_driver, drv);
+> +	imx_rpdrv = container_of(rpdrv, struct imx_rpmsg_driver, rpdrv);
+> +
+> +	if (!imx_rpdrv->driver_data)
+> +		return -EINVAL;
+> +
+> +	drvdata = devm_kmemdup(dev, imx_rpdrv->driver_data, sizeof(*drvdata), GFP_KERNEL);
 
-  - Retrieves the state-tracking session to confirm it is in the
-    post-reboot stage.
-  - Retrieves all four test sessions (both the empty and non-empty
-    ones).
-  - For the non-empty sessions, restores the preserved memfds and
-    verifies their contents match the original data patterns.
-  - Finalizes all test sessions and the state session to ensure a clean
-    teardown and that all associated kernel resources are correctly
-    released.
+Something with the overall design of this feature doesn't work if you need to do
+this.
 
-This test provides greater confidence in the robustness of the LUO
-framework by validating its behavior in a more realistic, multi-faceted
-scenario.
+> +	if (!drvdata)
+> +		return -ENOMEM;
+> +
+> +	i = drvdata->map_idx;
+> +	if (i >= ARRAY_SIZE(channel_device_map))
+> +		return -ENODEV;
+> +
+> +	auxdata = devm_kzalloc(dev, sizeof(*auxdata) * 2, GFP_KERNEL);
+> +	if (!auxdata)
+> +		return -ENOMEM;
+> +
+> +	drvdata->rpdev = rpdev;
+> +	auxdata[0].compatible = channel_device_map[i][1];
+> +	auxdata[0].platform_data = drvdata;
+> +	dev_set_drvdata(dev, drvdata);
+> +
+> +	of_platform_populate(drvdata->channel_node, NULL, auxdata, dev);
+> +	of_node_put(drvdata->channel_node);
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
----
- tools/testing/selftests/liveupdate/Makefile   |   1 +
- .../selftests/liveupdate/luo_multi_session.c  | 162 ++++++++++++++++++
- 2 files changed, 163 insertions(+)
- create mode 100644 tools/testing/selftests/liveupdate/luo_multi_session.c
+Why is there a need for of_node_put() when imx_of_rprmsg_node_init() is using
+for_each_child_of_node_scoped()?
 
-diff --git a/tools/testing/selftests/liveupdate/Makefile b/tools/testing/selftests/liveupdate/Makefile
-index bbbec633970c..080754787ede 100644
---- a/tools/testing/selftests/liveupdate/Makefile
-+++ b/tools/testing/selftests/liveupdate/Makefile
-@@ -5,6 +5,7 @@ LIB_C += luo_test_utils.c
- TEST_GEN_PROGS += liveupdate
- 
- TEST_GEN_PROGS_EXTENDED += luo_kexec_simple
-+TEST_GEN_PROGS_EXTENDED += luo_multi_session
- 
- TEST_FILES += do_kexec.sh
- 
-diff --git a/tools/testing/selftests/liveupdate/luo_multi_session.c b/tools/testing/selftests/liveupdate/luo_multi_session.c
-new file mode 100644
-index 000000000000..0ee2d795beef
---- /dev/null
-+++ b/tools/testing/selftests/liveupdate/luo_multi_session.c
-@@ -0,0 +1,162 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+/*
-+ * Copyright (c) 2025, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ *
-+ * A selftest to validate the end-to-end lifecycle of multiple LUO sessions
-+ * across a kexec reboot, including empty sessions and sessions with multiple
-+ * files.
-+ */
-+
-+#include "luo_test_utils.h"
-+
-+#define SESSION_EMPTY_1 "multi-test-empty-1"
-+#define SESSION_EMPTY_2 "multi-test-empty-2"
-+#define SESSION_FILES_1 "multi-test-files-1"
-+#define SESSION_FILES_2 "multi-test-files-2"
-+
-+#define MFD1_TOKEN 0x1001
-+#define MFD2_TOKEN 0x2002
-+#define MFD3_TOKEN 0x3003
-+
-+#define MFD1_DATA "Data for session files 1"
-+#define MFD2_DATA "First file for session files 2"
-+#define MFD3_DATA "Second file for session files 2"
-+
-+#define STATE_SESSION_NAME "kexec_multi_state"
-+#define STATE_MEMFD_TOKEN 998
-+
-+/* Stage 1: Executed before the kexec reboot. */
-+static void run_stage_1(int luo_fd)
-+{
-+	int s_empty1_fd, s_empty2_fd, s_files1_fd, s_files2_fd;
-+
-+	ksft_print_msg("[STAGE 1] Starting pre-kexec setup for multi-session test...\n");
-+
-+	ksft_print_msg("[STAGE 1] Creating state file for next stage (2)...\n");
-+	create_state_file(luo_fd, STATE_SESSION_NAME, STATE_MEMFD_TOKEN, 2);
-+
-+	ksft_print_msg("[STAGE 1] Creating empty sessions '%s' and '%s'...\n",
-+		       SESSION_EMPTY_1, SESSION_EMPTY_2);
-+	s_empty1_fd = luo_create_session(luo_fd, SESSION_EMPTY_1);
-+	if (s_empty1_fd < 0)
-+		fail_exit("luo_create_session for '%s'", SESSION_EMPTY_1);
-+
-+	s_empty2_fd = luo_create_session(luo_fd, SESSION_EMPTY_2);
-+	if (s_empty2_fd < 0)
-+		fail_exit("luo_create_session for '%s'", SESSION_EMPTY_2);
-+
-+	ksft_print_msg("[STAGE 1] Creating session '%s' with one memfd...\n",
-+		       SESSION_FILES_1);
-+
-+	s_files1_fd = luo_create_session(luo_fd, SESSION_FILES_1);
-+	if (s_files1_fd < 0)
-+		fail_exit("luo_create_session for '%s'", SESSION_FILES_1);
-+	if (create_and_preserve_memfd(s_files1_fd, MFD1_TOKEN, MFD1_DATA) < 0) {
-+		fail_exit("create_and_preserve_memfd for token %#x",
-+			  MFD1_TOKEN);
-+	}
-+
-+	ksft_print_msg("[STAGE 1] Creating session '%s' with two memfds...\n",
-+		       SESSION_FILES_2);
-+
-+	s_files2_fd = luo_create_session(luo_fd, SESSION_FILES_2);
-+	if (s_files2_fd < 0)
-+		fail_exit("luo_create_session for '%s'", SESSION_FILES_2);
-+	if (create_and_preserve_memfd(s_files2_fd, MFD2_TOKEN, MFD2_DATA) < 0) {
-+		fail_exit("create_and_preserve_memfd for token %#x",
-+			  MFD2_TOKEN);
-+	}
-+	if (create_and_preserve_memfd(s_files2_fd, MFD3_TOKEN, MFD3_DATA) < 0) {
-+		fail_exit("create_and_preserve_memfd for token %#x",
-+			  MFD3_TOKEN);
-+	}
-+
-+	close(luo_fd);
-+	daemonize_and_wait();
-+}
-+
-+/* Stage 2: Executed after the kexec reboot. */
-+static void run_stage_2(int luo_fd, int state_session_fd)
-+{
-+	int s_empty1_fd, s_empty2_fd, s_files1_fd, s_files2_fd;
-+	int mfd1, mfd2, mfd3, stage;
-+
-+	ksft_print_msg("[STAGE 2] Starting post-kexec verification...\n");
-+
-+	restore_and_read_stage(state_session_fd, STATE_MEMFD_TOKEN, &stage);
-+	if (stage != 2) {
-+		fail_exit("Expected stage 2, but state file contains %d",
-+			  stage);
-+	}
-+
-+	ksft_print_msg("[STAGE 2] Retrieving all sessions...\n");
-+	s_empty1_fd = luo_retrieve_session(luo_fd, SESSION_EMPTY_1);
-+	if (s_empty1_fd < 0)
-+		fail_exit("luo_retrieve_session for '%s'", SESSION_EMPTY_1);
-+
-+	s_empty2_fd = luo_retrieve_session(luo_fd, SESSION_EMPTY_2);
-+	if (s_empty2_fd < 0)
-+		fail_exit("luo_retrieve_session for '%s'", SESSION_EMPTY_2);
-+
-+	s_files1_fd = luo_retrieve_session(luo_fd, SESSION_FILES_1);
-+	if (s_files1_fd < 0)
-+		fail_exit("luo_retrieve_session for '%s'", SESSION_FILES_1);
-+
-+	s_files2_fd = luo_retrieve_session(luo_fd, SESSION_FILES_2);
-+	if (s_files2_fd < 0)
-+		fail_exit("luo_retrieve_session for '%s'", SESSION_FILES_2);
-+
-+	ksft_print_msg("[STAGE 2] Verifying contents of session '%s'...\n",
-+		       SESSION_FILES_1);
-+	mfd1 = restore_and_verify_memfd(s_files1_fd, MFD1_TOKEN, MFD1_DATA);
-+	if (mfd1 < 0)
-+		fail_exit("restore_and_verify_memfd for token %#x", MFD1_TOKEN);
-+	close(mfd1);
-+
-+	ksft_print_msg("[STAGE 2] Verifying contents of session '%s'...\n",
-+		       SESSION_FILES_2);
-+
-+	mfd2 = restore_and_verify_memfd(s_files2_fd, MFD2_TOKEN, MFD2_DATA);
-+	if (mfd2 < 0)
-+		fail_exit("restore_and_verify_memfd for token %#x", MFD2_TOKEN);
-+	close(mfd2);
-+
-+	mfd3 = restore_and_verify_memfd(s_files2_fd, MFD3_TOKEN, MFD3_DATA);
-+	if (mfd3 < 0)
-+		fail_exit("restore_and_verify_memfd for token %#x", MFD3_TOKEN);
-+	close(mfd3);
-+
-+	ksft_print_msg("[STAGE 2] Test data verified successfully.\n");
-+
-+	ksft_print_msg("[STAGE 2] Finalizing all test sessions...\n");
-+	if (luo_session_finish(s_empty1_fd) < 0)
-+		fail_exit("luo_session_finish for '%s'", SESSION_EMPTY_1);
-+	close(s_empty1_fd);
-+
-+	if (luo_session_finish(s_empty2_fd) < 0)
-+		fail_exit("luo_session_finish for '%s'", SESSION_EMPTY_2);
-+	close(s_empty2_fd);
-+
-+	if (luo_session_finish(s_files1_fd) < 0)
-+		fail_exit("luo_session_finish for '%s'", SESSION_FILES_1);
-+	close(s_files1_fd);
-+
-+	if (luo_session_finish(s_files2_fd) < 0)
-+		fail_exit("luo_session_finish for '%s'", SESSION_FILES_2);
-+	close(s_files2_fd);
-+
-+	ksft_print_msg("[STAGE 2] Finalizing state session...\n");
-+	if (luo_session_finish(state_session_fd) < 0)
-+		fail_exit("luo_session_finish for state session");
-+	close(state_session_fd);
-+
-+	ksft_print_msg("\n--- MULTI-SESSION KEXEC TEST PASSED ---\n");
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	return luo_test(argc, argv, STATE_SESSION_NAME,
-+			run_stage_1, run_stage_2);
-+}
--- 
-2.52.0.460.gd25c4c69ec-goog
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx_of_rpmsg_is_in_map(const char *name)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(channel_device_map); i++) {
+> +		if (strcmp(name, channel_device_map[i][0]) == 0)
+> +			return i;
+> +	}
+> +
+> +	return -1;
 
+Please return a real error code.
+
+> +}
+> +
+> +static int imx_of_rpmsg_register_rpdriver(struct device_node *channel,
+> +					  struct device *dev, int idx)
+> +{
+> +	struct imx_rpmsg_driver_data *driver_data;
+> +	struct imx_rpmsg_driver *rp_driver;
+> +	struct rpmsg_device_id *rpdev_id;
+> +
+> +	rpdev_id = devm_kzalloc(dev, sizeof(*rpdev_id) * 2, GFP_KERNEL);
+
+I had a really good time figuring out why 2 instances were needed.  Reviewing
+this work without a single line of comment isn't motivating.
+
+> +	if (!rpdev_id)
+> +		return -ENOMEM;
+> +
+> +	strscpy(rpdev_id[0].name, channel_device_map[idx][0], RPMSG_NAME_SIZE);
+> +
+> +	rp_driver = devm_kzalloc(dev, sizeof(*rp_driver), GFP_KERNEL);
+> +	if (!rp_driver)
+> +		return -ENOMEM;
+> +
+> +	driver_data = devm_kzalloc(dev, sizeof(*driver_data), GFP_KERNEL);
+> +	if (!driver_data)
+> +		return -ENOMEM;
+> +
+> +	driver_data->rproc_name = dev->of_node->name;
+> +	driver_data->channel_node = channel;
+> +	driver_data->map_idx = idx;
+
+struct rpmsg_device_id already contains a @driver_data.  As with my other
+comment above, something in the design of this feature is not working if you
+need to do something like this.
+
+> +
+> +	rp_driver->rpdrv.drv.name = channel_device_map[idx][0];
+> +	rp_driver->rpdrv.id_table = rpdev_id;
+> +	rp_driver->rpdrv.probe = imx_rpmsg_endpoint_probe;
+> +	rp_driver->rpdrv.remove = imx_rpmsg_endpoint_remove;
+> +	rp_driver->rpdrv.callback = imx_rpmsg_endpoint_cb;
+> +	rp_driver->driver_data = driver_data;
+> +
+> +	register_rpmsg_driver(&rp_driver->rpdrv);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx_of_rpmsg_node_init(struct platform_device *pdev)
+> +{
+> +	struct device_node *np __free(device_node);
+> +	struct device *dev = &pdev->dev;
+> +	int idx, ret;
+> +
+> +	np = of_get_child_by_name(dev->of_node, "rpmsg");
+> +	if (!np)
+> +		return 0;
+> +
+> +	for_each_child_of_node_scoped(np, child) {
+> +		idx = imx_of_rpmsg_is_in_map(child->name);
+> +		if (idx < 0)
+> +			ret = of_platform_default_populate(child, NULL, dev);
+
+Why is this called?
+
+> +		else
+> +			ret = imx_of_rpmsg_register_rpdriver(child, dev, idx);
+> +
+> +		if (ret < 0)
+> +			return ret;
+
+In case of an error, the reference to @np is not released.
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+
+If we were to keep the current design, all of the above should be in
+drivers/rpmsg/imx_rpmsg.c.
+
+>  static int imx_rproc_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> @@ -1177,6 +1319,10 @@ static int imx_rproc_probe(struct platform_device *pdev)
+>  		goto err_put_clk;
+>  	}
+>  
+> +	ret = imx_of_rpmsg_node_init(pdev);
+> +	if (ret < 0)
+> +		dev_info(dev, "populating 'rpmsg' node failed\n");
+> +
+>  	return 0;
+>  
+>  err_put_clk:
+> diff --git a/include/linux/rpmsg/imx_rpmsg.h b/include/linux/rpmsg/imx_rpmsg.h
+> new file mode 100644
+> index 000000000000..04a5ad2d4a1d
+> --- /dev/null
+> +++ b/include/linux/rpmsg/imx_rpmsg.h
+> @@ -0,0 +1,48 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* Copyright 2025 NXP */
+> +
+> +/*
+> + * @file linux/imx_rpmsg.h
+> + *
+> + * @brief Global header file for iMX RPMSG
+> + *
+> + * @ingroup RPMSG
+> + */
+> +#ifndef __LINUX_IMX_RPMSG_H__
+> +#define __LINUX_IMX_RPMSG_H__
+> +
+> +/* Category define */
+> +#define IMX_RMPSG_LIFECYCLE	1
+> +#define IMX_RPMSG_PMIC		2
+> +#define IMX_RPMSG_AUDIO		3
+> +#define IMX_RPMSG_KEY		4
+> +#define IMX_RPMSG_GPIO		5
+> +#define IMX_RPMSG_RTC		6
+> +#define IMX_RPMSG_SENSOR	7
+> +
+> +/* rpmsg version */
+> +#define IMX_RMPSG_MAJOR		1
+> +#define IMX_RMPSG_MINOR		0
+> +
+> +#define MAX_DEV_PER_CHANNEL	10
+> +
+> +struct imx_rpmsg_head {
+> +	u8 cate;	/* Category */
+> +	u8 major;	/* Major version */
+> +	u8 minor;	/* Minor version */
+> +	u8 type;	/* Message type */
+> +	u8 cmd;		/* Command code */
+> +	u8 reserved[5];
+> +} __packed;
+
+This structure is not used in this file, please remove.
+
+> +
+> +struct imx_rpmsg_driver_data {
+> +	int map_idx;
+> +	const char *rproc_name;
+> +	struct rpmsg_device *rpdev;
+> +	struct device_node *channel_node;
+> +	int (*rx_callback)(struct rpmsg_device *rpdev, void *data,
+> +			   int len, void *priv, u32 src);
+> +	void *channel_devices[MAX_DEV_PER_CHANNEL];
+> +};
+
+For the above 2 struct, proper documentation is needed.
+
+Thanks,
+Mathieu
+
+> +
+> +#endif /* __LINUX_IMX_RPMSG_H__ */
+> -- 
+> 2.43.0
+> 
