@@ -1,146 +1,227 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5F823D290
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 16:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA531F1518
+	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 16:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764087118; cv=none; b=oE8uKM/YQpNoeyYV68Pgqpg631SC7iUQJAfmUGism6CymMl0w4Nqjl2PDxcmqaj5Ml81Cg/ZL3lq4apWDsq1i2u2MiMohao1cJ1iogTiYAyJeALs44rinbbE1w6otgvvcfRvYBDXGKCIPuTy/9sJqKua9ee64wPImLbQUMh9/n0=
+	t=1764087732; cv=none; b=HvAY23ZgRVboQLfsunOyYZ79wuXrfGSy6y4bz20jmNwAWm+Ir9fPChbSKCGhuGjd0K0WDzQ9brlHft61rUrbfQYnBX9x0WGzZMAAfnFgw48eQogf0jLVugiRZZ+T3ath2WRW9VYBADnH3UThehin+/sFUffFXWs4HSgG2nFi7YA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764087118; c=relaxed/simple;
-	bh=BuZrTAyq8hriBu1hSQ7Fw+Kj5Pru8BEFikgqu5lpwuo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=H7MkPHsqSPrRrb4BhaeAfRU3XiHLQJsv3BZUBQOCFKaCmk30NN+Nu7bHADyPPxwKtJXPujgPX4SKzAtJKERkf3fpcjPkuEbbJt068eNpPcbgzP2QsSK9LHr9ifrhaEwQCH6fHl1/6M1OPET6VNQlBp+2YV5qaK6K/BG+9Bx4SZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bwj3FjFX; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764087732; c=relaxed/simple;
+	bh=+mf3yq3pAnkp/STNahhEkl2rIcQRNilPbY3Hv5XKEKc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CI+KprupOVTFC2jtQEx919tZ+2yk0YyAaoIPZixiofSndFaYxYyLCh2bU3h3AMtR3LMl1mTDTvt6NArZoWL6VvUZzZ3m2coCt5QVZXM6W3efVYKghqIelxR/Hbe3S64weKP11kKSMYOr5+8IZCfpPNXgmSjfeAv/zOI51qrhSXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rxcHTUOS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yRvSJNwe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jxlKsqOZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pWGSpGSf; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bwj3FjFX"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34585428e33so5663871a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 08:11:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764087116; x=1764691916; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BuZrTAyq8hriBu1hSQ7Fw+Kj5Pru8BEFikgqu5lpwuo=;
-        b=Bwj3FjFXPs8a9wS4amr9YpCAspdsOrVG+yRJxZr2qr6loVDR6a3GJwV3TjG1K8ugjR
-         vb5S+yxFAPW9Zvh0bJCcpUCMx5xrAICNUxgzAslfUCG8NtfxFr9nsLZOjTVIYCgGYgZo
-         rflo4WKrMrdP8hxRbe1Zxu/c6+JkS5a2dcY/DXQePpvgEUIxNGObAKh3OzYb4SZRkHsj
-         fmcQoA2cu7YcMftfOzTbsK/uPJzRYfI1r5V2nOApzvSWEnOmR6oVQ5vnx0Iqs37qvuGC
-         /QjidajXjx81vY3bbI3KEsxuqnUS+NV4moyeLLXirYgr/FSVCHfJ6llaevGVx7cL19t5
-         XOfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764087116; x=1764691916;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BuZrTAyq8hriBu1hSQ7Fw+Kj5Pru8BEFikgqu5lpwuo=;
-        b=DZSlV7+PcHMPfjAmkElbyGOX2T2+h7yV4XrWIKAoraPjM4txEFzeIpN5FJT8iiSRUq
-         UuBnwFEz9m1OKQsY+jxTB3pMax2SpXt4S0aPfSNC7b9nBYjJWfZ4jTlQ9xzDBM3OwNV3
-         Ch9aUsU9PFrX+aDJbgYRfjVpf3bN0U8r5ZVrven7yclGRHksw2AwsPavPLcc3dFiAsGX
-         Mv0qtHDxoQ8okoK1Rz9tT3sYaIK4QuN/VHJR1m44YBj/BZ34WqmNh0zszP003JLw8cz4
-         WirCRUqnC7ldiTEWtLgBw7uZXVPJB0uyliekKYE79OWQPkVRbKMVM1J1xAyT9dkzVC5W
-         L6vA==
-X-Forwarded-Encrypted: i=1; AJvYcCVGd3ufX2RZFJhJ1E3vxpZ6txdx69e6KQoQOkJrt1Ep0rkGama3Du7bsrSbFPazmphy5tVoZNs83jo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQZok+HMOe1DlaNhai9hvVz+ceLX3x/TX+0XWN/fLwIBUqmk/3
-	JqzW0yKgOtClsL8NNKD2A7wmJDkYPqfz9WuoX9YTY1bCFRwlyLOy8un2
-X-Gm-Gg: ASbGncuDCstzjwAkj6MnW2bCuurLf0Dr+8gFuNtOBv+j7lx0Oqfgodrc/W11kRP6A2e
-	lSWz//2umFfQTcBcH4wzcNbXQuSAWZsgn8v2j+JWHclJPrIeQ42BYS3iId5FPJvKjJ7hWI/oJ0/
-	v/F39JxJP22+pJMzf47AF+8wuDm5Clfr1dvDQScBBSK6/hCRsjp2px2vQXrvtGdHaz8F58kEZ+3
-	GChDAvtb7fbWVsMy5E29qYhCfcP4VE9llxjdPE+0C4qnLmgv/b9sfl8sywB1SQGzFlADtfI4ttf
-	JgMZwJTawAv8HjtSetF1rcsfKzOrxL7hTu/ZAroBnneRAvHSDJB+SRds7456/izeEmg4ZNepwON
-	MiwnR3FzwHsiN79maa+6h3IUwqA08kOd2QQ+GBieXrmNxJ9dQ/YzZujFP5LADQiNNUh3au4FSdr
-	l7k6ccc85XuDUBMfO+Lw/XODTB4TjSJZp83j0jJ0/IxDcHU7PKgRqedJ1S7Bi5MuZ3sg==
-X-Google-Smtp-Source: AGHT+IEWXlqC42ig+eSywfDNQtEHaCjz4s5p+M3v/+IuUcUyKtCw+yNJ/t4+Y0x5LwSh4SzxUB/PrQ==
-X-Received: by 2002:a17:90b:384f:b0:340:ac7c:6387 with SMTP id 98e67ed59e1d1-34733e2d4a5mr19048369a91.7.1764087116050;
-        Tue, 25 Nov 2025 08:11:56 -0800 (PST)
-Received: from ?IPv6:2401:4900:8fce:eb65:99e9:53c:32e6:4996? ([2401:4900:8fce:eb65:99e9:53c:32e6:4996])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3475ff9fed2sm1369564a91.6.2025.11.25.08.11.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 08:11:55 -0800 (PST)
-Message-ID: <43f43063b81da41b693d5eb8178d5c55ebaaa168.camel@gmail.com>
-Subject: Re: [PATCH RESEND v6] checkpatch: add uninitialized pointer with
- __free attribute check
-From: ally heev <allyheev@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Dwaipayan Ray	
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
- Perches	 <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy
- Whitcroft	 <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
- <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, Geert Uytterhoeven	
- <geert@linux-m68k.org>, James Bottomley
- <James.Bottomley@hansenpartnership.com>
-Date: Tue, 25 Nov 2025 21:41:47 +0530
-In-Reply-To: <58393a1f-272b-41be-9ebd-ae03678cb738@kernel.org>
-References: 
-	<20251125-aheev-checkpatch-uninitialized-free-v6-1-70e8bb1e9175@gmail.com>
-	 <58393a1f-272b-41be-9ebd-ae03678cb738@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rxcHTUOS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yRvSJNwe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jxlKsqOZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pWGSpGSf"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CE0FC2279F;
+	Tue, 25 Nov 2025 16:22:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764087728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1qVWteth2CW4grxymKBfkcAQ2Y6lgyq+8fjlcjGvCdE=;
+	b=rxcHTUOSMi91yqyshLu0nXlrTbfin/DxFYxy68+9o5Lz//U3hZZcdjlKLHiUcks2sNFb5d
+	Nw+OBrAf2kdZEY8eaQrFByd0uhfsWG/FmvucIqTas+/tk5AXRhRPH5vvcJNRiCAVeu9sDs
+	JlbSW7nQ5++eYnulUKTb2Pilge3qSMY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764087728;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1qVWteth2CW4grxymKBfkcAQ2Y6lgyq+8fjlcjGvCdE=;
+	b=yRvSJNwewWvQZN6EMbe+ZH57h9Ype/yn78RFRv+PNLYJCaiiGwSN/MWsLEvYlaOy7wnyVS
+	T9xIEZPg7AUb66CQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jxlKsqOZ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pWGSpGSf
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764087727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1qVWteth2CW4grxymKBfkcAQ2Y6lgyq+8fjlcjGvCdE=;
+	b=jxlKsqOZGQElJHBq1oPDmP5F6Jc54BuJNQY4M+S+XFJq6L493Mk0ifEe6vzy3vj9uOD1ch
+	wsFa7Y9EcZSUiTHev6F14FH0ph+/SrIXnp6rmwNQ7esC+lj+GftEOWXVg/kanV0b1RaN86
+	fPmOiadBoSqJP+lckHT6VBqAWLCafpE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764087727;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=1qVWteth2CW4grxymKBfkcAQ2Y6lgyq+8fjlcjGvCdE=;
+	b=pWGSpGSfBZkjXtE6lj76qjxTTU7v28kiwiq9wRoAZ3aAPRRV+Fhr40paxglFA656gZ53M4
+	1DSAyAx8WxL2H+AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CE7F3EA63;
+	Tue, 25 Nov 2025 16:22:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hQZWEa/XJWm8VQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 25 Nov 2025 16:22:07 +0000
+Message-ID: <65622142-c3b0-4ef3-9a74-09420bc2220d@suse.de>
+Date: Tue, 25 Nov 2025 17:22:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] drm: Remove remaining support for kdb
+To: Doug Anderson <dianders@chromium.org>
+Cc: simona@ffwll.ch, airlied@gmail.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, lyude@redhat.com, dakr@kernel.org, deller@gmx.de,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ jason.wessel@windriver.com, danielt@kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Nir Lichtman <nir@lichtman.org>
+References: <20251125130634.1080966-1-tzimmermann@suse.de>
+ <CAD=FV=X_-t2AF5osp7Hamoe7WYE_2YWJZCaPaOj=9seSbnwwVA@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAD=FV=X_-t2AF5osp7Hamoe7WYE_2YWJZCaPaOj=9seSbnwwVA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: CE0FC2279F
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[ffwll.ch,gmail.com,amd.com,redhat.com,kernel.org,gmx.de,linux.intel.com,windriver.com,lists.freedesktop.org,vger.kernel.org,lichtman.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:url,suse.de:email,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
 
-On Tue, 2025-11-25 at 16:09 +0100, Krzysztof Kozlowski wrote:
-> On 25/11/2025 14:32, Ally Heev wrote:
-> > uninitialized pointers with __free attribute can cause undefined
-> > behavior as the memory randomly assigned to the pointer is freed
-> > automatically when the pointer goes out of scope.
-> > add check in checkpatch to detect such issues.
-> >=20
-> > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@=
-suswa.mountain/
-> > Link: https://lore.kernel.org/all/58fd478f408a34b578ee8d949c5c4b4da4d4f=
-41d.camel@HansenPartnership.com/
-> > Acked-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Ally Heev <allyheev@gmail.com>
->=20
->=20
-> <form letter>
-> This is a friendly reminder during the review process.
->=20
-> It looks like you received a tag and forgot to add it.
->=20
-> If you do not know the process, here is a short explanation:
-> Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
-> of patchset, under or above your Signed-off-by tag, unless patch changed
-> significantly (e.g. new properties added to the DT bindings). Tag is
-> "received", when provided in a message replied to you on the mailing
-> list. Tools like b4 can help here. However, there's no need to repost
-> patches *only* to add the tags. The upstream maintainer will do that for
-> tags received on the version they apply.
->=20
-> Please read:
-> https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/s=
-ubmitting-patches.rst#L577
->=20
-> If a tag was not added on purpose, please state why and what changed.
-> </form letter>
->=20
->=20
-> Best regards,
-> Krzysztof
+Hi
 
-Oopsie. I should have sent a new version instead of resending a failed
-one. I have updated the `UNINITIALIZED_PTR_WITH_FREE` error description
-in the checkpatch doc as outlined in v6 changelog, so, didn't add a
-Reviewed-by tag
+Am 25.11.25 um 16:26 schrieb Doug Anderson:
+> Hi,
+>
+> On Tue, Nov 25, 2025 at 5:06 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Remove the rest of the kbd support from DRM. Driver support has been
+>> broken for years without anyone complaining.
+>>
+>> Kdb cannot use regular DRM mode setting, so DRM drivers have to
+>> implement an additional hook to make it work (in theory). As outlined
+>> by Sima in commit 9c79e0b1d096 ("drm/fb-helper: Give up on kgdb for
+>> atomic drivers") from 2017, kdb is not compatible with DRM atomic mode
+>> setting. Non-atomic mode setting meanwhile has become rare.
+>>
+>> Only 3 DRM drivers implement the hooks for kdb support. Amdgpu and
+>> nouveau use non-atomic mode setting on older devices. But both drivers
+>> have switched to generic fbdev emulation, which isn't compatible with
+>> kdb. Radeon still runs kdb, but it doesn't work in practice. See the
+>> commits in this series for details
+>>
+>> Therefore remove the remaining support for kdb from the DRM drivers
+>> and from DRM fbdev emulation. Also remove the hooks from fbdev, as
+>> there are no fbdev drivers with kdb support.
+>>
+>> If we ever want to address kdb support within DRM drivers, a place to
+>> start would be the scanout buffers used by DRM's panic screen. These
+>> use the current display mode. They can be written and flushed without
+>> mode setting involved.
+>>
+>> Note: kdb over serial lines is not affected by this series and continues
+>> to work as before.
+>>
+>> Thomas Zimmermann (5):
+>>    drm/amdgpu: Do not implement mode_set_base_atomic callback
+>>    drm/nouveau: Do not implement mode_set_base_atomic callback
+>>    drm/radeon: Do not implement mode_set_base_atomic callback
+>>    drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
+>>    fbcon: Remove fb_debug_enter/_leave from struct fb_ops
+> Personally, I've never worked with kdb over anything other than
+> serial, so this won't bother any of my normal workflows. That being
+> said, at least as of a year ago someone on the lists was talking about
+> using kdb with a keyboard and (presumably) a display. You can see a
+> thread here:
+>
+> http://lore.kernel.org/r/20241031192350.GA26688@lichtman.org
 
-For some reason gmail blocked me from sending v6 to everyone in the
-patch except me. b4 thought it successfully sent the patch and
-incremented the version number. So, I had to resend it
+I wonder which driver or kernel that person was using. None of the 
+current drivers would be working.
 
-Thanks,
-Ally
+Best regards
+Thomas
+
+>
+> Daniel may also have comments here?
+>
+> -Doug
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
 
