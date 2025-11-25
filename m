@@ -1,157 +1,234 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A35A326D53
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 14:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4147E2D7D42
+	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 14:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764079207; cv=none; b=UWlezziSqMEFw9eBm4Hw72qx1FaKOZ6kdBOforKGRKxqfuQP8BbvIcVa7FnOdN6usFP3SqXxbECQlDAxY8LTVn05kQOK+9uZLcufOxj6lCkP/q17JZuxleJnkq5JJMvW6fT6/r4pfIE91rjvMUjfHIAX7VRfZYk0/EtbEJiDEH8=
+	t=1764080681; cv=none; b=A+dzYDut1nYMEalSTZTlL7IdL82/kXT7dZ2yXMzHjegLld2rc6/+tpqJdOS+5OdB712NZM41V/dZal3HachsY0PKSmYG/TYxNymGBgbFViTlVldgdZlEgce30I9ozE/Bzxs0wvqe/JY6GGSU3ECKuGU+mJ4E+ybt3iDakRJepbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764079207; c=relaxed/simple;
-	bh=C8XIwA19HrNwiDIWcAp9ATXIQ3+6lATQ5Ks12sTRPrU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b5Bfv25wzqa/9ox6FW01wcVzromLD8+pd1al7IXyWOGBkJIfDBhBrqDuQiWtMBOBZnCF6e4icoOA5DMbjniiYyZv7B1ucwQ2IZ1qbIkLl4lDWPEi2NDy5TVn0MkSazA/iItjwMFq0vQwTxR+iyB++GEStxeP+ccOIIKHhYtEpzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=UWRocTrK; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1764080681; c=relaxed/simple;
+	bh=o/MqTmBhmdh7W37YAcy8KDQNCtFQghPS3A+cY8KRfnE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L/oUGEThpJh1G+hNWGlJTGLPjgRg50+9xyJPzAtkxMrLOJS16ia4l7tN1SCuiTZ9BdwrYV0f5MfgS+6tp8RixwQG2708J0pRWIfYNeZuBVTjejQDZ9mVAi/Bi8GnWNGCdg75m+UZaJSrFD5mpaXhG/S9FfOP421ua6GE6NLw11c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=U/WHjsnH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xJ9SruwN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=U/WHjsnH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xJ9SruwN; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="UWRocTrK"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-640aaa89697so7734319a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 06:00:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764079203; x=1764684003; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gPADEzDInP+4EgYdCnNY22SOys+qqvVd9B9lyZm9LUs=;
-        b=UWRocTrKMri7yCN1LuVyAaLVUt6HcfVLWsWlC9rXpDVD1z1xTnlpjqW3EVtOdTRWR0
-         dklfGTyD8cgo07ZHESMoU4KIRcRvhw2U3n9YL+33L1JaxHBe3+PbyHAhekvPTOudEhIU
-         KNdnfRO++KTMV4v1Mg8Kbdpm10tMbRCP6YgrDQUeIvdVcVZS9K9MhenTAThLTsDjueSL
-         lWL5+5Vmg7X0GxC3JEumniwlqz/C1FLdWFqelgJ/5EkAAOCNbkxc2VkKFb3MVsQqv8s9
-         DWlg/9B8bqORvIXMZDhijac7T5Dd35d31eMWFlNkaLBVftZc4LTnp37xbD2betgIScR/
-         yi0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764079203; x=1764684003;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gPADEzDInP+4EgYdCnNY22SOys+qqvVd9B9lyZm9LUs=;
-        b=krpzWT/rfrO24uyxsEQoePgHtFTx235WOkYxPbLzQUa0hr1xCq1MesEowILVw3nbRg
-         X8j13+RGhS8SpMofletGfe3v+ZYFroLWMAm17uJce5Ra6L4x/SrOQ73Pn2mBaLQunWSI
-         5+Y/7+HmFFZ81w2cbIsPMEtX9TKkCYXRM0TOuDJIk9ShkBC5vpr+Ee4N+0YrqG/Jnr9b
-         +qZsl99vrVnx1oUqNe0ieSXDmEVHHngd1jOpmENLK2eG0vW05ID6hYEUMOLBGTlrnFMA
-         vj65ZbyDjYKrHP+dqe8+7wNL1w7iffw88deby6wOxk7lOlVeBiGmpG961iQiu5sNTMej
-         H+/A==
-X-Forwarded-Encrypted: i=1; AJvYcCVLZ3nC/kMXs2XZnJeH95XF8eoV0F23tGzltGi4qsXCBX/n8FYnO5B/R81AOoZIrWw7lDwQYZfemJk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUuw5jSSGWijlxlaw9xeAS5Ay7H6sVa5fq+zyghb457R4tS5Vz
-	8hhGTmAEBRbWQD/f0SgPx1NrrvhOKnNIrgJK6LD97c5npAJnjUmGudtIxVrXnXA3Zi7RfuT0bCq
-	fsIPGm5QnrMVrLSQueH20VXPytlVnIPslSB7nHmIKhg==
-X-Gm-Gg: ASbGncsN6M+EcLFBSWDpLOg/CoW6+JSSXyh/RdX5r8WVFTayrGKnE2ORXAmWXt3sOt+
-	cpgYADETtdEPDu98YxwfEfapxW8zl5+xV9rvQWyFK6gMstN8Si08sZQl4WnIIIl0gM8WqOYZqp2
-	iVqL7ZvvrS2PHARSiGngYwaoUHXorN58T3368NhQ08k9zBKtCax25emW01SYrk5+RNDSfPmyxZt
-	JF/xbgIUvSr4t+UPuL5cyjripoYoeBFJNtl96+WI4Q2JElJK7BiBX5tRrdu3DYSPMfF
-X-Google-Smtp-Source: AGHT+IGQvP3sp8P5QdaHoU5hl5stQ/R78sD1t68LmqHbhIYjocvMZQNdcinW6IeCcPNYJc/WOurXaWpr8WBXOL4qx2M=
-X-Received: by 2002:a05:6402:35d5:b0:643:18c2:123b with SMTP id
- 4fb4d7f45d1cf-645544420fcmr15551385a12.3.1764079203274; Tue, 25 Nov 2025
- 06:00:03 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U/WHjsnH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xJ9SruwN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U/WHjsnH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xJ9SruwN"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3D6DA2276F;
+	Tue, 25 Nov 2025 14:24:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764080677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=jia8pVww9G5Os5zZTQnNTApemZw81+rV+px5cNZ5ZT8=;
+	b=U/WHjsnH+afIORjtiy3MCuLJBsEZ7E+VhnWzvpb5SxERIWYBeKPttoKXfLFy/vZhNyQ8LC
+	n1JEzZHyMH3lXPjhASx2QR/IY51j9xLtv0RZuKe3YZuecwxYdmZ24Cv4YOu0NlaLJJ72We
+	NVSv6K/11Qsz83Uh/NIGnxHfry+cB9U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764080677;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=jia8pVww9G5Os5zZTQnNTApemZw81+rV+px5cNZ5ZT8=;
+	b=xJ9SruwNBWzd+iCOGYcDt7SsUQQ0inj/JhP1y5iHoJcb0jZx55P5KXeCoZTrrSYkpDmg4d
+	TPATDMcH18ht7iAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764080677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=jia8pVww9G5Os5zZTQnNTApemZw81+rV+px5cNZ5ZT8=;
+	b=U/WHjsnH+afIORjtiy3MCuLJBsEZ7E+VhnWzvpb5SxERIWYBeKPttoKXfLFy/vZhNyQ8LC
+	n1JEzZHyMH3lXPjhASx2QR/IY51j9xLtv0RZuKe3YZuecwxYdmZ24Cv4YOu0NlaLJJ72We
+	NVSv6K/11Qsz83Uh/NIGnxHfry+cB9U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764080677;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=jia8pVww9G5Os5zZTQnNTApemZw81+rV+px5cNZ5ZT8=;
+	b=xJ9SruwNBWzd+iCOGYcDt7SsUQQ0inj/JhP1y5iHoJcb0jZx55P5KXeCoZTrrSYkpDmg4d
+	TPATDMcH18ht7iAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B1BA03EA63;
+	Tue, 25 Nov 2025 14:24:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jUAtKiS8JWk2YAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 25 Nov 2025 14:24:36 +0000
+Message-ID: <975c648c-07d7-4809-9edd-784af9781dc8@suse.de>
+Date: Tue, 25 Nov 2025 15:24:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-3-pasha.tatashin@soleen.com> <aSLvo0uXLOaE2JW6@kernel.org>
- <CA+CK2bCj2OAQjM-0rD+DP0t4v71j70A=HHdQ212ASxX=xoREXw@mail.gmail.com>
- <aSMXUKMhroThYrlU@kernel.org> <CA+CK2bABbDYfu8r4xG3n30HY4cKFe74_RJP5nYJeOtAOOj+OUQ@mail.gmail.com>
- <aSWqQWbeijvruDqf@kernel.org>
-In-Reply-To: <aSWqQWbeijvruDqf@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 25 Nov 2025 08:59:26 -0500
-X-Gm-Features: AWmQ_bkHTYlHlGxKmBiHNdm6t2thzT9HecweCk3JjWHiloeJgWPSmfHodz7nV6A
-Message-ID: <CA+CK2bC2yptSzT+FJaef_K3bvOeDmmOzZVf3VakaKn6r7qk+dQ@mail.gmail.com>
-Subject: Re: [PATCH v7 02/22] liveupdate: luo_core: integrate with KHO
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] drm: Remove remaining support for kdb
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ simona@ffwll.ch, airlied@gmail.com, alexander.deucher@amd.com,
+ lyude@redhat.com, dakr@kernel.org, deller@gmx.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, jason.wessel@windriver.com,
+ danielt@kernel.org, dianders@chromium.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>
+References: <20251125130634.1080966-1-tzimmermann@suse.de>
+ <11ac809d-0432-4c9f-8279-7df318c9a448@amd.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <11ac809d-0432-4c9f-8279-7df318c9a448@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[amd.com,ffwll.ch,gmail.com,redhat.com,kernel.org,gmx.de,linux.intel.com,windriver.com,chromium.org];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TAGGED_RCPT(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 
-On Tue, Nov 25, 2025 at 8:08=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Sun, Nov 23, 2025 at 01:23:51PM -0500, Pasha Tatashin wrote:
-> > On Sun, Nov 23, 2025 at 9:17=E2=80=AFAM Mike Rapoport <rppt@kernel.org>=
- wrote:
-> > > > > > +static int __init liveupdate_early_init(void)
-> > > > > > +{
-> > > > > > +     int err;
-> > > > > > +
-> > > > > > +     err =3D luo_early_startup();
-> > > > > > +     if (err) {
-> > > > > > +             luo_global.enabled =3D false;
-> > > > > > +             luo_restore_fail("The incoming tree failed to ini=
-tialize properly [%pe], disabling live update\n",
-> > > > > > +                              ERR_PTR(err));
-> > > > >
-> > > > > What's wrong with a plain panic()?
-> > > >
-> > > > Jason suggested using the luo_restore_fail() function instead of
-> > > > inserting panic() right in code somewhere in LUOv3 or earlier. It
-> > > > helps avoid sprinkling panics in different places, and also in case=
- if
-> > > > we add the maintenance mode that we have discussed in LUOv6, we cou=
-ld
-> > > > update this function as a place where that mode would be switched o=
-n.
-> > >
-> > > I'd agree if we were to have a bunch of panic()s sprinkled in the cod=
-e.
-> > > With a single one it's easier to parse panic() than lookup what
-> > > luo_restore_fail() means.
-> >
-> > The issue is that removing luo_restore_fail() removes the only
-> > dependency on luo_internal.h in this patch. This would require me to
-> > move the introduction of that header file to a later patch in the
-> > series, which is difficult to handle via a simple fix-up.
-> >
-> > Additionally, I still believe the abstraction is cleaner for future
-> > extensibility (like the maintenance mode), even if it currently wraps
-> > a single panic (which is actually a good thing, I have cleaned-up
-> > things substantially to have  a single point  of panic since v2).
-> > Therefore, it is my preference to keep it as is, unless a full series
-> > is needed to be re-sent.
->
-> Well, let's keep it. If we won't see new users or extensions to
-> luo_restore_fail() we can kill it later.
+Hi
 
-SGTM.
+Am 25.11.25 um 14:16 schrieb Christian König:
+> On 11/25/25 13:52, Thomas Zimmermann wrote:
+>> Remove the rest of the kbd support from DRM. Driver support has been
+>> broken for years without anyone complaining.
+>>
+>> Kdb cannot use regular DRM mode setting, so DRM drivers have to
+>> implement an additional hook to make it work (in theory). As outlined
+>> by Sima in commit 9c79e0b1d096 ("drm/fb-helper: Give up on kgdb for
+>> atomic drivers") from 2017, kdb is not compatible with DRM atomic mode
+>> setting. Non-atomic mode setting meanwhile has become rare.
+>>
+>> Only 3 DRM drivers implement the hooks for kdb support. Amdgpu and
+>> nouveau use non-atomic mode setting on older devices. But both drivers
+>> have switched to generic fbdev emulation, which isn't compatible with
+>> kdb. Radeon still runs kdb, but it doesn't work in practice. See the
+>> commits in this series for details
+> Amdgpu is heavily pushing on switching to atomic for older GPUs as well. Timur and our DC guys have made quite some progress on that recently.
+
+ From what I've seen, I really like the work they are doing there.
 
 >
-> > Pasha
+> Feel free to add Acked-by: Christian König <christian.koenig@amd.com> to the amdgpu and radeon changes.
+
+Thanks.
+
+Best regards
+Thomas
+
 >
-> --
-> Sincerely yours,
-> Mike.
+> Regards,
+> Christian.
+>
+>> Therefore remove the remaining support for kdb from the DRM drivers
+>> and from DRM fbdev emulation. Also remove the hooks from fbdev, as
+>> there are no fbdev drivers with kdb support.
+>>
+>> If we ever want to address kdb support within DRM drivers, a place to
+>> start would be the scanout buffers used by DRM's panic screen. These
+>> use the current display mode. They can be written and flushed without
+>> mode setting involved.
+>>
+>> Note: kdb over serial lines is not affected by this series and continues
+>> to work as before.
+>>
+>> Thomas Zimmermann (5):
+>>    drm/amdgpu: Do not implement mode_set_base_atomic callback
+>>    drm/nouveau: Do not implement mode_set_base_atomic callback
+>>    drm/radeon: Do not implement mode_set_base_atomic callback
+>>    drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
+>>    fbcon: Remove fb_debug_enter/_leave from struct fb_ops
+>>
+>>   Documentation/process/debugging/kgdb.rst    |  28 -----
+>>   drivers/gpu/drm/amd/amdgpu/dce_v10_0.c      |  35 ++-----
+>>   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c       |  35 ++-----
+>>   drivers/gpu/drm/amd/amdgpu/dce_v8_0.c       |  35 ++-----
+>>   drivers/gpu/drm/drm_fb_helper.c             | 108 --------------------
+>>   drivers/gpu/drm/nouveau/dispnv04/crtc.c     |  24 +----
+>>   drivers/gpu/drm/radeon/atombios_crtc.c      |  74 ++++----------
+>>   drivers/gpu/drm/radeon/radeon_legacy_crtc.c |  23 ++---
+>>   drivers/gpu/drm/radeon/radeon_mode.h        |  10 +-
+>>   drivers/video/fbdev/core/fbcon.c            |  24 -----
+>>   drivers/video/fbdev/core/fbcon.h            |   1 -
+>>   include/drm/drm_fb_helper.h                 |  21 ----
+>>   include/drm/drm_modeset_helper_vtables.h    |  23 -----
+>>   include/linux/fb.h                          |   4 -
+>>   14 files changed, 63 insertions(+), 382 deletions(-)
+>>
+>>
+>> base-commit: 0a21e96e0b6840d2a4e0b45a957679eeddeb4362
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
