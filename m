@@ -1,102 +1,195 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010005.outbound.protection.outlook.com [52.101.193.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F54670808;
-	Tue, 25 Nov 2025 06:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764050456; cv=none; b=JIB/eq1Odv38dGvm5WDNd5X6lX4CvIBbOL294E3KCeFEsBM3FLjOJrEsJQBOlXT/RviQSk15w/4yW/76Y4XbLAOJX+WU6bF/cVTpIMssMgx5Ar6B2XMK/pjXIiJ9SHibrLBWnSLiggeC9mIRlM82tcDoG8a1HFLI9DKKkNawAIM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764050456; c=relaxed/simple;
-	bh=jP3GYOpy3uZ8JHuIiKkAGlB9B0lTBVd7pOoMOEIxvkc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
-	 In-Reply-To:Content-Type; b=r6jIYjgoR2xQDwfTOGmsYKmg83BN5kKMx8WRQ82K+tkOQ7GL9oSgkpJF1mZ7JuMubydmmFdvJH53rPmzwBG344V0jmvKtDcTlO+xT0TU8cJ3r0jlZtUdZHhP/Ht8+Wz8r44oKCsVPQ4lSkgajFmfkV1YM+XWULRbUHjrv9+i2To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NUyZDhVH; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937E0523A;
+	Tue, 25 Nov 2025 07:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764054083; cv=fail; b=WmSe7tUkDnTcRHbrsfjjyaShEzzw2DVAUDctg3a2WIPBACf1CKafCHkYrq3amgJ/YRJk27T5KKs7i0eQpW72qLtwJ8zY5jz6jPicCoqezYNX20IYb3Eeh+/LMlA+dX9ojnIAVG7wDxxc/rtcwqcHteZKPNm6jJ5rmwGDhbtzOnw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764054083; c=relaxed/simple;
+	bh=ifxKXpa/OMdfSIcA/mDu1KRAbedyR73igMKRiskzZWU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mP9pbVUOr8CvWFdKcbmgIyA8gWpuSIMB1/rSjS1DccATpNZKjT9u31S+wDw573xf2huBPXAmptYHZF/oRLdkP0VLqvJ6NsefTlYJXSGUjNwczrJrtLl1rdeByLvJuDFDAaTxN68115xiP7psVIJRVpY+MCFoydzZXYbSkIFir90=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dS1PMIN0; arc=fail smtp.client-ip=52.101.193.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NUyZDhVH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:To:From:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=IYjVAcW/bZrN/tmlzfFCXkMqYS6lh4z3oiIjQ6JrGoo=; b=NUyZDhVHciHqP91wj+dnerOMqG
-	1+YeDnqK8kiKHAhYyKSiTgYv60IU7PT5YHpe19oCsjfno7iA8MYTOf1ge6cQSqbe4Y1aKrr6Ippd8
-	iLgDEifQmtsaxq+OP4bT12BQE/hN8rugbzhH/YBYF4KTfq9eGd5+yDILDCpnwz5lmtJRPWvX7Kdi4
-	beKaQvu4qRJYYOqYeb1AQeFNlSk7cbh+VKbY+vQYx2AaV+i1UhMNHXDbuFSdMZ69hp5Ly75dNLm4m
-	PePxN7fnH+B8YFFVF17BAUoKZLTKxqtovngYf5fN9euo4kWC5GyhSwSgK5cvImwi+qRKoL8A1LCIz
-	ttfH2kdQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vNm6Y-0000000Cnrd-0TO9;
-	Tue, 25 Nov 2025 06:00:46 +0000
-Message-ID: <19bd0112-9735-49a9-8a5d-076fb0635514@infradead.org>
-Date: Mon, 24 Nov 2025 22:00:45 -0800
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dS1PMIN0"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jbhhIW74UN75rFD5iluj1EBWTMK8DwLw+fEwV4EjZyX82B35zBTiApjgy8D5HhPdJMfjzm0T1e5+npein+mwoJHJiwIMGekuRMmxULE0QJ/vLQV6ZBmgoqqahY7gu0OhZZcW2XY80nFMfMZbrKJjqX/Ac3U/XejgPVB7uV2cy1ZKp7h/7RC2k3yBLmvlFbP/9THHiOGuzDoTR8roLwGauHCRgdtnEVbWOPDtvQKjrfA6SQpwrKXZER15HAX1K7z54adNYWINT/Pu6igVEro9VawsCOnCzan0wYxhedhuFX0HeXWXHCGw/2P1cj45jAcbrLKoI6+AEcycF2NFpiFrvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x05dfVfJPGCwJXyMl6by4kWH08mp9vvUhAW5xagjldA=;
+ b=PO7o80kcrEebfb5OlTBbyrx3LuXyz+2thP69CONceTahmIMjnb7W7pUG2hla2BZ90anBr6+9Cqt+WOBx4UHbIHtDP1itZqZG/lW4gA5BZ4NOCT/9RpQk/aB4aBwRPxliCHKQ4y8gBnbzNd65dTpGFWI8EagNY4lN1NZyjyvowh9pc/Ij5s/jj4QbDo+4z7RUzlsJimFtU441gS70DJ8YTq3WwHz8NXJik0wIiG3O4uHcFWlhhg8Gw0FDrsIlrwjQ4JEPIGcvEK2mQXv7am7giX7wXiLkXjA9STTGt/Kl7sm2RErd+2/WyG0y/6JO4zV75aQisswzGAbJIMynUxG7LQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x05dfVfJPGCwJXyMl6by4kWH08mp9vvUhAW5xagjldA=;
+ b=dS1PMIN0yJKVneEsc6jymQXLxqbm2bnGPbkC8q59DeyF0TovQrGLxG2bcUdsPsF1BtQwE8I1JsTF0qJ12kVgdKOJWTdB4S7jMtJhQ7pBeWqNSmL6iU5IQa3Xy4/NxIOjZgeu3GIG52yYOSe3YUdjXvaq6FM2NMKElz1lr47sQvApym3BDfIBzBhifThExTHuBbW//uuG/sWZ/8C6GrAhW+u1YIZfOy5FUnkrAnvLOcxjlyrfYqgb1A6CR8kT8ePCkNroM6TRb19bVC5PKaIGNv0NZaY14/BVi1AGnePqtPxUszg5hZp8SDBI+HBMgTmtBl3kpAYabGdQDQShMQgQgQ==
+Received: from SJ0PR03CA0382.namprd03.prod.outlook.com (2603:10b6:a03:3a1::27)
+ by MN2PR12MB4341.namprd12.prod.outlook.com (2603:10b6:208:262::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.18; Tue, 25 Nov
+ 2025 07:01:19 +0000
+Received: from SJ5PEPF000001CB.namprd05.prod.outlook.com
+ (2603:10b6:a03:3a1:cafe::fc) by SJ0PR03CA0382.outlook.office365.com
+ (2603:10b6:a03:3a1::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.18 via Frontend Transport; Tue,
+ 25 Nov 2025 07:01:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ5PEPF000001CB.mail.protection.outlook.com (10.167.242.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.7 via Frontend Transport; Tue, 25 Nov 2025 07:01:18 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 24 Nov
+ 2025 23:01:03 -0800
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 24 Nov
+ 2025 23:01:02 -0800
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.6)
+ with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Mon, 24
+ Nov 2025 23:00:59 -0800
+From: Tariq Toukan <tariqt@nvidia.com>
+To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>
+CC: Jonathan Corbet <corbet@lwn.net>, <netdev@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Mark Bloch
+	<mbloch@nvidia.com>, Gal Pressman <gal@nvidia.com>, Sabrina Dubroca
+	<sd@queasysnail.net>, Shahar Shitrit <shshitrit@nvidia.com>, Tariq Toukan
+	<tariqt@nvidia.com>
+Subject: [PATCH net-next] docs: tls: Enhance TLS resync async process documentation
+Date: Tue, 25 Nov 2025 09:00:37 +0200
+Message-ID: <1764054037-1307522-1-git-send-email-tariqt@nvidia.com>
+X-Mailer: git-send-email 2.8.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Docs: admin/kernel-parameters: Add trace_clock=tai
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Jian Zhang <zhangjian.3032@bytedance.com>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- "Borislav Petkov (AMD)" <bp@alien8.de>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Petr Mladek <pmladek@suse.com>, Feng Tang <feng.tang@linux.alibaba.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, Kees Cook <kees@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Frank van der Linden <fvdl@google.com>,
- Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>
-References: <20251125053406.148219-1-zhangjian.3032@bytedance.com>
- <7222680d-2812-4aca-ad29-4b908c6ba676@infradead.org>
-Content-Language: en-US
-In-Reply-To: <7222680d-2812-4aca-ad29-4b908c6ba676@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CB:EE_|MN2PR12MB4341:EE_
+X-MS-Office365-Filtering-Correlation-Id: 948b2d4a-8050-4482-a78a-08de2bf06f1b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|376014|7416014|1800799024|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?RGb0UoKeNZSp13IH16qjtDRkUVKBjycCOVZakJXI/LUsM9phbs9GzLc7BJQj?=
+ =?us-ascii?Q?gVgM7HxWIMzwveM8IXx+JpcBQdyK3p2Hnhae/W94QzliZeeabs/Gz6Q8noPy?=
+ =?us-ascii?Q?aZJ6HflIPiv9eZPWmDepObotRCp8Bofviz1Rvqldztf9LogFLfVHP/1zL3bV?=
+ =?us-ascii?Q?mxNyokQmm9mY2nETKMID/XGw/lIX43bhT7UxjMDCUW9RXkGqW4yLhEvRlbVS?=
+ =?us-ascii?Q?G9XGDTtL0gmdCrOCO48K8nvQgnkqR0xOfiETUa8vLT3vRA7GXmb++4vfKX6m?=
+ =?us-ascii?Q?SSE/iXFz1j0IlRdnDqR2yH2AJ1lppjy2aR3iFgL6hutmWWpYYjUBPmzQVON7?=
+ =?us-ascii?Q?Z/73G6GLiG6EeTsMQ9cgHWK3OFm4o/tn//JDG8EYpn4rT2+ZrmfOEoD6DhXx?=
+ =?us-ascii?Q?evQNRRy8MMM+lW0v7ICNX3mtPFPg+FFi/UXzyyjol0XnEKhmvAaNDJiIgJp3?=
+ =?us-ascii?Q?sA6fMxIYVIYyyx84F00v8UpTkK/JjPAV34L48J467dP5zZxlqbUZtPzK006u?=
+ =?us-ascii?Q?b3j4dvqvnz9jQJWc2KSMyrk7p9Q+hmpzYkgZvsa/47QhxWjNXEjSSpmAhYcN?=
+ =?us-ascii?Q?YwEoO8sFrilwRG4W/KdZOvebLGfE7kXZ9mmkHPDk2ydp8aXUbXO7iIqzFr9G?=
+ =?us-ascii?Q?LcQFT+Pi2g+HtBr0zh9mmyAtZB/rgQUZNdc0lvomO/nFBvLV5OAr5rwHDg0/?=
+ =?us-ascii?Q?jvmHmKwekEicLxqISrwUveQqdlIkBc/bqZeXUjX/FVajkdeiCqQ1F0/urEwL?=
+ =?us-ascii?Q?IrinNtGCDloc5zVwfrQT1VbDGjg+E1To4ryrrL+7Pyen4yiQoAxUGtDIfyH8?=
+ =?us-ascii?Q?6KzybG9uAhHosRmy+IG2140lyB/r6MQFviaFxyAYgmlxdxEJ3YeEIk46/tJU?=
+ =?us-ascii?Q?jNmcj4l5FGWsn88egrcoMriXyJhQQg12WS0kur++NjvgoOz94e1AqVjiYmSR?=
+ =?us-ascii?Q?pQKwNNCnuKWrjQsDvol5al1NGD/8dZTB1e4/m6DCexbcxwYXFkF+ZruQVlB4?=
+ =?us-ascii?Q?zeM1eLsAYwbvdqF7hgPM73CqMvF+sBIDUWViIkuTYrrSWtozkI5wvkmS6hGe?=
+ =?us-ascii?Q?6659J4JiASPVBA5Y8+/X/oHDQel7B0d8gL3C0Ans352+iFFGHMAWVmB9bEBP?=
+ =?us-ascii?Q?cLFBf7GaJu0q0mxkNPt8TujieVwNY/V+6HqccJRV7x5jdZRfs5r24xtNj4HF?=
+ =?us-ascii?Q?2Gtmb6ok2y6Zow3H5WZm2hib18CWYs6FuYllREwVZwBo3CvgBuqw3j1iAAJH?=
+ =?us-ascii?Q?+Q95lpdqnlQdvM5Uf0UWOvldNd6YGhJ4epe/BcN5s12Vc1hX1eQjgv7WbjKF?=
+ =?us-ascii?Q?89VPHnA3HizvbxvRX1y2YZDEeSvI8ua3YGH7RxsUZrxtvkfzx6RxPGeCf01u?=
+ =?us-ascii?Q?+pgjzNX0um2kGQlZYJuPriC+x9EP68jjUhvzp6Bwe9KQySrEydwFHBKWxMIk?=
+ =?us-ascii?Q?NohA3aNQPHKLZdekvsL+L+1v9irymmgsNW68JHBi+hdAMG8Bxwx38E7lMNMm?=
+ =?us-ascii?Q?AjN6y7ZlqLPmnmsH94RZHUfe4MO3CZ52va1G2+BH/ehFJYvsIlrys4CsyIWp?=
+ =?us-ascii?Q?mvbj04J+RwSFlQ00mG0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 07:01:18.9144
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 948b2d4a-8050-4482-a78a-08de2bf06f1b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001CB.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4341
 
+From: Shahar Shitrit <shshitrit@nvidia.com>
 
+Expand the tls-offload.rst documentation to provide a more detailed
+explanation of the asynchronous resync process, including the role
+of struct tls_offload_resync_async in managing resync requests on
+the kernel side.
 
-On 11/24/25 9:53 PM, Randy Dunlap wrote:
-> 
-> 
-> On 11/24/25 9:34 PM, Jian Zhang wrote:
->> After CLOCK_TAI is added, add missing option trace_clock=tai.
->>
-> 
-> When/where is CLOCK_TAI added?
-> Commit hash?
-> Thanks.
+Also, add documentation for helper functions
+tls_offload_rx_resync_async_request_start/ _end/ _cancel.
 
-I got it. Thanks.
+Signed-off-by: Shahar Shitrit <shshitrit@nvidia.com>
+Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
+---
+ Documentation/networking/tls-offload.rst | 28 ++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-commit 1ff3c9677bff
-Author: John Stultz <john.stultz@linaro.org>
-Date:   Thu May 3 12:43:40 2012 -0700
-    timekeeping: Add CLOCK_TAI clockid
+diff --git a/Documentation/networking/tls-offload.rst b/Documentation/networking/tls-offload.rst
+index 7354d48cdf92..6d2769316699 100644
+--- a/Documentation/networking/tls-offload.rst
++++ b/Documentation/networking/tls-offload.rst
+@@ -318,6 +318,34 @@ is restarted.
+ When the header is matched the device sends a confirmation request
+ to the kernel, asking if the guessed location is correct (if a TLS record
+ really starts there), and which record sequence number the given header had.
++
++The asynchronous resync process is coordinated on the kernel side using
++struct tls_offload_resync_async, which tracks and manages the resync request.
++
++Helper functions to manage struct tls_offload_resync_async:
++
++``tls_offload_rx_resync_async_request_start()``
++Initializes an asynchronous resync attempt by specifying the sequence range to
++monitor and resetting internal state in the struct.
++
++``tls_offload_rx_resync_async_request_end()``
++Retains the device's guessed TCP sequence number for comparison with current or
++future logged ones. It also clears the RESYNC_REQ_ASYNC flag from the resync
++request, indicating that the device has submitted its guessed sequence number.
++
++``tls_offload_rx_resync_async_request_cancel()``
++Cancels any in-progress resync attempt, clearing the request state.
++
++When the kernel processes an RX segment that begins a new TLS record, it
++examines the current status of the asynchronous resynchronization request.
++- If the device is still waiting to provide its guessed TCP sequence number
++  (the async state), the kernel records the sequence number of this segment
++  so that it can later be compared once the device's guess becomes available.
++- If the device has already submitted its guessed sequence number (the non-async
++  state), the kernel now tries to match that guess against the sequence numbers
++  of all TLS record headers that have been logged since the resync request
++  started.
++
+ The kernel confirms the guessed location was correct and tells the device
+ the record sequence number. Meanwhile, the device had been parsing
+ and counting all records since the just-confirmed one, it adds the number
 
->> Signed-off-by: Jian Zhang <zhangjian.3032@bytedance.com>
->> ---
->>  Documentation/admin-guide/kernel-parameters.txt | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 6c42061ca20e..fdbd2149f321 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -7452,6 +7452,7 @@
->>  			mono_raw - Use ktime_get_raw_fast_ns() for time
->>  				stamps.
->>  			boot - Use ktime_get_boot_fast_ns() for time stamps.
->> +			tai - Use ktime_get_tai_fast_ns() for time stamps.
->>  			Architectures may add more clocks. See
->>  			Documentation/trace/ftrace.rst for more details.
->>  
-> 
-
+base-commit: e05021a829b834fecbd42b173e55382416571b2c
 -- 
-~Randy
+2.31.1
 
