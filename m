@@ -1,342 +1,143 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33222D73B8
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 18:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02E432E6AA
+	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 18:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764096185; cv=none; b=Vvfme+Dy6JEFZ7sHCuZQPcrC2Cy+SXCvKvjkWzfcOUUrZk9VcgOb/yYNdeI2lkH4ZeOKCxFsmX36abjp4GYhSzJz4zA7pnkJuPxjPBCZZ92uiv0uXosZ5SbPHtEnHwbARjyUCrzkXAIA6nt+MAd0RiEyhgN3Hp+XZvtFBR9qe8k=
+	t=1764096261; cv=none; b=iEk3HhScHqERxVrBm/6J/o8ZLFWoAi50XxFicim7I1rf8yAWmbjs8VHY9Tel1ZbkOORvVHKaOBx7g9W3q0ANIN4sfzOA6Y4OkkbyftnTMCTkPrYdZLcCZ33oCdpjmjy/kNQlept9asCWisO8gmvkjtdJlwKJ/HrVrr39W5d0ROI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764096185; c=relaxed/simple;
-	bh=J5yb/UC1A7vYdK0jmfuKjigsoEcRGW2DZN91dhTvAqk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tpRRYaKoRsdJjIhyGKFuuJ2rZ6iGO3y69Go3MlBwAQ6kxCbHoKspXodqf2/COn76ZVOToCG9taG55ppHGc7gyg70m6HCRuuFl0ehZlVwGKtpf3gj8RoeGH5qzh8jxn/zmBWmxsmJcntkufr/EN6Pq0tSV2bJkpsJB+3ilj6MlAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=ju8/U9rD; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1764096261; c=relaxed/simple;
+	bh=h41rvwq00iAAMBX9jSxM9Flk4uh7o21WQ52nLsax6Y0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ACTOCQj8PCc0nisGLH3iOqkjzV328KezaUE11sehXY2DscAxqiqaGpWQK362GX064rBT81XyCDw9/uYT0Io14H1jz3t3ERTGb7cRZ7/MlI4mPNNUkeHhka2Q4rNCJnbpqNPJG6d4A4qIbNu3SEIzGCA3Kwq3i0bLriHZH9uB/Tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6kmdJly; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="ju8/U9rD"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b762de65c07so393791266b.2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 10:43:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6kmdJly"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-78a712cfbc0so56163877b3.1
+        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 10:44:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764096182; x=1764700982; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1764096259; x=1764701059; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8sl7d4yuCxVIIt38N0Zrxf3gnAJfLpB9v0r3s+kB8/4=;
-        b=ju8/U9rDg0IM6nszTbDpgE9ubWDJ2+H1pKU/AACHauBECgfXoeUZMACBVS3uGTnWol
-         3Aj1WJum91nFhIAvnmUEz7nclIdS99TQLCH9lDHe3JqMbQZO3zJHs3IkhgMjrG3G4Dba
-         lhdUYApv0BrtwlNn5WvncJp2u8mq4pZOdH1mr9DwaJNkW1cBEAqZL2Ow3kJdvHD5xlQU
-         kz1vWxuxw/yJfg5AhbHhQ25mBqed6YIhYOxf//YyAKzF+pAlaq9kXT/wA5tl/p9JTCN+
-         S1/5saxl/MIdGafGtyUdJZo4oba/NybJq64fF85YtlbQ7EQ1alB8FQYKSjmD7jMsXJer
-         58vA==
+        bh=EuCC5DFWaWyOL4X15A+FY0iDuG43APf6t+DuwQP4zFQ=;
+        b=V6kmdJlyF1SaFhR0v7TrmHDbXrpefM/gZiMsrzP/yECoIBMzZuEjPUh9eOcVdxqDHg
+         aCUG2Be1O1+boMdaY9eMjRGVxfx2Dl5FUSZwSRBGvQ4Q3so4tahKJOqUrwNWPNly2mXo
+         eQa7Ynxi5Ewi5lxrq9DKRg/YxSJWRV9no0me3ookLfmGACZ6bsNZAHV8hNnFyPkYv+dv
+         HH0TU2kq5qGem5/+jiKFfZIYnHe+pVPUVPIOSwDod6jpcKP3WnltSmAf9f+5jTwjVuwQ
+         niQ7DkXdDq/F/N5kQUbtW13DTQfD5T8mTj0Ndsq37vn2lcnSUU08/8luX8mtpuw2KlSF
+         Wa3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764096182; x=1764700982;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1764096259; x=1764701059;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8sl7d4yuCxVIIt38N0Zrxf3gnAJfLpB9v0r3s+kB8/4=;
-        b=vlhcGEU+hE3oceCMmaE5e5rijwQlY2OPBMLlSX7m0BSnUgaWEIdDSEnBMizLNl1NTc
-         2POvcv+3hZzTJzaTxbKlAGaYCBV6EaNboSWpToSsyQYJhxs/roiL1FcktXs2Q+CX10Yb
-         np6r5RdGepBAKLTCZzxakiYH7EAkLJJHHgp7Dtn4sDbdO1s4IEhVfsEkljACwOx+RQdb
-         OxzN3W7ax5DUrb1dmS7EodulGz89XMivy5LPvStGu6+oQJwnu8hHkTcFknbRxd3oIGAZ
-         1JHXlg9f+CHU6oCq43tls0jY3tFGm3snXMwvOHMSqwgwn7kc/mqIYNLIMviAnQdKby/f
-         0oZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJTE3ggtoOocAz8o4BagbnH8D2yBJuFdBEf8nZjVdQffn3K4tJwcKil5CwHI6TqCleluwoxkhMNd4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRDZPNkiCga9/T6/8etm/ICEDpDt8OfaNwcUn5PgIi8mYSH4PH
-	K0OSZxFLjCZ8wG/jzTndVREtbzQ1DFpVqwt4uXYV5fSrIHRjI2ymodkvnZltrbpF9s+PdaPjCVR
-	+D0kKrOd+0V0/aYRYZ/NSahW6BGIMApDVlMMXt5aLQg==
-X-Gm-Gg: ASbGncu5pmTuUgGyy8v+p88fcCL52NFgav62pYVjCZCS+OWxQW4uNYitNtyFEgAwHwb
-	FC+WbJ4X8nM6RMnZLbq3qxfuubsbM+AhwX4PUadFv/XJSaS2WCq7hXnUMcSZUNYtVs1OYRVyBFL
-	Y72hFyqvpRoH/69Fes8Nuo98nJsUSGyJPvCG3swgfe0aMImPdPzUI5bbae5BO6a6LydaZZoGn/b
-	y9KC8M/8k4GtLYp5hyXeId6x/TPCAem6GwZtLnhtzXJU7CtbORVQyRasGF16njoY5Ia
-X-Google-Smtp-Source: AGHT+IGSMJtx2bO2sylBPLFg9TBSoq5VimU44LG0EK6+xX3ux9ORu14DJvucOQEenuC++UueKyTADqq7bGyGwdliFos=
-X-Received: by 2002:a17:906:240e:b0:b76:d825:caca with SMTP id
- a640c23a62f3a-b76d825cd38mr74808366b.38.1764096181962; Tue, 25 Nov 2025
- 10:43:01 -0800 (PST)
+        bh=EuCC5DFWaWyOL4X15A+FY0iDuG43APf6t+DuwQP4zFQ=;
+        b=CCvpPj0thvaHA+hBtYuZ1CQdp1GJww+/nF/ZVMjUbf9i1Sx7HMmZL4kvMfZudzI/xb
+         jdllQ2PO2K+eXJRwyuJkaBD1oovdiOB5cOMFNQxEWDmP5muUibNbx/cnSYLTdrSJmaDd
+         3pXKRNn++L50PYXlnuTt4woanrV55ZfJiuCuqDRyVPFpgiYf6/hJBqVT6KqUofMMIqlT
+         Uk0xkNYciZuzTaAFmbfNvU5cMzSnLSMnygW2WXM9R+a3q4VlfuVVRS2yV1JHzA8BGirW
+         xKMcesSc6ZnRaDo3cNIa1ndIism5UlA29Zkv0smySIgYZFacrJz4IosBGqEdEmX/xTds
+         X+rg==
+X-Forwarded-Encrypted: i=1; AJvYcCWaObDVbi28XpXzHyYQPO2TeZAMxJuPAYz641mG6zyb9IM2zdj9/7rQ6N7MU2D2xEbeBDvNy/9RsgY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQmT2GMn7u84j5j31DYiP4ITa5BSBwFT1wgWgNwvXvfsi+zs6N
+	MmLs0ID6CrcTShUO8eflra0plxa3tL5l/v5V3/PVszXCWTseNwDrPm03
+X-Gm-Gg: ASbGncse4ET0lrrOkmHGOa1jGfeM9knugGxILXarYFbJXBj/AMKfZKfHfS3WiLq8yLv
+	G+c0/Y9HHLrvG+WnyGWdz1GGHVmWbcM5kvJJmDROzw0PFG+VNhd7NSaaapAo3ozlcudlgd0FjTo
+	Awz14vHSCAF1jUYuNby3eKi5lS+UpZ7HQ3peikTry/YX+K/UrqNeLPQC5a2WJrpd9gzzXbGlBs4
+	x/dmVAexlgP47Bn+Faky7naETGqGb07TR300qWDutf7h2GhDW5n/oYCCQWMHWxyJW9uyT6c3Rkf
+	N4+HOnv+9JtBbGs8w2R2TXzZgnpHYgqoh1orHXCxHtLF8oR6N39GGknRDOmXrbGoBvqbSPT5A/0
+	2Ol1QMdSaieXPYmHS3AKIA/rwAuz0fDah4A78pfQFwubU04uNHqOMVzVF+1jSvN3W/Wbw1+YkuT
+	8deZ56oWe6UPJ5hL/P3MK18g==
+X-Google-Smtp-Source: AGHT+IGL0IWhgJSuT0/x34hD1ZnZBCQoO9+9MuB14e3zIBSvN6lwZFY8kFf7BpE4AVJ8D7mB99nxjA==
+X-Received: by 2002:a05:690c:4a11:b0:786:59d3:49c8 with SMTP id 00721157ae682-78a8b54d8b4mr132611937b3.49.1764096258560;
+        Tue, 25 Nov 2025 10:44:18 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:13::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a7992511esm58735867b3.35.2025.11.25.10.44.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Nov 2025 10:44:18 -0800 (PST)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v2 1/2] mm/mm_init: Introduce a boot parameter for check_pages
+Date: Tue, 25 Nov 2025 10:44:15 -0800
+Message-ID: <20251125184416.1493908-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <aSWDkuJEdk9cdVCK@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-20-pasha.tatashin@soleen.com> <aSQPNuFIv0rRr2tp@kernel.org>
-In-Reply-To: <aSQPNuFIv0rRr2tp@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 25 Nov 2025 13:42:25 -0500
-X-Gm-Features: AWmQ_bnIS98IIm55LCZoBkdO3g3lJwbqWrOuaBnNVwpmXpd9QYlsv3e6UPqSTqM
-Message-ID: <CA+CK2bAWe15SkcvWx_hRHvT-RAcudKQ1hRV1htuWanh9Mbh_YA@mail.gmail.com>
-Subject: Re: [PATCH v7 19/22] selftests/liveupdate: add test infrastructure
- and scripts
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 24, 2025 at 2:54=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Sat, Nov 22, 2025 at 05:23:46PM -0500, Pasha Tatashin wrote:
-> > Subject: [PATCH v7 19/22] selftests/liveupdate: add test infrastructure=
- and scripts
->
-> Maybe                                                ^ end to end
+On Tue, 25 Nov 2025 12:23:14 +0200 Mike Rapoport <rppt@kernel.org> wrote:
 
-Done.
+> On Mon, Nov 24, 2025 at 02:54:06PM -0800, Joshua Hahn wrote:
+> > Use-after-free and double-free bugs can be very difficult to track down.
+> > The kernel is good at tracking these and preventing bad pages from being
+> > used/created through simple checks gated behind "check_pages_enabled".
+> > 
+> > Currently, the only ways to enable this flag is by building with
+> > CONFIG_DEBUG_VM, or as a side effect of other checks such as
+> > init_on_{alloc, free}, page_poisoning, or debug_pagealloc among others.
+> > These solutions are powerful, but may often be too coarse in balancing
+> > the performance vs. safety that a user may want, particularly in
+> > latency-sensitive production environments.
+> > 
+> > Introduce a new boot parameter "check_pages", which enables page checking
+> > with no other side effects. It takes kstrbool-able inputs as an argument
+> > (i.e. 0/1, true/false, on/off, ...). This patch is backwards-compatible;
+> > setting CONFIG_DEBUG_VM still enables page checking.
+> > 
+> > Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
 
->
-> > Add the testing infrastructure required to verify the liveupdate
-> > feature. This includes a custom init process, a test orchestration
-> > script, and a batch runner.
->
-> And say here that it's end to end test.
+...
 
-Done
+Hello Mike, thank you for your review!
 
-> > +static int is_stage_2(void)
+> > +static bool _check_pages_enabled_early __initdata;
+> 
+> No need in the leading underscore.
+
+Gotcha, no preference here on my end at all, so I'm happy to drop the leading
+underscore. I was just modeling the variable after _init_on_alloc_enabled_early
+and _init_on_free_enabled_early, but it seems like those are the only ones
+that do have this leading underscore anyways.
+
+> > +
+> > +static int __init early_check_pages(char *buf)
 > > +{
-> > +     char cmdline[COMMAND_LINE_SIZE];
-> > +     ssize_t len;
-> > +     int fd;
-> > +
-> > +     fd =3D open("/proc/cmdline", O_RDONLY);
-> > +     if (fd < 0)
-> > +             return 0;
-> > +
-> > +     len =3D read(fd, cmdline, sizeof(cmdline) - 1);
-> > +     close(fd);
-> > +
-> > +     if (len < 0)
-> > +             return 0;
->
-> Shouldn't we bail out of the test if read of command line failed?
-
-Sure, done.
-
-> > +function cleanup() {
-> > +     local exit_code=3D$?
-> > +
-> > +     if [ -z "$workspace_dir" ]; then
-> > +             ktap_finished
-> > +             return
-> > +     fi
-> > +
-> > +     if [ $exit_code -ne 0 ]; then
-> > +             echo "# Test failed (exit code $exit_code)."
-> > +             echo "# Workspace preserved at: $workspace_dir"
-> > +     elif [ "$KEEP_WORKSPACE" -eq 1 ]; then
-> > +             echo "# Workspace preserved (user request) at: $workspace=
-_dir"
-> > +     else
-> > +             rm -fr "$workspace_dir"
-> > +     fi
-> > +     ktap_finished
->
->         exit $exit_code
-
-Done
-
-> > +function build_kernel() {
-> > +     local build_dir=3D$1
-> > +     local make_cmd=3D$2
-> > +     local kimage=3D$3
-> > +     local target_arch=3D$4
-> > +
-> > +     local kconfig=3D"$build_dir/.config"
-> > +     local common_conf=3D"$test_dir/config"
-> > +     local arch_conf=3D"$test_dir/config.$target_arch"
-> > +
-> > +     echo "# Building kernel in: $build_dir"
-> > +     $make_cmd defconfig
-> > +
-> > +     local fragments=3D""
-> > +     if [[ -f "$common_conf" ]]; then
-> > +             fragments=3D"$fragments $common_conf"
-> > +     fi
->
-> Without this CONFIG_LIVEUPDATE won't be set
-> > +
-> > +     if [[ -f "$arch_conf" ]]; then
-> > +             fragments=3D"$fragments $arch_conf"
-> > +     fi
-> > +
-> > +     if [[ -n "$fragments" ]]; then
-> > +             "$kernel_dir/scripts/kconfig/merge_config.sh" \
-> > +                     -Q -m -O "$build_dir" "$kconfig" $fragments >> /d=
-ev/null
-> > +     fi
->
-> I believe you can just
->
->         cat $common_conf $fragments >  $build_dir/.config
->         make olddefconfig
->
-> without running defconfig at the beginning
-> It will build faster, just make sure to add CONFIG_SERIAL_ to $arch_conf
-
-I will look into that, so how performance really changes,  I liked
-using merge_config.sh as it does not print warnings.
-
->
-> > +     $make_cmd olddefconfig
-> > +     $make_cmd "$kimage"
-> > +     $make_cmd headers_install INSTALL_HDR_PATH=3D"$headers_dir"
+> > +	return kstrtobool(buf, &_check_pages_enabled_early);
 > > +}
+> > +early_param("check_pages", early_check_pages);
 > > +
-> > +function mkinitrd() {
-> > +     local build_dir=3D$1
-> > +     local kernel_path=3D$2
-> > +     local test_name=3D$3
-> > +
-> > +     # 1. Compile the test binary and the init process
->
-> Didn't find 2. ;-)
-> Don't think we want the numbering here, plain comments are fine
+> >  /*
+> >   * Enable static keys related to various memory debugging and hardening options.
+> >   * Some override others, and depend on early params that are evaluated in the
+> > @@ -2591,7 +2599,8 @@ static void __init mem_debugging_and_hardening_init(void)
+> >  	 * of struct pages being allocated or freed. With CONFIG_DEBUG_VM it's
+> >  	 * enabled already.
+> >  	 */
+> > -	if (!IS_ENABLED(CONFIG_DEBUG_VM) && want_check_pages)
+> > +	if (!IS_ENABLED(CONFIG_DEBUG_VM) && (_check_pages_enabled_early ||
+> > +					     want_check_pages))
+> 
+> You can initialize want_check_pages to check_pages_enabled_early, would be
+> clearer IMO.
 
-Updated comment.
+Yup, totally makes sense as well. I'll include this change in v3.
+Thank you for all your feedback, I hope you have a great day!
 
-
->
-> > +     "$CROSS_COMPILE"gcc -static -O2 \
-> > +             -I "$headers_dir/include" \
-> > +             -I "$test_dir" \
-> > +             -o "$workspace_dir/test_binary" \
-> > +             "$test_dir/$test_name.c" "$test_dir/luo_test_utils.c"
->
-> This will have hard time cross-compiling with -nolibc toolchains
-
-Hm, it works for me, I am not sure with nolibc cross compiler, am I
-missing something?
-
->
-> > +
-> > +     "$CROSS_COMPILE"gcc -s -static -Os -nostdinc -nostdlib          \
-> > +                     -fno-asynchronous-unwind-tables -fno-ident      \
-> > +                     -fno-stack-protector                            \
-> > +                     -I "$headers_dir/include"                       \
-> > +                     -I "$kernel_dir/tools/include/nolibc"           \
-> > +                     -o "$workspace_dir/init" "$test_dir/init.c"
->
-> This failed for me with gcc 14.2.0 (Debian 14.2.0-19):
-
-
-Updated, removed the extra const, and static.
-
->
-> /home/mike/git/linux/tools/testing/selftests/liveupdate/init.c: In functi=
-on =E2=80=98run_test=E2=80=99:
-> /home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:111:65: er=
-ror: initializer element is not constant
->   111 |             static const char *const argv[] =3D {TEST_BINARY, sta=
-ge_arg, NULL};
->       |                                                             ^~~~~=
-~~~~
->
-> /home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:111:65: no=
-te: (near initialization for =E2=80=98argv[1]=E2=80=99)
-> /home/mike/git/linux/tools/testing/selftests/liveupdate/init.c:113:37: er=
-ror: passing argument 2 of =E2=80=98execve=E2=80=99 from incompatible point=
-er type [-Wincompatible-pointer-types]
->   113 |                 execve(TEST_BINARY, argv, NULL);
->       |                                     ^~~~
->       |                                     |
->       |                                     const char * const*
-> In file included from /home/mike/git/linux/tools/testing/selftests/liveup=
-date/init.c:16:
-> /usr/include/unistd.h:572:52: note: expected =E2=80=98char * const*=E2=80=
-=99 but argument is of type =E2=80=98const char * const*=E2=80=99
->   572 | extern int execve (const char *__path, char *const __argv[],
->       |                                        ~~~~~~~~~~~~^~~~~~~~
->
-> > +
-> > +     cat > "$workspace_dir/cpio_list_inner" <<EOF
-> > +dir /dev 0755 0 0
-> > +dir /proc 0755 0 0
-> > +dir /debugfs 0755 0 0
-> > +nod /dev/console 0600 0 0 c 5 1
->
-> Don't you need /dev/liveupdate node?
-
-That should be created by the kernel itself.
-
->
-> > +file /init $workspace_dir/init 0755 0 0
-> > +file /test_binary $workspace_dir/test_binary 0755 0 0
-> > +EOF
-> > +
-> > +     # Generate inner_initrd.cpio
-> > +     "$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list_inner" >=
- "$workspace_dir/inner_initrd.cpio"
-> > +
-> > +     cat > "$workspace_dir/cpio_list" <<EOF
-> > +dir /dev 0755 0 0
-> > +dir /proc 0755 0 0
-> > +dir /debugfs 0755 0 0
-> > +nod /dev/console 0600 0 0 c 5 1
->
-> And here as well.
-
-Not needed.
-
->
-> > +file /init $workspace_dir/init 0755 0 0
-> > +file /kernel $kernel_path 0644 0 0
-> > +file /test_binary $workspace_dir/test_binary 0755 0 0
-> > +file /initrd.img $workspace_dir/inner_initrd.cpio 0644 0 0
-> > +EOF
-> > +
-> > +     # Generate the final initrd
-> > +     "$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list" > "$ini=
-trd"
-> > +     local size=3D$(du -h "$initrd" | cut -f1)
-> > +}
-> > +
-> > +function run_qemu() {
-> > +     local qemu_cmd=3D$1
-> > +     local cmdline=3D$2
-> > +     local kernel_path=3D$3
-> > +     local serial=3D"$workspace_dir/qemu.serial"
-> > +
-> > +     local accel=3D"-accel tcg"
-> > +     local host_machine=3D$(uname -m)
-> > +
-> > +     [[ "$host_machine" =3D=3D "arm64" ]] && host_machine=3D"aarch64"
-> > +     [[ "$host_machine" =3D=3D "x86_64" ]] && host_machine=3D"x86_64"
-> > +
-> > +     if [[ "$qemu_cmd" =3D=3D *"$host_machine"* ]]; then
-> > +             if [ -w /dev/kvm ]; then
-> > +                     accel=3D"-accel kvm"
->
-> Just pass both kvm and tcg and let qemu complain.
-
-I hated those warnings, this is why I added this "if" in the first place :-=
-)
-
-Thank you for your reviews, I am going to send this patch separately
-from this series, so let's continue the discussion there.
-
-Pasha
+Joshua
