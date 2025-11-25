@@ -1,124 +1,260 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9562D3EDF
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 18:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56272D3EDF
+	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 18:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764096908; cv=none; b=JlvNF84Zt0iCbUD/jH7KGcQ/hFdR3DaZH/Y/rqYJmhrpqcPhCVhghvHppe8xJXc9I1oJuBycnZbf2cew+NGzMsWUhbyYL1TadJVJNj5ePZzTckjnMRHJJBmplv9iEdvn/UmzCJvz8tvXxbxT6yJuoLLmi4HsP6tnKVFrWZaf4xM=
+	t=1764096980; cv=none; b=qhh7/Jm+L28gyAc283TYIneduU+Z7k10rCVGocvqD/wQGbEzrdnxDex7Cg/xnKdlVOrLdeEeDeOJ9I6wCwLumuaQ3TARgBueKB6EMtovys1q8nQREfSZ0F6EMTwo2WoCSB5gdBvFQeEBJs0kuefXUZHLvmm36tcX94OIlRpcuSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764096908; c=relaxed/simple;
-	bh=HRq0fEmSLdbqSqBDU+IM/YitmlyC+uQDyXNbdhOeZwA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xk3anoDcIvEBG1JHjh4d4I/ukzpHK0k07XOQrfhFJk+M7BgvY22Wn8KL8qVFynCOdf0JDEG77i+9TXw4BE/bDIPfQNavg0GDW8fhXz0M3rHW/IkmGYFe/F8E5kZgqz45T/xIeof4l0LkwJctlrfaaqixlFeOTvxoCt/138YLrcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=XtG8w+eB; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1764096980; c=relaxed/simple;
+	bh=z/dmVJnR+J5VVo2vZu7kNybMBjEPOUc2PV9zOwiofZk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CYPkH3krpST9tbpzcslhOCCUKMrCry+z7q1u3BsUnUqACWfUYQ/vQOd0LpWUKyOr8ZiZ+MuXRNnqYe9uV7dWSstKHkw7zY9hBqjbgPdip1yvyMdQIQW/I1S2IkOWdBm2gSo5d7Aphzsf1d+nCRgDW7RYFblBFqqktWmDH+h+8mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=VnkDbdow; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WI9x+Hjp; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=VnkDbdow; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WI9x+Hjp; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="XtG8w+eB"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-64320b9bb4bso250336a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 10:55:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764096904; x=1764701704; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TTCNx8vWQBYhmY++zaqhyqyyYNnaJr9KGGVzzHKQdqA=;
-        b=XtG8w+eB5qRXzPUgChF/yWMI90bL9wBGTJZonr71PdWsilhnchYUYbU8ktoM5jSBjG
-         M48R7ZzKCgh5y4SjsO8xwDPTrzzzfLM/eMyLLWsVgSdHrBbvdkT1027JBw/vxgqmBiCx
-         pt4rd7Bg0seNjlTrb6bCA7ywnjVXyQMQ8LJohNPtuR3iyKAZEEP/dELLoHF8QMZfiSqf
-         T1ZIOB1S+xfMkkLG9y8rqkg50JGiVoGsp5mU2KwLihpP4ibpgSY+csFoUd79VP1zp5mN
-         PZVSpHod3QkgieyEgI7E9UlhW5hLg95ghwgVOi46fvxxo4b2TLQvJl4E0nChDfhOPxyd
-         r1rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764096904; x=1764701704;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TTCNx8vWQBYhmY++zaqhyqyyYNnaJr9KGGVzzHKQdqA=;
-        b=jcDL3ZKgjscZyj6xHozLQtjOlES07pgJ4tuqOEHEsT+URnjYDiiioq/ed5cfhbRcAX
-         MXfYAmN61tLTD9t2kkB0W+30toFgQkSkfaOL44Pa//NT9k09sWT5C44t04TVfjmmlxWJ
-         neAPAH8aGvwx3hwgcRUbUwDTMxm+BszSZSkYnmXjXltqKOGlFRPBgq5bN22Z53Ho53Hj
-         ARCOixzDlHeal/Kce+1y+zOK5VnjCgf//w+xyncVTtjFu7uvFmnmXS6d1yPvMsKJLUY/
-         N3lzIIU2x0IlGmFph9VSmphiSu+WRJMhlauVC7pn36FtX/8QVrabFyi8LsDTGgC1Xk7O
-         z0LQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVOPWAYQ/TehR9PjVslHZBFbHYtTPQVxCxXqUPLGN/xkXf0wXQYaFR9xfiuV0laEsVLJuAECHMEuf0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkvhvGgUQaD3mpUci6m44Pqx2bhiS1+JJvCOvZDfFGShP2MXPx
-	qx3S8SfWFjcTh4Ashocaha5l2IDTJP4EqUF23yLbmWFC4SA+3TnXd+h5jp+LPQYXFJ3slOgZ8OM
-	D0IYFBXX2F9Zn+Hr+gfbX2tlhmv0BcYjuMVylohGtEQ==
-X-Gm-Gg: ASbGncuBtzvyq4aJsunWbdGOQ4MByMAF+3gpcGrRPZOXXJ+QS6go4qA/6yvqB+6YliO
-	lTzHa8E0OMwPgx02zBVnRiC4Yh3cNUk60gn5psvJNvJuoGxPiNXIVJnDQ2U4K2RFy2aY2+Kw0Q6
-	e81Xcv0hWWdvUpZxiOFrl1F4H+ogVRDVSg1aI/kB4bAbpasvJyciheVuGs7Gj3wPa3IJdW4cLfV
-	cuTCLYGgf+pptMbMOShhqxG1cD0nuCxfEtK9wDH57HOc0IKqswwJP1hNuuZqa5gtk56
-X-Google-Smtp-Source: AGHT+IEfzHlIPEiuolnmC+PUY7Qx4g6VZmzqaCh+kJH+E2RdrqezJkmRTURyahiQenFGIYx+F1u+CuUpBK9+z1Di0cU=
-X-Received: by 2002:a05:6402:4499:b0:643:130b:c615 with SMTP id
- 4fb4d7f45d1cf-64539639594mr16646192a12.6.1764096904062; Tue, 25 Nov 2025
- 10:55:04 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VnkDbdow";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WI9x+Hjp";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VnkDbdow";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WI9x+Hjp"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9672F5BD0D;
+	Tue, 25 Nov 2025 18:56:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1764096976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=MZhxcSq9jz3i+YAFu/iNlBsFEWcEIog5kMoH5BURTNQ=;
+	b=VnkDbdowD8JfpomKJ+CQ55m5GyxNxjcZmaz1gbpHjxl6yn1XZCSMsjhdxQAeG/d6hm8cy+
+	QImqb7ZLaUcA0sD9xTMfxeY9PpunHAv9MxIrYNDWxAZAO3BqmeC+M9z3+JC7xe7hMr+91S
+	H474vubuLEJuJlLQvsdn3QRtJCXctiQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1764096976;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=MZhxcSq9jz3i+YAFu/iNlBsFEWcEIog5kMoH5BURTNQ=;
+	b=WI9x+HjppKEWPgDdr58Zx3sHlpDWL0Ua0SFxNCYnrE2Aw1mbWBoE+xpwH/yYn+v5CrZjM0
+	tz/Y+JvHVGzsSqBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=VnkDbdow;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=WI9x+Hjp
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1764096976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=MZhxcSq9jz3i+YAFu/iNlBsFEWcEIog5kMoH5BURTNQ=;
+	b=VnkDbdowD8JfpomKJ+CQ55m5GyxNxjcZmaz1gbpHjxl6yn1XZCSMsjhdxQAeG/d6hm8cy+
+	QImqb7ZLaUcA0sD9xTMfxeY9PpunHAv9MxIrYNDWxAZAO3BqmeC+M9z3+JC7xe7hMr+91S
+	H474vubuLEJuJlLQvsdn3QRtJCXctiQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1764096976;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=MZhxcSq9jz3i+YAFu/iNlBsFEWcEIog5kMoH5BURTNQ=;
+	b=WI9x+HjppKEWPgDdr58Zx3sHlpDWL0Ua0SFxNCYnrE2Aw1mbWBoE+xpwH/yYn+v5CrZjM0
+	tz/Y+JvHVGzsSqBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 46C4F3EA63;
+	Tue, 25 Nov 2025 18:56:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KvzCD9D7JWnGawAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 25 Nov 2025 18:56:16 +0000
+Message-ID: <b7804333-6030-4bfd-8e0b-4479f87060ce@suse.cz>
+Date: Tue, 25 Nov 2025 19:56:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251125165850.3389713-1-pasha.tatashin@soleen.com>
- <20251125165850.3389713-2-pasha.tatashin@soleen.com> <aSX6sQqwwA6I2mxW@kernel.org>
-In-Reply-To: <aSX6sQqwwA6I2mxW@kernel.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 25 Nov 2025 13:54:27 -0500
-X-Gm-Features: AWmQ_bn51TAVMNgVIbPP9PoxfS_5IRPJ8eZ2jrzKpsVEpovGvgRKZept8XkPO9Q
-Message-ID: <CA+CK2bDUgU8iBOL6eUeK96fZ3-XfokCma43cTore20c1L6GE0g@mail.gmail.com>
-Subject: Re: [PATCH v8 01/18] liveupdate: luo_core: Live Update Orchestrato,
-To: Mike Rapoport <rppt@kernel.org>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
-	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
-	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
-	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
-	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/4] slab: Introduce kmalloc_obj() and family
+Content-Language: en-US
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Kees Cook <kees@kernel.org>
+Cc: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
+ David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+ "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Jann Horn <jannh@google.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Marco Elver <elver@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org,
+ Randy Dunlap <rdunlap@infradead.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>,
+ Vegard Nossum <vegard.nossum@oracle.com>, Harry Yoo <harry.yoo@oracle.com>,
+ Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>,
+ Yafang Shao <laoar.shao@gmail.com>, Tony Ambardar <tony.ambardar@gmail.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Jan Hendrik Farr <kernel@jfarr.cc>, Alexander Potapenko <glider@google.com>,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-doc@vger.kernel.org, llvm@lists.linux.dev
+References: <20251122014258.do.018-kees@kernel.org>
+ <20251122014304.3417954-2-kees@kernel.org>
+ <CAHk-=wiNnECns4B3qxRsCykkHwzovT+3wG738fUhq5E+3Lxxbg@mail.gmail.com>
+ <CAHk-=wjxj---dy5haOvNXjg_Xz-mDQciGL7OnJnpJpjYD9Moog@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <CAHk-=wjxj---dy5haOvNXjg_Xz-mDQciGL7OnJnpJpjYD9Moog@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 9672F5BD0D
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux.com,kernel.org,google.com,lge.com,linux-foundation.org,linux.dev,gmail.com,intel.com,linuxfoundation.org,kvack.org,infradead.org,oracle.com,lwn.net,jfarr.cc,vger.kernel.org,lists.linux.dev];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[lkml];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	R_RATELIMIT(0.00)[to_ip_from(RLhc4kaujr6ihojcnjq7c1jwbi)];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
 
-On Tue, Nov 25, 2025 at 1:51=E2=80=AFPM Mike Rapoport <rppt@kernel.org> wro=
-te:
->
-> On Tue, Nov 25, 2025 at 11:58:31AM -0500, Pasha Tatashin wrote:
-> > Subject: [PATCH v8 01/18] liveupdate: luo_core: Live Update Orchestrato=
-,
->
->                                                               ^ Orchestra=
-tor
+On 11/22/25 21:54, Linus Torvalds wrote:
+> Btw, I realize that we don't have a good way to do the alignment with
+> the current kmalloc() interface (we do for some of the vmalloc
+> interfaces).
+> 
+> So for now, it should just have some static build-time warning if the
+> type of the object we allocate has a bigger alignment than the
+> guaranteed slab allocation alignment (ARCH_KMALLOC_MINALIGN or
+> whatever).
 
-I like the sound of 'Orchestrato' :-)))))
+Note that these days we guarantee more than that, and it depends on size.
+From Documentation/core-api/memory-allocation.rst:
 
-Thanks,
-Pasha
+The address of a chunk allocated with `kmalloc` is aligned to at least
+ARCH_KMALLOC_MINALIGN bytes. For sizes which are a power of two, the
+alignment is also guaranteed to be at least the respective size. For other
+sizes, the alignment is guaranteed to be at least the largest power-of-two
+divisor of the size.
 
->
-> > Introduce LUO, a mechanism intended to facilitate kernel updates while
-> > keeping designated devices operational across the transition (e.g., via
-> > kexec). The primary use case is updating hypervisors with minimal
-> > disruption to running virtual machines. For userspace side of hyperviso=
-r
-> > update we have copyless migration. LUO is for updating the kernel.
->
-> --
-> Sincerely yours,
-> Mike.
+> And I really think the first version should do the minimal thing that
+> actually matters, and strive to deal with the simple cases. The main
+> things that matter are
+> 
+>  - the return type should be a proper pointer type (so that you get
+> warnings for mis-uses, but also so that you can use automatic typing)
+> 
+>  - making the 'sizeof()' match the type
+> 
+> so honestly, I think 99% of the gain would come from something fairly
+> simple like
+> 
+>     #define kmalloc_verify(type) \
+>         BUILD_BUG_ON_ZERO(__alignof__(type) > ARCH_KMALLOC_MINALIGN)
+> 
+>     #define kmalloc_size(type) \
+>         (sizeof(type) + kmalloc_verify(type))
+> 
+>     #define allocator(name, type, size, ...) \
+>         (typeof(type) *)name(size, __VA_ARGS__)
+
+So AFAIU this would be too pessimistic. I'm not sure if the alignment rules
+can be sensibly encoded in build time checks. Perhaps yes, in a similar way
+that we have compile-time size bucket selection via __kmalloc_index().
+
+>     #define kmalloc_obj(type, gfp) \
+>         allocator(kmalloc, type, kmalloc_size(type), gfp)
+>     #define kzalloc_obj(type, gfp) \
+>         allocator(kzalloc, type, kmalloc_size(type), gfp)
+>     #define kzalloc_struct(type, member, count, gfp) \
+>         allocator(kzalloc, type, struct_size_t(typeof(type), member,
+> count), gfp)
+> 
+> The above macros are entirely untested. But they are simple enough
+> that even if they are buggy and I miscounted the parentheses or used
+> the wrong name somewhere, I think the idea is clear. No?
+> 
+> (And I made that "allocator()" macro use __VA_ARGS__ because
+> kzalloc_node() and friends would want that, but I think it's starting
+> to hit diminishing returns at that point)
+> 
+> Hmm?
+> 
+>                Linus
+
