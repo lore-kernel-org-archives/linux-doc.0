@@ -1,176 +1,133 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18EA273805
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 17:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4682C2264D3;
+	Tue, 25 Nov 2025 18:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764090695; cv=none; b=QBvA6Y2erFzTs4GbiNvDnCYg3zkL3te/B3O6rP/SD1sx+6amJ5R2SGftaR/51V1AUlGxxLZaw6+hJ684QhgkWhrOsAu26gUH3Tv4QUzFKx7Ch6BjrVh4csD1Jh9ojtRcrlkmAou4l/4+AgCCw4K4lRk+ZFdaCEsj0w4ESO4Edbo=
+	t=1764094797; cv=none; b=nL6yMpKn+wxAua9CPjdEGJDvt3kmgWxE7TPUECsHJ8kAEt/wny37hQ4qQeqajbj47zq4Uq1q7ubBrugHKZRWDJ/iKRMZHeaHBwX6f1bCs0aAkLXFCm3v/01o7SmYkiGTN5GkP6ojXswk/it4+ro9mwEVSMBCn7ysAuunIs20NUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764090695; c=relaxed/simple;
-	bh=JkWJ8zMwNXflYHUTcGdd62JuAjDjnrq+DEJ9vwRn4/E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=btlanBKrjerCcDgxxaUBLoMdM2bZ2v1ADe1PpTD9YMseoxpqY61UrTCcxWm644TDYvZHvAHHKNgYuuJ5fK/0xQ/r4q4ycVB31VH/5ipZAyR5WugsGdFjBZ5iWtIF1ThEvPBEQ6l4nUCkVbkkcfYf4NOwKwfk0bJgxohAmMkac0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=hpd7N+Cw; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1764094797; c=relaxed/simple;
+	bh=JqVxqmKgveQ4mM7FHqLJrAlhvzcxt5uAmECWD1G3BDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gNLuw+gqvELfdw2eTQ1CxO7jmBrOxO3BltwrVWD08iDPR5OLZYS6gMUm4YUvHL2Ijm0p2kj/WjQr24Bph1ji3bO/HE+5K8cz6xct5V3kkEbg77XT7aYrke04zEyUG6BA6pKMqD9TYhl2LnZAgYkr5WFZ9Q+GPt7514UHNOvCOV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FoYLN0TK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="hpd7N+Cw"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-640860f97b5so8115035a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 09:11:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764090692; x=1764695492; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ly5LBt6mDypO/G6NdTT5RZY/q0zV3qr4fzhYNtYlqik=;
-        b=hpd7N+Cwrilo4buSu4NL0TRonaHPBoJUMCs+jkijiY8JPnqvrDzRAWTK2aBR+JEW5j
-         SDP/H4lrgtBUTHXCpS/nzM3QEZwOpwSh/l2b5F7K60T3C0V60Odv2W6jroQmG+7b1mxF
-         HnMq0jv2sqAJP5yU4jEWEtutI5TEfaLcs1N0MyfwzUAxttbTtFI0X6Uwp6wI41zLBL6z
-         5u/QagwB9x1HkdyEpV1xZqmQnLe4pz7F/kiLjJZAHCUzPQRk5aiobmnKEnDssMFWVX5G
-         PrIRDDaa5E5xtS08w+ig75Rfi67otatGWITH7bPqWjtBxa65veJ3ze1QOcwc1/7nD45J
-         yC/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764090692; x=1764695492;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ly5LBt6mDypO/G6NdTT5RZY/q0zV3qr4fzhYNtYlqik=;
-        b=MEJBAEqxApCpcY57tt4vsRY6tnq9W5EN7J9y8TIBDbYbCtfgegE++wBqKYEO5CaX4h
-         IPtf33tUszzRAk+3Opv8UwsRfHnaZsxybMN5gzJjcCh51fk0R0maUg4A3dlvxZqW7P5x
-         jWv4LxfHz0zOHu9IhoLYhIo1+X/F+CCe+8yVA++ClgHG+w5nWKawFdR5QpS5hyD7NtWc
-         R/hhgMgTE98MYaXkziSfw6c5VMu+QWPTwf1nO30zoF1bXVvx5R8C+CnEZuEzwduQIza2
-         RnhkpoHLXFEx4dNwgW32xh8Y8CG5XsFw+rbbehZXSLNcWw2IEUXgAhcdcU74Qn1dCdjG
-         RraA==
-X-Forwarded-Encrypted: i=1; AJvYcCXMSuPHscnsS5pZE1k2OWwkZwnZlFA1E3zzUar33bHkNc3itiNqa6+TKvMKAByikea46+vTCJ39ZMs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKMx525nJyMsrTzhnLNkYgu+zlkH40nY5NEWQhWUhhmX0ERyOR
-	u2Wr/alrjksL+xFkZ/6dQEPszPN3CsgET7r8oNxwWIJN58gelT5Zt8ZmGEq3pne/kNIxP95DcDg
-	3SBbNtuuMYIT6R1P/RLmU0Q8zixznpeaAFYe7tY8pvw==
-X-Gm-Gg: ASbGncu6oD03/CCKtB8cniFEKEha6p2K2XFbUicB/pI7M8gMKspivbwEk85gH1U67LG
-	ayeYboJMAG3t5cBrHxQ2niuJM1pukFQgozXMMPIzfcE/9XACmuajKTfAEVYJ26tsGAQCYlyXtdS
-	iFvXCEUKbAT/axzGOFpNNdGPZfjIFGO/zJfNJGAXtbG1g/6miDVVzmdFkKnea73o7aZ1sY1CbuY
-	qQwOCEHqy/NwuDcrbI20ojh2yTbB+eAiB682WMzADT/qQbIhCpsxZJ+9RRyUGA3VevT
-X-Google-Smtp-Source: AGHT+IGrfsmrfzIW+aWRuJRmdKZisN9HOWvhufzxvxHfKz1E+SFLlkqO50B6RT0T1wYIyaZoNdq4RbNgdU/zWatA1zQ=
-X-Received: by 2002:a05:6402:1469:b0:637:e2b8:605b with SMTP id
- 4fb4d7f45d1cf-645eb23f94cmr3816071a12.5.1764090691966; Tue, 25 Nov 2025
- 09:11:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FoYLN0TK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EFB1C4CEF1;
+	Tue, 25 Nov 2025 18:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764094796;
+	bh=JqVxqmKgveQ4mM7FHqLJrAlhvzcxt5uAmECWD1G3BDw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FoYLN0TK91L60aqjWus5gtSj8eX812KlfpiKTBBu552TlhYlvZOO0koBhaQR7WI4q
+	 IgeXNBmuQtlPIJ5EFRyJgJ6y4vNjXi+Po48mlfwrJh4xYdJxO5DhazCm3FYRwa48Rs
+	 2/S2j3YinT37RDY3To0krQUcN2Gj+k4iu1bBuLgZ+rAgwuaSfrGD4Cdj8P5Tf/dsC5
+	 y59zGnIbIN21a+aEn45awi9p+iZ/Xe7swJi5R4ldjdAemdSaklfqvB2INxYkygo7RQ
+	 9wiWZ13YN7qEnYx0SmzG4259wjEe/EepLM3eghXZP4MCLmHMi8CVlIKCUk35wQ85q/
+	 wIerVhSPQve8g==
+Date: Tue, 25 Nov 2025 10:19:51 -0800
+From: Namhyung Kim <namhyung@kernel.org>
+To: James Clark <james.clark@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>, Leo Yan <leo.yan@arm.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH v10 0/5] perf: arm_spe: Armv8.8 SPE features
+Message-ID: <aSXzR2Fp5N4-c0q5@google.com>
+References: <20251111-james-perf-feat_spe_eft-v10-0-1e1b5bf2cd05@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
- <20251122222351.1059049-22-pasha.tatashin@soleen.com> <CALzav=f+=c5XH7Uw9EGVb2P6VxsnpF76e0DXAAXhM0gsWPxw2w@mail.gmail.com>
-In-Reply-To: <CALzav=f+=c5XH7Uw9EGVb2P6VxsnpF76e0DXAAXhM0gsWPxw2w@mail.gmail.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 25 Nov 2025 12:10:54 -0500
-X-Gm-Features: AWmQ_blUNJXGJsZNTyk-wstisxWf95tP1YO8_RTqL2T5TqXUElAOHsjvRUxN7S8
-Message-ID: <CA+CK2bBXNkpkYFa8xX4L1redUAdyx40ggJhntysH4W=a2nh99A@mail.gmail.com>
-Subject: Re: [PATCH v7 21/22] liveupdate: luo_flb: Introduce
- File-Lifecycle-Bound global state
-To: David Matlack <dmatlack@google.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, rppt@kernel.org, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, linux@weissschuh.net, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, gregkh@linuxfoundation.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, rafael@kernel.org, 
-	dakr@kernel.org, bartosz.golaszewski@linaro.org, cw00.choi@samsung.com, 
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com, Jonathan.Cameron@huawei.com, 
-	quic_zijuhu@quicinc.com, aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
-	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
-	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
-	chrisl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251111-james-perf-feat_spe_eft-v10-0-1e1b5bf2cd05@linaro.org>
 
-On Mon, Nov 24, 2025 at 6:45=E2=80=AFPM David Matlack <dmatlack@google.com>=
- wrote:
->
-> On Sat, Nov 22, 2025 at 2:24=E2=80=AFPM Pasha Tatashin
-> <pasha.tatashin@soleen.com> wrote:
->
-> > +int liveupdate_flb_incoming_locked(struct liveupdate_flb *flb, void **=
-objp);
-> > +void liveupdate_flb_incoming_unlock(struct liveupdate_flb *flb, void *=
-obj);
-> > +int liveupdate_flb_outgoing_locked(struct liveupdate_flb *flb, void **=
-objp);
-> > +void liveupdate_flb_outgoing_unlock(struct liveupdate_flb *flb, void *=
-obj);
->
-> nit: "locked" should be "lock". "locked" is used for situations where
-> the lock must already be held by the caller.
+On Tue, Nov 11, 2025 at 11:37:54AM +0000, James Clark wrote:
+> Support SPE_FEAT_FDS data source filtering.
+> 
+> ---
+> Changes in v10:
+> - Pick up Peter's ack
+> - Slightly clarify commit message regarding the difference between the
+>   data source filter and the data source
+> - Link to v9: https://lore.kernel.org/r/20251029-james-perf-feat_spe_eft-v9-0-d22536b9cf94@linaro.org
+> 
+> Changes in v9:
+> - Fix another typo in docs: s/data_src_filter/inv_data_src_filter/g
+> - Drop already applied patches for other features. Only the data source
+>   filtering patches remain.
+> - Rebase on latest perf-tools-next
+> - Link to v8: https://lore.kernel.org/r/20250901-james-perf-feat_spe_eft-v8-0-2e2738f24559@linaro.org
+> 
+> Changes in v8:
+> - Define __spe_vers_imp before it's used
+> - "disable traps to PMSDSFR" -> "disable traps of PMSDSFR to EL2"
+> - Link to v7: https://lore.kernel.org/r/20250814-james-perf-feat_spe_eft-v7-0-6a743f7fa259@linaro.org
+> 
+> Changes in v7:
+> - Fix typo in docs: s/data_src_filter/inv_data_src_filter/g
+> - Pickup trailers
+> - Link to v6: https://lore.kernel.org/r/20250808-james-perf-feat_spe_eft-v6-0-6daf498578c8@linaro.org
+> 
+> Changes in v6:
+> - Rebase to resolve conflict with BRBE changes in el2_setup.h
+> - Link to v5: https://lore.kernel.org/r/20250721-james-perf-feat_spe_eft-v5-0-a7bc533485a1@linaro.org
+> 
+> Changes in v5:
+> - Forgot to pickup tags from v4
+> - Forgot to drop test and review tags on v4 patches that were
+>   significantly modified
+> - Update commit message for data source filtering to mention inversion
+> - Link to v4: https://lore.kernel.org/r/20250721-james-perf-feat_spe_eft-v4-0-0a527410f8fd@linaro.org
+> 
+> Changes in v4:
+> - Rewrite "const u64 feat_spe_eft_bits" inline
+> - Invert data source filter so that it's possible to exclude all data
+>   sources without adding an additional 'enable filter' flag
+> - Add a macro in el2_setup.h to check for an SPE version
+> - Probe valid filter bits instead of hardcoding them
+> - Take in Leo's commit to expose the filter bits as it depends on the
+>   new filter probing
+> - Link to v3: https://lore.kernel.org/r/20250605-james-perf-feat_spe_eft-v3-0-71b0c9f98093@linaro.org
+> 
+> Changes in v3:
+> - Use PMSIDR_EL1_FDS instead of 1 << PMSIDR_EL1_FDS_SHIFT
+> - Add VNCR offsets
+> - Link to v2: https://lore.kernel.org/r/20250529-james-perf-feat_spe_eft-v2-0-a01a9baad06a@linaro.org
+> 
+> Changes in v2:
+> - Fix detection of FEAT_SPE_FDS in el2_setup.h
+> - Pickup Marc Z's sysreg change instead which matches the json
+> - Restructure and expand docs changes
+> - Link to v1: https://lore.kernel.org/r/20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org
+> 
+> ---
+> James Clark (5):
+>       perf: Add perf_event_attr::config4
+>       perf: arm_spe: Add support for filtering on data source
+>       tools headers UAPI: Sync linux/perf_event.h with the kernel sources
+>       perf tools: Add support for perf_event_attr::config4
+>       perf docs: arm-spe: Document new SPE filtering features
 
-I am going to clean-up this API, and remove locked/unlocked; just
-return the object directly.
+Applied the tools part to perf-tools-next, thanks!
 
->
-> > @@ -633,6 +639,7 @@ static void luo_file_finish_one(struct luo_file_set=
- *file_set,
-> >         args.file =3D luo_file->file;
-> >         args.serialized_data =3D luo_file->serialized_data;
-> >         args.retrieved =3D luo_file->retrieved;
-> > +       luo_flb_file_finish(luo_file->fh);
-> >
-> >         luo_file->fh->ops->finish(&args);
->
-> I think luo_flb_file_finish() should be called after the file's
-> finish() callback. Otherwise the FLB data will be cleaned just before
-> the last file's finish() callback.
->
-> i.e. The order should be
->
->   file1->finish()
->   file2->finish()
->   file3->finish() // last file
->   flb->finish()
->
-> rather than
->
->   file1->finish()
->   file2->finish()
->   flb->finish()
->   file3->finish() // last file
+Best regards,
+Namhyung
 
-Yes, I will make this change in the next version of FLB patch
-(currently FLB has been dropped from LUO and will be sent separately
-since there currently no in-kernel users beside the self-test)
-
->
-> > +static void luo_flb_unlock(struct liveupdate_flb *flb, bool incoming,
-> > +                          void *obj)
-> > +{
-> > +       struct luo_flb_private *private =3D luo_flb_get_private(flb);
-> > +       struct luo_flb_private_state *state;
-> > +
-> > +       state =3D incoming ? &private->incoming : &private->outgoing;
-> > +
-> > +       lockdep_assert_held(&state->lock);
-> > +       state->obj =3D obj;
->
-> I tripped over this when developing the PCI FLB state. The following
-> compiles fine and looks innocent enough:
->
->   liveupdate_flb_incoming_locked(&pci_liveupdate_flb, &ser);
->   ...
->   liveupdate_flb_incoming_unlock(&pci_liveupdate_flb, &ser);
->
-> But this ends up corrupting state->obj.
->
-> Do we have a use-case for replacing obj on unlock? If not I'd suggest
-> dropping it.
-
-I can remove internal obj updates.
