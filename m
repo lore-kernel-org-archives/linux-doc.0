@@ -1,93 +1,152 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4562E9ECA;
-	Tue, 25 Nov 2025 09:50:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233182EBBB3;
+	Tue, 25 Nov 2025 09:51:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764064251; cv=none; b=dJS4311iMw/EAmdPC6O6VrgFCfJroxKObFDldx/AC2SYQ8K2e7kxuHGrW+Np1t0b2Net3HjXYuvVfs7gWikp5gqU5om7/oae9E5p9MbMci93BtxQas7Jp+dw0/6xiK8HY54rgUmPDUc30hV2l4kk27e4/l//7PnkU6Lkt9tVtNE=
+	t=1764064262; cv=none; b=agbzTj/kI4gdj+pjTnfDgnynLdYib/ncbPZ8kEMDJhKRGc1H5q0hrvWczUCNoyEMb72Es7yGXMUwdiVwu1jvGjFKQ6mQUm/+hXjeByU+H7Vlbara78RWOcs0GI5H0ICB3xoNVeCU8Lx7viiO/ZeQMt3oVoLGzTGzrmUDqLgDI/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764064251; c=relaxed/simple;
-	bh=ZpZ7Gn9GLkQYXGHbd52ia/vfx8XpDdhT9cEzlscmjek=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Cv764hFvM78TUQQng1W0/m7tsZggBJVlkhF/6i0l5dtm8n6UvlRjHMCrFffIgX3fR8UiNG1yICK/NTVG+kZD/74Er+wfUbN8c8D+zas55lFNUAtaUaxR2XeV0G45QlAn4Bo+zQSCltzKesrUuCN/H9its8/X2DihMVF/roeJZ48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YQ3TY/wN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764064262; c=relaxed/simple;
+	bh=DUYCCbWHsiD2RMZpZykM5t7g4XZ2yTPNXDlMZFrTIA8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QrdAuZMVl9k0nr/mNisL1SjrwaHSJnfr/PE+uzknKbJ1GGo/vYaWXlMP8OElAVyFfAu8py05OdpKc9EGZEZk14a/h3IvLGGepRjmmc9NWjeLd3j7QU4aGXlJvBxJVIF15rzPcUM0CA/dxQfdNiR+gwgwOx7XJBX9nYEwMl0WvPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IPnnOJhQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YQ3TY/wN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F13BC4CEF1;
-	Tue, 25 Nov 2025 09:50:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IPnnOJhQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34627C4CEF1;
+	Tue, 25 Nov 2025 09:51:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764064251;
-	bh=ZpZ7Gn9GLkQYXGHbd52ia/vfx8XpDdhT9cEzlscmjek=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=YQ3TY/wNjqodeZHs7cE5lAYdvVZ23Fk0Y3iJU+nqRkQWEwN1q2k5fFzjwd8uM381Z
-	 t/Kit8WUH7idwZdNOPhAI1oZUmyQBAVSrWq2dwIiZDn6okk2bd+6GbU+zmlPhlhva0
-	 21EikZ0Rgdiz8jg8xj2uWPn0SqzW8Uy4TXOVHuEMf3QNiXxThyJ9Evwr6e5nUik/eV
-	 sG5HT5RmS98jBKN8HeKtVb6SL0sq6jCkUNEOpMhiv8jufsbqDQpqWlf9dDfxlZ+vjM
-	 Pwicdetk7YIZ3BF4huugAu/dM1N1xA/Qz44hIwEXzwQ2gRKja2j7C5deCLw0L59icH
-	 hFVqBmVLRX5jg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB0513A8D142;
-	Tue, 25 Nov 2025 09:50:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1764064261;
+	bh=DUYCCbWHsiD2RMZpZykM5t7g4XZ2yTPNXDlMZFrTIA8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IPnnOJhQUA7OCoH7YfhA7+VGQ24L+WgnHeCdv26m6Bx/1zjXxIp0ca16FnQqsRgUs
+	 e+JJgln5gm1qAgb+vRi6k/MrlfuobCUl5m9VOjlpJOlDGzNunndD49KGr4Gn9xwH6S
+	 VNGZtQE3QNcy/BZrCM5H8GtG/K/i6SkLQwT8EDjTcE+Qm8/zXmfeMptdl30daWUF/a
+	 Im8S54CLgqDJActCSitxn7JB0VnMDWl34S5SMaR97pFm9tfV3HgBZDKvw5c8s2izs1
+	 Ec12iV0qtSwQ4CbENbsgmOxxsdBKYnm1vnLGGeUfIQ5BQ6WxKrzytL2KREc0FZf9qZ
+	 zJaxvMAeUnTpA==
+Date: Tue, 25 Nov 2025 10:50:59 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jorge Marques <jorge.marques@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] dt-bindings: iio: adc: Add adi,ad4062
+Message-ID: <20251125-marvellous-camel-of-kindness-d274ee@kuoka>
+References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
+ <20251124-staging-ad4062-v2-1-a375609afbb7@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/5] Add Zilsd/Zclsd support in hwprobe and KVM
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <176406421375.657800.9856634072172881689.git-patchwork-notify@kernel.org>
-Date: Tue, 25 Nov 2025 09:50:13 +0000
-References: <20250826162939.1494021-1-pincheng.plct@isrc.iscas.ac.cn>
-In-Reply-To: <20250826162939.1494021-1-pincheng.plct@isrc.iscas.ac.cn>
-To: Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>
-Cc: linux-riscv@lists.infradead.org, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, anup@brainfault.org,
- pbonzini@redhat.com, shuah@kernel.org, cyan.yang@sifive.com,
- cleger@rivosinc.com, charlie@rivosinc.com, cuiyunhui@bytedance.com,
- samuel.holland@sifive.com, namcao@linutronix.de, jesse@rivosinc.com,
- inochiama@gmail.com, yongxuan.wang@sifive.com, ajones@ventanamicro.com,
- parri.andrea@gmail.com, mikisabate@gmail.com, yikming2222@gmail.com,
- thomas.weissschuh@linutronix.de, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251124-staging-ad4062-v2-1-a375609afbb7@analog.com>
 
-Hello:
-
-This series was applied to riscv/linux.git (for-next)
-by Paul Walmsley <pjw@kernel.org>:
-
-On Wed, 27 Aug 2025 00:29:34 +0800 you wrote:
-> Hi all,
+On Mon, Nov 24, 2025 at 10:18:00AM +0100, Jorge Marques wrote:
+> Add dt-bindings for AD4062 family, devices AD4060/AD4062, low-power with
+> monitor capabilities SAR ADCs. Each variant of the family differs in
+> resolution. The device contains two outputs (gp0, gp1). The outputs can
+> be configured for range of options, such as threshold and data ready.
+> The device uses a 2-wire I3C interface.
 > 
-> This is v2 of a short series that adds kernel support for the ratified
-> Zilsd (Load/Store pair) and Zclsd (Compressed Load/Store pair) RISC-V
-> ISA extensions. The series enables kernel-side exposure so user-space
-> (for example glibc) can detect and use these extensions via hwprobe and
-> runtime checks.
+> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+> ---
+>  .../devicetree/bindings/iio/adc/adi,ad4062.yaml    | 123 +++++++++++++++++++++
+>  MAINTAINERS                                        |   6 +
+>  2 files changed, 129 insertions(+)
 > 
-> [...]
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4062.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4062.yaml
+> new file mode 100644
+> index 0000000000000..a25af66dd64d2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4062.yaml
+> @@ -0,0 +1,123 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright 2024 Analog Devices Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/adc/adi,ad4062.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices AD4062 ADC family device driver
+> +
+> +maintainers:
+> +  - Jorge Marques <jorge.marques@analog.com>
+> +
+> +description: |
+> +  Analog Devices AD4062 Single Channel Precision SAR ADC family
+> +
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad4060.pdf
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad4062.pdf
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,ad4060
+> +      - adi,ad4062
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    description:
+> +      The interrupt pins are digital outputs that can be configured at runtime
+> +      as multiple interrupt signals. Each can be configured as GP_INTR, RDY,
+> +      DEV_EN, logic low, logic high and DEV_RDY (GP1 only). RDY is the
+> +      active-low data ready signal, indicates when new ADC data are ready to
+> +      read. DEV_EN synchronizes the enable and power-down states of signal
+> +      chain devices with the ADC sampling instant. DEV_RDY is an active-high
+> +      signal that indicates when the device is ready to accept serial interface
+> +      communications. In GP_INTR mode, the interrupt outputs one of the
+> +      threshold detection interrupt signals (MIN_INTR, MAX_INTR or either).
+> +    minItems: 1
 
-Here is the summary with links:
-  - [v2,1/5] dt-bindings: riscv: add Zilsd and Zclsd extension descriptions
-    https://git.kernel.org/riscv/c/aeec6a5ddd8a
-  - [v2,2/5] riscv: add ISA extension parsing for Zilsd and Zclsd
-    https://git.kernel.org/riscv/c/ac3b03f8a4eb
-  - [v2,3/5] riscv: hwprobe: export Zilsd and Zclsd ISA extensions
-    https://git.kernel.org/riscv/c/668a3bd57466
-  - [v2,4/5] riscv: KVM: allow Zilsd and Zclsd extensions for Guest/VM
-    (no matching commit)
-  - [v2,5/5] KVM: riscv: selftests: add Zilsd and Zclsd extension to get-reg-list test
-    (no matching commit)
+So the wire/pin can be physically disconnected?
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> +    items:
+> +      - description:
+> +          gp0, interrupt line for GP0 pin, cannot be configured as DEV_RDY.
 
+Write concise statements - duplicating gp0 is not helping. "GP0 pin,
+cannot be configured as DEV_RDY."
+
+"GP1 pin, can be configured to any setting."
+
+
+> +      - description:
+> +          gp1, interrupt line for GP1 pin, can be configured to any setting.
+> +
+> +  interrupt-names:
+
+Why this is not matching interrupts in number of items?
+
+> +    items:
+> +      - const: gp0
+> +      - const: gp1
+> +
+> +  gpio-controller:
+> +    description:
+> +      Marks the device node as a GPIO controller. GPs not listed in
+> +      interrupt-names are exposed as a GPO.
+
+"not listed as interrupts are..."
+
+> +
+> +  '#gpio-cells':
+> +    const: 2
+> +    description:
+> +      The first cell is the GPIO number and the second cell specifies
+> +      GPIO flags, as defined in <dt-bindings/gpio/gpio.h>.
+
+Best regards,
+Krzysztof
 
