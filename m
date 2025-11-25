@@ -1,251 +1,227 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011058.outbound.protection.outlook.com [52.101.62.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F2B142E83;
-	Tue, 25 Nov 2025 13:15:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764076542; cv=none; b=bGmbhOoBfAj2uQIejehqfvrX/lueFpWmLGFWG14miZCHlweqfjUIXm6OVAEOkBXfLfn/czsIwc5FC9WLDUF60rOATaiK5RzzoCjzi9qOJ9dSs8Lp6Gzu7nShMe6iSZjx57HNwmsE6RLKZD6COPyeWAIWJfWkgdpltWr+iKzgpJY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764076542; c=relaxed/simple;
-	bh=xyeAb8HK2fahKTFKKpRAL4i0ZxzwGkco4WoE+HqG/is=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=F9xsnvAhpEztGvpWk6DTcYihK3g9KYtxLdIfvs/Pwd593A2QSULAviltxadSG1sPMQYhs0ZMa2Tov6LkhL6Nqfom6tBLF6+XrXQHrJogfERtDE0x8U3YcVDzke1FJr6zvI9oWiyLtPcPpVvp7yU8mkjeyRfydEWimxrcFy17+KU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ASXrhPsa; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B34142E83;
+	Tue, 25 Nov 2025 13:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764076610; cv=fail; b=o6VV1YL/laEyeo0rR3hNJVk+H+p9smRwYzNBOjTAGeWVAvObCo0fh8YBueib7QrPiA9E276AQjOgcZdoGjY/0q9c8K/ppTy8FrXEwfeZ4Go3Ur+JB4sA8uHxmbpDvvhynTzV67EEz/8HtH3kfJHDnkuzRilSfEqsqHWGD3QNgD8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764076610; c=relaxed/simple;
+	bh=o4d9yVGwSwEDUbYK0rYCsTcuhWTlI/eLeHZpKPcqMJs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=BlgaRpXO1h7onF26TcYzhzZHG1M5ZYBILdi3lQth9uhvJs6HSVkFEhU6lMQT+gX1f1vX9U6xcCbEl1Svm+4jx+vj3L/6WA+RZbIoGyCLnu8f6S8kWmx6U/4dYIj1mscxE+yjaCCIymJaRR1lYKE5ZDR5sWOqeWaKPmkeYtcAm7c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=V11aK2nZ; arc=fail smtp.client-ip=52.101.62.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ASXrhPsa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D137FC4CEF1;
-	Tue, 25 Nov 2025 13:15:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764076541;
-	bh=xyeAb8HK2fahKTFKKpRAL4i0ZxzwGkco4WoE+HqG/is=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ASXrhPsa3i6t+6CdTp8v5KWjJs1sf9rqFTuzxudbTrrAhu/q0W8ZGbjN1K20e+iDo
-	 205vJs3L9pkqFzjE1+HW7DTV7jrEdcDYd24SFyCVVnDTX/wNahnOd4Qk68Z00J8kXr
-	 j1EUasFL/9VUSInsbdCYWce15cb5xFhleXGzyHy86wq3/CwNrXdMhvVrbdbwIfnv9z
-	 hPmpOxAd9NYhjoyjco93WWyazGjSNWlNkszP0XtmRsjPMJ6z4t9rTrG8MsUBLPsd1q
-	 WHW9cg96yPY9fpYkNVEOZLuzrC8Qr29uF3tWpAYeailnWxDzxKVSoWaleM9Hqkusy3
-	 TBzWlxFPukOsg==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: Changyuan Lyu <changyuanl@google.com>,  akpm@linux-foundation.org,
-  linux-kernel@vger.kernel.org,  Mike Rapoport <rppt@kernel.org>,
-  anthony.yznaga@oracle.com,  arnd@arndb.de,  ashish.kalra@amd.com,
-  benh@kernel.crashing.org,  bp@alien8.de,  catalin.marinas@arm.com,
-  corbet@lwn.net,  dave.hansen@linux.intel.com,
-  devicetree@vger.kernel.org,  dwmw2@infradead.org,  ebiederm@xmission.com,
-  graf@amazon.com,  hpa@zytor.com,  jgowans@amazon.com,
-  kexec@lists.infradead.org,  krzk@kernel.org,
-  linux-arm-kernel@lists.infradead.org,  linux-doc@vger.kernel.org,
-  linux-mm@kvack.org,  luto@kernel.org,  mark.rutland@arm.com,
-  mingo@redhat.com,  pasha.tatashin@soleen.com,  pbonzini@redhat.com,
-  peterz@infradead.org,  robh@kernel.org,  rostedt@goodmis.org,
-  saravanak@google.com,  skinsburskii@linux.microsoft.com,
-  tglx@linutronix.de,  thomas.lendacky@amd.com,  will@kernel.org,
-  x86@kernel.org,  Breno Leitao <leitao@debian.org>,  thevlad@meta.com
-Subject: Re: [PATCH v8 12/17] x86/e820: temporarily enable KHO scratch for
- memory below 1M
-In-Reply-To: <a0f875f1-45ad-4dfc-b5c8-ecb51b242523@gmail.com> (Usama Arif's
-	message of "Mon, 24 Nov 2025 19:24:58 +0000")
-References: <20250509074635.3187114-1-changyuanl@google.com>
-	<20250509074635.3187114-13-changyuanl@google.com>
-	<a0f875f1-45ad-4dfc-b5c8-ecb51b242523@gmail.com>
-Date: Tue, 25 Nov 2025 14:15:34 +0100
-Message-ID: <mafs01plmxngp.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="V11aK2nZ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oIS0nvEhZtYwNs6B5WxSrxteokhm1w1sQ6ggpg667FPKlgG6zcriuEi9WBuKXFFOTREcboVVKfBstG/aFd2lnEO47mD234UnnSHtty17s5d3AHReI0Ev5xGg/6Lll9XQJK6ERnqGTbSGG5+Z54BqEjd5MEDYLAVfHfSlMtklb2y3omBJK8dvgqlpkt6fFsjwCaobCkDL54glXK/W5Tb68Hq4BqG1Pc3jPw1EejKQYHGV2fveM1Ent7NgDwn+7EnwL9FvRAUt/dEATYWwoIWD/j8yRiA/kp4d7APOD3pmYYXb72S3lbSu1dvxbf7tSGvHSZG6HowoMkg/Xy9nJe4KwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F13F4ODYDndu6yM8D/z4G63fIeoXZPSXz4U9ict+cj8=;
+ b=J4LgAMV8Ih0E/HrHWvfreBOxzaQG7SK5BSbOp9mbWuOybNzxXmPokB+qO9EPu0T7s2RzO0RQy5WWjHZGM73Njpd/1Wye2G9LCkMb919NzAw8XwGtuUQZkCGk5ZJQTd5HeeebBl+Wu+HZis3sDOQaCrLZbc0LAxMEtmk/ELAQfr5yHQFziJR5ba0xnXjQ8uuTkBaZum48DwrtgN0L5hZFWixNp6h9bVNL/KIwegs6puOaysFSCdKcnkFmeIsNfULIwDXXDjBWaj/fMQEtqqU2VemBCVjap1kd5sgALHyGI7xIlaYkUusjcaP3pGELNzsGszX5nUuPVZVlc3IMt3iA8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F13F4ODYDndu6yM8D/z4G63fIeoXZPSXz4U9ict+cj8=;
+ b=V11aK2nZgEbERXYKtMeCQ6uSj29LkeqJaNMqOR4hZYbYKlA/Dpj5mEP4cSyYy9XC7c0+ipufStAOO7z79e/E+Jivq/gKOd8IIAfUbTkyq4E2WC3GPIvpATrXKLXu1fWzoHDXEwu7wsFnSQKsnUZpNkpMx9O3SaVdQ9Sql62SRL0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM3PR12MB9351.namprd12.prod.outlook.com (2603:10b6:8:1ac::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.11; Tue, 25 Nov
+ 2025 13:16:44 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9366.009; Tue, 25 Nov 2025
+ 13:16:43 +0000
+Message-ID: <11ac809d-0432-4c9f-8279-7df318c9a448@amd.com>
+Date: Tue, 25 Nov 2025 14:16:35 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] drm: Remove remaining support for kdb
+To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+ airlied@gmail.com, alexander.deucher@amd.com, lyude@redhat.com,
+ dakr@kernel.org, deller@gmx.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, jason.wessel@windriver.com,
+ danielt@kernel.org, dianders@chromium.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>
+References: <20251125130634.1080966-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251125130634.1080966-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BN0PR07CA0018.namprd07.prod.outlook.com
+ (2603:10b6:408:141::25) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM3PR12MB9351:EE_
+X-MS-Office365-Filtering-Correlation-Id: f2efc1ef-0ae8-4cd5-0e8b-08de2c24e0e9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|366016|1800799024|7416014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?SkpQdVIxeGoxcUZKMXdBZ1p2ZU1YN0Q3Q0J3MUovZk9hTkRUZHBiQmpvcnZW?=
+ =?utf-8?B?bHhBWE1peWFEL2JVeTZsbXhham1JVG1NU3ltSHN2K0NVZDVNYS9wK3NpbnpZ?=
+ =?utf-8?B?TExtaGlwdXRaQmcwYW5yMHFNNHh3N2huek85alpLb1pHVEdzMjQ3b0xwdG8r?=
+ =?utf-8?B?Q2JQVERqVVdYSXdhWStjZ3BIblcyb25sRTU2QlNMb25EN3hSbmFqZTJFZE1D?=
+ =?utf-8?B?UXdqNUErWFVmb1ZFVU1Vc1FSYjJSdXBXZkZqVEFGNXhOSHF0bGh1VnBkYm53?=
+ =?utf-8?B?aHo1VDg5NjZzOUxkc0xYSVh3ZlpWL3V5akF5RnR2ZnViUVhqUFRiNWQ3R3l2?=
+ =?utf-8?B?Nm12UWEyUXJIbmQxMld2T3RFVGcwZHp1RVlKc0xzME9ESUNnV0dKL3h4aGF3?=
+ =?utf-8?B?ZWZad2w0aEJ1NmFmbDMxYUxFdFdCSlU4SlVFU3ZrcUpDS1NxY1dEZm1QOUNa?=
+ =?utf-8?B?QjV4R0dhbmtJV0hCbnI0MXhBMXcwZWRPK3ZPUTgwUHgzdHFUcFBRTTMwcXJJ?=
+ =?utf-8?B?RG54TXNQWXhWb1ErcERmMXN5eGtsVDV4SVRBUkkwU2FPV3lFYzFGK0Y1Tmk1?=
+ =?utf-8?B?L085VmlYUTZYVGtwakVkRGZ4TjB4UG5oSWxvSGtyVDNGTS9kblByUDNzWnor?=
+ =?utf-8?B?RWRLV3gxT05pMTBGVFU0eGQrZ3BqVGJwUGR5bEh5aGNIY0dnOWNDWlAxdmdQ?=
+ =?utf-8?B?Vkg2b05tNWx1N2RqY2M2Y1Bja1I0QVJhRlZ6a2J5bWR6VnVkRUcyd0IvOWMw?=
+ =?utf-8?B?K3FoN3hremlqSk0rdHYva2FRQ0xWd05TYkY5MXN5RUt2a2txUElRYWVPZ21r?=
+ =?utf-8?B?eEg0Z2xjVWh2TFVMWlZtNlh3dkNGQTAxVUdPQUUwSmpWZ3QxVDZBL0dNampr?=
+ =?utf-8?B?d3NMdS9qUGtRU1lRZFJTVk9CUTZIeG9XVHBZVnJNQ1g0YzRldzVmMTJQcVhv?=
+ =?utf-8?B?ckdPS1ora3NZME9YTkZsZXNDSDQzcW8xdnVCeGNDZDlsRzAyY2taYWtMQ2xt?=
+ =?utf-8?B?bFp4YUJabXFoUzdMVU9ldnpnWEZFcXVjRzFpNjhrK0Q5TEZPdTJrclJUZHBh?=
+ =?utf-8?B?ZHJOa2FGRHFwT1VpUjFJb0NBTlNDSDFRMVRGUW5DT1d2L1Z2Z0c0SkxqNFli?=
+ =?utf-8?B?RnFGSFltZXpYY3p6Y3ZUTnhydUFzU0ZZM25QZTFaanUySm9jdzAyMXNMUHVS?=
+ =?utf-8?B?RGlWUnozN2NVV0s0MkJORzZmT1BrSHJaWEZiM3JjQ0V2aVdRTzBqTVZmemox?=
+ =?utf-8?B?NHdIaU5yKzRRdWhKdDVuNTRsNzRZMFYyY1dVemNyYjU4Q3dUcUtudHl2aGJZ?=
+ =?utf-8?B?UTJYSHRwZXd3Uk81ZGIvaXJYWVJtYkx4VDREaHQ3dGhUT1liWXhmMWxnUTB4?=
+ =?utf-8?B?TzYvSTk2STIwV2F6UVVCbW9FcXV3MWl2V1JrcVlkeEdwWG56TzA4cUhJczdq?=
+ =?utf-8?B?cUpocyt5d2xmdXhud1hVblZ6MGhiQm5ORlBqWW8zd094YStPWW9uUG9QQ3c1?=
+ =?utf-8?B?SWxFWUJzTmx2dDF2b1BjSWh1bE41bHhIc0d1UnRBODBpMnk2OVNKektlU05h?=
+ =?utf-8?B?Vjc5eVlOc1A5NS9ZTkZ0MlR3WWJFV1lvRHJISkhiSTB1WGpCRUpBd2UzSVUx?=
+ =?utf-8?B?VTd5SGNsdEJTVDVDdFRTUkF6VytmWkN6dG50dlhRTXN0VVZFTnZwSWY0YXMv?=
+ =?utf-8?B?Q2dtejZ5Z3k0QkVseTZWK2lDR0MxY2FSempSRW40RmNkL0RwdXBldUMvdE0y?=
+ =?utf-8?B?MUFnY1Fucjh5dWRmaEhrVUFpM0tqank5SVJFNGJIeFVYblVydVhXOENoSitG?=
+ =?utf-8?B?cXJxQVpyNDRKWlpBOXBWQmlNYVVXNFN0c2pxUUxjeTFXYmJXTlA1WVNJbzRl?=
+ =?utf-8?B?VWVORCtIcDh6eWdjWmVFYU1BTmlZWVJzYWhhekYrQUNTVFNFSXppTDNFMlFk?=
+ =?utf-8?B?dUlkbWd1R3FNZmJ5dGFvZ0NIWHc0VDVpYUhZa3UwaDJmUXpQMm5lMzJJTm81?=
+ =?utf-8?Q?Q+rlBhs+QK0Sx5ScU21xSrmC22nKVM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?V2pJR1ZYQTFPWnRiei93OTJxVzRlYS9XaFZqdzgwMk1vZHlxSWlCSzVDYTBr?=
+ =?utf-8?B?LzEwZVdVTnBVa3lmbzR0c1ZacFpJWmtSb1ZqelBjbk5OQVlJdWVoUnoyMnFi?=
+ =?utf-8?B?WnBBTHY3VmF1c242blgwclJ3Uk1Ha0Y4YkRhZ0M3cCs4cUFTbWZUTjY1K1Fs?=
+ =?utf-8?B?VStPRExubStoOW5JdGpyUWVyYmoxUm5QdkgvTU5WdXVwUDFDa0NXbnhOa1hh?=
+ =?utf-8?B?YXZxUmdmeVM4a25NcUZCVWlKbGV1OXUvYmtVbkZQR0doeFBCZ1VDc3loRE9q?=
+ =?utf-8?B?ZkxvdE5XT05QdXVxay9VS0lMcmpMRmpPYjdpU0hzSHdkMkdzRGVBcmhYaTBw?=
+ =?utf-8?B?VlBJZmN0aWVTVnIxQ2NUZ0pwR3lHTUxPc0lMaWVWenBUQUhSRFB6OGM2WGpW?=
+ =?utf-8?B?UWcxVG9hUi9ZRjgxdXdXRFBzK3R4RVMwaVFhT2dOQnYyeWNlK2dMU1VLQ3d4?=
+ =?utf-8?B?T2Flc1ZtMERPYU9HRlBoemU5dWNEZlFNeFhYd0ExZHFaYWErc3Z2OEd1eFpq?=
+ =?utf-8?B?RVpjVy9QL3lNQmVkUER4bWhPMHJTOCt1enZEazF1RzBaYStRU2ZzQkJ1Ukwz?=
+ =?utf-8?B?NHBxU2l3SkttbW9CRUNLdUF5RWZRSGFiMyszMDRHVGVZNkgrbG5MNy9DRUJE?=
+ =?utf-8?B?WWp6TUwraHNEUU00U2s2MDlsOFU2OUNiTHIxVHU2UGg5VzNzSnNjYnRlY2dM?=
+ =?utf-8?B?QnJsVFZVMFoyUDVCZ3N4aW9WTEwraGh4L0UxWmxYRDZWSjFPcWF6VlpNQ2ti?=
+ =?utf-8?B?VDhjejVheVZqeER4UWZ1NjVSbXI5bzI3Nkg2TXNLM3lxbkhXSXNXUnZTaWZW?=
+ =?utf-8?B?eXBYejh4R256WWo4ZVJYQWpXNVdXWFFzSWN1aEhhdjVZV2YybU5pWUJEd1dH?=
+ =?utf-8?B?SU02b3p6cE9JNGMrTXgrY0ZQNm5rQ3dteGVVaHhZSjVEQUFCZG9UbWpvTG55?=
+ =?utf-8?B?U2RqMFlWaUg5M044UVNLUnp4eXhoVmM4VjlMbGtWb3pxajVyUnFVOXJqcUFw?=
+ =?utf-8?B?TEUrblVOVUtXR0dmMmpYN2NsOUJLSFNBdkJRb3BuSXFHMjlBZ1FXQUZVY2ZS?=
+ =?utf-8?B?NFN0eEZ5amN5VG1IUWFOUUtXQ3BLRXZRU2hOUkk2T0Q1am5HRUM5UzBRRmFt?=
+ =?utf-8?B?L1FQcExoekx5UmRFVTRuR21GYXNFRTJsRlg2MjFUT0orVExrOHJ3YVVXUUgr?=
+ =?utf-8?B?dmxqVUpTckVDdjdIYStHUENNb1pSa3kzMGU4Q0t4cUk5RU1JNEtnOXlmRksx?=
+ =?utf-8?B?TXNFUUZBSUhGVE1QZWw5WE1OOGlWZ2NlS0Y3eGpQTHdxZ3ZvcXFNMDUvRDNr?=
+ =?utf-8?B?TXBJV2VyRHVTZGtPQndKeU9tbWhYK3FLQUJzRmlYdmRQWEtDNThBNldocDAw?=
+ =?utf-8?B?cktkSW81KzBadHJOK1Fua01sN0JuZFA2bTQ0WnVPSGtKQ3h5bGgrVy9BdEJj?=
+ =?utf-8?B?Yk1rVjNUWGExZ0YwNW1JSDZpYUZUcjl2S29KWU5sdXYwSVZWRzF1YmV5K3RC?=
+ =?utf-8?B?aTRRYTlReUJja3Z3ZnlDdnZRRTdZK2l1a1RyeVVFVkd5MmtYTjFmd2NiQ1Vh?=
+ =?utf-8?B?UzlSVk5VWGVpLzdvM2x2d2VtWEJGWEl1YWlFSFpwTmxGcnR5R1J4ZUQ2Zkhz?=
+ =?utf-8?B?TmZrMitwQjJvU3RuNklSWjZIY2VKVGhaVlZJYW5XWHJJOHpVT1JJbUQrcjdE?=
+ =?utf-8?B?ODVGdmRESTl0WEU2cnVKdFg0TU5hcWk2aDgzemcxSnFKN21QaTFaeVo2UFRr?=
+ =?utf-8?B?WEI5WnprRVZIdXNnSUlhNS9JclI5Y3FVWklpUldiQ2F2c0FMMDJJUzA3NEdv?=
+ =?utf-8?B?VHVMWlhVMHU2V2hpL2tNbFJuRndIeVVYT1lnNjN2UFIzYjlPU2xtd2RpRkpi?=
+ =?utf-8?B?OVg5QW5ISktnMDRjWDhPaERic0JKRXYyNEpLbXJxbkp6R25sVDIwUkNtRk96?=
+ =?utf-8?B?dHhLemxldjJJMjJ4NVk4STBETDk3Ym1GWWJmOVJVRlJYbG93aU85T0VnNEsv?=
+ =?utf-8?B?MWh5MHQ4V1UyV3h2U25qV0FWdWlna0d5bktVaEF0NE9ESHJFYVJ3ZXR3TFRZ?=
+ =?utf-8?B?dE5hWUZPTDhKMWNZMi9VRGZneG8yK1F0RkpxbFdIaHhrRzVoVVBoS2RXQVFs?=
+ =?utf-8?Q?bf6PDIQkTS+HNaLyGjQ7Z3q2t?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2efc1ef-0ae8-4cd5-0e8b-08de2c24e0e9
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 13:16:43.8702
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5Js3yq3beezYnIEcI9Z68cPI2ZPpU3UIMSh4I4/X6xnRKTG1x8IbQB8Z+n9PhXPv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9351
 
-On Mon, Nov 24 2025, Usama Arif wrote:
+On 11/25/25 13:52, Thomas Zimmermann wrote:
+> Remove the rest of the kbd support from DRM. Driver support has been
+> broken for years without anyone complaining.
+> 
+> Kdb cannot use regular DRM mode setting, so DRM drivers have to
+> implement an additional hook to make it work (in theory). As outlined
+> by Sima in commit 9c79e0b1d096 ("drm/fb-helper: Give up on kgdb for
+> atomic drivers") from 2017, kdb is not compatible with DRM atomic mode
+> setting. Non-atomic mode setting meanwhile has become rare.
+> 
+> Only 3 DRM drivers implement the hooks for kdb support. Amdgpu and
+> nouveau use non-atomic mode setting on older devices. But both drivers
+> have switched to generic fbdev emulation, which isn't compatible with
+> kdb. Radeon still runs kdb, but it doesn't work in practice. See the
+> commits in this series for details
 
-> On 09/05/2025 08:46, Changyuan Lyu wrote:
->> From: Alexander Graf <graf@amazon.com>
->> 
->> KHO kernels are special and use only scratch memory for memblock
->> allocations, but memory below 1M is ignored by kernel after early boot
->> and cannot be naturally marked as scratch.
->> 
->> To allow allocation of the real-mode trampoline and a few (if any) other
->> very early allocations from below 1M forcibly mark the memory below 1M
->> as scratch.
->> 
->> After real mode trampoline is allocated, clear that scratch marking.
->> 
->> Signed-off-by: Alexander Graf <graf@amazon.com>
->> Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
->> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
->> Co-developed-by: Changyuan Lyu <changyuanl@google.com>
->> Signed-off-by: Changyuan Lyu <changyuanl@google.com>
->> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
->> ---
->>  arch/x86/kernel/e820.c   | 18 ++++++++++++++++++
->>  arch/x86/realmode/init.c |  2 ++
->>  2 files changed, 20 insertions(+)
->> 
->> diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
->> index 9920122018a0b..c3acbd26408ba 100644
->> --- a/arch/x86/kernel/e820.c
->> +++ b/arch/x86/kernel/e820.c
->> @@ -1299,6 +1299,24 @@ void __init e820__memblock_setup(void)
->>  		memblock_add(entry->addr, entry->size);
->>  	}
->>  
->> +	/*
->> +	 * At this point memblock is only allowed to allocate from memory
->> +	 * below 1M (aka ISA_END_ADDRESS) up until direct map is completely set
->> +	 * up in init_mem_mapping().
->> +	 *
->> +	 * KHO kernels are special and use only scratch memory for memblock
->> +	 * allocations, but memory below 1M is ignored by kernel after early
->> +	 * boot and cannot be naturally marked as scratch.
->> +	 *
->> +	 * To allow allocation of the real-mode trampoline and a few (if any)
->> +	 * other very early allocations from below 1M forcibly mark the memory
->> +	 * below 1M as scratch.
->> +	 *
->> +	 * After real mode trampoline is allocated, we clear that scratch
->> +	 * marking.
->> +	 */
->> +	memblock_mark_kho_scratch(0, SZ_1M);
->> +
->>  	/*
->>  	 * 32-bit systems are limited to 4BG of memory even with HIGHMEM and
->>  	 * to even less without it.
->> diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
->> index f9bc444a3064d..9b9f4534086d2 100644
->> --- a/arch/x86/realmode/init.c
->> +++ b/arch/x86/realmode/init.c
->> @@ -65,6 +65,8 @@ void __init reserve_real_mode(void)
->>  	 * setup_arch().
->>  	 */
->>  	memblock_reserve(0, SZ_1M);
->> +
->> +	memblock_clear_kho_scratch(0, SZ_1M);
->>  }
->>  
->>  static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
->
-> Hello!
->
-> I am working with Breno who reported that we are seeing the below warning at boot
-> when rolling out 6.16 in Meta fleet. It is difficult to reproduce on a single host
-> manually but we are seeing this several times a day inside the fleet.
->
->  20:16:33  ------------[ cut here ]------------
->  20:16:33  WARNING: CPU: 0 PID: 0 at mm/memblock.c:668 memblock_add_range+0x316/0x330
->  20:16:33  Modules linked in:
->  20:16:33  CPU: 0 UID: 0 PID: 0 Comm: swapper Tainted: G S                  6.16.1-0_fbk0_0_gc0739ee5037a #1 NONE 
->  20:16:33  Tainted: [S]=CPU_OUT_OF_SPEC
->  20:16:33  RIP: 0010:memblock_add_range+0x316/0x330
->  20:16:33  Code: ff ff ff 89 5c 24 08 41 ff c5 44 89 6c 24 10 48 63 74 24 08 48 63 54 24 10 e8 26 0c 00 00 e9 41 ff ff ff 0f 0b e9 af fd ff ff <0f> 0b e9 b7 fd ff ff 0f 0b 0f 0b cc cc cc cc cc cc cc cc cc cc cc
->  20:16:33  RSP: 0000:ffffffff83403dd8 EFLAGS: 00010083 ORIG_RAX: 0000000000000000
->  20:16:33  RAX: ffffffff8476ff90 RBX: 0000000000001c00 RCX: 0000000000000002
->  20:16:33  RDX: 00000000ffffffff RSI: 0000000000000000 RDI: ffffffff83bad4d8
->  20:16:33  RBP: 000000000009f000 R08: 0000000000000020 R09: 8000000000097101
->  20:16:33  R10: ffffffffff2004b0 R11: 203a6d6f646e6172 R12: 000000000009ec00
->  20:16:33  R13: 0000000000000002 R14: 0000000000100000 R15: 000000000009d000
->  20:16:33  FS:  0000000000000000(0000) GS:0000000000000000(0000) knlGS:0000000000000000
->  20:16:33  CR2: ffff888065413ff8 CR3: 00000000663b7000 CR4: 00000000000000b0
->  20:16:33  Call Trace:
->  20:16:33   <TASK>
->  20:16:33   ? __memblock_reserve+0x75/0x80
->  20:16:33   ? setup_arch+0x30f/0xb10
->  20:16:33   ? start_kernel+0x58/0x960
->  20:16:33   ? x86_64_start_reservations+0x20/0x20
->  20:16:33   ? x86_64_start_kernel+0x13d/0x140
->  20:16:33   ? common_startup_64+0x13e/0x140
->  20:16:33   </TASK>
->  20:16:33  ---[ end trace 0000000000000000 ]--- 
->
->
-> Rolling out with memblock=debug is not really an option in a large scale fleet due to the
-> time added to boot. But I did try on one of the hosts (without reproducing the issue) and I see:
->
-> [    0.000616]  memory.cnt  = 0x6
-> [    0.000617]  memory[0x0]	[0x0000000000001000-0x000000000009bfff], 0x000000000009b000 bytes flags: 0x40
-> [    0.000620]  memory[0x1]	[0x000000000009f000-0x000000000009ffff], 0x0000000000001000 bytes flags: 0x40
-> [    0.000621]  memory[0x2]	[0x0000000000100000-0x000000005ed09fff], 0x000000005ec0a000 bytes flags: 0x0
-> ...
->
-> The 0x40 (MEMBLOCK_KHO_SCRATCH) is coming from memblock_mark_kho_scratch in e820__memblock_setup. I believe this
-> should be under ifdef like the diff at the end? (Happy to send this as a patch for review if it makes sense).
-> We have KEXEC_HANDOVER disabled in our defconfig, therefore MEMBLOCK_KHO_SCRATCH shouldnt be selected and
-> we shouldnt have any MEMBLOCK_KHO_SCRATCH type regions in our memblock reservations.
->
-> The other thing I did was insert a while(1) just before the warning and inspected the registers in qemu.
-> R14 held the base register, and R15 held the size at that point.
-> In the warning R14 is 0x100000 meaning that someone is reserving a region with a different flag to MEMBLOCK_NONE
-> at the boundary of MEMBLOCK_KHO_SCRATCH.
+Amdgpu is heavily pushing on switching to atomic for older GPUs as well. Timur and our DC guys have made quite some progress on that recently.
 
-I don't get this... The WARN_ON() is only triggered when the regions
-overlap. Here, there should be no overlap, since the scratch region
-should end at 0x100000 (SZ_1M) and the new region starts at 0x100000
-(SZ_1M).
+Feel free to add Acked-by: Christian König <christian.koenig@amd.com> to the amdgpu and radeon changes.
 
-Anyway, you do indeed point at a bug. memblock_mark_kho_scratch() should
-only be called on a KHO boot, not unconditionally. So even with
-CONFIG_MEMBLOCK_KHO_SCRATCH enabled, this should only be called on a KHO
-boot, not every time.
-
-I think the below diff should fix the warning for you by making sure the
-scratch areas are not present on non-KHO boot. I still don't know why
-you hit the warning in the first place though. If you'd be willing to
-dig deeper into that, it would be great.
-
-Can you give the below a try and if it fixes the problem for you I can
-send it on the list.
-
-diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
-index c3acbd26408ba..0a34dc011bf91 100644
---- a/arch/x86/kernel/e820.c
-+++ b/arch/x86/kernel/e820.c
-@@ -16,6 +16,7 @@
- #include <linux/firmware-map.h>
- #include <linux/sort.h>
- #include <linux/memory_hotplug.h>
-+#include <linux/kexec_handover.h>
- 
- #include <asm/e820/api.h>
- #include <asm/setup.h>
-@@ -1315,7 +1316,8 @@ void __init e820__memblock_setup(void)
- 	 * After real mode trampoline is allocated, we clear that scratch
- 	 * marking.
- 	 */
--	memblock_mark_kho_scratch(0, SZ_1M);
-+	if (is_kho_boot())
-+		memblock_mark_kho_scratch(0, SZ_1M);
- 
- 	/*
- 	 * 32-bit systems are limited to 4BG of memory even with HIGHMEM and
-diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
-index 88be32026768c..4e9b4dff17216 100644
---- a/arch/x86/realmode/init.c
-+++ b/arch/x86/realmode/init.c
-@@ -4,6 +4,7 @@
- #include <linux/memblock.h>
- #include <linux/cc_platform.h>
- #include <linux/pgtable.h>
-+#include <linux/kexec_handover.h>
- 
- #include <asm/set_memory.h>
- #include <asm/realmode.h>
-@@ -67,7 +68,8 @@ void __init reserve_real_mode(void)
- 	 */
- 	memblock_reserve(0, SZ_1M);
- 
--	memblock_clear_kho_scratch(0, SZ_1M);
-+	if (is_kho_boot())
-+		memblock_clear_kho_scratch(0, SZ_1M);
- }
- 
- static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
-
-
--- 
 Regards,
-Pratyush Yadav
+Christian.
+
+> 
+> Therefore remove the remaining support for kdb from the DRM drivers
+> and from DRM fbdev emulation. Also remove the hooks from fbdev, as
+> there are no fbdev drivers with kdb support.
+> 
+> If we ever want to address kdb support within DRM drivers, a place to
+> start would be the scanout buffers used by DRM's panic screen. These
+> use the current display mode. They can be written and flushed without
+> mode setting involved.
+> 
+> Note: kdb over serial lines is not affected by this series and continues
+> to work as before.
+> 
+> Thomas Zimmermann (5):
+>   drm/amdgpu: Do not implement mode_set_base_atomic callback
+>   drm/nouveau: Do not implement mode_set_base_atomic callback
+>   drm/radeon: Do not implement mode_set_base_atomic callback
+>   drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
+>   fbcon: Remove fb_debug_enter/_leave from struct fb_ops
+> 
+>  Documentation/process/debugging/kgdb.rst    |  28 -----
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c      |  35 ++-----
+>  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c       |  35 ++-----
+>  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c       |  35 ++-----
+>  drivers/gpu/drm/drm_fb_helper.c             | 108 --------------------
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c     |  24 +----
+>  drivers/gpu/drm/radeon/atombios_crtc.c      |  74 ++++----------
+>  drivers/gpu/drm/radeon/radeon_legacy_crtc.c |  23 ++---
+>  drivers/gpu/drm/radeon/radeon_mode.h        |  10 +-
+>  drivers/video/fbdev/core/fbcon.c            |  24 -----
+>  drivers/video/fbdev/core/fbcon.h            |   1 -
+>  include/drm/drm_fb_helper.h                 |  21 ----
+>  include/drm/drm_modeset_helper_vtables.h    |  23 -----
+>  include/linux/fb.h                          |   4 -
+>  14 files changed, 63 insertions(+), 382 deletions(-)
+> 
+> 
+> base-commit: 0a21e96e0b6840d2a4e0b45a957679eeddeb4362
+
