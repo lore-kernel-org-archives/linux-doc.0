@@ -1,78 +1,42 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13801257854
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 10:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9FB2F291A;
+	Tue, 25 Nov 2025 10:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764065033; cv=none; b=dx/T0mDH+rNmfugbAFWuvzZ3dzfS6nO1thCTP5ViGiGqDlA7MJoJX6yw39JpgvDNf6dTqqmol/0fBWLmXWTvTEnVoD978wVOv33OYCeoozo6LNeWZ2tknP90cvWb7omO3g9d0pj151iPgaTbEqlZjyNpAMSQGbOYHiHMOs+RdaI=
+	t=1764066202; cv=none; b=mukK9VH20f9pEreUBzfA1L1jo1WAY3NLC4q9fOvIkaYsfZ1AleOA8WjKjo/OUCoBsfZRU67QJJLkGo8vvfljWAeR8bsyddlVYiEVV6oqB/ELG3+qogxFMtWECDG1SLbJog7qWXmCo7Kpv6lflBByGIqEKW6YTcKW6Zp/TQ8GwGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764065033; c=relaxed/simple;
-	bh=Ynwt/PGQ1dl73sOWY1UrpUl+HJY5t5F/5BD+jLiu4iM=;
+	s=arc-20240116; t=1764066202; c=relaxed/simple;
+	bh=53ruduyJmEZa17lWjXksTMAjCjoY41BSgCSmU8ZSx5M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CnY+sAcsMUQDs43Bb4tsIGkoWPnY0peU0P0NM/DUeeu1jF3v2NL6AGNUKn6OZlIh9tFmCttIgpJhdRSilrIbZOqcCKZfIw9hPbq5mXsydmCWP+AXnOddbaDes75FU1X1HCARLJsnWLpsGI8VwpODApOzIoKnZO/N5s7ApzZoHv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BJu6c0N/; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HkFOiE4sQZrRVEF2VYZqJbCAOGV8XXldXSjVC1cfzsTyN1Njsoi80pIlMaqH7lFkfUw2+WxRAimokI/ob6M0Zc+Zb+jKmeH+RkDs3zBTo3VcX7rmUiXqZKJX5tAUN6zwYe9VGQmnmtiAFiUseTTpkZv7BMDFRaZVpkWWVzI2Tcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d0cYjFcB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BJu6c0N/"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4779a4fb9bfso49155e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 02:03:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764065030; x=1764669830; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nVd5wHAvhsygYJktl9YNIl657UM2lLl+mprE++5Um5Q=;
-        b=BJu6c0N/kRlOHsK1wQzw2Gf5CPNmINjUYiqQ/OVZjBvx+UhBSpexiH4hqHQWpxVWNb
-         BsUlFc8nLMrcystmlDaTNbdAJaw5bitC3PAVDOyuCdhA/J6val8iSkpCiK3l/tLc7EgQ
-         yj04ptFN9n4XSlCh8XbLz4g+gZSGSTLg7qOs3wADo9rzUwVhUTBP3JPf4t5eDEgSpjWT
-         6lzuHIa4hjFj8RVbpCqUdDt7EIUDjp8vayoMy32m9bZsXBnl8ICMg3noaIyPtTvpV5Ac
-         ctpqadj9Gkq3njB88FEJO59C0K/oDlY+OyEfOVMRs9KPhI04MttRRIBYwZ6MvRbnZPdC
-         EDpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764065030; x=1764669830;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nVd5wHAvhsygYJktl9YNIl657UM2lLl+mprE++5Um5Q=;
-        b=lQ7w1iMSG88E4qmhcKbVBWJ2Jzntv7kzI365vLYm15tvq7qyBrxosqRelcwVzESHna
-         vFtb0IckYepThTAdCdV4rI8DAvIQSBULR/03XNIYcxueql5hOXvOXxs1Bmb9k9TDV3sh
-         lSHz+cwBfBchAcSFcaS+joeaN76p99Fnfu8KsPbd74TGf+69VICEfhBxYQMp3nqm+w+Z
-         VB9BIY2IXM9zVkiY/Z4/sFfMKsv++yq2uG8QNe6oW1Q6hEPTWUZFK3lyiwq8+yaJvIKT
-         ImQ+25HOgG0ZhCJ3R4rAKvYe0VcgGPsP2U/iDEz7DLHC1SyjQkeYYJeYGDvCmVzVXnZq
-         9q/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUPVLR5mttF2Tqw/cTDfVcPi1ZV46PdnGFnqDnX+MoEMct86lSv2TTDstPd/Sub0vCSCTYe9F0tW3E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzufYWPU6gBNoDqopBxfbSvQQBUYha8G1/ME1QHM0wvuVBAAk6+
-	jAwi8aXgON+4Q6ML/Wimp4CXr6MBIMa/+rc2tfSgzYtDw0XwHZfNQxwCtg9WzaHJ1g==
-X-Gm-Gg: ASbGnctC1u2ximt/twFFXzjU7Q8ft7z1XK95ursJ9Gx2OgIYsXJ5NMuIOlNVbSRWV6p
-	20XjxC2THdEnhz6wA8e/QAATbsthSFTQ8IW9O0QnbyKrUN6y7YlCAUr2EC5+QXE78gdaUNYmRYV
-	o6iNQIbOwgVUSvAoHTYcSp1sOpdZB3bUpx1VeTnZqxvkNLe/h9E6AlHqd7YqPmn42UbT2dgogcU
-	Visj+UZ1RK0hgV6w+l3DNlOoNtfujIB8yMxrgaAe8V8fDu2dKBZ8CAJno1fieYEkl2ackubdUdi
-	liYJBkL+/Qik9xvTWyXrJ+gGVcHbLPU3N9nasGAZ+n84/2e2hFQzUWqF7uFBO75Dxuk7hg1ed8a
-	8EriHRQkEyk+0H9ce3QTqXIUSvIci0EK6qrO7/bk1F7GYD+WA6dJb518cAKKSkFP5fS7OVwmR9e
-	ogyv0PWsMQwyDcWju5d1eWshBUBHcIh3Di0LhgOPMvBc7QucWf/A==
-X-Google-Smtp-Source: AGHT+IHGtSW4ZFPm5Ld3MnDEYsj1B4+fTprfbo1S10kQvVjHYAXxPLPTfSswDS2c4HSt3WgH56Nz+A==
-X-Received: by 2002:a05:600c:8901:b0:477:772e:9b76 with SMTP id 5b1f17b1804b1-479068ef80fmr299385e9.7.1764065030179;
-        Tue, 25 Nov 2025 02:03:50 -0800 (PST)
-Received: from google.com (54.140.140.34.bc.googleusercontent.com. [34.140.140.54])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7f2e574sm33316474f8f.3.2025.11.25.02.03.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 02:03:49 -0800 (PST)
-Date: Tue, 25 Nov 2025 10:03:46 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
-	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
-	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
-	david@redhat.com, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com
-Subject: Re: [PATCH v3 3/4] drivers/iommu-debug-pagealloc: Track IOMMU pages
-Message-ID: <aSV_Ap1RynBULiZM@google.com>
-References: <20251124200811.2942432-1-smostafa@google.com>
- <20251124200811.2942432-4-smostafa@google.com>
- <ae535698-33fc-42a1-8a5a-ed8dd192f697@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d0cYjFcB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90B05C4CEF1;
+	Tue, 25 Nov 2025 10:23:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764066201;
+	bh=53ruduyJmEZa17lWjXksTMAjCjoY41BSgCSmU8ZSx5M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d0cYjFcBVVSiEcYkxlP4OnCM79l3Mi5+cW2wkzbx6q98XMT9KbC3rUzbv/Oqg0q5u
+	 +bk4Kr5fydN2ueaCMuuqHPXeqwH87MYhx15UgaTblj0KxXREGC+2Ft+poMatPP1mb5
+	 7z7fuK9gC4XAsj4yEiqGZnPMlDEPSRnKpeTj77nV2MroItLH+slAmzeWrpN/k7uU2v
+	 XH9/5UrYWMdCdhev8/Z1DR8cra2S3naAG4scq4BvRjppysiF0MQhbmoOdi9xZ57up+
+	 Zp97Ono/2uKQEmsGmGW5ZZCeOuIsGMJOm8sM3gDEBkTQKWz/5Mpsmt1R5g6cReRSOd
+	 avgaBBcHAneOw==
+Date: Tue, 25 Nov 2025 12:23:14 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Joshua Hahn <joshua.hahnjy@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, kernel-team@meta.com
+Subject: Re: [PATCH v2 1/2] mm/mm_init: Introduce a boot parameter for
+ check_pages
+Message-ID: <aSWDkuJEdk9cdVCK@kernel.org>
+References: <20251124225408.2243564-1-joshua.hahnjy@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,64 +45,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ae535698-33fc-42a1-8a5a-ed8dd192f697@linux.intel.com>
+In-Reply-To: <20251124225408.2243564-1-joshua.hahnjy@gmail.com>
 
-On Tue, Nov 25, 2025 at 03:54:56PM +0800, Baolu Lu wrote:
-> On 11/25/25 04:08, Mostafa Saleh wrote:
-> >   void __iommu_debug_unmap_end(struct iommu_domain *domain,
-> >   			     unsigned long iova, size_t size,
-> >   			     size_t unmapped)
-> >   {
-> > +	if (unmapped == size)
-> > +		return;
-> > +
-> > +	/*
-> > +	 * If unmap failed, re-increment the refcount, but if it unmapped
-> > +	 * larger size, decrement the extra part.
-> > +	 */
-> > +	if (unmapped < size)
-> > +		__iommu_debug_update_iova(domain, iova + unmapped,
-> > +					  size - unmapped, true);
-> > +	else
-> > +		__iommu_debug_update_iova(domain, iova + size,
-> > +					  unmapped - size, false);
+On Mon, Nov 24, 2025 at 02:54:06PM -0800, Joshua Hahn wrote:
+> Use-after-free and double-free bugs can be very difficult to track down.
+> The kernel is good at tracking these and preventing bad pages from being
+> used/created through simple checks gated behind "check_pages_enabled".
 > 
-> In any case, could the 'else' branch become a real operation?
+> Currently, the only ways to enable this flag is by building with
+> CONFIG_DEBUG_VM, or as a side effect of other checks such as
+> init_on_{alloc, free}, page_poisoning, or debug_pagealloc among others.
+> These solutions are powerful, but may often be too coarse in balancing
+> the performance vs. safety that a user may want, particularly in
+> latency-sensitive production environments.
 > 
-> In the __iommu_unmap():
+> Introduce a new boot parameter "check_pages", which enables page checking
+> with no other side effects. It takes kstrbool-able inputs as an argument
+> (i.e. 0/1, true/false, on/off, ...). This patch is backwards-compatible;
+> setting CONFIG_DEBUG_VM still enables page checking.
 > 
->         /*
->          * Keep iterating until we either unmap 'size' bytes (or more)
->          * or we hit an area that isn't mapped.
->          */
->         while (unmapped < size) {
->                 size_t pgsize, count;
+> Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
+> ---
+> v1 --> v2:
+> - Changed check_pages from a build config into a boot config, as suggested
+>   by Vlastimil.
+> - Introduced the second patch, which decouples page checking from 
+>   init_on_page_alloc and init_on_page_free.
+> ---
 > 
->                 pgsize = iommu_pgsize(domain, iova, iova, size - unmapped,
-> &count);
->                 unmapped_page = ops->unmap_pages(domain, iova, pgsize,
-> count, iotlb_gather);
->                 if (!unmapped_page)
->                         break;
+>  Documentation/admin-guide/kernel-parameters.txt |  8 ++++++++
+>  mm/mm_init.c                                    | 11 ++++++++++-
+>  2 files changed, 18 insertions(+), 1 deletion(-)
 > 
->                 pr_debug("unmapped: iova 0x%lx size 0x%zx\n",
->                          iova, unmapped_page);
-> 
->                 iova += unmapped_page;
->                 unmapped += unmapped_page;
->         }
-> 
-> The comments say that it is possible to unmap more bytes than 'size',
-> but isn't it a bug if this helper unmaps more than the caller desired?
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 6c42061ca20e..0ba9561440a7 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -669,6 +669,14 @@
+>  			nokmem -- Disable kernel memory accounting.
+>  			nobpf -- Disable BPF memory accounting.
+>  
+> +	check_pages=	[MM,EARLY] Enable sanity checking of pages after
+> +			allocations / before freeing. This adds checks to catch
+> +			double-frees, use-after-frees, and other sources of
+> +			page corruption by inspecting page internals (flags,
+> +			mapcount/refcount, memcg_data, etc.).
+> +			Format: { "0" | "1" }
+> +			Default: 0 (1 if CONFIG_DEBUG_VM is set)
+> +
+>  	checkreqprot=	[SELINUX] Set initial checkreqprot flag value.
+>  			Format: { "0" | "1" }
+>  			See security/selinux/Kconfig help text.
+> diff --git a/mm/mm_init.c b/mm/mm_init.c
+> index c6812b4dbb2e..01d46efc42b4 100644
+> --- a/mm/mm_init.c
+> +++ b/mm/mm_init.c
+> @@ -2525,6 +2525,14 @@ early_param("init_on_free", early_init_on_free);
+>  
+>  DEFINE_STATIC_KEY_MAYBE(CONFIG_DEBUG_VM, check_pages_enabled);
+>  
+> +static bool _check_pages_enabled_early __initdata;
 
-I was wondering also why the core API allows that, I couldn't find
-useful information from "git blame". But I vaguely remember that some
-IOMMUs can't split blocks so they unmap the whole block when a smaller
-size is requested.
+No need in the leading underscore.
 
-Thanks,
-Mostafa
+> +
+> +static int __init early_check_pages(char *buf)
+> +{
+> +	return kstrtobool(buf, &_check_pages_enabled_early);
+> +}
+> +early_param("check_pages", early_check_pages);
+> +
+>  /*
+>   * Enable static keys related to various memory debugging and hardening options.
+>   * Some override others, and depend on early params that are evaluated in the
+> @@ -2591,7 +2599,8 @@ static void __init mem_debugging_and_hardening_init(void)
+>  	 * of struct pages being allocated or freed. With CONFIG_DEBUG_VM it's
+>  	 * enabled already.
+>  	 */
+> -	if (!IS_ENABLED(CONFIG_DEBUG_VM) && want_check_pages)
+> +	if (!IS_ENABLED(CONFIG_DEBUG_VM) && (_check_pages_enabled_early ||
+> +					     want_check_pages))
 
-> 
-> Thanks,
-> baolu
+You can initialize want_check_pages to check_pages_enabled_early, would be
+clearer IMO.
+
+>  		static_branch_enable(&check_pages_enabled);
+>  }
+>  
+> -- 
+> 2.47.3
+
+-- 
+Sincerely yours,
+Mike.
