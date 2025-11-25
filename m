@@ -1,233 +1,226 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012064.outbound.protection.outlook.com [40.107.200.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A330C1A9B58;
-	Tue, 25 Nov 2025 12:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764073392; cv=none; b=PxaX5v669m0WCLEWllkGrMqtlCHkfgP/5TL7D1p2bxgcXSp0dHTe15ehHzlbBVCwafeMGLeoKVqp6TXX8A363luVaa3WZz8cH7V2U8NhW95n5tfk8QClogE+xawgQBjZxXlcwLjWDG6oD/wgXVrP9ueZoj62OafIjb5YHTipKDI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764073392; c=relaxed/simple;
-	bh=dgBsZgJWsujT1G5ZZyKp5poEm84jGPGY7WbAbiL0MR0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Bj9A2MgfI2oCN076YQrq7D38d/QPXu/elLrC1gDvg59bDygFnscvoSWavxbwO8PvZgeJ1h0S7UcHHeLDc+f/cvPdwnDWQxc9rMDpejCY3UbJ75n1c3nFh1K+O6wxQ8Ewg+KlrC/JzCsjBP6bknj6lbZWvBVM7etU6lw5+ve8kUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PrkIGiiH; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15D118DB1E;
+	Tue, 25 Nov 2025 12:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764074254; cv=fail; b=NG6KGKOV1xYyvADZhYzlrW5YpoE0e6yVp6hnDhD70zCfBliEqHR8ehxeE41bGkm1c8I95oORhcNIthXZ4TLduHqWgfvPBI4ziCUMG9p6c+RH033F2jeweeY22nemCkMzWyehXzK9n70h/64TPbZY7ZKqqMK1vgWWMDQn/wbAvHg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764074254; c=relaxed/simple;
+	bh=ste7R/3/IyDRdC56vZBbbex+zn7DL0zQA7bdXKh3L7Q=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oAqjnJyobeMI1gw5MHSZglkZI7HHQBsIjKA9ARKBE/Wtlhn1pIB6Nkl/Ee6P6Dkm9EGMlfcPhY+xkR32fryJp5m45HaMyCmld4MhA3x4xciff0p7noSv88Y4cq0Uc9G8tcx5Q2tboq14blmGYsxKNsX+xfKzjBeSh6cN2+6f+uQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YqPAWWNk; arc=fail smtp.client-ip=40.107.200.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PrkIGiiH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA125C4CEF1;
-	Tue, 25 Nov 2025 12:23:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764073392;
-	bh=dgBsZgJWsujT1G5ZZyKp5poEm84jGPGY7WbAbiL0MR0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=PrkIGiiHSiipdIgzxPoyKCJ4Fy3jRwcIwcp5kblp2SuzY9IJRC9td8hSxj7WBX+OK
-	 tHsOa1jxjoE8ceReNCftcWRT98GvaRM0Ia8paupqWSuu06gNtntWVK2V4LQWr0WsV7
-	 VGIT5x3vE1vHyOipQTu/CVZ/WVCeMe+WT6R2hFP8Jj95v9ajS+QegQGNA9Diro6RHD
-	 FIV26stHU8SOFSWUTETfYamJZmJqnmIg2kx494WXDxRs+HUC0o5o9j6B2MVoEucVx2
-	 vyKGLTcBVIH5jsgc2lFyq6s8Xt3D454mrw3aOT/8J72JonvIU8bLUsk2B2hRd/b7TU
-	 THa3yTkV/FFbA==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Usama Arif <usamaarif642@gmail.com>,  Changyuan Lyu
- <changyuanl@google.com>,  akpm@linux-foundation.org,
-  linux-kernel@vger.kernel.org,  Mike Rapoport <rppt@kernel.org>,
-  anthony.yznaga@oracle.com,  arnd@arndb.de,  ashish.kalra@amd.com,
-  benh@kernel.crashing.org,  bp@alien8.de,  catalin.marinas@arm.com,
-  corbet@lwn.net,  dave.hansen@linux.intel.com,
-  devicetree@vger.kernel.org,  dwmw2@infradead.org,  ebiederm@xmission.com,
-  graf@amazon.com,  jgowans@amazon.com,  kexec@lists.infradead.org,
-  krzk@kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-doc@vger.kernel.org,  linux-mm@kvack.org,  luto@kernel.org,
-  mark.rutland@arm.com,  mingo@redhat.com,  pasha.tatashin@soleen.com,
-  pbonzini@redhat.com,  peterz@infradead.org,  robh@kernel.org,
-  rostedt@goodmis.org,  saravanak@google.com,
-  skinsburskii@linux.microsoft.com,  tglx@linutronix.de,
-  thomas.lendacky@amd.com,  will@kernel.org,  x86@kernel.org,  Breno Leitao
- <leitao@debian.org>,  thevlad@meta.com
-Subject: Re: [PATCH v8 12/17] x86/e820: temporarily enable KHO scratch for
- memory below 1M
-In-Reply-To: <22BDBF5C-C831-4BBC-A854-20CA77234084@zytor.com> (H. Peter
-	Anvin's message of "Mon, 24 Nov 2025 16:56:34 -0800")
-References: <20250509074635.3187114-1-changyuanl@google.com>
-	<20250509074635.3187114-13-changyuanl@google.com>
-	<a0f875f1-45ad-4dfc-b5c8-ecb51b242523@gmail.com>
-	<22BDBF5C-C831-4BBC-A854-20CA77234084@zytor.com>
-Date: Tue, 25 Nov 2025 13:23:05 +0100
-Message-ID: <mafs08qfuxpw6.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YqPAWWNk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=w+grb2HChM5qeLBQvVjkT9TuMzLekpyQdWbtuFWd2Mlsh8TmrZpgOQjumQG80kE/Kicd/1w7E3r9EncSSgbooizaAMoIdSla3JOzFBGMR3nM9bsfOYAqO5wT41JOhUpn08YpMRBu6G9jQblMHL+8LqFzkjvfZuU1j5qBdtVFwbczvLHy1kFBW7c2F42FgbkcgqiBfurP8F3mA4MYR70tl4HBzxAICmYROirX1geoh99egzcY2LfRlkXGCRvHjHbUG8hYtp8tkOIDwIi8EnqAjefnPq9/w9DZJXQFLt/HBWYdipg8PXj14BijcO68oYWfj7nW6Z6jG1i+r4P5rP4VdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Xma9UvU8PoLFTBawQdwrJ+49n0jnmFMW1enKInh4CNo=;
+ b=SFfdg/VBKqv0TckuDTZHziOx2ok7HYTwOLM8BbOMtmqMToBq9unsBD1zhbceA33AL3AOqCJjiVLS3SQkLQ3/CP4H8Pl2lUyOT2IV3G/lRS3WF3P9xZvyQnzgRUNVBZ76lhDIffoFbVyhoYayTbgknVe4wFgHOIPqFtSu4dFpA9ZBHzzywDSnp+GNW6QVfVgtrR+juQvgJXXWkwsS3WxYCqp0CPPz7AeEqFISzA99Jl0pJSaxUiEbxctcDUTdMBxNvL/7nS68L7SDDWpgz+94pJvszsdf33ZwAdpkd8rzGuN5O4IdNmLFun/aEkMFClmFd+7PXRn74UM6fwdaaaCSrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xma9UvU8PoLFTBawQdwrJ+49n0jnmFMW1enKInh4CNo=;
+ b=YqPAWWNksdTylcxSj8im0y8NVzgBRD7dVh4A2EmTX3VtC/L+iIi2K6n5YhsZP+8tXfgSyHKp4lxMY/y8r6P0HPYU1Q6aizDz1DNNFaMR6vxcVe5p3iD/SU3t+GaZDhacBgUaH3TxRQjD8daCFyYq2uAyXBItciCQIrT+bYM7/b0hyfnHRZBEc0S3SUS+dl5YwfhSfiUG0h2pVk82K1V7zvJnfRCoCkxQJxRclFrUopJET/CfaHM8j6wCTf1eZ32BoFQKParzlv/9L9ITEq7euD/QgF1JQYqDRf7o8t8nDuN6F4sINDfpxIICZLHqi5PQGBzmdEc5V51VuHHB2wnS7Q==
+Received: from BN9PR03CA0422.namprd03.prod.outlook.com (2603:10b6:408:113::7)
+ by LV3PR12MB9329.namprd12.prod.outlook.com (2603:10b6:408:21c::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.15; Tue, 25 Nov
+ 2025 12:37:25 +0000
+Received: from BN1PEPF00006003.namprd05.prod.outlook.com
+ (2603:10b6:408:113:cafe::3f) by BN9PR03CA0422.outlook.office365.com
+ (2603:10b6:408:113::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.17 via Frontend Transport; Tue,
+ 25 Nov 2025 12:36:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BN1PEPF00006003.mail.protection.outlook.com (10.167.243.235) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.7 via Frontend Transport; Tue, 25 Nov 2025 12:37:25 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 25 Nov
+ 2025 04:37:14 -0800
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 25 Nov
+ 2025 04:37:14 -0800
+Received: from inno-thin-client (10.127.8.10) by mail.nvidia.com (10.129.68.7)
+ with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Tue, 25
+ Nov 2025 04:37:00 -0800
+Date: Tue, 25 Nov 2025 14:36:59 +0200
+From: Zhi Wang <zhiw@nvidia.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+CC: John Hubbard <jhubbard@nvidia.com>, Dave Airlie <airlied@gmail.com>, "Joel
+ Fernandes" <joelagnelf@nvidia.com>, <linux-kernel@vger.kernel.org>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, "Simona
+ Vetter" <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Alex Deucher
+	<alexander.deucher@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+	<rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
+	<ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, Matthew Brost
+	<matthew.brost@intel.com>, Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
+ =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Helge Deller
+	<deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>, Alice Ryhl
+	<aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor
+	<alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
+	<gary@garyguo.net>, =?UTF-8?B?QmrDtnJu?= Roy Baron
+	<bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+	"Alistair Popple" <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, Edwin
+ Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+	<nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+	<intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
+Subject: Re: [PATCH] gpu: Move DRM buddy allocator one level up
+Message-ID: <20251125143339.361cc3bb.zhiw@nvidia.com>
+In-Reply-To: <9f433dee-7ad9-4d0f-8ac1-e67deb409b70@amd.com>
+References: <20251124234432.1988476-1-joelagnelf@nvidia.com>
+	<f73e4536-ec89-4625-96d4-6fa42018e4e4@amd.com>
+	<CAPM=9twe3xcVBgrNCT+1_pGECPL-ry_aA2dxBwbKVeai4+S7AQ@mail.gmail.com>
+	<24d4f02b-8ecd-4512-a1f0-ba41684ede1d@amd.com>
+	<dfc50417-66ce-44ce-b607-917d678c5631@nvidia.com>
+	<9f433dee-7ad9-4d0f-8ac1-e67deb409b70@amd.com>
+Organization: NVIDIA
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00006003:EE_|LV3PR12MB9329:EE_
+X-MS-Office365-Filtering-Correlation-Id: 578f5653-2621-4fa1-b357-08de2c1f6379
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZExHbDVYajdCSFZ1aFIvSG9YaG5QWlN4V3dVWWVqaTlvL2lScHlBVTN2ZzEw?=
+ =?utf-8?B?d1V2d1YwQW5uSk1wNTdVK0NaQTF6YlpxRFRQVVRwZUdLYmVPSENGdlkwUitU?=
+ =?utf-8?B?WUU0cmpJZXYrYnVBRW5ObXM0TnNjQitsdXRRbU5GdUV1M29mQTgyQlNvZmg0?=
+ =?utf-8?B?V28vdFN6N3FlY0RQSzB4Wnl6cFFoaXRwU21xSFdmMjE4a1lLKzhJVCtTaEdN?=
+ =?utf-8?B?bVpDMzVYQkxuaDRKdFdHVXUvaFJ2aXIwMHdqNjV0aTBPUGpPMUQxQ3kvT044?=
+ =?utf-8?B?QXN3Slp4LzlTQW4xWHZHTUo4Zk12ZnAxcmN1RnNTT2RCd2FVLyt4dXBPTGdi?=
+ =?utf-8?B?UmJUZjV3S1ZXZmlkK0MxMG9vMXRhOEc0NEY1NFptZER5d2NrRUgwK04xUUo1?=
+ =?utf-8?B?cXR1U0JHYXNSbHMvRTA4bmtodEU1WnVKUXd6a0RXZ1N4QjVxMkFWWU5ITVUz?=
+ =?utf-8?B?OXF6cHczbTNLSE1KNXhQUEpyVXFnNi81Y2l2U21MUGxKOHJRWXdGSXk5VzVG?=
+ =?utf-8?B?a1JDajAzZG05VWU5c3dkVlU2aVV3RDQ2emlPcnV4WXU2Z1VpQkFMb3o5ZFpJ?=
+ =?utf-8?B?eFg0MzE4MU8xQVhVN3FIL3lBTDY1cGFrY2k0emlDblNpRExveVVmditIbk95?=
+ =?utf-8?B?VkZnQ3ZVUUpxUDFDMWZVd2xRZitMOWtPenhvbnZuZ0hzZ2xUcVBURG03ZDFr?=
+ =?utf-8?B?NTN5TWk3UUgrRVhhUFBTU3h2enhhTHU1WTB3L3oxMk04dUZ4QWZWYU4rSlNx?=
+ =?utf-8?B?UjRmeExVYUNHby9PNncvRGlGZUVhcDk5czNKRENGVVBYQXM1VGJtZVdqRkRL?=
+ =?utf-8?B?eEpEaVBjSWQ4RisrNXNPYU9wd1A1cWw1Z1YybUtVQytlMWFnWVlSbmRpb2ti?=
+ =?utf-8?B?QXI2c3BadEk5TytZdzM0NWp6MFpGaDJDa0dOMS9aMVpKb2xoZklYZ0hzYitU?=
+ =?utf-8?B?TEMzTncyeDBFR1BiMU5talVlYlBQNTZxb1c2LzFyT0FmYzFtZEFTbStyWGlD?=
+ =?utf-8?B?cExyaHJvWkFWTVVaOEZLTDViNkpvQnJzdHQ0eTNiak1zRTUrZEJ0VGptaFZp?=
+ =?utf-8?B?V1pDb3RXNjlDY2ZEekpKeHIzMEx1T0E3T3RxVzUvaWlwQS9zY1JHdjlJU2dX?=
+ =?utf-8?B?eEt4SGJQd3cxSWtQcHJ6Rk9kbVk0VldDTGRYOEsrZGtrbVgvZE94Y0xnNzZJ?=
+ =?utf-8?B?QjFybWV0R2NNTUVlNjlVZHN5Z0ozV29XbjdBYXVpZjJSbkpmRk1yQU92cG9m?=
+ =?utf-8?B?TmNrbFIzM25qS2s2VjlVb3JkcExoUGN2c1lYL09GRk81aW1ORjhpVWM1eHFa?=
+ =?utf-8?B?NmhGc2ZFNjRZc3dYclg0TXhEaWdrazVpVDlDbytrMmxDSmdpRVYwL1hOWmMw?=
+ =?utf-8?B?ZWFrRFJFMjdtbkdTaWFMSzZXUm5qcE1CcTRucit2ell1N0Z3a05seGNNMUMw?=
+ =?utf-8?B?b2VSazFFSTBFeW9WZVo3ZHJLNGlHWWpEUkpEamFZcXUxZ3Y5bU1PLzR2L2hm?=
+ =?utf-8?B?N0hlK0hoeDJnYTZPd2xpRGdXajBoM3ZWeGlKRHdza1djbEVLbXBVV1cvSmRP?=
+ =?utf-8?B?ZWZYVWpKSDdIQmU1cnBLUU5lQzludHBVVEQweEZ4Q3RtRDJTd1pra3dmOC92?=
+ =?utf-8?B?Sm1ibEFUeTJDR2tMN2VPZzFOeU9YQUM0RnI0NlA0YW13TmQ0bzEvVUtpdmwv?=
+ =?utf-8?B?NEhNZWNrcWNqY21RQ3hpRjEwZUowbktoYWhPRktyRW0vd2RzRkI3OUwrblBN?=
+ =?utf-8?B?cjg3ZUVhRXQyVU9oWERkdkVKT2ZGQmJIZGFiblJsWGEwTVRWVDJPaVI0ZDJa?=
+ =?utf-8?B?emcvQWxaOHBDcGVZTW41SURvMTVWUkJ0ZWh5NStaKys3WlBoS3MxSGZ5QTA0?=
+ =?utf-8?B?UzNuSWY1K2YrQXJGd3ZwSzgvTzVWaEZ1QmkwaGNlNk15UEZCaDNCM3dlOFZG?=
+ =?utf-8?B?d0RMMXFpVmx1OE5pODNSV3V1V1RzUnEwODJ0Y0VoQkttYm5Hc0l0YktmQ3hK?=
+ =?utf-8?B?OFpGaDJDR3BoVXZSYlhoU1MyQXlKU2pjSHNNR3FFRWJmTml6WWdZWFRwS2tG?=
+ =?utf-8?B?NGJVSUpXRnZqRE5FKzMrb3NOTkNiRHREamluUWFOaG5Hc1R4ZDQ1ZU5sRWxr?=
+ =?utf-8?Q?uhLoUdzPNl2T4TZwr5CTDz7xK?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 12:37:25.6225
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 578f5653-2621-4fa1-b357-08de2c1f6379
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF00006003.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9329
 
-On Mon, Nov 24 2025, H. Peter Anvin wrote:
+On Tue, 25 Nov 2025 09:10:54 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-> On November 24, 2025 11:24:58 AM PST, Usama Arif <usamaarif642@gmail.com> wrote:
->>
->>
->>On 09/05/2025 08:46, Changyuan Lyu wrote:
->>> From: Alexander Graf <graf@amazon.com>
->>> 
->>> KHO kernels are special and use only scratch memory for memblock
->>> allocations, but memory below 1M is ignored by kernel after early boot
->>> and cannot be naturally marked as scratch.
->>> 
->>> To allow allocation of the real-mode trampoline and a few (if any) other
->>> very early allocations from below 1M forcibly mark the memory below 1M
->>> as scratch.
->>> 
->>> After real mode trampoline is allocated, clear that scratch marking.
->>> 
->>> Signed-off-by: Alexander Graf <graf@amazon.com>
->>> Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
->>> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
->>> Co-developed-by: Changyuan Lyu <changyuanl@google.com>
->>> Signed-off-by: Changyuan Lyu <changyuanl@google.com>
->>> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
->>> ---
->>>  arch/x86/kernel/e820.c   | 18 ++++++++++++++++++
->>>  arch/x86/realmode/init.c |  2 ++
->>>  2 files changed, 20 insertions(+)
->>> 
->>> diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
->>> index 9920122018a0b..c3acbd26408ba 100644
->>> --- a/arch/x86/kernel/e820.c
->>> +++ b/arch/x86/kernel/e820.c
->>> @@ -1299,6 +1299,24 @@ void __init e820__memblock_setup(void)
->>>  		memblock_add(entry->addr, entry->size);
->>>  	}
->>>  
->>> +	/*
->>> +	 * At this point memblock is only allowed to allocate from memory
->>> +	 * below 1M (aka ISA_END_ADDRESS) up until direct map is completely set
->>> +	 * up in init_mem_mapping().
->>> +	 *
->>> +	 * KHO kernels are special and use only scratch memory for memblock
->>> +	 * allocations, but memory below 1M is ignored by kernel after early
->>> +	 * boot and cannot be naturally marked as scratch.
->>> +	 *
->>> +	 * To allow allocation of the real-mode trampoline and a few (if any)
->>> +	 * other very early allocations from below 1M forcibly mark the memory
->>> +	 * below 1M as scratch.
->>> +	 *
->>> +	 * After real mode trampoline is allocated, we clear that scratch
->>> +	 * marking.
->>> +	 */
->>> +	memblock_mark_kho_scratch(0, SZ_1M);
->>> +
->>>  	/*
->>>  	 * 32-bit systems are limited to 4BG of memory even with HIGHMEM and
->>>  	 * to even less without it.
->>> diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
->>> index f9bc444a3064d..9b9f4534086d2 100644
->>> --- a/arch/x86/realmode/init.c
->>> +++ b/arch/x86/realmode/init.c
->>> @@ -65,6 +65,8 @@ void __init reserve_real_mode(void)
->>>  	 * setup_arch().
->>>  	 */
->>>  	memblock_reserve(0, SZ_1M);
->>> +
->>> +	memblock_clear_kho_scratch(0, SZ_1M);
->>>  }
->>>  
->>>  static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
->>
->>Hello!
->>
->>I am working with Breno who reported that we are seeing the below warning at boot
->>when rolling out 6.16 in Meta fleet. It is difficult to reproduce on a single host
->>manually but we are seeing this several times a day inside the fleet.
->>
->> 20:16:33  ------------[ cut here ]------------
->> 20:16:33  WARNING: CPU: 0 PID: 0 at mm/memblock.c:668 memblock_add_range+0x316/0x330
->> 20:16:33  Modules linked in:
->> 20:16:33  CPU: 0 UID: 0 PID: 0 Comm: swapper Tainted: G S                  6.16.1-0_fbk0_0_gc0739ee5037a #1 NONE 
->> 20:16:33  Tainted: [S]=CPU_OUT_OF_SPEC
->> 20:16:33  RIP: 0010:memblock_add_range+0x316/0x330
->> 20:16:33  Code: ff ff ff 89 5c 24 08 41 ff c5 44 89 6c 24 10 48 63 74 24 08 48 63 54 24 10 e8 26 0c 00 00 e9 41 ff ff ff 0f 0b e9 af fd ff ff <0f> 0b e9 b7 fd ff ff 0f 0b 0f 0b cc cc cc cc cc cc cc cc cc cc cc
->> 20:16:33  RSP: 0000:ffffffff83403dd8 EFLAGS: 00010083 ORIG_RAX: 0000000000000000
->> 20:16:33  RAX: ffffffff8476ff90 RBX: 0000000000001c00 RCX: 0000000000000002
->> 20:16:33  RDX: 00000000ffffffff RSI: 0000000000000000 RDI: ffffffff83bad4d8
->> 20:16:33  RBP: 000000000009f000 R08: 0000000000000020 R09: 8000000000097101
->> 20:16:33  R10: ffffffffff2004b0 R11: 203a6d6f646e6172 R12: 000000000009ec00
->> 20:16:33  R13: 0000000000000002 R14: 0000000000100000 R15: 000000000009d000
->> 20:16:33  FS:  0000000000000000(0000) GS:0000000000000000(0000) knlGS:0000000000000000
->> 20:16:33  CR2: ffff888065413ff8 CR3: 00000000663b7000 CR4: 00000000000000b0
->> 20:16:33  Call Trace:
->> 20:16:33   <TASK>
->> 20:16:33   ? __memblock_reserve+0x75/0x80
->> 20:16:33   ? setup_arch+0x30f/0xb10
->> 20:16:33   ? start_kernel+0x58/0x960
->> 20:16:33   ? x86_64_start_reservations+0x20/0x20
->> 20:16:33   ? x86_64_start_kernel+0x13d/0x140
->> 20:16:33   ? common_startup_64+0x13e/0x140
->> 20:16:33   </TASK>
->> 20:16:33  ---[ end trace 0000000000000000 ]--- 
->>
->>
->>Rolling out with memblock=debug is not really an option in a large scale fleet due to the
->>time added to boot. But I did try on one of the hosts (without reproducing the issue) and I see:
->>
->>[    0.000616]  memory.cnt  = 0x6
->>[    0.000617]  memory[0x0]	[0x0000000000001000-0x000000000009bfff], 0x000000000009b000 bytes flags: 0x40
->>[    0.000620]  memory[0x1]	[0x000000000009f000-0x000000000009ffff], 0x0000000000001000 bytes flags: 0x40
->>[    0.000621]  memory[0x2]	[0x0000000000100000-0x000000005ed09fff], 0x000000005ec0a000 bytes flags: 0x0
->>...
->>
->>The 0x40 (MEMBLOCK_KHO_SCRATCH) is coming from memblock_mark_kho_scratch in e820__memblock_setup. I believe this
->>should be under ifdef like the diff at the end? (Happy to send this as a patch for review if it makes sense).
->>We have KEXEC_HANDOVER disabled in our defconfig, therefore MEMBLOCK_KHO_SCRATCH shouldnt be selected and
->>we shouldnt have any MEMBLOCK_KHO_SCRATCH type regions in our memblock reservations.
->>
->>The other thing I did was insert a while(1) just before the warning and inspected the registers in qemu.
->>R14 held the base register, and R15 held the size at that point.
->>In the warning R14 is 0x100000 meaning that someone is reserving a region with a different flag to MEMBLOCK_NONE
->>at the boundary of MEMBLOCK_KHO_SCRATCH.
->>
->>diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
->>index c3acbd26408ba..26e4062a0bd09 100644
->>--- a/arch/x86/kernel/e820.c
->>+++ b/arch/x86/kernel/e820.c
->>@@ -1299,6 +1299,7 @@ void __init e820__memblock_setup(void)
->>                memblock_add(entry->addr, entry->size);
->>        }
->> 
->>+#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
->>        /*
->>         * At this point memblock is only allowed to allocate from memory
->>         * below 1M (aka ISA_END_ADDRESS) up until direct map is completely set
->>@@ -1316,7 +1317,7 @@ void __init e820__memblock_setup(void)
->>         * marking.
->>         */
->>        memblock_mark_kho_scratch(0, SZ_1M);
->>-
->>+#endif
->>        /*
->>         * 32-bit systems are limited to 4BG of memory even with HIGHMEM and
->>         * to even less without it.
->>diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
->>index 88be32026768c..1cd80293a3e23 100644
->>--- a/arch/x86/realmode/init.c
->>+++ b/arch/x86/realmode/init.c
->>@@ -66,8 +66,9 @@ void __init reserve_real_mode(void)
->>         * setup_arch().
->>         */
->>        memblock_reserve(0, SZ_1M);
->>-
->>+#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
->>        memblock_clear_kho_scratch(0, SZ_1M);
->>+#endif
->> }
->> 
->> static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
->
-> What does "scratch" mean in this exact context? (Sorry, don't have the code in front of me.)
+> On 11/25/25 08:59, John Hubbard wrote:
+> > On 11/24/25 11:54 PM, Christian K=C3=B6nig wrote:
+> >> On 11/25/25 08:49, Dave Airlie wrote:
+> >>> On Tue, 25 Nov 2025 at 17:45, Christian K=C3=B6nig
+> >>> <christian.koenig@amd.com> wrote:
+> > ...
+> >> My question is why exactly is nova separated into nova-core and
+> >> nova-drm? That doesn't seem to be necessary in the first place.
+> >>
+> > The idea is that nova-core allows building up a separate software
+> > stack for VFIO, without pulling in any DRM-specific code that a
+> > hypervisor (for example) wouldn't need. That makes for a smaller,
+> > more security-auditable set of code for that case.
+>=20
+> Well that is the same argument used by some AMD team to maintain a
+> separate out of tree hypervisor for nearly a decade.
+>=20
 
-See https://docs.kernel.org/core-api/kho/concepts.html#scratch-regions
+I guess you mean the VFIO driver? [1]  In the code, it is bascially to
+support the migration, which is simiar as any other in-tree VFIO
+drivers. The questionable parts might be how to clean up those
+callbacks supporting migration and get them into mainline.
 
--- 
-Regards,
-Pratyush Yadav
+Those callbacks stays in the PF driver, either talks to HW or firmware
+interface to control VF states, obtain the bitstream, which contains VF
+states and data.
+
+IMO, they should be quite self-contained and userspace shouldn't be
+invovled. Userspace (QEMU) only talks to VFIO.
+
+This is just my initial impression from briefly looking at the code. :)
+
+[1]
+https://github.com/amd/MxGPU-Virtualization/blob/staging/amd-vfio-pci/amd-v=
+fio.c
+
+> Additional to that the same argument has also been used to justify
+> the KFD node as alternative API to DRM for compute.
+>=20
+> Both cases have proven to be extremely bad ideas.
+>=20
+> Background is that except for all the legacy stuff the DRM API is
+> actually very well thought through and it is actually quite hard to
+> come up with something similarly well.
+>=20
+> Regards,
+> Christian.=20
+>=20
+> >=20
+> > thanks,
+>=20
+>=20
+
