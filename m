@@ -1,136 +1,364 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89949218ADD;
-	Tue, 25 Nov 2025 15:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BDEF326D5C
+	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 15:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764083363; cv=none; b=nHZpwVd2ZrLcMalD2/EeuyecaLr/VbubDvvV7CIPh6V584CAvhDdvNE6oHivsyK6NrJpsii84VxC3pd7ahjdjnX5i4868hpO5MRpDa9I1JwgIb2RFKdy7jHoPWOX1kvCRYOFpdHVpFjax8YRxgfSThh6U3cf9U5fdoaKt6Uf3Bc=
+	t=1764083634; cv=none; b=jSIYUxdaTvkUhWSrPq8uFyLZKKzDccJvMEyNcyxIr34xusG0N6E28Y35LSYBfP4UPYSOyULJFyGE6RVUJxxF5FLnOM1n/zn7cdh0VpOcHt9R745AAQR0TKM1gZPxczPu+rPNw2yVu0+NgkKmm2WxfdIcEHxOMVRvFacC7tPK7h8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764083363; c=relaxed/simple;
-	bh=WwAHOYeVMDLJDcsG7IDRRamcXtOx28tKbOKpdYLqO8Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r9spZo/iwqHvAvBGQxQx+4QRhJ/xsQZol9dwGkuOleGT6oFTUnlOyBi1ECvv0o45gYGnkm0SId8ymi+81B9h6ABjSY3+wq2MPvpAWul+ZcvBvth6LD2FFKFHHg7uHhiIpSPhx5BjAtuQxYyBTATUDNDRBC5IAVyajFM0g9QjJyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TpIkhl7j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764083634; c=relaxed/simple;
+	bh=y44+7vWiMICS8raonC28WpYQWJl7VjfR7seHcarnwGg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=buVanuygjVcnWhSLNU7GJTOqiOVfrYar057GqAmfYPWsgpDSv/o9x0SNKLJPIAx/d4ZJhO3E3bkx5y719llasLz2YORwwQ7NmGlHTvkqc8Be5lzu7V2URWFFp/5gIj59zxtE+JynAL7YpP/GFaQqunIXdlzL5ylaQGO13hS6xYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=bDQXLpLY; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TpIkhl7j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 542CBC4CEF1;
-	Tue, 25 Nov 2025 15:09:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764083363;
-	bh=WwAHOYeVMDLJDcsG7IDRRamcXtOx28tKbOKpdYLqO8Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TpIkhl7jgeMIj6LlQTXJmNoQlwPTqCt3N7MRqlHdsvP9HKUFAD55crkGK2qskXcrW
-	 9jQQ/e3qquspj8U+er2yHIBgCtCOyIwbPyFTzMUq7m8ZMPzuORkOtB6rUK4laVNneN
-	 W0Mtuo86Bg0LF8Gvew67syK2ItS2tbKEQX0gFaQoL1XjApYCw/A3FxU34L++qxWG0w
-	 MKEAp37+0DLT3YPS0Gka0YNcRIRsBv8VmcbKxk85TONO0/mfZ+Uj8DpWLrj48G1QLN
-	 rd0O+JDethkQUXS9kmFtZdbFHvVJ3DDIFq0e/xlE1FcPZAvrYK/TL0XEAwQy6NBaUP
-	 7XYy9AP/oop3A==
-Message-ID: <58393a1f-272b-41be-9ebd-ae03678cb738@kernel.org>
-Date: Tue, 25 Nov 2025 16:09:17 +0100
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="bDQXLpLY"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-640d0ec9651so9587511a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 07:13:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1764083630; x=1764688430; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CJAb0zqhShPXJU9IU9F3kUJv+d4qBtikcObWfuhaWDU=;
+        b=bDQXLpLYuhl/hFO4aWmQNIS1mRu7f5+RtfD3KQnDdQycs0T2aTVUSyDR7m7ZDuX8N9
+         raDuqeQelN2hAiAryxketOE9LMrnI/FwA9A0A3XhEUx+6dG050FKuZ5+fjdGKnDTNz6N
+         7ktFUf1jNaYZD7e2O5wVUJ0UJ3dIfDL/qnEuxvWYP1K7q1wcwIZDE+s58xN6gtHq1KZn
+         1toBkKYOHlSTnwWCeA73whzBXxce1dMWXrwur2mIH2ryqxHu8z0+fpYG81hygG00+LEq
+         QHQLLhHH3sMcqRkCpG9RpcsnCzwGcbXBySdhf632/8jtlntzhOW848xFj5WW+XUSbJmb
+         vYHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764083630; x=1764688430;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CJAb0zqhShPXJU9IU9F3kUJv+d4qBtikcObWfuhaWDU=;
+        b=tx/QXDu2gxkaK7f3dgnXx6HVzQmNzeJHmG9aznwLNQcQHPk3TdasZpZi3fd6mN94y0
+         3InScyQswlUh8dhaIfc69YpdhuoyXfNEUh/tIO3BumuL5IPqWD+5pEafnAFo0tdDQdrT
+         e5Pn6UjgDlHbOKPqvakQ7v0ahuP7ata/gURePd8TPahKYfQLXqQo7JI7353XNKxp2qVx
+         SueNtNhSsAE0XL286taX6wbpo5tM01UNldTGJdj5Mb0vXaqlNeq/0kvjtLNfZEtIiku/
+         gq15+xX2By9x0vV7jLEP+KjucpkvrdaEP1G/BNlgHzCADx6n+2KGbZAcav5M9a1ihGiO
+         SfSg==
+X-Forwarded-Encrypted: i=1; AJvYcCXc7dUtbPhvyDK0fjRa3+PibmNrsm26z1iMclBvMIqy/ziB5+lmkOI2wP1lyidnVl198p8vtYNhyJs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJUr/4YFRLJI2Ao1n6hb64R32no/s+PwNkG43NnDUpvN6G2cv4
+	8s9QYX2WSjDNW/HUFh/IyjxpP475lmks2Vn6TpT9oLTVY4FXK6oDhzLfE99HHhDNXBARaNVF5Zf
+	D2GqvaVu10GiQy2rOstSWc+3e+LBfmhxwSTZkINPDbQ==
+X-Gm-Gg: ASbGncvOojbi2bYRkN9cevD6T/xAJVj5UQBiECpr1lLamVoo335T1zXlU6KbezEzncF
+	0aFTaJIyP3FAiIKYMhfaZMy//If5zT8zPEpaeJ1ApeILgu6pAXOkM6gJilTYeDZV5VSKzeAbQee
+	CDyveCQgiozSUVcTkWx0tGHWWyeTMpDGJSMC+rEZ14EY95fqm/NQGNoXEBp2W6fJXNWb9xQMC+W
+	d3E4GPj6A+t3iIxyQbiWm4r9WPamvVVd3dSwkJkuUx43Sj+/eNntfLtXcqBtAQ3XMD4
+X-Google-Smtp-Source: AGHT+IGitbk1SBZ8i6I/16DXqU5ZqIa4zUYc/a94r8AU30+VoEWiOjzICaCR39+/6YAvGwaSGnJ5T1RqczQTlRLZSFw=
+X-Received: by 2002:a05:6402:2714:b0:641:3a92:7e6f with SMTP id
+ 4fb4d7f45d1cf-645559fcb28mr14017569a12.0.1764083629776; Tue, 25 Nov 2025
+ 07:13:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v6] checkpatch: add uninitialized pointer with
- __free attribute check
-To: Ally Heev <allyheev@gmail.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
- Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
- David Hunter <david.hunter.linux@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
- linux-pm <linux-pm@vger.kernel.org>, dan.j.williams@intel.com,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>
-References: <20251125-aheev-checkpatch-uninitialized-free-v6-1-70e8bb1e9175@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251125-aheev-checkpatch-uninitialized-free-v6-1-70e8bb1e9175@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251122222351.1059049-1-pasha.tatashin@soleen.com>
+ <20251122222351.1059049-7-pasha.tatashin@soleen.com> <aSQU1LlPDDsN2rUw@kernel.org>
+In-Reply-To: <aSQU1LlPDDsN2rUw@kernel.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 25 Nov 2025 10:13:13 -0500
+X-Gm-Features: AWmQ_bmueOySR-IcM9KD_nVWlrEwNsK-bJkIQQ6vkf5Ej_a3i1HC8W4-4CGCmcA
+Message-ID: <CA+CK2bAoZ9GhL+SCsrzWL-eG1XcRai0h9QMrL-fsZJFzSxSt6g@mail.gmail.com>
+Subject: Re: [PATCH v7 06/22] liveupdate: luo_file: implement file systems callbacks
+To: Mike Rapoport <rppt@kernel.org>
+Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
+	dmatlack@google.com, rientjes@google.com, corbet@lwn.net, 
+	rdunlap@infradead.org, ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, 
+	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org, 
+	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr, 
+	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com, 
+	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com, 
+	vincent.guittot@linaro.org, hannes@cmpxchg.org, dan.j.williams@intel.com, 
+	david@redhat.com, joel.granados@kernel.org, rostedt@goodmis.org, 
+	anna.schumaker@oracle.com, song@kernel.org, linux@weissschuh.net, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
+	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
+	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
+	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
+	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
+	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
+	stuart.w.hayes@gmail.com, ptyadav@amazon.de, lennart@poettering.net, 
+	brauner@kernel.org, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	saeedm@nvidia.com, ajayachandra@nvidia.com, jgg@nvidia.com, parav@nvidia.com, 
+	leonro@nvidia.com, witu@nvidia.com, hughd@google.com, skhawaja@google.com, 
+	chrisl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 25/11/2025 14:32, Ally Heev wrote:
-> uninitialized pointers with __free attribute can cause undefined
-> behavior as the memory randomly assigned to the pointer is freed
-> automatically when the pointer goes out of scope.
-> add check in checkpatch to detect such issues.
-> 
-> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain/
-> Link: https://lore.kernel.org/all/58fd478f408a34b578ee8d949c5c4b4da4d4f41d.camel@HansenPartnership.com/
-> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Ally Heev <allyheev@gmail.com>
+On Mon, Nov 24, 2025 at 3:18=E2=80=AFAM Mike Rapoport <rppt@kernel.org> wro=
+te:
+>
+> On Sat, Nov 22, 2025 at 05:23:33PM -0500, Pasha Tatashin wrote:
+> > This patch implements the core mechanism for managing preserved
+> > files throughout the live update lifecycle. It provides the logic to
+> > invoke the file handler callbacks (preserve, unpreserve, freeze,
+> > unfreeze, retrieve, and finish) at the appropriate stages.
+> >
+> > During the reboot phase, luo_file_freeze() serializes the final
+> > metadata for each file (handler compatible string, token, and data
+> > handle) into a memory region preserved by KHO. In the new kernel,
+> > luo_file_deserialize() reconstructs the in-memory file list from this
+> > data, preparing the session for retrieval.
+> >
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+>
+> With some comments below
+> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>
+> > ---
+> >  include/linux/kho/abi/luo.h      |  39 +-
+> >  include/linux/liveupdate.h       |  98 ++++
+> >  kernel/liveupdate/Makefile       |   1 +
+> >  kernel/liveupdate/luo_file.c     | 882 +++++++++++++++++++++++++++++++
+> >  kernel/liveupdate/luo_internal.h |  38 ++
+> >  5 files changed, 1057 insertions(+), 1 deletion(-)
+> >  create mode 100644 kernel/liveupdate/luo_file.c
+> >
+>
+> ...
+>
+> > +int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd=
+)
+> > +{
+> > +     struct liveupdate_file_op_args args =3D {0};
+> > +     struct liveupdate_file_handler *fh;
+> > +     struct luo_file *luo_file;
+> > +     struct file *file;
+> > +     int err;
+> > +
+> > +     if (luo_token_is_used(file_set, token))
+> > +             return -EEXIST;
+> > +
+> > +     file =3D fget(fd);
+> > +     if (!file)
+> > +             return -EBADF;
+> > +
+> > +     err =3D luo_alloc_files_mem(file_set);
+> > +     if (err)
+> > +             goto  err_files_mem;
+> > +
+> > +     if (file_set->count =3D=3D LUO_FILE_MAX) {
+>
+> This can be checked before getting the file and allocating memory, can't =
+it?
 
+Moved up.
 
-<form letter>
-This is a friendly reminder during the review process.
+>
+> > +             err =3D -ENOSPC;
+> > +             goto err_files_mem;
+>
+> The goto label should say what it does, not what the error was.
 
-It looks like you received a tag and forgot to add it.
+Changed to err_free_files_mem;
 
-If you do not know the process, here is a short explanation:
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
-of patchset, under or above your Signed-off-by tag, unless patch changed
-significantly (e.g. new properties added to the DT bindings). Tag is
-"received", when provided in a message replied to you on the mailing
-list. Tools like b4 can help here. However, there's no need to repost
-patches *only* to add the tags. The upstream maintainer will do that for
-tags received on the version they apply.
+>
+> > +     }
+> > +
+> > +     err =3D -ENOENT;
+> > +     luo_list_for_each_private(fh, &luo_file_handler_list, list) {
+> > +             if (fh->ops->can_preserve(fh, file)) {
+> > +                     err =3D 0;
+> > +                     break;
+> > +             }
+> > +     }
+> > +
+> > +     /* err is still -ENOENT if no handler was found */
+> > +     if (err)
+> > +             goto err_files_mem;
+> > +
+> > +     luo_file =3D kzalloc(sizeof(*luo_file), GFP_KERNEL);
+> > +     if (!luo_file) {
+> > +             err =3D -ENOMEM;
+> > +             goto err_files_mem;
+> > +     }
+> > +
+> > +     luo_file->file =3D file;
+> > +     luo_file->fh =3D fh;
+> > +     luo_file->token =3D token;
+> > +     luo_file->retrieved =3D false;
+> > +     mutex_init(&luo_file->mutex);
+> > +
+> > +     args.handler =3D fh;
+> > +     args.file =3D file;
+> > +     err =3D fh->ops->preserve(&args);
+> > +     if (err)
+> > +             goto err_kfree;
+> > +
+> > +     luo_file->serialized_data =3D args.serialized_data;
+> > +     list_add_tail(&luo_file->list, &file_set->files_list);
+> > +     file_set->count++;
+> > +
+> > +     return 0;
+> > +
+> > +err_kfree:
+> > +     mutex_destroy(&luo_file->mutex);
+>
+> Don't think we need this, luo_file is freed in the next line.
 
-Please read:
-https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
+Removed.
 
-If a tag was not added on purpose, please state why and what changed.
-</form letter>
+>
+> > +     kfree(luo_file);
+> > +err_files_mem:
+> > +     fput(file);
+> > +     luo_free_files_mem(file_set);
+>
+> I'd have the error path as
+>
+> err_free_luo_file:
+>         kfree(luo_file);
+> err_free_files_mem:
+>         luo_free_files_mem(file_set);
+> err_put_file:
+>         fput(file);
 
+Yeap, done like this.
 
-Best regards,
-Krzysztof
+>
+> > +
+> > +     return err;
+> > +}
+>
+> ...
+>
+> > +void luo_file_unpreserve_files(struct luo_file_set *file_set)
+> > +{
+> > +     struct luo_file *luo_file;
+> > +
+> > +     while (!list_empty(&file_set->files_list)) {
+>
+> list_for_each_entry_safe_reverse()?
+
+In this case I prefer while(!list_empty(...))
+It emphasizes to  a reader that we are emptying the full list. _safe
+is good to use when some items are removed from a list while
+traversing.
+
+>
+> > +             struct liveupdate_file_op_args args =3D {0};
+> > +
+> > +             luo_file =3D list_last_entry(&file_set->files_list,
+> > +                                        struct luo_file, list);
+> > +
+> > +             args.handler =3D luo_file->fh;
+> > +             args.file =3D luo_file->file;
+> > +             args.serialized_data =3D luo_file->serialized_data;
+> > +             luo_file->fh->ops->unpreserve(&args);
+> > +
+> > +             list_del(&luo_file->list);
+> > +             file_set->count--;
+> > +
+> > +             fput(luo_file->file);
+> > +             mutex_destroy(&luo_file->mutex);
+> > +             kfree(luo_file);
+> > +     }
+> > +
+> > +     luo_free_files_mem(file_set);
+> > +}
+>
+> ...
+>
+> > +int luo_file_finish(struct luo_file_set *file_set)
+> > +{
+> > +     struct list_head *files_list =3D &file_set->files_list;
+> > +     struct luo_file *luo_file;
+> > +     int err;
+> > +
+> > +     if (!file_set->count)
+> > +             return 0;
+> > +
+> > +     list_for_each_entry(luo_file, files_list, list) {
+> > +             err =3D luo_file_can_finish_one(file_set, luo_file);
+> > +             if (err)
+> > +                     return err;
+> > +     }
+> > +
+> > +     while (!list_empty(&file_set->files_list)) {
+>
+> list_for_each_entry_safe_reverse()?
+
+Same
+
+>
+> > +             luo_file =3D list_last_entry(&file_set->files_list,
+> > +                                        struct luo_file, list);
+> > +
+> > +             luo_file_finish_one(file_set, luo_file);
+> > +
+> > +             if (luo_file->file)
+> > +                     fput(luo_file->file);
+> > +             list_del(&luo_file->list);
+> > +             file_set->count--;
+> > +             mutex_destroy(&luo_file->mutex);
+> > +             kfree(luo_file);
+> > +     }
+> > +
+>
+> ...
+>
+> > diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_i=
+nternal.h
+> > index 1292ac47eef8..c8973b543d1d 100644
+> > --- a/kernel/liveupdate/luo_internal.h
+> > +++ b/kernel/liveupdate/luo_internal.h
+> > @@ -40,6 +40,28 @@ static inline int luo_ucmd_respond(struct luo_ucmd *=
+ucmd,
+> >   */
+> >  #define luo_restore_fail(__fmt, ...) panic(__fmt, ##__VA_ARGS__)
+> >
+> > +/* Mimics list_for_each_entry() but for private list head entries */
+> > +#define luo_list_for_each_private(pos, head, member)                  =
+       \
+> > +     for (struct list_head *__iter =3D (head)->next;                  =
+         \
+> > +          __iter !=3D (head) &&                                       =
+         \
+> > +          ({ pos =3D container_of(__iter, typeof(*(pos)), member); 1; =
+});      \
+> > +          __iter =3D __iter->next)
+>
+> Ideally something like this should go to include/linux/list.h, but it can
+> be done later to avoid bikeshedding about the name :)
+
+Exactly, I am planning to propose this as a separate change for
+list.h, but I suspect we will need to take care of other variants as
+well, reverse, cont, safe etc.
+
+>
+> And you can reuse most of list_for_each_entry, just replace the line that
+> accesses __private member:
+>
+> #define luo_list_for_each_private(pos, head, member)                    \
+>         for (pos =3D list_first_entry(head, typeof(*pos), member);       =
+ \
+>              &ACCESS_PRIVATE(pos, member) !=3D head;                     =
+ \
+>              pos =3D list_next_entry(pos, member))
+>
+
+This does not work, because list_next_entry also accesses private,
+what works is this:
+#define luo_list_for_each_private(pos, head, member) \
+for (pos =3D list_first_entry(head, typeof(*pos), member); \
+     &ACCESS_PRIVATE(pos, member) !=3D head; \
+     pos =3D list_entry(ACCESS_PRIVATE(pos, member).next, typeof(*pos), mem=
+ber))
+
+But that extra ACCESS_PRIVATE bothers me, so let's keep it as-is for
+now. And solve it once in list.h, and then update the private macro.
+
+> --
+> Sincerely yours,
+> Mike.
