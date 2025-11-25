@@ -1,237 +1,123 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012029.outbound.protection.outlook.com [40.107.200.29])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFE82FE06F;
-	Tue, 25 Nov 2025 09:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764062111; cv=fail; b=e5iua61zF0ZczlqntgvOwZnNDXBahGE1jeC9ZpXSAQQyIXhq2CaxUfXpTKkudxWV1gMO1wjWi9aTQNqEUkqOKNnGifYViIZsbwapFOZU+RWE7PA72fjh2kGNMdrCKayx1yviXvb7kLM2aRW19whv+wzrf9t7PW6bcQtXEKAj2iY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764062111; c=relaxed/simple;
-	bh=n0q4Dm5tK05rKGbvA28ib3olRksCYZTaTWbP3bpA7Ng=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=JcMktY7QXe9BpXRBRVjOM2DcraOL9GtUJhjiphpXEmWhDz33c96ApAxvFPTqRh71gD5A+0An+MfbogIzO2oxCN+1mwdIy/2/fvqUOVGp+6+7mzZIeswpesdssdIMmEEvQ7jZxRrA5IBRKbD48xaWL8m66kAN4dM5ZIR10yvEAU0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZBXnAqO1; arc=fail smtp.client-ip=40.107.200.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCDB2EA723;
+	Tue, 25 Nov 2025 09:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764063699; cv=none; b=N0n9QMsgrjq88zjtFg+N8YOgGeQwvl7yfTrPjwr6RponUBn9gjctEm/TqpWP5ZeAOtrrUKbvlg52xYB0RzCNrOy1RhC6gNeScQiCvo5aP+DjcqdEhN1MBHZLf4D7A1sNSPaz9CVAuRh3SEjztvL0mjlDpi818G1g8uf2FWTDviI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764063699; c=relaxed/simple;
+	bh=EZH3ZoT/h3jE1nB+7BQmZudu4IYvLpK+tSAMnJS8t8Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ioVMNMo/7KX9Q5MvQ3g18SZKDOjZAzT2rvqEvNsTi4o275iDNl1906w2JQ6/md3/zZWgBTQLZHNZdFbw7SIlx58X8iSO3I7eGJ4ZiVWhgV4umI5vgeEW0G84yJc7L3XqGdNZNAIQwBKp8jAbSm1mHXcfuJK9dfCxoHjw7dwdWPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OucKf52F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZBXnAqO1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u1P6xviS/wUTuLDTU3EJ2OCD03OTBqaeLgMmRcK/XgbcPq+ZvGP2YjrBeh4Th8cPnB3fIJR1cCcCB+B6V0sfCdq/OEmvVnBFOWxroGZTqF65zuyC5HMAm1Q0X58Ew0kNNAnw0fSeT9ZD5ziaFqRtUAXwHLrq5l1Q/aTlMcD9y0tkDi8bHE/CvVELHhwOYahSER702D7wZquPdFAbMv+xOprBkzbeTtrOon98Y4BTfu9DzLYpeboNlr0OIjRzZn6LfDQkYGobN1MYr/XyN6ipQmwtaP4vfQfPMJ18qIa3pbz6BbkKrn/p44N6p/k4rwPbwGqVZclryY+Z88AAzM6D0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4Xpk+I2Hgnvq8ObO2/3+0eVLHo6YnN08T5IJ2QBmG9U=;
- b=lKNbpDGrAXOcQzhFExAGTJKh6iSmtgaPFC858DLjh8kUye91jkwuPFEdEDzLOccBqLop/BXz6zTrfkKiXkBhNr8iSGwLoGazfWhGZk4UimxKDL/CAZbbAoJ6Bsm/6U32gKWfzYaFk+PKK7OVzVJlf/5KVIEqmu7Urm7TADPuqlUQ6qrOhr/b8IWyP/MUZ+BlT5iiNeO+0Zy8d4eaKgNzmyDY0v1ouIjFnvRIIPEksuyt1i5DQuFS5Q4RC4MNS4Gef0lss2hCARoGX6sO0oy0uDzTr1kgcnMCRU3h0p6AMCcf4XOxLQWnfWvYJnvJoqNsbch0AD901MtR4zZSY0ARfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4Xpk+I2Hgnvq8ObO2/3+0eVLHo6YnN08T5IJ2QBmG9U=;
- b=ZBXnAqO1o+8XETaNquKDMJEDmuiiluOiPAFXKscoaPNt8yrEjbLAVwoaAhy9oWTN5H+vHg3/QvTde1kd03CVK6BtDxTNU4a9/AbVyTV+iWNpmWHqAKs+cvDpjv9SYtUrDJfTpG4vY8SSgY/oJZEVZJeJdFonY7LyGiNeaFQZ9YU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA1PR12MB7495.namprd12.prod.outlook.com (2603:10b6:208:419::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Tue, 25 Nov
- 2025 09:15:06 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9343.016; Tue, 25 Nov 2025
- 09:15:06 +0000
-Message-ID: <cc0db376-6cff-45d7-b3a3-d13be664700f@amd.com>
-Date: Tue, 25 Nov 2025 10:14:56 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gpu: Move DRM buddy allocator one level up
-To: Dave Airlie <airlied@gmail.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, Joel Fernandes
- <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Alex Deucher <alexander.deucher@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <20251124234432.1988476-1-joelagnelf@nvidia.com>
- <f73e4536-ec89-4625-96d4-6fa42018e4e4@amd.com>
- <CAPM=9twe3xcVBgrNCT+1_pGECPL-ry_aA2dxBwbKVeai4+S7AQ@mail.gmail.com>
- <24d4f02b-8ecd-4512-a1f0-ba41684ede1d@amd.com>
- <dfc50417-66ce-44ce-b607-917d678c5631@nvidia.com>
- <9f433dee-7ad9-4d0f-8ac1-e67deb409b70@amd.com>
- <CAPM=9tyN_A3oEyQZCOWaLO1orO6oKX0ZukJHR7cFy12Go+7d=A@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAPM=9tyN_A3oEyQZCOWaLO1orO6oKX0ZukJHR7cFy12Go+7d=A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0123.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b9::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OucKf52F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45365C4CEF1;
+	Tue, 25 Nov 2025 09:41:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764063699;
+	bh=EZH3ZoT/h3jE1nB+7BQmZudu4IYvLpK+tSAMnJS8t8Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OucKf52FhPtINc8o+rDHlyQuoWdOZ23WYUkamnBRMbBwq8b5wBELAg9Wd4kLteX2w
+	 E+PAenq6asoXSS9vtZfQWPPpg6If+O+uAodJW14BlxwNCLQF4RpeB5cfBTdj8cjh3n
+	 0BBXe3bLULjAUcCpRrHsZgNtXNnr8fY6XCeUcrIYnYYRX9FBJ+O3fV1Z9pGprv4+cJ
+	 4Wvez7nmvM61jSRX41bjw5l7VD/xKEz5kFV73RMTkjEH6eI9Amo/G4vrAVkS/sSqRq
+	 o5e/7wM1zV8+V7UAaPa8Me70HeCcc5/tm5lkmztgHFGTNCC2hI1FYzCXScOhdPU68K
+	 MQS/vhLTkkWmw==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Askar Safin <safinaskar@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Aleksa Sarai <cyphar@cyphar.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+	Art Nikpal <email2tema@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alexander Graf <graf@amazon.com>,
+	Rob Landley <rob@landley.net>,
+	Lennart Poettering <mzxreary@0pointer.de>,
+	linux-arch@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	initramfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Michal Simek <monstr@monstr.eu>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dave Young <dyoung@redhat.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Jessica Clarke <jrtc27@jrtc27.com>,
+	Nicolas Schichan <nschichan@freebox.fr>,
+	David Disseldorp <ddiss@suse.de>,
+	patches@lists.linux.dev,
+	Gao Xiang <xiang@kernel.org>
+Subject: Re: [PATCH v4 0/3] initrd: remove half of classic initrd support
+Date: Tue, 25 Nov 2025 10:41:24 +0100
+Message-ID: <20251125-kotzen-achtzehn-551ae5a8ed70@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251119222407.3333257-1-safinaskar@gmail.com>
+References: <20251119222407.3333257-1-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB7495:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4dbbc355-7ff1-4f97-0206-08de2c031f7c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?T3ZQUVFYdHVpY0svOGdtU0dEeFVuNURSWDhHWVNKeWFFOXAzMnd5aWlZTmtH?=
- =?utf-8?B?SWlTUTlhUUNlb2lpNmt0UlJsZGgyVGJ6R1JsMm00Mkx6NFRIQzgwQW5zMFg0?=
- =?utf-8?B?OGV5UUtYekgwMnhqMjlaZXk3WWRkamRDZDduOVpyWjhpVGsxSmd1cE5mYUVv?=
- =?utf-8?B?aC9vMFdkaVJudmFKWDlxOVNjYldqUThVYWd5UDJlRFhMdFlwQXBVM3RvNWdx?=
- =?utf-8?B?YzIxbFdSaFZJS2ZQd09NZHhYaGtoSklQdGJoVG9McHRqbEZ6UWd1aXBHeFpr?=
- =?utf-8?B?QW5YcjRjaHl3T1ZFV1QxMFpUWnlPK1dxa09hbjNvNUlPMld0OTBZMDRBMnZ6?=
- =?utf-8?B?NGVyNGpla1NUaHJFS3VaR0twUFdPVSs2V2t1bTZ3S1FOVzYzeDlqejhraThk?=
- =?utf-8?B?Z2hOMVhGQWhZdGhheXlGbVl0YjhQVW1LMGRQbUdjVEFRSXQwUDZOSkwyZDZF?=
- =?utf-8?B?Mmhzek9Vb0xRbHNxdUJ4cDR3NGlwUDJhSnJ2N08wemJrSFZQMXJHTjY0Qnl3?=
- =?utf-8?B?R2FITld5S3AzVi92MllaR1EvN3psQ0J0NlBoY1dLQ3J0TUxGUkJaTnFCQTgx?=
- =?utf-8?B?Tkl1cCttUHlUaFF2Qnc5aDBuM0ZUVE5ZRERmaGh2Zmozd2hoWnBPR2ZlSjNs?=
- =?utf-8?B?Umk4TzRxUDZ4elhldUF4OG1vVGkra2xyczhpanVRNUF5WU00V2d3K0dWWllG?=
- =?utf-8?B?S3VodDZaQjFLSHVMSW5mWEMvcDlOczV5bU9GaXFrOHBxaW5mK1B3YW9RekNw?=
- =?utf-8?B?YkZTT0VTWGxweWQydVRzT0N5U0NWQXFzRDY2MHVUOEd5SzVPZVJPQncyblBG?=
- =?utf-8?B?VXlCcWhpY3pQU2s4N3Y0VUJiN25vbkUzWHp6anlwWXB5WmpxWUpGV2FuVEY4?=
- =?utf-8?B?WCt0QTlLOGxDYm1OM0ZXcU1TeVB4c2xCOXRBUG16VmpZS3pzNTFhck9jQ21J?=
- =?utf-8?B?T3hHellzdnNrWWVNb2VPb0I0b2NNWnNMWU9sWUYreWZobGFuZmxjRDRGRm1m?=
- =?utf-8?B?MVlsYmJQN3RwdE96Z0xnVm85L3loZm8wNlpScVVyK2xUb3FiNEh3YlE2KzhH?=
- =?utf-8?B?bmpRdVhaZlNvalBMZitwZFlwVlhILzVNUXFsYUVOVGdRS25BZFZmejFUeVhR?=
- =?utf-8?B?Z1RVWUpHWFE0NnNwV01RQ09tcXFiY2IydGJLOWU5bFdRbTZyN05LeUI5dVBR?=
- =?utf-8?B?ODkrY3pJZS9obGZtYmdFRFNiMjAwVFNpdFlhQmVJYTZXbEZPYTFCUVVraVRk?=
- =?utf-8?B?c0g0Z1VicHBzcXRJdmg0eDdaY2NlSnpWT2ZUcHA4amZ2UXBKcWhOWlIyakdE?=
- =?utf-8?B?ZXo3U0RmMzdpcVVnUVNJMmxNNkhoQTAvdGxORmh5Y3FDZ0lBa2VGNHpKQjFB?=
- =?utf-8?B?bHJDWm1rbG10TEVjR1puWms5dkkvTEk3VTRRM3dTR2ZwQVVuS28zOHFZQ1JW?=
- =?utf-8?B?TnBUKzR3c1FnVWpCMXlqRWZFRnZiNVcrT2k4VkRoYmgvSjdNbUV6WmxIVUhG?=
- =?utf-8?B?UElZU3V6WVpoK3lIUmhVT0tDVVdjL2hiOFhvU0lNaWFHUlM5dnJhdVpUK2tL?=
- =?utf-8?B?WEJacGxsRTVPNkY0YStvL09MbjhyVnJQQzFKSzJJdmRjS3AvNTRKYngrcVFV?=
- =?utf-8?B?eGtWOWJhOVBFQ096WWVpQW5Ga1VHUjhsYmU4WkZtMHp0dmZNc1o3Uzg0ZzBZ?=
- =?utf-8?B?SXROTW54WUJnWDdxTVNXVnkrL25zUlVjZnNPZUxOSlBPKzR3SUJsK2JJaVhR?=
- =?utf-8?B?Zk4yOC9NbVF2MVJzRDkvMGN2TU1WSFZ4QkNZNFlGV0t2Qy9UY3ZEU1l2Y2F5?=
- =?utf-8?B?emFNNzNKNGZoeHdGQ2ZHVmpjNnNleWVVQXRKbWN5VzBzc2thbGo5Tm83OExC?=
- =?utf-8?B?UHQ2SzFMUm0vdUM4S2ROeHNpVE5TRUg2RStRNGxPam9idkx5K3Via3lid3pN?=
- =?utf-8?Q?+G3qrs/eHZkj+YOdT4COoeTrjuhCKvJC?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RzZrMG9YWHpWeG5pVitpdXdJRzVZQm1hZ2h4T29jYnVzNjdQTWo2TW5kaU1y?=
- =?utf-8?B?S1E5SDBJZy9HT2tEOU5Na08vVjJPMHJFYThja093Q0duUnhsQ09EbDE1NU9V?=
- =?utf-8?B?VmI1aTV2VkdmT0lBOVFzY0FvVmZWdWErdzhsZExWM0FMbHd1dHgzd0RmUStN?=
- =?utf-8?B?U0VRNWdQNWcxOGs5U290YWwzZGdqSm1LbUtLTzdrR21MY1hPMnlNQS9reUJh?=
- =?utf-8?B?UGd0ZTNSQVhHd2tRa2x3b1ptamdaZzZzUEVKTHl3VUtVa1kyUTJOaWxZOWU0?=
- =?utf-8?B?a1JLeUNsTmdTaGFmS1JTSFNOTE55VUhyeEtJeW9xbEt0NlNwS2tiRERQSWtT?=
- =?utf-8?B?MlFtOEI4SXFOOFVrWDlYaGpCdUJWclE5M0xQQjc0VHEydlF5Sk5IWFdZbUls?=
- =?utf-8?B?c3ZWQnpnR1dpQmF2ZGlHamZBU3FuRnNGVEVyWWxLSGJyRGpPVjgrcUpJNEJ4?=
- =?utf-8?B?T0xmZkZCaGYrNnhLYlg2a3RKM0dQSU9yVjNEd3orOEJyd3FFcU5oYzlMS3Bi?=
- =?utf-8?B?Z2FGUlVGSDdGTWkyZDlmd2ovejM2OUtvSGxlRlkwbE43MDRSOVMvcGxVMnQy?=
- =?utf-8?B?SWNkT25ITnkzVU1XUXZSajZJaFowVTd1anBkMnl5SDIrcE9MUjVpM0ZpamVK?=
- =?utf-8?B?YnF4d2FXdzJpOEo2Sm9odjc5ekpVMG1XbU1OM3NtL2tnOXBRMEw1YVZUQ2Vq?=
- =?utf-8?B?NEYvUmNUeXZyckJkUktWcnZxaHcxTlk0ZkhzMzhZR2ZuOHRqYktRSzFMay9K?=
- =?utf-8?B?TmxiMjREd1lTRVk3VlptampldlNXYStUdG9qK0JEMWhENkFXSXAzRjhvL01D?=
- =?utf-8?B?ays0VXFyNjlOU0pHNFFMVytWL3FHT3EvYWd0MUtPa292SmwxMS9pSjNwem1l?=
- =?utf-8?B?cjBGUWtjdzJpbVlzejJFYmdtR3BqY1dLWDlNRDhFUU1BVVBJR2dXeU56NHQx?=
- =?utf-8?B?WmlFVG5wN2hNUk1aV1ZRY0tCSUUzZGJXK2ZMMk1ETmpJcDA2WUdPUGl0UjR2?=
- =?utf-8?B?RUEyREI1Q08xTmdxTDlRQ09XOW1vWk4zTllldHdqZ3RSVGdweWdvZ2IwTlJO?=
- =?utf-8?B?eFg2RC9lMXVSTEdxZmJEQnRJVkQ3cmtKdjYyellyWkJ6SGtCaGhtQVkzckUw?=
- =?utf-8?B?d256OTRmd2kxU2pkUlJPTGlyTmpjQWNnTThDUDIzYTZzOUU3d0VzaERKUUZj?=
- =?utf-8?B?MlJjWnJHMk4vMWF5Y1lHM0VReWx3RlRqNUpza2hNbnFpTmtleElWUTFWOEQ5?=
- =?utf-8?B?SmJTTVZXK3gxckFXa3FRMkRQRitrTmZGZVV5TmJGb3I4UTZBMm1rRkpZVW5Q?=
- =?utf-8?B?d0l6TzFjb1RaeGkyU3ZVYUNJMzcwS25YY1FJOVhYTGZiM2FJWGxKTVo2MmxR?=
- =?utf-8?B?cGRsckNFVTdBRDZvK1dOL3F0SWZiOCtDbTB5dnVQKzc4bFNoVXJidGphS0M5?=
- =?utf-8?B?Z1F6VnBxQUxQYnVnZXFWZ1czVG5PK0c2U1hLcWdjQnJzRW41T1hiSHNmVk8y?=
- =?utf-8?B?M01KTGNpVm9ZZEtETTRzQnpqQ1F6MGIrZVIrU0dPRUZrR3ByRU9ESmVNVmdv?=
- =?utf-8?B?NHRuV1d4NkNSbStPcXNnRDhMby9CVGY4T0tlTEVpU3B5WE5tNnhENG1ObmF0?=
- =?utf-8?B?eElsTG9EOGlEUW1aOXAxc2lNTXZjd0lndTEzNDJpRlVVUE1LWEJkVEtPRXdp?=
- =?utf-8?B?UjUvQWZZZWcxOUJIMFowOVEyRUtBTkJJZzdWby9FWitubEt5SDliZXVrLzhq?=
- =?utf-8?B?c2tNVmQ1YzQ0ZDhnL2s3REpiS0h1VXdBUVM1dWdseXhPRDM4SWozK0QwUUE2?=
- =?utf-8?B?VjIrWnpGa2R5N21ySG8xWUVvckR1LzR2a20rQzdGRnEwNFBNeG90SjFvSjFa?=
- =?utf-8?B?VzhxNG5GRlBBNFpIc2I2Nm1pYjU4VlZuSGVYZXFOeVRUcC9sbDZKeHZLQ002?=
- =?utf-8?B?Q2t4V002ZE5xVmlUNVp1R2lGMTYzQzN0OVpua0svT294M0d2VnYrNGhTOWZ1?=
- =?utf-8?B?ZjZpRy8yZlpPM1VBc0VUejVMWHVubEpGV3k0Ymt5UkFkZDVvbGVCakVyRW9z?=
- =?utf-8?B?SHNoRmpJQ3hNT3VjcXE3cnVOVGZWMkhCMWhrZDRReEF4SGUvdG95N2pWQTZS?=
- =?utf-8?Q?awW0nBhtNwwtSFa2+9qnMdQrn?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4dbbc355-7ff1-4f97-0206-08de2c031f7c
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 09:15:05.9602
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K0Eh8Jn3xZM9MmCA/PopmWBwpACAbpQEcFiAyZzWQqo8FjPLwZ6p98H7phoKvEBO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7495
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1683; i=brauner@kernel.org; h=from:subject:message-id; bh=EZH3ZoT/h3jE1nB+7BQmZudu4IYvLpK+tSAMnJS8t8Y=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSqVp5wOpontKfZfe/70xWPbcu9vFrnFNWIXimcunPlm p2ugXNWd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzk6muGP/yNHN382vYp2+2N JS/4VSsWM669Ezy51uzfzqJrEp8/hzL8DzfNbzv7aL5v4O+0RcyWehO4XT7wWjL+P/xW/uVfZ1t pTgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On 11/25/25 10:08, Dave Airlie wrote:
-> On Tue, 25 Nov 2025 at 18:11, Christian König <christian.koenig@amd.com> wrote:
->>
->> On 11/25/25 08:59, John Hubbard wrote:
->>> On 11/24/25 11:54 PM, Christian König wrote:
->>>> On 11/25/25 08:49, Dave Airlie wrote:
->>>>> On Tue, 25 Nov 2025 at 17:45, Christian König <christian.koenig@amd.com> wrote:
->>> ...
->>>> My question is why exactly is nova separated into nova-core and nova-drm? That doesn't seem to be necessary in the first place.
->>>>
->>> The idea is that nova-core allows building up a separate software stack for
->>> VFIO, without pulling in any DRM-specific code that a hypervisor (for example)
->>> wouldn't need. That makes for a smaller, more security-auditable set of code
->>> for that case.
->>
->> Well that is the same argument used by some AMD team to maintain a separate out of tree hypervisor for nearly a decade.
->>
->> Additional to that the same argument has also been used to justify the KFD node as alternative API to DRM for compute.
->>
->> Both cases have proven to be extremely bad ideas.
->>
->> Background is that except for all the legacy stuff the DRM API is actually very well thought through and it is actually quite hard to come up with something similarly well.
->>
+On Wed, 19 Nov 2025 22:24:04 +0000, Askar Safin wrote:
+> This patchset will not affect anyone, who showed up in these lists.
+> See [5] for details.
 > 
-> Well you just answered your own question, why is AMD maintaining GIM
-> instead of solving this upstream with a split model? the nova-core/drm
-> split would be perfect for GIM.
-
-No, it won't.
-
-We have the requirement to work with GEM objects and DMA-buf file descriptors in the hypervisor as well.
-
-And my suspicion is that you end up with the same requirements in nova as well in which case you end up interchanging handles with DRM as well.
-
-We have seen the same for KFD and it turned out to be an absolutely horrible interaction.
-
-> kfd was a terrible idea, and we don't intend to offer userspace
-> multiple APIs with nova, nova-drm will be the primary userspace API
-> provider. nova-core will not provide userspace API, it will provide an
-> API to nova-drm and an API to the vgpu driver which will provide it's
-> own userspace API without graphics or compute, just enough to setup
-> VFs.
-
-Ok, then why do you need nova-core in the first place? E.g. where should be the vgpu driver and what interface does it provide?
-
-Christian.
-
+> Intro
+> ====
+> This patchset removes half of classic initrd (initial RAM disk) support,
+> i. e. linuxrc code path, which was deprecated in 2020.
+> Initramfs still stays, RAM disk itself (brd) still stays.
+> And other half of initrd stays, too.
+> init/do_mounts* are listed in VFS entry in
+> MAINTAINERS, so I think this patchset should go through VFS tree.
+> I tested the patchset on 8 (!!!) archs in Qemu (see details below).
+> If you still use initrd, see below for workaround.
 > 
-> Dave.
+> [...]
 
+Applied to the vfs-6.20.inird branch of the vfs/vfs.git tree.
+Patches in the vfs-6.20.inird branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.20.inird
+
+[1/3] init: remove deprecated "load_ramdisk" and "prompt_ramdisk" command line parameters
+      https://git.kernel.org/vfs/vfs/c/9c598c04183e
+[2/3] initrd: remove deprecated code path (linuxrc)
+      https://git.kernel.org/vfs/vfs/c/445b357b72aa
+[3/3] init: remove /proc/sys/kernel/real-root-dev
+      https://git.kernel.org/vfs/vfs/c/f84d950a0ef1
