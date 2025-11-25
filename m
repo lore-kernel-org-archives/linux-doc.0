@@ -1,195 +1,201 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010005.outbound.protection.outlook.com [52.101.193.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937E0523A;
-	Tue, 25 Nov 2025 07:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764054083; cv=fail; b=WmSe7tUkDnTcRHbrsfjjyaShEzzw2DVAUDctg3a2WIPBACf1CKafCHkYrq3amgJ/YRJk27T5KKs7i0eQpW72qLtwJ8zY5jz6jPicCoqezYNX20IYb3Eeh+/LMlA+dX9ojnIAVG7wDxxc/rtcwqcHteZKPNm6jJ5rmwGDhbtzOnw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764054083; c=relaxed/simple;
-	bh=ifxKXpa/OMdfSIcA/mDu1KRAbedyR73igMKRiskzZWU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mP9pbVUOr8CvWFdKcbmgIyA8gWpuSIMB1/rSjS1DccATpNZKjT9u31S+wDw573xf2huBPXAmptYHZF/oRLdkP0VLqvJ6NsefTlYJXSGUjNwczrJrtLl1rdeByLvJuDFDAaTxN68115xiP7psVIJRVpY+MCFoydzZXYbSkIFir90=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dS1PMIN0; arc=fail smtp.client-ip=52.101.193.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B28913AA2D;
+	Tue, 25 Nov 2025 07:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764055387; cv=none; b=FTxVMXVPZmIOZwTVDQd7vHK8XU9zs//q17uNvb+d5xI7fc9AJ5OIukLJ2Frx06QmtDnap8xRJTNOzFqQS2JKV2OZrrlcA9hgjJnXTqzBJ+aBcMbxoBvaVNVLdbWDrXsK2IDqUMte3WhI6biGyJc5HQjkcHHgf4fhtMAb1lTdGxA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764055387; c=relaxed/simple;
+	bh=nkiQcmVMDAWDvgWH8TwLxZ5+OG/fvCcRuE7BgYF1oWk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y9cRRWwkwRQK6Gqh8zH3hnHEfrdxf+9svbHg2cpcTb4s5D27yacE9aH0xtIBMPES538pJEJo9fB4Jxwr7oCnhtP+R49zCdHulm6vAyP8zQ4/iGacYWoG9kdYo1mUthJP4W6wOkemu9scYhnsbVFrWh56JEJssolMMIPgcCbmEqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fgCNFRpk; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dS1PMIN0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jbhhIW74UN75rFD5iluj1EBWTMK8DwLw+fEwV4EjZyX82B35zBTiApjgy8D5HhPdJMfjzm0T1e5+npein+mwoJHJiwIMGekuRMmxULE0QJ/vLQV6ZBmgoqqahY7gu0OhZZcW2XY80nFMfMZbrKJjqX/Ac3U/XejgPVB7uV2cy1ZKp7h/7RC2k3yBLmvlFbP/9THHiOGuzDoTR8roLwGauHCRgdtnEVbWOPDtvQKjrfA6SQpwrKXZER15HAX1K7z54adNYWINT/Pu6igVEro9VawsCOnCzan0wYxhedhuFX0HeXWXHCGw/2P1cj45jAcbrLKoI6+AEcycF2NFpiFrvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x05dfVfJPGCwJXyMl6by4kWH08mp9vvUhAW5xagjldA=;
- b=PO7o80kcrEebfb5OlTBbyrx3LuXyz+2thP69CONceTahmIMjnb7W7pUG2hla2BZ90anBr6+9Cqt+WOBx4UHbIHtDP1itZqZG/lW4gA5BZ4NOCT/9RpQk/aB4aBwRPxliCHKQ4y8gBnbzNd65dTpGFWI8EagNY4lN1NZyjyvowh9pc/Ij5s/jj4QbDo+4z7RUzlsJimFtU441gS70DJ8YTq3WwHz8NXJik0wIiG3O4uHcFWlhhg8Gw0FDrsIlrwjQ4JEPIGcvEK2mQXv7am7giX7wXiLkXjA9STTGt/Kl7sm2RErd+2/WyG0y/6JO4zV75aQisswzGAbJIMynUxG7LQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x05dfVfJPGCwJXyMl6by4kWH08mp9vvUhAW5xagjldA=;
- b=dS1PMIN0yJKVneEsc6jymQXLxqbm2bnGPbkC8q59DeyF0TovQrGLxG2bcUdsPsF1BtQwE8I1JsTF0qJ12kVgdKOJWTdB4S7jMtJhQ7pBeWqNSmL6iU5IQa3Xy4/NxIOjZgeu3GIG52yYOSe3YUdjXvaq6FM2NMKElz1lr47sQvApym3BDfIBzBhifThExTHuBbW//uuG/sWZ/8C6GrAhW+u1YIZfOy5FUnkrAnvLOcxjlyrfYqgb1A6CR8kT8ePCkNroM6TRb19bVC5PKaIGNv0NZaY14/BVi1AGnePqtPxUszg5hZp8SDBI+HBMgTmtBl3kpAYabGdQDQShMQgQgQ==
-Received: from SJ0PR03CA0382.namprd03.prod.outlook.com (2603:10b6:a03:3a1::27)
- by MN2PR12MB4341.namprd12.prod.outlook.com (2603:10b6:208:262::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.18; Tue, 25 Nov
- 2025 07:01:19 +0000
-Received: from SJ5PEPF000001CB.namprd05.prod.outlook.com
- (2603:10b6:a03:3a1:cafe::fc) by SJ0PR03CA0382.outlook.office365.com
- (2603:10b6:a03:3a1::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.18 via Frontend Transport; Tue,
- 25 Nov 2025 07:01:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ5PEPF000001CB.mail.protection.outlook.com (10.167.242.40) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Tue, 25 Nov 2025 07:01:18 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 24 Nov
- 2025 23:01:03 -0800
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 24 Nov
- 2025 23:01:02 -0800
-Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Mon, 24
- Nov 2025 23:00:59 -0800
-From: Tariq Toukan <tariqt@nvidia.com>
-To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>
-CC: Jonathan Corbet <corbet@lwn.net>, <netdev@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Mark Bloch
-	<mbloch@nvidia.com>, Gal Pressman <gal@nvidia.com>, Sabrina Dubroca
-	<sd@queasysnail.net>, Shahar Shitrit <shshitrit@nvidia.com>, Tariq Toukan
-	<tariqt@nvidia.com>
-Subject: [PATCH net-next] docs: tls: Enhance TLS resync async process documentation
-Date: Tue, 25 Nov 2025 09:00:37 +0200
-Message-ID: <1764054037-1307522-1-git-send-email-tariqt@nvidia.com>
-X-Mailer: git-send-email 2.8.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fgCNFRpk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764055386; x=1795591386;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=nkiQcmVMDAWDvgWH8TwLxZ5+OG/fvCcRuE7BgYF1oWk=;
+  b=fgCNFRpk76L5Bzrq8/dOo03rDi5RDrPhhV+8Pz9mmzLsQrAxOZVYO+wt
+   4BFCsPCRHD6sTrMTFd0FBxPvYxpdn2YrbJQKdob26ZlVjL8vUH6SCPnM6
+   yXL8qAxBqpjs6AX2CVi4BGxL2NmBnOvL8ADeeGj/EqJCEsreCKvybuCmo
+   7FbqyyQJWyQc3BW2KpCqAxrcicetDCdQZ+tBQvWm6tS/NgAJw65zVGpIb
+   woKnjdJxl4/2gR4yB8iQ3xXpOh6b68NeaEkWQTEUV2efz8zW0oQRcHlZb
+   1Ofp8KeZeXD18UhFUvcUrI3eSZUa70sPnowVDmOXqbL725ojZvf0rSYku
+   w==;
+X-CSE-ConnectionGUID: YkKu8NevQb+npxjeEL2kHQ==
+X-CSE-MsgGUID: bonHd4JbRLWNfo6RoPpThg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="69923067"
+X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
+   d="scan'208";a="69923067"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 23:23:05 -0800
+X-CSE-ConnectionGUID: vWVS/dgcRaeC6PW3k1QUiA==
+X-CSE-MsgGUID: DSDRsP0gQ9STzZ9EvJfV8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
+   d="scan'208";a="215906221"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 23:23:00 -0800
+Message-ID: <5f85e519-5a05-4359-9904-06f16737e28b@linux.intel.com>
+Date: Tue, 25 Nov 2025 15:17:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CB:EE_|MN2PR12MB4341:EE_
-X-MS-Office365-Filtering-Correlation-Id: 948b2d4a-8050-4482-a78a-08de2bf06f1b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|7416014|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?RGb0UoKeNZSp13IH16qjtDRkUVKBjycCOVZakJXI/LUsM9phbs9GzLc7BJQj?=
- =?us-ascii?Q?gVgM7HxWIMzwveM8IXx+JpcBQdyK3p2Hnhae/W94QzliZeeabs/Gz6Q8noPy?=
- =?us-ascii?Q?aZJ6HflIPiv9eZPWmDepObotRCp8Bofviz1Rvqldztf9LogFLfVHP/1zL3bV?=
- =?us-ascii?Q?mxNyokQmm9mY2nETKMID/XGw/lIX43bhT7UxjMDCUW9RXkGqW4yLhEvRlbVS?=
- =?us-ascii?Q?G9XGDTtL0gmdCrOCO48K8nvQgnkqR0xOfiETUa8vLT3vRA7GXmb++4vfKX6m?=
- =?us-ascii?Q?SSE/iXFz1j0IlRdnDqR2yH2AJ1lppjy2aR3iFgL6hutmWWpYYjUBPmzQVON7?=
- =?us-ascii?Q?Z/73G6GLiG6EeTsMQ9cgHWK3OFm4o/tn//JDG8EYpn4rT2+ZrmfOEoD6DhXx?=
- =?us-ascii?Q?evQNRRy8MMM+lW0v7ICNX3mtPFPg+FFi/UXzyyjol0XnEKhmvAaNDJiIgJp3?=
- =?us-ascii?Q?sA6fMxIYVIYyyx84F00v8UpTkK/JjPAV34L48J467dP5zZxlqbUZtPzK006u?=
- =?us-ascii?Q?b3j4dvqvnz9jQJWc2KSMyrk7p9Q+hmpzYkgZvsa/47QhxWjNXEjSSpmAhYcN?=
- =?us-ascii?Q?YwEoO8sFrilwRG4W/KdZOvebLGfE7kXZ9mmkHPDk2ydp8aXUbXO7iIqzFr9G?=
- =?us-ascii?Q?LcQFT+Pi2g+HtBr0zh9mmyAtZB/rgQUZNdc0lvomO/nFBvLV5OAr5rwHDg0/?=
- =?us-ascii?Q?jvmHmKwekEicLxqISrwUveQqdlIkBc/bqZeXUjX/FVajkdeiCqQ1F0/urEwL?=
- =?us-ascii?Q?IrinNtGCDloc5zVwfrQT1VbDGjg+E1To4ryrrL+7Pyen4yiQoAxUGtDIfyH8?=
- =?us-ascii?Q?6KzybG9uAhHosRmy+IG2140lyB/r6MQFviaFxyAYgmlxdxEJ3YeEIk46/tJU?=
- =?us-ascii?Q?jNmcj4l5FGWsn88egrcoMriXyJhQQg12WS0kur++NjvgoOz94e1AqVjiYmSR?=
- =?us-ascii?Q?pQKwNNCnuKWrjQsDvol5al1NGD/8dZTB1e4/m6DCexbcxwYXFkF+ZruQVlB4?=
- =?us-ascii?Q?zeM1eLsAYwbvdqF7hgPM73CqMvF+sBIDUWViIkuTYrrSWtozkI5wvkmS6hGe?=
- =?us-ascii?Q?6659J4JiASPVBA5Y8+/X/oHDQel7B0d8gL3C0Ans352+iFFGHMAWVmB9bEBP?=
- =?us-ascii?Q?cLFBf7GaJu0q0mxkNPt8TujieVwNY/V+6HqccJRV7x5jdZRfs5r24xtNj4HF?=
- =?us-ascii?Q?2Gtmb6ok2y6Zow3H5WZm2hib18CWYs6FuYllREwVZwBo3CvgBuqw3j1iAAJH?=
- =?us-ascii?Q?+Q95lpdqnlQdvM5Uf0UWOvldNd6YGhJ4epe/BcN5s12Vc1hX1eQjgv7WbjKF?=
- =?us-ascii?Q?89VPHnA3HizvbxvRX1y2YZDEeSvI8ua3YGH7RxsUZrxtvkfzx6RxPGeCf01u?=
- =?us-ascii?Q?+pgjzNX0um2kGQlZYJuPriC+x9EP68jjUhvzp6Bwe9KQySrEydwFHBKWxMIk?=
- =?us-ascii?Q?NohA3aNQPHKLZdekvsL+L+1v9irymmgsNW68JHBi+hdAMG8Bxwx38E7lMNMm?=
- =?us-ascii?Q?AjN6y7ZlqLPmnmsH94RZHUfe4MO3CZ52va1G2+BH/ehFJYvsIlrys4CsyIWp?=
- =?us-ascii?Q?mvbj04J+RwSFlQ00mG0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 07:01:18.9144
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 948b2d4a-8050-4482-a78a-08de2bf06f1b
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001CB.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4341
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/4] drivers/iommu: Add page_ext for
+ IOMMU_DEBUG_PAGEALLOC
+To: Mostafa Saleh <smostafa@google.com>, linux-mm@kvack.org,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
+ akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com,
+ mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
+ david@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, xiaqinxin@huawei.com
+References: <20251124200811.2942432-1-smostafa@google.com>
+ <20251124200811.2942432-2-smostafa@google.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <20251124200811.2942432-2-smostafa@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Shahar Shitrit <shshitrit@nvidia.com>
+On 11/25/25 04:08, Mostafa Saleh wrote:
+> Add a new config IOMMU_DEBUG_PAGEALLOC, which registers new data to
+> page_ext.
+> 
+> This config will be used by the IOMMU API to track pages mapped in
+> the IOMMU to catch drivers trying to free kernel memory that they
+> still map in their domains, causing all types of memory corruption.
+> 
+> This behaviour is disabled by default and can be enabled using
+> kernel cmdline iommu.debug_pagealloc.
+> 
+> Signed-off-by: Mostafa Saleh <smostafa@google.com>
+> ---
+>   .../admin-guide/kernel-parameters.txt         |  6 ++++
+>   drivers/iommu/Kconfig                         | 19 +++++++++++
+>   drivers/iommu/Makefile                        |  1 +
+>   drivers/iommu/iommu-debug-pagealloc.c         | 32 +++++++++++++++++++
+>   include/linux/iommu-debug-pagealloc.h         | 17 ++++++++++
+>   mm/page_ext.c                                 |  4 +++
+>   6 files changed, 79 insertions(+)
+>   create mode 100644 drivers/iommu/iommu-debug-pagealloc.c
+>   create mode 100644 include/linux/iommu-debug-pagealloc.h
+> 
 
-Expand the tls-offload.rst documentation to provide a more detailed
-explanation of the asynchronous resync process, including the role
-of struct tls_offload_resync_async in managing resync requests on
-the kernel side.
+[..]
 
-Also, add documentation for helper functions
-tls_offload_rx_resync_async_request_start/ _end/ _cancel.
+> diff --git a/include/linux/iommu-debug-pagealloc.h b/include/linux/iommu-debug-pagealloc.h
+> new file mode 100644
+> index 000000000000..83e64d70bf6c
+> --- /dev/null
+> +++ b/include/linux/iommu-debug-pagealloc.h
+> @@ -0,0 +1,17 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2025 - Google Inc
+> + * Author: Mostafa Saleh <smostafa@google.com>
+> + * IOMMU API debug page alloc sanitizer
+> + */
+> +
+> +#ifndef __LINUX_IOMMU_DEBUG_PAGEALLOC_H
+> +#define __LINUX_IOMMU_DEBUG_PAGEALLOC_H
+> +
+> +#ifdef CONFIG_IOMMU_DEBUG_PAGEALLOC
+> +
+> +extern struct page_ext_operations page_iommu_debug_ops;
 
-Signed-off-by: Shahar Shitrit <shshitrit@nvidia.com>
-Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
----
- Documentation/networking/tls-offload.rst | 28 ++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+How about moving above to below mm/page_ext.c and remove iommu-debug-
+pagealloc.h header file? ...
 
-diff --git a/Documentation/networking/tls-offload.rst b/Documentation/networking/tls-offload.rst
-index 7354d48cdf92..6d2769316699 100644
---- a/Documentation/networking/tls-offload.rst
-+++ b/Documentation/networking/tls-offload.rst
-@@ -318,6 +318,34 @@ is restarted.
- When the header is matched the device sends a confirmation request
- to the kernel, asking if the guessed location is correct (if a TLS record
- really starts there), and which record sequence number the given header had.
-+
-+The asynchronous resync process is coordinated on the kernel side using
-+struct tls_offload_resync_async, which tracks and manages the resync request.
-+
-+Helper functions to manage struct tls_offload_resync_async:
-+
-+``tls_offload_rx_resync_async_request_start()``
-+Initializes an asynchronous resync attempt by specifying the sequence range to
-+monitor and resetting internal state in the struct.
-+
-+``tls_offload_rx_resync_async_request_end()``
-+Retains the device's guessed TCP sequence number for comparison with current or
-+future logged ones. It also clears the RESYNC_REQ_ASYNC flag from the resync
-+request, indicating that the device has submitted its guessed sequence number.
-+
-+``tls_offload_rx_resync_async_request_cancel()``
-+Cancels any in-progress resync attempt, clearing the request state.
-+
-+When the kernel processes an RX segment that begins a new TLS record, it
-+examines the current status of the asynchronous resynchronization request.
-+- If the device is still waiting to provide its guessed TCP sequence number
-+  (the async state), the kernel records the sequence number of this segment
-+  so that it can later be compared once the device's guess becomes available.
-+- If the device has already submitted its guessed sequence number (the non-async
-+  state), the kernel now tries to match that guess against the sequence numbers
-+  of all TLS record headers that have been logged since the resync request
-+  started.
-+
- The kernel confirms the guessed location was correct and tells the device
- the record sequence number. Meanwhile, the device had been parsing
- and counting all records since the just-confirmed one, it adds the number
+> +
+> +#endif /* CONFIG_IOMMU_DEBUG_PAGEALLOC */
+> +
+> +#endif /* __LINUX_IOMMU_DEBUG_PAGEALLOC_H */
+> diff --git a/mm/page_ext.c b/mm/page_ext.c
+> index d7396a8970e5..297e4cd8ce90 100644
+> --- a/mm/page_ext.c
+> +++ b/mm/page_ext.c
+> @@ -11,6 +11,7 @@
+>   #include <linux/page_table_check.h>
+>   #include <linux/rcupdate.h>
+>   #include <linux/pgalloc_tag.h>
+> +#include <linux/iommu-debug-pagealloc.h>
 
-base-commit: e05021a829b834fecbd42b173e55382416571b2c
--- 
-2.31.1
+... remove this include line and put the "extern" line here,
 
+extern struct page_ext_operations page_iommu_debug_ops;
+
+>   
+>   /*
+>    * struct page extension
+> @@ -89,6 +90,9 @@ static struct page_ext_operations *page_ext_ops[] __initdata = {
+>   #ifdef CONFIG_PAGE_TABLE_CHECK
+>   	&page_table_check_ops,
+>   #endif
+> +#ifdef CONFIG_IOMMU_DEBUG_PAGEALLOC
+> +	&page_iommu_debug_ops,
+> +#endif
+>   };
+>   
+>   unsigned long page_ext_size;
+
+Or, put it directly in linux/iommu.h?
+
+diff --git a/include/linux/iommu-debug-pagealloc.h 
+b/include/linux/iommu-debug-pagealloc.h
+index 87f593305465..b2b82cf032e6 100644
+--- a/include/linux/iommu-debug-pagealloc.h
++++ b/include/linux/iommu-debug-pagealloc.h
+@@ -14,8 +14,6 @@ struct iommu_domain;
+
+  DECLARE_STATIC_KEY_FALSE(iommu_debug_initialized);
+
+-extern struct page_ext_operations page_iommu_debug_ops;
+-
+  void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys,
+                        size_t size);
+  void __iommu_debug_unmap_begin(struct iommu_domain *domain,
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index 801b2bd9e8d4..40133031985a 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -1185,6 +1185,10 @@ void iommu_detach_device_pasid(struct 
+iommu_domain *domain,
+                                struct device *dev, ioasid_t pasid);
+  ioasid_t iommu_alloc_global_pasid(struct device *dev);
+  void iommu_free_global_pasid(ioasid_t pasid);
++
++#ifdef CONFIG_IOMMU_DEBUG_PAGEALLOC
++extern struct page_ext_operations page_iommu_debug_ops;
++#endif /* CONFIG_IOMMU_DEBUG_PAGEALLOC */
+  #else /* CONFIG_IOMMU_API */
+
+  struct iommu_ops {};
+diff --git a/mm/page_ext.c b/mm/page_ext.c
+index 297e4cd8ce90..345af8c9fcce 100644
+--- a/mm/page_ext.c
++++ b/mm/page_ext.c
+@@ -11,7 +11,7 @@
+  #include <linux/page_table_check.h>
+  #include <linux/rcupdate.h>
+  #include <linux/pgalloc_tag.h>
+-#include <linux/iommu-debug-pagealloc.h>
++#include <linux/iommu.h>
+
+  /*
+   * struct page extension
+
+Thanks,
+baolu
