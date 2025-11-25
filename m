@@ -1,143 +1,590 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02E432E6AA
-	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 18:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8589626F463
+	for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 18:47:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764096261; cv=none; b=iEk3HhScHqERxVrBm/6J/o8ZLFWoAi50XxFicim7I1rf8yAWmbjs8VHY9Tel1ZbkOORvVHKaOBx7g9W3q0ANIN4sfzOA6Y4OkkbyftnTMCTkPrYdZLcCZ33oCdpjmjy/kNQlept9asCWisO8gmvkjtdJlwKJ/HrVrr39W5d0ROI=
+	t=1764096444; cv=none; b=kfhkUvf7YvBlD7VXA13MmqGAmekPEkOIX4oya0Yk0ysqFtyTmDAAZCgN9EQcFswXKDEato+1dcURlm5hLtOtWDYlr6LYoZkcrXFL2MpYzbhjunhOHisLTrro/4vCWtqPlmNg6eozWMsAXGTU8ArLnh5upWgFqvLz+D3/bZ3JFww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764096261; c=relaxed/simple;
-	bh=h41rvwq00iAAMBX9jSxM9Flk4uh7o21WQ52nLsax6Y0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ACTOCQj8PCc0nisGLH3iOqkjzV328KezaUE11sehXY2DscAxqiqaGpWQK362GX064rBT81XyCDw9/uYT0Io14H1jz3t3ERTGb7cRZ7/MlI4mPNNUkeHhka2Q4rNCJnbpqNPJG6d4A4qIbNu3SEIzGCA3Kwq3i0bLriHZH9uB/Tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6kmdJly; arc=none smtp.client-ip=209.85.128.181
+	s=arc-20240116; t=1764096444; c=relaxed/simple;
+	bh=ckTp6KaIPxNnW7CNQ96kiCBY6j2xZU1ln8ldotiPqP8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g5yugX++xCNTMDXVXcYadZEYCaTGpC2ubf9Ned64P2RTollPSObyOjzAYTIN48z7YrTzRZUJ/ao6t+6FOy6i/ylp/zenSODB26pdsQQw6mh97mGYmN4vQP25zkIjWsF0N5v2ekqW7TSsdb+D2IQsfZvxQAB5UZrZ+92yV4VRjto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NYe4noHp; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6kmdJly"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-78a712cfbc0so56163877b3.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 10:44:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NYe4noHp"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42b3c965cc4so61614f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 10:47:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764096259; x=1764701059; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EuCC5DFWaWyOL4X15A+FY0iDuG43APf6t+DuwQP4zFQ=;
-        b=V6kmdJlyF1SaFhR0v7TrmHDbXrpefM/gZiMsrzP/yECoIBMzZuEjPUh9eOcVdxqDHg
-         aCUG2Be1O1+boMdaY9eMjRGVxfx2Dl5FUSZwSRBGvQ4Q3so4tahKJOqUrwNWPNly2mXo
-         eQa7Ynxi5Ewi5lxrq9DKRg/YxSJWRV9no0me3ookLfmGACZ6bsNZAHV8hNnFyPkYv+dv
-         HH0TU2kq5qGem5/+jiKFfZIYnHe+pVPUVPIOSwDod6jpcKP3WnltSmAf9f+5jTwjVuwQ
-         niQ7DkXdDq/F/N5kQUbtW13DTQfD5T8mTj0Ndsq37vn2lcnSUU08/8luX8mtpuw2KlSF
-         Wa3g==
+        d=gmail.com; s=20230601; t=1764096440; x=1764701240; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1MKt4LgiZL8PWmFKIeAL+5VfuqwKeyBt7O/W/YkhAjg=;
+        b=NYe4noHphtsCsKWCzBr4rK8Segb3DV9tQcsnDT4eZz80l/CukOvx2VM0zEnAnh8YQo
+         AFqjeaTrWFVDT3WQsKMPQvwwxOhFsPZ02GfdE3w2I0iCVztaPe6GbH131aUbZ3F4zHyf
+         jsJv7dzpp6vNf+ZFpe3tEgfASJceSDrg+qPT27rFPHz2thLa10JKMK2ufeSgEOqaR1Bg
+         tfsRqJf/Aa0WUvWSv5x8dJsUxzSjcN1VNfYT5lbV6n3xhSLgyvjzHa2CrauXDQp9pXRO
+         mGfEJGEtIgz9Jmmls2rifxtdInaXQ90i/3HrCSDEJnjVAbW/dlLnONVMIVTgUqU8H6AN
+         ZJRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764096259; x=1764701059;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EuCC5DFWaWyOL4X15A+FY0iDuG43APf6t+DuwQP4zFQ=;
-        b=CCvpPj0thvaHA+hBtYuZ1CQdp1GJww+/nF/ZVMjUbf9i1Sx7HMmZL4kvMfZudzI/xb
-         jdllQ2PO2K+eXJRwyuJkaBD1oovdiOB5cOMFNQxEWDmP5muUibNbx/cnSYLTdrSJmaDd
-         3pXKRNn++L50PYXlnuTt4woanrV55ZfJiuCuqDRyVPFpgiYf6/hJBqVT6KqUofMMIqlT
-         Uk0xkNYciZuzTaAFmbfNvU5cMzSnLSMnygW2WXM9R+a3q4VlfuVVRS2yV1JHzA8BGirW
-         xKMcesSc6ZnRaDo3cNIa1ndIism5UlA29Zkv0smySIgYZFacrJz4IosBGqEdEmX/xTds
-         X+rg==
-X-Forwarded-Encrypted: i=1; AJvYcCWaObDVbi28XpXzHyYQPO2TeZAMxJuPAYz641mG6zyb9IM2zdj9/7rQ6N7MU2D2xEbeBDvNy/9RsgY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQmT2GMn7u84j5j31DYiP4ITa5BSBwFT1wgWgNwvXvfsi+zs6N
-	MmLs0ID6CrcTShUO8eflra0plxa3tL5l/v5V3/PVszXCWTseNwDrPm03
-X-Gm-Gg: ASbGncse4ET0lrrOkmHGOa1jGfeM9knugGxILXarYFbJXBj/AMKfZKfHfS3WiLq8yLv
-	G+c0/Y9HHLrvG+WnyGWdz1GGHVmWbcM5kvJJmDROzw0PFG+VNhd7NSaaapAo3ozlcudlgd0FjTo
-	Awz14vHSCAF1jUYuNby3eKi5lS+UpZ7HQ3peikTry/YX+K/UrqNeLPQC5a2WJrpd9gzzXbGlBs4
-	x/dmVAexlgP47Bn+Faky7naETGqGb07TR300qWDutf7h2GhDW5n/oYCCQWMHWxyJW9uyT6c3Rkf
-	N4+HOnv+9JtBbGs8w2R2TXzZgnpHYgqoh1orHXCxHtLF8oR6N39GGknRDOmXrbGoBvqbSPT5A/0
-	2Ol1QMdSaieXPYmHS3AKIA/rwAuz0fDah4A78pfQFwubU04uNHqOMVzVF+1jSvN3W/Wbw1+YkuT
-	8deZ56oWe6UPJ5hL/P3MK18g==
-X-Google-Smtp-Source: AGHT+IGL0IWhgJSuT0/x34hD1ZnZBCQoO9+9MuB14e3zIBSvN6lwZFY8kFf7BpE4AVJ8D7mB99nxjA==
-X-Received: by 2002:a05:690c:4a11:b0:786:59d3:49c8 with SMTP id 00721157ae682-78a8b54d8b4mr132611937b3.49.1764096258560;
-        Tue, 25 Nov 2025 10:44:18 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:13::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78a7992511esm58735867b3.35.2025.11.25.10.44.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 10:44:18 -0800 (PST)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v2 1/2] mm/mm_init: Introduce a boot parameter for check_pages
-Date: Tue, 25 Nov 2025 10:44:15 -0800
-Message-ID: <20251125184416.1493908-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <aSWDkuJEdk9cdVCK@kernel.org>
-References: 
+        d=1e100.net; s=20230601; t=1764096440; x=1764701240;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1MKt4LgiZL8PWmFKIeAL+5VfuqwKeyBt7O/W/YkhAjg=;
+        b=PJ5srICwQGFvZZ8FHQMVPDk+6AqXk2m/JwZu6RiNm9hwViq7H62ji6OJZti4zy0YXl
+         Bd3QApMGtrUk6y1KELb+Y5Pyaoq+9Hx4HbN+YStdrDfIOrHopKDgvo9eSpWQlTs0mO9P
+         2RjhzhkJzS0UNQPuaQxxdporCb5l4Ea8UAbBOhYyp1T5qNaxYw2T2Pa+R8AP6DVvoJFG
+         8P4wdMD2BcaWQ5/XIThhhpdMVpVHoOMvqT/ahUqt30q+nTeQP+76JsH1ufYP9evrV1DF
+         2H10DVTwYUxB4ztvYUHYnJ3zPUl0L+BDtIkAE93/wqTlFMNXm8d9lI0N7u1uzVv4QKvK
+         CRnw==
+X-Forwarded-Encrypted: i=1; AJvYcCU3Mq75neAhFQUHExTANmiGmpMRbavB5lEDSdCU/AxoUwp/5TxxufpP+zkF04GtsjuBi8Jvs62EHQw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxFP5r+6jLTExuk6RFokjlq7NjZfLcD32hkp4dZQELdzxQJ9LZ
+	yyCeLGI16bkRr5kN/1QP7sxKjzSLMMK3Wx/uyJOaKkxJtJ2+ocQA9dqo
+X-Gm-Gg: ASbGncuDLV0WxcgRZWciqK0BZVVb/guXQdO1L2azte2ogJHNAXCyd+KU9AKipUp8mcV
+	Y5/cpqVx211roGMwx+YKAO4F3Vyu8YWIz5xuoQB00ySHuwp6AjHJvxmo4r0s253KNsoN1bTXsnJ
+	jS8InmJt4Pst/TcT+uao4MQKpdvD0j25kpuZguNdXw1lTHQvpv++/njeKoLGhd/fZ/7JMZwU5jC
+	O6WrrayXmhnmyoqejbeYqYeVogrUT1H8i0CMR+K9tORme7BXwtCDYNQHq32oFMDvI/R5WFQM1HW
+	u79VWjckx4dffbPa+6o+tLC3Q3HPsyueGT4Q83oGY9MMmJCKeDrfmV0+Sq7Rl0rzI/BmItAdMJi
+	f2LYCfcjp2ncE9VXAG6Uu7GK4g/j15/lqM9ssXzRNMZVQAfSHnkKeEG8+tF8oc7j/2eKLzFEApX
+	4wtd3dbxVVd6A1JO5uE8XKol4kEEAM5LFXvmFGDPy9dmk8XYRKjp3iRFfDZy+NHXo=
+X-Google-Smtp-Source: AGHT+IG/i3aZCks5WIqnGk/6a0sMPmYIN5l4APrGzVcZcpl9umy4ItmF5a7+oV8tsk34pCQpbOWSSg==
+X-Received: by 2002:a5d:584f:0:b0:428:56ed:c68e with SMTP id ffacd0b85a97d-42cba652ec0mr23828199f8f.9.1764096439172;
+        Tue, 25 Nov 2025 10:47:19 -0800 (PST)
+Received: from ?IPV6:2a03:83e0:1126:4:ce0:a4eb:eabc:d420? ([2620:10d:c092:500::5:f0ba])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479052ec685sm22122175e9.6.2025.11.25.10.47.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Nov 2025 10:47:18 -0800 (PST)
+Message-ID: <ba690e06-c2a1-4d2e-9428-9ca2ea9f2b86@gmail.com>
+Date: Tue, 25 Nov 2025 18:47:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 12/17] x86/e820: temporarily enable KHO scratch for
+ memory below 1M
+Content-Language: en-GB
+To: Mike Rapoport <rppt@kernel.org>, Pratyush Yadav <pratyush@kernel.org>
+Cc: Changyuan Lyu <changyuanl@google.com>, akpm@linux-foundation.org,
+ linux-kernel@vger.kernel.org, anthony.yznaga@oracle.com, arnd@arndb.de,
+ ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de,
+ catalin.marinas@arm.com, corbet@lwn.net, dave.hansen@linux.intel.com,
+ devicetree@vger.kernel.org, dwmw2@infradead.org, ebiederm@xmission.com,
+ graf@amazon.com, hpa@zytor.com, jgowans@amazon.com,
+ kexec@lists.infradead.org, krzk@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-mm@kvack.org, luto@kernel.org, mark.rutland@arm.com, mingo@redhat.com,
+ pasha.tatashin@soleen.com, pbonzini@redhat.com, peterz@infradead.org,
+ robh@kernel.org, rostedt@goodmis.org, saravanak@google.com,
+ skinsburskii@linux.microsoft.com, tglx@linutronix.de,
+ thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org,
+ Breno Leitao <leitao@debian.org>, thevlad@meta.com
+References: <20250509074635.3187114-1-changyuanl@google.com>
+ <20250509074635.3187114-13-changyuanl@google.com>
+ <a0f875f1-45ad-4dfc-b5c8-ecb51b242523@gmail.com>
+ <mafs01plmxngp.fsf@kernel.org> <aSW0MF9BXjLnY2Fr@kernel.org>
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <aSW0MF9BXjLnY2Fr@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 25 Nov 2025 12:23:14 +0200 Mike Rapoport <rppt@kernel.org> wrote:
 
-> On Mon, Nov 24, 2025 at 02:54:06PM -0800, Joshua Hahn wrote:
-> > Use-after-free and double-free bugs can be very difficult to track down.
-> > The kernel is good at tracking these and preventing bad pages from being
-> > used/created through simple checks gated behind "check_pages_enabled".
-> > 
-> > Currently, the only ways to enable this flag is by building with
-> > CONFIG_DEBUG_VM, or as a side effect of other checks such as
-> > init_on_{alloc, free}, page_poisoning, or debug_pagealloc among others.
-> > These solutions are powerful, but may often be too coarse in balancing
-> > the performance vs. safety that a user may want, particularly in
-> > latency-sensitive production environments.
-> > 
-> > Introduce a new boot parameter "check_pages", which enables page checking
-> > with no other side effects. It takes kstrbool-able inputs as an argument
-> > (i.e. 0/1, true/false, on/off, ...). This patch is backwards-compatible;
-> > setting CONFIG_DEBUG_VM still enables page checking.
-> > 
-> > Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
 
-...
-
-Hello Mike, thank you for your review!
-
-> > +static bool _check_pages_enabled_early __initdata;
+On 25/11/2025 13:50, Mike Rapoport wrote:
+> Hi,
 > 
-> No need in the leading underscore.
-
-Gotcha, no preference here on my end at all, so I'm happy to drop the leading
-underscore. I was just modeling the variable after _init_on_alloc_enabled_early
-and _init_on_free_enabled_early, but it seems like those are the only ones
-that do have this leading underscore anyways.
-
-> > +
-> > +static int __init early_check_pages(char *buf)
-> > +{
-> > +	return kstrtobool(buf, &_check_pages_enabled_early);
-> > +}
-> > +early_param("check_pages", early_check_pages);
-> > +
-> >  /*
-> >   * Enable static keys related to various memory debugging and hardening options.
-> >   * Some override others, and depend on early params that are evaluated in the
-> > @@ -2591,7 +2599,8 @@ static void __init mem_debugging_and_hardening_init(void)
-> >  	 * of struct pages being allocated or freed. With CONFIG_DEBUG_VM it's
-> >  	 * enabled already.
-> >  	 */
-> > -	if (!IS_ENABLED(CONFIG_DEBUG_VM) && want_check_pages)
-> > +	if (!IS_ENABLED(CONFIG_DEBUG_VM) && (_check_pages_enabled_early ||
-> > +					     want_check_pages))
+> On Tue, Nov 25, 2025 at 02:15:34PM +0100, Pratyush Yadav wrote:
+>> On Mon, Nov 24 2025, Usama Arif wrote:
 > 
-> You can initialize want_check_pages to check_pages_enabled_early, would be
-> clearer IMO.
+>>>> --- a/arch/x86/realmode/init.c
+>>>> +++ b/arch/x86/realmode/init.c
+>>>> @@ -65,6 +65,8 @@ void __init reserve_real_mode(void)
+>>>>  	 * setup_arch().
+>>>>  	 */
+>>>>  	memblock_reserve(0, SZ_1M);
+>>>> +
+>>>> +	memblock_clear_kho_scratch(0, SZ_1M);
+>>>>  }
+>>>>  
+>>>>  static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
+>>>
+>>> Hello!
+>>>
+>>> I am working with Breno who reported that we are seeing the below warning at boot
+>>> when rolling out 6.16 in Meta fleet. It is difficult to reproduce on a single host
+>>> manually but we are seeing this several times a day inside the fleet.
+>>>
+>>>  20:16:33  ------------[ cut here ]------------
+>>>  20:16:33  WARNING: CPU: 0 PID: 0 at mm/memblock.c:668 memblock_add_range+0x316/0x330
+>>>  20:16:33  Modules linked in:
+>>>  20:16:33  CPU: 0 UID: 0 PID: 0 Comm: swapper Tainted: G S                  6.16.1-0_fbk0_0_gc0739ee5037a #1 NONE 
+>>>  20:16:33  Tainted: [S]=CPU_OUT_OF_SPEC
+>>>  20:16:33  RIP: 0010:memblock_add_range+0x316/0x330
+>>>  20:16:33  Code: ff ff ff 89 5c 24 08 41 ff c5 44 89 6c 24 10 48 63 74 24 08 48 63 54 24 10 e8 26 0c 00 00 e9 41 ff ff ff 0f 0b e9 af fd ff ff <0f> 0b e9 b7 fd ff ff 0f 0b 0f 0b cc cc cc cc cc cc cc cc cc cc cc
+>>>  20:16:33  RSP: 0000:ffffffff83403dd8 EFLAGS: 00010083 ORIG_RAX: 0000000000000000
+>>>  20:16:33  RAX: ffffffff8476ff90 RBX: 0000000000001c00 RCX: 0000000000000002
+>>>  20:16:33  RDX: 00000000ffffffff RSI: 0000000000000000 RDI: ffffffff83bad4d8
+>>>  20:16:33  RBP: 000000000009f000 R08: 0000000000000020 R09: 8000000000097101
+>>>  20:16:33  R10: ffffffffff2004b0 R11: 203a6d6f646e6172 R12: 000000000009ec00
+>>>  20:16:33  R13: 0000000000000002 R14: 0000000000100000 R15: 000000000009d000
+>>>  20:16:33  FS:  0000000000000000(0000) GS:0000000000000000(0000) knlGS:0000000000000000
+>>>  20:16:33  CR2: ffff888065413ff8 CR3: 00000000663b7000 CR4: 00000000000000b0
+>>>  20:16:33  Call Trace:
+>>>  20:16:33   <TASK>
+>>>  20:16:33   ? __memblock_reserve+0x75/0x80
+> 
+> Do you have faddr2line for this?
+> >>>  20:16:33   ? setup_arch+0x30f/0xb10
+> 
+> And this?
+> 
 
-Yup, totally makes sense as well. I'll include this change in v3.
-Thank you for all your feedback, I hope you have a great day!
 
-Joshua
+Thanks for this! I think it helped narrow down the problem.
+
+The stack is:
+
+20:16:33 ? __memblock_reserve (mm/memblock.c:936) 
+20:16:33 ? setup_arch (arch/x86/kernel/setup.c:413 arch/x86/kernel/setup.c:499 arch/x86/kernel/setup.c:956) 
+20:16:33 ? start_kernel (init/main.c:922) 
+20:16:33 ? x86_64_start_reservations (arch/x86/kernel/ebda.c:57) 
+20:16:33 ? x86_64_start_kernel (arch/x86/kernel/head64.c:231) 
+20:16:33 ? common_startup_64 (arch/x86/kernel/head_64.S:419) 
+
+This is 6.16 kernel.
+
+20:16:33 ? __memblock_reserve (mm/memblock.c:936) 
+Thats memblock_add_range call in memblock_reserve
+
+20:16:33 ? setup_arch (arch/x86/kernel/setup.c:413 arch/x86/kernel/setup.c:499 arch/x86/kernel/setup.c:956) 
+That is parse_setup_data -> add_early_ima_buffer -> add_early_ima_buffer -> memblock_reserve_kern
+
+
+I put a simple print like below:
+
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index 680d1b6dfea41..cc97ffc0083c7 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -409,6 +409,7 @@ static void __init add_early_ima_buffer(u64 phys_addr)
+        }
+ 
+        if (data->size) {
++               pr_err("PPP %s %s %d data->addr %llx, data->size %llx \n", __FILE__, __func__, __LINE__, data->addr, data->size);
+                memblock_reserve_kern(data->addr, data->size);
+                ima_kexec_buffer_phys = data->addr;
+                ima_kexec_buffer_size = data->size;
+
+
+and I see (without replicating the warning):
+
+[    0.000000] PPP arch/x86/kernel/setup.c add_early_ima_buffer 412 data->addr 9e000, data->size 1000                                                                                          
+....
+
+[    0.000348] MEMBLOCK configuration:
+[    0.000348]  memory size = 0x0000003fea329ff0 reserved size = 0x00000000050c969b
+[    0.000350]  memory.cnt  = 0x5
+[    0.000351]  memory[0x0]     [0x0000000000001000-0x000000000009ffff], 0x000000000009f000 bytes flags: 0x40
+[    0.000353]  memory[0x1]     [0x0000000000100000-0x0000000067c65fff], 0x0000000067b66000 bytes flags: 0x0
+[    0.000355]  memory[0x2]     [0x000000006d8db000-0x000000006fffffff], 0x0000000002725000 bytes flags: 0x0
+[    0.000356]  memory[0x3]     [0x0000000100000000-0x000000407fff8fff], 0x0000003f7fff9000 bytes flags: 0x0
+[    0.000358]  memory[0x4]     [0x000000407fffa000-0x000000407fffffff], 0x0000000000006000 bytes flags: 0x0
+[    0.000359]  reserved.cnt  = 0x7
+
+
+So MEMBLOCK_RSRV_KERN and MEMBLOCK_KHO_SCRATCH seem to overlap..
+
+>>>  20:16:33   ? start_kernel+0x58/0x960
+>>>  20:16:33   ? x86_64_start_reservations+0x20/0x20
+>>>  20:16:33   ? x86_64_start_kernel+0x13d/0x140
+>>>  20:16:33   ? common_startup_64+0x13e/0x140
+>>>  20:16:33   </TASK>
+>>>  20:16:33  ---[ end trace 0000000000000000 ]--- 
+>>>
+>>>
+>>> Rolling out with memblock=debug is not really an option in a large scale fleet due to the
+>>> time added to boot. But I did try on one of the hosts (without reproducing the issue) and I see:
+> 
+> Is it a problem to roll out a kernel that has additional debug printouts as
+> Breno suggested earlier? I.e.
+> 
+> 	if (flags != MEMBLOCK_NONE && flags != rgn->flags) {
+> 		pr_warn("memblock: Flag mismatch at region [%pa-%pa]\n",
+> 			&rgn->base, &rend);
+> 		pr_warn("  Existing region flags: %#x\n", rgn->flags);
+> 		pr_warn("  New range flags: %#x\n", flags);
+> 		pr_warn("  New range: [%pa-%pa]\n", &base, &end);
+> 		WARN_ON_ONCE(1);
+> 	}
+> 
+
+I can add this, but the only thing is that it might be several weeks between me putting this in the
+kernel and that kernel being deployed to enough machines that it starts to show up. I think the IMA coinciding
+with memblock_mark_kho_scratch in e820__memblock_setup could be the reason for the warning. It might be better to
+fix that case and deploy it to see if the warnings still show up?
+I can add these prints as well incase it doesnt fix the problem.
+
+
+>>> [    0.000616]  memory.cnt  = 0x6
+>>> [    0.000617]  memory[0x0]	[0x0000000000001000-0x000000000009bfff], 0x000000000009b000 bytes flags: 0x40
+>>> [    0.000620]  memory[0x1]	[0x000000000009f000-0x000000000009ffff], 0x0000000000001000 bytes flags: 0x40
+>>> [    0.000621]  memory[0x2]	[0x0000000000100000-0x000000005ed09fff], 0x000000005ec0a000 bytes flags: 0x0
+>>> ...
+>>>
+>>> The 0x40 (MEMBLOCK_KHO_SCRATCH) is coming from memblock_mark_kho_scratch in e820__memblock_setup. I believe this
+>>> should be under ifdef like the diff at the end? (Happy to send this as a patch for review if it makes sense).
+>>> We have KEXEC_HANDOVER disabled in our defconfig, therefore MEMBLOCK_KHO_SCRATCH shouldnt be selected and
+>>> we shouldnt have any MEMBLOCK_KHO_SCRATCH type regions in our memblock reservations.
+>>>
+>>> The other thing I did was insert a while(1) just before the warning and inspected the registers in qemu.
+>>> R14 held the base register, and R15 held the size at that point.
+>>> In the warning R14 is 0x100000 meaning that someone is reserving a region with a different flag to MEMBLOCK_NONE
+>>> at the boundary of MEMBLOCK_KHO_SCRATCH.
+> 
+> Judging by the register values, flags could be in %rcx or %r13 (0x2 - MEMBLOCK_MIRROR) or in
+> %r8 (0x20 - MEMBLOCK_RSRV_KERN)
+
+
+I feel like it might be r8 (MEMBLOCK_RSRV_KERN) from IMA.
+
+> 
+> Since WARN_ON() is triggered in __memblock_reserve() I'd bet on
+> MEMBLOCK_RSRV_KERN.
+> 
+> And apparently the warning triggers for some memory that was initially
+> reserved with memblock_reserve() and than some of it was reserved with
+> memblock_reserve_kern().
+> 
+> If you have the logs from failing boots up to the point where SLUB reports
+> about it's initialization, e.g. 
+> 
+> [    0.134377] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=8, Nodes=1
+> 
+> something there may hint about what's the issue. 
+
+
+So the boot doesnt fail, its just giving warnings in the fleet.
+I have added the dmesg to the end of the mail.
+
+>  
+>> I don't get this... The WARN_ON() is only triggered when the regions
+>> overlap. Here, there should be no overlap, since the scratch region
+>> should end at 0x100000 (SZ_1M) and the new region starts at 0x100000
+>> (SZ_1M).
+> 
+> Not only that, the warning is from __memblock_reserve() that works with
+> memblock.reserved and the dump is for memblock.memory.
+> 
+>> Anyway, you do indeed point at a bug. memblock_mark_kho_scratch() should
+>> only be called on a KHO boot, not unconditionally. So even with
+>> CONFIG_MEMBLOCK_KHO_SCRATCH enabled, this should only be called on a KHO
+>> boot, not every time.
+>>
+>> I think the below diff should fix the warning for you by making sure the
+>> scratch areas are not present on non-KHO boot. I still don't know why
+>> you hit the warning in the first place though. If you'd be willing to
+>> dig deeper into that, it would be great.
+>>
+>> Can you give the below a try and if it fixes the problem for you I can
+>> send it on the list.
+>>
+>> diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
+>> index c3acbd26408ba..0a34dc011bf91 100644
+>> --- a/arch/x86/kernel/e820.c
+>> +++ b/arch/x86/kernel/e820.c
+>> @@ -16,6 +16,7 @@
+>>  #include <linux/firmware-map.h>
+>>  #include <linux/sort.h>
+>>  #include <linux/memory_hotplug.h>
+>> +#include <linux/kexec_handover.h>
+>>  
+>>  #include <asm/e820/api.h>
+>>  #include <asm/setup.h>
+>> @@ -1315,7 +1316,8 @@ void __init e820__memblock_setup(void)
+>>  	 * After real mode trampoline is allocated, we clear that scratch
+>>  	 * marking.
+>>  	 */
+>> -	memblock_mark_kho_scratch(0, SZ_1M);
+>> +	if (is_kho_boot())
+>> +		memblock_mark_kho_scratch(0, SZ_1M);
+> 
+> We'd better add an inline stub to memblock.h for
+> !CONFIG_MEMBLOCK_KHO_SCRATCH
+> 
+> and move is_kho_boot() inside memblock_{mark,clear}_kho_scratch. This might
+> require moving them out of line, but it's not that they are on the hot
+> paths.
+> 
+> BTW, this makes sense even if it does not help with the issue Breno and
+> Usama are working on.
+> 
+
+
+Does something like this look good? I can try deploying this (although it will take sometime to find out).
+We can get it upstream as well as that makes backports easier.
+
+diff --git a/mm/memblock.c b/mm/memblock.c
+index 154f1d73b61f2..257c6f0eee03d 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -1119,8 +1119,13 @@ int __init_memblock memblock_reserved_mark_noinit(phys_addr_t base, phys_addr_t
+  */
+ __init int memblock_mark_kho_scratch(phys_addr_t base, phys_addr_t size)
+ {
+-       return memblock_setclr_flag(&memblock.memory, base, size, 1,
+-                                   MEMBLOCK_KHO_SCRATCH);
++#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
++       if (is_kho_boot())
++               return memblock_setclr_flag(&memblock.memory, base, size, 1,
++                                           MEMBLOCK_KHO_SCRATCH);
++#else
++       return 0;
++#endif
+ }
+ 
+ /**
+@@ -1133,8 +1138,13 @@ __init int memblock_mark_kho_scratch(phys_addr_t base, phys_addr_t size)
+  */
+ __init int memblock_clear_kho_scratch(phys_addr_t base, phys_addr_t size)
+ {
+-       return memblock_setclr_flag(&memblock.memory, base, size, 0,
+-                                   MEMBLOCK_KHO_SCRATCH);
++#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
++       if (is_kho_boot())
++               return memblock_setclr_flag(&memblock.memory, base, size, 0,
++                                           MEMBLOCK_KHO_SCRATCH);
++#else
++       return 0;
++#endif
+ }
+ 
+ static bool should_skip_region(struct memblock_type *type,
+
+>>  
+>>  	/*
+>>  	 * 32-bit systems are limited to 4BG of memory even with HIGHMEM and
+>> diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
+>> index 88be32026768c..4e9b4dff17216 100644
+>> --- a/arch/x86/realmode/init.c
+>> +++ b/arch/x86/realmode/init.c
+>> @@ -4,6 +4,7 @@
+>>  #include <linux/memblock.h>
+>>  #include <linux/cc_platform.h>
+>>  #include <linux/pgtable.h>
+>> +#include <linux/kexec_handover.h>
+>>  
+>>  #include <asm/set_memory.h>
+>>  #include <asm/realmode.h>
+>> @@ -67,7 +68,8 @@ void __init reserve_real_mode(void)
+>>  	 */
+>>  	memblock_reserve(0, SZ_1M);
+>>  
+>> -	memblock_clear_kho_scratch(0, SZ_1M);
+>> +	if (is_kho_boot())
+>> +		memblock_clear_kho_scratch(0, SZ_1M);
+>>  }
+>>  
+>>  static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
+
+
+
+
+The dmesg from one of the hosts with the warning is:
+
+ 20:16:33  BIOS-provided physical RAM map:
+ 20:16:33  BIOS-e820: [mem 0x0000000000000000-0x000000000009ffff] usable
+ 20:16:33  BIOS-e820: [mem 0x00000000000a0000-0x00000000000fffff] reserved
+ 20:16:33  BIOS-e820: [mem 0x0000000000100000-0x0000000069ca3fff] usable
+ 20:16:33  BIOS-e820: [mem 0x0000000069ca4000-0x000000006bda3fff] reserved
+ 20:16:33  BIOS-e820: [mem 0x000000006bda4000-0x000000006be5efff] ACPI data
+ 20:16:33  BIOS-e820: [mem 0x000000006be5f000-0x000000006c9b8fff] ACPI NVS
+ 20:16:33  BIOS-e820: [mem 0x000000006c9b9000-0x000000006ebedfff] reserved
+ 20:16:33  BIOS-e820: [mem 0x000000006ebee000-0x000000006fffffff] usable
+ 20:16:33  BIOS-e820: [mem 0x0000000070000000-0x000000008fffffff] reserved
+ 20:16:33  BIOS-e820: [mem 0x00000000fd000000-0x00000000fe7fffff] reserved
+ 20:16:33  BIOS-e820: [mem 0x00000000fed20000-0x00000000fed44fff] reserved
+ 20:16:33  BIOS-e820: [mem 0x00000000ff000000-0x00000000ffffffff] reserved
+ 20:16:33  BIOS-e820: [mem 0x0000000100000000-0x000000107fff847f] usable
+ 20:16:33  BIOS-e820: [mem 0x000000107fff8480-0x000000107fff848f] type 128
+ 20:16:33  BIOS-e820: [mem 0x000000107fff8490-0x000000107fffffff] usable
+ 20:16:33  random: crng init done
+ 20:16:33  ------------[ cut here ]------------
+ 20:16:33  WARNING: CPU: 0 PID: 0 at mm/memblock.c:668 memblock_add_range+0x316/0x330
+ 20:16:33  Modules linked in:
+ 20:16:33  CPU: 0 UID: 0 PID: 0 Comm: swapper Tainted: G S                  6.16.1-0_fbk0_0_gc0739ee5037a #1 NONE 
+ 20:16:33  Tainted: [S]=CPU_OUT_OF_SPEC
+ 20:16:33  RIP: 0010:memblock_add_range+0x316/0x330
+ 20:16:33  Code: ff ff ff 89 5c 24 08 41 ff c5 44 89 6c 24 10 48 63 74 24 08 48 63 54 24 10 e8 26 0c 00 00 e9 41 ff ff ff 0f 0b e9 af fd ff ff <0f> 0b e9 b7 fd ff ff 0f 0b 0f 0b cc cc cc cc cc cc cc cc cc cc cc
+ 20:16:33  RSP: 0000:ffffffff83403dd8 EFLAGS: 00010083 ORIG_RAX: 0000000000000000
+ 20:16:33  RAX: ffffffff8476ff90 RBX: 0000000000001c00 RCX: 0000000000000002
+ 20:16:33  RDX: 00000000ffffffff RSI: 0000000000000000 RDI: ffffffff83bad4d8
+ 20:16:33  RBP: 000000000009f000 R08: 0000000000000020 R09: 8000000000097101
+ 20:16:33  R10: ffffffffff2004b0 R11: 203a6d6f646e6172 R12: 000000000009ec00
+ 20:16:33  R13: 0000000000000002 R14: 0000000000100000 R15: 000000000009d000
+ 20:16:33  FS:  0000000000000000(0000) GS:0000000000000000(0000) knlGS:0000000000000000
+ 20:16:33  CR2: ffff888065413ff8 CR3: 00000000663b7000 CR4: 00000000000000b0
+ 20:16:33  Call Trace:
+ 20:16:33   <TASK>
+ 20:16:33   ? __memblock_reserve+0x75/0x80
+ 20:16:33   ? setup_arch+0x30f/0xb10
+ 20:16:33   ? start_kernel+0x58/0x960
+ 20:16:33   ? x86_64_start_reservations+0x20/0x20
+ 20:16:33   ? x86_64_start_kernel+0x13d/0x140
+ 20:16:33   ? common_startup_64+0x13e/0x140
+ 20:16:33   </TASK>
+ 20:16:33  ---[ end trace 0000000000000000 ]---
+ 20:16:33  Memory allocation profiling is enabled with compression and is turned on!
+ 20:16:33  NX (Execute Disable) protection: active
+ 20:16:33  APIC: Static calls initialized
+ 20:16:33  efi: EFI v2.6 by American Megatrends
+ 20:16:33  efi: ACPI 2.0=0x6c5ec000 ACPI=0x6c5ec000 TPMFinalLog=0x6c987000 SMBIOS=0x6e69d000 SMBIOS 3.0=0x6e69c000 MEMATTR=0xffffffffffffffff ESRT=0x67d97918 INITRD=0x5f275d18 TPMEventLog=0x6be5d018 
+ 20:16:33  efi: Remove mem00: MMIO range=[0xff000000-0xffffffff] (16MB) from e820 map
+ 20:16:33  efi: Not removing mem01: MMIO range=[0xfed20000-0xfed44fff] (148KB) from e820 map
+ 20:16:33  efi: Remove mem02: MMIO range=[0xfd000000-0xfe7fffff] (24MB) from e820 map
+ 20:16:33  efi: Remove mem03: MMIO range=[0x80000000-0x8fffffff] (256MB) from e820 map
+ 20:16:33  SMBIOS 3.1.1 present.
+ 20:16:33  DMI: Quanta Twin Lakes MP/Twin Lakes Passive MP, BIOS F09_3A23 12/08/2020
+ 20:16:33  DMI: Memory slots populated: 4/8
+ 20:16:33  tsc: Detected 1600.000 MHz processor
+ 20:16:33  last_pfn = 0x1080000 max_arch_pfn = 0x400000000
+ 20:16:33  MTRR map: 8 entries (3 fixed + 5 variable; max 23), built from 10 variable MTRRs
+ 20:16:33  x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT  
+ 20:16:33  last_pfn = 0x70000 max_arch_pfn = 0x400000000
+ 20:16:33  esrt: Reserving ESRT space from 0x0000000067d97918 to 0x0000000067d97978.
+ 20:16:33  Using GB pages for direct mapping
+ 20:16:33  RAMDISK: [mem 0x5ed81000-0x62ffffff]
+ 20:16:33  ACPI: Early table checksum verification disabled
+ 20:16:33  ACPI: RSDP 0x000000006C5EC000 000024 (v02 ALASKA)
+ 20:16:33  ACPI: XSDT 0x000000006C5EC0C0 000104 (v01 ALASKA A M I    01072009 AMI  00010013)
+ 20:16:33  ACPI: FACP 0x000000006C62E590 000114 (v06 ALASKA A M I    01072009 INTL 20091013)
+ 20:16:33  ACPI: DSDT 0x000000006C5EC260 04232D (v02 ALASKA A M I    01072009 INTL 20091013)
+ 20:16:33  ACPI: FACS 0x000000006C9B7080 000040
+ 20:16:33  ACPI: FPDT 0x000000006C62E6A8 000044 (v01 ALASKA A M I    01072009 AMI  00010013)
+ 20:16:33  ACPI: FIDT 0x000000006C62E6F0 00009C (v01 ALASKA A M I    01072009 AMI  00010013)
+ 20:16:33  ACPI: SPMI 0x000000006C62E790 000041 (v05 ALASKA A M I    00000000 AMI. 00000000)
+ 20:16:33  ACPI: UEFI 0x000000006C62E7D8 000048 (v01 ALASKA A M I    01072009      01000013)
+ 20:16:33  ACPI: MCFG 0x000000006C62E820 00003C (v01 ALASKA A M I    01072009 MSFT 00000097)
+ 20:16:33  ACPI: HPET 0x000000006C62E860 000038 (v01 ALASKA A M I    00000001 INTL 20091013)
+ 20:16:33  ACPI: APIC 0x000000006C62E898 00071E (v03 ALASKA A M I    00000000 INTL 20091013)
+ 20:16:33  ACPI: MIGT 0x000000006C62EFB8 000040 (v01 ALASKA A M I    00000000 INTL 20091013)
+ 20:16:33  ACPI: PCAT 0x000000006C62EFF8 000068 (v02 ALASKA A M I    00000002 INTL 20091013)
+ 20:16:33  ACPI: PCCT 0x000000006C62F060 00006E (v01 ALASKA A M I    00000002 INTL 20091013)
+ 20:16:33  ACPI: RASF 0x000000006C62F0D0 000030 (v01 ALASKA A M I    00000001 INTL 20091013)
+ 20:16:33  ACPI: SVOS 0x000000006C62F100 000032 (v01 ALASKA A M I    00000000 INTL 20091013)
+ 20:16:33  ACPI: WDDT 0x000000006C62F138 000040 (v01 ALASKA A M I    00000000 INTL 20091013)
+ 20:16:33  ACPI: OEM4 0x000000006C62F178 028A0C (v02 INTEL  CPU  CST 00003000 INTL 20140828)
+ 20:16:33  ACPI: OEM1 0x000000006C657B88 00A8CC (v02 INTEL  CPU EIST 00003000 INTL 20140828)
+ 20:16:33  ACPI: OEM2 0x000000006C662458 006534 (v02 INTEL  CPU  HWP 00003000 INTL 20140828)
+ 20:16:33  ACPI: SSDT 0x000000006C668990 00CEB8 (v02 INTEL  SSDT  PM 00004000 INTL 20140828)
+ 20:16:33  ACPI: SSDT 0x000000006C675848 00065B (v02 ALASKA A M I    00000000 INTL 20091013)
+ 20:16:33  ACPI: SPCR 0x000000006C675EA8 000050 (v02 A M I  APTIO V  01072009 AMI. 0005000E)
+ 20:16:33  ACPI: TPM2 0x000000006C675EF8 000034 (v04 ALASKA A M I    00000001 AMI  00000000)
+ 20:16:33  ACPI: SSDT 0x000000006C675F30 001368 (v02 INTEL  SpsNm    00000002 INTL 20140828)
+ 20:16:33  ACPI: DMAR 0x000000006C677298 0000E8 (v01 ALASKA A M I    00000001 INTL 20091013)
+ 20:16:33  ACPI: HEST 0x000000006C677380 0000A8 (v01 ALASKA A M I    00000001 INTL 00000001)
+ 20:16:33  ACPI: BERT 0x000000006C677428 000030 (v01 ALASKA A M I    00000001 INTL 00000001)
+ 20:16:33  ACPI: ERST 0x000000006C677458 000230 (v01 ALASKA A M I    00000001 INTL 00000001)
+ 20:16:33  ACPI: EINJ 0x000000006C677688 000150 (v01 ALASKA A M I    00000001 INTL 00000001)
+ 20:16:33  ACPI: WSMT 0x000000006C6777D8 000028 (v01 ALASKA A M I    01072009 AMI  00010013)
+ 20:16:33  ACPI: Reserving FACP table memory at [mem 0x6c62e590-0x6c62e6a3]
+ 20:16:33  ACPI: Reserving DSDT table memory at [mem 0x6c5ec260-0x6c62e58c]
+ 20:16:33  ACPI: Reserving FACS table memory at [mem 0x6c9b7080-0x6c9b70bf]
+ 20:16:33  ACPI: Reserving FPDT table memory at [mem 0x6c62e6a8-0x6c62e6eb]
+ 20:16:33  ACPI: Reserving FIDT table memory at [mem 0x6c62e6f0-0x6c62e78b]
+ 20:16:33  ACPI: Reserving SPMI table memory at [mem 0x6c62e790-0x6c62e7d0]
+ 20:16:33  ACPI: Reserving UEFI table memory at [mem 0x6c62e7d8-0x6c62e81f]
+ 20:16:33  ACPI: Reserving MCFG table memory at [mem 0x6c62e820-0x6c62e85b]
+ 20:16:33  ACPI: Reserving HPET table memory at [mem 0x6c62e860-0x6c62e897]
+ 20:16:33  ACPI: Reserving APIC table memory at [mem 0x6c62e898-0x6c62efb5]
+ 20:16:33  ACPI: Reserving MIGT table memory at [mem 0x6c62efb8-0x6c62eff7]
+ 20:16:33  ACPI: Reserving PCAT table memory at [mem 0x6c62eff8-0x6c62f05f]
+ 20:16:33  ACPI: Reserving PCCT table memory at [mem 0x6c62f060-0x6c62f0cd]
+ 20:16:33  ACPI: Reserving RASF table memory at [mem 0x6c62f0d0-0x6c62f0ff]
+ 20:16:33  ACPI: Reserving SVOS table memory at [mem 0x6c62f100-0x6c62f131]
+ 20:16:33  ACPI: Reserving WDDT table memory at [mem 0x6c62f138-0x6c62f177]
+ 20:16:33  ACPI: Reserving OEM4 table memory at [mem 0x6c62f178-0x6c657b83]
+ 20:16:33  ACPI: Reserving OEM1 table memory at [mem 0x6c657b88-0x6c662453]
+ 20:16:33  ACPI: Reserving OEM2 table memory at [mem 0x6c662458-0x6c66898b]
+ 20:16:33  ACPI: Reserving SSDT table memory at [mem 0x6c668990-0x6c675847]
+ 20:16:33  ACPI: Reserving SSDT table memory at [mem 0x6c675848-0x6c675ea2]
+ 20:16:33  ACPI: Reserving SPCR table memory at [mem 0x6c675ea8-0x6c675ef7]
+ 20:16:33  ACPI: Reserving TPM2 table memory at [mem 0x6c675ef8-0x6c675f2b]
+ 20:16:33  ACPI: Reserving SSDT table memory at [mem 0x6c675f30-0x6c677297]
+ 20:16:33  ACPI: Reserving DMAR table memory at [mem 0x6c677298-0x6c67737f]
+ 20:16:33  ACPI: Reserving HEST table memory at [mem 0x6c677380-0x6c677427]
+ 20:16:33  ACPI: Reserving BERT table memory at [mem 0x6c677428-0x6c677457]
+ 20:16:33  ACPI: Reserving ERST table memory at [mem 0x6c677458-0x6c677687]
+ 20:16:33  ACPI: Reserving EINJ table memory at [mem 0x6c677688-0x6c6777d7]
+ 20:16:33  ACPI: Reserving WSMT table memory at [mem 0x6c6777d8-0x6c6777ff]
+ 20:16:33  No NUMA configuration found
+ 20:16:33  Faking a node at [mem 0x0000000000000000-0x000000107fffffff]
+ 20:16:33  NODE_DATA(0) allocated [mem 0x107fffcfc0-0x107fffffff]
+ 20:16:33  hugetlb_cma: reserve 6144 MiB, up to 6144 MiB per node
+ 20:16:33  cma: Reserved 6144 MiB in 1 range
+ 20:16:33  hugetlb_cma: reserved 6144 MiB on node 0
+ 20:16:33  crashkernel reserved: 0x0000000052000000 - 0x000000005e000000 (192 MB)
+ 20:16:33  Zone ranges:
+ 20:16:33    DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+ 20:16:33    DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+ 20:16:33    Normal   [mem 0x0000000100000000-0x000000107fffffff]
+ 20:16:33    Device   empty
+ 20:16:33  Movable zone start for each node
+ 20:16:33  Early memory node ranges
+ 20:16:33    node   0: [mem 0x0000000000001000-0x000000000009ffff]
+ 20:16:33    node   0: [mem 0x0000000000100000-0x0000000069ca3fff]
+ 20:16:33    node   0: [mem 0x000000006ebee000-0x000000006fffffff]
+ 20:16:33    node   0: [mem 0x0000000100000000-0x000000107fff7fff]
+ 20:16:33    node   0: [mem 0x000000107fff9000-0x000000107fffffff]
+ 20:16:33  Initmem setup node 0 [mem 0x0000000000001000-0x000000107fffffff]
+ 20:16:33  On node 0, zone DMA: 1 pages in unavailable ranges
+ 20:16:33  On node 0, zone DMA: 96 pages in unavailable ranges
+ 20:16:33  On node 0, zone DMA32: 20298 pages in unavailable ranges
+ 20:16:33  On node 0, zone Normal: 1 pages in unavailable ranges
+ 20:16:33  ACPI: PM-Timer IO Port: 0x508
+ 20:16:33  ACPI: X2APIC_NMI (uid[0xffffffff] high level lint[0x1])
+ 20:16:33  ACPI: LAPIC_NMI (acpi_id[0xff] high level lint[0x1])
+ 20:16:33  IOAPIC[0]: apic_id 8, version 32, address 0xfec00000, GSI 0-23
+ 20:16:33  IOAPIC[1]: apic_id 9, version 32, address 0xfec01000, GSI 24-31
+ 20:16:33  IOAPIC[2]: apic_id 10, version 32, address 0xfec08000, GSI 32-39
+ 20:16:33  IOAPIC[3]: apic_id 11, version 32, address 0xfec10000, GSI 40-47
+ 20:16:33  IOAPIC[4]: apic_id 12, version 32, address 0xfec18000, GSI 48-55
+ 20:16:33  ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+ 20:16:33  ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+ 20:16:33  ACPI: Using ACPI (MADT) for SMP configuration information
+ 20:16:33  ACPI: HPET id: 0x8086a701 base: 0xfed00000
+ 20:16:33  TSC deadline timer available
+ 20:16:33  CPU topo: Max. logical packages:   1
+ 20:16:33  CPU topo: Max. logical dies:       1
+ 20:16:33  CPU topo: Max. dies per package:   1
+ 20:16:33  CPU topo: Max. threads per core:   2
+ 20:16:33  CPU topo: Num. cores per package:    18
+ 20:16:33  CPU topo: Num. threads per package:  36
+ 20:16:33  CPU topo: Allowing 36 present CPUs plus 0 hotplug CPUs
+ 20:16:33  [mem 0x80000000-0xfed1ffff] available for PCI devices
+ 20:16:33  Booting paravirtualized kernel on bare hardware
+ 20:16:33  clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1910969940391419 ns
+ 20:16:33  Load bootconfig: 46 bytes 5 nodes
+ 20:16:33  setup_percpu: NR_CPUS:512 nr_cpumask_bits:36 nr_cpu_ids:36 nr_node_ids:1
+ 20:16:33  percpu: Embedded 78 pages/cpu s282624 r8192 d28672 u524288
+ 20:16:33  Unknown kernel command line parameters "biosdevname=0", will be passed to user space.
+ 20:16:33  printk: log buffer data + meta data: 2097152 + 7340032 = 9437184 bytes
+ 20:16:33  Dentry cache hash table entries: 8388608 (order: 14, 67108864 bytes, linear)
+ 20:16:33  Inode-cache hash table entries: 4194304 (order: 13, 33554432 bytes, linear)
+ 20:16:33  software IO TLB: area num 64.
+ 20:16:33  software IO TLB: SWIOTLB bounce buffer size roundup to 16MB
+ 20:16:33  Fallback order for Node 0: 0 
+ 20:16:33  Built 1 zonelists, mobility grouping on.  Total pages: 16691284
+ 20:16:33  Policy zone: Normal
+ 20:16:33  mem auto-init: stack:off, heap alloc:off, heap free:off
+ 20:16:33  SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=36, Nodes=1
+
+
+
