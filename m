@@ -1,181 +1,233 @@
-Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB412E645;
-	Tue, 25 Nov 2025 11:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A330C1A9B58;
+	Tue, 25 Nov 2025 12:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764071699; cv=none; b=mLIJggQM0cGL131ZPgapYsub7ljz5/lgrkyX9eFsSm+UDH4a0Kz/Wo9eqheelva0cZ46Xc3e+9IWU3n5AkkAKSrLLhL5t2vrVrB9Pq9j+zafPZtgYVUXmkjxZO2JwZgvswtO2YX35BNArtlSNY5hqklm2X38oz5j9sUqZIvLdRA=
+	t=1764073392; cv=none; b=PxaX5v669m0WCLEWllkGrMqtlCHkfgP/5TL7D1p2bxgcXSp0dHTe15ehHzlbBVCwafeMGLeoKVqp6TXX8A363luVaa3WZz8cH7V2U8NhW95n5tfk8QClogE+xawgQBjZxXlcwLjWDG6oD/wgXVrP9ueZoj62OafIjb5YHTipKDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764071699; c=relaxed/simple;
-	bh=BPWfFIUTpCxOb1fWxTd/JDnjJ3ZqgKBG+StcP6J882c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WXHcDjQSg9NH5fkKbbMbF9RS93iXfcbUwMuQ1a8lFD8iL2Gkjn9cfGzojK8AwwbIxsgt5rrN+wQMSbWc2WzIug3CmpU+g4lfVnsg7jsySY3xizY147mlpAe0ZeolBtdTf4+w2pnwbHH44c30Hpy6oJdyJUXpQgt9xUPzAkHkzis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=runbox.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=EsKve/ru; arc=none smtp.client-ip=185.226.149.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=runbox.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
+	s=arc-20240116; t=1764073392; c=relaxed/simple;
+	bh=dgBsZgJWsujT1G5ZZyKp5poEm84jGPGY7WbAbiL0MR0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Bj9A2MgfI2oCN076YQrq7D38d/QPXu/elLrC1gDvg59bDygFnscvoSWavxbwO8PvZgeJ1h0S7UcHHeLDc+f/cvPdwnDWQxc9rMDpejCY3UbJ75n1c3nFh1K+O6wxQ8Ewg+KlrC/JzCsjBP6bknj6lbZWvBVM7etU6lw5+ve8kUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PrkIGiiH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="EsKve/ru"
-Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <david.laight@runbox.com>)
-	id 1vNrd0-006AiM-St; Tue, 25 Nov 2025 12:54:38 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-	 s=selector1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date;
-	bh=nh1yNsaA292fV48gsHMIHyahU+adY0Wr/dx1SDRWz+0=; b=EsKve/ruDXUky0Bwr9Xi1Sg5vp
-	7NtQbfQbv8jtsD9obrDBg+F/qyUUADAC+gcoummm2LjVYk07NWvAosJ0qNxceq/6T+r9w7/IwbD1R
-	0ntJ/uvks7vKhNaWoxjV/HGAiC3R+uQFHH0Uhd+KSlgYGy33sleRXhSgpUMuP4ZeWI44IA/0s0QKk
-	/NuPzCOz9OoQ8/RWcaZSdoJKqlqO+bP10xlt0FX9+WTE4OwahixrhZyy7XIamoaaAbLiyklRLZBo6
-	3FpwZghadJ9jkY1cdf8PTNqTLV0flKUCWz6KsHaMucyoIhuJ1A/h4Y1F4toewDR0c+nmvu+UbUBtQ
-	e3mKoqAg==;
-Received: from [10.9.9.73] (helo=submission02.runbox)
-	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <david.laight@runbox.com>)
-	id 1vNrcy-0006lj-Dg; Tue, 25 Nov 2025 12:54:36 +0100
-Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_SHA256__AES_256_GCM:256)
-	(Exim 4.93)
-	id 1vNrcl-00C0XM-Jr; Tue, 25 Nov 2025 12:54:23 +0100
-Date: Tue, 25 Nov 2025 11:54:19 +0000
-From: david laight <david.laight@runbox.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Kees Cook
- <kees@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, Christoph Lameter
- <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, David Rientjes
- <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, Andrew Morton
- <akpm@linux-foundation.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, "Gustavo A . R . Silva"
- <gustavoars@kernel.org>, Bill Wendling <morbo@google.com>, Justin Stitt
- <justinstitt@google.com>, Jann Horn <jannh@google.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Marco Elver <elver@google.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Sasha Levin
- <sashal@kernel.org>, linux-mm@kvack.org, Randy Dunlap
- <rdunlap@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Vegard Nossum
- <vegard.nossum@oracle.com>, Harry Yoo <harry.yoo@oracle.com>, Nathan
- Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Nick
- Desaulniers <nick.desaulniers+lkml@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>, Yafang Shao
- <laoar.shao@gmail.com>, Tony Ambardar <tony.ambardar@gmail.com>, Alexander
- Lobakin <aleksander.lobakin@intel.com>, Jan Hendrik Farr <kernel@jfarr.cc>,
- Alexander Potapenko <glider@google.com>, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
- llvm@lists.linux.dev
-Subject: Re: [PATCH v5 2/4] slab: Introduce kmalloc_obj() and family
-Message-ID: <20251125115419.304dd2a9@pumpkin>
-In-Reply-To: <aSUB1qrfhXp3suGn@casper.infradead.org>
-References: <20251122014258.do.018-kees@kernel.org>
-	<20251122014304.3417954-2-kees@kernel.org>
-	<CAHk-=wiNnECns4B3qxRsCykkHwzovT+3wG738fUhq5E+3Lxxbg@mail.gmail.com>
-	<202511241119.C547DEF80@keescook>
-	<aSTKLsRNiEKtDqPI@casper.infradead.org>
-	<202511241317.516BDE7B@keescook>
-	<aSTRsIUPeT5EC5An@casper.infradead.org>
-	<CAHk-=wgn-2ieKtaHAXLLge1UFckLKa88vo3XOdLz+fP+DLpHGA@mail.gmail.com>
-	<aSUB1qrfhXp3suGn@casper.infradead.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PrkIGiiH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA125C4CEF1;
+	Tue, 25 Nov 2025 12:23:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764073392;
+	bh=dgBsZgJWsujT1G5ZZyKp5poEm84jGPGY7WbAbiL0MR0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=PrkIGiiHSiipdIgzxPoyKCJ4Fy3jRwcIwcp5kblp2SuzY9IJRC9td8hSxj7WBX+OK
+	 tHsOa1jxjoE8ceReNCftcWRT98GvaRM0Ia8paupqWSuu06gNtntWVK2V4LQWr0WsV7
+	 VGIT5x3vE1vHyOipQTu/CVZ/WVCeMe+WT6R2hFP8Jj95v9ajS+QegQGNA9Diro6RHD
+	 FIV26stHU8SOFSWUTETfYamJZmJqnmIg2kx494WXDxRs+HUC0o5o9j6B2MVoEucVx2
+	 vyKGLTcBVIH5jsgc2lFyq6s8Xt3D454mrw3aOT/8J72JonvIU8bLUsk2B2hRd/b7TU
+	 THa3yTkV/FFbA==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Usama Arif <usamaarif642@gmail.com>,  Changyuan Lyu
+ <changyuanl@google.com>,  akpm@linux-foundation.org,
+  linux-kernel@vger.kernel.org,  Mike Rapoport <rppt@kernel.org>,
+  anthony.yznaga@oracle.com,  arnd@arndb.de,  ashish.kalra@amd.com,
+  benh@kernel.crashing.org,  bp@alien8.de,  catalin.marinas@arm.com,
+  corbet@lwn.net,  dave.hansen@linux.intel.com,
+  devicetree@vger.kernel.org,  dwmw2@infradead.org,  ebiederm@xmission.com,
+  graf@amazon.com,  jgowans@amazon.com,  kexec@lists.infradead.org,
+  krzk@kernel.org,  linux-arm-kernel@lists.infradead.org,
+  linux-doc@vger.kernel.org,  linux-mm@kvack.org,  luto@kernel.org,
+  mark.rutland@arm.com,  mingo@redhat.com,  pasha.tatashin@soleen.com,
+  pbonzini@redhat.com,  peterz@infradead.org,  robh@kernel.org,
+  rostedt@goodmis.org,  saravanak@google.com,
+  skinsburskii@linux.microsoft.com,  tglx@linutronix.de,
+  thomas.lendacky@amd.com,  will@kernel.org,  x86@kernel.org,  Breno Leitao
+ <leitao@debian.org>,  thevlad@meta.com
+Subject: Re: [PATCH v8 12/17] x86/e820: temporarily enable KHO scratch for
+ memory below 1M
+In-Reply-To: <22BDBF5C-C831-4BBC-A854-20CA77234084@zytor.com> (H. Peter
+	Anvin's message of "Mon, 24 Nov 2025 16:56:34 -0800")
+References: <20250509074635.3187114-1-changyuanl@google.com>
+	<20250509074635.3187114-13-changyuanl@google.com>
+	<a0f875f1-45ad-4dfc-b5c8-ecb51b242523@gmail.com>
+	<22BDBF5C-C831-4BBC-A854-20CA77234084@zytor.com>
+Date: Tue, 25 Nov 2025 13:23:05 +0100
+Message-ID: <mafs08qfuxpw6.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Tue, 25 Nov 2025 01:09:42 +0000
-Matthew Wilcox <willy@infradead.org> wrote:
+On Mon, Nov 24 2025, H. Peter Anvin wrote:
 
-> On Mon, Nov 24, 2025 at 03:30:19PM -0800, Linus Torvalds wrote:
-> > That all a very standard thing in assembly programming, which this is
-> > all about. 'entry' is a signed offset from its own address.  
-> 
-> I used to be an assembly programmer ... 28 years ago.  I've mostly put
-> that world out of my mind (and being able to write a 20,000 instruction
-> ARM32 program entirely in assembly is just not that useful an
-> accomplishment to put on my CV).  Anyway, this isn't the point ...
-> 
-> > > The warning is ... not the best phrased, but in terms of divining the
-> > > programmer's intent, I genuinely don't know if this code is supposed
-> > > to zero-extend or sign-extend the s32 to unsigned long.  
-> > 
-> > What?
-> > 
-> > A signed value gets sign-extended when cast to a larger type. That's
-> > how all of this always works. Casting a signed value to 'unsigned
-> > long' will set the high bits in the result.
-> > 
-> > That's pretty much the *definition* of a signed value. It gets
-> > sign-extended when used, and then obviously it becomes a large
-> > unsigned value, but this is how two's complement addition
-> > fundamentally works.  
-> 
-> Yes, agreed.
-> 
-> > So honestly, what's the problem with this code?
-> > 
-> > The warning makes no sense, and is garbage. Are we not allowed to add
-> > signed integers to unsigned 64-bit values now, because that addition
-> > involves that cast of a signed 32-bit entry to an unsigned 64-bit one?
-> > 
-> > There is NO WAY that warning is valid, it's; not *ever* something we
-> > should enable, and the fact that you people are discussing it as such
-> > is just crazy.
-> > 
-> > That code would not be improved at all by adding another cast (to
-> > first cast that s32 to 'long', in order to then add it to 'unsigned
-> > long').
-> > 
-> > Imagine how many other places you add integers to 'unsigned long'.
-> > EVERY SINGLE ONE of those places involves sign-extending the integer
-> > and then doing arithmetic in unsigned.  
-> 
-> I have bad news.  Rust requires it.
-> 
-> fn add(base: u64, off: i32) -> u64 {
->     base + off
-> }
-> 
-> error[E0308]: mismatched types
->  --> add.rs:2:12  
->   |
-> 2 |     base + off
->   |            ^^^ expected `u64`, found `i32`
-> 
-> error[E0277]: cannot add `i32` to `u64`
->  --> add.rs:2:10  
->   |
-> 2 |     base + off
->   |          ^ no implementation for `u64 + i32`
->   |
->   = help: the trait `Add<i32>` is not implemented for `u64`
->   = help: the following other types implement trait `Add<Rhs>`:
->             <u64 as Add>
->             <u64 as Add<&u64>>
->             <&'a u64 as Add<u64>>
->             <&u64 as Add<&u64>>
-> 
-> so the Rust language people have clearly decided that this is too
-> complicated for your average programmer to figure out, and you need
-> explicit casts to make it work.
-> 
+> On November 24, 2025 11:24:58 AM PST, Usama Arif <usamaarif642@gmail.com> wrote:
+>>
+>>
+>>On 09/05/2025 08:46, Changyuan Lyu wrote:
+>>> From: Alexander Graf <graf@amazon.com>
+>>> 
+>>> KHO kernels are special and use only scratch memory for memblock
+>>> allocations, but memory below 1M is ignored by kernel after early boot
+>>> and cannot be naturally marked as scratch.
+>>> 
+>>> To allow allocation of the real-mode trampoline and a few (if any) other
+>>> very early allocations from below 1M forcibly mark the memory below 1M
+>>> as scratch.
+>>> 
+>>> After real mode trampoline is allocated, clear that scratch marking.
+>>> 
+>>> Signed-off-by: Alexander Graf <graf@amazon.com>
+>>> Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>>> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>>> Co-developed-by: Changyuan Lyu <changyuanl@google.com>
+>>> Signed-off-by: Changyuan Lyu <changyuanl@google.com>
+>>> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+>>> ---
+>>>  arch/x86/kernel/e820.c   | 18 ++++++++++++++++++
+>>>  arch/x86/realmode/init.c |  2 ++
+>>>  2 files changed, 20 insertions(+)
+>>> 
+>>> diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
+>>> index 9920122018a0b..c3acbd26408ba 100644
+>>> --- a/arch/x86/kernel/e820.c
+>>> +++ b/arch/x86/kernel/e820.c
+>>> @@ -1299,6 +1299,24 @@ void __init e820__memblock_setup(void)
+>>>  		memblock_add(entry->addr, entry->size);
+>>>  	}
+>>>  
+>>> +	/*
+>>> +	 * At this point memblock is only allowed to allocate from memory
+>>> +	 * below 1M (aka ISA_END_ADDRESS) up until direct map is completely set
+>>> +	 * up in init_mem_mapping().
+>>> +	 *
+>>> +	 * KHO kernels are special and use only scratch memory for memblock
+>>> +	 * allocations, but memory below 1M is ignored by kernel after early
+>>> +	 * boot and cannot be naturally marked as scratch.
+>>> +	 *
+>>> +	 * To allow allocation of the real-mode trampoline and a few (if any)
+>>> +	 * other very early allocations from below 1M forcibly mark the memory
+>>> +	 * below 1M as scratch.
+>>> +	 *
+>>> +	 * After real mode trampoline is allocated, we clear that scratch
+>>> +	 * marking.
+>>> +	 */
+>>> +	memblock_mark_kho_scratch(0, SZ_1M);
+>>> +
+>>>  	/*
+>>>  	 * 32-bit systems are limited to 4BG of memory even with HIGHMEM and
+>>>  	 * to even less without it.
+>>> diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
+>>> index f9bc444a3064d..9b9f4534086d2 100644
+>>> --- a/arch/x86/realmode/init.c
+>>> +++ b/arch/x86/realmode/init.c
+>>> @@ -65,6 +65,8 @@ void __init reserve_real_mode(void)
+>>>  	 * setup_arch().
+>>>  	 */
+>>>  	memblock_reserve(0, SZ_1M);
+>>> +
+>>> +	memblock_clear_kho_scratch(0, SZ_1M);
+>>>  }
+>>>  
+>>>  static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
+>>
+>>Hello!
+>>
+>>I am working with Breno who reported that we are seeing the below warning at boot
+>>when rolling out 6.16 in Meta fleet. It is difficult to reproduce on a single host
+>>manually but we are seeing this several times a day inside the fleet.
+>>
+>> 20:16:33  ------------[ cut here ]------------
+>> 20:16:33  WARNING: CPU: 0 PID: 0 at mm/memblock.c:668 memblock_add_range+0x316/0x330
+>> 20:16:33  Modules linked in:
+>> 20:16:33  CPU: 0 UID: 0 PID: 0 Comm: swapper Tainted: G S                  6.16.1-0_fbk0_0_gc0739ee5037a #1 NONE 
+>> 20:16:33  Tainted: [S]=CPU_OUT_OF_SPEC
+>> 20:16:33  RIP: 0010:memblock_add_range+0x316/0x330
+>> 20:16:33  Code: ff ff ff 89 5c 24 08 41 ff c5 44 89 6c 24 10 48 63 74 24 08 48 63 54 24 10 e8 26 0c 00 00 e9 41 ff ff ff 0f 0b e9 af fd ff ff <0f> 0b e9 b7 fd ff ff 0f 0b 0f 0b cc cc cc cc cc cc cc cc cc cc cc
+>> 20:16:33  RSP: 0000:ffffffff83403dd8 EFLAGS: 00010083 ORIG_RAX: 0000000000000000
+>> 20:16:33  RAX: ffffffff8476ff90 RBX: 0000000000001c00 RCX: 0000000000000002
+>> 20:16:33  RDX: 00000000ffffffff RSI: 0000000000000000 RDI: ffffffff83bad4d8
+>> 20:16:33  RBP: 000000000009f000 R08: 0000000000000020 R09: 8000000000097101
+>> 20:16:33  R10: ffffffffff2004b0 R11: 203a6d6f646e6172 R12: 000000000009ec00
+>> 20:16:33  R13: 0000000000000002 R14: 0000000000100000 R15: 000000000009d000
+>> 20:16:33  FS:  0000000000000000(0000) GS:0000000000000000(0000) knlGS:0000000000000000
+>> 20:16:33  CR2: ffff888065413ff8 CR3: 00000000663b7000 CR4: 00000000000000b0
+>> 20:16:33  Call Trace:
+>> 20:16:33   <TASK>
+>> 20:16:33   ? __memblock_reserve+0x75/0x80
+>> 20:16:33   ? setup_arch+0x30f/0xb10
+>> 20:16:33   ? start_kernel+0x58/0x960
+>> 20:16:33   ? x86_64_start_reservations+0x20/0x20
+>> 20:16:33   ? x86_64_start_kernel+0x13d/0x140
+>> 20:16:33   ? common_startup_64+0x13e/0x140
+>> 20:16:33   </TASK>
+>> 20:16:33  ---[ end trace 0000000000000000 ]--- 
+>>
+>>
+>>Rolling out with memblock=debug is not really an option in a large scale fleet due to the
+>>time added to boot. But I did try on one of the hosts (without reproducing the issue) and I see:
+>>
+>>[    0.000616]  memory.cnt  = 0x6
+>>[    0.000617]  memory[0x0]	[0x0000000000001000-0x000000000009bfff], 0x000000000009b000 bytes flags: 0x40
+>>[    0.000620]  memory[0x1]	[0x000000000009f000-0x000000000009ffff], 0x0000000000001000 bytes flags: 0x40
+>>[    0.000621]  memory[0x2]	[0x0000000000100000-0x000000005ed09fff], 0x000000005ec0a000 bytes flags: 0x0
+>>...
+>>
+>>The 0x40 (MEMBLOCK_KHO_SCRATCH) is coming from memblock_mark_kho_scratch in e820__memblock_setup. I believe this
+>>should be under ifdef like the diff at the end? (Happy to send this as a patch for review if it makes sense).
+>>We have KEXEC_HANDOVER disabled in our defconfig, therefore MEMBLOCK_KHO_SCRATCH shouldnt be selected and
+>>we shouldnt have any MEMBLOCK_KHO_SCRATCH type regions in our memblock reservations.
+>>
+>>The other thing I did was insert a while(1) just before the warning and inspected the registers in qemu.
+>>R14 held the base register, and R15 held the size at that point.
+>>In the warning R14 is 0x100000 meaning that someone is reserving a region with a different flag to MEMBLOCK_NONE
+>>at the boundary of MEMBLOCK_KHO_SCRATCH.
+>>
+>>diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
+>>index c3acbd26408ba..26e4062a0bd09 100644
+>>--- a/arch/x86/kernel/e820.c
+>>+++ b/arch/x86/kernel/e820.c
+>>@@ -1299,6 +1299,7 @@ void __init e820__memblock_setup(void)
+>>                memblock_add(entry->addr, entry->size);
+>>        }
+>> 
+>>+#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
+>>        /*
+>>         * At this point memblock is only allowed to allocate from memory
+>>         * below 1M (aka ISA_END_ADDRESS) up until direct map is completely set
+>>@@ -1316,7 +1317,7 @@ void __init e820__memblock_setup(void)
+>>         * marking.
+>>         */
+>>        memblock_mark_kho_scratch(0, SZ_1M);
+>>-
+>>+#endif
+>>        /*
+>>         * 32-bit systems are limited to 4BG of memory even with HIGHMEM and
+>>         * to even less without it.
+>>diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
+>>index 88be32026768c..1cd80293a3e23 100644
+>>--- a/arch/x86/realmode/init.c
+>>+++ b/arch/x86/realmode/init.c
+>>@@ -66,8 +66,9 @@ void __init reserve_real_mode(void)
+>>         * setup_arch().
+>>         */
+>>        memblock_reserve(0, SZ_1M);
+>>-
+>>+#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
+>>        memblock_clear_kho_scratch(0, SZ_1M);
+>>+#endif
+>> }
+>> 
+>> static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
+>
+> What does "scratch" mean in this exact context? (Sorry, don't have the code in front of me.)
 
-Jeepers...
-As I've found looking at min_t() you can't trust kernel programmers
-(never mind 'average' ones) to use the correct cast.
-It wouldn't surprise be if the casts cause more bugs that the automatic
-conversions that C does.
+See https://docs.kernel.org/core-api/kho/concepts.html#scratch-regions
 
-It wouldn't be as bad if there were separate 'casts' for widening and narrowing.
-You also need the compiler to be doing 'value tracking' rather than just
-looking at the types.
-If I do:
-	int len = read(.....);
-	if (len < 0)
-		return -1;
-	if (len > sizeof (...))
-		...
-then -Wsign-compare complains, but a statically_true(len >= 0) is fine.
-
-	David
-
+-- 
+Regards,
+Pratyush Yadav
