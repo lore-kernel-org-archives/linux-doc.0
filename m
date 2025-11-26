@@ -1,203 +1,248 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013011.outbound.protection.outlook.com [40.93.201.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440DE33C18B
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 16:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764173700; cv=none; b=T0nMdqOt3m+Z0RSPcMq764xrXXCIFoC5VcQB5pS/KAWtLFzZmHecD6U0AVm0CO8LiBRRT5EDhfxb0UX4m+xP0Bxl9JjQCKjm73zsLxr7HrEiAJ3BflFQ56cA2aOEA/yTBHc+G/86TrVqF+O0/JMbyKn1cLhQAy6QblxDp5PfaSY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764173700; c=relaxed/simple;
-	bh=wRQ3hhxr8ynwsumdaV3tuxpgPBo2pa1cIS9EqkVPA9U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E7u0lebpWnCmHUgEgqQudkBiJLHXmlHjE+oZ+LnrOIykMMxVgaegbySdFKNpHjPh1qfRwXoaCzegOFovDecEcwmjuYWOZK/dR4OcU02o64OnDoIgKa35HO+HVOuQW6VxebZfjf0SwcTMIqwdyDNgdezU7OzzHBqFv683aQQb1Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fqHUyOBg; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FDD281376;
+	Wed, 26 Nov 2025 16:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764176099; cv=fail; b=QocEb7PNXU8nMBA4tgXOLq5g6aPAylQfzP7SwQMiR3ZzBPhFsKF0+jlXzlsKJLCzQ8Dtrx/LbMhLSc9mJF9MxN5wz6L9J8QTp63FxMxpW+2Zo6p8+wPQBxRZsszriZSXPR/2lZLG26H1aHZJims1domHLPnARAjPk9T619IQDpQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764176099; c=relaxed/simple;
+	bh=woANp83cOU0Y78wCEJhBYtTFYz7ZlP3bioSPotYcSeE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=lXJAOm8ggEBPoeXTTz7BCued5iokJF0SXewJCS2fYfbA4JM3/Y4ac8lZJz3+lMlZG+XWIr3Y+kkr4kaCXuN5YumzyymQjtGNG/x+SCVsFZdIYAQRqLAA21TSOgxZoBawy1weDe66uyhHmtcj5ca5rZgILM9rjN8mTjvUas2V/Vk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MZY4AyZv; arc=fail smtp.client-ip=40.93.201.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fqHUyOBg"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4779cb0a33fso67514265e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 08:14:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764173697; x=1764778497; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4jnrJZ3DV6tiJN7SO227QEgRI6iBE+6hMDjYZLi5jdY=;
-        b=fqHUyOBgwQTXv0gxb36c6vfiVOrI4688BEnQkIJOEexfDicAyH4yamDJEhBH6eJIyt
-         iCCUfwHU5hEjmlOjvIaeCbpQ7SprYT2eh2JQamjWv+jEOUAaPMibIgIwLWZX4azYy4vl
-         jTuUYaPiWL4U8ER1rwsHo1VtVWigj6cG1eiHIDWpY0tEd2FcK7c3T4dYVDU8UJB6DffV
-         SIcNQ/36W9BTbkGYh93QBwTrY5pbB8G0oIKyTom7EyEq3Ko/PBYXIjISJJF6ymMcy/m/
-         yT4iCwHF5Q+yOYKdI2yN5FjLdXNVZLuKLVLKGJCbIaXKuM4MGcZ++i3pVcRVOXcyxFdX
-         5IPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764173697; x=1764778497;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4jnrJZ3DV6tiJN7SO227QEgRI6iBE+6hMDjYZLi5jdY=;
-        b=BnqBlQTngIfCu8x2H+AZwtUnuFZiP90UlmpJfB8Uwth2WiGTuYfdVVufna6NGGWhDM
-         /xGnT2ObvaVBXE3YlrrjuNqm3F7sYDVASOq6dWS+4sY1byplefNXZtE244Ue8c/1PyAa
-         W7QeTaV6WD4/CUD5KPtOtFaNAll/SdZUNg2TSaCK0SK/EHWvQvK/8cKv31hL9PqvnqCX
-         T9l1iIkXwiq9d3CN9zUqZIIXVYhI/AseIIvcaGxhfBrf3NFW7e2ewnHh41I+29APmWXs
-         dLRNp8kyM+NtiHk7xEPf3HzpG+SXoQ/Fp1C7KE7BO4mgI57nlAiwtOyAnEZqEKMRIA2q
-         bioQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX2VWfL6s/cPBHTKzZi6DLgm2knsZdrelTm9srY579pRdV9NY9QNNVJkZ21L4R7AOHGEUmu7NEArhQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxkdbh4qPdJy2bKcS7xurCcQm7GL9nYS+Z/Eq4TXZ/Leiv2E4hO
-	579HufkU5LvuEzQRgy10KNU+gZYemtJIuze04/hNXNP+pgAl5lLlHjSR
-X-Gm-Gg: ASbGncuAyix+W/db5RWLjrCOvUAVDmqWqvzc9Ex2gs8xyL/UeHRDw6W5KwMYeW7T59o
-	3/e0Qj5XTNid1wG7H6C1kbpykAwAaliFIJ+GNITvfYPp0zeqztPy9BxBT0HmGUpH9ktiD2vcnyc
-	JvuhPHr7F/F0BQFwayYHbGyrBVUW0wD/MN9EvRftKfTMHDjYpS/agYFVA3aeBwSYWnxKr7b7vJd
-	nhnN5bANj3PzfJATJGCGgqnvoZacPWqi1K8djbOE+K5cNB7OmIHU88D1ncq3WlhsZgYLvmGyphq
-	onEg0e90en01KuRXFDY849Hvxa/GvExTirJrgcKqx/O8V5FZ/wE8oRu3ASB1XWkRGqhfTl0tPHK
-	WcyzjnYxNJXgoVjRZWLGObkl8Xoh6DwE/Ly4R00ZI8ZMgZzBeusdkvvnZMXD0WH76D4OPiVjXjo
-	ZiMU4BBxSeYtwB9oYsQUTivhjPAMFZtE14rwKFkudEnMbEM6rivqMV5+y8H0vKTYtVoTjRX8bPP
-	8H0Pg==
-X-Google-Smtp-Source: AGHT+IF2T4LsAtdee1NZuFFVfKlipt4/KBH4/Ccs99ShvPJ6a7TsSLGj+qx1/tjpI53mxG7Y1vFGYA==
-X-Received: by 2002:a05:600c:1994:b0:46f:c55a:5a8d with SMTP id 5b1f17b1804b1-477c0176437mr210285655e9.4.1764173696176;
-        Wed, 26 Nov 2025 08:14:56 -0800 (PST)
-Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:123e:4501:1025:ba00:55dc:4ccc])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4790b0c44dcsm49350765e9.11.2025.11.26.08.14.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 08:14:55 -0800 (PST)
-Date: Wed, 26 Nov 2025 17:14:54 +0100
-From: Jorge Marques <gastmaier@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Jorge Marques <jorge.marques@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 1/9] dt-bindings: iio: adc: Add adi,ad4062
-Message-ID: <uajoey6nl4nb5kbymadsd36lftg5atbhyjhp3bgu5plhuvc2ca@5h4wn5qobjg6>
-References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
- <20251124-staging-ad4062-v2-1-a375609afbb7@analog.com>
- <20251125-marvellous-camel-of-kindness-d274ee@kuoka>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MZY4AyZv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ANwyrfTbxgoTDTn6t6ZqtURLtFKqlbkfViH/1iLtXohtHXF9XO+zzvPl0v25juh8kCOITltiFcxTY4UYVPVDjAwbUNPHbESX88wDv5JlFG5Tpb0h7wW3gE05lQNkr+Wpz+zYlbCiFtv73mMHPwgW64dJ/gJbsLx9WVuY1+h/1++r2fI1YdkhBZtXTMiJwDeLdnCY5cMX0DPirYYui28uIukjiXEeL6Vcz3It8Uzn1Ms+xUGVKHgzP5Mjde6YTazwrw6vExy4BpMk9JYJJ9qjjoNd/aRRmgoKCRPKXPPiSZpfqxsboYNnC29bLWwFlP8hOgMyL21i15s2OyA7GTiGlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xxZEkH5e2YVADb/xtty+0fsMHBrfT0hSD/MS5Fnx1KY=;
+ b=RAYzlTNwmf5GUkLl6nd/Sqr4QuOkjHIHtgPftkfuHG6zhYnJG10yAwCSRIFoFYYCV69ttUV3tJOvL6AVWu7XQZqAT+2ErD/Xy3EVhfoNiRB4cV1Tsxrldikzxrsr/mEhW+XqVeXWSp/pDUNKN5EQ/C9xJYPn75VMasv8fgLvv0K5VJ//8aTeONm16dkD9pQovMmSJkR45MW2hG4wa8FY38I0FWbZH/aIvtGoKL2hIHseCK5TCvMcJqiBnyuOHD2AqKTfToG9Tl7QmjevPr5Mi6UN5tk/EBtm/mCLaydBBRC7iJEsNsKjZwopAoSJUZ4p5iz8W3164gJrvqW7nYjJ3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xxZEkH5e2YVADb/xtty+0fsMHBrfT0hSD/MS5Fnx1KY=;
+ b=MZY4AyZvTpHNfT6rXopKbGuGRhcg1qGyb20ANGEJaWHR8ptiY+l9JLjCjLC3zFT7DiEP3nw6zKJDg9NoFPLB7prjGFzkERFb6TW5r+eZjP8Om+EWELMhsdXMIROunPHe57ugrdTFc2UggtJFOyZ6n6sH+Cg4tktkxPp4P4/Y4lo0nNlhsLjuikYxl1e3o5JLMfcGOV3YQBnXmpnteK8mpcXsMq/CUdEJfz8M4ws+VC9IXf256WwoV56D5zVpKmdiAi1LTv8zoStvehOQc07owflPYTFqvER3P4dA0ckd6uqQN4hudis5HZYj/bJ2PzCVHA+R0/nyVujiwSPk1RzpYA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
+ by DS7PR12MB6046.namprd12.prod.outlook.com (2603:10b6:8:85::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Wed, 26 Nov
+ 2025 16:54:54 +0000
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9343.009; Wed, 26 Nov 2025
+ 16:54:53 +0000
+Date: Wed, 26 Nov 2025 12:54:53 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Mastro <amastro@fb.com>
+Cc: Pranjal Shrivastava <praan@google.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org, Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [PATCH v9 06/11] dma-buf: provide phys_vec to scatter-gather
+ mapping routine
+Message-ID: <20251126165453.GJ520526@nvidia.com>
+References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+ <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
+ <aSZHO6otK0Heh+Qj@devgpu015.cco6.facebook.com>
+ <aSb8yH6fSlwk1oZZ@google.com>
+ <aScl+LCPN2TiN7Pd@devgpu015.cco6.facebook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aScl+LCPN2TiN7Pd@devgpu015.cco6.facebook.com>
+X-ClientProxiedBy: BL1PR13CA0399.namprd13.prod.outlook.com
+ (2603:10b6:208:2c2::14) To MN2PR12MB3613.namprd12.prod.outlook.com
+ (2603:10b6:208:c1::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251125-marvellous-camel-of-kindness-d274ee@kuoka>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|DS7PR12MB6046:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ff12cb8-cfa7-461d-43c2-08de2d0c8584
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?b8rfNG3d6XXMf9rzORqAtbEuW99wCf87baKMReiYdns6w9nI15hAEOqfGutl?=
+ =?us-ascii?Q?GwA+crP2tY78qaUAWmztk33u0E3Tne8RKF6TuK6SjLLdIBy6s5v3ew6/+AsF?=
+ =?us-ascii?Q?OHQaYTGWbsYB/l55aiBdcwetnp0bAi9F+kcDH5944mdc3oa7CP2pPJ81STEy?=
+ =?us-ascii?Q?kNPGDjQP+UsmLaUiHsTj9X9Dfi0q5EXEyoVSOrsiUZ7t8peCLRN22vuH372m?=
+ =?us-ascii?Q?DZner46KuFMLJWhxIbuPfzvUulemNRhiEa5sL49+I2HnjtDHL/7NiMxMma56?=
+ =?us-ascii?Q?a2yItfWhRIB+UAOTfjPlhIqafgigpfvrEkk4AbCY60sZNegOT1iJaU+Lygc7?=
+ =?us-ascii?Q?+3j7+hfMTF9W3ZwR0hBBgyiSkhUfkrbnserFPNe208gREV51NhMm36Yhhx+y?=
+ =?us-ascii?Q?7O8M0gBz8MI8/P3/eTmQ0OYz26O1TLANCXoS5gK7+XFsuaGpITO7hpYmlYuz?=
+ =?us-ascii?Q?9o5FQ2UIgdQeMMECcOM0a/akF4nI659Oasgx7OR+nCe8S+5PIPvONH4tPdD2?=
+ =?us-ascii?Q?KM0IwROM6RPKEHgM/tOtd9ZRY+NHIciljPBJ2k8qzslfQaXUbD0bbY/jcNIi?=
+ =?us-ascii?Q?Hr20zS/3QFmrfbt/HaaVQ3SBGEgsqy/32GNhlv2oissmIdu768gUG9emgSv0?=
+ =?us-ascii?Q?8h8Q9EVLIP5lfxCrgLD0yqNKENxktpGEorW2RNdvOhmb9Xb8S+hiA6HvhMp3?=
+ =?us-ascii?Q?Iy9c2U9bsd3araoi4qwwioUDWi8wJ5dHfS/LEzEh2XS2RYawb0JVt+SZxRN0?=
+ =?us-ascii?Q?un7/57bh/JMNhEbdb+sCpXeGbGZcRBwqCTQL+Dh+trLzL3A8P6lEesvmq16z?=
+ =?us-ascii?Q?zxXWb+fY4DEaLSyC9d0FKC2KL+MvM3DMbY5QJsElv2WQIk76/7x6Elri2ZFf?=
+ =?us-ascii?Q?ZAgLrjD50uTehbF6Klls53N9yrpxjlGyUdOXsrSS4jrkXZRv8NUa5UnB72e8?=
+ =?us-ascii?Q?qfo6IBULw85pJFgO9RiU1mNN8yTsecysRU+qe3tY7XF0RM3fToUQWvC8xEnq?=
+ =?us-ascii?Q?ho97WCD5KH37KHqw6Pn6B6jR71uUjwX+SGNK7hbRrb7E6DVkkFJhsUG9VH2h?=
+ =?us-ascii?Q?DkGWM0boLCIK2jC/Lckjfq2x1Fe9Ea7QVMcizMPg1j8j0c5EvpGRDsGqpUhD?=
+ =?us-ascii?Q?KT01lVv3LhBOsAlqxP72BG0QKGPNCH14acJSU4Nn/Yyx2FNokboSnFvUGfuR?=
+ =?us-ascii?Q?t4Xv65TDj5rcYzi0tjU+bbND8JzqvlNgF9/y7j5NTXjr8dry06JLYBTlLE1s?=
+ =?us-ascii?Q?EeLHZhy+Hv666HjpRwSNyR0l3qtHMM+1hEj0y2ocqTVr2bTZV2FanMMKTJqF?=
+ =?us-ascii?Q?sbNCxJmz2xb2ABaxQD9Zc4HcgbEWv1oOSxGfTV2y/Orijt9msQ4X0RiJ/WJ9?=
+ =?us-ascii?Q?Hb78/tx0Ub7xpBT1cKcet0MafeT8KyAVtPlzHfoB50Ntx9IgVJH5gc82iP3F?=
+ =?us-ascii?Q?nhLIBr+X2JFbxTjHwGqK2B6eLD1hcbOm?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Rr8/UggYXFoFXLH6yEBfemvBdigD6gjrHpj6l0/muxh/bDF9QDLG7Eox1fon?=
+ =?us-ascii?Q?MWI2n5bEKDU3I8owz1yRQLWnNz9CB5yAHUbqU2PKiY7kC+VmsNR3kijP2TVI?=
+ =?us-ascii?Q?/UXumx64nqN1h3VoO1yKLXeqaJKwQGwGWOiPAZL1pNryM8zUbLLiqXMHowT3?=
+ =?us-ascii?Q?Hvb5b3HLKGFBoel7lT1v42zZuxJXIVdKXCPIWEcbinmk51lQ3KbTRTHAZTM0?=
+ =?us-ascii?Q?kQQWbwgsLddcqN53QD+nNTXbil4nxDJEMffgCUQs+zFPO5l8kvAKRXW3Qu8U?=
+ =?us-ascii?Q?dSTV4BPuwv33vqUuzH9vaOgRO9RHTh9T5Y803/gRFWMk/ui1shqBlZ4SEMfZ?=
+ =?us-ascii?Q?bKMSTdtR4UDMDE/am3m+ot/eI9VKQ+k8l6Ww+p5gaIwntFAksAn4yjrfr4Pk?=
+ =?us-ascii?Q?TqqmuGSB5HvvfcbMs0nB5kFnwaqUh46+BJoL6MqBUr5m0LbmYcbhy8/ZLfss?=
+ =?us-ascii?Q?lHPT7Ow//qNK4JgAgKnxFiRtNhujYDSKa2pS7rZz0uCQ87tFQP+zgbfrlaMy?=
+ =?us-ascii?Q?DxhJg9ZLsZHg1dElHg5OKrlU8xlHA6tyUAgOdESngs2dl8qHh7NeHA3H+g6s?=
+ =?us-ascii?Q?qVDDmFUBcyxI/VFKjf65ttKgpJcCigDYLF6rKBA27YELdymqzXIXYgar8sXj?=
+ =?us-ascii?Q?mw8MheK0uxobw2uQwp/OcfhtSha6dB5D4DS/6iLEJBoyP0iGmiCoEuyHztio?=
+ =?us-ascii?Q?VxxN3Aq3AA9Ghyi/VZzTiNPQBCxLj6bXgQz1IC7yc6bTofh1OGXsXeF2anS5?=
+ =?us-ascii?Q?McXKDIsnkvDBabHHfsZ/isS4t6+QI1AGO3th0rHYM1kZ6zQuGfd+j9rgLinU?=
+ =?us-ascii?Q?ETh7J84liJcB21ZbbqNNvC0sVTll6SsX1Xt1oQr2ik+4e6j1Rgz9kx41AWlS?=
+ =?us-ascii?Q?4S6YyrKf87Zc5DsUbZLrSKL5/4AjC65OB+7arzM7L3RUm19awUzIsquK3HUd?=
+ =?us-ascii?Q?NL+qt9k36dusrhKpD42IrWcqWsavSsw6ZaNshrWIgvff4YL0B9Wv/i4VkoRd?=
+ =?us-ascii?Q?a8B4drYr0lG3yXn+puYFc9ZyCoOulFTj0S0wOPMzlhmJoHZGIkmDDxfH0LyK?=
+ =?us-ascii?Q?ic6FLXAtDpb0jMrttMk4GgGDGaACDnj996YAKFx5yWrTmpvShBzGDYjVwYWB?=
+ =?us-ascii?Q?opKDqMLnQbdomSAyuD5ms2Rw3eaifysuyhGjYRV6ScWjS8HSB59U2qm6wO6C?=
+ =?us-ascii?Q?8GhF4cuaE4ouxAnSvgPviMEI4ZJ7gwsHXMGcn6c7Z79FsTv9xnKiQ1/Jm31m?=
+ =?us-ascii?Q?jrBVOld83YVu89xcqMIxap19tLnC97GH1/YHYPIXY78iwC1+nUF/25T3T64N?=
+ =?us-ascii?Q?AZ3b6lCliKQUDXxjaZ96rmKarcMJK/SmQPWlNde8U2vpfsSe81iM8wNJifG5?=
+ =?us-ascii?Q?DBpAjg7MZKGuX6nVm8Ic1+D2P/HdkpMTDHnt/yJVSR56gxykmfyx7ZDfTVKZ?=
+ =?us-ascii?Q?zdZxVBQ1mwMZxL1wEDG5UNwfEig2a80XSFLGkZSkxIxRMKEBjsJSbJoDyfNs?=
+ =?us-ascii?Q?9J7Xaqw11T6Dcwt+zL03AOsZLG/LNJhVNDfzfDG9BXlYJQlJOBXCaFBBBRGE?=
+ =?us-ascii?Q?nTd+61lGY2kln3WycCs=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ff12cb8-cfa7-461d-43c2-08de2d0c8584
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 16:54:53.8261
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e/NLpBmrNNvioecHTBoir7ABAKXX8pH0Xx7Ti8jplfDNwnzvTkUxfFFNlu6zyfIr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6046
 
-On Tue, Nov 25, 2025 at 10:50:59AM +0100, Krzysztof Kozlowski wrote:
-> On Mon, Nov 24, 2025 at 10:18:00AM +0100, Jorge Marques wrote:
-Hi Krzysztof,
-> > Add dt-bindings for AD4062 family, devices AD4060/AD4062, low-power with
-> > monitor capabilities SAR ADCs. Each variant of the family differs in
-> > resolution. The device contains two outputs (gp0, gp1). The outputs can
-> > be configured for range of options, such as threshold and data ready.
-> > The device uses a 2-wire I3C interface.
+On Wed, Nov 26, 2025 at 08:08:24AM -0800, Alex Mastro wrote:
+> On Wed, Nov 26, 2025 at 01:12:40PM +0000, Pranjal Shrivastava wrote:
+> > On Tue, Nov 25, 2025 at 04:18:03PM -0800, Alex Mastro wrote:
+> > > On Thu, Nov 20, 2025 at 11:28:25AM +0200, Leon Romanovsky wrote:
+> > > > +static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+> > > > +					 dma_addr_t addr)
+> > > > +{
+> > > > +	unsigned int len, nents;
+> > > > +	int i;
+> > > > +
+> > > > +	nents = DIV_ROUND_UP(length, UINT_MAX);
+> > > > +	for (i = 0; i < nents; i++) {
+> > > > +		len = min_t(size_t, length, UINT_MAX);
+> > > > +		length -= len;
+> > > > +		/*
+> > > > +		 * DMABUF abuses scatterlist to create a scatterlist
+> > > > +		 * that does not have any CPU list, only the DMA list.
+> > > > +		 * Always set the page related values to NULL to ensure
+> > > > +		 * importers can't use it. The phys_addr based DMA API
+> > > > +		 * does not require the CPU list for mapping or unmapping.
+> > > > +		 */
+> > > > +		sg_set_page(sgl, NULL, 0, 0);
+> > > > +		sg_dma_address(sgl) = addr + i * UINT_MAX;
+> > > 
+> > > (i * UINT_MAX) happens in 32-bit before being promoted to dma_addr_t for
+> > > addition with addr. Overflows for i >=2 when length >= 8 GiB. Needs a cast:
+> > > 
+> > > 		sg_dma_address(sgl) = addr + (dma_addr_t)i * UINT_MAX;
+
+Yeah, and i should not be signed.
+
+> > > Discovered this while debugging why dma-buf import was failing for
+> > > an 8 GiB dma-buf using my earlier toy program [1]. It was surfaced by
+> > > ib_umem_find_best_pgsz() returning 0 due to malformed scatterlist, which bubbles
+> > > up as an EINVAL.
+> > >
 > > 
-> > Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-> > ---
-> >  .../devicetree/bindings/iio/adc/adi,ad4062.yaml    | 123 +++++++++++++++++++++
-> >  MAINTAINERS                                        |   6 +
-> >  2 files changed, 129 insertions(+)
+> > Thanks a lot for testing & reporting this!
 > > 
-> > diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4062.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4062.yaml
-> > new file mode 100644
-> > index 0000000000000..a25af66dd64d2
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4062.yaml
-> > @@ -0,0 +1,123 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +# Copyright 2024 Analog Devices Inc.
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/iio/adc/adi,ad4062.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Analog Devices AD4062 ADC family device driver
-> > +
-> > +maintainers:
-> > +  - Jorge Marques <jorge.marques@analog.com>
-> > +
-> > +description: |
-> > +  Analog Devices AD4062 Single Channel Precision SAR ADC family
-> > +
-> > +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad4060.pdf
-> > +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad4062.pdf
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - adi,ad4060
-> > +      - adi,ad4062
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    description:
-> > +      The interrupt pins are digital outputs that can be configured at runtime
-> > +      as multiple interrupt signals. Each can be configured as GP_INTR, RDY,
-> > +      DEV_EN, logic low, logic high and DEV_RDY (GP1 only). RDY is the
-> > +      active-low data ready signal, indicates when new ADC data are ready to
-> > +      read. DEV_EN synchronizes the enable and power-down states of signal
-> > +      chain devices with the ADC sampling instant. DEV_RDY is an active-high
-> > +      signal that indicates when the device is ready to accept serial interface
-> > +      communications. In GP_INTR mode, the interrupt outputs one of the
-> > +      threshold detection interrupt signals (MIN_INTR, MAX_INTR or either).
-> > +    minItems: 1
+> > However, I believe the casting approach is a little fragile (and
+> > potentially prone to issues depending on how dma_addr_t is sized on
+> > different platforms). Thus, approaching this with accumulation seems
+> > better as it avoids the multiplication logic entirely, maybe something
+> > like the following (untested) diff ?
 > 
-> So the wire/pin can be physically disconnected?
-> 
-Yes, the device can yield those interrupts as through I3C
-In-Band-Interrupts (IBI), which are messages sent in the I3C bus by the
-target (this device). I consider as a fallback, because the overhead for
-those bus interrupts are much higher. The user can have all interrupts
-as IBIs, and re-use the pins as generic GPOs.
-> > +    items:
-> > +      - description:
-> > +          gp0, interrupt line for GP0 pin, cannot be configured as DEV_RDY.
-> 
-> Write concise statements - duplicating gp0 is not helping. "GP0 pin,
-> cannot be configured as DEV_RDY."
-> 
-> "GP1 pin, can be configured to any setting."
-> 
-> 
-Ok
-> > +      - description:
-> > +          gp1, interrupt line for GP1 pin, can be configured to any setting.
-> > +
-> > +  interrupt-names:
-> 
-> Why this is not matching interrupts in number of items?
-> 
-Is missing
+> If the function input range is well-formed, then all values in
+> [addr..addr+length) must be expressible by dma_addr_t, so I don't think overflow
+> after casting is possible as long as nents is valid.
 
-    minItems: 1
+It is probably not perfect, but validate_dmabuf_input() limits length
+to a valid size_t
 
-thanks,
-> > +    items:
-> > +      - const: gp0
-> > +      - const: gp1
-> > +
-> > +  gpio-controller:
-> > +    description:
-> > +      Marks the device node as a GPIO controller. GPs not listed in
-> > +      interrupt-names are exposed as a GPO.
-> 
-> "not listed as interrupts are..."
-> 
-Ack.
-> > +
-> > +  '#gpio-cells':
-> > +    const: 2
-> > +    description:
-> > +      The first cell is the GPIO number and the second cell specifies
-> > +      GPIO flags, as defined in <dt-bindings/gpio/gpio.h>.
-> 
-> Best regards,
-> Krzysztof
-> 
+The signature is:
 
-Best regards,
-Jorge
+bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
+		phys_addr_t phys, size_t size)
+
+And that function should fail if size is too large. I think it mostly
+does, but it looks like there are a few little misses:
+
+			iova_align(iovad, size + iova_off),
+	return ALIGN(size, iovad->granule);
+
+etc are all unchecked math that could overflow.
+
+> That said, `nents = DIV_ROUND_UP(length, UINT_MAX)` is simply broken on any
+> system where size_t is 32b. I don't know if that's a practical consideration for
+> these code paths though.
+
+Yeah, that's a good point.
+
+Casting to u64 will trigger 64 bit device errors on 32 bit too.
+
+// DIV_ROUND_UP that is safe at the type limits
+nents = size / UINT_MAX;
+if (size % UINT_MAX)
+   nents++;
+
+Compiler should turn the % into bit math.
+
+Jason
