@@ -1,158 +1,120 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011007.outbound.protection.outlook.com [40.107.208.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918472F60B2;
-	Wed, 26 Nov 2025 03:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764129553; cv=fail; b=TTWoj6Q4PxRck1/EA8vDcHQXvGxOd7n0AKDujhsq3Pyptw7lxF2qlniB2x7OIPswh8JW5T899Ca1U/t6nA6oSL12IH+0/ozj+urCUe0LbDB+FCYfS5z6wRTtnhTYcK0DoFQ4NEGve0DY3GOmj4ZjM3aj47T6i2XIizQEgl5bt60=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764129553; c=relaxed/simple;
-	bh=iZXPKeP/ZRqxViscjxwbyoCeu6krvgSyaMylW+JnDIQ=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=naTn3Jtm932ejDIIQ5kX1zAslUsqC+mTFQDueAtLq3vDIgVJSGZH8XxEWEK/nZLmIjGNwte4lms3sipjk8OWI8or3sglhOKvpMqiatUrrgGtbqm4KYVyzXXU4Hsxb0JKi/O4NIuewWkqPARh2w0Lkz24BaNaZ0JqRuOmBKB6LhI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Fq7lCdTt; arc=fail smtp.client-ip=40.107.208.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAF53126CA;
+	Wed, 26 Nov 2025 04:16:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764130595; cv=none; b=ubskUhdRUoZxZ6SU06gETDKINRcqeDmewU0ZT54Zvz7R03avVQoniiraExdP2bNccTIJ+t/EHM5Bao5X29FDQBeKY4i/Py3uBkW9pvL4MsG6i1IN4bMehV7Ky+7hu9RFr5lQZYJr+JO4/5iPvQM8UVx0Vi+lsvakwQwZ5TNPnmA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764130595; c=relaxed/simple;
+	bh=tHKJTDPaEVY1RnoAUeQZClBDmfEhZk7dkPVUKHhqsic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lc2mEGuZzTaHVBWwMb5Rl8E6kQRqn3WSFnx4bk3EWBSoh+TqQ1OoqyG0n7x8SQWZm75W4A5aTwm7NjpNBis07onyhnAGa5wPLs7El9Db13bglNmtIKrk5jMLWHwNUdYu/ilPSt7G07Z0BOBewrdVyEFJ1try01HNrS/DIKlM+10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MSHAQgiI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Fq7lCdTt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yCy4+L4pirNF11xtm1+hT1ePRIvH+Si1c59kyUZOEbXJfJ6nFwhQzTHzO43zjn09or1ZNOqv+iYDVL0BsOj8pPy09d/p0XyBfJxJr1D6FLAcFTTHVKEeiO2/p33toQu3zbqbPuwd7jpFJ40mSmx/UXYg0crlek9D6CgaQp0aEBdg4SpJYjOotUikXmS1iu3d7eQKSWK3S0eYuoes2OnSfTWqI8jWV0JJScUwVfm3zccvsuXHplDqMaAhby+wQNW5shSY+FF3c4Tnvbu1+jGrP3Pw3TsrwYhdzYABL5zzgEBd9TxgZSxPjCcaXThbY7PNFqwBdU2oPFrf282FOK+dbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OK8/wUKX856s5DRsf/gn1L6DSH4hHsw+R9XX0ZovqDg=;
- b=hExA1CDJhej57UnEpVX6DddYRy/gRPZuIy8ST4gYhOfc6DYxXQYR/6pyL5B/jt7aTnH981w+UqM814R7gl0xFRsEbtsXwpU7KgLMC1CCGPIBAekSmWsPh0PT1n1D+bMbpieyH6N/KsPdLZGCTdNd4YmiBnisE1s8inubh5Tgpst19fVOgqi0bzKHDOVc6Z0hcpza5RxQw0nC6FU/GLVvzARbHyKCIDA6RIu8hpBNR5NIpC73D5vBXJM1CW5LIN9znxMRaYQo5HyNWlg/+k42rflIpWH23oRQISbpIq8Syu5HrGLPwmdoCOxE8HUEMyZ8nCcmcGu5aJvfuW8rXhNQLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OK8/wUKX856s5DRsf/gn1L6DSH4hHsw+R9XX0ZovqDg=;
- b=Fq7lCdTtSQF8Gjbx5s12qun/zp76flAuVtL1q9KgIqqQNxD08IDqgA2UsfgIxV11sB2LgsQlg7L8jGzkx6c1WrQRrZ4c0kMWqNB0+wmR52QB0PDQqpEmwZ7ZMrmYT5UdMPL3BIzRhgAyhAhCPzMSEaHe2SFEFT9dQ4Kfp86144ZxBQio9b04luAXxCu1A75+9Wz/3PvpM7H/5OBdH2sCJO2HWjSxj84BusUvjjz0ZgwXODmjhDTYUBcxCZBgz+OIFqRkkxdZL/2AeTq5lbnerce4gh05ahuAj6vXBN+JYQ3++qNYsOXIHLOuRPSeZp7+NATQ1SwA2BxlBNUm+x8Gfg==
-Received: from SJ0PR13CA0166.namprd13.prod.outlook.com (2603:10b6:a03:2c7::21)
- by MN2PR12MB4061.namprd12.prod.outlook.com (2603:10b6:208:19a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Wed, 26 Nov
- 2025 03:59:08 +0000
-Received: from CO1PEPF000075F1.namprd03.prod.outlook.com
- (2603:10b6:a03:2c7:cafe::d1) by SJ0PR13CA0166.outlook.office365.com
- (2603:10b6:a03:2c7::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.12 via Frontend Transport; Wed,
- 26 Nov 2025 03:59:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CO1PEPF000075F1.mail.protection.outlook.com (10.167.249.40) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Wed, 26 Nov 2025 03:59:07 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 25 Nov
- 2025 19:58:53 -0800
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 25 Nov
- 2025 19:58:52 -0800
-Received: from Asurada-Nvidia (10.127.8.13) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 25 Nov 2025 19:58:51 -0800
-Date: Tue, 25 Nov 2025 19:58:50 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-CC: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "Linux
- Documentation" <linux-doc@vger.kernel.org>, Linux IOMMU
-	<iommu@lists.linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian
-	<kevin.tian@intel.com>, Pranjal Shrivastava <praan@google.com>, "Stephen
- Rothwell" <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] iommu/arm-smmu-v3-iommufd: Separate vDEVICE allocation
- list
-Message-ID: <aSZ6+mY45RCXoKP0@Asurada-Nvidia>
-References: <20251126033602.28871-2-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MSHAQgiI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03744C19422;
+	Wed, 26 Nov 2025 04:16:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764130594;
+	bh=tHKJTDPaEVY1RnoAUeQZClBDmfEhZk7dkPVUKHhqsic=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MSHAQgiI2H9QWuTYePk5RCkBo+62togpVdnFP+cQnCe56gfweMa0kgBZJr8YeZ5XZ
+	 ESKHCYohOSbv4SjP7zj+QfpFekOedZRq1/7/Ca4TPr72rIVggAOW8baF9w/uIIJK+H
+	 cg9E/JqaRvJ+KxCQ06pwJwPHH3w9F9T/6uasI0n8MGa6Dqwc6pAvT7GzJa2PHmiy/v
+	 3ygjQT0UsYFrnp5z/m7eL2cgvhaT6JzU2YmIRyZKE3sbzLxn03vESMxayJz2vol1+x
+	 1OHTNVw3nAVU4/Sj6x18Hy5TZ3jsLumHgxNCHmlyR3kNz0gLIZbHPXUk/dtWkpyEZp
+	 fjBfhTLkYLg7w==
+Date: Wed, 26 Nov 2025 04:16:29 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v6 2/2] platform/chrome: cros_ec_chardev: Consume
+ cros_ec_device via revocable
+Message-ID: <aSZ_HXjTVbf1HKWr@google.com>
+References: <20251106152602.11814-1-tzungbi@kernel.org>
+ <20251106152602.11814-3-tzungbi@kernel.org>
+ <20251106155951.GC1732817@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251126033602.28871-2-bagasdotme@gmail.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000075F1:EE_|MN2PR12MB4061:EE_
-X-MS-Office365-Filtering-Correlation-Id: 306006ca-4165-462a-d83f-08de2ca0261a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|1800799024|36860700013|13003099007|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?CjfkvEkQX1cckJ7G0vxTr3qGx9UnC4Jsz5fcNke2fpuArBDEs7rVMwnylE9u?=
- =?us-ascii?Q?f+NkiofP9KyfOjIe7IGVJ4aU6nel+goH31MqHC2yhazmKsTCTEM0FjLSB+D8?=
- =?us-ascii?Q?uK5G9jl4X6zom5kEmheFtXVStd0HXJRwDYuJLebAMC1ehdik9mGollt8vPDD?=
- =?us-ascii?Q?oud73nTeb2+xEwoaBMn6/slFMzysNclpx/IlhwnbKqljWHgtu+CXtx6sneOC?=
- =?us-ascii?Q?xwd3kHPu/X2i1QVyNKE1iKwxDDmO+PCTyqqD5YKqSBwFRn4fdB/nhyKhUz82?=
- =?us-ascii?Q?lbg3beqHoV0SL4d6m9HQefeSPy9jP6p/QVklmcgy6d9wRTfC9q5cbRAhpPEA?=
- =?us-ascii?Q?Z/8BFBUkdgPZYDxC4IL7YAfVqr2ljeEuPgfe4CEyNxWHSh7lQ1PEnOhA9u11?=
- =?us-ascii?Q?NsN1U9I3W3YBockhT/dV2+gyEbCqNwXLxarp8qBkMXZW+kpdByo6Io+dQl0C?=
- =?us-ascii?Q?7ghAR0SyqPZfjQmZ9JnfXph6r3c0HfBSq2C3jablXzsg6Nnz2mlT1trFmxFh?=
- =?us-ascii?Q?dSUjVGPx6RikycICcAm0GZxm6X2rhpdYorxy5zi/qzezU3xGBlCb2iWuWJ2A?=
- =?us-ascii?Q?BhaegCyv+JuGeGZdTYXeZ29x43QyxF8pRqd6HdrIXaCQVdCqlDan1MgRF8u6?=
- =?us-ascii?Q?JzPihRNaRJHPbuHc5Nmnfh7X/xJir2auqRKlRmdJIOdnDI3xpMw+dTToSxqD?=
- =?us-ascii?Q?XcaA/4S37zBa/RhGEH3QPx+98cb+sc39EsXv2qaqSlavMh50QlXh6mU2qmr2?=
- =?us-ascii?Q?G8/tH71cFjpCFivCIwmirUrPuhZJhYuiHOuaGAVX6Mer2L0jYbq5b3AO7GFJ?=
- =?us-ascii?Q?aOG0Sq6XpVmvvKgnl8fPcRA80V7TgpovKODq+BnuN7larvxzUsLr/0ekpmzr?=
- =?us-ascii?Q?ufg7+2vgvVrzBuv5kiUDVxYDt6D0giQ7BV/MjbglRRRjYYlxHSc1fPJC874N?=
- =?us-ascii?Q?pHnfIS1ppp6c+TnVj38faGLZCY6VPGptOI4eIyhOgtXQqH5ykGDgpfATqDgp?=
- =?us-ascii?Q?VEAOteseJ3a8HnC5MBPDeDhsvr4gXcGnZaYlS9eGnMgwvGqogzubgIt6wzI7?=
- =?us-ascii?Q?ezJd42FPwwNoQVvtTTCdvLlRk9NNJXy/xyOTkxiiRDP26sPEKoemiSJPNfOC?=
- =?us-ascii?Q?nkFmTRoDlNkdxfTtIlgpMzObv0XEjw2RxEF5LYAZC+MURKbKUA3H5VaHp/Ab?=
- =?us-ascii?Q?V5YzWtvLpVYeq+IfBk7HIKzABLBOtEZleHZgrfqt3YXkz86UMiY2aep46rNp?=
- =?us-ascii?Q?ksO4Bt3noRU4Xtum13ceZk+Jy7+pr9s2o0NV/0BZeYd1/kG1XDNhf2dq7PXY?=
- =?us-ascii?Q?ZClZh2UddbCkp3lEEnpxVFbdbf4rcqqPIoxf848GVRxF6p0loTR8BrYlIp0G?=
- =?us-ascii?Q?AI+siO+QhFBegAoNrf+F0XVBp6OmJ3zKfCE4IVSaMGQ/qGxOWPc6F233v0Os?=
- =?us-ascii?Q?x/JYQrFNwqOYMdpH1pjsG9PDJMHsFmYLz9sE+NyNn+mVo/kG7CFcIzp4km+G?=
- =?us-ascii?Q?/x9AuIuuDoA5LR0rWQWGNu6/UVCJKqEw9aFOtioSHVhba4/6UzKzp9Cs3yJ3?=
- =?us-ascii?Q?/aiSDcfqQeaq578fz6Q=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013)(13003099007)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 03:59:07.7449
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 306006ca-4165-462a-d83f-08de2ca0261a
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000075F1.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4061
+In-Reply-To: <20251106155951.GC1732817@nvidia.com>
 
-On Wed, Nov 26, 2025 at 10:36:03AM +0700, Bagas Sanjaya wrote:
-> Stephen Rothwell reports htmldocs warnings when merging iommufd tree:
+On Thu, Nov 06, 2025 at 11:59:51AM -0400, Jason Gunthorpe wrote:
+> On Thu, Nov 06, 2025 at 11:26:02PM +0800, Tzung-Bi Shih wrote:
+> > @@ -166,7 +181,12 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
+> >  	if (!priv)
+> >  		return -ENOMEM;
+> >  
+> > -	priv->ec_dev = ec_dev;
+> > +	priv->ec_dev_rev = revocable_alloc(ec_dev->revocable_provider);
+> > +	if (!priv->ec_dev_rev) {
+> > +		ret = -ENOMEM;
+> > +		goto free_priv;
+> > +	}
 > 
-> Documentation/userspace-api/iommufd:335: include/uapi/linux/iommufd.h:456: ERROR: Unexpected indentation. [docutils]
-> Documentation/userspace-api/iommufd:335: include/uapi/linux/iommufd.h:457: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+> The lifecyle of ec_dev->ec_dev->revocable_provider memory is
+> controlled by dev:
 > 
-> Fix them by separating vDEVICE allocation list from preceding paragraph.
+> +       ec_dev->revocable_provider = devm_revocable_provider_alloc(dev, ec_dev);
 > 
-> Fixes: 9f0b286fe40130 ("iommu/arm-smmu-v3-iommufd: Allow attaching nested domain for GBPA cases")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20251126125920.207fc959@canb.auug.org.au/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Under the lifecycle of some other driver.
+> 
+> The above only works because misc calls open under the misc_mtx so it
+> open has "sync" behavior during misc_unregister, and other rules
 
-Thanks for the fix.
+My understanding is that the file is available to be opened if and only if
+the miscdevice is registered.  Are there any other exceptions or scenarios
+I might be unaware of?
 
-I was about to send a v3 over a fix :)
+> ensure that ec_dev is valid during the full lifecycle of this driver.
 
-Anyway,
+To clarify, ec_dev is only required to be valid during the .open() call
+itself, not for the entire lifecycle of the driver.  Since ec_dev can
+become invalid at any other time, the driver uses ec_dev_rev to ensure
+safe access.
 
-Acked-by: Nicolin Chen <nicolinc@nvidia.com>
+> So, I think this cross-driver design an abusive use of the revocable
+> idea.
+> 
+> It should not be allocated by the parent driver, it should be fully
+> contained to this driver alone and used only to synchronize the
+> fops. This would make it clear that the ec_dev pointer must be valid
+  ^^^^
+ec_dev_rev serves this purpose, not revocable_provider.
+
+> during the *entire* lifecycle of this driver.
+> 
+> What you have here by putting the providing in another driver is too
+> magic and obfuscates what the actual lifetime rules are while
+> providing a giant foot gun for someone to think that just because it
+> is marked revocable it is fully safe to touch revocable_provider at
+> any time.
+> 
+> Broadly I think embedding a revocable in the memory that it is trying
+> to protect is probably an anti-pattern as you must somehow already
+> have a valid pointer to thing to get the revocable in the first place.
+> This severely muddies the whole notion of when it can actually be
+> revoked nor not.
+
+ec_dev->revocable_provider should only be accessed directly within the
+.open(), as ec_dev is guaranteed to be valid there.  For all other cases,
+it uses ec_dev_rev and checks the validity with revocable_try_access()
+to determine if ec_dev has been revoked.
