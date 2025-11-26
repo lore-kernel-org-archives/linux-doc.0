@@ -1,68 +1,67 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834FC3246EE
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA1C322C60
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764154678; cv=none; b=Ayo2pk2J76XOG14sKE3mDY+0tRXTjfMdcwYZII4LEO1d9HQhif4d6nMsQpv6xgfmldzU/VEptq6LAhVZUnGnv3KBtV7L3bIyslYxEtWOilXf29+wea8rg6EMmfO3gLM0MuxQg4ozHw/mTYlWvCNmyt/7ZvLzVea44vFXwJxlgaM=
+	t=1764154678; cv=none; b=CJJyb7afzmGzi04PUwJ5k8LIcc6g3qIKSJRVSpNt8ivgKh7Zy0ek15MOdBjAgeovMXvNZFpMyKlbHhAJGdNR6/LLu1OnnBOe0/DC4+bMzD5jZb/TFw6hKCipZ+rnZZpMcpBDrF4OKdF/t1Q4o0XQsZ6WXx6bkZutFlYcml6/J+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1764154678; c=relaxed/simple;
-	bh=XfsVAbfflmddsFvUZmGMPKpPfRjWdP9dqrqERzlZQE8=;
+	bh=Rp3iLFIqXnrF+0pIOR1MFfkShwiH6j/y0U2d1eAux9U=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ii7Pz+R7QvbSjYu1VFkL15bfPUK3Qhih0zIhGZrAccvirJkFqH4EbbrFbrUY04tfDQwctJU8q8iWm86nUk+/DeQuHXsp9QWyTXO9lOZkFt19ZbGmDygchR+H0eEQQ7+UxgbPmXoXXFGirbR8Eiu/6xeYPA7h0QGBzEQEFjgSuHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T5cAPjMR; arc=none smtp.client-ip=209.85.128.52
+	 In-Reply-To:To:Cc; b=Ds6N7z7cLJAj/cA9WrqL+1RdDI15Z42XZ1uOmmViaZrALGuzWLELTfSgzIPQXEpS6PNeZ/RpSakQ1dThTWKi4FECoAzW3f/F6vySq0qncTjqn+Hv4lRnL7NPoXpcmdbnhwLE/4umqsphaLSVQ7kIJfIzrStTz//Oc8Id6qBrv9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YiE8hWDO; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T5cAPjMR"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47796a837c7so43378865e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 02:57:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YiE8hWDO"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4779adb38d3so46207095e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 02:57:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764154674; x=1764759474; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1764154675; x=1764759475; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Bwt8cEG57tdOF8BASxzVxlljz5Pjbs6lZvjUWFDTXHg=;
-        b=T5cAPjMRmtuQ2af7ao3JdlTedxsZOJpiEJGODWZVks/2QwpGl5ZDVdS61AKB87HYFI
-         2LSRlJQmo1Tw7zWUFjcz76WIKoQEcUtB//juNA6LUNo4h9D+C7K0EHK1j9cliu5L64Fw
-         5OQIDqCa9FH/nB4aFN2ewjrw32Qo8Qaj0sgXB0ChfiBrgEXTbYftzQhzZuZEVbOmUHtY
-         tY52rhlZfGo6rCvKGlcr1aOF5eDky2km0uG8w3im+Wy7UfAGzcZ9Iv8WyFtbmkzkEVVl
-         gE3+nPKbnGRAJkC9rGOzw3mnhRcuK1opUu6MF80Ta0arlwPUdDJyTcuBikXnNV8gREIT
-         b7zw==
+        bh=/aL0yo6fi2WmbAku9VkxCsuHLTyCNr7C/0ei4wqWf00=;
+        b=YiE8hWDOEIyEMd3vShVlX0/sf1D6FQB0aUzZv28pjtzOZDSgJwjZW6z44IsbsMt/+0
+         zDmudnFj4RW51F312R98glVhctXPEGLkaCVOJ4JpE01eRinLxuIBcLbxJQQdU2OeDDsF
+         z+kZTvxMjp4lhDCdy8kiq7soKXBEJX0btwooPssPpZHzVjipgvsHXKfTVtNLC5QX85/p
+         xyy9lpKRk07GDfBeKBvcIBDMWrQH1bq1O3BvGxog7aYn/uKkH7vwzvTXHx6hTv9LEnfD
+         GO5z+CKUqrnDajaH6RUus6m+rr1pOWRuzHLZykO3Uwl2AySHOcbCFPbjA2zwXTJN7t0A
+         uBvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764154674; x=1764759474;
+        d=1e100.net; s=20230601; t=1764154675; x=1764759475;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Bwt8cEG57tdOF8BASxzVxlljz5Pjbs6lZvjUWFDTXHg=;
-        b=TUI40S16ni7Z3Jl8ZgfYwigi1rLFEs9R7rJ35BG2dL7nAamPss/pFOJ395aJ9HzFEr
-         p5l7r8Rfc+HlG38ShPrZDaFIwSj3sBNo9vu6sY4y1JhbaWf9hw2PN0uqi8Zqtr/jA5El
-         CyoAO3S7owgChKGw0KcVtkMWR2ZRBXHzSSIK/W3MIKFhKxPhdtoOStKwPz7cvNpb9PDJ
-         Q6ri4QOiQWEvE+YRBM25DCwP6aXQPXympAf8NJWtH8dzmX+2Xyo7ov//BgswMb/2XQ73
-         QHVkWAVjTfTU1RzOSkSZEoh5GRf0vwEG86UYFvNdamUgw/rJ3A3JBg7fLYmL4y1leHZ+
-         txyA==
-X-Forwarded-Encrypted: i=1; AJvYcCVg1tzoDcFBQAXXkBObFQrcqL1y2/LvPLlsq03R5WJ+p36YG+riu9skf0c9XeMsLSog9kfd5l8FFCM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwA0OLdIvv6sydPdLgJJZZya6JFnGvJcsfaTdIdi+HUW/mnrliL
-	OXgBuxRU0KX0cQn7+AJ/RDi1p8ZjHFNOifIiIrvKdnoQOPIuKrSlJo8abEdV4sKSygc=
-X-Gm-Gg: ASbGncvLynIaWRsN8bDDAXA5FRr55nOJtRrHL9PU1NOKI/6gMysWAEuKUoj6HtluJb9
-	EacMbSYje6T9T1rSoN9te3iesp2Tz6d1kxxB8q1aNTM+a6dGNtahtIJJ6Da8uhjJQW3PzeLoQlw
-	56WScBhj9yko5mBVGiKiHWEdnJD0kgWncbcFJZCMbpSMvTpagjRrV8+DB5fDL7YLqOT2bxl3Sga
-	YTL3ranMlBRwRLSxaZe4FyJ37i3G3eWRVYCa4lDnHgDhVv/vCrN/FCK/LZg7xYJvwQVW4IP/cku
-	kUknEDzhdTSoQ0dSK5NpoQjJnhSKqyeNMKo9jwkUxGlBosdTa2B7yvr/ZCLvWthAtd33bpVxQDc
-	O37RrHmWwPAJhNjOS2i0Y8/BipNUvUCt9TfHr2MXaUzkygIZVnajDapsv+abNCocMwOM2RkgqTg
-	tgZh92TELSG4/YNLmesA6b
-X-Google-Smtp-Source: AGHT+IHu3VMV/nia9zExacgXf1CG1quUw46Gmf589tkbMqB6kt7gsqIoCudhkMzjlBbUakuyMJJKdA==
-X-Received: by 2002:a05:600c:4ec7:b0:46f:b32e:5094 with SMTP id 5b1f17b1804b1-477c01ea075mr176599335e9.32.1764154673792;
-        Wed, 26 Nov 2025 02:57:53 -0800 (PST)
+        bh=/aL0yo6fi2WmbAku9VkxCsuHLTyCNr7C/0ei4wqWf00=;
+        b=BKMb6jnkt8VbT/wW1J32MRJWqDooifkvMNNxsYRY/x2z8AEntnTwCndkEnWUSrQT74
+         ClTJR2JpH+y+mEowo8PWhuDa9AHrljXZezMMtjDFjRKECd8ZLj69VOvSVLMcMZZ74CAU
+         I7oALlCvwEogrKAvoUBwHGdvOBHYcDUt77ziEmvfpVkG+PfUz3Fcp79TeqUWkInHN4fL
+         weUtTKThtpKKegC4khN3bDMWLzBVrOp8fskIka5Itp6MjN35BnmCfWpIZLikvYbNbtiC
+         oEgYI6CkYzULKUwxREGQuM8dmM8uKykT4I4ryDqLDifHeKlbXevre+Vvthv9mlhQrXq/
+         oN9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWzeZtRpu3Egaz66Coh9WyOHRrr0zdXU+SuAm6XP9Ziwj2UL8FOdbDyP3R3k+4r9HLL83fH7v1ELWs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy26gJMrct/D9JjjuJH/y0DNW+9rlE/IZ6ysfs9F3NiUl9PmnG7
+	1WOqM6dih1qRjr6x1Um2RNPBZ6jnYrBX/axGx6UfTLGzmVr+buG6unqsQ6qfKXJBYyk=
+X-Gm-Gg: ASbGncsY6Z7abNiLBeO5M3W61xmAPbyxDKiw4/632xr6I97AY/Y6R9eBpmKTSJQfyQ4
+	9PpyYdFXT5PkzEvlq+lmdxkCazr4nLYvPft4TbR76fopaSfki5NRKpsyYyPI/jzDJvttRFzhdEq
+	MRggUgLTqi4DEDa7zflIPQLCrKU82dXF46scoJ14OGViBa00k4PcqEJpiftudHww6YqINoTptUY
+	uPIaYo69ifK8+JnmTIWoiMPi+NxybQONv3DQzfwzERrnGNoovfcsQQv0c4US/tca4ZuZFXGMY3o
+	Nt0+r6I6hGcgHgVobLOmUs5yDL55EGN8slVk2yuOJ8VCd3P1fjdjA269qtelMQ7vo5uH5hHKy9p
+	hpJNNyQ8LvAPqqj2ZEeIyD1QVZCcKD8ALTr+z0ls70dwZQmC9ZwaMhnueJZeNMdG97y82v/yEzr
+	e7EDa6MwRLU9OCC9fzKKos
+X-Google-Smtp-Source: AGHT+IGviTrM1sSe4rL++DrBqXnogXlxDeacPexepOhL2fMVFW83P2kdlvQXu27F0Wvm9C0S2kRhBA==
+X-Received: by 2002:a05:600c:3b11:b0:477:8ba7:fe17 with SMTP id 5b1f17b1804b1-47904ac464bmr56208955e9.7.1764154674704;
+        Wed, 26 Nov 2025 02:57:54 -0800 (PST)
 Received: from ho-tower-lan.lan ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4790ade13ddsm36991765e9.8.2025.11.26.02.57.52
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4790ade13ddsm36991765e9.8.2025.11.26.02.57.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 02:57:53 -0800 (PST)
+        Wed, 26 Nov 2025 02:57:54 -0800 (PST)
 From: James Clark <james.clark@linaro.org>
-Date: Wed, 26 Nov 2025 10:54:40 +0000
-Subject: [PATCH v7 11/13] coresight: Extend width of timestamp format
- attribute
+Date: Wed, 26 Nov 2025 10:54:41 +0000
+Subject: [PATCH v7 12/13] coresight: Allow setting the timestamp interval
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251126-james-cs-syncfreq-v7-11-7fae5e0e5e16@linaro.org>
+Message-Id: <20251126-james-cs-syncfreq-v7-12-7fae5e0e5e16@linaro.org>
 References: <20251126-james-cs-syncfreq-v7-0-7fae5e0e5e16@linaro.org>
 In-Reply-To: <20251126-james-cs-syncfreq-v7-0-7fae5e0e5e16@linaro.org>
 To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
@@ -84,110 +83,100 @@ Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
  James Clark <james.clark@linaro.org>
 X-Mailer: b4 0.14.0
 
-'timestamp' is currently 1 bit wide for on/off. To enable setting
-different intervals in a later commit, extend it to 4 bits wide. Keep
-the old bit position for backward compatibility but don't publish in the
-format/ folder. It will be removed from the documentation and can be
-removed completely after enough time has passed.
+Timestamps are currently emitted at the maximum rate possible, which is
+much too frequent for most use cases. Set the interval using the value
+from the timestamp field. Granular control is not required, so save
+space in the config by interpreting it as 2 ^ timestamp. And then 4
+bits (0 - 15) is enough to set the interval to be larger than the
+existing SYNC timestamp interval.
 
-ETM3x doesn't support different intervals, so validate that the value is
-either 0 or 1.
-
-Tools that read the bit positions from the format/ folder will continue
-to work as before, setting either 0 or 1 for off/on. Tools that
-incorrectly didn't do this and set the ETM_OPT_TS bit directly will also
-continue to work because that old bit is still checked.
-
-This avoids adding a second timestamp attribute for setting the
-interval. This would be awkward to use because tools would have to be
-updated to ensure that the timestamps are always enabled when an
-interval is set, and the driver would have to validate that both options
-are provided together. All this does is implement the semantics of a
-single enum but spread over multiple fields.
+No sysfs mode support is needed for this attribute because counter
+generated timestamps are only configured for Perf mode.
 
 Reviewed-by: Leo Yan <leo.yan@arm.com>
+Tested-by: Leo Yan <leo.yan@arm.com>
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- drivers/hwtracing/coresight/coresight-etm-perf.h   | 13 ++++++++++---
- drivers/hwtracing/coresight/coresight-etm3x-core.c |  9 ++++++++-
- drivers/hwtracing/coresight/coresight-etm4x-core.c |  4 +++-
- 3 files changed, 21 insertions(+), 5 deletions(-)
+ drivers/hwtracing/coresight/coresight-etm-perf.h   |  1 +
+ drivers/hwtracing/coresight/coresight-etm4x-core.c | 28 +++++++++++++++-------
+ 2 files changed, 20 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.h b/drivers/hwtracing/coresight/coresight-etm-perf.h
-index c794087a0e99..24d929428633 100644
+index 24d929428633..128f80bb1443 100644
 --- a/drivers/hwtracing/coresight/coresight-etm-perf.h
 +++ b/drivers/hwtracing/coresight/coresight-etm-perf.h
-@@ -23,6 +23,9 @@ struct cscfg_config_desc;
- #define ATTR_CFG_FLD_preset_CFG			config
- #define ATTR_CFG_FLD_preset_LO			0
- #define ATTR_CFG_FLD_preset_HI			3
-+#define ATTR_CFG_FLD_timestamp_CFG		config
-+#define ATTR_CFG_FLD_timestamp_LO		4
-+#define ATTR_CFG_FLD_timestamp_HI		7
- #define ATTR_CFG_FLD_branch_broadcast_CFG	config
- #define ATTR_CFG_FLD_branch_broadcast_LO	8
- #define ATTR_CFG_FLD_branch_broadcast_HI	8
-@@ -35,9 +38,13 @@ struct cscfg_config_desc;
- #define ATTR_CFG_FLD_contextid2_CFG		config
- #define ATTR_CFG_FLD_contextid2_LO		15
- #define ATTR_CFG_FLD_contextid2_HI		15
--#define ATTR_CFG_FLD_timestamp_CFG		config
--#define ATTR_CFG_FLD_timestamp_LO		28
--#define ATTR_CFG_FLD_timestamp_HI		28
-+/*
-+ * Old position of 'timestamp' and not published in sysfs. Remove at a later
-+ * date if necessary.
-+ */
-+#define ATTR_CFG_FLD_deprecated_timestamp_CFG	config
-+#define ATTR_CFG_FLD_deprecated_timestamp_LO	28
-+#define ATTR_CFG_FLD_deprecated_timestamp_HI	28
- #define ATTR_CFG_FLD_retstack_CFG		config
- #define ATTR_CFG_FLD_retstack_LO		29
- #define ATTR_CFG_FLD_retstack_HI		29
-diff --git a/drivers/hwtracing/coresight/coresight-etm3x-core.c b/drivers/hwtracing/coresight/coresight-etm3x-core.c
-index 584d653eda81..d4c04e563bf6 100644
---- a/drivers/hwtracing/coresight/coresight-etm3x-core.c
-+++ b/drivers/hwtracing/coresight/coresight-etm3x-core.c
-@@ -338,9 +338,16 @@ static int etm_parse_event_config(struct etm_drvdata *drvdata,
- 	if (ATTR_CFG_GET_FLD(attr, cycacc))
- 		config->ctrl |= ETMCR_CYC_ACC;
+@@ -7,6 +7,7 @@
+ #ifndef _CORESIGHT_ETM_PERF_H
+ #define _CORESIGHT_ETM_PERF_H
  
--	if (ATTR_CFG_GET_FLD(attr, timestamp))
-+	if (ATTR_CFG_GET_FLD(attr, deprecated_timestamp) ||
-+	    ATTR_CFG_GET_FLD(attr, timestamp))
- 		config->ctrl |= ETMCR_TIMESTAMP_EN;
++#include <linux/bits.h>
+ #include <linux/percpu-defs.h>
+ #include "coresight-priv.h"
  
-+	if (ATTR_CFG_GET_FLD(attr, timestamp) > 1) {
-+		dev_dbg(&drvdata->csdev->dev,
-+			"timestamp format attribute should be 0 (off) or 1 (on)\n");
-+		return -EINVAL;
-+	}
-+
- 	/*
- 	 * Possible to have cores with PTM (supports ret stack) and ETM (never
- 	 * has ret stack) on the same SoC. So only enable when it can be honored
 diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-index b457f182efbe..c7bf73c8f2d7 100644
+index c7bf73c8f2d7..0129b0502726 100644
 --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
 +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-@@ -28,6 +28,7 @@
- #include <linux/amba/bus.h>
- #include <linux/seq_file.h>
- #include <linux/uaccess.h>
-+#include <linux/perf/arm_pmu.h>
- #include <linux/perf_event.h>
- #include <linux/perf/arm_pmu.h>
- #include <linux/platform_device.h>
-@@ -791,7 +792,8 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
- 			cc_threshold = drvdata->ccitmin;
- 		config->ccctlr = cc_threshold;
+@@ -651,7 +651,7 @@ static void etm4_enable_sysfs_smp_call(void *info)
+  *  +--------------+
+  *         |
+  *  +------v-------+
+- *  | Counter x    |   (reload to 1 on underflow)
++ *  | Counter x    |   (reload to 2 ^ timestamp on underflow)
+  *  +--------------+
+  *         |
+  *  +------v--------------+
+@@ -662,11 +662,25 @@ static void etm4_enable_sysfs_smp_call(void *info)
+  *  | Timestamp Generator  |  (timestamp on resource y)
+  *  +----------------------+
+  */
+-static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
++static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata,
++				       struct perf_event_attr *attr)
+ {
+ 	int ctridx;
+ 	int rselector;
+ 	struct etmv4_config *config = &drvdata->config;
++	struct perf_event_attr max_timestamp = {
++		.ATTR_CFG_FLD_timestamp_CFG = U64_MAX,
++	};
++
++	/* timestamp may be 0 if deprecated_timestamp is used, so make min 1 */
++	u8 ts_level = max(1, ATTR_CFG_GET_FLD(attr, timestamp));
++
++	/*
++	 * Disable counter generated timestamps when timestamp == MAX. Leave
++	 * only SYNC timestamps.
++	 */
++	if (ts_level == ATTR_CFG_GET_FLD(&max_timestamp, timestamp))
++		return 0;
+ 
+ 	/* No point in trying if we don't have at least one counter */
+ 	if (!drvdata->nr_cntr)
+@@ -704,12 +718,8 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
+ 		return -ENOSPC;
  	}
--	if (ATTR_CFG_GET_FLD(attr, timestamp)) {
-+	if (ATTR_CFG_GET_FLD(attr, deprecated_timestamp) ||
-+	    ATTR_CFG_GET_FLD(attr, timestamp)) {
- 		/*
- 		 * Configure timestamps to be emitted at regular intervals in
+ 
+-	/*
+-	 * Initialise original and reload counter value to the smallest
+-	 * possible value in order to get as much precision as we can.
+-	 */
+-	config->cntr_val[ctridx] = 1;
+-	config->cntrldvr[ctridx] = 1;
++	/* Initialise original and reload counter value. */
++	config->cntr_val[ctridx] = config->cntrldvr[ctridx] = 1 << (ts_level - 1);
+ 
+ 	/*
+ 	 * Trace Counter Control Register TRCCNTCTLRn
+@@ -799,7 +809,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
  		 * order to correlate instructions executed on different CPUs
+ 		 * (CPU-wide trace scenarios).
+ 		 */
+-		ret = etm4_config_timestamp_event(drvdata);
++		ret = etm4_config_timestamp_event(drvdata, attr);
+ 
+ 		/*
+ 		 * No need to go further if timestamp intervals can't
 
 -- 
 2.34.1
