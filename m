@@ -1,144 +1,185 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AF833BBAB
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 16:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A21433A024;
+	Wed, 26 Nov 2025 16:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764172832; cv=none; b=Vaiv7a7o5RcgCW1XTW6rkRkfSPZ79GoAAHoCrY7T66AE98dTS1J91DPeZMghx62XrXeKi36/eM9uejmURoag5zJHSZeurDoi+krrQ0cUB898w1xrsD2Sh6wJySqa6D5oEwbtYAlrDEGkcNY6LzOyVNUiXRjGIQaOcHt9u+a3bGA=
+	t=1764173352; cv=none; b=T0IR3WAeDcMtp2tFboSga4eHo4ALqWib3fvjprZs7i2fEBnRtgw8s2m7tNmxoeazYtK4OuXlhd0EAHH/JVBVbDJb0oLKdd7IYjW34vGV8UoqrQjiBzbm/+PIgZPTXvJAAE8r/yrTzDkUzd8SYAQET9rLkDOVTflaCzIWPY/zNFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764172832; c=relaxed/simple;
-	bh=WBJ9UwUNrgy/X0b0BvnOXQpDRGyYIy7WU+2Gj+p774c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gaRjkeTmy7EP4OkimDvYd9Kyu0P7/mVmgepopSCOFm2K70l/BVmXSt4HL4w3ujDXDYQgrn9cGjpRgDC8l9R1kPtFoS9fATjnX/FVOipVmXhStHHScsgK9yBK0wvtdJ3Zy5Y+4kv4FqHrY29JXtfM2NkRbD/i8XOQAZroKp5SYTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GznyddyK; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764173352; c=relaxed/simple;
+	bh=rnuPj8l3nxRD30Mzwohmphj0ozjaGXooltYOoIP3XdE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S8ZtdDZnbqnfF9W2kG+StBWf+NSLiL09Tmgvh2QTCp6sl7t5B/K6spXo/XAKHAx6OApIuWx6WwQqO2+HiPbTfg+d2ALRSntjzEdQztsFs0DWNSbmkdKFsOC+Io/nZAA8PlIN9NoWmO7Ji0rESDmGPMg3eEBpZy+39+KUratymy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=CATY9ftr; arc=none smtp.client-ip=67.231.153.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GznyddyK"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-297e239baecso8048405ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 08:00:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764172831; x=1764777631; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rZ9M6k/4ewqJkE2TX87HwTQsuW0EN1M63J7M16fS/j8=;
-        b=GznyddyKpf8VEbt0x7coIKsZpiCgiyOza3ZG0WDpm3vX4OlWsyrTmM5SKHqAuS4UYz
-         n7ypeJ0k6VsF3SxHF/VSEBykvU82dWT7h0LDSbjekroXMkqyUKeHI/hbvDpTzc5EH/x+
-         5JwmQ6p/nn1JsN8tqBTx9jQFnu9RaSil8FV65Alz5KnFDxjf6h1C9Bt9B6/I6+P8zcJg
-         mHq+ckc26vQki1ZAMEdh5Wg9iIHjhMPrPvbWoQwLwvKe5x0v32SUUFqQEI9TBtcLaeEk
-         S+ZYHo0XPxBKP/yZ7iBmpQL/n7jq81Quoeq+xb6EB49q4GKsAg/yClET1L1bAZB14Psr
-         o/Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764172831; x=1764777631;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rZ9M6k/4ewqJkE2TX87HwTQsuW0EN1M63J7M16fS/j8=;
-        b=jqe11v3vRVDtO3DEH3MRG86DYqGV1cSXLzrQWVfHeTvknE1ZFBH/9OFN25EDqiJ22o
-         tQCMiDef4IL4cflz73m9O8YpnchnwiBzXdyMrtXS50+TXzGIhxEjUDjWTy8TKjhNckhD
-         Pbqso7Hm+VqTnDS4vMvRxxGX59GCHunVBoefbnerO+BNUeM+5EsC05SrW9qIXZPJKChP
-         8No6Sn+eXxYCMc+bgpyuWUCci+SPoU32PQkQpISqWRqdDzk3OaOqflCaEpMgRxetaWjI
-         iLgr4YUzse7hqyK3859kC7nkl8QhlpxxM8hUYBnfrZo3aAC3AlRQyHX86494AlGSDCJ0
-         C9jA==
-X-Forwarded-Encrypted: i=1; AJvYcCW34ypWh26XUCbAxjQtQAU2n7HlCYxIGwT9D0Y5kq6URD43NHueJ8fAnu/4A57O8h5lBfYzQwyi61w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyzh0KbuHdQMYCG9xRh1+YDC8IlwXD2N3uMLiqVeoSaQPVpXq5m
-	KbjjXx9zFUV1lYpnJeDpMp2FouE0znpkaYPWO3UdvFMjOwLAHmjRxawi
-X-Gm-Gg: ASbGncurpAa5IRxlY+0eTldSY1eLeuv10GmBr/6mdaD1Kyx9yCQkvWPmj+DpHGNsPD4
-	rkG07yi+mFs1dIvi7cG5kRnub13xA0f23OQhmS85qS+8wammOmXlAHoC6X8uN4vF5cMnmRahl+0
-	oqfSTxILaM9YBHfn7oJo6vuHGOv9xvaYrw1rPlgLgMcWBlperNe+SwH0KudVDf2UR412hlFRIsh
-	k284WdjJCO9G5dhuckAx/Ir/tBONQhmhFGB1+I/hgkczxZM51QHZgLKrRKRbVNKgw6k1Ybuw3kq
-	4DzWfbW/cbmeUVppwR1OijpOFgFts8bxwn6nTy2/UNiOZCtgUfGOjOP34p5AvRl0zqL0CaE+LQb
-	ccKTC7pL93xqBOjY5CUp1uJlQovqWTiIN+kh8ehpYsKLeIEospvIKARJOgnQo4kbCKxmx9NXw9N
-	OiKc5NEpZ3rzVz59WUHt9Uvg==
-X-Google-Smtp-Source: AGHT+IHW4vl9EURMb8YJrD3dHKPOSvMXx6AkbqAkBsNYyyUqCnQUvs3T4dn6AYYdWnbh0jPv+aNGrQ==
-X-Received: by 2002:a17:903:384f:b0:297:f527:885f with SMTP id d9443c01a7336-29b5df697dfmr276743665ad.0.1764172830405;
-        Wed, 26 Nov 2025 08:00:30 -0800 (PST)
-Received: from DESKTOP-P76LG1N.lan ([42.116.199.188])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b13a865sm203447045ad.33.2025.11.26.08.00.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 08:00:29 -0800 (PST)
-From: Nam Tran <trannamatk@gmail.com>
-To: lee@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	pavel@kernel.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v18 2/3] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
-Date: Wed, 26 Nov 2025 23:00:24 +0700
-Message-Id: <20251126160024.141129-1-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251125134836.GC1127788@google.com>
-References: <20251125134836.GC1127788@google.com>
+	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="CATY9ftr"
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 5AQEPbd43733913;
+	Wed, 26 Nov 2025 08:08:31 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=s2048-2025-q2; bh=oZmYh6YpHcTCE9H3NEMw
+	SXw1R9ZP1diRqyx6ns/UxKM=; b=CATY9ftrmS7XqrrPh2Kw2+U4yOLTDIOhQo4t
+	fT++bE5QnXUTTDj1SISKs+UQWWlWXESUt4Vk/Uw4ZSdu3sXkySe9GBFHO/GtOEWQ
+	411l/Uycz4QsElZjqmNLTTOC03Bk3xrahRxGe2dTAYG3Xw8/u0qaXvlwf4Qf+gzA
+	RQRz/m6jwIWn7OkNdO9JgYCJ3G1u1eeNgwfmMCUjXO0Y/Z5VrkUOlbGe0Sigp71N
+	fPi2jhyinHmV7dk2u+LQ68tQs+O+aJ2d0sCNzYiAXKyb0pPsIXMYGocj6ADUHnCK
+	VMnCClf+dI7uC/6KbcFfIu8b90bADDeEXqso0Amh6UxzsGo6vA==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by m0089730.ppops.net (PPS) with ESMTPS id 4ap3a78uqy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 26 Nov 2025 08:08:31 -0800 (PST)
+Received: from devgpu015.cco6.facebook.com (2620:10d:c085:208::7cb7) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.29; Wed, 26 Nov 2025 16:08:29 +0000
+Date: Wed, 26 Nov 2025 08:08:24 -0800
+From: Alex Mastro <amastro@fb.com>
+To: Pranjal Shrivastava <praan@google.com>
+CC: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+        Robin
+ Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon
+	<will@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Jason
+ Gunthorpe <jgg@ziepe.ca>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan
+ Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian
+ =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Kees Cook
+	<kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Ankit
+ Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+        Shameer
+ Kolothum <skolothumtho@nvidia.com>,
+        Kevin Tian <kevin.tian@intel.com>, Alex
+ Williamson <alex@shazbot.org>,
+        Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs
+	<mochs@nvidia.com>,
+        <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <iommu@lists.linux.dev>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <kvm@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>, Nicolin Chen <nicolinc@nvidia.com>,
+        Jason
+ Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v9 06/11] dma-buf: provide phys_vec to scatter-gather
+ mapping routine
+Message-ID: <aScl+LCPN2TiN7Pd@devgpu015.cco6.facebook.com>
+References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+ <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
+ <aSZHO6otK0Heh+Qj@devgpu015.cco6.facebook.com>
+ <aSb8yH6fSlwk1oZZ@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <aSb8yH6fSlwk1oZZ@google.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDEzMiBTYWx0ZWRfX3bFJkIqQfPcn
+ LWbsluc+XiO7FtO07pm/tzene/bBlAJbYXetaCM2lBsQPJ7MYrk9CERNphaL5xKMK0Fnvy9OfVQ
+ Y+bU9q7WY0Uh4Ys8J+otFMneIfwxv0xQluXqaIjHKTPEMVRe0iLSwQwQAHlspppJcXBPJ55pvJz
+ JZGujlxTRi2Y6L0eYmj2p7cT3nMIZvFmJX5h1nMX2rkgpOumcUuD7Oe2fNXk47TY9k+6i3mWPRm
+ +1gsqEAXdsAGhXv5RuZTmDTEo722fCpYhIfmTOQnzXGxfUvfRTUYuIHNc7jrvUJJ3yy8os7MmWa
+ fQzyxL3akPGWodtrtHsYmp6smX1T/MBPHuER3U7LA5bJUfQjB0xkE91sw0JPQLAlnjtXtOu0oRF
+ 6D5ufStP6OnrcDNfC66Kegl4bp3vwg==
+X-Authority-Analysis: v=2.4 cv=AJKKJ3lP c=1 sm=1 tr=0 ts=692725ff cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=B5NVPXpBE_52QoX4XTUA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: jOyqyM0SasvNGLs4etkYDuX4vfn-Z9b2
+X-Proofpoint-GUID: jOyqyM0SasvNGLs4etkYDuX4vfn-Z9b2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-25_02,2025-11-26_01,2025-10-01_01
 
-On Tue, 25 Nov 2025, Lee Jones wrote:
-
-> > +static ssize_t parse_drive_mode(struct lp5812_chip *chip, const char *str)
-> > +{
-> > +	int i;
-> > +
-> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = false;
-> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = false;
-> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = false;
-> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = false;
-> > +
-> > +	if (sysfs_streq(str, LP5812_MODE_DIRECT_NAME)) {
-> > +		chip->u_drive_mode.s_drive_mode.led_mode = LP5812_MODE_DIRECT_VALUE;
-> > +		return 0;
-> > +	}
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(chip_mode_map); i++) {
-> > +		if (!sysfs_streq(str, chip_mode_map[i].mode_name))
-> > +			continue;
-> > +
-> > +		chip->u_drive_mode.s_drive_mode.led_mode = chip_mode_map[i].mode;
-> > +		chip->u_scan_order.s_scan_order.scan_order_0 = chip_mode_map[i].scan_order_0;
-> > +		chip->u_scan_order.s_scan_order.scan_order_1 = chip_mode_map[i].scan_order_1;
-> > +		chip->u_scan_order.s_scan_order.scan_order_2 = chip_mode_map[i].scan_order_2;
-> > +		chip->u_scan_order.s_scan_order.scan_order_3 = chip_mode_map[i].scan_order_3;
+On Wed, Nov 26, 2025 at 01:12:40PM +0000, Pranjal Shrivastava wrote:
+> On Tue, Nov 25, 2025 at 04:18:03PM -0800, Alex Mastro wrote:
+> > On Thu, Nov 20, 2025 at 11:28:25AM +0200, Leon Romanovsky wrote:
+> > > +static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+> > > +					 dma_addr_t addr)
+> > > +{
+> > > +	unsigned int len, nents;
+> > > +	int i;
+> > > +
+> > > +	nents = DIV_ROUND_UP(length, UINT_MAX);
+> > > +	for (i = 0; i < nents; i++) {
+> > > +		len = min_t(size_t, length, UINT_MAX);
+> > > +		length -= len;
+> > > +		/*
+> > > +		 * DMABUF abuses scatterlist to create a scatterlist
+> > > +		 * that does not have any CPU list, only the DMA list.
+> > > +		 * Always set the page related values to NULL to ensure
+> > > +		 * importers can't use it. The phys_addr based DMA API
+> > > +		 * does not require the CPU list for mapping or unmapping.
+> > > +		 */
+> > > +		sg_set_page(sgl, NULL, 0, 0);
+> > > +		sg_dma_address(sgl) = addr + i * UINT_MAX;
+> > 
+> > (i * UINT_MAX) happens in 32-bit before being promoted to dma_addr_t for
+> > addition with addr. Overflows for i >=2 when length >= 8 GiB. Needs a cast:
+> > 
+> > 		sg_dma_address(sgl) = addr + (dma_addr_t)i * UINT_MAX;
+> > 
+> > Discovered this while debugging why dma-buf import was failing for
+> > an 8 GiB dma-buf using my earlier toy program [1]. It was surfaced by
+> > ib_umem_find_best_pgsz() returning 0 due to malformed scatterlist, which bubbles
+> > up as an EINVAL.
+> >
 > 
-> Where are all of these used?
-
-These fields are part of unions (u_drive_mode and u_scan_order).
-The bitfields are packed into drive_mode_val and scan_order_val, which are
-written to DEV_CONFIG1 and DEV_CONFIG2 in lp5812_set_drive_mode_scan_order().
-
-> [...]
+> Thanks a lot for testing & reporting this!
 > 
-> > +union u_scan_order {
+> However, I believe the casting approach is a little fragile (and
+> potentially prone to issues depending on how dma_addr_t is sized on
+> different platforms). Thus, approaching this with accumulation seems
+> better as it avoids the multiplication logic entirely, maybe something
+> like the following (untested) diff ?
+
+If the function input range is well-formed, then all values in
+[addr..addr+length) must be expressible by dma_addr_t, so I don't think overflow
+after casting is possible as long as nents is valid.
+
+That said, `nents = DIV_ROUND_UP(length, UINT_MAX)` is simply broken on any
+system where size_t is 32b. I don't know if that's a practical consideration for
+these code paths though.
+
 > 
-> What is 'u'?
-
-The u_* and s_* prefixes were originally meant to indicate union/struct, but they are not idiomatic.
-I will rename it to
-        union lp5812_scan_order {
-            struct {
-                u8 order0:2;
-                u8 order1:2;
-                u8 order2:2;
-                u8 order3:2;
-            } bits;
-            u8 val;
-        };
-and do the same for u_drive_mode.
-
-Thanks for reviewing.
-
-Best regards,
-Nam Tran
+> --- a/drivers/dma-buf/dma-buf-mapping.c
+> +++ b/drivers/dma-buf/dma-buf-mapping.c
+> @@ -252,14 +252,14 @@ static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+>  	nents = DIV_ROUND_UP(length, UINT_MAX);
+>  	for (i = 0; i < nents; i++) {
+>  		len = min_t(size_t, length, UINT_MAX);
+> -		length -= len;
+>  		/*
+>  		 * DMABUF abuses scatterlist to create a scatterlist
+>  		 * that does not have any CPU list, only the DMA list.
+>  		 * Always set the page related values to NULL to ensure
+>  		 * importers can't use it. The phys_addr based DMA API
+>  		 * does not require the CPU list for mapping or unmapping.
+>  		 */
+>  		sg_set_page(sgl, NULL, 0, 0);
+> -		sg_dma_address(sgl) = addr + i * UINT_MAX;
+> +		sg_dma_address(sgl) = addr;
+>  		sg_dma_len(sgl) = len;
+> +
+> +		addr += len;
+> +		length -= len;
+>  		sgl = sg_next(sgl);
+>  	}
+> 
+> Thanks,
+> Praan
