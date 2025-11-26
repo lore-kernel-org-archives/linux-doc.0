@@ -1,68 +1,80 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A54725CC6C
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 07:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C812C08DC
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 07:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764141956; cv=none; b=cd6tDuTyJSeCffOX/onRDNpH1ZXF8DMvGEUBoHlwWaDi22hF+swf+INdeXPTqfHtTjacxRoTiBPy4WO5dIqcgEWMtuqNBBJpRvmXeujhLjdn1DHEScEwodaG1LUozqHghpPNh+p+sh7/SmalzlLzK6oADOi/8jtQ3gYb+nIf3nU=
+	t=1764143055; cv=none; b=jyIzWAtYBTbzXaEoneizXgGtfMlPwiTn7D3BfdK5L9y9RXb/h8tdR6x+jLX48leg7rgcAUFTBM135sG9Cf12ift+n1tztA338RBlbq4ShPMerNT5SyEIu9InJye6I8gIon2oULL3xEdRo0PjDqXMI220tt0MUjBbfMj4UIj/5zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764141956; c=relaxed/simple;
-	bh=4L/5eL1/ItWCHjyzj3oXYZutZjve9LapJn5GO6pMj+k=;
+	s=arc-20240116; t=1764143055; c=relaxed/simple;
+	bh=qbV2RmWMAe0NOBPQxeua3rY0TMMxosUuCWkSeH9084w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KjtaIG0h8TLHYA0JJHMaCXGS1N9FrljxoA8faZaB5xOpF4o51pxXoQtWP3+w75rp/YX9x1J5utDPG/wnmtzbmm+HvbYtwgQsUrcDq8yddxhDmlEPIHRLhj/+VRJkxHPgAbY+InFKqM/3SAFWiaw8HBafXxvvt4gh6m3oW8u2fDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AiaWVi9M; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=T9eYozkjRZvCaRwNFja9ScNj7y0UiqO8/ltDNCm++CWu814cMf8mF9sRjR4BkeyP3yJGkgtnNmGO/zz0Ar3LxNOGllqz5i6eq4dD3rmqVP9Y8jUm3v1obV3xH7qEcXqGshub2DdWKY991pspczJ9YMJyZWdeOwUT38BqogEv8Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ybhOim0S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yABW/xyo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UCUavnyk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Nm7xnp8F; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AiaWVi9M"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b7277324204so1081073766b.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 23:25:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764141953; x=1764746753; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Iv7ZH0U5VwCrSx4pIQP2NujklUNE6c7fxiogNvnqOWg=;
-        b=AiaWVi9MJwUDl0wPYZeXkn4oBQ8BJVKeRanu4DpRo1NgYw4EEgKCRohsyuAxnDvnIh
-         BIEhTfT1uQqvK6Oxt+iSE0h6D2riY/4SwT/0zjG43o3+QRwDJ2k+xc0P7cp/6BkrmlUZ
-         IOCyiadV/oA4LVB/25ZoEErUYqJUhHjZxVPh7dZ0DyMDrUotXDNqM4S4U6nXUl2Qi7RB
-         /Yeh+ljTpG91vHXjIqAFXgUWARprMSxWzMPkeqtn52QEQWok5fec61TFj21hGBJnTheK
-         NLp8wn49uJNyq4gpS7AvIEldl70xXM2vxH0A/ofiwFQ8cK3rIBEMO3byBGjFvpc4uTG4
-         MkNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764141953; x=1764746753;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Iv7ZH0U5VwCrSx4pIQP2NujklUNE6c7fxiogNvnqOWg=;
-        b=f3hcYOtMrOUf6zREqCcAli8bmw4Qjq41S10MyC8LdGnor5EWlTcK+EctJTBh857YRf
-         J+GsPLu1CYbPRTJ8JJG/ICPf6SUfGz5iWvSyZUp9lW9oDcMkwb3MRnazqhoKZxRKPwyY
-         G/b1WY9pLkEb/JXRAeguN1OYfuWY3O7bFOIzKwIAnXsjLhgMVaA3rWIlDkKDAVwjNAl6
-         QbLPI7PQTTYKCpbkIECYnSLZPVFOOH/L1SO7ep0d6RxTWDlvyezHEOb8tbulD1gnhvdR
-         LKEiU9uBYei1uyLL/v11iIjPDp/QlhzJlZSxkAdBCelo47PfOLDKJt4r43holT/jRU6F
-         ujbg==
-X-Forwarded-Encrypted: i=1; AJvYcCXX5XT5WwNibRxMFCOVTEuKmFiJus6Kf08FyrnETeo22n9deRCF9DgM9YW1DPDT/1fWQ+y5iGiUnKc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWZOxCoBH8NqhMaWMrdpLeVmt5NGq4fMqbzu/gVGVObmQGFTs4
-	+tHOKiCRo8nfiXpdhct+oRVx2vQyBN5Q/ZGRRJvpf4/Q/aEITZm2k/24
-X-Gm-Gg: ASbGncvjzG0oWBR5DwWw06UaDTVjMZNPr+P+TfkOnEasQPNfIakH1nUkatryAhU3ma8
-	gNs8OIBbeiSSWbS27PISjRKTA6k+HQoQ17EUaTJdq7e/keQZ1vVztObeVS3nti6oLngy7+kHoKt
-	jSzibR7fIzaxjMs96QnpMAwSc9J6K9/S17NmScwgmzQ0C2p5tGoGnOMkipp2m+KUV0ZXwFRxiYh
-	ca0mRfkNfodn8KLIc5wgJ4P9u1oG8rUReQ/vO8vy1jjpCluFRSkpuGKgpZ0zb9dfJJb7a/Z5uol
-	/qZdk29lxZRuXwjgv9Kan64dd4gRIHQRu3r8eypPoeq6BKHAF5dBU/tV3vR9/Te0oARYZ13pCSR
-	eQhWhzvzJ3of49upoKQuXYckb7CpM4xgaqWuK3bvBc8RTHvuUerrUalmshk4lss3AoLrWp5yKuE
-	gmFV/ZY1oR2RAhgMWpqHRYLx97IcKA5TREyGhHz9VP7ZPSAkukBNKKIK9ub+/gHTjNnuiYWOZFS
-	2MRju5aSs/3
-X-Google-Smtp-Source: AGHT+IHX0rqNNyRTR0dneFys5BvltD8NgTOoyYKLcnywZAT/mxA+kXa1PwfcBV0janZViN7HMFRH3g==
-X-Received: by 2002:a17:907:7fa2:b0:b70:7cd8:9098 with SMTP id a640c23a62f3a-b76c5592b7amr549919866b.61.1764141952922;
-        Tue, 25 Nov 2025 23:25:52 -0800 (PST)
-Received: from ?IPV6:2a02:6b6f:e750:1800:450:cba3:aec3:a1fd? ([2a02:6b6f:e750:1800:450:cba3:aec3:a1fd])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7654d55d7fsm1796765066b.21.2025.11.25.23.25.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Nov 2025 23:25:51 -0800 (PST)
-Message-ID: <d38aeb5d-5a46-4e8d-b3c1-f2b4cdb15b04@gmail.com>
-Date: Wed, 26 Nov 2025 07:25:48 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ybhOim0S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yABW/xyo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UCUavnyk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Nm7xnp8F"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2CE8E5BDB6;
+	Wed, 26 Nov 2025 07:44:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764143049; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=drklKyV2RPFla2Q7/A/lp8Rvp/WaNYg8cDw0mMQv3ac=;
+	b=ybhOim0S7I6Let02rcOFQ9JLXVbOlScNzfGLueqP9Zlw5YUBun1q12IgIf848jaJX+bSAe
+	IIZ1Yrqe3xipE8FGu1WBy04HgXL/rvq0ZwL5H7MURFcrGZsFZw6ROFgmK6B0wvROgl+TEy
+	2TM7EARxF8gFVbHb4sd2ekvb0Gp0hk0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764143049;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=drklKyV2RPFla2Q7/A/lp8Rvp/WaNYg8cDw0mMQv3ac=;
+	b=yABW/xyoPVkXjNeRmgFQT71lSKB5Fdd+5kuTYOzRZD/LesA6aO1BbBuOpOL5VYCr5z4O7m
+	lySg7DYaLEYilvDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764143048; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=drklKyV2RPFla2Q7/A/lp8Rvp/WaNYg8cDw0mMQv3ac=;
+	b=UCUavnyk+e/uOj+YykZnXOPhdx5863ygS+CA9P9ptUJtjb/6J4yiu+guDlVNmWXfwanmWn
+	cZQzKFKrFAni3iT8byQyjGnclSkcexz6EC68COXiRUiEryduFvfuA5cZ8edEM7ZZmgH5Ky
+	YuVwHfBZuMV6Uojom1oG1dcIgb5go2E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764143048;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=drklKyV2RPFla2Q7/A/lp8Rvp/WaNYg8cDw0mMQv3ac=;
+	b=Nm7xnp8FwfJv6zoaVtqeeVxqi86LFnHwP/Thn+695VgWnwv7/hQiEaQ6UwpCuktecvkuSe
+	0+9p+Xjxwg0/qyDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A45B23EA63;
+	Wed, 26 Nov 2025 07:44:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3yIaJsevJmn9LQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 26 Nov 2025 07:44:07 +0000
+Message-ID: <38dcc504-5fa7-49ff-a74c-9a877fd267d5@suse.de>
+Date: Wed, 26 Nov 2025 08:44:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,259 +82,152 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 12/17] x86/e820: temporarily enable KHO scratch for
- memory below 1M
-Content-Language: en-GB
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Pratyush Yadav <pratyush@kernel.org>,
- Changyuan Lyu <changyuanl@google.com>, akpm@linux-foundation.org,
- linux-kernel@vger.kernel.org, anthony.yznaga@oracle.com, arnd@arndb.de,
- ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de,
- catalin.marinas@arm.com, corbet@lwn.net, dave.hansen@linux.intel.com,
- devicetree@vger.kernel.org, dwmw2@infradead.org, ebiederm@xmission.com,
- graf@amazon.com, hpa@zytor.com, jgowans@amazon.com,
- kexec@lists.infradead.org, krzk@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, luto@kernel.org, mark.rutland@arm.com, mingo@redhat.com,
- pasha.tatashin@soleen.com, pbonzini@redhat.com, peterz@infradead.org,
- robh@kernel.org, rostedt@goodmis.org, saravanak@google.com,
- skinsburskii@linux.microsoft.com, tglx@linutronix.de,
- thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org,
- Breno Leitao <leitao@debian.org>, thevlad@meta.com
-References: <20250509074635.3187114-1-changyuanl@google.com>
- <20250509074635.3187114-13-changyuanl@google.com>
- <a0f875f1-45ad-4dfc-b5c8-ecb51b242523@gmail.com>
- <mafs01plmxngp.fsf@kernel.org> <aSW0MF9BXjLnY2Fr@kernel.org>
- <ba690e06-c2a1-4d2e-9428-9ca2ea9f2b86@gmail.com>
- <aSaazgjKX8PfFDXf@kernel.org>
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <aSaazgjKX8PfFDXf@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 0/5] drm: Remove remaining support for kdb
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, simona@ffwll.ch,
+ airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ lyude@redhat.com, dakr@kernel.org, deller@gmx.de, mripard@kernel.org,
+ jason.wessel@windriver.com, danielt@kernel.org, dianders@chromium.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251125130634.1080966-1-tzimmermann@suse.de>
+ <82ed9798-9237-4404-9b32-9430bfb82b26@linux.intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <82ed9798-9237-4404-9b32-9430bfb82b26@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_TO(0.00)[linux.intel.com,ffwll.ch,gmail.com,amd.com,redhat.com,kernel.org,gmx.de,windriver.com,chromium.org];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:url]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 
+Hi
 
+Am 25.11.25 um 17:25 schrieb Maarten Lankhorst:
+> Hey,
+>
+> I'm glad to see the old kdb handler gone.
+>
+> Could we perhaps extend the drm panic handler somehow for this to work?
+> Restore could potentially be simply duplicating and committing the current state.
 
-On 26/11/2025 06:14, Mike Rapoport wrote:
-> On Tue, Nov 25, 2025 at 06:47:15PM +0000, Usama Arif wrote:
->>
->>
->> On 25/11/2025 13:50, Mike Rapoport wrote:
->>> Hi,
->>>
->>> On Tue, Nov 25, 2025 at 02:15:34PM +0100, Pratyush Yadav wrote:
->>>> On Mon, Nov 24 2025, Usama Arif wrote:
->>>
->>>>>> --- a/arch/x86/realmode/init.c
->>>>>> +++ b/arch/x86/realmode/init.c
->>>>>> @@ -65,6 +65,8 @@ void __init reserve_real_mode(void)
->>>>>>  	 * setup_arch().
->>>>>>  	 */
->>>>>>  	memblock_reserve(0, SZ_1M);
->>>>>> +
->>>>>> +	memblock_clear_kho_scratch(0, SZ_1M);
->>>>>>  }
->>>>>>  
->>>>>>  static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
->>>>>
->>>>> Hello!
->>>>>
->>>>> I am working with Breno who reported that we are seeing the below warning at boot
->>>>> when rolling out 6.16 in Meta fleet. It is difficult to reproduce on a single host
->>>>> manually but we are seeing this several times a day inside the fleet.
->>>>>
->>>>>  20:16:33  ------------[ cut here ]------------
->>>>>  20:16:33  WARNING: CPU: 0 PID: 0 at mm/memblock.c:668 memblock_add_range+0x316/0x330
->>>>>  20:16:33  Modules linked in:
->>>>>  20:16:33  CPU: 0 UID: 0 PID: 0 Comm: swapper Tainted: G S                  6.16.1-0_fbk0_0_gc0739ee5037a #1 NONE 
->>>>>  20:16:33  Tainted: [S]=CPU_OUT_OF_SPEC
->>>>>  20:16:33  RIP: 0010:memblock_add_range+0x316/0x330
->>>>>  20:16:33  Code: ff ff ff 89 5c 24 08 41 ff c5 44 89 6c 24 10 48 63 74 24 08 48 63 54 24 10 e8 26 0c 00 00 e9 41 ff ff ff 0f 0b e9 af fd ff ff <0f> 0b e9 b7 fd ff ff 0f 0b 0f 0b cc cc cc cc cc cc cc cc cc cc cc
->>>>>  20:16:33  RSP: 0000:ffffffff83403dd8 EFLAGS: 00010083 ORIG_RAX: 0000000000000000
->>>>>  20:16:33  RAX: ffffffff8476ff90 RBX: 0000000000001c00 RCX: 0000000000000002
->>>>>  20:16:33  RDX: 00000000ffffffff RSI: 0000000000000000 RDI: ffffffff83bad4d8
->>>>>  20:16:33  RBP: 000000000009f000 R08: 0000000000000020 R09: 8000000000097101
->>>>>  20:16:33  R10: ffffffffff2004b0 R11: 203a6d6f646e6172 R12: 000000000009ec00
->>>>>  20:16:33  R13: 0000000000000002 R14: 0000000000100000 R15: 000000000009d000
->>>>>  20:16:33  FS:  0000000000000000(0000) GS:0000000000000000(0000) knlGS:0000000000000000
->>>>>  20:16:33  CR2: ffff888065413ff8 CR3: 00000000663b7000 CR4: 00000000000000b0
->>>>>  20:16:33  Call Trace:
->>>>>  20:16:33   <TASK>
->>>>>  20:16:33   ? __memblock_reserve+0x75/0x80
->>>
->>> Do you have faddr2line for this?
->>>>>>  20:16:33   ? setup_arch+0x30f/0xb10
->>>
->>> And this?
->>>
->>
->>
->> Thanks for this! I think it helped narrow down the problem.
->>
->> The stack is:
->>
->> 20:16:33 ? __memblock_reserve (mm/memblock.c:936) 
->> 20:16:33 ? setup_arch (arch/x86/kernel/setup.c:413 arch/x86/kernel/setup.c:499 arch/x86/kernel/setup.c:956) 
->> 20:16:33 ? start_kernel (init/main.c:922) 
->> 20:16:33 ? x86_64_start_reservations (arch/x86/kernel/ebda.c:57) 
->> 20:16:33 ? x86_64_start_kernel (arch/x86/kernel/head64.c:231) 
->> 20:16:33 ? common_startup_64 (arch/x86/kernel/head_64.S:419) 
->>
->> This is 6.16 kernel.
->>
->> 20:16:33 ? __memblock_reserve (mm/memblock.c:936) 
->> Thats memblock_add_range call in memblock_reserve
->>
->> 20:16:33 ? setup_arch (arch/x86/kernel/setup.c:413 arch/x86/kernel/setup.c:499 arch/x86/kernel/setup.c:956) 
->> That is parse_setup_data -> add_early_ima_buffer -> add_early_ima_buffer -> memblock_reserve_kern
->>
->>
->> I put a simple print like below:
->>
->> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
->> index 680d1b6dfea41..cc97ffc0083c7 100644
->> --- a/arch/x86/kernel/setup.c
->> +++ b/arch/x86/kernel/setup.c
->> @@ -409,6 +409,7 @@ static void __init add_early_ima_buffer(u64 phys_addr)
->>         }
->>  
->>         if (data->size) {
->> +               pr_err("PPP %s %s %d data->addr %llx, data->size %llx \n", __FILE__, __func__, __LINE__, data->addr, data->size);
->>                 memblock_reserve_kern(data->addr, data->size);
->>                 ima_kexec_buffer_phys = data->addr;
->>                 ima_kexec_buffer_size = data->size;
->>
->>
->> and I see (without replicating the warning):
->>
->> [    0.000000] PPP arch/x86/kernel/setup.c add_early_ima_buffer 412 data->addr 9e000, data->size 1000                                                                                          
->> ....
-> 
-> So it looks like in cases when the warning reproduces there's something
-> that reserves memory overlapping with IMA buffer before
-> add_early_ima_buffer().
-> 
->>
->> [    0.000348] MEMBLOCK configuration:
->> [    0.000348]  memory size = 0x0000003fea329ff0 reserved size = 0x00000000050c969b
->> [    0.000350]  memory.cnt  = 0x5
->> [    0.000351]  memory[0x0]     [0x0000000000001000-0x000000000009ffff], 0x000000000009f000 bytes flags: 0x40
->> [    0.000353]  memory[0x1]     [0x0000000000100000-0x0000000067c65fff], 0x0000000067b66000 bytes flags: 0x0
->> [    0.000355]  memory[0x2]     [0x000000006d8db000-0x000000006fffffff], 0x0000000002725000 bytes flags: 0x0
->> [    0.000356]  memory[0x3]     [0x0000000100000000-0x000000407fff8fff], 0x0000003f7fff9000 bytes flags: 0x0
->> [    0.000358]  memory[0x4]     [0x000000407fffa000-0x000000407fffffff], 0x0000000000006000 bytes flags: 0x0
->> [    0.000359]  reserved.cnt  = 0x7
->>
->>
->> So MEMBLOCK_RSRV_KERN and MEMBLOCK_KHO_SCRATCH seem to overlap..
-> 
-> It does not matter, they are set on different arrays. RSRV_KERN is set on
-> regions in memblock.reserved and KHO_SCRATCH is set on regions in
-> memblock.memory.
-> 
-> So dumping memblock.memory is completely irrelevant, you need to check
-> memblock.reserved for potential conflicts.
->  
->>>>>  20:16:33   ? start_kernel+0x58/0x960
->>>>>  20:16:33   ? x86_64_start_reservations+0x20/0x20
->>>>>  20:16:33   ? x86_64_start_kernel+0x13d/0x140
->>>>>  20:16:33   ? common_startup_64+0x13e/0x140
->>>>>  20:16:33   </TASK>
->>>>>  20:16:33  ---[ end trace 0000000000000000 ]--- 
->>>>>
->>>>>
->>>>> Rolling out with memblock=debug is not really an option in a large scale fleet due to the
->>>>> time added to boot. But I did try on one of the hosts (without reproducing the issue) and I see:
->>>
->>> Is it a problem to roll out a kernel that has additional debug printouts as
->>> Breno suggested earlier? I.e.
->>>
->>> 	if (flags != MEMBLOCK_NONE && flags != rgn->flags) {
->>> 		pr_warn("memblock: Flag mismatch at region [%pa-%pa]\n",
->>> 			&rgn->base, &rend);
->>> 		pr_warn("  Existing region flags: %#x\n", rgn->flags);
->>> 		pr_warn("  New range flags: %#x\n", flags);
->>> 		pr_warn("  New range: [%pa-%pa]\n", &base, &end);
->>> 		WARN_ON_ONCE(1);
->>> 	}
->>>
->>
->> I can add this, but the only thing is that it might be several weeks between me putting this in the
->> kernel and that kernel being deployed to enough machines that it starts to show up. I think the IMA coinciding
->> with memblock_mark_kho_scratch in e820__memblock_setup could be the reason for the warning. It might be better to
->> fix that case and deploy it to see if the warnings still show up?
->> I can add these prints as well incase it doesnt fix the problem.
->  
-> I really don't think that effectively disabling memblock_mark_kho_scratch()
-> when KHO is disabled will solve the problem because as I said the flags it
-> sets are on different structure than the flags set by
-> memblock_reserve_kern().
-> 
->>> If you have the logs from failing boots up to the point where SLUB reports
->>> about it's initialization, e.g. 
->>>
->>> [    0.134377] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=8, Nodes=1
->>>
->>> something there may hint about what's the issue. 
->>
->> So the boot doesnt fail, its just giving warnings in the fleet.
->> I have added the dmesg to the end of the mail.
->  
-> Thanks, unfortunately nothing jumped at me there.
-> 
->> Does something like this look good? I can try deploying this (although it will take sometime to find out).
->> We can get it upstream as well as that makes backports easier.
->>
->> diff --git a/mm/memblock.c b/mm/memblock.c
->> index 154f1d73b61f2..257c6f0eee03d 100644
->> --- a/mm/memblock.c
->> +++ b/mm/memblock.c
->> @@ -1119,8 +1119,13 @@ int __init_memblock memblock_reserved_mark_noinit(phys_addr_t base, phys_addr_t
->>   */
->>  __init int memblock_mark_kho_scratch(phys_addr_t base, phys_addr_t size)
->>  {
->> -       return memblock_setclr_flag(&memblock.memory, base, size, 1,
->> -                                   MEMBLOCK_KHO_SCRATCH);
->> +#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
->> +       if (is_kho_boot())
-> 
-> Please use 
-> 
-> 	if (IS_ENABLED(CONFIG_MEMBLOCK_KHO_SCRATCH)
-> 
-> instead of indef.
-> 
-> If you send a formal patch with it, I'll take it.
-> I'd suggest still deploying additional debug printouts internally.
+Yeah, I briefly outlined this in the cover letter. If we wanted to 
+support kdb, we could get the scanout buffer and use the buffer's simple 
+display update for showing the debugger. I think this still requires 
+quite some work, but would avoid all the issues with the current approach.
 
+Best regards
+Thomas
 
-Thanks! I will add the additional debug prints and [1] in the next release.
-It will be sometime before it makes it into production, so I will try to debug
-this more using the information you provided above.
+>
+> Kind regards,
+> ~Maarten Lankhorst
+>
+> Den 2025-11-25 kl. 13:52, skrev Thomas Zimmermann:
+>> Remove the rest of the kbd support from DRM. Driver support has been
+>> broken for years without anyone complaining.
+>>
+>> Kdb cannot use regular DRM mode setting, so DRM drivers have to
+>> implement an additional hook to make it work (in theory). As outlined
+>> by Sima in commit 9c79e0b1d096 ("drm/fb-helper: Give up on kgdb for
+>> atomic drivers") from 2017, kdb is not compatible with DRM atomic mode
+>> setting. Non-atomic mode setting meanwhile has become rare.
+>>
+>> Only 3 DRM drivers implement the hooks for kdb support. Amdgpu and
+>> nouveau use non-atomic mode setting on older devices. But both drivers
+>> have switched to generic fbdev emulation, which isn't compatible with
+>> kdb. Radeon still runs kdb, but it doesn't work in practice. See the
+>> commits in this series for details
+>>
+>> Therefore remove the remaining support for kdb from the DRM drivers
+>> and from DRM fbdev emulation. Also remove the hooks from fbdev, as
+>> there are no fbdev drivers with kdb support.
+>>
+>> If we ever want to address kdb support within DRM drivers, a place to
+>> start would be the scanout buffers used by DRM's panic screen. These
+>> use the current display mode. They can be written and flushed without
+>> mode setting involved.
+>>
+>> Note: kdb over serial lines is not affected by this series and continues
+>> to work as before.
+>>
+>> Thomas Zimmermann (5):
+>>    drm/amdgpu: Do not implement mode_set_base_atomic callback
+>>    drm/nouveau: Do not implement mode_set_base_atomic callback
+>>    drm/radeon: Do not implement mode_set_base_atomic callback
+>>    drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
+>>    fbcon: Remove fb_debug_enter/_leave from struct fb_ops
+>>
+>>   Documentation/process/debugging/kgdb.rst    |  28 -----
+>>   drivers/gpu/drm/amd/amdgpu/dce_v10_0.c      |  35 ++-----
+>>   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c       |  35 ++-----
+>>   drivers/gpu/drm/amd/amdgpu/dce_v8_0.c       |  35 ++-----
+>>   drivers/gpu/drm/drm_fb_helper.c             | 108 --------------------
+>>   drivers/gpu/drm/nouveau/dispnv04/crtc.c     |  24 +----
+>>   drivers/gpu/drm/radeon/atombios_crtc.c      |  74 ++++----------
+>>   drivers/gpu/drm/radeon/radeon_legacy_crtc.c |  23 ++---
+>>   drivers/gpu/drm/radeon/radeon_mode.h        |  10 +-
+>>   drivers/video/fbdev/core/fbcon.c            |  24 -----
+>>   drivers/video/fbdev/core/fbcon.h            |   1 -
+>>   include/drm/drm_fb_helper.h                 |  21 ----
+>>   include/drm/drm_modeset_helper_vtables.h    |  23 -----
+>>   include/linux/fb.h                          |   4 -
+>>   14 files changed, 63 insertions(+), 382 deletions(-)
+>>
+>>
+>> base-commit: 0a21e96e0b6840d2a4e0b45a957679eeddeb4362
 
-[1] https://lore.kernel.org/all/20251126072051.546700-1-usamaarif642@gmail.com/
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-> 
->> +               return memblock_setclr_flag(&memblock.memory, base, size, 1,
->> +                                           MEMBLOCK_KHO_SCRATCH);
->> +#else
->> +       return 0;
->> +#endif
->>  }
->>  
->>  /**
->> @@ -1133,8 +1138,13 @@ __init int memblock_mark_kho_scratch(phys_addr_t base, phys_addr_t size)
->>   */
->>  __init int memblock_clear_kho_scratch(phys_addr_t base, phys_addr_t size)
->>  {
->> -       return memblock_setclr_flag(&memblock.memory, base, size, 0,
->> -                                   MEMBLOCK_KHO_SCRATCH);
->> +#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
->> +       if (is_kho_boot())
->> +               return memblock_setclr_flag(&memblock.memory, base, size, 0,
->> +                                           MEMBLOCK_KHO_SCRATCH);
->> +#else
-> 
-> If nothing sets the flag _clear is anyway nop, but let's update it as well
-> for symmetry.
-> 
 
