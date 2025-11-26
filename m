@@ -1,161 +1,135 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB661096F;
-	Wed, 26 Nov 2025 10:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FB31096F;
+	Wed, 26 Nov 2025 10:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764151853; cv=none; b=uRUhsndIOdB5rNGCu5tRKy3hPYaV0gMZRBQ2IC3bTUvZTEPXkNcodEfXDdoyaTI1YbLda70z5IEG8rkjJmytI1SudvAyDcaQOWqIursfodhDNn4o6sPnsJWPaIRhHY7Ijo3RG8ZBk4vo4AKE1YDLcPO0iOs+hrKQZjq/iJZwwu4=
+	t=1764151897; cv=none; b=OvKpZ2XaHwGYkba0GqYDFgIJfBgps3QuRCv6aapo0IE/GY4e3vJaK3V1ukEAIQ1adOix1AGcoSIub9TmWs1i/vnNcftg7jjjBjX8RlkldkXpR/amwoaNUzdOJY7FwHC1ItDSFiyMjxB7hWSMvLAWJRBlqDqY1Qw8ld1lcBOMaV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764151853; c=relaxed/simple;
-	bh=ecJ1vGlyPj6hsCofjHA7b6XDNSRT7xhJLj2BkLxAf6M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cZDOvyzjUabTmYkFncf04onYVq5qLUw8XBAeRwnshNv8iprq21CKChrmAR/b17rGIBwgblSM03x/OrRDMeI9JUu5nmdG+VgfIlFaNpJrZllrsPjbRyy0SmoWiqn7C3Ubbe69LpkLdVIjOOttYhABlxJnuYQB5wNLckiCnQ3YuVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BTGwNJiY; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1764151897; c=relaxed/simple;
+	bh=kdG/ZRqhPgBjoMhG3fiqvya54/gxQE7eHn54iqnwW6o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UNS2zK34WLuYhNDbchgsWw24BwShM3FRIqbgu5eZv99RQQUMREdRErT6FOpXrKtbsQVslticRq+ha4bz3y2ScXhO+8qIdrs7dYjW61o/KMRCIEleWzrNRFesIuAyw3x1wFqYuNkrKm9ou0UyAvO60cAK2kBLbNtoUE9KYkYs3F8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oZNWcYAL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BTGwNJiY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764151849;
-	bh=ecJ1vGlyPj6hsCofjHA7b6XDNSRT7xhJLj2BkLxAf6M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BTGwNJiYhH0pw6GB3bsWRZFrAfxZlQsY1XcuEL3zlNWjVHArUqmwi2Hmr9H0spuYR
-	 ZZLN8ys30zhBHkvnwuv0MKYs3j2MayURZg1nfvQj5Y4SfOLRj6Pez/y7IfBn1pylM1
-	 cJqj73uPzEbF1Bw70LjOzOLA1MpiTPezmO1B5FvasUQqo+0u9dm8piYmTyL/ParorP
-	 Bsp8pqlHveaqQfQR8+cI2S2sRFvucsZrCuUUbiIE0g79lQfF7L74VOl3eJ0IHL+lNs
-	 X2GqZWDiZ+gtHSazhxFkL8ABfWHWgkf5YvUXT39/hblLTtJvYreeuprfcmj/tGpnHI
-	 /WoTfM4zP4pHA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E4EC417E10E9;
-	Wed, 26 Nov 2025 11:10:47 +0100 (CET)
-Date: Wed, 26 Nov 2025 11:10:43 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
- Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
- Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v9 09/11] drm/panthor: Improve IOMMU map/unmap debugging
- logs
-Message-ID: <20251126111043.145e1aa2@fedora>
-In-Reply-To: <20251114170303.2800-10-loic.molinari@collabora.com>
-References: <20251114170303.2800-1-loic.molinari@collabora.com>
-	<20251114170303.2800-10-loic.molinari@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oZNWcYAL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D8FC116D0;
+	Wed, 26 Nov 2025 10:11:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764151896;
+	bh=kdG/ZRqhPgBjoMhG3fiqvya54/gxQE7eHn54iqnwW6o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oZNWcYALKbLE8wIN2Apm5e446XWKO36td7TLExKiVzT9j3PnN73vV3lnUwGhJdwf1
+	 0QQMgAl5Nc3Jp7iciP4CuK3gn5YjVNgNOZmMrF1bH3L8cOWy9+hRAgFLqXzXQvNwSM
+	 Gpo43KQzvclMTVZbZYrqH+TQOX9S9IWerUHRrmrs16akGQyiBewUm3CeVaSQviJWaI
+	 USptLH/XbL9t26k0AWZdGrB4o3mq1qZB4Yu8PIqU5uQSFzk2agscdNmee0iL+VoABf
+	 Ef6LVGAR01WW+k9TJljX3e6Cdw8AP8789dq6tG+O3gLJiznjgF6gCwXZX0pe12ONCj
+	 wbMS+UEV4TB8A==
+Date: Wed, 26 Nov 2025 10:11:30 +0000
+From: Simon Horman <horms@kernel.org>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v7 3/5] net: devmem: implement autorelease token
+ management
+Message-ID: <aSbSUre5TNChO4Ah@horms.kernel.org>
+References: <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-0-1abc8467354c@meta.com>
+ <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-3-1abc8467354c@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-3-1abc8467354c@meta.com>
 
-On Fri, 14 Nov 2025 18:03:00 +0100
-Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+On Wed, Nov 19, 2025 at 07:37:10PM -0800, Bobby Eshleman wrote:
 
-> Log the number of pages and their sizes actually mapped/unmapped by
-> the IOMMU page table driver. Since a map/unmap op is often split in
-> several ops depending on the underlying scatter/gather table, add the
-> start address and the total size to the debugging logs in order to
-> help understand which batch an op is part of.
->=20
-> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+...
 
-Just queued this specific patch to drm-misc-next since it had no
-external deps. Make sure you rebase before preparing your v10.
+> @@ -292,25 +327,67 @@ net_devmem_bind_dmabuf(struct net_device *dev,
 
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pant=
-hor/panthor_mmu.c
-> index 58fead90533a..32410713c61c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -918,10 +918,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm =
-*vm, u64 iova, u64 size)
->  {
->  	struct panthor_device *ptdev =3D vm->ptdev;
->  	struct io_pgtable_ops *ops =3D vm->pgtbl_ops;
-> +	u64 start_iova =3D iova;
->  	u64 offset =3D 0;
-> =20
-> -	drm_dbg(&ptdev->base, "unmap: as=3D%d, iova=3D%llx, len=3D%llx", vm->as=
-.id, iova, size);
-> -
->  	while (offset < size) {
->  		size_t unmapped_sz =3D 0, pgcount;
->  		size_t pgsize =3D get_pgsize(iova + offset, size - offset, &pgcount);
-> @@ -936,6 +935,12 @@ static int panthor_vm_unmap_pages(struct panthor_vm =
-*vm, u64 iova, u64 size)
->  			panthor_vm_flush_range(vm, iova, offset + unmapped_sz);
->  			return  -EINVAL;
->  		}
+...
+
+> +	/* Enforce system-wide autorelease mode consistency for RX bindings.
+> +	 * TX bindings don't use autorelease (always false) since tokens aren't
+> +	 * leaked in TX path. Only RX bindings must all have the same
+> +	 * autorelease mode, never mixed.
+> +	 *
+> +	 * We use the xarray's lock to atomically check xa_empty() and toggle
+> +	 * the static key, avoiding the race where two new bindings may try to
+> +	 * set the static key to different states.
+> +	 */
+> +	xa_lock(&net_devmem_dmabuf_bindings);
 > +
-> +		drm_dbg(&ptdev->base,
-> +			"unmap: as=3D%d, iova=3D0x%llx, sz=3D%llu, va=3D0x%llx, pgcnt=3D%zu, =
-pgsz=3D%zu",
-> +			vm->as.id, start_iova, size, iova + offset,
-> +			unmapped_sz / pgsize, pgsize);
+> +	if (direction == DMA_FROM_DEVICE) {
+> +		if (!xa_empty(&net_devmem_dmabuf_bindings)) {
+> +			bool mode;
 > +
->  		offset +=3D unmapped_sz;
->  	}
-> =20
-> @@ -951,6 +956,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova,=
- int prot,
->  	struct scatterlist *sgl;
->  	struct io_pgtable_ops *ops =3D vm->pgtbl_ops;
->  	u64 start_iova =3D iova;
-> +	u64 start_size =3D size;
->  	int ret;
-> =20
->  	if (!size)
-> @@ -970,15 +976,18 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iov=
-a, int prot,
->  		len =3D min_t(size_t, len, size);
->  		size -=3D len;
-> =20
-> -		drm_dbg(&ptdev->base, "map: as=3D%d, iova=3D%llx, paddr=3D%pad, len=3D=
-%zx",
-> -			vm->as.id, iova, &paddr, len);
-> -
->  		while (len) {
->  			size_t pgcount, mapped =3D 0;
->  			size_t pgsize =3D get_pgsize(iova | paddr, len, &pgcount);
-> =20
->  			ret =3D ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
->  					     GFP_KERNEL, &mapped);
+> +			mode = static_key_enabled(&tcp_devmem_ar_key);
 > +
-> +			drm_dbg(&ptdev->base,
-> +				"map: as=3D%d, iova=3D0x%llx, sz=3D%llu, va=3D0x%llx, pa=3D%pad, pgc=
-nt=3D%zu, pgsz=3D%zu",
-> +				vm->as.id, start_iova, start_size, iova, &paddr,
-> +				mapped / pgsize, pgsize);
-> +
->  			iova +=3D mapped;
->  			paddr +=3D mapped;
->  			len -=3D mapped;
+> +			/* When bindings exist, enforce that the mode does not
+> +			 * change.
+> +			 */
+> +			if (mode != autorelease) {
+> +				NL_SET_ERR_MSG_FMT(extack,
+> +						   "System already configured with autorelease=%d",
+> +						   mode);
+> +				err = -EINVAL;
+> +				goto err_unlock_xa;
+> +			}
+> +		} else {
+> +			/* First binding sets the mode for all subsequent
+> +			 * bindings.
+> +			 */
+> +			if (autorelease)
+> +				static_branch_enable(&tcp_devmem_ar_key);
+> +			else
+> +				static_branch_disable(&tcp_devmem_ar_key);
 
+Hi Bobby,
+
+This code runs inside xa_lock, which is a spinlock.
+
+But static_branch_enable() and static_branch_disable()
+may sleep due to some combination of taking a mutex
+and cpu_read_lock.
+
+Flagged by Claude Code with https://github.com/masoncl/review-prompts/
+
+> +		}
+> +	}
+> +
+> +	err = __xa_alloc_cyclic(&net_devmem_dmabuf_bindings, &binding->id,
+> +				binding, xa_limit_32b, &id_alloc_next,
+> +				GFP_KERNEL);
+>  	if (err < 0)
+> -		goto err_free_chunks;
+> +		goto err_unlock_xa;
+> +
+> +	xa_unlock(&net_devmem_dmabuf_bindings);
+>  
+>  	list_add(&binding->list, &priv->bindings);
+>  
+>  	return binding;
+>  
+> +err_unlock_xa:
+> +	xa_unlock(&net_devmem_dmabuf_bindings);
+
+...
