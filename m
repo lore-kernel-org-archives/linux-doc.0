@@ -1,233 +1,144 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4A62FF169
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 15:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AF833BBAB
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 16:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764172547; cv=none; b=pUtIcNLwDPahJ1S9yViNsi9K8qz1rn3wV3ND8ZVPGMaAFFz5Xfbxohylt+qHQ/ZCl1DGSXTUau48OSPo24jTmK60PaKmscODE+rBBXtKsj1S/M+bgxBOC5jrKsVYJsSufjglXa4QzoMg0KDsYYmfIvF1y3HMqS2fL4Kf+gznn6U=
+	t=1764172832; cv=none; b=Vaiv7a7o5RcgCW1XTW6rkRkfSPZ79GoAAHoCrY7T66AE98dTS1J91DPeZMghx62XrXeKi36/eM9uejmURoag5zJHSZeurDoi+krrQ0cUB898w1xrsD2Sh6wJySqa6D5oEwbtYAlrDEGkcNY6LzOyVNUiXRjGIQaOcHt9u+a3bGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764172547; c=relaxed/simple;
-	bh=lASm2siB5AU0w5u55FAD+C2Ou4paYQEnU69Wbb4v2Yo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ROg737eduXrkYfDjXWf2ISExDcGmEwLkYhds6GM7mojKaJZc7b9MEvb3Vc0pjafaXkEe2hW1a+Jk9YtdxUTLenhH0boSZ9lwgDy74Ua0GBmUiJjXK+BDprfPtuI1CysnvnHxJwfBU05IA+NruhzTPATQIpnsg4EYNBJW7P1UC38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UWmV9y/N; arc=none smtp.client-ip=209.85.208.53
+	s=arc-20240116; t=1764172832; c=relaxed/simple;
+	bh=WBJ9UwUNrgy/X0b0BvnOXQpDRGyYIy7WU+2Gj+p774c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=gaRjkeTmy7EP4OkimDvYd9Kyu0P7/mVmgepopSCOFm2K70l/BVmXSt4HL4w3ujDXDYQgrn9cGjpRgDC8l9R1kPtFoS9fATjnX/FVOipVmXhStHHScsgK9yBK0wvtdJ3Zy5Y+4kv4FqHrY29JXtfM2NkRbD/i8XOQAZroKp5SYTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GznyddyK; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UWmV9y/N"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-64320b9bb4bso2111796a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 07:55:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GznyddyK"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-297e239baecso8048405ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 08:00:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764172544; x=1764777344; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rG1nOVu8gVLE+V2Sxzp2pYjIM+pZyr/YOIj56xPih2c=;
-        b=UWmV9y/NodWXuqhJY1TrxxsW5M1ncI40fhICgsktkYPkqohzrKM5KW8gECsBOkUMmc
-         GomMVh5SAwe28JGNT4WeVfyWdctx/9vWYlroKPha9wg8kMPsREvY5d//lXoxsnW1UkFi
-         pGFo7cozZkoNz4/xCnDXm2Aclxz3llxgBJitrL5N9yEG4avTKJKfoG8YwiWv77A9JTTD
-         2zHAuhkmOLH9hE2MlyVtRYbSM5uricdM0rHaz+yHpHE5RIoF8TD0rASiGuNpbWZIqiZc
-         GcR0VeCKBmUrnvceelH7wMbrwnxTuR+mK/r7337QBmHOFLSRwY/TGl7N6YAI1JzZtzps
-         e7zg==
+        d=gmail.com; s=20230601; t=1764172831; x=1764777631; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rZ9M6k/4ewqJkE2TX87HwTQsuW0EN1M63J7M16fS/j8=;
+        b=GznyddyKpf8VEbt0x7coIKsZpiCgiyOza3ZG0WDpm3vX4OlWsyrTmM5SKHqAuS4UYz
+         n7ypeJ0k6VsF3SxHF/VSEBykvU82dWT7h0LDSbjekroXMkqyUKeHI/hbvDpTzc5EH/x+
+         5JwmQ6p/nn1JsN8tqBTx9jQFnu9RaSil8FV65Alz5KnFDxjf6h1C9Bt9B6/I6+P8zcJg
+         mHq+ckc26vQki1ZAMEdh5Wg9iIHjhMPrPvbWoQwLwvKe5x0v32SUUFqQEI9TBtcLaeEk
+         S+ZYHo0XPxBKP/yZ7iBmpQL/n7jq81Quoeq+xb6EB49q4GKsAg/yClET1L1bAZB14Psr
+         o/Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764172544; x=1764777344;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rG1nOVu8gVLE+V2Sxzp2pYjIM+pZyr/YOIj56xPih2c=;
-        b=pAfWuiUQZ7iWTnlftrJxfLDiK32YFBWBxqt2ETZ2Dj26zYXKSW4ykqyYrd50USO7V6
-         MV8/38K6qEZCFRP/qu7Cri+miZwRBqktM/uh06y2og+M+6h9lgUSPp9v+P1UeYYYl52B
-         2CVtCR9G6SQ2ZygIhEYWHpDFOajjFq+J8gJCkZvmkCAS9M8LL3BUVhCtc4pypD0UikqJ
-         CmNjbYB8KRvFaUAi+uwd1kkpgTPyseHXQQULqlT0WXuIq/e/lpudEGy3PpidBOJ7SKqX
-         fOECFMwXh4rUF974TMGLix/c+b34FysEqWxX/932ujuwcM4hcHf0fcs1lzbY+H3rC3y5
-         0gIw==
-X-Forwarded-Encrypted: i=1; AJvYcCW3CeIQ8/fROq6Yiq/yQWl8s9lFZOD+5MWICVTEykibTEnCAzY4JcbrVoSIK08hXEnUSc5ll9PyqII=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzzi5ILLWzeEDfZuH3bbQjZcHtDxff0c9sZ+JkMZATt12v1uFU0
-	8MP3uss/aWEdKWRlD9kNTswfhe3ntWk/z8O/1xx8x15C7vdHp0qResva
-X-Gm-Gg: ASbGnctFxYK8Se2/2EzF3YeVXA9Wfxs53iRGHT9f7zaGsR6si9eOQh/FTWDhFrABeq+
-	MVtduSo8AjUYn8xyo84nOl2QWrrikPP/uqHBZQFxkBn76iqTKi2nivwkRp89Oz1MWVF2bhah/tp
-	vUouSz9f8OrGavZUxa0BxliS2s+w6rymxmar+9NFVmktJuXkLZlKPVhp/nEhRlsyPZjhCDDqxSj
-	TjJVd3hg8K7Wd7retiZA+SCV5ye9dgDg2wci3gcWLDWm+iJwnJDCY2LVmLippVQMAXgdQnV8Meb
-	pgC6eZnq7wxuGVdcGeNFm8eVvp0pNmQBRHAOLvfO9rp7Q+e4Oh+6BXd0MtRZtXc1rMJGR2SpEQ8
-	iXPmVlRJ8J30PhH5QrwNAXlZM1NWQkaV3tj3GiafX0HwTZZCPs3RU/8Ata3Ur8Z8f+BGvaZWH9R
-	y5dKx0N+OdxpRrIDTaDu+UJSF3/hj7hWfEDc3VRbuPgLssqZtNB+F6GD/DrH1hrHGEB+M=
-X-Google-Smtp-Source: AGHT+IFOk4Dc71dAU1PFak6lwxd8NQT+2eJebIKCLnu747O0fz8ysrn20pLcynZiSjtb/k5bFDX7Ag==
-X-Received: by 2002:aa7:d4ce:0:b0:640:931e:ccac with SMTP id 4fb4d7f45d1cf-64539658323mr16418976a12.7.1764172544022;
-        Wed, 26 Nov 2025 07:55:44 -0800 (PST)
-Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:123e:4501:1025:ba00:55dc:4ccc])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6453633fe28sm18380759a12.0.2025.11.26.07.55.42
+        d=1e100.net; s=20230601; t=1764172831; x=1764777631;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rZ9M6k/4ewqJkE2TX87HwTQsuW0EN1M63J7M16fS/j8=;
+        b=jqe11v3vRVDtO3DEH3MRG86DYqGV1cSXLzrQWVfHeTvknE1ZFBH/9OFN25EDqiJ22o
+         tQCMiDef4IL4cflz73m9O8YpnchnwiBzXdyMrtXS50+TXzGIhxEjUDjWTy8TKjhNckhD
+         Pbqso7Hm+VqTnDS4vMvRxxGX59GCHunVBoefbnerO+BNUeM+5EsC05SrW9qIXZPJKChP
+         8No6Sn+eXxYCMc+bgpyuWUCci+SPoU32PQkQpISqWRqdDzk3OaOqflCaEpMgRxetaWjI
+         iLgr4YUzse7hqyK3859kC7nkl8QhlpxxM8hUYBnfrZo3aAC3AlRQyHX86494AlGSDCJ0
+         C9jA==
+X-Forwarded-Encrypted: i=1; AJvYcCW34ypWh26XUCbAxjQtQAU2n7HlCYxIGwT9D0Y5kq6URD43NHueJ8fAnu/4A57O8h5lBfYzQwyi61w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyzh0KbuHdQMYCG9xRh1+YDC8IlwXD2N3uMLiqVeoSaQPVpXq5m
+	KbjjXx9zFUV1lYpnJeDpMp2FouE0znpkaYPWO3UdvFMjOwLAHmjRxawi
+X-Gm-Gg: ASbGncurpAa5IRxlY+0eTldSY1eLeuv10GmBr/6mdaD1Kyx9yCQkvWPmj+DpHGNsPD4
+	rkG07yi+mFs1dIvi7cG5kRnub13xA0f23OQhmS85qS+8wammOmXlAHoC6X8uN4vF5cMnmRahl+0
+	oqfSTxILaM9YBHfn7oJo6vuHGOv9xvaYrw1rPlgLgMcWBlperNe+SwH0KudVDf2UR412hlFRIsh
+	k284WdjJCO9G5dhuckAx/Ir/tBONQhmhFGB1+I/hgkczxZM51QHZgLKrRKRbVNKgw6k1Ybuw3kq
+	4DzWfbW/cbmeUVppwR1OijpOFgFts8bxwn6nTy2/UNiOZCtgUfGOjOP34p5AvRl0zqL0CaE+LQb
+	ccKTC7pL93xqBOjY5CUp1uJlQovqWTiIN+kh8ehpYsKLeIEospvIKARJOgnQo4kbCKxmx9NXw9N
+	OiKc5NEpZ3rzVz59WUHt9Uvg==
+X-Google-Smtp-Source: AGHT+IHW4vl9EURMb8YJrD3dHKPOSvMXx6AkbqAkBsNYyyUqCnQUvs3T4dn6AYYdWnbh0jPv+aNGrQ==
+X-Received: by 2002:a17:903:384f:b0:297:f527:885f with SMTP id d9443c01a7336-29b5df697dfmr276743665ad.0.1764172830405;
+        Wed, 26 Nov 2025 08:00:30 -0800 (PST)
+Received: from DESKTOP-P76LG1N.lan ([42.116.199.188])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b13a865sm203447045ad.33.2025.11.26.08.00.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 07:55:43 -0800 (PST)
-Date: Wed, 26 Nov 2025 16:55:41 +0100
-From: Jorge Marques <gastmaier@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Jorge Marques <jorge.marques@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 9/9] iio: adc: ad4062: Add GPIO Controller support
-Message-ID: <rk4hmupbrb5ugxft6upj7ru43x3z7ybrobax45rorpwbcwleh6@vzxrr3m7r6ep>
-References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
- <20251124-staging-ad4062-v2-9-a375609afbb7@analog.com>
- <aSQ2JUN05vmMQC1I@smile.fi.intel.com>
+        Wed, 26 Nov 2025 08:00:29 -0800 (PST)
+From: Nam Tran <trannamatk@gmail.com>
+To: lee@kernel.org
+Cc: gregkh@linuxfoundation.org,
+	pavel@kernel.org,
+	rdunlap@infradead.org,
+	christophe.jaillet@wanadoo.fr,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v18 2/3] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
+Date: Wed, 26 Nov 2025 23:00:24 +0700
+Message-Id: <20251126160024.141129-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20251125134836.GC1127788@google.com>
+References: <20251125134836.GC1127788@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aSQ2JUN05vmMQC1I@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 24, 2025 at 12:40:37PM +0200, Andy Shevchenko wrote:
-> On Mon, Nov 24, 2025 at 10:18:08AM +0100, Jorge Marques wrote:
-> > When gp0 or gp1 is not taken as an interrupt, expose them as gpo if
-Hi Andy,
-> 
-> GPO
-Ack.
-> 
-> > gpio-contoller is set in the devicetree.
-> 
-> Why can't gpio-regmap be used?
-> 
-Because the device register values (0x5, 0x6) does not fit the gpio-regmap.
-It writes the mask for high and 0 for low.
-But low is 01[01] and
-    high   01[10]
+On Tue, 25 Nov 2025, Lee Jones wrote:
 
-A different series would need to extend the gpio-regmap ops, but if you
-implement your custom reg read/write, then you save at most ~5 lines...
-I will add that to the commit message.
-> ...
-> 
-> > +static int ad4062_gpio_get(struct gpio_chip *gc, unsigned int offset)
+> > +static ssize_t parse_drive_mode(struct lp5812_chip *chip, const char *str)
 > > +{
-> > +	struct ad4062_state *st = gpiochip_get_data(gc);
-> > +	unsigned int reg_val;
-> > +	int ret;
+> > +	int i;
 > > +
-> > +	ret = regmap_read(st->regmap, AD4062_REG_GP_CONF, &reg_val);
-> > +	if (ret)
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = false;
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = false;
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = false;
+> > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = false;
+> > +
+> > +	if (sysfs_streq(str, LP5812_MODE_DIRECT_NAME)) {
+> > +		chip->u_drive_mode.s_drive_mode.led_mode = LP5812_MODE_DIRECT_VALUE;
 > > +		return 0;
-Should have been
-  		return ret;
-> 
-> > +	if (st->gpo_irq[offset])
-> > +		return -ENODEV;
-> 
-> Consider using valid_mask instead (.init_valid_mask() callback).
-> Hmm... And it seems it's in place. I didn't get what is here then and
-> why we need to do it after accessing the HW? If there are side-effects
-> they must be described.
-> 
-True, this is not necessary the valid mask does the same.
-> > +	if (offset)
-> > +		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_1, reg_val);
-> > +	else
-> > +		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_0, reg_val);
-> > +
-> > +	return reg_val == AD4062_GP_STATIC_HIGH ? 1 : 0;
-> 
-> 	return !!(reg_val == AD4062_GP_STATIC_HIGH);
-> 
-> also will work.
->
- 	return reg_val == AD4062_GP_STATIC_HIGH;
-> > +}
-> 
-> > +static int ad4062_gpio_init_valid_mask(struct gpio_chip *gc,
-> > +				       unsigned long *valid_mask,
-> > +				       unsigned int ngpios)
-> > +{
-> > +	struct ad4062_state *st = gpiochip_get_data(gc);
-> > +
-> > +	bitmap_zero(valid_mask, ngpios);
-> > +
-> > +	if (!st->gpo_irq[0])
-> > +		set_bit(0, valid_mask);
-> > +	if (!st->gpo_irq[1])
-> > +		set_bit(1, valid_mask);
-> 
-> Why atomic bit set:s?
-> 
-Not needed, will use
-
-	if (!st->gpo_irq[0])
-		*valid_mask |= BIT(0);
-	if (!st->gpo_irq[1])
-		*valid_mask |= BIT(1);
-
-> 
-> > +	return 0;
-> > +}
-> > +
-> > +static int ad4062_gpio_init(struct ad4062_state *st)
-> > +{
-> > +	struct device *dev = &st->i3cdev->dev;
-> > +	struct gpio_chip *gc;
-> > +	u8 val, mask;
-> > +	int ret;
-> 
-> > +	if ((st->gpo_irq[0] && st->gpo_irq[1]) ||
-> > +	    !device_property_read_bool(dev, "gpio-controller"))
-> > +		return 0;
-> 
-> Do you need this? valid_mask should take care of this.
-> 
-True, this is not necessary.
-> > +	gc = devm_kzalloc(dev, sizeof(*gc), GFP_KERNEL);
-> > +	if (!gc)
-> > +		return -ENOMEM;
-> > +
-> > +	val = 0;
-> > +	mask = 0;
-> > +	if (!st->gpo_irq[0]) {
-> > +		mask |= AD4062_REG_GP_CONF_MODE_MSK_0;
-> > +		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_0, AD4062_GP_STATIC_LOW);
-> > +	}
-> > +	if (!st->gpo_irq[1]) {
-> > +		mask |= AD4062_REG_GP_CONF_MODE_MSK_1;
-> > +		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_1, AD4062_GP_STATIC_LOW);
 > > +	}
 > > +
-> > +	ret = regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
-> > +				 mask, val);
-> > +	if (ret)
-> > +		return ret;
+> > +	for (i = 0; i < ARRAY_SIZE(chip_mode_map); i++) {
+> > +		if (!sysfs_streq(str, chip_mode_map[i].mode_name))
+> > +			continue;
 > > +
-> > +	ret = devm_add_action_or_reset(dev, ad4062_gpio_disable, st);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	gc->parent = dev;
-> > +	gc->label = st->chip->name;
-> > +	gc->owner = THIS_MODULE;
-> > +	gc->base = -1;
-> > +	gc->ngpio = 2;
-> > +	gc->init_valid_mask = ad4062_gpio_init_valid_mask;
-> > +	gc->get_direction = ad4062_gpio_get_direction;
-> > +	gc->set = ad4062_gpio_set;
-> > +	gc->get = ad4062_gpio_get;
-> > +	gc->can_sleep = true;
-> > +
-> > +	ret = devm_gpiochip_add_data(dev, gc, st);
-> > +	if (ret)
-> > +		return dev_err_probe(dev, ret, "Unable to register GPIO chip\n");
-> > +
-> > +	return 0;
-> > +}
+> > +		chip->u_drive_mode.s_drive_mode.led_mode = chip_mode_map[i].mode;
+> > +		chip->u_scan_order.s_scan_order.scan_order_0 = chip_mode_map[i].scan_order_0;
+> > +		chip->u_scan_order.s_scan_order.scan_order_1 = chip_mode_map[i].scan_order_1;
+> > +		chip->u_scan_order.s_scan_order.scan_order_2 = chip_mode_map[i].scan_order_2;
+> > +		chip->u_scan_order.s_scan_order.scan_order_3 = chip_mode_map[i].scan_order_3;
 > 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
+> Where are all of these used?
+
+These fields are part of unions (u_drive_mode and u_scan_order).
+The bitfields are packed into drive_mode_val and scan_order_val, which are
+written to DEV_CONFIG1 and DEV_CONFIG2 in lp5812_set_drive_mode_scan_order().
+
+> [...]
 > 
+> > +union u_scan_order {
 > 
+> What is 'u'?
+
+The u_* and s_* prefixes were originally meant to indicate union/struct, but they are not idiomatic.
+I will rename it to
+        union lp5812_scan_order {
+            struct {
+                u8 order0:2;
+                u8 order1:2;
+                u8 order2:2;
+                u8 order3:2;
+            } bits;
+            u8 val;
+        };
+and do the same for u_drive_mode.
+
+Thanks for reviewing.
 
 Best regards,
-Jorge
+Nam Tran
