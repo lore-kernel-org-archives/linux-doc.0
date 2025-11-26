@@ -1,122 +1,158 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AACBB303A19;
-	Wed, 26 Nov 2025 14:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AFC305077
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 14:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764168282; cv=none; b=OjO3UPV8C06hebZCUI1aW6m5VsDphZ4NBQC9VSkZ3N2DDqEwUNhhBRLeipBj1CoSzDYPLSJTx8hGac4Ndtlx8yCwyKhH3GGBFNqFmas3hwJHiXEL6raFsD5Rld6yG5LzwPBvT6alVLtOTa90+sHUqF6EfX5ngjQN38nZT7ZYTIs=
+	t=1764168287; cv=none; b=hmxPROc4VlGW8dVJZZG/JXdFS1wx3nCtt37G/Am9R2/XgGYcWturt201ND0m7tAFfgpqsgIBbE1ocW9heYLpIX/6x6ir7fRp5kubkk+UFkSLVDr0yXUUtSRcl61SxOe4OspUzH6cBMKLXcVJCa+JXV3UByJTxlXv4s/uItmvRTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764168282; c=relaxed/simple;
-	bh=2cppOkVKgl0pjKR1U/CqP0UN6xPwA2lHW16XyELe1JI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KB6LZwcTxMYB+BU80x5kB3oN3pAHv21+NImAmVMnx+NxhMjXx+klCnITl+kuCLHEDCx/u042zU1nu6P+vRNrg8n/1RUZeBdY0Ll+/ZxcqppHwhsLcZxZ5TYC0oZGmqH2KfXtP94K9W0uTd0hdxi0Ubmqu8gru8uQqdLFAVq+QDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 882F9168F;
-	Wed, 26 Nov 2025 06:44:32 -0800 (PST)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8FFB53F73B;
-	Wed, 26 Nov 2025 06:44:39 -0800 (PST)
-Date: Wed, 26 Nov 2025 14:44:37 +0000
-From: Leo Yan <leo.yan@arm.com>
-To: Mike Leach <mike.leach@linaro.org>
-Cc: James Clark <james.clark@linaro.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 13/13] coresight: docs: Document etm4x timestamp
- interval option
-Message-ID: <20251126144437.GL724103@e132581.arm.com>
-References: <20251126-james-cs-syncfreq-v7-0-7fae5e0e5e16@linaro.org>
- <20251126-james-cs-syncfreq-v7-13-7fae5e0e5e16@linaro.org>
- <20251126140154.GK724103@e132581.arm.com>
- <CAJ9a7VgcAiw_h=OTxOK0Vcv=9WFCbdb-+RzDKYhigZZhepM7xg@mail.gmail.com>
+	s=arc-20240116; t=1764168287; c=relaxed/simple;
+	bh=UqfRhGC7tcNDSS2rktztnsX08KO4ak4PJrEZQQuVV18=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=GCIDjawy2crhLJJeaVxUTeFwd+Ziqx+QjaYe/7REBc8Jf6AePPBzLdrtU54i6Y930kirZErPB/hheImzX/w3WEjt+3037qp49xgg9lOVxhRGUKMs4exxQoFVlh8jSznh4yhiXO4EvDgHYr0sO7oJrjvmHOP+kYzZPYbnZ8X2RWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lc5j4fBD; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lc5j4fBD"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3434700be69so9523287a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 06:44:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764168284; x=1764773084; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UqfRhGC7tcNDSS2rktztnsX08KO4ak4PJrEZQQuVV18=;
+        b=lc5j4fBDF8Id1M78Dzmuln4YZAw2qb1G+gbNAtfGxND1VZxmFBK9l+tb0PP5oEYNyn
+         TOfm5Ge4dkP/vtlXxtBgdBnzg0/ojrde/e+DubyHilQ16y+yLFcv2Nbzrr40q7z30V4E
+         DghW1yIKP0HICUBxCJDj6rU0exw8yImCWxejHPr1EIquyx9gLZLIo4qNvQXOQFLnOBmD
+         DYF/fQMn6qrjxuia6lV2T6tukk2qnl5S4YzQuvENQjEURtb9SvsRbOEbWTIy8OAYg5gC
+         AeWeotvvyIh9JCoOGgMurEPNWLSg0+vhmXPJ4m0o7kDWHNJvVP5Zs4UqeI3EAtJBNWOI
+         zsgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764168284; x=1764773084;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UqfRhGC7tcNDSS2rktztnsX08KO4ak4PJrEZQQuVV18=;
+        b=nknWclzYt+DWTx4Zrn7Xsyjffjs0sZCluSYmSENKdJleqfKnL0yGdYE5NEu89/eUu/
+         uyFYfy3BRgu3sEq8v9hMPqTTZEl9kzWACQkW5xl83GrOWfmQRenceeVY8S7FvwqN/0OV
+         AjdKSt6dpGaMXe4V998LOm023lZeqbK8jFcMmaQRRbHbzSE89UexxTzvJ4ulVXFmp3lj
+         XbccCjM33oYjnG+6mnK0LcKvNZUG/pKXUG2xHvPLtg9sg1h5IKDIhdmP8AkaZ+wK7sGM
+         DH7L9514zhdyVoyhZ/vRxhnCPAxBEan+gcRPa/GSDfapHDkQR8X2ngiKiau4LDYsSGQg
+         P/4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXEHvj+En2YxOQh0PL/tsI7fytt6w6b04/jGrWmXm6xNRXi6Vm0/6dNNbfQ7SY8pdqGCuiDX1/OVS8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyS+Qu87dHg9euxWWoxS7m7TaIkIyvyYoIlxOxDZHbG8WHrir3P
+	223NXg/9lror0eUViJIdJxXZJoqLIxc5tRq0sMgkduY15Qi0xj2CmJ/l
+X-Gm-Gg: ASbGnctsX7yjUG/EMWhcdA0FnM1s20qxeeeu1etSgRK6Es8M7W4s73ioTUrZHZ/BIu/
+	wCTxHyQybw3xHIfrXRal4UsoftRDptRl1OSB/Uibrms+gd+DJsRdPv1WrofVBJxmZZx6MeFyO+g
+	n7hj56dvZeuhpgeAh2FHuwolVh+b333qQOIjqnCsbbE8aKTES4PswWCYqlTk85o6PH/jnaIa5MV
+	WRtyIkVsMDWYS24yyUR/zeHLSmdePp9uUSjd/9qu6PPodJwOQr7p2Wzl+uLrfuj6n3PKzXdcfmu
+	0g3koB7gCck6NvnxvViX55yVjvC79/jak09B2ntw84qHWwpx9ijz9Oo7rBUj4kmVSlPT2nCWCZ5
+	PQ2h5A5LmCXcoAu2kHZ170JWnLBA0cQcO1DKkPolBZvLca6bApuKBAdYP7VbSszpk28GPEnaALs
+	yyL1eUe4Feih9d1JQ2tfSsj8nMO9JfsLdx/eiveOaiiO0PK5OLvPIMgX0=
+X-Google-Smtp-Source: AGHT+IHummo04b5kVbBJyoIrPHDE8VmoM3OG1AtPvD6Slv0OYi4AJMuN93Vlql2XFyAQieTb6Wtltg==
+X-Received: by 2002:a17:90b:4d8c:b0:340:f422:fc76 with SMTP id 98e67ed59e1d1-3475eacec4cmr6289074a91.0.1764168284055;
+        Wed, 26 Nov 2025 06:44:44 -0800 (PST)
+Received: from ?IPv6:2401:4900:8fce:eb65:99e9:53c:32e6:4996? ([2401:4900:8fce:eb65:99e9:53c:32e6:4996])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bd75def6314sm19465405a12.7.2025.11.26.06.44.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 06:44:43 -0800 (PST)
+Message-ID: <ed88d805835d38635899d591148d5daf88f77d7c.camel@gmail.com>
+Subject: Re: [PATCH RESEND v6] checkpatch: add uninitialized pointer with
+ __free attribute check
+From: ally heev <allyheev@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Dwaipayan Ray	
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
+ Perches	 <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Andy
+ Whitcroft	 <apw@canonical.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
+ <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, Geert Uytterhoeven	
+ <geert@linux-m68k.org>, James Bottomley
+ <James.Bottomley@hansenpartnership.com>
+Date: Wed, 26 Nov 2025 20:14:34 +0530
+In-Reply-To: <4ef74e2b-74a9-4778-a3f2-d873cf6b7478@kernel.org>
+References: 
+	<20251125-aheev-checkpatch-uninitialized-free-v6-1-70e8bb1e9175@gmail.com>
+	 <58393a1f-272b-41be-9ebd-ae03678cb738@kernel.org>
+	 <43f43063b81da41b693d5eb8178d5c55ebaaa168.camel@gmail.com>
+	 <4ef74e2b-74a9-4778-a3f2-d873cf6b7478@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJ9a7VgcAiw_h=OTxOK0Vcv=9WFCbdb-+RzDKYhigZZhepM7xg@mail.gmail.com>
 
-On Wed, Nov 26, 2025 at 02:20:14PM +0000, Mike Leach wrote:
+On Wed, 2025-11-26 at 09:10 +0100, Krzysztof Kozlowski wrote:
+> On 25/11/2025 17:11, ally heev wrote:
+> > On Tue, 2025-11-25 at 16:09 +0100, Krzysztof Kozlowski wrote:
+> > > On 25/11/2025 14:32, Ally Heev wrote:
+> > > > uninitialized pointers with __free attribute can cause undefined
+> > > > behavior as the memory randomly assigned to the pointer is freed
+> > > > automatically when the pointer goes out of scope.
+> > > > add check in checkpatch to detect such issues.
+> > > >=20
+> > > > Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > > Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e=
+0b9@suswa.mountain/
+> > > > Link: https://lore.kernel.org/all/58fd478f408a34b578ee8d949c5c4b4da=
+4d4f41d.camel@HansenPartnership.com/
+> > > > Acked-by: Dan Williams <dan.j.williams@intel.com>
+> > > > Signed-off-by: Ally Heev <allyheev@gmail.com>
+> > >=20
+> > >=20
+> > > <form letter>
+> > > This is a friendly reminder during the review process.
+> > >=20
+> > > It looks like you received a tag and forgot to add it.
+> > >=20
+> > > If you do not know the process, here is a short explanation:
+> > > Please add Acked-by/Reviewed-by/Tested-by tags when posting new versi=
+ons
+> > > of patchset, under or above your Signed-off-by tag, unless patch chan=
+ged
+> > > significantly (e.g. new properties added to the DT bindings). Tag is
+> > > "received", when provided in a message replied to you on the mailing
+> > > list. Tools like b4 can help here. However, there's no need to repost
+> > > patches *only* to add the tags. The upstream maintainer will do that =
+for
+> > > tags received on the version they apply.
+> > >=20
+> > > Please read:
+> > > https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/proce=
+ss/submitting-patches.rst#L577
+> > >=20
+> > > If a tag was not added on purpose, please state why and what changed.
+> > > </form letter>
+> > >=20
+> > >=20
+> > > Best regards,
+> > > Krzysztof
+> >=20
+> > Oopsie. I should have sent a new version instead of resending a failed
+> > one. I have updated the `UNINITIALIZED_PTR_WITH_FREE` error description
+> > in the checkpatch doc as outlined in v6 changelog, so, didn't add a
+> > Reviewed-by tag
+>=20
+>=20
+> Again, your changelog should explain the reason. Second, you implemented
+> reviewer suggestion, received the tag so why do you think that Rb tag
+> does not apply?
+>=20
+> Best regards,
+> Krzysztof
 
-[...]
+Sorry again :(. I thought the new changes, although minor, would entail
+new comments. I have experienced this in my old patches
 
-> > >     * - timestamp
-> > > -     - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
-> > > -       <coresight-timestamp>`
-> > > +     - Controls generation and interval of timestamps.
-> > > +
-> > > +       0 = off, 1 = minimum interval .. 15 = maximum interval.
-> > > +
-> > > +       Values 1 - 14 use a counter that decrements every cycle to generate a
-> > > +       timestamp on underflow. The reload value for the counter is 2 ^ (interval
-> > > +       - 1). If the value is 1 then the reload value is 1, if the value is 11
-> > > +       then the reload value is 1024 etc.
-> > > +
-> > > +       Setting the maximum interval (15) will disable the counter generated
-> > > +       timestamps, freeing the counter resource, leaving only ones emitted when
-> > > +       a SYNC packet is generated. The sync interval is controlled with
-> > > +       TRCSYNCPR.PERIOD which is every 4096 bytes of trace by default.
-> > > +
-> 
-> What is the default value?
-
-From driver's pespective, the default value is 0 (disabled).  We do
-set default values in perf:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/arch/arm/util/cs-etm.c#n444
-
-IIUC, the default value would be the same with or without this series.
-
-> As far as I recall when this command line parameter was a bool then:
-> perf -e cs_etm/timestamp/ <program>
-> is sufficient to turn on timestamping.
-
-Hmm... with the latest perf, we must assign value to `timestamp`,
-otherwise perf will report error:
-
-  # /mnt/build/perf record -e cs_etm/timestamp/ -C 0 -- taskset -c 0 ls
-  event syntax error: 'cs_etm/timestamp/'
-                       \___ Bad event or PMU
-  
-  Unable to find PMU or event on a PMU of 'cs_etm'
-  
-  event syntax error: 'cs_etm/timestamp/'
-                       \___ no value assigned for term
-  
-  event syntax error: 'cs_etm/timestamp/'
-                       \___ no value assigned for term
-  Run 'perf list' for a list of valid events
-  
-
-> This is worth mentioning so users can correctly assess what happens
-> for any existing scripts they might have.
-> 
-> Based on this then the same command must set the timestamp to 1 -
-> which will have the same effect as before as we do not want to break
-> existing behaviour.
-> 
-> Mike
-> 
-> 
-> > >     * - cc_threshold
-> > >       - Cycle count threshold value. If nothing is provided here or the provided value is 0, then the
-> > >         default value i.e 0x100 will be used. If provided value is less than minimum cycles threshold
-> > >
-> > > --
-> > > 2.34.1
-> > >
-> 
-> 
-> 
-> -- 
-> Mike Leach
-> Principal Engineer, ARM Ltd.
-> Manchester Design Centre. UK
+Regards,
+Ally
