@@ -1,145 +1,210 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4425233A70E
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 16:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D49A72773D3;
+	Wed, 26 Nov 2025 17:23:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764176141; cv=none; b=p+/NC7rYTiwkjhB8YuVW1Jiq32YcrlKGdsBcfa1EF/EOynnkUM0dOw5Hk4dQBjVPG62VeDcDmIe9esZSuA56DVF9LxVP8lfzHFG82UkFqcx1BcPDg5qdW1YgveX6tl2DtWc3uS8FKC4QA1i5uBlVrxCJHk1bdOt2ES9GRo0uSK8=
+	t=1764177838; cv=none; b=ObWE5TBFJ/J26GSUelr8/EKaR7jrJT0q6CUJ0Qj2/9sKPPmZZmMPjuUbO5PrSq+8VKraIxB2yjE1Fw1a3v0jgXrLzj4YVUAjC5vX8JOUdwdsf3A87oYoY6+psGLeBxV81UUhSaOjn9lW9AtzSegNPqn84T8961jOgj8BTjhsVqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764176141; c=relaxed/simple;
-	bh=3Gc11fg7hsjFljk/JqN+H1npRWBl2dMAD1W7UL37tOY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=carc3x4ohjH6sAb4Y7GoKmfngLQ8qJSltmrBdXTpeKj4IYp5uo+JmpTZbmb5J3WTtJWDCMoHf3Ew2VxpV8DRwk0dQC/hSO+CP6bwEVBMIGPnp8CSe/GR0ylJ6JYqHaAph08Ov+I1/Mj6AiwQzhQhKEz53I3yDMPKX3eYPqizeGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KCJDGi4r; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KCJDGi4r"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7b9c17dd591so6173573b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 08:55:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764176139; x=1764780939; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YsLR0RJnm38Fp5r7CqZvtnDjOXjaQRJuirTuBdqGYYg=;
-        b=KCJDGi4rY4QXX2mUg28fMahdbCOHR5IMbRTT4p6p+Tw1trwhatcTK9D00Irh9JGjld
-         +fxqyKFVNLlzmQ8dPT2dsEy7YdSWKxRr+KT40peMNUnNnBdBS6dDNtTO8P9XT0R0VfuW
-         jdyriwVOYhVUSdsuuTuVdawn5sXUone/FHQTLOfr6O75vLdTH0M5wCKS/QErgP8qUgiB
-         +wMPWpM/eQxiAj7Sv8t3T33FO4ciOFp1zKjD60BvfsGYshcYmOgro6ksRCTxWlfFGUEI
-         OkL3lo5VIubyRXLRB73hBbwJXWqg/m9zqajRUNMJf5vMK4EKLdIlTH3w2z8hyPNYyfRb
-         sHQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764176139; x=1764780939;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=YsLR0RJnm38Fp5r7CqZvtnDjOXjaQRJuirTuBdqGYYg=;
-        b=FL4MxvW9dhn6TsZL5sXhLHyfaGXAe+v97mb7xofYUY7RGpUIYTVieKkFnHihA2Lt90
-         UxUo3fiD1iU6Mf8bjcC2gZeD0TQ18v3cyMkfG0IHBcZJGFrHNKbGWFO9U9xoAN6IelvD
-         +KRN/YbjHCzAtLQEC0FWdP2l0D/k3nlls3BVA1bb/dgeE6qj2gI2ExoTrJ9xBrJVc/dL
-         fuO7RaZb0KIsrBTenGLFx683uMAa8YwDm9cSnJ9HCAnSpe59hYjCzCTEY1sb+fktrvHW
-         bATTAKMWBwNN/3AqR8ASK7FTsx7hWWq/tLfit9VB+7pE+it5KZyruA6wAcG27IZvQMu+
-         i70g==
-X-Forwarded-Encrypted: i=1; AJvYcCWLOOFfVPeL3ruoon6eGVeXraoKwhU7euYn0x+ZatuEcijV/vZesnKzF4Uikmr4Edbg0O28KOa+APg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOlL46ARfPKAhSisTBPOnQjmbB3RbbfgfJjN73Vd3kBhn0qt9z
-	EpKgsBeWDJBcSVRN2a1RzllJoMf+dKOBkehd8Xgn4fTmhiVMu5rZPcj7
-X-Gm-Gg: ASbGncstsL9VD4obWdNJwHHXQH2jknDmX56h5IaR5sFFlIY8+dXNnCClaT3SQXKsloP
-	uQzqX7nyTp8gnBbHgSCd9Xav9sTg3/wZM9G9PhPMGDZAlkxSA/1KTb8UMh4MZi+tsR45Ri4E1Me
-	PXh363owDr33ylNayp8LY+fCoZP8t3KPD4mhV6vEiqUfzSfeEc5BXhnwgae72reiwhXKE0g3CxL
-	LQophhMEMtVfyICcftCNXjTFmGO3w2nWtrq7/k7G5FA3660iWW6XEQ50LWFB0f+JkTkLNBJz6Yq
-	QhcxXsg4DpH17Nb3psbqSdL4DwEKuS7OmXVBUPj/FvzoxyrhDrRO8hTr4UpaiMCpXBuDclcY2zP
-	UZxYPPkZlwTKjfA21LFiaJnPKJDzcA8ztcxf4PGwlii87c63RJhW/bTL4hxvADyCsl/lQTq4gGf
-	C7eAFz6TpgE9+M0PCZt71rGA==
-X-Google-Smtp-Source: AGHT+IH6cuG9oEeYrc3Fz+ThAFudgaYZ2XGiyeMqLPbjuZeQq1pwyPE1LvTCIEY9wFQ2EuUIbEmwCQ==
-X-Received: by 2002:a05:6a20:9148:b0:35f:4e9d:d28b with SMTP id adf61e73a8af0-3637db14ff6mr7976498637.18.1764176139306;
-        Wed, 26 Nov 2025 08:55:39 -0800 (PST)
-Received: from DESKTOP-P76LG1N.lan ([42.116.199.188])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bd75dfed99esm19887078a12.1.2025.11.26.08.55.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 08:55:38 -0800 (PST)
-From: Nam Tran <trannamatk@gmail.com>
-To: krzk+dt@kernel.org
-Cc: lee@kernel.org,
-	gregkh@linuxfoundation.org,
-	pavel@kernel.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v18 1/3] dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
-Date: Wed, 26 Nov 2025 23:55:32 +0700
-Message-Id: <20251126165532.160730-1-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <74d6319c-535f-4409-a3c4-299ab946af54@kernel.org>
-References: <74d6319c-535f-4409-a3c4-299ab946af54@kernel.org>
+	s=arc-20240116; t=1764177838; c=relaxed/simple;
+	bh=Ns2uIjc6ylcF5DtOMpf79pYda6x1DtUCP+tyq6fOCvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FnarA3iy/AwMjvwyp/RbzIB/3z27B1M9wOzGd/kPdfW3RrTtJgmvbC1CnN2ORg0Z4KNvlQ+dGEV29nhH4t5jVqbjIGK6h2tB7fhoFaZEBS0fyByhD9r2tk8REw2i0nenw3bzBVf+QTLBvzYDlGdUsiow7xRoEB2YwgrPNwMqW/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4D80168F;
+	Wed, 26 Nov 2025 09:23:48 -0800 (PST)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.66])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 14E853F66E;
+	Wed, 26 Nov 2025 09:23:53 -0800 (PST)
+Date: Wed, 26 Nov 2025 17:23:47 +0000
+From: Dave Martin <Dave.Martin@arm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Fuad Tabba <tabba@google.com>, Mark Rutland <mark.rutland@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v8 11/29] KVM: arm64: Document the KVM ABI for SME
+Message-ID: <aScfSMZEKCeUq7Zn@e133380.arm.com>
+References: <20250902-kvm-arm64-sme-v8-0-2cb2199c656c@kernel.org>
+ <20250902-kvm-arm64-sme-v8-11-2cb2199c656c@kernel.org>
+ <CAFEAcA_GJ7gzn7aMCZYxHnJWvx4tHSHBKsOxtQ7NTb4gPjkMJQ@mail.gmail.com>
+ <df712591-397e-422b-b9c9-fbf080cad9aa@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <df712591-397e-422b-b9c9-fbf080cad9aa@sirena.org.uk>
 
-On Mon, 24 Nov 2025, Krzysztof Kozlowski wrote:
+Hi,
 
->>> +examples:
->>> +  - |
->>> +    #include <dt-bindings/leds/common.h>
->>> +
->>> +    i2c {
->>> +        #address-cells = <1>;
->>> +        #size-cells = <0>;
->>> +
->>> +        led-controller@1b {
->>> +            #address-cells = <1>;
->>> +            #size-cells = <0>;
->>> +            compatible = "ti,lp5812";
->>> +            reg = <0x1b>;
->>> +            ti,scan-mode = "tcm:4:0:1:2:3";
->>> +            vcc-supply = <&vdd_3v3_reg>;
->>> +
->>> +            led@0 {
->>> +                reg = <0x0>;
->>> +                label = "LED0";
->>> +                led-max-microamp = <25500>;
->>> +            };
->>> +
->>> +            led@1 {
->>> +                reg = <0x1>;
->>> +                label = "LED1";
->> 
->> Completely useless label... You require labels, so people need to write
->> something but since they do not know what to write they call LED 1 a
->> LED1. This is just not helping.
->> 
->> Use color and function properties. Same everywhere else.
->>
+On Mon, Nov 24, 2025 at 08:12:56PM +0000, Mark Brown wrote:
+> On Mon, Nov 24, 2025 at 03:48:06PM +0000, Peter Maydell wrote:
+> > On Tue, 2 Sept 2025 at 12:45, Mark Brown <broonie@kernel.org> wrote:
+> 
+> > > SME, the Scalable Matrix Extension, is an arm64 extension which adds
+> > > support for matrix operations, with core concepts patterned after SVE.
+> 
+> > I haven't actually tried writing any code that uses this proposed
+> > ABI, but mostly it looks OK to me. I have a few nits below, but
+> > my main concern is the bits of text that say (or seem to say --
+> > maybe I'm misinterpreting them) that various parts of how userspace
+> > accesses the guest state (e.g. the fp regs) depend on the current
+> > state of the vcpu, rather than being only a function of how the
+> > vcpu was configured. That seems to me like it's unnecessarily awkward.
+> > (More detail below.)
+> 
+> That was deliberate and I agree it is awkward, it was introduced as a
+> result of earlier review comments.  I had originally implemented an ABI
+> where the VL for the vector registers was the maximum of the SVE and SME
+> VLs but the feedback was that the ABI should instead follow what the
+> architecture does with the vector length and potentially presence of the
+> vector registers depending on the current streaming mode configuration.
+> It sounds like you would prefer something more like what was there
+> originally?
+> 
+> > > For SME unware VMMs on systems with both SVE and SME support the SVE
+> > > registers may be larger than expected, this should be less disruptive
+> > > than on a system without SVE as they will simply ignore the high bits of
+> > > the registers.
+> 
+> > I think that since enabling SME is something the VMM has to actively
+> > do, it isn't a big deal that they also need to do something in the
+> > fp or sve register access codepaths to handle SME. You can't get
+> > SME by surprise (same as you can't get SVE by surprise).
+> 
+> Yes, it's not going to affect anything without enabling it.  I can't
+> remember what that was in reference to, it clearly needs an update.
+> 
+> > >  .. [1] These encodings are not accepted for SVE-enabled vcpus.  See
+> > > -       :ref:`KVM_ARM_VCPU_INIT`.
+> > > +       :ref:`KVM_ARM_VCPU_INIT`.  They are also not accepted when SME is
+> > > +       enabled without SVE and the vcpu is in streaming mode.
+> 
+> > Does this mean that on an SME-no-SVE VM the VMM needs to know
+> > if the vcpu is currently in streaming mode or not to determine
+> > whether to read the FP registers as fp_regs or sve regs? That
+> > seems unpleasant -- I was expecting this to be strictly a
+> > matter of how the VM was configured (as it is with SVE).
+> 
+> Yes, it does.
+
+Ditto from me about not having looked at this earlier...
+
+
+Is the above condition right re streaming mode?  The original reason
+for this restriction was that the SVE Z-regs and FPSIMD V-regs are
+aliases when SVE is present.  To avoid having to worry about how to
+order register accesses and/or paste parts of them together, we went
+down the road of banishing encodings that alias a subset of the
+register state accessed by some other encoding.
+
+In line with this principle, with SME Vn and Zn are aliases when
+*not* in streaming mode, so allowing access through the Vn view feels
+problematic too?  (And when in streaming mode, the Vn regs don't exist
+at all.)
+
+Whether the proposed ABI is considered awkward for VMMs or not is a
+separate matter...)
+
+> 
+> > > +arm64 SME registers have the following bit patterns:
+> 
+> > > +  0x6080 0000 0017 00 <n:5> <slice:5>   ZA.H[n] bits[2048*slice + 2047 : 2048*slice]
+> > > +  0x60XX 0000 0017 0100                 ZT0
+> 
+> > What's the XX here ?
+> 
+> Sorry, will fill that in - thanks for spotting it.
+> 
+> > > +  0x6060 0000 0017 fffe                 KVM_REG_ARM64_SME_VLS pseudo-register
+> > > +
+> > > +Access to Z, P or ZA register IDs where 2048 * slice >= 128 * max_vq
+> > > +will fail with ENOENT.  max_vq is the vcpu's maximum supported vector
+> > > +length in 128-bit quadwords: see [2]_ below.
+> 
+> > What about FFR registers ? Is their ENOENT condition the same,
+> > or different?
+> 
+> It should be the same, will update to clarify.
 >
->And now I went to older versions and I see they were correct - you had
->color! You replace correct code with wrong one and drop review. This
->patchset is not really improving.
->
->BTW, You actually received review also at v6, so this was reviewed 3 or
->more times. Way too many times.
+> > > +       max_vq.  This is the maximum vector length currently available to
+> > > +       the guest on this vcpu, and determines which register slices are
+> > > +       visible through this ioctl interface.
+> 
+> > > +       If SME is supported then the max_vq used for the Z and P registers
+> > > +       while SVCR.SM is 1 this vector length will be the maximum SME
+> > > +       vector length available for the guest, otherwise it will be the
+> > > +       maximum SVE vector length available.
 
-Thanks for your feedback.
-To address your concerns, I plan to roll back to v17, which was reviewed
-and approved by Rob.
+The max_vq name here is not ABI; it's just linking concepts together in
+the documentation text.
 
-The only intentional addition in v17 compared to v14, which you previously
-reviewed, is the ti,scan-mode property to configure the LP5812 scan mode.
-No other aspects of the binding are modified.
+So, can we give explicitly different names to these two max_vq values?
 
-I hope this resolves the issues and keeps the binding stable.
+Splitting the affected register descriptions into "SVCR.SM == 0" and
+"SVCR.SM == 1" cases also be helpful to make this special-casing clear.
 
-Thanks again for your guidance.
+> 
+> > I can't figure out what this paragraph is trying to say, partly
+> > because it seems like it might be missing some text between
+> > "is 1" and "this vector length".
+> 
+> > In any case, the "while SVCR.SM is 1" part seems odd -- I
+> > don't think this ABI should care about the runtime vcpu state,
+> > only what the vcpu's max vector lengths were configured as.
+> > My expectation would be that the max_vq for VMM register
+> > access would be the maximum of the SVE and SME vector lengths
+> > configured for the vcpu.
+> 
+> This is attempting to say that the VL for the Z and P registers (and
+> FFR) will vary depending on if the vCPU is in streaming mode or not if
+> the maximum VL for SVE and SME differs, similarly to how the Z, P and
+> FFR registers disappear when we are not in streaming mode in a SME only
+> system.
 
-Best regards,
-Nam Tran
+May flipping SVCR.SM through KVM_SET_ONE_REG have the architectural
+effect of zeroing the vector regs?  That feels like something that
+should be stated explicitly.
+
+
+Also, in general:
+
+I'd agree that this mutating interface feels odd, and does not follow
+the original spirit of the design here.
+
+But the SME architecture doesn't fit well with the spirit of the
+original KVM ABI here either, so I guess there won't be a perfect
+solution.
+
+
+It seems that when SME is enabled in the vCPU features and the VMM is
+planning to dump or set affected registers, there is a requirement to
+dump / set SVCR.SM first, and then go down one of two code paths.  Can
+this be called out explicitly?  This is a departure from the the
+previous interaction model, so it probably deserves its own section,
+which can then be cross-referenced from individual reg
+descriptions.
+
+SVCR.SM exhibits this modality w.r.t a specific set of affected
+register encodings; it would be good to have that captured clearly in
+one place.
+
+(This may or may not make life easier for VMMs -- I'll leave it to
+Peter to comment on that!)
+
+Cheers
+---Dave
