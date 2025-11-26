@@ -1,149 +1,301 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010057.outbound.protection.outlook.com [52.101.85.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23621E5734
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 00:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764117008; cv=none; b=f7smSMxJdIqT+E/O2hmfFGWbQrx2ncUNtGtmZBWMkrl6NNB9ZPuY4Q3WcM9HSSsSfGO3fT/+OKhe5T0mbS1C7qwC7NbpoYpvqTeiBOHVbogQfxfQfOi20gozwF0okk+6873L+B1YJ3+1CXTSwCn7ToTCV+68hq1uuB4ZaHFUfw4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764117008; c=relaxed/simple;
-	bh=+7pgfRjo/daR/nWjZbzX/uZO08iJE3h0AwCxM47eCS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g0wURAaaNJR6hh+M3f/p0b5j+KCXeQ2pc5f7mf3JXpM457k4q2YzGMqB72vbYnvzuKmoPP3w5W4HpXuHdQJziEd1pwSPn1JOkKBWLuGT/Mt9v/bM+3Fbf+0zsx6bRZguMz/kohKWsbd6681hvP/WzcalmRQVe9z4yJQuDk/EZII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VwamRu5s; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096AC189F20;
+	Wed, 26 Nov 2025 00:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764118204; cv=fail; b=coyYK4DzedbqqHZs+3J3W7a02Sk0OBqTxfEayV2IwEZ1bZwywLBeirtkPPFrMTmq2kptR1PrQ+7d81qd14bB+7IGBwIUdDfKrdnjXcA9b4p14RZqyNDafV/9pBP2V/RTyMX4VBGrM5ZiuQ2tJ9eJ3nxuMu7ThLyj7DS7yzoj/ZY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764118204; c=relaxed/simple;
+	bh=fQqceDYv9/GP6MeaT9FYVd1fkV5spXOB7Ei5m+/el7U=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=A75rIkvGmJYB8wwslLF95Te7/cIR1WH9ti54YZrfIqm0UrW+N5lCqTLyYWZpQhax467xoZ7pwLWux0hnFRYgMlDUNukRwKTP3Gq2rsqThczK9aytO3nk570D7gsmHYgWvOK824NIJuaQlfPPpZwOV1vG9SAwtf1VALKpJ4E42eQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dCvvq2tB; arc=fail smtp.client-ip=52.101.85.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VwamRu5s"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7aab061e7cbso7062002b3a.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 16:30:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764117005; x=1764721805; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TQMjuKPHzUNhfDB/BTLq+fTDXNip/wwiVzkgCrUswNY=;
-        b=VwamRu5scCwBUWz9WyCwemooMsOX3LyoCXEk4k4S4cQz6czo6mlzblsCC5ke5LkVQz
-         9nhWPgF9YTBR93kBUD8/wKHuVC4YYrXrMRfmuGJQE+UAmwffula7JAChCIWYlMJKaAMK
-         8IpXLpqBZATHqs7NvhN6hzM9OId92KG66j+Veofvn0GWjLB+Ir034DvR7WDtZ2Fdua7E
-         P/VKd6VCJucQM76vaFNghQkgcmEzFjqUjYS++WtcX+I4XRGU4RDbJCAbmMQyTsci1QO8
-         qYAVb7l43B7vaFhr0WlI/GIcLiQSDkh7FH6AeAagpRf91xYM1dV04CLKximUj3EgbsGU
-         IHUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764117005; x=1764721805;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TQMjuKPHzUNhfDB/BTLq+fTDXNip/wwiVzkgCrUswNY=;
-        b=feFVNfZifOEWPzpSPrW5/Y//92s2a2nJzPKc+sVYzNd2gKhxm+Q8ycVqgB4sYADEta
-         AD8MN5yvJKoliPVt2C9sqK79G4OsXPIXBBw92/tyRJDQESC7HEdVBCvXwQTmoJBf1UPd
-         4J/FefEyAt2BiqSvp2aV51mohHV9HguWW3czdsHVqUGCiVmJ8K6tpgLHH7n8CaE4KM1I
-         ZGwr7LUoJz660F+YXY/KldQ/qlSwjGLz2Tu+9Iv9Yi/OQdSQnAO1vUnKSYACmB7VH+kn
-         C7Fl/QXhDVYyE0XWpFtf0iSOYA2nOaRS7myzoD3CHkjsIkHjiZPjRe4sh1sJKkwgYWz6
-         qwLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLDVTxZNzG40bem40Lyo6oDtjk+SJBnaSvSlTZsJNZxSXV8bQsbdsJSAOgvlsHGGcOivco4QDCYNQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxcrl8bAoc72/2EK+mX6iwUO265V7tjtIfoIBZKbMHsIqn6BcLt
-	5FfvdeDYLs0kUy0JnlAMDRINSjuuoI63SdsC7jg7GAomCANUHIrSN+Pg
-X-Gm-Gg: ASbGncuqKHpc9Saa3u8PUT78hwIS5P/SdTnsDHNWM+gK+4Tx0ioRj2pLw/WiQvL1Mmd
-	2QT7IW+/y75LFz9VW5iyNzvwstglbr5HzwG5CCsRpuS+XjZKAo27npJPwyxwV+IDXucNKQTXsGl
-	C1RrxEqmf0nR6evhgW3WgYtj39fIol5twHE55m9XBkhEF560hZUk/opfzMN/BzzAB19dJodHG/q
-	J46xkSHLNvlwINu4SV8wCyyzdPyaSI/KUurRUix1HYw2SCagy0tgXhiAM0VCQhf8pgYo+KPyZMq
-	psCOlW33TgZdFHpO7R/iS2LOZ01hY2xyrEI1aG1HQc8bpr02CALy1ljqpKKAAVxtNGKZT/oQb51
-	QLrxGDjCIJjsIF2QvjAU8j2/m8CcM6z2hU7oHzdFWsRUaEWnjv+0ODIWq5qw+yxZojcE0/ysAC0
-	U4I6YqdD/ACss1zMPa9OJgCw==
-X-Google-Smtp-Source: AGHT+IFlzBzMU6uRJEoPA/DtA6ralWIDq9xCWcLTBXEwpgMrSQIUxDFPucCWFcH95f/neuSSWsnHWg==
-X-Received: by 2002:a05:6a00:1490:b0:7a2:7f1e:f2dd with SMTP id d2e1a72fcca58-7c58c7a69a5mr14956775b3a.11.1764117004888;
-        Tue, 25 Nov 2025 16:30:04 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f0d55b71sm19503922b3a.55.2025.11.25.16.30.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 16:30:03 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id DAF2F420A78D; Wed, 26 Nov 2025 07:30:01 +0700 (WIB)
-Date: Wed, 26 Nov 2025 07:30:01 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>
-Cc: Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mark Bloch <mbloch@nvidia.com>, Gal Pressman <gal@nvidia.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Shahar Shitrit <shshitrit@nvidia.com>
-Subject: Re: [PATCH net-next] docs: tls: Enhance TLS resync async process
- documentation
-Message-ID: <aSZKCZkUnllzyydN@archie.me>
-References: <1764054037-1307522-1-git-send-email-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dCvvq2tB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v30qzTz65dPbVkdEVMezU8AuFpOwU/yoxbI6vCaoYadpLguP5Jza25udzGlGMBvVH2MroWCYeweIkrx2xdMRoGfEdd/faSj0+xSaBIWH+ukY6qrTOpApswqdu9Pxqhu4z9PMs4kchznMDfvcDibZvV2w8SqefRDN6VSQmAeEAaCBi6KIdQFPQwzdy9SaREM7dz1rP08gkx9KSz0omYVYRLVchPH2ISeh3m+F+ZQARSgpLDADATa+igNgEo2XRCc9JeTm50nMwo4QvQvfvxzlF/EgeOz15wltEm+FORofPcxYkWTtIafjml0QXURZPGL0AmuxIL/+G06+pzO0mwGYeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LIuCm8ryFyfbZUY6bVsEX8wN1WxZp9wbzzdhK7/hrPM=;
+ b=Q2I0Vx8hubS67mQSvTqQJN3eDApxNucnWW0MBUAS3Oeojz+WzUEKXA3ZayKbMSQAtRNDHyAZJcSbJM3wm8TKvHnvY7mIih298z+MFWj4C9OV8fBIQbQ6Z562TaN7kvA7nJfGIiALkxkywj2lO2i2m1QgE5iuzncu7SgHMwvluRlTHkMlFkANEjLitzAfOYH3wOYzXsiVd9LYqCmkDA9Yn6uPgA+gF6R8ckkxmNRXj1usLVoN+Ko8X/owH+b2e+w44fQ2F+N1Hur7QwvxeMg9aGpj+UOQ8jX03zCFzmfluvcJMlKlAXG7pk+1lb+OuUDy80rlIBAiGgy+eyClbFXwjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LIuCm8ryFyfbZUY6bVsEX8wN1WxZp9wbzzdhK7/hrPM=;
+ b=dCvvq2tBBJZ9f2/m7oD44N+jn3pyUb2Q7iOpqq2UuUjIcZX4eStH+QVjrfr62wf+wyxpa50kvO5f0ROp0x/zVVwjXZe5GK2OANnWAssm3yYIu4AbzBkIrugfFEzFwlb8x6k9fyvOqnYY1VDYHvRF2YSr7uwQP5OnSOEWAVXOF3x9MhdWOXnp6AXAk18iBKIt3nOmztkHmCmoKT/N9h7YwKQ0Krmm+BffC5l1ETdkXF7IZbrLYGkLEunMUXqe3IQu3jMjkAwLBriEYiLJhnPGVYSG0D52FJ5wuKNQbl+K00q2FrtWVReIdMEhbgTIgZdEr/fwE4KCKyiGugixUYKm/g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
+ CYYPR12MB9015.namprd12.prod.outlook.com (2603:10b6:930:c8::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.17; Wed, 26 Nov 2025 00:50:00 +0000
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8%7]) with mapi id 15.20.9343.016; Wed, 26 Nov 2025
+ 00:50:00 +0000
+Message-ID: <861bca05-1964-4539-ac69-f3afc82bfe99@nvidia.com>
+Date: Tue, 25 Nov 2025 16:49:15 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/4] slab: Introduce kmalloc_obj() and family
+To: Matthew Wilcox <willy@infradead.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Kees Cook <kees@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
+ David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+ "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Jann Horn <jannh@google.com>, Przemek Kitszel
+ <przemyslaw.kitszel@intel.com>, Marco Elver <elver@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>, linux-mm@kvack.org,
+ Randy Dunlap <rdunlap@infradead.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Vegard Nossum <vegard.nossum@oracle.com>, Harry Yoo <harry.yoo@oracle.com>,
+ Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jakub Kicinski <kuba@kernel.org>,
+ Yafang Shao <laoar.shao@gmail.com>, Tony Ambardar <tony.ambardar@gmail.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Jan Hendrik Farr <kernel@jfarr.cc>, Alexander Potapenko <glider@google.com>,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-doc@vger.kernel.org, llvm@lists.linux.dev
+References: <20251122014258.do.018-kees@kernel.org>
+ <20251122014304.3417954-2-kees@kernel.org>
+ <CAHk-=wiNnECns4B3qxRsCykkHwzovT+3wG738fUhq5E+3Lxxbg@mail.gmail.com>
+ <202511241119.C547DEF80@keescook> <aSTKLsRNiEKtDqPI@casper.infradead.org>
+ <202511241317.516BDE7B@keescook> <aSTRsIUPeT5EC5An@casper.infradead.org>
+ <CAHk-=wgn-2ieKtaHAXLLge1UFckLKa88vo3XOdLz+fP+DLpHGA@mail.gmail.com>
+ <aSUB1qrfhXp3suGn@casper.infradead.org>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <aSUB1qrfhXp3suGn@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0055.namprd03.prod.outlook.com
+ (2603:10b6:a03:33e::30) To DM3PR12MB9416.namprd12.prod.outlook.com
+ (2603:10b6:0:4b::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Uhx3q5Xis8IAS4gY"
-Content-Disposition: inline
-In-Reply-To: <1764054037-1307522-1-git-send-email-tariqt@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|CYYPR12MB9015:EE_
+X-MS-Office365-Filtering-Correlation-Id: bef19c01-0293-42cc-8b96-08de2c85ba28
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cTM5RVg3SUc1SGpJZHBHYWJkVmJSNUhJSElqTTN0QUZLUmtiMXdiRWlndklq?=
+ =?utf-8?B?Zno0UzV4NmJvUWdBdU9vU3RxaGk0bzZPTzRlUTU3UlltenBMZ0Q0dC9oTmg1?=
+ =?utf-8?B?d1dsSXVWbTVIK0UxQ3kzcFZSK1V4RlVQeURMT3kwYUVlQ1ZiVm04b29ZeVp1?=
+ =?utf-8?B?RGkvbWJIRWxJUVg5cWtPM25VbkJSWmxuR3ZWRVlTVDN4NnNLNEx2WVQvY2Y3?=
+ =?utf-8?B?WG90cWNuZVBOQTVtS1dBdFl3VHpjSVd3WjRVV3h5NXJiUktObnM1ZEFJMDNY?=
+ =?utf-8?B?M25pZ0x3anNwaG5CdDBZQzRRSkJLYWRqbnJtSFZOcTFhM0F2c2U3RFJlaytY?=
+ =?utf-8?B?RDlPdU4zaUJ2RlJTUktkVHNyL20ya3IxeUgzOVdwRkE5dGlTNmV1Qy9sU0or?=
+ =?utf-8?B?SnBRUGhmYkNUZnU0RzkrZU84aXhaSUwzaTBOMExYeDN2RzBzc0NvUzBpd1pQ?=
+ =?utf-8?B?eE1vT2w3Y1FtOVdqNVA4eUhBUDdzV054aFd6YjRzWVRmSUMxazA1N2lCcEFN?=
+ =?utf-8?B?UExHSno1bVNjdEtDQjRiY1lhdjJWZW1VQ1VnUHkyZEdjZENtZDUyanFiZ3Vu?=
+ =?utf-8?B?TmlHWjhhLzFna2xFZ200YXpteG1hdG9wWk9SYmEwSXU2ZTYxaEJsMWFtN3oz?=
+ =?utf-8?B?bWJNUkhndWtMdVN3LzZ1MFd5MG9xcE9nZ3lnODFOTWR2NUJIOTgxVEpqLzF5?=
+ =?utf-8?B?SDFqcFFyUUVPY2t6d0tMYW9ReXk1NlU2NE9rUVZIQ3pOQjlHOEMxdUZpLzhR?=
+ =?utf-8?B?eUlpMEo2b0tWZkE4aktaOHp4dklkSWJLcHBnRjErcFYxMElZQ3g4d2wvWXg4?=
+ =?utf-8?B?MCtzc3lzVHVpUWhReGtPTWZyUjluTVlQZVYwWGpEcVlMSEZ2TGZIdHRseERx?=
+ =?utf-8?B?dFpiSGt4K2VuZXlHOUtaWXJ2dGxUeGo5Snp0T2JZRG50MFRmbzFDZTFXNEp1?=
+ =?utf-8?B?RFN5TkpXMFpSSFVTZENDbTUxSG5tLzNkbmRMaHZRdHRiL29NTzBiR3U4UzBM?=
+ =?utf-8?B?ZmRmaXJGQzBHQklYQjhHZ2pvQlZPYThPcVNBaUlLRW01eGdBaGJ5TXowZm1z?=
+ =?utf-8?B?Qnp4QXlPY0N0dEF1eWVFTlV3ZWhucmVlN1h2dk11dFJFZys1YXZqb3pIeXpL?=
+ =?utf-8?B?RzRpRFBxTkcxYkVUSEVoVit5T1pBS213bi83ME9ZNzBac1BGUDJWU2FwZWNz?=
+ =?utf-8?B?cUJIczdyN000ZmFQK1ZiSG5qRHRaeEpjTkVwQ0RIVFhQcCtMUm9UdUY3OXVI?=
+ =?utf-8?B?bnVEYUFmMkxVOHBnbnpoOEgwR1ZvNU8zRHdlV1cyMmg2UTJoQlhsUVZzUERT?=
+ =?utf-8?B?Y0dFUjVOMW40eklNQk9vOGJaZUdSSkhNV2hRZEt5MnNkODYvLzhhNXdwWldC?=
+ =?utf-8?B?S2NIWXQxWW5MbUo5MzNnZFNmTk9xSUtMYlV6cW9GMUMxT0tQVkhVZ1pYSVNR?=
+ =?utf-8?B?MUswT1ZXaVFSdWFRWEVlOS80dXpIR3ljeHhnWUs0Q1cwa3hQMmQ0YVBhQ281?=
+ =?utf-8?B?S0hnWUZNa3lmOEFmWUFiUWZuaW9PUW9hZWFBdzd2d0pQcUdYbnB4RTJVU2VZ?=
+ =?utf-8?B?bnk3aXQ0MEE3R21tTElEWEhURHlYUjFRcXU2cjFNbHB6ZUYvcUYxNkpFWFZq?=
+ =?utf-8?B?MTRtR2l2M2VXWGNZZVQyMElSZVVqMVBsUDNFRmF5SjJoL0lFd2RJZnBlbWMx?=
+ =?utf-8?B?bFBmOHFQQWg5OEdNUTQzdDJJSzE3aFRjNW1hclhXZkQ1cGwvNHRyV1h5UUJZ?=
+ =?utf-8?B?MWg1dDhnN0ludkVJTHhEajJoTWQyUjNjQ2JFdDZVcnRiZmx5UzByYS8rZ05Y?=
+ =?utf-8?B?RnFLdWU3SEVQTm9HOVZSV0dNTG5CTFhmRE96VXZrak1CbE9WT01wUVIzWFpV?=
+ =?utf-8?B?Z1VsMXE2WHNtMkdQUTdGMFhrZ3BxaHlqQUVMNzBNWmVVUXNrZVhLTVFTakRj?=
+ =?utf-8?Q?gaqjEibINRFQVpppdPR0VgWnLYsnwRt+?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZVhJaGJ3UUZBTHFJWGkxRmt3b1NTalBjNkhVcWJBZ2Z6Q0puY3h4enlCT2FP?=
+ =?utf-8?B?ZmJYK3RPcTVhQ29RSFdVSUVhQzBtMzFyNzlQMG5Nb2pVK1VSY2tJYmZMV0ln?=
+ =?utf-8?B?ekgxK2VuamEwbUladzZEQzNSYmRRWVhjbkFrTFo0K09ta3lYWmFyUFVYdWox?=
+ =?utf-8?B?QVBxQ3ZoU0tIaTlJdXllSGlRbHRnWnJCZWkzamxRdWo3N21lUXdHbm45bUFR?=
+ =?utf-8?B?L1FlNzlJVEx2S2VRK3pET2pwSzVIYldRS1cvbHZmMS9EZlJqYWlBZmRGbkp3?=
+ =?utf-8?B?TU4zRDdyckE2a25Gd2tLb2ZIRHJKZ09KUFlSWUVOdy9wOUhHUjNicTg0WXgy?=
+ =?utf-8?B?aXpUa2NXQk5vVUYrTHFaeHdRampoeEoxTVJqQ25DWktYd08vTk5XWHh4WDN5?=
+ =?utf-8?B?aTNEdGZZUTM0NEdremt1R0RUcmNjQndQWGtUSE9FQ05MYW9KbHVLVXZIZUZi?=
+ =?utf-8?B?c0dZbFF3ZmM5bzdRUTVkNUpPcEVRSndwZFBhYUtQV2Q0bVZyRmVUSXZ5aGhD?=
+ =?utf-8?B?UFd2N0RORWNzV1VrbzB3WHBGbGh0N3c3VTlBL0RpNFpMRklKZ1NuNXBtbkQw?=
+ =?utf-8?B?bGVvY1lWMXVuVmpRdVZKVGtxM1NDdEtFRFdsb21VNjJpNDNaRHllLzh2SVNJ?=
+ =?utf-8?B?QkJUVE1TTDhhZzI2QjBFdzFvTFNDSHhGQnhOeGdNa0lQdGMvSy83bk15UXV4?=
+ =?utf-8?B?MS95Q1ltUkpKZFprZXhXb2xINlN0QllpUFZHRnU1bTNsbUdkNzUyK2dWeXM4?=
+ =?utf-8?B?UEdWcEpQa2luSzhQbEt3OExKbXdrdE9xRkphK2FnaXAyQlJRc1ZjeFFZTGg5?=
+ =?utf-8?B?U0ZsRXdXZ3BaTHpiRUQ2QmlDWW91TEt5aFlHYzY0SjNJZDU0SUMrM21yTGxQ?=
+ =?utf-8?B?VVJ5cEN3OUgyY2M4T3NSZ3ZwK2RWUTZHWHFxbE9UZ0FFYmlzbEo0R1Z0UVNy?=
+ =?utf-8?B?SUJLdGUxekpDeVNDaVZrSldsT2ZhdWdhTmEwci8weXA0ZnRESU5Ba2dicUUz?=
+ =?utf-8?B?a2FLamMxNmZYbmxHRXc5SXFRRVhXQndEaXMwYUxIVy8zYldqbDJKZXdCRmJP?=
+ =?utf-8?B?aDJOK3YwSG1GRFI0Nk8yQ3FON3RiOFRWTUkzS3E3N0VDa3I3bWtnVHA2MVU2?=
+ =?utf-8?B?SytKa3ByV2tUS3oxcDBaT1U5Q2hPM0pFUkV4N1Q4UEQrdjNMalNmejdNQ1Uz?=
+ =?utf-8?B?K1NhaDNQTzVxaDJhSnVwVHB2algyZFFhZXZycVBJR2dUN0xEcDhaaktJQVZi?=
+ =?utf-8?B?bng1ZWZKeGVnNFgzYWJmdDM4SjQ0SSs4cmxVNUFMY2E0cHBlVG9FajhoNDcv?=
+ =?utf-8?B?N0FweTZQY0c5VkgyVWt4MEdTa0Q5Uk1FYzVzTTNtWVo3bis1WUFFc3p0b2hu?=
+ =?utf-8?B?MjJ1bEs0RTVQN2MyaVROR2JhcFVFbUdUdWdpSCtVekF2cUZPOEtvbk5udUVs?=
+ =?utf-8?B?NGJ3WkhxdXFLbHdvbDdlZ1EvOCtJMUlOSEQwUWhMcHNNSHBIdVFqbDBWcDNU?=
+ =?utf-8?B?Z2xldFUrLzFCdkY1M3UyZ0Y1amgvQ3lsZlVTb3pjNFhOWExIRVRHWGVjNVpE?=
+ =?utf-8?B?RW9zS0dhWnBzeWZNZVlJSWJrU3NGb21ieHpCd1FuUGpYNDUyVnVzSnNQQ2JJ?=
+ =?utf-8?B?M1lDaEVaUjdGUTB2ZU91Nkw5N25GSnYxUVNzdHFSaGlEU0JoZUVYamJrZmZC?=
+ =?utf-8?B?a2hONDJjYjJNUko0OGVrbmphTnMya3FScnYrcU15UldqdWwwQkVpZGpyQzJ3?=
+ =?utf-8?B?K0FRUEVWbVFzTVM1eHVGTmZwbG15Z3h4cW9RTUxLeTZkdm5paW1vbUVEOGhw?=
+ =?utf-8?B?bDY0eEhYU0ExalJ4dVZlOGdTcThha3c4eFp1d0gyREVtN2poSG5hWDJqM0Vk?=
+ =?utf-8?B?WndNeTdmTGt4bU14MHVzTkg0OCt0clpEUjdzMG5WcGt3cDRJYno1RzBCdnNT?=
+ =?utf-8?B?U0t5RkMwV0NkMnUyY2hMNEdTMTBxbG1LcEJzSVAxZHFaRE1YK3ZPdVRJb1d1?=
+ =?utf-8?B?TnNWTHZLWkFpSytldlpkaXh3a1J3ZlRyeG16MHJsK1pyUDFsOFRmRHBUTWJE?=
+ =?utf-8?B?ekxEQnlRS0dQditpM3g0YnVKZWJHVUY1bXdFVmJvTnVUMzNMQkdaWFFyeUlh?=
+ =?utf-8?Q?Kur/aS/n8MEPoiRbkUbZbJx2/?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bef19c01-0293-42cc-8b96-08de2c85ba28
+X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 00:50:00.1233
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VMLkwZQ+/hVcgOev5Pwawbscmn+TUK111Mp6kH3e+j3xsh2Y4DTdJ4PqMCRxoKqGj32rgETGmpsL6xSwIqHcUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB9015
+
+On 11/24/25 5:09 PM, Matthew Wilcox wrote:
+> On Mon, Nov 24, 2025 at 03:30:19PM -0800, Linus Torvalds wrote:
+...
+>> Imagine how many other places you add integers to 'unsigned long'.
+>> EVERY SINGLE ONE of those places involves sign-extending the integer
+>> and then doing arithmetic in unsigned.
+> 
+> I have bad news.  Rust requires it.
+
+Well, yes.
+
+But the pain is front-loaded, so it's not like we have to go back and
+retrofit anything.
+
+And I also want to tweak the characterization of that, below, because
+I suspect this is unevenly understood, so far:
+
+> 
+> fn add(base: u64, off: i32) -> u64 {
+>     base + off
+> }
+> 
+> error[E0308]: mismatched types
+>  --> add.rs:2:12
+>   |
+> 2 |     base + off
+>   |            ^^^ expected `u64`, found `i32`
+> 
+> error[E0277]: cannot add `i32` to `u64`
+>  --> add.rs:2:10
+>   |
+> 2 |     base + off
+>   |          ^ no implementation for `u64 + i32`
+>   |
+>   = help: the trait `Add<i32>` is not implemented for `u64`
+>   = help: the following other types implement trait `Add<Rhs>`:
+>             <u64 as Add>
+>             <u64 as Add<&u64>>
+>             <&'a u64 as Add<u64>>
+>             <&u64 as Add<&u64>>
+> 
+> so the Rust language people have clearly decided that this is too
+> complicated for your average programmer to figure out, and you need
+> explicit casts to make it work.
 
 
---Uhx3q5Xis8IAS4gY
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+A couple of key points, though:
 
-On Tue, Nov 25, 2025 at 09:00:37AM +0200, Tariq Toukan wrote:
-> +When the kernel processes an RX segment that begins a new TLS record, it
-> +examines the current status of the asynchronous resynchronization reques=
-t.
-> +- If the device is still waiting to provide its guessed TCP sequence num=
-ber
-> +  (the async state), the kernel records the sequence number of this segm=
-ent
-> +  so that it can later be compared once the device's guess becomes avail=
-able.
-> +- If the device has already submitted its guessed sequence number (the n=
-on-async
-> +  state), the kernel now tries to match that guess against the sequence =
-numbers
-> +  of all TLS record headers that have been logged since the resync reque=
-st
-> +  started.
-> +
+a) There are many other, better options than casts (Rust's "as"
+keyword).
 
-You need to separate the status list:
+In fact, Rust doesn't actually require casts here, but it does require
+something to explicitly declare the programmer's intentions.
 
----- >8 ----
-diff --git a/Documentation/networking/tls-offload.rst b/Documentation/netwo=
-rking/tls-offload.rst
-index 6d276931669979..a41d02d72e1ee6 100644
---- a/Documentation/networking/tls-offload.rst
-+++ b/Documentation/networking/tls-offload.rst
-@@ -338,6 +338,7 @@ Cancels any in-progress resync attempt, clearing the re=
-quest state.
-=20
- When the kernel processes an RX segment that begins a new TLS record, it
- examines the current status of the asynchronous resynchronization request.
-+
- - If the device is still waiting to provide its guessed TCP sequence number
-   (the async state), the kernel records the sequence number of this segment
-   so that it can later be compared once the device's guess becomes availab=
-le.
+b) Rust doesn't do this because programmers are too dumb to figure it
+out. On the contrary, programmers are required to specify exactly what
+they want, in the first place.
 
-Thanks.
+Some examples, using Matthew's example as a starting point:
 
---=20
-An old man doll... just what I always wanted! - Clara
+// u64 add operations:
+//   +                          - panics on overflow (debug), wraps (release)
+//   wrapping_add(u64)          - always wraps
+//   wrapping_add_signed(i64)   - always wraps, accepts signed offset
+//   checked_add(u64)           - returns Option, None on overflow
+//   checked_add_signed(i64)    - returns Option, None on overflow
+//   saturating_add(u64)        - clamps to u64::MAX
+//   saturating_add_signed(i64) - clamps to 0 or u64::MAX
+//   overflowing_add(u64)       - returns (result, bool)
+//   overflowing_add_signed(i64)- returns (result, bool)
+//   strict_add(u64)            - always panics on overflow (even release)
+//   unchecked_add(u64)         - UB on overflow (unsafe, for optimization)
+//   carrying_add(u64, bool)    - multi-word arithmetic, returns (result, carry)
 
---Uhx3q5Xis8IAS4gY
-Content-Type: application/pgp-signature; name=signature.asc
+// 1. Wrapping: overflow/underflow wraps around (address arithmetic)
+fn add_wrapping(base: u64, off: i32) -> u64 {
+    base.wrapping_add_signed(i64::from(off))
+}
 
------BEGIN PGP SIGNATURE-----
+// 2. Checked: returns None on overflow/underflow
+fn add_checked(base: u64, off: i32) -> Option<u64> {
+    base.checked_add_signed(i64::from(off))
+}
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaSZKBQAKCRD2uYlJVVFO
-oyacAP0fN/NP544JfEy704TIpMviAVm7qketzfORZ/nMxtq97wEAjUGwXZm8f2Hk
-f0XnH1RkaVFGzFchC4P1xk7c1Dv7qQ4=
-=xNTM
------END PGP SIGNATURE-----
+// 3. Saturating: clamps to 0 or u64::MAX
+fn add_saturating(base: u64, off: i32) -> u64 {
+    base.saturating_add_signed(i64::from(off))
+}
 
---Uhx3q5Xis8IAS4gY--
+// 4. Overflowing: returns (result, did_overflow)
+fn add_overflowing(base: u64, off: i32) -> (u64, bool) {
+    base.overflowing_add_signed(i64::from(off))
+}
+
+fn main() {
+    let base: u64 = 0x100;
+    let off: i32 = -0x200;
+
+    println!("base=0x{:x}, off={} (underflow case)", base, off);
+    println!("wrapping:    0x{:x}", add_wrapping(base, off));
+    println!("checked:     {:?}", add_checked(base, off));
+    println!("saturating:  0x{:x}", add_saturating(base, off));
+    println!("overflowing: {:?}", add_overflowing(base, off));
+}
+
+// Output:
+base=0x100, off=-512 (underflow case)
+wrapping:    0xffffffffffffff00
+checked:     None
+saturating:  0x0
+overflowing: (18446744073709551360, true)
+
+
+thanks,
+-- 
+John Hubbard
+
