@@ -1,150 +1,150 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30782FF153
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 14:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4512F2FF676
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 14:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764166827; cv=none; b=AJzuUMpEbtNazOR4QXZIVCyVfU9Xt2Ydscf0PXgI93Z+SDtkui5AH9FE1qobDlbHBXFx6KQT5Ih3X0l0DISSYVGpANBtaJ5SsO4ZxsVcyvgf0RV7uaSwb7mZtY7Ul3mIkmdwmutNtYqKNeRQnI1a9q0+qrTC/UTkJPMiq7MT7+4=
+	t=1764166829; cv=none; b=AOnBYzs6gyNbBbFPWg3OU3AAAGNYaxThC2f+YZhY/XWOtXOn1CRwzvJ/ljGEk5rRyA/k41dNw3PsoXU+xy7bIsbRZ2Monvw5aqufSjGs7GUjPiCpamP6IyUdKlCqtOxWqxQCAwnJphR/W/U32++RRy6zp9LF+qHemrU0p6dYO1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764166827; c=relaxed/simple;
-	bh=hBETWyJXR1+k6f3cyXUv0ivnrSiwqNEJzpSkQpr7ohg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Nx2Rg7GvfLgrADiaiaNlsEvrTwLoQc3YAxBEHeIyjx3kRUMklvRmNATY7tu91DUACVfKJTCEW0ue32uxr2Lca21ipCazlrboIfdEba6bb6uguQ8GUEBcKPVzDZo7QAVeFaM3kr7TRghMJAuSBtS9Plb2GSUUbrrXuaTINmXsUHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VF0LS8Qr; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764166829; c=relaxed/simple;
+	bh=kR8KCrtjkrqH0dCBDtoBNt6Co87mHfxvKHk9SsvTfbA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OuH5bJCHkE0te4Qo3MhGxkrmJQyRENpRTM/xYmqGu7wYbqjCdbDYFcOT8g8FiclvyQkE4QfGOySBIlv9Ek8/o2fq8/NvM2esMqq6meqMnsMiTch/GQNFMRUvKogp1rTUmjCQ55S8QjbWamzDTwTgZaWENg4XPNNhF2hTDd7EclY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=cfWqkOAz; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VF0LS8Qr"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8b2dcdde65bso997763085a.0
-        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 06:20:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="cfWqkOAz"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42bb288c1bfso3989534f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 06:20:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764166825; x=1764771625; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UygfS1gmAzBwZyN5jNpTgDld1SbxnKAShfYEWk/vvM8=;
-        b=VF0LS8QrSTijo9/n8+VsWe4HVtZ3/KmFq++tJYVUnLtY6KbPH0tA32h2YQS/NF+0dz
-         uyhhIz5x+NY3tkxiM6YW2sqMCWxkCOj1wvboizBta/syOQ0XYMq9e6SYcSwUMmaxxyNo
-         cLtP7J3O5mMmgRVHS19QD8fObMc2uE1SMlDH8nD3rWx78xiUSPxqmbi8X7tN4S6tZFuP
-         qJY48R3iwmEgu0CGdgueeoTkBNQJLqQNp2a5fy57UbJ84yEbQXAbAcjTDfNqinYbUSrf
-         eU1iVzB0mju6vxYCNqzgCGcXZwkM2WSjWxqkTNkNuyhupknSBazFj1Isn4NAFb5NZnZs
-         Vxsw==
+        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1764166825; x=1764771625; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=K+mX3K4EZWXpumEvNCBx9+WunDYcwtTk4SgV9tqSlww=;
+        b=cfWqkOAzIgRIvSUFk2ZXxvBtX6kFCDRmxCScKsEwEs/GRFYn151TfESN84/7yH6zHG
+         mHs5ziMnku2mhDGIfMdWabn5I48clydmj/EIL0aoNFr6lqKLq2/oaAJDd8IEYjZBp5c/
+         TDeX8TYXidbaGOt5dkDlSNm41tAQFMLZ5D31FfmrqzkMWDZlaZKF68ejEf4nAnaNBn1s
+         0qL35hVyrbn4/hsiczDrcyBS/lpqzfg/HijqhKS004TA7ACMW2NP4M202zF4tnffR4qe
+         otxi1B7cVo/9JOEDv4tYhVk4+0AK/s/eZ0YLPi+eH9UK6flufCAiryQvgFMjL0C7Jbh9
+         DP0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1764166825; x=1764771625;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UygfS1gmAzBwZyN5jNpTgDld1SbxnKAShfYEWk/vvM8=;
-        b=JnlYpZkdmEOOX7qCLOz68CcfHp24mwfpupyjl2xZ5aKhqt4XCR+hU6Z4jkaffu0tSS
-         47+SKhBST34ZTi+J0Hm3rufGkDndn2Nm73kGzPVLlC4n80V0iO160w3a+QsK0wLb8GV8
-         ALzOJivWjNZB/4yZAqCk3H5/ZzrsDAdpGsORf2GaKvoWRVHlbcw2V7DyjFDgzkLREO9I
-         /oRadJFyuUNxPkfGQK03bU+3cFJqWSOWNBT5+p9uXQKeJubrS+c74cxKzF3PrQbPB69Z
-         1rcBJuHv50Ile1diJ1nYSjposGDbj5LY0iU6h5DR9efkpO/391NDsrplCqcazwJhBTnf
-         IB4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX5XsvBSoZoPHRPdrqpHoJa0Sl3JTryDUkb6SV3w6jFKO2ck5+MBpRZd7f/DwfkRjZm8mhhegqW+/0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzASQ2e4qXGCITz6B1HgWD+jbn3ZyeVVQFMKBQ3nHfEJp9228ad
-	+0NGbxQcaxAyp/UclxqFn5mipQeCh8nS2oNmYCUFCDUhcLtC2QSUyMkpJqjP4jLUBxZ1n3mvmdl
-	xY1LoBTmK7cfd5PgY6RtFbVkJeDka2/76mwW1aYNwpDx5TIbQ9Q/0
-X-Gm-Gg: ASbGncs5TpSmYAQ3EBOpfbtSNzRXhNFLKcqzdCLCsyHq+ooVsk5Wyq9bTewt7twTBnU
-	y2UyK3IMB5d4nhP0AibzsZOdhJjA+oIaIZ+fkJRhwZV1GO9YEuYX8CjVIG9cTQG65/d4k1sC6Yt
-	g57UTEShhYyxVVt/5NoDSCvWST29RHrQOf8UNp4B2ViKfoB+WVcFKTLdgqgzdJ74OBQPzblbjHH
-	Xf40W/8jIxYYcx96kA22YLXOpG9C7DF6WKt8icpXIsM5wZ6DomViGM2lf0iSs08DWq6j5R/FGgG
-	d9sHH62q2pstcz9zs8uVXZ0tCTMGaqz1ymGHNxM=
-X-Google-Smtp-Source: AGHT+IEXhMtdXqOIXMjzdjhXPvF+1CFwLCKnETjmeKA2ia2qVKHR8qbNsixLeJGiRYPNKgiHRvy/8M3YPyXRFNRpBZc=
-X-Received: by 2002:a05:620a:460f:b0:8b2:e5da:d317 with SMTP id
- af79cd13be357-8b4ebdae699mr876378985a.54.1764166824849; Wed, 26 Nov 2025
- 06:20:24 -0800 (PST)
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K+mX3K4EZWXpumEvNCBx9+WunDYcwtTk4SgV9tqSlww=;
+        b=hBDYBfQOr4VmGAMoN6BSDmkHRXZnoYKHHPWRcUGBlYoMYcxUO/Xy/rpDqk+mkU4gei
+         HUVXydhEhK73wi/nkMdDdkklT4AQ06Na4t06EIyJWxh090+4f/zXwmXM12WcgFyORUEn
+         PG5hW1w/Lja027WTH0FfjDafQJJysJp1vllg0DN3fY4CO/zHpSV1KlDnZTqpcoYNmQU9
+         XKquB2NygxE+/U9aAenmi5ibKDWtlPzp1jg5uAPKfA1U3+CyEuOMFndSFs5ZJn6FKvfi
+         7AcoYq5ip55g0F334i4DPw9VSxhTut6ykrxKV5a/q583FIiUWFnrD2pToHsdeEAkmAJv
+         Ce9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUhlTkhl6z1xVcWr2+fjF92GaNqCxKdxIKR+2c8KqOc4ujXF4+uDFRAfIBqua64i328oKDGdGBU+48=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxw8RPF+8GlVCnE8j13mRvUyRYuHTaIcRG+/HxEcmPyLcYHr42Q
+	I8KTEVkSXDtmpMNzHhvi7gV7GXuMIsC91cpYQM5Ab7GVItF2anDo7BHP+dwciW26LdE=
+X-Gm-Gg: ASbGncvEYc9gAZFTTsp6p6sGi7OlEdMwCNE1pEW+0egbB1mELj8pWpduumIkEgz+IxA
+	/c4PBOxI6zTPLoEfDGLBFaPGTHoVhTI6mN6Ab+U4h0DoT1S+hu0WvNEU4GKN569a8QmhlhgFHhs
+	t/FjQLCrJ6OMO6Im1DZ03eMYMgOgGNGVZq3Okuq+mGg+6uKzpEbNXoWpb/4gqcnvbYeKrRVFwIR
+	TvJAph+Ytx6eKun7T+MBnmsMTTk0TNoAbP5mt850w4KsRXiANAMUUa6XbtDzmeXEWpb/GiTDpvd
+	nEfZkHnOqqd88RysL+wTqOKOoz6h01m6GQvufrC9QeMplITOWxl9+ambwEa3s1tQuJi1qfwLi3S
+	CASEbf5a2QKuBqnE80y/6jM995/ep4JB2WjpH6SYhN9n8IkZmNAnGHIgUVvMyCMs8KyQFptzpkh
+	0uTN40oNKXT4foXtCd+RoTQ1aoF0+iYjWKZUpVQmw3OroIci1OJyJrMX7MHb0baxggI0Ee0A==
+X-Google-Smtp-Source: AGHT+IHetDpaeSCLD158eeBfnLMa77d0GWcu9KkUU/dpWWOreiarVBFn16/gIezMUQj2z9CZm6a8yQ==
+X-Received: by 2002:a05:6000:40c9:b0:42b:3806:2bb7 with SMTP id ffacd0b85a97d-42e0f1e35c2mr7360017f8f.6.1764166825367;
+        Wed, 26 Nov 2025 06:20:25 -0800 (PST)
+Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fba20esm40814603f8f.37.2025.11.26.06.20.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 06:20:24 -0800 (PST)
+Date: Wed, 26 Nov 2025 14:20:22 +0000
+From: Daniel Thompson <daniel@riscstar.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Thompson <danielt@kernel.org>,
+	Doug Anderson <dianders@chromium.org>, simona@ffwll.ch,
+	airlied@gmail.com, alexander.deucher@amd.com,
+	christian.koenig@amd.com, lyude@redhat.com, dakr@kernel.org,
+	deller@gmx.de, mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com, jason.wessel@windriver.com,
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nir Lichtman <nir@lichtman.org>
+Subject: Re: [PATCH 0/5] drm: Remove remaining support for kdb
+Message-ID: <aScMprMh6Eh4JU5D@aspen.lan>
+References: <20251125130634.1080966-1-tzimmermann@suse.de>
+ <CAD=FV=X_-t2AF5osp7Hamoe7WYE_2YWJZCaPaOj=9seSbnwwVA@mail.gmail.com>
+ <aSbwWLTLe0bMhOKV@aspen.lan>
+ <054f60ca-b898-488f-81f4-14eed0a1360b@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251126-james-cs-syncfreq-v7-0-7fae5e0e5e16@linaro.org>
- <20251126-james-cs-syncfreq-v7-13-7fae5e0e5e16@linaro.org> <20251126140154.GK724103@e132581.arm.com>
-In-Reply-To: <20251126140154.GK724103@e132581.arm.com>
-From: Mike Leach <mike.leach@linaro.org>
-Date: Wed, 26 Nov 2025 14:20:14 +0000
-X-Gm-Features: AWmQ_blJiwM7FEghF6YmUIgQn0KwXPlNxgpbgeT3ameLv_-rX431e10EWW7vOyw
-Message-ID: <CAJ9a7VgcAiw_h=OTxOK0Vcv=9WFCbdb-+RzDKYhigZZhepM7xg@mail.gmail.com>
-Subject: Re: [PATCH v7 13/13] coresight: docs: Document etm4x timestamp
- interval option
-To: Leo Yan <leo.yan@arm.com>
-Cc: James Clark <james.clark@linaro.org>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, coresight@lists.linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <054f60ca-b898-488f-81f4-14eed0a1360b@suse.de>
 
-Hi,
-
-On Wed, 26 Nov 2025 at 14:01, Leo Yan <leo.yan@arm.com> wrote:
+On Wed, Nov 26, 2025 at 02:32:32PM +0100, Thomas Zimmermann wrote:
+> Hi
 >
-> On Wed, Nov 26, 2025 at 10:54:42AM +0000, James Clark wrote:
-> > Document how the new field is used, maximum value and the interaction
-> > with SYNC timestamps.
+> Am 26.11.25 um 13:19 schrieb Daniel Thompson:
+> > On Tue, Nov 25, 2025 at 07:26:33AM -0800, Doug Anderson wrote:
+> > > On Tue, Nov 25, 2025 at 5:06 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > > > <snip>
+> > > > Therefore remove the remaining support for kdb from the DRM drivers
+> > > > and from DRM fbdev emulation. Also remove the hooks from fbdev, as
+> > > > there are no fbdev drivers with kdb support.
+> > > >
+> > > > If we ever want to address kdb support within DRM drivers, a place to
+> > > > start would be the scanout buffers used by DRM's panic screen. These
+> > > > use the current display mode. They can be written and flushed without
+> > > > mode setting involved.
+> > > >
+> > > > Note: kdb over serial lines is not affected by this series and continues
+> > > > to work as before.
+> > > >
+> > > > Thomas Zimmermann (5):
+> > > >    drm/amdgpu: Do not implement mode_set_base_atomic callback
+> > > >    drm/nouveau: Do not implement mode_set_base_atomic callback
+> > > >    drm/radeon: Do not implement mode_set_base_atomic callback
+> > > >    drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
+> > > >    fbcon: Remove fb_debug_enter/_leave from struct fb_ops
+> > > Personally, I've never worked with kdb over anything other than
+> > > serial, so this won't bother any of my normal workflows. That being
+> > > said, at least as of a year ago someone on the lists was talking about
+> > > using kdb with a keyboard and (presumably) a display. You can see a
+> > > thread here:
+> > >
+> > > http://lore.kernel.org/r/20241031192350.GA26688@lichtman.org
+> > >
+> > > Daniel may also have comments here?
+> > TL;DR - I'm pretty relaxed about these changes... but I'd like
+> >          to know how to test the changes.
 > >
-> > Signed-off-by: James Clark <james.clark@linaro.org>
+> > Like Doug I only really use kdb via serial but, since I'm maintain
+> > the thing I do occasionally test kdb works on the qemu console. I don't
+> > do it very often though because it's a manual test!
+> >
+> > I'd assume that will still work since it won't involve any of the
+> > drivers above. I'm afraid I can't double check that since patch 4
+> > doesn't apply cleanly in v6.18-rc7 (nor to linux-next... and neither
+> > does the base-commit appear in linux-next).
 >
-> Reviewed-by: Leo Yan <leo.yan@arm.com>
+> To test its effects, ignore this series and simply clear the two calbacks at
+> [1]. This is where the debugger invokes fbcon. The series removes their
+> implementation in the final patch.
 >
-> > ---
-> >  Documentation/trace/coresight/coresight.rst | 16 ++++++++++++++--
-> >  1 file changed, 14 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-> > index 806699871b80..d461de4e067e 100644
-> > --- a/Documentation/trace/coresight/coresight.rst
-> > +++ b/Documentation/trace/coresight/coresight.rst
-> > @@ -613,8 +613,20 @@ They are also listed in the folder /sys/bus/event_source/devices/cs_etm/format/
-> >       - Session local version of the system wide setting: :ref:`ETM_MODE_RETURNSTACK
-> >         <coresight-return-stack>`
-> >     * - timestamp
-> > -     - Session local version of the system wide setting: :ref:`ETMv4_MODE_TIMESTAMP
-> > -       <coresight-timestamp>`
-> > +     - Controls generation and interval of timestamps.
-> > +
-> > +       0 = off, 1 = minimum interval .. 15 = maximum interval.
-> > +
-> > +       Values 1 - 14 use a counter that decrements every cycle to generate a
-> > +       timestamp on underflow. The reload value for the counter is 2 ^ (interval
-> > +       - 1). If the value is 1 then the reload value is 1, if the value is 11
-> > +       then the reload value is 1024 etc.
-> > +
-> > +       Setting the maximum interval (15) will disable the counter generated
-> > +       timestamps, freeing the counter resource, leaving only ones emitted when
-> > +       a SYNC packet is generated. The sync interval is controlled with
-> > +       TRCSYNCPR.PERIOD which is every 4096 bytes of trace by default.
-> > +
+> [1] https://elixir.bootlin.com/linux/v6.17.9/source/drivers/video/fbdev/core/fbcon.c#L3202
 
-What is the default value?
+Thanks. Explanation in original cover letter was great and there's
+certainly been no harm to QEMU.
 
-As far as I recall when this command line parameter was a bool then:
-perf -e cs_etm/timestamp/ <program>
-is sufficient to turn on timestamping.
-
-This is worth mentioning so users can correctly assess what happens
-for any existing scripts they might have.
-
-Based on this then the same command must set the timestamp to 1 -
-which will have the same effect as before as we do not want to break
-existing behaviour.
-
-Mike
+Acked-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
 
 
-> >     * - cc_threshold
-> >       - Cycle count threshold value. If nothing is provided here or the provided value is 0, then the
-> >         default value i.e 0x100 will be used. If provided value is less than minimum cycles threshold
-> >
-> > --
-> > 2.34.1
-> >
-
-
-
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+Daniel.
