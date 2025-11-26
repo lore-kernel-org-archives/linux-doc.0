@@ -1,65 +1,65 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1356333E356
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 18:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0C233D6C3
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 18:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764183455; cv=none; b=A14GeoH0KkymHDp+wrckG9zNwr1bPjeRf9sdG+kk+sqPSxZmbp5Fn+ZfdMTr1u4ES63uBxYHbEMy0unD3fV37ahA63wpwzfK3I1CuMjVdVig+zp5TiaMEzwp22YW0QKkC6LSE6KRmmeZT2ZJXGHdfWfXZtitsmD2qnjQU/WTzZk=
+	t=1764183455; cv=none; b=Stl5rTSSdPDUaC7d6MQNdjq0oJxox9yYr8zDHggL3wDy4Z5YywbQLF1H2yox5TTHqsMMFnn8iyk1ehiMR2jVMWyVZFxHBk08AeabtXhfAh5s/dRboteTOou4QCbQpI2foF7ZQyohc6mQ5ipwTij4vlDG14KsQlRBXzt5cR2VrUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1764183455; c=relaxed/simple;
-	bh=de05t6Uooi6dbGpHaHB0GbWiclzXkAC6UDgDYumpOAQ=;
+	bh=fbBtS9Y1mVSWtFYG8bC2W6XeZU0LP5uWZoGlle1YCdE=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PT45yetRQCsF/bv806dxcA0hFUfXJ3NUzRRnBiBA/3qVjGjmHytIi2YpbP0tf/bUSYPVFIHA41QDIyXdWvtJN+lVTpTFAySS7fJRtLs7IeZzqjr86BTnavSXEjVUasCf4gnQYOF6C2T7vm1yvdl3JnqNEzjOJRqlV2C98Kc5+PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=UAbsUlK3; arc=none smtp.client-ip=74.125.224.54
+	 MIME-Version; b=EjEBpoXvZN/junpkiJN8fMBZy898VqKiGlbbnzQ7wIzleDK1OO5tCgajxPbF7dMoX2tTQz+icJ5ogo8oAkdHSW91l7huiKoL3KtKS/cjlrDqzEXPIcS8RWL25AE3kjE7KNFEXVAMBf/P9haAAKaGCf+p6b3dNPIEmvJPvoFos6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=JhlnHQOZ; arc=none smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="UAbsUlK3"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-6420c0cf4abso98696d50.1
-        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:57:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="JhlnHQOZ"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-64107188baeso87184d50.3
+        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:57:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764183452; x=1764788252; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1764183453; x=1764788253; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3EVogAUf9sZwvrZ2BPOSnajNqljKd+lPUBpF9BuiigE=;
-        b=UAbsUlK3q0d1GcjmxxvZbR3rjY8z7tVQFc6ZlZ4i03Zol0TTlRxaQeigoNbvw4rDkS
-         HnJz7a9itSXRaPZ7sWBGMoKmoOiF99FxIp4Dho5n39chdS9LpPjMp4uDt1kUcyxxg3Xb
-         tuYH0dYLaCMZxXgNYfGK7n0wx81T66u1iqrTYpHlzQD8Kl3e3Xxd0Se0Jl01sMxGwAhj
-         V//JWuSz7ksz6DQmJzSGLSHIkvPghMQVE4bvKlTCkGaiAkF3uaxK3wdxDuUFjoAN1IBb
-         jDcqLUj6xsebYtgWm3WPhGtoVy7Mv5E2g/FKPg119fi5DFUTuF3ZTOVf8Z9lgD9QqROp
-         l3wQ==
+        bh=1oylsZzHxgSZmbIVeALsxMTslnUgs+7hP6L3oGrSRE4=;
+        b=JhlnHQOZturhy5G/GJ0fhe9qMittRwsPeWh6j5Q93uqDTmREGR+ypzagN2Q8/LKWXW
+         hwcmDzL62lyAAfiYnfiQU5w2C/eEbfa8PQFzH9UquzQq2wXMBQDa2mGLA8f65NAkLjqv
+         CYXclpApm/kAd45RqgoZVv+01mf2Wr/8jDhmbjW5isVqxjeJtFScTF6tDDrADrbtkSUz
+         vpD5q/1CDhH6pi6u0mHVnSsLqPbDzXCzWFOSsoZWhSPdxLcbayIeNS9XXGD5vAczihiR
+         gZuo/oF+4koYg1R7YRL/9gaGSz2qr80nk7h9HEylexqaNjNy3MfN0Q91jvUNrfd96sHN
+         LG7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764183452; x=1764788252;
+        d=1e100.net; s=20230601; t=1764183453; x=1764788253;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=3EVogAUf9sZwvrZ2BPOSnajNqljKd+lPUBpF9BuiigE=;
-        b=F4bOFnDuF8hVk8ypaQ9BQxqCNqfHs0q4cMTl/3Frp0YR6ZSVcuGnbJPcxhAGgkxL9z
-         xguJCrq7fkJuxWFawUhXV3IfTmvAyKuXZL6dFXsdSS/RQt/+5mQy6rjERehsf8d5Gztd
-         5onu0oBySR2kLncRsA1CCOHYDvsVA467N6SWaQAdnvW1ctlTtIXC7dHE1IhHtCRic6m5
-         G82KmOO0vTx9yuuW+zJzlXydGCQi51mrrQYc9FkAoJBBPkAlxRiiMXLqwfNRKC9jBv0G
-         Vl5LONvM8f9/asm1piBry7WbOIeomcFIvGwvL0W1OyLaJZ0xdUbMm9vZP0YypeuQtaxs
-         uLVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVxzNIg8fud1JYGmimsvkAJRVXJoiLJK49he32IcOzSRzpp/YalcvC+5MUAptWTcgs3Pzd+7RFi4wg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyD0uTwIJLGvs9MyOXwl33t0E2u/1Z/lFZJPX9jM4y4WG3BabWA
-	zZr7utv8kHxgK2DV7aeTAs+0zPWo9acM5kg341hfDFzhuaZv0tcnmBupKMNuw0Mv1Wo=
-X-Gm-Gg: ASbGncsv1eCI1lN4oWzmRTwFQIpN15btQraonHFyg7A6zO0fvTwCbKbszGCqjFV3B05
-	hyFFUSV791jWXytwSesqmGzpVQ2lCWDyITPqlf3m+K8wnif/EQ6LFl2GCgLPFdHyxvr/Ljap31y
-	JzGqHwBvtOdDTikWvBPLXxbiIXv58K2QEcbBLjbC6RXt3qsG+8DH4RxMPNVkjWW36sxCK7Nu/BE
-	w+0QyW351DleR6houSv6lzYqSchEQSGKdNGHz2NASlc1u7kdCr/l18TZF1RfMe7SZtCdhokSouO
-	Iig1STizmBboGGsMg65HbuixneTdV+qstRWFlJl4CntHcB4a/XfTjVtUOp6ZN9HkjBoI9Vsd/Sc
-	EzBwkjYZV1s3RFrgKEa/93qKuZq1uTnIWnOcyDXJBtzfI/5VnEWS6qSE/mu7TiOgAKhLnuOSttC
-	7mmtBUJq3Wu8fyGX5t8MUZsMIJKWa4yWXjkpFfMkjH/vgEocYV0ENTQtBD1V+OXJNp7XQPe2ZPq
-	qWXUA4=
-X-Google-Smtp-Source: AGHT+IGolbW5+rjOQ0Yye2rYIz9onkgz5B5ar70qXCIQenbc39w0zKLELoUeY+9t55wUha7BmD2pxQ==
-X-Received: by 2002:a05:690e:1542:20b0:642:836:1048 with SMTP id 956f58d0204a3-64302a8f272mr13099532d50.2.1764183451962;
-        Wed, 26 Nov 2025 10:57:31 -0800 (PST)
+        bh=1oylsZzHxgSZmbIVeALsxMTslnUgs+7hP6L3oGrSRE4=;
+        b=Rpz/zLoO3TzGQ6ltIPzHsMrzsPXJUyRtvRA+ykkCo5TOsp14wfsmF3jA6AmWm+pgc2
+         U8i6V0x/EtKFuQG2E+5GkLow7feMaiWm3jkRTmG1o44YLlOE0rqn5frJjWX2IEVypzsx
+         m0BnNMX+D6zo4RmV8YxVQpxdfrJtf+8ZIgjm/3bYTc4Ntkcc16+zyKEiJKJIEAcAXBI7
+         OHVZQuo+YP1CDrX3Go6o5rGXTMyKNoz3ONvZZhBVQcaunTjRYQ3DOSVyDCNjCZOS2EAJ
+         rDFRPhxWLR1Ffkuq/LKci4zNs3nvFHQESCzzEyCrT/8rjSTIFHFEh1AtXuxh6zUC8YkY
+         EyeA==
+X-Forwarded-Encrypted: i=1; AJvYcCWRwnBwAVIH2FvBJoVz4SnO98wKkndCSdEbbEHtyFjEdysDHK25JvD/FTmUVfYpRffrHm8uJZMAxxI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEtrnRbyEJ4i3VwPOIQm6yYLeeLT3XYJ3dE6m4TieAG9PEfxna
+	NdhrabJMIyUbnN9DX12lwoVmj/ziNQG3pa4zcDbhT6ec7C3JuNtABiXcRC795Blq7xU=
+X-Gm-Gg: ASbGnctBu1A1k+B5i6O1FvrEYeCDPoXt1kCqGqY4xZuwITZh6oJJ0oBniyhMWyyiFYB
+	zUUD4Y7WmoXR25uussc+06EfHUh/jFjej2nU5vCJhRww2N78yp/ImOnci8sGOYc4VINJCQaaw3B
+	Dvz2SfCw5eZ4b8SEtXIqUqR5FtWhxmWPTyU+h7zBDgQ3Fg/LH+1/lBzZ1a80eVoh3QNwjzOC1oR
+	HwVha5IV0KtpqjhLsq2vA6k5pKez8Y+gUHQCWPLXyNBnmfyxtvH/NR2nDj9yRyiipb61Ieul6G6
+	WxvRAAu8Bg2sSQ2xOAFg5yLaGTdyVbdJ6D7pU2OABtvZWwdpUnHhG5YxvYFNQzZWpgW5IVEiBlZ
+	cRDQw1L/uFUgcdNTeDtuk66XPDQIpKv/ShEQcYKh7Ibtd29YE73QUBc+Ux/fysnWlU+ECu/pCZ+
+	8zrP3TGa1NNFP/clBO8d9qeieTw+xth5zw0wTuvt9xfrC/Q2r9ozAeKCpBUJ5NaBQFDYkLYlmMB
+	aYQiO4=
+X-Google-Smtp-Source: AGHT+IGh8g5413JLIZ5YQT+ZmThIIEoq9as1A69vg1Sj/F5GWrIm6uWyotiHcJrmkWo4Rj0KSPIvqA==
+X-Received: by 2002:a53:d84e:0:b0:640:db91:33d4 with SMTP id 956f58d0204a3-64302aafecfmr11761450d50.26.1764183453023;
+        Wed, 26 Nov 2025 10:57:33 -0800 (PST)
 Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-643259fd696sm2960753d50.7.2025.11.26.10.57.30
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-643259fd696sm2960753d50.7.2025.11.26.10.57.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 10:57:31 -0800 (PST)
+        Wed, 26 Nov 2025 10:57:32 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: corbet@lwn.net,
 	pasha.tatashin@soleen.com,
@@ -80,9 +80,9 @@ To: corbet@lwn.net,
 	graf@amazon.com,
 	dmatlack@google.com,
 	rientjes@google.com
-Subject: [PATCH v1 2/3] list: add kunit test for private list primitives
-Date: Wed, 26 Nov 2025 13:57:24 -0500
-Message-ID: <20251126185725.4164769-3-pasha.tatashin@soleen.com>
+Subject: [PATCH v1 3/3] liveupdate: luo_file: Use private list
+Date: Wed, 26 Nov 2025 13:57:25 -0500
+Message-ID: <20251126185725.4164769-4-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.52.0.487.g5c8c507ade-goog
 In-Reply-To: <20251126185725.4164769-1-pasha.tatashin@soleen.com>
 References: <20251126185725.4164769-1-pasha.tatashin@soleen.com>
@@ -94,143 +94,71 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a KUnit test suite for the new private list primitives.
-
-The test defines a struct with a __private list_head and exercises every
-macro defined in <linux/list_private.h>.
-
-This ensures that the macros correctly handle the ACCESS_PRIVATE()
-abstraction and compile without warnings when acting on private members,
-verifying that qualifiers are stripped and offsets are calculated
-correctly.
+Switch LUO to use the private list iterators.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- lib/Kconfig.debug             | 14 +++++++
- lib/tests/Makefile            |  1 +
- lib/tests/list-private-test.c | 76 +++++++++++++++++++++++++++++++++++
- 3 files changed, 91 insertions(+)
- create mode 100644 lib/tests/list-private-test.c
+ kernel/liveupdate/luo_file.c     | 7 ++++---
+ kernel/liveupdate/luo_internal.h | 7 -------
+ 2 files changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 42143686151f..fa9388726182 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2788,6 +2788,20 @@ config LIST_KUNIT_TEST
- 
- 	  If unsure, say N.
- 
-+config LIST_PRIVATE_KUNIT_TEST
-+	tristate "KUnit Test for Kernel Private Linked-list structures" if !KUNIT_ALL_TESTS
-+	depends on KUNIT
-+	default KUNIT_ALL_TESTS
-+	help
-+	  This builds the KUnit test for the private linked-list primitives
-+	  defined in include/linux/list_private.h.
-+
-+	  These primitives allow manipulation of list_head members that are
-+	  marked as private and require special accessors (ACCESS_PRIVATE)
-+	  to strip qualifiers or handle encapsulation.
-+
-+	  If unsure, say N.
-+
- config HASHTABLE_KUNIT_TEST
- 	tristate "KUnit Test for Kernel Hashtable structures" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
-diff --git a/lib/tests/Makefile b/lib/tests/Makefile
-index 601dba4b7d96..62a7f115f622 100644
---- a/lib/tests/Makefile
-+++ b/lib/tests/Makefile
-@@ -25,6 +25,7 @@ obj-$(CONFIG_TEST_IOV_ITER) += kunit_iov_iter.o
- obj-$(CONFIG_IS_SIGNED_TYPE_KUNIT_TEST) += is_signed_type_kunit.o
- obj-$(CONFIG_KPROBES_SANITY_TEST) += test_kprobes.o
- obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
-+obj-$(CONFIG_LIST_PRIVATE_KUNIT_TEST) += list-private-test.o
- obj-$(CONFIG_KFIFO_KUNIT_TEST) += kfifo_kunit.o
- obj-$(CONFIG_TEST_LIST_SORT) += test_list_sort.o
- obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
-diff --git a/lib/tests/list-private-test.c b/lib/tests/list-private-test.c
-new file mode 100644
-index 000000000000..3bd62939ae67
---- /dev/null
-+++ b/lib/tests/list-private-test.c
-@@ -0,0 +1,76 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit compilation/smoke test for Private list primitives.
-+ *
-+ * Copyright (c) 2025, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ */
+diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
+index ddff87917b21..c3af22fc2fd8 100644
+--- a/kernel/liveupdate/luo_file.c
++++ b/kernel/liveupdate/luo_file.c
+@@ -104,6 +104,7 @@
+ #include <linux/io.h>
+ #include <linux/kexec_handover.h>
+ #include <linux/kho/abi/luo.h>
 +#include <linux/list_private.h>
-+#include <kunit/test.h>
-+
-+/*
-+ * This forces compiler to warn if you access it directly, because list
-+ * primitives expect (struct list_head *), not (volatile struct list_head *).
-+ */
-+#undef __private
-+#define __private volatile
-+
-+/* Redefine ACCESS_PRIVATE for this test. */
-+#undef ACCESS_PRIVATE
-+#define ACCESS_PRIVATE(p, member) \
-+	(*((struct list_head *)((unsigned long)&((p)->member))))
-+
-+struct list_test_struct {
-+	int data;
-+	struct list_head __private list;
-+};
-+
-+static void list_private_compile_test(struct kunit *test)
-+{
-+	struct list_test_struct entry;
-+	struct list_test_struct *pos, *n;
-+	LIST_HEAD(head);
-+
-+	INIT_LIST_HEAD(&ACCESS_PRIVATE(&entry, list));
-+	list_add(&ACCESS_PRIVATE(&entry, list), &head);
-+	pos = &entry;
-+
-+	pos = list_private_entry(&ACCESS_PRIVATE(&entry, list), struct list_test_struct, list);
-+	pos = list_private_first_entry(&head, struct list_test_struct, list);
-+	pos = list_private_last_entry(&head, struct list_test_struct, list);
-+	pos = list_private_next_entry(pos, list);
-+	pos = list_private_prev_entry(pos, list);
-+	pos = list_private_next_entry_circular(pos, &head, list);
-+	pos = list_private_prev_entry_circular(pos, &head, list);
-+
-+	if (list_private_entry_is_head(pos, &head, list))
-+		return;
-+
-+	list_private_for_each_entry(pos, &head, list) { }
-+	list_private_for_each_entry_reverse(pos, &head, list) { }
-+	list_private_for_each_entry_continue(pos, &head, list) { }
-+	list_private_for_each_entry_continue_reverse(pos, &head, list) { }
-+	list_private_for_each_entry_from(pos, &head, list) { }
-+	list_private_for_each_entry_from_reverse(pos, &head, list) { }
-+
-+	list_private_for_each_entry_safe(pos, n, &head, list)
-+		list_private_safe_reset_next(pos, n, list);
-+	list_private_for_each_entry_safe_continue(pos, n, &head, list) { }
-+	list_private_for_each_entry_safe_from(pos, n, &head, list) { }
-+	list_private_for_each_entry_safe_reverse(pos, n, &head, list) { }
-+}
-+
-+static struct kunit_case list_private_test_cases[] = {
-+	KUNIT_CASE(list_private_compile_test),
-+	{},
-+};
-+
-+static struct kunit_suite list_private_test_module = {
-+	.name = "list-private-kunit-test",
-+	.test_cases = list_private_test_cases,
-+};
-+
-+kunit_test_suite(list_private_test_module);
-+
-+MODULE_DESCRIPTION("KUnit compilation test for private list primitives");
-+MODULE_LICENSE("GPL");
+ #include <linux/liveupdate.h>
+ #include <linux/module.h>
+ #include <linux/sizes.h>
+@@ -273,7 +274,7 @@ int luo_preserve_file(struct luo_file_set *file_set, u64 token, int fd)
+ 		goto  err_fput;
+ 
+ 	err = -ENOENT;
+-	luo_list_for_each_private(fh, &luo_file_handler_list, list) {
++	list_private_for_each_entry(fh, &luo_file_handler_list, list) {
+ 		if (fh->ops->can_preserve(fh, file)) {
+ 			err = 0;
+ 			break;
+@@ -757,7 +758,7 @@ int luo_file_deserialize(struct luo_file_set *file_set,
+ 		bool handler_found = false;
+ 		struct luo_file *luo_file;
+ 
+-		luo_list_for_each_private(fh, &luo_file_handler_list, list) {
++		list_private_for_each_entry(fh, &luo_file_handler_list, list) {
+ 			if (!strcmp(fh->compatible, file_ser[i].compatible)) {
+ 				handler_found = true;
+ 				break;
+@@ -832,7 +833,7 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
+ 		return -EBUSY;
+ 
+ 	/* Check for duplicate compatible strings */
+-	luo_list_for_each_private(fh_iter, &luo_file_handler_list, list) {
++	list_private_for_each_entry(fh_iter, &luo_file_handler_list, list) {
+ 		if (!strcmp(fh_iter->compatible, fh->compatible)) {
+ 			pr_err("File handler registration failed: Compatible string '%s' already registered.\n",
+ 			       fh->compatible);
+diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+index c8973b543d1d..3f1e0c94637e 100644
+--- a/kernel/liveupdate/luo_internal.h
++++ b/kernel/liveupdate/luo_internal.h
+@@ -40,13 +40,6 @@ static inline int luo_ucmd_respond(struct luo_ucmd *ucmd,
+  */
+ #define luo_restore_fail(__fmt, ...) panic(__fmt, ##__VA_ARGS__)
+ 
+-/* Mimics list_for_each_entry() but for private list head entries */
+-#define luo_list_for_each_private(pos, head, member)				\
+-	for (struct list_head *__iter = (head)->next;				\
+-	     __iter != (head) &&						\
+-	     ({ pos = container_of(__iter, typeof(*(pos)), member); 1; });	\
+-	     __iter = __iter->next)
+-
+ /**
+  * struct luo_file_set - A set of files that belong to the same sessions.
+  * @files_list: An ordered list of files associated with this session, it is
 -- 
 2.52.0.487.g5c8c507ade-goog
 
