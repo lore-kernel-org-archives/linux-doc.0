@@ -1,63 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A17727815D
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 18:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0114827F4CE
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 18:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764180744; cv=none; b=t4Ou2mruuocGcCzw8NLdrDrkbEFXnnetU2LbxQw03NjwTiryFuiHMvRsFduIln6YDVC/n1qRL5a5t6szGrH/rh3Z/VoLa3LVzBluQkjPfN2nPR5xD4x8c5ni9fmW+49u12fwx2jFBJLjfoLoP67ciJel8jJ+djbRBz6bA0nMdkY=
+	t=1764181331; cv=none; b=iMxXYeKxlokgmZoqQWwjeoNup0U1c8KDSTgR/lbGPYeHhRa892D9VizbWL2KprbsphqRnMX129C89HPy/MKgaLW36RnXm33ATDwUOkNvUsPao4CjT/pbQ+PGyPNxdQJWtVwD85dACqhKsxj6hztRwamDStuUW6oM5hI3d4y0jhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764180744; c=relaxed/simple;
-	bh=7wuZeNb8w/wyJaRkL/QbSho/BhSlScXyL2qk+Uj1ZnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=opGnmtC8Y/d0/ZpU/tDvREgZ94XMobyfun/3PdtxDfX6WFApvOFRRIIHnnYR+3Sh/KVlISHIYHuzxuiTEriV5GuLyEuAMfx4I95XoPb77aGmKHJPZb54FXI7UVyXU4s7QHEX/vp7RamdeOdqolcJ3K29ufNPr1N7LZxOziZ0cSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cZ4xu9xn; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764181331; c=relaxed/simple;
+	bh=JIffUHW/SybQCLCBlH2E2/WPQRMwm/ANevb672L4zvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cULNBvLlRx1F4zb7+bJTDJW0INY6vJBgzMtNF9LS3bxX4pV7ecQIxTb685h1+tODsRUeLyXhjKVADk48nYczXPm6r/as2MVNzaR7OSI62QACMF563jGMOSQfXYaMliv/AGzUsWEFq5G17UHbZtz3PfMIxoUAQ9ePAGho1j7Lq7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=JTFitk+x; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZ4xu9xn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764180743; x=1795716743;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7wuZeNb8w/wyJaRkL/QbSho/BhSlScXyL2qk+Uj1ZnY=;
-  b=cZ4xu9xnl49F6mPXastX+BiSCBMRgSspqRBErcKjyFUwtnxQvbDIMe1d
-   TcCNL07dFfbHsVoKJLWdPOfCJCmVz+n2E+zyPgZlRGkc6sQGcCe50WyUB
-   6p51egSwj4z6MXM0aOwI2inxeneC+WUXysAPnLjJEjkuECBAswtV/ZLBx
-   3WZVvBYDwESXs0WwCujnlRMLylbSxAFuqiNYxJqnqROs6BHFzCrSGTwEM
-   vJzW6jXc/+fi/vT1EPOhtgzZlI9sLIRUn1Hj41Qc5FXWoqTLPe7sPxZwE
-   t1TiWagMvw0+mac0BwlrYKktQ9lpXLTmZyIVL5tmDUAZxI8iY/pec+3ka
-   A==;
-X-CSE-ConnectionGUID: heweZC7uSASjgyJMHEkfSA==
-X-CSE-MsgGUID: OS9heuMZTZ6U+GDlyHAwMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="76551018"
-X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="76551018"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 10:12:22 -0800
-X-CSE-ConnectionGUID: Hsw28dizQ1C60gb4XIxcxA==
-X-CSE-MsgGUID: /32RU1tKThuB+w3kpKZFrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="192818390"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 26 Nov 2025 10:12:22 -0800
-Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vOK02-000000001Hz-25iw;
-	Wed, 26 Nov 2025 18:12:18 +0000
-Date: Wed, 26 Nov 2025 19:12:12 +0100
-From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Hanjun Guo <guohanjun@huawei.com>, linux-doc@vger.kernel.org
-Subject: [linux-next:master 11827/12060] htmldocs:
- Documentation/driver-api/hw-recoverable-errors.rst: WARNING: document isn't
- included in any toctree [toc.not_included]
-Message-ID: <202511261943.PGqXohrz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="JTFitk+x"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8738c6fdbe8so897666d6.1
+        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:22:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1764181328; x=1764786128; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=z/U907VaMhbY9//mqwOrvEDrs07VSJFQJVoQC08LGfc=;
+        b=JTFitk+xI0qNBQ+kRuacLdQRKJH1sL5eCYUpb+ADHqCoFeo3VfAxBGdB2i4R2NkobF
+         Xf/wjMevGTjQ353uyVYXJMAWRp/TZXY0G67f1vZTjs3m4K7Ntuo9GC+ej5LNHQ/kNrBM
+         u4fV+bKlD5tZrNX9GwchRtndVRAgpdB0Z4TbXBA8cT78BDWkEiyfDg9kiKxkUrPvz6tr
+         lWONHqQIlMM7BWG1oNQbrobYb00ZxKE6TccxWHSBQHalKY0e7sTZl//TIHC1cB2zIMnH
+         ajxvF6jJQLruyJfdNUIslPhQzTE0BrKylWCub20/JtzrynUVyAhbi2MqlnTThg4spvoz
+         K+IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764181328; x=1764786128;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z/U907VaMhbY9//mqwOrvEDrs07VSJFQJVoQC08LGfc=;
+        b=RoGJtpMqggYfPEmzjUgSWO3Cn1Xf1rF/0IZz8PwOju8I2ZFIfNRiYLSN2lpcg81i03
+         4AJE7JzzmQ5eeWvO8DyWeYDO1DwUlRc5pVdkAseB1gBW9hCPQDQghX6khYhuMR7FrEPl
+         LzeC4lNFoObNrmFpjyeA66DStr+A7nMLUmyTG++0JyW0SljUruUDM87EbaoR+gc55VXa
+         6Rm8pTuZ4BwFHwEZsTBq7R8xMJTxAkpeXaa4xhTi7H8VOZr0OUCiXDPSilry7qO+E1jp
+         B2DH6BDl5WKMtEWxmtWLaHACCk/BWfeChcphQ3HcxUYnC3zpHCcMnKJNiwvVQJDTpD4O
+         2UOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU82YOhCHZuAZF97A2c3/MXOjZo/AFKRgIyD8iuPl+e7MJLKOPByVYiBl+ixGk+l+Uyp1IA2FrYYPc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjhcYgwkui7hvmM+TtQfZzUjMzOCePY85Q3Ygaw/JBoOHqhbyW
+	iW7bSOaNVk/LKKWIJTemEfiq00xfjkvr9XRsNzWiloOk3SLBiYahHNvPlt3WHdGAA2o=
+X-Gm-Gg: ASbGncu+tcWe0ptFSOlOzQ9v9yWL6iX6La7Z4X8SYdhnUdvjd3f3PNFCFzNbOJflpV4
+	42wikh/evephGU0mqdoNyY7Y+GQ1ZLskEBlY7j2vwLefZim+obs8Hnsn2fGOv12VhAfv93YvBov
+	OUZcSecEJP7JaxxQ/QKC3Q0lY6WoSssL0RGhpz/hPCPE6l2eL5fthxcjZBhpSv+n/aza4wc30mk
+	F7JKudclJQWWUEZdFlfzSIES/wRjdMCYBpnuFVJiV5j04EVp+8ezUX9yxDs3rWk5IZfRc2sTrVM
+	kr3GPAHuGHyosc4/eLJ5Zt5pbpnX3FB4Efr9b1tbqK3Rf1lkf6zAjpqL2aVr9e2NywOWr5Jut7F
+	bhxmFcmWu6qtSK7VZjl5V27fDmI00m83nJ1IREZ2kglwYNOtoWyI3EmtyXxoHW5Ya2pKS3RhElq
+	JEAQIg6jWWRT6QV6nyVkKGf3V6zzGEfLsb3sFbb0ieM/BxmKAl0M8TPqDy
+X-Google-Smtp-Source: AGHT+IGk5aVt2np0F+0SUeq9bR/s3g/04Xibzoz3lycRYe8682b8OGK1SU+6oo6F+0oYAkhKjHiqfA==
+X-Received: by 2002:a05:6214:319c:b0:880:4c2b:1c29 with SMTP id 6a1803df08f44-8847c4e0295mr324140726d6.31.1764181327832;
+        Wed, 26 Nov 2025 10:22:07 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e46981asm149710776d6.13.2025.11.26.10.22.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 10:22:07 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vOK9W-0000000349C-2YZJ;
+	Wed, 26 Nov 2025 14:22:06 -0400
+Date: Wed, 26 Nov 2025 14:22:06 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux IOMMU <iommu@lists.linux.dev>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] iommu/arm-smmu-v3-iommufd: Separate vDEVICE allocation
+ list
+Message-ID: <20251126182206.GB542915@ziepe.ca>
+References: <20251126033602.28871-2-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,26 +84,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251126033602.28871-2-bagasdotme@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   663d0d1af3faefe673cabf4b6b077149a87ad71f
-commit: c03fb5253a0341ef7721ef107a89768a073b945a [11827/12060] vmcoreinfo: track and log recoverable hardware errors
-reproduce: (https://download.01.org/0day-ci/archive/20251126/202511261943.PGqXohrz-lkp@intel.com/reproduce)
+On Wed, Nov 26, 2025 at 10:36:03AM +0700, Bagas Sanjaya wrote:
+> Stephen Rothwell reports htmldocs warnings when merging iommufd tree:
+> 
+> Documentation/userspace-api/iommufd:335: include/uapi/linux/iommufd.h:456: ERROR: Unexpected indentation. [docutils]
+> Documentation/userspace-api/iommufd:335: include/uapi/linux/iommufd.h:457: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+> 
+> Fix them by separating vDEVICE allocation list from preceding paragraph.
+> 
+> Fixes: 9f0b286fe40130 ("iommu/arm-smmu-v3-iommufd: Allow attaching nested domain for GBPA cases")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/linux-next/20251126125920.207fc959@canb.auug.org.au/
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  include/uapi/linux/iommufd.h | 1 +
+>  1 file changed, 1 insertion(+)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511261943.PGqXohrz-lkp@intel.com/
+Thanks, I squashed this one line
 
-All warnings (new ones prefixed by >>):
-
-   ERROR: Cannot find file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/fwctl.h
-   WARNING: No kernel-doc for file ./include/linux/fwctl.h
->> Documentation/driver-api/hw-recoverable-errors.rst: WARNING: document isn't included in any toctree [toc.not_included]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jason
