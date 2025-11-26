@@ -1,66 +1,64 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3D6189F20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1032F693F
 	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 02:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764125729; cv=none; b=W9L2VUcun913WknJpH4zyBM5kbbY+QxTnzDO2jJKgpdi/JV0QVhTNtUTeae+ezDHJETUHCC+Z8DIXlKxaj98sn/f2JWOGlA/RW4s5tHsUC72Y+DYQ1JCxnan3liIKWtmDLuBC39R/DoeRdEBJuVF7mFVYrbVXgOe+dRu/HXnH4c=
+	t=1764125730; cv=none; b=rtO6rSjGzDq6O8v88t46QomoshuGm39WdV000OQD4nUH8MBYjLiMeKZYXVYRHQTjs6/PVvUfP1FEisE1kTHZI8+jQaaTP+xfcbOd7FX0io0C1nGyuzTDdrubnlXXlk91o0dPi63ZQWTX0W1HZST070pIYbpKAHu+pDvAklNBdTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764125729; c=relaxed/simple;
-	bh=QgtDQPuNkQZCpxtgBCVizza+HY3TwWFNRo9VOhtaSPM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LMnrEBiu6BgJqJxGUlv9n0GO+jrCBUN+ozI5fT/QNmV7mnXraGgHB9He+Vmp6vOt+HCpMn9xlYEqE4uJZ8V0QWFi/XVh+rwAyzziOFGF4JzNuuYRWpuvoaLzt7C4i6kMBnopW/8bp4D4C9ecHC40jAwHJUUj7RL6YfYgQZ80HRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MN7ScNh4; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1764125730; c=relaxed/simple;
+	bh=8CJ2SlyKaA/OlW3GxJr/00o+eBuXAnhGH3p1lh1NcmQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eTETH28E2g7Y96aWnVWc0wi1YpPK8ELjXr9+wdMZSvflQF/etUwh4/5xw7D5II/rEOp3AoQY8x5n1BOjcZA43D2Fv7m5MvZqILBvSHRd4J9//OCu8Q30yDx+ZBSflEbJS/gWBg7FtJZnt3kJ1ZmNL9PNt4oNGMRpn+0DolpXeEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EOqWRraE; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MN7ScNh4"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-343f52d15efso5828383a91.3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EOqWRraE"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3436a97f092so7720097a91.3
         for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 18:55:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764125727; x=1764730527; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gQaJZMvR3LXorEoSZo1lRnZb/COwwg9HrYqvFeEyjI0=;
-        b=MN7ScNh4Wkupd3LXRVnORu3h8skikNavOulaJ+HURNHXxOJIFw2RPSIiUIjy4VcvDs
-         BfVYQJIR4U+r/pS0m/oebiZ2FzHdaQ6b5VSgXG1J16IxBfBRKsQn/PcqI9bz8vHKyjHQ
-         RyVZ8XuNa8/NqBocab6Tq81zE5S2O5EPPtOkeV0NJOGeOSrzykX61l2MADaJlwLIWZNV
-         Ku7JUlJMe1SVXbdiTgmRqntGTG8fLB6lyqYvWd+1h8ROWeBemCuMNY7dHuftz6KSGvXS
-         lB5g3F4ecuIv9TcDxHRGwbKJkFCVAo35Jndex17ICX7RGceVgsh3zRFTrY3Se37bAAeM
-         gx3g==
+        d=gmail.com; s=20230601; t=1764125728; x=1764730528; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gAlH86EUKlXSx6OnIqYSzQjbfUiuz7Ptzj1DOIebFl0=;
+        b=EOqWRraEBTFUVoIZWx4i2OlAKNCAUpSTrZfuq+AijM+BZ49itM0e6VP0tZalTPDDLP
+         iciksuG50AgsBPVUCumN+8AhXNTIb6sLknxb40RXRu8uVSGBxQsdsluBcud2eK5rFZ5c
+         b6vywit2ILj+MoYBhPxlCrc2oEvc5AmuiuZy1G316MpxkzP+baCcDr45+T36EZ2pu5py
+         H/WVI4VvuVKHnhpBHPDikXFNCi8sMX7SRF6hz3N7z245veejVbDO1CLxWF96xFWpiQZs
+         f9TM7jbLMee6g8AJkFRfVOP2a1cQbDfc4OvMebcsULoz6la1LywKVPwgMFOmqpCsT0fH
+         F/1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764125727; x=1764730527;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gQaJZMvR3LXorEoSZo1lRnZb/COwwg9HrYqvFeEyjI0=;
-        b=RTo91zR1qVU+G1HVKetIPrKKfyMop2F90f4EjEMofQaoBmYaMkkS3XkgSUwhiRz5vp
-         XI7dmCjJMwiv81k+HJxA1CcPwbQ68Vwsj/r4oLbY8cxYGvg5cyZnU012FIn6ofy0aeEL
-         Eq4LVWwXZdvmylgKFDy/5L4l8HdLo466v+IKRa4nK8P+MYlTxmP+eMTY02t1hi0yL0Ff
-         Tad7DEoxT61OyGyXdstZoDWnbscIQKU+p2uoxSIxFvez7MKXAyXH8dgHziJKVOSU9TY8
-         DA9MBY2+n9iRMLjegJdqqV4cnhUKG+raGvIDIqLBnrodwbP5BQyJoGqVt3fXNAsgfMpX
-         5oNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXQyDgfUYXlakFJk5+f1XWipI2BQu4EiALwNX+0FiceZ9pgCCMCKjfD4jKqeYdePUO2gsTGnXMjyoU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXIFHrweRZwwVHUYgrJ3d/yPbWOydaz59fOyj8PVaV5L9kn9oh
-	TmtAvt/o9lH7OJkOLbgy1vHY0AU5Ba5oZDveURHU0IFHUMWlcRI+4IHD
-X-Gm-Gg: ASbGncvte8M1AJO+wGGd4LtpRm1UaS1fPZF2EegUYbL9iezNhKIZ8QUaOM+tiLUyZVt
-	ARIthG6TWm2nNBAGXJPHxWJdlZwSdH47M3KWU8T+kXWxCp65SP35/47N83hue8HuifZOCnUQZje
-	x3ygVjucpCTxdeEWp55AIz05SfB3+WNHoMMtABlmiFwi1/M6Ocb2U0p6XnFkTO9/NmO0XZbnx0O
-	TkTXQ/Y2i5iOc3my2XL4HvnmOAzRW7n7D27X6IMugKZf2p8w55lWSstqjN+Q3cvPfcihTPXCUrO
-	EI0esu+/vF7LYcEqAkLgEKUmZF6+1QWt4885ET+bghHKFEpuThn7OUJvQsQwgph180YfdSzxmHj
-	M7qq44Kr10b7t3SrRGqzQ/gWNHJd595c+3fXWOWe6LJt3fsaM3vcV2Dt29ufw5UXeNr6e2vYXD6
-	f4YlWxQI5bWUg=
-X-Google-Smtp-Source: AGHT+IGoKsSn88yOaV8yW3ELgtKTGKK8nyHanpYEmJrEQrWciON7o6VHAzT+5lGJU1vlSoSNPWQHuQ==
-X-Received: by 2002:a17:90b:4c4f:b0:343:edb0:1012 with SMTP id 98e67ed59e1d1-3475ed508e8mr4841309a91.21.1764125727501;
+        d=1e100.net; s=20230601; t=1764125728; x=1764730528;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gAlH86EUKlXSx6OnIqYSzQjbfUiuz7Ptzj1DOIebFl0=;
+        b=ry8wADimonlQCpnyDAWWwNoHkvEpceJBN0l++7YZuMU6+910fGvdNaGsv+gCAUYb0B
+         Dvg2XGNojYOnyeP324/SuTSwxPVZuSQA8D1+xqS/HGt6Vq/kCQU0bmy5Pc2ZdQ+F2y9M
+         NpnOAYjL/NL9Qle1JLEM97l/MF4ZPMOnpKiIlD5isnsVkGojoJ+TcmokF40/SqOvIsPu
+         JDD4SFAB1AEOImFtpmCMDPsNRJxOXlyDlmFLnrK22VEVXEKou7fpv9uh3eOBWn0mJ5fu
+         DMoh1tLeHU3zKEfk3Jz59oNvGSaPQueivmiQifjZZYlwp5/vCz8l43QIpP5YilbpwErg
+         t89w==
+X-Forwarded-Encrypted: i=1; AJvYcCUr7pWV7U2Lmkj4Q2uc6/hsYYKDEWyD0cHA+u/XPbpM78H9zeoY+qXi8oujD/YXRiMYRJysPvgMDQ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznmMCK2beflNx3iUqOZXEjcpct2aCNuWA6mr3W0SEu4rzswbrG
+	XswZNCxUdkrma3IiBfESENtqCZcMsS6uZwXcj79lew+vlWPJkDjqV6lO
+X-Gm-Gg: ASbGncv0AFj4V3/PwQc0qQgBk8QljwtoTLpDD9Tn831jqrL5gBQkcJ4FQfP+geWXVFq
+	jWdgszNkAOMSdhj5NVxppkwX6IDfA7D+51NfiUMmBu2wMdfSecDLukxs/Kab0RPmd8vcnNvstwA
+	cov/0D10PqTRhPdTzw5fbDYXxv7z7iX4Zatrwl/MLgvW/+KHj2m6VVT9FD+64u8U0gRblPhwS5P
+	a5VGsFMtKeKgNg1hcP6E5r4L7Hma50yGFN+wzIpn98NGjkQSiVNqq1GUTGfFEfFIbTHhGyON2SX
+	6PO3ELlk9+iTgpEa9b4Xxz1HJZGBXmyPGgka+0Pg1WjleMR7jrQtlvCwpU7YOHvA2TdK+xD7d3S
+	mwkFLHUwmyMcWJqtRAuGXyv6+Rjy2rU53vnyIGx0HNPIAu3aMzYHp7UQmPIkfp09o2+6VP7zqO4
+	cq8nLkPCbsinA=
+X-Google-Smtp-Source: AGHT+IEBqAfB1/JXD3AyssNZskaJKmrHPD27KLsS0UpkEE02/MjWXWlqERhRRBA6+odgnHTvf/lGlA==
+X-Received: by 2002:a17:90b:3b8a:b0:340:d1a1:af6d with SMTP id 98e67ed59e1d1-3475ed6bbc7mr4597087a91.36.1764125727887;
         Tue, 25 Nov 2025 18:55:27 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3476a54a5a8sm811261a91.4.2025.11.25.18.55.26
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-347600de37dsm1452214a91.14.2025.11.25.18.55.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 25 Nov 2025 18:55:26 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id C9684476D833; Wed, 26 Nov 2025 09:55:24 +0700 (WIB)
+	id 5053C45A3F83; Wed, 26 Nov 2025 09:55:24 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -77,53 +75,45 @@ Cc: David Howells <dhowells@redhat.com>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
 	Daniel Palmer <daniel.palmer@sony.com>
-Subject: [PATCH 3/5] Documentation: dax: Demote "Enabling DAX on xfs and ext4" subsections
-Date: Wed, 26 Nov 2025 09:55:09 +0700
-Message-ID: <20251126025511.25188-4-bagasdotme@gmail.com>
+Subject: [PATCH 0/5] Assorted filesystem docs formatting
+Date: Wed, 26 Nov 2025 09:55:06 +0700
+Message-ID: <20251126025511.25188-1-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251126025511.25188-1-bagasdotme@gmail.com>
-References: <20251126025511.25188-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1131; i=bagasdotme@gmail.com; h=from:subject; bh=QgtDQPuNkQZCpxtgBCVizza+HY3TwWFNRo9VOhtaSPM=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJlq2SujJomzx8ZkP3v8bfpuZsO5ErrleWvndBrMirJ6l hmisndbRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACayvJ3hn8XH8pzuxMzyrTpB cT/4JE4zqs30N94Y9+/RJLeoys314gz//Xh/mrb8+pviIle/3mmWvWENo9OF68evPXE9f61nZ/8 vLgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=894; i=bagasdotme@gmail.com; h=from:subject; bh=8CJ2SlyKaA/OlW3GxJr/00o+eBuXAnhGH3p1lh1NcmQ=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJlq2QvS1ktomSdzzvW9t+6fcWi9k3SEL0fVOhbPaN893 YG1Z791lLIwiHExyIopskxK5Gs6vctI5EL7WkeYOaxMIEMYuDgFYCJ/bjL8L9dbe+/YhH1n9ed+ yhf79Sus8qS/YhfrhKnzjlzU0Yu2C2dk2G+e/aDuj9nSqK0Xdku+uH5Q2Wx91+TWMifffRlMExT M2QE=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Subsections of "Enabling DAX on xfs and ext4" section (both "Summary"
-and "Details") are marked up as section heading instead, which makes
-their way to filesystems toctree entry. Demote them.
+Hi,
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/filesystems/dax.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Here are assorted docs formatting cleanup on filesystems (the shortlog
+should be self-explanatory):
 
-diff --git a/Documentation/filesystems/dax.rst b/Documentation/filesystems/dax.rst
-index e0631d5f6251d4..f9243d45ce1280 100644
---- a/Documentation/filesystems/dax.rst
-+++ b/Documentation/filesystems/dax.rst
-@@ -38,7 +38,7 @@ Enabling DAX on xfs and ext4
- ----------------------------
- 
- Summary
---------
-+~~~~~~~
- 
-  1. There exists an in-kernel file access mode flag `S_DAX` that corresponds to
-     the statx flag `STATX_ATTR_DAX`.  See the manpage for statx(2) for details
-@@ -95,7 +95,7 @@ Summary
- 
- 
- Details
---------
-+~~~~~~~
- 
- There are 2 per-file dax flags.  One is a persistent inode setting (`FS_XFLAG_DAX`)
- and the other is a volatile flag indicating the active state of the feature
+  * Patch [1/5] on AFS
+  * Patch [2-3/5] on DAX
+  * Patch [4-5/5] on zonefs
+
+Enjoy!
+
+Bagas Sanjaya (5):
+  Documentation: afs: Use proper bullet for bullet lists
+  Documentation: dax: Coalesce "See also" filesystem pointers into list
+  Documentation: dax: Demote "Enabling DAX on xfs and ext4" subsections
+  Documentation: zonefs: Separate mount options list
+  Documentation: zonefs: Format error processing table
+
+ Documentation/filesystems/afs.rst    | 21 +++++------
+ Documentation/filesystems/dax.rst    | 18 +++-------
+ Documentation/filesystems/zonefs.rst | 54 +++++++++++++++++-----------
+ 3 files changed, 47 insertions(+), 46 deletions(-)
+
+
+base-commit: d879c2e0195bd5fd4c48467b95b77e494099c96c
 -- 
 An old man doll... just what I always wanted! - Clara
 
