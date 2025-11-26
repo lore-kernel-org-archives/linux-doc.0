@@ -1,118 +1,283 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEB94C9D
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 05:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FAB314D0C;
+	Wed, 26 Nov 2025 06:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764135503; cv=none; b=EFGAIUfH1oErAW1S/W6f+w4yQSHwuldA7Rdt9lFZQMTq39xVgY6nAl+kukie17vK0dJSsBHO1IF0JbE61mYOAYYn3W+X40Sf4ezblkrGngfbblR3Ea8nIa7VHvjA0MYcnPSPVj5f7pinpF1k2GnP2AWi94UNWppm1wFJR8mxq9w=
+	t=1764137695; cv=none; b=ENlwKfSStNOOOSvTCutdzMxy+DaBqqgsP0sbgfey8sd3dnUE1KocO7j238/Pnxl4Pria8/CucFLNB/QaerwWYsBatS0B5ANLzPt682xGrYAvwUm5fC+YsyJ5eVMuQTwe3hgmEs64XZT4u084MWpesWA5RUXmUaMO/tRlamw5dsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764135503; c=relaxed/simple;
-	bh=RcATC0LHelMnKSxvnC2qY5fHGHTpDByt3y+GvPKBY3c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GEbVNEmdY/rcWaXKK9VfSYZhOqUcxwwPYISSrbVhVgxAau1huTehH5xkOw4h0eLAIsapYhESoNh+4DntiqNHRm/vfM7NmzM74aftXS/DXuZGYUO62sQYw85k+q2JMkirtayeBQlRZr4AVuvkKuhUuY4pqNzLxm8YKVrVSJ/cEl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C9xoYbYn; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764137695; c=relaxed/simple;
+	bh=KHq6RTmFZreZl8Ny8VrKdwkCEv/KsgDv4Jdqciors9A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rZLbD3jaOJKkKUfOi/LeNc3gfPAmfIuCJkSCFDijhq/nYqhWG42nOf59qhWIHGx3iYJ8OuusyTFrl9ptJtYf56MHzGm9EexkZbQro4wyJpjHZQ+svJPjhVQQhuIOSjAOIrMN2WjJu3w2wzbpnE1ejUm+svabttuJ/iPUE7qSHpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r2+Jm4tm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C9xoYbYn"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b99bfb451e5so4330973a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 21:38:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764135501; x=1764740301; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BO37H3ho9ohG05R/PIRvwUwPiGDA92Y04BPPBsCfG40=;
-        b=C9xoYbYnK3B5uNkVfJRVae+WZydOVLwIG8WJq0rA6xIMJDcpvqNaORNVJMXP7EpTpo
-         sj0gjAEZ/ZElICS5Eh6OK+zVAKIJWi+Fjbv9FQ37qwI7L0QzeNY8ZJECr1YYT5yrCIBS
-         nkHnrxRA2pryXb65rp3jissuPRuG+fcJfgQ7ej78hTkfKryYO7Jx7RwRddHlX6ShZHis
-         e1+6teU/fddun2hSMJg9roXTaepAVd58hiPcf0/p00TehHQY6RiOALEUHK3TZr+mHmpe
-         g38t51oNGHxauahVRFKXrHrUk1LD4YqtutwWJqUUhG3wDatyGDcQMqdVXwcohhCIJjWk
-         Ec0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764135501; x=1764740301;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BO37H3ho9ohG05R/PIRvwUwPiGDA92Y04BPPBsCfG40=;
-        b=tTj6KtzX85edmtLmW13MS67ntJoXf0E+HX/z9OOwQ9W8fQq0XR1nHlRBRIEogy10O5
-         UUvSTnXQtE0bO8YeNr+9MokOoSYav3RSIFSzKuLjCLnM4GF2SHoyLEw3h/JnHvS55DbZ
-         LEh6xkQ/RZpHHlWE4Q08zs+dZaSSHFcKZdCGxNy9qZY521HAzDJGbQmfyOBvcAYCuZCa
-         XYJBFDWfrSM4wIxoyNCdzpDbi2Yv1btEY97/KrolH2P7R/wyO6bFFjDEBPSH/xKL16RK
-         wHukZPLMmJELuaX4VKuOHngiAZ5lwOVVz4BbaNRkYgzED5aETBXEd4XsOUzJDyOGTIzy
-         KMbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW/3R28oDSu3v7OnsCnzuhLwt7ezby6gXCEV/SuCrs1dW3SQGoiIR7XBlSD1RZIlpGuPjD2thsaQy8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTY2RbiMOLUPE8NlRLyYblib4hwJq5ZBGvaAyAB4clVwt98XaD
-	yM8wEGB+BOlYSDXSoccTOvbnf/KHiQWP5ikOgnGILuSGIeXIXbgbZfbg
-X-Gm-Gg: ASbGncuYKB/ytH0v58RSy3LEWtYAymdJLvOFNMla3jPmOmf5ROT5KX1s9I30+FT+lFF
-	mJlfFI9s3dhhoW6q8rZ4rJXsV6FKZ0MmkXuxWH2ijrMFUtoYQ0XYC3IYYX/E4B1aUdRjh5nRY5q
-	qX+16kmCGhGMcMSpJiW6WWnOnEFT4MsXblsPr9YlWQ6+5zzc4zv3aUWNXYTzM8CkKWdZMyL8ec2
-	Xo6Hfxpc6wcHzEtIOI8NJwUA4IbF4ugQPxJaNNVOOBt7HeP05EJmPYBQv6spaf2p9tAyrEWlwfd
-	FroNyHE1kPCNMQoc6nQ9ZaknuwYw8N1ZnloVxMbQr6RHCCT1Ai+NplHDiXoYEFEgAmnJn98C1My
-	gfaVg2gZBu9orqja52IjBDsNsetGIo8/YA/iNvRpudhYltFGXnLpqp8m4TvDLtJncnErGSPpPTS
-	+Dk601MsjErnQuptHuzMDoGj9JODLdDv8w/MXJ8w==
-X-Google-Smtp-Source: AGHT+IFPCtyJNH3wQgl9ceI4UzEBxGKwTWFZY6r0glpYRgdfALuTMbIdnApO2KfKYGmUsfBVIdlhrg==
-X-Received: by 2002:a05:7022:92b:b0:11b:a892:80a5 with SMTP id a92af1059eb24-11cb3edd659mr3762022c88.13.1764135500530;
-        Tue, 25 Nov 2025 21:38:20 -0800 (PST)
-Received: from [192.168.2.226] (104.194.78.75.16clouds.com. [104.194.78.75])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11c93cd457dsm89108575c88.0.2025.11.25.21.38.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Nov 2025 21:38:20 -0800 (PST)
-Message-ID: <9618202d-880d-4286-a817-f88d965ecc31@gmail.com>
-Date: Wed, 26 Nov 2025 13:38:12 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r2+Jm4tm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CE4C116B1;
+	Wed, 26 Nov 2025 06:14:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764137694;
+	bh=KHq6RTmFZreZl8Ny8VrKdwkCEv/KsgDv4Jdqciors9A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r2+Jm4tmyRBJyvRBKWgA2qSpM20+vvWUXMfz2qKCywFp+YE9w+vvTBW6dznpcY0JY
+	 DfxsT1iMWt8T3Jdc4dJwm5C20DI9y9BRD/VqahlJp57I3dc8vKhgRJtVbUJ8bnKmX7
+	 frEyCAgrrwKREbYV8nkcNrx3KRlQcFogb8mhnbz54xVcfxdQ8qTqrm+AwW2rm2tGzq
+	 YASMR7YJLted08W83SurUyWyhCbKmn05bK7cCsp5+1vkAjRzAa6d5gKgOnCBUq9Hzy
+	 iWToWEeahr6AlFK5fcaeSN/hgVTKtL3yBnlodlxVH/bwoulwIDVhfvvm2O/MibDea2
+	 oHKq232o9k83A==
+Date: Wed, 26 Nov 2025 08:14:38 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>,
+	Changyuan Lyu <changyuanl@google.com>, akpm@linux-foundation.org,
+	linux-kernel@vger.kernel.org, anthony.yznaga@oracle.com,
+	arnd@arndb.de, ashish.kalra@amd.com, benh@kernel.crashing.org,
+	bp@alien8.de, catalin.marinas@arm.com, corbet@lwn.net,
+	dave.hansen@linux.intel.com, devicetree@vger.kernel.org,
+	dwmw2@infradead.org, ebiederm@xmission.com, graf@amazon.com,
+	hpa@zytor.com, jgowans@amazon.com, kexec@lists.infradead.org,
+	krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org,
+	mark.rutland@arm.com, mingo@redhat.com, pasha.tatashin@soleen.com,
+	pbonzini@redhat.com, peterz@infradead.org, robh@kernel.org,
+	rostedt@goodmis.org, saravanak@google.com,
+	skinsburskii@linux.microsoft.com, tglx@linutronix.de,
+	thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org,
+	Breno Leitao <leitao@debian.org>, thevlad@meta.com
+Subject: Re: [PATCH v8 12/17] x86/e820: temporarily enable KHO scratch for
+ memory below 1M
+Message-ID: <aSaazgjKX8PfFDXf@kernel.org>
+References: <20250509074635.3187114-1-changyuanl@google.com>
+ <20250509074635.3187114-13-changyuanl@google.com>
+ <a0f875f1-45ad-4dfc-b5c8-ecb51b242523@gmail.com>
+ <mafs01plmxngp.fsf@kernel.org>
+ <aSW0MF9BXjLnY2Fr@kernel.org>
+ <ba690e06-c2a1-4d2e-9428-9ca2ea9f2b86@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/25] docs/zh_CN: Add index.rst translation
-To: Kefan Bai <baikefan@leap-io-kernel.com>, corbet@lwn.net
-Cc: alexs@kernel.org, dzm91@hust.edu.cn, linux-doc@vger.kernel.org,
- si.yanteng@linux.dev
-References: <874iqksqs2.fsf@trenco.lwn.net>
- <20251124132548.36836-1-baikefan@leap-io-kernel.com>
-Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <20251124132548.36836-1-baikefan@leap-io-kernel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ba690e06-c2a1-4d2e-9428-9ca2ea9f2b86@gmail.com>
 
-
-
-On 2025/11/24 21:25, Kefan Bai wrote:
-> Hi Jonathan,
+On Tue, Nov 25, 2025 at 06:47:15PM +0000, Usama Arif wrote:
 > 
-> Thanks for your review.
 > 
-> I've updated the signoff to include my full legal name.
+> On 25/11/2025 13:50, Mike Rapoport wrote:
+> > Hi,
+> > 
+> > On Tue, Nov 25, 2025 at 02:15:34PM +0100, Pratyush Yadav wrote:
+> >> On Mon, Nov 24 2025, Usama Arif wrote:
+> > 
+> >>>> --- a/arch/x86/realmode/init.c
+> >>>> +++ b/arch/x86/realmode/init.c
+> >>>> @@ -65,6 +65,8 @@ void __init reserve_real_mode(void)
+> >>>>  	 * setup_arch().
+> >>>>  	 */
+> >>>>  	memblock_reserve(0, SZ_1M);
+> >>>> +
+> >>>> +	memblock_clear_kho_scratch(0, SZ_1M);
+> >>>>  }
+> >>>>  
+> >>>>  static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
+> >>>
+> >>> Hello!
+> >>>
+> >>> I am working with Breno who reported that we are seeing the below warning at boot
+> >>> when rolling out 6.16 in Meta fleet. It is difficult to reproduce on a single host
+> >>> manually but we are seeing this several times a day inside the fleet.
+> >>>
+> >>>  20:16:33  ------------[ cut here ]------------
+> >>>  20:16:33  WARNING: CPU: 0 PID: 0 at mm/memblock.c:668 memblock_add_range+0x316/0x330
+> >>>  20:16:33  Modules linked in:
+> >>>  20:16:33  CPU: 0 UID: 0 PID: 0 Comm: swapper Tainted: G S                  6.16.1-0_fbk0_0_gc0739ee5037a #1 NONE 
+> >>>  20:16:33  Tainted: [S]=CPU_OUT_OF_SPEC
+> >>>  20:16:33  RIP: 0010:memblock_add_range+0x316/0x330
+> >>>  20:16:33  Code: ff ff ff 89 5c 24 08 41 ff c5 44 89 6c 24 10 48 63 74 24 08 48 63 54 24 10 e8 26 0c 00 00 e9 41 ff ff ff 0f 0b e9 af fd ff ff <0f> 0b e9 b7 fd ff ff 0f 0b 0f 0b cc cc cc cc cc cc cc cc cc cc cc
+> >>>  20:16:33  RSP: 0000:ffffffff83403dd8 EFLAGS: 00010083 ORIG_RAX: 0000000000000000
+> >>>  20:16:33  RAX: ffffffff8476ff90 RBX: 0000000000001c00 RCX: 0000000000000002
+> >>>  20:16:33  RDX: 00000000ffffffff RSI: 0000000000000000 RDI: ffffffff83bad4d8
+> >>>  20:16:33  RBP: 000000000009f000 R08: 0000000000000020 R09: 8000000000097101
+> >>>  20:16:33  R10: ffffffffff2004b0 R11: 203a6d6f646e6172 R12: 000000000009ec00
+> >>>  20:16:33  R13: 0000000000000002 R14: 0000000000100000 R15: 000000000009d000
+> >>>  20:16:33  FS:  0000000000000000(0000) GS:0000000000000000(0000) knlGS:0000000000000000
+> >>>  20:16:33  CR2: ffff888065413ff8 CR3: 00000000663b7000 CR4: 00000000000000b0
+> >>>  20:16:33  Call Trace:
+> >>>  20:16:33   <TASK>
+> >>>  20:16:33   ? __memblock_reserve+0x75/0x80
+> > 
+> > Do you have faddr2line for this?
+> > >>>  20:16:33   ? setup_arch+0x30f/0xb10
+> > 
+> > And this?
+> > 
 > 
-> All translations were done manually.
-> To improve submission and review efficiency, the number of translation documents
-> in this series has been reduced to 8 in v3 patch series.
 > 
-> Thanks,
-> BaiKefan
+> Thanks for this! I think it helped narrow down the problem.
 > 
-> On Sun, Nov 23, 2025 at 08:38:21AM -0700, Jonathan Corbet wrote:
->> macrofun<baikefan@leap-io-kernel.com> writes:
+> The stack is:
+> 
+> 20:16:33 ? __memblock_reserve (mm/memblock.c:936) 
+> 20:16:33 ? setup_arch (arch/x86/kernel/setup.c:413 arch/x86/kernel/setup.c:499 arch/x86/kernel/setup.c:956) 
+> 20:16:33 ? start_kernel (init/main.c:922) 
+> 20:16:33 ? x86_64_start_reservations (arch/x86/kernel/ebda.c:57) 
+> 20:16:33 ? x86_64_start_kernel (arch/x86/kernel/head64.c:231) 
+> 20:16:33 ? common_startup_64 (arch/x86/kernel/head_64.S:419) 
+> 
+> This is 6.16 kernel.
+> 
+> 20:16:33 ? __memblock_reserve (mm/memblock.c:936) 
+> Thats memblock_add_range call in memblock_reserve
+> 
+> 20:16:33 ? setup_arch (arch/x86/kernel/setup.c:413 arch/x86/kernel/setup.c:499 arch/x86/kernel/setup.c:956) 
+> That is parse_setup_data -> add_early_ima_buffer -> add_early_ima_buffer -> memblock_reserve_kern
+> 
+> 
+> I put a simple print like below:
+> 
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index 680d1b6dfea41..cc97ffc0083c7 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -409,6 +409,7 @@ static void __init add_early_ima_buffer(u64 phys_addr)
+>         }
+>  
+>         if (data->size) {
+> +               pr_err("PPP %s %s %d data->addr %llx, data->size %llx \n", __FILE__, __func__, __LINE__, data->addr, data->size);
+>                 memblock_reserve_kern(data->addr, data->size);
+>                 ima_kexec_buffer_phys = data->addr;
+>                 ima_kexec_buffer_size = data->size;
+> 
+> 
+> and I see (without replicating the warning):
+> 
+> [    0.000000] PPP arch/x86/kernel/setup.c add_early_ima_buffer 412 data->addr 9e000, data->size 1000                                                                                          
+> ....
 
-It would be better if you use your real name to replace 'macrofun'
+So it looks like in cases when the warning reproduces there's something
+that reserves memory overlapping with IMA buffer before
+add_early_ima_buffer().
 
+> 
+> [    0.000348] MEMBLOCK configuration:
+> [    0.000348]  memory size = 0x0000003fea329ff0 reserved size = 0x00000000050c969b
+> [    0.000350]  memory.cnt  = 0x5
+> [    0.000351]  memory[0x0]     [0x0000000000001000-0x000000000009ffff], 0x000000000009f000 bytes flags: 0x40
+> [    0.000353]  memory[0x1]     [0x0000000000100000-0x0000000067c65fff], 0x0000000067b66000 bytes flags: 0x0
+> [    0.000355]  memory[0x2]     [0x000000006d8db000-0x000000006fffffff], 0x0000000002725000 bytes flags: 0x0
+> [    0.000356]  memory[0x3]     [0x0000000100000000-0x000000407fff8fff], 0x0000003f7fff9000 bytes flags: 0x0
+> [    0.000358]  memory[0x4]     [0x000000407fffa000-0x000000407fffffff], 0x0000000000006000 bytes flags: 0x0
+> [    0.000359]  reserved.cnt  = 0x7
+> 
+> 
+> So MEMBLOCK_RSRV_KERN and MEMBLOCK_KHO_SCRATCH seem to overlap..
 
->>
->>> Translate .../usb/index.rst into Chinese and update subsystem-apis.rst
->>>
->>> Update the translation through commit c26cee817f8b
->>> ("usb: gadget: f_fs: add capability for dfu functional descriptor")
->>>
->>> Signed-off-by: macrofun<baikefan@leap-io-kernel.com>
->> Please use your real, legal name in the signoff line.
->>
->> Out of curiosity, are these translations machine-generated?
->>
->> Thanks,
+It does not matter, they are set on different arrays. RSRV_KERN is set on
+regions in memblock.reserved and KHO_SCRATCH is set on regions in
+memblock.memory.
 
+So dumping memblock.memory is completely irrelevant, you need to check
+memblock.reserved for potential conflicts.
+ 
+> >>>  20:16:33   ? start_kernel+0x58/0x960
+> >>>  20:16:33   ? x86_64_start_reservations+0x20/0x20
+> >>>  20:16:33   ? x86_64_start_kernel+0x13d/0x140
+> >>>  20:16:33   ? common_startup_64+0x13e/0x140
+> >>>  20:16:33   </TASK>
+> >>>  20:16:33  ---[ end trace 0000000000000000 ]--- 
+> >>>
+> >>>
+> >>> Rolling out with memblock=debug is not really an option in a large scale fleet due to the
+> >>> time added to boot. But I did try on one of the hosts (without reproducing the issue) and I see:
+> > 
+> > Is it a problem to roll out a kernel that has additional debug printouts as
+> > Breno suggested earlier? I.e.
+> > 
+> > 	if (flags != MEMBLOCK_NONE && flags != rgn->flags) {
+> > 		pr_warn("memblock: Flag mismatch at region [%pa-%pa]\n",
+> > 			&rgn->base, &rend);
+> > 		pr_warn("  Existing region flags: %#x\n", rgn->flags);
+> > 		pr_warn("  New range flags: %#x\n", flags);
+> > 		pr_warn("  New range: [%pa-%pa]\n", &base, &end);
+> > 		WARN_ON_ONCE(1);
+> > 	}
+> > 
+> 
+> I can add this, but the only thing is that it might be several weeks between me putting this in the
+> kernel and that kernel being deployed to enough machines that it starts to show up. I think the IMA coinciding
+> with memblock_mark_kho_scratch in e820__memblock_setup could be the reason for the warning. It might be better to
+> fix that case and deploy it to see if the warnings still show up?
+> I can add these prints as well incase it doesnt fix the problem.
+ 
+I really don't think that effectively disabling memblock_mark_kho_scratch()
+when KHO is disabled will solve the problem because as I said the flags it
+sets are on different structure than the flags set by
+memblock_reserve_kern().
+
+> > If you have the logs from failing boots up to the point where SLUB reports
+> > about it's initialization, e.g. 
+> > 
+> > [    0.134377] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=8, Nodes=1
+> > 
+> > something there may hint about what's the issue. 
+> 
+> So the boot doesnt fail, its just giving warnings in the fleet.
+> I have added the dmesg to the end of the mail.
+ 
+Thanks, unfortunately nothing jumped at me there.
+
+> Does something like this look good? I can try deploying this (although it will take sometime to find out).
+> We can get it upstream as well as that makes backports easier.
+> 
+> diff --git a/mm/memblock.c b/mm/memblock.c
+> index 154f1d73b61f2..257c6f0eee03d 100644
+> --- a/mm/memblock.c
+> +++ b/mm/memblock.c
+> @@ -1119,8 +1119,13 @@ int __init_memblock memblock_reserved_mark_noinit(phys_addr_t base, phys_addr_t
+>   */
+>  __init int memblock_mark_kho_scratch(phys_addr_t base, phys_addr_t size)
+>  {
+> -       return memblock_setclr_flag(&memblock.memory, base, size, 1,
+> -                                   MEMBLOCK_KHO_SCRATCH);
+> +#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
+> +       if (is_kho_boot())
+
+Please use 
+
+	if (IS_ENABLED(CONFIG_MEMBLOCK_KHO_SCRATCH)
+
+instead of indef.
+
+If you send a formal patch with it, I'll take it.
+I'd suggest still deploying additional debug printouts internally.
+
+> +               return memblock_setclr_flag(&memblock.memory, base, size, 1,
+> +                                           MEMBLOCK_KHO_SCRATCH);
+> +#else
+> +       return 0;
+> +#endif
+>  }
+>  
+>  /**
+> @@ -1133,8 +1138,13 @@ __init int memblock_mark_kho_scratch(phys_addr_t base, phys_addr_t size)
+>   */
+>  __init int memblock_clear_kho_scratch(phys_addr_t base, phys_addr_t size)
+>  {
+> -       return memblock_setclr_flag(&memblock.memory, base, size, 0,
+> -                                   MEMBLOCK_KHO_SCRATCH);
+> +#ifdef CONFIG_MEMBLOCK_KHO_SCRATCH
+> +       if (is_kho_boot())
+> +               return memblock_setclr_flag(&memblock.memory, base, size, 0,
+> +                                           MEMBLOCK_KHO_SCRATCH);
+> +#else
+
+If nothing sets the flag _clear is anyway nop, but let's update it as well
+for symmetry.
+
+-- 
+Sincerely yours,
+Mike.
