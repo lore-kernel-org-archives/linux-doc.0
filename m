@@ -1,145 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB952E54CC;
-	Wed, 26 Nov 2025 10:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB661096F;
+	Wed, 26 Nov 2025 10:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764151378; cv=none; b=ewEIN5EF90JdA4uHfFgUGzjPPg/O29xHh61QpgMw3D+Et1OdBhOz9PDZB4BndbZWN0tgqBeShYoWe6RDBIxGzV8FNDnulNqKPo9Ht6NVLpQp5sMRNg8Lote+qGxwMhWFfoYgxByC2rnHnnhqXnB7V6O4TgZ/7yjJESfotGzYwr0=
+	t=1764151853; cv=none; b=uRUhsndIOdB5rNGCu5tRKy3hPYaV0gMZRBQ2IC3bTUvZTEPXkNcodEfXDdoyaTI1YbLda70z5IEG8rkjJmytI1SudvAyDcaQOWqIursfodhDNn4o6sPnsJWPaIRhHY7Ijo3RG8ZBk4vo4AKE1YDLcPO0iOs+hrKQZjq/iJZwwu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764151378; c=relaxed/simple;
-	bh=xXqrJ8HIf4HVKSwlHfvo9uZclOBEXwWRwuyFr3etAuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZycCwP5+jc9jZ6rrTK3Bda2NKDEwshbA9M6xarkj6zbnIj86ar5M872gMmzvTp4OwgigZJ24FN9Uo8AxSkx7P4lkZ+HnJO1k9bJ8Gju+MGLGsziFOoIzFBo5lrwqiNtG+04zBfsA5mWHNCdjM/2Bkay1aMqa0IKTsMKK6X/i3E0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mDUJPW63; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764151853; c=relaxed/simple;
+	bh=ecJ1vGlyPj6hsCofjHA7b6XDNSRT7xhJLj2BkLxAf6M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cZDOvyzjUabTmYkFncf04onYVq5qLUw8XBAeRwnshNv8iprq21CKChrmAR/b17rGIBwgblSM03x/OrRDMeI9JUu5nmdG+VgfIlFaNpJrZllrsPjbRyy0SmoWiqn7C3Ubbe69LpkLdVIjOOttYhABlxJnuYQB5wNLckiCnQ3YuVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BTGwNJiY; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mDUJPW63"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A107C113D0;
-	Wed, 26 Nov 2025 10:02:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764151378;
-	bh=xXqrJ8HIf4HVKSwlHfvo9uZclOBEXwWRwuyFr3etAuY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mDUJPW63F05Xi9Y5/6dzbh7U30QKG3Y01WmA/wIbiTZght2Tbvc6aKKW9G3n2eNdN
-	 KUzsEmRda97EPGv+1LP6eGFO+bMCi1FsJK9YjyPO7LZ+CTbI/0hFUy+DhZFsE6c/qb
-	 pWZEGlBYFi2N7yfN2xN5mF+5B14DXDl0zSkGqf59lU92vqIibm7iIIYOHJpDnU/u4Y
-	 orr6NGWHXKzjgyHxJbg8ep4iElE/xB3Y/xe+rvyWAPkZjwJR3LI8o+BfB+Hm7qYZ/u
-	 iGESbT5Dsv+RuzoKFwN4lsTEi29bI9XFTHzVuxmlrPyF6GKcU9LBLatv/sZ6QM9gMO
-	 ddNAvxlLGbA6w==
-Date: Wed, 26 Nov 2025 10:02:51 +0000
-From: Simon Horman <horms@kernel.org>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v7 5/5] selftests: drv-net: devmem: add
- autorelease tests
-Message-ID: <aSbQS5HqMkfDhktz@horms.kernel.org>
-References: <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-0-1abc8467354c@meta.com>
- <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-5-1abc8467354c@meta.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BTGwNJiY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764151849;
+	bh=ecJ1vGlyPj6hsCofjHA7b6XDNSRT7xhJLj2BkLxAf6M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=BTGwNJiYhH0pw6GB3bsWRZFrAfxZlQsY1XcuEL3zlNWjVHArUqmwi2Hmr9H0spuYR
+	 ZZLN8ys30zhBHkvnwuv0MKYs3j2MayURZg1nfvQj5Y4SfOLRj6Pez/y7IfBn1pylM1
+	 cJqj73uPzEbF1Bw70LjOzOLA1MpiTPezmO1B5FvasUQqo+0u9dm8piYmTyL/ParorP
+	 Bsp8pqlHveaqQfQR8+cI2S2sRFvucsZrCuUUbiIE0g79lQfF7L74VOl3eJ0IHL+lNs
+	 X2GqZWDiZ+gtHSazhxFkL8ABfWHWgkf5YvUXT39/hblLTtJvYreeuprfcmj/tGpnHI
+	 /WoTfM4zP4pHA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E4EC417E10E9;
+	Wed, 26 Nov 2025 11:10:47 +0100 (CET)
+Date: Wed, 26 Nov 2025 11:10:43 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
+ Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v9 09/11] drm/panthor: Improve IOMMU map/unmap debugging
+ logs
+Message-ID: <20251126111043.145e1aa2@fedora>
+In-Reply-To: <20251114170303.2800-10-loic.molinari@collabora.com>
+References: <20251114170303.2800-1-loic.molinari@collabora.com>
+	<20251114170303.2800-10-loic.molinari@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-5-1abc8467354c@meta.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 19, 2025 at 07:37:12PM -0800, Bobby Eshleman wrote:
-> From: Bobby Eshleman <bobbyeshleman@meta.com>
-> 
-> Add tests cases that check the autorelease modes (on and off).  The new
-> tests are the same as the old ones, but just pass a flag to ncdevmem to
-> select the autorelease mode.
-> 
-> Only for RX tests is autorelease checked, as the autorelease ncdevmem
-> flag is unused in the TX case and doesn't apply to TX bind operations.
-> 
-> Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+On Fri, 14 Nov 2025 18:03:00 +0100
+Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+
+> Log the number of pages and their sizes actually mapped/unmapped by
+> the IOMMU page table driver. Since a map/unmap op is often split in
+> several ops depending on the underlying scatter/gather table, add the
+> start address and the total size to the debugging logs in order to
+> help understand which batch an op is part of.
+>=20
+> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+Just queued this specific patch to drm-misc-next since it had no
+external deps. Make sure you rebase before preparing your v10.
+
 > ---
-> Note: I tested successfully with kperf, but I'm troubleshooting
-> some mlx5 issues with ncdevmem so this patch, though simple, is not
-> fully validated. Will respond to this thread when solve the issue.
-> 
-> Changes in v7:
-> - use autorelease netlink
-> - remove sockopt tests
-> ---
->  tools/testing/selftests/drivers/net/hw/devmem.py  | 22 ++++++++++++++++++++--
->  tools/testing/selftests/drivers/net/hw/ncdevmem.c | 19 +++++++++++++------
->  2 files changed, 33 insertions(+), 8 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/drivers/net/hw/devmem.py b/tools/testing/selftests/drivers/net/hw/devmem.py
-> index 45c2d49d55b6..dddb9d77cb28 100755
-> --- a/tools/testing/selftests/drivers/net/hw/devmem.py
-> +++ b/tools/testing/selftests/drivers/net/hw/devmem.py
-> @@ -25,7 +25,23 @@ def check_rx(cfg) -> None:
->  
->      port = rand_port()
->      socat = f"socat -u - TCP{cfg.addr_ipver}:{cfg.baddr}:{port},bind={cfg.remote_baddr}:{port}"
-> -    listen_cmd = f"{cfg.bin_local} -l -f {cfg.ifname} -s {cfg.addr} -p {port} -c {cfg.remote_addr} -v 7"
-> +    listen_cmd = f"{cfg.bin_local} -l -f {cfg.ifname} -s {cfg.addr} -p {port} -c {cfg.remote_addr} -v 7 -a 0"
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 19 ++++++++++++++-----
+>  1 file changed, 14 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pant=
+hor/panthor_mmu.c
+> index 58fead90533a..32410713c61c 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -918,10 +918,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm =
+*vm, u64 iova, u64 size)
+>  {
+>  	struct panthor_device *ptdev =3D vm->ptdev;
+>  	struct io_pgtable_ops *ops =3D vm->pgtbl_ops;
+> +	u64 start_iova =3D iova;
+>  	u64 offset =3D 0;
+> =20
+> -	drm_dbg(&ptdev->base, "unmap: as=3D%d, iova=3D%llx, len=3D%llx", vm->as=
+.id, iova, size);
+> -
+>  	while (offset < size) {
+>  		size_t unmapped_sz =3D 0, pgcount;
+>  		size_t pgsize =3D get_pgsize(iova + offset, size - offset, &pgcount);
+> @@ -936,6 +935,12 @@ static int panthor_vm_unmap_pages(struct panthor_vm =
+*vm, u64 iova, u64 size)
+>  			panthor_vm_flush_range(vm, iova, offset + unmapped_sz);
+>  			return  -EINVAL;
+>  		}
 > +
-> +    with bkg(listen_cmd, exit_wait=True) as ncdevmem:
-> +        wait_port_listen(port)
-> +        cmd(f"yes $(echo -e \x01\x02\x03\x04\x05\x06) | \
-> +            head -c 1K | {socat}", host=cfg.remote, shell=True)
+> +		drm_dbg(&ptdev->base,
+> +			"unmap: as=3D%d, iova=3D0x%llx, sz=3D%llu, va=3D0x%llx, pgcnt=3D%zu, =
+pgsz=3D%zu",
+> +			vm->as.id, start_iova, size, iova + offset,
+> +			unmapped_sz / pgsize, pgsize);
 > +
-> +    ksft_eq(ncdevmem.ret, 0)
+>  		offset +=3D unmapped_sz;
+>  	}
+> =20
+> @@ -951,6 +956,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova,=
+ int prot,
+>  	struct scatterlist *sgl;
+>  	struct io_pgtable_ops *ops =3D vm->pgtbl_ops;
+>  	u64 start_iova =3D iova;
+> +	u64 start_size =3D size;
+>  	int ret;
+> =20
+>  	if (!size)
+> @@ -970,15 +976,18 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iov=
+a, int prot,
+>  		len =3D min_t(size_t, len, size);
+>  		size -=3D len;
+> =20
+> -		drm_dbg(&ptdev->base, "map: as=3D%d, iova=3D%llx, paddr=3D%pad, len=3D=
+%zx",
+> -			vm->as.id, iova, &paddr, len);
+> -
+>  		while (len) {
+>  			size_t pgcount, mapped =3D 0;
+>  			size_t pgsize =3D get_pgsize(iova | paddr, len, &pgcount);
+> =20
+>  			ret =3D ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
+>  					     GFP_KERNEL, &mapped);
 > +
+> +			drm_dbg(&ptdev->base,
+> +				"map: as=3D%d, iova=3D0x%llx, sz=3D%llu, va=3D0x%llx, pa=3D%pad, pgc=
+nt=3D%zu, pgsz=3D%zu",
+> +				vm->as.id, start_iova, start_size, iova, &paddr,
+> +				mapped / pgsize, pgsize);
 > +
-> +@ksft_disruptive
-> +def check_rx_autorelease(cfg) -> None:
-> +    require_devmem(cfg)
-> +
-> +    port = rand_port()
-> +    socat = f"socat -u - TCP{cfg.addr_ipver}:{cfg.baddr}:{port},bind={cfg.remote_baddr}:{port}"
-> +    listen_cmd = f"{cfg.bin_local} -l -f {cfg.ifname} -s {cfg.addr} -p {port} -c {cfg.remote_addr} -v 7 -a 1"
->  
->      with bkg(listen_cmd, exit_wait=True) as ncdevmem:
->          wait_port_listen(port)
-> @@ -68,7 +84,9 @@ def main() -> None:
->          cfg.bin_local = path.abspath(path.dirname(__file__) + "/ncdevmem")
->          cfg.bin_remote = cfg.remote.deploy(cfg.bin_local)
->  
-> -        ksft_run([check_rx, check_tx, check_tx_chunks],
-> +        ksft_run([check_rx, check_rx_autorelease,
-> +                  check_tx, check_tx_autorelease,
-> +                  check_tx_chunks, check_tx_chunks_autorelease],
->                   args=(cfg, ))
->      ksft_exit()
->  
+>  			iova +=3D mapped;
+>  			paddr +=3D mapped;
+>  			len -=3D mapped;
 
-Hi Bobby,
-
-Sorry if this is a duplicate: I drafted this before bit AFAIKT
-I accidently hit the worng key and deleted it.
-
-I see that check_rx_autorelease is implemented above,
-but I don't see an implementatoin of check_tx_autorelease
-or check_tx_chunks_autorelease. Perhaps they should be added too?
-
-Flagged by pylint and ruff.
-Also confirmed by running devmem.py using vng (possibly incorrectly).
-
-
-This patch also adds some other pylint warnings, about missing
-documentation and lines that are too long. Although there are
-already instances of the same warning in this file. So I'm not
-sure how we should feel about that.
-
-...
