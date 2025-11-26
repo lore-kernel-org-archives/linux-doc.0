@@ -1,65 +1,65 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151D433B6ED
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 18:57:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1356333E356
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 18:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764183453; cv=none; b=Zqzy0eChVrtFCG0HP3sbMziYDXf2ZtYPUFp979Ig+s+i4uZIW69HGf2cs7I3PjQC5nZ4dBUOLBzhBJCQbNN7ZVzxk8vmPEhlQdKx3vQimCcZ9diaiOA+3ufhiIOWVr+ZIpp51bwGm+DB3ZNO/c95eIgvqojZDPRAIgSiOKVf6bs=
+	t=1764183455; cv=none; b=A14GeoH0KkymHDp+wrckG9zNwr1bPjeRf9sdG+kk+sqPSxZmbp5Fn+ZfdMTr1u4ES63uBxYHbEMy0unD3fV37ahA63wpwzfK3I1CuMjVdVig+zp5TiaMEzwp22YW0QKkC6LSE6KRmmeZT2ZJXGHdfWfXZtitsmD2qnjQU/WTzZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764183453; c=relaxed/simple;
-	bh=44wvrjsJsA56OuYSPS9rS3D1Jv0o0ZdFIoHQwFGkRDc=;
+	s=arc-20240116; t=1764183455; c=relaxed/simple;
+	bh=de05t6Uooi6dbGpHaHB0GbWiclzXkAC6UDgDYumpOAQ=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VO5txcdblg1PRv4qC+lJOvAw1ih/zK5XkxNfzIVuMuqr9rpiiQVIDvPc8QPaVy70GxtF8Sh5wXoqYTtYbJgBzvY/qypBujhValFX0UDhkhIQhElGGp+3KvNhWNKoqvtC9a/8xUXxtDcuR2akrOBMtq9z5X6K4FO11lukWsqId/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=hlcQvjOl; arc=none smtp.client-ip=74.125.224.53
+	 MIME-Version; b=PT45yetRQCsF/bv806dxcA0hFUfXJ3NUzRRnBiBA/3qVjGjmHytIi2YpbP0tf/bUSYPVFIHA41QDIyXdWvtJN+lVTpTFAySS7fJRtLs7IeZzqjr86BTnavSXEjVUasCf4gnQYOF6C2T7vm1yvdl3JnqNEzjOJRqlV2C98Kc5+PY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=UAbsUlK3; arc=none smtp.client-ip=74.125.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="hlcQvjOl"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64308342458so109082d50.0
-        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:57:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="UAbsUlK3"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-6420c0cf4abso98696d50.1
+        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:57:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764183451; x=1764788251; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1764183452; x=1764788252; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=252XjyR+0lgh5x/2v3DurnNqDLZdTdfYV2jUwplovA0=;
-        b=hlcQvjOlT/nt6c3sIr0osj95aOONwCwkDR2AQGaI/Q+Dmn58eA387QpfdzPhXPGCOB
-         vESovq0hqFkRQSHx3N9TFtRKVoCPhg8LW4W3ee6ftCSR5DuTTf6wP7YJnLYcD5C1C5B2
-         sci2wf+8W0demdIhB9JqEcn9z4iig9tHyDknHg8GPlziaD8xjdhnkcHM+U4EhcqypR4O
-         aLzX6JSSUOJxCkYKoJAhVDlqq4EAhNdLSoPatbr6lcTg7Pgp6Saf9FsNx3rrqoZCyXqk
-         WJvD4XYo6oIJQc5smg7Hu8MJPLmXoUo9HNIye2exQsJNaO5NoYFGSqWI2APMdJDsXuKn
-         rQkw==
+        bh=3EVogAUf9sZwvrZ2BPOSnajNqljKd+lPUBpF9BuiigE=;
+        b=UAbsUlK3q0d1GcjmxxvZbR3rjY8z7tVQFc6ZlZ4i03Zol0TTlRxaQeigoNbvw4rDkS
+         HnJz7a9itSXRaPZ7sWBGMoKmoOiF99FxIp4Dho5n39chdS9LpPjMp4uDt1kUcyxxg3Xb
+         tuYH0dYLaCMZxXgNYfGK7n0wx81T66u1iqrTYpHlzQD8Kl3e3Xxd0Se0Jl01sMxGwAhj
+         V//JWuSz7ksz6DQmJzSGLSHIkvPghMQVE4bvKlTCkGaiAkF3uaxK3wdxDuUFjoAN1IBb
+         jDcqLUj6xsebYtgWm3WPhGtoVy7Mv5E2g/FKPg119fi5DFUTuF3ZTOVf8Z9lgD9QqROp
+         l3wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764183451; x=1764788251;
+        d=1e100.net; s=20230601; t=1764183452; x=1764788252;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=252XjyR+0lgh5x/2v3DurnNqDLZdTdfYV2jUwplovA0=;
-        b=Kck8b1ntyb9Sm9ZhQbE/6mb3oKgATRmTjX7VPTyJ9FG44PzYSw8oz6x/PxdQiGUkf3
-         ZazA6YPpIO0xchNcjWVAT4PX98JM1tAHkUzBzSjpRHLns7JRrwLsBWSNFD6DTv5aQsmf
-         sbC+VORx4gbKcwcWQpKPPO1XrHL4nchdigX89KXUINbZeX5rNqsC8wyyollotfG7ViXt
-         7iweT7fGUax7vKpJzbONtHx8DVMFfgD/XhUXVTdGe0IN4KFY1nvqz1sAKz+E7jr5Thx1
-         vltXSf6clc+CX/pPfrP8bOKcojZG0YzQJtQy6/AcdU8ch2+a+PbYkmPbHbRN91IIKRvO
-         o8+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVeoGaipjYy0tvcMD+JXA4acnadUwZcs+mDGzNowVS4dfMV7SG4t3B2XOogTchIvHHOk94Ir6DD5kU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgL9zB4yUuxvMGlxPnn2GByyjqbxhjLUQPG6Z+wmXxKXJZ6n4E
-	bSPdl1NskAtlvZZbcVGsojfd04VBZlJVa1zh9YlIjS9RcMzEb5htn21/JpdRdkN4F5I=
-X-Gm-Gg: ASbGncuFW038k8BPbJujeYm0gMUHCrM4/+apZSJfo7arJO/N0IHUXDra9f/fz7wY9Ah
-	ZC17LHmYD1J1UsunCVgFBo7eUbty/FEWI0Zejqs16RK8co2o2c4PD1fyE7bDf4tOe50rItHwF3c
-	FgLMeqsmDwCTyXuGLMSOfA9/TfUc7lqZcgOBBZdHffLu5O3L/OzqTSmKp+YDtyCHpuV5i4vFZQH
-	c5HB4DcMkq9FcAru09tPXdSDLwSdImXJ+Iu6ggWRlpaBT8TToHU18nwgZDg/BIqH3g3dXAp1eTI
-	CoRKh/Ncr0NHEfoCb5kqMcw3XxqUa/vYz+HTTz1NsIyhjydGIbmVP+Ye3X//zgy4E9gNEtDEzdz
-	d9xhoYY2XPnG884a6y4mbCL74nNATG+qmG2IWxkDPkJL3Fg4rcZib0hJAHWgjUWscnxdBPXKqHB
-	0pQlTPKZeTvKYRYz6P19pef1eSamY0d4epa3ug/lVejqUJfVAIgJA0+1i6ZOMq6Q5G1LnRVn5or
-	HiB1d34FFi9H8dH8A==
-X-Google-Smtp-Source: AGHT+IHu24upDOl7ro9ofRNY1haZ/Bs6YtgAgi3REfJFG6MqRROVjAAPoCaKTsxQrfJqTFs30v63Ng==
-X-Received: by 2002:a05:690e:784:b0:63f:b590:2e9 with SMTP id 956f58d0204a3-64302aa4865mr11760784d50.21.1764183450703;
-        Wed, 26 Nov 2025 10:57:30 -0800 (PST)
+        bh=3EVogAUf9sZwvrZ2BPOSnajNqljKd+lPUBpF9BuiigE=;
+        b=F4bOFnDuF8hVk8ypaQ9BQxqCNqfHs0q4cMTl/3Frp0YR6ZSVcuGnbJPcxhAGgkxL9z
+         xguJCrq7fkJuxWFawUhXV3IfTmvAyKuXZL6dFXsdSS/RQt/+5mQy6rjERehsf8d5Gztd
+         5onu0oBySR2kLncRsA1CCOHYDvsVA467N6SWaQAdnvW1ctlTtIXC7dHE1IhHtCRic6m5
+         G82KmOO0vTx9yuuW+zJzlXydGCQi51mrrQYc9FkAoJBBPkAlxRiiMXLqwfNRKC9jBv0G
+         Vl5LONvM8f9/asm1piBry7WbOIeomcFIvGwvL0W1OyLaJZ0xdUbMm9vZP0YypeuQtaxs
+         uLVg==
+X-Forwarded-Encrypted: i=1; AJvYcCVxzNIg8fud1JYGmimsvkAJRVXJoiLJK49he32IcOzSRzpp/YalcvC+5MUAptWTcgs3Pzd+7RFi4wg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyD0uTwIJLGvs9MyOXwl33t0E2u/1Z/lFZJPX9jM4y4WG3BabWA
+	zZr7utv8kHxgK2DV7aeTAs+0zPWo9acM5kg341hfDFzhuaZv0tcnmBupKMNuw0Mv1Wo=
+X-Gm-Gg: ASbGncsv1eCI1lN4oWzmRTwFQIpN15btQraonHFyg7A6zO0fvTwCbKbszGCqjFV3B05
+	hyFFUSV791jWXytwSesqmGzpVQ2lCWDyITPqlf3m+K8wnif/EQ6LFl2GCgLPFdHyxvr/Ljap31y
+	JzGqHwBvtOdDTikWvBPLXxbiIXv58K2QEcbBLjbC6RXt3qsG+8DH4RxMPNVkjWW36sxCK7Nu/BE
+	w+0QyW351DleR6houSv6lzYqSchEQSGKdNGHz2NASlc1u7kdCr/l18TZF1RfMe7SZtCdhokSouO
+	Iig1STizmBboGGsMg65HbuixneTdV+qstRWFlJl4CntHcB4a/XfTjVtUOp6ZN9HkjBoI9Vsd/Sc
+	EzBwkjYZV1s3RFrgKEa/93qKuZq1uTnIWnOcyDXJBtzfI/5VnEWS6qSE/mu7TiOgAKhLnuOSttC
+	7mmtBUJq3Wu8fyGX5t8MUZsMIJKWa4yWXjkpFfMkjH/vgEocYV0ENTQtBD1V+OXJNp7XQPe2ZPq
+	qWXUA4=
+X-Google-Smtp-Source: AGHT+IGolbW5+rjOQ0Yye2rYIz9onkgz5B5ar70qXCIQenbc39w0zKLELoUeY+9t55wUha7BmD2pxQ==
+X-Received: by 2002:a05:690e:1542:20b0:642:836:1048 with SMTP id 956f58d0204a3-64302a8f272mr13099532d50.2.1764183451962;
+        Wed, 26 Nov 2025 10:57:31 -0800 (PST)
 Received: from soleen.c.googlers.com.com (182.221.85.34.bc.googleusercontent.com. [34.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-643259fd696sm2960753d50.7.2025.11.26.10.57.29
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-643259fd696sm2960753d50.7.2025.11.26.10.57.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 10:57:30 -0800 (PST)
+        Wed, 26 Nov 2025 10:57:31 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: corbet@lwn.net,
 	pasha.tatashin@soleen.com,
@@ -80,9 +80,9 @@ To: corbet@lwn.net,
 	graf@amazon.com,
 	dmatlack@google.com,
 	rientjes@google.com
-Subject: [PATCH v1 1/3] list: add primitives for private list manipulations
-Date: Wed, 26 Nov 2025 13:57:23 -0500
-Message-ID: <20251126185725.4164769-2-pasha.tatashin@soleen.com>
+Subject: [PATCH v1 2/3] list: add kunit test for private list primitives
+Date: Wed, 26 Nov 2025 13:57:24 -0500
+Message-ID: <20251126185725.4164769-3-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.52.0.487.g5c8c507ade-goog
 In-Reply-To: <20251126185725.4164769-1-pasha.tatashin@soleen.com>
 References: <20251126185725.4164769-1-pasha.tatashin@soleen.com>
@@ -94,303 +94,143 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Linux recently added an ability to add private members to structs (i.e.
-__private) and access them via ACCESS_PRIVATE(). This ensures that those
-members are only accessible by the subsystem which owns the struct type,
-and not to the object owner.
+Add a KUnit test suite for the new private list primitives.
 
-However, struct list_head often needs to be placed into the private
-section to be manipulated privately by the subsystem.
+The test defines a struct with a __private list_head and exercises every
+macro defined in <linux/list_private.h>.
 
-Add macros to support private list manipulations in
-<linux/list_private.h>.
+This ensures that the macros correctly handle the ACCESS_PRIVATE()
+abstraction and compile without warnings when acting on private members,
+verifying that qualifiers are stripped and offsets are calculated
+correctly.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- Documentation/core-api/list.rst |   9 ++
- include/linux/list_private.h    | 256 ++++++++++++++++++++++++++++++++
- 2 files changed, 265 insertions(+)
- create mode 100644 include/linux/list_private.h
+ lib/Kconfig.debug             | 14 +++++++
+ lib/tests/Makefile            |  1 +
+ lib/tests/list-private-test.c | 76 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 91 insertions(+)
+ create mode 100644 lib/tests/list-private-test.c
 
-diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
-index 86873ce9adbf..241464ca0549 100644
---- a/Documentation/core-api/list.rst
-+++ b/Documentation/core-api/list.rst
-@@ -774,3 +774,12 @@ Full List API
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 42143686151f..fa9388726182 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2788,6 +2788,20 @@ config LIST_KUNIT_TEST
  
- .. kernel-doc:: include/linux/list.h
-    :internal:
+ 	  If unsure, say N.
+ 
++config LIST_PRIVATE_KUNIT_TEST
++	tristate "KUnit Test for Kernel Private Linked-list structures" if !KUNIT_ALL_TESTS
++	depends on KUNIT
++	default KUNIT_ALL_TESTS
++	help
++	  This builds the KUnit test for the private linked-list primitives
++	  defined in include/linux/list_private.h.
 +
-+Private List API
-+================
++	  These primitives allow manipulation of list_head members that are
++	  marked as private and require special accessors (ACCESS_PRIVATE)
++	  to strip qualifiers or handle encapsulation.
 +
-+.. kernel-doc:: include/linux/list_private.h
-+   :doc: Private List Primitives
++	  If unsure, say N.
 +
-+.. kernel-doc:: include/linux/list_private.h
-+   :internal:
-diff --git a/include/linux/list_private.h b/include/linux/list_private.h
+ config HASHTABLE_KUNIT_TEST
+ 	tristate "KUnit Test for Kernel Hashtable structures" if !KUNIT_ALL_TESTS
+ 	depends on KUNIT
+diff --git a/lib/tests/Makefile b/lib/tests/Makefile
+index 601dba4b7d96..62a7f115f622 100644
+--- a/lib/tests/Makefile
++++ b/lib/tests/Makefile
+@@ -25,6 +25,7 @@ obj-$(CONFIG_TEST_IOV_ITER) += kunit_iov_iter.o
+ obj-$(CONFIG_IS_SIGNED_TYPE_KUNIT_TEST) += is_signed_type_kunit.o
+ obj-$(CONFIG_KPROBES_SANITY_TEST) += test_kprobes.o
+ obj-$(CONFIG_LIST_KUNIT_TEST) += list-test.o
++obj-$(CONFIG_LIST_PRIVATE_KUNIT_TEST) += list-private-test.o
+ obj-$(CONFIG_KFIFO_KUNIT_TEST) += kfifo_kunit.o
+ obj-$(CONFIG_TEST_LIST_SORT) += test_list_sort.o
+ obj-$(CONFIG_LINEAR_RANGES_TEST) += test_linear_ranges.o
+diff --git a/lib/tests/list-private-test.c b/lib/tests/list-private-test.c
 new file mode 100644
-index 000000000000..6f93d54e797a
+index 000000000000..3bd62939ae67
 --- /dev/null
-+++ b/include/linux/list_private.h
-@@ -0,0 +1,256 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
++++ b/lib/tests/list-private-test.c
+@@ -0,0 +1,76 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
++ * KUnit compilation/smoke test for Private list primitives.
++ *
 + * Copyright (c) 2025, Google LLC.
 + * Pasha Tatashin <pasha.tatashin@soleen.com>
 + */
-+#ifndef _LINUX_LIST_PRIVATE_H
-+#define _LINUX_LIST_PRIVATE_H
++#include <linux/list_private.h>
++#include <kunit/test.h>
 +
-+/**
-+ * DOC: Private List Primitives
-+ *
-+ * Provides a set of list primitives identical in function to those in
-+ * ``<linux/list.h>``, but designed for cases where the embedded
-+ * ``&struct list_head`` is private member.
++/*
++ * This forces compiler to warn if you access it directly, because list
++ * primitives expect (struct list_head *), not (volatile struct list_head *).
 + */
++#undef __private
++#define __private volatile
 +
-+#include <linux/compiler.h>
-+#include <linux/list.h>
++/* Redefine ACCESS_PRIVATE for this test. */
++#undef ACCESS_PRIVATE
++#define ACCESS_PRIVATE(p, member) \
++	(*((struct list_head *)((unsigned long)&((p)->member))))
 +
-+#define __list_private_offset(type, member)					\
-+	((size_t)(&ACCESS_PRIVATE(((type *)0), member)))
++struct list_test_struct {
++	int data;
++	struct list_head __private list;
++};
 +
-+/**
-+ * list_private_entry - get the struct for this entry
-+ * @ptr:	the &struct list_head pointer.
-+ * @type:	the type of the struct this is embedded in.
-+ * @member:	the identifier passed to ACCESS_PRIVATE.
-+ */
-+#define list_private_entry(ptr, type, member) ({				\
-+	const struct list_head *__mptr = (ptr);					\
-+	(type *)((char *)__mptr - __list_private_offset(type, member));		\
-+})
++static void list_private_compile_test(struct kunit *test)
++{
++	struct list_test_struct entry;
++	struct list_test_struct *pos, *n;
++	LIST_HEAD(head);
 +
-+/**
-+ * list_private_first_entry - get the first element from a list
-+ * @ptr:	the list head to take the element from.
-+ * @type:	the type of the struct this is embedded in.
-+ * @member:	the identifier passed to ACCESS_PRIVATE.
-+ */
-+#define list_private_first_entry(ptr, type, member)				\
-+	list_private_entry((ptr)->next, type, member)
++	INIT_LIST_HEAD(&ACCESS_PRIVATE(&entry, list));
++	list_add(&ACCESS_PRIVATE(&entry, list), &head);
++	pos = &entry;
 +
-+/**
-+ * list_private_last_entry - get the last element from a list
-+ * @ptr:	the list head to take the element from.
-+ * @type:	the type of the struct this is embedded in.
-+ * @member:	the identifier passed to ACCESS_PRIVATE.
-+ */
-+#define list_private_last_entry(ptr, type, member)				\
-+	list_private_entry((ptr)->prev, type, member)
++	pos = list_private_entry(&ACCESS_PRIVATE(&entry, list), struct list_test_struct, list);
++	pos = list_private_first_entry(&head, struct list_test_struct, list);
++	pos = list_private_last_entry(&head, struct list_test_struct, list);
++	pos = list_private_next_entry(pos, list);
++	pos = list_private_prev_entry(pos, list);
++	pos = list_private_next_entry_circular(pos, &head, list);
++	pos = list_private_prev_entry_circular(pos, &head, list);
 +
-+/**
-+ * list_private_next_entry - get the next element in list
-+ * @pos:	the type * to cursor
-+ * @member:	the name of the list_head within the struct.
-+ */
-+#define list_private_next_entry(pos, member)					\
-+	list_private_entry(ACCESS_PRIVATE(pos, member).next, typeof(*(pos)), member)
++	if (list_private_entry_is_head(pos, &head, list))
++		return;
 +
-+/**
-+ * list_private_next_entry_circular - get the next element in list
-+ * @pos:	the type * to cursor.
-+ * @head:	the list head to take the element from.
-+ * @member:	the name of the list_head within the struct.
-+ *
-+ * Wraparound if pos is the last element (return the first element).
-+ * Note, that list is expected to be not empty.
-+ */
-+#define list_private_next_entry_circular(pos, head, member)			\
-+	(list_is_last(&ACCESS_PRIVATE(pos, member), head) ?			\
-+	list_private_first_entry(head, typeof(*(pos)), member) :		\
-+	list_private_next_entry(pos, member))
++	list_private_for_each_entry(pos, &head, list) { }
++	list_private_for_each_entry_reverse(pos, &head, list) { }
++	list_private_for_each_entry_continue(pos, &head, list) { }
++	list_private_for_each_entry_continue_reverse(pos, &head, list) { }
++	list_private_for_each_entry_from(pos, &head, list) { }
++	list_private_for_each_entry_from_reverse(pos, &head, list) { }
 +
-+/**
-+ * list_private_prev_entry - get the prev element in list
-+ * @pos:	the type * to cursor
-+ * @member:	the name of the list_head within the struct.
-+ */
-+#define list_private_prev_entry(pos, member)					\
-+	list_private_entry(ACCESS_PRIVATE(pos, member).prev, typeof(*(pos)), member)
++	list_private_for_each_entry_safe(pos, n, &head, list)
++		list_private_safe_reset_next(pos, n, list);
++	list_private_for_each_entry_safe_continue(pos, n, &head, list) { }
++	list_private_for_each_entry_safe_from(pos, n, &head, list) { }
++	list_private_for_each_entry_safe_reverse(pos, n, &head, list) { }
++}
 +
-+/**
-+ * list_prev_entry_circular - get the prev element in list
-+ * @pos:	the type * to cursor.
-+ * @head:	the list head to take the element from.
-+ * @member:	the name of the list_head within the struct.
-+ *
-+ * Wraparound if pos is the first element (return the last element).
-+ * Note, that list is expected to be not empty.
-+ */
-+#define list_private_prev_entry_circular(pos, head, member)			\
-+	(list_is_first(&ACCESS_PRIVATE(pos, member), head) ?			\
-+	list_private_last_entry(head, typeof(*(pos)), member) :			\
-+	list_private_prev_entry(pos, member))
++static struct kunit_case list_private_test_cases[] = {
++	KUNIT_CASE(list_private_compile_test),
++	{},
++};
 +
-+/**
-+ * list_private_entry_is_head - test if the entry points to the head of the list
-+ * @pos:	the type * to cursor
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_head within the struct.
-+ */
-+#define list_private_entry_is_head(pos, head, member)				\
-+	list_is_head(&ACCESS_PRIVATE(pos, member), (head))
++static struct kunit_suite list_private_test_module = {
++	.name = "list-private-kunit-test",
++	.test_cases = list_private_test_cases,
++};
 +
-+/**
-+ * list_private_for_each_entry - iterate over list of given type
-+ * @pos:	the type * to use as a loop cursor.
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_head within the struct.
-+ */
-+#define list_private_for_each_entry(pos, head, member)				\
-+	for (pos = list_private_first_entry(head, typeof(*pos), member);	\
-+	     !list_private_entry_is_head(pos, head, member);			\
-+	     pos = list_private_next_entry(pos, member))
++kunit_test_suite(list_private_test_module);
 +
-+/**
-+ * list_private_for_each_entry_reverse - iterate backwards over list of given type.
-+ * @pos:	the type * to use as a loop cursor.
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_head within the struct.
-+ */
-+#define list_private_for_each_entry_reverse(pos, head, member)			\
-+	for (pos = list_private_last_entry(head, typeof(*pos), member);		\
-+	     !list_private_entry_is_head(pos, head, member);			\
-+	     pos = list_private_prev_entry(pos, member))
-+
-+/**
-+ * list_private_for_each_entry_continue - continue iteration over list of given type
-+ * @pos:	the type * to use as a loop cursor.
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_head within the struct.
-+ *
-+ * Continue to iterate over list of given type, continuing after
-+ * the current position.
-+ */
-+#define list_private_for_each_entry_continue(pos, head, member)			\
-+	for (pos = list_private_next_entry(pos, member);			\
-+	     !list_private_entry_is_head(pos, head, member);			\
-+	     pos = list_private_next_entry(pos, member))
-+
-+/**
-+ * list_private_for_each_entry_continue_reverse - iterate backwards from the given point
-+ * @pos:	the type * to use as a loop cursor.
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_head within the struct.
-+ *
-+ * Start to iterate over list of given type backwards, continuing after
-+ * the current position.
-+ */
-+#define list_private_for_each_entry_continue_reverse(pos, head, member)		\
-+	for (pos = list_private_prev_entry(pos, member);			\
-+	     !list_private_entry_is_head(pos, head, member);			\
-+	     pos = list_private_prev_entry(pos, member))
-+
-+/**
-+ * list_private_for_each_entry_from - iterate over list of given type from the current point
-+ * @pos:	the type * to use as a loop cursor.
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_head within the struct.
-+ *
-+ * Iterate over list of given type, continuing from current position.
-+ */
-+#define list_private_for_each_entry_from(pos, head, member)			\
-+	for (; !list_private_entry_is_head(pos, head, member);			\
-+	     pos = list_private_next_entry(pos, member))
-+
-+/**
-+ * list_private_for_each_entry_from_reverse - iterate backwards over list of given type
-+ *                                    from the current point
-+ * @pos:	the type * to use as a loop cursor.
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_head within the struct.
-+ *
-+ * Iterate backwards over list of given type, continuing from current position.
-+ */
-+#define list_private_for_each_entry_from_reverse(pos, head, member)		\
-+	for (; !list_private_entry_is_head(pos, head, member);			\
-+	     pos = list_private_prev_entry(pos, member))
-+
-+/**
-+ * list_private_for_each_entry_safe - iterate over list of given type safe against removal of list entry
-+ * @pos:	the type * to use as a loop cursor.
-+ * @n:		another type * to use as temporary storage
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_head within the struct.
-+ */
-+#define list_private_for_each_entry_safe(pos, n, head, member)			\
-+	for (pos = list_private_first_entry(head, typeof(*pos), member),	\
-+		n = list_private_next_entry(pos, member);			\
-+	     !list_private_entry_is_head(pos, head, member);			\
-+	     pos = n, n = list_private_next_entry(n, member))
-+
-+/**
-+ * list_private_for_each_entry_safe_continue - continue list iteration safe against removal
-+ * @pos:	the type * to use as a loop cursor.
-+ * @n:		another type * to use as temporary storage
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_head within the struct.
-+ *
-+ * Iterate over list of given type, continuing after current point,
-+ * safe against removal of list entry.
-+ */
-+#define list_private_for_each_entry_safe_continue(pos, n, head, member)		\
-+	for (pos = list_private_next_entry(pos, member),			\
-+		n = list_private_next_entry(pos, member);			\
-+	     !list_private_entry_is_head(pos, head, member);			\
-+	     pos = n, n = list_private_next_entry(n, member))
-+
-+/**
-+ * list_private_for_each_entry_safe_from - iterate over list from current point safe against removal
-+ * @pos:	the type * to use as a loop cursor.
-+ * @n:		another type * to use as temporary storage
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_head within the struct.
-+ *
-+ * Iterate over list of given type from current point, safe against
-+ * removal of list entry.
-+ */
-+#define list_private_for_each_entry_safe_from(pos, n, head, member)		\
-+	for (n = list_private_next_entry(pos, member);				\
-+	     !list_private_entry_is_head(pos, head, member);			\
-+	     pos = n, n = list_private_next_entry(n, member))
-+
-+/**
-+ * list_private_for_each_entry_safe_reverse - iterate backwards over list safe against removal
-+ * @pos:	the type * to use as a loop cursor.
-+ * @n:		another type * to use as temporary storage
-+ * @head:	the head for your list.
-+ * @member:	the name of the list_head within the struct.
-+ *
-+ * Iterate backwards over list of given type, safe against removal
-+ * of list entry.
-+ */
-+#define list_private_for_each_entry_safe_reverse(pos, n, head, member)		\
-+	for (pos = list_private_last_entry(head, typeof(*pos), member),		\
-+		n = list_private_prev_entry(pos, member);			\
-+	     !list_private_entry_is_head(pos, head, member);			\
-+	     pos = n, n = list_private_prev_entry(n, member))
-+
-+/**
-+ * list_private_safe_reset_next - reset a stale list_for_each_entry_safe loop
-+ * @pos:	the loop cursor used in the list_for_each_entry_safe loop
-+ * @n:		temporary storage used in list_for_each_entry_safe
-+ * @member:	the name of the list_head within the struct.
-+ *
-+ * list_safe_reset_next is not safe to use in general if the list may be
-+ * modified concurrently (eg. the lock is dropped in the loop body). An
-+ * exception to this is if the cursor element (pos) is pinned in the list,
-+ * and list_safe_reset_next is called after re-taking the lock and before
-+ * completing the current iteration of the loop body.
-+ */
-+#define list_private_safe_reset_next(pos, n, member)				\
-+	n = list_private_next_entry(pos, member)
-+
-+#endif /* _LINUX_LIST_PRIVATE_H */
++MODULE_DESCRIPTION("KUnit compilation test for private list primitives");
++MODULE_LICENSE("GPL");
 -- 
 2.52.0.487.g5c8c507ade-goog
 
