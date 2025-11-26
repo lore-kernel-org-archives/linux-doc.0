@@ -1,107 +1,129 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0114827F4CE
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 18:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD4F3128AC
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 18:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764181331; cv=none; b=iMxXYeKxlokgmZoqQWwjeoNup0U1c8KDSTgR/lbGPYeHhRa892D9VizbWL2KprbsphqRnMX129C89HPy/MKgaLW36RnXm33ATDwUOkNvUsPao4CjT/pbQ+PGyPNxdQJWtVwD85dACqhKsxj6hztRwamDStuUW6oM5hI3d4y0jhs=
+	t=1764182475; cv=none; b=pv+3UBaM6CxLMNfIEkE1MiLur96/MBCBRttzuQwUzzYmWe//KvXU4R5MI+/9x8Jz5Ks6nYZwLm2dTu6jGuGTAx0zawxjBIUdw7BEHThoJ66YQRBO+mEND/b7EoxIf2oOQZbK0HUEEFPX2eDaIa1mXPuXGwj7ndbXVQdP7qDCN3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764181331; c=relaxed/simple;
-	bh=JIffUHW/SybQCLCBlH2E2/WPQRMwm/ANevb672L4zvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cULNBvLlRx1F4zb7+bJTDJW0INY6vJBgzMtNF9LS3bxX4pV7ecQIxTb685h1+tODsRUeLyXhjKVADk48nYczXPm6r/as2MVNzaR7OSI62QACMF563jGMOSQfXYaMliv/AGzUsWEFq5G17UHbZtz3PfMIxoUAQ9ePAGho1j7Lq7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=JTFitk+x; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1764182475; c=relaxed/simple;
+	bh=i23uuyAGDdzSRsmj/cUkhrMZq9aQGUA4+8iGZcYIbXI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tM7vs3kbIn8/XENRLQuj6zwtHLsa+cStRPlIfyIeMIWwfpB3kFUWdTZk0AGMf88zHJP4KlMYyp4Olf9G/YlUFCZEzI/tYQ3S9QfB2ubNorN1rFxTD0rNKXOhABDGxmY9C5tsW1423NmOgbXslE6vaZDg90mx7i/TarDb3yTcLSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HUxRBjs5; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="JTFitk+x"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8738c6fdbe8so897666d6.1
-        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:22:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUxRBjs5"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-88244d1559eso12205336d6.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:41:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1764181328; x=1764786128; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z/U907VaMhbY9//mqwOrvEDrs07VSJFQJVoQC08LGfc=;
-        b=JTFitk+xI0qNBQ+kRuacLdQRKJH1sL5eCYUpb+ADHqCoFeo3VfAxBGdB2i4R2NkobF
-         Xf/wjMevGTjQ353uyVYXJMAWRp/TZXY0G67f1vZTjs3m4K7Ntuo9GC+ej5LNHQ/kNrBM
-         u4fV+bKlD5tZrNX9GwchRtndVRAgpdB0Z4TbXBA8cT78BDWkEiyfDg9kiKxkUrPvz6tr
-         lWONHqQIlMM7BWG1oNQbrobYb00ZxKE6TccxWHSBQHalKY0e7sTZl//TIHC1cB2zIMnH
-         ajxvF6jJQLruyJfdNUIslPhQzTE0BrKylWCub20/JtzrynUVyAhbi2MqlnTThg4spvoz
-         K+IQ==
+        d=gmail.com; s=20230601; t=1764182473; x=1764787273; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pL+BNJLCWGjhg/T7ReR52wEfwLq1p/DJmaJjs1qnoVo=;
+        b=HUxRBjs5rM+E31gjKodm3rhQRKKQo0DdpjMIHp+p2mOQ06SY4lcTfqll5pAtqHmh+s
+         qg8pQAFRZm/ujPq2H4/3kZLHdLucGNoATTLXm6S+QIdmWeUkRTBBFExAL0wQAnD3DS9e
+         Y8ErfPSAHgakOrUwFSp1djTVDjB23N18HawYqZyS2eQCBvEMBHCLlnkb6TnFr82zSix2
+         WWvavkoBpIcyomylTBuu0stNsjI1ExasBBOD/CP/j7a3MQ3Zweh4bRi25CkGdlTNoFfA
+         urFhIMlck47NtpL0CPX5QXO8gQHxf9EKnOefk6uCJ2+I62GhoXa2t2V8O1bdvLdXXur7
+         CyBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764181328; x=1764786128;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z/U907VaMhbY9//mqwOrvEDrs07VSJFQJVoQC08LGfc=;
-        b=RoGJtpMqggYfPEmzjUgSWO3Cn1Xf1rF/0IZz8PwOju8I2ZFIfNRiYLSN2lpcg81i03
-         4AJE7JzzmQ5eeWvO8DyWeYDO1DwUlRc5pVdkAseB1gBW9hCPQDQghX6khYhuMR7FrEPl
-         LzeC4lNFoObNrmFpjyeA66DStr+A7nMLUmyTG++0JyW0SljUruUDM87EbaoR+gc55VXa
-         6Rm8pTuZ4BwFHwEZsTBq7R8xMJTxAkpeXaa4xhTi7H8VOZr0OUCiXDPSilry7qO+E1jp
-         B2DH6BDl5WKMtEWxmtWLaHACCk/BWfeChcphQ3HcxUYnC3zpHCcMnKJNiwvVQJDTpD4O
-         2UOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU82YOhCHZuAZF97A2c3/MXOjZo/AFKRgIyD8iuPl+e7MJLKOPByVYiBl+ixGk+l+Uyp1IA2FrYYPc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjhcYgwkui7hvmM+TtQfZzUjMzOCePY85Q3Ygaw/JBoOHqhbyW
-	iW7bSOaNVk/LKKWIJTemEfiq00xfjkvr9XRsNzWiloOk3SLBiYahHNvPlt3WHdGAA2o=
-X-Gm-Gg: ASbGncu+tcWe0ptFSOlOzQ9v9yWL6iX6La7Z4X8SYdhnUdvjd3f3PNFCFzNbOJflpV4
-	42wikh/evephGU0mqdoNyY7Y+GQ1ZLskEBlY7j2vwLefZim+obs8Hnsn2fGOv12VhAfv93YvBov
-	OUZcSecEJP7JaxxQ/QKC3Q0lY6WoSssL0RGhpz/hPCPE6l2eL5fthxcjZBhpSv+n/aza4wc30mk
-	F7JKudclJQWWUEZdFlfzSIES/wRjdMCYBpnuFVJiV5j04EVp+8ezUX9yxDs3rWk5IZfRc2sTrVM
-	kr3GPAHuGHyosc4/eLJ5Zt5pbpnX3FB4Efr9b1tbqK3Rf1lkf6zAjpqL2aVr9e2NywOWr5Jut7F
-	bhxmFcmWu6qtSK7VZjl5V27fDmI00m83nJ1IREZ2kglwYNOtoWyI3EmtyXxoHW5Ya2pKS3RhElq
-	JEAQIg6jWWRT6QV6nyVkKGf3V6zzGEfLsb3sFbb0ieM/BxmKAl0M8TPqDy
-X-Google-Smtp-Source: AGHT+IGk5aVt2np0F+0SUeq9bR/s3g/04Xibzoz3lycRYe8682b8OGK1SU+6oo6F+0oYAkhKjHiqfA==
-X-Received: by 2002:a05:6214:319c:b0:880:4c2b:1c29 with SMTP id 6a1803df08f44-8847c4e0295mr324140726d6.31.1764181327832;
-        Wed, 26 Nov 2025 10:22:07 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e46981asm149710776d6.13.2025.11.26.10.22.07
+        d=1e100.net; s=20230601; t=1764182473; x=1764787273;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pL+BNJLCWGjhg/T7ReR52wEfwLq1p/DJmaJjs1qnoVo=;
+        b=s3iW8YVddS2KZs186VfT55eIyq2WgRgZle+gw2YRzib7+Skjfe97lIX+iTNO+GuCAh
+         HQWpIasfLxeJnT+9dKUpedIPtZ0hBJiPuSGguCeqDDWuR0oAWEwlmv+/t0WXsm0ly11Z
+         +MTUfG5H8tm1mADkd1+FOUZuu3udPnWTvvqKCepUQoaTGbvW5KPaz2WCEZMiHsZtGMkZ
+         +k9ZPpNDWmtALhqOPEVvS7T4PVRlHqhJEr7pLqGo/NP1Vjz6SV1E7K5zwLTflBVX22/J
+         2xAXzh2V/chAJBhi+r2gJUHi/HCaNczg40E4kx6mZShAueW/y5gUsJ20yv/QUlY2VI3q
+         NzFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJeDhE4r0eJ3q6r3+eKaXCcTEUrFFwML0715JJGLsDexXZ74jg41bbCH+7beyii985aLCLOQOBbXg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy87zo3D782t1DM2dG1OYXLEOOlITV2CWx9B9R+aZ+MeEQcJvHe
+	iSA2AGQj/4herSrUbT0lGmXFzmvVtPHTqTBlKY6ulAlSaQ8MPxqVJylZ
+X-Gm-Gg: ASbGncsQ2eKM+IwR9nSvDahOXURMFWotLtHbXIfhnYFt8PnYW8H+BLeKYi6H9TQ0NF2
+	CBVzm7keMBNLCPJIgEA0ut3vGiR6Xl4R7Kpvwmy5nBMh2xaCMCd6CN5widiUA6jKlimjvDV9FXK
+	J3Qssj7tEoPKE5zJs3e0XTtMwP+S+u2iYV5zVwxp+9kpdRZOuKToq2lAeFCSxjuVOFbZ0+gUK3O
+	MbtEUficTMKby05sv8sqgEWLF0Bb7Cs0TNjTK0aF7RM6rurJmm79ifVjrMdFcwB1t1ihXzC6Kku
+	E8jZWaPnjgEkjVueym9WE193BgW0XAANwxScXB+2tvM6sLXIliH0ont+m/vfRkkcyFUWS2mQEsU
+	WphlfYWYvZwBrRJPt9fLf1/EwSy4M6OjsT6Fq9JJvb35S3ETrOXQahH8ulktT1cqnApyPrpDIya
+	Qod323usoj94gCdPbIgntIzGr6ej5Vu0pe+tXt/6FvAUqR3tSRpB4aPIgLXwIwWQ8ZVdZ5Xylw
+X-Google-Smtp-Source: AGHT+IEHMh2eH6r4vuI+wSTnrrZC7V0tb2D683WfXr+VMa3P9wT14HS3nFOcOhfoANcpVL7LdtkX3Q==
+X-Received: by 2002:a05:6214:20cc:b0:880:3eb3:3b0a with SMTP id 6a1803df08f44-88470080384mr407156846d6.4.1764182472895;
+        Wed, 26 Nov 2025 10:41:12 -0800 (PST)
+Received: from pc.mynetworksettings.com ([2600:4041:4491:2000:9820:e89a:8e2a:90ba])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e445b1csm149919506d6.9.2025.11.26.10.41.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 10:22:07 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vOK9W-0000000349C-2YZJ;
-	Wed, 26 Nov 2025 14:22:06 -0400
-Date: Wed, 26 Nov 2025 14:22:06 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux IOMMU <iommu@lists.linux.dev>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] iommu/arm-smmu-v3-iommufd: Separate vDEVICE allocation
- list
-Message-ID: <20251126182206.GB542915@ziepe.ca>
-References: <20251126033602.28871-2-bagasdotme@gmail.com>
+        Wed, 26 Nov 2025 10:41:12 -0800 (PST)
+From: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	corbet@lwn.net,
+	shuah@kernel.org
+Cc: mathieu.desnoyers@efficios.com,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+Subject: [PATCH v4 0/3] Support comma-separated symbols and :entry/:exit
+Date: Wed, 26 Nov 2025 13:41:07 -0500
+Message-ID: <20251126184110.72241-1-seokwoo.chung130@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251126033602.28871-2-bagasdotme@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 26, 2025 at 10:36:03AM +0700, Bagas Sanjaya wrote:
-> Stephen Rothwell reports htmldocs warnings when merging iommufd tree:
-> 
-> Documentation/userspace-api/iommufd:335: include/uapi/linux/iommufd.h:456: ERROR: Unexpected indentation. [docutils]
-> Documentation/userspace-api/iommufd:335: include/uapi/linux/iommufd.h:457: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-> 
-> Fix them by separating vDEVICE allocation list from preceding paragraph.
-> 
-> Fixes: 9f0b286fe40130 ("iommu/arm-smmu-v3-iommufd: Allow attaching nested domain for GBPA cases")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20251126125920.207fc959@canb.auug.org.au/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  include/uapi/linux/iommufd.h | 1 +
->  1 file changed, 1 insertion(+)
+Extend fprobe to support list-style filters and explicit entry/exit suffixes.
+Currentyl, fprobe only supports a single symbol (or wildcard) per event.
+This patch allows users to specify a comma-separated list of symbols.
 
-Thanks, I squashed this one line
+New Syntax:
+- f:[GRP/][EVENT] func1,func2,func3:entry
+- f:[GRP/][EVENT] func1,func2,func3:exit
 
-Jason
+Logic changes:
+- Refactor parsing logic into 'parse_fprobe_spec'
+- Support '!' prefix for exclusion
+- Disable BTF lookup ('ctx->funcname = NULL') when a list or wildcard is used,
+  as a single function signature cannot apply to multiple functions.
+- Reject legacy '%return' suffix when used with lists or wildcards
+- Update tracefs/README
+
+Testing:
+Verified on x86_64 via QEMU. Checked registration of lists, exclusions, and
+explicit suffixes. Verified rejection of invalid syntax including trailing
+commas and mixed legacy/new syntax.
+
+Seokwoo Chung (Ryan) (3):
+  docs: tracing/fprobe: Document list filters and :entry/:exit
+  tracing/fprobe: Support comma-separated symbols and :entry/:exit
+  selftests/ftrace: Add accept cases for fprobe list syntax
+
+Changes in v4:
+- Added validation to reject trailing commas (empty tokens) in symbol lists
+- Added vaildation to reject mixed of list syntax with %return suffix
+- Refactored parse_fprobe_spec to user __free(kfree) for automatic memory
+  cleanup
+- Removed the now-unused parse_symbol_and_return function to avoid compiler
+  warnings.
+- Tigtened %return detection to ensure it only matches as a strict suffix, not a
+  substring
+- Link to v3: https://lore.kernel.org/lkml/20250904103219.f4937968362bfff1ecd3f004@kernel.org/
+
+ Documentation/trace/fprobetrace.rst           |  17 +-
+ kernel/trace/trace.c                          |   3 +-
+ kernel/trace/trace_fprobe.c                   | 209 ++++++++++++++----
+ .../ftrace/test.d/dynevent/fprobe_list.tc     |  92 ++++++++
+ 4 files changed, 269 insertions(+), 52 deletions(-)
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+
+-- 
+2.43.0
+
