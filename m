@@ -1,135 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FB31096F;
-	Wed, 26 Nov 2025 10:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FDC31AF2A
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764151897; cv=none; b=OvKpZ2XaHwGYkba0GqYDFgIJfBgps3QuRCv6aapo0IE/GY4e3vJaK3V1ukEAIQ1adOix1AGcoSIub9TmWs1i/vnNcftg7jjjBjX8RlkldkXpR/amwoaNUzdOJY7FwHC1ItDSFiyMjxB7hWSMvLAWJRBlqDqY1Qw8ld1lcBOMaV8=
+	t=1764153790; cv=none; b=gC8OBavCOgcgnZ7qEdlg7rLwtZ0rrFobvkb5fF6uAps7cytdMHDfLI1ATgiWXZsl6qBuwvxY28itEU+I8js+B2zAMLzUF22r/OxbI/86BudtSW9GMVpvrqZJyReSptscNNyiPl34ivZRiN/hodN0Ta02MpdQOws5aS39y2TjQ1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764151897; c=relaxed/simple;
-	bh=kdG/ZRqhPgBjoMhG3fiqvya54/gxQE7eHn54iqnwW6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UNS2zK34WLuYhNDbchgsWw24BwShM3FRIqbgu5eZv99RQQUMREdRErT6FOpXrKtbsQVslticRq+ha4bz3y2ScXhO+8qIdrs7dYjW61o/KMRCIEleWzrNRFesIuAyw3x1wFqYuNkrKm9ou0UyAvO60cAK2kBLbNtoUE9KYkYs3F8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oZNWcYAL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764153790; c=relaxed/simple;
+	bh=xzvgaU/jHkHNHoLV+AEnOOFCrbedfXH4Y/myMGNYhj0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hwPtV5WvXg10qgvvn6CbS/nQLtIb2mvIBm7QtUlWJK4Hn5pVxUGud8EFcfhNXaejNNEabKMKqYvXnbM3JZ74u1xCArdvCG7JDIgTdS1LyKm1sdIIiH7PiVabYzuIfIJ/ib+MyA7+Y8QU6UUFU3Z4TyYwz6EztZFu/MUNxu4teHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bweTMHBT; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oZNWcYAL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D8FC116D0;
-	Wed, 26 Nov 2025 10:11:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764151896;
-	bh=kdG/ZRqhPgBjoMhG3fiqvya54/gxQE7eHn54iqnwW6o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oZNWcYALKbLE8wIN2Apm5e446XWKO36td7TLExKiVzT9j3PnN73vV3lnUwGhJdwf1
-	 0QQMgAl5Nc3Jp7iciP4CuK3gn5YjVNgNOZmMrF1bH3L8cOWy9+hRAgFLqXzXQvNwSM
-	 Gpo43KQzvclMTVZbZYrqH+TQOX9S9IWerUHRrmrs16akGQyiBewUm3CeVaSQviJWaI
-	 USptLH/XbL9t26k0AWZdGrB4o3mq1qZB4Yu8PIqU5uQSFzk2agscdNmee0iL+VoABf
-	 Ef6LVGAR01WW+k9TJljX3e6Cdw8AP8789dq6tG+O3gLJiznjgF6gCwXZX0pe12ONCj
-	 wbMS+UEV4TB8A==
-Date: Wed, 26 Nov 2025 10:11:30 +0000
-From: Simon Horman <horms@kernel.org>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bweTMHBT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1764153787;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9JHlfLXvHQ/f3tSlurs7sciQCZwBwOndT3yQiCDkBXY=;
+	b=bweTMHBTw4T4h6sUSaO7wMJ4QPaOR2Lu21nwSgn7pEg4M7IETwj+MPCPLR6k2SlqUehV/P
+	HEWQrPEuo/BsXjUmCDBlson7RB6pkuET9up17nQAvq4AYy9PNa+ZVj4uExh4e0paaK4x+E
+	bjCtAguWcvYJ5KBD6+05+8xBGUxNWRY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-256-gk_pSRvSOMqufiCybJnFbA-1; Wed,
+ 26 Nov 2025 05:43:03 -0500
+X-MC-Unique: gk_pSRvSOMqufiCybJnFbA-1
+X-Mimecast-MFC-AGG-ID: gk_pSRvSOMqufiCybJnFbA_1764153782
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 077751800358;
+	Wed, 26 Nov 2025 10:43:02 +0000 (UTC)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb (unknown [10.45.226.131])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EC42218004A3;
+	Wed, 26 Nov 2025 10:42:58 +0000 (UTC)
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Nam Cao <namcao@linutronix.de>,
+	Gabriele Monaco <gmonaco@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v7 3/5] net: devmem: implement autorelease token
- management
-Message-ID: <aSbSUre5TNChO4Ah@horms.kernel.org>
-References: <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-0-1abc8467354c@meta.com>
- <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-3-1abc8467354c@meta.com>
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Subject: [PATCH 3/8] Documentation/rv: Adapt documentation after da_monitor refactoring
+Date: Wed, 26 Nov 2025 11:42:34 +0100
+Message-ID: <20251126104241.291258-4-gmonaco@redhat.com>
+In-Reply-To: <20251126104241.291258-1-gmonaco@redhat.com>
+References: <20251126104241.291258-1-gmonaco@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-3-1abc8467354c@meta.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Wed, Nov 19, 2025 at 07:37:10PM -0800, Bobby Eshleman wrote:
+Previous changes refactored the da_monitor header file to avoid using
+macros. This implies a few changes in how to import and use da_monitor
+helpers:
 
-...
+ DECLARE_DA_MON_<TYPE>(name, type) is substituted by
+ #define RV_MON_TYPE RV_MON_<TYPE>
 
-> @@ -292,25 +327,67 @@ net_devmem_bind_dmabuf(struct net_device *dev,
+ da_handle_event_<name>() is substituted by
+ da_handle_event()
 
-...
+Update the documentation to reflect the changes.
 
-> +	/* Enforce system-wide autorelease mode consistency for RX bindings.
-> +	 * TX bindings don't use autorelease (always false) since tokens aren't
-> +	 * leaked in TX path. Only RX bindings must all have the same
-> +	 * autorelease mode, never mixed.
-> +	 *
-> +	 * We use the xarray's lock to atomically check xa_empty() and toggle
-> +	 * the static key, avoiding the race where two new bindings may try to
-> +	 * set the static key to different states.
-> +	 */
-> +	xa_lock(&net_devmem_dmabuf_bindings);
-> +
-> +	if (direction == DMA_FROM_DEVICE) {
-> +		if (!xa_empty(&net_devmem_dmabuf_bindings)) {
-> +			bool mode;
-> +
-> +			mode = static_key_enabled(&tcp_devmem_ar_key);
-> +
-> +			/* When bindings exist, enforce that the mode does not
-> +			 * change.
-> +			 */
-> +			if (mode != autorelease) {
-> +				NL_SET_ERR_MSG_FMT(extack,
-> +						   "System already configured with autorelease=%d",
-> +						   mode);
-> +				err = -EINVAL;
-> +				goto err_unlock_xa;
-> +			}
-> +		} else {
-> +			/* First binding sets the mode for all subsequent
-> +			 * bindings.
-> +			 */
-> +			if (autorelease)
-> +				static_branch_enable(&tcp_devmem_ar_key);
-> +			else
-> +				static_branch_disable(&tcp_devmem_ar_key);
+Reviewed-by: Nam Cao <namcao@linutronix.de>
+Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+---
+ Documentation/trace/rv/monitor_synthesis.rst | 44 ++++++++++----------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
 
-Hi Bobby,
+diff --git a/Documentation/trace/rv/monitor_synthesis.rst b/Documentation/trace/rv/monitor_synthesis.rst
+index 3a7d7b2f6cb6..cc5f97977a29 100644
+--- a/Documentation/trace/rv/monitor_synthesis.rst
++++ b/Documentation/trace/rv/monitor_synthesis.rst
+@@ -100,54 +100,52 @@ rv/da_monitor.h
+ 
+ This initial implementation presents three different types of monitor instances:
+ 
+-- ``#define DECLARE_DA_MON_GLOBAL(name, type)``
+-- ``#define DECLARE_DA_MON_PER_CPU(name, type)``
+-- ``#define DECLARE_DA_MON_PER_TASK(name, type)``
++- ``#define RV_MON_TYPE RV_MON_GLOBAL``
++- ``#define RV_MON_TYPE RV_MON_PER_CPU``
++- ``#define RV_MON_TYPE RV_MON_PER_TASK``
+ 
+-The first declares the functions for a global deterministic automata monitor,
+-the second for monitors with per-cpu instances, and the third with per-task
+-instances.
++The first sets up functions declaration for a global deterministic automata
++monitor, the second for monitors with per-cpu instances, and the third with
++per-task instances.
+ 
+-In all cases, the 'name' argument is a string that identifies the monitor, and
+-the 'type' argument is the data type used by rvgen on the representation of
+-the model in C.
++In all cases, the C file must include the $(MODEL_NAME).h file (generated by
++`rvgen`), for example, to define the per-cpu 'wip' monitor, the `wip.c` source
++file must include::
+ 
+-For example, the wip model with two states and three events can be
+-stored in an 'unsigned char' type. Considering that the preemption control
+-is a per-cpu behavior, the monitor declaration in the 'wip.c' file is::
+-
+-  DECLARE_DA_MON_PER_CPU(wip, unsigned char);
++  #define RV_MON_TYPE RV_MON_PER_CPU
++  #include "wip.h"
++  #include <rv/da_monitor.h>
+ 
+ The monitor is executed by sending events to be processed via the functions
+ presented below::
+ 
+-  da_handle_event_$(MONITOR_NAME)($(event from event enum));
+-  da_handle_start_event_$(MONITOR_NAME)($(event from event enum));
+-  da_handle_start_run_event_$(MONITOR_NAME)($(event from event enum));
++  da_handle_event($(event from event enum));
++  da_handle_start_event($(event from event enum));
++  da_handle_start_run_event($(event from event enum));
+ 
+-The function ``da_handle_event_$(MONITOR_NAME)()`` is the regular case where
++The function ``da_handle_event()`` is the regular case where
+ the event will be processed if the monitor is processing events.
+ 
+ When a monitor is enabled, it is placed in the initial state of the automata.
+ However, the monitor does not know if the system is in the *initial state*.
+ 
+-The ``da_handle_start_event_$(MONITOR_NAME)()`` function is used to notify the
++The ``da_handle_start_event()`` function is used to notify the
+ monitor that the system is returning to the initial state, so the monitor can
+ start monitoring the next event.
+ 
+-The ``da_handle_start_run_event_$(MONITOR_NAME)()`` function is used to notify
++The ``da_handle_start_run_event()`` function is used to notify
+ the monitor that the system is known to be in the initial state, so the
+ monitor can start monitoring and monitor the current event.
+ 
+ Using the wip model as example, the events "preempt_disable" and
+ "sched_waking" should be sent to monitor, respectively, via [2]::
+ 
+-  da_handle_event_wip(preempt_disable_wip);
+-  da_handle_event_wip(sched_waking_wip);
++  da_handle_event(preempt_disable_wip);
++  da_handle_event(sched_waking_wip);
+ 
+ While the event "preempt_enabled" will use::
+ 
+-  da_handle_start_event_wip(preempt_enable_wip);
++  da_handle_start_event(preempt_enable_wip);
+ 
+ To notify the monitor that the system will be returning to the initial state,
+ so the system and the monitor should be in sync.
+-- 
+2.51.1
 
-This code runs inside xa_lock, which is a spinlock.
-
-But static_branch_enable() and static_branch_disable()
-may sleep due to some combination of taking a mutex
-and cpu_read_lock.
-
-Flagged by Claude Code with https://github.com/masoncl/review-prompts/
-
-> +		}
-> +	}
-> +
-> +	err = __xa_alloc_cyclic(&net_devmem_dmabuf_bindings, &binding->id,
-> +				binding, xa_limit_32b, &id_alloc_next,
-> +				GFP_KERNEL);
->  	if (err < 0)
-> -		goto err_free_chunks;
-> +		goto err_unlock_xa;
-> +
-> +	xa_unlock(&net_devmem_dmabuf_bindings);
->  
->  	list_add(&binding->list, &priv->bindings);
->  
->  	return binding;
->  
-> +err_unlock_xa:
-> +	xa_unlock(&net_devmem_dmabuf_bindings);
-
-...
