@@ -1,185 +1,203 @@
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A21433A024;
-	Wed, 26 Nov 2025 16:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440DE33C18B
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 16:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764173352; cv=none; b=T0IR3WAeDcMtp2tFboSga4eHo4ALqWib3fvjprZs7i2fEBnRtgw8s2m7tNmxoeazYtK4OuXlhd0EAHH/JVBVbDJb0oLKdd7IYjW34vGV8UoqrQjiBzbm/+PIgZPTXvJAAE8r/yrTzDkUzd8SYAQET9rLkDOVTflaCzIWPY/zNFE=
+	t=1764173700; cv=none; b=T0nMdqOt3m+Z0RSPcMq764xrXXCIFoC5VcQB5pS/KAWtLFzZmHecD6U0AVm0CO8LiBRRT5EDhfxb0UX4m+xP0Bxl9JjQCKjm73zsLxr7HrEiAJ3BflFQ56cA2aOEA/yTBHc+G/86TrVqF+O0/JMbyKn1cLhQAy6QblxDp5PfaSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764173352; c=relaxed/simple;
-	bh=rnuPj8l3nxRD30Mzwohmphj0ozjaGXooltYOoIP3XdE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8ZtdDZnbqnfF9W2kG+StBWf+NSLiL09Tmgvh2QTCp6sl7t5B/K6spXo/XAKHAx6OApIuWx6WwQqO2+HiPbTfg+d2ALRSntjzEdQztsFs0DWNSbmkdKFsOC+Io/nZAA8PlIN9NoWmO7Ji0rESDmGPMg3eEBpZy+39+KUratymy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=CATY9ftr; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1764173700; c=relaxed/simple;
+	bh=wRQ3hhxr8ynwsumdaV3tuxpgPBo2pa1cIS9EqkVPA9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E7u0lebpWnCmHUgEgqQudkBiJLHXmlHjE+oZ+LnrOIykMMxVgaegbySdFKNpHjPh1qfRwXoaCzegOFovDecEcwmjuYWOZK/dR4OcU02o64OnDoIgKa35HO+HVOuQW6VxebZfjf0SwcTMIqwdyDNgdezU7OzzHBqFv683aQQb1Aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fqHUyOBg; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="CATY9ftr"
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-	by m0089730.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 5AQEPbd43733913;
-	Wed, 26 Nov 2025 08:08:31 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=s2048-2025-q2; bh=oZmYh6YpHcTCE9H3NEMw
-	SXw1R9ZP1diRqyx6ns/UxKM=; b=CATY9ftrmS7XqrrPh2Kw2+U4yOLTDIOhQo4t
-	fT++bE5QnXUTTDj1SISKs+UQWWlWXESUt4Vk/Uw4ZSdu3sXkySe9GBFHO/GtOEWQ
-	411l/Uycz4QsElZjqmNLTTOC03Bk3xrahRxGe2dTAYG3Xw8/u0qaXvlwf4Qf+gzA
-	RQRz/m6jwIWn7OkNdO9JgYCJ3G1u1eeNgwfmMCUjXO0Y/Z5VrkUOlbGe0Sigp71N
-	fPi2jhyinHmV7dk2u+LQ68tQs+O+aJ2d0sCNzYiAXKyb0pPsIXMYGocj6ADUHnCK
-	VMnCClf+dI7uC/6KbcFfIu8b90bADDeEXqso0Amh6UxzsGo6vA==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by m0089730.ppops.net (PPS) with ESMTPS id 4ap3a78uqy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 26 Nov 2025 08:08:31 -0800 (PST)
-Received: from devgpu015.cco6.facebook.com (2620:10d:c085:208::7cb7) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.29; Wed, 26 Nov 2025 16:08:29 +0000
-Date: Wed, 26 Nov 2025 08:08:24 -0800
-From: Alex Mastro <amastro@fb.com>
-To: Pranjal Shrivastava <praan@google.com>
-CC: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-        Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-        Robin
- Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon
-	<will@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Jason
- Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan
- Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian
- =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Kees Cook
-	<kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Ankit
- Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
-        Shameer
- Kolothum <skolothumtho@nvidia.com>,
-        Kevin Tian <kevin.tian@intel.com>, Alex
- Williamson <alex@shazbot.org>,
-        Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs
-	<mochs@nvidia.com>,
-        <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <iommu@lists.linux.dev>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <kvm@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>, Nicolin Chen <nicolinc@nvidia.com>,
-        Jason
- Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v9 06/11] dma-buf: provide phys_vec to scatter-gather
- mapping routine
-Message-ID: <aScl+LCPN2TiN7Pd@devgpu015.cco6.facebook.com>
-References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
- <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
- <aSZHO6otK0Heh+Qj@devgpu015.cco6.facebook.com>
- <aSb8yH6fSlwk1oZZ@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fqHUyOBg"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4779cb0a33fso67514265e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 08:14:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764173697; x=1764778497; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4jnrJZ3DV6tiJN7SO227QEgRI6iBE+6hMDjYZLi5jdY=;
+        b=fqHUyOBgwQTXv0gxb36c6vfiVOrI4688BEnQkIJOEexfDicAyH4yamDJEhBH6eJIyt
+         iCCUfwHU5hEjmlOjvIaeCbpQ7SprYT2eh2JQamjWv+jEOUAaPMibIgIwLWZX4azYy4vl
+         jTuUYaPiWL4U8ER1rwsHo1VtVWigj6cG1eiHIDWpY0tEd2FcK7c3T4dYVDU8UJB6DffV
+         SIcNQ/36W9BTbkGYh93QBwTrY5pbB8G0oIKyTom7EyEq3Ko/PBYXIjISJJF6ymMcy/m/
+         yT4iCwHF5Q+yOYKdI2yN5FjLdXNVZLuKLVLKGJCbIaXKuM4MGcZ++i3pVcRVOXcyxFdX
+         5IPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764173697; x=1764778497;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4jnrJZ3DV6tiJN7SO227QEgRI6iBE+6hMDjYZLi5jdY=;
+        b=BnqBlQTngIfCu8x2H+AZwtUnuFZiP90UlmpJfB8Uwth2WiGTuYfdVVufna6NGGWhDM
+         /xGnT2ObvaVBXE3YlrrjuNqm3F7sYDVASOq6dWS+4sY1byplefNXZtE244Ue8c/1PyAa
+         W7QeTaV6WD4/CUD5KPtOtFaNAll/SdZUNg2TSaCK0SK/EHWvQvK/8cKv31hL9PqvnqCX
+         T9l1iIkXwiq9d3CN9zUqZIIXVYhI/AseIIvcaGxhfBrf3NFW7e2ewnHh41I+29APmWXs
+         dLRNp8kyM+NtiHk7xEPf3HzpG+SXoQ/Fp1C7KE7BO4mgI57nlAiwtOyAnEZqEKMRIA2q
+         bioQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2VWfL6s/cPBHTKzZi6DLgm2knsZdrelTm9srY579pRdV9NY9QNNVJkZ21L4R7AOHGEUmu7NEArhQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxkdbh4qPdJy2bKcS7xurCcQm7GL9nYS+Z/Eq4TXZ/Leiv2E4hO
+	579HufkU5LvuEzQRgy10KNU+gZYemtJIuze04/hNXNP+pgAl5lLlHjSR
+X-Gm-Gg: ASbGncuAyix+W/db5RWLjrCOvUAVDmqWqvzc9Ex2gs8xyL/UeHRDw6W5KwMYeW7T59o
+	3/e0Qj5XTNid1wG7H6C1kbpykAwAaliFIJ+GNITvfYPp0zeqztPy9BxBT0HmGUpH9ktiD2vcnyc
+	JvuhPHr7F/F0BQFwayYHbGyrBVUW0wD/MN9EvRftKfTMHDjYpS/agYFVA3aeBwSYWnxKr7b7vJd
+	nhnN5bANj3PzfJATJGCGgqnvoZacPWqi1K8djbOE+K5cNB7OmIHU88D1ncq3WlhsZgYLvmGyphq
+	onEg0e90en01KuRXFDY849Hvxa/GvExTirJrgcKqx/O8V5FZ/wE8oRu3ASB1XWkRGqhfTl0tPHK
+	WcyzjnYxNJXgoVjRZWLGObkl8Xoh6DwE/Ly4R00ZI8ZMgZzBeusdkvvnZMXD0WH76D4OPiVjXjo
+	ZiMU4BBxSeYtwB9oYsQUTivhjPAMFZtE14rwKFkudEnMbEM6rivqMV5+y8H0vKTYtVoTjRX8bPP
+	8H0Pg==
+X-Google-Smtp-Source: AGHT+IF2T4LsAtdee1NZuFFVfKlipt4/KBH4/Ccs99ShvPJ6a7TsSLGj+qx1/tjpI53mxG7Y1vFGYA==
+X-Received: by 2002:a05:600c:1994:b0:46f:c55a:5a8d with SMTP id 5b1f17b1804b1-477c0176437mr210285655e9.4.1764173696176;
+        Wed, 26 Nov 2025 08:14:56 -0800 (PST)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:123e:4501:1025:ba00:55dc:4ccc])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4790b0c44dcsm49350765e9.11.2025.11.26.08.14.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 08:14:55 -0800 (PST)
+Date: Wed, 26 Nov 2025 17:14:54 +0100
+From: Jorge Marques <gastmaier@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] dt-bindings: iio: adc: Add adi,ad4062
+Message-ID: <uajoey6nl4nb5kbymadsd36lftg5atbhyjhp3bgu5plhuvc2ca@5h4wn5qobjg6>
+References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
+ <20251124-staging-ad4062-v2-1-a375609afbb7@analog.com>
+ <20251125-marvellous-camel-of-kindness-d274ee@kuoka>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aSb8yH6fSlwk1oZZ@google.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDEzMiBTYWx0ZWRfX3bFJkIqQfPcn
- LWbsluc+XiO7FtO07pm/tzene/bBlAJbYXetaCM2lBsQPJ7MYrk9CERNphaL5xKMK0Fnvy9OfVQ
- Y+bU9q7WY0Uh4Ys8J+otFMneIfwxv0xQluXqaIjHKTPEMVRe0iLSwQwQAHlspppJcXBPJ55pvJz
- JZGujlxTRi2Y6L0eYmj2p7cT3nMIZvFmJX5h1nMX2rkgpOumcUuD7Oe2fNXk47TY9k+6i3mWPRm
- +1gsqEAXdsAGhXv5RuZTmDTEo722fCpYhIfmTOQnzXGxfUvfRTUYuIHNc7jrvUJJ3yy8os7MmWa
- fQzyxL3akPGWodtrtHsYmp6smX1T/MBPHuER3U7LA5bJUfQjB0xkE91sw0JPQLAlnjtXtOu0oRF
- 6D5ufStP6OnrcDNfC66Kegl4bp3vwg==
-X-Authority-Analysis: v=2.4 cv=AJKKJ3lP c=1 sm=1 tr=0 ts=692725ff cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=B5NVPXpBE_52QoX4XTUA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: jOyqyM0SasvNGLs4etkYDuX4vfn-Z9b2
-X-Proofpoint-GUID: jOyqyM0SasvNGLs4etkYDuX4vfn-Z9b2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-25_02,2025-11-26_01,2025-10-01_01
+In-Reply-To: <20251125-marvellous-camel-of-kindness-d274ee@kuoka>
 
-On Wed, Nov 26, 2025 at 01:12:40PM +0000, Pranjal Shrivastava wrote:
-> On Tue, Nov 25, 2025 at 04:18:03PM -0800, Alex Mastro wrote:
-> > On Thu, Nov 20, 2025 at 11:28:25AM +0200, Leon Romanovsky wrote:
-> > > +static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
-> > > +					 dma_addr_t addr)
-> > > +{
-> > > +	unsigned int len, nents;
-> > > +	int i;
-> > > +
-> > > +	nents = DIV_ROUND_UP(length, UINT_MAX);
-> > > +	for (i = 0; i < nents; i++) {
-> > > +		len = min_t(size_t, length, UINT_MAX);
-> > > +		length -= len;
-> > > +		/*
-> > > +		 * DMABUF abuses scatterlist to create a scatterlist
-> > > +		 * that does not have any CPU list, only the DMA list.
-> > > +		 * Always set the page related values to NULL to ensure
-> > > +		 * importers can't use it. The phys_addr based DMA API
-> > > +		 * does not require the CPU list for mapping or unmapping.
-> > > +		 */
-> > > +		sg_set_page(sgl, NULL, 0, 0);
-> > > +		sg_dma_address(sgl) = addr + i * UINT_MAX;
+On Tue, Nov 25, 2025 at 10:50:59AM +0100, Krzysztof Kozlowski wrote:
+> On Mon, Nov 24, 2025 at 10:18:00AM +0100, Jorge Marques wrote:
+Hi Krzysztof,
+> > Add dt-bindings for AD4062 family, devices AD4060/AD4062, low-power with
+> > monitor capabilities SAR ADCs. Each variant of the family differs in
+> > resolution. The device contains two outputs (gp0, gp1). The outputs can
+> > be configured for range of options, such as threshold and data ready.
+> > The device uses a 2-wire I3C interface.
 > > 
-> > (i * UINT_MAX) happens in 32-bit before being promoted to dma_addr_t for
-> > addition with addr. Overflows for i >=2 when length >= 8 GiB. Needs a cast:
+> > Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+> > ---
+> >  .../devicetree/bindings/iio/adc/adi,ad4062.yaml    | 123 +++++++++++++++++++++
+> >  MAINTAINERS                                        |   6 +
+> >  2 files changed, 129 insertions(+)
 > > 
-> > 		sg_dma_address(sgl) = addr + (dma_addr_t)i * UINT_MAX;
-> > 
-> > Discovered this while debugging why dma-buf import was failing for
-> > an 8 GiB dma-buf using my earlier toy program [1]. It was surfaced by
-> > ib_umem_find_best_pgsz() returning 0 due to malformed scatterlist, which bubbles
-> > up as an EINVAL.
-> >
+> > diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4062.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4062.yaml
+> > new file mode 100644
+> > index 0000000000000..a25af66dd64d2
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4062.yaml
+> > @@ -0,0 +1,123 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +# Copyright 2024 Analog Devices Inc.
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/iio/adc/adi,ad4062.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Analog Devices AD4062 ADC family device driver
+> > +
+> > +maintainers:
+> > +  - Jorge Marques <jorge.marques@analog.com>
+> > +
+> > +description: |
+> > +  Analog Devices AD4062 Single Channel Precision SAR ADC family
+> > +
+> > +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad4060.pdf
+> > +  https://www.analog.com/media/en/technical-documentation/data-sheets/ad4062.pdf
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - adi,ad4060
+> > +      - adi,ad4062
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    description:
+> > +      The interrupt pins are digital outputs that can be configured at runtime
+> > +      as multiple interrupt signals. Each can be configured as GP_INTR, RDY,
+> > +      DEV_EN, logic low, logic high and DEV_RDY (GP1 only). RDY is the
+> > +      active-low data ready signal, indicates when new ADC data are ready to
+> > +      read. DEV_EN synchronizes the enable and power-down states of signal
+> > +      chain devices with the ADC sampling instant. DEV_RDY is an active-high
+> > +      signal that indicates when the device is ready to accept serial interface
+> > +      communications. In GP_INTR mode, the interrupt outputs one of the
+> > +      threshold detection interrupt signals (MIN_INTR, MAX_INTR or either).
+> > +    minItems: 1
 > 
-> Thanks a lot for testing & reporting this!
+> So the wire/pin can be physically disconnected?
 > 
-> However, I believe the casting approach is a little fragile (and
-> potentially prone to issues depending on how dma_addr_t is sized on
-> different platforms). Thus, approaching this with accumulation seems
-> better as it avoids the multiplication logic entirely, maybe something
-> like the following (untested) diff ?
+Yes, the device can yield those interrupts as through I3C
+In-Band-Interrupts (IBI), which are messages sent in the I3C bus by the
+target (this device). I consider as a fallback, because the overhead for
+those bus interrupts are much higher. The user can have all interrupts
+as IBIs, and re-use the pins as generic GPOs.
+> > +    items:
+> > +      - description:
+> > +          gp0, interrupt line for GP0 pin, cannot be configured as DEV_RDY.
+> 
+> Write concise statements - duplicating gp0 is not helping. "GP0 pin,
+> cannot be configured as DEV_RDY."
+> 
+> "GP1 pin, can be configured to any setting."
+> 
+> 
+Ok
+> > +      - description:
+> > +          gp1, interrupt line for GP1 pin, can be configured to any setting.
+> > +
+> > +  interrupt-names:
+> 
+> Why this is not matching interrupts in number of items?
+> 
+Is missing
 
-If the function input range is well-formed, then all values in
-[addr..addr+length) must be expressible by dma_addr_t, so I don't think overflow
-after casting is possible as long as nents is valid.
+    minItems: 1
 
-That said, `nents = DIV_ROUND_UP(length, UINT_MAX)` is simply broken on any
-system where size_t is 32b. I don't know if that's a practical consideration for
-these code paths though.
+thanks,
+> > +    items:
+> > +      - const: gp0
+> > +      - const: gp1
+> > +
+> > +  gpio-controller:
+> > +    description:
+> > +      Marks the device node as a GPIO controller. GPs not listed in
+> > +      interrupt-names are exposed as a GPO.
+> 
+> "not listed as interrupts are..."
+> 
+Ack.
+> > +
+> > +  '#gpio-cells':
+> > +    const: 2
+> > +    description:
+> > +      The first cell is the GPIO number and the second cell specifies
+> > +      GPIO flags, as defined in <dt-bindings/gpio/gpio.h>.
+> 
+> Best regards,
+> Krzysztof
+> 
 
-> 
-> --- a/drivers/dma-buf/dma-buf-mapping.c
-> +++ b/drivers/dma-buf/dma-buf-mapping.c
-> @@ -252,14 +252,14 @@ static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
->  	nents = DIV_ROUND_UP(length, UINT_MAX);
->  	for (i = 0; i < nents; i++) {
->  		len = min_t(size_t, length, UINT_MAX);
-> -		length -= len;
->  		/*
->  		 * DMABUF abuses scatterlist to create a scatterlist
->  		 * that does not have any CPU list, only the DMA list.
->  		 * Always set the page related values to NULL to ensure
->  		 * importers can't use it. The phys_addr based DMA API
->  		 * does not require the CPU list for mapping or unmapping.
->  		 */
->  		sg_set_page(sgl, NULL, 0, 0);
-> -		sg_dma_address(sgl) = addr + i * UINT_MAX;
-> +		sg_dma_address(sgl) = addr;
->  		sg_dma_len(sgl) = len;
-> +
-> +		addr += len;
-> +		length -= len;
->  		sgl = sg_next(sgl);
->  	}
-> 
-> Thanks,
-> Praan
+Best regards,
+Jorge
