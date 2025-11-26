@@ -1,210 +1,234 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D49A72773D3;
-	Wed, 26 Nov 2025 17:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764177838; cv=none; b=ObWE5TBFJ/J26GSUelr8/EKaR7jrJT0q6CUJ0Qj2/9sKPPmZZmMPjuUbO5PrSq+8VKraIxB2yjE1Fw1a3v0jgXrLzj4YVUAjC5vX8JOUdwdsf3A87oYoY6+psGLeBxV81UUhSaOjn9lW9AtzSegNPqn84T8961jOgj8BTjhsVqA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764177838; c=relaxed/simple;
-	bh=Ns2uIjc6ylcF5DtOMpf79pYda6x1DtUCP+tyq6fOCvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FnarA3iy/AwMjvwyp/RbzIB/3z27B1M9wOzGd/kPdfW3RrTtJgmvbC1CnN2ORg0Z4KNvlQ+dGEV29nhH4t5jVqbjIGK6h2tB7fhoFaZEBS0fyByhD9r2tk8REw2i0nenw3bzBVf+QTLBvzYDlGdUsiow7xRoEB2YwgrPNwMqW/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010036.outbound.protection.outlook.com [52.101.69.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7F12DFA48;
+	Wed, 26 Nov 2025 18:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.36
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764180006; cv=fail; b=AFZbxAywFnoy7Lq1ah3z9k/C9RfcLsGqKgYvgkJV/hNHVhWu1bV2yKQ7+Tjv0ar380cTYfkboCVCCNKzVXttfyicEAZSFAAby4kc8f/UaKWlu03gZiPMn+eP6orIDuVFpBPBzFAnmkShk28xwtw99c9k8b6Aj0Qz6xpW5osWY4s=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764180006; c=relaxed/simple;
+	bh=jxgd5x181alQXsS4Twmg4q9KZ6nlhVqNRWbywBs1CN4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=t7Wu/+8hJG2kmM4EkliMg4QfH6QSPkNYw/lY2xQOgvhP+J3/M9cZS5OzTQsxdd+0539LBSWKm2eWC0zEw4yesWdAp2WrX1ZLrFmZtstQKYGdXiyh8BroEQ952oqWJTlXxymFB5x3UXuILPcgpKSX+njgChu88tiTkEXC5rJz9ks=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=W48fum4L; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=W48fum4L; arc=fail smtp.client-ip=52.101.69.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4D80168F;
-	Wed, 26 Nov 2025 09:23:48 -0800 (PST)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.66])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 14E853F66E;
-	Wed, 26 Nov 2025 09:23:53 -0800 (PST)
-Date: Wed, 26 Nov 2025 17:23:47 +0000
-From: Dave Martin <Dave.Martin@arm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Fuad Tabba <tabba@google.com>, Mark Rutland <mark.rutland@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v8 11/29] KVM: arm64: Document the KVM ABI for SME
-Message-ID: <aScfSMZEKCeUq7Zn@e133380.arm.com>
-References: <20250902-kvm-arm64-sme-v8-0-2cb2199c656c@kernel.org>
- <20250902-kvm-arm64-sme-v8-11-2cb2199c656c@kernel.org>
- <CAFEAcA_GJ7gzn7aMCZYxHnJWvx4tHSHBKsOxtQ7NTb4gPjkMJQ@mail.gmail.com>
- <df712591-397e-422b-b9c9-fbf080cad9aa@sirena.org.uk>
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="W48fum4L";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="W48fum4L"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=cNtRbMXQGpL8D7ovVJ/aW7rQW9XEmuV08JPwkjhL+0eUAR+4wQG0LtxUzrvVRtT012WOFog7QH0GB9J+QYt4D6eCsZrIUOgusqnG0nMJzpG+aRczIpnCPQpmOOY5NMS8XYS2S3Pl6c1k/vYZptfEyhwsDyvbIFb02Zd+kD1H4LT6Lw+UoAhdX9qa7TXAJ6C6QsLu350Yf4axJaDcBpepKh+TgYalQKLUICLrHVfs2lnVf5grUU26F46r38pXWrr892kQ2cAf94a7x5eS8lVGONnEIcmSOFqE10gLxCdTSlv2FOTyRRnW/Lgsqlmi2PG4tzagXqZTJMGP+A5oXfY4qQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AmI0NB3TKVQGi5J6LL7oTqgdMceEqcBTWJZn5KagmFg=;
+ b=YM50mZ85BjNQOVOs2mWHI8aeXy0c+N+kgB8eG1/r0faZoGIrZXG3IVBqajesMMYJ9g96PR5llCfDfBt+2Nd95Z7IFQy9EbXYCsrxZ8xFXKvO1yvNxrBI3ajZZfUv2FhfoH2imG6G3HpIa6sQh4aSBW0Bz5pqf6KSVRf1kSFUeQc/6SQuN69EVySdqg0QkjoyzbxteRY4o1ttFgMbu7Am/LzGkNFg8lI5lSWBnouJPDAxCeaZzbd8F+L/kIYr/G2uk1f1ag/LO/z994JOabIeNTkF/oHb0kAyB2dskaSy95O4YCL8KCW+xKLUVGemKPihogE+quYyTCSi/HH+BYRlJg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=lwn.net smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AmI0NB3TKVQGi5J6LL7oTqgdMceEqcBTWJZn5KagmFg=;
+ b=W48fum4LJn7E7Lym2I9p929g2OSNPlfk38f7C+y30OIwe7raRGfq2USjbIu02cw06+PdJEDNdMEkxCLzjfLw0klCqzX5cLUm8g4gpz1VTABGUsdvuQfYVRwtyVZWQY41R1rqrOFCY0w0x8vcL4FaAlDVxAjpFc2fzOADYLsGCsM=
+Received: from AS9PR06CA0083.eurprd06.prod.outlook.com (2603:10a6:20b:464::27)
+ by DB9PR08MB7495.eurprd08.prod.outlook.com (2603:10a6:10:36c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.11; Wed, 26 Nov
+ 2025 17:59:56 +0000
+Received: from AMS0EPF000001A2.eurprd05.prod.outlook.com
+ (2603:10a6:20b:464:cafe::4) by AS9PR06CA0083.outlook.office365.com
+ (2603:10a6:20b:464::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.13 via Frontend Transport; Wed,
+ 26 Nov 2025 17:59:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF000001A2.mail.protection.outlook.com (10.167.16.235) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.7
+ via Frontend Transport; Wed, 26 Nov 2025 17:59:54 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WGU0lhZ2xS3vZ/lLjiNW79dSPfj2n79eLPrh9wDt6ORoA7CrELaxYsF2tTgLGEif8I27f0JKEYCLu564Nq+NFAGOji3eFK8RNYeFeov9n7doiHMqo9fGnxF/WULXYNmVPA8dvlaePUsAJWfqAkXVDwS4WhYtPOTgUAlZuTLR9Zl6LU7G+SMSIjsxabzoov2H4W6cI6eUprbkOsvheB3IJuv3cXe+lYuGiatbweyWPm2Kji45ajEW+LJkLPnmczUL/qMcrAwsPMbhUu15ReUguNgvxM8pOzxA+K3Yw9PiiuGMXs75LAwABJf5L5OiPeyPeUjPY8Sr3gQa4zZwKojpeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AmI0NB3TKVQGi5J6LL7oTqgdMceEqcBTWJZn5KagmFg=;
+ b=cwVbIMgG80VaRr5a/45g3Td82enPcHQCfThD1CAvggD7cvl1jVhtzYbUSoe3+4b1oXfoP3XcXR/NklZmHfLW0NXH5NRHwzkzgqx6lme7pO2uBj98H5vY+01tXrGHphW3ff/DZcUNFp6AnDmBrxB5dz26B8wPWIC0gx46Wwg++7xAl3LMNMbrFaZBCQKl7i0cXxkStOiZzHBMzfbTwxapmlyKP/DHHyIZeWI6wpCIawZV/IVmxfCUp4gWqLJNkoYf4yCyQZHDRtvquYyOVb4jTm3qJ1eIxJNvOcW5Ojhlpkwvz8dovFOqtNOlZaorus/0QQNTGPx5TUbj4ZjEojIRnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AmI0NB3TKVQGi5J6LL7oTqgdMceEqcBTWJZn5KagmFg=;
+ b=W48fum4LJn7E7Lym2I9p929g2OSNPlfk38f7C+y30OIwe7raRGfq2USjbIu02cw06+PdJEDNdMEkxCLzjfLw0klCqzX5cLUm8g4gpz1VTABGUsdvuQfYVRwtyVZWQY41R1rqrOFCY0w0x8vcL4FaAlDVxAjpFc2fzOADYLsGCsM=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from GV1PR08MB10455.eurprd08.prod.outlook.com
+ (2603:10a6:150:16f::10) by PAVPR08MB9771.eurprd08.prod.outlook.com
+ (2603:10a6:102:31f::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.13; Wed, 26 Nov
+ 2025 17:59:22 +0000
+Received: from GV1PR08MB10455.eurprd08.prod.outlook.com
+ ([fe80::c046:174b:3152:d74f]) by GV1PR08MB10455.eurprd08.prod.outlook.com
+ ([fe80::c046:174b:3152:d74f%3]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
+ 17:59:22 +0000
+Message-ID: <61a0b2e5-fa53-4ed2-af26-c519a03a9dc9@arm.com>
+Date: Wed, 26 Nov 2025 18:59:12 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Move Python modules to tools/lib/python
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Akira Yokosawa <akiyks@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>
+References: <20251110220430.726665-1-corbet@lwn.net>
+Content-Language: en-US
+From: =?UTF-8?B?QmVuY2UgQ3PDs2vDoXM=?= <bence.csokas@arm.com>
+In-Reply-To: <20251110220430.726665-1-corbet@lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MI1P293CA0011.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:290:2::20) To GV1PR08MB10455.eurprd08.prod.outlook.com
+ (2603:10a6:150:16f::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <df712591-397e-422b-b9c9-fbf080cad9aa@sirena.org.uk>
+X-MS-TrafficTypeDiagnostic:
+	GV1PR08MB10455:EE_|PAVPR08MB9771:EE_|AMS0EPF000001A2:EE_|DB9PR08MB7495:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1947fc31-4369-44c0-46bd-08de2d159abd
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|1800799024|366016|376014|10070799003;
+X-Microsoft-Antispam-Message-Info-Original:
+ =?utf-8?B?SlkrenNmRms0cGMxZkdGS1ZRellQd3psUkxiMnhkUkgrc1ZpRCswWjI2bC9J?=
+ =?utf-8?B?NG5HdmliNklKams5d2N5T3BzdmlUb2FYM1MySTh4UGlqcGxNV3U3VTVGRDFk?=
+ =?utf-8?B?OUdlOFkzN2hTWjNUYWYyNDVCdVhHSVVxbTJPSzZrMGszRmRuQmJDSFNucm5x?=
+ =?utf-8?B?dEdtaU9WeG9yb2VhMWtxeUx6WE5Pa1VId21pMzNGZVRPVWJ3TklyU1YwK2Mw?=
+ =?utf-8?B?aWlFMWtUMUFkWFBxa0o0TEZQLzB6cXZRblJhd2kxek93Q2hqQWgydVZlaWVS?=
+ =?utf-8?B?cEIvcTlvRmtDZTZwV0dhRm5EUDNtMFZjSkxiSXo1YVVKL2NIREtHanV6VVll?=
+ =?utf-8?B?akVVdWdWMFkzL3N3S1B5VjhIK2hodHdKaWhGaDg4TGhWVnV6MWdxUGQ1b2dK?=
+ =?utf-8?B?elhNQkhjS0d3eklsMTJWYXE2VmorMzJ1ZkFzTjRSVkNqd2hyNE5qanZyNnBt?=
+ =?utf-8?B?MUtUUUJsZlZ2TjBKbTBTdXZncDMyOWtNWUVMd3IvdjBUTnZOT1E2Mnlhd1M3?=
+ =?utf-8?B?dS8xZUR5K0oyZk9RMVkzMVFyYXMrWDlBZXZlSHYvRk1CNnBvYTVRWDdQbzdk?=
+ =?utf-8?B?OW9VTHM5OEJIQ1h2TThDV2M3OWU2dDlPdHZyVk9COHd3cTdMUDhxN3JKTlJX?=
+ =?utf-8?B?b3FtaVpkeHlVQlUzVUhSam8rSFFFbEs5UlVRM2ZLV1g0UFFJMEYybW13V2kv?=
+ =?utf-8?B?L2dkOEdEOUZWREhGM0FyNWp3SDN1WHExZk9XNlQ3eW11QVNSNTZrRWRaOHZY?=
+ =?utf-8?B?R21xOHZPUWpuWElCblNIb2JaQStlcHJVZDJ6Q2x2YkdrV0hycmpIaE9yMnJR?=
+ =?utf-8?B?RjIrQ0I5TDFWeE5ubzZZWnY2RlRxcDgxcHlSWmN2TFBpd3ZZZXFBWG5OQVln?=
+ =?utf-8?B?cjdwMEtnejVxbUVDSU54eDY0NlpuMFVNcGV5d0JaWVFZZXdIWUMyRFVTUnVZ?=
+ =?utf-8?B?cEtRWnhXRFFkMkhqZHAzNC9ZVU54S3lZZlBVL3c4aGFKeUIxdDBNQlhrSVpp?=
+ =?utf-8?B?N1B0bjMvb3VmVCtoa1pVQzcwYk5EVHkvOEZ6Mm9wL09QNlVxNHYyS0JBS3l1?=
+ =?utf-8?B?bWd0QUVML2xxOEJJY2Q2d0dMT2hhT2NRQjZlbFdDdXEvamNNTWJuZUd6YVRm?=
+ =?utf-8?B?THBLVzFOZk5HbjlSbklLN2pJNjI3ems4NkIxVld5U2RnZmxScE1SVkdLZWdk?=
+ =?utf-8?B?ek9HSU9scHA4NzFRN3RLNUltbzdqK2hoVkk1UGduQVFaV2xWckFnTlRDckRV?=
+ =?utf-8?B?SUhUQ3BiMSs0K1psbXRsa2pkb0wzNE9KSTBWQjByVXpQeGpVTGFnRmtrOUJI?=
+ =?utf-8?B?bEd0VzJDcUhIcjIyQWhKSkZ4TWJnd3ZVWGdDUjdiM1U2c2J6L2J4S3Z4TWo4?=
+ =?utf-8?B?SGtJejQyaDAxR3VUT0N6RWtZMUdXZ1JmbXZaV0pENUdaWFhncE5qVUJkSzF0?=
+ =?utf-8?B?V095bGtNMHlwWnRFb3RZS2xmdUtpb21vSkpWQ3YxMkZ2dlNmTGxXVkYvZEN4?=
+ =?utf-8?B?QWh5MlZFMWdEbnFnMXQ3blZJcDQ4WHBVZjZyQ3FLenNpKzlXbEQvSDJveHhP?=
+ =?utf-8?B?L1MwN2l2RTRSeWtHS2U5TW1JWmp4NXFtT2wxTjhTOEdnVDlPdWpMZ1ZvUitw?=
+ =?utf-8?B?dVN2bWpxVnlJYVZRREVHZnVDTjFEVWJlV2d6cERWUlhXcTdhY2pscTUwbTdZ?=
+ =?utf-8?B?ejZ0aXo4bHpodVAyTFJxalE3MW5oNHhnVmpRM3lleDMwWTVUYTdNbEE0Vkgw?=
+ =?utf-8?B?MGZ3cHdud0xxcVBlcGhJbHlKZGRqQWJEdTZ1SWZHNkg5bnRmb0UxeFlxTTBz?=
+ =?utf-8?B?c1VQUTFScFFaRXZFS0Q2SXlSLzVYRHpHY2x5WEw1RmpWV3Bkem90WFZXS0NO?=
+ =?utf-8?B?UWpBLzdiSk1GOEJ3NFlGaWJseGQwanE3ZUZFQkZJeVhidU1jaGZUTmJSQ21V?=
+ =?utf-8?Q?iM5GO6Zu0oJtKGGkPL/55Y3i1NGDTwy7?=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10455.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(10070799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9771
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ AMS0EPF000001A2.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	564489fc-1ec7-4f0c-a784-08de2d158754
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026|35042699022|14060799003;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?WVppaFpCdkJwYmRjWE1tM21YUzRyQy9aZEtjREhYL3pMZGlnRUFDeUFKSXJY?=
+ =?utf-8?B?dy8xQk5IL0lmVmNPaE9vYXhhZ1VaUXhRcGdsSUNGalFQeE1BMmpvVm1SK2pZ?=
+ =?utf-8?B?TXVJWm1KaExyNFVXSHJBQk1GQXhpQU5Fc1hzMmJVM1l0WWQxOVVlNC9xM29i?=
+ =?utf-8?B?NDNTbjZQYUFwZkt0bHA5MjdLeURnbDlrT2VnSkFSanFZVCt3MlplbXFlL2tD?=
+ =?utf-8?B?V3JZOGNYNUZFWFFIeXFnMGQvenpML0RWcG96QVVzMWw5MXU1UDJvT0VLLzQ4?=
+ =?utf-8?B?SzlieUszT3ErYzBwZUJ3WXBaN2lGYmplWmUvcVBCbkhRWXBXaGlOWmorb0h4?=
+ =?utf-8?B?QmdFYm91eU0xdHlOVHp0TncxRGxPWDd3eEN1dXpaU1JubUgxM2hZdVk3aTF2?=
+ =?utf-8?B?SG9uYTUvNlZ3Um4yaGVIZlVTdWxrN0QwMUUzRHRMOTdOdkN4Q3VnZGRid2dR?=
+ =?utf-8?B?OTYzdDZsWTNlcW81RER5bEVxdVgzaUZlMjRoTmJBd2Z0OE0wMkNWcittSDVw?=
+ =?utf-8?B?cHpEQWh2TDBCbGt2UXh2djcyenM1clRhUk1MSytYY05acnNlTGtQblNLKzlp?=
+ =?utf-8?B?V2N6VUdVSG9lUTBtOW5BdGRWcElSY0ZZd1ZOQnN0RTRKTjlXQ1NZRzRRSkJK?=
+ =?utf-8?B?V2RSNmVqcDhuRE5QU2NIVjlxSE1IK2RWSDgvMkhNM0hVR2F0dkRhNXBhR3ll?=
+ =?utf-8?B?WmxaY0dOdzI0SjRxSVFLOUR0OU1QQ0xvRGEwbzVZRmNLcG9zclpoR1FMSTNp?=
+ =?utf-8?B?K0NuSUQ4elpHZVRrZWI4aXEzSXBlSEVGQ3Q1emtQL1NDb3FUaEhzV0FQSXF6?=
+ =?utf-8?B?RzRsVTZhQ1YzMjJZS2lMUTVJS2pGMGRxWGxQaTBjR1N0REhCd3FwK0dYV1U4?=
+ =?utf-8?B?S3pxMHFkTFdxZWRvOXNqZ3VoQmRacFZINzJ4UjZ1czlaOUdTS2VHaEFxTjR3?=
+ =?utf-8?B?TzBFdmh1czR6Si9jOVkvZnAzeHk1bVJFNFlubkdzYUVoNVZDL1FJNTdhVkZx?=
+ =?utf-8?B?NVN5K3R2QklWZ0orbkRxRXlBMkFOZk5VUVlMeE1FcWJaK1RuV2lkWTZuVWh3?=
+ =?utf-8?B?MXB5aTVGRGVmZlFHM2ZiZUNuNEpWd0Rib1l2ajJ3Y3Z5em4zbXdWWW5EVVNE?=
+ =?utf-8?B?WmhhM3Jmem5iRWVqQjVJanhxODAzbEZOeVBpc2twOXl2b2ZaNFhjZFF0UkxV?=
+ =?utf-8?B?WjRIZUsvVDlTNEpKZnQvQXBnTWlKSUhwR2JScnNnc2Vnai83Zi82MmM2amVL?=
+ =?utf-8?B?aEhGS2JhR29vQU9ubTNLZm8zNEVvQjdxNUxPQ3I5ZDJtTXF1NCtFVmFVTmd0?=
+ =?utf-8?B?ZFdGVU9QRS9ZODRlL2MxaDNsSUpabExhbStFNkdsM1h2dnlzOVFvdTRveWJM?=
+ =?utf-8?B?dDk3VmRpRWZ1cGlZRmVZSXlqRkhtTDBTZWtJR0pEdnNhWitPaytOd3ZIYkpn?=
+ =?utf-8?B?aldKWlRvNXNMTEprSWpzMTN4K014Y01ZSFd3SDF4NUNsb2JKRE0vU1pWY1M4?=
+ =?utf-8?B?cXNLWmgwYmlVTzBxNmFxM0MzVmpQcjY1Q2hzZ1pSYWUzUUJTWlBYRCtoWHZU?=
+ =?utf-8?B?Z3J5K0FtRFJjUU9iZUxXVC8zM2FEQ3pvMjRKZXhMYnpJYWMxSzhUb0ZkbDd5?=
+ =?utf-8?B?OEUzeXlSdkhmd21LUnhEZDZNdS9TNFowM1JrRng3b2psTW9Ub1NGdmIwSzk1?=
+ =?utf-8?B?MHpHN2FOYm1zcHNTbDA1L1JrUG1TK3lGMFA1aGZ2Ui9yajcvb1ZyZkIzZWZW?=
+ =?utf-8?B?bDZzRk4vcmttLzN6dkpuMGVrTEE2dDN4Ty8vdDNQNm5vR3ZrWGtUMmR2Y290?=
+ =?utf-8?B?ZERhUFJGTkxRajFCL3ZTYjZPRmRpZTRLRGs0Y3NyN3ZScVNoai80aDhiUlpt?=
+ =?utf-8?B?UGF5L3FZZmoxUm5RUXMvRGpNQitnME52Wm0xMGorU0QyQ05hTFYxV0NZN2FB?=
+ =?utf-8?B?RmU4eEhsOFJuVldsSkJSZlZGT1oya2YwMzByRlUvRzRIRndFcy8vUXhTRTZk?=
+ =?utf-8?B?NFVBOHJqb3FtRjI3NG5GTUZ5amxmbE9ySVJUaE5rL2c5cTNYSXdJdXhiUy9s?=
+ =?utf-8?B?cmxsS3lPaTNrOE44WWhCOHRNWktRV0RWeUthb1RhTHZkeUk4WFg3SGRIdFpZ?=
+ =?utf-8?Q?2ooA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026)(35042699022)(14060799003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 17:59:54.5839
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1947fc31-4369-44c0-46bd-08de2d159abd
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AMS0EPF000001A2.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7495
 
 Hi,
 
-On Mon, Nov 24, 2025 at 08:12:56PM +0000, Mark Brown wrote:
-> On Mon, Nov 24, 2025 at 03:48:06PM +0000, Peter Maydell wrote:
-> > On Tue, 2 Sept 2025 at 12:45, Mark Brown <broonie@kernel.org> wrote:
+On 11/10/25 23:04, Jonathan Corbet wrote:
+> scripts/lib was always a bit of an awkward place for Python libraries; give
+> them a proper home under tools/lib/python.  Put the modules from
+> tools/docs/lib there for good measure.
 > 
-> > > SME, the Scalable Matrix Extension, is an arm64 extension which adds
-> > > support for matrix operations, with core concepts patterned after SVE.
+> The second patch ties them into a single package namespace.  It would be
+> more aesthetically pleasing to add a kernel layer, so we could say:
 > 
-> > I haven't actually tried writing any code that uses this proposed
-> > ABI, but mostly it looks OK to me. I have a few nits below, but
-> > my main concern is the bits of text that say (or seem to say --
-> > maybe I'm misinterpreting them) that various parts of how userspace
-> > accesses the guest state (e.g. the fp regs) depend on the current
-> > state of the vcpu, rather than being only a function of how the
-> > vcpu was configured. That seems to me like it's unnecessarily awkward.
-> > (More detail below.)
-> 
-> That was deliberate and I agree it is awkward, it was introduced as a
-> result of earlier review comments.  I had originally implemented an ABI
-> where the VL for the vector registers was the maximum of the SVE and SME
-> VLs but the feedback was that the ABI should instead follow what the
-> architecture does with the vector length and potentially presence of the
-> vector registers depending on the current streaming mode configuration.
-> It sounds like you would prefer something more like what was there
-> originally?
-> 
-> > > For SME unware VMMs on systems with both SVE and SME support the SVE
-> > > registers may be larger than expected, this should be less disruptive
-> > > than on a system without SVE as they will simply ignore the high bits of
-> > > the registers.
-> 
-> > I think that since enabling SME is something the VMM has to actively
-> > do, it isn't a big deal that they also need to do something in the
-> > fp or sve register access codepaths to handle SME. You can't get
-> > SME by surprise (same as you can't get SVE by surprise).
-> 
-> Yes, it's not going to affect anything without enabling it.  I can't
-> remember what that was in reference to, it clearly needs an update.
-> 
-> > >  .. [1] These encodings are not accepted for SVE-enabled vcpus.  See
-> > > -       :ref:`KVM_ARM_VCPU_INIT`.
-> > > +       :ref:`KVM_ARM_VCPU_INIT`.  They are also not accepted when SME is
-> > > +       enabled without SVE and the vcpu is in streaming mode.
-> 
-> > Does this mean that on an SME-no-SVE VM the VMM needs to know
-> > if the vcpu is currently in streaming mode or not to determine
-> > whether to read the FP registers as fp_regs or sve regs? That
-> > seems unpleasant -- I was expecting this to be strictly a
-> > matter of how the VM was configured (as it is with SVE).
-> 
-> Yes, it does.
+>    from kernel.kdoc import kdoc_parser
 
-Ditto from me about not having looked at this earlier...
+This is great, the code looks so much cleaner! However, it would've been 
+even nicer if the redundant `kdoc_` was done away with.
 
+So instead of:
+* `import kdoc.kdoc_files` -> `import kdoc.files`
+* `kdoc/kdoc_files.py` -> `kdoc/kdoc_files.py`
+* `abi/abi_parser.py` -> `abi/parser.py`
 
-Is the above condition right re streaming mode?  The original reason
-for this restriction was that the SVE Z-regs and FPSIMD V-regs are
-aliases when SVE is present.  To avoid having to worry about how to
-order register accesses and/or paste parts of them together, we went
-down the road of banishing encodings that alias a subset of the
-register state accessed by some other encoding.
+etc.
 
-In line with this principle, with SME Vn and Zn are aliases when
-*not* in streaming mode, so allowing access through the Vn view feels
-problematic too?  (And when in streaming mode, the Vn regs don't exist
-at all.)
+Will you consider this?
 
-Whether the proposed ABI is considered awkward for VMMs or not is a
-separate matter...)
-
-> 
-> > > +arm64 SME registers have the following bit patterns:
-> 
-> > > +  0x6080 0000 0017 00 <n:5> <slice:5>   ZA.H[n] bits[2048*slice + 2047 : 2048*slice]
-> > > +  0x60XX 0000 0017 0100                 ZT0
-> 
-> > What's the XX here ?
-> 
-> Sorry, will fill that in - thanks for spotting it.
-> 
-> > > +  0x6060 0000 0017 fffe                 KVM_REG_ARM64_SME_VLS pseudo-register
-> > > +
-> > > +Access to Z, P or ZA register IDs where 2048 * slice >= 128 * max_vq
-> > > +will fail with ENOENT.  max_vq is the vcpu's maximum supported vector
-> > > +length in 128-bit quadwords: see [2]_ below.
-> 
-> > What about FFR registers ? Is their ENOENT condition the same,
-> > or different?
-> 
-> It should be the same, will update to clarify.
->
-> > > +       max_vq.  This is the maximum vector length currently available to
-> > > +       the guest on this vcpu, and determines which register slices are
-> > > +       visible through this ioctl interface.
-> 
-> > > +       If SME is supported then the max_vq used for the Z and P registers
-> > > +       while SVCR.SM is 1 this vector length will be the maximum SME
-> > > +       vector length available for the guest, otherwise it will be the
-> > > +       maximum SVE vector length available.
-
-The max_vq name here is not ABI; it's just linking concepts together in
-the documentation text.
-
-So, can we give explicitly different names to these two max_vq values?
-
-Splitting the affected register descriptions into "SVCR.SM == 0" and
-"SVCR.SM == 1" cases also be helpful to make this special-casing clear.
-
-> 
-> > I can't figure out what this paragraph is trying to say, partly
-> > because it seems like it might be missing some text between
-> > "is 1" and "this vector length".
-> 
-> > In any case, the "while SVCR.SM is 1" part seems odd -- I
-> > don't think this ABI should care about the runtime vcpu state,
-> > only what the vcpu's max vector lengths were configured as.
-> > My expectation would be that the max_vq for VMM register
-> > access would be the maximum of the SVE and SME vector lengths
-> > configured for the vcpu.
-> 
-> This is attempting to say that the VL for the Z and P registers (and
-> FFR) will vary depending on if the vCPU is in streaming mode or not if
-> the maximum VL for SVE and SME differs, similarly to how the Z, P and
-> FFR registers disappear when we are not in streaming mode in a SME only
-> system.
-
-May flipping SVCR.SM through KVM_SET_ONE_REG have the architectural
-effect of zeroing the vector regs?  That feels like something that
-should be stated explicitly.
-
-
-Also, in general:
-
-I'd agree that this mutating interface feels odd, and does not follow
-the original spirit of the design here.
-
-But the SME architecture doesn't fit well with the spirit of the
-original KVM ABI here either, so I guess there won't be a perfect
-solution.
-
-
-It seems that when SME is enabled in the vCPU features and the VMM is
-planning to dump or set affected registers, there is a requirement to
-dump / set SVCR.SM first, and then go down one of two code paths.  Can
-this be called out explicitly?  This is a departure from the the
-previous interaction model, so it probably deserves its own section,
-which can then be cross-referenced from individual reg
-descriptions.
-
-SVCR.SM exhibits this modality w.r.t a specific set of affected
-register encodings; it would be good to have that captured clearly in
-one place.
-
-(This may or may not make life easier for VMMs -- I'll leave it to
-Peter to comment on that!)
-
-Cheers
----Dave
+Bence
