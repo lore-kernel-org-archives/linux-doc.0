@@ -1,168 +1,120 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FDC31AF2A
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE0D26FD9B
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 10:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764153790; cv=none; b=gC8OBavCOgcgnZ7qEdlg7rLwtZ0rrFobvkb5fF6uAps7cytdMHDfLI1ATgiWXZsl6qBuwvxY28itEU+I8js+B2zAMLzUF22r/OxbI/86BudtSW9GMVpvrqZJyReSptscNNyiPl34ivZRiN/hodN0Ta02MpdQOws5aS39y2TjQ1g=
+	t=1764154666; cv=none; b=rTxTEbu1XyG32sL/RUvRVNnLWKXOPtsWkeSlP3MjmU/mpvwuD7peZntxoiNKgily4RXfGvZ7YfoXNvQFvNrGzYR0SAvg93SBME5nelgjE09XC/GPPi+9vcUZnB1rAZWNqZKP9jcQEsomOnY14Gm2cj/5mF9J7CnWOkHBh3Rz6OQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764153790; c=relaxed/simple;
-	bh=xzvgaU/jHkHNHoLV+AEnOOFCrbedfXH4Y/myMGNYhj0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hwPtV5WvXg10qgvvn6CbS/nQLtIb2mvIBm7QtUlWJK4Hn5pVxUGud8EFcfhNXaejNNEabKMKqYvXnbM3JZ74u1xCArdvCG7JDIgTdS1LyKm1sdIIiH7PiVabYzuIfIJ/ib+MyA7+Y8QU6UUFU3Z4TyYwz6EztZFu/MUNxu4teHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bweTMHBT; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1764154666; c=relaxed/simple;
+	bh=N8m12iWNCLQKM0X40bESlfOrttHeXy53V/IFqVWUcrY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Z7idJWeuIOPbsXUclw6JfOx16HZPjdpN+T9rt5KH4tOsX/BKXp/aW/W74YMpaxty924lPlQwiHCp7Gse9p5vBI+qncDb0UY8DqjcVadL+dPO8UdVotdtpMShnvBUp7Z9hfIOL8zRcDRK0fUbYmi3VHSz7TgXJFitHD8nTbOht3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g4RtKm9t; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bweTMHBT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764153787;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9JHlfLXvHQ/f3tSlurs7sciQCZwBwOndT3yQiCDkBXY=;
-	b=bweTMHBTw4T4h6sUSaO7wMJ4QPaOR2Lu21nwSgn7pEg4M7IETwj+MPCPLR6k2SlqUehV/P
-	HEWQrPEuo/BsXjUmCDBlson7RB6pkuET9up17nQAvq4AYy9PNa+ZVj4uExh4e0paaK4x+E
-	bjCtAguWcvYJ5KBD6+05+8xBGUxNWRY=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-256-gk_pSRvSOMqufiCybJnFbA-1; Wed,
- 26 Nov 2025 05:43:03 -0500
-X-MC-Unique: gk_pSRvSOMqufiCybJnFbA-1
-X-Mimecast-MFC-AGG-ID: gk_pSRvSOMqufiCybJnFbA_1764153782
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 077751800358;
-	Wed, 26 Nov 2025 10:43:02 +0000 (UTC)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb (unknown [10.45.226.131])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EC42218004A3;
-	Wed, 26 Nov 2025 10:42:58 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Nam Cao <namcao@linutronix.de>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Subject: [PATCH 3/8] Documentation/rv: Adapt documentation after da_monitor refactoring
-Date: Wed, 26 Nov 2025 11:42:34 +0100
-Message-ID: <20251126104241.291258-4-gmonaco@redhat.com>
-In-Reply-To: <20251126104241.291258-1-gmonaco@redhat.com>
-References: <20251126104241.291258-1-gmonaco@redhat.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g4RtKm9t"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so62713235e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 02:57:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764154663; x=1764759463; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tUoArGeF29Uq9ud9txzEkP+4OSzrCHQVStRpO2mMVQU=;
+        b=g4RtKm9tgoXEcGAroskSTTu38MWZWs/65trKNn+/l/HHE++kv39n2IgfzbKutwz86i
+         gk+z24vRSL+ez7QEIPk4+mUzOAe5tm+B9EZUhApK9LRWu3QOFRGO7fOObxkOZX9Hx6gQ
+         xdsdZwoo/SdSbY+YlxQNw28r6a1kdlEkdI7aqVsbRNJHxKctQ2tnuSV1lVXD1u8YqiB/
+         u1HSDtxlY5J4uriCqcXmR7mZ4ikZigKPEM4xSp4K6F/dgmZG81ibqs1sfHYm7uuHyjHK
+         cKuuEGIB0bt5xeMKhg+xs8o0ZPxcBfbHtH6q+/JyO/YFNcQCctPb447O6D5pwXt05zOU
+         H7yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764154663; x=1764759463;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tUoArGeF29Uq9ud9txzEkP+4OSzrCHQVStRpO2mMVQU=;
+        b=l2Bk3NjRe55kUthpjNTxaGYUBvV3r89hStvjpyYzLDVOAnt2hlde8C2U1IhLfTYNNS
+         dAghlqYwEBmBhDPHOUVktBUSRL/wJgSbeJHs+IoHEmE5dsd59+WyFxSJTCOXEqlzfq2+
+         hgT8JH0QKw5wPgLjGXOj6tP4GuaKr1X5nodUHIZh+m+UIf5EcXi5TJE04G+GzSpUfNuS
+         Hvkb2AnwxBQQmLyTzqCH4G/tjxmycOLQZacx+dkzWAep7zjcypplTe/8+k0kZYNdMqgg
+         FSNt1EVHqerKGGvuM9ufnu77JRlXQfP+9UPq+twzU1ZUWKpT2K6uEzv5I3f6t3at6bGW
+         BAiA==
+X-Forwarded-Encrypted: i=1; AJvYcCWAgp4sPDQix2hDDL4T83I7CTk5q5wv8Ikksl5nAubUSzPZVD8laOb0NHNPCM50O8AR7OjywruizLA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysnhIJefpXFzLn1rDUEJQIqqVnX3IOyGQccMttq3eolg0socoP
+	vduDJrpYtPDd9pxLs06DOh7/i72Gye5gHM3HIUnHywU0jgwTqGCVAnIbHHwM01uVbYlzUHNv/KS
+	gkyYL8mo=
+X-Gm-Gg: ASbGncv1/rWeBd5VRvYpjLwuiMKhwjrYg+aow8JW1e48SBm09VPukciZ1ctquoH8Gn2
+	1nMxLhd39i1bjyL4Jz6Z9+Gm6AnzY+nQQ5TCWZD+6FAPYKD+F24spvhKBIHhLZ3EMTPzhm5dZiQ
+	npaOKZ4CTQ3+CdGMBaSpwlpUeSR2B5g/0uvWj/dyhvZiYiafEZoUTZe/fw4OCr4COVYZY9a+4Vm
+	JAHFquYmL2GLqYmeg2GI8R4kp0xXCA0lAJRhrCui/4NcWCbxdGbpO4JIFkNwJ45gTJqBxg3LANR
+	lSY645shMH4a83IG3J21jTDmdf9iqtIeuIkNVFy19JYr+9/KGGBE7DwmBVy/sk5G7/LCNTdmkjj
+	nSWqkUR8Nu6jerVGw1VB4JtRiOsASaUjf60EExnI5T2QrgJWlwIFIVff8vAe9A+MsEUglb8XMTJ
+	hUFYBvXS/U578cmSfUBQrq
+X-Google-Smtp-Source: AGHT+IEq2h53SMoGIyD2yFtjfs7hfB7ruA13p+JgzFnAxaZ65GfS0NxroszsNqkmBHF8jKJbq34fpQ==
+X-Received: by 2002:a05:600c:4ece:b0:477:7af8:c8ad with SMTP id 5b1f17b1804b1-477c115db0cmr208004055e9.31.1764154662715;
+        Wed, 26 Nov 2025 02:57:42 -0800 (PST)
+Received: from ho-tower-lan.lan ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4790ade13ddsm36991765e9.8.2025.11.26.02.57.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 02:57:42 -0800 (PST)
+From: James Clark <james.clark@linaro.org>
+Date: Wed, 26 Nov 2025 10:54:30 +0000
+Subject: [PATCH v7 01/13] coresight: Change syncfreq to be a u8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251126-james-cs-syncfreq-v7-1-7fae5e0e5e16@linaro.org>
+References: <20251126-james-cs-syncfreq-v7-0-7fae5e0e5e16@linaro.org>
+In-Reply-To: <20251126-james-cs-syncfreq-v7-0-7fae5e0e5e16@linaro.org>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Mike Leach <mike.leach@linaro.org>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@arm.com>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ James Clark <james.clark@linaro.org>
+X-Mailer: b4 0.14.0
 
-Previous changes refactored the da_monitor header file to avoid using
-macros. This implies a few changes in how to import and use da_monitor
-helpers:
+TRCSYNCPR.PERIOD is the only functional part of TRCSYNCPR and it only
+has 5 valid bits so it can be stored in a u8.
 
- DECLARE_DA_MON_<TYPE>(name, type) is substituted by
- #define RV_MON_TYPE RV_MON_<TYPE>
-
- da_handle_event_<name>() is substituted by
- da_handle_event()
-
-Update the documentation to reflect the changes.
-
-Reviewed-by: Nam Cao <namcao@linutronix.de>
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+Reviewed-by: Mike Leach <mike.leach@linaro.org>
+Reviewed-by: Leo Yan <leo.yan@arm.com>
+Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- Documentation/trace/rv/monitor_synthesis.rst | 44 ++++++++++----------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+ drivers/hwtracing/coresight/coresight-etm4x.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/trace/rv/monitor_synthesis.rst b/Documentation/trace/rv/monitor_synthesis.rst
-index 3a7d7b2f6cb6..cc5f97977a29 100644
---- a/Documentation/trace/rv/monitor_synthesis.rst
-+++ b/Documentation/trace/rv/monitor_synthesis.rst
-@@ -100,54 +100,52 @@ rv/da_monitor.h
- 
- This initial implementation presents three different types of monitor instances:
- 
--- ``#define DECLARE_DA_MON_GLOBAL(name, type)``
--- ``#define DECLARE_DA_MON_PER_CPU(name, type)``
--- ``#define DECLARE_DA_MON_PER_TASK(name, type)``
-+- ``#define RV_MON_TYPE RV_MON_GLOBAL``
-+- ``#define RV_MON_TYPE RV_MON_PER_CPU``
-+- ``#define RV_MON_TYPE RV_MON_PER_TASK``
- 
--The first declares the functions for a global deterministic automata monitor,
--the second for monitors with per-cpu instances, and the third with per-task
--instances.
-+The first sets up functions declaration for a global deterministic automata
-+monitor, the second for monitors with per-cpu instances, and the third with
-+per-task instances.
- 
--In all cases, the 'name' argument is a string that identifies the monitor, and
--the 'type' argument is the data type used by rvgen on the representation of
--the model in C.
-+In all cases, the C file must include the $(MODEL_NAME).h file (generated by
-+`rvgen`), for example, to define the per-cpu 'wip' monitor, the `wip.c` source
-+file must include::
- 
--For example, the wip model with two states and three events can be
--stored in an 'unsigned char' type. Considering that the preemption control
--is a per-cpu behavior, the monitor declaration in the 'wip.c' file is::
--
--  DECLARE_DA_MON_PER_CPU(wip, unsigned char);
-+  #define RV_MON_TYPE RV_MON_PER_CPU
-+  #include "wip.h"
-+  #include <rv/da_monitor.h>
- 
- The monitor is executed by sending events to be processed via the functions
- presented below::
- 
--  da_handle_event_$(MONITOR_NAME)($(event from event enum));
--  da_handle_start_event_$(MONITOR_NAME)($(event from event enum));
--  da_handle_start_run_event_$(MONITOR_NAME)($(event from event enum));
-+  da_handle_event($(event from event enum));
-+  da_handle_start_event($(event from event enum));
-+  da_handle_start_run_event($(event from event enum));
- 
--The function ``da_handle_event_$(MONITOR_NAME)()`` is the regular case where
-+The function ``da_handle_event()`` is the regular case where
- the event will be processed if the monitor is processing events.
- 
- When a monitor is enabled, it is placed in the initial state of the automata.
- However, the monitor does not know if the system is in the *initial state*.
- 
--The ``da_handle_start_event_$(MONITOR_NAME)()`` function is used to notify the
-+The ``da_handle_start_event()`` function is used to notify the
- monitor that the system is returning to the initial state, so the monitor can
- start monitoring the next event.
- 
--The ``da_handle_start_run_event_$(MONITOR_NAME)()`` function is used to notify
-+The ``da_handle_start_run_event()`` function is used to notify
- the monitor that the system is known to be in the initial state, so the
- monitor can start monitoring and monitor the current event.
- 
- Using the wip model as example, the events "preempt_disable" and
- "sched_waking" should be sent to monitor, respectively, via [2]::
- 
--  da_handle_event_wip(preempt_disable_wip);
--  da_handle_event_wip(sched_waking_wip);
-+  da_handle_event(preempt_disable_wip);
-+  da_handle_event(sched_waking_wip);
- 
- While the event "preempt_enabled" will use::
- 
--  da_handle_start_event_wip(preempt_enable_wip);
-+  da_handle_start_event(preempt_enable_wip);
- 
- To notify the monitor that the system will be returning to the initial state,
- so the system and the monitor should be in sync.
+diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h b/drivers/hwtracing/coresight/coresight-etm4x.h
+index 012c52fd1933..0287d19ce12e 100644
+--- a/drivers/hwtracing/coresight/coresight-etm4x.h
++++ b/drivers/hwtracing/coresight/coresight-etm4x.h
+@@ -825,7 +825,6 @@ struct etmv4_config {
+ 	u32				eventctrl1;
+ 	u32				stall_ctrl;
+ 	u32				ts_ctrl;
+-	u32				syncfreq;
+ 	u32				ccctlr;
+ 	u32				bb_ctrl;
+ 	u32				vinst_ctrl;
+@@ -833,6 +832,7 @@ struct etmv4_config {
+ 	u32				vissctlr;
+ 	u32				vipcssctlr;
+ 	u8				seq_idx;
++	u8				syncfreq;
+ 	u32				seq_ctrl[ETM_MAX_SEQ_STATES];
+ 	u32				seq_rst;
+ 	u32				seq_state;
+
 -- 
-2.51.1
+2.34.1
 
