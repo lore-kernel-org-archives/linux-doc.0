@@ -1,202 +1,149 @@
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7273595D;
-	Wed, 26 Nov 2025 00:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23621E5734
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 00:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764116337; cv=none; b=X0UpguotiXezDmp1gJAbu4PiLqw1tpt6O1y5L5piMnCIoBZeXXR2U5ZwpjbejDpeO+dYSJuEocwDQ6+yHpQdvOgDfnXcLDwhu0iuoEETujVdRHoA+1RsLHXww81YzRwTUPDewR1bMl+WazLlaeSzWrpgZhTnq95vw+Quv4RfMKQ=
+	t=1764117008; cv=none; b=f7smSMxJdIqT+E/O2hmfFGWbQrx2ncUNtGtmZBWMkrl6NNB9ZPuY4Q3WcM9HSSsSfGO3fT/+OKhe5T0mbS1C7qwC7NbpoYpvqTeiBOHVbogQfxfQfOi20gozwF0okk+6873L+B1YJ3+1CXTSwCn7ToTCV+68hq1uuB4ZaHFUfw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764116337; c=relaxed/simple;
-	bh=gwii+iVdBVKbWCyCdr/+zthLuTAXebNs8mhXSw/5DRY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uhYN7UrKDcWDvpjp3/K6SAxCcl3yX/XEguV7lgNTb0Fr4ebsDBAg6PNiZk+xVTk3UXFgimlzxhqG/fKj6G2A/ek4ZguPF4BBbrFvIz9N5VzLKXzRhxF/UU9Kk+42wJiA8cFfu6OABwK7jrDi5nUJ/3P6e02n/McHdMWOpKATu9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=W+AKvPIc; arc=none smtp.client-ip=67.231.145.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1764117008; c=relaxed/simple;
+	bh=+7pgfRjo/daR/nWjZbzX/uZO08iJE3h0AwCxM47eCS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0wURAaaNJR6hh+M3f/p0b5j+KCXeQ2pc5f7mf3JXpM457k4q2YzGMqB72vbYnvzuKmoPP3w5W4HpXuHdQJziEd1pwSPn1JOkKBWLuGT/Mt9v/bM+3Fbf+0zsx6bRZguMz/kohKWsbd6681hvP/WzcalmRQVe9z4yJQuDk/EZII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VwamRu5s; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="W+AKvPIc"
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5APKA97n1087396;
-	Tue, 25 Nov 2025 16:18:10 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=qGBFfom64ubwAcHLmi0kGY4idgptPgMMsGDiFpmxSnI=; b=W+AKvPIcq+Gs
-	i3tYYc6MNSXntK0NmrX6mDMiJh2f1He+waI1tJUFw9eep8toqFOiXcXgv1d9N8HG
-	PGdbn6/fGl6qS46R20vtpCyrMHLj0wH4JK9pXWvIXkrNgijhiczlYtlomrwOthSj
-	zml1ieuFYLYIUzuWZ91PR3D7DWCyaUSc0LCurvPCQxAzzat402xRMP4oyeWdz0ty
-	1EYyma4UMfnDB7SWN7UNyv49rng7qo94JM/vlLrbdULgh6NjCeHD1lakMZtk49rg
-	EGdIyMsuzoL8EN2ERVeIEmaZ0+aXHHcjPKQINfA5NEORkyA0TfReyUgtpSsOkjBL
-	M3cSvkYsxQ==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4ank8qsk46-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 25 Nov 2025 16:18:10 -0800 (PST)
-Received: from devgpu015.cco6.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.29; Wed, 26 Nov 2025 00:18:08 +0000
-Date: Tue, 25 Nov 2025 16:18:03 -0800
-From: Alex Mastro <amastro@fb.com>
-To: Leon Romanovsky <leon@kernel.org>
-CC: Bjorn Helgaas <bhelgaas@google.com>,
-        Logan Gunthorpe
-	<logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-        Robin Murphy
-	<robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon
-	<will@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Jason
- Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan
- Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian
- =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Kees Cook
-	<kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Ankit
- Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
-        Shameer
- Kolothum <skolothumtho@nvidia.com>,
-        Kevin Tian <kevin.tian@intel.com>, Alex
- Williamson <alex@shazbot.org>,
-        Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs
-	<mochs@nvidia.com>,
-        <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <iommu@lists.linux.dev>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <kvm@vger.kernel.org>,
-        <linux-hardening@vger.kernel.org>, Nicolin Chen <nicolinc@nvidia.com>,
-        Jason
- Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v9 06/11] dma-buf: provide phys_vec to scatter-gather
- mapping routine
-Message-ID: <aSZHO6otK0Heh+Qj@devgpu015.cco6.facebook.com>
-References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
- <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VwamRu5s"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7aab061e7cbso7062002b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 16:30:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764117005; x=1764721805; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TQMjuKPHzUNhfDB/BTLq+fTDXNip/wwiVzkgCrUswNY=;
+        b=VwamRu5scCwBUWz9WyCwemooMsOX3LyoCXEk4k4S4cQz6czo6mlzblsCC5ke5LkVQz
+         9nhWPgF9YTBR93kBUD8/wKHuVC4YYrXrMRfmuGJQE+UAmwffula7JAChCIWYlMJKaAMK
+         8IpXLpqBZATHqs7NvhN6hzM9OId92KG66j+Veofvn0GWjLB+Ir034DvR7WDtZ2Fdua7E
+         P/VKd6VCJucQM76vaFNghQkgcmEzFjqUjYS++WtcX+I4XRGU4RDbJCAbmMQyTsci1QO8
+         qYAVb7l43B7vaFhr0WlI/GIcLiQSDkh7FH6AeAagpRf91xYM1dV04CLKximUj3EgbsGU
+         IHUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764117005; x=1764721805;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TQMjuKPHzUNhfDB/BTLq+fTDXNip/wwiVzkgCrUswNY=;
+        b=feFVNfZifOEWPzpSPrW5/Y//92s2a2nJzPKc+sVYzNd2gKhxm+Q8ycVqgB4sYADEta
+         AD8MN5yvJKoliPVt2C9sqK79G4OsXPIXBBw92/tyRJDQESC7HEdVBCvXwQTmoJBf1UPd
+         4J/FefEyAt2BiqSvp2aV51mohHV9HguWW3czdsHVqUGCiVmJ8K6tpgLHH7n8CaE4KM1I
+         ZGwr7LUoJz660F+YXY/KldQ/qlSwjGLz2Tu+9Iv9Yi/OQdSQnAO1vUnKSYACmB7VH+kn
+         C7Fl/QXhDVYyE0XWpFtf0iSOYA2nOaRS7myzoD3CHkjsIkHjiZPjRe4sh1sJKkwgYWz6
+         qwLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXLDVTxZNzG40bem40Lyo6oDtjk+SJBnaSvSlTZsJNZxSXV8bQsbdsJSAOgvlsHGGcOivco4QDCYNQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxcrl8bAoc72/2EK+mX6iwUO265V7tjtIfoIBZKbMHsIqn6BcLt
+	5FfvdeDYLs0kUy0JnlAMDRINSjuuoI63SdsC7jg7GAomCANUHIrSN+Pg
+X-Gm-Gg: ASbGncuqKHpc9Saa3u8PUT78hwIS5P/SdTnsDHNWM+gK+4Tx0ioRj2pLw/WiQvL1Mmd
+	2QT7IW+/y75LFz9VW5iyNzvwstglbr5HzwG5CCsRpuS+XjZKAo27npJPwyxwV+IDXucNKQTXsGl
+	C1RrxEqmf0nR6evhgW3WgYtj39fIol5twHE55m9XBkhEF560hZUk/opfzMN/BzzAB19dJodHG/q
+	J46xkSHLNvlwINu4SV8wCyyzdPyaSI/KUurRUix1HYw2SCagy0tgXhiAM0VCQhf8pgYo+KPyZMq
+	psCOlW33TgZdFHpO7R/iS2LOZ01hY2xyrEI1aG1HQc8bpr02CALy1ljqpKKAAVxtNGKZT/oQb51
+	QLrxGDjCIJjsIF2QvjAU8j2/m8CcM6z2hU7oHzdFWsRUaEWnjv+0ODIWq5qw+yxZojcE0/ysAC0
+	U4I6YqdD/ACss1zMPa9OJgCw==
+X-Google-Smtp-Source: AGHT+IFlzBzMU6uRJEoPA/DtA6ralWIDq9xCWcLTBXEwpgMrSQIUxDFPucCWFcH95f/neuSSWsnHWg==
+X-Received: by 2002:a05:6a00:1490:b0:7a2:7f1e:f2dd with SMTP id d2e1a72fcca58-7c58c7a69a5mr14956775b3a.11.1764117004888;
+        Tue, 25 Nov 2025 16:30:04 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f0d55b71sm19503922b3a.55.2025.11.25.16.30.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Nov 2025 16:30:03 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id DAF2F420A78D; Wed, 26 Nov 2025 07:30:01 +0700 (WIB)
+Date: Wed, 26 Nov 2025 07:30:01 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>
+Cc: Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mark Bloch <mbloch@nvidia.com>, Gal Pressman <gal@nvidia.com>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Shahar Shitrit <shshitrit@nvidia.com>
+Subject: Re: [PATCH net-next] docs: tls: Enhance TLS resync async process
+ documentation
+Message-ID: <aSZKCZkUnllzyydN@archie.me>
+References: <1764054037-1307522-1-git-send-email-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Uhx3q5Xis8IAS4gY"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDAwMCBTYWx0ZWRfX4aU+4yoxvGRI
- fn5uIgo4phoyJLcsXRpkIiEbPHjmDvXjee+0hL5hZTnMf7KiIbVFpuPgNNxmzJnPoXlqYrYFVCb
- EPyFD9HoNuq9bFWOWGD9jm+tH6jYX1bWvVVFfP7wmtxUCfM6nyWp9RhEW4F3WyT2gvOl06d0Lit
- II5EZrklZ4kZ6ZccZ6uI5fnA2fhf1sXF7BU/xkJ1DrQkkrbuth2BkU2ET85sZ92FJE5mmeSgTwT
- 8QOBncjhE4/DUMlusLJDyljY4I1YOkD69BDnY6LZhPAqbK1Ws3OXJ/OhGSqPOvK63g6mktQG9A/
- 4TjZvhvYG6pYNypXlNsc0JrFDrM/97nZlDYVEtn7wlUXLxFDOXnHdS+vQBslO6M76Dlb+/Whxi6
- 97TQYdVHP7oL0xprhG3cL4XfcOc0nA==
-X-Proofpoint-ORIG-GUID: 5DCeEKEPh0Lq0c0QeLIVINEpDK6-Nmfl
-X-Proofpoint-GUID: 5DCeEKEPh0Lq0c0QeLIVINEpDK6-Nmfl
-X-Authority-Analysis: v=2.4 cv=VfT6/Vp9 c=1 sm=1 tr=0 ts=69264742 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=3j4BkbkPAAAA:8 a=qThf3vN7FU90BnacfoAA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-25_02,2025-11-25_01,2025-10-01_01
+In-Reply-To: <1764054037-1307522-1-git-send-email-tariqt@nvidia.com>
 
-On Thu, Nov 20, 2025 at 11:28:25AM +0200, Leon Romanovsky wrote:
-> +static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
-> +					 dma_addr_t addr)
-> +{
-> +	unsigned int len, nents;
-> +	int i;
+
+--Uhx3q5Xis8IAS4gY
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Nov 25, 2025 at 09:00:37AM +0200, Tariq Toukan wrote:
+> +When the kernel processes an RX segment that begins a new TLS record, it
+> +examines the current status of the asynchronous resynchronization reques=
+t.
+> +- If the device is still waiting to provide its guessed TCP sequence num=
+ber
+> +  (the async state), the kernel records the sequence number of this segm=
+ent
+> +  so that it can later be compared once the device's guess becomes avail=
+able.
+> +- If the device has already submitted its guessed sequence number (the n=
+on-async
+> +  state), the kernel now tries to match that guess against the sequence =
+numbers
+> +  of all TLS record headers that have been logged since the resync reque=
+st
+> +  started.
 > +
-> +	nents = DIV_ROUND_UP(length, UINT_MAX);
-> +	for (i = 0; i < nents; i++) {
-> +		len = min_t(size_t, length, UINT_MAX);
-> +		length -= len;
-> +		/*
-> +		 * DMABUF abuses scatterlist to create a scatterlist
-> +		 * that does not have any CPU list, only the DMA list.
-> +		 * Always set the page related values to NULL to ensure
-> +		 * importers can't use it. The phys_addr based DMA API
-> +		 * does not require the CPU list for mapping or unmapping.
-> +		 */
-> +		sg_set_page(sgl, NULL, 0, 0);
-> +		sg_dma_address(sgl) = addr + i * UINT_MAX;
 
-(i * UINT_MAX) happens in 32-bit before being promoted to dma_addr_t for
-addition with addr. Overflows for i >=2 when length >= 8 GiB. Needs a cast:
+You need to separate the status list:
 
-		sg_dma_address(sgl) = addr + (dma_addr_t)i * UINT_MAX;
+---- >8 ----
+diff --git a/Documentation/networking/tls-offload.rst b/Documentation/netwo=
+rking/tls-offload.rst
+index 6d276931669979..a41d02d72e1ee6 100644
+--- a/Documentation/networking/tls-offload.rst
++++ b/Documentation/networking/tls-offload.rst
+@@ -338,6 +338,7 @@ Cancels any in-progress resync attempt, clearing the re=
+quest state.
+=20
+ When the kernel processes an RX segment that begins a new TLS record, it
+ examines the current status of the asynchronous resynchronization request.
++
+ - If the device is still waiting to provide its guessed TCP sequence number
+   (the async state), the kernel records the sequence number of this segment
+   so that it can later be compared once the device's guess becomes availab=
+le.
 
-Discovered this while debugging why dma-buf import was failing for
-an 8 GiB dma-buf using my earlier toy program [1]. It was surfaced by
-ib_umem_find_best_pgsz() returning 0 due to malformed scatterlist, which bubbles
-up as an EINVAL.
+Thanks.
 
-$ ./test_dmabuf 0000:05:00.0 3 4 0 0x200000000
-opening 0000:05:00.0 via /dev/vfio/56
-allocating dma_buf bar_idx=4, bar_offset=0x0, size=0x200000000
-allocated dma_buf fd=6
-discovered 4 ibv devices: mlx5_0 mlx5_1 mlx5_2 mlx5_3
-opened ibv device 3: mlx5_3
-test_dmabuf.c:154 Condition failed: 'mr' (errno=22: Invalid argument)
+--=20
+An old man doll... just what I always wanted! - Clara
 
-$ sudo retsnoop -e mlx5_ib_reg_user_mr_dmabuf -a 'mlx5*' -a 'ib_umem*' -a '*umr*' -a 'vfio_pci*' -a 'dma_buf_*' -x EINVAL -T
-Receiving data...
-13:56:22.257907 -> 13:56:22.258275 TID/PID 948895/948895 (test_dmabuf/test_dmabuf):
-FUNCTION CALLS                                 RESULT                 DURATION
---------------------------------------------   --------------------  ---------
-→ mlx5_ib_reg_user_mr_dmabuf
-    ↔ mlx5r_umr_resource_init                  [0]                     2.224us
-    → ib_umem_dmabuf_get
-        → ib_umem_dmabuf_get_with_dma_device
-            ↔ dma_buf_get                      [0xff11012a6a098c00]    0.972us
-            → dma_buf_dynamic_attach
-                ↔ vfio_pci_dma_buf_attach      [0]                     2.003us
-            ← dma_buf_dynamic_attach           [0xff1100012793e400]   10.566us
-        ← ib_umem_dmabuf_get_with_dma_device   [0xff110127a6c74480]   15.794us
-    ← ib_umem_dmabuf_get                       [0xff110127a6c74480]   25.258us
-    → mlx5_ib_init_dmabuf_mr
-        → ib_umem_dmabuf_map_pages
-            → dma_buf_map_attachment
-                → vfio_pci_dma_buf_map
-                    ↔ dma_buf_map              [0xff1100012977f700]    4.918us
-                ← vfio_pci_dma_buf_map         [0xff1100012977f700]    8.362us
-            ← dma_buf_map_attachment           [0xff1100012977f700]   10.956us
-        ← ib_umem_dmabuf_map_pages             [0]                    17.336us
-        ↔ ib_umem_find_best_pgsz               [0]                     6.280us
-        → ib_umem_dmabuf_unmap_pages
-            → dma_buf_unmap_attachment
-                → vfio_pci_dma_buf_unmap
-                    ↔ dma_buf_unmap            [void]                  2.023us
-                ← vfio_pci_dma_buf_unmap       [void]                  6.700us
-            ← dma_buf_unmap_attachment         [void]                  8.142us
-        ← ib_umem_dmabuf_unmap_pages           [void]                 14.953us
-    ← mlx5_ib_init_dmabuf_mr                   [-EINVAL]              67.272us
-    → mlx5r_umr_revoke_mr
-        → mlx5r_umr_post_send_wait
-            → mlx5r_umr_post_send
-                ↔ mlx5r_begin_wqe              [0]                     1.703us
-                ↔ mlx5r_finish_wqe             [void]                  1.633us
-                ↔ mlx5r_ring_db                [void]                  1.312us
-            ← mlx5r_umr_post_send              [0]                    27.451us
-        ← mlx5r_umr_post_send_wait             [0]                   126.541us
-    ← mlx5r_umr_revoke_mr                      [0]                   141.925us
-    → ib_umem_release
-        → ib_umem_dmabuf_release
-            ↔ ib_umem_dmabuf_revoke            [void]                  1.582us
-            ↔ dma_buf_detach                   [void]                  3.765us
-            ↔ dma_buf_put                      [void]                  0.531us
-        ← ib_umem_dmabuf_release               [void]                 23.315us
-    ← ib_umem_release                          [void]                 40.301us
-← mlx5_ib_reg_user_mr_dmabuf                   [-EINVAL]             363.280us
+--Uhx3q5Xis8IAS4gY
+Content-Type: application/pgp-signature; name=signature.asc
 
-[1] https://lore.kernel.org/all/aQkLcAxEn4qmF3c4@devgpu015.cco6.facebook.com/
+-----BEGIN PGP SIGNATURE-----
 
-Alex
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaSZKBQAKCRD2uYlJVVFO
+oyacAP0fN/NP544JfEy704TIpMviAVm7qketzfORZ/nMxtq97wEAjUGwXZm8f2Hk
+f0XnH1RkaVFGzFchC4P1xk7c1Dv7qQ4=
+=xNTM
+-----END PGP SIGNATURE-----
+
+--Uhx3q5Xis8IAS4gY--
