@@ -1,127 +1,89 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354D836D4FF
-	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 07:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3475293C42
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 07:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764140574; cv=none; b=qc1nfY5jSyOspI/Zr5pfnu1LvK68uYwpLvmfjdKxUbtLQfpbVS+Lv8l7FbEPPxUbP/ccYbvjOM9lDGW853MlBEHZf4uJyfrZ3kUuynwX8KFNBQ1TsnCvEg2Lyt3WxgVfzM5JnuBs7M0s8zR3y2aUYy5d8Qkr157HZCbfp+R0xbA=
+	t=1764141609; cv=none; b=nepsw+g16EVNr25UvtkGJAAicyv7kILrkz+mG+UuKslTR6fWXEYA4bW3q2GBR1QckXUdSshZBVjIabSJ27ZSZCGGEVfxAwqx1CPK7Gd5oveBu4wiM2wb4N/HdzA2yj3rBwygS/xX63Axts+qAn1qbAOCevepfuuXjNqKINM6Wf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764140574; c=relaxed/simple;
-	bh=mSqkdmuMdYzGSwXJ1BlQbiuvC1O9p5JqL59APV2mX9s=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Ns7RQazllc492plQ+4pZdPgQmaIGl8wP+TdstDh4i2YbzjFrVeBCZO2c2ZLLkHCVLBB3eXJ8kBWndDM275/1sy849STgVoL2crHMjJ8nEdTm8liHiN4xM81ookT685QR/puqqyF0APlwnwFazHJcWeyJwMYcLEyRWcqOfe1BoFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kOy9jqSv; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764141609; c=relaxed/simple;
+	bh=0VQrgSjDjU4qQzJ7hZrbtMfLNNKPLwxprA8ln020frQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tENgW4akypHzQI0QkpXXZFfHx9192PZVU7cxfDG+MJGTZGddsYt+dsfF0WtZHifo5aUmsuLRbakZcUwKz7mEHFO54z/o3E90gNkPZ08yaxSg2qMerEkEnUAcQ7g7uftGAQ9ltVyzVwMkgZIci1UTjB4vv0lscndC+opvYwXILKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d3eiJ0pI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kOy9jqSv"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b735b7326e5so97622266b.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Nov 2025 23:02:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764140571; x=1764745371; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pmSddDJMFoPJKosyYrci1CbZkbhsVJtMJ2d4BSd+2WM=;
-        b=kOy9jqSv3d9IP8hiMKJgVbLq8bYx/zJGN5RpRYrJ56hFCmJ+wO9h/LqHLXox6XeJWg
-         blSroReJYysB+2WAn+7PejUimhjtx7pvhFQzXw2dWMCISkz4sXEls2unxlKYX3xBZtdt
-         B4IofEgjxLG3RfpOc3Q8IWG04R4AxIgyTot1VUBSgh3EBznAzsRw6xwQiPoF7/9ByLsg
-         CfBtd2ZV/qYHi3ahxzq82V1sumNh8nHUzhW1LwmWUPR4d2obe9Axe6Rejr9GxGhZ676A
-         0VRIR/uPl2uaVfPPrF2ZlqRuUPIb+yBrUR9MDBMvanveolRgvu1kY6hIXhREG4x7HRc3
-         qYfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764140571; x=1764745371;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pmSddDJMFoPJKosyYrci1CbZkbhsVJtMJ2d4BSd+2WM=;
-        b=kW81Yvm3MqjoaGOj3j+66SDXX/Yp/aBW2dgyJ4o8yOKlsUfaJOP/LZjX27qkhmzW7b
-         mZzbUPN6hl7yrnjmZL98hFpjrvRnqxOvwtx0/rJAj0fGjEY6b25sPSbIhQw5hG6UH9UI
-         uAmXWKnb5gYqwnFKJXkGnODJEwQeo7S6q5/WKfn7U1LUrBeXnVayjQGONk6QGrh1gExZ
-         wyxCArWpFdkfDEDaO/zRceVFm+bsKekUZLFEVIv05MCcN3lZV75k8CaZ/WSfAW++9P5u
-         XAWVwOMIOgSC8wp15ik7OLryxQMM4Eq+HP/6nc7k1CJd7ERMdvLk1Qih/JagmBm4o3Uy
-         B86Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXmhOU/z+XeSLahul7tINOFRkH4vrlSy+aQKKeIoX7w5pzufuyoHJXd3RrnR8idTOAJwgt/hw5JyYY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPzv+8vfQOzIOwsJt4h60+xu3NrRSK9bFs7ArKOYyeRPKPgzes
-	chYm9cT9dlkWSvZKtTyCkb2EQ9zALaFw6eIsO/4TX1iRRjRzDFBo7PLVtQfbO8e5z+nGRR7kQtC
-	sbQblFYqmlHrCEP3vi5q78YLGFtrew/s=
-X-Gm-Gg: ASbGncvVk38B9V/X0Rnc3xzPeBSFSmqXY0Ns9hOREZhHceQrwt+NYlLfko+DYBDfSJf
-	AbmMmQqm4ipEpeV7fWIerz9v2ENO+I/fsJqKf1p8PF/ldDrZMcH91Ief7VZE5CQ4eRBA2UG7+Pq
-	LgVA1nthHWnETqCiT625fX9Ml5qqdghr2ywzGJz+doKRCciQ9OQAnuMa5wNRRywsWZlNaKbSoZX
-	n2pLrcMbpktyyVpzByLtZb4fcQCQLQHZ26NCRWk0vK1Wns9ZpuiloVPchcpE25DXn+LZWQ=
-X-Google-Smtp-Source: AGHT+IHLipZ7Kv2siOq76cnZlBvar28wOmbtrLmwSOoFNVVy5aff3ttK5OB936DX2nULm4fxHXby3+rQNPOjHjVCiwk=
-X-Received: by 2002:a17:907:3ea1:b0:b6d:f416:2f3 with SMTP id
- a640c23a62f3a-b7657285452mr2441491266b.19.1764140571086; Tue, 25 Nov 2025
- 23:02:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d3eiJ0pI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8A42C16AAE;
+	Wed, 26 Nov 2025 07:20:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764141607;
+	bh=0VQrgSjDjU4qQzJ7hZrbtMfLNNKPLwxprA8ln020frQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=d3eiJ0pIcAdhlFTNX/KhOYFhtqCKGeHWOtlOkjVF7Gy48wa9sDwjCvB7UaSAZCSkX
+	 SQ2k8oCoF7r7g8HVrSI+YOhQUzt7rl/gGyV2JXslF2XkJswBycETPIPrpAZXSwHOqb
+	 IPxJP07V0yGlwvLCTAFn6pyjDivgMfv6UP9AZsyuBut98JdbZPRrjqMowCoC55XWCk
+	 FSmv0/QVtm3w4awLaK8dTB2JzmkbfrZCmBTDcTiLCxv0mEWJrJaV/GirnFbqRZGWf3
+	 Kr9dD/olNOE7gchBRIteieQM5+xQ23mkWzDy66Jkb4Ioh+qcJUN3erXyO2ycE71Y+P
+	 rlLV0VN/Xc3kg==
+Date: Wed, 26 Nov 2025 08:20:03 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] docs: kdoc_parser: use '@' for Excess enum value
+Message-ID: <20251126081954.71104a56@foz.lan>
+In-Reply-To: <20251126061752.3497106-1-rdunlap@infradead.org>
+References: <20251126061752.3497106-1-rdunlap@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Alex Shi <seakeel@gmail.com>
-Date: Wed, 26 Nov 2025 15:02:13 +0800
-X-Gm-Features: AWmQ_bm0MrbFzH01MXOtwEgQLAjPWtw2ib20x2H4ubkrSST-6ph0yD-ifgIOtgE
-Message-ID: <CAJy-Am=UvsKWHFQBdXb1ZM+HYgaCH-6G9M=cqaQ5NNLZ7zTpgw@mail.gmail.com>
-Subject: [GIT PULL] Chinese-docs changs for v6.19
-To: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 68f3d40ea0ce9fe3a26b9fd1d8ea734386bfb9ec:
+Em Tue, 25 Nov 2025 22:17:52 -0800
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-  docs: parse-headers.rst: remove uneeded parenthesis (2025-11-13
-09:34:40 -0700)
+> kdoc is looking for "@value" here, so use that kind of string in the
+> warning message. The "%value" can be confusing.
+> 
+> This changes:
+> Warning: drivers/net/wireless/mediatek/mt76/testmode.h:92 Excess enum value '%MT76_TM_ATTR_TX_PENDING' description in 'mt76_testmode_attr'
+> 
+> to this:
+> Warning: drivers/net/wireless/mediatek/mt76/testmode.h:92 Excess enum value '@MT76_TM_ATTR_TX_PENDING' description in 'mt76_testmode_attr'
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-are available in the Git repository at:
+LGTM.
 
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/alexs/linux.git
-tags/Chinese-docs-6.19
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-for you to fetch changes up to f12ae9ba4d234732dc091cb0565d52b286de7572:
 
-  docs/zh_CN: Add wd719x.rst translation (2025-11-26 14:40:12 +0800)
+> ---
+>  tools/lib/python/kdoc/kdoc_parser.py |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- linux-next-20251126.orig/tools/lib/python/kdoc/kdoc_parser.py
+> +++ linux-next-20251126/tools/lib/python/kdoc/kdoc_parser.py
+> @@ -919,7 +919,7 @@ class KernelDoc:
+>          for k in self.entry.parameterdescs:
+>              if k not in member_set:
+>                  self.emit_msg(ln,
+> -                              f"Excess enum value '%{k}' description in '{declaration_name}'")
+> +                              f"Excess enum value '@{k}' description in '{declaration_name}'")
+>  
+>          self.output_declaration('enum', declaration_name,
+>                                  purpose=self.entry.declaration_purpose)
 
-----------------------------------------------------------------
-Chinese translation docs for 6.19
 
-This is the Chinese translation subtree for 6.19. It includes
-the following changes:
-        - Add block part translations
-        - Update kbuild.rst translations
-        - Add more scsi translations and fixes
 
-Above patches are tested by 'make htmldocs'
-
-Signed-off-by: Alex Shi <alexs@kernel.org>
-
-----------------------------------------------------------------
-Chenguang Zhao (1):
-      docs/zh_CN: Update the Chinese translation of kbuild.rst
-
-Yujie Zhang (2):
-      docs/zh_CN: Add libsas.rst translation
-      docs/zh_CN: Add wd719x.rst translation
-
-ke zijie (4):
-      docs: zh_CN: scsi: fix broken references in scsi-parameters.rst
-      docs/zh_CN: Add block/index.rst translation
-      docs/zh_CN: Add blk-mq.rst translation
-      docs/zh_CN: Add data-integrity.rst translation
-
- Documentation/translations/zh_CN/block/blk-mq.rst         | 130
-++++++++++++++++++
- Documentation/translations/zh_CN/block/data-integrity.rst | 192
-++++++++++++++++++++++++++
- Documentation/translations/zh_CN/block/index.rst          |  35 +++++
- Documentation/translations/zh_CN/kbuild/kbuild.rst        |  27 +++-
- Documentation/translations/zh_CN/scsi/index.rst           |   4 +-
- Documentation/translations/zh_CN/scsi/libsas.rst          | 425
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_CN/scsi/scsi-parameters.rst |  16 +--
- Documentation/translations/zh_CN/scsi/wd719x.rst          |  35 +++++
- Documentation/translations/zh_CN/subsystem-apis.rst       |   1 -
- 9 files changed, 851 insertions(+), 14 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/block/blk-mq.rst
- create mode 100644 Documentation/translations/zh_CN/block/data-integrity.rst
- create mode 100644 Documentation/translations/zh_CN/block/index.rst
- create mode 100644 Documentation/translations/zh_CN/scsi/libsas.rst
- create mode 100644 Documentation/translations/zh_CN/scsi/wd719x.rst
+Thanks,
+Mauro
