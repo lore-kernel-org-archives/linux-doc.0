@@ -1,348 +1,233 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010059.outbound.protection.outlook.com [52.101.84.59])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984C033A037;
-	Wed, 26 Nov 2025 15:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.59
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764171464; cv=fail; b=afhgj6tehlSL1YaiZikIsaHRLSDApUEQaj75MQlZgyfZva0+KV+XLFvEndBjzM4wEb4NNJ0oOH7TtpAlxnrH0QY0WXoM648uW7Yb9ivcSSoJFI8nFLNmqnJAzfrbIBn1JN2dd6lthhDG1M2rMXGcV2COhlQqN9mZCvFcBwEstMI=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764171464; c=relaxed/simple;
-	bh=qAGIhB8jPMqRiOlXMOU80Nn6ttvqqDhDFTo948Re71g=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=YB8tDCiRXz5NXMJE02EBlE3mBuCt17SbPhHx6UjFctQySWKv0da02BZCkT8OyQu2fqDpYJqnXQLCsVuf+iiYJyy/ksLoCovmutFH0b7rl+CTzvhmugaPD+R4INo6dgXd02pJkpVNR+cByg6ZIJygu966pbMB2A5IR3Wy7YGmENU=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=YVhMhshL; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=YVhMhshL; arc=fail smtp.client-ip=52.101.84.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4A62FF169
+	for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 15:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764172547; cv=none; b=pUtIcNLwDPahJ1S9yViNsi9K8qz1rn3wV3ND8ZVPGMaAFFz5Xfbxohylt+qHQ/ZCl1DGSXTUau48OSPo24jTmK60PaKmscODE+rBBXtKsj1S/M+bgxBOC5jrKsVYJsSufjglXa4QzoMg0KDsYYmfIvF1y3HMqS2fL4Kf+gznn6U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764172547; c=relaxed/simple;
+	bh=lASm2siB5AU0w5u55FAD+C2Ou4paYQEnU69Wbb4v2Yo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ROg737eduXrkYfDjXWf2ISExDcGmEwLkYhds6GM7mojKaJZc7b9MEvb3Vc0pjafaXkEe2hW1a+Jk9YtdxUTLenhH0boSZ9lwgDy74Ua0GBmUiJjXK+BDprfPtuI1CysnvnHxJwfBU05IA+NruhzTPATQIpnsg4EYNBJW7P1UC38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UWmV9y/N; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="YVhMhshL";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="YVhMhshL"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=cELkg2F3DoW7LHHDmdjAH2jfLMjnBRpwo6GBrmfkeUhBx0F0DzWme6+7xFFQr4AWAmlnhw9T1/l9aKxy1s7gegFBBKDoVQq1zv35WlWQety3ZT9gCrRA2ZUKfVfykwOYGa8f+o6yLTORr0bRtn6yKOPKWV0I8C9Uvfu/dHzm4APyPYiP1DosiD2UJ/k+c8eYEL3/FJJX77BkaVHOh3rNoDDpbwcjCyFiFYJgoP2DeMHoCmXm0xK8VNFd3xUwIFjaZ4D3/r/YGZ5lmZUgXfKW3M8S5G4IpLnx2tyQ5nCZIJPoPr6E/H2t+JD4LNlCdYDEmCUUOXi7d47qMTy6aFa6pg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tDy/w22G0UiQSjwYIcDT/Jx4B+S6hD1iON4TsSShZYk=;
- b=WlAvbe6D3L6qywzVdBw5qZbimq70N2UChyX0bJrqfvX6Nv5TarNPVj7he/vMId5Zqtf/E+yNdyDwfYjCnGK0teG/+Pay8wAtmhUqSN1l0ciwenOn3qe9IMeQENc0lKBqawuN4QRwM0oZn8n0ay5XoXnHeSFgURAHyn/j6z6KHfPvJKtXsmojQi5mHdZzmEkdEOwTpYaRBZsn2wmZa6NkKMnNAfikpOEZZcxe8PGy0/3xb7XkFkV9Hg5DlPwNECmpg72bfBzLTBe4Kkg5Q0q0SSiDgrpkH8Ne+RuGKdqvJ+Z4oHjRmQCP0RB6DA9/1V79Sx0i1VA6iH7D/P87immpNA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=linaro.org smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tDy/w22G0UiQSjwYIcDT/Jx4B+S6hD1iON4TsSShZYk=;
- b=YVhMhshLI8ug1LNoQOl0HbMftOvSJ9oAObVBwSXzcOqg70YMlTeXDT2avgLtMDrXFX7KTxobem5G9nvcf56yuyczTZMg7Dbz4Re/0PQwJJO5kf/MHNwLHxGOsQKxYfnUPt8PHoZO1MnckZBJUyCOQCBuwyS+yOTRBBNV6gCiXqI=
-Received: from AM0PR10CA0015.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::25)
- by DBBPR08MB5915.eurprd08.prod.outlook.com (2603:10a6:10:20d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Wed, 26 Nov
- 2025 15:37:34 +0000
-Received: from AM4PEPF00027A67.eurprd04.prod.outlook.com
- (2603:10a6:208:17c:cafe::6) by AM0PR10CA0015.outlook.office365.com
- (2603:10a6:208:17c::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.18 via Frontend Transport; Wed,
- 26 Nov 2025 15:37:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM4PEPF00027A67.mail.protection.outlook.com (10.167.16.84) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.7
- via Frontend Transport; Wed, 26 Nov 2025 15:37:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jV5BmoxT0XclzrKtOrBJSrO8RU2mB2h7WTboaUJlmlNKVS+qV77vET+b7qoBF1pgyyjNiHgPO42wTWG0y1I+CeUjF0hdgGVR7WK+RrxUZuYs6nwJfhKoGgeYKHcTwo4u1nTPgPfJ/8c8FK/m+Pa9tVIVJ3ionYZTVMZuhhGvIqK2bCz3KdYh4DgF0hUo1mNCGnN98QcK3KI59vqMhbE/xUPWuGlA0wXkpYF7nEka593fWxiiQivdYVysPboXMVcXDVR/NxpQOaiD/FQrgbUB7wxL3gozHTTohkimE0743QDUHFDewyHF4pvLMbnmnFpVae1CNFKXyPbM4bnwS+rU3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tDy/w22G0UiQSjwYIcDT/Jx4B+S6hD1iON4TsSShZYk=;
- b=rHVQB76GkQXflT4MJsx2HX42pgU9uAFS9jXvmfCSqZylZPZ/STL7ZTFoZLdoKbmuzFT0QHkfPFxP3H8EBKUFjVqEXCoNCAmoxDrwRdh5en2mF6NCGzCsQAHCLdO6t0Yxr/MMy2m2FNFlYRl2N2ojdpxYo+VXJeg8s6JZiDdXSj6/eq1VBI8kQoifU3Z9Jv9Y4SSQUM4+Y54nkNMBPI+UB3Tk2vum6xxrQ2w4zyjYvih8TVK2UADM8y1it7L8yo28Uxo4LANlYZRIQdvcYYd4tnisVgrQ4jFhHCxk3Vqgiqi7RGQeBaZN5IxWwcqKVIsfYYk4rmgHhuPNU4SW6ABKOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tDy/w22G0UiQSjwYIcDT/Jx4B+S6hD1iON4TsSShZYk=;
- b=YVhMhshLI8ug1LNoQOl0HbMftOvSJ9oAObVBwSXzcOqg70YMlTeXDT2avgLtMDrXFX7KTxobem5G9nvcf56yuyczTZMg7Dbz4Re/0PQwJJO5kf/MHNwLHxGOsQKxYfnUPt8PHoZO1MnckZBJUyCOQCBuwyS+yOTRBBNV6gCiXqI=
-Received: from GV1PR08MB10932.eurprd08.prod.outlook.com (2603:10a6:150:1ee::6)
- by VE1PR08MB5631.eurprd08.prod.outlook.com (2603:10a6:800:1ab::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Wed, 26 Nov
- 2025 15:36:59 +0000
-Received: from GV1PR08MB10932.eurprd08.prod.outlook.com
- ([fe80::7b08:8b90:6e48:c4db]) by GV1PR08MB10932.eurprd08.prod.outlook.com
- ([fe80::7b08:8b90:6e48:c4db%5]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
- 15:36:59 +0000
-From: Al Grant <Al.Grant@arm.com>
-To: James Clark <james.clark@linaro.org>, Leo Yan <Leo.Yan@arm.com>, Mike
- Leach <mike.leach@linaro.org>
-CC: Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jonathan Corbet
-	<corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
-	"coresight@lists.linaro.org" <coresight@lists.linaro.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v7 13/13] coresight: docs: Document etm4x timestamp
- interval option
-Thread-Topic: [PATCH v7 13/13] coresight: docs: Document etm4x timestamp
- interval option
-Thread-Index: AQHcXsPMSEvtqVZk5kO2orBMmNKY/7UE/OkAgAAFHwCAAAbQgIAABpIAgAADbtA=
-Date: Wed, 26 Nov 2025 15:36:58 +0000
-Message-ID:
- <GV1PR08MB1093237396B35459656FF82CA86DEA@GV1PR08MB10932.eurprd08.prod.outlook.com>
-References: <20251126-james-cs-syncfreq-v7-0-7fae5e0e5e16@linaro.org>
- <20251126-james-cs-syncfreq-v7-13-7fae5e0e5e16@linaro.org>
- <20251126140154.GK724103@e132581.arm.com>
- <CAJ9a7VgcAiw_h=OTxOK0Vcv=9WFCbdb-+RzDKYhigZZhepM7xg@mail.gmail.com>
- <20251126144437.GL724103@e132581.arm.com>
- <5096f4ba-913a-477f-bfe7-f2a6bb563d30@linaro.org>
-In-Reply-To: <5096f4ba-913a-477f-bfe7-f2a6bb563d30@linaro.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic:
-	GV1PR08MB10932:EE_|VE1PR08MB5631:EE_|AM4PEPF00027A67:EE_|DBBPR08MB5915:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd22cd3c-d706-40e6-4350-08de2d01b7d8
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|4022899009|366016|376014|1800799024|38070700021;
-X-Microsoft-Antispam-Message-Info-Original:
- =?us-ascii?Q?OJDbUqZhL7Q2VeQuBx1ktzkitXCxs2Z5dMup5OE2KJwdhI41ZMZL1mJjBZbf?=
- =?us-ascii?Q?bIiJOb9w7q0op5cfPyLqAirt4smECZRpGhR4g/t4cW6LJvuWU8EH4uF6UMZg?=
- =?us-ascii?Q?S874GrT84Xq9zjAj5qKGVyfZrCLe0CiPG6yvzHHqu2yUwo07NxZgxX8nc10z?=
- =?us-ascii?Q?ykeRVe69qsERbykpLszz4BTZQzmV8LsjdMrZzBAP8tRlfzbdCoXG4RYxbvcn?=
- =?us-ascii?Q?jvyj0uzUR6AbVCX+9U5BixTasRYADLGpCDmtzI4TVIjokm2byUBnnQlZ1daS?=
- =?us-ascii?Q?mQBjhNkansQnoYnyaRWVNarkkzLxzjYghS6fsqgFuPetCo4KuNr6aUG673BS?=
- =?us-ascii?Q?cx+ZcSuXuuBJzyImK0EzWYBSENgaqvZMpIMkhU40XWcdC0scCZ7ammuF5Xvr?=
- =?us-ascii?Q?ovhCAN6iZt8/VIu/HSAvDaaZj/x7ZhhFZdaaqQWafFs6V4MllQG5uW8wEhFk?=
- =?us-ascii?Q?V+c8kiY+UXzl3tg9gQSqRHj86Buf2LBGUiTK2ow84N2ZuXAce0RdGirV6Gig?=
- =?us-ascii?Q?xP2paI8rC1I8eOA4su4N9wQnqMnTehrEpxQmNCxIX4cTfVEZab4tgAsPBP7E?=
- =?us-ascii?Q?sn6XwBCKn9UBu2IN0K+MxwKVcSacYQlCNrh62fxXebv37Hoe+LvtnEj1feay?=
- =?us-ascii?Q?MfIxAG6UfXIEdNDmyd7r8HO0OLnJowNsesgmPpS3wLR6EC07wa3W3h25oCgy?=
- =?us-ascii?Q?qSIhBK6tkmeways0aGNlgZQUh7qrGsN96YkED/pSxl7IAHMZW3olt7ElbIgi?=
- =?us-ascii?Q?/x8guyE4xQfrE3zHXMCmZybyVM7e4/6qfT/KTQfA/aRRgNQC5N1VcnjthDr/?=
- =?us-ascii?Q?DoOLh/dAC3L7Jtd0FWq8jYWlGAguyWtB/q3Fxf8K3Dg0IuVrgjafmbEGSQ9J?=
- =?us-ascii?Q?/JqNW8TNsOSfJ5NHutKKRJxdcE4KBW69d+ei6UKD2T5/m50jiIk7lUinB7IP?=
- =?us-ascii?Q?xtijxMbolnPzeQPBJismCicuJJ+/2tH10c6iuOgECUFG1oVmXefXG420sXDq?=
- =?us-ascii?Q?usM6pQpprBldziWu33NMsM2bhJoULd5o/rAzHaCQs3V1kZ6Uahxb291oueSx?=
- =?us-ascii?Q?75bJzGhFEuyiLJRDj4AAUw9obAo/NY37ANt7Rzt1sEaz+SkV4MzmtiQJvlpF?=
- =?us-ascii?Q?GvoVYvOlGZGgRckMN7sXmRh9Tx4r5RtPK10XY0LExtKCcF6g4L++kWx0m+p2?=
- =?us-ascii?Q?XJ+dMa5tHsWjAsvzVJxONZYNZgZcGiE5iteWhWNTdsS0VF2jwuarHXsI51dO?=
- =?us-ascii?Q?kJKV566sCTzixPFtamlS9K1dJqf2d3snZdxDFmg/Lj2ZgEL4U2kuSnHM2/AI?=
- =?us-ascii?Q?gWz+jWsU4Bi0yjy5GGIZ0tDOvdDyAATDvy/+1/+aA8Mf+LqHAg9q5K9r+s52?=
- =?us-ascii?Q?axpLA34J8lt21ii9zS3qIxze63VPXwB566Xvy4jJ5C/6JkIQPlth8P1RlDuO?=
- =?us-ascii?Q?ussdJgAyPaPcjjan+XADj2tc2TRAtej6xvyve4bVoVMXd+N3amRfRULGtHiC?=
- =?us-ascii?Q?s9WUhw+hU5OJRyh0+SVEEfQBVjjuU8JWDV6O?=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10932.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UWmV9y/N"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-64320b9bb4bso2111796a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Nov 2025 07:55:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764172544; x=1764777344; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rG1nOVu8gVLE+V2Sxzp2pYjIM+pZyr/YOIj56xPih2c=;
+        b=UWmV9y/NodWXuqhJY1TrxxsW5M1ncI40fhICgsktkYPkqohzrKM5KW8gECsBOkUMmc
+         GomMVh5SAwe28JGNT4WeVfyWdctx/9vWYlroKPha9wg8kMPsREvY5d//lXoxsnW1UkFi
+         pGFo7cozZkoNz4/xCnDXm2Aclxz3llxgBJitrL5N9yEG4avTKJKfoG8YwiWv77A9JTTD
+         2zHAuhkmOLH9hE2MlyVtRYbSM5uricdM0rHaz+yHpHE5RIoF8TD0rASiGuNpbWZIqiZc
+         GcR0VeCKBmUrnvceelH7wMbrwnxTuR+mK/r7337QBmHOFLSRwY/TGl7N6YAI1JzZtzps
+         e7zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764172544; x=1764777344;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rG1nOVu8gVLE+V2Sxzp2pYjIM+pZyr/YOIj56xPih2c=;
+        b=pAfWuiUQZ7iWTnlftrJxfLDiK32YFBWBxqt2ETZ2Dj26zYXKSW4ykqyYrd50USO7V6
+         MV8/38K6qEZCFRP/qu7Cri+miZwRBqktM/uh06y2og+M+6h9lgUSPp9v+P1UeYYYl52B
+         2CVtCR9G6SQ2ZygIhEYWHpDFOajjFq+J8gJCkZvmkCAS9M8LL3BUVhCtc4pypD0UikqJ
+         CmNjbYB8KRvFaUAi+uwd1kkpgTPyseHXQQULqlT0WXuIq/e/lpudEGy3PpidBOJ7SKqX
+         fOECFMwXh4rUF974TMGLix/c+b34FysEqWxX/932ujuwcM4hcHf0fcs1lzbY+H3rC3y5
+         0gIw==
+X-Forwarded-Encrypted: i=1; AJvYcCW3CeIQ8/fROq6Yiq/yQWl8s9lFZOD+5MWICVTEykibTEnCAzY4JcbrVoSIK08hXEnUSc5ll9PyqII=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzzi5ILLWzeEDfZuH3bbQjZcHtDxff0c9sZ+JkMZATt12v1uFU0
+	8MP3uss/aWEdKWRlD9kNTswfhe3ntWk/z8O/1xx8x15C7vdHp0qResva
+X-Gm-Gg: ASbGnctFxYK8Se2/2EzF3YeVXA9Wfxs53iRGHT9f7zaGsR6si9eOQh/FTWDhFrABeq+
+	MVtduSo8AjUYn8xyo84nOl2QWrrikPP/uqHBZQFxkBn76iqTKi2nivwkRp89Oz1MWVF2bhah/tp
+	vUouSz9f8OrGavZUxa0BxliS2s+w6rymxmar+9NFVmktJuXkLZlKPVhp/nEhRlsyPZjhCDDqxSj
+	TjJVd3hg8K7Wd7retiZA+SCV5ye9dgDg2wci3gcWLDWm+iJwnJDCY2LVmLippVQMAXgdQnV8Meb
+	pgC6eZnq7wxuGVdcGeNFm8eVvp0pNmQBRHAOLvfO9rp7Q+e4Oh+6BXd0MtRZtXc1rMJGR2SpEQ8
+	iXPmVlRJ8J30PhH5QrwNAXlZM1NWQkaV3tj3GiafX0HwTZZCPs3RU/8Ata3Ur8Z8f+BGvaZWH9R
+	y5dKx0N+OdxpRrIDTaDu+UJSF3/hj7hWfEDc3VRbuPgLssqZtNB+F6GD/DrH1hrHGEB+M=
+X-Google-Smtp-Source: AGHT+IFOk4Dc71dAU1PFak6lwxd8NQT+2eJebIKCLnu747O0fz8ysrn20pLcynZiSjtb/k5bFDX7Ag==
+X-Received: by 2002:aa7:d4ce:0:b0:640:931e:ccac with SMTP id 4fb4d7f45d1cf-64539658323mr16418976a12.7.1764172544022;
+        Wed, 26 Nov 2025 07:55:44 -0800 (PST)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:123e:4501:1025:ba00:55dc:4ccc])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6453633fe28sm18380759a12.0.2025.11.26.07.55.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 07:55:43 -0800 (PST)
+Date: Wed, 26 Nov 2025 16:55:41 +0100
+From: Jorge Marques <gastmaier@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 9/9] iio: adc: ad4062: Add GPIO Controller support
+Message-ID: <rk4hmupbrb5ugxft6upj7ru43x3z7ybrobax45rorpwbcwleh6@vzxrr3m7r6ep>
+References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
+ <20251124-staging-ad4062-v2-9-a375609afbb7@analog.com>
+ <aSQ2JUN05vmMQC1I@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5631
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AM4PEPF00027A67.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	dd8fcdb7-599e-4bd4-ddca-08de2d01a339
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|82310400026|14060799003|4022899009|35042699022|36860700013|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?qkBjJMAssJDRS++3lvlX8iU1soZZcn4SD+Ud+rUh2NXK4O5f5xlXa4Srht/N?=
- =?us-ascii?Q?3OnOnZaLley1IsNYgT9ZA0smvXYa6O6KyGAUoYPliftxD3/9YDzZPRD6CIHy?=
- =?us-ascii?Q?PiLVQiFIedNYcVbBgxCTNCJmScyO1UKgue069o75G1acsaq3Pv+vi8aImFXU?=
- =?us-ascii?Q?WG5GgAnr7y5+HfBmkMQ7WhvLwhcLd5cW/i1oF4+q079s7YlHAgjYVW7cku0y?=
- =?us-ascii?Q?dKUnCEo6JFf8cTktfdHQXaUCooepVWPJh2Miwe0e9QQ9rMpooCWalAyGezod?=
- =?us-ascii?Q?nIBUyox9xKqzcb6TTzOXKH6fYe/Exe1I5gI4Kq8kAKSXsdfRHZW17+h+Ge3X?=
- =?us-ascii?Q?Pg4FN1gSeadQ/gvuZ+OKI0pSo+51GjCIrYs1nOk98spfHEdxVaSsM8LZBsjC?=
- =?us-ascii?Q?RyDTMcCE86Jx2P8aMOnN4AaLKbYwsudnbXUnok+He+U6Nzj1mEk1068u8XkU?=
- =?us-ascii?Q?K5gbHYs6BWjcp35CaXv6LBPIpa8TVtasnFxlKcJqjHwU8zLv4SRIVZ2owgyA?=
- =?us-ascii?Q?YrOIVIAqKZzxs7nVTZDtv/7YN5kj+1K/rvWYP/knJ/JsOHr2NWcbm9L17Vi7?=
- =?us-ascii?Q?L4XoKZpqpZwvsTfg8BLw29ohAXwbpeRXZ/xxwc/oUWxRv/Uetv2VnqCMKRbp?=
- =?us-ascii?Q?jhtg0fUy2OqSg5/8Cu+gBDQ4qC9ZgIkn3ar4vhsqCoYOYtO2mon4LSWSmIwA?=
- =?us-ascii?Q?UjqveBdqvmsO6+SU0exkEgd1dC3Cm6EB8FdnKuFO2cl1i5k4GOcl+RyPY7Lg?=
- =?us-ascii?Q?xuoyo/rSxJdwM0OQ18HFqYiqPoobF96fhjwj+Jh6LQ1q5OO+ejUCqCbW2y6v?=
- =?us-ascii?Q?wDQHLSqZLIxLIl0hNy05TpJwTKMQRBocpYDUeJ4J1pzwb1O8uB1O8ODhI6/T?=
- =?us-ascii?Q?SXG3NCvCZ0DF50U0uLVRP5eKE0DN0eeB29al++1PAVqp2k/TK6p9lo+wWh+K?=
- =?us-ascii?Q?BUv8/AkfdJ8Hg3towV4qJbA8BtgmK1Azrqc1UyJN8vj6FxBzFYh31xDcHM1D?=
- =?us-ascii?Q?CwE0BVkLaqRZNBOMFoluRRLS/CYJFPayDflhZUmOGERE/AAp+hE+thN1W5zM?=
- =?us-ascii?Q?FexKQsPGUcUNz+aIQ2umvs3vbS6mA+d+F9r0Qj1r9wJtnnVasMS99FH5HYNj?=
- =?us-ascii?Q?rgQgGZutag/cg03niygItabL7TSLrc2WTQ1SaoEjjG/gj2I+AYvlbzs1SWs0?=
- =?us-ascii?Q?ZxIEoQhrVJbKGh/vWWAuSSQJTTil+461kSi6f4DvgDK2MheVLY0LCx1X1mKC?=
- =?us-ascii?Q?UZl1rYnjn/yn2mW+KN3rcin6HHAhBSwxJEbsZFR2D4poJTjEiNw6zf5YlmiR?=
- =?us-ascii?Q?mOshf4D19qC0zSopmEztTDAiiZ0g0tyWRZHjOvCmO12UPNgaAgkubsLyw6wT?=
- =?us-ascii?Q?Q4FD8mpW2BxN/ITX93AINpYKCzqwtDDaluLq0n8D+eE4x4Fg0kLYGmnO1ZHs?=
- =?us-ascii?Q?uhmH9ibaYtoo8kuLUO0Q8Ty6bAN3CGJtq8oH14voa+uM35kAW5QBT4ITv+KI?=
- =?us-ascii?Q?qq8lGZy0g7ff+jkTkYdCANPUerJD368xKL9uQP4xGggDNNbR0DjKICG8yTCR?=
- =?us-ascii?Q?J/vxibosiUyi9nAL4YQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(14060799003)(4022899009)(35042699022)(36860700013)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 15:37:33.4773
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd22cd3c-d706-40e6-4350-08de2d01b7d8
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM4PEPF00027A67.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB5915
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aSQ2JUN05vmMQC1I@smile.fi.intel.com>
 
-> On 26/11/2025 2:44 pm, Leo Yan wrote:
-> > On Wed, Nov 26, 2025 at 02:20:14PM +0000, Mike Leach wrote:
-> >
-> > [...]
-> >
-> >>>>      * - timestamp
-> >>>> -     - Session local version of the system wide setting:
-> :ref:`ETMv4_MODE_TIMESTAMP
-> >>>> -       <coresight-timestamp>`
-> >>>> +     - Controls generation and interval of timestamps.
-> >>>> +
-> >>>> +       0 =3D off, 1 =3D minimum interval .. 15 =3D maximum interval=
-.
-> >>>> +
-> >>>> +       Values 1 - 14 use a counter that decrements every cycle to g=
-enerate a
-> >>>> +       timestamp on underflow. The reload value for the counter is =
-2 ^
-> (interval
-> >>>> +       - 1). If the value is 1 then the reload value is 1, if the v=
-alue is 11
-> >>>> +       then the reload value is 1024 etc.
-> >>>> +
-> >>>> +       Setting the maximum interval (15) will disable the counter g=
-enerated
-> >>>> +       timestamps, freeing the counter resource, leaving only ones =
-emitted
-> when
-> >>>> +       a SYNC packet is generated. The sync interval is controlled =
-with
-> >>>> +       TRCSYNCPR.PERIOD which is every 4096 bytes of trace by defau=
-lt.
-> >>>> +
-> >>
-> >> What is the default value?
-> >
-> >  From driver's pespective, the default value is 0 (disabled).  We do
-> > set default values in perf:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tre
-> > e/tools/perf/arch/arm/util/cs-etm.c#n444
-> >
-> > IIUC, the default value would be the same with or without this series.
-> >
-> >> As far as I recall when this command line parameter was a bool then:
-> >> perf -e cs_etm/timestamp/ <program>
-> >> is sufficient to turn on timestamping.
-> >
-> > Hmm... with the latest perf, we must assign value to `timestamp`,
-> > otherwise perf will report error:
-> >
-> >    # /mnt/build/perf record -e cs_etm/timestamp/ -C 0 -- taskset -c 0 l=
-s
-> >    event syntax error: 'cs_etm/timestamp/'
-> >                         \___ Bad event or PMU
-> >
-> >    Unable to find PMU or event on a PMU of 'cs_etm'
-> >
-> >    event syntax error: 'cs_etm/timestamp/'
-> >                         \___ no value assigned for term
-> >
-> >    event syntax error: 'cs_etm/timestamp/'
-> >                         \___ no value assigned for term
-> >    Run 'perf list' for a list of valid events
-> >
-> >
->=20
-> That's unfortunate and not what I expected. And I don't think it makes se=
-nse to
-> remove that validation from Perf. The test uses "timestamp=3D1"
-> so I didn't notice.
->=20
-> Can we accept that people are most likely using the defaults so timestamp=
-s are
-> already on and they wouldn't be using it? The only real use case of that =
-at the
-> moment is to do timestamp=3D0 and that doesn't fail.
->=20
-> Although it's not the default for per-thread mode and I did find the Open=
-CSD
-> HOWTO.md uses it as an example. timestamps make less sense in per-thread
-> mode as you don't need to correlate between CPUs or watch for context
-> switches.
+On Mon, Nov 24, 2025 at 12:40:37PM +0200, Andy Shevchenko wrote:
+> On Mon, Nov 24, 2025 at 10:18:08AM +0100, Jorge Marques wrote:
+> > When gp0 or gp1 is not taken as an interrupt, expose them as gpo if
+Hi Andy,
+> 
+> GPO
+Ack.
+> 
+> > gpio-contoller is set in the devicetree.
+> 
+> Why can't gpio-regmap be used?
+> 
+Because the device register values (0x5, 0x6) does not fit the gpio-regmap.
+It writes the mask for high and 0 for low.
+But low is 01[01] and
+    high   01[10]
 
-Timestamps have a more specialised use in per-thread mode, they are
-as you say less essential for switching in the right context to decode
-the trace, and less relevant to BOLT/AutoFDO style usage where the
-trace is collapsed into a heat-map profile.
+A different series would need to extend the gpio-regmap ops, but if you
+implement your custom reg read/write, then you save at most ~5 lines...
+I will add that to the commit message.
+> ...
+> 
+> > +static int ad4062_gpio_get(struct gpio_chip *gc, unsigned int offset)
+> > +{
+> > +	struct ad4062_state *st = gpiochip_get_data(gc);
+> > +	unsigned int reg_val;
+> > +	int ret;
+> > +
+> > +	ret = regmap_read(st->regmap, AD4062_REG_GP_CONF, &reg_val);
+> > +	if (ret)
+> > +		return 0;
+Should have been
+  		return ret;
+> 
+> > +	if (st->gpo_irq[offset])
+> > +		return -ENODEV;
+> 
+> Consider using valid_mask instead (.init_valid_mask() callback).
+> Hmm... And it seems it's in place. I didn't get what is here then and
+> why we need to do it after accessing the HW? If there are side-effects
+> they must be described.
+> 
+True, this is not necessary the valid mask does the same.
+> > +	if (offset)
+> > +		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_1, reg_val);
+> > +	else
+> > +		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_0, reg_val);
+> > +
+> > +	return reg_val == AD4062_GP_STATIC_HIGH ? 1 : 0;
+> 
+> 	return !!(reg_val == AD4062_GP_STATIC_HIGH);
+> 
+> also will work.
+>
+ 	return reg_val == AD4062_GP_STATIC_HIGH;
+> > +}
+> 
+> > +static int ad4062_gpio_init_valid_mask(struct gpio_chip *gc,
+> > +				       unsigned long *valid_mask,
+> > +				       unsigned int ngpios)
+> > +{
+> > +	struct ad4062_state *st = gpiochip_get_data(gc);
+> > +
+> > +	bitmap_zero(valid_mask, ngpios);
+> > +
+> > +	if (!st->gpo_irq[0])
+> > +		set_bit(0, valid_mask);
+> > +	if (!st->gpo_irq[1])
+> > +		set_bit(1, valid_mask);
+> 
+> Why atomic bit set:s?
+> 
+Not needed, will use
 
-But trace can also be used to get a detailed timeline of CPU activity -
-a non-invasive timeline that can trace even through interrupt-disabled
-kernel code. And for that, having a global constant-frequency timebase
-becomes more useful, both in its own right, and to line up traces
-from each CPU with other CPUs and system-level traces.
-It's also the only way we have to indirectly observe CPU frequency
-adjustments. (Intel's Processor Trace, which is generally similar to
-ETM/ETE, has specific packets that trace CPU frequency changes.)
+	if (!st->gpo_irq[0])
+		*valid_mask |= BIT(0);
+	if (!st->gpo_irq[1])
+		*valid_mask |= BIT(1);
 
-Al
+> 
+> > +	return 0;
+> > +}
+> > +
+> > +static int ad4062_gpio_init(struct ad4062_state *st)
+> > +{
+> > +	struct device *dev = &st->i3cdev->dev;
+> > +	struct gpio_chip *gc;
+> > +	u8 val, mask;
+> > +	int ret;
+> 
+> > +	if ((st->gpo_irq[0] && st->gpo_irq[1]) ||
+> > +	    !device_property_read_bool(dev, "gpio-controller"))
+> > +		return 0;
+> 
+> Do you need this? valid_mask should take care of this.
+> 
+True, this is not necessary.
+> > +	gc = devm_kzalloc(dev, sizeof(*gc), GFP_KERNEL);
+> > +	if (!gc)
+> > +		return -ENOMEM;
+> > +
+> > +	val = 0;
+> > +	mask = 0;
+> > +	if (!st->gpo_irq[0]) {
+> > +		mask |= AD4062_REG_GP_CONF_MODE_MSK_0;
+> > +		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_0, AD4062_GP_STATIC_LOW);
+> > +	}
+> > +	if (!st->gpo_irq[1]) {
+> > +		mask |= AD4062_REG_GP_CONF_MODE_MSK_1;
+> > +		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_1, AD4062_GP_STATIC_LOW);
+> > +	}
+> > +
+> > +	ret = regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
+> > +				 mask, val);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = devm_add_action_or_reset(dev, ad4062_gpio_disable, st);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	gc->parent = dev;
+> > +	gc->label = st->chip->name;
+> > +	gc->owner = THIS_MODULE;
+> > +	gc->base = -1;
+> > +	gc->ngpio = 2;
+> > +	gc->init_valid_mask = ad4062_gpio_init_valid_mask;
+> > +	gc->get_direction = ad4062_gpio_get_direction;
+> > +	gc->set = ad4062_gpio_set;
+> > +	gc->get = ad4062_gpio_get;
+> > +	gc->can_sleep = true;
+> > +
+> > +	ret = devm_gpiochip_add_data(dev, gc, st);
+> > +	if (ret)
+> > +		return dev_err_probe(dev, ret, "Unable to register GPIO chip\n");
+> > +
+> > +	return 0;
+> > +}
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
 
-
-> I suppose we need to choose what's worse, breaking some subset of Perf
-> commands in a slightly annoying way or having two separate options to con=
-trol
-> timestamps that you have to use together. I think it's 50/50, maybe with =
-the
-> breakage being the slightly better option.
->=20
->=20
-> >> This is worth mentioning so users can correctly assess what happens
-> >> for any existing scripts they might have.
-> >>
-> >> Based on this then the same command must set the timestamp to 1 -
-> >> which will have the same effect as before as we do not want to break
-> >> existing behaviour.
-> >>
-> >> Mike
-> >>
-> >>
-> >>>>      * - cc_threshold
-> >>>>        - Cycle count threshold value. If nothing is provided here or=
- the provided
-> value is 0, then the
-> >>>>          default value i.e 0x100 will be used. If provided value is
-> >>>> less than minimum cycles threshold
-> >>>>
-> >>>> --
-> >>>> 2.34.1
-> >>>>
-> >>
-> >>
-> >>
-> >> --
-> >> Mike Leach
-> >> Principal Engineer, ARM Ltd.
-> >> Manchester Design Centre. UK
->=20
-> _______________________________________________
-> CoreSight mailing list -- coresight@lists.linaro.org To unsubscribe send =
-an email to
-> coresight-leave@lists.linaro.org
+Best regards,
+Jorge
