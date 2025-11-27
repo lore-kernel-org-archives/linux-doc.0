@@ -1,80 +1,40 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6099B24BD1A
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 13:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7A7257830;
+	Thu, 27 Nov 2025 13:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764249141; cv=none; b=dXkj5yRx+c04gGU/aarohScWGfmW671X5d6aK0lnKG/YvfvHuJ9HR+cx7QV0QO++J7YyvUQCRkGh1kkIH1iOW1J340xIFayryX1LhdpVlipP7g0fk7WJwL5SyQsEMk/z5IG4YGM6s7+sil27+O21fFI71DYQhoqXAK8XIvSqy6A=
+	t=1764249898; cv=none; b=HupOVs7jo73JTkUTI22vd93NaPVarmXc9XJeFXa6Mt2CGTyX6SCaVV66Er9Gsg7JKjnDvY5IbJyZDE1Hg/OfPfSqzwYp/q+pETZQwiHtiraVHIyMvvmvj89T5ffHaVtDuG18PJVIdOoJlp4lgvOSgcPnFPo1rOQZFZT9cmavsfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764249141; c=relaxed/simple;
-	bh=k/wtGNkoBswZG5c+ttQTy9CE/ckOgp8Wd5qCrYhXrj0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qAB++hrX+X/4WfKYBDBm8PUzsmQJl/32UNx7fMFNRIZZ15wvYjcDi5K52Tb2OvQNS79gZXeDheq3i5Nujgs0Z3CAwZtaOH5odTvTPHGopsFDoau6358ViStdmGyq1yGeryq7pD2TnKjE+vSihwGtRFstRgM7CzRfDajmPWpCZvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q7LZT069; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KqxWqbxC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iwwxgqLh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sEtM4pKd; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1764249898; c=relaxed/simple;
+	bh=T22MT9sNX0B7VhOc3iByahuQoPBWnd3sIX3AcLzNiq4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=B9fDSMKl3JgcaSzu9KaP3ibMe3crkPAWNnvsEWSezPiyXgnudjFDR4VG8gU+nOdYiHnOevmK5zvcpw9twHP0X60pD+YaxmKT1mmXlvPvAbue5zeqnuAlfZc8lb+Lc8M1ZPgmUC/xiCXRkv2m37aQTDFEfwOgsM3ALDGkzuOncj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=YL5fV4xE; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q7LZT069";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KqxWqbxC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iwwxgqLh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sEtM4pKd"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7F222336F2;
-	Thu, 27 Nov 2025 13:12:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764249137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P8UOz1lx4bQABnsPJotRzictXM7dsqgfz1cF/UHESVg=;
-	b=Q7LZT069FGyDoauMgZjTpX8sfA0cmHnyhroJrgnuIMgAqej0qJ0QcmTT0uTZYWQDT5rj/K
-	1osMPlbrxbqvRnErpCN3fRop7u871wW9q6XO0t0nfKA6z17NrJZqZEVoQWp+zVoyOcTDAL
-	3yiS+DqdppC1LpqoH6kJ2BDgraETCeE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764249137;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P8UOz1lx4bQABnsPJotRzictXM7dsqgfz1cF/UHESVg=;
-	b=KqxWqbxC3GMWFx+kNR0xS0/5PUETZtYhGNkDMkvUq8sJH5JzzIJ2noF8Abm6rKMstgm0YX
-	TQCBAQBS19K/D9BQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764249136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P8UOz1lx4bQABnsPJotRzictXM7dsqgfz1cF/UHESVg=;
-	b=iwwxgqLhraQyZbIG2ojZtyTwjTMPJrNHf/cJSiCsF3PeF5J4lFZ1owgZUY1/9kQN5EwLEi
-	UHnbwUKh+4XUC9UuKyiGMz1XMZHjmdV5PqHZ/I1SZbsaeHbDLaUA6YOtXmxxvZDriCz3tN
-	i82P0paxlmFoRxCNDp2L8OKm1aNS5MM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764249136;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P8UOz1lx4bQABnsPJotRzictXM7dsqgfz1cF/UHESVg=;
-	b=sEtM4pKdE4gTvSNTpa3lJ+45lyyhG2KI9X/2BVsaIUCBIKdmzX3/5fKEf/I/Pg5azosv2B
-	hCF9MEtAQJOHqoBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3CD163EA63;
-	Thu, 27 Nov 2025 13:12:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PqFPDjBOKGl3PgAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 27 Nov 2025 13:12:16 +0000
-Message-ID: <bd570dbc-2844-4720-8a19-a9d508a1e365@suse.de>
-Date: Thu, 27 Nov 2025 14:12:15 +0100
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="YL5fV4xE"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Cr+5Rr5BPGPR1wepA4s78G0eot3R+UDHLBx6NzzwIjI=;
+	b=YL5fV4xE2L/eeoILrrBxV1N7dJlTDocQg0tVtTBqhVHiGJrFZMev0VDQVSkZDLhAl5URyZjV6
+	VQCw6nI6aUOb4X9C0BIMdUaw/4AdNcInkYZSSv1Kdl5IBbQh+bdShVt+y1tS1SvduD4FKY51aMv
+	3Z8zAxjGW7zojq71QEmAais=
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dHHDQ5hXhzKm4J;
+	Thu, 27 Nov 2025 21:23:02 +0800 (CST)
+Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1009E1401F4;
+	Thu, 27 Nov 2025 21:24:52 +0800 (CST)
+Received: from [10.67.120.103] (10.67.120.103) by
+ kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Thu, 27 Nov 2025 21:24:51 +0800
+Message-ID: <694b6f79-8306-46fb-9f4b-c30afd114210@huawei.com>
+Date: Thu, 27 Nov 2025 21:24:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,77 +42,207 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/6] net/handshake: Support KeyUpdate message types
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20251112042720.3695972-1-alistair.francis@wdc.com>
- <20251112042720.3695972-5-alistair.francis@wdc.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251112042720.3695972-5-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+Subject: Re: [PATCH v2 3/5] KVM: arm64: Add support for FEAT_HDBSS
+To: Marc Zyngier <maz@kernel.org>, Tian Zheng <zhengtian10@huawei.com>
+CC: <oliver.upton@linux.dev>, <catalin.marinas@arm.com>, <corbet@lwn.net>,
+	<pbonzini@redhat.com>, <will@kernel.org>, <linux-kernel@vger.kernel.org>,
+	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <yezhenyu2@huawei.com>,
+	<xiexiangyou@huawei.com>, <zhengchuan@huawei.com>, <joey.gouly@arm.com>,
+	<kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<suzuki.poulose@arm.com>
+References: <20251121092342.3393318-1-zhengtian10@huawei.com>
+ <20251121092342.3393318-4-zhengtian10@huawei.com>
+ <86tsymqjwb.wl-maz@kernel.org>
+From: Tian Zheng <zhengtian10@huawei.com>
+In-Reply-To: <86tsymqjwb.wl-maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemr100010.china.huawei.com (7.202.195.125)
 
-On 11/12/25 05:27, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> When reporting the msg-type to userspace let's also support reporting
-> KeyUpdate events. This supports reporting a client/server event and if
-> the other side requested a KeyUpdateRequest.
-> 
-> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
-> v5:
->   - Drop clientkeyupdaterequest and serverkeyupdaterequest
-> v4:
->   - Don't overload existing functions, instead create new ones
-> v3:
->   - Fixup yamllint and kernel-doc failures
-> 
->   Documentation/netlink/specs/handshake.yaml | 16 ++++-
->   drivers/nvme/host/tcp.c                    | 15 +++-
->   drivers/nvme/target/tcp.c                  | 10 ++-
->   include/net/handshake.h                    |  6 ++
->   include/uapi/linux/handshake.h             | 11 +++
->   net/handshake/tlshd.c                      | 83 +++++++++++++++++++++-
->   6 files changed, 133 insertions(+), 8 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Cheers,
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+On 2025/11/22 21:25, Marc Zyngier wrote:
+> On Fri, 21 Nov 2025 09:23:40 +0000,
+> Tian Zheng <zhengtian10@huawei.com> wrote:
+>>
+>> From: eillon <yezhenyu2@huawei.com>
+>>
+>> Armv9.5 introduces the Hardware Dirty Bit State Structure (HDBSS) feature,
+>> indicated by ID_AA64MMFR1_EL1.HAFDBS == 0b0100.
+>>
+>> Add the Kconfig for FEAT_HDBSS and support detecting and enabling the
+>> feature. A CPU capability is added to notify the user of the feature.
+>>
+>> Add KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl and basic framework for
+>> ARM64 HDBSS support. Since the HDBSS buffer size is configurable and
+>> cannot be determined at KVM initialization, an IOCTL interface is
+>> required.
+>>
+>> Actually exposing the new capability to user space happens in a later
+>> patch.
+>>
+>> Signed-off-by: eillon <yezhenyu2@huawei.com>
+>> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
+>> ---
+>>   arch/arm64/Kconfig                  | 14 ++++++++++++++
+>>   arch/arm64/include/asm/cpucaps.h    |  2 ++
+>>   arch/arm64/include/asm/cpufeature.h |  5 +++++
+>>   arch/arm64/include/asm/kvm_host.h   |  4 ++++
+>>   arch/arm64/include/asm/sysreg.h     | 12 ++++++++++++
+>>   arch/arm64/kernel/cpufeature.c      |  9 +++++++++
+>>   arch/arm64/tools/cpucaps            |  1 +
+>>   include/uapi/linux/kvm.h            |  1 +
+>>   tools/include/uapi/linux/kvm.h      |  1 +
+>>   9 files changed, 49 insertions(+)
+>>
+>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+>> index 6663ffd23f25..1edf75888a09 100644
+>> --- a/arch/arm64/Kconfig
+>> +++ b/arch/arm64/Kconfig
+>> @@ -2201,6 +2201,20 @@ config ARM64_GCS
+>>
+>>   endmenu # "ARMv9.4 architectural features"
+>>
+>> +menu "ARMv9.5 architectural features"
+>> +
+>> +config ARM64_HDBSS
+>> +	bool "Enable support for Hardware Dirty state tracking Structure (HDBSS)"
+>> +	help
+>> +	  Hardware Dirty state tracking Structure(HDBSS) enhances tracking
+>> +	  translation table descriptors' dirty state to reduce the cost of
+>> +	  surveying for dirtied granules.
+>> +
+>> +	  The feature introduces new assembly registers (HDBSSBR_EL2 and
+>> +	  HDBSSPROD_EL2), which are accessed via generated register accessors.
+> 
+> This last but means nothing to most people.
+> 
+> But more importantly, I really don't want to see this as a config
+> option. KVM comes with "battery included", and all features should be
+> available at all times.
+HDBSS is only designed for KVM, and I agree that it shouldn't be
+controlled by a config option. I will remove it.
+
+By the way, I would like to ask for your advice. I have been a bit
+confused about when exactly it is necessary to add a config option in
+Kconfig for a feature.
+> 
+>> +
+>> +endmenu # "ARMv9.5 architectural features"
+>> +
+>>   config ARM64_SVE
+>>   	bool "ARM Scalable Vector Extension support"
+>>   	default y
+>> diff --git a/arch/arm64/include/asm/cpucaps.h b/arch/arm64/include/asm/cpucaps.h
+>> index 9d769291a306..5e5a26f28dec 100644
+>> --- a/arch/arm64/include/asm/cpucaps.h
+>> +++ b/arch/arm64/include/asm/cpucaps.h
+>> @@ -48,6 +48,8 @@ cpucap_is_possible(const unsigned int cap)
+>>   		return IS_ENABLED(CONFIG_ARM64_GCS);
+>>   	case ARM64_HAFT:
+>>   		return IS_ENABLED(CONFIG_ARM64_HAFT);
+>> +	case ARM64_HAS_HDBSS:
+>> +		return IS_ENABLED(CONFIG_ARM64_HDBSS);
+>>   	case ARM64_UNMAP_KERNEL_AT_EL0:
+>>   		return IS_ENABLED(CONFIG_UNMAP_KERNEL_AT_EL0);
+>>   	case ARM64_WORKAROUND_843419:
+>> diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+>> index e223cbf350e4..b231415a2b76 100644
+>> --- a/arch/arm64/include/asm/cpufeature.h
+>> +++ b/arch/arm64/include/asm/cpufeature.h
+>> @@ -856,6 +856,11 @@ static inline bool system_supports_haft(void)
+>>   	return cpus_have_final_cap(ARM64_HAFT);
+>>   }
+>>
+>> +static inline bool system_supports_hdbss(void)
+>> +{
+>> +	return cpus_have_final_cap(ARM64_HAS_HDBSS);
+>> +}
+>> +
+>>   static __always_inline bool system_supports_mpam(void)
+>>   {
+>>   	return alternative_has_cap_unlikely(ARM64_MPAM);
+>> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+>> index 64302c438355..d962932f0e5f 100644
+>> --- a/arch/arm64/include/asm/kvm_host.h
+>> +++ b/arch/arm64/include/asm/kvm_host.h
+>> @@ -60,6 +60,10 @@
+>>
+>>   #define KVM_HAVE_MMU_RWLOCK
+>>
+>> +/* HDBSS entry field definitions */
+>> +#define HDBSS_ENTRY_VALID BIT(0)
+>> +#define HDBSS_ENTRY_IPA GENMASK_ULL(55, 12)
+>> +
+> 
+> None of this is used here. Move it to the patch where it belongs.
+I will move HDBSS_ENTRY_VALID and HDBSS_ENTRY_IPA to next patch.
+> 
+>>   /*
+>>    * Mode of operation configurable with kvm-arm.mode early param.
+>>    * See Documentation/admin-guide/kernel-parameters.txt for more information.
+>> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+>> index c231d2a3e515..3511edea1fbc 100644
+>> --- a/arch/arm64/include/asm/sysreg.h
+>> +++ b/arch/arm64/include/asm/sysreg.h
+>> @@ -1129,6 +1129,18 @@
+>>   #define gicr_insn(insn)			read_sysreg_s(GICV5_OP_GICR_##insn)
+>>   #define gic_insn(v, insn)		write_sysreg_s(v, GICV5_OP_GIC_##insn)
+>>
+>> +/*
+>> + * Definitions for the HDBSS feature
+>> + */
+>> +#define HDBSS_MAX_SIZE		HDBSSBR_EL2_SZ_2MB
+>> +
+>> +#define HDBSSBR_EL2(baddr, sz)	(((baddr) & GENMASK(55, 12 + sz)) | \
+>> +				 FIELD_PREP(HDBSSBR_EL2_SZ_MASK, sz))
+>> +#define HDBSSBR_BADDR(br)	((br) & GENMASK(55, (12 + HDBSSBR_SZ(br))))
+>> +#define HDBSSBR_SZ(br)		FIELD_GET(HDBSSBR_EL2_SZ_MASK, br)
+> 
+> This is a bit backward. When would you need to read-back and mask
+> random bits off the register?
+I will delete the definitions of HDBSSBR_BADDR and HDBSSBR_SZ.
+> 
+>> +
+>> +#define HDBSSPROD_IDX(prod)	FIELD_GET(HDBSSPROD_EL2_INDEX_MASK, prod)
+>> +
+> 
+> As previously said, these definitions don't serve any purpose here,
+> and would be better in the following patch.
+I will move all the HDBSS definitions to the next patch where they
+are actually used.
+> 
+>>   #define ARM64_FEATURE_FIELD_BITS	4
+>>
+>>   #ifdef __ASSEMBLY__
+>> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+>> index e25b0f84a22d..f39973b68bdb 100644
+>> --- a/arch/arm64/kernel/cpufeature.c
+>> +++ b/arch/arm64/kernel/cpufeature.c
+>> @@ -2710,6 +2710,15 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+>>   		.matches = has_cpuid_feature,
+>>   		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HAFT)
+>>   	},
+>> +#endif
+>> +#ifdef CONFIG_ARM64_HDBSS
+>> +	{
+>> +		.desc = "Hardware Dirty state tracking structure (HDBSS)",
+>> +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+>> +		.capability = ARM64_HAS_HDBSS,
+>> +		.matches = has_cpuid_feature,
+>> +		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HDBSS)
+>> +	},
+> 
+> I think this is one of the features we should restrict to VHE. I don't
+> imagine pKVM ever making use of this, and no non-VHE HW will ever
+> build this.
+> 
+> Thanks,
+I will add a new helper function that checks both VHE and the CPUID
+feature, and use it in place of has_cpuid_feature in the .matches field.
+> 
+> 	M.
+> 
+
