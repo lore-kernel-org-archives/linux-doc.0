@@ -1,65 +1,65 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4927033555C
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 15:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87882335561
+	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 15:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764256576; cv=none; b=qGR/6NV93GAVaJLd7i1A4BlfsiSEDHf6XgJld3A3hwHdKBLxK7fxF+S2E5bgN3vO35LVPC3pRE/6yfAOEfUwEHRVrCEdocOUrQ9SV43AKe5Om3AfvdVZIz1sj1OSlPmPFR/nYFgOsj/X2eZ5UXq2aCsaDQ334Mb70qmnvUCWcX8=
+	t=1764256578; cv=none; b=P1xB/k0Jeq4nolfzw7TiyuIPxEl5x1oGQHyYZkVznSsYokuLw3Pygm/Khh5TL3M4slMZdLVyfU26NbdTOotWsQpIG8dahFPi7/FmjwfwNzCqouqD6lHimVeCUvbL1er9rIr7xOFx2idauq3mhKhxHIfHTp0L/04CX7V5tJdi7kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764256576; c=relaxed/simple;
-	bh=AWNkJhYiQSm4mam341FTvs4ijlPyZ/HkhkFPW01BwM4=;
+	s=arc-20240116; t=1764256578; c=relaxed/simple;
+	bh=bINqTcYBnpMiA8eKDMIKE2dhokiXwzdMKmoocGJBxvY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y7l0oxiHXn3Xq19YG34JzbSLN71wTvXXOfRXsyzbMQ3vWQ5Epxd/oh54Zp1ED533fVfNZhj6sRWfw25aSm/0n1rT/MqFKlM29qxfxGRZYRLwF36GMes1lAZcee55KnN6937jwsQDbJfi7dSIx3r7NPsgLQDZESeBHMPTCU1tO0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FVycLHNY; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=o2SyKCpY91Q1RQ7s69KoyKFpZ0QjJGb9KO+8e3fXfoPTF7aF9laNPawMKlVIsfFFNLdEodsChydCEmXHYX7RzUd0/L8eXPXj2Rke2qijuL2vlS/Oeg/lSqkAkjpqcm1yfXpRvRLVR5BhHv5FPc7T4n9Wx7yF1vpyXCDKaK+iRU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NRaokIn7; arc=none smtp.client-ip=74.125.82.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FVycLHNY"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-29555b384acso11614245ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 07:16:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NRaokIn7"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-11b6bc976d6so2442752c88.0
+        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 07:16:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764256573; x=1764861373; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1764256574; x=1764861374; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FcvRrylsz8y/5M5RPfO3ICptGfI1sgN5Cn3FTmzcBZk=;
-        b=FVycLHNY8xRLuaaqDGGv2Zi6HW4Sbk2XMb2nyCU+fm3HVx/BU3jtVS1KLz9TfScYPQ
-         sypqfTAhS/chWJ5wOnypgCO1e7inaDPeuJAT7RM4s/UyL8pmlwNwOI91RxPJ8inoT1JT
-         c+ash+G1ygFct5VJFbeI8BxQ43oXFc1qj7O4FQ9251vledxaVMmdGJKVKwTeFuYx7yWz
-         Wnf4wCBgwnckcapMPU9KrB+3lN49FGHa+plG+kuHe0CXGOWWAhEMMxI9y/I0gcySYHhc
-         Wwpl9ZHUctweesnOjP31F6ml9VbDiIgM+wlL4JW+dV41ZblrWSu5FMitKKgRtXwFD3+l
-         n/uA==
+        bh=ETZ2FAyy2v+yzymxyjsZFHVgNltj1Cngjn3GryQ+ajM=;
+        b=NRaokIn7ngDIF/Wq3uU5gX7ZGkhdP4fKPoY5KUPMrGq2ekYvdAipM4EkKy2GGJXoOc
+         ENH0l4UIxN+JW2h9EKY2KA97FbaTslYFtyxT54c0oRua8lTNbkhfyap0IFMwGchgQq5Q
+         7nniLWnbSUGvpWIPs12LGsxPjcbFn2XhR2/KSmBjBHDlZi34SDGdENunj+7oGUtvngi6
+         aLsIm6/yQ2MxM9hF1TgQMYw6Ye/lrwRvMnN0m51nhJsO0Lodr9BY5mzyAyhfxoGIShqn
+         f6pDQdBZzkU19Pd95cODQL/9COtoLbyOzqayujt3qfo/otTij1lJVwm0zxhsyXVYwSn2
+         QLVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764256573; x=1764861373;
+        d=1e100.net; s=20230601; t=1764256574; x=1764861374;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=FcvRrylsz8y/5M5RPfO3ICptGfI1sgN5Cn3FTmzcBZk=;
-        b=KDmH5kUf1H+J6gIED/34wfPnRu97buppt1aDgB2X6djVji1dCRKfnjN63Z4Ppptl3s
-         Sx24TadXTMkFBvhY9zZH9Xaji3XIK9ssXe8sxWcAZPUSuTXJuhH8F1nMb63iawBRXBQe
-         8PZnAEzFNkzx3YYltcFuJTkbSGz5lbAV+dSrWBHokhrxDzOsAgcYxFQn5Poxsk+tL7ss
-         q0uB4MFm1j778IizRz/WBkGWDohd2FakrKUv9nFjf0LFNX8u9Hv2fTPdoDgqNvtclf6z
-         9r2Y87jmafBlpHg/+/AQ2758qpprmDSUlC/vBB+jnsgiwJQEroLiBWM86sUtYRGjhkND
-         A0ww==
-X-Forwarded-Encrypted: i=1; AJvYcCWN7BUewhYCs5SZeMAWsKWsx2AclrLDPWofAovJvACHoZY/GToNN7K7aV0RRQ/XDdO/TJ/8fph8qbg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGyz/0qpXwNoGYa8Ec/cX3H5psWumBEMVWpDohzx1ELDjzmqLI
-	GgGd22986HUopqfal91z784diQix67zevho+8fgRlULXjlHyksAOCCdK
-X-Gm-Gg: ASbGncvSSsnKVcWYHhu6YpZ3nxYwntoTanPgkLqHgGJiUYZlgnErMNdbCmGrDBkp3rx
-	N52y1XtS7+YLh7eepUXy5E780pJ1jMpIebaWiSxERWOwmDCRaYCwfqIaz5R3g3Hrm6BkWMsuY+J
-	uealKvaQGfvuWcNpQMCV+OXKTKXZkomtR+gwyePcraWH3FrSUIL+17QeuLUh9Mt2Z+VBzjZ6U12
-	9SuaqhmsLE8fAp9SZm6GqOV0CCAhU2NkIFFKsOcuV5LCClx7LfYmBFA9OVAoRX384vMxoMesItb
-	69CZKB6P7llQlnl00t4hRhTP+7t7S6dyHzXdP4+rRYr2ot0NzP9wTbZLKM2AZoZ7U+kUEcZavQq
-	YsOMLxRvR4VY5wftDyPXaR88luLHFD08F4tLN4VZHNQ7AZv9Hr7bq2MchTBckFD44KLhS9pgtVI
-	l4ISfuSaIp2cDCVLBjDhR9/kfA8goPH21ieHIoCSytO5a+5vRa9DaqjZQ3IDifj/quxzWUIFamu
-	ZeqEg==
-X-Google-Smtp-Source: AGHT+IFbJD3W3TjYyXHCl+ByEYJBSKUdDrYv+tvqK3Wa3b2N0x9VAT+uS1rulv/XgzRItzjJ76/F1g==
-X-Received: by 2002:a05:7022:438e:b0:11a:51a8:eca with SMTP id a92af1059eb24-11c9d812055mr17767856c88.18.1764256572310;
-        Thu, 27 Nov 2025 07:16:12 -0800 (PST)
+        bh=ETZ2FAyy2v+yzymxyjsZFHVgNltj1Cngjn3GryQ+ajM=;
+        b=vKoQkcYOnQFwIIqZegyy9bYP43FPDWvJCCirWiNqJQ8hNAMTlIwnyys2V+pDQGhnHX
+         UERHgTYZwgmliqz72LkR+/XtroHdQXZtfpqM/wjVYaOYuRNNkjKwf1LcknpwZxENfu0+
+         zRchIzElBcwIxo35hwzkdNrU+SSsER6fOKdw0hXk+wYtg9iC0SrXXSBMvH/ptEdSWo58
+         Hxy0bxZK/Y7WTooYYJ02AgmXNrqsEZvmw5rCVrx/KUCEi7sJQPy2pmSP0AnZZfEn/Qug
+         A0pezcDL5CjHkfhWKVQ4WiOhPkQbf1v74mwQPXSVcW84u7iL2rxOjUlxxN84huA1hm4C
+         GobA==
+X-Forwarded-Encrypted: i=1; AJvYcCWqTxOdV5ojd6akAbKXXhD3rqZKY/81obU2WyPvEOQwK2wR+RubtZee3KtdclSJaeers0m7RUXkv+g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4FeORACB5INT7dZEdq7YU4qWuVPaeY74D8FVPxn7DAnr2e/KX
+	DK4iOmkhUkoOf4N9gziQLnZnuklu6MJ80JFAADhH1oAoxEXxQEB2ugWD
+X-Gm-Gg: ASbGnctWi5fkCJAiFNn1AEjAptiHK7lFCboHKSmnptenqUNqY/Q6U3w0VFwUOEOYwuA
+	G4eHfX86dbQ+EFFMVTr87Kx/ghyOtI601GhF/xh1tMlwGM95Tx9dqKnja0Q0PYDdbXIxO5GYU5R
+	VUpPf2hVCsic3dBTNszpUfnIIiUFp1DHMi6giGoXDype8ljN1ovgmRo008QkMUu3GxjZ8VplmHP
+	gfkA6xOwB4HEMpnEOeJBhGkNFhdHzwUGi02FbEZ4tt1WbDnF5cStoE9agxX+LhSq5mjCgIsnWoU
+	GDzIeTCKuKAHOK1vgeg+soNQDlJCkPwHCdpew7IOE4g2u1hVW8EaV5Od1P3nrrwhZan4kP8W9aG
+	EiafDRkwoDf+HdCvDYDgjYtiH7vSCy55ZQ9XgRsPXZDiJTxtZ1c6qV7yslFIrpewRvRMsOVxxB8
+	WADf+y0EQxtWjdKIWahptu5tmsBFIKrft8/J7GFW6aYwFjKtRD8ncM+5ak7H+G1Ib5hRq78H0mM
+	SaG2Q==
+X-Google-Smtp-Source: AGHT+IGlpWqE7oPwKq75vqcftF4x8/6mDQeigZg3ZJsYLEPNDxvoQXhlWwCU0z4N+O8Cg3rUkKIDyg==
+X-Received: by 2002:a05:7022:ba1:b0:11b:9386:a38e with SMTP id a92af1059eb24-11c94b908a4mr18238628c88.21.1764256573509;
+        Thu, 27 Nov 2025 07:16:13 -0800 (PST)
 Received: from bliptop (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11dcb067088sm5099656c88.10.2025.11.27.07.16.11
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11dcb067088sm5099656c88.10.2025.11.27.07.16.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 07:16:12 -0800 (PST)
+        Thu, 27 Nov 2025 07:16:13 -0800 (PST)
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	Armin Wolf <W_Armin@gmx.de>,
@@ -77,9 +77,9 @@ Cc: Mario Limonciello <superm1@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-acpi@vger.kernel.org
-Subject: [PATCH v4 1/3] acpi: platform_profile - Add max-power profile option
-Date: Thu, 27 Nov 2025 07:16:03 -0800
-Message-ID: <20251127151605.1018026-2-derekjohn.clark@gmail.com>
+Subject: [PATCH v4 2/3] platform/x86: lenovo-wmi-gamezone Use max-power rather than balanced-performance
+Date: Thu, 27 Nov 2025 07:16:04 -0800
+Message-ID: <20251127151605.1018026-3-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251127151605.1018026-1-derekjohn.clark@gmail.com>
 References: <20251127151605.1018026-1-derekjohn.clark@gmail.com>
@@ -91,76 +91,122 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some devices, namely Lenovo Legion devices, have an "extreme" mode where
-power draw is at the maximum limit of the cooling hardware. Add a new
-"max-power" platform profile to properly reflect this operating mode.
+When developing the gamezone WMI drivers, "extreme mode" was matched to
+the performance platform profile and "performance" was matched to the
+balanced-performance platform profile, but only if extreme mode was
+fully supported; otherwise performance was matched to the "performance"
+platform profile. This has led to quite a bit of confusion with users
+not understanding why the LED color indicating the platform profile
+doesn't match their expectations.
 
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+To solve this, replace the confusing convention by using the new
+max-power profile to represent "extreme mode". While add it, update the
+documentation to reflect the expected LED colors in each operating mode.
+
 Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
----
- Documentation/ABI/testing/sysfs-class-platform-profile | 2 ++
- drivers/acpi/platform_profile.c                        | 7 +++++--
- include/linux/platform_profile.h                       | 1 +
- 3 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-platform-profile b/Documentation/ABI/testing/sysfs-class-platform-profile
-index dc72adfb830a..fcab26894ec3 100644
---- a/Documentation/ABI/testing/sysfs-class-platform-profile
-+++ b/Documentation/ABI/testing/sysfs-class-platform-profile
-@@ -23,6 +23,8 @@ Description:	This file contains a space-separated list of profiles supported
- 					power consumption with a slight bias
- 					towards performance
- 		performance		High performance operation
-+		max-power		Higher performance operation that may exceed
-+					internal battery draw limits when on AC power
- 		custom			Driver defined custom profile
- 		====================	========================================
+driver
+---
+ .../wmi/devices/lenovo-wmi-gamezone.rst       | 31 +++++++++----------
+ drivers/platform/x86/lenovo/wmi-gamezone.c    | 18 +++--------
+ 2 files changed, 20 insertions(+), 29 deletions(-)
+
+diff --git a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+index 997263e51a7d..1769ad3d57b9 100644
+--- a/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
++++ b/Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+@@ -19,27 +19,26 @@ WMI GUID ``887B54E3-DDDC-4B2C-8B88-68A26A8835D0``
+ The Gamezone Data WMI interface provides platform-profile and fan curve
+ settings for devices that fall under the "Gaming Series" of Lenovo devices.
+ It uses a notifier chain to inform other Lenovo WMI interface drivers of the
+-current platform profile when it changes.
++current platform profile when it changes. The currently set profile can be
++determined by the user on the hardware by looking at the color of the power
++or profile LED, depending on the model.
  
-diff --git a/drivers/acpi/platform_profile.c b/drivers/acpi/platform_profile.c
-index b43f4459a4f6..ea04a8c69215 100644
---- a/drivers/acpi/platform_profile.c
-+++ b/drivers/acpi/platform_profile.c
-@@ -37,6 +37,7 @@ static const char * const profile_names[] = {
- 	[PLATFORM_PROFILE_BALANCED] = "balanced",
- 	[PLATFORM_PROFILE_BALANCED_PERFORMANCE] = "balanced-performance",
- 	[PLATFORM_PROFILE_PERFORMANCE] = "performance",
-+	[PLATFORM_PROFILE_MAX_POWER] = "max-power",
- 	[PLATFORM_PROFILE_CUSTOM] = "custom",
- };
- static_assert(ARRAY_SIZE(profile_names) == PLATFORM_PROFILE_LAST);
-@@ -506,7 +507,8 @@ int platform_profile_cycle(void)
- 		if (err)
- 			return err;
+ The following platform profiles are supported:
+- - low-power
+- - balanced
+- - balanced-performance
+- - performance
+- - custom
++ - low-power, blue LED
++ - balanced, white LED
++ - performance, red LED
++ - max-power, purple LED
++ - custom, purple LED
  
--		if (profile == PLATFORM_PROFILE_CUSTOM ||
-+		if (profile == PLATFORM_PROFILE_MAX_POWER ||
-+		    profile == PLATFORM_PROFILE_CUSTOM ||
- 		    profile == PLATFORM_PROFILE_LAST)
- 			return -EINVAL;
+-Balanced-Performance
++Extreme Mode
+ ~~~~~~~~~~~~~~~~~~~~
+ Some newer Lenovo "Gaming Series" laptops have an "Extreme Mode" profile
+-enabled in their BIOS. For these devices, the performance platform profile
+-corresponds to the BIOS Extreme Mode, while the balanced-performance
+-platform profile corresponds to the BIOS Performance mode. For legacy
+-devices, the performance platform profile will correspond with the BIOS
+-Performance mode.
+-
+-For some newer devices the "Extreme Mode" profile is incomplete in the BIOS
+-and setting it will cause undefined behavior. A BIOS bug quirk table is
+-provided to ensure these devices cannot set "Extreme Mode" from the driver.
++enabled in their BIOS. When available, this mode will be represented by the
++max-power platform profile.
++
++For a subset of these devices the "Extreme Mode" profile is incomplete in
++the BIOS and setting it will cause undefined behavior. A BIOS bug quirk table
++is provided to ensure these devices cannot set "Extreme Mode" from the driver.
  
-@@ -515,7 +517,8 @@ int platform_profile_cycle(void)
- 		if (err)
- 			return err;
+ Custom Profile
+ ~~~~~~~~~~~~~~
+diff --git a/drivers/platform/x86/lenovo/wmi-gamezone.c b/drivers/platform/x86/lenovo/wmi-gamezone.c
+index 0eb7fe8222f4..df475e52f79d 100644
+--- a/drivers/platform/x86/lenovo/wmi-gamezone.c
++++ b/drivers/platform/x86/lenovo/wmi-gamezone.c
+@@ -171,14 +171,10 @@ static int lwmi_gz_profile_get(struct device *dev,
+ 		*profile = PLATFORM_PROFILE_BALANCED;
+ 		break;
+ 	case LWMI_GZ_THERMAL_MODE_PERFORMANCE:
+-		if (priv->extreme_supported) {
+-			*profile = PLATFORM_PROFILE_BALANCED_PERFORMANCE;
+-			break;
+-		}
+ 		*profile = PLATFORM_PROFILE_PERFORMANCE;
+ 		break;
+ 	case LWMI_GZ_THERMAL_MODE_EXTREME:
+-		*profile = PLATFORM_PROFILE_PERFORMANCE;
++		*profile = PLATFORM_PROFILE_MAX_POWER;
+ 		break;
+ 	case LWMI_GZ_THERMAL_MODE_CUSTOM:
+ 		*profile = PLATFORM_PROFILE_CUSTOM;
+@@ -218,16 +214,12 @@ static int lwmi_gz_profile_set(struct device *dev,
+ 	case PLATFORM_PROFILE_BALANCED:
+ 		mode = LWMI_GZ_THERMAL_MODE_BALANCED;
+ 		break;
+-	case PLATFORM_PROFILE_BALANCED_PERFORMANCE:
+-		mode = LWMI_GZ_THERMAL_MODE_PERFORMANCE;
+-		break;
+ 	case PLATFORM_PROFILE_PERFORMANCE:
+-		if (priv->extreme_supported) {
+-			mode = LWMI_GZ_THERMAL_MODE_EXTREME;
+-			break;
+-		}
+ 		mode = LWMI_GZ_THERMAL_MODE_PERFORMANCE;
+ 		break;
++	case PLATFORM_PROFILE_MAX_POWER:
++		mode = LWMI_GZ_THERMAL_MODE_EXTREME;
++		break;
+ 	case PLATFORM_PROFILE_CUSTOM:
+ 		mode = LWMI_GZ_THERMAL_MODE_CUSTOM;
+ 		break;
+@@ -338,7 +330,7 @@ static int lwmi_gz_platform_profile_probe(void *drvdata, unsigned long *choices)
  
--		/* never iterate into a custom if all drivers supported it */
-+		/* never iterate into a custom or max power if all drivers supported it */
-+		clear_bit(PLATFORM_PROFILE_MAX_POWER, data.aggregate);
- 		clear_bit(PLATFORM_PROFILE_CUSTOM, data.aggregate);
+ 	priv->extreme_supported = lwmi_gz_extreme_supported(profile_support_ver);
+ 	if (priv->extreme_supported)
+-		set_bit(PLATFORM_PROFILE_BALANCED_PERFORMANCE, choices);
++		set_bit(PLATFORM_PROFILE_MAX_POWER, choices);
  
- 		next = find_next_bit_wrap(data.aggregate,
-diff --git a/include/linux/platform_profile.h b/include/linux/platform_profile.h
-index a299225ab92e..855b28340e95 100644
---- a/include/linux/platform_profile.h
-+++ b/include/linux/platform_profile.h
-@@ -24,6 +24,7 @@ enum platform_profile_option {
- 	PLATFORM_PROFILE_BALANCED,
- 	PLATFORM_PROFILE_BALANCED_PERFORMANCE,
- 	PLATFORM_PROFILE_PERFORMANCE,
-+	PLATFORM_PROFILE_MAX_POWER,
- 	PLATFORM_PROFILE_CUSTOM,
- 	PLATFORM_PROFILE_LAST, /*must always be last */
- };
+ 	return 0;
+ }
 -- 
 2.51.2
 
