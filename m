@@ -1,135 +1,152 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8191EFF8D
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 08:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A81527F727;
+	Thu, 27 Nov 2025 08:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764231863; cv=none; b=b9+JZKdlqxp3TtGKrmwNWciMxszJyKvbT4p04ibsXLw0J8cCwx/DjLHP6yM3dWYNuAyUteBMGxsgQ7PHTXMG8uotoVPL9cbHETknqq6tY+y3Xfb8UDf9r6MiBj/mxBaEs1T4P/N226FtFxZL0e/vfOyr5iW5et+z8hgKyjvU2XQ=
+	t=1764232261; cv=none; b=DJe2MOpeiN1gcjuAL9VzIFqTkTNk9z1DzxuIksdSoChpmBhui7BqhuL8Ie4FPMDophBuF4wFNVndH+4obnx06wFQc98t8bS3Xuv7pPwEdETBUXNs2mpt8iJeYglWQqn/yCz9Vkl7Be5DjPJw4A4PmljkUMXFSl4RqnhC336ooaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764231863; c=relaxed/simple;
-	bh=dnQSLqfX0zGavAQraHWIWlX32/F12Xpr0C/EiVk4nsw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kK9UOvK0rSY0O3KHmnycjyhK7I4xj9wLARz2DBcDzGTU4q7DG1NxTSuHdi4ulgzIyITsmHr9jkk1nn6V7BIp9gWW4FYrDwMt12QO4e323r4GVRPaPHAPh83mwV00hpDhhJ+89HkPCB9iZiZehvkbh0m2NZMp18Zqrb8C/x4eVRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MpIEBJUg; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=luWlKylI; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1764232261; c=relaxed/simple;
+	bh=Hw3rpyjIs5q2m80mOXGPqWY/yNyazFCdz/ULb4y5eE8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=MiLNRry6sAKj1bIxSZMgZ4eeUJKGzakNaDvioPEJurihRmohOz7obeeG2MCpsNV7odKkDv+J9dPhdCJA97gTMaJ0EerF2BRlNifCO5par3/uz77guq4+Lj1IBiQ+Mje/BJ7auuWI8wtKDhkEyY25esD7RyjGyuDl0962FA/BVr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hy3wn4pI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MpIEBJUg";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="luWlKylI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764231860;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oh9tIL6xVGFoq0wzCwtNFdsSlYysZSo3HuXen4Lsmus=;
-	b=MpIEBJUgKfQD2DI2xYJD2RWHV7z6y5Emfmxq4J95IgsDanjA0uBZWOOybVzrSFJznEStRk
-	n7PB60b2r5HaROKDAMY64RAdCCmyhWbq24oQmPf+qudX/NqTep5E39R4GoE8ywAs4L14u1
-	rS4az/PXmplA0PhmXZ3il5OY1zsS4iM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-20-JGk0JnSXOnqQ--a9N3nEtg-1; Thu, 27 Nov 2025 03:24:18 -0500
-X-MC-Unique: JGk0JnSXOnqQ--a9N3nEtg-1
-X-Mimecast-MFC-AGG-ID: JGk0JnSXOnqQ--a9N3nEtg_1764231857
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-42b570776a3so309474f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 00:24:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1764231857; x=1764836657; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oh9tIL6xVGFoq0wzCwtNFdsSlYysZSo3HuXen4Lsmus=;
-        b=luWlKylI9WKW20ZhASOshpvYV2cKLc8t1JeULR9wQI5CUiECbdudj7w4V7k1DjeaEC
-         tFhar3iIcPCxIRD7Ny2MYWsirPqw6xIK3o6OlWMOjAxogCeCLH8Nl/MEh7dBJuAXS5U/
-         ywwDitcAP2kncJhMUWTi8BdSNxW1EISNmEnHhj08pUXr3IZ/w5d8s3WpK69t9x0f3fwi
-         yE7blrcgiQRDqStGFr/TRS0laSWAJrDn1xz+CPF4UIorI6nBObQ3FWQgFnvuvrJNplRo
-         H27yiN6ObtNqUDyPtvXfzRUNLatk4+/8M6GVmGAbj+U+IYsFVLNcyD+0/3bu4xUo5sed
-         oS6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764231857; x=1764836657;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oh9tIL6xVGFoq0wzCwtNFdsSlYysZSo3HuXen4Lsmus=;
-        b=URFCTGkJUDzwkBzqUuDa412sa2KhVRG0qkXHnIBtHwv2EAZMCsJhL2oxTQQ3KUID6u
-         3UBIpICg5gzj4ocU0O/MnP19BnA0NAh2dIFSER3QQcUlHBkjf/MNLWgqiuf9+mXh3Z7b
-         B4xInOZhiVFAWVaaVTkay1vsk8opI6Ij12IMd/Y4k7zwxPRv4fAa7iBwmY5d/g4NzHef
-         v0pT2R8PduApw6L+pGfrzwr9/q3u/YQCss3XxXSS6NOh7kphzHW1QtCcEbDU7IZaNeoq
-         dnRugZaYEwt3mYxj2kBkuC6Ns2YPUrRIWaObAOfvZIH3MdO9Ji6ZoIlYXdneXGbGZ9zZ
-         oMIA==
-X-Forwarded-Encrypted: i=1; AJvYcCW3+C+QUvGO83Rg0kRjjQVQ0IVN6HbaZzrrmXsmrTfoI49RFMiXbwJhTf41nn136km94wgw6uYalQA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBZ3CRi7c5JR8LJgVjyJuEZyoRmfPRj5qPFXmpGheEhehcsczO
-	45Yf8u79frKc1f8+KgxQptgWLVFkTZksT59J8p6uPqLDUZx+BabtK8QjODZu4cQeCWZlPYjfQq8
-	OYfvMAbwjOPqa9uewG6or7q1fUFAhTVmO+9IRiSgBPXbmDDmCICy9C9rerO9I8g==
-X-Gm-Gg: ASbGncteceFZU3NalrhOpHshMPkMGvjeHTadL5Xl0diqSRA/koQJCLRBhL0hfUZm1Pk
-	wkQDGUB5p58beSU2nM86LEumLXXZa8n6BMf80Fp/ZZZcL9s/1opNbJP8xKH5HYHMf1Nm2AiQRlK
-	7HX+9CEmQKIv4KEn8+PQn/9uk3tpprmMQGD6ApYZZ2E2DLBRrwOlZwaj94dbv3K/HI98z9YH5u6
-	+BlJqaKv/PLBg3MViUsdrCyYmXwjH5/VQqwAi1NSuZMtUNdlaQbdnIwpLXwxZB5Tin1Po4kU4EN
-	xFouAiy8Xa7doTbW1ifuSj4B0Jkf6wMHKifGY0PbYViv0s8df5GYf2ZBtZ/M3Pk0FHJaX3VA7I0
-	dwNdd9tqKHmq21w==
-X-Received: by 2002:a05:6000:601:b0:42b:4219:269 with SMTP id ffacd0b85a97d-42cc1d0cf4amr22389292f8f.41.1764231856903;
-        Thu, 27 Nov 2025 00:24:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGAOizx0rWwPYosIKVqg+o1AjQe2dAxiQeCyuhdEDI/AZ/ORHXtIrnYoAB5FiiWxhXFn0qHKA==
-X-Received: by 2002:a05:6000:601:b0:42b:4219:269 with SMTP id ffacd0b85a97d-42cc1d0cf4amr22389246f8f.41.1764231856484;
-        Thu, 27 Nov 2025 00:24:16 -0800 (PST)
-Received: from [192.168.88.32] ([212.105.155.212])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1ca1a6fesm2280190f8f.20.2025.11.27.00.24.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Nov 2025 00:24:16 -0800 (PST)
-Message-ID: <8e3dc2e5-cf5f-483a-9119-8b1ac958e425@redhat.com>
-Date: Thu, 27 Nov 2025 09:24:14 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hy3wn4pI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04754C113D0;
+	Thu, 27 Nov 2025 08:31:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764232261;
+	bh=Hw3rpyjIs5q2m80mOXGPqWY/yNyazFCdz/ULb4y5eE8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=hy3wn4pIoJRjHnOpzYoslQqGho8xq0Z9RYYtBYN7+2U4rmY+LWmfVf7QjhnFLU0Mv
+	 QEDP6WThf6o5Q53L7jnlkEhpeYY48FZgFAt4ZuoKkLd8wdchRSGHF/bEWGOnGHYBBT
+	 FZ8xnt7DwDjwc8HuYv/UEioqMANa99L8z5klJ7kXO7QR9T1fKlc6GLVl08SqYFo5Lg
+	 RaTsa2Z8ARaoDxgBAXOvRTYOfrpd22vE5+10ciSjeYr16NsDt0ap+IHbaB2YhBdfA5
+	 1+WTRwoaMqCQwXUJPSdoVgujZPRxtohgp1aIb2iJZsXu+3yC16Y7s79nq8I1k8N+Fe
+	 fXBu/eflyUvhQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADE9D380CFC2;
+	Thu, 27 Nov 2025 08:30:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 01/12] ipvlan: Support MACNAT mode
-To: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>, netdev@vger.kernel.org,
- Simon Horman <horms@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Xiao Liang <shaw.leon@gmail.com>,
- Guillaume Nault <gnault@redhat.com>, Eric Dumazet <edumazet@google.com>,
- Julian Vetter <julian@outer-limits.org>, Stanislav Fomichev
- <sdf@fomichev.me>, Etienne Champetier <champetier.etienne@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: andrey.bokhanko@huawei.com, "David S. Miller" <davem@davemloft.net>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>
-References: <20251120174949.3827500-1-skorodumov.dmitry@huawei.com>
- <20251120174949.3827500-2-skorodumov.dmitry@huawei.com>
- <3d5ef6e5-cfcc-4994-a8d2-857821b79ed8@redhat.com>
- <25e65682-9df4-4257-94cd-be97f0a49867@huawei.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <25e65682-9df4-4257-94cd-be97f0a49867@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v23 00/28] riscv control-flow integrity for usermode
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <176423222224.2476283.17736612090314280039.git-patchwork-notify@kernel.org>
+Date: Thu, 27 Nov 2025 08:30:22 +0000
+References: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
+In-Reply-To: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ akpm@linux-foundation.org, Liam.Howlett@oracle.com, vbabka@suse.cz,
+ lorenzo.stoakes@oracle.com, paul.walmsley@sifive.com, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, conor@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ arnd@arndb.de, brauner@kernel.org, peterz@infradead.org, oleg@redhat.com,
+ ebiederm@xmission.com, kees@kernel.org, corbet@lwn.net, shuah@kernel.org,
+ jannh@google.com, conor+dt@kernel.org, ojeda@kernel.org,
+ alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+ bjorn3_gh@protonmail.com, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, lossin@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com,
+ andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
+ atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
+ alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org,
+ rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
+ zong.li@sifive.com, david@redhat.com, cmirabil@redhat.com
 
-On 11/27/25 9:13 AM, Dmitry Skorodumov wrote:
-> On 25.11.2025 15:58, Paolo Abeni wrote:
->> On 11/20/25 6:49 PM, Dmitry Skorodumov wrote:
->>> @@ -597,6 +690,9 @@ int ipvlan_link_new(struct net_device *dev, struct rtnl_newlink_params *params,
->>>  	port = ipvlan_port_get_rtnl(phy_dev);
->>>  	ipvlan->port = port;
->>>  
->>> +	if (data && data[IFLA_IPVLAN_FLAGS])
->>> +		port->flags = nla_get_u16(data[IFLA_IPVLAN_FLAGS]);
->> This looks like a change of behavior that could potentially break the
->> user-space.
->> Hm... What am I missing? The intention was to know "mode" a bit earlier
-> and generate MAC as random for macnat-mode.. it's supposed to be just
-> a simple line move a bit upper in the code
+Hello:
 
-I misread the code, and I wrongly thought that the new location was
-before `port->flags` initialization, but it's not the case.
+This series was applied to riscv/linux.git (for-next)
+by Paul Walmsley <pjw@kernel.org>:
 
-The comment removal did not help. Please preserve the comment above the
-relevant statement/assignment.
+On Wed, 12 Nov 2025 16:42:58 -0800 you wrote:
+> v23:
+> fixed some of the "CHECK:" reported on checkpatch --strict.
+> Accepted Joel's suggestion for kselftest's Makefile.
+> CONFIG_RISCV_USER_CFI is enabled when zicfiss, zicfilp and fcf-protection
+> are all present in toolchain
+> 
+> v22: fixing build error due to -march=zicfiss being picked in gcc-13 and above
+> but not actually doing any codegen or recognizing instruction for zicfiss.
+> Change in v22 makes dependence on `-fcf-protection=full` compiler flag to
+> ensure that toolchain has support and then only CONFIG_RISCV_USER_CFI will be
+> visible in menuconfig.
+> 
+> [...]
 
-Thanks,
+Here is the summary with links:
+  - [v23,01/28] mm: VM_SHADOW_STACK definition for riscv
+    https://git.kernel.org/riscv/c/ae8460ac9db2
+  - [v23,02/28] dt-bindings: riscv: zicfilp and zicfiss in dt-bindings (extensions.yaml)
+    https://git.kernel.org/riscv/c/b32ccfc268db
+  - [v23,03/28] riscv: zicfiss / zicfilp enumeration
+    https://git.kernel.org/riscv/c/55a811a7f304
+  - [v23,04/28] riscv: zicfiss / zicfilp extension csr and bit definitions
+    https://git.kernel.org/riscv/c/92c96b16548e
+  - [v23,05/28] riscv: usercfi state for task and save/restore of CSR_SSP on trap entry/exit
+    https://git.kernel.org/riscv/c/7720cdd21962
+  - [v23,06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ | VM_WRITE
+    https://git.kernel.org/riscv/c/e60eb198b13d
+  - [v23,07/28] riscv/mm: manufacture shadow stack pte
+    https://git.kernel.org/riscv/c/f8fcb7b5bf30
+  - [v23,08/28] riscv/mm: teach pte_mkwrite to manufacture shadow stack PTEs
+    https://git.kernel.org/riscv/c/0276a5ea1105
+  - [v23,09/28] riscv/mm: write protect and shadow stack
+    https://git.kernel.org/riscv/c/ae615676bc37
+  - [v23,10/28] riscv/mm: Implement map_shadow_stack() syscall
+    https://git.kernel.org/riscv/c/d291fd38f841
+  - [v23,11/28] riscv/shstk: If needed allocate a new shadow stack on clone
+    https://git.kernel.org/riscv/c/d209ea2fa4bb
+  - [v23,12/28] riscv: Implements arch agnostic shadow stack prctls
+    https://git.kernel.org/riscv/c/8b49f512abc2
+  - [v23,13/28] prctl: arch-agnostic prctl for indirect branch tracking
+    https://git.kernel.org/riscv/c/3363a8d1044e
+  - [v23,14/28] riscv: Implements arch agnostic indirect branch tracking prctls
+    https://git.kernel.org/riscv/c/0177891ccdb7
+  - [v23,15/28] riscv/traps: Introduce software check exception and uprobe handling
+    https://git.kernel.org/riscv/c/6f71171a7448
+  - [v23,16/28] riscv: signal: abstract header saving for setup_sigcontext
+    (no matching commit)
+  - [v23,17/28] riscv/signal: save and restore of shadow stack for signal
+    https://git.kernel.org/riscv/c/4f9da7ad3478
+  - [v23,18/28] riscv/kernel: update __show_regs to print shadow stack register
+    https://git.kernel.org/riscv/c/320c96a55d73
+  - [v23,19/28] riscv/ptrace: riscv cfi status and state via ptrace and in core files
+    https://git.kernel.org/riscv/c/7a39f89a817e
+  - [v23,20/28] riscv/hwprobe: zicfilp / zicfiss enumeration in hwprobe
+    https://git.kernel.org/riscv/c/c09b490a9267
+  - [v23,21/28] riscv: kernel command line option to opt out of user cfi
+    https://git.kernel.org/riscv/c/6e0dc40ceb45
+  - [v23,22/28] riscv: enable kernel access to shadow stack memory via FWFT sbi call
+    https://git.kernel.org/riscv/c/dfd087078357
+  - [v23,23/28] arch/riscv: compile vdso with landing pad and shadow stack note
+    https://git.kernel.org/riscv/c/2cfe57e3bd9b
+  - [v23,24/28] arch/riscv: dual vdso creation logic and select vdso based on hw
+    https://git.kernel.org/riscv/c/418316aa61e8
+  - [v23,25/28] riscv: create a config for shadow stack and landing pad instr support
+    https://git.kernel.org/riscv/c/c5f5ce714457
+  - [v23,26/28] riscv: Documentation for landing pad / indirect branch tracking
+    https://git.kernel.org/riscv/c/73d0ccec35b8
+  - [v23,27/28] riscv: Documentation for shadow stack on riscv
+    https://git.kernel.org/riscv/c/6b8214c8cbd6
+  - [v23,28/28] kselftest/riscv: kselftest for user mode cfi
+    https://git.kernel.org/riscv/c/0f226cf6026f
 
-Paolo
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
