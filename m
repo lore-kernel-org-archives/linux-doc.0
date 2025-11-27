@@ -1,297 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C1B2ECD1D
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 17:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716EF24886A;
+	Thu, 27 Nov 2025 18:19:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764265283; cv=none; b=Pq0+25ot7aRF1ByhHreZS8urv5GlQhbcbja4//QkCMjnNO5jc8kW4vhUDNXxokqrqIP9BHFR0HVwxc3+HSaZKaOAmyH0ez6cG9Zw0u93s7Ypm6flM3/0R3XMsu7K3SIiU1SymOgPh/ZkvvdYww7GVg9bk+FjEFn0EIz3DexF8pU=
+	t=1764267559; cv=none; b=QJGaOFC+cEMKKSpxqKPbuRdqMehV3+eFfYe/sxuLl4qN173MuSl7AWPfwOaDi8uDUGgei7D1WWn7XG6bGiTIaX4HQozrq5OB2m5eBDp4oQfJhYMhEJPVkCzkSmV1WKZnWH1HLiu43ZyZuJogY9OxJuubeZ0xmIisqfj/N1bQexw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764265283; c=relaxed/simple;
-	bh=YRwpnmivmIGfSil+ZD1aGlxCYo+UU/QzrOBg9t1fcoE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d+jRwnCnVVvQlhZe1OoaVm4Zj7A6H7ZP/xH3BlaFGG+WH4u331wlyZF5HL4FIGlB12XxV9xZMoyBHpuKDxxCERZYlDj2ybrdl6MbE4ExySFHIVNtCVbuGlg15fnen6yO4Dp9oIFUFp5mcY5OzCsAdfaOK39F1HEIP2dXrx3cHuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQo4zWhW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764267559; c=relaxed/simple;
+	bh=9cNwbS1AvwqYOEYG2PuxVy181ETfgtTrqfsvVp6erkc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TyQ+JfaXBtZrtMsBJD9D9YVFEuo+VMgH6C79QanEvAoq2iRe12d3P27bGdzMV3x63yh2M1Y3ILm75+OgQPBrYODfRiq89Wk6HSmTYfZY3i8erzsG0jNL/pFsxk/VCeNEfNmcJeBm8nHHYJm7qKgI0JcZA4K5lQN8Lp1DgUBDuMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dgs19kBx; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQo4zWhW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97B37C2BCB0
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 17:41:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764265282;
-	bh=YRwpnmivmIGfSil+ZD1aGlxCYo+UU/QzrOBg9t1fcoE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=GQo4zWhWFwuM7yaQm/G6MoYrO1sGCe63LiivwvpbJXTuD4bpwtx7vVrjJq/jO3yNT
-	 /glPNOmTyEyuQgFnjW09IwIDuzYIhIp82Bq5tDcMxZ2FYvQimg6WzJuHjpMmBtLdRC
-	 7UHkgkhDXiAZGbYaljkVGuyQaHao2d5pJkHVYaTTRtcd/n5x9+u6+lZm+cbLEo/yUI
-	 r91c8vZQfOXME3t0aQ3s8j0vLUmV7g0L5ZqU6BMJPCG7P1VcW7pspVtnA3oNfQZt9a
-	 wFzr4/a6G8flzMAgfLEhY9Cq1WfAqIZxQ26MOBUnGa6tT8wSG9PPUc+wOdGDq10Lp1
-	 5jvmWmWflox3A==
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7c704bf2d9eso547334a34.0
-        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 09:41:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUXOqJn9IAAHxDY6x8v+B7xtGkYwWbfAKrmO3KEzKW8RIaeShmcTkj0tFOukpIs2NzTGEab15+GRQg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMEQrDHMlOpwnnMGOc7ZQUuXer70wfYpTFlnu8x2HB5IF1CvpX
-	vLITJ3IOLOC1itysfiLbhPtweojroU+Kvjplw7fjUQ1QmSe9N0eZl/4jNUr3ezdiDIyMxpECUyN
-	RCaRmLS8UJ3finA4CIPi8nZAX4O5NOb8=
-X-Google-Smtp-Source: AGHT+IHbfQ5CxJ+BeKUIRbyKYrpAVhmzQHngDVOs0E2Nv7PPmdkB/EPrjv3dEJtB2ATSYwuHhVrLlp/6B/DbEuYhyUY=
-X-Received: by 2002:a05:6808:14d3:b0:450:d7fb:85c2 with SMTP id
- 5614622812f47-4514e6e1593mr4705868b6e.19.1764265281611; Thu, 27 Nov 2025
- 09:41:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dgs19kBx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764267558; x=1795803558;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9cNwbS1AvwqYOEYG2PuxVy181ETfgtTrqfsvVp6erkc=;
+  b=Dgs19kBxh40yCsdSNOhYlUGOiAYVb4PAIcxnxysx+hWTrCX+uZep0oNK
+   gI1I5kLVP4Lg473yDsCpikCnuTHxcnuJF4cRvK6dtwmpJ/jVQhEIrXa/t
+   5F8mIERPzenvFJUDyI+l/29hGSo22sLrYY8uccr1hmLFk6xUvwo+o8Hz3
+   QcA+/d4hJy97hIMJUE3KVdyrZZnuP0pOdGheE8aE+kPUtGFMlON24MOaQ
+   OkRHOCF7vmcOzoSCoY34+GtoAyfnVBx1WaDqumYclUui0E00ZPBPSMP7f
+   AkNshMc4vZf9Ucdx+HFFFQWZKOxS/qV67Zq2HlKTzAUfFmNone0Jur3SU
+   w==;
+X-CSE-ConnectionGUID: 0HoEGzlBTy6EIrcZExoi8A==
+X-CSE-MsgGUID: cIiK+DyJTzWKZojfjjjAsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="68910419"
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
+   d="scan'208";a="68910419"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 10:19:17 -0800
+X-CSE-ConnectionGUID: fQjdMJPjTgayXetdSqEWRg==
+X-CSE-MsgGUID: 6ojDT/R4SmKnvPotBiF8iA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
+   d="scan'208";a="198239193"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.225])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 10:19:13 -0800
+Date: Thu, 27 Nov 2025 20:19:11 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Joe Perches <joe@perches.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>
+Subject: Re: [PATCH v2 1/1] docs: Update documentation to avoid mentioning of
+ kernel.h
+Message-ID: <aSiWH1XPnlVZYLXz@smile.fi.intel.com>
+References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+ <0fe4a563da5316ef702d7c324d0820c8c2c224e7.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
- <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com> <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
-In-Reply-To: <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 27 Nov 2025 18:41:10 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0iJVV=kf-aJBx8F8dtGfaZpGVyhfi6DBWEg4j3c_nH8_A@mail.gmail.com>
-X-Gm-Features: AWmQ_bnNFzjNLr4ZD-k1rd8sHstOmmRzRHvS_v-U6yiSpHx7MBaeEIqIodGMGBQ
-Message-ID: <CAJZ5v0iJVV=kf-aJBx8F8dtGfaZpGVyhfi6DBWEg4j3c_nH8_A@mail.gmail.com>
-Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
- device of thermal zone/cooling devices
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Len Brown <lenb@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
-	ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
-	linux-pci@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0fe4a563da5316ef702d7c324d0820c8c2c224e7.camel@perches.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat, Nov 22, 2025 at 3:18=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote:
->
-> Am 21.11.25 um 21:35 schrieb Rafael J. Wysocki:
->
-> > On Thu, Nov 20, 2025 at 4:41=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wro=
-te:
-> >> Drivers registering thermal zone/cooling devices are currently unable
-> >> to tell the thermal core what parent device the new thermal zone/
-> >> cooling device should have, potentially causing issues with suspend
-> >> ordering
-> > This is one potential class of problems that may arise, but I would
-> > like to see a real example of this.
-> >
-> > As it stands today, thermal_class has no PM callbacks, so there are no
-> > callback execution ordering issues with devices in that class and what
-> > other suspend/resume ordering issues are there?
->
-> Correct, that is why i said "potentially".
->
-> >
-> > Also, the suspend and resume of thermal zones is handled via PM
-> > notifiers.  Is there a problem with this?
->
-> The problem with PM notifiers is that thermal zones stop working even bef=
-ore
-> user space is frozen. Freezing user space might take a lot of time, so ha=
-ving
-> no thermal management during this period is less than ideal.
+On Thu, Nov 27, 2025 at 09:34:51AM -0800, Joe Perches wrote:
+> On Wed, 2025-11-26 at 22:46 +0100, Andy Shevchenko wrote:
+> > For several years, and still ongoing, the kernel.h is being split
+> > to smaller and narrow headers to avoid "including everything" approach
+> > which is bad in many ways.
+> 
+> And I still think precompiled headers can be beneficial to
+> standardize using kernel.h to reduce overall compilation time.
 
-This can be addressed by doing thermal zone suspend after freezing
-tasks and before starting to suspend devices.  Accordingly, thermal
-zones could be resumed after resuming devices and before thawing
-tasks.  That should not be an overly complex change to make.
+Same Q, why don't we have just a single header? Why do we have a concept of
+(modular) headers to begin with? And Ingo's approach shows that the problem
+can be solved properly by dividing headers to be more logical smaller pieces.
+So, I have a strong disagreement for using kernel.h. At least not in this form,
+It needs to be cleaned up and some sanity given to that train wreck. When it's
+done, we can think of precompiled headers.
 
-> This problem would not occur when using dev_pm_ops, as thermal zones woul=
-d be
-> suspended after user space has been frozen successfully. Additionally, wh=
-en using
-> dev_pm_ops we can get rid of thermal_pm_suspended, as the device core alr=
-eady mandates
-> that no new devices (including thermal zones and cooling devices) be regi=
-stered during
-> a suspend/resume cycle.
->
-> Replacing the PM notifiers with dev_pm_ops would of course be a optimizat=
-ion with
-> its own patch series.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Honestly, I don't see much benefit from using dev_pm_ops for thermal
-zone devices and cooling devices.  Moreover, I actually think that
-they could be "no PM" devices that are not even put on the
-suspend-resume device list.  Technically, they are just interfaces on
-top of some other devices allowing the user space to interact with the
-latter and combining different pieces described by the platform
-firmware.  They by themselves have no PM capabilities.
 
-> >> and making it impossible for user space applications to
-> >> associate a given thermal zone device with its parent device.
-> > Why does user space need to know the parent of a given cooling device
-> > or thermal zone?
->
-> Lets say that we have two thermal zones registered by two instances of th=
-e
-> Intel Wifi driver. User space is currently unable to find out which therm=
-al zone
-> belongs to which Wifi adapter, as both thermal zones have the (nearly) sa=
-me type string ("iwlwifi[0-X]").
-
-But the "belong" part is not quite well defined here.  I think that
-what user space needs to know is what devices are located in a given
-thermal zone, isn't it?  Knowing the parent doesn't necessarily
-address this.
-
-> This problem would be solved once we populate the parent device pointer i=
-nside the thermal zone
-> device, as user space can simply look at the "device" symlink to determin=
-e the parent device behind
-> a given thermal zone device.
-
-I'm not convinced about this.
-
-> Additionally, being able to access the acpi_handle of the parent device w=
-ill be necessary for the
-> ACPI thermal zone driver to support cooling devices other than ACPI fans =
-and ACPI processors.
-
-I guess by the "parent" you mean the device represented in the ACPI
-namespace by a ThermalZone object, right?  But this is not the same as
-the "parent" in the Wifi driver context, is it?
-
-> >> This patch series aims to fix this issue by extending the functions
-> >> used to register thermal zone/cooling devices to also accept a parent
-> >> device pointer. The first six patches convert all functions used for
-> >> registering cooling devices, while the functions used for registering
-> >> thermal zone devices are converted by the remaining two patches.
-> >>
-> >> I tested this series on various devices containing (among others):
-> >> - ACPI thermal zones
-> >> - ACPI processor devices
-> >> - PCIe cooling devices
-> >> - Intel Wifi card
-> >> - Intel powerclamp
-> >> - Intel TCC cooling
-> > What exactly did you do to test it?
->
-> I tested:
-> - the thermal zone temperature readout
-> - correctness of the new sysfs links
-> - suspend/resume
->
-> I also verified that ACPI thermal zones still bind with the ACPI fans.
-
-I see, thanks.
-
-> >> I also compile-tested the remaining affected drivers, however i would
-> >> still be happy if the relevant maintainers (especially those of the
-> >> mellanox ethernet switch driver) could take a quick glance at the
-> >> code and verify that i am using the correct device as the parent
-> >> device.
-> > I think that the above paragraph is not relevant any more?
->
-> You are right, however i originally meant to CC the mellanox maintainers =
-as
-> i was a bit unsure about the changes i made to their driver. I will rewor=
-k
-> this section in the next revision and CC the mellanox maintainers.
->
-> >
-> >> This work is also necessary for extending the ACPI thermal zone driver
-> >> to support the _TZD ACPI object in the future.
-> > I'm still unsure why _TZD support requires the ability to set a
-> > thermal zone parent device.
->
-> _TZD allows the ACPI thermal zone to bind to cooling devices other than A=
-CPI fans
-> and ACPI processors, like ACPI batteries.
-
-No, it is not for cooling devices if my reading of the specification
-is correct.  It says:
-
-"_TZD (Thermal Zone Devices)
-
-This optional object evaluates to a package of device names. Each name
-corresponds to a device in the ACPI namespace that is associated with
-the thermal zone. The temperature reported by the thermal zone is
-roughly correspondent to that of each of the devices."
-
-And then
-
-"The list of devices returned by the control method need not be a
-complete and absolute list of devices affected by the thermal zone.
-However, the package should at least contain the devices that would
-uniquely identify where this thermal zone is located in the machine.
-For example, a thermal zone in a docking station should include a
-device in the docking station, a thermal zone for the CD-ROM bay,
-should include the CD-ROM."
-
-So IIUC this is a list of devices allowing the location of the thermal
-zone to be figured out.  There's nothing about cooling in this
-definition.
-
-> This however will currently not work as
-> the ACPI thermal zone driver uses the private drvdata of the cooling devi=
-ce to
-> determine if said cooling device should bind. This only works for ACPI fa=
-ns and
-> processors due to the fact that those drivers store a ACPI device pointer=
- inside
-> drvdata, something the ACPI thermal zone expects.
-
-I'm not sure I understand the above.
-
-There is a list of ACPI device handles per trip point, as returned by
-either _PSL or _ALx.  Devices whose handles are in that list will be
-bound to the thermal zone, so long as there are struct acpi_device
-objects representing them which is verified with the help of the
-devdata field in struct thermal_cooling_device.
-
-IOW, cooling device drivers that create struct thermal_cooling_device
-objects representing them are expected to set devdata in those objects
-to point to struct acpi_device objects corresponding to their ACPI
-handles, but in principle acpi_thermal_should_bind_cdev() might as
-well just use the handles themselves.  It just needs to know that
-there is a cooling driver on the other side of the ACPI handle.
-
-The point is that a cooling device to be bound to an ACPI thermal zone
-needs an ACPI handle in the first place to be listed in _PSL or _ALx.
-
-> As we cannot require all cooling devices to store an ACPI device pointer =
-inside
-> their drvdata field in order to support ACPI,
-
-Cooling devices don't store ACPI device pointers in struct
-thermal_cooling_device objects, ACPI cooling drivers do, and there are
-two reasons to do that: (1) to associate a given struct
-thermal_cooling_device with an ACPI handle and (2) to let
-acpi_thermal_should_bind_cdev() know that the cooling device is
-present and functional.
-
-This can be changed to store an ACPI handle in struct
-thermal_cooling_device and acpi_thermal_should_bind_cdev() may just
-verify that the device is there by itself.
-
-> we must use a more generic approach.
-
-I'm not sure what use case you are talking about.
-
-Surely, devices with no representation in the ACPI namespace cannot be
-bound to ACPI thermal zones.  For devices that have a representation
-in the ACPI namespace, storing an ACPI handle in devdata should not be
-a problem.
-
-> I was thinking about using the acpi_handle of the parent device instead o=
-f messing
-> with the drvdata field, but this only works if the parent device pointer =
-of the
-> cooling device is populated.
->
-> (Cooling devices without a parent device would then be ignored by the ACP=
-I thermal
-> zone driver, as such cooling devices cannot be linked to ACPI).
-
-It can be arranged this way, but what's the practical difference?
-Anyone who creates a struct thermal_cooling_device and can set its
-parent pointer to a device with an ACPI companion, may as well set its
-devdata to point to that companion directly - or to its ACPI handle if
-that's preferred.
