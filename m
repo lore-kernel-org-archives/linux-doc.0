@@ -1,183 +1,196 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126B3318152;
-	Thu, 27 Nov 2025 12:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FAA269CE1;
+	Thu, 27 Nov 2025 12:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764245508; cv=none; b=dHQ8ZfDeA4sxwgfh2JdIzUrkTG/r+cTnauR0vJITgCuErGSosklI+pMbzKncmeRDvd3wmsotmz094rqRgRAxT2o9yk0in4njwrQpraBkW8iuFUhxon//Sfmwh3Qib3xC62hW4vmUyz+VNTyLmsG4gxBcKnoLrx2ras2d2TTfGoo=
+	t=1764245622; cv=none; b=jFZy7y+tLIxtdqJGsmBR5MLd5g/1FvOg9IRdoZCvZwjxHNH49qAiPU6PjgWjIi06fnSGReu7XpliqGzNV5JBIDgSVO3TSWgxEQ/2SdneV0ObdgubjDYgquEIVnDUBP00GgmpAWWq6FWUgpaEvInD91AJIG1lBbd33yNdWmZ8QOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764245508; c=relaxed/simple;
-	bh=LXDgqcysQchAQtxKVAqF+yisHSm+vLWY9SjQmRJty18=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Cvz5BeBGIYKR2CXYu3eSYoihDpQxuzui5EHLnoQAbhyFLpud3VB3Ym4YpX4aaKeXwEEn1ZJvMy3BCbRXNFIaLM07iOamyIcEDQU86p2nuBbcOtr1KrFJCylSJjAK8T0ZPCKd30XJ5Wa6W7Hm8RdWkyBU8YHworfqDZLTqHgMjEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XUYQwiT4; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1764245622; c=relaxed/simple;
+	bh=4wfdcjLqa32wYY20jUpXr6SpqVXYg6QlXgbmRyPKHNs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=slP0MDbCCJiYLU86vpm3ybID/rQodAINwtqYuNg+nznXlybr5pKlHsBZqdHbP0cDsNR/GrtLQIumbi5QcCHxwftROIS9H8WQZmKqrh4Vgbvja4OVdh5fjfna6KUloBYIbIR9k1TT6SQkOP4Y3+aboGqsm4kmyp6snTtIZrHAE64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i7uayMwp; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XUYQwiT4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i7uayMwp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764245506; x=1795781506;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=LXDgqcysQchAQtxKVAqF+yisHSm+vLWY9SjQmRJty18=;
-  b=XUYQwiT4P/J87e6Lu3UoK46XayhegsnTIVCraivdSYjjhskvquoCDTSj
-   zagYgu+7+Q9qII21D9AJFMqPC5TdPrOA+GJ6cSSK5qbslSBqxU054P4QP
-   RfUTXkn1PfuSP3SaNtoMvbl9s5fOwTSmK/J6dpwt8xMG0gmKCBKc7FyRe
-   y267Ce6RyVPfBPXE4TdBzFmAU1mpnMt/7SDZxrOwiJknVuYL1+Qo1kHOk
-   5Hvmz2ij3B7N9YRyI+ik6RDXdg+p6eWNhbKB5jDXyQEOe6N7QO8KmcLAl
-   VXuhO5+kvi/SJmyniH8tUeYr9ZPU1SDG+7icqXuCmClsUq7ppmAxMs44H
-   Q==;
-X-CSE-ConnectionGUID: G6Zl0whlQEa+/i3U7SDDzg==
-X-CSE-MsgGUID: XF1sDFSCR4OhZ/WHacLAjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="77394340"
+  t=1764245620; x=1795781620;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4wfdcjLqa32wYY20jUpXr6SpqVXYg6QlXgbmRyPKHNs=;
+  b=i7uayMwpCJe1jtD3mMvAL2yUaBFmWQoAv75X/CnhYBbZtjxiQ1wBptP9
+   6M1EFxdUz5WVJo94o0WO9Mmzxtx/UumsFX8oJJ5JnPoqAotoAc0x9ea4L
+   MavO/7BCuuwsgWEelasdLxEp94mOYdUXTkFMpQRYRVqW7wP9i9sYTD8sR
+   6iKnQVnC8G4XmPKpq85R/3quXpsJWzpw1UMTI1XQ2d/jPDa6j9YIfb1c7
+   g+VVlv3TNFE6osGmUfqbsJSzpkZjzY7HkT1zm8TVQovkymZFJBzsuPeM2
+   mVWs0wOJ6UWmSrMs5kLyfuaOib+mbJC7K5ACXfVjBSNQSax8XWlKpgE0X
+   w==;
+X-CSE-ConnectionGUID: CXfjPvepRFa9kXILAYbc3g==
+X-CSE-MsgGUID: lo7pzuZUQFW31EwlOFth0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="83684938"
 X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
-   d="scan'208";a="77394340"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 04:11:45 -0800
-X-CSE-ConnectionGUID: iQmZRf1GSi6r28Y4bJlMNg==
-X-CSE-MsgGUID: VTDfkI1zS0642kzT7VHGiw==
+   d="scan'208";a="83684938"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 04:13:39 -0800
+X-CSE-ConnectionGUID: +5F6CXJjSyyszMrvVcgAUg==
+X-CSE-MsgGUID: LdZuhfhfQNSSajPSbYmYmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
-   d="scan'208";a="193021648"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.42])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 04:11:41 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 27 Nov 2025 14:11:36 +0200 (EET)
-To: Armin Wolf <W_Armin@gmx.de>, "Derek J. Clark" <derekjohn.clark@gmail.com>
-cc: Len Brown <lenb@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-    Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>, 
-    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, 
-    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
-    Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org, 
-    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] acpi: platform_profile - Add max-power profile
- option
-In-Reply-To: <e801bef5-158e-4422-9c23-93dc2210f734@gmx.de>
-Message-ID: <bf61e05b-74ac-28de-d8ea-4a909d6e5fb8@linux.intel.com>
-References: <20251113212639.459896-1-derekjohn.clark@gmail.com> <20251113212639.459896-2-derekjohn.clark@gmail.com> <7050cadc-9cb7-4f9b-8393-247bddb56965@gmx.de> <CFD27662-0044-4AF3-8E66-65229324CECF@gmail.com> <e801bef5-158e-4422-9c23-93dc2210f734@gmx.de>
+   d="scan'208";a="192472033"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 27 Nov 2025 04:13:36 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vOasP-000000004jp-1rzh;
+	Thu, 27 Nov 2025 12:13:33 +0000
+Date: Thu, 27 Nov 2025 20:12:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>,
+	rostedt@goodmis.org, mhiramat@kernel.org, corbet@lwn.net,
+	shuah@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mathieu.desnoyers@efficios.com,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+Subject: Re: [PATCH v4 2/3] tracing/fprobe: Support comma-separated symbols
+ and :entry/:exit
+Message-ID: <202511271925.xuaUx8bB-lkp@intel.com>
+References: <20251126184110.72241-3-seokwoo.chung130@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251126184110.72241-3-seokwoo.chung130@gmail.com>
 
-On Mon, 17 Nov 2025, Armin Wolf wrote:
+Hi Seokwoo,
 
-> Am 16.11.25 um 20:01 schrieb Derek J. Clark:
-> 
-> > On November 16, 2025 8:13:17 AM PST, Armin Wolf <W_Armin@gmx.de> wrote:
-> > > Am 13.11.25 um 22:26 schrieb Derek J. Clark:
-> > > 
-> > > > Some devices, namely Lenovo Legion devices, have an "extreme" mode where
-> > > > power draw is at the maximum limit of the cooling hardware. Add a new
-> > > > "max-power" platform profile to properly reflect this operating mode.
-> > > > 
-> > > > Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> > > > Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
-> > > > Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
-> > > > ---
-> > > >    Documentation/ABI/testing/sysfs-class-platform-profile | 2 ++
-> > > >    drivers/acpi/platform_profile.c                        | 1 +
-> > > >    include/linux/platform_profile.h                       | 1 +
-> > > >    3 files changed, 4 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/ABI/testing/sysfs-class-platform-profile
-> > > > b/Documentation/ABI/testing/sysfs-class-platform-profile
-> > > > index dc72adfb830a..fcab26894ec3 100644
-> > > > --- a/Documentation/ABI/testing/sysfs-class-platform-profile
-> > > > +++ b/Documentation/ABI/testing/sysfs-class-platform-profile
-> > > > @@ -23,6 +23,8 @@ Description:	This file contains a space-separated
-> > > > list of profiles supported
-> > > >    					power consumption with a
-> > > > slight bias
-> > > >    					towards performance
-> > > >    		performance		High performance operation
-> > > > +		max-power		Higher performance operation that may
-> > > > exceed
-> > > > +					internal battery draw limits when on
-> > > > AC power
-> > > I am not sure if it is a good idea to allow platform_profile_cycle() to
-> > > cycle into this
-> > > new max-power profile. The system could encounter a brownout if it is
-> > > currently operating
-> > > on battery power when selecting max-power.
-> > > 
-> > > Maybe we should prevent platform_profile_cylce() from selecting max-power?
-> > At least for Lenovo devices unplugging AC will automatically throttle the
-> > ppt values to roughly equivalent to performance. It will look at a different
-> > WMI data block for the values when switched, so there's no risk for cycling
-> > in this case. This seems like smart hardware design, but we've certainly
-> > seen bad hardware design so the concern is warranted. Perhaps it is worth
-> > visiting if another vendor implements it differently? That being said, what
-> > you're describing would match up with how the physical profile selection
-> > button works, so it would align with consumer expectation. I have no strong
-> > feelings either way, but I'm a little concerned about meeting the merge
-> > window as this series fixes a pretty disruptive bug affecting 6.17 users.
-> > 
-> > Regards,
-> > - Derek
-> > 
-> If the physical platform selection button does not automatically select the
-> max-power profile under Windows, then we should copy this behavior i think.
-> The changes necessary for that are fairly small, basically you only have to
-> extend the handling of PLATFORM_PROFILE_CUSTOM inside platform_profile_cycle()
-> to also include the max-power profile. So i would prefer if we modify
-> platform_profile_cycle() now has doing this later might be seen as a
-> regression.
+kernel test robot noticed the following build warnings:
 
-Derek,
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on linus/master v6.18-rc7 next-20251127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Any comments on this?
+url:    https://github.com/intel-lab-lkp/linux/commits/Seokwoo-Chung-Ryan/docs-tracing-fprobe-Document-list-filters-and-entry-exit/20251127-024245
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20251126184110.72241-3-seokwoo.chung130%40gmail.com
+patch subject: [PATCH v4 2/3] tracing/fprobe: Support comma-separated symbols and :entry/:exit
+config: x86_64-randconfig-003-20251127 (https://download.01.org/0day-ci/archive/20251127/202511271925.xuaUx8bB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511271925.xuaUx8bB-lkp@intel.com/reproduce)
 
-I'd very much prefer to take this series in this cycle but this comment 
-seems unresolved and has userspace visible impact so may bind us 
-irrevocably to certain behavior.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511271925.xuaUx8bB-lkp@intel.com/
 
---
- i.
+All warnings (new ones prefixed by >>):
 
-> 
-> Thanks,
-> Armin Wolf
-> 
-> > > Other than that:
-> > > Reviewed-by: Armin Wolf <W_Armin@gmx.de>
-> > > 
-> > > >    		custom			Driver defined custom profile
-> > > >    		====================
-> > > > ========================================
-> > > >    diff --git a/drivers/acpi/platform_profile.c
-> > > > b/drivers/acpi/platform_profile.c
-> > > > index b43f4459a4f6..aa1dce05121b 100644
-> > > > --- a/drivers/acpi/platform_profile.c
-> > > > +++ b/drivers/acpi/platform_profile.c
-> > > > @@ -37,6 +37,7 @@ static const char * const profile_names[] = {
-> > > >    	[PLATFORM_PROFILE_BALANCED] = "balanced",
-> > > >    	[PLATFORM_PROFILE_BALANCED_PERFORMANCE] =
-> > > > "balanced-performance",
-> > > >    	[PLATFORM_PROFILE_PERFORMANCE] = "performance",
-> > > > +	[PLATFORM_PROFILE_MAX_POWER] = "max-power",
-> > > >    	[PLATFORM_PROFILE_CUSTOM] = "custom",
-> > > >    };
-> > > >    static_assert(ARRAY_SIZE(profile_names) == PLATFORM_PROFILE_LAST);
-> > > > diff --git a/include/linux/platform_profile.h
-> > > > b/include/linux/platform_profile.h
-> > > > index a299225ab92e..855b28340e95 100644
-> > > > --- a/include/linux/platform_profile.h
-> > > > +++ b/include/linux/platform_profile.h
-> > > > @@ -24,6 +24,7 @@ enum platform_profile_option {
-> > > >    	PLATFORM_PROFILE_BALANCED,
-> > > >    	PLATFORM_PROFILE_BALANCED_PERFORMANCE,
-> > > >    	PLATFORM_PROFILE_PERFORMANCE,
-> > > > +	PLATFORM_PROFILE_MAX_POWER,
-> > > >    	PLATFORM_PROFILE_CUSTOM,
-> > > >    	PLATFORM_PROFILE_LAST, /*must always be last */
-> > > >    };
-> > 
-> 
+   kernel/trace/trace_fprobe.c: In function 'parse_fprobe_spec':
+   kernel/trace/trace_fprobe.c:1282:12: error: invalid storage class for function 'trace_fprobe_create_internal'
+    1282 | static int trace_fprobe_create_internal(int argc, const char *argv[],
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1513:12: error: invalid storage class for function 'trace_fprobe_create_cb'
+    1513 | static int trace_fprobe_create_cb(int argc, const char *argv[])
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1530:12: error: invalid storage class for function 'trace_fprobe_create'
+    1530 | static int trace_fprobe_create(const char *raw_command)
+         |            ^~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1535:12: error: invalid storage class for function 'trace_fprobe_release'
+    1535 | static int trace_fprobe_release(struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1545:12: error: invalid storage class for function 'trace_fprobe_show'
+    1545 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1572:12: error: invalid storage class for function 'enable_trace_fprobe'
+    1572 | static int enable_trace_fprobe(struct trace_event_call *call,
+         |            ^~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1608:12: error: invalid storage class for function 'disable_trace_fprobe'
+    1608 | static int disable_trace_fprobe(struct trace_event_call *call,
+         |            ^~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1653:12: error: invalid storage class for function 'fprobe_register'
+    1653 | static int fprobe_register(struct trace_event_call *event,
+         |            ^~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1683:19: error: invalid storage class for function 'init_fprobe_trace_early'
+    1683 | static __init int init_fprobe_trace_early(void)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/fprobe.h:6,
+                    from kernel/trace/trace_fprobe.c:8:
+   include/linux/compiler.h:286:52: error: initializer element is not constant
+     286 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |                                                    ^
+   include/linux/compiler.h:289:9: note: in expansion of macro '___ADDRESSABLE'
+     289 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^~~~~~~~~~~~~~
+   include/linux/init.h:250:9: note: in expansion of macro '__ADDRESSABLE'
+     250 |         __ADDRESSABLE(fn)
+         |         ^~~~~~~~~~~~~
+   include/linux/init.h:255:9: note: in expansion of macro '__define_initcall_stub'
+     255 |         __define_initcall_stub(__stub, fn)                      \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:268:9: note: in expansion of macro '____define_initcall'
+     268 |         ____define_initcall(fn,                                 \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:274:9: note: in expansion of macro '__unique_initcall'
+     274 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:276:35: note: in expansion of macro '___define_initcall'
+     276 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
+         |                                   ^~~~~~~~~~~~~~~~~~
+   include/linux/init.h:294:41: note: in expansion of macro '__define_initcall'
+     294 | #define core_initcall(fn)               __define_initcall(fn, 1)
+         |                                         ^~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1702:1: note: in expansion of macro 'core_initcall'
+    1702 | core_initcall(init_fprobe_trace_early);
+         | ^~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1702:1: error: expected declaration or statement at end of input
+   kernel/trace/trace_fprobe.c: At top level:
+>> kernel/trace/trace_fprobe.c:28:12: warning: 'trace_fprobe_create' used but never defined
+      28 | static int trace_fprobe_create(const char *raw_command);
+         |            ^~~~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:29:12: warning: 'trace_fprobe_show' used but never defined
+      29 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev);
+         |            ^~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:30:12: warning: 'trace_fprobe_release' used but never defined
+      30 | static int trace_fprobe_release(struct dyn_event *ev);
+         |            ^~~~~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:741:12: warning: 'fprobe_register' used but never defined
+     741 | static int fprobe_register(struct trace_event_call *event,
+         |            ^~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:1653:12: warning: 'fprobe_register' defined but not used [-Wunused-function]
+    1653 | static int fprobe_register(struct trace_event_call *event,
+         |            ^~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:1545:12: warning: 'trace_fprobe_show' defined but not used [-Wunused-function]
+    1545 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:1535:12: warning: 'trace_fprobe_release' defined but not used [-Wunused-function]
+    1535 | static int trace_fprobe_release(struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:1530:12: warning: 'trace_fprobe_create' defined but not used [-Wunused-function]
+    1530 | static int trace_fprobe_create(const char *raw_command)
+         |            ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/trace_fprobe_create +28 kernel/trace/trace_fprobe.c
+
+334e5519c37570 Masami Hiramatsu (Google  2023-06-06  27) 
+334e5519c37570 Masami Hiramatsu (Google  2023-06-06 @28) static int trace_fprobe_create(const char *raw_command);
+334e5519c37570 Masami Hiramatsu (Google  2023-06-06 @29) static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev);
+334e5519c37570 Masami Hiramatsu (Google  2023-06-06 @30) static int trace_fprobe_release(struct dyn_event *ev);
+334e5519c37570 Masami Hiramatsu (Google  2023-06-06  31) static bool trace_fprobe_is_busy(struct dyn_event *ev);
+334e5519c37570 Masami Hiramatsu (Google  2023-06-06  32) static bool trace_fprobe_match(const char *system, const char *event,
+334e5519c37570 Masami Hiramatsu (Google  2023-06-06  33) 			int argc, const char **argv, struct dyn_event *ev);
+334e5519c37570 Masami Hiramatsu (Google  2023-06-06  34) 
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
