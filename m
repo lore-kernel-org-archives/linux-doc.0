@@ -1,218 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011008.outbound.protection.outlook.com [40.93.194.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70573009F2
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 18:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764267769; cv=none; b=IYB8G2qa5yKlBj1a8zeV+U4InytSdtzSX9zY3Nk13jxuh6HP4s3x7HB2ZsFiYGguTcQ4niheID6Ced6wpW2jBnWWpbL6hE1eB5aX15EJFPjHo72r2uxudDcSczIKBDmcG++CIlMzPcckptJaG15C8wDxqxDqXZpk6K4mNaVfcu4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764267769; c=relaxed/simple;
-	bh=2zh5IckA93jcXpcP2jg/bB2AVaYgRYS+ot7BWC5MT2A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S8FxMWcflrWADy/KxoCPfhi/IyQxYhW4E24CgAybU0iZMz2lfSwJ68ter1wBpUgbwXBInkeUkVsuC5VSsRzKDp3rYZuybDOLcbYWggyctxdh76ppmcmPEHCSDBGMsOyQzIypX9sSEo7TXp8N67sA3a/zI7L6js1mHCxAfqSDZ0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t5If9gO+; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40B424886A;
+	Thu, 27 Nov 2025 19:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764271103; cv=fail; b=WjRfkbt+Q33lgsSZPo1QgzPttFfPKg/pKKHTnqXKl8TityDNg5eKvC6X4ABZtVUnsDMRUBKOO/iaNL+W1ezgS14JkFOvCmtGKrKlyTRYxc/SIqM01SLOR8cd3Y0PWmsA2cyGiluPJyEcnBZM088YNzlOvtRjZ85UjJCWBNaxVlo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764271103; c=relaxed/simple;
+	bh=nHS6VABHB5rUlVHhtsJCSYGbob4JMwDURcrzdVBF/VE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=dLPyIsGMcG3dsS2W/+TnS+DvD7jf6L12QUMDAo7BbrSINkfj1EZcHdkpWj156oKVfmjFVnWTobvBKnoA7G7eeG7mjAAD8Rd4FGaAZ15tpykXhTi86tRIErxDNF9QaZNLo6hEjZe6PKJI0h/B9a+T27Fe3ER6fAItIx3/GsJC0eQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UmBs4cGH; arc=fail smtp.client-ip=40.93.194.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t5If9gO+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7344EC116B1
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 18:22:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764267769;
-	bh=2zh5IckA93jcXpcP2jg/bB2AVaYgRYS+ot7BWC5MT2A=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=t5If9gO++OOilnxFrwBrkBC309GX2ZWoD+KuNyiD5dUztBFiu96epD55nIlqdm2bE
-	 I629s/i5ebpTIV1f8i9y5LxYTw1ElYOyDOS7zh8yoLRb12SJMkNSTl/k5UVdiV9Wcx
-	 4pI9IStlpgObJIRTRBZMtk1aAK13fAJZM4p9nuCNWNYZMgi9MXm7gEip+9kip1t60N
-	 fsKjao8brX5y0iEjBEnKN0hZgNGxRVvpYBmlN4f60tM41YnF3OOyz3ScwQfNNPuO1O
-	 tD5BH4EMod/AgIyuDOrhBKsWuQJMKPloN85ij5AbiVt3+3bxe8+vH/r2iPJ0jTChzF
-	 Psdd0ZmiQoKyA==
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-451183d1081so227129b6e.3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 10:22:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWMZYB48RK3EZ4ML39ZcpNYLJrmx5zAgKk+TLIsyDXJ3Jdf0LjBpDildnrrao6j6xN7LKxM4xMeREU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzomQw1CAYZFCgtBxQnxugDwWMpDRS+XGOr2JvhwVyCSbYuLshD
-	SuHezN09x53nPziQjiI8uQk6K/68Tnew1v54E+wHvXfcl69i8CmtptwIiMsxWHxwOemWvPdJ5kn
-	XQd10dzE7EVif2DaVgf2JK2dW5HHzvsk=
-X-Google-Smtp-Source: AGHT+IH1bZuq2107Z9vV3tIssGfEt3HKcvXwJtichyRCHN4NG+9zrGINSBUFfZp8A6sCqAX7wGBoKCjmIoVGx2W+fiQ=
-X-Received: by 2002:a05:6808:1803:b0:44d:a972:f48d with SMTP id
- 5614622812f47-45115ade7bcmr8045952b6e.51.1764267768535; Thu, 27 Nov 2025
- 10:22:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UmBs4cGH"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EXR1vOxfPTHnUi6R57a0yOtVcL3y8kQZ5+cWzwu13LwLbHFE3ynjoV1M6ljs5pvIMJ5eg3g2qhMrO4wO/4ju9WvxFPRkBHxun1OkU5TpYjy6aE7w4RXExRO0UAA0P3NUYeSWQNoE463uDML9ak8WHI2xNnakgH1n+RvaRsgeGtW6IODvRaOKU4NYOfByvKBwuE++5RBuJXAE6XFUZn4tjrvGXFacq8HSzVQJgckrSYVsZRvOGvh0dgB3yFZM5F8C0N7KYT+Yr62KFAbBL/JGZW5qsOuDpEchA+4ZCfohty2yG/J+D37lwobKwms4va3CBK8KQr52ZE09cnw+y+oalg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nHS6VABHB5rUlVHhtsJCSYGbob4JMwDURcrzdVBF/VE=;
+ b=TzkchldP9y6Kpvyv/nP8R/UC+Xo8gkPRAfx0vyDWqKs9Cap8HsfoenzrjC/WLjWPqM7UOvdBVt4CBdnkstj0q2LZo778qNfH+FJOtWX+0M7O2qCaUbQMkaR8jizkcAvxnImUOogeVZmBXAtCbEzpwLwWCnvCPMQV8JWjMCTHy08JRV2yfVZKjyoTKSrsIKsqem/bCv+60KD4KLpipxCDL/EQGn8VQ9NoDPzThBOJUHRTpC8FiRMkRCXfLsHd8LiwrxpBh7c3RzudNpsjmOb3qChY3kvFBdGr7Tj7MnsjBx3LA+PiV5LDQUGzk+pLicHLDpcCZPybimLzmDbI0iN0Sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nHS6VABHB5rUlVHhtsJCSYGbob4JMwDURcrzdVBF/VE=;
+ b=UmBs4cGHNd+z6VVPlbgxZNQeJj0OnjW5ZWg4JKUoTiXIRxGg1UtKpYupjKk9/Sm74AdA14hY5FIPLhh3BMqEGWCUkTD0mJg5IMRmP3zHjzvpmUKS/uxvimIAsIoufGfRiUhEZZhW25vDexyaWNpbUpSG4afeBlETfgii8AVmdAMq9Uao66j0JQ8noCi1SxN2LwEljGAaJc6TU/6/M+OTnTd1sv8oA39t503aB5koH5htwAEMicta14CN2CIlSmriB7ps989eX9X0zpHhg9IyY9ZXf0hL/K41OxgM2JpVzLD1HWaSB1ji3FDwO7VFSYM2/hnMQfTHvduNobPa+ul4tg==
+Received: from DS5PPF266051432.namprd12.prod.outlook.com
+ (2603:10b6:f:fc00::648) by DM6PR12MB4354.namprd12.prod.outlook.com
+ (2603:10b6:5:28f::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.14; Thu, 27 Nov
+ 2025 19:18:16 +0000
+Received: from DS5PPF266051432.namprd12.prod.outlook.com
+ ([fe80::7b2b:6066:67f8:7db2]) by DS5PPF266051432.namprd12.prod.outlook.com
+ ([fe80::7b2b:6066:67f8:7db2%7]) with mapi id 15.20.9366.009; Thu, 27 Nov 2025
+ 19:18:15 +0000
+From: Cosmin Ratiu <cratiu@nvidia.com>
+To: Tariq Toukan <tariqt@nvidia.com>, "horms@kernel.org" <horms@kernel.org>
+CC: "corbet@lwn.net" <corbet@lwn.net>, "andrew+netdev@lunn.ch"
+	<andrew+netdev@lunn.ch>, "donald.hunter@gmail.com" <donald.hunter@gmail.com>,
+	"davem@davemloft.net" <davem@davemloft.net>, "leon@kernel.org"
+	<leon@kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, "jiri@resnulli.us"
+	<jiri@resnulli.us>, "pabeni@redhat.com" <pabeni@redhat.com>, Jiri Pirko
+	<jiri@nvidia.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Carolina Jubran <cjubran@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+	"kuba@kernel.org" <kuba@kernel.org>, "rdunlap@infradead.org"
+	<rdunlap@infradead.org>, Saeed Mahameed <saeedm@nvidia.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, Gal Pressman
+	<gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>
+Subject: Re: [PATCH net-next V4 06/14] devlink: Add parent dev to devlink API
+Thread-Topic: [PATCH net-next V4 06/14] devlink: Add parent dev to devlink API
+Thread-Index: AQHcXkcn6Ytda4wFr0ylwlUSY56XmrUGqE2AgAAN2oA=
+Date: Thu, 27 Nov 2025 19:18:15 +0000
+Message-ID: <3ec956ea1d0a1c6e56865b2ded6d83ed773ccd4d.camel@nvidia.com>
+References: <1764101173-1312171-1-git-send-email-tariqt@nvidia.com>
+	 <1764101173-1312171-7-git-send-email-tariqt@nvidia.com>
+	 <20251127152807.GA719673@horms.kernel.org>
+In-Reply-To: <20251127152807.GA719673@horms.kernel.org>
+Reply-To: Cosmin Ratiu <cratiu@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS5PPF266051432:EE_|DM6PR12MB4354:EE_
+x-ms-office365-filtering-correlation-id: d7d10309-8c42-4b07-f00d-08de2de9b740
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|366016|376014|1800799024|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?K2JCOFlhY0hYQ0cxSE51cUVMSGZGQkh0TDZveVloa0l0QXIwVDFtYVN4V20v?=
+ =?utf-8?B?bFU5TEt4UmovNnl3cy95b2IxNGpvT0pYc0RKR2hTUTdXRGdjSGk3UXJoYVhn?=
+ =?utf-8?B?ZUNLL2hFRFdYaVMyZzQ1NE1qQkpWRUpmcUhsSDVVa2drYkEwZWs1alk0Zkh0?=
+ =?utf-8?B?UHdBSmFkTzVBZ3pzU2dJQzl0VC9PeTVxNXN5cXg4S3hhbGR4V2JtcFNGMFJ2?=
+ =?utf-8?B?OXZlcWpua1JHZEpFbWVoMW9NUjBkQ1pjRnB2RzJTc0p2M2U3dUZDSlBLd0px?=
+ =?utf-8?B?cTl6QkVsSGRNQiszUG43UTZlN0ZBZ054RWJwb1ovc2g4NHROeTNENU5IbHps?=
+ =?utf-8?B?cFdKMjUzSzFpQ0J3dFpYRkFoS1FOckFTdlM0dDl2TDJrR0RiV213UTZqaEZU?=
+ =?utf-8?B?a0xzTDIvM2Ivd0t3eC9xb3FVbkIxTDlvU0swU1ZaVzdPT0VmL0JMckcxZ1ZT?=
+ =?utf-8?B?WTQ2T1lwSVo3ZzJSM1ovcXE0Zk5jMCtLQkMzaGlWNWtrTGJESS91K1grT3hO?=
+ =?utf-8?B?UkZzOTdyRm5vS2ZjU2lTMlgzNDIzdGZKamRQWHVvYkZUdFlMLzNnTEt1VURF?=
+ =?utf-8?B?OHQ0Tk5SVjZhTnZuc2RZUlZ3cHlPNFFZakpXTW5rWitHRWhVS0hHMFRaMTQ3?=
+ =?utf-8?B?K3E4ekd5S3FIZW1kZnBWWmt2Ymx0R1dDU3kwandZaVRranlyU3FQTzgxbU9B?=
+ =?utf-8?B?ZjhtREFoMTREdDFCU21LL2QvdGdENXBjeDloczJJak8wM29WQkpsMzNpL0kz?=
+ =?utf-8?B?NXpncHVhZGRTYkxPTnVkWEx6TUxSTUVqR2Y2QWlRR3FHUGVvRFFPblQrNjd0?=
+ =?utf-8?B?YlFMZHlydDl4WFdtQkZZMDNNT1h2MStsYTlXc1BBanlYVFhDRXBCd2JjR2ZF?=
+ =?utf-8?B?aWNmRGhieTVQTE0vU3E5SnZCblNBOWMzMWNnNjdybnYvUklTRmdua0ZCZytS?=
+ =?utf-8?B?N2FGbHY5L3NyeldLb2xybTNiaHIvVi8wMXJpbFhLSlhLRWpOdXBseW5EZVND?=
+ =?utf-8?B?UVRTRjFYVS9iTlR4c2lwS1IyQ0tEdExsTVZvQjlVb2ZBSWgvVVpTU1RnWER0?=
+ =?utf-8?B?K3hmdWJpci9CV2NNZEJBV3lyZVRKMnlFUStvOHBkVGJMWktNN2REMW1vQUZ0?=
+ =?utf-8?B?RS9weXlFS1VKajBkODF3Nkc5YlIyb01CL3p5MmpzSDlURmRMR1R1Z0lEZHg4?=
+ =?utf-8?B?dTF0bG5Hazdhd2xLWWNtVlB5cEVzeGhaVW5lTUY0aWlKTlRmalV6UTgxYjV6?=
+ =?utf-8?B?TlVpWEZ6WnE4eERiQW51T3Z2NlJqa0MzaEFFMXF2Ry9XUG5DOXVXMktFQ09E?=
+ =?utf-8?B?NmxKMWx0Q2orN2dPZEplZGEwSUhvejVZbU9kdldhaWNZUURsRXhtY0pDbm9y?=
+ =?utf-8?B?T0NVTURIUGRUSmtnUEV1dStXb1NIeUErakdqWEVpalRjaXdydG1QSlJtc2lR?=
+ =?utf-8?B?UDlTL3Q1WUdadXZNTUYxbThWdExuSGgydnZ4ZUhzMSswZVNYcy9CazdXWkZC?=
+ =?utf-8?B?QnF2UkhrTExDYi94eElnakUyYnZsNTY2cGcrdTl5aXdkK0huT3RuZ3V6THpx?=
+ =?utf-8?B?dG1RMzlHZlRDWWdmM3ZnaEhoOVI0R0pOdzNtcDEvV0hpOVBBeEVRTEtLMHl3?=
+ =?utf-8?B?WUVBZHZvdXJyZ21PYXJCcDhXOTR6NUNRQjdNeVFtYnloNldMYmoxWTFQakdu?=
+ =?utf-8?B?dHpFUmQzcEJYR2tXQk56MTBLaXYrWXY5WlhXS3dCWWlvdG11bW1XTWZJNkpS?=
+ =?utf-8?B?VkhTUmlHQW9Vd0FNaGsyUmwxeFlrUk02RmpRMThNeDJTT3doNnBuZUYyL0hX?=
+ =?utf-8?B?WmRsYk0zM2tib2cwNEFYRVAzeGNzazgrVS93NlM5UGpEeXBId0p3MDNIT3c1?=
+ =?utf-8?B?VnJvbUxjalpFRE1tTi84eDhVUzFtaWMrS1JKZ0c0NkhvQWgyTlkrWjFPdys1?=
+ =?utf-8?B?ejhXMThhdlIyY2wzS0xNWTVBL2dRTi9PYzJiVzYrbVVSWHpZNEp2ZTRBeDRF?=
+ =?utf-8?B?clRjcFFFNVEyT2g5amIvTTNFQjJBQlc0U1VEOU1reWN1SXJhOWJjSyt2MmY5?=
+ =?utf-8?Q?9t7Czs?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS5PPF266051432.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?QVZSOENIYk5YT1k2YW5McktsWTB0MGhqNE9NeDZ4VXJhb3dZSjc3Zk04WDAw?=
+ =?utf-8?B?eFM4M1FZM1YveFhGekRkMjdQTFNyOVB3c0pRZkxENU1RaUZXZzFzbHJGV0dp?=
+ =?utf-8?B?KzRIeXZqU2VSSjhEbFpDdUZiNzhsMmNOa3RXRFpXbVZZbnVaME1sbjNrTFhu?=
+ =?utf-8?B?bUxNeWM1NFVYSi8xWEFqaHFqb2RJQzBQTVVOaHliTWZxdkpyRXAyQlFsMTZu?=
+ =?utf-8?B?b002Y3ZndW1aaStjUE1PZHphOFZpYU5SOHNYL1k1TW5ya1BCb29qamhRTzlq?=
+ =?utf-8?B?RWVPZHgzTGlDN0lYcUFxd003WmpkYjZXMDRrczNxTFY1dlZWZjRSczVUWFlK?=
+ =?utf-8?B?SmxXK3FKbGN2L1pKQWRBTjNUc3RRdzZNdGJsQjBTeDJMdFhPT096cytVVThj?=
+ =?utf-8?B?TXNxVG9xN1dKdmhFRDBwN202bVd2OGxFSlFtNWQzbStvdjlvRkdLTndXWWx3?=
+ =?utf-8?B?a1pNcmEwcTlJQkhBNWJWK0FpV1FGM1E1dHpJM0J4SHYvRlRlMWUzNmxwRUdX?=
+ =?utf-8?B?eWQ5WFBXUnJNRkFJbGpMOHd3NzlzWGxqUW5reFV6MTU0SmsyWjY0SG1QcDQv?=
+ =?utf-8?B?N1g1QzZLM3ZkUHA3OUpBRTJkenkxQ205NlZyMDZ0QTFWRWJHa1BTR00yNkpC?=
+ =?utf-8?B?UjZVZEN5RVkzek5MZktLbXhVcXBOMUZ6Y04welpEdzg1YkJxeHZWQnpCQmNw?=
+ =?utf-8?B?dlg4TTVKUWJjUkQyelI2alhvdnBiWnllT1d0MzBjSlRVVFA4QUJ5NGhvZkM4?=
+ =?utf-8?B?dXFGWmV5aXp3QU5aWU5Cd0RZZDZ4MXU2d3JzcnVKbENCVkF3amlXcFcwZ2ZY?=
+ =?utf-8?B?S1RlNjBOMnlVZGhod2VPZFFjL3oxYTBwU05uWWNybUdUYWZUNFE1ZTV3UzNj?=
+ =?utf-8?B?QjFsUGVUbGJrQS9qcUxSa2Y0b3JOaTRKYldtRjJSV2diNHkvRjM2LzZWblMy?=
+ =?utf-8?B?Wmp3Q1VHYTlMWjhwam1pU3BYMlJWTytTSzhqQnVpZFhDdEswNXc0aDVkZndz?=
+ =?utf-8?B?Z2gzNUt6OFFFNDNFTHBRMUIwWGxnL1JoWGJtd2tlcWRxc25SczhRamRNQW1z?=
+ =?utf-8?B?VGVLem40Z1pEeTNubElIUkRGRGJoS1RXL0JvOFp4TlJ1N1g3N3RaaExQclh4?=
+ =?utf-8?B?RWhOMTFFN0E1NzVZeXFUS2FvVERnOVNzL0tOVVNiZFA2dXJneTVmMGxjOW1G?=
+ =?utf-8?B?ZnY5NDhjVTRCcjFsT3Q3ZGY5RFp0bkhMWnpMZ2V1c0VVb2hlUjExcmt3OUZv?=
+ =?utf-8?B?aUlaWENTMHdMM0NLS3N2TEpLRDBGd3prQ0dLWFZtQ3dZQjBWZm1nZDN5b2hV?=
+ =?utf-8?B?T0tHbGprM2ZLUVIrZzIrS3pNUG1PcmpjWWpXQWxBbXNBK0xxemh1OWpJL1JT?=
+ =?utf-8?B?OEliaVh6ekdRV1VwUmNJV3BCL1VQQVBXZGRKb3gvTDlDR1dMVUgzTWozRm9T?=
+ =?utf-8?B?RjJacEYxS3RqYlNwR0E2eTVMbFd0amRmYVREKzZ0c2hldk0yWFN2RnUwVlgv?=
+ =?utf-8?B?Rm14dEtHcDFVNkllY3RJSVB5aXp3SzhwQ1FnY2ZQZmF2T21wUEJhMzlkbEdi?=
+ =?utf-8?B?TEVlNDFDRllGSXFRdHZZdGdSVk1qYTV2K3dIT25OWDdmWmlpQlRzTW1WQUJV?=
+ =?utf-8?B?U21rVVZpdHBtMU5oUFZ4ZEdBT2hSMUpST0k0amJYV09aeGhhTWRuKzRRRTZR?=
+ =?utf-8?B?UVdEdDZLRmtCU1pQRjJ6b1pjcjZXMytaRE5DZndKRFdWeEVKTGxVc0IyWkRH?=
+ =?utf-8?B?RzZiQ0ZtOHdkZll5dHI0Q3VFTXhhSVYreDdiNktKS1FONFd3Vzc5dk5jS2Vy?=
+ =?utf-8?B?TkRDVnpqYUczLytjc2pIcHJydFFHQjREcWtaVGtnK2dXdjIybHVyRE85Mnov?=
+ =?utf-8?B?M3J6ejdFbTlHYk05N0o4bWdDcFZISTRSNEZmb3QvbElBYnlOSnVWWlNxU0xX?=
+ =?utf-8?B?VkdnVmVqVVFHK0UreGdmeVZaTWVIYnZOR2hPc2lNbmlYNEJ2SU1JK24yVFJp?=
+ =?utf-8?B?LzhnY1U0OTJqejhKc2h6cGhFSDlLaWZtY2h4UHBsNzBDZWlUSkdsMS9rSE1z?=
+ =?utf-8?B?V25XYlExVlozL2ZyM3lCQTc5YTFOUG5PbmQ2bWY5Vmc1TDhxaDgveUIyME9E?=
+ =?utf-8?Q?c998QMhXDyyPKDkRS6EQHaDUc?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <389903B1F9D1AB46B9BBB7C927A227B0@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
- <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com> <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
-In-Reply-To: <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 27 Nov 2025 19:22:37 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
-X-Gm-Features: AWmQ_bmQtAcoPswZk2AImBNuJ-60z5nmzzYc3vdfnDFN0Jddf0LEskGxktPDRCM
-Message-ID: <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
-Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
- device of thermal zone/cooling devices
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Len Brown <lenb@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
-	ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
-	linux-pci@vger.kernel.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS5PPF266051432.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7d10309-8c42-4b07-f00d-08de2de9b740
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Nov 2025 19:18:15.7990
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: acrUty9Z+IQ3+RPbUe6QwEmYiRou7FXu3Ilcz9A1VpYh9yb8Sp2lOjawommS7pQqVA3kI/9GHkAmjzZqkfWwNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4354
 
-On Sat, Nov 22, 2025 at 3:18=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote:
->
-> Am 21.11.25 um 21:35 schrieb Rafael J. Wysocki:
->
-> > On Thu, Nov 20, 2025 at 4:41=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wro=
-te:
-
-[...]
-
-> >> ---
-> >> Armin Wolf (8):
-> >>        thermal: core: Allow setting the parent device of cooling devic=
-es
-> >>        thermal: core: Set parent device in thermal_of_cooling_device_r=
-egister()
-> >>        ACPI: processor: Stop creating "device" sysfs link
-> >
-> > That link is not to the cooling devices' parent, but to the ACPI
-> > device object (a struct acpi_device) that corresponds to the parent.
-> > The parent of the cooling device should be the processor device, not
-> > its ACPI companion, so I'm not sure why there would be a conflict.
->
->  From the perspective of the Linux device core, a parent device does not =
-have to be
-> a "physical" device. In the case of the ACPI processor driver, the ACPI d=
-evice is used,
-> so the cooling device registered by said driver belongs to the ACPI devic=
-e.
-
-Well, that's a problem.  A struct acpi_device should not be a parent
-of anything other than a struct acpi_device.
-
-> I agree that using the Linux processor device would make more sense, but =
-this will require
-> changes inside the ACPI processor driver.
-
-So be it.
-
-> As for the "device" symlink: The conflict would be a naming conflict, as =
-both "device" symlinks
-> (the one created by the ACPI processor driver and the one created by the =
-device core) will
-> be created in the same directory (which is the directory of the cooling d=
-evice).
-
-I see.
-
-But why is the new symlink needed in the first place?  If the device
-has a parent, it will appear under that parent in /sys/devices/, won't
-it?
-
-Currently, all of the thermal class devices appear under
-/sys/devices/virtual/thermal/ because they have no parents and they
-all get a class parent kobject under /sys/devices/virtual/, as that's
-what get_device_parent() does.
-
-If they have real parents, they will appear under those parents, so
-why will the parents need to be pointed to additionally?
-
-BTW, this means that the layout of /sys/devices/ will change when
-thermal devices get real parents.  I'm not sure if this is a problem,
-but certainly something to note.
-
-> >>        ACPI: fan: Stop creating "device" sysfs link
-> >>        ACPI: video: Stop creating "device" sysfs link
-> > Analogously in the above two cases AFAICS.
-> >
-> > The parent of a cooling device should be a "physical" device object,
-> > like a platform device or a PCI device or similar, not a struct
-> > acpi_device (which in fact is not a device even).
->
->  From the perspective of the Linux device core, a ACPI device is a perfec=
-tly valid device.
-
-The driver core is irrelevant here.
-
-As I said before, a struct acpi_device object should not be a parent
-of anything other than a struct acpi_device object.  Those things are
-not devices and they cannot be used for representing PM dependencies,
-for example.
-
-> I agree that using a platform device or PCI device is better, but this al=
-ready happens
-> inside the ACPI fan driver (platform device).
-
-So it should not happen there.
-
-> Only the ACPI video driver created a "device" sysfs link that points to t=
-he ACPI device
-> instead of the PCI device. I just noticed that i accidentally changed thi=
-s by using the
-> PCI device as the parent device for the cooling device.
->
-> If you want then we can keep this change.
-
-The PCI device should be its parent.
-
-> >>        thermal: core: Set parent device in thermal_cooling_device_regi=
-ster()
-> >>        ACPI: thermal: Stop creating "device" sysfs link
-> > And this link is to the struct acpi_device representing the thermal zon=
-e itself.
->
-> Correct, the ACPI thermal zone driver is a ACPI driver, meaning that he b=
-inds to
-> ACPI devices. Because of this all (thermal zone) devices created by an in=
-stance of
-> said driver are descendants of the ACPI device said instance is bound to.
->
-> We can of course convert the ACPI thermal zone driver into a platform dri=
-ver, but
-> this would be a separate patch series.
-
-If you want parents, this needs to be done first, but I'm still not
-sure what the parent of a thermal zone would represent.
-
-In the ACPI case it is kind of easy - it would be the (platform)
-device corresponding to a given ThermalZone object in the ACPI
-namespace - but it only has a practical meaning if that device has a
-specific parent.  For example, if the corresponding ThermalZone object
-is present in the \_SB scope, the presence of the thermal zone parent
-won't provide any additional information.
-
-Unfortunately, the language in the specification isn't particularly
-helpful here: "Thermal zone objects should appear in the namespace
-under the portion of the system that comprises the thermal zone. For
-example, a thermal zone that is isolated to a docking station should
-be defined within the scope of the docking station device."  To me
-"the portion of the system" is not too meaningful unless it is just
-one device without children.  That's why _TZD has been added AFAICS.
-
-> >>        thermal: core: Allow setting the parent device of thermal zone =
-devices
-> >
-> > I'm not sure if this is a good idea, at least until it is clear what
-> > the role of a thermal zone parent device should be.
->
-> Take a look at my explanation with the Intel Wifi driver.
-
-I did and I think that you want the parent to be a device somehow
-associated with the thermal zone, but how exactly?  What should that
-be in the Wifi driver case, the PCI device or something else?
-
-And what if the thermal zone affects multiple devices?  Which of them
-(if any) would be its parent?  And would it be consistent with the
-ACPI case described above?
-
-All of that needs consideration IMV.
+T24gVGh1LCAyMDI1LTExLTI3IGF0IDE1OjI4ICswMDAwLCBTaW1vbiBIb3JtYW4gd3JvdGU6DQo+
+IE9uIFR1ZSwgTm92IDI1LCAyMDI1IGF0IDEwOjA2OjA1UE0gKzAyMDAsIFRhcmlxIFRvdWthbiB3
+cm90ZToNCj4gPiDCoG5ldC9kZXZsaW5rL25ldGxpbmtfZ2VuLmPCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgfMKgIDUgKysNCj4gPiDCoG5ldC9kZXZsaW5rL25ldGxpbmtfZ2VuLmjCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDggKysrDQo+IA0KPiBIaSwNCj4gDQo+IEkg
+dGhpbmsgdGhhdCB0aGUgdXBkYXRlcyB0byBuZXRsaW5rX2dlbi5bY2hdIGJlbG9uZyBpbg0KPiB0
+aGUgZm9sbG93aW5nIHBhdGNoIHJhdGhlciB0aGFuIHRoaXMgb25lLg0KPiANCj4gWW91IGNhbiBv
+YnNlcnZlIHRoaXMgdXNpbmcNCj4gDQo+IHRvb2xzL25ldC95bmwveW5sLXJlZ2VuLnNoIC1mICYm
+IGdpdCBkaWZmDQoNCkhpLA0KDQpZb3UgYXJlIHJpZ2h0LCBzb21lIG9mIHRoZXNlIGNoYW5nZXMg
+YmVsb25nIHRvIHRoZSBuZXh0IHBhdGNoLiBXZSB3aWxsDQpmaXggaW4gdGhlIG5leHQgc3VibWlz
+c2lvbi4NCkJ1dCBydW5uaW5nIHlubC1yZWdlbi5zaCByZXN1bHRzIGluIHVuYnVpbGRhYmxlIGNv
+ZGUsIGR1ZSB0byBtaXNzaW5nDQpkZXZsaW5rX2RsX3BhcmVudF9kZXZfbmxfcG9saWN5LiBJdCBz
+ZWVtcyBpdCBpcyBub3QgYWRkZWQgdW5sZXNzIHRoZQ0KYXR0cmlidXRlIGlzIHJlZmVyZW5jZWQg
+aW4gYXQgbGVhc3Qgb25lIGF0dHJpYnV0ZSBzZXQuDQpBZGRpdGlvbmFsbHksIHRoZSBkZXZsaW5r
+X25sX3ByZV9kb2l0X3BhcmVudF9kZXZfb3B0aW9uYWwgbmVlZHMgdG8gYmUNCm1hbnVhbGx5IGFk
+ZGVkIHRvIG5ldGxpbmstZ2VuLntoLGN9LCBhcyBpdCBpcyBub3QgYXV0b21hdGljYWxseQ0KZ2Vu
+ZXJhdGVkLg0KDQpDb3NtaW4uDQo=
