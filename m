@@ -1,90 +1,61 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E772DC780;
-	Thu, 27 Nov 2025 17:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB2C287507;
+	Thu, 27 Nov 2025 17:34:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764263897; cv=none; b=N3DKK1KGcL+M+oG0GB/dMnBqGUGyUoqIp0Fig8S/QmV1aHUWzVt6CsxJm3Kcz7PZUtu0qkZUJBeetHW2oCmuPpZIiQwjbkpCUC15kFWBLIurI4aBZx7gXg94swa938KaOlRaI5KRd1tnf7vL44pv7m2iBhIOfIOEjNFM7CyUO1c=
+	t=1764264900; cv=none; b=ZxhuZ6Sy8j8ka+a1f5FmX08174zfIsBZr7SXjVTVLr7Pl0S2Pxk6CzKtlR1kZ1eCLC5wjWIjU7jBVwTz99qaH2r6sxGtU80j07Chs7XchJXAFb/aUEAJx0mvugSoPbbw8ys/Y601TLueT8HPY+kLmN8s2zP//YYhuSylPIjRID8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764263897; c=relaxed/simple;
-	bh=wqMn8seKFIq2wq+jhSvRw9F9LzjxLgo9SgvwyVemjZA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Js5ilBjwC9k5mVfVF6jkIwzMqaAoc2khZK3+eUMN4p/m1vimm043djgv/g3R7Fs6g9gUcawJvjrMus2ozMSLwRe6xmzvZa0pBt+bwfy8VxRD0OWizsIiV8sDncYCPMKthBAIPlFFCJZIx++flQMDrGRXH3395j8hIKbujYAByxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JWA2kEam; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JWA2kEam"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1C41540C2B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1764263889; bh=er+eFEwRU3CkCEeylATCuIcAlxI7qwRMrkONrVzSQN8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=JWA2kEamHDeShJskeTqMRGTaXRKybNFyZLDzgR3SJ2kvr5TgV2pyjwrIwdHQ/Q61b
-	 nNzlOHQfRtGj0c2ujdNYT/9Zvhs6xVfYcHLUxi30aSxuASWA1nlI2vzr0FTYyutmYY
-	 DqcVkPfohIfdS/fcGsDRfomEEyKYfWTwaU9q6TIaTK+dGXUx/i8+xaIvwU+bbwNki0
-	 zM66HJ9/fbqVdB7iCUpqb8mphWjN8kXTBiA2ak4ibsC7fNxVCArFegMc14FGBqBmEg
-	 kNcXACsiXqPq79BTbZT+RnL/a6QjyBrEbIUIrCz/9xGuzYTQln6nDIChWX3DO5Qyxd
-	 0rlnxcJUcJ/pg==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1C41540C2B;
-	Thu, 27 Nov 2025 17:18:09 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence.csokas@arm.com>,
- linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>, Jani
- Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 0/2] Move Python modules to tools/lib/python
-In-Reply-To: <61a0b2e5-fa53-4ed2-af26-c519a03a9dc9@arm.com>
-References: <20251110220430.726665-1-corbet@lwn.net>
- <61a0b2e5-fa53-4ed2-af26-c519a03a9dc9@arm.com>
-Date: Thu, 27 Nov 2025 10:18:07 -0700
-Message-ID: <875xavwg1c.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1764264900; c=relaxed/simple;
+	bh=pd4sWBjhGyBAhqcIh5yHkkfv4CzqpEXHV8dEXcF5orA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HvOa5j2i6ag5mk6ZQA9BpTBzT/xAQPekG+xYqcsHcXS6WpZs7HH32yvFHibEhXGi84HEnvcezHnxEzKDpIWVvV8YuxJOc10mcKJV+eUImJfodfRvFXirR+y31qc8e/zyI5YmJCGw0R3RFk8sBdBYXNdJhvb2jyqCgS8/BvHt5z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id 4FF65C025F;
+	Thu, 27 Nov 2025 17:34:56 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf09.hostedemail.com (Postfix) with ESMTPA id 5893520028;
+	Thu, 27 Nov 2025 17:34:52 +0000 (UTC)
+Message-ID: <0fe4a563da5316ef702d7c324d0820c8c2c224e7.camel@perches.com>
+Subject: Re: [PATCH v2 1/1] docs: Update documentation to avoid mentioning
+ of kernel.h
+From: Joe Perches <joe@perches.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Randy Dunlap
+	 <rdunlap@infradead.org>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-remoteproc@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+	 <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet
+	 <corbet@lwn.net>, Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
+	 <lukas.bulwahn@gmail.com>, Bjorn Andersson <andersson@kernel.org>, Mathieu
+ Poirier <mathieu.poirier@linaro.org>
+Date: Thu, 27 Nov 2025 09:34:51 -0800
+In-Reply-To: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Stat-Signature: 344bsnmdzy15ar8q1r6pickoc1cc6y58
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: 5893520028
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+o7f9E/k+Gg9tj3EzpDyehYXDETyni91I=
+X-HE-Tag: 1764264892-703371
+X-HE-Meta: U2FsdGVkX1//RHplmvGyUg7soDe0LgkeR58Ct1KgzeWTQ+Dt442WGADpIVubJLE7vO8Yvts4vmbKhE7XUMvpl1o7tegNwWjLDBYjrmfnl1+CpmU4QJNHDgt6WnBDRb4gCiWyB4yFzmxnJJJmxLwojdLlRBb9NaQ7fsqNF8RrQf0R2z6YH6gaKtqYWwAOcGBT9OXZsUmu6Rxlhe1BiUSiBs20Iyord3i22MWHyL0/T26mOg7ptR5y93ZH2uzhMuAoj0v/aekIXLl7lHK/xpmSkuycbtB74OKtic7NzzEQqJ58kJ8jfMZdnXFyfA2sxkCV7clTdUrdtGFNZqNhPZtspQMwMsV/nl/F
 
-Bence Cs=C3=B3k=C3=A1s <bence.csokas@arm.com> writes:
+On Wed, 2025-11-26 at 22:46 +0100, Andy Shevchenko wrote:
+> For several years, and still ongoing, the kernel.h is being split
+> to smaller and narrow headers to avoid "including everything" approach
+> which is bad in many ways.
 
-> Hi,
->
-> On 11/10/25 23:04, Jonathan Corbet wrote:
->> scripts/lib was always a bit of an awkward place for Python libraries; g=
-ive
->> them a proper home under tools/lib/python.  Put the modules from
->> tools/docs/lib there for good measure.
->>=20
->> The second patch ties them into a single package namespace.  It would be
->> more aesthetically pleasing to add a kernel layer, so we could say:
->>=20
->>    from kernel.kdoc import kdoc_parser
->
-> This is great, the code looks so much cleaner! However, it would've been=
-=20
-> even nicer if the redundant `kdoc_` was done away with.
->
-> So instead of:
-> * `import kdoc.kdoc_files` -> `import kdoc.files`
-> * `kdoc/kdoc_files.py` -> `kdoc/kdoc_files.py`
-> * `abi/abi_parser.py` -> `abi/parser.py`
->
-> etc.
->
-> Will you consider this?
-
-We can certainly consider it...that's a relatively small detail, though,
-in the big organizational picture, so I wasn't concerned about it at
-this point.
-
-Thanks,
-
-jon
+And I still think precompiled headers can be beneficial to
+standardize using kernel.h to reduce overall compilation time.
