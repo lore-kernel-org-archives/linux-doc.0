@@ -1,342 +1,240 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE1724678D
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 13:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725C0328B73
+	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 14:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764250270; cv=none; b=bKD8gLyhd+Cj4wVNEzucNLhDJQMxnnDpOODmCE8w+MlyekudygydoUYuyr3nS2S55D3tiXx1gHzKaV0E6MrLlq94oWU8Wgj0pFvqnqtYo5ZFnbIHK9t19rYCn0YSbBm2fltGEfd4GSrsiB6uKuvoaQdE69B1eHPfPjy5w16NQLc=
+	t=1764254167; cv=none; b=dwkSniiHe8wDJyTOXgFd/bI2rLRO8JRen8z3I2VTX/DsbJBlDAlGcvFYwilrxri1ub6Ig9pQfLaHcCv9xzMv6BCveufGbbXa7Lbyv/j9mSHZHmSBwMY6BfcLJKaaN0VtxOYYJwP5+pJaCK3tJqDAoWqWL5aoq3Gbx1zp75nhosc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764250270; c=relaxed/simple;
-	bh=aD+Z6IumaOiPhSKdGozpzfKuEvmUdQSQvBKOS8KlarI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tAPMVayRyVkTdGk30UDIw9nMd/YioFmc0oGC+ohuLfAXJDBqR0xR1RJABFpblC7/haCH5ASKdLrfJ2X2oPFfHJQ6LVLZsNXRv0pqRVIIxATdIy24zbWUFtdXyMH1bisyVB/Pa6HwdAlsjm0lvqwLYRXbh29DBuq01sYGKS4HNRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rh8dnYFm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OmQlmb6N; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=166tjX+O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PS1WAt3E; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1764254167; c=relaxed/simple;
+	bh=y/w70PmgkgiljvltcnTxMbOWap97glwa/EjzZTFKfmA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=NVwHwbIBmBy4lgdlEu4t4KTLz+eT9Qg4YNXY/YwdwnM6H1AVf/bxX6sZ2BzinjcWgcPpbbHdu5HRHm0ji6JE/R52/tHrkV0uw7ztR6ywJzfzm5sasvZ9xD1fWk5RxdhBrrQpaVDyieCyRpuOX681ELFEfkPWzQTBvY5nxrdcwII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BnrYKOwx; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rh8dnYFm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OmQlmb6N";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="166tjX+O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PS1WAt3E"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A824F3374C;
-	Thu, 27 Nov 2025 13:31:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764250262; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RMTVveMh5YfenpE8iMkQrTizREiFLrVIWd+fohp24gE=;
-	b=rh8dnYFmP9bqVzCOiQwcKgNVs6Dl7jD229uCl0x+P0gxdZlFDIwhfdOWWTXadOBAHNADdC
-	ngg1SvfhxHtUo7ofE4DoKiRMD/pimJfkVNcVQyQSAO0pTVWll/ZH8vydyCs9yxfZNrqUIx
-	6NTX2kS3MTvXcpmIrI1PSdaB1Fa4Dhc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764250262;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RMTVveMh5YfenpE8iMkQrTizREiFLrVIWd+fohp24gE=;
-	b=OmQlmb6Nk7C39zzgoo28LC+n97DjqOJ+t4DU3OllM45dWpjQccrnsGqPSVxt+AZtiAYY54
-	rlNvhJftA3cuxqAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=166tjX+O;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PS1WAt3E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1764250261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RMTVveMh5YfenpE8iMkQrTizREiFLrVIWd+fohp24gE=;
-	b=166tjX+O8IPVTHmzP2K2Rui8g5AUAtGZIa5izr2ZMc++1oa+ad6e3WRR4j49t1Z/sgEqrZ
-	hhXziLVBxDKYmRBr1sj5EDQXoSF2QdQcFFTIDhNthIe7mM9onMZG4Ex0BmUoZACiLRm242
-	C13aLS+HXMv0xhe1cNrvlmSCjT9+b78=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1764250261;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RMTVveMh5YfenpE8iMkQrTizREiFLrVIWd+fohp24gE=;
-	b=PS1WAt3E1C/zR0Wj3qXvCoyWz1TXUCN36K09vXwdqXwT1KnTU+CVRSpCXahWfNCfJcskHP
-	SiE9oLkGcuEv8WBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6C2DB3EA63;
-	Thu, 27 Nov 2025 13:31:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /OvDGZVSKGk6UQAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 27 Nov 2025 13:31:01 +0000
-Message-ID: <f7a91a49-9f82-492a-8bf9-520ee1c832ba@suse.de>
-Date: Thu, 27 Nov 2025 14:31:01 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BnrYKOwx"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-bc59a785697so856523a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 06:36:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764254164; x=1764858964; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=WbONDNfo5P6URvv49uARRyWcfYc6EtU0aSI8NWvYcqA=;
+        b=BnrYKOwx0zYlqh1aUcqOKFf3LapSU4LUju4z5lsrtF1tXuEidIJNxPWZSzt2LLmoAD
+         Ql6bjzGGpQmvqvN1b1qFO+4QLXe828k8BqSQFhhFkoafZwXmH7YFQS8W6/h6BgXEQZnv
+         ziA2mS4hjlZXQOHElXX6/SRj+L0rJpLUnJnKnY/+QNF3WN2Uiw4yhLIssXOlVum0uN0p
+         UZEAdknLIrJgXttY8ZE5/9gqIiHdb9BIH7PVRy/0rBnWeg4OxNb3tCixV2SxPi7updHJ
+         3TEUGVA6PwXEDLf21OKXXcnN1ziKALhNV+9lVk1ktsHgL/Pmx/WJtsOPqO2vvOCEw45t
+         VbXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764254164; x=1764858964;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WbONDNfo5P6URvv49uARRyWcfYc6EtU0aSI8NWvYcqA=;
+        b=cVpgCadiUXGMrHZZi4oXtYE7KuauKxmPZrSbZ6y7OXasu0QEn8otG5v+si7FcWRFoK
+         wG30aqO4QnVPHP58ByxoO6bBel6osFuQ6a+lFxkNuYdSWzfvvaYwq634fMe17ADx87sM
+         dAaEJKaXqmElvu9LSRXxAxzgbyg/H0TnAefCweQ0EVE45BGs8a8XlDbjJI7IY9zxCYBg
+         HKOO35AyITk5K3oVM6aUD3ofTXF7KfeUBOPRhyXrXQPyrpl8Rlgu3QiVnWfd7hHmf2BB
+         ksPpNXoiVVpomONeU2q5gFdXdQ50W3E5uKa+3yMrkNJJeil76SwXJAmg8vjbFy+5iNXB
+         rXaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWJqqTXE+t8W8gjjWPFgOOTCvgHM1qbpXdIlZz9j+OmaKt6y0oD0SprNo/vaaFNX9fAo5HtbvyZy3A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiZfqOHAXDRc8Ym2ckJuAyWooqUVPImr9uKHSYC913ndxQpJ7I
+	rcMaGO/9BvJU0oadjz41FPIIMPLIsrGnuLvJDrKU5/Jp1/2fvKftpK5m
+X-Gm-Gg: ASbGncvJcEYNnDhXWZmoVZN4gKTmhZp3fqnJVBHB0io6DEqzwnl+B3uEhyhaJlfpMBL
+	A7GNYfM/g0pS9yA70ZbdMLKoAZsu3w/8fJvnKE7F41xosH/5RbjcWlG32rni6M81UFuC2LpyCN2
+	px+ZPkwOjYbhJybMGwh3MFxMULXFj36oNS2nbEZ4sdUscjKCL86bO751d7NRq679auiq2LnMJZn
+	LhvhblhiElibUCnKmO8N+vHyg2d74B8r/VLdtmWSLMJimgQ+mzYDWq8e7J8ar/UZ8DPBxnlMnFM
+	MFnzkQ35vnMva+yT0rnnOrd2/DZTgGP1Zyqn7NbrHaX6n2C5u00bxMhKg3qutOmTjn26g+k/4c8
+	Y6eRvh269nuSjdXQw8qhfY/lbTM3v20r3QzeSpOPoCOuheioCRnqqQ2sBzhCG+EKq6XfPNAfFi9
+	xbaoFAjOB6zn+cGFHpw4JPj9sXQRHg3Wy7Qjd/eNPWOfdFYXqh/3r4s2Vdhw17fTZ7KBR0oo9IB
+	XIYxzP5ag==
+X-Google-Smtp-Source: AGHT+IGDH89O43VYWGivoRzsH/VMsd+fKZHuO3oJN/28fn5VsdLF5lsOBh224MfCX+i8kiHkoomAAw==
+X-Received: by 2002:a05:7301:b0d:b0:2a4:4bb4:4712 with SMTP id 5a478bee46e88-2a7192e5b06mr13076983eec.39.1764254163482;
+        Thu, 27 Nov 2025 06:36:03 -0800 (PST)
+Received: from ehlo.thunderbird.net (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11dcaee7076sm7209397c88.4.2025.11.27.06.36.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Nov 2025 06:36:02 -0800 (PST)
+Date: Thu, 27 Nov 2025 06:36:02 -0800
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: =?ISO-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Armin Wolf <W_Armin@gmx.de>
+CC: Len Brown <lenb@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>,
+ Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org,
+ linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ linux-acpi@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_1/3=5D_acpi=3A_platform=5Fpr?=
+ =?US-ASCII?Q?ofile_-_Add_max-power_profile_option?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <bf61e05b-74ac-28de-d8ea-4a909d6e5fb8@linux.intel.com>
+References: <20251113212639.459896-1-derekjohn.clark@gmail.com> <20251113212639.459896-2-derekjohn.clark@gmail.com> <7050cadc-9cb7-4f9b-8393-247bddb56965@gmx.de> <CFD27662-0044-4AF3-8E66-65229324CECF@gmail.com> <e801bef5-158e-4422-9c23-93dc2210f734@gmx.de> <bf61e05b-74ac-28de-d8ea-4a909d6e5fb8@linux.intel.com>
+Message-ID: <278FC60D-C084-44B9-A0DB-23FAC930458B@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/6] nvme-tcp: Support KeyUpdate
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
-References: <20251112042720.3695972-1-alistair.francis@wdc.com>
- <20251112042720.3695972-6-alistair.francis@wdc.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251112042720.3695972-6-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ietf.org:url,suse.de:mid,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,wdc.com:email];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: A824F3374C
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 11/12/25 05:27, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
-> EKEYEXPIRED then the underlying TLS keys need to be updated. This occurs
-> on an KeyUpdate event as described in RFC8446
-> https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3.
-> 
-> If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
-> allow the NVMe layer to process the KeyUpdate request and forward the
-> request to userspace. Userspace must then update the key to keep the
-> connection alive.
-> 
-> This patch allows us to handle the NVMe target sending a KeyUpdate
-> request without aborting the connection. At this time we don't support
-> initiating a KeyUpdate.
-> 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
-> v5:
->   - Cleanup code flow
->   - Check for MSG_CTRUNC in the msg_flags return from recvmsg
->     and use that to determine if it's a control message
-> v4:
->   - Remove all support for initiating KeyUpdate
->   - Don't call cancel_work() when updating keys
-> v3:
->   - Don't cancel existing handshake requests
-> v2:
->   - Don't change the state
->   - Use a helper function for KeyUpdates
->   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
->   - Remove command message using recvmsg
-> 
->   drivers/nvme/host/tcp.c | 85 +++++++++++++++++++++++++++++++++--------
->   1 file changed, 70 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 4797a4532b0d..5cec5a974bbf 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -172,6 +172,7 @@ struct nvme_tcp_queue {
->   	bool			tls_enabled;
->   	u32			rcv_crc;
->   	u32			snd_crc;
-> +	key_serial_t		handshake_session_id;
->   	__le32			exp_ddgst;
->   	__le32			recv_ddgst;
->   	struct completion       tls_complete;
-> @@ -858,7 +859,10 @@ static void nvme_tcp_handle_c2h_term(struct nvme_tcp_queue *queue,
->   static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
->   {
->   	char *pdu = queue->pdu;
-> +	char cbuf[CMSG_LEN(sizeof(char))] = {};
->   	struct msghdr msg = {
-> +		.msg_control = cbuf,
-> +		.msg_controllen = sizeof(cbuf),
->   		.msg_flags = MSG_DONTWAIT,
->   	};
->   	struct kvec iov = {
-> @@ -873,12 +877,17 @@ static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
->   	if (ret <= 0)
->   		return ret;
->   
-> +	hdr = queue->pdu;
-> +	if (hdr->type == TLS_HANDSHAKE_KEYUPDATE) {
-> +		dev_err(queue->ctrl->ctrl.device, "KeyUpdate message\n");
-> +		return 1;
-> +	}
-> +
+On November 27, 2025 4:11:36 AM PST, "Ilpo J=C3=A4rvinen" <ilpo=2Ejarvinen@=
+linux=2Eintel=2Ecom> wrote:
+>On Mon, 17 Nov 2025, Armin Wolf wrote:
+>
+>> Am 16=2E11=2E25 um 20:01 schrieb Derek J=2E Clark:
+>>=20
+>> > On November 16, 2025 8:13:17 AM PST, Armin Wolf <W_Armin@gmx=2Ede> wr=
+ote:
+>> > > Am 13=2E11=2E25 um 22:26 schrieb Derek J=2E Clark:
+>> > >=20
+>> > > > Some devices, namely Lenovo Legion devices, have an "extreme" mod=
+e where
+>> > > > power draw is at the maximum limit of the cooling hardware=2E Add=
+ a new
+>> > > > "max-power" platform profile to properly reflect this operating m=
+ode=2E
+>> > > >=20
+>> > > > Reviewed-by: Mario Limonciello (AMD) <superm1@kernel=2Eorg>
+>> > > > Acked-by: Rafael J=2E Wysocki (Intel) <rafael@kernel=2Eorg>
+>> > > > Signed-off-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
+>> > > > ---
+>> > > >    Documentation/ABI/testing/sysfs-class-platform-profile | 2 ++
+>> > > >    drivers/acpi/platform_profile=2Ec                        | 1 +
+>> > > >    include/linux/platform_profile=2Eh                       | 1 +
+>> > > >    3 files changed, 4 insertions(+)
+>> > > >=20
+>> > > > diff --git a/Documentation/ABI/testing/sysfs-class-platform-profi=
+le
+>> > > > b/Documentation/ABI/testing/sysfs-class-platform-profile
+>> > > > index dc72adfb830a=2E=2Efcab26894ec3 100644
+>> > > > --- a/Documentation/ABI/testing/sysfs-class-platform-profile
+>> > > > +++ b/Documentation/ABI/testing/sysfs-class-platform-profile
+>> > > > @@ -23,6 +23,8 @@ Description:	This file contains a space-separat=
+ed
+>> > > > list of profiles supported
+>> > > >    					power consumption with a
+>> > > > slight bias
+>> > > >    					towards performance
+>> > > >    		performance		High performance operation
+>> > > > +		max-power		Higher performance operation that may
+>> > > > exceed
+>> > > > +					internal battery draw limits when on
+>> > > > AC power
+>> > > I am not sure if it is a good idea to allow platform_profile_cycle(=
+) to
+>> > > cycle into this
+>> > > new max-power profile=2E The system could encounter a brownout if i=
+t is
+>> > > currently operating
+>> > > on battery power when selecting max-power=2E
+>> > >=20
+>> > > Maybe we should prevent platform_profile_cylce() from selecting max=
+-power?
+>> > At least for Lenovo devices unplugging AC will automatically throttle=
+ the
+>> > ppt values to roughly equivalent to performance=2E It will look at a =
+different
+>> > WMI data block for the values when switched, so there's no risk for c=
+ycling
+>> > in this case=2E This seems like smart hardware design, but we've cert=
+ainly
+>> > seen bad hardware design so the concern is warranted=2E Perhaps it is=
+ worth
+>> > visiting if another vendor implements it differently? That being said=
+, what
+>> > you're describing would match up with how the physical profile select=
+ion
+>> > button works, so it would align with consumer expectation=2E I have n=
+o strong
+>> > feelings either way, but I'm a little concerned about meeting the mer=
+ge
+>> > window as this series fixes a pretty disruptive bug affecting 6=2E17 =
+users=2E
+>> >=20
+>> > Regards,
+>> > - Derek
+>> >=20
+>> If the physical platform selection button does not automatically select=
+ the
+>> max-power profile under Windows, then we should copy this behavior i th=
+ink=2E
+>> The changes necessary for that are fairly small, basically you only hav=
+e to
+>> extend the handling of PLATFORM_PROFILE_CUSTOM inside platform_profile_=
+cycle()
+>> to also include the max-power profile=2E So i would prefer if we modify
+>> platform_profile_cycle() now has doing this later might be seen as a
+>> regression=2E
+>
+>Derek,
+>
+>Any comments on this?
+>
+>I'd very much prefer to take this series in this cycle but this comment=
+=20
+>seems unresolved and has userspace visible impact so may bind us=20
+>irrevocably to certain behavior=2E
+>
+>--
+> i=2E
 
-Errm. 'hdr' is of type 'struct nvme_tcp_hdr', and that most certainly
-does not define TLS_HANDSHAKE_KEYUPDATE. I think you should evaluate the
-cmsg type here.
+Ilpo,
 
->   	queue->pdu_remaining -= ret;
->   	queue->pdu_offset += ret;
->   	if (queue->pdu_remaining)
->   		return 0;
->   
-> -	hdr = queue->pdu;
->   	if (unlikely(hdr->hlen != sizeof(struct nvme_tcp_rsp_pdu))) {
->   		if (!nvme_tcp_recv_pdu_supported(hdr->type))
->   			goto unsupported_pdu;
-> @@ -944,6 +953,7 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_queue *queue)
->   	struct request *rq =
->   		nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
->   	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-> +	char cbuf[CMSG_LEN(sizeof(char))] = {};
->   
->   	if (nvme_tcp_recv_state(queue) != NVME_TCP_RECV_DATA)
->   		return 0;
-> @@ -976,10 +986,26 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_queue *queue)
->   
->   		ret = sock_recvmsg(queue->sock, &msg, msg.msg_flags);
->   		if (ret < 0) {
-> -			dev_err(queue->ctrl->ctrl.device,
-> -				"queue %d failed to receive request %#x data",
-> -				nvme_tcp_queue_id(queue), rq->tag);
-> -			return ret;
-> +			/* If MSG_CTRUNC is set, it's a control message,
-> +			 * so let's read the control message.
-> +			 */
-> +			if (msg.msg_flags & MSG_CTRUNC) {
-> +				memset(&msg, 0, sizeof(msg));
-> +				msg.msg_flags = MSG_DONTWAIT;
-> +				msg.msg_control = cbuf;
-> +				msg.msg_controllen = sizeof(cbuf);
-> +
-This is not correct; reading the control message implies a kernel
-memory allocation as message buffer, not an interator (as it's the
-case here).
-  > +				ret = sock_recvmsg(queue->sock, &msg, msg.msg_flags);
-> +			}
-> +
-> +			if (ret < 0) {
-> +				dev_dbg(queue->ctrl->ctrl.device,
-> +					"queue %d failed to receive request %#x data, %d",
-> +					nvme_tcp_queue_id(queue), rq->tag, ret);
-> +				return ret;
-> +			}
-> +
-> +			return 0;
->   		}
->   		if (queue->data_digest)
->   			nvme_tcp_ddgst_calc(req, &queue->rcv_crc, ret);
-> @@ -1384,15 +1410,39 @@ static int nvme_tcp_try_recvmsg(struct nvme_tcp_queue *queue)
->   		}
->   	} while (result >= 0);
->   
-> -	if (result < 0 && result != -EAGAIN) {
-> -		dev_err(queue->ctrl->ctrl.device,
-> -			"receive failed:  %d\n", result);
-> -		queue->rd_enabled = false;
-> -		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> -	} else if (result == -EAGAIN)
-> -		result = 0;
-> +	if (result < 0) {
-> +		if (result != -EKEYEXPIRED && result != -EAGAIN) {
-> +			dev_err(queue->ctrl->ctrl.device,
-> +				"receive failed:  %d\n", result);
-> +			queue->rd_enabled = false;
-> +			nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +		}
-> +		return result;
-> +	}
-> +
-> +	queue->nr_cqe = nr_cqe;
-> +	return nr_cqe;
-> +}
-> +
-> +static void update_tls_keys(struct nvme_tcp_queue *queue)
-> +{
-> +	int qid = nvme_tcp_queue_id(queue);
-> +	int ret;
-> +
-> +	dev_dbg(queue->ctrl->ctrl.device,
-> +		"updating key for queue %d\n", qid);
->   
-> -	return result < 0 ? result : (queue->nr_cqe = nr_cqe);
-> +	flush_work(&(queue->ctrl->ctrl).async_event_work);
-> +
-> +	ret = nvme_tcp_start_tls(&(queue->ctrl->ctrl),
-> +				 queue, queue->ctrl->ctrl.tls_pskid,
-> +				 HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
-> +
-> +	if (ret < 0) {
-> +		dev_err(queue->ctrl->ctrl.device,
-> +			"failed to update the keys %d\n", ret);
-> +		nvme_tcp_fail_request(queue->request);
-> +	}
->   }
->   
->   static void nvme_tcp_io_work(struct work_struct *w)
-> @@ -1417,8 +1467,11 @@ static void nvme_tcp_io_work(struct work_struct *w)
->   		result = nvme_tcp_try_recvmsg(queue);
->   		if (result > 0)
->   			pending = true;
-> -		else if (unlikely(result < 0))
-> -			return;
-> +		else if (unlikely(result < 0)) {
-> +			if (result == -EKEYEXPIRED)
-> +				update_tls_keys(queue);
-> +			break;
-> +		}
->   
->   		/* did we get some space after spending time in recv? */
->   		if (nvme_tcp_queue_has_pending(queue) &&
-> @@ -1726,6 +1779,7 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid,
->   			ctrl->ctrl.tls_pskid = key_serial(tls_key);
->   		key_put(tls_key);
->   		queue->tls_err = 0;
-> +		queue->handshake_session_id = handshake_session_id;
->   	}
->   
->   out_complete:
-> @@ -1755,6 +1809,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
->   		keyring = key_serial(nctrl->opts->keyring);
->   	args.ta_keyring = keyring;
->   	args.ta_timeout_ms = tls_handshake_timeout * 1000;
-> +	args.handshake_session_id = queue->handshake_session_id;
->   	queue->tls_err = -EOPNOTSUPP;
->   	init_completion(&queue->tls_complete);
->   	if (keyupdate == HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
-Cheers,Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+If I'm being totally honest I forgot about this request=2E I can knock thi=
+s out pretty quickly and send v4 today=2E
+
+Thanks,
+Derek
+>>=20
+>> Thanks,
+>> Armin Wolf
+>>=20
+>> > > Other than that:
+>> > > Reviewed-by: Armin Wolf <W_Armin@gmx=2Ede>
+>> > >=20
+>> > > >    		custom			Driver defined custom profile
+>> > > >    		=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> > > >    diff --git a/drivers/acpi/platform_profile=2Ec
+>> > > > b/drivers/acpi/platform_profile=2Ec
+>> > > > index b43f4459a4f6=2E=2Eaa1dce05121b 100644
+>> > > > --- a/drivers/acpi/platform_profile=2Ec
+>> > > > +++ b/drivers/acpi/platform_profile=2Ec
+>> > > > @@ -37,6 +37,7 @@ static const char * const profile_names[] =3D {
+>> > > >    	[PLATFORM_PROFILE_BALANCED] =3D "balanced",
+>> > > >    	[PLATFORM_PROFILE_BALANCED_PERFORMANCE] =3D
+>> > > > "balanced-performance",
+>> > > >    	[PLATFORM_PROFILE_PERFORMANCE] =3D "performance",
+>> > > > +	[PLATFORM_PROFILE_MAX_POWER] =3D "max-power",
+>> > > >    	[PLATFORM_PROFILE_CUSTOM] =3D "custom",
+>> > > >    };
+>> > > >    static_assert(ARRAY_SIZE(profile_names) =3D=3D PLATFORM_PROFIL=
+E_LAST);
+>> > > > diff --git a/include/linux/platform_profile=2Eh
+>> > > > b/include/linux/platform_profile=2Eh
+>> > > > index a299225ab92e=2E=2E855b28340e95 100644
+>> > > > --- a/include/linux/platform_profile=2Eh
+>> > > > +++ b/include/linux/platform_profile=2Eh
+>> > > > @@ -24,6 +24,7 @@ enum platform_profile_option {
+>> > > >    	PLATFORM_PROFILE_BALANCED,
+>> > > >    	PLATFORM_PROFILE_BALANCED_PERFORMANCE,
+>> > > >    	PLATFORM_PROFILE_PERFORMANCE,
+>> > > > +	PLATFORM_PROFILE_MAX_POWER,
+>> > > >    	PLATFORM_PROFILE_CUSTOM,
+>> > > >    	PLATFORM_PROFILE_LAST, /*must always be last */
+>> > > >    };
+>> >=20
+>>=20
+
