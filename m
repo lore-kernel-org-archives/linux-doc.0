@@ -1,103 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DD54207A;
-	Wed, 26 Nov 2025 23:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3F222083;
+	Thu, 27 Nov 2025 00:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764199860; cv=none; b=Gf0WXTxjv6MfZ5MZXz4Bb+tCOak3UxkztYaPj7GvrWS0QSSDYbepUSb6HxILVvZTDik06FKtzGiHkZ4LUFqXCLPewe2xG6mP+KqzDiQAYWcTKmEww2q7/53yx5bdHQhNDklN91g+Sqr/qyO7F1vTH4jvBr+QlfzY+ORzx8f3Ikk=
+	t=1764203172; cv=none; b=imOB3VndYzCV9oBeMggVqX5wGmD1gjW10ZLlcg850h9sSenjKX39b52j+kCUsk/0EeZkUc3rPjqr5fu99xF0SmO3XQ9gZ0BBfYXgFfXkoBgXyLMTkqorp87GyXgrhYM6pi/fcpzSd1f9koTHWf+ZcNhJXOmMUIXf0WdMbRSVTUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764199860; c=relaxed/simple;
-	bh=pbazvms3qhUN67tFcmFD1XFjqbasp/h6qwpzpJT0Cu8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PqA/UxbojELyjLtLgfsx7ViljLkQF2eeD7x+qmL/5ZGYVqEZDvLHSopoVvZDlcAN/gZIzV5dyRcGzPAnudQ43bnjtNOEyKyGQaNHDf9yNi28ZrXPzWW0XmyYyiQmcBx35Qi+l4tL8lNDY7gEJuaAe8Yb4fwogOYKSD2eP3nbWV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tpd7+V+g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764203172; c=relaxed/simple;
+	bh=J+0frs1Jw18gqCxZyrrjPuylOVGRUev4RwoODgPXzvg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=queov3/2ZJeVGc7gnjfFQNnevLggmndH+ilcKNgsAlwfyMoOYvBODUpsTpJAH/J5i92sKk71tfKoas1Om3chAP3kZGqHQGTI+OiwkBN0DEkQvh+2eGnXJn9ovJ1ivq8v0qkR8OvhHQpit7Jqzzdtnv0SYDI4JTaQJKe8FjVLUYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WrG9Ip/g; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tpd7+V+g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFBF6C4CEF7;
-	Wed, 26 Nov 2025 23:30:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764199860;
-	bh=pbazvms3qhUN67tFcmFD1XFjqbasp/h6qwpzpJT0Cu8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tpd7+V+gnVAet6iTsCALSC56T2Ma7ZeEMrM9PsB+7MyTK1fMuRk7ROaDnJ/8Vs9N+
-	 rIvN62H+fMDXQxY3y0l7cGlYIEBFgqgnOCeF1+9EqNlja1pty4h2r84FqR0r3I5PE3
-	 dE3Wea2nGmu9S86TdHi2QpXQcs53HL2Ld4LfOsxyFTT9vh+7eQT+Gfy2LOMEBvvj2S
-	 jwHfUuo25Ws6EZ9s1Tl3+L0s4tD7dBnsjhyYWKulUWEf6vyVot+J7rrO1bnPHJH/Mh
-	 YjDLnHrks9WSkB1VrJB3ErmoJIZagJFOBuOk3PUTNRuEncTLlKKi/Z2XHl/krt5t0t
-	 a67+K/5Uoclwg==
-Date: Wed, 26 Nov 2025 15:30:57 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Tony Nguyen <anthony.l.nguyen@intel.com>
-Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
- andrew+netdev@lunn.ch, netdev@vger.kernel.org, Arkadiusz Kubalewski
- <arkadiusz.kubalewski@intel.com>, richardcochran@gmail.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, horms@kernel.org, aleksandr.loktionov@intel.com,
- przemyslaw.kitszel@intel.com, Paul Menzel <pmenzel@molgen.mpg.de>, Grzegorz
- Nitka <grzegorz.nitka@intel.com>
-Subject: Re: [PATCH net-next 01/11] ice: add support for unmanaged DPLL on
- E830 NIC
-Message-ID: <20251126153057.2bbc21d0@kernel.org>
-In-Reply-To: <20251125223632.1857532-2-anthony.l.nguyen@intel.com>
-References: <20251125223632.1857532-1-anthony.l.nguyen@intel.com>
-	<20251125223632.1857532-2-anthony.l.nguyen@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WrG9Ip/g"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Wq2hRRHw3uwK7n7ReUBUG9hyJPvVDkZT3JJwxzZrWbI=; b=WrG9Ip/gPBfvrLaOel6g8NOCPa
+	gRzSRLAFpucSIXQ0fxdJXdJfA3Nwhpkz4jJDl+eLi0facTc5Nd8Gue5jvyGeFMQaLf74negZqHsok
+	PAswvwj2LljbrUNDNXbDcT+sT3paybpeOz7eGeRLFBE2iR2ndbp1V3XzoI/MioX62iXu7shA4nm9Q
+	ayaDN3uRZjbkf5oSL2TBBEFJvr2sOR2Y2wDIlnnThvR+uPgtBxUpIqXvT7EKThFJIpaWnLN0ag+zN
+	w1zaniz4g189q3lWlZnSoh5ABJ2IrprfuZwXL0i293gdbxpxQFaNfuDgFljRsSNGcF6HIx7s6MPCB
+	/1JmxiAQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vOPpl-0000000FnTO-2ESJ;
+	Thu, 27 Nov 2025 00:26:05 +0000
+Message-ID: <a731c794-1b4c-4ea7-9cf1-0210b95eaa4d@infradead.org>
+Date: Wed, 26 Nov 2025 16:26:04 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/1] docs: Update documentation to avoid mentioning of
+ kernel.h
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "Dr. David Alan Gilbert" <linux@treblig.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>
+References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Tue, 25 Nov 2025 14:36:20 -0800 Tony Nguyen wrote:
-> +int ice_is_health_status_code_supported(struct ice_hw *hw, u16 code,
-> +					bool *supported)
-> +{
-> +	const int BUFF_SIZE = ICE_AQC_HEALTH_STATUS_CODE_NUM;
-> +	struct ice_aqc_health_status_supp_elem *buff;
-> +	int ret;
-> +
-> +	buff = kcalloc(BUFF_SIZE, sizeof(*buff), GFP_KERNEL);
-> +	if (!buff)
-> +		return -ENOMEM;
-> +	ret = ice_aq_get_health_status_supported(hw, buff, BUFF_SIZE);
-> +	if (ret)
-> +		goto free_buff;
-> +	for (int i = 0; i < BUFF_SIZE && buff[i].health_status_code; i++)
-> +		if (le16_to_cpu(buff[i].health_status_code) == code) {
-> +			*supported = true;
-> +			break;
-> +		}
 
-Claude Code review says you may not find the @code ...
 
-> +free_buff:
-> +	kfree(buff);
-> +	return ret;
+On 11/26/25 1:46 PM, Andy Shevchenko wrote:
+> For several years, and still ongoing, the kernel.h is being split
+> to smaller and narrow headers to avoid "including everything" approach
+> which is bad in many ways. Since that, documentation missed a few
+> required updates to align with that work. Do it here.
+> 
+> Note, language translations are left untouched and if anybody willing
+> to help, please provide path(es) based on the updated English variant.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-.. but still report 0 ..
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-> +	/* Initialize unmanaged DPLL detection */
-> +	{
-> +		u16 code = ICE_AQC_HEALTH_STATUS_INFO_LOSS_OF_LOCK;
-> +		int err;
-> +
-> +		err = ice_is_health_status_code_supported(&pf->hw, code,
-> +							  &pf->dplls.unmanaged);
-> +		if (err || !ice_is_unmanaged_cgu_in_netlist(&pf->hw))
-> +			pf->dplls.unmanaged = false;
+> ---
+> 
+> v2: collected tag (Randy), fixed util_macros k-doc (Randy, me), fixed spelling (Randy)
+> 
+>  Documentation/core-api/kobject.rst              |  2 +-
+>  Documentation/dev-tools/checkpatch.rst          |  2 +-
+>  Documentation/driver-api/basics.rst             | 17 ++++++++++++++++-
+>  .../driver-api/driver-model/design-patterns.rst |  2 +-
+>  Documentation/process/coding-style.rst          | 10 +++++++---
+>  Documentation/staging/rpmsg.rst                 |  7 +++++--
+>  include/linux/util_macros.h                     |  2 +-
+>  7 files changed, 32 insertions(+), 10 deletions(-)
+> 
 
-.. which is not handled here
-
-> +	}
-
-BTW floating code block like:
-
-	{
-		int i;
-
-		bla(i);
-	}
-
-Is not an acceptable coding style upstream.
+-- 
+~Randy
