@@ -1,40 +1,81 @@
-Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7A7257830;
-	Thu, 27 Nov 2025 13:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE1724678D
+	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 13:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764249898; cv=none; b=HupOVs7jo73JTkUTI22vd93NaPVarmXc9XJeFXa6Mt2CGTyX6SCaVV66Er9Gsg7JKjnDvY5IbJyZDE1Hg/OfPfSqzwYp/q+pETZQwiHtiraVHIyMvvmvj89T5ffHaVtDuG18PJVIdOoJlp4lgvOSgcPnFPo1rOQZFZT9cmavsfA=
+	t=1764250270; cv=none; b=bKD8gLyhd+Cj4wVNEzucNLhDJQMxnnDpOODmCE8w+MlyekudygydoUYuyr3nS2S55D3tiXx1gHzKaV0E6MrLlq94oWU8Wgj0pFvqnqtYo5ZFnbIHK9t19rYCn0YSbBm2fltGEfd4GSrsiB6uKuvoaQdE69B1eHPfPjy5w16NQLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764249898; c=relaxed/simple;
-	bh=T22MT9sNX0B7VhOc3iByahuQoPBWnd3sIX3AcLzNiq4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=B9fDSMKl3JgcaSzu9KaP3ibMe3crkPAWNnvsEWSezPiyXgnudjFDR4VG8gU+nOdYiHnOevmK5zvcpw9twHP0X60pD+YaxmKT1mmXlvPvAbue5zeqnuAlfZc8lb+Lc8M1ZPgmUC/xiCXRkv2m37aQTDFEfwOgsM3ALDGkzuOncj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=YL5fV4xE; arc=none smtp.client-ip=113.46.200.226
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1764250270; c=relaxed/simple;
+	bh=aD+Z6IumaOiPhSKdGozpzfKuEvmUdQSQvBKOS8KlarI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tAPMVayRyVkTdGk30UDIw9nMd/YioFmc0oGC+ohuLfAXJDBqR0xR1RJABFpblC7/haCH5ASKdLrfJ2X2oPFfHJQ6LVLZsNXRv0pqRVIIxATdIy24zbWUFtdXyMH1bisyVB/Pa6HwdAlsjm0lvqwLYRXbh29DBuq01sYGKS4HNRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rh8dnYFm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OmQlmb6N; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=166tjX+O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PS1WAt3E; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="YL5fV4xE"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=Cr+5Rr5BPGPR1wepA4s78G0eot3R+UDHLBx6NzzwIjI=;
-	b=YL5fV4xE2L/eeoILrrBxV1N7dJlTDocQg0tVtTBqhVHiGJrFZMev0VDQVSkZDLhAl5URyZjV6
-	VQCw6nI6aUOb4X9C0BIMdUaw/4AdNcInkYZSSv1Kdl5IBbQh+bdShVt+y1tS1SvduD4FKY51aMv
-	3Z8zAxjGW7zojq71QEmAais=
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dHHDQ5hXhzKm4J;
-	Thu, 27 Nov 2025 21:23:02 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1009E1401F4;
-	Thu, 27 Nov 2025 21:24:52 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Thu, 27 Nov 2025 21:24:51 +0800
-Message-ID: <694b6f79-8306-46fb-9f4b-c30afd114210@huawei.com>
-Date: Thu, 27 Nov 2025 21:24:50 +0800
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rh8dnYFm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OmQlmb6N";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="166tjX+O";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PS1WAt3E"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A824F3374C;
+	Thu, 27 Nov 2025 13:31:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764250262; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RMTVveMh5YfenpE8iMkQrTizREiFLrVIWd+fohp24gE=;
+	b=rh8dnYFmP9bqVzCOiQwcKgNVs6Dl7jD229uCl0x+P0gxdZlFDIwhfdOWWTXadOBAHNADdC
+	ngg1SvfhxHtUo7ofE4DoKiRMD/pimJfkVNcVQyQSAO0pTVWll/ZH8vydyCs9yxfZNrqUIx
+	6NTX2kS3MTvXcpmIrI1PSdaB1Fa4Dhc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764250262;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RMTVveMh5YfenpE8iMkQrTizREiFLrVIWd+fohp24gE=;
+	b=OmQlmb6Nk7C39zzgoo28LC+n97DjqOJ+t4DU3OllM45dWpjQccrnsGqPSVxt+AZtiAYY54
+	rlNvhJftA3cuxqAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=166tjX+O;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PS1WAt3E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764250261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RMTVveMh5YfenpE8iMkQrTizREiFLrVIWd+fohp24gE=;
+	b=166tjX+O8IPVTHmzP2K2Rui8g5AUAtGZIa5izr2ZMc++1oa+ad6e3WRR4j49t1Z/sgEqrZ
+	hhXziLVBxDKYmRBr1sj5EDQXoSF2QdQcFFTIDhNthIe7mM9onMZG4Ex0BmUoZACiLRm242
+	C13aLS+HXMv0xhe1cNrvlmSCjT9+b78=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764250261;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RMTVveMh5YfenpE8iMkQrTizREiFLrVIWd+fohp24gE=;
+	b=PS1WAt3E1C/zR0Wj3qXvCoyWz1TXUCN36K09vXwdqXwT1KnTU+CVRSpCXahWfNCfJcskHP
+	SiE9oLkGcuEv8WBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6C2DB3EA63;
+	Thu, 27 Nov 2025 13:31:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /OvDGZVSKGk6UQAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 27 Nov 2025 13:31:01 +0000
+Message-ID: <f7a91a49-9f82-492a-8bf9-520ee1c832ba@suse.de>
+Date: Thu, 27 Nov 2025 14:31:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,207 +83,260 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] KVM: arm64: Add support for FEAT_HDBSS
-To: Marc Zyngier <maz@kernel.org>, Tian Zheng <zhengtian10@huawei.com>
-CC: <oliver.upton@linux.dev>, <catalin.marinas@arm.com>, <corbet@lwn.net>,
-	<pbonzini@redhat.com>, <will@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <yezhenyu2@huawei.com>,
-	<xiexiangyou@huawei.com>, <zhengchuan@huawei.com>, <joey.gouly@arm.com>,
-	<kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<suzuki.poulose@arm.com>
-References: <20251121092342.3393318-1-zhengtian10@huawei.com>
- <20251121092342.3393318-4-zhengtian10@huawei.com>
- <86tsymqjwb.wl-maz@kernel.org>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <86tsymqjwb.wl-maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemr100010.china.huawei.com (7.202.195.125)
+Subject: Re: [PATCH v5 5/6] nvme-tcp: Support KeyUpdate
+To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
+References: <20251112042720.3695972-1-alistair.francis@wdc.com>
+ <20251112042720.3695972-6-alistair.francis@wdc.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20251112042720.3695972-6-alistair.francis@wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ietf.org:url,suse.de:mid,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,wdc.com:email];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: A824F3374C
 
+On 11/12/25 05:27, alistair23@gmail.com wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
+> 
+> If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
+> EKEYEXPIRED then the underlying TLS keys need to be updated. This occurs
+> on an KeyUpdate event as described in RFC8446
+> https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3.
+> 
+> If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+> allow the NVMe layer to process the KeyUpdate request and forward the
+> request to userspace. Userspace must then update the key to keep the
+> connection alive.
+> 
+> This patch allows us to handle the NVMe target sending a KeyUpdate
+> request without aborting the connection. At this time we don't support
+> initiating a KeyUpdate.
+> 
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+> v5:
+>   - Cleanup code flow
+>   - Check for MSG_CTRUNC in the msg_flags return from recvmsg
+>     and use that to determine if it's a control message
+> v4:
+>   - Remove all support for initiating KeyUpdate
+>   - Don't call cancel_work() when updating keys
+> v3:
+>   - Don't cancel existing handshake requests
+> v2:
+>   - Don't change the state
+>   - Use a helper function for KeyUpdates
+>   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
+>   - Remove command message using recvmsg
+> 
+>   drivers/nvme/host/tcp.c | 85 +++++++++++++++++++++++++++++++++--------
+>   1 file changed, 70 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 4797a4532b0d..5cec5a974bbf 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -172,6 +172,7 @@ struct nvme_tcp_queue {
+>   	bool			tls_enabled;
+>   	u32			rcv_crc;
+>   	u32			snd_crc;
+> +	key_serial_t		handshake_session_id;
+>   	__le32			exp_ddgst;
+>   	__le32			recv_ddgst;
+>   	struct completion       tls_complete;
+> @@ -858,7 +859,10 @@ static void nvme_tcp_handle_c2h_term(struct nvme_tcp_queue *queue,
+>   static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
+>   {
+>   	char *pdu = queue->pdu;
+> +	char cbuf[CMSG_LEN(sizeof(char))] = {};
+>   	struct msghdr msg = {
+> +		.msg_control = cbuf,
+> +		.msg_controllen = sizeof(cbuf),
+>   		.msg_flags = MSG_DONTWAIT,
+>   	};
+>   	struct kvec iov = {
+> @@ -873,12 +877,17 @@ static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
+>   	if (ret <= 0)
+>   		return ret;
+>   
+> +	hdr = queue->pdu;
+> +	if (hdr->type == TLS_HANDSHAKE_KEYUPDATE) {
+> +		dev_err(queue->ctrl->ctrl.device, "KeyUpdate message\n");
+> +		return 1;
+> +	}
+> +
 
+Errm. 'hdr' is of type 'struct nvme_tcp_hdr', and that most certainly
+does not define TLS_HANDSHAKE_KEYUPDATE. I think you should evaluate the
+cmsg type here.
 
-On 2025/11/22 21:25, Marc Zyngier wrote:
-> On Fri, 21 Nov 2025 09:23:40 +0000,
-> Tian Zheng <zhengtian10@huawei.com> wrote:
->>
->> From: eillon <yezhenyu2@huawei.com>
->>
->> Armv9.5 introduces the Hardware Dirty Bit State Structure (HDBSS) feature,
->> indicated by ID_AA64MMFR1_EL1.HAFDBS == 0b0100.
->>
->> Add the Kconfig for FEAT_HDBSS and support detecting and enabling the
->> feature. A CPU capability is added to notify the user of the feature.
->>
->> Add KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl and basic framework for
->> ARM64 HDBSS support. Since the HDBSS buffer size is configurable and
->> cannot be determined at KVM initialization, an IOCTL interface is
->> required.
->>
->> Actually exposing the new capability to user space happens in a later
->> patch.
->>
->> Signed-off-by: eillon <yezhenyu2@huawei.com>
->> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
->> ---
->>   arch/arm64/Kconfig                  | 14 ++++++++++++++
->>   arch/arm64/include/asm/cpucaps.h    |  2 ++
->>   arch/arm64/include/asm/cpufeature.h |  5 +++++
->>   arch/arm64/include/asm/kvm_host.h   |  4 ++++
->>   arch/arm64/include/asm/sysreg.h     | 12 ++++++++++++
->>   arch/arm64/kernel/cpufeature.c      |  9 +++++++++
->>   arch/arm64/tools/cpucaps            |  1 +
->>   include/uapi/linux/kvm.h            |  1 +
->>   tools/include/uapi/linux/kvm.h      |  1 +
->>   9 files changed, 49 insertions(+)
->>
->> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->> index 6663ffd23f25..1edf75888a09 100644
->> --- a/arch/arm64/Kconfig
->> +++ b/arch/arm64/Kconfig
->> @@ -2201,6 +2201,20 @@ config ARM64_GCS
->>
->>   endmenu # "ARMv9.4 architectural features"
->>
->> +menu "ARMv9.5 architectural features"
->> +
->> +config ARM64_HDBSS
->> +	bool "Enable support for Hardware Dirty state tracking Structure (HDBSS)"
->> +	help
->> +	  Hardware Dirty state tracking Structure(HDBSS) enhances tracking
->> +	  translation table descriptors' dirty state to reduce the cost of
->> +	  surveying for dirtied granules.
->> +
->> +	  The feature introduces new assembly registers (HDBSSBR_EL2 and
->> +	  HDBSSPROD_EL2), which are accessed via generated register accessors.
-> 
-> This last but means nothing to most people.
-> 
-> But more importantly, I really don't want to see this as a config
-> option. KVM comes with "battery included", and all features should be
-> available at all times.
-HDBSS is only designed for KVM, and I agree that it shouldn't be
-controlled by a config option. I will remove it.
-
-By the way, I would like to ask for your advice. I have been a bit
-confused about when exactly it is necessary to add a config option in
-Kconfig for a feature.
-> 
->> +
->> +endmenu # "ARMv9.5 architectural features"
->> +
->>   config ARM64_SVE
->>   	bool "ARM Scalable Vector Extension support"
->>   	default y
->> diff --git a/arch/arm64/include/asm/cpucaps.h b/arch/arm64/include/asm/cpucaps.h
->> index 9d769291a306..5e5a26f28dec 100644
->> --- a/arch/arm64/include/asm/cpucaps.h
->> +++ b/arch/arm64/include/asm/cpucaps.h
->> @@ -48,6 +48,8 @@ cpucap_is_possible(const unsigned int cap)
->>   		return IS_ENABLED(CONFIG_ARM64_GCS);
->>   	case ARM64_HAFT:
->>   		return IS_ENABLED(CONFIG_ARM64_HAFT);
->> +	case ARM64_HAS_HDBSS:
->> +		return IS_ENABLED(CONFIG_ARM64_HDBSS);
->>   	case ARM64_UNMAP_KERNEL_AT_EL0:
->>   		return IS_ENABLED(CONFIG_UNMAP_KERNEL_AT_EL0);
->>   	case ARM64_WORKAROUND_843419:
->> diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
->> index e223cbf350e4..b231415a2b76 100644
->> --- a/arch/arm64/include/asm/cpufeature.h
->> +++ b/arch/arm64/include/asm/cpufeature.h
->> @@ -856,6 +856,11 @@ static inline bool system_supports_haft(void)
->>   	return cpus_have_final_cap(ARM64_HAFT);
->>   }
->>
->> +static inline bool system_supports_hdbss(void)
->> +{
->> +	return cpus_have_final_cap(ARM64_HAS_HDBSS);
->> +}
->> +
->>   static __always_inline bool system_supports_mpam(void)
->>   {
->>   	return alternative_has_cap_unlikely(ARM64_MPAM);
->> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
->> index 64302c438355..d962932f0e5f 100644
->> --- a/arch/arm64/include/asm/kvm_host.h
->> +++ b/arch/arm64/include/asm/kvm_host.h
->> @@ -60,6 +60,10 @@
->>
->>   #define KVM_HAVE_MMU_RWLOCK
->>
->> +/* HDBSS entry field definitions */
->> +#define HDBSS_ENTRY_VALID BIT(0)
->> +#define HDBSS_ENTRY_IPA GENMASK_ULL(55, 12)
->> +
-> 
-> None of this is used here. Move it to the patch where it belongs.
-I will move HDBSS_ENTRY_VALID and HDBSS_ENTRY_IPA to next patch.
-> 
->>   /*
->>    * Mode of operation configurable with kvm-arm.mode early param.
->>    * See Documentation/admin-guide/kernel-parameters.txt for more information.
->> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
->> index c231d2a3e515..3511edea1fbc 100644
->> --- a/arch/arm64/include/asm/sysreg.h
->> +++ b/arch/arm64/include/asm/sysreg.h
->> @@ -1129,6 +1129,18 @@
->>   #define gicr_insn(insn)			read_sysreg_s(GICV5_OP_GICR_##insn)
->>   #define gic_insn(v, insn)		write_sysreg_s(v, GICV5_OP_GIC_##insn)
->>
->> +/*
->> + * Definitions for the HDBSS feature
->> + */
->> +#define HDBSS_MAX_SIZE		HDBSSBR_EL2_SZ_2MB
->> +
->> +#define HDBSSBR_EL2(baddr, sz)	(((baddr) & GENMASK(55, 12 + sz)) | \
->> +				 FIELD_PREP(HDBSSBR_EL2_SZ_MASK, sz))
->> +#define HDBSSBR_BADDR(br)	((br) & GENMASK(55, (12 + HDBSSBR_SZ(br))))
->> +#define HDBSSBR_SZ(br)		FIELD_GET(HDBSSBR_EL2_SZ_MASK, br)
-> 
-> This is a bit backward. When would you need to read-back and mask
-> random bits off the register?
-I will delete the definitions of HDBSSBR_BADDR and HDBSSBR_SZ.
-> 
->> +
->> +#define HDBSSPROD_IDX(prod)	FIELD_GET(HDBSSPROD_EL2_INDEX_MASK, prod)
->> +
-> 
-> As previously said, these definitions don't serve any purpose here,
-> and would be better in the following patch.
-I will move all the HDBSS definitions to the next patch where they
-are actually used.
-> 
->>   #define ARM64_FEATURE_FIELD_BITS	4
->>
->>   #ifdef __ASSEMBLY__
->> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
->> index e25b0f84a22d..f39973b68bdb 100644
->> --- a/arch/arm64/kernel/cpufeature.c
->> +++ b/arch/arm64/kernel/cpufeature.c
->> @@ -2710,6 +2710,15 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
->>   		.matches = has_cpuid_feature,
->>   		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HAFT)
->>   	},
->> +#endif
->> +#ifdef CONFIG_ARM64_HDBSS
->> +	{
->> +		.desc = "Hardware Dirty state tracking structure (HDBSS)",
->> +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
->> +		.capability = ARM64_HAS_HDBSS,
->> +		.matches = has_cpuid_feature,
->> +		ARM64_CPUID_FIELDS(ID_AA64MMFR1_EL1, HAFDBS, HDBSS)
->> +	},
-> 
-> I think this is one of the features we should restrict to VHE. I don't
-> imagine pKVM ever making use of this, and no non-VHE HW will ever
-> build this.
-> 
-> Thanks,
-I will add a new helper function that checks both VHE and the CPUID
-feature, and use it in place of has_cpuid_feature in the .matches field.
-> 
-> 	M.
-> 
-
+>   	queue->pdu_remaining -= ret;
+>   	queue->pdu_offset += ret;
+>   	if (queue->pdu_remaining)
+>   		return 0;
+>   
+> -	hdr = queue->pdu;
+>   	if (unlikely(hdr->hlen != sizeof(struct nvme_tcp_rsp_pdu))) {
+>   		if (!nvme_tcp_recv_pdu_supported(hdr->type))
+>   			goto unsupported_pdu;
+> @@ -944,6 +953,7 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_queue *queue)
+>   	struct request *rq =
+>   		nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+>   	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +	char cbuf[CMSG_LEN(sizeof(char))] = {};
+>   
+>   	if (nvme_tcp_recv_state(queue) != NVME_TCP_RECV_DATA)
+>   		return 0;
+> @@ -976,10 +986,26 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_queue *queue)
+>   
+>   		ret = sock_recvmsg(queue->sock, &msg, msg.msg_flags);
+>   		if (ret < 0) {
+> -			dev_err(queue->ctrl->ctrl.device,
+> -				"queue %d failed to receive request %#x data",
+> -				nvme_tcp_queue_id(queue), rq->tag);
+> -			return ret;
+> +			/* If MSG_CTRUNC is set, it's a control message,
+> +			 * so let's read the control message.
+> +			 */
+> +			if (msg.msg_flags & MSG_CTRUNC) {
+> +				memset(&msg, 0, sizeof(msg));
+> +				msg.msg_flags = MSG_DONTWAIT;
+> +				msg.msg_control = cbuf;
+> +				msg.msg_controllen = sizeof(cbuf);
+> +
+This is not correct; reading the control message implies a kernel
+memory allocation as message buffer, not an interator (as it's the
+case here).
+  > +				ret = sock_recvmsg(queue->sock, &msg, msg.msg_flags);
+> +			}
+> +
+> +			if (ret < 0) {
+> +				dev_dbg(queue->ctrl->ctrl.device,
+> +					"queue %d failed to receive request %#x data, %d",
+> +					nvme_tcp_queue_id(queue), rq->tag, ret);
+> +				return ret;
+> +			}
+> +
+> +			return 0;
+>   		}
+>   		if (queue->data_digest)
+>   			nvme_tcp_ddgst_calc(req, &queue->rcv_crc, ret);
+> @@ -1384,15 +1410,39 @@ static int nvme_tcp_try_recvmsg(struct nvme_tcp_queue *queue)
+>   		}
+>   	} while (result >= 0);
+>   
+> -	if (result < 0 && result != -EAGAIN) {
+> -		dev_err(queue->ctrl->ctrl.device,
+> -			"receive failed:  %d\n", result);
+> -		queue->rd_enabled = false;
+> -		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+> -	} else if (result == -EAGAIN)
+> -		result = 0;
+> +	if (result < 0) {
+> +		if (result != -EKEYEXPIRED && result != -EAGAIN) {
+> +			dev_err(queue->ctrl->ctrl.device,
+> +				"receive failed:  %d\n", result);
+> +			queue->rd_enabled = false;
+> +			nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+> +		}
+> +		return result;
+> +	}
+> +
+> +	queue->nr_cqe = nr_cqe;
+> +	return nr_cqe;
+> +}
+> +
+> +static void update_tls_keys(struct nvme_tcp_queue *queue)
+> +{
+> +	int qid = nvme_tcp_queue_id(queue);
+> +	int ret;
+> +
+> +	dev_dbg(queue->ctrl->ctrl.device,
+> +		"updating key for queue %d\n", qid);
+>   
+> -	return result < 0 ? result : (queue->nr_cqe = nr_cqe);
+> +	flush_work(&(queue->ctrl->ctrl).async_event_work);
+> +
+> +	ret = nvme_tcp_start_tls(&(queue->ctrl->ctrl),
+> +				 queue, queue->ctrl->ctrl.tls_pskid,
+> +				 HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
+> +
+> +	if (ret < 0) {
+> +		dev_err(queue->ctrl->ctrl.device,
+> +			"failed to update the keys %d\n", ret);
+> +		nvme_tcp_fail_request(queue->request);
+> +	}
+>   }
+>   
+>   static void nvme_tcp_io_work(struct work_struct *w)
+> @@ -1417,8 +1467,11 @@ static void nvme_tcp_io_work(struct work_struct *w)
+>   		result = nvme_tcp_try_recvmsg(queue);
+>   		if (result > 0)
+>   			pending = true;
+> -		else if (unlikely(result < 0))
+> -			return;
+> +		else if (unlikely(result < 0)) {
+> +			if (result == -EKEYEXPIRED)
+> +				update_tls_keys(queue);
+> +			break;
+> +		}
+>   
+>   		/* did we get some space after spending time in recv? */
+>   		if (nvme_tcp_queue_has_pending(queue) &&
+> @@ -1726,6 +1779,7 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid,
+>   			ctrl->ctrl.tls_pskid = key_serial(tls_key);
+>   		key_put(tls_key);
+>   		queue->tls_err = 0;
+> +		queue->handshake_session_id = handshake_session_id;
+>   	}
+>   
+>   out_complete:
+> @@ -1755,6 +1809,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+>   		keyring = key_serial(nctrl->opts->keyring);
+>   	args.ta_keyring = keyring;
+>   	args.ta_timeout_ms = tls_handshake_timeout * 1000;
+> +	args.handshake_session_id = queue->handshake_session_id;
+>   	queue->tls_err = -EOPNOTSUPP;
+>   	init_completion(&queue->tls_complete);
+>   	if (keyupdate == HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
+Cheers,Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
