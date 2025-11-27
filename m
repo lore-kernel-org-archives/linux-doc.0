@@ -1,142 +1,196 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D590334C08
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 14:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B557333456;
+	Thu, 27 Nov 2025 15:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764255506; cv=none; b=ma2c0m2M3txTH0pcb8uAYSN+T1LmaRP7HKA6ViSsgNBdtwL7vwF2Bkx/PdF+K0HpMh0LYJIB9E/Nu+JTS99hq5du88Wp+H41KAFUdl6PIXQHo5EoDJACFeM4znQB4hMWKqvBk5oB1cQyOnhUWyBgk9LCty2Y4bXDU5eemu0PQZY=
+	t=1764255664; cv=none; b=XEMZ2NysUCdLDBLEJ0XpNGz661pjD01QEt0xOAALqGA186WAaivwoq0Hz/ZoY+3yacc553Deti55rTwVQdx6QLYJT30y/7AGoE7p0XJxaOxc34vfLbfhBprQwxtl4KDM/HrgpCcY8Kmb7aHYyMRIOeGafquVFSPB/MuXNgpODBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764255506; c=relaxed/simple;
-	bh=EdT5rHOj/uOOThgmjWa/IHFKAYOs+mZlMeM3C+jyHaM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=txHW86loboJHhNICjliV16uC281vtEuSy2lB/xdO+GlPRjYen+I9v6xSqQo8+eLP6XBHWfu1FVr8zAQMY4Tb8EoneMs0Jor9nBZYM0k/Q56BJbUIcWVaZ9yT00ARYl9eOZtvP3UEtKmIOuUAHIt/Shc2L/HeUvAVspBUUHnTK/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cHTwg0Xa; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764255664; c=relaxed/simple;
+	bh=UeR2BgcHfyY8nNyZQwhClJSqKeDIuwmepY4yPjZ0Vcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KZ9i3GBCPDNVPYtvM148X8fmDkkJTsiM+91htSRgMs8CXFmIkIlaX6gP5av4c6FDj6g/CAZeoFTaG7pF/L+njZXKz9nQrYknaxCTHCC8c5qo9Qgpg7FddGQ6uh6n1tErGzyjlOFrP/mR0owiaN8bfgpXX3t3jdekT/6croqo2WQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMIkdj54; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cHTwg0Xa"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7d26a7e5639so166635b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 06:58:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764255504; x=1764860304; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bshIT03RXVpYAx2QOnAzStF6XTavPN9dCPyAspH0y8k=;
-        b=cHTwg0XayGXP/cX+b7Z52pU9UljV4vwuNWArQ2Sbpx4IOEk1sszczy5msjCcnRhHNi
-         04xvHkKnkAslslaao7duIis25Ia+CL8L6eXhCo3Wuif1cAjDkReDokBXk+/BIgAot/LY
-         HVM0i6k6iWzp88Ap9rZy/yzworZQoZBHSjYYF0HR9sYcUcbSkRwejbiqaeNuRfgFQtyA
-         KBH6eGbdcXj67T0WFq74qQAL8xCN7YGfpfJEw2u7CE+h/44BfslCyjoU248NzmOoWfPi
-         CId19FpK888wwtxzs+fIDieVWDAxSKQLEcEiR/8wQWKrQJWc5Ow6IAtA/6egL2KQ8ITI
-         BWBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764255504; x=1764860304;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bshIT03RXVpYAx2QOnAzStF6XTavPN9dCPyAspH0y8k=;
-        b=wOnwhjP9rPlcGi79Y1vb8JGx3QbBlC9KY58STZG7ZNaLq633cc+QnhlPuT2UtVW9wa
-         yxKKaG6x+yrkxIEsF5JYyPuLK7Hrvtb+jD2h0kEjfbRHyNHJ8+CU+wDlq/IQFLTgpioN
-         OGVXgYdOqvRP2botrYpzmMpNxfd6ztipf/Xk087Dk6Ci2UW3l9In6hZGoQe6ztWmu2+N
-         s7qQcEt/KU46YDQ2041pRKPT6zbe5XZQmGIu84JWHBD1Nli2yftkhJ87NkXso0E9s4RV
-         xmQXvpDFWRC6By6W7Z9cpwVlokWcY5nqgfpMn9PD4PxMex92wNcDgchyxmUyUagnwURc
-         JIbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfu4GokKUkNWd2Gg2vXtPA0w7FoviNwGmTV7M0DIrbfBnjCsj27L7NpX1o2YsZOoDog4NXNb7TPmY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsPV+lYOyyFMIYXCsdXNJ6/k2aueIIsdptJIYmaXRx9d/hsyEQ
-	x8gtL5G+dRqVnBDrVb4F2SELFWl8ocUhzR4UDdu7+ygxMA+ep9uZhpLm
-X-Gm-Gg: ASbGncv85xPRKJcWKfRHNK0p4vDgG/88LPBvDIoFP89zIOjFd8iXwpfCkV80ZK2cUOR
-	HiyL+acdmgF6VPPlABJ/++pOUnOnfpvj9rMLi+p7Sx/LCADMvPRubl0WrRtBnxxAzXZlEF7H2hN
-	SzvB7oz+n9HqGKckKaX+VLd/0V9+MabbfysgSavOS45mL1frhRW8AosTIUoTaJeUlzHVAK0t9tU
-	GcDh7N/uFZzl+L23w+JvdQcA0iYG5j99ZXYxsyY8NBME+hsbiz5mTWd3w8RIryvzF20buSNKpXO
-	MMYqH6dH54y4L953DG5olECWt0/FPRatcKHUC+NtqyRIDHf/03iUmwZSaZQXfkKlsFhXJHuBvK1
-	Dixt86LuSUf40hBPnTKKlUgAF9hlDpKe//K2Z4n4tp9PYyJ2UAAg9eLSDC8zQmygLBgIkX1wmKG
-	62wdq6AFcsq/i8TMc3uPWq5g==
-X-Google-Smtp-Source: AGHT+IEKx5CCbH38MnNhrI6IDEmd+w6puHRkJx1sqX503mnKJpgOPtQnM7atYk4oRY+4tTRV0hoQpA==
-X-Received: by 2002:a05:6a00:2e0f:b0:7ab:3454:6f2b with SMTP id d2e1a72fcca58-7c58e113fc4mr24347692b3a.19.1764255503666;
-        Thu, 27 Nov 2025 06:58:23 -0800 (PST)
-Received: from DESKTOP-P76LG1N.lan ([42.116.199.188])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d15f177566sm2205249b3a.51.2025.11.27.06.58.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 06:58:22 -0800 (PST)
-From: Nam Tran <trannamatk@gmail.com>
-To: lee@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	pavel@kernel.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	robh@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v18 2/3] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
-Date: Thu, 27 Nov 2025 21:58:17 +0700
-Message-Id: <20251127145817.172871-1-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251127113213.GI3070764@google.com>
-References: <20251127113213.GI3070764@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMIkdj54"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764255662; x=1795791662;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UeR2BgcHfyY8nNyZQwhClJSqKeDIuwmepY4yPjZ0Vcg=;
+  b=UMIkdj54tAbmOJ3ocouNc3A0QqoF8O9cuI9Xxr6KoJQ+M6CYg7J0M/+h
+   R6EdwpVTNwVdPbMeq7+smxxPGjqAXEI2YfFD6tliiFzGMwV3V2mm73QmK
+   7AmQR0UDlmsE1DffCOdflbPBUQEWoAiuN9inYZSlaOI8lryljrTlzlrCw
+   0522n8es4igpeAbvb18ALASzRLpRE01P0c0INbI5r151qpuSInOEubM3/
+   WsE88GLolOyEYK0eT3QTjPItt8QELX7US6k+SVJPmqBDue66KZxH5OhCu
+   b73MfhXOq3MNzmbHFfPFNvyVsbaoyyKI/bIC0fDw2xmVSYChRiLqum6qW
+   A==;
+X-CSE-ConnectionGUID: UqLmUKRlT7SSjOpn5UDHxQ==
+X-CSE-MsgGUID: 0lqC07vqSMCH77WO9tt+Ig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="83697031"
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
+   d="scan'208";a="83697031"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 07:01:01 -0800
+X-CSE-ConnectionGUID: U0SK0fYHSaGH15RRdzsLpQ==
+X-CSE-MsgGUID: lhj7LxZ9T2iFjd7w05O2Gg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
+   d="scan'208";a="198358532"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 27 Nov 2025 07:00:59 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vOdUO-0000000052H-2rLt;
+	Thu, 27 Nov 2025 15:00:56 +0000
+Date: Thu, 27 Nov 2025 23:00:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>,
+	rostedt@goodmis.org, mhiramat@kernel.org, corbet@lwn.net,
+	shuah@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mathieu.desnoyers@efficios.com,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+Subject: Re: [PATCH v4 2/3] tracing/fprobe: Support comma-separated symbols
+ and :entry/:exit
+Message-ID: <202511272241.s6tUpIgv-lkp@intel.com>
+References: <20251126184110.72241-3-seokwoo.chung130@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251126184110.72241-3-seokwoo.chung130@gmail.com>
 
-On Thu, 27 Nov 2025, Lee Jones wrote:
+Hi Seokwoo,
 
-> On Wed, 26 Nov 2025, Nam Tran wrote:
-> 
-> > On Tue, 25 Nov 2025, Lee Jones wrote:
-> > 
-> > > > +static ssize_t parse_drive_mode(struct lp5812_chip *chip, const char *str)
-> > > > +{
-> > > > +	int i;
-> > > > +
-> > > > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_0 = false;
-> > > > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_1 = false;
-> > > > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_2 = false;
-> > > > +	chip->u_drive_mode.s_drive_mode.mix_sel_led_3 = false;
-> > > > +
-> > > > +	if (sysfs_streq(str, LP5812_MODE_DIRECT_NAME)) {
-> > > > +		chip->u_drive_mode.s_drive_mode.led_mode = LP5812_MODE_DIRECT_VALUE;
-> > > > +		return 0;
-> > > > +	}
-> > > > +
-> > > > +	for (i = 0; i < ARRAY_SIZE(chip_mode_map); i++) {
-> > > > +		if (!sysfs_streq(str, chip_mode_map[i].mode_name))
-> > > > +			continue;
-> > > > +
-> > > > +		chip->u_drive_mode.s_drive_mode.led_mode = chip_mode_map[i].mode;
-> > > > +		chip->u_scan_order.s_scan_order.scan_order_0 = chip_mode_map[i].scan_order_0;
-> > > > +		chip->u_scan_order.s_scan_order.scan_order_1 = chip_mode_map[i].scan_order_1;
-> > > > +		chip->u_scan_order.s_scan_order.scan_order_2 = chip_mode_map[i].scan_order_2;
-> > > > +		chip->u_scan_order.s_scan_order.scan_order_3 = chip_mode_map[i].scan_order_3;
-> > > 
-> > > Where are all of these used?
-> > 
-> > These fields are part of unions (u_drive_mode and u_scan_order).
-> > The bitfields are packed into drive_mode_val and scan_order_val, which are
-> > written to DEV_CONFIG1 and DEV_CONFIG2 in lp5812_set_drive_mode_scan_order().
-> 
-> Sure, but where.  What line of code?
+kernel test robot noticed the following build warnings:
 
-These fields are used in lp5812_set_drive_mode_scan_order() when writing the
-packed register values
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on linus/master v6.18-rc7 next-20251127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-	val = chip->u_drive_mode.drive_mode_val;
-	ret = lp5812_write(chip, LP5812_DEV_CONFIG1, val);
-	if (ret)
-		return ret;
+url:    https://github.com/intel-lab-lkp/linux/commits/Seokwoo-Chung-Ryan/docs-tracing-fprobe-Document-list-filters-and-entry-exit/20251127-024245
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20251126184110.72241-3-seokwoo.chung130%40gmail.com
+patch subject: [PATCH v4 2/3] tracing/fprobe: Support comma-separated symbols and :entry/:exit
+config: x86_64-randconfig-003-20251127 (https://download.01.org/0day-ci/archive/20251127/202511272241.s6tUpIgv-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511272241.s6tUpIgv-lkp@intel.com/reproduce)
 
-	val = chip->u_scan_order.scan_order_val;
-	ret = lp5812_write(chip, LP5812_DEV_CONFIG2, val);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511272241.s6tUpIgv-lkp@intel.com/
 
-This is where the bitfields set in parse_drive_mode() are used.
+All warnings (new ones prefixed by >>):
 
-Best regards,
-Nam Tran
+   kernel/trace/trace_fprobe.c: In function 'parse_fprobe_spec':
+   kernel/trace/trace_fprobe.c:1282:12: error: invalid storage class for function 'trace_fprobe_create_internal'
+    1282 | static int trace_fprobe_create_internal(int argc, const char *argv[],
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1513:12: error: invalid storage class for function 'trace_fprobe_create_cb'
+    1513 | static int trace_fprobe_create_cb(int argc, const char *argv[])
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1530:12: error: invalid storage class for function 'trace_fprobe_create'
+    1530 | static int trace_fprobe_create(const char *raw_command)
+         |            ^~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1535:12: error: invalid storage class for function 'trace_fprobe_release'
+    1535 | static int trace_fprobe_release(struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1545:12: error: invalid storage class for function 'trace_fprobe_show'
+    1545 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1572:12: error: invalid storage class for function 'enable_trace_fprobe'
+    1572 | static int enable_trace_fprobe(struct trace_event_call *call,
+         |            ^~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1608:12: error: invalid storage class for function 'disable_trace_fprobe'
+    1608 | static int disable_trace_fprobe(struct trace_event_call *call,
+         |            ^~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1653:12: error: invalid storage class for function 'fprobe_register'
+    1653 | static int fprobe_register(struct trace_event_call *event,
+         |            ^~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1683:19: error: invalid storage class for function 'init_fprobe_trace_early'
+    1683 | static __init int init_fprobe_trace_early(void)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/fprobe.h:6,
+                    from kernel/trace/trace_fprobe.c:8:
+   include/linux/compiler.h:286:52: error: initializer element is not constant
+     286 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |                                                    ^
+   include/linux/compiler.h:289:9: note: in expansion of macro '___ADDRESSABLE'
+     289 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^~~~~~~~~~~~~~
+   include/linux/init.h:250:9: note: in expansion of macro '__ADDRESSABLE'
+     250 |         __ADDRESSABLE(fn)
+         |         ^~~~~~~~~~~~~
+   include/linux/init.h:255:9: note: in expansion of macro '__define_initcall_stub'
+     255 |         __define_initcall_stub(__stub, fn)                      \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:268:9: note: in expansion of macro '____define_initcall'
+     268 |         ____define_initcall(fn,                                 \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:274:9: note: in expansion of macro '__unique_initcall'
+     274 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/init.h:276:35: note: in expansion of macro '___define_initcall'
+     276 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
+         |                                   ^~~~~~~~~~~~~~~~~~
+   include/linux/init.h:294:41: note: in expansion of macro '__define_initcall'
+     294 | #define core_initcall(fn)               __define_initcall(fn, 1)
+         |                                         ^~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1702:1: note: in expansion of macro 'core_initcall'
+    1702 | core_initcall(init_fprobe_trace_early);
+         | ^~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:1702:1: error: expected declaration or statement at end of input
+   kernel/trace/trace_fprobe.c: At top level:
+>> kernel/trace/trace_fprobe.c:28:12: warning: 'trace_fprobe_create' used but never defined
+      28 | static int trace_fprobe_create(const char *raw_command);
+         |            ^~~~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:29:12: warning: 'trace_fprobe_show' used but never defined
+      29 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev);
+         |            ^~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:30:12: warning: 'trace_fprobe_release' used but never defined
+      30 | static int trace_fprobe_release(struct dyn_event *ev);
+         |            ^~~~~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:741:12: warning: 'fprobe_register' used but never defined
+     741 | static int fprobe_register(struct trace_event_call *event,
+         |            ^~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:1653:12: warning: 'fprobe_register' defined but not used [-Wunused-function]
+    1653 | static int fprobe_register(struct trace_event_call *event,
+         |            ^~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:1545:12: warning: 'trace_fprobe_show' defined but not used [-Wunused-function]
+    1545 | static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:1535:12: warning: 'trace_fprobe_release' defined but not used [-Wunused-function]
+    1535 | static int trace_fprobe_release(struct dyn_event *ev)
+         |            ^~~~~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_fprobe.c:1530:12: warning: 'trace_fprobe_create' defined but not used [-Wunused-function]
+    1530 | static int trace_fprobe_create(const char *raw_command)
+         |            ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/trace_fprobe_create +28 kernel/trace/trace_fprobe.c
+
+334e5519c375701 Masami Hiramatsu (Google  2023-06-06  27) 
+334e5519c375701 Masami Hiramatsu (Google  2023-06-06 @28) static int trace_fprobe_create(const char *raw_command);
+334e5519c375701 Masami Hiramatsu (Google  2023-06-06 @29) static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev);
+334e5519c375701 Masami Hiramatsu (Google  2023-06-06 @30) static int trace_fprobe_release(struct dyn_event *ev);
+334e5519c375701 Masami Hiramatsu (Google  2023-06-06  31) static bool trace_fprobe_is_busy(struct dyn_event *ev);
+334e5519c375701 Masami Hiramatsu (Google  2023-06-06  32) static bool trace_fprobe_match(const char *system, const char *event,
+334e5519c375701 Masami Hiramatsu (Google  2023-06-06  33) 			int argc, const char **argv, struct dyn_event *ev);
+334e5519c375701 Masami Hiramatsu (Google  2023-06-06  34) 
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
