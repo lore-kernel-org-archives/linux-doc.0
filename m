@@ -1,126 +1,139 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA11C334C03
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 15:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94F733554E
+	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 15:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764256026; cv=none; b=H4mvChLXCTqkrtfDFgtL5HYp3VXgTtBSK8GJaimCnEmYVsAaW+bDdLP6/jd2eWVovS6qjg8JUhx2f9W0ueFezV9S+g0AjpbeEk93oAAdd69JJIlW4Wmc1vPz4U6cLY9us9CO2Mw5y7U2kGhP5uaCFn72HLm/8t6RodTDX2EqN2Q=
+	t=1764256575; cv=none; b=QK07l/0ozYNKi+MINv95awFw0fLxyg2zTT2uGwejCwtCpVeGHqgCMRw6pCq9UmDcNIIVWkX22HZh0Wf2rWmAotBCfXabUtKOaoFHf74IR021+uxKSzVr24ZYDXz1OmDPvV1JV2kKnqDQtfViUwa+uSTud9XTYbNoul2F3yVdeCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764256026; c=relaxed/simple;
-	bh=O3Jl0TedBRVRfVhZgOJdrLKqQHfxK+5HmiN/P10lDXE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kWCkBxR1M4x1pFBcozogUjLmcOObjFSmrUB4hY2ZoBp9CtNF21lpWzggx/e2qTwRzHD0YITo+z1T7hjEtf7oxV21CDtHV9GNXrRwjY4fBzbYZaPXBMZtsaOvQZm6fNS8kKNgfhXmCB+MpJwVPdIQSpvMO0nMiuBFKNAsfSDKRuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sldNJaW/; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764256575; c=relaxed/simple;
+	bh=WwMLobnu+D0efGsATUA1Gw89i4CUGPUY5A4C7NZzBs4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FvKJHOG9x1QwBy9PSlGbZs7H8QBVw7FhUd9dLF5kfppYKLAAAaKMa84bxi9U9JOZzdZB+IAqhUzgnPc0g5esv19Aqd9q52aN0laf263LVEU6oyQ/VJWcfzNKtjjI36LvCFDQndy6+qAb3XKRI/P5LeXZezNBeQuxKOgoPDjrwV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S+Qb/E96; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sldNJaW/"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-640f2c9ccbdso760829d50.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 07:07:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S+Qb/E96"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2953e415b27so10841345ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 07:16:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764256023; x=1764860823; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=o9j9JckZewB0T/evvAwAYflbY/oMjYUWYlwvg8R/JAM=;
-        b=sldNJaW/mtHUk78eRyP2lAEuPxOVWCzUy34HKQc/0B5GXWG56q2ha5vgocIRVwl74n
-         /3dcW/6l7FjFIbfofeKt/0akG5TOwa0eP31I6hQ53kXoBexKm1WAwg4J103a+j2X3I2S
-         2c+NuSx8sP3POpaNzZrv0c/kYzfrL8VJEcc4fT8V6Mm8DcChWlximDOZZoeymr8diehT
-         V/kxDRBF1Y0mLoBCJf88TYLMNK7+kQj8Y7bqnfL+/DiZ/1xxmJ0J2A47JpWlb/PPvchH
-         kmGVgaj5CMHQkL4CsUhepeDuuoaUd+ZhttYIDhHyoh7kcJYUshRM2EP1K5hzyb8e2op6
-         yt6g==
+        d=gmail.com; s=20230601; t=1764256571; x=1764861371; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wiV6R1vlmXrHgZfzQSWNBuKjhfxpu4gsWfPp8c9V5+4=;
+        b=S+Qb/E96RUGwTiXOKPv+JVk4LtO0oZNNbax9UqzNGOQ/l0OaCH08U55IIbwl0DgfSy
+         hpwAxibRQpMYEVU1TeU/uMhqL9HoFfdcpERnvhN9lCtIn2YIayUxPlloK7nORKmdtHYJ
+         bWkJee1MXc8O2T33Kw6AhrlnPuoGXky94Vg+rGYX0zyGg631B95mpMuF4Nx6wgai/6Z4
+         EwA/urk6sSs2JJpc1ypADKLLmve90VGJJBDCbdJuD9X4rtRCYY45d19N/WUflNVmz3xG
+         HD7nTpE19wOmbcgKUkFzojhANw+GI2oFPcMt7PLFokVIKTJhzxU6Gf9RnMID42o7Wt/H
+         JCNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764256023; x=1764860823;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1764256571; x=1764861371;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o9j9JckZewB0T/evvAwAYflbY/oMjYUWYlwvg8R/JAM=;
-        b=Dm8UdSS04BOM1W+cJoj475JNxsQO1hDYes6HzGLGFs2QcwpLByZFozUXzO/4rdQaw9
-         DZFh7Vha7MnC2HAFUunH1QuMUPkzbsVWe3ofa67MXw86T694oLkeDSJe+SczxwOGjMvH
-         psVYfplunRgzs7fNuwLPhwYh0+fvo16JsEpXS4obVQmP9goI6TSjgxZiVs3sewzuEIFW
-         HMt995dG4T2M5efYJzCTwCsmDkg7s4AABbaOL7EA8CIKGEG9YDseBYGbFWET2kqniMX/
-         XyLEntM3abWDmX0o6GL2aSRR0MYDuY9Y7TD5BrgL91rJS2lVkdisx1Jl0lPHEmGJEE7u
-         5+Vw==
-X-Forwarded-Encrypted: i=1; AJvYcCVfD+S6MpIPrTdlJF7CjNpjc6c+fLplYCQUdDYOOSk8V89fOjMaoceyDth2VQ0tGesKMFHTfYncV1A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxULTlu81YIsyxRYEyo47zS/CyABurCabs1bN330gvfpvkl9wa0
-	rxCwWSnzK+J1+EZSEGsN8Ql2yZe1KL3UqRalh0uvSGmzTbPWjCQgeUh9HqL18HXLI8gRhToC0Q6
-	GLVz9cNTbSPYtZlq2s00ToYHmOol7MKxmxGV0jCBUEg==
-X-Gm-Gg: ASbGncsQxlHMRFI3GTxaaE3zwSJfMDspIw1yigBbgOUK7FLorKvFKVnGb5Kuu/2OwOO
-	p/T+Ibv5Nzhg1//L8tgUo57sdlQQKUbCFFjA1eHFCZh6r3xFBSD5QobxtQWuJN1HlYFJMh79l7x
-	BGl/IbQnsK8ujtHpH+Ghrc+kRDEHhisVqNSY9IYfCt1uOwOVDMkpgVecZZkTv3TevHXotTBB7Ay
-	HTylhkVhu27MWgf9CsHmDIJuseYJk0t1TGpViQYfwnIpBp9XBMu0Dg0XMyk7AuJ4LU+esyp
-X-Google-Smtp-Source: AGHT+IHOZv1XVUaCpJ1GafgJ+Q4ufaODDINZzVe7OUjEEvUjTH0ObsXn/Gn7AJqtRSZdFMpWXb50BEdfVotDE3qezIw=
-X-Received: by 2002:a05:690e:1581:10b0:641:f5bc:68d3 with SMTP id
- 956f58d0204a3-6432940d24amr6552660d50.80.1764256022644; Thu, 27 Nov 2025
- 07:07:02 -0800 (PST)
+        bh=wiV6R1vlmXrHgZfzQSWNBuKjhfxpu4gsWfPp8c9V5+4=;
+        b=cfJSMqVzq4Ixcqya+QvFJSxFT10hWuWCH4pMyF3ZTVsbyCpGrM5vD4xUaCtcU5pI9/
+         +c3wgvHW4w1DVeYs+bp+qB1gIktr1m4A6j9qqCu6EeF7xp/2vdZY1PcuB7tP3ApY19kv
+         D6PhqcTvfj44nUpMFgemhnmPlQ6Gxt6GH1aprex9CN7KE4UurkVJBSlECi+DVKG98F1c
+         0UH89dXLhEhJ3j9xDd9Z6lVJY9e7SOrVPqWkEai6iOKJBYQ5C8IZMbWntYzxEWybpUre
+         2zQ7jVVBf224g0LNlHtfoOVOV3gbOjDVCroT6B7lA94+UC/mn4bfuXXZ+aTcFQ0fe/Q6
+         wxbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUDzqedotuLMyNQD9vH4uRTPS00MAICHH59DwHMh1C3BbmWbTNmtQOu3cCcTn1S8IKj4t2CoIS+Oh0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSb1w10yUj3Im2kkkR1+t5VJ0IVqKR2FNQp3ZdQC+pJafeh3d3
+	q2G2DTLhRGPXpJsSlfVA3fyWz040gr0PG172NLXgPHimyU4nK7Y7/6n4
+X-Gm-Gg: ASbGncu5tq7M+v2KmCTCFnjpE7ijB3lj+5SFhumL9j5Q3FBhhmGVVj0aWSReRf4Ly18
+	fN4alR7HivBUsp2otWf6uadL9SyfZlJLvruG5W/OLpNaABqy+FOUCVCuJ8koC6nPO4Due5Rzqv/
+	yFGg3CvZlm/4rbIDLk3Qn8R2QabFPeVdq5mpC4lOFtmYGOPW5qxyQPSnEHlLKLZufTIjyyceIWq
+	i/QjA7HxsiqehqtkeaO4L1bPFxqjD5NCCJLusUdMTudaVDNyPqyhMbd8A5N9pl01hji6OmRofYE
+	zu4UCZmWlhCX4KOP2ll7t77s8sdKPfZgFIObcx5VC1rKf77bDKQEiYXyBtCOVPw7sRgZ7Iuwcnj
+	mVnPkV4yKKUbc0+21VA3shvJUdfm765ebUqV+I+AevUPXkQ9adHdx5QeaAVA2xL5OpYpNizdWEr
+	UPE71krDsDA1rx6mAvThIr4uoAJL4HkFFcmOT2GItF+TFHiBduY3F9s07iTZ6q8hFhCF0=
+X-Google-Smtp-Source: AGHT+IFd1tsj8i1fuFllq8M+Us0CAnfM9u3urHFsNyMVndTLSc4t9XxvGPy0JyQPnwq9EIFp2b7Ksw==
+X-Received: by 2002:a05:7022:e01:b0:119:e56b:c74f with SMTP id a92af1059eb24-11cb3ed2996mr8778050c88.20.1764256571336;
+        Thu, 27 Nov 2025 07:16:11 -0800 (PST)
+Received: from bliptop (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11dcb067088sm5099656c88.10.2025.11.27.07.16.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Nov 2025 07:16:10 -0800 (PST)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Armin Wolf <W_Armin@gmx.de>,
+	Len Brown <lenb@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Mario Limonciello <superm1@kernel.org>,
+	Zhixin Zhang <zhangzx36@lenovo.com>,
+	Mia Shao <shaohz1@lenovo.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	Kurt Borja <kuurtb@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	platform-driver-x86@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Subject: [PATCH v4 0/3] Add max-power platform profile
+Date: Thu, 27 Nov 2025 07:16:02 -0800
+Message-ID: <20251127151605.1018026-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250902-kvm-arm64-sme-v8-0-2cb2199c656c@kernel.org>
- <20250902-kvm-arm64-sme-v8-11-2cb2199c656c@kernel.org> <CAFEAcA_GJ7gzn7aMCZYxHnJWvx4tHSHBKsOxtQ7NTb4gPjkMJQ@mail.gmail.com>
- <df712591-397e-422b-b9c9-fbf080cad9aa@sirena.org.uk>
-In-Reply-To: <df712591-397e-422b-b9c9-fbf080cad9aa@sirena.org.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 27 Nov 2025 15:06:50 +0000
-X-Gm-Features: AWmQ_blQNCtlqrFl6oR-29ayIeVzxjSMrcpdxqL32ABrh38kpa7m6Xz9ardxRBI
-Message-ID: <CAFEAcA8LGwm-6JEhtKTq1E_da-T=H-aBX9-8LMJOAQpK5J+NfQ@mail.gmail.com>
-Subject: Re: [PATCH v8 11/29] KVM: arm64: Document the KVM ABI for SME
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	Joey Gouly <joey.gouly@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Mark Rutland <mark.rutland@arm.com>, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 24 Nov 2025 at 20:13, Mark Brown <broonie@kernel.org> wrote:
->
-> On Mon, Nov 24, 2025 at 03:48:06PM +0000, Peter Maydell wrote:
-> > On Tue, 2 Sept 2025 at 12:45, Mark Brown <broonie@kernel.org> wrote:
->
-> > > SME, the Scalable Matrix Extension, is an arm64 extension which adds
-> > > support for matrix operations, with core concepts patterned after SVE.
->
-> > I haven't actually tried writing any code that uses this proposed
-> > ABI, but mostly it looks OK to me. I have a few nits below, but
-> > my main concern is the bits of text that say (or seem to say --
-> > maybe I'm misinterpreting them) that various parts of how userspace
-> > accesses the guest state (e.g. the fp regs) depend on the current
-> > state of the vcpu, rather than being only a function of how the
-> > vcpu was configured. That seems to me like it's unnecessarily awkward.
-> > (More detail below.)
->
-> That was deliberate and I agree it is awkward, it was introduced as a
-> result of earlier review comments.  I had originally implemented an ABI
-> where the VL for the vector registers was the maximum of the SVE and SME
-> VLs but the feedback was that the ABI should instead follow what the
-> architecture does with the vector length and potentially presence of the
-> vector registers depending on the current streaming mode configuration.
-> It sounds like you would prefer something more like what was there
-> originally?
+This series adds a new "max-power" platform profile mode and uses it for
+the lenovo-wmi-gamezone driver. It also adds the Lenovo Legion Go 2 to
+the extreme mode quirks table.
 
-Yes, that's what I would prefer. The "varies by current CPU state"
-approach seems to me to be not the way we do things right now,
-and to be awkward for the VMM side, so it ought to have a really
-strong justification for why we need it.
+On some Lenovo Legion devices there is a thermal mode called extreme
+that corresponds to setting ppt/spl vlaues to the maximum achievable by
+the cooling solution. This correlates strongly with an overall power draw
+that exceeds the DC power draw capability of the internal battery. This
+mode being mapped to performance when extreme mode is detected as
+supported, with the actual performance mode being set to
+balanced-performance, has led to some misinformation being promulgated
+that performance is always a bad setting in Linux for these devices.
+There is also some confusion that the mode labeled performance in
+userspace, which corresponds to a red LED in Windows, shows as purple
+when set using the hardware extreme mode.
 
-Generally the VMM doesn't care about the actual current state of the
-CPU, it just wants all the data (e.g. to send for migration). We don't
-make the current SVE accessors change based on what the current SVE
-vq length is or whether the guest has set the SVE enable bits -- we
-have "if the vcpu supports SVE at all, data is always accessed via
-the SVE accessors, and it's always the max_vq length, regardless of
-how the vcpu has set its current vq length".
+I'll also note that as the hard TDP limits are refreshed when on AC or DC
+by the ACPI notifier of lenovo-wmi-other method driver, no special handling
+of the battery is needed for safety limiting extreme mode.
 
-What's the benefit of making the way KVM exposes the data
-bounce around based on the current CPU state? Does that
-make things easier for the kernel internally?
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 
--- PMM
+---
+v4:
+ - prevent  platform_profile_cycle() from selecting max_power.
+v3: https://lore.kernel.org/platform-driver-x86/20251113212639.459896-1-derekjohn.clark@gmail.com/
+ - Rename the vendor specific "extreme" to a vendor agnositic "max-power"
+   to better allign with the "low-power" platform profile.
+v2: https://lore.kernel.org/platform-driver-x86/20251106212121.447030-1-derekjohn.clark@gmail.com/
+ - Drop patch 3/3, keep extreme mode quirks table
+ - Add Legion Go 2 to quirks table
+ - Fix nits from Mario
+v1: https://lore.kernel.org/platform-driver-x86/20251026081240.997038-1-derekjohn.clark@gmail.com/
+
+
+Derek J. Clark (3):
+  acpi: platform_profile - Add max-power profile option
+  platform/x86: lenovo-wmi-gamezone Use max-power rather than
+    balanced-performance
+  platform/x86: wmi-gamezone: Add Legion Go 2 Quirks
+
+ .../ABI/testing/sysfs-class-platform-profile  |  2 ++
+ .../wmi/devices/lenovo-wmi-gamezone.rst       | 31 ++++++++--------
+ drivers/acpi/platform_profile.c               |  7 ++--
+ drivers/platform/x86/lenovo/wmi-gamezone.c    | 35 +++++++++++--------
+ include/linux/platform_profile.h              |  1 +
+ 5 files changed, 44 insertions(+), 32 deletions(-)
+
+-- 
+2.51.2
+
