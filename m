@@ -1,95 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D71132D0F9;
-	Thu, 27 Nov 2025 15:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9696B230BD9
+	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 15:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764257294; cv=none; b=OquUMo/v4Z0lgfH0rgXbWDv5XFzfsMlKMAG5q9aYIXjv7UDWUUqKSMjLt8FAwHyYZSy7QMdDBRVyu2ASbbIFMP/YfZFsceVBFY38dM7zPu5XBXaV20EwLOBL6hNa1gz825QqONl8CfVXaQzkodTLzY4snYxlji6pQ8+W906sWEM=
+	t=1764257676; cv=none; b=XH84SQPJCnVNC8omj314uSiv4cGpiKN3Wpu0ph3O0SbMSz/S2Uf8nwj3AxrdzPAEZqGw3RPBEGdoR4EaEHUDzlf6iiCMU0AGN1bez7bv0CN6vZXesbr1By+cJMBFhFDrmsEI547t/vQPBcfG4zdtxV8QDRsdJPJ+GbZ9YTS0eNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764257294; c=relaxed/simple;
-	bh=cLVmFsV6D+vpjUnuiLqhRPKKYefuGVtgibjdcOZHVAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y7ZnbElN24xxxE2MCvDjTTKv6YXBg0hvxfMeTn/yMw3evz6uETqokq9IEd9cVXYjCT2gL6J6JLVuBWV+PiByiGboXDTAVR75w9aKLTMA0MMgFC9B4ZaWoBJwSd39HZt189FqG9JMQuJ8Qc7CEPONzNSvKIfLEmRXAwBzPWp5MkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AAkoVyDW; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AAkoVyDW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAC68C4CEF8;
-	Thu, 27 Nov 2025 15:28:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764257293;
-	bh=cLVmFsV6D+vpjUnuiLqhRPKKYefuGVtgibjdcOZHVAk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AAkoVyDWb4czhvURqf5+8xTJ+VhYYculljPZQDNu9L6Ju426bcMbaYuDg12eD2Guq
-	 Dc+i+fN9dZuTw0UdyB1ooQN2Z3+LEA1BU/MYIZ+gUj4ZZsi3Fam+VwCiJ+P7RJlapg
-	 TMThb6taqNQoCZLqU8p5bMqY6Mmn4BnREbcQ4qMEZvNQ/jg2THa8b3eQEBkFYWMXCI
-	 U7vkgpEN9c5Z0TmqnjQBYou+Z1AVzpB7G85w33kQq9NkG0+iG4QSIM9rTcI9c9uTR8
-	 0o6sKSvDusDKmSqCOez7q9R+lDkdcqpFwouo3NTiJwGp5szcBzYf0pQ6dMNJNXVr0G
-	 J4yT/rXx+vEQA==
-Date: Thu, 27 Nov 2025 15:28:07 +0000
-From: Simon Horman <horms@kernel.org>
-To: Tariq Toukan <tariqt@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
-	Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
-	Carolina Jubran <cjubran@nvidia.com>,
-	Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH net-next V4 06/14] devlink: Add parent dev to devlink API
-Message-ID: <20251127152807.GA719673@horms.kernel.org>
-References: <1764101173-1312171-1-git-send-email-tariqt@nvidia.com>
- <1764101173-1312171-7-git-send-email-tariqt@nvidia.com>
+	s=arc-20240116; t=1764257676; c=relaxed/simple;
+	bh=485+aKqI718vx2FHskqt599+NOHXZtlAh7VAfOnh3ZM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sZqnf6m9rUgyjuT5QRyQYzSJm4zlSZ3qCwVwqCDl7Mh4cGvMijp7xxxNjiyYAF0yYv50nRFatgmt3RoMIa63IcG9JKaaT9636pIddhpPS8ozeIcDvfE/jNRLIfbVaBuDY1DCv4mPW6Zi5Nqn7E7WUvKPEG04JHexgbNHWY5q3LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7c704bdd57aso491387a34.3
+        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 07:34:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764257673; x=1764862473;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nUxKo1olWqUX4UWRjGD9GsA8KWHDIFGAUJE3hm+F3hg=;
+        b=iDSqHcsaJc+S5i8Z9S/lixuZSceYbn2NR9XTyTwNVPY9EShQuTyBe7ttYue0pLdJsy
+         yYP8sUjHCDkeoACB3Izxx4NVDgQuqi4vq+1CfqOUyOGwq9oNTciqVzqmww8TsD6RVYvY
+         YdNDFHzIiuRcP3e7CbOTCftB+BosHglTuLO8gNpkwLaCIlSbdj0Efsbqpapk5dMWOV6h
+         qCdlr8d5iVq6nPDEGYkfTJsoOghKlzk9klrQmjWUpBxE0dYaikmpjYGFF05My/JjPHCp
+         mjy6WLs2F2mBvimRav6RtSB2BJERUloQGWUIuRS7KDjQiwYGI9QyHtocKa55EQdce/+G
+         owYQ==
+X-Gm-Message-State: AOJu0YwWkwJmjyQUtzT/d7ErV5TO08Ddsktj9FJLFTFnxDSQTwbfuW8B
+	TAKZuKSETXU2CmoUpMUf46DaK72wrgEqRq7Mgs+hPh0B/7xI8uXUyh+v
+X-Gm-Gg: ASbGnctrEmY2NTIQbXmcXLQMgatsEDI9yBEZ7A6Z/BpLMgSW4NKWYl2LDZeQY5sOFne
+	702LBn6f/rMPSCA+Mwm7uy+akkoaORISH1fi2eycYhTBNJpgu/utMRfVcEO3rD7V9L+aanNtAvr
+	k7lV1gCW/K+8AsxoSlaz2UHJBR8Zzo4VvHultNUB/LcfXU99P96bvQzqC3NIhVBM+dqjGqdKllU
+	wVlm1IbCq6upGQRsbiBgIwXgI5T+Evc/sU94ifXji0hXwHrtvP3Fg5Q7dnenfXAXrgb+diuv66B
+	7BttzPtLF51XrwtxGh8Hl86L+VHakgTH3M+uLhezLcojOCP8ztDnmza/7HUXi0dl8T3/gBVHDpm
+	TGZWYBkX2dkYT6Ik9CxaLsjeT4n8bo23O7+7lcGcwW0IQXWPxuwvRBScqnMif1voGUror7/fHLU
+	qU5LiiqlhlG3S5
+X-Google-Smtp-Source: AGHT+IEMIi4H10xrP3EKDI9OvAj9WzdiYvNqFsB59sUhh+6vRcf6521C+XfJZ3zkhhzlvFFBMdfZPQ==
+X-Received: by 2002:a05:6830:4124:b0:7c7:c71:849b with SMTP id 46e09a7af769-7c7c4332ebdmr5728568a34.14.1764257673592;
+        Thu, 27 Nov 2025 07:34:33 -0800 (PST)
+Received: from localhost ([2a03:2880:10ff:5::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7c90f5fafc7sm638418a34.7.2025.11.27.07.34.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Nov 2025 07:34:33 -0800 (PST)
+From: Breno Leitao <leitao@debian.org>
+Date: Thu, 27 Nov 2025 07:34:24 -0800
+Subject: [PATCH] Documentation/driver-api: Add hw-recoverable-errors to
+ toctree
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1764101173-1312171-7-git-send-email-tariqt@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251127-vmcoreinfo_fix-v1-1-26f5b1c43da9@debian.org>
+X-B4-Tracking: v=1; b=H4sIAH9vKGkC/x3MUQqAIBAFwKss7zshJam8SkSIrbUfaShEEN09a
+ A4wDyoX4QpHDwpfUiUnONINIew+baxkhSOY1litTa+uI+TCkmJeotyq9Z5ZWxvGbkBDOAtHuf9
+ wmt/3AxEjfidgAAAA
+X-Change-ID: 20251127-vmcoreinfo_fix-0aaee155c948
+To: akpm@linux-foundation.org, Jonathan Corbet <corbet@lwn.net>, 
+ Hanjun Guo <guohanjun@huawei.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuai Xue <xueshuai@linux.alibaba.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel-team@meta.com, Stephen Rothwell <sfr@canb.auug.org.au>, 
+ Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.15-dev-a6db3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1282; i=leitao@debian.org;
+ h=from:subject:message-id; bh=485+aKqI718vx2FHskqt599+NOHXZtlAh7VAfOnh3ZM=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpKG+IOaoDzIUKkMM+xdoD0fPUAoExKc4Gk3x4y
+ vB7JdZmyQaJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaShviAAKCRA1o5Of/Hh3
+ bSaHD/0TB9sFPFKdGNNurWxXtYB7QOmIHCcmrN0d2AvmnMqkouZSjDEILwR0QiOjx6MfulFgBlJ
+ zqzQTl7GeSdWDUt7Cv96cV1qz2hmdLkMUCZR9PIPXX/u9Jf4T+4/mysO3Ph7BwpoDKuVvw/xmvf
+ KXntA5za8I/TWH2tmwTgqZjCBIJSov7X7KUwlXZf848cAM9ES2zeJHlKR3u19ytQsdqca26qEEm
+ CZkGtv/Qos2an1/7hePGgQsqJI4/rKx2Whj6kaacf8j7VOp3rxosAE7bIgF/dDiT2rPnLEPlxRk
+ xsaWvJwgsQ07QRgYORnBQ1T+bbBjN2Q6fWMAt2t3HcI1QCvmmIHEjD2D/PvhQFqIBnRZN3iIO9O
+ DSgOxniLLJ/bcJ0X1yIplTw9/UjBmfs1UquKZ/9XUR+m4lNAjyI8FCFrX9j0yOJgSstyqbDbKOB
+ uMRsxq2fecz1PbKU6jrVWw8xyQVc3RVev0F1ADABqeGKRqEDTzeVFTFi0sz0crGTVl3I9kaLi1U
+ xSutq6qp/wrgm4v15UCtfQ1p+O2ocjLUQuLW0fzyVgObW0owGKwbWaVc1dFYJmKOPCdAoj9UGOs
+ JlsuWBloAs+J5L6V/DUdgzr3Ssd8+JIdKGLN0Xap3vCni+bxTPqh2sGbp1ZHnnrYvWLyZUuFTVF
+ Kj31qOYoALXtiWA==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
-On Tue, Nov 25, 2025 at 10:06:05PM +0200, Tariq Toukan wrote:
-> From: Cosmin Ratiu <cratiu@nvidia.com>
-> 
-> Upcoming changes to the rate commands need the parent devlink specified.
-> This change adds a nested 'parent-dev' attribute to the API and helpers
-> to obtain and put a reference to the parent devlink instance in
-> info->user_ptr[1].
-> 
-> To avoid deadlocks, the parent devlink is unlocked before obtaining the
-> main devlink instance that is the target of the request.
-> A reference to the parent is kept until the end of the request to avoid
-> it suddenly disappearing.
-> 
-> This means that this reference is of limited use without additional
-> protection.
-> 
-> Signed-off-by: Cosmin Ratiu <cratiu@nvidia.com>
-> Reviewed-by: Carolina Jubran <cjubran@nvidia.com>
-> Reviewed-by: Jiri Pirko <jiri@nvidia.com>
-> Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
-> ---
->  Documentation/netlink/specs/devlink.yaml | 11 ++++
->  include/uapi/linux/devlink.h             |  2 +
->  net/devlink/devl_internal.h              |  2 +
->  net/devlink/netlink.c                    | 67 ++++++++++++++++++++++--
->  net/devlink/netlink_gen.c                |  5 ++
->  net/devlink/netlink_gen.h                |  8 +++
+Stephen reported that commit c03fb5253a0341e ("vmcoreinfo: track and log
+recoverable hardware errors") started to warn about "document isn't
+included in any toctree".
 
-Hi,
+Fix it by adding the new rst in Subsystem-specific APIs section.
 
-I think that the updates to netlink_gen.[ch] belong in
-the following patch rather than this one.
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/all/20250729150042.77832045@canb.auug.org.au/#t
+Signed-off-by: Breno Leitao <leitao@debian.org>
+Fixes: c03fb5253a0341e ("vmcoreinfo: track and log recoverable hardware errors")
+---
+PS: This should probably go throught Andrew's tree as discussed in
+https://lore.kernel.org/all/20251126084433.28bf7035fa56b11c5ee158d4@linux-foundation.org/
+---
+ Documentation/driver-api/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-You can observe this using
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index baff96b5cf0b..1833e6a0687e 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -97,6 +97,7 @@ Subsystem-specific APIs
+    gpio/index
+    hsi
+    hte/index
++   hw-recoverable-errors
+    i2c
+    iio/index
+    infiniband
 
-tools/net/ynl/ynl-regen.sh -f && git diff
+---
+base-commit: 663d0d1af3faefe673cabf4b6b077149a87ad71f
+change-id: 20251127-vmcoreinfo_fix-0aaee155c948
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
+
