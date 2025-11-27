@@ -1,115 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C062C2D6E61;
-	Thu, 27 Nov 2025 06:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94041286A7;
+	Thu, 27 Nov 2025 06:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764223941; cv=none; b=uS0WJlO7ma4MT3p1ETAGVrvzrktK5fK58rQ8npv96Mbx/kGzhX2yIl903CHNYjEljJ2W0wgp5OWmYeQHohX8uhrLla9wrn7vxtwsM/WgnmyGOMYWjz4eNpJGYCY9Z8TiZnZRJEKraegIIp4OH17hRQAPALkc0Ampf+VCFBdHXNk=
+	t=1764225088; cv=none; b=EWzx+FQhPfyzd7D4PUelMR4Rqja9KPQfYEo0hrtIvlFEqCJn1lCX82vqtvCF8xu/7jtfGSSy5jMudycAkEe2GW11N/apHXgYSkPfGlyOeYi6jdzQE9sIi6SEoSjk9VKRFI9Y2wgGDz4hFjyc/PvLeJSjb4Vyjn44yi5Xw8Wv5tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764223941; c=relaxed/simple;
-	bh=SHykcjcXOicpMg1lNGih+WJT2lVGik1tv3mTORvyUFI=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=UqIglBkH/uz2vCYAnLJusir2Aih5HTYneZL1VZ1CaHTg77xxbYjvrrAufcZJOc5tND0l0Ghj/kOeCY+0PeqyueFfj6V/Z8qvT5+eTOmMKl0Vta+rIuTUCa2yXAAHlKUpW31KJ3LuxnDnmKmqX8gUj0pikpSJMCLwHD40owJnvSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CZes9LtM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764225088; c=relaxed/simple;
+	bh=zrsosgCeTWyTTNIueIr3zPi+0qC3XneM4MCq2Et2Q0M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HIayLr0gz0FPUDdpDfXOJtuADqWMEyqfr8oNOgS4c2mcsg1R6/OTEQgO7Dv2lJtk1Yv7T8OGriluJMC8tFdrbb0WuIMmqJMJ0E5G7qAnbIOJ/oStjrEHRNKlvpAlJqwPOjJWTp3c7qWY5bqlNR9VuWe8w2MOG70o4lMm4hFOP+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XwM4cOpq; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CZes9LtM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15CAC4CEF8;
-	Thu, 27 Nov 2025 06:12:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764223941;
-	bh=SHykcjcXOicpMg1lNGih+WJT2lVGik1tv3mTORvyUFI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CZes9LtMRpUZLC/HdCtNbX1O45EyHJ5NqT5DSAkS1zFTOU7JJFu1xtVb2JB5BDP2/
-	 4zTCEXCVf/zOPhK+ter+3ufGbdB8OmEF0lgcCEJvlrPaUsZ6HPqY7pXWDrAlCZWenY
-	 Y3hGEey1aYjwDAvT2I56cGtfxKMWkvh0cIHMfq3K0K3ZsGJbgWktysaOxOPrTwsHkK
-	 io/HCbfq0JWAB/5O4KuUPoZXMpO/YEETkZc3zbJrafmZXMK0F41bY+zuqm6rD8M9QK
-	 pYeWbFXStM/G5F8+ZJTxPW2m+vED9c1A1dBAnkHDVYwfaunxQ4Bwl6JgkCtNI4EaiQ
-	 LnH4t7QHDpwiA==
-Date: Thu, 27 Nov 2025 15:12:18 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
-Cc: rostedt@goodmis.org, corbet@lwn.net, shuah@kernel.org,
- mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] Support comma-separated symbols and :entry/:exit
-Message-Id: <20251127151218.4763b25c751bb2aac4b1ee36@kernel.org>
-In-Reply-To: <20251126184110.72241-1-seokwoo.chung130@gmail.com>
-References: <20251126184110.72241-1-seokwoo.chung130@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XwM4cOpq"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=VV18nwhhriXrxiIXo6rgBuiqRnDlu45RBiLAbp4Wkm4=; b=XwM4cOpqsoT8Rv70ziqjC25rLN
+	S7l2Wd/VF5WsVsCjZ1SjorSJPs2h3pwqbbc6FBJiUmqCaKoMeNFHWhm0B+zQK2mMhvrEwgvWd//Vu
+	RYOlZeljTwAs4fwbXqte9lXGpYT11YsLBGgR7qEacBpDxMJ4cOpOMVtpMJl+OnsSANyfxfqxa47tb
+	FDNBLYn+kt/TpRSXaEL7EgQf6wC3u2UP0OjDHlgK6rWOWeKxbe8SUr3LbiLhYkRpu86SbsXW3V3l5
+	WU5GHOkN4qzW+lZZHEHgJ+m8KpIEvvxftVKcaN4rus5+octmuvn+rA4Wl2g6frmgBX/rwntIAm46c
+	vhw+53nQ==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vOVXC-0000000G3Kg-30q1;
+	Thu, 27 Nov 2025 06:31:18 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs: kdoc_parser: add data/function attributes to ignore
+Date: Wed, 26 Nov 2025 22:31:17 -0800
+Message-ID: <20251127063117.150384-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 26 Nov 2025 13:41:07 -0500
-"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com> wrote:
+Recognize and ignore __rcu (in struct members), __private (in struct
+members), and __always_unused (in function parameters) to prevent
+kernel-doc warnings:
 
-> Extend fprobe to support list-style filters and explicit entry/exit suffixes.
-> Currentyl, fprobe only supports a single symbol (or wildcard) per event.
-> This patch allows users to specify a comma-separated list of symbols.
-> 
-> New Syntax:
-> - f:[GRP/][EVENT] func1,func2,func3:entry
-> - f:[GRP/][EVENT] func1,func2,func3:exit
+  Warning: include/linux/rethook.h:38 struct member 'void (__rcu *handler' not described in 'rethook'
+  Warning: include/linux/hrtimer_types.h:47 Invalid param: enum hrtimer_restart (*__private function)(struct hrtimer *)
+  Warning: security/ipe/hooks.c:81 function parameter '__always_unused' not described in 'ipe_mmap_file'
+  Warning: security/ipe/hooks.c:109 function parameter '__always_unused' not described in 'ipe_file_mprotect'
 
-Thanks for updating!
+There are more of these (in compiler_types.h, compiler_attributes.h)
+that can be added as needed.
 
-> 
-> Logic changes:
-> - Refactor parsing logic into 'parse_fprobe_spec'
-> - Support '!' prefix for exclusion
-> - Disable BTF lookup ('ctx->funcname = NULL') when a list or wildcard is used,
->   as a single function signature cannot apply to multiple functions.
-> - Reject legacy '%return' suffix when used with lists or wildcards
-> - Update tracefs/README
-> 
-> Testing:
-> Verified on x86_64 via QEMU. Checked registration of lists, exclusions, and
-> explicit suffixes. Verified rejection of invalid syntax including trailing
-> commas and mixed legacy/new syntax.
-> 
-> Seokwoo Chung (Ryan) (3):
->   docs: tracing/fprobe: Document list filters and :entry/:exit
->   tracing/fprobe: Support comma-separated symbols and :entry/:exit
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-doc@vger.kernel.org
+---
+ tools/lib/python/kdoc/kdoc_parser.py |    3 +++
+ 1 file changed, 3 insertions(+)
 
-For the next time, please add docs patch after code change because of bisect.
-(Or, include the document update into code update.)
-
->   selftests/ftrace: Add accept cases for fprobe list syntax
-
-Testing after code is good. :)
-
-Thank you,
-
-> 
-> Changes in v4:
-> - Added validation to reject trailing commas (empty tokens) in symbol lists
-> - Added vaildation to reject mixed of list syntax with %return suffix
-> - Refactored parse_fprobe_spec to user __free(kfree) for automatic memory
->   cleanup
-> - Removed the now-unused parse_symbol_and_return function to avoid compiler
->   warnings.
-> - Tigtened %return detection to ensure it only matches as a strict suffix, not a
->   substring
-> - Link to v3: https://lore.kernel.org/lkml/20250904103219.f4937968362bfff1ecd3f004@kernel.org/
-> 
->  Documentation/trace/fprobetrace.rst           |  17 +-
->  kernel/trace/trace.c                          |   3 +-
->  kernel/trace/trace_fprobe.c                   | 209 ++++++++++++++----
->  .../ftrace/test.d/dynevent/fprobe_list.tc     |  92 ++++++++
->  4 files changed, 269 insertions(+), 52 deletions(-)
->  create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
-> 
-> -- 
-> 2.43.0
-> 
-
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+--- linux-next-20251127.orig/tools/lib/python/kdoc/kdoc_parser.py
++++ linux-next-20251127/tools/lib/python/kdoc/kdoc_parser.py
+@@ -86,6 +86,8 @@ struct_xforms = [
+     (KernRe(r'\s*__counted_by_(le|be)\s*\([^;]*\)', re.S), ' '),
+     (KernRe(r'\s*__packed\s*', re.S), ' '),
+     (KernRe(r'\s*CRYPTO_MINALIGN_ATTR', re.S), ' '),
++    (KernRe(r'\s*__private', re.S), ' '),
++    (KernRe(r'\s*__rcu', re.S), ' '),
+     (KernRe(r'\s*____cacheline_aligned_in_smp', re.S), ' '),
+     (KernRe(r'\s*____cacheline_aligned', re.S), ' '),
+     (KernRe(r'\s*__cacheline_group_(begin|end)\([^\)]+\);'), ''),
+@@ -183,6 +185,7 @@ function_xforms  = [
+     (KernRe(r"__weak +"), ""),
+     (KernRe(r"__sched +"), ""),
+     (KernRe(r"_noprof"), ""),
++    (KernRe(r"__always_unused *"), ""),
+     (KernRe(r"__printf\s*\(\s*\d*\s*,\s*\d*\s*\) +"), ""),
+     (KernRe(r"__(?:re)?alloc_size\s*\(\s*\d+\s*(?:,\s*\d+\s*)?\) +"), ""),
+     (KernRe(r"__diagnose_as\s*\(\s*\S+\s*(?:,\s*\d+\s*)*\) +"), ""),
