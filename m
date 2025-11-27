@@ -1,131 +1,95 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9058333557A
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 15:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D71132D0F9;
+	Thu, 27 Nov 2025 15:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764256579; cv=none; b=h9hX2IrY6fXUFVKHsh6qki7itRJdrPbggHTXNRfcR4HGhBtLMcpnQBIcjHiYBQIbfBERDx34MMv9/TqENziNEQsr8j9bn61R4OhlePHmwhXIw44CDG+jnJbCgtWbuNKuh+AHeNWqor6iza0HtuuwozVHeENDOjgHmMEd5Px9Sa8=
+	t=1764257294; cv=none; b=OquUMo/v4Z0lgfH0rgXbWDv5XFzfsMlKMAG5q9aYIXjv7UDWUUqKSMjLt8FAwHyYZSy7QMdDBRVyu2ASbbIFMP/YfZFsceVBFY38dM7zPu5XBXaV20EwLOBL6hNa1gz825QqONl8CfVXaQzkodTLzY4snYxlji6pQ8+W906sWEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764256579; c=relaxed/simple;
-	bh=EAYHD0uflfQd6sszqckCoZM9plV9potl4DoHq6i9A4c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ItErqmjei+FZ582H35OjmlP6K9scC2ydVyke0yRuO/U5LRTJFH6ZebTRSD9Q/aGOZkff+C5hUbwsxv7r5+s2OAhJuaX7yARqEKBK0ZxGdU5lwaH4Jc9ZcB3iDQs0SOIsWt10Abw06PznFKb+LBGrghuJNV/LcwSvZYYFM5o/z6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WL1wqSw2; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764257294; c=relaxed/simple;
+	bh=cLVmFsV6D+vpjUnuiLqhRPKKYefuGVtgibjdcOZHVAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y7ZnbElN24xxxE2MCvDjTTKv6YXBg0hvxfMeTn/yMw3evz6uETqokq9IEd9cVXYjCT2gL6J6JLVuBWV+PiByiGboXDTAVR75w9aKLTMA0MMgFC9B4ZaWoBJwSd39HZt189FqG9JMQuJ8Qc7CEPONzNSvKIfLEmRXAwBzPWp5MkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AAkoVyDW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WL1wqSw2"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7b7828bf7bcso1089002b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 07:16:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764256575; x=1764861375; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2SI5IT2ccA/LcmNZQUHmcdI+iq0zqrTHDtVhV8fx+VI=;
-        b=WL1wqSw2h9maYpLMe+Aoz7zsV1mRG8SxFJEUoTLop1jyl9mr4Opl+O+jsYhQ6XSYCQ
-         iV+TGTYl6pMZq+EiCGel0zZuQ0ha+bku6KXtjmYaidTcieXGjrycHkaZQ9eetuZetU3D
-         2mPDV/wd/PSt6VQgm/mBcFeppx6jdSHZuEtbvkjmE1rj1FhGAjq6DdYckOsjZHgkXhu2
-         zlEXGY0yo+A7GsguADhfca3aU/oNv+WRmfP3crf+xX6C+lsfCGDU2imbS1pcTT5oB+fR
-         hBNafEJm/Ec/790+miaS7bSFo9WTAp4uB5qSV+7g5+jitsQK8G56hhH2AztpTg/cJRqe
-         9Z+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764256575; x=1764861375;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2SI5IT2ccA/LcmNZQUHmcdI+iq0zqrTHDtVhV8fx+VI=;
-        b=uVHFyjgDVr7QtdwvbAWdtcxnGbIO0ILQDF0gyBQ6vWHbp4ZSqZTHuE34wldQWdJ/aw
-         +Trieg1SDk7uH7iYyiVDd4B1Cs5w/IAKzaM0J6awf4vUW5PACkkyw8ucK/6XCTjuDYaF
-         GKszbn7k8eKvwwpnWhnQmxQ3SOLDX2U5ZN31a9NGwddM52U39OimUSMh0E8q3a5DQxHp
-         iPnH61mZxiddkHIeRf3F1VIHFnNp1quc17jJ9U92q5jGXsE3rVz79XLYPVCSB0MkBrTF
-         wx7t+uZm/HhazzfSsldxPLnrl2nlUpPXY1SVR+f1P8jwG6hHv3oioP/1Sni6lmV6PtQf
-         BfjA==
-X-Forwarded-Encrypted: i=1; AJvYcCUBHIiGKttVDq28tTbjm1iUXxDzAdKItS3SgaHbLdtx3nBg/A6Iu/F7mMl0WcWVXyp3uBJ5BPv2nno=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUDiK0yJ2TrmjB7M5Ck6SfhZFhfQ0g3BN5oNrdgGIZOEuWmWsM
-	Y0X5021dM4A0OcFGNILCGGsY3Tg46kzSnjyco58+S7pahDnOKSeFogKI
-X-Gm-Gg: ASbGnct4cih4V1op2BnWXUoZozILBY8eCJd1DRA800z/dFDVFEy4md2TYdVPbCbOqmx
-	W3BtLtiYvuFlfbk/1GwvCNyaqwmVl7sY1AHyHHUoeC+qzlNL2X+g2qmIlcBGwZhnPVVDJttGwQO
-	w4/JMhAD7S7emfSPUmRsrFhcqAyk+zKxzlfD+V/f/8jKKsC0+L4NU+qX4k0Uw1QnN2xDKitnkAq
-	iBtPUwbpmvBdVpranJn/8ncPPW0NCAFFkwpRJOnW4cqjSsnOR24XxOpInyo5RtXgsozg+bwOVwd
-	u4qThwF5knGCChEupwAKyQ2KSbfAVVL3wghZZHgqDALCvnmRVkR1DyRtPPX6ZhraqEXaz5CCeI5
-	sKBNiNEKu9YXeWwUHHS9KDdp43WeVhxaNFqPZFDZxkgwToZq1Ldwl9+B+wxBE9A7rU2XphXiwQc
-	TT6SzmtArIFnwrh+XHWy1/VgcX8RNKD66THxWMmp9B5yBLX+hNe5iPzosmO8MJX9BdYO4=
-X-Google-Smtp-Source: AGHT+IF2C4VQYvmJzN4VQiQ587h8aO8/w5xYj9vrh6mYj3laNxKF6BXlbjKrvVYNuGLe/wityRhDKg==
-X-Received: by 2002:a05:701b:208a:b0:11b:b064:f606 with SMTP id a92af1059eb24-11c9d85009cmr11987237c88.26.1764256574538;
-        Thu, 27 Nov 2025 07:16:14 -0800 (PST)
-Received: from bliptop (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11dcb067088sm5099656c88.10.2025.11.27.07.16.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 07:16:14 -0800 (PST)
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Armin Wolf <W_Armin@gmx.de>,
-	Len Brown <lenb@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Mario Limonciello <superm1@kernel.org>,
-	Zhixin Zhang <zhangzx36@lenovo.com>,
-	Mia Shao <shaohz1@lenovo.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-	Kurt Borja <kuurtb@gmail.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	platform-driver-x86@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org
-Subject: [PATCH v4 3/3] platform/x86: wmi-gamezone: Add Legion Go 2 Quirks
-Date: Thu, 27 Nov 2025 07:16:05 -0800
-Message-ID: <20251127151605.1018026-4-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251127151605.1018026-1-derekjohn.clark@gmail.com>
-References: <20251127151605.1018026-1-derekjohn.clark@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AAkoVyDW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAC68C4CEF8;
+	Thu, 27 Nov 2025 15:28:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764257293;
+	bh=cLVmFsV6D+vpjUnuiLqhRPKKYefuGVtgibjdcOZHVAk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AAkoVyDWb4czhvURqf5+8xTJ+VhYYculljPZQDNu9L6Ju426bcMbaYuDg12eD2Guq
+	 Dc+i+fN9dZuTw0UdyB1ooQN2Z3+LEA1BU/MYIZ+gUj4ZZsi3Fam+VwCiJ+P7RJlapg
+	 TMThb6taqNQoCZLqU8p5bMqY6Mmn4BnREbcQ4qMEZvNQ/jg2THa8b3eQEBkFYWMXCI
+	 U7vkgpEN9c5Z0TmqnjQBYou+Z1AVzpB7G85w33kQq9NkG0+iG4QSIM9rTcI9c9uTR8
+	 0o6sKSvDusDKmSqCOez7q9R+lDkdcqpFwouo3NTiJwGp5szcBzYf0pQ6dMNJNXVr0G
+	 J4yT/rXx+vEQA==
+Date: Thu, 27 Nov 2025 15:28:07 +0000
+From: Simon Horman <horms@kernel.org>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+	Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
+	Carolina Jubran <cjubran@nvidia.com>,
+	Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH net-next V4 06/14] devlink: Add parent dev to devlink API
+Message-ID: <20251127152807.GA719673@horms.kernel.org>
+References: <1764101173-1312171-1-git-send-email-tariqt@nvidia.com>
+ <1764101173-1312171-7-git-send-email-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1764101173-1312171-7-git-send-email-tariqt@nvidia.com>
 
-Add Legion Go 2 SKU's to the Extreme Mode quirks table.
+On Tue, Nov 25, 2025 at 10:06:05PM +0200, Tariq Toukan wrote:
+> From: Cosmin Ratiu <cratiu@nvidia.com>
+> 
+> Upcoming changes to the rate commands need the parent devlink specified.
+> This change adds a nested 'parent-dev' attribute to the API and helpers
+> to obtain and put a reference to the parent devlink instance in
+> info->user_ptr[1].
+> 
+> To avoid deadlocks, the parent devlink is unlocked before obtaining the
+> main devlink instance that is the target of the request.
+> A reference to the parent is kept until the end of the request to avoid
+> it suddenly disappearing.
+> 
+> This means that this reference is of limited use without additional
+> protection.
+> 
+> Signed-off-by: Cosmin Ratiu <cratiu@nvidia.com>
+> Reviewed-by: Carolina Jubran <cjubran@nvidia.com>
+> Reviewed-by: Jiri Pirko <jiri@nvidia.com>
+> Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
+> ---
+>  Documentation/netlink/specs/devlink.yaml | 11 ++++
+>  include/uapi/linux/devlink.h             |  2 +
+>  net/devlink/devl_internal.h              |  2 +
+>  net/devlink/netlink.c                    | 67 ++++++++++++++++++++++--
+>  net/devlink/netlink_gen.c                |  5 ++
+>  net/devlink/netlink_gen.h                |  8 +++
 
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
----
- drivers/platform/x86/lenovo/wmi-gamezone.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/platform/x86/lenovo/wmi-gamezone.c b/drivers/platform/x86/lenovo/wmi-gamezone.c
-index df475e52f79d..381836d29a96 100644
---- a/drivers/platform/x86/lenovo/wmi-gamezone.c
-+++ b/drivers/platform/x86/lenovo/wmi-gamezone.c
-@@ -266,8 +266,23 @@ static const struct dmi_system_id fwbug_list[] = {
- 		},
- 		.driver_data = &quirk_no_extreme_bug,
- 	},
-+	{
-+		.ident = "Legion Go 8ASP2",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go 8ASP2"),
-+		},
-+		.driver_data = &quirk_no_extreme_bug,
-+	},
-+	{
-+		.ident = "Legion Go 8AHP2",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_VERSION, "Legion Go 8AHP2"),
-+		},
-+		.driver_data = &quirk_no_extreme_bug,
-+	},
- 	{},
--
- };
- 
- /**
--- 
-2.51.2
+I think that the updates to netlink_gen.[ch] belong in
+the following patch rather than this one.
 
+You can observe this using
+
+tools/net/ynl/ynl-regen.sh -f && git diff
