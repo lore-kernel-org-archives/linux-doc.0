@@ -1,156 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432271CEAA3;
-	Thu, 27 Nov 2025 09:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EADB32AAA2;
+	Thu, 27 Nov 2025 10:33:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764235262; cv=none; b=Iyyk4jrNUFiROqCeQ1nug9oxETZfjI0m0v4xHDbGS/GZtetDtR+c6TaWY5ZeoLqp6jIiyQ8bvmsAzyuLHfwfAek0SJyI5mebVx2TyrseKmo8eU0m8aaub81y6nEjFxbIUPId4NoFrjAiT5Rjtx41x442w6tnRtsUq2M6hr1tR7M=
+	t=1764239583; cv=none; b=pk22ckFFKuPDt2GCExc7y8HSutVzOMj+HFIo2BI2JEALfrwe8Uuy/YDmsXA1c8VVZd8PF8UxIMnG9zQeCAu/G9dTu/JzkR2yWE2AkmCeNU08K5kAEeSNrowBUcwfVgDdXARcBR+Xo9o3kLsq+2zwB/ZkRI32hRcUooBCiRgz9zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764235262; c=relaxed/simple;
-	bh=sQVDTm7V9eoCg2eR6hxPIlog0wcTppn1isSj+AvHDYU=;
+	s=arc-20240116; t=1764239583; c=relaxed/simple;
+	bh=mM1w2R3NOzcwTWNhHzLrGG3P+96aRM/2CjOBZFUOr7E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oTJw8To/QcYl8M51BTb2SpucJroxcMKBwSghZaTKZkBxJgxGZgd3keho3Wqd2y9FtRiL4VdJM+FIHYBxIq8CRCwNBVN2zlphqDbltx5ICHXltAoLefKVmZmn1HIjuhr54YQZM0ZfJKqn5bhHiX/xIQrLG0CsW+zsYKocWrAhGgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L55cH3Ew; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L55cH3Ew"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764235262; x=1795771262;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sQVDTm7V9eoCg2eR6hxPIlog0wcTppn1isSj+AvHDYU=;
-  b=L55cH3Ew6mmTw82NuPk8z8ZPPj5A7qDfMdORcILaJHdan6MpGa3pAgDZ
-   ymyQUbHW4hEngWXwSXuhUUEOgFvY0Qhcllucq16eKl9W5LZQekya/zYOv
-   g6A3cmGEg3ZauzmyCGnHelUatHWKEr1pROl7gkKf8WheydAd1t49dr06g
-   d04STfhZoCiwC8W6K4dkrWJ1k8G/JCPF/jz9eDIXLX4+e78lIsZJYPNyZ
-   lORY/CppXK+YPwoBizze/Ige0aPhrqa1Cx1Yz7qYfwijPf7C1QkcneROw
-   N+aNdmsBF/4QbymKbbcpCufguOq9VOtpw/Qfitw+Nw/CWPbj/GEh4GfKj
-   Q==;
-X-CSE-ConnectionGUID: OJOQcjtET0+I90xQsYRhSA==
-X-CSE-MsgGUID: Hw4OFjjUTcGdMDakm30Pbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66441046"
-X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
-   d="scan'208";a="66441046"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 01:21:01 -0800
-X-CSE-ConnectionGUID: d2/cnP5tQfihZkSkbK4qXA==
-X-CSE-MsgGUID: fPDm1rD4RMqoJx7Mj2TmzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
-   d="scan'208";a="216538289"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.225])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 01:20:56 -0800
-Date: Thu, 27 Nov 2025 11:20:54 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jorge Marques <gastmaier@gmail.com>
-Cc: Jorge Marques <jorge.marques@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=YBsEeYjjZ+QcAytLgvCmj+jlJDIB9MbGgMxTZSvtw4o5BelnNH6FCbu92gIX5xRFQi7Zq+SQGPPiSzmdhLMpoqNEgMVwb7UbEoQta1/q5PLDx76WkWmWIfW4PIuhxPCT5sQ2XIEfXud3+VS/jN8l6tJ1Y+ge/Nhjj0Y1+LQyRPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F4131477;
+	Thu, 27 Nov 2025 02:32:53 -0800 (PST)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 603373F6A8;
+	Thu, 27 Nov 2025 02:33:00 -0800 (PST)
+Date: Thu, 27 Nov 2025 10:32:58 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: Al Grant <Al.Grant@arm.com>
+Cc: James Clark <james.clark@linaro.org>,
+	Mike Leach <mike.leach@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 9/9] iio: adc: ad4062: Add GPIO Controller support
-Message-ID: <aSgX9nMBwBtAlSyj@smile.fi.intel.com>
-References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
- <20251124-staging-ad4062-v2-9-a375609afbb7@analog.com>
- <aSQ2JUN05vmMQC1I@smile.fi.intel.com>
- <rk4hmupbrb5ugxft6upj7ru43x3z7ybrobax45rorpwbcwleh6@vzxrr3m7r6ep>
+	Randy Dunlap <rdunlap@infradead.org>,
+	"coresight@lists.linaro.org" <coresight@lists.linaro.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v7 13/13] coresight: docs: Document etm4x timestamp
+ interval option
+Message-ID: <20251127103258.GQ724103@e132581.arm.com>
+References: <20251126-james-cs-syncfreq-v7-0-7fae5e0e5e16@linaro.org>
+ <20251126-james-cs-syncfreq-v7-13-7fae5e0e5e16@linaro.org>
+ <20251126140154.GK724103@e132581.arm.com>
+ <CAJ9a7VgcAiw_h=OTxOK0Vcv=9WFCbdb-+RzDKYhigZZhepM7xg@mail.gmail.com>
+ <20251126144437.GL724103@e132581.arm.com>
+ <5096f4ba-913a-477f-bfe7-f2a6bb563d30@linaro.org>
+ <GV1PR08MB1093237396B35459656FF82CA86DEA@GV1PR08MB10932.eurprd08.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <rk4hmupbrb5ugxft6upj7ru43x3z7ybrobax45rorpwbcwleh6@vzxrr3m7r6ep>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <GV1PR08MB1093237396B35459656FF82CA86DEA@GV1PR08MB10932.eurprd08.prod.outlook.com>
 
-On Wed, Nov 26, 2025 at 04:55:41PM +0100, Jorge Marques wrote:
-> On Mon, Nov 24, 2025 at 12:40:37PM +0200, Andy Shevchenko wrote:
-> > On Mon, Nov 24, 2025 at 10:18:08AM +0100, Jorge Marques wrote:
+On Wed, Nov 26, 2025 at 03:36:58PM +0000, Al Grant wrote:
 
-...
+[...]
 
-> > Why can't gpio-regmap be used?
+> > >> As far as I recall when this command line parameter was a bool then:
+> > >> perf -e cs_etm/timestamp/ <program>
+> > >> is sufficient to turn on timestamping.
+> > >
+> > > Hmm... with the latest perf, we must assign value to `timestamp`,
+> > > otherwise perf will report error:
+> > >
+> > >    # /mnt/build/perf record -e cs_etm/timestamp/ -C 0 -- taskset -c 0 ls
+> > >    event syntax error: 'cs_etm/timestamp/'
+> > >                         \___ Bad event or PMU
+> > >
+> > >    Unable to find PMU or event on a PMU of 'cs_etm'
+> > >
+> > >    event syntax error: 'cs_etm/timestamp/'
+> > >                         \___ no value assigned for term
+> > >
+> > >    event syntax error: 'cs_etm/timestamp/'
+> > >                         \___ no value assigned for term
+> > >    Run 'perf list' for a list of valid events
+> > >
+> > >
 > > 
-> Because the device register values (0x5, 0x6) does not fit the gpio-regmap.
-> It writes the mask for high and 0 for low.
-> But low is 01[01] and
->     high   01[10]
+> > That's unfortunate and not what I expected. And I don't think it makes sense to
+> > remove that validation from Perf. The test uses "timestamp=1"
+> > so I didn't notice.
+> > 
+> > Can we accept that people are most likely using the defaults so timestamps are
+> > already on and they wouldn't be using it? The only real use case of that at the
+> > moment is to do timestamp=0 and that doesn't fail.
+> > 
+> > Although it's not the default for per-thread mode and I did find the OpenCSD
+> > HOWTO.md uses it as an example. timestamps make less sense in per-thread
+> > mode as you don't need to correlate between CPUs or watch for context
+> > switches.
 > 
-> A different series would need to extend the gpio-regmap ops, but if you
-> implement your custom reg read/write, then you save at most ~5 lines...
-> I will add that to the commit message.
+> Timestamps have a more specialised use in per-thread mode, they are
+> as you say less essential for switching in the right context to decode
+> the trace, and less relevant to BOLT/AutoFDO style usage where the
+> trace is collapsed into a heat-map profile.
+> 
+> But trace can also be used to get a detailed timeline of CPU activity -
+> a non-invasive timeline that can trace even through interrupt-disabled
+> kernel code. And for that, having a global constant-frequency timebase
+> becomes more useful, both in its own right, and to line up traces
+> from each CPU with other CPUs and system-level traces.
+> It's also the only way we have to indirectly observe CPU frequency
+> adjustments. (Intel's Processor Trace, which is generally similar to
+> ETM/ETE, has specific packets that trace CPU frequency changes.)
 
-OK.
+Just clarify a bit to make sure us on the same page.
 
-...
+This series does not break timestamp functionality, it just changes the
+PMU format 'timestamp' from 1-bit to 4-bits for counter support.  The
+updated 'timestamp' format still supports per-thread mode and CPU wise
+trace modes.
 
-> > > +	return reg_val == AD4062_GP_STATIC_HIGH ? 1 : 0;
-> > 
-> > 	return !!(reg_val == AD4062_GP_STATIC_HIGH);
-> > 
-> > also will work.
-> >
->  	return reg_val == AD4062_GP_STATIC_HIGH;
+The only difference is now users need to specify 'cs_etm/timestamp=1/'
+rather than 'cs_etm/timestamp/' when enabling timestamp.  Given PMU
+format is not an ABI, it is fine for me for the updated format.
 
-Hmm... This will include implicit bool->int. The !! guarantees values 0 or 1,
-but I don't remember about implicit bool->int case.
+To avoid confusion for users, a well-written document is deserved —
+which is exactly this patch for.  And perf log would be helpful.  I
+think we are well prepared for the change.
 
-...
-
-> > > +static int ad4062_gpio_init_valid_mask(struct gpio_chip *gc,
-> > > +				       unsigned long *valid_mask,
-> > > +				       unsigned int ngpios)
-> > > +{
-> > > +	struct ad4062_state *st = gpiochip_get_data(gc);
-> > > +
-> > > +	bitmap_zero(valid_mask, ngpios);
-> > > +
-> > > +	if (!st->gpo_irq[0])
-> > > +		set_bit(0, valid_mask);
-> > > +	if (!st->gpo_irq[1])
-> > > +		set_bit(1, valid_mask);
-> > 
-> > Why atomic bit set:s?
-> > 
-> Not needed, will use
-
-Note, bitops are xxx_bit() -- atomic, __xxx_bit() -- non-atomic,
-that's what I had in mind.
-
-> 	if (!st->gpo_irq[0])
-> 		*valid_mask |= BIT(0);
-> 	if (!st->gpo_irq[1])
-> 		*valid_mask |= BIT(1);
-
-Can't it be rather something like
-
-	for (unsigned int i = 0; i < ...; i++)
-		__assign_bit(i, valid_mask, st->gpo_irq[i]);
-
-?
-This shorter and does the same independently on the length of the bitmask
-(and effectively the array size of gpo_irq)
-
-> > > +	return 0;
-> > > +}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Leo
