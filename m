@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3F222083;
-	Thu, 27 Nov 2025 00:26:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367EC2264C9;
+	Thu, 27 Nov 2025 00:43:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764203172; cv=none; b=imOB3VndYzCV9oBeMggVqX5wGmD1gjW10ZLlcg850h9sSenjKX39b52j+kCUsk/0EeZkUc3rPjqr5fu99xF0SmO3XQ9gZ0BBfYXgFfXkoBgXyLMTkqorp87GyXgrhYM6pi/fcpzSd1f9koTHWf+ZcNhJXOmMUIXf0WdMbRSVTUc=
+	t=1764204205; cv=none; b=UKA1bvsp/gNp7iOMlQN8aiBLwF4wRSCydugSebcs/YDcVAdhVPfUUStfMOrIA6w2VmAL/EAgIqJL9nQBXKZrdaEVg7vQ17WqVDoQutR5LoPTu1VnZTUZRwuQ+MG4RS60sWYq748Jc+AlTxFM9v9Q8qZkBWbdiCjU6ijjP6NQDZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764203172; c=relaxed/simple;
-	bh=J+0frs1Jw18gqCxZyrrjPuylOVGRUev4RwoODgPXzvg=;
+	s=arc-20240116; t=1764204205; c=relaxed/simple;
+	bh=p0cQffAgeqn04pmVrzqv8oKE43c+8yPWU6W/r/neGLM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=queov3/2ZJeVGc7gnjfFQNnevLggmndH+ilcKNgsAlwfyMoOYvBODUpsTpJAH/J5i92sKk71tfKoas1Om3chAP3kZGqHQGTI+OiwkBN0DEkQvh+2eGnXJn9ovJ1ivq8v0qkR8OvhHQpit7Jqzzdtnv0SYDI4JTaQJKe8FjVLUYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WrG9Ip/g; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=Cvw8n2obsR0r0CgxluM4qTU9evtcGgwZw5qPNkD0eQj19sN9CzQi8hRPhFcW9xZTiIxCaSs71RvebNXx587fPEzfv3yxh5MeLGo/tw9JXiOi60Jzk77tI7/3gXqvN+nvPM5K4keQeBtRXf6Sli5aMRfKg3ujifMx/PCGYAzmU0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cQSpBsN+; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WrG9Ip/g"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cQSpBsN+"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Wq2hRRHw3uwK7n7ReUBUG9hyJPvVDkZT3JJwxzZrWbI=; b=WrG9Ip/gPBfvrLaOel6g8NOCPa
-	gRzSRLAFpucSIXQ0fxdJXdJfA3Nwhpkz4jJDl+eLi0facTc5Nd8Gue5jvyGeFMQaLf74negZqHsok
-	PAswvwj2LljbrUNDNXbDcT+sT3paybpeOz7eGeRLFBE2iR2ndbp1V3XzoI/MioX62iXu7shA4nm9Q
-	ayaDN3uRZjbkf5oSL2TBBEFJvr2sOR2Y2wDIlnnThvR+uPgtBxUpIqXvT7EKThFJIpaWnLN0ag+zN
-	w1zaniz4g189q3lWlZnSoh5ABJ2IrprfuZwXL0i293gdbxpxQFaNfuDgFljRsSNGcF6HIx7s6MPCB
-	/1JmxiAQ==;
+	bh=cPJ4G5W9hFdphDEZet67Q1C8w5VwSXADPtmrpnzwleQ=; b=cQSpBsN+CIIE0fSpqd11LNecWG
+	cTh9BfwrCNc4XpGM4Id+qKw09EDAHCniPjmUm8CfxnwgDpkd4KsYiimgCuP/CAp6srx2I93XwOQ94
+	3rkxUgvaEu4An6pvX0ZKBYMn+tVGAkVWJ8euTxX+869gxd1TBCUDmmzjI+Ax0MSvi6M//k0zTfpxK
+	8yXjyvnBeBluLSz1F/ECqr9dhsWKKtC4IcE9vtkF/Exogz+gnZazWTdah68eNMSKx6EwQVotj65hi
+	1zlx9M+3gMQa4OnkRTot8g6/uFEHq9FFAXchpSHNdSRJ3agd+0e7E36ge+Sab/h4d2xOjll5CotOb
+	T1xXKhZA==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOPpl-0000000FnTO-2ESJ;
-	Thu, 27 Nov 2025 00:26:05 +0000
-Message-ID: <a731c794-1b4c-4ea7-9cf1-0210b95eaa4d@infradead.org>
-Date: Wed, 26 Nov 2025 16:26:04 -0800
+	id 1vOQ6R-0000000Fo95-2ld6;
+	Thu, 27 Nov 2025 00:43:19 +0000
+Message-ID: <371a9942-f0f6-49e0-a505-3b60f89a0530@infradead.org>
+Date: Wed, 26 Nov 2025 16:43:19 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,53 +39,44 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] docs: Update documentation to avoid mentioning of
- kernel.h
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "Dr. David Alan Gilbert" <linux@treblig.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
- linux-remoteproc@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>
-References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH 3/5] Documentation: dax: Demote "Enabling DAX on xfs and
+ ext4" subsections
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux AFS <linux-afs@lists.infradead.org>,
+ Linux Filesystems Development <linux-fsdevel@vger.kernel.org>
+Cc: David Howells <dhowells@redhat.com>,
+ Marc Dionne <marc.dionne@auristor.com>, Jonathan Corbet <corbet@lwn.net>,
+ Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>,
+ Johannes Thumshirn <jth@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Daniel Palmer <daniel.palmer@sony.com>
+References: <20251126025511.25188-1-bagasdotme@gmail.com>
+ <20251126025511.25188-4-bagasdotme@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20251126025511.25188-4-bagasdotme@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 11/26/25 1:46 PM, Andy Shevchenko wrote:
-> For several years, and still ongoing, the kernel.h is being split
-> to smaller and narrow headers to avoid "including everything" approach
-> which is bad in many ways. Since that, documentation missed a few
-> required updates to align with that work. Do it here.
+On 11/25/25 6:55 PM, Bagas Sanjaya wrote:
+> Subsections of "Enabling DAX on xfs and ext4" section (both "Summary"
+> and "Details") are marked up as section heading instead, which makes
+> their way to filesystems toctree entry. Demote them.
 > 
-> Note, language translations are left untouched and if anybody willing
-> to help, please provide path(es) based on the updated English variant.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
 > ---
-> 
-> v2: collected tag (Randy), fixed util_macros k-doc (Randy, me), fixed spelling (Randy)
-> 
->  Documentation/core-api/kobject.rst              |  2 +-
->  Documentation/dev-tools/checkpatch.rst          |  2 +-
->  Documentation/driver-api/basics.rst             | 17 ++++++++++++++++-
->  .../driver-api/driver-model/design-patterns.rst |  2 +-
->  Documentation/process/coding-style.rst          | 10 +++++++---
->  Documentation/staging/rpmsg.rst                 |  7 +++++--
->  include/linux/util_macros.h                     |  2 +-
->  7 files changed, 32 insertions(+), 10 deletions(-)
+>  Documentation/filesystems/dax.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 
 -- 
