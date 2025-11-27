@@ -1,182 +1,90 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F862D29AC
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 16:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E772DC780;
+	Thu, 27 Nov 2025 17:18:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764260596; cv=none; b=h7pWRTu8Sh5pljCMMJZqg4N+7BG51qUDPezVW2u8npDZZYDtIp/1pwa2QFJmvVcKmasbpi0vfN+CLKsyOhJj278QpK3TKj/zT+SkzjovyLXcBbp7iSb2AysIGOL7LhlUOWciBVdG6MAJolYFOatyZqpN9Gmp0FIr2fJqpqQ7nI8=
+	t=1764263897; cv=none; b=N3DKK1KGcL+M+oG0GB/dMnBqGUGyUoqIp0Fig8S/QmV1aHUWzVt6CsxJm3Kcz7PZUtu0qkZUJBeetHW2oCmuPpZIiQwjbkpCUC15kFWBLIurI4aBZx7gXg94swa938KaOlRaI5KRd1tnf7vL44pv7m2iBhIOfIOEjNFM7CyUO1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764260596; c=relaxed/simple;
-	bh=5w4AUQuz0dGdw5CdD1rC201z9FXIhHuXRPxTOAxvqIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGGah1+VSibOw53tEegQvh1rvSLpraGvUPghlAsHH2XEDzCs8tmU2zVPzq5xXT+sIS+miyJB7ZIA1V9BB/pdxe7iKRLvRv14aEnirEdzQ08LitEunYntf1hx5KqB16Pi3TwYp7SaYH1Gsa0lQII9gVPESSk0mEjOOPbBvBP9trc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KnZ9QDL6; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764263897; c=relaxed/simple;
+	bh=wqMn8seKFIq2wq+jhSvRw9F9LzjxLgo9SgvwyVemjZA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Js5ilBjwC9k5mVfVF6jkIwzMqaAoc2khZK3+eUMN4p/m1vimm043djgv/g3R7Fs6g9gUcawJvjrMus2ozMSLwRe6xmzvZa0pBt+bwfy8VxRD0OWizsIiV8sDncYCPMKthBAIPlFFCJZIx++flQMDrGRXH3395j8hIKbujYAByxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JWA2kEam; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KnZ9QDL6"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-297d4a56f97so14531465ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 08:23:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764260594; x=1764865394; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bYD9XqhUHtt4KPRx0lwsto4qlMl73VNVsS41vyaBbjs=;
-        b=KnZ9QDL6NAAdDriT+kf3AzH0cczxMvyDbPEh80KrBoNO+sh1QfyUXcuKFaiAu3O7oB
-         WnhSKn9NdiIZ/89Jj5DyRupokQ4tkCCgB0kkx6+cdPfCtRh1XrpVyVqxgwYcRmVFFLTu
-         28BlcVetLYnBogIsJ84kRvZup6brvuCu5yLM+mo8dWnG40sBLD2NzOkgZfxj1St2WKfA
-         uh8vmaVpXXu0HiqCaQQHf0l1pOTRj17fqtQP2K1l1gv7un6k8uWv1/6PIVBYVEl/jJKH
-         qMO8uyJLd76P1v5Jj9Y5WRWfoalHIvDudpA+FHTLPhPvZp/8na0xl4ZqvwR489AtDwoa
-         HI9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764260594; x=1764865394;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bYD9XqhUHtt4KPRx0lwsto4qlMl73VNVsS41vyaBbjs=;
-        b=EHkbdJz3dUOLmTjYluayAZIPizFHysynnCtZFFgjuziJz/OSn3ijNvuxpxSOj5EYZ+
-         sUGR+daQV41TRbmUyKC4dfKfneeWnUdbrC07tqWbfhcV7SwafVIz66blqlQ+aSMM+jw0
-         jPIdF+VKvKAhFy2Zs/ExspYGCnMsu+i9uoHWs8qlhpILLdUR1JM8wDC4qykOugaBqk8Q
-         7G9a2Yw27TJ2/dzXggAnYFMPhipBCAeBwiWDJ2xAuSaiFFZIC+HfBV+DoSdMxHY4nJ9x
-         n4p1sKuUfaKTtp+QXDracz0FirS3rwH1SflPAuQjWE24E/w3cglRnbwYtjp37/f8Bd/5
-         cg7g==
-X-Forwarded-Encrypted: i=1; AJvYcCXNNUy+lpp412uPMySBJ5YpWWkP10jJGxsAlD6tEPnrTHFvMEkoluqM3eE4a1Zv0VDiyUgDTSHhLEQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3W/7dOqTk5mzi9Rpmrl8fvfiTbegd6g41krEAf0Cp7GqQ8NbK
-	9R5nLjteYFN6rzv710ZsqNR4Az1EAr6H3J12UJA/hLqqBXjbvEPJ6vvnfDQRnNQfwQU=
-X-Gm-Gg: ASbGnct49B0v4NbEhc6926hYwpxrpQTS3NT6E8YXORkD+/mpWregtKGbWGNAqeIdJYl
-	it55b24wUjHY1+j2Flk2s9A/xIGryQyp3cDqUtdNRReES7hZTyBQsM54VlXh107Fl31aPMn3J6U
-	Yj2GSX06c4m/8wfWk3HSApK75PG9HIOJjTrbqnCWDiuPsgiPCFZ2F2Sn9nZajtgq78k6/07cB7b
-	gDQN6pEXLZcDnbsjdIxVpMi9tliBzmmDKiCvuxEUna2r5H8hkLliZONNkQkn7gVcoJknioQ3Ltu
-	xIGo7d1fApKUP4UVNTjYnY+RoxwXIpjYegL2mO3rbeqsDE7uCSrg2bG/Kf0vhNLJHBnGw44rFBx
-	sKRghipQqGjFukzCz3rFIyB3DNz8Z+lqnqyr6VzBHjF9KuELfiDAiqdJZdPtAx7l52HMPlo1lEA
-	tRbiz3TS5SnTpRPQ==
-X-Google-Smtp-Source: AGHT+IHqx1uI/5nrF6nAELgHS8dwwRi8UkkNhUGcSd+x/B6tc1auqIiR26mDQUo8dP8rVSg7iApWFA==
-X-Received: by 2002:a17:902:ef08:b0:248:ff5a:b768 with SMTP id d9443c01a7336-29b6c3c7340mr247945805ad.10.1764260593683;
-        Thu, 27 Nov 2025 08:23:13 -0800 (PST)
-Received: from p14s ([2604:3d09:148c:c800:9ef4:efaa:23ae:f181])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bce2e676esm22111985ad.0.2025.11.27.08.23.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 08:23:13 -0800 (PST)
-Date: Thu, 27 Nov 2025 09:23:10 -0700
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	dl-linux-imx <linux-imx@nxp.com>
-Subject: Re: [PATCH v5 2/5] remoteproc: imx_rproc: Populate devices under
- "rpmsg" subnode
-Message-ID: <aSh67mvFB_00PywW@p14s>
-References: <20251104203315.85706-1-shenwei.wang@nxp.com>
- <20251104203315.85706-3-shenwei.wang@nxp.com>
- <aSdMufLCeqvVyKsp@p14s>
- <PAXPR04MB91857863B163B3F38A26647389DEA@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JWA2kEam"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1C41540C2B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1764263889; bh=er+eFEwRU3CkCEeylATCuIcAlxI7qwRMrkONrVzSQN8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=JWA2kEamHDeShJskeTqMRGTaXRKybNFyZLDzgR3SJ2kvr5TgV2pyjwrIwdHQ/Q61b
+	 nNzlOHQfRtGj0c2ujdNYT/9Zvhs6xVfYcHLUxi30aSxuASWA1nlI2vzr0FTYyutmYY
+	 DqcVkPfohIfdS/fcGsDRfomEEyKYfWTwaU9q6TIaTK+dGXUx/i8+xaIvwU+bbwNki0
+	 zM66HJ9/fbqVdB7iCUpqb8mphWjN8kXTBiA2ak4ibsC7fNxVCArFegMc14FGBqBmEg
+	 kNcXACsiXqPq79BTbZT+RnL/a6QjyBrEbIUIrCz/9xGuzYTQln6nDIChWX3DO5Qyxd
+	 0rlnxcJUcJ/pg==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1C41540C2B;
+	Thu, 27 Nov 2025 17:18:09 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence.csokas@arm.com>,
+ linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, Akira Yokosawa <akiyks@gmail.com>, Jani
+ Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 0/2] Move Python modules to tools/lib/python
+In-Reply-To: <61a0b2e5-fa53-4ed2-af26-c519a03a9dc9@arm.com>
+References: <20251110220430.726665-1-corbet@lwn.net>
+ <61a0b2e5-fa53-4ed2-af26-c519a03a9dc9@arm.com>
+Date: Thu, 27 Nov 2025 10:18:07 -0700
+Message-ID: <875xavwg1c.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR04MB91857863B163B3F38A26647389DEA@PAXPR04MB9185.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 26, 2025 at 09:46:38PM +0000, Shenwei Wang wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > Sent: Wednesday, November 26, 2025 12:54 PM
-> > To: Shenwei Wang <shenwei.wang@nxp.com>
-> > Cc: Bjorn Andersson <andersson@kernel.org>; Rob Herring <robh@kernel.org>;
-> > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha Hauer
-> > <s.hauer@pengutronix.de>; Jonathan Corbet <corbet@lwn.net>; Linus Walleij
-> > <linus.walleij@linaro.org>; Bartosz Golaszewski <brgl@bgdev.pl>; Pengutronix
-> > Kernel Team <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>;
-> > Peng Fan <peng.fan@nxp.com>; linux-remoteproc@vger.kernel.org;
-> > devicetree@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> > kernel@lists.infradead.org; linux-kernel@vger.kernel.org; linux-
-> > doc@vger.kernel.org; dl-linux-imx <linux-imx@nxp.com>
-> > Subject: [EXT] Re: [PATCH v5 2/5] remoteproc: imx_rproc: Populate devices
-> > under "rpmsg" subnode
-> > > +
-> > > +     drvdata = dev_get_drvdata(&rpdev->dev);
-> > > +     if (drvdata && drvdata->rx_callback)
-> > > +             return drvdata->rx_callback(rpdev, data, len, priv,
-> > > + src);
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static void imx_rpmsg_endpoint_remove(struct rpmsg_device *rpdev) {
-> > > +     of_platform_depopulate(&rpdev->dev);
-> > > +}
-> > > +
-> > > +static int imx_rpmsg_endpoint_probe(struct rpmsg_device *rpdev) {
-> > 
-> > Where does the rpmsg_device come from?  Usually there is a call to
-> > rpmsg_register_device() and I don't see it anywhere in this patchset.  I also don't
-> > see a link to the remote processor.  I can't continue with this set for as long as I
-> > don't have this information.
-> > 
-> 
-> It is in the function below named imx_of_rpmsg_register_rpdriver.
-> 
+Bence Cs=C3=B3k=C3=A1s <bence.csokas@arm.com> writes:
 
-The function below calls register_rpmsg_driver(), not rpmsg_register_device().
-I still don't know where @rpdev comes from.
+> Hi,
+>
+> On 11/10/25 23:04, Jonathan Corbet wrote:
+>> scripts/lib was always a bit of an awkward place for Python libraries; g=
+ive
+>> them a proper home under tools/lib/python.  Put the modules from
+>> tools/docs/lib there for good measure.
+>>=20
+>> The second patch ties them into a single package namespace.  It would be
+>> more aesthetically pleasing to add a kernel layer, so we could say:
+>>=20
+>>    from kernel.kdoc import kdoc_parser
+>
+> This is great, the code looks so much cleaner! However, it would've been=
+=20
+> even nicer if the redundant `kdoc_` was done away with.
+>
+> So instead of:
+> * `import kdoc.kdoc_files` -> `import kdoc.files`
+> * `kdoc/kdoc_files.py` -> `kdoc/kdoc_files.py`
+> * `abi/abi_parser.py` -> `abi/parser.py`
+>
+> etc.
+>
+> Will you consider this?
 
-> Thanks,
-> Shenwei
-> 
-> > > +
-> > > +static int imx_of_rpmsg_register_rpdriver(struct device_node *channel,
-> > > +                                       struct device *dev, int idx) {
-> > > +     struct imx_rpmsg_driver_data *driver_data;
-> > > +     struct imx_rpmsg_driver *rp_driver;
-> > > +     struct rpmsg_device_id *rpdev_id;
-> > > +
-> > > +     rpdev_id = devm_kzalloc(dev, sizeof(*rpdev_id) * 2, GFP_KERNEL);
-> > > +     if (!rpdev_id)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     strscpy(rpdev_id[0].name, channel_device_map[idx][0],
-> > > + RPMSG_NAME_SIZE);
-> > > +
-> > > +     rp_driver = devm_kzalloc(dev, sizeof(*rp_driver), GFP_KERNEL);
-> > > +     if (!rp_driver)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     driver_data = devm_kzalloc(dev, sizeof(*driver_data), GFP_KERNEL);
-> > > +     if (!driver_data)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     driver_data->rproc_name = dev->of_node->name;
-> > > +     driver_data->channel_node = channel;
-> > > +     driver_data->map_idx = idx;
-> > > +
-> > > +     rp_driver->rpdrv.drv.name = channel_device_map[idx][0];
-> > > +     rp_driver->rpdrv.id_table = rpdev_id;
-> > > +     rp_driver->rpdrv.probe = imx_rpmsg_endpoint_probe;
-> > > +     rp_driver->rpdrv.remove = imx_rpmsg_endpoint_remove;
-> > > +     rp_driver->rpdrv.callback = imx_rpmsg_endpoint_cb;
-> > > +     rp_driver->driver_data = driver_data;
-> > > +
-> > > +     register_rpmsg_driver(&rp_driver->rpdrv);
-> > > +
-> > > +     return 0;
-> > > +}
+We can certainly consider it...that's a relatively small detail, though,
+in the big organizational picture, so I wasn't concerned about it at
+this point.
+
+Thanks,
+
+jon
