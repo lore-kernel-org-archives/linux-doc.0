@@ -1,221 +1,182 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DF92D0C98
-	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 16:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F862D29AC
+	for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 16:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764259928; cv=none; b=ihr/EwsUJNcHYuGxwOvroLAI2BquuQq+8rMkbtKS+fCyaKIyY/g7eRVRg40W1HEkKzxqPsQe6qUOS5diptKxvqidKYuutICH8q/xNWLztzxWQthz41VwiTZvZHMCtD+OUj7uKz1etCX/HHIoFLemKtOr3LoJMN3M1IJ3MTZiuCM=
+	t=1764260596; cv=none; b=h7pWRTu8Sh5pljCMMJZqg4N+7BG51qUDPezVW2u8npDZZYDtIp/1pwa2QFJmvVcKmasbpi0vfN+CLKsyOhJj278QpK3TKj/zT+SkzjovyLXcBbp7iSb2AysIGOL7LhlUOWciBVdG6MAJolYFOatyZqpN9Gmp0FIr2fJqpqQ7nI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764259928; c=relaxed/simple;
-	bh=dKJFC4q6Y/FQ5fG0bQGe91ERSia90QlAE9pZ3k7HUGo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GPncur+8UmxAcnSjlhyT+qbGfzbRkUoBNIh0HKeI8AT8Ofh9BBOmJNOkrXCBrUgq2Zrx9p92SjCkTYgmkMEtc8RDM3UeYs+TfQft6wZ/qWsRo2CPz44q5HmE9QoFxmLZ4b1fv2B0ZVSu0quPea7mjGBk1A5aMbTRpygAEHOlmAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qeodskLu; arc=none smtp.client-ip=209.85.219.46
+	s=arc-20240116; t=1764260596; c=relaxed/simple;
+	bh=5w4AUQuz0dGdw5CdD1rC201z9FXIhHuXRPxTOAxvqIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IGGah1+VSibOw53tEegQvh1rvSLpraGvUPghlAsHH2XEDzCs8tmU2zVPzq5xXT+sIS+miyJB7ZIA1V9BB/pdxe7iKRLvRv14aEnirEdzQ08LitEunYntf1hx5KqB16Pi3TwYp7SaYH1Gsa0lQII9gVPESSk0mEjOOPbBvBP9trc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KnZ9QDL6; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qeodskLu"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-88054872394so13136126d6.1
-        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 08:12:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KnZ9QDL6"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-297d4a56f97so14531465ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 27 Nov 2025 08:23:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764259925; x=1764864725; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GapapUbs7e3KQYoiEBxDXMAXQNgCZcbnNy9kg7gHKRs=;
-        b=qeodskLugN2Zmdf/vZdSy1fGMtIKQq2XdEQqodeVPWPxL7TrgbyiJkY6M7cO8Ld0LC
-         j2+PEIHz19GIKyCg6GgsYJ97M5LBlI9xJIE6gafYeg4EAxZ1UF7M712UlmMOnYBVGd/n
-         EZUj1Bg3hRtXz1HGa82CE6hcZs9FiDmoL5kFiW2fJ5GiEa7WL5uiM7lLxiHd003Vx2Sf
-         Cm7ocN4fUlxQJAZl24283KXdlpgLETUR23gJTRgkp3u3IqNIkdibMnicHvtV6kxQFSS4
-         6/1zWl3GabhhJn7EHJ3gN4NL496+52hXwbD4rZHH8JhZ3bRqOz8EnUxyb7Jf50H9O1HT
-         lKAg==
+        d=linaro.org; s=google; t=1764260594; x=1764865394; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bYD9XqhUHtt4KPRx0lwsto4qlMl73VNVsS41vyaBbjs=;
+        b=KnZ9QDL6NAAdDriT+kf3AzH0cczxMvyDbPEh80KrBoNO+sh1QfyUXcuKFaiAu3O7oB
+         WnhSKn9NdiIZ/89Jj5DyRupokQ4tkCCgB0kkx6+cdPfCtRh1XrpVyVqxgwYcRmVFFLTu
+         28BlcVetLYnBogIsJ84kRvZup6brvuCu5yLM+mo8dWnG40sBLD2NzOkgZfxj1St2WKfA
+         uh8vmaVpXXu0HiqCaQQHf0l1pOTRj17fqtQP2K1l1gv7un6k8uWv1/6PIVBYVEl/jJKH
+         qMO8uyJLd76P1v5Jj9Y5WRWfoalHIvDudpA+FHTLPhPvZp/8na0xl4ZqvwR489AtDwoa
+         HI9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764259925; x=1764864725;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GapapUbs7e3KQYoiEBxDXMAXQNgCZcbnNy9kg7gHKRs=;
-        b=swbZRrl4zrQ8dh2iiIUFBpRB2ZNKzM7nuJ1Q+j/M4e29i8yy1vEsq4W5rwAk2L32zz
-         LjoWCE8oD31wf+JjMfUrfgEMZKPBsu+fMChqyA0PR1VZ/OlHaTqOn6m0agHDXDft5kH+
-         IK4R4nqMops65kcs22BVhWatIt48Q6yKKEZEBLTb1JYenwcbJiQEmHa9LD4C+nqCpVwm
-         G+JaUjSrDlxO7ngXnIrJlD3erM887d7o3p9VG4bTtUDffHaM/3bJ+dr+vXJsYmMJsbKE
-         MZ6yrCb80z2gs1pV22wxytuVXYzIZ9fzNwVoMo1kd0z8fKOOCzIChtErThR0dYE5dsMP
-         RsJg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNrXRlSwESpdgcGERvB+QptnMbDE6zhgo/lVVYCg8s7kl30By0Yvcbm0ErcjyGbdOIV7uEKUauNsQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxf+RsumM+tjIYOTeB8WxrPQ99R2WWLpBL7OC8v5Hodx2BXTlC7
-	GstGRS+P09SbBGzjYzvpBYZ6Nxnky0r5JRwlV67BtGW6hQXuFV8XNSlGeRJERk198SjLvwL5ehe
-	UHG8PXxyNRyjtXqpiIe/F4GWEbS9CT52x0c4tZH2amQ==
-X-Gm-Gg: ASbGnctNs5YUEytto9m1105CsEBaggcOgDkeGajgR+UoS46sD3l2Us69G1MDTVZ7Hgi
-	AvK0N4G4MAI8AZrqoa2fXKYEZCgxYilhw8rLB3FkG33ZZVY9+4TwfBVmfq4iZ4icBCUqRlju78r
-	QBElY2/kdne95LM8rjngOAOCjOSTQUKc3nsnGZqlvtGef5o6qt3ur9OOxvOx3EO+6DLWefMpQiE
-	QGycraKDl6TkPUbYWbBZAGBSe0upb3+69hniGTcBr7D9pT+i77TlCDa+Ld0I628wBVQFQCmx8mF
-	lPT5SuucizaNQ1dzTKzpew+q1672
-X-Google-Smtp-Source: AGHT+IHsGV3TEa2pdwvHDjBWy4WnWcNbtFiNFi+YFp/54ivvMFJzi1TLM9DpHmzYKL5gS2uzB0O836iJUO6h3xgHaZE=
-X-Received: by 2002:a05:620a:2982:b0:8a1:762a:ab13 with SMTP id
- af79cd13be357-8b33d1dd003mr3272403985a.10.1764259925082; Thu, 27 Nov 2025
- 08:12:05 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764260594; x=1764865394;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bYD9XqhUHtt4KPRx0lwsto4qlMl73VNVsS41vyaBbjs=;
+        b=EHkbdJz3dUOLmTjYluayAZIPizFHysynnCtZFFgjuziJz/OSn3ijNvuxpxSOj5EYZ+
+         sUGR+daQV41TRbmUyKC4dfKfneeWnUdbrC07tqWbfhcV7SwafVIz66blqlQ+aSMM+jw0
+         jPIdF+VKvKAhFy2Zs/ExspYGCnMsu+i9uoHWs8qlhpILLdUR1JM8wDC4qykOugaBqk8Q
+         7G9a2Yw27TJ2/dzXggAnYFMPhipBCAeBwiWDJ2xAuSaiFFZIC+HfBV+DoSdMxHY4nJ9x
+         n4p1sKuUfaKTtp+QXDracz0FirS3rwH1SflPAuQjWE24E/w3cglRnbwYtjp37/f8Bd/5
+         cg7g==
+X-Forwarded-Encrypted: i=1; AJvYcCXNNUy+lpp412uPMySBJ5YpWWkP10jJGxsAlD6tEPnrTHFvMEkoluqM3eE4a1Zv0VDiyUgDTSHhLEQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3W/7dOqTk5mzi9Rpmrl8fvfiTbegd6g41krEAf0Cp7GqQ8NbK
+	9R5nLjteYFN6rzv710ZsqNR4Az1EAr6H3J12UJA/hLqqBXjbvEPJ6vvnfDQRnNQfwQU=
+X-Gm-Gg: ASbGnct49B0v4NbEhc6926hYwpxrpQTS3NT6E8YXORkD+/mpWregtKGbWGNAqeIdJYl
+	it55b24wUjHY1+j2Flk2s9A/xIGryQyp3cDqUtdNRReES7hZTyBQsM54VlXh107Fl31aPMn3J6U
+	Yj2GSX06c4m/8wfWk3HSApK75PG9HIOJjTrbqnCWDiuPsgiPCFZ2F2Sn9nZajtgq78k6/07cB7b
+	gDQN6pEXLZcDnbsjdIxVpMi9tliBzmmDKiCvuxEUna2r5H8hkLliZONNkQkn7gVcoJknioQ3Ltu
+	xIGo7d1fApKUP4UVNTjYnY+RoxwXIpjYegL2mO3rbeqsDE7uCSrg2bG/Kf0vhNLJHBnGw44rFBx
+	sKRghipQqGjFukzCz3rFIyB3DNz8Z+lqnqyr6VzBHjF9KuELfiDAiqdJZdPtAx7l52HMPlo1lEA
+	tRbiz3TS5SnTpRPQ==
+X-Google-Smtp-Source: AGHT+IHqx1uI/5nrF6nAELgHS8dwwRi8UkkNhUGcSd+x/B6tc1auqIiR26mDQUo8dP8rVSg7iApWFA==
+X-Received: by 2002:a17:902:ef08:b0:248:ff5a:b768 with SMTP id d9443c01a7336-29b6c3c7340mr247945805ad.10.1764260593683;
+        Thu, 27 Nov 2025 08:23:13 -0800 (PST)
+Received: from p14s ([2604:3d09:148c:c800:9ef4:efaa:23ae:f181])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bce2e676esm22111985ad.0.2025.11.27.08.23.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Nov 2025 08:23:13 -0800 (PST)
+Date: Thu, 27 Nov 2025 09:23:10 -0700
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	dl-linux-imx <linux-imx@nxp.com>
+Subject: Re: [PATCH v5 2/5] remoteproc: imx_rproc: Populate devices under
+ "rpmsg" subnode
+Message-ID: <aSh67mvFB_00PywW@p14s>
+References: <20251104203315.85706-1-shenwei.wang@nxp.com>
+ <20251104203315.85706-3-shenwei.wang@nxp.com>
+ <aSdMufLCeqvVyKsp@p14s>
+ <PAXPR04MB91857863B163B3F38A26647389DEA@PAXPR04MB9185.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251126-james-cs-syncfreq-v7-0-7fae5e0e5e16@linaro.org>
- <20251126-james-cs-syncfreq-v7-12-7fae5e0e5e16@linaro.org> <CAJ9a7VgqGJ=YLG6+ypMnqV9YJ_dMBw6qyhusXdR_NR2=RTis-w@mail.gmail.com>
-In-Reply-To: <CAJ9a7VgqGJ=YLG6+ypMnqV9YJ_dMBw6qyhusXdR_NR2=RTis-w@mail.gmail.com>
-From: Mike Leach <mike.leach@linaro.org>
-Date: Thu, 27 Nov 2025 16:11:54 +0000
-X-Gm-Features: AWmQ_blRpcZYUNReouRYTIPa5Ymx0XpGoIz3jg-XNCjhMsDaPOcIssoxm5yqYbU
-Message-ID: <CAJ9a7VjOP4_VtO9zi21xDxRqkybeS7V3iGnH5AKhHLEPYUCQCQ@mail.gmail.com>
-Subject: Re: [PATCH v7 12/13] coresight: Allow setting the timestamp interval
-To: James Clark <james.clark@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Leo Yan <leo.yan@arm.com>, Randy Dunlap <rdunlap@infradead.org>, coresight@lists.linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PAXPR04MB91857863B163B3F38A26647389DEA@PAXPR04MB9185.eurprd04.prod.outlook.com>
 
-OK I see it now. The real problem is that the logic to determine if we
-are to set a counter based timestamp is confusingly spread across two
-functions and two patches.
+On Wed, Nov 26, 2025 at 09:46:38PM +0000, Shenwei Wang wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > Sent: Wednesday, November 26, 2025 12:54 PM
+> > To: Shenwei Wang <shenwei.wang@nxp.com>
+> > Cc: Bjorn Andersson <andersson@kernel.org>; Rob Herring <robh@kernel.org>;
+> > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
+> > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Sascha Hauer
+> > <s.hauer@pengutronix.de>; Jonathan Corbet <corbet@lwn.net>; Linus Walleij
+> > <linus.walleij@linaro.org>; Bartosz Golaszewski <brgl@bgdev.pl>; Pengutronix
+> > Kernel Team <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>;
+> > Peng Fan <peng.fan@nxp.com>; linux-remoteproc@vger.kernel.org;
+> > devicetree@vger.kernel.org; imx@lists.linux.dev; linux-arm-
+> > kernel@lists.infradead.org; linux-kernel@vger.kernel.org; linux-
+> > doc@vger.kernel.org; dl-linux-imx <linux-imx@nxp.com>
+> > Subject: [EXT] Re: [PATCH v5 2/5] remoteproc: imx_rproc: Populate devices
+> > under "rpmsg" subnode
+> > > +
+> > > +     drvdata = dev_get_drvdata(&rpdev->dev);
+> > > +     if (drvdata && drvdata->rx_callback)
+> > > +             return drvdata->rx_callback(rpdev, data, len, priv,
+> > > + src);
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static void imx_rpmsg_endpoint_remove(struct rpmsg_device *rpdev) {
+> > > +     of_platform_depopulate(&rpdev->dev);
+> > > +}
+> > > +
+> > > +static int imx_rpmsg_endpoint_probe(struct rpmsg_device *rpdev) {
+> > 
+> > Where does the rpmsg_device come from?  Usually there is a call to
+> > rpmsg_register_device() and I don't see it anywhere in this patchset.  I also don't
+> > see a link to the remote processor.  I can't continue with this set for as long as I
+> > don't have this information.
+> > 
+> 
+> It is in the function below named imx_of_rpmsg_register_rpdriver.
+> 
 
-On Thu, 27 Nov 2025 at 15:48, Mike Leach <mike.leach@linaro.org> wrote:
->
-> Hi James
->
-> On Wed, 26 Nov 2025 at 10:57, James Clark <james.clark@linaro.org> wrote:
-> >
-> > Timestamps are currently emitted at the maximum rate possible, which is
-> > much too frequent for most use cases. Set the interval using the value
-> > from the timestamp field. Granular control is not required, so save
-> > space in the config by interpreting it as 2 ^ timestamp. And then 4
-> > bits (0 - 15) is enough to set the interval to be larger than the
-> > existing SYNC timestamp interval.
-> >
-> > No sysfs mode support is needed for this attribute because counter
-> > generated timestamps are only configured for Perf mode.
-> >
-> > Reviewed-by: Leo Yan <leo.yan@arm.com>
-> > Tested-by: Leo Yan <leo.yan@arm.com>
-> > Signed-off-by: James Clark <james.clark@linaro.org>
-> > ---
-> >  drivers/hwtracing/coresight/coresight-etm-perf.h   |  1 +
-> >  drivers/hwtracing/coresight/coresight-etm4x-core.c | 28 +++++++++++++++-------
-> >  2 files changed, 20 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.h b/drivers/hwtracing/coresight/coresight-etm-perf.h
-> > index 24d929428633..128f80bb1443 100644
-> > --- a/drivers/hwtracing/coresight/coresight-etm-perf.h
-> > +++ b/drivers/hwtracing/coresight/coresight-etm-perf.h
-> > @@ -7,6 +7,7 @@
-> >  #ifndef _CORESIGHT_ETM_PERF_H
-> >  #define _CORESIGHT_ETM_PERF_H
-> >
-> > +#include <linux/bits.h>
-> >  #include <linux/percpu-defs.h>
-> >  #include "coresight-priv.h"
-> >
-> > diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> > index c7bf73c8f2d7..0129b0502726 100644
-> > --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> > +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> > @@ -651,7 +651,7 @@ static void etm4_enable_sysfs_smp_call(void *info)
-> >   *  +--------------+
-> >   *         |
-> >   *  +------v-------+
-> > - *  | Counter x    |   (reload to 1 on underflow)
-> > + *  | Counter x    |   (reload to 2 ^ timestamp on underflow)
-> >   *  +--------------+
-> >   *         |
-> >   *  +------v--------------+
-> > @@ -662,11 +662,25 @@ static void etm4_enable_sysfs_smp_call(void *info)
-> >   *  | Timestamp Generator  |  (timestamp on resource y)
-> >   *  +----------------------+
-> >   */
-> > -static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
-> > +static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata,
-> > +                                      struct perf_event_attr *attr)
+The function below calls register_rpmsg_driver(), not rpmsg_register_device().
+I still don't know where @rpdev comes from.
 
-Should pass ts_level in here
-
-> >  {
-> >         int ctridx;
-> >         int rselector;
-> >         struct etmv4_config *config = &drvdata->config;
-> > +       struct perf_event_attr max_timestamp = {
-> > +               .ATTR_CFG_FLD_timestamp_CFG = U64_MAX,
-> > +       };
-> > +
-> > +       /* timestamp may be 0 if deprecated_timestamp is used, so make min 1 */
-> > +       u8 ts_level = max(1, ATTR_CFG_GET_FLD(attr, timestamp));
-> > +
->
-> I could be missing something here - but if we have a perf command line:
->
-> perf -e cs_etm/timestamp=0/
->
-> is this bit not changing that to timestamp=1 regardless? The docs
-> (patch 13) indicate timestamp=0 to be timestamps off.
->
-> This command is used in test_arm_coresight.sh when testing the
-> combination of options on the CS system.
->
-> Mike
->
-> > +       /*
-> > +        * Disable counter generated timestamps when timestamp == MAX. Leave
-> > +        * only SYNC timestamps.
-> > +        */
-> > +       if (ts_level == ATTR_CFG_GET_FLD(&max_timestamp, timestamp))
-> > +               return 0;
-
-All the attr manipulation logic should be where this function is
-called not in here.
-
-Mike
-
-> >
-> >         /* No point in trying if we don't have at least one counter */
-> >         if (!drvdata->nr_cntr)
-> > @@ -704,12 +718,8 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
-> >                 return -ENOSPC;
-> >         }
-> >
-> > -       /*
-> > -        * Initialise original and reload counter value to the smallest
-> > -        * possible value in order to get as much precision as we can.
-> > -        */
-> > -       config->cntr_val[ctridx] = 1;
-> > -       config->cntrldvr[ctridx] = 1;
-> > +       /* Initialise original and reload counter value. */
-> > +       config->cntr_val[ctridx] = config->cntrldvr[ctridx] = 1 << (ts_level - 1);
-> >
-> >         /*
-> >          * Trace Counter Control Register TRCCNTCTLRn
-> > @@ -799,7 +809,7 @@ static int etm4_parse_event_config(struct coresight_device *csdev,
-> >                  * order to correlate instructions executed on different CPUs
-> >                  * (CPU-wide trace scenarios).
-> >                  */
-> > -               ret = etm4_config_timestamp_event(drvdata);
-> > +               ret = etm4_config_timestamp_event(drvdata, attr);
-> >
-> >                 /*
-> >                  * No need to go further if timestamp intervals can't
-> >
-> > --
-> > 2.34.1
-> >
->
->
-> --
-> Mike Leach
-> Principal Engineer, ARM Ltd.
-> Manchester Design Centre. UK
-
-
-
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+> Thanks,
+> Shenwei
+> 
+> > > +
+> > > +static int imx_of_rpmsg_register_rpdriver(struct device_node *channel,
+> > > +                                       struct device *dev, int idx) {
+> > > +     struct imx_rpmsg_driver_data *driver_data;
+> > > +     struct imx_rpmsg_driver *rp_driver;
+> > > +     struct rpmsg_device_id *rpdev_id;
+> > > +
+> > > +     rpdev_id = devm_kzalloc(dev, sizeof(*rpdev_id) * 2, GFP_KERNEL);
+> > > +     if (!rpdev_id)
+> > > +             return -ENOMEM;
+> > > +
+> > > +     strscpy(rpdev_id[0].name, channel_device_map[idx][0],
+> > > + RPMSG_NAME_SIZE);
+> > > +
+> > > +     rp_driver = devm_kzalloc(dev, sizeof(*rp_driver), GFP_KERNEL);
+> > > +     if (!rp_driver)
+> > > +             return -ENOMEM;
+> > > +
+> > > +     driver_data = devm_kzalloc(dev, sizeof(*driver_data), GFP_KERNEL);
+> > > +     if (!driver_data)
+> > > +             return -ENOMEM;
+> > > +
+> > > +     driver_data->rproc_name = dev->of_node->name;
+> > > +     driver_data->channel_node = channel;
+> > > +     driver_data->map_idx = idx;
+> > > +
+> > > +     rp_driver->rpdrv.drv.name = channel_device_map[idx][0];
+> > > +     rp_driver->rpdrv.id_table = rpdev_id;
+> > > +     rp_driver->rpdrv.probe = imx_rpmsg_endpoint_probe;
+> > > +     rp_driver->rpdrv.remove = imx_rpmsg_endpoint_remove;
+> > > +     rp_driver->rpdrv.callback = imx_rpmsg_endpoint_cb;
+> > > +     rp_driver->driver_data = driver_data;
+> > > +
+> > > +     register_rpmsg_driver(&rp_driver->rpdrv);
+> > > +
+> > > +     return 0;
+> > > +}
