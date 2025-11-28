@@ -1,434 +1,458 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A5D2C237C;
-	Fri, 28 Nov 2025 18:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE182853EF
+	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 18:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764355273; cv=none; b=ciNI1nYLYoZGoMMkjPGgQ+m9gan7ZRAZWBtT1GQnEnm87yzv4MHtzttt+ay6GZgXnvCN7B7VNr7tIP2Wi38TuxMdpiz8Ofqs84orJbmYiDkbCimPTODgjYdP/BiuDtRB7w9OqOWZfxfJCCYUoW6AsSVGZcegufPwgrltGqUrxxU=
+	t=1764355810; cv=none; b=f51OfE+0D4Q6KohJdfK2HR5FQ7BRUKZM7FxuO+HpHYMF4BM0BWFLxNI+LKOXKruop2SFbJrOK4q6AXT5BuU4GRP8jDGlz7nGAiyThiH7V07df3vD/+Xsigi5g3T83wt967YsGuNsjYw8CQSGDzJ+6ZTCrEOuFB+N1CDcUPu46HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764355273; c=relaxed/simple;
-	bh=pjGvrYsdueRWDiGzWJuR8igEbqVLnOV1Kr4NX8Kwk1I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TErO2w2H/iSeyIgmGZ55fKMivpXUywzHyO/5rTK2nyZNQJHs70y2ILK7mUNEKnA9TxItgJuTrg+zOpawdToZpIWxPHXPMtyUcInm2e8cwNH/M2y5lEzYI+l6ZPdJJT0YzH0pEMnov5UwhMJpGP1WoQ3RYWbFoQWrOyaZvo0kLZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=RKhAogxf; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1764355810; c=relaxed/simple;
+	bh=/h8yBxablWPek+7hHxFXlQhCloZaZBbzt6CtKnqg49U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QbHzY1ruhMNszD4hcfIgE+0XKysWXRsHEZCrhoZuzknHQLJp1gVKa9j5z0r5RkZSMa0LRjy+EfMcFMFl6GjnZWzgHG7a91y3YFZ06XIP/OLDPM21PXoDIIZUut332HNvl9pJoGsIgGWizeGv3ZsoxgzLRHJ0G9h5Gp2fZmATSPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZLUQgNlF; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RKhAogxf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764355268;
-	bh=pjGvrYsdueRWDiGzWJuR8igEbqVLnOV1Kr4NX8Kwk1I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RKhAogxf3z9Ei/hAJajkLD5pCm1EXNG5q5K08bm6kT61kdS2CRh2VXxOGKHobCiae
-	 UFhqFEtVuIqleFOB8qTUTNZbweI3jie+/XB/xEpXyVLzGXB+ClpEH1RVUinnBOHDER
-	 C++qI/M6IMjXjNOAj+V1Ok7COsa6FJ1os0luuSZpNY02lpQw9i1eYJCRJV7ZxND92/
-	 cCzq0z7U8Lc8J5D6kzIaMnQjmbtXojT2z9dtKCkj6JxpMQhifrAekhJd0PmDw37e6a
-	 mwIOTy0lGuY46ZKJrL6dDYFzNd7QbPOUXkaI+jqsXdi156vHiFyWisuEobGp15Kfzj
-	 lbR8SyKhkfEtw==
-Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7478C17E06C3;
-	Fri, 28 Nov 2025 19:41:07 +0100 (CET)
-Message-ID: <240d0dce-bbc4-4c82-9f9f-7f4625da8315@collabora.com>
-Date: Fri, 28 Nov 2025 19:41:07 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZLUQgNlF"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b7291af7190so343694566b.3
+        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 10:50:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764355805; x=1764960605; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=WX7GZ7QIiC0YJ3z3A28BFLchPllyieUl7kC9JuxEexI=;
+        b=ZLUQgNlFXiLH6Rlo7oZ0ws+ftdsP+cuH7kkzkn38g6xObqeiZBQ3c/QhiKOxpeDi+O
+         2u5lUiIXOY/6mEIhrheLGBi6VDXNmm/WIXDaAjgifdVLyB63XaBRRPbtJP6u8fBIijNr
+         p3l6OoImDwHrdXRU4yk7z2XtyuKDFaI/xgwUD8cooasj3FeIPC7SYxB9PqMVgrh5SXNV
+         gYYuStITzxHWBNnLc1bjUYHwGFpAN+diIu4Lu9IOOHwQl/4BauLfGSmdBX6Ul2Hy5u7A
+         WuYm2XDglEsERBAMetrm9k58jCfqgk3OalK0ZOQeWijqlcTZyFf7wGWk7Rv6s/FvFlYs
+         4ZHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764355805; x=1764960605;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WX7GZ7QIiC0YJ3z3A28BFLchPllyieUl7kC9JuxEexI=;
+        b=FWskTlvx8yL7lHC+tB/dYIj+/mOaVodLkW1Swp2fGaLLTLzAyIFbKFo4T+N+gZsIBu
+         ddlz8GaggQGg7RRS8E7+ZvV+9oZu9Ov7y43hlltpTm7qv/87IrMmgsPAsmRGOa9JtmdC
+         JtiLIw3DHJUlJXeOxkWdtFdPgu8vZIpj/5YRaWH6OjOSFk/7GMHHVIPMmM55QQBcEclh
+         HKh6/xP30xNPiKDuKlGQDOU3Ut0WfM30Wc0d1CakinGzH/NZnk+PurxW1tln664tm9do
+         A+DEx74IkuVPJuWJUTJacVAGpE1+I+VSRCLsxqo8lqLLX++Jl9qTuWkFC8EcfXceFWof
+         QDCA==
+X-Forwarded-Encrypted: i=1; AJvYcCVRrwfQqyzoAfXZjcFluYzkOxanZ/sfW5CMlo85Dua+1sYw/pBQfqGtB/F5lpBvvZXSZnr7i/gMDOE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPqth54M/WHl8vupJ8ggC1NJHqNJ4YS5+DWU0UohALgFdB/yDw
+	kdDxLDo0Sg7C5tVb58mAu5zWrm3dWPGrTnyX2wNQekre0ngFmUb4+pCF
+X-Gm-Gg: ASbGncvi/uZ6a1e/h20PFriRr6ZkIVQicX3AM2Ax3z++LNlw0XdwVBZR0IsVhyPrFs/
+	VxI3342DyDJDq0GLsV9hLl/sqQVqsK7ZGlHham474963b6QUrf7GeeMrlRThdT7z0MP8DX9TYDt
+	ycr1IRCTKEUJQ/gVLn/ulkKmBijVeEKcv9SvjHmrRvC0ZA0TD0Ko9RJItvjNfQe0S2rT+KtnIy1
+	2degKjFTAruBcLNwy78KL0joRfmiamd7hYufrjR+cYLYPuyqwt08ylIgydq3/jnn/SIghG29g42
+	qlsFzQTZb1Pd72bVOiOlgJzIcXqa9qVT8Qo/dG0zcCbB4LckPAoZ25z2KGmwQkyQWMlEdiLzZJR
+	3upOnp4ecR1m8dAXqgmB4TaXn6xP10eLILqgWhIgYs3ik6rYfWnqJ6XsanRB5Ff7fu1lutzjIGw
+	RZ2k3rQ1zwm+Khr9VeImQuZ0l79mqi7fVVNbPY78KW1BM0G+0wJ4MJhgddG/pnzS4fk8U=
+X-Google-Smtp-Source: AGHT+IEfDY4uJ23hVVMVaAzxQghRjOMG1yRqhMDfjHc9KdSb/oNvxNcfvVZLVHw5LrgA3lbTv/qKSQ==
+X-Received: by 2002:a17:907:d93:b0:b73:3028:93a1 with SMTP id a640c23a62f3a-b767150b284mr2641160466b.9.1764355804992;
+        Fri, 28 Nov 2025 10:50:04 -0800 (PST)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:123e:4501:6960:7067:c8e2:c770])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f516416esm518395066b.4.2025.11.28.10.50.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Nov 2025 10:50:04 -0800 (PST)
+Date: Fri, 28 Nov 2025 19:50:02 +0100
+From: Jorge Marques <gastmaier@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 3/9] iio: adc: Add support for ad4062
+Message-ID: <zryqws2h2i4duejczo2rptwhlzhile7fa7brriqh2hmtarwjxn@cr2cyzymwpav>
+References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
+ <20251124-staging-ad4062-v2-3-a375609afbb7@analog.com>
+ <aSQxiSoZcI_ol3S5@smile.fi.intel.com>
+ <aslj3klmv6heyyhgltzewkdze5p4c3hlkzfbxbfnzwwgd375gv@m6iqpst5sv6b>
+ <aSgSsGSUuBtMOuro@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 05/11] drm/i915: Use huge tmpfs mountpoint helpers
-To: Tvrtko Ursulin <tursulin@ursulin.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Matthew Wilcox
- <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251114170303.2800-1-loic.molinari@collabora.com>
- <20251114170303.2800-6-loic.molinari@collabora.com>
- <fee6476e-3168-4f4f-ae2f-3ef65fe209b0@ursulin.net>
-Content-Language: fr
-From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
-Organization: Collabora Ltd
-In-Reply-To: <fee6476e-3168-4f4f-ae2f-3ef65fe209b0@ursulin.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <aSgSsGSUuBtMOuro@smile.fi.intel.com>
 
-On 20/11/2025 10:31, Tvrtko Ursulin wrote:
-> 
-> On 14/11/2025 17:02, Loïc Molinari wrote:
->> Make use of the new drm_gem_huge_mnt_create() and
->> drm_gem_get_huge_mnt() helpers to avoid code duplication. Now that
->> it's just a few lines long, the single function in i915_gemfs.c is
->> moved into v3d_gem_shmem.c.
->>
->> v3:
->> - use huge tmpfs mountpoint in drm_device
->> - move i915_gemfs.c into i915_gem_shmem.c
->>
->> v4:
->> - clean up mountpoint creation error handling
->>
->> v5:
->> - use drm_gem_has_huge_mnt() helper
->>
->> v7:
->> - include <drm/drm_print.h> in i915_gem_shmem.c
->>
->> v8:
->> - keep logging notice message with CONFIG_TRANSPARENT_HUGEPAGE=n
->> - don't access huge_mnt field with CONFIG_TRANSPARENT_HUGEPAGE=n
->>
->> v9:
->> - replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
->> - remove useless ternary op test in selftests/huge_pages.c
->>
->> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
->> ---
->>   drivers/gpu/drm/i915/Makefile                 |  3 +-
->>   drivers/gpu/drm/i915/gem/i915_gem_shmem.c     | 48 +++++++++----
->>   drivers/gpu/drm/i915/gem/i915_gemfs.c         | 71 -------------------
->>   drivers/gpu/drm/i915/gem/i915_gemfs.h         | 14 ----
->>   .../gpu/drm/i915/gem/selftests/huge_pages.c   | 16 +++--
->>   drivers/gpu/drm/i915/i915_drv.h               |  5 --
->>   6 files changed, 47 insertions(+), 110 deletions(-)
->>   delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
->>   delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
->>
->> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/ 
->> Makefile
->> index 84ec79b64960..b5a8c0a6b747 100644
->> --- a/drivers/gpu/drm/i915/Makefile
->> +++ b/drivers/gpu/drm/i915/Makefile
->> @@ -169,8 +169,7 @@ gem-y += \
->>       gem/i915_gem_ttm_move.o \
->>       gem/i915_gem_ttm_pm.o \
->>       gem/i915_gem_userptr.o \
->> -    gem/i915_gem_wait.o \
->> -    gem/i915_gemfs.o
->> +    gem/i915_gem_wait.o
->>   i915-y += \
->>       $(gem-y) \
->>       i915_active.o \
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/ 
->> drm/i915/gem/i915_gem_shmem.c
->> index 26dda55a07ff..15c2c6fde2ac 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
->> @@ -9,14 +9,16 @@
->>   #include <linux/uio.h>
->>   #include <drm/drm_cache.h>
->> +#include <drm/drm_gem.h>
->> +#include <drm/drm_print.h>
->>   #include "gem/i915_gem_region.h"
->>   #include "i915_drv.h"
->>   #include "i915_gem_object.h"
->>   #include "i915_gem_tiling.h"
->> -#include "i915_gemfs.h"
->>   #include "i915_scatterlist.h"
->>   #include "i915_trace.h"
->> +#include "i915_utils.h"
->>   /*
->>    * Move folios to appropriate lru and release the batch, 
->> decrementing the
->> @@ -497,6 +499,7 @@ static int __create_shmem(struct drm_i915_private 
->> *i915,
->>                 resource_size_t size)
->>   {
->>       unsigned long flags = VM_NORESERVE;
->> +    struct vfsmount *huge_mnt;
->>       struct file *filp;
->>       drm_gem_private_object_init(&i915->drm, obj, size);
->> @@ -515,9 +518,9 @@ static int __create_shmem(struct drm_i915_private 
->> *i915,
->>       if (BITS_PER_LONG == 64 && size > MAX_LFS_FILESIZE)
->>           return -E2BIG;
->> -    if (i915->mm.gemfs)
->> -        filp = shmem_file_setup_with_mnt(i915->mm.gemfs, "i915", size,
->> -                         flags);
->> +    huge_mnt = drm_gem_get_huge_mnt(&i915->drm);
->> +    if (huge_mnt)
->> +        filp = shmem_file_setup_with_mnt(huge_mnt, "i915", size, flags);
->>       else
->>           filp = shmem_file_setup("i915", size, flags);
->>       if (IS_ERR(filp))
->> @@ -644,21 +647,40 @@ i915_gem_object_create_shmem_from_data(struct 
->> drm_i915_private *i915,
->>   static int init_shmem(struct intel_memory_region *mem)
->>   {
->> -    i915_gemfs_init(mem->i915);
->> -    intel_memory_region_set_name(mem, "system");
->> +    struct drm_i915_private *i915 = mem->i915;
->> -    return 0; /* We have fallback to the kernel mnt if gemfs init 
->> failed. */
->> -}
->> +    /*
->> +     * By creating our own shmemfs mountpoint, we can pass in
->> +     * mount flags that better match our usecase.
->> +     *
->> +     * One example, although it is probably better with a per-file
->> +     * control, is selecting huge page allocations ("huge=within_size").
->> +     * However, we only do so on platforms which benefit from it, or to
->> +     * offset the overhead of iommu lookups, where with latter it is 
->> a net
->> +     * win even on platforms which would otherwise see some performance
->> +     * regressions such a slow reads issue on Broadwell and Skylake.
->> +     */
->> -static int release_shmem(struct intel_memory_region *mem)
->> -{
->> -    i915_gemfs_fini(mem->i915);
->> -    return 0;
->> +    if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
->> +        goto no_thp;
->> +
->> +    drm_gem_huge_mnt_create(&i915->drm, "within_size");
->> +    if (drm_gem_get_huge_mnt(&i915->drm))
->> +        drm_info(&i915->drm, "Using Transparent Hugepages\n");
->> +    else
->> +        drm_notice(&i915->drm,
->> +               "Transparent Hugepage support is recommended for 
->> optimal performance%s\n",
->> +               GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
->> +                              " when IOMMU is enabled!");
->> +
->> + no_thp:
->> +    intel_memory_region_set_name(mem, "system");
->> +
->> +    return 0; /* We have fallback to the kernel mnt if huge mnt 
->> failed. */
->>   }
->>   static const struct intel_memory_region_ops shmem_region_ops = {
->>       .init = init_shmem,
->> -    .release = release_shmem,
->>       .init_object = shmem_object_init,
->>   };
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/ 
->> i915/gem/i915_gemfs.c
->> deleted file mode 100644
->> index 1f1290214031..000000000000
->> --- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
->> +++ /dev/null
->> @@ -1,71 +0,0 @@
->> -// SPDX-License-Identifier: MIT
->> -/*
->> - * Copyright © 2017 Intel Corporation
->> - */
->> -
->> -#include <linux/fs.h>
->> -#include <linux/mount.h>
->> -#include <linux/fs_context.h>
->> -
->> -#include <drm/drm_print.h>
->> -
->> -#include "i915_drv.h"
->> -#include "i915_gemfs.h"
->> -#include "i915_utils.h"
->> -
->> -void i915_gemfs_init(struct drm_i915_private *i915)
->> -{
->> -    struct file_system_type *type;
->> -    struct fs_context *fc;
->> -    struct vfsmount *gemfs;
->> -    int ret;
->> -
->> -    /*
->> -     * By creating our own shmemfs mountpoint, we can pass in
->> -     * mount flags that better match our usecase.
->> -     *
->> -     * One example, although it is probably better with a per-file
->> -     * control, is selecting huge page allocations ("huge=within_size").
->> -     * However, we only do so on platforms which benefit from it, or to
->> -     * offset the overhead of iommu lookups, where with latter it is 
->> a net
->> -     * win even on platforms which would otherwise see some performance
->> -     * regressions such a slow reads issue on Broadwell and Skylake.
->> -     */
->> -
->> -    if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
->> -        return;
->> -
->> -    if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
->> -        goto err;
->> -
->> -    type = get_fs_type("tmpfs");
->> -    if (!type)
->> -        goto err;
->> -
->> -    fc = fs_context_for_mount(type, SB_KERNMOUNT);
->> -    if (IS_ERR(fc))
->> -        goto err;
->> -    ret = vfs_parse_fs_string(fc, "source", "tmpfs");
->> -    if (!ret)
->> -        ret = vfs_parse_fs_string(fc, "huge", "within_size");
->> -    if (!ret)
->> -        gemfs = fc_mount_longterm(fc);
->> -    put_fs_context(fc);
->> -    if (ret)
->> -        goto err;
->> -
->> -    i915->mm.gemfs = gemfs;
->> -    drm_info(&i915->drm, "Using Transparent Hugepages\n");
->> -    return;
->> -
->> -err:
->> -    drm_notice(&i915->drm,
->> -           "Transparent Hugepage support is recommended for optimal 
->> performance%s\n",
->> -           GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
->> -                          " when IOMMU is enabled!");
->> -}
->> -
->> -void i915_gemfs_fini(struct drm_i915_private *i915)
->> -{
->> -    kern_unmount(i915->mm.gemfs);
->> -}
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.h b/drivers/gpu/drm/ 
->> i915/gem/i915_gemfs.h
->> deleted file mode 100644
->> index 16d4333c9a4e..000000000000
->> --- a/drivers/gpu/drm/i915/gem/i915_gemfs.h
->> +++ /dev/null
->> @@ -1,14 +0,0 @@
->> -/* SPDX-License-Identifier: MIT */
->> -/*
->> - * Copyright © 2017 Intel Corporation
->> - */
->> -
->> -#ifndef __I915_GEMFS_H__
->> -#define __I915_GEMFS_H__
->> -
->> -struct drm_i915_private;
->> -
->> -void i915_gemfs_init(struct drm_i915_private *i915);
->> -void i915_gemfs_fini(struct drm_i915_private *i915);
->> -
->> -#endif
->> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/ 
->> drivers/gpu/drm/i915/gem/selftests/huge_pages.c
->> index bd08605a1611..28aef75630a2 100644
->> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
->> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
->> @@ -1316,7 +1316,7 @@ typedef struct drm_i915_gem_object *
->>   static inline bool igt_can_allocate_thp(struct drm_i915_private *i915)
->>   {
->> -    return i915->mm.gemfs && has_transparent_hugepage();
->> +    return !!drm_gem_get_huge_mnt(&i915->drm);
->>   }
->>   static struct drm_i915_gem_object *
->> @@ -1761,7 +1761,9 @@ static int igt_tmpfs_fallback(void *arg)
->>       struct drm_i915_private *i915 = arg;
->>       struct i915_address_space *vm;
->>       struct i915_gem_context *ctx;
->> -    struct vfsmount *gemfs = i915->mm.gemfs;
->> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->> +    struct vfsmount *huge_mnt = i915->drm.huge_mnt;
->> +#endif
->>       struct drm_i915_gem_object *obj;
->>       struct i915_vma *vma;
->>       struct file *file;
->> @@ -1782,10 +1784,12 @@ static int igt_tmpfs_fallback(void *arg)
->>       /*
->>        * Make sure that we don't burst into a ball of flames upon 
->> falling back
->>        * to tmpfs, which we rely on if on the off-chance we encounter 
->> a failure
->> -     * when setting up gemfs.
->> +     * when setting up a huge mountpoint.
->>        */
->> -    i915->mm.gemfs = NULL;
->> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->> +    i915->drm.huge_mnt = NULL;
->> +#endif
->>       obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
->>       if (IS_ERR(obj)) {
->> @@ -1819,7 +1823,9 @@ static int igt_tmpfs_fallback(void *arg)
->>   out_put:
->>       i915_gem_object_put(obj);
->>   out_restore:
->> -    i915->mm.gemfs = gemfs;
->> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->> +    i915->drm.huge_mnt = huge_mnt;
->> +#endif
-> 
-> Apart from this layering violation in the selftest, this version looks 
-> good to me. I am just wondering if we could somehow improve this aspect. 
-> I was thinking a self-test builds only special version of 
-> i915_gem_object_create_shmem. Call chain is deep but there are flags 
-> passed on:
-> 
-> i915_gem_object_create_shmem
->    i915_gem_object_create_region
->      __i915_gem_object_create_region
->        err = mem->ops->init_object(
-> 
-> So we could add a new helper like:
-> 
-> selftests_create_shmem
->    i915_gem_object_create_region(...flags = 
-> I915_BO_ALLOC_SELFTESTS_NOTHP...)
-> 
-> And in __create_shmem we just make it:
+On Thu, Nov 27, 2025 at 10:58:24AM +0200, Andy Shevchenko wrote:
+> On Wed, Nov 26, 2025 at 12:40:00PM +0100, Jorge Marques wrote:
+> > On Mon, Nov 24, 2025 at 12:20:57PM +0200, Andy Shevchenko wrote:
+> > > On Mon, Nov 24, 2025 at 10:18:02AM +0100, Jorge Marques wrote:
 > 
 > ...
-> huge_mnt = drm_gem_get_huge_mnt(&i915->drm) &&
-> if (IS_ENABLED(..SELFTESTS..) &&
->      (flags & I915_BO_ALLOC_SELFTESTS_NOTHP))
->      huge_mnt = NULL;
+> 
+> > > > +#define AD4062_MON_VAL_MAX_GAIN		1999970
+> > > 
+> > > This is decimal...
+> > > 
+> > > > +#define AD4062_MON_VAL_MIDDLE_POINT	0x8000
+> > > 
+> > > ...and this is hexadecimal. Can you make these consistent?
+> > > Also, is there any explanation of the number above? To me
+> > > it looks like 2000000 - 30. Is it so? Or is this a fraction
+> > > number multiplied by 1000000 or so? In any case some elaboration
+> > > would be good to have.
+> > > 
+> > Since this is not a magic number, I will use directly below.
+> > It MAX_MON_VAL/MON_VAL_MIDDLE_POINT = 0xFFFF/0x8000
+> 
+> Okay, at least it will explain the value.
+> 
 > ...
 > 
-> It would avoid the ifdef and needing to play games with the DRM internals.
+> > > > +	if (val < 1 || val > BIT(st->chip->max_avg + 1))
+> > > 
+> > > in_range() ?
+> > > 
+> > > 	in_range(val, 1, GENMASK(st->chip->max_avg, 0))
+> > > 
+> > > if I am not mistaken. Also note, the GENMASK() approach makes possible
+> > > to have all 32 bits set, however it's most unlikely to happen here anyway.
+> > > 
+> > Sure, but requires locals to not trigger suspicious usage of sizeof.
+> >   	// ...
+> >   	const u32 _max = GENMASK(st->chip->max_avg, 0);
+> >   	const u32 _min = 1;
+> >   	int ret;
+> >   
+> >   	if (in_range(val, _min, _max))
+> > > > +		return -EINVAL;
 > 
-> How does that sound to you?
-
-That sounds better to me but I'm not very familiar with the i915 testing 
-process. Would you be ready to accept the currect ifdef'd version for 
-now and let me take a better look at that proposal later for a follow-up 
-patch series?
-
-Regards,
-
-Loïc
-
-> Regards,
+> It's fine.
 > 
-> Tvrtko
+> ...
 > 
->>       i915_vm_put(vm);
->>   out:
->> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/ 
->> i915_drv.h
->> index 95f9ddf22ce4..93a5af3de334 100644
->> --- a/drivers/gpu/drm/i915/i915_drv.h
->> +++ b/drivers/gpu/drm/i915/i915_drv.h
->> @@ -141,11 +141,6 @@ struct i915_gem_mm {
->>        */
->>       atomic_t free_count;
->> -    /**
->> -     * tmpfs instance used for shmem backed objects
->> -     */
->> -    struct vfsmount *gemfs;
->> -
->>       struct intel_memory_region *regions[INTEL_REGION_UNKNOWN];
->>       struct notifier_block oom_notifier;
+> > > > +static int ad4062_calc_sampling_frequency(int fosc, unsigned int n_avg)
+> > > > +{
+> > > > +	/* See datasheet page 31 */
+> > > > +	u64 duration = div_u64((u64)(n_avg - 1) * NSEC_PER_SEC, fosc) + AD4062_TCONV_NS;
+> > > > +
+> > > > +	return DIV_ROUND_UP_ULL(NSEC_PER_SEC, duration);
+> > > 
+> > > Why u64?
+> > > 
+> > > The DIV_ROUND_UP_ULL() seems an overkill here. Or do you expect duration be
+> > > more than 4 billions?
+> > > 
+> > This is necessary since at fosc 111 Hz and avg 4096 it does take longer
+> > than 4 seconds, even though I do timeout after 1 seconds in the raw
+> > acquisition.
+> 
+> Values above NSEC_PER_SEC+1 do not make sense (it will return 0),
+> and that fits u32. Can you refactor to avoid 64-bit arithmetics?
+>
 
+Ok, any frequency lower than 1 Hz does not make sense.
+
+  static int ad4062_calc_sampling_frequency(int fosc, unsigned int oversamp_ratio)
+  {
+  	/* See datasheet page 31 */
+  	u32 period = NSEC_PER_SEC / fosc;
+  	u32 n_avg = BIT(oversamp_ratio) - 1;
+  
+  	/* Result is less than 1 Hz */
+  	if (n_avg >= fosc)
+  		return 1;
+  	return NSEC_PER_SEC / (n_avg * period + AD4062_TCONV_NS);
+  }
+
+> > > > +}
+> 
+> ...
+> 
+> > > > +static int ad4062_soft_reset(struct ad4062_state *st)
+> > > > +{
+> > > > +	u8 val = AD4062_SOFT_RESET;
+> > > > +	int ret;
+> > > > +
+> > > > +	ret = regmap_write(st->regmap, AD4062_REG_INTERFACE_CONFIG_A, val);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	/* Wait AD4062 treset time */
+> > > > +	fsleep(5000);
+> > > 
+> > > 5 * USEC_PER_MSEC
+> > > 
+> > > This gives a hint on the units without even a need to comment or look somewhere
+> > > else.
+> > >
+> > // TODO
+> > Since the device functional blocks are powered when voltage is supplied,
+> > here we can stick with the treset datasheet value 60ns (ndelay(60)).
+> 
+> Add a comment and it will work for me, thanks!
+> 
+> > > > +	return 0;
+> > > > +}
+> 
+> ...
+> 
+> > > > +static const int ad4062_oversampling_avail[] = {
+> > > > +	1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096,
+> > > 
+> > > It's not easy to count them at glance, please add a comment with indices.
+> > > 
+> > Ack, will use
+> >   static const int ad4062_oversampling_avail[] = {
+> >           BIT(0), BIT(1), BIT(2), BIT(3), BIT(4), BIT(5), BIT(6), BIT(7), BIT(8),
+> >   	BIT(9), BIT(10), BIT(11), BIT(12),
+> >   };
+> 
+> Of course you can use bit notations, but what I meant is to have
+> 
+> 	1, 2, 4, 8, 16, 32, 64, 128,		/*  0 -  7 */
+> 	256, 512, 1024, 2048, 4096,		/*  8 - 12 */
+> 
+> (or something alike).
+> 
+Ack
+> > > > +};
+> 
+> ...
+> 
+> > > > +static int ad4062_get_chan_calibscale(struct ad4062_state *st, int *val, int *val2)
+> > > > +{
+> > > > +	u16 gain;
+> > > > +	int ret;
+> > > > +
+> > > > +	ret = regmap_bulk_read(st->regmap, AD4062_REG_MON_VAL,
+> > > > +			       &st->buf.be16, sizeof(st->buf.be16));
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	gain = get_unaligned_be16(st->buf.bytes);
+> > > > +
+> > > > +	/* From datasheet: code out = code in � mon_val/0x8000 */
+> > > > +	*val = gain / AD4062_MON_VAL_MIDDLE_POINT;
+> > > 
+> > > > +	*val2 = mul_u64_u32_div(gain % AD4062_MON_VAL_MIDDLE_POINT, NANO,
+> > > > +				AD4062_MON_VAL_MIDDLE_POINT);
+> > > 
+> > > I don't see the need for 64-bit division. Can you elaborate what I miss here?
+> > > 
+> > > > +	return IIO_VAL_INT_PLUS_NANO;
+> > > > +}
+> > > 
+> > Can be improved to
+> > 
+> >   static int ad4062_get_chan_calibscale(struct ad4062_state *st, int *val, int *val2)
+> >   {
+> >   	int ret;
+> >   
+> >   	ret = regmap_bulk_read(st->regmap, AD4062_REG_MON_VAL,
+> >   			       &st->buf.be16, sizeof(st->buf.be16));
+> >   	if (ret)
+> >   		return ret;
+> >   
+> >   	/* From datasheet: code out = code in � mon_val/0x8000 */
+> >   	*val = get_unaligned_be16(st->buf.bytes) * 2;
+> >   	*val2 = 16;
+> >   
+> >   	return IIO_VAL_FRACTIONAL_LOG2;
+> >   }
+> 
+> Much better, thanks!
+> 
+> ...
+> 
+> > > > +static int ad4062_set_chan_calibscale(struct ad4062_state *st, int gain_int, int gain_frac)
+> > > 
+> > > Forgot to wrap this line.
+> > > 
+> > ack
+> > > > +{
+> > > > +	u64 gain;
+> > > > +	int ret;
+> > > > +
+> > > > +	if (gain_int < 0 || gain_frac < 0)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	gain = mul_u32_u32(gain_int, MICRO) + gain_frac;
+> > > 
+> > > > +
+> > > 
+> > > Redundant blank line.
+> > > 
+> > Ack.
+> > > > +	if (gain > AD4062_MON_VAL_MAX_GAIN)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	put_unaligned_be16(DIV_ROUND_CLOSEST_ULL(gain * AD4062_MON_VAL_MIDDLE_POINT,
+> > > > +						 MICRO),
+> > > > +			   st->buf.bytes);
+> > > 
+> > > Also in doubt here about 64-bit division.
+> > > 
+> > This can be slightly improved to
+> > 
+> >   static int ad4062_set_chan_calibscale(struct ad4062_state *st, int gain_int,
+> >   				      int gain_frac)
+> >   {
+> >   	u32 gain;
+> >   	int ret;
+> >   
+> >   	if (gain_int < 0 || gain_frac < 0)
+> >   		return -EINVAL;
+> >   
+> >   	gain = gain_int * MICRO + gain_frac;
+> >   	if (gain > 1999970)
+> 
+> But this magic should be changed to what you explained to me
+> (as in 0xffff/0x8000 with the proper precision, and this
+>  can be done in 32-bit space).
+> 
+> Or even better
+> 
+> 	if (gain_int < 0 || gain_int > 1)
+> 		return -EINVAL;
+> 
+> 	if (gain_int == 1 && gain_frac > 0x7fff) // did I get this right?
+> 		return -EINVAL;
+> 
+gain_frac would be 999999 max, or 999970 for the limit that fits in the
+register after the math. I think > 1.999.970 is self explanatory.
+> >   		return -EINVAL;
+> >   
+> >   	put_unaligned_be16(DIV_ROUND_CLOSEST_ULL((u64)gain * AD4062_MON_VAL_MIDDLE_POINT,
+> >   						 MICRO),
+> 
+> ...with temporary variable at minimum.
+> 
+> But again, I still don't see the need for 64-bit space.
+> 
+
+Well, by dividing mon_val and micro values by a common divisor the
+operation fit in 32-bits:
+
+  static int ad4062_set_chan_calibscale(struct ad4062_state *st, int gain_int,
+                                        int gain_frac)
+  {
+          const u32 mon_val = AD4062_MON_VAL_MIDDLE_POINT / 64;
+          const u32 micro = MICRO / 64;
+          const u32 gain = gain_int * MICRO + gain_frac;
+          int ret;
+
+          if (gain_int < 0 || gain_frac < 0)
+                  return -EINVAL;
+
+          if (gain > 1999970)
+                  return -EINVAL;
+
+          put_unaligned_be16(DIV_ROUND_CLOSEST(gain * mon_val, micro), st->buf.bytes);
+
+          ret = regmap_bulk_write(st->regmap, AD4062_REG_MON_VAL,
+                                  &st->buf.be16, sizeof(st->buf.be16));
+          if (ret)
+                  return ret;
+
+          /* Enable scale if gain is not equal to one */
+          return regmap_update_bits(st->regmap, AD4062_REG_ADC_CONFIG,
+                                    AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
+                                    FIELD_PREP(AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
+                                               !(gain_int == 1 && gain_frac == 0)));
+  }
+
+
+> >   			   st->buf.bytes);
+> >   
+> >   	ret = regmap_bulk_write(st->regmap, AD4062_REG_MON_VAL,
+> >   				&st->buf.be16, sizeof(st->buf.be16));
+> >   	if (ret)
+> >   		return ret;
+> >   
+> >   	/* Enable scale if gain is not equal to one */
+> >   	return regmap_update_bits(st->regmap, AD4062_REG_ADC_CONFIG,
+> >   				  AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
+> >   				  FIELD_PREP(AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
+> >   					     !(gain_int == 1 && gain_frac == 0)));
+> >   }
+> > 
+> > To provide the enough resolution to compute every step (e.g., 0xFFFF and
+> > 0xFFFE) with the arbitrary user input.
+> 
+> ...
+> 
+> > > > +static int __ad4062_read_chan_raw(struct ad4062_state *st, int *val)
+> > > 
+> > > Can be named without leading double underscore? Preference is to use
+> > > the suffix, like _no_pm (but you can find better one).
+> > > 
+> > Since there is one usage of this method, can be merged into ad4062_read_chan_raw.
+> 
+> Good choice!
+> 
+> ...
+> 
+> > > > +	struct i3c_priv_xfer t[2] = {
+> > > > +		{
+> > > > +			.data.out = &st->reg_addr_conv,
+> > > > +			.len = sizeof(st->reg_addr_conv),
+> > > > +			.rnw = false,
+> > > > +		},
+> > > > +		{
+> > > > +			.data.in = &st->buf.be32,
+> > > > +			.len = sizeof(st->buf.be32),
+> > > > +			.rnw = true,
+> > > > +		}
+> > > > +	};
+> 
+> > > > +	/* Change address pointer to trigger conversion */
+> > > > +	ret = i3c_device_do_priv_xfers(i3cdev, &t[0], 1);
+> > > 
+> > > Why array? Just split them on per transfer and use separately. This gives a bit
+> > > odd feeling that the two goes together, but no. They are semi-related as we
+> > > have a special condition after the first one.
+> > > 
+> > For this commit sure, but in the next a fallback method is introduced
+> > for when the gp1 gpio line is not connected.
+> > There are two register to trigger and read samples:
+> > 
+> > * write CONV_READ -> read dummy value - [conversion] -> read value -> [conv ...
+> > * write CONV_TRIGGER - [conversion] -> read value -> write ...
+> > 
+> > The first allows almost twice the sampling frequency, but does not work
+> > with the fallback because In-Band-Interrupt for CONV_READ are not
+> > yielded.
+> 
+> Do you mean that the same array is reused differently? If so, then okay.
+> 
+Yes
+> > > > +	if (ret)
+> > > > +		return ret;
+> 
+> ...
+> 
+> > > > +	fsleep(4000);
+> > > 
+> > > 4 * USEC_PER_MSEC, also would be good to add a comment for this long delay.
+> > > 
+> > Will add
+> > 	/* Wait device functional blocks to power up */
+> > Based on hardware tests, I can drop to 2 * USEC_PER_MSEC, lower than
+> > that the device is not ready to switch to acquisition mode for
+> > conversions.
+> 
+> Good!
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
+Best regards,
+Jorge
