@@ -1,172 +1,174 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4218C2C0F79;
-	Fri, 28 Nov 2025 16:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81921F0E34
+	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 17:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764348939; cv=none; b=Atsuz/aRrB9cz+3wrKqIdVc0dNqC3QgkeEcnAWMUhzeMEclB6ebmG6au9apHdQ6KNZOz1Q0uD/MVPvhB04HUTxBlD7w70xa4aZ2Y4GKuh8RrMWv7m48LI076t8+u+V9u5ZHLHtPmyqitkazVluhzVuUQNLeToo1VBBUbOwypTBg=
+	t=1764349958; cv=none; b=EGNCK68+3CaLnWcbJfRn1t3UBx3/y1f6uSN864k0vF7zMGM0nEximfdKNhhkgAGa7ZmH5eWbMuyiCe3VFbhX92iVepiJvH/d1i2zwSRDETlyNw1C32veljpJ4zw7UWX2qEvKrvq7U1kgJdI+eCZWdMX5qQRpQ5WKh2scSJFM/2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764348939; c=relaxed/simple;
-	bh=kdMvbE9NXnFedS4vlmdyGovXQv35HqvvYWQQJDVYKzM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CHkxMWrmHr0PpkFRRKZDu27cLwM66bxOtOFOA0R/ZG6IRpMBg31dWJh1ji6DCrl6MdEap38tb1xRzZdUeVikWwjP9CmtpLH/1kiG6KzmuAYeBsXb6eKqSCVXLGeiUaeAA0tuvnRdNqu6jp4LVceUeDW5YBSQ4Ia9ReRlNozE7Eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=k/OYs4Rp; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1764349958; c=relaxed/simple;
+	bh=g3BSPCjjOnGxxBCVOCe92o3NM5RUdh3Z4VIlFuTsNFM=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=EKHIQ0VXx7NPHY2TnJD9ShVNJd3hxfb8CZNW6DxXFomSyY+9GCCwkTB63uFpFx5dFypJi7z993L+pm95B3vVtTpuzSip49ZsFVuv4TxOUbeLPkcXc6k+4/hzTtjUp2n87H+IHGATTzJqFHcBg+UfISkD27MWUcioSLeApZvJ5KQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ISTsPr/H; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="k/OYs4Rp"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 035751A1E0C;
-	Fri, 28 Nov 2025 16:55:36 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C272B60706;
-	Fri, 28 Nov 2025 16:55:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 832B510B021A5;
-	Fri, 28 Nov 2025 17:55:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764348933; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=w1vAMoKEVFgHijlnGupKEv319mUXS/TmzsSZZzLsZgQ=;
-	b=k/OYs4RpuyCO8HqfjtIrYwBUOVvdUHmV4yuUO/y2/qxRq0uW+XkyslVfrZqAdsPoWdaXEw
-	v7uAdiYQNA558rxnUuUvPi8SNTBPOeEvfdAz4X/mzlIif74abvEt/uAtnQvzGPA2qgdqut
-	+/+wLFobRLBhH1E+kBtUEeZslXY/9Maed+C+aB3sIuS1+rpAjH392PgbRlYwOTdGFDsYcV
-	NXsRj+53bfJwu/Y0MhMctKIa7TWEj7OZzQEcIsnfMD3gtG/l2tTKV+DgrjPWk6wTB+yl4X
-	GyaheEwLH7Le2FfG6wgKVIptLkDQLscwXE5iznKIc36DNuFBZntPPdlNYaW6NA==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 28 Nov 2025 17:50:36 +0100
-Subject: [PATCH v2 26/26] drm/bridge: imx8qxp-pixel-link: convert to
- of_drm_get_bridge()
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ISTsPr/H"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-37d275cb96cso15457381fa.2
+        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 09:12:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764349955; x=1764954755; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:content-language:subject:from
+         :user-agent:mime-version:date:message-id:sender:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4y624NKZwLRWYLn9yEjnslUqFCuVYiuH4bJp+HzF7B0=;
+        b=ISTsPr/H9G2C91q6R+RUOmp7rwuanjk3/CkMQurnnAchLGrF0tZnHbHoJSKLorX82a
+         hkzOVDWd/9XQnsbCXw9c1BhQpAjeyttxVkMTcvRxyYWXU8XUnNf2y4Dk6vXOAQU2/96h
+         5dIA+7dQDvAeHR+ckFcJw6OqmrMcfVvnCGoYDA9AdYGHCiwY0+baXGmZDi5yegSQxhz5
+         T8qszdKx5zDOPNHYz330WIvbcH81NJ9fwwAg3DJjJ1w5zVdhROIBFZ6Fx79obH4kMRm+
+         cTVrQcz59AdSEJRXBa/yp4ud3juaq99136MpA70UpZfEZRJ4mYWUPrhQRaNXT81NDNlH
+         ixgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764349955; x=1764954755;
+        h=content-transfer-encoding:cc:to:content-language:subject:from
+         :user-agent:mime-version:date:message-id:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4y624NKZwLRWYLn9yEjnslUqFCuVYiuH4bJp+HzF7B0=;
+        b=Aarco2gRd6C4PdZVQ7aXP7bUnyJ2GcsbOi9eLCmQG1b1WNah/eSb/lYDb83aa7SKRe
+         bZ97FtU9uNBnjcv/MYxhei4S1vOlEk/CTFgGLnmUjIUdK5/GvAFZU5U/0J4V/ZGgO0yv
+         4jV8tfmwtBC5JSuqkTISvE7SiIe8Ghd3eDdF41I521ug4xwuh5lbQ9N9hh1+hDXhmS3V
+         cheQbXIKMoM9qR8HnZC9dRr+Dl2xiePd84qqtMWx/zVbmAzFJeUOwYmNr+5zd8ipyB4v
+         aPayFlgmypiw755AW5Ta0LPOzNZRytOLEIZdx/znx5469O98XtbJHAw8dYfrhYFyPqFZ
+         9AcA==
+X-Gm-Message-State: AOJu0Yx4GO/vydSY0SIpcNxVDdomkmtrKtacfbct4BLAtwAannvF7Piz
+	VCE8UNXSk/UiksUy86JW2u4old55JrKAaPhX+6bondbaO7eIxlTsxGnw
+X-Gm-Gg: ASbGnct1m5zE6UHGA5JU3OADrVaf9He9tpaV8KY12sI0TFPWQV+jFuBLOd7d3NcPK1h
+	KEVsT4Oy/N8tJy3sfBUlgAtZvDd5eKq08YIVZlb78FNz0rHLiNSAZcSVYst/orHNWqohlKDMo3t
+	XUzw81EEA+oCes5RSx39qaG4bfYjrYErqF1+arL+6sfo5EC8mEm3X7zU/eS5xqhvkKa25sH4Jej
+	lk+VooGn3ilJbyz427LIf+b3XgV7HWVpCjkphPE6kdc4at+jl3pPJvWJtLGAatQd0XcYPKLNHCa
+	HK2MnvguZSAUe6eK+8pGwNsZzmDUM70gqaOxc9uZYML7VrlE3TsUokGUN0p1Ib87lLlggHyWxvq
+	eJEG/5NQha3t2Pu+9nbMEvL6U1g0eMbh8Y7lkL0XyyQm+sr145oe/dBP2cied2g7RSt4rbQikIp
+	HJDoY2JZ9ze4M5stks3z62n9j6o9CI/VgPWg==
+X-Google-Smtp-Source: AGHT+IHte/5ZtKIMvNAng3bD9glTPppPjaecJN6jmdihJB2Rj4FRXzGEZXaE0bZYZJN6SF6wnuY8FA==
+X-Received: by 2002:a05:651c:40dc:b0:37b:bafc:25e2 with SMTP id 38308e7fff4ca-37cd9202816mr62858961fa.20.1764349954399;
+        Fri, 28 Nov 2025 09:12:34 -0800 (PST)
+Received: from [192.168.1.149] (nat-0-0.nsk.sibset.net. [5.44.169.188])
+        by smtp.googlemail.com with ESMTPSA id 38308e7fff4ca-37d2368e40csm10368961fa.5.2025.11.28.09.12.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Nov 2025 09:12:33 -0800 (PST)
+Sender: Maxim Nikulin <m.a.nikulin@gmail.com>
+Message-ID: <a221275c-53af-459d-97ed-05a0766adb04@gmail.com>
+Date: Sat, 29 Nov 2025 00:12:32 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Max Nikulin <manikulin@gmail.com>
+Subject: [PATCH] docs: admin: devices: /dev/sr<N> for SCSI CD-ROM
+Content-Language: en-US, ru-RU
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, linux-scsi@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-26-88f8a107eca2@bootlin.com>
-References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
-In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, 
- Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Adrien Grassein <adrien.grassein@gmail.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
 
-of_drm_find_bridge() is deprecated. Move to its replacement
-of_drm_get_bridge() which gets a bridge reference, and put it when done.
+Don't claim that /dev/sr<N> device names for SCSI CD-ROM drives are
+deprecated and don't recommend /dev/scd<N> alternate names for them.
 
-This needs to be handled in various steps:
+/dev/scd<N> device names for SCSI CD-ROM drives are not in use for more
+than a decade, see commit [1] that was a part of udev release 174.
+Earlier related rules were volatile, sometimes /dev/scd<N> were syminks
+to /dev/sr<N>, sometimes vice versa.
 
- * the bridge returned of_drm_get_bridge() is stored in next_bridge whose
-   scope is the for loop, so a cleanup action is enough
- * the value of next_bridge is copied into selected_bridge, potentially
-   more than once, so a cleanup action at function scope is useful here too
- * however on successful return selected_bridge must be returned and
-   ultimately stored, so it should not be put in that case: use
-   return_ptr() to defuse the cleanup action on successful return
- * finally, put the bridge reference on device remove
+Recognizing of root=/dev/scd<N> kernel command line argument was removed
+in kernel 2.5.45 [2].
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+In the docs /dev/scd<N> are recommended names since 2.6.9 [3].
+Mention of these names appeared much earlier in 1.3.22 [4].
+
+[1] https://git.kernel.org/pub/scm/linux/hotplug/udev.git/commit/?id=d132be4d58
+    2011-08-12 14:05:19 +0200 Kay Sievers.
+    rules: remove legacy rules for cdrom and usb printer
+
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/init?h=v2.5.45&id=51924607bd
+    2002-10-29 00:47:58 -0800 Alexander Viro.
+    [PATCH] removal of root_dev_names[]
+
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/diff/Documentation/devices.txt?h=v2.6.9-rc4&id=a74e11ffeda
+    2004-03-16 15:09:38 -0800 Andrew Morton:
+    [PATCH] devices.txt: typos and removal of dead devices
+
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/tree/Documentation/devices.txt?h=v2.6.9-rc4&id=8f0ec1f9369
+    Linus Torvalds: Import 1.3.22
+
+Signed-off-by: Max Nikulin <manikulin@gmail.com>
 
 ---
 
-Cc: Liu Ying <victor.liu@nxp.com>
+I hope, the suggested changes make kernel docs more close to reality.
+
+During discussion of a bug in wodim (a fork of cdrecord) I was confused
+that docs recommend /dev/scd<N> as SCSI CD-ROM name. The following
+thread did not clarify the issue:
+
+https://lore.kernel.org/lkml/20061105100926.GA2883@pelagius.h-e-r-e-s-y.com/
+Scsi cdrom naming confusion; sr or scd? Sun, 5 Nov 2006 10:09:26 +0000
+
+If I'm not mistaken, "sr" was always used internally in the driver
+"scd" were limited to log strings. I have added SCSI subsystem to CC
+to confirm that there is no objection from their side.
+
+It seems, de-facto /dev/sr<N> names are used and I think, /dev/scd<N>
+should be avoided. I may be completely wrong though.
+
+I wouldn't mind if you discard this patch and to commit another one
+with better wording instead.
 ---
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ Documentation/admin-guide/devices.rst | 4 +++-
+ Documentation/admin-guide/devices.txt | 6 +++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-index 2ecc3c1051e5..4f2f730142ea 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-@@ -256,12 +256,13 @@ static int imx8qxp_pixel_link_disable_all_controls(struct imx8qxp_pixel_link *pl
- 	return imx8qxp_pixel_link_disable_sync(pl);
- }
+diff --git a/Documentation/admin-guide/devices.rst b/Documentation/admin-guide/devices.rst
+index e3776d77374b..515338d0e406 100644
+--- a/Documentation/admin-guide/devices.rst
++++ b/Documentation/admin-guide/devices.rst
+@@ -97,9 +97,11 @@ It is recommended that these links exist on all systems:
+ /dev/bttv0	video0		symbolic	Backward compatibility
+ /dev/radio	radio0		symbolic	Backward compatibility
+ /dev/i2o*	/dev/i2o/*	symbolic	Backward compatibility
+-/dev/scd?	sr?		hard		Alternate SCSI CD-ROM name
+ =============== =============== =============== ===============================
  
-+/* The returned bridge has its refcount incremented */
- static struct drm_bridge *
- imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
- {
- 	struct device_node *np = pl->dev->of_node;
- 	struct device_node *port;
--	struct drm_bridge *selected_bridge = NULL;
-+	struct drm_bridge *selected_bridge __free(drm_bridge_put) = NULL;
- 	u32 port_id;
- 	bool found_port = false;
- 	int reg;
-@@ -298,7 +299,7 @@ imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
- 			continue;
- 		}
++Usage of ``/dev/scd?`` as alternate SCSI CD-ROM names for ``sr?`` devices
++ended around year 2011.
++
+ Locally defined links
+ +++++++++++++++++++++
  
--		struct drm_bridge *next_bridge = of_drm_find_bridge(remote);
-+		struct drm_bridge *next_bridge __free(drm_bridge_put) = of_drm_get_bridge(remote);
- 		if (!next_bridge)
- 			return ERR_PTR(-EPROBE_DEFER);
+diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
+index 94c98be1329a..c480f230aa4a 100644
+--- a/Documentation/admin-guide/devices.txt
++++ b/Documentation/admin-guide/devices.txt
+@@ -389,11 +389,11 @@
+ 		    ...
  
-@@ -306,13 +307,15 @@ imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
- 		 * Select the next bridge with companion PXL2DPI if
- 		 * present, otherwise default to the first bridge
- 		 */
--		if (!selected_bridge || of_property_present(remote, "fsl,companion-pxl2dpi"))
--			selected_bridge = next_bridge;
-+		if (!selected_bridge || of_property_present(remote, "fsl,companion-pxl2dpi")) {
-+			drm_bridge_put(selected_bridge);
-+			selected_bridge = drm_bridge_get(next_bridge);
-+		}
- 	}
+   11 block	SCSI CD-ROM devices
+-		  0 = /dev/scd0		First SCSI CD-ROM
+-		  1 = /dev/scd1		Second SCSI CD-ROM
++		  0 = /dev/sr0		First SCSI CD-ROM
++		  1 = /dev/sr1		Second SCSI CD-ROM
+ 		    ...
  
- 	pl->mst_addr = port_id - 1;
+-		The prefix /dev/sr (instead of /dev/scd) has been deprecated.
++		In the past the prefix /dev/scd (instead of /dev/sr) was used and even recommended.
  
--	return selected_bridge;
-+	return_ptr(selected_bridge);
- }
- 
- static int imx8qxp_pixel_link_bridge_probe(struct platform_device *pdev)
-@@ -392,6 +395,7 @@ static void imx8qxp_pixel_link_bridge_remove(struct platform_device *pdev)
- 	struct imx8qxp_pixel_link *pl = platform_get_drvdata(pdev);
- 
- 	drm_bridge_remove(&pl->bridge);
-+	drm_bridge_put(pl->next_bridge);
- }
- 
- static const struct of_device_id imx8qxp_pixel_link_dt_ids[] = {
-
+   12 char	QIC-02 tape
+ 		  2 = /dev/ntpqic11	QIC-11, no rewind-on-close
 -- 
-2.51.1
+2.39.5
 
