@@ -1,98 +1,105 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mta22.hihonor.com (mta22.hihonor.com [81.70.192.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D8823FC54;
-	Fri, 28 Nov 2025 04:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B538025A2C6;
+	Fri, 28 Nov 2025 07:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.192.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764304418; cv=none; b=iXznbReu3HmWzxZdXNdTfeE/XK5CvvjKRN9Xz1l0qrreO4+mweZxlPbDroma2jgc2ULmiFFFWtaqGtKh5SYjAka/a2YgJdZi6UUITjuh/bMASMLfloN5OVf2MCuxnzvJleHzUkiVGu/Zog24twGpzdsl6prPxlRdkynZsea4bsw=
+	t=1764314348; cv=none; b=hrMtw3Z5TbC1xoYGEp2OY1z8qofsP+rxRjq4irZttJt9L4Khhdc5zRiTo0+J+IjAhSpUMC/PC4/CIdhhxt1n9wsDZL5UpX+Y+/Cv6kPq300ctuhDx74W+cFLRfG3/9CW0jlzwRy55j1hOfFgTiJBajocEt6JPSkx/0lb5gBo3xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764304418; c=relaxed/simple;
-	bh=ot9ATEASEB3S6WdjJZj/CwSFhROaxa/hUeKSVS4uPCA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NA5vGhZAO9RKQKzixCSqGKSGn8NrD2CjuFzv+twESV8FSkhQekjEMo8gV/yHNYKe0KHmzphwooXhTavIt23xlYQmN+cVEn1czDknJGN5J/syxN/WDkHsuLS4A3YTVdb0mQWNX+w7v2PyVGmyelNd+NZljBWf1bSExglZyuZRYm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eS6v7srA; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1764314348; c=relaxed/simple;
+	bh=UD8lLk9lQrrraE2MEjqwZ/F6w1tL9dTzmGzaBm9Gjf8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=oi1HLLsve8b8uhs2hfGhIGcJvJmmYqieupsm6JvDVv0NPuTeDPE37QuZn/dRAYUxOtCafD0dnaOWlp8WwVr6lCRPWDl6yER0ArK2u2BVqScGvYPcQDj6emex2bRXBA9OUDX3W6Jmu3tQZyk5hxx+xggILrE7TgeYbDHgjHASpIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b=IzVfh/gL; arc=none smtp.client-ip=81.70.192.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eS6v7srA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8/D7c/IBS5AN369HJE/aBfylHs+XbEjnoUErP6C44pU=; b=eS6v7srAEOZJkaA6L01tABGSFE
-	D0PnGQmvIn8FJ08Bety8blLg56JzgiQD2GBhGEy0MHJVV2dj50CsuKqzavtxTDIOgEy/uyBJneOtq
-	RjPuxycmVjq/ki25SeMgR4fiL4tDHexfDm8CCZBhbbwBsYFqD+Mn3eqj+YKzmw+qxUj+CgyxzC3m4
-	+0r/HeGunCTwZc3w/VvfaAVj6clSGCGdxbS72OWKLSlqW2DnsyIjqpktmVo5f+EXnzmorKzy/Z/Wu
-	ZZLCjbSQeccwzVy8mThHbvbubK65iWK6lS7FvD3R32EjKMKAgcRTLPmtIQIrbKtxMXV7zBqdoc9pI
-	RDFiXLAQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vOqAa-0000000HZKu-1qpd;
-	Fri, 28 Nov 2025 04:33:20 +0000
-Message-ID: <040e35ca-848c-49cb-bd0c-f91f4a8e2c5d@infradead.org>
-Date: Thu, 27 Nov 2025 20:33:19 -0800
+	dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b="IzVfh/gL"
+dkim-signature: v=1; a=rsa-sha256; d=honor.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=To:From;
+	bh=UD8lLk9lQrrraE2MEjqwZ/F6w1tL9dTzmGzaBm9Gjf8=;
+	b=IzVfh/gLVLxheXmRXbkEfFwl7gqGXCuI3oVa78TmLkanzJAd8M5uqW+/oJxEmPP41cSZZWz6I
+	YPZthdU0pXTKr17z6k/nJUXp2DtAchGwYuZWHvR5iTAy3hQWkGLkMmoH86F5jp1JtgUNPDW86zN
+	KrDRRzvdeQqTNdppUot//FY=
+Received: from w012.hihonor.com (unknown [10.68.27.189])
+	by mta22.hihonor.com (SkyGuard) with ESMTPS id 4dHl3n6zfqzYl3Ls;
+	Fri, 28 Nov 2025 15:17:09 +0800 (CST)
+Received: from w009.hihonor.com (10.68.18.215) by w012.hihonor.com
+ (10.68.27.189) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 28 Nov
+ 2025 15:19:01 +0800
+Received: from w002.hihonor.com (10.68.28.120) by w009.hihonor.com
+ (10.68.18.215) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 28 Nov
+ 2025 15:19:00 +0800
+Received: from w002.hihonor.com ([fe80::44a1:cc63:da29:b187]) by
+ w002.hihonor.com ([fe80::44a1:cc63:da29:b187%14]) with mapi id
+ 15.02.1544.011; Fri, 28 Nov 2025 15:19:00 +0800
+From: wangzicheng <wangzicheng@honor.com>
+To: Randy Dunlap <rdunlap@infradead.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+	"david@redhat.com" <david@redhat.com>, "axelrasmussen@google.com"
+	<axelrasmussen@google.com>, "yuanchu@google.com" <yuanchu@google.com>
+CC: "mhocko@kernel.org" <mhocko@kernel.org>, "zhengqi.arch@bytedance.com"
+	<zhengqi.arch@bytedance.com>, "shakeel.butt@linux.dev"
+	<shakeel.butt@linux.dev>, "lorenzo.stoakes@oracle.com"
+	<lorenzo.stoakes@oracle.com>, "weixugc@google.com" <weixugc@google.com>,
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz"
+	<vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
+	<surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "corbet@lwn.net"
+	<corbet@lwn.net>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 2/3] mm/lru_gen: add configuration option to select
+ debugfs/procfs for lru_gen
+Thread-Topic: [PATCH 2/3] mm/lru_gen: add configuration option to select
+ debugfs/procfs for lru_gen
+Thread-Index: AQHcYBJL4aaRxfOT9U6Z/I5UwCrlA7UG+f2AgAC0C4A=
+Date: Fri, 28 Nov 2025 07:19:00 +0000
+Message-ID: <7b24d6e38c9e46c4ae98211d5a815eb2@honor.com>
+References: <20251128025315.3520689-1-wangzicheng@honor.com>
+ <20251128025315.3520689-3-wangzicheng@honor.com>
+ <040e35ca-848c-49cb-bd0c-f91f4a8e2c5d@infradead.org>
+In-Reply-To: <040e35ca-848c-49cb-bd0c-f91f4a8e2c5d@infradead.org>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] mm/lru_gen: add configuration option to select
- debugfs/procfs for lru_gen
-To: Zicheng Wang <wangzicheng@honor.com>, akpm@linux-foundation.org,
- hannes@cmpxchg.org, david@redhat.com, axelrasmussen@google.com,
- yuanchu@google.com
-Cc: mhocko@kernel.org, zhengqi.arch@bytedance.com, shakeel.butt@linux.dev,
- lorenzo.stoakes@oracle.com, weixugc@google.com, Liam.Howlett@oracle.com,
- vbabka@suse.cz, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- corbet@lwn.net, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251128025315.3520689-1-wangzicheng@honor.com>
- <20251128025315.3520689-3-wangzicheng@honor.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251128025315.3520689-3-wangzicheng@honor.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-
-
-On 11/27/25 6:53 PM, Zicheng Wang wrote:
-> Signed-off-by: Zicheng Wang <wangzicheng@honor.com>
-> ---
->  mm/Kconfig | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index e443fe8cd..be7efa794 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -1325,6 +1325,16 @@ config LRU_GEN_STATS
->  config LRU_GEN_WALKS_MMU
->  	def_bool y
->  	depends on LRU_GEN && ARCH_HAS_HW_PTE_YOUNG
-> +
-> +config LRU_GEN_PROCFS_CTRL
-> +	bool "Move lru_gen files from debugfs to procfs"
-> +	depends on LRU_GEN && PROC_FS
-> +	help
-> +	  Move lru_gen management from debugfs to procfs (/proc/lru_gen).
-> +	  This production-ready feature provides critical memory reclaim
-> +	  prediction and control. It is no longer experimental.
-> +	  The migration ensures availability in commercial products where
-> +	  debugfs may be disabled.
-
-A. missing patch description
-B. The help message above sounds like a patch description.
-
-If someone does not enable this kconfig option, what happens?
-a. lru_gen files stay in debugfs
-b. lru_gen files are not present
-c. something else. If so, what?
-
-
--- 
-~Randy
-
+PiBPbiAxMS8yNy8yNSA2OjUzIFBNLCBaaWNoZW5nIFdhbmcgd3JvdGU6DQo+ID4gU2lnbmVkLW9m
+Zi1ieTogWmljaGVuZyBXYW5nIDx3YW5nemljaGVuZ0Bob25vci5jb20+DQo+ID4gLS0tDQo+ID4g
+IG1tL0tjb25maWcgfCAxMCArKysrKysrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNl
+cnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbW0vS2NvbmZpZyBiL21tL0tjb25maWcN
+Cj4gPiBpbmRleCBlNDQzZmU4Y2QuLmJlN2VmYTc5NCAxMDA2NDQNCj4gPiAtLS0gYS9tbS9LY29u
+ZmlnDQo+ID4gKysrIGIvbW0vS2NvbmZpZw0KPiA+IEBAIC0xMzI1LDYgKzEzMjUsMTYgQEAgY29u
+ZmlnIExSVV9HRU5fU1RBVFMNCj4gPiAgY29uZmlnIExSVV9HRU5fV0FMS1NfTU1VDQo+ID4gIAlk
+ZWZfYm9vbCB5DQo+ID4gIAlkZXBlbmRzIG9uIExSVV9HRU4gJiYgQVJDSF9IQVNfSFdfUFRFX1lP
+VU5HDQo+ID4gKw0KPiA+ICtjb25maWcgTFJVX0dFTl9QUk9DRlNfQ1RSTA0KPiA+ICsJYm9vbCAi
+TW92ZSBscnVfZ2VuIGZpbGVzIGZyb20gZGVidWdmcyB0byBwcm9jZnMiDQo+ID4gKwlkZXBlbmRz
+IG9uIExSVV9HRU4gJiYgUFJPQ19GUw0KPiA+ICsJaGVscA0KPiA+ICsJICBNb3ZlIGxydV9nZW4g
+bWFuYWdlbWVudCBmcm9tIGRlYnVnZnMgdG8gcHJvY2ZzICgvcHJvYy9scnVfZ2VuKS4NCj4gPiAr
+CSAgVGhpcyBwcm9kdWN0aW9uLXJlYWR5IGZlYXR1cmUgcHJvdmlkZXMgY3JpdGljYWwgbWVtb3J5
+IHJlY2xhaW0NCj4gPiArCSAgcHJlZGljdGlvbiBhbmQgY29udHJvbC4gSXQgaXMgbm8gbG9uZ2Vy
+IGV4cGVyaW1lbnRhbC4NCj4gPiArCSAgVGhlIG1pZ3JhdGlvbiBlbnN1cmVzIGF2YWlsYWJpbGl0
+eSBpbiBjb21tZXJjaWFsIHByb2R1Y3RzIHdoZXJlDQo+ID4gKwkgIGRlYnVnZnMgbWF5IGJlIGRp
+c2FibGVkLg0KPiANCj4gQS4gbWlzc2luZyBwYXRjaCBkZXNjcmlwdGlvbg0KPiBCLiBUaGUgaGVs
+cCBtZXNzYWdlIGFib3ZlIHNvdW5kcyBsaWtlIGEgcGF0Y2ggZGVzY3JpcHRpb24uDQo+IA0KDQpU
+aGFua3MgZm9yIHRoZSBjb21tZW50cywgd2lsbCBiZSBmaXggaW4gdGhlIG5leHQgdmVyc2lvbi4N
+Cg0KPiBJZiBzb21lb25lIGRvZXMgbm90IGVuYWJsZSB0aGlzIGtjb25maWcgb3B0aW9uLCB3aGF0
+IGhhcHBlbnM/DQo+IGEuIGxydV9nZW4gZmlsZXMgc3RheSBpbiBkZWJ1Z2ZzDQo+IGIuIGxydV9n
+ZW4gZmlsZXMgYXJlIG5vdCBwcmVzZW50DQo+IGMuIHNvbWV0aGluZyBlbHNlLiBJZiBzbywgd2hh
+dD8NCj4gDQo+IA0KPiAtLQ0KPiB+UmFuZHkNCg0KUmVnYXJkIHRvIHRoZSBxdWVzdGlvbnMsDQpJ
+ZiB0aGlzIEtjb25maWcgb3B0aW9uIGlzIGVuYWJsZWQsIHRoZSBgbHJ1X2dlbmAgYW5kIGBscnVf
+Z2VuX2Z1bGxgIGZpbGVzIHdpbGwgYXBwZWFyIHVuZGVyIC9wcm9jLy4NCklmIGl0IGlzIG5vdCBl
+bmFibGVkLCB0aGUgZmlsZXMgcmVtYWluIHVuZGVyIGRlYnVnZnMsIHdoaWNoIGlzIHRoZSBjdXJy
+ZW50IGRlZmF1bHQgYmVoYXZpb3IuDQoNClRoYW5rcywNClppY2hlbmcNCg==
