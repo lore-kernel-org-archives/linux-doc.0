@@ -1,53 +1,54 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75408244671
-	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 14:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032CE23C512
+	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 14:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764339658; cv=none; b=UC6RChZxjJcP1QquPMX8iU8FQETy65cA6Wu2Jvc64PCSFS4PhWOZNiVsUzxistoOFFLJPhjfdbaR+S+rJyf58Q3uQwI0tHoVzLHmlH8i4BJOkSwFNeXl9RqPFECOL6XIF5DjKM4tr+aeLVA71AMwieVyO6ySXIr8uUmc0ucJcGQ=
+	t=1764339659; cv=none; b=hqCzE9cPRk5gN6YQ/bw+IEJGKdai3QR6GybnJGkDYj0Q14W5+Kx7A+GW50sW8IiSAY7q/6FFMRX7sDvpqRnv1k7Y7C9k7xV/Qq7e1zuv3efHufuRvsIdeGpIojPHcN0yJq2wZgrl4PRju/lpiqHhmB1eWnDygly48EF0RNvHpaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764339658; c=relaxed/simple;
-	bh=dlYzWgdKJezE3ECdVRuaFQ4lSQ2fO+F5ZxnSjSVmSQY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=LLOz+z5coNyumK3oapu1rjf/jyzAxMZV0odfpLry3iJdcZkEy+/XWlh5bNNBL9Kqr+qFawez6hDBn6EngpH9M6j5SgLY9Sv6wQuSUnWnLW4YclfH/ThYG+wjueb8WvrAOxSAuTWnJOF/JxdrUosI4of3v1ZIZIA83WjtrNpXOfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.47
+	s=arc-20240116; t=1764339659; c=relaxed/simple;
+	bh=8AeeNuKarsu5qA34c7lNeF8QhulWBTrnEQ0CggOIbSI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=mC42IjNE+yEORCkItQap6QnxZFyX7useTmUZ+cmX6XQzIrmaj86mdqF/4E4i+TLoI5zBpBg0DGGRZTzoGJkkqSaetPtf7zCpds9fdmiOLiHYtMpkFTgcaD1aM00aZ1WUTJ+Z8GW53f40qSusmVEyYwk+/2zJSYIwnAtj49hyfEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7c76d855ddbso310679a34.3
-        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 06:20:56 -0800 (PST)
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7c7613db390so887344a34.2
+        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 06:20:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764339655; x=1764944455;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lrbGLMdK80DjaisbPeaWQi49eJZoN/NohgD7YPqnYL4=;
-        b=wN+6TdYvQ1wvLdYSrWcVjNKsGNoYapzOHhcXa99c8ANIxNaDj+Rc5ua9DcIDhiyWki
-         7L6DhT2JbfIbGNmRRD70TyhW29bLpZbQL3o4uF2MHcCl1EOY3viS0X5zwGeovVxPKeMT
-         J/MvQcI+/tRktFsJmrL3nCEIQAFO31DLQ9fbGPi1zc12/QilXLZiEh7i6HdRztbOOhIn
-         Xc48WoiPUu6VjO2j9QBtqjPj8EH8MjefKMT7jaTCWcOOyDk8c8gkLg9vqEuZkQCsmpmg
-         au/J1fFR8OOukaUA2IVE/9KTzk/IpKL5ZfEtaseZ7uqZ/5XVGm2gfzuvoLqzPb/pIKHR
-         I35g==
-X-Forwarded-Encrypted: i=1; AJvYcCU7wl16OyRmRPi+Lzw/CgusQQL9jWmTOL3PQQsPvfYsE9DPZQ8YOkSE4sckHqv3OoBgas/kVKtvcgY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxi5DOyNSug5DPLgq3qxHyXF8yrB9yt/+bTDQBY5expChDkTYgR
-	ZF4CjqSDCyrTI1qmwtQwZyejghXHti+whno313VaHyZ8s2iUj2BiUpYh
-X-Gm-Gg: ASbGncsgQcqGe0YthzI8+nI2JN7L1UFh22QaczRjPiLGNT4yVQc2WHGwWrv1XFcq1WO
-	GdfvCbGPQg+TMRp+muP3updJlNdukCYg+WxRn1TrH8G/5II7HSuZagoWJCYIntF8YKkDOifshdR
-	II8uZVu92MRzi0ZTbYEGiCTW7vCEe2SC5uH6fdUmYyUuqNvvsEe5Z7QPlRJbrr9T8dAt8dxh1Of
-	0nvrPbsAUYCZxaxuARLp83yDW15PaR25/Fsfb1WsUO1Q1XUoqINunXZK0O/PXY6ubGPy2/K2AdB
-	H/1nHoyjDs9Wppi7LN8dDpy6vPy063Z7gjyfdNYMmno98+fIFv1XDDdq387r0NNXjJoE1qgQMSZ
-	5hF0CGREwgu4qnIWlM0Rtmx+swTRjjC+UhE2sG5Q00/X/gVBBsYRJCwh5EBfnUHcCuwB04Nuwxc
-	Wshp8C6WmsVAJt9A==
-X-Google-Smtp-Source: AGHT+IEukTJJoSoCJBYd7Ajt13DEto12fjYWxAVqOZ1Kr7K6BN3PDrZk1Z2lUPjn1deToE63cQFX7w==
-X-Received: by 2002:a05:6830:848d:b0:7c5:3c7d:7e65 with SMTP id 46e09a7af769-7c798fadaabmr12298319a34.16.1764339655389;
-        Fri, 28 Nov 2025 06:20:55 -0800 (PST)
-Received: from localhost ([2a03:2880:10ff:72::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7c90fe0f650sm1584491a34.23.2025.11.28.06.20.54
+        d=1e100.net; s=20230601; t=1764339657; x=1764944457;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IO8fpf+Qe7KA1hAphkMPr2BDEzo3Q3M23aOQSgVd6Z8=;
+        b=MCzZ8fdFkBHkJylewxODO0xbDgEO7C54VHQdaiNy4QW8Tz8r6DtFmTHeVkmepfAcJ8
+         h5GXKLu0yvx0G26GrY+TTco4/cptzvKYDvYmBZOS/mWlbSs94+ceJ6J68M7UI4vyYNpB
+         2/t8sIF3DNRKpdVdQa8+X67l9bUMov9fws2pymJp6/9tjxkrJbXVzuMAyBsQHCmW2TJr
+         G/zvqc1Kjr6OafZbYMpzDORQ2U7qn9mzwSkXcZwLShIoZDOPbLafxIZtN6TI7okVcDnC
+         Ha74pF1tDBTFjyAIfSdheJWZR2gNjSN+PEHCXKryf6+H4q7QTllG3feV/g2Kbb1FP65J
+         1AkA==
+X-Forwarded-Encrypted: i=1; AJvYcCVmTg9y1qRwEx7ZxV2E8uKyCj/+O81dvmlrmCqGPpIJ0Ln2pyFuOhprHaoWtPSRBniuAag+HsADrxw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHnZMsvU8GjQN6meDxYwGIg63fc2ggu0VcMVvRxrUcJQWDJwXE
+	Vv4BvtBY+A0NW1VHuZQAaOsHEHB9Cm6SckEwTL6qSnHMMFBQThqKiK85
+X-Gm-Gg: ASbGncuYJK1PifqU6LBpsXztXBnXwheznVaiGPPgIFCcNDIoxgHJz0haqT1ONm3ISCg
+	dV8m3ITwnahWYpAOTSrIbCdCy+ojCBKDgzG+kFE7f+7kUkaKjX5ZOF++zusCUR0sL4NqccoBPO3
+	xvhkuSX4CU0KcrSf4YK18dGUPcPgAm/v1pz7vkQyY7zMzTn221nk7k5vOzlh0jaemsDMcdgsNjt
+	BGcBWHBOKGVqYTkJniNBpbmJmDGTyD2xK4U5ee2sWdbpcHiEK6DIrkT/TjK7n4jkzepRd2PQcBK
+	F8YpENnzpNmnp9FnlR3hDD/VZ/hyl7mScaVPwMX9n62ZM4PPBYqd3bMkeHgy1Xe8pwtdNHLadXj
+	DyZ9CM/jJnYB36bKGSAMyA05c0Ak3/Hpc1/b1LDA5UVhEYHp1OTmMGcT2klMXSPxDbwl14lV2hP
+	8VV9Q87VEagw==
+X-Google-Smtp-Source: AGHT+IE8Csv0x3Otw25HTHmycCm8OmZBQcHgbovfIus9/bAoq/UixullE88axucO5VUxe/H7t0bIYA==
+X-Received: by 2002:a9d:6143:0:b0:7bc:f443:fa3c with SMTP id 46e09a7af769-7c798de468amr11684101a34.25.1764339657047;
+        Fri, 28 Nov 2025 06:20:57 -0800 (PST)
+Received: from localhost ([2a03:2880:10ff::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7c90fe0b238sm1586166a34.20.2025.11.28.06.20.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 06:20:54 -0800 (PST)
+        Fri, 28 Nov 2025 06:20:56 -0800 (PST)
 From: Breno Leitao <leitao@debian.org>
-Subject: [PATCH net-next 0/4] (no cover subject)
-Date: Fri, 28 Nov 2025 06:20:45 -0800
-Message-Id: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
+Date: Fri, 28 Nov 2025 06:20:46 -0800
+Subject: [PATCH net-next 1/4] netconsole: extract message fragmentation
+ into send_msg_udp()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,10 +57,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAL2vKWkC/x3MYQqDMAwG0KuE77eFtaLTXmUMGW3mAls6mjIE8
- e4D3wHeDuMqbIi0o/JPTIoiku8I6fXQlZ1kREK4hMH7cHXKLRW18ubFWPPysdVN8+T7eRhzCj0
- 6wrfyU7ZzvUG5OeWt4X4cfy9MjVJvAAAA
-X-Change-ID: 20251127-netconsole_send_msg-89813956dc23
+Message-Id: <20251128-netconsole_send_msg-v1-1-8cca4bbce9bc@debian.org>
+References: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
+In-Reply-To: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
 To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
@@ -70,65 +70,87 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  gustavold@gmail.com, asantostc@gmail.com, calvin@wbinvd.org, 
  kernel-team@meta.com, Petr Mladek <pmladek@suse.com>
 X-Mailer: b4 0.15-dev-a6db3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1898; i=leitao@debian.org;
- h=from:subject:message-id; bh=dlYzWgdKJezE3ECdVRuaFQ4lSQ2fO+F5ZxnSjSVmSQY=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpKa/FRtTjWQbN4ZRH8XIGVZNJGjrhySQJN+Bd4
- iKJpTr2BYGJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaSmvxQAKCRA1o5Of/Hh3
- bZVWD/4lsRjAv6/OKe7Pq8tqjztfFUWCRfhj74SofeyX7dFqSIJ18/CVzl5tZb+rAGAdYFWWa1U
- h4p4Jpd0L6/rRuoQOyvl8y7UnaIcjp3N7LF/ndDQSnfPKR7ebW1ngt8mzGif9GLByLKWNqY0MWc
- xtq3hfp35W5Y3f41XyGqX3npzh+LBUxWsCj7fT8h/YlnDPU1xPUYbh0qgYpE222DCP7NbTe8KT0
- x8+v2GsldnJkdANyrhbNyflGGp8NWXx6veQUkBpirafxXIZpFqy2aOYHckVv6mqJu7Q1rKejvE3
- xTNKiq4xPX7ym2tc1RWEWkQ3qRe4jcIbHkVi4ZeqZK9kaRaXeBcesr09yIrAb0dxQv/AUJj/Vm9
- YOzeumVETujkqCFR34G38PlhB0Amk2oi5gsFEOzKLWfg0cAmhLTBPXZa9PoxkALHRV8BtUzfU4/
- 4hZLdPXHA+MBmEL4zFIZ/ABrk8r4HSgEZPiJXfZXea2scpHUQeqtP3LdV8R3MUiogOvG6dpVi/O
- QOmYeZP8VBGgUqUOpYlkz08tK2r5Z73A6nZqujsrFzbex/fM8ZpY4vgBM/F9MaxaOKmtG8fepu6
- ibsjeneE8aso75R4Lu4w6G8b084ssSjIhzhMk3EC3+UQbRX021cMFZ8Hhl4SFaPgP06+/J9Y/iE
- mWQ27034Naq4z5Q==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2049; i=leitao@debian.org;
+ h=from:subject:message-id; bh=8AeeNuKarsu5qA34c7lNeF8QhulWBTrnEQ0CggOIbSI=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpKa/FePe42auqDY/Qs7XpYdwbHd6fJqLNwggTf
+ H3VVdrUTfSJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaSmvxQAKCRA1o5Of/Hh3
+ bWEJD/45t6CqWMn+sI2J6+MyW697ZsxhgZ539JQ7X8cHcLAwGA2l4VRPb+vljF+qZ6sV6BJCeZ+
+ Tsxb08lgFu+44cvvEKSO59GXsfsKgGPRVe3obqlCcy99XLONvtOjT1WZRgN9L9h85HG/YzXOoeQ
+ j/17CmNiqgeRNwjiZDCcgnJqbsUlWumE/8WoI+8lL+AibpkKcKkTW2Bdil74n6zYF1k2tWDB4Cs
+ 9trke+OdIrF4b47c3a91ZBxzdZi0918GKat/sKevUD7eDoQBrLOeQmiP+ZIv09pCBavFFquA86k
+ ZPZg9i0CuRkCGQpwew0n94sHV78imAeHK6n+H8wKzKuBTgQ0hh+aCyU0X5+CIXOOMMz20jd6Qft
+ d0H9qaOjkgbkP/t/YV9Up71zlF/DOlQDwEp1wDXtlH04PszFsRUhJ1VqDZksJLoAMl/owzcDQ50
+ onheqsBZqT6IwvdImVa88fwcS+02optkhu9kSZQXt1u+TWJ87RcJ9VcRJ+KJIxbudo6oS8Is0Iy
+ 5cKccRhcZFN5qjxN0JfVJfVRMUfXRT5o5yGUYqw8TqiV/UO9KTDSy/tr+HuynBy0skfbitfVx8t
+ bL70JidMIQe8IOrhsngRbjrw/PEnjEoPbx/JRtpotnia8TJrrLh+K4S0PfdLjcyxncZ6yUtRwQX
+ Vg52jnE6T2U5QcA==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
-This patch series introduces a new configfs attribute that enables sending
-messages directly through netconsole without going through the kernel's logging
-infrastructure.
+Extract the message fragmentation logic from write_msg() into a
+dedicated send_msg_udp() function. This improves code readability
+and prepares for future enhancements.
 
-This feature allows users to send custom messages, alerts, or status updates
-directly to netconsole receivers by writing to
-/sys/kernel/config/netconsole/<target>/send_msg, without poluting kernel
-buffers, and sending msgs to the serial, which could be slow.
+The new send_msg_udp() function handles splitting messages that
+exceed MAX_PRINT_CHUNK into smaller fragments and sending them
+sequentially. This function is placed before send_ext_msg_udp()
+to maintain a logical ordering of related functions.
 
-At Meta this is currently used in two cases right now (through printk by
-now):
+No functional changes - this is purely a refactoring commit.
 
-  a) When a new workload enters or leave the machine.
-  b) From time to time, as a "ping" to make sure the netconsole/machine
-  is alive.
-
-The implementation reuses the existing message transmission functions
-(send_msg_udp() and send_ext_msg_udp()) to handle both basic and extended
-message formats.
-
-Regarding code organization, this version uses forward declarations for
-send_msg_udp() and send_ext_msg_udp() functions rather than relocating them
-within the file. While forward declarations do add a small amount of
-redundancy, they avoid the larger churn that would result from moving entire
-function definitions.
-
+Signed-off-by: Breno Leitao <leitao@debian.org>
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 ---
-Breno Leitao (4):
-      netconsole: extract message fragmentation into send_msg_udp()
-      netconsole: Add configfs attribute for direct message sending
-      selftests/netconsole: Switch to configfs send_msg interface
-      Documentation: netconsole: Document send_msg configfs attribute
+ drivers/net/netconsole.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
- Documentation/networking/netconsole.rst            | 40 +++++++++++++++
- drivers/net/netconsole.c                           | 59 ++++++++++++++++++----
- .../selftests/drivers/net/netcons_sysdata.sh       |  2 +-
- 3 files changed, 91 insertions(+), 10 deletions(-)
----
-base-commit: ab084f0b8d6d2ee4b1c6a28f39a2a7430bdfa7f0
-change-id: 20251127-netconsole_send_msg-89813956dc23
+diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
+index 9cb4dfc242f5..dc3bd7c9b049 100644
+--- a/drivers/net/netconsole.c
++++ b/drivers/net/netconsole.c
+@@ -1725,12 +1725,24 @@ static void write_ext_msg(struct console *con, const char *msg,
+ 	spin_unlock_irqrestore(&target_list_lock, flags);
+ }
+ 
++static void send_msg_udp(struct netconsole_target *nt, const char *msg,
++			 unsigned int len)
++{
++	const char *tmp = msg;
++	int frag, left = len;
++
++	while (left > 0) {
++		frag = min(left, MAX_PRINT_CHUNK);
++		send_udp(nt, tmp, frag);
++		tmp += frag;
++		left -= frag;
++	}
++}
++
+ static void write_msg(struct console *con, const char *msg, unsigned int len)
+ {
+-	int frag, left;
+ 	unsigned long flags;
+ 	struct netconsole_target *nt;
+-	const char *tmp;
+ 
+ 	if (oops_only && !oops_in_progress)
+ 		return;
+@@ -1747,13 +1759,7 @@ static void write_msg(struct console *con, const char *msg, unsigned int len)
+ 			 * at least one target if we die inside here, instead
+ 			 * of unnecessarily keeping all targets in lock-step.
+ 			 */
+-			tmp = msg;
+-			for (left = len; left;) {
+-				frag = min(left, MAX_PRINT_CHUNK);
+-				send_udp(nt, tmp, frag);
+-				tmp += frag;
+-				left -= frag;
+-			}
++			send_msg_udp(nt, msg, len);
+ 		}
+ 	}
+ 	spin_unlock_irqrestore(&target_list_lock, flags);
 
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
+-- 
+2.47.3
 
