@@ -1,38 +1,38 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A20F334C06;
-	Fri, 28 Nov 2025 18:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A5333508A;
+	Fri, 28 Nov 2025 18:53:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764355987; cv=none; b=r9OWmVx6MXOHAiAcScXjJlZ6Xt/YxvOWqqLHn7T9ZGAakSo0MJ86TKbhVHhZKjV/vtwoGMp/HcpkL2H4QJgur3t0+UmEEZRcN6TWe63CN4HGrQOHwoW7UGzgJmjETQtQV+bzuE9O6rnPuX1WV+PQW0Rxfq45FyMgm1k1za0GBBc=
+	t=1764355989; cv=none; b=FnGlaOHBrXoq3wTcGwVa3KIQCSdTiJ7HZ5chmTt9nOohG/x5mx87NSnPvx+3LA+hF2jm8GohRyXWmx6pCO8SpZSPKkeFj+LojD2J8RFcSiyEBf6p9VWjt5iMRspkHeNbvcIuI5q0v0OsHyCky0M7MiYwyro4sRKHWoDr8iR0Eos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764355987; c=relaxed/simple;
-	bh=rZghyx94iYUUgXSZnWKsyKkGP7PLMHmFoXccUZ/6idM=;
+	s=arc-20240116; t=1764355989; c=relaxed/simple;
+	bh=40WG8/2e61IMWsDRpUFUHulUyBgQPDILQimEoI6b3o0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pFELQprE8h9p9u4DuFKVdrxz89PMp2WQtDg0ZD2+QwY+Ait3NvrY1y82WibFrD1QR+1EdRTmcIcTTCqZWln/wFf3ALZHGcXtDyMz41db9KFFgINe1GohnC8VpRxoW09PlE9wWDTBhMehA5/FP9lcnpJnrtoSK9H2bLQN+T0bfhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JDmoFm9s; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version:Content-Type; b=a2pkiSaccTyez2TkoLw6N8VwRU5xjKP4RUlXUCfetPnaTSruQl9ly+DpAKkdgrmgGPCo9n401ZQgaGUuao9w2TJWRJtlpICQQ3UfzOti4a1dbt1CoxxqxvfaIZjIb08oiqCAG7V+oe7k0q/dnr4MFxGnsRCpnNPoPQI4gtaFO7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iiuP44ez; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JDmoFm9s"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iiuP44ez"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764355983;
-	bh=rZghyx94iYUUgXSZnWKsyKkGP7PLMHmFoXccUZ/6idM=;
+	s=mail; t=1764355985;
+	bh=40WG8/2e61IMWsDRpUFUHulUyBgQPDILQimEoI6b3o0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JDmoFm9s0cnW9OJRzi6TevGx3Zhdu/qpHdHHwBI4VprYsYPm8D7/LGKH6UEa7V4du
-	 t9H9XpZL2kjcozBu0W1Dc5JdpRXUGvEhIaQnEfKkJYgh9+q7GInfIplzu26PrGC14V
-	 Xu408hLFiD0y7YwXkMxFI5XYdo7ErFMHwMq/RgayWfJgDRVOE3aTOZdGVfg6XAMB/T
-	 NLUJTgEpYVMfHmsYZ3/mYYIUptsZ0zNq3CftndMWEH+LPfF5SDVf3tqpRdm7Lm48cx
-	 qgpSouWEOzXnkl4PVPrWunXnVFFCY/M4VwTMsOPoJPKcEufy1oBT7XRg3Q8hsVUHFt
-	 zYQegedr+pW0A==
+	b=iiuP44ezth3Y2JRlmZ1rSE+K74/8kwjO/TPviOWbw1FSgy5A9odQ4CmhNAS5FVvQq
+	 UDUaAtfuZSRBLv9FRfg1M15w3uCVYBCbZp0VhNqgFw1Smij4a4R0cxQ2SZPoqyVLjs
+	 AicmW2MlD5NO/bI58Q1fdMnkdKQD81oGc+uqKsSy2v6JMGfPxWJu30MP+o9FCc+8bj
+	 MqE4JUcRg56N4kiMmPZFPZ1kcn4TdiLtIetYmohoFTLM7HszF2ESw4xMNCkK066M3E
+	 ekn+f5BdBYQCBcxHmdv8/kuL5yYEWyY8TAOYBqrsD84n1ISi9RjJnAxjxKgCzWmRZt
+	 rwpbMBoLk7bYw==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:2e0:4cff:fe03:d8c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0C03D17E156E;
-	Fri, 28 Nov 2025 19:53:03 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 10AC217E1423;
+	Fri, 28 Nov 2025 19:53:05 +0100 (CET)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -68,9 +68,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	kernel@collabora.com
-Subject: [PATCH v10 08/10] drm/panthor: Introduce huge tmpfs mountpoint option
-Date: Fri, 28 Nov 2025 19:52:50 +0100
-Message-ID: <20251128185252.3092-9-loic.molinari@collabora.com>
+Subject: [PATCH v10 10/10] Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
+Date: Fri, 28 Nov 2025 19:52:52 +0100
+Message-ID: <20251128185252.3092-11-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251128185252.3092-1-loic.molinari@collabora.com>
 References: <20251128185252.3092-1-loic.molinari@collabora.com>
@@ -83,153 +83,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Introduce the 'panthor.transparent_hugepage' boolean module parameter
-(false by default). When the parameter is set to true, a new tmpfs
-mountpoint is created and mounted using the 'huge=within_size'
-option. It's then used at GEM object creation instead of the default
-'shm_mnt' mountpoint in order to enable Transparent Hugepage (THP) for
-the object (without having to rely on a system wide parameter).
-
-v3:
-- use huge tmpfs mountpoint in drm_device
+Add a paragraph to the GEM objects mapping section explaining how
+transparent huge pages are handled by GEM.
 
 v4:
-- fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
-- clean up mountpoint creation error handling
-- print negative error value
+- fix wording after huge_pages handler removal
 
-v5:
-- use drm_gem_has_huge_tmp() helper
-- get rid of CONFIG_TRANSPARENT_HUGEPAGE ifdefs
-
-v9:
-- replace drm_gem_has_huge_tmp() by drm_gem_get_huge_tmp()
+v6:
+- fix wording after map_pages handler removal
 
 Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/gpu/drm/panthor/panthor_device.c |  3 +++
- drivers/gpu/drm/panthor/panthor_drv.c    |  7 +++++++
- drivers/gpu/drm/panthor/panthor_drv.h    |  9 +++++++++
- drivers/gpu/drm/panthor/panthor_gem.c    | 18 ++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_gem.h    |  2 ++
- 5 files changed, 39 insertions(+)
- create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ Documentation/gpu/drm-mm.rst | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index e133b1e0ad6d..2979ee0e52c2 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -18,6 +18,7 @@
- #include "panthor_devfreq.h"
- #include "panthor_device.h"
- #include "panthor_fw.h"
-+#include "panthor_gem.h"
- #include "panthor_gpu.h"
- #include "panthor_hw.h"
- #include "panthor_mmu.h"
-@@ -294,6 +295,8 @@ int panthor_device_init(struct panthor_device *ptdev)
- 	if (ret)
- 		goto err_unplug_fw;
+diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+index d55751cad67c..d69eab0b4093 100644
+--- a/Documentation/gpu/drm-mm.rst
++++ b/Documentation/gpu/drm-mm.rst
+@@ -290,15 +290,27 @@ The open and close operations must update the GEM object reference
+ count. Drivers can use the drm_gem_vm_open() and drm_gem_vm_close() helper
+ functions directly as open and close handlers.
  
-+	panthor_gem_init(ptdev);
-+
- 	/* ~3 frames */
- 	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
- 	pm_runtime_use_autosuspend(ptdev->base.dev);
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index d1d4c50da5bf..55dbda6dbf9c 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1559,6 +1559,7 @@ static const struct file_operations panthor_drm_driver_fops = {
- 	.read = drm_read,
- 	.llseek = noop_llseek,
- 	.mmap = panthor_mmap,
-+	.get_unmapped_area = drm_gem_get_unmapped_area,
- 	.show_fdinfo = drm_show_fdinfo,
- 	.fop_flags = FOP_UNSIGNED_OFFSET,
- };
-@@ -1626,6 +1627,12 @@ static const struct drm_driver panthor_drm_driver = {
- #endif
- };
+-The fault operation handler is responsible for mapping individual pages
+-to userspace when a page fault occurs. Depending on the memory
+-allocation scheme, drivers can allocate pages at fault time, or can
+-decide to allocate memory for the GEM object at the time the object is
+-created.
++The fault operation handler is responsible for mapping pages to
++userspace when a page fault occurs. Depending on the memory allocation
++scheme, drivers can allocate pages at fault time, or can decide to
++allocate memory for the GEM object at the time the object is created.
  
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+bool panthor_transparent_hugepage;
-+module_param_named(transparent_hugepage, panthor_transparent_hugepage, bool, 0400);
-+MODULE_PARM_DESC(transparent_hugepage, "Use a dedicated tmpfs mount point with Transparent Hugepage enabled (false = default)");
-+#endif
-+
- static int panthor_probe(struct platform_device *pdev)
- {
- 	struct panthor_device *ptdev;
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.h b/drivers/gpu/drm/panthor/panthor_drv.h
-new file mode 100644
-index 000000000000..79dccd289881
---- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_drv.h
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0 or MIT
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
-+
-+#ifndef __PANTHOR_DRV_H__
-+#define __PANTHOR_DRV_H__
-+
-+extern bool panthor_transparent_hugepage;
-+
-+#endif
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index 10d255cccc09..7ae07a9bc996 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 or MIT
- /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
- /* Copyright 2023 Collabora ltd. */
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
+ Drivers that want to map the GEM object upfront instead of handling page
+ faults can implement their own mmap file operation handler.
  
- #include <linux/cleanup.h>
- #include <linux/dma-buf.h>
-@@ -12,10 +13,27 @@
- #include <drm/panthor_drm.h>
- 
- #include "panthor_device.h"
-+#include "panthor_drv.h"
- #include "panthor_fw.h"
- #include "panthor_gem.h"
- #include "panthor_mmu.h"
- 
-+void panthor_gem_init(struct panthor_device *ptdev)
-+{
-+	int err;
++In order to reduce page table overhead, if the internal shmem mountpoint
++"shm_mnt" is configured to use transparent huge pages (for builds with
++CONFIG_TRANSPARENT_HUGEPAGE enabled) and if the shmem backing store
++managed to allocate a huge page for a faulty address, the fault handler
++will first attempt to insert that huge page into the VMA before falling
++back to individual page insertion. mmap() user address alignment for GEM
++objects is handled by providing a custom get_unmapped_area file
++operation which forwards to the shmem backing store. For most drivers,
++which don't create a huge mountpoint by default or through a module
++parameter, transparent huge pages can be enabled by either setting the
++"transparent_hugepage_shmem" kernel parameter or the
++"/sys/kernel/mm/transparent_hugepage/shmem_enabled" sysfs knob.
 +
-+	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
-+	    !panthor_transparent_hugepage)
-+		return;
-+
-+	err = drm_gem_huge_mnt_create(&ptdev->base, "within_size");
-+	if (drm_gem_get_huge_mnt(&ptdev->base))
-+		drm_info(&ptdev->base, "Using Transparent Hugepage\n");
-+	else if (err)
-+		drm_warn(&ptdev->base, "Can't use Transparent Hugepage (%d)\n",
-+			 err);
-+}
-+
- #ifdef CONFIG_DEBUG_FS
- static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
- {
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-index 80c6e24112d0..2eefe9104e5e 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.h
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -136,6 +136,8 @@ struct panthor_gem_object *to_panthor_bo(struct drm_gem_object *obj)
- 	return container_of(to_drm_gem_shmem_obj(obj), struct panthor_gem_object, base);
- }
- 
-+void panthor_gem_init(struct panthor_device *ptdev);
-+
- struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size);
- 
- int
+ For platforms without MMU the GEM core provides a helper method
+ drm_gem_dma_get_unmapped_area(). The mmap() routines will call this to get a
+ proposed address for the mapping.
 -- 
 2.47.3
 
