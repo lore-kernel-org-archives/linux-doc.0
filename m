@@ -1,105 +1,223 @@
-Received: from mta22.hihonor.com (mta22.hihonor.com [81.70.192.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B538025A2C6;
-	Fri, 28 Nov 2025 07:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.192.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0958299A81
+	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 08:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764314348; cv=none; b=hrMtw3Z5TbC1xoYGEp2OY1z8qofsP+rxRjq4irZttJt9L4Khhdc5zRiTo0+J+IjAhSpUMC/PC4/CIdhhxt1n9wsDZL5UpX+Y+/Cv6kPq300ctuhDx74W+cFLRfG3/9CW0jlzwRy55j1hOfFgTiJBajocEt6JPSkx/0lb5gBo3xI=
+	t=1764317449; cv=none; b=JUV/qPxGfog5AdWmfQzPDlQ5XAWqRLtB8KUkxpdsDLZ8rweO2NiMNNMAMHgFBDzQkCElLzZ27+j57bTjSY1L2DUvi14vhD7a3yOfg7GZPooSPA27dWLXCLmzwrLcsTmaKuntbmiS0Ty2u5KmpFUZg7jh7q+ey3+DlcKYvFNRlL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764314348; c=relaxed/simple;
-	bh=UD8lLk9lQrrraE2MEjqwZ/F6w1tL9dTzmGzaBm9Gjf8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=oi1HLLsve8b8uhs2hfGhIGcJvJmmYqieupsm6JvDVv0NPuTeDPE37QuZn/dRAYUxOtCafD0dnaOWlp8WwVr6lCRPWDl6yER0ArK2u2BVqScGvYPcQDj6emex2bRXBA9OUDX3W6Jmu3tQZyk5hxx+xggILrE7TgeYbDHgjHASpIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b=IzVfh/gL; arc=none smtp.client-ip=81.70.192.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+	s=arc-20240116; t=1764317449; c=relaxed/simple;
+	bh=BI6d5r9H0oVhcgY7hqM0ujL/0z2q9c72cR3/Pq4ycVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WmgLqIqnefC/ZcKjdlRouSoVNOfpw0iAikiSDXGz+HmALhMV3zORaovJgt31Jt8ZRoamGMyKPBBveDSmVFEAU0IIbUiP4AupRy6CYSCjkWfKPq13OHbZVKJh0BAaqARwiSSthMZ84z5ZvAj7PhffuUaYz5Ap3JhTecLoFOAKm5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SiVskeq6; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b="IzVfh/gL"
-dkim-signature: v=1; a=rsa-sha256; d=honor.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=To:From;
-	bh=UD8lLk9lQrrraE2MEjqwZ/F6w1tL9dTzmGzaBm9Gjf8=;
-	b=IzVfh/gLVLxheXmRXbkEfFwl7gqGXCuI3oVa78TmLkanzJAd8M5uqW+/oJxEmPP41cSZZWz6I
-	YPZthdU0pXTKr17z6k/nJUXp2DtAchGwYuZWHvR5iTAy3hQWkGLkMmoH86F5jp1JtgUNPDW86zN
-	KrDRRzvdeQqTNdppUot//FY=
-Received: from w012.hihonor.com (unknown [10.68.27.189])
-	by mta22.hihonor.com (SkyGuard) with ESMTPS id 4dHl3n6zfqzYl3Ls;
-	Fri, 28 Nov 2025 15:17:09 +0800 (CST)
-Received: from w009.hihonor.com (10.68.18.215) by w012.hihonor.com
- (10.68.27.189) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 28 Nov
- 2025 15:19:01 +0800
-Received: from w002.hihonor.com (10.68.28.120) by w009.hihonor.com
- (10.68.18.215) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 28 Nov
- 2025 15:19:00 +0800
-Received: from w002.hihonor.com ([fe80::44a1:cc63:da29:b187]) by
- w002.hihonor.com ([fe80::44a1:cc63:da29:b187%14]) with mapi id
- 15.02.1544.011; Fri, 28 Nov 2025 15:19:00 +0800
-From: wangzicheng <wangzicheng@honor.com>
-To: Randy Dunlap <rdunlap@infradead.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-	"david@redhat.com" <david@redhat.com>, "axelrasmussen@google.com"
-	<axelrasmussen@google.com>, "yuanchu@google.com" <yuanchu@google.com>
-CC: "mhocko@kernel.org" <mhocko@kernel.org>, "zhengqi.arch@bytedance.com"
-	<zhengqi.arch@bytedance.com>, "shakeel.butt@linux.dev"
-	<shakeel.butt@linux.dev>, "lorenzo.stoakes@oracle.com"
-	<lorenzo.stoakes@oracle.com>, "weixugc@google.com" <weixugc@google.com>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "vbabka@suse.cz"
-	<vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
-	<surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 2/3] mm/lru_gen: add configuration option to select
- debugfs/procfs for lru_gen
-Thread-Topic: [PATCH 2/3] mm/lru_gen: add configuration option to select
- debugfs/procfs for lru_gen
-Thread-Index: AQHcYBJL4aaRxfOT9U6Z/I5UwCrlA7UG+f2AgAC0C4A=
-Date: Fri, 28 Nov 2025 07:19:00 +0000
-Message-ID: <7b24d6e38c9e46c4ae98211d5a815eb2@honor.com>
-References: <20251128025315.3520689-1-wangzicheng@honor.com>
- <20251128025315.3520689-3-wangzicheng@honor.com>
- <040e35ca-848c-49cb-bd0c-f91f4a8e2c5d@infradead.org>
-In-Reply-To: <040e35ca-848c-49cb-bd0c-f91f4a8e2c5d@infradead.org>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SiVskeq6"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4775e891b5eso6357385e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 00:10:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764317445; x=1764922245; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+2bFlIh8I9NZQcRpDPD+Djsorg8bRceb3xQr+grKSRk=;
+        b=SiVskeq6fS1FHwAMamNK5PYuedSA93M5Bzg0yrtGs3Vr5Llc40P2NzcfRmz5J66o1k
+         m84N4iWTxOtr5b+x3qLpUlRBHt63gzQeDCIGj5jYZgRCLb5RSMFZmIzCasHW4NyPJ+8w
+         qy9SeOQrTLcZEfLvmgF2A7uUDuw14KblgaXULzw7pyaOMl9AApiYAmtpQaX9wFf2/IgA
+         go9jqHKAiaHvocJYzxJnrhfIdZMaGqmhfahg/7qCKuvy78e/qW2hMB+jdJh1CRvn3+up
+         7ynNV8oJz3Ruq+ZLVcJh9as3+qkkL1seDWmmo+gl2x00y7kjuANKol0ocDQVguNQM2fc
+         6ung==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764317445; x=1764922245;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+2bFlIh8I9NZQcRpDPD+Djsorg8bRceb3xQr+grKSRk=;
+        b=KL7h4ryjWtYeE5VIIieDGVi4iNpwXywOiyvoIOAaxmAwMKa2oJKV8KjtttWJo2Vy67
+         cESv49IAer/eL0hmp35wcKLI0XLZBcU71Gn2arfa+NomIm8JNdtaFLXgJELYZ+geNmNY
+         gYd3QW26x9ke0T+FdvngsUrtsxXD4r9neRUedRzqL8ju0CiAkdwOmi+cFgKWwQmgkf4b
+         RelZFO7L9ZHsiPgLzM/LOJQIzkfGfMzEeVaLnX76RhH9k3WK/ZiuursJUyJ97VtcxuUw
+         Cja459M5Ykw8lcxCDE4sxf+nkbA52OrPQvcKRrWEoTyaleuA41P9Kea5cj5wfyTsw12w
+         t8NQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWq3bf4NCkXDTYiMX9rvgOnEU/8edzXz90/tsjyj3bSGV3ampIjoVxsLsASChe9lRMQQIzEPD2Ffbg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvRIY0X4y5p3FcMSunO6rFW6ONDU9YGWwBYK6WFd/Spedl/YVQ
+	T1KUgReUBwsJwlubqMI5lMH82rB30CbAC7dhQb+8bVUH5n5Zv2tK3BPSvZ4L8AakzfU=
+X-Gm-Gg: ASbGncs73v2IdT59o7ar5bh3SOXhbURJCfctkFeFAM1wa4DQIaxqJiwsYl7b/nHynu8
+	OI+xP1oTCxjvH03kkj5llLsGDTRIPhHjeiVW4KT4iMC8AJNv68O8PAU2gjVltP4+AIGXboc50r2
+	WNcU4ZOI9dN8QTSRQwtrcKz92yDEHHjKfI4c5GAZER2NJiW5t+lxfqLSX/TeiPhzGIZBbl5nt4H
+	9gVT1qrGmMfdoE6Ka4PqXbrbbLuw4tmchOO1KTfe+8PrhP8bjgczlT86oEsykeNwo6DWbm1fBv+
+	9Yc5zWw1gVVAN6fVSqP7aQ0ygjKDoyWmJmRTF6jb9HJbcjy4kipqWUP/f9udTUGD5LA5mwCAEEX
+	B7gOcOMPgavtEQBxa+M1dLlbpK2Rlw19Nh9n5KBOhAhguEhxO14BXhsRTX3so0ZeAUiJSKQOPPK
+	7uLTfiYznjLviXz6ez
+X-Google-Smtp-Source: AGHT+IHVNGxLHdQSfNonRBBq78f347/I8I+ulkCPlaTONnGVXYiUFj038obXmFsDqBT8iAGXzvuP8A==
+X-Received: by 2002:a05:600c:1d1d:b0:477:7c7d:d9b7 with SMTP id 5b1f17b1804b1-477c01ec3f5mr247354265e9.33.1764317445111;
+        Fri, 28 Nov 2025 00:10:45 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47911143bb6sm83247115e9.3.2025.11.28.00.10.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Nov 2025 00:10:43 -0800 (PST)
+Date: Fri, 28 Nov 2025 11:10:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 06/11] hwmon: Add Apple Silicon SMC hwmon driver
+Message-ID: <aSlY_w-nXA38PrBO@stanley.mountain>
+References: <20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com>
+ <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251112-macsmc-subdevs-v5-6-728e4b91fe81@gmail.com>
 
-PiBPbiAxMS8yNy8yNSA2OjUzIFBNLCBaaWNoZW5nIFdhbmcgd3JvdGU6DQo+ID4gU2lnbmVkLW9m
-Zi1ieTogWmljaGVuZyBXYW5nIDx3YW5nemljaGVuZ0Bob25vci5jb20+DQo+ID4gLS0tDQo+ID4g
-IG1tL0tjb25maWcgfCAxMCArKysrKysrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNl
-cnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbW0vS2NvbmZpZyBiL21tL0tjb25maWcN
-Cj4gPiBpbmRleCBlNDQzZmU4Y2QuLmJlN2VmYTc5NCAxMDA2NDQNCj4gPiAtLS0gYS9tbS9LY29u
-ZmlnDQo+ID4gKysrIGIvbW0vS2NvbmZpZw0KPiA+IEBAIC0xMzI1LDYgKzEzMjUsMTYgQEAgY29u
-ZmlnIExSVV9HRU5fU1RBVFMNCj4gPiAgY29uZmlnIExSVV9HRU5fV0FMS1NfTU1VDQo+ID4gIAlk
-ZWZfYm9vbCB5DQo+ID4gIAlkZXBlbmRzIG9uIExSVV9HRU4gJiYgQVJDSF9IQVNfSFdfUFRFX1lP
-VU5HDQo+ID4gKw0KPiA+ICtjb25maWcgTFJVX0dFTl9QUk9DRlNfQ1RSTA0KPiA+ICsJYm9vbCAi
-TW92ZSBscnVfZ2VuIGZpbGVzIGZyb20gZGVidWdmcyB0byBwcm9jZnMiDQo+ID4gKwlkZXBlbmRz
-IG9uIExSVV9HRU4gJiYgUFJPQ19GUw0KPiA+ICsJaGVscA0KPiA+ICsJICBNb3ZlIGxydV9nZW4g
-bWFuYWdlbWVudCBmcm9tIGRlYnVnZnMgdG8gcHJvY2ZzICgvcHJvYy9scnVfZ2VuKS4NCj4gPiAr
-CSAgVGhpcyBwcm9kdWN0aW9uLXJlYWR5IGZlYXR1cmUgcHJvdmlkZXMgY3JpdGljYWwgbWVtb3J5
-IHJlY2xhaW0NCj4gPiArCSAgcHJlZGljdGlvbiBhbmQgY29udHJvbC4gSXQgaXMgbm8gbG9uZ2Vy
-IGV4cGVyaW1lbnRhbC4NCj4gPiArCSAgVGhlIG1pZ3JhdGlvbiBlbnN1cmVzIGF2YWlsYWJpbGl0
-eSBpbiBjb21tZXJjaWFsIHByb2R1Y3RzIHdoZXJlDQo+ID4gKwkgIGRlYnVnZnMgbWF5IGJlIGRp
-c2FibGVkLg0KPiANCj4gQS4gbWlzc2luZyBwYXRjaCBkZXNjcmlwdGlvbg0KPiBCLiBUaGUgaGVs
-cCBtZXNzYWdlIGFib3ZlIHNvdW5kcyBsaWtlIGEgcGF0Y2ggZGVzY3JpcHRpb24uDQo+IA0KDQpU
-aGFua3MgZm9yIHRoZSBjb21tZW50cywgd2lsbCBiZSBmaXggaW4gdGhlIG5leHQgdmVyc2lvbi4N
-Cg0KPiBJZiBzb21lb25lIGRvZXMgbm90IGVuYWJsZSB0aGlzIGtjb25maWcgb3B0aW9uLCB3aGF0
-IGhhcHBlbnM/DQo+IGEuIGxydV9nZW4gZmlsZXMgc3RheSBpbiBkZWJ1Z2ZzDQo+IGIuIGxydV9n
-ZW4gZmlsZXMgYXJlIG5vdCBwcmVzZW50DQo+IGMuIHNvbWV0aGluZyBlbHNlLiBJZiBzbywgd2hh
-dD8NCj4gDQo+IA0KPiAtLQ0KPiB+UmFuZHkNCg0KUmVnYXJkIHRvIHRoZSBxdWVzdGlvbnMsDQpJ
-ZiB0aGlzIEtjb25maWcgb3B0aW9uIGlzIGVuYWJsZWQsIHRoZSBgbHJ1X2dlbmAgYW5kIGBscnVf
-Z2VuX2Z1bGxgIGZpbGVzIHdpbGwgYXBwZWFyIHVuZGVyIC9wcm9jLy4NCklmIGl0IGlzIG5vdCBl
-bmFibGVkLCB0aGUgZmlsZXMgcmVtYWluIHVuZGVyIGRlYnVnZnMsIHdoaWNoIGlzIHRoZSBjdXJy
-ZW50IGRlZmF1bHQgYmVoYXZpb3IuDQoNClRoYW5rcywNClppY2hlbmcNCg==
+On Wed, Nov 12, 2025 at 09:16:52PM +1000, James Calligeros wrote:
+> +static int macsmc_hwmon_populate_sensors(struct macsmc_hwmon *hwmon,
+> +					 struct device_node *hwmon_node)
+> +{
+> +	struct device_node *key_node __maybe_unused;
+
+The for_each_child_of_node_with_prefix() macros declare key_node so this
+declaration is never used so far as I can see.  I thought Sparse had a
+warning where we declared shadow variables where two variables have the
+same name but it doesn't complain here. #strange
+
+> +	struct macsmc_hwmon_sensor *sensor;
+> +	u32 n_current = 0, n_fan = 0, n_power = 0, n_temperature = 0, n_voltage = 0;
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "current-") {
+                                                       ^^^^^^^^
+
+regards,
+dan carpenter
+
+> +		n_current++;
+> +	}
+> +
+> +	if (n_current) {
+> +		hwmon->curr.sensors = devm_kcalloc(hwmon->dev, n_current,
+> +						   sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->curr.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "current-") {
+> +			sensor = &hwmon->curr.sensors[hwmon->curr.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_C_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_C_LABEL;
+> +
+> +				hwmon->curr.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "fan-") {
+> +		n_fan++;
+> +	}
+> +
+> +	if (n_fan) {
+> +		hwmon->fan.fans = devm_kcalloc(hwmon->dev, n_fan,
+> +					       sizeof(struct macsmc_hwmon_fan), GFP_KERNEL);
+> +		if (!hwmon->fan.fans)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "fan-") {
+> +			if (!macsmc_hwmon_create_fan(hwmon->dev, hwmon->smc, key_node,
+> +						     &hwmon->fan.fans[hwmon->fan.count]))
+> +				hwmon->fan.count++;
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "power-") {
+> +		n_power++;
+> +	}
+> +
+> +	if (n_power) {
+> +		hwmon->power.sensors = devm_kcalloc(hwmon->dev, n_power,
+> +						    sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->power.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "power-") {
+> +			sensor = &hwmon->power.sensors[hwmon->power.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_P_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_P_LABEL;
+> +
+> +				hwmon->power.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "temperature-") {
+> +		n_temperature++;
+> +	}
+> +
+> +	if (n_temperature) {
+> +		hwmon->temp.sensors = devm_kcalloc(hwmon->dev, n_temperature,
+> +						   sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->temp.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "temperature-") {
+> +			sensor = &hwmon->temp.sensors[hwmon->temp.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_T_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_T_LABEL;
+> +
+> +				hwmon->temp.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	for_each_child_of_node_with_prefix(hwmon_node, key_node, "voltage-") {
+> +		n_voltage++;
+> +	}
+> +
+> +	if (n_voltage) {
+> +		hwmon->volt.sensors = devm_kcalloc(hwmon->dev, n_voltage,
+> +						   sizeof(struct macsmc_hwmon_sensor), GFP_KERNEL);
+> +		if (!hwmon->volt.sensors)
+> +			return -ENOMEM;
+> +
+> +		for_each_child_of_node_with_prefix(hwmon_node, key_node, "volt-") {
+> +			sensor = &hwmon->temp.sensors[hwmon->temp.count];
+> +			if (!macsmc_hwmon_create_sensor(hwmon->dev, hwmon->smc, key_node, sensor)) {
+> +				sensor->attrs = HWMON_I_INPUT;
+> +
+> +				if (*sensor->label)
+> +					sensor->attrs |= HWMON_I_LABEL;
+> +
+> +				hwmon->volt.count++;
+> +			}
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+
