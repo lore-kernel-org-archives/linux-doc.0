@@ -1,69 +1,67 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3275B313E25
-	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 11:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15D2325713
+	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 11:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764330277; cv=none; b=R/IkarNNpH1bxloPlioAd6O4wuMJoY85fsZZeZ9dEt+DKsKez6bs5upssyL611qG0EVLrhSfLxLAG8MlUA6qCPsRxPINnfN7EgucuyVhL/uYJB4T/RylsnnPCVvDvoKJay2C3Ss5QcnKx8+S/CwiIfOlySw6jxCgt339I+H3TGc=
+	t=1764330952; cv=none; b=jOzk6tvWh3TWt/18bVx0qW5O/m+T0fctCYasYV7iGHw4pXqvLZ+CBIEfwu8+P19MHC4FOZOOdpjROAQcVwGYCjK9wuBA6be7gMKxQh8Vqz98xlhzFdx8BsuUGFdiM2jTkvsfNA2EhN41BJxR1dSFdWfsx55oVqZMJLmT4BQbvSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764330277; c=relaxed/simple;
-	bh=s1TSeMY8TYeWUqJN+NLoCq/MH+IRv9s48jeTq7Gbbf8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QYnyczhsIgNBVmShAqD2MpTDTDvGfbps9ey1jY3agR2aUVWWgws1RLncrOdUmffTH/CIowGOxsCWOsTBlMMZURZDcI+ef7MjTj3gsPoGlQZ6sCJ+H50A6fCFB9M1w2Mnef/aO+9P/WhzIeR0HAZLqhuD8vI6jM8ZKB7orVSQrCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=jX7Qveym; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1764330952; c=relaxed/simple;
+	bh=DlgRtTwie5viPqNLCH83FLtZ9KI2/5DRKlUAl1opSvM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jX7s+ns95nVIIXnGPU6AazHUmyU88IwTNBQlUEaHS/zWUutcv58ZSvFVtp/8fff2myUMtwn4QSXmHaO9DnDlr5JRrYZyEIQcqLJmjTPhWukBljQPGwmnN6xoaer8P2k5WLyyYsaZj4W9BcMV4geSm0yOQMvvXN8LjL/3eTHcRfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=b6Fh0jz/; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="jX7Qveym"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477b198f4bcso11790025e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 03:44:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b6Fh0jz/"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47118259fd8so15246325e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 03:55:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1764330270; x=1764935070; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0slMlJM7u9gD6l8dG4n25D1+B/Pqy3PuC+FWW1MvYSg=;
-        b=jX7Qveyms/ZnLta+//hZiYGiYqUkBD6TTOZJFauYH4Q8LhapAYMXRYqtVnW9vxEtCe
-         P4bnHYNHR7Sz0d6/eKr8JyMalElu3uQwcUuCOwROo7hb0NKCJF/U5DN+hYYdPmlfg8d5
-         cvWKrWP/ley4pWXPvcPffJwmgnqV1jervB+qvEZRJCcMxxrFyBCUu+HDC78i2P/1tRRo
-         SGcdhNBMjn1gnQmx+75w667msxRoKEcUIjk6ngVBIrgYuN6iEE/hR2umi4ofJa2cwQ0z
-         D/XnbNj5dpT0ehmGVeKhTmolQUdHoRNaBDeS2nEMep5oH5dwcXcThqlc9TPTpPvjE7fm
-         8+9w==
+        d=linaro.org; s=google; t=1764330949; x=1764935749; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=w0TcHWb9fHTi0jCTcopxtEaDqpd5gmt1KJnh5vwOy84=;
+        b=b6Fh0jz/AGg6gxDTcxYAL90P5Q39onagwXiht8Rb5G8tI7oC4EPtxjJLCL0vp5Dgzm
+         c0MU97Avy8KkoRvgxXow4KQqJFbQPyMmDltRnrzRPXiKckpDaCzz6wLi9jHMHloz//2o
+         ijknETOm2WHMnlIWRqo8cm2UswH2u5KGzs2+Hk+nlyb8Q8DeQPw/BWOc0TvN1lste0eN
+         0qqPSr/w5+h7gH1ch/GXj/j9SSxtHAGFs3mfBkCEpyw3PfbrdOeJqAjJNyf5JyaYPYN9
+         dfV9EM+EmA3zdx0wu9Dpl0Y20kQh9A44/OsWRmgSc788tyOGxRJRcat3oIrfwT0pzTDP
+         d6xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764330270; x=1764935070;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0slMlJM7u9gD6l8dG4n25D1+B/Pqy3PuC+FWW1MvYSg=;
-        b=XPtcQqQRaDyDrKd3dZ0BEUU8tU93O03f9XCCKP5BFgdx5R0nZiviBCCMrqtnmCMel9
-         lYUkcABak3z6duujsrgx8PehX/kgmyjKisWwN4xs9NpOoQJ557ShQTG92bGWLCRFIvpy
-         CEsrprl6JFUqENaOlcxp+nHt4CU7fBwn3UA+xKpzZ+cAtahNJFOvfL00cpY5mk7msHPK
-         Prl2tgSEolR4QU9MOZy3rpRfRSMd1MRHxqpbfL0+50YYnJAZ0oaAqPNXSellFXPovL6m
-         V2V+hj3+9VWO4sHdk4MNo4uPzR3q3XplDf0Xtu5kaJFclypH3PEsJdrNOUH8eF5FcrKG
-         aBYA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZut0TRtRfOKQaCTpF1X7HuSGf4afq+oaT0Epiqj+COpjM78m8DbgT0rXZckXG5rqLBcCkd8FnOxA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEjA/qJBMrNs1mYyAuf+dVnBQQkekU8HCrjdbU2oGzdNc4hpvK
-	s3+S6kUGYYoFES06jyOUybcaJsnK8yCkdXlqAWVOmsub/7yH9unlvcEcpRMvnKwloHxZ9FV4Fp+
-	s1TJU
-X-Gm-Gg: ASbGncuYzI8ETv2nVEXu2L1fu1Q6DbaFo/6ggJ1zB5V2RWnZAY38rs+Zg/1R/Sl30vn
-	+5tPjQ2Px+KIuiejdnZ2yrtkc/wvxEsGkAl2QAC5/FkUIttSpbzkK3rmVrCgMxcXdscTICtcS5B
-	wfoyt+ORkZMXdyVFqA975feFoEXJeUkgRmkUeuEmQ+dCPAlBnoEXAq0RFJMCKq+Av7sM1E5jTdT
-	t0HxBeujPLLIFUP4GoHBGbF3GsNDh1qyhhczIKqHXeBwvpSEvD9bJ7wrg4mn3frkflmzfh9nmW8
-	lGYRhegL9rlT7XUdxwG4FwjUryfeOOalyIS6mIGVi+QjnXOn+kvvgihYkWKbDMzvLaMpPutI9y/
-	7nLKDpa3VqOzkFJ5IfbY5asueFCUoWd8q4XW2z2n7+9XExzh28tmLPR5BPkDkMmIgKPJwq9ivAw
-	Jcs83lDA==
-X-Google-Smtp-Source: AGHT+IHiFNtIlO4LqrcMmbtEMJgmSuRKa9qY+AWUXUaUq2NMI8ljNEJbZyCu/w1cNhv/t0kz4/Obhw==
-X-Received: by 2002:a05:600c:474b:b0:477:9dc1:b706 with SMTP id 5b1f17b1804b1-477c01b494fmr272879555e9.19.1764330270423;
-        Fri, 28 Nov 2025 03:44:30 -0800 (PST)
-Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:f3c6:aa54:79d2:8979])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47906cb1f60sm89888445e9.1.2025.11.28.03.44.28
+        d=1e100.net; s=20230601; t=1764330949; x=1764935749;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w0TcHWb9fHTi0jCTcopxtEaDqpd5gmt1KJnh5vwOy84=;
+        b=U6+DDlMa9ylZ2+PbbRTU0iSgHU5sNQqf3G8zLn+/kzS8oHmLMMgMLtouwjTJMvUJko
+         UUAFybR8imTxKJNYOkmMldkH2syubdi5SUyVgxA4IbqtRwc/8utIbQ/eAptM3ie1Lp4f
+         bkGMr/2r1LNRuR7W6mXKnCpkgIRrD4oY7LOMr/zZX0bnWDIIDiGljVVFl5BPTBwrwsCm
+         ioQxWXW4isw8Jpftqo6UBlMvEMSz2SLq6+zvBKiP69pOb1AxRmyayh5TxeZ1dI1ZO8Mk
+         3XDqMYS+Q8a7V7acGPAx897XFRvQysVU5PMVr1eNwySxm5YPuIdN1fgHRuoujMKahUoS
+         PWOA==
+X-Forwarded-Encrypted: i=1; AJvYcCW0VzJNlciBWuaz56SxC9mnTypQoK/gLT8jpqVDpxruJa8b1IL/ZuQX6cYSLee+/KoVXDXJ+/TKPtw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzqj8z3rjPklfw/DG/jyP6jHGEvxj+YHv/xM+vAohLBNHoIUyex
+	3hpK971TMmreNmQUUv+M3n1BUClvd2Pm3L6uAg/mTKrGDloRCq90HfdwLjls7BLUdPU=
+X-Gm-Gg: ASbGncvl/LFXDXMzzjlbfLnJg+KjClCdAvOxePyzco+jt0PGd4FnQrkd6guW9BzosdZ
+	uYNUl/zSaIcxBvnSwmwHCEpjMrWBT2JRIvPky7kzTk9KjBmRHOyngDuv5sHodKgjbWpYgJt7f3C
+	OLD7gEP5OtQ0/JCfZv4aG6y22aTuA2oY6yJgos90SCpWTRAvYsDA6mqWfFro8hI4aoL1IJS0YZB
+	j2VTQAg8TQqkTnQGvFbxB4k4pGyvfan3Y9u/xVkMab/WcC9JaYZgBTaHKaMTJVi4YXBuZ4IPelv
+	tpIrvgrZ4QaN/LOCdlLxjXb4I8hDJ8ifxN0iPgZPQ+71lJwlxdtcrzdVOh5yay+mQaIpSkEJCsu
+	1URSJf5ytLvEtcwmn/qsaM73I6Z8Dvk4RQDdTzcy0RmLhWNf8l5LqRAHeaoA8SpV/OaSYapObFv
+	1dT6UbIkwgAL0iqAP7Ndro
+X-Google-Smtp-Source: AGHT+IFCaezpDzwvJ5YFy4YkZmmbr4ySHFAbq4jp3qLN1r0Mys7bkocqdmJgJAT/s2gldrYAZNuG/Q==
+X-Received: by 2002:a05:600c:3b11:b0:477:8ba7:fe17 with SMTP id 5b1f17b1804b1-47904ac464bmr139805295e9.7.1764330949090;
+        Fri, 28 Nov 2025 03:55:49 -0800 (PST)
+Received: from ho-tower-lan.lan ([185.48.77.170])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4790adc8bc7sm158974465e9.1.2025.11.28.03.55.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 03:44:28 -0800 (PST)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 28 Nov 2025 12:44:09 +0100
-Subject: [PATCH v9 11/11] crypto: qce - Switch to using BAM DMA for crypto
- I/O
+        Fri, 28 Nov 2025 03:55:48 -0800 (PST)
+From: James Clark <james.clark@linaro.org>
+Subject: [PATCH v8 00/13] coresight: Update timestamp attribute to be an
+ interval instead of bool
+Date: Fri, 28 Nov 2025 11:55:12 +0000
+Message-Id: <20251128-james-cs-syncfreq-v8-0-4d319764cc58@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,219 +70,129 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251128-qcom-qce-cmd-descr-v9-11-9a5f72b89722@linaro.org>
-References: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
-In-Reply-To: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
-To: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Thara Gopinath <thara.gopinath@gmail.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- "David S. Miller" <davem@davemloft.net>, 
- Udit Tiwari <quic_utiwari@quicinc.com>, 
- Daniel Perez-Zoghbi <dperezzo@quicinc.com>, 
- Md Sadre Alam <mdalam@qti.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-crypto@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6106;
- i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=2zlVAHXO/DOwordNK3r9sCFLHH3vkgBdbL2WMJAKOzQ=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpKYsKp4tQm0GWnTQy01SxXB3xWR1iKk4rN4PSQ
- fUHd+ZfrRyJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaSmLCgAKCRAFnS7L/zaE
- w/k4D/9k60fNt06wowVTko9mwWQDpZ/lbTt/qRLhuMWJM+u344ZIGgGXAC2YwW2CuAsp4y2bCTS
- X970SrqB71sE+ZwXwzx9C9wSvvTtk1CppfVuIXlj+tUkwqGCm3Dv5xWiwv5Njok9vcX0ttv6GZk
- og+GTfv8gW/upb3+NveRPMKKefp7cGOiTAiU08t4CjvhEpfLKJPXc9lATLCWRLdKyjS6bEcACNp
- JFp4sNFaMBIpKcMmrL6lxV8xHqiJSI6L2FujyrSEtKhek7e2z3GVmLUf9vtW8cdp1y5jrRgY+5O
- Ge7kmNXzcYK/htsRVqFI5Ofa/RVUDDqmw3zNZKfCxu1hNshqqnHgc653oQjt57Uram9as+jm2FJ
- fqFNKlXznDzLdlPkd0i39XTEijuqJzAQsEJ6XHEk7XOq13wWxflv4ka3ftjTgut8JVTBytzvnIJ
- V67sBZ0rdDdR7qqXbHvW3zwnXnEzKOL9E/fBTznUVgmeNargKjwShGKqkEAlBEAXIvAw8ZlH0LX
- HmgCGPFznm9NuLeWkGlzSFyQgYZ4Tcy0+ue1NNxbrWEjqe6XDwCKYl2UC401gDUPhgwIn/T4/Gm
- 1clZUXSOXtYrR8fYv3vXUn6PEoNLEp0xOcnE3w17drpux23K671+6MlZZAd1Ie8VeNYMmGuStMZ
- RkCkM1Ht3pI52HQ==
-X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-B4-Tracking: v=1; b=H4sIAKCNKWkC/23OTU7DMBAF4KtUXmPkmfgvrLhHxcKxx60RJGBXE
+ VWVu+MUCYLixSzeSPPNu7FCOVFhT4cbyzSnkqaxBvtwYP7sxhPxFGpmKFAJg5K/uncq3BderqO
+ PmT658YjKuM5S6Fi9+8gU09fdPL7UfE7lMuXr/cUM6/ZHswANbQYu+CAE+KCpk0I+v6XR5elxy
+ ie2cjNuiVahGSvhjY5+sEb3OuyI7pcAIbBFdJWIpELEIfYQYEfIPwKgSchKgFaDQ5ACgt8Rakv
+ YFqEqYZFiMAM4o/Yt9JboW4SuhJEioHTYU4MwGwJ1izArER0pEnVA/yOWZfkGG1gLkUUCAAA=
+To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Mike Leach <mike.leach@linaro.org>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@arm.com>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ James Clark <james.clark@linaro.org>, Jie Gan <jie.gan@oss.qualcomm.com>
+X-Mailer: b4 0.14.0
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Do some cleanups then expand the timestamp format attribute from 1 bit
+to 4 bits for ETMv4 in Perf mode. The current interval is too high for
+most use cases, and particularly on the FVP the number of timestamps
+generated is excessive. This change not only still allows disabling or
+enabling timestamps, but also allows the interval to be configured.
 
-With everything else in place, we can now switch to actually using the
-BAM DMA for register I/O with DMA engine locking.
+The old bit is kept deprecated and undocumented for now. There are known
+broken versions of Perf that don't read the format attribute positions
+from sysfs and instead hard code the timestamp bit. We can leave the old
+bit in the driver until we need the bit for another feature or enough
+time has passed that these old Perfs are unlikely to be used.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+The interval option is added as an event format attribute, rather than a
+Coresight config because it's something that the driver is already
+configuring automatically in Perf mode using any unused counter, so it's
+not possible to modify this with a config.
+
+Applies to coresight/next
+
+Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- drivers/crypto/qce/aead.c     | 10 ++++++++++
- drivers/crypto/qce/common.c   | 21 ++++++++++-----------
- drivers/crypto/qce/sha.c      |  8 ++++++++
- drivers/crypto/qce/skcipher.c |  7 +++++++
- 4 files changed, 35 insertions(+), 11 deletions(-)
+Changes in v8:
+- Handle ts_level attribute outside etm4_config_timestamp_event() (Mike)
+- Flip commits 11 and 12 so that the new attribute works as soon as it's
+  published to sysfs for bisecting (Suzuki)
+- Remove some spurious header includes
+- Link to v7: https://lore.kernel.org/r/20251126-james-cs-syncfreq-v7-0-7fae5e0e5e16@linaro.org
 
-diff --git a/drivers/crypto/qce/aead.c b/drivers/crypto/qce/aead.c
-index 11cec08544c912e562bf4b33d9a409f0e69a0ada..0fc69b019929342e14d3af8e24d7629ab171bc60 100644
---- a/drivers/crypto/qce/aead.c
-+++ b/drivers/crypto/qce/aead.c
-@@ -63,6 +63,10 @@ static void qce_aead_done(void *data)
- 		sg_free_table(&rctx->dst_tbl);
- 	}
- 
-+	error = qce_bam_unlock(qce);
-+	if (error)
-+		dev_err(qce->dev, "aead: failed to unlock the BAM\n");
-+
- 	error = qce_check_status(qce, &status);
- 	if (error < 0 && (error != -EBADMSG))
- 		dev_err(qce->dev, "aead operation error (%x)\n", status);
-@@ -188,6 +192,8 @@ qce_aead_ccm_prepare_buf_assoclen(struct aead_request *req)
- 	struct crypto_aead *tfm = crypto_aead_reqtfm(req);
- 	struct qce_aead_reqctx *rctx = aead_request_ctx_dma(req);
- 	struct qce_aead_ctx *ctx = crypto_aead_ctx(tfm);
-+	struct qce_alg_template *tmpl = to_aead_tmpl(crypto_aead_reqtfm(req));
-+	struct qce_device *qce = tmpl->qce;
- 	unsigned int assoclen = rctx->assoclen;
- 	unsigned int adata_header_len, cryptlen, totallen;
- 	gfp_t gfp;
-@@ -200,6 +206,10 @@ qce_aead_ccm_prepare_buf_assoclen(struct aead_request *req)
- 		cryptlen = rctx->cryptlen;
- 	totallen = cryptlen + req->assoclen;
- 
-+	ret = qce_bam_lock(qce);
-+	if (ret)
-+		return ret;
-+
- 	/* Get the msg */
- 	msg_sg = scatterwalk_ffwd(__sg, req->src, req->assoclen);
- 
-diff --git a/drivers/crypto/qce/common.c b/drivers/crypto/qce/common.c
-index 74756c222fed6d0298eb6c957ed15b8b7083b72f..930006aaba4accb51576ecfb84aa9cf20849a72f 100644
---- a/drivers/crypto/qce/common.c
-+++ b/drivers/crypto/qce/common.c
-@@ -14,6 +14,7 @@
- #include "cipher.h"
- #include "common.h"
- #include "core.h"
-+#include "dma.h"
- #include "regs-v5.h"
- #include "sha.h"
- #include "aead.h"
-@@ -25,7 +26,7 @@ static inline u32 qce_read(struct qce_device *qce, u32 offset)
- 
- static inline void qce_write(struct qce_device *qce, u32 offset, u32 val)
- {
--	writel(val, qce->base + offset);
-+	qce_write_dma(qce, offset, val);
- }
- 
- static inline void qce_write_array(struct qce_device *qce, u32 offset,
-@@ -82,6 +83,8 @@ static void qce_setup_config(struct qce_device *qce)
- {
- 	u32 config;
- 
-+	qce_clear_bam_transaction(qce);
-+
- 	/* get big endianness */
- 	config = qce_config_reg(qce, 0);
- 
-@@ -90,12 +93,14 @@ static void qce_setup_config(struct qce_device *qce)
- 	qce_write(qce, REG_CONFIG, config);
- }
- 
--static inline void qce_crypto_go(struct qce_device *qce, bool result_dump)
-+static int qce_crypto_go(struct qce_device *qce, bool result_dump)
- {
- 	if (result_dump)
- 		qce_write(qce, REG_GOPROC, BIT(GO_SHIFT) | BIT(RESULTS_DUMP_SHIFT));
- 	else
- 		qce_write(qce, REG_GOPROC, BIT(GO_SHIFT));
-+
-+	return qce_submit_cmd_desc(qce);
- }
- 
- #if defined(CONFIG_CRYPTO_DEV_QCE_SHA) || defined(CONFIG_CRYPTO_DEV_QCE_AEAD)
-@@ -223,9 +228,7 @@ static int qce_setup_regs_ahash(struct crypto_async_request *async_req)
- 	config = qce_config_reg(qce, 1);
- 	qce_write(qce, REG_CONFIG, config);
- 
--	qce_crypto_go(qce, true);
--
--	return 0;
-+	return qce_crypto_go(qce, true);
- }
- #endif
- 
-@@ -386,9 +389,7 @@ static int qce_setup_regs_skcipher(struct crypto_async_request *async_req)
- 	config = qce_config_reg(qce, 1);
- 	qce_write(qce, REG_CONFIG, config);
- 
--	qce_crypto_go(qce, true);
--
--	return 0;
-+	return qce_crypto_go(qce, true);
- }
- #endif
- 
-@@ -535,9 +536,7 @@ static int qce_setup_regs_aead(struct crypto_async_request *async_req)
- 	qce_write(qce, REG_CONFIG, config);
- 
- 	/* Start the process */
--	qce_crypto_go(qce, !IS_CCM(flags));
--
--	return 0;
-+	return qce_crypto_go(qce, !IS_CCM(flags));
- }
- #endif
- 
-diff --git a/drivers/crypto/qce/sha.c b/drivers/crypto/qce/sha.c
-index 0c7aab711b7b8434d5f89ab4565ef4123fc5322e..286477a3001248e745d79b209aebb6ed6bf11f62 100644
---- a/drivers/crypto/qce/sha.c
-+++ b/drivers/crypto/qce/sha.c
-@@ -60,6 +60,10 @@ static void qce_ahash_done(void *data)
- 	rctx->byte_count[0] = cpu_to_be32(result->auth_byte_count[0]);
- 	rctx->byte_count[1] = cpu_to_be32(result->auth_byte_count[1]);
- 
-+	error = qce_bam_unlock(qce);
-+	if (error)
-+		dev_err(qce->dev, "ahash: failed to unlock the BAM\n");
-+
- 	error = qce_check_status(qce, &status);
- 	if (error < 0)
- 		dev_dbg(qce->dev, "ahash operation error (%x)\n", status);
-@@ -90,6 +94,10 @@ static int qce_ahash_async_req_handle(struct crypto_async_request *async_req)
- 		rctx->authklen = AES_KEYSIZE_128;
- 	}
- 
-+	ret = qce_bam_lock(qce);
-+	if (ret)
-+		return ret;
-+
- 	rctx->src_nents = sg_nents_for_len(req->src, req->nbytes);
- 	if (rctx->src_nents < 0) {
- 		dev_err(qce->dev, "Invalid numbers of src SG.\n");
-diff --git a/drivers/crypto/qce/skcipher.c b/drivers/crypto/qce/skcipher.c
-index cab796cd7e43c548a49df468b2dde84942c5bd87..8317c79fb9c2b209884187d65655d04c580e9cde 100644
---- a/drivers/crypto/qce/skcipher.c
-+++ b/drivers/crypto/qce/skcipher.c
-@@ -51,6 +51,9 @@ static void qce_skcipher_done(void *data)
- 	dma_unmap_sg(qce->dev, rctx->dst_sg, rctx->dst_nents, dir_dst);
- 
- 	sg_free_table(&rctx->dst_tbl);
-+	error = qce_bam_unlock(qce);
-+	if (error)
-+		dev_err(qce->dev, "skcipher: failed to unlock the BAM\n");
- 
- 	error = qce_check_status(qce, &status);
- 	if (error < 0)
-@@ -78,6 +81,10 @@ qce_skcipher_async_req_handle(struct crypto_async_request *async_req)
- 	rctx->ivsize = crypto_skcipher_ivsize(skcipher);
- 	rctx->cryptlen = req->cryptlen;
- 
-+	ret = qce_bam_lock(qce);
-+	if (ret)
-+		return ret;
-+
- 	diff_dst = (req->src != req->dst) ? true : false;
- 	dir_src = diff_dst ? DMA_TO_DEVICE : DMA_BIDIRECTIONAL;
- 	dir_dst = diff_dst ? DMA_FROM_DEVICE : DMA_BIDIRECTIONAL;
+Changes in v7:
+- Change TRCCNTCTLRn and TRCTSCTLR register definitions to use a
+  combined field for TYPE and SEL (EVENT) so that they can be used with
+  the new utilities.
+- Add utility functions for creating resource selectors that do compile
+  and runtime checking of the resource selector ID.
+- Link to v6: https://lore.kernel.org/r/20251119-james-cs-syncfreq-v6-0-740d24a29e51@linaro.org
 
+Changes in v6:
+- #ifdef out format attributes for ETMv3 instead of using is_visible().
+  Then the same block can be used to define format_attr_contextid_show()
+  which avoids an awkward WARN_ONCE() and comments in arm32 for a
+  function that's never called.
+- Link to v5: https://lore.kernel.org/r/20251118-james-cs-syncfreq-v5-0-82efd7b1a751@linaro.org
+
+Changes in v5:
+- Add parens to interval calculation in docs (Randy)
+- Swap "minimum interval" and "maximum interval" in docs. (Leo)
+- Add TRCSYNCPR.PERIOD to docs (Leo)
+- Use CONFIG_ARM64 to avoid is_kernel_in_hyp_mode() (Leo)
+- Add a comment for hidden ETMv3 format attributes (Leo)
+- Hide configid for ETMv3 (Leo)
+- Link to v4: https://lore.kernel.org/r/20251112-james-cs-syncfreq-v4-0-165ba21401dc@linaro.org
+
+Changes in v4:
+- Add #defines for true and false resources ETM_RES_SEL_TRUE/FALSE
+- Reword comment about finding a counter to say if there are no
+  resources there are no counters.
+- Extend existing timestamp format attribute instead of adding a new one
+- Refactor all the config definitions and parsing to use
+  GEN_PMU_FORMAT_ATTR()/ATTR_CFG_GET_FLD() so we can see where the
+  unused bits are.
+- Link to v3: https://lore.kernel.org/r/20251002-james-cs-syncfreq-v3-0-fe5df2bf91d1@linaro.org
+
+Changes in v3:
+- Move the format attr definitions to coresight-etm-perf.h we can
+  compile on arm32 without #ifdefs - (Leo)
+- Convert the new #ifdefs to a single one in an is_visible() function so
+  that the code is cleaner - (Leo)
+- Drop the change to remove the holes in struct etmv4_config as they
+  were grouped by function - (Mike)
+- Link to v2: https://lore.kernel.org/r/20250814-james-cs-syncfreq-v2-0-c76fcb87696d@linaro.org
+
+Changes in v2:
+- Only show the attribute for ETMv4 to improve usability and fix the
+  arm32 build error. Wrapping everything in
+  IS_ENABLED(CONFIG_CORESIGHT_SOURCE_ETM4X) isn't ideal, but the -perf.c
+  file is shared between ETMv3 and ETMv4, and there is already precedent
+  for doing it this way.
+- Link to v1: https://lore.kernel.org/r/20250811-james-cs-syncfreq-v1-0-b001cd6e3404@linaro.org
+
+---
+James Clark (13):
+      coresight: Change syncfreq to be a u8
+      coresight: Repack struct etmv4_drvdata
+      coresight: Refactor etm4_config_timestamp_event()
+      coresight: Hide unused ETMv3 format attributes
+      coresight: Define format attributes with GEN_PMU_FORMAT_ATTR()
+      coresight: Interpret ETMv3 config with ATTR_CFG_GET_FLD()
+      coresight: Don't reject unrecognized ETMv3 format attributes
+      coresight: Interpret perf config with ATTR_CFG_GET_FLD()
+      coresight: Interpret ETMv4 config with ATTR_CFG_GET_FLD()
+      coresight: Remove misleading definitions
+      coresight: Prepare to allow setting the timestamp interval
+      coresight: Extend width of timestamp format attribute
+      coresight: docs: Document etm4x timestamp interval option
+
+ Documentation/trace/coresight/coresight.rst        |  16 +-
+ drivers/hwtracing/coresight/coresight-etm-perf.c   |  68 ++++----
+ drivers/hwtracing/coresight/coresight-etm-perf.h   |  38 +++++
+ drivers/hwtracing/coresight/coresight-etm3x-core.c |  39 +++--
+ drivers/hwtracing/coresight/coresight-etm4x-core.c | 175 ++++++++++++---------
+ drivers/hwtracing/coresight/coresight-etm4x.h      |  92 ++++++++---
+ include/linux/coresight-pmu.h                      |  24 ---
+ 7 files changed, 279 insertions(+), 173 deletions(-)
+---
+base-commit: 9e9182cab5ebc3ee7544e60ef08ba19fdf216920
+change-id: 20250724-james-cs-syncfreq-7c2257a38ed3
+
+Best regards,
 -- 
-2.51.0
+James Clark <james.clark@linaro.org>
 
