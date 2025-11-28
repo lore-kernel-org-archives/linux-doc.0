@@ -1,65 +1,40 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81921F0E34
-	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 17:12:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A76233704;
+	Fri, 28 Nov 2025 18:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764349958; cv=none; b=EGNCK68+3CaLnWcbJfRn1t3UBx3/y1f6uSN864k0vF7zMGM0nEximfdKNhhkgAGa7ZmH5eWbMuyiCe3VFbhX92iVepiJvH/d1i2zwSRDETlyNw1C32veljpJ4zw7UWX2qEvKrvq7U1kgJdI+eCZWdMX5qQRpQ5WKh2scSJFM/2Y=
+	t=1764353949; cv=none; b=S/9LmzSIw0caPaqMqoIP6v70jDCqhKRxG04Q0qZHo6SFauCFhBm8xjAvYj3cOLVp0GMuztxwsfG8rc4PgJBtFT7OYIFfS6RviCXK+1PJD4m6QEkqHgp1nbjNA7W5njL2jV4vLZd6wEU29CBfDtUs4eIsIxY3jZL5iD14Hy/7Ofk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764349958; c=relaxed/simple;
-	bh=g3BSPCjjOnGxxBCVOCe92o3NM5RUdh3Z4VIlFuTsNFM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=EKHIQ0VXx7NPHY2TnJD9ShVNJd3hxfb8CZNW6DxXFomSyY+9GCCwkTB63uFpFx5dFypJi7z993L+pm95B3vVtTpuzSip49ZsFVuv4TxOUbeLPkcXc6k+4/hzTtjUp2n87H+IHGATTzJqFHcBg+UfISkD27MWUcioSLeApZvJ5KQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ISTsPr/H; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764353949; c=relaxed/simple;
+	bh=D5R1R40lbideVzmASkbHJ+gHLI9Htdhg6MTSqRr2Qzk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gM5b6ZSoDtdPBnKWDyr0EVgMb2QHZAr7Lg4UO+CxgZ9hBw+QhpWXctNc2MSAEkzVdgKgeJQ0NHyN60RfVQ6fjZiT6kX0iFgiU3GbmYkAEpZ/xKkk96O18UKtMEtU8+ILB6Fs2QBnPYlKXr4/0LnGyGl5H4EWgChtUjmrxrVrSlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=WSWsz7T/; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ISTsPr/H"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-37d275cb96cso15457381fa.2
-        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 09:12:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764349955; x=1764954755; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:content-language:subject:from
-         :user-agent:mime-version:date:message-id:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4y624NKZwLRWYLn9yEjnslUqFCuVYiuH4bJp+HzF7B0=;
-        b=ISTsPr/H9G2C91q6R+RUOmp7rwuanjk3/CkMQurnnAchLGrF0tZnHbHoJSKLorX82a
-         hkzOVDWd/9XQnsbCXw9c1BhQpAjeyttxVkMTcvRxyYWXU8XUnNf2y4Dk6vXOAQU2/96h
-         5dIA+7dQDvAeHR+ckFcJw6OqmrMcfVvnCGoYDA9AdYGHCiwY0+baXGmZDi5yegSQxhz5
-         T8qszdKx5zDOPNHYz330WIvbcH81NJ9fwwAg3DJjJ1w5zVdhROIBFZ6Fx79obH4kMRm+
-         cTVrQcz59AdSEJRXBa/yp4ud3juaq99136MpA70UpZfEZRJ4mYWUPrhQRaNXT81NDNlH
-         ixgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764349955; x=1764954755;
-        h=content-transfer-encoding:cc:to:content-language:subject:from
-         :user-agent:mime-version:date:message-id:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4y624NKZwLRWYLn9yEjnslUqFCuVYiuH4bJp+HzF7B0=;
-        b=Aarco2gRd6C4PdZVQ7aXP7bUnyJ2GcsbOi9eLCmQG1b1WNah/eSb/lYDb83aa7SKRe
-         bZ97FtU9uNBnjcv/MYxhei4S1vOlEk/CTFgGLnmUjIUdK5/GvAFZU5U/0J4V/ZGgO0yv
-         4jV8tfmwtBC5JSuqkTISvE7SiIe8Ghd3eDdF41I521ug4xwuh5lbQ9N9hh1+hDXhmS3V
-         cheQbXIKMoM9qR8HnZC9dRr+Dl2xiePd84qqtMWx/zVbmAzFJeUOwYmNr+5zd8ipyB4v
-         aPayFlgmypiw755AW5Ta0LPOzNZRytOLEIZdx/znx5469O98XtbJHAw8dYfrhYFyPqFZ
-         9AcA==
-X-Gm-Message-State: AOJu0Yx4GO/vydSY0SIpcNxVDdomkmtrKtacfbct4BLAtwAannvF7Piz
-	VCE8UNXSk/UiksUy86JW2u4old55JrKAaPhX+6bondbaO7eIxlTsxGnw
-X-Gm-Gg: ASbGnct1m5zE6UHGA5JU3OADrVaf9He9tpaV8KY12sI0TFPWQV+jFuBLOd7d3NcPK1h
-	KEVsT4Oy/N8tJy3sfBUlgAtZvDd5eKq08YIVZlb78FNz0rHLiNSAZcSVYst/orHNWqohlKDMo3t
-	XUzw81EEA+oCes5RSx39qaG4bfYjrYErqF1+arL+6sfo5EC8mEm3X7zU/eS5xqhvkKa25sH4Jej
-	lk+VooGn3ilJbyz427LIf+b3XgV7HWVpCjkphPE6kdc4at+jl3pPJvWJtLGAatQd0XcYPKLNHCa
-	HK2MnvguZSAUe6eK+8pGwNsZzmDUM70gqaOxc9uZYML7VrlE3TsUokGUN0p1Ib87lLlggHyWxvq
-	eJEG/5NQha3t2Pu+9nbMEvL6U1g0eMbh8Y7lkL0XyyQm+sr145oe/dBP2cied2g7RSt4rbQikIp
-	HJDoY2JZ9ze4M5stks3z62n9j6o9CI/VgPWg==
-X-Google-Smtp-Source: AGHT+IHte/5ZtKIMvNAng3bD9glTPppPjaecJN6jmdihJB2Rj4FRXzGEZXaE0bZYZJN6SF6wnuY8FA==
-X-Received: by 2002:a05:651c:40dc:b0:37b:bafc:25e2 with SMTP id 38308e7fff4ca-37cd9202816mr62858961fa.20.1764349954399;
-        Fri, 28 Nov 2025 09:12:34 -0800 (PST)
-Received: from [192.168.1.149] (nat-0-0.nsk.sibset.net. [5.44.169.188])
-        by smtp.googlemail.com with ESMTPSA id 38308e7fff4ca-37d2368e40csm10368961fa.5.2025.11.28.09.12.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Nov 2025 09:12:33 -0800 (PST)
-Sender: Maxim Nikulin <m.a.nikulin@gmail.com>
-Message-ID: <a221275c-53af-459d-97ed-05a0766adb04@gmail.com>
-Date: Sat, 29 Nov 2025 00:12:32 +0700
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="WSWsz7T/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764353945;
+	bh=D5R1R40lbideVzmASkbHJ+gHLI9Htdhg6MTSqRr2Qzk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WSWsz7T/sjVOoTY/5nfXwZRHu4rhkNDL6DITqGjsmhgwx2hz6hSZAE6ctMOlnxnJF
+	 sNXxWZpdtwjuSyYyXpJjJsWQHzlBP9gr2NMAFsuLkz4nkUo7ZkNxbotLciH7qjoMiu
+	 a5Jg3BwHxG8zejOGDy7gle6vZvDHWSf2TGd1JXgr/XVXpcjI7tWU1A2KzG+ZG8Kt8P
+	 P5OLAuPoFNWq6/2+Rr3Nw5+0eEIz/j/Qt0KADYHVQ9M8EyeAAJEfvwxI3EjivQA6uF
+	 pLqciabzg+8vJB6ZKhUg8xveL+owX+GAjrQfdk+M21Hxo19z318Glzqmp/Ihy4+65w
+	 dt66CVMfQ7AYg==
+Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0701417E06C3;
+	Fri, 28 Nov 2025 19:19:03 +0100 (CET)
+Message-ID: <411f7b0f-858c-4486-8819-c01b29cc123a@collabora.com>
+Date: Fri, 28 Nov 2025 19:19:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,108 +42,308 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Max Nikulin <manikulin@gmail.com>
-Subject: [PATCH] docs: admin: devices: /dev/sr<N> for SCSI CD-ROM
-Content-Language: en-US, ru-RU
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, linux-scsi@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v9 06/11] drm/v3d: Use huge tmpfs mountpoint helpers
+To: Tvrtko Ursulin <tursulin@ursulin.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Matthew Wilcox
+ <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251114170303.2800-1-loic.molinari@collabora.com>
+ <20251114170303.2800-7-loic.molinari@collabora.com>
+ <75cf65a0-8967-4e39-8bfe-aa284f8242b3@ursulin.net>
+Content-Language: fr
+From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
+Organization: Collabora Ltd
+In-Reply-To: <75cf65a0-8967-4e39-8bfe-aa284f8242b3@ursulin.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Don't claim that /dev/sr<N> device names for SCSI CD-ROM drives are
-deprecated and don't recommend /dev/scd<N> alternate names for them.
+On 20/11/2025 10:39, Tvrtko Ursulin wrote:
+> 
+> On 14/11/2025 17:02, Loïc Molinari wrote:
+>> Make use of the new drm_gem_huge_mnt_create() and
+>> drm_gem_get_huge_mnt() helpers to avoid code duplication. Now that
+>> it's just a few lines long, the single function in v3d_gemfs.c is
+>> moved into v3d_gem.c.
+>>
+>> v3:
+>> - use huge tmpfs mountpoint in drm_device
+>> - move v3d_gemfs.c into v3d_gem.c
+>>
+>> v4:
+>> - clean up mountpoint creation error handling
+>>
+>> v5:
+>> - fix CONFIG_TRANSPARENT_HUGEPAGE check
+>> - use drm_gem_has_huge_mnt() helper
+>>
+>> v8:
+>> - don't access huge_mnt field with CONFIG_TRANSPARENT_HUGEPAGE=n
+>>
+>> v9:
+>> - replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
+>>
+>> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+>> ---
+>>   drivers/gpu/drm/v3d/Makefile    |  3 +-
+>>   drivers/gpu/drm/v3d/v3d_bo.c    |  9 +++--
+>>   drivers/gpu/drm/v3d/v3d_drv.c   |  2 +-
+>>   drivers/gpu/drm/v3d/v3d_drv.h   | 11 +-----
+>>   drivers/gpu/drm/v3d/v3d_gem.c   | 27 ++++++++++++--
+>>   drivers/gpu/drm/v3d/v3d_gemfs.c | 62 ---------------------------------
+>>   6 files changed, 34 insertions(+), 80 deletions(-)
+>>   delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+>>
+>> diff --git a/drivers/gpu/drm/v3d/Makefile b/drivers/gpu/drm/v3d/Makefile
+>> index fcf710926057..b7d673f1153b 100644
+>> --- a/drivers/gpu/drm/v3d/Makefile
+>> +++ b/drivers/gpu/drm/v3d/Makefile
+>> @@ -13,8 +13,7 @@ v3d-y := \
+>>       v3d_trace_points.o \
+>>       v3d_sched.o \
+>>       v3d_sysfs.o \
+>> -    v3d_submit.o \
+>> -    v3d_gemfs.o
+>> +    v3d_submit.o
+>>   v3d-$(CONFIG_DEBUG_FS) += v3d_debugfs.o
+>> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+>> index d9547f5117b9..211578abf9b6 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_bo.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
+>> @@ -114,7 +114,7 @@ v3d_bo_create_finish(struct drm_gem_object *obj)
+>>       if (IS_ERR(sgt))
+>>           return PTR_ERR(sgt);
+>> -    if (!v3d->gemfs)
+>> +    if (!drm_gem_get_huge_mnt(obj->dev))
+>>           align = SZ_4K;
+>>       else if (obj->size >= SZ_1M)
+>>           align = SZ_1M;
+>> @@ -150,12 +150,15 @@ struct v3d_bo *v3d_bo_create(struct drm_device 
+>> *dev, struct drm_file *file_priv,
+>>                    size_t unaligned_size)
+>>   {
+>>       struct drm_gem_shmem_object *shmem_obj;
+>> -    struct v3d_dev *v3d = to_v3d_dev(dev);
+>>       struct v3d_bo *bo;
+>>       int ret;
+>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>       shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
+>> -                          v3d->gemfs);
+>> +                          dev->huge_mnt);
+>> +#else
+>> +    shmem_obj = drm_gem_shmem_create(dev, unaligned_size);
+>> +#endif
+> 
+> Don't you want to use the same pattern not requiring #ifdef as you did 
+> in i915?
 
-/dev/scd<N> device names for SCSI CD-ROM drives are not in use for more
-than a decade, see commit [1] that was a part of udev release 174.
-Earlier related rules were volatile, sometimes /dev/scd<N> were syminks
-to /dev/sr<N>, sometimes vice versa.
+Yes, I'm going to propose a v10 doing so.
 
-Recognizing of root=/dev/scd<N> kernel command line argument was removed
-in kernel 2.5.45 [2].
+> The rest looks good to me on a glance. Only functional change appears to 
+> be that you are adding a new error message, scrolling down..
+> 
+>>       if (IS_ERR(shmem_obj))
+>>           return ERR_CAST(shmem_obj);
+>>       bo = to_v3d_bo(&shmem_obj->base);
+>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/ 
+>> v3d_drv.c
+>> index e8a46c8bad8a..8faa9382846f 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+>> @@ -107,7 +107,7 @@ static int v3d_get_param_ioctl(struct drm_device 
+>> *dev, void *data,
+>>           args->value = v3d->perfmon_info.max_counters;
+>>           return 0;
+>>       case DRM_V3D_PARAM_SUPPORTS_SUPER_PAGES:
+>> -        args->value = !!v3d->gemfs;
+>> +        args->value = !!drm_gem_get_huge_mnt(dev);
+>>           return 0;
+>>       case DRM_V3D_PARAM_GLOBAL_RESET_COUNTER:
+>>           mutex_lock(&v3d->reset_lock);
+>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/ 
+>> v3d_drv.h
+>> index 1884686985b8..99a39329bb85 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+>> @@ -158,11 +158,6 @@ struct v3d_dev {
+>>       struct drm_mm mm;
+>>       spinlock_t mm_lock;
+>> -    /*
+>> -     * tmpfs instance used for shmem backed objects
+>> -     */
+>> -    struct vfsmount *gemfs;
+>> -
+>>       struct work_struct overflow_mem_work;
+>>       struct v3d_queue_state queue[V3D_MAX_QUEUES];
+>> @@ -569,6 +564,7 @@ extern const struct dma_fence_ops v3d_fence_ops;
+>>   struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum 
+>> v3d_queue q);
+>>   /* v3d_gem.c */
+>> +extern bool super_pages;
+>>   int v3d_gem_init(struct drm_device *dev);
+>>   void v3d_gem_destroy(struct drm_device *dev);
+>>   void v3d_reset_sms(struct v3d_dev *v3d);
+>> @@ -576,11 +572,6 @@ void v3d_reset(struct v3d_dev *v3d);
+>>   void v3d_invalidate_caches(struct v3d_dev *v3d);
+>>   void v3d_clean_caches(struct v3d_dev *v3d);
+>> -/* v3d_gemfs.c */
+>> -extern bool super_pages;
+>> -void v3d_gemfs_init(struct v3d_dev *v3d);
+>> -void v3d_gemfs_fini(struct v3d_dev *v3d);
+>> -
+>>   /* v3d_submit.c */
+>>   void v3d_job_cleanup(struct v3d_job *job);
+>>   void v3d_job_put(struct v3d_job *job);
+>> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/ 
+>> v3d_gem.c
+>> index 5a180dc6c452..62532a89dd14 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+>> @@ -259,6 +259,30 @@ v3d_invalidate_caches(struct v3d_dev *v3d)
+>>       v3d_invalidate_slices(v3d, 0);
+>>   }
+>> +static void
+>> +v3d_huge_mnt_init(struct v3d_dev *v3d)
+>> +{
+>> +    int err = 0;
+>> +
+>> +    /*
+>> +     * By using a huge shmemfs mountpoint when the user wants to
+>> +     * enable Super Pages, we can pass in mount flags that better
+>> +     * match our usecase.
+>> +     */
+>> +
+>> +    if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && super_pages)
+>> +        err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+>> +
+>> +    if (drm_gem_get_huge_mnt(&v3d->drm))
+>> +        drm_info(&v3d->drm, "Using Transparent Hugepages\n");
+>> +    else if (err)
+>> +        drm_warn(&v3d->drm, "Can't use Transparent Hugepages (%d)\n",
+>> +             err);
+> 
+> .. here, but that looks acceptable to me.
 
-In the docs /dev/scd<N> are recommended names since 2.6.9 [3].
-Mention of these names appeared much earlier in 1.3.22 [4].
+It logs a warning instead of the notice below in case of error at huge 
+mounpoint creation. Looks acceptable to me too. I'd be happy to get the 
+point of view of a V3D maintainer as well here.
 
-[1] https://git.kernel.org/pub/scm/linux/hotplug/udev.git/commit/?id=d132be4d58
-    2011-08-12 14:05:19 +0200 Kay Sievers.
-    rules: remove legacy rules for cdrom and usb printer
+Regards,
 
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/init?h=v2.5.45&id=51924607bd
-    2002-10-29 00:47:58 -0800 Alexander Viro.
-    [PATCH] removal of root_dev_names[]
+Loïc
 
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/diff/Documentation/devices.txt?h=v2.6.9-rc4&id=a74e11ffeda
-    2004-03-16 15:09:38 -0800 Andrew Morton:
-    [PATCH] devices.txt: typos and removal of dead devices
-
-[4] https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/tree/Documentation/devices.txt?h=v2.6.9-rc4&id=8f0ec1f9369
-    Linus Torvalds: Import 1.3.22
-
-Signed-off-by: Max Nikulin <manikulin@gmail.com>
-
----
-
-I hope, the suggested changes make kernel docs more close to reality.
-
-During discussion of a bug in wodim (a fork of cdrecord) I was confused
-that docs recommend /dev/scd<N> as SCSI CD-ROM name. The following
-thread did not clarify the issue:
-
-https://lore.kernel.org/lkml/20061105100926.GA2883@pelagius.h-e-r-e-s-y.com/
-Scsi cdrom naming confusion; sr or scd? Sun, 5 Nov 2006 10:09:26 +0000
-
-If I'm not mistaken, "sr" was always used internally in the driver
-"scd" were limited to log strings. I have added SCSI subsystem to CC
-to confirm that there is no objection from their side.
-
-It seems, de-facto /dev/sr<N> names are used and I think, /dev/scd<N>
-should be avoided. I may be completely wrong though.
-
-I wouldn't mind if you discard this patch and to commit another one
-with better wording instead.
----
- Documentation/admin-guide/devices.rst | 4 +++-
- Documentation/admin-guide/devices.txt | 6 +++---
- 2 files changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/devices.rst b/Documentation/admin-guide/devices.rst
-index e3776d77374b..515338d0e406 100644
---- a/Documentation/admin-guide/devices.rst
-+++ b/Documentation/admin-guide/devices.rst
-@@ -97,9 +97,11 @@ It is recommended that these links exist on all systems:
- /dev/bttv0	video0		symbolic	Backward compatibility
- /dev/radio	radio0		symbolic	Backward compatibility
- /dev/i2o*	/dev/i2o/*	symbolic	Backward compatibility
--/dev/scd?	sr?		hard		Alternate SCSI CD-ROM name
- =============== =============== =============== ===============================
- 
-+Usage of ``/dev/scd?`` as alternate SCSI CD-ROM names for ``sr?`` devices
-+ended around year 2011.
-+
- Locally defined links
- +++++++++++++++++++++
- 
-diff --git a/Documentation/admin-guide/devices.txt b/Documentation/admin-guide/devices.txt
-index 94c98be1329a..c480f230aa4a 100644
---- a/Documentation/admin-guide/devices.txt
-+++ b/Documentation/admin-guide/devices.txt
-@@ -389,11 +389,11 @@
- 		    ...
- 
-   11 block	SCSI CD-ROM devices
--		  0 = /dev/scd0		First SCSI CD-ROM
--		  1 = /dev/scd1		Second SCSI CD-ROM
-+		  0 = /dev/sr0		First SCSI CD-ROM
-+		  1 = /dev/sr1		Second SCSI CD-ROM
- 		    ...
- 
--		The prefix /dev/sr (instead of /dev/scd) has been deprecated.
-+		In the past the prefix /dev/scd (instead of /dev/sr) was used and even recommended.
- 
-   12 char	QIC-02 tape
- 		  2 = /dev/ntpqic11	QIC-11, no rewind-on-close
--- 
-2.39.5
+> Regards,
+> 
+> Tvrtko
+> 
+>> +    else
+>> +        drm_notice(&v3d->drm,
+>> +               "Transparent Hugepage support is recommended for 
+>> optimal performance on this platform!\n");
+>> +}
+>> +
+>>   int
+>>   v3d_gem_init(struct drm_device *dev)
+>>   {
+>> @@ -310,7 +334,7 @@ v3d_gem_init(struct drm_device *dev)
+>>       v3d_init_hw_state(v3d);
+>>       v3d_mmu_set_page_table(v3d);
+>> -    v3d_gemfs_init(v3d);
+>> +    v3d_huge_mnt_init(v3d);
+>>       ret = v3d_sched_init(v3d);
+>>       if (ret) {
+>> @@ -330,7 +354,6 @@ v3d_gem_destroy(struct drm_device *dev)
+>>       enum v3d_queue q;
+>>       v3d_sched_fini(v3d);
+>> -    v3d_gemfs_fini(v3d);
+>>       /* Waiting for jobs to finish would need to be done before
+>>        * unregistering V3D.
+>> diff --git a/drivers/gpu/drm/v3d/v3d_gemfs.c b/drivers/gpu/drm/v3d/ 
+>> v3d_gemfs.c
+>> deleted file mode 100644
+>> index bf351fc0d488..000000000000
+>> --- a/drivers/gpu/drm/v3d/v3d_gemfs.c
+>> +++ /dev/null
+>> @@ -1,62 +0,0 @@
+>> -// SPDX-License-Identifier: GPL-2.0+
+>> -/* Copyright (C) 2024 Raspberry Pi */
+>> -
+>> -#include <linux/fs.h>
+>> -#include <linux/mount.h>
+>> -#include <linux/fs_context.h>
+>> -
+>> -#include <drm/drm_print.h>
+>> -
+>> -#include "v3d_drv.h"
+>> -
+>> -void v3d_gemfs_init(struct v3d_dev *v3d)
+>> -{
+>> -    struct file_system_type *type;
+>> -    struct fs_context *fc;
+>> -    struct vfsmount *gemfs;
+>> -    int ret;
+>> -
+>> -    /*
+>> -     * By creating our own shmemfs mountpoint, we can pass in
+>> -     * mount flags that better match our usecase. However, we
+>> -     * only do so on platforms which benefit from it.
+>> -     */
+>> -    if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
+>> -        goto err;
+>> -
+>> -    /* The user doesn't want to enable Super Pages */
+>> -    if (!super_pages)
+>> -        goto err;
+>> -
+>> -    type = get_fs_type("tmpfs");
+>> -    if (!type)
+>> -        goto err;
+>> -
+>> -    fc = fs_context_for_mount(type, SB_KERNMOUNT);
+>> -    if (IS_ERR(fc))
+>> -        goto err;
+>> -    ret = vfs_parse_fs_string(fc, "source", "tmpfs");
+>> -    if (!ret)
+>> -        ret = vfs_parse_fs_string(fc, "huge", "within_size");
+>> -    if (!ret)
+>> -        gemfs = fc_mount_longterm(fc);
+>> -    put_fs_context(fc);
+>> -    if (ret)
+>> -        goto err;
+>> -
+>> -    v3d->gemfs = gemfs;
+>> -    drm_info(&v3d->drm, "Using Transparent Hugepages\n");
+>> -
+>> -    return;
+>> -
+>> -err:
+>> -    v3d->gemfs = NULL;
+>> -    drm_notice(&v3d->drm,
+>> -           "Transparent Hugepage support is recommended for optimal 
+>> performance on this platform!\n");
+>> -}
+>> -
+>> -void v3d_gemfs_fini(struct v3d_dev *v3d)
+>> -{
+>> -    if (v3d->gemfs)
+>> -        kern_unmount(v3d->gemfs);
+>> -}
+> 
 
