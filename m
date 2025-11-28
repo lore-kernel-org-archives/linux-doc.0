@@ -1,458 +1,158 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE182853EF
-	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 18:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26B826E6F6;
+	Fri, 28 Nov 2025 18:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764355810; cv=none; b=f51OfE+0D4Q6KohJdfK2HR5FQ7BRUKZM7FxuO+HpHYMF4BM0BWFLxNI+LKOXKruop2SFbJrOK4q6AXT5BuU4GRP8jDGlz7nGAiyThiH7V07df3vD/+Xsigi5g3T83wt967YsGuNsjYw8CQSGDzJ+6ZTCrEOuFB+N1CDcUPu46HU=
+	t=1764355979; cv=none; b=U+C2h9KK2Fgxbe6uAxANZP78CiTBMTFgnMDPMm9Rwi+2+fZBvLMKWDzLf560t08tiIjQcfzWK/9Y6pxkHRQd0ZKSvKZApdgN+0RVymtJXSnf0ElUFv3UUXiEgyCSg4mG3vXAmWJxGEgzjP5/bzNP2CY2Vifa1Ttopfsit60rbnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764355810; c=relaxed/simple;
-	bh=/h8yBxablWPek+7hHxFXlQhCloZaZBbzt6CtKnqg49U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QbHzY1ruhMNszD4hcfIgE+0XKysWXRsHEZCrhoZuzknHQLJp1gVKa9j5z0r5RkZSMa0LRjy+EfMcFMFl6GjnZWzgHG7a91y3YFZ06XIP/OLDPM21PXoDIIZUut332HNvl9pJoGsIgGWizeGv3ZsoxgzLRHJ0G9h5Gp2fZmATSPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZLUQgNlF; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764355979; c=relaxed/simple;
+	bh=WD36yCxm800Ndq23SY+nTSX2Y6Dfp74xDdJZVIewpxU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kFhiWls1CfqZoJ+jrwfLazUq+DKioSCTm0S3X6C/a/4IS4ghXZxUXNPITnmou8XxRZebn3kJSwDMOSOHXbgZoQvbt+5fjgHzlB1bmCYAJG23FA7QePDXzr8MmTgX0/gXe7a0/FJAQ8PcHnkiV8g5+kMnb5s/SPPpzrxcNEFxweU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TwiCC++P; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZLUQgNlF"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b7291af7190so343694566b.3
-        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 10:50:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764355805; x=1764960605; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WX7GZ7QIiC0YJ3z3A28BFLchPllyieUl7kC9JuxEexI=;
-        b=ZLUQgNlFXiLH6Rlo7oZ0ws+ftdsP+cuH7kkzkn38g6xObqeiZBQ3c/QhiKOxpeDi+O
-         2u5lUiIXOY/6mEIhrheLGBi6VDXNmm/WIXDaAjgifdVLyB63XaBRRPbtJP6u8fBIijNr
-         p3l6OoImDwHrdXRU4yk7z2XtyuKDFaI/xgwUD8cooasj3FeIPC7SYxB9PqMVgrh5SXNV
-         gYYuStITzxHWBNnLc1bjUYHwGFpAN+diIu4Lu9IOOHwQl/4BauLfGSmdBX6Ul2Hy5u7A
-         WuYm2XDglEsERBAMetrm9k58jCfqgk3OalK0ZOQeWijqlcTZyFf7wGWk7Rv6s/FvFlYs
-         4ZHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764355805; x=1764960605;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WX7GZ7QIiC0YJ3z3A28BFLchPllyieUl7kC9JuxEexI=;
-        b=FWskTlvx8yL7lHC+tB/dYIj+/mOaVodLkW1Swp2fGaLLTLzAyIFbKFo4T+N+gZsIBu
-         ddlz8GaggQGg7RRS8E7+ZvV+9oZu9Ov7y43hlltpTm7qv/87IrMmgsPAsmRGOa9JtmdC
-         JtiLIw3DHJUlJXeOxkWdtFdPgu8vZIpj/5YRaWH6OjOSFk/7GMHHVIPMmM55QQBcEclh
-         HKh6/xP30xNPiKDuKlGQDOU3Ut0WfM30Wc0d1CakinGzH/NZnk+PurxW1tln664tm9do
-         A+DEx74IkuVPJuWJUTJacVAGpE1+I+VSRCLsxqo8lqLLX++Jl9qTuWkFC8EcfXceFWof
-         QDCA==
-X-Forwarded-Encrypted: i=1; AJvYcCVRrwfQqyzoAfXZjcFluYzkOxanZ/sfW5CMlo85Dua+1sYw/pBQfqGtB/F5lpBvvZXSZnr7i/gMDOE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPqth54M/WHl8vupJ8ggC1NJHqNJ4YS5+DWU0UohALgFdB/yDw
-	kdDxLDo0Sg7C5tVb58mAu5zWrm3dWPGrTnyX2wNQekre0ngFmUb4+pCF
-X-Gm-Gg: ASbGncvi/uZ6a1e/h20PFriRr6ZkIVQicX3AM2Ax3z++LNlw0XdwVBZR0IsVhyPrFs/
-	VxI3342DyDJDq0GLsV9hLl/sqQVqsK7ZGlHham474963b6QUrf7GeeMrlRThdT7z0MP8DX9TYDt
-	ycr1IRCTKEUJQ/gVLn/ulkKmBijVeEKcv9SvjHmrRvC0ZA0TD0Ko9RJItvjNfQe0S2rT+KtnIy1
-	2degKjFTAruBcLNwy78KL0joRfmiamd7hYufrjR+cYLYPuyqwt08ylIgydq3/jnn/SIghG29g42
-	qlsFzQTZb1Pd72bVOiOlgJzIcXqa9qVT8Qo/dG0zcCbB4LckPAoZ25z2KGmwQkyQWMlEdiLzZJR
-	3upOnp4ecR1m8dAXqgmB4TaXn6xP10eLILqgWhIgYs3ik6rYfWnqJ6XsanRB5Ff7fu1lutzjIGw
-	RZ2k3rQ1zwm+Khr9VeImQuZ0l79mqi7fVVNbPY78KW1BM0G+0wJ4MJhgddG/pnzS4fk8U=
-X-Google-Smtp-Source: AGHT+IEfDY4uJ23hVVMVaAzxQghRjOMG1yRqhMDfjHc9KdSb/oNvxNcfvVZLVHw5LrgA3lbTv/qKSQ==
-X-Received: by 2002:a17:907:d93:b0:b73:3028:93a1 with SMTP id a640c23a62f3a-b767150b284mr2641160466b.9.1764355804992;
-        Fri, 28 Nov 2025 10:50:04 -0800 (PST)
-Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:123e:4501:6960:7067:c8e2:c770])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f516416esm518395066b.4.2025.11.28.10.50.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 10:50:04 -0800 (PST)
-Date: Fri, 28 Nov 2025 19:50:02 +0100
-From: Jorge Marques <gastmaier@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Jorge Marques <jorge.marques@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 3/9] iio: adc: Add support for ad4062
-Message-ID: <zryqws2h2i4duejczo2rptwhlzhile7fa7brriqh2hmtarwjxn@cr2cyzymwpav>
-References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
- <20251124-staging-ad4062-v2-3-a375609afbb7@analog.com>
- <aSQxiSoZcI_ol3S5@smile.fi.intel.com>
- <aslj3klmv6heyyhgltzewkdze5p4c3hlkzfbxbfnzwwgd375gv@m6iqpst5sv6b>
- <aSgSsGSUuBtMOuro@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TwiCC++P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764355975;
+	bh=WD36yCxm800Ndq23SY+nTSX2Y6Dfp74xDdJZVIewpxU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TwiCC++Pni7IhbdyhG9ZbpFYU3WqbcUKlKSjjADby2QBkkmwJoHO2oNAZnXJXYSzv
+	 q2Tkefz/pJabozGQNqIq6j4DFtTLAvMXzIKfsDYJnPTBwJCZIj7aiGT9TQHunG77GR
+	 tjjQA+JDtkzmmZ9m2LWuuxJ6w5ebrsmFQThZbeLbwypAUj6U9tpnhtoPMGJkbdcxNF
+	 nqcjMiXymVn2oqMAnLmrWuHsmmlxAovjuZUhAqEkqRFmVchIdM2Rq8JkGQK0Id94Nj
+	 SGtdHk+Yas5llMVc4hFz2ULam/906T3mbJ3xvsJbwBido/Z38TS8KLU3ZRS4BqGyW/
+	 QQw630VZ/tDmw==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:2e0:4cff:fe03:d8c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DA56C17E10F3;
+	Fri, 28 Nov 2025 19:52:54 +0100 (CET)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Melissa Wen <mwen@igalia.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Nitin Gote <nitin.r.gote@intel.com>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christopher Healy <healych@amazon.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	kernel@collabora.com
+Subject: [PATCH v10 00/10] drm: Reduce page tables overhead with THP
+Date: Fri, 28 Nov 2025 19:52:42 +0100
+Message-ID: <20251128185252.3092-1-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aSgSsGSUuBtMOuro@smile.fi.intel.com>
 
-On Thu, Nov 27, 2025 at 10:58:24AM +0200, Andy Shevchenko wrote:
-> On Wed, Nov 26, 2025 at 12:40:00PM +0100, Jorge Marques wrote:
-> > On Mon, Nov 24, 2025 at 12:20:57PM +0200, Andy Shevchenko wrote:
-> > > On Mon, Nov 24, 2025 at 10:18:02AM +0100, Jorge Marques wrote:
-> 
-> ...
-> 
-> > > > +#define AD4062_MON_VAL_MAX_GAIN		1999970
-> > > 
-> > > This is decimal...
-> > > 
-> > > > +#define AD4062_MON_VAL_MIDDLE_POINT	0x8000
-> > > 
-> > > ...and this is hexadecimal. Can you make these consistent?
-> > > Also, is there any explanation of the number above? To me
-> > > it looks like 2000000 - 30. Is it so? Or is this a fraction
-> > > number multiplied by 1000000 or so? In any case some elaboration
-> > > would be good to have.
-> > > 
-> > Since this is not a magic number, I will use directly below.
-> > It MAX_MON_VAL/MON_VAL_MIDDLE_POINT = 0xFFFF/0x8000
-> 
-> Okay, at least it will explain the value.
-> 
-> ...
-> 
-> > > > +	if (val < 1 || val > BIT(st->chip->max_avg + 1))
-> > > 
-> > > in_range() ?
-> > > 
-> > > 	in_range(val, 1, GENMASK(st->chip->max_avg, 0))
-> > > 
-> > > if I am not mistaken. Also note, the GENMASK() approach makes possible
-> > > to have all 32 bits set, however it's most unlikely to happen here anyway.
-> > > 
-> > Sure, but requires locals to not trigger suspicious usage of sizeof.
-> >   	// ...
-> >   	const u32 _max = GENMASK(st->chip->max_avg, 0);
-> >   	const u32 _min = 1;
-> >   	int ret;
-> >   
-> >   	if (in_range(val, _min, _max))
-> > > > +		return -EINVAL;
-> 
-> It's fine.
-> 
-> ...
-> 
-> > > > +static int ad4062_calc_sampling_frequency(int fosc, unsigned int n_avg)
-> > > > +{
-> > > > +	/* See datasheet page 31 */
-> > > > +	u64 duration = div_u64((u64)(n_avg - 1) * NSEC_PER_SEC, fosc) + AD4062_TCONV_NS;
-> > > > +
-> > > > +	return DIV_ROUND_UP_ULL(NSEC_PER_SEC, duration);
-> > > 
-> > > Why u64?
-> > > 
-> > > The DIV_ROUND_UP_ULL() seems an overkill here. Or do you expect duration be
-> > > more than 4 billions?
-> > > 
-> > This is necessary since at fosc 111 Hz and avg 4096 it does take longer
-> > than 4 seconds, even though I do timeout after 1 seconds in the raw
-> > acquisition.
-> 
-> Values above NSEC_PER_SEC+1 do not make sense (it will return 0),
-> and that fits u32. Can you refactor to avoid 64-bit arithmetics?
->
+This series aims to reduce the page tables overhead of DRM drivers for
+builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
+knob '/sys/kernel/mm/transparent_hugepage/shmem_enabled' appropriately
+set or drivers using a dedicated huge tmpfs mount point.
 
-Ok, any frequency lower than 1 Hz does not make sense.
+It starts by checking whether a faulty address in the page fault
+handler is part of a huge page in order to attempt a PMD sized PFN
+insertion into the VMA. It then introduces a dedicated
+get_unmapped_area file operation on the DRM file descriptor for GEM
+objects to get the best virtual address alignment for the underlying
+shmem buffers.
 
-  static int ad4062_calc_sampling_frequency(int fosc, unsigned int oversamp_ratio)
-  {
-  	/* See datasheet page 31 */
-  	u32 period = NSEC_PER_SEC / fosc;
-  	u32 n_avg = BIT(oversamp_ratio) - 1;
-  
-  	/* Result is less than 1 Hz */
-  	if (n_avg >= fosc)
-  		return 1;
-  	return NSEC_PER_SEC / (n_avg * period + AD4062_TCONV_NS);
-  }
+The remaining commits propose shmem helpers to create and release huge
+tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
+then used to optionally enable Transparent Hugepage for Panfrost and
+Panthor.
 
-> > > > +}
-> 
-> ...
-> 
-> > > > +static int ad4062_soft_reset(struct ad4062_state *st)
-> > > > +{
-> > > > +	u8 val = AD4062_SOFT_RESET;
-> > > > +	int ret;
-> > > > +
-> > > > +	ret = regmap_write(st->regmap, AD4062_REG_INTERFACE_CONFIG_A, val);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	/* Wait AD4062 treset time */
-> > > > +	fsleep(5000);
-> > > 
-> > > 5 * USEC_PER_MSEC
-> > > 
-> > > This gives a hint on the units without even a need to comment or look somewhere
-> > > else.
-> > >
-> > // TODO
-> > Since the device functional blocks are powered when voltage is supplied,
-> > here we can stick with the treset datasheet value 60ns (ndelay(60)).
-> 
-> Add a comment and it will work for me, thanks!
-> 
-> > > > +	return 0;
-> > > > +}
-> 
-> ...
-> 
-> > > > +static const int ad4062_oversampling_avail[] = {
-> > > > +	1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096,
-> > > 
-> > > It's not easy to count them at glance, please add a comment with indices.
-> > > 
-> > Ack, will use
-> >   static const int ad4062_oversampling_avail[] = {
-> >           BIT(0), BIT(1), BIT(2), BIT(3), BIT(4), BIT(5), BIT(6), BIT(7), BIT(8),
-> >   	BIT(9), BIT(10), BIT(11), BIT(12),
-> >   };
-> 
-> Of course you can use bit notations, but what I meant is to have
-> 
-> 	1, 2, 4, 8, 16, 32, 64, 128,		/*  0 -  7 */
-> 	256, 512, 1024, 2048, 4096,		/*  8 - 12 */
-> 
-> (or something alike).
-> 
-Ack
-> > > > +};
-> 
-> ...
-> 
-> > > > +static int ad4062_get_chan_calibscale(struct ad4062_state *st, int *val, int *val2)
-> > > > +{
-> > > > +	u16 gain;
-> > > > +	int ret;
-> > > > +
-> > > > +	ret = regmap_bulk_read(st->regmap, AD4062_REG_MON_VAL,
-> > > > +			       &st->buf.be16, sizeof(st->buf.be16));
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	gain = get_unaligned_be16(st->buf.bytes);
-> > > > +
-> > > > +	/* From datasheet: code out = code in ◊ mon_val/0x8000 */
-> > > > +	*val = gain / AD4062_MON_VAL_MIDDLE_POINT;
-> > > 
-> > > > +	*val2 = mul_u64_u32_div(gain % AD4062_MON_VAL_MIDDLE_POINT, NANO,
-> > > > +				AD4062_MON_VAL_MIDDLE_POINT);
-> > > 
-> > > I don't see the need for 64-bit division. Can you elaborate what I miss here?
-> > > 
-> > > > +	return IIO_VAL_INT_PLUS_NANO;
-> > > > +}
-> > > 
-> > Can be improved to
-> > 
-> >   static int ad4062_get_chan_calibscale(struct ad4062_state *st, int *val, int *val2)
-> >   {
-> >   	int ret;
-> >   
-> >   	ret = regmap_bulk_read(st->regmap, AD4062_REG_MON_VAL,
-> >   			       &st->buf.be16, sizeof(st->buf.be16));
-> >   	if (ret)
-> >   		return ret;
-> >   
-> >   	/* From datasheet: code out = code in ◊ mon_val/0x8000 */
-> >   	*val = get_unaligned_be16(st->buf.bytes) * 2;
-> >   	*val2 = 16;
-> >   
-> >   	return IIO_VAL_FRACTIONAL_LOG2;
-> >   }
-> 
-> Much better, thanks!
-> 
-> ...
-> 
-> > > > +static int ad4062_set_chan_calibscale(struct ad4062_state *st, int gain_int, int gain_frac)
-> > > 
-> > > Forgot to wrap this line.
-> > > 
-> > ack
-> > > > +{
-> > > > +	u64 gain;
-> > > > +	int ret;
-> > > > +
-> > > > +	if (gain_int < 0 || gain_frac < 0)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	gain = mul_u32_u32(gain_int, MICRO) + gain_frac;
-> > > 
-> > > > +
-> > > 
-> > > Redundant blank line.
-> > > 
-> > Ack.
-> > > > +	if (gain > AD4062_MON_VAL_MAX_GAIN)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	put_unaligned_be16(DIV_ROUND_CLOSEST_ULL(gain * AD4062_MON_VAL_MIDDLE_POINT,
-> > > > +						 MICRO),
-> > > > +			   st->buf.bytes);
-> > > 
-> > > Also in doubt here about 64-bit division.
-> > > 
-> > This can be slightly improved to
-> > 
-> >   static int ad4062_set_chan_calibscale(struct ad4062_state *st, int gain_int,
-> >   				      int gain_frac)
-> >   {
-> >   	u32 gain;
-> >   	int ret;
-> >   
-> >   	if (gain_int < 0 || gain_frac < 0)
-> >   		return -EINVAL;
-> >   
-> >   	gain = gain_int * MICRO + gain_frac;
-> >   	if (gain > 1999970)
-> 
-> But this magic should be changed to what you explained to me
-> (as in 0xffff/0x8000 with the proper precision, and this
->  can be done in 32-bit space).
-> 
-> Or even better
-> 
-> 	if (gain_int < 0 || gain_int > 1)
-> 		return -EINVAL;
-> 
-> 	if (gain_int == 1 && gain_frac > 0x7fff) // did I get this right?
-> 		return -EINVAL;
-> 
-gain_frac would be 999999 max, or 999970 for the limit that fits in the
-register after the math. I think > 1.999.970 is self explanatory.
-> >   		return -EINVAL;
-> >   
-> >   	put_unaligned_be16(DIV_ROUND_CLOSEST_ULL((u64)gain * AD4062_MON_VAL_MIDDLE_POINT,
-> >   						 MICRO),
-> 
-> ...with temporary variable at minimum.
-> 
-> But again, I still don't see the need for 64-bit space.
-> 
+For Panthor on a Rock 5B, this series makes the first memcpy() to an
+entire BO object mapped in userspace about twice as fast with
+Transparent Hugepage enabled.
 
-Well, by dividing mon_val and micro values by a common divisor the
-operation fit in 32-bits:
+Implementing a fault-around handler using the arm64 contiguous page
+hint (contptes) could also greatly help reduce page tables overhead
+for small pages by mapping several contiguous pages around a faulty
+address at once. This will be proposed in another patch series.
 
-  static int ad4062_set_chan_calibscale(struct ad4062_state *st, int gain_int,
-                                        int gain_frac)
-  {
-          const u32 mon_val = AD4062_MON_VAL_MIDDLE_POINT / 64;
-          const u32 micro = MICRO / 64;
-          const u32 gain = gain_int * MICRO + gain_frac;
-          int ret;
+Lo√Øc Molinari (10):
+  drm/shmem-helper: Simplify page offset calculation in fault handler
+  drm/shmem-helper: Map huge pages in fault handler
+  drm/gem: Introduce drm_gem_get_unmapped_area() fop
+  drm/gem: Add huge tmpfs mountpoint helpers
+  drm/i915: Use huge tmpfs mountpoint helpers
+  drm/v3d: Use huge tmpfs mountpoint helpers
+  drm/gem: Get rid of *_with_mnt helpers
+  drm/panthor: Introduce huge tmpfs mountpoint option
+  drm/panfrost: Introduce huge tmpfs mountpoint option
+  Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
 
-          if (gain_int < 0 || gain_frac < 0)
-                  return -EINVAL;
+ Documentation/gpu/drm-mm.rst                  |  22 +-
+ drivers/gpu/drm/drm_gem.c                     | 202 +++++++++++++-----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |  97 +++++----
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  48 +++--
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         |  71 ------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         |  14 --
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  16 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   5 -
+ drivers/gpu/drm/panfrost/panfrost_device.c    |   3 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   6 +
+ drivers/gpu/drm/panfrost/panfrost_drv.h       |   9 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  18 ++
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   2 +
+ drivers/gpu/drm/panthor/panthor_device.c      |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c         |   7 +
+ drivers/gpu/drm/panthor/panthor_drv.h         |   9 +
+ drivers/gpu/drm/panthor/panthor_gem.c         |  18 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |   2 +
+ drivers/gpu/drm/v3d/Makefile                  |   3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |   6 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  11 +-
+ drivers/gpu/drm/v3d/v3d_gem.c                 |  27 ++-
+ drivers/gpu/drm/v3d/v3d_gemfs.c               |  62 ------
+ include/drm/drm_device.h                      |  15 ++
+ include/drm/drm_gem.h                         |  40 +++-
+ include/drm/drm_gem_shmem_helper.h            |   3 -
+ 28 files changed, 432 insertions(+), 292 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
 
-          if (gain > 1999970)
-                  return -EINVAL;
+-- 
+2.47.3
 
-          put_unaligned_be16(DIV_ROUND_CLOSEST(gain * mon_val, micro), st->buf.bytes);
-
-          ret = regmap_bulk_write(st->regmap, AD4062_REG_MON_VAL,
-                                  &st->buf.be16, sizeof(st->buf.be16));
-          if (ret)
-                  return ret;
-
-          /* Enable scale if gain is not equal to one */
-          return regmap_update_bits(st->regmap, AD4062_REG_ADC_CONFIG,
-                                    AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
-                                    FIELD_PREP(AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
-                                               !(gain_int == 1 && gain_frac == 0)));
-  }
-
-
-> >   			   st->buf.bytes);
-> >   
-> >   	ret = regmap_bulk_write(st->regmap, AD4062_REG_MON_VAL,
-> >   				&st->buf.be16, sizeof(st->buf.be16));
-> >   	if (ret)
-> >   		return ret;
-> >   
-> >   	/* Enable scale if gain is not equal to one */
-> >   	return regmap_update_bits(st->regmap, AD4062_REG_ADC_CONFIG,
-> >   				  AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
-> >   				  FIELD_PREP(AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
-> >   					     !(gain_int == 1 && gain_frac == 0)));
-> >   }
-> > 
-> > To provide the enough resolution to compute every step (e.g., 0xFFFF and
-> > 0xFFFE) with the arbitrary user input.
-> 
-> ...
-> 
-> > > > +static int __ad4062_read_chan_raw(struct ad4062_state *st, int *val)
-> > > 
-> > > Can be named without leading double underscore? Preference is to use
-> > > the suffix, like _no_pm (but you can find better one).
-> > > 
-> > Since there is one usage of this method, can be merged into ad4062_read_chan_raw.
-> 
-> Good choice!
-> 
-> ...
-> 
-> > > > +	struct i3c_priv_xfer t[2] = {
-> > > > +		{
-> > > > +			.data.out = &st->reg_addr_conv,
-> > > > +			.len = sizeof(st->reg_addr_conv),
-> > > > +			.rnw = false,
-> > > > +		},
-> > > > +		{
-> > > > +			.data.in = &st->buf.be32,
-> > > > +			.len = sizeof(st->buf.be32),
-> > > > +			.rnw = true,
-> > > > +		}
-> > > > +	};
-> 
-> > > > +	/* Change address pointer to trigger conversion */
-> > > > +	ret = i3c_device_do_priv_xfers(i3cdev, &t[0], 1);
-> > > 
-> > > Why array? Just split them on per transfer and use separately. This gives a bit
-> > > odd feeling that the two goes together, but no. They are semi-related as we
-> > > have a special condition after the first one.
-> > > 
-> > For this commit sure, but in the next a fallback method is introduced
-> > for when the gp1 gpio line is not connected.
-> > There are two register to trigger and read samples:
-> > 
-> > * write CONV_READ -> read dummy value - [conversion] -> read value -> [conv ...
-> > * write CONV_TRIGGER - [conversion] -> read value -> write ...
-> > 
-> > The first allows almost twice the sampling frequency, but does not work
-> > with the fallback because In-Band-Interrupt for CONV_READ are not
-> > yielded.
-> 
-> Do you mean that the same array is reused differently? If so, then okay.
-> 
-Yes
-> > > > +	if (ret)
-> > > > +		return ret;
-> 
-> ...
-> 
-> > > > +	fsleep(4000);
-> > > 
-> > > 4 * USEC_PER_MSEC, also would be good to add a comment for this long delay.
-> > > 
-> > Will add
-> > 	/* Wait device functional blocks to power up */
-> > Based on hardware tests, I can drop to 2 * USEC_PER_MSEC, lower than
-> > that the device is not ready to switch to acquisition mode for
-> > conversions.
-> 
-> Good!
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
-Best regards,
-Jorge
