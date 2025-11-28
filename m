@@ -1,68 +1,69 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41F630F814
-	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 11:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F8F30F958
+	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 11:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764330258; cv=none; b=i/hPYV9xtXHNgWcA0zkLJYtkY9plV3mFO8z7vqxPS79Tf6Ctuhb6BkE3wal4WR6RBctzFTDJ3BrVQUbmam2LiO5bN4v8cgDPlP2hg1afXsDcF25a7OJ/ttOAdWn9xeYlSME4VtgP18pWgF/bfxUywvWmu4wnjQbwnn3YXRfMQ7k=
+	t=1764330260; cv=none; b=DbwIJmfvtRRygAlzp/aDRd71MNWr+86UlwuU2cijayvALiVynNynlLZVoxv/xrqgZfaPvfgzscMK6kMQcuGfPqweQSmEcg8/5CDOTXFW+4S2xWErg/K6mbMWG22qOT8WVE/3jaLhekVebw3Vrf9DKSrLJAHVkEblBiaN8nz/DXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764330258; c=relaxed/simple;
-	bh=0cf2sYKS2TgBzFYc/lqN/kXN1VBlxGschLMTqCaHz40=;
+	s=arc-20240116; t=1764330260; c=relaxed/simple;
+	bh=5SsNI5wfu5lgcHaZXoeNIbiqegsl+8DrxdkhAnC6fZc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=S0utP9ZFhH3IxXuYLM3N55kfQ67qg2vsG8t/eL0z++FuUIQQQxAD/zTHjj5Mr4l85VbyM6P4H0iWUh2Z4pcttKos7FFy4KY3AuJzyB4YAc21uGhi2ueUyjvhXg11+hoy2dF1xN212efLaWoX5ssWk7294dcoEMxd4vtqwyyzfeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=zK2vRFbF; arc=none smtp.client-ip=209.85.128.49
+	 In-Reply-To:To:Cc; b=GGkcjkdif5DpKzTL2PP1ybY0pq/lYD1V0ZBiJjy8G93nQ4IXkxN27QG3fLSwZTFl2nPRLRaxb0zLexLboCnsewF38mu2+g8IFRzP4r7dNxg7FuODQ1wopyQleYWPWIfNIeQukvBlEuOtr/wKzPryjy80QJm6XfHhjh7xwceZTiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=QryRi1MW; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="zK2vRFbF"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-477a2ab455fso17930415e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 03:44:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="QryRi1MW"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso14930535e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 03:44:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1764330255; x=1764935055; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1764330257; x=1764935057; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VMOh3EBYtYfHeuhJAyRcwyFC4rtu5MrYV13Tg8Gi6xw=;
-        b=zK2vRFbFL9InZcNsrqUNABaSrNTv3aeUTCdq+okGh8Ta5RJ/s+GJMsFXH0xA2WQuz4
-         4lTineQ7RipTPuyUPYZbh6JE6N33i8e05GsWvzgO+RrEhLz/QbJik87443R0cl4Rub7L
-         QfKI26vsewF8o5wzQVhXf3gYJKxsx0dYNS2f/+h9IU3scoNZe1JY7VU2LHv6xC7w8lwV
-         fJSTkxKsw+Djn3Wan8pf77GhPzBuQR0XeanryKa4fraBhgjE1jd+n5Ly2u4HFpKpowjc
-         hNmd+uub6PGWDDNf/bZaUzAxl2kuiN+6j01Oxcjp6gkidi2+trFG89l1FnAF0wfhrUNp
-         fShA==
+        bh=VmhVBdK9hHhNfy5tpBEdaPEwqaqku3n1Rc+zuO8j938=;
+        b=QryRi1MWqlxRWHkvA3oieaugv3WBMCa6ZQZ84qEx1PvWQc8anfeV2rw9EP9n15hgmp
+         CHqeCAZT7AUb9hDcWACI2HyW39mmK5L1l0JWj59t9nlyaHoK35DKX7wI04nggoHTsi5k
+         TlOCNGxUOaZKvDkwn2iiQdAHiVzbX7wAyWwZROZfVST8Rh30VHxeS1s4H+SoWONE3xFY
+         Wfx9+ZSEUPZl7csid8ByVjQLWHIT69lscOHXVZN9JR1CVefa+RLZ3LOQmj4Tcgumo7nt
+         q7BJ3Bkt9kVcuf1HbtdkCI5um0akwjM690fGgLNWNdIKbiU6MWX7FmmCGaQXroNntZDj
+         Bhsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764330255; x=1764935055;
+        d=1e100.net; s=20230601; t=1764330257; x=1764935057;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=VMOh3EBYtYfHeuhJAyRcwyFC4rtu5MrYV13Tg8Gi6xw=;
-        b=US5B2xvz9enNYHWC9bSjMsKO4szBr4sMw6jbNEFIw9gAU108kx7BQ9eUqPrRMHXsr5
-         eiMhxDvzCdv75UJxdXQ746k50y1uiOaKkkv9xNV/yUv+uMtuj2CSvHuyHW+lbjuxXOcW
-         JDsKzytGyQPgYZ3jnIcr7BqUlKAWY3pS3+W+5RwqrW+6hcB9H7Wm39F2DMqb2wA6YuBM
-         9tHIwVSR8pK1u+N81rG5XS18aJsmqkklAseR3MHJrTlybURF7g1s66JSX/1A4zdBV9NP
-         0A4cMFwUUEaE6IZXkyxSFvZ5fNQFyVoRfoJYrqq07rFz+yYFN1hlVBS50Bd+siS0XOAC
-         HgGw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQXNH4hjeOIS3W0sYw7vDka+tYezke0G4rH25TonYcVhMpblTxsY+wRUqpNq64+fk5U+u8lToIWVw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2PcbLXwPRP7kIx46Qs5thP333N50cZXoVl1bFVpOtZNqfO+qO
-	10Og4v+bVkg37KAitNAsPWEAivW6AALHZ6/AtdgEJXSrlo5lbxyzIBQBx9scwAQTkh4=
-X-Gm-Gg: ASbGncvp7PHXEuYar930/D25mlk56bBF0llWDZCWsTWPmcB29R+xyg+C0kvIP87+VoX
-	UTkPnWc+zi9ozploQODZZF2SXrnPnhF02LVmP3hCZRf14H5imSN5dntso7AxCNMzfTuQQQTMbiV
-	aBQFK0ACzArhQ3NFm0VAYxS89xJu6sTpw1cBGqEOhkdYf/bi0ewcbRelLd36RfWyAcSriEdEf9Q
-	Vko+X3Q3eRqxx3O9wPLM90pnv6DYmWmJ8OeIXJJOule29NJDB9ZVROxKD1p7hSEmPqCYBA8wlJ1
-	wo1lqFr20dPlEyYSGfwYakbDcvRhn5obgU+uJVUmtpKO1GPde6H5qJTmcizIe1ZEa0p6KswIPyV
-	Z+o+0ZsyZmTyIn3QZWkefOuW7PjpHhm8bJMJrf3GQAsQQFH0NBhK1KYNGVVbhAWsIv1gWbXni4z
-	5A/lxoMA==
-X-Google-Smtp-Source: AGHT+IHYDT8265UCPLrcHldT6Cbr99LyQV0pdk7UJQ9F9zFrQVOxHXVebZp3Vbnh7paEy79wIqESwQ==
-X-Received: by 2002:a05:600c:524c:b0:477:9976:9e1a with SMTP id 5b1f17b1804b1-477c10c887bmr261551685e9.6.1764330255054;
-        Fri, 28 Nov 2025 03:44:15 -0800 (PST)
+        bh=VmhVBdK9hHhNfy5tpBEdaPEwqaqku3n1Rc+zuO8j938=;
+        b=rxndkJAtsB9zcHFo1blcQKm1M3OUwRuxVvMeEWxIc07WSUFI6op2OljY0iT6O6xIPw
+         FmtgaW3NwGwhgwh7jwlABpVe94N+kxRZh4KExJkMsFMwpKMoj25TpKkk47Pqrz1V8FpQ
+         as9KKL0eUtqNHWv4rmBlpMfQYfGwaOveNb2oYoPCUm4CmnQmvmH9/JVrtm/l39EKqAOJ
+         zYqMJ4/4B/UU88OlBx4CdcqGOj7R4hX+PMrtqGvkdMKMZw38VtNgb93l9MOxm4ZitJqh
+         sCU9vZM2RiSzyKW2yI6l34ccbzI/4JXbx/WHXq5m0IiVZTrCtR+xbkjJ8lPXtvkiXwYd
+         /6kA==
+X-Forwarded-Encrypted: i=1; AJvYcCUcZ+BLhF0gRv65EKitI8HvDgZHI4xfnorD2q3rOzI5FCgz51YHBbJQeQusMlfNIUwd7kHN2ON2V7Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0vxbZMj6J26/w+wG0n6h9oO0hokndzl5/aEgkfQW6V0x+hvaG
+	MoSBbz00hZdBvhac0T1z0Qj4AMYHacfuuAqQerSGe06yZGhtevsWQlezZK+I+LPusBkJQnnCN0t
+	D2fTx
+X-Gm-Gg: ASbGnctGg1mMlXnYIFi/IjWab2AUgYvqBECm7jWMxlds9iW7e8mLnKe5i5ytOU7/pnB
+	XmvyN2uYhh5V5BEa9hj0JhheqAvnEpq/32Pn5IpBNV0IVuumgB+sq+STtftZHs9KunFlPmixLNc
+	bLJSDO/Qo9rheen6ACmllihYucjI1hT9K7XVWXbMac8g5fk0qmgkJKQuRq9Am9gjKBLPRdzMfYt
+	dmNnO9rICFtkgY4STx31Me3WZzdCBdo81LihgaC0xV/i218Jjo6/18S5gnVQV3sWS577cMqCNZF
+	CDQXazNefDxL5ZZQMKRj4eKO6CYwjllEO0Y+ni89tbK9ur0rum0aeXvYYGcha/7oBFfHUlQ53CG
+	UAUcUs6JdnKWy9Ay5bru7V5MsHpI/+wx3xaCpx/L4WVTwIzFKWI7gP3IN04kUfaRFNcShtMQ6Lx
+	tdFrCRxA==
+X-Google-Smtp-Source: AGHT+IH/bPNb3tVGWmJ/mGLu86EetmMP4HcttQUvxHAOsCb0caYPMCirnCTECzvOSEb1zaAT/soKMA==
+X-Received: by 2002:a05:600c:5494:b0:477:93f7:bbc5 with SMTP id 5b1f17b1804b1-477c0184c3amr265902295e9.10.1764330256743;
+        Fri, 28 Nov 2025 03:44:16 -0800 (PST)
 Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:f3c6:aa54:79d2:8979])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47906cb1f60sm89888445e9.1.2025.11.28.03.44.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47906cb1f60sm89888445e9.1.2025.11.28.03.44.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 03:44:13 -0800 (PST)
+        Fri, 28 Nov 2025 03:44:15 -0800 (PST)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 28 Nov 2025 12:44:00 +0100
-Subject: [PATCH v9 02/11] dmaengine: qcom: bam_dma: Add bam_pipe_lock flag
- support
+Date: Fri, 28 Nov 2025 12:44:01 +0100
+Subject: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
+ BAM locking
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +72,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251128-qcom-qce-cmd-descr-v9-2-9a5f72b89722@linaro.org>
+Message-Id: <20251128-qcom-qce-cmd-descr-v9-3-9a5f72b89722@linaro.org>
 References: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
 In-Reply-To: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
 To: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
@@ -87,72 +88,173 @@ Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-crypto@vger.kernel.org, 
  Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1527;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4643;
  i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=p9Va/58wF8Fjgoq2zpqVnJ+LhDyGow0rENCMKQ+9sJY=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpKYsHwzwo4ZQ+YyP3lY0RkcVBWJl0Pu9UcNY7U
- D4Ni3P7XVuJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaSmLBwAKCRAFnS7L/zaE
- wzazEACKqiqPyDSxCpX3RMA/OGSXlWSSDpAOHqGTID043zIFmbd8VLAcA1JGAHy39KfY3g+8Z72
- q8y3l+rzjCr8J0s6dCjQg+XjTUzWUv2IW5F83SSqYqfMnyO8PaQuJE1sRDxfinHSYpGzhH+Rkwm
- ZqaG0PJy9pBNZ0XsKGGe+4nzbMG+A7eOHcSDOuTFDoCvNguNoeCQN2JqGatFKvNeqfBl4S9u+dB
- dBJkA+XxRCjRcgLCAMEQS1tguTejCy9VLNDnNhrkNz3sOsBDh3029fblFvutY+aWvEx7O3fJnuo
- LzpBD5vk72+J4hUYYnxXZ/BwBgptpcDOnt/pCLG/lXh/JKMVOgMdhnDQdd9Ks44rdGh42naB2u8
- aqbhbmjW+xW4RG50P984sL7jsUJ6pWEbf+XINYRc5thLLvRBLwmNBTS/2wOXvuvHFJvqmZdhlSy
- n13XO9YvK6Gcrn1T7rpTPlCsbNfiuJTyhU0do3DWKVRESrfDV88qf6isIL/T9ETx0wr6hhAJ/nE
- ArY4fhXJdQoNytF9PBZlGegC4zRokbmOVUha9yqwoRzs/tMyHXZwt0l72Ug6w2Wo5Ax7Pre+q7K
- aMoVBsk0kWJhdmNUC1s7BRoschoGgPRx7PzqPp+znSW0Z4zYNnGOulp+3bmMmibgEpuiaTtu1xU
- v2k78Q0tTYVmEmg==
+ bh=bgfjrE+6MFW+6aVmOB3gB7d/udRvEErQgUFqpC2tACA=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpKYsHYVr6kP3v2MpJMD3MUjt+93xs4Q5OR/N4i
+ KwVVlINvBOJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaSmLBwAKCRAFnS7L/zaE
+ wxRvD/9SGzVhWyOF9I8dJDSeLS24uqlLTy2z4SKX7R/h8xESixJzPD+t+G9aB9Y4i9PHI3Fuq1s
+ he1BEkdT8/3LWdvsC6WuwdNAIXixk+HBnDqs4KyV/vig0n2ggSdCOzOoFR/1tntCtkPiM8JRUVr
+ adBzk0yunOV38MnFXFXM+A/8Odh7gzieX1cHfnJGIV0724ZqqiUFtz40y5v2eZVrBzD2mhpF+Am
+ CXQLxtq0xnYzRaukp49ciK6JYK7/9RKR5ob47keNwNBEGJAkSR6su+L26Bv99PJ0RzLtoA0l2pW
+ YGagCp5LCYTzmOENnRO+N3Pwo1zTjT2TXiMkdruToLxhT4FtZ3CcUYS7L4UkBEDWw5LdJ+5ZBZq
+ +qag9trswjADTegjZKulZmaqOL8/7im4D67vUw3yj3GNU7kIoUJR28jRCFpmne30ffDpzrsz7rM
+ SXnpng3qsx3ezkFJajadHQeQDj/ozANMo2dF8r5go07a8H1Zbx+LI7kJlNknZ3veM/08icvh11q
+ YE5kyYEwrcBJHu+ejqyR0TY8k71aV6dKn9gijmq9SmKewhmdaxNbNt/xKMVOju/djJQfoD3wYVH
+ ag+ibcBG2RXb4fM8CoyKA1gYOfx3wnXrgK7mttyHeYgMGu05Fn45U9NFdLHP0FuLY4jIMYIpnQJ
+ 8ES/g4BaDZ9+oaA==
 X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
 
 From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Extend the device match data with a flag indicating whether the IP
-supports the BAM lock/unlock feature. Set it to true on BAM IP versions
-1.4.0 and above.
+Use metadata operations in DMA descriptors to allow BAM users to pass
+additional information to the engine. To that end: define a new
+structure - struct bam_desc_metadata - as a medium and define two new
+commands: for locking and unlocking the BAM respectively. Handle the
+locking in the .attach() callback.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 ---
- drivers/dma/qcom/bam_dma.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/dma/qcom/bam_dma.c       | 59 +++++++++++++++++++++++++++++++++++++++-
+ include/linux/dma/qcom_bam_dma.h | 12 ++++++++
+ 2 files changed, 70 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
-index 8861245314b1d13c1abb78f474fd0749fea52f06..c9ae1fffe44d79c5eb59b8bbf7f147a8fa3aa0bd 100644
+index c9ae1fffe44d79c5eb59b8bbf7f147a8fa3aa0bd..d1dc80b29818897b333cd223ec7306a169cc51fd 100644
 --- a/drivers/dma/qcom/bam_dma.c
 +++ b/drivers/dma/qcom/bam_dma.c
-@@ -58,6 +58,8 @@ struct bam_desc_hw {
- #define DESC_FLAG_EOB BIT(13)
- #define DESC_FLAG_NWD BIT(12)
- #define DESC_FLAG_CMD BIT(11)
-+#define DESC_FLAG_LOCK BIT(10)
-+#define DESC_FLAG_UNLOCK BIT(9)
+@@ -30,6 +30,7 @@
+ #include <linux/module.h>
+ #include <linux/interrupt.h>
+ #include <linux/dma-mapping.h>
++#include <linux/dma/qcom_bam_dma.h>
+ #include <linux/scatterlist.h>
+ #include <linux/device.h>
+ #include <linux/platform_device.h>
+@@ -391,6 +392,8 @@ struct bam_chan {
+ 	struct list_head desc_list;
  
- struct bam_async_desc {
- 	struct virt_dma_desc vd;
-@@ -113,6 +115,7 @@ struct reg_offset_data {
- 
- struct bam_device_data {
- 	const struct reg_offset_data *reg_info;
-+	bool bam_pipe_lock;
+ 	struct list_head node;
++
++	bool bam_locked;
  };
  
- static const struct reg_offset_data bam_v1_3_reg_info[] = {
-@@ -179,6 +182,7 @@ static const struct reg_offset_data bam_v1_4_reg_info[] = {
+ static inline struct bam_chan *to_bam_chan(struct dma_chan *common)
+@@ -655,6 +658,53 @@ static int bam_slave_config(struct dma_chan *chan,
+ 	return 0;
+ }
  
- static const struct bam_device_data bam_v1_4_data = {
- 	.reg_info = bam_v1_4_reg_info,
-+	.bam_pipe_lock = true,
++static int bam_metadata_attach(struct dma_async_tx_descriptor *desc, void *data, size_t len)
++{
++	struct virt_dma_desc *vd = container_of(desc, struct virt_dma_desc, tx);
++	struct bam_async_desc *async_desc = container_of(vd, struct bam_async_desc,  vd);
++	struct bam_desc_hw *hw_desc = async_desc->desc;
++	struct bam_desc_metadata *metadata = data;
++	struct bam_chan *bchan = to_bam_chan(metadata->chan);
++	struct bam_device *bdev = bchan->bdev;
++
++	if (!data)
++		return -EINVAL;
++
++	if (metadata->op == BAM_META_CMD_LOCK || metadata->op == BAM_META_CMD_UNLOCK) {
++		if (!bdev->dev_data->bam_pipe_lock)
++			return -EOPNOTSUPP;
++
++		/* Expecting a dummy write when locking, only one descriptor allowed. */
++		if (async_desc->num_desc != 1)
++			return -EINVAL;
++	}
++
++	switch (metadata->op) {
++	case BAM_META_CMD_LOCK:
++		if (bchan->bam_locked)
++			return -EBUSY;
++
++		hw_desc->flags |= DESC_FLAG_LOCK;
++		bchan->bam_locked = true;
++		break;
++	case BAM_META_CMD_UNLOCK:
++		if (!bchan->bam_locked)
++			return -EPERM;
++
++		hw_desc->flags |= DESC_FLAG_UNLOCK;
++		bchan->bam_locked = false;
++		break;
++	default:
++		return -EOPNOTSUPP;
++	}
++
++	return 0;
++}
++
++static struct dma_descriptor_metadata_ops bam_metadata_ops = {
++	.attach = bam_metadata_attach,
++};
++
+ /**
+  * bam_prep_slave_sg - Prep slave sg transaction
+  *
+@@ -671,6 +721,7 @@ static struct dma_async_tx_descriptor *bam_prep_slave_sg(struct dma_chan *chan,
+ 	void *context)
+ {
+ 	struct bam_chan *bchan = to_bam_chan(chan);
++	struct dma_async_tx_descriptor *tx_desc;
+ 	struct bam_device *bdev = bchan->bdev;
+ 	struct bam_async_desc *async_desc;
+ 	struct scatterlist *sg;
+@@ -732,7 +783,12 @@ static struct dma_async_tx_descriptor *bam_prep_slave_sg(struct dma_chan *chan,
+ 		} while (remainder > 0);
+ 	}
+ 
+-	return vchan_tx_prep(&bchan->vc, &async_desc->vd, flags);
++	tx_desc = vchan_tx_prep(&bchan->vc, &async_desc->vd, flags);
++	if (!tx_desc)
++		return NULL;
++
++	tx_desc->metadata_ops = &bam_metadata_ops;
++	return tx_desc;
+ }
+ 
+ /**
+@@ -1372,6 +1428,7 @@ static int bam_dma_probe(struct platform_device *pdev)
+ 	bdev->common.device_terminate_all = bam_dma_terminate_all;
+ 	bdev->common.device_issue_pending = bam_issue_pending;
+ 	bdev->common.device_tx_status = bam_tx_status;
++	bdev->common.desc_metadata_modes = DESC_METADATA_CLIENT;
+ 	bdev->common.dev = bdev->dev;
+ 
+ 	ret = dma_async_device_register(&bdev->common);
+diff --git a/include/linux/dma/qcom_bam_dma.h b/include/linux/dma/qcom_bam_dma.h
+index 68fc0e643b1b97fe4520d5878daa322b81f4f559..dd30bb9c520fac7bd98c5a47e56a5a286331461a 100644
+--- a/include/linux/dma/qcom_bam_dma.h
++++ b/include/linux/dma/qcom_bam_dma.h
+@@ -8,6 +8,8 @@
+ 
+ #include <asm/byteorder.h>
+ 
++struct dma_chan;
++
+ /*
+  * This data type corresponds to the native Command Element
+  * supported by BAM DMA Engine.
+@@ -34,6 +36,16 @@ enum bam_command_type {
+ 	BAM_READ_COMMAND,
  };
  
- static const struct reg_offset_data bam_v1_7_reg_info[] = {
-@@ -212,6 +216,7 @@ static const struct reg_offset_data bam_v1_7_reg_info[] = {
- 
- static const struct bam_device_data bam_v1_7_data = {
- 	.reg_info = bam_v1_7_reg_info,
-+	.bam_pipe_lock = true,
- };
- 
- /* BAM CTRL */
++enum bam_desc_metadata_op {
++	BAM_META_CMD_LOCK = 1,
++	BAM_META_CMD_UNLOCK,
++};
++
++struct bam_desc_metadata {
++	enum bam_desc_metadata_op op;
++	struct dma_chan *chan;
++};
++
+ /*
+  * prep_bam_ce_le32 - Wrapper function to prepare a single BAM command
+  * element with the data already in le32 format.
 
 -- 
 2.51.0
