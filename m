@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A3329E11B;
-	Fri, 28 Nov 2025 21:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D70E274650;
+	Fri, 28 Nov 2025 21:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764366227; cv=none; b=lJjxaGGd3rl0+k3NkPwQ9EJDQhnQHRs6XOFoBaW5297H9iTDMDviQwa0l9mu09xbCNtRT+wrzSgjRtj8I9tPCWtt1bYS7Ktw5j6r8sNcGntP6DpF7u5ZCobhVFvD7xVC9FNsfHT3mqvl2GYpp2CFtd53Y0eqZctQbP7dA5Rg0X4=
+	t=1764366635; cv=none; b=R3z/nLfGuPXZ1JUxriSQ+ki8m3qSUT010AqR3xCpMSD1inxqC/ECD1I+9Tf0yyG9nzDnx4lFTSIwgMTIAlqhF33qZQ5mQ9d68wILjI445sJgRYJ5LCuqduPjfD4ujIqvIiNeDvoI8Ig5q3BNdLBw6yyneshXouSC5Zy3KyZdgLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764366227; c=relaxed/simple;
-	bh=vgzvdWY2s7thIWmMsPgHy/ia72rjlLdT6JPpZtj7IFQ=;
+	s=arc-20240116; t=1764366635; c=relaxed/simple;
+	bh=JdN7JG2SF0HKhMVjcjMWIQ2dFH3XWGOs4WCZ0Ti+RpQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kJpGzjzzwkcWKood/pYwpCsyulNXacS5XWMQzaABHFiAZK44Xnibca/9QL0ACebhWyE75xFh8IJ9Psn1tQ9KhFkJRsIVlJmQLunBiuPhfS3+ZC2bzQqCMXaJ35ysa5FkvyOx1R6F6kbuBAcunW07MC3qdbU6WvW1Uf8b4aacG/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DNZ06xUx; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=KA5DM/TT7Ay/JEeLOTw4Hdz4IWIPkzmml7Df4o9aMBu+D/zJi6/EHK1HVu6c8rls8+Oz+b/JE3heTZUOCm644nwRyCucnWIIKqlVKxhxeGGh0IxW+6kbZxGB1YxY5OGOY85za21uS8Wm89hhV/6pyKHAHQ2AZB2ZNU06PNXuPyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ra20jyFB; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DNZ06xUx"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ra20jyFB"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=qBrHXWwtUB7b8fk+im24xdBt7pvQvBtNmMwKjLkVxhU=; b=DNZ06xUxWf6BSN/EXGMTg1Pa3Y
-	CZHipD2rqSGD4O785scwDXaYmjO23pPNqKfYI5WYjRj5elql6G60n/JrgNn7BpPuYVKa8BocLP/Co
-	DWNdYilx+NfYUrs2XmmNA2hqo79HgHx5QWDVA3iW3RC9h+L2fB4vI3b9UcAXIH+nC5Q8G7+hyx/Tx
-	TbinWbZLUjJZN3+vCDAksNYzyBuoErZLSBIa3SezK6DAX6XmsQwZzC9xZ3TodQBCb/c5VieGzUoY7
-	qCDTvaYfo1KdbwHtcWerq+v9yWDPoPh290ebCRrE6MpX0x9LFNEcBh8OaAtP2OIcYRX7608udl8um
-	9uQgk30g==;
+	bh=dUAdZeQP94vW72b4SJ//V/MtjinN884gsD5QWNElCrg=; b=Ra20jyFBxDuV53uOnzXP2ROo3n
+	6iH7U5q6VshUt0SSIyUMvEuHD6uf5oxKo3fYtlZsKW9PZOyCgqKZuTuGyG0SF41EQnhUjP/FR2Lgt
+	Le7+1g8J4SrLQqbzCd2YOOlfvE4Aq3hq47Tv4UokTE1flXvyD70Tlf6WpNHWM1RgHU8b8PHPQxGFd
+	igXveDHNK3GIL1mGgtsHtlVngm9BQzvPM59Php3lUG1SYQyJuyOziBCvQUou2vZsXL1jB7J9UfhSL
+	yy9SSp4qbhGiZearV+80CKbt42wCEVmv9nTO7jhosBJ1n6iEjy/8GUHzjSGqZe3Yh4QfAU7ukLp3d
+	mJ72/xqg==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vP6Fh-00000000z8t-2S6G;
-	Fri, 28 Nov 2025 21:43:41 +0000
-Message-ID: <68a739f3-5484-4846-b87f-94a7ce306e43@infradead.org>
-Date: Fri, 28 Nov 2025 13:43:41 -0800
+	id 1vP6M8-00000000zPG-37J4;
+	Fri, 28 Nov 2025 21:50:20 +0000
+Message-ID: <a23be1b4-89ce-4db9-bb68-9a5aa248f4a0@infradead.org>
+Date: Fri, 28 Nov 2025 13:50:19 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,54 +39,108 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: tools/rtla: remove undefined substitutions
- in common_options.rst
-To: Sameeksha Sankpal <sameekshasankpal@gmail.com>, rostedt@goodmis.org,
- corbet@lwn.net
-Cc: linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251128151838.7985-1-sameekshasankpal@gmail.com>
+Subject: Re: [PATCH v2 04/26] drm/bridge: make of_drm_find_bridge() a wrapper
+ of of_drm_get_bridge()
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Louis Chauvet <louis.chauvet@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
+ <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-4-88f8a107eca2@bootlin.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251128151838.7985-1-sameekshasankpal@gmail.com>
+In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-4-88f8a107eca2@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 11/28/25 7:18 AM, Sameeksha Sankpal wrote:
-> The RTLA common options documentation uses several Sphinx substitution
-> placeholders (|threshold|, |tool|, |thresharg|, |tracer|, |actionsperf|)
-> that are not defined anywhere in the tree. This causes the htmldocs
-> build to fail with multiple "Undefined substitution" errors.
+
+On 11/28/25 8:50 AM, Luca Ceresoli wrote:
+> of_drm_find_bridge() is identical to of_drm_get_bridge() except it does
+> not increment the refcount. Rewrite it as a wrapper and put the bridge
+> being returned so the behaviour is still the same.
 > 
-> Replace these undefined substitutions with plain text or generic
-> placeholders (<tool>, <threshold-option>, <tracer>) to ensure the
-> documentation builds cleanly while preserving the intended meaning of
-> the examples.
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > 
-> Signed-off-by: Sameeksha Sankpal <sameekshasankpal@gmail.com>
 > ---
->  Documentation/tools/rtla/common_options.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/tools/rtla/common_options.rst b/Documentation/tools/rtla/common_options.rst
-> index 77ef35d3f831..bd5a6f32f5bf 100644
-> --- a/Documentation/tools/rtla/common_options.rst
-> +++ b/Documentation/tools/rtla/common_options.rst
+> Changed in v2:
+> - Added comment to document why we put the reference
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 20 +++++++++-----------
+>  1 file changed, 9 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 21a84715d221..9b7e3f859973 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -1467,19 +1467,17 @@ EXPORT_SYMBOL(of_drm_get_bridge);
+>   */
+>  struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+>  {
+> -	struct drm_bridge *bridge;
+> -
+> -	mutex_lock(&bridge_lock);
+> +	struct drm_bridge *bridge = of_drm_get_bridge(np);
+>  
+> -	list_for_each_entry(bridge, &bridge_list, list) {
+> -		if (bridge->of_node == np) {
+> -			mutex_unlock(&bridge_lock);
+> -			return bridge;
+> -		}
+> -	}
+> +	/**
 
-Does this patch apply to the mainline (Linus) kernel?
-This is already fixed in linux-next or docs-next.
-You should usually check -next trees for fixes like this.
+This isn't a kernel-doc comment, so please don't use "/**" here.
+Just use "/*".
 
-See:
+> +	 * We need to emulate the original semantics of
+> +	 * of_drm_find_bridge(), which was not getting any bridge
+> +	 * reference. Being now based on of_drm_get_bridge() which gets a
+> +	 * reference, put it before returning.
+> +	 */
+> +	drm_bridge_put(bridge);
+>  
+> -	mutex_unlock(&bridge_lock);
+> -	return NULL;
+> +	return bridge;
+>  }
+>  EXPORT_SYMBOL(of_drm_find_bridge);
+>  #endif
+> 
 
-commit 96b546c241b1
-Author: Gopi Krishna Menon <krishnagopi487@gmail.com>
-Date:   Mon Oct 13 16:27:20 2025 +0700
-    Documentation/rtla: rename common_xxx.rst files to common_xxx.txt
-
-Thanks.
 -- 
 ~Randy
 
