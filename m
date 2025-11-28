@@ -1,225 +1,261 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9657A33509A;
-	Fri, 28 Nov 2025 18:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8813B2080C8;
+	Fri, 28 Nov 2025 19:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764355989; cv=none; b=OTFu6KmJ319sbkT97uT7zEXWBzvGjBT4VcYnL67IhHtqBP+pNthZ3K4jYJAbocW/uopQ8a3yM3mmHaOCS1n9T59ffnvQOPecTuuzy59JawDuWO37Gyw2zf/sTMoj/jFLqmQ9pgdLmi6r2hLUHAqYYw7R06MwcO3eeGgv1VD8VOU=
+	t=1764357959; cv=none; b=UgkEbjMDgDLm0nfxhe7QRv+5xWs9TWiGqaoegIbapEJRC4qQaEkXsm50bYq6/GVNU/82dsE2h/BZB9bC0uUrfVqeZDN8uviE2VllG2k0RKOrMtK5qmv1HaqpDMql18sEPj1I//W6rIiPVlOIPafMqXI+CRdWpaIvJvPLsK/SJFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764355989; c=relaxed/simple;
-	bh=j71+p9YAh5QPiawZ9VZM73M2pNS6NNm74Zwt268TaXE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pJxXuiEF3v/BWf1WTbbxauKApTmE9TaRT7aj4wmMqoGMb51rhtItPwk9FvvViWt2b0qu9KhzsJpPAZ9A6qODNOqfrL5OWN2sJ1P7s46rPKi7fYVXz8Y/WZq/H1mWecW7Ka/dooHFF+xusoIVBmfYkbHD15Tl9Jn04M2LWglxXrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gsLQ9dQa; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1764357959; c=relaxed/simple;
+	bh=ZgJg19JgVapqtEPwhxxKRypueCcS657c0JxAgQtWkMk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ud8W+QLTnEEPhNEUcjylXtKL/nOZZBC5sdcsOxrXzNaV/38Di9dl3V4qRtUwcNgiB0LaHdBPFwm6NxveBjjJJgyh6ZcUH+ir9lYmeePVwb6wiMAj+ImrnmmGo1Rp+Kbri2YDigm0evysANlQ2vSSR7xxB5AYoQcVUO1uUBrgimQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NNEe8VWr; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gsLQ9dQa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764355984;
-	bh=j71+p9YAh5QPiawZ9VZM73M2pNS6NNm74Zwt268TaXE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gsLQ9dQaVhez5PL7+FLh3wuYV359noD9/dcixSCZyyysdcPraJXeZt5TQpjWLdam2
-	 AGDAqGg6NkYNx4ExwLGV6RR0i5RBcig3mieRftYDP+JQr7ldOJi6a5Cz0D+uuKgxGB
-	 NvQDvPuBeVDTXJXT8ooGG+QhdCbyfaWOp+LQ15+wH+mxv3BqZxtTyQQx/J9ykjF/oP
-	 4LFo8QNxe9sVd8Q09mfzzAgQxkuJkuBhDTLP6EcbN76kIvXzWw/ukJXI0AIufY6awG
-	 pK53lOP/uwlZRnFaD3Wrz/2MAe+JlN2WNbBIn2lNhYXw9gVHf9QpS9LXWT42M7xD/R
-	 3Kb8gi9H5yFqQ==
-Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:2e0:4cff:fe03:d8c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0EA8917E10F6;
-	Fri, 28 Nov 2025 19:53:04 +0100 (CET)
-From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Melissa Wen <mwen@igalia.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Nitin Gote <nitin.r.gote@intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NNEe8VWr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764357958; x=1795893958;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZgJg19JgVapqtEPwhxxKRypueCcS657c0JxAgQtWkMk=;
+  b=NNEe8VWrVO7M40Ry48W+bzgwdwoJneBDaOXmp18kTfWNk/Z1GreQDtCO
+   7qFATVcNHlwxBNuwkQawtefOoJW9h9Axr6Ds5f6vhohaBLnnIm8HAu8DB
+   r05QD0Vxec/dgViut2ABgdcnElV/xDt9CfX7bd4hWYZXVOhTzELF1CO08
+   1PKUnyxS6bgFoY+bJhp9MqvkglCwhK/POnQlSEqzsHD/0AG4ZCJQ8atY/
+   4kPI3A98k2snFJySOdlZ/wCh6cS8+7RR/Q8TH3MtFlyMms855n5AUp6lF
+   Sc43+ho51yHQ2V63aSI7QQ2zd8Bda3RbDPgTMIK0Apqlmf5DCZtylPt/e
+   g==;
+X-CSE-ConnectionGUID: D7jH7Jp1QIylLMOiDbt1fg==
+X-CSE-MsgGUID: D7eRvhlHRQqnP1jkEOlTIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66339621"
+X-IronPort-AV: E=Sophos;i="6.20,234,1758610800"; 
+   d="scan'208";a="66339621"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 11:25:57 -0800
+X-CSE-ConnectionGUID: Vn3gvOaiSiazneVBYPV21w==
+X-CSE-MsgGUID: xgpQSso1RDSsHXKA92I+Cw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,234,1758610800"; 
+   d="scan'208";a="193419743"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.17])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 11:25:53 -0800
+Date: Fri, 28 Nov 2025 21:25:50 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jorge Marques <gastmaier@gmail.com>
+Cc: Jorge Marques <jorge.marques@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Christopher Healy <healych@amazon.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	kernel@collabora.com
-Subject: [PATCH v10 09/10] drm/panfrost: Introduce huge tmpfs mountpoint option
-Date: Fri, 28 Nov 2025 19:52:51 +0100
-Message-ID: <20251128185252.3092-10-loic.molinari@collabora.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251128185252.3092-1-loic.molinari@collabora.com>
-References: <20251128185252.3092-1-loic.molinari@collabora.com>
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 3/9] iio: adc: Add support for ad4062
+Message-ID: <aSn3PthKIvFAhDS6@smile.fi.intel.com>
+References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
+ <20251124-staging-ad4062-v2-3-a375609afbb7@analog.com>
+ <aSQxiSoZcI_ol3S5@smile.fi.intel.com>
+ <aslj3klmv6heyyhgltzewkdze5p4c3hlkzfbxbfnzwwgd375gv@m6iqpst5sv6b>
+ <aSgSsGSUuBtMOuro@smile.fi.intel.com>
+ <zryqws2h2i4duejczo2rptwhlzhile7fa7brriqh2hmtarwjxn@cr2cyzymwpav>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <zryqws2h2i4duejczo2rptwhlzhile7fa7brriqh2hmtarwjxn@cr2cyzymwpav>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Introduce the 'panfrost.transparent_hugepage' boolean module parameter
-(false by default). When the parameter is set to true, a new tmpfs
-mountpoint is created and mounted using the 'huge=within_size'
-option. It's then used at GEM object creation instead of the default
-'shm_mnt' mountpoint in order to enable Transparent Hugepage (THP) for
-the object (without having to rely on a system wide parameter).
+On Fri, Nov 28, 2025 at 07:50:02PM +0100, Jorge Marques wrote:
+> On Thu, Nov 27, 2025 at 10:58:24AM +0200, Andy Shevchenko wrote:
+> > On Wed, Nov 26, 2025 at 12:40:00PM +0100, Jorge Marques wrote:
+> > > On Mon, Nov 24, 2025 at 12:20:57PM +0200, Andy Shevchenko wrote:
+> > > > On Mon, Nov 24, 2025 at 10:18:02AM +0100, Jorge Marques wrote:
 
-v3:
-- use huge tmpfs mountpoint in drm_device
+Please, remove the context you are agree with or which has no need
+to be answered, it helps to parse and reply.
 
-v4:
-- fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
-- clean up mountpoint creation error handling
-- print negative error value
+...
 
-v5:
-- use drm_gem_has_huge_tmp() helper
-- get rid of CONFIG_TRANSPARENT_HUGEPAGE ifdefs
+> > > > > +static int ad4062_calc_sampling_frequency(int fosc, unsigned int n_avg)
+> > > > > +{
+> > > > > +	/* See datasheet page 31 */
+> > > > > +	u64 duration = div_u64((u64)(n_avg - 1) * NSEC_PER_SEC, fosc) + AD4062_TCONV_NS;
+> > > > > +
+> > > > > +	return DIV_ROUND_UP_ULL(NSEC_PER_SEC, duration);
+> > > > 
+> > > > Why u64?
+> > > > 
+> > > > The DIV_ROUND_UP_ULL() seems an overkill here. Or do you expect duration be
+> > > > more than 4 billions?
+> > > > 
+> > > This is necessary since at fosc 111 Hz and avg 4096 it does take longer
+> > > than 4 seconds, even though I do timeout after 1 seconds in the raw
+> > > acquisition.
+> > 
+> > Values above NSEC_PER_SEC+1 do not make sense (it will return 0),
+> > and that fits u32. Can you refactor to avoid 64-bit arithmetics?
+> 
+> Ok, any frequency lower than 1 Hz does not make sense.
 
-v9:
-- replace drm_gem_has_huge_tmp() by drm_gem_get_huge_tmp()
+Depends on the cases, we have sub-Hz sensors or some other stuff.
+So, "...does not make sense in _this_ case." That's what I implied.
 
-Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_device.c |  3 +++
- drivers/gpu/drm/panfrost/panfrost_drv.c    |  6 ++++++
- drivers/gpu/drm/panfrost/panfrost_drv.h    |  9 +++++++++
- drivers/gpu/drm/panfrost/panfrost_gem.c    | 18 ++++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_gem.h    |  2 ++
- 5 files changed, 38 insertions(+)
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+>   static int ad4062_calc_sampling_frequency(int fosc, unsigned int oversamp_ratio)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-index c61b97af120c..dedc13e56631 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-@@ -12,6 +12,7 @@
- #include "panfrost_device.h"
- #include "panfrost_devfreq.h"
- #include "panfrost_features.h"
-+#include "panfrost_gem.h"
- #include "panfrost_issues.h"
- #include "panfrost_gpu.h"
- #include "panfrost_job.h"
-@@ -267,6 +268,8 @@ int panfrost_device_init(struct panfrost_device *pfdev)
- 	if (err)
- 		goto out_job;
- 
-+	panfrost_gem_init(pfdev);
-+
- 	return 0;
- out_job:
- 	panfrost_jm_fini(pfdev);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 7d8c7c337606..7f59568faa05 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -858,6 +858,12 @@ static const struct drm_driver panfrost_drm_driver = {
- #endif
- };
- 
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+bool panfrost_transparent_hugepage;
-+module_param_named(transparent_hugepage, panfrost_transparent_hugepage, bool, 0400);
-+MODULE_PARM_DESC(transparent_hugepage, "Use a dedicated tmpfs mount point with Transparent Hugepage enabled (false = default)");
-+#endif
-+
- static int panfrost_probe(struct platform_device *pdev)
- {
- 	struct panfrost_device *pfdev;
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.h b/drivers/gpu/drm/panfrost/panfrost_drv.h
-new file mode 100644
-index 000000000000..edeb093eb6da
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.h
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0 or MIT
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
-+
-+#ifndef __PANFROST_DRV_H__
-+#define __PANFROST_DRV_H__
-+
-+extern bool panfrost_transparent_hugepage;
-+
-+#endif
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index 8041b65c6609..c1688a542ec2 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
- 
- #include <linux/cleanup.h>
- #include <linux/err.h>
-@@ -10,9 +11,26 @@
- #include <drm/panfrost_drm.h>
- #include <drm/drm_print.h>
- #include "panfrost_device.h"
-+#include "panfrost_drv.h"
- #include "panfrost_gem.h"
- #include "panfrost_mmu.h"
- 
-+void panfrost_gem_init(struct panfrost_device *pfdev)
-+{
-+	int err;
-+
-+	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
-+	    !panfrost_transparent_hugepage)
-+		return;
-+
-+	err = drm_gem_huge_mnt_create(&pfdev->base, "within_size");
-+	if (drm_gem_get_huge_mnt(&pfdev->base))
-+		drm_info(&pfdev->base, "Using Transparent Hugepage\n");
-+	else if (err)
-+		drm_warn(&pfdev->base, "Can't use Transparent Hugepage (%d)\n",
-+			 err);
-+}
-+
- #ifdef CONFIG_DEBUG_FS
- static void panfrost_gem_debugfs_bo_add(struct panfrost_device *pfdev,
- 					struct panfrost_gem_object *bo)
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-index 8de3e76f2717..1a62529ff06f 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-@@ -124,6 +124,8 @@ drm_mm_node_to_panfrost_mapping(struct drm_mm_node *node)
- 	return container_of(node, struct panfrost_gem_mapping, mmnode);
- }
- 
-+void panfrost_gem_init(struct panfrost_device *pfdev);
-+
- struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t size);
- 
- struct drm_gem_object *
+Shouldn't fosc be unsigned?
+
+>   {
+>   	/* See datasheet page 31 */
+
+It's fine, but better to add a formula here or more information about
+the calculations done in the function.
+
+>   	u32 period = NSEC_PER_SEC / fosc;
+
+period_ns ?
+
+(We usually add units to this kind of variables for better understanding
+ of the calculations)
+
+>   	u32 n_avg = BIT(oversamp_ratio) - 1;
+>   
+>   	/* Result is less than 1 Hz */
+>   	if (n_avg >= fosc)
+>   		return 1;
+
++ blank line.
+
+>   	return NSEC_PER_SEC / (n_avg * period + AD4062_TCONV_NS);
+>   }
+
+LGTM, thanks!
+
+> > > > > +}
+
+...
+
+> > >   static int ad4062_set_chan_calibscale(struct ad4062_state *st, int gain_int,
+> > >   				      int gain_frac)
+> > >   {
+> > >   	u32 gain;
+> > >   	int ret;
+> > >   
+> > >   	if (gain_int < 0 || gain_frac < 0)
+> > >   		return -EINVAL;
+> > >   
+> > >   	gain = gain_int * MICRO + gain_frac;
+> > >   	if (gain > 1999970)
+> > 
+> > But this magic should be changed to what you explained to me
+> > (as in 0xffff/0x8000 with the proper precision, and this
+> >  can be done in 32-bit space).
+> > 
+> > Or even better
+> > 
+> > 	if (gain_int < 0 || gain_int > 1)
+> > 		return -EINVAL;
+> > 
+> > 	if (gain_int == 1 && gain_frac > 0x7fff) // did I get this right?
+> > 		return -EINVAL;
+
+> gain_frac would be 999999 max, or 999970 for the limit that fits in the
+> register after the math. I think > 1.999.970 is self explanatory.
+
+On the place of unprepared reader this is a complete magic number without
+scale, without understanding where it came from, etc.
+
+So, can you define it as a derivative from the other constants and with
+a comment perhaps?
+
+> > >   		return -EINVAL;
+> > >   
+> > >   	put_unaligned_be16(DIV_ROUND_CLOSEST_ULL((u64)gain * AD4062_MON_VAL_MIDDLE_POINT,
+> > >   						 MICRO),
+> > 
+> > ...with temporary variable at minimum.
+> > 
+> > But again, I still don't see the need for 64-bit space.
+> 
+> Well, by dividing mon_val and micro values by a common divisor the
+> operation fit in 32-bits:
+> 
+>   static int ad4062_set_chan_calibscale(struct ad4062_state *st, int gain_int,
+>                                         int gain_frac)
+>   {
+
+	/* Divide numerator and denumerator by known great common divider */
+
+>           const u32 mon_val = AD4062_MON_VAL_MIDDLE_POINT / 64;
+>           const u32 micro = MICRO / 64;
+
+Yep, I suggested the same in another patch under review (not yours) for
+the similar cases where we definitely may easily avoid overflow.
+
+Alternatively you can use gcd().
+
+>           const u32 gain = gain_int * MICRO + gain_frac;
+>           int ret;
+> 
+>           if (gain_int < 0 || gain_frac < 0)
+>                   return -EINVAL;
+> 
+>           if (gain > 1999970)
+>                   return -EINVAL;
+> 
+>           put_unaligned_be16(DIV_ROUND_CLOSEST(gain * mon_val, micro), st->buf.bytes);
+> 
+>           ret = regmap_bulk_write(st->regmap, AD4062_REG_MON_VAL,
+>                                   &st->buf.be16, sizeof(st->buf.be16));
+>           if (ret)
+>                   return ret;
+> 
+>           /* Enable scale if gain is not equal to one */
+>           return regmap_update_bits(st->regmap, AD4062_REG_ADC_CONFIG,
+>                                     AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
+>                                     FIELD_PREP(AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
+>                                                !(gain_int == 1 && gain_frac == 0)));
+
+Btw, I think you can move this check up and save in a temporary variable which
+might affect the binary size of the compiled object as accesses to the gain_int
+and gain_frac will be grouped in the same place with potential of the reusing
+the CPU register(s)..
+
+>   }
+
+> > >   			   st->buf.bytes);
+> > >   
+> > >   	ret = regmap_bulk_write(st->regmap, AD4062_REG_MON_VAL,
+> > >   				&st->buf.be16, sizeof(st->buf.be16));
+> > >   	if (ret)
+> > >   		return ret;
+> > >   
+> > >   	/* Enable scale if gain is not equal to one */
+> > >   	return regmap_update_bits(st->regmap, AD4062_REG_ADC_CONFIG,
+> > >   				  AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
+> > >   				  FIELD_PREP(AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
+> > >   					     !(gain_int == 1 && gain_frac == 0)));
+> > >   }
+> > > 
+> > > To provide the enough resolution to compute every step (e.g., 0xFFFF and
+> > > 0xFFFE) with the arbitrary user input.
+
 -- 
-2.47.3
+With Best Regards,
+Andy Shevchenko
+
 
