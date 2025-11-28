@@ -1,170 +1,512 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013018.outbound.protection.outlook.com [40.93.196.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606762737F9
-	for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 14:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764339666; cv=none; b=YzTxVqaoue8cIKsEDh/lHc45qCLB9V/ITKP7/UYGBuJjpmA2kmr8y4xUqupXrHaTh4ouEBthqUMDMgbTCaip/Swh7KqEpu1z8LZVKRDtBNtp/LJlFHkwmjvsUzaFmir7digWaC8q67jl+TfK50WIGp+VIjjRn905TNH5RQwvoww=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764339666; c=relaxed/simple;
-	bh=iAhkuxtvlLCx3FI2+LZ2MUKk3NrR4LQpjDFB2p7NYFA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UWhVvuB/9pZGI+/CWO//wTJDNYbPZ+X2xmqM8UkszKV4xQStuKTcH666mxv9f0BR4ImKPh3c7RiRYItU6cZGa0PrIcPIMDurdZUBgyG5H7MFtj58yHACNKm1zslSI9Vb//vaYOzSqV//EyUO/Q2u21I3qeH4SIbP3Q9r2u77lzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-3e0f19a38d0so1263662fac.0
-        for <linux-doc@vger.kernel.org>; Fri, 28 Nov 2025 06:21:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764339661; x=1764944461;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bcATxuNlgaeDAYpQM6zHeyqMLPCvdphcTT8Pi4GZRCI=;
-        b=kKb3ttTuGcNCJ8nUTy0nrNNlWdvQSi+EzoAYqS+1Nc/4oNVk4bC9Y/Gvp3IrAyaUwa
-         ysT5JTj7nFMCVBpPGwSTB+MqTNi0ro7xAQICYeCPrShFrrQ/HluPT5cY6NkRZ04PGiJ5
-         dssZKA5Q6CtW3RHLuSonqbRCZvxNFjunN9xyubVZ9lydEPMavl860M75D/ehB+WY1Zn2
-         yl+ix81NJIgzUWYcsIzHs1tHxXw+c7pExXfgjJDImCozQB9Rdz8cWUIkmJoQQH1PddCP
-         i2peO4LclAcWs+nRhowDvQKx5xh6fL+82aQS/BKPUZ5GW95DmBjjs3SbsvSmGJuEaqGo
-         8Wwg==
-X-Forwarded-Encrypted: i=1; AJvYcCWYZM4wqigyPiM6S4yrgWOApJyv3cjQQDRHJEUu+O/ZUdy2qbvHeERLvW8fG4AUd9o8G4/Zyz06crA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylghVuRm5fEwjspEviqiek4DZ110YZ5pf92RA9LThUJ01pDTcJ
-	Wsj3SFtyU4D5UQxGrlRMzw0Fp7Err30TFZkhqW4tqiSeMnhJIdshux8T
-X-Gm-Gg: ASbGncu5ElOvF0uXty/PKY4Jas13D9JA8UvtQ2Sq7rIes7mvBPSaqVcmM4enAo0AvYl
-	RIpzoZ3COGnE7cNwgLKlhRolJ0Lbh5yTlMXRos/FVEXF0mLoRtL62ShEjs8zRO0TxsWPO9E1Ep/
-	KhLkSYf7btJ+ttztyxduo7EP/Ic8N0LvFLwDO1XTQm4uXCSwLhq4dWwF6VZjBmKPXC/2JwGtFNe
-	WVVtT7US8Ci1Xl10iv05SKTIzwd2ebSCrlB2JU319eFCQ1Jf2MjGyrhxvcMFa3jkcgpmMX6It3/
-	Mouj3LkXuIyc7U7tVxCpLHLOAjM4xblDmLhUwglKlPsPjoVXwTBRzcIxMfWr2fOSOAQhpjfaRo3
-	waHF532P8cZXF6pxYAGZfY5x6A6q4tohccZCQCNP+yqeNJc1QgGwY6KjttPkaDr7JGh536yUbLo
-	a8b0x/MA+bMPHTZA==
-X-Google-Smtp-Source: AGHT+IFdXHddbS3YahClgjukUuSYo5q86nrHHLv0wekajQYQYjxd/clThSoKb648YqTTU/IIr/EKUA==
-X-Received: by 2002:a05:6870:a2d1:b0:3e7:e20a:39fb with SMTP id 586e51a60fabf-3ed1fd4ff6cmr7103109fac.11.1764339661150;
-        Fri, 28 Nov 2025 06:21:01 -0800 (PST)
-Received: from localhost ([2a03:2880:10ff:73::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3f0dcfdb503sm1801960fac.14.2025.11.28.06.21.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 06:21:00 -0800 (PST)
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 28 Nov 2025 06:20:49 -0800
-Subject: [PATCH net-next 4/4] Documentation: netconsole: Document send_msg
- configfs attribute
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13C02405EB;
+	Fri, 28 Nov 2025 14:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764340176; cv=fail; b=EHWxb54XFhI4oOTxmBeiCguhvImJctuFWyYwrzDqHB+zJ3RR3MEjnji5sOQtr3F7rsWKFqx0yxLO5ewi0+nvqVYH1nUEn1TK+sZRyn9E0NoaMYK+OMweHCeF+I4+ORfy5In6q9jRo5Fx93pLSl6QUhRTigfTl+IEDaeHZIN5das=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764340176; c=relaxed/simple;
+	bh=B+SMPKdBPiU2T7ogkma5QRkRkXLzzDKK+q3Wu6TR6w8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XG3AbNn0vnyYJxMmIzF8SAd4ig1Z+qUDJIMDPOFL6bJFlxpBzheWpY52IAq5MiNlo6zILto7irMsJqZyQsyss/u6xtBdS0UV0xkbLCwb05f5GLSXsi0QtjuU6CgZM1DRkClbMZ6TTnnQmL0AU/z56Pi5kUjHoIhI8cl7bmnkcV0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jQ85TyBO; arc=fail smtp.client-ip=40.93.196.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jQ85TyBO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=C+5MU7eLo36kpeYR7nKZ7teG5IzdSGkSpzCaTNro0nksqF2JtwNoGnYwJ0BdT+TdlN2LX9IK3ho6qWGs8TdrhAN7eeDPiodv/WOahD3Cf2ao3GznPFClm4xpO1NBbc1hDil0y/icLhML6J8ItpRw+mEOup1mDYB7GwzrMXpeDpn31AGAoSxbxNHsXOGsCu02UHfn7NzNFSwcTzoJd4Pbk2yWIxpyV05RRVFN0EnVna4oTMBIJKIf8KGJ70p+EZss4QdSr/xMfroO9Z0gkbUbb+YxVsEg4sO5LQ2IRRUOiqEfD/oCi4x2HBahnhlsttb7XdYkb3L5Bbw0RUftMAHLnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HKkkMveFE5XZs1K2/iOjSwUEw87vxxAYfNUmamVfJkM=;
+ b=HokvPKBf03B1YnBsMQDelLIZejwKw3XOvwUupc3bhxdpdA+qTLKVJKHjg19Ay8aAVIXqgKqU+oTBSWgYkSqPXdkloAd+msfocUpKgb4tXOBA2Lb2h8RBdjm0GW/3X6tIVxeA/LcKj1dv11DVUAhaEq2MKKp+V3WVURPbD3QTidiXj7+Mub7h2gekxVU1PnKMNR42OScN7lb3eXQA6DO/b0jTKwCw/ChcLHrbqmgJSoIFtL5KXXlRBeLKwN+BHraGQmmHTgvZjEAH+61hPkg7xkL+cHoIidP1CULEwRa/TyN9mPmPPSrIpNC8VJ9Y/mXKe4ROahH6csY/a0wm3U8R4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HKkkMveFE5XZs1K2/iOjSwUEw87vxxAYfNUmamVfJkM=;
+ b=jQ85TyBOgK2Ypu3U1X9wobgBWTUjF4CYRoXE7eQVqxQ5ipMysWbH9VEJnYc29hSeI4K4rYr7sA16Nhc20i2oAHyk/h+JpcJ8BYhDu2wmJ/1hC+lkk3s2d3bOe55nFEfr8giI84O04Kk1BqCAAcUPm/zs3RlhD65wBLHHaGZ97SrCi7QduvQdcfRdQ6KHfZew1kTleYyunn+azxig9JeZZivpT6mUNboe7FX7IJlrFVxTshbjj5mo+jLa7hWoi1Pm8ZaaByO8fcCwha3eVtxy5bLWtGKvr/w9oRQCo5DeDDvrrqzcAK9oM3CFCAhDUUe2c6j/a9QdQahlWBrD5kKkjQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by DS4PR12MB9818.namprd12.prod.outlook.com (2603:10b6:8:2a9::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.15; Fri, 28 Nov
+ 2025 14:29:30 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::44e5:415d:e1a8:6e42]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::44e5:415d:e1a8:6e42%7]) with mapi id 15.20.9366.012; Fri, 28 Nov 2025
+ 14:29:30 +0000
+Message-ID: <0e24a618-4a42-4fa8-b9ed-6d7db9b1a8fc@nvidia.com>
+Date: Fri, 28 Nov 2025 19:59:18 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 8/8] cpufreq: CPPC: add autonomous mode boot parameter
+ support
+To: Pierre Gondois <pierre.gondois@arm.com>
+Cc: linux-kernel@vger.kernel.org, corbet@lwn.net,
+ acpica-devel@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+ zhanjie9@hisilicon.com, ionela.voinescu@arm.com, perry.yuan@amd.com,
+ mario.limonciello@amd.com, ray.huang@amd.com, rdunlap@infradead.org,
+ zhenglifeng1@huawei.com, robert.moore@intel.com, lenb@kernel.org,
+ viresh.kumar@linaro.org, linux-tegra@vger.kernel.org, treding@nvidia.com,
+ jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com,
+ sanjayc@nvidia.com, nhartman@nvidia.com, bbasu@nvidia.com,
+ rafael@kernel.org, gautham.shenoy@amd.com, sumitg@nvidia.com
+References: <20251105113844.4086250-1-sumitg@nvidia.com>
+ <20251105113844.4086250-9-sumitg@nvidia.com>
+ <08c65096-dc70-42dd-a085-900605c3fe4b@arm.com>
+Content-Language: en-US
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <08c65096-dc70-42dd-a085-900605c3fe4b@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MAXP287CA0024.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a00:49::32) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251128-netconsole_send_msg-v1-4-8cca4bbce9bc@debian.org>
-References: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
-In-Reply-To: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
-To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
- gustavold@gmail.com, asantostc@gmail.com, calvin@wbinvd.org, 
- kernel-team@meta.com
-X-Mailer: b4 0.15-dev-a6db3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3352; i=leitao@debian.org;
- h=from:subject:message-id; bh=iAhkuxtvlLCx3FI2+LZ2MUKk3NrR4LQpjDFB2p7NYFA=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpKa/F+n91KlfHmNbR3+aEeTppVS0z8VZzSPsvL
- P1xw6ToDciJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaSmvxQAKCRA1o5Of/Hh3
- bcv3D/9yfpizPhvw/0kpd6DLJkeflw/6EdTVIyepbmpLrnAtRfmN/B9x/C0ISfefQNwYnyMZpD1
- lVYSNjv1aZd4tOGqcUvqbY8OkLgsVVLXyuctR27pw8jNu0ObZhF0JddNKQJnHKbMKI2Pi5+pfs0
- iltAjWUMzmjMt5mULUZ40HQvla414ukJnTtD/E1RX3wVsiBU8m+lS7Dsg6ofTJxmkBC1vJGuW1a
- FwrluZ3UY798WrlEfNfL/nxdcy642+rC2jNF4miKMvKhfCCyFfCL2f3+k/lPSxkbIy/oz3w78mb
- SwJSZ9fDlplQdVC4Ylv6SrbCs5R5v0bNfbSsmOxw8OwjEx491JsX16KZqjLyRawLPARNjp4gCYg
- FZlvQYB6CV55OrPyAdO92VaS4DKKKkVzBTcvCdkpSvnKU/PyqHV0/iMnS/GuMtpKrWofbu+rlKo
- ZtBR1at+N7TAr6tqMPRBbV3MIwIZUmRfTmT9Uc2MuedAt1HYt/FpjEXJmX9rOd9ZLuJOSrkriXp
- b7APvJbpdLWfKX+W7JJIrkMvXVXZEdEefP06LX5SUv0toe78VqmzA7tiEMdEhdrodlP4l7Olh+p
- 1wMYXVNHzfCtnU1P/naWOE1c22THeLc8VZgXimISheVMC9wFSgOc2EHkP93b4NmaJ5UdlRfgMdC
- IWK5SY9NbyV8cLw==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|DS4PR12MB9818:EE_
+X-MS-Office365-Filtering-Correlation-Id: e3eff392-7534-43bd-78f1-08de2e8a8af2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QTN4bm52VHhyTC9VWnR2bEErU3ZIL2NScUp6WjRaR0w4SlZnR3ZxbUQ0QmhL?=
+ =?utf-8?B?LzQ0L21ta0JYd29wa2V5ZVpwVWs3a202cXFTZGJBOEgzZURCU2toZUNYbTlP?=
+ =?utf-8?B?RDNIdHVjeGlvN25DamtOTVlqODNHZmhFTHJiUHZRNk1MZE83RWZDcUM0L3Jr?=
+ =?utf-8?B?RzBwRTJRdk43MU90MFhld0VDRzRZTElUcThpWHQ5YTgweTQxazZLVmZjeWcz?=
+ =?utf-8?B?c1VvellPaFY0aUNtZmg1dEQrWnljQTk4aGhqYldnSkhleFJxOFBHU1hHTm5s?=
+ =?utf-8?B?WCtwcm5ScGh5eitsTGx0bEdWV1JuTjNoUDhxY1Z0T0c0OHViK09MbS80TVk1?=
+ =?utf-8?B?eHJ1V0lMaXBUUnQ3eUgxdFBENnVWL0pLK2tiUUhCQ2dyWVgyWEVub2R0T2Fj?=
+ =?utf-8?B?N1hHdXZXSGIrRTliV2RzaHdMbHhtUzZZTnJiMjlsRTVVaFM3eUh5TUdoYlU4?=
+ =?utf-8?B?SS9mN3FKRmMvamtjSksxcWRRbERPTSs3dEw0YUdWdzlUYm52ZjFUcC9xTGxK?=
+ =?utf-8?B?b1lJL1VCb203aERLcHdxdXdLZnFNRUtsellaMXBHUFNWQ0Iyb1RMQlZ4Tzg0?=
+ =?utf-8?B?czhzZkZnN2oxNzNEM3lzM2V6RnFwZlYveVpQY2p1UTRWUk0wdHczMmpwMzMr?=
+ =?utf-8?B?aWhNMFdIV3BvZTNlWk1GWDFrSnEzMFB3K2p1NXB5eDV5WVpyNE5VSmhxejBW?=
+ =?utf-8?B?N3FaWkNubWFFdHZOYXdQcEVnSkVhZC9tK3pwUFFNazVCcGJrVjAvOGtiWGVI?=
+ =?utf-8?B?TG5sbi9ieUI3aGYxUXhNSDBkck9hY0Fmcm95MmF6enFXNEQ5V25iM05YUmRW?=
+ =?utf-8?B?bEtlbmVacjZ0anpRY2Y2dWV2QmcvcDZRS2dsQnNRaHk1MnZaMWtjK055Z0Y3?=
+ =?utf-8?B?a0RLMysyRlhiM0NuVkRqSzhBKy95NVFhYW9aY0UvcDlXcm9ScVBQWWFLYXRH?=
+ =?utf-8?B?V3ZaOHZKVHRuMk9aTjBqbDVtRUp1enZKQlZCY0dLTlpuQWxPbzZzb0tMay91?=
+ =?utf-8?B?L2NXY1V5VStHeko3aXdpWXdwSGg0aTZzK3VlSkFxK29BcEFGWnMrMHd1K1lL?=
+ =?utf-8?B?bWI3TStoMlZwSnlnbzlPUU85Yy8zS3pOU0VreDVlUW5BNEw0cWpSRVYwZkpY?=
+ =?utf-8?B?dEVZUkZQaldPNGhSS2pBaUovSFJqMTA0V1VEejVDWS8rOFp3VVFBNWdmemJS?=
+ =?utf-8?B?S1VJNGdha1ZNR0hvMW8vbks4RndTbTNuWFVDRFJJdlFqckdyM3R3dlA2UzYr?=
+ =?utf-8?B?UDhheUxxZVdZTXJFbmh0Ly9qWUhIRThUNGJEMmRrNkx2dlBsVEY5RGozSm5G?=
+ =?utf-8?B?WE11cmR0aFBjOUtoV2Npb2xUTUd4c3VnK2pWOE80cFVMa0hrbk82Zm1OelUy?=
+ =?utf-8?B?dGdOamxOTHduS3lVM3lYR2lzbytST0IwU0NJSC9zb09UcUxDVjNYaDA2UUN3?=
+ =?utf-8?B?dTVFNFloNndCY2hzaGZiN2VKNE5aNUJyeTBkNXBHQXJTOHp1eUVnbVVwVFNK?=
+ =?utf-8?B?Y2JLZW9pNmxPeituQ0RFb0dZQUg4dURINXl4VU5aZC8rR3BXdlNUWGtwbUI1?=
+ =?utf-8?B?UWN2d0xDN3dTeHlFYUpvKzdNcW81ZVcyVzlsRFgrbHhRTm9PUzhla2RBUUkv?=
+ =?utf-8?B?MzJBWlAvRXpnTE1xaktQUDJ5b205YkV5M2JRZHNxRWx5cWNPekdLc0NJVzdX?=
+ =?utf-8?B?cUdnaUF3Sk4wZ3cyK1VNc0toUEdsbVl3NmZsQTl0QittMUI2aWx4N0tRNzR4?=
+ =?utf-8?B?ejJIZ1ZQWnpzOTVsK0VBR25qcWZzVUhWMXR6NU1FL3ZsR2RqZHlGaUsrbEow?=
+ =?utf-8?B?NitCUTgxeVRqbmdVUnBFRjAwbnNlL2xHak1FSGQzSERZOW1pMnNrUjBPZHpa?=
+ =?utf-8?B?NnVCQlN4a0tPQ3RKV2ZhWUl6TGZwSlR0cUY2Zjdqdk16emFsZzBTUlBFaE5T?=
+ =?utf-8?Q?vCvMwhKAEHKqaOTXnZNAPKXJ/zJa6rM0?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QkYzdVEvWjdvK3Jkc0VuRjl0TEhoRThjWS9qcVJndTZ1Snl6ODBiUDluWW1X?=
+ =?utf-8?B?dHY5YmpPejhWN3JZaWZaMU1wZS9BY2xxUUhXcVY1MVUvRHdPTFV0dGhnM2pF?=
+ =?utf-8?B?eWxaVnFDSUdYMUh1SzJBZmVtYXNORk1UNG4yR0RIZzdGWTdoNEZEWHZvd1B5?=
+ =?utf-8?B?RUwxc0d4WFFqdUJNTXVXTHByOHBncWVMWHZiMytEU2hNVDg5TGZkdjJ4UWpn?=
+ =?utf-8?B?VHVTcmtrbTBLSGdwZmYzbUFVa2JiWkd3dHVGdHNJZGdrNUhyZmFmaVkrUTc5?=
+ =?utf-8?B?bWtjUUYwQiszNW9xamRCTUlVT0gvaVgreXQxeThNTGxvTVRKdzJpY2xReXB2?=
+ =?utf-8?B?VnNMazJaakw3QlIzSTc2V1VQakxaTUM4YXdnWEQyQ2dMVUx5LzNLWEcvcTN4?=
+ =?utf-8?B?OG1pZkJlNlY4Njk1U3hoSDZKUUJIRDQ2Qjl6QTV5NDFOcmdyL1ZibDVLZUR1?=
+ =?utf-8?B?cVJKc1JFV3lDbmdvNjBYeFBaZzE1UUpMem1NdnduUEJpUEJRU2o2VkZSKzBx?=
+ =?utf-8?B?dUNDMGg5d1RzRk0yaXBSOFlWVmt2Z1dudWxzUGcwcW13NFlVLzV1UWZXZWth?=
+ =?utf-8?B?dm9xMGN3THhkV0pLdVplUy9LTkdSQ3Jqb25lTW1DYnhKRTh5TmZ6T0lDUXFl?=
+ =?utf-8?B?U1k1QXZMdzhQQmdxT3lVZTJXdlVSRFhSQWRReGZldkpOcDJWZFJvcTFmeFI0?=
+ =?utf-8?B?SEVTVTluWFZSN3l6UmorbldyWDdJR2NWQVlOMEd5eHFsMHlmWjhrQVpNelo1?=
+ =?utf-8?B?bC9MWGNYRkU1UzNZMUM3T3AreWZOTnhyOXZnbGNna0VuYS9IcGpwUytTZ2tl?=
+ =?utf-8?B?UlYyUi9IME1PTEhoY2VhMUoxZ2swbmhScnRFOEhRQSs3SEtZRWRGYjE0c1Zi?=
+ =?utf-8?B?bWZKUm9lTVFmVGtubk4yN2VrSGJia1M4WXRrRmxZeGZUVW03K25KR1g2Zzl1?=
+ =?utf-8?B?UnFoKzQwSnpiT3VISUJkdmxTVElkZHF3djZPM1gyNWdnNmgvaWJJYzRYbTVj?=
+ =?utf-8?B?VFZSQjFxY3lpeXZHclRqcHdPQWgvQkhKTWozcjBiNDI2UURjWGpFVGR3eVVu?=
+ =?utf-8?B?MjNSSGluMlc4aDdVUU5PUVRMZzh5WWZaU2h0UjNBK1piclVadW1EejdLMmpx?=
+ =?utf-8?B?YUhUb3VaNmV4cy9keGwwdmFUQ0NGWTlJYkVRQVBNYlJqeDJPT3o2VzlDZVNx?=
+ =?utf-8?B?bG0rbWJsT0FYRk5IcUV3clQyWmVsZFlZN0phakh6RGNOcmhvTW5YVTZLWkVp?=
+ =?utf-8?B?UXhxQkp0ZkVHMDhZc2MvOEt1Ny8rWmFzTEdoMkJXejV4bFQ4NWtjKzV0Qm5o?=
+ =?utf-8?B?aDliaVJtbDViQTh4WWVSZnZ5L2xYS2xRMDlFNGFydXRrL0NHaXVwY3p2UGdq?=
+ =?utf-8?B?cnpTK2lkaFV2YnpZODVaYlFxS21FWXlLOHNHVHpndis4c213ZC85ZEhKUW8r?=
+ =?utf-8?B?ODhlVldSdytIMGViejRZWm96QnQ0Q2dWa1BtRjZ3dUt6ZE94eUUzZ0Z0NXRp?=
+ =?utf-8?B?R0JkMzR3NUtaL3Frb1N5UmdnM2tpaXBiWVdHQ0htZ3VYZUJFeDZjOFVZMm5k?=
+ =?utf-8?B?aHZ1YW5vaW8xR05TbGVLdjdta25wOVhTRjJuVzJleFY3ekV5Zmw5YmZFNWZW?=
+ =?utf-8?B?NXIxcWhvekExS2d0RklXZTRGdHE4RXFyZUxpN0cwbE5TcGZNUHl1VjUxeWow?=
+ =?utf-8?B?emE0YlgrcFlnSkRQd3hTSWw0RFZDMHNabXhhM1VJT0RuT29HMkJvN3g1QnZK?=
+ =?utf-8?B?NkZFem9MM1lONTJoSjNBN0RGM01UY0dpTkhpQ09Dbnp6a1FoamxCSkgxRE1v?=
+ =?utf-8?B?UlZKVFNmWXRHNW05N1BTQzNYdERLZGFqd1ExY2xXdjNkL056TWFIamE4RFE1?=
+ =?utf-8?B?bFp1YWNsRGRnU2FtR0tqeHgyMjc4KzZtZ3hpSnhwNVNKeld0V204TFdLT0s4?=
+ =?utf-8?B?U2U2NGt0RnBNT0ZvdWJuTm9lMlNEc0RwY3hmQTZ4MmpQTG9EL3hxa2tta3Uv?=
+ =?utf-8?B?NStoZXI4ZjBTZDZWMVZaM2xXTjQzMGRtM3FrQVBDYTU0cWtyeStjMlZIbHM0?=
+ =?utf-8?B?VGZNYzh5a2ZZSlVKNUp5aUh2WjRZSTUreTRTakpweVEvQmozR1RwcUd5ajNn?=
+ =?utf-8?Q?d0VbTj4UxYmu4oWtFyEj85sy1?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3eff392-7534-43bd-78f1-08de2e8a8af2
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2025 14:29:30.6798
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c9ThHrTRbq8azRHNOo7XKImVR9D13h72eyTSs0Lji7PB2qC5rV7eZ8e7HMovu3qbLRytraQVhqYUGGvZOzlLJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9818
 
-Add documentation for the new send_msg configfs attribute that allows
-sending custom messages directly through netconsole targets.
 
-The documentation covers:
-- How to use the send_msg attribute
-- Key features and requirements
-- Use cases for direct message sending
-- Example of periodic health check implementation
+On 27/11/25 20:23, Pierre Gondois wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On 11/5/25 12:38, Sumit Gupta wrote:
+>> Add kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable CPPC
+>> autonomous performance selection at system startup. When autonomous mode
+>> is enabled, the hardware automatically adjusts CPU performance based on
+>> workload demands using Energy Performance Preference (EPP) hints.
+>>
+>> This parameter allows to configure the autonomous mode on all CPUs
+>> without requiring runtime sysfs manipulation if the 'auto_sel' register
+>> is present.
+>>
+>> When auto_sel_mode=1:
+>> - All CPUs are configured for autonomous operation during module init
+>> - EPP is set to performance preference (0x0) by default
+>> - Min/max performance bounds use defaults
+>> - CPU frequency scaling is handled by hardware instead of OS governor
+>>
+>> For Documentation/:
+>> Reviewed-by: Randy Dunlap<rdunlap@infradead.org>
+>> Signed-off-by: Sumit Gupta<sumitg@nvidia.com>
+>> ---
+>>   .../admin-guide/kernel-parameters.txt         |  12 ++
+>>   drivers/cpufreq/cppc_cpufreq.c                | 197 +++++++++++++++---
+>>   2 files changed, 182 insertions(+), 27 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt 
+>> b/Documentation/admin-guide/kernel-parameters.txt
+>> index b8f8f5d74093..048f84008a7e 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -929,6 +929,18 @@
+>>                       Format:
+>> <first_slot>,<last_slot>,<port>,<enum_bit>[,<debug>]
+>>
+>> +     cppc_cpufreq.auto_sel_mode=
+>> +                     [CPU_FREQ] Enable ACPI CPPC autonomous 
+>> performance selection.
+>> +                     When enabled, hardware automatically adjusts 
+>> CPU frequency
+>> +                     on all CPUs based on workload demands. In 
+>> Autonomous mode,
+>> +                     Energy Performance Preference(EPP) hints guide 
+>> hardware
+>> +                     toward performance(0x0) or energy efficiency 
+>> (0xff).
+>> +                     Requires ACPI CPPC autonomous selection 
+>> register support.
+>> +                     Format: <bool>
+>> +                     Default: 0 (disabled)
+>> +                     0: use cpufreq governors
+>> +                     1: enable if supoorted by hardware
+>> +
+>>       cpuidle.off=1   [CPU_IDLE]
+>>                       disable the cpuidle sub-system
+>>
+>> diff --git a/drivers/cpufreq/cppc_cpufreq.c 
+>> b/drivers/cpufreq/cppc_cpufreq.c
+>> index d1b44beaddda..0a55ab011317 100644
+>> --- a/drivers/cpufreq/cppc_cpufreq.c
+>> +++ b/drivers/cpufreq/cppc_cpufreq.c
+>> @@ -28,8 +28,12 @@
+>>   #include <acpi/cppc_acpi.h>
+>>
+>>   static struct cpufreq_driver cppc_cpufreq_driver;
+>> +
+>>   static DEFINE_MUTEX(cppc_cpufreq_update_autosel_config_lock);
+>>
+>> +/* Autonomous Selection */
+>> +static bool auto_sel_mode;
+>> +
+>>   #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
+>>   static enum {
+>>       FIE_UNSET = -1,
+>> @@ -272,8 +276,13 @@ static int cppc_cpufreq_set_target(struct 
+>> cpufreq_policy *policy,
+>>       freqs.old = policy->cur;
+>>       freqs.new = target_freq;
+>>
+>> +     /*
+>> +      * In autonomous selection mode, hardware handles frequency 
+>> scaling directly
+>> +      * based on workload and EPP hints. So, skip the OS frequency 
+>> set requests.
+>> +      */
+>>       cpufreq_freq_transition_begin(policy, &freqs);
+>> -     ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+>> +     if (!cpu_data->perf_caps.auto_sel)
+>> +             ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+>>       cpufreq_freq_transition_end(policy, &freqs, ret != 0);
+>>
+>>       if (ret)
+>> @@ -565,6 +574,12 @@ static struct cppc_cpudata 
+>> *cppc_cpufreq_get_cpu_data(unsigned int cpu)
+>>               goto free_mask;
+>>       }
+>>
+>> +     ret = cppc_get_perf(cpu, &cpu_data->perf_ctrls);
+>> +     if (ret) {
+>> +             pr_debug("Err reading CPU%d perf ctrls:ret:%d\n", cpu, 
+>> ret);
+>> +             goto free_mask;
+>> +     }
+>> +
+>>       return cpu_data;
+>>
+>>   free_mask:
+>> @@ -666,11 +681,81 @@ static int 
+>> cppc_cpufreq_update_autosel_val(struct cpufreq_policy *policy, bool a
+>>       return 0;
+>>   }
+>>
+>> +static int cppc_cpufreq_update_epp_val(struct cpufreq_policy 
+>> *policy, u32 epp)
+>> +{
+>> +     struct cppc_cpudata *cpu_data = policy->driver_data;
+>> +     unsigned int cpu = policy->cpu;
+>> +     int ret;
+>> +
+>> +     pr_debug("cpu%d, eppcurr:%u,new:%u\n", cpu, 
+>> cpu_data->perf_ctrls.energy_perf, epp);
+>> +
+>> + guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
+> Do we need to take the mutex ? Or is it reserved to auto_sel ?
 
-This feature enables userspace applications to inject custom messages
-into the netconsole stream without going through the kernel's printk
-infrastructure, which is useful for application monitoring, testing,
-and debugging purposes.
+Will move this to parent function.
+Explained more in reply of the previous patch '7/8'.
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- Documentation/networking/netconsole.rst | 40 +++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+>> +
+>> +     ret = cppc_set_epp(cpu, epp);
+>> +     if (ret) {
+>> +             pr_warn("failed to set energy_perf forcpu:%d (%d)\n", 
+>> cpu, ret);
+>> +             return ret;
+>> +     }
+>> +     cpu_data->perf_ctrls.energy_perf = epp;
+>> +
+>> +     return 0;
+>> +}
+>> +
+>> +/**
+>> + * cppc_cpufreq_update_autosel_config - Update Autonomous selection 
+>> configuration
+>> + * @policy: cpufreq policy for the CPU
+>> + * @min_perf: minimum performance value to set
+>> + * @max_perf: maximum performance value to set
+>> + * @auto_sel: autonomous selection mode enable/disable (also 
+>> controls min/max perf reg updates)
+>> + * @epp_val: energy performance preference value
+>> + * @update_epp: whether to update EPP register
+>> + * @update_policy: whether to update policy constraints
+>> + *
+>> + * Return: 0 on success, negative error code on failure
+>> + */
+>> +static int cppc_cpufreq_update_autosel_config(struct cpufreq_policy 
+>> *policy,
+>> +                                           u64 min_perf, u64 
+>> max_perf, bool auto_sel,
+>> +                                           u32 epp_val, bool 
+>> update_epp, bool update_policy)
+>> +{
+>> +     const unsigned int cpu = policy->cpu;
+>> +     int ret;
+>> +
+>> +     /*
+>> +      * Set min/max performance registers and update policy 
+>> constraints.
+>> +      *   When enabling: update both registers and policy.
+>> +      *   When disabling: update policy only.
+>> +      * Continue even if min/max are not supported, as EPP and autosel
+>> +      * might still be supported.
+>> +      */
+>> +     ret = cppc_cpufreq_set_min_perf(policy, min_perf, auto_sel, 
+>> update_policy);
+>> +     if (ret && ret != -EOPNOTSUPP)
+>> +             return ret;
+>> +
+>> +     ret = cppc_cpufreq_set_max_perf(policy, max_perf, auto_sel, 
+>> update_policy);
+>> +     if (ret && ret != -EOPNOTSUPP)
+>> +             return ret;
+>> +
+>> +     if (update_epp) {
+>> +             ret = cppc_cpufreq_update_epp_val(policy, epp_val);
+>> +             if (ret)
+>> +                     return ret;
+>> +     }
+>> +
+>> +     ret = cppc_cpufreq_update_autosel_val(policy, auto_sel);
+>> +     if (ret)
+>> +             return ret;
+>> +
+>> +     pr_debug("Updated autonomous config [%llu-%llu] for CPU%d\n", 
+>> min_perf, max_perf, cpu);
+>> +
+>> +     return 0;
+>> +}
+>> +
+>>   static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>>   {
+>>       unsigned int cpu = policy->cpu;
+>>       struct cppc_cpudata *cpu_data;
+>>       struct cppc_perf_caps *caps;
+>> +     u64 min_perf, max_perf;
+>>       int ret;
+>>
+>>       cpu_data = cppc_cpufreq_get_cpu_data(cpu);
+>> @@ -734,11 +819,31 @@ static int cppc_cpufreq_cpu_init(struct 
+>> cpufreq_policy *policy)
+>>       policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
+>>       cpu_data->perf_ctrls.desired_perf = caps->highest_perf;
+>>
+>> -     ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+>> -     if (ret) {
+>> -             pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
+>> -                      caps->highest_perf, cpu, ret);
+>> -             goto out;
+>> +     if (cpu_data->perf_caps.auto_sel) {
+>> +             ret = cppc_set_enable(cpu, true);
+> The CPPC enable register is optional.
+> However this doesn't mean CPPC is not working.
 
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index 4ab5d7b05cf1..229d5fe9a3b3 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -139,6 +139,7 @@ The interface exposes these parameters of a netconsole target to userspace:
- 	local_mac	Local interface's MAC address		(read-only)
- 	remote_mac	Remote agent's MAC address		(read-write)
- 	transmit_errors	Number of packet send errors		(read-only)
-+	send_msg	Send custom messages directly		(write-only)
- 	=============== =================================       ============
- 
- The "enabled" attribute is also used to control whether the parameters of
-@@ -158,6 +159,45 @@ You can also update the local interface dynamically. This is especially
- useful if you want to use interfaces that have newly come up (and may not
- have existed when netconsole was loaded / initialized).
- 
-+Direct Message Sending
-+----------------------
-+
-+The `send_msg` attribute allows sending custom messages directly through a
-+netconsole target without going through the kernel's printk infrastructure.
-+This is a write-only attribute that can be used to send arbitrary text to
-+the configured remote logging agent.
-+
-+To send a message directly::
-+
-+ echo "Custom status message" > /sys/kernel/config/netconsole/target1/send_msg
-+
-+Key features:
-+
-+* Messages can be sent only when the target is enabled
-+* The network interface must be up and running
-+* For extended targets, messages are sent with the extended header format
-+* For non-extended targets, messages are fragmented if they exceed the
-+  maximum chunk size
-+* Messages bypass the kernel log buffer entirely
-+
-+This is useful for:
-+
-+* Sending application-level alerts or status updates
-+* Injecting custom markers or delimiters into the log stream
-+* Sending diagnostic information from userspace scripts
-+* Testing netconsole connectivity without generating kernel messages
-+
-+Example use case - sending periodic health checks::
-+
-+ while true; do
-+   echo "[$(date)] System health: OK" > /sys/kernel/config/netconsole/target1/send_msg
-+   sleep 60
-+ done
-+
-+.. note::
-+   The `send_msg` attribute requires the target to be enabled. Unlike other
-+   parameters, you do not need to disable the target to use this attribute.
-+
- Netconsole targets defined at boot time (or module load time) with the
- `netconsole=` param are assigned the name `cmdline<index>`.  For example, the
- first target in the parameter is named `cmdline0`.  You can control and modify
+Ya, changed this in v5.
 
--- 
-2.47.3
+>> +             if (ret) {
+>> +                     pr_err("Failed to enable CPPC on cpu%d (%d)\n", 
+>> cpu, ret);
+>> +                     goto out;
+>> +             }
+>> +
+>> +             min_perf = cpu_data->perf_ctrls.min_perf ?
+>> +                        cpu_data->perf_ctrls.min_perf : 
+>> caps->lowest_nonlinear_perf;
+>> +             max_perf = cpu_data->perf_ctrls.max_perf ?
+>> +                        cpu_data->perf_ctrls.max_perf : 
+>> caps->nominal_perf;
+>> +
+>> +             ret = cppc_cpufreq_update_autosel_config(policy, 
+>> min_perf, max_perf, true,
+>> + CPPC_EPP_PERFORMANCE_PREF, true, false);
+>> +             if (ret) {
+>> +                     cppc_set_enable(cpu, false);
+>> +                     goto out;
+>> +             }
+>> +     } else {
+>> +             ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
+>> +             if (ret) {
+>> +                     pr_debug("Err setting perf value:%d on CPU:%d. 
+>> ret:%d\n",
+>> +                              caps->highest_perf, cpu, ret);
+>> +                     goto out;
+>> +             }
+>>       }
+>>
+>>       cppc_cpufreq_cpu_fie_init(policy);
+>> @@ -910,7 +1015,6 @@ static int 
+>> cppc_cpufreq_update_auto_select(struct cpufreq_policy *policy, bool e
+>>       struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+>>       u64 min_perf = caps->lowest_nonlinear_perf;
+>>       u64 max_perf = caps->nominal_perf;
+>> -     int ret;
+>>
+>>       if (enable) {
+>>               if (cpu_data->perf_ctrls.min_perf)
+>> @@ -919,26 +1023,8 @@ static int 
+>> cppc_cpufreq_update_auto_select(struct cpufreq_policy *policy, bool e
+>>                       max_perf = cpu_data->perf_ctrls.max_perf;
+>>       }
+>>
+>> -     /*
+>> -      * Set min/max performance registers and update policy 
+>> constraints.
+>> -      *   When enabling: update both registers and policy.
+>> -      *   When disabling: update policy only.
+>> -      * Continue even if min/max are not supported, as EPP and autosel
+>> -      * might still be supported.
+>> -      */
+>> -     ret = cppc_cpufreq_set_min_perf(policy, min_perf, enable, true);
+>> -     if (ret && ret != -EOPNOTSUPP)
+>> -             return ret;
+>> -
+>> -     ret = cppc_cpufreq_set_max_perf(policy, max_perf, enable, true);
+>> -     if (ret && ret != -EOPNOTSUPP)
+>> -             return ret;
+>> -
+>> -     ret = cppc_cpufreq_update_autosel_val(policy, enable);
+>> -     if (ret)
+>> -             return ret;
+>> -
+>> -     return 0;
+>> +     return cppc_cpufreq_update_autosel_config(policy, min_perf, 
+>> max_perf, enable,
+>> +                                               0, false, true);
+>>   }
+>>
+>>   static ssize_t store_auto_select(struct cpufreq_policy *policy, 
+>> const char *buf, size_t count)
+>> @@ -1146,13 +1232,61 @@ static struct cpufreq_driver 
+>> cppc_cpufreq_driver = {
+>>       .name = "cppc_cpufreq",
+>>   };
+>>
+>> +static int cppc_cpufreq_set_epp_autosel_allcpus(bool auto_sel, u64 epp)
+>> +{
+>> +     int cpu, ret;
+>> +
+>> +     for_each_present_cpu(cpu) {
+>> +             ret = cppc_set_epp(cpu, epp);
+> Isn't the EPP optional ?
+
+Moving this to cppc_cpufreq_cpu_init in v5. Will add handling for 
+EOPNOTSUPP.
+
+
+> If autonomous selection is available but not EPP, we will bail out.
+
+I couldn't find in spec that EPP is mandatory when auto_select is enabled.
+
+
+>> +             if (ret) {
+>> +                     pr_warn("Failed to set EPP on CPU%d (%d)\n", 
+>> cpu, ret);
+>> +                     goto disable_all;
+>> +             }
+>> +
+>> +             ret = cppc_set_auto_sel(cpu, auto_sel);
+>
+> Also, it is possible that a platform only supports autonomous selection.
+> In this case, writing to auto_sel will fail, but auto_sel is still 
+> relevant.
+
+I am not sure if we will have such platform which only supports Autonomous
+mode and has auto_sel as read only. Will add handling for EOPNOTSUPP if we
+have such cases as the cppc_get_reg_val() will returns this error.
+
+Thank you,
+Sumit Gupta
+
+....
 
