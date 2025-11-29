@@ -1,146 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06573D531;
-	Sat, 29 Nov 2025 14:08:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50117205E02;
+	Sat, 29 Nov 2025 14:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764425291; cv=none; b=jQX2DLk1bD8jyNIn2wwLq9HNHj1lHW1lWfLz5BKrJwngMyeYwAY6UMoK09T8qZw1E2dLZyxU1lcWYFGrFIK8oIjksU4Z5o5kWPvLA1x0xDJGWs2l2QV50YG6MfHUC4qcT8DcDJmslV12BHRfAkwwiVinXedR9Gz7NnhtLqzZ5pI=
+	t=1764425940; cv=none; b=LKXYEta6Qp65IRnBMDmp7IcoRH/MOeK69HtRe/K4pbUwyuBEnyHZktLwvkuBhGaQcUsqPcSUb2MjfxzE2SnuYMOoBV3hrKxm+u/MUkBM4fjXs9gCCgpDKvvimuA/FR0Pr3p1EZFULlSibCPHrK12TtrSCIXN4RI/K4SSRa/RYkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764425291; c=relaxed/simple;
-	bh=2wLaW6J+5lucMrLRBbj46SiVk6R9/H6dyc5D1IxBoBg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jHqwTCeNbr1gaOjBz/mlO20ApLq/46RuqxymynMhVW40kTd4z3yiMv4r7R/LEzQS4Vl7kLj81QtWsDqUKZGdRdxKoegLhcGyBKSPOYmZlkfq4vkIh4KoJiTvEym0aL4YvTOjih+ZOTUIS0AS93ygv34aKy2r028/RvcegWyTC9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EL1xuBM/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764425940; c=relaxed/simple;
+	bh=oS0/mLeea8vXu51T6WuY3u6fHuFGZhgPlBPR0N14YYA=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=TLG5L0WSxukGAl8ao6w5qBYZXDvj8x4zHKTxyjy8Ng7koyE0cKgseQV6h0z95Exh+hb/ywxKgihx0hhzcP4YvMaLQtoMjzlVdh28foS4klm+0LWN5paWB2tM3zH1rsVxYCG01Cp4FpspWS7eUjmk30n8/Dx7/F2IqYfxYY5KdYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=LZXjjrVA; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EL1xuBM/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6A86C4CEF7;
-	Sat, 29 Nov 2025 14:08:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764425290;
-	bh=2wLaW6J+5lucMrLRBbj46SiVk6R9/H6dyc5D1IxBoBg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EL1xuBM/tAr74urXgSNDauXofpfFkvPAko2w/bU+eHta/dtYnE+sWsmu6tN0GjZh6
-	 2skbgae0IEYgCqoFnHxIf2KdNivAZpQcC6Ra9lFbSVOoiSclPNwScXTG0Z0JL2g3Ox
-	 JSnaXtJjG42/Up7LwzuJdXMLmKOM8sjWkW1vhCfZ5KPrp+TWnpGo4FPfX2hAKsb65C
-	 9XtcsomExkzrDkFdDpgH+Zeeg27M03ukOf6lGnCaJ7Ga+5NdCUSs4bRqFLiJVbbqtH
-	 W2SwwJGb0RDoZt8kNFm4IIo8Hq0s9rHY+aLe824nXwWbO1sqgFNcHc+IPOwZv58AkN
-	 ZPcBk6s1gFLAg==
-Message-ID: <2df5ac80-5db6-4b8f-ab5b-b8b89237777f@kernel.org>
-Date: Sat, 29 Nov 2025 15:08:03 +0100
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="LZXjjrVA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1764425929; bh=v83JbvFeBnl5kh2TpPfmiHCjWkm+Icj7z7mtZPjZwo0=;
+	h=From:Message-Id:From;
+	b=LZXjjrVAaP3mkSXDSsqj+j7c3TEUd/dOrn4r5ERwXwCwT5oTDhQttH9N5TSGjFM3X
+	 XEydGNGU0mR6yxv/f3sO+R6uqk4z1SK54ydZT3Sj6u31ZlRmSMsUcfp+v6y3hntF3t
+	 kpmrcDHQEstnrNg57UOW3xlRSynxvPBfjlxFjGZY=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id B8CD5C04AA;
+	Sat, 29 Nov 2025 15:18:49 +0100 (CET)
+Received: (from willy@localhost)
+	by pcw.home.local (8.15.2/8.15.2/Submit) id 5ATEIn8h019093;
+	Sat, 29 Nov 2025 15:18:49 +0100
+From: Willy Tarreau <w@1wt.eu>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Security Officers <security@kernel.org>, gregkh@linuxfoundation.org,
+        kees@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: insist on the plain-text requirement for security reports
+Date: Sat, 29 Nov 2025 15:17:41 +0100
+Message-Id: <20251129141741.19046-1-w@1wt.eu>
+X-Mailer: git-send-email 2.17.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next V4 09/14] net/mlx5: Introduce shared devlink
- instance for PFs on same chip
-To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
- Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>,
- Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
- Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
- Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>,
- Jiri Pirko <jiri@nvidia.com>, Randy Dunlap <rdunlap@infradead.org>
-References: <1764101173-1312171-1-git-send-email-tariqt@nvidia.com>
- <1764101173-1312171-10-git-send-email-tariqt@nvidia.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <1764101173-1312171-10-git-send-email-tariqt@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 25/11/2025 21:06, Tariq Toukan wrote:
-> +
-> +static void mlx5_shd_destroy(struct mlx5_shd *shd)
-> +{
-> +	list_del(&shd->list);
-> +	kfree(shd->sn);
-> +	faux_device_destroy(shd->faux_dev);
-> +}
-> +
-> +int mlx5_shd_init(struct mlx5_core_dev *dev)
-> +{
-> +	u8 *vpd_data __free(kfree) = NULL;
+As the trend of AI-generated reports is growing, the trend of unreadable
+reports in gimmicky formats is following, and we cannot request that
+developers rely on online viewers to be able to read a security report
+full for formatting tags. Let's just insist on the plain text requirement
+a bit more.
 
-This is undesired syntax explicitly documented as one to avoid. Please
-don't use cleanup.h if you do not intend to follow it.
+Signed-off-by: Willy Tarreau <w@1wt.eu>
+---
+ Documentation/process/security-bugs.rst | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Plus netdev dislikes cleanup, that's another point.
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index 84657e7d2e5b..c0cf93e11565 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -33,12 +33,16 @@ that can speed up the process considerably.  It is possible that the
+ security team will bring in extra help from area maintainers to
+ understand and fix the security vulnerability.
+ 
+-Please send plain text emails without attachments where possible.
++Please send **plain text** emails without attachments where possible.
+ It is much harder to have a context-quoted discussion about a complex
+ issue if all the details are hidden away in attachments.  Think of it like a
+ :doc:`regular patch submission <../process/submitting-patches>`
+ (even if you don't have a patch yet): describe the problem and impact, list
+ reproduction steps, and follow it with a proposed fix, all in plain text.
++Markdown, HTML and RST formatted reports are particularly frowned upon since
++they're quite hard to read for humans and encourage to use dedicated viewers,
++sometimes online, which by definition is not acceptable for a confidential
++security report.
+ 
+ Disclosure and embargoed information
+ ------------------------------------
+-- 
+2.17.5
 
-> +	struct pci_dev *pdev = dev->pdev;
-> +	unsigned int vpd_size, kw_len;
-> +	struct mlx5_shd *shd;
-> +	const char *sn;
-> +	char *end;
-> +	int start;
-> +	int err;
-> +
-> +	if (!mlx5_core_is_pf(dev))
-> +		return 0;
-> +
-> +	vpd_data = pci_vpd_alloc(pdev, &vpd_size);
-
-Here....
-
-> +	if (IS_ERR(vpd_data)) {
-> +		err = PTR_ERR(vpd_data);
-> +		return err == -ENODEV ? 0 : err;
-
-And here you kfree(IS_ERR).
-
-This is either buggy code or very confusing. Please do not use cleanup.h
-if to intend not to read it.
-
-
-Best regards,
-Krzysztof
