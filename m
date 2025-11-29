@@ -1,33 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C46262FC1;
-	Sat, 29 Nov 2025 14:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77951DDA18
+	for <linux-doc@vger.kernel.org>; Sat, 29 Nov 2025 15:01:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764427742; cv=none; b=DdSnaGzSoWABmTuJ5zRtBRztX/B8Ji1J3KZpy2WgDKtJQp4ghaNMRmZdJavkBj/0tPaxseBrlL34TFVsCzPzPNK4FjNHfwCXFsjbse2iFJVITiLOIzLfuwnzDzevme2f68Z0P/zD2Z2xjASMViUuRQnpr3+VSgIs5AidlB4CxI0=
+	t=1764428508; cv=none; b=thxuvSJeanGbu5k7FggzIjJsUBypYmI0f2tKYStaXVU+UidPG9lUPYZrIpPq1ebSrfSurIbU8yu5+35gHNqu4f2IfepiRBY6CBwUcoHbYPyZtcLdTBSTAWVcJnFnHu5Z4ExNxbLEkTt8WaYIbO5rkm3kRGZVZAYuW44ZPY5cmWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764427742; c=relaxed/simple;
-	bh=ZGaY1UMQFcaWR//+oyKixU40+cjodIS95PP9QfpxBXI=;
+	s=arc-20240116; t=1764428508; c=relaxed/simple;
+	bh=S82F1K7S3wq+wEZwqZYNaKQ6Z90pqwCr0/1QZlEP1+0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ekl+mmwGuBWVZCxDkv1uZ5nEA2lxZsQReLwBdVKqu5LGltR/JncVgbwWkwIZ2gNkL03VEUWZRMzcBh6pWf8aZ2CxUtmhqKsLmL4np3+BtU2DnXKFEWw/DAtSwwo0sooSTBulQtu3xKM1itpxX21ed1RuO8VWU8lLyRlL4KcAGRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uj84wY9c; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=RSWCJvJUWaKiOjPGs66wq7kyLHODW38TjYZ/L9meX2/hiR7x1unLV0X4x03YwIxWcFgj8mtwjSugDLuXAilB0vFDTDY189ZR0YI+EOYXB7vtQE49w01PHgtHZyIew11JxUuqJwW2eqPcIWjapfoJkETXGxwClTOYIBgJi3Rt98g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HHuzSgkN; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uj84wY9c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B7AC4CEF7;
-	Sat, 29 Nov 2025 14:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764427742;
-	bh=ZGaY1UMQFcaWR//+oyKixU40+cjodIS95PP9QfpxBXI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Uj84wY9cihudCcWOBhUhN6CVKeFkLTVeYDRe/eN28FqOvjWM4Jhrnq3R5JAHooSIZ
-	 p8AdyqBWE3csNDufZwkEqRvR1iAZwrKClzQ000k9kLcvE31CR0I08GFeRv4eXdIb+f
-	 xvElFPtPWJDPsR3rpvFxFu4Bou4MFD5+alUW7y5T+tr/KAVMtRln8e+eS/3eRfFhBd
-	 o/IJ8yjU8ETQ8b50MycqO5RY9LnY9J8J4VGAwrENcq/pCpi1b97EE6QQowzCXdHw3y
-	 sb/TjipLHXDxXfx1vjtZV3mazt8QZfCBIXHRtx1f7V0CShR5Qti5jw0Fn4/x2vs1jj
-	 RzlWYSSjMfG0g==
-Message-ID: <6ebeb4e7-e446-45aa-a0bb-fc96d1431580@kernel.org>
-Date: Sat, 29 Nov 2025 15:48:57 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HHuzSgkN"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-37b9728a353so1992711fa.0
+        for <linux-doc@vger.kernel.org>; Sat, 29 Nov 2025 07:01:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764428505; x=1765033305; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=2DyIri4gHptV5hDHgdSaKb6KWPh3tki3cdXW1D5aCBI=;
+        b=HHuzSgkNo8bCdB83l/XSrNqWuUvM2pvRHnQ1s6d1V/YSOOmrTXGZA5L6rYgiyZmYP4
+         uWF7/dcj8afw9Fs15l8jzDbcy2zTq2HKY1GNlok4HRSM54eK5N7pxgXq1WYlPHBll3p9
+         1GWTlrITo3tSJfVkDtJSMp/JKRNxpCVB9TognclaIKG1r1EsVL0hNWR73B4l1DWqAhUu
+         vtU3zK1TT2yD3e2iIBoXlTkDHJeRNsK+kmAkEYKAAtxVvHrW4UZ0+nHpW81TLk6DcQoL
+         C+RHImekTlrHfeR0P2X8lFgVJk7z0cmYrj1qHpoguoU+aSQa4j/mL6ykQ3XZpH3V2qLV
+         mZrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764428505; x=1765033305;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2DyIri4gHptV5hDHgdSaKb6KWPh3tki3cdXW1D5aCBI=;
+        b=P5F+bMu4phlqVN04Q0Uai46ZQM5uv6B0GtGB6ukwd/E5tTidg85XjSjZ/iw4Zt2I8H
+         QJ/zWBMyAzfn+NZW0a4iPjf2dw8dAZbXj8SduUfVrUkNCl3fjwo/Y2ouqHruNpRHa7LF
+         Gmd/j39MTv6ObUAXjbGsWM9w42CC3PMSODG/0KISHgoPfZWGn/QvtKlycgUzDyqt6/CF
+         HHZv4Ltm48K6Pp6gOLu9w6ZQmulCfOgLrWDGz4zpoWGuz2Tc2z6tkDzqUIbixp73bz4t
+         pLtcywY14own8EkvzUr7FWcY+SN5K5+OwhodHBspLIzRP9J2DFsuP1ZSPsVERD1TZ7iw
+         OesQ==
+X-Gm-Message-State: AOJu0YxmBgpGRa6oIk3CYB21g5dUaMztYbN+GzLr/UT2wE/IGwW/aksb
+	QqqzGHHdc5IryYuzwIRMWFLrfWQIB07mSDZggJ0rVgVz2ZzIodiT34qu
+X-Gm-Gg: ASbGncuqoGtaNpuDHERzVNFLVnCz1wVmOKhidfQ38I6TAZVhxw+Xv8b3BQ5GaXePxtn
+	i3S60H/txFBKt5/TnTUcfe56zTTpiwUFwoDJPZw7UsoS8w624LhAx0Dp3c02Df/6n/xk5rFHost
+	eNjqDCG+H/VbxUv/4GI6HVJnJpH51WDXSr21WffOi2Lbhp193WJoTQzE17+kSmPCdVRqiJWhPfV
+	eePVYRqvB6XK9osJ+B1MrarmCUyzEgC1KSxLBow7Lw2vNHVd4qAUbJFvVQA0at2l9FbmBD8CKgZ
+	2tcuCvYWFOTaXcU63GDhv1WGwJqvfqFne+nsZdqXCjOCdWOWp++wT82IP83GX+CaeAng7elE6yL
+	SvFWR5p4iOfG6JaRsZ0sbnAVDnTsuDwPrHC2yhVjIdD7Xe1smLp5rkP5vb5XpdvSxvsOmRJjtVy
+	d16OHUfbPho2Xx3a+Mio97Z7t4gCLD+7zvDTqh1pC56qfv
+X-Google-Smtp-Source: AGHT+IEYMiFXC3v2TmshLvb59zyfSm9LpspO+/OfzyuqNLM4yBmG5ZGE/1yqj4SZxSsPzD0yHRxSmg==
+X-Received: by 2002:a05:651c:2148:b0:369:55f3:57f with SMTP id 38308e7fff4ca-37cd92cd20amr61236061fa.35.1764428504526;
+        Sat, 29 Nov 2025 07:01:44 -0800 (PST)
+Received: from [192.168.1.149] (nat-0-0.nsk.sibset.net. [5.44.169.188])
+        by smtp.googlemail.com with ESMTPSA id 38308e7fff4ca-37d2369067bsm17074441fa.9.2025.11.29.07.01.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 29 Nov 2025 07:01:44 -0800 (PST)
+Sender: Maxim Nikulin <m.a.nikulin@gmail.com>
+Message-ID: <c5bb2474-b66d-47e5-b392-b12c4db979df@gmail.com>
+Date: Sat, 29 Nov 2025 22:01:41 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,169 +69,46 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] platform/x86: thinkpad_acpi - Add doubletap_filter
- sysfs interface
-To: Vishnu Sankar <vishnuocv@gmail.com>, corbet@lwn.net,
- dmitry.torokhov@gmail.com, hmh@hmh.eng.br, derekjohn.clark@gmail.com,
- ilpo.jarvinen@linux.intel.com
-Cc: mpearson-lenovo@squebb.ca, linux-doc@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- ibm-acpi-devel@lists.sourceforge.net, platform-driver-x86@vger.kernel.org,
- vsankar@lenovo.com
-References: <20251129002533.9070-1-vishnuocv@gmail.com>
- <20251129002533.9070-3-vishnuocv@gmail.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20251129002533.9070-3-vishnuocv@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] docs: admin: devices: /dev/sr<N> for SCSI CD-ROM
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, linux-scsi@vger.kernel.org
+References: <a221275c-53af-459d-97ed-05a0766adb04@gmail.com>
+ <aSqPHMSgtHN7ty8-@archie.me>
+Content-Language: en-US, ru-RU
+From: Max Nikulin <manikulin@gmail.com>
+In-Reply-To: <aSqPHMSgtHN7ty8-@archie.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Vishnu,
-
-On 29-Nov-25 1:25 AM, Vishnu Sankar wrote:
-> Add sysfs interface for controlling TrackPoint doubletap event filtering.
-> This allows userspace to enable/disable doubletap functionality and
-> query the current state.
+On 29/11/2025 13:13, Bagas Sanjaya wrote:
+> On Sat, Nov 29, 2025 at 12:12:32AM +0700, Max Nikulin wrote:
+>> +Usage of ``/dev/scd?`` as alternate SCSI CD-ROM names for ``sr?`` devices
+>> +ended around year 2011.
 > 
-> The attribute is available at:
-> /sys/devices/platform/thinkpad_acpi/doubletap_filter
-> 
-> When set to 1, doubletap events are filtered out (ignored).
-> When set to 0, doubletap events are processed (default).
-> 
-> This complements the automatic hardware enablement in the trackpoint
-> driver by providing user control over event processing at the kernel level.
-> 
-> Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
-> Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-> ---
-> Changes in v2:
-> - Updated commit message to clarify dependency on trackpoint driver
-> - Now handling sysfs read/write of trackpoint driver using file read/write
-> - Removed sysfs attribute creation of trackpoint double tap here
-> - Reversed the logic and return false right away
-> - Dropped unnecessary debug messages
-> - Using dev_dbg() instead of pr_xxxx()
-> 
-> Changes in v3:
-> - No changes
-> 
-> Changes in v4:
-> - Simplified approach: single sysfs attribute for user control
-> - Clear naming: doubletap_filter instead of doubletap_enabled
-> - Intuitive behavior: 0=process events, 1=filter events
-> - No cross-driver dependencies or complex interactions
-> - Minimal code changes using existing thinkpad_acpi infrastructure
-> ---
-> ---
->  drivers/platform/x86/lenovo/thinkpad_acpi.c | 54 +++++++++++++++++++--
->  1 file changed, 49 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/lenovo/thinkpad_acpi.c b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> index cc19fe520ea9..9b646ecff452 100644
-> --- a/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-> @@ -373,7 +373,7 @@ static struct {
->  	u32 hotkey_poll_active:1;
->  	u32 has_adaptive_kbd:1;
->  	u32 kbd_lang:1;
-> -	u32 trackpoint_doubletap:1;
-> +	u32 trackpoint_doubletap_filter:1;
+> What about "Support for /dev/scd? as alternative names for /dev/sr? has been
+> removed in 2011"?
 
-Why the rename? The new name suggests that events will be filtered
-when trackpoint_doubletap_filter = 1, so inverted of the old name
-but when processing events events are let through when
-trackpoint_doubletap_filter == 1 so 1 means _not_ filtering which
-makes the name weird:
+If others support your suggestion then I do not mind. Feel free to 
+commit preferred variant ignoring my patch.
 
-> +		/* Only send the event if kernel-level filtering allows it */
-> +		if (tp_features.trackpoint_doubletap_filter)
->  			tpacpi_input_send_key(hkey, send_acpi_ev);
+I would be more verbose however by adding that it was removed namely 
+from udev:
 
-Maybe you forgot to add an '!' here, iow this should become:
+Creation of ``/dev/scd?`` alternative names for ``sr?`` CD-ROM and other 
+optical drives (using SCSI commands) was removed in ``udev-174`` 
+(released in 2011).
 
-		/* Only send the event if kernel-level filtering allows it */
-		if (!tp_features.trackpoint_doubletap_filter)
-			tpacpi_input_send_key(hkey, send_acpi_ev);
+Perhaps I am biased by my confusion. Noticed that wodim tries to access 
+currently absent /dev/scd0 for kernels >= X.6, I tried git blame game in 
+kernel repository to find kernel version when scd<N> were renamed to 
+sr<N>. It took some time for me to realize that it is impossible to 
+determine scd vs. sr from kernel version. That is why I would consider 
+adding explicit mention of udev. Otherwise for me it sounds like that 
+scd? names were removed from kernel. I am not a native English speaker, 
+so I do not insist on my variant.
 
-?
-
->  	struct quirk_entry *quirks;
->  } tp_features;
->  
-> @@ -3104,8 +3104,35 @@ static void tpacpi_send_radiosw_update(void)
->  	hotkey_radio_sw_notify_change();
->  }
->  
-> +static ssize_t doubletap_filter_show(struct device *dev,
-> +				      struct device_attribute *attr,
-> +				      char *buf)
-> +{
-> +	return sysfs_emit(buf, "%d\n", tp_features.trackpoint_doubletap_filter);
-> +}
-> +
-> +static ssize_t doubletap_filter_store(struct device *dev,
-> +				       struct device_attribute *attr,
-> +				       const char *buf, size_t count)
-> +{
-> +	bool filter;
-> +	int err;
-> +
-> +	err = kstrtobool(buf, &filter);
-> +	if (err)
-> +		return err;
-> +
-> +	tp_features.trackpoint_doubletap_filter = filter;
-> +	return count;
-> +}
-> +
-> +static DEVICE_ATTR_RW(doubletap_filter);
-> +
->  static void hotkey_exit(void)
->  {
-> +	if (tpacpi_pdev)
-> +		device_remove_file(&tpacpi_pdev->dev, &dev_attr_doubletap_filter);
-> +
-
-New code should not use device_create_file() / device_remove_file() instead
-the attribute should be added to hotkey_attributes[] and then the driver
-core will automatically add/remove it.
-
->  	mutex_lock(&hotkey_mutex);
->  	hotkey_poll_stop_sync();
->  	dbg_printk(TPACPI_DBG_EXIT | TPACPI_DBG_HKEY,
-> @@ -3557,8 +3584,22 @@ static int __init hotkey_init(struct ibm_init_struct *iibm)
->  
->  	hotkey_poll_setup_safe(true);
->  
-> -	/* Enable doubletap by default */
-> -	tp_features.trackpoint_doubletap = 1;
-> +	/*
-> +	 * Enable kernel-level doubletap event filtering by default.
-> +	 * This allows doubletap events to reach userspace.
-> +	 */
-> +	tp_features.trackpoint_doubletap_filter = 1;
-
-Again this seems to be inverted, or if you really want
-trackpoint_doubletap_filter to work as an enable flag
-then please rename it to trackpoint_doubletap_enable.
-
-
-> +
-> +	/* Create doubletap_filter sysfs attribute */
-> +	if (tpacpi_pdev) {
-> +		int err = device_create_file(&tpacpi_pdev->dev, &dev_attr_doubletap_filter);
-> +		if (err) {
-> +			pr_warn("Unable to create doubletap_filter sysfs attribute\n");
-> +			/* Continue even if sysfs creation fails */
-> +		} else {
-> +			pr_info("ThinkPad ACPI doubletap_filter sysfs attribute created\n");
-> +		}
-> +	}
-
-This can be dropped (replaced by adding the attr to hotkey_attributes[].
-
-Regards,
-
-Hans
-
+How long I should wait for comments before submitting another revision 
+of the patch? I hope, pending changes are not an obstacle for those who 
+are tempting to review the whole devices.rst file.
