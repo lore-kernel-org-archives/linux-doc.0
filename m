@@ -1,111 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5836441C62;
-	Sat, 29 Nov 2025 17:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36581EA7DB
+	for <linux-doc@vger.kernel.org>; Sat, 29 Nov 2025 19:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764438368; cv=none; b=Xun6OZ3Pyr+59mJqgbN+sYckVwmnsVpPD91NsmzGN97rtRs3gN4lduOhjNWj+N7Rku65T/uF8kC8kNvoQs7mjICIom4JLEHbnwNi0plircQS0hNwcgQlLuD3U9oyjN4gQgnXZxTgE+cEumaUC2+88YGJSPjcBsTGPNucx9WUNJ0=
+	t=1764445724; cv=none; b=FBCH/IGZGQ72JbAn/5/BsIOrcXJshEQYTjDN77k+5wgwvCZETp+Rwn3H5HKJ5vLax/qvxBvIazmD7fdVxSXLP0xReOZZe7zTOYmBg5qrL5upCQepwohFgJBiYHTr3evWf9D0KYHWwJqmiW1EYykAd+p6ejT3pph1BsIdFsS7auY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764438368; c=relaxed/simple;
-	bh=sG7xAvmeT/U78VJU2jq/8MBPk1NtPrKbbtxcHJpuZi4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dfh6pL31h1cORByydPbB8AOZb752IaJKip035Ka+g6a6QaST9CpMMlnToKHEaPULBpUpt7RbdwlY9N2T5zvqx1JkYLSXyMM/tDzTPhAYsuDbleHpZ08szGStIb2S3sPZ+Nd1TaVisoaM8bMl84b/mIvquDxF3YScRyG+qbCSeFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HsuQa2Kc; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1764445724; c=relaxed/simple;
+	bh=FvnB858yBC1J0pt7vj0LsIOHEafXPTiu7LsXlJJcg5k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gbJcUN4axjmwB89P2TKNfac5kwNXqIxZNagy8CI0NFxokYN5sOSQ9MVqQI9bCyKaUurfFwsiya67PpxAnEIAGfX+1ilByt/Zb+zUlXy3r417FDQqd1c5Wf2MH1NF1hNoscPqSMJHXBTE/xU0GbVKnINsu0cXWaJ9BrruENNa/EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=XIckq9bd; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HsuQa2Kc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764438366; x=1795974366;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sG7xAvmeT/U78VJU2jq/8MBPk1NtPrKbbtxcHJpuZi4=;
-  b=HsuQa2Kcf4PfrFAi8FM2JxKiGp2qdPbpgCTOFo72n4dgH4bU9X/uK6yE
-   /xoDR6iV22Jp2/Qv3vdDRzXkHCnYvNeGlBbJkbwOH+O3yfJDR2PpU9mOu
-   AnLZTD5FphtO0VZV3s1ajQNPrxAx1/nszpdd5WNLafSfTP23pW/u0Qz6u
-   XyRbLYjOy9jmUBcA6LZ3i6tqXTh/6zNN1yaEQZcSJ7QoMzo6Ip1COl0RL
-   1BDBVzElYiggnQh0ghrmFZDPRDNgq7oLPXo7j/rXyqUuHrjQMJuSpkM89
-   v9/djO/nENW+STLtpKPn3GgyuwMWxy/VE0HWmx5SS0288unPvCVHPtwiU
-   g==;
-X-CSE-ConnectionGUID: rLvQm+FLR7SjP2X0SKmYPA==
-X-CSE-MsgGUID: dZG+/s78SuKVO93/CHmmyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="77058658"
-X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="77058658"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 09:46:05 -0800
-X-CSE-ConnectionGUID: Xix+YeQ/Rmeva456Cx2KDQ==
-X-CSE-MsgGUID: MwSz+Sy9SYWRxjv3Ph7wFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="193594079"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.50])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 09:46:02 -0800
-Date: Sat, 29 Nov 2025 19:46:00 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Joe Perches <joe@perches.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PATCH v2 1/1] docs: Update documentation to avoid mentioning of
- kernel.h
-Message-ID: <aSsxWIdMqYtiEugU@smile.fi.intel.com>
-References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
- <a731c794-1b4c-4ea7-9cf1-0210b95eaa4d@infradead.org>
- <aSsQFjv5DK_7GS6P@smile.fi.intel.com>
- <87wm38vnp3.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="XIckq9bd"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6418738efa0so4807005a12.1
+        for <linux-doc@vger.kernel.org>; Sat, 29 Nov 2025 11:48:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1764445721; x=1765050521; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FvnB858yBC1J0pt7vj0LsIOHEafXPTiu7LsXlJJcg5k=;
+        b=XIckq9bdeFf6oAvD7msi/4Mf7LFc3AIVourkgk0WDc2Wm7ThEkM70d2fODO6z+Qjcm
+         1g1UjPJWr2q/G9r2On3r3IeWL4kxKHXuVWPvVJcdQ2B7Rxl3KoRj2jRUFzhnUulN1INk
+         9QU4E6dQK/gDf1FCZxJP6qtcizxM9VG/1+BurpywNpHzH3cS9pjh+ftrMLzQwjsLHlHt
+         WYjzxAYsCRzDMYGo9jHvp75CZlH14UFiJydZuVc1UUp2jJruM1J4F/o8GhATu2M6RVfY
+         BDD2+pYnieTIw/GkhnhhIZK7QGVqcQQWei4eZZX+8pTq2SOTppF1PizmgL4VEuCbov7E
+         xzhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764445721; x=1765050521;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FvnB858yBC1J0pt7vj0LsIOHEafXPTiu7LsXlJJcg5k=;
+        b=l1GZ5jtzQiCKsK1aUOwB1oTOAiVIGV0cZfgy/WymfdpQzzcbyw2x1T2oyfnaeZD9rZ
+         Oyc9r+fBQt722NZMxKFs8+SspHCp1VvWRZRDEgNNL5HWSzEdbdJ3+d/3sEq/dy06kIVF
+         PcE4ysx4HcWhi4rygef0UzecZs1ks/mdHX87FDlf5fx4EjFy0c0paM9KQfAgVbRhxztj
+         kD9zslBz5NzdTAO2Uk+D9hBelfJXkXAvrlIkwvbGkyOZxZ5FiDmT816Rr8HWrTRNpy3f
+         M9FDkRfkuUMbZL9195omZYj/71SaasxQzc5HGxRZx33bq5uiZRtOh9lFjoZnx4Sn7GL9
+         uyTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAp8i056qntsSBgRexKgNuIRSGW3UteKsVcKA1mOdPsHDKKJJCpWHB+Z2WP/TD+enVNghfYKKurc8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyPwAIKmyPhLiU/pSiwze5CFb96q9kzP2lQXlYX0OKdIHDuLNl
+	lgfYGGPm/357e7WwlcrcJO0atp13ZxH7xrjM1HoYWeMLXlMvjCla3I0VvkJ7WnO83L0SAmYDuaZ
+	WQnTthkJeO5y4PQzod9W5kM+brWfbaKr5pv7FbsEpLo+THIUNdqy3LSo=
+X-Gm-Gg: ASbGncuz8VjevEkYfgm6uKxLHcFuGo8760QWMcBT8mCfZooBYi3yojIzuFDTaies/ka
+	uDApF7RbmoSlkTt5cwVnwOphT3xKjpYF0enoTOGTIg7Dc+WGBbhh7aJnLr5yW9uatQtemxKYupD
+	o1lDynw8F3DhFHmVAxp+2pOV4JF7rF9QzF9ViMMulH0j/f5mmj76g/M8+i9GPq2wM4COpWj3l2R
+	iHzpbRKQHvv0kPZc3kTdbDVgSJOWbhfTYaOaB6ZAwZ2xLUeKc1sdy1a7/KEJHuzjNnyHsS1/T4O
+	c1I=
+X-Google-Smtp-Source: AGHT+IGhdc7jpzZXbXzx+5ElHkJeGrvp4qZaRisqTJjP2qnsBtMcrab/nIjZx21bI1RZAQ8c6oAhKLXIxmDs2rQnWOM=
+X-Received: by 2002:a05:6402:274f:b0:645:cd64:31c5 with SMTP id
+ 4fb4d7f45d1cf-645cd6431f3mr20056802a12.26.1764445720596; Sat, 29 Nov 2025
+ 11:48:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87wm38vnp3.fsf@trenco.lwn.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20251126185725.4164769-1-pasha.tatashin@soleen.com>
+ <20251126185725.4164769-3-pasha.tatashin@soleen.com> <CABVgOSkPMugdzjRoL9-NyJFWM3KJbUhoTG3BswbAqjyod4NbOQ@mail.gmail.com>
+In-Reply-To: <CABVgOSkPMugdzjRoL9-NyJFWM3KJbUhoTG3BswbAqjyod4NbOQ@mail.gmail.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Sat, 29 Nov 2025 14:48:03 -0500
+X-Gm-Features: AWmQ_bkfURTHz40LLAhwd6J77GcKxmYlVd_cOa8hnPhfKNjpPXex3xo5z94pM3o
+Message-ID: <CA+CK2bCOuPGvtcDx0P3a8CZ6EmnjzFfF=gJehpafNNBHX9reWg@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] list: add kunit test for private list primitives
+To: David Gow <davidgow@google.com>
+Cc: corbet@lwn.net, nicolas.frattaroli@collabora.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	akpm@linux-foundation.org, kees@kernel.org, pmladek@suse.com, 
+	tamird@gmail.com, raemoar63@gmail.com, ebiggers@kernel.org, 
+	diego.daniel.professional@gmail.com, rppt@kernel.org, pratyush@kernel.org, 
+	jasonmiu@google.com, graf@amazon.com, dmatlack@google.com, 
+	rientjes@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 29, 2025 at 08:54:48AM -0700, Jonathan Corbet wrote:
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
-> > On Wed, Nov 26, 2025 at 04:26:04PM -0800, Randy Dunlap wrote:
-> >> On 11/26/25 1:46 PM, Andy Shevchenko wrote:
-> >> > For several years, and still ongoing, the kernel.h is being split
-> >> > to smaller and narrow headers to avoid "including everything" approach
-> >> > which is bad in many ways. Since that, documentation missed a few
-> >> > required updates to align with that work. Do it here.
-> >> > 
-> >> > Note, language translations are left untouched and if anybody willing
-> >> > to help, please provide path(es) based on the updated English variant.
-> >> > 
-> >> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> >> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> >> 
-> >> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+On Sat, Nov 29, 2025 at 2:47=E2=80=AFAM David Gow <davidgow@google.com> wro=
+te:
+>
+> On Thu, 27 Nov 2025 at 02:57, Pasha Tatashin <pasha.tatashin@soleen.com> =
+wrote:
 > >
-> > Thanks, Randy!
+> > Add a KUnit test suite for the new private list primitives.
 > >
-> > Jonathan, please apply this change. Independently on the opinions about
-> > kernel.h the documentation has to be updated as it's currently misleading.
-> 
-> I will but not right away...I'm really trying to stabilize things,
-> already too late, for the merge window.
+> > The test defines a struct with a __private list_head and exercises ever=
+y
+> > macro defined in <linux/list_private.h>.
+> >
+> > This ensures that the macros correctly handle the ACCESS_PRIVATE()
+> > abstraction and compile without warnings when acting on private members=
+,
+> > verifying that qualifiers are stripped and offsets are calculated
+> > correctly.
+> >
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > ---
+>
+> Thanks -- I'm glad to see tests added with this!
+>
+> I'd be okay with this living in the same config option as the other
+> list tests (LIST_KUNIT_TEST) if you'd prefer, but don't particularly
+> mind either way.
 
-Noted, thanks for explanation!
+I prefer to keep them separate just because they work differently. The
+other list tests emphasis on runtime correctness, and here emphasizes
+on verifying ACCESS_PRIVATE() does not generate compiler warnings.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> Reviewed-by: David Gow <davidgow@google.com>
 
+Thanks!
 
+Pasha
