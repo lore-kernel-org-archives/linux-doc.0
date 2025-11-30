@@ -1,63 +1,65 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AD2238171
-	for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 23:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD622FE07E
+	for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 23:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764545734; cv=none; b=M8gIdPelkeikrp+kpcHiDtRiiaShCNLxFEG6AAvPggLLEgnz2ZOvhgMrhNcjH2E8F80bE51DLCO+PpA3tCHX95bPYYegxSeOpC3/NaNmgArbQt3OeFxw1W739xb02UMH7nkUkjAXQNsLtP3lA/Y9NmadkScFJUVCZN59y13ptAE=
+	t=1764545736; cv=none; b=TxcdX4RuNGFtdTFsj2Qr0UlyefTj6qUP5bG4/4T53ZFOkuNZt1YCGnRWa1HV9RMrksZHYsCYFOb5swlAn347ku2i10SPcI92wVX3BjO3erJXUN1v9e+NZsTMGIc8F2LZXeHJPKC0k8Lmzpsznu4mmXtzS4Yx/pH308yLL27TSi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764545734; c=relaxed/simple;
-	bh=avO1UeedN/STJoSnCOQ5Xr9OSRYW37NwH27coYDpseQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HN82Z2onz8b3P4SWXNRiEqRG4+lmFti+GinO1H3vxDjjaKjO7ehfAJXqT2Regm5BOUmAD5RhO6JC8f4nSbLk9Ad2asDIDuchF/6/+DURU0zT39sfyEAhkVonCRY4nMsp4Dd7nyrPqxxSLPZjewSHczHvydJYk6/dQ2oFny+E+XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h4f8V7nv; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1764545736; c=relaxed/simple;
+	bh=J+v78DVUuvU5F3kifckIxv2vG5fH2TZFf9LLLr3M6jQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BXH5ZPBdp9s6p/1D5vBGc+A9GaJokpo+jmHDu//bnvGFdMqx3w8MDm4WWe4i+J5dLOdEOhRRUyEjczKKjjkIp/QY2lJAr1j3O8Qr5YZejITycvySF1vSX2AiG8/lPg/WAgDQ4cs101QZf606IY2tecWGt9wpoavHIwxJs3DAOsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S+se13Sj; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h4f8V7nv"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47795f6f5c0so19073305e9.1
-        for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 15:35:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S+se13Sj"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47775fb6cb4so23735385e9.0
+        for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 15:35:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764545730; x=1765150530; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ALyiArP9r0l0ZpA0zLf3NyzsTN9+4HjumhR11AEukHk=;
-        b=h4f8V7nvPWWoMVa68CRM2LO+qo+XByujMWOZ5O7binnC5OBl2uVh5CRq/ZxhwA4pOJ
-         sVBFdhnPUKGj/49+CrUa+p7MbZ2MVV2jHG6tZr7QZei1fe6iHaq8nqGdoIYItbAQ0Ht/
-         Gvy7nSwxZJWiC4kBX6IBd0swsU33v6O7We9GUk2bV60PJ/jCgeCKPb7VaCPYoJRYNmsC
-         SfeKrHsavZTmfhwxjfpJLXLM3eNE2JOQ2Yenhgyy7+52FQl7aRyNqatsSmqmDVuOZ6l+
-         IcAP0hxvk+nhGJDPI5NYBv19nBce+1ytyN/4KYgeNq+qmV0ttr8VpQ3YDIuGQDSi1aBz
-         wJRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764545730; x=1765150530;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1764545733; x=1765150533; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ALyiArP9r0l0ZpA0zLf3NyzsTN9+4HjumhR11AEukHk=;
-        b=CfTZhbEty9azWfpW1iWydVC9VpnYbWmceHqsbARhGfiRHcUaIeQv2Nlm3hhM1Wh/h7
-         BWBCFlDzjUyhTNh6F3LcXZYuIqYXnLREs+XYFDyzkOZ2FY9pJfhUQS2Q4dewoBuHXUTQ
-         18gK4Z9X5KeVdlQDiBIaAhKjadOfXoEkVXW1nhkp6MsyXaie9oNN8q/XRRpoFwJQexLj
-         JXalLVU9JsRGi63U+l59lHvFORUYy1+aCbzFlV3O9OUogBfxgjnP7KW+ophK/S3NCwK5
-         jvrmzE87VxVksUGaZtA7goQ7pvnQHdRlDj6Tl2XatJT3POh7qFABKp5lqgHgqlHmUQny
-         wRxA==
-X-Forwarded-Encrypted: i=1; AJvYcCWGRCirY4VfUcylNeHOrU87HwL9YoYe8FhAcek6s61ozrHZY/Ytg9QJshKplLT0/Jc2LIRijk+gaPE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrrpmumOxnMZ7l10fjsP+f6GbRTapjTIQZRi+RN0lztcEuKeVX
-	AWwFLZVLvoGMX+N3OrZHZoRlycuyUxqydwnhyTlbghiXHNIOMFpUXn+A
-X-Gm-Gg: ASbGncuw0DrXCB/3NOTNttP7YFKEmfMPOdhbwNnJPinAnqmn13FNzSrZEc1u3gYkhXy
-	mM/3lJcotBcKhd+JQv5IUQr52soPaMDRsrr/VeCMLb/J9zGp/+hdTfHJCh96f1A+0tfLX3XP7tV
-	vQTHa0UFNBccmljRc7pwEN0os4yQ5AZl1lx8YDe4hHob2LOr+auogciVw7+vS8x7JqRPMg54K27
-	ypK2SogozfSvITagb/7W24PwOQeG5ZdoDlJHM850Y3XCfA++IBqxrRMPc559pxkAUuee3TguVXM
-	9cYRJkYT/BXxyP6/eICcaSMUYDOdqr7jTKgCpsHVVC+5V7fk3lYL3fnpZJrvIlPPCBqPRHa8Rts
-	mwtQIq0Xx8OG4KTB9j13ODsK97eQ9pdVVPR2f5vN1Y+QEGTvCZcbYkJUfu+DhVBZpzNW7vJHEAM
-	3pXBLYvQdUvRsmfKnYW32Dsk8eSJod+G2CFpBaT5Oax+MsUM1+duz1ydKJcsnfIxXVRCOY81y56
-	qXIQC7Y9QjYf0qC
-X-Google-Smtp-Source: AGHT+IEsn3y7t81hF2sQhBQPO/kczdL3fkFMA/jNBZwT0LAhZBVzEYImw+yrGW7ekTwLlt8XRlDFBQ==
-X-Received: by 2002:a05:600c:1d0e:b0:477:89d5:fdb2 with SMTP id 5b1f17b1804b1-477c017d9damr362894825e9.14.1764545730116;
-        Sun, 30 Nov 2025 15:35:30 -0800 (PST)
+        bh=CGfI5v2bo8QpS6mN8gMlhUgE+Lz+xF251MkehL1RpaY=;
+        b=S+se13SjkHj/Mp9LCNMSncllJh85+8gmEePKyT9QQ1FeU1NvA4/hKKHhtgxeY22vuA
+         RezFwgh7Zx6Tvg0ocqgegG0eczuKVtH2u3dBoZV0GE86hPg6BOGNtEX4DHQJVlSHniIr
+         rNaablOfsG333wImhegHcAcvHj+KnTDJiw0aFsWHNStAn6oXX50ViBNQ4iMAIgLqaxOM
+         AhuwWCzFBZSgZJw14DjgVoa8icC/ZLgZAGsgAa4oZdx/vRpTJksBJWpriR1ABkAVL3Gx
+         rwo7hR9F5GiAGeEJBhr/wqfzTqitjKfSqWIjJdL0iShISoRwma0XU4o0vdhkOkjnmJVK
+         E37A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764545733; x=1765150533;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CGfI5v2bo8QpS6mN8gMlhUgE+Lz+xF251MkehL1RpaY=;
+        b=c5YXBvH5FzjR13VJd9o3nTIdx63tCIYqqLdUP6e+Ev/oXqHcF5y8bMZ6THEQp8EzKD
+         F00chJPKgdO0+7XvN8KrnCu43S19NBCll5OoNu16LYUc8F+Iq+xJz7jLBX2FWTjET36e
+         44nJtmcKr2jGx8TZsQ17tPND/kqdT3i/XBbSEIL+1hBWbisf2e80fcEHvA1u/l52eBgn
+         HjX+3BRVYkeOkPlAcQ8iou0P/XkgPuv7ZkYJYUwsWPPWlCfWC/Dk5sk5JgvI+iKj2zxK
+         aImMlQ7p3IDHMfhOdaBW0RUZq7dGu/G2zrIWZ57Y7ehhEYWjrrhpbq64QRnndD55sJJk
+         gWxg==
+X-Forwarded-Encrypted: i=1; AJvYcCWdpmdDrY8fcnOyS2qJgZdzfHlBVxlLpEe2L3LkF40q0xwJQrwJ+jXsEdUty0cxoTqNU8dQA0PXzOs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNB1kz/EhbRoABlUEMg3ma4HovHiQmeEH/Xj1HQ4eiWtSRNtuv
+	BQkhZnNR2U4I3CHVB4yKcdh0ZLeVyDLOD8Q55T47nI2bjFE5W4D0rWUY
+X-Gm-Gg: ASbGncuZOq3pCDB0Gr2e1iCX7BD+2XLz7NM/7L08qvUSDH5OsTzbmYzy27IHJk77sQX
+	4stFyCjCncuXadR+vZ+TpVtU2KD+S7tNid+n/BnxdkMWZO9wsd2qhkHRszEHGiUBHWK2mKDNeLz
+	T8q9hwNIhvcJpBcVqrxu2CAMQOjWHTiI+IWAGcqUJ68jqZk3Ax3EcaSmvKhTvlPdWkIQ2abl2Jv
+	PhwUG5J5y+kcIPef124ORqduKhM2YVf1jXDKCq6EcOsTNbEL4IcosRXA996wRMGjyIj2w0ywxuV
+	e3MRhzDjoF+UvaRWcgkDqMB7Wy3tORMQe8ZR/wCbW7gFYjrM29BNkbobzzi+yYF7UaWJ30uG+9s
+	lRNCKVUaoqrgcMlHdrzQ8lzK8I9QFuJmyUEKVL+a5XKJW56PqJlMgqiPKfOhlR4kZSSwvoBmvZS
+	6l9cxptmL3oDO3cJPbHkTGbFTY1Varfv0a7RCW9Qss1g4/yel2+ot89QHBNJ45OQjYxcAq7vAa9
+	Qgq9KJ26MrepwlQWPzDPNwKruA=
+X-Google-Smtp-Source: AGHT+IF67CntAQ/arhcWo5ytqV99C28dV2Q49OsMgdQEXfIMhJP+Hcig8yH6oHJJ/T2ZRfd3/soE3A==
+X-Received: by 2002:a05:600c:c490:b0:477:b734:8c41 with SMTP id 5b1f17b1804b1-477c10c8596mr322154935e9.1.1764545732812;
+        Sun, 30 Nov 2025 15:35:32 -0800 (PST)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479040b3092sm142722075e9.1.2025.11.30.15.35.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479040b3092sm142722075e9.1.2025.11.30.15.35.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Nov 2025 15:35:28 -0800 (PST)
+        Sun, 30 Nov 2025 15:35:30 -0800 (PST)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: netdev@vger.kernel.org
 Cc: "David S . Miller" <davem@davemloft.net>,
@@ -90,10 +92,12 @@ Cc: "David S . Miller" <davem@davemloft.net>,
 	linux-kselftest@vger.kernel.org,
 	io-uring@vger.kernel.org,
 	dtatulea@nvidia.com
-Subject: [PATCH net-next v7 0/9] Add support for providers with large rx buffer
-Date: Sun, 30 Nov 2025 23:35:15 +0000
-Message-ID: <cover.1764542851.git.asml.silence@gmail.com>
+Subject: [PATCH net-next v7 1/9] net: page pool: xa init with destroy on pp init
+Date: Sun, 30 Nov 2025 23:35:16 +0000
+Message-ID: <02904c6d83dbe5cc1c671106a5c97bd93ab31006.1764542851.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1764542851.git.asml.silence@gmail.com>
+References: <cover.1764542851.git.asml.silence@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -102,100 +106,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Note: it's net/ only bits and doesn't include changes, which shoulf be
-merged separately and are posted separately. The full branch for
-convenience is at [1], and the patch is here:
+The free_ptr_ring label path initialises ->dma_mapped xarray but doesn't
+destroy it in case of an error. That's not a real problem since init
+itself doesn't do anything requiring destruction, but still match it
+with xa_destroy() to silence warnings.
 
-https://lore.kernel.org/io-uring/7486ab32e99be1f614b3ef8d0e9bc77015b173f7.1764265323.git.asml.silence@gmail.com
+Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+---
+ net/core/page_pool.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Many modern NICs support configurable receive buffer lengths, and zcrx and
-memory providers can use buffers larger than 4K/PAGE_SIZE on x86 to improve
-performance. When paired with hw-gro larger rx buffer sizes can drastically
-reduce the number of buffers traversing the stack and save a lot of processing
-time. It also allows to give to users larger contiguous chunks of data. The
-idea was first floated around by Saeed during netdev conf 2024 and was
-asked about by a few folks.
-
-Single stream benchmarks showed up to ~30% CPU util improvement.
-E.g. comparison for 4K vs 32K buffers using a 200Gbit NIC:
-
-packets=23987040 (MB=2745098), rps=199559 (MB/s=22837)
-CPU    %usr   %nice    %sys %iowait    %irq   %soft   %idle
-  0    1.53    0.00   27.78    2.72    1.31   66.45    0.22
-packets=24078368 (MB=2755550), rps=200319 (MB/s=22924)
-CPU    %usr   %nice    %sys %iowait    %irq   %soft   %idle
-  0    0.69    0.00    8.26   31.65    1.83   57.00    0.57
-
-This series adds net infrastructure for memory providers configuring
-the size and implements it for bnxt. It's an opt-in feature for drivers,
-they should advertise support for the parameter in the qops and must check
-if the hardware supports the given size. It's limited to memory providers
-as it drastically simplifies implementation. It doesn't affect the fast
-path zcrx uAPI, and the sizes is defined in zcrx terms, which allows it
-to be flexible and adjusted in the future, see Patch 8 for details.
-
-A liburing example can be found at [2]
-
-full branch:
-[1] https://github.com/isilence/linux.git zcrx/large-buffers-v7
-Liburing example:
-[2] https://github.com/isilence/liburing.git zcrx/rx-buf-len
-
-v7: - Add xa_destroy
-    - Rebase
-
-v6: - Update docs and add a selftest
-
-v5: https://lore.kernel.org/netdev/cover.1760440268.git.asml.silence@gmail.com/
-    - Remove all unnecessary bits like configuration via netlink, and
-      multi-stage queue configuration.
-
-v4: https://lore.kernel.org/all/cover.1760364551.git.asml.silence@gmail.com/
-    - Update fbnic qops
-    - Propagate max buf len for hns3
-    - Use configured buf size in __bnxt_alloc_rx_netmem
-    - Minor stylistic changes
-v3: https://lore.kernel.org/all/cover.1755499375.git.asml.silence@gmail.com/
-    - Rebased, excluded zcrx specific patches
-    - Set agg_size_fac to 1 on warning
-v2: https://lore.kernel.org/all/cover.1754657711.git.asml.silence@gmail.com/
-    - Add MAX_PAGE_ORDER check on pp init
-    - Applied comments rewording
-    - Adjust pp.max_len based on order
-    - Patch up mlx5 queue callbacks after rebase
-    - Minor ->queue_mgmt_ops refactoring
-    - Rebased to account for both fill level and agg_size_fac
-    - Pass providers buf length in struct pp_memory_provider_params and
-      apply it in __netdev_queue_confi().
-    - Use ->supported_ring_params to validate drivers support of set
-      qcfg parameters.
-
-Jakub Kicinski (1):
-  eth: bnxt: adjust the fill level of agg queues with larger buffers
-
-Pavel Begunkov (8):
-  net: page pool: xa init with destroy on pp init
-  net: page_pool: sanitise allocation order
-  net: memzero mp params when closing a queue
-  net: let pp memory provider to specify rx buf len
-  eth: bnxt: store rx buffer size per queue
-  eth: bnxt: allow providers to set rx buf size
-  io_uring/zcrx: document area chunking parameter
-  selftests: iou-zcrx: test large chunk sizes
-
- Documentation/networking/iou-zcrx.rst         |  20 +++
- drivers/net/ethernet/broadcom/bnxt/bnxt.c     | 118 ++++++++++++++----
- drivers/net/ethernet/broadcom/bnxt/bnxt.h     |   2 +
- drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c |   6 +-
- drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.h |   2 +-
- include/net/netdev_queues.h                   |   9 ++
- include/net/page_pool/types.h                 |   1 +
- net/core/netdev_rx_queue.c                    |  14 ++-
- net/core/page_pool.c                          |   4 +
- .../selftests/drivers/net/hw/iou-zcrx.c       |  72 +++++++++--
- .../selftests/drivers/net/hw/iou-zcrx.py      |  37 ++++++
- 11 files changed, 236 insertions(+), 49 deletions(-)
-
+diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+index 1a5edec485f1..a085fd199ff0 100644
+--- a/net/core/page_pool.c
++++ b/net/core/page_pool.c
+@@ -307,6 +307,7 @@ static int page_pool_init(struct page_pool *pool,
+ 
+ free_ptr_ring:
+ 	ptr_ring_cleanup(&pool->ring, NULL);
++	xa_destroy(&pool->dma_mapped);
+ #ifdef CONFIG_PAGE_POOL_STATS
+ 	if (!pool->system)
+ 		free_percpu(pool->recycle_stats);
 -- 
 2.52.0
 
