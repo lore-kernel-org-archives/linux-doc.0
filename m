@@ -1,106 +1,109 @@
-Received: from vps-1aa15eea.vps.ovh.us (vps-1aa15eea.vps.ovh.us [15.204.210.179])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56848537E9
-	for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 08:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.204.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538042517AF
+	for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 12:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764491763; cv=none; b=K5yPswWrUhYVhMlQRI5n/4UbL+TUOWZ4N2zzBJpOsu7pTkpkaHyz6EyyyXfG5XrzsBtgLngMjeVse0PWMyW1KQCju8oEIRxQlKfcOtzbDM2z5sX8PjcfsV+bwxuOgLXOFSltApQHrNYk9fH8TfatfF7tptqJv+zW49s0DT2EOqM=
+	t=1764507340; cv=none; b=GzHQbe75AU2nrFuTDHS/eDJgWXzfTm94cIUUtf1KP2mhN49CZncu4QGItI252EWexj8kCRfr5tly9E2TJk8LD8HMMPpUGsJv5g2XkpEv2LJroHeIifbpFIGj52DCjNHra4tCSW/GH3eyfUFFPFTTEPZ6WivOt/FI8OJlTRH3dOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764491763; c=relaxed/simple;
-	bh=FEn6ht/bs1OHJMyyvisGig+BjceVDrFnKGtS80Lo6Q0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E7gs6aIsDquXbNOeWp8OXupNvkzE3tVlWQLvHW2R/3bMRfhE5NRTHPIZtKnMyybCH5V16QducyX6PgMADUM/m0eoDk4Y/CiO6QwmQD6KGraL1Mfh+eNm7ltoCeoBL8kBR2vw13S20XicTcKYaPjAZJKann1qahsMMmFUa2leux0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=vger.kernel.org; spf=pass smtp.mailfrom=arginfomatics.com; arc=none smtp.client-ip=15.204.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=vger.kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arginfomatics.com
-Received: from [158.179.178.116]
-	by server.thetimely411.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.95)
-	(envelope-from <test@arginfomatics.com>)
-	id 1vPcVy-003Zsb-2y
-	for linux-doc@vger.kernel.org;
-	Sun, 30 Nov 2025 08:10:38 +0000
-Reply-To: linux-doc@vger.kernel.org
-From: linux-doc@vger.kernel.org
-To: linux-doc@vger.kernel.org
-Subject: Hi linux-doc
-Date: 30 Nov 2025 16:10:36 +0800
-Message-ID: <20251130161036.D5BC0ABABB9EC81D@vger.kernel.org>
+	s=arc-20240116; t=1764507340; c=relaxed/simple;
+	bh=+CUU91VE9U+UPRFztWIsw6a0HFlxr+X7N2lteq6FDVE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cM6PXtcmvrV7imIicuRUJNSoOngTWeGvIyF8FtsgcILFsgiCmgwIgFBzxGs7iGVQpJideUWMMFVvuMFJF22GOfU9DkyaJOTSXKWvGwSM5CclaGgN+g00EyNBTpW/3ub+fd8vSJAwbQov96OEo5IJj4CLyUz0uXZaJfpioZeUyYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gww/dvdD; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gww/dvdD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE7E9C2BCB7
+	for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 12:55:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764507339;
+	bh=+CUU91VE9U+UPRFztWIsw6a0HFlxr+X7N2lteq6FDVE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Gww/dvdD+675GJvFeEUzoJ9+9j1fimzRlqZN4XMYb6eQ22Y67C+MtVRScVEvjgMj1
+	 ZpYvL+nwB2pztVPvokl4UbEkKUzonZlmU5BFppJ+9Lj4kIxmWwfdBjPYKKj54W7re6
+	 pCCNXn8T8DUMXZbwGdNQTa6g0p5S1DYOA0f5Hfr506b7n58qIcvUcbv8I+2GP1lQr/
+	 zN1r7Jpu0BI8REbIRc1G32Hi5dMOEcFzmasdNLVlXuv3R46/uzyCsVukiB757JeGhN
+	 2uDujYZ14AcjgVrLFPsqEQlrLMsGQFouXavU4LbUHBbzAin4+3g/0GH9NV7GhWXo1f
+	 wmvNB24EyWnFw==
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7c6d1ebb0c4so2169357a34.1
+        for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 04:55:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUalIrZ7obAkge+jwz6ITRIN5r9Ul7E7+yXtke+kTbENdQzJRAVb6liSF9hlSCcS1CNdKpH/9yd5S0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySrZAvaX9aXR1410ucuIb/vUDysPsahBkl2IEH8JjLD0G1EuoW
+	9aF7vFJ97BJajMTU6nly/ksiDn54XxkClhDVrv2M2dZ3FBYPM870xFFZ33Y2YJGflXkuFL7glXi
+	xegEyonUa9CkkmEQu2CT9Qfq66pEEkiY=
+X-Google-Smtp-Source: AGHT+IGgWthYmyiiRHTuIz/8bWmUoFRUwbcURTcZh3qG98AznU0lJvk231Fz5Su9DD5JkuIHGit6aHtLEtrfKZseF8E=
+X-Received: by 2002:a05:6830:924:b0:7c7:dff:2ac1 with SMTP id
+ 46e09a7af769-7c798b8a7dbmr18909653a34.3.1764507338846; Sun, 30 Nov 2025
+ 04:55:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
+References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
+ <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com>
+ <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de> <CAJZ5v0iJVV=kf-aJBx8F8dtGfaZpGVyhfi6DBWEg4j3c_nH8_A@mail.gmail.com>
+ <e360b9b3-ada4-4cd1-8971-097484cf3f5f@gmx.de> <CAJZ5v0ij_Frdrya3=FaekbU2DFHUyBJnBq-oe9jRsB9eqXDisA@mail.gmail.com>
+ <ed619280-6f25-4df6-98ca-890bdc343435@gmx.de> <CAJZ5v0hMPCRU_p_krX3nKzB=5TX7hGU38iyNmhSJSHO2j7K3eA@mail.gmail.com>
+ <de14f2c4-e7b3-43a1-a9ee-9caba196b0f5@gmx.de>
+In-Reply-To: <de14f2c4-e7b3-43a1-a9ee-9caba196b0f5@gmx.de>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Sun, 30 Nov 2025 13:55:24 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0h3=9V8FFehyaPiG2SreRgeyvKK+oAkR_gzKQQNDBmczQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bm74BLkYigBlEZwhgK9orhm-MSGQUfAzuwxqXDI_Qt7_9TxZm-rm-hXNS4
+Message-ID: <CAJZ5v0h3=9V8FFehyaPiG2SreRgeyvKK+oAkR_gzKQQNDBmczQ@mail.gmail.com>
+Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
+ device of thermal zone/cooling devices
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Len Brown <lenb@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+	ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+	linux-pci@vger.kernel.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Sat, Nov 29, 2025 at 12:36=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote:
+>
+> Am 28.11.25 um 12:40 schrieb Rafael J. Wysocki:
+>
+> > On Fri, Nov 28, 2025 at 12:50=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wr=
+ote:
+> >> Am 27.11.25 um 22:46 schrieb Rafael J. Wysocki:
 
-In short: a few weeks ago, I gained complete access to all the devices you =
-use to browse the internet. Shortly after that, I started recording your en=
-tire online activity.
+[cut]
 
-Below is the sequence of events that led to this:
-Some time ago, you accessed a link and had to verify it via reCAPTCHA to se=
-e the content. In fact, this verification was fake, and after the verificat=
-ion, a Trojan virus was actually installed on your device. From there, it w=
-asn=E2=80=99t long until the virus was installed on all your devices, consi=
-dering that you connect to the same network with all your devices. Don=E2=
-=80=99t you believe me? Search the net for "Fake reCAPTCHA" and see for you=
-rself.
+> >> What do you think?
+> > One advantage of using parents is that it will help user space to
+> > figure out connections between the abstract cooling devices and the
+> > associated hardware or firmware entities.  I think that this is an
+> > important one.
+> >
+> > It also doesn't prevent fwnode_handle from being used because the
+> > fwnode_handle may just be stored in the parent.  I like this more than
+> > associating fwnode_handles directly with abstract cooling devices.
+> >
+> > If the cooling device parent (that is, the provider of the cooling
+> > mechanism used by it) does not have an fwnode_handle, then either it
+> > needs to be driven directly from user space, or the driver creating a
+> > thermal zone device needs to provide a specific .should_bind()
+> > callback that will know what to look for.
+> >
+> OK. When sending the next revision of this patch series, should i also ke=
+ep
+> the patches for the thermal zone device or should i only keep the patches
+> concerning the cooling devices?
 
-With the help of this virus, I can now access all the components of your de=
-vices (camera, microphone, keyboard). As a result, I was able to download a=
-ll your photos, personal data, your browsing history, and other information=
- to my servers without any problem.
-
-Moreover, now I have access to all your messaging accounts, social networks=
-, emails, contact list, your conversation history, absolutely everything. M=
-y virus continuously updates its signatures, so it remains undetected by an=
-y antivirus software.
-
-Considering that you got the virus from an adult site, at first I thought y=
-ou were just an occasional visitor to these sites. But then I noticed that =
-you take a crazy pleasure in satisfying yourself on very controversial mate=
-rials, reaching intense orgasms.
-
-To be honest with you: it was hard for me to resist, and I recorded many vi=
-deos with you in those scenes and compiled special videos where I expose yo=
-ur self-satisfaction sessions, plus the videos you watched during those act=
-s and which end with your ejaculation =F0=9F=92=A6.
-
-I could, at this moment, with just a few clicks, share these videos with yo=
-ur friends, colleagues, and relatives. Also, I would have no qualms about u=
-ploading this content online so that everyone can see what sick orientation=
-s you have!
-
-Honestly, I think you don=E2=80=99t want this to happen. This would complet=
-ely ruin your reputation.
-
-However, don=E2=80=99t worry, there is still a way to resolve the situation=
-=2E You need to make a transfer of $1232 via Bitcoin. After you complete th=
-e transaction, I will delete all the videos in which you appear =F0=9F=93=
-=BA, all the personal data collected, and the virus from your devices. Mark=
- my words: I never lie.
-
-This is a great deal at the lowest price, considering that I have wasted a =
-lot of time and effort to record and track all your activities and your dee=
-ds.
-If you have no idea how to buy and transfer Bitcoin, feel free to search th=
-e internet for the necessary information.
-
-You can use the wallet address below to make the transfer:
-bc1q gy0puzkkvkjwpu9xzzezkt322dcukh304l25jp
-
-The address above, as you can see, has a blank space. When you use it to se=
-nd the money, make sure you remove that space.
-
-You only have 42 hours from now, and the timer started from the moment you =
-opened this email.
-You have to believe me: there is no point in bothering you anymore after I =
-get the money.
-Besides, if I really wanted to, all those videos would have been public a l=
-ong time ago.
-I think we can still resolve the situation on fair terms.
+The cooling device changes are kind of unrelated to the thermal zone
+device changes, so it would be better to send them as separate series,
+but you may as well send those series at the same time as far as I'm
+concerned.
