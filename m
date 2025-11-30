@@ -1,150 +1,106 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps-1aa15eea.vps.ovh.us (vps-1aa15eea.vps.ovh.us [15.204.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCD620C488
-	for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 01:55:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56848537E9
+	for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 08:36:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.204.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764467703; cv=none; b=RCqxNWTjj/7Bw7zTEPID1EWELjEwb/66Wtakhrzkc3A838c115XoruHC5eGdi0ArqEr094g5pai7QkIGixiqMP4tEDK0cUaVCR1r/4qIZeHuitWiamGQNDFpiqLxql7wEotCV5Bb3jWIr2fW3jxjYd/ai9qxT5aJilZyS9gz+E8=
+	t=1764491763; cv=none; b=K5yPswWrUhYVhMlQRI5n/4UbL+TUOWZ4N2zzBJpOsu7pTkpkaHyz6EyyyXfG5XrzsBtgLngMjeVse0PWMyW1KQCju8oEIRxQlKfcOtzbDM2z5sX8PjcfsV+bwxuOgLXOFSltApQHrNYk9fH8TfatfF7tptqJv+zW49s0DT2EOqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764467703; c=relaxed/simple;
-	bh=EJsie/oDWmsHzwg9Cgw28LSjOg36CreOoDF9rcGSUdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DERg8YOT7ah+ShfofFHAFKXuFEmIzCaARb00pN1V6vJOR/VFvwnFCbujeF2amuQbnQNbFdLl0EzL+J9ym6ue1UQTHK3JVZgFhVEG1OEqHfdXiJVXtzFx26w2fJdpRY0lT3jwzLJY4qgfHg/mJWFJxvaFwbTJPV6ViN8Mh4FJnVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TGfF67mr; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TGfF67mr"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-29568d93e87so31921045ad.2
-        for <linux-doc@vger.kernel.org>; Sat, 29 Nov 2025 17:55:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764467701; x=1765072501; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EJsie/oDWmsHzwg9Cgw28LSjOg36CreOoDF9rcGSUdA=;
-        b=TGfF67mrdR1kDeHzakHJuS5yb9QF/r29xdgf3PVQawaLL4JZMBWsxvYnIzp8VV6eZ0
-         R6yU4NEDTV8XJrPz0wNFXjolGojN3aKjd/EIJLpeYKz/xR1DDjeKDP4KniL/n1MdKG+t
-         KdpYFIQScaWs56V0/4KgtrpV116UbH59VlRQ2Py67ETNI5SjqISKJzJXhWAj2iVDqW0U
-         sdcPOIVvVP+IfEcnapPna0iZagZBbZe4247tO7BhkiEblxfVDH6n7QSYzbXqTwwVFbrS
-         5GjkQhn8L5iHeApIjwezBxCtniPPyK/AYG58JlpdfL1OmaYcbRzJl/Fc0Dhgk4u9BURV
-         HiyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764467701; x=1765072501;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EJsie/oDWmsHzwg9Cgw28LSjOg36CreOoDF9rcGSUdA=;
-        b=AuxUjgGB3m3ZhnzYjdTDrBncdVPJ3I4F1224Dquef39uhx6+WCbgLaMOHSh/MUhpx/
-         e/5qROpNyVl24aV0ojhlmL/J9hIV8GNw6WvwnI7XP5S2mVPx6ZiDIaoHeba9hn4MTgff
-         YgtXncLgKHaFoqE3684GB1sU5cK1/D9Y8dX5XZPQm4K+17yVJBlWOQ48SpDemMl/6q9O
-         RFwQxOllwNjoSvh6PJTplWAb2O0WXJYkl/QCJ0C0S5l4kUYsQtKTcjHZhfeapRZOgr0K
-         S2yoU47cicqkUs9/uz1EzlExjayNAgZYJFfemgAGjdHi0Eikhl9OmjuioBwmT6WwBfwe
-         j00g==
-X-Gm-Message-State: AOJu0Yzzd5JwZxC8dqI6F765UF/Hmkk2VuTm3U+9qWaEXdfFOlsRKRJm
-	XnbcX+1xheK42NX9CXNcbdaWKq4jeLNSB+n2v2Yk+Y0GSb5Fp4+sy+2H
-X-Gm-Gg: ASbGncvxhB4uecoN6JiE5yHeaMVUkQuLv2lYkOfj3q8FCmCHF/OgXcstl2KX4uI4dKF
-	O+ImqyxgS7RRhnOErd3UKlyUzg7X/IhrrDnX9iTEjYfzgWMwnSzA9pCU9CuUoNCmWqG33K2DE3Q
-	aPv1L8d3/huSMPwm1akPa1Y+jdsPRBCQQSzr96BOPUEk4Co85OBE9/6i6ywezFr0Z8Tu5XYjEol
-	GwNPCMNva6Vk6CWTlGc/oC6TQdvShBjjmzkB2fzXKJNmOO2qCnMV2BbzFbUNOQK9teKiumT0asu
-	ts4stwkYImuoGgW1T26A103kHJrJsiA7rOO18fghXm8DsG+4dOt/6mxYqHE/uapKA3mL8UUJDqc
-	RKjTos8sk+bL9fuxlBjbBTNOPhGVnJoV/CyuO27UnItA3jOFolluYzJpcZMXJbfvoYMZ9o7o6Tb
-	AznIcZW4wZtHw=
-X-Google-Smtp-Source: AGHT+IF/l7NB+y1jtAMRLjj8iCOnE7KKZZWOFytSeyN/8Cx2c8SbmngUPLwiA2q9K90lCrCmvmph2g==
-X-Received: by 2002:a17:903:19c3:b0:295:b46f:a6c2 with SMTP id d9443c01a7336-29bab1685bdmr230368035ad.37.1764467701296;
-        Sat, 29 Nov 2025 17:55:01 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3475e9b46f4sm6358089a91.3.2025.11.29.17.54.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Nov 2025 17:55:00 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 38D464218345; Sun, 30 Nov 2025 08:54:52 +0700 (WIB)
-Date: Sun, 30 Nov 2025 08:54:51 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Max Nikulin <manikulin@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-scsi@vger.kernel.org
-Subject: Re: [PATCH] docs: admin: devices: /dev/sr<N> for SCSI CD-ROM
-Message-ID: <aSuj66nCF4r_5ksh@archie.me>
-References: <a221275c-53af-459d-97ed-05a0766adb04@gmail.com>
- <aSqPHMSgtHN7ty8-@archie.me>
- <c5bb2474-b66d-47e5-b392-b12c4db979df@gmail.com>
+	s=arc-20240116; t=1764491763; c=relaxed/simple;
+	bh=FEn6ht/bs1OHJMyyvisGig+BjceVDrFnKGtS80Lo6Q0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E7gs6aIsDquXbNOeWp8OXupNvkzE3tVlWQLvHW2R/3bMRfhE5NRTHPIZtKnMyybCH5V16QducyX6PgMADUM/m0eoDk4Y/CiO6QwmQD6KGraL1Mfh+eNm7ltoCeoBL8kBR2vw13S20XicTcKYaPjAZJKann1qahsMMmFUa2leux0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=vger.kernel.org; spf=pass smtp.mailfrom=arginfomatics.com; arc=none smtp.client-ip=15.204.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=vger.kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arginfomatics.com
+Received: from [158.179.178.116]
+	by server.thetimely411.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.95)
+	(envelope-from <test@arginfomatics.com>)
+	id 1vPcVy-003Zsb-2y
+	for linux-doc@vger.kernel.org;
+	Sun, 30 Nov 2025 08:10:38 +0000
+Reply-To: linux-doc@vger.kernel.org
+From: linux-doc@vger.kernel.org
+To: linux-doc@vger.kernel.org
+Subject: Hi linux-doc
+Date: 30 Nov 2025 16:10:36 +0800
+Message-ID: <20251130161036.D5BC0ABABB9EC81D@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3cV3mE+eGYkJw/de"
-Content-Disposition: inline
-In-Reply-To: <c5bb2474-b66d-47e5-b392-b12c4db979df@gmail.com>
-
-
---3cV3mE+eGYkJw/de
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain;
+	charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 29, 2025 at 10:01:41PM +0700, Max Nikulin wrote:
-> On 29/11/2025 13:13, Bagas Sanjaya wrote:
-> > On Sat, Nov 29, 2025 at 12:12:32AM +0700, Max Nikulin wrote:
-> > > +Usage of ``/dev/scd?`` as alternate SCSI CD-ROM names for ``sr?`` de=
-vices
-> > > +ended around year 2011.
-> >=20
-> > What about "Support for /dev/scd? as alternative names for /dev/sr? has=
- been
-> > removed in 2011"?
->=20
-> If others support your suggestion then I do not mind. Feel free to commit
-> preferred variant ignoring my patch.
->=20
-> I would be more verbose however by adding that it was removed namely from
-> udev:
->=20
-> Creation of ``/dev/scd?`` alternative names for ``sr?`` CD-ROM and other
-> optical drives (using SCSI commands) was removed in ``udev-174`` (released
-> in 2011).
+Hello,
 
-This one looks better.
+In short: a few weeks ago, I gained complete access to all the devices you =
+use to browse the internet. Shortly after that, I started recording your en=
+tire online activity.
 
->=20
-> Perhaps I am biased by my confusion. Noticed that wodim tries to access
-> currently absent /dev/scd0 for kernels >=3D X.6, I tried git blame game in
-> kernel repository to find kernel version when scd<N> were renamed to sr<N=
->.
-> It took some time for me to realize that it is impossible to determine scd
-> vs. sr from kernel version. That is why I would consider adding explicit
-> mention of udev. Otherwise for me it sounds like that scd? names were
-> removed from kernel. I am not a native English speaker, so I do not insist
-> on my variant.
->=20
-> How long I should wait for comments before submitting another revision of
-> the patch? I hope, pending changes are not an obstacle for those who are
-> tempting to review the whole devices.rst file.
+Below is the sequence of events that led to this:
+Some time ago, you accessed a link and had to verify it via reCAPTCHA to se=
+e the content. In fact, this verification was fake, and after the verificat=
+ion, a Trojan virus was actually installed on your device. From there, it w=
+asn=E2=80=99t long until the virus was installed on all your devices, consi=
+dering that you connect to the same network with all your devices. Don=E2=
+=80=99t you believe me? Search the net for "Fake reCAPTCHA" and see for you=
+rself.
 
-Since we're in rc7 (and 6.18 release is tomorrow), you need to wait until at
-least two weeks later (when 6.19 merge window closes) and repost. Don't for=
-get
-to Cc me anyway.
+With the help of this virus, I can now access all the components of your de=
+vices (camera, microphone, keyboard). As a result, I was able to download a=
+ll your photos, personal data, your browsing history, and other information=
+ to my servers without any problem.
 
-Thanks.
+Moreover, now I have access to all your messaging accounts, social networks=
+, emails, contact list, your conversation history, absolutely everything. M=
+y virus continuously updates its signatures, so it remains undetected by an=
+y antivirus software.
 
---=20
-An old man doll... just what I always wanted! - Clara
+Considering that you got the virus from an adult site, at first I thought y=
+ou were just an occasional visitor to these sites. But then I noticed that =
+you take a crazy pleasure in satisfying yourself on very controversial mate=
+rials, reaching intense orgasms.
 
---3cV3mE+eGYkJw/de
-Content-Type: application/pgp-signature; name=signature.asc
+To be honest with you: it was hard for me to resist, and I recorded many vi=
+deos with you in those scenes and compiled special videos where I expose yo=
+ur self-satisfaction sessions, plus the videos you watched during those act=
+s and which end with your ejaculation =F0=9F=92=A6.
 
------BEGIN PGP SIGNATURE-----
+I could, at this moment, with just a few clicks, share these videos with yo=
+ur friends, colleagues, and relatives. Also, I would have no qualms about u=
+ploading this content online so that everyone can see what sick orientation=
+s you have!
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaSuj5wAKCRD2uYlJVVFO
-owTQAP9w+uWu3xIqLC+ZYTFzZOgEVmU14JCotEG/IeEI7KRE2QD/bVAaD/dBSb15
-KaSXUaWSu+OIvuxec51RzTuuGFPu7AQ=
-=kmxx
------END PGP SIGNATURE-----
+Honestly, I think you don=E2=80=99t want this to happen. This would complet=
+ely ruin your reputation.
 
---3cV3mE+eGYkJw/de--
+However, don=E2=80=99t worry, there is still a way to resolve the situation=
+=2E You need to make a transfer of $1232 via Bitcoin. After you complete th=
+e transaction, I will delete all the videos in which you appear =F0=9F=93=
+=BA, all the personal data collected, and the virus from your devices. Mark=
+ my words: I never lie.
+
+This is a great deal at the lowest price, considering that I have wasted a =
+lot of time and effort to record and track all your activities and your dee=
+ds.
+If you have no idea how to buy and transfer Bitcoin, feel free to search th=
+e internet for the necessary information.
+
+You can use the wallet address below to make the transfer:
+bc1q gy0puzkkvkjwpu9xzzezkt322dcukh304l25jp
+
+The address above, as you can see, has a blank space. When you use it to se=
+nd the money, make sure you remove that space.
+
+You only have 42 hours from now, and the timer started from the moment you =
+opened this email.
+You have to believe me: there is no point in bothering you anymore after I =
+get the money.
+Besides, if I really wanted to, all those videos would have been public a l=
+ong time ago.
+I think we can still resolve the situation on fair terms.
