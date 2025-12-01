@@ -1,220 +1,138 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D3B338F26
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 17:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266621F30BB;
+	Mon,  1 Dec 2025 18:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764611415; cv=none; b=obHxeOWZeN+sVG6CeZp9o4LSNCDMu6KpQl19tNlCqXN4cTwCOJ6MTasU2yi01htc2kDhYSYJZIHKHPKtjJyXCK7ENcCK7zuf9+7rzUHL/LwZzmDIMHFolJ/RtOyWLAslQ18YLWmlIFp+ZlF/aZne7OSlzn8b97dYlEOKYt7Ny6Y=
+	t=1764612377; cv=none; b=Fmm5eKYXLv7ZDUx0tjZGC9FFtWem/xyqHk6V3F5ipCGXTlFL6W9UpQXtEZUmVRVb1WdjUpYrAWvBlJQwJhwT7htoqYyCtgiBq13PRtZYWYbVLlag5JtMgzM7jp3dkYRdQIxJai+TE7RzzE/xfgdik/1hHUU/iGrtFkBNoyx9B8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764611415; c=relaxed/simple;
-	bh=/Gkb1Q9I+zoEi/z3C9ClqtWJJmSWyWBez2YbuYyiAAA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KYoqdP6qVxYZgg+zdvm/DL68uK5dMwJlOw/cHW2fy0qHHO7nzADApfviDS1JFKysuXZqcdeZycNdgbz7guNADFP6HdVFb2Asep2TxWAtRTnhLr3u215OYBwra5dgNqs9S+RU0+GWF2AtYjRqdal41vh6l6cD/EwdsNoZIT5jlRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LpYNfBQj; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1764612377; c=relaxed/simple;
+	bh=orbc3nuJhRBtP9HgFH/P7FPSU37dWjp236YX9cJ7qE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KezIF0xrXiqBSKxP7+P31jUIUlzYLuLOtEI8ilNyeEYRhmCvqr2rqxz/aMbuiWjXkDq1Hf5VJJULSMNTVUsA2vUgpW2mGSum+J6Fl67zt0vMkNEG/MLxgkDNHBQAd7aBCdMXehepExCgDKN6KcfNBcK2D380JwRCp3E+pB+GpHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=f4PUV0hS; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LpYNfBQj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764611413;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lyJvlL+yvZzJWKB3B8x289eHJx+oykT4AdSd8hNpONo=;
-	b=LpYNfBQjCl27Tkgk0pppb+1TpV6eNt6UsUIlpIXBYq7B5lMUw9JYtWfRgrIsoKJ8KXZp3x
-	nBwjL8fVDHu4SmTc/YUMXgFjl63FZWYtjc4sz9O2CZo8YvOlD6FUqFc1MIySuU+YaUXbun
-	9rQgZ3ZKz5AOHc1XXXDKx0lOK7y/NC0=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-220-_9hYrk-EPTGF69Lcwl5dfQ-1; Mon,
- 01 Dec 2025 12:50:11 -0500
-X-MC-Unique: _9hYrk-EPTGF69Lcwl5dfQ-1
-X-Mimecast-MFC-AGG-ID: _9hYrk-EPTGF69Lcwl5dfQ_1764611405
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="f4PUV0hS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764612372;
+	bh=orbc3nuJhRBtP9HgFH/P7FPSU37dWjp236YX9cJ7qE8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=f4PUV0hSvnZmXOb2ZWccPOP5NEDYIGqGFgBkNrbZyFaHM7AR8XkGmUCu6OnkAodFA
+	 lj5NCIdmHu1VugxhaE8lMbzPaT6HbXdt5WZnd5bt3N42gHcTYxhDWAzN9HVwBIwjOs
+	 wdh52nnjvww3IORZATNTc/QuBF4ZPRL+RPQm7US6QnUUen3lLtN6Dv1IYOTdi4dcWS
+	 AiGsuJvFHisXkpA/o+9Kz0ReKG5F2tmIUDUJW25d4tnP+kt56w/AIqTphtfRva/KiA
+	 u6FWll/izQjWEpNlUNWFGTrJo9QZHfBgL6O4c1OlNQ0vK4YGvQYfqiR60p6q1ijFoC
+	 QluNngkMsJeTA==
+Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 82A54195608F;
-	Mon,  1 Dec 2025 17:50:05 +0000 (UTC)
-Received: from h1.redhat.com (unknown [10.22.66.60])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7228B1800451;
-	Mon,  1 Dec 2025 17:49:55 +0000 (UTC)
-From: Nico Pache <npache@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org
-Cc: david@redhat.com,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	corbet@lwn.net,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	akpm@linux-foundation.org,
-	baohua@kernel.org,
-	willy@infradead.org,
-	peterx@redhat.com,
-	wangkefeng.wang@huawei.com,
-	usamaarif642@gmail.com,
-	sunnanyong@huawei.com,
-	vishal.moola@gmail.com,
-	thomas.hellstrom@linux.intel.com,
-	yang@os.amperecomputing.com,
-	kas@kernel.org,
-	aarcange@redhat.com,
-	raquini@redhat.com,
-	anshuman.khandual@arm.com,
-	catalin.marinas@arm.com,
-	tiwai@suse.de,
-	will@kernel.org,
-	dave.hansen@linux.intel.com,
-	jack@suse.cz,
-	cl@gentwo.org,
-	jglisse@google.com,
-	surenb@google.com,
-	zokeefe@google.com,
-	hannes@cmpxchg.org,
-	rientjes@google.com,
-	mhocko@suse.com,
-	rdunlap@infradead.org,
-	hughd@google.com,
-	richard.weiyang@gmail.com,
-	lance.yang@linux.dev,
-	vbabka@suse.cz,
-	rppt@kernel.org,
-	jannh@google.com,
-	pfalcato@suse.de,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v13 mm-new 16/16] Documentation: mm: update the admin guide for mTHP collapse
-Date: Mon,  1 Dec 2025 10:46:27 -0700
-Message-ID: <20251201174627.23295-17-npache@redhat.com>
-In-Reply-To: <20251201174627.23295-1-npache@redhat.com>
-References: <20251201174627.23295-1-npache@redhat.com>
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DD47317E1157;
+	Mon,  1 Dec 2025 19:06:11 +0100 (CET)
+Message-ID: <e2102c82-6b8f-4f6e-80ea-ee185bb1e52e@collabora.com>
+Date: Mon, 1 Dec 2025 19:06:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 01/10] drm/shmem-helper: Simplify page offset
+ calculation in fault handler
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Al Viro
+ <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Matthew Wilcox
+ <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251128185252.3092-1-loic.molinari@collabora.com>
+ <20251128185252.3092-2-loic.molinari@collabora.com>
+ <20251201090507.1ee10c65@fedora>
+Content-Language: fr
+From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
+Organization: Collabora Ltd
+In-Reply-To: <20251201090507.1ee10c65@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Now that we can collapse to mTHPs lets update the admin guide to
-reflect these changes and provide proper guidance on how to utilize it.
+Hi Boris,
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Nico Pache <npache@redhat.com>
----
- Documentation/admin-guide/mm/transhuge.rst | 48 +++++++++++++---------
- 1 file changed, 28 insertions(+), 20 deletions(-)
+On 01/12/2025 09:05, Boris Brezillon wrote:
+> On Fri, 28 Nov 2025 19:52:43 +0100
+> Loïc Molinari <loic.molinari@collabora.com> wrote:
+> 
+>> For a fault at address addr, the page offset is
+>>    page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT
+>>                = ((addr & PAGE_MASK) - vma->vm_start) >> PAGE_SHIFT
+>> 	      = (addr - vma->vm_start) >> PAGE_SHIFT
+>>
+>> Since the faulty logical page offset based on VMA is
+>>    vmf->pgoff = vma->vm_pgoff + ((addr - vma->vm_start) >> PAGE_SHIFT)
+>>
+>> We can slightly simplify the calculation using
+>>    page_offset = vmf->pgoff - vma->vm_pgoff
+>>
+>> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+> 
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> 
+> One nit below
+> 
+>> ---
+>>   drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> index dc94a27710e5..be89be1c804c 100644
+>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> @@ -577,8 +577,8 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+>>   	struct page *page;
+>>   	pgoff_t page_offset;
+>>   
+>> -	/* We don't use vmf->pgoff since that has the fake offset */
+>> -	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
+>> +	/* Offset to faulty address in the VMA (without the fake offset). */
+> 
+> It's weird to say "without the fake offset" here, because IIUC, both
+> vmf->pgoff and vma->vm_pgoff contain the fake offset. And that's fine,
+> the problem really is when one of the subtraction operand is not
+> relative to the fake offset.
 
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index d396d1bfb274..87bcfa80886a 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -63,7 +63,8 @@ often.
- THP can be enabled system wide or restricted to certain tasks or even
- memory ranges inside task's address space. Unless THP is completely
- disabled, there is ``khugepaged`` daemon that scans memory and
--collapses sequences of basic pages into PMD-sized huge pages.
-+collapses sequences of basic pages into huge pages of either PMD size
-+or mTHP sizes, if the system is configured to do so
- 
- The THP behaviour is controlled via :ref:`sysfs <thp_sysfs>`
- interface and using madvise(2) and prctl(2) system calls.
-@@ -219,10 +220,10 @@ this behaviour by writing 0 to shrink_underused, and enable it by writing
- 	echo 0 > /sys/kernel/mm/transparent_hugepage/shrink_underused
- 	echo 1 > /sys/kernel/mm/transparent_hugepage/shrink_underused
- 
--khugepaged will be automatically started when PMD-sized THP is enabled
-+khugepaged will be automatically started when any THP size is enabled
- (either of the per-size anon control or the top-level control are set
- to "always" or "madvise"), and it'll be automatically shutdown when
--PMD-sized THP is disabled (when both the per-size anon control and the
-+all THP sizes are disabled (when both the per-size anon control and the
- top-level control are "never")
- 
- process THP controls
-@@ -264,11 +265,6 @@ support the following arguments::
- Khugepaged controls
- -------------------
- 
--.. note::
--   khugepaged currently only searches for opportunities to collapse to
--   PMD-sized THP and no attempt is made to collapse to other THP
--   sizes.
--
- khugepaged runs usually at low frequency so while one may not want to
- invoke defrag algorithms synchronously during the page faults, it
- should be worth invoking defrag at least in khugepaged. However it's
-@@ -296,11 +292,11 @@ allocation failure to throttle the next allocation attempt::
- The khugepaged progress can be seen in the number of pages collapsed (note
- that this counter may not be an exact count of the number of pages
- collapsed, since "collapsed" could mean multiple things: (1) A PTE mapping
--being replaced by a PMD mapping, or (2) All 4K physical pages replaced by
--one 2M hugepage. Each may happen independently, or together, depending on
--the type of memory and the failures that occur. As such, this value should
--be interpreted roughly as a sign of progress, and counters in /proc/vmstat
--consulted for more accurate accounting)::
-+being replaced by a PMD mapping, or (2) physical pages replaced by one
-+hugepage of various sizes (PMD-sized or mTHP). Each may happen independently,
-+or together, depending on the type of memory and the failures that occur.
-+As such, this value should be interpreted roughly as a sign of progress,
-+and counters in /proc/vmstat consulted for more accurate accounting)::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/pages_collapsed
- 
-@@ -308,16 +304,19 @@ for each pass::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/full_scans
- 
--``max_ptes_none`` specifies how many extra small pages (that are
--not already mapped) can be allocated when collapsing a group
--of small pages into one large page::
-+``max_ptes_none`` specifies how many empty (none/zero) pages are allowed
-+when collapsing a group of small pages into one large page::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
- 
--A higher value leads to use additional memory for programs.
--A lower value leads to gain less thp performance. Value of
--max_ptes_none can waste cpu time very little, you can
--ignore it.
-+For PMD-sized THP collapse, this directly limits the number of empty pages
-+allowed in the 2MB region. For mTHP collapse, only 0 or (HPAGE_PMD_NR - 1)
-+are supported. Any other value will emit a warning and no mTHP collapse
-+will be attempted.
-+
-+A higher value allows more empty pages, potentially leading to more memory
-+usage but better THP performance. A lower value is more conservative and
-+may result in fewer THP collapses.
- 
- ``max_ptes_swap`` specifies how many pages can be brought in from
- swap when collapsing a group of pages into a transparent huge page::
-@@ -337,6 +336,15 @@ that THP is shared. Exceeding the number would block the collapse::
- 
- A higher value may increase memory footprint for some workloads.
- 
-+.. note::
-+   For mTHP collapse, khugepaged does not support collapsing regions that
-+   contain shared or swapped out pages, as this could lead to continuous
-+   promotion to higher orders. The collapse will fail if any shared or
-+   swapped PTEs are encountered during the scan.
-+
-+   Currently, madvise_collapse only supports collapsing to PMD-sized THPs
-+   and does not attempt mTHP collapses.
-+
- Boot parameters
- ===============
- 
--- 
-2.51.1
+Yes, both values contain the fake offset. vma->vm_pgoff is the actual 
+fake offset (mmap offset in the GEM context). vmf->pgoff is the fake 
+offset added to the offset we're looking for (offset from start of VMA 
+to faulty address). So the difference just gets rid of it, hence the 
+precision, but now that I read it again after a few weeks, it's a bit 
+misleading so I'll just remove it.
+
+Regards,
+Loïc
+
+>> +	page_offset = vmf->pgoff - vma->vm_pgoff;
+>>   
+>>   	dma_resv_lock(shmem->base.resv, NULL);
+>>   
+> 
 
