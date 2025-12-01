@@ -1,84 +1,82 @@
-Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B666027C842;
-	Mon,  1 Dec 2025 07:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012858488;
+	Mon,  1 Dec 2025 07:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764572584; cv=none; b=JePgfrAs9KVaqUDtq+jbarERuZlZgBL6bd/818gxnwz4QcQaS/DmfXiZD7cOUvNurgPQcN4W46CZYGtsz6ALWiZ3f8XlBJ6qXKD3FDyTL+fOgJmA4pkwhZnqScd5/6EzjhKMFrsok60Nad807ZJFuLqIMLJySpyNUVQByCneey8=
+	t=1764573191; cv=none; b=XOlsqtWQ1nGTJPTqlT3UyrZuxVlxWaCWamIPm2ZDqolR9T6tFURwjxtL9wRMmj2C8HbGkJYLGdUD5mCw9u4ansiRt+xBCEeJy/+b6/v8F/IwVLA7sZUQWGt/kCih2t9KxrEdX4Iy/jMSsxAUwmifZoUdNi06ZBXrbf09OFrE0xY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764572584; c=relaxed/simple;
-	bh=keLVryX8GeIo0Mn0JMDPzQGbake1lsSDO9bIs82o8/A=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=G+HCLrB4ES7DpBFMzqeo1EGRz4VU4DV5JiDO2+V0N/yM1at4FJv2+LohHnIb9QW8JWIeJOqwkhkRwU0y2lQEFAZ2Eubap7pmSzGdxr6vFC/PqlmH863D6m96O5uLMs2sgzDPInW8HTF1GunAAZxXGkPO/mPnunSeY+eI3ABCsJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from w011.hihonor.com (unknown [10.68.20.122])
-	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4dKZZL3V3YzYl9BZ;
-	Mon,  1 Dec 2025 15:01:30 +0800 (CST)
-Received: from w007.hihonor.com (10.68.16.91) by w011.hihonor.com
- (10.68.20.122) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Mon, 1 Dec
- 2025 15:02:54 +0800
-Received: from w002.hihonor.com (10.68.28.120) by w007.hihonor.com
- (10.68.16.91) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Mon, 1 Dec
- 2025 15:02:53 +0800
-Received: from w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3]) by
- w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3%14]) with mapi id
- 15.02.2562.027; Mon, 1 Dec 2025 15:02:53 +0800
-From: wangzicheng <wangzicheng@honor.com>
-To: Barry Song <21cnbao@gmail.com>, "Liam R. Howlett"
-	<Liam.Howlett@oracle.com>, Matthew Wilcox <willy@infradead.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "hannes@cmpxchg.org"
-	<hannes@cmpxchg.org>, "david@redhat.com" <david@redhat.com>,
-	"axelrasmussen@google.com" <axelrasmussen@google.com>, "yuanchu@google.com"
-	<yuanchu@google.com>, "mhocko@kernel.org" <mhocko@kernel.org>,
-	"zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
-	"shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"weixugc@google.com" <weixugc@google.com>, "vbabka@suse.cz" <vbabka@suse.cz>,
-	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
-	"mhocko@suse.com" <mhocko@suse.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, wangtao <tao.wangtao@honor.com>, "wangzhen
- 00021541" <wangzhen5@honor.com>, zhongjinji 00025326 <zhongjinji@honor.com>
-Subject: RE: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
- debugfs to procfs
-Thread-Topic: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
- debugfs to procfs
-Thread-Index: AQHcYBJK8KKXMResfEqv9fHMnnJz9rUHrbeAgAAP74CAA+3ugIAApiiQgAAOWIA=
-Date: Mon, 1 Dec 2025 07:02:53 +0000
-Message-ID: <e4cc633a77cb46b6bea4667d3886c000@honor.com>
-References: <20251128025315.3520689-1-wangzicheng@honor.com>
- <aSm800KsCAptVZKu@casper.infradead.org>
- <ti7h5cbrg5s3zf7surof3zmxb6supnl34x7hsbziqutm7r2laf@zuunap5hwsbx>
- <CAGsJ_4xJ5qMght93FQOYrk1OiJTh-wFC4e8Nd4K0A156N3ZEBQ@mail.gmail.com>
- <86c62472b5874ea2833587f1847958df@honor.com>
-In-Reply-To: <86c62472b5874ea2833587f1847958df@honor.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1764573191; c=relaxed/simple;
+	bh=tan7erp1ZTKxUWHxvVMn+iQ7OvsvaEbwO0Ucja+nQPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZYBWp7eQQVqviOCI8u1nFM9VPOYiO03Rm+SjPL+X7//MKmjTbsAw9SAlPdYYwR28gV18MyHJEVFHQ/bBtk7y0g+I6DTSEyEMR3N/h+IomrhnzIUZyBaYX904z7dcAmyzqi2PYdnotubqw+JnkGja1/Ec92MQ63miHDBt3fELDss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=tfvNDpWf; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="tfvNDpWf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1764573179; bh=oC5e19IhfsH6xgh10IQb7RxE2pgecoic4DeaK8bg9mo=;
+	h=From:Message-ID:From;
+	b=tfvNDpWfkoZuZ+9aitx7tOkorJ1aWiNoNtDLmUl/1X5H9GfkVoKPAgJ/ONtkGVuUj
+	 xZWqLbZCZ2nOXj1iCZUyG9rzuLtWAFlLSzT0Vb7jR7142c20HlLUrJZOYz2sLo5ipi
+	 +gPwRluTsdC4nBCqaConZZ+yznT0G9ZIDn3KxDpk=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id 96C4CC0847;
+	Mon, 01 Dec 2025 08:12:59 +0100 (CET)
+Received: (from willy@localhost)
+	by pcw.home.local (8.15.2/8.15.2/Submit) id 5B17CxIn023493;
+	Mon, 1 Dec 2025 08:12:59 +0100
+Date: Mon, 1 Dec 2025 08:12:59 +0100
+From: Willy Tarreau <w@1wt.eu>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Security Officers <security@kernel.org>,
+        kees@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: insist on the plain-text requirement for
+ security reports
+Message-ID: <20251201071259.GA23487@1wt.eu>
+References: <20251129141741.19046-1-w@1wt.eu>
+ <2025120112-sublet-parasitic-18da@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2025120112-sublet-parasitic-18da@gregkh>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-PiA+ID4NCj4gPiA+IFsxXS4NCj4gPiA+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDI1
-MDUxNDA3MDgyMC41MTc5My0xLTIxY25iYW9AZ21haWwuY29tDQo+ID4gPiAvDQo+ID4gPg0KPiA+
-DQo+ID4gVGhhbmtzDQo+ID4gQmFycnkNCj4gDQo+IFNpbmNlIHRoZSBzZW1hbnRpYyBnYXAgYmV0
-d2VlbiB1c2VyL2tlcm5lbCBzcGFjZSB3aWxsIGFsd2F5cyBleGlzdC4NCj4gSXQgd291bGQgYmUg
-Z3JlYXQgYmVuZWZpdHMgZm9yIGxlYXZpbmcgc29tZSBBUElzIGZvciB1c2VyIGhpbnRzLCBqdXN0
-IGxpa2UNCj4gbW1hZHZpc2UvdXNlcmZhdWx0L3BhcmEtdmlydHVhbGl6YXRpb24uDQo+IEV4cG9z
-aW5nIHN1Y2ggaGludHMgdG8gdGhlIGtlcm5lbCBjYW4gaGVscCBpbXByb3ZlIG92ZXJhbGwgc3lz
-dGVtDQo+IHBlcmZvcm1hbmNlLg0KPiANCj4gQmVzdCwNCj4gWmljaGVuZw0KDQpNb3JlIHByZWNp
-c2VseSwgaXTigJlzIGEgZm9ybSBvZiAqcHJvYWN0aXZlIHNjYW5uaW5nIGFuZCBhZ2luZyouDQoN
-CkVuc3VyZSBhIG1vcmUgZXZlbiBnZW5lcmF0aW9uYWwgZGlzdHJpYnV0aW9uIGJldHdlZW4gZmls
-ZSBhbmQgYW5vbnltb3VzIHBhZ2VzLg0KDQpCZXN0LA0KWmljaGVuZw0K
+On Mon, Dec 01, 2025 at 07:38:17AM +0100, Greg KH wrote:
+> On Sat, Nov 29, 2025 at 03:17:41PM +0100, Willy Tarreau wrote:
+> > As the trend of AI-generated reports is growing, the trend of unreadable
+> > reports in gimmicky formats is following, and we cannot request that
+> > developers rely on online viewers to be able to read a security report
+> > full for formatting tags. Let's just insist on the plain text requirement
+> > a bit more.
+> > 
+> > Signed-off-by: Willy Tarreau <w@1wt.eu>
+> > ---
+> >  Documentation/process/security-bugs.rst | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> Looks good to me!  Given the number of non-plain-text emails with binary
+> attachments we still get there, it's obvious not many people seem to
+> read this file, but it can't hurt!  :)
+
+At least it gives us a place to point to, saying "look at the rules".
+
+> I'll queue this up if Jon doesn't, after -rc1 is out.  If he wants to
+> take it, here's my:
+> 
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+Thanks! Oh BTW I'm noticing a typo in the commit message above
+"full for" instead of "full of". Feel free to adjust it while
+applying, though it's really not important (and no, I won't
+respin a patch just for this :-)).
+
+Willy
