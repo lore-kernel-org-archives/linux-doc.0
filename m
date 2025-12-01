@@ -1,191 +1,121 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AA2184524
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 21:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE841E3DED
+	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 21:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764624420; cv=none; b=IqaWcXyLL1XCAqHoMFDHJDcXEFKsL8cKCnxOu2VFnxmApMw4vTlWNYeaFk0Ws89idFrK1La2BEfk9oBQzhDPcGEf48Z0buoS09+ku/w49pqrk4b9uy9fDf3bbbR2DsVV22p3+Cqlc95bLmmvd8yoH9klHLdLxqBWRs91GcaNV+E=
+	t=1764624924; cv=none; b=r6WPQRITcy0Bual82ZT/fjh0/Mgd5VJTGYP7KJoYkEInoirSpUBMOTav6b5T3/dx6z06w/YJ3PEZZpNvmocyRQAn9MukN5FwjGcfZjaTLddM153Gm0ETquiLX9/yQcx5IFVewAAlh40Vu67Z0rfVTnsLJiNhoW57sHA5OCY2LFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764624420; c=relaxed/simple;
-	bh=8mLxC795XDeXvk7AKRtIomjBDkWhyEQnDZ+CSuHWqxQ=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=kibx9B/FsSIQSTC/lT4vnGkBQMuTtABcFFf6sUNBzoz06JBtjXoosN83ijktbsRBdGnG4gjaauySVWG80aXXUfb5OznMNVFZCwq4Ed3MlxIbKwk+nPtI4ZIxfLFa1BV4BIQV7ETsulfyK81WnMAyRXjdBxLjiStc/OwW1j4B5EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ptosi.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C57hN5X/; arc=none smtp.client-ip=209.85.208.73
+	s=arc-20240116; t=1764624924; c=relaxed/simple;
+	bh=dYQGXqwPFWGIYV2PFYgZ2uiYOnPw3Ic8p09fl/bdFus=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uLG5ni7bpaUDTqewMuf8rjs0n0JgQkW8MR5CUq0JTSDDm9t0tL9JSvW5Z3WrSrP/6WV6mShyiNp9oJXIarioiEQq4Te7vOtV/+417GU9OKyPFnNaKzTk6CsSDDANQbXMgb9csl8lw0Rp1VTHhNAxNGPP3exlHMvtmNw47MX8tNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wnx0q/my; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ptosi.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C57hN5X/"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-640ace5f40dso5138380a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 13:26:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wnx0q/my"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-297e13bf404so838965ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 13:35:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764624417; x=1765229217; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cfRTWtcIaathUA2mgL41QBVM+XL6VT6UBdp0QiNZHSY=;
-        b=C57hN5X/XUshqEZ7BREJUiY9l/NXDdxyE3X49c9134QVuejddYBUYJ2arnyFbGj5cp
-         9iqejDjwJ13G16L4Jj5y9pl8431MlTeEzsjc7zjhBtH3nLYe33hwn1a+LBQkbz6GFBJZ
-         ha11yZNwM4FhzaKcTMjlT0FuJoVNjhTATKZdfuOIRpCR0lKygUQjKTgJthXOuceGTI5N
-         UgwlCIRpM7XsoLC2fmxy1fQOv/RMdpUmAoofrEjJg6yzbhZqH8YWHAT7nbmG1rGqcm7b
-         XAzV5hg3KR0bLTpG1kNl30NjoXainVnf7lNIqZkux8EqQf7EmU2jHaNaDTG8ndht072q
-         oIMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764624417; x=1765229217;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1764624922; x=1765229722; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cfRTWtcIaathUA2mgL41QBVM+XL6VT6UBdp0QiNZHSY=;
-        b=wSIeZML068n6MIWQO19RcITF6Bc5fVtUx1GwvxWdLnk0hyHoZcz++F2ktmN6l29QOR
-         EO4OgajwZrga/D0OfYTRbGzAzWCBA94MF9OmVrJgoX1WZGey7ywp4h1FxET5avY+Ex8R
-         NDfptfhzhZILhtPUcpY+Q6/9+QZ5wk7lhzXrdEOo0avw2wVGv/pTCdc22FTZrcl5AmEL
-         OwApZN0UmUxkioQrgDrBKkAFvFiYhuHhfD2FwZmil7zdpXsGzoLrKfd5lDre7v1sHJ8T
-         STfwRVaHESHBPSsEYt5yE/W8x1nKsFdKwkWdamCjIcNBPZ1f2PoYGpSaew3HTfOIh4bw
-         KosA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/ibddWU03VXtnnuESNT7/k15xOjABe3MeAXCx2HhEdtTTBWVlMP3dELi8GSWFVrijCJ34OvFxUeM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyygr/gTTZWY/6uvqcJVh6xl1Zpmb7Y251TKmhQ99MkmoXkM8sw
-	pO/Lh5P/uKfEPD5wngwx2WAlUQswp/CtRzMEjfG1/OZJfrybdakK0Zfl/hZwadRU2wO0Wuxzwcy
-	Rsw==
-X-Google-Smtp-Source: AGHT+IG6OTWqFbaWntwqBBvO6mL+v9FKNl0tgC0FGiL0/5Lod1u3ROGkbcUdu5tvSbLlEmMPZt/biMrlsA==
-X-Received: from eda15.prod.google.com ([2002:a05:6402:a00f:b0:647:7a4d:7406])
- (user=ptosi job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:26c3:b0:643:6af2:2356
- with SMTP id 4fb4d7f45d1cf-645eb2aade8mr24700068a12.26.1764624416786; Mon, 01
- Dec 2025 13:26:56 -0800 (PST)
-Date: Mon, 01 Dec 2025 21:26:42 +0000
+        bh=pztwMSM/xJ8ORFd02azXUTlR9KBkGnFnYMXGWY/ok94=;
+        b=wnx0q/myE/QjQ6RxUOmwfssnGd8Rlc0jQR5fTFP9ikdCY3CF+Dot7tu5aZTTKtAclo
+         9qvtGpSdxeGJqaZQf9QjZqZZ/iX7XBqT/KGnspYo6cMKyEUgfNdETD+D79j27/Y3rEDb
+         cn+I7t2U7SvgezE+0PKll9453ktwHrlQGQFJZ+TIcNztSiKUNSYCCcz0vJLDQs5jXs4D
+         TeJozaE3qQDErVKXvjJR1x7Da7HR03LFHtlcvyk18jLGn5LZQAnORL4sXSfUPUfaFR0s
+         CceCoZ27HYclBliWzGRao/kAIre92+o9Z5BEH0qCFNKoppB/GSIqexBS10Gscxii9ADZ
+         SzAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764624922; x=1765229722;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pztwMSM/xJ8ORFd02azXUTlR9KBkGnFnYMXGWY/ok94=;
+        b=RzARdU0zw7pHdmgqUYk1rO3kh3v83MOkTK33gMk1S0QhdtPo1HbyzAKtWfIyJPiSuN
+         6JdRizeqJjD01HfDizFflzrTZohazS1XkipKHIT5Up8BV5s2/7j+FVpxM5A73B0KeiuF
+         OzHPlPTS8e3xkBXUgUjmwD8RwLJTe47mEBJbtpaJLkgZpVQ+fJ/vHhx+vIwv3uHSyo21
+         D5r+Kh2923wIFPTAIILKn+XozVn88Z4Go7YTI8x9Ea2mJuRYcedPZ3IlME8TYEb7Qpjq
+         f7C5AqnSW1iH3GTZJ7hVG5J80xDKdjoh/1LzXAoCFGg87tmM7Ijll6aroDN1QiGK6wjh
+         GFfg==
+X-Forwarded-Encrypted: i=1; AJvYcCVr9BWb1Sg+zxG1avmYNS8apybXzFTIqGI4gvm4iSgYu7JxQSvyTIhWEXBHdAl6yr/Zl+v0v2bNqJk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5zGtBpfJgy2WMyQUT25tIr7uP3rcroDiUHCP7EPleOxDxuTLm
+	i1e4ynQdvWLh0G3LvHL2BoKOg+GeKT/6thId2DB51tqAYPBpythWaQvwYO74zBeal8Rb1FcgaxV
+	776X8axabUrXaRG3fzDJkP2qXuRiBCTyRJGkyV/Ji
+X-Gm-Gg: ASbGncs/I9GG2MKT1d8Wf4S3wNp/yTUqXHPPzz5eL8vZHUjFGxeJreX6bzx71BqaYAZ
+	Bc+ZA2RU/msEORrPoQ7ScgGfyQdJtVA0kyt9n99YG4CZXAZqU3y86efhCiYFbWE2oCYAq1rbu/e
+	NDouOdCYgDePqM2DnOwAX05+RArVmIfQ9bCMT7YP+W7ueglM6yrrwZvturaTGi+JBY+vh8UBsaZ
+	JByhww/bQsmHQWcBjXxshdlo1suBECNE4zJezjh5IvquxFBmUxqRfojSsaESkhCPzapf5iSRN6O
+	xAOVGYxpM/H1ucxfU9OYr0dYDEBCzrAZmHts
+X-Google-Smtp-Source: AGHT+IGcEr+u4Lvyu2lcr5/u3UATd1g0adlZD8heHy4ha30xHQDJbp7Oka+Ww5wtit5evGdRnPc0wgduqHEKGAIhdio=
+X-Received: by 2002:a05:7022:6190:b0:11a:4c75:a45b with SMTP id
+ a92af1059eb24-11de93975a9mr2477c88.10.1764624921927; Mon, 01 Dec 2025
+ 13:35:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIABEILmkC/3XMQQ6DIBCF4auYWZfGQWlIV71H40JhwElUGjCkj
- eHupe67/F/yvgMSRaYE9+aASJkTh62GvDRg5nHzJNjWBtlKhbJFkVZjjHC87BSF0tpah3LqlIJ 6eUVy/D6551B75rSH+Dn1jL/1D5RRoJh63WGPN6fH7uFD8AtdTVhhKKV8ATlMx72pAAAA
-X-Change-Id: 20251201-smccc-filter-588ddf12b355
-X-Mailer: b4 0.14.2
-Message-ID: <20251201-smccc-filter-v2-1-03dab737a14d@google.com>
-Subject: [PATCH v2] KVM: arm64: Prevent FWD_TO_USER of SMCCC to pKVM
-From: "=?utf-8?q?Pierre-Cl=C3=A9ment_Tosi?=" <ptosi@google.com>
-To: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev
-Cc: Joey Gouly <joey.gouly@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
-	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, 
-	"=?utf-8?q?Pierre-Cl=C3=A9ment_Tosi?=" <ptosi@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+References: <20251128025315.3520689-1-wangzicheng@honor.com> <20251128025315.3520689-3-wangzicheng@honor.com>
+In-Reply-To: <20251128025315.3520689-3-wangzicheng@honor.com>
+From: Yuanchu Xie <yuanchu@google.com>
+Date: Mon, 1 Dec 2025 15:35:05 -0600
+X-Gm-Features: AWmQ_bnUvWHfjLPC5vTcuKxCijZrgA-YfCUFmk-n0mUVC2U4d1FBt5FslZMBSHs
+Message-ID: <CAJj2-QFM3iwO==3JKQ4nnHfAxYJuyYXZ6uNJUR8rQdf_Q_1x0A@mail.gmail.com>
+Subject: Re: [PATCH 2/3] mm/lru_gen: add configuration option to select
+ debugfs/procfs for lru_gen
+To: Zicheng Wang <wangzicheng@honor.com>
+Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, david@redhat.com, 
+	axelrasmussen@google.com, mhocko@kernel.org, zhengqi.arch@bytedance.com, 
+	shakeel.butt@linux.dev, lorenzo.stoakes@oracle.com, weixugc@google.com, 
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, corbet@lwn.net, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-With protected VMs, forwarding guest HVC/SMCs happens at two interfaces:
+On Thu, Nov 27, 2025 at 8:54=E2=80=AFPM Zicheng Wang <wangzicheng@honor.com=
+> wrote:
+>
+> Signed-off-by: Zicheng Wang <wangzicheng@honor.com>
+> ---
+>  mm/Kconfig | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index e443fe8cd..be7efa794 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -1325,6 +1325,16 @@ config LRU_GEN_STATS
+>  config LRU_GEN_WALKS_MMU
+>         def_bool y
+>         depends on LRU_GEN && ARCH_HAS_HW_PTE_YOUNG
+> +
+> +config LRU_GEN_PROCFS_CTRL
+> +       bool "Move lru_gen files from debugfs to procfs"
+> +       depends on LRU_GEN && PROC_FS
+> +       help
+> +         Move lru_gen management from debugfs to procfs (/proc/lru_gen).
+> +         This production-ready feature provides critical memory reclaim
+> +         prediction and control. It is no longer experimental.
+> +         The migration ensures availability in commercial products where
+> +         debugfs may be disabled.
+Hi Zicheng,
 
-     pKVM [EL2] <--> KVM [EL1] <--> VMM [EL0]
+A config option determining where LRU_gen files reside creates a
+fragile procfs interface. Consider adding a similar interface with
+less implementation detail to /sys/kernel/mm/lru_gen/ if the goal is
+to stabilize the debugfs APIs.
 
-so it might be possible for EL0 to successfully register with EL1 to
-handle guest SMCCC calls but never see the KVM_EXIT_HYPERCALL, even if
-the calls are properly issued by the guest, due to EL2 handling them so
-that (host) EL1 never gets a chance to exit to EL0.
+If the goal is to proactively age lruvecs that have been at
+MIN_NR_GENS for some time/events/etc, is it possible to integrate this
+into the kernel and avoid leaking MGLRU implementation details into
+userspace?
 
-Instead, avoid that confusing situation and make userspace fail early by
-disallowing KVM_ARM_VM_SMCCC_FILTER-ing calls from protected guests in
-the pKVM FID range.
-
-Similarly, reserve the "Call UID Query" to ensure that a malicious host
-can't mislead a protected guest into misusing the pKVM ABI, under the
-premise that it would be interacting with a different hypervisor ABI, as
-hypervisors share the same FID space.
-
-Signed-off-by: Pierre-Cl=C3=A9ment Tosi <ptosi@google.com>
----
-Changes in v2:
-- Restricted the range to pKVM HVCs & the "Call UID Query"
-- Updated docs & removed mention of KVM_VM_TYPE_ARM_PROTECTED
-- Link to v1: https://lore.kernel.org/r/20251201-smccc-filter-v1-1-b4831416=
-f8a3@google.com
----
- Documentation/virt/kvm/devices/vm.rst | 10 ++++++++++
- arch/arm64/kvm/hypercalls.c           | 29 +++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
-
-diff --git a/Documentation/virt/kvm/devices/vm.rst b/Documentation/virt/kvm=
-/devices/vm.rst
-index a4d39fa1b0834b090318250db3b670b0b3174259..28ab2629e7e8f166def6f9efd18=
-e8408ab4a8e63 100644
---- a/Documentation/virt/kvm/devices/vm.rst
-+++ b/Documentation/virt/kvm/devices/vm.rst
-@@ -400,3 +400,13 @@ will reject attempts to define a filter for any portio=
-n of these ranges:
-         0x8000_0000 0x8000_FFFF
-         0xC000_0000 0xC000_FFFF
-         =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+
-+Protected KVM (pKVM) handles some calls directly and will reject attempts =
-to
-+define a filter for a protected VM for any portion of these ranges:
-+
-+        =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+        Start       End (inclusive)
-+        =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+        0x8600_FF01 0x8600_FF01
-+        0xC600_0002 0xC600_003F
-+        =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-diff --git a/arch/arm64/kvm/hypercalls.c b/arch/arm64/kvm/hypercalls.c
-index 58c5fe7d757274d9079606fcc378485980c6c0f8..5329772f228d356322863a7150f=
-fa40c25ea1ee2 100644
---- a/arch/arm64/kvm/hypercalls.c
-+++ b/arch/arm64/kvm/hypercalls.c
-@@ -135,6 +135,12 @@ static bool kvm_smccc_test_fw_bmap(struct kvm_vcpu *vc=
-pu, u32 func_id)
- 						   ARM_SMCCC_SMC_64,		\
- 						   0, ARM_SMCCC_FUNC_MASK)
-=20
-+#define SMC64_PKVM_RANGE_BEGIN	ARM_SMCCC_VENDOR_HYP_KVM_HYP_MEMINFO_FUNC_I=
-D
-+#define SMC64_PKVM_RANGE_END	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,		\
-+						   ARM_SMCCC_SMC_64,		\
-+						   ARM_SMCCC_OWNER_VENDOR_HYP,	\
-+						   ARM_SMCCC_KVM_FUNC_PKVM_RESV_63)
-+
- static int kvm_smccc_filter_insert_reserved(struct kvm *kvm)
- {
- 	int r;
-@@ -158,6 +164,29 @@ static int kvm_smccc_filter_insert_reserved(struct kvm=
- *kvm)
- 	if (r)
- 		goto out_destroy;
-=20
-+	/*
-+	 * Prevent userspace from registering to handle any SMCCC call in the
-+	 * vendor hypervisor range for pVMs, avoiding the confusion of guest
-+	 * calls seemingly not resulting in KVM_RUN exits because pKVM handles
-+	 * them without ever returning to the host. This is NOT for security.
-+	 */
-+	if (kvm_vm_is_protected(kvm)) {
-+		r =3D mtree_insert(&kvm->arch.smccc_filter,
-+				ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID,
-+				xa_mk_value(KVM_SMCCC_FILTER_HANDLE),
-+				GFP_KERNEL_ACCOUNT);
-+		if (r)
-+			goto out_destroy;
-+
-+		r =3D mtree_insert_range(&kvm->arch.smccc_filter,
-+				       SMC64_PKVM_RANGE_BEGIN,
-+				       SMC64_PKVM_RANGE_END,
-+				       xa_mk_value(KVM_SMCCC_FILTER_HANDLE),
-+				       GFP_KERNEL_ACCOUNT);
-+		if (r)
-+			goto out_destroy;
-+	}
-+
- 	return 0;
- out_destroy:
- 	mtree_destroy(&kvm->arch.smccc_filter);
-
----
-base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-change-id: 20251201-smccc-filter-588ddf12b355
-
-Best regards,
---=20
-Pierre-Cl=C3=A9ment Tosi <ptosi@google.com>
-
+Thanks,
+Yuanchu
