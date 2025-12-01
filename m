@@ -1,137 +1,154 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from mta22.hihonor.com (mta22.hihonor.com [81.70.192.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FABE30BB94;
-	Mon,  1 Dec 2025 13:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6364944C63;
+	Mon,  1 Dec 2025 13:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.192.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764595675; cv=none; b=RvRUqNv7MtJ3akwKjIN4C1c3G5FHUpP79n6H36JdO7sEw4oh86V/Zt6w0JeDoTkZzxwbyeZ04x9XIhHoby/N7S8ElULtQRBjTiLeZvwfLeczK9k8tYCc0j+3dRC18ABddhNsB/Xjk9jEN9c+SjvaI+WvozOUDQUrHFjgotHtCBk=
+	t=1764595956; cv=none; b=erHvtr111CFmn99W6EZt25ctkgNydRoihry7VkqDKlU8jQAalBKBxzLhYHsllsLHOwoFwbQ5SZPAi4vjQ4GavVS5VStARdPCtGeseihcf0170fDv6P9QVNMrAUhMDzrNPeW4Wv3Hs+S0/jVL0aE1gEKL4/nlVl+ZFtw0G/Ab320=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764595675; c=relaxed/simple;
-	bh=2V0UxAPSmSzPXqeu8r2/E67WbJoFIbj7Lzk58SCmBkA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JLzTudyu6xZM/Q7sUVKtWCoyx8kCZRWqIkcpml7GpPHiqErHy0Cva51UnZzYDF+PJNyxscaThQxkVKk+0UMpOr8EVpfjFaHJ9BnvS9eGQyRdTQiZjW7Nk9zl0KwnKjC0nZz1qBiy0FlEOPBZPFWXBTFeTdiPBUZ/yF8OoSav7GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=T9l4N5HL; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1764595956; c=relaxed/simple;
+	bh=9FzePyoI/nyEJlpAkwj8VuD5xVudCKii8Wo6Cu/3xfM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=HChUwDnhDqJgGUE15yesMXXf1PCAXab/Gv3KRdJNrbk0cfiTH0K8g54ayvsqgcycy0UzpUGJQIjcmYvzU1RoYVbQOMQ173GNUGq5dKhwOFQQX8MtcxIYB79BAYEx9l7Or7m5PHTy9yVssDKofBUO53S3f8SpP76AskbI2HAzM6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b=RhIFTECH; arc=none smtp.client-ip=81.70.192.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="T9l4N5HL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=0SaEHpLgPQWDg/1suaX25LTMCjnE+f1eGygaTvce+bc=; b=T9l4N5HLxjxjguG4+xviCO4s3B
-	FLkJ4toDbnJQsMpkA821HVAMJww1WQ1ckNVYFRgrbrysOjyrftAMbVjZ76ckiwwMFsSWsgB6QX3bH
-	C9KPEPeAmie7IGXskDbwv8+4gyQsv3f1KF5NXVSSa/FQ4dEQYeQnD1OdyxxDL12tz+hLfS2CcAmsO
-	2LzyqIdCz+5Ghd7fGvs0/JpXOriFtzi5TxV+Xdj74HJBvZnVXHa5Wofnldywwwvu08+peC9JpTVqS
-	MaCqXen8cNLjejSVp7p2SVG1YADH6RCExxXYnYcZn3evk3uuMnuO3j0/oM6DouJK6udtzey1XMUbZ
-	MTmwFtrQ==;
-Received: from [189.7.87.198] (helo=[192.168.0.4])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1vQ3vu-007OVO-IP; Mon, 01 Dec 2025 14:27:14 +0100
-Message-ID: <f1a5e5a9-2193-4a47-9fce-c51b223985aa@igalia.com>
-Date: Mon, 1 Dec 2025 10:27:02 -0300
+	dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b="RhIFTECH"
+dkim-signature: v=1; a=rsa-sha256; d=honor.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=To:From;
+	bh=9FzePyoI/nyEJlpAkwj8VuD5xVudCKii8Wo6Cu/3xfM=;
+	b=RhIFTECHkllpTC8U8xSfBK8AsAMbeIYBESEAWy21AoStEFUGcFzdkzAtpqPzwxfDcKSwsDd+R
+	dSjw2pp4BfPhIGV7m/kWXGmEobcigWVA0U6BmLp0twds02AX8FZMRvkrPr/bdhaQKc1ewGOzegd
+	jH/BfqFN45ngnLeCvhNBjcY=
+Received: from w011.hihonor.com (unknown [10.68.20.122])
+	by mta22.hihonor.com (SkyGuard) with ESMTPS id 4dKlCL30T5zYl0Dw;
+	Mon,  1 Dec 2025 21:30:38 +0800 (CST)
+Received: from w004.hihonor.com (10.68.29.54) by w011.hihonor.com
+ (10.68.20.122) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Mon, 1 Dec
+ 2025 21:32:31 +0800
+Received: from w002.hihonor.com (10.68.28.120) by w004.hihonor.com
+ (10.68.29.54) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Mon, 1 Dec
+ 2025 21:32:21 +0800
+Received: from w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3]) by
+ w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3%14]) with mapi id
+ 15.02.2562.027; Mon, 1 Dec 2025 21:32:21 +0800
+From: wangzicheng <wangzicheng@honor.com>
+To: Barry Song <21cnbao@gmail.com>
+CC: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Matthew Wilcox
+	<willy@infradead.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+	"david@redhat.com" <david@redhat.com>, "axelrasmussen@google.com"
+	<axelrasmussen@google.com>, "yuanchu@google.com" <yuanchu@google.com>,
+	"mhocko@kernel.org" <mhocko@kernel.org>, "zhengqi.arch@bytedance.com"
+	<zhengqi.arch@bytedance.com>, "shakeel.butt@linux.dev"
+	<shakeel.butt@linux.dev>, "lorenzo.stoakes@oracle.com"
+	<lorenzo.stoakes@oracle.com>, "weixugc@google.com" <weixugc@google.com>,
+	"vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
+	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, wangtao
+	<tao.wangtao@honor.com>, wangzhen 00021541 <wangzhen5@honor.com>, "zhongjinji
+ 00025326" <zhongjinji@honor.com>, Kairui Song <ryncsn@gmail.com>
+Subject: RE: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
+ debugfs to procfs
+Thread-Topic: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
+ debugfs to procfs
+Thread-Index: AQHcYBJK8KKXMResfEqv9fHMnnJz9rUHrbeAgAAP74CAA+3ugIAApiiQ//+VEACAAImM4P//h9UAgACJZRD//5W2AAAWOtvA
+Date: Mon, 1 Dec 2025 13:32:21 +0000
+Message-ID: <48ba80e93270438994db78f74a7acdb9@honor.com>
+References: <20251128025315.3520689-1-wangzicheng@honor.com>
+ <aSm800KsCAptVZKu@casper.infradead.org>
+ <ti7h5cbrg5s3zf7surof3zmxb6supnl34x7hsbziqutm7r2laf@zuunap5hwsbx>
+ <CAGsJ_4xJ5qMght93FQOYrk1OiJTh-wFC4e8Nd4K0A156N3ZEBQ@mail.gmail.com>
+ <86c62472b5874ea2833587f1847958df@honor.com>
+ <CAGsJ_4w1jEej+ROuLta3MSuo4pKuA5yq7=6HS5yzgK39-4SLoA@mail.gmail.com>
+ <66c62243a510421db938235a99a242bf@honor.com>
+ <CAGsJ_4x0aVkDf-AhhGbBLU=LCxYFqYoFL0ovij-vFEQeJ46jYQ@mail.gmail.com>
+ <dc8ce4f329d74a24bde62c93818df44a@honor.com>
+ <CAGsJ_4w16G+AngPu48SEy1H+ZuE1AQngiY=cSfEs9V6=OUKX_Q@mail.gmail.com>
+In-Reply-To: <CAGsJ_4w16G+AngPu48SEy1H+ZuE1AQngiY=cSfEs9V6=OUKX_Q@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 10/10] Documentation/gpu/drm-mm: Add THP paragraph to
- GEM mapping section
-To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Matthew Wilcox
- <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251128185252.3092-1-loic.molinari@collabora.com>
- <20251128185252.3092-11-loic.molinari@collabora.com>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Content-Language: en-US
-In-Reply-To: <20251128185252.3092-11-loic.molinari@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi Loïc,
-
-On 28/11/25 15:52, Loïc Molinari wrote:
-> Add a paragraph to the GEM objects mapping section explaining how
-> transparent huge pages are handled by GEM.
-> 
-> v4:
-> - fix wording after huge_pages handler removal
-> 
-> v6:
-> - fix wording after map_pages handler removal
-> 
-> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->   Documentation/gpu/drm-mm.rst | 22 +++++++++++++++++-----
->   1 file changed, 17 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index d55751cad67c..d69eab0b4093 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -290,15 +290,27 @@ The open and close operations must update the GEM object reference
->   count. Drivers can use the drm_gem_vm_open() and drm_gem_vm_close() helper
->   functions directly as open and close handlers.
->   
-> -The fault operation handler is responsible for mapping individual pages
-> -to userspace when a page fault occurs. Depending on the memory
-> -allocation scheme, drivers can allocate pages at fault time, or can
-> -decide to allocate memory for the GEM object at the time the object is
-> -created.
-> +The fault operation handler is responsible for mapping pages to
-> +userspace when a page fault occurs. Depending on the memory allocation
-> +scheme, drivers can allocate pages at fault time, or can decide to
-> +allocate memory for the GEM object at the time the object is created.
->   
->   Drivers that want to map the GEM object upfront instead of handling page
->   faults can implement their own mmap file operation handler.
->   
-> +In order to reduce page table overhead, if the internal shmem mountpoint
-> +"shm_mnt" is configured to use transparent huge pages (for builds with
-> +CONFIG_TRANSPARENT_HUGEPAGE enabled) and if the shmem backing store
-> +managed to allocate a huge page for a faulty address, the fault handler
-> +will first attempt to insert that huge page into the VMA before falling
-> +back to individual page insertion. mmap() user address alignment for GEM
-> +objects is handled by providing a custom get_unmapped_area file
-> +operation which forwards to the shmem backing store. For most drivers,
-> +which don't create a huge mountpoint by default or through a module
-> +parameter, transparent huge pages can be enabled by either setting the
-> +"transparent_hugepage_shmem" kernel parameter or the
-> +"/sys/kernel/mm/transparent_hugepage/shmem_enabled" sysfs knob.
-
-It would be nice to have a paragraph about the use of the huge tmpfs
-mountpoint helpers (maybe in the "GEM Objects Creation" section?).
-
-Best Regards,
-- Maíra
-
-> +
->   For platforms without MMU the GEM core provides a helper method
->   drm_gem_dma_get_unmapped_area(). The mmap() routines will call this to get a
->   proposed address for the mapping.
-
+SGkgQmFycnksDQoNClRoYW5rIHlvdSBmb3IgdGhlIGZvbGxvdy11cCBxdWVzdGlvbnMuDQoNCkl0
+IHNlZW1zIHRoYXQgb3VyIG1haW4gdGVzdGJlZCAoa2VybmVsIHY2LjYvdjYuMTIgZm9yIGxhdGVz
+dCBkZXZpY2VzKSwgDQpkb24ndCBoYXZlIFNXQVBQSU5FU1NfQU5PTl9PTkxZLzIwMSAtIHJlbGF0
+ZWQgcGF0Y2hlcyB5ZXQuDQoNClNpbmNlIHRoZSBtYXggc3dhcHBpbmVzcyBpcyAyMDAsIHRoZXJl
+IGFyZSBxdWl0ZSBzY2VuYXJpb3MgdGhhdCBmaWxlDQpwYWdlcyBhcmUgdGhlIG9ubHkgb3B0aW9u
+Lg0KDQpRdW90ZSBmcm9tIGthaXJ1aSdzIHJlcGx5Og0KPiBSaWdodCwgd2UgYXJlIHNlZWluZyBz
+aW1pbGFyIHByb2JsZW1zIG9uIG91ciBzZXJ2ZXIgdG9vLiBUbyB3b3JrYXJvdW5kDQo+IGl0IHdl
+IGZvcmNlIGFuIGFnZSBpdGVyYXRpb24gYmVmb3JlIHJlY2xhaW1pbmcgd2hlbiBpdCBoYXBwZW5z
+LCB3aGljaA0KPiBpc24ndCB0aGUgYmVzdCBjaG9pY2UuIFdoZW4gdGhlIExSVSBpcyBsb25nIGFu
+ZCB0aGUgb3Bwb3NpdGUgdHlwZSBvZg0KPiB0aGUgZm9saW9zIHdlIHdhbnQgdG8gcmVjbGFpbSBp
+cyBwaWxpbmcgdXAgaW4gdGhlIG9sZGVzdCBnZW4sIGEgZm9yY2VkDQo+IGFnZSB3aWxsIGhhdmUg
+dG8gbW92ZSBhbGwgdGhlc2UgZm9saW9zLCB3aGljaCBsZWFkcyB0byBsb25nIHRhaWxpbmcNCj4g
+aXNzdWVzLiBMZXQncyB3b3JrIG9uIGEgcmVhc29uYWJsZSBzb2x1dGlvbiBmb3IgdGhhdC4NCg0K
+QWdhaW4sIHRoYW5rIHlvdSBmb3IgeW91ciBndWlkYW5jZS4gV2Ugd2lsbCBjYXJlZnVsbHkgZXZh
+bHVhdGUgdGhlIA0KUGF0Y2hzZXRbMV0geW91IHJlY29tbWVuZGVkLg0KDQo+IEhpIFppY2hlbmcs
+DQo+IA0KPiBPbiBNb24sIERlYyAxLCAyMDI1IGF0IDU6NTXigK9QTSB3YW5nemljaGVuZyA8d2Fu
+Z3ppY2hlbmdAaG9ub3IuY29tPg0KPiB3cm90ZToNCj4gPg0KPiA+IEhpIEJhcnJ5LA0KPiA+DQo+
+ID4gVGhhbmsgeW91IGZvciB0aGUgY29tbWVudCwgYWN0dWFsbHkgd2UgZG8ga25vdyB0aGUgY2dy
+b3VwIGZpbGUuDQo+ID4NCj4gPiBXaGF0IHdlIHJlYWxseSBuZWVkIGlzIHRvICpwcm9hY3RpdmUg
+YWdpbmcgMn4zIGdlbnMqIGJlZm9yZSBwcm9hY3RpdmUNCj4gcmVjbGFpbS4NCj4gPiAoZXNwZWNp
+YWxseSBhZnRlciBjb2xkIGxhdW5jaGVzIHdoZW4gbm8gYW5vbiBwYWdlcyBpbiB0aGUgb2xkZXN0
+IGdlbnMpDQo+ID4NCj4gPiBUaGUgcHJvYWN0aXZlIGFnaW5nIGFsc28gaGVscHMgZGlzdHJpYnV0
+ZSB0aGUgYW5vbiBhbmQgZmlsZSBwYWdlcyBldmVubHkgaW4NCj4gPiBNR0xSVSBnZW5zLiBBbmQg
+cmVjbGFpbWluZyB3b24ndCBmYWxsIGludG8gZmlsZSBjYWNoZXMuDQo+IA0KPiBJ4oCZbSBub3Qg
+cXVpdGUgc3VyZSB3aGF0IHlvdSBtZWFuIGJ5IOKAnHJlY2xhaW1pbmcgd29u4oCZdCBmYWxsIGlu
+dG8gZmlsZSBjYWNoZXMu4oCdDQo+IA0KPiBJIGFzc3VtZSB5b3UgbWVhbiB5b3UgY29uZmlndXJl
+ZCBhIGhpZ2ggc3dhcHBpbmVzcyBmb3IgTUdMUlUgcHJvYWN0aXZlDQo+IHJlY2xhbWF0aW9uLCBz
+byB3aGVuIGJvdGggYW5vbiBhbmQgZmlsZSBoYXZlIGZvdXIgZ2VuZXJhdGlvbnMsDQo+IGBnZXRf
+dHlwZV90b19zY2FuKClgIGVmZmVjdGl2ZWx5IGFsd2F5cyByZXR1cm5zIGFub24/DQo+IA0KPiA+
+DQo+ID4gPiBBbHNvIG5vdGUgdGhhdCBtZW1jZyBhbHJlYWR5IGhhcyBhbiBpbnRlcmZhY2UgZm9y
+IHByb2FjdGl2ZSByZWNsYW1hdGlvbiwNCj4gPiA+IHNvIEnigJltIG5vdCBjZXJ0YWluIHdoZXRo
+ZXIgeW91ciBwYXRjaHNldCBjYW4gY29leGlzdCB3aXRoIGl0IG9yIGV4dGVuZA0KPiA+ID4gaXQg
+dG8gbWVldCB5b3VyIHJlcXVpcmVtZW50c+KAlHdoaWNoIHNlZW1zIHF1aXRlIGltcG9zc2libGUg
+dG8gbWUNCj4gPiA+DQo+ID4gPiBtZW1vcnkucmVjbGFpbQ0KPiA+ID4gICAgICAgICBBIHdyaXRl
+LW9ubHkgbmVzdGVkLWtleWVkIGZpbGUgd2hpY2ggZXhpc3RzIGZvciBhbGwgY2dyb3Vwcy4NCj4g
+PiA+DQo+ID4gPiAgICAgICAgIFRoaXMgaXMgYSBzaW1wbGUgaW50ZXJmYWNlIHRvIHRyaWdnZXIg
+bWVtb3J5IHJlY2xhaW0gaW4gdGhlDQo+ID4gPiAgICAgICAgIHRhcmdldCBjZ3JvdXAuDQo+ID4g
+Pg0KPiA+ID4gICAgICAgICBFeGFtcGxlOjoNCj4gPiA+DQo+ID4gPiAgICAgICAgICAgZWNobyAi
+MUciID4gbWVtb3J5LnJlY2xhaW0NCj4gPiA+DQo+ID4gPiAgICAgICAgIFBsZWFzZSBub3RlIHRo
+YXQgdGhlIGtlcm5lbCBjYW4gb3ZlciBvciB1bmRlciByZWNsYWltIGZyb20NCj4gPiA+ICAgICAg
+ICAgdGhlIHRhcmdldCBjZ3JvdXAuIElmIGxlc3MgYnl0ZXMgYXJlIHJlY2xhaW1lZCB0aGFuIHRo
+ZQ0KPiA+ID4gICAgICAgICBzcGVjaWZpZWQgYW1vdW50LCAtRUFHQUlOIGlzIHJldHVybmVkLg0K
+PiA+ID4NCj4gPiBUaGlzIHJlbWluZCBtZSB0aGF0IGFkZGluZyBhIGBtZW1vci5hZ2luZ2AgdW5k
+ZXIgbWVtY2cgZGlyZWN0b3JpZXMNCj4gPiByYXRoZXIgdGhhbiBhZGRpbmcgbmV3IHByb2NmcyBm
+aWxlcyBpcyBhbHNvIGEgZ3JlYXQgb3B0aW9uLg0KPiANCj4gSSBzdGlsbCBkb27igJl0IHVuZGVy
+c3RhbmQgd2h5LiBBZ2luZyBpcyBzb21ldGhpbmcgTUdMUlUgaXRzZWxmIHNob3VsZA0KPiBoYW5k
+bGU7IGNvbXBvbmVudHMgb3V0c2lkZSBNR0xSVSwgc3VjaCBhcyBjZ3JvdXAgdjIsIGRvIG5vdCBu
+ZWVkIHRvIGJlDQo+IGF3YXJlIG9mIHRoaXMgY29uY2VwdCBhdCBhbGwuIEV4cG9zaW5nIGl0IHdp
+bGwgbGlrZWx5IGxlYWQgdG8gYW5vdGhlcg0KPiBpbW1lZGlhdGUgTkFLLg0KPiANCj4gSW4gc2hv
+cnQsIGFnaW5nIHNob3VsZCByZW1haW4gd2l0aGluIE1HTFJV4oCZcyBpbnRlcm5hbCBzY29wZS4N
+Cg0KSSB3b3VsZCBsaWtlIHRvIGV4cHJlc3MgYSBkaWZmZXJlbnQgcG9pbnQgb2Ygdmlldy4gV2Ug
+YXJlIHdvcmtpbmcgb24gc29tZXRoaW5nDQpJbnRlcmVzdGluZyBvbiBpdCwgd2lsbCBiZSBzaGFy
+ZWQgb25jZSByZWFkeS4NCg0KPiANCj4gQnV0IGl0IHNlZW1zIHlvdSBkbyB3YW50IHNvbWUgcG9s
+aWN5IGNvbnRyb2wgZm9yIHlvdXIgcHJvYWN0aXZlDQo+IHJlY2xhbWF0aW9uLCBzdWNoIGFzIGFs
+d2F5cyByZWNsYWltaW5nIGFub24gcGFnZXMgb3IgcmVjbGFpbWluZyB0aGVtDQo+IG1vcmUgYWdn
+cmVzc2l2ZWx5IHRoYW4gZmlsZSBwYWdlcy4gSSBhc3N1bWUgWmhvbmdrdW7igJlzIHBhdGNoIFsx
+XSB3ZQ0KPiBtZW50aW9uZWQgZWFybGllciBzaG91bGQgcHJvdmlkZSBzdXBwb3J0IGZvciB0aGF0
+LCBjb3JyZWN0Pw0KPiANCj4gQXMgYSB3b3JrYXJvdW5kLCB5b3UgY2FuIHNldCBgc3dhcHBpbmVz
+cz1tYXhgIGZvciBgbWVtb3J5LnJlY2xhaW1gDQo+IGJlZm9yZQ0KPiB3ZSBpbnRlcm5hbGx5IGlt
+cHJvdmUgdGhlIGhhbmRsaW5nIG9mIHRoZSBhZ2luZyBpc3N1ZS4gSW4gc2hvcnQsDQo+IOKAnHBy
+b2FjdGl2ZSBhZ2luZ+KAnSBhbmQgc2ltaWxhciBtZWNoYW5pc21zIHNob3VsZCBiZSBoYW5kbGVk
+IGF1dG9tYXRpY2FsbHkNCj4gYW5kIGludGVybmFsbHkgd2l0aGluIHRoZSBzY29wZSBvZiB0aGUg
+TUdMUlUgY29kZS4NCg0KU3VyZSwgd2Ugd2lsbCBtYWtlIGEgY2FyZWZ1bCBldmFsdWF0aW9uLg0K
+DQo+IA0KPiBbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtDQo+IG1tL2NvdmVyLjE3
+NDQxNjkzMDIuZ2l0LmhlemhvbmdrdW4uaHprQGJ5dGVkYW5jZS5jb20vDQo+IA0KPiBUaGFua3MN
+Cj4gQmFycnkNCg0KVGhhbmtzDQpaaWNoZW5nDQo=
