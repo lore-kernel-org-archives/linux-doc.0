@@ -1,129 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4B0223DEF;
-	Mon,  1 Dec 2025 20:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AA2184524
+	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 21:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764622026; cv=none; b=OFmHjBIfG+iMCDeqcs/Q0ThHZwkeos54MAF/LwV78lynIELXdsjC6IvXBvfDpqltXBSBwZSU/7CtWe3GetS9ymN4emAAzSvgFgx48Da4l9bxQFQbw6U3dPdMixXXcEBh0Bfknx+3oDlpqOnosPCx9IToezh3d1BXQtfnAx2Hmdc=
+	t=1764624420; cv=none; b=IqaWcXyLL1XCAqHoMFDHJDcXEFKsL8cKCnxOu2VFnxmApMw4vTlWNYeaFk0Ws89idFrK1La2BEfk9oBQzhDPcGEf48Z0buoS09+ku/w49pqrk4b9uy9fDf3bbbR2DsVV22p3+Cqlc95bLmmvd8yoH9klHLdLxqBWRs91GcaNV+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764622026; c=relaxed/simple;
-	bh=bLzU90ffnLkplI0gQszURVHL2uPhCQXbR2IBotWK1Gs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hcdMurDnzn/v5/DUkNmGAFnDp6Ve4STXSG7iDF0LKq+ev9+Lxp4/Tnx/pk3z4GFiq/DoiSuPg/z9VlPtcu7A/SqllAOQ+vAA/NwQDkQWmrRfYeB/CWFZEywzTFT2CIB/WiXX4aLpSAoas66a2UtjShwThqcKN9edaJgULGi9Jf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RzbB0QAO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764624420; c=relaxed/simple;
+	bh=8mLxC795XDeXvk7AKRtIomjBDkWhyEQnDZ+CSuHWqxQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=kibx9B/FsSIQSTC/lT4vnGkBQMuTtABcFFf6sUNBzoz06JBtjXoosN83ijktbsRBdGnG4gjaauySVWG80aXXUfb5OznMNVFZCwq4Ed3MlxIbKwk+nPtI4ZIxfLFa1BV4BIQV7ETsulfyK81WnMAyRXjdBxLjiStc/OwW1j4B5EY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ptosi.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C57hN5X/; arc=none smtp.client-ip=209.85.208.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ptosi.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RzbB0QAO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D0A1C4CEF1;
-	Mon,  1 Dec 2025 20:47:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764622026;
-	bh=bLzU90ffnLkplI0gQszURVHL2uPhCQXbR2IBotWK1Gs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RzbB0QAO0/4dx0cdPhr1ytcEjQX/QNFnOqA1MGnIX7sYunwXqjoZUd3NnIahc9ajj
-	 OfOuPwKkwI525Bh+mXeYdUoiUH99fRUpajTjSLETJxekj+t0a/RlTwd6ZdyB0wqERC
-	 XAnH6mpnse266zkD7CvWCTURCvpOjW2BGx7Qf264J1jdndquJ+6bBD7WD33TvTDQP3
-	 EVy//JdwhyG+xnLiEpjo1KvnjNpHoqZ3X50z6Ym04OHdkBIA6HWu1XibBF+DHiaSJD
-	 fd00/x7J1Men5meo2cjUvUIFNfkhX9lnjkoLABYEklOae3+fnolZ/MnlB/1K0IP7VZ
-	 zrfbwOZqCVf2Q==
-Date: Mon, 1 Dec 2025 21:47:01 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Willy Tarreau <w@1wt.eu>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Security Officers <security@kernel.org>, gregkh@linuxfoundation.org,
-	kees@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: insist on the plain-text requirement for
- security reports
-Message-ID: <aS3-xTM5NvYLNEM9@gmail.com>
-References: <20251129141741.19046-1-w@1wt.eu>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C57hN5X/"
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-640ace5f40dso5138380a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 13:26:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1764624417; x=1765229217; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cfRTWtcIaathUA2mgL41QBVM+XL6VT6UBdp0QiNZHSY=;
+        b=C57hN5X/XUshqEZ7BREJUiY9l/NXDdxyE3X49c9134QVuejddYBUYJ2arnyFbGj5cp
+         9iqejDjwJ13G16L4Jj5y9pl8431MlTeEzsjc7zjhBtH3nLYe33hwn1a+LBQkbz6GFBJZ
+         ha11yZNwM4FhzaKcTMjlT0FuJoVNjhTATKZdfuOIRpCR0lKygUQjKTgJthXOuceGTI5N
+         UgwlCIRpM7XsoLC2fmxy1fQOv/RMdpUmAoofrEjJg6yzbhZqH8YWHAT7nbmG1rGqcm7b
+         XAzV5hg3KR0bLTpG1kNl30NjoXainVnf7lNIqZkux8EqQf7EmU2jHaNaDTG8ndht072q
+         oIMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764624417; x=1765229217;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cfRTWtcIaathUA2mgL41QBVM+XL6VT6UBdp0QiNZHSY=;
+        b=wSIeZML068n6MIWQO19RcITF6Bc5fVtUx1GwvxWdLnk0hyHoZcz++F2ktmN6l29QOR
+         EO4OgajwZrga/D0OfYTRbGzAzWCBA94MF9OmVrJgoX1WZGey7ywp4h1FxET5avY+Ex8R
+         NDfptfhzhZILhtPUcpY+Q6/9+QZ5wk7lhzXrdEOo0avw2wVGv/pTCdc22FTZrcl5AmEL
+         OwApZN0UmUxkioQrgDrBKkAFvFiYhuHhfD2FwZmil7zdpXsGzoLrKfd5lDre7v1sHJ8T
+         STfwRVaHESHBPSsEYt5yE/W8x1nKsFdKwkWdamCjIcNBPZ1f2PoYGpSaew3HTfOIh4bw
+         KosA==
+X-Forwarded-Encrypted: i=1; AJvYcCW/ibddWU03VXtnnuESNT7/k15xOjABe3MeAXCx2HhEdtTTBWVlMP3dELi8GSWFVrijCJ34OvFxUeM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyygr/gTTZWY/6uvqcJVh6xl1Zpmb7Y251TKmhQ99MkmoXkM8sw
+	pO/Lh5P/uKfEPD5wngwx2WAlUQswp/CtRzMEjfG1/OZJfrybdakK0Zfl/hZwadRU2wO0Wuxzwcy
+	Rsw==
+X-Google-Smtp-Source: AGHT+IG6OTWqFbaWntwqBBvO6mL+v9FKNl0tgC0FGiL0/5Lod1u3ROGkbcUdu5tvSbLlEmMPZt/biMrlsA==
+X-Received: from eda15.prod.google.com ([2002:a05:6402:a00f:b0:647:7a4d:7406])
+ (user=ptosi job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:26c3:b0:643:6af2:2356
+ with SMTP id 4fb4d7f45d1cf-645eb2aade8mr24700068a12.26.1764624416786; Mon, 01
+ Dec 2025 13:26:56 -0800 (PST)
+Date: Mon, 01 Dec 2025 21:26:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251129141741.19046-1-w@1wt.eu>
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIABEILmkC/3XMQQ6DIBCF4auYWZfGQWlIV71H40JhwElUGjCkj
+ eHupe67/F/yvgMSRaYE9+aASJkTh62GvDRg5nHzJNjWBtlKhbJFkVZjjHC87BSF0tpah3LqlIJ 6eUVy/D6551B75rSH+Dn1jL/1D5RRoJh63WGPN6fH7uFD8AtdTVhhKKV8ATlMx72pAAAA
+X-Change-Id: 20251201-smccc-filter-588ddf12b355
+X-Mailer: b4 0.14.2
+Message-ID: <20251201-smccc-filter-v2-1-03dab737a14d@google.com>
+Subject: [PATCH v2] KVM: arm64: Prevent FWD_TO_USER of SMCCC to pKVM
+From: "=?utf-8?q?Pierre-Cl=C3=A9ment_Tosi?=" <ptosi@google.com>
+To: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev
+Cc: Joey Gouly <joey.gouly@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, 
+	"=?utf-8?q?Pierre-Cl=C3=A9ment_Tosi?=" <ptosi@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+With protected VMs, forwarding guest HVC/SMCs happens at two interfaces:
 
-* Willy Tarreau <w@1wt.eu> wrote:
+     pKVM [EL2] <--> KVM [EL1] <--> VMM [EL0]
 
-> As the trend of AI-generated reports is growing, the trend of unreadable
-> reports in gimmicky formats is following, and we cannot request that
-> developers rely on online viewers to be able to read a security report
-> full for formatting tags. Let's just insist on the plain text requirement
-> a bit more.
-> 
-> Signed-off-by: Willy Tarreau <w@1wt.eu>
-> ---
->  Documentation/process/security-bugs.rst | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-> index 84657e7d2e5b..c0cf93e11565 100644
-> --- a/Documentation/process/security-bugs.rst
-> +++ b/Documentation/process/security-bugs.rst
-> @@ -33,12 +33,16 @@ that can speed up the process considerably.  It is possible that the
->  security team will bring in extra help from area maintainers to
->  understand and fix the security vulnerability.
->  
-> -Please send plain text emails without attachments where possible.
-> +Please send **plain text** emails without attachments where possible.
+so it might be possible for EL0 to successfully register with EL1 to
+handle guest SMCCC calls but never see the KVM_EXIT_HYPERCALL, even if
+the calls are properly issued by the guest, due to EL2 handling them so
+that (host) EL1 never gets a chance to exit to EL0.
 
-So maybe part of the confusion is that this sentence 
-can be read permissively, depending how the 'where 
-possible' qualifier is interpreted:
+Instead, avoid that confusing situation and make userspace fail early by
+disallowing KVM_ARM_VM_SMCCC_FILTER-ing calls from protected guests in
+the pKVM FID range.
 
-    Please send plain text emails without attachments, 
-    where possible.
+Similarly, reserve the "Call UID Query" to ensure that a malicious host
+can't mislead a protected guest into misusing the pKVM ABI, under the
+premise that it would be interacting with a different hypervisor ABI, as
+hypervisors share the same FID space.
 
-Note how "it's not possible because my report is in 
-PDF" seems to allow for that in the permissive reading.
+Signed-off-by: Pierre-Cl=C3=A9ment Tosi <ptosi@google.com>
+---
+Changes in v2:
+- Restricted the range to pKVM HVCs & the "Call UID Query"
+- Updated docs & removed mention of KVM_VM_TYPE_ARM_PROTECTED
+- Link to v1: https://lore.kernel.org/r/20251201-smccc-filter-v1-1-b4831416=
+f8a3@google.com
+---
+ Documentation/virt/kvm/devices/vm.rst | 10 ++++++++++
+ arch/arm64/kvm/hypercalls.c           | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
-What that sentence should really say is something like:
+diff --git a/Documentation/virt/kvm/devices/vm.rst b/Documentation/virt/kvm=
+/devices/vm.rst
+index a4d39fa1b0834b090318250db3b670b0b3174259..28ab2629e7e8f166def6f9efd18=
+e8408ab4a8e63 100644
+--- a/Documentation/virt/kvm/devices/vm.rst
++++ b/Documentation/virt/kvm/devices/vm.rst
+@@ -400,3 +400,13 @@ will reject attempts to define a filter for any portio=
+n of these ranges:
+         0x8000_0000 0x8000_FFFF
+         0xC000_0000 0xC000_FFFF
+         =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
++
++Protected KVM (pKVM) handles some calls directly and will reject attempts =
+to
++define a filter for a protected VM for any portion of these ranges:
++
++        =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
++        Start       End (inclusive)
++        =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
++        0x8600_FF01 0x8600_FF01
++        0xC600_0002 0xC600_003F
++        =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+diff --git a/arch/arm64/kvm/hypercalls.c b/arch/arm64/kvm/hypercalls.c
+index 58c5fe7d757274d9079606fcc378485980c6c0f8..5329772f228d356322863a7150f=
+fa40c25ea1ee2 100644
+--- a/arch/arm64/kvm/hypercalls.c
++++ b/arch/arm64/kvm/hypercalls.c
+@@ -135,6 +135,12 @@ static bool kvm_smccc_test_fw_bmap(struct kvm_vcpu *vc=
+pu, u32 func_id)
+ 						   ARM_SMCCC_SMC_64,		\
+ 						   0, ARM_SMCCC_FUNC_MASK)
+=20
++#define SMC64_PKVM_RANGE_BEGIN	ARM_SMCCC_VENDOR_HYP_KVM_HYP_MEMINFO_FUNC_I=
+D
++#define SMC64_PKVM_RANGE_END	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,		\
++						   ARM_SMCCC_SMC_64,		\
++						   ARM_SMCCC_OWNER_VENDOR_HYP,	\
++						   ARM_SMCCC_KVM_FUNC_PKVM_RESV_63)
++
+ static int kvm_smccc_filter_insert_reserved(struct kvm *kvm)
+ {
+ 	int r;
+@@ -158,6 +164,29 @@ static int kvm_smccc_filter_insert_reserved(struct kvm=
+ *kvm)
+ 	if (r)
+ 		goto out_destroy;
+=20
++	/*
++	 * Prevent userspace from registering to handle any SMCCC call in the
++	 * vendor hypervisor range for pVMs, avoiding the confusion of guest
++	 * calls seemingly not resulting in KVM_RUN exits because pKVM handles
++	 * them without ever returning to the host. This is NOT for security.
++	 */
++	if (kvm_vm_is_protected(kvm)) {
++		r =3D mtree_insert(&kvm->arch.smccc_filter,
++				ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID,
++				xa_mk_value(KVM_SMCCC_FILTER_HANDLE),
++				GFP_KERNEL_ACCOUNT);
++		if (r)
++			goto out_destroy;
++
++		r =3D mtree_insert_range(&kvm->arch.smccc_filter,
++				       SMC64_PKVM_RANGE_BEGIN,
++				       SMC64_PKVM_RANGE_END,
++				       xa_mk_value(KVM_SMCCC_FILTER_HANDLE),
++				       GFP_KERNEL_ACCOUNT);
++		if (r)
++			goto out_destroy;
++	}
++
+ 	return 0;
+ out_destroy:
+ 	mtree_destroy(&kvm->arch.smccc_filter);
 
-   Please send plain text emails only. Please do not 
-   include any attachments, where possible.
+---
+base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
+change-id: 20251201-smccc-filter-588ddf12b355
 
-This makes it clear that only plain text emails are 
-acceptable.
+Best regards,
+--=20
+Pierre-Cl=C3=A9ment Tosi <ptosi@google.com>
 
-Ie. something like the patch below?
-
-Thanks,
-
-	Ingo
-
-============================================>
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-
- Documentation/process/security-bugs.rst | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index 84657e7d2e5b..4a76928a700e 100644
---- a/Documentation/process/security-bugs.rst
-+++ b/Documentation/process/security-bugs.rst
-@@ -33,12 +33,16 @@ that can speed up the process considerably.  It is possible that the
- security team will bring in extra help from area maintainers to
- understand and fix the security vulnerability.
- 
--Please send plain text emails without attachments where possible.
--It is much harder to have a context-quoted discussion about a complex
--issue if all the details are hidden away in attachments.  Think of it like a
--:doc:`regular patch submission <../process/submitting-patches>`
-+Please send **plain text** emails only. Please do not include any
-+attachments, where possible.  It is much harder to have a context-quoted
-+discussion about a complex issue if all the details are hidden away
-+in attachments.  Think of it like a :doc:`regular patch submission <../process/submitting-patches>`
- (even if you don't have a patch yet): describe the problem and impact, list
- reproduction steps, and follow it with a proposed fix, all in plain text.
-+Markdown, HTML and RST formatted reports are particularly frowned upon since
-+they're quite hard to read for humans and encourage to use dedicated viewers,
-+sometimes online, which by definition is not acceptable for a confidential
-+security report.
- 
- Disclosure and embargoed information
- ------------------------------------
