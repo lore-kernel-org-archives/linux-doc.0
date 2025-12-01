@@ -1,150 +1,177 @@
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2901288D2;
-	Mon,  1 Dec 2025 16:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A70933344B;
+	Mon,  1 Dec 2025 16:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764606602; cv=none; b=oPMyd3m1QGtFo7ERX1vG1IFbDObePDvNERlO8dSNGWbABIdFzAfJ9562Q1nZEiJRxOhkHE7Q7Vn4fACqZsVDFtWszHXtFJeAjIW2LMw8topcVvpJdGtUWCuHwm/6bvOSRwa9Ykw/ZYIm1VihHQcqDBl0Vd9fyuKXBbQO3auv4Rk=
+	t=1764606863; cv=none; b=p+tW+wfGofC1G0Lb9EOoSqJwmK7ZfaW/XkfkSJ11rA9qksitohfPNCZdfaJLUgevtiqLso4pF9c6nMpoF+7VxcYcQuWgYeHWBWIvrerUr3vmXrEBJ3g0L9jLeAF/cfJMNmD4EtmrJ7g+4ykixr5i+/TJ52tol3jnKxjrKkld5YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764606602; c=relaxed/simple;
-	bh=tkyO5p8LYYbNGz/+zu6mllYxkhDq9GTEjlu9HhYiUDk=;
+	s=arc-20240116; t=1764606863; c=relaxed/simple;
+	bh=lsmLY1XTcuPKQRRkGCYjv9HRpUaDcOWLeOiCZSJxheA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MRTZ8ZQvXlE9CcFot5Vkr46Xt3E96IVZ/4Fz44dLpTrVBFik2P9iaBOVm8m19Tc4xNImPZ34vFfyh/sQ/f0jdL5T093JiPDBQEtW4jeEeTUugZ1fTQALI90SE7AYE/8AzrxuMhEv141CQPt8dV7iUJZeLgjH3VNV/OPrpALWdPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=QNZJ9f0N; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=rK4+HKiU2xe7AJHkuzPZEysXWMGvnOc3LazbKwLCcJVcsdtwD7aVeWMDULw6Nz0ycwgaxTkOynieiEPtjtAw26jLFVFrvJngJ1WNnFk+pYwGQ2X5SVd1kStd54wT+LBbTRMbLWE8UhSkal9EvuMmeW68Udc6v5JYiI1l2rSEhBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r2SyEzCM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="QNZJ9f0N"
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 2A8061C00AB; Mon,  1 Dec 2025 17:29:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1764606591;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ys4fM5oxuac5BA8yXwPfUxu5XSYHVpba6xxZaqliwMw=;
-	b=QNZJ9f0NVkMN90sS7G6UbXXOErLvhTIW9qzPwO8ba1XpK64RGNMdA4zIDxxP7GCydNAumH
-	FKEj2dlLZhZJ2ewUXnP/wNGs7cXtycpaTYJi2781Ib4aYVsd6Vs1IqFEKV6AyxJ0sXRhIs
-	DDJTsV7FSPh7vM/rXrhueYudwFV8Dks=
-Date: Mon, 1 Dec 2025 17:29:50 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: david@ixit.cz
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Casey Connolly <casey.connolly@linaro.org>,
-	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
-	Gergo Koteles <soyer@irl.hu>, Casey Connolly <casey@connolly.tech>
-Subject: Re: [PATCH v8 2/2] arm64: dts: qcom: sdm845-oneplus: Add alert-slider
-Message-ID: <aS3Cfmx3gVyl/wTr@duo.ucw.cz>
-References: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
- <20251113-op6-tri-state-v8-2-54073f3874bc@ixit.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r2SyEzCM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CF55C4CEF1;
+	Mon,  1 Dec 2025 16:34:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764606862;
+	bh=lsmLY1XTcuPKQRRkGCYjv9HRpUaDcOWLeOiCZSJxheA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r2SyEzCM2mxsu1vg5rhPTvf/Hpw7DWUhSm6p/6xVmmmeWRqRaZzUqaNhu3/NoPJ0+
+	 cd7mkTvyfNCOMBkTxnsnywfQoqkzx8FT16FOqZ+YQSUN1wwLqymWtbsYnzSdmc7Io4
+	 RPnXi0h34jYa7DLZxaAQv9ZIfS+5HA+LUGu2MxlkXFLW8V9sbh7bM3ipWdhRYbgwaX
+	 IT5J0z74lhDlydIWIBo2cjTYX6yovJZdQ19wG2APRQkv7gZE1rM0bZSwpH2WCtN/js
+	 EagJfnzrHo8xEQl/dIeqyg42hhlq1QMh9GPUlIJ19VVhp4hcLrN+vb0jvRFeQn44Yz
+	 hfaSSJ6Flhuug==
+Date: Mon, 1 Dec 2025 17:34:20 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	Anusha Srivatsa <asrivats@redhat.com>
+Subject: Re: [PATCH 04/26] drm/bridge: make of_drm_find_bridge() a wrapper of
+ drm_of_find_bridge()
+Message-ID: <20251201-fragrant-kingfisher-of-expertise-e43bff@houat>
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-4-0db98a7fe474@bootlin.com>
+ <wxxjp7fmsnh2k4huvg2thmfi6kcszdphrag3zosrnykn7abeua@cdlywqj32jd7>
+ <DEH2R1Q0XJJG.1NMESYMX9GMFL@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="FtYVekWiQ6/kXxDO"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ydcn74sicqovkiyx"
 Content-Disposition: inline
-In-Reply-To: <20251113-op6-tri-state-v8-2-54073f3874bc@ixit.cz>
+In-Reply-To: <DEH2R1Q0XJJG.1NMESYMX9GMFL@bootlin.com>
 
 
---FtYVekWiQ6/kXxDO
-Content-Type: text/plain; charset=iso-8859-1
+--ydcn74sicqovkiyx
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 04/26] drm/bridge: make of_drm_find_bridge() a wrapper of
+ drm_of_find_bridge()
+MIME-Version: 1.0
 
-Hi!
-
-> From: Gergo Koteles <soyer@irl.hu>
+On Mon, Nov 24, 2025 at 05:44:09PM +0100, Luca Ceresoli wrote:
+> On Mon Nov 24, 2025 at 11:22 AM CET, Maxime Ripard wrote:
+> > Hi,
+> >
+> > On Wed, Nov 19, 2025 at 02:05:35PM +0100, Luca Ceresoli wrote:
+> >> of_drm_find_bridge() is identical to drm_of_find_bridge() except it do=
+es
+> >> not increment the refcount. Rewrite it as a wrapper and put the bridge
+> >> being returned so the behaviour is still the same.
+> >>
+> >> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> >
+> > Kind of the same comment than on the TODO. Is it worth doing that patch
+> > when we could just remove it at the end of the series?
 >=20
-> The alert-slider is a tri-state sound profile switch found on the
-> OnePlus 6, Android maps the states to "silent", "vibrate" and "ring".
-> Expose them as ABS_SND_PROFILE events.
-> The previous GPIO numbers were wrong. Update them to the correct ones.
+> This series is not converting all users I'm afraid.
 >=20
-> Co-developed-by: Casey Connolly <casey@connolly.tech>
-> Signed-off-by: Casey Connolly <casey@connolly.tech>
-> Signed-off-by: Gergo Koteles <soyer@irl.hu>
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> Tested-by: Guido G=FCnther <agx@sigxcpu.org> # oneplus,fajita & oneplus,e=
-nchilada
-> Reviewed-by: Guido G=FCnther <agx@sigxcpu.org>
-> Signed-off-by: David Heidelberg <david@ixit.cz>
+> There are still some drivers to convert, but not a big deal.
 
-Reviewed-by: Pavel Machek <pavel@ucw.cz>
+Oh, ok, my bad then :)
 
-Best regards,
-     							Pavel=09
+> The main user to be converted is drm_of_find_panel_or_bridge(), which is
+> very tricky, and in turn it is used by devm_drm_of_get_bridge(). We
+> discussed this in the past and the conclusion was a rework of the drm_pan=
+el
+> lifetime was needed to be able to properly replace
+> drm_of_find_panel_or_bridge().
 
-> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
-> @@ -25,6 +25,41 @@ / {
->  	chassis-type =3D "handset";
->  	qcom,msm-id =3D <QCOM_ID_SDM845 0x20001>;
-> =20
-> +	alert-slider {
-> +		compatible =3D "gpio-keys";
-> +		label =3D "Alert slider";
-> +
-> +		pinctrl-0 =3D <&alert_slider_default>;
-> +		pinctrl-names =3D "default";
-> +
-> +		switch-top {
-> +			label =3D "Silent";
-> +			linux,input-type =3D <EV_ABS>;
-> +			linux,code =3D <ABS_SND_PROFILE>;
-> +			linux,input-value =3D <SND_PROFILE_SILENT>;
-> +			gpios =3D <&tlmm 126 GPIO_ACTIVE_LOW>;
-> +			linux,can-disable;
-> +		};
-> +
-> +		switch-middle {
-> +			label =3D "Vibrate";
-> +			linux,input-type =3D <EV_ABS>;
-> +			linux,code =3D <ABS_SND_PROFILE>;
-> +			linux,input-value =3D <SND_PROFILE_VIBRATE>;
-> +			gpios =3D <&tlmm 52 GPIO_ACTIVE_LOW>;
-> +			linux,can-disable;
-> +		};
-> +
-> +		switch-bottom {
-> +			label =3D "Ring";
-> +			linux,input-type =3D <EV_ABS>;
-> +			linux,code =3D <ABS_SND_PROFILE>;
-> +			linux,input-value =3D <SND_PROFILE_RING>;
-> +			gpios =3D <&tlmm 24 GPIO_ACTIVE_LOW>;
-> +			linux,can-disable;
-> +		};
-> +	};
-> +
->  	aliases {
->  		serial0 =3D &uart9;
->  		serial1 =3D &uart6;
+Yeah. I wonder, now that we have a proper allocation scheme for panels
+too, if we shouldn't just create a panel_bridge for every panel we
+allocate.
+
+> A drm_panel rework had started very well with devm_drm_panel_alloc() that
+> got upstreamed by Anusha, but I'm not sure if it has made further progress
+> after that. So AFAICT the plan is still "People will gradually switch to
+> the new API over time", and the deprecated of_drm_find_bridge() will be
+> removed after that.
 >=20
+> Does it still make sense to you?
 
---=20
-I don't work for Nazis and criminals, and neither should you.
-Boycott Putin, Trump, Netanyahu and Musk!
+Yep.
 
---FtYVekWiQ6/kXxDO
+> Maxime, Anusha, are you aware of any steps forward about dynamic panel
+> lifetime, after devm_drm_panel_alloc()?
+
+AFAIK, Anusha stopped working on it. I'm fairly busy at the moment, but
+early next year I'll try to revive that effort.
+
+> >> @@ -1460,19 +1460,11 @@ EXPORT_SYMBOL(drm_of_find_bridge);
+> >>   */
+> >>  struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+> >>  {
+> >> -	struct drm_bridge *bridge;
+> >> -
+> >> -	mutex_lock(&bridge_lock);
+> >> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
+> >>
+> >> -	list_for_each_entry(bridge, &bridge_list, list) {
+> >> -		if (bridge->of_node =3D=3D np) {
+> >> -			mutex_unlock(&bridge_lock);
+> >> -			return bridge;
+> >> -		}
+> >> -	}
+> >> +	drm_bridge_put(bridge);
+> >
+> > And if it does make sense to keep that patch, we should add a comment
+> > here to document why we are doing this.
+>=20
+> OK, what about:
+>=20
+> /**
+>  * We need to emulate the original semantice of of_drm_find_bridge(), whi=
+ch
+>  * was not getting any bridge reference. Being now based on
+>  * drm_of_find_bridge() which gets a reference, put it before returning.
+>  */
+
+Yep, sounds good
+
+Maxime
+
+--ydcn74sicqovkiyx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaS3CfgAKCRAw5/Bqldv6
-8np0AJ4g37/E7yC1TFrIYjmX1lFqPyanagCfavl9NgqGe6YnRqOeqERMZWE2skE=
-=M3u4
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaS3DhwAKCRAnX84Zoj2+
+dqBiAX4n1aG/P0RpeXc7a/Rs4Rb8xFcT1HhmKQntsyu2SIRXr/ZeXFhZhH8VqLQy
+ZlBxtjcBgJ4j+tB8bDB66d6pCcBSXvEokhNx/ai3PzKnu+UZN/iYnCLaI+6sPz/N
+WZOoPjZd4g==
+=7WeW
 -----END PGP SIGNATURE-----
 
---FtYVekWiQ6/kXxDO--
+--ydcn74sicqovkiyx--
