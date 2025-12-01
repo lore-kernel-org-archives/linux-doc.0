@@ -1,158 +1,234 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496FD8635D;
-	Mon,  1 Dec 2025 00:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764549073; cv=none; b=F24psNuxnJqvRwiSqh9x4kskwDn7y21IsdIf0QKDY1HDKHi5jwzuJjst1zRAEGYIX3w9Xj6Rme29xoZArwqXm1wiK0o+pgbOfqu9YCgJKKiu2A7enwolgsz9AAXXuWTnFL9nu7UWnhNCUcZDkqV+Zge+EhYjWcTKBdrlFGDDMRU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764549073; c=relaxed/simple;
-	bh=ExgV75nN3+zv3C0lmBXc1FgUeJ7EJlAF0HXaBV/VLSQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=a8sb7tv0emGojFfmPW6XX5UUsKWfknpiyjCd+FIJO2WY5q7g50qo0ZeFtGF9PixryXaOI/d/ChHxGlgD2LUpQ6ttcYA5XW27qZBGDj9LTBTzag/nZR+LT/CsWpV99rjpYdA2JcX4sUppAw0eidlLoyhLwtvv3tBY7DP7AYJwm8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WRlMEhOk; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDE0219EB
+	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 00:43:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764549829; cv=fail; b=TZSPKcQtQXUg5t3kazDCRUcrPZMXE9z2eMZ8pGnWEN6ZrWki1iitrqfUd4d1lA+UTycibxWpXPrSNyJq206jnrgUbANEObTPXc446FJWvQ+z2Ug6ek1yARIySvQIFSAQLgHzcvxDU72uxiCK/2DUe2EXN4YLoqd5k5HZ1KHoedw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764549829; c=relaxed/simple;
+	bh=aF8g0PnbYXMuzzHAr8xt3bfZlW0ahAf4uk4DePpqZH0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=HvnMKVAaNGumf1IktMZD0jzw81F2iZc9PDkCixyNmPSckMFpnEKRxOhubO0WF36CEpFdz/EGXmjskVyJ/Fyne4kOSALkpIj/DqfrJUzyEe2ueXz0LE5GVDu3pO+rXzy0u7de3yvjjnYtPHW/qNnguN4l5bNCblcsvj68PRfSpeo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSIL3kAx; arc=fail smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WRlMEhOk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6688BC19422;
-	Mon,  1 Dec 2025 00:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764549071;
-	bh=ExgV75nN3+zv3C0lmBXc1FgUeJ7EJlAF0HXaBV/VLSQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WRlMEhOkXtNcgdDnQeCE/H0D5KvPjMdvoVc+5Hdr8d0LGfeTeZsV7CrDnuBMVBeNK
-	 kP4v7nUGX8y/nweeRQIhOlaRuRnyi2+IN+5XS5MQ+TKsGoqBQD8VfaBq0Ts/n47Sac
-	 BwXOL6F/WHVFKt8y1+1wSnqmf4M9YzXl8P2K5Q2RdTLYmJJA+He9tZSKhn7tPpSOC2
-	 mD0nS4Zv/mz4YpU4B5QZNO9uvI0c+aNqnASu7EhlgHsi4vBwTyEoM8NRn7ci8HiNQX
-	 Oid7psTHyZfkwMzvRiyxCnakpobJXI+ir7RenVlRxkWRUA1NGgLLzRPvbTxItAivsk
-	 veXMqAEaJgqiw==
-From: guoren@kernel.org
-To: paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	guoren@kernel.org,
-	leobras@redhat.com,
-	ajones@ventanamicro.com,
-	anup@brainfault.org,
-	atish.patra@linux.dev,
-	corbet@lwn.net
-Cc: linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [RFC PATCH V3 4/4] RISC-V: paravirt: Support nopvspin to disable PARAVIRT_SPINLOCKS
-Date: Sun, 30 Nov 2025 19:30:41 -0500
-Message-Id: <20251201003041.695081-5-guoren@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20251201003041.695081-1-guoren@kernel.org>
-References: <20251201003041.695081-1-guoren@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSIL3kAx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764549827; x=1796085827;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=aF8g0PnbYXMuzzHAr8xt3bfZlW0ahAf4uk4DePpqZH0=;
+  b=CSIL3kAx9ieZQC/Fo6lnqkrDDSCjlWho9zNFjKjOZh2/ydnn8k/r91kP
+   8/ZIq2DLNXBbZYlPA+B7Nvl/2dkqwIyEhVr/J1AbX13H1y/tNZpYqAUy6
+   JK3Mf1jHeo9X6yqasD+YIJWSgsLQ7LITllMnvqJXBrfdYsKvhmVzUP5q6
+   kyrhR2QqE3dq0Wc2Lz9qfAU7Avwzgkja1gYnBRAyuaB38jlOKsbUYnqzN
+   jhoPAmANXQGt37jHj+2T/ydLHGDzJl+2g7m0+9RZ7gp48tHHIdPGOdYdQ
+   mX3Y6YSx9FKpQcYxyVZ11eBWQU7N85bOSRE2eOiXN8Q7AsfJpWIV1N8nb
+   g==;
+X-CSE-ConnectionGUID: o4kiqS/LQfSzAoUJUPAGhw==
+X-CSE-MsgGUID: RH5cTEkdRki3Ai9gLdjWGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="77583814"
+X-IronPort-AV: E=Sophos;i="6.20,239,1758610800"; 
+   d="scan'208";a="77583814"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 16:43:47 -0800
+X-CSE-ConnectionGUID: UaHi0oKKTOSDQm9x98h61Q==
+X-CSE-MsgGUID: UVftlTiPQ6C3zxSwwUFKlQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,239,1758610800"; 
+   d="scan'208";a="193599733"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 16:43:45 -0800
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Sun, 30 Nov 2025 16:43:45 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Sun, 30 Nov 2025 16:43:45 -0800
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.9) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Sun, 30 Nov 2025 16:43:44 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=g85i6ftn1Ljcsay6PUnhyiOzyhm6FfSNRDGvs0yf3+nZm3sOI2SMbmi+xQJdWkqzFhVE9N7d99HOW6SG5xcV2XTIhFPFvZ+CCcFKMUoA6u3J7ESj9t4qdLq5VYbFHd9YBYcJpjQWy0FK5E8d8GW4lIJ9c8wWFwxttM4xOhAJLwJd1BhYfUflOyU5geXIREMCn8QQwOd/sZ7Ee/053Mc+4AWNrgShyBgxuu3GaCEvFsaZFtKpOJnZk/WHT+vwk7+0QBrjVWSvc7qoueTk8a/RT15xg9Mgf4fsz2FhA33ulK9IounQmqcjBuJloIdYk+ztetIz79zisiWc+U62v0L5mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J+PQEdTpkvXfFnY/0sdS7kJtVL+jK+JREIZO4sLgTbY=;
+ b=MfxMbhl/dKMLfUfnq4MIS5CB07MIz08JWUwjIRvkEiN43A+ikIrRGOwecqyJeGVfbxfQ9cONZDJVRQbYktjtiZh2p3zcY7Rvc5gWzAzRofyk4HTyhbz5ew11YzgiQRHsHjtd2MTCrjcwBBtNCtiEFfoeZs9gBz1nSnlFEZMeSljTbPemYhSHF7jQ6ia3/+tZasd0A1qjV4avEvukfNqOHjq/dy+JxidbsPJMkhl8g7JG/RP67XcRKHjDLXD0rKcyoCclYtTFzZnf4QnZGJMnY3p7uTnp1gTerglTK306cN/c/VBEVPGXOK4rKNLvVdNDXuEJCJVgfWjGrnAOwL7kdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
+ by IA1PR11MB7317.namprd11.prod.outlook.com (2603:10b6:208:427::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
+ 2025 00:43:43 +0000
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9]) by MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9%5]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
+ 00:43:42 +0000
+Date: Mon, 1 Dec 2025 08:43:33 +0800
+From: Philip Li <philip.li@intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+CC: kernel test robot <lkp@intel.com>, <llvm@lists.linux.dev>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-doc@vger.kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>
+Subject: Re: [lwn:docs-next 64/66] Warning:
+ sound/usb/usx2y/us144mkii_controls.c:8 This comment starts with '/**', but
+ isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+Message-ID: <aSzktTVhHy6EQUg1@rli9-mobl>
+References: <202512010746.EPe9Xcp5-lkp@intel.com>
+ <4d298cba-7e61-4933-a765-1f8a60b8f0f4@infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <4d298cba-7e61-4933-a765-1f8a60b8f0f4@infradead.org>
+X-ClientProxiedBy: SG2PR04CA0161.apcprd04.prod.outlook.com (2603:1096:4::23)
+ To MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB5963:EE_|IA1PR11MB7317:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2aaec9f-055a-4721-2f90-08de3072ad54
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?3ep5LeFbXaC71LTmAYxBmdiiYdgZ6tYkBS1c1LO8l4iCrrqYei33FMUl735p?=
+ =?us-ascii?Q?cGrvmoNvp+IZejezgvvbHcenllsP/lhRce0bdFq5T6URsLv4Xe+L67jEAq34?=
+ =?us-ascii?Q?5l0KWNQOWPv5IIVYPWCB5tR/SE/XJ38+lfRGUXY8onQ/3x8VLdAobG90YVBZ?=
+ =?us-ascii?Q?Lr20qKPJiUgpBmyDByzVHXYnzHk41HqFKM6F3yjrWa23QdVS7/0YJF6nbEvr?=
+ =?us-ascii?Q?j9QcnNNqN1zreH1ARIRY5+37w8sWkfCkUC1CBEviegbt+Uno1IFe0oZmWbdC?=
+ =?us-ascii?Q?r7NAuB0+IfL82NjBWlR55pWvIsNdL6lJbzl4qlLdMlgAqPfIbh1Xbh9kbf/o?=
+ =?us-ascii?Q?1UFLr+/1VqFjEmLLOmPVrxUiUXNpMZUY9EGYlO0QSnKgoJ205drzORyduh3C?=
+ =?us-ascii?Q?dPXjyvY03iYS/BwgFDAdHhzhnETBfX7NjuYMT7X8ciH7DaJk/64igT8DfuJ7?=
+ =?us-ascii?Q?6wpDq0HmIcJxu4JONZmo4q4WUkm5kKr+I2jqbwq861xElNP+MF9d+arvOnD0?=
+ =?us-ascii?Q?GekkkLOfwgpyehVOEYhSNSUGzgehr08E03wiQh1P9b+ibuvkPORDAjWYePCL?=
+ =?us-ascii?Q?3izJ9y5Z+PYP9DKC1hculvkm7GDagCCsKBOD2cNbJuda9odXTFbXyejjNquJ?=
+ =?us-ascii?Q?L50vj8lidazha8mFF6pr07kugnw0rr3Ui+chYzbMrUCMzhJf+b5oNMt0O+PH?=
+ =?us-ascii?Q?8y11yvjZpr91CGd5S9Hfq/Ryv07Q4scHW3qzXqM2i8Pz7DH3W/v9Id8ELr4e?=
+ =?us-ascii?Q?NGBy6yTfHwI1O+6Z+IB/aGFAunwjTu14YEvZCkeahYcyPxa+AMRRt6fmYns6?=
+ =?us-ascii?Q?aCh75Qrn0vEbfdNw9QD8IT/qYGRJXqTvcjFTvdoZ8WII/qsPpnndHZBQ26Wo?=
+ =?us-ascii?Q?Wn7rr79eGfxIKL1Y66+ZXejTbTMVb+syl55b+tq4ojeCN7my8L2JeelD/JCs?=
+ =?us-ascii?Q?rL95H9gm6zGHd0lla2oji8kxWDtEmi0h9QUFNGRGaKD/LdjEgFLL/XiwaZdK?=
+ =?us-ascii?Q?9x9Yn+J+JdSDZKwErCWfk0e7UKEBIHgN1ErnOWJJtxms6WXUuKtgH/RHKqUd?=
+ =?us-ascii?Q?ZIifF7HX79dhgB2csaviusuxAFws/s/7DtFeoalBNfoJMMLnWw5L2GaW2Gl3?=
+ =?us-ascii?Q?PfXOHW9h9KijSVlYBsCgWKZEX3IfXqGTw4+C1ttpFo7lkr24IlrIGZzm2j7w?=
+ =?us-ascii?Q?lR08htNzlcvXwebiMxzRQ5P/sE1Tj9pdXJNd/xqqKJSF7VKH7k+k8JSc3wR/?=
+ =?us-ascii?Q?pVEmfUbY25rBo1vD5h0chV91gMkfzF4K2jXi42m72jwYMWV67oWLrsHnI51g?=
+ =?us-ascii?Q?arwx0hsifeAa4oAb5fYWxjui6AQz1AzdQL7jjLE+7b+caWu10fJ1qFSrjTf9?=
+ =?us-ascii?Q?uDk11PMCQobVNn11Fmp32nPvsLwgaNUQp2dN7kAf4DlU9vte7N7njVPSPCOJ?=
+ =?us-ascii?Q?/h3Gbyy1nUb3C/RXI0TPYCzswUNNsZkIL/wFSIHdkvyOY1rLNs8fhA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3u7Lf9J3IqBmHpnTrpAgXVj/+f8Volk8w/h1i6B6QGQSa39KwgmPobpptjCu?=
+ =?us-ascii?Q?P115VJcuIX/aGLixrPkNF0BdZI98lhnQ1/JDc2V7Vd6Bk8/SOZSUHFjSD+W7?=
+ =?us-ascii?Q?PPKT+UFPG+h5NCWsMWkbVVTM7Mfp7orPr1Quidy2Lw5JwtJvTuG07+1W/FkW?=
+ =?us-ascii?Q?yIgFZ04L/+k1+E/aKzkYtKcPqaVbPBHRyeDUrB1bZ5ynWD+myXMmR+wFOCug?=
+ =?us-ascii?Q?18RXx8epC2FkLvpa6bTCGyACS9M9trkUVzAPPc/dNGbxewIXBU9cjJBzL0sm?=
+ =?us-ascii?Q?kk1OkH4vKsUoVk5sVJ9pH+7LEFzzDWAz5IeVF9jQEn7HbyXlmD3NVbnWuHd+?=
+ =?us-ascii?Q?Vn2F4mZR1GbjZRdbEt7/GdAWJz9ItChZBYaKfWeV49Lm8b8PRHVza76sVoDF?=
+ =?us-ascii?Q?hgQDfiErqMFLV+pO94jNDBkx6hPC6yq6VH+6jNkBHmkMUEN5yjjNhZuKcwpw?=
+ =?us-ascii?Q?/zD+iOV2jIUGDvL9UAIynV2azvoatI6smbImAGk/MGS6lqdHM6BhJH6h4iyl?=
+ =?us-ascii?Q?kCUv7eE6A2lIN5z6qdkW/Ph+gfNR3NsG2u4R/ETU6FqznqwEyaq0P8zQZo1p?=
+ =?us-ascii?Q?zUAk3Uh1uGsvGDPt2Ob31fiqz8A/RmoyPuOZ33B6SbcIH5/mdqcFpyHfi2U8?=
+ =?us-ascii?Q?W28oRNik1nK5KYCtT+kgdyjn/o1OoTRHg1DFollK3jlD//ekVs1IxfTKNIZ/?=
+ =?us-ascii?Q?gNQ+kHqaCQiXCQLfGhYQhLZlctYBu/+ThOr73WbnIqw8FIS66PkP4qwKhaYB?=
+ =?us-ascii?Q?HYkcMYbRZxUdHKtEBHCgeabavSEgu/z0gqEVUVDS9f3YBHcB02BaHuqLbmaG?=
+ =?us-ascii?Q?843TzWkU0g37QJ93ixoaXKfgYmalNgKLAxGwJciYDIRWU3DyzVSxQd38Qcch?=
+ =?us-ascii?Q?qiMoy+hH7G61cOfd/vfTKdLWzBXDEi6GxemcgHYzCJ8+zISCj+reY7pXeFBv?=
+ =?us-ascii?Q?uren4OJfJG5Ld/foMNg6IYApaeB06m/4Sa3MRS6o3gWmarlNBL1yH82MvdNS?=
+ =?us-ascii?Q?iHS7+Wp+74hvxxGX9m/oLIT2AgX5to727Sl4yC2PfUkBOsGOg29i7FCAaBXA?=
+ =?us-ascii?Q?ltHxIfXoRLmr19LfXGa9CmWi3EkuojvE2h36NnyvRe217r5U1bOSusAr+eFU?=
+ =?us-ascii?Q?dNxpD3SfDuWzMBXJA15MIDSehvfBDClpwgWi2iV99r+MTksKNo9xCny52D8u?=
+ =?us-ascii?Q?A52cuGgWwUUN0qB9jXaDnOok5xJCkiYTxKnkcgTGG8Mbz5Mm2CWn+0fLCjaZ?=
+ =?us-ascii?Q?sleSD1nmmpYhe9ooDjtP/vppP+rVB1mti9W+j48AlDjTmTNR84DKXwP8Zcmx?=
+ =?us-ascii?Q?zc8s/SQlY1tUfqkesZGkWp14I/Glc2dFlvvLK4mzGr71BQYzUh9GJW8Z+dlC?=
+ =?us-ascii?Q?Jjo8gOnYEumE/wjTZ+u557SPdZeaYr4aed92z6U0iLBM1+/uJfXXvE5mU7L2?=
+ =?us-ascii?Q?Gc7f06HMT1n4PFikDda8E8mFRu6q1zOozW8F4Z8phkv9X4DTXbzMfT+RSV9C?=
+ =?us-ascii?Q?cJPllo6vMZNbjFpekEQ1oTtnZeA3N5TR4drn+loRnkjszC8YxA2WPeXPtK2Q?=
+ =?us-ascii?Q?9BzCL1pxo6fIMagTgm6BRpi0Xvwe5sj1qcvJSm4c?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2aaec9f-055a-4721-2f90-08de3072ad54
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 00:43:42.8746
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +jFMlfa0AbwhvcO2GjiI7vr7snsqFMkxeoKXY/lYJeSNt/RQvC0ppEaA74zyXdEX+TJkF4Hx6uENu1XETCYmcw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7317
+X-OriginatorOrg: intel.com
 
-From: "Guo Ren (Alibaba DAMO Academy)" <guoren@kernel.org>
+On Sun, Nov 30, 2025 at 04:20:59PM -0800, Randy Dunlap wrote:
+> Hi,
+> Is the robot an AI?
+> Maybe that could help explain why a commit that fixes spelling,
+> grammar, punctuation, etc., causes all of these kernel-doc warnings--
 
-The VM guests should fall back to a Test-and-Set spinlock when
-PARAVIRT_SPINLOCKS disabled, because fair locks have horrible lock
-'holder' preemption issues. The virt_spin_lock_key would shortcut for
-the queued_spin_lock_- slowpath() function that allow virt_spin_lock
-to hijack it. ref: 43b3f02899f7 ("locking/qspinlock/x86: Fix
-performance regression under unaccelerated VMs").
+Sorry about this, the bisection is buggy and identified the wrong commit
+in this case. I will further investigate and ix the issue asap.
 
-Add a static key controlling whether virt_spin_lock() should be
-called or not. Add nopvspin support as x86.
-
-Signed-off-by: Guo Ren (Alibaba DAMO Academy) <guoren@kernel.org>
----
- .../admin-guide/kernel-parameters.txt         |  2 +-
- arch/riscv/include/asm/qspinlock.h            | 24 +++++++++++++++++++
- arch/riscv/kernel/qspinlock_paravirt.c        |  8 +++++++
- 3 files changed, 33 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6c42061ca20e..9e895e9ca655 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4393,7 +4393,7 @@
- 			as generic guest with no PV drivers. Currently support
- 			XEN HVM, KVM, HYPER_V and VMWARE guest.
- 
--	nopvspin	[X86,XEN,KVM,EARLY]
-+	nopvspin	[X86,RISCV,XEN,KVM,EARLY]
- 			Disables the qspinlock slow path using PV optimizations
- 			which allow the hypervisor to 'idle' the guest on lock
- 			contention.
-diff --git a/arch/riscv/include/asm/qspinlock.h b/arch/riscv/include/asm/qspinlock.h
-index b39f23415ec1..70ad7679fce0 100644
---- a/arch/riscv/include/asm/qspinlock.h
-+++ b/arch/riscv/include/asm/qspinlock.h
-@@ -14,6 +14,8 @@
- /* How long a lock should spin before we consider blocking */
- #define SPIN_THRESHOLD		(1 << 15)
- 
-+extern bool nopvspin;
-+
- void native_queued_spin_lock_slowpath(struct qspinlock *lock, u32 val);
- void __pv_init_lock_hash(void);
- void __pv_queued_spin_lock_slowpath(struct qspinlock *lock, u32 val);
-@@ -31,5 +33,27 @@ static inline void queued_spin_unlock(struct qspinlock *lock)
- #endif /* CONFIG_PARAVIRT_SPINLOCKS */
- 
- #include <asm-generic/qspinlock.h>
-+#include <asm/jump_label.h>
-+
-+/*
-+ * The KVM guests fall back to a Test-and-Set spinlock, because fair locks
-+ * have horrible lock 'holder' preemption issues. The test_and_set_spinlock_key
-+ * would shortcut for the queued_spin_lock_slowpath() function that allow
-+ * virt_spin_lock to hijack it.
-+ */
-+DECLARE_STATIC_KEY_FALSE(virt_spin_lock_key);
-+
-+#define virt_spin_lock rv_virt_spin_lock
-+static inline bool rv_virt_spin_lock(struct qspinlock *lock)
-+{
-+	if (!static_branch_likely(&virt_spin_lock_key))
-+		return false;
-+
-+	do {
-+		smp_cond_load_relaxed((s32 *)&lock->val, VAL == 0);
-+	} while (atomic_cmpxchg(&lock->val, 0, _Q_LOCKED_VAL) != 0);
-+
-+	return true;
-+}
- 
- #endif /* _ASM_RISCV_QSPINLOCK_H */
-diff --git a/arch/riscv/kernel/qspinlock_paravirt.c b/arch/riscv/kernel/qspinlock_paravirt.c
-index cae991139abe..b89f13d0d6e8 100644
---- a/arch/riscv/kernel/qspinlock_paravirt.c
-+++ b/arch/riscv/kernel/qspinlock_paravirt.c
-@@ -50,6 +50,8 @@ EXPORT_STATIC_CALL(pv_queued_spin_lock_slowpath);
- DEFINE_STATIC_CALL(pv_queued_spin_unlock, native_queued_spin_unlock);
- EXPORT_STATIC_CALL(pv_queued_spin_unlock);
- 
-+DEFINE_STATIC_KEY_FALSE(virt_spin_lock_key);
-+
- bool __init pv_qspinlock_init(void)
- {
- 	if (num_possible_cpus() == 1)
-@@ -58,6 +60,12 @@ bool __init pv_qspinlock_init(void)
- 	if (!sbi_probe_extension(SBI_EXT_PVLOCK))
- 		return false;
- 
-+	if (nopvspin) {
-+		static_branch_enable(&virt_spin_lock_key);
-+		pr_info("virt_spin_lock enabled by nopvspin\n");
-+		return true;
-+	}
-+
- 	pr_info("PV qspinlocks enabled\n");
- 	__pv_init_lock_hash();
- 
--- 
-2.40.1
-
+> all of which seem to be valid warning reports when I have a quick
+> look at them.
+> 
+> 
+> On 11/30/25 3:12 PM, kernel test robot wrote:
+> > tree:   git://git.lwn.net/linux.git docs-next
+> > head:   464257baf99200d1be1c053f15aa617056361e81
+> > commit: 5f88f44d8427a97347afda3a6114aed0df472a0b [64/66] docs: kdoc: various fixes for grammar, spelling, punctuation
+> > config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251201/202512010746.EPe9Xcp5-lkp@intel.com/config)
+> > compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512010746.EPe9Xcp5-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202512010746.EPe9Xcp5-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    Warning: sound/usb/usx2y/us144mkii_controls.c:6 Cannot find identifier on line:
+> >     * @brief Text descriptions for playback output source options.
+> >    Warning: sound/usb/usx2y/us144mkii_controls.c:7 Cannot find identifier on line:
+> >     *
+> >>> Warning: sound/usb/usx2y/us144mkii_controls.c:8 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+> >     * Used by ALSA kcontrol elements to provide user-friendly names for
+> >    Warning: sound/usb/usx2y/us144mkii_controls.c:15 Cannot find identifier on line:
+> >     * @brief Text descriptions for capture input source options.
+> >    Warning: sound/usb/usx2y/us144mkii_controls.c:16 Cannot find identifier on line:
+> >     *
+> >    Warning: sound/usb/usx2y/us144mkii_controls.c:17 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+> >     * Used by ALSA kcontrol elements to provide user-friendly names for
+> >    Warning: sound/usb/usx2y/us144mkii_controls.c:100 cannot understand function prototype: 'const struct snd_kcontrol_new tascam_line_out_control ='
+> >    Warning: sound/usb/usx2y/us144mkii_controls.c:171 cannot understand function prototype: 'const struct snd_kcontrol_new tascam_digital_out_control ='
+> >    Warning: sound/usb/usx2y/us144mkii_controls.c:259 cannot understand function prototype: 'const struct snd_kcontrol_new tascam_capture_12_control ='
+> >    Warning: sound/usb/usx2y/us144mkii_controls.c:330 cannot understand function prototype: 'const struct snd_kcontrol_new tascam_capture_34_control ='
+> >    Warning: sound/usb/usx2y/us144mkii_controls.c:408 cannot understand function prototype: 'const struct snd_kcontrol_new tascam_samplerate_control ='
+> > --
+> >    Warning: sound/usb/usx2y/us144mkii.c:13 Cannot find identifier on line:
+> >     * @brief Module parameters for ALSA card instantiation.
+> >    Warning: sound/usb/usx2y/us144mkii.c:14 Cannot find identifier on line:
+> >     *
+> >>> Warning: sound/usb/usx2y/us144mkii.c:15 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+> >     * These parameters allow users to configure how the ALSA sound card
+> > --
+> >>> Warning: drivers/infiniband/hw/mlx5/umr.c:986 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+> >     * This function makes an mkey non-present by zapping the translation entries of
+> > 
+> 
+> -- 
+> ~Randy
+> 
+> 
