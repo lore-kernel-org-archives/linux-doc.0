@@ -1,134 +1,200 @@
-Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127DA2DAFC8;
-	Mon,  1 Dec 2025 08:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DB41FF1C4;
+	Mon,  1 Dec 2025 08:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764576859; cv=none; b=FK8Hct8+SzXRH7hMJURIIwGf8neHR6Mm1a4hjo0nXmbmnzr6HUEy8GKB3cvE1yHROfi497taeV0Ow6A7qu/gGcYTSqKPfFy4Vx+sQlaGi9efjMQaLR7DaKRbnl7MpVnyuEphgceRPvqr0LKxonIN0JkLMef08MGVdN5rBiaAbNw=
+	t=1764577018; cv=none; b=tCQJTd4N6EzVUxWiOUvt/cgpKybvSzbBBq5IpW+z5Aij1KGytrzN90YHl//0vSit7RjgWE31AlPVEK03OjfuKh0y50slVGZ9vL1cu18ABisSVk0iwDWeE+dQcEU7MQqNAenXoy7GWtYpI1UeKebHecLzasvHlQz3TzswJz4c9/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764576859; c=relaxed/simple;
-	bh=4W91DC4srourSKv6KoDRLsqHbZbIZMR8Hu3Xm+Wqip0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=bwD1tsYnu7z06JxpCLMvQ4gnZfULNiWyRY24CQAVVzDm9ysfj1fgRrfeR410a7j+AqAq7wCww9/rArk4WZ/Y/Iesr3YhUPVT0liwwUGoIxRt2UszRgPLSEayh33v+wHeb8UE95L567apII6sXjgg4qVmr6TMk4O82xPf2c1PO4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from w001.hihonor.com (unknown [10.68.25.235])
-	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4dKc7W6jvzzYlt03;
-	Mon,  1 Dec 2025 16:11:51 +0800 (CST)
-Received: from w002.hihonor.com (10.68.28.120) by w001.hihonor.com
- (10.68.25.235) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Mon, 1 Dec
- 2025 16:14:14 +0800
-Received: from w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3]) by
- w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3%14]) with mapi id
- 15.02.2562.027; Mon, 1 Dec 2025 16:14:14 +0800
-From: wangzicheng <wangzicheng@honor.com>
-To: Barry Song <21cnbao@gmail.com>
-CC: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Matthew Wilcox
-	<willy@infradead.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-	"david@redhat.com" <david@redhat.com>, "axelrasmussen@google.com"
-	<axelrasmussen@google.com>, "yuanchu@google.com" <yuanchu@google.com>,
-	"mhocko@kernel.org" <mhocko@kernel.org>, "zhengqi.arch@bytedance.com"
-	<zhengqi.arch@bytedance.com>, "shakeel.butt@linux.dev"
-	<shakeel.butt@linux.dev>, "lorenzo.stoakes@oracle.com"
-	<lorenzo.stoakes@oracle.com>, "weixugc@google.com" <weixugc@google.com>,
-	"vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, wangtao
-	<tao.wangtao@honor.com>, wangzhen 00021541 <wangzhen5@honor.com>, "zhongjinji
- 00025326" <zhongjinji@honor.com>, Kairui Song <ryncsn@gmail.com>
-Subject: RE: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
- debugfs to procfs
-Thread-Topic: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
- debugfs to procfs
-Thread-Index: AQHcYBJK8KKXMResfEqv9fHMnnJz9rUHrbeAgAAP74CAA+3ugIAApiiQ//+VEACAAImM4A==
-Date: Mon, 1 Dec 2025 08:14:14 +0000
-Message-ID: <66c62243a510421db938235a99a242bf@honor.com>
-References: <20251128025315.3520689-1-wangzicheng@honor.com>
- <aSm800KsCAptVZKu@casper.infradead.org>
- <ti7h5cbrg5s3zf7surof3zmxb6supnl34x7hsbziqutm7r2laf@zuunap5hwsbx>
- <CAGsJ_4xJ5qMght93FQOYrk1OiJTh-wFC4e8Nd4K0A156N3ZEBQ@mail.gmail.com>
- <86c62472b5874ea2833587f1847958df@honor.com>
- <CAGsJ_4w1jEej+ROuLta3MSuo4pKuA5yq7=6HS5yzgK39-4SLoA@mail.gmail.com>
-In-Reply-To: <CAGsJ_4w1jEej+ROuLta3MSuo4pKuA5yq7=6HS5yzgK39-4SLoA@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1764577018; c=relaxed/simple;
+	bh=SjCMyB1dHNwtgPTS0MoHLJhuhnjVA2MdD0tj6aAiy7Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EDqJxsx+kzutAxL3n35Gr0H2M4fPfV17LYG1Kc5K9U8kwTZ4E9S5Bd2RiseSDVsBDVLDSKj5BT6+R9smsu/fahgUr321uYZ9rdAWqx2w0kkRPQx0uE9TcwSQfKaqqFJoXBPaJEIr8sNSliVy6ujGUzkM8skGpJ3K5q/dCeCkwFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MtQNiUA8; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MtQNiUA8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764577014;
+	bh=SjCMyB1dHNwtgPTS0MoHLJhuhnjVA2MdD0tj6aAiy7Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=MtQNiUA8jUaVwIUGbuaTBXQWC/AgCctwBHVMPb+164YHYlYfjkrYFBJELoRP0VqGb
+	 P9DYysHwyY9kNkN4LfOU3AU5gV+OjAkHy48NAyqKLDB8GeZLuhfjPlr524yI4a4YzQ
+	 VvkTxUKOq+PtulTUbIbaODh1Xj+fWtWz3HKq+LS9iTVwP6xLmecWck7pwCi9gQY0uJ
+	 PXBtYQTRV2aQxBC+xkYBfdJZjqFfX0pf0/lyTxNAzTFkL6Dy0RMJxjTzXr59VDelRL
+	 5V6fNUFWH+w1H0gQT+gSiwBWn38MemyT2zTpwxcnhY2dHLO3SE5/VWksC+H8btMcPI
+	 nfEFt6sQabtYw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9CCE617E126B;
+	Mon,  1 Dec 2025 09:16:53 +0100 (CET)
+Date: Mon, 1 Dec 2025 09:16:50 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
+ Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH v10 02/10] drm/shmem-helper: Map huge pages in fault
+ handler
+Message-ID: <20251201091650.4c45e494@fedora>
+In-Reply-To: <20251128185252.3092-3-loic.molinari@collabora.com>
+References: <20251128185252.3092-1-loic.molinari@collabora.com>
+	<20251128185252.3092-3-loic.molinari@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-PiANCj4gSSBzdHJvbmdseSByZWNvbW1lbmQgc2VwYXJhdGluZyB0aGlzIGZyb20geW91ciBwYXRj
-aHNldC4gQXZvaWQgaW5jbHVkaW5nDQo+IHVucmVsYXRlZCBjaGFuZ2VzIGluIGEgc2luZ2xlIHBh
-dGNoc2V0Lg0KPiANClRoYW5rIHlvdSBmb3IgdGhlIGNsYXJpZmljYXRpb24sIHNlcGFyYXRpbmcg
-aXQgZnJvbSBvdXIgcGF0Y2hzZXQgbWFrZXMgc2Vuc2UuDQoNClJlY2FsbCB0aGF0IGltYmFsYW5j
-ZSBmaWxlL2Fub24gZ2VuZXJhdGlvbnMgaXMgb25lIG9mIHRoZSByZWFzb25zIHRvIG1vdmUgYGxy
-dV9nZW5gDQpmaWxlcyBvdXQgb2YgdGhlIGRlYnVnZnMuDQoNCj4gTUdMUlUgaGFzIGEgbWVjaGFu
-aXNtIHRvIGVuc3VyZSB0aGF0IGZpbGUgYW5kIGFub24gcGFnZXMgY2FuIGtlZXAgcGFjZQ0KPiB3
-aXRoIGVhY2ggb3RoZXIuIEluIHRoZSBuZXdlc3Qga2VybmVsLCB0aGUgbWluaW11bSBnZW5lcmF0
-aW9uIGlzIDIuIEZvcg0KPiBleGFtcGxlLCBpZiBhbm9uIGhhcyBvbmx5IDIgZ2VuZXJhdGlvbnMg
-bGVmdCBhbmQgd2UgZGVjaWRlIHRvIHJlY2xhaW0gYW5vbg0KPiBmb2xpb3MsIHdlIHdpbGwgZmFs
-bCBiYWNrIHRvIHJlY2xhaW1pbmcgZmlsZSBwYWdlcy4gU29tZXRpbWVzLCB0aGlzIG1lYW5zIHRo
-YXQNCj4gYW5vbiByZWNsYW1hdGlvbiBpcyBpbnN1ZmZpY2llbnQgd2hpbGUgZmlsZSBwYWdlcyBh
-cmUgb3Zlci1yZWNsYWltZWQuDQo+IA0KPiBzdGF0aWMgaW50IHNjYW5fZm9saW9zKHVuc2lnbmVk
-IGxvbmcgbnJfdG9fc2Nhbiwgc3RydWN0IGxydXZlYyAqbHJ1dmVjLA0KPiAgICAgICAgICAgICAg
-ICAgICAgICAgIHN0cnVjdCBzY2FuX2NvbnRyb2wgKnNjLCBpbnQgdHlwZSwgaW50IHRpZXIsDQo+
-ICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGxpc3RfaGVhZCAqbGlzdCkgew0KPiAgICAg
-ICAgIC4uLg0KPiAgICAgICAgIGlmIChnZXRfbnJfZ2VucyhscnV2ZWMsIHR5cGUpID09IE1JTl9O
-Ul9HRU5TKQ0KPiAgICAgICAgICAgICAgICAgcmV0dXJuIDA7DQo+ICAgICAgICAgLi4uDQo+IH0N
-Cj4gDQo+IFRoaXMgaXMgcHJvYmFibHkgbm90IGEgYnVnLCBidXQgdGhpcyBkZXNpZ24gY2FuIHNv
-bWV0aW1lcyB3b3JrIHN1Ym9wdGltYWxseS4NCj4gDQoNClllcywgb3VyIHBhdGNoc2V0IGFsc28g
-YWltcyB0byBzb2x2ZSBzaW1pbGFyIGNhc2VzIGJ5IHByb2FjdGl2ZSBhZ2luZyAyLzMgZ2Vucy4N
-Cg0KPiBSZWdhcmRpbmcgdGhpcyBpc3N1ZSwgYm90aCBLYWlydWkgKGZyb20gdGhlIExpbnV4IHNl
-cnZlciBzaWRlLCBjYy1lZCkgYW5kIEkNCj4gKGZyb20gdGhlIEFuZHJvaWQgc2lkZSkgaGF2ZSBv
-YnNlcnZlZCBpdC4gVGhpcyBzaG91bGQgYmUgYWRkcmVzc2VkIGluDQo+IE1HTFJVJ3MgY29kZSwg
-YW5kIHdlIGFscmVhZHkgaGF2ZSBrZXJuZWwgY29kZSBmb3IgdGhhdC4gSXQgaXMgdW5yZWxhdGVk
-IHRvDQo+IHlvdXIgcGF0Y2hzZXQsIHNvIHlvdSBzaG91bGRu4oCZdCBpbmNsdWRlIHNvIG1hbnkg
-dW5yZWxhdGVkIGNoYW5nZXMgaW4gYQ0KPiBzaW5nbGUgcGF0Y2hzZXQuDQo+IA0KPiBQbGVhc2Ug
-a2VlcCB5b3VyIHBhdGNoc2V0IGZvY3VzZWQgc29sZWx5IG9uIHdoZXRoZXIgdGhlIE1HTFJVIHBy
-b2FjdGl2ZQ0KPiByZWNsYW1hdGlvbiBpbnRlcmZhY2Ugc2hvdWxkIGJlIHByb21vdGVkIHRvIHN5
-c2ZzIChMUlVfR0VOIGFscmVhZHkgaGFzIGENCj4gZm9sZGVyIGluIHN5c2ZzKSBpbnN0ZWFkIG9m
-IGRlYnVnZnMsIGlmIHRoZXJlIGlzIGEgdjIuDQo+IA0KPiBUaGUgZm9sbG93aW5nIGlzIHF1b3Rl
-ZCBmcm9tDQo+IGBEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL21tL211bHRpZ2VuX2xydS5yc3Rg
-Lg0KPiANCj4gUHJvYWN0aXZlIHJlY2xhaW0NCj4gLS0tLS0tLS0tLS0tLS0tLS0NCj4gUHJvYWN0
-aXZlIHJlY2xhaW0gaW5kdWNlcyBwYWdlIHJlY2xhaW0gd2hlbiB0aGVyZSBpcyBubyBtZW1vcnkg
-cHJlc3N1cmUuIEl0DQo+IHVzdWFsbHkgdGFyZ2V0cyBjb2xkIHBhZ2VzIG9ubHkuIEUuZy4sIHdo
-ZW4gYSBuZXcgam9iIGNvbWVzIGluLCB0aGUgam9iDQo+IHNjaGVkdWxlciB3YW50cyB0byBwcm9h
-Y3RpdmVseSByZWNsYWltIGNvbGQgcGFnZXMgb24gdGhlIHNlcnZlciBpdCBzZWxlY3RlZCwNCj4g
-dG8gaW1wcm92ZSB0aGUgY2hhbmNlIG9mIHN1Y2Nlc3NmdWxseSBsYW5kaW5nIHRoaXMgbmV3IGpv
-Yi4NCj4gDQo+IFVzZXJzIGNhbiB3cml0ZSB0aGUgZm9sbG93aW5nIGNvbW1hbmQgdG8gYGBscnVf
-Z2VuYGAgdG8gZXZpY3QgZ2VuZXJhdGlvbnMNCj4gbGVzcyB0aGFuIG9yIGVxdWFsIHRvIGBgbWlu
-X2dlbl9ucmBgLg0KPiANCj4gICAgIGBgLSBtZW1jZ19pZCBub2RlX2lkIG1pbl9nZW5fbnIgW3N3
-YXBwaW5lc3MgW25yX3RvX3JlY2xhaW1dXWBgDQo+IA0KPiANCj4gPg0KPiA+IFNlZSB0aGUgY2Fz
-ZSBpbiB0aGUgY292ZXIgbGV0dGVyLg0KPiA+IGBgYA0KPiA+IG1lbWNnICAgIDU0IC9hcHBzL3Nv
-bWVfYXBwDQo+ID4gbm9kZSAgICAgMA0KPiA+IDEgICAgIDExOTgwNCAgICAgICAgICAwICAgICAg
-IDg1NDYxDQo+ID4gMiAgICAgMTE5ODA0ICAgICAgICAgIDAgICAgICAgICAgIDUNCj4gPiAzICAg
-ICAxMTk4MDQgICAgIDE4MTcxOSAgICAgICAxODY2Nw0KPiA+IDQgICAgICAgMTc1MiAgICAgICAg
-MzkyICAgICAgICAgMjQ0DQo+ID4gYGBgDQo+ID4NCj4gPg0KPiA+IFNpbmNlIHRoZSBzZW1hbnRp
-YyBnYXAgYmV0d2VlbiB1c2VyL2tlcm5lbCBzcGFjZSB3aWxsIGFsd2F5cyBleGlzdC4NCj4gPiBJ
-dCB3b3VsZCBiZSBncmVhdCBiZW5lZml0cyBmb3IgbGVhdmluZyBzb21lIEFQSXMgZm9yIHVzZXIg
-aGludHMsIGp1c3QNCj4gPiBsaWtlIG1tYWR2aXNlL3VzZXJmYXVsdC9wYXJhLXZpcnR1YWxpemF0
-aW9uLg0KPiANCj4gTm9wZS4gVGhpcyBpcyBqdXN0IGFuIGludGVybmFsIGRldGFpbCBvZiBNR0xS
-VSBhbmQgc2hvdWxkbuKAmXQgYmUgZXhwb3NlZCBhcyBhbg0KPiBpbnRlcmZhY2UuDQo+IEhvcGVm
-dWxseSwgS2FpcnVpIG9yIEkgd2lsbCBzZW5kIGEgcGF0Y2hzZXQgc29vbiB0byBhZGRyZXNzIHRo
-ZSBiYWxhbmNlIGlzc3VlDQo+IGJldHdlZW4gZmlsZSBhbmQgYW5vbiBwYWdlcy4gRm9yIG5vdywg
-eW91IGNhbiB1c2UgYHN3YXBwaW5lc3M9MjAxYCBhcyBhDQo+IHRlbXBvcmFyeSB3b3JrYXJvdW5k
-LiBUYWtlIGEgbG9vayBhdCBieXRlZGFuY2UncyBwYXRjaHNldC5bMV0NCj4gDQpTb3VuZCBncmVh
-dDopLCB3ZSBhcmUgbG9va2luZyBmb3J3YXJkIHRvIGl0Lg0KDQo+ID4gRXhwb3Npbmcgc3VjaCBo
-aW50cyB0byB0aGUga2VybmVsIGNhbiBoZWxwIGltcHJvdmUgb3ZlcmFsbCBzeXN0ZW0NCj4gcGVy
-Zm9ybWFuY2UuDQo+IA0KPiBbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtDQo+IG1t
-L2NvdmVyLjE3NDQxNjkzMDIuZ2l0LmhlemhvbmdrdW4uaHprQGJ5dGVkYW5jZS5jb20vDQo+IA0K
-QW5kIHRoYW5rIHlvdSBmb3IgdGhlIGBzd2FwcGluZXNzPTIwMWAgd29ya2Fyb3VuZCwgd2Ugd2ls
-bCByZXNlYXJjaCBvbiBpdC4NCg0KPiBUaGFua3MNCj4gQmFycnkNCg0KQmVzdCwNClppY2hlbmcN
-Cg==
+On Fri, 28 Nov 2025 19:52:44 +0100
+Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+
+> Attempt a PMD sized PFN insertion into the VMA if the faulty address
+> of the fault handler is part of a huge page.
+>=20
+> On builds with CONFIG_TRANSPARENT_HUGEPAGE enabled, if the mmap() user
+> address is PMD size aligned, if the GEM object is backed by shmem
+> buffers on mountpoints setting the 'huge=3D' option and if the shmem
+> backing store manages to allocate a huge folio, CPU mapping would then
+> benefit from significantly increased memcpy() performance. When these
+> conditions are met on a system with 2 MiB huge pages, an aligned copy
+> of 2 MiB would raise a single page fault instead of 4096.
+>=20
+> v4:
+> - implement map_pages instead of huge_fault
+>=20
+> v6:
+> - get rid of map_pages handler for now (keep it for another series
+>   along with arm64 contpte support)
+>=20
+> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 55 +++++++++++++++++++++-----
+>  1 file changed, 46 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm=
+_gem_shmem_helper.c
+> index be89be1c804c..81f4ac7cb8f6 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -567,31 +567,68 @@ int drm_gem_shmem_dumb_create(struct drm_file *file=
+, struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
+> =20
+> +static bool drm_gem_shmem_fault_is_valid(struct drm_gem_object *obj,
+> +					 pgoff_t pgoff)
+
+AFAICT, extracting the fault_is_valid() logic into a helper is
+orthogonal to the huge_page mapping stuff, and I don't see it being
+used in the rest of the series (I guess it was when you were
+introducing support for map_pages()). Maybe this should be done in a
+separate patch, or postponed until there's a second place checking for
+fault validity, dunno.
+
+> +{
+> +	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
+> +
+> +	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
+> +	    pgoff >=3D (obj->size >> PAGE_SHIFT) ||
+> +	    shmem->madv < 0)
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +static bool drm_gem_shmem_map_pmd(struct vm_fault *vmf, unsigned long ad=
+dr,
+> +				  struct page *page)
+
+nit: could we name that one drm_gem_shmem_try_map_pmd()?
+
+With my two nits addressed, the patch is
+
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+> +{
+> +#ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
+> +	unsigned long pfn =3D page_to_pfn(page);
+> +	unsigned long paddr =3D pfn << PAGE_SHIFT;
+> +	bool aligned =3D (addr & ~PMD_MASK) =3D=3D (paddr & ~PMD_MASK);
+> +
+> +	if (aligned &&
+> +	    pmd_none(*vmf->pmd) &&
+> +	    folio_test_pmd_mappable(page_folio(page))) {
+> +		pfn &=3D PMD_MASK >> PAGE_SHIFT;
+> +		if (vmf_insert_pfn_pmd(vmf, pfn, false) =3D=3D VM_FAULT_NOPAGE)
+> +			return true;
+> +	}
+> +#endif
+> +
+> +	return false;
+> +}
+> +
+>  static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+>  {
+>  	struct vm_area_struct *vma =3D vmf->vma;
+>  	struct drm_gem_object *obj =3D vma->vm_private_data;
+>  	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
+> -	loff_t num_pages =3D obj->size >> PAGE_SHIFT;
+> -	vm_fault_t ret;
+> -	struct page *page;
+> +	struct page **pages =3D shmem->pages;
+>  	pgoff_t page_offset;
+> +	unsigned long pfn;
+> +	vm_fault_t ret;
+> =20
+>  	/* Offset to faulty address in the VMA (without the fake offset). */
+>  	page_offset =3D vmf->pgoff - vma->vm_pgoff;
+> =20
+>  	dma_resv_lock(shmem->base.resv, NULL);
+> =20
+> -	if (page_offset >=3D num_pages ||
+> -	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
+> -	    shmem->madv < 0) {
+> +	if (unlikely(!drm_gem_shmem_fault_is_valid(obj, page_offset))) {
+>  		ret =3D VM_FAULT_SIGBUS;
+> -	} else {
+> -		page =3D shmem->pages[page_offset];
+> +		goto out;
+> +	}
+> =20
+> -		ret =3D vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
+> +	if (drm_gem_shmem_map_pmd(vmf, vmf->address, pages[page_offset])) {
+> +		ret =3D VM_FAULT_NOPAGE;
+> +		goto out;
+>  	}
+> =20
+> +	pfn =3D page_to_pfn(pages[page_offset]);
+> +	ret =3D vmf_insert_pfn(vma, vmf->address, pfn);
+> +
+> + out:
+>  	dma_resv_unlock(shmem->base.resv);
+> =20
+>  	return ret;
+
