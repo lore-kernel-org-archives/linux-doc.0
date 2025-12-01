@@ -1,150 +1,207 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF5C18A6B0
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 04:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461A717DE36
+	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 04:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764562454; cv=none; b=IPYo+WOkBC6WCGczU9eX4QNcAU9HOQoREFSoxRi8GCFHqm4AO4sQFJ+AGBRpkEA7nj5Wn7r2F3+q59PSqBBXsCfwAGfuXk2j5C2F56ODvEuQ4IH9nEfgA32yWbYoFKJCdZBXF2clmwFmYjw5TytF0UqOuHOaM/UwolnrHea/s1Y=
+	t=1764562720; cv=none; b=Mxs8e1EJFPbFwYJln+6YDC69jbDmnAuIX6TpFz29cpjToUIjH0wi59BOWE3+XUK/CijW8RE0cHEYPIn4FnN0FTRXUuLHAy9tPDz88ajomMwyJb9SJK/6MXRBFtePgjBvL+V7Om4w4hUJZ8vWlzJlvPkw0NQRSQzPqkadUX5wRpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764562454; c=relaxed/simple;
-	bh=GrynxDa76JNyWfJyi18gAXK2VCIZSuhzCnXy1qCrIx8=;
+	s=arc-20240116; t=1764562720; c=relaxed/simple;
+	bh=jkPMD6GHsCXWpn7rUP9jQrqa/c4UKeSxDfKF/9lJTB0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=CEWftQSdQaQKFfngF/yq++1F0U7a59GVqnWZeluCnFihEqcTCwvwll/TiRZ3XF+VTSgOXp/qIJRzANIMwIp/PatF07TsTrRIKTZuopFenvMBqnHhHTsGLv9pHy256yi6WAM3/WMTgw3y5DJ9rBpe6emj4C7Wx8puWwiI5ShkyWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LGKWr4Wg; arc=none smtp.client-ip=209.85.222.52
+	 To:Cc:Content-Type; b=dUdlBxaTHq2hTHxE0vxCRTDPiq5k1wgdFuk3spfqZgjciKek//TmXET1GemHu8JHoaIf+z3bbu/ylzpTknu+jp+HXddJPEumxuK1PHFofO/mTUwIcYl/gMbrDmz90bW+o6+Cr5Uu4IS4Az2twOK8RW/2h6FqkjimA+DWm7qGd+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HW7umWsD; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LGKWr4Wg"
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-93c6d160fbcso2390646241.1
-        for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 20:14:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HW7umWsD"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b737502f77bso510721366b.2
+        for <linux-doc@vger.kernel.org>; Sun, 30 Nov 2025 20:18:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764562451; x=1765167251; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=gmail.com; s=20230601; t=1764562716; x=1765167516; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NvqfHUMOZNX470bp1dryFycFk+/R03rrhA62xaGfUj0=;
-        b=LGKWr4Wg2zcts8f8rlH+QrcOHpHOVmVbaV4+fxSIP9EfNGYbHPSdF4rslaqLdDWx1I
-         NKybafVahY79vdtjrcLZCQu++8Wxro5NiD5d2bUzfpnWmlyJK8BR5LH7QQhHCw5wklFL
-         2wftigQ/cIYWhuxur96qHyyI9CObfYuq8JJgagKUK4Bw2Qp/7VDifkH+kBLo37uJShpE
-         8Y2Oa7KnQB/mSRO54fzMr3KOSybdE6HEADQlGtT/XtRWm9zXQ82PRK+uJZWigGxdALk8
-         vvI1Xu/uwUUXj5cjuFG4eHCeQpERcXDPKzD19OV9Fvyse2ks1kh0mHe0WwVX27xbMk7B
-         C3zA==
+        bh=AMVbFQJwrtDT4Z0LvdOkvQwxkH7n3jhJLvQGPrvBilI=;
+        b=HW7umWsDoQvFygQJn2ifKK+ER+KuG3/4+pLxghHhhVVEiUUpV3izkIMU4Ee4Dp3L7Y
+         QBEQr3a7sFOfY28BeuI8lyj21SAXN3IM2q8KdAyO/xPViQ4I1A2md9KWXfccyXqOx03n
+         Toz7D1e35ghYZZGpP4NP20E8pNZXDqoF3Y03LahoQQbzgrHXQeMQZUapV+p9fs3kboWo
+         NyjB7IYjSl2/1ENe3LH05P02250DCkkFpEPEwRSwHoLdVO9kugrx8+ifPWi6Qrk48Vg8
+         utZGTXzyFL+gpSpr9D4h/yt2UOMvKcnM0oTBwrkWv/EE62ioMe0cG1V779u7dz2YN/qC
+         Gy3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764562451; x=1765167251;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1764562716; x=1765167516;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=NvqfHUMOZNX470bp1dryFycFk+/R03rrhA62xaGfUj0=;
-        b=omDbiABp160B2/LpbImTSwuqOKO0t7Sgh8bXn30zD5cKiRoKQVQ9Rhu580Oy3t4ry7
-         mglN+RYXgaewa4SAICVRrAqQyqpbLbKPDPDDhbfS25KwZMr3X/UBlnWDk+xAprtbjDOH
-         bpQxy0Pzzr4uGz3I4hlAUGGQDRMfPcvQ2DsxlNUeo281MohbrKIKl56X21ZornPmf7Aj
-         QfNEPV2T4q+BWd24ZNupmJocycCepsuiyQfa43s6Ts8Jv7dOJ6e6U+2D3kLp3+9QRhpX
-         A6VVUIkESFPdfHDjgnBJ6C5iKMXYmuZ0GBGSNVP0wsBXdR20M3lfkg4VWP/uDeYdyeg6
-         mzMA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqQRURhc+hEze/Owc+ESnqFErVPPMlkZB8u/rbHwjAH/+MT2Nii3pOGqGArUgvFQhf6ZW2eKHqV5Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzi/NwgOa8zD3SZOT1HHeyFKnJ1ObGLD/8ew8xG3RkXsBpHjiXr
-	rVqujgTeYcxlJNLOL7gy7ryfVSs3NveZf6qNWy46gvRiCrAFYQOMsdqeL+dJ55fDzqgMAmem2xD
-	78aJraBAseGd/DHl4ev6Kf3GwOuGWx8g=
-X-Gm-Gg: ASbGncv5cT8fXCSIR3sYUFHji6NPvIwyXDv0oqb2odYAVEHPYRBd7W2HwFuWFJFqqjw
-	7FI4L3xG5Jji1ofb6m0avrPYwANOaU/IbxRNK+MzqoJUGSsamhbRozJDtTY+bc85HOuEdAFRltr
-	nFBaXFu2NegJmsqx46FYxYTlbkTFNp2RKSQafWScjPA9GdxUX2JO9/mV6Nkxfh0a6ztDQYLm0+z
-	Jey5wZyzVdHXNIFmyjUcmQmpqUJkgxk9QjC+q1qsC4JkNCSpRjcDL0P0r7B7pMoOz7Eqg==
-X-Google-Smtp-Source: AGHT+IFQFaTlSgrkPrDF34ZzuXXc6tRWv7IWzSI1FLwFBEaeyfWtvk4amHL87+8261TG5sC/U7niA6iwfCoFudViaSk=
-X-Received: by 2002:a05:6102:919:b0:5db:f15a:539d with SMTP id
- ada2fe7eead31-5e22423f36emr8227948137.7.1764562451234; Sun, 30 Nov 2025
- 20:14:11 -0800 (PST)
+        bh=AMVbFQJwrtDT4Z0LvdOkvQwxkH7n3jhJLvQGPrvBilI=;
+        b=CfZ3rFyYYMLp2/NbMGrH6v8Sf5U49/rgnoDV7Vqw0UAGsxZyv976Qcb8Irnd4TqJ9r
+         lwecT8Nxnp77YO2yNu72veEYuxAqcC1U2uOgXQVA1e8Bq5NP/UfKaW/FTUXkZ1D/xUPj
+         yWTkQlJ7d/RhKLHYVI3SNHHLJjX8vyDSbOfnhukI06Vb60tVA9axO4s4ApwGIKdpgMgL
+         A5FDsaCfn0c9sCjUBk21dWr/LXS/WCaErMUumkoeOL3+Fyik92efl39p0nFTNUyX2RUV
+         O7Q/saB8zDoYgm+xH5aYprBV5jzuePQTsuGHF7hB50zrh3m96udd8rp/bSncHkUeVYMv
+         60Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCVtYuSfnIschy7vapxAJJefe/aW/gySss5rCESvyAor4zZxkUB3viuROLO2a0+2UgFRn/cvzqpydvk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/4Zq7sb7qkCllpSTtPzUUykeSBT09GoFHVK9W8O8OXHRrbrWF
+	G5NUbqmXW3sTbp2075m/CgD20QqHUzF8CQlQw4zyWclC5igaDerJRghyG1BXI6UxDJyQkNyyiAh
+	Sj0tN51FIw/lqXzLWlyky4rRdAedgCxs=
+X-Gm-Gg: ASbGnctrUSX/KXngwtnUSmTWFqtcz+H7QZt6bXHoJCzIMJ+CNWjxsp7pBWz+pFDvzWo
+	EKMfjJb55EaT1Ee8J5Hh9vJ3w41BbFDS85LjQznPZ4bt6B88W+paUErzgM5XpXul/MUoYKXqgvC
+	OIQGIVnGopEta9J66RJfaWr/DAmeIUSlRACMhqq7EZ8pEK4heRTY5BS+bguzIPvSma4tkfC4mwl
+	OZ7h7XEPT7mKrQCqSzqGuE8eU5h2Thu5aCKkqget+wH1h281FWABwLHrUXayH3HFOFGWeGbLmbd
+	4w5vcrSUEtuq8j5Gs+f4MOwhVYpb4GtY22X2
+X-Google-Smtp-Source: AGHT+IEeTiNhj2dkL9zHMBWy2MWadxfl3ORIHTFpBD3euUzlvLmeTWg5W0jv/zpi7B8w/lH1Tab+xDdjnzwufYN3YuM=
+X-Received: by 2002:a17:907:3c96:b0:b73:9368:ad5e with SMTP id
+ a640c23a62f3a-b76c5515082mr2667474566b.34.1764562715362; Sun, 30 Nov 2025
+ 20:18:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251128025315.3520689-1-wangzicheng@honor.com>
- <aSm800KsCAptVZKu@casper.infradead.org> <ti7h5cbrg5s3zf7surof3zmxb6supnl34x7hsbziqutm7r2laf@zuunap5hwsbx>
-In-Reply-To: <ti7h5cbrg5s3zf7surof3zmxb6supnl34x7hsbziqutm7r2laf@zuunap5hwsbx>
-From: Barry Song <21cnbao@gmail.com>
-Date: Mon, 1 Dec 2025 12:13:59 +0800
-X-Gm-Features: AWmQ_bnCsLVtTt2xe_A-3mmx3kROTPC9EO7s9FoipJAT7VnWafh4GCqMSpp-xoE
-Message-ID: <CAGsJ_4xJ5qMght93FQOYrk1OiJTh-wFC4e8Nd4K0A156N3ZEBQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
- debugfs to procfs
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Matthew Wilcox <willy@infradead.org>, 
-	Zicheng Wang <wangzicheng@honor.com>, akpm@linux-foundation.org, hannes@cmpxchg.org, 
-	david@redhat.com, axelrasmussen@google.com, yuanchu@google.com, 
-	mhocko@kernel.org, zhengqi.arch@bytedance.com, shakeel.butt@linux.dev, 
-	lorenzo.stoakes@oracle.com, weixugc@google.com, vbabka@suse.cz, 
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com, corbet@lwn.net, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251112042720.3695972-1-alistair.francis@wdc.com>
+ <20251112042720.3695972-6-alistair.francis@wdc.com> <f7a91a49-9f82-492a-8bf9-520ee1c832ba@suse.de>
+In-Reply-To: <f7a91a49-9f82-492a-8bf9-520ee1c832ba@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 1 Dec 2025 14:18:08 +1000
+X-Gm-Features: AWmQ_bnRvWBaRf_AYOX9GVK2GmdKNpGnJ5WeFBVDhtY-flit1CL2pb-FbNx9lsA
+Message-ID: <CAKmqyKPU2w2GrzdMtMn1rO8auOpDCTovQH04P8RxptA45Oy6XQ@mail.gmail.com>
+Subject: Re: [PATCH v5 5/6] nvme-tcp: Support KeyUpdate
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Liam,
-
-I saw you mentioned me, so I just wanted to join in :-)
-
-On Sat, Nov 29, 2025 at 12:16=E2=80=AFAM Liam R. Howlett
-<Liam.Howlett@oracle.com> wrote:
+On Thu, Nov 27, 2025 at 11:31=E2=80=AFPM Hannes Reinecke <hare@suse.de> wro=
+te:
 >
-> * Matthew Wilcox <willy@infradead.org> [251128 10:16]:
-> > On Fri, Nov 28, 2025 at 10:53:12AM +0800, Zicheng Wang wrote:
-> > > Case study:
-> > > A widely observed issue on Android is that after application launch,
->
-> What do you mean by application launch?  What does this mean in the
-> kernel context?
-
-I think there are two cases. First, a cold start: a new process is
-forked to launch the app. Second, when the app switches from background
-to foreground, for example when we bring it back to the screen after it
-has been running in the background.
-
-In the first case, you reboot your phone and tap the YouTube icon to
-start the app (cold launch). In the second case, you are watching a
-video in YouTube, then switch to Facebook, and later tap the YouTube
-icon again to bring it from background to foreground.
-
->
-> > > the oldest anon generation often becomes empty, and file pages
-> > > are over-reclaimed.
+> On 11/12/25 05:27, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
 > >
-> > You should fix the bug, not move the debug interface to procfs.  NACK.
+> > If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
+> > EKEYEXPIRED then the underlying TLS keys need to be updated. This occur=
+s
+> > on an KeyUpdate event as described in RFC8446
+> > https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3.
+> >
+> > If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+> > allow the NVMe layer to process the KeyUpdate request and forward the
+> > request to userspace. Userspace must then update the key to keep the
+> > connection alive.
+> >
+> > This patch allows us to handle the NVMe target sending a KeyUpdate
+> > request without aborting the connection. At this time we don't support
+> > initiating a KeyUpdate.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> > v5:
+> >   - Cleanup code flow
+> >   - Check for MSG_CTRUNC in the msg_flags return from recvmsg
+> >     and use that to determine if it's a control message
+> > v4:
+> >   - Remove all support for initiating KeyUpdate
+> >   - Don't call cancel_work() when updating keys
+> > v3:
+> >   - Don't cancel existing handshake requests
+> > v2:
+> >   - Don't change the state
+> >   - Use a helper function for KeyUpdates
+> >   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
+> >   - Remove command message using recvmsg
+> >
+> >   drivers/nvme/host/tcp.c | 85 +++++++++++++++++++++++++++++++++-------=
+-
+> >   1 file changed, 70 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> > index 4797a4532b0d..5cec5a974bbf 100644
+> > --- a/drivers/nvme/host/tcp.c
+> > +++ b/drivers/nvme/host/tcp.c
+> > @@ -172,6 +172,7 @@ struct nvme_tcp_queue {
+> >       bool                    tls_enabled;
+> >       u32                     rcv_crc;
+> >       u32                     snd_crc;
+> > +     key_serial_t            handshake_session_id;
+> >       __le32                  exp_ddgst;
+> >       __le32                  recv_ddgst;
+> >       struct completion       tls_complete;
+> > @@ -858,7 +859,10 @@ static void nvme_tcp_handle_c2h_term(struct nvme_t=
+cp_queue *queue,
+> >   static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
+> >   {
+> >       char *pdu =3D queue->pdu;
+> > +     char cbuf[CMSG_LEN(sizeof(char))] =3D {};
+> >       struct msghdr msg =3D {
+> > +             .msg_control =3D cbuf,
+> > +             .msg_controllen =3D sizeof(cbuf),
+> >               .msg_flags =3D MSG_DONTWAIT,
+> >       };
+> >       struct kvec iov =3D {
+> > @@ -873,12 +877,17 @@ static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_q=
+ueue *queue)
+> >       if (ret <=3D 0)
+> >               return ret;
+> >
+> > +     hdr =3D queue->pdu;
+> > +     if (hdr->type =3D=3D TLS_HANDSHAKE_KEYUPDATE) {
+> > +             dev_err(queue->ctrl->ctrl.device, "KeyUpdate message\n");
+> > +             return 1;
+> > +     }
+> > +
 >
-> Barry recently sent an RFC [1] to affect LRU in the exit path for
-> Android.  This was proven incorrect by Johannes, iirc, in another thread
-> I cannot find (destroys performance of calling the same command).
-
-My understanding is that affecting the LRU in the exit path is not
-generally correct, but it still highlights a requirement: Linux LRU
-needs a way to understand app-cycling behavior in an Android-like
-system.
-
+> Errm. 'hdr' is of type 'struct nvme_tcp_hdr', and that most certainly
+> does not define TLS_HANDSHAKE_KEYUPDATE. I think you should evaluate the
+> cmsg type here.
 >
-> These ideas seem both related as it points to a suboptimal LRU in the
-> Android ecosystem, at least.  It seems to stem from Androids life
-> (cycle) choices :)
->
-> I strongly agree with Willy.  We don't want another userspace daemon
-> and/or interface, but this time to play with the LRU to avoid trying to
-> define and fix the problem.
->
-> Do you know if this affects others or why it is android specific?
+> >       queue->pdu_remaining -=3D ret;
+> >       queue->pdu_offset +=3D ret;
+> >       if (queue->pdu_remaining)
+> >               return 0;
+> >
+> > -     hdr =3D queue->pdu;
+> >       if (unlikely(hdr->hlen !=3D sizeof(struct nvme_tcp_rsp_pdu))) {
+> >               if (!nvme_tcp_recv_pdu_supported(hdr->type))
+> >                       goto unsupported_pdu;
+> > @@ -944,6 +953,7 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_qu=
+eue *queue)
+> >       struct request *rq =3D
+> >               nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+> >       struct nvme_tcp_request *req =3D blk_mq_rq_to_pdu(rq);
+> > +     char cbuf[CMSG_LEN(sizeof(char))] =3D {};
+> >
+> >       if (nvme_tcp_recv_state(queue) !=3D NVME_TCP_RECV_DATA)
+> >               return 0;
+> > @@ -976,10 +986,26 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_=
+queue *queue)
+> >
+> >               ret =3D sock_recvmsg(queue->sock, &msg, msg.msg_flags);
+> >               if (ret < 0) {
+> > -                     dev_err(queue->ctrl->ctrl.device,
+> > -                             "queue %d failed to receive request %#x d=
+ata",
+> > -                             nvme_tcp_queue_id(queue), rq->tag);
+> > -                     return ret;
+> > +                     /* If MSG_CTRUNC is set, it's a control message,
+> > +                      * so let's read the control message.
+> > +                      */
+> > +                     if (msg.msg_flags & MSG_CTRUNC) {
+> > +                             memset(&msg, 0, sizeof(msg));
+> > +                             msg.msg_flags =3D MSG_DONTWAIT;
+> > +                             msg.msg_control =3D cbuf;
+> > +                             msg.msg_controllen =3D sizeof(cbuf);
+> > +
+> This is not correct; reading the control message implies a kernel
+> memory allocation as message buffer, not an interator (as it's the
+> case here).
 
-The behavior Zicheng probably wants is a proactive memory reclamation
-interface. For example, since each app may be in a different memcg, if an
-app has been in the background for a long time, he wants to reclaim its
-memory proactively rather than waiting until kswapd hits the watermarks.
+I don't follow what you mean
 
-This may help a newly launched app obtain memory more quickly, avoiding
-delays from reclamation, since a new app typically requires a substantial
-amount of memory.
-
-Zicheng, please let me know if I=E2=80=99m misunderstanding anything.
-
->
-> [1].  https://lore.kernel.org/all/20250514070820.51793-1-21cnbao@gmail.co=
-m/
->
-
-Thanks
-Barry
+Alistair
