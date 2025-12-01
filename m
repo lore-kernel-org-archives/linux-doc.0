@@ -1,138 +1,164 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266621F30BB;
-	Mon,  1 Dec 2025 18:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F256D1F30BB
+	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 18:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764612377; cv=none; b=Fmm5eKYXLv7ZDUx0tjZGC9FFtWem/xyqHk6V3F5ipCGXTlFL6W9UpQXtEZUmVRVb1WdjUpYrAWvBlJQwJhwT7htoqYyCtgiBq13PRtZYWYbVLlag5JtMgzM7jp3dkYRdQIxJai+TE7RzzE/xfgdik/1hHUU/iGrtFkBNoyx9B8E=
+	t=1764612463; cv=none; b=WszegXQ78rMExg2EOxNU53EIJG6QEcwr+Rjpn0sofxnIxseQF+sK6TOS9940ie1gcy0X14BDWAg5qlDk00y9C954t77YwRagGidTsqFxpSy5Qpn8nurX2Qm6xIT33XUzrESSHCpYN54hNFl18lTQVXtcfaD+7PcTtWeBXVtEC4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764612377; c=relaxed/simple;
-	bh=orbc3nuJhRBtP9HgFH/P7FPSU37dWjp236YX9cJ7qE8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KezIF0xrXiqBSKxP7+P31jUIUlzYLuLOtEI8ilNyeEYRhmCvqr2rqxz/aMbuiWjXkDq1Hf5VJJULSMNTVUsA2vUgpW2mGSum+J6Fl67zt0vMkNEG/MLxgkDNHBQAd7aBCdMXehepExCgDKN6KcfNBcK2D380JwRCp3E+pB+GpHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=f4PUV0hS; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1764612463; c=relaxed/simple;
+	bh=yM6aPJxvxblAnvdThGStpTfIcE630fVs9OU3ye4pspM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=noYGBhqkg8DcFUc2fflN2OdUFd8wBLHV95ybh/AypI8kTPIfKd91D5AZohdkKa7l55zXNakvHizCTqUZ7lhxy2Z3Pc/oUNsJLtxBOITevV/kdLzDZIolg8+lx32HeaatUFP+B7p1I2Bjcmz9oFculaoPOV0zheOhU6vOPvrYVl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEMTX71O; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="f4PUV0hS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764612372;
-	bh=orbc3nuJhRBtP9HgFH/P7FPSU37dWjp236YX9cJ7qE8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=f4PUV0hSvnZmXOb2ZWccPOP5NEDYIGqGFgBkNrbZyFaHM7AR8XkGmUCu6OnkAodFA
-	 lj5NCIdmHu1VugxhaE8lMbzPaT6HbXdt5WZnd5bt3N42gHcTYxhDWAzN9HVwBIwjOs
-	 wdh52nnjvww3IORZATNTc/QuBF4ZPRL+RPQm7US6QnUUen3lLtN6Dv1IYOTdi4dcWS
-	 AiGsuJvFHisXkpA/o+9Kz0ReKG5F2tmIUDUJW25d4tnP+kt56w/AIqTphtfRva/KiA
-	 u6FWll/izQjWEpNlUNWFGTrJo9QZHfBgL6O4c1OlNQ0vK4YGvQYfqiR60p6q1ijFoC
-	 QluNngkMsJeTA==
-Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id DD47317E1157;
-	Mon,  1 Dec 2025 19:06:11 +0100 (CET)
-Message-ID: <e2102c82-6b8f-4f6e-80ea-ee185bb1e52e@collabora.com>
-Date: Mon, 1 Dec 2025 19:06:11 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEMTX71O"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-78aa49cde3dso44692627b3.1
+        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 10:07:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764612461; x=1765217261; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0QyuTy6ek64uIdo9s8SZmB6RliPCLO8eDRQ9s+Wqlok=;
+        b=cEMTX71OzhkRsoHVBjeOlMGoNlt6L3SXvO4yGZQBvr/W618hptEhfK69ZcnmlGDaJ2
+         GosCXu1exnh9rMMsISJKqNvO6VyjaPdqSu4K3lVb/aNwfZUxL509x/aiIbwYT2gzHNts
+         7Ic7vhY/uL6ammeGscxtO/dJ7nWKaJVLrUWExfUl94Gbkmfvos21HSbm1VKkCqkKnGrM
+         QGJBe8c8isfgRN46G7vQqAeDGLK/RF0iUSH7LtfHZKv3FsdVO5Sn77u2+gYySQLL/Clw
+         mLm/SCe47GgMJMLnYjerhFDqG+3Z8cl1OiuAcTfmXUKgyU8yGhIlOMACiJ8B9sysrOgh
+         iMqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764612461; x=1765217261;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0QyuTy6ek64uIdo9s8SZmB6RliPCLO8eDRQ9s+Wqlok=;
+        b=VmUJy+d6xVdQL6XdGdPbhtia4t5I7w0mU3N1JTuVpw8eH7rF6qnbyJVuFsp8YifHVn
+         VcLfifjmwUZr4b94UN5U+NZWTkEXNL/zw9vavZfW4BFORwmWZ/TeGx6zNhA1pZNevo+q
+         RG3oljQUzz6/6OoTN8/OvvCTaB2tPBu+RgFNi5NrDQRzJCuNhHH0k8WHKwB8BFggEBNN
+         CPNWl1RltjY/DUBbpald06DL5g5GuB0qmj5rF8yG90ZbFXZvemoPqBC0FIyi60Xotf6Y
+         EuunlpAdLz40b/swlDg26OBCoaH3Gt3x2yuK8I0YrpJsjroPxR2swCgUr9mRWjFyfiFb
+         aHcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUgFdKo9w8GR+KHMbfqLfIAKbVFKDzSA+eGduDQkHDL0TJG62sYwzOitgQ6XRc2CCC93x5lttigEsY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6Ft2ClqF5vP8VBrwjQaP2yZcibCwClw4wOuqypW/VbybSDvCY
+	H0JYZajCEGpsLzS19gmD/6i82zyIESCuq2mIzfhOpV2V8niGgcZxD7CO
+X-Gm-Gg: ASbGncuMoOuo6Ro4wIaG4YNxpf6x+vJFpjZNlnkdmc3TXPBwawyR5RJQoU+iyzuVBE+
+	slYjQIdCk3iSS2tPf+cHC8/kqFQ1LQksGkI0s7A9kIBO/KXfNL3V+x3s3mrK3K8mIrXDF67W6zk
+	98rxCA1vobszYl+BALFniC0eqdUjYmXxeslnz6CojepaMWuRy3hp8ellTl4J/kfZUl7DxyBo5k2
+	P3mTaDtxkyqvLxpu+vZ3/gzyAG82k+wIjeRnCRWJi+UBhx47foOunRy28dHts1lDl/0G1Og63wn
+	+V6O4fPMUQKu5Eaads5vWkbzL87iD67hsxxbqxLyqbs4VYvvpmaQjl6DdD0dnFewB9SoPCXpv7W
+	QkmtmTZyzkkrfoIXI5U9pRlh+FVAn90Z6vx7CVsucBSf1KqkpbzhxLbEMr4W/iANIO9fbNQ0o0n
+	BfmkXw21shGcba6HiSY1yVhg==
+X-Google-Smtp-Source: AGHT+IGebBLF0eFSQu1V6/IZFq1lSrNOt+fw835UDZgXCTtz/zrjUyYDOacz1JvbW8Om1eqnkY9hqg==
+X-Received: by 2002:a05:690c:6087:b0:786:5926:edab with SMTP id 00721157ae682-78a8b491ceamr335684337b3.17.1764612460818;
+        Mon, 01 Dec 2025 10:07:40 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:5b::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78ad0d5fe7fsm52262427b3.17.2025.12.01.10.07.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Dec 2025 10:07:40 -0800 (PST)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>,
+	SeongJae Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mike Rapoport <rppt@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	kernel-team@meta.com
+Subject: [PATCH v3] mm/mm_init: Introduce a boot parameter for check_pages
+Date: Mon,  1 Dec 2025 10:07:38 -0800
+Message-ID: <20251201180739.2330474-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 01/10] drm/shmem-helper: Simplify page offset
- calculation in fault handler
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>, Al Viro
- <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Matthew Wilcox
- <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251128185252.3092-1-loic.molinari@collabora.com>
- <20251128185252.3092-2-loic.molinari@collabora.com>
- <20251201090507.1ee10c65@fedora>
-Content-Language: fr
-From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
-Organization: Collabora Ltd
-In-Reply-To: <20251201090507.1ee10c65@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Boris,
+Use-after-free and double-free bugs can be very difficult to track down.
+The kernel is good at tracking these and preventing bad pages from being
+used/created through simple checks gated behind "check_pages_enabled".
 
-On 01/12/2025 09:05, Boris Brezillon wrote:
-> On Fri, 28 Nov 2025 19:52:43 +0100
-> Loïc Molinari <loic.molinari@collabora.com> wrote:
-> 
->> For a fault at address addr, the page offset is
->>    page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT
->>                = ((addr & PAGE_MASK) - vma->vm_start) >> PAGE_SHIFT
->> 	      = (addr - vma->vm_start) >> PAGE_SHIFT
->>
->> Since the faulty logical page offset based on VMA is
->>    vmf->pgoff = vma->vm_pgoff + ((addr - vma->vm_start) >> PAGE_SHIFT)
->>
->> We can slightly simplify the calculation using
->>    page_offset = vmf->pgoff - vma->vm_pgoff
->>
->> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-> 
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> 
-> One nit below
-> 
->> ---
->>   drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> index dc94a27710e5..be89be1c804c 100644
->> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> @@ -577,8 +577,8 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
->>   	struct page *page;
->>   	pgoff_t page_offset;
->>   
->> -	/* We don't use vmf->pgoff since that has the fake offset */
->> -	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
->> +	/* Offset to faulty address in the VMA (without the fake offset). */
-> 
-> It's weird to say "without the fake offset" here, because IIUC, both
-> vmf->pgoff and vma->vm_pgoff contain the fake offset. And that's fine,
-> the problem really is when one of the subtraction operand is not
-> relative to the fake offset.
+Currently, the only ways to enable this flag is by building with
+CONFIG_DEBUG_VM, or as a side effect of other checks such as
+init_on_{alloc, free}, page_poisoning, or debug_pagealloc among others.
+These solutions are powerful, but may often be too coarse in balancing
+the performance vs. safety that a user may want, particularly in
+latency-sensitive production environments.
 
-Yes, both values contain the fake offset. vma->vm_pgoff is the actual 
-fake offset (mmap offset in the GEM context). vmf->pgoff is the fake 
-offset added to the offset we're looking for (offset from start of VMA 
-to faulty address). So the difference just gets rid of it, hence the 
-precision, but now that I read it again after a few weeks, it's a bit 
-misleading so I'll just remove it.
+Introduce a new boot parameter "check_pages", which enables page checking
+with no other side effects. It takes kstrbool-able inputs as an argument
+(i.e. 0/1, true/false, on/off, ...). This patch is backwards-compatible;
+setting CONFIG_DEBUG_VM still enables page checking.
 
-Regards,
-Loïc
+Acked-by: SeongJae Park <sj@kernel.org>
+Acked-by: Michal Hocko <mhocko@suse.com>
+Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
+---
+v2 --> v3:
+- Dropped the second patch. I may pursue it at another time : -)
+- Variable renaming (dropping leading _) and cleaner check in
+  mem_debugging_and_hardening_init, as suggested by Mike Rapoport
+v1 --> v2:
+- Changed check_pages from a build config into a boot config, as suggested
+  by Vlastimil.
+- Introduced the second patch, which decouples page checking from 
+  init_on_page_alloc and init_on_page_free.
+---
+ Documentation/admin-guide/kernel-parameters.txt |  8 ++++++++
+ mm/mm_init.c                                    | 10 +++++++++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
->> +	page_offset = vmf->pgoff - vma->vm_pgoff;
->>   
->>   	dma_resv_lock(shmem->base.resv, NULL);
->>   
-> 
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6c42061ca20e..acdc7fbdecac 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -669,6 +669,14 @@
+ 			nokmem -- Disable kernel memory accounting.
+ 			nobpf -- Disable BPF memory accounting.
+ 
++	check_pages=	[MM,EARLY] Enable sanity checking of pages after
++			allocations / before freeing. This adds checks to catch
++			double-frees, use-after-frees, and other sources of
++			page corruption by inspecting page internals (flags,
++			mapcount/refcount, memcg_data, etc.).
++			Format: { "0" | "1" }
++			Default: 0 (1 if CONFIG_DEBUG_VM is set)
++
+ 	checkreqprot=	[SELINUX] Set initial checkreqprot flag value.
+ 			Format: { "0" | "1" }
+ 			See security/selinux/Kconfig help text.
+diff --git a/mm/mm_init.c b/mm/mm_init.c
+index c6812b4dbb2e..fc2a6f1e518f 100644
+--- a/mm/mm_init.c
++++ b/mm/mm_init.c
+@@ -2525,6 +2525,14 @@ early_param("init_on_free", early_init_on_free);
+ 
+ DEFINE_STATIC_KEY_MAYBE(CONFIG_DEBUG_VM, check_pages_enabled);
+ 
++static bool check_pages_enabled_early __initdata;
++
++static int __init early_check_pages(char *buf)
++{
++	return kstrtobool(buf, &check_pages_enabled_early);
++}
++early_param("check_pages", early_check_pages);
++
+ /*
+  * Enable static keys related to various memory debugging and hardening options.
+  * Some override others, and depend on early params that are evaluated in the
+@@ -2534,7 +2542,7 @@ DEFINE_STATIC_KEY_MAYBE(CONFIG_DEBUG_VM, check_pages_enabled);
+ static void __init mem_debugging_and_hardening_init(void)
+ {
+ 	bool page_poisoning_requested = false;
+-	bool want_check_pages = false;
++	bool want_check_pages = check_pages_enabled_early;
+ 
+ #ifdef CONFIG_PAGE_POISONING
+ 	/*
+-- 
+2.47.3
