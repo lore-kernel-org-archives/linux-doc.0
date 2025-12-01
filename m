@@ -1,82 +1,167 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from mta21.hihonor.com (mta21.honor.com [81.70.160.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012858488;
-	Mon,  1 Dec 2025 07:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0CE8488;
+	Mon,  1 Dec 2025 07:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764573191; cv=none; b=XOlsqtWQ1nGTJPTqlT3UyrZuxVlxWaCWamIPm2ZDqolR9T6tFURwjxtL9wRMmj2C8HbGkJYLGdUD5mCw9u4ansiRt+xBCEeJy/+b6/v8F/IwVLA7sZUQWGt/kCih2t9KxrEdX4Iy/jMSsxAUwmifZoUdNi06ZBXrbf09OFrE0xY=
+	t=1764573206; cv=none; b=u/1Dqnqm4RcIWC7rmd061umr38dmq8dygnJF+XH8f6QmBLN1Wom4BaxAyhV7DCEnm8IdPWFHIwaQTi2JvQ0dlTLVTU+LehILIya2/Pd9yKEH2/GLi6/ILPux0ltxm4qhgcH/akwCi9RmN7jwuOBrsWbhi6wfZEcZ3NhMQ/6pjKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764573191; c=relaxed/simple;
-	bh=tan7erp1ZTKxUWHxvVMn+iQ7OvsvaEbwO0Ucja+nQPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZYBWp7eQQVqviOCI8u1nFM9VPOYiO03Rm+SjPL+X7//MKmjTbsAw9SAlPdYYwR28gV18MyHJEVFHQ/bBtk7y0g+I6DTSEyEMR3N/h+IomrhnzIUZyBaYX904z7dcAmyzqi2PYdnotubqw+JnkGja1/Ec92MQ63miHDBt3fELDss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=tfvNDpWf; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="tfvNDpWf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1764573179; bh=oC5e19IhfsH6xgh10IQb7RxE2pgecoic4DeaK8bg9mo=;
-	h=From:Message-ID:From;
-	b=tfvNDpWfkoZuZ+9aitx7tOkorJ1aWiNoNtDLmUl/1X5H9GfkVoKPAgJ/ONtkGVuUj
-	 xZWqLbZCZ2nOXj1iCZUyG9rzuLtWAFlLSzT0Vb7jR7142c20HlLUrJZOYz2sLo5ipi
-	 +gPwRluTsdC4nBCqaConZZ+yznT0G9ZIDn3KxDpk=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 96C4CC0847;
-	Mon, 01 Dec 2025 08:12:59 +0100 (CET)
-Received: (from willy@localhost)
-	by pcw.home.local (8.15.2/8.15.2/Submit) id 5B17CxIn023493;
-	Mon, 1 Dec 2025 08:12:59 +0100
-Date: Mon, 1 Dec 2025 08:12:59 +0100
-From: Willy Tarreau <w@1wt.eu>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Security Officers <security@kernel.org>,
-        kees@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: insist on the plain-text requirement for
- security reports
-Message-ID: <20251201071259.GA23487@1wt.eu>
-References: <20251129141741.19046-1-w@1wt.eu>
- <2025120112-sublet-parasitic-18da@gregkh>
+	s=arc-20240116; t=1764573206; c=relaxed/simple;
+	bh=sbnzoFKsZbIXNdD5jBafsXQ8kFQu8Ss6GgIdwH4VsTY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KpAiaE4DwecsCs8cXNfNQ5Ldtt4VOVL9GiXMANGuvqaSVW1msDC5wTia3JtzRKYkOZyrBuedAov4/QM3vV1mChHqdVoCrSm681aKZx+UrzGGdCClpQoks2DcsLaZMS4657ihtjxjk1f85FvnbeO6BggCaYs1+3bF+og7k4VcArw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from w013.hihonor.com (unknown [10.68.26.19])
+	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4dKZpQ039qzYl9BZ;
+	Mon,  1 Dec 2025 15:11:58 +0800 (CST)
+Received: from a018.hihonor.com (10.68.17.250) by w013.hihonor.com
+ (10.68.26.19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Mon, 1 Dec
+ 2025 15:13:21 +0800
+Received: from localhost.localdomain (10.144.20.219) by a018.hihonor.com
+ (10.68.17.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 1 Dec
+ 2025 15:13:21 +0800
+From: zhongjinji <zhongjinji@honor.com>
+To: <21cnbao@gmail.com>
+CC: <Liam.Howlett@oracle.com>, <akpm@linux-foundation.org>,
+	<axelrasmussen@google.com>, <corbet@lwn.net>, <david@redhat.com>,
+	<hannes@cmpxchg.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<lorenzo.stoakes@oracle.com>, <mhocko@kernel.org>, <mhocko@suse.com>,
+	<rppt@kernel.org>, <shakeel.butt@linux.dev>, <surenb@google.com>,
+	<vbabka@suse.cz>, <wangzicheng@honor.com>, <weixugc@google.com>,
+	<willy@infradead.org>, <yuanchu@google.com>, <zhengqi.arch@bytedance.com>
+Subject: RE: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from debugfs to procfs
+Date: Mon, 1 Dec 2025 15:13:16 +0800
+Message-ID: <20251201071316.19607-1-zhongjinji@honor.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAGsJ_4xJ5qMght93FQOYrk1OiJTh-wFC4e8Nd4K0A156N3ZEBQ@mail.gmail.com>
+References: <CAGsJ_4xJ5qMght93FQOYrk1OiJTh-wFC4e8Nd4K0A156N3ZEBQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2025120112-sublet-parasitic-18da@gregkh>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: w002.hihonor.com (10.68.28.120) To a018.hihonor.com
+ (10.68.17.250)
 
-On Mon, Dec 01, 2025 at 07:38:17AM +0100, Greg KH wrote:
-> On Sat, Nov 29, 2025 at 03:17:41PM +0100, Willy Tarreau wrote:
-> > As the trend of AI-generated reports is growing, the trend of unreadable
-> > reports in gimmicky formats is following, and we cannot request that
-> > developers rely on online viewers to be able to read a security report
-> > full for formatting tags. Let's just insist on the plain text requirement
-> > a bit more.
-> > 
-> > Signed-off-by: Willy Tarreau <w@1wt.eu>
-> > ---
-> >  Documentation/process/security-bugs.rst | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> Hi Liam,
 > 
-> Looks good to me!  Given the number of non-plain-text emails with binary
-> attachments we still get there, it's obvious not many people seem to
-> read this file, but it can't hurt!  :)
-
-At least it gives us a place to point to, saying "look at the rules".
-
-> I'll queue this up if Jon doesn't, after -rc1 is out.  If he wants to
-> take it, here's my:
+> I saw you mentioned me, so I just wanted to join in :-)
 > 
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> On Sat, Nov 29, 2025 at 12:16 AM Liam R. Howlett
+> <Liam.Howlett@oracle.com> wrote:
+> >
+> > * Matthew Wilcox <willy@infradead.org> [251128 10:16]:
+> > > On Fri, Nov 28, 2025 at 10:53:12AM +0800, Zicheng Wang wrote:
+> > > > Case study:
+> > > > A widely observed issue on Android is that after application launch,
+> >
+> > What do you mean by application launch?  What does this mean in the
+> > kernel context?
+> 
+> I think there are two cases. First, a cold start: a new process is
+> forked to launch the app. Second, when the app switches from background
+> to foreground, for example when we bring it back to the screen after it
+> has been running in the background.
+> 
+> In the first case, you reboot your phone and tap the YouTube icon to
+> start the app (cold launch). In the second case, you are watching a
+> video in YouTube, then switch to Facebook, and later tap the YouTube
+> icon again to bring it from background to foreground.
+> 
+> >
+> > > > the oldest anon generation often becomes empty, and file pages
+> > > > are over-reclaimed.
+> > >
+> > > You should fix the bug, not move the debug interface to procfs.  NACK.
+> >
+> > Barry recently sent an RFC [1] to affect LRU in the exit path for
+> > Android.  This was proven incorrect by Johannes, iirc, in another thread
+> > I cannot find (destroys performance of calling the same command).
+> 
+> My understanding is that affecting the LRU in the exit path is not
+> generally correct, but it still highlights a requirement: Linux LRU
+> needs a way to understand app-cycling behavior in an Android-like
+> system.
+> 
+> >
+> > These ideas seem both related as it points to a suboptimal LRU in the
+> > Android ecosystem, at least.  It seems to stem from Androids life
+> > (cycle) choices :)
+> >
+> > I strongly agree with Willy.  We don't want another userspace daemon
+> > and/or interface, but this time to play with the LRU to avoid trying to
+> > define and fix the problem.
+> >
+> > Do you know if this affects others or why it is android specific?
+> 
+> The behavior Zicheng probably wants is a proactive memory reclamation
+> interface. For example, since each app may be in a different memcg, if an
+> app has been in the background for a long time, he wants to reclaim its
+> memory proactively rather than waiting until kswapd hits the watermarks.
 
-Thanks! Oh BTW I'm noticing a typo in the commit message above
-"full for" instead of "full of". Feel free to adjust it while
-applying, though it's really not important (and no, I won't
-respin a patch just for this :-)).
+Yes, we need a mechanism for proactive memory reclamation that supports
+proactive aging. Zicheng and I were just discussing this issue, and it
+seems that supporting proactive aging during proactive memory reclamation
+(such as reclamation of only anonymous pages) is a better approach, which
+can be enabled by adding the parameter `force`. For example, the following
+code, though it has other details to handle...
 
-Willy
++static bool proactive_aging(struct lruvec *lruvec, int swappiness)
++{
++       int type;
++       bool should_age = false;
++
++       if (unlikely(sc->proactive && sc->proactive_force))
++               return false;
++
++       for_each_evictable_type(type, swappiness) {
++               if (get_nr_gens(lruvec, type) != MIN_NR_GENS)
++                       continue;
++               should_age = true;
++       }
++       return should_age;
++}
+ /*
+  * For future optimizations:
+  * 1. Defer try_to_inc_max_seq() to workqueues to reduce latency for memcg
+@@ -4845,6 +4860,8 @@ static long get_nr_to_scan(struct lruvec *lruvec, struct scan_control *sc, int s
+        if (mem_cgroup_below_min(sc->target_mem_cgroup, memcg))
+                return -1;
+
++       if (proactive_aging(lruvec, swappiness))
++               goto aging;
+        success = should_run_aging(lruvec, max_seq, swappiness, &nr_to_scan);
+
+        /* try to scrape all its memory if this memcg was deleted */
+@@ -4856,7 +4873,7 @@ static long get_nr_to_scan(struct lruvec *lruvec, struct scan_control *sc, int s
+        /* try to get away with not aging at the default priority */
+        if (!success || sc->priority == DEF_PRIORITY)
+                return nr_to_scan >> sc->priority;
+-
++aging:
+        /* stop scanning this lruvec as it's low on cold folios */
+        return try_to_inc_max_seq(lruvec, max_seq, swappiness, false) ? -1 : 0;
+ }
+
+
+> This may help a newly launched app obtain memory more quickly, avoiding
+> delays from reclamation, since a new app typically requires a substantial
+> amount of memory.
+> Zicheng, please let me know if I’m misunderstanding anything.
+> 
+> >
+> > [1].  https://lore.kernel.org/all/20250514070820.51793-1-21cnbao@gmail.com/
+> >
+> 
+> Thanks
+> Barry
+
