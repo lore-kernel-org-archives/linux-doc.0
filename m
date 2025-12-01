@@ -1,145 +1,427 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3113043D3
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 10:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764586215; cv=none; b=uBu4g77OsZVNF9uwEpXWHccr38rmHB8gQ783QsDxu9pAQoNt5PSdCsYrQwY2QOBTRIKS/o57e8s7Jp9iBcjxy/Jrj3zuzZHJUGZrDIeFFZqtfBZU2ESQSIYn1V9aHnF5VT5T+D6uUZ106sPKXpXB+/j6afBwpXaE+ho+sHTTqAU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764586215; c=relaxed/simple;
-	bh=Vl5Pt6fbbWhiVMNLXXFQfg4zF9/xEjpl7rTTd1qmuhc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a6O6/PVYRprQj96/Jadp0V/WKRXyHIVRxrQl7ntPQMUeltUPNjQZN7s6zN/i6HgVwUou6REK45yhYjQPRrSjIE6bA4ws31/GPSb0VhCFICbVLyE5ZIrYMuF2TUCfpZcFrB+5Ss5LhhsiWggEcZC35+CGS2j9FmkZFtDAr7SH4GI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=x0H5Sflv; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148E4304BCA;
+	Mon,  1 Dec 2025 10:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764586461; cv=pass; b=NreuLK3pmzH1mqlFxfZuVTto1KKqCTMrsk0/gtuiBlMYUsnGF+Yhha9YGyKkRkiT/iO7OPbOMEPClhsQp86tFBX0/OggI+01hMRsd3xvqYgCbmm0Ojx6P2PxAU+kXLccUYqh/Ek2KeQt9gnQmDMgclOAhty92rkUsFysoQ0vTWw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764586461; c=relaxed/simple;
+	bh=afyVuYSrfv7fZz88Z9nQqX7JH1OW7DNk7WqaoSTnNtI=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=NtH6H99Ub+CBqxJBLFquXmf5kQJT9OTYhzSUPToSWujlC7xcGRHVcu49mIJgyvMDw4UoGdEM5eAJak68VxD8arhnUsszNU5VPynC4aJxTb8RJWik9vO+xExBmS6awweFIQnH+JkMxt4fnH2oSoWK3aSxResZQ3so4Dmul8KszaM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=uMoDP7CE; arc=pass smtp.client-ip=49.212.207.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="x0H5Sflv"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42e2e628f8aso441403f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 02:50:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1764586212; x=1765191012; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vsBhiX0PVPZ+1c2Xkz/7qg2YuqZk4pwJLdnYaEMKyy4=;
-        b=x0H5SflvsYhHeVejbOzjFjA6IxemuZ+5XE0kEgoxSRNMgoLmme6pS0YKTpXhsCKumV
-         SWWrYbtAZqZQwqCkDtK3HePLav9G9ld614dc+jmCpOWPfv51eTLRgKlutWSVmSJqkzdx
-         VVTG5IGZAQ+cxj2sR0af8arQOyytwYBKAO8hZ/RFIh3v8+Kp0i/udQXKCB3yhfnkkUMf
-         RirGGb5O0S95DPE569OB4HsFg7WRlxbBd8buPYcGNdaYwAipotN7MDWRF+gHm8Z/4gaL
-         UkiyVG46MY+yzzJxHOYZjInitRclZ3H6J0j6C8eLIFScQhn5cNsfD3oHGQgoZZioC+gW
-         rUGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764586212; x=1765191012;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vsBhiX0PVPZ+1c2Xkz/7qg2YuqZk4pwJLdnYaEMKyy4=;
-        b=TCEhfnGArxu0/sLhax4pJs6f/qHxqDnvoOU/mN8mRoPg8iNyNC46vez6c9+VB9Zf+5
-         OQ620T130NLA8DgMt3gwhJ0aHvH+3Os19svmmvPS4z26ZnGxQBf3IH6wEZmsGO5iB6c4
-         mM96A82VAmbtrA6kLnK8MP1Ywc2YUOBNu7Sl3j71vFP6mS3jRVRKDg8t/+4yBjT3STPf
-         QpjPfCyza9I0vhlFmZdpPeRG3c8t+TpmNpp3YCwemVtaVe+jqGeccQNDgx1xkCzP1j0a
-         ofgn6V6aigCKxgTtye9qAMqYivhUJ6kH10ChQiw1A7hPEqf6KEPLIV13/LSpaIXF7D1q
-         651Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXwl0li3DZvP+fZzSRQNmjJhq72UZ+/R4N+al0HBtJQehpX3uD/Duabp/NlZZGfTrA7zHOZUt9YNxM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiLTxAmvXCYH6zrlu9kHaj/Mw+dZQ9Cvu9b4H/O+ZxeiWHuM+8
-	Qos177DN3EXhT/SNImsGtpgwhQkH/WXL5uvF6HMGw83q+rTj1HXrtN1vk/pSos1gpHo=
-X-Gm-Gg: ASbGncsc3VCFdNZu5svUb3a168S9sADVjW4SOqBgtEmTn4BRRAW9tdpTAywxKfpTXVZ
-	JkemFYW77Q/JcjCmrAyGEel46+tE079EwCbCsccHmJPGV6+otBMFKkL24zohMAfv8A+bwCvcQUT
-	jfE5VcCoE+IdH2Cay4hQNFmthYIMRXtgRNfPJTSlciyofhtR1bveYkBanQWW2Gz1kDaJ+JTUbOs
-	MTbS+ocsrPFP/9fZuwRVd84GcpDgi4KopFjMf6QY3pjaVUReO8nucSiE4kHlQ3GgbKnKshfHIcT
-	+q4o53a3Lz3yYEgQ6Xe0r99+bd9c/6BT5smeOCLPFst3QGSRtYjPxasBN7Ss58qsUWYo0l5QL2U
-	wVRk5l31dBwOhJgxWD6MCcreI2ZYXuJiBD8vY628tsmIjhRBu2y+LRg+QZOV0800Dn4Sk0+/Vni
-	YP1g1Eyx6rqCsAgAHsRB/3Ug==
-X-Google-Smtp-Source: AGHT+IF8Tu4veq+TqWb6qimoMPLbdTzxlzvlIjg1tAKG25deNHRi+KLPl07N+U3YsCQceTPRWYr3CA==
-X-Received: by 2002:a05:6000:2288:b0:429:c4bb:fbbb with SMTP id ffacd0b85a97d-42e0f2129cemr26950630f8f.13.1764586211765;
-        Mon, 01 Dec 2025 02:50:11 -0800 (PST)
-Received: from FV6GYCPJ69 ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1caa5d02sm25827129f8f.36.2025.12.01.02.50.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Dec 2025 02:50:11 -0800 (PST)
-Date: Mon, 1 Dec 2025 11:50:08 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, 
-	Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH net-next V4 02/14] documentation: networking: add shared
- devlink documentation
-Message-ID: <n6mey5dbfpw7ykp3wozgtxo5grvac642tskcn4mqknrurhpwy7@ugolzkzzujba>
-References: <1764101173-1312171-1-git-send-email-tariqt@nvidia.com>
- <1764101173-1312171-3-git-send-email-tariqt@nvidia.com>
- <20251127201645.3d7a10f6@kernel.org>
- <hidhx467pn6pcisuoxdw3pykyvnlq7rdicmjksbozw4dtqysti@yd5lin3qft4q>
- <20251128191924.7c54c926@kernel.org>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="uMoDP7CE"
+Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+	(authenticated bits=0)
+	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 5B1As0iN068349
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 1 Dec 2025 19:54:01 +0900 (JST)
+	(envelope-from weibu@redadmin.org)
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id F0688109EFCC6;
+	Mon,  1 Dec 2025 19:53:59 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id DNYlsBZrRMjz; Mon,  1 Dec 2025 19:53:54 +0900 (JST)
+Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: weibu@redadmin.org)
+	by www.redadmin.org (Postfix) with ESMTPSA id 7C9DE109F288B;
+	Mon,  1 Dec 2025 19:53:54 +0900 (JST)
+DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org 7C9DE109F288B
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1764586434;
+	cv=none; b=skr2FThBlWwvKCLckCPf6+quf3YOp5bF7/45l3yl8Jk9ElhCe/umUZwrVhUvXm9jmvlhAlsQm2jY50zfqFgKeBLgRl2veItUmMcH3mHUZdt04ZQNO9UBFN5Gebfsg4w0yUdrkd+xKtZYkmWFLHvEW6eIxfdQqkxNo2n7wEd6lCA=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1764586434; c=relaxed/relaxed;
+	bh=wjO4D9P8fZFq9G7Tpug/pfKhVgSEMiDZzu45kt8NeU4=;
+	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
+	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding; b=pyZAt3+RGLV/GFwCOIxk4p78lC4KK9p7jszhbRR2B1c+I2C0OqcI7KlfP72KtA+7V5IDTs3MCE20ZZldFKmAcUakj5TE4QTXyiyzw53SoyXn10jaAGusW/ptXdi6KEs8gCfu49Xy1C6oq0lpIFlck9cn++z59E4DUw4uOxPJ4Hg=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 7C9DE109F288B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1764586434;
+	bh=wjO4D9P8fZFq9G7Tpug/pfKhVgSEMiDZzu45kt8NeU4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uMoDP7CE5Msx9Nf35D5UKiH4CoHBfmKc+Scy8pHfnq0/1MHuk0PiEA5pnwosIfvVH
+	 5NzdSgFMw105GMI5OOfKsiUMKuFN5mObzpwBcs7OBGF7WwbssQo8Fvq7iCrhd3uJWi
+	 j9EXBS6XNI0jL9FDqE9gkvxvtktkc5tXFAlUqYvc=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251128191924.7c54c926@kernel.org>
+Date: Mon, 01 Dec 2025 19:53:54 +0900
+From: weibu@redadmin.org
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: shibata@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net
+Subject: Re: [PATCH v2] docs: ja_JP: Move submitting-patches to process/ and
+ add to build
+In-Reply-To: <298d3a9c-41c1-4cbd-b4ab-d3009df9388c@gmail.com>
+References: <20251125023336.639136-1-weibu@redadmin.org>
+ <298d3a9c-41c1-4cbd-b4ab-d3009df9388c@gmail.com>
+Message-ID: <36275c34682e36f49d22a35083707b5b@redadmin.org>
+X-Sender: weibu@redadmin.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-Sat, Nov 29, 2025 at 04:19:24AM +0100, kuba@kernel.org wrote:
->On Fri, 28 Nov 2025 12:00:13 +0100 Jiri Pirko wrote:
->> >> +Shared devlink instances allow multiple physical functions (PFs) on the same
->> >> +chip to share an additional devlink instance for chip-wide operations. This
->> >> +should be implemented within individual drivers alongside the individual PF
->> >> +devlink instances, not replacing them.
->> >> +
->> >> +The shared devlink instance should be backed by a faux device and should
->> >> +provide a common interface for operations that affect the entire chip
->> >> +rather than individual PFs.  
->> >
->> >If we go with this we must state very clearly that this is a crutch and
->> >_not_ the recommended configuration...  
+Hi Akira-san,
+
+Thank you for your detailed review and the constructive suggestion. I 
+fully agree with your point. Keeping the outdated 2011 translation would 
+indeed be confusing for new developers.
+
+I have decided to follow your advice. I will drop this "move" patch and 
+start a new series to translate the latest English version 
+(Documentation/process/submitting-patches.rst) into ja_JP/process/ from 
+scratch.
+
+As you suggested, I will work on this incrementally, submitting small 
+patches (e.g., ~50 lines) at a time to ensure quality and avoid build 
+warnings.
+
+I truly appreciate your mentorship. I will prepare the first patch for 
+the new translation and submit it soon.
+
+Best regards, Akiyoshi Kurita
+
+2025-12-01 12:11 に Akira Yokosawa さんは書きました:
+> Hi,
+> 
+> Sorry for being late.
+> 
+> On Tue, 25 Nov 2025 11:33:36 +0900, Akiyoshi Kurita wrote:
+>> As requested by Jonathan Corbet, move the Japanese translation of
+>> 'SubmittingPatches' to its proper location under 'process/' and
+>> convert it to reStructuredText.
 >> 
->> Why "not recommented". If there is a usecase for this in a dirrerent
->> driver, it is probably good to utilize the shared instance, isn't it?
->> Perhaps I'm missing something.
->
->Having a single instance seems preferable from user's point of view.
-
-Sure, if there is no need for sharing, correct.
-
-
->
->> >... because presumably we could use this infra to manage a single
->> >devlink instance? Which is what I asked for initially.  
+> 
+> My interpretation of Jon's request is to make the translation 
+> up-to-date
+> as well as to convert it into reST.
+> 
+> Having mostly out-of-date docs as reST would be more confusing for
+> devs who happens to seek the guide in Japanese.
+> 
+> So I take this v2 as a RFC.
+> 
+> First of all, this patch introduces new warnings from Sphinx as 
+> follows:
+> 
+>   
+> .../Documentation/translations/ja_JP/process/submitting-patches.rst:116: 
+> ERROR: Unexpected indentation. [docutils]
+>   
+> .../Documentation/translations/ja_JP/process/submitting-patches.rst:275: 
+> ERROR: Unexpected indentation. [docutils]
+>   
+> .../Documentation/translations/ja_JP/process/submitting-patches.rst:276: 
+> WARNING: Block quote ends without a blank line; unexpected unindent. 
+> [docutils]
+>   .../linux/Documentation/translations/ja_JP/disclaimer-ja_JP.rst:7: 
+> WARNING: duplicate label translations_ja_jp_disclaimer, other instance 
+> in .../Documentation/translations/ja_JP/disclaimer-ja_JP.rst
+> 
+> Please make sure that your every patch doesn't produce new warnings
+> in "make htmldocs".  This is the minimal requirement.
+> 
+> Furthermore, looking at the resulting HTML page, I see quite a few 
+> other
+> issues due to lacks of proper uses of reST construct.
+> 
+>> This patch also wires the new file into the Japanese documentation's
+>> toctree, allowing it to be included in the Sphinx build.
+> 
+> My suggestion is to keep existing SubmittingPatchs intact for the
+> time being, and translate the English submmitting-patches.rst as of
+> v6.18 into ja_JP/process/ from scratch.
+> 
+> The translation can be done incrementally in a series consisting of 
+> dozen
+> of patches, each of which takes care of, say, 50 lines or so.
+> 
 >> 
->> I'm not sure I follow. If there is only one PF bound, there is 1:1
->> relationship. Depends on how many PFs of the same ASIC you have.
->
->I'm talking about multi-PF devices. mlx5 supports multi-PF setup for
->NUMA locality IIUC. In such configurations per-PF parameters can be
->configured on PCI PF ports.
-
-Correct. IFAIK there is one PF devlink instance per NUMA node. The
-shared instance on top would make sense to me. That was one of
-motivations to introduce it. Then this shared instance would hold
-netdev, vf representors etc.
-
-
->
->> >Why can't this mutex live in the core?  
+>> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+>> ---
+>> v2:
+>>  - Move the entry in index.rst below 'howto' (Akira Yokosawa)
+>>  - Update the document title to match the current English version 
+>> (Akira Yokosawa)
+>>  - Remove legacy header and translation history (Akira Yokosawa)
+>>  - Add link to the disclaimer (Akira Yokosawa)
+>>  - Fix RST syntax errors (code blocks, underlines)
 >> 
->> Well, the mutex protect the list of instances which are managed in the
->> driver. If you want to move the mutex, I don't see how to do it without
->> moving all the code related to shared devlink instances, including faux
->> probe etc. Is that what you suggest?
->
->Multiple ways you can solve it, but drivers should have to duplicate
->all the instance management and locking. BTW please don't use guard().
-
-I'm having troubles to undestand what you say, sorry :/ Do you prefer to
-move the code from driver to devlink core or not?
-Regarding guard(), sure. I wonder how much more time it's gonna take
-since this resistentance fades out :)
+>>  Documentation/translations/ja_JP/index.rst    |  1 +
+>>  .../submitting-patches.rst}                   | 82 
+>> +++++++------------
+>>  2 files changed, 30 insertions(+), 53 deletions(-)
+>>  rename Documentation/translations/ja_JP/{SubmittingPatches => 
+>> process/submitting-patches.rst} (94%)
+>> 
+>> diff --git a/Documentation/translations/ja_JP/index.rst 
+>> b/Documentation/translations/ja_JP/index.rst
+>> index 4159b417bfdd..5d47d588e368 100644
+>> --- a/Documentation/translations/ja_JP/index.rst
+>> +++ b/Documentation/translations/ja_JP/index.rst
+>> @@ -13,6 +13,7 @@
+>> 
+>>     disclaimer-ja_JP
+>>     process/howto
+>> +   process/submitting-patches
+>>     process/submit-checklist
+>> 
+>>  .. raw:: latex
+>> diff --git a/Documentation/translations/ja_JP/SubmittingPatches 
+>> b/Documentation/translations/ja_JP/process/submitting-patches.rst
+>> similarity index 94%
+>> rename from Documentation/translations/ja_JP/SubmittingPatches
+>> rename to 
+>> Documentation/translations/ja_JP/process/submitting-patches.rst
+>> index 5334db471744..c6402fc52145 100644
+>> --- a/Documentation/translations/ja_JP/SubmittingPatches
+>> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
+>> @@ -1,33 +1,10 @@
+>> -NOTE:
+>> -This is a version of Documentation/process/submitting-patches.rst 
+>> into Japanese.
+>> -This document is maintained by Keiichi KII <k-keiichi@bx.jp.nec.com>
+>> -and the JF Project team <http://www.linux.or.jp/JF/>.
+>> -If you find any difference between this document and the original 
+>> file
+>> -or a problem with the translation,
+>> -please contact the maintainer of this file or JF project.
+>> +.. include:: ../disclaimer-ja_JP.rst
+> 
+> This direct include is the cause of above mentioned warning:
+> 
+>   .../linux/Documentation/translations/ja_JP/disclaimer-ja_JP.rst:7: 
+> WARNING: duplicate label translations_ja_jp_disclaimer, other instance 
+> in .../Documentation/translations/ja_JP/disclaimer-ja_JP.rst
+> 
+>> 
+>> -Please also note that the purpose of this file is to be easier to 
+>> read
+>> -for non English (read: Japanese) speakers and is not intended as a
+>> -fork. So if you have any comments or updates of this file, please try
+>> -to update the original English file first.
+>> +:Original: :ref:`Documentation/process/submitting-patches.rst 
+>> <submittingpatches>`
+> 
+> As I requested earlier [1], please follow the way done in
+> ja_JP/process/submit-checklist.rst, where the reference to original 
+> docs
+> is placed in ".. note:: 【訳註】" under the documentation title along with
+> the references to disclaimer.
+> 
+> [1]: 
+> https://lore.kernel.org/67d1cfd2-a3e3-4a3f-89f5-38e822321578@gmail.com/
+> 
+> This way, it is more clear in the PDF output that the note belongs to
+> each of translation docs.  You see, there is no concept of individual
+> web page in PDF.
+> 
+> Also as mentioned earlier, a fat warning saying that the reST doc is
+> "under construction" would help preventing confusions.  Something like 
+> so:
+> 
+>   .. attention:: UNDER CONSTRUCTION!!
+>      この文書は翻訳更新の作業中です。最新の内容は原文を参照してください。
+> 
+>> 
+>> -Last Updated: 2011/06/09
+>> -
+>> -==================================
+>> -これは、
+>> -linux-2.6.39/Documentation/process/submitting-patches.rst の和訳
+>> -です。
+>> -翻訳団体： JF プロジェクト < http://www.linux.or.jp/JF/ >
+>> -翻訳日： 2011/06/09
+>> -翻訳者： Keiichi Kii <k-keiichi at bx dot jp dot nec dot com>
+>> -校正者： Masanari Kobayashi さん <zap03216 at nifty dot ne dot jp>
+>> -         Matsukura さん <nbh--mats at nifty dot com>
+>> -         Takeshi Hamasaki さん <hmatrjp at users dot sourceforge dot 
+>> jp>
+>> -==================================
+>> -
+>> -        Linux カーネルに変更を加えるための Howto
+>> -        又は
+>> -        かの Linus Torvalds の取り扱い説明書
+>> +======================================================
+>> +パッチの投稿: カーネルにコードを入れるための必須ガイド
+>> +======================================================
+>> 
+>>  Linux カーネルに変更を加えたいと思っている個人又は会社にとって、パッ
+>>  チの投稿に関連した仕組みに慣れていなければ、その過程は時々みなさんを
+>> @@ -37,12 +14,11 @@ Linux カーネルに変更を加えたいと思っている個人又は会社
+>>  コードを投稿する前に、Documentation/process/submit-checklist.rst の項目リストに目
+>>  を通してチェックしてください。
+>> 
+>> ---------------------------------------------
+>>  セクション1 パッチの作り方と送り方
+>> ---------------------------------------------
+>> +==================================
+>> 
+>>  1) 「 diff -up 」
+>> -------------
+>> +-----------------
+> 
+> This section as a whole is of no use today.  You don't see any mention 
+> of
+> "diff" as a CLI command in the original.  I think you can redact those
+> unhelpful sections and put notes saying:
+> 
+>   .. note:: 【訳註】
+>      翻訳作業中
+> 
+> , and add new translation in a follow-up patch in the next step.
+> 
+>> 
+>>  パッチの作成には「 diff -up 」又は「 diff -uprN 」を使ってください。
+>> 
+>> @@ -55,7 +31,7 @@ Linux カーネルに対する全ての変更は diff(1) コマンドによる
+>>  ディレクトリを基準にしないといけません。
+>> 
+>>  1個のファイルについてのパッチを作成するためには、ほとんどの場合、
+>> -以下の作業を行えば十分です。
+>> +以下の作業を行えば十分です。::
+>> 
+>>  	SRCTREE=linux-2.6
+>>  	MYFILE=drivers/net/mydriver.c
+>> @@ -68,7 +44,7 @@ Linux カーネルに対する全ての変更は diff(1) コマンドによる
+>> 
+>>  複数のファイルについてのパッチを作成するためには、素の( vanilla )、す
+>>  なわち変更を加えてない Linux カーネルを展開し、自分の Linux カーネル
+>> -ソースとの差分を生成しないといけません。例えば、
+>> +ソースとの差分を生成しないといけません。例えば、::
+>> 
+>>  	MYSRC=/devel/linux-2.6
+>> 
+>> @@ -125,7 +101,7 @@ http://savannah.nongnu.org/projects/quilt
+>>  特定のコミットを参照したい場合は、その SHA-1 ID だけでなく、一行サマリ
+>>  も含めてください。それにより、それが何に関するコミットなのかがレビューする
+>>  人にわかりやすくなります。
+>> -例 (英文のママ):
+>> +例 (英文のママ)::
+>> 
+>>         Commit e21d2170f36602ae2708 ("video: remove unnecessary
+>>         platform_set_drvdata()") removed the unnecessary
+>> @@ -601,9 +577,8 @@ diffstat の結果を生成するために「 git diff -M --stat --summary 
+>> 」
+>>  異なってきます。git は大規模な変更(追加と削除のペア)をファイル名の変更と
+>>  判断するためです。
+>> 
+>> -------------------------------------
+>>  セクション2 - ヒントとTIPSと小技
+>> -------------------------------------
+>> +================================
+>> 
+>>  このセクションは Linux カーネルに変更を適用することに関係のある一般的な
+>>  「お約束」の多くを載せています。物事には例外というものがあります。しか
+>> @@ -645,7 +620,7 @@ ifdef が散乱したコードは、読むのもメンテナンスするのも
+>>  てください。後はコンパイラが、何もしない箇所を最適化して取り去ってくれるで
+>>  しょう。
+>> 
+>> -まずいコードの簡単な例
+>> +まずいコードの簡単な例::
+>> 
+>>  	dev = alloc_etherdev (sizeof(struct funky_private));
+>>  	if (!dev)
+>> @@ -656,12 +631,14 @@ ifdef が散乱したコードは、読むのもメンテナンスするのも
+>> 
+>>  クリーンアップしたコードの例
+>> 
+>> -(in header)
+>> +(in header)::
+>> +
+>>  	#ifndef CONFIG_NET_FUNKINESS
+>>  	static inline void init_funky_net (struct net_device *d) {}
+>>  	#endif
+>> 
+>> -(in the code itself)
+>> +(in the code itself)::
+>> +
+>>  	dev = alloc_etherdev (sizeof(struct funky_private));
+>>  	if (!dev)
+>>  		return -ENODEV;
+>> @@ -686,35 +663,34 @@ gcc においては、マクロと同じくらい軽いです。
+>>  をしないでください。「できる限り簡単に、そして、それ以上簡単になら
+>>  ないような設計をしてください。」
+>> 
+>> -----------------------
+>>  セクション3 参考文献
+>> -----------------------
+>> +====================
+>> 
+>>  Andrew Morton, "The perfect patch" (tpp).
+>> -  <http://www.ozlabs.org/~akpm/stuff/tpp.txt>
+>> +<http://www.ozlabs.org/~akpm/stuff/tpp.txt>
+> 
+> This part comes from the original.
+> If you need to change this, it means you also need to change the 
+> original.
+> Is this the case?
+> 
+>> 
+>>  Jeff Garzik, "Linux kernel patch submission format".
+>> -  
+>> <https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
+>> +<https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html>
+> 
+> Ditto.
+> 
+>> 
+>>  Greg Kroah-Hartman, "How to piss off a kernel subsystem maintainer".
+>> -  <http://www.kroah.com/log/linux/maintainer.html>
+>> -  <http://www.kroah.com/log/linux/maintainer-02.html>
+>> -  <http://www.kroah.com/log/linux/maintainer-03.html>
+>> -  <http://www.kroah.com/log/linux/maintainer-04.html>
+>> -  <http://www.kroah.com/log/linux/maintainer-05.html>
+>> +<http://www.kroah.com/log/linux/maintainer.html>
+>> +<http://www.kroah.com/log/linux/maintainer-02.html>
+>> +<http://www.kroah.com/log/linux/maintainer-03.html>
+>> +<http://www.kroah.com/log/linux/maintainer-04.html>
+>> +<http://www.kroah.com/log/linux/maintainer-05.html>
+>> 
+>>  NO!!!! No more huge patch bombs to linux-kernel@vger.kernel.org 
+>> people!
+>> -  
+>> <https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
+>> +<https://lore.kernel.org/r/20050711.125305.08322243.davem@davemloft.net>
+>> 
+>>  Kernel Documentation/process/coding-style.rst:
+>> -  
+>> <http://users.sosdg.org/~qiyong/lxr/source/Documentation/process/coding-style.rst>
+>> +<http://users.sosdg.org/~qiyong/lxr/source/Documentation/process/coding-style.rst>
+>> 
+>>  Linus Torvalds's mail on the canonical patch format:
+>> -  
+>> <https://lore.kernel.org/r/Pine.LNX.4.58.0504071023190.28951@ppc970.osdl.org>
+>> +<https://lore.kernel.org/r/Pine.LNX.4.58.0504071023190.28951@ppc970.osdl.org>
+>> 
+>>  Andi Kleen, "On submitting kernel patches"
+>> -  Some strategies to get difficult or controversial changes in.
+>> -  http://halobates.de/on-submitting-patches.pdf
+>> +Some strategies to get difficult or controversial changes in.
+>> +http://halobates.de/on-submitting-patches.pdf
+>> 
+>>  --
+>> 
+> 
+> There is no use of stray "--" in the end.
+> 
+> Again, please pay attention to the resulting HTML (and hopefully, PDF)
+> rendering.
+> 
+> Thanks, Akira
