@@ -1,121 +1,99 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE841E3DED
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 21:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361A242AA9;
+	Mon,  1 Dec 2025 21:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764624924; cv=none; b=r6WPQRITcy0Bual82ZT/fjh0/Mgd5VJTGYP7KJoYkEInoirSpUBMOTav6b5T3/dx6z06w/YJ3PEZZpNvmocyRQAn9MukN5FwjGcfZjaTLddM153Gm0ETquiLX9/yQcx5IFVewAAlh40Vu67Z0rfVTnsLJiNhoW57sHA5OCY2LFc=
+	t=1764625797; cv=none; b=IwNzEbO2JsfuvqjSqwY3zVhuHGokC/jItF0WBo1X8uch8fcVw9h/owJ92Rm20ftryLJHGKzUI+b8puiCUtpFuc1mMw7TC93NshpMPolT3wkAfFJp40OT26nkFn1eahvX4UWiuPJB4f1ksMbodt3ALi//5JKvZ60ibGS4cvqtouQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764624924; c=relaxed/simple;
-	bh=dYQGXqwPFWGIYV2PFYgZ2uiYOnPw3Ic8p09fl/bdFus=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uLG5ni7bpaUDTqewMuf8rjs0n0JgQkW8MR5CUq0JTSDDm9t0tL9JSvW5Z3WrSrP/6WV6mShyiNp9oJXIarioiEQq4Te7vOtV/+417GU9OKyPFnNaKzTk6CsSDDANQbXMgb9csl8lw0Rp1VTHhNAxNGPP3exlHMvtmNw47MX8tNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wnx0q/my; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1764625797; c=relaxed/simple;
+	bh=Q9XtxSLd1rGac+cMYRtu+RfRV0V9DsrRe1YEZEWkg7Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hZIQggAHGrNWeC4pYuCc/P8Ixa1KcU2w9T6SnRFJTktgDqNhtjSKib9REqu0ZPbm0GPqi1B/iS7H1kjSoysX3ntitrOMvtQJgOERUgpoxxHeHk9kLqFRZp28zyBKjqHm4r+V6G5A01oDLHeOgkUuYiEpI90AMTBq5OucGVawuXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kFqHOOIb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wnx0q/my"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-297e13bf404so838965ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 13:35:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764624922; x=1765229722; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pztwMSM/xJ8ORFd02azXUTlR9KBkGnFnYMXGWY/ok94=;
-        b=wnx0q/myE/QjQ6RxUOmwfssnGd8Rlc0jQR5fTFP9ikdCY3CF+Dot7tu5aZTTKtAclo
-         9qvtGpSdxeGJqaZQf9QjZqZZ/iX7XBqT/KGnspYo6cMKyEUgfNdETD+D79j27/Y3rEDb
-         cn+I7t2U7SvgezE+0PKll9453ktwHrlQGQFJZ+TIcNztSiKUNSYCCcz0vJLDQs5jXs4D
-         TeJozaE3qQDErVKXvjJR1x7Da7HR03LFHtlcvyk18jLGn5LZQAnORL4sXSfUPUfaFR0s
-         CceCoZ27HYclBliWzGRao/kAIre92+o9Z5BEH0qCFNKoppB/GSIqexBS10Gscxii9ADZ
-         SzAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764624922; x=1765229722;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pztwMSM/xJ8ORFd02azXUTlR9KBkGnFnYMXGWY/ok94=;
-        b=RzARdU0zw7pHdmgqUYk1rO3kh3v83MOkTK33gMk1S0QhdtPo1HbyzAKtWfIyJPiSuN
-         6JdRizeqJjD01HfDizFflzrTZohazS1XkipKHIT5Up8BV5s2/7j+FVpxM5A73B0KeiuF
-         OzHPlPTS8e3xkBXUgUjmwD8RwLJTe47mEBJbtpaJLkgZpVQ+fJ/vHhx+vIwv3uHSyo21
-         D5r+Kh2923wIFPTAIILKn+XozVn88Z4Go7YTI8x9Ea2mJuRYcedPZ3IlME8TYEb7Qpjq
-         f7C5AqnSW1iH3GTZJ7hVG5J80xDKdjoh/1LzXAoCFGg87tmM7Ijll6aroDN1QiGK6wjh
-         GFfg==
-X-Forwarded-Encrypted: i=1; AJvYcCVr9BWb1Sg+zxG1avmYNS8apybXzFTIqGI4gvm4iSgYu7JxQSvyTIhWEXBHdAl6yr/Zl+v0v2bNqJk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5zGtBpfJgy2WMyQUT25tIr7uP3rcroDiUHCP7EPleOxDxuTLm
-	i1e4ynQdvWLh0G3LvHL2BoKOg+GeKT/6thId2DB51tqAYPBpythWaQvwYO74zBeal8Rb1FcgaxV
-	776X8axabUrXaRG3fzDJkP2qXuRiBCTyRJGkyV/Ji
-X-Gm-Gg: ASbGncs/I9GG2MKT1d8Wf4S3wNp/yTUqXHPPzz5eL8vZHUjFGxeJreX6bzx71BqaYAZ
-	Bc+ZA2RU/msEORrPoQ7ScgGfyQdJtVA0kyt9n99YG4CZXAZqU3y86efhCiYFbWE2oCYAq1rbu/e
-	NDouOdCYgDePqM2DnOwAX05+RArVmIfQ9bCMT7YP+W7ueglM6yrrwZvturaTGi+JBY+vh8UBsaZ
-	JByhww/bQsmHQWcBjXxshdlo1suBECNE4zJezjh5IvquxFBmUxqRfojSsaESkhCPzapf5iSRN6O
-	xAOVGYxpM/H1ucxfU9OYr0dYDEBCzrAZmHts
-X-Google-Smtp-Source: AGHT+IGcEr+u4Lvyu2lcr5/u3UATd1g0adlZD8heHy4ha30xHQDJbp7Oka+Ww5wtit5evGdRnPc0wgduqHEKGAIhdio=
-X-Received: by 2002:a05:7022:6190:b0:11a:4c75:a45b with SMTP id
- a92af1059eb24-11de93975a9mr2477c88.10.1764624921927; Mon, 01 Dec 2025
- 13:35:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kFqHOOIb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3957C4CEF1;
+	Mon,  1 Dec 2025 21:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764625796;
+	bh=Q9XtxSLd1rGac+cMYRtu+RfRV0V9DsrRe1YEZEWkg7Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kFqHOOIb5o6yJOFl7lHQmbj6GnpI0itWZmYPfKoZ/b/zUawWr8ATXpz5yEPvh05iG
+	 8J3TpYGeHSJHncImg5AjGFSm/HApLKPF/a0YWVg4RfAjI7kts6B0pgIBDZfnfl1Tx8
+	 /N8WdFjzII0IDjcSXpGB9MpMJ5l9ZUkz8eKQn7yQbrXfirFcWuXtrsyN2dN6bJo+Df
+	 WSrt+9fgEabudvQp2mIdRbpUtUQTQZoRDiIbXl4Cn32xdstZIEoHG/PH3tJenmpAlt
+	 5iu8L1XWfGxhKCxtPG7yKr3nZPeUdTk8N0At6u4p4pLCTP1b9yffRJLluvkPe00FE1
+	 jyiAG9Rwe3Yvg==
+Date: Mon, 1 Dec 2025 13:49:54 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
+ <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, Gal Pressman
+ <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Carolina Jubran
+ <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko
+ <jiri@nvidia.com>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH net-next V4 02/14] documentation: networking: add shared
+ devlink documentation
+Message-ID: <20251201134954.6b8a8d48@kernel.org>
+In-Reply-To: <n6mey5dbfpw7ykp3wozgtxo5grvac642tskcn4mqknrurhpwy7@ugolzkzzujba>
+References: <1764101173-1312171-1-git-send-email-tariqt@nvidia.com>
+	<1764101173-1312171-3-git-send-email-tariqt@nvidia.com>
+	<20251127201645.3d7a10f6@kernel.org>
+	<hidhx467pn6pcisuoxdw3pykyvnlq7rdicmjksbozw4dtqysti@yd5lin3qft4q>
+	<20251128191924.7c54c926@kernel.org>
+	<n6mey5dbfpw7ykp3wozgtxo5grvac642tskcn4mqknrurhpwy7@ugolzkzzujba>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251128025315.3520689-1-wangzicheng@honor.com> <20251128025315.3520689-3-wangzicheng@honor.com>
-In-Reply-To: <20251128025315.3520689-3-wangzicheng@honor.com>
-From: Yuanchu Xie <yuanchu@google.com>
-Date: Mon, 1 Dec 2025 15:35:05 -0600
-X-Gm-Features: AWmQ_bnUvWHfjLPC5vTcuKxCijZrgA-YfCUFmk-n0mUVC2U4d1FBt5FslZMBSHs
-Message-ID: <CAJj2-QFM3iwO==3JKQ4nnHfAxYJuyYXZ6uNJUR8rQdf_Q_1x0A@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mm/lru_gen: add configuration option to select
- debugfs/procfs for lru_gen
-To: Zicheng Wang <wangzicheng@honor.com>
-Cc: akpm@linux-foundation.org, hannes@cmpxchg.org, david@redhat.com, 
-	axelrasmussen@google.com, mhocko@kernel.org, zhengqi.arch@bytedance.com, 
-	shakeel.butt@linux.dev, lorenzo.stoakes@oracle.com, weixugc@google.com, 
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, corbet@lwn.net, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 27, 2025 at 8:54=E2=80=AFPM Zicheng Wang <wangzicheng@honor.com=
-> wrote:
->
-> Signed-off-by: Zicheng Wang <wangzicheng@honor.com>
-> ---
->  mm/Kconfig | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index e443fe8cd..be7efa794 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -1325,6 +1325,16 @@ config LRU_GEN_STATS
->  config LRU_GEN_WALKS_MMU
->         def_bool y
->         depends on LRU_GEN && ARCH_HAS_HW_PTE_YOUNG
-> +
-> +config LRU_GEN_PROCFS_CTRL
-> +       bool "Move lru_gen files from debugfs to procfs"
-> +       depends on LRU_GEN && PROC_FS
-> +       help
-> +         Move lru_gen management from debugfs to procfs (/proc/lru_gen).
-> +         This production-ready feature provides critical memory reclaim
-> +         prediction and control. It is no longer experimental.
-> +         The migration ensures availability in commercial products where
-> +         debugfs may be disabled.
-Hi Zicheng,
+On Mon, 1 Dec 2025 11:50:08 +0100 Jiri Pirko wrote:
+> >> I'm not sure I follow. If there is only one PF bound, there is 1:1
+> >> relationship. Depends on how many PFs of the same ASIC you have.  
+> >
+> >I'm talking about multi-PF devices. mlx5 supports multi-PF setup for
+> >NUMA locality IIUC. In such configurations per-PF parameters can be
+> >configured on PCI PF ports.  
+> 
+> Correct. IFAIK there is one PF devlink instance per NUMA node.
 
-A config option determining where LRU_gen files reside creates a
-fragile procfs interface. Consider adding a similar interface with
-less implementation detail to /sys/kernel/mm/lru_gen/ if the goal is
-to stabilize the debugfs APIs.
+You say "correct" and then disagree with what I'm saying. I said
+ports because a port is a devlink object. Not a devlink instance.
 
-If the goal is to proactively age lruvecs that have been at
-MIN_NR_GENS for some time/events/etc, is it possible to integrate this
-into the kernel and avoid leaking MGLRU implementation details into
-userspace?
+> The shared instance on top would make sense to me. That was one of
+> motivations to introduce it. Then this shared instance would hold
+> netdev, vf representors etc.
 
-Thanks,
-Yuanchu
+I don't understand what the shared instance is representing and how
+user is expect to find their way thru the maze of devlink instanced,
+for real bus, aux bus, and now shared instanced.
+
+> >> Well, the mutex protect the list of instances which are managed in the
+> >> driver. If you want to move the mutex, I don't see how to do it without
+> >> moving all the code related to shared devlink instances, including faux
+> >> probe etc. Is that what you suggest?  
+> >
+> >Multiple ways you can solve it, but drivers should have to duplicate
+> >all the instance management and locking. BTW please don't use guard().  
+> 
+> I'm having troubles to undestand what you say, sorry :/ Do you prefer to
+> move the code from driver to devlink core or not?
+
+I missed a "not".. drivers should _not_ have to duplicate, sorry.
+
+> Regarding guard(), sure. I wonder how much more time it's gonna take
+> since this resistentance fades out :)
+
+guard() locks code instead of data accesses. We used to make fun of
+Java in this community, you know.
