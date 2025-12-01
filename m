@@ -1,121 +1,134 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65A33C17;
-	Mon,  1 Dec 2025 08:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127DA2DAFC8;
+	Mon,  1 Dec 2025 08:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764576322; cv=none; b=u0n9ppgmgvToH/0dFb0vQ053Y+KpfMW9a43NoGXHIjt8tm9s9TGWrcMvhlcxY7NTuSkbTT6a7Vn5aCkYw2E9a4euq6Hg+yedjmcrS+sEwzfyU7w8WmPiYk3kHcFq+7gK8o+YQngXo9pbVMm3sYdeOdGNMo+AFiWYnBmlTrlZ3E4=
+	t=1764576859; cv=none; b=FK8Hct8+SzXRH7hMJURIIwGf8neHR6Mm1a4hjo0nXmbmnzr6HUEy8GKB3cvE1yHROfi497taeV0Ow6A7qu/gGcYTSqKPfFy4Vx+sQlaGi9efjMQaLR7DaKRbnl7MpVnyuEphgceRPvqr0LKxonIN0JkLMef08MGVdN5rBiaAbNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764576322; c=relaxed/simple;
-	bh=AOGaPCVrzkgZmmb9BtWGyYN/DIDoq1iWanmV0V1M44s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KbyCAH8zeRk7ldu04OcUHwBAkIiP7pqHigQjGduEtVNlUpQYF03fdcZDM/zU8pMyff5IjunlwbEg96GczdrdsgdpNsi/SyZAP8bjk2WxH6XXutlgFtvZn88XtC+Vm2ujaHLjOobUr/FqYkpI7Xpwm3IwIDmdj1f7iqRwnaSJMSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=l8LYok3j; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="l8LYok3j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764576312;
-	bh=AOGaPCVrzkgZmmb9BtWGyYN/DIDoq1iWanmV0V1M44s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=l8LYok3jpLm4g5fxltRSyH6uFrGONRIfd8dZNss7W921eaCZVbddag1SUJJ9+x7Wd
-	 v4jor1LAPe/fKVE9AcxvzBGC2VwaE8g/VpjBxLKiQi5W0r8vZcWESYAYIHXKVIaGV4
-	 FOCBkOSXwNk6ZibxuXsqbQ/F4eYg5pHmIjf3i9p6r5WX4iPhwO5WprDZEtBEtLU/OP
-	 ZDyOt/iNXXvL9teGdKTw8GJpWlCD1NnRePubQyLZJGvi7o8aa4MgYkPthTMYqmD4uL
-	 BTg5xy7sU5rxtxk6+cG3PqB7WTOB7An6zJT//b4QsD4O37HcF2ZtRPpKKOyhgMIysK
-	 VvT6wnLQQemZg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5A3C517E0020;
-	Mon,  1 Dec 2025 09:05:11 +0100 (CET)
-Date: Mon, 1 Dec 2025 09:05:07 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
- Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
- Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v10 01/10] drm/shmem-helper: Simplify page offset
- calculation in fault handler
-Message-ID: <20251201090507.1ee10c65@fedora>
-In-Reply-To: <20251128185252.3092-2-loic.molinari@collabora.com>
-References: <20251128185252.3092-1-loic.molinari@collabora.com>
-	<20251128185252.3092-2-loic.molinari@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1764576859; c=relaxed/simple;
+	bh=4W91DC4srourSKv6KoDRLsqHbZbIZMR8Hu3Xm+Wqip0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=bwD1tsYnu7z06JxpCLMvQ4gnZfULNiWyRY24CQAVVzDm9ysfj1fgRrfeR410a7j+AqAq7wCww9/rArk4WZ/Y/Iesr3YhUPVT0liwwUGoIxRt2UszRgPLSEayh33v+wHeb8UE95L567apII6sXjgg4qVmr6TMk4O82xPf2c1PO4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from w001.hihonor.com (unknown [10.68.25.235])
+	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4dKc7W6jvzzYlt03;
+	Mon,  1 Dec 2025 16:11:51 +0800 (CST)
+Received: from w002.hihonor.com (10.68.28.120) by w001.hihonor.com
+ (10.68.25.235) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Mon, 1 Dec
+ 2025 16:14:14 +0800
+Received: from w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3]) by
+ w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3%14]) with mapi id
+ 15.02.2562.027; Mon, 1 Dec 2025 16:14:14 +0800
+From: wangzicheng <wangzicheng@honor.com>
+To: Barry Song <21cnbao@gmail.com>
+CC: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Matthew Wilcox
+	<willy@infradead.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+	"david@redhat.com" <david@redhat.com>, "axelrasmussen@google.com"
+	<axelrasmussen@google.com>, "yuanchu@google.com" <yuanchu@google.com>,
+	"mhocko@kernel.org" <mhocko@kernel.org>, "zhengqi.arch@bytedance.com"
+	<zhengqi.arch@bytedance.com>, "shakeel.butt@linux.dev"
+	<shakeel.butt@linux.dev>, "lorenzo.stoakes@oracle.com"
+	<lorenzo.stoakes@oracle.com>, "weixugc@google.com" <weixugc@google.com>,
+	"vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
+	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, wangtao
+	<tao.wangtao@honor.com>, wangzhen 00021541 <wangzhen5@honor.com>, "zhongjinji
+ 00025326" <zhongjinji@honor.com>, Kairui Song <ryncsn@gmail.com>
+Subject: RE: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
+ debugfs to procfs
+Thread-Topic: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
+ debugfs to procfs
+Thread-Index: AQHcYBJK8KKXMResfEqv9fHMnnJz9rUHrbeAgAAP74CAA+3ugIAApiiQ//+VEACAAImM4A==
+Date: Mon, 1 Dec 2025 08:14:14 +0000
+Message-ID: <66c62243a510421db938235a99a242bf@honor.com>
+References: <20251128025315.3520689-1-wangzicheng@honor.com>
+ <aSm800KsCAptVZKu@casper.infradead.org>
+ <ti7h5cbrg5s3zf7surof3zmxb6supnl34x7hsbziqutm7r2laf@zuunap5hwsbx>
+ <CAGsJ_4xJ5qMght93FQOYrk1OiJTh-wFC4e8Nd4K0A156N3ZEBQ@mail.gmail.com>
+ <86c62472b5874ea2833587f1847958df@honor.com>
+ <CAGsJ_4w1jEej+ROuLta3MSuo4pKuA5yq7=6HS5yzgK39-4SLoA@mail.gmail.com>
+In-Reply-To: <CAGsJ_4w1jEej+ROuLta3MSuo4pKuA5yq7=6HS5yzgK39-4SLoA@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, 28 Nov 2025 19:52:43 +0100
-Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
-
-> For a fault at address addr, the page offset is
->   page_offset =3D (vmf->address - vma->vm_start) >> PAGE_SHIFT
->               =3D ((addr & PAGE_MASK) - vma->vm_start) >> PAGE_SHIFT
-> 	      =3D (addr - vma->vm_start) >> PAGE_SHIFT
->=20
-> Since the faulty logical page offset based on VMA is
->   vmf->pgoff =3D vma->vm_pgoff + ((addr - vma->vm_start) >> PAGE_SHIFT)
->=20
-> We can slightly simplify the calculation using
->   page_offset =3D vmf->pgoff - vma->vm_pgoff
->=20
-> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
-
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-One nit below
-
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm=
-_gem_shmem_helper.c
-> index dc94a27710e5..be89be1c804c 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -577,8 +577,8 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault=
- *vmf)
->  	struct page *page;
->  	pgoff_t page_offset;
-> =20
-> -	/* We don't use vmf->pgoff since that has the fake offset */
-> -	page_offset =3D (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-> +	/* Offset to faulty address in the VMA (without the fake offset). */
-
-It's weird to say "without the fake offset" here, because IIUC, both
-vmf->pgoff and vma->vm_pgoff contain the fake offset. And that's fine,
-the problem really is when one of the subtraction operand is not
-relative to the fake offset.
-
-> +	page_offset =3D vmf->pgoff - vma->vm_pgoff;
-> =20
->  	dma_resv_lock(shmem->base.resv, NULL);
-> =20
-
+PiANCj4gSSBzdHJvbmdseSByZWNvbW1lbmQgc2VwYXJhdGluZyB0aGlzIGZyb20geW91ciBwYXRj
+aHNldC4gQXZvaWQgaW5jbHVkaW5nDQo+IHVucmVsYXRlZCBjaGFuZ2VzIGluIGEgc2luZ2xlIHBh
+dGNoc2V0Lg0KPiANClRoYW5rIHlvdSBmb3IgdGhlIGNsYXJpZmljYXRpb24sIHNlcGFyYXRpbmcg
+aXQgZnJvbSBvdXIgcGF0Y2hzZXQgbWFrZXMgc2Vuc2UuDQoNClJlY2FsbCB0aGF0IGltYmFsYW5j
+ZSBmaWxlL2Fub24gZ2VuZXJhdGlvbnMgaXMgb25lIG9mIHRoZSByZWFzb25zIHRvIG1vdmUgYGxy
+dV9nZW5gDQpmaWxlcyBvdXQgb2YgdGhlIGRlYnVnZnMuDQoNCj4gTUdMUlUgaGFzIGEgbWVjaGFu
+aXNtIHRvIGVuc3VyZSB0aGF0IGZpbGUgYW5kIGFub24gcGFnZXMgY2FuIGtlZXAgcGFjZQ0KPiB3
+aXRoIGVhY2ggb3RoZXIuIEluIHRoZSBuZXdlc3Qga2VybmVsLCB0aGUgbWluaW11bSBnZW5lcmF0
+aW9uIGlzIDIuIEZvcg0KPiBleGFtcGxlLCBpZiBhbm9uIGhhcyBvbmx5IDIgZ2VuZXJhdGlvbnMg
+bGVmdCBhbmQgd2UgZGVjaWRlIHRvIHJlY2xhaW0gYW5vbg0KPiBmb2xpb3MsIHdlIHdpbGwgZmFs
+bCBiYWNrIHRvIHJlY2xhaW1pbmcgZmlsZSBwYWdlcy4gU29tZXRpbWVzLCB0aGlzIG1lYW5zIHRo
+YXQNCj4gYW5vbiByZWNsYW1hdGlvbiBpcyBpbnN1ZmZpY2llbnQgd2hpbGUgZmlsZSBwYWdlcyBh
+cmUgb3Zlci1yZWNsYWltZWQuDQo+IA0KPiBzdGF0aWMgaW50IHNjYW5fZm9saW9zKHVuc2lnbmVk
+IGxvbmcgbnJfdG9fc2Nhbiwgc3RydWN0IGxydXZlYyAqbHJ1dmVjLA0KPiAgICAgICAgICAgICAg
+ICAgICAgICAgIHN0cnVjdCBzY2FuX2NvbnRyb2wgKnNjLCBpbnQgdHlwZSwgaW50IHRpZXIsDQo+
+ICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGxpc3RfaGVhZCAqbGlzdCkgew0KPiAgICAg
+ICAgIC4uLg0KPiAgICAgICAgIGlmIChnZXRfbnJfZ2VucyhscnV2ZWMsIHR5cGUpID09IE1JTl9O
+Ul9HRU5TKQ0KPiAgICAgICAgICAgICAgICAgcmV0dXJuIDA7DQo+ICAgICAgICAgLi4uDQo+IH0N
+Cj4gDQo+IFRoaXMgaXMgcHJvYmFibHkgbm90IGEgYnVnLCBidXQgdGhpcyBkZXNpZ24gY2FuIHNv
+bWV0aW1lcyB3b3JrIHN1Ym9wdGltYWxseS4NCj4gDQoNClllcywgb3VyIHBhdGNoc2V0IGFsc28g
+YWltcyB0byBzb2x2ZSBzaW1pbGFyIGNhc2VzIGJ5IHByb2FjdGl2ZSBhZ2luZyAyLzMgZ2Vucy4N
+Cg0KPiBSZWdhcmRpbmcgdGhpcyBpc3N1ZSwgYm90aCBLYWlydWkgKGZyb20gdGhlIExpbnV4IHNl
+cnZlciBzaWRlLCBjYy1lZCkgYW5kIEkNCj4gKGZyb20gdGhlIEFuZHJvaWQgc2lkZSkgaGF2ZSBv
+YnNlcnZlZCBpdC4gVGhpcyBzaG91bGQgYmUgYWRkcmVzc2VkIGluDQo+IE1HTFJVJ3MgY29kZSwg
+YW5kIHdlIGFscmVhZHkgaGF2ZSBrZXJuZWwgY29kZSBmb3IgdGhhdC4gSXQgaXMgdW5yZWxhdGVk
+IHRvDQo+IHlvdXIgcGF0Y2hzZXQsIHNvIHlvdSBzaG91bGRu4oCZdCBpbmNsdWRlIHNvIG1hbnkg
+dW5yZWxhdGVkIGNoYW5nZXMgaW4gYQ0KPiBzaW5nbGUgcGF0Y2hzZXQuDQo+IA0KPiBQbGVhc2Ug
+a2VlcCB5b3VyIHBhdGNoc2V0IGZvY3VzZWQgc29sZWx5IG9uIHdoZXRoZXIgdGhlIE1HTFJVIHBy
+b2FjdGl2ZQ0KPiByZWNsYW1hdGlvbiBpbnRlcmZhY2Ugc2hvdWxkIGJlIHByb21vdGVkIHRvIHN5
+c2ZzIChMUlVfR0VOIGFscmVhZHkgaGFzIGENCj4gZm9sZGVyIGluIHN5c2ZzKSBpbnN0ZWFkIG9m
+IGRlYnVnZnMsIGlmIHRoZXJlIGlzIGEgdjIuDQo+IA0KPiBUaGUgZm9sbG93aW5nIGlzIHF1b3Rl
+ZCBmcm9tDQo+IGBEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL21tL211bHRpZ2VuX2xydS5yc3Rg
+Lg0KPiANCj4gUHJvYWN0aXZlIHJlY2xhaW0NCj4gLS0tLS0tLS0tLS0tLS0tLS0NCj4gUHJvYWN0
+aXZlIHJlY2xhaW0gaW5kdWNlcyBwYWdlIHJlY2xhaW0gd2hlbiB0aGVyZSBpcyBubyBtZW1vcnkg
+cHJlc3N1cmUuIEl0DQo+IHVzdWFsbHkgdGFyZ2V0cyBjb2xkIHBhZ2VzIG9ubHkuIEUuZy4sIHdo
+ZW4gYSBuZXcgam9iIGNvbWVzIGluLCB0aGUgam9iDQo+IHNjaGVkdWxlciB3YW50cyB0byBwcm9h
+Y3RpdmVseSByZWNsYWltIGNvbGQgcGFnZXMgb24gdGhlIHNlcnZlciBpdCBzZWxlY3RlZCwNCj4g
+dG8gaW1wcm92ZSB0aGUgY2hhbmNlIG9mIHN1Y2Nlc3NmdWxseSBsYW5kaW5nIHRoaXMgbmV3IGpv
+Yi4NCj4gDQo+IFVzZXJzIGNhbiB3cml0ZSB0aGUgZm9sbG93aW5nIGNvbW1hbmQgdG8gYGBscnVf
+Z2VuYGAgdG8gZXZpY3QgZ2VuZXJhdGlvbnMNCj4gbGVzcyB0aGFuIG9yIGVxdWFsIHRvIGBgbWlu
+X2dlbl9ucmBgLg0KPiANCj4gICAgIGBgLSBtZW1jZ19pZCBub2RlX2lkIG1pbl9nZW5fbnIgW3N3
+YXBwaW5lc3MgW25yX3RvX3JlY2xhaW1dXWBgDQo+IA0KPiANCj4gPg0KPiA+IFNlZSB0aGUgY2Fz
+ZSBpbiB0aGUgY292ZXIgbGV0dGVyLg0KPiA+IGBgYA0KPiA+IG1lbWNnICAgIDU0IC9hcHBzL3Nv
+bWVfYXBwDQo+ID4gbm9kZSAgICAgMA0KPiA+IDEgICAgIDExOTgwNCAgICAgICAgICAwICAgICAg
+IDg1NDYxDQo+ID4gMiAgICAgMTE5ODA0ICAgICAgICAgIDAgICAgICAgICAgIDUNCj4gPiAzICAg
+ICAxMTk4MDQgICAgIDE4MTcxOSAgICAgICAxODY2Nw0KPiA+IDQgICAgICAgMTc1MiAgICAgICAg
+MzkyICAgICAgICAgMjQ0DQo+ID4gYGBgDQo+ID4NCj4gPg0KPiA+IFNpbmNlIHRoZSBzZW1hbnRp
+YyBnYXAgYmV0d2VlbiB1c2VyL2tlcm5lbCBzcGFjZSB3aWxsIGFsd2F5cyBleGlzdC4NCj4gPiBJ
+dCB3b3VsZCBiZSBncmVhdCBiZW5lZml0cyBmb3IgbGVhdmluZyBzb21lIEFQSXMgZm9yIHVzZXIg
+aGludHMsIGp1c3QNCj4gPiBsaWtlIG1tYWR2aXNlL3VzZXJmYXVsdC9wYXJhLXZpcnR1YWxpemF0
+aW9uLg0KPiANCj4gTm9wZS4gVGhpcyBpcyBqdXN0IGFuIGludGVybmFsIGRldGFpbCBvZiBNR0xS
+VSBhbmQgc2hvdWxkbuKAmXQgYmUgZXhwb3NlZCBhcyBhbg0KPiBpbnRlcmZhY2UuDQo+IEhvcGVm
+dWxseSwgS2FpcnVpIG9yIEkgd2lsbCBzZW5kIGEgcGF0Y2hzZXQgc29vbiB0byBhZGRyZXNzIHRo
+ZSBiYWxhbmNlIGlzc3VlDQo+IGJldHdlZW4gZmlsZSBhbmQgYW5vbiBwYWdlcy4gRm9yIG5vdywg
+eW91IGNhbiB1c2UgYHN3YXBwaW5lc3M9MjAxYCBhcyBhDQo+IHRlbXBvcmFyeSB3b3JrYXJvdW5k
+LiBUYWtlIGEgbG9vayBhdCBieXRlZGFuY2UncyBwYXRjaHNldC5bMV0NCj4gDQpTb3VuZCBncmVh
+dDopLCB3ZSBhcmUgbG9va2luZyBmb3J3YXJkIHRvIGl0Lg0KDQo+ID4gRXhwb3Npbmcgc3VjaCBo
+aW50cyB0byB0aGUga2VybmVsIGNhbiBoZWxwIGltcHJvdmUgb3ZlcmFsbCBzeXN0ZW0NCj4gcGVy
+Zm9ybWFuY2UuDQo+IA0KPiBbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtDQo+IG1t
+L2NvdmVyLjE3NDQxNjkzMDIuZ2l0LmhlemhvbmdrdW4uaHprQGJ5dGVkYW5jZS5jb20vDQo+IA0K
+QW5kIHRoYW5rIHlvdSBmb3IgdGhlIGBzd2FwcGluZXNzPTIwMWAgd29ya2Fyb3VuZCwgd2Ugd2ls
+bCByZXNlYXJjaCBvbiBpdC4NCg0KPiBUaGFua3MNCj4gQmFycnkNCg0KQmVzdCwNClppY2hlbmcN
+Cg==
