@@ -1,76 +1,150 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FB633344D
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 16:24:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2901288D2;
+	Mon,  1 Dec 2025 16:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764606247; cv=none; b=B4862VHz7fK28YTaf4n2aepWgYBTo/xbb5q6oKRCg7vO+UMvxnSUc2B2aRLT/xoHPGu1fTgCFi7U/ep5ehTNLohcaukS2maIQvX0W405QY4ZVssokCGIOL77xrCJUjL8ItaQu9Mou74lfEGAdm19fgO+HJtW027PVEPCDUTNyWc=
+	t=1764606602; cv=none; b=oPMyd3m1QGtFo7ERX1vG1IFbDObePDvNERlO8dSNGWbABIdFzAfJ9562Q1nZEiJRxOhkHE7Q7Vn4fACqZsVDFtWszHXtFJeAjIW2LMw8topcVvpJdGtUWCuHwm/6bvOSRwa9Ykw/ZYIm1VihHQcqDBl0Vd9fyuKXBbQO3auv4Rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764606247; c=relaxed/simple;
-	bh=IaOgbXRI96Z/A5nbOuLFAk2vXr/HqzrWr8OsC7fL8Mk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MMyvi2ZuuEUn14b6tTNPDTRS6U7JyD9dl37V8PFTrPYSbPhRK6F8w/tFQFMIovXBlrb5dRr6/b/korQOP6QMmCY7ZjZN5YPF96c84IEhiw3+U7VLxahsjwXsc9A7Bpfymw8xguuzzYVfGPK73+MCki4t/Xg92FDe6EwGT1xDtt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=dszEWsBb; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1764606602; c=relaxed/simple;
+	bh=tkyO5p8LYYbNGz/+zu6mllYxkhDq9GTEjlu9HhYiUDk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MRTZ8ZQvXlE9CcFot5Vkr46Xt3E96IVZ/4Fz44dLpTrVBFik2P9iaBOVm8m19Tc4xNImPZ34vFfyh/sQ/f0jdL5T093JiPDBQEtW4jeEeTUugZ1fTQALI90SE7AYE/8AzrxuMhEv141CQPt8dV7iUJZeLgjH3VNV/OPrpALWdPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=QNZJ9f0N; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="dszEWsBb"
-Received: from trampoline.thunk.org (pool-173-48-121-67.bstnma.fios.verizon.net [173.48.121.67])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 5B1GNsvG008154
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 1 Dec 2025 11:23:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1764606236; bh=v9PYJ/AS1zHpSeYFSJpKi363UDMw/vXMzT2m9GD4IJI=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=dszEWsBbMO6z4FyLXaCEuYPnshilj+71kY6jtJV328U0G9/BnhU6/0ySpdsi/4UYi
-	 dvHus7zdsgh3ELv2pf9fI6gO8tSw+3YQnfxszzeIKrI4V/kRHQ1SpW3Ox/Fs0XfyBe
-	 gOC7UwvoL5CVBCkeEvdx2WaHrmMFuOgHs49l0LHTVz+MEI4fJw8DLxSwDilWknRZJf
-	 cnggOfg3x7YIwySSl7R1CC28vaknVG2nJxCNIG+OFLPU82H8nCdUlDVXhZGwUuxhzP
-	 EBn/Ycdrcjonxgg01UIFno2lg9fxmQvz8timH3rMvmksIbZt4XAw79Gd+LDLiPr+Ad
-	 u2fGP/Ktk8bFg==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id ECCEF2E00D9; Mon, 01 Dec 2025 11:23:53 -0500 (EST)
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
-        Daniel Tang <danielzgtg.opensource@gmail.com>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-kernel@vger.kernel.org,
-        Eric Biggers <ebiggers@google.com>,
-        Gabriel Krisman Bertazi <krisman@collabora.co.uk>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>
-Subject: Re: [PATCH] Documentation: ext4: Document casefold and encrypt flags
-Date: Mon,  1 Dec 2025 11:23:43 -0500
-Message-ID: <176455640536.1349182.13508992419516252883.b4-ty@mit.edu>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <4506189.9SDvczpPoe@daniel-desktop3>
-References: <4506189.9SDvczpPoe@daniel-desktop3>
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="QNZJ9f0N"
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 2A8061C00AB; Mon,  1 Dec 2025 17:29:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1764606591;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ys4fM5oxuac5BA8yXwPfUxu5XSYHVpba6xxZaqliwMw=;
+	b=QNZJ9f0NVkMN90sS7G6UbXXOErLvhTIW9qzPwO8ba1XpK64RGNMdA4zIDxxP7GCydNAumH
+	FKEj2dlLZhZJ2ewUXnP/wNGs7cXtycpaTYJi2781Ib4aYVsd6Vs1IqFEKV6AyxJ0sXRhIs
+	DDJTsV7FSPh7vM/rXrhueYudwFV8Dks=
+Date: Mon, 1 Dec 2025 17:29:50 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: david@ixit.cz
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Casey Connolly <casey.connolly@linaro.org>,
+	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
+	Gergo Koteles <soyer@irl.hu>, Casey Connolly <casey@connolly.tech>
+Subject: Re: [PATCH v8 2/2] arm64: dts: qcom: sdm845-oneplus: Add alert-slider
+Message-ID: <aS3Cfmx3gVyl/wTr@duo.ucw.cz>
+References: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
+ <20251113-op6-tri-state-v8-2-54073f3874bc@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="FtYVekWiQ6/kXxDO"
+Content-Disposition: inline
+In-Reply-To: <20251113-op6-tri-state-v8-2-54073f3874bc@ixit.cz>
 
 
-On Wed, 19 Nov 2025 09:32:13 -0500, Daniel Tang wrote:
-> Based on ext4(5) and fs/ext4/ext4.h.
-> 
-> For INCOMPAT_ENCRYPT, it's possible to create a new filesystem with that
-> flag without creating any encrypted inodes. ext4(5) says it adds
-> "support" but doesn't say whether anything's actually present like
-> COMPAT_RESIZE_INODE does.
-> 
-> [...]
+--FtYVekWiQ6/kXxDO
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks!
+Hi!
 
-[1/1] Documentation: ext4: Document casefold and encrypt flags
-      commit: 39fc6d4d3527d790f090dcb10bdb82fd1a1d925a
+> From: Gergo Koteles <soyer@irl.hu>
+>=20
+> The alert-slider is a tri-state sound profile switch found on the
+> OnePlus 6, Android maps the states to "silent", "vibrate" and "ring".
+> Expose them as ABS_SND_PROFILE events.
+> The previous GPIO numbers were wrong. Update them to the correct ones.
+>=20
+> Co-developed-by: Casey Connolly <casey@connolly.tech>
+> Signed-off-by: Casey Connolly <casey@connolly.tech>
+> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Tested-by: Guido G=FCnther <agx@sigxcpu.org> # oneplus,fajita & oneplus,e=
+nchilada
+> Reviewed-by: Guido G=FCnther <agx@sigxcpu.org>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+
+Reviewed-by: Pavel Machek <pavel@ucw.cz>
 
 Best regards,
--- 
-Theodore Ts'o <tytso@mit.edu>
+     							Pavel=09
+
+> +++ b/arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi
+> @@ -25,6 +25,41 @@ / {
+>  	chassis-type =3D "handset";
+>  	qcom,msm-id =3D <QCOM_ID_SDM845 0x20001>;
+> =20
+> +	alert-slider {
+> +		compatible =3D "gpio-keys";
+> +		label =3D "Alert slider";
+> +
+> +		pinctrl-0 =3D <&alert_slider_default>;
+> +		pinctrl-names =3D "default";
+> +
+> +		switch-top {
+> +			label =3D "Silent";
+> +			linux,input-type =3D <EV_ABS>;
+> +			linux,code =3D <ABS_SND_PROFILE>;
+> +			linux,input-value =3D <SND_PROFILE_SILENT>;
+> +			gpios =3D <&tlmm 126 GPIO_ACTIVE_LOW>;
+> +			linux,can-disable;
+> +		};
+> +
+> +		switch-middle {
+> +			label =3D "Vibrate";
+> +			linux,input-type =3D <EV_ABS>;
+> +			linux,code =3D <ABS_SND_PROFILE>;
+> +			linux,input-value =3D <SND_PROFILE_VIBRATE>;
+> +			gpios =3D <&tlmm 52 GPIO_ACTIVE_LOW>;
+> +			linux,can-disable;
+> +		};
+> +
+> +		switch-bottom {
+> +			label =3D "Ring";
+> +			linux,input-type =3D <EV_ABS>;
+> +			linux,code =3D <ABS_SND_PROFILE>;
+> +			linux,input-value =3D <SND_PROFILE_RING>;
+> +			gpios =3D <&tlmm 24 GPIO_ACTIVE_LOW>;
+> +			linux,can-disable;
+> +		};
+> +	};
+> +
+>  	aliases {
+>  		serial0 =3D &uart9;
+>  		serial1 =3D &uart6;
+>=20
+
+--=20
+I don't work for Nazis and criminals, and neither should you.
+Boycott Putin, Trump, Netanyahu and Musk!
+
+--FtYVekWiQ6/kXxDO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaS3CfgAKCRAw5/Bqldv6
+8np0AJ4g37/E7yC1TFrIYjmX1lFqPyanagCfavl9NgqGe6YnRqOeqERMZWE2skE=
+=M3u4
+-----END PGP SIGNATURE-----
+
+--FtYVekWiQ6/kXxDO--
