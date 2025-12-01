@@ -1,156 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6B51DE887;
-	Mon,  1 Dec 2025 16:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FB633344D
+	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 16:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764605000; cv=none; b=XeoPHW5ENn0toRDkSbxkl2QPbxgOw2BUsJ7wBcfGIwNSToFYcbjceTmmU+TiVtmTUBVN72qryfvGnx8r2xyb5mSHXzmTVg+s/F0I854V2RTk5CpqfS57L1N5Vzxe/IiuGBDWHHw0rCAx9oNYFbEtM6Gims6d1K1xj1IfKnyLwdo=
+	t=1764606247; cv=none; b=B4862VHz7fK28YTaf4n2aepWgYBTo/xbb5q6oKRCg7vO+UMvxnSUc2B2aRLT/xoHPGu1fTgCFi7U/ep5ehTNLohcaukS2maIQvX0W405QY4ZVssokCGIOL77xrCJUjL8ItaQu9Mou74lfEGAdm19fgO+HJtW027PVEPCDUTNyWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764605000; c=relaxed/simple;
-	bh=L694A+hcx1692Ups7VU6/fHwaV+/sr3zZmZeWzx6L7k=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=fFJSvf+Y09ZJWMv35J1w7UYnw03o/+EN8VgoztlTghqQpsrpSyJlpdSURVH/w+/cHrU+vwHKe9FfxB8IfpwtoGBDk2Bc7gCsbLg80nZgignKoTcj0XFD2nSTyIe6DJGBaUj2TucRaD3O3WSlI5I9sLZYARiuAyz4/JWndlu5bts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DIGe1Ps6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764606247; c=relaxed/simple;
+	bh=IaOgbXRI96Z/A5nbOuLFAk2vXr/HqzrWr8OsC7fL8Mk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MMyvi2ZuuEUn14b6tTNPDTRS6U7JyD9dl37V8PFTrPYSbPhRK6F8w/tFQFMIovXBlrb5dRr6/b/korQOP6QMmCY7ZjZN5YPF96c84IEhiw3+U7VLxahsjwXsc9A7Bpfymw8xguuzzYVfGPK73+MCki4t/Xg92FDe6EwGT1xDtt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=dszEWsBb; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DIGe1Ps6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E137AC116C6;
-	Mon,  1 Dec 2025 16:03:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764605000;
-	bh=L694A+hcx1692Ups7VU6/fHwaV+/sr3zZmZeWzx6L7k=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=DIGe1Ps6tMLcC/64dye/OiKC6hTkPRTu9ee1HXSAb6CsAjpU7QwluXuXccBLdeVq4
-	 sxvCD3oo+3ZF/JpF/ynixe8mKvDhC/SxB7zzHAVKfQ/JU/IjkeJH90DJSTakYAmO2B
-	 u5q2ZFotxbLgduuRNalSQEEUlLKj/7ENjffZcTX6izClViB+oSHtaQHMsp2IOIozWP
-	 /SmtLPBhhKM0BGMBTmljKMTBlUasLJrINP6WV/D5PBgx2mXwjDijG/WdqV/Kxf/W+H
-	 7J7M8MuKxnCRgkYssaVTEITHCXxDL4V3bcIiKTh7GW3Ef0DeD2O1yrvm3jUo+bqUHk
-	 ZQ6+oIuHSIMxg==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 090A6F40094;
-	Mon,  1 Dec 2025 11:03:19 -0500 (EST)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Mon, 01 Dec 2025 11:03:19 -0500
-X-ME-Sender: <xms:RrwtaUZJyw5z4kK5o9zGWtoc_QyoMKZtmclUwks2lmudUHxR-4CpHw>
-    <xme:RrwtaaPqeQz3lQm4P5CjCQWl6oHXinM7gqE_knhJxI7ZoxoHfoz-gSoWdAHoEYLof
-    6fQkJLhAMjCwPTrsV7o8KDRTJ1voab7U9NgY6aTkN9YJQEFsdHpSw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvheekudefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
-    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
-    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
-    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
-    hilhdrtghomhdpnhgspghrtghpthhtohepudeipdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehnvghilhessghrohifnhdrnhgrmhgvpdhrtghpthhtoheprghlvgigrdgrrh
-    hinhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepfihilhhlhiesihhnfhhrrgguvggr
-    ugdrohhrghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhrsggv
-    theslhifnhdrnhgvthdprhgtphhtthhopegurghirdhnghhosehorhgrtghlvgdrtghomh
-    dprhgtphhtthhopegthhhutghkrdhlvghvvghrsehorhgrtghlvgdrtghomhdprhgtphht
-    thhopehokhhorhhnihgvvhesrhgvughhrghtrdgtohhm
-X-ME-Proxy: <xmx:RrwtabtFWcE-yCULQ3moXO3b1NtdDzsQlEjhglqGK1X3YqwtCfexZg>
-    <xmx:RrwtaQlVArQLulqrEVJjy6nV9xrJEZzNGAGMuazF0lLGcmpieKNtFg>
-    <xmx:RrwtabwJ9TiaKV8NHB2BjismzRlPl0m9IURwRMrMg0KPoCsX1HCnKA>
-    <xmx:RrwtaUypRStNp2sOQ-xkOS5UAs4rgsA60Ya6lZ5NCmEt5PP8ISPozw>
-    <xmx:R7wtaS82eR-2vzXf4SyCVAGrfnysrmeW2FGfIDgnBLxg6Camo5BZGaXA>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id A6FE8780070; Mon,  1 Dec 2025 11:03:18 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="dszEWsBb"
+Received: from trampoline.thunk.org (pool-173-48-121-67.bstnma.fios.verizon.net [173.48.121.67])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 5B1GNsvG008154
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 1 Dec 2025 11:23:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1764606236; bh=v9PYJ/AS1zHpSeYFSJpKi363UDMw/vXMzT2m9GD4IJI=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=dszEWsBbMO6z4FyLXaCEuYPnshilj+71kY6jtJV328U0G9/BnhU6/0ySpdsi/4UYi
+	 dvHus7zdsgh3ELv2pf9fI6gO8tSw+3YQnfxszzeIKrI4V/kRHQ1SpW3Ox/Fs0XfyBe
+	 gOC7UwvoL5CVBCkeEvdx2WaHrmMFuOgHs49l0LHTVz+MEI4fJw8DLxSwDilWknRZJf
+	 cnggOfg3x7YIwySSl7R1CC28vaknVG2nJxCNIG+OFLPU82H8nCdUlDVXhZGwUuxhzP
+	 EBn/Ycdrcjonxgg01UIFno2lg9fxmQvz8timH3rMvmksIbZt4XAw79Gd+LDLiPr+Ad
+	 u2fGP/Ktk8bFg==
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id ECCEF2E00D9; Mon, 01 Dec 2025 11:23:53 -0500 (EST)
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
+        Daniel Tang <danielzgtg.opensource@gmail.com>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-kernel@vger.kernel.org,
+        Eric Biggers <ebiggers@google.com>,
+        Gabriel Krisman Bertazi <krisman@collabora.co.uk>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>
+Subject: Re: [PATCH] Documentation: ext4: Document casefold and encrypt flags
+Date: Mon,  1 Dec 2025 11:23:43 -0500
+Message-ID: <176455640536.1349182.13508992419516252883.b4-ty@mit.edu>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <4506189.9SDvczpPoe@daniel-desktop3>
+References: <4506189.9SDvczpPoe@daniel-desktop3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Aw9RNCMXdYSN
-Date: Mon, 01 Dec 2025 11:01:38 -0500
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jeff Layton" <jlayton@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Chuck Lever" <chuck.lever@oracle.com>,
- "Alexander Aring" <alex.aring@gmail.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- "Jonathan Corbet" <corbet@lwn.net>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Message-Id: <d3635d5d-0594-4639-bf56-f35519b39c5b@app.fastmail.com>
-In-Reply-To: <803c22e7855b699a74cf65c0ba9a0e9ad5b41257.camel@kernel.org>
-References: <20251201-dir-deleg-ro-v1-0-2e32cf2df9b7@kernel.org>
- <78e50574-56f3-42e6-a471-c2dba4c7f1ad@app.fastmail.com>
- <803c22e7855b699a74cf65c0ba9a0e9ad5b41257.camel@kernel.org>
-Subject: Re: [PATCH 0/2] filelock: fix conflict detection with userland file
- delegations
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
 
+On Wed, 19 Nov 2025 09:32:13 -0500, Daniel Tang wrote:
+> Based on ext4(5) and fs/ext4/ext4.h.
+> 
+> For INCOMPAT_ENCRYPT, it's possible to create a new filesystem with that
+> flag without creating any encrypted inodes. ext4(5) says it adds
+> "support" but doesn't say whether anything's actually present like
+> COMPAT_RESIZE_INODE does.
+> 
+> [...]
 
-On Mon, Dec 1, 2025, at 10:52 AM, Jeff Layton wrote:
-> On Mon, 2025-12-01 at 10:19 -0500, Chuck Lever wrote:
->> 
->> On Mon, Dec 1, 2025, at 10:08 AM, Jeff Layton wrote:
->> > This patchset fixes the way that conflicts are detected when userland
->> > requests file delegations. The problem is due to a hack that was added
->> > long ago which worked up until userland could request a file delegation.
->> > 
->> > This fixes the bug and makes things a bit less hacky. Please consider
->> > for v6.19.
->> 
->> I would like a little more time to review this carefully, especially
->> in light of similar work Dai has already posted in this area. If by
->> "v6.19" you mean "not before v6.19-rcN where N > 3", then that WFM.
->> 
->
-> Ok. Do you have a specific concern?
+Applied, thanks!
 
-It looks so similar to what Dai was doing to deal with nfsd deadlocking
-and my recent RFC in the same area that we should ensure that these
-efforts are all going in a compatible direction.
+[1/1] Documentation: ext4: Document casefold and encrypt flags
+      commit: 39fc6d4d3527d790f090dcb10bdb82fd1a1d925a
 
-Clearly, adding callbacks to NFSD that just return 0 is not a
-functional risk ;-) But during a merge window I can't guarantee I'll
-have time to look at this closely.
-
-
-> FWIW, I did mention to Dai that the
-> first patch in this series would make it more palatable to handle his
-> new lm_breaker_timedout operation in lease_dispose_list().
->
-> By v6.19, I mean before v6.19 ships. This bug needs to be fixed before
-> we release a kernel that provides the new F_SETDELEG interface.
-
-No problem. v6.19-rc rather than in the merge window is all I need.
-
-
->> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
->> > ---
->> > Jeff Layton (2):
->> >       filelock: add lease_dispose_list() helper
->> >       filelock: allow lease_managers to dictate what qualifies as a conflict
->> > 
->> >  Documentation/filesystems/locking.rst |   1 +
->> >  fs/locks.c                            | 119 +++++++++++++++++-----------------
->> >  fs/nfsd/nfs4layouts.c                 |  11 +++-
->> >  fs/nfsd/nfs4state.c                   |   7 ++
->> >  include/linux/filelock.h              |   1 +
->> >  5 files changed, 79 insertions(+), 60 deletions(-)
->> > ---
->> > base-commit: 76c63ff12e067e1ff77b19a83c24774899ed01fc
->> > change-id: 20251201-dir-deleg-ro-41a16bc22838
->> > 
->> > Best regards,
->> > -- 
->> > Jeff Layton <jlayton@kernel.org>
->
-> -- 
-> Jeff Layton <jlayton@kernel.org>
-
+Best regards,
 -- 
-Chuck Lever
+Theodore Ts'o <tytso@mit.edu>
