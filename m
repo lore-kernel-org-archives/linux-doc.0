@@ -1,193 +1,317 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDD9239E9B
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 20:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF5725A33F
+	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 20:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764619657; cv=none; b=EIkyxIDM+OqIiAQkEkXqxyetto+HdkYpKEdetOmVkgXdGPDwRsUD6oQm8vi+4pDoNg2K3YztfnaRWdF3ZkSnrVSLMv9Hv6U0VGEF0BQ3rMqJAxNcbhPejQhkYsIPHQ8HIJbh0peaCVnjPvswpC54BN9Xc9q0h9KcibX3awV4z10=
+	t=1764620008; cv=none; b=KTuG0fuslwzmPVol+vxhdoQQGqmxcX9O7lDNE2fwjUJ2JD1G9WEe8tZ8Qbf0YxoudNTLlhyzP53JTVKAn7VbfzVyhNIYjO4po2tU4KjzZWaQq5SsOVvlF2zL8cHHw54nhoKhPxKGPi69t0dvFeRJLFq2pa6JmDVtdEJkkZcgZzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764619657; c=relaxed/simple;
-	bh=x6RFIT7cB8JS3fsGLH/whDORXRCGFjJFX9fPXazdsq0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eJHsWHXxK78houXdadLuW5ORrl0fwhob/bTSs4ktvPIvBoVhTN+xiV/XeW+YXOb9wIKLV1ZxLQC1A4JvqoNWklCavL60INdlYMxIb5vjQ5BBBYekb5vBIUBlw/I1VLkl4YQe0Sz0G6DErXktiFXbNFW3H2fHkECKQTrwDjQyPTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gqto+xom; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764620008; c=relaxed/simple;
+	bh=c8mlL+8JS1BJUpGU/CCeiDRO5fIc5qgfb2CsJTD7loM=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=mV9sGofJigMTyx3ZHirxPs3+zCmvKVPwIFKce0nhFIY8xegGf73ygz+A9TbBhQBOva9rGxFADO8hOWhZP/BFqYw5gymYYlRTHWlB7IqbrlwHbDnXC+uBaeSKa7wbN59ZGKRf2QYNAIHA6KOhT56gXB439cpkH3FfZ/8bRc7kLNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s8nmvSe5; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gqto+xom"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7a9fb70f7a9so328923b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 12:07:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s8nmvSe5"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-b9b9e8b0812so6595787a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 12:13:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764619655; x=1765224455; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BFlkh0x1NbS1t8t4BD8VPVaskiHRE+O0jVwyL6SlPB8=;
-        b=Gqto+xom+6i6kO/AGpvr4r7ecqIz8spDmvkjDQKgqRgJM0uWgWy6oiBAhLB+4Aj7vw
-         mVGOEfXmmorOxud1uiLSIyPKDP3rIl9t/cdbVWqNCdQA0XtZgLe50rLuqV0RxaC3PVLY
-         C7ergrwLOC4jsE/oJWLhAtyFHh9gSOlrodoEuFy2Cj1DSSft+gxE3TrycFQygNSAxe+3
-         jS9BwiYyRxQ8ZyhgOaqBXTrMH3OGTdIKwuDbCDMyn3aNos5NDXEGeyTeBtw9NQ6MM9Un
-         uEg4VZ1p6gVZq2W7YL+e3pOSn2oaohuLywqX3qT+cJxPUVj0D6swW87zIbwgrIPYPNWE
-         6iKA==
+        d=google.com; s=20230601; t=1764620005; x=1765224805; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hVFOz36NzkthLgnEyyQ+T4r4aeS1YE42iDi3jXssFxw=;
+        b=s8nmvSe5uKotA1B1r7hKTSbYu2ARWHjE1SyHUYXSJOCv5zK298w6TwmEIGN5pFxxgX
+         3SKFtfEzUhAi/rxtG/2hY5h+T32NN6MW/LKSZI+DNmp4ktndShQxX9mNJD+L4Vnd0eql
+         d4sqCl+d/HGpqCvhR8UQsDvvccD6a9Rmg73W5e+kuGv/+dd0qY7OXBbhl8UtvAROmqv5
+         TKp/ExYUCiV4yvUuB4rzoEMBVRyd2288CY+aPBgpSYJV5Ac7UFNvTXZMXKQqIe7K5bqy
+         OUBRw/sOyxl5r1+tZGxicWsiSSMVX8HzdLEoQ/LddOjHMKKj6O+/8pfxYg7TXPcTCT5/
+         38gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764619655; x=1765224455;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BFlkh0x1NbS1t8t4BD8VPVaskiHRE+O0jVwyL6SlPB8=;
-        b=c57Fh+DtoR9jlJ0UCeh2YsiNRcxQgtK+lC94cFwzKsOlMDi29QqclzKeSOsfELOIs3
-         LrZ+pbrL5P3q3nlnlfCLy/iDIzT5kIPYpeG0riIo7sYOxiFDehayTaNJ4FxlwQdG3nNF
-         c+eLv3escVNhBoJXacJYM1pY4kB+i7QUxTjIAUCV4yx3Kc1NEbwqzV7m9WwqTQ+6fQsl
-         x8+J0RFAZzYIEQI5CFUPyFa++QdlXCklAn4Bhh3YFkkHODd3GnJD1h2k2qdynmkoVjtY
-         GNibWI7V6uKpE5sxOxM9Epb+gDEeV8HlyLwvkyxogfHasPTL53qrce9DUWAsEE1gOTgQ
-         GhXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBijfc5qS6kxiwf8zS8VGV+Ax7MuzADg73U+lpEoK8UnlCIU2GRnWqlAVWbkOYEd5uo4JG5F6rMRE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwevN1hwOCZA+UmQlH6WraPNCbGQviR6nH8mvOKiM75UsgEEMLU
-	Eq3dWzU8D75nenG/M8CaUgrz2Idywtmq6xZKlMaX9jjpBbgx4xfxFKre6PWNLgsaDJ5HNwJtgAR
-	Qp0EhwvhLm9T/7UwTbsv5UeuuX0R9/PA=
-X-Gm-Gg: ASbGncscBVxTbxgG4w7yxIu5LST7U+MhkadRFz4UrQwuSDsri1lXBggxh8x0wDol2Yi
-	AMYmke8cFG4i95zKP5L0KG5hWERJbV3J8qSdss/qirnB/NZwf28RDsNGm6JQlfKFz0G9SDk6l2z
-	vfgodn5nMf0Ocnca2an2LAWB2loH9QeIqId2wrLD4SkSq/OoNJkpBZhpay7H9L+S4+sWXoyWfj8
-	vJ4n+wPjpOpuGnaDVup3Uzspvgxrxb8qtsb8g9FIz0PARgyKgI2KAqa8o83B4yg/pY+Gb0=
-X-Google-Smtp-Source: AGHT+IFjpTqQA/iVKOmnPlXFftG449Zgj2MyZF1V2Usatcen0jqoEPFaxyLMnJPN79+d1UKCZT1eRBJWm/HIcRCi2Ok=
-X-Received: by 2002:a05:7022:ea48:10b0:11b:aff2:4cd5 with SMTP id
- a92af1059eb24-11c9d717ef2mr17763072c88.2.1764619654777; Mon, 01 Dec 2025
- 12:07:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764620005; x=1765224805;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hVFOz36NzkthLgnEyyQ+T4r4aeS1YE42iDi3jXssFxw=;
+        b=QRIg+KYIUm4d0fT1QpmoLl1BiOPbF3I9Ofol0nEaxmd+/heVF7fEs880qS/BBv/Kih
+         VPkwe9bP95L0R2WV5e6T3zWDAvhBxMcbbm9pzi1bsGqcsQReW3AVuIi/aV6HvAC6PVRD
+         mmbFUs9t2NJfoJtXEw0CErV1Bo+mAeaNmDLQYHKmTL611dipn5Q0mMTsmIonUpy4Z1Yn
+         u6d/hvLxFAAnvUrV6ExN3E+rFkA7verEJecP8uwziwDi4ShjfRuU7jprHSmGekNIPig4
+         Eq0WeBYtW/iV4JVOU+wwfY2NnvicZ7anAZ3MdXz/oUJSvCQMjAJbvPcUM42o3BFYENrp
+         J5gw==
+X-Forwarded-Encrypted: i=1; AJvYcCXPDREhu6WYmBHh0nma7gNbH37M/JteZKXyuG/P0L2PjiXlECjcM12P/T3PFUVjS3lmE9GoOUoeqZg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFSXdpUcuS56ktfgOKpWa+h21x6Tjqrvy0Fogs6TbTeif85S0o
+	05VSBo0fpvH/clGgZvhuvBQpVYhyaJvk5eSF1FI9pHpLva1xjIzT2S16RvI44zk/VGtOluQqagA
+	XYqxhYPFTUh3x8A==
+X-Google-Smtp-Source: AGHT+IECD5vU0CmfGe21dvtzJjuBH17s1ELeyFti1sE3jj2tes8LvitCskY4NkHYvgojqpoh1w3H0N6Q452j8A==
+X-Received: from dlbcy37.prod.google.com ([2002:a05:7022:ba5:b0:11b:9bdf:e45c])
+ (user=wusamuel job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7022:e17:b0:119:e56c:18ae with SMTP id a92af1059eb24-11c9d848290mr27418765c88.22.1764620005449;
+ Mon, 01 Dec 2025 12:13:25 -0800 (PST)
+Date: Mon,  1 Dec 2025 12:13:09 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251201-vram-carveout-tuning-for-upstream-v4-0-9e151363b5ab@amd.com>
- <20251201-vram-carveout-tuning-for-upstream-v4-5-9e151363b5ab@amd.com>
-In-Reply-To: <20251201-vram-carveout-tuning-for-upstream-v4-5-9e151363b5ab@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 1 Dec 2025 15:07:23 -0500
-X-Gm-Features: AWmQ_bmEAiYSVqdTHhyDGqmv5Ses8SmGqN4749Kj9liHcOpiVpdUt9DVbmJ1CX8
-Message-ID: <CADnq5_M6MVRi8SBjtQvnsR1hZU9qRYEPXQ2vc92x3nQPY-QHcA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] Documentation/amdgpu: Add UMA carveout details
-To: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, "Tsao, Anson" <anson.tsao@amd.com>, 
-	"Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.107.ga0afd4fd5b-goog
+Message-ID: <20251201201311.3746338-1-wusamuel@google.com>
+Subject: [PATCH v2 1/2] cpufreq: Replace trace_cpu_frequency with trace_policy_frequency
+From: Samuel Wu <wusamuel@google.com>
+To: Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>, 
+	Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>
+Cc: christian.loehle@arm.com, Samuel Wu <wusamuel@google.com>, kernel-team@android.com, 
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-perf-users@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 1, 2025 at 6:19=E2=80=AFAM Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.c=
-om> wrote:
->
-> Add documentation for the uma/carveout_options and uma/carveout
-> attributes in sysfs
->
-> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
+The existing cpu_frequency trace_event can be verbose, emitting a nearly
+identical trace event for every CPU in the policy even when their
+frequencies are identical.
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+This patch replaces the cpu_frequency trace event with policy_frequency
+trace event, a more efficient alternative. From the kernel's
+perspective, emitting a trace event once per policy instead of once per
+cpu saves some memory and is less overhead. From the post-processing
+perspective, analysis of the trace log is simplified without any loss of
+information.
 
-> ---
->  Documentation/gpu/amdgpu/driver-misc.rst | 26 ++++++++++++++++++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 29 ++++++++++++++++++++++++++=
-+++
->  2 files changed, 55 insertions(+)
->
-> diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu=
-/amdgpu/driver-misc.rst
-> index 25b0c857816e..cd6f044bea85 100644
-> --- a/Documentation/gpu/amdgpu/driver-misc.rst
-> +++ b/Documentation/gpu/amdgpu/driver-misc.rst
-> @@ -128,3 +128,29 @@ smartshift_bias
->
->  .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
->     :doc: smartshift_bias
-> +
-> +UMA Carveout
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Some versions of Atom ROM expose available options for the VRAM carveout=
- sizes,
-> +and allow changes to the carveout size via the ATCS function code 0xA on=
- supported
-> +BIOS implementations.
-> +
-> +For those platforms, users can use the following files under uma/ to set=
- the
-> +carveout size, in a way similar to what Windows users can do in the "Tun=
-ing"
-> +tab in AMD Adrenalin.
-> +
-> +Note that for BIOS implementations that don't support this, these files =
-will not
-> +be created at all.
-> +
-> +uma/carveout_options
-> +--------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> +   :doc: uma/carveout_options
-> +
-> +uma/carveout
-> +--------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> +   :doc: uma/carveout
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_acpi.c
-> index 2c0405cdc436..58f6000f4e54 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> @@ -1248,6 +1248,24 @@ int amdgpu_acpi_get_mem_info(struct amdgpu_device =
-*adev, int xcc_id,
->         return -ENOENT;
->  }
->
-> +/**
-> + * DOC: uma/carveout_options
-> + *
-> + * This is a read-only file that lists all available UMA allocation
-> + * options and their corresponding indices. Example output::
-> + *
-> + *     $ cat uma/carveout_options
-> + *     0: Minimum (512 MB)
-> + *     1:  (1 GB)
-> + *     2:  (2 GB)
-> + *     3:  (4 GB)
-> + *     4:  (6 GB)
-> + *     5:  (8 GB)
-> + *     6:  (12 GB)
-> + *     7: Medium (16 GB)
-> + *     8:  (24 GB)
-> + *     9: High (32 GB)
-> + */
->  static ssize_t carveout_options_show(struct device *dev,
->                                      struct device_attribute *attr,
->                                      char *buf)
-> @@ -1278,6 +1296,17 @@ static ssize_t carveout_options_show(struct device=
- *dev,
->  }
->  static DEVICE_ATTR_RO(carveout_options);
->
-> +/**
-> + * DOC: uma/carveout
-> + *
-> + * This file is both readable and writable. When read, it shows the
-> + * index of the current setting. Writing a valid index to this file
-> + * allows users to change the UMA carveout size to the selected option
-> + * on the next boot.
-> + *
-> + * The available options and their corresponding indices can be read
-> + * from the uma/carveout_options file.
-> + */
->  static ssize_t carveout_show(struct device *dev,
->                              struct device_attribute *attr,
->                              char *buf)
->
-> --
-> 2.43.0
->
+Signed-off-by: Samuel Wu <wusamuel@google.com>
+---
+ drivers/cpufreq/cpufreq.c      | 14 ++------------
+ drivers/cpufreq/intel_pstate.c |  6 ++++--
+ include/trace/events/power.h   | 24 +++++++++++++++++++++---
+ kernel/trace/power-traces.c    |  2 +-
+ samples/bpf/cpustat_kern.c     |  8 ++++----
+ samples/bpf/cpustat_user.c     |  6 +++---
+ tools/perf/builtin-timechart.c | 12 ++++++------
+ 7 files changed, 41 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+index 4472bb1ec83c..dd3f08f3b958 100644
+--- a/drivers/cpufreq/cpufreq.c
++++ b/drivers/cpufreq/cpufreq.c
+@@ -309,8 +309,6 @@ static void cpufreq_notify_transition(struct cpufreq_policy *policy,
+ 				      struct cpufreq_freqs *freqs,
+ 				      unsigned int state)
+ {
+-	int cpu;
+-
+ 	BUG_ON(irqs_disabled());
+ 
+ 	if (cpufreq_disabled())
+@@ -344,10 +342,7 @@ static void cpufreq_notify_transition(struct cpufreq_policy *policy,
+ 		adjust_jiffies(CPUFREQ_POSTCHANGE, freqs);
+ 		pr_debug("FREQ: %u - CPUs: %*pbl\n", freqs->new,
+ 			 cpumask_pr_args(policy->cpus));
+-
+-		for_each_cpu(cpu, policy->cpus)
+-			trace_cpu_frequency(freqs->new, cpu);
+-
++		trace_policy_frequency(freqs->new, policy->cpu, policy->cpus);
+ 		srcu_notifier_call_chain(&cpufreq_transition_notifier_list,
+ 					 CPUFREQ_POSTCHANGE, freqs);
+ 
+@@ -2201,7 +2196,6 @@ unsigned int cpufreq_driver_fast_switch(struct cpufreq_policy *policy,
+ 					unsigned int target_freq)
+ {
+ 	unsigned int freq;
+-	int cpu;
+ 
+ 	target_freq = clamp_val(target_freq, policy->min, policy->max);
+ 	freq = cpufreq_driver->fast_switch(policy, target_freq);
+@@ -2213,11 +2207,7 @@ unsigned int cpufreq_driver_fast_switch(struct cpufreq_policy *policy,
+ 	arch_set_freq_scale(policy->related_cpus, freq,
+ 			    arch_scale_freq_ref(policy->cpu));
+ 	cpufreq_stats_record_transition(policy, freq);
+-
+-	if (trace_cpu_frequency_enabled()) {
+-		for_each_cpu(cpu, policy->cpus)
+-			trace_cpu_frequency(freq, cpu);
+-	}
++	trace_policy_frequency(freq, policy->cpu, policy->cpus);
+ 
+ 	return freq;
+ }
+diff --git a/drivers/cpufreq/intel_pstate.c b/drivers/cpufreq/intel_pstate.c
+index ec4abe374573..9724b5d19d83 100644
+--- a/drivers/cpufreq/intel_pstate.c
++++ b/drivers/cpufreq/intel_pstate.c
+@@ -2297,7 +2297,8 @@ static int hwp_get_cpu_scaling(int cpu)
+ 
+ static void intel_pstate_set_pstate(struct cpudata *cpu, int pstate)
+ {
+-	trace_cpu_frequency(pstate * cpu->pstate.scaling, cpu->cpu);
++	trace_policy_frequency(pstate * cpu->pstate.scaling, cpu->cpu,
++			       cpumask_of(cpu->cpu));
+ 	cpu->pstate.current_pstate = pstate;
+ 	/*
+ 	 * Generally, there is no guarantee that this code will always run on
+@@ -2587,7 +2588,8 @@ static void intel_pstate_adjust_pstate(struct cpudata *cpu)
+ 
+ 	target_pstate = get_target_pstate(cpu);
+ 	target_pstate = intel_pstate_prepare_request(cpu, target_pstate);
+-	trace_cpu_frequency(target_pstate * cpu->pstate.scaling, cpu->cpu);
++	trace_policy_frequency(target_pstate * cpu->pstate.scaling, cpu->cpu,
++			       cpumask_of(cpu->cpu));
+ 	intel_pstate_update_pstate(cpu, target_pstate);
+ 
+ 	sample = &cpu->sample;
+diff --git a/include/trace/events/power.h b/include/trace/events/power.h
+index 370f8df2fdb4..317098ffdd5f 100644
+--- a/include/trace/events/power.h
++++ b/include/trace/events/power.h
+@@ -182,11 +182,29 @@ TRACE_EVENT(pstate_sample,
+ 		{ PM_EVENT_RECOVER, "recover" }, \
+ 		{ PM_EVENT_POWEROFF, "poweroff" })
+ 
+-DEFINE_EVENT(cpu, cpu_frequency,
++TRACE_EVENT(policy_frequency,
+ 
+-	TP_PROTO(unsigned int frequency, unsigned int cpu_id),
++	TP_PROTO(unsigned int frequency, unsigned int cpu_id,
++		 const struct cpumask *policy_cpus),
+ 
+-	TP_ARGS(frequency, cpu_id)
++	TP_ARGS(frequency, cpu_id, policy_cpus),
++
++	TP_STRUCT__entry(
++		__field(u32, state)
++		__field(u32, cpu_id)
++		__cpumask(cpumask)
++	),
++
++	TP_fast_assign(
++		__entry->state = frequency;
++		__entry->cpu_id = cpu_id;
++		__assign_cpumask(cpumask, policy_cpus);
++	),
++
++	TP_printk("state=%lu cpu_id=%lu policy_cpus=%*pb",
++		  (unsigned long)__entry->state,
++		  (unsigned long)__entry->cpu_id,
++		  cpumask_pr_args((struct cpumask *)__get_dynamic_array(cpumask)))
+ );
+ 
+ TRACE_EVENT(cpu_frequency_limits,
+diff --git a/kernel/trace/power-traces.c b/kernel/trace/power-traces.c
+index f2fe33573e54..a537e68a6878 100644
+--- a/kernel/trace/power-traces.c
++++ b/kernel/trace/power-traces.c
+@@ -16,5 +16,5 @@
+ 
+ EXPORT_TRACEPOINT_SYMBOL_GPL(suspend_resume);
+ EXPORT_TRACEPOINT_SYMBOL_GPL(cpu_idle);
+-EXPORT_TRACEPOINT_SYMBOL_GPL(cpu_frequency);
++EXPORT_TRACEPOINT_SYMBOL_GPL(policy_frequency);
+ 
+diff --git a/samples/bpf/cpustat_kern.c b/samples/bpf/cpustat_kern.c
+index 7ec7143e2757..f485de0f89b2 100644
+--- a/samples/bpf/cpustat_kern.c
++++ b/samples/bpf/cpustat_kern.c
+@@ -75,9 +75,9 @@ struct {
+ } pstate_duration SEC(".maps");
+ 
+ /*
+- * The trace events for cpu_idle and cpu_frequency are taken from:
++ * The trace events for cpu_idle and policy_frequency are taken from:
+  * /sys/kernel/tracing/events/power/cpu_idle/format
+- * /sys/kernel/tracing/events/power/cpu_frequency/format
++ * /sys/kernel/tracing/events/power/policy_frequency/format
+  *
+  * These two events have same format, so define one common structure.
+  */
+@@ -162,7 +162,7 @@ int bpf_prog1(struct cpu_args *ctx)
+ 	 */
+ 	if (ctx->state != (u32)-1) {
+ 
+-		/* record pstate after have first cpu_frequency event */
++		/* record pstate after have first policy_frequency event */
+ 		if (!*pts)
+ 			return 0;
+ 
+@@ -208,7 +208,7 @@ int bpf_prog1(struct cpu_args *ctx)
+ 	return 0;
+ }
+ 
+-SEC("tracepoint/power/cpu_frequency")
++SEC("tracepoint/power/policy_frequency")
+ int bpf_prog2(struct cpu_args *ctx)
+ {
+ 	u64 *pts, *cstate, *pstate, cur_ts, delta;
+diff --git a/samples/bpf/cpustat_user.c b/samples/bpf/cpustat_user.c
+index 356f756cba0d..f7e81f702358 100644
+--- a/samples/bpf/cpustat_user.c
++++ b/samples/bpf/cpustat_user.c
+@@ -143,12 +143,12 @@ static int cpu_stat_inject_cpu_idle_event(void)
+ 
+ /*
+  * It's possible to have no any frequency change for long time and cannot
+- * get ftrace event 'trace_cpu_frequency' for long period, this introduces
++ * get ftrace event 'trace_policy_frequency' for long period, this introduces
+  * big deviation for pstate statistics.
+  *
+  * To solve this issue, below code forces to set 'scaling_max_freq' to 208MHz
+- * for triggering ftrace event 'trace_cpu_frequency' and then recovery back to
+- * the maximum frequency value 1.2GHz.
++ * for triggering ftrace event 'trace_policy_frequency' and then recovery back
++ * to the maximum frequency value 1.2GHz.
+  */
+ static int cpu_stat_inject_cpu_frequency_event(void)
+ {
+diff --git a/tools/perf/builtin-timechart.c b/tools/perf/builtin-timechart.c
+index 22050c640dfa..3ef1a2fd0493 100644
+--- a/tools/perf/builtin-timechart.c
++++ b/tools/perf/builtin-timechart.c
+@@ -612,10 +612,10 @@ process_sample_cpu_idle(struct timechart *tchart __maybe_unused,
+ }
+ 
+ static int
+-process_sample_cpu_frequency(struct timechart *tchart,
+-			     struct evsel *evsel,
+-			     struct perf_sample *sample,
+-			     const char *backtrace __maybe_unused)
++process_sample_policy_frequency(struct timechart *tchart,
++				struct evsel *evsel,
++				struct perf_sample *sample,
++				const char *backtrace __maybe_unused)
+ {
+ 	u32 state  = evsel__intval(evsel, sample, "state");
+ 	u32 cpu_id = evsel__intval(evsel, sample, "cpu_id");
+@@ -1541,7 +1541,7 @@ static int __cmd_timechart(struct timechart *tchart, const char *output_name)
+ {
+ 	const struct evsel_str_handler power_tracepoints[] = {
+ 		{ "power:cpu_idle",		process_sample_cpu_idle },
+-		{ "power:cpu_frequency",	process_sample_cpu_frequency },
++		{ "power:policy_frequency",	process_sample_policy_frequency },
+ 		{ "sched:sched_wakeup",		process_sample_sched_wakeup },
+ 		{ "sched:sched_switch",		process_sample_sched_switch },
+ #ifdef SUPPORT_OLD_POWER_EVENTS
+@@ -1804,7 +1804,7 @@ static int timechart__record(struct timechart *tchart, int argc, const char **ar
+ 	unsigned int backtrace_args_no = ARRAY_SIZE(backtrace_args);
+ 
+ 	const char * const power_args[] = {
+-		"-e", "power:cpu_frequency",
++		"-e", "power:policy_frequency",
+ 		"-e", "power:cpu_idle",
+ 	};
+ 	unsigned int power_args_nr = ARRAY_SIZE(power_args);
+-- 
+2.52.0.107.ga0afd4fd5b-goog
+
