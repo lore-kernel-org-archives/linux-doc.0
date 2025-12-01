@@ -1,218 +1,147 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF60327FB25
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 06:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069DF78F4A;
+	Mon,  1 Dec 2025 06:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764571503; cv=none; b=nDj2CP6cUbCkWzb7x4wS5Ra4yVCPIkb1mRHkOtqfRdeo13cnCgypuHwVKY6HHzPvZyy0T5eExaXx6avZvfDU+M7mSypUgSG/CTSkKHNQud6BFFGYXiGoBbJXSIh/QYYHMQWIZluYWPN9GmenXa1NKm05mwicv35giTo93opBnTk=
+	t=1764571830; cv=none; b=BVUlxHFvVG5HP4YDh70zK3oNrbOcL051Y675TT1B9nvFggW9qBhvlKY6DXk1csgf1zwsP+DnM5Q1Jl7cSFdXVZSc98O+EXkFU+AAQYAWEenaZeZqQNNzlR+QhDynX+K00LtaadXCGAGWguWWepnLnM7FvKK4fTTOLiT16zTWagg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764571503; c=relaxed/simple;
-	bh=MVO9AYfSApxY08uGyurjv+/S5b7vV19f5LSpGSPRIl0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JgDQO1oNp7e/nZsNDmPmuepHh8amuSRHIC24QPJVDXafpB+EWJi7mhEq7KAPuFRPN6B7iYDUsHssNXK5V5gOv1Nr4mka4zsInyEYzUxvAVHWxqg9NHGFB9JxFJnZ80bRuiQTlZvVyFgUWizQt/X4CvBzl46rOkm26qqU4dKZXpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=h4FIQSAg; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="h4FIQSAg"
-Message-ID: <0e3c9840-8c6f-4806-af03-ca889202ecd5@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764571498;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WOnLelWChT3zNpmRty58iLL5g3q6iURFat2Y2VNbFeQ=;
-	b=h4FIQSAgmeudR+bD7w5aEhOuHGayxXEPPmi6/3IGwneRTAmwOLSEGGdQFMvCVj9tG+gUc2
-	SurCnEAmOpo5+OlCOcuhQwEIbvG3f73J04tdNWA73cGLpGyxMBFhLff1R/F07ddKjg3968
-	WG7DbODPTNAbs1b159KXuIRMMaPnTHI=
-Date: Mon, 1 Dec 2025 14:44:51 +0800
+	s=arc-20240116; t=1764571830; c=relaxed/simple;
+	bh=eGlWUGAG7s6EVRk38wAAIjcC4lcOcxHd2i9TUzWkFf0=;
+	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=TTbDNM0o9XgAIVYTRBP3uLuqhloQqegIpZe3yBZWDR8gqL63WKxzr/n9JnYoAPKuQJrua/d8HtonoL0gmq15DJTEPzwj5QoiPi0NHFX5DtJlZe1DfBt2fqWM8r7brLMJmVdcaWiRS7sY3Lhy9LGoa9/xjattxl93g2aWQFvEpQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from w011.hihonor.com (unknown [10.68.20.122])
+	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4dKZGg5FmSzYsjNR;
+	Mon,  1 Dec 2025 14:47:55 +0800 (CST)
+Received: from w007.hihonor.com (10.68.16.91) by w011.hihonor.com
+ (10.68.20.122) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Mon, 1 Dec
+ 2025 14:50:18 +0800
+Received: from w002.hihonor.com (10.68.28.120) by w007.hihonor.com
+ (10.68.16.91) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Mon, 1 Dec
+ 2025 14:50:18 +0800
+Received: from w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3]) by
+ w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3%14]) with mapi id
+ 15.02.2562.027; Mon, 1 Dec 2025 14:50:18 +0800
+From: wangzicheng <wangzicheng@honor.com>
+To: Barry Song <21cnbao@gmail.com>, "Liam R. Howlett"
+	<Liam.Howlett@oracle.com>, Matthew Wilcox <willy@infradead.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "hannes@cmpxchg.org"
+	<hannes@cmpxchg.org>, "david@redhat.com" <david@redhat.com>,
+	"axelrasmussen@google.com" <axelrasmussen@google.com>, "yuanchu@google.com"
+	<yuanchu@google.com>, "mhocko@kernel.org" <mhocko@kernel.org>,
+	"zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+	"shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+	"weixugc@google.com" <weixugc@google.com>, "vbabka@suse.cz" <vbabka@suse.cz>,
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
+	"mhocko@suse.com" <mhocko@suse.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, wangtao <tao.wangtao@honor.com>, "wangzhen
+ 00021541" <wangzhen5@honor.com>, zhongjinji 00025326 <zhongjinji@honor.com>
+Subject: RE: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
+ debugfs to procfs
+Thread-Topic: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
+ debugfs to procfs
+Thread-Index: AQHcYBJK8KKXMResfEqv9fHMnnJz9rUHrbeAgAAP74CAA+3ugIAApiiQ
+Date: Mon, 1 Dec 2025 06:50:17 +0000
+Message-ID: <86c62472b5874ea2833587f1847958df@honor.com>
+References: <20251128025315.3520689-1-wangzicheng@honor.com>
+ <aSm800KsCAptVZKu@casper.infradead.org>
+ <ti7h5cbrg5s3zf7surof3zmxb6supnl34x7hsbziqutm7r2laf@zuunap5hwsbx>
+ <CAGsJ_4xJ5qMght93FQOYrk1OiJTh-wFC4e8Nd4K0A156N3ZEBQ@mail.gmail.com>
+In-Reply-To: <CAGsJ_4xJ5qMght93FQOYrk1OiJTh-wFC4e8Nd4K0A156N3ZEBQ@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 2/8] docs/zh_CN: Add acm.rst translation
-To: Kefan Bai <baikefan@leap-io-kernel.com>, alexs@kernel.org
-Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- doubled@leap-io-kernel.com
-References: <cover.1763984424.git.baikefan@leap-io-kernel.com>
- <17f3f62c3dc75f0260d2965df3cc39179f601f5c.1763984424.git.baikefan@leap-io-kernel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <17f3f62c3dc75f0260d2965df3cc39179f601f5c.1763984424.git.baikefan@leap-io-kernel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-
-在 2025/11/24 21:34, Kefan Bai 写道:
-> Translate .../usb/acm.rst into Chinese
->
-> Update the translation through commit ecefae6db042
-> ("docs: usb: rename files to .rst and add them to drivers-api")
->
-> Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
-
-Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
-
-
-Thanks,
-
-Yanteng
-
-> ---
->   Documentation/translations/zh_CN/usb/acm.rst | 137 +++++++++++++++++++
->   1 file changed, 137 insertions(+)
->   create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
->
-> diff --git a/Documentation/translations/zh_CN/usb/acm.rst b/Documentation/translations/zh_CN/usb/acm.rst
-> new file mode 100644
-> index 000000000000..62299f62f947
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/usb/acm.rst
-> @@ -0,0 +1,137 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/usb/acm.rst
-> +
-> +:翻译:
-> +
-> + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
-> +
-> +:校译:
-> +
-> +
-> +======================
-> +Linux ACM驱动 v0.16
-> +======================
-> +
-> +版权所有(c) 1999 Vojtech Pavlik <vojtech@suse.cz>
-> +
-> +由SuSE赞助
-> +
-> +0. 免责声明
-> +~~~~~~~~~~~~~
-> +本程序是自由软件；您可以使用自由软件基金会发布的第2版GNU通用公共许可证，
-> +或由您选择任何更高版本的许可证，对本程序进行再发布和/或修改。
-> +
-> +我们希望本程序有用，但不提供任何担保；甚至不包含对适销性或适用于特定目的的默示性担保。
-> +更多细节请参阅GNU通用公共许可证。
-> +
-> +您应该已经随本程序收到GNU通用公共许可证副本；
-> +如果没有，请写信至：Free Software Foundation, Inc., 59
-> +Temple Place, Suite 330, Boston, MA 02111-1307 USA。
-> +
-> +如需联系作者，可通过电子邮件发送消息至 vojtech@suse.cz，
-> +或通过纸质邮件寄至：
-> +Vojtech Pavlik, Ucitelska 1576, Prague 8, 182 00, Czech Republic。
-> +
-> +为方便起见，本软件包中已包含GNU通用公共许可证第2版：参见文件COPYING。
-> +
-> +1. 使用方法
-> +~~~~~~~~~~~~~
-> +drivers/usb/class/cdc-acm.c驱动可用于USB调制解调器和USB ISDN终端适配器，
-> +这些设备符合USB通用串行总线通信设备类（Universal Serial Bus
-> +Communication Device Class）的抽象控制模型（Abstract Control Model，
-> +USB CDC ACM）规范。
-> +
-> +许多调制解调器支持此驱动，以下是我所知道的一些型号：
-> +
-> +	- 3Com OfficeConnect 56k
-> +	- 3Com Voice FaxModem Pro
-> +	- 3Com Sportster
-> +	- MultiTech MultiModem 56k
-> +	- Zoom 2986L FaxModem
-> +	- Compaq 56k FaxModem
-> +	- ELSA Microlink 56k
-> +
-> +我知道有一款ISDN终端适配器可以与ACM驱动一起使用：
-> +
-> +	- 3Com USR ISDN Pro TA
-> +
-> +一些手机也可以通过USB连接。我知道以下机型可以正常工作：
-> +
-> +	- SonyEricsson K800i
-> +
-> +不幸的是，许多调制解调器以及大多数ISDN终端适配器使用专有接口，
-> +因此无法与此驱动兼容。购买前请确认设备是否符合ACM规范。
-> +
-> +要使用调制解调器，您需要加载以下模块：
-> +
-> +	usbcore.ko
-> +	uhci-hcd.ko ohci-hcd.ko or ehci-hcd.ko
-> +	cdc-acm.ko
-> +
-> +之后，调制解调器应该可以正常访问。
-> +你应该能够使用minicom、ppp和mgetty与它们进行通信。
-> +
-> +2. 验证驱动是否正常工作
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +第一步是检查/sys/kernel/debug/usb/devices，其内容应该和下面这些类似::
-> +
-> +  T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=12  MxCh= 2
-> +  B:  Alloc=  0/900 us ( 0%), #Int=  0, #Iso=  0
-> +  D:  Ver= 1.00 Cls=09(hub  ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
-> +  P:  Vendor=0000 ProdID=0000 Rev= 0.00
-> +  S:  Product=USB UHCI Root Hub
-> +  S:  SerialNumber=6800
-> +  C:* #Ifs= 1 Cfg#= 1 Atr=40 MxPwr=  0mA
-> +  I:  If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
-> +  E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=255ms
-> +  T:  Bus=01 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  2 Spd=12  MxCh= 0
-> +  D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
-> +  P:  Vendor=04c1 ProdID=008f Rev= 2.07
-> +  S:  Manufacturer=3Com Inc.
-> +  S:  Product=3Com U.S. Robotics Pro ISDN TA
-> +  S:  SerialNumber=UFT53A49BVT7
-> +  C:  #Ifs= 1 Cfg#= 1 Atr=60 MxPwr=  0mA
-> +  I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=acm
-> +  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-> +  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-> +  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
-> +  C:* #Ifs= 2 Cfg#= 2 Atr=60 MxPwr=  0mA
-> +  I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
-> +  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
-> +  I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
-> +  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-> +  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-> +
-> +其中以下三行（以及 Cls= 'comm' 和 'data' 类）非常重要，它们表示这是一个ACM设备。
-> +Driver=acm表示acm驱动正在处理该设备。
-> +如果只看到Cls=ff(vend.)，那么很不幸，这是一个厂商自定义接口设备::
-> +
-> +    D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
-> +    I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
-> +    I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
-> +
-> +在系统日志中你应该看到::
-> +
-> +  usb.c: USB new device connect, assigned device number 2
-> +  usb.c: kmalloc IF c7691fa0, numif 1
-> +  usb.c: kmalloc IF c7b5f3e0, numif 2
-> +  usb.c: skipped 4 class/vendor specific interface descriptors
-> +  usb.c: new device strings: Mfr=1, Product=2, SerialNumber=3
-> +  usb.c: USB device number 2 default language ID 0x409
-> +  Manufacturer: 3Com Inc.
-> +  Product: 3Com U.S. Robotics Pro ISDN TA
-> +  SerialNumber: UFT53A49BVT7
-> +  acm.c: probing config 1
-> +  acm.c: probing config 2
-> +  ttyACM0: USB ACM device
-> +  acm.c: acm_control_msg: rq: 0x22 val: 0x0 len: 0x0 result: 0
-> +  acm.c: acm_control_msg: rq: 0x20 val: 0x0 len: 0x7 result: 7
-> +  usb.c: acm driver claimed interface c7b5f3e0
-> +  usb.c: acm driver claimed interface c7b5f3f8
-> +  usb.c: acm driver claimed interface c7691fa0
-> +
-> +如果以上都正常，请启动minicom，将其设置为连接ttyACM设备，然后输入'at'。
-> +如果响应 "OK"，则说明一切工作正常。
-> --
-> 2.52.0
->
->
+SGkgQmFycnksDQoNCj4gSGkgTGlhbSwNCj4gDQo+IEkgc2F3IHlvdSBtZW50aW9uZWQgbWUsIHNv
+IEkganVzdCB3YW50ZWQgdG8gam9pbiBpbiA6LSkNCj4gDQo+IE9uIFNhdCwgTm92IDI5LCAyMDI1
+IGF0IDEyOjE24oCvQU0gTGlhbSBSLiBIb3dsZXR0IDxMaWFtLkhvd2xldHRAb3JhY2xlLmNvbT4N
+Cj4gd3JvdGU6DQo+ID4NCj4gPiAqIE1hdHRoZXcgV2lsY294IDx3aWxseUBpbmZyYWRlYWQub3Jn
+PiBbMjUxMTI4IDEwOjE2XToNCj4gPiA+IE9uIEZyaSwgTm92IDI4LCAyMDI1IGF0IDEwOjUzOjEy
+QU0gKzA4MDAsIFppY2hlbmcgV2FuZyB3cm90ZToNCj4gPiA+ID4gQ2FzZSBzdHVkeToNCj4gPiA+
+ID4gQSB3aWRlbHkgb2JzZXJ2ZWQgaXNzdWUgb24gQW5kcm9pZCBpcyB0aGF0IGFmdGVyIGFwcGxp
+Y2F0aW9uDQo+ID4gPiA+IGxhdW5jaCwNCj4gPg0KPiA+IFdoYXQgZG8geW91IG1lYW4gYnkgYXBw
+bGljYXRpb24gbGF1bmNoPyAgV2hhdCBkb2VzIHRoaXMgbWVhbiBpbiB0aGUNCj4gPiBrZXJuZWwg
+Y29udGV4dD8NCj4gDQo+IEkgdGhpbmsgdGhlcmUgYXJlIHR3byBjYXNlcy4gRmlyc3QsIGEgY29s
+ZCBzdGFydDogYSBuZXcgcHJvY2VzcyBpcyBmb3JrZWQgdG8NCj4gbGF1bmNoIHRoZSBhcHAuIFNl
+Y29uZCwgd2hlbiB0aGUgYXBwIHN3aXRjaGVzIGZyb20gYmFja2dyb3VuZCB0bw0KPiBmb3JlZ3Jv
+dW5kLCBmb3IgZXhhbXBsZSB3aGVuIHdlIGJyaW5nIGl0IGJhY2sgdG8gdGhlIHNjcmVlbiBhZnRl
+ciBpdCBoYXMNCj4gYmVlbiBydW5uaW5nIGluIHRoZSBiYWNrZ3JvdW5kLg0KPiANCj4gSW4gdGhl
+IGZpcnN0IGNhc2UsIHlvdSByZWJvb3QgeW91ciBwaG9uZSBhbmQgdGFwIHRoZSBZb3VUdWJlIGlj
+b24gdG8gc3RhcnQNCj4gdGhlIGFwcCAoY29sZCBsYXVuY2gpLiBJbiB0aGUgc2Vjb25kIGNhc2Us
+IHlvdSBhcmUgd2F0Y2hpbmcgYSB2aWRlbyBpbg0KPiBZb3VUdWJlLCB0aGVuIHN3aXRjaCB0byBG
+YWNlYm9vaywgYW5kIGxhdGVyIHRhcCB0aGUgWW91VHViZSBpY29uIGFnYWluIHRvDQo+IGJyaW5n
+IGl0IGZyb20gYmFja2dyb3VuZCB0byBmb3JlZ3JvdW5kLg0KPiANClRoYW5rcyBmb3IgdGhlIGV4
+cGxhaW4sIHRoYXQncyBleGFjdGx5IHdoYXQgSSBtZWFudC4gIA0KDQpBbmRyb2lkIGxpZmVjeWNs
+ZSBtb2RlbCBpc24ndCBvYnZpb3VzIG91dHNpZGUgdGhlIEFuZHJvaWQgY29udGV4dC4gSeKAmWxs
+IG1ha2UgdGhhdCANCmNsZWFyZXIgaW4gdGhlIG5leHQgdmVyc2lvbi4NCj4gPg0KPiA+ID4gPiB0
+aGUgb2xkZXN0IGFub24gZ2VuZXJhdGlvbiBvZnRlbiBiZWNvbWVzIGVtcHR5LCBhbmQgZmlsZSBw
+YWdlcyBhcmUNCj4gPiA+ID4gb3Zlci1yZWNsYWltZWQuDQo+ID4gPg0KPiA+ID4gWW91IHNob3Vs
+ZCBmaXggdGhlIGJ1Zywgbm90IG1vdmUgdGhlIGRlYnVnIGludGVyZmFjZSB0byBwcm9jZnMuICBO
+QUNLLg0KPiA+DQo+ID4gQmFycnkgcmVjZW50bHkgc2VudCBhbiBSRkMgWzFdIHRvIGFmZmVjdCBM
+UlUgaW4gdGhlIGV4aXQgcGF0aCBmb3INCj4gPiBBbmRyb2lkLiAgVGhpcyB3YXMgcHJvdmVuIGlu
+Y29ycmVjdCBieSBKb2hhbm5lcywgaWlyYywgaW4gYW5vdGhlcg0KPiA+IHRocmVhZCBJIGNhbm5v
+dCBmaW5kIChkZXN0cm95cyBwZXJmb3JtYW5jZSBvZiBjYWxsaW5nIHRoZSBzYW1lIGNvbW1hbmQp
+Lg0KPiANCj4gTXkgdW5kZXJzdGFuZGluZyBpcyB0aGF0IGFmZmVjdGluZyB0aGUgTFJVIGluIHRo
+ZSBleGl0IHBhdGggaXMgbm90IGdlbmVyYWxseQ0KPiBjb3JyZWN0LCBidXQgaXQgc3RpbGwgaGln
+aGxpZ2h0cyBhIHJlcXVpcmVtZW50OiBMaW51eCBMUlUgbmVlZHMgYSB3YXkgdG8NCj4gdW5kZXJz
+dGFuZCBhcHAtY3ljbGluZyBiZWhhdmlvciBpbiBhbiBBbmRyb2lkLWxpa2Ugc3lzdGVtLg0KPiAN
+Cj4gPg0KPiA+IFRoZXNlIGlkZWFzIHNlZW0gYm90aCByZWxhdGVkIGFzIGl0IHBvaW50cyB0byBh
+IHN1Ym9wdGltYWwgTFJVIGluIHRoZQ0KPiA+IEFuZHJvaWQgZWNvc3lzdGVtLCBhdCBsZWFzdC4g
+IEl0IHNlZW1zIHRvIHN0ZW0gZnJvbSBBbmRyb2lkcyBsaWZlDQo+ID4gKGN5Y2xlKSBjaG9pY2Vz
+IDopDQo+ID4NCj4gPiBJIHN0cm9uZ2x5IGFncmVlIHdpdGggV2lsbHkuICBXZSBkb24ndCB3YW50
+IGFub3RoZXIgdXNlcnNwYWNlIGRhZW1vbg0KPiA+IGFuZC9vciBpbnRlcmZhY2UsIGJ1dCB0aGlz
+IHRpbWUgdG8gcGxheSB3aXRoIHRoZSBMUlUgdG8gYXZvaWQgdHJ5aW5nDQo+ID4gdG8gZGVmaW5l
+IGFuZCBmaXggdGhlIHByb2JsZW0uDQo+ID4NCj4gPiBEbyB5b3Uga25vdyBpZiB0aGlzIGFmZmVj
+dHMgb3RoZXJzIG9yIHdoeSBpdCBpcyBhbmRyb2lkIHNwZWNpZmljPw0KPiANCj4gVGhlIGJlaGF2
+aW9yIFppY2hlbmcgcHJvYmFibHkgd2FudHMgaXMgYSBwcm9hY3RpdmUgbWVtb3J5IHJlY2xhbWF0
+aW9uDQo+IGludGVyZmFjZS4gRm9yIGV4YW1wbGUsIHNpbmNlIGVhY2ggYXBwIG1heSBiZSBpbiBh
+IGRpZmZlcmVudCBtZW1jZywgaWYgYW4NCj4gYXBwIGhhcyBiZWVuIGluIHRoZSBiYWNrZ3JvdW5k
+IGZvciBhIGxvbmcgdGltZSwgaGUgd2FudHMgdG8gcmVjbGFpbSBpdHMNCj4gbWVtb3J5IHByb2Fj
+dGl2ZWx5IHJhdGhlciB0aGFuIHdhaXRpbmcgdW50aWwga3N3YXBkIGhpdHMgdGhlIHdhdGVybWFy
+a3MuDQo+IA0KPiBUaGlzIG1heSBoZWxwIGEgbmV3bHkgbGF1bmNoZWQgYXBwIG9idGFpbiBtZW1v
+cnkgbW9yZSBxdWlja2x5LCBhdm9pZGluZw0KPiBkZWxheXMgZnJvbSByZWNsYW1hdGlvbiwgc2lu
+Y2UgYSBuZXcgYXBwIHR5cGljYWxseSByZXF1aXJlcyBhIHN1YnN0YW50aWFsDQo+IGFtb3VudCBv
+ZiBtZW1vcnkuDQo+IA0KPiBaaWNoZW5nLCBwbGVhc2UgbGV0IG1lIGtub3cgaWYgSeKAmW0gbWlz
+dW5kZXJzdGFuZGluZyBhbnl0aGluZy4NCg0KWWVzLCBidXQgbm90IGxlYXN0Lg0KDQoxLiBwcm9h
+Y3RpdmUgbWVtb3J5IHJlY2xhaW06IHllcywgdGhhdCdzIHdlIGFyZSBhZnRlci4gDQpXaGVuIGFu
+IGFwcCBpcyBzd2lwZWQgYXdheSBhbmQga2VwdCBpbiB0aGUgYmFja2dyb3VuZCBhbmQgbm90IHVz
+ZSBmb3IgYSB3aGlsZSwgDQpwcm9hY3RpdmVseSByZWNsYWltaW5nIGl0cyBtZW1jZyBjYW4gaGVs
+cCBuZXcgZm9yZWdyb3VuZCBhcHBzIGdldCBtZW1vcnkgDQpmYXN0ZXIgKGluc3RlYWQgb2YgcGF5
+aW5nIHRoZSBjb3N0IG9mIGRpcmVjdCByZWNsYWltKS4NCg0KMi4gQW5vbiB2LnMuIEZpbGU6ICpi
+aWFzIG1vcmUgdG93YXJkcyBhbm9ueW1vdXMqIHBhZ2VzIGZvciBiYWNrZ3JvdW5kIGFwcHMuDQpX
+aXRoIG1nbHJ1LCBob3dldmVyLCB0aGUgb2xkZXN0IGdlbmVyYXRpb25zIG9mdGVuIGNvbnRhaW4g
+YWxtb3N0IG5vIGFub24gcGFnZXMsDQpzbyBzaW1wbHkgdHVuaW5nIHN3YXBwaW5lc3MgY2Fubm90
+IGFjaGlldmUgdGhhdCAtLSByZWNsYWltIHdpbGwgc3RpbGwgY2xlYXIgZmlsZSBjYWNoZQ0KaW4g
+dGhlIG9sZCBnZW5lcmF0aW9ucyBmaXJzdC4NClRvIHNvbWUgZXh0ZW50LCBmaWxlIGNhY2hlcyBh
+cmUgYG92ZXItcmVjbGFpbWVkYCBpbiBzdWNoIHNlbmFyaW8sIGxlYWRpbmcgdG8gYSBkaXNhc3Rl
+cg0Kd2hlbiB1c2Vy4oCRaW50ZXJhY3Rpb24gdGhyZWFkcyBnZXQgc3R1Y2sgaW4gZGlyZWN0IHJl
+Y2xhaW0gb2YgYW5vbiBwYWdlcy4NCg0KU2VlIHRoZSBjYXNlIGluIHRoZSBjb3ZlciBsZXR0ZXIu
+DQpgYGANCm1lbWNnICAgIDU0IC9hcHBzL3NvbWVfYXBwDQpub2RlICAgICAwDQoxICAgICAxMTk4
+MDQgICAgICAgICAgMCAgICAgICA4NTQ2MQ0KMiAgICAgMTE5ODA0ICAgICAgICAgIDAgICAgICAg
+ICAgIDUNCjMgICAgIDExOTgwNCAgICAgMTgxNzE5ICAgICAgIDE4NjY3DQo0ICAgICAgIDE3NTIg
+ICAgICAgIDM5MiAgICAgICAgIDI0NA0KYGBgDQoNCj4gDQo+ID4NCj4gPiBbMV0uDQo+ID4gaHR0
+cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjUwNTE0MDcwODIwLjUxNzkzLTEtMjFjbmJhb0Bn
+bWFpbC5jb20vDQo+ID4NCj4gDQo+IFRoYW5rcw0KPiBCYXJyeQ0KDQpTaW5jZSB0aGUgc2VtYW50
+aWMgZ2FwIGJldHdlZW4gdXNlci9rZXJuZWwgc3BhY2Ugd2lsbCBhbHdheXMgZXhpc3QuDQpJdCB3
+b3VsZCBiZSBncmVhdCBiZW5lZml0cyBmb3IgbGVhdmluZyBzb21lIEFQSXMgZm9yIHVzZXIgaGlu
+dHMsIGp1c3QgbGlrZSANCm1tYWR2aXNlL3VzZXJmYXVsdC9wYXJhLXZpcnR1YWxpemF0aW9uLg0K
+RXhwb3Npbmcgc3VjaCBoaW50cyB0byB0aGUga2VybmVsIGNhbiBoZWxwIGltcHJvdmUgb3ZlcmFs
+bCBzeXN0ZW0gcGVyZm9ybWFuY2UuDQoNCkJlc3QsDQpaaWNoZW5nIA0K
