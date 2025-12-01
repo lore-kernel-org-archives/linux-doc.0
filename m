@@ -1,206 +1,159 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A7D331211
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 18:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837A8DF72;
+	Mon,  1 Dec 2025 18:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764613200; cv=none; b=pKJTK77NHZDj27r6rqaBrHLLAovR0uFImWBSPgLWrFjUcFdLeUFfrTYYwum3pATN3vRAy2BrcRoJinnnrtTMFuJlu6kMqIYMfvsCRPyhe+cBw62Zx4QFO0/LQdZmhkfoaaEnH6/f8Rc6BEF0ztkiYD5Y9huhWfWyo9scPBwsHSQ=
+	t=1764614345; cv=none; b=uYkmwoL/gnAUe92JS5UEj6DSpro9oNJAlTlk4RezbtXtXP5p6VxCkgta7w1Qn/q9eD9Dvd2NWFOmvhkA8Wqyp+M8zPCVVAJ8Z+cyfHJi2C0RHF2GiLJF72FrViySSDLuT55GuZyMoSD7oe1T71IxUzAeTJjWK1iANl6CyOlr18U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764613200; c=relaxed/simple;
-	bh=R4zb8QVEWFPgzNvZ5CPpwj0EBVH9ubdWaSW2XoDwoY0=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=OHD5RLh3qhJgaFlYou6+B0iRKvIaQVJJ1yh8Ebp7ve1m7pCgxFSXhrK/h5pk/2kegt47lk1DJT3CORM1D8J4XKib0EnrNUDkhZ/PpraB/VTbFrqRyXPhjeDqQFxl+hZwS9skeYl5d5TR+Cc4QAmkzmOlavx0Ncd0HiFQJqsHP8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ptosi.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BCdUzm8n; arc=none smtp.client-ip=209.85.218.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ptosi.bounces.google.com
+	s=arc-20240116; t=1764614345; c=relaxed/simple;
+	bh=3EJvnyc/jcabyykc1MitwC+ykMnzEJpqcsrSDH4bVos=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i4eV4uQW3ozRqvrjXx/ztl/nXupQUitzNY1+Oyk4RqE2fOZlDjNbW9N0Z/S6hIMbNW3LXcN8Lh6F57Ym+W1kxv+if8whz9yqrXpjTpwFxcY7rYTwd9Vkl8ZzM5zp6Id8kx4XuklrDpQYGr+uROvQhHa+j7mlhVHDfLrloAsLKaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Kn5gHxRd; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BCdUzm8n"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b733b21a138so500801966b.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 10:19:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764613196; x=1765217996; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R2ky1g7vqxE0dSxSYlDayHPkG662KZ7f5gS2hZCCGuQ=;
-        b=BCdUzm8n9fCh3z3xQ5hFZW14QSayiW5e1htvn7r47/VCcQdTYn72E+nL7SpZ4OkzM3
-         /4Bro2o56Fh5KBA+tHkmfj95N/E1gWv2VyIe4jbL89Q8KKFVuNcsqO/XkiPgXK27fhFA
-         RF3CsF69CFxgFjxb5hy/aNHZJbLXeyNx9H2OOR4VPp83/n8riw/3whEdsFtMmX5sT1S6
-         eYtjL0P87r3OrbUHgZ4Q/jICHgTQIzqqXFHqAWHtzKjKgZNIvm7IktvgDPB0EuEmQ8nl
-         jYjNNVfnEP3Jrr9eGB6PSbo857jkARl+1XCUgWhbuZwa7jHRmX9GrmXJWkO6XqO2Ub+u
-         U0pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764613196; x=1765217996;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R2ky1g7vqxE0dSxSYlDayHPkG662KZ7f5gS2hZCCGuQ=;
-        b=MFOKZlnkbzz/GgtGwsFB7ZJDfx3n95hZ3ydhVvCqQ8z/N2GsH8ru4z2Ysvoh3EmAQs
-         0iInIa2rCjysvyFgsyBUtwi/QBedr5HP9Naw6eEFdCEl1YkWaoqZ4Bx/a77QbnTNpF91
-         aAIkWpFD/9Bex/MArdxzCW9vxTZkPgHwziK8J1983iZh6zPgSnoWv2/gldu+3tbwEKJJ
-         62BwFHvHO81PW4kP2G92z+a9j8GJ+Sjxn4irzE5OdUFckRn4FgNi0YthoskGUilleKva
-         NnlDV96bT3thoep5enVbp0WsD1gL43ow/fv7zKXYR9/rBAC1O43zMtXI8wzl9kpIehf/
-         VI/w==
-X-Forwarded-Encrypted: i=1; AJvYcCXOhFkLjoUu2KMRf7yEysL8m2aeD2QgAS4zKFFPSoRXk3v60BaaWHaiI11IFammsBl+DOaSodBgfIM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVRwCUv3qilz+PGbrFTHkC0qFQv3QmN3RX0bxce++r9hutjh1W
-	SR3/s3MCPkHI6zs7Yz6a0xZwHT3XxmLp/+ZPYkd8xlhCxIMofFPMIxdIkFF2QN7OKRwUMwJc0AK
-	Psw==
-X-Google-Smtp-Source: AGHT+IG0rnfQOBcsGBc89nGQ7P5SqEhx394iLm0A9p+JH2UauaQ7PKGIBjoXKOQU6ONzPdt2vT+TuR01CA==
-X-Received: from ejdcu3.prod.google.com ([2002:a17:906:ba83:b0:b73:2695:dbc5])
- (user=ptosi job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:6d13:b0:b77:18a0:3c8b
- with SMTP id a640c23a62f3a-b7718a03cd2mr1308264966b.1.1764613196560; Mon, 01
- Dec 2025 10:19:56 -0800 (PST)
-Date: Mon, 01 Dec 2025 18:19:52 +0000
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Kn5gHxRd"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Jvo3HfTGdOgZmyDWsndn9CedHCVWn6B7/Qgyo4cTBnw=; b=Kn5gHxRd9UKdQKCSJQJBuzNm8c
+	OJMVgBNG3O3TEKQelzD1dJa5JlvBf8twwHCzXuDaiGz10BEcop6qBaNWvllcCsIo8ADIwUKhwggEU
+	Qrf8w8LpQ6d3+pxr1/SoLjrmzAzCKW2JtGEYzAsuZyqK38tIzv8eXnjdsCpBE6ihQ9JgrN2+7hmQv
+	KLY71Rfdv5VW5LYMfbDZZvK0q8tzAPL7Y0uRHLxUic6uD3xR9/qYPBRbIgHHxNf7483msyvww48p8
+	YW/y877cEf8Ot+Fd822pyAUw8JdezMe4LWYHR0b41ffDOng/+emP9MYIuUAgmR6q8s0v+8TBti06i
+	FPjUyTBA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vQ8na-00000004Qxz-2pUB;
+	Mon, 01 Dec 2025 18:38:58 +0000
+Message-ID: <654dc140-3ee6-4c0c-96d6-c1405b048dc1@infradead.org>
+Date: Mon, 1 Dec 2025 10:38:55 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAEjcLWkC/x3MQQqAIBBA0avIrBN0QpCuEi1KxxooC40IxLsnL
- d/i/wKZElOGQRRI9HDmMzboToDb5riSZN8MqNBoVFrmwzknA+83JWms9T5oXHpjoCVXosDvvxu nWj8ivT43XgAAAA==
-X-Change-Id: 20251201-smccc-filter-588ddf12b355
-X-Mailer: b4 0.14.2
-Message-ID: <20251201-smccc-filter-v1-1-b4831416f8a3@google.com>
-Subject: [PATCH] KVM: arm64: Prevent FWD_TO_USER of SMCCC to pKVM
-From: "=?utf-8?q?Pierre-Cl=C3=A9ment_Tosi?=" <ptosi@google.com>
-To: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev
-Cc: Joey Gouly <joey.gouly@arm.com>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
-	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, 
-	"=?utf-8?q?Pierre-Cl=C3=A9ment_Tosi?=" <ptosi@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 mm-new 10/16] khugepaged: add per-order mTHP collapse
+ failure statistics
+To: Nico Pache <npache@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org
+Cc: david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+ lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
+ dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+ baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+ wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
+ vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
+ yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
+ raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
+ tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+ cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com, hughd@google.com,
+ richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz,
+ rppt@kernel.org, jannh@google.com, pfalcato@suse.de
+References: <20251201174627.23295-1-npache@redhat.com>
+ <20251201174627.23295-11-npache@redhat.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251201174627.23295-11-npache@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-With protected VMs, forwarding guest HVC/SMCs happens at two interfaces:
 
-     pKVM [EL2] <--> KVM [EL1] <--> VMM [EL0]
 
-so it might be possible for EL0 to successfully register with EL1 to
-handle guest SMCCC calls but never see the KVM_EXIT_HYPERCALL, even if
-the calls are properly issued by the guest, due to EL2 handling them so
-that (host) EL1 never gets a chance to exit to EL0.
+On 12/1/25 9:46 AM, Nico Pache wrote:
+> Add three new mTHP statistics to track collapse failures for different
+> orders when encountering swap PTEs, excessive none PTEs, and shared PTEs:
+> 
+> - collapse_exceed_swap_pte: Increment when mTHP collapse fails due to swap
+> 	PTEs
+> 
+> - collapse_exceed_none_pte: Counts when mTHP collapse fails due to
+>   	exceeding the none PTE threshold for the given order
+> 
+> - collapse_exceed_shared_pte: Counts when mTHP collapse fails due to shared
+>   	PTEs
+> 
+> These statistics complement the existing THP_SCAN_EXCEED_* events by
+> providing per-order granularity for mTHP collapse attempts. The stats are
+> exposed via sysfs under
+> `/sys/kernel/mm/transparent_hugepage/hugepages-*/stats/` for each
+> supported hugepage size.
+> 
+> As we currently dont support collapsing mTHPs that contain a swap or
+> shared entry, those statistics keep track of how often we are
+> encountering failed mTHP collapses due to these restrictions.
+> 
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>  Documentation/admin-guide/mm/transhuge.rst | 24 ++++++++++++++++++++++
+>  include/linux/huge_mm.h                    |  3 +++
+>  mm/huge_memory.c                           |  7 +++++++
+>  mm/khugepaged.c                            | 16 ++++++++++++---
+>  4 files changed, 47 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+> index c51932e6275d..d396d1bfb274 100644
+> --- a/Documentation/admin-guide/mm/transhuge.rst
+> +++ b/Documentation/admin-guide/mm/transhuge.rst
+> @@ -714,6 +714,30 @@ nr_anon_partially_mapped
+>         an anonymous THP as "partially mapped" and count it here, even though it
+>         is not actually partially mapped anymore.
+>  
+> +collapse_exceed_none_pte
+> +       The number of collapse attempts that failed due to exceeding the
+> +       max_ptes_none threshold. For mTHP collapse, Currently only max_ptes_none
 
-Instead, avoid that confusing situation and make userspace fail early by
-disallowing KVM_ARM_VM_SMCCC_FILTER-ing calls from protected guests in
-the KVM FID range (which pKVM re-uses).
+	                                              currently
 
-DEN0028 defines 65536 "Vendor Specific Hypervisor Service Calls":
+> +       values of 0 and (HPAGE_PMD_NR - 1) are supported. Any other value will
+> +       emit a warning and no mTHP collapse will be attempted. khugepaged will
+> +       try to collapse to the largest enabled (m)THP size, if it fails, it will
 
-- the first ARM_SMCCC_KVM_NUM_FUNCS (128) can be custom-defined
-- the following 3 are currently standardized
-- the rest is "reserved for future expansion"
+	                                                size. If
+or
+	                                                size; if
 
-so reserve them all, like commit 821d935c87bc ("KVM: arm64: Introduce
-support for userspace SMCCC filtering") with the Arm Architecture Calls.
+> +       try the next lower enabled mTHP size. This counter records the number of
+> +       times a collapse attempt was skipped for exceeding the max_ptes_none
+> +       threshold, and khugepaged will move on to the next available mTHP size.
+> +
+> +collapse_exceed_swap_pte
+> +       The number of anonymous mTHP pte ranges which were unable to collapse due
 
-Alternatively, we could have only reserved the ARM_SMCCC_KVM_NUM_FUNCS
-(or even a subset of it) and the "Call UID Query" but that would have
-risked future conflicts between that uAPI and an extension of the SMCCC
-or of the pKVM ABI.
+	                               PTE
 
-Signed-off-by: Pierre-Cl=C3=A9ment Tosi <ptosi@google.com>
----
- Documentation/virt/kvm/devices/vm.rst | 11 ++++++++++
- arch/arm64/kvm/hypercalls.c           | 39 +++++++++++++++++++++++++++++++=
-++++
- 2 files changed, 50 insertions(+)
+> +       to containing at least one swap PTE. Currently khugepaged does not
+> +       support collapsing mTHP regions that contain a swap PTE. This counter can
+> +       be used to monitor the number of khugepaged mTHP collapses that failed
+> +       due to the presence of a swap PTE.
+> +
+> +collapse_exceed_shared_pte
+> +       The number of anonymous mTHP pte ranges which were unable to collapse due
 
-diff --git a/Documentation/virt/kvm/devices/vm.rst b/Documentation/virt/kvm=
-/devices/vm.rst
-index a4d39fa1b0834b090318250db3b670b0b3174259..9ed4b7afe022023346d4835d33a=
-901e557fc4765 100644
---- a/Documentation/virt/kvm/devices/vm.rst
-+++ b/Documentation/virt/kvm/devices/vm.rst
-@@ -400,3 +400,14 @@ will reject attempts to define a filter for any portio=
-n of these ranges:
-         0x8000_0000 0x8000_FFFF
-         0xC000_0000 0xC000_FFFF
-         =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+
-+Protected KVM (pKVM) reserves the 'Vendor Specific Hypervisor Service Call=
-s'
-+range of function IDs and will reject attempts to define a filter for any
-+portion of these ranges for a protected VM (``KVM_VM_TYPE_ARM_PROTECTED``)=
-:
-+
-+        =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+        Start       End (inclusive)
-+        =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-+        0x8600_0000 0x8600_FFFF
-+        0xC600_0000 0xC600_FFFF
-+        =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-diff --git a/arch/arm64/kvm/hypercalls.c b/arch/arm64/kvm/hypercalls.c
-index 58c5fe7d757274d9079606fcc378485980c6c0f8..5ddcdd70a6b280914048e7683da=
-fb778d0f24658 100644
---- a/arch/arm64/kvm/hypercalls.c
-+++ b/arch/arm64/kvm/hypercalls.c
-@@ -135,6 +135,21 @@ static bool kvm_smccc_test_fw_bmap(struct kvm_vcpu *vc=
-pu, u32 func_id)
- 						   ARM_SMCCC_SMC_64,		\
- 						   0, ARM_SMCCC_FUNC_MASK)
-=20
-+#define SMC32_VHYP_RANGE_BEGIN	ARM_SMCCC_VENDOR_HYP_KVM_FEATURES_FUNC_ID
-+#define SMC32_VHYP_RANGE_END	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,		\
-+						   ARM_SMCCC_SMC_32,		\
-+						   ARM_SMCCC_OWNER_VENDOR_HYP,	\
-+						   ARM_SMCCC_FUNC_MASK)
-+
-+#define SMC64_VHYP_RANGE_BEGIN	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,		\
-+						   ARM_SMCCC_SMC_64,		\
-+						   ARM_SMCCC_OWNER_VENDOR_HYP,	\
-+						   0)
-+#define SMC64_VHYP_RANGE_END	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL,		\
-+						   ARM_SMCCC_SMC_64,		\
-+						   ARM_SMCCC_OWNER_VENDOR_HYP,	\
-+						   ARM_SMCCC_FUNC_MASK)
-+
- static int kvm_smccc_filter_insert_reserved(struct kvm *kvm)
- {
- 	int r;
-@@ -158,6 +173,30 @@ static int kvm_smccc_filter_insert_reserved(struct kvm=
- *kvm)
- 	if (r)
- 		goto out_destroy;
-=20
-+	/*
-+	 * Prevent userspace from registering to handle any SMCCC call in the
-+	 * vendor hypervisor range for pVMs, avoiding the confusion of guest
-+	 * calls seemingly not resulting in KVM_RUN exits because pKVM handles
-+	 * them without ever returning to the host. This is NOT for security.
-+	 */
-+	if (kvm_vm_is_protected(kvm)) {
-+		r =3D mtree_insert_range(&kvm->arch.smccc_filter,
-+				       SMC32_VHYP_RANGE_BEGIN,
-+				       SMC32_VHYP_RANGE_END,
-+				       xa_mk_value(KVM_SMCCC_FILTER_HANDLE),
-+				       GFP_KERNEL_ACCOUNT);
-+		if (r)
-+			goto out_destroy;
-+
-+		r =3D mtree_insert_range(&kvm->arch.smccc_filter,
-+				       SMC64_VHYP_RANGE_BEGIN,
-+				       SMC64_VHYP_RANGE_END,
-+				       xa_mk_value(KVM_SMCCC_FILTER_HANDLE),
-+				       GFP_KERNEL_ACCOUNT);
-+		if (r)
-+			goto out_destroy;
-+	}
-+
- 	return 0;
- out_destroy:
- 	mtree_destroy(&kvm->arch.smccc_filter);
+	                               PTE
 
----
-base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-change-id: 20251201-smccc-filter-588ddf12b355
+> +       to containing at least one shared PTE. Currently khugepaged does not
+> +       support collapsing mTHP pte ranges that contain a shared PTE. This
 
-Best regards,
---=20
-Pierre-Cl=C3=A9ment Tosi <ptosi@google.com>
+	                          PTE
+
+> +       counter can be used to monitor the number of khugepaged mTHP collapses
+> +       that failed due to the presence of a shared PTE.
+> +
+>  As the system ages, allocating huge pages may be expensive as the
+>  system uses memory compaction to copy data around memory to free a
+>  huge page for use. There are some counters in ``/proc/vmstat`` to help
+
+
+-- 
+~Randy
 
