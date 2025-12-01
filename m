@@ -1,205 +1,84 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB6927FB1C
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 06:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B666027C842;
+	Mon,  1 Dec 2025 07:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764572105; cv=none; b=DXhNPZmtjQH954BN6W4DkSyRn5y9XNB/C4/YkTPFINfBmd5VaaezdHTJF8D3QZ31t/kMsQVZsZ6vbauI1ax31GkavPCgbiCI0FjRGI8C+7dMSR3dwDb3RtDVLLmiuL9HDfyI56Tht7C1xNyw6s4g81FhcitrLtvxBtiVIUYxA9E=
+	t=1764572584; cv=none; b=JePgfrAs9KVaqUDtq+jbarERuZlZgBL6bd/818gxnwz4QcQaS/DmfXiZD7cOUvNurgPQcN4W46CZYGtsz6ALWiZ3f8XlBJ6qXKD3FDyTL+fOgJmA4pkwhZnqScd5/6EzjhKMFrsok60Nad807ZJFuLqIMLJySpyNUVQByCneey8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764572105; c=relaxed/simple;
-	bh=CMiTh6hvW6tX77Uvx+6GbSO36uysKkTXkMZ062BpUFE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KWRUd+X9gYONT0lh/ifVjvls2bHO5CvNB9QRovD25Vhp5DNkEXrkz/VBTyo48YmrFkediakJz8OKmNjFTXmMq9Y9dXNMv9ngL3SRS7NVU2VslfzoTt3/kKqHUuwQ4VX6tdnF5zk7R4Ma+QJDJzb3gOlmr2sYIXlOjmpmH9vhiFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=CTEjzP4r; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="CTEjzP4r"
-Message-ID: <343e5b82-e78a-483b-a8db-57bef4f447eb@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764572100;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x5fdfSHAh1hShI01O3Posk9cCXo8H+KoKbbbrVMf2pg=;
-	b=CTEjzP4rH1uzC8kpgm4TLCr4w5Fpc9hKT7C4FLZCheueAebBL8rM0aWcJn+mQh+I0EuGl5
-	7UAp3hsECBfdT9dCRLU/MM4UZqSRvnQ1Azt1ZQQs9M4y0it/TuI7+wu9twXRkZhsG3b/W0
-	faaltpJ+EpNhc3ZS0QQPWct9HODnCWE=
-Date: Mon, 1 Dec 2025 14:54:53 +0800
+	s=arc-20240116; t=1764572584; c=relaxed/simple;
+	bh=keLVryX8GeIo0Mn0JMDPzQGbake1lsSDO9bIs82o8/A=;
+	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=G+HCLrB4ES7DpBFMzqeo1EGRz4VU4DV5JiDO2+V0N/yM1at4FJv2+LohHnIb9QW8JWIeJOqwkhkRwU0y2lQEFAZ2Eubap7pmSzGdxr6vFC/PqlmH863D6m96O5uLMs2sgzDPInW8HTF1GunAAZxXGkPO/mPnunSeY+eI3ABCsJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from w011.hihonor.com (unknown [10.68.20.122])
+	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4dKZZL3V3YzYl9BZ;
+	Mon,  1 Dec 2025 15:01:30 +0800 (CST)
+Received: from w007.hihonor.com (10.68.16.91) by w011.hihonor.com
+ (10.68.20.122) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Mon, 1 Dec
+ 2025 15:02:54 +0800
+Received: from w002.hihonor.com (10.68.28.120) by w007.hihonor.com
+ (10.68.16.91) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Mon, 1 Dec
+ 2025 15:02:53 +0800
+Received: from w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3]) by
+ w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3%14]) with mapi id
+ 15.02.2562.027; Mon, 1 Dec 2025 15:02:53 +0800
+From: wangzicheng <wangzicheng@honor.com>
+To: Barry Song <21cnbao@gmail.com>, "Liam R. Howlett"
+	<Liam.Howlett@oracle.com>, Matthew Wilcox <willy@infradead.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "hannes@cmpxchg.org"
+	<hannes@cmpxchg.org>, "david@redhat.com" <david@redhat.com>,
+	"axelrasmussen@google.com" <axelrasmussen@google.com>, "yuanchu@google.com"
+	<yuanchu@google.com>, "mhocko@kernel.org" <mhocko@kernel.org>,
+	"zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
+	"shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+	"weixugc@google.com" <weixugc@google.com>, "vbabka@suse.cz" <vbabka@suse.cz>,
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
+	"mhocko@suse.com" <mhocko@suse.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, wangtao <tao.wangtao@honor.com>, "wangzhen
+ 00021541" <wangzhen5@honor.com>, zhongjinji 00025326 <zhongjinji@honor.com>
+Subject: RE: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
+ debugfs to procfs
+Thread-Topic: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
+ debugfs to procfs
+Thread-Index: AQHcYBJK8KKXMResfEqv9fHMnnJz9rUHrbeAgAAP74CAA+3ugIAApiiQgAAOWIA=
+Date: Mon, 1 Dec 2025 07:02:53 +0000
+Message-ID: <e4cc633a77cb46b6bea4667d3886c000@honor.com>
+References: <20251128025315.3520689-1-wangzicheng@honor.com>
+ <aSm800KsCAptVZKu@casper.infradead.org>
+ <ti7h5cbrg5s3zf7surof3zmxb6supnl34x7hsbziqutm7r2laf@zuunap5hwsbx>
+ <CAGsJ_4xJ5qMght93FQOYrk1OiJTh-wFC4e8Nd4K0A156N3ZEBQ@mail.gmail.com>
+ <86c62472b5874ea2833587f1847958df@honor.com>
+In-Reply-To: <86c62472b5874ea2833587f1847958df@honor.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 3/8] docs/zh_CN: Add authorization.rst translation
-To: Kefan Bai <baikefan@leap-io-kernel.com>, alexs@kernel.org
-Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- doubled@leap-io-kernel.com
-References: <cover.1763984424.git.baikefan@leap-io-kernel.com>
- <b4328d04b19ca0d16307aeaa3cc8d10ad2c01bdd.1763984424.git.baikefan@leap-io-kernel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <b4328d04b19ca0d16307aeaa3cc8d10ad2c01bdd.1763984424.git.baikefan@leap-io-kernel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-
-在 2025/11/24 21:34, Kefan Bai 写道:
-> Translate .../usb/authorization.rst into Chinese
->
-> Update the translation through commit f176638af476
-> ("USB: Remove Wireless USB and UWB documentation")
->
-> Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
-> ---
->   .../translations/zh_CN/usb/authorization.rst  | 125 ++++++++++++++++++
->   1 file changed, 125 insertions(+)
->   create mode 100644 Documentation/translations/zh_CN/usb/authorization.rst
->
-> diff --git a/Documentation/translations/zh_CN/usb/authorization.rst b/Documentation/translations/zh_CN/usb/authorization.rst
-> new file mode 100644
-> index 000000000000..2bcb3e9d4c5a
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/usb/authorization.rst
-> @@ -0,0 +1,125 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/usb/authorization.rst
-> +:翻译:
-> +
-> + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
-> +
-> +:校译:
-> +
-> +
-> +==============================================================
-> +授权（或不授权）USB设备连接到系统
-> +==============================================================
-
-It's too long, please trim them.
-
-
-Thanks,
-
-Yanteng
-
-> +
-> +版权 (C) 2007 Inaky Perez-Gonzalez <inaky@linux.intel.com> 因特尔公司
-> +
-> +此功能允许你控制系统中USB设备的使用权限。
-> +你可以借此实现USB设备的锁定，并由用户空间完全控制。
-> +
-> +目前为止，当插入一个USB设备时，系统会配置该USB设备，其接口会立即对用户开放。
-> +通过此修改，只有在root授权配置设备后，用户才能使用它。
-> +
-> +
-> +使用方法
-> +=========
-> +
-> +授权设备连接::
-> +
-> +	$ echo 1 > /sys/bus/usb/devices/DEVICE/authorized
-> +
-> +取消授权设备连接::
-> +	$ echo 0 > /sys/bus/usb/devices/DEVICE/authorized
-> +
-> +将新连接到hostX的设备默认设置为未授权（即：锁定）::
-> +
-> +	$ echo 0 > /sys/bus/usb/devices/usbX/authorized_default
-> +
-> +解除锁定::
-> +
-> +	$ echo 1 > /sys/bus/usb/devices/usbX/authorized_default
-> +
-> +默认情况下，所有USB设备都是授权的。
-> +向authorized_default属性写入 "2" 会使内核默认只授权连接到内部USB端口的设备。
-> +
-> +系统锁定示例（简单示例）
-> +------------------------------
-> +
-> +假设你想实现一个锁定功能，要求只有类型为XYZ的设备可以连接
-> +（例如，它是一个带有可见USB端口的自助服务终端）::
-> +
-> +  启动系统
-> +  rc.local ->
-> +
-> +   for host in /sys/bus/usb/devices/usb*
-> +   do
-> +      echo 0 > $host/authorized_default
-> +   done
-> +
-> +将一个脚本挂接到udev，当插入新的USB设备时，该脚本就会被自动触发::
-> +
-> + if device_is_my_type $DEV
-> + then
-> +   echo 1 > $device_path/authorized
-> + done
-> +
-> +
-> +这里的device_is_my_type()就是实现锁定的关键所在。
-> +仅仅检查class、type 和protocol是否匹配某个值，
-> +是最差的安全验证方式（但对于想要破解的人却是最容易的）。
-> +如果你需要真正安全的方案，应使用加密、证书认证等手段。
-> +一个针对存储密钥的简单示例::
-> +
-> + function device_is_my_type()
-> + {
-> +   echo 1 > authorized		# 暂时授权它
-> +                                # FIXME: 确保没有人能够挂载它
-> +   mount DEVICENODE /mntpoint
-> +   sum=$(md5sum /mntpoint/.signature)
-> +   if [ $sum = $(cat /etc/lockdown/keysum) ]
-> +   then
-> +        echo "We are good, connected"
-> +        umount /mntpoint
-> +        # 添加一些额外的内容，以便其他人也可以使用它
-> +   else
-> +        echo 0 > authorized
-> +   fi
-> + }
-> +
-> +
-> +当然，这种做法很简陋；实际上你应该使用基于PKI的真正证书验证，
-> +这样就不会依赖共享密钥之类的东西。不过你明白我的意思。
-> +任何拿到设备仿真工具包的人都能伪造描述符和设备信息。
-> +所以千万不要信任这些信息。
-> +
-> +接口授权
-> +---------
-> +
-> +也有类似的方法用于允许或拒绝特定USB接口。这允许只阻止USB设备的一个子集。
-> +
-> +授权接口::
-> +
-> +	$ echo 1 > /sys/bus/usb/devices/INTERFACE/authorized
-> +
-> +取消授权接口::
-> +
-> +	$ echo 0 > /sys/bus/usb/devices/INTERFACE/authorized
-> +
-> +也可以更改新接口在特定USB总线上的默认值。
-> +
-> +默认允许接口::
-> +
-> +	$ echo 1 > /sys/bus/usb/devices/usbX/interface_authorized_default
-> +
-> +默认拒绝接口::
-> +	$ echo 0 > /sys/bus/usb/devices/usbX/interface_authorized_default
-> +
-> +默认情况下，interface_authorized_default位为1。
-> +因此，所有接口默认都是授权的。
-> +
-> +注意：
-> +  如果要对一个未授权的接口进行授权，则必须通过将INTERFACE写入
-> +  /sys/bus/usb/drivers_probe来手动触发驱动程序进行探测。
-> +  对于使用多个接口的驱动程序，需要先对所有使用的接口进行授权。
-> +  之后应探测驱动程序。这样做可以避免副作用。
-> --
-> 2.52.0
->
+PiA+ID4NCj4gPiA+IFsxXS4NCj4gPiA+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDI1
+MDUxNDA3MDgyMC41MTc5My0xLTIxY25iYW9AZ21haWwuY29tDQo+ID4gPiAvDQo+ID4gPg0KPiA+
+DQo+ID4gVGhhbmtzDQo+ID4gQmFycnkNCj4gDQo+IFNpbmNlIHRoZSBzZW1hbnRpYyBnYXAgYmV0
+d2VlbiB1c2VyL2tlcm5lbCBzcGFjZSB3aWxsIGFsd2F5cyBleGlzdC4NCj4gSXQgd291bGQgYmUg
+Z3JlYXQgYmVuZWZpdHMgZm9yIGxlYXZpbmcgc29tZSBBUElzIGZvciB1c2VyIGhpbnRzLCBqdXN0
+IGxpa2UNCj4gbW1hZHZpc2UvdXNlcmZhdWx0L3BhcmEtdmlydHVhbGl6YXRpb24uDQo+IEV4cG9z
+aW5nIHN1Y2ggaGludHMgdG8gdGhlIGtlcm5lbCBjYW4gaGVscCBpbXByb3ZlIG92ZXJhbGwgc3lz
+dGVtDQo+IHBlcmZvcm1hbmNlLg0KPiANCj4gQmVzdCwNCj4gWmljaGVuZw0KDQpNb3JlIHByZWNp
+c2VseSwgaXTigJlzIGEgZm9ybSBvZiAqcHJvYWN0aXZlIHNjYW5uaW5nIGFuZCBhZ2luZyouDQoN
+CkVuc3VyZSBhIG1vcmUgZXZlbiBnZW5lcmF0aW9uYWwgZGlzdHJpYnV0aW9uIGJldHdlZW4gZmls
+ZSBhbmQgYW5vbnltb3VzIHBhZ2VzLg0KDQpCZXN0LA0KWmljaGVuZw0K
