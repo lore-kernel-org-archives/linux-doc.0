@@ -1,200 +1,283 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DB41FF1C4;
-	Mon,  1 Dec 2025 08:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC40F2BE62B
+	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 08:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764577018; cv=none; b=tCQJTd4N6EzVUxWiOUvt/cgpKybvSzbBBq5IpW+z5Aij1KGytrzN90YHl//0vSit7RjgWE31AlPVEK03OjfuKh0y50slVGZ9vL1cu18ABisSVk0iwDWeE+dQcEU7MQqNAenXoy7GWtYpI1UeKebHecLzasvHlQz3TzswJz4c9/I=
+	t=1764577853; cv=none; b=T+2Is0dItimD8yyViSFb3MukdS0r3Kk/JnuyfIDyMB+YBgZ8PzhchwbYWoSFBLs8rfkr6w1u75LIyF58EXZt1vzCTSYbCVNyl1kldTOFyDpSMNErTVP6ehPFF1R1Q5+8uFEcCZvA9+Vta10f8Ux1HKG+Bzea9umLujnJcyxMUGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764577018; c=relaxed/simple;
-	bh=SjCMyB1dHNwtgPTS0MoHLJhuhnjVA2MdD0tj6aAiy7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EDqJxsx+kzutAxL3n35Gr0H2M4fPfV17LYG1Kc5K9U8kwTZ4E9S5Bd2RiseSDVsBDVLDSKj5BT6+R9smsu/fahgUr321uYZ9rdAWqx2w0kkRPQx0uE9TcwSQfKaqqFJoXBPaJEIr8sNSliVy6ujGUzkM8skGpJ3K5q/dCeCkwFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MtQNiUA8; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1764577853; c=relaxed/simple;
+	bh=3qFGcAZFlbXHruLRUis/BEcbNsJd37YGk8F8PmqW/9A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n0GcxnpO5jhVCnlNA3xbxaXFYPckVhtRxRoJoCjck/Q9pmP3Jbqr/nTueGoHLskYF9jUVJDbVVKsuedpqKyBJ5SSncMXGBNY32qyLKSe4IEQ3BJbshV6xvNKtmIRpnyxxqa48pdRxHk/HdoVB+K8q2Y/cxxkauEESKRPtfHs51g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LKvHOQuN; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MtQNiUA8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764577014;
-	bh=SjCMyB1dHNwtgPTS0MoHLJhuhnjVA2MdD0tj6aAiy7Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MtQNiUA8jUaVwIUGbuaTBXQWC/AgCctwBHVMPb+164YHYlYfjkrYFBJELoRP0VqGb
-	 P9DYysHwyY9kNkN4LfOU3AU5gV+OjAkHy48NAyqKLDB8GeZLuhfjPlr524yI4a4YzQ
-	 VvkTxUKOq+PtulTUbIbaODh1Xj+fWtWz3HKq+LS9iTVwP6xLmecWck7pwCi9gQY0uJ
-	 PXBtYQTRV2aQxBC+xkYBfdJZjqFfX0pf0/lyTxNAzTFkL6Dy0RMJxjTzXr59VDelRL
-	 5V6fNUFWH+w1H0gQT+gSiwBWn38MemyT2zTpwxcnhY2dHLO3SE5/VWksC+H8btMcPI
-	 nfEFt6sQabtYw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9CCE617E126B;
-	Mon,  1 Dec 2025 09:16:53 +0100 (CET)
-Date: Mon, 1 Dec 2025 09:16:50 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
- Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
- Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v10 02/10] drm/shmem-helper: Map huge pages in fault
- handler
-Message-ID: <20251201091650.4c45e494@fedora>
-In-Reply-To: <20251128185252.3092-3-loic.molinari@collabora.com>
-References: <20251128185252.3092-1-loic.molinari@collabora.com>
-	<20251128185252.3092-3-loic.molinari@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LKvHOQuN"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-297e982506fso51184055ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 00:30:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764577851; x=1765182651; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YRqx+zq6MV9VeTwc28uE5sAPkmHEV1/sluHR5vInZzw=;
+        b=LKvHOQuNdf4uZrodpzmS4rUZoAusbZ9r2ObEj47wQ0//UW7Dq0BC90Ikl8ZCVUG3Y1
+         +fhJjVX+zmye6AHGTqFgKJjTsk5xlH5L1Wp4Ck904na3EnGYFU0lZbucLZHGqn7t6zJd
+         FGrudq/TiaMKQxfOZXIpRwxonVogQPUei9uBWqQm4EBD8QG7c2ZqlG3MR8RXh/1eZYy8
+         Ikp9dRyAQf3zQdVxZWcewE8u9FCtjAEnRq8c55P2Kl8PUYsCPq9GULG5g4c3HwDTAznC
+         um7fG4mnLYgxVVftiL0ElQqwS2iVMXfPQ0ldithSV/p34HrFtKU7ZHynoL6lxCqfdsK8
+         19vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764577851; x=1765182651;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YRqx+zq6MV9VeTwc28uE5sAPkmHEV1/sluHR5vInZzw=;
+        b=TsDOtvmBvN1bCoYFocIbgnDbK5X387x3P9SW3Z4mG6rLB52uVv35jFCg+yKxI7dMzI
+         UgToqG4lHhWNBBTiFW77AiDoiHeV/MlRqwQgnVY1qtw8pgphRkZPzHvfbaX78iy+kNtg
+         YOaYD574ixN2ql5d4P+enMaeX0U4q/Kd3j2NeChKBwxn4ahx1aba37mHQNmHfHW1IZC8
+         EzwM+Gz4JWtJdbzxodzgpLKRCQWWKMF3lezcRQce41GOITfyVCeOE85jwSXSAOENtKLP
+         6fDaTeoPj5WC1KiNKMfP8yEmp6o3SCyDp6oVAxOkn80fk+xz0urspKZQvkWjuknDR8SP
+         2W4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWyjPgCOhwM8JsR2eGrBdWl6hPnVgPo0cDlapH3N3J2vSaU9wcpLAJsWpM6Hi0K8u931+K8RaBUiKM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaFLX1v9h9l6m14ID+VmNdR9rMEpUBIOat227kFynEiDETmNfs
+	Qj+JYDw6j12othMG5tA48NsNH6Wa4q/cX1hfCr75CbvWo2BRsBw/n5F4
+X-Gm-Gg: ASbGncsn9y5NiCqmfr2JoOpe1BbV34cK/IqcCuQOqzRvNzPzQ9HJduMvS81OKi0CiXX
+	zzZNacTB0gl69YAAp098flgyZ/P7QyQDTXqmYFjdUqruIIwIWYtv9UCp79zzDAtZIKGEtmRL+4G
+	3hqH0fc/NIXliNOp94FKTeKnHwpU+gLBaH3qq5zaSg6CfY5iMkvzv7kYPtYsDdcxur1X6I9SBJY
+	Qk0WmEuztb5hiCLPHZvhiuCVdpw38IO1gJyndjO8zGS3ZVBUR67aiNLRiijvnqf9QrJxznNHgPW
+	MZusEDoREwFJjwUmzU13JVC8nL53+o05LUx0o2cIAo1QKmvmOJ2p+LuJNHklCWIPHDUQHN9DOV5
+	y/Kde00rvht6lq+S3I/zzW21ja1lxTNoKp7fZr/XqSFIyONLSC/WPaOPPhgIhkoLGdUlPsxy8hC
+	UAeva0mNBnkFSuLHocpWap
+X-Google-Smtp-Source: AGHT+IFW9UJkWdGVik+RSQYeEpxrY0mwOpthUJGwwDnRRi307Q5DK2ltXPn3UBb6Ty9M1AXX5CNwmg==
+X-Received: by 2002:a17:902:d588:b0:29b:6845:6214 with SMTP id d9443c01a7336-29b6be8c872mr440193065ad.3.1764577850566;
+        Mon, 01 Dec 2025 00:30:50 -0800 (PST)
+Received: from google.com ([2401:fa00:95:201:2a71:e28f:ae3c:b20c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bce441e59sm116914635ad.33.2025.12.01.00.30.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Dec 2025 00:30:49 -0800 (PST)
+Date: Mon, 1 Dec 2025 16:30:43 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, "Tsao, Anson" <anson.tsao@amd.com>,
+	"Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
+Subject: Re: [PATCH v3 2/5] drm/amdgpu: add helper to read UMA carveout info
+Message-ID: <aS1SM0sENT510Feo@google.com>
+References: <20251126-vram-carveout-tuning-for-upstream-v3-0-cf1729c4cb3c@amd.com>
+ <20251126-vram-carveout-tuning-for-upstream-v3-2-cf1729c4cb3c@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251126-vram-carveout-tuning-for-upstream-v3-2-cf1729c4cb3c@amd.com>
 
-On Fri, 28 Nov 2025 19:52:44 +0100
-Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+Hi Leo and Mario,
 
-> Attempt a PMD sized PFN insertion into the VMA if the faulty address
-> of the fault handler is part of a huge page.
->=20
-> On builds with CONFIG_TRANSPARENT_HUGEPAGE enabled, if the mmap() user
-> address is PMD size aligned, if the GEM object is backed by shmem
-> buffers on mountpoints setting the 'huge=3D' option and if the shmem
-> backing store manages to allocate a huge folio, CPU mapping would then
-> benefit from significantly increased memcpy() performance. When these
-> conditions are met on a system with 2 MiB huge pages, an aligned copy
-> of 2 MiB would raise a single page fault instead of 4096.
->=20
-> v4:
-> - implement map_pages instead of huge_fault
->=20
-> v6:
-> - get rid of map_pages handler for now (keep it for another series
->   along with arm64 contpte support)
->=20
-> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
+On Wed, Nov 26, 2025 at 05:05:13PM +0800, Yo-Jung Leo Lin (AMD) wrote:
+> Currently, the available UMA allocation configs in the integrated system
+> information table have not been parsed. Add a helper function to retrieve
+> and store these configs.
+> 
+> Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+> Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
 > ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 55 +++++++++++++++++++++-----
->  1 file changed, 46 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm=
-_gem_shmem_helper.c
-> index be89be1c804c..81f4ac7cb8f6 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -567,31 +567,68 @@ int drm_gem_shmem_dumb_create(struct drm_file *file=
-, struct drm_device *dev,
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h              | 32 ++++++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c         |  2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c | 77 ++++++++++++++++++++++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h |  2 +
+>  4 files changed, 113 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 9f9774f58ce1..6873c020b923 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -1675,6 +1675,38 @@ struct amdgpu_numa_info {
+>  	int nid;
+>  };
+>  
+> +#define MAX_UMA_OPTION_NAME	28
+> +#define MAX_UMA_OPTION_ENTRIES	19
+> +
+> +#define AMDGPU_UMA_FLAG_AUTO	BIT(1)
+> +#define AMDGPU_UMA_FLAG_CUSTOM	BIT(0)
+> +
+> +/**
+> + * struct amdgpu_uma_carveut_option - single UMA carveout option
+
+Nit: struct amdgpu_uma_carve*o*ut_option
+
+> + * @name: Name of the carveout option
+> + * @memory_carved_mb: Amount of memory carved in MB
+> + * @flags: ATCS flags supported by this option
+> + */
+> +struct amdgpu_uma_carveout_option {
+> +	char name[MAX_UMA_OPTION_NAME];
+> +	uint32_t memory_carved_mb;
+> +	uint8_t flags;
+> +};
+> +
+> +/**
+> + * struct amdgpu_uma_carveut_info - table of available UMA carveout options
+
+Ditto: struct amdgpu_uma_carve*o*ut_info
+
+Regards,
+Kuan-Wei
+
+> + * @num_entries: Number of available options
+> + * @uma_option_index: The index of the option currently applied
+> + * @update_lock: Lock to serialize changes to the option
+> + * @entries: The array of carveout options
+> + */
+> +struct amdgpu_uma_carveout_info {
+> +	uint8_t num_entries;
+> +	uint8_t uma_option_index;
+> +	struct mutex update_lock;
+> +	struct amdgpu_uma_carveout_option entries[MAX_UMA_OPTION_ENTRIES];
+> +};
+> +
+>  /* ATCS Device/Driver State */
+>  #define AMDGPU_ATCS_PSC_DEV_STATE_D0		0
+>  #define AMDGPU_ATCS_PSC_DEV_STATE_D3_HOT	3
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> index 610449d73a6c..92070738bd42 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> @@ -38,6 +38,7 @@
+>  #include "amdgpu_display.h"
+>  #include "amd_acpi.h"
+>  #include "atom.h"
+> +#include "amdgpu_atomfirmware.h"
+>  
+>  /* Declare GUID for AMD _DSM method for XCCs */
+>  static const guid_t amd_xcc_dsm_guid = GUID_INIT(0x8267f5d5, 0xa556, 0x44f2,
+> @@ -125,6 +126,7 @@ struct amdgpu_atcs {
+>  	acpi_handle handle;
+>  
+>  	struct amdgpu_atcs_functions functions;
+> +	struct amdgpu_uma_carveout_info uma_info;
+>  };
+>  
+>  static struct amdgpu_acpi_priv {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
+> index 636385c80f64..7f4751e5caaf 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
+> @@ -296,6 +296,83 @@ static int convert_atom_mem_type_to_vram_type(struct amdgpu_device *adev,
+>  	return vram_type;
 >  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
-> =20
-> +static bool drm_gem_shmem_fault_is_valid(struct drm_gem_object *obj,
-> +					 pgoff_t pgoff)
-
-AFAICT, extracting the fault_is_valid() logic into a helper is
-orthogonal to the huge_page mapping stuff, and I don't see it being
-used in the rest of the series (I guess it was when you were
-introducing support for map_pages()). Maybe this should be done in a
-separate patch, or postponed until there's a second place checking for
-fault validity, dunno.
-
+>  
+> +static int amdgpu_atomfirmware_get_uma_carveout_info_v2_3(struct amdgpu_device *adev,
+> +							  union igp_info *igp_info,
+> +							  struct amdgpu_uma_carveout_info *uma_info)
 > +{
-> +	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
+> +	struct uma_carveout_option *opts;
+> +	uint8_t nr_uma_options;
+> +	int i;
 > +
-> +	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
-> +	    pgoff >=3D (obj->size >> PAGE_SHIFT) ||
-> +	    shmem->madv < 0)
-> +		return false;
+> +	nr_uma_options = igp_info->v23.UMACarveoutIndexMax;
 > +
-> +	return true;
+> +	if (!nr_uma_options)
+> +		return -ENODEV;
+> +
+> +	if (nr_uma_options > MAX_UMA_OPTION_ENTRIES) {
+> +		drm_dbg(adev_to_drm(adev),
+> +			"Number of UMA options exceeds max table size. Options will not be parsed");
+> +		return -EINVAL;
+> +	}
+> +
+> +	uma_info->num_entries = nr_uma_options;
+> +	uma_info->uma_option_index = igp_info->v23.UMACarveoutIndex;
+> +
+> +	opts = igp_info->v23.UMASizeControlOption;
+> +
+> +	for (i = 0; i < nr_uma_options; i++) {
+> +		if (!opts[i].memoryCarvedGb)
+> +			uma_info->entries[i].memory_carved_mb = 512;
+> +		else
+> +			uma_info->entries[i].memory_carved_mb = (uint32_t)opts[i].memoryCarvedGb << 10;
+> +
+> +		uma_info->entries[i].flags = opts[i].uma_carveout_option_flags.all8;
+> +		strscpy(uma_info->entries[i].name, opts[i].optionName, MAX_UMA_OPTION_NAME);
+> +	}
+> +
+> +	return 0;
 > +}
 > +
-> +static bool drm_gem_shmem_map_pmd(struct vm_fault *vmf, unsigned long ad=
-dr,
-> +				  struct page *page)
-
-nit: could we name that one drm_gem_shmem_try_map_pmd()?
-
-With my two nits addressed, the patch is
-
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
+> +int amdgpu_atomfirmware_get_uma_carveout_info(struct amdgpu_device *adev,
+> +					      struct amdgpu_uma_carveout_info *uma_info)
 > +{
-> +#ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
-> +	unsigned long pfn =3D page_to_pfn(page);
-> +	unsigned long paddr =3D pfn << PAGE_SHIFT;
-> +	bool aligned =3D (addr & ~PMD_MASK) =3D=3D (paddr & ~PMD_MASK);
+> +	struct amdgpu_mode_info *mode_info = &adev->mode_info;
+> +	union igp_info *igp_info;
+> +	u16 data_offset, size;
+> +	u8 frev, crev;
+> +	int index;
 > +
-> +	if (aligned &&
-> +	    pmd_none(*vmf->pmd) &&
-> +	    folio_test_pmd_mappable(page_folio(page))) {
-> +		pfn &=3D PMD_MASK >> PAGE_SHIFT;
-> +		if (vmf_insert_pfn_pmd(vmf, pfn, false) =3D=3D VM_FAULT_NOPAGE)
-> +			return true;
+> +	if (!(adev->flags & AMD_IS_APU))
+> +		return -ENODEV;
+> +
+> +	index = get_index_into_master_table(atom_master_list_of_data_tables_v2_1,
+> +					    integratedsysteminfo);
+> +
+> +	if (!amdgpu_atom_parse_data_header(mode_info->atom_context,
+> +					  index, &size,
+> +					  &frev, &crev, &data_offset)) {
+> +		return -EINVAL;
 > +	}
-> +#endif
 > +
-> +	return false;
+> +	igp_info = (union igp_info *)
+> +			(mode_info->atom_context->bios + data_offset);
+> +
+> +	switch (frev) {
+> +	case 2:
+> +		switch (crev) {
+> +		case 3:
+> +			return amdgpu_atomfirmware_get_uma_carveout_info_v2_3(adev, igp_info, uma_info);
+> +		break;
+> +		default:
+> +			break;
+> +		}
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +	return -ENODEV;
 > +}
 > +
->  static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
->  {
->  	struct vm_area_struct *vma =3D vmf->vma;
->  	struct drm_gem_object *obj =3D vma->vm_private_data;
->  	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
-> -	loff_t num_pages =3D obj->size >> PAGE_SHIFT;
-> -	vm_fault_t ret;
-> -	struct page *page;
-> +	struct page **pages =3D shmem->pages;
->  	pgoff_t page_offset;
-> +	unsigned long pfn;
-> +	vm_fault_t ret;
-> =20
->  	/* Offset to faulty address in the VMA (without the fake offset). */
->  	page_offset =3D vmf->pgoff - vma->vm_pgoff;
-> =20
->  	dma_resv_lock(shmem->base.resv, NULL);
-> =20
-> -	if (page_offset >=3D num_pages ||
-> -	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
-> -	    shmem->madv < 0) {
-> +	if (unlikely(!drm_gem_shmem_fault_is_valid(obj, page_offset))) {
->  		ret =3D VM_FAULT_SIGBUS;
-> -	} else {
-> -		page =3D shmem->pages[page_offset];
-> +		goto out;
-> +	}
-> =20
-> -		ret =3D vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
-> +	if (drm_gem_shmem_map_pmd(vmf, vmf->address, pages[page_offset])) {
-> +		ret =3D VM_FAULT_NOPAGE;
-> +		goto out;
->  	}
-> =20
-> +	pfn =3D page_to_pfn(pages[page_offset]);
-> +	ret =3D vmf_insert_pfn(vma, vmf->address, pfn);
-> +
-> + out:
->  	dma_resv_unlock(shmem->base.resv);
-> =20
->  	return ret;
-
+>  int
+>  amdgpu_atomfirmware_get_vram_info(struct amdgpu_device *adev,
+>  				  int *vram_width, int *vram_type,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
+> index 649b5530d8ae..67c8d105729b 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
+> @@ -32,6 +32,8 @@ void amdgpu_atomfirmware_scratch_regs_init(struct amdgpu_device *adev);
+>  int amdgpu_atomfirmware_allocate_fb_scratch(struct amdgpu_device *adev);
+>  int amdgpu_atomfirmware_get_vram_info(struct amdgpu_device *adev,
+>  	int *vram_width, int *vram_type, int *vram_vendor);
+> +int amdgpu_atomfirmware_get_uma_carveout_info(struct amdgpu_device *adev,
+> +					      struct amdgpu_uma_carveout_info *uma_info);
+>  int amdgpu_atomfirmware_get_clock_info(struct amdgpu_device *adev);
+>  int amdgpu_atomfirmware_get_gfx_info(struct amdgpu_device *adev);
+>  bool amdgpu_atomfirmware_mem_ecc_supported(struct amdgpu_device *adev);
+> 
+> -- 
+> 2.43.0
+> 
+> 
