@@ -1,159 +1,121 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837A8DF72;
-	Mon,  1 Dec 2025 18:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0DA36D513;
+	Mon,  1 Dec 2025 18:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764614345; cv=none; b=uYkmwoL/gnAUe92JS5UEj6DSpro9oNJAlTlk4RezbtXtXP5p6VxCkgta7w1Qn/q9eD9Dvd2NWFOmvhkA8Wqyp+M8zPCVVAJ8Z+cyfHJi2C0RHF2GiLJF72FrViySSDLuT55GuZyMoSD7oe1T71IxUzAeTJjWK1iANl6CyOlr18U=
+	t=1764614932; cv=none; b=c6I6HT/jPN3nYrNM2SUl+md0+ACzPUkniRGmthnC1Um5xF2v7jNRSPLU9gDJf10IaTfJhoXJ7FnMyqMhwKK5ZfbNcgItkvIx23i44gJyOG+BsYo2mMRdJunnqD5mZxYp0pP7PqdZ/VSgBx7MoLtDy6W0QyAcp/x9w7WP5gLAxuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764614345; c=relaxed/simple;
-	bh=3EJvnyc/jcabyykc1MitwC+ykMnzEJpqcsrSDH4bVos=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i4eV4uQW3ozRqvrjXx/ztl/nXupQUitzNY1+Oyk4RqE2fOZlDjNbW9N0Z/S6hIMbNW3LXcN8Lh6F57Ym+W1kxv+if8whz9yqrXpjTpwFxcY7rYTwd9Vkl8ZzM5zp6Id8kx4XuklrDpQYGr+uROvQhHa+j7mlhVHDfLrloAsLKaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Kn5gHxRd; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1764614932; c=relaxed/simple;
+	bh=8mPq8nOkd7GYclNEqbPcyQdNSK5b0Ogy59muydnaThI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nG9J5mDVJqjm4MRsFbOhAWh36I4l3WlAgLTTH1VgjS/QvRaADe6sEU+koEz1iWyLnxEa/pVLmIlEd96H+l9mpfc4iidie3rimHJHmNSIsLIXC1PHR7WPdvU/BWltB7UupQcRc24LjVwHVuwmLzZV8ebOXRGDYXPuJSeupF9+bIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qonL8Ofb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Kn5gHxRd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Jvo3HfTGdOgZmyDWsndn9CedHCVWn6B7/Qgyo4cTBnw=; b=Kn5gHxRd9UKdQKCSJQJBuzNm8c
-	OJMVgBNG3O3TEKQelzD1dJa5JlvBf8twwHCzXuDaiGz10BEcop6qBaNWvllcCsIo8ADIwUKhwggEU
-	Qrf8w8LpQ6d3+pxr1/SoLjrmzAzCKW2JtGEYzAsuZyqK38tIzv8eXnjdsCpBE6ihQ9JgrN2+7hmQv
-	KLY71Rfdv5VW5LYMfbDZZvK0q8tzAPL7Y0uRHLxUic6uD3xR9/qYPBRbIgHHxNf7483msyvww48p8
-	YW/y877cEf8Ot+Fd822pyAUw8JdezMe4LWYHR0b41ffDOng/+emP9MYIuUAgmR6q8s0v+8TBti06i
-	FPjUyTBA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vQ8na-00000004Qxz-2pUB;
-	Mon, 01 Dec 2025 18:38:58 +0000
-Message-ID: <654dc140-3ee6-4c0c-96d6-c1405b048dc1@infradead.org>
-Date: Mon, 1 Dec 2025 10:38:55 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qonL8Ofb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6045CC4CEF1;
+	Mon,  1 Dec 2025 18:48:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764614931;
+	bh=8mPq8nOkd7GYclNEqbPcyQdNSK5b0Ogy59muydnaThI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qonL8OfbUvIgnf+p/t9uJtgN1AGc6Xl4nvqXi+pQB70+la1/q/J2DoHgNwzPP0qZ6
+	 xpU/O2CUhzcGThb8zC3RHiy3dTIB/Y2+5NOSKlyfx2QIvY+OCHlxYNUnweXP43fwd/
+	 Cu0YXRibhJLEuuvX1HDSog7pYS/f5/BSBwBwaRXp8XX4dYRFdFwiSHdeKbAjMWftEM
+	 ehNFa/3T/V+n8F0IrfjPXuE8A9BRfJYYBcAg39iU529V7/v5nebMFnEgQmXasCTp8p
+	 r1GPbR6YKzONufYvcPWDcuhUIcWRPla8yzqbM08s0BZoCGFDp8iWMqhvoED7X0HliX
+	 7B3jkWm/9Exfg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vQ8x6-00000009hAi-48rX;
+	Mon, 01 Dec 2025 18:48:49 +0000
+Date: Mon, 01 Dec 2025 18:48:48 +0000
+Message-ID: <86ms42ox67.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: "=?utf-8?q?Pierre-Cl=C3=A9ment_Tosi?=" <ptosi@google.com>
+Cc: kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	Joey Gouly <joey.gouly@arm.com>,
+	Oliver Upton <oupton@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Vincent Donnefort <vdonnefort@google.com>,
+	Will Deacon <will@kernel.org>,
+	Zenghui Yu <yuzenghui@huawei.com>
+Subject: Re: [PATCH] KVM: arm64: Prevent FWD_TO_USER of SMCCC to pKVM
+In-Reply-To: <20251201-smccc-filter-v1-1-b4831416f8a3@google.com>
+References: <20251201-smccc-filter-v1-1-b4831416f8a3@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 mm-new 10/16] khugepaged: add per-order mTHP collapse
- failure statistics
-To: Nico Pache <npache@redhat.com>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org
-Cc: david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com,
- dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
- raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com, hughd@google.com,
- richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz,
- rppt@kernel.org, jannh@google.com, pfalcato@suse.de
-References: <20251201174627.23295-1-npache@redhat.com>
- <20251201174627.23295-11-npache@redhat.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251201174627.23295-11-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ptosi@google.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, joey.gouly@arm.com, oupton@kernel.org, suzuki.poulose@arm.com, vdonnefort@google.com, will@kernel.org, yuzenghui@huawei.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-
-
-On 12/1/25 9:46 AM, Nico Pache wrote:
-> Add three new mTHP statistics to track collapse failures for different
-> orders when encountering swap PTEs, excessive none PTEs, and shared PTEs:
+On Mon, 01 Dec 2025 18:19:52 +0000,
+"=?utf-8?q?Pierre-Cl=C3=A9ment_Tosi?=" <ptosi@google.com> wrote:
 > 
-> - collapse_exceed_swap_pte: Increment when mTHP collapse fails due to swap
-> 	PTEs
+> With protected VMs, forwarding guest HVC/SMCs happens at two interfaces:
 > 
-> - collapse_exceed_none_pte: Counts when mTHP collapse fails due to
->   	exceeding the none PTE threshold for the given order
+>      pKVM [EL2] <--> KVM [EL1] <--> VMM [EL0]
 > 
-> - collapse_exceed_shared_pte: Counts when mTHP collapse fails due to shared
->   	PTEs
+> so it might be possible for EL0 to successfully register with EL1 to
+> handle guest SMCCC calls but never see the KVM_EXIT_HYPERCALL, even if
+> the calls are properly issued by the guest, due to EL2 handling them so
+> that (host) EL1 never gets a chance to exit to EL0.
 > 
-> These statistics complement the existing THP_SCAN_EXCEED_* events by
-> providing per-order granularity for mTHP collapse attempts. The stats are
-> exposed via sysfs under
-> `/sys/kernel/mm/transparent_hugepage/hugepages-*/stats/` for each
-> supported hugepage size.
+> Instead, avoid that confusing situation and make userspace fail early by
+> disallowing KVM_ARM_VM_SMCCC_FILTER-ing calls from protected guests in
+> the KVM FID range (which pKVM re-uses).
 > 
-> As we currently dont support collapsing mTHPs that contain a swap or
-> shared entry, those statistics keep track of how often we are
-> encountering failed mTHP collapses due to these restrictions.
+> DEN0028 defines 65536 "Vendor Specific Hypervisor Service Calls":
 > 
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  Documentation/admin-guide/mm/transhuge.rst | 24 ++++++++++++++++++++++
->  include/linux/huge_mm.h                    |  3 +++
->  mm/huge_memory.c                           |  7 +++++++
->  mm/khugepaged.c                            | 16 ++++++++++++---
->  4 files changed, 47 insertions(+), 3 deletions(-)
+> - the first ARM_SMCCC_KVM_NUM_FUNCS (128) can be custom-defined
+> - the following 3 are currently standardized
+> - the rest is "reserved for future expansion"
 > 
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> index c51932e6275d..d396d1bfb274 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -714,6 +714,30 @@ nr_anon_partially_mapped
->         an anonymous THP as "partially mapped" and count it here, even though it
->         is not actually partially mapped anymore.
->  
-> +collapse_exceed_none_pte
-> +       The number of collapse attempts that failed due to exceeding the
-> +       max_ptes_none threshold. For mTHP collapse, Currently only max_ptes_none
+> so reserve them all, like commit 821d935c87bc ("KVM: arm64: Introduce
+> support for userspace SMCCC filtering") with the Arm Architecture Calls.
 
-	                                              currently
+I don't think preventing all hypercalls from reaching userspace is
+acceptable from an API perspective. For example, it is highly expected
+that the hypercall that exposes the various MIDR/REVIDR/AIDR that the
+guest can be expected to run on is handled in userspace.
 
-> +       values of 0 and (HPAGE_PMD_NR - 1) are supported. Any other value will
-> +       emit a warning and no mTHP collapse will be attempted. khugepaged will
-> +       try to collapse to the largest enabled (m)THP size, if it fails, it will
+Given that this hypercall is critical to the correct behaviour of a
+guest in an asymmetric system, you can't really forbid it. If you
+don't want it, that's fine -- don't implement it in your VMM.
 
-	                                                size. If
-or
-	                                                size; if
+But I fully expect pKVM to inherit the existing APIs by virtue of
+being a KVM backend.
 
-> +       try the next lower enabled mTHP size. This counter records the number of
-> +       times a collapse attempt was skipped for exceeding the max_ptes_none
-> +       threshold, and khugepaged will move on to the next available mTHP size.
-> +
-> +collapse_exceed_swap_pte
-> +       The number of anonymous mTHP pte ranges which were unable to collapse due
+> Alternatively, we could have only reserved the ARM_SMCCC_KVM_NUM_FUNCS
+> (or even a subset of it) and the "Call UID Query" but that would have
+> risked future conflicts between that uAPI and an extension of the SMCCC
+> or of the pKVM ABI.
 
-	                               PTE
+I disagree. The only ones you can legitimately block are the ones that
+are earmarked for pKVM itself (2-63), and only these. Everything else
+should make it to userspace if the guest and the VMM agree to do so.
 
-> +       to containing at least one swap PTE. Currently khugepaged does not
-> +       support collapsing mTHP regions that contain a swap PTE. This counter can
-> +       be used to monitor the number of khugepaged mTHP collapses that failed
-> +       due to the presence of a swap PTE.
-> +
-> +collapse_exceed_shared_pte
-> +       The number of anonymous mTHP pte ranges which were unable to collapse due
+This is part of the KVM ABI, and pKVM should be fixed.
 
-	                               PTE
+Thanks,
 
-> +       to containing at least one shared PTE. Currently khugepaged does not
-> +       support collapsing mTHP pte ranges that contain a shared PTE. This
-
-	                          PTE
-
-> +       counter can be used to monitor the number of khugepaged mTHP collapses
-> +       that failed due to the presence of a shared PTE.
-> +
->  As the system ages, allocating huge pages may be expensive as the
->  system uses memory compaction to copy data around memory to free a
->  huge page for use. There are some counters in ``/proc/vmstat`` to help
-
+	M.
 
 -- 
-~Randy
-
+Without deviation from the norm, progress is not possible.
