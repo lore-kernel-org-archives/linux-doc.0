@@ -1,87 +1,39 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118762F6183
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 13:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69D530DD14;
+	Mon,  1 Dec 2025 13:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764594221; cv=none; b=ulgz+s3IBCRbBxLZGX2G1OE2co9qOaw+2VssHrS/cJ1+EYnnE4e/J2+mGUjCXV2XvXsYY/iZeaUub5j/kRb3VsFP86WjFfnI9OiFRqScuWbpiOz87wZnCtx6TKluUdN52OlMVErW/44VJkJXPVyAvEdPTBzuDqPyvOwi4NH1uRY=
+	t=1764594446; cv=none; b=Gp5HD7sIW6D4dRSOsREQEPURq4WioMPvQCqPrgLanGtTc17zMpKvbqbV2fZL9hadhkzAcLLFwH/sTw4Hdn+i118mka2F9tCweoJzQAoFpg9YM/+k2gSDE6KPKQCM33xSdz5cOxOjXNxCQMPQDtdjiUu1R0BdVi6JMnH0tANBSC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764594221; c=relaxed/simple;
-	bh=mQiRzhVPiTBI5fhfG5QlYmYGwxQKVPYJzIQfa/KT8TY=;
+	s=arc-20240116; t=1764594446; c=relaxed/simple;
+	bh=ng/XaTusfgLVDAVmYNmAi9IGu3ufa0RR60WTUzOwLe4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ch6I0J+avuhYeOfrOefdhCX3HIbHqMUnN/PFUsBOBHyB2z9fjzBVwh361+RVNmloCWENVDi00dcu66qHSTYTEHH67ruUGPxlTG2shq8z1D93B5Pizkr2ah+N6aqMWqKMVEPvBvTXjXNROILnAAtJFX3y0UZWXG+wOdgZtS47JiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KDGZCW8g; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=bnCZuVdV; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=G46pMWwXT/LmH7wSoo9FXUz2FIT6Nj2+Omu5RJrdDAZ+JcT0ZvUIuwfinWieTIhK3N/vLwwz4q1vx8uD5zpKG1NGPSmYT8Mpcx1NzwBvcHLX42b3D3I7yBTkYBGrNcO2wZRYxsgheqrxPkwectFj4bncEeDNc0TNjXDg8/Q6sBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=WTgX9IBz; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KDGZCW8g";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bnCZuVdV"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B1AxRUq349136
-	for <linux-doc@vger.kernel.org>; Mon, 1 Dec 2025 13:03:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Ctg+o1lzozlYykOwrPvWfRQts5DzAQREjfwDpCaJEFg=; b=KDGZCW8gOwA5z+dU
-	7p+aW47KzL7MlgizscFE3966je9YM+dpKsgar8MEH4sqByEgwL1+J9jrLXceq7eq
-	TJyhdYKf6ye20fCWdgnOBcNlFGwctx3HiccJhjUkRyJt+KIm0lCS7wAIvbHeP6bh
-	/Pa7jVeOs06DEfVzCkrsO13MIyQFBguVgVdkliy/098XcPRVkPHHAYxFmE/B6GVM
-	t13lR+epDg0uX8tjgzql64RjdN73HxOp8jPvCw4sa1f9pM3hytFoT5xKqAHdLfGQ
-	bTasuVEGwpElWGthBheU5BKFllo6tc1TJmeflm2de/0jH1KQQvlO1Sx/9h5qYmlb
-	BBOhCg==
-Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com [74.125.224.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4as9re0aaf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 13:03:36 +0000 (GMT)
-Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-640e5edbce4so710502d50.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 05:03:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764594216; x=1765199016; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ctg+o1lzozlYykOwrPvWfRQts5DzAQREjfwDpCaJEFg=;
-        b=bnCZuVdVtyAj7uSPNiP1p5+YTo75ZMfeGGDSosvpGjZSmpR3ZYRb8RKhkv3NGWA+n2
-         xE5QEjTrmQAIm8hZY4cGvQHdP82ocAq1g0XHWo9OKw9im8OA/Wn585+0js3981/XfFuM
-         tUrT0aGRLYkgJ+cxvemkCp+r+NKo4PC6lMsCzY+wtmpTHjyUBylxCB9VhZmD5HElgxfL
-         uILgdI9ILmGwRUQRVk0tH1dQvFk/bwEtOj4oy4Ao9D74/4mWJfF04xO9eLvLpW6jxLwu
-         hjNq0ZikDETUD9XXbvt6RQ1SjQBJq4ApPzJ4RgF6WXqZEQdw+elpQljF2Jyru4WikMP6
-         Fo2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764594216; x=1765199016;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ctg+o1lzozlYykOwrPvWfRQts5DzAQREjfwDpCaJEFg=;
-        b=MECw1aB44vLd3xKN94Lj+gQ1xKjAnlei3m3c3sPTKxl5qcggUJLEw5sdvfEyh7rGBF
-         PfPql++Vz3W0E3Q0oGb47PcxVv7uzcPA7KOZy8Tkl06oVBpbX3s73gqHqfLVw2o7oD2G
-         mbOT96mnlztb46AGXQKW4tAIWeKXn4gk7hJF9WeSFQgLcXtZgiw8jiwPyYbmDCM/bi1X
-         fQsKFHcZqYfnYlxTw1yIpelrtKCZIRNm6I6P1W6WA6pVIYgVcBOSc21IvvM3m8a6Uu2d
-         iqu0Y6a6jHTyhnOix7McMPXQ2ibmdeq18pXxkNtabdrJkpcWp8Zs3v2Y4Nyv0l4NZh6L
-         JLhw==
-X-Forwarded-Encrypted: i=1; AJvYcCVrl3hTdgNLmNJDWo/21XYs3UZTEQkUPoO73OYVW0Va0GM27TiOqnQOCFOaqKCqGg2Mu3w1tBikNnQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUGll1n8VDrVOTlUCskxjw2Mpxp7kNpzybGyAPq7T35ButiBzY
-	08+PK/F12RRFtEy1BGUi3Y9cZZff01AwfDfLeRiozM7ipQKL12XDORRYNk4ulpEjOwFAbP2Up9K
-	Q/25MAYIJgID5vF1kLkoRIF8XngGOkIbqJ5UaFLlRkq4bD/ObH2TudkI0cGRJHCw=
-X-Gm-Gg: ASbGncstgAdVRvAPS5kJxR/YsiSUTcXAO4YJFM+7NWNu5IEuqEdwG9J+9N4jxcu4uJo
-	p8s/cfp2oRW3SEJdZcImCs6lOl5jVUz85YFRWkqz/yJ8NmvgW3KIYCZKx+rXPzb52wymYj62Sww
-	wW2W1p1blnoWFopwydTx12CHyMo6oGbrIwsP6tPt9rDG1dtf+Mbi9lDyxFcLHSOezPKBIYpTe7Q
-	jhxZJwhxOs5doSUKzYe/dENYVb2juZ+zeGeNHj55C4ETfMpAi8yZT7ZG0UeFLkK4cCxUEu2oM2M
-	Cf1iNH0fAbSDDcRdVP7/kP6FcSMCWOhkA8MfvggpsyBUp5DsPQSHYYIoCISBsHM5uFZOsCP/vkx
-	nUVBvW3PEVmW4zpldUBRdwREtMy3OM0Hwv+Dx3brxnza+M9fy8diTXiSrmFXvDyIAuPc=
-X-Received: by 2002:a05:690e:154d:10b0:640:d0e9:1d7f with SMTP id 956f58d0204a3-64302b44480mr18940981d50.3.1764594215445;
-        Mon, 01 Dec 2025 05:03:35 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFqMXMDUrIWgkKWxZqcL0dH0seGl1iVMJGPq0rXLF1jLMt1txAJQwrRO9ii3mNBnFaFb49pNg==
-X-Received: by 2002:a05:690e:154d:10b0:640:d0e9:1d7f with SMTP id 956f58d0204a3-64302b44480mr18940933d50.3.1764594214730;
-        Mon, 01 Dec 2025 05:03:34 -0800 (PST)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64751062709sm12436798a12.35.2025.12.01.05.03.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Dec 2025 05:03:33 -0800 (PST)
-Message-ID: <c15e156f-fd11-4d38-98c0-f89b78044407@oss.qualcomm.com>
-Date: Mon, 1 Dec 2025 14:03:31 +0100
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="WTgX9IBz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Okio4Q2gggxGvztR15RAxmdaAgL/sYeq5MjRRToGKm0=; b=WTgX9IBz4XydOkRVxbTUgsLWuo
+	WJS8BTvTcbVWXjtTgqlivp+7PvEwO89wSBM4uX6PpcEuAVWIvG2/tuw5A/kmp47GbXmAVZDYmuESA
+	bE50bNymi0j7YlDvwd7SK0CGPApiDlK/A89ek0SAyRKswRMDDkDnyU3z7c1mK3MMV1HsUJUU2e8Oi
+	AqmOcokk9zj4mslOVZfSRX1Ai0rsZ5x+OPTCdp5c0d5nA+Tu0fYVR+sWwUbJaIz3Zb1pVTripkvjZ
+	Oz9pL0r2VStuMy7ePxLoUSWbcW8fh1WQLuUHJ5E3NvzimkLN72ryJth3blmDETKZzBF1MZEIT9hI0
+	hTX/So3Q==;
+Received: from [189.7.87.198] (helo=[192.168.0.4])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1vQ3bt-007O25-5H; Mon, 01 Dec 2025 14:06:33 +0100
+Message-ID: <1c48c302-decb-40e2-8ca3-c4e423ccf31b@igalia.com>
+Date: Mon, 1 Dec 2025 10:06:18 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,85 +41,212 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 10/11] crypto: qce - Add support for BAM locking
-To: Bartosz Golaszewski <brgl@bgdev.pl>, Vinod Koul <vkoul@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Tiwari <quic_utiwari@quicinc.com>,
-        Daniel Perez-Zoghbi <dperezzo@quicinc.com>,
-        Md Sadre Alam <mdalam@qti.qualcomm.com>,
-        Dmitry Baryshkov <lumag@kernel.org>
-Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-crypto@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-References: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
- <20251128-qcom-qce-cmd-descr-v9-10-9a5f72b89722@linaro.org>
+Subject: Re: [PATCH v10 04/10] drm/gem: Add huge tmpfs mountpoint helpers
+To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Matthew Wilcox
+ <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251128185252.3092-1-loic.molinari@collabora.com>
+ <20251128185252.3092-5-loic.molinari@collabora.com>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251128-qcom-qce-cmd-descr-v9-10-9a5f72b89722@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAxMDEwNiBTYWx0ZWRfXwam+Ujjoiw83
- QnLche2+xNvurHrWLDYmYxtArdYSshLdHrkOVYKtI89nSaACCu9v92MZorw9uImSFqdQ2AddTbn
- 55vi98bdwUXPGm/+ZBa/2wqXKmTHodWZzncl2Ohv3wsjpb17DZUqOqyWsrgr7h7VlnCase1junJ
- aVLrI3GMTKVgrD5e7C/Kcm/V2aYEDWw5ueCszDANFa+FH8/F7K0U524D+1OBbsBo6wSsdGH/p9r
- C3sIhxY6f1dWszgOcE2t3u0MaUM+LXOkqkMGi7oNASwPYUcOQpX9Oiv3wNOSxy5P215alZI7mHR
- q8nJqiNCV9wQeQNHougreviTq8G3z+TBTprsy+to0kEZnDSxnNSI2MzzFaa8f7u78VNJhopKNrw
- ko7KqtDJ4/VG7dLkYEt/hVdpowSvtg==
-X-Authority-Analysis: v=2.4 cv=MNptWcZl c=1 sm=1 tr=0 ts=692d9228 cx=c_pps
- a=J+5FMm3BkXb42VdG8aMU9w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=SbnQZzZDCDfwX-qd_CgA:9
- a=QEXdDO2ut3YA:10 a=Epx66wHExT0cjJnnR-oj:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: yc7dXXIoVxGktw4vfy_9rT3OYB_EKrWV
-X-Proofpoint-GUID: yc7dXXIoVxGktw4vfy_9rT3OYB_EKrWV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-28_08,2025-11-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 adultscore=0 impostorscore=0
- priorityscore=1501 phishscore=0 spamscore=0 malwarescore=0 clxscore=1015
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512010106
+In-Reply-To: <20251128185252.3092-5-loic.molinari@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 11/28/25 12:44 PM, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Hi Loïc,
+
+On 28/11/25 15:52, Loïc Molinari wrote:
+> Add the drm_gem_huge_mnt_create() and drm_gem_get_huge_mnt() helpers
+> to avoid code duplication in the i915, V3D, Panfrost and Panthor
+> drivers. The former creates and mounts a dedicated huge tmpfs
+> mountpoint, for the lifetime of a DRM device, used at GEM object
+> initialization. The latter retrieves the dedicated huge tmpfs
+> mountpoint used by a DRM device.
 > 
-> Implement the infrastructure for using the new DMA controller lock/unlock
-> feature of the BAM driver. No functional change for now.
+> The next commits will port drivers to these helpers.
 > 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> v3:
+> - store huge tmpfs mountpoint in drm_device
+> 
+> v4:
+> - return 0 in builds with CONFIG_TRANSPARENT_HUGEPAGE=n
+> - return 0 when huge_mnt already exists
+> - use new vfs_parse_fs_string() helper
+> 
+> v5:
+> - remove warning on !dev->huge_mnt and reset to NULL on free
+> - inline drm_gem_huge_mnt_create() to remove func from text and avoid
+>    calls in builds with CONFIG_TRANSPARENT_HUGEPAGE=n
+> - compile out drm_device's huge_mnt field in builds with
+>    CONFIG_TRANSPARENT_HUGEPAGE=n
+> - add drm_gem_has_huge_mnt() helper
+> 
+> v6:
+> - move huge_mnt doc into ifdef'd section
+> - either inline or export drm_gem_huge_mnt_create()
+> 
+> v7:
+> - include <drm/drm_device.h> in drm_gem.h
+> 
+> v9:
+> - replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
+> 
+> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+
+Some suggestions below (feel free to ignore):
+
 > ---
->  drivers/crypto/qce/common.c | 18 ++++++++++++++++++
->  drivers/crypto/qce/dma.c    | 39 ++++++++++++++++++++++++++++++++++-----
->  drivers/crypto/qce/dma.h    |  4 ++++
->  3 files changed, 56 insertions(+), 5 deletions(-)
+>   drivers/gpu/drm/drm_gem.c | 57 +++++++++++++++++++++++++++++++++++++++
+>   include/drm/drm_device.h  | 15 +++++++++++
+>   include/drm/drm_gem.h     | 33 +++++++++++++++++++++++
+>   3 files changed, 105 insertions(+)
 > 
-> diff --git a/drivers/crypto/qce/common.c b/drivers/crypto/qce/common.c
-> index 04253a8d33409a2a51db527435d09ae85a7880af..74756c222fed6d0298eb6c957ed15b8b7083b72f 100644
-> --- a/drivers/crypto/qce/common.c
-> +++ b/drivers/crypto/qce/common.c
-> @@ -593,3 +593,21 @@ void qce_get_version(struct qce_device *qce, u32 *major, u32 *minor, u32 *step)
->  	*minor = (val & CORE_MINOR_REV_MASK) >> CORE_MINOR_REV_SHIFT;
->  	*step = (val & CORE_STEP_REV_MASK) >> CORE_STEP_REV_SHIFT;
->  }
-> +
-> +int qce_bam_lock(struct qce_device *qce)
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 41d344c270a7..94e5e04865ba 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -29,6 +29,9 @@
+>   #include <linux/export.h>
+>   #include <linux/file.h>
+>   #include <linux/fs.h>
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +#include <linux/fs_context.h>
+> +#endif
+>   #include <linux/iosys-map.h>
+>   #include <linux/mem_encrypt.h>
+>   #include <linux/mm.h>
+> @@ -82,6 +85,60 @@
+>    * up at a later date, and as our interface with shmfs for memory allocation.
+>    */
+>   
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +static void drm_gem_huge_mnt_free(struct drm_device *dev, void *data)
 > +{
-> +	qce_clear_bam_transaction(qce);
-> +	/* Dummy write to acquire the lock on the BAM pipe. */
-> +	qce_write(qce, REG_AUTH_SEG_CFG, 0);
+> +	kern_unmount(dev->huge_mnt);
+> +}
+> +
+> +/**
+> + * drm_gem_huge_mnt_create - Create, mount and use a huge tmpfs mountpoint
+> + * @dev: DRM device a huge tmpfs mountpoint should be used with
 
-This works because qce_bam_lock() isn't used in a place where the state
-of this register matters which isn't obvious.. but I'm not sure there's
-a much better one to use in its place
+Suggestion: "DRM device that will use the huge tmpfs mountpoint"
 
-Wonder if we could use the VERSION one (base+0x0) - although it's supposed
-to be read-only, but at the same time I don't think that matters much for
-the BAM engine
+> + * @value: huge tmpfs mount option value
+> + *
+> + * This function creates and mounts a dedicated huge tmpfs mountpoint for the
+> + * lifetime of the DRM device @dev which is used at GEM object initialization
+> + * with drm_gem_object_init().
+> + *
+> + * The most common option value @value is "within_size" which only allocates
 
-Konrad
+Suggestion: "The most common option for @value is..."
+
+> + * huge pages if the page will be fully within the GEM object size. "always",
+> + * "advise" and "never" are supported too but the latter would just create a
+> + * mountpoint similar to the default one (`shm_mnt`). See shmemfs and
+> + * Transparent Hugepage for more information.
+> + *
+> + * Returns:
+> + * 0 on success or a negative error code on failure.
+> + */
+
+[...]
+
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index 5af49c5c3778..7dc560ad14fc 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -3,6 +3,9 @@
+>   
+>   #include <linux/list.h>
+>   #include <linux/kref.h>
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +#include <linux/mount.h>
+> +#endif
+>   #include <linux/mutex.h>
+>   #include <linux/idr.h>
+>   #include <linux/sched.h>
+> @@ -168,6 +171,18 @@ struct drm_device {
+>   	 */
+>   	struct drm_master *master;
+>   
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +	/**
+> +	 * @huge_mnt:
+> +	 *
+> +	 * Huge tmpfs mountpoint used at GEM object initialization
+> +	 * drm_gem_object_init(). Drivers can call drm_gem_huge_mnt_create() to
+
+Suggestion: "Drivers can call drm_gem_huge_mnt_create() to mount and use
+it."
+
+> +	 * create a huge tmfps mountpoint. The default tmpfs mountpoint
+> +	 * (`shm_mnt`) is used if NULL.
+> +	 */
+> +	struct vfsmount *huge_mnt;
+> +#endif
+> +
+>   	/**
+>   	 * @driver_features: per-device driver features
+>   	 *
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 7c8bd67d087c..4e9ab5d294ac 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -40,6 +40,9 @@
+>   #include <linux/list.h>
+>   #include <linux/mutex.h>
+>   
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +#include <drm/drm_device.h>
+> +#endif
+>   #include <drm/drm_vma_manager.h>
+>   
+>   struct iosys_map;
+> @@ -492,6 +495,36 @@ struct drm_gem_object {
+>   		DRM_GEM_FOPS,\
+>   	}
+>   
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +int drm_gem_huge_mnt_create(struct drm_device *dev, const char *value);
+> +#else
+> +static inline int drm_gem_huge_mnt_create(struct drm_device *dev,
+> +					  const char *value)
+> +{
+> +	return 0;
+> +}
+> +#endif
+> +
+> +/**
+> + * drm_gem_get_huge_mnt - Get the huge tmpfs mountpoint used by a DRM device
+> + * @dev: DRM device
+> +
+> + * This function gets the huge tmpfs mountpoint used by DRM device @dev. A huge
+> + * tmpfs mountpoint is used after a successful call to drm_gem_huge_mnt_create()
+
+Suggestion: "A huge tmpfs is used instead of `shm_mnt` after a
+successful call to drm_gem_huge_mnt_create() when
+CONFIG_TRANSPARENT_HUGEPAGE is enabled"
+
+Best Regards,
+- Maíra
