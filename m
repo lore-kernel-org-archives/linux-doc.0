@@ -1,90 +1,158 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB3230EF74;
-	Tue,  2 Dec 2025 09:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88E630CDA9;
+	Tue,  2 Dec 2025 10:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764668534; cv=none; b=N9MGUTcj/d5y5ytcgPehxmcdW2qjRL1YYHJPlBFG+IGgZ6OiU0lQOuOSkAzQmZoexVi8SLhF24WNNNTYSLWgx99mE3unXl2Yb7ExFZ1B2i3HIlc3R758wQmQYjRVMF9Qx0wsvfxtVFNlqqnnIuNjRJIY5n2DLunj/bqNCP8BlzI=
+	t=1764670648; cv=none; b=jMYXpOYFFNcKgBbbtKaWOHU1Q+3pNTrL0cU+mWRxceY1Ks3bgf/ldyGORwdjG8r7kBV8cwFltuoR5rTv4dunaa1XK/JtyKs1jHEGlmynxdY9DqQ6MYFn5DPvK9h0MKy2tTzyIn4ziRIJ+bxc3rrsSMz9uj2w5JEw5Qk0HFxfCug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764668534; c=relaxed/simple;
-	bh=nml6aidyLAUTKS+9IwH1T9+BnWn8mVKKNNSv+ivqmHI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Kio3bmrkz11YzCu3aaLe8lF+x5J2PtnUWlm/YeQsnBaz5ZEFC0FNkgYyphrD5AyKBTT/B9NW/wAM0mkYi/tzpUKILL5WSmf/kFCpbr3FYasHUzO9ELD3YFOgTReOzIQsZj/+CzU8Jvl6Ed5Ngy/r0o1orHItJPxJsB/zW0hlihk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=pgxalzxC; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1764670648; c=relaxed/simple;
+	bh=kdHLrkRzJLri/Zem9ZEPjcDruJpnM9kiLoeD+kH2zfc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fiLPAyUl1EIE4/HkJvQbY+hlP2ier76ywfwfzhdCsYdt+abo1sc/RcnpX7urgIvvuagOtYhYYVpN9/Lpda5AjCZQOth2kSsRidyLSO6TQglPweuynF2eABUfeqm2YnfX3u7M4DUmU4QCTA/yViUGmP5aCneD0uJ1Mf2wmvXUuko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZLAO+ZGj; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="pgxalzxC"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZLAO+ZGj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764670643;
+	bh=kdHLrkRzJLri/Zem9ZEPjcDruJpnM9kiLoeD+kH2zfc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZLAO+ZGjGoDtP84IJfsQblBdkOgnkYu6ns9BAXW+8OyG3W+DMo2O+3OEzkbOk3ja6
+	 /BSkGHarnu4GJXAADRwc2QtGaixAipYtGAt/hwR0xLYkQu97y4Yl1IhDjhSkXZb8L1
+	 NDJOPNagL+GqqlaQD7+trq3jxgp9BEgoCt1fXlR2ZZwmhncN3IbTKIKDz/LBXIX/wJ
+	 CDd6SWRH2zBjKCDerhtPvnGA1OOBXW+Skc3vOHTDWt+Vgc7JJasP2RSm4hkEUSAVt1
+	 /WXz18u6QqioKQgtP1cHQ4HJRD1zOVCZiuMqpOodLQD7ankM0RXEjh40ZhHa7AnxTO
+	 b45y/ps4hNhVA==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dLG5D1PRBz9tYG;
-	Tue,  2 Dec 2025 10:42:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1764668528; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nml6aidyLAUTKS+9IwH1T9+BnWn8mVKKNNSv+ivqmHI=;
-	b=pgxalzxCwUTbiU3EiZagPm+kzV6Z7YR5ohIkZqei+ENi+hWO+4Ia9trV3jgPFpqALbCUZ3
-	N2suGWGtwnBcT/QglZh7sT2ThDEs+KNxlrMQuVva7s+vjI62VKE9lFLjlkKtkBdC0DJfr5
-	qNDV082Os163WYmLQwXsk0YqI8lqR6QHduzwTkXEMmXpbSxCwHsORpEcog6o8WcnfXZV3q
-	E3sR4NrwHu3ATFnCCkvGI78ote9QmRppMLH+/EvRmYvXgvCshf5tF+U18n4T+HjeZTxf0T
-	k0ZQozwVI3Kt6guzUEZYKjBIYFeNMcECQB+PTg8DfvR7E67MzKMK1+ASdo3Mdw==
-Message-ID: <84fa6d8a05c0227c33f904c2b88e309963226b8d.camel@mailbox.org>
-Subject: Re: [PATCH v2 0/2] drm/todo: Add section for GPU Scheduler
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Dave Airlie <airlied@gmail.com>, phasta@kernel.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Simona
- Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>,  Matthew Brost <matthew.brost@intel.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Date: Tue, 02 Dec 2025 10:42:01 +0100
-In-Reply-To: <CAPM=9twe+Q0pP3KiWy7ZTYxRs_yN1bHEto6Mptqb3ub7vimgtw@mail.gmail.com>
-References: <20251107135701.244659-2-phasta@kernel.org>
-	 <c35026065b1d109b7f4b9e1d8dee8ea45f9a1dba.camel@mailbox.org>
-	 <CAPM=9twe+Q0pP3KiWy7ZTYxRs_yN1bHEto6Mptqb3ub7vimgtw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0D62A17E114C;
+	Tue,  2 Dec 2025 11:17:23 +0100 (CET)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Melissa Wen <mwen@igalia.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Nitin Gote <nitin.r.gote@intel.com>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christopher Healy <healych@amazon.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	kernel@collabora.com
+Subject: [PATCH v11 00/10] drm: Reduce page tables overhead with THP
+Date: Tue,  2 Dec 2025 11:17:10 +0100
+Message-ID: <20251202101720.3129-1-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: efa47a7497b131966f1
-X-MBO-RS-META: yyqaxhgakntqqu66gzg19q83dn1une71
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2025-12-02 at 17:37 +1000, Dave Airlie wrote:
-> Acked-by: Dave Airlie <airlied@redhat.com>
->=20
-> On Thu, 27 Nov 2025 at 22:50, Philipp Stanner <phasta@mailbox.org> wrote:
-> >=20
-> > +Cc Matthew, Tvrtko, Christian
-> >=20
-> > On Fri, 2025-11-07 at 14:56 +0100, Philipp Stanner wrote:
-> > > Changes in v2:
-> > > =C2=A0 - Fix wrong list item index in patch 1.
-> > >=20
-> > > The GPU Scheduler has enough problems to be covered by the drm todo
-> > > list. Let's add an entry.
-> > >=20
-> > > This series is the succesor of [1].
-> > >=20
-> > > [1] https://lore.kernel.org/dri-devel/20251023143031.149496-2-phasta@=
-kernel.org/
-> > >=20
-> > > Philipp Stanner (2):
-> > > =C2=A0 drm/todo: Add section with task for GPU scheduler
-> > > =C2=A0 drm/todo: Add entry for unlocked drm/sched rq readers
+This series aims to reduce the page tables overhead of DRM drivers for
+builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
+knob '/sys/kernel/mm/transparent_hugepage/shmem_enabled' appropriately
+set or drivers using a dedicated huge tmpfs mount point.
 
-Pushed to drm-misc-next
+It starts by checking whether a faulty address in the page fault
+handler is part of a huge page in order to attempt a PMD sized PFN
+insertion into the VMA. It then introduces a dedicated
+get_unmapped_area file operation on the DRM file descriptor for GEM
+objects to get the best virtual address alignment for the underlying
+shmem buffers.
 
-P.
+The remaining commits propose shmem helpers to create and release huge
+tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
+then used to optionally enable Transparent Hugepage for Panfrost and
+Panthor.
+
+For Panthor on a Rock 5B, this series makes the first memcpy() to an
+entire BO object mapped in userspace about twice as fast with
+Transparent Hugepage enabled.
+
+Implementing a fault-around handler using the arm64 contiguous page
+hint (contptes) could also greatly help reduce page tables overhead
+for small pages by mapping several contiguous pages around a faulty
+address at once. This will be proposed in another patch series.
+
+Loïc Molinari (10):
+  drm/shmem-helper: Simplify page offset calculation in fault handler
+  drm/shmem-helper: Map huge pages in fault handler
+  drm/gem: Introduce drm_gem_get_unmapped_area() fop
+  drm/gem: Add huge tmpfs mountpoint helpers
+  drm/i915: Use huge tmpfs mountpoint helpers
+  drm/v3d: Use huge tmpfs mountpoint helpers
+  drm/gem: Get rid of *_with_mnt helpers
+  drm/panthor: Introduce huge tmpfs mountpoint option
+  drm/panfrost: Introduce huge tmpfs mountpoint option
+  Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
+
+ Documentation/gpu/drm-mm.rst                  |  29 ++-
+ drivers/gpu/drm/drm_gem.c                     | 202 +++++++++++++-----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |  79 +++----
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  48 +++--
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         |  71 ------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         |  14 --
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  16 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   5 -
+ drivers/gpu/drm/panfrost/panfrost_device.c    |   3 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   6 +
+ drivers/gpu/drm/panfrost/panfrost_drv.h       |   9 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  18 ++
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   2 +
+ drivers/gpu/drm/panthor/panthor_device.c      |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c         |   7 +
+ drivers/gpu/drm/panthor/panthor_drv.h         |   9 +
+ drivers/gpu/drm/panthor/panthor_gem.c         |  18 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |   2 +
+ drivers/gpu/drm/v3d/Makefile                  |   3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |   6 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  11 +-
+ drivers/gpu/drm/v3d/v3d_gem.c                 |  21 +-
+ drivers/gpu/drm/v3d/v3d_gemfs.c               |  62 ------
+ include/drm/drm_device.h                      |  15 ++
+ include/drm/drm_gem.h                         |  40 +++-
+ include/drm/drm_gem_shmem_helper.h            |   3 -
+ 28 files changed, 418 insertions(+), 289 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+
+-- 
+2.47.3
+
