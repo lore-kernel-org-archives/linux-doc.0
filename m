@@ -1,103 +1,105 @@
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from mail-m32121.qiye.163.com (mail-m32121.qiye.163.com [220.197.32.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F5B306D3F;
-	Tue,  2 Dec 2025 12:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4489B1F936
+	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 13:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764677895; cv=none; b=LoJI/OepDWw1NmHyZ05HmjBfNIgGjqeONyKCKX+MiPomMIoIeGNHLyVlN0zxTLxNLZzl9uw5EoVR8WV8xXZ7hRYIkLxXHVbuiO9XizNmJ902zo2+/KvxcT4q2DCDJreKgUL4rYTeBoXeu+KL7xHp1Hga9IGx0mdL8GLyfn2Strc=
+	t=1764681152; cv=none; b=fevNWD6EZOgFYPFFc6Qlr1VsWDQTAcD7XTPhjeNOXsm3A90aNnlwlk+cTqPVRzE14tfKhP+KGfh53Lpt544ra9Up0raFy8W029Jm3ZSiqtBezs/ZZP/5pl+qVj+LiUtSj5lyzqNZfRZOFp6bf3xPL8kTfFb8gAesmuxr9JMv8oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764677895; c=relaxed/simple;
-	bh=sXC5fYMIwckjs0MosF7CiJF3SOsSPFgB8RKJvnTjXDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OxjfhO1i6UGuplr4QQAPAj2kM4CdjTpWmusmgs+8fdhpV3JmFwH3ICMmN7WcdGmwNA4tpYQbjtfERoFQfwhqQIvXYjqLSLQYqhvqibdd9r6bw9sALt2gSLJ7OHlDgX7AD1ebkrlYoSKGWhJ6l0z1QFgPHVaHUeAXgCdtVDBPM3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=fQGgTFqv; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+	s=arc-20240116; t=1764681152; c=relaxed/simple;
+	bh=Qc4t50tYaQ/D5pbg7PKgNiL/CUavzBk0gsK3ZtnGRaU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lUfGOTzjgbk2hlDr+tRCe0uc2+CoC60TBaH5rN7foQe57SPbWH74kTVy3MoCURxN2AAmTRBBl97EGO6M4f7KJQIzT4bAwFypM/pQi+Mgee1Ba8ZKO4RSUunwjn/uAP6c1rA5PH2xEZmxpy9d25nuObhxtLiWohzDyFiC1MeaYSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=lgP/cryM; arc=none smtp.client-ip=220.197.32.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="fQGgTFqv"
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 69C9D1C01C2; Tue,  2 Dec 2025 13:18:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1764677889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pMByTJW7HuYH6h+sQHpHqZNmQLPydnIXrlhP/TtlMXQ=;
-	b=fQGgTFqv6NAAFRlctGHSw27VAq2PrqQtymoAOrI7Fh4+kL41gmUrMvMFMapb/O4n4LyNwF
-	OTocinhLKFr/ZJFR/xe90wpnQxAA1XJYUUUrk0M7QDKHyAMZiw0trKHKqslx1dCgbJ9Qqy
-	czZsJGtSd5pvV8Fqw4anzDWkM9gF2hQ=
-Date: Tue, 2 Dec 2025 13:18:08 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: david@ixit.cz
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Casey Connolly <casey.connolly@linaro.org>,
-	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
-	Gergo Koteles <soyer@irl.hu>
-Subject: Re: [PATCH v8 1/2] Input: add ABS_SND_PROFILE
-Message-ID: <aS7Y5hFslQ7e2en3@duo.ucw.cz>
-References: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
- <20251113-op6-tri-state-v8-1-54073f3874bc@ixit.cz>
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="lgP/cryM"
+Received: from server001 (unknown [222.130.22.244])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2bb0f2e5f;
+	Tue, 2 Dec 2025 19:56:45 +0800 (GMT+08:00)
+From: Kefan Bai <baikefan@leap-io-kernel.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	doubled@leap-io-kernel.com
+Subject: [PATCH v4 0/8] Add Chinese translation for USB subsystem
+Date: Tue,  2 Dec 2025 19:56:33 +0800
+Message-ID: <cover.1764674650.git.baikefan@leap-io-kernel.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fpifvw8uNtkv5Wht"
-Content-Disposition: inline
-In-Reply-To: <20251113-op6-tri-state-v8-1-54073f3874bc@ixit.cz>
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9adeec14bb09d5kunm0f4dae893d3eb8
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCH01IVkwdGhkYSBofTR0eQlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MTlVKS0
+	tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=lgP/cryMoZe1efgzZhmfvis2QBz5UJep695hUadiEGGMYwEw00BsB9+mcwhbO8VsWUSDoaPvHhqqm6h1h32qv1y9VPHkUuJzrHJlXuSJt1UD2K+341mnVFImMxSF/hnlxka7f6nBzl2xfj72H9wYc7mBzsU/bXrs9RVusw63xu1INwiggu4cxZxoPhzQcrDGt4MtE5aCn8tvCrAJmtxyvh21REv1yp5n3lT7a76o9UhH1xNzg7YDcG/1ugDFX9VwiiZRgiIHKpsbeiANCfMU6vEIDUR2iWRAjjRT6v27+2RenPGuRRBX25ob/uR0dxGZN02XlyZn7w5Q9cB0BrPQtg==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=mdAZ3kQpOfjD7lAgvfxWvHE1iM3D6+OX/ZthgEu3jRQ=;
+	h=date:mime-version:subject:message-id:from;
 
+This patch set adds Chinese translations for the USB documentation.
 
---fpifvw8uNtkv5Wht
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes in v4:
+ - shorten those overlong title underline/overline symbols
+ - Remove CREDITS section from index.rst
 
-On Thu 2025-11-13 17:02:58, David Heidelberg via B4 Relay wrote:
-> From: Gergo Koteles <soyer@irl.hu>
->=20
-> ABS_SND_PROFILE used to describe the state of a multi-value sound profile
-> switch. This will be used for the alert-slider on OnePlus phones or other
-> phones.
->=20
-> Profile values added as SND_PROFLE_(SILENT|VIBRATE|RING) identifiers
-> to input-event-codes.h so they can be used from DTS.
->=20
-> Signed-off-by: Gergo Koteles <soyer@irl.hu>
-> Reviewed-by: Bjorn Andersson <andersson@kernel.org>
-> Tested-by: Guido G=FCnther <agx@sigxcpu.org> # oneplus,fajita & oneplus,e=
-nchilada
-> Reviewed-by: Guido G=FCnther <agx@sigxcpu.org>
-> Signed-off-by: David Heidelberg <david@ixit.cz>
+Changes in v3:
+ - Updated the signoff to my full legal name,
+   as requested by Jonathan Corbet.
+ - Reviewed and fixed the RST syntax to resolve the patch issues
+   noted by Alex Shi.
+ - Kept the number of translated files to eight
+   to make submission and review smoother.
+ - Link to v3: https://lore.kernel.org/all/cover.1763984424.git.baikefan@leap-io-kernel.com/
 
-Reviewed-by: Pavel Machek <pavel@ucw.cz>
+Changes in v2:
+ - Update [PATCH 01/25] docs/zh_CN: Add index.rst translation
+   to include corresponding updates in
+   Documentation/translations/zh_CN/subsystem-apis.rst.
+ - Link to v2: https://lore.kernel.org/all/cover.1763897036.git.baikefan@leap-io-kernel.com/
 
-Best regards,
-							Pavel
---=20
-I don't work for Nazis and criminals, and neither should you.
-Boycott Putin, Trump, Netanyahu and Musk!
+v1:
+ - Link: https://lore.kernel.org/all/20251123074540.34161-1-baikefan@leap-io-kernel.com/
 
---fpifvw8uNtkv5Wht
-Content-Type: application/pgp-signature; name="signature.asc"
+Kefan Bai (8):
+  docs/zh_CN: Add index.rst translation
+  docs/zh_CN: Add acm.rst translation
+  docs/zh_CN: Add authorization.rst translation
+  docs/zh_CN: Add chipidea.rst translation
+  docs/zh_CN: Add dwc3.rst translation
+  docs/zh_CN: Add ehci.rst translation
+  docs/zh_CN: Add usbmon.rst translation
+  docs/zh_CN: Add CREDITS translation
 
------BEGIN PGP SIGNATURE-----
+ .../translations/zh_CN/subsystem-apis.rst     |   2 +-
+ Documentation/translations/zh_CN/usb/CREDITS  | 153 +++++++
+ Documentation/translations/zh_CN/usb/acm.rst  | 137 +++++++
+ .../translations/zh_CN/usb/authorization.rst  | 125 ++++++
+ .../translations/zh_CN/usb/chipidea.rst       | 142 +++++++
+ Documentation/translations/zh_CN/usb/dwc3.rst |  60 +++
+ Documentation/translations/zh_CN/usb/ehci.rst | 216 ++++++++++
+ .../translations/zh_CN/usb/index.rst          |  54 +++
+ .../translations/zh_CN/usb/usbmon.rst         | 380 ++++++++++++++++++
+ 9 files changed, 1268 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/usb/CREDITS
+ create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/authorization.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/chipidea.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/dwc3.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/ehci.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/index.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/usbmon.rst
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaS7ZAAAKCRAw5/Bqldv6
-8uM9AJ91FbCtzoPnkjXb6qTkzSFV0zSUmACeJ3kyR/GF79NwNQnczU0+lFNoGUI=
-=ArNh
------END PGP SIGNATURE-----
+--
+2.52.0
 
---fpifvw8uNtkv5Wht--
