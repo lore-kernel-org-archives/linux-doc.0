@@ -1,183 +1,99 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB561F4190;
-	Tue,  2 Dec 2025 17:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26442C237E;
+	Tue,  2 Dec 2025 18:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764695994; cv=none; b=gZGmrYYGx57AiTPkiSAZJYHj84GOK0TfxolgWYAG18WrS8Z4e8lkkZQ2kaSv8wBV8N1bT0GWH22o/EIkN55qiYtqiy7Dpber/Kk1nQwCBNzz+jZmpnLfwuEM4Fl680x+u12COcrgHzTdzmdD1W1csGbd3QDkxFy6fN1MRLZ3a1o=
+	t=1764699286; cv=none; b=Mz3rFuGcl/pjaGZzkCb7WmzX2JlYCHgmmpy1aK6Y//wSsfK/fOCf36WEIx1D4xPTXWIKz7Yz3KaF9KTv8OO5LIkU8enc6YqiSJfKhGT3yAhQOHVWdZ2G7yLX3XyOc6bb7khi2mRtKDSQJ449mA1nap9woW3yfGJTuGxwszxoOV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764695994; c=relaxed/simple;
-	bh=h+nDdndy9/VBmulX+fdbd7ZfJaPkx9I+z3YWdg+3b/A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SW/+zNTdgPeibT5Z+mFrdit/xe62B+4gSX5dhMicHCcOEvVccPdRNgCzKZQWOz7WM/gRsfw8GvP1+7objuOFAwTm8bFIY6jcxLAooXBZvDrjewVYHfhKi3s5ep+eDBinurCm3aC8yPF9OSZuxTKNoSUa2enMocFkvdlYrEcmYqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=oCby9haV; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1764699286; c=relaxed/simple;
+	bh=jRSbQ9Ne/+OOJgP0Z0DxW9fXwOZ0hOe2Zw0P1wm7xhQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=adgyFn1XZ5Gn/Cu6kvSve3NaRPbKUhXfciIPGKJO89avxHl4tc7IefFQyqg5aeMXoafddLCkdYBvridPKXQVso20e1i8HUtGdDl8DzuKiXKO0uVMO655LXQD2KzOCtwOK+8+D8bbB9TsqfHDhi7GBK5wAiKcgzxQpHdiIvwTOXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUaxHgL4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="oCby9haV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=UyCbUcL1nm1MZzDeCwaTG3zHrny4GdzBK6n/2gvUbXQ=; b=oCby9haVuYdOrAIteZZoLwWkPu
-	sVdsFQ//4adybW7oMm9kFJboF2Ed5gLUvpgNJeyfT6dBuHGoWMHO1Mhf2DFoaJTMSuH/A2LVghfoL
-	HZzgX9yQPT4Weo65SlpJIWdO8XsR3Tfqq/NMlQofpliTvfwCD7kh9HYuaVROCYhk2q1PVXeHE30Vz
-	t96mk3OxHne0/rWxVJ/174Yr/P9JJZOczGShKJYOSgSxAnW9vJKMH0Y+pUH2RvHsWc3Xnosbbcc9P
-	W881kVQnLSY6Exd/GHsd2LeUq6HmZ8iFF6GwfbXBuWhkPT9NGD/+/YZIZfVeSr9uEXrbW0Hlz81w2
-	sp0agC2Q==;
-Received: from gwsc.sc.usp.br ([143.107.225.16] helo=[172.24.21.125])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1vQU20-007tsJ-AQ; Tue, 02 Dec 2025 18:19:16 +0100
-Message-ID: <489a6590-7d1a-46f9-a980-5c30b2b44c4c@igalia.com>
-Date: Tue, 2 Dec 2025 14:19:02 -0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUaxHgL4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80409C4CEF1;
+	Tue,  2 Dec 2025 18:14:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764699286;
+	bh=jRSbQ9Ne/+OOJgP0Z0DxW9fXwOZ0hOe2Zw0P1wm7xhQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GUaxHgL4GY9fsqv8UmFGFWvYCTWtR5oAqKkY5DK6pcwDe9jAbJ2UB4/0V+u1bZS4P
+	 zZ9Zgr1LxfvIs2gl1X+s0odz0wic1by62hkmzEyTrh7G1s/0JKW/8573fnlAoKahot
+	 dR/NyjKNt9g6NgOYWQ8Sgs7/3Y1te65t1tWpFF7wqhsmKhwE+sfNCaiRPJRokrw7Ri
+	 RqEU7zTiSrmOygOG60RIU5clxN3qwwdoHm1DcSAGjBnj5ShxGTUMgSvU2NAphVtVkX
+	 taDq1uRV/mtBvHlAjjaaHFnHXx0uzrKhRW0DcAAZDTWZWBevB1AJiIo29QBzyq8P3e
+	 fNoQPRtiMpmpA==
+Date: Tue, 2 Dec 2025 10:14:44 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
+ <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, Gal Pressman
+ <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Carolina Jubran
+ <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko
+ <jiri@nvidia.com>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH net-next V4 02/14] documentation: networking: add shared
+ devlink documentation
+Message-ID: <20251202101444.7f6d14a8@kernel.org>
+In-Reply-To: <2lnqrb3fu7dukdkgfculj53q2vwb36nrz5copjfg3khlqnbmix@jbfmhnks7svq>
+References: <1764101173-1312171-1-git-send-email-tariqt@nvidia.com>
+	<1764101173-1312171-3-git-send-email-tariqt@nvidia.com>
+	<20251127201645.3d7a10f6@kernel.org>
+	<hidhx467pn6pcisuoxdw3pykyvnlq7rdicmjksbozw4dtqysti@yd5lin3qft4q>
+	<20251128191924.7c54c926@kernel.org>
+	<n6mey5dbfpw7ykp3wozgtxo5grvac642tskcn4mqknrurhpwy7@ugolzkzzujba>
+	<20251201134954.6b8a8d48@kernel.org>
+	<2lnqrb3fu7dukdkgfculj53q2vwb36nrz5copjfg3khlqnbmix@jbfmhnks7svq>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 10/10] Documentation/gpu/drm-mm: Add THP paragraph to
- GEM mapping section
-To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Matthew Wilcox
- <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251202101720.3129-1-loic.molinari@collabora.com>
- <20251202101720.3129-11-loic.molinari@collabora.com>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Content-Language: en-US
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
- /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
- gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
- SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
- G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
- AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
- dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
- P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
- O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
- GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
- 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
- FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
- TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
- Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
- 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
- LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
- T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
- wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
- zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
- it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
- Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
- uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
- raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <20251202101720.3129-11-loic.molinari@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Loïc,
-
-On 12/2/25 07:17, Loïc Molinari wrote:
-> Add a paragraph to the GEM Objects Creation section about the
-> drm_gem_huge_mnt_create() helper and to the GEM objects mapping
-> section explaining how transparent huge pages are handled by GEM.
+On Tue, 2 Dec 2025 08:43:49 +0100 Jiri Pirko wrote:
+> Mon, Dec 01, 2025 at 10:49:54PM +0100, kuba@kernel.org wrote:
+> >On Mon, 1 Dec 2025 11:50:08 +0100 Jiri Pirko wrote:  
+> >> Correct. IFAIK there is one PF devlink instance per NUMA node.  
+> >
+> >You say "correct" and then disagree with what I'm saying. I said
+> >ports because a port is a devlink object. Not a devlink instance.  
 > 
-> v4:
-> - fix wording after huge_pages handler removal
+> Okay, you mean devlink_port. You would like to see NUMA node leg as
+> devlink_port? Having troubles to undestand exactly what you mean, lot of
+> guessing on my side. Probably I'm slow, sorry.
 > 
-> v6:
-> - fix wording after map_pages handler removal
+> But there is a PCI device per NUMA node leg. Not sure how to model it.
+> Devink instances have 1:1 relationship with bus devices.
 > 
-> v11:
-> - mention drm_gem_huge_mnt_create() helper
-> - add Boris and Maíra R-bs
+> Care to draw a picture perhaps?
 > 
-> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Maíra Canal <mcanal@igalia.com>
-
-Just confirming my R-b:
-
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
-
-Best Regards,
-- Maíra
-
-> ---
->   Documentation/gpu/drm-mm.rst | 29 +++++++++++++++++++++++------
->   1 file changed, 23 insertions(+), 6 deletions(-)
+> >> The shared instance on top would make sense to me. That was one of
+> >> motivations to introduce it. Then this shared instance would hold
+> >> netdev, vf representors etc.  
+> >
+> >I don't understand what the shared instance is representing and how
+> >user is expect to find their way thru the maze of devlink instanced,
+> >for real bus, aux bus, and now shared instanced.  
 > 
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index d55751cad67c..f22433470c76 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -155,7 +155,12 @@ drm_gem_object_init() will create an shmfs file of the
->   requested size and store it into the struct :c:type:`struct
->   drm_gem_object <drm_gem_object>` filp field. The memory is
->   used as either main storage for the object when the graphics hardware
-> -uses system memory directly or as a backing store otherwise.
-> +uses system memory directly or as a backing store otherwise. Drivers
-> +can call drm_gem_huge_mnt_create() to create, mount and use a huge
-> +shmem mountpoint instead of the default one ('shm_mnt'). For builds
-> +with CONFIG_TRANSPARENT_HUGEPAGE enabled, further calls to
-> +drm_gem_object_init() will let shmem allocate huge pages when
-> +possible.
->   
->   Drivers are responsible for the actual physical pages allocation by
->   calling shmem_read_mapping_page_gfp() for each page.
-> @@ -290,15 +295,27 @@ The open and close operations must update the GEM object reference
->   count. Drivers can use the drm_gem_vm_open() and drm_gem_vm_close() helper
->   functions directly as open and close handlers.
->   
-> -The fault operation handler is responsible for mapping individual pages
-> -to userspace when a page fault occurs. Depending on the memory
-> -allocation scheme, drivers can allocate pages at fault time, or can
-> -decide to allocate memory for the GEM object at the time the object is
-> -created.
-> +The fault operation handler is responsible for mapping pages to
-> +userspace when a page fault occurs. Depending on the memory allocation
-> +scheme, drivers can allocate pages at fault time, or can decide to
-> +allocate memory for the GEM object at the time the object is created.
->   
->   Drivers that want to map the GEM object upfront instead of handling page
->   faults can implement their own mmap file operation handler.
->   
-> +In order to reduce page table overhead, if the internal shmem mountpoint
-> +"shm_mnt" is configured to use transparent huge pages (for builds with
-> +CONFIG_TRANSPARENT_HUGEPAGE enabled) and if the shmem backing store
-> +managed to allocate a huge page for a faulty address, the fault handler
-> +will first attempt to insert that huge page into the VMA before falling
-> +back to individual page insertion. mmap() user address alignment for GEM
-> +objects is handled by providing a custom get_unmapped_area file
-> +operation which forwards to the shmem backing store. For most drivers,
-> +which don't create a huge mountpoint by default or through a module
-> +parameter, transparent huge pages can be enabled by either setting the
-> +"transparent_hugepage_shmem" kernel parameter or the
-> +"/sys/kernel/mm/transparent_hugepage/shmem_enabled" sysfs knob.
-> +
->   For platforms without MMU the GEM core provides a helper method
->   drm_gem_dma_get_unmapped_area(). The mmap() routines will call this to get a
->   proposed address for the mapping.
+> Well, I tried to desrtibe it in the documentation path, Not sure what is
+> not clear :/
+> 
+> Nested devlinks expose the connections between devlink instances.
 
+To be clear -- I understand how you're laying things out. My point is
+not about that. My question is how can user make intuitive sense of this
+mess of random object floating around. Every SW engineering problem can
+be solved by another layer of abstraction, that's not the challenge. 
+The challenge is to design those layers so that they make intuitive
+sense (to people who don't spend their life programming against mlx FW
+interfaces).
