@@ -1,144 +1,224 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+Received: from mail-m49234.qiye.163.com (mail-m49234.qiye.163.com [45.254.49.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9568B3043D8;
-	Tue,  2 Dec 2025 07:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596A83074A4
+	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 08:11:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764661999; cv=none; b=HA6E9KBciH7YTaj63+eyDQo4unHCvFnOAiqdTD06oqWEvs7skQWj4/bOeFZgqAOiAjxJnyKr1cxd7RNXgT7teRdKh0bkp9300w5AolNYT4Sz3E+pApJSpKjmNv93illTjaEf0F085eZ8BiE7tjaRRJvB/OrxGGKMewz2UcvHOFo=
+	t=1764663080; cv=none; b=Tf4G5yh+bRqKkhxUqv7/7DaG7sOdtbWeY+W/H0eUyL+0a/bPXhUT2tLZ8IWMeq9q8uWTvIl8h8mkNtg7wk+fMkzLdp1M0LA03QRmx+1NtkF6j5R2JlAwlnG8FY4C7BvNYyozfODyz3Jv2Qeob/dKribOzN883SCzmA2Yqu3CFg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764661999; c=relaxed/simple;
-	bh=a5Yom6muXdU8znppGHz4/ry6dYtXv9L9bvKwGC5Umjc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K78Y0wuca7ErHBVLHt0h4PxYlPQFvlqZ1UJjEDFxrpFTObcSjqndKQlnhGYugogK3oOPU7JzBpzQzcUcvQkhiL7LUk2o46mK0dHEsnFvDCmT/nQ2Paz74uFZ84hx1bq/XqDNBP42BPcvoV/Z/otjwfcZoX4oOeEIKvRsN/R0c3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=St7uTVSS; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1764663080; c=relaxed/simple;
+	bh=frs0+PE64z+ncKLYBusEVk1Ex9RqBVSIFYH5NvRaoiw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VslXQUmrJSLDE/W8s6OwBUuDBxS88Wj/ZrvUFWeWd7d+150FreAuFnVBqWZg/YOsu9WDMJfgmp75UilzyYXf1yRqCYmayr8n1aOawscCziEeGhP6AcQNrH3xYGYV+vSq3mbZjVFbSE0B5xNlk0anpbE0w96kFWM5oTEDUdzs5vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=k1BI9uy+; arc=none smtp.client-ip=45.254.49.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="St7uTVSS"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1764661994; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=V4loCZFItKzWub1Mw+gmTM0Qo7GDtzfcb9k6DM+79VY=;
-	b=St7uTVSSRAxzbE3pbga1/E9zgmKVVCOa9JB1ZqA1W659L0XFa1zrYq/4gB/t3aQtN7L6c09rctxLyWxvBWelkOas/Mtdb2P/rsgQF22N3irZM8hFXTTl2DC6D3c5+fCyZJ8qWd24c7yy3JjygM3ekReB/K7lmWsNSzT1gf3PXDY=
-Received: from 30.74.144.119(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WtveLei_1764661989 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 02 Dec 2025 15:53:11 +0800
-Message-ID: <09821512-dbfe-4577-8b42-31df8328a998@linux.alibaba.com>
-Date: Tue, 2 Dec 2025 15:53:09 +0800
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="k1BI9uy+"
+Received: from localhost (unknown [222.130.22.244])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2ba8a88c9;
+	Tue, 2 Dec 2025 16:11:03 +0800 (GMT+08:00)
+Date: Tue, 2 Dec 2025 16:11:01 +0800
+From: BaiKefan <baikefan@leap-io-kernel.com>
+To: Yanteng Si <si.yanteng@linux.dev>
+Cc: alexs@kernel.org, dzm91@hust.edu.cn, corbet@lwn.net,
+ linux-doc@vger.kernel.org, doubled@leap-io-kernel.com
+Subject: Re: [PATCH v3 3/8] docs/zh_CN: Add authorization.rst translation
+Message-ID: <20251202155213.00007c30@leap-io-kernel.com>
+In-Reply-To: <343e5b82-e78a-483b-a8db-57bef4f447eb@linux.dev>
+References: <cover.1763984424.git.baikefan@leap-io-kernel.com>
+ <b4328d04b19ca0d16307aeaa3cc8d10ad2c01bdd.1763984424.git.baikefan@leap-io-kernel.com>
+ <343e5b82-e78a-483b-a8db-57bef4f447eb@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 mm-new 07/16] khugepaged: introduce
- collapse_max_ptes_none helper function
-To: Nico Pache <npache@redhat.com>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org
-Cc: david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
- corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
- raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
- pfalcato@suse.de
-References: <20251201174627.23295-1-npache@redhat.com>
- <20251201174627.23295-8-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20251201174627.23295-8-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=GB18030
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9ade1d732609d5kunm4a1b67b537069b
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaTB1IVkMeQ09DHUtKHh1CS1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MSVVKS0
+	tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=k1BI9uy+wB6iRtZoAQenFsoJyv2WtKjbHuDstK0My504/ooietRWzKawQaGYHdv5gDDb6dJAW4iRvILB4gIEg9M1jKRhKAUjQ7hJ6RQ6vhvC3XLcaAAQCe1zffd3e1AdtJIyGiHA6iGhEtH/7+4rbG/A5cHIS5ylRg7GyKZYA21f+vH8j8fXmhvWxK0Kcp66Pj1LVD01u8w7vXe9tAdubKULut4QiaV/0Mg6hk4fDMei+Rt7EroCSNo4pDVSGnYtKxQs+MDmt88WZDMclYB03ggkgpemKYMQKnMYp2n0iMYctMQ5p5TGtPTsnTimuMV7O4/GtMANOKndLX7X1vphvA==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=73mppzhD1o+ywc+fDMgawxphVDKpGRRkYNTSgNuvglI=;
+	h=date:mime-version:subject:message-id:from;
 
+On Mon, 1 Dec 2025 14:54:53 +0800
+Yanteng Si <si.yanteng@linux.dev> wrote:
 
+> 
+> 在 2025/11/24 21:34, Kefan Bai 写道:
+> > Translate .../usb/authorization.rst into Chinese
+> >
+> > Update the translation through commit f176638af476
+> > ("USB: Remove Wireless USB and UWB documentation")
+> >
+> > Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
+> > ---
+> >   .../translations/zh_CN/usb/authorization.rst  | 125
+> > ++++++++++++++++++ 1 file changed, 125 insertions(+)
+> >   create mode 100644
+> > Documentation/translations/zh_CN/usb/authorization.rst
+> >
+> > diff --git a/Documentation/translations/zh_CN/usb/authorization.rst
+> > b/Documentation/translations/zh_CN/usb/authorization.rst new file
+> > mode 100644 index 000000000000..2bcb3e9d4c5a
+> > --- /dev/null
+> > +++ b/Documentation/translations/zh_CN/usb/authorization.rst
+> > @@ -0,0 +1,125 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +.. include:: ../disclaimer-zh_CN.rst
+> > +
+> > +:Original: Documentation/usb/authorization.rst
+> > +:翻译:
+> > +
+> > + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
+> > +
+> > +:校译:
+> > +
+> > +
+> > +==============================================================
+> > +授权（或不授权）USB设备连接到系统
+> > +==============================================================
+> 
+> It's too long, please trim them.
+> 
+> 
+> Thanks,
+> 
+> Yanteng
+> 
 
-On 2025/12/2 01:46, Nico Pache wrote:
-> The current mechanism for determining mTHP collapse scales the
-> khugepaged_max_ptes_none value based on the target order. This
-> introduces an undesirable feedback loop, or "creep", when max_ptes_none
-> is set to a value greater than HPAGE_PMD_NR / 2.
-> 
-> With this configuration, a successful collapse to order N will populate
-> enough pages to satisfy the collapse condition on order N+1 on the next
-> scan. This leads to unnecessary work and memory churn.
-> 
-> To fix this issue introduce a helper function that will limit mTHP
-> collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
-> This effectively supports two modes:
-> 
-> - max_ptes_none=0: never introduce new none-pages for mTHP collapse.
-> - max_ptes_none=511 (on 4k pagesz): Always collapse to the highest
->    available mTHP order.
-> 
-> This removes the possiblilty of "creep", while not modifying any uAPI
-> expectations. A warning will be emitted if any non-supported
-> max_ptes_none value is configured with mTHP enabled.
-> 
-> The limits can be ignored by passing full_scan=true, this is useful for
-> madvise_collapse (which ignores limits), or in the case of
-> collapse_scan_pmd(), allows the full PMD to be scanned when mTHP
-> collapse is available.
-> 
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->   mm/khugepaged.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 42 insertions(+), 1 deletion(-)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 8dab49c53128..f425238d5d4f 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -463,6 +463,44 @@ void __khugepaged_enter(struct mm_struct *mm)
->   		wake_up_interruptible(&khugepaged_wait);
->   }
->   
-> +/**
-> + * collapse_max_ptes_none - Calculate maximum allowed empty PTEs for collapse
-> + * @order: The folio order being collapsed to
-> + * @full_scan: Whether this is a full scan (ignore limits)
-> + *
-> + * For madvise-triggered collapses (full_scan=true), all limits are bypassed
-> + * and allow up to HPAGE_PMD_NR - 1 empty PTEs.
-> + *
-> + * For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the configured
-> + * khugepaged_max_ptes_none value.
-> + *
-> + * For mTHP collapses, we currently only support khugepaged_max_pte_none values
-> + * of 0 or (HPAGE_PMD_NR - 1). Any other value will emit a warning and no mTHP
-> + * collapse will be attempted
-> + *
-> + * Return: Maximum number of empty PTEs allowed for the collapse operation
-> + */
-> +static unsigned int collapse_max_ptes_none(unsigned int order, bool full_scan)
-> +{
-> +	/* ignore max_ptes_none limits */
-> +	if (full_scan)
-> +		return HPAGE_PMD_NR - 1;
-> +
-> +	if (!is_mthp_order(order))
-> +		return khugepaged_max_ptes_none;
-> +
-> +	/* Zero/non-present collapse disabled. */
-> +	if (!khugepaged_max_ptes_none)
-> +		return 0;
-> +
-> +	if (khugepaged_max_ptes_none == HPAGE_PMD_NR - 1)
-> +		return (1 << order) - 1;
-> +
-> +	pr_warn_once("mTHP collapse only supports max_ptes_none values of 0 or %d\n",
-> +		      HPAGE_PMD_NR - 1);
-> +	return -EINVAL;
-> +}
+Hi Yanteng,
 
-Thanks. That aligns with what we talked about previously. So
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Thanks for the review.
+
+I'll shorten those overlong markers and check the rest of the
+translated files for similar issues.
+
+Thanks,
+Kefan
+
+> > +
+> > +版权 (C) 2007 Inaky Perez-Gonzalez <inaky@linux.intel.com>
+> > 因特尔公司 +
+> > +此功能允许你控制系统中USB设备的使用权限。
+> > +你可以借此实现USB设备的锁定，并由用户空间完全控制。
+> > +
+> > +目前为止，当插入一个USB设备时，系统会配置该USB设备，其接口会立即对用户开放。
+> > +通过此修改，只有在root授权配置设备后，用户才能使用它。
+> > +
+> > +
+> > +使用方法
+> > +=========
+> > +
+> > +授权设备连接::
+> > +
+> > +	$ echo 1 > /sys/bus/usb/devices/DEVICE/authorized
+> > +
+> > +取消授权设备连接::
+> > +	$ echo 0 > /sys/bus/usb/devices/DEVICE/authorized
+> > +
+> > +将新连接到hostX的设备默认设置为未授权（即：锁定）::
+> > +
+> > +	$ echo 0 > /sys/bus/usb/devices/usbX/authorized_default
+> > +
+> > +解除锁定::
+> > +
+> > +	$ echo 1 > /sys/bus/usb/devices/usbX/authorized_default
+> > +
+> > +默认情况下，所有USB设备都是授权的。
+> > +向authorized_default属性写入 "2"
+> > 会使内核默认只授权连接到内部USB端口的设备。 +
+> > +系统锁定示例（简单示例）
+> > +------------------------------
+> > +
+> > +假设你想实现一个锁定功能，要求只有类型为XYZ的设备可以连接
+> > +（例如，它是一个带有可见USB端口的自助服务终端）::
+> > +
+> > +  启动系统
+> > +  rc.local ->
+> > +
+> > +   for host in /sys/bus/usb/devices/usb*
+> > +   do
+> > +      echo 0 > $host/authorized_default
+> > +   done
+> > +
+> > +将一个脚本挂接到udev，当插入新的USB设备时，该脚本就会被自动触发::
+> > +
+> > + if device_is_my_type $DEV
+> > + then
+> > +   echo 1 > $device_path/authorized
+> > + done
+> > +
+> > +
+> > +这里的device_is_my_type()就是实现锁定的关键所在。
+> > +仅仅检查class、type 和protocol是否匹配某个值，
+> > +是最差的安全验证方式（但对于想要破解的人却是最容易的）。
+> > +如果你需要真正安全的方案，应使用加密、证书认证等手段。
+> > +一个针对存储密钥的简单示例::
+> > +
+> > + function device_is_my_type()
+> > + {
+> > +   echo 1 > authorized		# 暂时授权它
+> > +                                # FIXME: 确保没有人能够挂载它
+> > +   mount DEVICENODE /mntpoint
+> > +   sum=$(md5sum /mntpoint/.signature)
+> > +   if [ $sum = $(cat /etc/lockdown/keysum) ]
+> > +   then
+> > +        echo "We are good, connected"
+> > +        umount /mntpoint
+> > +        # 添加一些额外的内容，以便其他人也可以使用它
+> > +   else
+> > +        echo 0 > authorized
+> > +   fi
+> > + }
+> > +
+> > +
+> > +当然，这种做法很简陋；实际上你应该使用基于PKI的真正证书验证，
+> > +这样就不会依赖共享密钥之类的东西。不过你明白我的意思。
+> > +任何拿到设备仿真工具包的人都能伪造描述符和设备信息。
+> > +所以千万不要信任这些信息。
+> > +
+> > +接口授权
+> > +---------
+> > +
+> > +也有类似的方法用于允许或拒绝特定USB接口。这允许只阻止USB设备的一个子集。
+> > +
+> > +授权接口::
+> > +
+> > +	$ echo 1 > /sys/bus/usb/devices/INTERFACE/authorized
+> > +
+> > +取消授权接口::
+> > +
+> > +	$ echo 0 > /sys/bus/usb/devices/INTERFACE/authorized
+> > +
+> > +也可以更改新接口在特定USB总线上的默认值。
+> > +
+> > +默认允许接口::
+> > +
+> > +	$ echo 1 >
+> > /sys/bus/usb/devices/usbX/interface_authorized_default +
+> > +默认拒绝接口::
+> > +	$ echo 0 >
+> > /sys/bus/usb/devices/usbX/interface_authorized_default +
+> > +默认情况下，interface_authorized_default位为1。
+> > +因此，所有接口默认都是授权的。
+> > +
+> > +注意：
+> > +  如果要对一个未授权的接口进行授权，则必须通过将INTERFACE写入
+> > +  /sys/bus/usb/drivers_probe来手动触发驱动程序进行探测。
+> > +  对于使用多个接口的驱动程序，需要先对所有使用的接口进行授权。
+> > +  之后应探测驱动程序。这样做可以避免副作用。
+> > --
+> > 2.52.0
+> >
+> 
+> 
+
