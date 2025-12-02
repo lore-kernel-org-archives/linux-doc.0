@@ -1,157 +1,144 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A290C30147E
-	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 07:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9568B3043D8;
+	Tue,  2 Dec 2025 07:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764661437; cv=none; b=PQBkxx0qQRUIanpX+DRipTrUwCCi2G7dqusZiuncM9QwZz+Z3os3kqVxi/F4R92NhkL8oWGuTsQTwqf97kXirx9MOODv4sZcmm1/J/cwy+vqpa6O551357N3wLhHGV2rW20cyO5zoA4zfGnBiqb+9eMZE0mDYAVKo1HIHL/CYQE=
+	t=1764661999; cv=none; b=HA6E9KBciH7YTaj63+eyDQo4unHCvFnOAiqdTD06oqWEvs7skQWj4/bOeFZgqAOiAjxJnyKr1cxd7RNXgT7teRdKh0bkp9300w5AolNYT4Sz3E+pApJSpKjmNv93illTjaEf0F085eZ8BiE7tjaRRJvB/OrxGGKMewz2UcvHOFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764661437; c=relaxed/simple;
-	bh=8ckkjeL/RXlFhgjRWL4DkGaDUwGUgzLODQckI9b7r3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K1AjAOp0eZWBJwTuKn7F/de3SkWeEK7lsAVu+nA45t/I1reIUvKLi9GQ4vJLWneyN5q0r1TSdVfGHq7un4h0GRcnXnBO574Jfd47uCxMXD0hJ3d/RdTdCzZYP9Mpt/ig2OB/Phf8KV3ryO+J8UFxBTWT/7f3N54GEQjdQpjWDGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=QRRRrqBj; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1764661999; c=relaxed/simple;
+	bh=a5Yom6muXdU8znppGHz4/ry6dYtXv9L9bvKwGC5Umjc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K78Y0wuca7ErHBVLHt0h4PxYlPQFvlqZ1UJjEDFxrpFTObcSjqndKQlnhGYugogK3oOPU7JzBpzQzcUcvQkhiL7LUk2o46mK0dHEsnFvDCmT/nQ2Paz74uFZ84hx1bq/XqDNBP42BPcvoV/Z/otjwfcZoX4oOeEIKvRsN/R0c3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=St7uTVSS; arc=none smtp.client-ip=115.124.30.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="QRRRrqBj"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-477632b0621so31604075e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 23:43:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1764661434; x=1765266234; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MUBQ/3hc4NZIDLxuHm2/2S+7bD6q76Ih+ZYX+6Y2vGc=;
-        b=QRRRrqBjD1QVpEKwDHZwcJN6JR7HoApRoRpUwQrwGyqiLWHqdbR7+Aa4YLo9Y0KV9Y
-         cS8lNT5P72jDxpxGODw8S5xmz9OJ/QdVnuhnc2ioszPbtc3rhCuYAaXvsRkGwLfY4+Sx
-         JgYS/06XI1smxz4HEDZFxPTxKRCQuy8wfRXDq1OSrWuShLcv2Kr1EwDpDyvngBdbp/Yb
-         txLz5haTlv0FuFZdrPD0N1ILvj6elwxAo6niYS3m4Wd/XE9PIDzhnEerJ9R/PNG8Dxj7
-         w56PyAB0uNZtnlr4owZhE1DiMAK0oUgv5WA4f2WeMj5TwZpzm8t9eT1oY+DkvkIIMVd7
-         O5bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764661434; x=1765266234;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MUBQ/3hc4NZIDLxuHm2/2S+7bD6q76Ih+ZYX+6Y2vGc=;
-        b=gmhC2WXwMSUalVwQHdgn7GnS26XQc71qFuruUHIAwv09hrrhyCDmXH95/w7LrNsJ2G
-         OidNSuIIOpQkaI8O1KSUxeAK+Bj+TNliaBQ9Ew7POrMOCWa9V1jskTcktq5fFPCiFOZS
-         WRrlZUVw9F6YhqZvznuBBYSYlLwcng0m6zAzgHS24PfqqYkJxSxNnXt1leioirt0gAlq
-         U6oldYPmNsKWtfx99eA4m2VMi9/V4nJjUaBvtWCEYiFj9WUxyPv/ZcRsIlJqQtEuAvgY
-         U6tFqrvTu9/UBvZ2SFdiiM8vO3A1VYDoL0cVcgicwWsF9ruRE3HcLcbxx4cL3fSokjZG
-         r34w==
-X-Forwarded-Encrypted: i=1; AJvYcCXWYtqTOwyaBEluH4+oKJURjNmonBcUTrSouN5Y4YEGZX4oF+uGPoWcdcG1UOc6Qw7H31PEhlXvvo4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkoAW6Z6w0YFg45xlxwLvyNe6INQK+2e0+1tc38TsHlURPwZJ4
-	FJBRKbVy1RDQdk2OwmReTQ4uaOKE5M33zV8J47deVhFKSSQAiPspKtj2VxqtM3HQPIA=
-X-Gm-Gg: ASbGncuMnfzdYXSDOqUYLi5M/VwE0tagWCuPYbhbw8cJgNjbjbC8i7X0wHX5LC+jMuk
-	tInYRrZw01ZkyUc7eM49TbWj6tpokaTjoHHniZg3qei3VndJJie/Ae8A1quHnzjm+fVI7PSqR/9
-	b8JoahGjGgtKXkI+BwfFPed0UYgpryPE/3s7mPN4vsktZnh4BiCnA7dl4W2BYxSkCOH/MmVFkwR
-	01mv8ieqkqVsFJCRqy23sCFWY9zqcJH8mRtLlxac+ir3ZINk7mtpmRfFFJ/hwSLJ/hGgADyGJTZ
-	Zg6eKozLzIEetDr4tOULrLBj3yCr4oKSm8TS5adwf+kLcuOsDBR+6MOcVPEEY+5NmO98K30Bljq
-	6gH8DCQpYggKXvfckNu/G6ZZTeAbejPOkY+GeZ6w6r3dN63Exauaw2zwGOOPYgr+nh2fpwjqEu0
-	pI0/b8CQ7b4fWEdqhuZeXYYg==
-X-Google-Smtp-Source: AGHT+IFOBP7is3O7E3ngO9hcbwxAgJIe2rx8/X9n/iT0/JjDDDlV2gJyo8InmRgjZ9TfFpWZK3LaVg==
-X-Received: by 2002:a05:600c:4691:b0:477:58af:a91d with SMTP id 5b1f17b1804b1-477c10c8e61mr387655555e9.5.1764661433540;
-        Mon, 01 Dec 2025 23:43:53 -0800 (PST)
-Received: from FV6GYCPJ69 ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479279e594fsm7823225e9.12.2025.12.01.23.43.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Dec 2025 23:43:53 -0800 (PST)
-Date: Tue, 2 Dec 2025 08:43:49 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, 
-	Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH net-next V4 02/14] documentation: networking: add shared
- devlink documentation
-Message-ID: <2lnqrb3fu7dukdkgfculj53q2vwb36nrz5copjfg3khlqnbmix@jbfmhnks7svq>
-References: <1764101173-1312171-1-git-send-email-tariqt@nvidia.com>
- <1764101173-1312171-3-git-send-email-tariqt@nvidia.com>
- <20251127201645.3d7a10f6@kernel.org>
- <hidhx467pn6pcisuoxdw3pykyvnlq7rdicmjksbozw4dtqysti@yd5lin3qft4q>
- <20251128191924.7c54c926@kernel.org>
- <n6mey5dbfpw7ykp3wozgtxo5grvac642tskcn4mqknrurhpwy7@ugolzkzzujba>
- <20251201134954.6b8a8d48@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="St7uTVSS"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1764661994; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=V4loCZFItKzWub1Mw+gmTM0Qo7GDtzfcb9k6DM+79VY=;
+	b=St7uTVSSRAxzbE3pbga1/E9zgmKVVCOa9JB1ZqA1W659L0XFa1zrYq/4gB/t3aQtN7L6c09rctxLyWxvBWelkOas/Mtdb2P/rsgQF22N3irZM8hFXTTl2DC6D3c5+fCyZJ8qWd24c7yy3JjygM3ekReB/K7lmWsNSzT1gf3PXDY=
+Received: from 30.74.144.119(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WtveLei_1764661989 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 02 Dec 2025 15:53:11 +0800
+Message-ID: <09821512-dbfe-4577-8b42-31df8328a998@linux.alibaba.com>
+Date: Tue, 2 Dec 2025 15:53:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251201134954.6b8a8d48@kernel.org>
-
-Mon, Dec 01, 2025 at 10:49:54PM +0100, kuba@kernel.org wrote:
->On Mon, 1 Dec 2025 11:50:08 +0100 Jiri Pirko wrote:
->> >> I'm not sure I follow. If there is only one PF bound, there is 1:1
->> >> relationship. Depends on how many PFs of the same ASIC you have.  
->> >
->> >I'm talking about multi-PF devices. mlx5 supports multi-PF setup for
->> >NUMA locality IIUC. In such configurations per-PF parameters can be
->> >configured on PCI PF ports.  
->> 
->> Correct. IFAIK there is one PF devlink instance per NUMA node.
->
->You say "correct" and then disagree with what I'm saying. I said
->ports because a port is a devlink object. Not a devlink instance.
-
-Okay, you mean devlink_port. You would like to see NUMA node leg as
-devlink_port? Having troubles to undestand exactly what you mean, lot of
-guessing on my side. Probably I'm slow, sorry.
-
-But there is a PCI device per NUMA node leg. Not sure how to model it.
-Devink instances have 1:1 relationship with bus devices.
-
-Care to draw a picture perhaps?
-
-
->
->> The shared instance on top would make sense to me. That was one of
->> motivations to introduce it. Then this shared instance would hold
->> netdev, vf representors etc.
->
->I don't understand what the shared instance is representing and how
->user is expect to find their way thru the maze of devlink instanced,
->for real bus, aux bus, and now shared instanced.
-
-Well, I tried to desrtibe it in the documentation path, Not sure what is
-not clear :/
-
-Nested devlinks expose the connections between devlink instances.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 mm-new 07/16] khugepaged: introduce
+ collapse_max_ptes_none helper function
+To: Nico Pache <npache@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org
+Cc: david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
+ corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+ baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+ wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
+ vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
+ yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
+ raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
+ tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+ cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
+ lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
+ pfalcato@suse.de
+References: <20251201174627.23295-1-npache@redhat.com>
+ <20251201174627.23295-8-npache@redhat.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20251201174627.23295-8-npache@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
->
->> >> Well, the mutex protect the list of instances which are managed in the
->> >> driver. If you want to move the mutex, I don't see how to do it without
->> >> moving all the code related to shared devlink instances, including faux
->> >> probe etc. Is that what you suggest?  
->> >
->> >Multiple ways you can solve it, but drivers should have to duplicate
->> >all the instance management and locking. BTW please don't use guard().  
->> 
->> I'm having troubles to undestand what you say, sorry :/ Do you prefer to
->> move the code from driver to devlink core or not?
->
->I missed a "not".. drivers should _not_ have to duplicate, sorry.
 
-Okay, that means "yes".
+On 2025/12/2 01:46, Nico Pache wrote:
+> The current mechanism for determining mTHP collapse scales the
+> khugepaged_max_ptes_none value based on the target order. This
+> introduces an undesirable feedback loop, or "creep", when max_ptes_none
+> is set to a value greater than HPAGE_PMD_NR / 2.
+> 
+> With this configuration, a successful collapse to order N will populate
+> enough pages to satisfy the collapse condition on order N+1 on the next
+> scan. This leads to unnecessary work and memory churn.
+> 
+> To fix this issue introduce a helper function that will limit mTHP
+> collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
+> This effectively supports two modes:
+> 
+> - max_ptes_none=0: never introduce new none-pages for mTHP collapse.
+> - max_ptes_none=511 (on 4k pagesz): Always collapse to the highest
+>    available mTHP order.
+> 
+> This removes the possiblilty of "creep", while not modifying any uAPI
+> expectations. A warning will be emitted if any non-supported
+> max_ptes_none value is configured with mTHP enabled.
+> 
+> The limits can be ignored by passing full_scan=true, this is useful for
+> madvise_collapse (which ignores limits), or in the case of
+> collapse_scan_pmd(), allows the full PMD to be scanned when mTHP
+> collapse is available.
+> 
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>   mm/khugepaged.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 42 insertions(+), 1 deletion(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 8dab49c53128..f425238d5d4f 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -463,6 +463,44 @@ void __khugepaged_enter(struct mm_struct *mm)
+>   		wake_up_interruptible(&khugepaged_wait);
+>   }
+>   
+> +/**
+> + * collapse_max_ptes_none - Calculate maximum allowed empty PTEs for collapse
+> + * @order: The folio order being collapsed to
+> + * @full_scan: Whether this is a full scan (ignore limits)
+> + *
+> + * For madvise-triggered collapses (full_scan=true), all limits are bypassed
+> + * and allow up to HPAGE_PMD_NR - 1 empty PTEs.
+> + *
+> + * For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the configured
+> + * khugepaged_max_ptes_none value.
+> + *
+> + * For mTHP collapses, we currently only support khugepaged_max_pte_none values
+> + * of 0 or (HPAGE_PMD_NR - 1). Any other value will emit a warning and no mTHP
+> + * collapse will be attempted
+> + *
+> + * Return: Maximum number of empty PTEs allowed for the collapse operation
+> + */
+> +static unsigned int collapse_max_ptes_none(unsigned int order, bool full_scan)
+> +{
+> +	/* ignore max_ptes_none limits */
+> +	if (full_scan)
+> +		return HPAGE_PMD_NR - 1;
+> +
+> +	if (!is_mthp_order(order))
+> +		return khugepaged_max_ptes_none;
+> +
+> +	/* Zero/non-present collapse disabled. */
+> +	if (!khugepaged_max_ptes_none)
+> +		return 0;
+> +
+> +	if (khugepaged_max_ptes_none == HPAGE_PMD_NR - 1)
+> +		return (1 << order) - 1;
+> +
+> +	pr_warn_once("mTHP collapse only supports max_ptes_none values of 0 or %d\n",
+> +		      HPAGE_PMD_NR - 1);
+> +	return -EINVAL;
+> +}
 
-
->
->> Regarding guard(), sure. I wonder how much more time it's gonna take
->> since this resistentance fades out :)
->
->guard() locks code instead of data accesses. We used to make fun of
->Java in this community, you know.
-
-Time changes :)
-
+Thanks. That aligns with what we talked about previously. So
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
