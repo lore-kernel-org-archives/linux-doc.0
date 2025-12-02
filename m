@@ -1,121 +1,103 @@
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F239C2F9D83;
-	Tue,  2 Dec 2025 06:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3662FFDED
+	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 07:37:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764658314; cv=none; b=XRcB58bR1kIG1iFnqEotcxJAyZNfabyfXvSvPhkH/dObBiCuKlhPyjVJfJ/lW9X7DT+we9CWI805rMlwodXYQNiogWRTXtkiN7CQojxeoTFv5AT60weoOrUnB6R3C59lxIxgP+D4SeBaWok19PhGdDIRci4dSQ7aoTpn65bmuFo=
+	t=1764661066; cv=none; b=cjexkHcJDMl/k32wEdR2erBOjS2bryLnGJwOogjdw7kHV+R2I/KSfckqyTcNUUCSLCOymvPB/i+wQb4kT3T3C4Ed4Mik9JZCTDd+2NJi6oLMFb7jAV9anBMdX3yaOhxOPLGMwr7k5ppdrYbZpyLLkxF+81sHtOBNvc+fhxHwD9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764658314; c=relaxed/simple;
-	bh=1gWTQq98bOypJjboTaFYpJ4wa3iFoj+/sxC2R7JCTkU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=t900QcWewqoVHylaCGuiEs3bjUWkN4gypQmv0V5wdpx7RAMYx4ORaxMd13rdGRAvEEPQpk212vAiO4aKdUg7nSRBi7YJlxgXfIE6wOUQhEYulLA3sNbbSY7L+kdUnncKWQBdwtBbxtrYmxesOhHAb1H9JR/GQrL7lb4UBbIjdWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ZwWuYbG5; arc=none smtp.client-ip=113.46.200.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1764661066; c=relaxed/simple;
+	bh=rJUxGx2aB9EDcv9hfA7ubJd/ff7i0tqlXs+o7pLBSn4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H6wL3HoyWS6aPgCQMAe8rDQg1sUZzyg2yrSDvuY2+hjqSd0kPKncMHpPPgNKpM4UbfQcFbKVC+d85OiIZs4wlKnKSGHXz7cXsZLoYApisjJ3SFnKR7Awt+Tp8KWcUwsiyOyc3btDeBFvM1M8m2WXfdriH6vJihJtQ2S+7YAnssg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WM2g59Kv; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ZwWuYbG5"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=cATUQiJc9npGbI4jT9r+I8H4PuqTS2f1GZLrT/FePi4=;
-	b=ZwWuYbG5Q4xPmpss4QVApiJLmjWp+n8LiM6hKr9n7ChT+CJ5bPOvx3acW7pqU4MdJPlyNGvOE
-	RAaXTbV5rP9YfYneFFiGuebJEYbII+gELeXeBLd/+g18aQDBLsWWn1iQq1/0slm4c3ka2XzXU+g
-	BKMoenxgpkm/nrnPz5JyzAM=
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4dLBGS2cKRzRhVh;
-	Tue,  2 Dec 2025 14:49:52 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id 080F3180BCE;
-	Tue,  2 Dec 2025 14:51:44 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Tue, 2 Dec 2025 14:51:43 +0800
-Message-ID: <3b41d540-37d1-4b92-91a3-f4094f7ad792@huawei.com>
-Date: Tue, 2 Dec 2025 14:51:42 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WM2g59Kv"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8b1e54aefc5so370690585a.1
+        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 23:37:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764661063; x=1765265863; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uMUqOtbQRuBycaLGOZXvsFQQacfvpLgzgzobZhOZjuM=;
+        b=WM2g59KvEOgZspi+whBU9+53EPQMK8pQ3jXlw5ovgKHc1XGx8HhTm99iKlIg5APOjx
+         qUTwz8GxOhVZ5flr2jKgqRbo3ditYkSocbTDTk+oMLhiyk/RD/FiLWDQHarpNclmwyzt
+         uF6Lf/uJ5zJiw5zu4RbezM6oytq3vVOLjrwqKInui6zWETav2PzKkNNwDQyb5hgNT3Sw
+         7J4H1kYBAAwcx/7coaBfrJuFkUF21WIRiOyb4fo5wjjBLi0AGCKQLa4JIgqSbrjrCa65
+         kNCc5PpXFRSPoDx0kyj5ObYqq4eAZjCTahOGi6neP6Ac2XXUHvVHrpSOr+IDp1SDUuS3
+         HkEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764661063; x=1765265863;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uMUqOtbQRuBycaLGOZXvsFQQacfvpLgzgzobZhOZjuM=;
+        b=wTVzAnYq/8Jdm+3HD3CGK1hhbfrmNDNin1bpVHvErKlekDNQOyhnwHAfq1o8lrnNBg
+         tH5AmIW0dp/qGgbPH0BTieXrKOdaYKDRnr9sdNi/oRoPIh4nu1iU73HCHtMTk67u9M90
+         1SF4yhOPVvtDyoqNLzlBOx7TfI5l1v3VXtm6xPT6f2N908QobWCmwAhkbavAang7jwAk
+         pBzSj05oTFbG6XTKn+6UNlX+Yjk3lZ7Hdftmwm5K2zP1awkQUPUh77KJb7LZP/ooomCV
+         groJuc1OpeQtT0k/T2T4frqvaL1OYpA26kRfAyAjRs8HaXOEZ6wGHn6qTFocW3pVwJW+
+         JUWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX7FzLlDkgPI3S7vO2F06c5FmTLJz7Ke34ITcR3Uhz/0Vzuqik2QdvgEtuN4Z7me4dix9cS1n6umSI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzeCf9huCJ612/t7JtW+Cb+Q+JqVPGv2L0csWDAYnhGAwGjK30
+	82gDJHiDU54e4D3p0ghuIZHMpM2Ic3eWsP3Yw0N/zSW75owuWZpl44f4BF4dKWaTbCBG9yBwNkW
+	tcTpsHwWk4NBSp3nRTVFDb0FDiiFtVIQ=
+X-Gm-Gg: ASbGncvqj7xTFmDO+/eLVjLEpkbNHC+D3z1PsZb8jzdTe9yArJ7AK/rNr9eEydo3kbV
+	3DFT/211pxKp8xAAq57wU80wmiGdMOv2LcFasmHxQ6XQ5Cu5AsPQMIcDZZWUZHLJNaZFwaAjPkS
+	hwDkJpalke+DB1GJyf+M+PzdTOYcyGOKLxNDnGt4NYtAijTKRgMsnzI4LNw+HlWHv8+iXw4Hf4b
+	7dczXn/pXHq9j83R+ddRf3g/1XozDkSxtFwQTd7xegEHUlCAP3SvzpHrr0vNwQw/x/l0M0dRnJ9
+	Fain
+X-Google-Smtp-Source: AGHT+IGopKlmXLCFS1fuJTBQDpmGNuHcj1qAM5tdnHITeRvJEMu/jP7kOUGnQ1XvT3kDhIqVYBpkKESEJ61Y//iTWms=
+X-Received: by 2002:a05:620a:4492:b0:8b2:735b:973b with SMTP id
+ af79cd13be357-8b33d1d0e9emr4997633585a.23.1764661063253; Mon, 01 Dec 2025
+ 23:37:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] arm64/sysreg: Add HDBSS related register
- information
-To: Marc Zyngier <maz@kernel.org>, Tian Zheng <zhengtian10@huawei.com>
-CC: <oliver.upton@linux.dev>, <catalin.marinas@arm.com>, <corbet@lwn.net>,
-	<pbonzini@redhat.com>, <will@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <yezhenyu2@huawei.com>,
-	<xiexiangyou@huawei.com>, <zhengchuan@huawei.com>, <joey.gouly@arm.com>,
-	<kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<suzuki.poulose@arm.com>
-References: <20251121092342.3393318-1-zhengtian10@huawei.com>
- <20251121092342.3393318-2-zhengtian10@huawei.com>
- <86wm3iqlz8.wl-maz@kernel.org>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <86wm3iqlz8.wl-maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemr100010.china.huawei.com (7.202.195.125)
+References: <20251107135701.244659-2-phasta@kernel.org> <c35026065b1d109b7f4b9e1d8dee8ea45f9a1dba.camel@mailbox.org>
+In-Reply-To: <c35026065b1d109b7f4b9e1d8dee8ea45f9a1dba.camel@mailbox.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 2 Dec 2025 17:37:31 +1000
+X-Gm-Features: AWmQ_blLBdudWw8MvRxu2fQVyMFReBG71QSBVpfR0YW24N-X61nRZ4UlCjTmc0k
+Message-ID: <CAPM=9twe+Q0pP3KiWy7ZTYxRs_yN1bHEto6Mptqb3ub7vimgtw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] drm/todo: Add section for GPU Scheduler
+To: phasta@kernel.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Acked-by: Dave Airlie <airlied@redhat.com>
 
-
-在 2025/11/22 20:40, Marc Zyngier 写道:
-> On Fri, 21 Nov 2025 09:23:38 +0000,
-> Tian Zheng <zhengtian10@huawei.com> wrote:
->>
->> From: eillon <yezhenyu2@huawei.com>
->>
->> The ARM architecture added the HDBSS feature and descriptions of
->> related registers (HDBSSBR/HDBSSPROD) in the DDI0601(ID121123) version,
->> add them to Linux.
->>
->> Signed-off-by: eillon <yezhenyu2@huawei.com>
->> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
->> ---
->>   arch/arm64/include/asm/esr.h     |  2 ++
->>   arch/arm64/include/asm/kvm_arm.h |  1 +
->>   arch/arm64/tools/sysreg          | 28 ++++++++++++++++++++++++++++
->>   3 files changed, 31 insertions(+)
->>
->> diff --git a/arch/arm64/include/asm/esr.h b/arch/arm64/include/asm/esr.h
->> index e1deed824464..a6f3cf0b9b86 100644
->> --- a/arch/arm64/include/asm/esr.h
->> +++ b/arch/arm64/include/asm/esr.h
->> @@ -159,6 +159,8 @@
->>   #define ESR_ELx_CM 		(UL(1) << ESR_ELx_CM_SHIFT)
->>
->>   /* ISS2 field definitions for Data Aborts */
->> +#define ESR_ELx_HDBSSF_SHIFT	(11)
->> +#define ESR_ELx_HDBSSF		(UL(1) << ESR_ELx_HDBSSF_SHIFT)
->>   #define ESR_ELx_TnD_SHIFT	(10)
->>   #define ESR_ELx_TnD 		(UL(1) << ESR_ELx_TnD_SHIFT)
->>   #define ESR_ELx_TagAccess_SHIFT	(9)
->> diff --git a/arch/arm64/include/asm/kvm_arm.h b/arch/arm64/include/asm/kvm_arm.h
->> index 1da290aeedce..b71122680a03 100644
->> --- a/arch/arm64/include/asm/kvm_arm.h
->> +++ b/arch/arm64/include/asm/kvm_arm.h
->> @@ -124,6 +124,7 @@
->>   			 TCR_EL2_ORGN0_MASK | TCR_EL2_IRGN0_MASK)
->>
->>   /* VTCR_EL2 Registers bits */
->> +#define VTCR_EL2_HDBSS		(1UL << 45)
-> 
-> I think it is time to convert VTCR_EL2 to the sysreg infrastructure
-> instead of adding extra bits here.
-> 
-
-Hello Marc, I noticed you added VTCR_EL2 to the sysreg infrastructure in 
-this patch:
-
-https://lore.kernel.org/linux-arm-kernel/20251129144525.2609207-3-maz@kernel.org/
-
-Once this patch is merged upstream, I will remove my local definition.
-
-> 	M.
-> 
-
+On Thu, 27 Nov 2025 at 22:50, Philipp Stanner <phasta@mailbox.org> wrote:
+>
+> +Cc Matthew, Tvrtko, Christian
+>
+> On Fri, 2025-11-07 at 14:56 +0100, Philipp Stanner wrote:
+> > Changes in v2:
+> >   - Fix wrong list item index in patch 1.
+> >
+> > The GPU Scheduler has enough problems to be covered by the drm todo
+> > list. Let's add an entry.
+> >
+> > This series is the succesor of [1].
+> >
+> > [1] https://lore.kernel.org/dri-devel/20251023143031.149496-2-phasta@kernel.org/
+> >
+> > Philipp Stanner (2):
+> >   drm/todo: Add section with task for GPU scheduler
+> >   drm/todo: Add entry for unlocked drm/sched rq readers
+>
+> Can someone give this series a review please?
+>
+> Thx,
+> P.
