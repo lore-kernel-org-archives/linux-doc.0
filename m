@@ -1,445 +1,181 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380EC245005
-	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 01:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FB41DFD8B;
+	Tue,  2 Dec 2025 02:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764639338; cv=none; b=jLQGdKKbK61r7eoiLheLaXXAKgJ7oMDis0vuh3qSbGyX99hgD5qX2XGzYfwJGPlmuAWvhT4bJ8+iA3EksjZUNJERFoi8MxiNTs8BNqWsG2fJOxfOs+gXNqTbqSYu2n7Em3X/3GJkDr3f/xFl5Pke64rHE3OhLdluC/0SAYeRzyY=
+	t=1764642492; cv=none; b=Oerbfc2l9PgCuf2xjKKDByK14VhrP8op43afYaXRckeQXxlgTmu0OfuFkCfAIDpBQ3RqKVmYvtEaJVEWB0ZXOYTTaaU5oQjaq4Gqm07O2a2N8+tZ6dVU+haixqENCELniEeqmJtq4SMQKoMaXwRMcJmJKg1JXi9UxbbFnY1Mr98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764639338; c=relaxed/simple;
-	bh=aX4b/dtOJbU7+H1rQfMiZQtLMAdUZ1mamd1Fipz5Mhc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OIFZ1qhaZz1ACYQSxm0SurnFk8vpxgmRH0Nrw8mtH4hDiJBVYBU9o5byvj91OXDsv+1IQP1Y8zZcMS8gyKkjujCDn1Id9ESGafcoJbOj2XAwBKG8q7CT0b3QryNaYn+DRndXxc0Q8ttkoL+eoVKHkT6PhxPZOjPgk3uh5y7eVGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QVQJ0xCV; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QVQJ0xCV"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2955623e6faso53872505ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 17:35:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764639335; x=1765244135; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P/I0auzUVkVcxbH70BIVYr6yUr92WLMw+xrjecYcacA=;
-        b=QVQJ0xCVxeIp4RsWB3gy57tU3EvfGIUOpHBKVZE9Uujn4wc2Lx34NMCm166iFJV04R
-         hGNTWmYqpuQG0KfJ4sTfRw22jPJyONeMvbmldMn2LUqI5RVSHKs0HU50Gq4lMbHejlp0
-         zMIf8znfHfFwRtjLxZFM0Oxm7ajZUpA9DOAFEiT7fRDHtB9m9+bJw+YhitK2mbN5pMsb
-         x8bd449toAq7D13nCbPirUHwmRiY7RKgjVC9u2eYWzgNafN13gvu9/e/UIap5ecFn2NG
-         grPF3Ob973ZB1S0bPPIe5Z+GzAlVzPqr8/9+jmAKJ0dow/KdYGWMKC7EtyBk/dOtH8qv
-         0GkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764639335; x=1765244135;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=P/I0auzUVkVcxbH70BIVYr6yUr92WLMw+xrjecYcacA=;
-        b=ihn/fttfu61JIgU/yKJ+hl+JvWwTLjzfnF0pQqCTz8UU3LirZnez0gFbW835/3U1br
-         PL8acmaAOMvpi6onJAFS2Nfo//oK+F97ThlBCcq+tGoZ7Y6tPYAClabynYkUOqNaF3+E
-         fjOdqYvZ3rxSCnizEI4DceLgqzftgkXbNqSGEV6DDm0kgwWg1eQOZ0+Bh2U0ckaD+L33
-         wbTg/UcIFzkWMNOm3m6aN/H3oANcs/wxrcPpC0VKdlHrvpzlasV5b2NCfeLl5XY8PQhD
-         7lOm6nPaxnivObm8k6R2miUjnOQL+nCUJfSArMAKuU7B2KfV4Gs94rTPLh/LNw3y37n5
-         f/+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXc8P42xg1hazHhc0BHZQaFduRRPpY3J9aH1NJ3zLEd9DqfACDzS+pyDwLTKAoUFVU7QsKbBktAToU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZ/MqFiQ9apJaSXdxFvFf+IhFab3w9Lnp1rl4DiDbOJKXLHN61
-	r8ZgyYVFsVOfxZrH0/YJDZLc5LYiMMhdi4HFF5m408/WgwkDfjLyfFNN
-X-Gm-Gg: ASbGncvcIJa+NCUwHjU4N+rC5nwst7TV53C3JuShBYUVoCqENV5hd22kkVG7wUuBwT7
-	taPzlpjVuOvIvMezXovsY9noprvHOESwl6ffADnZxoMiRZ7Pm83qXdUlC3Hkir74WqPcIrsPqG/
-	q31fY39v/k9IjhLNpDTLuMxlFp6O3L0wgzXybEQH7thz1J5/c2VT0Dt087LNjWlPuWCtvMC1kSd
-	nKqR4x6kzc+GxSfDj8lMpTlvOYCOFpkcrts9jWwttBsZAnuuQHgBC/ar7+7FoOqvWf9XLMR7U2B
-	30YdMwU+8dXh3+eWEKgo/HwBhvs0dp8ZLlyx6X4wStIdrIbXWnAwLgCWHAX2bvhQH+RyHtC4S2z
-	VzHPEx5EPW8LJ79VowLZ8QQEcILjmVRpZdQ7IgQaunZD9qls/AZpJilVVx5Kto8/g+ulNI1rr2W
-	HBfj7/rhPGXrG/UOdhv9PFC5wEVJkJaQW97pvCSBpi9tfF0WTRcNNhJ7gd716ZV+xpJj0Fj7KDC
-	5KIoYU2DBQBZOb0bhY=
-X-Google-Smtp-Source: AGHT+IGQK/nb9FASk2chWpg9Ni/OJR5AgPXn3/ZK8ZXqfQ8nOYrkMVsl+JxFYgH88N7Fd3k6akiHDQ==
-X-Received: by 2002:a17:903:1670:b0:295:3ad7:948a with SMTP id d9443c01a7336-29baaf9a961mr298440265ad.16.1764639335372;
-        Mon, 01 Dec 2025 17:35:35 -0800 (PST)
-Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb54563sm132378575ad.89.2025.12.01.17.35.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Dec 2025 17:35:34 -0800 (PST)
-From: alistair23@gmail.com
-X-Google-Original-From: alistair.francis@wdc.com
-To: chuck.lever@oracle.com,
-	hare@kernel.org,
-	kernel-tls-handshake@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	hare@suse.de,
-	alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v6 5/5] nvmet-tcp: Support KeyUpdate
-Date: Tue,  2 Dec 2025 11:34:29 +1000
-Message-ID: <20251202013429.1199659-6-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251202013429.1199659-1-alistair.francis@wdc.com>
-References: <20251202013429.1199659-1-alistair.francis@wdc.com>
+	s=arc-20240116; t=1764642492; c=relaxed/simple;
+	bh=KTeiarc1R6RZdee8q1HNyhHEwwTrgEZzcxMvKZpBErE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ayqjw54ND7SCE/AAY2caaoNdBwsxah66AmAodNBg88VR58k4ty13YRpYnCDr1w0gSFOoAZdGN+2q06Gih+HpmTgB3KNY4E2pMka1qk3SAr6/wGlndttbGMCNKxiIh5Vz9I+RlOq/7JifOFaJCIfnN7qhntMOASDyFvAANOaknvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from w002.hihonor.com (unknown [10.68.28.120])
+	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4dL4Qq0TGlzYky8L;
+	Tue,  2 Dec 2025 10:26:43 +0800 (CST)
+Received: from w006.hihonor.com (10.68.23.5) by w002.hihonor.com
+ (10.68.28.120) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Tue, 2 Dec
+ 2025 10:28:07 +0800
+Received: from w002.hihonor.com (10.68.28.120) by w006.hihonor.com
+ (10.68.23.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 2 Dec
+ 2025 10:28:06 +0800
+Received: from w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3]) by
+ w002.hihonor.com ([fe80::ef6f:d9c5:cf75:d4d3%14]) with mapi id
+ 15.02.2562.027; Tue, 2 Dec 2025 10:28:06 +0800
+From: wangzicheng <wangzicheng@honor.com>
+To: Barry Song <21cnbao@gmail.com>
+CC: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Matthew Wilcox
+	<willy@infradead.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+	"david@redhat.com" <david@redhat.com>, "axelrasmussen@google.com"
+	<axelrasmussen@google.com>, "yuanchu@google.com" <yuanchu@google.com>,
+	"mhocko@kernel.org" <mhocko@kernel.org>, "zhengqi.arch@bytedance.com"
+	<zhengqi.arch@bytedance.com>, "shakeel.butt@linux.dev"
+	<shakeel.butt@linux.dev>, "lorenzo.stoakes@oracle.com"
+	<lorenzo.stoakes@oracle.com>, "weixugc@google.com" <weixugc@google.com>,
+	"vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
+	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, wangtao
+	<tao.wangtao@honor.com>, wangzhen 00021541 <wangzhen5@honor.com>, "zhongjinji
+ 00025326" <zhongjinji@honor.com>, Kairui Song <ryncsn@gmail.com>, Yuanchu Xie
+	<yuanchu@google.com>
+Subject: RE: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
+ debugfs to procfs
+Thread-Topic: [PATCH 0/3] mm/lru_gen: move lru_gen control interface from
+ debugfs to procfs
+Thread-Index: AQHcYBJK8KKXMResfEqv9fHMnnJz9rUHrbeAgAAP74CAA+3ugIAApiiQ//+VEACAAImM4P//h9UAgACJZRD//5W2AAAWOtvA//+33AD//t6j0A==
+Date: Tue, 2 Dec 2025 02:28:06 +0000
+Message-ID: <77df8abc718148169e72d6a132d302ba@honor.com>
+References: <20251128025315.3520689-1-wangzicheng@honor.com>
+ <aSm800KsCAptVZKu@casper.infradead.org>
+ <ti7h5cbrg5s3zf7surof3zmxb6supnl34x7hsbziqutm7r2laf@zuunap5hwsbx>
+ <CAGsJ_4xJ5qMght93FQOYrk1OiJTh-wFC4e8Nd4K0A156N3ZEBQ@mail.gmail.com>
+ <86c62472b5874ea2833587f1847958df@honor.com>
+ <CAGsJ_4w1jEej+ROuLta3MSuo4pKuA5yq7=6HS5yzgK39-4SLoA@mail.gmail.com>
+ <66c62243a510421db938235a99a242bf@honor.com>
+ <CAGsJ_4x0aVkDf-AhhGbBLU=LCxYFqYoFL0ovij-vFEQeJ46jYQ@mail.gmail.com>
+ <dc8ce4f329d74a24bde62c93818df44a@honor.com>
+ <CAGsJ_4w16G+AngPu48SEy1H+ZuE1AQngiY=cSfEs9V6=OUKX_Q@mail.gmail.com>
+ <48ba80e93270438994db78f74a7acdb9@honor.com>
+ <CAGsJ_4yY5MxOYjkQx07U2UzgL8mCZWCaVXyJ7e6hQ8UyVCcC8g@mail.gmail.com>
+In-Reply-To: <CAGsJ_4yY5MxOYjkQx07U2UzgL8mCZWCaVXyJ7e6hQ8UyVCcC8g@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Alistair Francis <alistair.francis@wdc.com>
-
-If the nvmet_tcp_try_recv() function return EKEYEXPIRED or if we receive
-a KeyUpdate handshake type then the underlying TLS keys need to be
-updated.
-
-If the NVMe Host (TLS client) initiates a KeyUpdate this patch will
-allow the NVMe layer to process the KeyUpdate request and forward the
-request to userspace. Userspace must then update the key to keep the
-connection alive.
-
-This patch allows us to handle the NVMe host sending a KeyUpdate
-request without aborting the connection. At this time we don't support
-initiating a KeyUpdate.
-
-Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
----
-v6:
- - Simplify the nvmet_tls_key_expired() check
-v5:
- - No change
-v4:
- - Restructure code to avoid #ifdefs and forward declarations
- - Use a helper function for checking -EKEYEXPIRED
- - Remove all support for initiating KeyUpdate
- - Use helper function for restoring callbacks
-v3:
- - Use a write lock for sk_user_data
- - Fix build with CONFIG_NVME_TARGET_TCP_TLS disabled
- - Remove unused variable
-v2:
- - Use a helper function for KeyUpdates
- - Ensure keep alive timer is stopped
- - Wait for TLS KeyUpdate to complete
-
- drivers/nvme/target/tcp.c | 200 ++++++++++++++++++++++++++------------
- 1 file changed, 139 insertions(+), 61 deletions(-)
-
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 818efdeccef1..0458a9691cbc 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -175,6 +175,7 @@ struct nvmet_tcp_queue {
- 
- 	/* TLS state */
- 	key_serial_t		tls_pskid;
-+	key_serial_t		handshake_session_id;
- 	struct delayed_work	tls_handshake_tmo_work;
- 
- 	unsigned long           poll_end;
-@@ -186,6 +187,8 @@ struct nvmet_tcp_queue {
- 	struct sockaddr_storage	sockaddr_peer;
- 	struct work_struct	release_work;
- 
-+	struct completion       tls_complete;
-+
- 	int			idx;
- 	struct list_head	queue_list;
- 
-@@ -214,6 +217,10 @@ static struct workqueue_struct *nvmet_tcp_wq;
- static const struct nvmet_fabrics_ops nvmet_tcp_ops;
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
-+				   enum handshake_key_update_type keyupdate);
-+#endif
- 
- static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd)
-@@ -832,6 +839,20 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
- 	return 1;
- }
- 
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+static bool nvmet_tls_key_expired(struct nvmet_tcp_queue *queue, int ret)
-+{
-+	return ret == -EKEYEXPIRED &&
-+		queue->state != NVMET_TCP_Q_DISCONNECTING &&
-+		queue->state != NVMET_TCP_Q_TLS_HANDSHAKE;
-+}
-+#else
-+static bool nvmet_tls_key_expired(struct nvmet_tcp_queue *queue, int ret)
-+{
-+	return false;
-+}
-+#endif
-+
- static int nvmet_tcp_try_send(struct nvmet_tcp_queue *queue,
- 		int budget, int *sends)
- {
-@@ -1106,6 +1127,103 @@ static inline bool nvmet_tcp_pdu_valid(u8 type)
- 	return false;
- }
- 
-+static void nvmet_tcp_release_queue(struct kref *kref)
-+{
-+	struct nvmet_tcp_queue *queue =
-+		container_of(kref, struct nvmet_tcp_queue, kref);
-+
-+	WARN_ON(queue->state != NVMET_TCP_Q_DISCONNECTING);
-+	queue_work(nvmet_wq, &queue->release_work);
-+}
-+
-+static void nvmet_tcp_schedule_release_queue(struct nvmet_tcp_queue *queue)
-+{
-+	spin_lock_bh(&queue->state_lock);
-+	if (queue->state == NVMET_TCP_Q_TLS_HANDSHAKE) {
-+		/* Socket closed during handshake */
-+		tls_handshake_cancel(queue->sock->sk);
-+	}
-+	if (queue->state != NVMET_TCP_Q_DISCONNECTING) {
-+		queue->state = NVMET_TCP_Q_DISCONNECTING;
-+		kref_put(&queue->kref, nvmet_tcp_release_queue);
-+	}
-+	spin_unlock_bh(&queue->state_lock);
-+}
-+
-+static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
-+{
-+	struct socket *sock = queue->sock;
-+
-+	if (!queue->state_change)
-+		return;
-+
-+	write_lock_bh(&sock->sk->sk_callback_lock);
-+	sock->sk->sk_data_ready =  queue->data_ready;
-+	sock->sk->sk_state_change = queue->state_change;
-+	sock->sk->sk_write_space = queue->write_space;
-+	sock->sk->sk_user_data = NULL;
-+	write_unlock_bh(&sock->sk->sk_callback_lock);
-+}
-+
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w)
-+{
-+	struct nvmet_tcp_queue *queue = container_of(to_delayed_work(w),
-+			struct nvmet_tcp_queue, tls_handshake_tmo_work);
-+
-+	pr_warn("queue %d: TLS handshake timeout\n", queue->idx);
-+	/*
-+	 * If tls_handshake_cancel() fails we've lost the race with
-+	 * nvmet_tcp_tls_handshake_done() */
-+	if (!tls_handshake_cancel(queue->sock->sk))
-+		return;
-+	spin_lock_bh(&queue->state_lock);
-+	if (WARN_ON(queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)) {
-+		spin_unlock_bh(&queue->state_lock);
-+		return;
-+	}
-+	queue->state = NVMET_TCP_Q_FAILED;
-+	spin_unlock_bh(&queue->state_lock);
-+	nvmet_tcp_schedule_release_queue(queue);
-+	kref_put(&queue->kref, nvmet_tcp_release_queue);
-+}
-+
-+static int update_tls_keys(struct nvmet_tcp_queue *queue)
-+{
-+	int ret;
-+
-+	cancel_work(&queue->io_work);
-+	queue->state = NVMET_TCP_Q_TLS_HANDSHAKE;
-+
-+	nvmet_tcp_restore_socket_callbacks(queue);
-+
-+	INIT_DELAYED_WORK(&queue->tls_handshake_tmo_work,
-+			  nvmet_tcp_tls_handshake_timeout);
-+
-+	ret = nvmet_tcp_tls_handshake(queue, HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
-+
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = wait_for_completion_interruptible_timeout(&queue->tls_complete,
-+							10 * HZ);
-+
-+	if (ret <= 0) {
-+		tls_handshake_cancel(queue->sock->sk);
-+		return ret;
-+	}
-+
-+	queue->state = NVMET_TCP_Q_LIVE;
-+
-+	return 0;
-+}
-+#else
-+static int update_tls_keys(struct nvmet_tcp_queue *queue)
-+{
-+	return -EPFNOSUPPORT;
-+}
-+#endif
-+
- static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
- 		struct msghdr *msg, char *cbuf)
- {
-@@ -1131,6 +1249,9 @@ static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
- 			ret = -EAGAIN;
- 		}
- 		break;
-+	case TLS_RECORD_TYPE_HANDSHAKE:
-+		ret = -EAGAIN;
-+		break;
- 	default:
- 		/* discard this record type */
- 		pr_err("queue %d: TLS record %d unhandled\n",
-@@ -1340,6 +1461,8 @@ static int nvmet_tcp_try_recv(struct nvmet_tcp_queue *queue,
- 	for (i = 0; i < budget; i++) {
- 		ret = nvmet_tcp_try_recv_one(queue);
- 		if (unlikely(ret < 0)) {
-+			if (nvmet_tls_key_expired(queue, ret))
-+					goto done;
- 			nvmet_tcp_socket_error(queue, ret);
- 			goto done;
- 		} else if (ret == 0) {
-@@ -1351,29 +1474,6 @@ static int nvmet_tcp_try_recv(struct nvmet_tcp_queue *queue,
- 	return ret;
- }
- 
--static void nvmet_tcp_release_queue(struct kref *kref)
--{
--	struct nvmet_tcp_queue *queue =
--		container_of(kref, struct nvmet_tcp_queue, kref);
--
--	WARN_ON(queue->state != NVMET_TCP_Q_DISCONNECTING);
--	queue_work(nvmet_wq, &queue->release_work);
--}
--
--static void nvmet_tcp_schedule_release_queue(struct nvmet_tcp_queue *queue)
--{
--	spin_lock_bh(&queue->state_lock);
--	if (queue->state == NVMET_TCP_Q_TLS_HANDSHAKE) {
--		/* Socket closed during handshake */
--		tls_handshake_cancel(queue->sock->sk);
--	}
--	if (queue->state != NVMET_TCP_Q_DISCONNECTING) {
--		queue->state = NVMET_TCP_Q_DISCONNECTING;
--		kref_put(&queue->kref, nvmet_tcp_release_queue);
--	}
--	spin_unlock_bh(&queue->state_lock);
--}
--
- static inline void nvmet_tcp_arm_queue_deadline(struct nvmet_tcp_queue *queue)
- {
- 	queue->poll_end = jiffies + usecs_to_jiffies(idle_poll_period_usecs);
-@@ -1404,8 +1504,12 @@ static void nvmet_tcp_io_work(struct work_struct *w)
- 		ret = nvmet_tcp_try_recv(queue, NVMET_TCP_RECV_BUDGET, &ops);
- 		if (ret > 0)
- 			pending = true;
--		else if (ret < 0)
-+		else if (ret < 0) {
-+			if (ret == -EKEYEXPIRED)
-+				break;
-+
- 			return;
-+		}
- 
- 		ret = nvmet_tcp_try_send(queue, NVMET_TCP_SEND_BUDGET, &ops);
- 		if (ret > 0)
-@@ -1415,6 +1519,11 @@ static void nvmet_tcp_io_work(struct work_struct *w)
- 
- 	} while (pending && ops < NVMET_TCP_IO_WORK_BUDGET);
- 
-+	if (ret == -EKEYEXPIRED) {
-+		update_tls_keys(queue);
-+		pending = true;
-+	}
-+
- 	/*
- 	 * Requeue the worker if idle deadline period is in progress or any
- 	 * ops activity was recorded during the do-while loop above.
-@@ -1517,21 +1626,6 @@ static void nvmet_tcp_free_cmds(struct nvmet_tcp_queue *queue)
- 	kfree(cmds);
- }
- 
--static void nvmet_tcp_restore_socket_callbacks(struct nvmet_tcp_queue *queue)
--{
--	struct socket *sock = queue->sock;
--
--	if (!queue->state_change)
--		return;
--
--	write_lock_bh(&sock->sk->sk_callback_lock);
--	sock->sk->sk_data_ready =  queue->data_ready;
--	sock->sk->sk_state_change = queue->state_change;
--	sock->sk->sk_write_space = queue->write_space;
--	sock->sk->sk_user_data = NULL;
--	write_unlock_bh(&sock->sk->sk_callback_lock);
--}
--
- static void nvmet_tcp_uninit_data_in_cmds(struct nvmet_tcp_queue *queue)
- {
- 	struct nvmet_tcp_cmd *cmd = queue->cmds;
-@@ -1794,6 +1888,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
- 	}
- 	if (!status) {
- 		queue->tls_pskid = peerid;
-+		queue->handshake_session_id = handshake_session_id;
- 		queue->state = NVMET_TCP_Q_CONNECTING;
- 	} else
- 		queue->state = NVMET_TCP_Q_FAILED;
-@@ -1809,28 +1904,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
- 	else
- 		nvmet_tcp_set_queue_sock(queue);
- 	kref_put(&queue->kref, nvmet_tcp_release_queue);
--}
--
--static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w)
--{
--	struct nvmet_tcp_queue *queue = container_of(to_delayed_work(w),
--			struct nvmet_tcp_queue, tls_handshake_tmo_work);
--
--	pr_warn("queue %d: TLS handshake timeout\n", queue->idx);
--	/*
--	 * If tls_handshake_cancel() fails we've lost the race with
--	 * nvmet_tcp_tls_handshake_done() */
--	if (!tls_handshake_cancel(queue->sock->sk))
--		return;
--	spin_lock_bh(&queue->state_lock);
--	if (WARN_ON(queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)) {
--		spin_unlock_bh(&queue->state_lock);
--		return;
--	}
--	queue->state = NVMET_TCP_Q_FAILED;
--	spin_unlock_bh(&queue->state_lock);
--	nvmet_tcp_schedule_release_queue(queue);
--	kref_put(&queue->kref, nvmet_tcp_release_queue);
-+	complete(&queue->tls_complete);
- }
- 
- static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
-@@ -1852,11 +1926,15 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
- 	args.ta_data = queue;
- 	args.ta_keyring = key_serial(queue->port->nport->keyring);
- 	args.ta_timeout_ms = tls_handshake_timeout * 1000;
-+	args.ta_handshake_session_id = queue->handshake_session_id;
-+
-+	init_completion(&queue->tls_complete);
- 
- 	if (keyupdate == HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
- 		ret = tls_server_hello_psk(&args, GFP_KERNEL);
- 	else
- 		ret = tls_server_keyupdate_psk(&args, GFP_KERNEL, keyupdate);
-+
- 	if (ret) {
- 		kref_put(&queue->kref, nvmet_tcp_release_queue);
- 		pr_err("failed to start TLS, err=%d\n", ret);
--- 
-2.51.1
-
+SGkgQmFycnksDQoNCj4gVGhlbiBwbGVhc2UgY2hlY2sgd2l0aCBTdXJlbiB3aGV0aGVyIGl0IGlz
+IHBvc3NpYmxlIHRvIGJhY2twb3J0IHRoaXMgdG8NCj4gdGhlIEFuZHJvaWQgY29tbW9uIGtlcm5l
+bC4NCj4gTXkgdW5kZXJzdGFuZGluZyBpcyB0aGF0IHRoaXMgc2hvdWxkIGFscmVhZHkgYmUgcHJl
+c2VudCBpbiB0aGUgQW5kcm9pZCA2LjEyDQo+IGtlcm5lbC4NCj4gDQpUaGFua3MgZm9yIHRoZSBy
+ZW1pbmRpbmcuDQoNCj4gPg0KPiA+IFNpbmNlIHRoZSBtYXggc3dhcHBpbmVzcyBpcyAyMDAsIHRo
+ZXJlIGFyZSBxdWl0ZSBzY2VuYXJpb3MgdGhhdCBmaWxlDQo+ID4gcGFnZXMgYXJlIHRoZSBvbmx5
+IG9wdGlvbi4NCj4gPg0KPiA+IFF1b3RlIGZyb20ga2FpcnVpJ3MgcmVwbHk6DQo+ID4gPiBSaWdo
+dCwgd2UgYXJlIHNlZWluZyBzaW1pbGFyIHByb2JsZW1zIG9uIG91ciBzZXJ2ZXIgdG9vLiBUbyB3
+b3JrYXJvdW5kDQo+ID4gPiBpdCB3ZSBmb3JjZSBhbiBhZ2UgaXRlcmF0aW9uIGJlZm9yZSByZWNs
+YWltaW5nIHdoZW4gaXQgaGFwcGVucywgd2hpY2gNCj4gPiA+IGlzbid0IHRoZSBiZXN0IGNob2lj
+ZS4gV2hlbiB0aGUgTFJVIGlzIGxvbmcgYW5kIHRoZSBvcHBvc2l0ZSB0eXBlIG9mDQo+ID4gPiB0
+aGUgZm9saW9zIHdlIHdhbnQgdG8gcmVjbGFpbSBpcyBwaWxpbmcgdXAgaW4gdGhlIG9sZGVzdCBn
+ZW4sIGEgZm9yY2VkDQo+ID4gPiBhZ2Ugd2lsbCBoYXZlIHRvIG1vdmUgYWxsIHRoZXNlIGZvbGlv
+cywgd2hpY2ggbGVhZHMgdG8gbG9uZyB0YWlsaW5nDQo+ID4gPiBpc3N1ZXMuIExldCdzIHdvcmsg
+b24gYSByZWFzb25hYmxlIHNvbHV0aW9uIGZvciB0aGF0Lg0KPiA+DQo+IA0KPiBXZSBhbGwgYWdy
+ZWUgdGhhdCBNR0xSVSBoYXMgdGhpcyBnZW5lcmF0aW9uIGlzc3VlLiBZb3UgbWVudGlvbmVkIGl0
+LCBJDQo+IGFncmVlZA0KPiBhbmQgbm90ZWQgdGhhdCBib3RoIEthaXJ1aSBhbmQgSSBoYWQgb2Jz
+ZXJ2ZWQgaXQuIFRoZW4gS2FpcnVpIHJlcGxpZWQgdGhhdCBoZQ0KPiBoYWQgaW5kZWVkIHNlZW4g
+aXQgYXMgd2VsbC4gTm93IHlvdSBhcmUgdXNpbmcgS2FpcnVp4oCZcyByZXBseSB0byBhcmd1ZSBh
+Z2FpbnN0DQo+IG1lLCBhbmQgSSBob25lc3RseSBkb27igJl0IHVuZGVyc3RhbmQgdGhlIGxvZ2lj
+IGJlaGluZCB5b3VyIHJlc3BvbnNlcy4NCj4gDQoNCk15IGFwb2xvZ2l6ZSBpZiBteSBwcmV2aW91
+cyB3b3JkaW5nIGNhdXNlZCBhbnkgY29uZnVzaW9uLg0KDQpUaGUgb25seSB0aGluZyB0aGUgcGF0
+Y2hzZXQgKHdhbnQgdG8pIGRvIGlzIGZvcmNpbmcgMi8zIGdlbnMgYWdpbmcgcmlnaHQgYmVmb3Jl
+IHByb2FjdGl2ZQ0KcmVjbGFpbSwgYW5kIGl0IGhlbHBzIHJlY2xhaW0gbW9yZSBhbm9uIHBhZ2Vz
+IGFuZCBwcmVzZXJ2ZSBtb3JlIGZpbGUgcGFnZXMgdW5kZXINCmNlcnRhaW4gd29ya2xvYWQuICg0
+MDB+ODAwTUIgTWVtQXZhaWxhYmxlIGltcHJvdmVtZW50KS4NCg0KVGhlIHJlYXNvbiBmb3IgcXVv
+dGluZyBLYWlydWkncyByZXBseToNCmBmb3JjZSBhZ2luZyAyLzMgZ2VucyBiZWZvcmUgcmVjbGFp
+bWAgd291bGQgYmUgcm91Z2hseSBzaW1pbGFyIGluIHNwaXJpdCB0byB3aGF0IEthaXJ1aQ0KcmVm
+ZXJyZWQgdG8gYCBmb3JjZSBhbiBhZ2UgaXRlcmF0aW9uIGJlZm9yZSByZWNsYWltaW5nYCwgZnJv
+bSBteSB1bmRlcnN0YW5kaW5nLg0KDQpJZiBteSB1bmRlcnN0YW5kaW5nIGlzIGluYWNjdXJhdGUs
+IHBsZWFzZSBmZWVsIGZyZWUgdG8gY29ycmVjdCBtZS4NCg0KPiA+IEFnYWluLCB0aGFuayB5b3Ug
+Zm9yIHlvdXIgZ3VpZGFuY2UuIFdlIHdpbGwgY2FyZWZ1bGx5IGV2YWx1YXRlIHRoZQ0KPiA+IFBh
+dGNoc2V0WzFdIHlvdSByZWNvbW1lbmRlZC4NCj4gPg0KPiA+ID4gSGkgWmljaGVuZywNCj4gPiA+
+DQo+ID4gPiBPbiBNb24sIERlYyAxLCAyMDI1IGF0IDU6NTXigK9QTSB3YW5nemljaGVuZyA8d2Fu
+Z3ppY2hlbmdAaG9ub3IuY29tPg0KPiA+ID4gd3JvdGU6DQo+ID4gPiA+DQo+ID4gPiA+IEhpIEJh
+cnJ5LA0KPiA+ID4gPg0KPiA+ID4gPiBUaGFuayB5b3UgZm9yIHRoZSBjb21tZW50LCBhY3R1YWxs
+eSB3ZSBkbyBrbm93IHRoZSBjZ3JvdXAgZmlsZS4NCj4gPiA+ID4NCj4gPiA+ID4gV2hhdCB3ZSBy
+ZWFsbHkgbmVlZCBpcyB0byAqcHJvYWN0aXZlIGFnaW5nIDJ+MyBnZW5zKiBiZWZvcmUgcHJvYWN0
+aXZlDQo+ID4gPiByZWNsYWltLg0KPiA+ID4gPiAoZXNwZWNpYWxseSBhZnRlciBjb2xkIGxhdW5j
+aGVzIHdoZW4gbm8gYW5vbiBwYWdlcyBpbiB0aGUgb2xkZXN0IGdlbnMpDQo+ID4gPiA+DQo+ID4g
+PiA+IFRoZSBwcm9hY3RpdmUgYWdpbmcgYWxzbyBoZWxwcyBkaXN0cmlidXRlIHRoZSBhbm9uIGFu
+ZCBmaWxlIHBhZ2VzIGV2ZW5seQ0KPiBpbg0KPiA+ID4gPiBNR0xSVSBnZW5zLiBBbmQgcmVjbGFp
+bWluZyB3b24ndCBmYWxsIGludG8gZmlsZSBjYWNoZXMuDQo+ID4gPg0KPiA+ID4gSeKAmW0gbm90
+IHF1aXRlIHN1cmUgd2hhdCB5b3UgbWVhbiBieSDigJxyZWNsYWltaW5nIHdvbuKAmXQgZmFsbCBp
+bnRvIGZpbGUNCj4gY2FjaGVzLuKAnQ0KPiA+ID4NCj4gPiA+IEkgYXNzdW1lIHlvdSBtZWFuIHlv
+dSBjb25maWd1cmVkIGEgaGlnaCBzd2FwcGluZXNzIGZvciBNR0xSVQ0KPiBwcm9hY3RpdmUNCj4g
+PiA+IHJlY2xhbWF0aW9uLCBzbyB3aGVuIGJvdGggYW5vbiBhbmQgZmlsZSBoYXZlIGZvdXIgZ2Vu
+ZXJhdGlvbnMsDQo+ID4gPiBgZ2V0X3R5cGVfdG9fc2NhbigpYCBlZmZlY3RpdmVseSBhbHdheXMg
+cmV0dXJucyBhbm9uPw0KPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gPiBBbHNvIG5vdGUgdGhhdCBt
+ZW1jZyBhbHJlYWR5IGhhcyBhbiBpbnRlcmZhY2UgZm9yIHByb2FjdGl2ZQ0KPiByZWNsYW1hdGlv
+biwNCj4gPiA+ID4gPiBzbyBJ4oCZbSBub3QgY2VydGFpbiB3aGV0aGVyIHlvdXIgcGF0Y2hzZXQg
+Y2FuIGNvZXhpc3Qgd2l0aCBpdCBvciBleHRlbmQNCj4gPiA+ID4gPiBpdCB0byBtZWV0IHlvdXIg
+cmVxdWlyZW1lbnRz4oCUd2hpY2ggc2VlbXMgcXVpdGUgaW1wb3NzaWJsZSB0byBtZQ0KPiA+ID4g
+PiA+DQo+ID4gPiA+ID4gbWVtb3J5LnJlY2xhaW0NCj4gPiA+ID4gPiAgICAgICAgIEEgd3JpdGUt
+b25seSBuZXN0ZWQta2V5ZWQgZmlsZSB3aGljaCBleGlzdHMgZm9yIGFsbCBjZ3JvdXBzLg0KPiA+
+ID4gPiA+DQo+ID4gPiA+ID4gICAgICAgICBUaGlzIGlzIGEgc2ltcGxlIGludGVyZmFjZSB0byB0
+cmlnZ2VyIG1lbW9yeSByZWNsYWltIGluIHRoZQ0KPiA+ID4gPiA+ICAgICAgICAgdGFyZ2V0IGNn
+cm91cC4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+ICAgICAgICAgRXhhbXBsZTo6DQo+ID4gPiA+ID4N
+Cj4gPiA+ID4gPiAgICAgICAgICAgZWNobyAiMUciID4gbWVtb3J5LnJlY2xhaW0NCj4gPiA+ID4g
+Pg0KPiA+ID4gPiA+ICAgICAgICAgUGxlYXNlIG5vdGUgdGhhdCB0aGUga2VybmVsIGNhbiBvdmVy
+IG9yIHVuZGVyIHJlY2xhaW0gZnJvbQ0KPiA+ID4gPiA+ICAgICAgICAgdGhlIHRhcmdldCBjZ3Jv
+dXAuIElmIGxlc3MgYnl0ZXMgYXJlIHJlY2xhaW1lZCB0aGFuIHRoZQ0KPiA+ID4gPiA+ICAgICAg
+ICAgc3BlY2lmaWVkIGFtb3VudCwgLUVBR0FJTiBpcyByZXR1cm5lZC4NCj4gPiA+ID4gPg0KPiA+
+ID4gPiBUaGlzIHJlbWluZCBtZSB0aGF0IGFkZGluZyBhIGBtZW1vci5hZ2luZ2AgdW5kZXIgbWVt
+Y2cgZGlyZWN0b3JpZXMNCj4gPiA+ID4gcmF0aGVyIHRoYW4gYWRkaW5nIG5ldyBwcm9jZnMgZmls
+ZXMgaXMgYWxzbyBhIGdyZWF0IG9wdGlvbi4NCj4gPiA+DQo+ID4gPiBJIHN0aWxsIGRvbuKAmXQg
+dW5kZXJzdGFuZCB3aHkuIEFnaW5nIGlzIHNvbWV0aGluZyBNR0xSVSBpdHNlbGYgc2hvdWxkDQo+
+ID4gPiBoYW5kbGU7IGNvbXBvbmVudHMgb3V0c2lkZSBNR0xSVSwgc3VjaCBhcyBjZ3JvdXAgdjIs
+IGRvIG5vdCBuZWVkIHRvDQo+IGJlDQo+ID4gPiBhd2FyZSBvZiB0aGlzIGNvbmNlcHQgYXQgYWxs
+LiBFeHBvc2luZyBpdCB3aWxsIGxpa2VseSBsZWFkIHRvIGFub3RoZXINCj4gPiA+IGltbWVkaWF0
+ZSBOQUsuDQo+ID4gPg0KPiA+ID4gSW4gc2hvcnQsIGFnaW5nIHNob3VsZCByZW1haW4gd2l0aGlu
+IE1HTFJV4oCZcyBpbnRlcm5hbCBzY29wZS4NCj4gPg0KPiA+IEkgd291bGQgbGlrZSB0byBleHBy
+ZXNzIGEgZGlmZmVyZW50IHBvaW50IG9mIHZpZXcuIFdlIGFyZSB3b3JraW5nIG9uDQo+IHNvbWV0
+aGluZw0KPiA+IEludGVyZXN0aW5nIG9uIGl0LCB3aWxsIGJlIHNoYXJlZCBvbmNlIHJlYWR5Lg0K
+PiANCj4gWW91IGFyZSBhbHdheXMgd2VsY29tZSB0byBzaGFyZSwgYnV0IHBsZWFzZSB1bmRlcnN0
+YW5kIHRoYXQgbWVtb3J5LmFnaW5nDQo+IGlzDQo+IG5vdCBvZiBpbnRlcmVzdCB0byBhbnkgbW9k
+dWxlIG91dHNpZGUgdGhlIHNjb3BlIG9mIE1HTFJVIGl0c2VsZi4gQW4NCj4gaW50ZXJmYWNlDQo+
+IGlzIGFuIGludGVyZmFjZSwgYW5kIGludGVybmFsIGltcGxlbWVudGF0aW9uIHNob3VsZCByZW1h
+aW4gaW50ZXJuYWwuIEluIG90aGVyDQo+IHdvcmRzLCB0aGVyZSBpcyBubyByZWFzb24gZm9yIGNn
+cm91cHYyIHRvIGJlIGF3YXJlIG9mIHdoYXQg4oCcYWdpbmfigJ0gaXMuDQo+IA0KPiBZb3UgbWF5
+IHN1Ym1pdCB5b3VyIG5ldyBjb2RlIGFzIGEgImZpeCIgZm9yIHRoZSBnZW5lcmF0aW9uIGlzc3Vl
+IHdpdGhvdXQNCj4gaW50cm9kdWNpbmcgYSBuZXcgaW50ZXJmYWNlLiBUaGF0IHdvdWxkIGJlIGEg
+Z29vZCBzdGFydGluZyBwb2ludCBmb3INCj4gZGlzY3Vzc2luZyBob3cgdG8gcmVzb2x2ZSB0aGUg
+cHJvYmxlbS4NCj4gDQoNCkNvbXBsZXRlbHkgYWdyZWUgd2l0aCB5b3VyIGd1aWRhbmNlLg0KV2Ug
+d2lsbCByZXZpc2l0IHRoZSBkZXNpZ24gYW5kIHRoaW5rIGFib3V0IHRoZSBuZXh0IHZlcnNpb24s
+IGFuZCB0cnkgdG8ga2VlcCB0aGUNCm1lY2hhbmlzbSBpbnRlcm5hbGx5Lg0KDQo+ID4NCj4gPiA+
+DQo+ID4gPiBCdXQgaXQgc2VlbXMgeW91IGRvIHdhbnQgc29tZSBwb2xpY3kgY29udHJvbCBmb3Ig
+eW91ciBwcm9hY3RpdmUNCj4gPiA+IHJlY2xhbWF0aW9uLCBzdWNoIGFzIGFsd2F5cyByZWNsYWlt
+aW5nIGFub24gcGFnZXMgb3IgcmVjbGFpbWluZyB0aGVtDQo+ID4gPiBtb3JlIGFnZ3Jlc3NpdmVs
+eSB0aGFuIGZpbGUgcGFnZXMuIEkgYXNzdW1lIFpob25na3Vu4oCZcyBwYXRjaCBbMV0gd2UNCj4g
+PiA+IG1lbnRpb25lZCBlYXJsaWVyIHNob3VsZCBwcm92aWRlIHN1cHBvcnQgZm9yIHRoYXQsIGNv
+cnJlY3Q/DQo+ID4gPg0KPiA+ID4gQXMgYSB3b3JrYXJvdW5kLCB5b3UgY2FuIHNldCBgc3dhcHBp
+bmVzcz1tYXhgIGZvciBgbWVtb3J5LnJlY2xhaW1gDQo+ID4gPiBiZWZvcmUNCj4gPiA+IHdlIGlu
+dGVybmFsbHkgaW1wcm92ZSB0aGUgaGFuZGxpbmcgb2YgdGhlIGFnaW5nIGlzc3VlLiBJbiBzaG9y
+dCwNCj4gPiA+IOKAnHByb2FjdGl2ZSBhZ2luZ+KAnSBhbmQgc2ltaWxhciBtZWNoYW5pc21zIHNo
+b3VsZCBiZSBoYW5kbGVkDQo+IGF1dG9tYXRpY2FsbHkNCj4gPiA+IGFuZCBpbnRlcm5hbGx5IHdp
+dGhpbiB0aGUgc2NvcGUgb2YgdGhlIE1HTFJVIGNvZGUuDQo+ID4NCj4gPiBTdXJlLCB3ZSB3aWxs
+IG1ha2UgYSBjYXJlZnVsIGV2YWx1YXRpb24uDQo+IA0KPiBUaGFua3MNCj4gQmFycnkNCg0KQmVz
+dCwNClppY2hlbmcNCg==
