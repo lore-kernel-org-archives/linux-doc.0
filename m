@@ -1,81 +1,81 @@
 Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DE63126C6
-	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 11:52:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5A53115A5
+	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 11:52:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764676337; cv=none; b=WMUD/qonUl+YQyOqX63wDDNTvENnQUWXfqcb9/wFJqRqZbWau00hemcl9IsrYP5/6zpJn8+HI/o7JwZC9T8Llu818dHhb5g/hOV/0C4YqzW/m5hQzaD5pbGlUMd750sI4Jz2+gYEyQ3Roj8prpDUb9ERv1DxmhHnu2sZirArO3E=
+	t=1764676343; cv=none; b=OCxRJ32pQRqCheY6xG+G3LxM9ST+OmPBnZrpRxiLaOB+cEcemaOk3TVM1Z7sP5s5O8CsWciztdpx1p/Nb2cZnk0pZh4lIoYojjRe3z4gTdSI62dhjpPcNf2eM98OD1SCkBQgpmPtoPPVjMRKHg2cRb63eTIlQmnE5GxHzE75Vww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764676337; c=relaxed/simple;
-	bh=RZiMVeuMpFtsxH0FT6sSt415Si5xUzm3G12T/hIkpi4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=V9VEQi9wm7ijxEhtOTv8rhWUgnFLcLRpWrZvejyhjGoW/fXwh5xcxbR6MvconwvDOz4dqKQzQnxp7fjMQ859CP8wipV3G7qsgTlc5k4/NeIolxQpOoAAeUUQinfJXQUA87sRL13hhFrZ/wAHaDnYzjxQY1fSD6n6npdODroBxw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=FlfRja74; arc=none smtp.client-ip=185.125.188.123
+	s=arc-20240116; t=1764676343; c=relaxed/simple;
+	bh=218J8Ai33ogJQYM35mkLVEHPgWBEcnfqrZ9vAzahBCk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jckGRajLtJ6dzU597YmVAJt6E/ij02XQQ9UD2+nr//6Mk5d2R80ZHspcUkldqso81aMmxpoIfygOfvwV4IZaEpgMqSc+sk6p9kqon7yASZVxOr6h64V3XmIF5Y2a3vRLtLqIXg8AKU7j9RisP7knFON4sSJ49Pn5rZORL+xRm2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=tRBbLNCh; arc=none smtp.client-ip=185.125.188.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="FlfRja74"
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="tRBbLNCh"
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id CC1F63F592
-	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 11:52:11 +0000 (UTC)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 398684012B
+	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 11:52:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1764676331;
-	bh=JIEUjuYaaXoiZWfV9sg4WJ4d4l0iSxZy3vnXjkSudlI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=FlfRja74bCV9cU19wK5RbDfTgf6DB0jtWsmvkFMVKfvff9szF9V/kDH+3lTO+Gre7
-	 bmWYbIyvxTypT/nRdT6v25kBtZ5nrTnUKitvDGTfwHzn9a+rfGWdTxT2B9P1yA7cFc
-	 4oQfSQTQPZtnbJpC5DwN0fA61uj4XJc+Ypx4/djPTidaxtO14LRM3gl6+psGzljWWu
-	 znsVYFpMb7qj701J9mM50K9Liu3OXYjhph12ZQULavqGyHOLttPR3TMrmSMHKiOjnx
-	 xI+hSFj1S0HeNA/mixVjS3DE1WiAyF8fGhbauFBrRZJC94qLXpTttAft8t3PFuEH+t
-	 Z0oJLhAJRBwUIoRcpRCCeQxEcAFeoSCvPOl6WVl9YSF3Bxepf+AlxINw8AWIb83MfS
-	 my4/DPdhhYxO4uTiRsmuFFo0bVu3hJzFWuWeHukglfUYtYYkcMv/gpxoLxMMhmea8c
-	 1vaB2x7yuxAkY4XgvLQnlEKnarCKiPK+u3fP34Men+tO5C5NVU+lWvKvgHcy7YH4pU
-	 kXzhGwOdnEi15PLjex6LVUZWkm/5PylZhB1pQ1nK3fLEVyDidPAVA++UlS3xgNUFAX
-	 Hi48eHwuec2sswALcviSNNC5zwUJPqkrux9gJEH4SJjxkkNKvc1GVw0NGchW7LhbyH
-	 8MqXh2yNwsvRngy1BzJEtQPc=
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-64161017e34so6659125a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 02 Dec 2025 03:52:11 -0800 (PST)
+	s=20251003; t=1764676335;
+	bh=aLk77fq6anWET1IsmWMe+oGxx8Dt6nc1++cRTQJu+8I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=tRBbLNChWeqeUfJ8nTpSwiQf98a+buDojW8va/cOq3DiO9HMNveSH0axObF0wNcio
+	 v68ayJUQTIbhTzUPIwseya+lDm2JNw4aiVeK2g34/s+3DB+Os4GRQeamX5jZPHya9f
+	 fbiVmR8Mn9U79C+1izPfJAM3aKx8ngOOP8aDt7xb1NqyL3I65hPKhQVnKjYMQ9LnGy
+	 oiVxjoG+SQAfpBl9/VFIOhbOGxPR5RgmumFILhYmBdUKu5HLFmSsDNrUoFgo4/94XW
+	 FCUN+cZamkZYJl5cnf5JcB55OEkPGxQKArXLYkAStHKmvMCRUXVpAbRL6FoYFwk+Jh
+	 qeqRhrAbAZymUr0xbTpxQv/m7YO9fWGCdA2CrCDV7946mNN8FlMjuKn2eIOTUuWFMZ
+	 dqXGzr7lhLwtyr3i8bWuzX4qRslL+PQj7kuR6Mjs2l4vnDA4BIAwTtcdHE2wVx0+YT
+	 2IXXp4Wk3q5FG9y/FzSbqZvMK8P4R6gKTxdkh1Rrz3P+1dF5oUMJA6D034C/mvYw81
+	 hRS2qEy3ZEKKsKumh9O3JHIt9rSWVx1NlUNc8wpQW23UQLL6MZ4kMDUqGVrma0wJaX
+	 NPESXkDB+TPET7JpKFAvxmL4nkZs390Twg8mJejo0XU/mSPAOoFvNjoXyMs4YjuygS
+	 /0rXoqg9uo92NTCTB5mCnOuk=
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-6416581521eso5971710a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 02 Dec 2025 03:52:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764676331; x=1765281131;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JIEUjuYaaXoiZWfV9sg4WJ4d4l0iSxZy3vnXjkSudlI=;
-        b=j9/k5TT5MzkY3qdnYMrvpknUEIrBuQ82agKh/iAQqQorUJjEZckq7BlGoSN0akAme6
-         Mc0Ao45kZy2Nu3cumr5HwpBWgo7UQhr7eBrDwaUZpwjKCr6h/7ArG8y8ozU/A4v7DRWa
-         h7J9ouu5P9iJVia1S7vdOdcdaJ36J0Pp/sp9IQeBnjrR1qJNP+8lUNATCXuAPRQ4zva8
-         ESz0j4nQ6IA2Ew/IEPD9VflKpgac6Z5SMQaemy66ZnRy6KzYK9Rrkq7jkM6QsKPmReB2
-         N7vvs1Fiz9PoAZ/MZtLDLoEmLFVm0jeFyaiMKx42FIzFo2cLhQctzFxWC2Ly4oUztZq1
-         35xg==
-X-Gm-Message-State: AOJu0Yy2aE7AGBI+BLDE1NGWQ/CeSY+EIGwMLVgScX5HmKBD81SSX48M
-	Rc304jJ/+CtA36FbDN2i2zuR7PAZbTtkbhjXbRw23yMJG4gihcGY64GEpvqP4NK1fctaX5zUyaK
-	pROuoGv8T+48v1fcDjhpKa6rMwwlavzwB4w3FRPQZoPOPzr2z+GtREXU0wDu6TR8tC/H4+t1+Y5
-	6G3g==
-X-Gm-Gg: ASbGncsIbcfTv9ln8KNP5a9At415E+iu9scPn5NyN98cUTB5lsdrN0Rt+T/fnFkVTol
-	IpcXQY912fho9DbNHSwGQz4VBM0XdDiYAve0V660Rwy5qzLhFrtm98IxgRtBiSaF5lWN3Pw37ac
-	7PdvJoQvNv66O7lD/wkYsUezZ8E1d8efXg5g418RzJvaoD5AvMbSEvLXybNjJk8x5EGMo8o55xD
-	FaLlBUvNkAh/cT655fXSFH3hJIi9wKwkzx4saklpCokKpG2MGVAL/wG39DReBkRQB3w+FyljKPl
-	Y3fxeBt1FwjFIUtIIDS0lC19e1oxbym5TMLU8GA0LXpPgEl7vR3hWGQWMe8lVehrvpLIkUR9FG9
-	hTtvMFggwakryBBqApQFTLfo6yZgAgmwEX9uwOUIMkqEx0bCyaVhM+x+IdqC6knkcEpZApceuJP
-	5OSdm4f76Tx4W/4LmnKMwddmk=
-X-Received: by 2002:a05:6402:1467:b0:647:8d63:d8b4 with SMTP id 4fb4d7f45d1cf-6478d63d985mr1389521a12.6.1764676331228;
-        Tue, 02 Dec 2025 03:52:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFnMiVlmki0ogqB/rjjKmxYW241m0D9+1e4z7ydsRRIt5eGoAPCv4LFWTLrYgGpg63kI73JFw==
-X-Received: by 2002:a05:6402:1467:b0:647:8d63:d8b4 with SMTP id 4fb4d7f45d1cf-6478d63d985mr1389506a12.6.1764676330801;
-        Tue, 02 Dec 2025 03:52:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764676333; x=1765281133;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=aLk77fq6anWET1IsmWMe+oGxx8Dt6nc1++cRTQJu+8I=;
+        b=aVdBLgHW6KdNYFB6tz5PFqtH8rUfrshaY3YiBn7WMqWjN6cdjRmozPiZNeRK0Rv6ZG
+         Cp8pcsYkcDUZFwoDbV4+Y43CVXc69cPem0OwIjTkJRrCfTW2Kq4LvOtez3Hkt9Sgax2+
+         MdhEWG9aTc254yXCxW+hT5NgA45r06YBFQcwzwji2euAafgnZGcJxaVnu5wdIxpdw8mE
+         vxyl924DOW47z0DortmoLoZRmUcfWf3ZYPKmGbxrFYoCEw8eEGZFb3xSoDNWw993X0o3
+         AcbbD2LEaCjijaNbq4ZASm8LAGgLTWjE4E3JGUs0fIqfDRhLenmNR1yRujNnUNl5fuZn
+         +irw==
+X-Gm-Message-State: AOJu0Yxm0QKQWkFqyXFTsiZAFUh7NbDGO3YpreOHDk1o5lY5m+Aj7C6P
+	RqPfsypRqTixQH+055erQdlE4azF43CyEUdsbBqx3RiyQluTltfFJLXOOBg0KPjA6ZlD3hme0Ax
+	AoUyzX86y4WXmOYuSOZjVu2WsUkPZPku5DIH5ELEXruv+exT1uHfRmwxPszDRG28C/+HOO01foH
+	ht9nJrO7wq3U10
+X-Gm-Gg: ASbGncsx936gVbUTfj/57RKP1TYJE3uepJSm2j3q6PdirO6knQxsrGJs5TXEQ3uYc7y
+	a6RTWiMyCCtqGaJdRXMsmUGstuNB+OXvowbvRFEX6cXX2IevoSPzM89f835CbD0EuUzuWe/5h8z
+	q7PfsFLIp4fW76/Ck8zseZUs4h75OO/K1fa9dBjo8aiYlqNjim869twoYeJb/XielvtnkXNskQs
+	n4T8V3aptVAtq018juyfshdNEMol11CuyEEAv5QFWieliiXJwwx+Tgu5OdXlb8UjeGk3cdfdvOt
+	2yumXNfKi/Kc5d6Ki15UNOD/xDzg9tqYdcSaty7tVWbnENTwHe3uXJbDVGES3uqCtS+tROL+JXb
+	KCXZBwXTMxn8WIK4/BjlT3fMuw3VFyeQqhfdJkqUBMKOcRdv1NCHBJ/CyZzidYoA4e8pULWF7ts
+	FQtcKKynDZ6FwMB5T1ZGOUd+U=
+X-Received: by 2002:a05:6402:13cb:b0:640:c454:e8 with SMTP id 4fb4d7f45d1cf-645eb2b7f7emr28796258a12.30.1764676333177;
+        Tue, 02 Dec 2025 03:52:13 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFZ9expo3B5tPaNh1xUnvEAvjM2nvZtx4TmKzoeDj2gQnT861O1Mrm/FdJgtOAf3NtE994gSg==
+X-Received: by 2002:a05:6402:13cb:b0:640:c454:e8 with SMTP id 4fb4d7f45d1cf-645eb2b7f7emr28796244a12.30.1764676332812;
+        Tue, 02 Dec 2025 03:52:12 -0800 (PST)
 Received: from amikhalitsyn.lan (p200300cf5702200011ee99ed0f378a51.dip0.t-ipconnect.de. [2003:cf:5702:2000:11ee:99ed:f37:8a51])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-647510519efsm15206765a12.29.2025.12.02.03.52.09
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-647510519efsm15206765a12.29.2025.12.02.03.52.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 03:52:10 -0800 (PST)
+        Tue, 02 Dec 2025 03:52:12 -0800 (PST)
 From: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
 To: kees@kernel.org
 Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	bpf@vger.kernel.org,
 	Andy Lutomirski <luto@amacapital.net>,
 	Will Drewry <wad@chromium.org>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -84,11 +84,15 @@ Cc: linux-doc@vger.kernel.org,
 	Tycho Andersen <tycho@tycho.pizza>,
 	Andrei Vagin <avagin@gmail.com>,
 	Christian Brauner <brauner@kernel.org>,
-	=?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@stgraber.org>
-Subject: [PATCH v2 0/6] seccomp: support nested listeners
-Date: Tue,  2 Dec 2025 12:51:52 +0100
-Message-ID: <20251202115200.110646-1-aleksandr.mikhalitsyn@canonical.com>
+	=?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@stgraber.org>,
+	Tycho Andersen <tycho@kernel.org>,
+	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
+Subject: [PATCH v2 1/6] seccomp: remove unused argument from seccomp_do_user_notification
+Date: Tue,  2 Dec 2025 12:51:53 +0100
+Message-ID: <20251202115200.110646-2-aleksandr.mikhalitsyn@canonical.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251202115200.110646-1-aleksandr.mikhalitsyn@canonical.com>
+References: <20251202115200.110646-1-aleksandr.mikhalitsyn@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -98,40 +102,11 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Dear friends,
-
-this patch series adds support for nested seccomp listeners. It allows container
-runtimes and other sandboxing software to install seccomp listeners on top of
-existing ones, which is useful for nested LXC containers and other similar use-cases.
-
-I decided to go with conservative approach and limit the maximum number of nested listeners
-to 8 per seccomp filter chain (MAX_LISTENERS_PER_PATH). This is done to avoid dynamic memory
-allocations in the very hot __seccomp_filter() function, where we use a preallocated static
-array on the stack to track matched listeners. 8 nested listeners should be enough for
-almost any practical scenarios.
-
-Expecting potential discussions around this patch series, I'm going to present a talk
-at LPC 2025 about the design and implementation details of this feature [1].
-
-Git tree (based on for-next/seccomp):
-v2: https://github.com/mihalicyn/linux/commits/seccomp.mult.listeners.v2
-current: https://github.com/mihalicyn/linux/commits/seccomp.mult.listeners
-
-Changelog for version 2:
-- add some explanatory comments
-- add RWB tags from Tycho Andersen (thanks, Tycho! ;) )
-- CC-ed Aleksa as he might be interested in this stuff too
-
-Links to previous versions:
-v1: https://lore.kernel.org/all/20251201122406.105045-1-aleksandr.mikhalitsyn@canonical.com
-tree: https://github.com/mihalicyn/linux/commits/seccomp.mult.listeners.v1
-
-Link: https://lpc.events/event/19/contributions/2241/ [1]
+Remove unused this_syscall argument from seccomp_do_user_notification()
+and add kdoc for it.
 
 Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org
-Cc: bpf@vger.kernel.org
 Cc: Kees Cook <kees@kernel.org>
 Cc: Andy Lutomirski <luto@amacapital.net>
 Cc: Will Drewry <wad@chromium.org>
@@ -142,25 +117,46 @@ Cc: Tycho Andersen <tycho@tycho.pizza>
 Cc: Andrei Vagin <avagin@gmail.com>
 Cc: Christian Brauner <brauner@kernel.org>
 Cc: Stéphane Graber <stgraber@stgraber.org>
+Reviewed-by: Tycho Andersen (AMD) <tycho@kernel.org>
+Signed-off-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
+---
+ kernel/seccomp.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-
-Alexander Mikhalitsyn (6):
-  seccomp: remove unused argument from seccomp_do_user_notification
-  seccomp: prepare seccomp_run_filters() to support more than one
-    listener
-  seccomp: limit number of listeners in seccomp tree
-  seccomp: handle multiple listeners case
-  seccomp: relax has_duplicate_listeners check
-  tools/testing/selftests/seccomp: test nested listeners
-
- .../userspace-api/seccomp_filter.rst          |   6 +
- include/linux/seccomp.h                       |   3 +-
- include/uapi/linux/seccomp.h                  |  13 +-
- kernel/seccomp.c                              | 116 +++++++++++--
- tools/include/uapi/linux/seccomp.h            |  13 +-
- tools/testing/selftests/seccomp/seccomp_bpf.c | 162 ++++++++++++++++++
- 6 files changed, 286 insertions(+), 27 deletions(-)
-
+diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+index 3bbfba30a777..f944ea5a2716 100644
+--- a/kernel/seccomp.c
++++ b/kernel/seccomp.c
+@@ -1142,8 +1142,18 @@ static bool should_sleep_killable(struct seccomp_filter *match,
+ 	return match->wait_killable_recv && n->state >= SECCOMP_NOTIFY_SENT;
+ }
+ 
+-static int seccomp_do_user_notification(int this_syscall,
+-					struct seccomp_filter *match,
++/**
++ * seccomp_do_user_notification - sends seccomp notification to the userspace
++ * listener and waits for a reply.
++ * @match: seccomp filter we are notifying
++ * @sd: seccomp data (syscall_nr, args, etc) to be passed to the userspace listener
++ *
++ * Returns
++ *   - -1 on success if userspace provided a reply for the syscall,
++ *   - -1 on interrupted wait,
++ *   - 0  on success if userspace requested to continue the syscall
++ */
++static int seccomp_do_user_notification(struct seccomp_filter *match,
+ 					const struct seccomp_data *sd)
+ {
+ 	int err;
+@@ -1317,7 +1327,7 @@ static int __seccomp_filter(int this_syscall, const bool recheck_after_trace)
+ 		return 0;
+ 
+ 	case SECCOMP_RET_USER_NOTIF:
+-		if (seccomp_do_user_notification(this_syscall, match, &sd))
++		if (seccomp_do_user_notification(match, &sd))
+ 			goto skip;
+ 
+ 		return 0;
 -- 
 2.43.0
 
