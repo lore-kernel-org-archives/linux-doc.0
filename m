@@ -1,24 +1,24 @@
-Received: from mail-m49242.qiye.163.com (mail-m49242.qiye.163.com [45.254.49.242])
+Received: from mail-m3276.qiye.163.com (mail-m3276.qiye.163.com [220.197.32.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4826F30BF6E
-	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 11:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.242
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90AB3256C6D
+	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 11:57:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764676617; cv=none; b=GPtWFTnSrVQzXDf3I3HVTlmXj+I2xyms9Kf9pcGD4yFZT15ESgoDxgF4EGOeHbeq4Ruznd8MRKV6Npd7qSIRuyckRNNMufFUhWNHsiLks5XMhtZrFqRuB5NKEXNxV13XSZ+r7Sh3JN2d9r+YqHuuT0Xg3HhAPt/MXqfMwOddm24=
+	t=1764676629; cv=none; b=rmE64jSzBIUMSmXX8yzdDk562chEDCPZ8zlgUgdllJUS16OTO4zJSgpn48lTcRd77Gx+lkfVH+JKxh3Gpv5La43A1IV9fsf5VP7GB+roQhVAjFsBZlW6ULYSUgoM9+TKqra6aHcG5u9H9/8ml9y4as6W9b4o3C2lI1t4FYunopA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764676617; c=relaxed/simple;
-	bh=xaID4Vaaprcfy0yxt7qHfbieRudG+QTxb/poyc7gyFU=;
+	s=arc-20240116; t=1764676629; c=relaxed/simple;
+	bh=nVGntPqRFQQAEdFBDHOgdHId63poZt1jwDhhq26kJF8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iAG3Lin9JUVopeGT64mzO46GssKsTT1cTAuQHP7sqGWFSbg1r9D9PB4PvFf4h0Gq4KtZHQ7Ri7J3ANXrn8jSbZHr7u7LT3VjsTL7yHNb9rETlM9GJvE24gfY1fQRjEPbgsucPfOXuWB6CxhJyLbk275BRjb840dYbo5Z1wntFD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=XIYDORvI; arc=none smtp.client-ip=45.254.49.242
+	 MIME-Version:Content-Type; b=eieFMOyRhzGs9IwgFluHXpigEUlJk98ihOQ/zhbdj30EUhmpctqdmYip8FDAl65mrRmofiwA866Ml18RKclivClEM9JHLK9giWUY0TRnBhbY0U6wUEu83AacDWwWOZxXxPwcyDmDx9JG+Eqj3VJ1+dYgumqrS1FGnL+sAgXEeXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=WoSjiOqy; arc=none smtp.client-ip=220.197.32.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="XIYDORvI"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="WoSjiOqy"
 Received: from server001 (unknown [222.130.22.244])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2bb0f2e6b;
-	Tue, 2 Dec 2025 19:56:49 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2bb0f2e84;
+	Tue, 2 Dec 2025 19:56:55 +0800 (GMT+08:00)
 From: Kefan Bai <baikefan@leap-io-kernel.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev
@@ -26,9 +26,9 @@ Cc: dzm91@hust.edu.cn,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org,
 	doubled@leap-io-kernel.com
-Subject: [PATCH v4 3/8] docs/zh_CN: Add authorization.rst translation
-Date: Tue,  2 Dec 2025 19:56:36 +0800
-Message-ID: <27b59f2a2490a704241893df5ccbd4c127a5719c.1764674650.git.baikefan@leap-io-kernel.com>
+Subject: [PATCH v4 7/8] docs/zh_CN: Add usbmon.rst translation
+Date: Tue,  2 Dec 2025 19:56:40 +0800
+Message-ID: <ae4d7e78d730aa2033afd28315dbbee18a0ad1ae.1764674650.git.baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1764674650.git.baikefan@leap-io-kernel.com>
 References: <cover.1764674650.git.baikefan@leap-io-kernel.com>
@@ -40,38 +40,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9adeec253c09d5kunm0f4dae893d3f14
+X-HM-Tid: 0a9adeec3e3409d5kunm0f4dae893d3fb5
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCHRpNVhkaQhlKSR5KT0gfSFYVFAkWGhdVEwETFh
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDGUNOVh9MHU1CTUtDHx1LSFYVFAkWGhdVEwETFh
 	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MTlVKS0
 	tVSkJLS1kG
 DKIM-Signature: a=rsa-sha256;
-	b=XIYDORvIbLr1zkjS3FUh8BDgh/9Kq/daKExRVHx3O8G17fcDirdOiqq4LHyLanKwLstCITAY2mGvuldzKk6ef/VhJ2DbRNaiR8jroOP/FscJdjLrX7UfsTgLp3orA09xdJlV0TKQWfUextzZ544/W6tjy6C8Z1o05O2Q3joZXJzdvlW/bWo86wjts1AY5A9JxMoGfTm/VOL32dpYGidnAwkokeSJiz7wi67XtiDB6zUXL2sIh6qBIItTSpm2D92Iu4XTktKMIDUOCeY8bOd2c6FL6tXJBqhJN2uH2x/VWvQiOKQRDueACjuYA/QDwb9ugvkHCLs7mf0sOMyE5I8lvA==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=TVQdVsNVuZ9BKb5fm03pMyC3N/Z7TB6P74Z+WwgEk1Y=;
+	b=WoSjiOqycObSBzHSYSBovTgI3163UwB8uNkCTYCCjNvxfGY8rLSThvfc9j5eVHOBIhTivyi+5t3ky8oULE/QJudOA+jnxsD1MwV3a78Evi0TwUR7+jc9e61p4TiiJFQyqnDvrf+VrLcBnxiBnDALeu9nWKW7WpZdUS/r2uxAZs9HT3bQzPUgqi4VW8aupZSjuVPICdGkGvORbqgWQ/VB24sgowc8l6BjL13fQ5fupmiKyq7Y0Iq5ZjeiB5xEPrg/5mhVExg0TyvxaCma/nRdNp/4Q8IaBH/s4/5dcKFmdo9HIf1X65ctg97XKhwQnsAvAvFQgJ54k0v6OJzu/AVr/g==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=PDHRDZyWRw2FL9aBvWdngXRygMcIPnTHKeRlsC7X3xg=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/authorization.rst into Chinese
+Translate .../usb/usbmon.rst into Chinese
 
-Update the translation through commit f176638af476
-("USB: Remove Wireless USB and UWB documentation")
+Update the translation through commit 788183a6e8b0
+("docs: usb: fix literal block marker in usbmon verification example")
 
 Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
 ---
- .../translations/zh_CN/usb/authorization.rst  | 125 ++++++++++++++++++
- 1 file changed, 125 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/usb/authorization.rst
+ .../translations/zh_CN/usb/usbmon.rst         | 380 ++++++++++++++++++
+ 1 file changed, 380 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/usbmon.rst
 
-diff --git a/Documentation/translations/zh_CN/usb/authorization.rst b/Documentation/translations/zh_CN/usb/authorization.rst
+diff --git a/Documentation/translations/zh_CN/usb/usbmon.rst b/Documentation/translations/zh_CN/usb/usbmon.rst
 new file mode 100644
-index 000000000000..4a8b743480ae
+index 000000000000..c2eebaef67ff
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/authorization.rst
-@@ -0,0 +1,125 @@
++++ b/Documentation/translations/zh_CN/usb/usbmon.rst
+@@ -0,0 +1,380 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/authorization.rst
++:Original: Documentation/usb/usbmon.rst
 +:翻译:
 +
 + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
@@ -79,120 +79,375 @@ index 000000000000..4a8b743480ae
 +:校译:
 +
 +
-+===========================
-+授权或禁止USB设备连接到系统
-+===========================
 +
-+版权 (C) 2007 Inaky Perez-Gonzalez <inaky@linux.intel.com> 英特尔公司
++======
++usbmon
++======
 +
-+此功能允许你控制系统中USB设备的使用权限。
-+你可以借此实现USB设备的锁定，并由用户空间完全控制。
++简介
++====
++小写形式的"usbmon"指的是内核中的一个功能，用于收集USB总线上的I/O追踪信息。
++这个功能类似于网络监控工具tcpdump(1)或Ethereal所使用的数据包套接字。
++同样地，我们会使用像usbdump或USBMon（大写形式）这样的工具来检查usbmon
++生成的原始追踪数据。
 +
-+目前为止，当插入一个USB设备时，系统会配置该USB设备，其接口会立即对用户开放。
-+通过此修改，只有在root授权配置设备后，用户才能使用它。
++usbmon报告的是各个外设驱动程序向主机控制器驱动程序（HCD）发出的请求。
++因此，如果HCD本身有bug，那么usbmon报告的追踪信息可能无法精确对应实际的
++总线事务。这种情形与tcpdump是一样的。
 +
++目前实现了两种API：文本和二进制。二进制API通过/dev命名空间中的字符设备提供，
++并且是一个ABI。文本API自内核2.6.35起废弃，但为了兼容仍然可用。
 +
-+使用方法
-+=========
++如何使用usbmon收集原始文本追踪信息
++==================================
 +
-+授权设备连接::
++与数据包套接字不同，usbmon提供了一种接口，可以输出文本格式的追踪信息。
++这样做有两个目的：
++第一，在更完善的格式最终确定之前，它作为工具间通用的追踪交换格式；
++第二，在不使用工具的情况下，人们也可以直接阅读这些信息。
 +
-+	$ echo 1 > /sys/bus/usb/devices/DEVICE/authorized
++要收集原始文本追踪信息，请按以下步骤进行操作。
 +
-+禁止设备连接::
-+	$ echo 0 > /sys/bus/usb/devices/DEVICE/authorized
-+
-+将新连接到hostX的设备默认设置为未授权（即：锁定）::
-+
-+	$ echo 0 > /sys/bus/usb/devices/usbX/authorized_default
-+
-+解除锁定::
-+
-+	$ echo 1 > /sys/bus/usb/devices/usbX/authorized_default
-+
-+默认情况下，所有USB设备都是授权的。
-+向authorized_default属性写入 "2" 会使内核默认只授权连接到内部USB端口的设备。
-+
-+系统锁定示例（简单示例）
-+------------------------
-+
-+假设你想实现一个锁定功能，要求只有类型为XYZ的设备可以连接
-+（例如，它是一个带有可见USB端口的自助服务终端）::
-+
-+  启动系统
-+  rc.local ->
-+
-+   for host in /sys/bus/usb/devices/usb*
-+   do
-+      echo 0 > $host/authorized_default
-+   done
-+
-+将一个脚本挂接到udev，当插入新的USB设备时，该脚本就会被自动触发::
-+
-+ if device_is_my_type $DEV
-+ then
-+   echo 1 > $device_path/authorized
-+ done
-+
-+
-+这里的device_is_my_type()就是实现锁定的关键所在。
-+仅仅检查class、type 和protocol是否匹配某个值，
-+是最差的安全验证方式（但对于想要破解的人却是最容易的）。
-+如果你需要真正安全的方案，应使用加密、证书认证等手段。
-+一个针对存储密钥的简单示例::
-+
-+ function device_is_my_type()
-+ {
-+   echo 1 > authorized		# 暂时授权它
-+                                # FIXME: 确保没有人能够挂载它
-+   mount DEVICENODE /mntpoint
-+   sum=$(md5sum /mntpoint/.signature)
-+   if [ $sum = $(cat /etc/lockdown/keysum) ]
-+   then
-+        echo "We are good, connected"
-+        umount /mntpoint
-+        # 添加一些额外的内容，以便其他人也可以使用它
-+   else
-+        echo 0 > authorized
-+   fi
-+ }
-+
-+
-+当然，这种做法很简陋；实际上你应该使用基于PKI的真正证书验证，
-+这样就不会依赖共享密钥之类的东西。不过你明白我的意思。
-+任何拿到设备仿真工具包的人都能伪造描述符和设备信息。
-+所以千万不要信任这些信息。
-+
-+接口授权
++1. 准备
 +--------
 +
-+也有类似的方法用于允许或拒绝特定USB接口。这允许只阻止USB设备的一个子集。
++首先必须在你的内核配置中启用debugfs，之后挂载debugfs。
++如果usbmon是作为模块构建的，那么还要加载usbmon模块。
++如果usbmon已经编入内核，则无需加载usbmon模块。
 +
-+授权接口::
++命令示例::
 +
-+	$ echo 1 > /sys/bus/usb/devices/INTERFACE/authorized
++    # mount -t debugfs none_debugs /sys/kernel/debug
++    # modprobe usbmon
++    #
 +
-+取消授权接口::
++确认总线socket是否存在::
++    # ls /sys/kernel/debug/usb/usbmon
++    0s  0u  1s  1t  1u  2s  2t  2u  3s  3t  3u  4s  4t  4u
++    #
 +
-+	$ echo 0 > /sys/bus/usb/devices/INTERFACE/authorized
++现在，你可以选择使用'0u'用来捕获所有总线上的数据包，并跳到第#3步，
++或者使用第#2步找到你的设备所在的总线。
++这样可以过滤掉那些持续输出数据的烦人设备。
 +
-+也可以更改新接口在特定USB总线上的默认值。
 +
-+默认允许接口::
 +
-+	$ echo 1 > /sys/bus/usb/devices/usbX/interface_authorized_default
++2. 查找目标设备连接的是哪条总线
++-------------------------------
 +
-+默认拒绝接口::
-+	$ echo 0 > /sys/bus/usb/devices/usbX/interface_authorized_default
++运行"cat /sys/kernel/debug/usb/devices"，找到对应设备的T行。
++通常你可以通过vendor字符串来查找。如果你有许多类似设备，
++可以拔掉其中一个设备，并比较前后两次
++/sys/kernel/debug/usb/devices的输出。
++T行会包含总线编号。
 +
-+默认情况下，interface_authorized_default位为1。
-+因此，所有接口默认都是授权的。
++示例::
 +
-+注意：
-+  如果要对一个未授权的接口进行授权，则必须通过将INTERFACE写入
-+  /sys/bus/usb/drivers_probe来手动触发驱动程序进行探测。
-+  对于使用多个接口的驱动程序，需要先对所有使用的接口进行授权。
-+  之后应探测驱动程序。这样做可以避免副作用。
++  T:  Bus=03 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=12  MxCh= 0
++  D:  Ver= 1.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
++  P:  Vendor=0557 ProdID=2004 Rev= 1.00
++  S:  Manufacturer=ATEN
++  S:  Product=UC100KM V2.00
++
++"Bus=03"表示设备在总线3上。或者，你可以查看lsusb的输出，并从对应行得到总线编号。
++
++示例：
++Bus 003 Device 002: ID 0557:2004 ATEN UC100KM V2.00
++
++
++3. 启动 'cat'
++
++::
++
++    # cat /sys/kernel/debug/usb/usbmon/3u > /tmp/1.mon.out
++
++用于监听单条总线。
++
++如果要监听所有总线，则输入::
++
++    # cat /sys/kernel/debug/usb/usbmon/0u > /tmp/1.mon.out
++
++此进程会一直读取，直到被终止。
++因为输出通常会非常长，所以更推荐将输出重定向到某个位置。
++
++
++4. 在USB总线上执行期望的操作
++----------------------------
++
++此处你需要执行一些会产生USB流量的动作，比如：插入U盘、拷贝文件、操作摄像头等。
++
++
++5. 停止cat
++-----------
++
++这一步通常需要通过键盘中断（Control-C）来完成。
++
++此时输出文件（本例中为 /tmp/1.mon.out）可以保存、通过电子邮件发送，
++或使用文本编辑器查看。
++如果使用最后一种方式，请确保文件不会大到编辑器无法打开。
++
++
++原始文本数据格式
++================
++
++目前支持两种格式：原始格式（即1t格式）和1u格式。
++1t格式在内核2.6.21中就已经被废弃。
++1u格式增加了一些新字段，如ISO帧描述符、interval等。
++它生成的行稍微长一些，但在格式上是1t的严格超集。
++
++如果程序需要区分上述两种格式，可以查看address字段（见下）。
++若包含两个冒号，则为1t格式，否则为1u。
++
++任何文本格式的数据由一系列事件组成，如URB提交、URB回调、提交错误等。
++每个事件对应单独的一行文本，由使用空白符间隔的若干字段组成。
++字段的数量与位置可能取决于事件类型，但以下字段对所有类型都通用：
++
++共有字段按照从左到右的顺序依次列出：
++
++- URB Tag。用于标识URB，通常是URB结构体在内核中的地址（以十六进制表示），
++  但也可能是序号或其他合理的唯一字符串。
++
++- 时间戳（微秒）。十进制数字。精度取决于可用时钟，因此可能比1微秒更差。
++
++- 事件类型。表示事件的格式，而不是URB的类型。
++  有效类型包括：S - 提交，C - 回调，E - 提交错误。
++
++- Address字段（以前称为pipe）。包含四个冒号分隔的字段：
++  URB类型与方向，总线号，设备地址，端点号。
++  类型与方向的编码如下：
++
++    == ==   =====================
++    Ci Co   控制input/output
++    Zi Zo   等时input/output
++    Ii Io   中断input/output
++    Bi Bo   批量input/output
++    == ==   =====================
++
++  总线号、设备地址和端点号使用十进制，但可能有前导零。
++
++- URB状态字。这个字段可以是一个字母，也可以是由冒号分隔的几个数字：
++  URB状态、间隔（interval）、起始帧（start frame）以及错误计数（error count）。
++  与地址字段不同，除了状态之外，其余所有字段都是可选的。
++  interval仅在中断和等时URB中打印；
++  起始帧仅在等时URB中打印；
++  错误数量仅在等时回调事件中打印。
++
++  状态字段是一个十进制数字，有时为负数，对应URB的状态字段。
++  对于提交（submission），这个字段没有实际意义，
++  但是为了便于脚本解析，所以依然存在。
++  当发生错误时，该字段包含错误码。
++
++  在提交控制数据包的情况下，该字段包含一个Setup Tag，而不是一组数字。
++  判断是否存在Setup Tag很容易，因为它从来不是数字。
++  因此，如果脚本在该字段中发现一组数字，
++  它们会继续读取数据长度（等时URB除外）。
++  如果发现的是其他内容，比如一个字母，
++  那么脚本会在读取数据长度或等时描述符之前，会先读取Setup包。
++
++- Setup包由5个字段构成：bmRequestType, bRequest, wValue, wIndex, wLength。
++  符合USB 2.0 规范。如果Setup标签为's'，这些字段是安全可解码的。
++  否则，Setup数据包虽然存在，但未被捕获，其字段中会填充占位内容。
++
++- 等时传输帧描述符数量及其内容：
++  如果一次同步传输事件包含一组描述符，首先打印URB中描述符的总数，
++  然后依次打印每个描述符的一个字段，最多打印5个字段。
++  每个字段由三个用冒号分隔的十进制数字组成，
++  分别表示状态（status）、偏移（offset）和长度（length）。
++  对于提交（submission），打印的是初始长度；
++  对于回调（callback），打印的是实际长度。
++
++- 数据长度：
++  对于提交，表示请求的长度；对于回调，表示实际传输的长度。
++
++- 数据标签：
++  即使数据长度非零，usbmon也可能不会捕获数据。仅当标签为'='时，才会有数据字段存在。
++
++- 数据字段：
++  按大端十六进制格式显示。
++  注意，这些并非真正的机器字，而只是将字节流拆分为若干字，
++  以便阅读。因此最后一个字可能包含1到4个字节。
++  收集的数据长度是有限的，可能小于数据长度字段中报告的值。
++  因为数据长度字段只统计实际接收到的字节，而数据字段包含整个传输缓冲区，
++  所以，在等时输入（Zi）完成且缓冲区中接收到的数据稀疏的情况下，
++  收集的数据长度可能大于数据长度字段的值。
++
++
++
++示例：
++
++获取端口状态的输入控制传输::
++
++    d5ea89a0 3575914555 S Ci:1:001:0 s a3 00 0000 0003 0004 4 <
++    d5ea89a0 3575914560 C Ci:1:001:0 0 4 = 01050000
++
++向地址为5的存储设备发送31字节Bulk封装的SCSI命令0x28（READ_10）的输出批量传输::
++
++    dd65f0e8 4128379752 S Bo:1:005:2 -115 31 = 55534243 ad000000 00800000 80010a28 20000000 20000040 00000000 000000
++    dd65f0e8 4128379808 C Bo:1:005:2 0 31 >
++
++原始二进制格式与API
++===================
++API的整体架构与上面提到的基本相同，
++只是事件以二进制格式传输。
++每个事件使用以下结构发送（名称为自定义，方便引用）::
++
++
++  struct usbmon_packet {
++	u64 id;			/*  0: URB ID - 从提交到回调 */
++	unsigned char type;	/*  8: 与文本相同；可扩展 */
++	unsigned char xfer_type; /*    ISO (0), 中断, 控制, 批量 (3) */
++	unsigned char epnum;	/*     端点号和传输方向 */
++	unsigned char devnum;	/*     设备地址 */
++	u16 busnum;		/* 12: 总线号 */
++	char flag_setup;	/* 14: 与文本相同 */
++	char flag_data;		/* 15: 与文本相同；二进制零也可 */
++	s64 ts_sec;		/* 16: gettimeofday */
++	s32 ts_usec;		/* 24: gettimeofday */
++	int status;		/* 28: */
++	unsigned int length;	/* 32: 数据长度（提交或实际） */
++	unsigned int len_cap;	/* 36: 实际传输长度 */
++	union {			/* 40: */
++		unsigned char setup[SETUP_LEN];	/* 仅用于控制 S类型 */
++		struct iso_rec {		/* ISO专用 */
++			int error_count;
++			int numdesc;
++		} iso;
++	} s;
++	int interval;		/* 48: 仅用于中断和ISO */
++	int start_frame;	/* 52: ISO专用 */
++	unsigned int xfer_flags; /* 56: URB的transfer_flags副本 */
++	unsigned int ndesc;	/* 60: 实际ISO描述符数量 */
++  };				/* 64 总长度 */
++
++可以使用read(2)，ioctl(2)或通过mmap访问缓冲区，从字符设备读取这些事件。
++然而，出于兼容性原因，使用read(2)只返回前48字节。
++
++字符设备通常命名为/dev/usbmonN，其中N是USB总线号。
++编号为零的设备 (/dev/usbmon0) 表示所有总线。
++请注意，具体命名策略由Linux发行版设定。
++
++如果手动创建/dev/usbmon0，确保它归root所有，并且权限为0600。
++否则，非特权用户将能够监听键盘数据。
++
++以下MON_IOC_MAGIC为0x92的ioctl可用：
++
++  MON_IOCQ_URB_LEN，定义为_IO(MON_IOC_MAGIC, 1)
++
++该调用返回下一个事件的数据长度。注意大多数事件不包含数据，
++因此如果该调用返回零，并不意味着没有事件。
++
++  MON_IOCG_STATS，定义为_IOR(MON_IOC_MAGIC, 3, struct mon_bin_stats)
++
++参数是指向以下结构的指针::
++
++  struct mon_bin_stats {
++	u32 queued;
++	u32 dropped;
++  };
++
++成员queued表示当前缓冲区中排队的事件数量（不是自上次重置以来处理的事件数量）。
++
++成员dropped表示自上次调用MON_IOCG_STATS以来丢失的事件数量。
++
++  MON_IOCT_RING_SIZE，定义为_IO(MON_IOC_MAGIC, 4)
++
++此调用设置缓冲区大小。参数为以字节为单位的缓冲区大小。
++大小可能会向下取整到下一个块（或页）。
++如果请求的大小超出该内核的 [未指定] 范围，则调用失败并返回-EINVAL。
++
++
++
++MON_IOCQ_RING_SIZE，定义为_IO(MON_IOC_MAGIC, 5)
++
++该调用返回缓冲区当前大小（以字节为单位）。
++
++MON_IOCX_GET，定义为_IOW(MON_IOC_MAGIC, 6, struct mon_get_arg)
++MON_IOCX_GETX，定义为_IOW(MON_IOC_MAGIC, 10, struct mon_get_arg)
++
++如果内核缓冲区中没有事件时，这些调用会一直等待事件到达，然后返回第一个事件。
++参数是指向以下结构的指针::
++
++  struct mon_get_arg {
++	struct usbmon_packet *hdr;
++	void *data;
++	size_t alloc;		/* 数据长度可以为零 */
++  };
++
++
++调用前，应填写hdr、data和alloc字段。
++调用返回后，hdr指向的区域包含下一个事件的结构。
++如果有数据，那么数据缓冲区包含数据。
++该次调用会从内核缓冲区中移除该事件。
++
++MON_IOCX_GET将48字节的数据复制到hdr区域，MON_IOCX_GETX会复制64字节。
++
++MON_IOCX_MFETCH，定义为_IOWR(MON_IOC_MAGIC, 7, struct mon_mfetch_arg)
++
++当应用程序通过mmap(2)访问缓冲区时，主要使用该ioctl。
++其参数是指向以下结构的指针::
++
++  struct mon_mfetch_arg {
++	uint32_t *offvec;	/* 获取的事件偏移向量 */
++	uint32_t nfetch;	/* 要获取的事件数量（输出：已获取） */
++	uint32_t nflush;	/* 要刷新事件数量 */
++  };
++
++
++ioctl操作分为三个阶段：
++
++首先，从内核缓冲区移除并丢弃最多nflush个事件。
++实际丢弃的事件数量存储在nflush中。
++
++其次，除非伪设备以O_NONBLOCK打开，否则会一直等待，直到缓冲区中有事件出现。
++
++第三，将最多nfetch个偏移量提取到mmap缓冲区，并存储
++到offvec中。实际的事件偏移数量存储在nfetch中。
++
++ MON_IOCH_MFLUSH，定义为_IO(MON_IOC_MAGIC, 8)
++
++此调用从内核缓冲区移除若干事件。其参数为要移除的事件数量。
++如果缓冲区中的事件少于请求数量，则移除所有事件，且不报告错误。
++当没有事件时也可使用。
++
++ FIONBIO
++
++如有需要，将来可能实现ioctl FIONBIO。
++
++除了ioctl(2)和read(2)，可以使用
++select(2)和poll(2)轮询二进制API的特殊文件。
++但lseek(2)无效。
++
++* 二进制API的内核缓冲区内存映射访问
++
++基本思想很简单：
++
++准备阶段，获取当前大小并使用mmap(2)映射缓冲区。
++然后执行类似下面伪代码的循环::
++
++   struct mon_mfetch_arg fetch;
++   struct usbmon_packet *hdr;
++   int nflush = 0;
++   for (;;) {
++      fetch.offvec = vec; // 有N个32位字
++      fetch.nfetch = N;   // 或少于N
++      fetch.nflush = nflush;
++      ioctl(fd, MON_IOCX_MFETCH, &fetch);   // 同时处理错误
++      nflush = fetch.nfetch;       // 完成后要刷新这么多包'/
++      for (i = 0; i < nflush; i++) {
++         hdr = (struct ubsmon_packet *) &mmap_area[vec[i]];
++         if (hdr->type == '@')     // 填充包
++            continue;
++         caddr_t data = &mmap_area[vec[i]] + 64;
++         process_packet(hdr, data);
++      }
++   }
++
++
++
++因此，主要思想是每N个事件只执行一次ioctl。
++
++虽然缓冲区是环形的，但返回的头和数据不会跨越缓冲区末端，
++因此上面的伪代码无需任何合并操作。
 --
 2.52.0
 
