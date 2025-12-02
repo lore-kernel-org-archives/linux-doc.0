@@ -1,271 +1,90 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6D12853F8
-	for <linux-doc@vger.kernel.org>; Mon,  1 Dec 2025 23:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03DD22097;
+	Tue,  2 Dec 2025 00:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764631666; cv=none; b=S2UCawKJa9TBbkdJAi+xywVbPoeQBynuM6MqMtjb3yEOyT+3rZ0H3Jmh4uG0LoNxfilu3aeG+mJl0C7dVdyjs25bOK6IFoMqgFEfirLgTygNF7VxL4TnGb7Js1PC4jqybIlRGrvjlJv37TEVsI2O7G+rBXs2THHw4ZFcCMT8/+Y=
+	t=1764635784; cv=none; b=pvwxzjlVnRlDMd0XBI9luypJnFbfkW5lRLb5iH85b1x9eT+XRGhRvy9WwK3faed/N4d+cAXx7k/I/ATilQSwkwpSGziexUOZbtBUgCF0qhpBMDn2tWMTBDvojYB9bg3KrUYQ8eOs0fHu9tCEZcgqzCJIMXI4HBa87Sy54EfFFZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764631666; c=relaxed/simple;
-	bh=2v7PUt3zWp+C6C2zHvV/eYFuT92dPOAzdkMDCQL1GT0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IbR6DDCeRKGwdR+1vN+FMy8M8B27zZt/OJf6A6lSXZyWYQi/HaG8jcQPByEN+utgFWw3hLIGOfkXsIqSohhwBXn2hi7nAW43El7nTRykOa9vAoGh7Ks7SYl8DFecU989+/7tmuYR2bUnCQvgwQw7X+2kVOdwXwnS46rrtDvmDgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IY8qJAEJ; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764635784; c=relaxed/simple;
+	bh=rNqSKIEZABAD5RykiDYsun+nHDAK0efshJ2S5T5lf1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A7q6KWF5K0vDSRh+yIxHCd4gkzVRm18aRuCNSVHCCXxOiqQpQAqQ+H9J7tdSRn6worK1w2+wC4Re7uHN5XFmL6kqeVo8jeJxirflREs1mLNOfHq5XkHrjAqDp8O/XP/KtZVoan7m6lSiV8xzxVMyuZwBBC7kdhwfKpYy1mwlFXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q25IqU2k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IY8qJAEJ"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b728a43e410so820800766b.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Dec 2025 15:27:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764631662; x=1765236462; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I5v1/VXYzTJjMPpWg21e/KcaL7VxnGFLf4XvfhndU1c=;
-        b=IY8qJAEJ3HCv2gYBUARWpMwqUSxLyV7DgZ8smCMhho3bFstcxjmp9A9QTrsDc8Tui0
-         /aC+g4sAMcKcTGjzlgDGCyyAmi77OpTL0EI7+LnQ/Ne3N+Ep16cYyPabs6CLjQKxcWt7
-         4dHbsL5NOedL2WK/cO7R/CTYnnt8qAgR7ken/pweNCwYkkHX0FAHt32ofYV9pzr6taB9
-         sviKO9EpAWHPzgRJKQwMSyunSQn+Owrdl7O+gghDD2ub8a1x6W+ld8bGqC+T1sw9SWWm
-         b6NXLAukeri8yx1EWFlT8jx19Pj2ovLf1FKlxsuyRvEOBdR9mbJz81meCHthTThI3CbR
-         S54Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764631662; x=1765236462;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=I5v1/VXYzTJjMPpWg21e/KcaL7VxnGFLf4XvfhndU1c=;
-        b=T0CNVZEBurLUG1Py0ciUytkBD4SN9DUfr9BfdYHz7VS8dibUL8nqKvb19pEuWdyv44
-         3uAzUWwKPdC3+Sys3l0KyOIPkHZE7ARoHzHtTKDB1r/48hukq7elw9lrg60dl9Ptw7dO
-         mRWVcBQvYuw4PwPTgMwzSY0JDX/CElgbC/D4lE0eI0C5oJM7fO+r846JOXqf8j49VMSn
-         iuF4jk8LjRDmxcQS0qoJpet6S19pcUPzxZM7FgFrdA3xegrO7c3hiLMGoasg7JTPZc1f
-         WJrN42sM2a+LXv0LKG/V0MxYa6FeS7Y2tfGQMmpabfZuzJGiK/AdS0XuLNZrhgmIrUzq
-         cuAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+LIUIIDROYLm1+z8KCQGNhsKaCUMZEtSuoGA/S7cwi4UDJsxS3oSfuTHCBRgPM7M24bgMVprwJVQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaXQAuA8UykL+juplEpeX2v31vPG1v1L7dZVyhdPeX6XicbZMC
-	EMhHDE2rgr1Lse+g3JOg4RB0j3n/h5zL4MmsVYTtqllarWfUsUqeVE4zXGMVilxiBWcoTout1Tq
-	nkRzgCpM6jXvJMegolFFxjPCpOxBW8jU=
-X-Gm-Gg: ASbGnctN345eBLSaHmlmg8vWgOhtARUjXf+Ss8lCvhSZRXinkRK9Y+R+Qo2l+74f0cY
-	rw0aHf9f01AxMYHATlOas50d/QO6n8840hJA/MZVgoBJ9SDgf6MNZvFpLhXEqJvlGunY79q0YYl
-	Xtjt5YtiwBSxW87i8IavAuoKkW7xF30nah1O8qAF2q7+Fp1wsZK+2ltaGZdtcyyxiFz2Gh8DPiW
-	bW/2nqwoLPY485zhD+gbcqttI4JfisEUEYVbGuzZHLUirq6NERpfnIVBW1ElvvoeJqglIvZqvcM
-	pZtu1PZhX2WFoFi0zMO92ha7SQ==
-X-Google-Smtp-Source: AGHT+IF9jmZyoLWFSx4hBdg0tZdsiQqccPSCxC9NjkJhrPQdxcaCTCtSHGJiP4lrMAOk35kCgFsaz5zURXiOG0ANOnM=
-X-Received: by 2002:a17:907:1b28:b0:b73:6f8c:612b with SMTP id
- a640c23a62f3a-b76715653d5mr4425120366b.16.1764631662278; Mon, 01 Dec 2025
- 15:27:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q25IqU2k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 725A4C116C6;
+	Tue,  2 Dec 2025 00:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764635784;
+	bh=rNqSKIEZABAD5RykiDYsun+nHDAK0efshJ2S5T5lf1s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Q25IqU2kwF1u+ntUzsmQ79EXXO6KQvcCgtyqX2BiNMFbpMORcMvwBRUN45jSmM5T0
+	 7UIjWINuTpUond5Mfe58Fo714YxvBrcPcsSVN6RyMrzYl4gbYg7gZgXA+oh3fM36JG
+	 GGojawkFetKeSnb1c3M3p10S6WTiElkRco582NTRvnyP8DuQ4gKaX022XIsYwT1vCg
+	 zzf4nffOERMuZnuhiayvn3dfDGpZcr+kPF2DJjQWFBJQm2X2KsFwHaEFDLkbTqY75R
+	 u5krqRsacwmnpbGjlNIBY4ysMszUohssA3x7whUYsTRZjMY0AnJ1EQ3j1i0lmoL2Fe
+	 jPpslayzGfQwQ==
+Date: Mon, 1 Dec 2025 16:36:22 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>, Simon Horman
+ <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ gustavold@gmail.com, asantostc@gmail.com, calvin@wbinvd.org,
+ kernel-team@meta.com, Petr Mladek <pmladek@suse.com>
+Subject: Re: [PATCH net-next 0/4] (no cover subject)
+Message-ID: <20251201163622.4e50bf53@kernel.org>
+In-Reply-To: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
+References: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251112042720.3695972-1-alistair.francis@wdc.com>
- <20251112042720.3695972-6-alistair.francis@wdc.com> <1184961b-5488-4150-b647-29ed363e2276@grimberg.me>
-In-Reply-To: <1184961b-5488-4150-b647-29ed363e2276@grimberg.me>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 2 Dec 2025 09:27:15 +1000
-X-Gm-Features: AWmQ_bk8CEM-2dviwMQHZxPcd6nv4bajHpJYpbv7ORWXtEq1tzS6ym3A8-DNYFg
-Message-ID: <CAKmqyKPe_o8Yaa0uNd-PeGgT1GONwuLxjATRHW9a-6DV7c=4nA@mail.gmail.com>
-Subject: Re: [PATCH v5 5/6] nvme-tcp: Support KeyUpdate
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, kch@nvidia.com, hare@suse.de, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 1, 2025 at 8:31=E2=80=AFAM Sagi Grimberg <sagi@grimberg.me> wro=
-te:
->
->
->
-> On 12/11/2025 6:27, alistair23@gmail.com wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
-> > EKEYEXPIRED then the underlying TLS keys need to be updated. This occur=
-s
-> > on an KeyUpdate event as described in RFC8446
-> > https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3.
-> >
-> > If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
-> > allow the NVMe layer to process the KeyUpdate request and forward the
-> > request to userspace. Userspace must then update the key to keep the
-> > connection alive.
-> >
-> > This patch allows us to handle the NVMe target sending a KeyUpdate
-> > request without aborting the connection. At this time we don't support
-> > initiating a KeyUpdate.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
->
-> I see this is on top of Hannes recvmsg patch. Worth noting in the patch
-> here at least.
->
-> > v5:
-> >   - Cleanup code flow
-> >   - Check for MSG_CTRUNC in the msg_flags return from recvmsg
-> >     and use that to determine if it's a control message
-> > v4:
-> >   - Remove all support for initiating KeyUpdate
-> >   - Don't call cancel_work() when updating keys
-> > v3:
-> >   - Don't cancel existing handshake requests
-> > v2:
-> >   - Don't change the state
-> >   - Use a helper function for KeyUpdates
-> >   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
-> >   - Remove command message using recvmsg
-> >
-> >   drivers/nvme/host/tcp.c | 85 +++++++++++++++++++++++++++++++++-------=
--
-> >   1 file changed, 70 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index 4797a4532b0d..5cec5a974bbf 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -172,6 +172,7 @@ struct nvme_tcp_queue {
-> >       bool                    tls_enabled;
-> >       u32                     rcv_crc;
-> >       u32                     snd_crc;
-> > +     key_serial_t            handshake_session_id;
-> >       __le32                  exp_ddgst;
-> >       __le32                  recv_ddgst;
-> >       struct completion       tls_complete;
-> > @@ -858,7 +859,10 @@ static void nvme_tcp_handle_c2h_term(struct nvme_t=
-cp_queue *queue,
-> >   static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
-> >   {
-> >       char *pdu =3D queue->pdu;
-> > +     char cbuf[CMSG_LEN(sizeof(char))] =3D {};
-> >       struct msghdr msg =3D {
-> > +             .msg_control =3D cbuf,
-> > +             .msg_controllen =3D sizeof(cbuf),
-> >               .msg_flags =3D MSG_DONTWAIT,
-> >       };
-> >       struct kvec iov =3D {
-> > @@ -873,12 +877,17 @@ static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_q=
-ueue *queue)
-> >       if (ret <=3D 0)
-> >               return ret;
-> >
-> > +     hdr =3D queue->pdu;
-> > +     if (hdr->type =3D=3D TLS_HANDSHAKE_KEYUPDATE) {
-> > +             dev_err(queue->ctrl->ctrl.device, "KeyUpdate message\n");
-> > +             return 1;
-> > +     }
-> > +
-> >       queue->pdu_remaining -=3D ret;
-> >       queue->pdu_offset +=3D ret;
-> >       if (queue->pdu_remaining)
-> >               return 0;
-> >
-> > -     hdr =3D queue->pdu;
-> >       if (unlikely(hdr->hlen !=3D sizeof(struct nvme_tcp_rsp_pdu))) {
-> >               if (!nvme_tcp_recv_pdu_supported(hdr->type))
-> >                       goto unsupported_pdu;
-> > @@ -944,6 +953,7 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_qu=
-eue *queue)
-> >       struct request *rq =3D
-> >               nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
-> >       struct nvme_tcp_request *req =3D blk_mq_rq_to_pdu(rq);
-> > +     char cbuf[CMSG_LEN(sizeof(char))] =3D {};
-> >
-> >       if (nvme_tcp_recv_state(queue) !=3D NVME_TCP_RECV_DATA)
-> >               return 0;
-> > @@ -976,10 +986,26 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_=
-queue *queue)
-> >
-> >               ret =3D sock_recvmsg(queue->sock, &msg, msg.msg_flags);
-> >               if (ret < 0) {
-> > -                     dev_err(queue->ctrl->ctrl.device,
-> > -                             "queue %d failed to receive request %#x d=
-ata",
-> > -                             nvme_tcp_queue_id(queue), rq->tag);
-> > -                     return ret;
-> > +                     /* If MSG_CTRUNC is set, it's a control message,
-> > +                      * so let's read the control message.
-> > +                      */
-> > +                     if (msg.msg_flags & MSG_CTRUNC) {
-> > +                             memset(&msg, 0, sizeof(msg));
-> > +                             msg.msg_flags =3D MSG_DONTWAIT;
-> > +                             msg.msg_control =3D cbuf;
-> > +                             msg.msg_controllen =3D sizeof(cbuf);
-> > +
-> > +                             ret =3D sock_recvmsg(queue->sock, &msg, m=
-sg.msg_flags);
-> > +                     }
-> > +
-> > +                     if (ret < 0) {
-> > +                             dev_dbg(queue->ctrl->ctrl.device,
-> > +                                     "queue %d failed to receive reque=
-st %#x data, %d",
-> > +                                     nvme_tcp_queue_id(queue), rq->tag=
-, ret);
-> > +                             return ret;
-> > +                     }
-> > +
-> > +                     return 0;
-> >               }
-> >               if (queue->data_digest)
-> >                       nvme_tcp_ddgst_calc(req, &queue->rcv_crc, ret);
-> > @@ -1384,15 +1410,39 @@ static int nvme_tcp_try_recvmsg(struct nvme_tcp=
-_queue *queue)
-> >               }
-> >       } while (result >=3D 0);
-> >
-> > -     if (result < 0 && result !=3D -EAGAIN) {
-> > -             dev_err(queue->ctrl->ctrl.device,
-> > -                     "receive failed:  %d\n", result);
-> > -             queue->rd_enabled =3D false;
-> > -             nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> > -     } else if (result =3D=3D -EAGAIN)
-> > -             result =3D 0;
-> > +     if (result < 0) {
-> > +             if (result !=3D -EKEYEXPIRED && result !=3D -EAGAIN) {
-> > +                     dev_err(queue->ctrl->ctrl.device,
-> > +                             "receive failed:  %d\n", result);
-> > +                     queue->rd_enabled =3D false;
-> > +                     nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> > +             }
-> > +             return result;
-> > +     }
-> > +
-> > +     queue->nr_cqe =3D nr_cqe;
-> > +     return nr_cqe;
-> > +}
-> > +
-> > +static void update_tls_keys(struct nvme_tcp_queue *queue)
-> > +{
-> > +     int qid =3D nvme_tcp_queue_id(queue);
-> > +     int ret;
-> > +
-> > +     dev_dbg(queue->ctrl->ctrl.device,
-> > +             "updating key for queue %d\n", qid);
-> >
-> > -     return result < 0 ? result : (queue->nr_cqe =3D nr_cqe);
-> > +     flush_work(&(queue->ctrl->ctrl).async_event_work);
-> > +
-> > +     ret =3D nvme_tcp_start_tls(&(queue->ctrl->ctrl),
-> > +                              queue, queue->ctrl->ctrl.tls_pskid,
-> > +                              HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
->
-> No need to quiesce the queue or anything like that? everything continues
-> as usual?
+On Fri, 28 Nov 2025 06:20:45 -0800 Breno Leitao wrote:
+> This patch series introduces a new configfs attribute that enables sending
+> messages directly through netconsole without going through the kernel's logging
+> infrastructure.
+> 
+> This feature allows users to send custom messages, alerts, or status updates
+> directly to netconsole receivers by writing to
+> /sys/kernel/config/netconsole/<target>/send_msg, without poluting kernel
+> buffers, and sending msgs to the serial, which could be slow.
+> 
+> At Meta this is currently used in two cases right now (through printk by
+> now):
+> 
+>   a) When a new workload enters or leave the machine.
+>   b) From time to time, as a "ping" to make sure the netconsole/machine
+>   is alive.
+> 
+> The implementation reuses the existing message transmission functions
+> (send_msg_udp() and send_ext_msg_udp()) to handle both basic and extended
+> message formats.
+> 
+> Regarding code organization, this version uses forward declarations for
+> send_msg_udp() and send_ext_msg_udp() functions rather than relocating them
+> within the file. While forward declarations do add a small amount of
+> redundancy, they avoid the larger churn that would result from moving entire
+> function definitions.
 
-Everything just continues as usual. Besides a drop in throughput
-waiting for the KeyUpdate you don't notice it. For testing I trigger
-an update every 30 packets, it's slow but works
-
-> Why are you flushing async_event_work?
-
-I think that's just leftover from earlier, I'll remove it
-
-Alistair
+The two questions we need to address here are :
+ - why is the message important in the off-host message stream but not
+   important in local dmesg stream. You mention "serial, which could be
+   slow" - we need more details here.
+ - why do we need the kernel API, netcons is just a UDP message, which
+   is easy enough to send from user space. A little bit more detail
+   about the advantages would be good to have.
+The 2nd point is trivial, the first one is what really gives me pause.
+Why do we not care about the logs on host? If the serial is very slow
+presumably it impacts a lot of things, certainly boot speed, so...
+perhaps it should be configured to only log messages at a high level?
