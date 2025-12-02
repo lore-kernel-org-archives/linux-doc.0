@@ -1,177 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3025C2BDC27;
-	Tue,  2 Dec 2025 18:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E051DB356;
+	Tue,  2 Dec 2025 18:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764699884; cv=none; b=IsLE4uEos7Lj7kJEeuL7ETdCCdI667V4KM34RhdvLzV0tvwVVMkjwL6vHDW6DeyJeuQTyxfYh/mJYe1WzlFRDchwAxYFVFTTTm22CNkdnuMLyiwdQYql5ov28NUYBDPpPAdhKfqU8z2Lekkydx9L/hjZ+ZTCvFvbbzmA6i4qsQg=
+	t=1764700005; cv=none; b=pJZgL/JEMS8NK6PLfsVKoQpPwkK4ZVWnG2Ejb6iCr/lFF87Jm1r0LvijJbySUGLOgaaTHt/nbkkcw9OHWqaY3hpxmbNtrWEKFuH29sUnQxxPel+OZRvKT+XuaM4bN3Ej7nUo/d/glgBXGlDIgn5RUOOqcbEL0MflEGFIOBg4PfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764699884; c=relaxed/simple;
-	bh=k3V28RTPY5VT9Tip6bfIi7nFwEC9oVqpNiX9i4oiutg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r4vXEZkXOwwLvrfqUMJU/3X2CZurqmowmLwRH3g5g2AYthd6DPlJXi1tH3Wu1szcYoV69n+SDAOntDN0O1jIUErGqTebQ6Qjkhc9t1a2NsZ5IBuBx/kGkgRaEd8wKN1ZpVJvNg4WRlsr6zLNFVIomKlOBopipn1WETSwIsizgt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VKjuJtle; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764700005; c=relaxed/simple;
+	bh=aSQ1lNPXYS/s7g1rZFlbDEMgBno9sqporMZzn28qobo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JwK0uWRVl4w5qHhrMBmJUl+gftPICT5JD4ITct13a8v4fk07xPu2KYew8AWj58OCVi2aZQxxSBpe2y1OEQzRZ0MjkVgIQFdv5jfKD80feCKRMb7Hs0NBkg9/bF9aY9/+JT7IqBh70mYOkgmSR9UDFdP+sJ2FPPkErugEOXvY8oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WtKSoCfI; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VKjuJtle"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 030D4C4CEF1;
-	Tue,  2 Dec 2025 18:24:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764699883;
-	bh=k3V28RTPY5VT9Tip6bfIi7nFwEC9oVqpNiX9i4oiutg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VKjuJtlebsqU1wxAFrfYexPIfAcvTXXtBEqBPW8ssRyVDr0fSTiJya5iBDIKEc7dR
-	 xwjeqRgHYetaMUxQNd6XlvXadXjqH9Tqa1RunEOfbGvppKupqWHt/qWKwJ+wXLk8v2
-	 bqvi853QckYiI2324evqJMguxknwU11O8a0Cyh4PMFNIxVUv8bj93gb72uasIox7QC
-	 vDU6HGAEZtWe5WqXO1qa2ked15He5cI5W8YiGhrkXZ4HY+9+VD1/sxPt2gmuEEnctx
-	 XNS4K7CYNFri/flfg65EY4HwAY0bRQhX7MZNfXUAsKaromXc0ClKy8RejhEQwNh0NO
-	 pi1v1fGedEELQ==
-Date: Tue, 2 Dec 2025 10:24:42 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>, Simon Horman
- <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- gustavold@gmail.com, asantostc@gmail.com, calvin@wbinvd.org,
- kernel-team@meta.com, Petr Mladek <pmladek@suse.com>
-Subject: Re: [PATCH net-next 0/4] (no cover subject)
-Message-ID: <20251202102442.568f91a7@kernel.org>
-In-Reply-To: <4oybtunobxtemenpg2lg7jv4cyl3xoaxrjlqivbhs6zo72hxpu@fqp6estf5mpc>
-References: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
-	<20251201163622.4e50bf53@kernel.org>
-	<4oybtunobxtemenpg2lg7jv4cyl3xoaxrjlqivbhs6zo72hxpu@fqp6estf5mpc>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WtKSoCfI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=LSJN3M1rS5I8Op4fQHaqjDPCWAK7eb6P56Nx8h+lPso=; b=WtKSoCfI0Y12Ld3OfWU04QuhFp
+	XUQq76bXDIqVb3hIl8P45i2L5VNnJSNd4wNHxnjQgpaqEVTFx6/ohBwi8RCy85EQOFWlp443agRgN
+	aWzTMTyteEm3/cLm8P7Ds4LODBpRDAdq5oaLryo5WueNJyNKPvGTaO7qo5FP50v6h/XJ+WwbvX9FG
+	vsNch96qAtQn128KV1vWu1yOn52prx+NThtXXomv2vYyLjaB6+/p4K+U33UJiljD9w581tWD/xaCz
+	T3GixK3rhzAiSixMAcZwn8rnxABv6DApJ5LSwhvuU9F+G/T3t9O155Bs+H8U/vLw2ZRhNbQGj4Jpj
+	fB/X+DEw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vQV5D-00000005idu-1J5Q;
+	Tue, 02 Dec 2025 18:26:39 +0000
+Message-ID: <b5ac862d-b369-497d-8968-8ee4a130d09a@infradead.org>
+Date: Tue, 2 Dec 2025 10:26:38 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: tainted-kernels: fix typos in documentation
+To: Brian Knutsson <development@knutsson.it>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <20251202150534.885750-1-development@knutsson.it>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251202150534.885750-1-development@knutsson.it>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2 Dec 2025 02:18:44 -0800 Breno Leitao wrote:
-> On Mon, Dec 01, 2025 at 04:36:22PM -0800, Jakub Kicinski wrote:
-> > On Fri, 28 Nov 2025 06:20:45 -0800 Breno Leitao wrote:  
-> > > This patch series introduces a new configfs attribute that enables sending
-> > > messages directly through netconsole without going through the kernel's logging
-> > > infrastructure.
-> > > 
-> > > This feature allows users to send custom messages, alerts, or status updates
-> > > directly to netconsole receivers by writing to
-> > > /sys/kernel/config/netconsole/<target>/send_msg, without poluting kernel
-> > > buffers, and sending msgs to the serial, which could be slow.
-> > > 
-> > > At Meta this is currently used in two cases right now (through printk by
-> > > now):
-> > > 
-> > >   a) When a new workload enters or leave the machine.
-> > >   b) From time to time, as a "ping" to make sure the netconsole/machine
-> > >   is alive.
-> > > 
-> > > The implementation reuses the existing message transmission functions
-> > > (send_msg_udp() and send_ext_msg_udp()) to handle both basic and extended
-> > > message formats.
-> > > 
-> > > Regarding code organization, this version uses forward declarations for
-> > > send_msg_udp() and send_ext_msg_udp() functions rather than relocating them
-> > > within the file. While forward declarations do add a small amount of
-> > > redundancy, they avoid the larger churn that would result from moving entire
-> > > function definitions.  
-> > 
-> > The two questions we need to address here are :
-> >  - why is the message important in the off-host message stream but not
-> >    important in local dmesg stream. You mention "serial, which could be
-> >    slow" - we need more details here.  
+
+
+On 12/2/25 7:05 AM, Brian Knutsson wrote:
+> Fix two minor typos in the tainted-kernels documentation:
+> - 'a more details explanation' -> 'a more detailed explanation'
+> - 'userpace' -> 'userspace'
 > 
-> Thanks for the questions, and I would like to share my view of the world. The
-> way I see and use netconsole at my company (Meta) is a "kernel message"
-> on steroids, where it provides more information about the system than
-> what is available in kernel log buffers (dmesg)
+> Signed-off-by: Brian Knutsson <development@knutsson.it>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/admin-guide/tainted-kernels.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> These netconsole messages already have extra data, which provides
-> information to each message, such as:
-> 
->  * scheduler configuration (for sched_ext contenxt)
->  * THP memory configuration
->  * Job/workload running
->  * CPU id
->  * task->curr name
->  * etc
+> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+> index a0cc017e4424..714186159536 100644
+> --- a/Documentation/admin-guide/tainted-kernels.rst
+> +++ b/Documentation/admin-guide/tainted-kernels.rst
+> @@ -63,7 +63,7 @@ this on the machine that had the statements in the logs that were quoted earlier
+>  	 * Externally-built ('out-of-tree') module was loaded  (#12)
+>  	See Documentation/admin-guide/tainted-kernels.rst in the Linux kernel or
+>  	 https://www.kernel.org/doc/html/latest/admin-guide/tainted-kernels.html for
+> -	 a more details explanation of the various taint flags.
+> +	 a more detailed explanation of the various taint flags.
+>  	Raw taint value as int/string: 4609/'P        W  O     '
 >  
-> So, netconsole already sends extra information today that is not visible
-> on kernel console (dmesg), and this has proved to be super useful, so
-> useful that 16 entries are not enough and Gustavo need to do a dynamic
-> allocation instead of limiting it to 16.
-> 
-> On top of that, printk() has a similar mechanism where extra data is not
-> printed to the console. printk buffers has a dictionary of structured
-> data attached to the message that is not printed to the screen, but,
-> sent through netconsole.
-> 
-> This feature (in this patchset) is just one step ahead, giving some more
-> power to netconsole, where extra information could be sent beyond what
-> is in dmesg.
+>  You can try to decode the number yourself. That's easy if there was only one
+> @@ -186,6 +186,6 @@ More detailed explanation for tainting
+>  
+>   18) ``N`` if an in-kernel test, such as a KUnit test, has been run.
+>  
+> - 19) ``J`` if userpace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
+> + 19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
+>       to use the devices debugging features. Device debugging features could
+>       cause the device to malfunction in undefined ways.
 
-Having extra metadata makes sense, since the interpretation happens in
-a different environment. But here we're talking about having extra
-messages, not extra metadata.
-
-> >  - why do we need the kernel API, netcons is just a UDP message, which
-> >    is easy enough to send from user space. A little bit more detail
-> >    about the advantages would be good to have.  
-> 
-> The primary advantage is leveraging the existing configured netconsole
-> infrastructure. At Meta, for example, we have a "continuous ping"
-> mechanism configured by our Configuration Management software that
-> simply runs 'echo "ping" > /dev/kmsg'.
-> 
-> A userspace solution would require deploying a binary to millons of
-> machines,  parsing /sys/kernel/configfs/netconsole/cmdline0/configs
-> and sends packets directly.
-> 
-> While certainly feasible, it's less convenient than using the
-> existing infrastructure (though I may just be looking for the easier
-> path here).
-
-If this was your objective, instead of having a uAPI for sending
-arbitrary message you should be adding some "keepalive" timer / empty
-message sender... With the patches are posted you still need something
-to run the echo.
-
-> > The 2nd point is trivial, the first one is what really gives me pause.
-> > Why do we not care about the logs on host? If the serial is very slow
-> > presumably it impacts a lot of things, certainly boot speed, so...  
-> 
-> This is spot-on - slow serial definitely impacts things like boot speed.
-> 
-> See my constant complains here, about slow boot
-> 
-> 	https://lore.kernel.org/all/aGVn%2FSnOvwWewkOW@gmail.com/
-> 
-> And the something similar in reboot/kexec path:
-> 
-> 	https://lore.kernel.org/all/sqwajvt7utnt463tzxgwu2yctyn5m6bjwrslsnupfexeml6hkd@v6sqmpbu3vvu/
-> 
-> > perhaps it should be configured to only log messages at a high level?  
-> 
-> Chris is actually working on per-console log levels to solve exactly
-> this problem, so we could filter serial console messages while keeping
-> everything in other consoles (aka netconsole):
-> 
-> 	https://lore.kernel.org/all/cover.1764272407.git.chris@chrisdown.name/
-
-Excellent! Unless I'm missing more context Chris does seem to be
-attacking the problem at a more suitable layer.
-
-> That work has been in progress for years though, and I'm not sure
-> when/if it'll land upstream. But if it does, we'd be able to have
-> different log levels per console and then use your suggested approach.
-> 
-> Thanks for the review, and feel free to yell at me if I am missing the
-> point,
-> --breno
-> 
-
+-- 
+~Randy
