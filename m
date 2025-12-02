@@ -1,56 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26442C237E;
-	Tue,  2 Dec 2025 18:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3025C2BDC27;
+	Tue,  2 Dec 2025 18:24:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764699286; cv=none; b=Mz3rFuGcl/pjaGZzkCb7WmzX2JlYCHgmmpy1aK6Y//wSsfK/fOCf36WEIx1D4xPTXWIKz7Yz3KaF9KTv8OO5LIkU8enc6YqiSJfKhGT3yAhQOHVWdZ2G7yLX3XyOc6bb7khi2mRtKDSQJ449mA1nap9woW3yfGJTuGxwszxoOV4=
+	t=1764699884; cv=none; b=IsLE4uEos7Lj7kJEeuL7ETdCCdI667V4KM34RhdvLzV0tvwVVMkjwL6vHDW6DeyJeuQTyxfYh/mJYe1WzlFRDchwAxYFVFTTTm22CNkdnuMLyiwdQYql5ov28NUYBDPpPAdhKfqU8z2Lekkydx9L/hjZ+ZTCvFvbbzmA6i4qsQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764699286; c=relaxed/simple;
-	bh=jRSbQ9Ne/+OOJgP0Z0DxW9fXwOZ0hOe2Zw0P1wm7xhQ=;
+	s=arc-20240116; t=1764699884; c=relaxed/simple;
+	bh=k3V28RTPY5VT9Tip6bfIi7nFwEC9oVqpNiX9i4oiutg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=adgyFn1XZ5Gn/Cu6kvSve3NaRPbKUhXfciIPGKJO89avxHl4tc7IefFQyqg5aeMXoafddLCkdYBvridPKXQVso20e1i8HUtGdDl8DzuKiXKO0uVMO655LXQD2KzOCtwOK+8+D8bbB9TsqfHDhi7GBK5wAiKcgzxQpHdiIvwTOXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUaxHgL4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=r4vXEZkXOwwLvrfqUMJU/3X2CZurqmowmLwRH3g5g2AYthd6DPlJXi1tH3Wu1szcYoV69n+SDAOntDN0O1jIUErGqTebQ6Qjkhc9t1a2NsZ5IBuBx/kGkgRaEd8wKN1ZpVJvNg4WRlsr6zLNFVIomKlOBopipn1WETSwIsizgt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VKjuJtle; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUaxHgL4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80409C4CEF1;
-	Tue,  2 Dec 2025 18:14:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VKjuJtle"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 030D4C4CEF1;
+	Tue,  2 Dec 2025 18:24:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764699286;
-	bh=jRSbQ9Ne/+OOJgP0Z0DxW9fXwOZ0hOe2Zw0P1wm7xhQ=;
+	s=k20201202; t=1764699883;
+	bh=k3V28RTPY5VT9Tip6bfIi7nFwEC9oVqpNiX9i4oiutg=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GUaxHgL4GY9fsqv8UmFGFWvYCTWtR5oAqKkY5DK6pcwDe9jAbJ2UB4/0V+u1bZS4P
-	 zZ9Zgr1LxfvIs2gl1X+s0odz0wic1by62hkmzEyTrh7G1s/0JKW/8573fnlAoKahot
-	 dR/NyjKNt9g6NgOYWQ8Sgs7/3Y1te65t1tWpFF7wqhsmKhwE+sfNCaiRPJRokrw7Ri
-	 RqEU7zTiSrmOygOG60RIU5clxN3qwwdoHm1DcSAGjBnj5ShxGTUMgSvU2NAphVtVkX
-	 taDq1uRV/mtBvHlAjjaaHFnHXx0uzrKhRW0DcAAZDTWZWBevB1AJiIo29QBzyq8P3e
-	 fNoQPRtiMpmpA==
-Date: Tue, 2 Dec 2025 10:14:44 -0800
+	b=VKjuJtlebsqU1wxAFrfYexPIfAcvTXXtBEqBPW8ssRyVDr0fSTiJya5iBDIKEc7dR
+	 xwjeqRgHYetaMUxQNd6XlvXadXjqH9Tqa1RunEOfbGvppKupqWHt/qWKwJ+wXLk8v2
+	 bqvi853QckYiI2324evqJMguxknwU11O8a0Cyh4PMFNIxVUv8bj93gb72uasIox7QC
+	 vDU6HGAEZtWe5WqXO1qa2ked15He5cI5W8YiGhrkXZ4HY+9+VD1/sxPt2gmuEEnctx
+	 XNS4K7CYNFri/flfg65EY4HwAY0bRQhX7MZNfXUAsKaromXc0ClKy8RejhEQwNh0NO
+	 pi1v1fGedEELQ==
+Date: Tue, 2 Dec 2025 10:24:42 -0800
 From: Jakub Kicinski <kuba@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Donald Hunter
- <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
- <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
- <mbloch@nvidia.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, Gal Pressman
- <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Carolina Jubran
- <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko
- <jiri@nvidia.com>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH net-next V4 02/14] documentation: networking: add shared
- devlink documentation
-Message-ID: <20251202101444.7f6d14a8@kernel.org>
-In-Reply-To: <2lnqrb3fu7dukdkgfculj53q2vwb36nrz5copjfg3khlqnbmix@jbfmhnks7svq>
-References: <1764101173-1312171-1-git-send-email-tariqt@nvidia.com>
-	<1764101173-1312171-3-git-send-email-tariqt@nvidia.com>
-	<20251127201645.3d7a10f6@kernel.org>
-	<hidhx467pn6pcisuoxdw3pykyvnlq7rdicmjksbozw4dtqysti@yd5lin3qft4q>
-	<20251128191924.7c54c926@kernel.org>
-	<n6mey5dbfpw7ykp3wozgtxo5grvac642tskcn4mqknrurhpwy7@ugolzkzzujba>
-	<20251201134954.6b8a8d48@kernel.org>
-	<2lnqrb3fu7dukdkgfculj53q2vwb36nrz5copjfg3khlqnbmix@jbfmhnks7svq>
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>, Simon Horman
+ <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ gustavold@gmail.com, asantostc@gmail.com, calvin@wbinvd.org,
+ kernel-team@meta.com, Petr Mladek <pmladek@suse.com>
+Subject: Re: [PATCH net-next 0/4] (no cover subject)
+Message-ID: <20251202102442.568f91a7@kernel.org>
+In-Reply-To: <4oybtunobxtemenpg2lg7jv4cyl3xoaxrjlqivbhs6zo72hxpu@fqp6estf5mpc>
+References: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
+	<20251201163622.4e50bf53@kernel.org>
+	<4oybtunobxtemenpg2lg7jv4cyl3xoaxrjlqivbhs6zo72hxpu@fqp6estf5mpc>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,40 +52,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2 Dec 2025 08:43:49 +0100 Jiri Pirko wrote:
-> Mon, Dec 01, 2025 at 10:49:54PM +0100, kuba@kernel.org wrote:
-> >On Mon, 1 Dec 2025 11:50:08 +0100 Jiri Pirko wrote:  
-> >> Correct. IFAIK there is one PF devlink instance per NUMA node.  
-> >
-> >You say "correct" and then disagree with what I'm saying. I said
-> >ports because a port is a devlink object. Not a devlink instance.  
+On Tue, 2 Dec 2025 02:18:44 -0800 Breno Leitao wrote:
+> On Mon, Dec 01, 2025 at 04:36:22PM -0800, Jakub Kicinski wrote:
+> > On Fri, 28 Nov 2025 06:20:45 -0800 Breno Leitao wrote:  
+> > > This patch series introduces a new configfs attribute that enables sending
+> > > messages directly through netconsole without going through the kernel's logging
+> > > infrastructure.
+> > > 
+> > > This feature allows users to send custom messages, alerts, or status updates
+> > > directly to netconsole receivers by writing to
+> > > /sys/kernel/config/netconsole/<target>/send_msg, without poluting kernel
+> > > buffers, and sending msgs to the serial, which could be slow.
+> > > 
+> > > At Meta this is currently used in two cases right now (through printk by
+> > > now):
+> > > 
+> > >   a) When a new workload enters or leave the machine.
+> > >   b) From time to time, as a "ping" to make sure the netconsole/machine
+> > >   is alive.
+> > > 
+> > > The implementation reuses the existing message transmission functions
+> > > (send_msg_udp() and send_ext_msg_udp()) to handle both basic and extended
+> > > message formats.
+> > > 
+> > > Regarding code organization, this version uses forward declarations for
+> > > send_msg_udp() and send_ext_msg_udp() functions rather than relocating them
+> > > within the file. While forward declarations do add a small amount of
+> > > redundancy, they avoid the larger churn that would result from moving entire
+> > > function definitions.  
+> > 
+> > The two questions we need to address here are :
+> >  - why is the message important in the off-host message stream but not
+> >    important in local dmesg stream. You mention "serial, which could be
+> >    slow" - we need more details here.  
 > 
-> Okay, you mean devlink_port. You would like to see NUMA node leg as
-> devlink_port? Having troubles to undestand exactly what you mean, lot of
-> guessing on my side. Probably I'm slow, sorry.
+> Thanks for the questions, and I would like to share my view of the world. The
+> way I see and use netconsole at my company (Meta) is a "kernel message"
+> on steroids, where it provides more information about the system than
+> what is available in kernel log buffers (dmesg)
 > 
-> But there is a PCI device per NUMA node leg. Not sure how to model it.
-> Devink instances have 1:1 relationship with bus devices.
+> These netconsole messages already have extra data, which provides
+> information to each message, such as:
 > 
-> Care to draw a picture perhaps?
+>  * scheduler configuration (for sched_ext contenxt)
+>  * THP memory configuration
+>  * Job/workload running
+>  * CPU id
+>  * task->curr name
+>  * etc
+>  
+> So, netconsole already sends extra information today that is not visible
+> on kernel console (dmesg), and this has proved to be super useful, so
+> useful that 16 entries are not enough and Gustavo need to do a dynamic
+> allocation instead of limiting it to 16.
 > 
-> >> The shared instance on top would make sense to me. That was one of
-> >> motivations to introduce it. Then this shared instance would hold
-> >> netdev, vf representors etc.  
-> >
-> >I don't understand what the shared instance is representing and how
-> >user is expect to find their way thru the maze of devlink instanced,
-> >for real bus, aux bus, and now shared instanced.  
+> On top of that, printk() has a similar mechanism where extra data is not
+> printed to the console. printk buffers has a dictionary of structured
+> data attached to the message that is not printed to the screen, but,
+> sent through netconsole.
 > 
-> Well, I tried to desrtibe it in the documentation path, Not sure what is
-> not clear :/
-> 
-> Nested devlinks expose the connections between devlink instances.
+> This feature (in this patchset) is just one step ahead, giving some more
+> power to netconsole, where extra information could be sent beyond what
+> is in dmesg.
 
-To be clear -- I understand how you're laying things out. My point is
-not about that. My question is how can user make intuitive sense of this
-mess of random object floating around. Every SW engineering problem can
-be solved by another layer of abstraction, that's not the challenge. 
-The challenge is to design those layers so that they make intuitive
-sense (to people who don't spend their life programming against mlx FW
-interfaces).
+Having extra metadata makes sense, since the interpretation happens in
+a different environment. But here we're talking about having extra
+messages, not extra metadata.
+
+> >  - why do we need the kernel API, netcons is just a UDP message, which
+> >    is easy enough to send from user space. A little bit more detail
+> >    about the advantages would be good to have.  
+> 
+> The primary advantage is leveraging the existing configured netconsole
+> infrastructure. At Meta, for example, we have a "continuous ping"
+> mechanism configured by our Configuration Management software that
+> simply runs 'echo "ping" > /dev/kmsg'.
+> 
+> A userspace solution would require deploying a binary to millons of
+> machines,  parsing /sys/kernel/configfs/netconsole/cmdline0/configs
+> and sends packets directly.
+> 
+> While certainly feasible, it's less convenient than using the
+> existing infrastructure (though I may just be looking for the easier
+> path here).
+
+If this was your objective, instead of having a uAPI for sending
+arbitrary message you should be adding some "keepalive" timer / empty
+message sender... With the patches are posted you still need something
+to run the echo.
+
+> > The 2nd point is trivial, the first one is what really gives me pause.
+> > Why do we not care about the logs on host? If the serial is very slow
+> > presumably it impacts a lot of things, certainly boot speed, so...  
+> 
+> This is spot-on - slow serial definitely impacts things like boot speed.
+> 
+> See my constant complains here, about slow boot
+> 
+> 	https://lore.kernel.org/all/aGVn%2FSnOvwWewkOW@gmail.com/
+> 
+> And the something similar in reboot/kexec path:
+> 
+> 	https://lore.kernel.org/all/sqwajvt7utnt463tzxgwu2yctyn5m6bjwrslsnupfexeml6hkd@v6sqmpbu3vvu/
+> 
+> > perhaps it should be configured to only log messages at a high level?  
+> 
+> Chris is actually working on per-console log levels to solve exactly
+> this problem, so we could filter serial console messages while keeping
+> everything in other consoles (aka netconsole):
+> 
+> 	https://lore.kernel.org/all/cover.1764272407.git.chris@chrisdown.name/
+
+Excellent! Unless I'm missing more context Chris does seem to be
+attacking the problem at a more suitable layer.
+
+> That work has been in progress for years though, and I'm not sure
+> when/if it'll land upstream. But if it does, we'd be able to have
+> different log levels per console and then use your suggested approach.
+> 
+> Thanks for the review, and feel free to yell at me if I am missing the
+> point,
+> --breno
+> 
+
