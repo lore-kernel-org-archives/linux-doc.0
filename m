@@ -1,230 +1,250 @@
-Received: from mail-m19731116.qiye.163.com (mail-m19731116.qiye.163.com [220.197.31.116])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4886B2F691B
-	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 08:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DB43081CA;
+	Tue,  2 Dec 2025 09:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764664933; cv=none; b=E9C0tj5aAipsj/aYRck325BxPqsL14/kp/F9L9B9EbwZFLktjkU+Ty0xtwZVon0qxdP9TT4TI+YkoWD6h3YPqpNiam5ZGLou7EsIX0GBQ1mAnoO1wPgnTA8l6sZU6/7K/USh55Ap4BLtr+7vkuQmFWdgWwxhzLJMIExLCDMMzH0=
+	t=1764666861; cv=none; b=q5JlCAcUFBeRVYhla7wHuLH49xn2b1Ml/2Z6RwO1e25GZ367q1lilZvCUUUGEvKD6CpJ2j75cilN2uQPkR8MXVlPbqSJlkwgxK82D/VdGo0VaLpuMyiq00LWAIu24ius8Thd9llvcTP7D4k02ArFdNFE6G10Zhb5WbnHqomMhSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764664933; c=relaxed/simple;
-	bh=4IjPgFCEJG+awGEp8XZpiOufmWdPMJX5/l8mWmzQh24=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dKd+6j+N1GSn1S4K2Go71JD/sygP8pFikNeKJ1VPEsELUFyDgFmnnlLTdFKlcgXpcf6oHnB9CZzk1yU4jILsTylL/EwOmzG2tTH/gqmfGIkCFL+jz4PlkvOtp0mmUsiruGz73IvulKCA2GpAV2zJ+sU4fIw9hXF7f+AstoxV1Pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=MHWDBFft; arc=none smtp.client-ip=220.197.31.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	s=arc-20240116; t=1764666861; c=relaxed/simple;
+	bh=9HeGkb1CV5dVb10i7VYeFGTZqYWWEywQIZiFwfcvnNI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M0AO93W4F6LRdIJRKWWTTKPhOpWdgXK8127LR/WSEl+uqP3+0P7EhFjFKcQCBTM9NtmlrKNwKQWswqEoxh4dKguOakn9uW92AIQoEf/1SwbM5zBVrq/re1B8fdWINkGZetjnPW7VJjqbBKaNz7SB2U+dJ/tKADaFLOs0uhoWsKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DRc+MBhO; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="MHWDBFft"
-Received: from localhost (unknown [222.130.22.244])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2ba9d5511;
-	Tue, 2 Dec 2025 16:36:51 +0800 (GMT+08:00)
-Date: Tue, 2 Dec 2025 16:36:50 +0800
-From: BaiKefan <baikefan@leap-io-kernel.com>
-To: Yanteng Si <si.yanteng@linux.dev>
-Cc: alexs@kernel.org, dzm91@hust.edu.cn, corbet@lwn.net,
- linux-doc@vger.kernel.org, doubled@leap-io-kernel.com
-Subject: [RESEND] Re: [PATCH v3 3/8] docs/zh_CN: Add authorization.rst
- translation
-Message-ID: <20251202163650.000068e9@leap-io-kernel.com>
-In-Reply-To: <343e5b82-e78a-483b-a8db-57bef4f447eb@linux.dev>
-References: <cover.1763984424.git.baikefan@leap-io-kernel.com>
-	<b4328d04b19ca0d16307aeaa3cc8d10ad2c01bdd.1763984424.git.baikefan@leap-io-kernel.com>
-	<343e5b82-e78a-483b-a8db-57bef4f447eb@linux.dev>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DRc+MBhO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764666856;
+	bh=9HeGkb1CV5dVb10i7VYeFGTZqYWWEywQIZiFwfcvnNI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DRc+MBhOIKNro4cltO7qBBLqA4sWlayyyVJdH3ujaUMPaEzQGv+x0i/L5gLhI9IqY
+	 8vpONH64B12nWznZZv9Uh2FIAGbVMtfSjOuwUk0kj/76lZ2TyprxNOH06j4GdnBgn5
+	 cJgr4tr7QLCGHEGVtJ/s4kiTazDUZDvalI1BjhDGEa1qLlo0mRK2Q0LTR431GSwkoJ
+	 fJuO2nhqBejHtKD9jBMKPRE3G76pB+Ajw8RrKpBZCF1J7HGtNaQnOeMIIEBu/xY9QW
+	 II6EFVNfbvROuRZVtB8ojL17ICD1vj8UA6mciLUOzqLvaJS1SA7pNTwldJaExoQK6u
+	 fSAfN+RZNfa3Q==
+Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B826A17E1149;
+	Tue,  2 Dec 2025 10:14:15 +0100 (CET)
+Message-ID: <e11acf7a-452a-4ef1-91e1-48be1f0571d9@collabora.com>
+Date: Tue, 2 Dec 2025 10:14:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 08/10] drm/panthor: Introduce huge tmpfs mountpoint
+ option
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Al Viro
+ <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Matthew Wilcox
+ <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251128185252.3092-1-loic.molinari@collabora.com>
+ <20251128185252.3092-9-loic.molinari@collabora.com>
+ <20251201094555.595744ab@fedora>
+Content-Language: fr
+From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
+Organization: Collabora Ltd
+In-Reply-To: <20251201094555.595744ab@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ade3513b209d5kunm6950bf7c37bad8
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTEMdVklCS0tMGUlKSBgZTVYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MSVVKS0
-	tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=MHWDBFftBFQbY6wNOxR2IMbwhLp4AQNFh/mKuJ3SM7AalAbPQN7miHD6Pptu2TEcfDeEZk0pUL8ls98aE/SYQpKLYZ6+S5bPIBNYpr0pof1T7Nz5DAqhNpE2tVSyl8YwBJ4N4ZX/tXg44COTzHFUUAXYG3U8ilhlaDQHDvYdtu1Jn6wVsgEzb33LdE4dRp5rX3qRebugyfiUzR97T/ALuqTXZeGllCjPN8LZoRVbVA/qv61bxi7n9/Zvjw6uIrul7EDWMtt5hnAxxjxInjKX7l6ZQMb4SH0yVY5/Th0RhdCjdvHWqTGNNRQaWOKNJp5ez1v/RxuHviGfFa4fs2WPCQ==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=g4Y8ZWSqx6zQjsw8Ei/6rt0oEP51/PmtRmK5sTFcHlw=;
-	h=date:mime-version:subject:message-id:from;
 
+Hi Boris,
 
-Hi Yanteng,
-I am resending this reply due to encoding/display issues in my previous
-message. 
-
-Thank you for your understanding.
-
-On Mon, 1 Dec 2025 14:54:53 +0800
-Yanteng Si <si.yanteng@linux.dev> wrote:
-
+On 01/12/2025 09:45, Boris Brezillon wrote:
+> On Fri, 28 Nov 2025 19:52:50 +0100
+> Loïc Molinari <loic.molinari@collabora.com> wrote:
 > 
-> 在 2025/11/24 21:34, Kefan Bai 写道:
-> > Translate .../usb/authorization.rst into Chinese
-> >
-> > Update the translation through commit f176638af476
-> > ("USB: Remove Wireless USB and UWB documentation")
-> >
-> > Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
-> > ---
-> >   .../translations/zh_CN/usb/authorization.rst  | 125
-> > ++++++++++++++++++ 1 file changed, 125 insertions(+)
-> >   create mode 100644
-> > Documentation/translations/zh_CN/usb/authorization.rst
-> >
-> > diff --git a/Documentation/translations/zh_CN/usb/authorization.rst
-> > b/Documentation/translations/zh_CN/usb/authorization.rst new file
-> > mode 100644 index 000000000000..2bcb3e9d4c5a
-> > --- /dev/null
-> > +++ b/Documentation/translations/zh_CN/usb/authorization.rst
-> > @@ -0,0 +1,125 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +.. include:: ../disclaimer-zh_CN.rst
-> > +
-> > +:Original: Documentation/usb/authorization.rst
-> > +:翻译:
-> > +
-> > + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
-> > +
-> > +:校译:
-> > +
-> > +
-> > +==============================================================
-> > +授权（或不授权）USB设备连接到系统
-> > +==============================================================
+>> Introduce the 'panthor.transparent_hugepage' boolean module parameter
+>> (false by default). When the parameter is set to true, a new tmpfs
+>> mountpoint is created and mounted using the 'huge=within_size'
+>> option. It's then used at GEM object creation instead of the default
+>> 'shm_mnt' mountpoint in order to enable Transparent Hugepage (THP) for
+>> the object (without having to rely on a system wide parameter).
+>>
+>> v3:
+>> - use huge tmpfs mountpoint in drm_device
+>>
+>> v4:
+>> - fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
+>> - clean up mountpoint creation error handling
+>> - print negative error value
+>>
+>> v5:
+>> - use drm_gem_has_huge_tmp() helper
+>> - get rid of CONFIG_TRANSPARENT_HUGEPAGE ifdefs
+>>
+>> v9:
+>> - replace drm_gem_has_huge_tmp() by drm_gem_get_huge_tmp()
+>>
+>> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> ---
+>>   drivers/gpu/drm/panthor/panthor_device.c |  3 +++
+>>   drivers/gpu/drm/panthor/panthor_drv.c    |  7 +++++++
+>>   drivers/gpu/drm/panthor/panthor_drv.h    |  9 +++++++++
+>>   drivers/gpu/drm/panthor/panthor_gem.c    | 18 ++++++++++++++++++
+>>   drivers/gpu/drm/panthor/panthor_gem.h    |  2 ++
+>>   5 files changed, 39 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+>>
+>> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+>> index e133b1e0ad6d..2979ee0e52c2 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_device.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+>> @@ -18,6 +18,7 @@
+>>   #include "panthor_devfreq.h"
+>>   #include "panthor_device.h"
+>>   #include "panthor_fw.h"
+>> +#include "panthor_gem.h"
+>>   #include "panthor_gpu.h"
+>>   #include "panthor_hw.h"
+>>   #include "panthor_mmu.h"
+>> @@ -294,6 +295,8 @@ int panthor_device_init(struct panthor_device *ptdev)
+>>   	if (ret)
+>>   		goto err_unplug_fw;
+>>   
+>> +	panthor_gem_init(ptdev);
+>> +
+>>   	/* ~3 frames */
+>>   	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
+>>   	pm_runtime_use_autosuspend(ptdev->base.dev);
+>> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+>> index d1d4c50da5bf..55dbda6dbf9c 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+>> @@ -1559,6 +1559,7 @@ static const struct file_operations panthor_drm_driver_fops = {
+>>   	.read = drm_read,
+>>   	.llseek = noop_llseek,
+>>   	.mmap = panthor_mmap,
+>> +	.get_unmapped_area = drm_gem_get_unmapped_area,
+>>   	.show_fdinfo = drm_show_fdinfo,
+>>   	.fop_flags = FOP_UNSIGNED_OFFSET,
+>>   };
+>> @@ -1626,6 +1627,12 @@ static const struct drm_driver panthor_drm_driver = {
+>>   #endif
+>>   };
+>>   
+>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>> +bool panthor_transparent_hugepage;
+>> +module_param_named(transparent_hugepage, panthor_transparent_hugepage, bool, 0400);
+>> +MODULE_PARM_DESC(transparent_hugepage, "Use a dedicated tmpfs mount point with Transparent Hugepage enabled (false = default)");
 > 
-> It's too long, please trim them.
-> 
-> 
-> Thanks,
-> 
-> Yanteng
-> 
+> On a second thought, I wonder if this shouldn't be an opt-out param
+> (which is what V3D does, BTW). What's the downside of enabling THP if we
+> have a fallback for cases where memory is too fragmented to get huge
+> pages at allocation time?
 
-Thanks for the review.
+The only issue I can think of is maybe the fragmentation implied by the 
+alignment requirement. But I don't think it's too much of an issue 
+because, as you said, it will just fallback to allocating small pages in 
+between, and V3D, which has use cases with low memory requirements too, 
+makes it an opt-out too.
 
-I'll shorten those overlong markers and check the rest of the
-translated files for similar issues.
+I'll do that for both Panfrost and Panthor.
 
-Thanks,
-Kefan
+Regards,
+Loïc
 
-> > +
-> > +版权 (C) 2007 Inaky Perez-Gonzalez <inaky@linux.intel.com>
-> > 因特尔公司 +
-> > +此功能允许你控制系统中USB设备的使用权限。
-> > +你可以借此实现USB设备的锁定，并由用户空间完全控制。
-> > +
-> > +目前为止，当插入一个USB设备时，系统会配置该USB设备，其接口会立即对用户开放。
-> > +通过此修改，只有在root授权配置设备后，用户才能使用它。
-> > +
-> > +
-> > +使用方法
-> > +=========
-> > +
-> > +授权设备连接::
-> > +
-> > +	$ echo 1 > /sys/bus/usb/devices/DEVICE/authorized
-> > +
-> > +取消授权设备连接::
-> > +	$ echo 0 > /sys/bus/usb/devices/DEVICE/authorized
-> > +
-> > +将新连接到hostX的设备默认设置为未授权（即：锁定）::
-> > +
-> > +	$ echo 0 > /sys/bus/usb/devices/usbX/authorized_default
-> > +
-> > +解除锁定::
-> > +
-> > +	$ echo 1 > /sys/bus/usb/devices/usbX/authorized_default
-> > +
-> > +默认情况下，所有USB设备都是授权的。
-> > +向authorized_default属性写入 "2"
-> > 会使内核默认只授权连接到内部USB端口的设备。 +
-> > +系统锁定示例（简单示例）
-> > +------------------------------
-> > +
-> > +假设你想实现一个锁定功能，要求只有类型为XYZ的设备可以连接
-> > +（例如，它是一个带有可见USB端口的自助服务终端）::
-> > +
-> > +  启动系统
-> > +  rc.local ->
-> > +
-> > +   for host in /sys/bus/usb/devices/usb*
-> > +   do
-> > +      echo 0 > $host/authorized_default
-> > +   done
-> > +
-> > +将一个脚本挂接到udev，当插入新的USB设备时，该脚本就会被自动触发::
-> > +
-> > + if device_is_my_type $DEV
-> > + then
-> > +   echo 1 > $device_path/authorized
-> > + done
-> > +
-> > +
-> > +这里的device_is_my_type()就是实现锁定的关键所在。
-> > +仅仅检查class、type 和protocol是否匹配某个值，
-> > +是最差的安全验证方式（但对于想要破解的人却是最容易的）。
-> > +如果你需要真正安全的方案，应使用加密、证书认证等手段。
-> > +一个针对存储密钥的简单示例::
-> > +
-> > + function device_is_my_type()
-> > + {
-> > +   echo 1 > authorized		# 暂时授权它
-> > +                                # FIXME: 确保没有人能够挂载它
-> > +   mount DEVICENODE /mntpoint
-> > +   sum=$(md5sum /mntpoint/.signature)
-> > +   if [ $sum = $(cat /etc/lockdown/keysum) ]
-> > +   then
-> > +        echo "We are good, connected"
-> > +        umount /mntpoint
-> > +        # 添加一些额外的内容，以便其他人也可以使用它
-> > +   else
-> > +        echo 0 > authorized
-> > +   fi
-> > + }
-> > +
-> > +
-> > +当然，这种做法很简陋；实际上你应该使用基于PKI的真正证书验证，
-> > +这样就不会依赖共享密钥之类的东西。不过你明白我的意思。
-> > +任何拿到设备仿真工具包的人都能伪造描述符和设备信息。
-> > +所以千万不要信任这些信息。
-> > +
-> > +接口授权
-> > +---------
-> > +
-> > +也有类似的方法用于允许或拒绝特定USB接口。这允许只阻止USB设备的一个子集。
-> > +
-> > +授权接口::
-> > +
-> > +	$ echo 1 > /sys/bus/usb/devices/INTERFACE/authorized
-> > +
-> > +取消授权接口::
-> > +
-> > +	$ echo 0 > /sys/bus/usb/devices/INTERFACE/authorized
-> > +
-> > +也可以更改新接口在特定USB总线上的默认值。
-> > +
-> > +默认允许接口::
-> > +
-> > +	$ echo 1 >
-> > /sys/bus/usb/devices/usbX/interface_authorized_default +
-> > +默认拒绝接口::
-> > +	$ echo 0 >
-> > /sys/bus/usb/devices/usbX/interface_authorized_default +
-> > +默认情况下，interface_authorized_default位为1。
-> > +因此，所有接口默认都是授权的。
-> > +
-> > +注意：
-> > +  如果要对一个未授权的接口进行授权，则必须通过将INTERFACE写入
-> > +  /sys/bus/usb/drivers_probe来手动触发驱动程序进行探测。
-> > +  对于使用多个接口的驱动程序，需要先对所有使用的接口进行授权。
-> > +  之后应探测驱动程序。这样做可以避免副作用。
-> > --
-> > 2.52.0
-> >
-> 
+>> +#endif
+>> +
+>>   static int panthor_probe(struct platform_device *pdev)
+>>   {
+>>   	struct panthor_device *ptdev;
+>> diff --git a/drivers/gpu/drm/panthor/panthor_drv.h b/drivers/gpu/drm/panthor/panthor_drv.h
+>> new file mode 100644
+>> index 000000000000..79dccd289881
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/panthor/panthor_drv.h
+>> @@ -0,0 +1,9 @@
+>> +// SPDX-License-Identifier: GPL-2.0 or MIT
+>> +/* Copyright 2025 Amazon.com, Inc. or its affiliates */
+>> +
+>> +#ifndef __PANTHOR_DRV_H__
+>> +#define __PANTHOR_DRV_H__
+>> +
+>> +extern bool panthor_transparent_hugepage;
+>> +
+>> +#endif
+>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+>> index 10d255cccc09..7ae07a9bc996 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+>> @@ -1,6 +1,7 @@
+>>   // SPDX-License-Identifier: GPL-2.0 or MIT
+>>   /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+>>   /* Copyright 2023 Collabora ltd. */
+>> +/* Copyright 2025 Amazon.com, Inc. or its affiliates */
+>>   
+>>   #include <linux/cleanup.h>
+>>   #include <linux/dma-buf.h>
+>> @@ -12,10 +13,27 @@
+>>   #include <drm/panthor_drm.h>
+>>   
+>>   #include "panthor_device.h"
+>> +#include "panthor_drv.h"
+>>   #include "panthor_fw.h"
+>>   #include "panthor_gem.h"
+>>   #include "panthor_mmu.h"
+>>   
+>> +void panthor_gem_init(struct panthor_device *ptdev)
+>> +{
+>> +	int err;
+>> +
+>> +	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
+>> +	    !panthor_transparent_hugepage)
+>> +		return;
+>> +
+>> +	err = drm_gem_huge_mnt_create(&ptdev->base, "within_size");
+>> +	if (drm_gem_get_huge_mnt(&ptdev->base))
+>> +		drm_info(&ptdev->base, "Using Transparent Hugepage\n");
+>> +	else if (err)
+>> +		drm_warn(&ptdev->base, "Can't use Transparent Hugepage (%d)\n",
+>> +			 err);
+>> +}
+>> +
+>>   #ifdef CONFIG_DEBUG_FS
+>>   static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
+>>   {
+>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+>> index 80c6e24112d0..2eefe9104e5e 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+>> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+>> @@ -136,6 +136,8 @@ struct panthor_gem_object *to_panthor_bo(struct drm_gem_object *obj)
+>>   	return container_of(to_drm_gem_shmem_obj(obj), struct panthor_gem_object, base);
+>>   }
+>>   
+>> +void panthor_gem_init(struct panthor_device *ptdev);
+>> +
+>>   struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size);
+>>   
+>>   int
 > 
 
