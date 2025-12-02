@@ -1,250 +1,90 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DB43081CA;
-	Tue,  2 Dec 2025 09:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB3230EF74;
+	Tue,  2 Dec 2025 09:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764666861; cv=none; b=q5JlCAcUFBeRVYhla7wHuLH49xn2b1Ml/2Z6RwO1e25GZ367q1lilZvCUUUGEvKD6CpJ2j75cilN2uQPkR8MXVlPbqSJlkwgxK82D/VdGo0VaLpuMyiq00LWAIu24ius8Thd9llvcTP7D4k02ArFdNFE6G10Zhb5WbnHqomMhSE=
+	t=1764668534; cv=none; b=N9MGUTcj/d5y5ytcgPehxmcdW2qjRL1YYHJPlBFG+IGgZ6OiU0lQOuOSkAzQmZoexVi8SLhF24WNNNTYSLWgx99mE3unXl2Yb7ExFZ1B2i3HIlc3R758wQmQYjRVMF9Qx0wsvfxtVFNlqqnnIuNjRJIY5n2DLunj/bqNCP8BlzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764666861; c=relaxed/simple;
-	bh=9HeGkb1CV5dVb10i7VYeFGTZqYWWEywQIZiFwfcvnNI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M0AO93W4F6LRdIJRKWWTTKPhOpWdgXK8127LR/WSEl+uqP3+0P7EhFjFKcQCBTM9NtmlrKNwKQWswqEoxh4dKguOakn9uW92AIQoEf/1SwbM5zBVrq/re1B8fdWINkGZetjnPW7VJjqbBKaNz7SB2U+dJ/tKADaFLOs0uhoWsKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DRc+MBhO; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1764668534; c=relaxed/simple;
+	bh=nml6aidyLAUTKS+9IwH1T9+BnWn8mVKKNNSv+ivqmHI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Kio3bmrkz11YzCu3aaLe8lF+x5J2PtnUWlm/YeQsnBaz5ZEFC0FNkgYyphrD5AyKBTT/B9NW/wAM0mkYi/tzpUKILL5WSmf/kFCpbr3FYasHUzO9ELD3YFOgTReOzIQsZj/+CzU8Jvl6Ed5Ngy/r0o1orHItJPxJsB/zW0hlihk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=pgxalzxC; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DRc+MBhO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764666856;
-	bh=9HeGkb1CV5dVb10i7VYeFGTZqYWWEywQIZiFwfcvnNI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DRc+MBhOIKNro4cltO7qBBLqA4sWlayyyVJdH3ujaUMPaEzQGv+x0i/L5gLhI9IqY
-	 8vpONH64B12nWznZZv9Uh2FIAGbVMtfSjOuwUk0kj/76lZ2TyprxNOH06j4GdnBgn5
-	 cJgr4tr7QLCGHEGVtJ/s4kiTazDUZDvalI1BjhDGEa1qLlo0mRK2Q0LTR431GSwkoJ
-	 fJuO2nhqBejHtKD9jBMKPRE3G76pB+Ajw8RrKpBZCF1J7HGtNaQnOeMIIEBu/xY9QW
-	 II6EFVNfbvROuRZVtB8ojL17ICD1vj8UA6mciLUOzqLvaJS1SA7pNTwldJaExoQK6u
-	 fSAfN+RZNfa3Q==
-Received: from [IPV6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa] (unknown [IPv6:2a01:e0a:5e3:6100:7aed:fe0e:8590:cbaa])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="pgxalzxC"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B826A17E1149;
-	Tue,  2 Dec 2025 10:14:15 +0100 (CET)
-Message-ID: <e11acf7a-452a-4ef1-91e1-48be1f0571d9@collabora.com>
-Date: Tue, 2 Dec 2025 10:14:15 +0100
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dLG5D1PRBz9tYG;
+	Tue,  2 Dec 2025 10:42:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1764668528; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nml6aidyLAUTKS+9IwH1T9+BnWn8mVKKNNSv+ivqmHI=;
+	b=pgxalzxCwUTbiU3EiZagPm+kzV6Z7YR5ohIkZqei+ENi+hWO+4Ia9trV3jgPFpqALbCUZ3
+	N2suGWGtwnBcT/QglZh7sT2ThDEs+KNxlrMQuVva7s+vjI62VKE9lFLjlkKtkBdC0DJfr5
+	qNDV082Os163WYmLQwXsk0YqI8lqR6QHduzwTkXEMmXpbSxCwHsORpEcog6o8WcnfXZV3q
+	E3sR4NrwHu3ATFnCCkvGI78ote9QmRppMLH+/EvRmYvXgvCshf5tF+U18n4T+HjeZTxf0T
+	k0ZQozwVI3Kt6guzUEZYKjBIYFeNMcECQB+PTg8DfvR7E67MzKMK1+ASdo3Mdw==
+Message-ID: <84fa6d8a05c0227c33f904c2b88e309963226b8d.camel@mailbox.org>
+Subject: Re: [PATCH v2 0/2] drm/todo: Add section for GPU Scheduler
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Dave Airlie <airlied@gmail.com>, phasta@kernel.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Simona
+ Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>,  Matthew Brost <matthew.brost@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Date: Tue, 02 Dec 2025 10:42:01 +0100
+In-Reply-To: <CAPM=9twe+Q0pP3KiWy7ZTYxRs_yN1bHEto6Mptqb3ub7vimgtw@mail.gmail.com>
+References: <20251107135701.244659-2-phasta@kernel.org>
+	 <c35026065b1d109b7f4b9e1d8dee8ea45f9a1dba.camel@mailbox.org>
+	 <CAPM=9twe+Q0pP3KiWy7ZTYxRs_yN1bHEto6Mptqb3ub7vimgtw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 08/10] drm/panthor: Introduce huge tmpfs mountpoint
- option
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>, Al Viro
- <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Matthew Wilcox
- <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251128185252.3092-1-loic.molinari@collabora.com>
- <20251128185252.3092-9-loic.molinari@collabora.com>
- <20251201094555.595744ab@fedora>
-Content-Language: fr
-From: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>
-Organization: Collabora Ltd
-In-Reply-To: <20251201094555.595744ab@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: efa47a7497b131966f1
+X-MBO-RS-META: yyqaxhgakntqqu66gzg19q83dn1une71
 
-Hi Boris,
+On Tue, 2025-12-02 at 17:37 +1000, Dave Airlie wrote:
+> Acked-by: Dave Airlie <airlied@redhat.com>
+>=20
+> On Thu, 27 Nov 2025 at 22:50, Philipp Stanner <phasta@mailbox.org> wrote:
+> >=20
+> > +Cc Matthew, Tvrtko, Christian
+> >=20
+> > On Fri, 2025-11-07 at 14:56 +0100, Philipp Stanner wrote:
+> > > Changes in v2:
+> > > =C2=A0 - Fix wrong list item index in patch 1.
+> > >=20
+> > > The GPU Scheduler has enough problems to be covered by the drm todo
+> > > list. Let's add an entry.
+> > >=20
+> > > This series is the succesor of [1].
+> > >=20
+> > > [1] https://lore.kernel.org/dri-devel/20251023143031.149496-2-phasta@=
+kernel.org/
+> > >=20
+> > > Philipp Stanner (2):
+> > > =C2=A0 drm/todo: Add section with task for GPU scheduler
+> > > =C2=A0 drm/todo: Add entry for unlocked drm/sched rq readers
 
-On 01/12/2025 09:45, Boris Brezillon wrote:
-> On Fri, 28 Nov 2025 19:52:50 +0100
-> Loïc Molinari <loic.molinari@collabora.com> wrote:
-> 
->> Introduce the 'panthor.transparent_hugepage' boolean module parameter
->> (false by default). When the parameter is set to true, a new tmpfs
->> mountpoint is created and mounted using the 'huge=within_size'
->> option. It's then used at GEM object creation instead of the default
->> 'shm_mnt' mountpoint in order to enable Transparent Hugepage (THP) for
->> the object (without having to rely on a system wide parameter).
->>
->> v3:
->> - use huge tmpfs mountpoint in drm_device
->>
->> v4:
->> - fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
->> - clean up mountpoint creation error handling
->> - print negative error value
->>
->> v5:
->> - use drm_gem_has_huge_tmp() helper
->> - get rid of CONFIG_TRANSPARENT_HUGEPAGE ifdefs
->>
->> v9:
->> - replace drm_gem_has_huge_tmp() by drm_gem_get_huge_tmp()
->>
->> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
->> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
->> ---
->>   drivers/gpu/drm/panthor/panthor_device.c |  3 +++
->>   drivers/gpu/drm/panthor/panthor_drv.c    |  7 +++++++
->>   drivers/gpu/drm/panthor/panthor_drv.h    |  9 +++++++++
->>   drivers/gpu/drm/panthor/panthor_gem.c    | 18 ++++++++++++++++++
->>   drivers/gpu/drm/panthor/panthor_gem.h    |  2 ++
->>   5 files changed, 39 insertions(+)
->>   create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
->>
->> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
->> index e133b1e0ad6d..2979ee0e52c2 100644
->> --- a/drivers/gpu/drm/panthor/panthor_device.c
->> +++ b/drivers/gpu/drm/panthor/panthor_device.c
->> @@ -18,6 +18,7 @@
->>   #include "panthor_devfreq.h"
->>   #include "panthor_device.h"
->>   #include "panthor_fw.h"
->> +#include "panthor_gem.h"
->>   #include "panthor_gpu.h"
->>   #include "panthor_hw.h"
->>   #include "panthor_mmu.h"
->> @@ -294,6 +295,8 @@ int panthor_device_init(struct panthor_device *ptdev)
->>   	if (ret)
->>   		goto err_unplug_fw;
->>   
->> +	panthor_gem_init(ptdev);
->> +
->>   	/* ~3 frames */
->>   	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
->>   	pm_runtime_use_autosuspend(ptdev->base.dev);
->> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
->> index d1d4c50da5bf..55dbda6dbf9c 100644
->> --- a/drivers/gpu/drm/panthor/panthor_drv.c
->> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
->> @@ -1559,6 +1559,7 @@ static const struct file_operations panthor_drm_driver_fops = {
->>   	.read = drm_read,
->>   	.llseek = noop_llseek,
->>   	.mmap = panthor_mmap,
->> +	.get_unmapped_area = drm_gem_get_unmapped_area,
->>   	.show_fdinfo = drm_show_fdinfo,
->>   	.fop_flags = FOP_UNSIGNED_OFFSET,
->>   };
->> @@ -1626,6 +1627,12 @@ static const struct drm_driver panthor_drm_driver = {
->>   #endif
->>   };
->>   
->> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->> +bool panthor_transparent_hugepage;
->> +module_param_named(transparent_hugepage, panthor_transparent_hugepage, bool, 0400);
->> +MODULE_PARM_DESC(transparent_hugepage, "Use a dedicated tmpfs mount point with Transparent Hugepage enabled (false = default)");
-> 
-> On a second thought, I wonder if this shouldn't be an opt-out param
-> (which is what V3D does, BTW). What's the downside of enabling THP if we
-> have a fallback for cases where memory is too fragmented to get huge
-> pages at allocation time?
+Pushed to drm-misc-next
 
-The only issue I can think of is maybe the fragmentation implied by the 
-alignment requirement. But I don't think it's too much of an issue 
-because, as you said, it will just fallback to allocating small pages in 
-between, and V3D, which has use cases with low memory requirements too, 
-makes it an opt-out too.
-
-I'll do that for both Panfrost and Panthor.
-
-Regards,
-Loïc
-
->> +#endif
->> +
->>   static int panthor_probe(struct platform_device *pdev)
->>   {
->>   	struct panthor_device *ptdev;
->> diff --git a/drivers/gpu/drm/panthor/panthor_drv.h b/drivers/gpu/drm/panthor/panthor_drv.h
->> new file mode 100644
->> index 000000000000..79dccd289881
->> --- /dev/null
->> +++ b/drivers/gpu/drm/panthor/panthor_drv.h
->> @@ -0,0 +1,9 @@
->> +// SPDX-License-Identifier: GPL-2.0 or MIT
->> +/* Copyright 2025 Amazon.com, Inc. or its affiliates */
->> +
->> +#ifndef __PANTHOR_DRV_H__
->> +#define __PANTHOR_DRV_H__
->> +
->> +extern bool panthor_transparent_hugepage;
->> +
->> +#endif
->> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
->> index 10d255cccc09..7ae07a9bc996 100644
->> --- a/drivers/gpu/drm/panthor/panthor_gem.c
->> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
->> @@ -1,6 +1,7 @@
->>   // SPDX-License-Identifier: GPL-2.0 or MIT
->>   /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->>   /* Copyright 2023 Collabora ltd. */
->> +/* Copyright 2025 Amazon.com, Inc. or its affiliates */
->>   
->>   #include <linux/cleanup.h>
->>   #include <linux/dma-buf.h>
->> @@ -12,10 +13,27 @@
->>   #include <drm/panthor_drm.h>
->>   
->>   #include "panthor_device.h"
->> +#include "panthor_drv.h"
->>   #include "panthor_fw.h"
->>   #include "panthor_gem.h"
->>   #include "panthor_mmu.h"
->>   
->> +void panthor_gem_init(struct panthor_device *ptdev)
->> +{
->> +	int err;
->> +
->> +	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
->> +	    !panthor_transparent_hugepage)
->> +		return;
->> +
->> +	err = drm_gem_huge_mnt_create(&ptdev->base, "within_size");
->> +	if (drm_gem_get_huge_mnt(&ptdev->base))
->> +		drm_info(&ptdev->base, "Using Transparent Hugepage\n");
->> +	else if (err)
->> +		drm_warn(&ptdev->base, "Can't use Transparent Hugepage (%d)\n",
->> +			 err);
->> +}
->> +
->>   #ifdef CONFIG_DEBUG_FS
->>   static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
->>   {
->> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
->> index 80c6e24112d0..2eefe9104e5e 100644
->> --- a/drivers/gpu/drm/panthor/panthor_gem.h
->> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
->> @@ -136,6 +136,8 @@ struct panthor_gem_object *to_panthor_bo(struct drm_gem_object *obj)
->>   	return container_of(to_drm_gem_shmem_obj(obj), struct panthor_gem_object, base);
->>   }
->>   
->> +void panthor_gem_init(struct panthor_device *ptdev);
->> +
->>   struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size);
->>   
->>   int
-> 
-
+P.
