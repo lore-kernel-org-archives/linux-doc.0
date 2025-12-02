@@ -1,59 +1,67 @@
-Received: from mail-m49234.qiye.163.com (mail-m49234.qiye.163.com [45.254.49.234])
+Received: from mail-m19731116.qiye.163.com (mail-m19731116.qiye.163.com [220.197.31.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596A83074A4
-	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 08:11:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4886B2F691B
+	for <linux-doc@vger.kernel.org>; Tue,  2 Dec 2025 08:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764663080; cv=none; b=Tf4G5yh+bRqKkhxUqv7/7DaG7sOdtbWeY+W/H0eUyL+0a/bPXhUT2tLZ8IWMeq9q8uWTvIl8h8mkNtg7wk+fMkzLdp1M0LA03QRmx+1NtkF6j5R2JlAwlnG8FY4C7BvNYyozfODyz3Jv2Qeob/dKribOzN883SCzmA2Yqu3CFg0=
+	t=1764664933; cv=none; b=E9C0tj5aAipsj/aYRck325BxPqsL14/kp/F9L9B9EbwZFLktjkU+Ty0xtwZVon0qxdP9TT4TI+YkoWD6h3YPqpNiam5ZGLou7EsIX0GBQ1mAnoO1wPgnTA8l6sZU6/7K/USh55Ap4BLtr+7vkuQmFWdgWwxhzLJMIExLCDMMzH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764663080; c=relaxed/simple;
-	bh=frs0+PE64z+ncKLYBusEVk1Ex9RqBVSIFYH5NvRaoiw=;
+	s=arc-20240116; t=1764664933; c=relaxed/simple;
+	bh=4IjPgFCEJG+awGEp8XZpiOufmWdPMJX5/l8mWmzQh24=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VslXQUmrJSLDE/W8s6OwBUuDBxS88Wj/ZrvUFWeWd7d+150FreAuFnVBqWZg/YOsu9WDMJfgmp75UilzyYXf1yRqCYmayr8n1aOawscCziEeGhP6AcQNrH3xYGYV+vSq3mbZjVFbSE0B5xNlk0anpbE0w96kFWM5oTEDUdzs5vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=k1BI9uy+; arc=none smtp.client-ip=45.254.49.234
+	 MIME-Version:Content-Type; b=dKd+6j+N1GSn1S4K2Go71JD/sygP8pFikNeKJ1VPEsELUFyDgFmnnlLTdFKlcgXpcf6oHnB9CZzk1yU4jILsTylL/EwOmzG2tTH/gqmfGIkCFL+jz4PlkvOtp0mmUsiruGz73IvulKCA2GpAV2zJ+sU4fIw9hXF7f+AstoxV1Pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=MHWDBFft; arc=none smtp.client-ip=220.197.31.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="k1BI9uy+"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="MHWDBFft"
 Received: from localhost (unknown [222.130.22.244])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2ba8a88c9;
-	Tue, 2 Dec 2025 16:11:03 +0800 (GMT+08:00)
-Date: Tue, 2 Dec 2025 16:11:01 +0800
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2ba9d5511;
+	Tue, 2 Dec 2025 16:36:51 +0800 (GMT+08:00)
+Date: Tue, 2 Dec 2025 16:36:50 +0800
 From: BaiKefan <baikefan@leap-io-kernel.com>
 To: Yanteng Si <si.yanteng@linux.dev>
 Cc: alexs@kernel.org, dzm91@hust.edu.cn, corbet@lwn.net,
  linux-doc@vger.kernel.org, doubled@leap-io-kernel.com
-Subject: Re: [PATCH v3 3/8] docs/zh_CN: Add authorization.rst translation
-Message-ID: <20251202155213.00007c30@leap-io-kernel.com>
+Subject: [RESEND] Re: [PATCH v3 3/8] docs/zh_CN: Add authorization.rst
+ translation
+Message-ID: <20251202163650.000068e9@leap-io-kernel.com>
 In-Reply-To: <343e5b82-e78a-483b-a8db-57bef4f447eb@linux.dev>
 References: <cover.1763984424.git.baikefan@leap-io-kernel.com>
- <b4328d04b19ca0d16307aeaa3cc8d10ad2c01bdd.1763984424.git.baikefan@leap-io-kernel.com>
- <343e5b82-e78a-483b-a8db-57bef4f447eb@linux.dev>
+	<b4328d04b19ca0d16307aeaa3cc8d10ad2c01bdd.1763984424.git.baikefan@leap-io-kernel.com>
+	<343e5b82-e78a-483b-a8db-57bef4f447eb@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=GB18030
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ade1d732609d5kunm4a1b67b537069b
+X-HM-Tid: 0a9ade3513b209d5kunm6950bf7c37bad8
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaTB1IVkMeQ09DHUtKHh1CS1YVFAkWGhdVEwETFh
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTEMdVklCS0tMGUlKSBgZTVYVFAkWGhdVEwETFh
 	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MSVVKS0
 	tVSkJLS1kG
 DKIM-Signature: a=rsa-sha256;
-	b=k1BI9uy+wB6iRtZoAQenFsoJyv2WtKjbHuDstK0My504/ooietRWzKawQaGYHdv5gDDb6dJAW4iRvILB4gIEg9M1jKRhKAUjQ7hJ6RQ6vhvC3XLcaAAQCe1zffd3e1AdtJIyGiHA6iGhEtH/7+4rbG/A5cHIS5ylRg7GyKZYA21f+vH8j8fXmhvWxK0Kcp66Pj1LVD01u8w7vXe9tAdubKULut4QiaV/0Mg6hk4fDMei+Rt7EroCSNo4pDVSGnYtKxQs+MDmt88WZDMclYB03ggkgpemKYMQKnMYp2n0iMYctMQ5p5TGtPTsnTimuMV7O4/GtMANOKndLX7X1vphvA==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=73mppzhD1o+ywc+fDMgawxphVDKpGRRkYNTSgNuvglI=;
+	b=MHWDBFftBFQbY6wNOxR2IMbwhLp4AQNFh/mKuJ3SM7AalAbPQN7miHD6Pptu2TEcfDeEZk0pUL8ls98aE/SYQpKLYZ6+S5bPIBNYpr0pof1T7Nz5DAqhNpE2tVSyl8YwBJ4N4ZX/tXg44COTzHFUUAXYG3U8ilhlaDQHDvYdtu1Jn6wVsgEzb33LdE4dRp5rX3qRebugyfiUzR97T/ALuqTXZeGllCjPN8LZoRVbVA/qv61bxi7n9/Zvjw6uIrul7EDWMtt5hnAxxjxInjKX7l6ZQMb4SH0yVY5/Th0RhdCjdvHWqTGNNRQaWOKNJp5ez1v/RxuHviGfFa4fs2WPCQ==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=g4Y8ZWSqx6zQjsw8Ei/6rt0oEP51/PmtRmK5sTFcHlw=;
 	h=date:mime-version:subject:message-id:from;
+
+
+Hi Yanteng,
+I am resending this reply due to encoding/display issues in my previous
+message. 
+
+Thank you for your understanding.
 
 On Mon, 1 Dec 2025 14:54:53 +0800
 Yanteng Si <si.yanteng@linux.dev> wrote:
 
 > 
-> ‘⁄ 2025/11/24 21:34, Kefan Bai –¥µ¿:
+> Âú® 2025/11/24 21:34, Kefan Bai ÂÜôÈÅì:
 > > Translate .../usb/authorization.rst into Chinese
 > >
 > > Update the translation through commit f176638af476
@@ -76,15 +84,15 @@ Yanteng Si <si.yanteng@linux.dev> wrote:
 > > +.. include:: ../disclaimer-zh_CN.rst
 > > +
 > > +:Original: Documentation/usb/authorization.rst
-> > +:∑≠“Î:
+> > +:ÁøªËØë:
 > > +
-> > + ∞◊Ó›∑≤ Kefan Bai <baikefan@leap-io-kernel.com>
+> > + ÁôΩÈí∂Âá° Kefan Bai <baikefan@leap-io-kernel.com>
 > > +
-> > +:–£“Î:
+> > +:Ê†°ËØë:
 > > +
 > > +
 > > +==============================================================
-> > + ⁄»®£®ªÚ≤ª ⁄»®£©USB…Ë±∏¡¨Ω”µΩœµÕ≥
+> > +ÊéàÊùÉÔºàÊàñ‰∏çÊéàÊùÉÔºâUSBËÆæÂ§áËøûÊé•Âà∞Á≥ªÁªü
 > > +==============================================================
 > 
 > It's too long, please trim them.
@@ -95,8 +103,6 @@ Yanteng Si <si.yanteng@linux.dev> wrote:
 > Yanteng
 > 
 
-Hi Yanteng,
-
 Thanks for the review.
 
 I'll shorten those overlong markers and check the rest of the
@@ -106,43 +112,43 @@ Thanks,
 Kefan
 
 > > +
-> > +∞Ê»® (C) 2007 Inaky Perez-Gonzalez <inaky@linux.intel.com>
-> > “ÚÃÿ∂˚π´Àæ +
-> > +¥Àπ¶ƒ‹‘ –Ìƒ„øÿ÷∆œµÕ≥÷–USB…Ë±∏µƒ π”√»®œﬁ°£
-> > +ƒ„ø…“‘ΩË¥À µœ÷USB…Ë±∏µƒÀ¯∂®£¨≤¢”…”√ªßø’º‰ÕÍ»´øÿ÷∆°£
+> > +ÁâàÊùÉ (C) 2007 Inaky Perez-Gonzalez <inaky@linux.intel.com>
+> > Âõ†ÁâπÂ∞îÂÖ¨Âè∏ +
+> > +Ê≠§ÂäüËÉΩÂÖÅËÆ∏‰Ω†ÊéßÂà∂Á≥ªÁªü‰∏≠USBËÆæÂ§áÁöÑ‰ΩøÁî®ÊùÉÈôê„ÄÇ
+> > +‰Ω†ÂèØ‰ª•ÂÄüÊ≠§ÂÆûÁé∞USBËÆæÂ§áÁöÑÈîÅÂÆöÔºåÂπ∂Áî±Áî®Êà∑Á©∫Èó¥ÂÆåÂÖ®ÊéßÂà∂„ÄÇ
 > > +
-> > +ƒø«∞Œ™÷π£¨µ±≤Â»Î“ª∏ˆUSB…Ë±∏ ±£¨œµÕ≥ª·≈‰÷√∏√USB…Ë±∏£¨∆‰Ω”ø⁄ª·¡¢º¥∂‘”√ªßø™∑≈°£
-> > +Õ®π˝¥À–ﬁ∏ƒ£¨÷ª”–‘⁄root ⁄»®≈‰÷√…Ë±∏∫Û£¨”√ªß≤≈ƒ‹ π”√À¸°£
+> > +ÁõÆÂâç‰∏∫Ê≠¢ÔºåÂΩìÊèíÂÖ•‰∏Ä‰∏™USBËÆæÂ§áÊó∂ÔºåÁ≥ªÁªü‰ºöÈÖçÁΩÆËØ•USBËÆæÂ§áÔºåÂÖ∂Êé•Âè£‰ºöÁ´ãÂç≥ÂØπÁî®Êà∑ÂºÄÊîæ„ÄÇ
+> > +ÈÄöËøáÊ≠§‰øÆÊîπÔºåÂè™ÊúâÂú®rootÊéàÊùÉÈÖçÁΩÆËÆæÂ§áÂêéÔºåÁî®Êà∑ÊâçËÉΩ‰ΩøÁî®ÂÆÉ„ÄÇ
 > > +
 > > +
-> > + π”√∑Ω∑®
+> > +‰ΩøÁî®ÊñπÊ≥ï
 > > +=========
 > > +
-> > + ⁄»®…Ë±∏¡¨Ω”::
+> > +ÊéàÊùÉËÆæÂ§áËøûÊé•::
 > > +
 > > +	$ echo 1 > /sys/bus/usb/devices/DEVICE/authorized
 > > +
-> > +»°œ˚ ⁄»®…Ë±∏¡¨Ω”::
+> > +ÂèñÊ∂àÊéàÊùÉËÆæÂ§áËøûÊé•::
 > > +	$ echo 0 > /sys/bus/usb/devices/DEVICE/authorized
 > > +
-> > +Ω´–¬¡¨Ω”µΩhostXµƒ…Ë±∏ƒ¨»œ…Ë÷√Œ™Œ¥ ⁄»®£®º¥£∫À¯∂®£©::
+> > +Â∞ÜÊñ∞ËøûÊé•Âà∞hostXÁöÑËÆæÂ§áÈªòËÆ§ËÆæÁΩÆ‰∏∫Êú™ÊéàÊùÉÔºàÂç≥ÔºöÈîÅÂÆöÔºâ::
 > > +
 > > +	$ echo 0 > /sys/bus/usb/devices/usbX/authorized_default
 > > +
-> > +Ω‚≥˝À¯∂®::
+> > +Ëß£Èô§ÈîÅÂÆö::
 > > +
 > > +	$ echo 1 > /sys/bus/usb/devices/usbX/authorized_default
 > > +
-> > +ƒ¨»œ«Èøˆœ¬£¨À˘”–USB…Ë±∏∂º « ⁄»®µƒ°£
-> > +œÚauthorized_default Ù–‘–¥»Î "2"
-> > ª· πƒ⁄∫Àƒ¨»œ÷ª ⁄»®¡¨Ω”µΩƒ⁄≤øUSB∂Àø⁄µƒ…Ë±∏°£ +
-> > +œµÕ≥À¯∂® æ¿˝£®ºÚµ• æ¿˝£©
+> > +ÈªòËÆ§ÊÉÖÂÜµ‰∏ãÔºåÊâÄÊúâUSBËÆæÂ§áÈÉΩÊòØÊéàÊùÉÁöÑ„ÄÇ
+> > +Âêëauthorized_defaultÂ±ûÊÄßÂÜôÂÖ• "2"
+> > ‰ºö‰ΩøÂÜÖÊ†∏ÈªòËÆ§Âè™ÊéàÊùÉËøûÊé•Âà∞ÂÜÖÈÉ®USBÁ´ØÂè£ÁöÑËÆæÂ§á„ÄÇ +
+> > +Á≥ªÁªüÈîÅÂÆöÁ§∫‰æãÔºàÁÆÄÂçïÁ§∫‰æãÔºâ
 > > +------------------------------
 > > +
-> > +ºŸ…Ëƒ„œÎ µœ÷“ª∏ˆÀ¯∂®π¶ƒ‹£¨“™«Û÷ª”–¿‡–ÕŒ™XYZµƒ…Ë±∏ø…“‘¡¨Ω”
-> > +£®¿˝»Á£¨À¸ «“ª∏ˆ¥¯”–ø…º˚USB∂Àø⁄µƒ◊‘÷˙∑˛ŒÒ÷’∂À£©::
+> > +ÂÅáËÆæ‰Ω†ÊÉ≥ÂÆûÁé∞‰∏Ä‰∏™ÈîÅÂÆöÂäüËÉΩÔºåË¶ÅÊ±ÇÂè™ÊúâÁ±ªÂûã‰∏∫XYZÁöÑËÆæÂ§áÂèØ‰ª•ËøûÊé•
+> > +Ôºà‰æãÂ¶ÇÔºåÂÆÉÊòØ‰∏Ä‰∏™Â∏¶ÊúâÂèØËßÅUSBÁ´ØÂè£ÁöÑËá™Âä©ÊúçÂä°ÁªàÁ´ØÔºâ::
 > > +
-> > +  ∆Ù∂ØœµÕ≥
+> > +  ÂêØÂä®Á≥ªÁªü
 > > +  rc.local ->
 > > +
 > > +   for host in /sys/bus/usb/devices/usb*
@@ -150,7 +156,7 @@ Kefan
 > > +      echo 0 > $host/authorized_default
 > > +   done
 > > +
-> > +Ω´“ª∏ˆΩ≈±æπ“Ω”µΩudev£¨µ±≤Â»Î–¬µƒUSB…Ë±∏ ±£¨∏√Ω≈±ææÕª·±ª◊‘∂Ø¥•∑¢::
+> > +Â∞Ü‰∏Ä‰∏™ËÑöÊú¨ÊåÇÊé•Âà∞udevÔºåÂΩìÊèíÂÖ•Êñ∞ÁöÑUSBËÆæÂ§áÊó∂ÔºåËØ•ËÑöÊú¨Â∞±‰ºöË¢´Ëá™Âä®Ëß¶Âèë::
 > > +
 > > + if device_is_my_type $DEV
 > > + then
@@ -158,64 +164,64 @@ Kefan
 > > + done
 > > +
 > > +
-> > +’‚¿Ôµƒdevice_is_my_type()æÕ « µœ÷À¯∂®µƒπÿº¸À˘‘⁄°£
-> > +ΩˆΩˆºÏ≤Èclass°¢type ∫Õprotocol «∑Ò∆•≈‰ƒ≥∏ˆ÷µ£¨
-> > + «◊Ó≤Óµƒ∞≤»´—È÷§∑Ω Ω£®µ´∂‘”⁄œÎ“™∆∆Ω‚µƒ»À»¥ «◊Ó»›“◊µƒ£©°£
-> > +»Áπ˚ƒ„–Ë“™’Ê’˝∞≤»´µƒ∑Ω∞∏£¨”¶ π”√º”√‹°¢÷§ È»œ÷§µ» ÷∂Œ°£
-> > +“ª∏ˆ’Î∂‘¥Ê¥¢√‹‘øµƒºÚµ• æ¿˝::
+> > +ËøôÈáåÁöÑdevice_is_my_type()Â∞±ÊòØÂÆûÁé∞ÈîÅÂÆöÁöÑÂÖ≥ÈîÆÊâÄÂú®„ÄÇ
+> > +‰ªÖ‰ªÖÊ£ÄÊü•class„ÄÅtype ÂíåprotocolÊòØÂê¶ÂåπÈÖçÊüê‰∏™ÂÄºÔºå
+> > +ÊòØÊúÄÂ∑ÆÁöÑÂÆâÂÖ®È™åËØÅÊñπÂºèÔºà‰ΩÜÂØπ‰∫éÊÉ≥Ë¶ÅÁ†¥Ëß£ÁöÑ‰∫∫Âç¥ÊòØÊúÄÂÆπÊòìÁöÑÔºâ„ÄÇ
+> > +Â¶ÇÊûú‰Ω†ÈúÄË¶ÅÁúüÊ≠£ÂÆâÂÖ®ÁöÑÊñπÊ°àÔºåÂ∫î‰ΩøÁî®Âä†ÂØÜ„ÄÅËØÅ‰π¶ËÆ§ËØÅÁ≠âÊâãÊÆµ„ÄÇ
+> > +‰∏Ä‰∏™ÈíàÂØπÂ≠òÂÇ®ÂØÜÈí•ÁöÑÁÆÄÂçïÁ§∫‰æã::
 > > +
 > > + function device_is_my_type()
 > > + {
-> > +   echo 1 > authorized		# ‘› ± ⁄»®À¸
-> > +                                # FIXME: »∑±£√ª”–»Àƒ‹πªπ“‘ÿÀ¸
+> > +   echo 1 > authorized		# ÊöÇÊó∂ÊéàÊùÉÂÆÉ
+> > +                                # FIXME: Á°Æ‰øùÊ≤°Êúâ‰∫∫ËÉΩÂ§üÊåÇËΩΩÂÆÉ
 > > +   mount DEVICENODE /mntpoint
 > > +   sum=$(md5sum /mntpoint/.signature)
 > > +   if [ $sum = $(cat /etc/lockdown/keysum) ]
 > > +   then
 > > +        echo "We are good, connected"
 > > +        umount /mntpoint
-> > +        # ÃÌº”“ª–©∂ÓÕ‚µƒƒ⁄»›£¨“‘±„∆‰À˚»À“≤ø…“‘ π”√À¸
+> > +        # Ê∑ªÂä†‰∏Ä‰∫õÈ¢ùÂ§ñÁöÑÂÜÖÂÆπÔºå‰ª•‰æøÂÖ∂‰ªñ‰∫∫‰πüÂèØ‰ª•‰ΩøÁî®ÂÆÉ
 > > +   else
 > > +        echo 0 > authorized
 > > +   fi
 > > + }
 > > +
 > > +
-> > +µ±»ª£¨’‚÷÷◊ˆ∑®∫‹ºÚ¬™£ª µº …œƒ„”¶∏√ π”√ª˘”⁄PKIµƒ’Ê’˝÷§ È—È÷§£¨
-> > +’‚—˘æÕ≤ªª·“¿¿µπ≤œÌ√‹‘ø÷Æ¿‡µƒ∂´Œ˜°£≤ªπ˝ƒ„√˜∞◊Œ“µƒ“‚Àº°£
-> > +»Œ∫Œƒ√µΩ…Ë±∏∑¬’Êπ§æﬂ∞¸µƒ»À∂ºƒ‹Œ±‘Ï√Ë ˆ∑˚∫Õ…Ë±∏–≈œ¢°£
-> > +À˘“‘«ßÕÚ≤ª“™–≈»Œ’‚–©–≈œ¢°£
+> > +ÂΩìÁÑ∂ÔºåËøôÁßçÂÅöÊ≥ïÂæàÁÆÄÈôãÔºõÂÆûÈôÖ‰∏ä‰Ω†Â∫îËØ•‰ΩøÁî®Âü∫‰∫éPKIÁöÑÁúüÊ≠£ËØÅ‰π¶È™åËØÅÔºå
+> > +ËøôÊ†∑Â∞±‰∏ç‰ºö‰æùËµñÂÖ±‰∫´ÂØÜÈí•‰πãÁ±ªÁöÑ‰∏úË•ø„ÄÇ‰∏çËøá‰Ω†ÊòéÁôΩÊàëÁöÑÊÑèÊÄù„ÄÇ
+> > +‰ªª‰ΩïÊãøÂà∞ËÆæÂ§á‰ªøÁúüÂ∑•ÂÖ∑ÂåÖÁöÑ‰∫∫ÈÉΩËÉΩ‰º™ÈÄ†ÊèèËø∞Á¨¶ÂíåËÆæÂ§á‰ø°ÊÅØ„ÄÇ
+> > +ÊâÄ‰ª•ÂçÉ‰∏á‰∏çË¶Å‰ø°‰ªªËøô‰∫õ‰ø°ÊÅØ„ÄÇ
 > > +
-> > +Ω”ø⁄ ⁄»®
+> > +Êé•Âè£ÊéàÊùÉ
 > > +---------
 > > +
-> > +“≤”–¿‡À∆µƒ∑Ω∑®”√”⁄‘ –ÌªÚæ‹æ¯Ãÿ∂®USBΩ”ø⁄°£’‚‘ –Ì÷ª◊Ë÷πUSB…Ë±∏µƒ“ª∏ˆ◊”ºØ°£
+> > +‰πüÊúâÁ±ª‰ººÁöÑÊñπÊ≥ïÁî®‰∫éÂÖÅËÆ∏ÊàñÊãíÁªùÁâπÂÆöUSBÊé•Âè£„ÄÇËøôÂÖÅËÆ∏Âè™ÈòªÊ≠¢USBËÆæÂ§áÁöÑ‰∏Ä‰∏™Â≠êÈõÜ„ÄÇ
 > > +
-> > + ⁄»®Ω”ø⁄::
+> > +ÊéàÊùÉÊé•Âè£::
 > > +
 > > +	$ echo 1 > /sys/bus/usb/devices/INTERFACE/authorized
 > > +
-> > +»°œ˚ ⁄»®Ω”ø⁄::
+> > +ÂèñÊ∂àÊéàÊùÉÊé•Âè£::
 > > +
 > > +	$ echo 0 > /sys/bus/usb/devices/INTERFACE/authorized
 > > +
-> > +“≤ø…“‘∏¸∏ƒ–¬Ω”ø⁄‘⁄Ãÿ∂®USB◊‹œﬂ…œµƒƒ¨»œ÷µ°£
+> > +‰πüÂèØ‰ª•Êõ¥ÊîπÊñ∞Êé•Âè£Âú®ÁâπÂÆöUSBÊÄªÁ∫ø‰∏äÁöÑÈªòËÆ§ÂÄº„ÄÇ
 > > +
-> > +ƒ¨»œ‘ –ÌΩ”ø⁄::
+> > +ÈªòËÆ§ÂÖÅËÆ∏Êé•Âè£::
 > > +
 > > +	$ echo 1 >
 > > /sys/bus/usb/devices/usbX/interface_authorized_default +
-> > +ƒ¨»œæ‹æ¯Ω”ø⁄::
+> > +ÈªòËÆ§ÊãíÁªùÊé•Âè£::
 > > +	$ echo 0 >
 > > /sys/bus/usb/devices/usbX/interface_authorized_default +
-> > +ƒ¨»œ«Èøˆœ¬£¨interface_authorized_defaultŒªŒ™1°£
-> > +“Ú¥À£¨À˘”–Ω”ø⁄ƒ¨»œ∂º « ⁄»®µƒ°£
+> > +ÈªòËÆ§ÊÉÖÂÜµ‰∏ãÔºåinterface_authorized_default‰Ωç‰∏∫1„ÄÇ
+> > +Âõ†Ê≠§ÔºåÊâÄÊúâÊé•Âè£ÈªòËÆ§ÈÉΩÊòØÊéàÊùÉÁöÑ„ÄÇ
 > > +
-> > +◊¢“‚£∫
-> > +  »Áπ˚“™∂‘“ª∏ˆŒ¥ ⁄»®µƒΩ”ø⁄Ω¯–– ⁄»®£¨‘Ú±ÿ–ÎÕ®π˝Ω´INTERFACE–¥»Î
-> > +  /sys/bus/usb/drivers_probe¿¥ ÷∂Ø¥•∑¢«˝∂Ø≥Ã–ÚΩ¯––ÃΩ≤‚°£
-> > +  ∂‘”⁄ π”√∂‡∏ˆΩ”ø⁄µƒ«˝∂Ø≥Ã–Ú£¨–Ë“™œ»∂‘À˘”– π”√µƒΩ”ø⁄Ω¯–– ⁄»®°£
-> > +  ÷Æ∫Û”¶ÃΩ≤‚«˝∂Ø≥Ã–Ú°£’‚—˘◊ˆø…“‘±‹√‚∏±◊˜”√°£
+> > +Ê≥®ÊÑèÔºö
+> > +  Â¶ÇÊûúË¶ÅÂØπ‰∏Ä‰∏™Êú™ÊéàÊùÉÁöÑÊé•Âè£ËøõË°åÊéàÊùÉÔºåÂàôÂøÖÈ°ªÈÄöËøáÂ∞ÜINTERFACEÂÜôÂÖ•
+> > +  /sys/bus/usb/drivers_probeÊù•ÊâãÂä®Ëß¶ÂèëÈ©±Âä®Á®ãÂ∫èËøõË°åÊé¢Êµã„ÄÇ
+> > +  ÂØπ‰∫é‰ΩøÁî®Â§ö‰∏™Êé•Âè£ÁöÑÈ©±Âä®Á®ãÂ∫èÔºåÈúÄË¶ÅÂÖàÂØπÊâÄÊúâ‰ΩøÁî®ÁöÑÊé•Âè£ËøõË°åÊéàÊùÉ„ÄÇ
+> > +  ‰πãÂêéÂ∫îÊé¢ÊµãÈ©±Âä®Á®ãÂ∫è„ÄÇËøôÊ†∑ÂÅöÂèØ‰ª•ÈÅøÂÖçÂâØ‰ΩúÁî®„ÄÇ
 > > --
 > > 2.52.0
 > >
