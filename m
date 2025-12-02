@@ -1,164 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A491A9F9B;
-	Tue,  2 Dec 2025 20:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2915421883E;
+	Tue,  2 Dec 2025 20:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764707208; cv=none; b=VLGBbmp5rOxaFJZv4S5ZjceiH1HyUiNcBHqpiGLsDML0ixRwpPOU0H4u8Js2B9fbxCbzQBlngIdoKlUv4e2Eak600LuHlCpVIBQLfo4DcjuBHzISxAJv2VbpPYponRb8mcSCbhceU1kDBCZ8AsYmBrGdLxTNTq+CIlBC/CrZP/I=
+	t=1764708916; cv=none; b=CS+aFBRJ0I0qqdo2FNb9jA8AgJGlvakIK2t9rHRpnQteMCW6S12+iqId2MvsmZHkmxCYz51fhk2ximomLxFBPn7p0vtsK0nzFIPv+nnSBhR/brwkYuBk2BYJ81a4gYBLeSvRLMg4sg+GEsJxAhodNvAH8nUADW8b6mIoTsS+8RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764707208; c=relaxed/simple;
-	bh=Sl+A44N+e2BsYcNYG5kOjeweeW6OBCxAhakNVRG7bB0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GUQytJ3hS6hIBpzJv/NV0omczvtUfX9Z9McKXABTGsCGbBtG56D04vXfzrRCITzklE0dIrx2c8TwsL0L2MPIZr5tF5IW3DBa942F/8uZ6XGgv8fF/SaRmlmUg6yRUNGIThrpvVoTXCxlZssRTDvVeaAvSfdtsb+DbAr71unGuMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ii7f2OyE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764708916; c=relaxed/simple;
+	bh=QwmHg1uerCfvb5BjF2ztT04EqmS552kUVBsir3CZwAg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dWGwyGkW2/aaC6+0zAWvspw3yku2ASZ+VM4syQK9/mbGhljnGaEDlyelMHLBGVbM1zWx4cLH8WpM9idSrSRsOgMV62ADr8jLx7We6uBjoNhKGW7UuRZImtdy89EXmxDJbOdjY5TGp5q8Xap4blx6rWueTc8nu3I7pTzIepvQtss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=GDD8XKWF; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ii7f2OyE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0855C4CEF1;
-	Tue,  2 Dec 2025 20:26:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764707206;
-	bh=Sl+A44N+e2BsYcNYG5kOjeweeW6OBCxAhakNVRG7bB0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ii7f2OyE9UGTpewicXuV4drVD9qII5rsfuFHc/3e61N+UzuEy6ncceJEjZnFrvoHq
-	 zGT6xDe8xHf2tpzVtPcz7FsVkjGZglGM3DyckzyEZVXcVBnMHlSVA4GRWukNJPIXyF
-	 HRQ1Nfq+QtZFUhC0/ZV7VzYM+VGlXfgThorA/7MsXjgYEgDwiaob8SKVXqiiU418Pz
-	 reAvWYPqrpLaPmBC+kSrrz8w4atl4NGsunQkzGPaFhNrqKvYWMisHIbtPNXKVrNdUp
-	 0NpbEtse2uA8u1NEYdhJLhpL9seGrZ8296GzcqHRKtmAmtC+MSLbxYFeLSsGLbkJkO
-	 nDTlI9ucmt/Ow==
-Date: Tue, 2 Dec 2025 12:26:46 -0800
-From: Kees Cook <kees@kernel.org>
-To: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andy Lutomirski <luto@amacapital.net>,
-	Will Drewry <wad@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, Tycho Andersen <tycho@tycho.pizza>,
-	Andrei Vagin <avagin@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	=?iso-8859-1?Q?St=E9phane?= Graber <stgraber@stgraber.org>
-Subject: Re: [PATCH v1 2/6] seccomp: prepare seccomp_run_filters() to support
- more than one listener
-Message-ID: <202512021222.752619D@keescook>
-References: <20251201122406.105045-1-aleksandr.mikhalitsyn@canonical.com>
- <20251201122406.105045-3-aleksandr.mikhalitsyn@canonical.com>
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="GDD8XKWF"
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B2KZNpH2012103;
+	Tue, 2 Dec 2025 15:55:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=wHQMLkTCT4GsC01U7Soy3nm5GvG
+	T4g3cXFkV3Et7t90=; b=GDD8XKWFVBuO1hnRM+h7s7Vq9XbHG+B/UMvwxQAFqQB
+	4Ys5gIJwetvo8MtA45CkjbFYi6+ogX8UaEpK9SG9ajFDdbBi+HJqdi9GCivXAmG5
+	+KvVfdMLO6eA5RQ+MviunfLE8jv2d+mv4UMr7XiyqtNa5o29/eSAaNTINjnGaq/v
+	VaUI67jHEZS+4lFzuTdGgZr1Af++mKhhIxN1uti+eB3C0p48fWDK52WD6MmvDOoM
+	27dw4UTFZC6fgClc1nZhCMBLbqsF9jBjneqXEsVXSl69fEOp3pmnkYN+d0bZBCRP
+	fm7fsu/uoJ+0w3dOkzTemmTeZ3FHXfcHIQfFeLe93og==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4at3bh16ea-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 02 Dec 2025 15:55:04 -0500 (EST)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 5B2Kt3Ve060140
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 2 Dec 2025 15:55:03 -0500
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Tue, 2 Dec 2025 15:55:02 -0500
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Tue, 2 Dec 2025 15:55:02 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Tue, 2 Dec 2025 15:55:02 -0500
+Received: from work.ad.analog.com (HYB-hERzalRezfV.ad.analog.com [10.65.205.9])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 5B2KslVW020176;
+	Tue, 2 Dec 2025 15:54:49 -0500
+From: Marcelo Schmitt <marcelo.schmitt@analog.com>
+To: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <jic23@kernel.org>, <nuno.sa@analog.com>, <dlechner@baylibre.com>,
+        <andy@kernel.org>, <Michael.Hennerich@analog.com>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <marcelo.schmitt1@gmail.com>
+Subject: [PATCH v3 0/3] iio: adc: Add AD4134 minimum I/O support
+Date: Tue, 2 Dec 2025 17:54:43 -0300
+Message-ID: <cover.1764708608.git.marcelo.schmitt@analog.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251201122406.105045-3-aleksandr.mikhalitsyn@canonical.com>
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAyMDE2NCBTYWx0ZWRfXwsrr6cAiVTxN
+ EtT8kHmBLnWmR+IGkDhSx0YP65GraFBX5t6au+6RJKfPR4sI1odjNcmWwxvU8SB0jH7H+0PiLOG
+ l1eIKadN/9sel210xPx0k4fSs7WNFWOqADwoWiEYcCpL9zKsCUZ5Ktkij0GtH0/byNJv0ZQTSbi
+ FfD8rpQ3uGYLCPzS1UnwoMxBJQdKpQf7MFXfRv2RlUehP+1Egm7sdhrnk3icbSBKdKWlyjtsmGd
+ g+16sj2XReUvvC/ygomJfH5QB4NiF+IcttPinHLhMIbtBt9MYQQkVU+t34JakuTkV5P7FzZTSpd
+ xdK8vpFTmLLpEzHmFKzrOsx3+YkYRabSeMGvrtZ6KJ88KYtxWxYR16n932hhJLDpDE9f4KPOjRN
+ rywyW8P3t5jAxa/M4h7NBAp1BA9Y3w==
+X-Proofpoint-GUID: m0q8elInaE0S1hRMZculvUYoEjwYtMeb
+X-Authority-Analysis: v=2.4 cv=aaBsXBot c=1 sm=1 tr=0 ts=692f5228 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=gAnH3GRIAAAA:8
+ a=NTgoPMxxATPlW9ezKIwA:9
+X-Proofpoint-ORIG-GUID: m0q8elInaE0S1hRMZculvUYoEjwYtMeb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-01_01,2025-11-27_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 spamscore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 clxscore=1015 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512020164
 
-On Mon, Dec 01, 2025 at 01:23:59PM +0100, Alexander Mikhalitsyn wrote:
-> Prepare seccomp_run_filters() function to support more than one listener
-> in the seccomp tree. In this patch, we only introduce a new
-> struct seccomp_filter_matches with kdoc and modify seccomp_run_filters()
-> signature correspondingly.
-> 
-> No functional change intended.
-> 
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Kees Cook <kees@kernel.org>
-> Cc: Andy Lutomirski <luto@amacapital.net>
-> Cc: Will Drewry <wad@chromium.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: Tycho Andersen <tycho@tycho.pizza>
-> Cc: Andrei Vagin <avagin@gmail.com>
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Stéphane Graber <stgraber@stgraber.org>
-> Signed-off-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
-> ---
->  kernel/seccomp.c | 35 +++++++++++++++++++++++++++++++----
->  1 file changed, 31 insertions(+), 4 deletions(-)
-> 
-> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
-> index f944ea5a2716..c9a1062a53bd 100644
-> --- a/kernel/seccomp.c
-> +++ b/kernel/seccomp.c
-> @@ -237,6 +237,9 @@ struct seccomp_filter {
->  /* Limit any path through the tree to 256KB worth of instructions. */
->  #define MAX_INSNS_PER_PATH ((1 << 18) / sizeof(struct sock_filter))
->  
-> +/* Limit number of listeners through the tree. */
-> +#define MAX_LISTENERS_PER_PATH 8
-> +
->  /*
->   * Endianness is explicitly ignored and left for BPF program authors to manage
->   * as per the specific architecture.
-> @@ -391,18 +394,38 @@ static inline bool seccomp_cache_check_allow(const struct seccomp_filter *sfilte
->  }
->  #endif /* SECCOMP_ARCH_NATIVE */
->  
-> +/**
-> + * struct seccomp_filter_matches - container for seccomp filter match results
-> + *
-> + * @n: A number of filters matched.
-> + * @filters: An array of (struct seccomp_filter) pointers.
-> + *	     Holds pointers to filters that matched during evaluation.
-> + *	     A first one in the array is the one with the least permissive
-> + *	     action result.
-> + *
-> + * If final action result is less (or more) permissive than SECCOMP_RET_USER_NOTIF,
-> + * only the most restrictive filter is stored in the array's first element.
-> + * If final action result is SECCOMP_RET_USER_NOTIF, we need to track
-> + * all filters that resulted in the same action to support multiple listeners
-> + * in seccomp tree.
-> + */
-> +struct seccomp_filter_matches {
-> +	unsigned char n;
-> +	struct seccomp_filter *filters[MAX_LISTENERS_PER_PATH];
-> +};
-> +
->  #define ACTION_ONLY(ret) ((s32)((ret) & (SECCOMP_RET_ACTION_FULL)))
->  /**
->   * seccomp_run_filters - evaluates all seccomp filters against @sd
->   * @sd: optional seccomp data to be passed to filters
-> - * @match: stores struct seccomp_filter that resulted in the return value,
-> + * @matches: array of struct seccomp_filter pointers that resulted in the return value,
->   *         unless filter returned SECCOMP_RET_ALLOW, in which case it will
->   *         be unchanged.
->   *
->   * Returns valid seccomp BPF response codes.
->   */
->  static u32 seccomp_run_filters(const struct seccomp_data *sd,
-> -			       struct seccomp_filter **match)
-> +			       struct seccomp_filter_matches *matches)
->  {
->  	u32 ret = SECCOMP_RET_ALLOW;
->  	/* Make sure cross-thread synced filter points somewhere sane. */
-> @@ -425,7 +448,8 @@ static u32 seccomp_run_filters(const struct seccomp_data *sd,
->  
->  		if (ACTION_ONLY(cur_ret) < ACTION_ONLY(ret)) {
->  			ret = cur_ret;
-> -			*match = f;
-> +			matches->n = 1;
-> +			matches->filters[0] = f;
->  		}
->  	}
->  	return ret;
-> @@ -1252,6 +1276,7 @@ static int __seccomp_filter(int this_syscall, const bool recheck_after_trace)
->  {
->  	u32 filter_ret, action;
->  	struct seccomp_data sd;
-> +	struct seccomp_filter_matches matches = {};
+This patch series adds basic support for ad4134. AD4134 is a very flexible
+device that can be configured in many different ways. This series aims to
+support the simplest way of interfacing with AD4134 which is called minimum I/O
+mode in data sheet. This is essentially usual SPI with the addition of an ODR
+(Output Data Rate) GPIO which functions as conversion start signal in minimum
+I/O mode.
 
-I was surprised to see this didn't induce a stack protector check (due
-to the array use). It does, however, expand the work done to clear local
-variables (i.e. this adds 9 unsigned long zeroings to the default case).
+This set provides just one feature:
+- Single-shot ADC sample read.
 
-Regardless, I'll read this thread more closely in time for the LPC
-session; I'm not exactly opposed to allowing multiple listeners, but I
-do want to meditate on the safety logic (which I see you've spent time
-thinking about too).
+[PATCH 1] Device tree documentation for AD4134.
+[PATCH 2] IIO Linux driver for AD4134.
+[PATCH 3] Initial IIO documentation.
 
-Thanks!
+Change log v2 -> v3:
+[device tree]
+- fixed typo in powerdown-gpios description.
+- picked up Conor's review tag. 
+[IIO]
+- Dropped leftover dev field from struct ad4134_state.
+- Inverted if condition and reduced indentation in ad4134_regulator_setup().
+- Use (MICRO / MILLI) for microvolt/milivolt conversion.
+- Handled clock deferred probe cases.
 
--Kees
+Link to v2: https://lore.kernel.org/linux-iio/cover.1763478299.git.marcelo.schmitt@analog.com/
+Link to v1: https://lore.kernel.org/linux-iio/cover.1762777931.git.marcelo.schmitt@analog.com/
 
+With best regards,
+Marcelo
+
+Marcelo Schmitt (3):
+  dt-bindings: iio: adc: Add AD4134
+  iio: adc: Initial support for AD4134
+  Docs: iio: Add AD4134
+
+ .../bindings/iio/adc/adi,ad4134.yaml          | 198 +++++++
+ Documentation/iio/ad4134.rst                  |  58 ++
+ Documentation/iio/index.rst                   |   1 +
+ MAINTAINERS                                   |   9 +
+ drivers/iio/adc/Kconfig                       |  11 +
+ drivers/iio/adc/Makefile                      |   1 +
+ drivers/iio/adc/ad4134.c                      | 503 ++++++++++++++++++
+ 7 files changed, 781 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/adc/adi,ad4134.yaml
+ create mode 100644 Documentation/iio/ad4134.rst
+ create mode 100644 drivers/iio/adc/ad4134.c
+
+
+base-commit: f9e05791642810a0cf6237d39fafd6fec5e0b4bb
 -- 
-Kees Cook
+2.51.0
+
