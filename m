@@ -1,143 +1,271 @@
-Received: from a8-93.smtp-out.amazonses.com (a8-93.smtp-out.amazonses.com [54.240.8.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3738C398FA8;
-	Wed,  3 Dec 2025 19:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.8.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD13330329;
+	Wed,  3 Dec 2025 19:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764790306; cv=none; b=fUx1EJwa9hfDss4pVO5uDyp8YOsZbBEXXOv/tNW2WEOcxwgV/O3lewwNhj59GbvukQ8k210KBI4wEMa9dZRDU2sPtCMQPB++u8At7O/FY3RRuiefO5tKjb5OQFN138NhzdvxJ2E1TIfWJpU61yl/fZ9ejUQaf99dT+MCvA8Bcsg=
+	t=1764790423; cv=none; b=nB4nPdqvXR/T4cJjbHizBaJu/e6UaZ9O7vix+SW0zBccBf8jOe6NLlsWu6gowFKZTGgixqjnBFD/xElhF4ISk1cD8alRPTapCpZz5iO0dt8X2Y1LxfV+TJckas/Ve0JH57sZkvKpN9I/nIk8LvZt/yHPCSJB4DVqUIfi3PjX1vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764790306; c=relaxed/simple;
-	bh=bgsZJdi5ylSbVlwh4WmpdyyjmV4T9AWsNENCPRx3zuQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fkd6CuMc6tFYWKupuuPSYA+BbTXWm0WhWY3mrtRfzP947S7pfNSKIVGnslxCRLqHm7owsN5MFKZssna9UWKSnNhKQk5YxrNavT2OumtvERajne9nzQpuGczc7BQUCIPzFiKw1CGko0+TaKR3akmZ/aZzzzNgWSxpQyVdnTSzsig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aaront.org; spf=pass smtp.mailfrom=ses-us-east-1.bounces.aaront.org; dkim=pass (2048-bit key) header.d=aaront.org header.i=@aaront.org header.b=gV+u0FGC; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=W8kydWPc; arc=none smtp.client-ip=54.240.8.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aaront.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ses-us-east-1.bounces.aaront.org
+	s=arc-20240116; t=1764790423; c=relaxed/simple;
+	bh=10xfkUXRNwl5k0mal7RgvzfKPbMDZphovrw/XJxxplU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QuuRBbzIa6yvum4UTAZtOFRRlNVvMzjLoxR0J/UUtuApsY3WP68n1odgLG5r1gszAT7WyB0HNTWSZLCQTjO4OfFjPk9bWwgGvSd/MoWuJINkukQHqwbd2ZasquaFzqxyULPHiEgETZHKv/rzp6jyHXYYAfra6x7vYRMnCV5had0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=igE7QyB8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aaront.org header.i=@aaront.org header.b="gV+u0FGC";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="W8kydWPc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=zp2ap7btoiiow65hultmctjebh3tse7g; d=aaront.org; t=1764790301;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=bgsZJdi5ylSbVlwh4WmpdyyjmV4T9AWsNENCPRx3zuQ=;
-	b=gV+u0FGCsrTgSUPmyG3lYCIXANvyaXrVgfcS1Wx0Ymo5GZ3guZ+zYAhGgiIVOjoM
-	11YlLzOjboEtSBIywfIhzObk3Eixrk6DWhFocLiak+hXkUoUUphiIt2IS94jY+n/lBH
-	D8MC6GmQCsBzusl7gGH0goSXd6OhITsFaYYAiP0EK6WNHvf8xn3BpDv8HDPCgwbmkjZ
-	WQS5SRQAW53fnSAYGEzz19yvEdga0xI1xBPEFdvWGhsgxaJP8HNp6SJjY3DPFR9pYFF
-	7uPxpW6z7voFeXDI4Aiy1s2qSyOzuBE4z/emOsLeX84yWXkEr78O/chJqi6hDzOfFbs
-	ytKjXN72Wg==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=6gbrjpgwjskckoa6a5zn6fwqkn67xbtw; d=amazonses.com; t=1764790301;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
-	bh=bgsZJdi5ylSbVlwh4WmpdyyjmV4T9AWsNENCPRx3zuQ=;
-	b=W8kydWPc827KUEi4eLsnEF4rWVzPceQDDYy0R9FzVEank2e8wbfk4kaAJgYGSuxe
-	ClYZSo0ZuGx4r7ilqatdx+OlX+NLsZQYZWYUrWYR5zGmzqS/aVpmtMSt2Is2alb6CW1
-	5vUNc+RNq89E5PzpNgkTNfDqPRl40N/mRQDKiauM=
-Message-ID: <0100019ae5b2f1b5-f3c0c4aa-9978-4076-9e6c-f7b276594d6e-000000@email.amazonses.com>
-Date: Wed, 3 Dec 2025 19:31:41 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="igE7QyB8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25EF5C4CEF5;
+	Wed,  3 Dec 2025 19:33:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764790422;
+	bh=10xfkUXRNwl5k0mal7RgvzfKPbMDZphovrw/XJxxplU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=igE7QyB8hKXHDEznITFJQsJq29fycFNaGQE6LFETgbQf7PQMG3/3fIeH5kqKBA9lH
+	 NpTugwYCYPCS+RS9G2ykFplDMIku6IsLxG37VGl0ACtmwf0UDsVzPKLxlGzFcjHaLO
+	 DuXUWaMZkQnXTGQcUIZI1RY4n2Sg+QpfowMgO72FiCmhxY6KnISsCIXBIKXzJWYgu3
+	 TaAeH3M1LiBu+d+mdqevUH3RVrAtpbPoFkupy54/9s2P+p0w6kSdJaSlVvNaCoc2E8
+	 7ggMO1YU1DObnosJVpxYtA2aTu9wXsXgxb1GCYdjZjexGwImjb6jQpeMMS6CjBYrnH
+	 WXGNJU8IIZngA==
+Message-ID: <697eb0d57f34882317e1f5cd73951f1e3b1e3175.camel@kernel.org>
+Subject: Re: [PATCH 1/2] filelock: add lease_dispose_list() helper
+From: Jeff Layton <jlayton@kernel.org>
+To: Chuck Lever <cel@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner	 <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck
+ Lever	 <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jonathan Corbet
+ <corbet@lwn.net>, NeilBrown <neil@brown.name>, Olga Kornievskaia
+ <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey
+ <tom@talpey.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Date: Wed, 03 Dec 2025 14:33:39 -0500
+In-Reply-To: <9a6f7f4b-dc45-4288-a8ee-6dcaabd19eb9@app.fastmail.com>
+References: <20251201-dir-deleg-ro-v1-0-2e32cf2df9b7@kernel.org>
+	 <20251201-dir-deleg-ro-v1-1-2e32cf2df9b7@kernel.org>
+	 <9a6f7f4b-dc45-4288-a8ee-6dcaabd19eb9@app.fastmail.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: REGRESSION on linux-next (next-20251201)
-To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
-Cc: "Kurmi, Suresh Kumar" <suresh.kumar.kurmi@intel.com>, 
-	"Saarinen, Jani" <jani.saarinen@intel.com>, 
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
-	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <a22915de-fa1b-40bb-9950-8a8552466225@intel.com>
-Content-Language: en-US
-From: Aaron Thompson <dev@aaront.org>
-In-Reply-To: <a22915de-fa1b-40bb-9950-8a8552466225@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Feedback-ID: ::1.us-east-1.8/56jQl+KfkRukJqWjlnf+MtEL0x/NchId1fC0q616g=:AmazonSES
-X-SES-Outgoing: 2025.12.03-54.240.8.93
 
-On 12/3/25 01:10, Borah, Chaitanya Kumar wrote:
-> Hello Aaron,
-> 
-> Hope you are doing well. I am Chaitanya from the linux graphics team in 
-> Intel.
-> 
-> This mail is regarding a regression we are seeing in our CI runs[1] on
-> linux-next repository.
-> 
-> Since the version next-20251201 [2], we are seeing the following regression
-> 
-> `````````````````````````````````````````````````````````````````````````````````
-> Starting subtest: load
-> (i915_module_load:1280) igt_debugfs-CRITICAL: Test assertion failure 
-> function igt_debugfs_path, file ../lib/igt_debugfs.c:121:
-> (i915_module_load:1280) igt_debugfs-CRITICAL: Failed assertion: 
-> debugfs_root
-> (i915_module_load:1280) igt_debugfs-CRITICAL: Last errno: 2, No such 
-> file or directory
-> Subtest load failed.
-> `````````````````````````````````````````````````````````````````````````````````
-> 
-> I see some other drivers also failing to create their debugfs entries.
-> 
-> `````````````````````````````````````````````````````````````````````````````````
-> [    0.134437] pinctrl core: failed to create debugfs directory
-> [    3.488263] intel-lpss 0000:00:15.0: Failed to create debugfs entries
-> [    3.563494] intel-lpss 0000:00:15.1: Failed to create debugfs entries
-> [    3.631076] intel-lpss 0000:00:15.2: Failed to create debugfs entries
-> [    3.697366] intel-lpss 0000:00:15.3: Failed to create debugfs entries
-> [    3.764351] intel-lpss 0000:00:19.0: Failed to create debugfs entries
-> [    3.841824] intel-lpss 0000:00:19.1: Failed to create debugfs entries
-> [    3.909492] nvme0: failed to create debugfs directory
-> [    3.937845] nvme0n1: failed to create debugfs directory
-> [    5.636042] pinctrl core: failed to create debugfs directory for 
-> INTC105E:00
-> [  177.973628] cec: Failed to create debugfs cec dir
-> `````````````````````````````````````````````````````````````````````````````````
-> Detailed log can be found in [3].
-> 
-> After bisecting the tree, the following patch [4] seems to be the first 
-> "bad" commit
-> 
-> `````````````````````````````````````````````````````````````````````````````````````````````````````````
-> commit f278809475f6835b56de78b28dc2cc0c7e2c20a4
-> Author: Aaron Thompson dev@aaront.org
-> Date:   Thu Nov 20 10:26:33 2025 +0000
-> 
->      debugfs: Remove broken no-mount mode
-> `````````````````````````````````````````````````````````````````````````````````````````````````````````
-> 
-> We also verified that if we revert the patch the issue is not seen.
-> 
-> Could you please check why the patch causes this regression and provide 
-> a fix if necessary?
-> 
-> Thank you.
-> 
-> Regards
-> 
-> Chaitanya
-> 
-> [1]
-> https://intel-gfx-ci.01.org/tree/linux-next/combined-alt.html?
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/ 
-> commit/?h=next-20251201
-> [3]
-> https://intel-gfx-ci.01.org/tree/linux-next/next-20251201/bat-arlh-2/ 
-> igt@i915_module_load@load.html
-> [4] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/ 
-> commit/?h=next-20251201&id=f278809475f6835b56de78b28dc2cc0c7e2c20a4
+On Wed, 2025-12-03 at 13:55 -0500, Chuck Lever wrote:
+>=20
+> On Mon, Dec 1, 2025, at 10:08 AM, Jeff Layton wrote:
+> > ...and call that from the lease handling code instead of
+> > locks_dispose_list(). Remove the lease handling parts from
+> > locks_dispose_list().
+>=20
+> The actual change here isn't bothering me, but I'm having trouble
+> understanding why it's needed. It doesn't appear to be a strict
+> functional prerequisite for 2/2.
+>=20
 
-Hi Chaitanya,
+It's not. We can table this patch for now if that's preferable, but I
+do think it's a worthwhile cleanup.
+=20
+> A little more context in the commit message would be helpful.
+> Sample commit description:
+>=20
+>   The lease-handling code paths always know they're disposing of leases,
+>   yet locks_dispose_list() checks flags at runtime to determine whether
+>   to call locks_free_lease() or locks_free_lock().
+>=20
+>   Split out a dedicated lease_dispose_list() helper for lease code paths.
+>   This makes the type handling explicit and prepares for the upcoming
+>   lease_manager enhancements where lease-specific operations are being
+>   consolidated.
+>=20
 
-This is fixed in next-20251203 (commit d3666c1f8a31). For next-20251201 
-and next-20251202, you can also work around the bug by specifying the 
-kernel parameter "debugfs=on". Sorry for the inconvenience.
+I may crib this if I end up resending it.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/fs/debugfs?h=next-20251203&id=d3666c1f8a31b7ff6805effcfedfac22454c6517
+> But that reflects only my naive understanding of the patch. You
+> might have something else in mind.
+>=20
+>=20
 
--- Aaron
+Nope, no ulterior motive here. It's just a nice to have cleanup that
+helps to further separate the lock and lease handling code.
 
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > ---
+> >  fs/locks.c | 29 +++++++++++++++++++----------
+> >  1 file changed, 19 insertions(+), 10 deletions(-)
+> >=20
+> > diff --git a/fs/locks.c b/fs/locks.c
+> > index=20
+> > 7f4ccc7974bc8d3e82500ee692c6520b53f2280f..e974f8e180fe48682a271af4f143e=
+6bc8e9c4d3b=20
+> > 100644
+> > --- a/fs/locks.c
+> > +++ b/fs/locks.c
+> > @@ -369,10 +369,19 @@ locks_dispose_list(struct list_head *dispose)
+> >  	while (!list_empty(dispose)) {
+> >  		flc =3D list_first_entry(dispose, struct file_lock_core, flc_list);
+> >  		list_del_init(&flc->flc_list);
+> > -		if (flc->flc_flags & (FL_LEASE|FL_DELEG|FL_LAYOUT))
+> > -			locks_free_lease(file_lease(flc));
+> > -		else
+> > -			locks_free_lock(file_lock(flc));
+> > +		locks_free_lock(file_lock(flc));
+> > +	}
+> > +}
+> > +
+> > +static void
+> > +lease_dispose_list(struct list_head *dispose)
+> > +{
+> > +	struct file_lock_core *flc;
+> > +
+> > +	while (!list_empty(dispose)) {
+> > +		flc =3D list_first_entry(dispose, struct file_lock_core, flc_list);
+> > +		list_del_init(&flc->flc_list);
+> > +		locks_free_lease(file_lease(flc));
+> >  	}
+> >  }
+> >=20
+> > @@ -1620,7 +1629,7 @@ int __break_lease(struct inode *inode, unsigned i=
+nt flags)
+> >  	spin_unlock(&ctx->flc_lock);
+> >  	percpu_up_read(&file_rwsem);
+> >=20
+> > -	locks_dispose_list(&dispose);
+> > +	lease_dispose_list(&dispose);
+> >  	error =3D wait_event_interruptible_timeout(new_fl->c.flc_wait,
+> >  						 list_empty(&new_fl->c.flc_blocked_member),
+> >  						 break_time);
+> > @@ -1643,7 +1652,7 @@ int __break_lease(struct inode *inode, unsigned=
+=20
+> > int flags)
+> >  out:
+> >  	spin_unlock(&ctx->flc_lock);
+> >  	percpu_up_read(&file_rwsem);
+> > -	locks_dispose_list(&dispose);
+> > +	lease_dispose_list(&dispose);
+> >  free_lock:
+> >  	locks_free_lease(new_fl);
+> >  	return error;
+> > @@ -1726,7 +1735,7 @@ static int __fcntl_getlease(struct file *filp,=
+=20
+> > unsigned int flavor)
+> >  		spin_unlock(&ctx->flc_lock);
+> >  		percpu_up_read(&file_rwsem);
+> >=20
+> > -		locks_dispose_list(&dispose);
+> > +		lease_dispose_list(&dispose);
+> >  	}
+> >  	return type;
+> >  }
+> > @@ -1895,7 +1904,7 @@ generic_add_lease(struct file *filp, int arg,=20
+> > struct file_lease **flp, void **pr
+> >  out:
+> >  	spin_unlock(&ctx->flc_lock);
+> >  	percpu_up_read(&file_rwsem);
+> > -	locks_dispose_list(&dispose);
+> > +	lease_dispose_list(&dispose);
+> >  	if (is_deleg)
+> >  		inode_unlock(inode);
+> >  	if (!error && !my_fl)
+> > @@ -1931,7 +1940,7 @@ static int generic_delete_lease(struct file=20
+> > *filp, void *owner)
+> >  		error =3D fl->fl_lmops->lm_change(victim, F_UNLCK, &dispose);
+> >  	spin_unlock(&ctx->flc_lock);
+> >  	percpu_up_read(&file_rwsem);
+> > -	locks_dispose_list(&dispose);
+> > +	lease_dispose_list(&dispose);
+> >  	return error;
+> >  }
+> >=20
+> > @@ -2726,7 +2735,7 @@ locks_remove_lease(struct file *filp, struct=20
+> > file_lock_context *ctx)
+> >  	spin_unlock(&ctx->flc_lock);
+> >  	percpu_up_read(&file_rwsem);
+> >=20
+> > -	locks_dispose_list(&dispose);
+> > +	lease_dispose_list(&dispose);
+> >  }
+> >=20
+> >  /*
+> >=20
+> > --=20
+> > 2.52.0
+
+--=20
+Jeff Layton <jlayton@kernel.org>
