@@ -1,145 +1,191 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D613491EB
-	for <linux-doc@vger.kernel.org>; Wed,  3 Dec 2025 16:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5CD331227;
+	Wed,  3 Dec 2025 16:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764780043; cv=none; b=ZbH+cfYW+SrTT2ETl9Pq4HuVM+7RIZE5LG5O2jFNx3jLonllKM4o3jpfqUElPhsXi3FqOFY8rrNrQEtSMI5FSSnjsrXrU1+EQPX9/vDrEzlQKhSXrq386G/rSLMuNdJZiklp6NuDHUf6lf1ZfyFciJtMxeTjio6RPzR2Ok2czvI=
+	t=1764780851; cv=none; b=A40Q5V6v0CfGDrSzUwk2kwZlyeSnH7RA14c5WoMK+z30QDs3tyvUr/hlEEl69Uz6hpcT0kqEUMUAFU2/9UPYUX2dkQbvUB1SruNrXVjK/dn1UTuAqYQ7rSKmQu+I9up/Rrm45h/CTvkznMbA6rZPgUayVndspLJLF4PDXj3E2Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764780043; c=relaxed/simple;
-	bh=0Z2BBmTnMT6t/6W3rYzh4PD6uNXongsjyj7XJrBUTxk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rBqnSFXiar2S+XA14d/hDNaW4T9tWYjlmSKD3MVmoXtTXQIOifyvp48mTdxpu85ESORyRa6zK18T+btsHJa+tZKg7BaV7QDHjgG6b4LvTu8oDNqgbg8lw+CRI3rJzFYKlYB+lkSDsPxgZNkOp8nsKkGwEIGqtkpybPV00Yl9qTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqN1a6Jb; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqN1a6Jb"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-34381ec9197so6161944a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 03 Dec 2025 08:40:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764780040; x=1765384840; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r+6S8pILwWJoByJIz1lTTbzSi9l+zLSEgeX9jzpk5vo=;
-        b=GqN1a6JbH/PfsHXwB37l6bq+m6xjSvXt6PnLhPUrD0rGfTOPiT/4KgmuHLE1LJIN1w
-         RyfWSBCnDLhE8OS/sIWcga0tktHrXnbRlL2xJU1jtoyJ/vVtCTGtIGEeaXM+7vB16uSg
-         AxuECDvWuaZHZV+yD6u5TEq4ABl+xVPoXs9G9KnFL/bsH/vyTQz+lNACOSk/bU2lJat/
-         A7nREbeLNL6SO4nhq50tFq3RWqHXz3xtc9thVfq/FfMWWSNuaE5B5QjSp3ZXa4mVaHIa
-         XFVPE/Eoy+uLRvqfjvLJfqPZDpISoNRfrBYDot6bC08vNLPqDAy+5qRvFiRLYkDOcUSF
-         m1Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764780040; x=1765384840;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=r+6S8pILwWJoByJIz1lTTbzSi9l+zLSEgeX9jzpk5vo=;
-        b=QF1Jx+/5+rwEAzt+kWS3b2ogQzeWT6rAv1qyq6asSMQI1lj1/7LY2O0S6xKduEJXEc
-         RD9XACN26iddTrzD7D+aikdSAPGFOYpZ2X8bTGogvkL1leiv2wUg4zRYWXfoXiNdIZDt
-         mKHlJhmusciU5EbtMFpuakJEl812klm8uUalAtx6Kdad00nGsIJ+ts3zZdHtwQDdyub/
-         RyQ6SpGCB5JhSFes8oHD02jOkxiTw4b0r1UUPco3xoXg4udvbfcoYXPzMQbvbrPKk4+n
-         lvg72NPOyjKY/4Yc9GRAa2gqCmhV6oaSSwiPT9OGaltKiITke99XRpnICaoyphxJnJvF
-         XJGA==
-X-Forwarded-Encrypted: i=1; AJvYcCVGx5hXdAAiSFRwOlkZLPpqso+UdECwN0Ilbt/QiSr3842+ClPWJ5GMq+Zc3j6ugPXFHM8J22xa66E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKyEY+n+OxsVG3vWqYVwqana0DAVnq42HiRH44ri+nUtroNuJN
-	9+mQZkyofl/PFtfFOdMu2LJWQuuUBTt8rqcHgyjXQXdffJZKmST/bHFq
-X-Gm-Gg: ASbGncsvItZ4egS4/BYL/Zw8mZnABtm7v5eLDPMPkb/SMkU53yOfiriedBP+O2v/ZSR
-	9xiP9bHFQe7JKD9kDG9xwVzX9LyC5jckpgJ4YcM8+T0czz3WhARhhmQxj87Y9kzkJH44HK47r2a
-	Ipqa6f5eW0iKkl3iRNePVhtxxXGY6rVqB1UcL7SIZfIKVnfq/jZbjuiQJ6bO0yWlN5SwllEAJtF
-	oUchsbxvpUa/P/lmpBE2d3jw2OmY3v7z1igQAeT44BfkJU3p3mql4i+6JIwRCmYI+CY14ySxI76
-	Qf1qFTxpHOTHWgf52vF5191+nvyAsfTooCuQZtowPVt7swzqZucU5RcZ7aVB7xPVteRqVv8w6cd
-	kFxPMIIlLCSi+TjJdx+WKX1kDsVeF0gqGwyMpIhkQXaM187uPgjYn1Pb0RVbYQGvuBb47JxDGPQ
-	fEo8BFc9nMRuQsIzCc57wcyQ==
-X-Google-Smtp-Source: AGHT+IF6/YZIh/dxk/K+HKvP/11ZD6enoOdhijztLoekTQ7+wG9a3xEISDyaxg4iW1t49OdoMmzvQA==
-X-Received: by 2002:a17:90b:3c4d:b0:33f:ebc2:643 with SMTP id 98e67ed59e1d1-349126c84d8mr3372009a91.23.1764780040185;
-        Wed, 03 Dec 2025 08:40:40 -0800 (PST)
-Received: from DESKTOP-P76LG1N.lan ([42.116.199.188])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34912b5cd2asm1437695a91.1.2025.12.03.08.40.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Dec 2025 08:40:39 -0800 (PST)
-From: Nam Tran <trannamatk@gmail.com>
-To: robh@kernel.org
-Cc: lee@kernel.org,
-	gregkh@linuxfoundation.org,
-	pavel@kernel.org,
-	rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v19 1/3] dt-bindings: leds: add TI/National Semiconductor LP5812 LED Driver
-Date: Wed,  3 Dec 2025 23:40:33 +0700
-Message-Id: <20251203164033.363984-1-trannamatk@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <176451936212.1126615.11381616288774387236.robh@kernel.org>
-References: <176451936212.1126615.11381616288774387236.robh@kernel.org>
+	s=arc-20240116; t=1764780851; c=relaxed/simple;
+	bh=ZgsF0dqeDYDEvJwJJ16ITmUm/0fruGiVCAD3suoD2ko=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Itfgn8OU6xz4EJ7s/SkQYnZQgE5L17Et1gemHjbtzO2UBUm0SwB/s+lmrEyUfBSXUFkkR4xDl0QCZlm/bohZrLxc/aHklm4m9c0BQ1mYoMEli9M8/ImEwvOka/1Y3rsL1FcazTHmG+CkMDsJWfPSK/eeJMjhpKVo2Yu61qmq9EE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf07.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id 4CEA4C06C7;
+	Wed,  3 Dec 2025 16:54:05 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf07.hostedemail.com (Postfix) with ESMTPA id AF70A20024;
+	Wed,  3 Dec 2025 16:53:59 +0000 (UTC)
+Message-ID: <4f6a13c78311944f33b8391ea8a915d98be6f792.camel@perches.com>
+Subject: Re: [PATCH v7] checkpatch: add uninitialized pointer with __free
+ attribute check
+From: Joe Perches <joe@perches.com>
+To: Ally Heev <allyheev@gmail.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+  Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andy Whitcroft <apw@canonical.com>,  Andrew Morton
+ <akpm@linux-foundation.org>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ David Hunter <david.hunter.linux@gmail.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Viresh Kumar	 <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,  linux-pm
+ <linux-pm@vger.kernel.org>, dan.j.williams@intel.com, Geert Uytterhoeven	
+ <geert@linux-m68k.org>, James Bottomley
+ <James.Bottomley@hansenpartnership.com>,  Krzysztof Kozlowski	
+ <krzk@kernel.org>
+Date: Wed, 03 Dec 2025 08:53:58 -0800
+In-Reply-To: <20251203-aheev-checkpatch-uninitialized-free-v7-1-841e3b31d8f3@gmail.com>
+References: 
+	<20251203-aheev-checkpatch-uninitialized-free-v7-1-841e3b31d8f3@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Stat-Signature: eqz11e8fb9kjqw535z7t77e71wh1h9pm
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: AF70A20024
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/f1fmNfLxInLO1IIzJWCUbEpupmbrVWh0=
+X-HE-Tag: 1764780839-838249
+X-HE-Meta: U2FsdGVkX1/I3qO8j4HJCRyuGjyZ4llUmwFuO9tzQOhFdJkOqDbxvHy6989G2mHijBAgxfyrujuWp+eX3XBXxBzcNVJbvJHX7fueDGT/pqDGQxUZtILCq6T8KAuoSo+87ijOMMzXbEZZwODxtN2gaofX6vYTwlR7/m1KWjONXtUgojkK/2UNm1U283l6FjIyWjS6JnK1uzNrnFkV8936T4zD7S7JL9TcyZVfL1/gR88juzmLPAXeW4dvbISpEjJk1q63rT8IbQc5L12/5SZuvFt3lWSc9wGO6qaVyC4YVTF2RDozV7zmllMyg2aFPPZfhbzWuUkmnX0JA9gPt5uy7+o3ZsKIH27EG7gFx/j8np3gvvw5AWuTEYqGGBODdsP0vnRfHTPzkny8qPcOjP/0Gj0NyxNQRv3Vgs26FuitZI4EYf/DClY47itEx3a8kfE5BtlZyJcv8kvnAXt2Vd7EY8jfcHiep+Vf1P4xloPNk+E/O6nT6MigdPl6/r9X5au1XxWL9EmSkuwZ88FleinCw2N1RXdumuuMXpG//wuf3ZmqezfLaTwP/KQcACxjWXoA
 
-On Sun, 30 Nov 2025, Rob Herring (Arm) wrote:
+On Wed, 2025-12-03 at 20:58 +0530, Ally Heev wrote:
+> uninitialized pointers with __free attribute can cause undefined
+> behavior as the memory randomly assigned to the pointer is freed
+> automatically when the pointer goes out of scope.
+> add check in checkpatch to detect such issues.
+>=20
+> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Link: https://lore.kernel.org/all/8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@su=
+swa.mountain/
+> Link: https://lore.kernel.org/all/58fd478f408a34b578ee8d949c5c4b4da4d4f41=
+d.camel@HansenPartnership.com/
+> Acked-by: Dan Williams <dan.j.williams@intel.com>
+> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Signed-off-by: Ally Heev <allyheev@gmail.com>
 
-> On Sun, 30 Nov 2025 22:39:54 +0700, Nam Tran wrote:
-> > The LP5812 is a 4x3 RGB LED driver with an autonomous animation
-> > engine and time-cross-multiplexing (TCM) support for up to 12 LEDs
-> > or 4 RGB LEDs. It supports both analog (256 levels) and PWM (8-bit)
-> > dimming, including exponential PWM for smooth brightness control.
-> > 
-> > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> > Signed-off-by: Nam Tran <trannamatk@gmail.com>
-> > ---
-> >  .../devicetree/bindings/leds/ti,lp5812.yaml   | 246 ++++++++++++++++++
-> >  MAINTAINERS                                   |   6 +
-> >  2 files changed, 252 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/leds/ti,lp5812.yaml
-> > 
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> Documentation/devicetree/bindings/thermal/thermal-zones.example.dtb: /example-0/soc/thermal-sensor@c263000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
-> Documentation/devicetree/bindings/thermal/thermal-zones.example.dtb: /example-0/soc/thermal-sensor@c263000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
-> Documentation/devicetree/bindings/thermal/thermal-zones.example.dtb: /example-0/soc/thermal-sensor@c265000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
-> Documentation/devicetree/bindings/thermal/thermal-zones.example.dtb: /example-0/soc/thermal-sensor@c265000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
-> Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /example-0/soc/thermal-sensor@c263000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
-> Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /example-0/soc/thermal-sensor@c263000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
-> Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /example-0/soc/thermal-sensor@c265000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
-> Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /example-0/soc/thermal-sensor@c265000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
-> 
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251130153956.241375-2-trannamatk@gmail.com
+Acked-by: Joe Perches <joe@perches.com>
 
-Accessing the link results in a 404 error on my side, is it expected?
-
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your schema.
-
-The LP5812 binding validates correctly. The errors reported by the bot come
-from the unrelated thermal bindings. Is it normal for the bot to report these
-unrelated errors?
-
-Best regards,
-Nam Tran
+> ---
+> Testing:
+> ran checkpatch.pl before and after the change on=20
+> crypto/asymmetric_keys/x509_public_key.c, which has
+> both initialized with NULL and uninitialized pointers
+> ---
+> Changes in v7:
+> - RESEND. Also, added Reviewed-by trailer
+> - Link to v6: https://lore.kernel.org/r/20251125-aheev-checkpatch-uniniti=
+alized-free-v6-1-2f3a1d78f678@gmail.com
+>=20
+> Changes in v6:
+> - added declaration at the place of use suggestion
+> - Link to v5: https://lore.kernel.org/r/20251124-aheev-checkpatch-uniniti=
+alized-free-v5-1-0c523b1a3f5a@gmail.com
+>=20
+> Changes in v5:
+> - fixed checkpatch doc
+> - Link to v4: https://lore.kernel.org/r/20251107-aheev-checkpatch-uniniti=
+alized-free-v4-1-4822a6ac728f@gmail.com
+>=20
+> Changes in v4:
+> - fixed UNINITIALIZED_PTR_WITH_FREE description=20
+> - Link to v3: https://lore.kernel.org/r/20251025-aheev-checkpatch-uniniti=
+alized-free-v3-1-a67f72b1c2bd@gmail.com
+>=20
+> Changes in v3:
+> - remove $FreeAttribute
+> - Link to v2: https://lore.kernel.org/r/20251024-aheev-checkpatch-uniniti=
+alized-free-v2-0-16c0900e8130@gmail.com
+>=20
+> Changes in v2:
+> - change cover letter and title to reflect new changes
+> - fix regex to handle multiple declarations in a single line case
+> - convert WARN to ERROR for uninitialized pointers
+> - add a new WARN for pointers initialized with NULL=20
+> - NOTE: tried handling multiple declarations on a single line by splittin=
+g
+>         them and matching the parts with regex, but, it turned out to be=
+=20
+> 	complex and overkill. Moreover, multi-line declarations pose a threat
+> - Link to v1: https://lore.kernel.org/r/20251021-aheev-checkpatch-uniniti=
+alized-free-v1-1-18fb01bc6a7a@gmail.com
+> ---
+>  Documentation/dev-tools/checkpatch.rst | 23 +++++++++++++++++++++++
+>  scripts/checkpatch.pl                  |  6 ++++++
+>  2 files changed, 29 insertions(+)
+>=20
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-t=
+ools/checkpatch.rst
+> index d5c47e560324fb2399a5b1bc99c891ed1de10535..b6e02fb91e85710fecfc0a5e5=
+c83a8e7f32d1d3c 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -1009,6 +1009,29 @@ Functions and Variables
+> =20
+>        return bar;
+> =20
+> +  **UNINITIALIZED_PTR_WITH_FREE**
+> +    Pointers with __free attribute should be declared at the place of us=
+e
+> +    and initialized (see include/linux/cleanup.h). In this case
+> +    declarations at the top of the function rule can be relaxed. Not doi=
+ng
+> +    so may lead to undefined behavior as the memory assigned (garbage,
+> +    in case not initialized) to the pointer is freed automatically when
+> +    the pointer goes out of scope.
+> +
+> +    Also see: https://lore.kernel.org/lkml/58fd478f408a34b578ee8d949c5c4=
+b4da4d4f41d.camel@HansenPartnership.com/
+> +
+> +    Example::
+> +
+> +      type var __free(free_func);
+> +      ... // var not used, but, in future someone might add a return her=
+e
+> +      var =3D malloc(var_size);
+> +      ...
+> +
+> +    should be initialized as::
+> +
+> +      ...
+> +      type var __free(free_func) =3D malloc(var_size);
+> +      ...
+> +
+> =20
+>  Permissions
+>  -----------
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 92669904eecc7a8d2afd3f2625528e02b6d17cd6..e697d81d71c0b3628f7b59807=
+e8bc40d582621bb 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -7721,6 +7721,12 @@ sub process {
+>  				ERROR("MISSING_SENTINEL", "missing sentinel in ID array\n" . "$here\=
+n$stat\n");
+>  			}
+>  		}
+> +
+> +# check for uninitialized pointers with __free attribute
+> +		while ($line =3D~ /\*\s*($Ident)\s+__free\s*\(\s*$Ident\s*\)\s*[,;]/g)=
+ {
+> +			ERROR("UNINITIALIZED_PTR_WITH_FREE",
+> +			      "pointer '$1' with __free attribute should be initialized\n" . =
+$herecurr);
+> +		}
+>  	}
+> =20
+>  	# If we have no input at all, then there is nothing to report on
+>=20
+> ---
+> base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
+> change-id: 20251021-aheev-checkpatch-uninitialized-free-5c39f75e10a1
+>=20
+> Best regards,
