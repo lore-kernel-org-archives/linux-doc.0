@@ -1,110 +1,207 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615F423EA8B
-	for <linux-doc@vger.kernel.org>; Wed,  3 Dec 2025 17:31:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96EF33A6FB;
+	Wed,  3 Dec 2025 17:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764783066; cv=none; b=kOVD7A036mLPXkCHD62V+h3XVD/B+8zEzy3kEWwKoF2yrdqTq8MES0IGh7Kdc/t3eh8+WiBkm0SpImg3rlceetlKi39ohBqSVMpkgKq+mIA8dskKwV3K6iEi0evRwVTRn1l1FRB7JLE2ADsp/VSQkXkW4gIY+X58beGs73zgzS8=
+	t=1764783737; cv=none; b=QCAab0w72gd6svAYL6nBwXjyb2gAdp1COkt+HLnVmd7aWm2aBO8No/M2qT6qWNcj84znrJo5JrEpe8paeFVVH3+YbvIWZuPsPg4qpYjAfsSCJyakBwEfShy5mHYlbo+YiNgyvPuZk5V1unnT4sCZLO5Kf6zq+GEe7uYqURODgpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764783066; c=relaxed/simple;
-	bh=X5to5kJ9QCcHakcSKKmToFYntzDovncX5FCHRRR/eSM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Mzg+Fy1TQcdR4XVcKrCBAfS+krxgaXMiQUNgqbvBNkAY6yM8cXrc7nmAHlpB6ZX8DS+mWqfahbVIDXcqbLeYm9dT1/hgMvBGwg6QXD60TCKg3QPqvvWYbc7Rgr8oxUNIUYwZnvH9tkr8xddMnzGw3sAJGoRsVHErwfKn6nwef8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z/ovXIf4; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764783737; c=relaxed/simple;
+	bh=0PFD8diImxz9iIbuzHPx6vv4/igLNrwgU6UG5S0Ue64=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f0bLBKYTwIkGJhCtE3MXCwQqbIP/mX1t15rCzv7JsUwC+7Lm7etHGjHw6XFz9mXxInHShr2uBBWwBgJCCwNQiWDdDtilwr8VLRBPi86YTW6/UZGxNNvQwidsClFf9fAa5KqlDHPx3XFdkfrxHH8/OaHJqhHde1tuDgZMGjP8TrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=miD/O73f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z/ovXIf4"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-299d40b0845so58795ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 03 Dec 2025 09:31:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764783062; x=1765387862; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VL2LiGMIjzcKPs2iQRcmiYPq/BCDQfmJT/ipwX2Yjag=;
-        b=Z/ovXIf4rg81ny1SY4HzCTxI09VzAl+wys/yEQ+jUQUH/Gp7sXOALW/HZF3x5ivpdo
-         wQxd/oCkkpe0VT8t8+/b/YDY6R8qIWn5Psb99LdkYlvuC3h1At1ux+ZWLfflioVFdrOP
-         J9OSMx9IFKNARkQxLEhHqoPwmhcKH2drmRXRHi0yitVZ6+eEPyqM9yjbwFNkUcLHRJrj
-         5kNzUMHU8dg8YqTwIGshxLkL3ArhpSlpc3WwchG94iwWXzG4dEOsVE711M3yLge0enjJ
-         7juGJmYJFBwIcWPpuEoic888BQquPIS8ADzs0iAL0JgKigYhI2PN5NChAbPiWbXMin9C
-         h1Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764783062; x=1765387862;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VL2LiGMIjzcKPs2iQRcmiYPq/BCDQfmJT/ipwX2Yjag=;
-        b=mspcpT4XKNeqsfNlkYwIJ0ByeC6MmLOnKV8SPe65cSmamsvFi72Ejh5+FDh2M/mR9j
-         6o7lY8jqcwos58HyMvNAKgOWv7hIzNlDQTwFuAKGCCqZc3zIzyUNnftfeJedtf7ki60D
-         9Bk+ZAHfzZZw4uN+3SNbFMNm2n4z+wQLBS+ViPLsBa94Ppv1AhhlDrYGdCiKB7hrMRnW
-         vusrCby2MekPeUK42dwrI74qMaUhY5tsxXkzQ8Z4EYM6azYcD+URssGMbE84DtFyZ1qw
-         q+qcwZXojYlEHndh+VDYyxs8BS/pRBITmw5UMlU1birzS7GDsd4Ch2JVVnGseico1E4S
-         Elwg==
-X-Forwarded-Encrypted: i=1; AJvYcCXdwrCCYU3rgNlzW6FJGxbr3ItANIwdbmBd80yTKyh34me+pm0sWmNdzmo2jwzJQXb4RU+atxfEDyE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyu2jxMt/lmZX369DRvL4wM6/C/xb80JJmV6STbAZxdvFDitoUz
-	vRLdCZyeYwnY1jpYO3ZGGJJH2WTzuw70u/jTWotA8XJOrQRm1uFHFyUH
-X-Gm-Gg: ASbGncsiLz1QLXjlALI+NiNR0gx8Ru5Ld3qtIiHv0mHjLbdOLMomWrKqOaCrgJH0I15
-	c0ZFEwvFQrZc1VjEOSeetTjTTFb7/M+lx12f3C82xLwX6oBZlPsvh2GS7sHhv5jnfZJGGuNClSK
-	zPxyyDqPMMgsHGzlb/Zgic2t+RxKsPYb8+LlOzVItBOopee1o8aY2RnXMArA3JYB4+21E5+mx6A
-	EayTC9/wAFXWGTPFf6rwHoP6Y8oWmlYjJalt7lCeKMe1KbNCn2XB3CN6VLwtl0EgkExeTref4Rm
-	J/gKmx7qqOMeQKAZKgEh4Cjm5iyBCtFMMtAeM4RNlf2wyoF6oyRT0HGmROXDj3kkwmxbfO4/hQR
-	l19lqP6FBhdlhQyD3n/sdfewv3CCVPcQ5F7L+jFZRMpIm1tzFqZF0JCrPu2tNwgthcxor262oCi
-	ao3JY14eT6OQeoGkmi/9w=
-X-Google-Smtp-Source: AGHT+IHwfzwNo3WgDLnMeITvwxsyF3Nm4DygMY+CPGD0yFiQOw0cFmDuP3b3Ag4gofjD9EGiOYdB2A==
-X-Received: by 2002:a17:902:d50d:b0:295:8da5:c634 with SMTP id d9443c01a7336-29d9f67d5cdmr81995ad.9.1764783062301;
-        Wed, 03 Dec 2025 09:31:02 -0800 (PST)
-Received: from soham-laptop.. ([103.182.158.110])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bce47096csm190177005ad.44.2025.12.03.09.30.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Dec 2025 09:31:01 -0800 (PST)
-From: Soham Metha <sohammetha01@gmail.com>
-To: linux-kernel-mentees@lists.linuxfoundation.org
-Cc: shuah@kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	Soham Metha <sohammetha01@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: hwmon: g762: fix deadlink
-Date: Wed,  3 Dec 2025 23:00:18 +0530
-Message-Id: <20251203173019.46928-1-sohammetha01@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="miD/O73f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83A14C4CEF5;
+	Wed,  3 Dec 2025 17:42:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764783736;
+	bh=0PFD8diImxz9iIbuzHPx6vv4/igLNrwgU6UG5S0Ue64=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=miD/O73fflM78imiiO7BcAz2xqJOUDcwGHSbdkxoM0weNUQAXdN9kDoG3FWGarMJr
+	 oMoarFhsAsrDZGZVZBofKu/vz4iMH+Pa6QJLFU9WzO0js6PzzErSnaYgGFxTGhDLD/
+	 HlZ+VER72MkNKb9bm+YhBSL7S3oH5vUKrDCPaCvvxfbjjNABRSb59iS7czt4I2OCWC
+	 lJdX69w7JWqtLJzCzfdpAhXAWj5XvH3jlRU3QAQeuLpXqaDPln8WcHn+l89bV2MvvT
+	 ytHFu7Axt6YIfW+9e3wWcY2kAVayX1GS8doiyTBKmu95QabXoCT9UC8ZYwmFilr2Ed
+	 UeBILDnFqvCog==
+Message-ID: <48d5895d-fde0-4795-8049-788fa3171fde@kernel.org>
+Date: Wed, 3 Dec 2025 18:42:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v20 3/7] firmware: imx: add driver for NXP EdgeLock
+ Enclave
+To: Frank Li <Frank.li@nxp.com>
+Cc: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20251203-imx-se-if-v20-0-a04a25c4255f@nxp.com>
+ <20251203-imx-se-if-v20-3-a04a25c4255f@nxp.com>
+ <1ee383c7-ccbc-4c90-adf3-bfbe87fb6765@kernel.org>
+ <aTBsdW0lpZSCVsgp@lizhi-Precision-Tower-5810>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <aTBsdW0lpZSCVsgp@lizhi-Precision-Tower-5810>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The binding file 'g762.txt' has been converted to a YAML schema.
-The current binding is located at:
+On 03/12/2025 17:59, Frank Li wrote:
+> On Wed, Dec 03, 2025 at 08:20:50AM +0100, Krzysztof Kozlowski wrote:
+>> On 03/12/2025 07:48, Pankaj Gupta wrote:
+>>> Add driver for enabling MU based communication interface to secure-enclave.
+>>>
+>>> NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE), are
+>>> embedded in the SoC to support the features like HSM, SHE & V2X, using
+>>> message based communication interface.
+>>>
+>>> The secure enclave FW communicates with Linux over single or multiple
+>>> dedicated messaging unit(MU) based interface(s).
+>>> Exists on i.MX SoC(s) like i.MX8ULP, i.MX93, i.MX95 etc.
+>>>
+>>> For i.MX9x SoC(s) there is at least one dedicated ELE MU(s) for each
+>>> world - Linux(one or more) and OPTEE-OS (one or more).
+>>>
+>>> Other dependent kernel drivers will be:
+>>> - NVMEM: that supports non-volatile devices like EFUSES,
+>>>          managed by NXP's secure-enclave.
+>>>
+>>> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+>>> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+>>> ---
+>>>  drivers/firmware/imx/Kconfig        |  13 ++
+>>>  drivers/firmware/imx/Makefile       |   2 +
+>>>  drivers/firmware/imx/ele_base_msg.c | 269 ++++++++++++++++++++++++
+>>>  drivers/firmware/imx/ele_base_msg.h |  95 +++++++++
+>>>  drivers/firmware/imx/ele_common.c   | 333 ++++++++++++++++++++++++++++++
+>>>  drivers/firmware/imx/ele_common.h   |  45 ++++
+>>>  drivers/firmware/imx/se_ctrl.c      | 401 ++++++++++++++++++++++++++++++++++++
+>>>  drivers/firmware/imx/se_ctrl.h      |  86 ++++++++
+>>>  include/linux/firmware/imx/se_api.h |  14 ++
+>>>  9 files changed, 1258 insertions(+)
+>>>
+>>> diff --git a/drivers/firmware/imx/Kconfig b/drivers/firmware/imx/Kconfig
+>>> index 127ad752acf8..5fe96299b704 100644
+>>> --- a/drivers/firmware/imx/Kconfig
+>>> +++ b/drivers/firmware/imx/Kconfig
+>>> @@ -55,3 +55,16 @@ config IMX_SCMI_MISC_DRV
+>>>  	  core that could provide misc functions such as board control.
+>>>
+>>>  	  This driver can also be built as a module.
+>>> +
+>>> +config IMX_SEC_ENCLAVE
+>>> +	tristate "i.MX Embedded Secure Enclave - EdgeLock Enclave Firmware driver."
+>>> +	depends on IMX_MBOX && ARCH_MXC && ARM64
+>>> +	select FW_LOADER
+>>> +	default m if ARCH_MXC
+>>> +
+>>> +	help
+>>> +	  Exposes APIs supported by the iMX Secure Enclave HW IP called:
+>>> +	  - EdgeLock Enclave Firmware (for i.MX8ULP, i.MX93),
+>>> +	    like base, HSM, V2X & SHE using the SAB protocol via the shared Messaging
+>>> +	    Unit. This driver exposes these interfaces via a set of file descriptors
+>>> +	    allowing to configure shared memory, send and receive messages.
+>>> diff --git a/drivers/firmware/imx/Makefile b/drivers/firmware/imx/Makefile
+>>> index 3bbaffa6e347..4412b15846b1 100644
+>>> --- a/drivers/firmware/imx/Makefile
+>>> +++ b/drivers/firmware/imx/Makefile
+>>> @@ -4,3 +4,5 @@ obj-$(CONFIG_IMX_SCU)		+= imx-scu.o misc.o imx-scu-irq.o rm.o imx-scu-soc.o
+>>>  obj-${CONFIG_IMX_SCMI_CPU_DRV}	+= sm-cpu.o
+>>>  obj-${CONFIG_IMX_SCMI_MISC_DRV}	+= sm-misc.o
+>>>  obj-${CONFIG_IMX_SCMI_LMM_DRV}	+= sm-lmm.o
+>>> +sec_enclave-objs		= se_ctrl.o ele_common.o ele_base_msg.o
+>>> +obj-${CONFIG_IMX_SEC_ENCLAVE}	+= sec_enclave.o
+>>> diff --git a/drivers/firmware/imx/ele_base_msg.c b/drivers/firmware/imx/ele_base_msg.c
+>>> new file mode 100644
+>>> index 000000000000..a070acbd895c
+>>> --- /dev/null
+>>> +++ b/drivers/firmware/imx/ele_base_msg.c
+>>> @@ -0,0 +1,269 @@
+>>> +// SPDX-License-Identifier: GPL-2.0+
+>>> +/*
+>>> + * Copyright 2025 NXP
+>>> + */
+>>> +
+>>> +#include <linux/types.h>
+>>> +
+>>> +#include <linux/completion.h>
+>>> +#include <linux/dma-mapping.h>
+>>> +#include <linux/genalloc.h>
+>>> +
+>>> +#include "ele_base_msg.h"
+>>> +#include "ele_common.h"
+>>> +
+>>> +#define FW_DBG_DUMP_FIXED_STR		"ELE"
+>>> +
+>>> +int ele_get_info(struct se_if_priv *priv, struct ele_dev_info *s_info)
+>>> +{
+>>> +	struct se_api_msg *tx_msg __free(kfree) = NULL;
+>>> +	struct se_api_msg *rx_msg __free(kfree) = NULL;
+>>
+>> No, don't use this syntax. This is explicitly discouraged.
+>>
+>> NAK
+> 
+> Add link for reference.
+> 
+> https://lore.kernel.org/all/CAHk-=whPZoi03ZwphxiW6cuWPtC3nyKYS8_BThgztCdgPWP1WA@mail.gmail.com/
 
-    Documentation/devicetree/bindings/hwmon/gmt,g762.yaml
+This is since beginning documented in kernel, so contributor could read
+cleanup docs before using them. Above Linus remark is nothing new, he
+already wrote it ~2 years ago.
 
-This change was made in https://lore.kernel.org/all/20240604164348.542-1-ansuelsmth@gmail.com/
-and merged in 3d8e253724170ae9c8948c36801204fc2aa53682
-
-Signed-off-by: Soham Metha <sohammetha01@gmail.com>
----
- Documentation/hwmon/g762.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/hwmon/g762.rst b/Documentation/hwmon/g762.rst
-index 0371b3365c48..f224552a2d3c 100644
---- a/Documentation/hwmon/g762.rst
-+++ b/Documentation/hwmon/g762.rst
-@@ -17,7 +17,7 @@ done via a userland daemon like fancontrol.
- Note that those entries do not provide ways to setup the specific
- hardware characteristics of the system (reference clock, pulses per
- fan revolution, ...); Those can be modified via devicetree bindings
--documented in Documentation/devicetree/bindings/hwmon/g762.txt or
-+documented in Documentation/devicetree/bindings/hwmon/gmt,g762.yaml or
- using a specific platform_data structure in board initialization
- file (see include/linux/platform_data/g762.h).
- 
--- 
-2.34.1
-
+Best regards,
+Krzysztof
