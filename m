@@ -1,66 +1,64 @@
 Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2001418A6AD
-	for <linux-doc@vger.kernel.org>; Wed,  3 Dec 2025 01:09:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729BA21773F
+	for <linux-doc@vger.kernel.org>; Wed,  3 Dec 2025 01:09:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764724168; cv=none; b=gsdaJzEizFySgmd5P79KEryDWi672Spi5bC4FKJUdbjAf6xDGS4+74KJGWdGwKppR12H/CIQ/PKMU618vM7qvcn22vgDbrYLjJOfznzgta3yfou0ThBgjr6gLWOahml2ak2/PhbWg1O3kcF5ct4lU2VdR6dzbCNVoO1RxcFu8O8=
+	t=1764724170; cv=none; b=UADLzM+XeAb7SGs/ce1G/EWzbXgXkU2Fxux7VvZtML/a7OccR3fenHfGhByGMRtFKy3i6QrOtSl7h3RrWBYZQvWIq7luVICuSaEgv/ghso8j0tDt2D/K1XMp/F3A+G91lb6Iv/o7VgOra1NlK4j2VNmtz8WOUdE895yOVFDBGf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764724168; c=relaxed/simple;
-	bh=6fHMLY9nzx/qk7eCUo5CKi2uxMKJlPKvhN3nUdBaoio=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aOwJHnMgVkk2+nZF8fWOZIe7avlL96nxMAEMlPPbOw6fB3fWu6F28psKvv4IvtPDyRI+/60pyN7QOHtdTGH5y1ysMxmDHMdTuvw2Mm/ogpgwwC1IE17bwZDb+28paUqoyRT23EV7MFeE80aSi90xJP0s1Xt37W9N2Pj5VG1M0Hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EEBZSR3b; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1764724170; c=relaxed/simple;
+	bh=4JY80Jc5VQhDDV7Kh5EhUJuY6+Adwyzi2qDz/1SyuHc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gppoWQR+jfdAdsJweP8mLb4e1o4VEP0PfQlOyTGKXVY1hXZQg4PQiFMjpgw/IKcm3vl8aw08j9bQFS5KuEbcNCXqK+j74oT2t4potii40UCz7SZAcd5t07+iqf6w4EOm1ZWw+6j6dzO5JQ3CRMJQLafOLApz5buUIn/vaOy+CP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kwz0MiEf; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EEBZSR3b"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-298287a26c3so72860795ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Dec 2025 17:09:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kwz0MiEf"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2984dfae043so53241885ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 02 Dec 2025 17:09:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764724166; x=1765328966; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=em6jfQZn/yELHlaBR2HoIyDIAqcmTdw7KjJD9azyEhY=;
-        b=EEBZSR3b0dBwfdzWUg6K++SqhDQbdTzr2bB2bxzJCk1mdF5tWGWoDX2+0JiuaE+Xp2
-         VR1d34XOgSJHjcMVaqINz4E4+Pd6fMh9OSyzGs8TQeM2DBLd54C1cgvyxexBXPO31ZG0
-         rgvXgH5qROAcfsy2JREK05bBH9I8RtgiEE0pDJMbAjXzl5CtkU8MGr5jNzeMnTrLA2Mb
-         aRWn5FqWvCyJhvkz+SPTvofz0hwQsuA2rvFVMTSyBZQtM+13GEvIL8EXQxFnNEFjfkZY
-         K0v88vgaJ4+6W9dtexY7UMiGEBaBl4kWafPJ0k6zJGjzcRErpZmk+yDPUaSxUTo/bYMV
-         A4+w==
+        d=gmail.com; s=20230601; t=1764724169; x=1765328969; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1TIaVYC20W3RE8iO6ocjajHpRpv7qVGK5eUmOfQ+3L0=;
+        b=Kwz0MiEfPX5FXCIrbXRYj/0sti3ur304P2MH9rMoHeBK9LDEZCwFWlk9LSdvAKbUyr
+         WkCJADordsIixGFAkyVahS5hmp6WkcG+hmXHpfqweRnySU0koMUG02DLpQ9Nyx9vIlsm
+         fgjXKlqYAD3cEicgcK9/QCaqG3C+GfGKBSdFHDs/OxIBzlvH1t/tTloaHNygNPZdYcOS
+         HLvKSDQw1HeqgpVCxNn7enMXK92LIe/4x2Oe8w+5G9/pQ1YYGPVntV/+N+miqARb6+J4
+         4jsDaBQZ5aQLqRyE8fXnKpuqrRUOIwO5ZvpnO/ItxGjWtVsVkgTLCd0YlcJqcze2HtbP
+         Sbdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764724166; x=1765328966;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=em6jfQZn/yELHlaBR2HoIyDIAqcmTdw7KjJD9azyEhY=;
-        b=sj3RE2ycwyfjoy9ebNR2TCljrSN7o+ZdNQVy/aZw9XDf5Z5OiGGOfO35ACA+m5Kene
-         2vudP6Z8K/9ZUtgdze+4AvKC6vTnDzCODc6uMXqK9M5IXXGjSY+A/EIF6l1vNiUFiGp5
-         dKmvI3PB+toG8mMkJaLoKDTsFNgG82c3pNZn2LIphyGXTPHG+fQ+VKMrp1AjZ5y9XGJc
-         NJaYX0qlucIaSYDh0dl3h7fxni/ZSNGHqNRYAeQMGDyeUofdodHn1YtF4kvUYz1ZC/rQ
-         fuhEqbqohA6OYnz/xHPttZF9EXSVIoS/gyJvWFNusR3VddexD0uAX88Jk2rghbJs0YoZ
-         re7w==
-X-Forwarded-Encrypted: i=1; AJvYcCUKyCrLipeAyNxkZ8z8arr6GOPXd4Nz+QBgzeadS7v8TFuIhFKtDVCYWuSOB4SfGxaHIgGxyxQEhrw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhRAI70J9+Y9POvIS33Yark7lub93qS2Xv1ZnEoeBGIBWgbpnu
-	dda/dPZEmV4zIrEoKoIhNrTqs0HF5/kyrqu4LgAW4CPJZRRjNBtJ+CMw
-X-Gm-Gg: ASbGncsnwWgRDuBDiSbW+mByw4MEVwK6wifC+9BBpk1sJMW6bPWRaf5OQuXUNX9BEF2
-	/E8uKgMsmIezhI0QScjKslvX+9ZKMsmUy7oG2X2GUx6z7OxEaJNSekltNJYa7MUSpacGjPy/s1/
-	NXGzWw1OUMFTvaryxEPXkE5eD801OWyAavaaBCn4FyMOFUy8hoSe614rjYSb5z+1w4jJWEe8Unq
-	9Pv90+PrpO5n5skd2YIKIh/L8vvhNAzdphdaFOFPOfnqN5n9kYDrMAuslQrw9T2bMCaybm+MEKw
-	KNoobXfANwDLBPcpLgcYgUWX94GcBbxQqKsfcoDaQ1NCgDPpvTi1vmitR86uGGUOb11KGmeq/uz
-	TNn2/JT82sK23sHfdhTKRMlnuI5XT+u/9MFDeUV/7AB1CbU1jf3R+ROuA9CTwiHxyxN3Me9uKvk
-	2lWpBds/1xYVk=
-X-Google-Smtp-Source: AGHT+IG3vKLqQKpkwoikY08lxmkSKyzlesJHIK2dDXGy98QlzQH0KRi1t8Esy4WYV0xAJppLVDx0Xw==
-X-Received: by 2002:a17:903:2986:b0:298:485d:5576 with SMTP id d9443c01a7336-29d6833c7d1mr6204845ad.8.1764724166264;
-        Tue, 02 Dec 2025 17:09:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764724169; x=1765328969;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1TIaVYC20W3RE8iO6ocjajHpRpv7qVGK5eUmOfQ+3L0=;
+        b=dAmam4W33kWu37gQ5ztPZbVw8O+yg8FF39iHBZbqpXwsvrUodOZm0K4ph1RTxSu/Ht
+         0wze5KQrFDX9Lh/niNOUbyO8GtDEiV09IfNvgFisH+UJWiqDnbtYi/wLbBxAho7Oszge
+         jY+szgVLdOUia7NZ/PjCW0CcmvKDzoz383wMXvMlwZlb1dUyogHBdnXHjE/8RqliJhd/
+         4Y+RxtnztPmQFzLEsfJYhRmU1acE5z1Z/lWb43BrzRPwpLlP1LRivnr2DSB4d0hH+4tL
+         NQmqBdENJC8iK17/AmG4b3B/Q9XNtCAzDwhJRVpjuAGvkJQm1MnFbOLVNP3Oec0leSxI
+         UjEw==
+X-Forwarded-Encrypted: i=1; AJvYcCWB8IFJsqHOrJqHSL0HdF4bKFpTXniZAJX5WNkODhQjInQ2c2uJyzLnOH6ehbH2krV2GWxCF8m9RPI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yww2dkQ1OfSnHPcnpENAW+1wijeWOcd+kAFBkjJf71sgosgnw8N
+	lOpnZZ76jKdkqfQOSkv4ZKzfOcRs7q5IfaD2/5/sonnUNH5AXluBJLeJ
+X-Gm-Gg: ASbGncum5xtwqVncilJ85RSOn4RnvyGUL5uX1Zz6KYc6cZDFtQ4OAySz6TvqBm2QQET
+	WRguBYOPRddMKe2phXp7yUvifVcPglKHWWQzZ9Im6zsYpYU6Relo9viclS6Z8d/FkJkq+P5GtGg
+	rADDDB0d251YdkXx8bqbAfwvHh1duywD9GPEGpEmypgf3kE9XDiCj/zrZtB/1BwBFlQqeyH1ao/
+	vcIpB2U6zhfP+WC5iK97P0PJUSoIWSuxxCjZzhzQRsdsXSbzQ6MQYRq/UeCaBM6xqeNTdmwaI74
+	zdDwQpxPTA9SiqY+W9WtPC6AVfmGx/EnlB7IEvOloZ8/F73gw4G49/rMjIgQd2ODP+xN6WODutn
+	gvexTWq46BvM3Y8UAlBzRUOZjg7CHVG0GU8HD/DvnO5ubpaeumtpxGHSj9t9H+HquSBMBZ+VcDz
+	OxOb8axiSlMCY=
+X-Google-Smtp-Source: AGHT+IEwEWQ+iKEzskb8FE6eGD1Bqg5KsYukLRbrEwESQEETNCRQHI55/OPuI8Eu80hzVngbE++2Kw==
+X-Received: by 2002:a17:903:1a2d:b0:295:bedb:8d7 with SMTP id d9443c01a7336-29d683b103fmr6744205ad.48.1764724168620;
+        Tue, 02 Dec 2025 17:09:28 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb29fbbsm165394905ad.49.2025.12.02.17.09.24
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bce40ab42sm165422675ad.5.2025.12.02.17.09.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 17:09:24 -0800 (PST)
+        Tue, 02 Dec 2025 17:09:26 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id AA5904353266; Wed, 03 Dec 2025 08:09:21 +0700 (WIB)
+	id 32F404209E4F; Wed, 03 Dec 2025 08:09:20 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Documentation <linux-doc@vger.kernel.org>,
@@ -75,80 +73,40 @@ Cc: Chuck Lever <chuck.lever@oracle.com>,
 	Anna Schumaker <anna@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Mike Snitzer <snitzer@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH 3/3] NFSD: nfsd-io-modes: Separate lists
-Date: Wed,  3 Dec 2025 08:09:11 +0700
-Message-ID: <20251203010911.14234-4-bagasdotme@gmail.com>
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 0/3] NFSD IO MODES documentation fixes
+Date: Wed,  3 Dec 2025 08:09:08 +0700
+Message-ID: <20251203010911.14234-1-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251203010911.14234-1-bagasdotme@gmail.com>
-References: <20251203010911.14234-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2634; i=bagasdotme@gmail.com; h=from:subject; bh=6fHMLY9nzx/qk7eCUo5CKi2uxMKJlPKvhN3nUdBaoio=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn6Pe9LBObG7S6WTlAV6pIViqhnP7u6IUT2uZK6m9q0D U6/18zpKGVhEONikBVTZJmUyNd0epeRyIX2tY4wc1iZQIYwcHEKwESKbzIydF8M8lP46FW5Y/nt mAS5riVrTIVe3AwWuSPBKWVeqbhhP8Mf7p13Prs9DTnxP0xRrljReOrTAO0FvZr+FkUfVE+pmJS wAQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=661; i=bagasdotme@gmail.com; h=from:subject; bh=4JY80Jc5VQhDDV7Kh5EhUJuY6+Adwyzi2qDz/1SyuHc=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn6PS9UPmtLTQgUPqRSsV35+KsNx71aTp14/ab/Pu/pu bbc87TudJSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAimc2MDE8irT6HTj/qL7oi wHf7hgUX0zQ+yFq9M/z+ac92I152VQaGv4JGkrvrf3zL8bu/QGXh6afTnkY5dn5d/Xu1czT/3vU RnYwA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Sphinx reports htmldocs indentation warnings:
+Hi,
 
-Documentation/filesystems/nfs/nfsd-io-modes.rst:58: ERROR: Unexpected indentation. [docutils]
-Documentation/filesystems/nfs/nfsd-io-modes.rst:59: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+Here are fixes for NFSD IO modes documentation as reported in linux-next [1].
 
-These caused the lists to be shown as long running paragraphs merged
-with their previous paragraphs.
+Enjoy!
 
-Fix these by separating the lists with a blank line.
+[1]: https://lore.kernel.org/linux-next/20251202152506.7a2d2d41@canb.auug.org.au/
 
-Fixes: fa8d4e6784d1b6 ("NFSD: add Documentation/filesystems/nfs/nfsd-io-modes.rst")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20251202152506.7a2d2d41@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/filesystems/nfs/nfsd-io-modes.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+Bagas Sanjaya (3):
+  NFSD: Add toctree entry for NFSD IO modes docs
+  NFSD: nfsd-io-modes: Wrap shell snippets in literal code blocks
+  NFSD: nfsd-io-modes: Separate lists
 
-diff --git a/Documentation/filesystems/nfs/nfsd-io-modes.rst b/Documentation/filesystems/nfs/nfsd-io-modes.rst
-index fa47c4d3dfb95d..0fd6e82478fe6e 100644
---- a/Documentation/filesystems/nfs/nfsd-io-modes.rst
-+++ b/Documentation/filesystems/nfs/nfsd-io-modes.rst
-@@ -13,6 +13,7 @@ to override that default to use either DONTCACHE or DIRECT IO modes.
- 
- Experimental NFSD debugfs interfaces are available to allow the NFSD IO
- mode used for READ and WRITE to be configured independently. See both:
-+
- - /sys/kernel/debug/nfsd/io_cache_read
- - /sys/kernel/debug/nfsd/io_cache_write
- 
-@@ -20,6 +21,7 @@ The default value for both io_cache_read and io_cache_write reflects
- NFSD's default IO mode (which is NFSD_IO_BUFFERED=0).
- 
- Based on the configured settings, NFSD's IO will either be:
-+
- - cached using page cache (NFSD_IO_BUFFERED=0)
- - cached but removed from page cache on completion (NFSD_IO_DONTCACHE=1)
- - not cached stable_how=NFS_UNSTABLE (NFSD_IO_DIRECT=2)
-@@ -56,6 +58,7 @@ because the page cache will eventually become a bottleneck to servicing
- new IO requests.
- 
- For more context on DONTCACHE, please see these Linux commit headers:
-+
- - Overview:  9ad6344568cc3 ("mm/filemap: change filemap_create_folio()
-   to take a struct kiocb")
- - for READ:  8026e49bff9b1 ("mm/filemap: add read support for
-@@ -87,7 +90,9 @@ be made.
- The performance win associated with using NFSD DIRECT was previously
- discussed on linux-nfs, see:
- https://lore.kernel.org/linux-nfs/aEslwqa9iMeZjjlV@kernel.org/
-+
- But in summary:
-+
- - NFSD DIRECT can significantly reduce memory requirements
- - NFSD DIRECT can reduce CPU load by avoiding costly page reclaim work
- - NFSD DIRECT can offer more deterministic IO performance
+ Documentation/filesystems/nfs/index.rst       |  1 +
+ .../filesystems/nfs/nfsd-io-modes.rst         | 33 ++++++++++++-------
+ 2 files changed, 22 insertions(+), 12 deletions(-)
+
+
+base-commit: fa8d4e6784d1b6a6eaa3911bac993181631d2856
 -- 
 An old man doll... just what I always wanted! - Clara
 
