@@ -1,225 +1,89 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57EB63207
-	for <linux-doc@vger.kernel.org>; Wed,  3 Dec 2025 05:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E700136351;
+	Wed,  3 Dec 2025 06:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764739877; cv=none; b=Mq2rnykOB+SzU9upqQiQGCkF+7TD7xOnHOiIsBzp+w0iHjPlmEGHS3Y0XrMmJRQk8RAe0y4mTj+S03t7XCN3P8DM9qCLQfZRz6OufYu8H+oWDC7wCCKs1PjCgYOeCuGt0pQpDFqKKiWgCYtG7A+vgUQYqtxWpCGFJ3hZm0xILDw=
+	t=1764743575; cv=none; b=N6qIa+s4cyx/Yv137VIyrWuJDSJ4AaBp3vyacWNAr5Sw62l5PS2p5nnYtv0o3dHzOkP4MTNCczOfxCkws9eDfhp6fN9bh9q3OjP/cUYZqREY/W9MQj0mq5I+1t91kHy14HvY70isXMtRbdvcR9BTrjcOSxEvV5qEiM9W2FrCQxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764739877; c=relaxed/simple;
-	bh=dDz0/bargQwKZIgO/zfSFA7ElLv7/OhfjQkfWiOMkX0=;
+	s=arc-20240116; t=1764743575; c=relaxed/simple;
+	bh=ab7gVqHTJ9oQMaZ4q9PbW5zQpxxLw+jDBtOIyA+DiiA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MYY3RPVA7d/iqDHndem0BKdObOrUMLFV7ZkC04jLEt7jz9jcUfNUHNPkvFI8ssBnWPO7aEMMTSuAxVcXox6If4RJRIIbQrSkSyVzkuTOquiGOYiPbGjm6xUTZT2bATIqEdKv216P3L+e2jJ0ELYeGwre9I7jTmndTwCiyatagFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jkUbVhU6; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=jfnLBovrGoYbWNvLiPrH2EDhna5Ndt97fSBDt+vhpO/C5ro3xGm4SVHkriWEkDFQWAjcuE8kIhX93YRD+D64Lh1zR+Ad0/pn95DauvEdbpYHJVKO7fVrPAYcuHMLZFVI5gUVfarKofotT8qSZeQf3fM5H75TJGdzmdZpZTYcN0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=F8wGiO5r; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jkUbVhU6"
-Message-ID: <83858465-202d-4370-9a74-eb9cefc1c6be@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1764739871;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lczXtplLM2mB2q409k8WH4KMRomcQKxCDBOIC1W442g=;
-	b=jkUbVhU6lTXe41g6C+9g8QTza66iQBCqNu1kko66XQ9g7zwliCjWewZhHz9DTTX0K8ImFn
-	Gqbu8M/30d2RukAJMbcVzF2jMv0r6IzuLdI2jwtfzGA90c7R8YpObH0vsIEAXOwk3bEYXx
-	FlR9WSP/KglbIAwU6AbDKidbeUbkwx8=
-Date: Wed, 3 Dec 2025 13:31:06 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="F8wGiO5r"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Q4Celb0Cx2Ef9zOuXbWuPB02TdKRuUDQhXX/E0hzTrg=; b=F8wGiO5rIx9I1q6c0WA/BVfwN3
+	bd+BHOgNkrenzt8HxD78dpAgvMlPdYNTOEnF7jWHWOn9Ik4wqJeqHAmezyLp4HvTbQejkgSEv4gZ1
+	ALtTFMJ+sSlVqq7G1j7ChsF7dftanyMkZy9pNmKkAr8yAQCXVb10zQImRJraGgXlwQhfJuaaMPUEM
+	gGkW4JwSY1ZipHGUuK7KURXoVrnTtpGtYZq2vZsyggFJ7NQvVR+9MB3BLTlK/hcbVdA1HNZrOJJ6w
+	9Koc5yskuMqwn3iZEUYDfmEBuiURZF0OrIMc+6Pc4b0TY/ymmA7Zd53F2Kj8vBD983SupKJ+KXggT
+	Itu26AkA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vQgPz-00000006BvS-3O1l;
+	Wed, 03 Dec 2025 06:32:51 +0000
+Message-ID: <cd05ee0d-18ad-43ba-b1c7-9ddc8a9afff9@infradead.org>
+Date: Tue, 2 Dec 2025 22:32:50 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 4/8] docs/zh_CN: Add chipidea.rst translation
-To: Kefan Bai <baikefan@leap-io-kernel.com>, alexs@kernel.org
-Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- doubled@leap-io-kernel.com
-References: <cover.1764674650.git.baikefan@leap-io-kernel.com>
- <cda019bbda46d4c0e52364fc8d9c723e614aa8c3.1764674650.git.baikefan@leap-io-kernel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] NFSD IO MODES documentation fixes
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux NFS <linux-nfs@vger.kernel.org>
+Cc: Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
+ Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Mike Snitzer <snitzer@kernel.org>
+References: <20251203010911.14234-1-bagasdotme@gmail.com>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <cda019bbda46d4c0e52364fc8d9c723e614aa8c3.1764674650.git.baikefan@leap-io-kernel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20251203010911.14234-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-在 2025/12/2 19:56, Kefan Bai 写道:
-> Translate .../usb/chipidea.rst into Chinese
->
-> Update the translation through commit e4157519ad46
-> ("Documentation: usb: correct spelling")
->
-> Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
-> ---
->   .../translations/zh_CN/usb/chipidea.rst       | 142 ++++++++++++++++++
->   1 file changed, 142 insertions(+)
->   create mode 100644 Documentation/translations/zh_CN/usb/chipidea.rst
->
-> diff --git a/Documentation/translations/zh_CN/usb/chipidea.rst b/Documentation/translations/zh_CN/usb/chipidea.rst
-> new file mode 100644
-> index 000000000000..88f80489fe57
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/usb/chipidea.rst
-> @@ -0,0 +1,142 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/usb/chipidea.rst
-> +:翻译:
-> +
-> + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
-> +
-> +:校译:
-> +
-> +
-> +
-> +=============================
-> +ChipIdea高速双角色控制器驱动
-> +=============================
-> +
-> +1. 如何测试OTG FSM（HNP 和 SRP）
-> +--------------------------------
-> +
-> +接下来我们在两块Freescale i.MX6Q Sabre SD开发板上，演示如何通过sys输入文件
-> +来测试OTG的HNP和SRP功能。
-> +
-> +1.1 如何使能OTG FSM
-> +--------------------
-> +
-> +1.1.1 在menuconfig中选择CONFIG_USB_OTG_FSM，并重新编译内核
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +重新编译镜像和模块。如果需要查看OTG FSM的内部变量，可以挂载debugfs，
-> +会有两个文件用于显示OTG FSM变量和部分控制器寄存器值::
-> +
-> +	cat /sys/kernel/debug/ci_hdrc.0/otg
-> +	cat /sys/kernel/debug/ci_hdrc.0/registers
-> +
-> +1.1.2 在控制器节点的dts文件中添加以下条目
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +::
-> +
-> +	otg-rev = <0x0200>;
-> +	adp-disable;
-> +
-> +1.2 测试步骤
-> +-------------
-> +
-> +1) 给两块Freescale i.MX6Q Sabre SD开发板上电，
-> +   并加载gadget类驱动（例如 g_mass_storage）。
-> +
-> +2) 用USB线连接两块开发板：一端是micro A插头，另一端是micro B插头。
-> +
-> +   插入micro A插头的一端为A设备，它应当枚举另一端的B设备。
-> +
-> +3) 角色切换
-> +
-> +   在B设备上执行::
-> +
-> +	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
-> +
-> +   B设备应切换为host并枚举A设备。
-> +
-> +4) 把A设备切换为host
-> +
-> +   在B设备上执行::
-> +
-> +	echo 0 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
-> +
-> +   或者通过HNP轮询机制：B-Host可以检测到A外设想成为host的意愿，
-> +   从而由A外设触发角色切换。在A设备上执行::
-> +   或者通过HNP轮询机制：B-Host可以检测到A外设想切换为host角色的意愿，
-> +   并通过A外设对轮询的响应来触发角色切换。
-> +   这可以通过在A设备上执行::
-> +
-> +	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_req
-> +
-> +   A设备应切换回host并枚举B设备。
-> +
-> +5) 拔掉 B设备（拔掉 micro B 插头），在10秒内重新插入；
-> +   A设备 应重新枚举B设备。
 
-Del space?
+On 12/2/25 5:09 PM, Bagas Sanjaya wrote:
+> Hi,
+> 
+> Here are fixes for NFSD IO modes documentation as reported in linux-next [1].
+> 
+> Enjoy!
+> 
+> [1]: https://lore.kernel.org/linux-next/20251202152506.7a2d2d41@canb.auug.org.au/
+> 
+> Bagas Sanjaya (3):
+>   NFSD: Add toctree entry for NFSD IO modes docs
+>   NFSD: nfsd-io-modes: Wrap shell snippets in literal code blocks
+>   NFSD: nfsd-io-modes: Separate lists
+> 
+>  Documentation/filesystems/nfs/index.rst       |  1 +
+>  .../filesystems/nfs/nfsd-io-modes.rst         | 33 ++++++++++++-------
+>  2 files changed, 22 insertions(+), 12 deletions(-)
+> 
+> 
+> base-commit: fa8d4e6784d1b6a6eaa3911bac993181631d2856
 
+for all 3 patches:
 
-Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-
-Thanks,
-
-Yanteng
-
-> +
-> +6) 拔掉B设备（拔掉 micro B 插头），在10秒后重新插入；
-> +   A设备不应重新枚举B设备。
-> +
-> +   若A设备想使用总线：
-> +
-> +   在A设备上::
-> +
-> +	echo 0 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_drop
-> +	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_req
-> +
-> +   若B设备想使用总线：
-> +
-> +   在B设备上::
-> +
-> +	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
-> +
-> +7) A设备关闭总线供电
-> +
-> +   在A设备上::
-> +
-> +	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_drop
-> +
-> +   A设备应断开与B设备的连接并关闭总线供电。
-> +
-> +8) B设备进行SRP数据脉冲唤醒
-> +
-> +   在B设备上::
-> +
-> +	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
-> +
-> +   A设备应恢复usb总线并枚举B设备。
-> +
-> +1.3 参考文档
-> +-------------
-> +《On-The-Go and Embedded Host Supplement to the USB Revision 2.0 Specification
-> +July 27, 2012 Revision 2.0 version 1.1a》
-> +
-> +2. 如何使能USB作为系统唤醒源
-> +----------------------------
-> +下面是在imx6平台上使能USB作为系统唤醒源的示例。
-> +
-> +2.1 启用核心控制器的唤醒::
-> +
-> +	echo enabled > /sys/bus/platform/devices/ci_hdrc.0/power/wakeup
-> +
-> +2.2 启用glue层的唤醒::
-> +	echo enabled > /sys/bus/platform/devices/2184000.usb/power/wakeup
-> +
-> +2.3 启用PHY的唤醒（可选）::
-> +
-> +	echo enabled > /sys/bus/platform/devices/20c9000.usbphy/power/wakeup
-> +
-> +2.4 启用根集线器的唤醒::
-> +	echo enabled > /sys/bus/usb/devices/usb1/power/wakeup
-> +
-> +2.5 启用相关设备的唤醒::
-> +
-> +	echo enabled > /sys/bus/usb/devices/1-1/power/wakeup
-> +
-> +如果系统只有一个USB端口，并且你希望在这个端口上启用USB唤醒，
-> +你可以使用下面的脚本来启用USB唤醒::
-> +
-> +	for i in $(find /sys -name wakeup | grep usb);do echo enabled > $i;done;
-> --
-> 2.52.0
->
+Thanks.
+-- 
+~Randy
