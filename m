@@ -1,133 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD103305074;
-	Wed,  3 Dec 2025 14:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE0D43ABC;
+	Wed,  3 Dec 2025 14:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764773778; cv=none; b=g4oXbweVcaFKvnjaPYyC8N6nFb83B1ygr1Oecse+qU3ErwBfn0ZgkY+xG6HtbyUF+clBtopiWNWmGgtjYFa9H4YBFKx+mkMaR9oCEl89CVflvTQ/fJeQc2xDi73rL0y9o91ha5Qxd+jXFLL2sug/Ouju3CDA009Wqkh6VkfBmcc=
+	t=1764773931; cv=none; b=SnfJ2B8YXDwfZiPHcA3cC/uj8mMvc2Y0S9iK01AdwjK+AuD/YL36igzZPGvlVM9Gf0omKqT4DtclMHlihqBXfYgXxnAAsVtmdJcWnX1nkAnhTr5X54qUJR/aI9t2k9PeHOzXltPzKuRykFmFJ7qZ49qcRqpNnH0VQA8KK2i8k6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764773778; c=relaxed/simple;
-	bh=95R62c0rl9Xz8a36PrIyLInk2dnyvViYCKRZrPmY8zk=;
+	s=arc-20240116; t=1764773931; c=relaxed/simple;
+	bh=0RurLIkjhWyQEag9ht96iul3hXKOoe9VC37eIo3vm3g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vk60Vo76OxSzlYxb0zzENKpAMpKsZjoTJyTH12ShBMmsyd7koSMOkYnHhWoelmBYeBWXljLTWQsGW6k8qsTeWbJDxhGIAaodOTrtNM9hJ9lu/pmJsg+wV8sJlPgLSvbUWkBv2vljoHCSaiRgJYunNVPwg5oOb9yk0LnPJ/2dDeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UY6MHgHp; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=b97GoblWLR+kS3UcLiy1AQ6QjW6ADXG0Sm1KWK7WmIxPymQuO3XWjkvJNQ4TtEgrr4/rFbEtCH7Rn67bu9FJQMQaOvhzDK4erUNRyOHrgQqSuFCoJSjzJEpbNUBZJEBg7gHhbzfbRXmvSXw/t1JdKOqTyRD6sHWy8DZ1fqNB6cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=uTcN8+mc; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UY6MHgHp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764773777; x=1796309777;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=95R62c0rl9Xz8a36PrIyLInk2dnyvViYCKRZrPmY8zk=;
-  b=UY6MHgHpfzVdk1tvVtGotH1bg2QvLhxwWYrnlO56JYQbqHkoW6y2sivG
-   P3Kh8PeCPnidCR5bn+UGWPJKipzVkPkNGtgQmbqVVhfZ6lz+JiNT28P54
-   GtZkTokSTX8vv/Nsq4BbAOS/GTiyqImWg7qzdcSMFi5Yt+if5b4jG1C44
-   WuhEQRibFsSjSpQExR+8g9FErH1Myvg4K5yVqx6FHQsm9nqWYrqYdcDf6
-   z7t4cdoPBr6gPlvsUw8HnXj9oy5DGd4f8mDTYgyYWDeptlsHSMEutehg7
-   Fe4YjsjMmQNzQRcD0RIPzlPNhonIHvFzVOyIcDijK4ADz6Rl4v4YMPqW+
-   A==;
-X-CSE-ConnectionGUID: cKlyvhlUSOeikMAXIrKpwQ==
-X-CSE-MsgGUID: Y3aL06NbR16T47bqgsyFpQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66842742"
-X-IronPort-AV: E=Sophos;i="6.20,246,1758610800"; 
-   d="scan'208";a="66842742"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 06:56:16 -0800
-X-CSE-ConnectionGUID: mkvnUAnsRc2QzCMrhwLO8g==
-X-CSE-MsgGUID: jmBsO3FvQOmAOo+xLM/SgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,246,1758610800"; 
-   d="scan'208";a="225665442"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.81])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 06:56:12 -0800
-Date: Wed, 3 Dec 2025 16:56:10 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jic23@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
-	andy@kernel.org, Michael.Hennerich@analog.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
-	marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v3 2/3] iio: adc: Initial support for AD4134
-Message-ID: <aTBPivrI7iy2cLQ1@smile.fi.intel.com>
-References: <cover.1764708608.git.marcelo.schmitt@analog.com>
- <c189c25b1c46f406c3f7942e5ac4cdb0b964ee52.1764708608.git.marcelo.schmitt@analog.com>
- <CAHp75Vf7p=aPy2ofC_zVz1PURA3R9i0WZCG63-dCEXO=xKJ0FA@mail.gmail.com>
- <daf53d16106f29a09134b2c2a5a2f4870a0bfbe1.camel@gmail.com>
- <aTA0LDYDzP8s__1V@smile.fi.intel.com>
- <c45e24e5edb3ea668accb608f6cdffff62592c74.camel@gmail.com>
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="uTcN8+mc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1764773926; bh=TxZZ8FbuedqDFsqIX7jjaonHCF8htWJqKVU8kbqxUAo=;
+	h=From:Message-ID:From;
+	b=uTcN8+mcex7NOnrpoTV5V9m0C9isePpPkney+J6QNeE4pTDmcueEOAaqFMRqD/DSX
+	 03UE4KuMANogDbLbWj/ZVeNp0W77dK1SW0XYfO+fwUnSTSn/fqaj+cSdfwS23zsuXT
+	 AztbzI+dV0s+eY3096qCh/zMbH4fLiV1pLtUnFyw=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id E9823C0708;
+	Wed, 03 Dec 2025 15:58:45 +0100 (CET)
+Received: (from willy@localhost)
+	by pcw.home.local (8.15.2/8.15.2/Submit) id 5B3EwjmE012558;
+	Wed, 3 Dec 2025 15:58:45 +0100
+Date: Wed, 3 Dec 2025 15:58:45 +0100
+From: Willy Tarreau <w@1wt.eu>
+To: Kees Cook <kees@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Security Officers <security@kernel.org>,
+        gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: insist on the plain-text requirement for
+ security reports
+Message-ID: <20251203145845.GB11908@1wt.eu>
+References: <20251129141741.19046-1-w@1wt.eu>
+ <AFC0A4BB-6DBB-4C66-A2DF-940F9B6725A5@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c45e24e5edb3ea668accb608f6cdffff62592c74.camel@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <AFC0A4BB-6DBB-4C66-A2DF-940F9B6725A5@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Wed, Dec 03, 2025 at 02:48:44PM +0000, Nuno Sá wrote:
-> On Wed, 2025-12-03 at 14:59 +0200, Andy Shevchenko wrote:
-> > On Wed, Dec 03, 2025 at 11:02:45AM +0000, Nuno Sá wrote:
-> > > On Tue, 2025-12-02 at 23:26 +0200, Andy Shevchenko wrote:
-> > > > On Tue, Dec 2, 2025 at 10:55 PM Marcelo Schmitt
-> > > > <marcelo.schmitt@analog.com> wrote:
-
-...
-
-> > Nuno, may you please remove unrelated context when replying?
+On Wed, Dec 03, 2025 at 06:40:38AM -0800, Kees Cook wrote:
+> >+Markdown, HTML and RST formatted reports are particularly frowned upon since
+> >+they're quite hard to read for humans and encourage to use dedicated viewers,
+> >+sometimes online, which by definition is not acceptable for a confidential
+> >+security report.
 > 
-> It was not that much. That is why I did not bothered :)
+> HTML sure. But why discourage .md and .rst? Markdown is pretty well the
+> defacto "human readable" markup format and our own kernel documentation is
+> .rst. Those are good for seeing code snippets, etc.
 
-2 pages of text on my screen... We definitely have different metrics
-for "too much" :-)
+Quite frankly, have you tried to read the latest reports ? They're full
+of "**" everywhere with no spacing nor indent at all, it's particularly
+hard to find the relevant information in them. It's super tempting to
+copy-paste them to the plenty of online viewers to render them correctly,
+except we'd rather not do that for obvious reasons. And when you start
+to discuss it gets even worse with ``` formating tags isolated between
+quoted paragraphs and no longer being relevant.
 
-...
+And let's be honest, these ones are close to 100% of the time generated
+by AI tools which are almost unable to produce anything else anymore by
+default because that's what they're using to interact with the chatbot's
+UI. If at least that forces those seeking a CVE number to actually *read*
+what their favorite AI bot produced, it will be a huge gain for everyone.
+Right now I'm really ashamed to forward AI-generated garbage to subsystem
+maintainers just in case there would be anything valid despite the format
+already strongly hinting otherwise.
 
-> > > Hmm, can you share why we should have a reset controller for the above? 
-> > 
-> > My point here is to have a standard way of handling "reset" pin independently
-> > of what's beneath in the HW — GPIO or other means to assert/deassert it.
-> 
-> That makes sense.
-> 
-> > > Unless I'm missing something, even with the aux device, you'll need the code to
-> > > optionally add it which (I think) will already force you to check the existence for
-> > > the pin (which would be a bit odd IMO).
-> > 
-> > If this is the case, it needs to be fixed, but reset framework provides
-> > _optional() API, that's what should be used for the cases where reset is
-> > optional. Let reset framework to handle that.
-> 
-> Ok, I think I was also misunderstanding you. So you mean that instead of doing 
-> devm_gpiod_get_optional() we should use one of the devm_reset_control_get_*() calls? 
+> I would call out PDF and ZIP instead. We especially don't want _binary_
+> formats.
 
-Yep!
+IMHO we don't want useless nor hard-to-exploit reports in the first
+place, and to date I don't remember seeing a really valid and
+immediately actionable one using such decorations, since they were
+not written by the reporters.
 
-> Ok, I went to check the reset core implementation and with [1] I take back my comment. I can see now
-> that the framework will automatically handle creating the auxdevice. So while I still think most of
-> the times we'll still see reset-gpios in bindings, it makes sense to have this HW abstraction in the
-> code.
-
-...and standardisation.
-
-> One thing to note is that the reset framework always enforces reset-gpios and we do have places
-> where reset pins have different ids (just because that's how the datasheet defines them).
-
-This might affect the decision. In any case, please consider using it and we
-can see if it makes sense over open-coded approach.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Willy
