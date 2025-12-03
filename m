@@ -1,171 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7AA7260D;
-	Wed,  3 Dec 2025 12:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930F22FF64B;
+	Wed,  3 Dec 2025 14:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764766772; cv=none; b=Wesf+tu5o2wOP4ZJzEq/aKhRXLGYpqXj384k/2ep6kY9teVVzhA5a/KWir/2GOQFa1MPXy7rrgnoNXRx138YIWcUpXr1F6yCDlffpRXedknXqAohrYaLbrQVk9phH+hpN/0WBI8A5ECjaAhN0lFKBQWg3L452oWo9wZkvq31IHc=
+	t=1764772839; cv=none; b=uVaChBQDP1+l4FUzFmYbBnta5IjTw3Z2pL/J1BTzz8mYZLUaKsjyQaPLHBc8/xNalRTuj0nuY85itLEkUBmOQSRLUBhAIsOj6whCrCjBcJcyKOIqahBujdZgBFb+SfwCnFeKWROZPfwdJFZEKPtS6qrHo3AsKyScoywRD7akiy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764766772; c=relaxed/simple;
-	bh=B4tPlaT6uVEgQh3MIX7Jz4wxDxdB2JWr1rbtC3gv7xQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=so8dveMtG2hDWSyHwuuon3Dsb8z0P1sAd1sHzxZeMckWXAmpEZ6fedDM+C/YMpW067kXsuZOMm95G1xvSaVi7F6wpQHU6mqrJ24/yr5FrUSkDwxdooXTI8ECv2+J6WphEUigcG2cymHA/YU7B10K3S5orl0jQWFh8q2JHZ5inMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IM8HucDJ; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764772839; c=relaxed/simple;
+	bh=+finZcUtK0qR1D2ZsUbRi+xAmeDTQ8b7FwtVcNcAR1o=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=QqxCFz3DtSzHGiAwYuykecnZAp/L9Ed6O6TdFrDPFvaIy1rT1UOWEB8/Z4As02mL6ViGUZJLtwE2SMB7Lqu6EXrfxTqL32JJGKSRfH7NUWDt7N8mjvNBLHCLx1ltUfdUMytbfwShDVDostW40VLys11z5z6ECVR1x01E2X8WHhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gkl4RTzH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IM8HucDJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764766771; x=1796302771;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=B4tPlaT6uVEgQh3MIX7Jz4wxDxdB2JWr1rbtC3gv7xQ=;
-  b=IM8HucDJGf9YhAPoECoA5aMswXCkS212vF/0X4QSNVTDVdROORGXjaOP
-   /kZFp48U3bHPASAdHE5UDa/6npNh/zHmL/3+Qltb3aPMSE5mmhMznOIwH
-   GdJzeLrzmT/94UEc75L3j+ilYjWwu9Wi8VnjFCxQAsleaEPvhzum7W973
-   58ZLFIpBjf8t3D3agmCi80e5cyKps71//QzjQEUy5rbzRcS6elYCnOvKD
-   M182c6MrCJobeR9llFgYfOTY3xYxqPeV9//1o+i2peHh/woKttfBGR1+m
-   KU+nuFzB4YLj9EvXhyvzGWkOQ7JTd4bD1NpOfXO5mrCZRo+gwWm3ioGbZ
-   w==;
-X-CSE-ConnectionGUID: yH4BmYsgQs+pqXo7Ie6kHA==
-X-CSE-MsgGUID: VhCuehQoR3iA0wChnvVrhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="70614851"
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
-   d="scan'208";a="70614851"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 04:59:30 -0800
-X-CSE-ConnectionGUID: TVHmLwTCRG6xyYaHxX+8aQ==
-X-CSE-MsgGUID: uysXoXj/T0SjATTbgwg0yA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
-   d="scan'208";a="194570116"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.81])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 04:59:26 -0800
-Date: Wed, 3 Dec 2025 14:59:24 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jic23@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
-	andy@kernel.org, Michael.Hennerich@analog.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
-	marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v3 2/3] iio: adc: Initial support for AD4134
-Message-ID: <aTA0LDYDzP8s__1V@smile.fi.intel.com>
-References: <cover.1764708608.git.marcelo.schmitt@analog.com>
- <c189c25b1c46f406c3f7942e5ac4cdb0b964ee52.1764708608.git.marcelo.schmitt@analog.com>
- <CAHp75Vf7p=aPy2ofC_zVz1PURA3R9i0WZCG63-dCEXO=xKJ0FA@mail.gmail.com>
- <daf53d16106f29a09134b2c2a5a2f4870a0bfbe1.camel@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gkl4RTzH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29B8BC4CEF5;
+	Wed,  3 Dec 2025 14:40:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764772839;
+	bh=+finZcUtK0qR1D2ZsUbRi+xAmeDTQ8b7FwtVcNcAR1o=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=gkl4RTzHp0p8QLMqkc5qscCYf8FfUgY9IkzXdPLhav/QYMw5PYbH6mxtAfMg0OFHf
+	 WDRzJ99Nf7mXLqZX5icksIFs/FB7ml5O2AzpIlFmWOnioc979xpfqB3OfF1F/ic35d
+	 rnzWbUS++DvBGuUlkUPxCGOxzAJycQeI7AMdVRHHR4LqTGvVNT1kt9kAcCSZ9Z+PGA
+	 3zd28N1CTaR6KircctYnGA1VqdDCkQdKMixYQ2jxp7zG7gGnHpE8OlAqmAPKaHXLm/
+	 K8ZFMGfwSKHRqS0slvz81f8tULR/gyja3z+embdvDnjxfhHi6deqybbAqrrL3fuEhy
+	 xLL0XKsiazMHA==
+Date: Wed, 03 Dec 2025 06:40:38 -0800
+From: Kees Cook <kees@kernel.org>
+To: Willy Tarreau <w@1wt.eu>, Jonathan Corbet <corbet@lwn.net>
+CC: Security Officers <security@kernel.org>, gregkh@linuxfoundation.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_Documentation=3A_insist_on_the_p?=
+ =?US-ASCII?Q?lain-text_requirement_for_security_reports?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20251129141741.19046-1-w@1wt.eu>
+References: <20251129141741.19046-1-w@1wt.eu>
+Message-ID: <AFC0A4BB-6DBB-4C66-A2DF-940F9B6725A5@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <daf53d16106f29a09134b2c2a5a2f4870a0bfbe1.camel@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-
-On Wed, Dec 03, 2025 at 11:02:45AM +0000, Nuno Sá wrote:
-> On Tue, 2025-12-02 at 23:26 +0200, Andy Shevchenko wrote:
-> > On Tue, Dec 2, 2025 at 10:55 PM Marcelo Schmitt
-> > <marcelo.schmitt@analog.com> wrote:
-
-Nuno, may you please remove unrelated context when replying?
-
-...
-
-> > > I tried using the reset-gpio driver to handle AD4134 reset GPIO. I had changed
-> > > the device tree to set a reset-controller node and had referenced that from the
-> > > ADC node. I also updated the ad4134 driver to use a reset controller to handle
-> > > its reset GPIO. Though, after those changes, the AD4134 driver would defer
-> > > device initialization forever because it missed a reset-controller. To make the
-> > > reset-gpio driver probe and instantiate a reset controller, it would take a
-> > > platform device to be set within a machine-specific, hardcoded platform data.
-> > > AD4134 is not bound to any specific platform, so it doesn't make much sense to
-> > > have a reset-gpio platform device for that. Thanks for mentioning reset-gpio. It
-> > > was interesting looking into the reset-gpio driver and the reset framework. It
-> > > looks cool. But I don't think the reset-gpio driver suits the AD4134 reset use
-> > > case.
-> > 
-> > Bart converted it to be an aux driver and it should work. Please, give
-> > a try after v6.19-rc1 is out.
-
-...
-
-> > > +       reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-> > > +       if (IS_ERR(reset_gpio))
-> > > +               return dev_err_probe(dev, PTR_ERR(reset_gpio),
-> > > +                                    "failed to find reset GPIO\n");
-> > > +
-> > > +       if (reset_gpio) {
-> > > +               fsleep(AD4134_RESET_TIME_US);
-> > > +               gpiod_set_value_cansleep(reset_gpio, 0);
-> > > +       }
-> > 
-> > I still think that reset-gpio driver is the right way to go (after
-> > Bart's changes, which should be part of v6.19-rc1).
-> 
-> Hmm, can you share why we should have a reset controller for the above? 
-
-My point here is to have a standard way of handling "reset" pin independently
-of what's beneath in the HW — GPIO or other means to assert/deassert it.
-
-> Unless I'm missing something, even with the aux device, you'll need the code to
-> optionally add it which (I think) will already force you to check the existence for
-> the pin (which would be a bit odd IMO).
-
-If this is the case, it needs to be fixed, but reset framework provides
-_optional() API, that's what should be used for the cases where reset is
-optional. Let reset framework to handle that.
-
-> But more importantly, for things like the above I'm failing to see the
-> benefit in registering a reset controller. In fact, I think it would be
-> dangerous to "allow" other potential consumers to randomly reset the device.
-
-Again, same here, reset framework provides _shared() API which we do not want to
-use here, we want to use _exclusive() one.
-
-> If you look at Krzysztof's log when adding the driver, you see:
-
-It's unrelated, because from the user's perspective it communicates via reset
-framework.
-
-> "Add a simple driver to control GPIO-based resets using the reset
-> controller API for the cases when the GPIOs are shared and reset should
-> be coordinated.  The driver is expected to be used by reset core
-> framework for ad-hoc reset controllers."
-> 
-> Key point is *GPIOs are shared and reset should be coordinated*. That is not
-> the case here.
-
-And it has no direct relation to this driver in such a case. Of course the
-generic reset controller driver should try to cover as many users as possible.
-Then on the framework level they can decide how they want to use it.
-
-It's more flexible that way, so I expect most of the reset controller drivers
-to allow shared accesses. And it's orthogonal to the discussion here.
-
-> Or maybe I'm missing the point...
-
-I think so, see above.
-
-> Having said the above, I would be up for some kind of helper in gpiolib.
-> I still see way too often people misinterpreting the meaning of
-> GPIOD_OUT_HIGH and that the value in gpiod_set_value_cansleep() means
-> assert/deassert.
-
-Consider this as a helper :-)
-
--- 
-With Best Regards,
-Andy Shevchenko
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
+
+On November 29, 2025 6:17:41 AM PST, Willy Tarreau <w@1wt=2Eeu> wrote:
+>As the trend of AI-generated reports is growing, the trend of unreadable
+>reports in gimmicky formats is following, and we cannot request that
+>developers rely on online viewers to be able to read a security report
+>full for formatting tags=2E Let's just insist on the plain text requireme=
+nt
+>a bit more=2E
+>
+>Signed-off-by: Willy Tarreau <w@1wt=2Eeu>
+>---
+> Documentation/process/security-bugs=2Erst | 6 +++++-
+> 1 file changed, 5 insertions(+), 1 deletion(-)
+>
+>diff --git a/Documentation/process/security-bugs=2Erst b/Documentation/pr=
+ocess/security-bugs=2Erst
+>index 84657e7d2e5b=2E=2Ec0cf93e11565 100644
+>--- a/Documentation/process/security-bugs=2Erst
+>+++ b/Documentation/process/security-bugs=2Erst
+>@@ -33,12 +33,16 @@ that can speed up the process considerably=2E  It is =
+possible that the
+> security team will bring in extra help from area maintainers to
+> understand and fix the security vulnerability=2E
+>=20
+>-Please send plain text emails without attachments where possible=2E
+>+Please send **plain text** emails without attachments where possible=2E
+> It is much harder to have a context-quoted discussion about a complex
+> issue if all the details are hidden away in attachments=2E  Think of it =
+like a
+> :doc:`regular patch submission <=2E=2E/process/submitting-patches>`
+> (even if you don't have a patch yet): describe the problem and impact, l=
+ist
+> reproduction steps, and follow it with a proposed fix, all in plain text=
+=2E
+>+Markdown, HTML and RST formatted reports are particularly frowned upon s=
+ince
+>+they're quite hard to read for humans and encourage to use dedicated vie=
+wers,
+>+sometimes online, which by definition is not acceptable for a confidenti=
+al
+>+security report=2E
+
+HTML sure=2E But why discourage =2Emd and =2Erst? Markdown is pretty well =
+the defacto "human readable" markup format and our own kernel documentation=
+ is =2Erst=2E Those are good for seeing code snippets, etc=2E
+
+I would call out PDF and ZIP instead=2E We especially don't want _binary_ =
+formats=2E
+
+-Kees
+
+
+--=20
+Kees Cook
