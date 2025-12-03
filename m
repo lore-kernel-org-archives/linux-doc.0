@@ -1,279 +1,150 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11023134.outbound.protection.outlook.com [40.107.162.134])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335752F60DA;
-	Wed,  3 Dec 2025 11:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.134
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764763080; cv=fail; b=LqaiYrQdSO1OfEt016i659wb644ix+FPEIeaM4HW4L9w+8hTrvnUA1NANO6c9vdPJs62PTWBQ+0pO9M9gxQkbHyCSWPaPE4LOAIe6qENL6f+WDVS2FQa6xCcDW4G8cNx9xCfiPjg1T1et2v+kuePuSXddm/Agm6ZMectIseiCOw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764763080; c=relaxed/simple;
-	bh=O3QSqD7W5yonw+4YNuCwRwwmlXK/TQ4p1zOEKsNdMbo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OkRGe6n9I+/0frz0WV5W/3phZdO6WiZ23nh06IwNhT6WCGzCWtoeHnXk3wXrxiAvm/SSMxH97GIUK9Vl2YSU9wRCKFKqrLYK+u4ecGLyNMjzij1L39+XiOkU3s3l6ZVb9D0/lgPCteX9ph88yE5Hr8ga2pWJpK2XT2yX44GfWoI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vaisala.com; spf=pass smtp.mailfrom=vaisala.com; dkim=pass (2048-bit key) header.d=vaisala.com header.i=@vaisala.com header.b=AhwgpTq8; arc=fail smtp.client-ip=40.107.162.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vaisala.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vaisala.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B472529D287;
+	Wed,  3 Dec 2025 12:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764765000; cv=none; b=N1kwN7Nl57Y7edaVbiLQ1AH7u7nK/8d9MidyRJ+jp1yi59/4obyqtKatXyZrbXXrxtmOznn2xE9WpQUj9deonzyDGfe3fjQAprPf4OI8mgEZVpTam0ciQwUDMxNcKNJq9M+6wo9oKuOUuHsj3oEW437OVhBjDjnwPAyhFmEUIZg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764765000; c=relaxed/simple;
+	bh=H3UNn/YxNSbZ/hnZY3iBYaxfF6CGteTEMT3L1st3FIk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UXurSv5aUZH323btH+sFiKI1BXYJsY5Tt4HO+kozrwJKwV9JDMqV7MIGGkiHex+EOXVIecKDeFO8APqyhUIzZekggaSwtTIJKfavmVaCk5zDjcTTQPGSJjjl73bWVBfS1lTD0OpMKe3MqdwPlkyBGpHuwI9MJ3s4ipMQWtyhpj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DxsXXn+P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vaisala.com header.i=@vaisala.com header.b="AhwgpTq8"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OP78LyvP5uAUHTXnV1CIyOelDJgYti5lCmYh3/DY48q1xACk6nHQK47he7hpLyUlkhUJT/RJ5ACZHGsBenL4PKX4k6eWQwHghNY1UhpwQuUZgV+G/Z/tzMEo1z4Y3MGn7QKn1XZyKNAkJrrrAYo6BQ64Z21cKQpDuKac4jLgXKG5n9f1fZ4URmzyc+w9tLOirJCnfkv1XIVPRv7dccs38sls97sBfMBwwP8svgVVZxGPl0ASOdg9gzMJvKsQG/9RyJ/o6olWRri5puU40xbnT5hIe6KTNCwBkgFuMmyTYGJueVqfMI7/VVPNCcCYwpDCNJck6Ng50S3Rxh9ON/r1Yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qhc/kaqg7/82LvePuB2ooFffiO+6lvzN3/uSWbuAvh4=;
- b=Xw9T67Po/pJzdIwE6FrVQvNP3tZe1vXrsQTvfLd7v8sAM/6BFa0Al73K1G+6gktXsV0d3H5HPzWEaWSRQO0y4Hq6/KrfpfFIgT/Co0y11jmJcS7aLT/dBvHh2mfzd/rzW4rlgbvfKXm2NcFGqOhkre37iRm4SXD5qPXGysOP+YNzhRRiUzZTaUvGoOg3t4cfXaJA1MKAHIoWePBgLzaekoZU8uHx/Mptqaq3JBiu4ENU11h75gLLY4gE5AWPIxz5O2LG2ypIil6S8Sdkvr+eXEKT0bcHes+9MTgGQsu3oBa+6VPjq9F1uS2lAlTdc38dbsz4GnY+qz2ttdlA+BYk2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qhc/kaqg7/82LvePuB2ooFffiO+6lvzN3/uSWbuAvh4=;
- b=AhwgpTq8GNr7FofGrY+sM3OOOo+/gmgkeuY0b0EYnEo0uAqWKSVZPy5pKS5a6Ao4bAJ+ZWTwcYIppzlgXAHYYAWb3MMnCcL5etlPNpi0iybe6OtXoih5IQcuyiGvEBk1OBaF6P30D76kGWuFIGXUnqNain1tMbAgIIZ1vIZph3HKZp1PJssnhX67li1N9dASI2ReBzm1PbmmsB8qB3JeQn7F5xwWZh26NTwzWgz/A0zIdU9nfjdJyjY6PNc4XrI0vKYBq1xQjh7bS+u6emGchLffUgl2dp9+tMB98qPz5dPrOctSx3DqDJXGY9uSDatjEXgWxbkMaDEnC4ypDYxP8g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from AMBPR06MB10365.eurprd06.prod.outlook.com (2603:10a6:20b:6f0::7)
- by PAXPR06MB8047.eurprd06.prod.outlook.com (2603:10a6:102:1a0::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Wed, 3 Dec
- 2025 11:57:52 +0000
-Received: from AMBPR06MB10365.eurprd06.prod.outlook.com
- ([fe80::4606:8e25:96e6:bede]) by AMBPR06MB10365.eurprd06.prod.outlook.com
- ([fe80::4606:8e25:96e6:bede%5]) with mapi id 15.20.9366.012; Wed, 3 Dec 2025
- 11:57:52 +0000
-Message-ID: <19d5c51d-41f3-446a-aced-5be2fe6ec0d2@vaisala.com>
-Date: Wed, 3 Dec 2025 13:57:42 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] Docs: iio: Add AD4134
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: jic23@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
- andy@kernel.org, Michael.Hennerich@analog.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- marcelo.schmitt1@gmail.com
-References: <cover.1764708608.git.marcelo.schmitt@analog.com>
- <69b230190abb4cd76ad9eb25e2bde51caaa23d9a.1764708608.git.marcelo.schmitt@analog.com>
-Content-Language: en-US
-From: Tomas Melin <tomas.melin@vaisala.com>
-In-Reply-To: <69b230190abb4cd76ad9eb25e2bde51caaa23d9a.1764708608.git.marcelo.schmitt@analog.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: GVZP280CA0049.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:271::7) To AMBPR06MB10365.eurprd06.prod.outlook.com
- (2603:10a6:20b:6f0::7)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DxsXXn+P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AF4CC4CEFB;
+	Wed,  3 Dec 2025 12:29:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764764999;
+	bh=H3UNn/YxNSbZ/hnZY3iBYaxfF6CGteTEMT3L1st3FIk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=DxsXXn+PV1UwBIxanSIIvRrSkkOwFoCCoXNLiWdxjaJ3gGbXrF+1d/Z7RFE4YSe2B
+	 MKX6A8y/woGm8VTDqLTBlfs56guSjQfBZ/0x1XOkHQ1hLIoN3lqihjuNJ3UaE9oZGU
+	 VvmuVnh9eP9NbYbIy0vfLZgPprk+3l9cRu4aDhUg0ZEZPlmE4f7XSmMVfQnBC2bNBr
+	 sbZjbIWD/YPjkWVDcUZKLEZgqMkWYzFtXUFrVu8PecGAQtjT/44EnhSc+QiLWXJgWD
+	 gxH6lvpMNXG2RWVYr2KDxYJ8LY8Wmp9y/wK2c5FQeXtMb/05B6fH2qIG7QkkYH93Eo
+	 XQpcDV0daOYMA==
+Message-ID: <0eed5efe1c314f02e0c05c90a7acdf141b8a9faf.camel@kernel.org>
+Subject: Re: [PATCH 0/3] NFSD IO MODES documentation fixes
+From: Jeff Layton <jlayton@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List	
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>,  Linux NFS <linux-nfs@vger.kernel.org>
+Cc: Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, Olga
+ Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom
+ Talpey <tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>, Anna
+ Schumaker <anna@kernel.org>, Jonathan Corbet <corbet@lwn.net>,  Mike
+ Snitzer <snitzer@kernel.org>
+Date: Wed, 03 Dec 2025 07:29:57 -0500
+In-Reply-To: <20251203010911.14234-1-bagasdotme@gmail.com>
+References: <20251203010911.14234-1-bagasdotme@gmail.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMBPR06MB10365:EE_|PAXPR06MB8047:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0f75376-e751-4e20-6632-08de32632fe6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TmtxUk1pbDkvRDdkYnEySnk5RXNxSi9YZnJIUUpCd2M5SVZvV3BGSHR5bWdy?=
- =?utf-8?B?Q1ByZXFyVFAyTGdSdW9rL3cweDhVUWozSTZTcnorZW9qd3AvUTl4bUdnSUpw?=
- =?utf-8?B?MkYwSUdPM2QxTmY2MGI1bThiZFFJZkxNOXVVMWw3K3B6dzJwelg0VEFFUGlh?=
- =?utf-8?B?U00xMGl6a2lkRXJhMWNteUVPUTI2aVdqaWo3WHdoQ052cG83S2VoaUhIMHF4?=
- =?utf-8?B?b0ZCQVFISUFHSUxRWjI5bSszNEdWQlIxVFVhZm9BQjNWVXN5UjFGcFExajFy?=
- =?utf-8?B?R0hTWlByTnNaLzVOcERDek9ueENubWhrbFFWQ0ZldG85RjlOcTkvYmdKVGZh?=
- =?utf-8?B?dUkvWUNSN1J3aTVIUGE2ZFhVczFtZE1aZUVjQm5DNWFRYzRscmR3RlgwRFk0?=
- =?utf-8?B?c25RMWdoMDZieVVYQlpwTkRvVXlvcU05a3p4OW5VL0plNmtxZUVYcjk3dnh3?=
- =?utf-8?B?UzNDUXJXQmNmVktoVzJQRXJPTnQ2Y3U1QWlpU3pPeklqcmxZYldHTHhSYlRW?=
- =?utf-8?B?NUg2Wk1KQVp1STVlTHBZdWhvRjdWcStkWlJmSmg5TzB2L09yOGRFeXBhUG5m?=
- =?utf-8?B?V2tpdnlpL01DdjdmS2JXU29jNExHR0ZQMjY3OGk3VTZSb0xsKzRFR0t4ZEhW?=
- =?utf-8?B?aWt5QlV0MkxJcnFtaW5xZWg0RVJxVUFZS29YOC9uc0dBZW0vQVJXTGZRcTMx?=
- =?utf-8?B?RW44eDNFZ242SHdjL1NEUjBONUFWTVpEZUFxRHlOL2R3M3k3dnBzQS9BODBM?=
- =?utf-8?B?bndPajc0U3lIZXBhNDdMUmJ3YlBKQzRFZnJxTTZiaVJLT2MrV2p2N0hnU0xF?=
- =?utf-8?B?dm9sSDJuSHlQZkZaMGNIVzBxUGdQbkpkQktqTmRmcUdqVEdjd29hRWt4WHAz?=
- =?utf-8?B?R0hPMnZlSlQ5cGRCMnBOVkxrTm11b0NjZ1Z5RVhaSElHeSt2akVyZEd2Tmkw?=
- =?utf-8?B?cVVoaHpRL04wSEZlUXdua1VnTHVXOUFVNDFMS0dPbTE2UEF0ekhnYzFvMHI2?=
- =?utf-8?B?THQ1SnFnSi80QUJaTlZPZ1NIUzBNTGYrUzlaeHdyMlJRN0k4bGVIVXF0NHBW?=
- =?utf-8?B?Mys5bGJuNkZLYUNaV0hUdTU1ZVYxMUFQTlNOUGVNK2lSNFhUQjFnMjhPNG4w?=
- =?utf-8?B?M0pPRUJIT3ZZV1dzcXpTTzY1RGdOTVorNHY5WGRCdjJMS21Ec3RtTWdxOWxi?=
- =?utf-8?B?QWRwOEt5YmU3TU8yYzJpckZzVU9rdEw1NFdEK2trTjNOQ0ZwbVpySGtJSldx?=
- =?utf-8?B?b2ZGenoxOHh0Z0JRdFhOVDBSWld6OWJ0ZW53TkdFRnk2WEJxYklVd3NxM09n?=
- =?utf-8?B?WlJnUlBxWlBqcFRxaW9iTlczMEVnRzlOV0hjWlQ5Qm9EWGdJZHZ1WVYxSksy?=
- =?utf-8?B?S21lcnFUVzY5dDBqRVpxbDEyaWZ1K25Qd2IxaDNKL2oyT2M4R1lkYnptaUJq?=
- =?utf-8?B?QlB1RlBZdUNxVy9PVktkblVva2NYUEJIVzhJcThDblQzZFMycDZuSXJEQ2RL?=
- =?utf-8?B?RS9xSHdVUDR0cnV3UkhOanlvemRQNW5DTjFHajhSNlhMNEQ0L083eEdLckZa?=
- =?utf-8?B?ZnJZL2JNSTR2alphL0RPenozbzY2NEQzQW1IbVlHZjJhYlNuQjE1c3pwRFhu?=
- =?utf-8?B?dnJUanZyWmZuU1A4YVpVNUVsby9sa0dNTEpXRkZhQm1CN1VkUENIclM5MGs2?=
- =?utf-8?B?RWlaTkZKVEtpazl5V0J5bGd3QWJ4dGNaR0lpR0RkQ3lvdmtOQnNvaHdwdmVz?=
- =?utf-8?B?Y2hmUHpFSlljbXpuQmxSd3MvYkI1alRCeWxtY2NMWTNiYWxjeER2d09GREVl?=
- =?utf-8?B?ejNIS2NHcGxpbVF5UHp0RU5YWXlXMFFGTDJwRlhLUElOUmFGWVEyUTJGUFZ2?=
- =?utf-8?B?NGowY1NVRWFWUFRydUxpSlZpcjN0dDN2ZkJKV0xYSHhMMmI3OGhHSlpOTVdv?=
- =?utf-8?B?WFgrd2lWRkRxcmxaSGJQUzVPaU5jOW84UjIxNXltOTZkb3hJMzF6NVFQc05X?=
- =?utf-8?B?Vm5xN2tSREh3PT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AMBPR06MB10365.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OWxRZDRML3p1dktBbWZhRUtFTHJ1V3cyaVBlblpDamtRNGNIWmdCaVJhb09x?=
- =?utf-8?B?N1JqMk9WWHYxa2hIT0hsM3YyRmx3K0lIVTFjREJ5UGpRdUVXTW5Dc3dkYjNz?=
- =?utf-8?B?NG85UzJxYU1RRTFaOThsVXlGTHJNU1Urb3RzdzZRSUhENW5iNmwwSGdTNWVi?=
- =?utf-8?B?RWVzNlc3bmtOMzhNcmNQK0hoOVpPU1ROc0FwYllpa05NRFQxTFkvV1F1MWM5?=
- =?utf-8?B?NmNzU3JmVmdNVDZtUzNVcHdadEt0a3g2L1pkOVJGMFVZVzQ5dEJlZjB5S0dT?=
- =?utf-8?B?dkVDY2lVbXlJVzFQaXlyU3FVOGx4em9xZC9hU1RmTURSamdFRjVXRTY0Mllz?=
- =?utf-8?B?TUlYRWkxMDJpc0NNblZ0TnF5eVljdGptcDU3MVp0YktkWEN0U3kzNnYxZDlO?=
- =?utf-8?B?aUxpbGRvSmwzS3lqTlBVSFIrRHVYS1hDNTd3YjllMFhUOG9Kd2MrOThNSS9y?=
- =?utf-8?B?U3FjeW9TODlsMTkyWEphNDRHcDBBd2g1RTZJWUYzZDRiUlJrcXhzbHAxakgv?=
- =?utf-8?B?dUlId2s3M3Q5ckRLTzFLTElKZEdTS3FJTHFwNnlrem85L3VGZElhRlJCWUFO?=
- =?utf-8?B?Wk9CZGhZeFZVR3h2RXFobUtJbkxkRkdDNkd2TUV1RHpmRWtrNDV6L0VYUnBi?=
- =?utf-8?B?WllCRDJBMHlTZDlyQlR3WFVXNld2eEl6a2lzZmFPWmxnanRWYzU0eCtZU3JO?=
- =?utf-8?B?MCtzOEFCMEJmc3pJTDg5N1JYMTFCMG5DTEpYWVg0aEFFTGZ5TVU5U1RYVDNn?=
- =?utf-8?B?R0FkN2poZFdoeWltZmhCTUcrck16cmVmMTJlR1Q3ck44VE1SdFJ3RjR2a3Ex?=
- =?utf-8?B?cVg1MGp6eWp2ZWJlNklFclZwdmtxcHFqNHVwd21iMk1JbXoxQjZYemN5Vi8y?=
- =?utf-8?B?QW4yZEF2c0tpWGNTRFdzTDkrRzhtaHRCcExOeVRjcU9WU05CNUlMbGJocHVt?=
- =?utf-8?B?UHFVc1VDYkJBTjNLZ2tUQlM2L0hVV3VxeHdyMFYxaVF4bTdIU0UzeFJaeWVZ?=
- =?utf-8?B?RFVIRzJBYnZVa0Y4ZWcxeXE4STBoaXpNU0Q0NDdyY1lqdWNVbHJVd2hhL1hn?=
- =?utf-8?B?aU1FOEtvNktzTHMyYU5vcXlUNEJtMEJLTE50NHhxYTNxNlp4WCtRKzMweWhx?=
- =?utf-8?B?Y1hmMnBxNXFZRVh0Nm5wbUs2bDBCR0dqVWZaK2UraTJBYWR3V0VESjNRbVFo?=
- =?utf-8?B?N3hKU3BybzI3bmpvYlZ3VEhoY3NOZHBXd0FKRHQ1aWdjcytuN29xNE9TV1hC?=
- =?utf-8?B?dmxxc1NCVmx2ZDFNNWRhc0NTYTZ3OHA2cUViQ1JycnQ4OUpWYUtJaytiOEZO?=
- =?utf-8?B?UHNVYjV5QndueE5RN3lpZ01yNHpTSDI0OXVRQUU1QTNYQksvVGF1MnF1ZG1X?=
- =?utf-8?B?UkxoU05rYkZwUG1rN1ZWRGo3cVFiMWFXSVBOSDQrbVVIbVZpSWVNMG5HWWo3?=
- =?utf-8?B?QXM4U3J6T0Fsa0xCdTFjVXVQQTRGNjF5RWhiUFlNdFAvekhleTViY3Bnc1hR?=
- =?utf-8?B?ZC9JbWlVbUswN05Ua2kzeDBqLzVZTkt3STdLOGoydjVRLzVhaW5ZeXEraFVm?=
- =?utf-8?B?MjBwSmpqZFVBVDllS0cyUGRxS1lGSFJTMU5MZERXOXVoWGQyeU94REZ3dFlE?=
- =?utf-8?B?SWdrZVNqWUN4dkFNeSszMjY2SkorSGEzV2E0VG1WRWdSazVCaHdwY1A2b1hC?=
- =?utf-8?B?KzZnVUYvc1RHYkJvZjUyZ083ZlJ0U0E2L1J1WENFMFZpQUZGMGhPajhjdmdy?=
- =?utf-8?B?YUk5MFY0eitSZzRLR2tLT01NQ3owM2w1eE5EUktDVVY0Q0MwR2doM2NKTEJp?=
- =?utf-8?B?MXVDM2VPK0pUK3B0dG9QR1Z1aWY1bjVqaTFUNzlyU1ZqVHIzM0pCd0NNZXFL?=
- =?utf-8?B?YUFmYStITzB6V1BzMWZlRGxjV01sb29oMStFNzNlYTg2MElsL2trSk1TS29n?=
- =?utf-8?B?bmlubXJMKzZ0RVpXNWY3dU5EZTQyRjhEZk8zVGQydzU0OEowY0Q5c2c2ekZk?=
- =?utf-8?B?cjROODlSdzJUTUZFSzRLcHlIbEgwR09GRDh6SVhsNENPSG1nR2dZVEh3bDBh?=
- =?utf-8?B?aitPQlNqSklQbVl6cjBJQXpqMGpTQUR2azdjNEU0RFdTaVlpaUNQbFJXZHMv?=
- =?utf-8?B?K1NGUnl6MEFNWUhMb0NKWEFzbmdpeVdKaldPTjluNG5ZRTR6OW1IalZXb1o2?=
- =?utf-8?B?SEE9PQ==?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0f75376-e751-4e20-6632-08de32632fe6
-X-MS-Exchange-CrossTenant-AuthSource: AMBPR06MB10365.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 11:57:52.0962
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I6Vjl2K4fjLcrphYurCGSx0O5CmWVMuj+v9yRglArjnIO0JWGULYT1vY0ekNVN/9BnfcjnZHyLKgjKy9Fa575Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB8047
 
-Hi,
+On Wed, 2025-12-03 at 08:09 +0700, Bagas Sanjaya wrote:
+> Hi,
+>=20
+> Here are fixes for NFSD IO modes documentation as reported in linux-next =
+[1].
+>=20
+> Enjoy!
+>=20
+> [1]: https://lore.kernel.org/linux-next/20251202152506.7a2d2d41@canb.auug=
+.org.au/
+>=20
+> Bagas Sanjaya (3):
+>   NFSD: Add toctree entry for NFSD IO modes docs
+>   NFSD: nfsd-io-modes: Wrap shell snippets in literal code blocks
+>   NFSD: nfsd-io-modes: Separate lists
+>=20
+>  Documentation/filesystems/nfs/index.rst       |  1 +
+>  .../filesystems/nfs/nfsd-io-modes.rst         | 33 ++++++++++++-------
+>  2 files changed, 22 insertions(+), 12 deletions(-)
+>=20
+>=20
+> base-commit: fa8d4e6784d1b6a6eaa3911bac993181631d2856
 
-On 02/12/2025 22:55, Marcelo Schmitt wrote:
-> Add initial documentation for the ad4134 IIO driver.
-
-I wonder is there some information in here that is not readily available
-in the device datasheet? After all, isn't idea with this file to
-document peculiarities that are not easily found elsewhere?
-
-Thanks,
-Tomas
-
-
-> 
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> ---
-> No changes from v2 to v3.
-> 
->  Documentation/iio/ad4134.rst | 58 ++++++++++++++++++++++++++++++++++++
->  Documentation/iio/index.rst  |  1 +
->  MAINTAINERS                  |  1 +
->  3 files changed, 60 insertions(+)
->  create mode 100644 Documentation/iio/ad4134.rst
-> 
-> diff --git a/Documentation/iio/ad4134.rst b/Documentation/iio/ad4134.rst
-> new file mode 100644
-> index 000000000000..fa44a05e6793
-> --- /dev/null
-> +++ b/Documentation/iio/ad4134.rst
-> @@ -0,0 +1,58 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=============
-> +AD4134 driver
-> +=============
-> +
-> +Device driver for Analog Devices Inc. AD4134 and similar ADCs.
-> +
-> +Supported devices
-> +=================
-> +
-> +* `AD4134 <https://www.analog.com/AD4134>`_
-> +* `AD7134 <https://www.analog.com/AD7134>`_
-> +
-> +Wiring connections
-> +------------------
-> +
-> +AD4134 and similar ADCs can operate in a few different wiring configurations.
-> +
-> +Minimum I/O mode (SPI control mode)
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +The minimum I/O mode wiring allows AD4134 register and data access with the
-> +conventional set of SPI bus lines. The hardware configuration settings for using
-> +AD4134 in minimum I/O mode are:
-> +
-> ++----------------------------+----------------------+--------------------+
-> +| Pin Function               |         Level        | Description        |
-> ++============================+======================+====================+
-> +| PIN/SPI                    |         High         | SPI control mode   |
-> ++----------------------------+----------------------+--------------------+
-> +| MODE                       |         Low          | ASRC slave mode    |
-> ++----------------------------+----------------------+--------------------+
-> +| DCLKIO                     |         Low          | DCLK input         |
-> ++----------------------------+----------------------+--------------------+
-> +| DCLKMODE                   |         Low          | Gated DCLK         |
-> ++----------------------------+----------------------+--------------------+
-> +
-> +A possible connection schema that sets AD4134 digital interface for minimum I/O
-> +mode is:
-> +
-> +::
-> +
-> +                                 IOVDD
-> +      +------------------------+   |
-> +      |                PIN/SPI |<--+     +-------------+
-> +      |                        |         |     HOST    |
-> +      |                   DCLK |<--+     |             |
-> +      |           FORMAT1/SCLK |<--+---- | SCLK        |
-> +      |   AD4134      DEC2/SDI |<--------| SDO         |
-> +      |               DEC3/SDO |-------->| SDI         |
-> +      |                    ODR |<--------| GPIO        |
-> +      |             FORMAT0/CS |<--+     |             |
-> +      |                   MODE |<--+     +-------------+
-> +      |            DEC0/DCLKIO |<--+
-> +      |          DEC1/DCLKMODE |<--+
-> +      +------------------------+   |
-> +                                  GND
-> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-> index 315ae37d6fd4..d4ed782c93a6 100644
-> --- a/Documentation/iio/index.rst
-> +++ b/Documentation/iio/index.rst
-> @@ -22,6 +22,7 @@ Industrial I/O Kernel Drivers
->     ad3552r
->     ad4000
->     ad4030
-> +   ad4134
->     ad4695
->     ad7191
->     ad7380
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a1541cf3967b..b2c101598636 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1455,6 +1455,7 @@ L:	linux-iio@vger.kernel.org
->  S:	Supported
->  W:	https://ez.analog.com/linux-software-drivers
->  F:	Documentation/devicetree/bindings/iio/adc/adi,ad4134.yaml
-> +F:	Documentation/iio/ad4134.rst
->  F:	drivers/iio/adc/ad4134.c
->  
->  ANALOG DEVICES INC AD4170-4 DRIVER
-
+Reviewed-by: Jeff Layton <jlayton@kernel.org>
