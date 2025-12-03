@@ -1,22 +1,22 @@
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8121B277CA5;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79ABE2773E5;
 	Wed,  3 Dec 2025 04:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764737646; cv=none; b=VtxJ3rDocccT3P8JdM0aYS8QJDg7bfWlXrTaMBzf6l0nhfptUND+zChIv6HOCfqXehWif9jvnS6eVjMiAiHO7vGpp5iK4Z746tt9DqNaD9EUBpTEeFvERvAb4XHcoRaVQUj8xsfJEYMhsysa2ejHd88VAgM/NfcMV0u+bhef4go=
+	t=1764737647; cv=none; b=eYKHE7VEzXdbWL3t+NPkqaJFSIrngOxIt3NEfPzFv39h9UdaFYp4JPqGrbkG05g6dvEvz6UH50tZ2za36/qxhvZFd40bF93w5Z3sSYzjH1iqNxiVtQVt2t0nWPdORDlC8Zlkxi8kCoTKb2JDoUb0uGonrNqcHBkCoFzXp26GpyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764737646; c=relaxed/simple;
-	bh=PpHY91uC6qS2wzc2kIKvhJjsJ0LcH5h48gz1zsAHYro=;
+	s=arc-20240116; t=1764737647; c=relaxed/simple;
+	bh=XRaMSYPcrFCQBDJFnfNAsbVT2FhJZu7oFrzEv5ZdSeQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RTNBuQuCcnxc8W9NDCVoZLGOGm5w0GOlGB99oYBIK/pDNyPGpeH+ytfPIBJeIm7XTWjdyPRgbXFN9p0/XNuF1YrT8iP9ZZXa2VwmuWFmrCIXLJFGTmFvv3M6XxUJA90WrF8nW13g06e7TJ2wr8KoX3VOcOHLgKN+yvMX1fTxop0=
+	 MIME-Version; b=AuYmz1gr9cldlDmlec5qcN/o+bQsGvbPAjcFCKgOV0eCkjGWqKGGeordvI9RyoW6grozoaaGYo4oRe332XtZO1mvPWPg8/7q/Fz7ZQCFOO00b5n1asBYaoAq4bUb33o0/QLDrsASSlnKhFc3UpJbEKz2lXgUStW9yrdQgVujvM0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
 Received: from loongson.cn (unknown [10.40.57.136])
-	by gateway (Coremail) with SMTP id _____8Cx779Owi9pIZcqAA--.23887S3;
+	by gateway (Coremail) with SMTP id _____8BxVNBOwi9pHJcqAA--.26443S3;
 	Wed, 03 Dec 2025 12:53:34 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.40.57.136])
-	by front1 (Coremail) with SMTP id qMiowJDx6sBNwi9p7NpEAQ--.30497S4;
+	by front1 (Coremail) with SMTP id qMiowJDx6sBNwi9p7NpEAQ--.30497S3;
 	Wed, 03 Dec 2025 12:53:33 +0800 (CST)
 From: Tianyang Zhang <zhangtianyang@loongson.cn>
 To: chenhuacai@kernel.org,
@@ -37,9 +37,9 @@ Cc: loongarch@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Tianyang Zhang <zhangtianyang@loongson.cn>
-Subject: [PATCH v7 4/5] irqchip/loongarch-avec.c:return IRQ_SET_MASK_OK_DONE when keep affinity
-Date: Wed,  3 Dec 2025 12:53:30 +0800
-Message-ID: <20251203045331.33035-3-zhangtianyang@loongson.cn>
+Subject: [PATCH v7 3/5] irqchip/irq-loongson.h:irq-loongson.h preparation for Redirect irqchip
+Date: Wed,  3 Dec 2025 12:53:29 +0800
+Message-ID: <20251203045331.33035-2-zhangtianyang@loongson.cn>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20251203045331.33035-1-zhangtianyang@loongson.cn>
 References: <20251203045331.33035-1-zhangtianyang@loongson.cn>
@@ -50,11 +50,11 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJDx6sBNwi9p7NpEAQ--.30497S4
+X-CM-TRANSID:qMiowJDx6sBNwi9p7NpEAQ--.30497S3
 X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoW7tF4UCF4rKF4fAryfuryrXwc_yoW8CF4rpF
-	WUCa4qyr4ktFyUWF4DWa18ZFy5Cr95W3y7K3WfC343ZrZ8G3yqgr1Yy34F9FyrCws5C3W2
-	qrsFqrW5ua45AagCm3ZEXasCq-sJn29KB7ZKAUJUUUj5529EdanIXcx71UUUUU7KY7ZEXa
+X-Coremail-Antispam: 1Uk129KBj93XoWxGFy8AF1rXrW5WrW3Zw4kKrX_yoW5Jw1rpF
+	W5Aay29r48tF4xXry5Gw1kXFy3ZFyxKrZrtayfGayfXFZ8Gws7WFy2qF95ZFy8Gr48ua4x
+	ur48tF1UuFs8A3gCm3ZEXasCq-sJn29KB7ZKAUJUUUjJ529EdanIXcx71UUUUU7KY7ZEXa
 	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
 	0xBIdaVrnRJUUUmYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
 	IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
@@ -71,43 +71,90 @@ X-Coremail-Antispam: 1Uk129KBj93XoW7tF4UCF4rKF4fAryfuryrXwc_yoW8CF4rpF
 	67AKxVW8Jr0_Cr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73Uj
 	IFyTuYvjxUPXo2UUUUU
 
-When it is detected in avecintc_set_affinity that the current affinity
-remains valid, the return value is modified to IRQ_SET_MASK_OK_DONE.
-
-After the introduction of redirect-domain, for each interrupt source,
-avecintc-domain only provides the CPU/interrupt vector, while redirect-domain
-provides other operations to synchronize interrupt affinity information
-among multiple cores. The original intention is to notify the cascaded
-redirect_set_affinity that multi-core synchronization is not required.
-
-However, this introduces some compatibility issues, such as the new return
-value causing msi_domain_set_affinity to no longer perform irq_chip_write_msi_msg.
-  1) When redirect exist in the system, the msi msg_address and msg_data no
-longer changes after the allocation phase, so it does not actually require updating
-the MSI message info.
-  2) When only avecintc exists in the system, the irq_domain_activate_irq
-interface will be responsible for the initial configuration of the MSI message,
-which is unconditional. After that, if unnecessary, no modification to the MSI
-message is alse correctly.
+Adjusted definitions and macro from loongson-avec.c to irq-loongson.h,
+including:
+1 marco AVEC_MSG_OFFSET
+2 struct avecintc_data
+3 Make avecintc_sync public
 
 Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
 ---
- drivers/irqchip/irq-loongarch-avec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/irqchip/irq-loongarch-avec.c | 12 +-----------
+ drivers/irqchip/irq-loongson.h       | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
-index 514ad8dedc46..ac8c423e411e 100644
+index bf52dc8345f5..514ad8dedc46 100644
 --- a/drivers/irqchip/irq-loongarch-avec.c
 +++ b/drivers/irqchip/irq-loongarch-avec.c
-@@ -99,7 +99,7 @@ static int avecintc_set_affinity(struct irq_data *data, const struct cpumask *de
- 			return -EBUSY;
+@@ -24,7 +24,6 @@
+ #define VECTORS_PER_REG		64
+ #define IRR_VECTOR_MASK		0xffUL
+ #define IRR_INVALID_MASK	0x80000000UL
+-#define AVEC_MSG_OFFSET		0x100000
  
- 		if (cpu_online(adata->cpu) && cpumask_test_cpu(adata->cpu, dest))
--			return 0;
-+			return IRQ_SET_MASK_OK_DONE;
+ #ifdef CONFIG_SMP
+ struct pending_list {
+@@ -47,15 +46,6 @@ struct avecintc_chip {
  
- 		cpumask_and(&intersect_mask, dest, cpu_online_mask);
+ static struct avecintc_chip loongarch_avec;
  
+-struct avecintc_data {
+-	struct list_head	entry;
+-	unsigned int		cpu;
+-	unsigned int		vec;
+-	unsigned int		prev_cpu;
+-	unsigned int		prev_vec;
+-	unsigned int		moving;
+-};
+-
+ static inline void avecintc_enable(void)
+ {
+ 	u64 value;
+@@ -85,7 +75,7 @@ static inline void pending_list_init(int cpu)
+ 	INIT_LIST_HEAD(&plist->head);
+ }
+ 
+-static void avecintc_sync(struct avecintc_data *adata)
++void avecintc_sync(struct avecintc_data *adata)
+ {
+ 	struct pending_list *plist;
+ 
+diff --git a/drivers/irqchip/irq-loongson.h b/drivers/irqchip/irq-loongson.h
+index 11fa138d1f44..1f11d799bf0a 100644
+--- a/drivers/irqchip/irq-loongson.h
++++ b/drivers/irqchip/irq-loongson.h
+@@ -6,6 +6,17 @@
+ #ifndef _DRIVERS_IRQCHIP_IRQ_LOONGSON_H
+ #define _DRIVERS_IRQCHIP_IRQ_LOONGSON_H
+ 
++#define AVEC_MSG_OFFSET		0x100000
++
++struct avecintc_data {
++	struct list_head        entry;
++	unsigned int            cpu;
++	unsigned int            vec;
++	unsigned int            prev_cpu;
++	unsigned int            prev_vec;
++	unsigned int            moving;
++};
++
+ int find_pch_pic(u32 gsi);
+ 
+ int liointc_acpi_init(struct irq_domain *parent,
+@@ -24,4 +35,12 @@ int pch_msi_acpi_init(struct irq_domain *parent,
+ 					struct acpi_madt_msi_pic *acpi_pchmsi);
+ int pch_msi_acpi_init_avec(struct irq_domain *parent);
+ 
++int redirect_acpi_init(struct irq_domain *parent);
++
++#ifdef CONFIG_SMP
++void avecintc_sync(struct avecintc_data *adata);
++#else
++static inline void avecintc_sync(struct avecintc_data *adata) {}
++#endif
++
+ #endif /* _DRIVERS_IRQCHIP_IRQ_LOONGSON_H */
 -- 
 2.41.0
 
