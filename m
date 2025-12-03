@@ -1,361 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058F631A045;
-	Wed,  3 Dec 2025 19:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A33632E13D
+	for <linux-doc@vger.kernel.org>; Wed,  3 Dec 2025 19:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764788490; cv=none; b=s4xQAfa+4uNuTqVuatuGloZHgu+g1m09MKEmhOUL4nMFUX1zy7sVpI3tGQ6O5nV0IF+waBhV+zmp+n4SLqCbNRLT2f4lLP2BCgz15LIXFvJDLJCl17V3uNiap3wcTghsvtsBsVdMOxk5P3DEas89DM33CASoxr3M0eCeLau0LiM=
+	t=1764788984; cv=none; b=mgUyxtCFzrYwV9yVkDvIyMvfESEEjHVr0icg0+bgu7hY8FLh46X5zxlRKt2yWDrlqRdGQlejbcaKZoZwxJuKCtO8yJpjt3iEGcLFNKVcVWtWNyoC/mhu1STX4x/t6wbm+Iu7SYSq1KUKd7EteFr5s8pjlrfYQMwFjc1aKVjEnDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764788490; c=relaxed/simple;
-	bh=olVUG41lo+4O+yZnlVp+4H7isftZzQWXa10aLiUe4ks=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Fq9lpuyZUJ8HGwcsbob3S0OKVhZGBVwp7uw3ggoLlPzMWyX25AwtDThBxIQAW8IxsWIysWBcUbrGWm+FSlzQ7EKL/Ex0eqhjJv6CaUnWz3DcYuaJCa8zCmLjravUwmM28M0GGHiop/pb0DhL1eERU1AqZ6UasKxNoIi2wTNALSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=du+Z1tTd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764788984; c=relaxed/simple;
+	bh=UQ9P4gpoDW6/g+aOONFllk+M86mat3ZiIaRaBBWZWHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ENvYe93Lo4Wv9HJ1a2RQ7XJF7r8P+5E+PSH/3CxK+7FMbk/pDAs9BlCDac4J1pwYu5hVjx26k0Bc5ncNGktjzVsP/p9asQ5RSHtnQrANbwrbYghtfuGK8OXrSlQObVUSw3nzxuc3wOO9S61X0F51qAHUEhwlofzVOFHZMOono4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pwHwke8e; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="du+Z1tTd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CABA1C116B1;
-	Wed,  3 Dec 2025 19:01:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764788489;
-	bh=olVUG41lo+4O+yZnlVp+4H7isftZzQWXa10aLiUe4ks=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=du+Z1tTd7ypHFt3K5tWXdOYfPIae6rmFJLIRMHjpSBNjtjDevXOX30B3zJXSnaMbR
-	 33pqW2+YGYXeAcutydpU5nNXMnrsgFl/oGROlXgMJGHKlWwx4j5IL6EMovgzqnp4Lb
-	 Mcc6weds72rA2xmJTlWx/uynLLHgg0NtWAVZuGAQHbCqYjKdveL07TS7TxS5ull6+T
-	 0UZCluS+/yum/FNxuRJlsNt0Rdhtwkd42GqDD5aYfi79x7OFe3d7rK5v/jPvfGLUjj
-	 aNrp8PsxhNxgBELR94aNafqxY5cbLr/AQyqeIr6vBJkO9JZ6I9mdOos03CJVXEiog3
-	 NRBZzWgz6g9rw==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 00E0EF4006A;
-	Wed,  3 Dec 2025 14:01:28 -0500 (EST)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 03 Dec 2025 14:01:28 -0500
-X-ME-Sender: <xms:B4kwaVTcH2-c1PQ4y92m-CzFOEruYzRLU93D-Z1fy9lnyxmCcuxpwg>
-    <xme:B4kwaZkbg8EJ5BRMm0LK7tlO8fARl60fBuzZO8oqZ9vccIyFA3Q0OJ7LBtIf5Z_Kt
-    SlZrHi2KOouYjFxoA8M3qAfKqxzR77rqFzz9ytCk5DepulCsw2SthCX>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefheelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgtkhcu
-    nfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpe
-    fhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutghklh
-    gvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleelleeh
-    ledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrghilh
-    drtghomhdpnhgspghrtghpthhtohepudeipdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehnvghilhessghrohifnhdrnhgrmhgvpdhrtghpthhtoheprghlvgigrdgrrhhinh
-    hgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepfihilhhlhiesihhnfhhrrgguvggrugdr
-    ohhrghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopehjlhgrhihtohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhrsggvthes
-    lhifnhdrnhgvthdprhgtphhtthhopegurghirdhnghhosehorhgrtghlvgdrtghomhdprh
-    gtphhtthhopegthhhutghkrdhlvghvvghrsehorhgrtghlvgdrtghomhdprhgtphhtthho
-    pehokhhorhhnihgvvhesrhgvughhrghtrdgtohhm
-X-ME-Proxy: <xmx:B4kwaaTXN6WuXYe-_whoubhSys2XNxdnyyPxGVNJzaEtmBO1K3FAQw>
-    <xmx:B4kwacHyNTWqw_9-qSrfv_cDXRz8xtuU5E81TJQYjs8jQC4vgkKyQg>
-    <xmx:B4kwaZdk8wENi4psYiOD8nwnm-cIZKD8vK0OmpbOsVG2b590MXrL8w>
-    <xmx:B4kwaTI9eneorO4s09rf_vGReJBdhd0JXBMq-mvZizP372sA0_-w7Q>
-    <xmx:B4kwaYqWADtqQzfDlvYm88fC-WnLQXyb-xYIHA9_KQMSN-zPP1ZS_O93>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id D454D780054; Wed,  3 Dec 2025 14:01:27 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pwHwke8e"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-29d7b019e0eso1408165ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 03 Dec 2025 11:09:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764788981; x=1765393781; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B3IRsPmCpiCqjml1bQ7Q4E8Gj2zFoNTCEFI1NKqRplI=;
+        b=pwHwke8e/pv0MnQBxHtn34JFOWKRfYnkjYSJ5KPdk8MKepsuyBFH7weJsQ0fWSt0I1
+         /eqlxOlLBgywz7H+nPhQRwmNiW7wNiZ0TqzOFdTXCMxVxboICLYLIsGdxW5iuWUb+6i7
+         LtfYObIsmB1jh4OfbKgAWykQlK2ZbGm1OfI1EfNQIpHqRBKqBDEXXpCTFL8SRxsuOtqz
+         pbjuic708dJAuawrsKwqo6xOnof60kic317n05avi1myu5zxFQ7LAjLHyyqXx0dO53Ih
+         APZY9HS8KDq/2ih6GGzRgfIQ5+EF6ypSgfbY5q5+yG7rlsB00rT4qS2/sNyP3IRh+XXG
+         +2kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764788981; x=1765393781;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=B3IRsPmCpiCqjml1bQ7Q4E8Gj2zFoNTCEFI1NKqRplI=;
+        b=WXAsk9cM7CAKW+nkFgF8+Vv5m8ZKYYrHiUFuUcEpx6txWY9h9egHoKXoOFD1YLlcIH
+         EM4b9ViDwcYBE99GNX+ZJkO/p+bpUuuT7LGn29z/HYFD6ha4qYwsaFSV+oUbvcZJgxXp
+         bq6mcGfX3IgN+6wxt0/L9tvVZtS9UIUcZIAZUDXrvaKYYUopupQ93SVC7rTS5rLFrOU9
+         zpxT/Vc8sWJKZrrpvRSU5i/RxsnLT65AutlJ97lV/bTWIJZbAujn2CGQoK0rBiwAwURu
+         xO/+59kRdi06d041F+WQlHSaJyQQfyNUGOKWEnOp5Gqo+OKnBSEBPnZYgfEZtqo2mIU/
+         5SAA==
+X-Forwarded-Encrypted: i=1; AJvYcCU2JNxEuNUK2npDFYxlrUQ/8zkphzuNvgxmOkTWMM0PFDTeZsjARGGGgklAQ0Fl7xF3EUWTpz8l1/k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyun1v6fInOImgcRAhrgf+O9VDmVxqqK+sIvjT5suLR/dBIsB4H
+	gNxAlLLg3gMfCf4Ici+8KKrurrKxvJRkehMvldx4m2QW1nUMO9FgKwiOgXlvaAlzIzc=
+X-Gm-Gg: ASbGncuJ3jw0Hoo2KdYnWE3YupLzdH4HKgSewA2xesEw+/Kn8Rh6j8ZCX2TKsQm/ecV
+	4+lak//OTSPaeq1LoQLIlXCRuVY5g0iP/xX3geOs4bbV1kR+Il8enW+hWf1wcm211EhIP3//LPb
+	BgKM0sIcpNLHtxb0/Gi7JCfqrnNh9HbFO3oMCSdozs8VSuSsClxtTsqjGpT4F/kjPqsvsP5E6f/
+	WgVw1zPK+ao2OX35o0+XorW0wDHxkuYmnecj+Kzli3Po/PHW7rMTLfnwK1/KURHqTZnGTlosIRI
+	cN5wASy2QhOlyjHmmVtXu99F344aQtGBrldG4jh+ntT8aUGJRFUdAhai19doRm4PmdAb9dMeQno
+	WGfMTv31ui3H3s92QjUwfcn+mCUtwbbmJdAOGPM5g3FQAxo58WfkAAeCf9wReYa6N11lSgS/bHQ
+	8MfOJcICmnqBi4a60/MZoAXrAY
+X-Google-Smtp-Source: AGHT+IF06RISZgnSJBztNS3j4oN16EtI84xL0/NkOjF0OCvNrCJXb3n/r6sR5sNc/4qd+kbVJVFsEA==
+X-Received: by 2002:a17:903:94f:b0:29d:73cc:c9f6 with SMTP id d9443c01a7336-29d73cce8bdmr29319365ad.1.1764788981186;
+        Wed, 03 Dec 2025 11:09:41 -0800 (PST)
+Received: from p14s ([2604:3d09:148c:c800:dc26:2c67:b58f:e40a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb7f69asm190635605ad.102.2025.12.03.11.09.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Dec 2025 11:09:40 -0800 (PST)
+Date: Wed, 3 Dec 2025 12:09:37 -0700
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-imx@nxp.com, Randy Dunlap <rdunlap@infradead.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v5 0/5] Enable Remote GPIO over RPMSG on i.MX Platform
+Message-ID: <aTCK8e1SJA7Uh3wL@p14s>
+References: <20251104203315.85706-1-shenwei.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Anbf2XGo_bhc
-Date: Wed, 03 Dec 2025 14:00:44 -0500
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jeff Layton" <jlayton@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Chuck Lever" <chuck.lever@oracle.com>,
- "Alexander Aring" <alex.aring@gmail.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- "Jonathan Corbet" <corbet@lwn.net>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Message-Id: <ae795e6b-bf65-46ec-9629-edcec3dcd0b9@app.fastmail.com>
-In-Reply-To: <20251201-dir-deleg-ro-v1-2-2e32cf2df9b7@kernel.org>
-References: <20251201-dir-deleg-ro-v1-0-2e32cf2df9b7@kernel.org>
- <20251201-dir-deleg-ro-v1-2-2e32cf2df9b7@kernel.org>
-Subject: Re: [PATCH 2/2] filelock: allow lease_managers to dictate what qualifies as a
- conflict
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251104203315.85706-1-shenwei.wang@nxp.com>
 
-
-
-On Mon, Dec 1, 2025, at 10:08 AM, Jeff Layton wrote:
-> Requesting a delegation on a file from the userland fcntl() interface
-> currently succeeds when there are conflicting opens present.
+On Tue, Nov 04, 2025 at 02:33:10PM -0600, Shenwei Wang wrote:
+> Support the remote devices on the remote processor via the RPMSG bus on
+> i.MX platform.
+> 
+> Changes in v5:
+>  - move the gpio-rpmsg.rst from admin-guide to staging directory after
+>    discussion with Randy Dunlap.
+>  - add include files with some code improvements per Bartosz's comments.
+> 
+> Changes in v4:
+>  - add a documentation to describe the transport protocol per Andrew's
+>    comments.
+>  - add a new handler to get the gpio direction.
+> 
+> Changes in v3:
+>  - fix various format issue and return value check per Peng 's review
+>    comments.
+>  - add the logic to also populate the subnodes which are not in the
+>    device map per Arnaud's request. (in imx_rproc.c)
+>  - update the yaml per Frank's review comments.
+> 
+> Changes in v2:
+>  - re-implemented the gpio driver per Linus Walleij's feedback by using
+>    GPIOLIB_IRQCHIP helper library.
+>  - fix various format issue per Mathieu/Peng 's review comments.
+>  - update the yaml doc per Rob's feedback
+> 
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Andrew Lunn <andrew@lunn.ch>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: linux-gpio@vger.kernel.org
+> 
+> Shenwei Wang (5):
+>   dt-bindings: remoteproc: imx_rproc: Add "rpmsg" subnode support
+>   remoteproc: imx_rproc: Populate devices under "rpmsg" subnode
+>   docs: staging: gpio-rpmsg: gpio over rpmsg bus
+>   gpio: imx-rpmsg: add imx-rpmsg GPIO driver
+>   arm64: dts: imx8ulp: Add rpmsg node under imx_rproc
+> 
+>  .../bindings/remoteproc/fsl,imx-rproc.yaml    | 123 +++++
+>  Documentation/staging/gpio-rpmsg.rst          | 202 ++++++++
+>  Documentation/staging/index.rst               |   1 +
+>  arch/arm64/boot/dts/freescale/imx8ulp.dtsi    |  27 +
+>  drivers/gpio/Kconfig                          |  17 +
+>  drivers/gpio/Makefile                         |   1 +
+>  drivers/gpio/gpio-imx-rpmsg.c                 | 475 ++++++++++++++++++
+>  drivers/remoteproc/imx_rproc.c                | 146 ++++++
+>  include/linux/rpmsg/imx_rpmsg.h               |  48 ++
+>  9 files changed, 1040 insertions(+)
+>  create mode 100644 Documentation/staging/gpio-rpmsg.rst
+>  create mode 100644 drivers/gpio/gpio-imx-rpmsg.c
+>  create mode 100644 include/linux/rpmsg/imx_rpmsg.h
 >
-> This is because the lease handling code ignores conflicting opens for
-> FL_LAYOUT and FL_DELEG leases. This was a hack put in place long ago,
-> because nfsd already checks for conflicts in its own way. The kernel
-> needs to perform this check for userland delegations the same way it is
-> done for leases, however.
->
-> Make this dependent on the lease_manager by adding a new
-> ->lm_open_conflict() lease_manager operation and have
-> generic_add_lease() call that instead of check_conflicting_open().
-> Morph check_conflicting_open() into a ->lm_open_conflict() op that is
-> only called for userland leases/delegations. Set the
-> ->lm_open_conflict() operations for nfsd to trivial functions that
-> always return 0.
->
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  Documentation/filesystems/locking.rst |  1 +
->  fs/locks.c                            | 90 ++++++++++++++++-------------------
->  fs/nfsd/nfs4layouts.c                 | 11 ++++-
->  fs/nfsd/nfs4state.c                   |  7 +++
->  include/linux/filelock.h              |  1 +
->  5 files changed, 60 insertions(+), 50 deletions(-)
->
-> diff --git a/Documentation/filesystems/locking.rst 
-> b/Documentation/filesystems/locking.rst
-> index 
-> 77704fde98457423beae7ff00525a7383e37132b..29d453a2201bcafa03b26b706e4c68eaf5683829 
-> 100644
-> --- a/Documentation/filesystems/locking.rst
-> +++ b/Documentation/filesystems/locking.rst
-> @@ -416,6 +416,7 @@ lm_change		yes		no			no
->  lm_breaker_owns_lease:	yes     	no			no
->  lm_lock_expirable	yes		no			no
->  lm_expire_lock		no		no			yes
-> +lm_open_conflict        yes             no                      no
->  ======================	=============	=================	=========
-> 
->  buffer_head
-> diff --git a/fs/locks.c b/fs/locks.c
-> index 
-> e974f8e180fe48682a271af4f143e6bc8e9c4d3b..a58c51c2cdd0cc4496538ed54d063cd523264128 
-> 100644
-> --- a/fs/locks.c
-> +++ b/fs/locks.c
-> @@ -585,10 +585,50 @@ lease_setup(struct file_lease *fl, void **priv)
->  	__f_setown(filp, task_pid(current), PIDTYPE_TGID, 0);
->  }
-> 
-> +/**
-> + * lease_open_conflict - see if the given file points to an inode that has
-> + *			 an existing open that would conflict with the
-> + *			 desired lease.
-> + * @filp:	file to check
-> + * @arg:	type of lease that we're trying to acquire
-> + *
-> + * Check to see if there's an existing open fd on this file that would
-> + * conflict with the lease we're trying to set.
-> + */
-> +static int
-> +lease_open_conflict(struct file *filp, const int arg)
-> +{
-> +	struct inode *inode = file_inode(filp);
-> +	int self_wcount = 0, self_rcount = 0;
-> +
-> +	if (arg == F_RDLCK)
-> +		return inode_is_open_for_write(inode) ? -EAGAIN : 0;
-> +	else if (arg != F_WRLCK)
-> +		return 0;
-> +
-> +	/*
-> +	 * Make sure that only read/write count is from lease requestor.
-> +	 * Note that this will result in denying write leases when i_writecount
-> +	 * is negative, which is what we want.  (We shouldn't grant write leases
-> +	 * on files open for execution.)
-> +	 */
-> +	if (filp->f_mode & FMODE_WRITE)
-> +		self_wcount = 1;
-> +	else if (filp->f_mode & FMODE_READ)
-> +		self_rcount = 1;
-> +
-> +	if (atomic_read(&inode->i_writecount) != self_wcount ||
-> +	    atomic_read(&inode->i_readcount) != self_rcount)
-> +		return -EAGAIN;
-> +
-> +	return 0;
-> +}
-> +
->  static const struct lease_manager_operations lease_manager_ops = {
->  	.lm_break = lease_break_callback,
->  	.lm_change = lease_modify,
->  	.lm_setup = lease_setup,
-> +	.lm_open_conflict = lease_open_conflict,
->  };
-> 
->  /*
-> @@ -1753,52 +1793,6 @@ int fcntl_getdeleg(struct file *filp, struct 
-> delegation *deleg)
->  	return 0;
->  }
-> 
-> -/**
-> - * check_conflicting_open - see if the given file points to an inode 
-> that has
-> - *			    an existing open that would conflict with the
-> - *			    desired lease.
-> - * @filp:	file to check
-> - * @arg:	type of lease that we're trying to acquire
-> - * @flags:	current lock flags
-> - *
-> - * Check to see if there's an existing open fd on this file that would
-> - * conflict with the lease we're trying to set.
-> - */
-> -static int
-> -check_conflicting_open(struct file *filp, const int arg, int flags)
-> -{
-> -	struct inode *inode = file_inode(filp);
-> -	int self_wcount = 0, self_rcount = 0;
-> -
-> -	if (flags & FL_LAYOUT)
-> -		return 0;
-> -	if (flags & FL_DELEG)
-> -		/* We leave these checks to the caller */
-> -		return 0;
-> -
-> -	if (arg == F_RDLCK)
-> -		return inode_is_open_for_write(inode) ? -EAGAIN : 0;
-> -	else if (arg != F_WRLCK)
-> -		return 0;
-> -
-> -	/*
-> -	 * Make sure that only read/write count is from lease requestor.
-> -	 * Note that this will result in denying write leases when 
-> i_writecount
-> -	 * is negative, which is what we want.  (We shouldn't grant write 
-> leases
-> -	 * on files open for execution.)
-> -	 */
-> -	if (filp->f_mode & FMODE_WRITE)
-> -		self_wcount = 1;
-> -	else if (filp->f_mode & FMODE_READ)
-> -		self_rcount = 1;
-> -
-> -	if (atomic_read(&inode->i_writecount) != self_wcount ||
-> -	    atomic_read(&inode->i_readcount) != self_rcount)
-> -		return -EAGAIN;
-> -
-> -	return 0;
-> -}
-> -
->  static int
->  generic_add_lease(struct file *filp, int arg, struct file_lease **flp, 
-> void **priv)
->  {
-> @@ -1835,7 +1829,7 @@ generic_add_lease(struct file *filp, int arg, 
-> struct file_lease **flp, void **pr
->  	percpu_down_read(&file_rwsem);
->  	spin_lock(&ctx->flc_lock);
->  	time_out_leases(inode, &dispose);
-> -	error = check_conflicting_open(filp, arg, lease->c.flc_flags);
-> +	error = lease->fl_lmops->lm_open_conflict(filp, arg);
->  	if (error)
->  		goto out;
-> 
-> @@ -1892,7 +1886,7 @@ generic_add_lease(struct file *filp, int arg, 
-> struct file_lease **flp, void **pr
->  	 * precedes these checks.
->  	 */
->  	smp_mb();
-> -	error = check_conflicting_open(filp, arg, lease->c.flc_flags);
-> +	error = lease->fl_lmops->lm_open_conflict(filp, arg);
->  	if (error) {
->  		locks_unlink_lock_ctx(&lease->c);
->  		goto out;
-> diff --git a/fs/nfsd/nfs4layouts.c b/fs/nfsd/nfs4layouts.c
-> index 
-> 683bd1130afe298f9df774684192c89f68102b72..ca7ec7a022bd5c12fad60ff9e51145d9cca55527 
-> 100644
-> --- a/fs/nfsd/nfs4layouts.c
-> +++ b/fs/nfsd/nfs4layouts.c
-> @@ -764,9 +764,16 @@ nfsd4_layout_lm_change(struct file_lease *onlist, 
-> int arg,
->  	return lease_modify(onlist, arg, dispose);
->  }
-> 
-> +static int
-> +nfsd4_layout_lm_open_conflict(struct file *filp, int arg)
-> +{
-> +	return 0;
-> +}
-> +
 
-The usual idiom for no-op callbacks is to make them optional.
-Then generic_add_lease would check if the ->lm_open_conflict
-callback is defined first and skip the call if it's not.
+After reviewing this patchset I come to the following conclusion:
 
-If that doesn't make sense to do, and these NFSD-specific
-functions need to remain, then our usual practice is to add
-a kdoc comment for both of the new functions that looks like
-the one you added above for lease_open_conflict().
+(1) Other people have pointed this out multiple time and I will do the same: the
+only way this work will move forward is by adopting a generic solution.  This
+proposal is not (no need to try to convince me otherwise).
 
+(2) The right way to do this would be to have a separate set of virtqueues for
+each component that sits behind the remoteproc, instantiated using the content
+found in the resource table.  This would follow the same approach as the
+namespace, with their own VIRTIO IDS as published in [1].  That way we could
+re-use a lot of the work already done for other components, such as virtio-i2c
+and virtio-gpio.
 
-Otherwise, I'm comfortable that this change fits in with the
-deadlock prevention patches we are considering for NFSD.
+(3) Some environment may be too memory constrained for option (2) above, hence
+using rpmsg as a transport protocol.  But as with option (2), that way also
+needs to look like virtio devices to the kernel.  It also means that protocol
+to interact with components need to follow the OASIS specification.  As such
+you'd have platform drivers for rpmsg-i2c and rpmsg-gpio that would register
+rpmsg_drivers.
 
-Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
+I don't mind which approach is taken as they both represent the same amount of
+work.  Lastly, your next patchset should contain an implementation for GPIO or
+I2C, not both.
 
-For both 1/2 and 2/2.
+Thanks,
+Mathieu
 
-
->  static const struct lease_manager_operations nfsd4_layouts_lm_ops = {
-> -	.lm_break	= nfsd4_layout_lm_break,
-> -	.lm_change	= nfsd4_layout_lm_change,
-> +	.lm_break		= nfsd4_layout_lm_break,
-> +	.lm_change		= nfsd4_layout_lm_change,
-> +	.lm_open_conflict	= nfsd4_layout_lm_open_conflict,
->  };
+[1]. https://elixir.bootlin.com/linux/v6.18-rc7/source/include/uapi/linux/virtio_ids.h#L38
+ 
+> --
+> 2.43.0
 > 
->  int
-> diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-> index 
-> 8f8c9385101e15b64883eabec71775f26b14f890..669fabb095407e61525e5b71268cf1f06fc09877 
-> 100644
-> --- a/fs/nfsd/nfs4state.c
-> +++ b/fs/nfsd/nfs4state.c
-> @@ -5543,10 +5543,17 @@ nfsd_change_deleg_cb(struct file_lease *onlist, 
-> int arg,
->  		return -EAGAIN;
->  }
-> 
-> +static int
-> +nfsd4_deleg_lm_open_conflict(struct file *filp, int arg)
-> +{
-> +	return 0;
-> +}
-> +
->  static const struct lease_manager_operations nfsd_lease_mng_ops = {
->  	.lm_breaker_owns_lease = nfsd_breaker_owns_lease,
->  	.lm_break = nfsd_break_deleg_cb,
->  	.lm_change = nfsd_change_deleg_cb,
-> +	.lm_open_conflict = nfsd4_deleg_lm_open_conflict,
->  };
-> 
->  static __be32 nfsd4_check_seqid(struct nfsd4_compound_state *cstate, 
-> struct nfs4_stateowner *so, u32 seqid)
-> diff --git a/include/linux/filelock.h b/include/linux/filelock.h
-> index 
-> 54b824c05299261e6bd6acc4175cb277ea35b35d..2f5e5588ee0733c200103801d0d2ba19bebbf9af 
-> 100644
-> --- a/include/linux/filelock.h
-> +++ b/include/linux/filelock.h
-> @@ -49,6 +49,7 @@ struct lease_manager_operations {
->  	int (*lm_change)(struct file_lease *, int, struct list_head *);
->  	void (*lm_setup)(struct file_lease *, void **);
->  	bool (*lm_breaker_owns_lease)(struct file_lease *);
-> +	int (*lm_open_conflict)(struct file *, int);
->  };
-> 
->  struct lock_manager {
->
-> -- 
-> 2.52.0
-
--- 
-Chuck Lever
