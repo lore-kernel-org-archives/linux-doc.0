@@ -1,109 +1,136 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551EB29B8DB
-	for <linux-doc@vger.kernel.org>; Wed,  3 Dec 2025 07:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39FD32D8367;
+	Wed,  3 Dec 2025 09:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764747846; cv=none; b=plt2f++Nd/PO6QJlxpPMdTTVmHjCKR9SKJZIoEbYLpiYcQGAgT1K71ClvQoD+xYazVIQvNyqLXnsA46O3GgUs3eNefK9jcujA0ljGgFB+6EvsTtOV0L4YUvWovVOAhsD391zBsIkcdzpb7oCYrFHm5tfZRRI1e1muqN1xRsZvoM=
+	t=1764752504; cv=none; b=bp4JW3/E6TIhRQ9nxnv3EOYDaHlDOyeUmyv9owLjCCUrz4m3pSYNgivD5kiYUbaUiebJTTPWA1Fhg2EeKcObu2z8zPonZmG+Wu31ahvsL5olk9WJUF5x/zXDprBLjJIHXC6a67GZu8YRaXdIA09N4rxwdJg88eORGb7W3esnoFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764747846; c=relaxed/simple;
-	bh=HFfHaq84lowkvs9fqpKxO4da8+2xGKryV4IxKt186Og=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gwMmclELYclNxaVIPPepE/Z2LbUHXb0bPdxO+wWfrFzd+mC1n8R1cMBQqBTJ21TDOZyYsquR2Q7s1PaHYVSpeme1z3G5FYFfh+3iHWcHdhzx7yzvymNNFIkYjzNcAWMakCG9fniMNtw8ldxv9FB2IjeTWifrBywPAekyFn+ElbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=W+te8IDY; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="W+te8IDY"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b79d0a0537bso69874266b.2
-        for <linux-doc@vger.kernel.org>; Tue, 02 Dec 2025 23:44:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764747841; x=1765352641; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qDg0mAdezWfG6MBoyNeK7eOxDklTJF7sf+3+ikV+2oo=;
-        b=W+te8IDY3ox0abiHFwnINvbb9RrejIzozBsRJtI8Cnz/VlnPYRgpLJN0vbCqNAbMa3
-         UL4bBQtTOmaFhj/CIJlr6RFM4GoL8guBwOay8O/A6yBjXm3so8sHXpGemrB1Very9Vda
-         7L/uoPBjukZFXRRoS4gckFR0M8piQ0BprPSrfrKEL5mXeM29/t/pdquFEzqE7TpanLcS
-         YJpedlTvRLm/ut56oaNm6fc2Bi37LJCuo0YSSS0jVrmf1tQUpNpj/VqzOOXEpMZbLVLk
-         P6+HvwganKuyNg68+F0zE8K44gQcYrGsSteIRNSbD/Skc5raoctxLuh2ep4fjC0dChnU
-         +Vaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764747841; x=1765352641;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qDg0mAdezWfG6MBoyNeK7eOxDklTJF7sf+3+ikV+2oo=;
-        b=wzR5PvYUDrr3bY/7itIx4/qXpNw18JwdvxPvCmZdth6if5U2hBnCBm1Hpshaa4r6Vu
-         Isy/mHDQTPwM8HAHVxSpMH1k4dbyFUxgPWJeuGNUK+w7y9KO19Miqtx2AfuscqrS8t2E
-         mPFuEGUe53fAbv8RlpuZu3mPlbOARbJ3s0hwXYpBJm5LlnJrNiKFkXd7dhQBKtvjhRPW
-         bD0Y1snIjBtcYfe1aw1eeYLwvmBjJMQ9XbvQtqGLLuZgbH2TQRrpGi22IzFePxVVvVPj
-         X85qmL5JwOpd6Bv/Dc0p+iHskKRefn7PxZW9L2s1EHvqgBZY/sqH2s+DLC5C4UlK91Zf
-         8GUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWqSW+yhWRYFbTzs33Tzxl5ui2ahiqE1l+QT39gClGAMchnO6IDAXsbGV1Q6EMKx3vEOCqoFd+8VdI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7+gm9a0RdJr0FdFsAG658PXEytpFBVjgf0iyfpmy6TQLg9utg
-	wQOacvm2icXSfvlV20hMklAfnLjQ85Q/Aok/t1p+XkHJTvvZeu0oVIt73p+HmN5RY4U7gHoUsSl
-	lIm+0
-X-Gm-Gg: ASbGnct4xrN2OSDlBaJ7NJWryNXfYGCuy1e4r39oWwsD4wVSTnHIwLNVnODDad/WP5r
-	Oq3AmvePoTFd+WgjLEhjRhjLC3DnvQ3ykMWHxifZEAy8H42IgITZQ/gX7LWgKXY9IVqYi+dvdz/
-	RZ1UPa97YZfzsfAyr4fYRrIyDX0Sk0AGOOFEPYVIPDosizx7qXgztYu3tX/yOJ/QpaIQoCmI35I
-	7rtsJmgh/F2yYUqKX9RzvkLQOZ6tVUGvY1bFxa/r0HzyMAeYgFRkns6WTUloJW+8jtEIw7FoKzG
-	v14TzqRZRh5yO2wDdCo/Xml2QkP7eTLLSAKo/2ktyUzJYImkLPraanVI7SWPH0BfmguXhBSf0IB
-	+idDU9G4x/yGtnwzmmkNVylNw6bGQno2oTqs9ZR6fnyVJKKgKbbTHvHKwXWzlo4HqmLSXgBaNl1
-	RtpRU+vsp6myqD/3JP
-X-Google-Smtp-Source: AGHT+IHOJmtnqel4E2MlxX3LOREVainlBOzpQXPj3OZ+vmLxOF/emLRKv2+K2zFqdKqpDzSb4sO3ww==
-X-Received: by 2002:a17:907:7291:b0:b73:8e7d:4f91 with SMTP id a640c23a62f3a-b79dc76d5f9mr140365366b.41.1764747841519;
-        Tue, 02 Dec 2025 23:44:01 -0800 (PST)
-Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b76f5a3a4ebsm1718882466b.62.2025.12.02.23.44.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 23:44:01 -0800 (PST)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: Improve wording on requirements for a free Nitrokey
-Date: Wed,  3 Dec 2025 08:43:47 +0100
-Message-ID: <20251203074349.1826233-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1764752504; c=relaxed/simple;
+	bh=ofOg7y0Oxn0ScACDF36NJxu/w3xWs0qEUQIPGUp3Icg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ludvjMWbeLcgYfKEMTASRRuX1IjXfGiZC7bwaSgAIU4oZWZH6XkqCIGKe354VgzL6ZKeFBd7bmcNvyUcuFmCK3bMFf3iI1imT2xSAhah684NxE5IEYas+n9xAmfoH+0N+03P4SdPr9SiQqxEqauGbWm/2SumZQLngyTwKhV4tiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1B4E6339;
+	Wed,  3 Dec 2025 01:01:34 -0800 (PST)
+Received: from [10.163.49.22] (unknown [10.163.49.22])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6AF5A3F59E;
+	Wed,  3 Dec 2025 01:01:38 -0800 (PST)
+Message-ID: <caea8801-0691-4ff2-aa7c-9b39b13e9240@arm.com>
+Date: Wed, 3 Dec 2025 14:31:35 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] mm/mm_init: Introduce a boot parameter for check_pages
+To: Joshua Hahn <joshua.hahnjy@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, SeongJae Park <sj@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ kernel-team@meta.com
+References: <20251201180739.2330474-1-joshua.hahnjy@gmail.com>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <20251201180739.2330474-1-joshua.hahnjy@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1213; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=HFfHaq84lowkvs9fqpKxO4da8+2xGKryV4IxKt186Og=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpL+o1uhAlXnfW+y+Mcao/pTDkmCr99U5NwCsK0 81skxDhlcmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaS/qNQAKCRCPgPtYfRL+ ThopB/9pfBKnw6yWfIai07WO6fpvoe4uS9DRlLjACWuawhiipHl19s95EKXBE/2DI7dbXB+Fxh1 LzR3V+YRNuKRhigmK26VOzIHOM1UfkSBtFp0dw57UFm+xf+lUn83E64EDmP20TYXU3EMIFPp4kx bgfcbxWp1nuqeL1waAZlsoFG35WDTHLIe1gWaWj8P2yp8xEFu92V1s00qcgbuNX5OVNhKkyyJsk XmQKasKZUXQQyagpaV2ROqOzdvEJIusUtS0LApUgabUc3WL2ctOWdLjDNQXAiduN1XakVrmz94I OOuxwHJpvkdb1ODTmLH4zvq/qYYeMp6QtjlDtP/mQeHIrjGw
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-"listed in MAINTAINERS" is not enough to qualify for the free Nitrokey
-Start. You have to be listed in an M: entry. Mention that to reduce
-confusion for reviewers who wonder why their application fails.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- Documentation/process/maintainer-pgp-guide.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
-index b6919bf606c3..2e4da3de25d4 100644
---- a/Documentation/process/maintainer-pgp-guide.rst
-+++ b/Documentation/process/maintainer-pgp-guide.rst
-@@ -405,8 +405,8 @@ geographical region, and open/proprietary hardware considerations.
- 
- .. note::
- 
--    If you are listed in MAINTAINERS or have an account at kernel.org,
--    you `qualify for a free Nitrokey Start`_ courtesy of The Linux
-+    If you are listed in an `M:` entry in MAINTAINERS or have an account at
-+    kernel.org, you `qualify for a free Nitrokey Start`_ courtesy of The Linux
-     Foundation.
- 
- .. _`Nitrokey Start`: https://www.nitrokey.com/products/nitrokeys
+On 01/12/25 11:37 PM, Joshua Hahn wrote:
+> Use-after-free and double-free bugs can be very difficult to track down.
+> The kernel is good at tracking these and preventing bad pages from being
+> used/created through simple checks gated behind "check_pages_enabled".
+> 
+> Currently, the only ways to enable this flag is by building with
+> CONFIG_DEBUG_VM, or as a side effect of other checks such as
+> init_on_{alloc, free}, page_poisoning, or debug_pagealloc among others.
+> These solutions are powerful, but may often be too coarse in balancing
+> the performance vs. safety that a user may want, particularly in
+> latency-sensitive production environments.
+> 
+> Introduce a new boot parameter "check_pages", which enables page checking
+> with no other side effects. It takes kstrbool-able inputs as an argument
+> (i.e. 0/1, true/false, on/off, ...). This patch is backwards-compatible;
+> setting CONFIG_DEBUG_VM still enables page checking.
+> 
+> Acked-by: SeongJae Park <sj@kernel.org>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
+> ---
+> v2 --> v3:
+> - Dropped the second patch. I may pursue it at another time : -)
+> - Variable renaming (dropping leading _) and cleaner check in
+>   mem_debugging_and_hardening_init, as suggested by Mike Rapoport
+> v1 --> v2:
+> - Changed check_pages from a build config into a boot config, as suggested
+>   by Vlastimil.
+> - Introduced the second patch, which decouples page checking from 
+>   init_on_page_alloc and init_on_page_free.
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  8 ++++++++
+>  mm/mm_init.c                                    | 10 +++++++++-
+>  2 files changed, 17 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 6c42061ca20e..acdc7fbdecac 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -669,6 +669,14 @@
+>  			nokmem -- Disable kernel memory accounting.
+>  			nobpf -- Disable BPF memory accounting.
+>  
+> +	check_pages=	[MM,EARLY] Enable sanity checking of pages after
+> +			allocations / before freeing. This adds checks to catch
+> +			double-frees, use-after-frees, and other sources of
+> +			page corruption by inspecting page internals (flags,
+> +			mapcount/refcount, memcg_data, etc.).
+> +			Format: { "0" | "1" }
+> +			Default: 0 (1 if CONFIG_DEBUG_VM is set)
+> +
+>  	checkreqprot=	[SELINUX] Set initial checkreqprot flag value.
+>  			Format: { "0" | "1" }
+>  			See security/selinux/Kconfig help text.
+> diff --git a/mm/mm_init.c b/mm/mm_init.c
+> index c6812b4dbb2e..fc2a6f1e518f 100644
+> --- a/mm/mm_init.c
+> +++ b/mm/mm_init.c
+> @@ -2525,6 +2525,14 @@ early_param("init_on_free", early_init_on_free);
+>  
+>  DEFINE_STATIC_KEY_MAYBE(CONFIG_DEBUG_VM, check_pages_enabled);
+>  
+> +static bool check_pages_enabled_early __initdata;
+> +
+> +static int __init early_check_pages(char *buf)
+> +{
+> +	return kstrtobool(buf, &check_pages_enabled_early);
+> +}
+> +early_param("check_pages", early_check_pages);
+> +
+>  /*
+>   * Enable static keys related to various memory debugging and hardening options.
+>   * Some override others, and depend on early params that are evaluated in the
+> @@ -2534,7 +2542,7 @@ DEFINE_STATIC_KEY_MAYBE(CONFIG_DEBUG_VM, check_pages_enabled);
+>  static void __init mem_debugging_and_hardening_init(void)
+>  {
+>  	bool page_poisoning_requested = false;
+> -	bool want_check_pages = false;
+> +	bool want_check_pages = check_pages_enabled_early;
+>  
+>  #ifdef CONFIG_PAGE_POISONING
+>  	/*
 
-base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
--- 
-2.47.3
+LGTM.
+
+Also a very nice write up for the commit message explaining
+the new kernel parameter rationale comprehensively.
+
+Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+
 
