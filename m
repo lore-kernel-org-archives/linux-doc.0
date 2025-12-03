@@ -1,164 +1,206 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AB2221DB3
-	for <linux-doc@vger.kernel.org>; Wed,  3 Dec 2025 01:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12B323770A
+	for <linux-doc@vger.kernel.org>; Wed,  3 Dec 2025 02:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764724173; cv=none; b=l7L2ZglbhymnTitaUKJWuBbuP2nnDr/U1qctJ7DvUPP1afQsdhudd+y/CkogfP2tU3lPT9GdorcNvRcZOnz7Zjt/0yEmzG/5GnRtbGDEqdV5ze+HokUfWhQCgPhHn5X6yC4VwVHxHprBcwVykzYZVYz32+9LjpJAFoHB6WtQhok=
+	t=1764729002; cv=none; b=PV2IOhRW95Ucz/79wOzIIv9C6qJv2ZyltO3u9JRqOm4cYUkwK7q/pusknhYo94Sz3m42oTN5x+gx3u9Lscos5Uf8/13V44Kc1hczuhE/fw7Os+aedrNiyGL8/+DFGt86iMuwxtlY6C08c+bMB0NaQGNg8+T9kdJlxJ8UvtZqnM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764724173; c=relaxed/simple;
-	bh=OnkMzhtWftClORfQtq4pVFAPUxLwrZMkgpnvY4knDco=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XNNcTDtwxAi3wm7QJgQvPIjR5QxSmxA+yFPxbXhZVYgRIZm4WgUOy58paC9yw5WEJ5UHs5zitWSEWcvmwMwgOtn7xL+KDVKTQGLCDkNfNKNL93GPvDNd3nlBXCUJwnNosbiPrh4l00mSb+V6hFQN3WXN1LwdvbbWuBrtc5Cog4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M4GkNpkQ; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764729002; c=relaxed/simple;
+	bh=KdiYEwjhAYiZgfWgtgdTp7GLlr11/3ZSvPicViqwV74=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FmQqNXA7CvsG4L7jZc1OC/6oSdhCLReDeJPLTe2pEYd9k8ELxBmWEFxisfRzrkZ7KV9b+wtvn2BDeVsWivQnpdQUs3UymBaKWe5G4G0wJMh21vMduXGZx9ih8Rjmcdx7rC99iLwLWRZYeUUrnmV3r2Re6fQ3aOSnNk7z/feEfQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RA9a0KXf; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M4GkNpkQ"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7acd9a03ba9so6741693b3a.1
-        for <linux-doc@vger.kernel.org>; Tue, 02 Dec 2025 17:09:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764724171; x=1765328971; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pMQ8vHmUy2M1e+AWep/BaUFVNkwfbE6reMg+lneA/lE=;
-        b=M4GkNpkQ8hyBzf2xcSmAz9Th6YPOVugxO9SOs69B0L7zOmHGsIIWcvZsPtTgfBj71/
-         DsHjVsAad1kzNtXha5C9W8TuSRllfZf8gSVYqKy0rl8lBEQdGKijaVOEVqDJtG1Qx7Sk
-         YlMmMAHQ/D9aq3p0FIJjddz3Ucy4y885k3OulLwYjHaKaO6BwZwqr9rTbDiPPNUgRrCl
-         ufWa03r5pAKnjks6gwJhnjLeHs5BzUA5TphR6/4HrYFiRaBxCBh6qBXmH5wpab2v5cdR
-         JDpYA1tRBP/6WIrGk3OHXDvzF9wwwXT0Ydf3b7ZoOx0lX4njkqfjPe8G5ZBW5fvL5RBL
-         sXAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764724171; x=1765328971;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pMQ8vHmUy2M1e+AWep/BaUFVNkwfbE6reMg+lneA/lE=;
-        b=qd1dJ9GQu+7wbd0bp/3BXeYwpjaL6/20mkilTKn4MACmtmrZtWuoRTfpil49R5q+J5
-         dKwWMjCYwI67yBguWnlsTKdfrSYKNVXAAZ+igcRv6cR1iAJ6oNBlmFu5i5align2Np+1
-         UJdcCm8M8ZCFhiZpmUkrUmYow5iT6XLzeIPXchYULuJTZfJfNzj4+q9lOnaIS9tZYMHN
-         JDtA0ABnLI5tD/G8gbwv3N+6o/vEvjNWMZMaQTxpwiUXCkvBJd2PLDS7s04HePjYb/WW
-         pL4f16A+Ot/jX5dY0Rn5cFJWreId38ie/smIJ0PwehSA/xb8QodVFsn15i5ORwWWA5UH
-         CBdw==
-X-Forwarded-Encrypted: i=1; AJvYcCVdludKqzqgTGKdKOIXFyjlWFRdmSF0hzOeT6cy+J3hiLPXFTmgJG1EuhOwTGXejsY5DeYmv7BN7wM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6b9zGcb3NlRo4RwrF272vFC4GripHipIUmVJfgwqXCb1OA+E3
-	8ciazXSmFX6HjOy+wAkhpAVbHxRKljrZrsPAejBf7KUJ+AdtW0LWuj2s
-X-Gm-Gg: ASbGnct6eMVhw+wHgpm4aERWBHcZwqyTaH9snM1rotHN3fUe04soCuvM8Tl5x9M3Zo1
-	cnpkP2P8cT4HCgHxWD6R3xAkHDPS8obBC8uofdcfZQ71cEs1n+itTmaPwfKcQBen8OzNdsggo9w
-	MfBdWrCLXeUqXaVONubigo6ePnuuPHGOCtNVsWGs1W/KYPop5sIn3RbNBC4sXkX15z+wbg9YgxE
-	cdE6LM07Ep3F6jZFBqwK3G2j3gJVi9NhA0ehkLwxIffVxLCIDoTpJrTaQjpLBdkhs24y4bt2XFw
-	uOqqgB+ectpxC06zmCFrDivEMR19V378SRNkxs2BmWC/Dct/ntoK9xQBnRwrr8qAuYLdqBtzs11
-	JU7YqLKf4rR89w47D4lh1HlQ/3c/K/Tb39ndRXW4IJQ/WTvkj1o5f+ejNFO5S5P/JeP6+mlDr7h
-	33AqpGZTSGrsA=
-X-Google-Smtp-Source: AGHT+IF5UeBvVePda2KFWkC3k94/grAajsZo74APZmau4X7uYv0fD/GG5eh2o/bcLlRLAJhvCuZwoQ==
-X-Received: by 2002:a05:6a20:431e:b0:361:4ca3:e17d with SMTP id adf61e73a8af0-363f5d61e52mr820140637.13.1764724171524;
-        Tue, 02 Dec 2025 17:09:31 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-be5e7485b1esm15317306a12.20.2025.12.02.17.09.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 17:09:26 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 9A0B74353263; Wed, 03 Dec 2025 08:09:21 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux NFS <linux-nfs@vger.kernel.org>
-Cc: Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH 2/3] NFSD: nfsd-io-modes: Wrap shell snippets in literal code blocks
-Date: Wed,  3 Dec 2025 08:09:10 +0700
-Message-ID: <20251203010911.14234-3-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251203010911.14234-1-bagasdotme@gmail.com>
-References: <20251203010911.14234-1-bagasdotme@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RA9a0KXf"
+Message-ID: <ad316354-5e82-47fd-973e-b83774fad938@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1764728997;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YU06anglnS6noaYdHj8/cC8E/J1BLC1MmPUUCgk38+U=;
+	b=RA9a0KXfkrAJ+3dZWZ9/sdQD0CaSR6SEb+QPtHH825mAKQ1ki7qlYlb9zbrDL26T9MsSSs
+	iZ7RNV0Z6OtgvXsKQJuckhSPLYlaMaOv/aqCdt+vB2cEqGrECxiHIDft3ZTUTLs/SCmTZw
+	FmxvqbD1KkQAvBS9urCTK4Pp9DfsXaw=
+Date: Wed, 3 Dec 2025 10:29:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3455; i=bagasdotme@gmail.com; h=from:subject; bh=OnkMzhtWftClORfQtq4pVFAPUxLwrZMkgpnvY4knDco=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn6Pe+Trd/L7dn9ftEi90Mr7M9wBZaILSl4auJntCl3U dGj6JSEjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEykdiXD/+xvP9W2P7s9v++n ge85xzQPzq++x7//s/diFg9t+TLNJIHhnwYHs1Y780yu1SvLODRyn73q6Kr4cjmp5GTY95WNPwQ WcAAA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Subject: Re: [PATCH v4 3/8] docs/zh_CN: Add authorization.rst translation
+To: Kefan Bai <baikefan@leap-io-kernel.com>, alexs@kernel.org
+Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
+ doubled@leap-io-kernel.com
+References: <cover.1764674650.git.baikefan@leap-io-kernel.com>
+ <27b59f2a2490a704241893df5ccbd4c127a5719c.1764674650.git.baikefan@leap-io-kernel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <27b59f2a2490a704241893df5ccbd4c127a5719c.1764674650.git.baikefan@leap-io-kernel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Sphinx reports htmldocs indentation warnings:
 
-Documentation/filesystems/nfs/nfsd-io-modes.rst:29: ERROR: Unexpected indentation. [docutils]
-Documentation/filesystems/nfs/nfsd-io-modes.rst:34: ERROR: Unexpected indentation. [docutils]
+在 2025/12/2 19:56, Kefan Bai 写道:
+> Translate .../usb/authorization.rst into Chinese
+>
+> Update the translation through commit f176638af476
+> ("USB: Remove Wireless USB and UWB documentation")
+>
+> Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
 
-Fix these by wrapping shell snippets in literal code blocks.
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
 
-Fixes: fa8d4e6784d1b6 ("NFSD: add Documentation/filesystems/nfs/nfsd-io-modes.rst")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20251202152506.7a2d2d41@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- .../filesystems/nfs/nfsd-io-modes.rst         | 28 +++++++++++--------
- 1 file changed, 16 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/filesystems/nfs/nfsd-io-modes.rst b/Documentation/filesystems/nfs/nfsd-io-modes.rst
-index e3a522d097666b..fa47c4d3dfb95d 100644
---- a/Documentation/filesystems/nfs/nfsd-io-modes.rst
-+++ b/Documentation/filesystems/nfs/nfsd-io-modes.rst
-@@ -25,12 +25,14 @@ Based on the configured settings, NFSD's IO will either be:
- - not cached stable_how=NFS_UNSTABLE (NFSD_IO_DIRECT=2)
- 
- To set an NFSD IO mode, write a supported value (0 - 2) to the
--corresponding IO operation's debugfs interface, e.g.:
-+corresponding IO operation's debugfs interface, e.g.::
-+
-   echo 2 > /sys/kernel/debug/nfsd/io_cache_read
-   echo 2 > /sys/kernel/debug/nfsd/io_cache_write
- 
- To check which IO mode NFSD is using for READ or WRITE, simply read the
--corresponding IO operation's debugfs interface, e.g.:
-+corresponding IO operation's debugfs interface, e.g.::
-+
-   cat /sys/kernel/debug/nfsd/io_cache_read
-   cat /sys/kernel/debug/nfsd/io_cache_write
- 
-@@ -128,17 +130,19 @@ Tracing:
-     misaligned READ to the next DIO-aligned block (on either end of the
-     original READ, as needed).
- 
--    This combination of trace events is useful for READs:
--    echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_read_vector/enable
--    echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_read_direct/enable
--    echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_read_io_done/enable
--    echo 1 > /sys/kernel/tracing/events/xfs/xfs_file_direct_read/enable
-+    This combination of trace events is useful for READs::
-+
-+      echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_read_vector/enable
-+      echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_read_direct/enable
-+      echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_read_io_done/enable
-+      echo 1 > /sys/kernel/tracing/events/xfs/xfs_file_direct_read/enable
- 
-     The nfsd_write_direct trace event shows how NFSD splits a given
-     misaligned WRITE into a DIO-aligned middle segment.
- 
--    This combination of trace events is useful for WRITEs:
--    echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_write_opened/enable
--    echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_write_direct/enable
--    echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_write_io_done/enable
--    echo 1 > /sys/kernel/tracing/events/xfs/xfs_file_direct_write/enable
-+    This combination of trace events is useful for WRITEs::
-+
-+      echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_write_opened/enable
-+      echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_write_direct/enable
-+      echo 1 > /sys/kernel/tracing/events/nfsd/nfsd_write_io_done/enable
-+      echo 1 > /sys/kernel/tracing/events/xfs/xfs_file_direct_write/enable
--- 
-An old man doll... just what I always wanted! - Clara
+Thanks,
 
+Yanteng
+
+> ---
+>   .../translations/zh_CN/usb/authorization.rst  | 125 ++++++++++++++++++
+>   1 file changed, 125 insertions(+)
+>   create mode 100644 Documentation/translations/zh_CN/usb/authorization.rst
+>
+> diff --git a/Documentation/translations/zh_CN/usb/authorization.rst b/Documentation/translations/zh_CN/usb/authorization.rst
+> new file mode 100644
+> index 000000000000..4a8b743480ae
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/usb/authorization.rst
+> @@ -0,0 +1,125 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/usb/authorization.rst
+> +:翻译:
+> +
+> + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
+> +
+> +:校译:
+> +
+> +
+> +===========================
+> +授权或禁止USB设备连接到系统
+> +===========================
+> +
+> +版权 (C) 2007 Inaky Perez-Gonzalez <inaky@linux.intel.com> 英特尔公司
+> +
+> +此功能允许你控制系统中USB设备的使用权限。
+> +你可以借此实现USB设备的锁定，并由用户空间完全控制。
+> +
+> +目前为止，当插入一个USB设备时，系统会配置该USB设备，其接口会立即对用户开放。
+> +通过此修改，只有在root授权配置设备后，用户才能使用它。
+> +
+> +
+> +使用方法
+> +=========
+> +
+> +授权设备连接::
+> +
+> +	$ echo 1 > /sys/bus/usb/devices/DEVICE/authorized
+> +
+> +禁止设备连接::
+> +	$ echo 0 > /sys/bus/usb/devices/DEVICE/authorized
+> +
+> +将新连接到hostX的设备默认设置为未授权（即：锁定）::
+> +
+> +	$ echo 0 > /sys/bus/usb/devices/usbX/authorized_default
+> +
+> +解除锁定::
+> +
+> +	$ echo 1 > /sys/bus/usb/devices/usbX/authorized_default
+> +
+> +默认情况下，所有USB设备都是授权的。
+> +向authorized_default属性写入 "2" 会使内核默认只授权连接到内部USB端口的设备。
+> +
+> +系统锁定示例（简单示例）
+> +------------------------
+> +
+> +假设你想实现一个锁定功能，要求只有类型为XYZ的设备可以连接
+> +（例如，它是一个带有可见USB端口的自助服务终端）::
+> +
+> +  启动系统
+> +  rc.local ->
+> +
+> +   for host in /sys/bus/usb/devices/usb*
+> +   do
+> +      echo 0 > $host/authorized_default
+> +   done
+> +
+> +将一个脚本挂接到udev，当插入新的USB设备时，该脚本就会被自动触发::
+> +
+> + if device_is_my_type $DEV
+> + then
+> +   echo 1 > $device_path/authorized
+> + done
+> +
+> +
+> +这里的device_is_my_type()就是实现锁定的关键所在。
+> +仅仅检查class、type 和protocol是否匹配某个值，
+> +是最差的安全验证方式（但对于想要破解的人却是最容易的）。
+> +如果你需要真正安全的方案，应使用加密、证书认证等手段。
+> +一个针对存储密钥的简单示例::
+> +
+> + function device_is_my_type()
+> + {
+> +   echo 1 > authorized		# 暂时授权它
+> +                                # FIXME: 确保没有人能够挂载它
+> +   mount DEVICENODE /mntpoint
+> +   sum=$(md5sum /mntpoint/.signature)
+> +   if [ $sum = $(cat /etc/lockdown/keysum) ]
+> +   then
+> +        echo "We are good, connected"
+> +        umount /mntpoint
+> +        # 添加一些额外的内容，以便其他人也可以使用它
+> +   else
+> +        echo 0 > authorized
+> +   fi
+> + }
+> +
+> +
+> +当然，这种做法很简陋；实际上你应该使用基于PKI的真正证书验证，
+> +这样就不会依赖共享密钥之类的东西。不过你明白我的意思。
+> +任何拿到设备仿真工具包的人都能伪造描述符和设备信息。
+> +所以千万不要信任这些信息。
+> +
+> +接口授权
+> +--------
+> +
+> +也有类似的方法用于允许或拒绝特定USB接口。这允许只阻止USB设备的一个子集。
+> +
+> +授权接口::
+> +
+> +	$ echo 1 > /sys/bus/usb/devices/INTERFACE/authorized
+> +
+> +取消授权接口::
+> +
+> +	$ echo 0 > /sys/bus/usb/devices/INTERFACE/authorized
+> +
+> +也可以更改新接口在特定USB总线上的默认值。
+> +
+> +默认允许接口::
+> +
+> +	$ echo 1 > /sys/bus/usb/devices/usbX/interface_authorized_default
+> +
+> +默认拒绝接口::
+> +	$ echo 0 > /sys/bus/usb/devices/usbX/interface_authorized_default
+> +
+> +默认情况下，interface_authorized_default位为1。
+> +因此，所有接口默认都是授权的。
+> +
+> +注意：
+> +  如果要对一个未授权的接口进行授权，则必须通过将INTERFACE写入
+> +  /sys/bus/usb/drivers_probe来手动触发驱动程序进行探测。
+> +  对于使用多个接口的驱动程序，需要先对所有使用的接口进行授权。
+> +  之后应探测驱动程序。这样做可以避免副作用。
+> --
+> 2.52.0
+>
+>
