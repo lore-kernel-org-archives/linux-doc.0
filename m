@@ -1,120 +1,228 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4603A331222;
-	Thu,  4 Dec 2025 20:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B5530CD81
+	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 21:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764881889; cv=none; b=n/alKROB6UoXIeYllG0wpT+DC03hrmFJ2x8ZAwrEOCnvjXGzFVkghF/W5DL6Xm7SBQtG04lCP5RpZelASNa8RKvJzBijmmBqMkZ/L2pXr5VQ61Ak4diWARV+gJfUK6jC+hjTp9uI91Wj6uVLh6Yimi0CjQC+L3m5s4g+87zAxRQ=
+	t=1764884264; cv=none; b=anGM1JvqWnprTVnFqjUt5Lc+KP2c0wQmm6Tsst56c0b7LqvTWwUsU+w4CQJmPFMbp6bZW7W1W/b5pJlYRv256IWyX51iAZwH0ZscX+DokTimocbzKaXbCWSSuJEtDwMZceInpstlFWayERaglkumIrlJTH3LdJbAAepV3sYG7cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764881889; c=relaxed/simple;
-	bh=loobrzi70Pz8tRGrBPxxU+Z3c+tNVIg/LFKhDULsEAI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qQlBQHTjSJFRmFLzlolgAMZFj+mHPAcl592tulT/AKB/1hPVAfELCTLHE3mPeuhVgfWwGiD18j7eQAv9gybac1Bn00Y55LL2EQ1zQvUfYaW2DlryAVrN1JZPLfkLsHY1OonAb8w9ZsmkwhzGxE1HVHekUvnT1tjajYMosq/ljsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uClXz34X; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764884264; c=relaxed/simple;
+	bh=lYNQiNuadEYXpG72dttBVTjdVbn+hP/2DA42npo14Xs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mVvs8eKS7sj318IQHM6WgrYki6YyOEllvaU/8eTaaMzOQZWqvs9E7KySYIQu3hyffkJRshIBycFLppxe+WaxnaIFxiET5hIn0mUnBbOJJDhKXEJ+IJbs97z4qO9cLX782c5QtFHx8E62zCpd/rFTUk10rtpyX36ey74+h6Owngw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VwRTeMzq; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uClXz34X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65F3AC4CEFB;
-	Thu,  4 Dec 2025 20:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764881888;
-	bh=loobrzi70Pz8tRGrBPxxU+Z3c+tNVIg/LFKhDULsEAI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uClXz34XPXMkEKff3YIWkBOZ37RSNuVgI+nxzOy4TOM+DZPFXJFT5LoRMPVzQVDB+
-	 eGM6XD/mm14R4hH1LID2HzwVCSwnLVXazDKHDElM9jZdFe2JxumKbIvocccvJw7wPX
-	 SpavRLRZFhmxTuotit33kbMWKD3Jy9YkeXhOi9JHK2fZiONV1G26eNS58b05e1lX/M
-	 WkkyCucIFVM9KECbZuASEanszKlXzX74vlOX2t8FAWc163PSPTdmjRIRhB4TQtECbE
-	 XhqjHHjVFKU7pN+ZflKZPDUQdRq8mJjx1d3ZTOmZpCS1u3E39BiOePBI/xM0TBvqRB
-	 QPZLVe7hqQKnA==
-Message-ID: <48344838-d601-45ae-b260-01eb6b2fa422@kernel.org>
-Date: Thu, 4 Dec 2025 21:58:01 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VwRTeMzq"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47774d3536dso13795675e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 13:37:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764884260; x=1765489060; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=faohLWgI8UwyqQwv1dWb6IoMX/UJWOFG3EcvY/0BmD8=;
+        b=VwRTeMzqF5Jf8HBX4Yo6aIWmU8QpEc6zHgB4Q3E9yVYfNDa5JOs5FHunUD0OwlXkaM
+         K9rDpDIHiNN5b+WXDNte1tnvrghD7pv2qnbZ0Zpy1KdOyt3cXSyJm0y+zu5fNNn2P96Y
+         MQbZvHdTAfGtH3f3OC0W6r4NeSaJBR6Jqpeawyca277E2xlhtPq6MYfbz3wEwUmykBv9
+         b3q6R98xfyGRi92jGt5XgyVCLtMs/8V2gZw5/BfraHcR4AF1NAqZITwIIdxf5qHC1dQu
+         RalAtAZ4bTXUZyZ4DUgxhbFm6EPr7pTrQXXR6OZTQW41sHHrcomEhvxd1bhHeHEdptVm
+         jZOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764884260; x=1765489060;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=faohLWgI8UwyqQwv1dWb6IoMX/UJWOFG3EcvY/0BmD8=;
+        b=PpptrB27CcF0skg2NHjy6hd/OlOYOrh4A5Ty1Auor7dBR9L86NXJOWag8bHxLU0RJH
+         mnbgzWuHME4EwnmaZ0MTwgfn4V+UJ7Ro76UNLNUuIC9R/WQlBbxsVpfPCyuBwGJ7rlYA
+         UJ1WzMQ1ydhLXy3vWt1LTYT5kOmpK3tztKmXHpLDSwoZ56xK2XwYFaa/xtaezlljdegd
+         gGlWAy7sKCVEgN4Hr3tm5oZmt/s4uJJ/E5AoSL6ZSmkgczHuu0854iTdo6j/7gKfR2po
+         OaNR9kFXvh+g6ye/tpHBuwo4mZkkoH3BPT5uGly1+tIDwu1Vs8NGHGAElWrTaFkuEfwF
+         HzEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXSNMwyzj7/HByDGGmk8zO2vDOCXtifzCvvBvcYaVvcWC/Q5qwAsv2cGK2SctiyzHv3GiPPE+TDdrM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx52rjoqWAcNIbsXdBKXNI7P7ptBOQZxcKFUyxq9Z7Dj14+IUD8
+	RylIOztQLcT+zCnVL8gnZuPjZsZOZ9hTPxBUkA2Tvy8zWOahGgVoYmv7
+X-Gm-Gg: ASbGnctrfDHMDn96tvuxAEyma4EXKVbJlY7x5iH+NGP0cx+53a8JTF52brgdNJcHLRD
+	5w9fg/jwt4XHTKUdxrpSjOpW/n9KNKkREOQOuhoMqaI66/Agn/+yoeN4/JALzFqBa0kQ2ias+c9
+	wxQnlKZAwwvl2bV9ZLMxTgl2g2HCZWkbIXl/DJ+yOf4AErA8VDA6Lyi1Tj5dqEV/qx16+hoeVFT
+	zy6Ec9iR2MX+MC8kRnzekiGWJsQe8Bpbk/ufJyyVpIZVx75YtSSwsl7Co6kiUtuQjQjRV5n02wZ
+	n5L23aaVIEs/RnreQp/g+X1gzeZOSKCFd4KvTy8U1dOdQx7XcY9CMKxkPMICYHK/B5f2g5vlPTZ
+	jBimY+kt/4owmAgu97LWWjHpDkLfrMoG2BQx565+dZ32Bdzi2QzX7ak2pEL5a9Vw49nNOFJlsix
+	p5DAH/pCJcrPfIsQNmWTM6kPwe0aps7JZEZYLdfq2Oxoo+W3ZrfR4rXqkQRcLlEhe9KDA=
+X-Google-Smtp-Source: AGHT+IEkN4TPxcT2yhSxBgmIGuCvkZq6whVfpfvXJxHLVTgmdSpVE9imgTzvn+3e+lYgcpRI7M9hyg==
+X-Received: by 2002:a05:600c:3151:b0:479:255f:8805 with SMTP id 5b1f17b1804b1-4792eb10e97mr50091355e9.4.1764884260202;
+        Thu, 04 Dec 2025 13:37:40 -0800 (PST)
+Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:123e:4501:9c51:c3b7:65d6:48d3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479310a6db3sm52802675e9.1.2025.12.04.13.37.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 13:37:39 -0800 (PST)
+Date: Thu, 4 Dec 2025 22:37:38 +0100
+From: Jorge Marques <gastmaier@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Jorge Marques <jorge.marques@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 3/9] iio: adc: Add support for ad4062
+Message-ID: <fue274bpfgsytm5z25rdsawbfa2s4vu4ypoqrrmrx5dfe2jgdq@ocjqribzo5mn>
+References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
+ <20251124-staging-ad4062-v2-3-a375609afbb7@analog.com>
+ <aSQxiSoZcI_ol3S5@smile.fi.intel.com>
+ <aslj3klmv6heyyhgltzewkdze5p4c3hlkzfbxbfnzwwgd375gv@m6iqpst5sv6b>
+ <aSgSsGSUuBtMOuro@smile.fi.intel.com>
+ <zryqws2h2i4duejczo2rptwhlzhile7fa7brriqh2hmtarwjxn@cr2cyzymwpav>
+ <aSn3PthKIvFAhDS6@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] mm, hugetlb: implement movable_gigantic_pages sysctl
-To: Gregory Price <gourry@gourry.net>
-Cc: linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, osalvador@suse.de, akpm@linux-foundation.org,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@suse.cz,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com, corbet@lwn.net,
- muchun.song@linux.dev, Mel Gorman <mgorman@suse.de>,
- Alexandru Moise <00moses.alexander00@gmail.com>,
- David Rientjes <rientjes@google.com>
-References: <20251203063836.187016-1-gourry@gourry.net>
- <305328e0-3011-409c-a040-76fc478d541a@kernel.org>
- <aTHBjU5-Fio6CrwD@gourry-fedora-PF4VCD3F>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Content-Language: en-US
-In-Reply-To: <aTHBjU5-Fio6CrwD@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aSn3PthKIvFAhDS6@smile.fi.intel.com>
 
-On 12/4/25 18:14, Gregory Price wrote:
-> On Wed, Dec 03, 2025 at 10:26:20AM +0100, David Hildenbrand (Red Hat) wrote:
->> On 12/3/25 07:38, Gregory Price wrote:
->>> This reintroduces a concept removed by:
->>> commit d6cb41cc44c6 ("mm, hugetlb: remove hugepages_treat_as_movable sysctl")
->>>
->>> This sysctl provides flexibility between ZONE_MOVABLE use cases:
->>> 1) onlining memory in ZONE_MOVABLE to maintain hotplug compatibility
->>> 2) onlining memory in ZONE_MOVABLE to make hugepage allocate reliable
->>>
->>> When ZONE_MOVABLE is used to make huge page allocation more reliable,
->>> disallowing gigantic pages memory in this region is pointless.  If
->>> hotplug is not a requirement, we can loosen the restrictions to allow
->>> 1GB gigantic pages in ZONE_MOVABLE.
->>>
->>> Since 1GB can be difficult to migrate / has impacts on compaction /
->>> defragmentation, we don't enable this by default. Notably, 1GB pages
->>> can only be migrated if another 1GB page is available - so hot-unplug
->>> will fail if such a page cannot be found.
->>
->> In light of the other discussion: will it fail or will it simplt retry
->> forever, until there is a free 1g page?
->>
-> 
-> It retries until a 1GB page is available.
-> 
-> Example test:
-> 
-> echo 0 > node0/hugepages/..-1GB/nr_hugepages (dram node)
-> echo 1 > node1/hugepages/..-1GB/nr_hugepages (zone_movable node)
-> ./alloc_huge &                               (allocate the page)
-> ./node1_offline  &                           (offline > memory*/state)
-> sleep 5                                      (give offline time)
-> echo 1 > node0/hugepages/..-1GB/nr_hugepages (dram node)
-> 
-> This node1_offline generates migration failures until the last step
-> occurs, at which point migration and node1_offline complete as expected.
-> 
-> The migration failures produce the following:
-> 
-> [  707.443105] migrating pfn c080000 failed ret:-12
-> [  707.453353] page: refcount:2 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0xc080000
-> [  707.471315] head: order:18 mapcount:1 entire_mapcount:1 nr_pages_mapped:0 pincount:0
-> [  707.488504] anon flags: 0x17ffff0000000848(uptodate|owner_2|head|node=1|zone=3|lastcpupid=0x1ffff)
-> [  707.508393] page_type: f4(hugetlb)
-> [  707.515940] raw: 17ffff0000000848 ffa000007d873cc0 ffa000007d873cc0 ff1100082366c6e9
-> [  707.533126] raw: 0000000000000000 0000000000000010 00000002f4000000 0000000000000000
-> [  707.550317] head: 17ffff0000000848 ffa000007d873cc0 ffa000007d873cc0 ff1100082366c6e9
-> [  707.567699] head: 0000000000000000 0000000000000010 00000002f4000000 0000000000000000
-> [  707.585085] head: 17ffff0000000012 ffd4000302000001 0000000000000000 0000000000000000
-> [  707.602469] head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000040000
-> [  707.619851] page dumped because: migration failure
-> 
-> 
-> I can add this to the changelog if you prefer
+On Fri, Nov 28, 2025 at 09:25:50PM +0200, Andy Shevchenko wrote:
+Hi Andy,
 
-Yes, we should document that. I guess it's just what we already document 
-in the memory hotplug doc: it keeps retrying until there is sufficient 
-free memory.
+> On Fri, Nov 28, 2025 at 07:50:02PM +0100, Jorge Marques wrote:
+> > On Thu, Nov 27, 2025 at 10:58:24AM +0200, Andy Shevchenko wrote:
+> > > On Wed, Nov 26, 2025 at 12:40:00PM +0100, Jorge Marques wrote:
+> > > > On Mon, Nov 24, 2025 at 12:20:57PM +0200, Andy Shevchenko wrote:
+> > > > > On Mon, Nov 24, 2025 at 10:18:02AM +0100, Jorge Marques wrote:
+> 
+> >   static int ad4062_calc_sampling_frequency(int fosc, unsigned int oversamp_ratio)
+> 
+> Shouldn't fosc be unsigned?
+> 
+Yep
+> >   {
+> >   	/* See datasheet page 31 */
+> 
+> It's fine, but better to add a formula here or more information about
+> the calculations done in the function.
+> 
+> >   	u32 period = NSEC_PER_SEC / fosc;
+> 
+> period_ns ?
+> 
+> (We usually add units to this kind of variables for better understanding
+>  of the calculations)
+> 
+Ack.
+> > > >   static int ad4062_set_chan_calibscale(struct ad4062_state *st, int gain_int,
+> > > >   				      int gain_frac)
+> > > >   {
+> > > >   ...
+> > > >   
+> > > >   	if (gain > 1999970)
+> > > 
+> > > But this magic should be changed to what you explained to me
+> > > (as in 0xffff/0x8000 with the proper precision, and this
+> > >  can be done in 32-bit space).
+> > > 
+> > > Or even better
+> > > 
+> > > 	if (gain_int < 0 || gain_int > 1)
+> > > 		return -EINVAL;
+> > > 
+> > > 	if (gain_int == 1 && gain_frac > 0x7fff) // did I get this right?
+> > > 		return -EINVAL;
+> 
+> > gain_frac would be 999999 max, or 999970 for the limit that fits in the
+> > register after the math. I think > 1.999.970 is self explanatory.
+> 
+> On the place of unprepared reader this is a complete magic number without
+> scale, without understanding where it came from, etc.
+> 
+> So, can you define it as a derivative from the other constants and with
+> a comment perhaps?
+> 
+(my proposal is after all your comments below)
+> > > >   		return -EINVAL;
+> > > >   
+> > > >   	put_unaligned_be16(DIV_ROUND_CLOSEST_ULL((u64)gain * AD4062_MON_VAL_MIDDLE_POINT,
+> > > >   						 MICRO),
+> > > 
+> > > ...with temporary variable at minimum.
+> > > 
+> > > But again, I still don't see the need for 64-bit space.
+> > 
+> > Well, by dividing mon_val and micro values by a common divisor the
+> > operation fit in 32-bits:
+> > 
+> >   static int ad4062_set_chan_calibscale(struct ad4062_state *st, int gain_int,
+> >                                         int gain_frac)
+> >   {
+> 
+> 	/* Divide numerator and denumerator by known great common divider */
+> 
+> >           const u32 mon_val = AD4062_MON_VAL_MIDDLE_POINT / 64;
+> >           const u32 micro = MICRO / 64;
+> 
+> Yep, I suggested the same in another patch under review (not yours) for
+> the similar cases where we definitely may easily avoid overflow.
+> 
+> Alternatively you can use gcd().
+> 
+> >           put_unaligned_be16(DIV_ROUND_CLOSEST(gain * mon_val, micro), st->buf.bytes);
+> 
+> Btw, I think you can move this check up and save in a temporary variable which
+> might affect the binary size of the compiled object as accesses to the gain_int
+> and gain_frac will be grouped in the same place with potential of the reusing
+> the CPU register(s)..
+> 
+> >   }
+> 
+I believe this is clear and fits all points:
+
+ 	/* Divide numerator and denumerator by known great common divider */
+	const u32 mon_val = AD4062_MON_VAL_MIDDLE_POINT / 64;
+	const u32 micro = MICRO / 64;
+	const u32 gain_fp = gain_int * MICRO + gain_frac;
+	const u32 reg_val = DIV_ROUND_CLOSEST(gain_fp * mon_val, micro);
+	int ret;
+
+	/* Checks if the gain is in range and the value fits the field */
+	if (gain_int < 0 || gain_int > 1 || reg_val > BIT(16) - 1)
+		return -EINVAL;
+
+	put_unaligned_be16(reg_val, st->buf.bytes);
+
+Explains 64 value. Checks if is in range [0, 2), then if fits the
+register field for corner case of range (1.999970, 2) (0x10000). Full
+formula is in the previous method ad4062_get_chan_calibscale.
 
 
--- 
-Cheers
+> > > >   			   st->buf.bytes);
+> > > >   
+> > > >   	ret = regmap_bulk_write(st->regmap, AD4062_REG_MON_VAL,
+> > > >   				&st->buf.be16, sizeof(st->buf.be16));
+> > > >   	if (ret)
+> > > >   		return ret;
+> > > >   
+> > > >   	/* Enable scale if gain is not equal to one */
+> > > >   	return regmap_update_bits(st->regmap, AD4062_REG_ADC_CONFIG,
+> > > >   				  AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
+> > > >   				  FIELD_PREP(AD4062_REG_ADC_CONFIG_SCALE_EN_MSK,
+> > > >   					     !(gain_int == 1 && gain_frac == 0)));
+> > > >   }
+> > > > 
+> > > > To provide the enough resolution to compute every step (e.g., 0xFFFF and
+> > > > 0xFFFE) with the arbitrary user input.
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
+Best Regards,
+Jorge
 
-David
+
