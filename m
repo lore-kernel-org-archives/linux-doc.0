@@ -1,161 +1,140 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1087C21B192
-	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 01:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB4A256C70
+	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 02:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764811417; cv=none; b=M0hBFkfl79QazETYjq6f42r6lgVnAcHo/0vM/Se5nOHZg+LI7sbchTJxQsWIY5k8aaHvyIWHQ3EEcqMUBncUXwpUY3z/hJxVQA7K01aO/3iW9mSAjukxe9jQHrVg9ypLY6CencG8LM0u9EuQTX2ieCaNLg9ZjgP4GJLDJ8kvJbc=
+	t=1764815354; cv=none; b=i3W83/Y2z5cMzwkUsfshhSZ/G4QM8qsfR6dZ4/UdfjBWPGszJu7+rwO1cdPP1hQ4olIzlloPEMhRIMM8KHy8eTevI1iPdC+ue0cZoy63SKxrHUD/DgowNdI0Hq9gwpDP8ZAxxu8H89t760u6DNEKPS2ywafXQR4B6OV2e55xhjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764811417; c=relaxed/simple;
-	bh=Uvh0yZY15GEtzECgHRv5Oh5uDOtYGTU0PpHMlDzRVdU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EfZWmBPnI5lmA0BaIERRW27ZPfsmX3S4cANtQeKhydRF3SEITd0n+1HY9637tkjPct+L/ZqI7S/Lusf9XEH1UdRhOh4TT7ZhJC7L0cfyM87KqvZzTxiH+DO1y8dFhg6u4kaVDXPPOKFzL9r18eOAwclW59KTOdlja2VAqfSaP9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PvQ3suMl; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764815354; c=relaxed/simple;
+	bh=/+C9cN9dfyePNj/Ojl6F1Z2PuqSXfhF23WLn7ms4M60=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SBVbMmqFwAH7zEL2NL5Ki2BYZC67RMUvz1p+Ap89J0XKKfmlXDpyo5hFI/UZwPiARSnLdJSy0kDz6nDp+9i6crc4eahhKLtXlJWtICpTHaiDhmf8Hisb7wvZFbFRu3f3j1O9bJ7znkLSoZ/EcE8uJVq7IdPRwzmf2lx+6qnYL9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=em8PkNh9; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PvQ3suMl"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-297dc3e299bso3588795ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 03 Dec 2025 17:23:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764811415; x=1765416215; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J7S+3a6m2SRWGZPl86oDbuprI5NM42FY1cIZzP35vOQ=;
-        b=PvQ3suMlPaJXqmdBRMHXxiJp6t9XM25yQH2NNqv15ttJH5mDrZkWPajNBHTCKOMcEg
-         sCP6Mgs+3Z6QwGFUQ0g/8mr8FbvXtJVUNDyLKHpptUEgyaJ47kFwsrg2R38fDM81KeAM
-         VFonyjEx3NAwYlvsHq+GJxiJZcV2/r3836Olv9uT94M9N5ALvExa/h7rOZzMKlJzftBT
-         X5IQGB2pF5EyABCxw7M1v4wSSHyLNG3cqUZdvVvpyGpsBCeAo2wI+5hKQ6LcWHpYBJSD
-         SSofsUWuHvRV08D4+jyIIXACpWTrzn+DwpMe7BqSZiiEeGlbKbDweybRH4ltTtdZ0Q7p
-         CMyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764811415; x=1765416215;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J7S+3a6m2SRWGZPl86oDbuprI5NM42FY1cIZzP35vOQ=;
-        b=w4CfHKcBWvIwBlw3nf7zq2XKCSC+rmXr39IIFhOYwPS03uKSCzy6rKbpmu8LTvRaWI
-         351CfUU5FhEGnOhv/JLveHoHkSHnNpZvympVg/5GJY2/qFPOjqwYkNHkIvCUvGn3hVXU
-         5F0jNr5ZzmBUn4Z1+075phNqZGUWltQFQRLYMN4fLeRR+DLT3uX76zwQMMwFZXc2ZlgA
-         SuimrljoMbVS+JvQhuIRUuNOUoMPTMgbzH8dym3Em3qpLDkVmCUBrKzvL8WF6OGn1H6l
-         cgOQA+KclIXnSgGItGkDw6BVt14U3dIOvqQ6FFcd+lu9Ugk1+v/L+Fhn+C9+JinO1WFv
-         jEww==
-X-Forwarded-Encrypted: i=1; AJvYcCWVlvhS80Sl8397KBl0yYpZ7PtKSwWifAdRLKZhIbCf+tXI3C6RxQpYxHzLySU8QyUNg0U/NCP2M0s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIQiHtgnoU37H3IzTiyNERfdPV2Su3BKsyVU1/i8itFE8YpBTW
-	n9tbnXtK7h+zDAhmzCB8B9rIhvxA5MGa78rOclLTuAIcZ09jGVlwiceu
-X-Gm-Gg: ASbGnct0Iry9adehe5icB88QsbvoJB3fLh/63QtWqE2ylyTxYzuppmr9Sp17nkiYkUF
-	OA1ivogHWebQ+vA6IUZKiuFhwzp9zPMaAKT9Qj74UStdQYOsI4yNG1qvHJ0QVs+VeKuIW3EXnCn
-	kUOKKKFf4vmB5FU+k0/Dvres6D2z59oj7lyjrnaPoAqRKOR8nMEk75X/Fkxy2SQSLsctDJp/F9E
-	nRMHqzBjlG1TgEqL66IlV1nlzIqlFrDLWSFecDcKTGBOOXRf/Ss9C2hsFNF3OA4VjyHHXB6XXQ7
-	jXhWYFHn2pSFk/io16wxHQG4ZLKtzEILQ4YwyVou1/YElUhyCZ3iXrxbR7VrAIBol3YtNHVnn2T
-	q8aRY138lBC9cBplO8EXGrlN8VYmkoGoy6Nm+0aQdAPzOcmxaaL5jQ7T3C5rtRO/VXSuF/1s9sl
-	542NEVo8KpnLY=
-X-Google-Smtp-Source: AGHT+IFO7v+xzv9ChUChipH5utZ+kiuQ/BxDExY4ttC5HF2DSTum5pVPJ5bvBYUxIBOnKh910HxSJg==
-X-Received: by 2002:a17:903:1105:b0:297:dfae:1524 with SMTP id d9443c01a7336-29d9fb658bcmr15363485ad.16.1764811415111;
-        Wed, 03 Dec 2025 17:23:35 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae4cf9d0sm1674715ad.29.2025.12.03.17.23.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Dec 2025 17:23:33 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id B8348422D89E; Thu, 04 Dec 2025 08:23:31 +0700 (WIB)
-Date: Thu, 4 Dec 2025 08:23:31 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Soham Metha <sohammetha01@gmail.com>,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Cc: shuah@kernel.org, skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Nam Cao <namcao@linutronix.de>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH v2] Documentation/rv: Fix dead link to
- monitor_synthesis.rst
-Message-ID: <aTDik5tn_5TR_-9B@archie.me>
-References: <20251203182121.52759-1-sohammetha01@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="em8PkNh9"
+Message-ID: <734e0a88-11d7-4871-a52f-d567cd970f63@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1764815349;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xVRkQCiIKXBi1EGOJkHHnB+JiqoIlFfVbOzHraYfBFQ=;
+	b=em8PkNh9AcOpst+2G9mn3yUhbHoBL0o2qnkf5wL4Yr8mr5Xm2zmB+4WP87MKUCLXMl8RYe
+	Zs3NlZx0S+D9D82tPNfFucAT7/mCLZjt3EIV/vwZ5IBNrNx40JL/LkN8WsxNknf8LdCsGA
+	xWnZyVSIEI6hqRuX4VfeUSYdruc0AEs=
+Date: Thu, 4 Dec 2025 10:28:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ExQ7Ve6pZdT2zuD7"
-Content-Disposition: inline
-In-Reply-To: <20251203182121.52759-1-sohammetha01@gmail.com>
+Subject: Re: [PATCH v4 5/8] docs/zh_CN: Add dwc3.rst translation
+To: Kefan Bai <baikefan@leap-io-kernel.com>, alexs@kernel.org
+Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
+ doubled@leap-io-kernel.com
+References: <cover.1764674650.git.baikefan@leap-io-kernel.com>
+ <f44f47ede4b63979b608b6d5c058442b1b5fa8d6.1764674650.git.baikefan@leap-io-kernel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <f44f47ede4b63979b608b6d5c058442b1b5fa8d6.1764674650.git.baikefan@leap-io-kernel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
 
---ExQ7Ve6pZdT2zuD7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+在 2025/12/2 19:56, Kefan Bai 写道:
+> Translate .../usb/dwc3.rst into Chinese
+>
+> Update the translation through commit ecefae6db042
+> ("docs: usb: rename files to .rst and add them to drivers-api")
+>
+> Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>、
 
-On Wed, Dec 03, 2025 at 11:51:21PM +0530, Soham Metha wrote:
-> The file 'da_monitor_synthesis.rst' was renamed to 'monitor_synthesis.rst=
-' in
-> commit f40a7c060207090f41998025fcd1cfad06ea2780
-> ("Documentation/rv: Prepare monitor synthesis document for LTL inclusion"=
-).
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
 
-[also Cc: people in the commit's SoB chain]
 
-Nit: For commit references, please use abbreviated commit hash (at least 12
-characters; I personally prefer 14).
+Thanks,
 
->=20
-> Update the reference to point to the new filename.
->=20
-> Signed-off-by: Soham Metha <sohammetha01@gmail.com>
+Yanteng
 
-Fixes: f40a7c06020709 ("Documentation/rv: Prepare monitor synthesis documen=
-t for LTL inclusion")
-
->  The wip monitor is presented in::
-> =20
-> -  Documentation/trace/rv/da_monitor_synthesis.rst
-> +  Documentation/trace/rv/monitor_synthesis.rst
-
-Thanks for the catch! Can you also unwrap the references (which are in
-literal code blocks) so that these can be linked? Like:
-
----- >8 ----
-diff --git a/Documentation/trace/rv/da_monitor_instrumentation.rst b/Docume=
-ntation/trace/rv/da_monitor_instrumentation.rst
-index 6c67c7b5781118..9eff38a4ad1ff4 100644
---- a/Documentation/trace/rv/da_monitor_instrumentation.rst
-+++ b/Documentation/trace/rv/da_monitor_instrumentation.rst
-@@ -162,10 +162,10 @@ For example, from the wip sample model::
-=20
- The probes then need to be detached at the disable phase.
-=20
--[1] The wip model is presented in::
-+[1] The wip model is presented in:
-=20
-   Documentation/trace/rv/deterministic_automata.rst
-=20
--The wip monitor is presented in::
-+The wip monitor is presented in:
-=20
--  Documentation/trace/rv/da_monitor_synthesis.rst
-+  Documentation/trace/rv/monitor_synthesis.rst
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---ExQ7Ve6pZdT2zuD7
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaTDijwAKCRD2uYlJVVFO
-o/hyAQCZTtG+Npjdwceg3B2fWEbRK/dfQs5AlrpJpTI4YvX0SAEA3EOr9AbpAW68
-ivyGkRfmr5ezDnFob0+1riZRH8AzDgQ=
-=SD/G
------END PGP SIGNATURE-----
-
---ExQ7Ve6pZdT2zuD7--
+> ---
+>   Documentation/translations/zh_CN/usb/dwc3.rst | 60 +++++++++++++++++++
+>   1 file changed, 60 insertions(+)
+>   create mode 100644 Documentation/translations/zh_CN/usb/dwc3.rst
+>
+> diff --git a/Documentation/translations/zh_CN/usb/dwc3.rst b/Documentation/translations/zh_CN/usb/dwc3.rst
+> new file mode 100644
+> index 000000000000..700aee545559
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/usb/dwc3.rst
+> @@ -0,0 +1,60 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/usb/dwc3.rst
+> +:翻译:
+> +
+> + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
+> +
+> +:校译:
+> +
+> +
+> +
+> +==========
+> +DWC3 驱动
+> +==========
+> +
+> +
+> +待完成
+> +~~~~~~
+> +
+> +在你阅读时可以随便挑点儿东西做 :)
+> +
+> +- 将中断处理程序转换为基于每端点线程的IRQ
+> +
+> +  事实证明，一些DWC3命令大约需要~1ms才能完成。
+> +  当前代码会一直自旋等待命令完成，这是不好的设计。
+> +
+> +  实现思路：
+> +
+> +  - DWC core实现了一个用于按端点解复用中断的IRQ控制器。中断号在
+> +    probe阶段分配，并归属于该设备。如果硬件通过MSI为每个端点
+> +    提供独立的中断，那么这个虚拟的IRQ控制器就可以被硬件真实的端点
+> +    中断所取代。
+> +
+> +  - 在调用usb_ep_enable()时会申请和分配中断资源，
+> +    在调用usb_ep_disable()时会释放中断资源。
+> +    最差的情况是32个中断，最少为ep0/1的两个中断。
+> +  - dwc3_send_gadget_ep_cmd()将在wait_for_completion_timeout()中休眠到命令完成。
+> +  - 中断处理程序分为以下几个部分：
+> +
+> +    - 设备的中断处理主程序
+> +      遍历每个事件，对其调用generic_handle_irq()。
+> +      在generic_handle_irq()返回后，确认事件计数器，最终完成中断处理。
+> +
+> +    - 设备的中断处理线程
+> +      无
+> +
+> +    - EP中断的处理主程序
+> +      读取事件并尝试处理它。所有需要休眠的操作都交给线程处理。
+> +      事件保存在每个端点的数据结构中。
+> +      需要注意：一旦把事件交给线程去处理，就要注意不要自己再去处理它，
+> +      否则可能会导致低优先级的事件先于高优先级事件被处理。
+> +
+> +    - EP中断的处理线程
+> +      处理剩余的EP工作，这些工作可能会导致休眠，例如等待命令完成。
+> +
+> +  延迟:
+> +
+> +   不应该增加延迟，因为中断线程具有较高优先级，会在用户空间普通任务之前运行
+> +   （除非用户更改了调度优先级）。
+> --
+> 2.52.0
+>
