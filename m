@@ -1,73 +1,79 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F3928507B;
-	Thu,  4 Dec 2025 16:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87472EFDA6
+	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 17:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764867385; cv=none; b=odVAH7rXmfE8Uu3CF/Tbf/3tfHAy/Mul1QW8Fou3XTpnqRNypRe6mUffFf8aePEPLnC6gjemBIaWwcgxWuAMLiowgTk0Hhy1Vs3rklI3YHQhjac3nAWtDNOQpezo1qqSPiBnxobMHQmvdDgRNgBSjK+gd4Mp2Zh0vjm+eu08Fio=
+	t=1764868498; cv=none; b=OBuPBZPSLx2YnMJcLUwpkV/hKY9vXAy6AIPuL+wswsK5wBW/27IfgorglhKJxwyKOJbkjrFzN2bF0dOzJ8d3iotg2mVicpq0C7dd9lKd8QY8tutKwMDaCdAf9cAjmqHZGeeq+PVuWBGKqQwztvAJBFPQNi8cLN2XHTwmg70qJN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764867385; c=relaxed/simple;
-	bh=oVcBQiFZcKRVuwvSyvgfomBoopJQhYg989rFbF09SvI=;
+	s=arc-20240116; t=1764868498; c=relaxed/simple;
+	bh=WJU0ECi7LOp2xB0F8Jj2AkwukvhHfSlAKRt8xPStkd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nBqLLQ82k5jNfHKL89wxy7MZvF3hB+muHunN+fAs1p6viWoQ6SdkDfb8OgCyWUviYbr7fQpp7ZKFUrCUzi+plwi/GFwryKmo66rXrrB3jPBda84ZmnrqDreC9SxPTH/r6I7ekkNZQQ9E8TQZtHV5Ypx+8FmrAWODQMnilXcZlQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2rWkL1Xy; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fx0jXRJ2; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=CLabj/69wB+sLdXeN+gi0BvZ0/0wNUMaETHCzDFpFbH8+ovRIkFlKMhU39aBUFGLE21sq0aMely/2moV0GNQ2YytO4isZMFooRbaki/ok1YSv76G+veRdJoog4rNPJR1mfNSoAdry1hHr2uuk3nuCIOVJaoEXVE/BR5wfPyYGtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=CAMtjAGv; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2rWkL1Xy";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fx0jXRJ2"
-Date: Thu, 4 Dec 2025 17:56:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1764867381;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9+6XlmLlKbjUhjn7O7UGpoRgL/0BI1e50erzPzpDlQ=;
-	b=2rWkL1XyAhcgyqrW14MMF3qaUQSr8YYDNiCKry0x0QBsV4l5x3+Ycw5+Jmi0h0i54S8RRK
-	E+E1i9Sf249ovLQIsdHJYJbyeELFizphpxVyW0iv3gMQVsNLZQNI3+0uo8gMM5+J8gdwAU
-	TQlFxaGVQAKpquAo5xJmu7Sg3eUNUg0oqHbXewl81F1jiHSx62cUQYCc3/lDBDD9nZaXUb
-	D0kNhjyLt3Lx6Iynot+ksQqb9CYSPxpgVVg03P7IjPAK3p6UMbKbdvfL0mIG0Mr+TozaUc
-	Idwaz543w+GDt5FHrMnfh8wFNTyTtt6ss8MbiHwTTQI9/sWdQYGNRLif/kaz1A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1764867381;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9+6XlmLlKbjUhjn7O7UGpoRgL/0BI1e50erzPzpDlQ=;
-	b=fx0jXRJ2uwCZoiAF6TP+4b8/8ynViDEX2+cIYHls3j9u/NOxevNN3FgjINA/To4UgHgvMH
-	l2OPXdUE9HBBQkCw==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, 
-	Kees Cook <kees@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com, 
-	andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
-	rust-for-linux@vger.kernel.org, Charles Mirabile <cmirabil@redhat.com>
-Subject: Re: [PATCH v23 24/28] arch/riscv: dual vdso creation logic and
- select vdso based on hw
-Message-ID: <20251204175055-fefb76ff-2ff2-48b8-b92c-3d3ce33ec9f5@linutronix.de>
-References: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
- <20251112-v5_user_cfi_series-v23-24-b55691eacf4f@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="CAMtjAGv"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8845498be17so12508336d6.3
+        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 09:14:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1764868496; x=1765473296; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ofjwqiOcg1c3d6qFlj4mCLrxvUQwOrLehDW+ZXphizQ=;
+        b=CAMtjAGvVflywixxmkyKRaZtixVlZYAbdsFVbJoxZUHT/tf5iAO25Qf11bBwThXAdU
+         DkEj6bVSTYA/aGkc+69Xetb0oG/TCXgse/GC4GqVDMqigdxPsiLRDXUV/rngjxFvCYcc
+         qu3pitEUp2GTQN9IE281QcSTwNjzQahPeo0GxtgOs+Oc3vIAhXirpXOgAplFAVEGISSU
+         Zkv/lsgqP0VdJ4zrjxZx1uwmgh0vKkyonwkm97HYHLKy+oVf3SrVJKG0zJivcxezcr88
+         yKVeqh9xwWbqiEsp3P7E3RfyLFCju1R2qpdttgUszP1qJGvcsPH2tUH/nKKpbVU6M24/
+         YcQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764868496; x=1765473296;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ofjwqiOcg1c3d6qFlj4mCLrxvUQwOrLehDW+ZXphizQ=;
+        b=mEHn6alTqRcF9icRylk+cPsGrGSyEd7JcNzyaNqy0wMbbIFn8sDZX77linTvwreHY7
+         wc3eLtQ/I/FgE+ZnVqGPpT87tSoPsUvJ2FtRg4gN6n/ZCwqzeGBGzk3rQq6q2qhSiyR7
+         f75Slp1orAO6yNFyKRV6YFWR3DLrd56QtMm4ZUKx8LndZ0fFgrRu7GJwcv4MHiFLi/qC
+         XMqJ7CZflRR2DprCL5SbPiy/Ew8VArbqYb0hpM8P8y0KkBHgYrbb9OhFFCASROgQCnpd
+         sJwOCzdjH0216XMU3gZgCxBuEge1cAXfbYZDuk/b8H6ATu1tlImXIkgZOKbwNstmMYaV
+         eXUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWmnR3MVIiiU1O+lYOGUXIOPNzV6BkeGCueNIECKu43U5YTImWl4CHSsTATmAV9LZPnTGUOEOe/SwI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywl3n37vckak62yUbI/dXzG7y/6L1prF8lTEOT7ILL59qkVlM3u
+	s0+INJzZjYS+aWatiEoOs3QGGoRZrIbEo1ErJ2lhXEDlaZFi1pCctD5Z+wslJmJJaIBX8zRpLDB
+	dggR+
+X-Gm-Gg: ASbGncu5FvuN80pfJp/bdC8o+bsIPYnMgZZFfPz0L13AsF/5nAwOavmSVN4ZjNVdnKb
+	ELz1+bGgCd59Ku6GU70KPXEBPV7Wrxnc5YV1qT4VirkTaLQVvDRyGpT/6FHkVFyUEGP3T+meeAu
+	0D+b07e4mCJjQ/+TiGxQPoDMiOhjKQk35DM7BPxWt4SE/9d5qWQBwWXPcFiDgwgLMxqKX7mq+wM
+	99x5Ib/DJf734dcKUVW377hVzdGZ/L62yIhZfToDPxcMm5dzKLv0VZPHKLaQyL22Vo3Qq/Yb+xR
+	omto9OrOUsEbvIZunDDjN/p4wGS4DsNyvEPN8/CM9kJwtE5fkqS7HdVoTRxY9y3MJTGjo2tEH2y
+	VOMqOWvmND3OnTMcBGqjFX4TpgdO1OJSwdu45LS8BjWJBdzVq1RMgOmPHSgtKVp/W9+mDX1a+Xp
+	UnZC9s2q+l42dPv3iwwq8v8we4/8DBdNBJukuDa2vdo1iG7Npc2Rwqt6iNMyCThasHd0UbLg==
+X-Google-Smtp-Source: AGHT+IFLxNiDK9rQo9yZICzkfx5ZdHibc8P8WJL1rCPgVT0okFH3vVSL8J1wXE0uJ8ACsbEHHX4ZRw==
+X-Received: by 2002:a05:6214:2461:b0:87f:bb8e:410b with SMTP id 6a1803df08f44-888194c5987mr105661836d6.3.1764868495500;
+        Thu, 04 Dec 2025 09:14:55 -0800 (PST)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88827f3347asm14832226d6.6.2025.12.04.09.14.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 09:14:54 -0800 (PST)
+Date: Thu, 4 Dec 2025 12:14:53 -0500
+From: Gregory Price <gourry@gourry.net>
+To: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Cc: linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, osalvador@suse.de,
+	akpm@linux-foundation.org, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+	muchun.song@linux.dev, Mel Gorman <mgorman@suse.de>,
+	Alexandru Moise <00moses.alexander00@gmail.com>,
+	David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH v3] mm, hugetlb: implement movable_gigantic_pages sysctl
+Message-ID: <aTHBjU5-Fio6CrwD@gourry-fedora-PF4VCD3F>
+References: <20251203063836.187016-1-gourry@gourry.net>
+ <305328e0-3011-409c-a040-76fc478d541a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,32 +82,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251112-v5_user_cfi_series-v23-24-b55691eacf4f@rivosinc.com>
+In-Reply-To: <305328e0-3011-409c-a040-76fc478d541a@kernel.org>
 
-On Wed, Nov 12, 2025 at 04:43:22PM -0800, Deepak Gupta via B4 Relay wrote:
-> From: Deepak Gupta <debug@rivosinc.com>
+On Wed, Dec 03, 2025 at 10:26:20AM +0100, David Hildenbrand (Red Hat) wrote:
+> On 12/3/25 07:38, Gregory Price wrote:
+> > This reintroduces a concept removed by:
+> > commit d6cb41cc44c6 ("mm, hugetlb: remove hugepages_treat_as_movable sysctl")
+> > 
+> > This sysctl provides flexibility between ZONE_MOVABLE use cases:
+> > 1) onlining memory in ZONE_MOVABLE to maintain hotplug compatibility
+> > 2) onlining memory in ZONE_MOVABLE to make hugepage allocate reliable
+> > 
+> > When ZONE_MOVABLE is used to make huge page allocation more reliable,
+> > disallowing gigantic pages memory in this region is pointless.  If
+> > hotplug is not a requirement, we can loosen the restrictions to allow
+> > 1GB gigantic pages in ZONE_MOVABLE.
+> > 
+> > Since 1GB can be difficult to migrate / has impacts on compaction /
+> > defragmentation, we don't enable this by default. Notably, 1GB pages
+> > can only be migrated if another 1GB page is available - so hot-unplug
+> > will fail if such a page cannot be found.
 > 
-> Shadow stack instructions are taken from zimop (mandated on RVA23).
-> Any hardware prior to RVA23 profile will fault on shadow stack instruction.
-> Any userspace with shadow stack instruction in it will fault on such
-> hardware. Thus such userspace can't be brought onto such a hardware.
+> In light of the other discussion: will it fail or will it simplt retry
+> forever, until there is a free 1g page?
 > 
-> It's not known how userspace will respond to such binary fragmentation.
-> However in order to keep kernel portable across such different hardware,
-> `arch/riscv/kernel/vdso_cfi` is created which has logic (Makefile) to
-> compile `arch/riscv/kernel/vdso` sources with cfi flags and then changes
-> in `arch/riscv/kernel/vdso.c` for selecting appropriate vdso depending
-> on whether underlying hardware(cpu) implements zimop extension. Offset
-> of vdso symbols will change due to having two different vdso binaries,
-> there is added logic to include new generated vdso offset header and
-> dynamically select offset (like for rt_sigreturn).
 
-If the used vDSO variant only depends on the hardware and nothing else,
-why not use alternative patching and avoid the complexity?
-I see that RISCV_ALTERNATIVE depends on !XIP_KERNEL but the vDSO code is
-moved to dynamically allocated memory in any case, so it is patchable.
+It retries until a 1GB page is available.
 
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> Acked-by: Charles Mirabile <cmirabil@redhat.com>
+Example test:
 
-(...)
+echo 0 > node0/hugepages/..-1GB/nr_hugepages (dram node)
+echo 1 > node1/hugepages/..-1GB/nr_hugepages (zone_movable node)
+./alloc_huge &                               (allocate the page)
+./node1_offline  &                           (offline > memory*/state)
+sleep 5                                      (give offline time)
+echo 1 > node0/hugepages/..-1GB/nr_hugepages (dram node)
+
+This node1_offline generates migration failures until the last step
+occurs, at which point migration and node1_offline complete as expected.
+
+The migration failures produce the following:
+
+[  707.443105] migrating pfn c080000 failed ret:-12
+[  707.453353] page: refcount:2 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0xc080000
+[  707.471315] head: order:18 mapcount:1 entire_mapcount:1 nr_pages_mapped:0 pincount:0
+[  707.488504] anon flags: 0x17ffff0000000848(uptodate|owner_2|head|node=1|zone=3|lastcpupid=0x1ffff)
+[  707.508393] page_type: f4(hugetlb)
+[  707.515940] raw: 17ffff0000000848 ffa000007d873cc0 ffa000007d873cc0 ff1100082366c6e9
+[  707.533126] raw: 0000000000000000 0000000000000010 00000002f4000000 0000000000000000
+[  707.550317] head: 17ffff0000000848 ffa000007d873cc0 ffa000007d873cc0 ff1100082366c6e9
+[  707.567699] head: 0000000000000000 0000000000000010 00000002f4000000 0000000000000000
+[  707.585085] head: 17ffff0000000012 ffd4000302000001 0000000000000000 0000000000000000
+[  707.602469] head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000040000
+[  707.619851] page dumped because: migration failure
+
+
+I can add this to the changelog if you prefer
+
+~Gregory
