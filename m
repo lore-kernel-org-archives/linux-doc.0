@@ -1,144 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15332F2903
-	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 17:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB40F27E077
+	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 18:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764869109; cv=none; b=bsBT3nETU7kHwonSRhahQdyC69ycAsIwbK3/e8Ukk8yWTX1TgflRNxBU68GGVyW6egihOuU8lClyraz+FcdPljBRMIEtM27vXj1fgO/xPPSDwqaOuNDJuurG3dGbyGqDz9IyYdH3H3CpDKFivRSKEXwClZCXCl93suNtqaK2ZEs=
+	t=1764872939; cv=none; b=i+10sF4rcyUeNIYrIa+GTOnNT5K57s4CedYsW7UynmrLDJa2ee7HBlIJv9aDUgS7a7s631MrDjIk0ZYa580cdzvvH6kfcDE7JC+FGVeryMKcQzZNsyw1ARc3ifhOFLQaWkPF9lZQX9Lj46dv9w6Fjx17JjgcgsvJ9ybqsqmp0dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764869109; c=relaxed/simple;
-	bh=w4DudhomAtyMI1TwgWxj2bPlJOA+LZwDMSH+WEth98E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T3yoxinB28iqfkolON5s1d1C+XwROHHH8FNH6iFnaUDBX0MW+eVHXxhgFCW9zhbsZBnxoOre+W3opGBwbSGMawxdjm99rqBZs3ArWVHw7ZWEqOS/R9EeV1qfHYrGyFxqlyKzMjZfcJbH21cGktrirgYDHy5ibjXYFv43KK9/dds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XRcrsxzJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764872939; c=relaxed/simple;
+	bh=5GqhyZT6Rt3PfQ/6GKSyzDj33c7nIyXN6+SMU3m/DgI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jc5Ohl3GEBVSiN/z6lFQYFo6DJAgL15GjXwFLRcUI8mC5G0aipP2fpGwC/HCgIw80xW35PQjT21eoDcuxhYHMt8W/RiDte6Zqb8n8gcikZZbdRQbjXZmD5FB5ir5LV1lL0fq48529lJXyeMtVwppsjzIaz1lSnLt0w/vHrWb4wA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=lxeQUoo0; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XRcrsxzJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9281DC2BCB7
-	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 17:25:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764869109;
-	bh=w4DudhomAtyMI1TwgWxj2bPlJOA+LZwDMSH+WEth98E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=XRcrsxzJVKTpceabtl5pcstGUoqpNlTZAMm3EaW9HxGW3FGnaB9cfRtL7hH2y9mz0
-	 cUl6F/DP3vmzVZGX6t2ePNsiD5o/+0Z5pvudbQT017kN+oamwD3ZuzN9IZmzOWuCRR
-	 DB/8u7FK9ZkmYDUSL5tR4LOkA+2bro+kOxsYjGkdPC7ucKA4E5lmZCsiuGn7V59xtc
-	 D5euXb4Rhp6SaVQQ9xGXKeZjptIFhc5f/kdmp7p1lTJ/rkD+BI0scZxd2BXw0grxD7
-	 LNpJj8NKljMOjpxy19K2azKLPVTB0eMeT2jV/bJQNU58dpGJ78WMUlXtEcT/2qW3nL
-	 MN5zGDf4D2yqg==
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-6575e760f06so330112eaf.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 09:25:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXZU4rjYGjqiQtzR4j/pzdlGIyWvoTkbUF1QXzUmymJS0YBdhhI/Co2fYLzUvADtN0KIPsfCVhXCm4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEzAIX/UR6J5udR91Isk3X9olXoTYkAA0bHITiLJan2mg7qkIG
-	NdYn89WxMSGRpWEZZAYANv09LLvu0bHk75wdd2+mrPNk5ublFLGydttU0Q7LG9CLMS6m/XeGkcP
-	btURr6DhjW0Ur5bcppuGg5kXVFHCv1Ho=
-X-Google-Smtp-Source: AGHT+IFdqRMTGYpfrIBkL/94H/4UVZLUsxsDPuVlgRIpWLfDNTMjGKr6U2rZEn17oThUm6ZKuIH5u+kR3ynMKeZ2BJA=
-X-Received: by 2002:a05:6808:1308:b0:44d:badf:f41a with SMTP id
- 5614622812f47-4536e52b830mr3093125b6e.32.1764869108561; Thu, 04 Dec 2025
- 09:25:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="lxeQUoo0"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4eddfb8c7f5so14084251cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 10:28:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg.org; s=google; t=1764872935; x=1765477735; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EbYKo00Iv7GRqeuEurZ+VNuUOvRrRabNx4MSyyDcnsw=;
+        b=lxeQUoo0LyPiKrmh97mRwEgczR4+misUTNkh0pxOPHRfbrK/EHBeZnNl0I6yN4X+47
+         uJMn9LxJgIg22LlikYUugDNSvD9TjiboVdGeHZDTs++B7vx70ndQM4gSlQ5RIlpGaYI7
+         T6Kc+AydSZF6QKn7kVcM1eEdgYukQp6THfVvCpq6Rs4zsqXzwa1t3LVhLAu7AunT3S+r
+         m+gmiqnkAwSSmSc14eYRd2/pgcM0HlZ7QJV833wI1raGmVnCc2Z05q9aBcRJjDoL7OyY
+         R/IDiZ0gO80Iq5TFfBo1oaU74bJPGnBfFY1vehLQTLCaCSGk6CxXW3fdvkrKyNVO/rn7
+         noeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764872935; x=1765477735;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EbYKo00Iv7GRqeuEurZ+VNuUOvRrRabNx4MSyyDcnsw=;
+        b=DZ8tGWIIAZDacMOGtnjP8PvMBV210bw4qeTvKD0QJUtm60ZS0094tMqj2YPjXzjaJB
+         0/SPNTEC7VRgLPs/ZXrE2miBdEVLWiTd21zxw9RhESlo2TrYD1weWLizi8MsNlxjUGTl
+         Y+jpawVSezHQarMvaRBQCLHOW/Kfq3ES2QEnfFCeKZpdvwNvol5g4XDNNoqADNFvOXc8
+         9Wy30cmQJwE5ixNolCjIcceCcwrm+g/dLDqe1dT5F9IfKfNno7c3oPRmkoB925xsEVuR
+         9OikVRlUQr6n9iTl2Y0vtdazbjZ0s/tYFYkwuDZKp0otqBPSqHYJIxAwqG7e4VMtQ3pr
+         1tOA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWWj9nE6oXMvghNrrCHCaEogI1iZEgvXb16+Lq/Lz9LhimKaxC+9gSbVRxHkejErpqpzfm14nvNZ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeaOvlFCZ9owMczGPQH3Pi2tOloEjL8dIPHYGhK/f14BcYW+mG
+	55+D70V/yq2bdT+BbqTWc39HR5FuZsVXstJq/5aebUwUvDVGvoH/z20KP+HilAx5QRE=
+X-Gm-Gg: ASbGnctxOz0RdAEsXobja1t/b46IBOV5I4HcaQixXe3kHepJu2q6ZOw0XYE0//FOLT5
+	Z0XZwZOIZ9yErPHGydp88X9pggE/Cis9gQfX7tX/PwYqSbRkqWBdAXWwTU4PO/d+Ci//6xEICnj
+	9mMsR9Ryt838PyXm62bWUezB+W2PC3ZX08iEwHTQrAEu0M/6vGG7v+eN4w+Fsr9XFd7M3qnO2wA
+	Hz8xvxShmbwiJXZssPDMWMfRtlyWZDMuNYePXFb8p0qtFLMhUsX4QWOsHVkKhPtMFpfwytBuXmh
+	/GjKPdfd7QDpjPa1ClI868HYL7IMQTqJi3LRcVTXwOCxL4EXoa8x0qLCKhupML0yfDbV/mKDhD3
+	pNO2LfsYOXAEPpXG5KwksT9xMeeCmnuTu1X3fuSXo7sGCeZ/jfBZUpk0AjW/ZvHwmKkryi+dke3
+	va9cl+HI0FDlyyidxU/nhh
+X-Google-Smtp-Source: AGHT+IGZlFZPSAeM4UXQLHs00EEi+GdYO84wd6mPsj8XuMELP7WRFAZg4UDdzJCd4HZJh7eQnkG5Jg==
+X-Received: by 2002:ac8:59cf:0:b0:4ed:e5c1:798 with SMTP id d75a77b69052e-4f023a08b64mr52873691cf.35.1764872935525;
+        Thu, 04 Dec 2025 10:28:55 -0800 (PST)
+Received: from localhost ([2603:7000:c01:2716:929a:4aff:fe16:c778])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88827f49e51sm15291736d6.15.2025.12.04.10.28.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 10:28:54 -0800 (PST)
+Date: Thu, 4 Dec 2025 13:28:50 -0500
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Chen Ridong <chenridong@huaweicloud.com>
+Cc: akpm@linux-foundation.org, axelrasmussen@google.com, yuanchu@google.com,
+	weixugc@google.com, david@kernel.org, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+	roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+	muchun.song@linux.dev, yuzhao@google.com,
+	zhengqi.arch@bytedance.com, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, lujialin4@huawei.com,
+	chenridong@huawei.com
+Subject: Re: [RFC PATCH -next 1/2] mm/mglru: use mem_cgroup_iter for global
+ reclaim
+Message-ID: <20251204182850.GA481418@cmpxchg.org>
+References: <20251204123124.1822965-1-chenridong@huaweicloud.com>
+ <20251204123124.1822965-2-chenridong@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251201202437.3750901-1-wusamuel@google.com> <20251201202437.3750901-2-wusamuel@google.com>
- <f28577c1-ca95-43ca-b179-32e2cd46d054@arm.com> <CAJZ5v0hAmgjozeX0egBs_ii_zzKXGPsPBUWwmGD+23KD++Rzqw@mail.gmail.com>
- <20251204114844.54953b01@gandalf.local.home>
-In-Reply-To: <20251204114844.54953b01@gandalf.local.home>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 4 Dec 2025 18:24:57 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0irO1zmh=un+8vDQ8h2k-sHFTpCPCwr=iVRPcozHMRKHA@mail.gmail.com>
-X-Gm-Features: AWmQ_bmbIJSS9C0PX7f-im5Va5YR_TWQXMQtQLR9w9H1jR--rFQSko9z5SAsOhM
-Message-ID: <CAJZ5v0irO1zmh=un+8vDQ8h2k-sHFTpCPCwr=iVRPcozHMRKHA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] cpufreq: Replace trace_cpu_frequency with trace_policy_frequency
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Christian Loehle <christian.loehle@arm.com>, 
-	Samuel Wu <wusamuel@google.com>, Huang Rui <ray.huang@amd.com>, 
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
-	Perry Yuan <perry.yuan@amd.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	kernel-team@android.com, linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-perf-users@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251204123124.1822965-2-chenridong@huaweicloud.com>
 
-On Thu, Dec 4, 2025 at 5:48=E2=80=AFPM Steven Rostedt <rostedt@goodmis.org>=
- wrote:
->
-> On Thu, 4 Dec 2025 15:57:41 +0100
-> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
->
-> > > perf timechart seem to do per-CPU reporting though?
-> > > So this is broken by not emitting an event per-CPU? At least with a s=
-imple s/cpu_frequency/policy_frequency/
-> > > like here.
-> > > Similar for the bpf samples technically...
-> >
-> > This kind of boils down to whether or not tracepoints can be regarded
-> > as ABI and to what extent.
->
-> They are an ABI and they are not an ABI. It really boils down to "if you
-> break the ABI but no user space notices, did you really break the ABI?" t=
-he
-> answer is "no". But if user space notices, then yes you did. But it is
-> possible to still fix user space (I did this with powertop).
+On Thu, Dec 04, 2025 at 12:31:23PM +0000, Chen Ridong wrote:
+> From: Chen Ridong <chenridong@huawei.com>
+> 
+> The memcg LRU was originally introduced for global reclaim to enhance
+> scalability. However, its implementation complexity has led to performance
+> regressions when dealing with a large number of memory cgroups [1].
+> 
+> As suggested by Johannes [1], this patch adopts mem_cgroup_iter with
+> cookie-based iteration for global reclaim, aligning with the approach
+> already used in shrink_node_memcgs. This simplification removes the
+> dedicated memcg LRU tracking while maintaining the core functionality.
+> 
+> It performed a stress test based on Zhao Yu's methodology [2] on a
+> 1 TB, 4-node NUMA system. The results are summarized below:
+> 
+> 					memcg LRU    memcg iter
+> stddev(pgsteal) / mean(pgsteal)            91.2%         75.7%
+> sum(pgsteal) / sum(requested)             216.4%        230.5%
+> 
+> The new implementation demonstrates a significant improvement in
+> fairness, reducing the standard deviation relative to the mean by
+> 15.5 percentage points. While the reclaim accuracy shows a slight
+> increase in overscan (from 85086871 to 90633890, 6.5%).
+> 
+> The primary benefits of this change are:
+> 1. Simplified codebase by removing custom memcg LRU infrastructure
+> 2. Improved fairness in memory reclaim across multiple cgroups
+> 3. Better performance when creating many memory cgroups
+> 
+> [1] https://lore.kernel.org/r/20251126171513.GC135004@cmpxchg.org
+> [2] https://lore.kernel.org/r/20221222041905.2431096-7-yuzhao@google.com
+> Signed-off-by: Chen Ridong <chenridong@huawei.com>
 
-My concern is that the patch effectively removes one trace point
-(cpu_frequency) and adds another one with a different format
-(policy_frequency), updates one utility in the kernel tree and expects
-everyone else to somehow know that they should switch over.
+Acked-by: Johannes Weiner <hannes@cmxpchg.org>
 
-I know about at least several people who have their own scripts using
-this tracepoint though.
+The diff and the test results look good to me. Comparing the resulting
+shrink_many() with shrink_node_memcgs(), this also looks like a great
+step towards maintainability and unification.
 
-> >
-> > In this particular case, I'm not sure I agree with the stated motivatio=
-n.
-> >
-> > First of all, on systems with one CPU per cpufreq policy (the vast
-> > majority of x86, including AMD, and the ARM systems using the CPPC
-> > driver AFAICS), the "issue" at hand is actually a non-issue and
-> > changing the name of the tracepoint alone would confuse things in user
-> > space IIUC.  Those need to work the way they do today.
->
-> If the way the tracepoint changes, it's best to change the name too.
-> Tooling can check to see which name is available to determine how to
-> process the traces.
+Thanks!
 
-If it is updated to do so, yes, but in the meantime?
-
-> >
-> > On systems with multiple CPUs per cpufreq policy there is some extra
-> > overhead related to the cpu_frequency tracepoint, but the if someone
-> > is only interested in the "policy" frequency, they can filter out all
-> > CPUs belonging to the same policy except for one from the traces,
-> > don't they?
->
-> I'm not exactly sure what you mean here. There is an "onchange" trigger y=
-ou
-> can use to trigger a synthetic event whenever a change happens. But I thi=
-nk
-> the data here wants to know which CPU had its policy change. Hence the CP=
-U
-> mask.
-
-IIUC he wants to trace frequency changes per policy, not per CPU
-(because there are cases in which multiple CPUs belong to one policy
-and arguably the frequency doesn't need to be traced for all of them),
-but tooling should know which CPUs belong to the same policy, so it
-should be straightforward to use that knowledge when processing the
-traces.
