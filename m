@@ -1,68 +1,68 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0045E3396F2
-	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 12:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878E433FE27
+	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 12:41:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764851619; cv=none; b=Lvsow17nvK7/e64v1ai1rv/oNPGqz9d1flZfqfCffqB+s9ADVa6znC8W1mniWI78CXoxaDP65HwUhxX6pcGQRhCfmr8VJ2N3PRqiS8vY69QTS36bwbSTqsQvWrAqSAdA8YiDXvigfydfu46sBbF0oxGCA3OesaCwQzppBy5w/hE=
+	t=1764852083; cv=none; b=Qv38CuG1pxoSSnktNv2xUHvg/SeY/lFL+TAwReSLQIcMBCOsPJMzlb/3CCv79Rt3BpFM5a7dmHIf521obURL9KdC6Czkb7NLzw0VZZcnaJiASNbpc+oOgtzR5qWRg3hpdpGq5QSKmZMAWS5Sj5piHdnsoongXPeXHvfuOxZhpU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764851619; c=relaxed/simple;
-	bh=WfZZkVUD2KIfkMnmL+8RiPfvk8m+CchCTc2u15cbG9Y=;
+	s=arc-20240116; t=1764852083; c=relaxed/simple;
+	bh=hG1vkzaTsWHXNInLHudm3ZoCCm4Kfa85G6m2/cYZB8s=;
 	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=U4kek9eSj+kDuVKMlc5PjAZBxl4EPXuQXBlND4uUj5NcVlUW9jhylpZs+NRAAS3U68ZzBo6kTwKEPLgToUHEgypBdRqaDAagoN4C+CgtlZo7f4vSreR0LjV/omBMKa3F7V7MS0iUdzxd9jQkV6/Ep8a33+uO1dShPlJRM8VIk0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k58/Q0JB; arc=none smtp.client-ip=209.85.128.176
+	 In-Reply-To:Content-Type; b=ex+wrf1LYZy0H997NaFVF29LVw62VKIf3M7hTLTVqQccO59xOoWF1ays3ezYAYjHo46C5GVE/4I2vl9cd5mDyUCiAWuTvk2239St+6+Oqn+vbLnZFSQE87AD6+JBJ8HaOa07y3WsxRBtAx2VmZEqUHqnBr3hWRjkzGHWpvtWx+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZF8j4nW5; arc=none smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k58/Q0JB"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-78aa49cde3dso8524287b3.1
-        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 04:33:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZF8j4nW5"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-6433f99eb15so690025d50.3
+        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 04:41:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764851611; x=1765456411; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1764852080; x=1765456880; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=1LSBGLPlqRHWA6FHsfup0TF1aoJUDnhVkqy0ECtK4a0=;
-        b=k58/Q0JBEYWe+KJhx8snKI6/qcTbvf4HvI43lpn5+5z7rPY2sSgNWBTTxvhoW3uOFc
-         goN9S1ef1YmXTOI4SLoXzIl+BcLzIJf8n9+/5ciIHUMtxEV/jWJAqgW9lB7G2u8BCbtp
-         KMu+WUoL/5Zu3GNg0zklmqXCmKOsYxIzgaO8brrJO1ZX2eUTkFUp/pW0bUbEy5lcE9X8
-         UcjDkgsbBUH7K9qnSANT5UWHDdYeUojS4SNmoNv2hb7Oyhg9n+j9qzOtvQjRTuNCrsUK
-         fwmtu+D1kRj8ZTdy4XSRDi+teDA3e42c6+Cwjiakqb0ns9dF/D2bFrB7yHL6hPwEVcZ2
-         inng==
+        bh=CtmcVddWlIU7BT9xK5tcRrtmkn1+1JWSNY5cSjjYfUQ=;
+        b=ZF8j4nW5FeoZMH2C2T3zN1Hqtemo6ZkiipW+rZFVG/Q1TExManR3uL+xpjWyxucqIV
+         pqndw7fFWgyAyyJ3NZCh0H0Kv00vwZaL/NUJDU2VfoxDJjkKYAMex9nH7Bi1Gta8EFh9
+         9cVHgjMzluYhiolo0/upiKcmlI35I9gsxhpYBd/UDLnFPwPCToYR68SiAiW9b8BVZucv
+         TJ1/fjMedBr52yjSxeO5O2K/ZT/s0PuQ//08I2RZMXzHrwynE4j5ZCt773P+Baf5pKg5
+         XMCxMd5RNUvonkqVpPHIFwuJDvoikj4Ouqvbutq7l3rMK6FHr5QVw4mEexOWvm9WCbZi
+         4CZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764851611; x=1765456411;
+        d=1e100.net; s=20230601; t=1764852080; x=1765456880;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1LSBGLPlqRHWA6FHsfup0TF1aoJUDnhVkqy0ECtK4a0=;
-        b=chOdw+MyPPr9dAkpAERtD/RW+12gcOg00VrsuK/tb5yJVvesCCuWgXgjB2wmqnU7q4
-         /AHCcY25LWRs8AK3uiIF/g8jJjInoH65EEGg6QRFlVz+6lEI4NIBrAhANAzbM5i7UECA
-         kBWO37E30bGakjeOZX8Nr6Yu6tpl1kKlaahqi1zy0hzWtKHgCk07cm8zmluB8TuBeGsj
-         Geea4vZo3NqPBwq8IuwzSQ3E2p80NQOlg2X5ORzrk85ivwfdpFGx462OMgnFdMgbXoq1
-         9DNO4d1o1xtan3uDgd3Y4qK1/jVSFzM1r73/1LOf9T8HcaWaAXeSRUcbkXe/2Y+kmSMk
-         UJQw==
-X-Forwarded-Encrypted: i=1; AJvYcCVgll2s4A0Ef/lztXO/gy52Psndrx53rNaHPSIYjTtqPSUlfrU3XyBL7YCStEtCSpcrjKNAi9i2iEM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi8mCbxYEc1zYyU0UNWNeLvfTP1kFv514VEIsTNDgpFsYc8mdI
-	+sW6zwUu3AO+AtbMv3sqJmUCdpOS5tZDLJkxQs7To55j7WGJ+XuEpnQX
-X-Gm-Gg: ASbGnct/EfwiWRbEXD4w41ro6EJvPhFJI5QgkfZAGrKKxRWWcMIw2+1BPmxjxx88mCe
-	vU5UHVr4XPY1/ahx4XZvaGE5WO78SvdiJ+SEtkxtZRKLcB3hT5YLf2B+3+irZl5Y/nprMezxjrs
-	yvRl8hCBxyfxe+oYB/UcB/fj0NQ/bRwSRS8LCcLZgahEoAwT0cAJtrKNzWMOzMFpT1S+b9PDzWu
-	G0piaZHCAVS1vEafwAcBs2OG8SSE5/luhx7kjtE9Y01OoADUdPI+VrbZl9YRwm2Ml4eZSvesTxw
-	WvMFtCQ06LiAzwVm3L5Zu5+htqHlqdLv185Itq9BfWdwlzuACjmjs0YCHXMx59dAXjs0jPatVb/
-	Mw8wkA+tri9gMeCO/36SSt9wF1ouNztL6E3Y88iDsQPsjgDG3H6nRqLo+2ai5Mc03XiAQ9qgyWe
-	1agvuPHIl6to72CpfKM0Bgq7ncJAINDIUK5c6gvRj9ie7rBd4hJro=
-X-Google-Smtp-Source: AGHT+IHBUEbYkxJaVsA/zBTgJe8/H/sEcBnHGISwxVU3+cajLhUyQv9YXSpqaHkdOjyO4eiZ0/Xsyg==
-X-Received: by 2002:a05:690c:6c0c:b0:78a:6dc9:8801 with SMTP id 00721157ae682-78c0c285f98mr45923627b3.51.1764851611217;
-        Thu, 04 Dec 2025 04:33:31 -0800 (PST)
+        bh=CtmcVddWlIU7BT9xK5tcRrtmkn1+1JWSNY5cSjjYfUQ=;
+        b=to6ic+aR6Bg9C0c1hWGq6g3OfI/pL1iY5awGEExq6ago7gNC1JyVZnQNbeZQ2j1KSC
+         npu5mMampJhc+/O8nPMoBgrWXj+1HLNMXig5Uhaq0EeJMRCGf3sNWuXG3i51IDi3nz0r
+         RknXB2TQuqzuUveyELqxO4l23IxHiRxTriIHUeXA+3nJ/6JY11F+8Y7+i42HAcZhdfZ6
+         2Djvd2yl/ry7dUSuJ6OXD8nBBBkIhRpl+6T98ZV8JcX0g7H0EoOCxK0R03BxxMh+NRYP
+         3osBVIvfctEMmtPaZ1nEvVw38tPsQYhMNAT+QKlwkifIGFtzpgkRjsX2qnTbCOqPPxYY
+         8byw==
+X-Forwarded-Encrypted: i=1; AJvYcCXp8KqrVPylyODGyKC1+TWa95V9XUKnRolh3A8iD94w6TgmAbeVbcEjLef+cKKo2XYm17qBGZA4KdM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy83mmltTzjrFCwGEA2o7CBvjHzuw6DmnA+uwVY0vaKF2H1q3Q/
+	v1LLRJXKe60wi5HGvpUpnWVE3YGf7GlzLy6hGBuMjNfc2hNoZcKf8QET
+X-Gm-Gg: ASbGncvWid8OprwVNaPUnEOPxDOZj34LRI5lguqhZDfcQ+NCZbd1RkTjfy8qYWEuXPB
+	xrswKNpE5nA5i9NQ9UAeaGRqViyc8/Rh/TFJ9pvLSzQ0qZRLHHat31hOtlBlmIQOomQmgcNHezh
+	TZrMGB2vHZExjl0TisQOBKiH53Tuly+r/sN6JtL/O/XL/sdXnQVc/GE1mG30sjFW72k1zhm9CqX
+	CcXrEKsCuv/JFoEulQgYmERMeSxsct3lXZlv2bObgjMpbVZRCNdoj54muYmjifLQ5SoNLbRIUcf
+	r4k/qIkOGvZi2pPe7ITA8OrKoRWEpNXIYv4ivc+3ZDGUtJMfLFbzUiewWFQJhqGcFVVUzKf9Unp
+	vvmTXgotgWPX0aVEme5/0ZzNGlE+CrCsZ243GXfA94ru7xrd/DlzIkS61BaqDonyuWnQN8kRQn+
+	OPtUlZ0AyBUhf800MoX2pBiDPHItNN20yT4CYDNxm2
+X-Google-Smtp-Source: AGHT+IHJA60ZYQi9bh/oeg3T2d4XWf4TlPAq2CBo9e/gVJnloBN9DiCKQRpeQyWtcS1RPasu2wKg9g==
+X-Received: by 2002:a05:690e:11c4:b0:640:caa5:57bd with SMTP id 956f58d0204a3-64436fe7dc6mr4661174d50.37.1764852080011;
+        Thu, 04 Dec 2025 04:41:20 -0800 (PST)
 Received: from [192.168.1.209] (89.208.240.37.16clouds.com. [89.208.240.37])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78c1b4d22bbsm4914897b3.21.2025.12.04.04.33.24
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78c1b78e892sm4782487b3.44.2025.12.04.04.41.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Dec 2025 04:33:30 -0800 (PST)
+        Thu, 04 Dec 2025 04:41:19 -0800 (PST)
 From: Asuna Yang <spriteovo@gmail.com>
 X-Google-Original-From: Asuna Yang <SpriteOvO@gmail.com>
-Message-ID: <9687109b-dc93-4535-848c-e5f22aeb8e9d@gmail.com>
-Date: Thu, 4 Dec 2025 20:33:22 +0800
+Message-ID: <0c63bb4a-6aa0-412e-aad3-7ca3ecb1361f@gmail.com>
+Date: Thu, 4 Dec 2025 20:41:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,10 +70,9 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] rust: add a Kconfig function to test for support
- of bindgen options
-To: Vivian Wang <wangruikang@iscas.ac.cn>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+Subject: Re: [PATCH v5 2/4] rust: generate a fatal error if BINDGEN_TARGET is
+ undefined
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
  Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
  Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
  <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
@@ -84,38 +83,20 @@ To: Vivian Wang <wangruikang@iscas.ac.cn>,
  Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
  Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
  Jonathan Corbet <corbet@lwn.net>, Jason Montleon <jmontleo@redhat.com>,
- Han Gao <rabenda.cn@gmail.com>, Conor Dooley <conor@kernel.org>
+ Han Gao <rabenda.cn@gmail.com>, Conor Dooley <conor@kernel.org>,
+ Vivian Wang <wangruikang@iscas.ac.cn>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
  linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org
 References: <20251204-gcc-rust-v5-v5-0-2d4f20d86c24@gmail.com>
- <20251204-gcc-rust-v5-v5-3-2d4f20d86c24@gmail.com>
- <1a6bb8cd-cc08-458f-a6f6-cdfefd327320@iscas.ac.cn>
+ <20251204-gcc-rust-v5-v5-2-2d4f20d86c24@gmail.com>
 Content-Language: en-US
-In-Reply-To: <1a6bb8cd-cc08-458f-a6f6-cdfefd327320@iscas.ac.cn>
+In-Reply-To: <20251204-gcc-rust-v5-v5-2-2d4f20d86c24@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/4/25 5:06 PM, Vivian Wang wrote:
+I noticed that RISC-V CI bjorn/dtb-warn-rv64 [^1] is failing somehow due 
+to the error here. I'll look into it tomorrow.
 
->> +
->> +# $(bindgen-backend-option,<flag>)
->> +# Return y if bindgen backend supports <flag>, n otherwise
->> +# For now, the backend refers only to libclang, so more specifically, this function tests whether the given flag is recognized by the libclang used by bindgen.
->> +bindgen-backend-option = $(success,trap "rm -f .tmp_$$.h" EXIT; touch .tmp_$$.h; $(BINDGEN) .tmp_$$.h -- --target=$(BINDGEN_TARGET) $(1))
->>
-> Can probably be simplified down to:
-> 
-> $(BINDGEN) /dev/null -- -x c --target=$(BINDGEN_TARGET) $(1)
-> 
-
-bindgen is sensitive to file extensions. If the file is not .h or .hpp, 
-it complains:
-
-panicked at bindgen/ir/context.rs:562:15:
-libclang error; possible causes include:
-- Invalid flag syntax
-- Unrecognized flags
-- Invalid flag arguments
-- File I/O errors
-- Host vs. target architecture mismatch
+[^1]: 
+https://patchwork.kernel.org/project/linux-riscv/patch/20251204-gcc-rust-v5-v5-4-2d4f20d86c24@gmail.com/
