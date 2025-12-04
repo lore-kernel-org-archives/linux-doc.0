@@ -1,142 +1,162 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87472EFDA6
-	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 17:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3868261B9D
+	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 17:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764868498; cv=none; b=OBuPBZPSLx2YnMJcLUwpkV/hKY9vXAy6AIPuL+wswsK5wBW/27IfgorglhKJxwyKOJbkjrFzN2bF0dOzJ8d3iotg2mVicpq0C7dd9lKd8QY8tutKwMDaCdAf9cAjmqHZGeeq+PVuWBGKqQwztvAJBFPQNi8cLN2XHTwmg70qJN8=
+	t=1764868755; cv=none; b=CYQeZzHHTgLMHT50fZ17ves1IxORXpU2umk34KTiA57MReRL5rSzmJvAu8em2G8bRpxUzXlIcgUtaXEZIsxfR8TEVInf3T7nY4wwjJjeC6NPnl4l53aEBpemuNoSv95JDwHFrEJVD33wxrLx9oEQWpHyTIGlWvTDM1HR7D46Q0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764868498; c=relaxed/simple;
-	bh=WJU0ECi7LOp2xB0F8Jj2AkwukvhHfSlAKRt8xPStkd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CLabj/69wB+sLdXeN+gi0BvZ0/0wNUMaETHCzDFpFbH8+ovRIkFlKMhU39aBUFGLE21sq0aMely/2moV0GNQ2YytO4isZMFooRbaki/ok1YSv76G+veRdJoog4rNPJR1mfNSoAdry1hHr2uuk3nuCIOVJaoEXVE/BR5wfPyYGtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=CAMtjAGv; arc=none smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1764868755; c=relaxed/simple;
+	bh=tbhl1hB6Go7cKeEzi9fq0ksxVXWeewQm1ULfbDi4zC4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=drC/a3l6Lj68z4QBDZcsrTc8TQLSBf1CPYF7i9uOWqa9NyjneqKizSngX8bp2DqJSGbs3PllXk7OXhy1o94Qf6gRmZ0pl+mxoTdpLe785vyQnDdA+30/bQDscBCgtJt7iZJMvptluP+T4x7xS8WqpLKHEJntIRrGNjVBCoFsetA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TS5lSMNY; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Or66t7hy; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="CAMtjAGv"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8845498be17so12508336d6.3
-        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 09:14:56 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TS5lSMNY";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Or66t7hy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1764868751;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tbhl1hB6Go7cKeEzi9fq0ksxVXWeewQm1ULfbDi4zC4=;
+	b=TS5lSMNYD35/wAmr4rMYBl+UllFP4mLh2L185PF1q4woIPAbSZsz8L1x5lqeq9LaYONq2W
+	01NQ8rgBBbkU0xhqnI1dzbvhxlTa0QsnUf8EX8feBKyKLCfptQF6NGNYArP9WJjkwe2l4e
+	Y7GMbbyrKy7gIYf/Q3PibphGczpFohQ=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-348-IG4RrdkxMZGEAciO7_zgWg-1; Thu, 04 Dec 2025 12:19:10 -0500
+X-MC-Unique: IG4RrdkxMZGEAciO7_zgWg-1
+X-Mimecast-MFC-AGG-ID: IG4RrdkxMZGEAciO7_zgWg_1764868750
+Received: by mail-ua1-f70.google.com with SMTP id a1e0cc1a2514c-937213d39a5so2027894241.2
+        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 09:19:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1764868496; x=1765473296; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ofjwqiOcg1c3d6qFlj4mCLrxvUQwOrLehDW+ZXphizQ=;
-        b=CAMtjAGvVflywixxmkyKRaZtixVlZYAbdsFVbJoxZUHT/tf5iAO25Qf11bBwThXAdU
-         DkEj6bVSTYA/aGkc+69Xetb0oG/TCXgse/GC4GqVDMqigdxPsiLRDXUV/rngjxFvCYcc
-         qu3pitEUp2GTQN9IE281QcSTwNjzQahPeo0GxtgOs+Oc3vIAhXirpXOgAplFAVEGISSU
-         Zkv/lsgqP0VdJ4zrjxZx1uwmgh0vKkyonwkm97HYHLKy+oVf3SrVJKG0zJivcxezcr88
-         yKVeqh9xwWbqiEsp3P7E3RfyLFCju1R2qpdttgUszP1qJGvcsPH2tUH/nKKpbVU6M24/
-         YcQQ==
+        d=redhat.com; s=google; t=1764868750; x=1765473550; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tbhl1hB6Go7cKeEzi9fq0ksxVXWeewQm1ULfbDi4zC4=;
+        b=Or66t7hyxTXeQtzi9Re8PxU7hESsDH3cXRqvMkdxRRRXjpurI5JYyajyGqhO00PDIp
+         ulvX7ENQ1rGpknurVtL8DIbJnTfB5K8QatZFVUE6Q/kfR23z2/Oabjoa8FSusKJZvHhL
+         lqKTMUZ78zwBzQUSsUjQsgF4F/B61JlDAQzVSpT273FJQNgtni6vQig4ROVfSpMhFi9Y
+         d/n5oiqHnO9/tgjJ/tkYy1pB/YH+pLKjnmYlmiu36snNsLra6KhcpjckdFj1bK41PEbs
+         bQP7f778Bmv9fn28aV0f8HqGs8OGxDRfHXQ7gj8QDzByUG1bNaHG7XyHfAWFBL5NV9fP
+         tNng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764868496; x=1765473296;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ofjwqiOcg1c3d6qFlj4mCLrxvUQwOrLehDW+ZXphizQ=;
-        b=mEHn6alTqRcF9icRylk+cPsGrGSyEd7JcNzyaNqy0wMbbIFn8sDZX77linTvwreHY7
-         wc3eLtQ/I/FgE+ZnVqGPpT87tSoPsUvJ2FtRg4gN6n/ZCwqzeGBGzk3rQq6q2qhSiyR7
-         f75Slp1orAO6yNFyKRV6YFWR3DLrd56QtMm4ZUKx8LndZ0fFgrRu7GJwcv4MHiFLi/qC
-         XMqJ7CZflRR2DprCL5SbPiy/Ew8VArbqYb0hpM8P8y0KkBHgYrbb9OhFFCASROgQCnpd
-         sJwOCzdjH0216XMU3gZgCxBuEge1cAXfbYZDuk/b8H6ATu1tlImXIkgZOKbwNstmMYaV
-         eXUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWmnR3MVIiiU1O+lYOGUXIOPNzV6BkeGCueNIECKu43U5YTImWl4CHSsTATmAV9LZPnTGUOEOe/SwI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywl3n37vckak62yUbI/dXzG7y/6L1prF8lTEOT7ILL59qkVlM3u
-	s0+INJzZjYS+aWatiEoOs3QGGoRZrIbEo1ErJ2lhXEDlaZFi1pCctD5Z+wslJmJJaIBX8zRpLDB
-	dggR+
-X-Gm-Gg: ASbGncu5FvuN80pfJp/bdC8o+bsIPYnMgZZFfPz0L13AsF/5nAwOavmSVN4ZjNVdnKb
-	ELz1+bGgCd59Ku6GU70KPXEBPV7Wrxnc5YV1qT4VirkTaLQVvDRyGpT/6FHkVFyUEGP3T+meeAu
-	0D+b07e4mCJjQ/+TiGxQPoDMiOhjKQk35DM7BPxWt4SE/9d5qWQBwWXPcFiDgwgLMxqKX7mq+wM
-	99x5Ib/DJf734dcKUVW377hVzdGZ/L62yIhZfToDPxcMm5dzKLv0VZPHKLaQyL22Vo3Qq/Yb+xR
-	omto9OrOUsEbvIZunDDjN/p4wGS4DsNyvEPN8/CM9kJwtE5fkqS7HdVoTRxY9y3MJTGjo2tEH2y
-	VOMqOWvmND3OnTMcBGqjFX4TpgdO1OJSwdu45LS8BjWJBdzVq1RMgOmPHSgtKVp/W9+mDX1a+Xp
-	UnZC9s2q+l42dPv3iwwq8v8we4/8DBdNBJukuDa2vdo1iG7Npc2Rwqt6iNMyCThasHd0UbLg==
-X-Google-Smtp-Source: AGHT+IFLxNiDK9rQo9yZICzkfx5ZdHibc8P8WJL1rCPgVT0okFH3vVSL8J1wXE0uJ8ACsbEHHX4ZRw==
-X-Received: by 2002:a05:6214:2461:b0:87f:bb8e:410b with SMTP id 6a1803df08f44-888194c5987mr105661836d6.3.1764868495500;
-        Thu, 04 Dec 2025 09:14:55 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88827f3347asm14832226d6.6.2025.12.04.09.14.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 09:14:54 -0800 (PST)
-Date: Thu, 4 Dec 2025 12:14:53 -0500
-From: Gregory Price <gourry@gourry.net>
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: linux-mm@kvack.org, kernel-team@meta.com, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, osalvador@suse.de,
-	akpm@linux-foundation.org, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
-	muchun.song@linux.dev, Mel Gorman <mgorman@suse.de>,
-	Alexandru Moise <00moses.alexander00@gmail.com>,
-	David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH v3] mm, hugetlb: implement movable_gigantic_pages sysctl
-Message-ID: <aTHBjU5-Fio6CrwD@gourry-fedora-PF4VCD3F>
-References: <20251203063836.187016-1-gourry@gourry.net>
- <305328e0-3011-409c-a040-76fc478d541a@kernel.org>
+        d=1e100.net; s=20230601; t=1764868750; x=1765473550;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tbhl1hB6Go7cKeEzi9fq0ksxVXWeewQm1ULfbDi4zC4=;
+        b=Vnkxrvd/S/E4yTvxE16hEjraxejEnafQ+KwVeu8YMUPyF/T6HaUkChiXYUbvYsq5xN
+         UJHmEokiLYSn58XQMiVekGl0sqTbv8CPQ256Tr9OkjhixVxPOWOflXpCFnVlrmxy9I1l
+         M1Ps85UITAfiRdqZzTMUlOm1+jLOZEyS+/TwDs/8tTRdHcZbzcRmB9Rq2H/YyGUzILrE
+         39Y4M/Ebcu9GwhfmnQZ2sQYi6b6tLTbA6Kd6qLiQg35iFbbbb4I0e7vrNvbBggFeu3ww
+         +wQG8xArjo48oODrAQwE4ld9jQwaU4I2rJLNJ/g8FH3P4h80eG8MpRh/w1N+UOpHyzz7
+         cRNg==
+X-Forwarded-Encrypted: i=1; AJvYcCUmbWrbNbenWGxBMSjL6ZDuCFFTR21bjOLLD3HyGCt15DeBn/xl4oOjXtSbjzUF34bCTaPBhli6IGE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzq/p9543fVlTU6c0z6QHonatwJrVHMDI3XegyuNbMErY+JotUU
+	25HTgebzQjIOPqFUtK/v6e5gOVqfm7vm2XyuHv6QUSe3uI31Arw57FxdFV4hpr2UB/MmlSZRxn1
+	ZMgGZFgMWQqQOveE9KJ/Pd4vjgELBBSm7phzg1IaoKKo0GeUuEyTBhRZeUyysLv/s9ffPa5xZBj
+	cZknMnkXun65Ibro1WexB/WdTXVFkp7bswpHhv
+X-Gm-Gg: ASbGncuLXo713ahAlumh/O1Xe21AmDj7QcgUB4QaHCmFVNfNIEKezJHW9hWlt2liT/0
+	Y6Py/iGeWjNSlpehixRrqMEhTIiHZJIP1BgeM46Oz0QlYOaGWWnPoAlUI3manY8rlccbbujNCqU
+	NyZTMX8TgbzmRoQGNAeynuvExOiWPZgASUVQQNxVTcBBI+1Zs8uJ+FpaKANvbqyiqHebbFNGXSd
+	ts=
+X-Received: by 2002:a05:6122:219e:b0:55b:d85:5073 with SMTP id 71dfb90a1353d-55e69d33928mr1380181e0c.4.1764868750221;
+        Thu, 04 Dec 2025 09:19:10 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEeIB0YNcpJAiGx/GNuObvXw/sfsBoL+Pu7iwpKlscfZjHDAR4upRzogd+N3zgiWodvzIxUpcfLPOjZg7ZeO+k=
+X-Received: by 2002:a05:6122:219e:b0:55b:d85:5073 with SMTP id
+ 71dfb90a1353d-55e69d33928mr1380133e0c.4.1764868749828; Thu, 04 Dec 2025
+ 09:19:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <305328e0-3011-409c-a040-76fc478d541a@kernel.org>
+References: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
+ <20251112-v5_user_cfi_series-v23-24-b55691eacf4f@rivosinc.com> <20251204175055-fefb76ff-2ff2-48b8-b92c-3d3ce33ec9f5@linutronix.de>
+In-Reply-To: <20251204175055-fefb76ff-2ff2-48b8-b92c-3d3ce33ec9f5@linutronix.de>
+From: Charles Mirabile <cmirabil@redhat.com>
+Date: Thu, 4 Dec 2025 12:18:57 -0500
+X-Gm-Features: AWmQ_bn9PjdtETVMsD9KORY8lffIPeFGUkSijG0lA3xh-eP2WvDjQUg18Xtxf3s
+Message-ID: <CABe3_aH6wRzKt+f8RyG+0mN0Kyu2eASRn4URxgU4R-zEmdwBgA@mail.gmail.com>
+Subject: Re: [PATCH v23 24/28] arch/riscv: dual vdso creation logic and select
+ vdso based on hw
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Deepak Gupta <debug@rivosinc.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Christian Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Jann Horn <jannh@google.com>, 
+	Conor Dooley <conor+dt@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
+	richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
+	kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
+	evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
+	samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 03, 2025 at 10:26:20AM +0100, David Hildenbrand (Red Hat) wrote:
-> On 12/3/25 07:38, Gregory Price wrote:
-> > This reintroduces a concept removed by:
-> > commit d6cb41cc44c6 ("mm, hugetlb: remove hugepages_treat_as_movable sysctl")
-> > 
-> > This sysctl provides flexibility between ZONE_MOVABLE use cases:
-> > 1) onlining memory in ZONE_MOVABLE to maintain hotplug compatibility
-> > 2) onlining memory in ZONE_MOVABLE to make hugepage allocate reliable
-> > 
-> > When ZONE_MOVABLE is used to make huge page allocation more reliable,
-> > disallowing gigantic pages memory in this region is pointless.  If
-> > hotplug is not a requirement, we can loosen the restrictions to allow
-> > 1GB gigantic pages in ZONE_MOVABLE.
-> > 
-> > Since 1GB can be difficult to migrate / has impacts on compaction /
-> > defragmentation, we don't enable this by default. Notably, 1GB pages
-> > can only be migrated if another 1GB page is available - so hot-unplug
-> > will fail if such a page cannot be found.
-> 
-> In light of the other discussion: will it fail or will it simplt retry
-> forever, until there is a free 1g page?
-> 
+On Thu, Dec 4, 2025 at 12:04=E2=80=AFPM Thomas Wei=C3=9Fschuh
+<thomas.weissschuh@linutronix.de> wrote:
+>
+> On Wed, Nov 12, 2025 at 04:43:22PM -0800, Deepak Gupta via B4 Relay wrote=
+:
+> > From: Deepak Gupta <debug@rivosinc.com>
+> >
+> > Shadow stack instructions are taken from zimop (mandated on RVA23).
+> > Any hardware prior to RVA23 profile will fault on shadow stack instruct=
+ion.
+> > Any userspace with shadow stack instruction in it will fault on such
+> > hardware. Thus such userspace can't be brought onto such a hardware.
+> >
+> > It's not known how userspace will respond to such binary fragmentation.
+> > However in order to keep kernel portable across such different hardware=
+,
+> > `arch/riscv/kernel/vdso_cfi` is created which has logic (Makefile) to
+> > compile `arch/riscv/kernel/vdso` sources with cfi flags and then change=
+s
+> > in `arch/riscv/kernel/vdso.c` for selecting appropriate vdso depending
+> > on whether underlying hardware(cpu) implements zimop extension. Offset
+> > of vdso symbols will change due to having two different vdso binaries,
+> > there is added logic to include new generated vdso offset header and
+> > dynamically select offset (like for rt_sigreturn).
+>
+> If the used vDSO variant only depends on the hardware and nothing else,
+> why not use alternative patching and avoid the complexity?
+> I see that RISCV_ALTERNATIVE depends on !XIP_KERNEL but the vDSO code is
+> moved to dynamically allocated memory in any case, so it is patchable.
 
-It retries until a 1GB page is available.
+These instructions are emitted by the toolchain in the C code, so a
+traditional approach with alternatives is not exactly feasible. Maybe
+you could do it by scan the binary for them, but that sounds dubious.
 
-Example test:
+>
+> > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> > Acked-by: Charles Mirabile <cmirabil@redhat.com>
+>
+> (...)
+>
 
-echo 0 > node0/hugepages/..-1GB/nr_hugepages (dram node)
-echo 1 > node1/hugepages/..-1GB/nr_hugepages (zone_movable node)
-./alloc_huge &                               (allocate the page)
-./node1_offline  &                           (offline > memory*/state)
-sleep 5                                      (give offline time)
-echo 1 > node0/hugepages/..-1GB/nr_hugepages (dram node)
-
-This node1_offline generates migration failures until the last step
-occurs, at which point migration and node1_offline complete as expected.
-
-The migration failures produce the following:
-
-[  707.443105] migrating pfn c080000 failed ret:-12
-[  707.453353] page: refcount:2 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0xc080000
-[  707.471315] head: order:18 mapcount:1 entire_mapcount:1 nr_pages_mapped:0 pincount:0
-[  707.488504] anon flags: 0x17ffff0000000848(uptodate|owner_2|head|node=1|zone=3|lastcpupid=0x1ffff)
-[  707.508393] page_type: f4(hugetlb)
-[  707.515940] raw: 17ffff0000000848 ffa000007d873cc0 ffa000007d873cc0 ff1100082366c6e9
-[  707.533126] raw: 0000000000000000 0000000000000010 00000002f4000000 0000000000000000
-[  707.550317] head: 17ffff0000000848 ffa000007d873cc0 ffa000007d873cc0 ff1100082366c6e9
-[  707.567699] head: 0000000000000000 0000000000000010 00000002f4000000 0000000000000000
-[  707.585085] head: 17ffff0000000012 ffd4000302000001 0000000000000000 0000000000000000
-[  707.602469] head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000040000
-[  707.619851] page dumped because: migration failure
-
-
-I can add this to the changelog if you prefer
-
-~Gregory
