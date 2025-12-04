@@ -1,163 +1,121 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4CF2E8B76
-	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 10:52:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0045E3396F2
+	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 12:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764845526; cv=none; b=a+8MJ82xnPGP6oXeke2ed2fEFenBAOmEf59MRcTo5WvQOZsP7JsgP5Lex1u+lSJFpsI1bxJ2GjMHN6RMuoHl+MF/eWUNBTwbHzMqdI6s3Mp+iQpgJ4WMkfkSFY5yVz06f5NT+MOEeI31++XMAYmpdhonp3+YoLDgl7laGZ/FsXc=
+	t=1764851619; cv=none; b=Lvsow17nvK7/e64v1ai1rv/oNPGqz9d1flZfqfCffqB+s9ADVa6znC8W1mniWI78CXoxaDP65HwUhxX6pcGQRhCfmr8VJ2N3PRqiS8vY69QTS36bwbSTqsQvWrAqSAdA8YiDXvigfydfu46sBbF0oxGCA3OesaCwQzppBy5w/hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764845526; c=relaxed/simple;
-	bh=G2VymRjHZXe3qyNYINHvi9WbRT5j4d1zO0m+NFNgafE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bVeYH1UVVoiOZ+0I2lTzLgPeyWelpqGB0WYJd3oq0cLwWkoHa6mUtqU/GAJUr13zpLQOdYAtDT2lF4ByE3si52Z6W7nZbFXr8rV+NO7xkWQXT+t1/2J4ccKwBDAjafpIn8r8FSFp0nUZjeEMF+TXcNs/bgJGQ8GmapuaG0r1Nmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YMvxTj7T; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1764851619; c=relaxed/simple;
+	bh=WfZZkVUD2KIfkMnmL+8RiPfvk8m+CchCTc2u15cbG9Y=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=U4kek9eSj+kDuVKMlc5PjAZBxl4EPXuQXBlND4uUj5NcVlUW9jhylpZs+NRAAS3U68ZzBo6kTwKEPLgToUHEgypBdRqaDAagoN4C+CgtlZo7f4vSreR0LjV/omBMKa3F7V7MS0iUdzxd9jQkV6/Ep8a33+uO1dShPlJRM8VIk0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k58/Q0JB; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YMvxTj7T"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-477619f8ae5so6284075e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 02:52:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k58/Q0JB"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-78aa49cde3dso8524287b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 04:33:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1764845522; x=1765450322; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ikuUYmMKKHVhIQyzeW7NNfRK3UsPxb6hcXRzMAgnkDE=;
-        b=YMvxTj7T2MxpxtNAfN8rLMK6eKt9NARsPxcRqKPbthMnh+aO3y1s9uYxw4Q4c20l0D
-         Jj0fGEZ4ZU34JiOifqtMAhiFvy4tOt9kw0LnIljiKX5xDcaSEjbH067p3yIeK0j38RKX
-         NwTXUjHPLlfrBKzQDnmVTO82kxjxbutnmmqPbM5Rik/jT54886szWH0DrBYXYMHKvBL0
-         eB6kvFMh8VBos5UMo/e34kLcWqn5Re/CofGFHyW1eMu/ZE/SCe0n63Sf+QFo6bqyXEv5
-         PzKcCvU26/i2ueIuH6R48ml1e3lGrA/5wBd7el/IQV2wzyQfnY2I/pcXolKkI1bPrT80
-         8cQA==
+        d=gmail.com; s=20230601; t=1764851611; x=1765456411; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1LSBGLPlqRHWA6FHsfup0TF1aoJUDnhVkqy0ECtK4a0=;
+        b=k58/Q0JBEYWe+KJhx8snKI6/qcTbvf4HvI43lpn5+5z7rPY2sSgNWBTTxvhoW3uOFc
+         goN9S1ef1YmXTOI4SLoXzIl+BcLzIJf8n9+/5ciIHUMtxEV/jWJAqgW9lB7G2u8BCbtp
+         KMu+WUoL/5Zu3GNg0zklmqXCmKOsYxIzgaO8brrJO1ZX2eUTkFUp/pW0bUbEy5lcE9X8
+         UcjDkgsbBUH7K9qnSANT5UWHDdYeUojS4SNmoNv2hb7Oyhg9n+j9qzOtvQjRTuNCrsUK
+         fwmtu+D1kRj8ZTdy4XSRDi+teDA3e42c6+Cwjiakqb0ns9dF/D2bFrB7yHL6hPwEVcZ2
+         inng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764845522; x=1765450322;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ikuUYmMKKHVhIQyzeW7NNfRK3UsPxb6hcXRzMAgnkDE=;
-        b=m5fi40XhqQTAR/8iza1z4nPYtOlfDFRxpHJ1MhmCL4LV3ZumXAppJXRKygo5bFrb/f
-         DROSt/az6osOcdZytkZh87NCh+nvWLNHlcvL5w/rkNWwl5ghu7A5yoBc+Y7/A7n0X5Yj
-         mPIBe2BjspGYmzmQk1n4Hxs6+aBE+FZZqfauF97t0inkBD7nDWV4lbJshI+U7evD80Hf
-         aJ04Z6wEXY/FkhhXw4SSKTN5fXQmHTB7aKd339oi9XoP9TW2+rnGYFlKUrtB+TDv8nsa
-         yHigQp5ZEDo9DdkTjU26ZR84JjrELcMpE0l5Z/KF8dXMiqahj9VAdwz1ncvIe55EdwuY
-         nHFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXtKqKLI7D9PfGOHENmaIYXti9Qp4fHYEPNqeTtc7pF1yLSUTvswkJTBW5LeFFeBDXEVtB41LF+nD0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4gtJpoxV31cnrWmAaNTsYtm/yrRAIEmCZBDxBoKBT/6ENA2hx
-	6ala5LTmFvJtmr+gEMS9nYfOMRH9xLE9BnDunCy+9yiLG6Uj8seZAgfBlctkKR5k7ts=
-X-Gm-Gg: ASbGncvHZv3fmC5i/FMdJJWT7dTGCPh3l3B2utgYr/Dsfb6cYAIsCEp0F6OZlkFb6Ol
-	DkpTDFii8Jtj8+Uk7Npm1I5mVOpbadXXOSvgiPZewUMIqNj2PRMTDagrjB2+eFs5oZpNraZ2rX4
-	3OzQwkMYyE3J5tdyJlKRTfUGcBhWq8veiEKYRdTSiGXll0XxwKqMbaBi0/mqNjcyW3Unoe3xrdg
-	e/M7O4vAS+mcfRw7plD7zu9Kx9TwV5dhB8UzH2qVNdmwtejTpwvJTOBL0xXCOoNpDCceQ9wFe8Y
-	4PplBzr8+Cm92DQNKu5jFobv04o0ukaC9H/XWGzJMtdd/TRTEUbrnRUfWXLBa0LrWDN8FDeBNUr
-	O+z1Aa9DJmDifmJ5kKKIL/ab8LD7eJRA3/XwRIMbeh/aFMDWjP9CN9hOMqgWKdqE7mmMnQVU+CT
-	6NmXRusr+lP0pNnw==
-X-Google-Smtp-Source: AGHT+IFg5ESd2o+IvztcBtJ0/wOI4aSHSZlOftAJV5K+ufU+HQ3XjtFJaAZBBsA/B0v7OSUnyh7DWw==
-X-Received: by 2002:a05:6000:430a:b0:429:c711:22d8 with SMTP id ffacd0b85a97d-42f7317d13emr5968584f8f.15.1764845521589;
-        Thu, 04 Dec 2025 02:52:01 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7ca4f219sm2565843f8f.0.2025.12.04.02.52.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 02:52:01 -0800 (PST)
-Date: Thu, 4 Dec 2025 11:51:58 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org, gustavold@gmail.com, asantostc@gmail.com,
-	calvin@wbinvd.org, kernel-team@meta.com
-Subject: Re: [PATCH net-next 0/4] (no cover subject)
-Message-ID: <aTFnzmc0ZtBvGg4y@pathway.suse.cz>
-References: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
- <20251201163622.4e50bf53@kernel.org>
- <4oybtunobxtemenpg2lg7jv4cyl3xoaxrjlqivbhs6zo72hxpu@fqp6estf5mpc>
- <20251202102442.568f91a7@kernel.org>
- <aTFmew5trILX3RpO@pathway.suse.cz>
+        d=1e100.net; s=20230601; t=1764851611; x=1765456411;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1LSBGLPlqRHWA6FHsfup0TF1aoJUDnhVkqy0ECtK4a0=;
+        b=chOdw+MyPPr9dAkpAERtD/RW+12gcOg00VrsuK/tb5yJVvesCCuWgXgjB2wmqnU7q4
+         /AHCcY25LWRs8AK3uiIF/g8jJjInoH65EEGg6QRFlVz+6lEI4NIBrAhANAzbM5i7UECA
+         kBWO37E30bGakjeOZX8Nr6Yu6tpl1kKlaahqi1zy0hzWtKHgCk07cm8zmluB8TuBeGsj
+         Geea4vZo3NqPBwq8IuwzSQ3E2p80NQOlg2X5ORzrk85ivwfdpFGx462OMgnFdMgbXoq1
+         9DNO4d1o1xtan3uDgd3Y4qK1/jVSFzM1r73/1LOf9T8HcaWaAXeSRUcbkXe/2Y+kmSMk
+         UJQw==
+X-Forwarded-Encrypted: i=1; AJvYcCVgll2s4A0Ef/lztXO/gy52Psndrx53rNaHPSIYjTtqPSUlfrU3XyBL7YCStEtCSpcrjKNAi9i2iEM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywi8mCbxYEc1zYyU0UNWNeLvfTP1kFv514VEIsTNDgpFsYc8mdI
+	+sW6zwUu3AO+AtbMv3sqJmUCdpOS5tZDLJkxQs7To55j7WGJ+XuEpnQX
+X-Gm-Gg: ASbGnct/EfwiWRbEXD4w41ro6EJvPhFJI5QgkfZAGrKKxRWWcMIw2+1BPmxjxx88mCe
+	vU5UHVr4XPY1/ahx4XZvaGE5WO78SvdiJ+SEtkxtZRKLcB3hT5YLf2B+3+irZl5Y/nprMezxjrs
+	yvRl8hCBxyfxe+oYB/UcB/fj0NQ/bRwSRS8LCcLZgahEoAwT0cAJtrKNzWMOzMFpT1S+b9PDzWu
+	G0piaZHCAVS1vEafwAcBs2OG8SSE5/luhx7kjtE9Y01OoADUdPI+VrbZl9YRwm2Ml4eZSvesTxw
+	WvMFtCQ06LiAzwVm3L5Zu5+htqHlqdLv185Itq9BfWdwlzuACjmjs0YCHXMx59dAXjs0jPatVb/
+	Mw8wkA+tri9gMeCO/36SSt9wF1ouNztL6E3Y88iDsQPsjgDG3H6nRqLo+2ai5Mc03XiAQ9qgyWe
+	1agvuPHIl6to72CpfKM0Bgq7ncJAINDIUK5c6gvRj9ie7rBd4hJro=
+X-Google-Smtp-Source: AGHT+IHBUEbYkxJaVsA/zBTgJe8/H/sEcBnHGISwxVU3+cajLhUyQv9YXSpqaHkdOjyO4eiZ0/Xsyg==
+X-Received: by 2002:a05:690c:6c0c:b0:78a:6dc9:8801 with SMTP id 00721157ae682-78c0c285f98mr45923627b3.51.1764851611217;
+        Thu, 04 Dec 2025 04:33:31 -0800 (PST)
+Received: from [192.168.1.209] (89.208.240.37.16clouds.com. [89.208.240.37])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78c1b4d22bbsm4914897b3.21.2025.12.04.04.33.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Dec 2025 04:33:30 -0800 (PST)
+From: Asuna Yang <spriteovo@gmail.com>
+X-Google-Original-From: Asuna Yang <SpriteOvO@gmail.com>
+Message-ID: <9687109b-dc93-4535-848c-e5f22aeb8e9d@gmail.com>
+Date: Thu, 4 Dec 2025 20:33:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aTFmew5trILX3RpO@pathway.suse.cz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/4] rust: add a Kconfig function to test for support
+ of bindgen options
+To: Vivian Wang <wangruikang@iscas.ac.cn>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Jonathan Corbet <corbet@lwn.net>, Jason Montleon <jmontleo@redhat.com>,
+ Han Gao <rabenda.cn@gmail.com>, Conor Dooley <conor@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
+ linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org
+References: <20251204-gcc-rust-v5-v5-0-2d4f20d86c24@gmail.com>
+ <20251204-gcc-rust-v5-v5-3-2d4f20d86c24@gmail.com>
+ <1a6bb8cd-cc08-458f-a6f6-cdfefd327320@iscas.ac.cn>
+Content-Language: en-US
+In-Reply-To: <1a6bb8cd-cc08-458f-a6f6-cdfefd327320@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Ah, I have sent it prematurely.
+On 12/4/25 5:06 PM, Vivian Wang wrote:
 
-On Thu 2025-12-04 11:46:21, Petr Mladek wrote:
-> On Tue 2025-12-02 10:24:42, Jakub Kicinski wrote:
-> > On Tue, 2 Dec 2025 02:18:44 -0800 Breno Leitao wrote:
-> > > On Mon, Dec 01, 2025 at 04:36:22PM -0800, Jakub Kicinski wrote:
-> > > > On Fri, 28 Nov 2025 06:20:45 -0800 Breno Leitao wrote:  
-> > > > > This patch series introduces a new configfs attribute that enables sending
-> > > > > messages directly through netconsole without going through the kernel's logging
-> > > > > infrastructure.
-> > > > > 
-> > > > > This feature allows users to send custom messages, alerts, or status updates
-> > > > > directly to netconsole receivers by writing to
-> > > > > /sys/kernel/config/netconsole/<target>/send_msg, without poluting kernel
-> > > > > buffers, and sending msgs to the serial, which could be slow.
-> > > > > 
-> > > > > At Meta this is currently used in two cases right now (through printk by
-> > > > > now):
-> > > > > 
-> > > > >   a) When a new workload enters or leave the machine.
-> > > > >   b) From time to time, as a "ping" to make sure the netconsole/machine
-> > > > >   is alive.
-> > > > > 
-> > > > > The implementation reuses the existing message transmission functions
-> > > > > (send_msg_udp() and send_ext_msg_udp()) to handle both basic and extended
-> > > > > message formats.
-> > > > > 
-> > > This feature (in this patchset) is just one step ahead, giving some more
-> > > power to netconsole, where extra information could be sent beyond what
-> > > is in dmesg.
-> > 
-> > Having extra metadata makes sense, since the interpretation happens in
-> > a different environment. But here we're talking about having extra
-> > messages, not extra metadata.
-> > 
-> > > > The 2nd point is trivial, the first one is what really gives me pause.
-> > > > Why do we not care about the logs on host? If the serial is very slow
-> > > > presumably it impacts a lot of things, certainly boot speed, so...  
-> > > 
-> > > This is spot-on - slow serial definitely impacts things like boot speed.
-> > > 
-> > > See my constant complains here, about slow boot
-> > > 
-> > > 	https://lore.kernel.org/all/aGVn%2FSnOvwWewkOW@gmail.com/
-> > > 
-> > > And the something similar in reboot/kexec path:
-> > > 
-> > > 	https://lore.kernel.org/all/sqwajvt7utnt463tzxgwu2yctyn5m6bjwrslsnupfexeml6hkd@v6sqmpbu3vvu/
-> > > 
-> > > > perhaps it should be configured to only log messages at a high level?  
-> > > 
-> > > Chris is actually working on per-console log levels to solve exactly
-> > > this problem, so we could filter serial console messages while keeping
-> > > everything in other consoles (aka netconsole):
-> > > 
-> > > 	https://lore.kernel.org/all/cover.1764272407.git.chris@chrisdown.name/
-> > 
-> > Excellent! Unless I'm missing more context Chris does seem to be
-> > attacking the problem at a more suitable layer.
+>> +
+>> +# $(bindgen-backend-option,<flag>)
+>> +# Return y if bindgen backend supports <flag>, n otherwise
+>> +# For now, the backend refers only to libclang, so more specifically, this function tests whether the given flag is recognized by the libclang used by bindgen.
+>> +bindgen-backend-option = $(success,trap "rm -f .tmp_$$.h" EXIT; touch .tmp_$$.h; $(BINDGEN) .tmp_$$.h -- --target=$(BINDGEN_TARGET) $(1))
+>>
+> Can probably be simplified down to:
 > 
-> This would help to bypass slow serial consoles. But the extra messages
-> would still get stored into the kernel ring buffer and passed back
-> to user space logs, for example journalctl.
+> $(BINDGEN) /dev/null -- -x c --target=$(BINDGEN_TARGET) $(1)
+> 
 
-It might actually make sense for the "workload enters or leaves" messages.
-But I am not sure about the "ping" messages.
+bindgen is sensitive to file extensions. If the file is not .h or .hpp, 
+it complains:
 
-> I do not have strong opinion whether adding the
-> /sys/kernel/config/netconsole/<target>/send_msg is a good idea or not.
-
-I just wanted to point out that it is not only about slow serial
-consoles.
-
-Best Regards,
-Petr
+panicked at bindgen/ir/context.rs:562:15:
+libclang error; possible causes include:
+- Invalid flag syntax
+- Unrecognized flags
+- Invalid flag arguments
+- File I/O errors
+- Host vs. target architecture mismatch
