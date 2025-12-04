@@ -1,68 +1,68 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B62234DCF3
-	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 20:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8343534EF0E
+	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 20:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764878676; cv=none; b=uUIGkHfb1sAKP1nJV2EHzvhxOCc3TX9zQmDcY2g6krRKpi2CC/36b9LOTDzOZLCuZdLoH9JQ3D50rDJfMjqOts+Nj0QeNHn6niHq8Zqb47M5aq5xK2nCFua5mbYjs7Df4pxpD4qPA/HWwf8zfgMRJjagVxgZ+eB0VxVzZXVaBpA=
+	t=1764878679; cv=none; b=dmx+CzWtrFadS6JRWrt/8LMMkYyomqJTkj0wRwMk6hk9Zo1Vnmm3q663FvqAEB/d5H1EPzXYXXFlHgoG5VTVvWUZeRe3xz7eJ+wtq7U4+Z6dhPD0bBMaIREjCuvZunxYCm2pCwnG7FOoLIrW+8gTncKlihg2AWkTRBHv+RvPlF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764878676; c=relaxed/simple;
-	bh=VABzr9YZAoW+56ElXwoxem2kIQsuM9DcnqQttr/J/JM=;
+	s=arc-20240116; t=1764878679; c=relaxed/simple;
+	bh=5pCsCIMJf4iBOvf300q6+KPihTaIQ8ZBfY4WmoGUnLE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=B1+Xeaw7spUlCF6X/FDJNsqBigApxk3tdRZJdRtRRjrpPIcCAYOf6KoDAicwjYrB3Q5HA/VxGWRTDkwcuVvEOJbcO06+uIdtR9y4KvtrtHhepfqk0bF81ZCpKxv/SEeYj0B12SIzGoH423CpTIF4u+TYFH3kFA55O7tIH+Xds6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=UTBGdFkV; arc=none smtp.client-ip=209.85.210.170
+	 In-Reply-To:To:Cc; b=DvJWDag8GVOCf541ReqIGLrBKiZ1zMNSH36ik8J0V+SydaiAGasqSkPsfQ9i5Uq5oG/iB1e33xwViHj5CHngDgAaLueCm4lwTSyVY0JQmoOIJzlCayucYWce1tGo3tj9ca7eOkMlF1wwH8KnLxMNV8er2rp234gUwjnqrJV4ioM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=LL9lhDPE; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="UTBGdFkV"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7bb710d1d1dso2108461b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 12:04:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="LL9lhDPE"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2953ad5517dso13892395ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Dec 2025 12:04:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc.com; s=google; t=1764878671; x=1765483471; darn=vger.kernel.org;
+        d=rivosinc.com; s=google; t=1764878675; x=1765483475; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=d0tPpl0ov/HCTJv0Ge+5WTQ7N6IiaqvTdbW7E3j8kAg=;
-        b=UTBGdFkVnLRemPuZsX2pE+8S2o0xtwJRbOUVC7ZrDs/mAK2SmlPMn3JEkE4XBEy9CB
-         qSa0ESQ/73zPniG6gmbZOsbpA51cYG55/oXPq6AARnD2q4taYx9wbjlhRfhxfpZdEHyw
-         VuOYQ//kBoYHqTzifbEzgofah21Aue3bJqTPY5kBeKRKKH8q8fWoUW8I2mIsGEMdyeqg
-         IWpWCPUuNRx3whDeWdUaqc1sukrmONnFG0B8Em/6SynwgsdwBK/RQ7+o+CPAiThnRIzE
-         b7R/gLc6hsETvk5z1DXSP2qyJiHFtVHk7VjZC9p22bxMn6uC05ey7UL75Ey46RovPJP+
-         Hmmw==
+        bh=y7cVA4V+tsTGYh8faQvOG85ZxC8pPRVoW62aZwUk0L0=;
+        b=LL9lhDPE7KKQfMlEY58K7DFk2zBKGmI4yZ3vx/tQDy0Ccf/7WRooebvulhaOejlTII
+         A/+UJKzebAuGn7yUGaOtQ8h0s0WaW7SutSopAqOlr7KDOs3J1iLtxoCfjyIjndjGurag
+         DAtH967EWHHWcdewaZuUB/VWYBlU6Aerf2UbYIcgXS9EYNR7ckCTZnQTJGKOVRbEn+AT
+         mfuL7pweJHQK1xvS0e76PDb6IJvr1fanzYgY1nZo4GnLrGvTsdzM/jN3gW+KWY7CbcBH
+         PcrC25B+ygg+hWvmAK/Pos9bDGd6HTt6QasEuhzeUKmHn6s6qI72tzI7IIayk+V2PGmy
+         JJLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764878671; x=1765483471;
+        d=1e100.net; s=20230601; t=1764878675; x=1765483475;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=d0tPpl0ov/HCTJv0Ge+5WTQ7N6IiaqvTdbW7E3j8kAg=;
-        b=UvkorlQk9dWAqb4TweAORTkVbpjYw3pUvYlx75jCT0Cindn9R/W0O7C/YZLmS1tirW
-         Mm2Ciyy0Ygrp2l6+tErvjoR6etcMfd3kHMD26xuKfn1ocIU+CpHsuZivb6d2JXNCt/+F
-         Dt+mr5DfOMJPwTBjEBG/MJScORDgpofwfvOZLMl+PMjlvxvFWWllJtNYwrNpuQdoaNZk
-         DLFZ6qv/F+K2iqoCordfGmq0o2It/FV2imX+kkd2NohuYYCQlV1xwYT9A//bp4/eGRfh
-         6UxjeRRo4lQscN6fwKJmCSdWS3qWqLksEe1XenQ5VqDpx/PCkRL+j4+1k1RqeYa0E7Bi
-         RpvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXEi/eo0GMQ/iizrjw6Z1jThtYJKhQNazURyR9qQU62UVGmdjDStBr6we2qWAnM7SwynrdqtZO2v4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YypWytW/71OuxxoPCLuJ7+pkHZll5gEqmJZtbtrsY4KTcTg0SIY
-	ee+mYUHPF9U1+CThLY5obWw1SMbj4vsOY/zqPqtasDGVd+Oo0GorFx87aE8ZD5jiHXY=
-X-Gm-Gg: ASbGncvCn/mVV7S7PBOmNUFmuZ/h5ro7a3H6gS5vuqTWiTE/HbbXVw9STwXs0QzvIeb
-	vXEgeSkDkr0xCx+ATMhZ1JrTqFdHBotFOzmgOeawLrBSUcf5gPo+5GgC3okT5oaAI6Y2S5s/Wmv
-	/WvDwPMp9cr5yv6fOZ1D4nxsiIteQuuxUs5OKwZBI6KDKSbB3UV0wAvEL/hgx3nf5MkCWnepVOq
-	vAc3PudKwjsAfrLZhlBCOtE9f0BDTqK9UjKX93p/gT+pXI9GRYvncXjt6rJx+5blolxuZjk9DVv
-	pXzkOE1m5NJafvH7z0eU2VC2TUv32rLh9pba1ewGz5YWnUk4USsby13dj68/p6QPKeMgaEyUp4t
-	u582645XIytYTmsVhTX2mV7USmxfCYew/EG2geCfgcH6Hff/xXm+SSFfxPFcx36JIBuZtWRqm6g
-	qg1gf451H3PUM1eakLd1KE
-X-Google-Smtp-Source: AGHT+IGYUAVyalha3DLCrgrEPs5rLvzNFvk3nI5Aa+DT+FlOsHmPX8AdFrLCKv9/3Bv4xt+45vECow==
-X-Received: by 2002:a05:7022:ea46:10b0:11c:b3ad:1fe1 with SMTP id a92af1059eb24-11df64692famr2937600c88.11.1764878670821;
-        Thu, 04 Dec 2025 12:04:30 -0800 (PST)
+        bh=y7cVA4V+tsTGYh8faQvOG85ZxC8pPRVoW62aZwUk0L0=;
+        b=NPZ6ZBtdtfJBG8CRuzRyOeUo6R0oEzY58/4crUlZy4uymKThPGApVIUps9yrcLkGMD
+         hweDQ0RhmcJUIygg0cwlClcoabzkPqDHs4c6HjBQp6LkLIAYiOrSvrtZpYHSKB2LBr1r
+         smRs5TbfW6MwUWlsFc7ML4W7LRvDuewy1iCMJ1ZfbqQlldD3FlKD3mCpp+yrKUmG2/gy
+         hGrVumFrXs77QYDcCCdjyaNVmzjmQXGRxpKsGzUoN/JqzkIPCPY1riKPGCZxYGoHDXUx
+         0da7OX3yNWkjhOJ+fwikDX1RMX/3iLQd1WXi1ZfbzoFHKfIzhg2lWJiioY0h8L4zaqB/
+         19NA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7ipVL09ro7VMtZEZ7zB3JaZkEPYKtyJbNst9hg6elBYw/xBNfSOikuiUe8cH5/dEH3IX6V9jLV7g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx26m/5/J4arEPPBjbykWbYRCXdCdz4CY4Sk/x5WgLoHpZi+oJ4
+	mrvsTeagSknwSPB6fbi8OKTOicCHtJeXATAWLzH56WJJYxMMSha1LhX2sN4UBQvaWl8=
+X-Gm-Gg: ASbGnctXUntrVrPoSJDPfnjDbvJs8TP61cVx9/GN9l3bjJ8xtqbZdZ3wE6jB3NJ2njs
+	38GkkatJmmIDtZPIFFlvDD5BKXLwWnHOFtmHm9beEkeeifE+puYGDmXz0TWSciBENDk+H/6CZe4
+	qoIxu0UCYw4Y0ODjw1q0sLMLWnG8yGVIwzyMQP5K0jG1dCLqv5w709vK5UOwvdr3w4Zwdas/m/N
+	nE7+QgMILK72lP7da3IamFOJVGHLSNtmOQFQiOxMQroYfPr/NFWluNcPC+gadpqQmf36SDEUCvZ
+	HIZfoX8XHmqHO2cqWxgAGWEkRrpcTPer0aV/MfFX7UWpBZZDTZVbH8kSczOkc6hMXo7GOLsHDK+
+	tj//QiTyNGvQK/YnxonJhmwKTV5YhB/JAXKHRWzNOJ9VgSvxjURKPDhMpXesC2aaRYKUPs+QI0K
+	wTfVRsGj4IZvhF134yCXUqD399Hw/Y7ac=
+X-Google-Smtp-Source: AGHT+IH3DRNGCvULusk0MSN0c34XACnhHDWSefcdBCkji/UkCW9Cgr1V8Io5HqSxhaCaIYKCC+gGlw==
+X-Received: by 2002:a05:7022:5e0e:b0:11b:9386:a38d with SMTP id a92af1059eb24-11df64a5fe7mr2337882c88.48.1764878674645;
+        Thu, 04 Dec 2025 12:04:34 -0800 (PST)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11df76e2eefsm10417454c88.6.2025.12.04.12.04.29
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11df76e2eefsm10417454c88.6.2025.12.04.12.04.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 12:04:30 -0800 (PST)
+        Thu, 04 Dec 2025 12:04:34 -0800 (PST)
 From: Deepak Gupta <debug@rivosinc.com>
-Date: Thu, 04 Dec 2025 12:04:05 -0800
-Subject: [PATCH v24 16/28] riscv: signal: abstract header saving for
- setup_sigcontext
+Date: Thu, 04 Dec 2025 12:04:07 -0800
+Subject: [PATCH v24 18/28] riscv/kernel: update __show_regs to print shadow
+ stack register
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251204-v5_user_cfi_series-v24-16-ada7a3ba14dc@rivosinc.com>
+Message-Id: <20251204-v5_user_cfi_series-v24-18-ada7a3ba14dc@rivosinc.com>
 References: <20251204-v5_user_cfi_series-v24-0-ada7a3ba14dc@rivosinc.com>
 In-Reply-To: <20251204-v5_user_cfi_series-v24-0-ada7a3ba14dc@rivosinc.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
@@ -105,162 +105,43 @@ Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org, 
  rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org, 
  Andreas Korb <andreas.korb@aisec.fraunhofer.de>, 
- Valentin Haudiquet <valentin.haudiquet@canonical.com>
+ Valentin Haudiquet <valentin.haudiquet@canonical.com>, 
+ Deepak Gupta <debug@rivosinc.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1764878636; l=5649;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1764878636; l=1182;
  i=debug@rivosinc.com; s=20251023; h=from:subject:message-id;
- bh=2GiS+EndHJhzHiRyV/zPGID65gK9NoTUr/4b8/a/2Lk=;
- b=O5Fyex7rxQiwIH8Ny78pEWBq1GeBuNK6gjFgZaeXDSTejVDF3UQjdkUACDVMh0zIccddOhzzW
- FZC5NwBd5zLALUM6wq4k/C8X+GqiL6vg8wrmT7gvLqjhJ9+m6iW+sy9
+ bh=5pCsCIMJf4iBOvf300q6+KPihTaIQ8ZBfY4WmoGUnLE=;
+ b=gAgt0qiA01P7drDBMqFQXuoLVXR1r0qiMVxyXn0hwdIA1M7y9CqEeq19oXDcQmb0Z/54Aoug8
+ 68he+4K0zLTDttF3EANbQpNqxF1OUC/aAhnwKbqrODAAIjZ7IEJnRR9
 X-Developer-Key: i=debug@rivosinc.com; a=ed25519;
  pk=O37GQv1thBhZToXyQKdecPDhtWVbEDRQ0RIndijvpjk=
 
-From: Andy Chiu <andybnac@gmail.com>
+Updating __show_regs to print captured shadow stack pointer as well.
+On tasks where shadow stack is disabled, it'll simply print 0.
 
-The function save_v_state() served two purposes. First, it saved
-extension context into the signal stack. Then, it constructed the
-extension header if there was no fault. The second part is independent
-of the extension itself. As a result, we can pull that part out, so
-future extensions may reuse it. This patch adds arch_ext_list and makes
-setup_sigcontext() go through all possible extensions' save() callback.
-The callback returns a positive value indicating the size of the
-successfully saved extension. Then the kernel proceeds to construct the
-header for that extension. The kernel skips an extension if it does
-not exist, or if the saving fails for some reasons. The error code is
-propagated out on the later case.
-
-This patch does not introduce any functional changes.
-
-Signed-off-by: Andy Chiu <andybnac@gmail.com>
+Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 Tested-by: Andreas Korb <andreas.korb@aisec.fraunhofer.de>
 Tested-by: Valentin Haudiquet <valentin.haudiquet@canonical.com>
+Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 ---
- arch/riscv/include/asm/vector.h |  3 ++
- arch/riscv/kernel/signal.c      | 62 +++++++++++++++++++++++++++--------------
- 2 files changed, 44 insertions(+), 21 deletions(-)
+ arch/riscv/kernel/process.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/riscv/include/asm/vector.h b/arch/riscv/include/asm/vector.h
-index b61786d43c20..75d8bd417797 100644
---- a/arch/riscv/include/asm/vector.h
-+++ b/arch/riscv/include/asm/vector.h
-@@ -423,6 +423,9 @@ static inline bool riscv_v_vstate_ctrl_user_allowed(void) { return false; }
- #define riscv_v_thread_free(tsk)		do {} while (0)
- #define  riscv_v_setup_ctx_cache()		do {} while (0)
- #define riscv_v_thread_alloc(tsk)		do {} while (0)
-+#define get_cpu_vector_context()		do {} while (0)
-+#define put_cpu_vector_context()		do {} while (0)
-+#define riscv_v_vstate_set_restore(task, regs)	do {} while (0)
+diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
+index 49f527e3acfd..aacb23978f93 100644
+--- a/arch/riscv/kernel/process.c
++++ b/arch/riscv/kernel/process.c
+@@ -93,8 +93,8 @@ void __show_regs(struct pt_regs *regs)
+ 		regs->s8, regs->s9, regs->s10);
+ 	pr_cont(" s11: " REG_FMT " t3 : " REG_FMT " t4 : " REG_FMT "\n",
+ 		regs->s11, regs->t3, regs->t4);
+-	pr_cont(" t5 : " REG_FMT " t6 : " REG_FMT "\n",
+-		regs->t5, regs->t6);
++	pr_cont(" t5 : " REG_FMT " t6 : " REG_FMT " ssp : " REG_FMT "\n",
++		regs->t5, regs->t6, get_active_shstk(current));
  
- #endif /* CONFIG_RISCV_ISA_V */
- 
-diff --git a/arch/riscv/kernel/signal.c b/arch/riscv/kernel/signal.c
-index 08378fea3a11..a5e3d54fe54b 100644
---- a/arch/riscv/kernel/signal.c
-+++ b/arch/riscv/kernel/signal.c
-@@ -68,18 +68,19 @@ static long save_fp_state(struct pt_regs *regs,
- #define restore_fp_state(task, regs) (0)
- #endif
- 
--#ifdef CONFIG_RISCV_ISA_V
--
--static long save_v_state(struct pt_regs *regs, void __user **sc_vec)
-+static long save_v_state(struct pt_regs *regs, void __user *sc_vec)
- {
--	struct __riscv_ctx_hdr __user *hdr;
- 	struct __sc_riscv_v_state __user *state;
- 	void __user *datap;
- 	long err;
- 
--	hdr = *sc_vec;
--	/* Place state to the user's signal context space after the hdr */
--	state = (struct __sc_riscv_v_state __user *)(hdr + 1);
-+	if (!IS_ENABLED(CONFIG_RISCV_ISA_V) ||
-+	    !((has_vector() || has_xtheadvector()) &&
-+	    riscv_v_vstate_query(regs)))
-+		return 0;
-+
-+	/* Place state to the user's signal context spac */
-+	state = (struct __sc_riscv_v_state __user *)sc_vec;
- 	/* Point datap right after the end of __sc_riscv_v_state */
- 	datap = state + 1;
- 
-@@ -97,15 +98,11 @@ static long save_v_state(struct pt_regs *regs, void __user **sc_vec)
- 	err |= __put_user((__force void *)datap, &state->v_state.datap);
- 	/* Copy the whole vector content to user space datap. */
- 	err |= __copy_to_user(datap, current->thread.vstate.datap, riscv_v_vsize);
--	/* Copy magic to the user space after saving  all vector conetext */
--	err |= __put_user(RISCV_V_MAGIC, &hdr->magic);
--	err |= __put_user(riscv_v_sc_size, &hdr->size);
- 	if (unlikely(err))
--		return err;
-+		return -EFAULT;
- 
--	/* Only progress the sv_vec if everything has done successfully  */
--	*sc_vec += riscv_v_sc_size;
--	return 0;
-+	/* Only return the size if everything has done successfully  */
-+	return riscv_v_sc_size;
- }
- 
- /*
-@@ -142,10 +139,20 @@ static long __restore_v_state(struct pt_regs *regs, void __user *sc_vec)
- 	 */
- 	return copy_from_user(current->thread.vstate.datap, datap, riscv_v_vsize);
- }
--#else
--#define save_v_state(task, regs) (0)
--#define __restore_v_state(task, regs) (0)
--#endif
-+
-+struct arch_ext_priv {
-+	__u32 magic;
-+	long (*save)(struct pt_regs *regs, void __user *sc_vec);
-+};
-+
-+struct arch_ext_priv arch_ext_list[] = {
-+	{
-+		.magic = RISCV_V_MAGIC,
-+		.save = &save_v_state,
-+	},
-+};
-+
-+const size_t nr_arch_exts = ARRAY_SIZE(arch_ext_list);
- 
- static long restore_sigcontext(struct pt_regs *regs,
- 	struct sigcontext __user *sc)
-@@ -270,7 +277,8 @@ static long setup_sigcontext(struct rt_sigframe __user *frame,
- {
- 	struct sigcontext __user *sc = &frame->uc.uc_mcontext;
- 	struct __riscv_ctx_hdr __user *sc_ext_ptr = &sc->sc_extdesc.hdr;
--	long err;
-+	struct arch_ext_priv *arch_ext;
-+	long err, i, ext_size;
- 
- 	/* sc_regs is structured the same as the start of pt_regs */
- 	err = __copy_to_user(&sc->sc_regs, regs, sizeof(sc->sc_regs));
-@@ -278,8 +286,20 @@ static long setup_sigcontext(struct rt_sigframe __user *frame,
- 	if (has_fpu())
- 		err |= save_fp_state(regs, &sc->sc_fpregs);
- 	/* Save the vector state. */
--	if ((has_vector() || has_xtheadvector()) && riscv_v_vstate_query(regs))
--		err |= save_v_state(regs, (void __user **)&sc_ext_ptr);
-+	for (i = 0; i < nr_arch_exts; i++) {
-+		arch_ext = &arch_ext_list[i];
-+		if (!arch_ext->save)
-+			continue;
-+
-+		ext_size = arch_ext->save(regs, sc_ext_ptr + 1);
-+		if (ext_size <= 0) {
-+			err |= ext_size;
-+		} else {
-+			err |= __put_user(arch_ext->magic, &sc_ext_ptr->magic);
-+			err |= __put_user(ext_size, &sc_ext_ptr->size);
-+			sc_ext_ptr = (void *)sc_ext_ptr + ext_size;
-+		}
-+	}
- 	/* Write zero to fp-reserved space and check it on restore_sigcontext */
- 	err |= __put_user(0, &sc->sc_extdesc.reserved);
- 	/* And put END __riscv_ctx_hdr at the end. */
+ 	pr_cont("status: " REG_FMT " badaddr: " REG_FMT " cause: " REG_FMT "\n",
+ 		regs->status, regs->badaddr, regs->cause);
 
 -- 
 2.45.0
