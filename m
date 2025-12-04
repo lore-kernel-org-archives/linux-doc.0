@@ -1,104 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23E5341055
-	for <linux-doc@vger.kernel.org>; Thu,  4 Dec 2025 13:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689AF22D9ED;
+	Thu,  4 Dec 2025 13:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764855821; cv=none; b=s7CdMuSr9o+fNkT1Uam1JnIIK8WaZNBoF7LMqCQWzEKisk9BB40F1tNFZwXtzhOcrKbdATKcMyWshVsHw5u9zIt6fj9q4Hot9PTAQwdztzCrvUI8DZSH5DGqR/uMB+xdchirriAy30jcm+5F3kYZWylcwRNpvyIclUxe+uwjynU=
+	t=1764856150; cv=none; b=Qke9+bfEySupUocxVpNxR0dbTMgEV1SZk9I1irDv5N+s3CkmkND3YupD8oNApOQyoydZIFDrqxHL9GCMxyCYfoCq5ZwHwOiwSLVC66G7BMg1cAMNlPnqnwnbA3N0e0RWWdM03RjGvAIUr7zlLyLvHk5JUDx9nlpHzCgUUuLvcqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764855821; c=relaxed/simple;
-	bh=jzk5OvrfTqOVYrkjHLE8bP5ywZQOaA1yAsdz8DbNHgU=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=daB9LbTyVm7hL/syNitH12m5dcf0WUhkDBUbAHBD0wOdWfFHl+lBc5/t/yQDmd7hFGpEtyt+b+ce9O7X015+7MaYtSpmS4LKQaxi6U5imrxlb1Khcyq0JVfNdoP3z3ue2LAZHF31SwKHNEZmZfHHsRgBTgRwwAYuZmbhO6YK7ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWcSbXZj; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764856150; c=relaxed/simple;
+	bh=qzXzzwZybmPzxaWXTHE6+24TttyW+VePFngRnnDiDhI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=GHAw3koRlw+S+hqh0kSlyfpwI0wpvrbJo5ab7sEQxbMtQY2/DzT/pFXI7BD/UtXmSRYvLp9kg+szJ3us7wALOOdl0HXjCVsMTV8xgGyYlvVWS3IWapJV/fS+Jp8OC3hVgbxoz35pUDHoK2WqDTHiNqej3+SIsozMcPaQ155mlXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dFriqvIl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWcSbXZj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764855820; x=1796391820;
-  h=from:to:subject:in-reply-to:references:date:message-id:
-   mime-version;
-  bh=jzk5OvrfTqOVYrkjHLE8bP5ywZQOaA1yAsdz8DbNHgU=;
-  b=kWcSbXZjdi4fVCs9AsOFT0ULi8gNLPyBdP/LdE9vZvc3gFD8l1azFRhv
-   BegOo3oL8Jp/Y8vLaD5gcIoXaAWHSsk6cudK/TkkBfdqc8I9srdkVibnr
-   hdWt9B9GRTiMMjs4jkODgRVlIFpZocu/cMHHlPDWPWjPtLaoCchfaZMAG
-   kpyuQ+r/P5UEBDWthRJCaR9xhFXsRiScOPKGzxN/QGwFvJhFeUeP+k7Tt
-   0xaocfeC4sUjJOA1fnuQaXp/hq9q91j4RhToRrehw+4UJU9ma0v0roAqf
-   0wfUnTmiHPcLXgrCQhTTi0xJ0iTv6vIJ6iNFXaWbtCczjVdptS7uxKBOI
-   g==;
-X-CSE-ConnectionGUID: H5T87l2gRj6Zvu/v0D2D9g==
-X-CSE-MsgGUID: guV3Q9Y4Siem9/jDamA/GQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="70487516"
-X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
-   d="scan'208";a="70487516"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 05:43:40 -0800
-X-CSE-ConnectionGUID: j26IayzVTCasZ0OK+U9NQQ==
-X-CSE-MsgGUID: 7Pq3+K/aRtGO8zk/RC7U2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
-   d="scan'208";a="218337598"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.11])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 05:43:38 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/4] Documentation: clean up subproject index boilerplate
-In-Reply-To: <db45a19716d39b6dd89e3fbc85067673fdb0d335@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1762948491.git.jani.nikula@intel.com>
- <87o6p5sxhs.fsf@trenco.lwn.net>
- <db45a19716d39b6dd89e3fbc85067673fdb0d335@intel.com>
-Date: Thu, 04 Dec 2025 15:43:35 +0200
-Message-ID: <2e29e58cfea8d9865afdf181a8653029095e5b35@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dFriqvIl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63A5AC4CEFB;
+	Thu,  4 Dec 2025 13:49:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764856148;
+	bh=qzXzzwZybmPzxaWXTHE6+24TttyW+VePFngRnnDiDhI=;
+	h=From:Subject:Date:To:Cc:From;
+	b=dFriqvIlUZArkL194CTb26In4VCUvsBO/OpaeldoCRt0zNE4dy3l59QrbbP6Z6DDg
+	 sUTZMudZz5oq6SnX+2FVWBI+nlgUOXTF1/ewYx7Ha3coeUk4txaEoxOI/eKuYk0N3d
+	 MilCUgdwNRwlGnKNwP0i+GyhkEsQ74D16LW1WDQp9spRKfPyMpVEMzZK3mo83vGLLP
+	 s4N7sDVzpU5BthTVAHfroDjv18uUV3fW/sIXmn7Nwf/0BU7l7j9K8B3xyRZc8RKDKF
+	 wnNECxaWM4Yrz0rkb/HiF3VrUSkaSvkqdslnfzc+GO6iw3sS1GzqAf2jCrv6EExVNb
+	 2GQ6aSlEef7gQ==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v2 0/2] filelock: fix conflict detection with userland file
+ delegations
+Date: Thu, 04 Dec 2025 08:48:31 -0500
+Message-Id: <20251204-dir-deleg-ro-v2-0-22d37f92ce2c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XMyw6CMBCF4Vchs3ZMO3hBV76HYQF0KBMJNVPTa
+ Ejf3cre5X+S860QWYUjXKsVlJNECUsJ2lUwTN3iGcWVBjJ0tGQsOlF0PLNHDXiwnT31A1FTN1A
+ uT+VR3ht3b0tPEl9BP5ue7G/9AyWLBolrGkZy46U/3x6sC8/7oB7anPMXvg0q4akAAAA=
+X-Change-ID: 20251201-dir-deleg-ro-41a16bc22838
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Chuck Lever <chuck.lever@oracle.com>, 
+ Alexander Aring <alex.aring@gmail.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Jonathan Corbet <corbet@lwn.net>, NeilBrown <neil@brown.name>, 
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1268; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=qzXzzwZybmPzxaWXTHE6+24TttyW+VePFngRnnDiDhI=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpMZFMFz2NTLDmzFPZJ9o63KB4eTq2J6oWrifC7
+ 1lDKWZHxj2JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaTGRTAAKCRAADmhBGVaC
+ FTGuD/91F9Ewx20D902aqY1qn43SUz3Mg7IWH2paLj9h53mgdQ18unP7jWolhJ5WOSTdTfkDnrg
+ s8Zk1frwlYP+rcXPGwlAj04v3v/DpMgdDdcGJ4LyKNKVl1Z3rk13ZHol6trRdpzTPmPlKHLSDYd
+ Ctzmbs+lTPnDrcxDv+dWQwCbLspkl38EkMXsx9ljASezUpqJPdonphHr3lyRcQzAa4YFWvfc6jQ
+ Ya2hZ9BljXvi5VBcSaBvLacXCmDUDZ+WyRbnfNOc4ffLM0iN3rFPVQQzjsPWV43mzvlwOghO6bJ
+ fBEGK+LEkyX9u3JrLk04B7mCOIIdwf3nZkJxO90qS1J+sDCfqHfFOTRKTOwoQKnDDf3fxStyJ6n
+ a35iwtjxgtGR4WKmC4CGD3bt8/NYD5lC9hHF/yysezSmCxdHRTwqcMXTAwpt0uuqHaGWa1BhJH0
+ VUT3kz3rDWuxwsnPdRW/HkKELJDLNiZ3id53wKMAW001zOSxQjZ7BCH4bNCslEUQhGdGKiSRhSy
+ ZVPRX8u9/5HrFoC3hqtLnoYrxDotCnQSymbPhq2pGt2U1L/yQVTTZSB2LXvu/Ql6Zu2/94wp10P
+ cZmMjmDdV765O/Ghml/BV6gz/73YAT2yZY+RCDWZE1Uvv0+dUtPa/BZ25PPHQO/4+28QAf8lN8Q
+ p9uUvc4lhfm+hkA==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Thu, 13 Nov 2025, Jani Nikula <jani.nikula@intel.com> wrote:
-> On Thu, 13 Nov 2025, Jonathan Corbet <corbet@lwn.net> wrote:
->> Jani Nikula <jani.nikula@intel.com> writes:
->>
->>> Only very lightly tested.
->>>
->>> Jani Nikula (4):
->>>   Documentation: remove subproject index links deep in the structure
->>>   Documentation: streamline subproject index link in translations
->>>   Documentation: include the boilerplate for SPHINXDIRS index link
->>>   Documentation: use a source-read extension to include the index
->>>     boilerplate
->>
->> That bit of repeated gunk has been on my list to look at for a while,
->> thanks for digging into it.  Looking forward to the second version.
->
-> As I said elsewhere, I didn't realize you could use SPHINXDIRS deeper
-> than the top level. The implementation is slightly problematic for
-> translations/. I don't suppose you want to have English "Indices"
-> heading when using, say, SPHINXDIRS=translations/it_IT/doc-guide?
->
-> I guess the alternatives are:
->
-> 1) Keep having the index links manually in translations/, and don't add
->    the template for files there.
->
-> 2) Accept English "Indices" as a tradeoff.
->
-> 3) Come up with a system of having multiple language templates for the
->    indices, and use them automatically under translations/.
->
-> We could also do 2) first and expand to 3) later.
+This patchset fixes the way that conflicts are detected when userland
+requests file delegations. The problem is due to a hack that was added
+long ago which worked up until userland could request a file delegation.
 
-Jon, any input on this?
+This fixes the bug and makes things a bit less hacky. Please consider
+for v6.19.
 
-BR,
-Jani.
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v2:
+- add kerneldoc headers over nfsd's lm_open_conflict operations
+- revise changelog on lease_free_list() patch
+- whitespace fixes in locking.rst
+- Link to v1: https://lore.kernel.org/r/20251201-dir-deleg-ro-v1-0-2e32cf2df9b7@kernel.org
 
+---
+Jeff Layton (2):
+      filelock: add lease_dispose_list() helper
+      filelock: allow lease_managers to dictate what qualifies as a conflict
 
+ Documentation/filesystems/locking.rst |   1 +
+ fs/locks.c                            | 119 +++++++++++++++++-----------------
+ fs/nfsd/nfs4layouts.c                 |  23 ++++++-
+ fs/nfsd/nfs4state.c                   |  19 ++++++
+ include/linux/filelock.h              |   1 +
+ 5 files changed, 103 insertions(+), 60 deletions(-)
+---
+base-commit: 3f9f0252130e7dd60d41be0802bf58f6471c691d
+change-id: 20251201-dir-deleg-ro-41a16bc22838
+
+Best regards,
 -- 
-Jani Nikula, Intel
+Jeff Layton <jlayton@kernel.org>
+
