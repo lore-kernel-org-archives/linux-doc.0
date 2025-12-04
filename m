@@ -1,66 +1,60 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C806264609;
-	Thu,  4 Dec 2025 15:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D1D277CB0;
+	Thu,  4 Dec 2025 15:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764861204; cv=none; b=cplyklv2ho9c2yePwyYWUuPnOmRBoy2wXiV9T1wxFcA6i50lHZYzMfoaaMQrRNuatfPw4SqC/JZYDEWYltpkNymM1JMe4R3pt7RVqD4ZCmgbdpvJPovzEf4+qnImldiiDFzLlvMll0JCl8BstPHcj243rnwQjAFc7wt0rkYygac=
+	t=1764861247; cv=none; b=Uj788xn8kEkqgwwgGYuUh0Ns33njkinTPviAVuxaC3frDoCx8vQM/fe9lQ/ztkMVx13uyF0K24uYcU/THd1P31XV9IPqGwcSC2ZWK67uvDhLzDHV2tNtbRKGk4/IyGxErfc9jgTljE8MbjoVEHlWkDTtgatftfU6fc5pt6AyE9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764861204; c=relaxed/simple;
-	bh=ssBbCYvjCZJhgE1nFJcWZFdkknw1t8OtO8y6K93BcMo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mCBa/pZmyfX6qkg6v7xol/NNs/HwvWtcKf3Ay8dd3DMHsiMQupqbqCMLMwB/yl0vH7aq/0WHnUgX7SNMeqew8vXKf3bnSb+C9VhlVaayvM2zL4MAbV0et4LqerTY+b7EtSeKzRbP/7EgzETkmg3cCae4rlefRpNOhsTWjxWTrtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay08.hostedemail.com (Postfix) with ESMTP id F1C6C140213;
-	Thu,  4 Dec 2025 15:13:13 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf01.hostedemail.com (Postfix) with ESMTPA id 4D04060010;
-	Thu,  4 Dec 2025 15:13:11 +0000 (UTC)
-Date: Thu, 4 Dec 2025 10:14:15 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Gabriele Monaco <gmonaco@redhat.com>
-Cc: Soham Metha <sohammetha01@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org,
- skhan@linuxfoundation.org, namcao@linutronix.de,
- mathieu.desnoyers@efficios.com, mhiramat@kernel.org, bagasdotme@gmail.com,
- linux-kernel@vger.kernel.org, Jonathan Corbet	 <corbet@lwn.net>,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation/rv: Fix dead link to
- monitor_synthesis.rst
-Message-ID: <20251204101415.284a7a96@gandalf.local.home>
-In-Reply-To: <a34546391cc59f9f880ec271292ac201292bac61.camel@redhat.com>
-References: <20251204032452.9523-1-sohammetha01@gmail.com>
-	<a34546391cc59f9f880ec271292ac201292bac61.camel@redhat.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1764861247; c=relaxed/simple;
+	bh=nkadmEomxwETEzmfGO5mM+yNZFnMxG3znRQZq8FbyOY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kbIPgkvfObtGWSiyNmpgRgIgJ5jI7tT9s+OtthjO2rUrCaUMB4Kh2pggbwCkEBv7s4y5jtF7Cvj5ub2aOuw9ismepLye73fTmiKB0qZr7w7/VA/IXTdsVCgi29BMdsaIdj+vNm/nka8Z694tMMPZpobMr+Tl9L8wmrPFTf2BJA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE0BC4CEFB;
+	Thu,  4 Dec 2025 15:14:05 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Thierry Reding <treding@nvidia.com>,
+	Jassi Brar <jaswinder.singh@linaro.org>
+Cc: linux-doc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] Documentation: mailbox: mbox_chan_ops.flush() is optional
+Date: Thu,  4 Dec 2025 16:14:02 +0100
+Message-ID: <6a50a5d4f0d0da26e5cccf348550879e53792e6e.1764861174.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: rujjifn7nmmpoy6emxase4mo9xz6gpjo
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 4D04060010
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18g2ePbYYWzvuSuCcxWBc4OByX3PMhDc5o=
-X-HE-Tag: 1764861191-398429
-X-HE-Meta: U2FsdGVkX184vYPUcvrLViW5zHJdPCatX83ejljFGPH2fxJ4h0hTwSpErVduYmjTrYR29tekZaaMHEdHIxFl5PRvfkHc4m9iPIhy7jESma/o2V8mtOQb1LtF0lkkJXgTDniWGsFCR+Uz39KOI+VI2COoi9bYUxX91atrBJBv+BNY/IH295o602LYWYPw0JZIbJgY1izfVs2P9aTvW/dVLyl6Kqwn8DEBC8R9mFMd0cClbF7biK/Modq4B0t3hs/g3D7yuutEXyXavPaoTUmWOfvJZU++z/xrv1gi/JFOtaWtKr/effdPerQR8QesxGpYc0cqvrahHlK/IbsEj4KmeARlBgK18kR1zGcrrJH3tP01UzSRT+pRQA==
+Content-Transfer-Encoding: 8bit
 
-On Thu, 04 Dec 2025 07:36:57 +0100
-Gabriele Monaco <gmonaco@redhat.com> wrote:
+When the optional .flush() method was added to the mbox_chan structure,
+the documentation was not updated.
 
-> Anyway looks good to me.
-> 
-> Acked-by: Gabriele Monaco <gmonaco@redhat.com>
+Fixes: a8803d7421cc2be2 ("mailbox: Support blocking transfers in atomic context")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/driver-api/mailbox.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Jon,
+diff --git a/Documentation/driver-api/mailbox.rst b/Documentation/driver-api/mailbox.rst
+index 0ed95009cc307a41..463dd032b96cd45d 100644
+--- a/Documentation/driver-api/mailbox.rst
++++ b/Documentation/driver-api/mailbox.rst
+@@ -27,7 +27,7 @@ Controller Driver (See include/linux/mailbox_controller.h)
+ 
+ 
+ Allocate mbox_controller and the array of mbox_chan.
+-Populate mbox_chan_ops, except peek_data() all are mandatory.
++Populate mbox_chan_ops, except flush() and peek_data() all are mandatory.
+ The controller driver might know a message has been consumed
+ by the remote by getting an IRQ or polling some hardware flag
+ or it can never know (the client knows by way of the protocol).
+-- 
+2.43.0
 
-Care to take this through your tree? Gabriele is the maintainer of this
-code.
-
--- Steve
