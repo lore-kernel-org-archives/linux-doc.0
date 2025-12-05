@@ -1,1274 +1,354 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010021.outbound.protection.outlook.com [52.101.56.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1820D3314D4
-	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 13:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764940697; cv=none; b=m3+bmtebyK7/8o8kkD3Nu3WHpQh9y7zr1+JMYGTeV6Qt9kth4M52F2d+BqSUM+fRV38E5D/tZxj8TzapNLK+TlEQq+aoJOQ2uPFWxLD+B+YJzKh/Tfw+MaoGpFPCGMPGYk3V9bxru1NwVF9GKOdiIQB881ea5i7XzSRJQWKQrsY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764940697; c=relaxed/simple;
-	bh=vRoiUkHhty69DmiZzizswQMZUC6qUgKmStlrCcfA3Es=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jgkOvO7lr0w08NE1TcTuqcPz+GWpcycxlzFOeFG4Yc6KqXjB8fFADKO9ePGK5chr4rQvLgIwezxxBM689nILoQ42w8SEURx7H+5FSLtPc8kCKsq3TNJACUXbL7dyGxRIOpQYC9nrClq46SfK2+AoIsekt8+tEGRfhXvsVkPUGts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fCKFJ50Y; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F05A30FF30;
+	Fri,  5 Dec 2025 14:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764943511; cv=fail; b=kuoL255UIq2wfznTeLrz5Yb5UKsxHZbgA08uai8FPRAjbVF1bkhoz6h3N0v3B2iilp76A5zsZ5CnC5d9kxTdNx3ecEZ7yyHOEkZVPGLWn2E5QnlOTc5BdTxysfCHIQUjjs0lN95TPlIsASMtzjrlTbUVSufhpEgSDDCpZ+nT1ro=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764943511; c=relaxed/simple;
+	bh=H5DQQVXwkMZP1lsyljm6YRZGFiH9y/gPsxtI27gIMDQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=MCVrLyb/WNkDgugb/CE208WKcwomGTHGFj4R29RCnJJD1qFHYGUKmhZBsLfi75BTjHkWHBSXlzp8noLQoOSJn4QT5oQ8lcoFqy4KX45psBVKUI46TA4DGWCoEwiP4IzqsMF4kj8iMVMhx51EZgMCh8AksA530N3COokGCXK2laY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=x1YycRVa; arc=fail smtp.client-ip=52.101.56.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fCKFJ50Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1764940685;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ICOmQ7fc5SQrnAuXkV7VaT/+VP+aLo06mkMalK5kUN8=;
-	b=fCKFJ50YL0FcDQwhm5lmIBVO+9hOSpGItHOURUCLOH13gLFErIuYs7/5Wgne0xfTkyzks+
-	ow9mMH0+YDfvqEWz+pExj83rEmBlBBE2wL2BVrRnTy3FLbEa3oofuf+pyhLdGaySbmihq8
-	L1v8Om2Q4qUi7lWQfl1KaCCWdgxsWWY=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-30-zAaaEvUWPuOwqa8iv2sfCw-1; Fri,
- 05 Dec 2025 08:18:02 -0500
-X-MC-Unique: zAaaEvUWPuOwqa8iv2sfCw-1
-X-Mimecast-MFC-AGG-ID: zAaaEvUWPuOwqa8iv2sfCw_1764940681
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0106C18002C1;
-	Fri,  5 Dec 2025 13:18:01 +0000 (UTC)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb (unknown [10.45.226.23])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6CB6B180044F;
-	Fri,  5 Dec 2025 13:17:55 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Nam Cao <namcao@linutronix.de>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Tomas Glozar <tglozar@redhat.com>,
-	Juri Lelli <jlelli@redhat.com>,
-	Clark Williams <williams@redhat.com>,
-	John Kacur <jkacur@redhat.com>
-Subject: [PATCH v3 13/13] rv: Add dl_server specific monitors
-Date: Fri,  5 Dec 2025 14:16:21 +0100
-Message-ID: <20251205131621.135513-14-gmonaco@redhat.com>
-In-Reply-To: <20251205131621.135513-1-gmonaco@redhat.com>
-References: <20251205131621.135513-1-gmonaco@redhat.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="x1YycRVa"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nJGqVOCIZ7i/DAFBNYa1qCyQ+G4Hr/LLApOtiusU+hRbkSLj6fXO0jtQtioonkBaeuXsz/fsaR5b2YSbtALMhn0i/8xIr9nvkLNuGB2ZYwzWQEWgm0i4Iw7PTN52YVt2QoOi6WsnWNzyM3oPZnT2FdIVLOj3A1t2SAnnoTDIDyH5C2RRzF4gc/KS93e4WC3Dd/qzS5DNyjnEu+E+Nlfvo2+JYpabxpkqThm5WEdGdjaTEowBVNNtWpHOwNi70i70cZMjq0hwKEUKlUHK+f979+Ze3N21MYMST5Jh4teVvH3k8qZT62rWv2a/LBKAATTfaUvBTSd+0Ncy1PnQPfximQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H5DQQVXwkMZP1lsyljm6YRZGFiH9y/gPsxtI27gIMDQ=;
+ b=Z4sazxplQS9hkkAfefaS6fdskrOQs8KIuFOT5ZsgimkrLQtz7/bUxh4STiPUze7RluN4VmX41TbnDNLzEsXzGnfGZT9Jto9qkkNm23g7z2pwc4bfkb1s6255tQjGRbEoTwY9z0p1Mruf6aJ+1EfgMWfxT2N3wwALz1Qp2DLA6Yy5lAAWVgingu0KxsAkX5QLYTHEePkuGOeRMeJiV+gR5+kGQkTkjgYT7OqTAgfIi7QIrmGy/hQ4HB/hO0fArfznttn52Z7Mz8Sw+B7reCIAm9WzYJXWF3pwLtjKZHrYB5kkjCnODm6xzhide1cmvA9eH66iiZb5zYH1wXQj75GUOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H5DQQVXwkMZP1lsyljm6YRZGFiH9y/gPsxtI27gIMDQ=;
+ b=x1YycRVaiaFDnzbqR3ezLKszt6M2iKsJx1hO7JSfZriXgmF/emkEKkaX4OiPi+0hU0WTrVUvH1k2qAQdnKFHz8DXbbcaQbNfUQZCMfV1yKtY3ZHOyTA6ab7p8qN8Ulm/DLpxv/uNbQlOdCgW1Fsh5EtpDC2p1e6uNU8TKb2H7FY=
+Received: from IA1PR12MB8496.namprd12.prod.outlook.com (2603:10b6:208:446::10)
+ by SJ1PR12MB6147.namprd12.prod.outlook.com (2603:10b6:a03:45a::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Fri, 5 Dec
+ 2025 14:05:03 +0000
+Received: from IA1PR12MB8496.namprd12.prod.outlook.com
+ ([fe80::e194:9fc5:d707:ea3d]) by IA1PR12MB8496.namprd12.prod.outlook.com
+ ([fe80::e194:9fc5:d707:ea3d%5]) with mapi id 15.20.9388.011; Fri, 5 Dec 2025
+ 14:05:03 +0000
+From: "Lin, Leo" <Leo.Lin@amd.com>
+To: "Lazar, Lijo" <Lijo.Lazar@amd.com>, "Deucher, Alexander"
+	<Alexander.Deucher@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
+ Corbet <corbet@lwn.net>
+CC: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "Tsao, Anson"
+	<anson.tsao@amd.com>, "Mario Limonciello (AMD) (kernel.org)"
+	<superm1@kernel.org>
+Subject: RE: [PATCH v5 4/5] drm/amdgpu: add UMA allocation interfaces to sysfs
+Thread-Topic: [PATCH v5 4/5] drm/amdgpu: add UMA allocation interfaces to
+ sysfs
+Thread-Index: AQHcZbO0SK6SuIw5IEuq26eK29g3+bUS2fAAgAA2hGA=
+Date: Fri, 5 Dec 2025 14:05:03 +0000
+Message-ID:
+ <IA1PR12MB8496AE1BB2E2D8179CD86AA6FEA7A@IA1PR12MB8496.namprd12.prod.outlook.com>
+References:
+ <20251205-vram-carveout-tuning-for-upstream-v5-0-1e87cf3b57be@amd.com>
+ <20251205-vram-carveout-tuning-for-upstream-v5-4-1e87cf3b57be@amd.com>
+ <3ed39b79-ade6-437b-bfd2-9bd8a3779732@amd.com>
+In-Reply-To: <3ed39b79-ade6-437b-bfd2-9bd8a3779732@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=True;MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2025-12-05T13:49:08.0000000Z;MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
+ Internal Distribution
+ Only;MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=3;MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR12MB8496:EE_|SJ1PR12MB6147:EE_
+x-ms-office365-filtering-correlation-id: 9565f4a5-23c2-4d49-89a3-08de34074978
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?emZObExvZkxIVmNKNW5uMktJSVV6S1FxaU4ybmsrcENqLzl0WjhudnlZcEg5?=
+ =?utf-8?B?RkpPQ2NDc2czcUttYStyUnFuSGpkUElKOU9IelhmTFl2ZHA2Vmt4UThiODB1?=
+ =?utf-8?B?U0dMTUx4OVFpOC9QZExDRStKbWJjV29TUFVXMTFJU2lnZ1pSQlZDeFBmYXR6?=
+ =?utf-8?B?Wm9LaDRVbVNvTXNDOElkdFZ0WGIrNGFiMGFBVmhBeHg5aWx5WlN3TmhmeERn?=
+ =?utf-8?B?bEl6VEllVVhPNEQ3UHAxa1lad2wzdldiU1duaXVVbXVDVGYxcFNZVHJrOThZ?=
+ =?utf-8?B?TTJERWtNOEQzNEV3TVc2WjFSTlV1aWlWNzZYai9rYzQzOTdVeGJqeHFBaGJa?=
+ =?utf-8?B?a1FKUGYvQXBMbkxRdG9zYTFKVTMwTDhmMzJVbjZFOGJ6UHo3L0FUQW53ekIz?=
+ =?utf-8?B?cXJqUlU5UGV5TWZWQnpzREsxcllNVWliaWtVZkNrZEZabW94TVh1NnIzdFkx?=
+ =?utf-8?B?cXlKMWE3Ymp0RjIrOEJBRGljQldwSVo4TTNBYWxHVTVXWGl3c2lSTVBxWDRJ?=
+ =?utf-8?B?OUc2ZlBKZzlBM0VRaVBCb3Nia3lNSmFXeVgvYTJ5SDNLc3FXNGJCNVZRM1g2?=
+ =?utf-8?B?WllZSTBlVG16Y3hNS0ZnenpkVU9aRnJFc1ZOOUhtY0FuVFNJVjJOSVRPYVZw?=
+ =?utf-8?B?MXRkeXM2a2FVTktrYTZldE1rU1h5bDV0Q2JzT2hkMExWdlBXY1ZMV3VTSEtV?=
+ =?utf-8?B?U2U4THFLcEJ2SHo2MGt5aDBmTzQ0K25PSWRhZjQ4dHU4N0NqY2ZSRnhNQW54?=
+ =?utf-8?B?c0lidERsalRlK2FGeXdZN3FQbkEvSkhmUmlZN0VhRWFrOEk2S3dxcFVwTlJm?=
+ =?utf-8?B?ckJhcW8yQ3BNM1lQMkdiUUlWR1VwOG1QVDBLZTRJczloTVE5ZVR0b2x5Vnhn?=
+ =?utf-8?B?T0VqODdPa0dhUnJqc2NwS1lncDNiUk80OTZKbDJ3NWZTV1NkcHZNVnd5YXpn?=
+ =?utf-8?B?ZlNhd1VucnJadjhKWTdRU21rRXAzSTRLTE9VM3lFK2FyQlZRV1lNR3l0aWtM?=
+ =?utf-8?B?Z3QxQUZOZzlZNm93RGZXZ3Myc0N6YmoxS3ZaQTlxOU05VXkvRmc1ZGFUcFJw?=
+ =?utf-8?B?OEVuSVRSa09idHg3UjFDTVVtdVk3SGI1ZE9ldkRaUXJHRWdwVWxRbWFXemFT?=
+ =?utf-8?B?UUVybDZBbStGN0RJLzI5ei9hQmx2cE5qam9vNEJobExtd0srWU9Oa1FPY2oz?=
+ =?utf-8?B?ZVpaVGhRZi9uOXUvaUxaaFQzaVl0OGt1THRScWcxblV1WG16aFpYL3ZSQ3BI?=
+ =?utf-8?B?RW1lMEY1ZlFwZVdmKzlLQzNiZkRJY0RmZ2hMSE1CQ3RqNzBtRG50L0R4MUFP?=
+ =?utf-8?B?RENqNHJTRFFsRmtSNEF6VnlOTmpHZTNvNEh1SEp6VWFUM2grdlZDQUwzNGV2?=
+ =?utf-8?B?VkFtbTVlUmdPQjFEc0J5dHBIeHpuejBpL0JHV0NuS2RHNFZ3RnRuN3Aza213?=
+ =?utf-8?B?K0lSc0hvS09wQWZLSEl3b2RGL0YrNFpwVDhKZkVqdmxRUWNXNmhWOWN6bWJi?=
+ =?utf-8?B?WERYYjN3cE9QTS9OTklGRWVDaFdPdTF4VGI0Z1lTekxCeWFxYVkrY3R4ejNM?=
+ =?utf-8?B?Mk5VNU1Zd1hUNXJsdm9jd1h3TzJKaXNDYVMvdWhHc2VzcHZ2YThLcStmVW1R?=
+ =?utf-8?B?R1hYYU5MQWs1dlh4SUlUUDZXSDhPOE9FTjF0UEZJcXNQUUxxOFh4UGF1cTFB?=
+ =?utf-8?B?YWhyMk4rS1pTMmlBUnhSQ2xwNFltRjhrQ0ZJSGxnRkEwYm50dnhmS2d1ZHdh?=
+ =?utf-8?B?V1gwQzdGWUNuZDRiY3ZtTFpMdkRxb0M0cG52WFdkTS9LTVpObWpTK3ZScWN1?=
+ =?utf-8?B?RzA2VW5IMWxOdjFkdmdYeUFTaFh2MklFNmdYSmVlSUEwSHRGRXFQV2ZwaUdl?=
+ =?utf-8?B?TExCT1lSa2FXR0dtRFFXZXE5azFmaEt6SnNOdnNlYm1wSkpxREJ5elRqU3J4?=
+ =?utf-8?B?Y0QxeUc1ajRzeHZhMDQrQmlkeUJUTDFDbWFHb2VEUm5YMmp2TFd1VytoRW5y?=
+ =?utf-8?B?WksvN1VreHVwbXl4bTZMUVN3M0M5RytuUGU2Qng5N28vVklLVGNjNnBtendu?=
+ =?utf-8?B?RlVLdWJoSG9mWW5LZktQcWo0RlNiRmtFczgwZz09?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB8496.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?ZjFiNUtOb3VsRk9LWFBtKzA1Nk8zbkFnUWY5MUR1M0pyK2ZET0xOZTRpakxD?=
+ =?utf-8?B?MlFqVHZibkpDc3dCOWpiS0lQM1RLOGUyZEN4Qy9SbmhIb1hIOWdreUZ3dXV6?=
+ =?utf-8?B?czlpbjdVTE1KMHZ1dFM2ZVlOYnczWW5ERG9VcEFYME5wd3BuTXIvR3Y3MTdm?=
+ =?utf-8?B?TlR0NmxlU09UclAydm5FcWcweVM4V0EybjJySDVVY0tTSWpyY1NNOG90N0FE?=
+ =?utf-8?B?cnRPWTJUSm43OVNocWFhbTVYTktjQnRadW9sNm9hRjRZSXRLVnpHeVZZSkFG?=
+ =?utf-8?B?UVhqV29SZS8vNU9OMFQ3dnp0a3ZDVG0zbTZtbzFMSHQ1RUlPRzlQQWh2NHlX?=
+ =?utf-8?B?TlZ6WVhFckVUQmdYVDEwTnFLZFN6M2czeFZ1R0grZUtDUWxyYkIrZElZbkkw?=
+ =?utf-8?B?LzRwcXQ3YXBRcWtJZWRYQ2NrMCtETWtCMUVxaGFZdmdqcGYwaDJ6RnBHNEtX?=
+ =?utf-8?B?YUNwRmQ0bEZyRStwZ1FSeWxoeDZrU282cFNwZ3dnSlQyM2JJSzlQbWdDZjJW?=
+ =?utf-8?B?VkZoV0pzZEpudmxlQW1aR1JDM1ZlN3AwQjNCTHFyczFXVEdhenRzSVd3NFRm?=
+ =?utf-8?B?L2pzcUM4eFgrd0VwU0dIRWZkUGpzeGlVbGk1VEExb09HSzU1NHJIaDAzSEto?=
+ =?utf-8?B?K0lra3FXbEYxRitMNFM5aW1HTkNMYlZKaFFIeTg4aUE1a0tyYnRldjRuZ3Fw?=
+ =?utf-8?B?WHZQZkZ4UlAwRHJxTTNZS1Qvem1ZMVpHOUJ5MHl3Qmdsbm5Bc1hGbmhIM1ZI?=
+ =?utf-8?B?dGRoSGhKMTl4V3NpdEtOeFRxMGY3MWxMV1hKZ0pPRTdGNHRDR3FSOTE5N1pU?=
+ =?utf-8?B?RGNjc0VoTkc2THZpc1dRcjc1R3p3Rnp4S210cjJBY2QyOXVFYmxuUUFLbFV3?=
+ =?utf-8?B?NDUxV1JrNkppUk5xS2diTm9HbGMrNjdPNllVK1dHbnY3UElTUGNGaitHbnlq?=
+ =?utf-8?B?L2YwTTZCRDJiOFkxb1ovandhamdCVHpkNUd6MWtCc3VXbTlWbTFENkFrUnpl?=
+ =?utf-8?B?UG1WNXc2OGVUUFNSams4cGFqeVpZb1FMNjFyWVV5NnFUT3pwYXgwWlZPd042?=
+ =?utf-8?B?MTNha3hYMFVpSFJ6SDVSVjZ4SUVVVlZPZmxhUHVlOVlvN0RGMjM3dHllWHRk?=
+ =?utf-8?B?Vm5qK0tQaGE4bmdLTzhKaGFlZzVFbm9zOXlNbENUZElLbkRJRExaVkhzUnh1?=
+ =?utf-8?B?TjNFY0hlMHhXUEpZNmJYRU1xMmxDY01sanJqNk9HTTJRZk5QUGNISlI4UnVN?=
+ =?utf-8?B?b2VNM2hyNkZVME0xaE1pVkU2U01KMEVWWnpoYVlNSTM4VitjdmNJTXJjQkts?=
+ =?utf-8?B?d09sNjY5di9ZcDBkY3hCRUtBSGpicndLYXExOERmeTBCSGpJZFZNQUpOSzBK?=
+ =?utf-8?B?YVdKRXFwd09VdVJ6MXEySUJXMVFRdzdJcXpZYjNpTUxkb0VjKysyQTdkZWFY?=
+ =?utf-8?B?NHIrbGNveVVmREU0cU82dytDeDZ4STgzVjNqc3ZRNTRjVkpNdUxkTDJJTFM2?=
+ =?utf-8?B?TUdoUmt4TUhyaVZRSGhneGZ0ZkQzZ2M0Y1NZVGJlOGhndU82dUpXYkc1K0Rv?=
+ =?utf-8?B?N1FCM2lmQTJkU1h5bGJ3V3F3d0wrckNaMjR1bXJvc3RRY1llYXVaYXQzancx?=
+ =?utf-8?B?K0RTWGU5eXpRbGhNVUhtbkl2YlZiQXlGWU5QcE1kTGY0M2p5YmJ3d0h0aUwr?=
+ =?utf-8?B?d0NubkNjQXdNSDY1eWoxd2ZOeEViWXRnNGU3MTZaM284bmhZMkxxOUlnNnR4?=
+ =?utf-8?B?S3ZDaDRnM2M1THo5dnFoWWVsSGwwYjFGT3A1eU1GbC9qNVdpUWpXUTRYNCs2?=
+ =?utf-8?B?YWo0WHlvamdORENGZWo3bDJKby94bDFJUE4wWlVodUFEMlZnN2NWOWdUWnFM?=
+ =?utf-8?B?ZXNsbTdTQWFGZ1BFTFpUT2ZyU25pd29DOHpESktMWDdQMTR4VUxKQUFlcHJl?=
+ =?utf-8?B?ZjNqc0pJbGJIdGxHeWpNbkZHbGQ0TGhQK3JrUnlETHlLTDlUZkxwOXdOSHkw?=
+ =?utf-8?B?S25ISnZxSit4Wk5aNEVxSHRDbmFTMzdKV0hEcll2SEI1MHREWTlHTWJaSWdy?=
+ =?utf-8?B?NGVHVHRrb1VzcFArU2ZTMk95QTIzZU9Oa0NyV3JJWWMwdDQ5Z0czMnpmVGRS?=
+ =?utf-8?Q?r/KA=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB8496.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9565f4a5-23c2-4d49-89a3-08de34074978
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2025 14:05:03.4632
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zvyGNTNeUkoTDZ7DpzjnR9LQ3EHUKfQtK94J731PX2AwD1l+qpr5rTK6tIE+vP2c
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6147
 
-Add monitors to validate the behaviour of the deadline server.
-
-The currently implemented monitors are:
-* boost
-    fair tasks run either independently or boosted
-* laxity
-    deferrable servers wait for zero-laxity and run
-
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
----
- Documentation/trace/rv/monitor_deadline.rst   | 115 ++++++++
- kernel/trace/rv/Kconfig                       |   2 +
- kernel/trace/rv/Makefile                      |   2 +
- kernel/trace/rv/monitors/boost/Kconfig        |  15 +
- kernel/trace/rv/monitors/boost/boost.c        | 279 ++++++++++++++++++
- kernel/trace/rv/monitors/boost/boost.h        | 159 ++++++++++
- kernel/trace/rv/monitors/boost/boost_trace.h  |  19 ++
- kernel/trace/rv/monitors/laxity/Kconfig       |  14 +
- kernel/trace/rv/monitors/laxity/laxity.c      | 226 ++++++++++++++
- kernel/trace/rv/monitors/laxity/laxity.h      | 126 ++++++++
- .../trace/rv/monitors/laxity/laxity_trace.h   |  19 ++
- kernel/trace/rv/rv_trace.h                    |   2 +
- tools/verification/models/deadline/boost.dot  |  51 ++++
- tools/verification/models/deadline/laxity.dot |  34 +++
- 14 files changed, 1063 insertions(+)
- create mode 100644 kernel/trace/rv/monitors/boost/Kconfig
- create mode 100644 kernel/trace/rv/monitors/boost/boost.c
- create mode 100644 kernel/trace/rv/monitors/boost/boost.h
- create mode 100644 kernel/trace/rv/monitors/boost/boost_trace.h
- create mode 100644 kernel/trace/rv/monitors/laxity/Kconfig
- create mode 100644 kernel/trace/rv/monitors/laxity/laxity.c
- create mode 100644 kernel/trace/rv/monitors/laxity/laxity.h
- create mode 100644 kernel/trace/rv/monitors/laxity/laxity_trace.h
- create mode 100644 tools/verification/models/deadline/boost.dot
- create mode 100644 tools/verification/models/deadline/laxity.dot
-
-diff --git a/Documentation/trace/rv/monitor_deadline.rst b/Documentation/trace/rv/monitor_deadline.rst
-index 481748adaac3..e5cf5db91650 100644
---- a/Documentation/trace/rv/monitor_deadline.rst
-+++ b/Documentation/trace/rv/monitor_deadline.rst
-@@ -149,3 +149,118 @@ replenish on an idle CPU, meaningful only for servers::
-  +---------------+ <-+                                                ^
-          |                                                            |
-          +---------------- dl_throttle;is_constr_dl == 1 -------------+
-+
-+Monitor boost
-+~~~~~~~~~~~~~
-+
-+The boost monitor ensures tasks associated to a server (e.g. fair tasks) run
-+either independently or boosted in a timely manner.
-+Unlike other models, the ``running`` state (and the ``switch_in/out`` events)
-+indicates that any fair task is running, this needs to happen within a
-+threshold that depends on server deadline and remaining runtime, whenever a
-+task is ready.
-+
-+The following chart is simplified to avoid confusion, several less important
-+self-loops on states have been removed and event names have been simplified:
-+
-+* ``idle`` (``dl_server_idle``) occurs when the CPU runs the idle task.
-+* ``start/stop`` (``dl_server_start/stop``) start and stop the server.
-+* ``switch`` (``sched_switch_in/out``) represented as a double arrow to
-+  indicate both events are present: ``ready/throttled -- switch_in ->
-+  running/throttled_running`` and vice versa with ``switch_out``. As stated
-+  above this fires when any fair task starting or stopping to run.
-+* ``resume/resume_throttle``: a fair task woke up, potentially when the server
-+  is throttled (no runtime left), this event is especially frequent on self
-+  loops (no state change during a wakeup) but is removed here for clarity.
-+* arrows merges with an ``x`` sign to indicate they are the same event going to
-+  the same state (but with different origins). The ``+`` sign indicates normal
-+  crossings or corners.
-+
-+Refer to the dot file for the full specification::
-+
-+		|
-+		v
-+      #=========#           idle          +----------+
-+      H         H <----- switch_out ----- |          |
-+  +-->H stopped H                         | stopping |
-+  |   H         H --+                     |          |
-+  |   #=========#   |                     +----------+
-+  |     ^           |                          ^
-+  |     |           |          stop;reset(clk) |           replenish;reset(clk)
-+  |   stop          |                          |                       +--+
-+  |     |      start;reset(clk)                +--------------------+  |  |
-+  |     |           v                                               |  |  v
-+  |     +--------- +---------------+ <---------- switch --------> +---------+
-+  |                |     ready     |                              |         |
-+  |   +- resume -> |               | -replenish;reset(clk)        | running |
-+  |   |            | clk < thesh() |   |                          |         |
-+  |   |  +- idle - +---------------+ <-+        +---------------- +---------+
-+  |   |  |         |  ^                         |                   ^    |
-+  |   |  |         |  |                       throttle              |    |
-+  |   |  |         |  |replenish;reset(clk)     |                   |    |
-+  |   |  |  throttle  |                         |   replenish;reset(clk) |
-+  |   |  |         |  |                         |                   |    |
-+  |   |  |         v  |                         v                   |    |
-+  |   |  |   +---------+    switch    +-------------------+         |    |
-+  x---+--+-- |         | <----------> | throttled_running | --------+    |
-+  |   |  |   |throttled|              +-------------------+              |
-+  |   |  |   |         | -----+            |                             |
-+  |   |  |   +---------+      |            |                             |
-+  |   |  |      ^             |            |                             |
-+  |   |  | resume_throttle    |            |                             |
-+ stop |  |      |             |            |                             |
-+  |   |  v      |             |            |                             |
-+  |   +---------+ <-----------x--- idle ---x-----------------------------+
-+  |   |         |
-+  +-- |  idle   | <--+
-+      |         |    | replenish;reset(clk)
-+      +---------+ ---+
-+
-+Monitor laxity
-+~~~~~~~~~~~~~~
-+
-+The laxity monitor ensure deferrable servers go to a zero-laxity wait unless
-+already running and run in starvation cases. The model can stay in the
-+zero-laxity wait only for a limited time depending on deadline and runtime,
-+then the server either prepares to stop (after ``idle_wait``) or prepares to
-+boost a task (``running``). Boosting (``sched_switch_in``) is only allowed in
-+the ``running`` state::
-+
-+                                                    |
-+  +----- dl_server_stop -----+                      |
-+  |                          v                      v
-+  |             #=======================================#
-+  |    +------- H                stopped                H
-+  |    |        #=======================================#
-+  |    |          |                             ^
-+  |    |  dl_server_start_running;        dl_server_stop
-+  |    |        reset(clk)                      |
-+  |    |          v                             |     dl_replenish_running;
-+  |    |     +-------------------------------------+     clk < REPLENISH_NS
-+  |    |     |                                     | -------------+
-+  |    |     |                running              |              |
-+  |    |     |                                     | <------------+
-+  |    |     +-------------------------------------+
-+  |    |       |                  ^              ^
-+  |    |  dl_throttle    dl_replenish_running    |
-+  |    |       v                  |              |
-+  |    |     +-----------------+  |              |
-+  |    |     | replenish_wait  | -+              |
-+  |    |     +-----------------+                 |
-+  |    |                   |                     |
-+  |    |         dl_replenish;reset(clk)         | dl_replenish_running
-+  |    |         dl_replenish_idle;reset(clk)    |
-+  |    |                   v                     |
-+  | dl_server_start;     +--------------------------+   dl_replenish;reset(clk)
-+  |    reset(clk)        |     zero_laxity_wait     | -------------+
-+  |    |                 |     clk < laxity_ns()    |              |
-+  |    +---------------> |                          | <------------+
-+  |                      +--------------------------+
-+  |                              |                 ^
-+  | dl_replenish_idle;reset(clk) |      dl_replenish;reset(clk)
-+  |                              v                 |
-+  |                   +-------------------------+  |
-+  +------------------ |        idle_wait        | -+
-+                      +-------------------------+
-+                                ^     dl_replenish_idle;reset(clk)
-+                                +-------------+
-diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-index 719cdcfb6d41..139443e0e51c 100644
---- a/kernel/trace/rv/Kconfig
-+++ b/kernel/trace/rv/Kconfig
-@@ -82,6 +82,8 @@ source "kernel/trace/rv/monitors/stall/Kconfig"
- source "kernel/trace/rv/monitors/deadline/Kconfig"
- source "kernel/trace/rv/monitors/nomiss/Kconfig"
- source "kernel/trace/rv/monitors/throttle/Kconfig"
-+source "kernel/trace/rv/monitors/boost/Kconfig"
-+source "kernel/trace/rv/monitors/laxity/Kconfig"
- # Add new deadline monitors here
- 
- # Add new monitors here
-diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-index 15a1edc8bd0f..4cf15c189a96 100644
---- a/kernel/trace/rv/Makefile
-+++ b/kernel/trace/rv/Makefile
-@@ -21,6 +21,8 @@ obj-$(CONFIG_RV_MON_STALL) += monitors/stall/stall.o
- obj-$(CONFIG_RV_MON_DEADLINE) += monitors/deadline/deadline.o
- obj-$(CONFIG_RV_MON_NOMISS) += monitors/nomiss/nomiss.o
- obj-$(CONFIG_RV_MON_THROTTLE) += monitors/throttle/throttle.o
-+obj-$(CONFIG_RV_MON_BOOST) += monitors/boost/boost.o
-+obj-$(CONFIG_RV_MON_LAXITY) += monitors/laxity/laxity.o
- # Add new monitors here
- obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
- obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
-diff --git a/kernel/trace/rv/monitors/boost/Kconfig b/kernel/trace/rv/monitors/boost/Kconfig
-new file mode 100644
-index 000000000000..3fa121f77729
---- /dev/null
-+++ b/kernel/trace/rv/monitors/boost/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+config RV_MON_BOOST
-+	depends on RV
-+	depends on RV_MON_DEADLINE
-+	default y
-+	select HA_MON_EVENTS_ID
-+	bool "boost monitor"
-+	help
-+	  Monitor to ensure tasks associated to a server (e.g. fair tasks) run
-+	  either independently or boosted in a timely manner.
-+	  This monitor is part of the deadline monitors collection.
-+
-+	  For further information, see:
-+	    Documentation/trace/rv/monitor_deadline.rst
-diff --git a/kernel/trace/rv/monitors/boost/boost.c b/kernel/trace/rv/monitors/boost/boost.c
-new file mode 100644
-index 000000000000..1f940dc7a9c5
---- /dev/null
-+++ b/kernel/trace/rv/monitors/boost/boost.c
-@@ -0,0 +1,279 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+#include <rv/instrumentation.h>
-+
-+#define MODULE_NAME "boost"
-+
-+#include <trace/events/syscalls.h>
-+#include <trace/events/sched.h>
-+#include <rv_trace.h>
-+
-+#define RV_MON_TYPE RV_MON_PER_OBJ
-+#define DA_SKIP_AUTO_ALLOC
-+#define HA_TIMER_TYPE HA_TIMER_WHEEL
-+typedef struct sched_dl_entity *monitor_target;
-+#include "boost.h"
-+#include <rv/ha_monitor.h>
-+#include <monitors/deadline/deadline.h>
-+
-+#define STOPPING_NS TICK_NSEC
-+
-+static inline u64 server_threshold_ns(struct ha_monitor *ha_mon)
-+{
-+	struct sched_dl_entity *dl_se = ha_get_target(ha_mon);
-+
-+	return dl_se->dl_deadline + TICK_NSEC - dl_se->runtime;
-+}
-+
-+static u64 ha_get_env(struct ha_monitor *ha_mon, enum envs_boost env, u64 time_ns)
-+{
-+	if (env == clk_boost)
-+		return ha_get_clk_ns(ha_mon, env, time_ns);
-+	return ENV_INVALID_VALUE;
-+}
-+
-+static void ha_reset_env(struct ha_monitor *ha_mon, enum envs_boost env, u64 time_ns)
-+{
-+	if (env == clk_boost)
-+		ha_reset_clk_ns(ha_mon, env, time_ns);
-+}
-+
-+static inline bool ha_verify_invariants(struct ha_monitor *ha_mon,
-+					enum states curr_state, enum events event,
-+					enum states next_state, u64 time_ns)
-+{
-+	if (curr_state == ready_boost)
-+		return ha_check_invariant_ns(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == stopping_boost)
-+		return ha_check_invariant_ns(ha_mon, clk_boost, time_ns);
-+	return true;
-+}
-+
-+static inline bool ha_verify_guards(struct ha_monitor *ha_mon,
-+				    enum states curr_state, enum events event,
-+				    enum states next_state, u64 time_ns)
-+{
-+	bool res = true;
-+
-+	if (curr_state == idle_boost && event == dl_replenish_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == ready_boost && event == dl_replenish_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == running_boost && event == dl_replenish_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == running_boost && event == dl_server_stop_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == stopped_boost && event == dl_server_start_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == throttled_boost && event == dl_replenish_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == throttled_running_boost && event == dl_replenish_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	return res;
-+}
-+
-+static inline void ha_setup_invariants(struct ha_monitor *ha_mon,
-+				       enum states curr_state, enum events event,
-+				       enum states next_state, u64 time_ns)
-+{
-+	if (next_state == curr_state && event != dl_replenish_boost)
-+		return;
-+	if (next_state == ready_boost)
-+		ha_start_timer_ns(ha_mon, clk_boost, server_threshold_ns(ha_mon), time_ns);
-+	else if (next_state == stopping_boost)
-+		ha_start_timer_ns(ha_mon, clk_boost, STOPPING_NS, time_ns);
-+	else if (curr_state == ready_boost)
-+		ha_cancel_timer(ha_mon);
-+	else if (curr_state == stopping_boost)
-+		ha_cancel_timer(ha_mon);
-+}
-+
-+static bool ha_verify_constraint(struct ha_monitor *ha_mon,
-+				 enum states curr_state, enum events event,
-+				 enum states next_state, u64 time_ns)
-+{
-+	if (!ha_verify_invariants(ha_mon, curr_state, event, next_state, time_ns))
-+		return false;
-+
-+	if (!ha_verify_guards(ha_mon, curr_state, event, next_state, time_ns))
-+		return false;
-+
-+	ha_setup_invariants(ha_mon, curr_state, event, next_state, time_ns);
-+
-+	return true;
-+}
-+
-+static void handle_dl_replenish(void *data, struct sched_dl_entity *dl_se, int cpu)
-+{
-+	da_handle_event(EXPAND_ID(dl_se, cpu), dl_replenish_boost);
-+}
-+
-+static void handle_sched_switch(void *data, bool preempt,
-+				struct task_struct *prev,
-+				struct task_struct *next,
-+				unsigned int prev_state)
-+{
-+	struct sched_dl_entity *dl_se = get_fair_server(next);
-+	int cpu = task_cpu(next);
-+
-+	/*
-+	 * The server is available in next only if the next task is boosted,
-+	 * otherwise we need to retrieve it.
-+	 * This monitor considers switch in/out whenever a task related to the
-+	 * server (i.e. fair) is scheduled in or out, boosted or not.
-+	 * Any switch to the same policy is ignored.
-+	 * Note: idle may race with concurrent wakeup/migration events.
-+	 */
-+	if (!dl_se || (next->policy == prev->policy && !is_idle_task(next) &&
-+		    !is_idle_task(prev)))
-+		return;
-+	if (is_idle_task(next))
-+		da_handle_event(EXPAND_ID(dl_se, cpu), dl_server_idle_boost);
-+	else if (next->policy == SCHED_NORMAL)
-+		da_handle_event(EXPAND_ID(dl_se, cpu), sched_switch_in_boost);
-+	else if (prev->policy == SCHED_NORMAL && !is_idle_task(prev))
-+		da_handle_event(EXPAND_ID(dl_se, cpu), sched_switch_out_boost);
-+}
-+
-+static void handle_syscall(void *data, struct pt_regs *regs, long id)
-+{
-+	struct sched_dl_entity *dl_se;
-+	struct task_struct *p;
-+	int new_policy = -1;
-+
-+	new_policy = extract_params(regs, id, &p);
-+	if (new_policy < 0 || new_policy == p->policy)
-+		return;
-+	dl_se = get_fair_server(p);
-+	if (!dl_se || !p->on_rq)
-+		return;
-+	/*
-+	 * Note: this attaches to the syscall entry and is unstable:
-+	 * - the syscall may fail
-+	 * - the task may be preempted before changing the policy
-+	 * A more robust solution can be written using enqueue/dequeue events.
-+	 */
-+	if (p->policy == SCHED_NORMAL)
-+		da_handle_event(EXPAND_ID(dl_se, task_cpu(p)), sched_switch_out_boost);
-+	else if (new_policy == SCHED_NORMAL)
-+		da_handle_event(EXPAND_ID(dl_se, task_cpu(p)), dl_server_resume_boost);
-+}
-+
-+static void handle_sched_wakeup(void *data, struct task_struct *tsk)
-+{
-+	struct sched_dl_entity *dl_se = get_fair_server(tsk);
-+
-+	if (dl_se && tsk->policy == SCHED_NORMAL) {
-+		da_handle_event(EXPAND_ID(dl_se, task_cpu(tsk)),
-+				dl_se->runtime > 0 ?
-+					dl_server_resume_boost :
-+					dl_server_resume_throttled_boost);
-+	}
-+}
-+
-+static void handle_sched_migrate(void *data, struct task_struct *p, int dest_cpu)
-+{
-+	struct sched_dl_entity *orig_dl_se, *dest_dl_se;
-+
-+	if (p->policy != SCHED_NORMAL)
-+		return;
-+	orig_dl_se = get_fair_server(p);
-+	dest_dl_se = da_get_target_by_id(fair_server_id(dest_cpu));
-+	if (orig_dl_se && idle_cpu(task_cpu(p)))
-+		da_handle_event(EXPAND_ID(orig_dl_se, task_cpu(p)), dl_server_idle_boost);
-+	if (dest_dl_se) {
-+		da_handle_event(EXPAND_ID(dest_dl_se, dest_cpu),
-+				dest_dl_se->runtime > 0 ?
-+					dl_server_resume_boost :
-+					dl_server_resume_throttled_boost);
-+	}
-+}
-+
-+static void handle_dl_server_start(void *data, struct sched_dl_entity *dl_se, int cpu)
-+{
-+	da_handle_event(EXPAND_ID(dl_se, cpu), dl_server_start_boost);
-+}
-+
-+static void handle_dl_server_stop(void *data, struct sched_dl_entity *dl_se, int cpu)
-+{
-+	da_handle_start_event(EXPAND_ID(dl_se, cpu), dl_server_stop_boost);
-+}
-+
-+static void handle_dl_throttle(void *data, struct sched_dl_entity *dl_se, int cpu)
-+{
-+	da_handle_event(EXPAND_ID(dl_se, cpu), dl_throttle_boost);
-+}
-+
-+static int enable_boost(void)
-+{
-+	int retval;
-+
-+	retval = da_monitor_init();
-+	if (retval)
-+		return retval;
-+
-+	retval = init_storage(true);
-+	if (retval)
-+		return retval;
-+	rv_attach_trace_probe("boost", sched_dl_replenish_tp, handle_dl_replenish);
-+	rv_attach_trace_probe("boost", sched_dl_server_start_tp, handle_dl_server_start);
-+	rv_attach_trace_probe("boost", sched_dl_server_stop_tp, handle_dl_server_stop);
-+	rv_attach_trace_probe("boost", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_attach_trace_probe("boost", sched_wakeup, handle_sched_wakeup);
-+	rv_attach_trace_probe("boost", sched_wakeup_new, handle_sched_wakeup);
-+	rv_attach_trace_probe("boost", sched_migrate_task, handle_sched_migrate);
-+	rv_attach_trace_probe("boost", sched_switch, handle_sched_switch);
-+	if (!should_skip_syscall_handle())
-+		rv_attach_trace_probe("boost", sys_enter, handle_syscall);
-+
-+	return 0;
-+}
-+
-+static void disable_boost(void)
-+{
-+	rv_this.enabled = 0;
-+
-+	rv_detach_trace_probe("boost", sched_dl_replenish_tp, handle_dl_replenish);
-+	rv_detach_trace_probe("boost", sched_dl_server_start_tp, handle_dl_server_start);
-+	rv_detach_trace_probe("boost", sched_dl_server_stop_tp, handle_dl_server_stop);
-+	rv_detach_trace_probe("boost", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_detach_trace_probe("boost", sched_wakeup, handle_sched_wakeup);
-+	rv_detach_trace_probe("boost", sched_wakeup_new, handle_sched_wakeup);
-+	rv_detach_trace_probe("boost", sched_migrate_task, handle_sched_migrate);
-+	rv_detach_trace_probe("boost", sched_switch, handle_sched_switch);
-+	if (!should_skip_syscall_handle())
-+		rv_detach_trace_probe("boost", sys_enter, handle_syscall);
-+
-+	da_monitor_destroy();
-+}
-+
-+static struct rv_monitor rv_this = {
-+	.name = "boost",
-+	.description = "fair tasks run either independently or boosted.",
-+	.enable = enable_boost,
-+	.disable = disable_boost,
-+	.reset = da_monitor_reset_all,
-+	.enabled = 0,
-+};
-+
-+static int __init register_boost(void)
-+{
-+	return rv_register_monitor(&rv_this, &rv_deadline);
-+}
-+
-+static void __exit unregister_boost(void)
-+{
-+	rv_unregister_monitor(&rv_this);
-+}
-+
-+module_init(register_boost);
-+module_exit(unregister_boost);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
-+MODULE_DESCRIPTION("boost: fair tasks run either independently or boosted.");
-diff --git a/kernel/trace/rv/monitors/boost/boost.h b/kernel/trace/rv/monitors/boost/boost.h
-new file mode 100644
-index 000000000000..2d7b6116b1d0
---- /dev/null
-+++ b/kernel/trace/rv/monitors/boost/boost.h
-@@ -0,0 +1,159 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Automatically generated C representation of boost automaton
-+ * For further information about this format, see kernel documentation:
-+ *   Documentation/trace/rv/deterministic_automata.rst
-+ */
-+
-+#define MONITOR_NAME boost
-+
-+enum states_boost {
-+	stopped_boost,
-+	idle_boost,
-+	ready_boost,
-+	running_boost,
-+	stopping_boost,
-+	throttled_boost,
-+	throttled_running_boost,
-+	state_max_boost,
-+};
-+
-+#define INVALID_STATE state_max_boost
-+
-+enum events_boost {
-+	dl_replenish_boost,
-+	dl_server_idle_boost,
-+	dl_server_resume_boost,
-+	dl_server_resume_throttled_boost,
-+	dl_server_start_boost,
-+	dl_server_stop_boost,
-+	dl_throttle_boost,
-+	sched_switch_in_boost,
-+	sched_switch_out_boost,
-+	event_max_boost,
-+};
-+
-+enum envs_boost {
-+	clk_boost,
-+	env_max_boost,
-+	env_max_stored_boost = env_max_boost,
-+};
-+
-+_Static_assert(env_max_stored_boost <= MAX_HA_ENV_LEN, "Not enough slots");
-+#define HA_CLK_NS
-+
-+struct automaton_boost {
-+	char *state_names[state_max_boost];
-+	char *event_names[event_max_boost];
-+	char *env_names[env_max_boost];
-+	unsigned char function[state_max_boost][event_max_boost];
-+	unsigned char initial_state;
-+	bool final_states[state_max_boost];
-+};
-+
-+static const struct automaton_boost automaton_boost = {
-+	.state_names = {
-+		"stopped",
-+		"idle",
-+		"ready",
-+		"running",
-+		"stopping",
-+		"throttled",
-+		"throttled_running",
-+	},
-+	.event_names = {
-+		"dl_replenish",
-+		"dl_server_idle",
-+		"dl_server_resume",
-+		"dl_server_resume_throttled",
-+		"dl_server_start",
-+		"dl_server_stop",
-+		"dl_throttle",
-+		"sched_switch_in",
-+		"sched_switch_out",
-+	},
-+	.env_names = {
-+		"clk",
-+	},
-+	.function = {
-+		{
-+			INVALID_STATE,
-+			stopped_boost,
-+			stopped_boost,
-+			stopped_boost,
-+			ready_boost,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			stopped_boost,
-+		},
-+		{
-+			idle_boost,
-+			idle_boost,
-+			ready_boost,
-+			throttled_boost,
-+			INVALID_STATE,
-+			stopped_boost,
-+			idle_boost,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+		},
-+		{
-+			ready_boost,
-+			idle_boost,
-+			ready_boost,
-+			ready_boost,
-+			INVALID_STATE,
-+			stopped_boost,
-+			throttled_boost,
-+			running_boost,
-+			ready_boost,
-+		},
-+		{
-+			running_boost,
-+			idle_boost,
-+			running_boost,
-+			running_boost,
-+			INVALID_STATE,
-+			stopping_boost,
-+			throttled_running_boost,
-+			INVALID_STATE,
-+			ready_boost,
-+		},
-+		{
-+			INVALID_STATE,
-+			stopped_boost,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			stopped_boost,
-+		},
-+		{
-+			ready_boost,
-+			idle_boost,
-+			INVALID_STATE,
-+			throttled_boost,
-+			INVALID_STATE,
-+			stopped_boost,
-+			throttled_boost,
-+			throttled_running_boost,
-+			INVALID_STATE,
-+		},
-+		{
-+			running_boost,
-+			idle_boost,
-+			INVALID_STATE,
-+			throttled_running_boost,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			throttled_running_boost,
-+			INVALID_STATE,
-+			throttled_boost,
-+		},
-+	},
-+	.initial_state = stopped_boost,
-+	.final_states = { 1, 0, 0, 0, 0, 0, 0 },
-+};
-diff --git a/kernel/trace/rv/monitors/boost/boost_trace.h b/kernel/trace/rv/monitors/boost/boost_trace.h
-new file mode 100644
-index 000000000000..7e422b0e586d
---- /dev/null
-+++ b/kernel/trace/rv/monitors/boost/boost_trace.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Snippet to be included in rv_trace.h
-+ */
-+
-+#ifdef CONFIG_RV_MON_BOOST
-+DEFINE_EVENT(event_da_monitor_id, event_boost,
-+	     TP_PROTO(int id, char *state, char *event, char *next_state, bool final_state),
-+	     TP_ARGS(id, state, event, next_state, final_state));
-+
-+DEFINE_EVENT(error_da_monitor_id, error_boost,
-+	     TP_PROTO(int id, char *state, char *event),
-+	     TP_ARGS(id, state, event));
-+
-+DEFINE_EVENT(error_env_da_monitor_id, error_env_boost,
-+	     TP_PROTO(int id, char *state, char *event, char *env),
-+	     TP_ARGS(id, state, event, env));
-+#endif /* CONFIG_RV_MON_BOOST */
-diff --git a/kernel/trace/rv/monitors/laxity/Kconfig b/kernel/trace/rv/monitors/laxity/Kconfig
-new file mode 100644
-index 000000000000..7ba69405d09b
---- /dev/null
-+++ b/kernel/trace/rv/monitors/laxity/Kconfig
-@@ -0,0 +1,14 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+config RV_MON_LAXITY
-+	depends on RV
-+	depends on RV_MON_DEADLINE
-+	default y
-+	select HA_MON_EVENTS_ID
-+	bool "laxity monitor"
-+	help
-+	  Monitor to ensure deferrable servers go to a zero-laxity wait unless
-+	  already running and run in starvation cases.
-+
-+	  For further information, see:
-+	    Documentation/trace/rv/monitor_deadline.rst
-diff --git a/kernel/trace/rv/monitors/laxity/laxity.c b/kernel/trace/rv/monitors/laxity/laxity.c
-new file mode 100644
-index 000000000000..5a2ef4a4ec9b
---- /dev/null
-+++ b/kernel/trace/rv/monitors/laxity/laxity.c
-@@ -0,0 +1,226 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+#include <rv/instrumentation.h>
-+
-+#define MODULE_NAME "laxity"
-+
-+#include <trace/events/syscalls.h>
-+#include <trace/events/sched.h>
-+#include <rv_trace.h>
-+
-+#define RV_MON_TYPE RV_MON_PER_OBJ
-+#define HA_TIMER_TYPE HA_TIMER_WHEEL
-+/* The start condition is on server_stop, allocation likely fails on PREEMPT_RT */
-+#define DA_SKIP_AUTO_ALLOC
-+typedef struct sched_dl_entity *monitor_target;
-+#include "laxity.h"
-+#include <rv/ha_monitor.h>
-+#include <monitors/deadline/deadline.h>
-+
-+/* with sched_feat(HRTICK_DL) the threshold can be lower */
-+#define RUNTIME_THRESH TICK_NSEC
-+
-+/* allow replenish when running only right after server start */
-+#define REPLENISH_NS TICK_NSEC
-+
-+static inline u64 laxity_ns(struct ha_monitor *ha_mon)
-+{
-+	struct sched_dl_entity *dl_se = pi_of(ha_get_target(ha_mon));
-+
-+	return dl_se->dl_deadline - dl_se->runtime + RUNTIME_THRESH;
-+}
-+
-+static u64 ha_get_env(struct ha_monitor *ha_mon, enum envs_laxity env, u64 time_ns)
-+{
-+	if (env == clk_laxity)
-+		return ha_get_clk_ns(ha_mon, env, time_ns);
-+	return ENV_INVALID_VALUE;
-+}
-+
-+static void ha_reset_env(struct ha_monitor *ha_mon, enum envs_laxity env, u64 time_ns)
-+{
-+	if (env == clk_laxity)
-+		ha_reset_clk_ns(ha_mon, env, time_ns);
-+}
-+
-+static inline bool ha_verify_invariants(struct ha_monitor *ha_mon,
-+					enum states curr_state, enum events event,
-+					enum states next_state, u64 time_ns)
-+{
-+	if (curr_state == zero_laxity_wait_laxity)
-+		return ha_check_invariant_ns(ha_mon, clk_laxity, time_ns);
-+	return true;
-+}
-+
-+static inline void ha_convert_inv_guard(struct ha_monitor *ha_mon,
-+					enum states curr_state, enum events event,
-+					enum states next_state, u64 time_ns)
-+{
-+	if (curr_state == next_state)
-+		return;
-+	if (curr_state == zero_laxity_wait_laxity)
-+		ha_inv_to_guard(ha_mon, clk_laxity, laxity_ns(ha_mon), time_ns);
-+}
-+
-+static inline bool ha_verify_guards(struct ha_monitor *ha_mon,
-+				    enum states curr_state, enum events event,
-+				    enum states next_state, u64 time_ns)
-+{
-+	bool res = true;
-+
-+	if (curr_state == idle_wait_laxity && event == dl_replenish_idle_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == idle_wait_laxity && event == dl_replenish_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == replenish_wait_laxity && event == dl_replenish_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == replenish_wait_laxity && event == dl_replenish_idle_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == running_laxity && event == dl_replenish_running_laxity)
-+		res = ha_monitor_env_invalid(ha_mon, clk_laxity) ||
-+		      ha_get_env(ha_mon, clk_laxity, time_ns) < REPLENISH_NS;
-+	else if (curr_state == stopped_laxity && event == dl_server_start_running_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == stopped_laxity && event == dl_server_start_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == zero_laxity_wait_laxity && event == dl_replenish_idle_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == zero_laxity_wait_laxity && event == dl_replenish_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	return res;
-+}
-+
-+static inline void ha_setup_invariants(struct ha_monitor *ha_mon,
-+				       enum states curr_state, enum events event,
-+				       enum states next_state, u64 time_ns)
-+{
-+	if (next_state == curr_state && event != dl_replenish_idle_laxity &&
-+	    event != dl_replenish_laxity)
-+		return;
-+	if (next_state == zero_laxity_wait_laxity)
-+		ha_start_timer_ns(ha_mon, clk_laxity, laxity_ns(ha_mon), time_ns);
-+	else if (curr_state == zero_laxity_wait_laxity)
-+		ha_cancel_timer(ha_mon);
-+}
-+
-+static bool ha_verify_constraint(struct ha_monitor *ha_mon,
-+				 enum states curr_state, enum events event,
-+				 enum states next_state, u64 time_ns)
-+{
-+	if (!ha_verify_invariants(ha_mon, curr_state, event, next_state, time_ns))
-+		return false;
-+
-+	ha_convert_inv_guard(ha_mon, curr_state, event, next_state, time_ns);
-+
-+	if (!ha_verify_guards(ha_mon, curr_state, event, next_state, time_ns))
-+		return false;
-+
-+	ha_setup_invariants(ha_mon, curr_state, event, next_state, time_ns);
-+
-+	return true;
-+}
-+
-+static void handle_dl_replenish(void *data, struct sched_dl_entity *dl_se, int cpu)
-+{
-+	/* Special replenish happening after throttle, ignore it */
-+	if (dl_se->dl_defer_running && dl_se->dl_throttled)
-+		return;
-+	if (dl_se->dl_defer_running)
-+		da_handle_event(EXPAND_ID(dl_se, cpu), dl_replenish_running_laxity);
-+	else if (idle_cpu(cpu) || (smp_processor_id() == cpu && is_idle_task(current)))
-+		da_handle_event(EXPAND_ID(dl_se, cpu), dl_replenish_idle_laxity);
-+	else
-+		da_handle_event(EXPAND_ID(dl_se, cpu), dl_replenish_laxity);
-+}
-+
-+static void handle_dl_server_start(void *data, struct sched_dl_entity *dl_se, int cpu)
-+{
-+	if (dl_se->dl_defer_running)
-+		da_handle_event(EXPAND_ID(dl_se, cpu), dl_server_start_running_laxity);
-+	else
-+		da_handle_event(EXPAND_ID(dl_se, cpu), dl_server_start_laxity);
-+}
-+
-+static void handle_dl_server_stop(void *data, struct sched_dl_entity *dl_se, int cpu)
-+{
-+	da_handle_start_event(EXPAND_ID(dl_se, cpu), dl_server_stop_laxity);
-+}
-+
-+static void handle_dl_throttle(void *data, struct sched_dl_entity *dl_se, int cpu)
-+{
-+	da_handle_event(EXPAND_ID(dl_se, cpu), dl_throttle_laxity);
-+}
-+
-+static void handle_sched_switch(void *data, bool preempt,
-+				struct task_struct *prev,
-+				struct task_struct *next,
-+				unsigned int prev_state)
-+{
-+	if (next->dl_server)
-+		da_handle_start_event(EXPAND_ID(next->dl_server, task_cpu(next)),
-+				      sched_switch_in_laxity);
-+}
-+
-+static int enable_laxity(void)
-+{
-+	int retval;
-+
-+	retval = da_monitor_init();
-+	if (retval)
-+		return retval;
-+
-+	retval = init_storage(true);
-+	if (retval)
-+		return retval;
-+	rv_attach_trace_probe("laxity", sched_dl_replenish_tp, handle_dl_replenish);
-+	rv_attach_trace_probe("laxity", sched_dl_server_start_tp, handle_dl_server_start);
-+	rv_attach_trace_probe("laxity", sched_dl_server_stop_tp, handle_dl_server_stop);
-+	rv_attach_trace_probe("laxity", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_attach_trace_probe("laxity", sched_switch, handle_sched_switch);
-+
-+	return 0;
-+}
-+
-+static void disable_laxity(void)
-+{
-+	rv_this.enabled = 0;
-+
-+	rv_detach_trace_probe("laxity", sched_dl_replenish_tp, handle_dl_replenish);
-+	rv_detach_trace_probe("laxity", sched_dl_server_start_tp, handle_dl_server_start);
-+	rv_detach_trace_probe("laxity", sched_dl_server_stop_tp, handle_dl_server_stop);
-+	rv_detach_trace_probe("laxity", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_detach_trace_probe("laxity", sched_switch, handle_sched_switch);
-+
-+	da_monitor_destroy();
-+}
-+
-+static struct rv_monitor rv_this = {
-+	.name = "laxity",
-+	.description = "deferrable servers wait for zero-laxity and run.",
-+	.enable = enable_laxity,
-+	.disable = disable_laxity,
-+	.reset = da_monitor_reset_all,
-+	.enabled = 0,
-+};
-+
-+static int __init register_laxity(void)
-+{
-+	return rv_register_monitor(&rv_this, &rv_deadline);
-+}
-+
-+static void __exit unregister_laxity(void)
-+{
-+	rv_unregister_monitor(&rv_this);
-+}
-+
-+module_init(register_laxity);
-+module_exit(unregister_laxity);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
-+MODULE_DESCRIPTION("laxity: deferrable servers wait for zero-laxity and run.");
-diff --git a/kernel/trace/rv/monitors/laxity/laxity.h b/kernel/trace/rv/monitors/laxity/laxity.h
-new file mode 100644
-index 000000000000..3fdab88be535
---- /dev/null
-+++ b/kernel/trace/rv/monitors/laxity/laxity.h
-@@ -0,0 +1,126 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Automatically generated C representation of laxity automaton
-+ * For further information about this format, see kernel documentation:
-+ *   Documentation/trace/rv/deterministic_automata.rst
-+ */
-+
-+#define MONITOR_NAME laxity
-+
-+enum states_laxity {
-+	stopped_laxity,
-+	idle_wait_laxity,
-+	replenish_wait_laxity,
-+	running_laxity,
-+	zero_laxity_wait_laxity,
-+	state_max_laxity,
-+};
-+
-+#define INVALID_STATE state_max_laxity
-+
-+enum events_laxity {
-+	dl_replenish_laxity,
-+	dl_replenish_idle_laxity,
-+	dl_replenish_running_laxity,
-+	dl_server_start_laxity,
-+	dl_server_start_running_laxity,
-+	dl_server_stop_laxity,
-+	dl_throttle_laxity,
-+	sched_switch_in_laxity,
-+	event_max_laxity,
-+};
-+
-+enum envs_laxity {
-+	clk_laxity,
-+	env_max_laxity,
-+	env_max_stored_laxity = env_max_laxity,
-+};
-+
-+_Static_assert(env_max_stored_laxity <= MAX_HA_ENV_LEN, "Not enough slots");
-+#define HA_CLK_NS
-+
-+struct automaton_laxity {
-+	char *state_names[state_max_laxity];
-+	char *event_names[event_max_laxity];
-+	char *env_names[env_max_laxity];
-+	unsigned char function[state_max_laxity][event_max_laxity];
-+	unsigned char initial_state;
-+	bool final_states[state_max_laxity];
-+};
-+
-+static const struct automaton_laxity automaton_laxity = {
-+	.state_names = {
-+		"stopped",
-+		"idle_wait",
-+		"replenish_wait",
-+		"running",
-+		"zero_laxity_wait",
-+	},
-+	.event_names = {
-+		"dl_replenish",
-+		"dl_replenish_idle",
-+		"dl_replenish_running",
-+		"dl_server_start",
-+		"dl_server_start_running",
-+		"dl_server_stop",
-+		"dl_throttle",
-+		"sched_switch_in",
-+	},
-+	.env_names = {
-+		"clk",
-+	},
-+	.function = {
-+		{
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			zero_laxity_wait_laxity,
-+			running_laxity,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+		},
-+		{
-+			zero_laxity_wait_laxity,
-+			idle_wait_laxity,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			stopped_laxity,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+		},
-+		{
-+			zero_laxity_wait_laxity,
-+			zero_laxity_wait_laxity,
-+			running_laxity,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+		},
-+		{
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			running_laxity,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			stopped_laxity,
-+			replenish_wait_laxity,
-+			running_laxity,
-+		},
-+		{
-+			zero_laxity_wait_laxity,
-+			idle_wait_laxity,
-+			running_laxity,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+		},
-+	},
-+	.initial_state = stopped_laxity,
-+	.final_states = { 1, 0, 0, 0, 0 },
-+};
-diff --git a/kernel/trace/rv/monitors/laxity/laxity_trace.h b/kernel/trace/rv/monitors/laxity/laxity_trace.h
-new file mode 100644
-index 000000000000..32580dba8f42
---- /dev/null
-+++ b/kernel/trace/rv/monitors/laxity/laxity_trace.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Snippet to be included in rv_trace.h
-+ */
-+
-+#ifdef CONFIG_RV_MON_LAXITY
-+DEFINE_EVENT(event_da_monitor_id, event_laxity,
-+	     TP_PROTO(int id, char *state, char *event, char *next_state, bool final_state),
-+	     TP_ARGS(id, state, event, next_state, final_state));
-+
-+DEFINE_EVENT(error_da_monitor_id, error_laxity,
-+	     TP_PROTO(int id, char *state, char *event),
-+	     TP_ARGS(id, state, event));
-+
-+DEFINE_EVENT(error_env_da_monitor_id, error_env_laxity,
-+	     TP_PROTO(int id, char *state, char *event, char *env),
-+	     TP_ARGS(id, state, event, env));
-+#endif /* CONFIG_RV_MON_LAXITY */
-diff --git a/kernel/trace/rv/rv_trace.h b/kernel/trace/rv/rv_trace.h
-index 1bf0f3666ee4..f1d55c39dc48 100644
---- a/kernel/trace/rv/rv_trace.h
-+++ b/kernel/trace/rv/rv_trace.h
-@@ -190,6 +190,8 @@ DECLARE_EVENT_CLASS(error_env_da_monitor_id,
- #include <monitors/stall/stall_trace.h>
- #include <monitors/nomiss/nomiss_trace.h>
- #include <monitors/throttle/throttle_trace.h>
-+#include <monitors/boost/boost_trace.h>
-+#include <monitors/laxity/laxity_trace.h>
- // Add new monitors based on CONFIG_HA_MON_EVENTS_ID here
- 
- #endif
-diff --git a/tools/verification/models/deadline/boost.dot b/tools/verification/models/deadline/boost.dot
-new file mode 100644
-index 000000000000..ee7bae1e8feb
---- /dev/null
-+++ b/tools/verification/models/deadline/boost.dot
-@@ -0,0 +1,51 @@
-+digraph state_automaton {
-+	center = true;
-+	size = "7,11";
-+	{node [shape = circle] "idle"};
-+	{node [shape = circle] "ready"};
-+	{node [shape = circle] "running"};
-+	{node [shape = plaintext, style=invis, label=""] "__init_stopped"};
-+	{node [shape = doublecircle] "stopped"};
-+	{node [shape = circle] "stopped"};
-+	{node [shape = circle] "stopping"};
-+	{node [shape = circle] "throttled"};
-+	{node [shape = circle] "throttled_running"};
-+	"__init_stopped" -> "stopped";
-+	"idle" [label = "idle"];
-+	"idle" -> "idle" [ label = "dl_server_idle\ndl_replenish;reset(clk)\ndl_throttle" ];
-+	"idle" -> "ready" [ label = "dl_server_resume" ];
-+	"idle" -> "stopped" [ label = "dl_server_stop" ];
-+	"idle" -> "throttled" [ label = "dl_server_resume_throttled" ];
-+	"ready" [label = "ready\nclk < server_threshold_ns()"];
-+	"ready" -> "idle" [ label = "dl_server_idle" ];
-+	"ready" -> "ready" [ label = "sched_switch_out\ndl_server_resume_throttled\ndl_server_resume\ndl_replenish;reset(clk)" ];
-+	"ready" -> "running" [ label = "sched_switch_in" ];
-+	"ready" -> "stopped" [ label = "dl_server_stop" ];
-+	"ready" -> "throttled" [ label = "dl_throttle" ];
-+	"running" [label = "running"];
-+	"running" -> "idle" [ label = "dl_server_idle" ];
-+	"running" -> "ready" [ label = "sched_switch_out" ];
-+	"running" -> "running" [ label = "dl_server_resume_throttled\ndl_server_resume\ndl_replenish;reset(clk)" ];
-+	"running" -> "stopping" [ label = "dl_server_stop;reset(clk)" ];
-+	"running" -> "throttled_running" [ label = "dl_throttle" ];
-+	"stopped" [label = "stopped", color = green3];
-+	"stopped" -> "ready" [ label = "dl_server_start;reset(clk)" ];
-+	"stopped" -> "stopped" [ label = "dl_server_idle\nsched_switch_out\ndl_server_resume\ndl_server_resume_throttled" ];
-+	"stopping" [label = "stopping\nclk < STOPPING_NS"];
-+	"stopping" -> "stopped" [ label = "dl_server_idle\nsched_switch_out" ];
-+	"throttled" [label = "throttled"];
-+	"throttled" -> "idle" [ label = "dl_server_idle" ];
-+	"throttled" -> "ready" [ label = "dl_replenish;reset(clk)" ];
-+	"throttled" -> "stopped" [ label = "dl_server_stop" ];
-+	"throttled" -> "throttled" [ label = "dl_throttle\ndl_server_resume_throttled" ];
-+	"throttled" -> "throttled_running" [ label = "sched_switch_in" ];
-+	"throttled_running" [label = "throttled_running"];
-+	"throttled_running" -> "idle" [ label = "dl_server_idle" ];
-+	"throttled_running" -> "running" [ label = "dl_replenish;reset(clk)" ];
-+	"throttled_running" -> "throttled" [ label = "sched_switch_out" ];
-+	"throttled_running" -> "throttled_running" [ label = "dl_throttle\ndl_server_resume_throttled" ];
-+	{ rank = min ;
-+		"__init_stopped";
-+		"stopped";
-+	}
-+}
-diff --git a/tools/verification/models/deadline/laxity.dot b/tools/verification/models/deadline/laxity.dot
-new file mode 100644
-index 000000000000..e423a9de573c
---- /dev/null
-+++ b/tools/verification/models/deadline/laxity.dot
-@@ -0,0 +1,34 @@
-+digraph state_automaton {
-+	center = true;
-+	size = "7,11";
-+	{node [shape = circle] "idle_wait"};
-+	{node [shape = circle] "replenish_wait"};
-+	{node [shape = circle] "running"};
-+	{node [shape = plaintext, style=invis, label=""] "__init_stopped"};
-+	{node [shape = doublecircle] "stopped"};
-+	{node [shape = circle] "stopped"};
-+	{node [shape = circle] "zero_laxity_wait"};
-+	"__init_stopped" -> "stopped";
-+	"idle_wait" [label = "idle_wait"];
-+	"idle_wait" -> "idle_wait" [ label = "dl_replenish_idle;reset(clk)" ];
-+	"idle_wait" -> "stopped" [ label = "dl_server_stop" ];
-+	"idle_wait" -> "zero_laxity_wait" [ label = "dl_replenish;reset(clk)" ];
-+	"replenish_wait" [label = "replenish_wait"];
-+	"replenish_wait" -> "running" [ label = "dl_replenish_running" ];
-+	"replenish_wait" -> "zero_laxity_wait" [ label = "dl_replenish;reset(clk)\ndl_replenish_idle;reset(clk)" ];
-+	"running" [label = "running"];
-+	"running" -> "replenish_wait" [ label = "dl_throttle" ];
-+	"running" -> "running" [ label = "dl_replenish_running;clk < REPLENISH_NS" ];
-+	"running" -> "stopped" [ label = "dl_server_stop" ];
-+	"stopped" [label = "stopped", color = green3];
-+	"stopped" -> "running" [ label = "dl_server_start_running;reset(clk)" ];
-+	"stopped" -> "zero_laxity_wait" [ label = "dl_server_start;reset(clk)" ];
-+	"zero_laxity_wait" [label = "zero_laxity_wait\nclk < laxity_ns()"];
-+	"zero_laxity_wait" -> "idle_wait" [ label = "dl_replenish_idle;reset(clk)" ];
-+	"zero_laxity_wait" -> "running" [ label = "dl_replenish_running" ];
-+	"zero_laxity_wait" -> "zero_laxity_wait" [ label = "dl_replenish;reset(clk)" ];
-+	{ rank = min ;
-+		"__init_stopped";
-+		"stopped";
-+	}
-+}
--- 
-2.52.0
-
+W0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEFNRCBJbnRlcm5hbCBEaXN0cmlidXRpb24gT25seV0N
+Cg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMYXphciwgTGlqbyA8TGlq
+by5MYXphckBhbWQuY29tPg0KPiBTZW50OiBGcmlkYXksIERlY2VtYmVyIDUsIDIwMjUgNjozNCBQ
+TQ0KPiBUbzogTGluLCBMZW8gPExlby5MaW5AYW1kLmNvbT47IERldWNoZXIsIEFsZXhhbmRlcg0K
+PiA8QWxleGFuZGVyLkRldWNoZXJAYW1kLmNvbT47IEtvZW5pZywgQ2hyaXN0aWFuDQo+IDxDaHJp
+c3RpYW4uS29lbmlnQGFtZC5jb20+OyBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPjsg
+U2ltb25hDQo+IFZldHRlciA8c2ltb25hQGZmd2xsLmNoPjsgTWFhcnRlbiBMYW5raG9yc3QNCj4g
+PG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT47IE1heGltZSBSaXBhcmQNCj4gPG1y
+aXBhcmRAa2VybmVsLm9yZz47IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
+PjsNCj4gSm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5ldD4NCj4gQ2M6IGFtZC1nZnhAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBsaW51
+eC0NCj4ga2VybmVsQHZnZXIua2VybmVsLm9yZzsgbGludXgtZG9jQHZnZXIua2VybmVsLm9yZzsg
+VHNhbywgQW5zb24NCj4gPGFuc29uLnRzYW9AYW1kLmNvbT47IE1hcmlvIExpbW9uY2llbGxvIChB
+TUQpIChrZXJuZWwub3JnKQ0KPiA8c3VwZXJtMUBrZXJuZWwub3JnPg0KPiBTdWJqZWN0OiBSZTog
+W1BBVENIIHY1IDQvNV0gZHJtL2FtZGdwdTogYWRkIFVNQSBhbGxvY2F0aW9uIGludGVyZmFjZXMg
+dG8NCj4gc3lzZnMNCj4NCj4NCj4NCj4gT24gMTIvNS8yMDI1IDEyOjIwIFBNLCBZby1KdW5nIExl
+byBMaW4gKEFNRCkgd3JvdGU6DQo+ID4gQWRkIGEgdW1hLyBkaXJlY3RvcnkgY29udGFpbmluZyB0
+d28gc3lzZnMgZmlsZXMgYXMgaW50ZXJmYWNlcyB0bw0KPiA+IGluc3BlY3Qgb3IgY2hhbmdlIFVN
+QSBjYXJ2ZW91dCBzaXplLiBUaGVzZSBmaWxlcyBhcmU6DQo+ID4NCj4gPiAtIHVtYS9jYXJ2ZW91
+dF9vcHRpb25zOiBhIHJlYWQtb25seSBmaWxlIGxpc3RpbmcgYWxsIHRoZSBhdmFpbGFibGUNCj4g
+PiAgICBVTUEgYWxsb2NhdGlvbiBvcHRpb25zIGFuZCB0aGVpciBpbmRleC4NCj4gPg0KPiA+IC0g
+dW1hL2NhcnZlb3V0OiBhIGZpbGUgdGhhdCBpcyBib3RoIHJlYWRhYmxlIGFuZCB3cml0YWJsZS4g
+T24gcmVhZCwNCj4gPiAgICBpdCBzaG93cyB0aGUgaW5kZXggb2YgdGhlIGN1cnJlbnQgc2V0dGlu
+Zy4gV3JpdGluZyBhIHZhbGlkIGluZGV4DQo+ID4gICAgaW50byB0aGlzIGZpbGUgYWxsb3dzIHVz
+ZXJzIHRvIGNoYW5nZSB0aGUgVU1BIGNhcnZlb3V0IHNpemUgdG8gdGhhdA0KPiA+ICAgIG9wdGlv
+biBvbiB0aGUgbmV4dCBib290Lg0KPiA+DQo+ID4gQ28tZGV2ZWxvcGVkLWJ5OiBNYXJpbyBMaW1v
+bmNpZWxsbyAoQU1EKSA8c3VwZXJtMUBrZXJuZWwub3JnPg0KPiA+IFNpZ25lZC1vZmYtYnk6IE1h
+cmlvIExpbW9uY2llbGxvIChBTUQpIDxzdXBlcm0xQGtlcm5lbC5vcmc+DQo+ID4gUmV2aWV3ZWQt
+Ynk6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4NCj4gPiBTaWduZWQt
+b2ZmLWJ5OiBZby1KdW5nIExlbyBMaW4gKEFNRCkgPExlby5MaW5AYW1kLmNvbT4NCj4gPiAtLS0N
+Cj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdS5oICAgICAgICB8ICAgNCAr
+DQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYWNwaS5jICAgfCAgIDcg
+KysNCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZXZpY2UuYyB8IDEz
+OA0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPiA+ICAgMyBmaWxlcyBjaGFuZ2Vk
+LCAxNDkgaW5zZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L2FtZGdwdS5oDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
+bWRncHUuaA0KPiA+IGluZGV4IDZiZjYyNmE1MWRmYy4uMTc3Mzc2ZmY1ODExIDEwMDY0NA0KPiA+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdS5oDQo+ID4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmgNCj4gPiBAQCAtMTg0Niw0ICsxODQ2LDgg
+QEAgdm9pZCBhbWRncHVfZGV2aWNlX3NldF91aWQoc3RydWN0IGFtZGdwdV91aWQNCj4gKnVpZF9p
+bmZvLA0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgdWludDY0X3QgdWlkKTsNCj4gPiAgIHVp
+bnQ2NF90IGFtZGdwdV9kZXZpY2VfZ2V0X3VpZChzdHJ1Y3QgYW1kZ3B1X3VpZCAqdWlkX2luZm8s
+DQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgZW51bSBhbWRncHVfdWlkX3R5cGUgdHlw
+ZSwgdWludDhfdCBpbnN0KTsNCj4gPiArDQo+ID4gK2ludCBhbWRncHVfYWNwaV91bWFfb3B0aW9u
+X2luaXQoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpOyB2b2lkDQo+ID4gK2FtZGdwdV9hY3Bp
+X3VtYV9vcHRpb25fZmluaShzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldik7DQo+ID4gKw0KPiA+
+ICAgI2VuZGlmDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
+ZGdwdV9hY3BpLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9hY3Bp
+LmMNCj4gPiBpbmRleCBiZGFmY2RlNTExMDcuLmIyNzc5ZmMyZjcxMiAxMDA2NDQNCj4gPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYWNwaS5jDQo+ID4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FjcGkuYw0KPiA+IEBAIC0xMjg4LDYgKzEy
+ODgsMTIgQEAgc3RhdGljIGludCBhbWRncHVfYWNwaV9ldmVudChzdHJ1Y3QNCj4gbm90aWZpZXJf
+YmxvY2sgKm5iLA0KPiA+ICAgaW50IGFtZGdwdV9hY3BpX2luaXQoc3RydWN0IGFtZGdwdV9kZXZp
+Y2UgKmFkZXYpDQo+ID4gICB7DQo+ID4gICAgIHN0cnVjdCBhbWRncHVfYXRpZiAqYXRpZiA9ICZh
+bWRncHVfYWNwaV9wcml2LmF0aWY7DQo+ID4gKyAgIGludCByYzsNCj4gPiArDQo+ID4gKyAgIHJj
+ID0gYW1kZ3B1X2FjcGlfdW1hX29wdGlvbl9pbml0KGFkZXYpOw0KPiA+ICsNCj4gPiArICAgaWYg
+KHJjKQ0KPiA+ICsgICAgICAgICAgIGRybV9kYmcoYWRldl90b19kcm0oYWRldiksICJOb3QgY3Jl
+YXRpbmcgdW1hIGNhcnZlb3V0DQo+IGludGVyZmFjZXM6DQo+ID4gKyVkIiwgcmMpOw0KPiA+DQo+
+ID4gICAgIGlmIChhdGlmLT5ub3RpZmljYXRpb25zLmJyaWdodG5lc3NfY2hhbmdlKSB7DQo+ID4g
+ICAgICAgICAgICAgaWYgKGFkZXYtPmRjX2VuYWJsZWQpIHsNCj4gPiBAQCAtMTM0MCw2ICsxMzQ2
+LDcgQEAgdm9pZCBhbWRncHVfYWNwaV9nZXRfYmFja2xpZ2h0X2NhcHMoc3RydWN0DQo+IGFtZGdw
+dV9kbV9iYWNrbGlnaHRfY2FwcyAqY2FwcykNCj4gPiAgIHZvaWQgYW1kZ3B1X2FjcGlfZmluaShz
+dHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikNCj4gPiAgIHsNCj4gPiAgICAgdW5yZWdpc3Rlcl9h
+Y3BpX25vdGlmaWVyKCZhZGV2LT5hY3BpX25iKTsNCj4gPiArICAgYW1kZ3B1X2FjcGlfdW1hX29w
+dGlvbl9maW5pKGFkZXYpOw0KPiA+ICAgfQ0KPiA+DQo+ID4gICAvKioNCj4gPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RldmljZS5jDQo+ID4gYi9kcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGV2aWNlLmMNCj4gPiBpbmRleCBhNzU5NGFl
+NDRiMjAuLjk3OTI5OGQ5YzIxMyAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGdwdS9hbWRncHVfZGV2aWNlLmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
+ZGdwdS9hbWRncHVfZGV2aWNlLmMNCj4gPiBAQCAtMzYsNiArMzYsNyBAQA0KPiA+ICAgI2luY2x1
+ZGUgPGxpbnV4L3BjaS5oPg0KPiA+ICAgI2luY2x1ZGUgPGxpbnV4L3BjaS1wMnBkbWEuaD4NCj4g
+PiAgICNpbmNsdWRlIDxsaW51eC9hcHBsZS1nbXV4Lmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9u
+b3NwZWMuaD4NCj4gPg0KPiA+ICAgI2luY2x1ZGUgPGRybS9kcm1fYXRvbWljX2hlbHBlci5oPg0K
+PiA+ICAgI2luY2x1ZGUgPGRybS9kcm1fY2xpZW50X2V2ZW50Lmg+DQo+ID4gQEAgLTc4MzUsMyAr
+NzgzNiwxNDAgQEAgdTY0IGFtZGdwdV9kZXZpY2VfZ2V0X3VpZChzdHJ1Y3QNCj4gYW1kZ3B1X3Vp
+ZA0KPiA+ICp1aWRfaW5mbywNCj4gPg0KPiA+ICAgICByZXR1cm4gdWlkX2luZm8tPnVpZFt0eXBl
+XVtpbnN0XTsNCj4gPiAgIH0NCj4gPiArDQo+ID4gK3N0YXRpYyBzc2l6ZV90IGNhcnZlb3V0X29w
+dGlvbnNfc2hvdyhzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgc3RydWN0IGRldmljZV9hdHRyaWJ1dGUgKmF0dHIsDQo+ID4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgY2hhciAqYnVmKQ0KPiA+ICt7DQo+ID4gKyAgIHN0cnVj
+dCBkcm1fZGV2aWNlICpkZGV2ID0gZGV2X2dldF9kcnZkYXRhKGRldik7DQo+ID4gKyAgIHN0cnVj
+dCBhbWRncHVfZGV2aWNlICphZGV2ID0gZHJtX3RvX2FkZXYoZGRldik7DQo+ID4gKyAgIHN0cnVj
+dCBhbWRncHVfdW1hX2NhcnZlb3V0X2luZm8gKnVtYV9pbmZvID0gJmFkZXYtPnVtYV9pbmZvOw0K
+PiA+ICsgICB1aW50MzJfdCBtZW1vcnlfY2FydmVkOw0KPiA+ICsgICBzc2l6ZV90IHNpemUgPSAw
+Ow0KPiA+ICsNCj4gPiArICAgaWYgKCF1bWFfaW5mbyB8fCAhdW1hX2luZm8tPm51bV9lbnRyaWVz
+KQ0KPiA+ICsgICAgICAgICAgIHJldHVybiAtRU5PREVWOw0KPiA+ICsNCj4gPiArICAgZm9yIChp
+bnQgaSA9IDA7IGkgPCB1bWFfaW5mby0+bnVtX2VudHJpZXM7IGkrKykgew0KPiA+ICsgICAgICAg
+ICAgIG1lbW9yeV9jYXJ2ZWQgPSB1bWFfaW5mby0+ZW50cmllc1tpXS5tZW1vcnlfY2FydmVkX21i
+Ow0KPiA+ICsgICAgICAgICAgIGlmIChtZW1vcnlfY2FydmVkID49IFNaXzFHL1NaXzFNKSB7DQo+
+ID4gKyAgICAgICAgICAgICAgICAgICBzaXplICs9IHN5c2ZzX2VtaXRfYXQoYnVmLCBzaXplLCAi
+JWQ6ICVzICgldSBHQilcbiIsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgaSwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICB1bWFfaW5mby0+ZW50cmllc1tpXS5uYW1lLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIG1lbW9yeV9jYXJ2ZWQgPj4gMTApOw0KPiA+ICsgICAgICAgICAg
+IH0gZWxzZSB7DQo+ID4gKyAgICAgICAgICAgICAgICAgICBzaXplICs9IHN5c2ZzX2VtaXRfYXQo
+YnVmLCBzaXplLCAiJWQ6ICVzICgldSBNQilcbiIsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgaSwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB1bWFfaW5mby0+ZW50cmllc1tpXS5uYW1lLA0KPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1lbW9yeV9jYXJ2ZWQpOw0KPiA+ICsgICAg
+ICAgICAgIH0NCj4gPiArICAgfQ0KPiA+ICsNCj4gPiArICAgcmV0dXJuIHNpemU7DQo+ID4gK30N
+Cj4gPiArc3RhdGljIERFVklDRV9BVFRSX1JPKGNhcnZlb3V0X29wdGlvbnMpOw0KPiA+ICsNCj4g
+PiArc3RhdGljIHNzaXplX3QgY2FydmVvdXRfc2hvdyhzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+ID4g
+KyAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkZXZpY2VfYXR0cmlidXRlICphdHRyLA0K
+PiA+ICsgICAgICAgICAgICAgICAgICAgICAgICBjaGFyICpidWYpDQo+ID4gK3sNCj4gPiArICAg
+c3RydWN0IGRybV9kZXZpY2UgKmRkZXYgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gPiArICAg
+c3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYgPSBkcm1fdG9fYWRldihkZGV2KTsNCj4gPiArDQo+
+ID4gKyAgIHJldHVybiBzeXNmc19lbWl0KGJ1ZiwgIiV1XG4iLCBhZGV2LT51bWFfaW5mby51bWFf
+b3B0aW9uX2luZGV4KTsgfQ0KPiA+ICsNCj4gPiArc3RhdGljIHNzaXplX3QgY2FydmVvdXRfc3Rv
+cmUoc3RydWN0IGRldmljZSAqZGV2LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgc3Ry
+dWN0IGRldmljZV9hdHRyaWJ1dGUgKmF0dHIsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
+ICBjb25zdCBjaGFyICpidWYsIHNpemVfdCBjb3VudCkgew0KPiA+ICsgICBzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGRldiA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOw0KPiA+ICsgICBzdHJ1Y3QgYW1kZ3B1
+X2RldmljZSAqYWRldiA9IGRybV90b19hZGV2KGRkZXYpOw0KPiA+ICsgICBzdHJ1Y3QgYW1kZ3B1
+X3VtYV9jYXJ2ZW91dF9pbmZvICp1bWFfaW5mbyA9ICZhZGV2LT51bWFfaW5mbzsNCj4gPiArICAg
+c3RydWN0IGFtZGdwdV91bWFfY2FydmVvdXRfb3B0aW9uICpvcHQ7DQo+ID4gKyAgIHVuc2lnbmVk
+IGxvbmcgdmFsOw0KPiA+ICsgICB1aW50OF90IGZsYWdzOw0KPiA+ICsgICBpbnQgcjsNCj4gPiAr
+DQo+ID4gKyAgIHIgPSBrc3RydG91bChidWYsIDEwLCAmdmFsKTsNCj4gPiArICAgaWYgKHIpDQo+
+ID4gKyAgICAgICAgICAgcmV0dXJuIHI7DQo+ID4gKw0KPiA+ICsgICBpZiAodmFsID49IHVtYV9p
+bmZvLT5udW1fZW50cmllcykNCj4gPiArICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsNCj4gPiAr
+DQo+ID4gKyAgIHZhbCA9IGFycmF5X2luZGV4X25vc3BlYyh2YWwsIHVtYV9pbmZvLT5udW1fZW50
+cmllcyk7DQo+ID4gKyAgIG9wdCA9ICZ1bWFfaW5mby0+ZW50cmllc1t2YWxdOw0KPiA+ICsNCj4g
+PiArICAgaWYgKCEob3B0LT5mbGFncyAmIEFNREdQVV9VTUFfRkxBR19BVVRPKSAmJg0KPiA+ICsg
+ICAgICAgIShvcHQtPmZsYWdzICYgQU1ER1BVX1VNQV9GTEFHX0NVU1RPTSkpIHsNCj4gPiArICAg
+ICAgICAgICBkcm1fZXJyX29uY2UoZGRldiwgIk9wdGlvbiAlbHUgbm90IHN1cHBvcnRlZCBkdWUg
+dG8gbGFjaw0KPiBvZiBDdXN0b20vQXV0byBmbGFnIiwgdmFsKTsNCj4gPiArICAgICAgICAgICBy
+ZXR1cm4gLUVJTlZBTDsNCj4gPiArICAgfQ0KPiA+ICsNCj4gPiArICAgZmxhZ3MgPSBvcHQtPmZs
+YWdzOw0KPiA+ICsgICBmbGFncyAmPSB+KChmbGFncyAmIEFNREdQVV9VTUFfRkxBR19BVVRPKSA+
+PiAxKTsNCj4gPiArDQo+ID4gKyAgIGd1YXJkKG11dGV4KSgmdW1hX2luZm8tPnVwZGF0ZV9sb2Nr
+KTsNCj4gPiArDQo+ID4gKyAgIHIgPSBhbWRncHVfYWNwaV9zZXRfdW1hX2FsbG9jYXRpb25fc2l6
+ZShhZGV2LCB2YWwsIGZsYWdzKTsNCj4gPiArICAgaWYgKHIpDQo+ID4gKyAgICAgICAgICAgcmV0
+dXJuIHI7DQo+ID4gKw0KPiA+ICsgICB1bWFfaW5mby0+dW1hX29wdGlvbl9pbmRleCA9IHZhbDsN
+Cj4gPiArDQo+ID4gKyAgIHJldHVybiBjb3VudDsNCj4gPiArfQ0KPiA+ICtzdGF0aWMgREVWSUNF
+X0FUVFJfUlcoY2FydmVvdXQpOw0KPiA+ICsNCj4gPiArc3RhdGljIHN0cnVjdCBhdHRyaWJ1dGUg
+KmFtZGdwdV91bWFfYXR0cnNbXSA9IHsNCj4gPiArICAgJmRldl9hdHRyX2NhcnZlb3V0LmF0dHIs
+DQo+ID4gKyAgICZkZXZfYXR0cl9jYXJ2ZW91dF9vcHRpb25zLmF0dHIsDQo+ID4gKyAgIE5VTEwN
+Cj4gPiArfTsNCj4gPiArDQo+ID4gK2NvbnN0IHN0cnVjdCBhdHRyaWJ1dGVfZ3JvdXAgYW1kZ3B1
+X3VtYV9hdHRyX2dyb3VwID0gew0KPiA+ICsgICAubmFtZSA9ICJ1bWEiLA0KPiA+ICsgICAuYXR0
+cnMgPSBhbWRncHVfdW1hX2F0dHJzDQo+ID4gK307DQo+ID4gKw0KPiA+ICtpbnQgYW1kZ3B1X2Fj
+cGlfdW1hX29wdGlvbl9pbml0KHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2KSB7DQo+DQo+IFRv
+IGNsYXJpZnkgb24gdGhlIGNvbW1lbnQgYWJvdXQgbW92aW5nIHRoaXMgdG8gYW1kZ3B1X2Rldmlj
+ZSAtDQo+DQo+IFVNQSBvcHRpb24gaXMgYSBkZXZpY2Ugc3BlY2lmaWMgb3B0aW9uIHdoaWNoIGNv
+dWxkIGJlIHNldCB0aHJvdWdoIGFjcGkuDQo+IE9wdGlvbnMgYXJlIHJldHJpZXZlZCB0aHJvdWdo
+IGF0b20gdGFibGVzLg0KPg0KPiBTbyB0aGUgZnVuY3Rpb24gbmFtZXMgcmVtYWluIGFtZGdwdV9k
+ZXZpY2VfdW1hX29wdGlvbl9pbml0L2ZpbmkoKSBhbmQNCj4gaW5pdC9maW5pIGFyZSBjYWxsZWQg
+d2l0aGluIGFtZGdwdV9kZXZpY2UuYw0KDQpIaSBMaWpvLA0KDQpPcmlnaW5hbGx5LCBJIGdvdCB0
+aGUgaWRlYSBvZiBwdXR0aW5nIGluaXQvZmluaSBpbiBhbWRncHVfYWNwaV9pbml0L2ZpbmkoKSBm
+cm9tIHByZXZpb3VzIGRpc2N1c3Npb25bMV0sIGJ1dCBub3cgSSBzZWUgeW91ciBwb2ludCB0aGF0
+IGFtZGdwdV9kZXZpY2UuYyBpcyBhIG1vcmUgc3VpdGFibGUgcGxhY2UgZm9yIGhhbmRsaW5nIHRo
+aW5ncyB0aGF0IG5lZWQgYm90aCBBQ1BJIGFuZCBhdG9tIGF0IHRoZSBzYW1lIHRpbWUuDQoNCklm
+IGJvdGggeW91IGFuZCBBbGV4IGFncmVlIHdpdGggbW92aW5nIHRoaXMgaW50byBhbWRncHVfZGV2
+aWNlLmMgSSdtIGdsYWQgdG8gbWFrZSB0aGF0IGNoYW5nZSBpbiB0aGUgbmV4dCB2ZXJzaW9uLg0K
+DQpbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsL0NBRG5xNV9QUzdwZnNlbzg0aFZQZkJl
+dkpxcmZCeEhFQWN0MHczNXhWak5nMGNqUkVxZ0BtYWlsLmdtYWlsLmNvbS8NCg0KQmVzdCwNCkxl
+bw0KDQo+DQo+IFRoYW5rcywNCj4gTGlqbw0KPg0KPiA+ICsgICBpbnQgcmM7DQo+ID4gKw0KPiA+
+ICsgICBpZiAoIWFtZGdwdV9hY3BpX2lzX3NldF91bWFfYWxsb2NhdGlvbl9zaXplX3N1cHBvcnRl
+ZCgpKQ0KPiA+ICsgICAgICAgICAgIHJldHVybiAtRU5PREVWOw0KPiA+ICsNCj4gPiArICAgcmMg
+PSBhbWRncHVfYXRvbWZpcm13YXJlX2dldF91bWFfY2FydmVvdXRfaW5mbyhhZGV2LCAmYWRldi0N
+Cj4gPnVtYV9pbmZvKTsNCj4gPiArICAgaWYgKHJjKSB7DQo+ID4gKyAgICAgICAgICAgZHJtX2Ri
+ZyhhZGV2X3RvX2RybShhZGV2KSwNCj4gPiArICAgICAgICAgICAgICAgICAgICJGYWlsZWQgdG8g
+cGFyc2UgVU1BIGNhcnZlb3V0IGluZm8gZnJvbSBWQklPUzoNCj4gJWRcbiIsIHJjKTsNCj4gPiAr
+ICAgICAgICAgICBnb3RvIG91dF9pbmZvOw0KPiA+ICsgICB9DQo+ID4gKw0KPiA+ICsgICBtdXRl
+eF9pbml0KCZhZGV2LT51bWFfaW5mby51cGRhdGVfbG9jayk7DQo+ID4gKw0KPiA+ICsgICByYyA9
+IGRldm1fZGV2aWNlX2FkZF9ncm91cChhZGV2LT5kZXYsDQo+ICZhbWRncHVfdW1hX2F0dHJfZ3Jv
+dXApOw0KPiA+ICsgICBpZiAocmMpIHsNCj4gPiArICAgICAgICAgICBkcm1fZGJnKGFkZXZfdG9f
+ZHJtKGFkZXYpLCAiRmFpbGVkIHRvIGFkZCBVTUEgY2FydmVvdXQNCj4gc3lzZnMgaW50ZXJmYWNl
+cyAlZFxuIiwgcmMpOw0KPiA+ICsgICAgICAgICAgIGdvdG8gb3V0X2F0dHI7DQo+ID4gKyAgIH0N
+Cj4gPiArDQo+ID4gKyAgIHJldHVybiAwOw0KPiA+ICsNCj4gPiArb3V0X2F0dHI6DQo+ID4gKyAg
+IG11dGV4X2Rlc3Ryb3koJmFkZXYtPnVtYV9pbmZvLnVwZGF0ZV9sb2NrKTsNCj4gPiArb3V0X2lu
+Zm86DQo+ID4gKyAgIHJldHVybiByYzsNCj4gPiArfQ0KPiA+ICsNCj4gPiArdm9pZCBhbWRncHVf
+YWNwaV91bWFfb3B0aW9uX2Zpbmkoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYpIHsNCj4gPiAr
+ICAgc3RydWN0IGFtZGdwdV91bWFfY2FydmVvdXRfaW5mbyAqdW1hX2luZm8gPSAmYWRldi0+dW1h
+X2luZm87DQo+ID4gKw0KPiA+ICsgICBpZiAoIWFtZGdwdV9hY3BpX2lzX3NldF91bWFfYWxsb2Nh
+dGlvbl9zaXplX3N1cHBvcnRlZCgpKQ0KPiA+ICsgICAgICAgICAgIHJldHVybjsNCj4gPiArDQo+
+ID4gKyAgIG11dGV4X2Rlc3Ryb3koJnVtYV9pbmZvLT51cGRhdGVfbG9jayk7DQo+ID4gKyAgIHVt
+YV9pbmZvLT5udW1fZW50cmllcyA9IDA7DQo+ID4gK30NCj4gPg0KDQo=
