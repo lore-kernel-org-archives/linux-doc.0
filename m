@@ -1,135 +1,188 @@
-Received: from mail-m1973185.qiye.163.com (mail-m1973185.qiye.163.com [220.197.31.85])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506A93019A5
-	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 10:01:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B392F5465;
+	Fri,  5 Dec 2025 10:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764928910; cv=none; b=cHryZLGuxFVj29XCh1qgOlt/RSIHruy2sks9LPi6wSxgsZI+9UMO5VvL/THK9s5VPihnAWiMr8z2Cd1Mn1tjLqwQO9jyQtD0w+XldPWdi1Yd6/9YGg8PMcIuypiibQ6OunXA5MDjaeR/FjtueHNQN6GXXcbOw6VbneMvTFfbUZM=
+	t=1764930097; cv=none; b=WcoY9Cgfumttn81f8pPwXWaa2J9L96TXP0VhJbaeaGWtoiU/g9pwvNtbR5YABO3rmc80puJqmVPKHeYItSaSIBq7xWvLCaH1XtOn4MynnHwFUiuF3rMxI8dEQP1R83F86fecLE31yF3U6GAw8oTXY6yjgh1DaN8fIn3zEH0cfeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764928910; c=relaxed/simple;
-	bh=nQdDZtezh3PVC3iJM09yyNNByJIbipP0qAaOFtfL6dQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N0YkMvpcnbbg5UXo/J5OkNFTL8+oqt64Qba82BmHsgTUOmU8hhVlx6sJ9q8q3Z3CmnNjao392ABrf3Erfd2P/68AMiIFOJ0R2ZL2b2hwhbdwEz2/pLtCoOd9TBqz9tg0xaURUWtMNXsTQWRZ9YUo8Kf8zQ4npF2and/3q86jdR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=UeVSJiwM; arc=none smtp.client-ip=220.197.31.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	s=arc-20240116; t=1764930097; c=relaxed/simple;
+	bh=IEq8a1wGJT7PXJ9siZWiyjc+/nCUkcF8DvozFo9xKp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cc2AhrNn12CslVaukuk/aIAK+3eSMJrIyrMgW1H5vuVC3M+vjsXFiw/2YSCdfgG9ym/elwr71hLtkB+doHM8sbFu1t0ONFdSx0otmf4VzHUQ0A17YaB4FUqVsN0pUn/REY3TDJK/7eKRfICMB4tHOxnk3hhqWJc1KY1l8ZfQdPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=GGKeHxIv; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="UeVSJiwM"
-Received: from localhost (unknown [222.130.22.244])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2c22496ea;
-	Fri, 5 Dec 2025 18:01:33 +0800 (GMT+08:00)
-Date: Fri, 5 Dec 2025 18:01:30 +0800
-From: BaiKefan <baikefan@leap-io-kernel.com>
-To: Yanteng Si <si.yanteng@linux.dev>
-Cc: seakeel@gmail.com, dzm91@hust.edu.cn, corbet@lwn.net,
- linux-doc@vger.kernel.org, doubled@leap-io-kernel.com, alexs@kernel.org
-Subject: Re: [PATCH v4 0/8] Add Chinese translation for USB subsystem
-Message-ID: <20251205180130.00003852@leap-io-kernel.com>
-In-Reply-To: <06600ebb-14a3-4f3b-af61-0f378e64832b@linux.dev>
-References: <cover.1764674650.git.baikefan@leap-io-kernel.com>
-	<06600ebb-14a3-4f3b-af61-0f378e64832b@linux.dev>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="GGKeHxIv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=/la2xG/I5LkMkMDU+d9jR1D+BzTOllha9e9tATdRyn8=; b=GGKeHxIvV3Up/TsRRM8jaDdoxB
+	W1Pb1G7beYzNgvdwipruGyqzSGd1HLk7LzraJUDP1TEc50ljf6bKXe1VJwMjxHBeusDJHav7dLfrB
+	9YJYxROShzOqnuYJ2nIatxFORlIbpCoRuWgjQitST/3hXD6GvvU13m0fyq4PzeiOF8Q2xlynjrQdO
+	QD5iEM7mXqNsEK8sWmCY462X0mhgkows/oEbWs53b18t3+MAOBtKovPlXJNuUbeVNjs1b7D/zmgSW
+	S2pHzCtMkkfof0t9w91KNhIv9TiGJphbWbeBbAKmhlqApMJAeZHb34f0melKQv4vu6ZUj6fqyUg5o
+	Ew+3Nhcg==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <leitao@debian.org>)
+	id 1vRSw6-003nq0-MV; Fri, 05 Dec 2025 10:21:15 +0000
+Date: Fri, 5 Dec 2025 02:21:08 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Petr Mladek <pmladek@suse.com>, kuba@kernel.org
+Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, gustavold@gmail.com, 
+	asantostc@gmail.com, calvin@wbinvd.org, kernel-team@meta.com, davej@codemonkey.org.uk
+Subject: Re: [PATCH net-next 0/4] (no cover subject)
+Message-ID: <7jdruzcpkeyhuudwi6uzg2vsc5mhgpq7qz4ym7vqqmgs7j3524@cvtnzneddg2d>
+References: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
+ <20251201163622.4e50bf53@kernel.org>
+ <4oybtunobxtemenpg2lg7jv4cyl3xoaxrjlqivbhs6zo72hxpu@fqp6estf5mpc>
+ <20251202102442.568f91a7@kernel.org>
+ <aTFmew5trILX3RpO@pathway.suse.cz>
+ <aTFnzmc0ZtBvGg4y@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9aedf5b1e109d5kunm5709ce94f0e73c
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTBkdVhoeSEtIGEIaTxkeTlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MSVVKS0
-	tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=UeVSJiwM0HvgcMQKoY43DHbrb5ME9KhLo6h/cr1wNotP0pwHrEoohixH4F9F5AmuHpTfn9AJk/Kc5fMyHC63mtnk9qG9w3NtCp/wzQ/QlbrmLCSbwXmns4+lTfwGkDxZrgZAZ2OlwA1u+EYFTffzfT6gu8gA15Tyia1yKrD9wtn64t1tRJpp0Ek84OLVU3WZobIcMaSHn2vXUZeISSJ5a1eJCwiWCM2XDnIFGU3C76YAAbbZEsiyFrby8IOr96HqLl9mq5OzORre5TMyQiGJuWwNezlTO0+tVMpRxv4sH6f8uzR6BFhYtPnZUlHlNHhomyNHt07TPZidoItdod3WOQ==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=zdnbtDsICKv0z0EP+UucC5yc9E3FE45LUq89YkY77q0=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aTFnzmc0ZtBvGg4y@pathway.suse.cz>
+X-Debian-User: leitao
 
-On Thu, 4 Dec 2025 10:41:20 +0800
-Yanteng Si <si.yanteng@linux.dev> wrote:
+On Thu, Dec 04, 2025 at 11:51:58AM +0100, Petr Mladek wrote:
+> > > > > perhaps it should be configured to only log messages at a high level?  
+> > > > 
+> > > > Chris is actually working on per-console log levels to solve exactly
+> > > > this problem, so we could filter serial console messages while keeping
+> > > > everything in other consoles (aka netconsole):
+> > > > 
+> > > > 	https://lore.kernel.org/all/cover.1764272407.git.chris@chrisdown.name/
+> > > 
+> > > Excellent! Unless I'm missing more context Chris does seem to be
+> > > attacking the problem at a more suitable layer.
+> > 
+> > This would help to bypass slow serial consoles. But the extra messages
+> > would still get stored into the kernel ring buffer and passed back
+> > to user space logs, for example journalctl.
+> 
+> It might actually make sense for the "workload enters or leaves" messages.
+> But I am not sure about the "ping" messages.
 
-> 
-> 在 2025/12/2 19:56, Kefan Bai 写道:
-> > This patch set adds Chinese translations for the USB documentation.
-> >
-> > Changes in v4:
-> >   - shorten those overlong title underline/overline symbols
-> >   - Remove CREDITS section from index.rst
-> >
-> > Changes in v3:
-> >   - Updated the signoff to my full legal name,
-> >     as requested by Jonathan Corbet.
-> >   - Reviewed and fixed the RST syntax to resolve the patch issues
-> >     noted by Alex Shi.
-> >   - Kept the number of translated files to eight
-> >     to make submission and review smoother.
-> >   - Link to v3:
-> > https://lore.kernel.org/all/cover.1763984424.git.baikefan@leap-io-kernel.com/
-> >
-> > Changes in v2:
-> >   - Update [PATCH 01/25] docs/zh_CN: Add index.rst translation
-> >     to include corresponding updates in
-> >     Documentation/translations/zh_CN/subsystem-apis.rst.
-> >   - Link to v2:
-> > https://lore.kernel.org/all/cover.1763897036.git.baikefan@leap-io-kernel.com/
-> >
-> > v1:
-> >   - Link:
-> > https://lore.kernel.org/all/20251123074540.34161-1-baikefan@leap-io-kernel.com/
-> >
-> > Kefan Bai (8):
-> >    docs/zh_CN: Add index.rst translation
-> >    docs/zh_CN: Add acm.rst translation
-> >    docs/zh_CN: Add authorization.rst translation
-> >    docs/zh_CN: Add chipidea.rst translation
-> >    docs/zh_CN: Add dwc3.rst translation
-> >    docs/zh_CN: Add ehci.rst translation
-> >    docs/zh_CN: Add usbmon.rst translation
-> >    docs/zh_CN: Add CREDITS translation
-> 
-> >
-> >   .../translations/zh_CN/subsystem-apis.rst     |   2 +-
-> >   Documentation/translations/zh_CN/usb/CREDITS  | 153 +++++++
-> >   Documentation/translations/zh_CN/usb/acm.rst  | 137 +++++++
-> >   .../translations/zh_CN/usb/authorization.rst  | 125 ++++++
-> >   .../translations/zh_CN/usb/chipidea.rst       | 142 +++++++
-> >   Documentation/translations/zh_CN/usb/dwc3.rst |  60 +++
-> >   Documentation/translations/zh_CN/usb/ehci.rst | 216 ++++++++++
-> >   .../translations/zh_CN/usb/index.rst          |  54 +++
-> >   .../translations/zh_CN/usb/usbmon.rst         | 380
-> > ++++++++++++++++++
-> 
-> Actually, I don't know much about USB. I would rather suggest you
-> copy these patch sets to the USB mailing list, where Chinese
-> developers might help review them.
-> 
+Agree. Let me back up and explain my "ping" messages better, which
+I think might add more information about this topic.
 
-Hi Yanteng,
+Meta has millions of servers, and all of them must have netconsole
+running 100% of the time.
 
-I checked who maintains the USB code and got the following output:
+Of course that this is not reality, and problems happen for different
+reasons, the ones that interest me here are:
 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> (maintainer:USB
-SUBSYSTEM) 
-linux-usb@vger.kernel.org (open list:USB SUBSYSTEM)
-linux-kernel@vger.kernel.org (open list)
+1) Top of the rack switch MAC address changes (mostly associated with
+   network hardware (top of the rack switches and gateway) replacement)
+    a) Keep in mind that netconsole target has the destination MAC as
+       part of its configuration.
 
-Would it be appropriate to send my USB documentation translation
-patches directly to the USB mailing list (linux-usb@vger.kernel.org),
-or would you suggest another way to reach the appropriate maintainers?
+2) Netconsole got associated with the wrong network port, which comes in
+   two different flavors.
+   a) The machine got provisioned wrongly since day one (Most common
+      case)
+   b) The machine NIC changed and: 
+      i) The target doesn't bind correctly anymore (if netconsole
+         target is bound by mac address)
+      	   * This is easier to detect, given the target will never be
+	     enabled.
 
-Thanks,
-Kefan
+3) Netconsd (the daemon that listen to netconsole packets) is buggy or
+   dead
 
-> 
-> Thanks,
-> 
-> Yanteng
-> 
-> 
-> 
-> 
-> 
+4) Network failures across the route
 
+
+Possible Solutions
+==================
+
+In order to detect those issues above, I think the best (or only) way is
+to send messages from the host, and check if they got received. If not,
+raise an alarm (in the common distributed way).
+
+This could be done in very different ways, tho. Such as:
+
+1) Have a binary in each machine:
+	a) This binary reads the netconsole target that is configured,
+	   and mimics "ping" UDP netconsole packet.
+
+	Pro: 
+	     * It doesn't need any kernel change
+	Cons:
+	     * It needs to reimplement the netconsole logic in userspace
+	     * This needs also a widely distributed binary on all
+	       machines
+
+2) Send a ping directly to the console
+	a) Something as 'echo ping from $hostname" > /dev/kmsg')
+
+	Pro:
+		* No kernel changes
+	Cons:
+		* These debug messages will be sent to journalctl and to
+		  the console, polluting both
+
+3) Using per-loglevel patchset.
+	a) Same as above, but, setting netconsole loglevel to DEBUG, while
+	   all other consoles to INFO.
+
+	Pro:
+		* No changes on netconsole
+		* Netconsole "buffers" continues to be synchronized with
+		  kernel buffers. Everything in the same page, but,
+		  netconsole data has one loglevel higher.
+		* Sending a message to netconsole-only message is not
+		  special at all. It uses the same workflow we have
+		  today, through `/dev/kmsg'
+	Cons:
+		* Needs to change printk/console code (Chris' patch)
+		  that is on review for years now. Will it ever get
+		  accepted?
+		* These "ping" message will be in kernel buffers and
+		  journalctl, and are useless in there (!?)
+		* It is not possible to send a message to a single
+		  netconsole target.
+
+4) send messages only to netconsole (this patchset)
+	Pro:
+		* It is easy to test netconsole connective (problem above),
+		  without kernel buffers/journal pollution
+		* It doesn't depend on the per-loglevel patchset
+		* Adds flexibility to netconsole targets.
+			- only certain netconsole targets receive
+			  certain messages
+	Cons:
+		* Messages sent to netconsole is a superset of messages in the
+		  kernel buffer. In other words, "dmesg" and machine
+		  logs/journal will not be able to see messages that
+		  were sent directly to netconsole.
+			- It might be seen as a back channel (!?)
+		* Different netconsole targets may receive different
+		  messages. Too much flexibility might be bad (!?)
+
+Anyway, options 1 and 2 are available today. In order to make the
+problem easier to solve, we are deciding between approach 3) and 4),
+which will require kernel changes, either in printk/console or
+netconsole.
+
+Sorry for the long email, I just wanted to do the brain dump about my
+view of the world, so, we can decide it from a community perspective in
+the open.
+
+Thanks for the discussion,
+--breno
