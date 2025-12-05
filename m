@@ -1,65 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF45D347BCC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CC633FE12
 	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 19:44:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764963852; cv=none; b=LSzTjanAY2tKmxzmmNYDyPA4eYrvv8l0QmiHN8MlC/7buJg5sl1ed29FkZmbpIN4VJByBaQq3o3G1F9FnbazD3HgXYxkSZ2xdQlGig92cP3bVx0uGX8zE36obJCP2Qzz4zr8r53LEHDZQnKhC9HethArnR8HWc5Rky5bOvBrXt0=
+	t=1764963852; cv=none; b=iLT1esWpAkFATmhKd+g/RD63KR9lvOT5fq5JRT12hzWiX4wqs0FFilTfhQKCIdSR95bUEr8e/MVhXgUTEwH2OH6zJkZ7PA/YJVagyCQrxHnC28hSJysqHPDfuZ/CP+u98FMUjuRu1XGkoX+kiyi6mGP5le5BpO7KH4qO99EijZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1764963852; c=relaxed/simple;
-	bh=qHJKjreeIB8u6+GC7KtXgFelYE26+ueZzxyId6y/BHA=;
+	bh=e3wrkcKXK7At84UNMrZ9gGBzqGquM8K+OStBHfBuTTQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TsPU0VltQl45JDtgTPRwUUjghYhzCm/MdruXvdK9E5KQQxw/c6Wosa5SKJn7sFqbz0WFubK/vUhTKwDslwvWEe52Wpsx4iRZFEnsno3znBH0tvnsYpC/C/24j4mKiXM3jZ4NOjAoeYoX6E9Dr0agHrN9gAgwNByInRoExvYB3SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DHWLD6d1; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=taLTV/biHNdbPtuNBbTC0F2JhO5YgXcmvAMX+Lp01yOeDHiWHhMBUpWU2dGnr+bTHR7rQ4jXNjshmD9YrLQQ7GvOxO+LZBZRBW0Yx6JZzz0f2dOM7sJqSwqMpYiTlqrlETezMK9n7PpEUtgCmTiVfWr1pLOyg8xluCmEPtu0aW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kl8VTnLQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DHWLD6d1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46245C4AF09;
-	Fri,  5 Dec 2025 19:44:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kl8VTnLQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADD04C116B1;
+	Fri,  5 Dec 2025 19:44:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764963852;
-	bh=qHJKjreeIB8u6+GC7KtXgFelYE26+ueZzxyId6y/BHA=;
+	s=k20201202; t=1764963851;
+	bh=e3wrkcKXK7At84UNMrZ9gGBzqGquM8K+OStBHfBuTTQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DHWLD6d1Z7oESwvFbqfNgCIibMctqywL2juHc9sRMr8PMC8PgxrNHpo0yAvXwFWrz
-	 awJ12+wQGLrrfKmypUPg6SvkxT69k9S8wVE0vIOPNp8UqjT7Qdo+aCV0M+d1ZedKnD
-	 JX9BD1ympFEI/b09lGMVb1CHXODC8BAUJ45qAVnehlEtAlR7kpMeNUmdwiMaxkwr4X
-	 RA6ijljTbB6ZPHr/jntjwlmYWoL7aXRJAwgXBgwERFHINLbozvISzPOJXgda81869P
-	 TJdJO2yq971Y0gEtq9qZTKF65/SoJedDOC/fD2V3M6mU4mqXF8hoG/aV+QyhUK3tiT
-	 ocngojj1nvPjg==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 91C13F40070;
-	Fri,  5 Dec 2025 14:44:11 -0500 (EST)
+	b=Kl8VTnLQf1CWis52kXFpH9Tk3Fb88PBP53VJFp6pMHlJH2GBB/DQdaE2v7wRnTXNe
+	 47c64EZg3f82AC28dHXx8hyH8rIa+GHLmTpriimcwx2/ZJDAMf4T1j57QSfTJqiMsZ
+	 MdzhtX/7wA7T/J/Q/2VgSjV15EKVUYWJ4AO1kKX4cr9KDebNt2I8RJm/E5qZ+oSQ0l
+	 Iy9ZD2UcOXdW50CvOM/jqsp/SoX75Qu8NBhRGYv1Xnl0O0c6p6R8Rw0eqLS6exIOf+
+	 OTvgQgHByDjl1VQ8kdA/JSJ6NHydxSwR1H4+LPJ6If/PzzNenmBvHsjbCFweT8lqMm
+	 a0m2I0qkVO/mw==
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 0C816F40070;
+	Fri,  5 Dec 2025 14:44:10 -0500 (EST)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Fri, 05 Dec 2025 14:44:11 -0500
-X-ME-Sender: <xms:CzYzacuEDobpd0dd8jwjISI2iocJ5NUG65dqIAF7L9fUSVCP3PgjJw>
-    <xme:CzYzaa2Du_apaQOvKv0oqRifNs-71e6vc-XDroseY0Gy-7ndFMwOrsW_APu5vLkV6
-    fTY1i1W73inQqdiTkEEq83sv02pJeHKo9SZujMs3VRKzMeUcTavMY8>
-X-ME-Received: <xmr:CzYzaRA-V4uXYWNkj72EKMSUtPlB6w21f1Vd_teFOR1wC6fdqbJGJM2jW_6IkA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdelvdehucetufdoteggodetrfdotf
+  by phl-compute-11.internal (MEProxy); Fri, 05 Dec 2025 14:44:10 -0500
+X-ME-Sender: <xms:CTYzad8sb67eQBQx-cZwL4F43ilnP2bfV7OU2er13Ily2pEVUPWOAA>
+    <xme:CTYzaTEMVUmrLUxSSgKVvlbLXgxHtP1JuS3zPsIkl24IqWOmzgTNYqIjWjKBHbG-l
+    P9c7f_owcS8IZL2AfLeGweo8FP9maxwzYmM_pxtFTGH1_z8SCYqFNg0>
+X-ME-Received: <xmr:CTYzaUT2DPl5815X4J_4uftIYP1ElgNHhb6HMyBJ06ztmyaECiNJkegoRctWvg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdelvdegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
     lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    ephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmihhrhihlucfu
-    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpeffkefffedugfeiudejheefleehteevtefgvefhveetheehkefhjeefhefgleejveen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkihhrih
-    hllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeiudduiedvieehhedq
-    vdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshhhuthgvmhhovhdrnh
-    grmhgvpdhnsggprhgtphhtthhopeduledpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    oheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhope
-    hmuhgthhhunhdrshhonhhgsehlihhnuhigrdguvghvpdhrtghpthhtohepuggrvhhiuges
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhsrghlvhgrughorhesshhushgvrdguvg
-    dprhgtphhtthhopehrphhptheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvhgsrggs
-    khgrsehsuhhsvgdrtgiipdhrtghpthhtoheplhhorhgvnhiiohdrshhtohgrkhgvshesoh
-    hrrggtlhgvrdgtohhmpdhrtghpthhtohepfihilhhlhiesihhnfhhrrgguvggrugdrohhr
-    ghdprhgtphhtthhopeiiihihsehnvhhiughirgdrtghomh
-X-ME-Proxy: <xmx:CzYzaXeDntB38jw0Vf1yF8pPBmq6qMF6evx7z-aUKyC5HTY_REF3sg>
-    <xmx:CzYzaTzt9LabJkaD0ji25niHES210gpkgCYmSK8ev7dKtFinKkRNxw>
-    <xmx:CzYzaSNIoMNoSxElwtkEgVBiva09vHqKWy9CLqBH417nwiievLSqVw>
-    <xmx:CzYzaSZ7QdggY1ALRSw5JvTpKdp9wsP1-urPY3hrq6Mi7ajskLoaYw>
-    <xmx:CzYzaUrLQ4jhnBUc5B-W8Q0vLRGK0irdmr6OqxtxJQJvlYiO8f6nND6t>
+    ephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhirhihlhcuufhh
+    uhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
+    ephfdufeejhefhkedtuedvfeevjeffvdfhvedtudfgudffjeefieekleehvdetvdevnecu
+    vehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilh
+    hlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheehqddv
+    keeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrdhnrg
+    hmvgdpnhgspghrtghpthhtohepudelpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepmh
+    hutghhuhhnrdhsohhngheslhhinhhugidruggvvhdprhgtphhtthhopegurghvihgusehk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehoshgrlhhvrgguohhrsehsuhhsvgdruggvpd
+    hrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvsggrsghk
+    rgesshhushgvrdgtiidprhgtphhtthhopehlohhrvghniihordhsthhorghkvghssehorh
+    grtghlvgdrtghomhdprhgtphhtthhopeifihhllhihsehinhhfrhgruggvrggurdhorhhg
+    pdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhm
+X-ME-Proxy: <xmx:CTYzaZupbLLz3jgKuYSwQgA4yl95OHAW-hzzSJGKdaczvBBPluE7Cg>
+    <xmx:CjYzaZCCL3OPOCUZ4PQyE3DCOH51OeGX5KCqfhza45XXHN1yeb5afw>
+    <xmx:CjYzaedUKwwllE6-6__bGegO4IBvawXgiN1dclM0hCe9GF7FmPZQ9g>
+    <xmx:CjYzaZoCnmU5yVdjivnwZThyZ0GkmN3XYMhTRUwWqkDHj-VKOyy0tA>
+    <xmx:CjYzaa6vS1FfMoHWf7gzcM9rHXuA4inT2hDnhmD82q1mmUsk5kNyRVHW>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 5 Dec 2025 14:44:11 -0500 (EST)
+ 5 Dec 2025 14:44:09 -0500 (EST)
 From: Kiryl Shutsemau <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Muchun Song <muchun.song@linux.dev>
@@ -80,9 +80,9 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Kiryl Shutsemau <kas@kernel.org>
-Subject: [PATCH 11/11] hugetlb: Update vmemmap_dedup.rst
-Date: Fri,  5 Dec 2025 19:43:47 +0000
-Message-ID: <20251205194351.1646318-12-kas@kernel.org>
+Subject: [PATCH 10/11] mm: Remove the branch from compound_head()
+Date: Fri,  5 Dec 2025 19:43:46 +0000
+Message-ID: <20251205194351.1646318-11-kas@kernel.org>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251205194351.1646318-1-kas@kernel.org>
 References: <20251205194351.1646318-1-kas@kernel.org>
@@ -92,100 +92,67 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Update the documentation regarding vmemmap optimization for hugetlb to
-reflect the changes in how the kernel maps the tail pages.
+The compound_head() function is a hot path. For example, the zap path
+calls it for every leaf page table entry.
 
-Fake heads no longer exist. Remove their description.
+Rewrite the helper function in a branchless manner to eliminate the risk
+of CPU branch misprediction.
 
 Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
 ---
- Documentation/mm/vmemmap_dedup.rst | 60 +++++++++++++-----------------
- 1 file changed, 26 insertions(+), 34 deletions(-)
+ include/linux/page-flags.h | 27 +++++++++++++++++----------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/mm/vmemmap_dedup.rst b/Documentation/mm/vmemmap_dedup.rst
-index 1863d88d2dcb..a0c4c79d6922 100644
---- a/Documentation/mm/vmemmap_dedup.rst
-+++ b/Documentation/mm/vmemmap_dedup.rst
-@@ -124,33 +124,35 @@ Here is how things look before optimization::
-  |           |
-  +-----------+
- 
--The value of page->compound_info is the same for all tail pages. The first
--page of ``struct page`` (page 0) associated with the HugeTLB page contains the 4
--``struct page`` necessary to describe the HugeTLB. The only use of the remaining
--pages of ``struct page`` (page 1 to page 7) is to point to page->compound_info.
--Therefore, we can remap pages 1 to 7 to page 0. Only 1 page of ``struct page``
--will be used for each HugeTLB page. This will allow us to free the remaining
--7 pages to the buddy allocator.
-+The first page of ``struct page`` (page 0) associated with the HugeTLB page
-+contains the 4 ``struct page`` necessary to describe the HugeTLB. The remaining
-+pages of ``struct page`` (page 1 to page 7) are tail pages.
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 02a851ab7f5e..01d9893c4bd8 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -201,17 +201,15 @@ enum pageflags {
+ static __always_inline unsigned long _compound_head(const struct page *page)
+ {
+ 	unsigned long info = READ_ONCE(page->compound_info);
++	unsigned long mask;
 +
-+The optimization is only applied when the size of the struct page is a power-of-2
-+In this case, all tail pages of the same order are identical. See
-+compound_head(). This allows us to remap the tail pages of the vmemmap to a
-+shared, read-only page. The head page is also remapped to a new page. This
-+allows the original vmemmap pages to be freed.
++	if (!is_power_of_2(sizeof(struct page))) {
++		/* Bit 0 encodes PageTail() */
++		if (info & 1)
++			return info - 1;
  
- Here is how things look after remapping::
- 
--    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
-- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-- |           |                     |     0     | -------------> |     0     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     1     | ---------------^ ^ ^ ^ ^ ^ ^
-- |           |                     +-----------+                  | | | | | |
-- |           |                     |     2     | -----------------+ | | | | |
-- |           |                     +-----------+                    | | | | |
-- |           |                     |     3     | -------------------+ | | | |
-- |           |                     +-----------+                      | | | |
-- |           |                     |     4     | ---------------------+ | | |
-- |    PMD    |                     +-----------+                        | | |
-- |   level   |                     |     5     | -----------------------+ | |
-- |  mapping  |                     +-----------+                          | |
-- |           |                     |     6     | -------------------------+ |
-- |           |                     +-----------+                            |
-- |           |                     |     7     | ---------------------------+
-+    HugeTLB                  struct pages(8 pages)                 page frame
-+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +----------------+
-+ |           |                     |     0     | -------------> |       0        |
-+ |           |                     +-----------+                +----------------+
-+ |           |                     |     1     | ------┐
-+ |           |                     +-----------+       |
-+ |           |                     |     2     | ------┼        +----------------+
-+ |           |                     +-----------+       |        | vmemmap_tail   |
-+ |           |                     |     3     | ------┼------> | shared for the |
-+ |           |                     +-----------+       |        | struct hstate  |
-+ |           |                     |     4     | ------┼        +----------------+
-+ |           |                     +-----------+       |
-+ |           |                     |     5     | ------┼
-+ |    PMD    |                     +-----------+       |
-+ |   level   |                     |     6     | ------┼
-+ |  mapping  |                     +-----------+       |
-+ |           |                     |     7     | ------┘
-  |           |                     +-----------+
-  |           |
-  |           |
-@@ -172,16 +174,6 @@ The contiguous bit is used to increase the mapping size at the pmd and pte
- (last) level. So this type of HugeTLB page can be optimized only when its
- size of the ``struct page`` structs is greater than **1** page.
- 
--Notice: The head vmemmap page is not freed to the buddy allocator and all
--tail vmemmap pages are mapped to the head vmemmap page frame. So we can see
--more than one ``struct page`` struct with ``PG_head`` (e.g. 8 per 2 MB HugeTLB
--page) associated with each HugeTLB page. The ``compound_head()`` can handle
--this correctly. There is only **one** head ``struct page``, the tail
--``struct page`` with ``PG_head`` are fake head ``struct page``.  We need an
--approach to distinguish between those two different types of ``struct page`` so
--that ``compound_head()`` can return the real head ``struct page`` when the
--parameter is the tail ``struct page`` but with ``PG_head``.
+-	/* Bit 0 encodes PageTail() */
+-	if (!(info & 1))
+ 		return (unsigned long)page;
 -
- Device DAX
- ==========
+-	/*
+-	 * If the size of struct page is not power-of-2, the rest if
+-	 * compound_info is the pointer to the head page.
+-	 */
+-	if (!is_power_of_2(sizeof(struct page)))
+-		return info - 1;
++	}
  
+ 	/*
+ 	 * If the size of struct page is power-of-2 it is set the rest of
+@@ -219,8 +217,17 @@ static __always_inline unsigned long _compound_head(const struct page *page)
+ 	 * page to the head page.
+ 	 *
+ 	 * No need to clear bit 0 in the mask as 'page' always has it clear.
++	 *
++	 * Let's do it in a branchless manner.
+ 	 */
+-	return (unsigned long)page & info;
++
++	/* Non-tail: -1UL, Tail: 0 */
++	mask = (info & 1) - 1;
++
++	/* Non-tail: -1UL, Tail: info */
++	mask |= info;
++
++	return (unsigned long)page & mask;
+ }
+ 
+ #define compound_head(page)	((typeof(page))_compound_head(page))
 -- 
 2.51.2
 
