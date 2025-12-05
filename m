@@ -1,137 +1,246 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6281723D7E3
-	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 23:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD4526290
+	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 23:32:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764977359; cv=none; b=hPQZnG71fOfDuIFa9nT+37It+GoDbuGlysmXPZx2qZLqHZ2QQhggsexUAJEG5W4aJuYWhYZZZb45+7EjgxEzE3jNEAfU6N4Cjc/bU03vPmRMj3IyJ5neRajKsgIO1bJ+bTWoTEhiq5By6EtE0dajqonOU5S1I/v7dplD1F7xI/c=
+	t=1764977542; cv=none; b=DgXmOgUhFzgPKKSF3ZNFIV3+n6ELQTQcn/Gd7CO3D+Dc7NCTewldCVntgAFdaLwIhDRoTj68mSsE5vyeXM+yc3JooXuNligOUcYij3yJQcrCHAFcCJVbGZJltTM1pivfzakSbmJcXEUlGYsU8LHtsed2F6YXmAHH7687iGCIfew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764977359; c=relaxed/simple;
-	bh=m859Pz85Fe3NafYsTdo+q5V0iu/zXgcB/nZgW0VxOeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=leMM4proTekKiaBi0YS/rJ9bui4Q5eVpIm7mtsa02vDcCcy47pXAojOKflTHwmY7cvQ6kzk7DrXVJCPgSUGvzRFJLiyDJ78cXq2PBKR+Ql3hjx6P7fPsKoVIcrtw0d8csAnQ5KS8JUH9LFX48rvVXypXt1Hxd25fw/oadqtoSKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=BH205gXZ; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1764977542; c=relaxed/simple;
+	bh=OhsYRvQ0+++zYLai0AZulPI1XO3JJvflgRCC6u/WXJI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XYbyYDMLEf/g/3FhpbOE56EC3T02KnyqLCrZco3sDaUJvcvdSopKXcLr/JVl4gOCEJnKjOkHgCMbRwok9OwV/J9RWQWEUQNWJPCJ4aQI2iJAkDobPN36eeRV2En9cUo+Oh83ub/psAh1QQCbZUCQTh8LQ6HjEKk7jQoDNRfdGpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kpnsYzGn; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="BH205gXZ"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7b8bbf16b71so2984824b3a.2
-        for <linux-doc@vger.kernel.org>; Fri, 05 Dec 2025 15:29:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kpnsYzGn"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7815092cd0bso24396137b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 05 Dec 2025 15:32:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc.com; s=google; t=1764977357; x=1765582157; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m859Pz85Fe3NafYsTdo+q5V0iu/zXgcB/nZgW0VxOeI=;
-        b=BH205gXZYJ5a0fn8CWHNqlDnZYH3sOYrd0JGKZQfaknmTs2AXYO68EsIaYIHLj38Ia
-         /jSLtXTsSqSES39s7WRNzd8XlHdlWlpz3QdgfPIDCI2dGIsb8T1rCiSbdAjp2wCJWY4r
-         sbpJ1DG29iDLWe9wBWVAEzjDfrlpmae2g4jf+zaeJO7jY/bAZBLEJcyYtowiZSbovGhA
-         QH31lsWZLEW5gMgMNZGDC3fFCU4H/ioziPF7RjEZ6crCmfVK3g3SImH3Rv/PQ3RtUg+3
-         RqOgiy78eW/7GCbAo8dW/2ODfUE9L7H4gSdaG6GY/3tKsI5BAx2hSbnuIzA5u+ymd9+w
-         Zzqg==
+        d=gmail.com; s=20230601; t=1764977539; x=1765582339; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DjASHCs44SnDjJeYh3qYw2ycI6GE9TKZGAruEoGfPyQ=;
+        b=kpnsYzGnWr6v0Tn08xK0XnW9Hq7URMIcYu1TgYfk8N8Wh377Y2tfzA+fEnpKNvAne0
+         yV+BfR5nYDxazT+d2CYQXrD6vaMS/BFAXPfefeozd0gJ7wUIJw7n36mWNp4gvIEPW78D
+         jz0qYkYasTU9yJ7k+6r+jqNIOLnORFSkYJQFe6m/6sMCKtPcnf1BpofdFBRQjNrr1h0j
+         1/pNm6/dRY9gF/qz/rFvcPi3TCd06LlVimAU8wBwpPHffUOSLNCAeTQVOHc5aWG0bbGB
+         tuEwFDC6pGn4GRnY8Mrr0IropbV0/kEUp0KY+K5xTHBfbV2AEYpp9RUZMz1jSCtFDZo9
+         57Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764977357; x=1765582157;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m859Pz85Fe3NafYsTdo+q5V0iu/zXgcB/nZgW0VxOeI=;
-        b=mGExTD9zr8eE/Zu16sPxh1G3arskEl/Fg0BeV+m98CVFb0ADwXyWRUsAnQUy0nSTrH
-         rbiDTbWB4Gi7KNdQMgQHFAyo8z9aP6om5Pqb0jCJGl96ROoK6HDdnnlTrl4x3eiIskZe
-         oaXyWiSkW1UYRijrr1YTQHamPvWgl0HTi5nA/JNExhfv60zWvxyxy6m/I0vjl+C6SONd
-         sL4G+m79XkRPgKiGDWclpNp9jFrK7ZnZmzeNKWk+Ethw5e5si5kp3KowrSD/zfIetEXV
-         rh5nUUbZybns07rVN02a9aoe6m7OEcbj7duP7NpJRLvt6uF57TntwPZ2XEKZJ4/dTidE
-         3lBw==
-X-Forwarded-Encrypted: i=1; AJvYcCVsrXUmFI9BuqhIlGXcq7y2inbW5wvFJ3B+ivPgDHJFyDmjJgxN1MHhnODhdaFn3/b8l1HoijCB6bc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqqCrDdfwCcIVQ9R1EL0EOLqFqn88qij81t0FirwcDVtHOFz+B
-	0QQfup5dacvZOYNPqsyTixJFSf3H89w5IrtX7ftkNGcO4pFnkKV1SBU3xRZL2sdT5D/18Imj4DW
-	fTjwi
-X-Gm-Gg: ASbGncuLNnF1T1+nHVWMTIHeTONFKDZnS6jumwRga2cpPaoPAMRrqqn/k37Skzhq9y7
-	1RaeRfQVTKEnZsDSgylYKfaEW56EaAfEOd6vhSv0/vT5GCcvOaOBz0EyX49mvERqiEfTcTqZvpJ
-	CJd7zg08u2dtqndVghRhfqGll0W3GedEEHRsvvOHuLlJBvC8dH0lFEqrJ23WO6MB3s36cv2oowq
-	HvvJzTZaDy+TK7cSVpwXgGXzLGeqDXhCvLG0EZxSP39b0iwt4i59TaYiB1FPw9AHIbaHrm0SZEz
-	/H2ojJvANA/OiVsZzsGeWkg3b0/6oUDxECp9CKNg/bWOoW9Py953EwKxwIMS2jrZkpgyyfypslL
-	WvitbGdCdLnO/fZMniSoTYrA4mNqPlnpzdk+96ncmcwbrmDQ2IC3Rhezah8+kN02js5J0hn/rgq
-	2yljrvg81OPEWGGNgpDvllSyevKApQhZU=
-X-Google-Smtp-Source: AGHT+IG0PS99KFFmyGmoZ4EZkx7PjzgoWxSynADwEB0PMGoZ1tOJUc0gMelNMUgjpR2OcW1nhmhbdw==
-X-Received: by 2002:a05:7022:24a4:b0:119:e569:fb9b with SMTP id a92af1059eb24-11e031662c8mr594295c88.10.1764977356505;
-        Fri, 05 Dec 2025 15:29:16 -0800 (PST)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11df76ff44asm23779652c88.9.2025.12.05.15.29.14
+        d=1e100.net; s=20230601; t=1764977539; x=1765582339;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DjASHCs44SnDjJeYh3qYw2ycI6GE9TKZGAruEoGfPyQ=;
+        b=lpK1jlMu0Wwm9D42UDy4RMOBkc30UD1MU7luDnA4n5RWpYW47Y2IKvR4eZhyRyd4I6
+         fTGHDMcnNEUXE3cKJIrpfOdJ7FFWJhf/NKZCt7C26LLEUQ+HcrtA/uBQsXOUR1l2OC1W
+         rgfeGw7I33LY6aAmHGbzwA92kdoqeWVJ7rca+PtwQ2kyPRWaGNaTSeCwBxbakbGDgeCQ
+         R5Qzu/wRh6hwvm2a91FEQE/S0gJhgtvBMxpTm1/yXvD2uK8eOfZ+Fdp0XAuBgBqsHefF
+         sVsGZYnKB89VK7AwYU94sRaCa1Owj09G6gzj07eCZnCOJhESshKJ8uYXixeCennVFNLV
+         oneA==
+X-Gm-Message-State: AOJu0Yzzc+a8x5inWeHPwJysUXVOqXjQ9u1ABbXxe/zUpiCxGG6QPhr0
+	1VIQ349HFgxtWveJQokPvE1DKxFownT/8es2zpLsVkPIovpxzg8B8s2K
+X-Gm-Gg: ASbGncu66iI8rhRqlUglJHXod6HtdgI8ntLGxf5atWsk9WHofPYPkPOFGaJ6qCu38vp
+	BHeFPjD2zO28gsGHEBcwUAD8g19tJja/qLHVYX8HzkZL/rkeIuiSEjZDhMo8DWdb+az8LVmxhnQ
+	H8ECTE7wx+CSXdejqT4v7+LHSUMio8FD3miP7AQ+nHpSaxVjMPkeNB9AEeGRvttnL8j2wYnh1U1
+	xgBa3vAPUhziUsrX5/pWnIclB5FYT9YGlr74UxpPudY2StVP5BIE/4vXP33C44PrBWrjCGGuBP4
+	8sLXOr/Zb5w/9ultpZlklLqnZGFj8UFRoUia4xO/Xt2DsgSPdpIlZi6LO67YYsLqrJJud83k+xq
+	6N7rU3tTQt6wE30jZc8ciagJC3vxKvV/SBcVW0R1Kh5dH/bpSm+WSljrGud3vpP6kelFcidceuT
+	2n3/qLW7E4yuepP7JdOpeEcw==
+X-Google-Smtp-Source: AGHT+IHM12t6gDjzVKLcRmx1gB6wbrzIhaFWpatYaAHdWKPgKCT1195aVWoslNVYKST9kzwC9iOyBA==
+X-Received: by 2002:a05:690c:7002:b0:786:4f8a:39b5 with SMTP id 00721157ae682-78c33c9797amr14147897b3.59.1764977538563;
+        Fri, 05 Dec 2025 15:32:18 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:4a::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78c1b4d66fesm22045327b3.23.2025.12.05.15.32.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Dec 2025 15:29:15 -0800 (PST)
-Date: Fri, 5 Dec 2025 15:29:13 -0800
-From: Deepak Gupta <debug@rivosinc.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com,
-	richard.henderson@linaro.org, jim.shu@sifive.com,
-	andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
-	atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
-	alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
-	Zong Li <zong.li@sifive.com>, David Hildenbrand <david@redhat.com>,
-	Andreas Korb <andreas.korb@aisec.fraunhofer.de>,
-	Valentin Haudiquet <valentin.haudiquet@canonical.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Charles Mirabile <cmirabil@redhat.com>
-Subject: Re: [PATCH v25 00/28] riscv control-flow integrity for usermode
-Message-ID: <aTNqyVVGy9_XjFGt@debug.ba.rivosinc.com>
-References: <20251205-v5_user_cfi_series-v25-0-1a07c0127361@rivosinc.com>
- <d45808b5-44c3-42c6-a54c-3a13606ee39d@kernel.org>
+        Fri, 05 Dec 2025 15:32:18 -0800 (PST)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: willy@infradead.org,
+	david@kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	kernel-team@meta.com
+Subject: [RFC LPC2025 PATCH 0/4] Deprecate zone_reclaim_mode
+Date: Fri,  5 Dec 2025 15:32:11 -0800
+Message-ID: <20251205233217.3344186-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <d45808b5-44c3-42c6-a54c-3a13606ee39d@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 05, 2025 at 08:32:32PM +0100, Krzysztof Kozlowski wrote:
->On 05/12/2025 19:41, Deepak Gupta via B4 Relay wrote:
->> v25: Removal of `riscv_nousercfi` from `cpufeature.c` and instead placing
->> it as extern in `usercfi.h` was leading to build error whene cfi config
->> is not selected. Placed `riscv_nousercfi` outside cfi config ifdef block
->> in `usercfi.h`
->
->
->Please stop. You sent this 28-patch-bomb TWICE to 50 or 60 addresses.
->It's actually merge window so it should wait in the first place, but for
->sure sending it multiple times does not help. Please observe the Linux
->development process.
+Hello folks, 
+This is a code RFC for my upcoming discussion at LPC 2025 in Tokyo [1].
 
-Sorry about that. I'll be careful next time.
+<preface>
+You might notice that the RFC that I'm sending out is different from the
+proposed abstract. Initially when I submitted my proposal, I was interested
+in addressing how fallback allocations work under pressure for
+NUMA-restricted allocations. Soon after, Johannes proposed a patch [2] which
+addressed the problem I was investigating, so I wanted to explore a different
+direction in the same area of fallback allocations.
 
->
->Best regards,
->Krzysztof
+At the same time, I was also thinking about zone_reclaim_mode [3]. I thought
+that LPC would be a good opportunity to discuss deprecating zone_reclaim_mode,
+so I hope to discuss this topic at LPC during my presentation slot.
+
+Sorry for the patch submission so close to the conference as well. I thought
+it would still be better to send this RFC out late, instead of just presenting
+the topic at the conference without giving folks some time to think about it.
+</preface>
+
+zone_reclaim_mode was introduced in 2005 to prevent the kernel from facing
+the high remote access latency associated with NUMA systems. With it enabled,
+when the kernel sees that the local node is full, it will stall allocations and
+trigger direct reclaim locally, instead of making a remote allocation, even
+when there may still be free memory. Thsi is the preferred way to consume memory
+if remote memory access is more expensive than performing direct reclaim.
+The choice is made on a system-wide basis, but can be toggled at runtime.
+
+This series deprecates the zone_reclaim_mode sysctl in favor of other NUMA
+aware mechanisms, such as NUMA balancing, memory.reclaim, membind, and
+tiering / promotion / demotion. Let's break down what differences there are
+in these mechanisms, based on workload characteristics.
+
+Scenario 1) Workload fits in a single NUMA node
+In this case, if the rest of the NUMA node is unused, the zone_reclaim_mode
+does nothing. On the other hand, if there are several workloads competing
+for memory in the same NUMA node, with sum(workload_mem) > mem_capacity(node),
+then zone_reclaim_mode is actively harmful. Direct reclaim is aggressively
+triggered whenever one workload makes an allocation that goes over the limit,
+and there is no fairness mechanism to prevent one workload from completely
+blocking the other workload from making progress.
+
+Scenario 2) Workload does not fit in a single NUMA node
+Again, in this case, zone_reclaim_mode is actively harmful. Direct reclaim
+will constantly be triggered whenever memory goes above the limit, leading
+to memory thrashing. Moreover, even if the user really wants avoid remote
+allocations, membind is a better alternative in this case; zone_reclaim_mode
+forces the user to make the decision for all workloads on the system, whereas
+membind gives per-process granularity.
+
+Scenario 3) Workload size is approximately the same as the NUMA capacity
+This is probably the case for most workloads. When it is uncertain whether
+memory consumption will exceed the capacity, it doesn't really make a lot
+of sense to make a system-wide bet on whether direct reclaim is better or
+worse than remote allocations. In other words, it might make more sense to
+allow memory to spill over to remote nodes, and let the kernel handle the
+NUMA balancing depending on how cold or hot the newly allocated memory is.
+
+These examples might make it seem like zone_reclaim_mode is harmful for
+all scenarios. But that is not the case:
+
+Scenario 4) Newly allocated memory is going to be hot
+This is probably the scenario that makes zone_reclaim_mode shine the most.
+If the newly allocated memory is going to be hot, then it makes much more
+sense to try and reclaim locally, which would kick out cold(er) memory and
+prevent eating any remote memory access latency frequently.
+
+Scenario 5) Tiered NUMA system makes remote access latency higher
+In some tiered memory scenarios, remote access latency can be higher for
+lower memory tiers. In these scenarios, the cost of direct reclaim may be
+cheaper, relative to placing hot memory on a remote node with high access
+latency.
+
+Now, let me try and present a case for deprecating zone_reclaim_mode, despite
+these two scenarios where it performs as intended.
+In scenario 4, the catch is that the system is not an oracle that can predict
+that newly allocated memory is going to be hot. In fact, a lot of the kernel
+assumes that newly allocated memory is cold, and it has to "prove" that it
+is hot through accesses. In a perfect world, the kernel would be able to
+selectively trigger direct reclaim or allocate remotely, based on whehter the
+current allocation will be cold or hot in the future.
+
+But without these insights, it is difficult to make a system-wide bet and
+always trigger direct reclaim locally, when we might be reclaiming or
+evicting relatively hotter memory from the local node in order to make room.
+
+In scenario 5, remote access latency is higher, which means the cost of
+placing hot memory in remote nodes is higher. But today, we have many
+strategies that can help us overcome the higher cost of placing hot memory in
+remote nodes. If the system has tiered memory with different memory
+access characteristics per-node, then the user is probably already enabling
+promotion and demotion mechanisms that can quickly correct the placement of
+hot pages in lower tiers. In these systems, it might make more sense to allow
+the kernel to naturally consume all of the memory it can (whether it is local
+or on a lower tier remote node), then allow the kernel to then take corrective
+action based on what it finds as hot or cold memory.
+
+Of course, demonstrating that there are alternatives is not enough to warrant
+a deprecation. I think that the real benefit of this patch comes in reduced
+sysctl maintenance and what I think is much easier code to read.
+
+This series which has 466 deletions and 9 insertions:
+- Deprecates the zone_reclaim_mode sysctl (patch 4)
+- Deprecates the min_slab_ratio sysctl (patch 3)
+- Deprecates the min_unmapped_ratio sysctl (patch 3)
+- Removes the node_reclaim() function and simplifies the get_page_from_freelist
+  watermark checks (which is already a very large function) (patch 2)
+- Simplifies hpage_collapse_scan_{pmd, file} (patch 1).
+- There are also more opportunities for future cleanup, like removing
+  __node_reclaim and converting its last caller to use try_to_free_pages
+  (suggested by Johannes Weiner)
+
+Here are some discussion points that I hope to discuss at LPC:
+- For workloads that are assumed to fit in a NUMA node, is membind really
+  enough to achieve the same effect?
+- Is NUMA balancing good enough to correct action when memory spills over to
+  remote nodes, and end up being accessed frequently?
+- How widely is zone_reclaim_mode currently being used?
+- Are there usecases for zone_reclaim_mode that cannot be replaced by any
+  of the mentioned alternatives?
+- Now that node_reclaim() is deprecated in patch 2, patch 3 deprecates
+  min_slab_ratio and min_unmapped_ratio. Does this change make sense?
+  IOW, should proactive reclaim via memory.reclaim still care about
+  these thresholds before making a decision to reclaim?
+- If we agree that there are better alternatives to zone_reclaim_mode, how
+  should we make the transition to deprecate it, along with the other
+  sysctls that are deprecated in this series (min_{slab, unmapped}_ratio)?
+
+Please also note that I've excluded all individual email addresses for the
+Cc list. It was ~30 addresses, as I just wanted to avoid spamming
+maintainers and reviewers, so I've just left the mailing list targets.
+The individuals are Cc-ed in the relevant patches, though.
+
+Thank you everyone. I'm looking forward to discussing this idea with you all!
+Joshua
+
+[1] https://lpc.events/event/19/contributions/2142/
+[2] https://lore.kernel.org/linux-mm/20250919162134.1098208-1-hannes@cmpxchg.org/
+[3] https://lore.kernel.org/all/20250805205048.1518453-1-joshua.hahnjy@gmail.com/
+
+Joshua Hahn (4):
+  mm/khugepaged: Remove hpage_collapse_scan_abort
+  mm/vmscan/page_alloc: Remove node_reclaim
+  mm/vmscan/page_alloc: Deprecate min_{slab, unmapped}_ratio
+  mm/vmscan: Deprecate zone_reclaim_mode
+
+ Documentation/admin-guide/sysctl/vm.rst       |  78 ---------
+ Documentation/mm/physical_memory.rst          |   9 -
+ .../translations/zh_CN/mm/physical_memory.rst |   8 -
+ arch/powerpc/include/asm/topology.h           |   4 -
+ include/linux/mmzone.h                        |   8 -
+ include/linux/swap.h                          |   5 -
+ include/linux/topology.h                      |   6 -
+ include/linux/vm_event_item.h                 |   4 -
+ include/trace/events/huge_memory.h            |   1 -
+ include/uapi/linux/mempolicy.h                |  14 --
+ mm/internal.h                                 |  22 ---
+ mm/khugepaged.c                               |  34 ----
+ mm/page_alloc.c                               | 120 +------------
+ mm/vmscan.c                                   | 158 +-----------------
+ mm/vmstat.c                                   |   4 -
+ 15 files changed, 9 insertions(+), 466 deletions(-)
+
+
+base-commit: e4c4d9892021888be6d874ec1be307e80382f431
+-- 
+2.47.3
