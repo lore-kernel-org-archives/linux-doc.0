@@ -1,161 +1,225 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197D923957D;
-	Fri,  5 Dec 2025 19:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030FE2F8BD3
+	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 19:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764963749; cv=none; b=JixxQdme50sYwIsO05L3XQnYb9/FssZza42QIygruu8uKXn0qUfOTvPSBLX+fT+SOwLybd3xCMcTAewoBgjziF4mTlIaBSEDVVLUDQ3xJ2TJycIudGdMXVe8QbxdgWhrqhledJVl4JNg4UW4cIhTLnVFm5T0+tAVeTKMEQsn6Sc=
+	t=1764963838; cv=none; b=dHgdeWWic4ET0igeTwEjuvmih8Cd2jx3tAbCVI/yKC0f26xvDRHgCcQ40VLu+uuj+V28K+UoSM19CrCoSGu7vSizQQUKtsHvdb8HeUr9juv95oaLG6RA4j9eD9TkE0xAPI3wyN+h1DDH5AdzlB37Q+riG4Q3/nKvHXOPhPVRgCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764963749; c=relaxed/simple;
-	bh=vUEQfFLArJqRXieg64Trw9f6nQK2lpl/JLVzJLe8ibk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wc7QwFMWk6b5loMNlhuoxyC6LEBFjj+XQ4B3WjpuUG0y979EDGh62K4dXaNRTtBlBpxqoriTnzvBDk46Bw/IIXBX1VHfBE4/31ySTJafRwuoCRnIpNlpivdvzh5bs5t91rV4miNWB/IvZAJGCcoRtO6/9nrUbxivuPspsf8nuUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=a/bdHesi; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1764963838; c=relaxed/simple;
+	bh=rsAZCC1GicmUXlKf4H8XnwfDPh7I06Agv/cIdYL5d/E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bviTnF3uIBlJXo8505oksa2CZlMRF/ahsCEX+QF6xSOlXGGkHh+pB9hJoO7Pvq3JNvc9IsSSR7HdfmjOsX2M2APO+TUcNxqHEQBd7+rzMfa0EOe4snfBllOTd2Vnz98Mkmj8UR3WFxlSjc+lXCBHZ6K8brwv28WGtZdqNeOun4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bG8r4+TG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="a/bdHesi"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Mgm/FMtyke96+ZxY7cquZNmO3PwSewNHSLs9FqvP1Zw=; b=a/bdHesi5AkSwr4bQh57WNPXRe
-	W2wtAQOpBBAlcZei2JB8AuobRhAdof+Qt5iT4owdX6N6cKp4zyn9WbDfOpYDzT6a4wbMcbjERRy12
-	McbStsV5v73E52GB9/rc7S90e6eUxLj64tT9+irQrOTaQqWZC/e24LUKJPnvZBFZ6HvkTS9kfLgk4
-	Pft2YbM1xe5fEaecIe9i1HJXvh21A4BCViEf/hLCVvRBGqzj+HUfRCyR4xP1fBOPLQV+0o6tbuEqE
-	xZi5nZP2QCYLNLhZyw+9MD/Hgr3yKlIa1Am5XQ4AxoIaqDMNKJHO+dzWI+21eiR+BiXKZooCBdUzn
-	3TV/HJlQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vRbgm-00000009yBh-3a3v;
-	Fri, 05 Dec 2025 19:42:00 +0000
-Message-ID: <14afa916-565e-4c25-8e19-ddb87644ae8b@infradead.org>
-Date: Fri, 5 Dec 2025 11:41:58 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bG8r4+TG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE8BBC19421;
+	Fri,  5 Dec 2025 19:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764963837;
+	bh=rsAZCC1GicmUXlKf4H8XnwfDPh7I06Agv/cIdYL5d/E=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bG8r4+TGPBq8JdMI99CGKczNdBPbwqnDzkM39pqwwWU/vnFzi6Bag5ZEpW+u0Jirx
+	 zboqNziGq/19qyAZZUCMcYrN7T8E1rAUj3RQXjzLOEAaFuXIu0Wo9tMXlv6/IC6QR8
+	 1dwpal2sBw2psuWprfn6rWoV7sqlLfW8CWBpk3JhCuHrLUBI9DJI6CWljrVG93Rf8i
+	 OEjJYUoEWxse11M5YQy9mxktK7KpO2f9t6myotcMwsR+CzA1wqdrrUI0qalyhREykG
+	 o2d752teuo5arDTstYv7hdM0VB6i6CWZjwlbhbs/YQH7aE8tIvn8zUDvQ683FZMMj4
+	 jirSfQpBGmKJQ==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 3A859F40070;
+	Fri,  5 Dec 2025 14:43:56 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 05 Dec 2025 14:43:56 -0500
+X-ME-Sender: <xms:_DUzafFcBaG4jPg4D8sbFMOWcqGX8o3my6R4h3xSbt71_PkDbMYL4A>
+    <xme:_DUzaduvD2_2xIv1NNnxVlzlkFOmiHLzLY1NnWW2yQD-AxchrgIlakMWkFV3oq2dL
+    IclhOjoqBe82OpC06-7FmFgGR3hu7NmcibVgVBkwSkHIwrFDSq5D94>
+X-ME-Received: <xmr:_DUzaaZhRwWxCdA19CEbtsX6gwweRvFWjlTExz8NEu1DoJaCmeWVXAvLHhGfAw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdelvdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    ephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhirhihlhcuufhh
+    uhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
+    ephfdufeejhefhkedtuedvfeevjeffvdfhvedtudfgudffjeefieekleehvdetvdevnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilh
+    hlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheehqddv
+    keeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrdhnrg
+    hmvgdpnhgspghrtghpthhtohepudelpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    pegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepmh
+    hutghhuhhnrdhsohhngheslhhinhhugidruggvvhdprhgtphhtthhopegurghvihgusehk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehoshgrlhhvrgguohhrsehsuhhsvgdruggvpd
+    hrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvsggrsghk
+    rgesshhushgvrdgtiidprhgtphhtthhopehlohhrvghniihordhsthhorghkvghssehorh
+    grtghlvgdrtghomhdprhgtphhtthhopeifihhllhihsehinhhfrhgruggvrggurdhorhhg
+    pdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhm
+X-ME-Proxy: <xmx:_DUzaVVuHl4NNy7AwcqTu9la-Qmhnw29Y4OuvUp3IahUpwgV5kwYhg>
+    <xmx:_DUzacJhF-z7yibzS-YmPhdHp_VfBz6JmXtOpdJm-N_P7AlP79AnOQ>
+    <xmx:_DUzaTFJhPf_gFQuVYGTsSidI5GTgHIXZigLo0rCYa0qvNihyBBuTw>
+    <xmx:_DUzaRyCMOY1iKosHXX8lJdigAshRIR9QQ-XRbsbyE4Lu38MbtWr8w>
+    <xmx:_DUzaQjGEvZq3ITBE7g0TO9w70jezsrMDU-zzQq8pTQ1x74XbKLKeYbX>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 5 Dec 2025 14:43:55 -0500 (EST)
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Muchun Song <muchun.song@linux.dev>
+Cc: David Hildenbrand <david@kernel.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Mike Rapoport <rppt@kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Baoquan He <bhe@redhat.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Usama Arif <usamaarif642@gmail.com>,
+	kernel-team@meta.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Kiryl Shutsemau <kas@kernel.org>
+Subject: [PATCH 01/11] mm: Change the interface of prep_compound_tail()
+Date: Fri,  5 Dec 2025 19:43:37 +0000
+Message-ID: <20251205194351.1646318-2-kas@kernel.org>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20251205194351.1646318-1-kas@kernel.org>
+References: <20251205194351.1646318-1-kas@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v24 25/28] riscv: create a config for shadow stack and
- landing pad instr support
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Christian Brauner <brauner@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>,
- Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com,
- andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
- atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
- alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org,
- rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
- Zong Li <zong.li@sifive.com>, Andreas Korb
- <andreas.korb@aisec.fraunhofer.de>,
- Valentin Haudiquet <valentin.haudiquet@canonical.com>
-References: <20251204-v5_user_cfi_series-v24-0-ada7a3ba14dc@rivosinc.com>
- <20251204-v5_user_cfi_series-v24-25-ada7a3ba14dc@rivosinc.com>
- <b5feba48-7e7c-4ab9-a193-072f3980f525@infradead.org>
- <aTMjS-Ok-DrJJjQY@debug.ba.rivosinc.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aTMjS-Ok-DrJJjQY@debug.ba.rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Instead of passing down the head page and tail page index, pass the tail
+and head pages directly, as well as the order of the compound page.
 
+This is a preparation for changing how the head position is encoded in
+the tail page.
 
-On 12/5/25 10:24 AM, Deepak Gupta wrote:
-> On Thu, Dec 04, 2025 at 02:17:27PM -0800, Randy Dunlap wrote:
->>
->>
->> On 12/4/25 12:04 PM, Deepak Gupta wrote:
->>> This patch creates a config for shadow stack support and landing pad instr
->>> support. Shadow stack support and landing instr support can be enabled by
->>> selecting `CONFIG_RISCV_USER_CFI`. Selecting `CONFIG_RISCV_USER_CFI` wires
->>> up path to enumerate CPU support and if cpu support exists, kernel will
->>> support cpu assisted user mode cfi.
->>>
->>> If CONFIG_RISCV_USER_CFI is selected, select `ARCH_USES_HIGH_VMA_FLAGS`,
->>> `ARCH_HAS_USER_SHADOW_STACK` and DYNAMIC_SIGFRAME for riscv.
->>>
->>> Reviewed-by: Zong Li <zong.li@sifive.com>
->>> Tested-by: Andreas Korb <andreas.korb@aisec.fraunhofer.de>
->>> Tested-by: Valentin Haudiquet <valentin.haudiquet@canonical.com>
->>> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->>> ---
->>>  arch/riscv/Kconfig                  | 22 ++++++++++++++++++++++
->>>  arch/riscv/configs/hardening.config |  4 ++++
->>>  2 files changed, 26 insertions(+)
->>>
->>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
->>> index 0c6038dc5dfd..f5574c6f66d8 100644
->>> --- a/arch/riscv/Kconfig
->>> +++ b/arch/riscv/Kconfig
->>> @@ -1146,6 +1146,28 @@ config RANDOMIZE_BASE
->>>
->>>            If unsure, say N.
->>>
->>> +config RISCV_USER_CFI
->>> +    def_bool y
->>> +    bool "riscv userspace control flow integrity"
->>> +    depends on 64BIT && \
->>> +        $(cc-option,-mabi=lp64 -march=rv64ima_zicfiss_zicfilp -fcf-protection=full)
->>> +    depends on RISCV_ALTERNATIVE
->>> +    select RISCV_SBI
->>> +    select ARCH_HAS_USER_SHADOW_STACK
->>> +    select ARCH_USES_HIGH_VMA_FLAGS
->>> +    select DYNAMIC_SIGFRAME
->>> +    help
->>> +      Provides CPU assisted control flow integrity to userspace tasks.
->>
->>                CPU-assisted
->>
->>> +      Control flow integrity is provided by implementing shadow stack for
->>> +      backward edge and indirect branch tracking for forward edge in program.
->>> +      Shadow stack protection is a hardware feature that detects function
->>> +      return address corruption. This helps mitigate ROP attacks.
->>> +      Indirect branch tracking enforces that all indirect branches must land
->>> +      on a landing pad instruction else CPU will fault. This mitigates against
->>> +      JOP / COP attacks. Applications must be enabled to use it, and old user-
->>> +      space does not get protection "for free".
->>> +      default y.
->>
->>       Default is y if hardware supports it.
->> ?
-> 
-> No default Y means support is built in the kernel for cfi.
+Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+---
+ include/linux/page-flags.h |  4 +++-
+ mm/hugetlb.c               |  8 +++++---
+ mm/internal.h              | 11 +++++------
+ mm/mm_init.c               |  2 +-
+ mm/page_alloc.c            |  2 +-
+ 5 files changed, 15 insertions(+), 12 deletions(-)
 
-  (if the compiler supports it?)
-
-> If hardware doesn't support CFI instructions, then kernel will do following
-> 
-> - prctls to manage shadow stack/landing pad enable/disable will fail.
-> - vDSO will not have shadow stack instructions in it.
-
-Thanks for the info.
-
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 0091ad1986bf..2c1153dd7e0e 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -865,7 +865,9 @@ static inline bool folio_test_large(const struct folio *folio)
+ 	return folio_test_head(folio);
+ }
+ 
+-static __always_inline void set_compound_head(struct page *page, struct page *head)
++static __always_inline void set_compound_head(struct page *page,
++					      struct page *head,
++					      unsigned int order)
+ {
+ 	WRITE_ONCE(page->compound_head, (unsigned long)head + 1);
+ }
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 0455119716ec..a55d638975bd 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -3212,6 +3212,7 @@ int __alloc_bootmem_huge_page(struct hstate *h, int nid)
+ 
+ /* Initialize [start_page:end_page_number] tail struct pages of a hugepage */
+ static void __init hugetlb_folio_init_tail_vmemmap(struct folio *folio,
++					struct hstate *h,
+ 					unsigned long start_page_number,
+ 					unsigned long end_page_number)
+ {
+@@ -3220,6 +3221,7 @@ static void __init hugetlb_folio_init_tail_vmemmap(struct folio *folio,
+ 	struct page *page = folio_page(folio, start_page_number);
+ 	unsigned long head_pfn = folio_pfn(folio);
+ 	unsigned long pfn, end_pfn = head_pfn + end_page_number;
++	unsigned int order = huge_page_order(h);
+ 
+ 	/*
+ 	 * As we marked all tail pages with memblock_reserved_mark_noinit(),
+@@ -3227,7 +3229,7 @@ static void __init hugetlb_folio_init_tail_vmemmap(struct folio *folio,
+ 	 */
+ 	for (pfn = head_pfn + start_page_number; pfn < end_pfn; page++, pfn++) {
+ 		__init_single_page(page, pfn, zone, nid);
+-		prep_compound_tail((struct page *)folio, pfn - head_pfn);
++		prep_compound_tail(page, &folio->page, order);
+ 		set_page_count(page, 0);
+ 	}
+ }
+@@ -3247,7 +3249,7 @@ static void __init hugetlb_folio_init_vmemmap(struct folio *folio,
+ 	__folio_set_head(folio);
+ 	ret = folio_ref_freeze(folio, 1);
+ 	VM_BUG_ON(!ret);
+-	hugetlb_folio_init_tail_vmemmap(folio, 1, nr_pages);
++	hugetlb_folio_init_tail_vmemmap(folio, h, 1, nr_pages);
+ 	prep_compound_head((struct page *)folio, huge_page_order(h));
+ }
+ 
+@@ -3304,7 +3306,7 @@ static void __init prep_and_add_bootmem_folios(struct hstate *h,
+ 			 * time as this is early in boot and there should
+ 			 * be no contention.
+ 			 */
+-			hugetlb_folio_init_tail_vmemmap(folio,
++			hugetlb_folio_init_tail_vmemmap(folio, h,
+ 					HUGETLB_VMEMMAP_RESERVE_PAGES,
+ 					pages_per_huge_page(h));
+ 		}
+diff --git a/mm/internal.h b/mm/internal.h
+index 1561fc2ff5b8..0355da7cb6df 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -810,13 +810,12 @@ static inline void prep_compound_head(struct page *page, unsigned int order)
+ 		INIT_LIST_HEAD(&folio->_deferred_list);
+ }
+ 
+-static inline void prep_compound_tail(struct page *head, int tail_idx)
++static inline void prep_compound_tail(struct page *tail,
++				      struct page *head, unsigned int order)
+ {
+-	struct page *p = head + tail_idx;
+-
+-	p->mapping = TAIL_MAPPING;
+-	set_compound_head(p, head);
+-	set_page_private(p, 0);
++	tail->mapping = TAIL_MAPPING;
++	set_compound_head(tail, head, order);
++	set_page_private(tail, 0);
+ }
+ 
+ void post_alloc_hook(struct page *page, unsigned int order, gfp_t gfp_flags);
+diff --git a/mm/mm_init.c b/mm/mm_init.c
+index 7712d887b696..87d1e0277318 100644
+--- a/mm/mm_init.c
++++ b/mm/mm_init.c
+@@ -1102,7 +1102,7 @@ static void __ref memmap_init_compound(struct page *head,
+ 		struct page *page = pfn_to_page(pfn);
+ 
+ 		__init_zone_device_page(page, pfn, zone_idx, nid, pgmap);
+-		prep_compound_tail(head, pfn - head_pfn);
++		prep_compound_tail(page, head, order);
+ 		set_page_count(page, 0);
+ 	}
+ 	prep_compound_head(head, order);
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index ed82ee55e66a..fe77c00c99df 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -717,7 +717,7 @@ void prep_compound_page(struct page *page, unsigned int order)
+ 
+ 	__SetPageHead(page);
+ 	for (i = 1; i < nr_pages; i++)
+-		prep_compound_tail(page, i);
++		prep_compound_tail(page + i, page, order);
+ 
+ 	prep_compound_head(page, order);
+ }
 -- 
-~Randy
+2.51.2
 
