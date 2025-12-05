@@ -1,98 +1,100 @@
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8002E7645
-	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 23:32:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D5825EFBE
+	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 23:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764977546; cv=none; b=G4UwLnSQloJ217212zRXw5otbm8uH1V8axpUew1b/LnmO3Zcs4XzeHD21hxeETaObwB0LyE7HBq94Lni6qS93bmnG/YyTYVhCD+DXs9ZewNAr30fmyVeszhtCLvr252CadAahvitJIMOwG8gorfoibvxLZ+3Y4yxw1nIxbuCJR0=
+	t=1764977546; cv=none; b=BNterZsPeVUNp9DCwjatbMjgbLFIuB3BHWU+dcfcviuH6LAiRYDASpXiIka9WbIosmAdDEHR3NuPTwlue/2Ss0eaaUaGuLdh9GZYoaJdZrXVKP5dfpVa5/1cqi8hBYJzTFf6AuDyIhPnRiMQtIaWMFOiq+5ftNiJd2GtyxOZLmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1764977546; c=relaxed/simple;
-	bh=wpY55Dp8L0kCqW3v8iD8EKWvzYT13cCqvAzMecr+vgU=;
+	bh=KuUawxiE1obehEPGbhCYaTrHUXmJuSPQ8BYWNOFalcI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PvEZq3i8yMX8rcFRE9ugQhgzHAmG8nyaQQXLLs/NjlS++TOF0QQ4FPTlbxeO8gLN4HI+arKTYZuwjslGdpgdYYhZ7WOBE3JbSAmSWWp0iPpju0VFQxgjkxXhjiD/AZDkbyVARw0awvP6InYzsVEP5gNHlTuVAnSlUjBwONlgNV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NmT3a8Q2; arc=none smtp.client-ip=74.125.224.44
+	 MIME-Version; b=R0/8913YJ9xa0YijrdBwealB1GbHoZ3ejRzynz0vK9+vmkCJwFbfyMDlFMHF7/nYX05i0SzvD+Sna7U+femktmxJC/f1fNgk/5Q0P4kkptDlO3CwtCnV/oStdKamyBz0HRJY7sCGKf4imIrMAym2jLuA64hig4Ic7FWTTl07bzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GAjlkpCg; arc=none smtp.client-ip=74.125.224.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NmT3a8Q2"
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-642fcb9c16aso2351512d50.1
-        for <linux-doc@vger.kernel.org>; Fri, 05 Dec 2025 15:32:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GAjlkpCg"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-6420c08f886so3073705d50.3
+        for <linux-doc@vger.kernel.org>; Fri, 05 Dec 2025 15:32:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764977542; x=1765582342; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1764977543; x=1765582343; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0dNzBA/KM3TzCUjw+cH+YJCV/4vpqJc2N6ZuhjsZcyw=;
-        b=NmT3a8Q2JN/P3eGb8oqwFqR3b3f+DGrwHmUNf+Lncxuk1jlztpsY/uK856o8gW4t3C
-         r/zVlWOp0L60+8LtVF1GuRMOfusQyl1QmdCDMRfJcY18SBytS//WZjdYQ9S7KEn/gb1S
-         ck1EzOE+PdKCsScIj4R18LTEfAvE6ejT/yPJvOm4L8LBYM4QmCl8ILLH8IAg0M+H7M5P
-         hR1s4msxo2xUAF8pQgxBAxyeP8MldN58E+CCahjeelPz5ceIibEB12wW8Iz4586c7ASJ
-         +Dh2OFdQPtLwX+NLTtli5TcNuXSVN/6znMEOaGCuj8bNfSuH96J09woGGWgQZVt/D1+a
-         +QJw==
+        bh=q1bp6D5JTy++9hCcdnJaW8sAeu8MFN04EOXKBwVmfQY=;
+        b=GAjlkpCgl53oP5Kr1SdvOOXyJEn3bggCypZRetDJFvOQn1q/Xza0KDSifO1PBZ9QaI
+         menb3jQ1X+tCYWKimXiafHb5ULFXRes1SJPthodcAO2K6smZI88C0E/jj42TaikLI8w+
+         xfkx+ThfsAIQ5deNCZK134OiwbCXEfO1cHbS16C+izrM5cMcQGAN+Hj4MgTh2rD2zxk1
+         A3l0cy6t0wJYCBriAifTdBrlI1CRJFbZjO22AaCgwtl80nbQl3MZkn0JJWGjr+LMww/T
+         s4lA67hWWexwOi2RNWxxlKGd0Yzjd3kotLceJ5hwgYTAkuQQVNRtVHSOmkAe9JfDvsYu
+         PSPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764977542; x=1765582342;
+        d=1e100.net; s=20230601; t=1764977543; x=1765582343;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0dNzBA/KM3TzCUjw+cH+YJCV/4vpqJc2N6ZuhjsZcyw=;
-        b=fBXxVCodryw1Mg6AwYj7oo7sjlVPh06q9IvupMZ7Xvc0OwWyEgvh4Znn3hmiIamKE0
-         gELlQsjpv5z4Xrk2VRDmruMYC7SG8zakamObkNz5x/7z5yhuUSBUy2omW7wxVLdtW/4o
-         aTQcIbYEap2f3BnrTtcuTzwcqsx7l0eNJWgI9+tYJswI2Naa4k7vU+eMiDYcps3TSEXU
-         KkHI7N9vcUbwtNtAIXx1/GRBrUj6fMiORC7auGGjZXiJ+JGuNYy+ykZwAmlwJ26PStqG
-         11P0VUWcrPY9gl5ZbshaAWgwJm32/YV1Zs7df64uE6nkoqc9x9QXKH7Ma4GYR7lKbHXL
-         Dz/A==
-X-Forwarded-Encrypted: i=1; AJvYcCWafFkY5h2d+ubs/vsG8iklU9sTevhHFTxeV+jQ86dq+Ln4MHZLtZECGiqKJoBzitBjAQ14bhP/kdc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzsFLBmnKNvJO3G8weeq/dvSTiopZaOGwX7uFOtwpK7jfHetx0
-	j8qZUIwo9/vd83wn3T7C2Xq4i8rVIj7+fF/NM4a8lVVD/MreBpHBzcxv
-X-Gm-Gg: ASbGnctj22dnBC6f7oceBJp0kQcVcco5BKhjhh/neUa7Ddqbz/HPoKILJO+kqhMOp37
-	OTVWSJ/MOJivlPB14kxUWridRfj+Jm8WpsnUYvAtz4p7zz5EA4A631DOF3DHAS+7odzB5RB6CGg
-	ptiV8UVecjQVbUuhIOyV86/htADg0UEyFYt5HgUa78EnbmZJhTxH6KSHyi94DBu8MxKGS4+8Fu6
-	2vqxY0MjR5BsMIHCWnLo2kKNafwK7FFLBAcQS/MARzJ/Y6Va916brF/0uI0Lnasvo/8rEwfpa/d
-	JvOxT7frvLZ2ePCSPioqMPYZLcTXyn9GV48FNAnVpFdAqlV1Np68LQuMgxHMjNVjrDFc3Y8LnrZ
-	eNY87CSrG5TnQtBGkQomH3q+GUk/oe3Nm+FBC2oTRxDZoO6Z9tD/GTw82Pz7wS9HrYh51zhUQaA
-	6mSMmNvagPsp5xuH0XI08D
-X-Google-Smtp-Source: AGHT+IGDMUjSj5eZNlS8p7+TuSppjTK9shhyWb4cNaH9Kyj+wS4thzK9tHU/IzcAApEIw14tqpAafQ==
-X-Received: by 2002:a05:690c:4b87:b0:789:61ca:88f6 with SMTP id 00721157ae682-78c33b19cedmr14020287b3.4.1764977542151;
-        Fri, 05 Dec 2025 15:32:22 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:1::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6443f5b0c2fsm2331650d50.19.2025.12.05.15.32.21
+        bh=q1bp6D5JTy++9hCcdnJaW8sAeu8MFN04EOXKBwVmfQY=;
+        b=rR0bEp8ii/x/Z4BCXK2kAinA/FuPfuIDryey2oSG8qWBuQ36tPWsocZ6WsspaxTzI8
+         SHkKNz1M8lLs2udMulTswDb2Ar7WNnwsrnnk/FBZHQ0tOFLSn6CuhrwkL55010TtGE9h
+         bjTJRUumt22o1PrCbf15Ab3Ebfbwrqp90zMLGRes6CyfC9nx5IS7RIyA/Wc3RZzNoWPn
+         ViProq1yzFx3vIzbrx28u+bZU4uHIZxpd3p+ORbp5s9OGl6Lfm5NXfJF/zOcITS/PeXI
+         FLSFqdM1OfogzG3tBjdUMi7GpCkuT35L/qeMoiiji1jzwPyZOhE+QVoXvMvZ2/y6OLsb
+         lTHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXKa1pcorY7uCQKPKh+PAHzKJb8qV0rqrqQf+a4Xiqa17bp7Fc1hbZzmk1JH1et0GnzcyJXAPWh/k4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxj8mbPAEYHH/oE+lHJ6oTePY9pSMIkJYcLhGaAlkdbgTPRmpXy
+	lIMS5v6VKkN5B0hx8Rw5JAaYL7/0QZkzqg4A9rZLo4B95smW5b8opuRm
+X-Gm-Gg: ASbGncty3wmu+/MRajClCEYPkaClL4WeizO4CGY9k+n9AQjL3uCuQKL4hEHWp6RnwS5
+	jcF4OWfVffeC9HVkgUZ4ANN66dnbtbkgJ5K7cmXo4G8HpJcJwHGaD3kDFoLeznhLQNFAeIBE3dm
+	x51rtKmoMwrnvwoQvsJtycVLdT+VaS0vEol+AfggF/Zmb0BPKw/lhSGyTGW2U/o54uW4jPg3DqE
+	2FiQxUzJnTB4Da3V+1GVrzGJXoJ7xfUfP0vV2SX8LU9o9ecd2yAcAaxxvic5y2Hnp0WAXH2bv+z
+	U8Qn/D9Cy1g6BZbUBl+g6fbS+f2QmkTCkb3rXMt8HAe8uXfQYntHtIdCFsqP8sFkbonmTBiGY24
+	7cEhAczrs5APd3+2GebqTxm3KN+I4DWC0C/ba8Nk83whEQCeoY6T8oy+2kV5UE+gn4XXtdE4iZD
+	ewi9AttRJbUmtECuF9lncLeA==
+X-Google-Smtp-Source: AGHT+IHuiF3W+0+y+RHRuFqEDswx1eZLikuL04SAxFeBYl2SfNCvqWtSQJuYZ+6A9jLmPwXhNw08/g==
+X-Received: by 2002:a05:690e:2554:b0:641:f5bc:68e5 with SMTP id 956f58d0204a3-6444e804d45mr461456d50.82.1764977543310;
+        Fri, 05 Dec 2025 15:32:23 -0800 (PST)
+Received: from localhost ([2a03:2880:25ff:4c::])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6443f2b80casm2356687d50.9.2025.12.05.15.32.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Dec 2025 15:32:21 -0800 (PST)
+        Fri, 05 Dec 2025 15:32:22 -0800 (PST)
 From: Joshua Hahn <joshua.hahnjy@gmail.com>
 To: 
 Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Alex Shi <alexs@kernel.org>,
+	Alistair Popple <apopple@nvidia.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Axel Rasmussen <axelrasmussen@google.com>,
-	Baoquan He <bhe@redhat.com>,
-	Barry Song <baohua@kernel.org>,
 	Brendan Jackman <jackmanb@google.com>,
-	Chris Li <chrisl@kernel.org>,
+	Byungchul Park <byungchul@sk.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	David Hildenbrand <david@kernel.org>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
+	Gregory Price <gourry@gourry.net>,
 	Johannes Weiner <hannes@cmpxchg.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
 	Michal Hocko <mhocko@suse.com>,
 	Mike Rapoport <rppt@kernel.org>,
-	Nhat Pham <nphamcs@gmail.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
 	Qi Zheng <zhengqi.arch@bytedance.com>,
+	Rakie Kim <rakie.kim@sk.com>,
 	Shakeel Butt <shakeel.butt@linux.dev>,
 	Suren Baghdasaryan <surenb@google.com>,
 	Vlastimil Babka <vbabka@suse.cz>,
 	Wei Xu <weixugc@google.com>,
-	Yanteng Si <si.yanteng@linux.dev>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
 	Yuanchu Xie <yuanchu@google.com>,
 	Zi Yan <ziy@nvidia.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC LPC2025 PATCH 3/4] mm/vmscan/page_alloc: Deprecate min_{slab, unmapped}_ratio
-Date: Fri,  5 Dec 2025 15:32:14 -0800
-Message-ID: <20251205233217.3344186-4-joshua.hahnjy@gmail.com>
+	linux-mm@kvack.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [RFC LPC2025 PATCH 4/4] mm/vmscan: Deprecate zone_reclaim_mode
+Date: Fri,  5 Dec 2025 15:32:15 -0800
+Message-ID: <20251205233217.3344186-5-joshua.hahnjy@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251205233217.3344186-1-joshua.hahnjy@gmail.com>
 References: <20251205233217.3344186-1-joshua.hahnjy@gmail.com>
@@ -102,380 +104,236 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The min_slab_ratio and min_unmapped_ratio sysctls allow the user to tune
-how much reclaimable slab or reclaimable pagecache a node has before
-deciding to shrink it in __node_reclaim. Prior to this series, there
-were two ways these checks were done:
-  1. When zone_reclaim_mode is enabled, the local node is full, and
-     node_reclaim is called to shrink the current node
-  2. When the user directly asks to shrink a node by writing to the
-     memory.reclaim file (i.e. proactive reclaim)
+zone_reclaim_mode was introduced in 2005 to work around the NUMA
+penalties associated with allocating memory on remote nodes. It changed
+the page allocator's behavior to prefer stalling and performing direct
+reclaim locally over allocating on a remote node.
 
-In the first scenario, the two parameters ensures that node reclaim is
-only performed when the cost to reclaim is overcome by the amount of
-memory that can easily be freed. In other words, it acts to throttle
-node reclaim when the local node runs out of memory, and instead resorts
-to fallback allocations on a remote node.
+In 2014, zone_reclaim_mode was disabled by default, as it was deemed as
+unsuitable for most workloads [1]. Since then, and especially since
+2005, a lot has changed. NUMA penalties are lower than they used to
+before, and we now have much more extensive infrastructure to control
+NUMA spillage (NUMA balancing, memory.reclaim, tiering / promotion /
+demotion). Together, these changes make remote memory access a much more
+appealing alternative compared to stalling the system, when there might
+be free memory in other nodes.
 
-With the zone_reclaim_mode sysctl being deprecated later in the series,
-only the second scenario remains in the system. The implications here
-are slightly different. Now, node_reclaim is only called when the user
-explicitly asks for it. In this case, it might make less sense to try
-and throttle this behavior. In fact, it might feel counterintuitive from
-the user's perspective if triggering direct reclaim leads to no memory
-reclaimed, even if there is reclaimable memory (albeit small).
+This is not to say that there are no workloads that perform better with
+NUMA locality. However, zone_reclaim_mode is a system-wide setting that
+makes this bet for all running workloads on the machine. Today, we have
+many more alternatives that can provide more fine-grained control over
+allocation strategy, such as mbind or set_mempolicy.
 
-Deprecate the min_{slab, unmapped}_ratio sysctls now that node_reclaim
-no longer needs to be throttled. This leads to less sysctls needing to
-be maintained, and a more intuitive __node_reclaim.
+Deprecate zone_reclaim_mode in favor of modern alternatives, such as
+NUMA balancing, membinding, and promotion/demotion mechanisms. This
+improves code readability and maintainability, especially in the page
+allocation code.
+
+[1] Commit 4f9b16a64753 ("mm: disable zone_reclaim_mode by default")
 
 Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
 ---
- Documentation/admin-guide/sysctl/vm.rst       | 37 ---------
- Documentation/mm/physical_memory.rst          |  9 --
- .../translations/zh_CN/mm/physical_memory.rst |  8 --
- include/linux/mmzone.h                        |  8 --
- include/linux/swap.h                          |  5 --
- mm/page_alloc.c                               | 82 -------------------
- mm/vmscan.c                                   | 73 ++---------------
- 7 files changed, 7 insertions(+), 215 deletions(-)
+ Documentation/admin-guide/sysctl/vm.rst | 41 -------------------------
+ arch/powerpc/include/asm/topology.h     |  4 ---
+ include/linux/topology.h                |  6 ----
+ include/uapi/linux/mempolicy.h          | 14 ---------
+ mm/internal.h                           | 11 -------
+ mm/page_alloc.c                         |  4 +--
+ mm/vmscan.c                             | 18 -----------
+ 7 files changed, 2 insertions(+), 96 deletions(-)
 
 diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 4d71211fdad8..ea2fd3feb9c6 100644
+index ea2fd3feb9c6..635b16c1867e 100644
 --- a/Documentation/admin-guide/sysctl/vm.rst
 +++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -49,8 +49,6 @@ Currently, these files are in /proc/sys/vm:
- - memory_failure_early_kill
- - memory_failure_recovery
- - min_free_kbytes
--- min_slab_ratio
--- min_unmapped_ratio
- - mmap_min_addr
- - mmap_rnd_bits
- - mmap_rnd_compat_bits
-@@ -549,41 +547,6 @@ become subtly broken, and prone to deadlock under high loads.
- Setting this too high will OOM your machine instantly.
+@@ -76,7 +76,6 @@ Currently, these files are in /proc/sys/vm:
+ - vfs_cache_pressure_denom
+ - watermark_boost_factor
+ - watermark_scale_factor
+-- zone_reclaim_mode
  
  
--min_slab_ratio
--==============
--
--This is available only on NUMA kernels.
--
--A percentage of the total pages in each zone.  On Zone reclaim
--(fallback from the local zone occurs) slabs will be reclaimed if more
--than this percentage of pages in a zone are reclaimable slab pages.
--This insures that the slab growth stays under control even in NUMA
--systems that rarely perform global reclaim.
--
--The default is 5 percent.
--
--Note that slab reclaim is triggered in a per zone / node fashion.
--The process of reclaiming slab memory is currently not node specific
--and may not be fast.
+ admin_reserve_kbytes
+@@ -1046,43 +1045,3 @@ going to sleep prematurely (kswapd_low_wmark_hit_quickly) can indicate
+ that the number of free pages kswapd maintains for latency reasons is
+ too small for the allocation bursts occurring in the system. This knob
+ can then be used to tune kswapd aggressiveness accordingly.
 -
 -
--min_unmapped_ratio
--==================
+-zone_reclaim_mode
+-=================
 -
--This is available only on NUMA kernels.
+-Zone_reclaim_mode allows someone to set more or less aggressive approaches to
+-reclaim memory when a zone runs out of memory. If it is set to zero then no
+-zone reclaim occurs. Allocations will be satisfied from other zones / nodes
+-in the system.
 -
--This is a percentage of the total pages in each zone. Zone reclaim will
--only occur if more than this percentage of pages are in a state that
--zone_reclaim_mode allows to be reclaimed.
+-This is value OR'ed together of
 -
--If zone_reclaim_mode has the value 4 OR'd, then the percentage is compared
--against all file-backed unmapped pages including swapcache pages and tmpfs
--files. Otherwise, only unmapped pages backed by normal files but not tmpfs
--files and similar are considered.
+-=	===================================
+-1	Zone reclaim on
+-2	Zone reclaim writes dirty pages out
+-4	Zone reclaim swaps pages
+-=	===================================
 -
--The default is 1 percent.
+-zone_reclaim_mode is disabled by default.  For file servers or workloads
+-that benefit from having their data cached, zone_reclaim_mode should be
+-left disabled as the caching effect is likely to be more important than
+-data locality.
 -
+-Consider enabling one or more zone_reclaim mode bits if it's known that the
+-workload is partitioned such that each partition fits within a NUMA node
+-and that accessing remote memory would cause a measurable performance
+-reduction.  The page allocator will take additional actions before
+-allocating off node pages.
 -
- mmap_min_addr
- =============
+-Allowing zone reclaim to write out pages stops processes that are
+-writing large amounts of data from dirtying pages on other nodes. Zone
+-reclaim will write out dirty pages if a zone fills up and so effectively
+-throttle the process. This may decrease the performance of a single process
+-since it cannot use all of system memory to buffer the outgoing writes
+-anymore but it preserve the memory on other nodes so that the performance
+-of other processes running on other nodes will not be affected.
+-
+-Allowing regular swap effectively restricts allocations to the local
+-node unless explicitly overridden by memory policies or cpuset
+-configurations.
+diff --git a/arch/powerpc/include/asm/topology.h b/arch/powerpc/include/asm/topology.h
+index f19ca44512d1..49015b2b0d8d 100644
+--- a/arch/powerpc/include/asm/topology.h
++++ b/arch/powerpc/include/asm/topology.h
+@@ -10,10 +10,6 @@ struct drmem_lmb;
  
-diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
-index b76183545e5b..ee8fd939020d 100644
---- a/Documentation/mm/physical_memory.rst
-+++ b/Documentation/mm/physical_memory.rst
-@@ -296,15 +296,6 @@ See also Documentation/mm/page_reclaim.rst.
- ``kswapd_failures``
-   Number of runs kswapd was unable to reclaim any pages
+ #ifdef CONFIG_NUMA
  
--``min_unmapped_pages``
--  Minimal number of unmapped file backed pages that cannot be reclaimed.
--  Determined by ``vm.min_unmapped_ratio`` sysctl. Only defined when
--  ``CONFIG_NUMA`` is enabled.
--
--``min_slab_pages``
--  Minimal number of SLAB pages that cannot be reclaimed. Determined by
--  ``vm.min_slab_ratio sysctl``. Only defined when ``CONFIG_NUMA`` is enabled
--
- ``flags``
-   Flags controlling reclaim behavior.
+-/*
+- * If zone_reclaim_mode is enabled, a RECLAIM_DISTANCE of 10 will mean that
+- * all zones on all nodes will be eligible for zone_reclaim().
+- */
+ #define RECLAIM_DISTANCE 10
  
-diff --git a/Documentation/translations/zh_CN/mm/physical_memory.rst b/Documentation/translations/zh_CN/mm/physical_memory.rst
-index 4594d15cefec..670bd8103c3b 100644
---- a/Documentation/translations/zh_CN/mm/physical_memory.rst
-+++ b/Documentation/translations/zh_CN/mm/physical_memory.rst
-@@ -280,14 +280,6 @@ kswapd线程可以回收的最高区域索引。
- ``kswapd_failures``
- kswapd无法回收任何页面的运行次数。
- 
--``min_unmapped_pages``
--无法回收的未映射文件支持的最小页面数量。由 ``vm.min_unmapped_ratio``
--系统控制台（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 配置时定义。
--
--``min_slab_pages``
--无法回收的SLAB页面的最少数量。由 ``vm.min_slab_ratio`` 系统控制台
--（sysctl）参数决定。在开启 ``CONFIG_NUMA`` 时定义。
--
- ``flags``
- 控制回收行为的标志位。
- 
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 75ef7c9f9307..4be84764d097 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -1451,14 +1451,6 @@ typedef struct pglist_data {
- 	 */
- 	unsigned long		totalreserve_pages;
- 
--#ifdef CONFIG_NUMA
--	/*
--	 * node reclaim becomes active if more unmapped pages exist.
--	 */
--	unsigned long		min_unmapped_pages;
--	unsigned long		min_slab_pages;
--#endif /* CONFIG_NUMA */
--
- 	/* Write-intensive fields used by page reclaim */
- 	CACHELINE_PADDING(_pad1_);
- 
-diff --git a/include/linux/swap.h b/include/linux/swap.h
-index 38ca3df68716..c5915d787852 100644
---- a/include/linux/swap.h
-+++ b/include/linux/swap.h
-@@ -411,11 +411,6 @@ static inline void reclaim_unregister_node(struct node *node)
- }
- #endif /* CONFIG_SYSFS && CONFIG_NUMA */
- 
--#ifdef CONFIG_NUMA
--extern int sysctl_min_unmapped_ratio;
--extern int sysctl_min_slab_ratio;
--#endif
--
- void check_move_unevictable_folios(struct folio_batch *fbatch);
- 
- extern void __meminit kswapd_run(int nid);
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 010a035e81bd..9524713c81b7 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -5676,8 +5676,6 @@ int local_memory_node(int node)
- }
+ #include <asm/mmzone.h>
+diff --git a/include/linux/topology.h b/include/linux/topology.h
+index 6575af39fd10..37018264ca1e 100644
+--- a/include/linux/topology.h
++++ b/include/linux/topology.h
+@@ -50,12 +50,6 @@ int arch_update_cpu_topology(void);
+ #define node_distance(from,to)	((from) == (to) ? LOCAL_DISTANCE : REMOTE_DISTANCE)
+ #endif
+ #ifndef RECLAIM_DISTANCE
+-/*
+- * If the distance between nodes in a system is larger than RECLAIM_DISTANCE
+- * (in whatever arch specific measurement units returned by node_distance())
+- * and node_reclaim_mode is enabled then the VM will only call node_reclaim()
+- * on nodes within this distance.
+- */
+ #define RECLAIM_DISTANCE 30
  #endif
  
--static void setup_min_unmapped_ratio(void);
--static void setup_min_slab_ratio(void);
- #else	/* CONFIG_NUMA */
+diff --git a/include/uapi/linux/mempolicy.h b/include/uapi/linux/mempolicy.h
+index 8fbbe613611a..194f922dad9b 100644
+--- a/include/uapi/linux/mempolicy.h
++++ b/include/uapi/linux/mempolicy.h
+@@ -65,18 +65,4 @@ enum {
+ #define MPOL_F_MOF	(1 << 3) /* this policy wants migrate on fault */
+ #define MPOL_F_MORON	(1 << 4) /* Migrate On protnone Reference On Node */
  
- static void build_zonelists(pg_data_t *pgdat)
-@@ -6487,11 +6485,6 @@ int __meminit init_per_zone_wmark_min(void)
- 	refresh_zone_stat_thresholds();
- 	setup_per_zone_lowmem_reserve();
- 
--#ifdef CONFIG_NUMA
--	setup_min_unmapped_ratio();
--	setup_min_slab_ratio();
--#endif
+-/*
+- * Enabling zone reclaim means the page allocator will attempt to fulfill
+- * the allocation request on the current node by triggering reclaim and
+- * trying to shrink the current node.
+- * Fallback allocations on the next candidates in the zonelist are considered
+- * when reclaim fails to free up enough memory in the current node/zone.
+- *
+- * These bit locations are exposed in the vm.zone_reclaim_mode sysctl.
+- * New bits are OK, but existing bits should not be changed.
+- */
+-#define RECLAIM_ZONE	(1<<0)	/* Enable zone reclaim */
+-#define RECLAIM_WRITE	(1<<1)	/* Writeout pages during reclaim */
+-#define RECLAIM_UNMAP	(1<<2)	/* Unmap pages during reclaim */
 -
- 	khugepaged_min_free_kbytes_update();
+ #endif /* _UAPI_LINUX_MEMPOLICY_H */
+diff --git a/mm/internal.h b/mm/internal.h
+index 743fcebe53a8..a2df0bf3f458 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1197,24 +1197,13 @@ static inline void mminit_verify_zonelist(void)
+ #endif /* CONFIG_DEBUG_MEMORY_INIT */
  
- 	return 0;
-@@ -6534,63 +6527,6 @@ static int watermark_scale_factor_sysctl_handler(const struct ctl_table *table,
- 	return 0;
+ #ifdef CONFIG_NUMA
+-extern int node_reclaim_mode;
+-
+ extern int find_next_best_node(int node, nodemask_t *used_node_mask);
+ #else
+-#define node_reclaim_mode 0
+-
+ static inline int find_next_best_node(int node, nodemask_t *used_node_mask)
+ {
+ 	return NUMA_NO_NODE;
  }
- 
--#ifdef CONFIG_NUMA
--static void setup_min_unmapped_ratio(void)
+ #endif
+-
+-static inline bool node_reclaim_enabled(void)
 -{
--	pg_data_t *pgdat;
--	struct zone *zone;
--
--	for_each_online_pgdat(pgdat)
--		pgdat->min_unmapped_pages = 0;
--
--	for_each_zone(zone)
--		zone->zone_pgdat->min_unmapped_pages += (zone_managed_pages(zone) *
--						         sysctl_min_unmapped_ratio) / 100;
+-	/* Is any node_reclaim_mode bit set? */
+-	return node_reclaim_mode & (RECLAIM_ZONE|RECLAIM_WRITE|RECLAIM_UNMAP);
 -}
--
--
--static int sysctl_min_unmapped_ratio_sysctl_handler(const struct ctl_table *table, int write,
--		void *buffer, size_t *length, loff_t *ppos)
--{
--	int rc;
--
--	rc = proc_dointvec_minmax(table, write, buffer, length, ppos);
--	if (rc)
--		return rc;
--
--	setup_min_unmapped_ratio();
--
--	return 0;
--}
--
--static void setup_min_slab_ratio(void)
--{
--	pg_data_t *pgdat;
--	struct zone *zone;
--
--	for_each_online_pgdat(pgdat)
--		pgdat->min_slab_pages = 0;
--
--	for_each_zone(zone)
--		zone->zone_pgdat->min_slab_pages += (zone_managed_pages(zone) *
--						     sysctl_min_slab_ratio) / 100;
--}
--
--static int sysctl_min_slab_ratio_sysctl_handler(const struct ctl_table *table, int write,
--		void *buffer, size_t *length, loff_t *ppos)
--{
--	int rc;
--
--	rc = proc_dointvec_minmax(table, write, buffer, length, ppos);
--	if (rc)
--		return rc;
--
--	setup_min_slab_ratio();
--
--	return 0;
--}
--#endif
 -
  /*
-  * lowmem_reserve_ratio_sysctl_handler - just a wrapper around
-  *	proc_dointvec() so that we can call setup_per_zone_lowmem_reserve()
-@@ -6720,24 +6656,6 @@ static const struct ctl_table page_alloc_sysctl_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= numa_zonelist_order_handler,
- 	},
--	{
--		.procname	= "min_unmapped_ratio",
--		.data		= &sysctl_min_unmapped_ratio,
--		.maxlen		= sizeof(sysctl_min_unmapped_ratio),
--		.mode		= 0644,
--		.proc_handler	= sysctl_min_unmapped_ratio_sysctl_handler,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE_HUNDRED,
--	},
--	{
--		.procname	= "min_slab_ratio",
--		.data		= &sysctl_min_slab_ratio,
--		.maxlen		= sizeof(sysctl_min_slab_ratio),
--		.mode		= 0644,
--		.proc_handler	= sysctl_min_slab_ratio_sysctl_handler,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE_HUNDRED,
--	},
- #endif
- };
- 
+  * mm/memory-failure.c
+  */
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 9524713c81b7..bf4faec4ebe6 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -3823,8 +3823,8 @@ get_page_from_freelist(gfp_t gfp_mask, unsigned int order, int alloc_flags,
+ 		 * If kswapd is already active on a node, keep looking
+ 		 * for other nodes that might be idle. This can happen
+ 		 * if another process has NUMA bindings and is causing
+-		 * kswapd wakeups on only some nodes. Avoid accidental
+-		 * "node_reclaim_mode"-like behavior in this case.
++		 * kswapd wakeups on only some nodes. Avoid accidentally
++		 * overpressuring the local node when remote nodes are free.
+ 		 */
+ 		if (skip_kswapd_nodes &&
+ 		    !waitqueue_active(&zone->zone_pgdat->kswapd_wait)) {
 diff --git a/mm/vmscan.c b/mm/vmscan.c
-index d07acd76fdea..4e23289efba4 100644
+index 4e23289efba4..f480a395df65 100644
 --- a/mm/vmscan.c
 +++ b/mm/vmscan.c
-@@ -7537,62 +7537,6 @@ module_init(kswapd_init)
-  */
- int node_reclaim_mode __read_mostly;
+@@ -7503,16 +7503,6 @@ static const struct ctl_table vmscan_sysctl_table[] = {
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_TWO_HUNDRED,
+ 	},
+-#ifdef CONFIG_NUMA
+-	{
+-		.procname	= "zone_reclaim_mode",
+-		.data		= &node_reclaim_mode,
+-		.maxlen		= sizeof(node_reclaim_mode),
+-		.mode		= 0644,
+-		.proc_handler	= proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ZERO,
+-	}
+-#endif
+ };
  
+ static int __init kswapd_init(void)
+@@ -7529,14 +7519,6 @@ static int __init kswapd_init(void)
+ module_init(kswapd_init)
+ 
+ #ifdef CONFIG_NUMA
 -/*
-- * Percentage of pages in a zone that must be unmapped for node_reclaim to
-- * occur.
+- * Node reclaim mode
+- *
+- * If non-zero call node_reclaim when the number of free pages falls below
+- * the watermarks.
 - */
--int sysctl_min_unmapped_ratio = 1;
--
--/*
-- * If the number of slab pages in a zone grows beyond this percentage then
-- * slab reclaim needs to occur.
-- */
--int sysctl_min_slab_ratio = 5;
--
--static inline unsigned long node_unmapped_file_pages(struct pglist_data *pgdat)
--{
--	unsigned long file_mapped = node_page_state(pgdat, NR_FILE_MAPPED);
--	unsigned long file_lru = node_page_state(pgdat, NR_INACTIVE_FILE) +
--		node_page_state(pgdat, NR_ACTIVE_FILE);
--
--	/*
--	 * It's possible for there to be more file mapped pages than
--	 * accounted for by the pages on the file LRU lists because
--	 * tmpfs pages accounted for as ANON can also be FILE_MAPPED
--	 */
--	return (file_lru > file_mapped) ? (file_lru - file_mapped) : 0;
--}
--
--/* Work out how many page cache pages we can reclaim in this reclaim_mode */
--static unsigned long node_pagecache_reclaimable(struct pglist_data *pgdat)
--{
--	unsigned long nr_pagecache_reclaimable;
--	unsigned long delta = 0;
--
--	/*
--	 * If RECLAIM_UNMAP is set, then all file pages are considered
--	 * potentially reclaimable. Otherwise, we have to worry about
--	 * pages like swapcache and node_unmapped_file_pages() provides
--	 * a better estimate
--	 */
--	if (node_reclaim_mode & RECLAIM_UNMAP)
--		nr_pagecache_reclaimable = node_page_state(pgdat, NR_FILE_PAGES);
--	else
--		nr_pagecache_reclaimable = node_unmapped_file_pages(pgdat);
--
--	/*
--	 * Since we can't clean folios through reclaim, remove dirty file
--	 * folios from consideration.
--	 */
--	delta += node_page_state(pgdat, NR_FILE_DIRTY);
--
--	/* Watch for any possible underflows due to delta */
--	if (unlikely(delta > nr_pagecache_reclaimable))
--		delta = nr_pagecache_reclaimable;
--
--	return nr_pagecache_reclaimable - delta;
--}
+-int node_reclaim_mode __read_mostly;
 -
  /*
   * Try to free up some pages from this node through reclaim.
   */
-@@ -7617,16 +7561,13 @@ static unsigned long __node_reclaim(struct pglist_data *pgdat, gfp_t gfp_mask,
- 	noreclaim_flag = memalloc_noreclaim_save();
- 	set_task_reclaim_state(p, &sc->reclaim_state);
- 
--	if (node_pagecache_reclaimable(pgdat) > pgdat->min_unmapped_pages ||
--	    node_page_state_pages(pgdat, NR_SLAB_RECLAIMABLE_B) > pgdat->min_slab_pages) {
--		/*
--		 * Free memory by calling shrink node with increasing
--		 * priorities until we have enough memory freed.
--		 */
--		do {
--			shrink_node(pgdat, sc);
--		} while (sc->nr_reclaimed < nr_pages && --sc->priority >= 0);
--	}
-+	/*
-+	 * Free memory by calling shrink node with increasing priorities until
-+	 * we have enough memory freed.
-+	 */
-+	do {
-+		shrink_node(pgdat, sc);
-+	} while (sc->nr_reclaimed < nr_pages && --sc->priority >= 0);
- 
- 	set_task_reclaim_state(p, NULL);
- 	memalloc_noreclaim_restore(noreclaim_flag);
 -- 
 2.47.3
