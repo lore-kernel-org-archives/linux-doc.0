@@ -1,123 +1,135 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m1973185.qiye.163.com (mail-m1973185.qiye.163.com [220.197.31.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD2531B110
-	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 09:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506A93019A5
+	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 10:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764927561; cv=none; b=J8GD7/1olU1YTCunNkxuNaSEzXBZsCjKUXtZ5sF95uq3llY7V1ezwdSMbn+hN1BLfcdKLW9RbombgXtyTALNlY8U1+QpaJgIzKOdM3foH7HMAW9+lfbv0NWpC2bkepvlPukwhCYaH8Ogc45cOgJo8GLb4bbSzqDrbR55R4pzWfc=
+	t=1764928910; cv=none; b=cHryZLGuxFVj29XCh1qgOlt/RSIHruy2sks9LPi6wSxgsZI+9UMO5VvL/THK9s5VPihnAWiMr8z2Cd1Mn1tjLqwQO9jyQtD0w+XldPWdi1Yd6/9YGg8PMcIuypiibQ6OunXA5MDjaeR/FjtueHNQN6GXXcbOw6VbneMvTFfbUZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764927561; c=relaxed/simple;
-	bh=95ObkSeuIKSEm4S22DN1kvGLeGFx6W3fWOpM/yf2jHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NecrCFANLlYOijuJiUr8LQ/kfAtrrP7QAfsN4xd4+Xj2Lcc88I/ZvSepSQ4bw61tqjkNjqwoujN/FVion6TiiutKWAzQPYDiWIn8KH6bHyC/2xzQZaM20lFfuimBCh2QxdUhq+JlyeHIx9QkdG8Vz2AEd1nrnhP5hEy/3UCDNRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=JQRyBaGT; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1764928910; c=relaxed/simple;
+	bh=nQdDZtezh3PVC3iJM09yyNNByJIbipP0qAaOFtfL6dQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=N0YkMvpcnbbg5UXo/J5OkNFTL8+oqt64Qba82BmHsgTUOmU8hhVlx6sJ9q8q3Z3CmnNjao392ABrf3Erfd2P/68AMiIFOJ0R2ZL2b2hwhbdwEz2/pLtCoOd9TBqz9tg0xaURUWtMNXsTQWRZ9YUo8Kf8zQ4npF2and/3q86jdR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=UeVSJiwM; arc=none smtp.client-ip=220.197.31.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="JQRyBaGT"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4779a637712so13751835e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 05 Dec 2025 01:39:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1764927545; x=1765532345; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KaAGBjbPbYIBQtblcFbwD7Gc0J3AOtm/MkA1xHU4Vcw=;
-        b=JQRyBaGTfZ5TRdyu3nYephxBQXadn9EGrQA5tj0P0TzMFH3ZOV166rnvN1w5tuV2rk
-         EpRvigAE0oAOOGkKebc9upFa3GxnCixUwNLA1uIY+SxdVetiIkV7TyI56tGaeaw5e7KC
-         o3mTPlq7JBClyB9d1Q4PGjgT00tXFU06t1ik3eHEr3i/cUqRndDpIL/U+t92mRssnWrR
-         zH88h8BW0ok0LV9fJYzoKfFIIVxJPVeFkZ6g1gqRygF40A4ud4KcyL4VjNAQHrN2KSAW
-         JZwkqWG9Dl115eEfiGgNkdHj7KbDBX8xegRH88CC56jQFJk2dvjNLlySZQbqFYIVRQ3E
-         wzkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764927545; x=1765532345;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KaAGBjbPbYIBQtblcFbwD7Gc0J3AOtm/MkA1xHU4Vcw=;
-        b=uFfJRg/mYulMvgVbD2jAGiTnAuvKkgLrao0CDKNZd+S8DGmqNsgJrJitiq3oFxRRsY
-         eGAqI6sW8rYvpE5P/UBVSYTvdgvyNnc67RogjWvMrWJs9lxiL2/l0slvJx+s2DbFU9cr
-         +8/uZzo8OZFH+k4JhiREHIYU8gEltZXfCKCnTFr15dpHoAucaGndvbTqB6dGkmBxIGvE
-         tB1zrohST6L7vuShI118T7u89/q4tpIfi+uebWTmAwxvS60PM4DE2MhuGnZFqDgRhew5
-         5Z1GQLr/FTa8gyXka/Vc3L9ugBLvNHTDKqf1PkPOEa2IcvfGDfUQWFmwwU5x7WQI97nc
-         /O1g==
-X-Forwarded-Encrypted: i=1; AJvYcCUs1yzJRMdX7E2EwW+gXnFtWjb+kl4Lbyum/I+EMb4lmYa867JTR6I5qmwiDzN0NW6bWyvbPOu6Nqk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuibpmScxFXPlb/+eD+EASeDCk145QyOsvPvfmgv8P5Dlo7Nv9
-	ACcUbArt/gSfkODrAUzr78+wMu200ZvQ+h5g/IcMashWJuWizGh+AwsOjuyIobPXefI=
-X-Gm-Gg: ASbGncv0sEcCSLE1W+CqUprVwTFdmExwrCfXyRC4Z2GORwV1joh/k4sQk5iEMhh9jk/
-	IwL9ToSOVSr9cqXmW+Xvtv8gJSAfcvMYyqCrngymj+LtOLCqCJqKuH3hPn63oMW1bBr9zzaS1OY
-	DS8hFrmzTUCbahLOD1JTJHoZ6Add1r9lsy0bWcaqtbsoVXLi0Y3NVXVOCofRGDOFiRjJ4la/BN+
-	YVltekAuAcXJH2iqYiHxF92mGFxJnq7+YEi3XbBp6N20NJOLwWkO2nOPhNxYOWOMj6Zfzd4j0IY
-	JXeRvkRyVDgvyV7jelRuG/9NBdbppf6STSx8NcDoYTkZaNRZb1poXtFrFgM7fwwdSfwWtUofhyj
-	+kLXdYf+TZao03/l64lb7kt8jKbsOGk3YLCWtqRWqNtZquuylr2SYNmucsgid9YWz1+OT/YaHXV
-	k4KeME+4u0Y6LD8g74WL+NojW2HOrCjcJ6yA==
-X-Google-Smtp-Source: AGHT+IGDQMvqBdqJEOzpp4D1Mp55Rha91vFFizQlMrUQ2ckvl6oDH6vQIiAKgZEXK5RQ7xwYag20mw==
-X-Received: by 2002:a05:6000:40cf:b0:42b:4223:e63c with SMTP id ffacd0b85a97d-42f7319045emr8571810f8f.11.1764927545234;
-        Fri, 05 Dec 2025 01:39:05 -0800 (PST)
-Received: from FV6GYCPJ69 ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d222491sm8200896f8f.22.2025.12.05.01.39.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Dec 2025 01:39:04 -0800 (PST)
-Date: Fri, 5 Dec 2025 10:39:02 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, 
-	Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH net-next V4 02/14] documentation: networking: add shared
- devlink documentation
-Message-ID: <f4aq27k6ohsuiiqlsjhfjx4g7nexltot4tfd4m2kxdtzwciqpr@72u2malmrkif>
-References: <1764101173-1312171-3-git-send-email-tariqt@nvidia.com>
- <20251127201645.3d7a10f6@kernel.org>
- <hidhx467pn6pcisuoxdw3pykyvnlq7rdicmjksbozw4dtqysti@yd5lin3qft4q>
- <20251128191924.7c54c926@kernel.org>
- <n6mey5dbfpw7ykp3wozgtxo5grvac642tskcn4mqknrurhpwy7@ugolzkzzujba>
- <20251201134954.6b8a8d48@kernel.org>
- <2lnqrb3fu7dukdkgfculj53q2vwb36nrz5copjfg3khlqnbmix@jbfmhnks7svq>
- <20251202101444.7f6d14a8@kernel.org>
- <vwdbowwy3eivqwwypwo2klexhu47qpvb6nevjg3st7a43ucmxl@tllljudder3l>
- <20251204105737.551d1cc1@kernel.org>
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="UeVSJiwM"
+Received: from localhost (unknown [222.130.22.244])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2c22496ea;
+	Fri, 5 Dec 2025 18:01:33 +0800 (GMT+08:00)
+Date: Fri, 5 Dec 2025 18:01:30 +0800
+From: BaiKefan <baikefan@leap-io-kernel.com>
+To: Yanteng Si <si.yanteng@linux.dev>
+Cc: seakeel@gmail.com, dzm91@hust.edu.cn, corbet@lwn.net,
+ linux-doc@vger.kernel.org, doubled@leap-io-kernel.com, alexs@kernel.org
+Subject: Re: [PATCH v4 0/8] Add Chinese translation for USB subsystem
+Message-ID: <20251205180130.00003852@leap-io-kernel.com>
+In-Reply-To: <06600ebb-14a3-4f3b-af61-0f378e64832b@linux.dev>
+References: <cover.1764674650.git.baikefan@leap-io-kernel.com>
+	<06600ebb-14a3-4f3b-af61-0f378e64832b@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251204105737.551d1cc1@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9aedf5b1e109d5kunm5709ce94f0e73c
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTBkdVhoeSEtIGEIaTxkeTlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MSVVKS0
+	tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=UeVSJiwM0HvgcMQKoY43DHbrb5ME9KhLo6h/cr1wNotP0pwHrEoohixH4F9F5AmuHpTfn9AJk/Kc5fMyHC63mtnk9qG9w3NtCp/wzQ/QlbrmLCSbwXmns4+lTfwGkDxZrgZAZ2OlwA1u+EYFTffzfT6gu8gA15Tyia1yKrD9wtn64t1tRJpp0Ek84OLVU3WZobIcMaSHn2vXUZeISSJ5a1eJCwiWCM2XDnIFGU3C76YAAbbZEsiyFrby8IOr96HqLl9mq5OzORre5TMyQiGJuWwNezlTO0+tVMpRxv4sH6f8uzR6BFhYtPnZUlHlNHhomyNHt07TPZidoItdod3WOQ==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=zdnbtDsICKv0z0EP+UucC5yc9E3FE45LUq89YkY77q0=;
+	h=date:mime-version:subject:message-id:from;
 
-Thu, Dec 04, 2025 at 07:57:37PM +0100, kuba@kernel.org wrote:
->On Wed, 3 Dec 2025 11:36:13 +0100 Jiri Pirko wrote:
->> >To be clear -- I understand how you're laying things out. My point is
->> >not about that. My question is how can user make intuitive sense of this
->> >mess of random object floating around. Every SW engineering problem can
->> >be solved by another layer of abstraction, that's not the challenge. 
->> >The challenge is to design those layers so that they make intuitive
->> >sense (to people who don't spend their life programming against mlx FW
->> >interfaces).  
->> 
->> Well, this really has no relation to mlx FW interfaces. It is a generic
->> issue of having multiple PFs backed by 1 physical device sharing
->> resources. How to make things more intuitive, I don't know :/ Any
->> suggestion?
->
->We're talking in circles. Having a single devlink instance for the
->"1 physical device" is far more intuitive than stringing together
->ports from two devlink instances by using a third instance.
+On Thu, 4 Dec 2025 10:41:20 +0800
+Yanteng Si <si.yanteng@linux.dev> wrote:
 
-PF is sort of physical device, isn't it? The boundary is just too
-fuzzy. In some things the PFs are separate, in other they share
-resources.
+> 
+> 在 2025/12/2 19:56, Kefan Bai 写道:
+> > This patch set adds Chinese translations for the USB documentation.
+> >
+> > Changes in v4:
+> >   - shorten those overlong title underline/overline symbols
+> >   - Remove CREDITS section from index.rst
+> >
+> > Changes in v3:
+> >   - Updated the signoff to my full legal name,
+> >     as requested by Jonathan Corbet.
+> >   - Reviewed and fixed the RST syntax to resolve the patch issues
+> >     noted by Alex Shi.
+> >   - Kept the number of translated files to eight
+> >     to make submission and review smoother.
+> >   - Link to v3:
+> > https://lore.kernel.org/all/cover.1763984424.git.baikefan@leap-io-kernel.com/
+> >
+> > Changes in v2:
+> >   - Update [PATCH 01/25] docs/zh_CN: Add index.rst translation
+> >     to include corresponding updates in
+> >     Documentation/translations/zh_CN/subsystem-apis.rst.
+> >   - Link to v2:
+> > https://lore.kernel.org/all/cover.1763897036.git.baikefan@leap-io-kernel.com/
+> >
+> > v1:
+> >   - Link:
+> > https://lore.kernel.org/all/20251123074540.34161-1-baikefan@leap-io-kernel.com/
+> >
+> > Kefan Bai (8):
+> >    docs/zh_CN: Add index.rst translation
+> >    docs/zh_CN: Add acm.rst translation
+> >    docs/zh_CN: Add authorization.rst translation
+> >    docs/zh_CN: Add chipidea.rst translation
+> >    docs/zh_CN: Add dwc3.rst translation
+> >    docs/zh_CN: Add ehci.rst translation
+> >    docs/zh_CN: Add usbmon.rst translation
+> >    docs/zh_CN: Add CREDITS translation
+> 
+> >
+> >   .../translations/zh_CN/subsystem-apis.rst     |   2 +-
+> >   Documentation/translations/zh_CN/usb/CREDITS  | 153 +++++++
+> >   Documentation/translations/zh_CN/usb/acm.rst  | 137 +++++++
+> >   .../translations/zh_CN/usb/authorization.rst  | 125 ++++++
+> >   .../translations/zh_CN/usb/chipidea.rst       | 142 +++++++
+> >   Documentation/translations/zh_CN/usb/dwc3.rst |  60 +++
+> >   Documentation/translations/zh_CN/usb/ehci.rst | 216 ++++++++++
+> >   .../translations/zh_CN/usb/index.rst          |  54 +++
+> >   .../translations/zh_CN/usb/usbmon.rst         | 380
+> > ++++++++++++++++++
+> 
+> Actually, I don't know much about USB. I would rather suggest you
+> copy these patch sets to the USB mailing list, where Chinese
+> developers might help review them.
+> 
 
-I guess we don't live in ideal world? Per pf devlink instance
-is what we currently have and removing that would be just too
-distruptive. I don't know how to do this
-differently other than adding shared instance for these N PFs.
-Honestly I can't clearly tell what exactly you want :(
+Hi Yanteng,
+
+I checked who maintains the USB code and got the following output:
+
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> (maintainer:USB
+SUBSYSTEM) 
+linux-usb@vger.kernel.org (open list:USB SUBSYSTEM)
+linux-kernel@vger.kernel.org (open list)
+
+Would it be appropriate to send my USB documentation translation
+patches directly to the USB mailing list (linux-usb@vger.kernel.org),
+or would you suggest another way to reach the appropriate maintainers?
+
+Thanks,
+Kefan
+
+> 
+> Thanks,
+> 
+> Yanteng
+> 
+> 
+> 
+> 
+> 
+
