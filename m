@@ -1,17 +1,17 @@
 Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19D032F5A2C;
-	Fri,  5 Dec 2025 07:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7982932826A;
+	Fri,  5 Dec 2025 07:20:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764919286; cv=none; b=Du83Mem3c6hPZqfRX9GDTO1lZUaESvLBT4w9xmN9436BVYnCvPIUo2xynE69IJkOyx9oi5Ea7u3l8n0SYQRNgVW5vagzUyShgWh5gAuE+t2yiCFD1CxrojZdYLL2EAOOBua0p620nH+OP1b9sNDp7hsQSMYvccsSx4zK34tTPgg=
+	t=1764919282; cv=none; b=PfamfOS11CzyLeTCQ+qvqaNAMz80HzE83HwdKX/9qGQ7fh/Wy0qkZHX3QI9KIa8cfRzVjAy20ODaEQMO0bL/dkmx2r29lBBToAR1Ip3gz+Hn9HZnGycLbqIftQ58mqJdg010efQL/BiBPFs4t2CJUX2j5Q2wpdGRmYeOHXOFrrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764919286; c=relaxed/simple;
-	bh=WkwOYApaGg3/M39sydY8TnrOsGAaoUUQ67vebZbS0wQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=deWsGOii+wqWlEwFcAFSHBNJu5m6AuYWcZ4NtnmwnlLbHX5rYss+jwP1W3PKKaN2Jd+vClzVUKB+rEGCzzptviFC2+nJA/fvXzLUZMR+MBn/XzHe//M7dN7oMkMrs8ZLP2r+Mm0B1dEDp4s6ivnl4VbXeYtGnx3daHXP+GKg2C4=
+	s=arc-20240116; t=1764919282; c=relaxed/simple;
+	bh=3Y5WjXAVqFBbgNUdLO4Qpu6CxaI1rV8QHBa3XuJFo4g=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=Zc2enfIBH+oQgjqgOd2djT/bzaCui3/nQFw/vaAIwMJx2eIgWLnKrjNwAa3hg4lcTKy2xvc3CS8YhWCG8klMPoxwC17xSEZmEBoNdsnp6PI1XBY5Oxxa1PfZexL84chpC/W6WmQhB2/KWGMORYIetKPqz+r105mY4zDm92UZv44=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c45ff70000001609-41-693287730e8e
+X-AuditID: a67dfc5b-c2dff70000001609-4c-69328771ac77
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: kernel_team@skhynix.com,
@@ -178,45 +178,45 @@ Cc: kernel_team@skhynix.com,
 	aliceryhl@google.com,
 	tmgross@umich.edu,
 	rust-for-linux@vger.kernel.org
-Subject: [PATCH v18 36/42] dept: implement a basic unit test for dept
-Date: Fri,  5 Dec 2025 16:18:49 +0900
-Message-Id: <20251205071855.72743-37-byungchul@sk.com>
+Subject: [PATCH v18 28/42] dept: assign unique dept_key to each distinct dma fence caller
+Date: Fri,  5 Dec 2025 16:18:41 +0900
+Message-Id: <20251205071855.72743-29-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251205071855.72743-1-byungchul@sk.com>
 References: <20251205071855.72743-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSe0xTZxjG/c75zoWGmmOn8aAxurpLQqYCweWNTreZmJ1pzC5mWcKyuGY9
-	jiMFTEEKZhrEC6VDygilscVRGDS1IHSteCE064jiiDJkMGnQOiBFxgqOKZRQKAxq9t8vz/O+
-	z/PPw5KKQWoDK2XlitoslUZJy7BsMr5uW25xipQ0aoyHh2d8GGam9RiqW5poiFpvMKB3X6Lg
-	14EiDA+aGxGcv7WEIVrRycCStxPBC9ciDebxMxgsT63LWmCMgIHwBAJ7cJGAoK8YQbQqA0JV
-	UzTUDgdIeD4+hMDrKKJhtLyVhL7gauif+YeGLtN3NEz2VhPwzEWDrchLQe/9EILe0AIBj6sq
-	CLhXXkcsV9FgNZ8lYM7uZMDa3UfBiMPCwMJwMizZsqGzcYyBgNGEoXmyh4KuJw8p+PPuBQpu
-	FA4xMN0/TIC+bQZD7YV6DO3eLgz66DSCUlcrBYXWWQpaxvwEdFmuYHjUbWSgp+0qBQ0DvQR4
-	uu+TEC7bCP7yUQRXn9XREArbSXD8a6beUwuz58uw4PRcJ4SmH5qQMB+pQMI5j05ouDdBC5GZ
-	P2jBG7Zhob4kQgi3LAFGsLlPCB5HovBj+zghDIb2CG5nCS3Uzv9FfpyYJntHLWqkPFG7Y+9X
-	svS/7fPk8coP8pt7hshCdGe3AbEsz6Xyzql0A4qLoTsaYlaY5t7k/f45coXXclt4z8WnlAHJ
-	WJLr28wXz5XFjFe4/bx5cJRaYcy9zo/c/R2vsJx7m28qWqRfhm7mG12+2H3csm4aiMRYwe3k
-	awyzsVCeq4njb7eamJcPCfwvDj8uR3IbWuVECikrL1MlaVK3pxdkSfnbv87OdKPlxdlPLXxx
-	Ez1/cLgDcSxSxst9umRJQanycgoyOxDPksq18glNkqSQq1UFJ0Vt9hHtCY2Y04E2sli5Xp4S
-	1qkV3DeqXDFDFI+L2v9dgo3bUIgOV0uH2velDWUYDV/erDTNpRavDui27fvt9lL3wV3fv1vx
-	kfzVHbo1loSWt3bVnz7nuqLI5nfu9h5brw5+XvpTsM53+tPU9xdN4ZQ1I5suH7jccfGzT/qT
-	JttLzUdOLpSckq9LaDAYjU+OXjuW+Fpaf35katMbH6Lcbz3Xt1Zeq/5Zf7StRolz0lXJiaQ2
-	R/Ufv5ccA20DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0iTcRTG+7+3zdHiZQm9GJKMIggqtYwTVhiRvhRl5YfIL7rqpQ2nxZa3
-	IErX8tZFR5vkKs1ylS612U1tJdPMNMmppWi2GXNlzgxTl1vTptGXw++c5zkP58Ph46LnZBBf
-	lnKaU6RI5GJKQAj2R6rWK3PCZaGPrgZDrvocfLI5SPiY1UTA9FQuATdqjBT49M94kGu6TkJb
-	XzYBXdVVCGzTuQjcXj0O6vp5AnyaVh5MzQ7yQJuFYN7cikBn1eDQ3/UKB+PjLAx+1c5RMNY8
-	iUA77KCgeDSLgAnDJQQlTj0PRl/HwLitkYT5oa8Y9M24EBgccxg4mnIQ+HRJUFpe51/X/aTA
-	2/keh2JtF4Lbw0M4TI7aETxu/YzAfD+bgpHCJzj0OJZB7/QEBW+1BRSMW29g8KOWgrJsMwnW
-	d2MIbuo1CJwDZgxUd2oo0N00EVBvb+CBdewPBp90GgyqTPvAZnAS0FFYjvnP9bserQB9sQrz
-	l28YaB82YjBrqORFVSDWrb5CsJV1TzFW3e2jWOMtI2K9Hg1ipypUOKsu9LfNrgmcvVCXzlZ0
-	uCjWM/2BYs0zZQTbXs6wd/M8GFvUuZ6tLxniHdgZL9h2nJPL0jjFxh2JAul3gxc/dS0mo/q9
-	HT+PXkfmowA+Q29mTL4x3gJT9Fqmv38WX+BAOoSpu+wk85GAj9M9q5ic2SuLwnJ6N1M8MEIu
-	MEGvYb686SYWWEhvYYzZc9S/0FVMVW3Toj/AP9f2eRZZREcwpflushAJytCSShQoS0lLlsjk
-	ERuUSdLMFFnGhmMnk03I/0+Gs3+KnqOpnhgLovlIvFTYlB4mE5GSNGVmsgUxfFwcKHTJQ2Ui
-	4XFJ5hlOcTJBkSrnlBa0kk+IVwj3HOYSRfQJyWkuieNOcYr/KsYPCDqPSowZMfFtR4PO9TVq
-	HDlzNULVxWB7EX31d4E0YfJQ+B3HcFt/nG2v27W8RHhpbcvq+yPt1W9NEW40E5p6tAHt6UJS
-	Z+rB2MjWn3pHwomIe7HWhryM+FhvHDXYe+zljmUqz64DO6NfGEMCLFH2Zx2qBy2W6Hp92vZd
-	sDW9pvLIJjGhlErC1uEKpeQvv2O8gEsDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTZxTH9zz3ufe2DdWbquFOl0g6zTK2oRjnzpK5+GGw+2Vm2T45l7mr
+	3MgNBc0FEbZsKWARu4FNN2rGi7QOGbbdQosuQygvdbh1wqTg5EUbhJliU1g2hEJ5iYNufvud
+	8z/n/z8fjorS3aO3quS8AknJEw16RkM0M0mOV5Sze+TdFyMb4P74QxoqvN/Q8OtwKYFV600W
+	bEErBe6rJRguREoIDMemEazaciBq+5sBx0SIgtnIAwRDDzfATLAOg73UR0OwL4ogPObDEIyu
+	YLhlubS+zoDNkwy1F8owVH/fjiHe5GShybgTVibS4aZrioXQ+WoC0bCVgfFfymnwjvYimLsz
+	gcH9ZZiCiuvzBHxjL4GjvJFAhy9AYOh6HQPG2gUaBrpv0TDoGiAQqLlC4F7/eRYGu+0Ywn+U
+	Y2g5U8NCeaMHw53RdgSdFQ8weN13GZiqqcdwY34aw1eDdgYmq2ZYcAUJfGGyEaj4OUbBtd4F
+	Flr++Y6B5cW1sKrf34bFlj9pmHM5GfjLMkcfOCA4W3/EgvuiGwnLS1YkzF0uowSTZa30xexE
+	aDy3hIW2mhArnOkcYwW795TQ2pwqfNsRwYJjdp4WvM5zjOBYfkQJ9+92MO/qP9C8kSUZ5EJJ
+	2fXmx5psa6eZPjn5etHtyBRrRG1pZqRW8dxe3nzVxDxlU60TrzPDvcCPjMSpdd7MpfCtlWHa
+	jDQqihvazp+NVyWETdwh3vOogawz4XbyC/19CSMtt48va/Xj/0y3866W7sS8eq1fPbyUYB33
+	Kt9gXkiY8lyDmu8KBP6/4lm+p3mEWJDWjp5xIp2cV5gryoa9adnFeXJR2rETuV609nJNn60c
+	/gnNDrzvR5wK6ZO03afTZR0tFuYX5/oRr6L0m7XTht2yTpslFn8iKSeOKKcMUr4fbVMRfbJ2
+	T+x0lo47LhZIOZJ0UlKeqlil3mpE2tc8SmVlWhtL+bfktIV8+yefPB/IUNfHP92/+E7mwRd9
+	Rwp2fN413PebcnyUlh+XtH84Ht0Uk16uD1yLpjp3ZDa8l3JwcVfJxvke4xVfnH18dKKw96Oi
+	fc1JGV+neOt6bnvEULLJXdrUt6Wx/4eM5yxPVm5kbus65HiLmlwVN5aG9CQ/W0xPpZR88V/1
+	HJDrbgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0iTcRTG+7+3zdHkZRm9WVCMLhBlKl1OFJFf8o9g9CGK+pIzX/LFOWsz
+	SyNqruVaF3S0SXszzXSV01JnpdVSlOympK3ULqbFsoaaZepwpjaNvhx+5zzPeTgfjpRU1NLh
+	UkGTzms1KrWSkVGyHZsNaw7nRAuRP3sXgsl4Ej72eGno0DdQMDpiouDKnXIGJsX7EjBVX6bh
+	WWc2BW23nQh6Rk0I/BMiCca6aQomLc0SGBn/IAGrHsG0uxmBrd1CQldbPQnlNXoCfldOMdDf
+	NIzA+tnLQL5PT8GQ4zwCe58oAd+TWBjseUjDdPc3AjrHBhA4vFMEeBtyEEzaUqCw2BVct/1k
+	YKL1FQn51jYE1z53kzDs60VQ0/wJgftmNgNfc++S4PGGwpvRIQaeW88xMNh+hYAflQwUZbtp
+	aG/pR1AgWhD0vXcTYLh+hwFbQTUFdb0PJNDe/4eAjzYLAc7qeOhx9FHwMreYCJ4bdFUtADHf
+	QATLdwKsFQ8JGHeUSbaVIuw3XqRwmesegY2vJxlcfrUc4YmABeGRUgOJjbnBtmlgiMSnXUdx
+	6csBBgdG3zLYPVZE4RfFHC45GyBwXusaXGfvluyM2SfbksSrhQxeu3ZrgizZ8thMH/qy6dgr
+	3zfJKVQXYUYhUo5dxxnFMmKGGXYl19U1Ts5wGLuUc13oo81IJiVZzxIuZ/zirDCP3ctVfS+k
+	Zphil3P+1hZmhuXsBs7gaiT+hS7hnJUNs/6Q4NzaGZhlBbueKzT76VwkK0JzylCYoMlIVQnq
+	9RG6lORMjXAs4kBaajUK/pPjxJ+8WjTiiW1ErBQp58objkYJClqVoctMbUSclFSGyQfUkYJC
+	nqTKzOK1afu1R9S8rhEtklLKBfK4PXyCgj2oSudTeP4Qr/2vEtKQ8FNoRY0u/tYt14V5VOz8
+	wK/E+DT75po4W3LJjY2mqIgVOPQ+Tszj02sLOnaeGdtzoinag/M7B7dUxeigUJEYWn/Jt53f
+	WLFacM8RF2tUYn9M2HExZJHeHKc5s3rpo6QE++5d4RV2jbM1MPSgw+l/+sNT4ihKSF9oyTK+
+	w1lTy4aVlC5ZFbWK1OpUfwEB28b5SwMAAA==
 X-CFilter-Loop: Reflected
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -224,350 +224,209 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 
-Implement CONFIG_DEPT_UNIT_TEST introducing a kernel module that runs
-basic unit test for dept.
+dma fence can be used at various points in the code and it's very hard
+to distinguish dma fences between different usages.  Using a single
+dept_key for all the dma fences could trigger false positive reports.
+
+Assign unique dept_key to each distinct dma fence wait to avoid false
+positive reports.
 
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- include/linux/dept_unit_test.h     |  67 +++++++++++
- kernel/dependency/Makefile         |   1 +
- kernel/dependency/dept.c           |  12 ++
- kernel/dependency/dept_unit_test.c | 173 +++++++++++++++++++++++++++++
- lib/Kconfig.debug                  |  12 ++
- 5 files changed, 265 insertions(+)
- create mode 100644 include/linux/dept_unit_test.h
- create mode 100644 kernel/dependency/dept_unit_test.c
+ drivers/dma-buf/dma-fence.c | 18 ++++-----
+ include/linux/dma-fence.h   | 74 +++++++++++++++++++++++++++++--------
+ 2 files changed, 68 insertions(+), 24 deletions(-)
 
-diff --git a/include/linux/dept_unit_test.h b/include/linux/dept_unit_test.h
-new file mode 100644
-index 000000000000..7612b4e97e69
---- /dev/null
-+++ b/include/linux/dept_unit_test.h
-@@ -0,0 +1,67 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * DEPT unit test
-+ *
-+ * Started by Byungchul Park <max.byungchul.park@gmail.com>:
-+ *
-+ *  Copyright (c) 2025 SK hynix, Inc., Byungchul Park
-+ */
-+
-+#ifndef __LINUX_DEPT_UNIT_TEST_H
-+#define __LINUX_DEPT_UNIT_TEST_H
-+
-+#if defined(CONFIG_DEPT_UNIT_TEST) || defined(CONFIG_DEPT_UNIT_TEST_MODULE)
-+struct dept_ut {
-+	bool circle_detected;
-+	bool recover_circle_detected;
-+
-+	int ecxt_stack_total_cnt;
-+	int wait_stack_total_cnt;
-+	int evnt_stack_total_cnt;
-+	int ecxt_stack_valid_cnt;
-+	int wait_stack_valid_cnt;
-+	int evnt_stack_valid_cnt;
-+};
-+
-+extern struct dept_ut dept_ut_results;
-+
-+static inline void dept_ut_circle_detect(void)
-+{
-+	dept_ut_results.circle_detected = true;
-+}
-+static inline void dept_ut_recover_circle_detect(void)
-+{
-+	dept_ut_results.recover_circle_detected = true;
-+}
-+static inline void dept_ut_ecxt_stack_account(bool valid)
-+{
-+	dept_ut_results.ecxt_stack_total_cnt++;
-+
-+	if (valid)
-+		dept_ut_results.ecxt_stack_valid_cnt++;
-+}
-+static inline void dept_ut_wait_stack_account(bool valid)
-+{
-+	dept_ut_results.wait_stack_total_cnt++;
-+
-+	if (valid)
-+		dept_ut_results.wait_stack_valid_cnt++;
-+}
-+static inline void dept_ut_evnt_stack_account(bool valid)
-+{
-+	dept_ut_results.evnt_stack_total_cnt++;
-+
-+	if (valid)
-+		dept_ut_results.evnt_stack_valid_cnt++;
-+}
-+#else
-+struct dept_ut {};
-+
-+#define dept_ut_circle_detect() do { } while (0)
-+#define dept_ut_recover_circle_detect() do { } while (0)
-+#define dept_ut_ecxt_stack_account(v) do { } while (0)
-+#define dept_ut_wait_stack_account(v) do { } while (0)
-+#define dept_ut_evnt_stack_account(v) do { } while (0)
-+
-+#endif
-+#endif /* __LINUX_DEPT_UNIT_TEST_H */
-diff --git a/kernel/dependency/Makefile b/kernel/dependency/Makefile
-index 92f165400187..fc584ca87124 100644
---- a/kernel/dependency/Makefile
-+++ b/kernel/dependency/Makefile
-@@ -2,3 +2,4 @@
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index f2cc7068af65..ca0ff298859b 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -479,7 +479,7 @@ int dma_fence_signal(struct dma_fence *fence)
+ EXPORT_SYMBOL(dma_fence_signal);
  
- obj-$(CONFIG_DEPT) += dept.o
- obj-$(CONFIG_DEPT) += dept_proc.o
-+obj-$(CONFIG_DEPT_UNIT_TEST) += dept_unit_test.o
-diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
-index 3c3ec2701bd6..0f4464657288 100644
---- a/kernel/dependency/dept.c
-+++ b/kernel/dependency/dept.c
-@@ -78,8 +78,12 @@
- #include <linux/workqueue.h>
- #include <linux/irq_work.h>
- #include <linux/vmalloc.h>
-+#include <linux/dept_unit_test.h>
- #include "dept_internal.h"
+ /**
+- * dma_fence_wait_timeout - sleep until the fence gets signaled
++ * __dma_fence_wait_timeout - sleep until the fence gets signaled
+  * or until timeout elapses
+  * @fence: the fence to wait on
+  * @intr: if true, do an interruptible wait
+@@ -497,7 +497,7 @@ EXPORT_SYMBOL(dma_fence_signal);
+  * See also dma_fence_wait() and dma_fence_wait_any_timeout().
+  */
+ signed long
+-dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
++__dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+ {
+ 	signed long ret;
  
-+struct dept_ut dept_ut_results;
-+EXPORT_SYMBOL_GPL(dept_ut_results);
-+
- static int dept_stop;
- static int dept_per_cpu_ready;
- 
-@@ -826,6 +830,10 @@ static void print_dep(struct dept_dep *d)
- 			pr_warn("(wait to wake up)\n");
- 			print_ip_stack(0, e->ewait_stack);
- 		}
-+
-+		dept_ut_ecxt_stack_account(valid_stack(e->ecxt_stack));
-+		dept_ut_wait_stack_account(valid_stack(w->wait_stack));
-+		dept_ut_evnt_stack_account(valid_stack(e->event_stack));
+@@ -526,7 +526,7 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
  	}
+ 	return ret;
+ }
+-EXPORT_SYMBOL(dma_fence_wait_timeout);
++EXPORT_SYMBOL(__dma_fence_wait_timeout);
+ 
+ /**
+  * dma_fence_release - default release function for fences
+@@ -762,7 +762,7 @@ dma_fence_default_wait_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
  }
  
-@@ -920,6 +928,8 @@ static void print_circle(struct dept_class *c)
- 	dump_stack();
+ /**
+- * dma_fence_default_wait - default sleep until the fence gets signaled
++ * __dma_fence_default_wait - default sleep until the fence gets signaled
+  * or until timeout elapses
+  * @fence: the fence to wait on
+  * @intr: if true, do an interruptible wait
+@@ -774,7 +774,7 @@ dma_fence_default_wait_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+  * functions taking a jiffies timeout.
+  */
+ signed long
+-dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
++__dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
+ {
+ 	struct default_wait_cb cb;
+ 	unsigned long flags;
+@@ -823,7 +823,7 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
+ 	spin_unlock_irqrestore(fence->lock, flags);
+ 	return ret;
+ }
+-EXPORT_SYMBOL(dma_fence_default_wait);
++EXPORT_SYMBOL(__dma_fence_default_wait);
  
- 	dept_outworld_exit();
+ static bool
+ dma_fence_test_signaled_any(struct dma_fence **fences, uint32_t count,
+@@ -843,7 +843,7 @@ dma_fence_test_signaled_any(struct dma_fence **fences, uint32_t count,
+ }
+ 
+ /**
+- * dma_fence_wait_any_timeout - sleep until any fence gets signaled
++ * __dma_fence_wait_any_timeout - sleep until any fence gets signaled
+  * or until timeout elapses
+  * @fences: array of fences to wait on
+  * @count: number of fences to wait on
+@@ -863,7 +863,7 @@ dma_fence_test_signaled_any(struct dma_fence **fences, uint32_t count,
+  * See also dma_fence_wait() and dma_fence_wait_timeout().
+  */
+ signed long
+-dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
++__dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
+ 			   bool intr, signed long timeout, uint32_t *idx)
+ {
+ 	struct default_wait_cb *cb;
+@@ -931,7 +931,7 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
+ 
+ 	return ret;
+ }
+-EXPORT_SYMBOL(dma_fence_wait_any_timeout);
++EXPORT_SYMBOL(__dma_fence_wait_any_timeout);
+ 
+ /**
+  * DOC: deadline hints
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 64639e104110..1062fbb637e5 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -369,8 +369,22 @@ int dma_fence_signal_locked(struct dma_fence *fence);
+ int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
+ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+ 				      ktime_t timestamp);
+-signed long dma_fence_default_wait(struct dma_fence *fence,
++signed long __dma_fence_default_wait(struct dma_fence *fence,
+ 				   bool intr, signed long timeout);
 +
-+	dept_ut_circle_detect();
- }
- 
- /*
-@@ -1021,6 +1031,8 @@ static void print_recover_circle(struct dept_event_site *es)
- 	dump_stack();
- 
- 	dept_outworld_exit();
-+
-+	dept_ut_recover_circle_detect();
- }
- 
- static void bfs_init_recover(void *node, void *in, void **out)
-diff --git a/kernel/dependency/dept_unit_test.c b/kernel/dependency/dept_unit_test.c
-new file mode 100644
-index 000000000000..88e846b9f876
---- /dev/null
-+++ b/kernel/dependency/dept_unit_test.c
-@@ -0,0 +1,173 @@
-+// SPDX-License-Identifier: GPL-2.0+
 +/*
-+ * DEPT unit test
-+ *
-+ * Started by Byungchul Park <max.byungchul.park@gmail.com>:
-+ *
-+ *  Copyright (c) 2025 SK hynix, Inc., Byungchul Park
++ * Associate every caller with its own dept map.
 + */
++#define dma_fence_default_wait(f, intr, t)				\
++({									\
++	signed long __ret;						\
++									\
++	sdt_might_sleep_start_timeout(NULL, t);				\
++	__ret = __dma_fence_default_wait(f, intr, t);			\
++	sdt_might_sleep_end();						\
++	__ret;								\
++})
 +
-+#include <linux/module.h>
-+#include <linux/spinlock.h>
-+#include <linux/mutex.h>
-+#include <linux/dept.h>
-+#include <linux/dept_unit_test.h>
-+
-+MODULE_DESCRIPTION("DEPT unit test");
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Byungchul Park <max.byungchul.park@sk.com>");
-+
-+struct unit {
-+	const char *name;
-+	bool (*func)(void);
-+	bool result;
-+};
-+
-+static DEFINE_SPINLOCK(s1);
-+static DEFINE_SPINLOCK(s2);
-+static bool test_spin_lock_deadlock(void)
-+{
-+	dept_ut_results.circle_detected = false;
-+
-+	spin_lock(&s1);
-+	spin_lock(&s2);
-+	spin_unlock(&s2);
-+	spin_unlock(&s1);
-+
-+	spin_lock(&s2);
-+	spin_lock(&s1);
-+	spin_unlock(&s1);
-+	spin_unlock(&s2);
-+
-+	return dept_ut_results.circle_detected;
-+}
-+
-+static DEFINE_MUTEX(m1);
-+static DEFINE_MUTEX(m2);
-+static bool test_mutex_lock_deadlock(void)
-+{
-+	dept_ut_results.circle_detected = false;
-+
-+	mutex_lock(&m1);
-+	mutex_lock(&m2);
-+	mutex_unlock(&m2);
-+	mutex_unlock(&m1);
-+
-+	mutex_lock(&m2);
-+	mutex_lock(&m1);
-+	mutex_unlock(&m1);
-+	mutex_unlock(&m2);
-+
-+	return dept_ut_results.circle_detected;
-+}
-+
-+static bool test_wait_event_deadlock(void)
-+{
-+	struct dept_map dmap1;
-+	struct dept_map dmap2;
-+
-+	sdt_map_init(&dmap1);
-+	sdt_map_init(&dmap2);
-+
-+	dept_ut_results.circle_detected = false;
-+
-+	sdt_request_event(&dmap1); /* [S] */
-+	sdt_wait(&dmap2); /* [W] */
-+	sdt_event(&dmap1); /* [E] */
-+
-+	sdt_request_event(&dmap2); /* [S] */
-+	sdt_wait(&dmap1); /* [W] */
-+	sdt_event(&dmap2); /* [E] */
-+
-+	return dept_ut_results.circle_detected;
-+}
-+
-+static void dummy_event(void)
-+{
-+	/* Do nothing. */
-+}
-+
-+static DEFINE_DEPT_EVENT_SITE(es1);
-+static DEFINE_DEPT_EVENT_SITE(es2);
-+static bool test_recover_deadlock(void)
-+{
-+	dept_ut_results.recover_circle_detected = false;
-+
-+	dept_recover_event(&es1, &es2);
-+	dept_recover_event(&es2, &es1);
-+
-+	event_site(&es1, dummy_event);
-+	event_site(&es2, dummy_event);
-+
-+	return dept_ut_results.recover_circle_detected;
-+}
-+
-+static struct unit units[] = {
-+	{
-+		.name = "spin lock deadlock test",
-+		.func = test_spin_lock_deadlock,
-+	},
-+	{
-+		.name = "mutex lock deadlock test",
-+		.func = test_mutex_lock_deadlock,
-+	},
-+	{
-+		.name = "wait event deadlock test",
-+		.func = test_wait_event_deadlock,
-+	},
-+	{
-+		.name = "event recover deadlock test",
-+		.func = test_recover_deadlock,
-+	},
-+};
-+
-+static int __init dept_ut_init(void)
-+{
-+	int i;
-+
-+	lockdep_off();
-+
-+	dept_ut_results.ecxt_stack_valid_cnt = 0;
-+	dept_ut_results.ecxt_stack_total_cnt = 0;
-+	dept_ut_results.wait_stack_valid_cnt = 0;
-+	dept_ut_results.wait_stack_total_cnt = 0;
-+	dept_ut_results.evnt_stack_valid_cnt = 0;
-+	dept_ut_results.evnt_stack_total_cnt = 0;
-+
-+	for (i = 0; i < ARRAY_SIZE(units); i++)
-+		units[i].result = units[i].func();
-+
-+	pr_info("\n");
-+	pr_info("******************************************\n");
-+	pr_info("DEPT unit test results\n");
-+	pr_info("******************************************\n");
-+	for (i = 0; i < ARRAY_SIZE(units); i++) {
-+		pr_info("(%s) %s\n", units[i].result ? "pass" : "fail",
-+				units[i].name);
-+	}
-+	pr_info("ecxt stack valid count = %d/%d\n",
-+			dept_ut_results.ecxt_stack_valid_cnt,
-+			dept_ut_results.ecxt_stack_total_cnt);
-+	pr_info("wait stack valid count = %d/%d\n",
-+			dept_ut_results.wait_stack_valid_cnt,
-+			dept_ut_results.wait_stack_total_cnt);
-+	pr_info("event stack valid count = %d/%d\n",
-+			dept_ut_results.evnt_stack_valid_cnt,
-+			dept_ut_results.evnt_stack_total_cnt);
-+	pr_info("******************************************\n");
-+	pr_info("\n");
-+
-+	lockdep_on();
-+
-+	return 0;
-+}
-+
-+static void dept_ut_cleanup(void)
-+{
-+	/*
-+	 * Do nothing for now.
-+	 */
-+}
-+
-+module_init(dept_ut_init);
-+module_exit(dept_ut_cleanup);
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 540583425d8e..86e26b9708fa 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1404,6 +1404,18 @@ config DEPT_AGGRESSIVE_TIMEOUT_WAIT
- 	  that timeout is used to avoid a deadlock. Say N if you'd like
- 	  to avoid verbose reports.
+ int dma_fence_add_callback(struct dma_fence *fence,
+ 			   struct dma_fence_cb *cb,
+ 			   dma_fence_func_t func);
+@@ -607,12 +621,37 @@ static inline ktime_t dma_fence_timestamp(struct dma_fence *fence)
+ 	return fence->timestamp;
+ }
  
-+config DEPT_UNIT_TEST
-+	tristate "unit test for DEPT"
-+	depends on DEBUG_KERNEL && DEPT
-+	default n
-+	help
-+	  This option provides a kernel module that runs unit test for
-+	  DEPT.
+-signed long dma_fence_wait_timeout(struct dma_fence *,
++signed long __dma_fence_wait_timeout(struct dma_fence *,
+ 				   bool intr, signed long timeout);
+-signed long dma_fence_wait_any_timeout(struct dma_fence **fences,
++signed long __dma_fence_wait_any_timeout(struct dma_fence **fences,
+ 				       uint32_t count,
+ 				       bool intr, signed long timeout,
+ 				       uint32_t *idx);
++/*
++ * Associate every caller with its own dept map.
++ */
++#define dma_fence_wait_timeout(f, intr, t)				\
++({									\
++	signed long __ret;						\
++									\
++	sdt_might_sleep_start_timeout(NULL, t);				\
++	__ret = __dma_fence_wait_timeout(f, intr, t);			\
++	sdt_might_sleep_end();						\
++	__ret;								\
++})
 +
-+	  Say Y if you want DEPT unit test to be built into the kernel.
-+	  Say M if you want DEPT unit test to build as a module.
-+	  Say N if you are unsure.
-+
- config LOCK_DEBUGGING_SUPPORT
- 	bool
- 	depends on TRACE_IRQFLAGS_SUPPORT && STACKTRACE_SUPPORT && LOCKDEP_SUPPORT
++/*
++ * Associate every caller with its own dept map.
++ */
++#define dma_fence_wait_any_timeout(fpp, count, intr, t, idx)		\
++({									\
++	signed long __ret;						\
++									\
++	sdt_might_sleep_start_timeout(NULL, t);				\
++	__ret = __dma_fence_wait_any_timeout(fpp, count, intr, t, idx);	\
++	sdt_might_sleep_end();						\
++	__ret;								\
++})
+ 
+ /**
+  * dma_fence_wait - sleep until the fence gets signaled
+@@ -628,19 +667,24 @@ signed long dma_fence_wait_any_timeout(struct dma_fence **fences,
+  * fence might be freed before return, resulting in undefined behavior.
+  *
+  * See also dma_fence_wait_timeout() and dma_fence_wait_any_timeout().
++ *
++ * Associate every caller with its own dept map.
+  */
+-static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
+-{
+-	signed long ret;
+-
+-	/* Since dma_fence_wait_timeout cannot timeout with
+-	 * MAX_SCHEDULE_TIMEOUT, only valid return values are
+-	 * -ERESTARTSYS and MAX_SCHEDULE_TIMEOUT.
+-	 */
+-	ret = dma_fence_wait_timeout(fence, intr, MAX_SCHEDULE_TIMEOUT);
+-
+-	return ret < 0 ? ret : 0;
+-}
++#define dma_fence_wait(f, intr)						\
++({									\
++	signed long __ret;						\
++									\
++	sdt_might_sleep_start_timeout(NULL, MAX_SCHEDULE_TIMEOUT);	\
++	__ret = __dma_fence_wait_timeout(f, intr, MAX_SCHEDULE_TIMEOUT);\
++	sdt_might_sleep_end();						\
++									\
++	/*								\
++	 * Since dma_fence_wait_timeout cannot timeout with		\
++	 * MAX_SCHEDULE_TIMEOUT, only valid return values are		\
++	 * -ERESTARTSYS and MAX_SCHEDULE_TIMEOUT.			\
++	 */								\
++	__ret < 0 ? __ret : 0;						\
++})
+ 
+ void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
+ 
 -- 
 2.17.1
 
