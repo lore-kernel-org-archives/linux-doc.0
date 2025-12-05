@@ -1,142 +1,118 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3B332ED2F
-	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 12:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6181D2EB862
+	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 12:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764936163; cv=none; b=tqKnikSsG8JWgMJYHcAa/S9/rusmV11MGb02eeNQ/rWQfnerIvolXOhdLD4KHSqsQ7E7wJSw+id3PrRVGzaxatsrJMnwJWMXFeEmVFxOQiLwgEWQxkCPDYyRHZCvK4WtvsxodsSLxKAHqMdmlzp0o3v7znDaQ22zOjR9TBTXh3I=
+	t=1764936615; cv=none; b=g/iEJxUQr/o98/exczVas/qJKBszEw2NkHP/a3lgpoMq/lH1XWQyunGymi9FlMPULR06JY2uMxk+Ob6ku4EFZqQNU8BxEmbi0IwCVakww7w5md6p+JD9shQx7mQdTmTHTFpUCysY5GvqvU0YnmC4iNpLLGAkELGrLCQ4bQVWnU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764936163; c=relaxed/simple;
-	bh=bgYeGMAzm6Y6sfhlpNRYEBYM+0aMUuWk/NuSWaFkkTs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P/liMFMPKEWSlx3xe4TVVuRtVvZ0AHIC6gwhQfjGCLE3UGkJVxW19mmvuaEcuPc5/OwU735siRckByAUYcSB0AypRnWthToTkHrakZEaCtLcMkN7M1j3jZkXdqe+AkTrOPbSh1GfI5bKw/nbI2+k2QqEr6fbY7dtF1LhnJDZ9d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMt2ahl3; arc=none smtp.client-ip=209.85.218.43
+	s=arc-20240116; t=1764936615; c=relaxed/simple;
+	bh=BnmzzALmQ6i43TkH/lSqlM3JS781UWgkE8m8v774+oc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l3el/OGzsZaHof0L+yiAq5B6DShNmQd1vZzfaO+ucbMmwft3j3XqZ4Psm9gHgwaMrBWWIpY7gqjI3pe817iXEK1Cx23qNM5KQw1JsrXcZIw5Z4jIsrOwalqFCoqt4FS88Tb9n7PIY4iMJjAJyQ4klnz45rQuS0ud/zYeDkKeJC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=asiXpVmh; arc=none smtp.client-ip=74.125.224.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMt2ahl3"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b735b89501fso232472266b.0
-        for <linux-doc@vger.kernel.org>; Fri, 05 Dec 2025 04:02:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="asiXpVmh"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-641e9422473so1713837d50.2
+        for <linux-doc@vger.kernel.org>; Fri, 05 Dec 2025 04:10:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764936158; x=1765540958; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VgyaUQ07yV5AbaD6jWa5R2iO6mlnxudcEFZdveJPHlE=;
-        b=WMt2ahl3Go75Px38hXZd/4f7k5fSV4uIJHmp5qLW61Gdy06MSZIRfVgVrkeTdQXdyg
-         V9xct/0yL7Yn/Y3Eh/vn1MTOXHc7N2Vdzg2dtMxwQJpISsFDLdeQdtRF3BGp7neiLsTI
-         kWmnazS6cmIQ2pJxX1ytEfm7yPHMCfJ+GxX7Gh32ttxO847xtad/+PxmepZf9FbIEnVv
-         k7NH8FPU+1pfZxjG3+crlTzmj19EllgpR+iYzZgbt74Qia0It84Dvpi4gSXiT1uE2ljW
-         nXarr9fnXxBEErW0fw8X5UowjJD7OMcx1P9pX2Yr0kOIp+qfUDYE6LVJsEA2lKy0sMiY
-         BcSw==
+        d=gmail.com; s=20230601; t=1764936611; x=1765541411; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=95vJorwkyoR78B/8jsG9TioZNSggd4rEOfr64GuSXwc=;
+        b=asiXpVmhLTOrqx/1DgvrylzJsPSwMKRtgnFflzgLeSEOHx/h2KGRGvHz9XNhJSXlar
+         s9gPJgCKKxwrkhaHbRbyLWbSUe6NmN4D2JMcQqrvHmwDknMbdpIam52RPDZZNbn5Z4KM
+         Mg9x0NpQaMDJ+uKAbZUQMvTa/W2+AYcvoo+181FHaEOqTVIOl3yun/joyrHGLW9aMvBb
+         hlPR0DqRDVZ/QtFZwgz8bRPvPJe8E4Wgk8fetJdBp/Bl3JJ6KYO07qLm/OpRYn1eM9aA
+         H1TFLd7gJwLrB3YjSQRaT+fdVXscPGCaVHQi8ixY4r9A/JzBSaGu+Y9bdM1RdI769I3f
+         bHWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764936158; x=1765540958;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VgyaUQ07yV5AbaD6jWa5R2iO6mlnxudcEFZdveJPHlE=;
-        b=L2zeOFU28ScEGvJ+nnATXSK+5hmzuqGkrtUXpNFggRTZ1MRAr9mA4zjzLgOFPcT0P7
-         di+w5Mv8TAKE5tkjFihuXvGBcZkCM+0aj3KEOixTB9qWhzrzuM8C2LFbmw62sJTl48H6
-         eBiQF2UNjfUR6mzZh1wI65fG68HEHTDJYQuFlDJyep9ZoWcpAjuN3TtMyZuVz6z+ko2Z
-         tYhTTWYPUse/bNXKz/aAGPHVfD24WMllERMEhAa/ecfaYAq8yN2WLYaPFR7sIxUKKMFt
-         NmatGE8FQqZKKoVIWCVe1/+3y6rYznj6DtbNDTyFazFQbYy5k0/YKTLDjYO9hMlkP3e2
-         KBBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWTuBfDF3rpnRsKc4xxW8wFQBTkE5nb5fAF0fuvHeKuFg5mqEU5ORsm6o1uKn0tViecS5LPwSr2N70=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkhR1U/T7lUJx0MEax0WNg0R8j8bbyRaxQLjE40j1dk3NYCDIA
-	NnakeB7swrUJ9QRgMEBobOh7StIHttt16KPY6WZPi2re/4OAeMu5j0Ejtj379wOfW64pyoSk4E9
-	DeWsRlOFWzSSj12a3ByRHEd8+CwoCm5c=
-X-Gm-Gg: ASbGncvQliXx9tzpVi8edYY5O4GOLL5+KHLHwP4NWL2Go9xF4tU9JrFmVTUvnADRH6b
-	V9AM4QkDtCizrzpzHkDQTk1i0JGY52k/PLTYm48y4UICBdlkUkfz6/wBBFlzMpK/AOCCLFl9qWn
-	fgGE/2ic5znw1BI3l4L5BuyndWqMB8R7hr6RuRa9p/2YjIF6Q3g4MvGzV/op5rFQ/6YyylS0CtX
-	46qx4DcCpNYETbb8sge8uuMPrecivl9Q038XJAjVjy2KP5xY/vJNpgQAmmoA7jdvPn9vaeQEZ1D
-	+eDxn/WWCrjlJVl2gbvszKaQreFXg1FoZ38TIUP+tXKz4AWp3NraE3Ko7x/xDFBoGE5YS4Y=
-X-Google-Smtp-Source: AGHT+IGBQ0GhvwVKLqSDdmB+0hEDhHnoYfYYmLqHuYVoO1l7rAv2wXtwBjAHttKeBb0IocJiCANgCIPU3cmgESB5dxQ=
-X-Received: by 2002:a17:907:7ea3:b0:b79:cec4:f1ad with SMTP id
- a640c23a62f3a-b79ec6b93c7mr675997966b.40.1764936157439; Fri, 05 Dec 2025
- 04:02:37 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764936611; x=1765541411;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=95vJorwkyoR78B/8jsG9TioZNSggd4rEOfr64GuSXwc=;
+        b=Aj2Ze6F9SeLmu010jE7vksfbOvNExeMmFAI6UWcwOmsiCm0Yx75OzBwY/pdvCNKOGU
+         5BI55+NCbMRoRU9nS6oHK1IrBBdiHhFi9+eXziec+WlRYkOfZf8EB48Q+ZoJDPaxLHma
+         JHzXucdPjAlaowizTvjHRzmx0CWx6b0irQZQvM3wEme7bK4fb/nFZ1AJ9JyVDpNOTWZG
+         onih6OZI2FbopAcviksbmD06yd13J6NL5Kk1gYV5tIky1H8hOtWz2dR5RjWW5M9UCtlR
+         nQN2aiNCiTlG5cFxMw1vntAcQ1xJB/8s7cCkKS0ctJrDMFRaDhBjqkrAy24IHE0oVA21
+         VBpA==
+X-Forwarded-Encrypted: i=1; AJvYcCV+zksne7PfSmyG7LknKEFl3lXho8rTLMLVwJkh9G1RM/OZgk1RKUSbqZBPuwqU/YTqHj4dFWMeS+Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlDywRWnakP1M3T0QKRVlzToBLenTY6NUr6DUnRCVmwtVeD879
+	VLvmlKAp0VlnONexrlwHxKpMIpfpYJp71pFPvRxeHB0emYqhoW4AFyUlovMWr/Bk7j0=
+X-Gm-Gg: ASbGncsjX9xRfGE0UoSjy8yvSLUQhxoU9deKU/bS2Lg04BmI/06Ml2mFcxaV/NV9e6q
+	E3RiKJZvvLmYoJr8SCOArmppVCS9TG4wVqy61s3bu3zQp72nhKhKoH/HdfGGB2p1guKCOWYqgXJ
+	6hmcosaf1xGDfkBFcHM/rU69rfrKoYwAQlbvQy5VBnStoX/Bd2N35oKW+un4pheAGdcflJqZsFw
+	uqmoOiByUNcsVLZkF89USoU5z5MRANiwFVQzWBgJDIEx51wqP6RaSBmQeOmtd2zaqGoF3VMDWtK
+	PNeKH54rzcYL9S5Bpkmmqqq1dH8gtB9HwdwMcRPhyTs3flCqMGiBJ/GsQz4QCsRuYPRCa5Itpvf
+	3PTIsZoP4aTQOZiuGslSmY7OLY1NqTj0f1ro56QODSVuucyZQWmSui/CJi+5NBXSA+H6g3vrX4H
+	YUqtNZuQrXRBKhBmyS9igRs244NHQzHh0Skt0CsQ==
+X-Google-Smtp-Source: AGHT+IF0PifHDB8ou4ZSqx1GqzM8ln9OkQ3Z+g4y5+YQLXWvZ8wSwE9BraovlYGUdUBZLmoCDrGy8w==
+X-Received: by 2002:a05:690c:6f83:b0:788:e74:b267 with SMTP id 00721157ae682-78c1893c4e9mr91543077b3.65.1764936611003;
+        Fri, 05 Dec 2025 04:10:11 -0800 (PST)
+Received: from [192.168.2.226] (104.194.78.75.16clouds.com. [104.194.78.75])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78c2bc60288sm3280047b3.21.2025.12.05.04.10.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Dec 2025 04:10:10 -0800 (PST)
+Message-ID: <0f469020-6de0-4baf-b906-6d4ef6f32fc0@gmail.com>
+Date: Fri, 5 Dec 2025 20:10:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251124-staging-ad4062-v2-0-a375609afbb7@analog.com>
- <20251124-staging-ad4062-v2-9-a375609afbb7@analog.com> <aSQ2JUN05vmMQC1I@smile.fi.intel.com>
- <rk4hmupbrb5ugxft6upj7ru43x3z7ybrobax45rorpwbcwleh6@vzxrr3m7r6ep>
- <aSgX9nMBwBtAlSyj@smile.fi.intel.com> <3izg5lyxjye24pvzoibk4tmnxbdfokr53abkpbjo5epqjoz55j@6wc7i4wsgwkt>
- <CAHp75VfLd46xt_2W35gjoTCoh+PqExL-faZ8snhzfOx=65qXWw@mail.gmail.com> <egl65ctlz2umzcdzf7ke5c2hnd33ghudklmf4pdgnp64vnzjg3@rpqrludyv4p2>
-In-Reply-To: <egl65ctlz2umzcdzf7ke5c2hnd33ghudklmf4pdgnp64vnzjg3@rpqrludyv4p2>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 5 Dec 2025 14:02:00 +0200
-X-Gm-Features: AWmQ_bnpd4_oFl4c5azPbk7HXaspqhnY9oSEmM6KqrHSmwBU-kDUBFomCH8ufok
-Message-ID: <CAHp75VcJZavRo7TKXAZagDc8Vt4-y-zm+EySyugRtSxSLMGX-Q@mail.gmail.com>
-Subject: Re: [PATCH v2 9/9] iio: adc: ad4062: Add GPIO Controller support
-To: Jorge Marques <gastmaier@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Jorge Marques <jorge.marques@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/8] Add Chinese translation for USB subsystem
+To: BaiKefan <baikefan@leap-io-kernel.com>, Yanteng Si <si.yanteng@linux.dev>
+Cc: dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
+ doubled@leap-io-kernel.com, alexs@kernel.org
+References: <cover.1764674650.git.baikefan@leap-io-kernel.com>
+ <06600ebb-14a3-4f3b-af61-0f378e64832b@linux.dev>
+ <20251205180130.00003852@leap-io-kernel.com>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <20251205180130.00003852@leap-io-kernel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 5, 2025 at 1:53=E2=80=AFPM Jorge Marques <gastmaier@gmail.com> =
-wrote:
-> On Fri, Dec 05, 2025 at 12:21:31AM +0200, Andy Shevchenko wrote:
-> > On Thu, Dec 4, 2025 at 11:38=E2=80=AFPM Jorge Marques <gastmaier@gmail.=
-com> wrote:
-> > > On Thu, Nov 27, 2025 at 11:20:54AM +0200, Andy Shevchenko wrote:
-> > > > On Wed, Nov 26, 2025 at 04:55:41PM +0100, Jorge Marques wrote:
-> > > > > On Mon, Nov 24, 2025 at 12:40:37PM +0200, Andy Shevchenko wrote:
-> > > > > > On Mon, Nov 24, 2025 at 10:18:08AM +0100, Jorge Marques wrote:
 
-...
 
-> > > > > > > +       return reg_val =3D=3D AD4062_GP_STATIC_HIGH ? 1 : 0;
-> > > > > >
-> > > > > >   return !!(reg_val =3D=3D AD4062_GP_STATIC_HIGH);
-> > > > > >
-> > > > > > also will work.
-> > > > > >
-> > > > >     return reg_val =3D=3D AD4062_GP_STATIC_HIGH;
-> > > >
-> > > > Hmm... This will include implicit bool->int. The !! guarantees valu=
-es 0 or 1,
-> > > > but I don't remember about implicit bool->int case.
-> >
-> > > I don't think the implicit bool->int is an issue, grepping `return .*=
- =3D=3D .*;`
-> > > matches a few methods that return int.
-> >
-> > Yes, the Q here is the value of true _always_ be promoted to 1?
->
-> The relational operator result has type int (c99 6.5.9 Equality
-> operators); and when any scalar value is converted to _Bool, the result
-> is 0 if the value compares equal to 0; otherwise, the result is 1 (c99
-> 6.3.1.2).
-> https://www.dii.uchile.cl/~daespino/files/Iso_C_1999_definition.pdf
+On 2025/12/5 18:01, BaiKefan wrote:
+>>>    .../translations/zh_CN/subsystem-apis.rst     |   2 +-
+>>>    Documentation/translations/zh_CN/usb/CREDITS  | 153 +++++++
+>>>    Documentation/translations/zh_CN/usb/acm.rst  | 137 +++++++
+>>>    .../translations/zh_CN/usb/authorization.rst  | 125 ++++++
+>>>    .../translations/zh_CN/usb/chipidea.rst       | 142 +++++++
+>>>    Documentation/translations/zh_CN/usb/dwc3.rst |  60 +++
+>>>    Documentation/translations/zh_CN/usb/ehci.rst | 216 ++++++++++
+>>>    .../translations/zh_CN/usb/index.rst          |  54 +++
+>>>    .../translations/zh_CN/usb/usbmon.rst         | 380
+>>> ++++++++++++++++++
+>> Actually, I don't know much about USB. I would rather suggest you
+>> copy these patch sets to the USB mailing list, where Chinese
+>> developers might help review them.
+>>
+> Hi Yanteng,
+> 
+> I checked who maintains the USB code and got the following output:
+> 
+> Greg Kroah-Hartman<gregkh@linuxfoundation.org> (maintainer:USB
+> SUBSYSTEM)
+> linux-usb@vger.kernel.org (openlist:USB SUBSYSTEM)
+> linux-kernel@vger.kernel.org (open list)
+> 
+> Would it be appropriate to send my USB documentation translation
+> patches directly to the USB mailing list (linux-usb@vger.kernel.org),
+> or would you suggest another way to reach the appropriate maintainers?
+> 
+> Thanks,
+> Kefan
 
-Okay, thanks for checking this!
-So, let's go with a simplified variant then.
-
-> No conversion warnings even when forcing _Bool type.
-> There are many usages like this, for example:
->
-> drivers/iio/accel/adxl313_core.c @ int adxl313_is_act_inact_ac()
-> drivers/iio/light/opt4060.c @ int opt4060_read_event_config()
-> drivers/iio/light/tsl2772.c @ int tsl2772_device_id_verify()
-> lib/zstd/compress/zstd_fast.c @ int ZSTD_match4Found_branch()
->
-> I cannot find many legitimate usage of relational operator with the
-> double negation.
->   git ls-files | xargs grep -s 'return !!' | grep '=3D=3D'
-
---=20
-With Best Regards,
-Andy Shevchenko
+Greg doesn't know Chinese, send to mailing list linux-usb if fine.
