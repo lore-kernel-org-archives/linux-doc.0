@@ -1,334 +1,179 @@
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48DD9335561;
-	Fri,  5 Dec 2025 07:21:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from mail-m49237.qiye.163.com (mail-m49237.qiye.163.com [45.254.49.237])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD5434F480
+	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 07:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.237
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764919333; cv=none; b=LM+NOiknp4rgl2TcXzn0STI7S61oakYJMovPTzmeo9zoUmEd2q2COCbgZasnQhiD/jrbaK/mYyP//GYnHjgsjHGoWastgtQGPXCdJOejFYjLXQLHfjduv4Z0SJ4Ue7jNoVwRTD0ifZtrtqIsIn2CCUj2xyiq4rhawOvd1WGr6Fo=
+	t=1764919510; cv=none; b=hJqPsg5Tb6Jk2+M/5osgO9ZDhf8/BeKOhwN0QKg0x5S1/jPCHPL6z6wAD/Wobs6BoWtwk0zScWetAxceIVHA7WCNWzKFQYYUwL3CzQbaspxrct8gr+HoG+SlQyMvO5VZwgFT8kAu7XgE8hl6ZAgDFTS5s7FRbwMiCfz5/v5PvCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764919333; c=relaxed/simple;
-	bh=BKdTduih/1l/oeBZ8PU6DuY+E9HBd565xkElM5qpN+o=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=d8bAP67iZ+qcBCE1IPX2iV1tN+x3i5gcMDlgiAo/AYwpRkfSFimZNVhxJmh9HcjAjwZraNfXw3CmK+2DLlmu7ZEjp/Ap20VLrl9GYnxjQS+jM5K7C9lj+p2MTSAI8Ipgu1zhIjTgBtQGkZL9FqAOeXMqDxuxAtvM2cnNnBMShAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c45ff70000001609-c0-693287765fe5
-From: Byungchul Park <byungchul@sk.com>
-To: linux-kernel@vger.kernel.org
-Cc: kernel_team@skhynix.com,
-	torvalds@linux-foundation.org,
-	damien.lemoal@opensource.wdc.com,
-	linux-ide@vger.kernel.org,
-	adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	will@kernel.org,
-	tglx@linutronix.de,
-	rostedt@goodmis.org,
-	joel@joelfernandes.org,
-	sashal@kernel.org,
-	daniel.vetter@ffwll.ch,
-	duyuyang@gmail.com,
-	johannes.berg@intel.com,
-	tj@kernel.org,
-	tytso@mit.edu,
-	willy@infradead.org,
-	david@fromorbit.com,
-	amir73il@gmail.com,
-	gregkh@linuxfoundation.org,
-	kernel-team@lge.com,
-	linux-mm@kvack.org,
-	akpm@linux-foundation.org,
-	mhocko@kernel.org,
-	minchan@kernel.org,
-	hannes@cmpxchg.org,
-	vdavydov.dev@gmail.com,
-	sj@kernel.org,
-	jglisse@redhat.com,
-	dennis@kernel.org,
-	cl@linux.com,
-	penberg@kernel.org,
-	rientjes@google.com,
-	vbabka@suse.cz,
-	ngupta@vflare.org,
-	linux-block@vger.kernel.org,
-	josef@toxicpanda.com,
-	linux-fsdevel@vger.kernel.org,
-	jack@suse.cz,
-	jlayton@kernel.org,
-	dan.j.williams@intel.com,
-	hch@infradead.org,
-	djwong@kernel.org,
-	dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com,
-	melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com,
-	harry.yoo@oracle.com,
-	chris.p.wilson@intel.com,
-	gwan-gyeong.mun@intel.com,
-	max.byungchul.park@gmail.com,
-	boqun.feng@gmail.com,
-	longman@redhat.com,
-	yunseong.kim@ericsson.com,
-	ysk@kzalloc.com,
-	yeoreum.yun@arm.com,
-	netdev@vger.kernel.org,
-	matthew.brost@intel.com,
-	her0gyugyu@gmail.com,
-	corbet@lwn.net,
-	catalin.marinas@arm.com,
-	bp@alien8.de,
-	x86@kernel.org,
-	hpa@zytor.com,
-	luto@kernel.org,
-	sumit.semwal@linaro.org,
-	gustavo@padovan.org,
-	christian.koenig@amd.com,
-	andi.shyti@kernel.org,
-	arnd@arndb.de,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	rppt@kernel.org,
-	surenb@google.com,
-	mcgrof@kernel.org,
-	petr.pavlu@suse.com,
-	da.gomez@kernel.org,
-	samitolvanen@google.com,
-	paulmck@kernel.org,
-	frederic@kernel.org,
-	neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com,
-	josh@joshtriplett.org,
-	urezki@gmail.com,
-	mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	chuck.lever@oracle.com,
-	neil@brown.name,
-	okorniev@redhat.com,
-	Dai.Ngo@oracle.com,
-	tom@talpey.com,
-	trondmy@kernel.org,
-	anna@kernel.org,
-	kees@kernel.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	mark.rutland@arm.com,
-	ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com,
-	wangkefeng.wang@huawei.com,
-	broonie@kernel.org,
-	kevin.brodsky@arm.com,
-	dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev,
-	ast@kernel.org,
-	ziy@nvidia.com,
-	yuzhao@google.com,
-	baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com,
-	joel.granados@kernel.org,
-	richard.weiyang@gmail.com,
-	geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com,
-	linux@treblig.org,
-	alexander.shishkin@linux.intel.com,
-	lillian@star-ark.net,
-	chenhuacai@kernel.org,
-	francesco@valla.it,
-	guoweikang.kernel@gmail.com,
-	link@vivo.com,
-	jpoimboe@kernel.org,
-	masahiroy@kernel.org,
-	brauner@kernel.org,
-	thomas.weissschuh@linutronix.de,
-	oleg@redhat.com,
-	mjguzik@gmail.com,
-	andrii@kernel.org,
-	wangfushuai@baidu.com,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	2407018371@qq.com,
-	dakr@kernel.org,
-	miguel.ojeda.sandonis@gmail.com,
-	neilb@ownmail.net,
-	bagasdotme@gmail.com,
-	wsa+renesas@sang-engineering.com,
-	dave.hansen@intel.com,
-	geert@linux-m68k.org,
-	ojeda@kernel.org,
-	alex.gaynor@gmail.com,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH v18 40/42] dept: track PG_writeback with dept
-Date: Fri,  5 Dec 2025 16:18:53 +0900
-Message-Id: <20251205071855.72743-41-byungchul@sk.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20251205071855.72743-1-byungchul@sk.com>
-References: <20251205071855.72743-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzXSbUxTZxQH8D3Pfe7Tl9jsWkl6QTNm1WDw3el2ks3FL0tuYvaSTL/oEq30
-	ZnSUYopQWTSrbgzGGDCStoEyoKIdYAVsVbTQWDBzIUgoQ6EgHWJIHatl2NFqcYQJxm+/nP85
-	/09HyiiDbJpUZzgpGg0avZrKiTy6yrGtsGS3budCxQYoLf4GRs76CcTnSwnUtbsoLNo7JRBo
-	u4Tg2Qs7A0u+OwisQ9UMBAO3GHBdPYshcjuGwDI1TeEfZzmC2rBdAtHJLhaWQo8xjCaeIJj2
-	lyBYtOZAw3kPhYh1jsKLgUEGbJYAAsdUiIE+y48UokN1GGY7KPxir0YQHvdh+LapncLNh14J
-	TFirMUw6wwT6q85jsM1QsF5Rgd32FwbL5S4Md5smCDjNm2CpMQ9ClRYCbdFBFvr+HGEhEq6m
-	0Gl+KAH32G8I5u9NYSj1xgn4xreA4/sLBGrqJyh0+/oI3LnxCMOwt45Cecc1FgL+fhbaHwcx
-	9NW2EHgwUCmBQe9lFi6ODmFIVKzdrxVaPdexUPzHIhVc9S4kfOcxCQvx+1TwJRqJ8PPANuFm
-	bUgiNLoLBE9zptDUPYMFRyzOCuORfYK79QcqlEXvYWFipJt+lnlY/oFW1OsKReOOD4/Js9tm
-	m9GJ5Funpq5XYDNKppYhmZTn9vD1VRH02raWIbJsymXwwWCSWXYK9zbv+SnMliG5lOGG0/mS
-	ZMVKsIbbx1vbbrPLJtwmPjZ3Cy9bwb3L1/wbI69K0/lLHf6VfdnLuWV0YcVKbi/fUPZspZTn
-	7DL+ymgl8+ogle9pDpIqpGhEb7Qipc5QmKvR6fdszy4y6E5tz8rLdaOX/+Y889+RGygW+LwX
-	cVKkXqXwm3bplKymML8otxfxUkadonii36lTKrSaoq9FY95RY4FezO9Fa6VErVLsTpi0Su5L
-	zUkxRxRPiMbXKZbK0szozNODV/u3bmQSNarK4XhBw1y6TJwVTv9q2//34kwLu2QyNHllyTVZ
-	nOt+r/nuV4G0Nw8cnF63bmx1z4X3tc9tsYGNJXmZORnOHc3HJ02Hus+Nf6p6/sk7qWOP6t47
-	YKBkPtlTHMpY31X+0e8PDm/YaryYtf5jR2dsc7/qSNTm/iJltZrkZ2t2ZTLGfM3/WzAWfmsD
-	AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSe0hTcRTH+923o8VtSd0MykYRBNoDixM9qD+qS5D0V0UEOfKWN+eDzUdG
-	YdMumpas2Sa5fGQ5TE3XZqnZaChJ75xWSrVMmpa5tHw2l9o0+ufwOef7PV/OH4fBFQ1kCCPG
-	JwmaeJVaSckIWeTWzLDkrI3i+jIpArKldPjY7SHhnc5JwNhoNgHXa6spmDLX05Btu0bCk84M
-	AtpqqhB0j2UjmPCbcZAaZwiYMrTSMOr7QINRh2DG0YrA5DLg0NX2CIfqOh0GI9ZpCgZahhEY
-	ezwUFPTrCBiyXEJQ2Gemof/xXvjR3UTCjPsrBp3jXgQWzzQGHmcWgilTLJSU2QPrpp8U+F++
-	xqHA2IbgRo8bh+H+zwjqWj8hcFRkUNCrv4dDh2cBvBkbouCpMZeCH67rGAxaKSjNcJDgejGA
-	oMhsQND33oFB5s1aCkxFNgIaPz+gwTXwB4OPJgMGVbb90G3pI+C5vgwLnBtw3V0C5oJMLFC+
-	YWC804SBz1JJ7yxH/ISUR/CV9vsYL7VPUXx1cTXi/ZMGxI+WZ+K8pA+0Ld4hnL9gT+XLn3sp
-	fnLsLcU7xksJ/lkZx9+6OInxV16G8Y2FbvrAriOybdGCWkwRNOt2RMliagYrUKJv+eme+3nY
-	eeRbmoOCGI6N4Apuu4hZptg1XFeXD5/lYDaUs1/uI3OQjMHZjhVcli9vTljEbudMNS3kLBPs
-	am745yNsluXsZu7ayDDxL3QFV2V1zvmDAnNj5+QcK9hNXEnOBKlHslI0rxIFi/EpcSpRvSlc
-	GxuTFi+eDj+eEGdDgX+ynPtzpQGNduxtRiyDlPPlztQNooJUpWjT4poRx+DKYLlXvV5UyKNV
-	aWcETcIxTbJa0DajZQyhXCLfd0iIUrAnVUlCrCAkCpr/KsYEhZxHxQ11Cekq84lDBze/Ct1z
-	tPhUVMdjjTnfeXehfW14mGQ1rEwvKuEGv+yIfvXQpZOW+UMdqx6KjZ25bfvIXmd707OkX78X
-	aw7HJRfLdkcOzUt1WrxifVaFtHQkVKxPFPVnS9cZr85vWZC/hSmMzHf3br0ZQee4u/wv/O++
-	76Yz2pWENka1YS2u0ar+AkgIPJZLAwAA
-X-CFilter-Loop: Reflected
+	s=arc-20240116; t=1764919510; c=relaxed/simple;
+	bh=Hb25Pr0+3cIkYqoOBqbzp+YjKv7b/zvB1vWPDCKb+x4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fM5uVES+HuMZ87rKvF/ZRVAIEtMwXwYUFsXX+ZOZw9iRkKXz3RDU5OYOpGgJRXHnKx+so8ks7ezytT/flCQaOniWvFy7FQk3NF9y+IAeD4SGYGxqhqMiaXiShRWVrVzKUwp72nAm6X9VLMIqpML4R4i+UAHcvGqNjse2AdM/dMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=jExKQL5P; arc=none smtp.client-ip=45.254.49.237
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="jExKQL5P"
+Received: from localhost (unknown [222.130.22.244])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2c1baf804;
+	Fri, 5 Dec 2025 15:24:56 +0800 (GMT+08:00)
+Date: Fri, 5 Dec 2025 15:24:54 +0800
+From: BaiKefan <baikefan@leap-io-kernel.com>
+To: Yanteng Si <si.yanteng@linux.dev>, seakeel@gmail.com
+Cc: alexs@kernel.org, dzm91@hust.edu.cn, corbet@lwn.net,
+ linux-doc@vger.kernel.org, doubled@leap-io-kernel.com
+Subject: Re: [PATCH v4 1/8] docs/zh_CN: Add index.rst translation
+Message-ID: <20251205152454.000001ac@leap-io-kernel.com>
+In-Reply-To: <b6d20fc9-6984-47f5-9726-74eade80a59e@linux.dev>
+References: <cover.1764674650.git.baikefan@leap-io-kernel.com>
+	<a0cb5dc4973db59048e4437cc611b22ff8b4f06e.1764674650.git.baikefan@leap-io-kernel.com>
+	<b6d20fc9-6984-47f5-9726-74eade80a59e@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9aed664fca09d5kunma5b6ca98e456fc
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCT0weVkwdHx9CQhgaT0tJTFYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MSVVKS0
+	tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=jExKQL5PRYU7WLwKWsONNCmUVyEZ7/eZ8o63FipJyadDsttzpfm0c06ct8zT9lEZzL/AKTzuyFWpUuL1bRzS1lMUXWP4FlZh82QRJASVMxcxtnXIk2ZRoXi3rQZyX+5bcP+IfmBuKXJWCz/3tCoyNWZ840YEsKeph/nTWflopM0HjRW8mftrxsah2GxXRieKCx6PL7cHhF9LB0kjHYFQfo/02rmLzO+TPtQtq0iHBOGZzPVOHUE/oocyXzX+TVywz3ChGj70TiFS4/UE9QZORhWiScKK3Wk/JWGva7NN6oyLG3nfxYyoslAaXislUZ0My3rEzwy+JVzdENuaV0RAeg==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=cbL/advwNFKojP/AG6XxWYckJ/US3rED8dbzFGDZWNs=;
+	h=date:mime-version:subject:message-id:from;
 
-Makes dept able to track PG_writeback waits and events, which will be
-useful in practice.
+On Wed, 3 Dec 2025 10:34:20 +0800
+Yanteng Si <si.yanteng@linux.dev> wrote:
 
-Signed-off-by: Byungchul Park <byungchul@sk.com>
----
- include/linux/mm_types.h   | 1 +
- include/linux/page-flags.h | 7 +++++++
- mm/filemap.c               | 6 +++++-
- mm/mm_init.c               | 1 +
- 4 files changed, 14 insertions(+), 1 deletion(-)
+> 
+> 在 2025/12/2 19:56, Kefan Bai 写道:
+> > Translate .../usb/index.rst into Chinese and update
+> > subsystem-apis.rst
+> >
+> > Update the translation through commit c26cee817f8b
+> > ("usb: gadget: f_fs: add capability for dfu functional descriptor")
+> >
+> > Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
+> > ---
+> >   .../translations/zh_CN/subsystem-apis.rst     |  2 +-
+> >   .../translations/zh_CN/usb/index.rst          | 54
+> > +++++++++++++++++++ 2 files changed, 55 insertions(+), 1 deletion(-)
+> >   create mode 100644 Documentation/translations/zh_CN/usb/index.rst
+> >
+> > diff --git a/Documentation/translations/zh_CN/subsystem-apis.rst
+> > b/Documentation/translations/zh_CN/subsystem-apis.rst index
+> > 830217140fb6..b52e1feb0167 100644 ---
+> > a/Documentation/translations/zh_CN/subsystem-apis.rst +++
+> > b/Documentation/translations/zh_CN/subsystem-apis.rst @@ -90,6
+> > +90,7 @@ TODOList: security/index
+> >      PCI/index
+> >      peci/index
+> > +   usb/index
+> >
+> >   TODOList:
+> >
+> > @@ -104,6 +105,5 @@ TODOList:
+> >   * accel/index
+> >   * crypto/index
+> >   * bpf/index
+> > -* usb/index
+> >   * misc-devices/index
+> >   * wmi/index
+> > diff --git a/Documentation/translations/zh_CN/usb/index.rst
+> > b/Documentation/translations/zh_CN/usb/index.rst new file mode
+> > 100644 index 000000000000..71e822e464d4
+> > --- /dev/null
+> > +++ b/Documentation/translations/zh_CN/usb/index.rst
+> > @@ -0,0 +1,54 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +.. include:: ../disclaimer-zh_CN.rst
+> > +
+> > +:Original: Documentation/usb/index.rst
+> > +:翻译:
+> > +
+> > + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
+> > +
+> > +:校译:
+> > +
+> > +
+> > +
+> > +===========
+> > +USB 支持
+> > +===========
+> > +
+> > +.. toctree::
+> > +    :maxdepth: 1
+> > +
+> > +    acm
+> > +    authorization
+> > +    chipidea
+> > +    dwc3
+> > +    ehci
+> > +    usbmon
+> 
+> They shouldn't appear here right now; instead, they should be
+> scattered across the translation patches. If only this patch is
+> applied, a compilation error will occur.
+> 
+> 
+> Thanks,
+> 
+> Yanteng
+> 
 
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 85d06073d37b..fa6ba4196e0d 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -222,6 +222,7 @@ struct page {
- #endif
- 	struct dept_page_usage usage;
- 	struct dept_ext_wgen pg_locked_wgen;
-+	struct dept_ext_wgen pg_writeback_wgen;
- } _struct_page_alignment;
- 
- /*
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index 0b0655354b08..ec736811a2c6 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -203,6 +203,7 @@ enum pageflags {
- #include <linux/dept.h>
- 
- extern struct dept_map pg_locked_map;
-+extern struct dept_map pg_writeback_map;
- 
- static inline void dept_set_page_usage(struct page *p,
- 		unsigned int new_type)
-@@ -292,6 +293,8 @@ static inline void dept_page_set_bit(struct page *p, int bit_nr)
- 
- 	if (bit_nr == PG_locked)
- 		dept_request_event(&pg_locked_map, &p->pg_locked_wgen);
-+	else if (bit_nr == PG_writeback)
-+		dept_request_event(&pg_writeback_map, &p->pg_writeback_wgen);
- }
- 
- static inline void dept_page_clear_bit(struct page *p, int bit_nr)
-@@ -300,6 +303,8 @@ static inline void dept_page_clear_bit(struct page *p, int bit_nr)
- 
- 	if (bit_nr == PG_locked)
- 		dept_event(&pg_locked_map, evt_f, _RET_IP_, __func__, &p->pg_locked_wgen);
-+	else if (bit_nr == PG_writeback)
-+		dept_event(&pg_writeback_map, evt_f, _RET_IP_, __func__, &p->pg_writeback_wgen);
- }
- 
- static inline void dept_page_wait_on_bit(struct page *p, int bit_nr)
-@@ -311,6 +316,8 @@ static inline void dept_page_wait_on_bit(struct page *p, int bit_nr)
- 
- 	if (bit_nr == PG_locked)
- 		dept_wait(&pg_locked_map, evt_f, _RET_IP_, __func__, 0, -1L);
-+	else if (bit_nr == PG_writeback)
-+		dept_wait(&pg_writeback_map, evt_f, _RET_IP_, __func__, 0, -1L);
- }
- 
- static inline void dept_folio_set_bit(struct folio *f, int bit_nr)
-diff --git a/mm/filemap.c b/mm/filemap.c
-index d7e567af3261..0ce3f9307582 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1191,7 +1191,7 @@ static void folio_wake_bit(struct folio *folio, int bit_nr)
- 	 * dept_page_clear_bit() being called multiple times is harmless.
- 	 * The worst case is to miss some dependencies but it's okay.
- 	 */
--	if (bit_nr == PG_locked)
-+	if (bit_nr == PG_locked || bit_nr == PG_writeback)
- 		dept_page_clear_bit(&folio->page, bit_nr);
- 
- 	spin_lock_irqsave(&q->lock, flags);
-@@ -1248,6 +1248,9 @@ static inline bool folio_trylock_flag(struct folio *folio, int bit_nr,
- struct dept_map __maybe_unused pg_locked_map = DEPT_MAP_INITIALIZER(pg_locked_map, NULL);
- EXPORT_SYMBOL(pg_locked_map);
- 
-+struct dept_map __maybe_unused pg_writeback_map = DEPT_MAP_INITIALIZER(pg_writeback_map, NULL);
-+EXPORT_SYMBOL(pg_writeback_map);
-+
- static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
- 		int state, enum behavior behavior)
- {
-@@ -1686,6 +1689,7 @@ void folio_end_writeback_no_dropbehind(struct folio *folio)
- 		folio_rotate_reclaimable(folio);
- 	}
- 
-+	dept_page_clear_bit(&folio->page, PG_writeback);
- 	if (__folio_end_writeback(folio))
- 		folio_wake_bit(folio, PG_writeback);
- 
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index f1d3e4afd43b..9f99eeb99ca3 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -589,6 +589,7 @@ void __meminit __init_single_page(struct page *page, unsigned long pfn,
- 	page_cpupid_reset_last(page);
- 	page_kasan_tag_reset(page);
- 	dept_ext_wgen_init(&page->pg_locked_wgen);
-+	dept_ext_wgen_init(&page->pg_writeback_wgen);
- 
- 	INIT_LIST_HEAD(&page->lru);
- #ifdef WANT_PAGE_VIRTUAL
--- 
-2.17.1
+Hi Yanteng,
+
+I’ll update the content as you suggested, ensuring the entries in
+index.rst—such as acm, authorization, chipidea, dwc3, ehci, and
+usbmon—are properly split across the relevant patches.
+
+This should fix the compilation issue when only some of the patches are
+applied.
+
+Let me know if any further changes are needed.
+
+Thanks,
+Kefan
+
+> > +
+> > +Todolist:
+> > +
+> > +*   functionfs
+> > +*   functionfs-desc
+> > +*   gadget_configfs
+> > +*   gadget_hid
+> > +*   gadget_multi
+> > +*   gadget_printer
+> > +*   gadget_serial
+> > +*   gadget_uvc
+> > +*   gadget-testing
+> > +*   iuu_phoenix
+> > +*   mass-storage
+> > +*   misc_usbsevseg
+> > +*   mtouchusb
+> > +*   ohci
+> > +*   raw-gadget
+> > +*   usbip_protocol
+> > +*   usb-serial
+> > +*   usb-help
+> > +*   text_files
+> > +
+> > +.. only::  subproject and html
+> > +
+> > +   索引
+> > +   =======
+> > +
+> > +   * :ref:`genindex`
+> > --
+> > 2.52.0
+> >
+> 
+> 
 
