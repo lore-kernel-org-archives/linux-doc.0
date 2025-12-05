@@ -1,101 +1,159 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA9C34253B
-	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 17:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054722494FE;
+	Fri,  5 Dec 2025 18:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764957137; cv=none; b=SHmjz6bARQjb+6eOJvkrGeVSh8n3avK0+xhtGn9VrLzl4SwZCEeo3mCbz/dS1hvT3f2L2JNbT37JHzU4xUOHURO/8FY+9lkraMPyTwn2/A4h0GEAiDYlXb2MRNrNGrMhQLMJGerjRwSQ9tkt8xlVtl3Ucy6G4znhWosB4Sf9Sss=
+	t=1764958959; cv=none; b=SUQF/kVhVq0QKiy5gstIWFCgudsaCc0hRVVXNNiHi/oIZ/vyr4Kv2hqghnTyk/E6HLQYeu2YFwn7k90hyBbfBWuNEWF9MZXdEJdYOATcTmaYScDF+0/MoeS1Nl+NScrGTFOs2fxViLTQVkld1usMixsoLA0S9m9sZ/IjyUH4JVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764957137; c=relaxed/simple;
-	bh=6bFiqL+ZRpQXAAfB7f2wHLXfderF5VwVzFsF6Ck4rYU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H7VCD+5ZU7EHwMAvJPcP+SN2qiyPzkGbR9VnDUOBM19Dtjl4z/XhFMZrgnFT23MTI4om/03Az9+o84YY3wTY3ZVBuZidMK4DUAUpfACkv7tAJqOl+Ip20pThidkgmynRSWCYeUrt3c24JV3xZ4KNq3gR3X6hOe/5I3BH1PDAelI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a524Z9VO; arc=none smtp.client-ip=209.85.210.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764958959; c=relaxed/simple;
+	bh=Gv9dNnyumHXwQe7RA3oVLD70kmogEg5WcdKMw4U/tjs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VXmIB8l+aAe6xkcgPCFagCcdY/HM/EYNn3Koza0RqzkCsaWckgvrZwhVLQ0EbhOAG+YKqBKtEbloxuB0AiUheUG6wGLl95bA62g0VE8UObt+K4HQWtTLTQ2OuPBouA2VQvd/qCk9PUCLSQortmOjGB8eCeIzn4PZxH6GEvRaJoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qSTzhueG; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a524Z9VO"
-Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-7ba49f92362so1485783b3a.1
-        for <linux-doc@vger.kernel.org>; Fri, 05 Dec 2025 09:52:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764957135; x=1765561935; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fASQSNfEeW8QYmsSgbf82Gv96VVqklM9adf0MgtiiK0=;
-        b=a524Z9VO/++hpHrnbU1C6rhZtwOPymKx4/SWr3VWiSYOAvGkPGKvauh0fN56/lFCqV
-         kJVI5CIgMPT1jSC9bOl1ERO8abErxNTxjrX5PT1ZEnVKD63aKqHlxh3TqNl0Oi/EXKlp
-         XB9fWBIiAJHTFDYRpVAOi8EGOxn6nhfB3Jtohzad+jfPpOzFxwBkT9ZeDAgZ5lIfSU8o
-         CsjtCyGXet/SWVJdnpbegLXXtEx+HNBhbEbbSEda/wOCRmnrTEUGGAOEmqgRhIzagG26
-         26VAjBlzdtwf0o+g26et2YIBZVeXXkJrFbk637Dc0sKXDxmk5k1BAnYSO3sCAISOBVIU
-         Yd3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764957135; x=1765561935;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fASQSNfEeW8QYmsSgbf82Gv96VVqklM9adf0MgtiiK0=;
-        b=F/agDo53f+6xshwQVelQm7AapINFD93hfuDNEAlaPwaSipQ56mdgDt/1kiPqOx+/lP
-         ziRT6T3LHseHs6WZa65ELSpzLoEWKKCN4QLt0BnbrxyLfKsRZYFo2udZmlS8Ik7RBCF7
-         06Z2Qnv/Ktcg0pzeTY4FAfUAgLKXLE2ihHFVH3moMmlInT1bxLh1i9i/xHSl8kaIs5pg
-         UEm+HfUEuR2D9QLCxtd1mUiCTNMNTkmWvFs4oU75yc3LfiSlKUSSRv4h2ActJF4v7C4S
-         IPLUA3LVeW8leuDoiXExENpAYFvg7Xgm0lcnNlvtLKbMKehATQqt/e7B302bQNER9ERs
-         +/qw==
-X-Gm-Message-State: AOJu0Ywq7DVSLyJ0vHGAK4ZshUG1w46L35QZEaRh6MJdisgZwCWKeihk
-	tpv1IDerVpld5ShsFrwvjIYGVmqmZWJAVKAy0Hb6BPGLJqaLt06F7VTS
-X-Gm-Gg: ASbGncu8v4nXJd+9bdjUNchpDOVSBhm2ZBw/COTA3iI65sc2Qo+l8y5tS39C+Bg/DMC
-	HPnnMhXkhARWPhxeLBxPIUW0OZOCE3UWlA4tDOVqPxnx2Yp8fG4vGf7ci8H0VE8Q5at3E00tRwd
-	wYz+v1c1A2YziG+xkrjInHah6AK1wVP+gS/pXbLLBQ8URqmJoz8TJXzRpRJMfVmUq5lzCnZCJCG
-	tPg76QjCcYH2BA58vLl00o4R7dTS45/97qf2Hvl8a53wtdlqXg5hFC+OCFnYeIncfQSzOfZyLdK
-	6g2JAXCFG9A1z8UH0FBvuahSyK27v35RF/BBhjQazP3bUPfhg19GLEMtSdg4hnSJ16K/bjdL0NT
-	bVgTQvU3rYWH3atjP9r97xvtqmSLLK3pwO5TOUKyHp8Ievv/RuTwnIp5/mdhOIxssnx+T/UQNDi
-	GGBSdlW9N9GKzG0VtZ91+qBIm23SEzpV/4pGcZPSRsZg==
-X-Google-Smtp-Source: AGHT+IGmFoBY2liuuk2dxaKDoxDvNbigg3ZojUtqDQlRdYbPNwkqQOFkXbrQ48aVqXVLXjHyFq6zQg==
-X-Received: by 2002:a05:6a00:2d19:b0:78a:f6be:74f2 with SMTP id d2e1a72fcca58-7e8b69efd8amr84428b3a.5.1764957134588;
-        Fri, 05 Dec 2025 09:52:14 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:8839:f626:f539:b6d1:1913:1426])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7e2af658d84sm5762425b3a.60.2025.12.05.09.52.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Dec 2025 09:52:14 -0800 (PST)
-Received: (nullmailer pid 619145 invoked by uid 1000);
-	Fri, 05 Dec 2025 17:49:37 -0000
-From: Kathara Sasikumar <katharasasikumar007@gmail.com>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, shuah@kernel.org, skhan@linuxfoundation.org, david.hunter.linux@gmail.com, katharasasikumar007@gmail.com
-Subject: [PATCH] docs: arm: keystone: fix link to devicetree binding document
-Date: Fri,  5 Dec 2025 17:49:33 +0000
-Message-ID: <20251205174933.619122-1-katharasasikumar007@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qSTzhueG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764958954;
+	bh=Gv9dNnyumHXwQe7RA3oVLD70kmogEg5WcdKMw4U/tjs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qSTzhueGknUWsWaFOgaCS9LEHg4L/4758R4Y0IQMAKaucZlL+Ua/eGIFn5QFocZI6
+	 EQN1UxVLaGTnrr2ip2jwhbgcstH4QkmE2GBsPG5sBjH7J8vtKCqfYQzn+kMacR+dA9
+	 EdnsXHXM4LgyUVhRcgbGc+FNwMtw62SGTDbcE0vwypUYPESwZ4VI/oi4UgdcU0l412
+	 Sdfp1SW41NwaTTRKngX+BP9aKaB5nVll0clwT9suP/CKuTtRUPN0FH/9quc6HMPVYg
+	 1iq8S5UgxmDxx2eO5jWDdaYnVTa6aD65C/Ifpz/UDwU2zC5xrHQ5GvfhYNuU2FrQrg
+	 1XagI7bD9u5Rg==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: loicmolinari)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0D3F217E0610;
+	Fri,  5 Dec 2025 19:22:34 +0100 (CET)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Melissa Wen <mwen@igalia.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Nitin Gote <nitin.r.gote@intel.com>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christopher Healy <healych@amazon.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	kernel@collabora.com
+Subject: [PATCH v13 00/10] drm: Reduce page tables overhead with THP
+Date: Fri,  5 Dec 2025 19:22:21 +0100
+Message-ID: <20251205182231.194072-1-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-make refcheckdocs reports a broken link in the Keystone architecture
-overview. The referenced devicetree binding was converted from .txt to
-YAML schema and moved under arm/ti/. Updated the link to point to the
-current location.
+This series aims to reduce the page tables overhead of DRM drivers for
+builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
+knob '/sys/kernel/mm/transparent_hugepage/shmem_enabled' appropriately
+set or drivers using a dedicated huge tmpfs mount point.
 
-Signed-off-by: Kathara Sasikumar <katharasasikumar007@gmail.com>
----
- Documentation/arch/arm/keystone/overview.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It starts by checking whether a faulty address in the page fault
+handler is part of a huge page in order to attempt a PMD sized PFN
+insertion into the VMA. It then introduces a dedicated
+get_unmapped_area file operation on the DRM file descriptor for GEM
+objects to get the best virtual address alignment for the underlying
+shmem buffers.
 
-diff --git a/Documentation/arch/arm/keystone/overview.rst b/Documentation/arch/arm/keystone/overview.rst
-index cd90298c493c..bf791b2fc43f 100644
---- a/Documentation/arch/arm/keystone/overview.rst
-+++ b/Documentation/arch/arm/keystone/overview.rst
-@@ -65,7 +65,7 @@ specified through DTS. Following are the DTS used:
- 
- The device tree documentation for the keystone machines are located at
- 
--        Documentation/devicetree/bindings/arm/keystone/keystone.txt
-+        Documentation/devicetree/bindings/arm/ti/ti,keystone.yaml
- 
- Document Author
- ---------------
+The remaining commits propose shmem helpers to create and release huge
+tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
+then used to optionally enable Transparent Hugepage for Panfrost and
+Panthor.
+
+For Panthor on a Rock 5B, this series makes the first memcpy() to an
+entire BO object mapped in userspace about twice as fast with
+Transparent Hugepage enabled.
+
+Implementing a fault-around handler using the arm64 contiguous page
+hint (contptes) could also greatly help reduce page tables overhead
+for small pages by mapping several contiguous pages around a faulty
+address at once. This will be proposed in another patch series.
+
+Loïc Molinari (10):
+  drm/shmem-helper: Simplify page offset calculation in fault handler
+  drm/shmem-helper: Map huge pages in fault handler
+  drm/gem: Introduce drm_gem_get_unmapped_area() fop
+  drm/gem: Add huge tmpfs mountpoint helpers
+  drm/i915: Use huge tmpfs mountpoint helpers
+  drm/v3d: Use huge tmpfs mountpoint helpers
+  drm/gem: Get rid of *_with_mnt helpers
+  drm/panthor: Introduce huge tmpfs mountpoint option
+  drm/panfrost: Introduce huge tmpfs mountpoint option
+  Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
+
+ Documentation/gpu/drm-mm.rst                  |  29 ++-
+ drivers/gpu/drm/drm_gem.c                     | 202 +++++++++++++-----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |  77 +++----
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  58 +++--
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         |  71 ------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         |  14 --
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  15 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   5 -
+ drivers/gpu/drm/panfrost/panfrost_device.c    |   3 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   6 +
+ drivers/gpu/drm/panfrost/panfrost_drv.h       |   9 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  18 ++
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   2 +
+ drivers/gpu/drm/panthor/panthor_device.c      |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c         |   7 +
+ drivers/gpu/drm/panthor/panthor_drv.h         |   9 +
+ drivers/gpu/drm/panthor/panthor_gem.c         |  18 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |   2 +
+ drivers/gpu/drm/v3d/Makefile                  |   3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |   6 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  11 +-
+ drivers/gpu/drm/v3d/v3d_gem.c                 |  21 +-
+ drivers/gpu/drm/v3d/v3d_gemfs.c               |  62 ------
+ include/drm/drm_device.h                      |  15 ++
+ include/drm/drm_gem.h                         |  40 +++-
+ include/drm/drm_gem_shmem_helper.h            |   3 -
+ 29 files changed, 420 insertions(+), 303 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+
 -- 
-2.51.0
+2.47.3
 
