@@ -1,449 +1,240 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA43C33A029;
-	Fri,  5 Dec 2025 09:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B926E3164D3;
+	Fri,  5 Dec 2025 09:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764925965; cv=none; b=ltXBKNhE+pwCWHlSfkpp2jbJ0Ss8Q5EOunLBbBFOb5gOeRPUrem/L7IzKDc3ObkNQo69xDCwVCvbyuxEG/2CPuosk75o1A9QH9cGnAi6QZMTs28jHJrG+LuhN8vQwazHwsXa6bC1un7xbEZNnfANUolw3s8efvD9NCzZhx0ossA=
+	t=1764926887; cv=none; b=BG46cNz3JwOs33ZpLgEv3YkN197PiWn4c0jY6s3ZndW0iTKepVbKLm0yUkpNS1b+Sq2cISr2yR4sH5CVLTUFsCsmNOv/J+aLK70saXpEh9/2fwlfZ0qNkLotjyjk3EQLYugBBTcKzlV/zfA8YXoruIMjwn8SXDmFZsd7DU/ZnRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764925965; c=relaxed/simple;
-	bh=eBqeFd4tGfaL/+oYaUWVSEWVdybaswBZMMYqwL76/us=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ii5uuBwbQEYFh+FSHqbIaCJHEakL2t4s4LO1LLTb5avOn210uRChrAHjP9OjUO5DA9BMdR3Eiygn4rzMNkyNJLcLrrzeT9ZPtbYao1c57ISYrCYxSk2mrw1V57XqJ2ycHSbrW5na8FXcUZdI/NUMydr3XlqCPCfHTChOVrtlQhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NnLz+S/Q; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1764926887; c=relaxed/simple;
+	bh=/3K8i488KBtohoPjUWcmwxOuPxkVYp8UF2/iPAPxq7Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lKw9+O+uy/86AULuO8cYBWv9WjJg32FgE8adnVGu+x0KUkv8vXjCALTH7R7Qm2KLjVWDLmFzt0F0BZ1i6zm90WF8asFEd0AwxKHzVhJ73sTnKBIVACqtPjRmrsj/H6mFSEtB3dD6YP6YWZkbDDBmU0QnuKPuZVuE0deb7pwnMgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YRrD1Ibi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NnLz+S/Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764925947;
-	bh=eBqeFd4tGfaL/+oYaUWVSEWVdybaswBZMMYqwL76/us=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NnLz+S/Qxby2WZzVfVo1Oa+jC3KIjaZkdMlCnUQv+Br0EbOdwebDvowqTe+tR8/9O
-	 OmDPE7VzXtH5HAlRoXYSV/j4Opru4M8YzY9xRZJ3Eu9p7U9+ZBCHFE5PLjOHy6gC0v
-	 Ki9Q9/o+72OcLUUfsLw39ZzCNpGQXoCPwI3aa1Tu8Tuu/7lKPUhVFDPIJqbHKcPa75
-	 iMMEvGEtJ8xbnPgOT1/xBcuJFUPQMFIyRuFkWViZ5iIBhrDHz6zBdwYXAMQWwHz4up
-	 cIWEvTazgWSB7u227xx9RIwIMnGz1njRDdLIi5NM9e7P7BUheK+tgDT55k++GHSo3J
-	 y1FvYeBZVqnmw==
-Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 277E817E1572;
-	Fri,  5 Dec 2025 10:12:26 +0100 (CET)
-From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Melissa Wen <mwen@igalia.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	=?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Nitin Gote <nitin.r.gote@intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christopher Healy <healych@amazon.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	kernel@collabora.com
-Subject: [PATCH v12 05/10] drm/i915: Use huge tmpfs mountpoint helpers
-Date: Fri,  5 Dec 2025 10:12:11 +0100
-Message-ID: <20251205091216.150968-6-loic.molinari@collabora.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251205091216.150968-1-loic.molinari@collabora.com>
-References: <20251205091216.150968-1-loic.molinari@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YRrD1Ibi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3F54C4CEF1;
+	Fri,  5 Dec 2025 09:27:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764926885;
+	bh=/3K8i488KBtohoPjUWcmwxOuPxkVYp8UF2/iPAPxq7Y=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=YRrD1IbijzZtM+qkYdKqMCtJSY7HW/b2RS+RGwoFe9bPK/qWFg3n6jePfSjkEJ252
+	 CAstxESV1t5hIfHaNpivukj3cMXOpAMg0/UqoCgsIZzotoaILL21oKFa9ikkMb7YNl
+	 qqNVditrpYtGa7rGlqrjiS8gpKMFlw9u1U78kVXNQ6fZ18DGyDH2qOcSrxYOJtk1WN
+	 dF0rZn265IWR71TmnUtnGq8SAs1Q/6QTETPixkqjPtVt06ZheKAgeGXqIyF47v2gee
+	 2OnhEW5m8+31fx4RYUVZM3XYN7ukMj5estutAcl9/Ron0WYtClPzGLKIvzh03vv/vR
+	 FOpwVUcjkVvvA==
+Message-ID: <cd65b963dd4edade3afb2e7d27eb33af1c62682e.camel@kernel.org>
+Subject: Re: [PATCH v18 41/42] SUNRPC: relocate struct rcu_head to the first
+ field of struct rpc_xprt
+From: Jeff Layton <jlayton@kernel.org>
+To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
+Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org, 
+	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org, 
+	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com, 
+	peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
+ rostedt@goodmis.org, 	joel@joelfernandes.org, sashal@kernel.org,
+ daniel.vetter@ffwll.ch, 	duyuyang@gmail.com, johannes.berg@intel.com,
+ tj@kernel.org, tytso@mit.edu, 	willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, 	gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, 	akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, 	hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, 	dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, 	vbabka@suse.cz,
+ ngupta@vflare.org, linux-block@vger.kernel.org, 	josef@toxicpanda.com,
+ linux-fsdevel@vger.kernel.org, jack@suse.cz, 	dan.j.williams@intel.com,
+ hch@infradead.org, djwong@kernel.org, 	dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, 	melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, harry.yoo@oracle.com, 	chris.p.wilson@intel.com,
+ gwan-gyeong.mun@intel.com, 	max.byungchul.park@gmail.com,
+ boqun.feng@gmail.com, longman@redhat.com, 	yunseong.kim@ericsson.com,
+ ysk@kzalloc.com, yeoreum.yun@arm.com, 	netdev@vger.kernel.org,
+ matthew.brost@intel.com, her0gyugyu@gmail.com, 	corbet@lwn.net,
+ catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com, 
+	luto@kernel.org, sumit.semwal@linaro.org, gustavo@padovan.org, 
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
+	surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
+ da.gomez@kernel.org, 	samitolvanen@google.com, paulmck@kernel.org,
+ frederic@kernel.org, 	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+ josh@joshtriplett.org, 	urezki@gmail.com, mathieu.desnoyers@efficios.com,
+ jiangshanlai@gmail.com, 	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, 	dietmar.eggemann@arm.com, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, 	chuck.lever@oracle.com,
+ neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com, 	tom@talpey.com,
+ trondmy@kernel.org, anna@kernel.org, kees@kernel.org, 
+	bigeasy@linutronix.de, clrkwllms@kernel.org, mark.rutland@arm.com, 
+	ada.coupriediaz@arm.com, kristina.martsenko@arm.com,
+ wangkefeng.wang@huawei.com, 	broonie@kernel.org, kevin.brodsky@arm.com,
+ dwmw@amazon.co.uk, 	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+ yuzhao@google.com, 	baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
+ joel.granados@kernel.org, 	richard.weiyang@gmail.com,
+ geert+renesas@glider.be, tim.c.chen@linux.intel.com, 	linux@treblig.org,
+ alexander.shishkin@linux.intel.com, lillian@star-ark.net, 
+	chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com, 
+	link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
+ brauner@kernel.org, 	thomas.weissschuh@linutronix.de, oleg@redhat.com,
+ mjguzik@gmail.com, 	andrii@kernel.org, wangfushuai@baidu.com,
+ linux-doc@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, 	linaro-mm-sig@lists.linaro.org,
+ linux-i2c@vger.kernel.org, 	linux-arch@vger.kernel.org,
+ linux-modules@vger.kernel.org, rcu@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ 2407018371@qq.com, 	dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
+ neilb@ownmail.net, 	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+ dave.hansen@intel.com, 	geert@linux-m68k.org, ojeda@kernel.org,
+ alex.gaynor@gmail.com, gary@garyguo.net, 	bjorn3_gh@protonmail.com,
+ lossin@kernel.org, a.hindborg@kernel.org, 	aliceryhl@google.com,
+ tmgross@umich.edu, rust-for-linux@vger.kernel.org
+Date: Fri, 05 Dec 2025 04:27:52 -0500
+In-Reply-To: <20251205071855.72743-42-byungchul@sk.com>
+References: <20251205071855.72743-1-byungchul@sk.com>
+	 <20251205071855.72743-42-byungchul@sk.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
+ n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
+ egyjnSsFt7EGoDjdKqr1TS9syJYFjagYtvWk/UfHlW09X+jOh4vYtfX7iYSx/NfqV3W1D7EDi0PqV
+ T2h6v8i8YqsATFPwO4nuiTmL6I40ZofxVd+9wdRI4Db8yUNA4ZSP2nqLcLtFjClYRBoJvRWvsv4lm
+ 0OX6MYPtv76hka8lW4mnRmZqqx3UtfHX/hF/zH24Gj7A6sYKYLCU3YrI2Ogiu7/ksKcl7goQjpvtV
+ YrOOI5VGLHge0awt7bhMCTM9KAfPc+xL/ZxAMVWd3NCk5SamL2cE99UWgtvNOIYU8m6EjTLhsj8sn
+ VluJH0/RcxEeFbnSaswVChNSGa7mXJrTR22lRL6ZPjdMgS2Km90haWPRc8Wolcz07Y2se0xpGVLEQ
+ cDEsvv5IMmeMe1/qLZ6NaVkNuL3WOXvxaVT9USW1+/SGipO2IpKJjeDZfehlB/kpfF24+RrK+seQf
+ CBYyUE8QJpvTZyfUHNYldXlrjO6n5MdOempLqWpfOmcGkwnyNRBR46g/jf8KnPRwXs509yAqDB6sE
+ LZH+yWr9LQZEwARAQABtCVKZWZmIExheXRvbiA8amxheXRvbkBwb29jaGllcmVkcy5uZXQ+iQI7BB
+ MBAgAlAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUCTpXWPAIZAQAKCRAADmhBGVaCFc65D/4
+ gBLNMHopQYgG/9RIM3kgFCCQV0pLv0hcg1cjr+bPI5f1PzJoOVi9s0wBDHwp8+vtHgYhM54yt43uI
+ 7Htij0RHFL5eFqoVT4TSfAg2qlvNemJEOY0e4daljjmZM7UtmpGs9NN0r9r50W82eb5Kw5bc/r0km
+ R/arUS2st+ecRsCnwAOj6HiURwIgfDMHGPtSkoPpu3DDp/cjcYUg3HaOJuTjtGHFH963B+f+hyQ2B
+ rQZBBE76ErgTDJ2Db9Ey0kw7VEZ4I2nnVUY9B5dE2pJFVO5HJBMp30fUGKvwaKqYCU2iAKxdmJXRI
+ ONb7dSde8LqZahuunPDMZyMA5+mkQl7kpIpR6kVDIiqmxzRuPeiMP7O2FCUlS2DnJnRVrHmCljLkZ
+ Wf7ZUA22wJpepBligemtSRSbqCyZ3B48zJ8g5B8xLEntPo/NknSJaYRvfEQqGxgk5kkNWMIMDkfQO
+ lDSXZvoxqU9wFH/9jTv1/6p8dHeGM0BsbBLMqQaqnWiVt5mG92E1zkOW69LnoozE6Le+12DsNW7Rj
+ iR5K+27MObjXEYIW7FIvNN/TQ6U1EOsdxwB8o//Yfc3p2QqPr5uS93SDDan5ehH59BnHpguTc27Xi
+ QQZ9EGiieCUx6Zh2ze3X2UW9YNzE15uKwkkuEIj60NvQRmEDfweYfOfPVOueC+iFifbQgSmVmZiBM
+ YXl0b24gPGpsYXl0b25AcmVkaGF0LmNvbT6JAjgEEwECACIFAk6V0q0CGwMGCwkIBwMCBhUIAgkKC
+ wQWAgMBAh4BAheAAAoJEAAOaEEZVoIViKUQALpvsacTMWWOd7SlPFzIYy2/fjvKlfB/Xs4YdNcf9q
+ LqF+lk2RBUHdR/dGwZpvw/OLmnZ8TryDo2zXVJNWEEUFNc7wQpl3i78r6UU/GUY/RQmOgPhs3epQC
+ 3PMJj4xFx+VuVcf/MXgDDdBUHaCTT793hyBeDbQuciARDJAW24Q1RCmjcwWIV/pgrlFa4lAXsmhoa
+ c8UPc82Ijrs6ivlTweFf16VBc4nSLX5FB3ls7S5noRhm5/Zsd4PGPgIHgCZcPgkAnU1S/A/rSqf3F
+ LpU+CbVBDvlVAnOq9gfNF+QiTlOHdZVIe4gEYAU3CUjbleywQqV02BKxPVM0C5/oVjMVx3bri75n1
+ TkBYGmqAXy9usCkHIsG5CBHmphv9MHmqMZQVsxvCzfnI5IO1+7MoloeeW/lxuyd0pU88dZsV/riHw
+ 87i2GJUJtVlMl5IGBNFpqoNUoqmvRfEMeXhy/kUX4Xc03I1coZIgmwLmCSXwx9MaCPFzV/dOOrju2
+ xjO+2sYyB5BNtxRqUEyXglpujFZqJxxau7E0eXoYgoY9gtFGsspzFkVNntamVXEWVVgzJJr/EWW0y
+ +jNd54MfPRqH+eCGuqlnNLktSAVz1MvVRY1dxUltSlDZT7P2bUoMorIPu8p7ZCg9dyX1+9T6Muc5d
+ Hxf/BBP/ir+3e8JTFQBFOiLNdFtB9KZWZmIExheXRvbiA8amxheXRvbkBzYW1iYS5vcmc+iQI4BBM
+ BAgAiBQJOldK9AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRAADmhBGVaCFWgWD/0ZRi4h
+ N9FK2BdQs9RwNnFZUr7JidAWfCrs37XrA/56olQl3ojn0fQtrP4DbTmCuh0SfMijB24psy1GnkPep
+ naQ6VRf7Dxg/Y8muZELSOtsv2CKt3/02J1BBitrkkqmHyni5fLLYYg6fub0T/8Kwo1qGPdu1hx2BQ
+ RERYtQ/S5d/T0cACdlzi6w8rs5f09hU9Tu4qV1JLKmBTgUWKN969HPRkxiojLQziHVyM/weR5Reu6
+ FZVNuVBGqBD+sfk/c98VJHjsQhYJijcsmgMb1NohAzwrBKcSGKOWJToGEO/1RkIN8tqGnYNp2G+aR
+ 685D0chgTl1WzPRM6mFG1+n2b2RR95DxumKVpwBwdLPoCkI24JkeDJ7lXSe3uFWISstFGt0HL8Eew
+ P8RuGC8s5h7Ct91HMNQTbjgA+Vi1foWUVXpEintAKgoywaIDlJfTZIl6Ew8ETN/7DLy8bXYgq0Xzh
+ aKg3CnOUuGQV5/nl4OAX/3jocT5Cz/OtAiNYj5mLPeL5z2ZszjoCAH6caqsF2oLyAnLqRgDgR+wTQ
+ T6gMhr2IRsl+cp8gPHBwQ4uZMb+X00c/Amm9VfviT+BI7B66cnC7Zv6Gvmtu2rEjWDGWPqUgccB7h
+ dMKnKDthkA227/82tYoFiFMb/NwtgGrn5n2vwJyKN6SEoygGrNt0SI84y6hEVbQlSmVmZiBMYXl0b
+ 24gPGpsYXl0b25AcHJpbWFyeWRhdGEuY29tPokCOQQTAQIAIwUCU4xmKQIbAwcLCQgHAwIBBhUIAg
+ kKCwQWAgMBAh4BAheAAAoJEAAOaEEZVoIV1H0P/j4OUTwFd7BBbpoSp695qb6HqCzWMuExsp8nZjr
+ uymMaeZbGr3OWMNEXRI1FWNHMtcMHWLP/RaDqCJil28proO+PQ/yPhsr2QqJcW4nr91tBrv/MqItu
+ AXLYlsgXqp4BxLP67bzRJ1Bd2x0bWXurpEXY//VBOLnODqThGEcL7jouwjmnRh9FTKZfBDpFRaEfD
+ FOXIfAkMKBa/c9TQwRpx2DPsl3eFWVCNuNGKeGsirLqCxUg5kWTxEorROppz9oU4HPicL6rRH22Ce
+ 6nOAON2vHvhkUuO3GbffhrcsPD4DaYup4ic+DxWm+DaSSRJ+e1yJvwi6NmQ9P9UAuLG93S2MdNNbo
+ sZ9P8k2mTOVKMc+GooI9Ve/vH8unwitwo7ORMVXhJeU6Q0X7zf3SjwDq2lBhn1DSuTsn2DbsNTiDv
+ qrAaCvbsTsw+SZRwF85eG67eAwouYk+dnKmp1q57LDKMyzysij2oDKbcBlwB/TeX16p8+LxECv51a
+ sjS9TInnipssssUDrHIvoTTXWcz7Y5wIngxDFwT8rPY3EggzLGfK5Zx2Q5S/N0FfmADmKknG/D8qG
+ IcJE574D956tiUDKN4I+/g125ORR1v7bP+OIaayAvq17RP+qcAqkxc0x8iCYVCYDouDyNvWPGRhbL
+ UO7mlBpjW9jK9e2fvZY9iw3QzIPGKtClKZWZmIExheXRvbiA8amVmZi5sYXl0b25AcHJpbWFyeWRh
+ dGEuY29tPokCOQQTAQIAIwUCU4xmUAIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEAAOa
+ EEZVoIVzJoQALFCS6n/FHQS+hIzHIb56JbokhK0AFqoLVzLKzrnaeXhE5isWcVg0eoV2oTScIwUSU
+ apy94if69tnUo4Q7YNt8/6yFM6hwZAxFjOXR0ciGE3Q+Z1zi49Ox51yjGMQGxlakV9ep4sV/d5a50
+ M+LFTmYSAFp6HY23JN9PkjVJC4PUv5DYRbOZ6Y1+TfXKBAewMVqtwT1Y+LPlfmI8dbbbuUX/kKZ5d
+ dhV2736fgyfpslvJKYl0YifUOVy4D1G/oSycyHkJG78OvX4JKcf2kKzVvg7/Rnv+AueCfFQ6nGwPn
+ 0P91I7TEOC4XfZ6a1K3uTp4fPPs1Wn75X7K8lzJP/p8lme40uqwAyBjk+IA5VGd+CVRiyJTpGZwA0
+ jwSYLyXboX+Dqm9pSYzmC9+/AE7lIgpWj+3iNisp1SWtHc4pdtQ5EU2SEz8yKvDbD0lNDbv4ljI7e
+ flPsvN6vOrxz24mCliEco5DwhpaaSnzWnbAPXhQDWb/lUgs/JNk8dtwmvWnqCwRqElMLVisAbJmC0
+ BhZ/Ab4sph3EaiZfdXKhiQqSGdK4La3OTJOJYZphPdGgnkvDV9Pl1QZ0ijXQrVIy3zd6VCNaKYq7B
+ AKidn5g/2Q8oio9Tf4XfdZ9dtwcB+bwDJFgvvDYaZ5bI3ln4V3EyW5i2NfXazz/GA/I/ZtbsigCFc
+ 8ftCBKZWZmIExheXRvbiA8amxheXRvbkBrZXJuZWwub3JnPokCOAQTAQIAIgUCWe8u6AIbAwYLCQg
+ HAwIGFQgCCQoLBBYCAwECHgECF4AACgkQAA5oQRlWghUuCg/+Lb/xGxZD2Q1oJVAE37uW308UpVSD
+ 2tAMJUvFTdDbfe3zKlPDTuVsyNsALBGclPLagJ5ZTP+Vp2irAN9uwBuacBOTtmOdz4ZN2tdvNgozz
+ uxp4CHBDVzAslUi2idy+xpsp47DWPxYFIRP3M8QG/aNW052LaPc0cedYxp8+9eiVUNpxF4SiU4i9J
+ DfX/sn9XcfoVZIxMpCRE750zvJvcCUz9HojsrMQ1NFc7MFT1z3MOW2/RlzPcog7xvR5ENPH19ojRD
+ CHqumUHRry+RF0lH00clzX/W8OrQJZtoBPXv9ahka/Vp7kEulcBJr1cH5Wz/WprhsIM7U9pse1f1g
+ Yy9YbXtWctUz8uvDR7shsQxAhX3qO7DilMtuGo1v97I/Kx4gXQ52syh/w6EBny71CZrOgD6kJwPVV
+ AaM1LRC28muq91WCFhs/nzHozpbzcheyGtMUI2Ao4K6mnY+3zIuXPygZMFr9KXE6fF7HzKxKuZMJO
+ aEZCiDOq0anx6FmOzs5E6Jqdpo/mtI8beK+BE7Va6ni7YrQlnT0i3vaTVMTiCThbqsB20VrbMjlhp
+ f8lfK1XVNbRq/R7GZ9zHESlsa35ha60yd/j3pu5hT2xyy8krV8vGhHvnJ1XRMJBAB/UYb6FyC7S+m
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Make use of the new drm_gem_huge_mnt_create() and
-drm_gem_get_huge_mnt() helpers to avoid code duplication. Now that
-it's just a few lines long, the single function in i915_gemfs.c is
-moved into i915_gem_shmem.c.
+On Fri, 2025-12-05 at 16:18 +0900, Byungchul Park wrote:
+> While compiling Linux kernel with DEPT on, the following error was
+> observed:
+>=20
+>    ./include/linux/rcupdate.h:1084:17: note: in expansion of macro
+>    =E2=80=98BUILD_BUG_ON=E2=80=99
+>    1084 | BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >=3D 4096);	\
+>         | ^~~~~~~~~~~~
+>    ./include/linux/rcupdate.h:1047:29: note: in expansion of macro
+>    'kvfree_rcu_arg_2'
+>    1047 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
+>         |                             ^~~~~~~~~~~~~~~~
+>    net/sunrpc/xprt.c:1856:9: note: in expansion of macro 'kfree_rcu'
+>    1856 | kfree_rcu(xprt, rcu);
+>         | ^~~~~~~~~
+>     CC net/kcm/kcmproc.o
+>    make[4]: *** [scripts/Makefile.build:203: net/sunrpc/xprt.o] Error 1
+>=20
+> Since kfree_rcu() assumes 'offset of struct rcu_head in a rcu-managed
+> struct < 4096', the offest of struct rcu_head in struct rpc_xprt should
+> not exceed 4096 but does, due to the debug information added by DEPT.
+>=20
+> Relocate struct rcu_head to the first field of struct rpc_xprt from an
+> arbitrary location to avoid the issue and meet the assumption.
+>=20
+> Reported-by: Yunseong Kim <ysk@kzalloc.com>
+> Signed-off-by: Byungchul Park <byungchul@sk.com>
+> ---
+>  include/linux/sunrpc/xprt.h | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/include/linux/sunrpc/xprt.h b/include/linux/sunrpc/xprt.h
+> index f46d1fb8f71a..666e42a17a31 100644
+> --- a/include/linux/sunrpc/xprt.h
+> +++ b/include/linux/sunrpc/xprt.h
+> @@ -211,6 +211,14 @@ enum xprt_transports {
+> =20
+>  struct rpc_sysfs_xprt;
+>  struct rpc_xprt {
+> +	/*
+> +	 * Place struct rcu_head within the first 4096 bytes of struct
+> +	 * rpc_xprt if sizeof(struct rpc_xprt) > 4096, so that
+> +	 * kfree_rcu() can simply work assuming that.  See the comment
+> +	 * in kfree_rcu().
+> +	 */
+> +	struct rcu_head		rcu;
+> +
+>  	struct kref		kref;		/* Reference count */
+>  	const struct rpc_xprt_ops *ops;		/* transport methods */
+>  	unsigned int		id;		/* transport id */
+> @@ -317,7 +325,6 @@ struct rpc_xprt {
+>  #if IS_ENABLED(CONFIG_SUNRPC_DEBUG)
+>  	struct dentry		*debugfs;		/* debugfs directory */
+>  #endif
+> -	struct rcu_head		rcu;
+>  	const struct xprt_class	*xprt_class;
+>  	struct rpc_sysfs_xprt	*xprt_sysfs;
+>  	bool			main; /*mark if this is the 1st transport */
 
-v3:
-- use huge tmpfs mountpoint in drm_device
-- move i915_gemfs.c into i915_gem_shmem.c
+Seems fine to me.
 
-v4:
-- clean up mountpoint creation error handling
-
-v5:
-- use drm_gem_has_huge_mnt() helper
-
-v7:
-- include <drm/drm_print.h> in i915_gem_shmem.c
-
-v8:
-- keep logging notice message with CONFIG_TRANSPARENT_HUGEPAGE=n
-- don't access huge_mnt field with CONFIG_TRANSPARENT_HUGEPAGE=n
-
-v9:
-- replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
-- remove useless ternary op test in selftests/huge_pages.c
-
-v12:
-- fix layering violation in selftests (Tvrtko)
-- fix incorrect filename in commit message
-
-Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
----
- drivers/gpu/drm/i915/Makefile                 |  3 +-
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |  9 +--
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c     | 58 ++++++++++-----
- drivers/gpu/drm/i915/gem/i915_gemfs.c         | 71 -------------------
- drivers/gpu/drm/i915/gem/i915_gemfs.h         | 14 ----
- .../gpu/drm/i915/gem/selftests/huge_pages.c   | 15 +---
- drivers/gpu/drm/i915/i915_drv.h               |  5 --
- 7 files changed, 50 insertions(+), 125 deletions(-)
- delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
- delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
-
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 84ec79b64960..b5a8c0a6b747 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -169,8 +169,7 @@ gem-y += \
- 	gem/i915_gem_ttm_move.o \
- 	gem/i915_gem_ttm_pm.o \
- 	gem/i915_gem_userptr.o \
--	gem/i915_gem_wait.o \
--	gem/i915_gemfs.o
-+	gem/i915_gem_wait.o
- i915-y += \
- 	$(gem-y) \
- 	i915_active.o \
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index 64600aa8227f..f94409e8ec4c 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -348,12 +348,13 @@ struct drm_i915_gem_object {
-  */
- #define I915_BO_ALLOC_GPU_ONLY	  BIT(6)
- #define I915_BO_ALLOC_CCS_AUX	  BIT(7)
-+#define I915_BO_ALLOC_NOTHP	  BIT(8)
- /*
-  * Object is allowed to retain its initial data and will not be cleared on first
-  * access if used along with I915_BO_ALLOC_USER. This is mainly to keep
-  * preallocated framebuffer data intact while transitioning it to i915drmfb.
-  */
--#define I915_BO_PREALLOC	  BIT(8)
-+#define I915_BO_PREALLOC	  BIT(9)
- #define I915_BO_ALLOC_FLAGS (I915_BO_ALLOC_CONTIGUOUS | \
- 			     I915_BO_ALLOC_VOLATILE | \
- 			     I915_BO_ALLOC_CPU_CLEAR | \
-@@ -363,9 +364,9 @@ struct drm_i915_gem_object {
- 			     I915_BO_ALLOC_GPU_ONLY | \
- 			     I915_BO_ALLOC_CCS_AUX | \
- 			     I915_BO_PREALLOC)
--#define I915_BO_READONLY          BIT(9)
--#define I915_TILING_QUIRK_BIT     10 /* unknown swizzling; do not release! */
--#define I915_BO_PROTECTED         BIT(11)
-+#define I915_BO_READONLY          BIT(10)
-+#define I915_TILING_QUIRK_BIT     11 /* unknown swizzling; do not release! */
-+#define I915_BO_PROTECTED         BIT(12)
- 	/**
- 	 * @mem_flags - Mutable placement-related flags
- 	 *
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index 26dda55a07ff..6ad1d6f99363 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -9,14 +9,16 @@
- #include <linux/uio.h>
- 
- #include <drm/drm_cache.h>
-+#include <drm/drm_gem.h>
-+#include <drm/drm_print.h>
- 
- #include "gem/i915_gem_region.h"
- #include "i915_drv.h"
- #include "i915_gem_object.h"
- #include "i915_gem_tiling.h"
--#include "i915_gemfs.h"
- #include "i915_scatterlist.h"
- #include "i915_trace.h"
-+#include "i915_utils.h"
- 
- /*
-  * Move folios to appropriate lru and release the batch, decrementing the
-@@ -494,9 +496,11 @@ const struct drm_i915_gem_object_ops i915_gem_shmem_ops = {
- 
- static int __create_shmem(struct drm_i915_private *i915,
- 			  struct drm_gem_object *obj,
--			  resource_size_t size)
-+			  resource_size_t size,
-+			  unsigned int flags)
- {
--	unsigned long flags = VM_NORESERVE;
-+	unsigned long shmem_flags = VM_NORESERVE;
-+	struct vfsmount *huge_mnt;
- 	struct file *filp;
- 
- 	drm_gem_private_object_init(&i915->drm, obj, size);
-@@ -515,11 +519,12 @@ static int __create_shmem(struct drm_i915_private *i915,
- 	if (BITS_PER_LONG == 64 && size > MAX_LFS_FILESIZE)
- 		return -E2BIG;
- 
--	if (i915->mm.gemfs)
--		filp = shmem_file_setup_with_mnt(i915->mm.gemfs, "i915", size,
--						 flags);
-+	huge_mnt = drm_gem_get_huge_mnt(&i915->drm);
-+	if (!(flags & I915_BO_ALLOC_NOTHP) && huge_mnt)
-+		filp = shmem_file_setup_with_mnt(huge_mnt, "i915", size,
-+						 shmem_flags);
- 	else
--		filp = shmem_file_setup("i915", size, flags);
-+		filp = shmem_file_setup("i915", size, shmem_flags);
- 	if (IS_ERR(filp))
- 		return PTR_ERR(filp);
- 
-@@ -548,7 +553,7 @@ static int shmem_object_init(struct intel_memory_region *mem,
- 	gfp_t mask;
- 	int ret;
- 
--	ret = __create_shmem(i915, &obj->base, size);
-+	ret = __create_shmem(i915, &obj->base, size, flags);
- 	if (ret)
- 		return ret;
- 
-@@ -644,21 +649,40 @@ i915_gem_object_create_shmem_from_data(struct drm_i915_private *i915,
- 
- static int init_shmem(struct intel_memory_region *mem)
- {
--	i915_gemfs_init(mem->i915);
--	intel_memory_region_set_name(mem, "system");
-+	struct drm_i915_private *i915 = mem->i915;
- 
--	return 0; /* We have fallback to the kernel mnt if gemfs init failed. */
--}
-+	/*
-+	 * By creating our own shmemfs mountpoint, we can pass in
-+	 * mount flags that better match our usecase.
-+	 *
-+	 * One example, although it is probably better with a per-file
-+	 * control, is selecting huge page allocations ("huge=within_size").
-+	 * However, we only do so on platforms which benefit from it, or to
-+	 * offset the overhead of iommu lookups, where with latter it is a net
-+	 * win even on platforms which would otherwise see some performance
-+	 * regressions such a slow reads issue on Broadwell and Skylake.
-+	 */
- 
--static int release_shmem(struct intel_memory_region *mem)
--{
--	i915_gemfs_fini(mem->i915);
--	return 0;
-+	if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
-+		goto no_thp;
-+
-+	drm_gem_huge_mnt_create(&i915->drm, "within_size");
-+	if (drm_gem_get_huge_mnt(&i915->drm))
-+		drm_info(&i915->drm, "Using Transparent Hugepages\n");
-+	else
-+		drm_notice(&i915->drm,
-+			   "Transparent Hugepage support is recommended for optimal performance%s\n",
-+			   GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
-+						      " when IOMMU is enabled!");
-+
-+ no_thp:
-+	intel_memory_region_set_name(mem, "system");
-+
-+	return 0; /* We have fallback to the kernel mnt if huge mnt failed. */
- }
- 
- static const struct intel_memory_region_ops shmem_region_ops = {
- 	.init = init_shmem,
--	.release = release_shmem,
- 	.init_object = shmem_object_init,
- };
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
-deleted file mode 100644
-index 1f1290214031..000000000000
---- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
-+++ /dev/null
-@@ -1,71 +0,0 @@
--// SPDX-License-Identifier: MIT
--/*
-- * Copyright © 2017 Intel Corporation
-- */
--
--#include <linux/fs.h>
--#include <linux/mount.h>
--#include <linux/fs_context.h>
--
--#include <drm/drm_print.h>
--
--#include "i915_drv.h"
--#include "i915_gemfs.h"
--#include "i915_utils.h"
--
--void i915_gemfs_init(struct drm_i915_private *i915)
--{
--	struct file_system_type *type;
--	struct fs_context *fc;
--	struct vfsmount *gemfs;
--	int ret;
--
--	/*
--	 * By creating our own shmemfs mountpoint, we can pass in
--	 * mount flags that better match our usecase.
--	 *
--	 * One example, although it is probably better with a per-file
--	 * control, is selecting huge page allocations ("huge=within_size").
--	 * However, we only do so on platforms which benefit from it, or to
--	 * offset the overhead of iommu lookups, where with latter it is a net
--	 * win even on platforms which would otherwise see some performance
--	 * regressions such a slow reads issue on Broadwell and Skylake.
--	 */
--
--	if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
--		return;
--
--	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
--		goto err;
--
--	type = get_fs_type("tmpfs");
--	if (!type)
--		goto err;
--
--	fc = fs_context_for_mount(type, SB_KERNMOUNT);
--	if (IS_ERR(fc))
--		goto err;
--	ret = vfs_parse_fs_string(fc, "source", "tmpfs");
--	if (!ret)
--		ret = vfs_parse_fs_string(fc, "huge", "within_size");
--	if (!ret)
--		gemfs = fc_mount_longterm(fc);
--	put_fs_context(fc);
--	if (ret)
--		goto err;
--
--	i915->mm.gemfs = gemfs;
--	drm_info(&i915->drm, "Using Transparent Hugepages\n");
--	return;
--
--err:
--	drm_notice(&i915->drm,
--		   "Transparent Hugepage support is recommended for optimal performance%s\n",
--		   GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
--					      " when IOMMU is enabled!");
--}
--
--void i915_gemfs_fini(struct drm_i915_private *i915)
--{
--	kern_unmount(i915->mm.gemfs);
--}
-diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.h b/drivers/gpu/drm/i915/gem/i915_gemfs.h
-deleted file mode 100644
-index 16d4333c9a4e..000000000000
---- a/drivers/gpu/drm/i915/gem/i915_gemfs.h
-+++ /dev/null
-@@ -1,14 +0,0 @@
--/* SPDX-License-Identifier: MIT */
--/*
-- * Copyright © 2017 Intel Corporation
-- */
--
--#ifndef __I915_GEMFS_H__
--#define __I915_GEMFS_H__
--
--struct drm_i915_private;
--
--void i915_gemfs_init(struct drm_i915_private *i915);
--void i915_gemfs_fini(struct drm_i915_private *i915);
--
--#endif
-diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-index bd08605a1611..02e9bf87f654 100644
---- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-@@ -1316,7 +1316,7 @@ typedef struct drm_i915_gem_object *
- 
- static inline bool igt_can_allocate_thp(struct drm_i915_private *i915)
- {
--	return i915->mm.gemfs && has_transparent_hugepage();
-+	return !!drm_gem_get_huge_mnt(&i915->drm);
- }
- 
- static struct drm_i915_gem_object *
-@@ -1761,7 +1761,6 @@ static int igt_tmpfs_fallback(void *arg)
- 	struct drm_i915_private *i915 = arg;
- 	struct i915_address_space *vm;
- 	struct i915_gem_context *ctx;
--	struct vfsmount *gemfs = i915->mm.gemfs;
- 	struct drm_i915_gem_object *obj;
- 	struct i915_vma *vma;
- 	struct file *file;
-@@ -1779,15 +1778,8 @@ static int igt_tmpfs_fallback(void *arg)
- 	}
- 	vm = i915_gem_context_get_eb_vm(ctx);
- 
--	/*
--	 * Make sure that we don't burst into a ball of flames upon falling back
--	 * to tmpfs, which we rely on if on the off-chance we encounter a failure
--	 * when setting up gemfs.
--	 */
--
--	i915->mm.gemfs = NULL;
--
--	obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
-+	obj = i915_gem_object_create_region(i915->mm.regions[INTEL_REGION_SMEM],
-+					    PAGE_SIZE, 0, I915_BO_ALLOC_NOTHP);
- 	if (IS_ERR(obj)) {
- 		err = PTR_ERR(obj);
- 		goto out_restore;
-@@ -1819,7 +1811,6 @@ static int igt_tmpfs_fallback(void *arg)
- out_put:
- 	i915_gem_object_put(obj);
- out_restore:
--	i915->mm.gemfs = gemfs;
- 
- 	i915_vm_put(vm);
- out:
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 95f9ddf22ce4..93a5af3de334 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -141,11 +141,6 @@ struct i915_gem_mm {
- 	 */
- 	atomic_t free_count;
- 
--	/**
--	 * tmpfs instance used for shmem backed objects
--	 */
--	struct vfsmount *gemfs;
--
- 	struct intel_memory_region *regions[INTEL_REGION_UNKNOWN];
- 
- 	struct notifier_block oom_notifier;
--- 
-2.47.3
-
+Reviewed-by: Jeff Layton <jlayton@kernel.org>
