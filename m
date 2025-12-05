@@ -1,305 +1,255 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D14A32720C;
-	Fri,  5 Dec 2025 15:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F8135CB65
+	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 15:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764947600; cv=none; b=Vv8/Xyo7Ey4S5hThb2Ppx62hqwULcxdYGNIGg5jNE7oMKOwcTojANcYBUCQpUs6CKTNZWuHy5L2A+UA4n1R2BP5x4mbJ2Vz8vQBQ0cA0NvRH7Z4pw9Lc2j8Ey4GObBE/uS8au0QqGl3jqWZLJ3DjhGLV2nY2ZeQGEYrY9FzZ7Rc=
+	t=1764948356; cv=none; b=fT6+4ap0x+QFsSYtC5Br9PfUOdWWfiE6iDSb9WaI9olbDpwIIRYb4jSRpUAuEOgHl9kcmoieLB0RjGXOcBNptgH6Mcpw1O5MO925HHe8QXf7UbX+D3mVoBaaMWpUuEG0j8Q/n44AqrHZQaMoiwI471GHEEFVMQWnRykYCiQeYEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764947600; c=relaxed/simple;
-	bh=uq609zIRAOVsAf4uucshpjyCAMyR9HyUFzZbfYrcEe0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=mz8e2M6pIK6qzPGurHnSK1jbI9lMVBjzlY/1ABkaSYaNPqvFf7QUqzhqYX+zs/1O77t6GgxPCwe+kxI7mRiBu8nyPT2IvTll06LG321j8+TKmStAJoH4CaItgc/AWqaKSonS+ctUbtTvBBbxsF2D1F0A4aLXSEzPrfJWjGhyB9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=daJifsFO; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1764948356; c=relaxed/simple;
+	bh=8B55ybRhaP1NxjzHhS5j+J3kMnpXtYwOq404qobc2fM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RnfkXBGXi5XlTsITwMSpM80kzx/utWAeCs6rY5ylz8bLgLJ3wNExCFv8qFyyXgOmzz6SSBVB3ABfcRmCqcIUCBwmyKuBTYXRJdh/mIzTddKdZAXIB3T2ctLvZlq7tAp0aiRBhRcZ+vtB1NtCRzQTlkAM2ssjeHbW4R+98SwqFyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vD5qHcI1; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="daJifsFO"
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B5EjxBO172678;
-	Fri, 5 Dec 2025 10:12:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=Vbtuk
-	usOXD7WxI062sEQzo5CcWBmHPyhF4OcVREbmS4=; b=daJifsFO6FCttOwbkBURF
-	SteXBzUgTQ5Jrdn7ealJSJvJZMi26pVIMgCj3GBACQVRkC8zZwu+U97sAs1kn2Kz
-	pjEXvZeyI6e/JqKeJWIVhP40+vdmCPKq0P2JyW/QyahXh/vyAPn2x3CoopHDUZ1G
-	7ReEGgjjwex1MQ110cylCHvwCm78uFjRLfyQbulYVkBuHAKh9E4ADfoNkMJmmJqC
-	ol18lYE7uWX9ef1PoncVppEaodmhGbFlWSVfZCZiVlweizbowX6kZcMyKum94wpG
-	M1N3n2E15pFwjKuXHCzBFhto3KSgNk8F+H4PO25ldTwO5iVJ5krPk6RbG4juhgDj
-	g==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4aufyscn6p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Dec 2025 10:12:51 -0500 (EST)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 5B5FCoXq033585
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 5 Dec 2025 10:12:50 -0500
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
- ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Fri, 5 Dec 2025 10:12:50 -0500
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Fri, 5 Dec 2025 10:12:50 -0500
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Fri, 5 Dec 2025 10:12:50 -0500
-Received: from HYB-DlYm71t3hSl.ad.analog.com ([10.66.6.192])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 5B5FC8SJ029946;
-	Fri, 5 Dec 2025 10:12:43 -0500
-From: Jorge Marques <jorge.marques@analog.com>
-Date: Fri, 5 Dec 2025 16:12:10 +0100
-Subject: [PATCH v3 9/9] iio: adc: ad4062: Add GPIO Controller support
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vD5qHcI1"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b7697e8b01aso157067466b.2
+        for <linux-doc@vger.kernel.org>; Fri, 05 Dec 2025 07:25:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764948351; x=1765553151; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GsoIJVCHmWy1FT7O+N+z+bRw/e2lbo3jyE9iVhVEHoY=;
+        b=vD5qHcI1ingruhgGMyNIMC255ukHM3NidyoDohriQrMaV9fm0TcW3v3LRwA7+wVaWq
+         3HnShgblv+FpVJbwI+qKYRO+XJSnV7pOfQV5rd2ha+xEzoLUiOZqZy+qpR3KSxkckoed
+         qV/9OFHDXimttHAOojI1D35QiiWbytKBwwgEJUMK/7kvzGaD71mjqU1/KfEH50nIdvZU
+         Q/YlX1RS7OlhoafLr6Se/CvFO+58kCaiW2+xJetLZKvmWQcldKkMgnN8AMMHuVeM19f3
+         58GVS/h53irqjZxwqmXy+nvhoOtoFiellRkfgw2g5vuSXngcRIt5KnaycRo4heK4xaan
+         4VHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764948351; x=1765553151;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GsoIJVCHmWy1FT7O+N+z+bRw/e2lbo3jyE9iVhVEHoY=;
+        b=LryEmBFhTcQoNeyaL9gDPdH7tnV0baI8Dlv69e071EcRG74XroVxMwTNoggtW68nus
+         EU1kFjbrJIoWDeu4O+VXRJoYbflbeqRkCrOscFV5nX8p0QWA2UGWdnZ2JpSvIh3LXbi2
+         8BYd2T4Rig7aB0MwfEq93cB0UM8bdSHPENf1aThEu4xqhfzJjVcEq/zmxoJGGIGvExW8
+         SXnqcJF3m4k0wP3VhMRxboaFFJUkWdXekCP/fIy/v/7HcSvjGy7rpdKOzUbrwbW3aei5
+         7Gdtl2x6+WoHOHDTwAkldtSdkmFHBifDg/5pYV6KW1Jc9FBioW7dHEb5UqGoyPxmoGX3
+         BLvA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWz0QMNXrJv34BIGwl0vwEqZaLUfVSmte0ji/HfhnoekkewYLOztslcb/dDOr1VKS0oFuoAfzw6PY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxjerz612CZc28KAe9G+ytQCOkS3JOB+dabY9GBSa78T4r4HYq4
+	aIS2TKNLk54/EqOCLxf03EwkLWv+AudJsjKcAYA5J7nGWKggvA49vA/hO3pSJCL97MQo9BQytO1
+	cZhpXkeIbfo6tLaRPsUl3jaYA278Lx92n5WJrRoT8tA==
+X-Gm-Gg: ASbGncsi/KwtYdzatw1Bv45RyuWsbTWKcCbuyzh6YOzTjwqK4p0BAcaoH3gXiR6Q+sS
+	chX/VzxrRSLE83/f8XncjTWjEE3cUxYZUeKDnuJUzTUq6R1GZak80Bu3kf+Ky4H6nJlxaQlVeUy
+	DXwt0WZig07/Ot9kUAixuK2gFY9aVZj9qWxp4FZLT5S8BdKcTSJX1DtZZZUxAAcXyJupIoV2/HG
+	BJqXVDyYT52i4vPLi6bSgRSjYfIkNRxJfAxRElKQ8XYTcLseehUTMKEaLzEzeHD0Ocar3DqjeiF
+	/OYGRh/YyqtgaC8ER+Ur5/yU8hVCSA==
+X-Google-Smtp-Source: AGHT+IE1o/bitoxaz1MpajvIa9GlFCkS/N0ihp9NddOYMAK2pOvstDfHPLiItzKSf0xSdfRKtHCoH2qZMY6AamTfLAs=
+X-Received: by 2002:a17:907:3cc8:b0:b71:88eb:e60c with SMTP id
+ a640c23a62f3a-b79dc77df3emr949922266b.44.1764948351178; Fri, 05 Dec 2025
+ 07:25:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251205-staging-ad4062-v3-9-8761355f9c66@analog.com>
-References: <20251205-staging-ad4062-v3-0-8761355f9c66@analog.com>
-In-Reply-To: <20251205-staging-ad4062-v3-0-8761355f9c66@analog.com>
-To: Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich
-	<Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        "David
- Lechner" <dlechner@baylibre.com>,
-        =?utf-8?q?Nuno_S=C3=A1?=
-	<nuno.sa@analog.com>,
-        Andy Shevchenko <andy@kernel.org>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij
-	<linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>
-CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, Jorge Marques <jorge.marques@analog.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1764947528; l=5635;
- i=jorge.marques@analog.com; s=20250303; h=from:subject:message-id;
- bh=uq609zIRAOVsAf4uucshpjyCAMyR9HyUFzZbfYrcEe0=;
- b=EMgSPj6+FkEhY8ozHtLL8QCCDWIiDiJ+ZLQQNK6psLbPjKfBfcCF3vhhMacHzNqrcvLbhpu5B
- j4a9vCJkBCMBgOBJlrx2bPR4FjAvt8Ew5wy7djjF7tKqsDUEkpBrV3S
-X-Developer-Key: i=jorge.marques@analog.com; a=ed25519;
- pk=NUR1IZZMH0Da3QbJ2tBSznSPVfRpuoWdhBzKGSpAdbg=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Authority-Analysis: v=2.4 cv=G4cR0tk5 c=1 sm=1 tr=0 ts=6932f674 cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gAnH3GRIAAAA:8 a=xMyuZJbwAj7bCYiyej4A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: iyXUigWsP5l9yKJZiyOEghs_Dm0xCzOe
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA1MDExMCBTYWx0ZWRfXxPSX+6dzbUCR
- EHKTFjcIQHappZv2EtWoE+R1IfxOvEH1kmUJ2WvVzBtBNY7JPag+Hbh+jgUBlcM6ZkGsnOXnc5U
- sC3WQYON55GEM6vObZ7uqTSHm0d5H2neuN7KhgsM0dEIWZfDjj2CjwqmFWILCf0bttkO0yxr+iV
- BEIb3eFaEEtsOVilVtB1MkXBN3TklXYo/J+6L4vTnlTeXRGcHLm9xmbzbu2YQUv6liz5rR8jn3q
- J/DyArDogOCou99k4oc2xXZjSMOYMnIUXwXbZGXiqSegB7P3Q1joKRk2RGqhAfKf053p1m3dwv6
- AiA1Q2Y3ekfw15cwh9F/nDR7ZGe5ofOyBHQukIfKZDFfXetc6DNpXrogCU6kSiKdcW2Ee+hXLmX
- 8k8kI3x/ZkSAHXVgKLZe04OtG4Mlng==
-X-Proofpoint-ORIG-GUID: iyXUigWsP5l9yKJZiyOEghs_Dm0xCzOe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-05_05,2025-12-04_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
- spamscore=0 clxscore=1015 phishscore=0 malwarescore=0 adultscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512050110
+References: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20251126214709.2322314-1-andriy.shevchenko@linux.intel.com>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Fri, 5 Dec 2025 08:25:39 -0700
+X-Gm-Features: AQt7F2rMfEJ0gvCUdSL0MMUPuM12OYKnm17iWsBqbS-CCk_tDkv2CDckLPP4-OA
+Message-ID: <CANLsYkzhvZK4ZhNP=Zc0XxENxGV8efFEMGLBc3RAV626edysiA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] docs: Update documentation to avoid mentioning of kernel.h
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>, "Dr. David Alan Gilbert" <linux@treblig.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Joe Perches <joe@perches.com>, Bjorn Andersson <andersson@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-When gp0 or gp1 is not taken as an interrupt, expose them as GPO if
-gpio-contoller is set in the devicetree. gpio-regmap is not used
-because the GPO static low is 'b101 and static high is 0b110; low state
-requires setting bit 0, not fitting the abstraction of low=0 and
-high=mask.
+On Wed, 26 Nov 2025 at 14:47, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> For several years, and still ongoing, the kernel.h is being split
+> to smaller and narrow headers to avoid "including everything" approach
+> which is bad in many ways. Since that, documentation missed a few
+> required updates to align with that work. Do it here.
+>
+> Note, language translations are left untouched and if anybody willing
+> to help, please provide path(es) based on the updated English variant.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+>
+> v2: collected tag (Randy), fixed util_macros k-doc (Randy, me), fixed spelling (Randy)
+>
+>  Documentation/core-api/kobject.rst              |  2 +-
+>  Documentation/dev-tools/checkpatch.rst          |  2 +-
+>  Documentation/driver-api/basics.rst             | 17 ++++++++++++++++-
+>  .../driver-api/driver-model/design-patterns.rst |  2 +-
+>  Documentation/process/coding-style.rst          | 10 +++++++---
+>  Documentation/staging/rpmsg.rst                 |  7 +++++--
+>  include/linux/util_macros.h                     |  2 +-
+>  7 files changed, 32 insertions(+), 10 deletions(-)
+>
+> diff --git a/Documentation/core-api/kobject.rst b/Documentation/core-api/kobject.rst
+> index 7310247310a0..5f6c61bc03bf 100644
+> --- a/Documentation/core-api/kobject.rst
+> +++ b/Documentation/core-api/kobject.rst
+> @@ -78,7 +78,7 @@ just a matter of using the kobj member.  Code that works with kobjects will
+>  often have the opposite problem, however: given a struct kobject pointer,
+>  what is the pointer to the containing structure?  You must avoid tricks
+>  (such as assuming that the kobject is at the beginning of the structure)
+> -and, instead, use the container_of() macro, found in ``<linux/kernel.h>``::
+> +and, instead, use the container_of() macro, found in ``<linux/container_of.h>``::
+>
+>      container_of(ptr, type, member)
+>
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index fa2988dd4657..c1dff8e6bccb 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -753,7 +753,7 @@ Macros, Attributes and Symbols
+>      sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
+>      array.
+>
+> -    The macro is defined in include/linux/kernel.h::
+> +    The macro is defined in include/linux/array_size.h::
+>
+>        #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+>
+> diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
+> index 5e9f7aee71a7..8b6a5888cb11 100644
+> --- a/Documentation/driver-api/basics.rst
+> +++ b/Documentation/driver-api/basics.rst
+> @@ -114,10 +114,25 @@ Kernel objects manipulation
+>  Kernel utility functions
+>  ------------------------
+>
+> -.. kernel-doc:: include/linux/kernel.h
+> +.. kernel-doc:: include/linux/array_size.h
+> +   :internal:
+> +
+> +.. kernel-doc:: include/linux/container_of.h
+> +   :internal:
+> +
+> +.. kernel-doc:: include/linux/kstrtox.h
+>     :internal:
+>     :no-identifiers: kstrtol kstrtoul
+>
+> +.. kernel-doc:: include/linux/stddef.h
+> +   :internal:
+> +
+> +.. kernel-doc:: include/linux/util_macros.h
+> +   :internal:
+> +
+> +.. kernel-doc:: include/linux/wordpart.h
+> +   :internal:
+> +
+>  .. kernel-doc:: kernel/printk/printk.c
+>     :export:
+>     :no-identifiers: printk
+> diff --git a/Documentation/driver-api/driver-model/design-patterns.rst b/Documentation/driver-api/driver-model/design-patterns.rst
+> index 41eb8f41f7dd..965b2b93be6f 100644
+> --- a/Documentation/driver-api/driver-model/design-patterns.rst
+> +++ b/Documentation/driver-api/driver-model/design-patterns.rst
+> @@ -103,7 +103,7 @@ The design pattern is the same for an hrtimer or something similar that will
+>  return a single argument which is a pointer to a struct member in the
+>  callback.
+>
+> -container_of() is a macro defined in <linux/kernel.h>
+> +container_of() is a macro defined in <linux/container_of.h>
+>
+>  What container_of() does is to obtain a pointer to the containing struct from
+>  a pointer to a member by a simple subtraction using the offsetof() macro from
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 2969ca378dbb..258158637f65 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -1070,7 +1070,7 @@ readability.
+>  18) Don't re-invent the kernel macros
+>  -------------------------------------
+>
+> -The header file include/linux/kernel.h contains a number of macros that
+> +There are many header files in include/linux/ that contain a number of macros that
+>  you should use, rather than explicitly coding some variant of them yourself.
+>  For example, if you need to calculate the length of an array, take advantage
+>  of the macro
+> @@ -1079,14 +1079,18 @@ of the macro
+>
+>         #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+>
+> +which is defined in array_size.h.
+> +
+>  Similarly, if you need to calculate the size of some structure member, use
+>
+>  .. code-block:: c
+>
+>         #define sizeof_field(t, f) (sizeof(((t*)0)->f))
+>
+> -There are also min() and max() macros that do strict type checking if you
+> -need them.  Feel free to peruse that header file to see what else is already
+> +which is defined in stddef.h.
+> +
+> +There are also min() and max() macros defined in minmax.h that do strict type checking
+> +if you need them. Feel free to peruse the header files to see what else is already
+>  defined that you shouldn't reproduce in your code.
+>
+>
+> diff --git a/Documentation/staging/rpmsg.rst b/Documentation/staging/rpmsg.rst
+> index 40282cca86ca..42bac1149d9d 100644
+> --- a/Documentation/staging/rpmsg.rst
+> +++ b/Documentation/staging/rpmsg.rst
+> @@ -224,9 +224,12 @@ content to the console.
+>
+>  ::
+>
+> -  #include <linux/kernel.h>
+> +  #include <linux/dev_printk.h>
+> +  #include <linux/mod_devicetable.h>
+>    #include <linux/module.h>
+> +  #include <linux/printk.h>
+>    #include <linux/rpmsg.h>
+> +  #include <linux/types.h>
+>
+>    static void rpmsg_sample_cb(struct rpmsg_channel *rpdev, void *data, int len,
+>                                                 void *priv, u32 src)
+> @@ -244,7 +247,7 @@ content to the console.
+>         /* send a message on our channel */
+>         err = rpmsg_send(rpdev->ept, "hello!", 6);
+>         if (err) {
+> -               pr_err("rpmsg_send failed: %d\n", err);
+> +               dev_err(&rpdev->dev, "rpmsg_send failed: %d\n", err);
+>                 return err;
+>         }
 
-Signed-off-by: Jorge Marques <jorge.marques@analog.com>
----
- drivers/iio/adc/ad4062.c | 125 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 125 insertions(+)
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
-diff --git a/drivers/iio/adc/ad4062.c b/drivers/iio/adc/ad4062.c
-index e432aa60a224e..e52894ed757f7 100644
---- a/drivers/iio/adc/ad4062.c
-+++ b/drivers/iio/adc/ad4062.c
-@@ -11,6 +11,7 @@
- #include <linux/delay.h>
- #include <linux/devm-helpers.h>
- #include <linux/err.h>
-+#include <linux/gpio/driver.h>
- #include <linux/i3c/device.h>
- #include <linux/i3c/master.h>
- #include <linux/iio/buffer.h>
-@@ -87,8 +88,11 @@
- #define AD4060_MAX_AVG		0x7
- #define AD4062_MAX_AVG		0xB
- 
-+#define AD4062_GP_DISABLED	0x0
- #define AD4062_GP_INTR		0x1
- #define AD4062_GP_DRDY		0x2
-+#define AD4062_GP_STATIC_LOW	0x5
-+#define AD4062_GP_STATIC_HIGH	0x6
- 
- #define AD4062_LIMIT_BITS	11
- 
-@@ -652,12 +656,14 @@ static int ad4062_request_irq(struct iio_dev *indio_dev)
- 	if (ret == -EPROBE_DEFER) {
- 		return ret;
- 	} else if (ret < 0) {
-+		st->gpo_irq[0] = false;
- 		ret = regmap_update_bits(st->regmap, AD4062_REG_ADC_IBI_EN,
- 					 AD4062_REG_ADC_IBI_EN_MAX | AD4062_REG_ADC_IBI_EN_MIN,
- 					 AD4062_REG_ADC_IBI_EN_MAX | AD4062_REG_ADC_IBI_EN_MIN);
- 		if (ret)
- 			return ret;
- 	} else {
-+		st->gpo_irq[0] = true;
- 		ret = devm_request_threaded_irq(dev, ret, NULL,
- 						ad4062_irq_handler_thresh,
- 						IRQF_ONESHOT, indio_dev->name,
-@@ -1268,6 +1274,121 @@ static int ad4062_regulators_get(struct ad4062_state *st, bool *ref_sel)
- 	return 0;
- }
- 
-+static int ad4062_gpio_get_direction(struct gpio_chip *gc, unsigned int offset)
-+{
-+	return GPIO_LINE_DIRECTION_OUT;
-+}
-+
-+static int ad4062_gpio_set(struct gpio_chip *gc, unsigned int offset, int value)
-+{
-+	struct ad4062_state *st = gpiochip_get_data(gc);
-+	unsigned int reg_val = value ? AD4062_GP_STATIC_HIGH : AD4062_GP_STATIC_LOW;
-+
-+	if (offset)
-+		return regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
-+					  AD4062_REG_GP_CONF_MODE_MSK_1,
-+					  FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_1, reg_val));
-+	else
-+		return regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
-+					  AD4062_REG_GP_CONF_MODE_MSK_0,
-+					  FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_0, reg_val));
-+}
-+
-+static int ad4062_gpio_get(struct gpio_chip *gc, unsigned int offset)
-+{
-+	struct ad4062_state *st = gpiochip_get_data(gc);
-+	unsigned int reg_val;
-+	int ret;
-+
-+	ret = regmap_read(st->regmap, AD4062_REG_GP_CONF, &reg_val);
-+	if (ret)
-+		return ret;
-+
-+	if (offset)
-+		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_1, reg_val);
-+	else
-+		reg_val = FIELD_GET(AD4062_REG_GP_CONF_MODE_MSK_0, reg_val);
-+
-+	return reg_val == AD4062_GP_STATIC_HIGH;
-+}
-+
-+static void ad4062_gpio_disable(void *data)
-+{
-+	struct ad4062_state *st = data;
-+	u8 val = FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_0, AD4062_GP_DISABLED) |
-+		 FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_1, AD4062_GP_DISABLED);
-+
-+	regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
-+			   AD4062_REG_GP_CONF_MODE_MSK_1 | AD4062_REG_GP_CONF_MODE_MSK_0,
-+			   val);
-+}
-+
-+static int ad4062_gpio_init_valid_mask(struct gpio_chip *gc,
-+				       unsigned long *valid_mask,
-+				       unsigned int ngpios)
-+{
-+	struct ad4062_state *st = gpiochip_get_data(gc);
-+
-+	bitmap_zero(valid_mask, ngpios);
-+
-+	for (unsigned int i = 0; i < ARRAY_SIZE(st->gpo_irq); i++)
-+		__assign_bit(i, valid_mask, !st->gpo_irq[i]);
-+
-+	return 0;
-+}
-+
-+static int ad4062_gpio_init(struct ad4062_state *st)
-+{
-+	struct device *dev = &st->i3cdev->dev;
-+	struct gpio_chip *gc;
-+	u8 val, mask;
-+	int ret;
-+
-+	if (!device_property_read_bool(dev, "gpio-controller"))
-+		return 0;
-+
-+	gc = devm_kzalloc(dev, sizeof(*gc), GFP_KERNEL);
-+	if (!gc)
-+		return -ENOMEM;
-+
-+	val = 0;
-+	mask = 0;
-+	if (!st->gpo_irq[0]) {
-+		mask |= AD4062_REG_GP_CONF_MODE_MSK_0;
-+		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_0, AD4062_GP_STATIC_LOW);
-+	}
-+	if (!st->gpo_irq[1]) {
-+		mask |= AD4062_REG_GP_CONF_MODE_MSK_1;
-+		val |= FIELD_PREP(AD4062_REG_GP_CONF_MODE_MSK_1, AD4062_GP_STATIC_LOW);
-+	}
-+
-+	ret = regmap_update_bits(st->regmap, AD4062_REG_GP_CONF,
-+				 mask, val);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_add_action_or_reset(dev, ad4062_gpio_disable, st);
-+	if (ret)
-+		return ret;
-+
-+	gc->parent = dev;
-+	gc->label = st->chip->name;
-+	gc->owner = THIS_MODULE;
-+	gc->base = -1;
-+	gc->ngpio = 2;
-+	gc->init_valid_mask = ad4062_gpio_init_valid_mask;
-+	gc->get_direction = ad4062_gpio_get_direction;
-+	gc->set = ad4062_gpio_set;
-+	gc->get = ad4062_gpio_get;
-+	gc->can_sleep = true;
-+
-+	ret = devm_gpiochip_add_data(dev, gc, st);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Unable to register GPIO chip\n");
-+
-+	return 0;
-+}
-+
- static const struct i3c_device_id ad4062_id_table[] = {
- 	I3C_DEVICE(AD4062_I3C_VENDOR, ad4060_chip_info.prod_id, &ad4060_chip_info),
- 	I3C_DEVICE(AD4062_I3C_VENDOR, ad4062_chip_info.prod_id, &ad4062_chip_info),
-@@ -1356,6 +1477,10 @@ static int ad4062_probe(struct i3c_device *i3cdev)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to request i3c ibi\n");
- 
-+	ret = ad4062_gpio_init(st);
-+	if (ret)
-+		return ret;
-+
- 	ret = devm_work_autocancel(dev, &st->trig_conv, ad4062_trigger_work);
- 	if (ret)
- 		return ret;
-
--- 
-2.51.1
-
+>
+> diff --git a/include/linux/util_macros.h b/include/linux/util_macros.h
+> index 2eb528058d0d..71564868b8f6 100644
+> --- a/include/linux/util_macros.h
+> +++ b/include/linux/util_macros.h
+> @@ -119,7 +119,7 @@
+>   * a fuss about it. This makes the programmer responsible for tagging
+>   * the functions that can be garbage-collected.
+>   *
+> - * With the macro it is possible to write the following:
+> + * With the macro it is possible to write the following::
+>   *
+>   *     static int foo_suspend(struct device *dev)
+>   *     {
+> --
+> 2.50.1
+>
