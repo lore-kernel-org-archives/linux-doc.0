@@ -1,38 +1,38 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C3932826F;
-	Fri,  5 Dec 2025 09:12:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA43C33A029;
+	Fri,  5 Dec 2025 09:12:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764925965; cv=none; b=GPtQJy8bBLlj/pytgzAhdUnry693LBRhk4jtS4D40AayP/rZ9Al/WWbmq22haYTKs80zEJ3f2BwI1A5C50ar86iTVgbls/pi1UsXu7yJ+HfjTEyNMpPsyyztIvgYzi0adlTNz3MmTNyypPOeR35aWOwuYd8rYcA79iPOw9EzFqw=
+	t=1764925965; cv=none; b=ltXBKNhE+pwCWHlSfkpp2jbJ0Ss8Q5EOunLBbBFOb5gOeRPUrem/L7IzKDc3ObkNQo69xDCwVCvbyuxEG/2CPuosk75o1A9QH9cGnAi6QZMTs28jHJrG+LuhN8vQwazHwsXa6bC1un7xbEZNnfANUolw3s8efvD9NCzZhx0ossA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1764925965; c=relaxed/simple;
-	bh=wOROUdGmrTopYn8Lks6qkkQ2zPA2SCtrzeNGfh6cEHk=;
+	bh=eBqeFd4tGfaL/+oYaUWVSEWVdybaswBZMMYqwL76/us=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pQF3dRRxKWxxEoy9nnyj2SxaIMnDlw9144TdH247kHX3Pi/2AasHg+SXYPUfpKEidshLlrcbKi1K8/uKm5UyAz7WZRLPUNrhoSswJ81Ylo3SX7pvX3/v+8eGDJyowEiXVVK4BlFZid2lXfjiEzWoye2WSSwGfVWSs4Mp41ABWG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=oKcvmC8I; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version:Content-Type; b=Ii5uuBwbQEYFh+FSHqbIaCJHEakL2t4s4LO1LLTb5avOn210uRChrAHjP9OjUO5DA9BMdR3Eiygn4rzMNkyNJLcLrrzeT9ZPtbYao1c57ISYrCYxSk2mrw1V57XqJ2ycHSbrW5na8FXcUZdI/NUMydr3XlqCPCfHTChOVrtlQhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NnLz+S/Q; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="oKcvmC8I"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NnLz+S/Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764925950;
-	bh=wOROUdGmrTopYn8Lks6qkkQ2zPA2SCtrzeNGfh6cEHk=;
+	s=mail; t=1764925947;
+	bh=eBqeFd4tGfaL/+oYaUWVSEWVdybaswBZMMYqwL76/us=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oKcvmC8IgVExoG/NBS7efLcTohNajM9txyiS0IVpiAD2ROl5ERO424Ait3ziZ6DXR
-	 X+S5S9/ZbiTrpTYoKkg9YjBLxQhQMSaMlxg2fx9sSH/5MujCdCeZxKdwyO39Rwl8kO
-	 HW5HCvHXUr6p6keSDbxIoySYA7LuNxYdArDGt8XIOUQR+1Ua0AmH2dRpEsO4feraAi
-	 t3TpyhXB7ZijCH6wyqeWTc2lhQh3fkp6XSxagQof2E/yBgHhx1gCd2sEYs7QDN5Qd5
-	 JmlD0QbDQ16FzJlsWI+FG9n5eC5Y/8kIhjDpN2w0NOwvZhyxMkYBDre3eED500QVZh
-	 pl9UYCQRUxbHg==
+	b=NnLz+S/Qxby2WZzVfVo1Oa+jC3KIjaZkdMlCnUQv+Br0EbOdwebDvowqTe+tR8/9O
+	 OmDPE7VzXtH5HAlRoXYSV/j4Opru4M8YzY9xRZJ3Eu9p7U9+ZBCHFE5PLjOHy6gC0v
+	 Ki9Q9/o+72OcLUUfsLw39ZzCNpGQXoCPwI3aa1Tu8Tuu/7lKPUhVFDPIJqbHKcPa75
+	 iMMEvGEtJ8xbnPgOT1/xBcuJFUPQMFIyRuFkWViZ5iIBhrDHz6zBdwYXAMQWwHz4up
+	 cIWEvTazgWSB7u227xx9RIwIMnGz1njRDdLIi5NM9e7P7BUheK+tgDT55k++GHSo3J
+	 y1FvYeBZVqnmw==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: loicmolinari)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 41CCE17E368E;
-	Fri,  5 Dec 2025 10:12:29 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 277E817E1572;
+	Fri,  5 Dec 2025 10:12:26 +0100 (CET)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -68,9 +68,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	kernel@collabora.com
-Subject: [PATCH v12 08/10] drm/panthor: Introduce huge tmpfs mountpoint option
-Date: Fri,  5 Dec 2025 10:12:14 +0100
-Message-ID: <20251205091216.150968-9-loic.molinari@collabora.com>
+Subject: [PATCH v12 05/10] drm/i915: Use huge tmpfs mountpoint helpers
+Date: Fri,  5 Dec 2025 10:12:11 +0100
+Message-ID: <20251205091216.150968-6-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251205091216.150968-1-loic.molinari@collabora.com>
 References: <20251205091216.150968-1-loic.molinari@collabora.com>
@@ -83,156 +83,367 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Introduce the 'panthor.transparent_hugepage' boolean module parameter
-(false by default). When the parameter is set to true, a new tmpfs
-mountpoint is created and mounted using the 'huge=within_size'
-option. It's then used at GEM object creation instead of the default
-'shm_mnt' mountpoint in order to enable Transparent Hugepage (THP) for
-the object (without having to rely on a system wide parameter).
+Make use of the new drm_gem_huge_mnt_create() and
+drm_gem_get_huge_mnt() helpers to avoid code duplication. Now that
+it's just a few lines long, the single function in i915_gemfs.c is
+moved into i915_gem_shmem.c.
 
 v3:
 - use huge tmpfs mountpoint in drm_device
+- move i915_gemfs.c into i915_gem_shmem.c
 
 v4:
-- fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
 - clean up mountpoint creation error handling
-- print negative error value
 
 v5:
-- use drm_gem_has_huge_tmp() helper
-- get rid of CONFIG_TRANSPARENT_HUGEPAGE ifdefs
+- use drm_gem_has_huge_mnt() helper
+
+v7:
+- include <drm/drm_print.h> in i915_gem_shmem.c
+
+v8:
+- keep logging notice message with CONFIG_TRANSPARENT_HUGEPAGE=n
+- don't access huge_mnt field with CONFIG_TRANSPARENT_HUGEPAGE=n
 
 v9:
-- replace drm_gem_has_huge_tmp() by drm_gem_get_huge_tmp()
+- replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
+- remove useless ternary op test in selftests/huge_pages.c
 
-v11:
-- enable 'panthor.transparent_hugepage' by default
+v12:
+- fix layering violation in selftests (Tvrtko)
+- fix incorrect filename in commit message
 
 Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_device.c |  3 +++
- drivers/gpu/drm/panthor/panthor_drv.c    |  7 +++++++
- drivers/gpu/drm/panthor/panthor_drv.h    |  9 +++++++++
- drivers/gpu/drm/panthor/panthor_gem.c    | 18 ++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_gem.h    |  2 ++
- 5 files changed, 39 insertions(+)
- create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ drivers/gpu/drm/i915/Makefile                 |  3 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  9 +--
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     | 58 ++++++++++-----
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         | 71 -------------------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         | 14 ----
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   | 15 +---
+ drivers/gpu/drm/i915/i915_drv.h               |  5 --
+ 7 files changed, 50 insertions(+), 125 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index e133b1e0ad6d..2979ee0e52c2 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -18,6 +18,7 @@
- #include "panthor_devfreq.h"
- #include "panthor_device.h"
- #include "panthor_fw.h"
-+#include "panthor_gem.h"
- #include "panthor_gpu.h"
- #include "panthor_hw.h"
- #include "panthor_mmu.h"
-@@ -294,6 +295,8 @@ int panthor_device_init(struct panthor_device *ptdev)
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index 84ec79b64960..b5a8c0a6b747 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -169,8 +169,7 @@ gem-y += \
+ 	gem/i915_gem_ttm_move.o \
+ 	gem/i915_gem_ttm_pm.o \
+ 	gem/i915_gem_userptr.o \
+-	gem/i915_gem_wait.o \
+-	gem/i915_gemfs.o
++	gem/i915_gem_wait.o
+ i915-y += \
+ 	$(gem-y) \
+ 	i915_active.o \
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+index 64600aa8227f..f94409e8ec4c 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+@@ -348,12 +348,13 @@ struct drm_i915_gem_object {
+  */
+ #define I915_BO_ALLOC_GPU_ONLY	  BIT(6)
+ #define I915_BO_ALLOC_CCS_AUX	  BIT(7)
++#define I915_BO_ALLOC_NOTHP	  BIT(8)
+ /*
+  * Object is allowed to retain its initial data and will not be cleared on first
+  * access if used along with I915_BO_ALLOC_USER. This is mainly to keep
+  * preallocated framebuffer data intact while transitioning it to i915drmfb.
+  */
+-#define I915_BO_PREALLOC	  BIT(8)
++#define I915_BO_PREALLOC	  BIT(9)
+ #define I915_BO_ALLOC_FLAGS (I915_BO_ALLOC_CONTIGUOUS | \
+ 			     I915_BO_ALLOC_VOLATILE | \
+ 			     I915_BO_ALLOC_CPU_CLEAR | \
+@@ -363,9 +364,9 @@ struct drm_i915_gem_object {
+ 			     I915_BO_ALLOC_GPU_ONLY | \
+ 			     I915_BO_ALLOC_CCS_AUX | \
+ 			     I915_BO_PREALLOC)
+-#define I915_BO_READONLY          BIT(9)
+-#define I915_TILING_QUIRK_BIT     10 /* unknown swizzling; do not release! */
+-#define I915_BO_PROTECTED         BIT(11)
++#define I915_BO_READONLY          BIT(10)
++#define I915_TILING_QUIRK_BIT     11 /* unknown swizzling; do not release! */
++#define I915_BO_PROTECTED         BIT(12)
+ 	/**
+ 	 * @mem_flags - Mutable placement-related flags
+ 	 *
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index 26dda55a07ff..6ad1d6f99363 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -9,14 +9,16 @@
+ #include <linux/uio.h>
+ 
+ #include <drm/drm_cache.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_print.h>
+ 
+ #include "gem/i915_gem_region.h"
+ #include "i915_drv.h"
+ #include "i915_gem_object.h"
+ #include "i915_gem_tiling.h"
+-#include "i915_gemfs.h"
+ #include "i915_scatterlist.h"
+ #include "i915_trace.h"
++#include "i915_utils.h"
+ 
+ /*
+  * Move folios to appropriate lru and release the batch, decrementing the
+@@ -494,9 +496,11 @@ const struct drm_i915_gem_object_ops i915_gem_shmem_ops = {
+ 
+ static int __create_shmem(struct drm_i915_private *i915,
+ 			  struct drm_gem_object *obj,
+-			  resource_size_t size)
++			  resource_size_t size,
++			  unsigned int flags)
+ {
+-	unsigned long flags = VM_NORESERVE;
++	unsigned long shmem_flags = VM_NORESERVE;
++	struct vfsmount *huge_mnt;
+ 	struct file *filp;
+ 
+ 	drm_gem_private_object_init(&i915->drm, obj, size);
+@@ -515,11 +519,12 @@ static int __create_shmem(struct drm_i915_private *i915,
+ 	if (BITS_PER_LONG == 64 && size > MAX_LFS_FILESIZE)
+ 		return -E2BIG;
+ 
+-	if (i915->mm.gemfs)
+-		filp = shmem_file_setup_with_mnt(i915->mm.gemfs, "i915", size,
+-						 flags);
++	huge_mnt = drm_gem_get_huge_mnt(&i915->drm);
++	if (!(flags & I915_BO_ALLOC_NOTHP) && huge_mnt)
++		filp = shmem_file_setup_with_mnt(huge_mnt, "i915", size,
++						 shmem_flags);
+ 	else
+-		filp = shmem_file_setup("i915", size, flags);
++		filp = shmem_file_setup("i915", size, shmem_flags);
+ 	if (IS_ERR(filp))
+ 		return PTR_ERR(filp);
+ 
+@@ -548,7 +553,7 @@ static int shmem_object_init(struct intel_memory_region *mem,
+ 	gfp_t mask;
+ 	int ret;
+ 
+-	ret = __create_shmem(i915, &obj->base, size);
++	ret = __create_shmem(i915, &obj->base, size, flags);
  	if (ret)
- 		goto err_unplug_fw;
+ 		return ret;
  
-+	panthor_gem_init(ptdev);
-+
- 	/* ~3 frames */
- 	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
- 	pm_runtime_use_autosuspend(ptdev->base.dev);
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index d1d4c50da5bf..0e7ab6f5ba89 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1559,6 +1559,7 @@ static const struct file_operations panthor_drm_driver_fops = {
- 	.read = drm_read,
- 	.llseek = noop_llseek,
- 	.mmap = panthor_mmap,
-+	.get_unmapped_area = drm_gem_get_unmapped_area,
- 	.show_fdinfo = drm_show_fdinfo,
- 	.fop_flags = FOP_UNSIGNED_OFFSET,
- };
-@@ -1626,6 +1627,12 @@ static const struct drm_driver panthor_drm_driver = {
- #endif
- };
+@@ -644,21 +649,40 @@ i915_gem_object_create_shmem_from_data(struct drm_i915_private *i915,
  
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+bool panthor_transparent_hugepage = true;
-+module_param_named(transparent_hugepage, panthor_transparent_hugepage, bool, 0400);
-+MODULE_PARM_DESC(transparent_hugepage, "Use a dedicated tmpfs mount point with Transparent Hugepage enabled (true = default)");
-+#endif
-+
- static int panthor_probe(struct platform_device *pdev)
+ static int init_shmem(struct intel_memory_region *mem)
  {
- 	struct panthor_device *ptdev;
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.h b/drivers/gpu/drm/panthor/panthor_drv.h
-new file mode 100644
-index 000000000000..79dccd289881
---- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_drv.h
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0 or MIT
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
-+
-+#ifndef __PANTHOR_DRV_H__
-+#define __PANTHOR_DRV_H__
-+
-+extern bool panthor_transparent_hugepage;
-+
-+#endif
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index 10d255cccc09..7ae07a9bc996 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 or MIT
- /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
- /* Copyright 2023 Collabora ltd. */
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
+-	i915_gemfs_init(mem->i915);
+-	intel_memory_region_set_name(mem, "system");
++	struct drm_i915_private *i915 = mem->i915;
  
- #include <linux/cleanup.h>
- #include <linux/dma-buf.h>
-@@ -12,10 +13,27 @@
- #include <drm/panthor_drm.h>
+-	return 0; /* We have fallback to the kernel mnt if gemfs init failed. */
+-}
++	/*
++	 * By creating our own shmemfs mountpoint, we can pass in
++	 * mount flags that better match our usecase.
++	 *
++	 * One example, although it is probably better with a per-file
++	 * control, is selecting huge page allocations ("huge=within_size").
++	 * However, we only do so on platforms which benefit from it, or to
++	 * offset the overhead of iommu lookups, where with latter it is a net
++	 * win even on platforms which would otherwise see some performance
++	 * regressions such a slow reads issue on Broadwell and Skylake.
++	 */
  
- #include "panthor_device.h"
-+#include "panthor_drv.h"
- #include "panthor_fw.h"
- #include "panthor_gem.h"
- #include "panthor_mmu.h"
- 
-+void panthor_gem_init(struct panthor_device *ptdev)
-+{
-+	int err;
+-static int release_shmem(struct intel_memory_region *mem)
+-{
+-	i915_gemfs_fini(mem->i915);
+-	return 0;
++	if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
++		goto no_thp;
 +
-+	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
-+	    !panthor_transparent_hugepage)
-+		return;
++	drm_gem_huge_mnt_create(&i915->drm, "within_size");
++	if (drm_gem_get_huge_mnt(&i915->drm))
++		drm_info(&i915->drm, "Using Transparent Hugepages\n");
++	else
++		drm_notice(&i915->drm,
++			   "Transparent Hugepage support is recommended for optimal performance%s\n",
++			   GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
++						      " when IOMMU is enabled!");
 +
-+	err = drm_gem_huge_mnt_create(&ptdev->base, "within_size");
-+	if (drm_gem_get_huge_mnt(&ptdev->base))
-+		drm_info(&ptdev->base, "Using Transparent Hugepage\n");
-+	else if (err)
-+		drm_warn(&ptdev->base, "Can't use Transparent Hugepage (%d)\n",
-+			 err);
-+}
++ no_thp:
++	intel_memory_region_set_name(mem, "system");
 +
- #ifdef CONFIG_DEBUG_FS
- static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
- {
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-index 80c6e24112d0..2eefe9104e5e 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.h
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -136,6 +136,8 @@ struct panthor_gem_object *to_panthor_bo(struct drm_gem_object *obj)
- 	return container_of(to_drm_gem_shmem_obj(obj), struct panthor_gem_object, base);
++	return 0; /* We have fallback to the kernel mnt if huge mnt failed. */
  }
  
-+void panthor_gem_init(struct panthor_device *ptdev);
-+
- struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size);
+ static const struct intel_memory_region_ops shmem_region_ops = {
+ 	.init = init_shmem,
+-	.release = release_shmem,
+ 	.init_object = shmem_object_init,
+ };
  
- int
+diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+deleted file mode 100644
+index 1f1290214031..000000000000
+--- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
++++ /dev/null
+@@ -1,71 +0,0 @@
+-// SPDX-License-Identifier: MIT
+-/*
+- * Copyright © 2017 Intel Corporation
+- */
+-
+-#include <linux/fs.h>
+-#include <linux/mount.h>
+-#include <linux/fs_context.h>
+-
+-#include <drm/drm_print.h>
+-
+-#include "i915_drv.h"
+-#include "i915_gemfs.h"
+-#include "i915_utils.h"
+-
+-void i915_gemfs_init(struct drm_i915_private *i915)
+-{
+-	struct file_system_type *type;
+-	struct fs_context *fc;
+-	struct vfsmount *gemfs;
+-	int ret;
+-
+-	/*
+-	 * By creating our own shmemfs mountpoint, we can pass in
+-	 * mount flags that better match our usecase.
+-	 *
+-	 * One example, although it is probably better with a per-file
+-	 * control, is selecting huge page allocations ("huge=within_size").
+-	 * However, we only do so on platforms which benefit from it, or to
+-	 * offset the overhead of iommu lookups, where with latter it is a net
+-	 * win even on platforms which would otherwise see some performance
+-	 * regressions such a slow reads issue on Broadwell and Skylake.
+-	 */
+-
+-	if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
+-		return;
+-
+-	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
+-		goto err;
+-
+-	type = get_fs_type("tmpfs");
+-	if (!type)
+-		goto err;
+-
+-	fc = fs_context_for_mount(type, SB_KERNMOUNT);
+-	if (IS_ERR(fc))
+-		goto err;
+-	ret = vfs_parse_fs_string(fc, "source", "tmpfs");
+-	if (!ret)
+-		ret = vfs_parse_fs_string(fc, "huge", "within_size");
+-	if (!ret)
+-		gemfs = fc_mount_longterm(fc);
+-	put_fs_context(fc);
+-	if (ret)
+-		goto err;
+-
+-	i915->mm.gemfs = gemfs;
+-	drm_info(&i915->drm, "Using Transparent Hugepages\n");
+-	return;
+-
+-err:
+-	drm_notice(&i915->drm,
+-		   "Transparent Hugepage support is recommended for optimal performance%s\n",
+-		   GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
+-					      " when IOMMU is enabled!");
+-}
+-
+-void i915_gemfs_fini(struct drm_i915_private *i915)
+-{
+-	kern_unmount(i915->mm.gemfs);
+-}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.h b/drivers/gpu/drm/i915/gem/i915_gemfs.h
+deleted file mode 100644
+index 16d4333c9a4e..000000000000
+--- a/drivers/gpu/drm/i915/gem/i915_gemfs.h
++++ /dev/null
+@@ -1,14 +0,0 @@
+-/* SPDX-License-Identifier: MIT */
+-/*
+- * Copyright © 2017 Intel Corporation
+- */
+-
+-#ifndef __I915_GEMFS_H__
+-#define __I915_GEMFS_H__
+-
+-struct drm_i915_private;
+-
+-void i915_gemfs_init(struct drm_i915_private *i915);
+-void i915_gemfs_fini(struct drm_i915_private *i915);
+-
+-#endif
+diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+index bd08605a1611..02e9bf87f654 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
++++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+@@ -1316,7 +1316,7 @@ typedef struct drm_i915_gem_object *
+ 
+ static inline bool igt_can_allocate_thp(struct drm_i915_private *i915)
+ {
+-	return i915->mm.gemfs && has_transparent_hugepage();
++	return !!drm_gem_get_huge_mnt(&i915->drm);
+ }
+ 
+ static struct drm_i915_gem_object *
+@@ -1761,7 +1761,6 @@ static int igt_tmpfs_fallback(void *arg)
+ 	struct drm_i915_private *i915 = arg;
+ 	struct i915_address_space *vm;
+ 	struct i915_gem_context *ctx;
+-	struct vfsmount *gemfs = i915->mm.gemfs;
+ 	struct drm_i915_gem_object *obj;
+ 	struct i915_vma *vma;
+ 	struct file *file;
+@@ -1779,15 +1778,8 @@ static int igt_tmpfs_fallback(void *arg)
+ 	}
+ 	vm = i915_gem_context_get_eb_vm(ctx);
+ 
+-	/*
+-	 * Make sure that we don't burst into a ball of flames upon falling back
+-	 * to tmpfs, which we rely on if on the off-chance we encounter a failure
+-	 * when setting up gemfs.
+-	 */
+-
+-	i915->mm.gemfs = NULL;
+-
+-	obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
++	obj = i915_gem_object_create_region(i915->mm.regions[INTEL_REGION_SMEM],
++					    PAGE_SIZE, 0, I915_BO_ALLOC_NOTHP);
+ 	if (IS_ERR(obj)) {
+ 		err = PTR_ERR(obj);
+ 		goto out_restore;
+@@ -1819,7 +1811,6 @@ static int igt_tmpfs_fallback(void *arg)
+ out_put:
+ 	i915_gem_object_put(obj);
+ out_restore:
+-	i915->mm.gemfs = gemfs;
+ 
+ 	i915_vm_put(vm);
+ out:
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 95f9ddf22ce4..93a5af3de334 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -141,11 +141,6 @@ struct i915_gem_mm {
+ 	 */
+ 	atomic_t free_count;
+ 
+-	/**
+-	 * tmpfs instance used for shmem backed objects
+-	 */
+-	struct vfsmount *gemfs;
+-
+ 	struct intel_memory_region *regions[INTEL_REGION_UNKNOWN];
+ 
+ 	struct notifier_block oom_notifier;
 -- 
 2.47.3
 
