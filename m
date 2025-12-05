@@ -1,138 +1,138 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8482E32FA07
-	for <linux-doc@vger.kernel.org>; Fri,  5 Dec 2025 15:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FD52FF16C;
+	Fri,  5 Dec 2025 16:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764948804; cv=none; b=ZDwYTCkHodEl73YHIaTPfsGE3uqK+9ofgGtD7t8FGeVxFKYdXVNhWRwS9Mqhh4AnRbijm3si1QwDQnbfvAkuHz4oflo+Vc881NpmiFr2YJc5rsN+CpKigKmwWQfVsbNB9jWN3BvB09n7AKAVEMKrQTsgssEBDsQilS8eCBSPbNs=
+	t=1764951286; cv=none; b=ddCyZ5Bf8ipGDM2yKj4mmNxVzKto2zd6LJLyaOySf5DulUKUs9U1OlW12Kmq9KnxbVBW/JhCh2wkw6C+GkTUMXilkagNPfbmElYJoXze/yx/Fwagj/ZHfGm5twTK9GJz4L8kdKub7i7UEi4hixY5X4SK3vMexn3E9/k2w+1CO7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764948804; c=relaxed/simple;
-	bh=uriUt+w4PSoBXDDAW6w1jxXm60/AaOp3dSZv21zdcHI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=erU9GUe9q/qigHM6JCqyhpLMYempaL/SgPmNfFCP+HdlFtOd4g2YBOBxYBScAnHdSznJrEadsQfFEnh770FkWIs5OYG/+qkDMUR67fj1MiDZpNM9dpqFTlHitXxcPycK3q77N5zS1SZQjTcFLqFEZIH7Y5h7bQFScxQ1KfY3Kqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mlDs9zD4; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1764951286; c=relaxed/simple;
+	bh=7Zo+B8tCET+fdTwnbnDx9vCho+J+rtMV5OCZ+Kylbys=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=rxWA+n4Ekaxl11IUWuAj+/7TLeb6Bt7e8BfK3sBP/QdPmDb60ijTWDWwy2hQa028aLGocBEYvqhMXQAtkX6o/gtW0ggzHkwWAFragJ1qv4kczx0THk3yj+MTZ2CIvW7hreV1RLIRcvO2ckocN2qUGuAGN8cQHs+aNf3gKhZR4Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fluxnic.net; spf=pass smtp.mailfrom=fluxnic.net; dkim=pass (2048-bit key) header.d=fluxnic.net header.i=@fluxnic.net header.b=An6Q8AKa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gw13+jli; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fluxnic.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fluxnic.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mlDs9zD4"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47795f6f5c0so15626215e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 05 Dec 2025 07:33:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764948797; x=1765553597; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HvjppReCrCrxS3kDDkBx4Pr9nzXm5T4z6OxhhwoEdqQ=;
-        b=mlDs9zD4Ej4lCf1vklAK8qWQ+1zFonFIdz/cj7dX4x0s9IcAnzcqrvOWMvQhRYpxqy
-         Hr0ar8TdudVksI4h9A/U5tQxqNnQNzepMa9vFgmTaUgD0i0bpG/XoePCMfhmE4nzqcl2
-         4rNOSMP20YSBfx7E7hXq9nfjDQbBoQPUfvc8QVtiCCZx4R9IgXDRYPo4v5tbsQmAgL70
-         0MnH6aUszf3vQcYzQeyYKmSg0zRtykeWWQ0RPcWUo1TybuJUDzro3vrwiaVcrnj0vDNa
-         RdzpNR+7ZnmF4woD0iMeMR3Av2tP0wWEAU6kuN6KS1+65c1IRW8q6W14NFi7agowYW5y
-         Iwcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764948797; x=1765553597;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HvjppReCrCrxS3kDDkBx4Pr9nzXm5T4z6OxhhwoEdqQ=;
-        b=Rrtq97DgX7TNBSapXTn5o9JdUrnE+N0SqS15xHrJPUbaovMRPuS/y+bMTxVTL//deR
-         DP1OqbItctb5bv+w3m8lDqqrFklNDsIsh33tN30Nh/5lrVJBnNKTIwZEeU2Lkuz1c5K7
-         7jEFrWM6x1keG23n1jDcWx9E8VRx9oY8aECpSct0y+14UXHdsKqMOpTC+gwuewWErAgD
-         CKrHpKoY7WMGjPSUSBCkMyAkP2UZpanR3oeWEQme5ns7/I9v2waJLGN2yV7vvMZaZYI2
-         c7rMYKXfOE7seA/fc8zWUpNaxQGCUKiWCHB5x0WTxKg4MGU0xhvYk+f7UsekZauyrPRQ
-         iLuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLEGY/kXmE+nf+FgEkeYs2yBO35Y/yTISwNjaFh8IMqMzPfekTI/jK/aShlBCPgxaya1oUS+cuiBg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyiRqKVkDS52IckZ4GYKZXcjgTE/1Xk/KOrSU/guATaGWkV34d
-	kva2CoTEVEW3me8OgEuACMQ69y6Yq16l8O/1RVKh4g0x5eJ2uOU2kbyIVB/jrc6vX0c=
-X-Gm-Gg: ASbGncuwhFrLAHi40tXPGSL8xHXKEyj6O0jvtgu8tmYftZPmTudRyRdFlQSXgJ2io1E
-	n8ClPQ0CyZi0Es8RqfQJycypo91aPXIHDov6fbhqPXvR5ED+/QAYyOTYPr6z7Rk+tIFxJdQyIN7
-	s2iZhPqScb9/8BPsimX8noaePUmmHvmPscUi2qxLAv83lkU1j9lRpYL1nJX7SAFUnNqnIyzpysV
-	aY7BE0ixbRfCgW1wGc4GEpAuxfSwOmn7Kxa1Q0xYB3ZplP6HYbyIg9I5vfiBQLiY8vtObmNHVWj
-	bUaVpX7FeGId6/DBpPhx5SnOUdWM91B5MdPoWIBXcWF28GcYCwP42/b1i1KLZA11z1xCHZ0wlom
-	TIghYIiB7RG4QEgQPZMOffLW+MCgBwhg6x1twq4+qmKvlNu/dsFo7f9zvNdFj6CuHM7NTa+argl
-	gU+G5c78zCh8RRAnZ7JV9NKGDRjHuyQCUUr1ZbKmIEc1hj3JdEeLI6pvpjtQKndz91IhtYIuLZF
-	p1CCQ7Xf8qT
-X-Google-Smtp-Source: AGHT+IFnGLCKOJrUV86aJjqBa8op0ySObk5Ne+xxXjyfaoT7PEDgfBBZfngK+ni+cuHs0WzGXjHCmA==
-X-Received: by 2002:a05:600c:1ca4:b0:477:63dc:be00 with SMTP id 5b1f17b1804b1-4792af404d2mr113979475e9.25.1764948796743;
-        Fri, 05 Dec 2025 07:33:16 -0800 (PST)
-Received: from localhost (p200300f65f0066080f2a7d55dcab4de7.dip0.t-ipconnect.de. [2003:f6:5f00:6608:f2a:7d55:dcab:4de7])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-479311fbaf4sm82770205e9.15.2025.12.05.07.33.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Dec 2025 07:33:16 -0800 (PST)
-Date: Fri, 5 Dec 2025 16:33:15 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Improve wording on requirements for a
- free Nitrokey
-Message-ID: <j6mj6stlk4ojprdpfvoa35ghsfics5wou4nh3khymmb2aiqxbr@73jzs33sbyly>
-References: <20251203074349.1826233-2-u.kleine-koenig@baylibre.com>
- <aTIP2Wqspl-jfm7M@archie.me>
+	dkim=pass (2048-bit key) header.d=fluxnic.net header.i=@fluxnic.net header.b="An6Q8AKa";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gw13+jli"
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 1B8617A01E4;
+	Fri,  5 Dec 2025 11:14:36 -0500 (EST)
+Received: from phl-frontend-02 ([10.202.2.161])
+  by phl-compute-07.internal (MEProxy); Fri, 05 Dec 2025 11:14:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fluxnic.net; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1764951275; x=1765037675; bh=4wqfC08czy
+	uhD5atohtJJLcnUaFRLDORejnOX/G4miQ=; b=An6Q8AKadmcG1kNac5EVIIouqQ
+	/kE8P/8qKD+W80i7K56I8RwY/CShBpWLPisWr8r+ilrBxtTgsrvl9sMsTkz7pKv4
+	8iFuFI2gVRALXAUHB+5agb5djeTBaLyoID/0Y03D09aqIu0HJAAYY9Ey6TDPAZpq
+	ZEVE1Gs2Zivptt75hfWKSpI7g3Qf+Ax6OqJtItG6SlNe6g1LQH3yaylVcyWSfVb8
+	7ZptOQ1zjSbSYerAI0R2WfrSwGgKnyRA3YcqOfx7jp9aN7Qa3oCiPLrFaoZTd3y1
+	NKiyJ9zmNktxyuzCJsi8mg6XT4QnXwASEho/D/wopyhgF4mVzk7FTcD2pC/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1764951275; x=1765037675; bh=4wqfC08czyuhD5atohtJJLcnUaFRLDORejn
+	OX/G4miQ=; b=gw13+jli76Ne6yDq8OMaYPJ5qWv7+l/ju8u/XeobJEiBGGZi/qq
+	4E7r7aLyc4vZtKqc3h+wpvc5+ml/2TychZGTMsyqBDhSB7ReqvcSTLOWKx07oRPY
+	PC/CmCzPY+zbDTcMXPvA0PY+8hDoi0QklX+4y81vXXEerzWquIiuLStIUnP31z1l
+	F2FULbOSMZ5vdLJ3t9w1XmbbRpmxNZVFnu0QMSzmNwDcKeoB8BXCJ2jG3H/9yDOI
+	CuHR6Q6gw+yhk6t1GKz5+p+XQcbMowHLeDHkiVJZlj+TF2P1ZNUY5RqcvL191Qo9
+	Kzp2Aap5jbqQhUbDVByDRu/2efUcm1I2+zg==
+X-ME-Sender: <xms:6wQzafowa3rdrGEv4Wka2MeXxMYkMox00qVGAYkyApkSSoY186t7lg>
+    <xme:6wQzacNW0JKb-D2fx-kkA6-3xZ9Vfl36jNgyhvnZ-O2Kzm8mkaG1rDgpws2ih9SXP
+    ahHW6soxDKJzOEZmiqcB6YsIdQiEbqPMZp2FQCRnkpaxoLivfegeVM>
+X-ME-Received: <xmr:6wQzaf33iU2yeZ0Lg4CM0jCIy7TQeJOJoWMn_17sp93TlQxUskMsWRTinZyYF2FqFkudrHM7TFthf2HtU59y-ZBHg_hjrQEDDoU93V0B>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdekkeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvfevufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefpihgtohhlrghsucfr
+    ihhtrhgvuceonhhitghosehflhhugihnihgtrdhnvghtqeenucggtffrrghtthgvrhhnpe
+    fgvedvhfefueejgefggfefhfelffeiieduvdehffduheduffekkefhgeffhfefveenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihgtohesfh
+    hluhignhhitgdrnhgvthdpnhgspghrtghpthhtohepkedpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtthhopehnrghthhgrnh
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhstgeskhgvrhhnvghlrdhorhhgpdhr
+    tghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepghhrrghhrghmrh
+    esqhhtihdrqhhurghltghomhhmrdgtohhmpdhrtghpthhtoheplhhinhhugidqughotges
+    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhksghuihhlug
+    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgv
+    lhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:6wQzaTCaVAnLk7x1wQoy371BcL1idv_5DZsEEc9cCRfUKabTJXf3cQ>
+    <xmx:6wQzaUL2TEEVjItgLyyJOK-irbhdDkGYHtG8rd1920jHtYWorlqUfg>
+    <xmx:6wQzaUncfUVE43mTEBcIEIkLmLCImS0MZZCaUD5Sep3JYtIqz9Ifng>
+    <xmx:6wQzaVZd09QKKE25W76LXKic6bRY6956S1udOZdSGRWgNs8oIKo01Q>
+    <xmx:6wQzacyXgAizPZG-sctR-NdNN4JreuB5DD5ZXvLrCeN8AnGuKO7uMUke>
+Feedback-ID: i58514971:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 5 Dec 2025 11:14:35 -0500 (EST)
+Received: from xanadu (xanadu.lan [192.168.1.120])
+	by yoda.fluxnic.net (Postfix) with ESMTPSA id 8B8E51484195;
+	Fri, 05 Dec 2025 11:14:34 -0500 (EST)
+Date: Fri, 5 Dec 2025 11:14:34 -0500 (EST)
+From: Nicolas Pitre <nico@fluxnic.net>
+To: Arnd Bergmann <arnd@arndb.de>
+cc: Nathan Chancellor <nathan@kernel.org>, 
+    Graham Roff <grahamr@qti.qualcomm.com>, Nicolas Schier <nsc@kernel.org>, 
+    Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org, 
+    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Support conditional deps using "depends on X if Y"
+In-Reply-To: <b4be7637-9446-47d0-9a8c-3fd0f55a27b9@app.fastmail.com>
+Message-ID: <q490r0s5-q431-0335-n367-qrr05oos17s5@syhkavp.arg>
+References: <20251118-kconfig_conditional_deps-v2-1-e360792edaed@qti.qualcomm.com> <20251205015352.GA2060615@ax162> <b4be7637-9446-47d0-9a8c-3fd0f55a27b9@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vtqngrwcuzhli2ps"
-Content-Disposition: inline
-In-Reply-To: <aTIP2Wqspl-jfm7M@archie.me>
+Content-Type: text/plain; charset=US-ASCII
+
+On Fri, 5 Dec 2025, Arnd Bergmann wrote:
+
+> On Fri, Dec 5, 2025, at 02:53, Nathan Chancellor wrote:
+> > On Tue, Nov 18, 2025 at 10:46:51AM -0800, Graham Roff wrote:
+> >>
+> >> arch/arm64/Kconfig:
+> >>   depends on ARM64_64K_PAGES || !ARM64_VA_BITS_52 -->
+> >>   depends on ARM64_64K_PAGES if ARM64_VA_BITS_52
+> >> arch/mips/Kconfig:
+> >>   depends on SYS_SUPPORTS_HOTPLUG_CPU || !SMP -->
+> >>   depends on SYS_SUPPORTS_HOTPLUG_CPU if SMP
+> >> arch/riscv/Kconfig:
+> >>   depends on CC_HAS_MIN_FUNCTION_ALIGNMENT || !RISCV_ISA_C -->
+> >>   depends on CC_HAS_MIN_FUNCTION_ALIGNMENT if RISCV_ISA_C
+> >> arch/x86/Kconfig:
+> >>   depends on X86_64 || !SPARSEMEM -->
+> >>   depends on X86_64 if SPARSEMEM
+> >> drivers/acpi/Kconfig:
+> >>   depends on ACPI_WMI || !X86 -->
+> >>   depends on ACPI_WMI if X86
+> >> drivers/bluetooth/Kconfig:
+> >>   depends on USB || !BT_HCIBTUSB_MTK
+> >>   depends on USB if BT_HCIBTUSB_MTK
+> >> mm/Kconfig:
+> >>   depends on !ARM || CPU_CACHE_VIPT -->
+> >>   depends on CPU_CACHE_VIPT if ARM
+> >> kernel/Kconfig.locks:
+> >>   depends on !PREEMPTION || ARCH_INLINE_READ_UNLOCK -->
+> >>   depends on ARCH_INLINE_READ_UNLOCK if PREEMPTION
+> >
+> > On the surface, the vast majority these become more readable using the
+> > 'if' syntax.
+> 
+> Agreed, the question is whether a small improvement in
+> readability is worth the complexity of having multiple
+> ways of expressing the same thing.
+
+It is a tradeoff. Sometimes it is advantageous to increase the 
+complexity in one place so other areas with more exposure to more people 
+are simplified.
 
 
---vtqngrwcuzhli2ps
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] Documentation: Improve wording on requirements for a
- free Nitrokey
-MIME-Version: 1.0
-
-Hello,
-
-On Fri, Dec 05, 2025 at 05:48:57AM +0700, Bagas Sanjaya wrote:
-> On Wed, Dec 03, 2025 at 08:43:47AM +0100, Uwe Kleine-K=F6nig wrote:
-> > diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documenta=
-tion/process/maintainer-pgp-guide.rst
-> > index b6919bf606c3..2e4da3de25d4 100644
-> > --- a/Documentation/process/maintainer-pgp-guide.rst
-> > +++ b/Documentation/process/maintainer-pgp-guide.rst
-> > @@ -405,8 +405,8 @@ geographical region, and open/proprietary hardware =
-considerations.
-> > =20
-> >  .. note::
-> > =20
-> > -    If you are listed in MAINTAINERS or have an account at kernel.org,
-> > -    you `qualify for a free Nitrokey Start`_ courtesy of The Linux
-> > +    If you are listed in an `M:` entry in MAINTAINERS or have an accou=
-nt at
-> i.e. being listed as a maintainer?
-
-Yes, that seems to be the criteria. This was at least the explanation
-when a coworker with an R: entry wasn't able to apply (and the error
-message gives no hint about the problem then).
-
-> > +    kernel.org, you `qualify for a free Nitrokey Start`_ courtesy of T=
-he Linux
-> >      Foundation.
-
-Best regards
-Uwe
-
---vtqngrwcuzhli2ps
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmky+zkACgkQj4D7WH0S
-/k7fRAgAu9daZwZT9Ip2xOeM/w1hNbVH4jYmAXzyMdo4aHSLgOOSNOXdj9mB8dMP
-A6me4gwkAAbWLtJlExAl6wPwaNtTv6WobMPnNbm9Hfiee+hTjlB5OJmfgg5OKZYE
-X7BVivj2MB12/jHWciUJj/m5u5G9EJJL/lUWSrdlxiEzl9ikubbFz55AKtweXSNb
-DlwRMqlrZ2Wt+iXYNOmSS5xadT7Er0+D7s4sYHSbYz13raabzv/7G/p5oFpJicPo
-ZBYAqtpfT/Y+aOOkic56/vlfLFFD0H9/itQBDI1TDn450dxmXPwKh01+kkyVNhGd
-hVgzZjfyza9NAk+M/Qk3QZie4guEGg==
-=c3w1
------END PGP SIGNATURE-----
-
---vtqngrwcuzhli2ps--
+Nicolas
