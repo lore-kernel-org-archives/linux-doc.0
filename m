@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3282421E0AD;
-	Sat,  6 Dec 2025 23:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E3821E0AD;
+	Sat,  6 Dec 2025 23:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765062190; cv=none; b=rycmWb1TSmLzsLgfCuEuvEoRG6NZx7vodPt/5v4zXZyA3BKh04ljHhlOEuf01CH9CEYnqmAk0cRny9RuRkDYVMMVZomkcGuUFZk2vNHmlvLwTQ9R9w/pRk6BG6E+ZK3vC5Zp4DWGbB62ZyfbMLtMgo6R7p1YQFTI+igTR3mFDiM=
+	t=1765062198; cv=none; b=hoy9KbbbNY6JDXt3WcOQv720dQZyB+RSNj17Nx08rkBvzRosku3+VINcHa57eUGUlACs9Ijbq89EE6Usn3JACdf9R9px63R/KBbaDgAQYkQL53FXK4wN4nhjRA5NefViGW4gG/Q5jdxN1YUyzGkPLi3bFE/JhdaFalxbruS4W1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765062190; c=relaxed/simple;
-	bh=m2cubONKoqyouhwjy5FzgZ2+Xsu+q1kb9+zbsNKB/zk=;
+	s=arc-20240116; t=1765062198; c=relaxed/simple;
+	bh=84Day5NsF6SXe1Km3++11Q/bEnVr1zB/QM0GI9wBAbI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h0y34mvhZWKblO/A2yVRlqQVjN62gxVbwJNuahnNeC1OwAGoAqvs/os4BX4RkkS/M9/3KqGLp1mYxs2Pl/mo/Lzd3ut0xgwaauNDwwC5aTNV57LDVMtOmsGZYGQabnVxmdwD/eWhxbwqCf6ydUUD8QPjb2cpvaIgGcYfbHQUFZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vs0AFiqx; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=WQGyvIojlljukJj//Sc+vmeARZWy9ca/xFVhecSPCHk2lFjLdbgxI5cC/PzLrBjeXjStzP/1LFdIWGv8nmiIEmi2vOCqyquZT+FE1wn69ojZ2/jZUgxeY092n+2CohmGkFupkvpvx7U4mFGSXxE6Qk1fCp85Z2MxvQ2Aghc0rlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gLgkhBSf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vs0AFiqx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B44A1C4CEF5;
-	Sat,  6 Dec 2025 23:03:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gLgkhBSf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14DAC113D0;
+	Sat,  6 Dec 2025 23:03:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765062190;
-	bh=m2cubONKoqyouhwjy5FzgZ2+Xsu+q1kb9+zbsNKB/zk=;
+	s=k20201202; t=1765062197;
+	bh=84Day5NsF6SXe1Km3++11Q/bEnVr1zB/QM0GI9wBAbI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Vs0AFiqx4sv5ON1LrRehbcWHnt0bKbzqw9H6i6u+eWwECq4C+UiijXJaSaOG8e8HU
-	 fqQ0D+QI7BIIhuOyp4e9SAq26BG8jyWFrU00LnDw7jrxAZddu0AclewTAeh3Emz12H
-	 bQgA4J+KII14fokMXT7jg3HOCtmERbpqDN4Ic/ennaaNWbbqOhNxwjphfmu8DJBDAS
-	 6fYtfdklD7nRXb+FPDt0IVo5kL4swcQtVUWx9uAyZUv7cn7EgYKUT8bCZVSOyK1M96
-	 wUwH63bRlpHKf9SjyRrlvI6COfBrdniFDwd0rV6Pe60KEyUzNuYfY7+NJpR9m0/BgG
-	 ls73uYoFD3ZdQ==
+	b=gLgkhBSffYh+ax4IhfdV1dC3S0Q/Nuxvrgz5O16omXtFtfoA2xA+jNxoyi5yJ5Uv9
+	 eIlWxW9Ba9+ERSI1lIAV5QV7nj9hkq4lvkJN5oilwkJRXPkF7h2rHHSJT+i6Chs0qq
+	 zu7nURHutRl5cl9lA1mlaJduvy1MigphMg5Ncy6eBkz6IaYJGmQkQtbc1BKx8FfbPQ
+	 1fqiyjCI+BImIm7BHd03SiWPuRG+rjriJ9HLIi3Cgun+tJOhSQz0xTKRdgb6Yk1Fx4
+	 Q65lqi4VJ42Vw1uPGcypazJxvapsCUgKu6T2zhGKkpKEU82H4sI/pn5ZduvZsvdgaK
+	 iRPzKjq5rUVsw==
 From: Pratyush Yadav <pratyush@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>,
 	Mike Rapoport <rppt@kernel.org>,
@@ -57,9 +57,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	kexec@lists.infradead.org
-Subject: [RFC PATCH 02/10] kho: disable scratch-only earlier in boot
-Date: Sun,  7 Dec 2025 00:02:12 +0100
-Message-ID: <20251206230222.853493-3-pratyush@kernel.org>
+Subject: [RFC PATCH 03/10] liveupdate: do early initialization before hugepages are allocated
+Date: Sun,  7 Dec 2025 00:02:13 +0100
+Message-ID: <20251206230222.853493-4-pratyush@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251206230222.853493-1-pratyush@kernel.org>
 References: <20251206230222.853493-1-pratyush@kernel.org>
@@ -71,200 +71,173 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Background
-==========
+To support hugepage preservation using LUO, the hugetlb subsystem needs
+to get liveupdate data when it allocates the hugepages to find out how
+many pages are coming from live update.
 
-Scratch areas
--------------
+Move early LUO init from early_initcall to mm_core_init(). This is where
+gigantic hugepages are allocated on ARM64. On x86, they are allocated in
+setup_arch(), so have a call there as well. Keep track of whether the
+function was already called to avoid double-init.
 
-When KHO is used, allocations are only allowed from scratch areas. The
-scratch areas are pre-reserved chunks of memory that are known to not
-have any preserved memory. They can safely be used until KHO is able to
-parse its serialized data to find out which pages are preserved.
-
-The scratch areas are generally sized to ensure enough memory is available for
-early boot allocations. They should not be excessively large to ensure
-less memory is wasted.
-
-Gigantic hugepage allocation
-----------------------------
-
-Gigantic hugepages are allocated early in boot before memblock releases
-pages to the buddy allocator. This is to ensure enough contiguous chunks
-of memory are available to satisfy huge page allocations. On x86 this is
-done in setup_arch(). On other architectures, including ARM64 (the only
-other arch that supports KHO), this is done in mm_core_init().
-
-Problem
-=======
-
-Currently during KHO boot, scratch-only mode is active when hugepage
-allocations are attempted on both x86 and ARM64. Since scratch areas are
-generally not large enough to accommodate the allocation, this
-allocation fails and results in gigantic hugepages being unavailable.
-
-Solution
-========
-
-Moving KHO memory init
-----------------------
-
-Move KHO memory initialization before gigantic hugepage allocation.
-Disable scratch-only as soon as the bitmaps are deserialized, since
-there is no longer a reason to stay in scratch-only mode. Since on x86
-this can get called twice, once from setup_arch() and once from the
-generic path in mm_core_init(), add a variable to catch this and skip
-double-initialization.
-
-Re-ordering hugepage allocation
--------------------------------
-
-KHO memory initialization uses the struct page to store the order. On
-x86, This is not available until paging_init(). If kho_memory_init() is
-called before paging_init() it will cause a page fault when trying to
-access the struct pages.
-
-But Hugepage allocations are done before paging_init(). Move them to
-just after paging_init(), and call kho_memory_init() right before that.
-While in theory it might result in more chances in failing hugepage
-allocations, in practice it will likely not have a huge impact, since
-usually systems leave a fair bit of margin for non-hugepage workloads.
-
-Testing results
-===============
-
-Normal boot
------------
-
-On my test system with 7GiB of memory, I tried allocating 6 1G
-hugepages. I can get a maximum of 4 1G hugepages both with and without
-this patch.
-
-    [    0.039182] HugeTLB: allocating 6 of page size 1.00 GiB failed.  Only allocated 4 hugepages.
-
-KHO boot
---------
-
-Without this patch, I cannot get any hugepages:
-
-    [    0.098201] HugeTLB: allocating 6 of page size 1.00 GiB failed.  Only allocated 0 hugepages.
-
-With this patch, I am again able to get 4:
-
-    [    0.194657] HugeTLB: allocating 6 of page size 1.00 GiB failed.  Only allocated 4 hugepages.
+liveupdate_early_init() only gets the KHO subtree and validates the data
+to ensure it is valid and understood. These are read-only operations and
+do not need much from the system, so it is safe to call early in boot.
 
 Signed-off-by: Pratyush Yadav <pratyush@kernel.org>
 ---
-
-Notes:
-    Only tested on x86 so far, not yet on ARM64. This patch can also be
-    taken independent of the rest of the series. Even with plain KHO with
-    live update not even enabled, gigantic hugepages fail to allocate
-    because of scratch-only.
-
- arch/x86/kernel/setup.c            | 12 +++++++-----
- kernel/liveupdate/kexec_handover.c | 11 ++++++++++-
- mm/memblock.c                      |  1 -
- mm/mm_init.c                       |  8 ++------
- 4 files changed, 19 insertions(+), 13 deletions(-)
+ arch/x86/kernel/setup.c          |  7 +++++++
+ include/linux/liveupdate.h       |  6 ++++++
+ kernel/liveupdate/luo_core.c     | 30 ++++++++++++++++++++++++++----
+ kernel/liveupdate/luo_internal.h |  2 ++
+ mm/mm_init.c                     |  7 +++++++
+ 5 files changed, 48 insertions(+), 4 deletions(-)
 
 diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index 74aa904be6dc..9bf00287c408 100644
+index 9bf00287c408..e2ec779afc2c 100644
 --- a/arch/x86/kernel/setup.c
 +++ b/arch/x86/kernel/setup.c
-@@ -1203,11 +1203,6 @@ void __init setup_arch(char **cmdline_p)
- 	initmem_init();
- 	dma_contiguous_reserve(max_pfn_mapped << PAGE_SHIFT);
+@@ -26,6 +26,7 @@
+ #include <linux/tboot.h>
+ #include <linux/usb/xhci-dbgp.h>
+ #include <linux/vmalloc.h>
++#include <linux/liveupdate.h>
  
--	if (boot_cpu_has(X86_FEATURE_GBPAGES)) {
--		hugetlb_cma_reserve(PUD_SHIFT - PAGE_SHIFT);
--		hugetlb_bootmem_alloc();
--	}
--
- 	/*
- 	 * Reserve memory for crash kernel after SRAT is parsed so that it
- 	 * won't consume hotpluggable memory.
-@@ -1219,6 +1214,13 @@ void __init setup_arch(char **cmdline_p)
+ #include <uapi/linux/mount.h>
  
- 	x86_init.paging.pagetable_init();
+@@ -1216,6 +1217,12 @@ void __init setup_arch(char **cmdline_p)
  
-+	kho_memory_init();
+ 	kho_memory_init();
+ 
++	/*
++	 * Hugepages might be preserved from a liveupdate. Make sure it is
++	 * initialized so hugetlb can query its state.
++	 */
++	liveupdate_early_init();
 +
-+	if (boot_cpu_has(X86_FEATURE_GBPAGES)) {
-+		hugetlb_cma_reserve(PUD_SHIFT - PAGE_SHIFT);
-+		hugetlb_bootmem_alloc();
-+	}
-+
- 	kasan_init();
+ 	if (boot_cpu_has(X86_FEATURE_GBPAGES)) {
+ 		hugetlb_cma_reserve(PUD_SHIFT - PAGE_SHIFT);
+ 		hugetlb_bootmem_alloc();
+diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
+index ed81e7b31a9f..78e8c529e4e7 100644
+--- a/include/linux/liveupdate.h
++++ b/include/linux/liveupdate.h
+@@ -214,6 +214,8 @@ struct liveupdate_flb {
  
- 	/*
-diff --git a/kernel/liveupdate/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
-index 9aa128909ecf..4cfd5690f356 100644
---- a/kernel/liveupdate/kexec_handover.c
-+++ b/kernel/liveupdate/kexec_handover.c
-@@ -1432,14 +1432,23 @@ static void __init kho_release_scratch(void)
- 	}
+ #ifdef CONFIG_LIVEUPDATE
+ 
++void __init liveupdate_early_init(void);
++
+ /* Return true if live update orchestrator is enabled */
+ bool liveupdate_enabled(void);
+ 
+@@ -233,6 +235,10 @@ int liveupdate_flb_get_outgoing(struct liveupdate_flb *flb, void **objp);
+ 
+ #else /* CONFIG_LIVEUPDATE */
+ 
++static inline void liveupdate_early_init(void)
++{
++}
++
+ static inline bool liveupdate_enabled(void)
+ {
+ 	return false;
+diff --git a/kernel/liveupdate/luo_core.c b/kernel/liveupdate/luo_core.c
+index 7a9ef16b37d8..2c740ecad8e6 100644
+--- a/kernel/liveupdate/luo_core.c
++++ b/kernel/liveupdate/luo_core.c
+@@ -69,6 +69,13 @@ static struct {
+ 	u64 liveupdate_num;
+ } luo_global;
+ 
++static bool __luo_early_initialized __initdata;
++
++bool __init luo_early_initialized(void)
++{
++	return __luo_early_initialized;
++}
++
+ static int __init early_liveupdate_param(char *buf)
+ {
+ 	return kstrtobool(buf, &luo_global.enabled);
+@@ -133,20 +140,35 @@ static int __init luo_early_startup(void)
+ 	return err;
  }
  
-+static bool kho_memory_initialized;
-+
- void __init kho_memory_init(void)
+-static int __init liveupdate_early_init(void)
++/*
++ * This should only be called after KHO FDT is known. It gets the LUO subtree
++ * and does initial validation, making early boot read-only access possible.
++ */
++void __init liveupdate_early_init(void)
  {
-+	if (kho_memory_initialized)
+ 	int err;
+ 
++	/*
++	 * HugeTLB needs LUO to be initialized early in boot, before gigantic
++	 * hugepages are allocated. On x86, that happens in setup_arch(), but on
++	 * ARM64 (and other architectures) that happens in mm_core_init().
++	 *
++	 * Since the code in mm_core_init() is shared between all architectures,
++	 * this can lead to the init being called twice. Skip if initialization
++	 * was already done.
++	 */
++	if (__luo_early_initialized)
 +		return;
 +
-+	kho_memory_initialized = true;
++	__luo_early_initialized = true;
 +
- 	if (kho_in.scratch_phys) {
- 		kho_scratch = phys_to_virt(kho_in.scratch_phys);
--		kho_release_scratch();
- 
- 		if (!kho_mem_deserialize(kho_get_fdt()))
- 			kho_in.fdt_phys = 0;
-+
-+		memblock_clear_kho_scratch_only();
-+		kho_release_scratch();
- 	} else {
- 		kho_reserve_scratch();
+ 	err = luo_early_startup();
+ 	if (err) {
+ 		luo_global.enabled = false;
+ 		luo_restore_fail("The incoming tree failed to initialize properly [%pe], disabling live update\n",
+ 				 ERR_PTR(err));
  	}
-diff --git a/mm/memblock.c b/mm/memblock.c
-index c7869860e659..a5682dff526d 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -2342,7 +2342,6 @@ void __init memblock_free_all(void)
- 	free_unused_memmap();
- 	reset_all_zones_managed_pages();
- 
--	memblock_clear_kho_scratch_only();
- 	pages = free_low_memory_core_early();
- 	totalram_pages_add(pages);
+-
+-	return err;
  }
+-early_initcall(liveupdate_early_init);
+ 
+ /* Called during boot to create outgoing LUO fdt tree */
+ static int __init luo_fdt_setup(void)
+diff --git a/kernel/liveupdate/luo_internal.h b/kernel/liveupdate/luo_internal.h
+index 6115d6a4054d..171c54af7b38 100644
+--- a/kernel/liveupdate/luo_internal.h
++++ b/kernel/liveupdate/luo_internal.h
+@@ -114,6 +114,8 @@ int __init luo_flb_setup_outgoing(void *fdt);
+ int __init luo_flb_setup_incoming(void *fdt);
+ void luo_flb_serialize(void);
+ 
++bool __init luo_early_initialized(void);
++
+ #ifdef CONFIG_LIVEUPDATE_TEST
+ void liveupdate_test_register(struct liveupdate_file_handler *fh);
+ void liveupdate_test_unregister(struct liveupdate_file_handler *fh);
 diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 7712d887b696..93cec06c1c8a 100644
+index 93cec06c1c8a..9a5b06a93622 100644
 --- a/mm/mm_init.c
 +++ b/mm/mm_init.c
-@@ -2679,6 +2679,8 @@ void __init __weak mem_init(void)
- void __init mm_core_init(void)
- {
+@@ -31,6 +31,7 @@
+ #include <linux/execmem.h>
+ #include <linux/vmstat.h>
+ #include <linux/kexec_handover.h>
++#include <linux/liveupdate.h>
+ #include <linux/hugetlb.h>
+ #include "internal.h"
+ #include "slab.h"
+@@ -2681,6 +2682,12 @@ void __init mm_core_init(void)
  	arch_mm_preinit();
+ 
+ 	kho_memory_init();
++	/*
++	 * Hugepages might be preserved from a liveupdate. Make sure it is
++	 * initialized so hugetlb can query its state.
++	 */
++	liveupdate_early_init();
 +
-+	kho_memory_init();
  	hugetlb_bootmem_alloc();
  
  	/* Initializations relying on SMP setup */
-@@ -2697,12 +2699,6 @@ void __init mm_core_init(void)
- 	kmsan_init_shadow();
- 	stack_depot_early_init();
- 
--	/*
--	 * KHO memory setup must happen while memblock is still active, but
--	 * as close as possible to buddy initialization
--	 */
--	kho_memory_init();
--
- 	memblock_free_all();
- 	mem_init();
- 	kmem_cache_init();
 -- 
 2.43.0
 
