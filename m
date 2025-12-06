@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185442DC773;
-	Sat,  6 Dec 2025 23:03:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20EB12DC773;
+	Sat,  6 Dec 2025 23:04:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765062238; cv=none; b=fM8hVCT6GW1RLL10A0QFpPkkWwiWg2OTQ6qFpiyKLCi/0LiPlZWQsXaI0/S5X2ubK82X08szncR+oE/VuYDGCmSVh4wuLGAXtI7zntiPTBOpzhvpVwrXlyDQ569qSkbxcTRdkHJKmHeuZ6fLi6xG7KCNWAA0lQ3IT11uKoN8DQQ=
+	t=1765062246; cv=none; b=JnJjGWAaoHC713ChLKubAD8ayps+L29tBN0UkDYkzTNUkIHvOkCXk2KNnvq2/uq4XtOJG+Zl+WPlbqP59W23yVZ1lLsUwpbVOJQdzx6KAlznNfxAPasKVUayjII2jTLiqZZd+Ej7sHi5q0OnaG+wFF2LtXrvqdFHP+QAHH1vd8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765062238; c=relaxed/simple;
-	bh=fGPbJKByL7S+VIwHfLLrxZLls7YbYHHkduUbnM1vhgk=;
+	s=arc-20240116; t=1765062246; c=relaxed/simple;
+	bh=gXncaBYBOs5IUsTyWV7q0US4snXFBOIObGWREdQ9Sns=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HR8aWVg7dR7U1PU8DUh+s/Zxl6PtVrIZT5ZqCItPWSO3eMz4eGa76T66mZ/TARcc25XD9ugMY0xdsAJEG/PfoE1V+G6rGHel7ME3n2jUggps9htSPCBk+ro/zd0p7ebr2rEq4n79xF7sHK7IBAsRVkfHrrgRkz4uKed8z0LP6+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uJ2JZwXM; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=d8Df4AutUt1n/xGNUWxmLNfP02k3gwIh9TsmpU0ZCzHb+gBnaMB1IT5EzFBOYMsvz95+SvdXE8nihcU4zrf9LetNPsdz+gDqUnz2PcBkGBdMeBM7s5E9Fu995Q3dlvVlOiwT023VI3SCgRlumcWiftVbD7CaJSHq8Ye0I7NWwkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PP/6uH1l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uJ2JZwXM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24BDEC4CEF5;
-	Sat,  6 Dec 2025 23:03:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PP/6uH1l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85669C113D0;
+	Sat,  6 Dec 2025 23:03:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765062237;
-	bh=fGPbJKByL7S+VIwHfLLrxZLls7YbYHHkduUbnM1vhgk=;
+	s=k20201202; t=1765062245;
+	bh=gXncaBYBOs5IUsTyWV7q0US4snXFBOIObGWREdQ9Sns=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uJ2JZwXMPZBVSnMwc5z8fugeGrViXv1sYM2jgFTCIoMG++wHeJDsoqlg2QWMyz1fG
-	 /D34iNvXn6M1p4hEMRSR80EXzWx5TeD/YRn4gwPgpNUCQIsRcEdDJn4HH8cUc530+Z
-	 X9dHrgt33cuDK7Q9iVwzJvfxywhfHrIuKYqc8x/HPgLuQzzPHrJPpoZCilQbQV9dOD
-	 MPBWe8RhC+HfjVA/0WNKEKtWzH3M9hSus+AN8uv7wPg+eA1RA6A5l67e4n9a6VdDag
-	 vDH2yDJC1sTAhvwujm6FimvTkDOlCN4Am9/l9c5dKYMRMxpQWn++1R0J682zSIP+3Y
-	 3eHXsYi/SqXYA==
+	b=PP/6uH1lLGKx06Es/lMFIkxEUOdrjqMxQZboNQnpa8XyO/ODoN3HjDooRNgm86nTt
+	 S86qplm9dvPcMC+CNcYHMszhOH8tHaNYzLhZi+vaCP58EJwfMCdX9ATQeohFf1BCva
+	 oA74WnIF8xgRxjm0Rrop9ODQK0j50sSH/cJeOPb/jWI9GBMwhbc+3V5TyBWoU4Mjj5
+	 WxIw3HAmoq1udOQhiDake+op+JCEroNQh2FKK6GPrB6DyGxAkFJUMLi5eBOUZFvFJD
+	 n2LaVBSZ4L2nxbcD1wzso1+kTX7ohRFUbtN6dtPzjHubChlbaptgloKgC27OEmAOds
+	 Acg2cBDX7hLLg==
 From: Pratyush Yadav <pratyush@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>,
 	Mike Rapoport <rppt@kernel.org>,
@@ -57,9 +57,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	kexec@lists.infradead.org
-Subject: [RFC PATCH 08/10] mm: hugetlb: disable CMA if liveupdate is enabled
-Date: Sun,  7 Dec 2025 00:02:18 +0100
-Message-ID: <20251206230222.853493-9-pratyush@kernel.org>
+Subject: [RFC PATCH 09/10] mm: hugetlb: allow freezing the inode
+Date: Sun,  7 Dec 2025 00:02:19 +0100
+Message-ID: <20251206230222.853493-10-pratyush@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251206230222.853493-1-pratyush@kernel.org>
 References: <20251206230222.853493-1-pratyush@kernel.org>
@@ -71,55 +71,102 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hugetlb live update support does not yet work with CMA. Print a warning
-and disable CMA if the config for live updating hugetlb is enabled, and
-liveupdate is enabled at runtime.
+To prepare a hugetlb inode for live update, its index -> folio mappings
+must be serialized. Once the mappings are serialized, they cannot change
+since it would cause the serialized data to become inconsistent. This
+can be done by pinning the folios to avoid migration, and by making sure
+no folios can be added to or removed from the inode.
+
+While mechanisms to pin folios already exist, the only way to stop folios
+being added or removed are the grow and shrink file seals.  But file seals
+come with their own semantics, one of which is that they can't be removed.
+This doesn't work with liveupdate since it can be cancelled or error out,
+which would need the seals to be removed and the file's normal
+functionality to be restored.
+
+Introduce a frozen flag that indicates this status. It is internal to
+hugetlbfs and is not directly exposed to userspace. It functions similar
+to F_SEAL_GROW | F_SEAL_SHRINK, but additionally disallows hole
+punching, and can be removed.
 
 Signed-off-by: Pratyush Yadav <pratyush@kernel.org>
 ---
- kernel/liveupdate/Kconfig | 3 +++
- mm/hugetlb_cma.c          | 7 +++++++
- 2 files changed, 10 insertions(+)
+ fs/hugetlbfs/inode.c    | 14 +++++++++++++-
+ include/linux/hugetlb.h |  8 ++++++++
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
-index 86e76aed8a93..4676fea6d8a6 100644
---- a/kernel/liveupdate/Kconfig
-+++ b/kernel/liveupdate/Kconfig
-@@ -82,6 +82,9 @@ config LIVEUPDATE_HUGETLB
- 	  use hugetlb memfd to back VM memory, or for other user workloads needing
- 	  to live update huge pages.
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index f42548ee9083..9af0372c7aea 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -673,6 +673,11 @@ static long hugetlbfs_punch_hole(struct inode *inode, loff_t offset, loff_t len)
  
-+	  Enabling this config disables CMA for hugetlb pages. It is not yet
-+	  supported with live update.
-+
- 	  If unsure, say N.
+ 	inode_lock(inode);
  
- endmenu
-diff --git a/mm/hugetlb_cma.c b/mm/hugetlb_cma.c
-index e8e4dc7182d5..fa3bb776c0d2 100644
---- a/mm/hugetlb_cma.c
-+++ b/mm/hugetlb_cma.c
-@@ -4,6 +4,7 @@
- #include <linux/cma.h>
- #include <linux/compiler.h>
- #include <linux/mm_inline.h>
-+#include <linux/liveupdate.h>
- 
- #include <asm/page.h>
- #include <asm/setup.h>
-@@ -152,6 +153,12 @@ void __init hugetlb_cma_reserve(int order)
- 	if (!hugetlb_cma_size)
- 		return;
- 
-+	if (IS_ENABLED(CONFIG_LIVEUPDATE_HUGETLB) && liveupdate_enabled()) {
-+		pr_warn("HugeTLB: CMA not supported with live update. Falling back to pre-allocating pages.\n");
-+		hugetlb_cma_size = 0;
-+		return;
++	if (info->frozen) {
++		inode_unlock(inode);
++		return -EPERM;
 +	}
 +
- 	hugetlb_bootmem_set_nodes();
+ 	/* protected by i_rwsem */
+ 	if (info->seals & (F_SEAL_WRITE | F_SEAL_FUTURE_WRITE)) {
+ 		inode_unlock(inode);
+@@ -743,6 +748,11 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
  
- 	for (nid = 0; nid < MAX_NUMNODES; nid++) {
+ 	inode_lock(inode);
+ 
++	if (info->frozen) {
++		error = -EPERM;
++		goto out;
++	}
++
+ 	/* We need to check rlimit even when FALLOC_FL_KEEP_SIZE */
+ 	error = inode_newsize_ok(inode, offset + len);
+ 	if (error)
+@@ -864,7 +874,8 @@ static int hugetlbfs_setattr(struct mnt_idmap *idmap,
+ 			return -EINVAL;
+ 		/* protected by i_rwsem */
+ 		if ((newsize < oldsize && (info->seals & F_SEAL_SHRINK)) ||
+-		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
++		    (newsize > oldsize && (info->seals & F_SEAL_GROW)) ||
++		    ((newsize != oldsize) && info->frozen))
+ 			return -EPERM;
+ 		hugetlb_vmtruncate(inode, newsize);
+ 	}
+@@ -933,6 +944,7 @@ static struct inode *hugetlbfs_get_inode(struct super_block *sb,
+ 		simple_inode_init_ts(inode);
+ 		inode->i_mapping->i_private_data = resv_map;
+ 		info->seals = F_SEAL_SEAL;
++		info->frozen = false;
+ 		switch (mode & S_IFMT) {
+ 		default:
+ 			init_special_inode(inode, mode, dev);
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 8e63e46b8e1f..d70a3015c759 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -511,6 +511,7 @@ static inline struct hugetlbfs_sb_info *HUGETLBFS_SB(struct super_block *sb)
+ struct hugetlbfs_inode_info {
+ 	struct inode vfs_inode;
+ 	unsigned int seals;
++	bool frozen;
+ };
+ 
+ static inline struct hugetlbfs_inode_info *HUGETLBFS_I(struct inode *inode)
+@@ -531,6 +532,13 @@ static inline struct hstate *hstate_inode(struct inode *i)
+ {
+ 	return HUGETLBFS_SB(i->i_sb)->hstate;
+ }
++
++/* Must be called with inode lock taken exclusive. */
++static inline void hugetlb_i_freeze(struct inode *inode, bool freeze)
++{
++	HUGETLBFS_I(inode)->frozen = freeze;
++}
++
+ #else /* !CONFIG_HUGETLBFS */
+ 
+ #define is_file_hugepages(file)			false
 -- 
 2.43.0
 
