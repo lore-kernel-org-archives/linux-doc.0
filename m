@@ -1,221 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AD327990A;
-	Sat,  6 Dec 2025 17:45:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D595D502BE
+	for <linux-doc@vger.kernel.org>; Sat,  6 Dec 2025 17:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765043115; cv=none; b=swIdG9khkrdfOx5LRgH8ZZhMBBo7Eb6kt3yDkRU9Xp5b4ic6F0aaZ7yAIc085i6fBx/m+LVKCRzQrAo5+mN+RAEKZLGNoyuJUFufdBMYvqveHWYdPvWfOs3rRnt+cykoceToJjY3W/F0qIzlpvG3EONlCz+bM097eRTGaZojdCA=
+	t=1765043263; cv=none; b=ka41VG9LpBvv0OqE4LxFM5oxwRWQImOzxM8xYJJm7Pdbu7xY4leO5E99NqURu1LlUugrBJuDfNzPLrM7WL2bBjEg8JOXBlTdQ9Ka+rPAsotCrc+I8Rwp2xVQfga9STw92NiA3eW8QEBS0x8Fo08qsg2GsHQlJXfGzlU3CULNdMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765043115; c=relaxed/simple;
-	bh=qwLr7pgjlOgWN0z/yK2r8RonIWg4eelYK+AKn1yiOfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WxxTMF/bhWtsQ+GOeDFCSFXnm+8fjq6fQ9S+jFQ7iBzQwCMuc0uoLNJHGm+0WlYWhx7+v41cvqME1NwwvK5QwrtaJmgdog8TIEd8Vo1yXeASKkmtAxjvkzRbJZ3jur8E/EgveSMNTvkY54SgQ8DvGu8AluFIXUY5G11msmSDZ6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dwzZphN5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765043263; c=relaxed/simple;
+	bh=z0S2/yMC6vh88kgObAarezTXpAfRjZlOsDBug19dHE4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=chlY72d3ehfUbZSyWYfZWO3A6xZFq8n/bYc38KyTm2DE9rg3HBibFHdDj5S6Fau5nTxx+4aUrtYRLvuqAaeHtkkAx5HefHN3ftgDpxfvxqkMFa5g53Ry3ErQNICyV9eDUHR20izOozIb3JZUi74hp/wCvEMkhnSeVco7ykKnUzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KMl4zG95; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dwzZphN5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1728EC4CEF5;
-	Sat,  6 Dec 2025 17:45:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765043114;
-	bh=qwLr7pgjlOgWN0z/yK2r8RonIWg4eelYK+AKn1yiOfQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dwzZphN5eVl9sixtE8FTmLkfy02tLgRRKueNVaMslwM5nLMuDaUWi3X9RgMQiO7WN
-	 gwXFkCHz56SEt2txQb54h27cgeI007mX60O+UIEFvLRVqCTYD872JuqNoa/eDLZGlH
-	 gS0klKp3FxZN3xlwjxArO4//1buSSM5GciBuDK2MO57mQXDz5gV0E0P/F0/EyRL74p
-	 vv9Oiprj9wK17dzDTNBuavRaD2f1az1jQn1hLHSxQH1l8qkr/ikzAdwklmE4uplxZN
-	 vxegfjeWuxgxPLslGkp95DSudK4B59w4DbHxdAnzIzV8t7ibtdv6uXR9HCCWVBj4SE
-	 3KYggHrr14jKg==
-Date: Sat, 6 Dec 2025 17:45:03 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Linus
- Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH v3 5/9] iio: adc: ad4062: Add IIO Trigger support
-Message-ID: <20251206174503.3c008cea@jic23-huawei>
-In-Reply-To: <20251205-staging-ad4062-v3-5-8761355f9c66@analog.com>
-References: <20251205-staging-ad4062-v3-0-8761355f9c66@analog.com>
-	<20251205-staging-ad4062-v3-5-8761355f9c66@analog.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KMl4zG95"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-477b1cc8fb4so21743925e9.1
+        for <linux-doc@vger.kernel.org>; Sat, 06 Dec 2025 09:47:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765043260; x=1765648060; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=axnvS5zVZLm16kKZN5PMooBxp95tE4LRRlIvfmIjaJk=;
+        b=KMl4zG95bN0zA3Ydi7R3Zx7YVzdObDDFukPTu6ZrPiqqDUAGeqABTbuk7BmSRyl6yK
+         c3JlDhciArEbpyopuV32pEjEnfjE5dO8j7/VL+UCSTZqkUpqnu9r1LDXSsxVnefP6DQQ
+         jntyl9JGy/dyM7wxEiASwNJIu746ADc7+ab2dsW/hwvxCUdZiUfG9cSNxfk52VkETndC
+         uKp1TGHUYaHejP/UlPIEhp9/NZS6WZPAfErK/ZjXTLMcPnTggrYNpWrCO4OwiTlwqcv5
+         vACIKFz9YzAS+SXqe2p4S/8iJoWiNFDqjdF+enymjZASwUmdAwWa+teh2ywqaGw7irB9
+         NXJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765043260; x=1765648060;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=axnvS5zVZLm16kKZN5PMooBxp95tE4LRRlIvfmIjaJk=;
+        b=gMk01giWHdu3aWPpox2mrquwBuK+UUCaOTbnI3K9HvO7EH0CY8KPrhQtTGxYII7oWG
+         JpGYYCfRUpNo0rZjn9g7R7x/OiTng5cD0KF6VF7VVlHldkfqLG32SjabPT63F8OzNVJG
+         VqjokU5XMXjkcYRBWOCRPnZrS+UFdCnos83RrEn9ElE6ESqgkwTRMA4l8VJtTpGkLQSf
+         D/+th3tOvezAHyC2qmEihFKlmqu8qoJZDEcV1AOMWXFxjePidhLadXQkKpw/ZKuYfJjR
+         XXw9XQjm9YTNGVXBGD2dQUz+QKOioP01zM9HKD5sj6k2OX4iqD6o2rw1Q6231TwCJnlA
+         lEoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWjWizoixtYujs8rKDFf8ySvmiDxvtzMhTxuyFXeC5SD5kG6DyQjzMSgQN2mxfMFDV5wmFeOUxa+Xs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiRndG2aDtp4kh+uXIiExhy2mwl0LGP1zuxB6lplzHwaigNK7E
+	lKdKby+JIx07CyRUvcj5gEQUdvaUxG5VCxg7FliqcPbd7SriycQUBcY1
+X-Gm-Gg: ASbGncuXVV6sC+hUYMN+3qbgldAFz7D+XcIIUhc7i6pwT7HaNyme0YX8DNqHvOu40m0
+	V/X247xQOj7E7ARL4Nz9+i64OIXAJLGpdY5PcR+foqtc10Utc9cywwgFp3BzIC4fDYdVo5uL6/T
+	VBF1YlblkVMlXgyBwzGQNeqJdgxuitje/gjMRQim4JbF+/7SRx1Q/Yg9YBy+vjHElziFi1GtQrF
+	W2UgLGeXpbJRTk6dS4o4GX0mBgQ6OVvUaaCxWGvaCzlcGjNz/VRbwzszECeQWykv4sYN/HDjEAU
+	F4ayfm3kxvxjpWn5pkN9cHHL2hizPGrCyJuZvAY9Hy1jed0w/gbgojB2TkI5kdR2SJwRXZKdJA8
+	kQ+PgaPS8qcM/MouvbApOHqxjeiZQ9OmBA0n8ljVYsdj8uQ32M6Yp4SVdbUMjUV5F62eSc0evQG
+	mW92CjOS8I6YfWA+cIWYdBI1N5/Bqsuledehc/2fjIE4N6qiRVHXQOO4/TIesg3EnUMDkDWiKlF
+	9/baslmvQXu
+X-Google-Smtp-Source: AGHT+IENdlC9ATk+qjyGaFVV0Sr7UOEmj9wx1lqsrnwLpmFCj2H673PTa7tMdOPqBH1ESxPCoGhK4g==
+X-Received: by 2002:a05:600c:1393:b0:477:b48d:ba7a with SMTP id 5b1f17b1804b1-47939e4fe6cmr27937955e9.32.1765043260129;
+        Sat, 06 Dec 2025 09:47:40 -0800 (PST)
+Received: from ?IPV6:2a02:6b6f:e750:1800:450:cba3:aec3:a1fd? ([2a02:6b6f:e750:1800:450:cba3:aec3:a1fd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479310c802bsm143938775e9.6.2025.12.06.09.47.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 06 Dec 2025 09:47:39 -0800 (PST)
+Message-ID: <8e59b242-6311-48a7-b9f5-e698c4eccd2e@gmail.com>
+Date: Sat, 6 Dec 2025 17:47:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/11] mm/hugetlb: Eliminate fake head pages from vmemmap
+ optimization
+Content-Language: en-GB
+To: Kiryl Shutsemau <kas@kernel.org>,
+ "David Hildenbrand (Red Hat)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
+ Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20251205194351.1646318-1-kas@kernel.org>
+ <e1c50f7e-cec4-4676-b5d6-f6446cd64ba5@kernel.org>
+ <bdie34dgpltxd5ayvjvqkusx4thdrrebgllvwp333psfuu4vgj@bkfxg2c5sfr2>
+ <01e5d0b3-dbf8-4f77-b38a-f48c46f7c31e@kernel.org>
+ <ysvhofzg5mdtvxfujdsmffkuqna72pr52ehrpglmlhxnvwstas@xurgptkgtnbe>
+ <1b659d59-b1c1-4910-baab-0eef7cda234f@kernel.org>
+ <3v5hdubqnil6w54kimvbgapghj7irjp7xuqma6uxtsrpvj22ph@6t47vsevdwyi>
+From: Usama Arif <usamaarif642@gmail.com>
+In-Reply-To: <3v5hdubqnil6w54kimvbgapghj7irjp7xuqma6uxtsrpvj22ph@6t47vsevdwyi>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 5 Dec 2025 16:12:06 +0100
-Jorge Marques <jorge.marques@analog.com> wrote:
 
-> Adds support for IIO Trigger. Optionally, gp1 is assigned as Data Ready
-> signal, if not present, fallback to an I3C IBI with the same role.
-> The software trigger is allocated by the device, but must be attached by
-> the user before enabling the buffer. The purpose is to not impede
-> removing the driver due to the increased reference count when
-> iio_trigger_set_immutable() or iio_trigger_get() is used.
+
+On 05/12/2025 21:41, Kiryl Shutsemau wrote:
+> On Fri, Dec 05, 2025 at 10:34:48PM +0100, David Hildenbrand (Red Hat) wrote:
+>> On 12/5/25 21:54, Kiryl Shutsemau wrote:
+>>> On Fri, Dec 05, 2025 at 09:44:30PM +0100, David Hildenbrand (Red Hat) wrote:
+>>>> On 12/5/25 21:33, Kiryl Shutsemau wrote:
+>>>>> On Fri, Dec 05, 2025 at 09:16:08PM +0100, David Hildenbrand (Red Hat) wrote:
+>>>>>> On 12/5/25 20:43, Kiryl Shutsemau wrote:
+>>>>>>> This series removes "fake head pages" from the HugeTLB vmemmap
+>>>>>>> optimization (HVO) by changing how tail pages encode their relationship
+>>>>>>> to the head page.
+>>>>>>>
+>>>>>>> It simplifies compound_head() and page_ref_add_unless(). Both are in the
+>>>>>>> hot path.
+>>>>>>>
+>>>>>>> Background
+>>>>>>> ==========
+>>>>>>>
+>>>>>>> HVO reduces memory overhead by freeing vmemmap pages for HugeTLB pages
+>>>>>>> and remapping the freed virtual addresses to a single physical page.
+>>>>>>> Previously, all tail page vmemmap entries were remapped to the first
+>>>>>>> vmemmap page (containing the head struct page), creating "fake heads" -
+>>>>>>> tail pages that appear to have PG_head set when accessed through the
+>>>>>>> deduplicated vmemmap.
+>>>>>>>
+>>>>>>> This required special handling in compound_head() to detect and work
+>>>>>>> around fake heads, adding complexity and overhead to a very hot path.
+>>>>>>>
+>>>>>>> New Approach
+>>>>>>> ============
+>>>>>>>
+>>>>>>> For architectures/configs where sizeof(struct page) is a power of 2 (the
+>>>>>>> common case), this series changes how position of the head page is encoded
+>>>>>>> in the tail pages.
+>>>>>>>
+>>>>>>> Instead of storing a pointer to the head page, the ->compound_info
+>>>>>>> (renamed from ->compound_head) now stores a mask.
+>>>>>>
+>>>>>> (we're in the merge window)
+>>>>>>
+>>>>>> That doesn't seem to be suitable for the memdesc plans, where we want all
+>>>>>> tail pages do directly point at the allocated memdesc (e.g., struct folio),
+>>>>>> no?
+>>>>>
+>>>>> Sure. My understanding is that it is going to eliminate a need in
+>>>>> compound_head() completely. I don't see the conflict so far.
+>>>>
+>>>> Right. All compound_head pointers will point at the allocated memdesc.
+>>>>
+>>>> Would we still have to detect fake head pages though (at least for some
+>>>> transition period)?
+>>>
+>>> If we need to detect if the memdesc is tail it should be as trivial as
+>>> comparing the given memdesc to the memdesc - 1. If they match, you are
+>>> looking at the tail.
+>>
+>> How could you assume memdesc - 1 exists without performing other checks?
 > 
-> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-
-+CC Rafael; I'd like input on the ACQUIRE + take extra reference pattern
-and whether Rafael thinks it is a good idea!
-
-> ---
->  drivers/iio/adc/Kconfig  |   2 +
->  drivers/iio/adc/ad4062.c | 188 +++++++++++++++++++++++++++++++++++++++++++----
->  2 files changed, 175 insertions(+), 15 deletions(-)
+> Map zero page in front of every discontinuous vmemmap region :P
 > 
-> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> index e506dbe83f488..ddb7820f0bdcc 100644
-> --- a/drivers/iio/adc/Kconfig
-> +++ b/drivers/iio/adc/Kconfig
-> @@ -74,6 +74,8 @@ config AD4062
->  	tristate "Analog Devices AD4062 Driver"
->  	depends on I3C
->  	select REGMAP_I3C
-> +	select IIO_BUFFER
-> +	select IIO_TRIGGERED_BUFFER
->  	help
->  	  Say yes here to build support for Analog Devices AD4062 I3C analog
->  	  to digital converters (ADC).
-> diff --git a/drivers/iio/adc/ad4062.c b/drivers/iio/adc/ad4062.c
-> index 54f7f69e40879..080dc80fd1621 100644
-> --- a/drivers/iio/adc/ad4062.c
-> +++ b/drivers/iio/adc/ad4062.c
 
-> +static void ad4062_trigger_work(struct work_struct *work)
-> +{
-> +	struct ad4062_state *st =
-> +		container_of(work, struct ad4062_state, trig_conv);
-> +	int ret;
-> +
-> +	/*
-> +	 * Read current conversion, if at reg CONV_READ, stop bit triggers
-> +	 * next sample and does not need writing the address.
-> +	 */
-> +	struct i3c_priv_xfer t[2] = {
-> +		{
-> +			.data.in = &st->buf.be32,
-> +			.len = sizeof(st->buf.be32),
-> +			.rnw = true,
-> +		},
-> +		{
-> +			.data.out = &st->reg_addr_conv,
-> +			.len = sizeof(st->reg_addr_conv),
-> +			.rnw = false,
-> +		},
-> +	};
-> +
-> +	ret = i3c_device_do_priv_xfers(st->i3cdev, &t[0], 1);
-> +	if (ret)
-> +		return;
-> +
-> +	iio_push_to_buffers_with_timestamp(st->indio_dev, &st->buf.be32,
-> +					   iio_get_time_ns(st->indio_dev));
+I made an initial pass at reviewing the series. I think the best thing about this is that
+someone looking at compound_head won't need to understand HVO to know how compound_head works,
+so its a very nice clean up :)
 
-Use push_to_buffers_with_ts() (this function is deprecated)
-which would have had the helpful result here of pointing out the buffer
-isn't big enough for the timestamp.  So this will write the timestamp
-over later fields in the st structure.
+Would be nice to make the commit messages more verbose, and also maybe add more comments about
+why it works a certain way when sizeof struct page is a power of 2.
 
-Given that this sometimes fits in a be16 I wonder if it is worth
-storing those in a be16 element of the kfifo. That will halve it's size
-if the timestamp isn't enabled which would be a nice thing to have.
-Storing in a be32 isn't an ABI issue, it's just a bit unusual
-so if I'm missing some reason it makes more sense then fair enough.
-
-> +	if (st->gpo_irq[1])
-> +		return;
-> +
-> +	i3c_device_do_priv_xfers(st->i3cdev, &t[1], 1);
-> +}
-
-...
-
-> @@ -572,15 +665,17 @@ static int ad4062_read_chan_raw(struct ad4062_state *st, int *val)
->  {
->  	int ret;
->  	struct i3c_device *i3cdev = st->i3cdev;
-> -	struct i3c_priv_xfer t0 = {
-> -		.data.out = &st->reg_addr_conv,
-> -		.len = sizeof(st->reg_addr_conv),
-> -		.rnw = false,
-> -	};
-> -	struct i3c_priv_xfer t1 = {
-> -		.data.in = &st->buf.be32,
-> -		.len = sizeof(st->buf.be32),
-> -		.rnw = true,
-> +	struct i3c_priv_xfer t[] = {
-
-Do this in the earlier patch, not here.
-
-> +		{
-> +			.data.out = &st->reg_addr_conv,
-> +			.len = sizeof(st->reg_addr_conv),
-> +			.rnw = false,
-> +		},
-> +		{
-> +			.data.in = &st->buf.be32,
-> +			.len = sizeof(st->buf.be32),
-> +			.rnw = true,
-> +		}
->  	};
-
-> @@ -687,6 +782,55 @@ static int ad4062_write_raw(struct iio_dev *indio_dev,
->  	return ret;
->  }
->  
-> +static int ad4062_triggered_buffer_postenable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4062_state *st = iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	ACQUIRE(pm_runtime_active_try_enabled, pm)(&st->i3cdev->dev);
-> +	ret = ACQUIRE_ERR(pm_runtime_active_try_enabled, &pm);
-
-This may also be affected by Rafael's patch set to provide some helpers
-to make this more readable.
-
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ad4062_set_operation_mode(st, st->mode);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* CONV_READ requires read to trigger first sample. */
-> +	struct i3c_priv_xfer t[2] = {
-> +		{
-> +			.data.out = &st->reg_addr_conv,
-> +			.len = sizeof(st->reg_addr_conv),
-> +			.rnw = false,
-> +		},
-> +		{
-> +			.data.in = &st->buf.be32,
-> +			.len = sizeof(st->buf.be32),
-> +			.rnw = true,
-> +		}
-> +	};
-> +
-> +	ret = i3c_device_do_priv_xfers(st->i3cdev, t, st->gpo_irq[1] ? 2 : 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pm_runtime_get_noresume(&st->i3cdev->dev);
-As per my late reply I'm not keen on the double increment as a complex way
-to steal the ACQUIRED() reference. Might be better to just factor the stuff
-where you currently have acquired a reference out into a helper and use
-the traditional runtime pm calls in this outer function.
- 
-> +	return 0;
+I don't know what the current memdesc plans are, so cant comment on that part.
 
 
