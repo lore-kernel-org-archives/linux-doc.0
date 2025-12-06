@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BD8266581;
-	Sat,  6 Dec 2025 23:03:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1D31FFC46;
+	Sat,  6 Dec 2025 23:03:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765062206; cv=none; b=ZU6xKCLwn1HqsTAWGsDIIPiRm4RPVSTU0dzgO63zxu2LHPZBANjRuzG9VblOSrS4lG2XmTZX7e4PHVSegRko+yjFvtJp4Zg0acWqlDSpACynaYyOzbqUBlVB1L/z12xvuFZ/nCHI5Cka/WEDny3skwupvAMBFDOYTeVgZCU/dXQ=
+	t=1765062213; cv=none; b=O2UlE4vY+l6Hx9Hvngt4x8galPL7TdsJOb7EdnD+F1Ub+ylvmotwXVWPWe3moBdrV17A6fFg8TMRYuliTUNlhh0Cs5zWnt/sHDpzWYlZ6LANxGs3fZ/z9QxeBuxjtvh7bw58Fa6gogEqcH650dgvH2O79FSHB+RZcW4wz7x9GO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765062206; c=relaxed/simple;
-	bh=KGnOcfnpQ9BU9FZJbzrgiU8lnduu/8HRPawdKcV6t1k=;
+	s=arc-20240116; t=1765062213; c=relaxed/simple;
+	bh=Ox02xBcc//UKEAF8uiKCw4Rli2lYMNILbHVcsJbEz2g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GgFQHIHWccWdE/j1oSCSOKixd+46WOU6DhkfZinaqaBdpUWW+iJe5wHGZylfvUixCEsW0V4gHko2EZOMn5XUAqwhIkNV+9H1pJOVDL4GwNU2w/+UjC3NuyNiCOBlbnyEc8Wx9TPLPimgtn+0gACr1es3rNrSqJUj+OUoj1PmBpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tUUDtxnD; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=JGny2cnLLk6IzuO9PugWLZeh2oG+tPrdiwpFpGPBoZrrD1g367NKTDA5DVBHu/ERek3DghuSJY+Cijr/iKzOUAoCsvTylwLN0hBHkWHZbeTtVElCl/dV8CMbLlT6fBuyrVsBUmhw/NM5J/Nf1SJOMfBmXjXVSNdm/mKDrOaUEzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e2hpO4bO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tUUDtxnD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE274C4CEF5;
-	Sat,  6 Dec 2025 23:03:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e2hpO4bO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46E9DC4CEF5;
+	Sat,  6 Dec 2025 23:03:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765062205;
-	bh=KGnOcfnpQ9BU9FZJbzrgiU8lnduu/8HRPawdKcV6t1k=;
+	s=k20201202; t=1765062213;
+	bh=Ox02xBcc//UKEAF8uiKCw4Rli2lYMNILbHVcsJbEz2g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tUUDtxnD5j/gPnDazGeJDlVfGjKWIZmBD0OblMoGkBSR3WryqOqAP2BtduJHW0Ts1
-	 zib5G2oPsbnoO0PpF3BE0aBcSjgf6rrxSEeHGJHAqhF6kJ1LszXt5G2ohGlc6+yUdy
-	 s1fCdKColhX6jzjtk3VgF8N3NHN5Ai/CNEdqHnMiqpgkchklfoS77EULfkVIzP83kL
-	 M4+grCe+p4WBo9sEMdr8CqWz1LBua/gXhaTVXsVMG/RhWBproCM+CptJ+pjKgNbYVp
-	 fqabR6XaYXZQVJh7v5K0/LZS5/J14mfdaibZoq4izdmEGRDNVjD6mVEdyWP87vNXgC
-	 jzCJjlTmsF/Gw==
+	b=e2hpO4bO+wM9UQfsdrf2uqicJ0FhxW6Sm9mZD278uMA/3d+W7v++CxtfI+PDsnr3i
+	 uuqVGuNh09q4miQgjKdGoJNcTK29NQuti8nBQgSG6/7qnipDYKeuMd6FkmQjKF8Zsz
+	 rjpuKq43X6t5HMWMg7cDp/xDL8Y7Jy5WaFPxm2Oxc6WqBifJ3A1KiTNCMuqXYCcbVv
+	 AOTDaP2dy8xNgBDLJhL2fubY1EdA3HJb/0Dr3FAMUcqAoVorb3NR7BPyZ8iBs6ftlt
+	 P2Oc3bHYta6eCIoR+ClYxLrAOr5DayoOTb1odeFfyWG+c2YS/C+O0wJd1dVKE8ZaeW
+	 +iJZejAXfvvTw==
 From: Pratyush Yadav <pratyush@kernel.org>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>,
 	Mike Rapoport <rppt@kernel.org>,
@@ -57,9 +57,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	kexec@lists.infradead.org
-Subject: [RFC PATCH 04/10] liveupdate: flb: allow getting FLB data in early boot
-Date: Sun,  7 Dec 2025 00:02:14 +0100
-Message-ID: <20251206230222.853493-5-pratyush@kernel.org>
+Subject: [RFC PATCH 05/10] mm: hugetlb: export some functions to hugetlb-internal header
+Date: Sun,  7 Dec 2025 00:02:15 +0100
+Message-ID: <20251206230222.853493-6-pratyush@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251206230222.853493-1-pratyush@kernel.org>
 References: <20251206230222.853493-1-pratyush@kernel.org>
@@ -71,152 +71,171 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To support hugepage preservation using LUO, the hugetlb subsystem needs
-to get liveupdate data when it allocates the hugepages to find out how
-many pages are coming from live update. This data is preserved via LUO
-FLB.
+A later commit will add support for live updating a memfd backed by
+HugeTLB. It needs access to these internal functions to prepare the
+folios and properly queue them to the hstate and the file. Move them out
+to a separate hugetlb-internal header.
 
-Since gigantic hugepage allocations happen before LUO (and much of the
-rest of the system) is initialized, the usual
-liveupdate_flb_get_incoming() can not work.
-
-Add a read-only variant that fetches the FLB data but does not trigger
-its retrieve or do any locking or reference counting. It is the caller's
-responsibility to make sure there are no side effects of using this data
-to the proper retrieve call that would happen later.
-
-Refactor the logic to find the right FLB in the serialized data in a
-helper that can be used from both luo_flb_retrieve_one() (called from
-luo_flb_get_incoming()), and from luo_flb_get_incoming_early().
+There does exist include/linux/hugetlb.h, but that contains higher level
+routines. It also prefixes the function names to make it clear they
+belong to hugetlb. These are low-level routines that do not need to be
+exposed to the public API, and renaming them to prefix with hugetlb is
+going to cause a lot of code churn. So create mm/hugetlb_internal.h that
+contains these definitions.
 
 Signed-off-by: Pratyush Yadav <pratyush@kernel.org>
 ---
- include/linux/liveupdate.h  |  6 ++++
- kernel/liveupdate/luo_flb.c | 69 +++++++++++++++++++++++++++++--------
- 2 files changed, 60 insertions(+), 15 deletions(-)
+ MAINTAINERS           |  1 +
+ mm/hugetlb.c          | 33 +++++++++------------------------
+ mm/hugetlb_internal.h | 35 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 45 insertions(+), 24 deletions(-)
+ create mode 100644 mm/hugetlb_internal.h
 
-diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
-index 78e8c529e4e7..39b429d2c62c 100644
---- a/include/linux/liveupdate.h
-+++ b/include/linux/liveupdate.h
-@@ -232,6 +232,7 @@ int liveupdate_unregister_flb(struct liveupdate_file_handler *fh,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2722f98d0ed7..fc23a0381e19 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11540,6 +11540,7 @@ F:	mm/hugetlb.c
+ F:	mm/hugetlb_cgroup.c
+ F:	mm/hugetlb_cma.c
+ F:	mm/hugetlb_cma.h
++F:	mm/hugetlb_internal.h
+ F:	mm/hugetlb_vmemmap.c
+ F:	mm/hugetlb_vmemmap.h
+ F:	tools/testing/selftests/cgroup/test_hugetlb_memcg.c
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 0455119716ec..0f818086bf4f 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -55,6 +55,8 @@
+ #include "hugetlb_cma.h"
+ #include <linux/page-isolation.h>
  
- int liveupdate_flb_get_incoming(struct liveupdate_flb *flb, void **objp);
- int liveupdate_flb_get_outgoing(struct liveupdate_flb *flb, void **objp);
-+int liveupdate_flb_incoming_early(struct liveupdate_flb *flb, u64 *datap);
- 
- #else /* CONFIG_LIVEUPDATE */
- 
-@@ -283,5 +284,10 @@ static inline int liveupdate_flb_get_outgoing(struct liveupdate_flb *flb,
- 	return -EOPNOTSUPP;
- }
- 
-+int liveupdate_flb_incoming_early(struct liveupdate_flb *flb, u64 *datap)
-+{
-+	return -EOPNOTSUPP;
-+}
++#include "hugetlb_internal.h"
 +
- #endif /* CONFIG_LIVEUPDATE */
- #endif /* _LINUX_LIVEUPDATE_H */
-diff --git a/kernel/liveupdate/luo_flb.c b/kernel/liveupdate/luo_flb.c
-index e80ac5b575ec..fb287734a88e 100644
---- a/kernel/liveupdate/luo_flb.c
-+++ b/kernel/liveupdate/luo_flb.c
-@@ -145,12 +145,25 @@ static void luo_flb_file_unpreserve_one(struct liveupdate_flb *flb)
- 	}
- }
- 
-+static struct luo_flb_ser *luo_flb_find_ser(struct luo_flb_header *fh,
-+					    const char *name)
-+{
-+	if (!fh->active)
-+		return ERR_PTR(-ENODATA);
-+
-+	for (int i = 0; i < fh->header_ser->count; i++) {
-+		if (!strcmp(fh->ser[i].name, name))
-+			return &fh->ser[i];
-+	}
-+
-+	return ERR_PTR(-ENOENT);
-+}
-+
- static int luo_flb_retrieve_one(struct liveupdate_flb *flb)
+ int hugetlb_max_hstate __read_mostly;
+ unsigned int default_hstate_idx;
+ struct hstate hstates[HUGE_MAX_HSTATE];
+@@ -733,9 +735,8 @@ static int allocate_file_region_entries(struct resv_map *resv,
+  * fail; region_chg will always allocate at least 1 entry and a region_add for
+  * 1 page will only require at most 1 entry.
+  */
+-static long region_add(struct resv_map *resv, long f, long t,
+-		       long in_regions_needed, struct hstate *h,
+-		       struct hugetlb_cgroup *h_cg)
++long region_add(struct resv_map *resv, long f, long t, long in_regions_needed,
++		struct hstate *h, struct hugetlb_cgroup *h_cg)
  {
- 	struct luo_flb_private *private = luo_flb_get_private(flb);
--	struct luo_flb_header *fh = &luo_flb_global.incoming;
- 	struct liveupdate_flb_op_args args = {0};
--	bool found = false;
-+	struct luo_flb_ser *ser;
- 	int err;
+ 	long add = 0, actual_regions_needed = 0;
  
- 	guard(mutex)(&private->incoming.lock);
-@@ -158,20 +171,12 @@ static int luo_flb_retrieve_one(struct liveupdate_flb *flb)
- 	if (private->incoming.obj)
- 		return 0;
+@@ -800,8 +801,7 @@ static long region_add(struct resv_map *resv, long f, long t,
+  * zero.  -ENOMEM is returned if a new file_region structure or cache entry
+  * is needed and can not be allocated.
+  */
+-static long region_chg(struct resv_map *resv, long f, long t,
+-		       long *out_regions_needed)
++long region_chg(struct resv_map *resv, long f, long t, long *out_regions_needed)
+ {
+ 	long chg = 0;
  
--	if (!fh->active)
--		return -ENODATA;
-+	ser = luo_flb_find_ser(&luo_flb_global.incoming, flb->compatible);
-+	if (IS_ERR(ser))
-+		return PTR_ERR(ser);
+@@ -836,8 +836,7 @@ static long region_chg(struct resv_map *resv, long f, long t,
+  * routine.  They are kept to make reading the calling code easier as
+  * arguments will match the associated region_chg call.
+  */
+-static void region_abort(struct resv_map *resv, long f, long t,
+-			 long regions_needed)
++void region_abort(struct resv_map *resv, long f, long t, long regions_needed)
+ {
+ 	spin_lock(&resv->lock);
+ 	VM_BUG_ON(!resv->region_cache_count);
+@@ -1162,19 +1161,6 @@ void resv_map_release(struct kref *ref)
+ 	kfree(resv_map);
+ }
  
--	for (int i = 0; i < fh->header_ser->count; i++) {
--		if (!strcmp(fh->ser[i].name, flb->compatible)) {
--			private->incoming.data = fh->ser[i].data;
--			private->incoming.count = fh->ser[i].count;
--			found = true;
--			break;
--		}
--	}
+-static inline struct resv_map *inode_resv_map(struct inode *inode)
+-{
+-	/*
+-	 * At inode evict time, i_mapping may not point to the original
+-	 * address space within the inode.  This original address space
+-	 * contains the pointer to the resv_map.  So, always use the
+-	 * address space embedded within the inode.
+-	 * The VERY common case is inode->mapping == &inode->i_data but,
+-	 * this may not be true for device special inodes.
+-	 */
+-	return (struct resv_map *)(&inode->i_data)->i_private_data;
+-}
 -
--	if (!found)
--		return -ENOENT;
-+	private->incoming.data = ser->data;
-+	private->incoming.count = ser->count;
- 
- 	args.flb = flb;
- 	args.data = private->incoming.data;
-@@ -188,6 +193,40 @@ static int luo_flb_retrieve_one(struct liveupdate_flb *flb)
- 	return 0;
+ static struct resv_map *vma_resv_map(struct vm_area_struct *vma)
+ {
+ 	VM_BUG_ON_VMA(!is_vm_hugetlb_page(vma), vma);
+@@ -1887,14 +1873,14 @@ void free_huge_folio(struct folio *folio)
+ /*
+  * Must be called with the hugetlb lock held
+  */
+-static void account_new_hugetlb_folio(struct hstate *h, struct folio *folio)
++void account_new_hugetlb_folio(struct hstate *h, struct folio *folio)
+ {
+ 	lockdep_assert_held(&hugetlb_lock);
+ 	h->nr_huge_pages++;
+ 	h->nr_huge_pages_node[folio_nid(folio)]++;
  }
  
-+/**
-+ * liveupdate_flb_incoming_early - Fetch FLB data in early boot.
-+ * @flb:   The FLB definition
-+ * @datap: Pointer to serialized state handle of the FLB
-+ *
-+ * This function is intended to be called during early boot, before the
-+ * liveupdate subsystem is fully initialized. It must only be called after
-+ * liveupdate_early_init().
-+ *
-+ * Directly returns the u64 handle to the serialized state of the FLB, and does
-+ * not trigger its retrieve. A later fetch of the FLB will trigger the retrieve.
-+ * Callers must make sure there are no side effects because of this.
-+ *
-+ * Return: 0 on success, -errno on failure. -ENODATA means no incoming FLB data,
-+ * -ENOENT means specific FLB not found in incoming data, and -EOPNOTSUPP when
-+ * live update is disabled or not early initialization not finished.
+-static void init_new_hugetlb_folio(struct folio *folio)
++void init_new_hugetlb_folio(struct folio *folio)
+ {
+ 	__folio_set_hugetlb(folio);
+ 	INIT_LIST_HEAD(&folio->lru);
+@@ -2006,8 +1992,7 @@ static struct folio *alloc_fresh_hugetlb_folio(struct hstate *h,
+ 	return folio;
+ }
+ 
+-static void prep_and_add_allocated_folios(struct hstate *h,
+-					struct list_head *folio_list)
++void prep_and_add_allocated_folios(struct hstate *h, struct list_head *folio_list)
+ {
+ 	unsigned long flags;
+ 	struct folio *folio, *tmp_f;
+diff --git a/mm/hugetlb_internal.h b/mm/hugetlb_internal.h
+new file mode 100644
+index 000000000000..edfb4eb75828
+--- /dev/null
++++ b/mm/hugetlb_internal.h
+@@ -0,0 +1,35 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (C) 2025 Pratyush Yadav <pratyush@kernel.org>
 + */
-+int __init liveupdate_flb_incoming_early(struct liveupdate_flb *flb, u64 *datap)
++#ifndef __HUGETLB_INTERNAL_H
++#define __HUGETLB_INTERNAL_H
++
++#include <linux/mm.h>
++#include <linux/hugetlb.h>
++#include <linux/hugetlb_cgroup.h>
++#include <linux/list.h>
++
++void init_new_hugetlb_folio(struct folio *folio);
++void account_new_hugetlb_folio(struct hstate *h, struct folio *folio);
++
++long region_chg(struct resv_map *resv, long f, long t, long *out_regions_needed);
++long region_add(struct resv_map *resv, long f, long t, long in_regions_needed,
++		struct hstate *h, struct hugetlb_cgroup *h_cg);
++void region_abort(struct resv_map *resv, long f, long t, long regions_needed);
++void prep_and_add_allocated_folios(struct hstate *h, struct list_head *folio_list);
++
++static inline struct resv_map *inode_resv_map(struct inode *inode)
 +{
-+	struct luo_flb_ser *ser;
-+
-+	if (!luo_early_initialized()) {
-+		pr_warn("LUO FLB retrieved before LUO early init!\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	ser = luo_flb_find_ser(&luo_flb_global.incoming, flb->compatible);
-+	if (IS_ERR(ser))
-+		return PTR_ERR(ser);
-+
-+	*datap = ser->data;
-+	return 0;
++	/*
++	 * At inode evict time, i_mapping may not point to the original
++	 * address space within the inode.  This original address space
++	 * contains the pointer to the resv_map.  So, always use the
++	 * address space embedded within the inode.
++	 * The VERY common case is inode->mapping == &inode->i_data but,
++	 * this may not be true for device special inodes.
++	 */
++	return (struct resv_map *)(&inode->i_data)->i_private_data;
 +}
 +
- static void luo_flb_file_finish_one(struct liveupdate_flb *flb)
- {
- 	struct luo_flb_private *private = luo_flb_get_private(flb);
++#endif /* __HUGETLB_INTERNAL_H */
 -- 
 2.43.0
 
