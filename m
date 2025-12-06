@@ -1,73 +1,185 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF982D8DB9;
-	Sat,  6 Dec 2025 21:39:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CA2EACD;
+	Sat,  6 Dec 2025 23:02:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765057176; cv=none; b=ilDCm31YjW0qNNoVqOyWURHvtfZyge7qsJXjNBaZSSxAiZzxvU12z05/guZa/vBZfEzFHzvm8sY9vBPfYnWgsHiv0VHOB2+HlUQqFtHMgUEn49zNnPvGFJDRW/93axqlNug4frGzwN2CiVKQ6GWHWCqFwfcmlCckH1aFKHpdVQ0=
+	t=1765062174; cv=none; b=Enr88q43cnipjlE6X+ZbFMbN1WbIEinKhp84Jwr2d98CvlL/6cLHYAsRgZgCfW3rDMF5mlxOQckVLoq9cGChswXKUDYAQjUbaLUZiQQ5eaIw167b83oLx2GykkeS73oB7JxIdt6OXSipiNxMb1GFWxk1+UTCMYTLNzdVa1Uh9B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765057176; c=relaxed/simple;
-	bh=nsdLHlN3zvaymZd5CT+HVzJpxktnIfXrF5AWaOIJlnw=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=aVzj/oSttf80bpWTs7+cb88LLDYVmjY05GS9CP8fCxV4uq/MnH8H01txZTlfQcBsbdaKNyN/Z4rBfX7pD4U5aokCY8SXCD2pWTmHRCLZZ1MRVmqKdTDl709dE71kPs42br0jfXBOq+FsKidU/UWIEtS1W+ES9H54jETAw8vAdKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=gLMJMvsu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765062174; c=relaxed/simple;
+	bh=6DUm1o6LCjuGMMwws850Z+v4EVJVfUy729NCTOuuZtE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AcvNrhvtduh9k4OvhuEJ7489Fcy57TyE02lrmeZ8S4mqHitGeL4dAwSLbfjnI1DEWRue6OxPc8zaRk1dYTsk5xXjR6hLXhj7NyF1aK6/edh2IHS/fY17/iIe0yWlRLwkrFIxJW5mpBMrRM3AeP/H1a0RCucVNh+uYuQFNQL3TYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RJBCBR/k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="gLMJMvsu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDB5C4CEF5;
-	Sat,  6 Dec 2025 21:39:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1765057175;
-	bh=nsdLHlN3zvaymZd5CT+HVzJpxktnIfXrF5AWaOIJlnw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gLMJMvsuBVEz+YEoJwFwCaE7x2LhQgVEVEA+vwB0GaeN1Dnon5huO1u0/tIU+qHvL
-	 t25TPALPVSHMtdbaHM4VHtyYteEPaF3OmxddRpkPbyskvq9n6lpI0COmz+SvKJOCba
-	 /YB/njuRjxPwmkS6VrWfQhM6DkIDUv/UB/2UTDJw=
-Date: Sat, 6 Dec 2025 13:39:34 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: corbet@lwn.net, nicolas.frattaroli@collabora.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kees@kernel.org,
- davidgow@google.com, pmladek@suse.com, tamird@gmail.com,
- raemoar63@gmail.com, ebiggers@kernel.org,
- diego.daniel.professional@gmail.com, rppt@kernel.org, pratyush@kernel.org,
- jasonmiu@google.com, graf@amazon.com, dmatlack@google.com,
- rientjes@google.com
-Subject: Re: [PATCH v1 0/3] list: add primitives for private list
- manipulations
-Message-Id: <20251206133934.bdbf1db342c52070ed1d5689@linux-foundation.org>
-In-Reply-To: <CA+CK2bDyd9jkuD+aBEaSTqw_mAXyvV9b8pa-z6eDvEByQ4oTiw@mail.gmail.com>
-References: <20251126185725.4164769-1-pasha.tatashin@soleen.com>
-	<20251126111924.1533590ce355b92d5306a0ec@linux-foundation.org>
-	<CA+CK2bCUBMgnepMzO21+SH6rY7bb2OgRqxkLkUr33UsrPoe_2A@mail.gmail.com>
-	<CA+CK2bDyd9jkuD+aBEaSTqw_mAXyvV9b8pa-z6eDvEByQ4oTiw@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RJBCBR/k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9A8C4CEF5;
+	Sat,  6 Dec 2025 23:02:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765062173;
+	bh=6DUm1o6LCjuGMMwws850Z+v4EVJVfUy729NCTOuuZtE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RJBCBR/km2500aF5vgAXFl6sUru0D8L/mlvyTxge58ga11iRXtwqV4rZElGW2RXqg
+	 zI+NNmcWWWu3PXbyBtbL82tMygV7P2Y2s+a5eRNBX+S2Zpkz3zGQ8t2rCOXLtUPMPf
+	 0TFY7poJ2yZ71jSgZbywl0CirbqQZq9w4nSuX6DR2ooegCM7gNgsI0bDxKHdtoxCA0
+	 f1T/uevcfPw8Akk2IWz6/w8oRykDBX2GW7ZdedUy/1pXla2938KeChFUtrKICAT/Re
+	 tO3BqDFipykd34xCADSx6l81cmz7BZ4JIHm92V+b0En3krxgHIzLuVqGg9JLiyNPFl
+	 dvmE30P27EkpQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Alexander Graf <graf@amazon.com>,
+	David Matlack <dmatlack@google.com>,
+	David Rientjes <rientjes@google.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Vipin Sharma <vipinsh@google.com>,
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Cc: linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	kexec@lists.infradead.org
+Subject: [RFC PATCH 00/10] liveupdate: hugetlb support
+Date: Sun,  7 Dec 2025 00:02:10 +0100
+Message-ID: <20251206230222.853493-1-pratyush@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 5 Dec 2025 16:52:32 -0800 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+This series adds support for live updating hugetlb-backed memfd,
+including support for 1G huge pages. This allows live updating VMs which
+use hugepages to back VM memory.
 
-> > > > Adoption: Updates the liveupdate subsystem to use the new generic API,
-> > > > replacing its local luo_list_for_each_private implementation.
-> > >
-> > > Fair enough.  Let's push this into the next -rc cycle, OK?
-> >
-> 
-> Hi Andrew,
-> 
-> Could you please take this into nonmm-unstable branch, I want to send
-> a new version of LUO-FLB, and would like change it to use this API as
-> well.
+Please take a look at this patch series [0] to know more about the Live
+Update Orchestrator (LUO). It also includes patches for live updating a
+shmem-backed memfd. This series is a follow up to that, adding huge page
+support as well.
 
-We're in the middle of the merge window and this is next-rc-cycle
-material.  mm-nonmm-unstable is included in linux-next and linux-next
-rules request that we not add new material to -next until the merge
-window has ended.
+You can also read this LWN article [1] to learn more about KHO and Live
+Update Orchestrator, though do note that this article is a bit
+out-of-date. LUO has since evolved. For example, subsystems have been
+replaced with FLB, and the state machine has been simplified.
 
-So please resend this material after -rc1 is released, thanks.
+This series is based on top of mm-non-unstable, which includes the LUO
+FLB patches [2].
+
+This series uses LUO FLB to track how many pages are preserved for each
+hstate, to ensure the live updated kernel does not over-allocate
+hugepages.
+
+Areas for Discussion
+====================
+
+Why is this an RFC?
+-------------------
+
+While I believe the code is in decent shape, I have only done some basic
+testing and have not put it through more intensive testing, including
+testing on ARM64. I am also not completely confident on the handling of
+reservations and cgroup charging, even though it appears to work on the
+surface.
+
+The goal of this is to start discussion at high level points so we can
+at least agree on the general direction. This also gives people some
+time to see the code, before the session discussing this at LPC 2025
+[3].
+
+Disabling scratch-only earlier in boot
+--------------------------------------
+
+Patch 2 moves KHO memory initialization to earlier in boot. Detailed
+discussion on the topic is in patch 2's message.
+
+Allocating gigantic hugepages after paging_init() on x86
+--------------------------------------------------------
+
+To allow KHO to work with gigantic hugepages on x86, patch 2 moves
+gigantic huge page allocation after paging_init(). This can have some
+impact on ability to allocate gigantic pages, but I believe the impact
+should not be severe. See patch 2 for more detailed discussion and test
+results.
+
+Early-boot access to LUO FLB data
+---------------------------------
+
+To work with gigantic page allocation, LUO FLB data is needed in early
+boot, before LUO is fully initialized. Patch 3 adds support for fetching
+LUO FLB data in early boot.
+
+Preserving the entire huge page pool vs only used
+-------------------------------------------------
+
+This series makes a design decision on preserving only the number of
+preserved huge pages for each hstate, instead of preserving the entire
+huge page pool. Both approaches were brought up in the Live Update
+meetings. Patch 6 discusses the reasoning in more detail.
+
+[0] https://lore.kernel.org/linux-mm/20251125165850.3389713-1-pasha.tatashin@soleen.com/T/#u
+[1] https://lwn.net/Articles/1033364/
+[2] https://lore.kernel.org/linux-mm/20251125225006.3722394-1-pasha.tatashin@soleen.com/T/#u
+[3] https://lpc.events/event/19/contributions/2044/
+
+Pratyush Yadav (10):
+  kho: drop restriction on maximum page order
+  kho: disable scratch-only earlier in boot
+  liveupdate: do early initialization before hugepages are allocated
+  liveupdate: flb: allow getting FLB data in early boot
+  mm: hugetlb: export some functions to hugetlb-internal header
+  liveupdate: hugetlb subsystem FLB state preservation
+  mm: hugetlb: don't allocate pages already in live update
+  mm: hugetlb: disable CMA if liveupdate is enabled
+  mm: hugetlb: allow freezing the inode
+  liveupdate: allow preserving hugetlb-backed memfd
+
+ Documentation/mm/memfd_preservation.rst |   9 +
+ MAINTAINERS                             |   2 +
+ arch/x86/kernel/setup.c                 |  19 +-
+ fs/hugetlbfs/inode.c                    |  14 +-
+ include/linux/hugetlb.h                 |   8 +
+ include/linux/kho/abi/hugetlb.h         |  98 ++++
+ include/linux/liveupdate.h              |  12 +
+ kernel/liveupdate/Kconfig               |  15 +
+ kernel/liveupdate/kexec_handover.c      |  13 +-
+ kernel/liveupdate/luo_core.c            |  30 +-
+ kernel/liveupdate/luo_flb.c             |  69 ++-
+ kernel/liveupdate/luo_internal.h        |   2 +
+ mm/Makefile                             |   1 +
+ mm/hugetlb.c                            | 113 ++--
+ mm/hugetlb_cma.c                        |   7 +
+ mm/hugetlb_internal.h                   |  50 ++
+ mm/hugetlb_luo.c                        | 699 ++++++++++++++++++++++++
+ mm/memblock.c                           |   1 -
+ mm/memfd_luo.c                          |   4 -
+ mm/mm_init.c                            |  15 +-
+ 20 files changed, 1099 insertions(+), 82 deletions(-)
+ create mode 100644 include/linux/kho/abi/hugetlb.h
+ create mode 100644 mm/hugetlb_internal.h
+ create mode 100644 mm/hugetlb_luo.c
+
+
+base-commit: 55b7d75112c25b3e2a5eadc11244c330a5c00a41
+-- 
+2.43.0
+
