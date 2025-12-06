@@ -1,113 +1,106 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B356273D6C
-	for <linux-doc@vger.kernel.org>; Sat,  6 Dec 2025 23:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE2C230BDB
+	for <linux-doc@vger.kernel.org>; Sat,  6 Dec 2025 23:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765063587; cv=none; b=IrZRv6N5Ye2ifgY/VWQkHqAIfXvzA6BKrpm5a3J/jkXC1Olf/aMj4nP+PmBbWp6nJPdvlluo2u3ZlgQY+Hh3rfn8VEoC4G3FchZiUMGof2J/HgGPVqYzsoFafu68qKYjfQca1FWU9MCrCFdlxiCP7xGyI83XfExyA90oDAnazE4=
+	t=1765064505; cv=none; b=CbDyoUKUqWpsSFnMZm420RKK1RakD57AEPTH7BjU1GGOgKGyn3uEwKC1h2AbVli0YBEs37KlytlSryIWOzSU3OqQQcXM1sX3tGBFXbmN3QR2WNKbp+mWyeOZBgDLjdJ7YVoJkdfTuPbqrwLPfnyrVvEaAuL8Y9qHkkH/4HdZA88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765063587; c=relaxed/simple;
-	bh=zRtgdIswkrGrLp9a2oUvFcB/hCi5Lut0fza9rHJRLPE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Pp4wzWTIeIoJJZSSpZbzlrCU62TMfeNNelBL0LbXNixdQ8kvdinDS0hopVNwb+dDoGGwCviUy+tkOE11RGrvzUYD2zRGz8VK8ku2k5H6z0Hl63Gc5NVcS+Kw4V0mSMHx9iTHo6UjKB+JpAZGW0s7jQR1MR3if3nsuDVNecUiQJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=Y4bT47Hu; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1765064505; c=relaxed/simple;
+	bh=2Q/7XbQJvjrLnrR/4wKTgacaB87PLU8rSVQMMxnKDKE=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=J70RM07YFYRKDiuhADqgoWJePhbrQtbbtNLxntFCjP77aozwjxn7AzFKU/LegcskPVvtSN0ZolGp4JjHWS3DXhB/tP6zNAeKlctG+LNqUaN7yrXwzTdMjOJlR8JYIOJfKLA3cE7+s7IPaPwA4TWmSdKG0raFbqTH8UlJZQQ9PZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ePbt8rTl; arc=none smtp.client-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Y4bT47Hu"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-647a44f6dcaso4494270a12.3
-        for <linux-doc@vger.kernel.org>; Sat, 06 Dec 2025 15:26:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ePbt8rTl"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-642fcb9c16aso2879594d50.1
+        for <linux-doc@vger.kernel.org>; Sat, 06 Dec 2025 15:41:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1765063584; x=1765668384; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JjSYqrO/ZU/kTCH00tl+TVl2aStia3phw0aj3vT5jpw=;
-        b=Y4bT47Hu3Npld6Q82BUhnCY1wypwpR3QNgws3E4HG2Qya3oFL5O6YlOFjsIyFLtQCB
-         j6IkxaP9grsnlj+BKpP1Bt3g++nouq2u5dRTVyAn0I5WBskSsl7gLhIwlsMrub6F92+a
-         ivPr2+lXkrkrhXMaBw7D0K4GBq55fcgkCmhHGTQ3UwjaDOF/4S2cVEANxVIOSij+Im58
-         k4KWgC5r726kpF2cWt8xZjyCkHIVR0+sbPKcCy/RohisyfDmGqZpTf9zsa9ZjohZNcPE
-         9Hy2l6ZqjqXDlYiPfZKVAwxvRPT0v7zAUX6OHs7644BMQv/GVowO1yAuRaF2p9pfXKn4
-         MRBQ==
+        d=gmail.com; s=20230601; t=1765064499; x=1765669299; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3nQ97AQ96O1qql54d6/+KFTRMlBQlefCiU4x+CetKzs=;
+        b=ePbt8rTlE1/eJnR3sxlgLCX439LMvWsXdYqDxSA+rAA+wjcio2o5qdAW69NWoHSF/q
+         uT0cDQ7XpImbiond7HESH8CUO09+l1Tf+VyzTxeMUFInb5tGKBFEXPvqtG1J6HQ2+g6+
+         S2Bfv2iqXLc46Q7PxygPijpCgWZdQfec01YtKZx9LFgOFogj9G123xUhtSp3KdMTrrT3
+         qyGY5FH+b+lmQqhb73ZXslptbAtXGH0bzSEqifHeJThhpyXi2JBdZO7JeOMUe7HQMdhr
+         I29RZjK9nRLC6wZqwqLNn0U6DaIqKLoLA06pBWGrMXXy5XihSHqBBlOVKos41TZSC++W
+         Q5ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765063584; x=1765668384;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JjSYqrO/ZU/kTCH00tl+TVl2aStia3phw0aj3vT5jpw=;
-        b=ROCApxShwHofc6/JeRrly8uzwjwwvlNUyIZfr+ea9SiP7y5LpG0OJp2ONYmArS7Hii
-         TigLoxFZDlHmyGN4f9XhqVAoYM5eLjwgTJLpXNvhR2XLpDtNEGSTfHlVTZWtXwQUKKvE
-         REPZjlZWsndqqMoYYpWj5DgYbLfe8v50g5kioOFGO71rTzwaXivI01on4fF7GsiAiiVl
-         DhrZrUBwkEgXQEyClrAJH+vuIQyL1rixaglNDA7Ufm0Y8w9hEqYLcHkJBHNun0OqF9sp
-         2n6s6AI7BfUJMsDwtdB+TvSFTzA9iKvyVdIJaur0f2V6aJYx9BVOWfbcUQdwhlY145u3
-         nz0w==
-X-Forwarded-Encrypted: i=1; AJvYcCVlNz/DlTLKu7dnMuBUYGsJfgc58+P5EvxZODv5PpboNFWy7rVt1vtZnfAuGbTwAwOTFjgVjXTKBQo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcdnsXYe16SkX3M25Q9Ae33j5x8ocSWaL759cyJFx9Hx4P7uiC
-	mWMPulDLGK1fofd0Ly3fu2SXuzXoKrfFQ7dZftS9WDKMmrK1G8dhFhSFZ8FtUqzHAvD3GWeojHG
-	B24jFlKSLqxJDz/f4U9C4lPv73APY0VgmgUSvAaY2gQ==
-X-Gm-Gg: ASbGncsGxzYZNtlOBGvSK0rzwsGsJATh3XCTI6exBz2AxAfxBH21UW1kh6h/Dh1Plf6
-	VNy/dZP04UsIipuqeq4Sz2MePEz9+69wCIJ7rJm1OKk3fyN4sV1Jq5VvxjT4cXZLykLho+5E9ai
-	Ym80Ma+kXrvP1Vabs61nbbqnUiBsghKEp9Od67p54BNCQctlTnZMBX21u/l9stYFiGG6gkD05MJ
-	ZrpqgPJElblx2H9Yk6uMaI8VXs+Nf+5jPfzQYisGgJYYEzsT4JKg5uBr2h1cH15s5lFyZolOgif
-	yngNR3kFzj90Xyf9SMbN01My9E3KqKRn5ROk
-X-Google-Smtp-Source: AGHT+IGX7koRklI2V5meXpHgwhZqNxjSHaJXuOqmfHGG91J84vlxtlPu4p3wPvKe5FNP9Cbzy969YuFP0E70PblctpQ=
-X-Received: by 2002:a05:6402:90c:b0:641:54ce:1bf9 with SMTP id
- 4fb4d7f45d1cf-6491a2d06d3mr2529931a12.14.1765063583383; Sat, 06 Dec 2025
- 15:26:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765064499; x=1765669299;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3nQ97AQ96O1qql54d6/+KFTRMlBQlefCiU4x+CetKzs=;
+        b=pJCA1qS2jyat3sqY7QicqkRoBK5pd7DSf3e6ILmHqAyAOdb6nDAG3Hzj74sPoWu0bk
+         ULB/spBNoPB0/5jLStiad+q9drD4ijkjEYt5QMpp3TZERsYU0wKH9P2CH8PdNO2P18qY
+         jWtBMKvqRrzqxE4tzDpW/BMNQLqh6ycCJ1LYy8pKuRC/ODF/F4cjBVmGQX8YyQNPX150
+         9ze8Kh6Ja9rmYgkzHIsC1CXO9r86dcHdImEIBnn9N143ocRh3JYbyqg8xgQhlL44ONHB
+         sVBEFdpswv4yzM20TAt1CJyFC5dxbiF3NgyKOxeRa1tL6OfxRtqqU5IhkPgKvw/ZLTGW
+         u8uQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUiahtkU+5y5/mZIisvzzclYCWnQv2y1JOIB5YIomm1BPs4DrXfhdow4W5FQO5Hl4vrRnUHHPoCGtg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzO+gV7AeCT3vWtkGMC41wSfyyHbUUg8SIQk5oWGzi6M+C+RNB4
+	vsKWs3ZQ4QqV68VbvMsO9o59hrl/lLqY0UeatMT3LUC5n7yhWzbaJOno
+X-Gm-Gg: ASbGncuN8+xWL8kyezYx5YO+IMx92UnBVKSIAcCWk7EsCg5GAAitNUa4Zvm87FKm8eM
+	PASlMoW5rQOk1UfJ9IdtbOh2gOAYlhabM+lsvsxAXLyPKBqYmxna+eFWOiUvmpZ1m5rpizvvnuw
+	WBUfWxLz8hj9GLyaGfYCasU2BQMvgfFmPAs9qekew/rPpPLdLy1+cGOlc02hCH+48U9ALtpKY3m
+	p9KmCBKQqXnJTh/GkO1dC4qKc35F0iKugjyrGzuZ7AtLjJJQWCQA4/bHyepLB2ZENnSz4qZTjDi
+	wHX5g5Vtyo5fY9PPnZBAb/1AP9QOoFzmDnQ+z8m06HZm4H2891FPygFKqOAwxW0dNucImgMFqLW
+	2aeTFi0jjegwUTVKiVJz93wrrQ2X+d0k35JGEPuQ/1gbiO0n6zh7Ep29WTag1Xev32pQHRvUPQR
+	nG6xQIAFeaM24x/4Xyeo4endNSDJZpJ09xn00n9rockKZG
+X-Google-Smtp-Source: AGHT+IF0mKyXnKTQB1xhzD6LpgpTfgywW7IIal9fCo1GqYHTHD2NnE85yzsXQBQPCshexFlzlGdhdg==
+X-Received: by 2002:a05:690c:7404:b0:788:e74:b267 with SMTP id 00721157ae682-78c33cb321bmr61970637b3.65.1765064498716;
+        Sat, 06 Dec 2025 15:41:38 -0800 (PST)
+Received: from [192.168.1.209] (89.208.240.37.16clouds.com. [89.208.240.37])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78c1b7a72dcsm31972167b3.52.2025.12.06.15.41.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 06 Dec 2025 15:41:38 -0800 (PST)
+From: Asuna Yang <spriteovo@gmail.com>
+X-Google-Original-From: Asuna Yang <SpriteOvO@gmail.com>
+Message-ID: <9ef24254-2761-4a0f-9c4f-342293383800@gmail.com>
+Date: Sun, 7 Dec 2025 07:41:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251126185725.4164769-1-pasha.tatashin@soleen.com>
- <20251126111924.1533590ce355b92d5306a0ec@linux-foundation.org>
- <CA+CK2bCUBMgnepMzO21+SH6rY7bb2OgRqxkLkUr33UsrPoe_2A@mail.gmail.com>
- <CA+CK2bDyd9jkuD+aBEaSTqw_mAXyvV9b8pa-z6eDvEByQ4oTiw@mail.gmail.com> <20251206133934.bdbf1db342c52070ed1d5689@linux-foundation.org>
-In-Reply-To: <20251206133934.bdbf1db342c52070ed1d5689@linux-foundation.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sat, 6 Dec 2025 16:25:48 -0700
-X-Gm-Features: AQt7F2pN_ozktvqfqZxdvBSeOofJNtZrXiYLs1McTgEPlEN2pKxYNNndC4-KEeE
-Message-ID: <CA+CK2bD=ZLGJ75=kx6PDSwmP_hdsVBOpxjJUz3HvHehfsb1+UA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] list: add primitives for private list manipulations
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: corbet@lwn.net, nicolas.frattaroli@collabora.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kees@kernel.org, 
-	davidgow@google.com, pmladek@suse.com, tamird@gmail.com, raemoar63@gmail.com, 
-	ebiggers@kernel.org, diego.daniel.professional@gmail.com, rppt@kernel.org, 
-	pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	dmatlack@google.com, rientjes@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/4] rust: add a Kconfig function to test for support
+ of bindgen options
+To: Vivian Wang <wangruikang@iscas.ac.cn>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Jonathan Corbet <corbet@lwn.net>, Jason Montleon <jmontleo@redhat.com>,
+ Han Gao <rabenda.cn@gmail.com>, Conor Dooley <conor@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
+ linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org
+References: <20251204-gcc-rust-v5-v5-0-2d4f20d86c24@gmail.com>
+ <20251204-gcc-rust-v5-v5-3-2d4f20d86c24@gmail.com>
+ <1a6bb8cd-cc08-458f-a6f6-cdfefd327320@iscas.ac.cn>
+ <9687109b-dc93-4535-848c-e5f22aeb8e9d@gmail.com>
+ <35bacd20-c7e8-4a3f-be79-aa52701fc257@iscas.ac.cn>
+Content-Language: en-US
+In-Reply-To: <35bacd20-c7e8-4a3f-be79-aa52701fc257@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Dec 6, 2025 at 2:39=E2=80=AFPM Andrew Morton <akpm@linux-foundation=
-.org> wrote:
->
-> On Fri, 5 Dec 2025 16:52:32 -0800 Pasha Tatashin <pasha.tatashin@soleen.c=
-om> wrote:
->
-> > > > > Adoption: Updates the liveupdate subsystem to use the new generic=
- API,
-> > > > > replacing its local luo_list_for_each_private implementation.
-> > > >
-> > > > Fair enough.  Let's push this into the next -rc cycle, OK?
-> > >
-> >
-> > Hi Andrew,
-> >
-> > Could you please take this into nonmm-unstable branch, I want to send
-> > a new version of LUO-FLB, and would like change it to use this API as
-> > well.
->
-> We're in the middle of the merge window and this is next-rc-cycle
-> material.  mm-nonmm-unstable is included in linux-next and linux-next
-> rules request that we not add new material to -next until the merge
-> window has ended.
->
-> So please resend this material after -rc1 is released, thanks.
+> The -x argument should explicitly tell (lib)clang what language the file
+> is without needing an extension. I don't know why it's not working for
+> you...
 
-I see, thank you for your clarification. I will resent after rc1.
-
-Thanks,
-Pasha
+Didn't realize that I should pass a `-x` to the backend. It works now, 
+I'll include it in the next revision. Thanks.
