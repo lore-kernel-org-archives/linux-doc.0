@@ -1,39 +1,37 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9171BDCF;
-	Sun,  7 Dec 2025 14:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4832D9EF6;
+	Sun,  7 Dec 2025 17:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765117008; cv=none; b=kNFhflnqcqdJFu3sEeDaEDPHue8IIa2WwcQKzM8dJtchrMHVjjO/MW1g+8kYm7MqIlhLCxzKTt7aWpO3J2rSddhsW2x9XZym5gCCm9OYgstjLV8JA8J7VeJloMTPh/i0A2p9ak2XmN0q+G+FCsIBY/7QS6aLR1ETHL0aAs+YZqM=
+	t=1765129375; cv=none; b=dxXvUJ7RoqgTBRTIDwAXmFurkmaFCbfLv7ZWEhnG0GmG0zXbjIfhYKo8qd7jf00f8z+O7OMQbLSO0VPNsRfT/AGxpOwo8ufFMB15ZssGqmnEMAMOp79liARa809HKa075YPy5LBtYIdadfvMS4ENhmUheuShcYMMIi3hKvGs05E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765117008; c=relaxed/simple;
-	bh=ZcVW0VkS1zII8piijluSxYhGdFL+UwxqWPCVn7OWGoM=;
+	s=arc-20240116; t=1765129375; c=relaxed/simple;
+	bh=Njxa9k+AnnPNhbd93VoFYWZY3uYzZ7iOJkoICzWBm40=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Cg/CwdOzUoErv9TsS6OJwhQuJwxgJDDIcfPVU3kgIqnHIT3+7jq5aIGTFqnYrq7z7vZlMnfzvGno9vFVde1CsJ9m2TDfC0wCiuckal0QXdWEolGZB1wFZKYoR6paVqh+8vd9LIe4WA9bXT2ftgYB4vaDRVXeGXv1xoprNnxutF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=oa4+297g; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	 In-Reply-To:Content-Type; b=jErIkx67C5qUsEfUnMiZaDcd3LCy2ge7tKEIloVeBl1W5WZdsNU0KLf5EsqMJUG/8T5lDTcmyfYQGAVgU6+8vIgSBpitPenEcD50EgvJhdMAqD9eERua5bHjBqTEMZ8TqS8rF2sGCUdg2Gn8qTIF87r4Z6Ny/mTUoEoVijSRPDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=U381Zo3n; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="oa4+297g"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=K3hLLRx50FbBBzirdBaadwngiwkvt/UqddVt7E+U/8c=; b=oa4+297g+2UCGCayvz+uQ6E/zz
-	UOsO6P11PLgH2c/+veGq5tA+GRJKMlr7CL9h4HgI8zMI9tiBwhK/v0g7EKdCzc5E/A397PFsMVtak
-	pHkVnTh2JUU0Jd1TAv7WiVTa395zPVKQP3RYAchyME9IVr7OliVuEMbOMl5aFqDMhvpzwSTtt4yUl
-	UhIILV89Dk3ch/lhPnF9bxXMzlA+C9PuILvgT6PN9gvFSBlvhlccibnC6DiE1v0HaD9e73m21xe9i
-	Gnq0JdHIUX0jPrI76jJ/9mXVLZs/b8MKBE9shzv9EOeZCBNA4dDQ8bq+8VfX9OhEmWV4XfEwTkIlo
-	9DWQG4fA==;
-Received: from [187.36.210.68] (helo=[192.168.1.103])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1vSFYH-009l3a-0M; Sun, 07 Dec 2025 15:15:53 +0100
-Message-ID: <a3586baa-2403-43f9-a692-da3e79482cbb@igalia.com>
-Date: Sun, 7 Dec 2025 11:15:40 -0300
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="U381Zo3n"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ou0IKRw4UnC/yybrH+1T19wYyTiCM5n7FOfDO0Q9ly0=; b=U381Zo3nPwbMa5DrjJ869CScd9
+	Kna2iM/rbheiOj1IreczfI1qlytGof9x4IdX+zfDdi+AkWDE+DyQz6SEXX0YPSSnDcwLQU98jSpoT
+	xc1jtkaz4BPiuG030nbDQOWRK6hiJhoFnIjQNHicAXBYZJJ3N5MAV1S/JZnz31dNJdlUQ4SqBjJ3k
+	YcJisKgC0O6WpMpxj2JEmrM5SiHVThhzzzSegiGEw8lps97vENjKfQ195+t0y0pOvd6HRsDdu3uFE
+	1aNnAES1D7j19NrqIm23rP/+9A5ibHDEoJXST/gzTfmBxXIjZJ8+8R39PF9khPyyTkOPh2RT4X9Nb
+	HEpaWPYg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vSImS-0000000C8Ej-1ppW;
+	Sun, 07 Dec 2025 17:42:44 +0000
+Message-ID: <c2edab0f-3351-42fb-84d4-f588ce6dcd9a@infradead.org>
+Date: Sun, 7 Dec 2025 09:42:42 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,272 +39,59 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 07/10] drm/gem: Get rid of *_with_mnt helpers
-To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>, Matthew Wilcox
- <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-References: <20251205182231.194072-1-loic.molinari@collabora.com>
- <20251205182231.194072-8-loic.molinari@collabora.com>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Subject: Re: [PATCH v4] docs: improve introduction wording in howto.rst
+To: =?UTF-8?B?4bSL4bSAyoDhtJvJquG0iyBzypzhtIDKnA==?=
+ <kartikpro9599@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <CAOCmVvDcg9d0cNeGqH7+95Wffo4=WXUuSTR_Jbw_Swa3T8xOnQ@mail.gmail.com>
 Content-Language: en-US
-In-Reply-To: <20251205182231.194072-8-loic.molinari@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAOCmVvDcg9d0cNeGqH7+95Wffo4=WXUuSTR_Jbw_Swa3T8xOnQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Loïc,
 
-On 05/12/25 15:22, Loïc Molinari wrote:
-> drm_gem_object_init_with_mnt() and drm_gem_shmem_create_with_mnt() can
-> be removed now that the drivers use the new drm_gem_huge_mnt_create()
-> and drm_gem_get_huge_mnt() helpers.
+
+On 12/7/25 1:37 AM, ᴋᴀʀᴛɪᴋ sʜᴀʜ wrote:
+> From 56985c72f365c7f0e9ba8ae66ba99c198c15128c Mon Sep 17 00:00:00 2001
+> From: kartikpro9599-hash <kartikpro9599@gmail.com>
+> Date: Sun, 7 Dec 2025 13:53:02 +0530
+> Subject: [PATCH v4] docs: improve introduction wording in howto.rst
 > 
-> v5:
-> - use drm_gem_has_huge_mnt() helper
-> - compile out shmem_file_setup_with_mnt() call in builds with
->    CONFIG_TRANSPARENT_HUGEPAGE=n
-> 
-> v9:
-> - replace drm_gem_has_huge_mnt() with drm_gem_get_huge_mnt()
-> 
-> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+The new text looks good to me. However, each patch should have a patch
+description between the Subject: and the Signed-off-by: lines.
 
-Best Regards,
-- Maíra
+See https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
+if you need more info on this.
 
+> Signed-off-by: kartikpro9599-hash <kartikpro9599@gmail.com>
 > ---
->   drivers/gpu/drm/drm_gem.c              | 37 +++++++------------------
->   drivers/gpu/drm/drm_gem_shmem_helper.c | 38 ++++++--------------------
->   drivers/gpu/drm/v3d/v3d_bo.c           |  3 +-
->   include/drm/drm_gem.h                  |  3 --
->   include/drm/drm_gem_shmem_helper.h     |  3 --
->   5 files changed, 19 insertions(+), 65 deletions(-)
+>  Documentation/process/howto.rst | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 32dddb23e211..6021c4087a08 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -171,29 +171,28 @@ drm_gem_init(struct drm_device *dev)
->   }
->   
->   /**
-> - * drm_gem_object_init_with_mnt - initialize an allocated shmem-backed GEM
-> - * object in a given shmfs mountpoint
-> + * drm_gem_object_init - initialize an allocated shmem-backed GEM object
->    *
->    * @dev: drm_device the object should be initialized for
->    * @obj: drm_gem_object to initialize
->    * @size: object size
-> - * @gemfs: tmpfs mount where the GEM object will be created. If NULL, use
-> - * the usual tmpfs mountpoint (`shm_mnt`).
->    *
->    * Initialize an already allocated GEM object of the specified size with
-> - * shmfs backing store.
-> + * shmfs backing store. A huge mountpoint can be used by calling
-> + * drm_gem_huge_mnt_create() beforehand.
->    */
-> -int drm_gem_object_init_with_mnt(struct drm_device *dev,
-> -				 struct drm_gem_object *obj, size_t size,
-> -				 struct vfsmount *gemfs)
-> +int drm_gem_object_init(struct drm_device *dev, struct drm_gem_object *obj,
-> +			size_t size)
->   {
-> +	struct vfsmount *huge_mnt;
->   	struct file *filp;
->   
->   	drm_gem_private_object_init(dev, obj, size);
->   
-> -	if (gemfs)
-> -		filp = shmem_file_setup_with_mnt(gemfs, "drm mm object", size,
-> -						 VM_NORESERVE);
-> +	huge_mnt = drm_gem_get_huge_mnt(dev);
-> +	if (huge_mnt)
-> +		filp = shmem_file_setup_with_mnt(huge_mnt, "drm mm object",
-> +						 size, VM_NORESERVE);
->   	else
->   		filp = shmem_file_setup("drm mm object", size, VM_NORESERVE);
->   
-> @@ -204,22 +203,6 @@ int drm_gem_object_init_with_mnt(struct drm_device *dev,
->   
->   	return 0;
->   }
-> -EXPORT_SYMBOL(drm_gem_object_init_with_mnt);
-> -
-> -/**
-> - * drm_gem_object_init - initialize an allocated shmem-backed GEM object
-> - * @dev: drm_device the object should be initialized for
-> - * @obj: drm_gem_object to initialize
-> - * @size: object size
-> - *
-> - * Initialize an already allocated GEM object of the specified size with
-> - * shmfs backing store.
-> - */
-> -int drm_gem_object_init(struct drm_device *dev, struct drm_gem_object *obj,
-> -			size_t size)
-> -{
-> -	return drm_gem_object_init_with_mnt(dev, obj, size, NULL);
-> -}
->   EXPORT_SYMBOL(drm_gem_object_init);
->   
->   /**
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index e67216cbb469..f8bcd1b0eb32 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -50,7 +50,7 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
->   };
->   
->   static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem,
-> -				size_t size, bool private, struct vfsmount *gemfs)
-> +				size_t size, bool private)
->   {
->   	struct drm_gem_object *obj = &shmem->base;
->   	int ret = 0;
-> @@ -62,7 +62,7 @@ static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obj
->   		drm_gem_private_object_init(dev, obj, size);
->   		shmem->map_wc = false; /* dma-buf mappings use always writecombine */
->   	} else {
-> -		ret = drm_gem_object_init_with_mnt(dev, obj, size, gemfs);
-> +		ret = drm_gem_object_init(dev, obj, size);
->   	}
->   	if (ret) {
->   		drm_gem_private_object_fini(obj);
-> @@ -103,13 +103,12 @@ static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obj
->    */
->   int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem, size_t size)
->   {
-> -	return __drm_gem_shmem_init(dev, shmem, size, false, NULL);
-> +	return __drm_gem_shmem_init(dev, shmem, size, false);
->   }
->   EXPORT_SYMBOL_GPL(drm_gem_shmem_init);
->   
->   static struct drm_gem_shmem_object *
-> -__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
-> -		       struct vfsmount *gemfs)
-> +__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
->   {
->   	struct drm_gem_shmem_object *shmem;
->   	struct drm_gem_object *obj;
-> @@ -129,7 +128,7 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
->   		obj = &shmem->base;
->   	}
->   
-> -	ret = __drm_gem_shmem_init(dev, shmem, size, private, gemfs);
-> +	ret = __drm_gem_shmem_init(dev, shmem, size, private);
->   	if (ret) {
->   		kfree(obj);
->   		return ERR_PTR(ret);
-> @@ -150,31 +149,10 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
->    */
->   struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size)
->   {
-> -	return __drm_gem_shmem_create(dev, size, false, NULL);
-> +	return __drm_gem_shmem_create(dev, size, false);
->   }
->   EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
->   
-> -/**
-> - * drm_gem_shmem_create_with_mnt - Allocate an object with the given size in a
-> - * given mountpoint
-> - * @dev: DRM device
-> - * @size: Size of the object to allocate
-> - * @gemfs: tmpfs mount where the GEM object will be created
-> - *
-> - * This function creates a shmem GEM object in a given tmpfs mountpoint.
-> - *
-> - * Returns:
-> - * A struct drm_gem_shmem_object * on success or an ERR_PTR()-encoded negative
-> - * error code on failure.
-> - */
-> -struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
-> -							   size_t size,
-> -							   struct vfsmount *gemfs)
-> -{
-> -	return __drm_gem_shmem_create(dev, size, false, gemfs);
-> -}
-> -EXPORT_SYMBOL_GPL(drm_gem_shmem_create_with_mnt);
-> -
->   /**
->    * drm_gem_shmem_release - Release resources associated with a shmem GEM object.
->    * @shmem: shmem GEM object
-> @@ -851,7 +829,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
->   	size_t size = PAGE_ALIGN(attach->dmabuf->size);
->   	struct drm_gem_shmem_object *shmem;
->   
-> -	shmem = __drm_gem_shmem_create(dev, size, true, NULL);
-> +	shmem = __drm_gem_shmem_create(dev, size, true);
->   	if (IS_ERR(shmem))
->   		return ERR_CAST(shmem);
->   
-> @@ -899,7 +877,7 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
->   
->   	size = PAGE_ALIGN(attach->dmabuf->size);
->   
-> -	shmem = __drm_gem_shmem_create(dev, size, true, NULL);
-> +	shmem = __drm_gem_shmem_create(dev, size, true);
->   	if (IS_ERR(shmem)) {
->   		ret = PTR_ERR(shmem);
->   		goto fail_detach;
-> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
-> index 3ee8d9c36d92..c4316b768b3d 100644
-> --- a/drivers/gpu/drm/v3d/v3d_bo.c
-> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
-> @@ -153,8 +153,7 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
->   	struct v3d_bo *bo;
->   	int ret;
->   
-> -	shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
-> -						  drm_gem_get_huge_mnt(dev));
-> +	shmem_obj = drm_gem_shmem_create(dev, unaligned_size);
->   	if (IS_ERR(shmem_obj))
->   		return ERR_CAST(shmem_obj);
->   	bo = to_v3d_bo(&shmem_obj->base);
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 97b5fca8966d..cca815dc87f3 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -529,9 +529,6 @@ void drm_gem_object_release(struct drm_gem_object *obj);
->   void drm_gem_object_free(struct kref *kref);
->   int drm_gem_object_init(struct drm_device *dev,
->   			struct drm_gem_object *obj, size_t size);
-> -int drm_gem_object_init_with_mnt(struct drm_device *dev,
-> -				 struct drm_gem_object *obj, size_t size,
-> -				 struct vfsmount *gemfs);
->   void drm_gem_private_object_init(struct drm_device *dev,
->   				 struct drm_gem_object *obj, size_t size);
->   void drm_gem_private_object_fini(struct drm_gem_object *obj);
-> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-> index 589f7bfe7506..6b6478f5ca24 100644
-> --- a/include/drm/drm_gem_shmem_helper.h
-> +++ b/include/drm/drm_gem_shmem_helper.h
-> @@ -109,9 +109,6 @@ struct drm_gem_shmem_object {
->   
->   int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem, size_t size);
->   struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
-> -struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
-> -							   size_t size,
-> -							   struct vfsmount *gemfs);
->   void drm_gem_shmem_release(struct drm_gem_shmem_object *shmem);
->   void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
->   
+> diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+> index 9438e03d6..dd840115f 100644
+> --- a/Documentation/process/howto.rst
+> +++ b/Documentation/process/howto.rst
+> @@ -3,11 +3,11 @@
+>  HOWTO do Linux kernel development
+>  =================================
+> 
+> -This is the be-all, end-all document on this topic.  It contains
+> -instructions on how to become a Linux kernel developer and how to learn
+> -to work with the Linux kernel development community.  It tries to not
+> -contain anything related to the technical aspects of kernel programming,
+> -but will help point you in the right direction for that.
+> +This is a complete introductory document on this topic. It
+> +contains instructions on how to become a Linux kernel developer
+> +and how to work with the Linux kernel development community. It
+> +does not cover the technical aspects of kernel programming, but
+> +will help point you in the right direction for that.
+> 
+>  If anything in this document becomes out of date, please send in patches
+>  to the maintainer of this file, who is listed at the bottom of the
+
+-- 
+~Randy
 
