@@ -1,100 +1,141 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702222C326D
-	for <linux-doc@vger.kernel.org>; Sun,  7 Dec 2025 09:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080562EF65F;
+	Sun,  7 Dec 2025 13:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765100276; cv=none; b=ZuQGAo+UJ7iDav0gl8vedmAybj74MFnxJbI4D62aSI7XKLpixHCd7FZvlAOgjSwx/mOmaYUpLf/Yz84bRfGXfe9rTcSIRuDvzU8B14L+Wf4QzISnr3l4x+IWSovFvnDluqf0KD21Y9eMVoXpNz4QPCecWavJmgcufMD23Uexsn8=
+	t=1765113214; cv=none; b=Ri6lev3fKeeBlMgd8oL+/7WKRAAfq+/yh/SaYFp2cz7Q/1K32xIuw2MjFtf64hlCnSVMJZhyt9yKzX4gonIiagmVsLpvi9vJ/Layb1N7qKtf9tkcFfmRMpHsyymMmUxptsOQz/xCitJm/Us1+zfPQeT7S+ofwykoyx6jVeLVfkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765100276; c=relaxed/simple;
-	bh=diQdspPHPjLNWj4mA10kaph4NKdxDBTovy57VWSMXmg=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=iph7TlmsaYtEWfDQfmu125QiRrjwPHVbHuVgWjJ3/Amz0RVnxYKZZGkMqUk8rg+8H9pIp5Xk+vTx19zdQoH6BeD22oQg7Vy9SmZjDw6Pf3i9h4ybmIdn732phobuB7yuLDOXNbaFYcHI1hpxW+ylmxMTwhNFRszVTzxNAvAn8qE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QbbbBimR; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765113214; c=relaxed/simple;
+	bh=nSRVRlvH2TOmH+q56OrUc1tG4J8RyYZQf5RQUQu98cc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Toncd/lApZLsFF9j+qvEenjpUcFyjYozSA5EZaVW+9+kfFFJ+J8mBpMft9EAXBXMP6CPTxF0PPCp94yQZA8Y+6JEn04XyUMtZS6NPThh7uEB0tVy+H7RBnmOya2iO95/ut2q7oZy9UxeOXdTh86S1rawyU9lYbUP1jvZWMJJ7MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LIf13hZc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QbbbBimR"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7c750b10e14so1607454a34.2
-        for <linux-doc@vger.kernel.org>; Sun, 07 Dec 2025 01:37:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765100274; x=1765705074; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=b8aOGIZ+buACuXLZBe3bB0dfiQfaQBMpsrTcyVxJIBs=;
-        b=QbbbBimR1+0FRQPyfzAXYkYwSycX/y/Eqf+W/P7F29ZA4ty5pDddPq9P0g2XeFa+oP
-         cSFiuWvww3x47pLFfcPjr7UxEmRAO86vMdUz9cuv98A2jottTDBQ1o5pBx9so6zi1y2i
-         ZhL+lBgigTk2/ugW6sIoraBAiHA1R6pfUUl+D+/ZVEwvBMeaA23PdLguneiSDK4vl0WE
-         hakD+u51nZNBc6MuGdO9SkXFS/xbHZlfccj8aJtrjwSWQmoYQGhkmKEZJGrmFJy99W9d
-         /H7nUOuL/G4B/Nb/+zAn4Y+VN+H56RvUTUBAPxb2lx+akKsU+MHRdyMmIyqa0IBPnuW+
-         GAgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765100274; x=1765705074;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b8aOGIZ+buACuXLZBe3bB0dfiQfaQBMpsrTcyVxJIBs=;
-        b=DoOaglD4mhfwsSbRQwWhif9Xb+Nhgn0fBFYvDaJWyH5I1lTuVvnZq53Z99WM3GUjii
-         NW4IhYTuqo1tvR6Hb1r+uXiF2Lxpl12j2y9L0g0xIvyXbasO/9IY4F/Hwah7/7b1G8VQ
-         QYkfqv6i7Afq6cUFcsgTKqeXVb0a6j6LaSK7eqit2s4MV3kCZfZbgGvnb1k3ZvzKkWVu
-         ujKqGNcwYpdMTLccOsuyXPPdY5zTsHUYgEGkejfo/ks8jynPhvQ4aUrCqUDw6rrk7ehg
-         kXdisyzr23Kz7rMilNlQNqqmK3hifgY62NoqVYWDGFCKY405XyPf4xAStgFmZTj/bbWK
-         IQ+A==
-X-Gm-Message-State: AOJu0YwMr1S2xmfJ0HOjoxVkQxZJEuI9NODo+t/BZoAjSLtBm3TDVz/2
-	7z/e32cV7yMYJ7dkcvOggh9b3EH22G+cK62YwnJY3/y9CJSVhvE8muJJhtTsnSrwQe8eVr3wbcJ
-	Lo2i3bbEkLuMcQ+Wq8QuB7TvNk1f+YVGUIffU5MY=
-X-Gm-Gg: ASbGncu6UQxjRD+6Y2EsfIdvE1xtnAShoIEdRiHKMpzsSgsmONl79uyI+cweDpQLqz3
-	1dfgqYLfmgyu80M9EVnmuiRxrqc298dTH251oV6nMSj2h7dwL2G5W3SPbWqyRKjdbo+/MHS3XdY
-	QqE8EuyPunhkgt/iUfxXd2qT/wSDOpbaWzRDUq5VxdMjU0objQzYsJDYtUPE5bBO85COjVEbWaj
-	eNXHmB+cuVEIBFTWU9Cvgmu3jCcrOGZz16gxMihbnmRZ2WLGNHmP4MwLrjedolpIbhc/E+q
-X-Google-Smtp-Source: AGHT+IFfSlh7Wvtq1NCJXTuOROOG3uM8MYsxytVE5xcLmfckOXMq+OhYZHFpgLcnQHVwJgJEsJNWW9pnrPEx/rknYWk=
-X-Received: by 2002:a05:6808:1a28:b0:450:bf96:29d6 with SMTP id
- 5614622812f47-4539df60e75mr1843760b6e.24.1765100274234; Sun, 07 Dec 2025
- 01:37:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LIf13hZc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20106C4CEFB;
+	Sun,  7 Dec 2025 13:13:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765113213;
+	bh=nSRVRlvH2TOmH+q56OrUc1tG4J8RyYZQf5RQUQu98cc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LIf13hZcwkl50m/zh7glJSM3jpmsdEcsYyEsN7SQdRZvVnwNMWfBSu9c7jdy7/xqw
+	 qYIrn7TBmHxkqSFPFACNadnsJth9/v0MeNyitEnIjVJwIrMBWwgwf5/o3dX4ZI7Rk5
+	 0XUQAGQtgEPDI5j737ZGQVnJJBQSER1J2fP8iOxaA1mDOs1lYEsyM5u421nR0iVccg
+	 Qbb++6jE6Folgq/SRrvp8n1490pR3rIbhEM4K/PBpLuBUrIeQaRA/2lrHvGassnxC5
+	 x7q9OMBM1y5jjAxqXajf0oxOY+p7+tj7ESv08V4CeSccmLIOAJm5Z56SV9FzVCknTk
+	 Xhs5eob/O/97w==
+Date: Sun, 7 Dec 2025 13:13:22 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: Tomas Melin <tomas.melin@vaisala.com>, Marcelo Schmitt
+ <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
+ andy@kernel.org, Michael.Hennerich@analog.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, Conor Dooley
+ <conor.dooley@microchip.com>
+Subject: Re: [PATCH v3 1/3] dt-bindings: iio: adc: Add AD4134
+Message-ID: <20251207131322.3b270a18@jic23-huawei>
+In-Reply-To: <aTLVAAQH-I8Rc372@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1764708608.git.marcelo.schmitt@analog.com>
+	<06d7be2af0f6520c23f612fa0249ff6a26655cb7.1764708608.git.marcelo.schmitt@analog.com>
+	<95dfb96e-f7b8-45df-a704-2984bd0a2946@vaisala.com>
+	<aTLVAAQH-I8Rc372@debian-BULLSEYE-live-builder-AMD64>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: =?UTF-8?B?4bSL4bSAyoDhtJvJquG0iyBzypzhtIDKnA==?= <kartikpro9599@gmail.com>
-Date: Sun, 7 Dec 2025 15:07:43 +0530
-X-Gm-Features: AQt7F2pdCexYsLrjfUwW83PBmbKvr98EvLRLAZU4IqOWDsTPhWh46V94d9Vub1Y
-Message-ID: <CAOCmVvDcg9d0cNeGqH7+95Wffo4=WXUuSTR_Jbw_Swa3T8xOnQ@mail.gmail.com>
-Subject: [PATCH v4] docs: improve introduction wording in howto.rst
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From 56985c72f365c7f0e9ba8ae66ba99c198c15128c Mon Sep 17 00:00:00 2001
-From: kartikpro9599-hash <kartikpro9599@gmail.com>
-Date: Sun, 7 Dec 2025 13:53:02 +0530
-Subject: [PATCH v4] docs: improve introduction wording in howto.rst
+On Fri, 5 Dec 2025 09:50:08 -0300
+Marcelo Schmitt <marcelo.schmitt1@gmail.com> wrote:
 
-Signed-off-by: kartikpro9599-hash <kartikpro9599@gmail.com>
----
- Documentation/process/howto.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+> On 12/05, Tomas Melin wrote:
+> > Hi,
+> > 
+> > On 02/12/2025 22:55, Marcelo Schmitt wrote:  
+> > > Add device tree documentation for AD4134 24-Bit, 4-channel simultaneous
+> > > sampling, precision ADC.
+> > > 
+> > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > > ---
+> > > Change log v2 -> v3:
+> > > - fixed typo in powerdown-gpios description.
+> > > - picked up Conor's review tag. 
+> > > 
+> > >  .../bindings/iio/adc/adi,ad4134.yaml          | 198 ++++++++++++++++++  
+> ...
+> > > +description: |
+> > > +  The AD4134 is a quad channel, low noise, simultaneous sampling, precision
+> > > +  analog-to-digital converter (ADC).
+> > > +  Specifications can be found at:
+> > > +    https://www.analog.com/media/en/technical-documentation/data-sheets/ad4134.pdf
+> > > +
+> > > +$ref: /schemas/spi/spi-peripheral-props.yaml#
+> > > +
+> > > +properties:
+> > > +    maxItems: 1
+> > > +
+> > > +  adi,asrc-mode:
+> > > +    $ref: /schemas/types.yaml#/definitions/string
+> > > +    description:
+> > > +      Asynchronous Sample Rate Converter (ASRC) operation mode control input.
+> > > +      Describes whether the MODE pin is set to a high level (for master mode
+> > > +      operation) or to a low level (for slave mode operation).
+> > > +    enum: [ high, low ]
+> > > +    default: low  
+> > Since minimim I/O mode is only one currently supported, this should
+> > always be low, right? Is the property needed at this point?  
+> 
+> Correct, it is expected that adi,asrc-mode will always be low for minimum I/O mode.
+> The property is not _needed_ but, according to dt-binding guidelines [1], it is
+> desired.
+> 
+> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/writing-bindings.rst?h=v6.18#n17
+> 
+> >   
+> > > +
+> > > +  adi,dclkio:
+> > > +    description:
+> > > +      DCLK pin I/O direction control for when the device operates in Pin Control
+> > > +      Slave Mode or in SPI Control Mode. Describes if DEC0/DCLKIO pin is at a
+> > > +      high level (which configures DCLK as an output) or to set to a low level
+> > > +      (configuring DCLK for input).
+> > > +    enum: [ out, in ]
+> > > +    default: in
+> > > +
+> > > +  adi,dclkmode:
+> > > +    description:
+> > > +      DCLK mode control for when the device operates in Pin Control Slave Mode
+> > > +      or in SPI Control Mode. Describes whether the DEC1/DCLKMODE pin is set to
+> > > +      a high level (configuring the DCLK to operate in free running mode) or
+> > > +      to a low level (to configure DCLK to operate in gated mode).
+> > > +    enum: [ free-running, gated ]
+> > > +    default: gated  
+> > In minimum I/O mode datasheet mentions this should always be gated.
+> > Perhaps this and adi,dclkio can be left out and added when driver gains
+> > other support than I/O mode?  
+> 
+> Yes, that's also correct. A few properties are actually not needed for minimum
+> I/O mode (i.e. can have their values inferred from the minimum I/O mode requirements).
+> Sure, from developer's perspective it's easier to document only what the driver
+> uses. adi,dclkio, adi,dclkmode, adi,asrc-mode, powerdown-gpios, regulators, could
+> all be left to a latter time. Fine by me if dt maintainers agree with that.
 
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-index 9438e03d6..dd840115f 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -3,11 +3,11 @@
- HOWTO do Linux kernel development
- =================================
+Add as much as you are sure about to the binding now.  Sometimes
+we will add properties later (with defaults) to cover things that are
+complex enough that they will delay the initial binding merge.
 
--This is the be-all, end-all document on this topic.  It contains
--instructions on how to become a Linux kernel developer and how to learn
--to work with the Linux kernel development community.  It tries to not
--contain anything related to the technical aspects of kernel programming,
--but will help point you in the right direction for that.
-+This is a complete introductory document on this topic. It
-+contains instructions on how to become a Linux kernel developer
-+and how to work with the Linux kernel development community. It
-+does not cover the technical aspects of kernel programming, but
-+will help point you in the right direction for that.
+Jonathan
 
- If anything in this document becomes out of date, please send in patches
- to the maintainer of this file, who is listed at the bottom of the
--- 
-2.52.0.windows.1
+> 
+> With best regards,
+> Marcelo
+
