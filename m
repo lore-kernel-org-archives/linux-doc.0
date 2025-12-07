@@ -1,104 +1,65 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82ABF8479
-	for <linux-doc@vger.kernel.org>; Sun,  7 Dec 2025 20:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32611E834E;
+	Sun,  7 Dec 2025 23:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765139271; cv=none; b=eBAx2iihPG+7vttjDUlviM8NWdQwPuzAei3CgdoHzDwYDEKSr61AVnVHFupleqg9/bopDGH+U0MZc4tvHp0Znu70lRFrf6RAhM0iUnPfcfcDjUZmUv+4GpYYqzTJw/ZMicvQIGr8QXzV1mmnOO/WGfXeR/Xq87vwrb1tk14yW68=
+	t=1765149875; cv=none; b=P5EifZ/yb3Hu+0dgrFOfEcIvRZ29paWN2pCKNutLQpA7ODmXhWXgU+GnqbH2R4X8qm5S8R+weIV3SMSUQRtmJQdfGFhcqkO0PGk9MGZOpyj0zbUb0GGeiekYBpCWMl9MbXEZMWtctaHa9DSZ0dJvCJTvIoWF1KuXN4T34z7FbEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765139271; c=relaxed/simple;
-	bh=pTFPo5Q2+iKTcmgIH35Rm0x5Pl4vIHoz+rvWyv3fWd4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Uh7xRrXKlyrpaUVA+lcelzvFsUu+2kQTVPG30ubHcyQFx7Wa08F17i9shbnGbpdiVSK30Sh+tgks/dY8BrZaBo0QBKs9OZ1pxXXq1q1LzLAsUZQav5Xb/Modb1NtOqRUcCwzfmg62VgycpN5JQRUZ6NM1mJtiA+AtWfk7CWPY5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dZm3Onbt; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765149875; c=relaxed/simple;
+	bh=inHrNAcGtzt9kbKl0Q8A0E+iQcOBtH7b0sR1r/hgMoI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r4MN0ifcQP8eWSZzmICoiwLlma8gmynFzak2/4K+LJyWduxCvqLv/2vfD/wYuzJuUTZZuuOfHic4GovT76GM28c4U4DyNubjzzQoUv8WAl+puEGjHw/M1Cehz8V09XSdYGix12Z8JYXv4XfrpUHj/nXULUMLB9ddtwNVV35tpPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VPq9IVJh; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dZm3Onbt"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7e2762ad850so3926608b3a.3
-        for <linux-doc@vger.kernel.org>; Sun, 07 Dec 2025 12:27:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765139270; x=1765744070; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LTnGo5IRNTPqTb6QTueFQxQdCY9bvgmhSZCOqTE9YWI=;
-        b=dZm3Onbt6H7NDXlKg0nW3QhK/pkBCv9pzOa4vJCI4fNTSgPa0qUsuZPkaF1q5kbG06
-         0VELW6p5SVkQVF5RGgw45fHm88qk4Q7j5E1HterRbjACg7bax6WvRxuC2gt3YXOyY3nj
-         VeSX2g6365OeoLlAhfy8fbhS4zG3QIyaZ8mXgt5c3gBiI8lPAR4fDR3bNtWo+RCGzl3y
-         0heJ04jeBIj/GicKfAvlqmqB7S+LguCPOX74MBJGiGauF74VgSTaEjtaAfrIyrcPGWm8
-         LroSSxILGS2tIoja8G0GXC3HBhppwode42+arBi8yOgZyTSLh1p587lE8zOIgV62e2tu
-         0Z0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765139270; x=1765744070;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LTnGo5IRNTPqTb6QTueFQxQdCY9bvgmhSZCOqTE9YWI=;
-        b=kz+3t8CDvBAuFT9c2XepA3AK6Sdx1pLdiHZe+G4ceLf55gHYmd6p2kfyOGvVkkYreR
-         ifGX19FxgdkUCB4vaPZoTZkBW1twvoxpus5F8yfEsG7GmoxEJ1nTqYQGuSe9l+aDjO4t
-         DlQurK7MpLWTu3pBJJOyn52MFSG8vjzFAe6paEtxM7HgKM7LFHrqFSc56NW5gRXQ7ff0
-         k+jjbfhNyX3FgyBayLA9+V56R/4VfWPUAIFsL6ihDorr3SEhOROlL/0Cwml8QvmwWY6M
-         wixwPzk6D73EDwwjxb5raq8zS0QN+/rRTxxVs3Zlctm8C+tG0m3pomsoL2gzhfMYU/bK
-         53Wg==
-X-Forwarded-Encrypted: i=1; AJvYcCUjfRr04UGdnNj2UzqOM8WcF/iQDI6qsC2b6FBw3Qxf3/WI5joM2xRkT94xR5c6C5Q/W1x7V02id68=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkHa2HAHDPP+00UrxmBibOxZybCbo46Hud+f0DSMA8UpgyGV9m
-	COdvptYZrPBhyNc1tywkxLhJa5U/MxH8kpzRn+Jb2myRdYTWz7RCRzFu
-X-Gm-Gg: ASbGnctR4kmPK7AXuyVkB4TynY4/WkLYFfSqs06848+mD7E9cg1YmKW3aVkvmqXNQ/Q
-	JWsEAQa1YbGY/2FJboPtk6Aq0giOPpXvQx6BTlqptP0yVjSxSlKrztjGaQpfJuuHVQfEvzaJEBs
-	ieEWCM3MwAR5Ur80h2vQszJka4e1/Eo78kHlSMbeG94EvVrFuSwNS1HLwKkIaRq8dGso4gQyBDS
-	ABIyfatX6RpLHC1mzB5znzssli7qopQWZb7DAIX45QoNu6i81YrQyaV8Fq+WenogWmeL+Uz+tjY
-	D33kZGLwdpqe3RSxefwjgtZSNZiF0yt1sHz24YqKeLjitf7QxHexVUCSNegITkeLfhkHKllespS
-	olWGPAExytr0Q/QWJT2xTb9GI0h3E4cI+uqLMyQ2CcK4JOiY6fTRKaTCFE8jSAEE5WQ2McuHCtp
-	acu700YJECTOGMGAoeo1wd44UapAk+ap2U6tJGXQ==
-X-Google-Smtp-Source: AGHT+IGVt6rATJFKXgf7QcNgwJuR8JRguYCnyZ0hcV5ZGNWLUeU6GT4A8kEOcekzUI0dw+RlJq3oyw==
-X-Received: by 2002:a05:6a00:3e14:b0:7e8:4433:8fb3 with SMTP id d2e1a72fcca58-7e8c6c9d722mr5238488b3a.59.1765139269782;
-        Sun, 07 Dec 2025 12:27:49 -0800 (PST)
-Received: from golem.. ([223.187.99.232])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7e29f2ed31bsm11168091b3a.3.2025.12.07.12.27.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Dec 2025 12:27:49 -0800 (PST)
-From: Shubham Sharma <slopixelz@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shubham Sharma <slopixelz@gmail.com>
-Subject: [PATCH] Documentation: hwmon: g762: update DT binding reference
-Date: Mon,  8 Dec 2025 01:57:12 +0530
-Message-ID: <20251207202712.71787-1-slopixelz@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VPq9IVJh"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=Zh2We+iALqqOPdGOcKdG9XSRtXkyirFarAeTGazkIr0=; b=VPq9IVJhuE6unKEM/qldjPP0xf
+	msfOLT0Il+yMFigky4AWEQXigEfI7wHlzTdit260b/ShWMZ6J/cIzugU2/1fffGKu555LpsPWVoxI
+	2o6rZxP4dFKwZFqbhZ7u9pEsSxJXL5TkoSpa/vOwGhIR2AqXdrpqxFekU2qKCUnCWRUXY9e+/axn/
+	qecaxfMIFc29edV1OtxsJ5oNvoGi72z4CCgZxl7klY4ZgsNdOlzm0FSR5uYAMI9fyozmsdxrim3ZN
+	mkQGtRcb7gtL2Gq2ZKIfck6BXj/XeBzXm1PjXkekRXqI0+GZywqmarLJUvaafLi/nUMMABxqVIH90
+	K6z1dmPg==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vSO74-000000091Gu-1LKb;
+	Sun, 07 Dec 2025 23:24:22 +0000
+Date: Sun, 7 Dec 2025 23:24:22 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: =?utf-8?B?4bSL4bSAyoDhtJvJquG0iyBzypzhtIDKnA==?= <kartikpro9599@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] docs: improve introduction wording in howto.rst
+Message-ID: <aTYMprKqrg-6lSP0@casper.infradead.org>
+References: <CAOCmVvDcg9d0cNeGqH7+95Wffo4=WXUuSTR_Jbw_Swa3T8xOnQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOCmVvDcg9d0cNeGqH7+95Wffo4=WXUuSTR_Jbw_Swa3T8xOnQ@mail.gmail.com>
 
-Update the device tree binding reference to show the change
-from .txt to YAML. Binding was converted in commit
-3d8e25372417 ("dt-bindings: hwmon: g762: Convert to yaml schema")
-and moved to Documentation/devicetree/bindings/hwmon/gmt,g762.yaml.
+On Sun, Dec 07, 2025 at 03:07:43PM +0530, ᴋᴀʀᴛɪᴋ sʜᴀʜ wrote:
+> -This is the be-all, end-all document on this topic.  It contains
+> -instructions on how to become a Linux kernel developer and how to learn
+> -to work with the Linux kernel development community.  It tries to not
+> -contain anything related to the technical aspects of kernel programming,
+> -but will help point you in the right direction for that.
+> +This is a complete introductory document on this topic. It
+> +contains instructions on how to become a Linux kernel developer
+> +and how to work with the Linux kernel development community. It
+> +does not cover the technical aspects of kernel programming, but
+> +will help point you in the right direction for that.
 
-Signed-off-by: Shubham Sharma <slopixelz@gmail.com>
----
- Documentation/hwmon/g762.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'd suggest following https://sembr.org/ for this paragraph since you're
+editing it.  Don't go through and change the whole document.
 
-diff --git a/Documentation/hwmon/g762.rst b/Documentation/hwmon/g762.rst
-index 0371b3365c48..f224552a2d3c 100644
---- a/Documentation/hwmon/g762.rst
-+++ b/Documentation/hwmon/g762.rst
-@@ -17,7 +17,7 @@ done via a userland daemon like fancontrol.
- Note that those entries do not provide ways to setup the specific
- hardware characteristics of the system (reference clock, pulses per
- fan revolution, ...); Those can be modified via devicetree bindings
--documented in Documentation/devicetree/bindings/hwmon/g762.txt or
-+documented in Documentation/devicetree/bindings/hwmon/gmt,g762.yaml or
- using a specific platform_data structure in board initialization
- file (see include/linux/platform_data/g762.h).
- 
--- 
-2.43.0
-
+Also, it is "the" complete document, not "a" complete document.
