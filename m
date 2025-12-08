@@ -1,151 +1,153 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FCA21D3D6;
-	Mon,  8 Dec 2025 09:53:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C69310625
+	for <linux-doc@vger.kernel.org>; Mon,  8 Dec 2025 10:31:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765187614; cv=none; b=iX2Y+hUb6zuGNXm6NpSGCm36VVpSAOGOniBPGN67mQOsDi2izeeHPSUoNN7SNjZFAubJ+iHpN94tEdJBkQmcn79x2AnuyGJAYZVaxgOMzo6+X2VndhrCBHrWhGBV4brwJACwyLzSyhjzJ0Rb+fbuBTA3wofkBlPGN/BPnTKLho0=
+	t=1765189863; cv=none; b=nbeH0igh0Kz3eL1+y8ODRgCe9HQ6P+Y0UZ6Q4aTr2fYIHKeE1y2Fy6V2FJm9GoUvdt4heeWRbYbMd2td2lODCMpkIlVe7BH/aphz8g/7HOCMJ3uAAWFycuBwTsItfKFIQ5Sw1xfIkjo45/RfQNdtSgV0F42zmlsI9V0QYc+yRwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765187614; c=relaxed/simple;
-	bh=hT7K5W2YCnKax0fvHnXRBMbXRa4tpjlXidtYs1BbGf8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JOjEoliWPjCOvBO8NuPWdIbFJXc4GohF3UbmhnKLWjQi9y0kOzBo4jAh6pooM8/r9Y4PFQ1hqhn0OGv0oWoEC9J83IBmVLPeODuUrfYKW7b972F0+ujnnLMYNaunuVgnOXvLY6Tq8t0CIGmJUEXWYUbO5+gbbvci1mvbeL78HDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VtJQjBeT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765189863; c=relaxed/simple;
+	bh=MPhbQ8w2PifKk8ZZOySwJrX1kc9ihTIUWTezaz6STOU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RTwozglju/E3kGzPQqhh1Jv/JNHS/lxac806eLvCLWLI+mJCIm/gA8Kp27K1tHQBwcaYfkWQelbPS226ANFM5dXTCJm1aM30vZJXN3nRUGYZMEzsu6HetFbr3gdtQxeVv6hYvsOvUFU4Du8Cgf8FFEoMsPtdbTskefciZN3oOxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n/Qob695; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VtJQjBeT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF59FC4CEF1;
-	Mon,  8 Dec 2025 09:53:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n/Qob695"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4864EC4AF09;
+	Mon,  8 Dec 2025 10:31:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765187613;
-	bh=hT7K5W2YCnKax0fvHnXRBMbXRa4tpjlXidtYs1BbGf8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VtJQjBeTrVApKnn0YxiAsOgWw39ue2X/xghej7XHe66SWnRsdBM+Z92legsDLIfua
-	 cKBibEDxdc6uJvCRbQZPlcg5gZMVkEsjo6hHlOE+AGgUygQ+Dd7FoG2oxTpPwcmmD/
-	 /L/Q71wP3gU4xjF6fQu7hJ+yB+Wyg1qZo+ZNr0KpDBmDe89RwIsaOaXx2zEPwj1k6/
-	 Fjn4V4M/772+MWopwZxXz4i9diE2KPkm3TVPxsoLVKsOWakSYVxoWx3eOr+VNWKZJB
-	 NGpgx4i/Z9ng6qjG9XZjn2Drmbfe39UOlD+ViaeYY+R+YcbP65GSG2ip2Fwet+iVTS
-	 lQL6H2F4V+jtA==
-Message-ID: <66b6e4fa-9541-4cc8-8578-dbffd5f19ecc@kernel.org>
-Date: Mon, 8 Dec 2025 10:53:26 +0100
+	s=k20201202; t=1765189862;
+	bh=MPhbQ8w2PifKk8ZZOySwJrX1kc9ihTIUWTezaz6STOU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n/Qob695pgyiOrhNolFB/2eLD10InyU/e/1uUDs9SE9EXRsQr+EQUptNo30Xi0m0j
+	 7iH9KA9sqrCVie+PBYqngneecGb4wSTl1YBbFHr1aDMiM/SvFIoYupUEATHT1HiL7U
+	 WpgmmcBak+grdPOMuiBXumtlYInFe6OccQ6IG6ySpdQDpIdWXmVDysD+OfagiCMxdv
+	 fRSUQSVnpYaQVLs2r7P1Ta4q8TeMBSvefGHij9EgSTq395BuBpsJWwr9uwMnwOdSdw
+	 TCU59KjJVGQNq0u57c6lX0ou/hGoPjEYi3Fvp9DjKHhBs3p+OMHkX5LrImrduMtBAY
+	 c0atgL1MFRgSg==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 6FE89F40079;
+	Mon,  8 Dec 2025 05:31:01 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Mon, 08 Dec 2025 05:31:01 -0500
+X-ME-Sender: <xms:5ag2aflgg-acM0NFDRwtBqWcll-CxCkWcbJKfBAbOS8ORZtuMP45MQ>
+    <xme:5ag2aZplvCaT8rVhuEPT5h8GTHYOn73g_zCRnMJlW-O86ncm80ShNF37ngOC4r8HU
+    26BUkurv-Tp19SfEjY5-kiNg-lJU22baR_wLpwrc-5vJd-_yEz5XwQ>
+X-ME-Received: <xmr:5ag2aek0BdXCKYYCL-YCtZqLXp6t5tyDzuebajliYXZPtS8tu2poKtGUT0BdSA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduieeggecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdfstddttddvnecuhfhrohhmpefmihhrhihlucfu
+    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpeehieekueevudehvedtvdffkefhueefhfevtdduheehkedthfdtheejveelueffgeen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkihhrih
+    hllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeiudduiedvieehhedq
+    vdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshhhuthgvmhhovhdrnh
+    grmhgvpdhnsggprhgtphhtthhopeefiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    ohepuhhsrghmrggrrhhifheigedvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghkph
+    hmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehmuhgthhhu
+    nhdrshhonhhgsehlihhnuhigrdguvghvpdhrtghpthhtohepuggrvhhiugeskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtohepohhsrghlvhgrughorhesshhushgvrdguvgdprhgtphht
+    thhopehrphhptheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvhgsrggskhgrsehsuh
+    hsvgdrtgiipdhrtghpthhtoheplhhorhgvnhiiohdrshhtohgrkhgvshesohhrrggtlhgv
+    rdgtohhmpdhrtghpthhtohepfihilhhlhiesihhnfhhrrgguvggrugdrohhrgh
+X-ME-Proxy: <xmx:5ag2aaaojk1yMYZUmuR4gcwcj4Nzlr6grY8mKIHbxxgIQ5Z4EjXjEg>
+    <xmx:5ag2aSF2-71kqmjbmPvB46sRM-Ms6Nf6m09bhPfmHwAHbI3_YXr3Dw>
+    <xmx:5ag2aVNajbfjPDA86e7Ow1XGd_sJep1qy6vq7YfbTw8_YIT6H4UUkQ>
+    <xmx:5ag2aQxEmm-vXUeuqHyqJEHpffIBkQ1Z2djO2MC1s3XH_sfMuyENaA>
+    <xmx:5ag2aakJS9SKMS1Fr164VYepjZi8wwszVq9mjeWefIgC3C56YIjFfc9E>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 8 Dec 2025 05:31:00 -0500 (EST)
+Date: Mon, 8 Dec 2025 10:30:59 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@kernel.org>, 
+	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Matthew Wilcox <willy@infradead.org>, Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, 
+	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 05/11] mm/hugetlb: Refactor code around vmemmap_walk
+Message-ID: <4zxckhvzzb6xag2pxcu5eimeuru6iauae4dlar3mmc3wrrnbwq@ddbzmgjuxego>
+References: <20251205194351.1646318-1-kas@kernel.org>
+ <20251205194351.1646318-6-kas@kernel.org>
+ <3ed10ea4-347f-4d01-82aa-1d92d2804ced@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] mm/hugetlb: Eliminate fake head pages from vmemmap
- optimization
-To: Usama Arif <usamaarif642@gmail.com>, Kiryl Shutsemau <kas@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
- Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- kernel-team@meta.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20251205194351.1646318-1-kas@kernel.org>
- <e1c50f7e-cec4-4676-b5d6-f6446cd64ba5@kernel.org>
- <bdie34dgpltxd5ayvjvqkusx4thdrrebgllvwp333psfuu4vgj@bkfxg2c5sfr2>
- <01e5d0b3-dbf8-4f77-b38a-f48c46f7c31e@kernel.org>
- <ysvhofzg5mdtvxfujdsmffkuqna72pr52ehrpglmlhxnvwstas@xurgptkgtnbe>
- <1b659d59-b1c1-4910-baab-0eef7cda234f@kernel.org>
- <3v5hdubqnil6w54kimvbgapghj7irjp7xuqma6uxtsrpvj22ph@6t47vsevdwyi>
- <8e59b242-6311-48a7-b9f5-e698c4eccd2e@gmail.com>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Content-Language: en-US
-In-Reply-To: <8e59b242-6311-48a7-b9f5-e698c4eccd2e@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3ed10ea4-347f-4d01-82aa-1d92d2804ced@gmail.com>
 
-On 12/6/25 18:47, Usama Arif wrote:
+On Sat, Dec 06, 2025 at 04:42:30PM +0000, Usama Arif wrote:
+> > @@ -308,7 +298,8 @@ static int vmemmap_remap_split(unsigned long start, unsigned long end,
+> >   *		to remap.
+> >   * @end:	end address of the vmemmap virtual address range that we want to
+> >   *		remap.
+> > - * @reuse:	reuse address.
+> > + * @vmemmap_head: the page to be installed as first in the vmemmap range
+> > + * @vmemmap_tail: the page to be installed as non-first in the vmemmap range
+> >   * @vmemmap_pages: list to deposit vmemmap pages to be freed.  It is callers
+> >   *		responsibility to free pages.
+> >   * @flags:	modifications to vmemmap_remap_walk flags
+> > @@ -316,69 +307,40 @@ static int vmemmap_remap_split(unsigned long start, unsigned long end,
+> >   * Return: %0 on success, negative error code otherwise.
+> >   */
+> >  static int vmemmap_remap_free(unsigned long start, unsigned long end,
+> > -			      unsigned long reuse,
+> > +			      struct page *vmemmap_head,
+> > +			      struct page *vmemmap_tail,
+> >  			      struct list_head *vmemmap_pages,
+> >  			      unsigned long flags)
+> 
+> Need to fix the doc above vmemmap_remap_free as it mentions reuse.
+
+Ack.
+
+> > +	vmemmap_remap_range(start + PAGE_SIZE, end, &walk);
 > 
 > 
-> On 05/12/2025 21:41, Kiryl Shutsemau wrote:
->> On Fri, Dec 05, 2025 at 10:34:48PM +0100, David Hildenbrand (Red Hat) wrote:
->>> On 12/5/25 21:54, Kiryl Shutsemau wrote:
->>>> On Fri, Dec 05, 2025 at 09:44:30PM +0100, David Hildenbrand (Red Hat) wrote:
->>>>> On 12/5/25 21:33, Kiryl Shutsemau wrote:
->>>>>> On Fri, Dec 05, 2025 at 09:16:08PM +0100, David Hildenbrand (Red Hat) wrote:
->>>>>>> On 12/5/25 20:43, Kiryl Shutsemau wrote:
->>>>>>>> This series removes "fake head pages" from the HugeTLB vmemmap
->>>>>>>> optimization (HVO) by changing how tail pages encode their relationship
->>>>>>>> to the head page.
->>>>>>>>
->>>>>>>> It simplifies compound_head() and page_ref_add_unless(). Both are in the
->>>>>>>> hot path.
->>>>>>>>
->>>>>>>> Background
->>>>>>>> ==========
->>>>>>>>
->>>>>>>> HVO reduces memory overhead by freeing vmemmap pages for HugeTLB pages
->>>>>>>> and remapping the freed virtual addresses to a single physical page.
->>>>>>>> Previously, all tail page vmemmap entries were remapped to the first
->>>>>>>> vmemmap page (containing the head struct page), creating "fake heads" -
->>>>>>>> tail pages that appear to have PG_head set when accessed through the
->>>>>>>> deduplicated vmemmap.
->>>>>>>>
->>>>>>>> This required special handling in compound_head() to detect and work
->>>>>>>> around fake heads, adding complexity and overhead to a very hot path.
->>>>>>>>
->>>>>>>> New Approach
->>>>>>>> ============
->>>>>>>>
->>>>>>>> For architectures/configs where sizeof(struct page) is a power of 2 (the
->>>>>>>> common case), this series changes how position of the head page is encoded
->>>>>>>> in the tail pages.
->>>>>>>>
->>>>>>>> Instead of storing a pointer to the head page, the ->compound_info
->>>>>>>> (renamed from ->compound_head) now stores a mask.
->>>>>>>
->>>>>>> (we're in the merge window)
->>>>>>>
->>>>>>> That doesn't seem to be suitable for the memdesc plans, where we want all
->>>>>>> tail pages do directly point at the allocated memdesc (e.g., struct folio),
->>>>>>> no?
->>>>>>
->>>>>> Sure. My understanding is that it is going to eliminate a need in
->>>>>> compound_head() completely. I don't see the conflict so far.
->>>>>
->>>>> Right. All compound_head pointers will point at the allocated memdesc.
->>>>>
->>>>> Would we still have to detect fake head pages though (at least for some
->>>>> transition period)?
->>>>
->>>> If we need to detect if the memdesc is tail it should be as trivial as
->>>> comparing the given memdesc to the memdesc - 1. If they match, you are
->>>> looking at the tail.
->>>
->>> How could you assume memdesc - 1 exists without performing other checks?
->>
->> Map zero page in front of every discontinuous vmemmap region :P
->>
+> I think this should be vmemmap_remap_range(start, end, &walk)? Otherwise if start failed to remap,
+> you wont restore it?
+
+I think it should be safe to keep newly allocated vmemmap_head there and
+free the old one.
+
+I will add a comment.
+
+> > @@ -592,9 +550,21 @@ static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+> >  	 */
+> >  	folio_set_hugetlb_vmemmap_optimized(folio);
+> >  
+> > +	nid = folio_nid(folio);
+> > +	vmemmap_head = alloc_pages_node(nid, GFP_KERNEL, 0);
 > 
-> I made an initial pass at reviewing the series. I think the best thing about this is that
-> someone looking at compound_head won't need to understand HVO to know how compound_head works,
-> so its a very nice clean up :)
+> Should we add __GFP_NORETRY | __GFP_NOWARN here? It was there in the previous code. I am guessing
+> that it was there in the previous code as its an optimization and if it fails its not a big issue.
 
-Yeah, I am also not a particular fan of fake-head detection code, and 
-how this hugetlb monstrosity affects our implementation of compound 
-pages. :)
+I removed the fallback. Being noisy if we actually hit this in practice
+makes sense to me. We can re-consider fallback path if we see it being a
+problem.
 
-Moving from compound_head -> compound_info sounds like a suboptimal 
-temporary step, though, as we want compound_head to to point at "struct 
-folio" etc soon (either allocated separately or an overlay of "struct 
-page", based on a config option). So operating on vmemmap addresses is 
-not what the new world will look like.
+> > @@ -602,8 +572,10 @@ static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+> >  	 * mapping the range to vmemmap_pages list so that they can be freed by
+> >  	 * the caller.
+> >  	 */
+> > -	ret = vmemmap_remap_free(vmemmap_start, vmemmap_end, vmemmap_reuse,
+> > +	ret = vmemmap_remap_free(vmemmap_start, vmemmap_end,
+> > +				 vmemmap_head, vmemmap_tail,
+> >  				 vmemmap_pages, flags);
+> 
+> The doc above this also mentions vmemmap_reuse.
 
-Of course, we could lookup the head page first and then use the memdesc 
-pointer in there to get our "struct folio", but it will be one 
-unnecessary roundtrip through the head page.
-
-I'm sure Willy has an opinion on this. but likely has other priorities 
-given we are in the merge window and LPC is coming up.
+Ack.
 
 -- 
-Cheers
-
-David
+  Kiryl Shutsemau / Kirill A. Shutemov
