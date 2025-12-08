@@ -1,224 +1,135 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D78E2FB629
-	for <linux-doc@vger.kernel.org>; Mon,  8 Dec 2025 20:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B9F2BD015
+	for <linux-doc@vger.kernel.org>; Mon,  8 Dec 2025 20:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765224595; cv=none; b=bfA57AhSwWl0sqTgSKiRum3BP4UZDbtqWuHf9JjPUBMN0ox3Oi3xmXHp9Yot8xcgvFoEIgSNQrNsZ2TMjG2TdkI6Y+ZytnIIRywuqPMwUMcXiRSLMLYhk7wDk/dJWG2slG8+KcBVJF1E3CB1/+pYte/gRJmLiA0krgns6v/xgzs=
+	t=1765226161; cv=none; b=ILXaVhAer1/jTyXO1BzRc0+LI6HYWeDpnXwiqpfsVBGqDEMrWt/4e78LSAOfgeeUp15+9dZmOftmlganGdIpS0rcbpR4DI2JLKV6Wamu8+vUdyOSP+a30HKr7PR5RbB33U5yg8N0FyTnx0ks7xXSn9IleiFGqcY1zXpkmOK8Jxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765224595; c=relaxed/simple;
-	bh=QZuXQ8i96Q6z9m6pKilLFXWT9PDI1lbYt5cMxmZBut8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FR3Eni15A5VdT7SUR3V1e1NF8BPgdbxdRgC9DRdshySRJGr1RD+4QwF7LnMPwMJIMXrdqv85fbvcFXagrUY1mt+UrVdkI7HVv+dPK0gkAN4wzqyiuMcCAIyL2nqgl3yVSYeUKJnQ4pwozMBZehKl1B2/VdO7cZojmfzu8ogfEPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hi3mhmPp; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1765226161; c=relaxed/simple;
+	bh=/rKlc0claZ+O+eRC8htCK0yG2YQIyD6b/xLiuB6zLqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AsNCl7dtNpm+d9N0FB+3JbMFQFa2+gQ1Aauz3kTe0UhxDCvbnC8KFm4xXmwLIoALmNbR/hL7ArIMtPGEZuqRE8298A3vLfZ7gJHaDCUhVkHfgqHHrDopE5I3zwGveJgFh3j/ZUPdOmb1Z+1RzPSvcA8lyphujfcFmIo/iOcsZp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DLf97ukF; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hi3mhmPp"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4ee147baf7bso1781cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 08 Dec 2025 12:09:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DLf97ukF"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59583505988so6021338e87.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Dec 2025 12:35:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765224591; x=1765829391; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kHtc/+z90ueo42R+9ZDR9Ppw22giUiqfAKE3wYBFhaI=;
-        b=hi3mhmPplayOz+BaNrou927wVGLFWQ87mVT+dzmeNts57Rjqkmm7jarI6r+dUfnwx2
-         2OBrHPHma0ZEf7+OY9sNBWSZo2nHTLpzNyXpSO7QHBRQdD67G05NcncUVqCcMhNN2FOp
-         nlEf59wa878233kXl3bpkBpvcuX6DcWeo8sTs+uGoAT9ltLskBtD4wEjcsIOQWUjmevE
-         D0DuRul9a/ipCJ/A66hz3mNhsICV6jk2nWbb4+I82koqoxqzHSQ+emnoSb2pa3GMh8db
-         GyucAwsVp1wKEqX79ZGAQLxw7nma3tAgLM0u91SXWelz51mN10PitUlyC0H23DF1g23W
-         xSlw==
+        d=gmail.com; s=20230601; t=1765226158; x=1765830958; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3D5kD500HpmwSprzmfQML5Kvc15a25K3Hzfpzmghy+0=;
+        b=DLf97ukFW/DgKdOnIgs5DgcN22gDa/hiwmGYkJZu+Q2j6vyxQuAYVQv+EQgkxZcQIL
+         7Nth0mIweq1cz73ERfa9RymQur6PeNpqO1/2B9TDU34Ho2FSQw3Zj4sCo3UK+4SoEWvy
+         TK3m3LIZcKpUdyV5CvPH5tJG92sbvuRmcwGdn92iq77La/QhHBMr/2DzEaG/4qDJJ2cc
+         jAiTQoEdRxkVuQ0sKXYYlSI+qHz8mKp8ngG1NDjqRspQGzENj0lIE+sEsEA8QqiK4Sl4
+         /uMeg1wlwfwdkGxiSbFhXwvP4eEHM/kaaelRywDWGIB2L2vK83Bqsmf829DS0xP+lX0b
+         OnRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765224591; x=1765829391;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kHtc/+z90ueo42R+9ZDR9Ppw22giUiqfAKE3wYBFhaI=;
-        b=LS8vCBaZekbgcrKPdwlKrzA+1/mTbJRQCTdv1iTa8ht3OqBkwXSYkuks/63F9f9BtO
-         SwwMz67iAWb6PDIvjYXrLmrhquSWTNvzAHClITa991wOgspHFCnxmi77X2bSupHyO2Uj
-         dU54q3tGi3ZbKNG29B1s/Wcwj9M79LvERoIGtNC5F7WheHz6mXV2inseyNe4VyladK0n
-         icI08MVJM3imZtGHAzRqtRxoJeAsZgHK65R0DThE2tyq4hwyGqD9gJ7abjOBVyAYc8Io
-         7wEsbu5Xm2aLoTOINkqmlNGpLzUKG1lFy99vCJUx9Nousn1iRDv+sU2kzrJi0m1pKb2W
-         op/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUKlg/dmw7TpVqxLiA9skDU6/vXv47CjHlXSolmnUv6+OdQkPaFV9f2WfnvxFxBS357IVsdNoyolUE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxX/QMXP0pcywusnT0eiP0jwyHXiC3yiU7M+Hr12aG0N5R9sIyw
-	OvYYEvcGyvstUkdRK7ZO99zerIoCFFG3wYKvpcDvgrDPhjPLWkIsZlmWwz0Yt1w7cS2rEwPZcc7
-	5694E7lMA4vbCBhWPWKDj0j0NbIuMvkPwXMINQpAj
-X-Gm-Gg: ASbGncuW1/xAL7AiRJ3L9E1bOORim3jyoE3v40yZi0lgDf7iq8hRBoo9JUfYlZvjp1l
-	pZfvgcRRpOAYDeXNQLJv+3+sEIkAnU0KqbjUzaaL0CC8CCKHDZaMQebHGDalNQ8yUN2P7Bpp2of
-	X27zq944QpifhByGdfH9luqBnfRbsdZqSgpTqm9gOqZ3PZ35onThF+Y5xeGItsKqHzMyTTWlFeq
-	kvInIVil0SyEEy0QcLSkmiEHg2uOILVrHeEYehGS3Hb/Envorbi3cwO79aAPzZ/4ARc9V7h1FG2
-	QMWu
-X-Google-Smtp-Source: AGHT+IEpZoR/iQOyoic1B163k5XpJh88inqgJpWY7MOX9hadvYKtYDxWwg4ICG4nBzjKIlyip58I04JqGTDCPmwL53c=
-X-Received: by 2002:a05:622a:41:b0:4b7:94d7:8b4c with SMTP id
- d75a77b69052e-4f1a4d2d82dmr2006671cf.0.1765224590828; Mon, 08 Dec 2025
- 12:09:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765226158; x=1765830958;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3D5kD500HpmwSprzmfQML5Kvc15a25K3Hzfpzmghy+0=;
+        b=VYmxC0rr1eg4zm5igBqsT0khqOjv2uRvBTgqXU2tSt/UaRu8m2Uk1tPFeZUknQDUZ7
+         8G2AgJcrMa05tYRKp++AkHXRuzOSp/3TQ75A15Fxr4GojUAwAQKS5ugOMh97uS0Fe8Uc
+         nprOm4uoLV4Z9tCU9wSt8zVtsAOH1+s62aT5wD482J8dBI0djlAfODnEvVO3nkS9u3NG
+         ReOpm4QgdYrhht/+gSXJbmranp/y+ltdumaEwiWbMIb+hCImZdqYteECAFUfr21ceH8u
+         sYLXoMEz7vJsDXgTQ3C04/5mqgvO1r6g9DwPx59u742dXYt0rm/bQ8QP5APVEIWB3a3n
+         CZZw==
+X-Forwarded-Encrypted: i=1; AJvYcCVtfxEQMqlZhpv9X82TIHy3BbqMJU94SKhzCD+ZVVz6kfhNAU+a9NEKc0MsdONjiRsj1A/OZ4ljmGE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvmR+SeiQlFjZ7XYbZXLGqd2mQQ7fJ5lAYau2Lh9ukREwKY8NO
+	s6Pk+wwHQBUvtWovS/cqNfVatNoVc1dCnNKt6Rbg2mLGgyRgGHY5ZGY+
+X-Gm-Gg: ASbGncu6z/IGF4GK5bvIOrY4CxVcmNc5df5oQw9BfiCaVSRtntfmBFXcHa2gOfQ1SRf
+	VzzJJ8bhiaTeJcCCaDVBNu8GckQ1x1EYxVGe6mPH8iXnfUnngueuj3u5vDgDhz/JqpMqg6Hu73A
+	O43x52FxQYHn0xTFQ/dPMiFbBsbn6/CpImiRpyr0NljKWi4902efCoGhiDrPxfdMfzdu7tVdJO6
+	C+81xt2NSDPmETROoWgp7CCil1qLIM5wstRPi5FSl6ugo9Z6C/vbyFq0XruBCSU2cdUr5Mr9P2/
+	TXIiXLsZcw2dL4Zl9NfqczhHULbXbQxEaQQJ8aD0GDn90uIF8oio2KZSwhqDeaBcoKsKBIWDZ4O
+	NGKQyDGY5z59mh3jkdm58tNAnlfNeBAQIt8TBJ1ckjL40uvUtVqTlg1DWwKm940BWCHacsfZucy
+	UVaA==
+X-Google-Smtp-Source: AGHT+IFxD46idyml5mDZecUPUQulSu8KqgMNNDpyRDJrIw18BS9ui+72Y8Bk2CtnjeAWlIFclHhKVw==
+X-Received: by 2002:ac2:51d5:0:b0:595:90ce:df8e with SMTP id 2adb3069b0e04-598e92ac83fmr187477e87.5.1765226157327;
+        Mon, 08 Dec 2025 12:35:57 -0800 (PST)
+Received: from curiosity ([5.188.167.4])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-597d7b1a7dbsm4400878e87.20.2025.12.08.12.35.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Dec 2025 12:35:56 -0800 (PST)
+Date: Mon, 8 Dec 2025 23:35:53 +0300
+From: Sergey Matyukevich <geomatsi@gmail.com>
+To: Andy Chiu <andybnac@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] riscv: hwprobe: expose vector register length in bytes
+Message-ID: <aTc2qaf6JxBPLvtH@curiosity>
+References: <20251121193524.1813200-1-geomatsi@gmail.com>
+ <CAFTtA3NVd8HMomd60i=T_S34TSL18==aYRFhg2AH-PbsM=hggw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251124200811.2942432-1-smostafa@google.com> <20251124200811.2942432-3-smostafa@google.com>
- <07434771-3233-4c88-b505-ee02da72c905@linux.intel.com> <aSV-Xi5uMJcMtk1b@google.com>
-In-Reply-To: <aSV-Xi5uMJcMtk1b@google.com>
-From: Mostafa Saleh <smostafa@google.com>
-Date: Mon, 8 Dec 2025 20:09:38 +0000
-X-Gm-Features: AQt7F2rms2NfQ0fmpo7RMgd6BkOwNRHXqeaRPgLhXlJQKJwBB3kdVgcG7LFHRKY
-Message-ID: <CAFgf54qGdWNB=Oa=vbU1hRN2XOxQSESGO6K0CiG4Qizv=T3+Qw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] drivers/iommu: Add calls for IOMMU_DEBUG_PAGEALLOC
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org, will@kernel.org, 
-	robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz, 
-	surenb@google.com, mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, 
-	ziy@nvidia.com, david@redhat.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFTtA3NVd8HMomd60i=T_S34TSL18==aYRFhg2AH-PbsM=hggw@mail.gmail.com>
 
-On Tue, Nov 25, 2025 at 10:01=E2=80=AFAM Mostafa Saleh <smostafa@google.com=
-> wrote:
->
-> On Tue, Nov 25, 2025 at 03:35:08PM +0800, Baolu Lu wrote:
-> > On 11/25/25 04:08, Mostafa Saleh wrote:
-> > > Add calls for the new iommu debug config IOMMU_DEBUG_PAGEALLOC:
-> > > - iommu_debug_init: Enable the debug mode if configured by the user.
-> > > - iommu_debug_map: Track iommu pages mapped, using physical address.
-> > > - iommu_debug_unmap_begin: Track start of iommu unmap operation, with
-> > >    IOVA and size.
-> > > - iommu_debug_unmap_end: Track the end of unmap operation, passing th=
-e
-> > >    actual unmapped size versus the tracked one at unmap_begin.
-> > >
-> > > We have to do the unmap_begin/end as once pages are unmapped we lose
-> > > the information of the physical address.
-> > > This is racy, but the API is racy by construction as it uses refcount=
-s
-> > > and doesn't attempt to lock/synchronize with the IOMMU API as that wi=
-ll
-> > > be costly, meaning that possibility of false negative exists.
-> > >
-> > > Signed-off-by: Mostafa Saleh <smostafa@google.com>
-> > > ---
-> > >   drivers/iommu/iommu-debug-pagealloc.c | 26 +++++++++++++
-> > >   drivers/iommu/iommu.c                 | 12 +++++-
-> > >   include/linux/iommu-debug-pagealloc.h | 56 ++++++++++++++++++++++++=
-+++
-> > >   3 files changed, 92 insertions(+), 2 deletions(-)
-> > >
+Hi Andy
+
+On Wed, Dec 03, 2025 at 11:57:06AM -0600, Andy Chiu wrote:
+> Hi Sergey,
+> 
+> On Fri, Nov 21, 2025 at 1:37 PM Sergey Matyukevich <geomatsi@gmail.com> wrote:
 > >
-> > Remove "drivers/" from the commit title.
+> > The vector register length can be obtained from the read-only CSR vlenb.
+> > However reading this CSR may be undesirable in some cases. XTheadVector
+> > extension is one example: existing implementations may not provide this
+> > register. On such platforms, vlenb is specified as device-tree property.
+> 
+> I wonder why a hwprobe entry is needed even in this context. If vlenb
+> is not available, we can always use a vsetvli and read the destination
+> register to infer register length. Isn't that also true for Vector
+> 0.7, or are you considering anything else?
+
+Sure, reading vsetvli works for XTheadVector as well. The primary reason
+for the new hwprobe key is convenience. Vector 1.0 and XTheadVector have
+some differences that complicate that sort of autodetection. For instance,
+an older encoding for vsetvli. Good examples are vstate save and restore
+functions in `arch/riscv/include/asm/vector.h`. Using hwprobe seems more
+convenient than using vector-or-xtheadvector logic with custom opcods,
+especially since the kernel already has all the necessary information.
+
+> > Reading vlenb also initializes the application’s vector context, even
+> > though the application may decide not to use the vector extension based
+> > on the reported length.
 > >
-> > $ git log --oneline drivers/iommu/iommu.c
->
-> My bad, I will fix it.
->
+> > Meanwhile the kernel already determines vlenb at boot, either from the
+> > CSR or from the device tree. So add RISCV_HWPROBE_KEY_VECTOR_REG_LENGTH
+> > to expose the vector register length already known to the kernel.
 > >
-> > [...]
-> > > diff --git a/include/linux/iommu-debug-pagealloc.h b/include/linux/io=
-mmu-debug-pagealloc.h
-> > > index 83e64d70bf6c..454303ec09c2 100644
-> > > --- a/include/linux/iommu-debug-pagealloc.h
-> > > +++ b/include/linux/iommu-debug-pagealloc.h
-> > > @@ -8,10 +8,66 @@
-> > >   #ifndef __LINUX_IOMMU_DEBUG_PAGEALLOC_H
-> > >   #define __LINUX_IOMMU_DEBUG_PAGEALLOC_H
-> > > +struct iommu_domain;
-> > > +
-> > >   #ifdef CONFIG_IOMMU_DEBUG_PAGEALLOC
-> > > +DECLARE_STATIC_KEY_FALSE(iommu_debug_initialized);
-> > > +
-> > >   extern struct page_ext_operations page_iommu_debug_ops;
-> > > +void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys=
-,
-> > > +                  size_t size);
-> > > +void __iommu_debug_unmap_begin(struct iommu_domain *domain,
-> > > +                          unsigned long iova, size_t size);
-> > > +void __iommu_debug_unmap_end(struct iommu_domain *domain,
-> > > +                        unsigned long iova, size_t size, size_t unma=
-pped);
-> > > +
-> > > +static inline void iommu_debug_map(struct iommu_domain *domain,
-> > > +                              phys_addr_t phys, size_t size)
-> > > +{
-> > > +   if (static_branch_unlikely(&iommu_debug_initialized))
-> > > +           __iommu_debug_map(domain, phys, size);
-> > > +}
-> > > +
-> > > +static inline void iommu_debug_unmap_begin(struct iommu_domain *doma=
-in,
-> > > +                                      unsigned long iova, size_t siz=
-e)
-> > > +{
-> > > +   if (static_branch_unlikely(&iommu_debug_initialized))
-> > > +           __iommu_debug_unmap_begin(domain, iova, size);
-> > > +}
-> > > +
-> > > +static inline void iommu_debug_unmap_end(struct iommu_domain *domain=
-,
-> > > +                                    unsigned long iova, size_t size,
-> > > +                                    size_t unmapped)
-> > > +{
-> > > +   if (static_branch_unlikely(&iommu_debug_initialized))
-> > > +           __iommu_debug_unmap_end(domain, iova, size, unmapped);
-> > > +}
-> > > +
-> > > +void iommu_debug_init(void);
-> > > +
-> > > +#else
-> > > +static inline void iommu_debug_map(struct iommu_domain *domain,
-> > > +                              phys_addr_t phys, size_t size)
-> > > +{
-> > > +}
-> > > +
-> > > +static inline void iommu_debug_unmap_begin(struct iommu_domain *doma=
-in,
-> > > +                                      unsigned long iova, size_t siz=
-e)
-> > > +{
-> > > +}
-> > > +
-> > > +static inline void iommu_debug_unmap_end(struct iommu_domain *domain=
-,
-> > > +                                    unsigned long iova, size_t size,
-> > > +                                    size_t unmapped)
-> > > +{
-> > > +}
-> > > +
-> > > +static inline void iommu_debug_init(void)
-> > > +{
-> > > +}
-> >
-> > I suppose that all these should go to drivers/iommu/iommu-priv.h, as
-> > they are for use in other files inside the IOMMU subsystem.
->
-> It seemed better to have all the feature functions/declarations in one
-> isolated file, as it is included outside of the iommu susbsystem also.
-> I have no strong opinion, I can keep them in drivers/iommu/iommu-priv.h
-> if you think it's better. But then we will have to include also
-> "iommu-debug-pagealloc.h" for the static key to avoid including extra
-> files to linux/mm.h.
->
+> > Signed-off-by: Sergey Matyukevich <geomatsi@gmail.com>
+> > ---
+> >  Documentation/arch/riscv/hwprobe.rst  | 3 +++
+> >  arch/riscv/include/asm/hwprobe.h      | 2 +-
+> >  arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+> >  arch/riscv/kernel/sys_hwprobe.c       | 6 ++++++
+> >  4 files changed, 11 insertions(+), 1 deletion(-)
+
+[snip]...
+
 > Thanks,
-> Mostafa
->
+> Andy
 
-Hi Baolu,
-
-I plan to post a new version soon. So far, I only have the commit
-subject rewrites. Do you have any opinion on the header file split or
-the unmap size part?
-
-Thanks,
-Mostafa
-
-> >
-> > > +
-> > >   #endif /* CONFIG_IOMMU_DEBUG_PAGEALLOC */
-> > >   #endif /* __LINUX_IOMMU_DEBUG_PAGEALLOC_H */
-> >
-> > Thanks,
-> > baolu
+Regards,
+Sergey
