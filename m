@@ -1,206 +1,147 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212B4238D5A
-	for <linux-doc@vger.kernel.org>; Mon,  8 Dec 2025 22:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E664231A32
+	for <linux-doc@vger.kernel.org>; Mon,  8 Dec 2025 22:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765233483; cv=none; b=F1FcNcuFF24Jl2sqieG5CaRb8Ca1MkX/WnV7DnjPWMTfDiekrBRa9lUqujbUlL47PGzt2lif9Rg+RWXFYTkMcVB/phJND860OGymRlCWR9HQgjLFvzrh41tO8ALza+EMOihz7zENtorG26PyiNwgYvwOPkPw0ydIiKLc6YYByL4=
+	t=1765234158; cv=none; b=o5oPWTdU7JnYbHlNSSrHgD49u94GylAxeV3iWlA8tpAwRQbU7a3OJr9XDqIQcNj8rQhuxmjP9BYCRMcD/wSXJ+FK94zS32E6493HlRSIUFKf16Bz3yd5HQ5GBXkbMN4dZPTd34JjSkBp+JtrEKRRglgaM0nIZsrvQwl5eaPe+X4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765233483; c=relaxed/simple;
-	bh=psWVymBZRTxDCh275Fkyui9KH6GnViEgmmM5EnYsMlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R/xj2kDvxtXoq1wIPXLJSGKCg0YhofJ+gjUrC7RhOnTL6yL+JT20pCDvDuubtbtMEXBYJjulLpPvypBsLGr//JZS6vwBnB0okHWu7kzY3d8TBU5MQH3NkCFnuk4onIredwlQRoif89z4YJDa+5CRzdr+O6UiCATj+AKw7UzR28s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jxlpkwki; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765234158; c=relaxed/simple;
+	bh=RuG+hqFKqvdPB8GRWvH6QWB2lc3R18bCQJRZoRfcUnQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=CDFiTig6gV5vA5I6eW67SorW37+DnAMBSraxj/nfCLgm6uJtsz4ozyg5jmlUxYJ7uXt2Sjt6xzxIujlrfXAIoNQV63Wns0zd8FPvM/l0I5ObV/bu8pdsU3Fc5OHB9HpkB09HnHk++vlI5Jo22HMpgBXoNE/7GrWnDJU4InZLAno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mF1ASN28; arc=none smtp.client-ip=209.85.214.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jxlpkwki"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7aad4823079so4451493b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Dec 2025 14:38:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mF1ASN28"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-29d7b9e7150so40975135ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 08 Dec 2025 14:49:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765233481; x=1765838281; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h4/ehmIIwjMD9KdHcf2XxY+ixLWZ9pwMrN4qmwrkw/8=;
-        b=Jxlpkwkizd/z4ymVko3YVZl8jU1Lfu7+CuxpH2kGG4g82CtB1hWekosiqvCFr3+Vlb
-         YqnmjUo2mo9c2RRZMzwqcaRNpTgGWpn6Nl6c48nMB8sm3q69osJpn6BmfUgsEswBnqBP
-         j0PWeIInWj5iZ4Q4yLAYOrsPFLI0ymsiFkYhl1Q6i1bvPaakeY0BenRUg8PYqECj6prN
-         fIshrwZs5bmfWqjry7SxOFGHUE4WCbcn2MS6lDzOBRksR38NzXUtFNPgkC64g4lhIJwe
-         jCBfpo2uJ9Lxc/KQQTg+A4AWO9LU1x5Ucdz4fDdokYwD6LMNDAHRm5HY4ky8ZjV4WZ1A
-         0Urw==
+        d=google.com; s=20230601; t=1765234155; x=1765838955; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RQtNhp91RwMmmDtOT/Iz2jw2/TI3xMlSl3Ff8p3Yeh4=;
+        b=mF1ASN28NnMgVOmlzhk9LfH5tGWYEMaFl1nnB3JZrv1Uskx3UOHdz0vUOs/lu2VA4n
+         +GUigcZiGF6ZZrtNaxykjwGvCYjGH6m1N4HwD/c8I7fXSMiCDLbpj8ZxGIQC1YAKU6HO
+         /BH2m5HkOIDQaE1lQajku9274Q1UiK4x5D8aeG7yykcUeVY/Nnwwyc1GUrhCZ2SYZEfm
+         Kyyf9rkNe+nozaCjnUBFWLif+MwYXZi4NCXpqt+Lb1KkoVYP7jnFnUIvkYiMUtZsE3CR
+         xwPjrYK5oVrd8vQVdtXIg/Zp5aTyFL+e0hno7U4O0Es02Aheh55dJOv+nxwO7MXH5/io
+         Fnyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765233481; x=1765838281;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h4/ehmIIwjMD9KdHcf2XxY+ixLWZ9pwMrN4qmwrkw/8=;
-        b=FiFnnHOS7WDwmF6/rroV4qADLeC4utO/8fhhbHS/6O3JTf4WvUDuDez2P6Kcqpujng
-         vuwYBDIPsyp6awgDeuliNtbhhPPs5XLUgYgVuaAc/Faj4aBzKbKPou7Ob7EdlncANP3e
-         wysDgLqdW803y9Xs8EbGr/kZblQLZEx8KOHmSaSQA5Q4JERY1esL03bjU7uHMm2O6OHk
-         kR8oS/CKnTYrqiAQ+YQG3cy66mKGNRtQmjm7iYIDp8cRJ+xgOpbTGHAwkVys2HFKdUJp
-         Q6WWcWojyx/Kdlp07z+3uB3b7csg++vlXAmL/T6+T8i/VdbU2kdjAKl9UKAPOi4aD7TL
-         Od8A==
-X-Forwarded-Encrypted: i=1; AJvYcCWkUbY2Vk0Fq+zXxQnZu6dQUMvxC7DgWTM8OZxM/2bjGbLgP3C+g+YUmgn/JUP9wy1ZJN4v1B8SCZk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6xbfC4GkT/avNYSafl8e4vLeTIuSSrTFFFKtEIMNSBHXFAe3a
-	PTNjpNyRxyUnd8pGOSV6iKFbZN0hoe5yI9zrM3DT+jTx/nX34bUXoDJh
-X-Gm-Gg: ASbGncvCRnB8D980ImsZAILP7W5ntJjq0TgRxzGyv4K4AOlq1fkvoXHUeFAiWGrDDYh
-	LAsCC0Pdsl96+bWHffJ2BAJATzbddEGw6lGUJMynou1cxdLfPlvxTCCA0UNDroybJ1ex0F6tYNG
-	tUc5ZSkW0e9NLS3zewo3VLlDZ0bZZ3v506BHpHB7cbJT7ZRDGkJt9UDTITCasDCWT8mVkZb4juT
-	jN+1pRcVWqYQtEAbzIM5t7HnrKwLrl1nDDxewGIToK3EjkmoSPbscJXcL+3QYhr4KNhbRiaZAmH
-	sEzR9PhkAk46ohH11VtoudDzYeu3ODe4rWUFMmp6f2T1MsP1cbGNQ9+ZKqesdqNwG0dS9qPkvuy
-	5NgL6MI238P80Ts+qHrIeLa86Y55HryLINJapMXDALx1Eb/pjrkXQGHMmQoEcng0jhqPMmssaNv
-	pOGZQy31Gw/0Q=
-X-Google-Smtp-Source: AGHT+IFuLFEVaBKjtteXCwWewOH/+gRPw45xPON9LRTRHYiCY+rJaUu96pc87bDjs8RB3JH1IDPiZQ==
-X-Received: by 2002:a05:6a00:2d90:b0:7e8:4471:8ca with SMTP id d2e1a72fcca58-7e8c6dac0c1mr7598231b3a.43.1765233481322;
-        Mon, 08 Dec 2025 14:38:01 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7e2a062ac40sm13934722b3a.25.2025.12.08.14.37.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Dec 2025 14:38:00 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 57CC4421DA23; Tue, 09 Dec 2025 05:37:58 +0700 (WIB)
-Date: Tue, 9 Dec 2025 05:37:57 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	"open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <linux-kernel@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Cc: skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-Subject: Re: [PATCH] Documentation: x86/boot: Fix malformed table in boot.rst
-Message-ID: <aTdTRY_7TtGqWvQx@archie.me>
-References: <20251208210113.24057-1-swarajgaikwad1925@gmail.com>
+        d=1e100.net; s=20230601; t=1765234155; x=1765838955;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RQtNhp91RwMmmDtOT/Iz2jw2/TI3xMlSl3Ff8p3Yeh4=;
+        b=UDUs0FgHZCGV1RayKt7ylftpeIfI0gXCxXl/g0143UhKJdCtVb9gMJ8VNwyY9L7R/5
+         27xbO4meuqhtnL8X32uuIagurs/agACou5QnEoNnW6yX/w+gMdxyxJpgSqe95WblJQLM
+         PeA45CRUf+bK0YVFxTsgxOv1fWN41BAGteG2iy4EpA1edNQS+NAVZ+spdFRBL6niawx4
+         DzylqQu2dYzYu265j35R/KnABONpa7r9VAicFd+592iflYclKeirdkhoa/V0Q6sG1jDP
+         B2uFERdhYuizG+d74OpwUzD3Jnimfs2Jj5B6P9j3+kuelkZj2DPra1u6YdtPGa/sRhVL
+         DXkw==
+X-Forwarded-Encrypted: i=1; AJvYcCVMdLAVcJrQO8UsAGKIl6agp/OOyro74uC51C8iRl0wluDZfqzWfbXezA3Vxg9afqvfL0BOmYJP894=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmsTTmOhIFtw3XG97JrAQ7XJVEGTCQOszE0zDHtVBY1dSXAr1a
+	fK40SZO/Oo4Y2eiHAwsFCvtD2iBO2lBIQ0KK+ts1KPmu3pzKB4z7fZmsDvU9wP+8OJ1BHjZdHRI
+	3BIh4nA==
+X-Google-Smtp-Source: AGHT+IGV//7skv54QJLySBQbcFRbAbxGPOTct1X0PIO4Gnw4f9XxHcSKjMzEc+bVcrJZMyBaZbfJYke7ZAw=
+X-Received: from pjbsu8.prod.google.com ([2002:a17:90b:5348:b0:343:5c2:dd74])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3fc4:b0:330:bca5:13d9
+ with SMTP id 98e67ed59e1d1-349a2636261mr7005185a91.32.1765234155348; Mon, 08
+ Dec 2025 14:49:15 -0800 (PST)
+Date: Mon, 8 Dec 2025 14:49:13 -0800
+In-Reply-To: <20251026201911.505204-22-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Cdx538Ru7srwppVz"
-Content-Disposition: inline
-In-Reply-To: <20251208210113.24057-1-swarajgaikwad1925@gmail.com>
+Mime-Version: 1.0
+References: <20251026201911.505204-1-xin@zytor.com> <20251026201911.505204-22-xin@zytor.com>
+Message-ID: <aTdV6bX14SGz_JWZ@google.com>
+Subject: Re: [PATCH v9 21/22] KVM: nVMX: Guard SHADOW_FIELD_R[OW] macros with
+ VMX feature checks
+From: Sean Christopherson <seanjc@google.com>
+To: "Xin Li (Intel)" <xin@zytor.com>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
+	peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com, 
+	hch@infradead.org, sohil.mehta@intel.com, Yosry Ahmed <yosry.ahmed@linux.dev>
+Content-Type: text/plain; charset="us-ascii"
 
++Yosry
 
---Cdx538Ru7srwppVz
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, Oct 26, 2025, Xin Li (Intel) wrote:
+> From: Xin Li <xin3.li@intel.com>
+> 
+> Add VMX feature checks to the SHADOW_FIELD_R[OW] macros to prevent access
+> to VMCS fields that may be unsupported on some CPUs.
+> 
+> Functions like copy_shadow_to_vmcs12() and copy_vmcs12_to_shadow() access
+> VMCS fields that may not exist on certain hardware, such as
+> INJECTED_EVENT_DATA.  To avoid VMREAD/VMWRITE warnings, skip syncing fields
+> tied to unsupported VMX features.
+> 
+> Signed-off-by: Xin Li <xin3.li@intel.com>
+> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+> Tested-by: Shan Kang <shan.kang@intel.com>
+> Tested-by: Xuelian Guo <xuelian.guo@intel.com>
+> ---
+> 
+> Change in v5:
+> * Add TB from Xuelian Guo.
+> 
+> Change since v2:
+> * Add __SHADOW_FIELD_R[OW] for better readability or maintability (Sean).
 
-On Mon, Dec 08, 2025 at 09:01:12PM +0000, Swaraj Gaikwad wrote:
-> Building the documentation with make htmldocs previously failed with the
-> following error, causing the "Assigned boot loader IDs" table to not
-> render at all in the HTML output:
->=20
->   Documentation/arch/x86/boot.rst:437: ERROR: Malformed table.
->   Text in column margin in table line 2.
->=20
-> This occurred because the ReStructuredText (RST) simple table header
-> defined the first column width as 2 characters (=3D=3D), which is too nar=
-row
-> for data entries like 0x10 and 0x13. This dimensional mismatch caused
-> the text to spill into the margin, triggering a docutils parsing
-> failure.
-> This patch fixes the issue by expanding the column width in the table
-> header to 4 characters (=3D=3D=3D=3D) to correctly accommodate the widest
-> entries and alignment. After applying this patch, the documentation builds
-> successfully and the "Assigned boot loader IDs" table now displays
-> correctly in the generated HTML.
+Coming back to this with fresh eyes, handling fields that conditionally exist
+_only_ for VMCS shadowing is somewhat ridiculous.  For PML and the VMX preemption
+timer, the special case handling makes sense because the fields are emulated by
+KVM irrespective of hardware suport.  But for fields that KVM doesn't emulate in
+software, e.g. GUEST_INTR_STATUS and the FRED fields, allowing accesses through
+emulated VMREAD/VMWRITE and then filtering out VMCS shadowing accesses is just us
+being stubborn.
 
-I'd like to instead write the patch description as (more concise):
+I still 100% think that not restricting based on the virtual CPU model defined by
+userspace is the way to go[*], because that'd require an absurd amount of effort,
+complexity, and memory to solve a problem no one actually cares about.  But
+updating KVM's array of vmcs12 fields once during kvm-intel.ko load isn't difficult,
+and would make KVM suck a little less when running on old hardware.
 
-```
-Sphinx reports htmldocs warnings:
+E.g. running the test_vmwrite_vmread KUT subtest on CPUs without TSC scaling still
+fails with the wonderful:
 
-  Documentation/arch/x86/boot.rst:437: ERROR: Malformed table.
-  Text in column margin in table line 2.
+  FAIL: VMX_VMCS_ENUM.MAX_INDEX expected: 19, actual: 17
 
-Fix it by extending the first column of assigned boot loader ID to fit
-the widest entries, which are 0x10 to 0x13.
-```
+due to QEMU (sanely) setting the max index to 17 (VMX preemption timer) when the
+virtual CPU model doesn't support TSC scaling.
 
->    Assigned boot loader IDs:
->=20
-> -	=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -	0x0  LILO
-> -	     (0x00 reserved for pre-2.00 bootloader)
-> -	0x1  Loadlin
-> -	0x2  bootsect-loader
-> -	     (0x20, all other values reserved)
-> -	0x3  Syslinux
-> -	0x4  Etherboot/gPXE/iPXE
-> -	0x5  ELILO
-> -	0x7  GRUB
-> -	0x8  U-Boot
-> -	0x9  Xen
-> -	0xA  Gujin
-> -	0xB  Qemu
-> -	0xC  Arcturus Networks uCbootloader
-> -	0xD  kexec-tools
-> -	0xE  Extended (see ext_loader_type)
-> -	0xF  Special (0xFF =3D undefined)
-> -	0x10 Reserved
-> -	0x11 Minimal Linux Bootloader
-> -	     <http://sebastian-plotz.blogspot.de>
-> -	0x12 OVMF UEFI virtualization stack
-> -	0x13 barebox
-> -	=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +0x0  LILO
-> +      (0x00 reserved for pre-2.00 bootloader)
-> +0x1  Loadlin
-> +0x2  bootsect-loader
-> +      (0x20, all other values reserved)
-> +0x3  Syslinux
-> +0x4  Etherboot/gPXE/iPXE
-> +0x5  ELILO
-> +0x7  GRUB
-> +0x8  U-Boot
-> +0x9  Xen
-> +0xA  Gujin
-> +0xB  Qemu
-> +0xC  Arcturus Networks uCbootloader
-> +0xD  kexec-tools
-> +0xE  Extended (see ext_loader_type)
-> +0xF  Special (0xFF =3D undefined)
-> +0x10 Reserved
-> +0x11 Minimal Linux Bootloader
-> +      <http://sebastian-plotz.blogspot.de>
-> +0x12 OVMF UEFI virtualization stack
-> +0x13 barebox
-> +=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
+And looking forward, we're going to have the same mess with FRED due QEMU (again,
+sanely) basing its 
 
-Aside from Randy's comment on the trailing spaces chunk, the patch LGTM.
+    if (f[FEAT_7_1_EAX] & CPUID_7_1_EAX_FRED) {
+        /* FRED injected-event data (0x2052).  */
+        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x52);
+    } else if (f[FEAT_VMX_EXIT_CTLS] &
+               VMX_VM_EXIT_ACTIVATE_SECONDARY_CONTROLS) {
+        /* Secondary VM-exit controls (0x2044).  */
+        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x44);
+    } else if (f[FEAT_VMX_SECONDARY_CTLS] & VMX_SECONDARY_EXEC_TSC_SCALING) {
+        /* TSC multiplier (0x2032).  */
+        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x32);
+    } else {
+        /* Preemption timer (0x482E).  */
+        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x2E);
+    }
 
-Fixes: 1c3377bee212 ("x86/boot/Documentation: Prefix hexadecimal literals w=
-ith 0x")
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+KVM will still have virtualization holes, e.g. if userspace hides TSC scaling when
+running on hardware+KVM that supports TSC scaling, but as above I don't think that's
+a problem worth solving.
 
-x86 maintainers: please route this patch through x86/urgent branch.
+I'll post a patch (just need to test on bare metal) to sanitize vmcs12 fields,
+at which point FRED nVMX support shouldn't have to do anything special beyond
+noting the depending, i.e. it should only take a few lines of code.
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---Cdx538Ru7srwppVz
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaTdTQQAKCRD2uYlJVVFO
-oxaeAP4xpDb6vNMVKDzzINY48mg9jEZVy2+v7OdYcZFcaS466gD+NTmA7mRFEVkx
-yNzinl+WRI41l4j6RYWMWfakVgfGnAE=
-=CNxQ
------END PGP SIGNATURE-----
-
---Cdx538Ru7srwppVz--
+[*] https://lore.kernel.org/all/YR2Tf9WPNEzrE7Xg@google.com
