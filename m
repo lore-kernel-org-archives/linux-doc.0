@@ -1,75 +1,149 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mail-m49223.qiye.163.com (mail-m49223.qiye.163.com [45.254.49.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0088B2C21C0;
-	Mon,  8 Dec 2025 09:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31322DF13B;
+	Mon,  8 Dec 2025 09:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765185728; cv=none; b=A2X8UwnBnUwqbCKe8kpE2fYhPsTckJlEiNqRfMOVwT+w82U+N8fw2RJiTTuPm35miNzz2YlYT+B6woSgQcwrejPgvySJ52+C3Nr++x0X3MSNIxcQ1JRA3OoPqWGoHugMWa2ZghrtltGVXpDkXyyIWvYYv9BP/20qmHaS7TfiMJU=
+	t=1765185956; cv=none; b=bj7rlVBUTBbCaEA1/cUeX0h0KM2lb3ufunn2HbX34B0krPNGf14QSLOwahiCcphsOYZrvjhBWd9HxPlncTglwp9+l+bdvS1mjGcB/p2jl9rCLNViGgw0qtYf/wl4koFS46CLjAKf5VN+Pnzcga6MnpGbLYiVrDSaTWFK1aEGPYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765185728; c=relaxed/simple;
-	bh=1y+h/RRhbiOiejemkWoAfy9ANDy/n/eMEI/mQUh9wpo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h4+Zc4SoWLykE6M2w4+Heav2STnMND74FeEdYeGfLUXqeObltstLkP5ZXy+aXKLaY0mHroiMB+EEDsmAHqG57fY9DzkAu6BJSSIXHpXxRb0UFAfdh0nZcw+JQrBF9C0Ao0FQ5cOn63EaQdW+2YcQhfiqj19HdX/Lq48CBoZvkas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qjN1SahT; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1765185956; c=relaxed/simple;
+	bh=lLSf55e3RFiWxq1g4uZKvyZCgHbiq3IoDG5B7oom3FE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=od61vXAUI4UAYYW86YBeIzxkmhvzJ6f7VShX3xrYJOnuqm112JMfjMYKQZDs16i9TnAUctSC/Au+P/p2OYh9Pj4rkQ0g8t/+f6agqNAlKqTjtekUrpwH6TTJ5dVOXWIM5p7SBLLBzehPEc05XsMr0u3SesQOSwiJUtKc9xqwXFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=b7BRsnMl; arc=none smtp.client-ip=45.254.49.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qjN1SahT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0dcNIAJdjwBa1TCUp38vaur9HiS4AJA/cGpCIXdnO5E=; b=qjN1SahTYyloXwm8SJrCrf184I
-	w9otFRfJIiodnl9/tkfHtO4amgYDh3/l7ydG9N8jUIaIEFReEkPhEbGPBfzJLPA1P3VjD/0InX4Hp
-	ZukfS//KM0ELhf/LrFMpObb6pJjVA3uE9LeBBfzwgb3as7+Tf5XIm+SLGDGJdPNlYBoGwNAUh2Vl0
-	yvWlMG7GDDSC/pSw3Ncwubutwjued2F6uMyWlmhsRFsm3ar3Guo1WoZZ4xEXtzCpO9U5YE+u8dRtJ
-	H364kKN9S6hwEv7NLtxWfLATsWg3e8U3nKECruHTRbtkxYWRzFlz11xTbvp7HTGrZx3QxcduZbuhn
-	j4tYR28A==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vSXRO-00000009aFr-4Bvx;
-	Mon, 08 Dec 2025 09:21:59 +0000
-Date: Mon, 8 Dec 2025 09:21:58 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Peter Xu <peterx@redhat.com>
-Cc: kvm@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Jason Gunthorpe <jgg@nvidia.com>, Nico Pache <npache@redhat.com>,
-	Zi Yan <ziy@nvidia.com>, Alex Mastro <amastro@fb.com>,
-	David Hildenbrand <david@redhat.com>,
-	Alex Williamson <alex@shazbot.org>, Zhi Wang <zhiw@nvidia.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Yi Liu <yi.l.liu@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="b7BRsnMl"
+Received: from server001 (unknown [222.130.22.244])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2c6535239;
+	Mon, 8 Dec 2025 17:25:42 +0800 (GMT+08:00)
+From: Kefan Bai <baikefan@leap-io-kernel.com>
+To: linux-usb@vger.kernel.org,
+	si.yanteng@linux.dev
+Cc: seakeel@gmail.com,
+	alexs@kernel.org,
+	dzm91@hust.edu.cn,
+	corbet@lwn.net,
 	linux-doc@vger.kernel.org,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@kernel.org>
-Subject: Re: [PATCH v2 2/4] mm: Add file_operations.get_mapping_order()
-Message-ID: <aTaYtlTdhxKx2R24@casper.infradead.org>
-References: <20251204151003.171039-1-peterx@redhat.com>
- <20251204151003.171039-3-peterx@redhat.com>
- <aTGmkHsRSsnneW0G@x1.local>
+	doubled@leap-io-kernel.com
+Subject: [PATCH v5 1/8] docs/zh_CN: Add index.rst translation
+Date: Mon,  8 Dec 2025 17:25:31 +0800
+Message-ID: <874e4d8b28638ff36d0cd9fb76962c23b41cff96.1765180570.git.baikefan@leap-io-kernel.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1765180570.git.baikefan@leap-io-kernel.com>
+References: <cover.1765180570.git.baikefan@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aTGmkHsRSsnneW0G@x1.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9afd47f5ae09d5kunm314b94712b4e642
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDHU0aVk5KSElNQkNDTB1JGFYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktJQkNDTFVKS0
+	tVS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=b7BRsnMlttV6w6JVTEoZXfEkbOZDKjqYuTmu5U4V92yPhWF9n9+Gad78vPdK1iMnyL13+wLw95waFtTvYh5CwBwfhEEC9hVz5Nw9SL5rCdvdqx/3tjE2QP2z7Vq53MtjHncW7gRxF5iSJVaRQrB6wDynqZHAKXAc2VcHgJw+MgsaQo/t4519f5ljIZ9NrvyB3TdejKrSJSa3OFBieHCk8s2Z43KSLDFJZaITVekn88fY1fnd0sW9Ca8lBnJIJYjoZJavmL3bEToQpHZ1rvtG3x9GTB8r+rRvGbW+irfF+70akdLuyve6WS4CMWDO+GnYFlQkHDucWX8wx7Di6wixuw==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=DDe7z/YAAzUTVe1KboOcG+TaksfTjvLPnWI4UE+ujFY=;
+	h=date:mime-version:subject:message-id:from;
 
-On Thu, Dec 04, 2025 at 10:19:44AM -0500, Peter Xu wrote:
-> > Add one new file operation, get_mapping_order().  It can be used by file
-> > backends to report mapping order hints.
+Translate .../usb/index.rst into Chinese and update subsystem-apis.rst
 
-This seems like a terrible idea.  I'll look at it after Plumbers.
+Update the translation through commit c26cee817f8b
+("usb: gadget: f_fs: add capability for dfu functional descriptor")
+
+Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
+---
+ .../translations/zh_CN/subsystem-apis.rst     |  2 +-
+ .../translations/zh_CN/usb/index.rst          | 54 +++++++++++++++++++
+ 2 files changed, 55 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/usb/index.rst
+
+diff --git a/Documentation/translations/zh_CN/subsystem-apis.rst b/Documentation/translations/zh_CN/subsystem-apis.rst
+index 830217140fb6..b52e1feb0167 100644
+--- a/Documentation/translations/zh_CN/subsystem-apis.rst
++++ b/Documentation/translations/zh_CN/subsystem-apis.rst
+@@ -90,6 +90,7 @@ TODOList:
+    security/index
+    PCI/index
+    peci/index
++   usb/index
+
+ TODOList:
+
+@@ -104,6 +105,5 @@ TODOList:
+ * accel/index
+ * crypto/index
+ * bpf/index
+-* usb/index
+ * misc-devices/index
+ * wmi/index
+diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
+new file mode 100644
+index 000000000000..a75062cae766
+--- /dev/null
++++ b/Documentation/translations/zh_CN/usb/index.rst
+@@ -0,0 +1,54 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/usb/index.rst
++:翻译:
++
++ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
++
++:校译:
++
++
++
++===========
++USB 支持
++===========
++
++.. toctree::
++    :maxdepth: 1
++
++
++Todolist:
++
++*   acm
++*   authorization
++*   chipidea
++*   dwc3
++*   ehci
++*   usbmon
++*   functionfs
++*   functionfs-desc
++*   gadget_configfs
++*   gadget_hid
++*   gadget_multi
++*   gadget_printer
++*   gadget_serial
++*   gadget_uvc
++*   gadget-testing
++*   iuu_phoenix
++*   mass-storage
++*   misc_usbsevseg
++*   mtouchusb
++*   ohci
++*   raw-gadget
++*   usbip_protocol
++*   usb-serial
++*   usb-help
++*   text_files
++
++.. only::  subproject and html
++
++   索引
++   =======
++
++   * :ref:`genindex`
+--
+2.52.0
+
