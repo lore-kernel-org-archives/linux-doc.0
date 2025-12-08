@@ -1,174 +1,91 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD178221299;
-	Mon,  8 Dec 2025 18:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA10265CA6
+	for <linux-doc@vger.kernel.org>; Mon,  8 Dec 2025 19:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765217508; cv=none; b=HtGwX95/BTiJlb4DrJSSruBI6l+JWPx2hiSLhU8orYMwTQvtgrm8iMIRiUskdEfbKIxNP/zazowjaXC4XRYDLZrj0ARVyXMHUv90glLIcI6o52dobDhc2QLohNr72yyaLC5lie7BxPaTvNWTNCskzA/9u0MKhDZAFHoN3y04dK4=
+	t=1765223208; cv=none; b=spCnfRwcj6MOwRgkAilpMA3umjncAMlTOmJOTQxcIgz2lKja5zwiDztNr0bLNmvkstozMeJbBnHnp8pi5YCCRBQyFNsxJRbCJLjKl+sVZ3+OD1rQdXDJ5zgus0+pRUV23ZUDUomNQKUBe3kWnnKpVYsIzv2MsN/qhWRyPswpSr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765217508; c=relaxed/simple;
-	bh=eemVUFIqPhxEdI15d8t4tOPqfcYkuP/uR8QRwXi9jHw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e2jlcfJmZwbdqiPsY0Tf5EZ6+rIum8MF5DBu4maaz4b5fNR0nEH3WfgJDV6EWx8K/5oOohV4qb4MmUsUCZ2/w8XTyn7DMbc2wLakWpeOCvBVtiXAD7XNWeKeYBsMXMXndhZqTlgjTFaCKCE70nMzmeD7hB/SxqreTraDdIDSFQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QMYAbUOU; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1765223208; c=relaxed/simple;
+	bh=RPoGr+9A2+rIHx20KA2TejeY0k3/2wXD4q7kC+Bh9gw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Liwg7U34f8l5/kQuxKUbaSNbJRijK7SV1Fm56USKrjSgcqS+utdObqkxuGEvBu6cYQ7UqqMeTVNBxg9xD6z9sNAsMyfm3kUrtEu/ro7tPjz2R106GsX3lTdiQ9/mzVBv6pOwTPbNg0sWg/FiGkZ9gZ5IPArcrRMBVGeVc1dOwr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AwcUZZXw; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QMYAbUOU"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=1EV3YRoqvINn/Yg2XmShnLY6ODzLYeAG26MJkWFF6dw=; b=QMYAbUOU0ED2Ku03jCM0qkXhxM
-	JKev2OVv/Mf72hRrtFu3kLA7IazIzao6OcKmuDzdsTwCXSHsXzLNGH0ZYuZ5KhSu8F7Ks6WunZkRe
-	UvxDMqznUgxE3YeBQgvHPaqdpyzW8X5aZyseLRAO6ONf4+RtkNlNuZiUhXsKUTLySblkEx1O1m0CD
-	PC+Yp5y2e+L5WO2AwdIrY0HM4w9Td7k2wJvyyZEko+ydQZijxH/p14a5aBf5Dr1lqTfxDL8+FSLSX
-	E5plVvXecFIBld5hwaqk0uWyHMUXTcrOU0DbzIBKTdFaXopIAo4raIqM60Rf9H3o+tmJyVh5TnbJx
-	g8vSKQJg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vSfht-0000000DQBe-0cX3;
-	Mon, 08 Dec 2025 18:11:33 +0000
-Message-ID: <9f8909c8-e91c-47b8-9782-0bec25f12803@infradead.org>
-Date: Mon, 8 Dec 2025 10:11:31 -0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AwcUZZXw"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-297fbfb4e53so84311375ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Dec 2025 11:46:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765223207; x=1765828007; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=piKmnceqcwJ5cuCuZyIK6mal5oPKlxWLME64d5q7Y24=;
+        b=AwcUZZXwvCfVZY5C2zTMPclFy64rft17Yd/66c8Zm64bPqphIBku0pKkx9QAKN0m4M
+         eiMowoNEls9n6kgUR3QldXGN81zkIOlDNDEnyMVUONHBWIhUJ0+UPLWtqbGlUXOZKuU7
+         iniPZ9+7SSm2oPvUugdOoQ+CxQhQVyOQuydpdmXo4be3FYKLrpR9dPbXmhiDLb19v2VT
+         r8F/tpJy3mUxk+puTgwlIMXruSLy8VNXZSpwmpK55CrjN7XAkzkDvSQl8wk7VXQsEIdX
+         Ux9sw0ZFjnxZBLAgEltjeaz5IHZ+Gl51W4JF09bHru2Iat0QvKi1Lg2dP/yrGP9QQjcl
+         RPFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765223207; x=1765828007;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=piKmnceqcwJ5cuCuZyIK6mal5oPKlxWLME64d5q7Y24=;
+        b=DFVG4hfMCRfho/2Expyy9MnGnGI/RbN2Lpzejld819E74JRNMjLMCrHcAMfU9NfBDE
+         zLxEK5onMVsAsGAOPDV2VTDCsaCFWjZfZLNg+4WMci+4dtzC5mIDIfCLd6FjmtsoqeHi
+         YFAqOLrbUcTP4tyIh3FFoaP4Pm39TPcBf4uPmHOQvNIvxOf/VrOu/VqQH+P1BjEgS7Rf
+         ME66HXPjoShbwPIA0fJF399myQSe6r0upgKZj/6PnJ2LJOkk5jS7l9Bt1KlxQuyn4zWD
+         LOPoJbMaJefTjbfwd++N1eY9E0a436YiM8zKRNAIXu8Vtg/0WS/iravIedNDuDRSwYHz
+         72iQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXrjvtgNE0e3CCk8cFFq0sl/YCv8XuQKQ3bNrgZJ1cArhv5/OZ1YyBcyilxtx65Tdc/OP/Y9ubgJ6c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzluyBPLIk9UCNeWfvggnxcs7WxrLCzzFtSRyOPfDffMfbJS3+P
+	o+dJYHppqviMsJoXFuqXC2RhxGtN1orHQAYlyZjQm9ImVJJ2vPzP8DuKXs09Y86IhVpjcuhRwBU
+	ySPqplCpPCaQCRQ==
+X-Google-Smtp-Source: AGHT+IEIQ30RmzfMkpZyM0NW19xbotm6YoUdQOw/EYfL4U9SGRYQYw7BI+NT9KkRbTFuZId3wWWSXqnJ5z82HQ==
+X-Received: from dlj33.prod.google.com ([2002:a05:7022:521:b0:11a:1004:5049])
+ (user=wusamuel job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7022:2225:b0:119:e56b:98b8 with SMTP id a92af1059eb24-11e032a9d66mr7280652c88.31.1765223206618;
+ Mon, 08 Dec 2025 11:46:46 -0800 (PST)
+Date: Mon,  8 Dec 2025 11:46:19 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: x86/boot: Fix malformed table in boot.rst
-To: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
- "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)"
- <linux-kernel@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Cc: skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-References: <20251208210113.24057-1-swarajgaikwad1925@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251208210113.24057-1-swarajgaikwad1925@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.223.gf5cc29aaa4-goog
+Message-ID: <20251208194619.1745453-1-wusamuel@google.com>
+Subject: [PATCH v1] Documentation/perf: Fix typo in dsu_pmu sysfs path
+From: Samuel Wu <wusamuel@google.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Samuel Wu <wusamuel@google.com>, kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Correct a typo in the documented sysfs path for the ARM DynamIQ Shared
+Unit (DSU) PMU. The `event_sources` directory name was singularized to
+`event_source` to match the name defined in `kernel/events/core.c`.
 
-On 12/8/25 1:01 PM, Swaraj Gaikwad wrote:
-> Building the documentation with make htmldocs previously failed with the
-> following error, causing the "Assigned boot loader IDs" table to not
-> render at all in the HTML output:
-> 
->   Documentation/arch/x86/boot.rst:437: ERROR: Malformed table.
->   Text in column margin in table line 2.
-> 
-> This occurred because the ReStructuredText (RST) simple table header
-> defined the first column width as 2 characters (==), which is too narrow
-> for data entries like 0x10 and 0x13. This dimensional mismatch caused
-> the text to spill into the margin, triggering a docutils parsing
-> failure.
-> This patch fixes the issue by expanding the column width in the table
-> header to 4 characters (====) to correctly accommodate the widest
-> entries and alignment. After applying this patch, the documentation builds
-> successfully and the "Assigned boot loader IDs" table now displays
-> correctly in the generated HTML.
-> 
-> Build environment: Python 3.13.7 Sphinx 8.2.3 docutils 0.22.3
-> 
-> Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+Signed-off-by: Samuel Wu <wusamuel@google.com>
+---
+ Documentation/admin-guide/perf/arm_dsu_pmu.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-The second chunk does not apply cleanly. It was apparently
-supposed to be deleting some trailing spaces, but somewhere
-those trailing spaces were dropped. And that's not described
-in the patch description, so I suggest that you or anyone who
-applies this patch just drop the second chunk.
-
-
-Thanks.
-
-> ---
->  Documentation/arch/x86/boot.rst | 50 ++++++++++++++++-----------------
->  1 file changed, 25 insertions(+), 25 deletions(-)
-> 
-> diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
-> index 6d36ce86fd8e..99b42e9d0e1c 100644
-> --- a/Documentation/arch/x86/boot.rst
-> +++ b/Documentation/arch/x86/boot.rst
-> @@ -433,30 +433,30 @@ Protocol:	2.00+
-> 
->    Assigned boot loader IDs:
-> 
-> -	== =======================================
-> -	0x0  LILO
-> -	     (0x00 reserved for pre-2.00 bootloader)
-> -	0x1  Loadlin
-> -	0x2  bootsect-loader
-> -	     (0x20, all other values reserved)
-> -	0x3  Syslinux
-> -	0x4  Etherboot/gPXE/iPXE
-> -	0x5  ELILO
-> -	0x7  GRUB
-> -	0x8  U-Boot
-> -	0x9  Xen
-> -	0xA  Gujin
-> -	0xB  Qemu
-> -	0xC  Arcturus Networks uCbootloader
-> -	0xD  kexec-tools
-> -	0xE  Extended (see ext_loader_type)
-> -	0xF  Special (0xFF = undefined)
-> -	0x10 Reserved
-> -	0x11 Minimal Linux Bootloader
-> -	     <http://sebastian-plotz.blogspot.de>
-> -	0x12 OVMF UEFI virtualization stack
-> -	0x13 barebox
-> -	== =======================================
-> +==== ==============================
-> +0x0  LILO
-> +      (0x00 reserved for pre-2.00 bootloader)
-> +0x1  Loadlin
-> +0x2  bootsect-loader
-> +      (0x20, all other values reserved)
-> +0x3  Syslinux
-> +0x4  Etherboot/gPXE/iPXE
-> +0x5  ELILO
-> +0x7  GRUB
-> +0x8  U-Boot
-> +0x9  Xen
-> +0xA  Gujin
-> +0xB  Qemu
-> +0xC  Arcturus Networks uCbootloader
-> +0xD  kexec-tools
-> +0xE  Extended (see ext_loader_type)
-> +0xF  Special (0xFF = undefined)
-> +0x10 Reserved
-> +0x11 Minimal Linux Bootloader
-> +      <http://sebastian-plotz.blogspot.de>
-> +0x12 OVMF UEFI virtualization stack
-> +0x13 barebox
-> +==== ==============================
-> 
->    Please contact <hpa@zytor.com> if you need a bootloader ID value assigned.
-> 
-> @@ -814,7 +814,7 @@ Protocol:	2.09+
->     	__u32 len;
->     	__u8 data[];
->     }
-> -
-> +
->    Where, the next is a 64-bit physical pointer to the next node of
->    linked list, the next field of the last node is 0; the type is used
->    to identify the contents of data; the len is the length of data
-> --
-> 2.52.0
-> 
-> 
-
+diff --git a/Documentation/admin-guide/perf/arm_dsu_pmu.rst b/Documentation/admin-guide/perf/arm_dsu_pmu.rst
+index 7fd34db75d13..ac43343d4882 100644
+--- a/Documentation/admin-guide/perf/arm_dsu_pmu.rst
++++ b/Documentation/admin-guide/perf/arm_dsu_pmu.rst
+@@ -16,7 +16,7 @@ registers. There is no way for the driver to determine if the other events
+ are available or not. Hence the driver exposes only those events advertised
+ by the DSU, in "events" directory under::
+ 
+-  /sys/bus/event_sources/devices/arm_dsu_<N>/
++  /sys/bus/event_source/devices/arm_dsu_<N>/
+ 
+ The user should refer to the TRM of the product to figure out the supported events
+ and use the raw event code for the unlisted events.
 -- 
-~Randy
+2.52.0.223.gf5cc29aaa4-goog
+
