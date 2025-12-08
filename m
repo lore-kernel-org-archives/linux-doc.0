@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855F53203A5;
-	Mon,  8 Dec 2025 06:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4610321F2A;
+	Mon,  8 Dec 2025 06:30:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765175428; cv=none; b=d8k+1NeS6smCWlX5YQi6a/OpYyEvRgadixl0ljUIE84bR1WqFq1NI6dWzImItvvbr03O2lfG2uInOFRMn/W+LmK16v/F2ygtAhkppbJBSeCxoE6x3BYTYIlJ/GLnZ/cOajru/2hL9AxJHsA2WzfJkYAUi11ByDEhW3eNWYy7mpI=
+	t=1765175437; cv=none; b=Z0dlq5M5OGqPrL57TYmvqd6kXFyTzOr7X63EbCuzuO3w1j0slGn/ZPqO9f9+Wt5i5ov3KXZ+ll3e+7esOfrWeGxSrDam0Pz9z/5jmqTZc+YNCJD9xwc8aUwXONtPMLdCU8Vu+84pvzuEVaCxmPgpCWOS2pwS+cJJzNNEvg3RNb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765175428; c=relaxed/simple;
-	bh=MflKOa3kMKRZ5nzC/NEJe7cCxqAo99+D2pDObNtur7k=;
+	s=arc-20240116; t=1765175437; c=relaxed/simple;
+	bh=WF46eHAg8BpA3rOP5vwAEQ9EqpTxFbiwB2Pt34pRHm0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nMbquzFb/t6pN2CurQq5g00P2qgrxjnuMojbMWsexMZJystAu9Cwvi2+91U02cww19TTbqcP4y+iCASE2dm48/6WwmAWpySkrsNIhEIkC6llzLtfDO6PV96nQxhOamiIVQMefpOfrs6dghJki3urmgrPNuLdA81fZ7yfrGsobXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q1Qe9zDT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=FyL5bb+FrgR9ZT+bw6viMPaKP6gZWbzuBmkhCZ2qTbpF7CN7huctAtPAYcJdWhg57g6p28WBA/bcaoYBuJbKCxI5HW5iy5+0OD8GQjnU/lZ9lmwxr0O9/aZnXvg+x9xmfKftSaYn7f0g0lkMxwe5FsumAI9GVQSbrhA0g/nKdvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jsk9EEcx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q1Qe9zDT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22CA8C4CEF1;
-	Mon,  8 Dec 2025 06:30:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jsk9EEcx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D995C116B1;
+	Mon,  8 Dec 2025 06:30:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765175428;
-	bh=MflKOa3kMKRZ5nzC/NEJe7cCxqAo99+D2pDObNtur7k=;
+	s=k20201202; t=1765175437;
+	bh=WF46eHAg8BpA3rOP5vwAEQ9EqpTxFbiwB2Pt34pRHm0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q1Qe9zDTQODkH0a6LlN0LLWPF56eQxGRzEzYfMFdQWUh7byIaHBuE4XMnoV9G6fhB
-	 +cME28lPAyXBwZhM6UAEy9chg2ADqQhP99ZJd8Sc6fRu+JXcwxMuTckTYvg5FLyWd+
-	 TKnJDcfq9YyYXiHBWQLV8OldynKIBRUgSw9K3qS4gqksQKLkrLaB33oxuKcZ/GCpAs
-	 NyAjkU5LejRDQlJvyIzJoIC/wp7yaH5ETycmwWyTKGm/z7W5BjBfyCg7kmNXxXEiqq
-	 UQYeR029RoU2S9MXdtbV4X+g7EMdij9R0ZRE5ILqnE4hykX7RTMMIcOTPRSTn973ny
-	 6UTvSMDPJgySQ==
+	b=Jsk9EEcx6sGR5L8QC3E5ZPFlTYVH7w3ajlnyRF2mk3nO70OXa5HGMeDiJOa8U7WKl
+	 pDeyuojSH9d/a7o02+VSAA1ssDTcxb5vDP/G+0kGZ4Imtc4uXqcHGkA2LCUn1RLXXK
+	 O+EQeptMA4tPgTn0TUp4I/IhVqa+WuFSiaDwYYMEqHVD/qiVSkmqteUAmsea+vTfPF
+	 XGVJYD79SAGRPkRl577nudDk15TT+WdhgNll1DtOmNCEjPbi6vgFE4uK1nxbYt8lPT
+	 UCrkhMX4EvzImtlCI202A8nCfdZnIJwUVfC6NGBwSEni/eBy1S52FZiOOkypPUEmxp
+	 QpbiymgYVVWVw==
 From: SeongJae Park <sj@kernel.org>
 To: 
 Cc: SeongJae Park <sj@kernel.org>,
@@ -42,9 +42,9 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [RFC PATCH v3 25/37] Docs/admin-guide/mm/damon/usage: document sample filters dir
-Date: Sun,  7 Dec 2025 22:29:29 -0800
-Message-ID: <20251208062943.68824-26-sj@kernel.org>
+Subject: [RFC PATCH v3 31/37] Docs/mm/damon/design: document threads type sample filter
+Date: Sun,  7 Dec 2025 22:29:35 -0800
+Message-ID: <20251208062943.68824-32-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251208062943.68824-1-sj@kernel.org>
 References: <20251208062943.68824-1-sj@kernel.org>
@@ -54,66 +54,38 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Update DAMON usage document for the added DAMON sysfs files for
-installing and setting the access sample results filtering.
+Update DAMON design document for threads type access sample results
+filtering.
 
 Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- Documentation/admin-guide/mm/damon/usage.rst | 25 +++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+ Documentation/mm/damon/design.rst | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 897a89950351..365a4548a5ba 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -66,6 +66,8 @@ comma (",").
-     │ │ │ │ │ │ intervals/sample_us,aggr_us,update_us
-     │ │ │ │ │ │ │ intervals_goal/access_bp,aggrs,min_sample_us,max_sample_us
-     │ │ │ │ │ │ sample/primitives/page_table,page_faults
-+    │ │ │ │ │ │ sample/filters/nr_filters
-+    │ │ │ │ │ │ │ 0/type,matching,allow,cpumask
-     │ │ │ │ │ │ nr_regions/min,max
-     │ │ │ │ │ :ref:`targets <sysfs_targets>`/nr_targets
-     │ │ │ │ │ │ :ref:`0 <sysfs_target>`/pid_target,obsolete_target
-@@ -233,7 +235,8 @@ writing to and rading from the files.
- For more details about the intervals and monitoring regions range, please refer
- to the Design document (:doc:`/mm/damon/design`).
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 9a4679de437f..4c6d83263a7b 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -148,7 +148,7 @@ the page protection in a way similar to that of NUMA balancing hinting faults.
+ Then the page fault handler reports the faults happend by the installed page
+ protection to DAMON core layer.  Compared to the accessed-bit based one, this
+ approach gives more information to DAMON, such as the access-generated
+-CPU.
++CPU/threads.
  
--Under ``sample`` directory, a directory, ``primitives`` exists.
-+Under ``sample`` directory, two directories, ``primitives`` and ``filters``
-+exist.
+ ``paddr`` uses :ref:`accessed-bit based check
+ <damon_design_pte_accessed_bit_access_check>` by default, and users can change
+@@ -314,6 +314,9 @@ Below ``type`` of access sampling results filter are currently supported.
+ - cpumask
+     - Whether the sampled access was generated by a cpu that included in a
+       given cpumask.
++- threads
++    - Whether the sampled access was generated by a thread that having a thread
++      (task) id that exist in a given array of ids.
  
- contexts/<N>/monitoring_attrs/sample/primitives/
- ------------------------------------------------
-@@ -245,6 +248,26 @@ to these files, users can select whether to use the :ref:`page table accessed
- bit <damon_design_pte_accessed_bit_access_check>` and :ref:`page fault events
- <damon_design_page_fault_access_check>`, respectively.
  
-+contexts/<N>/monitoring_attrs/sample/filters/
-+---------------------------------------------
-+
-+This directory is for control of the :ref:`access sampling results filters
-+<damon_design_sampling_results_filters>`.  At the beginning, this directory has
-+only one file, ``nr_filters``.  Writing a positive integer ``<n>`` to the file
-+generates directories of the number, named ``0`` to ``<n - 1>``.  The generated
-+directories represent the sampling result filters to install to the DAMON
-+context, in the order of the directory names.  Writing ``0`` to ``nr_filters``
-+removes the directories.
-+
-+Under the individual filter directory, five files, ``type``, ``matching``,
-+``allow``, and ``cpumask`` exist.  The first three files are same to the
-+properties of the filter specified on the :ref:`design doc
-+<damon_design_sampling_results_filters>`.
-+
-+Users can specify the cpumask of the filter by writing it to ``cpumask``.  The
-+format for ``cpumask`` input is same to that for other cpumask inputs like that
-+for cgroup cpusets.
-+
- .. _damon_usage_sysfs_monitoring_intervals_goal:
- 
- contexts/<N>/monitoring_attrs/intervals/intervals_goal/
+ .. _damon_design_age_tracking:
 -- 
 2.47.3
