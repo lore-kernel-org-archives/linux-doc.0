@@ -1,70 +1,101 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE08A1EA84;
-	Mon,  8 Dec 2025 22:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A29F2D1F64
+	for <linux-doc@vger.kernel.org>; Mon,  8 Dec 2025 22:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765234208; cv=none; b=DIZX+DM+eZMlNfZsETsv/a5hN5CqtU8BYtrpq2vK+kQlLOfYLF1iWF3Kj5YE86EKwKdrJOamqk+K0KQ1IMFGPLOYURaZ/Ws9X9ooYhnA/tW+CIyEsluxEXAVjkeOIj3FsL9gkvV1RNfhS1GeaF6z3AcA6HUKNm6Xswwf5tJYTuo=
+	t=1765234289; cv=none; b=AglO/W8qK+YMHzD0YubUMkIOfmoylZcdkw9AAOV19Z8pEvvWK6a36tfDoLudptQw3EZ5uHtrkDusRbYbtyBkDc9lKjtZsJ+QE1SmEIKrduPIGlNPAAIdpKNFbdPwRBhpzq5yh6O1QHDXReNiqGoCufeTp2324jRWT8I6svRPRYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765234208; c=relaxed/simple;
-	bh=7Qk/GkOSLi25v6Yi+CXCVB7353ZUjYmxGf/24d79eis=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ApLIe6rwLJvr0Q96lS4lcxuZqMKCuaJ4BWMCoIXbdMJKHA2WCLrsQvYwzdhwLSZorPTgsoh1GET1rz8S+4NqAXDybjpdcdGubjoULmlOWVxu6GMRnxaDjcbhOmzMo3hlzMgCtOSdemgwMltsnPwVffk30ZwlP8jtd5c7hlz1nCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gcJohGoK; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1765234289; c=relaxed/simple;
+	bh=qjmDIUr7bv/8MlXiYHic60rQazzDSarrPtGhZ8cIUVU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=KbYKThsvXYWYoJMGJkO9ToKhtl2F1S7wGbTUpFZ+96G8T0fuPIVJUWMewX0HbsfHexwxIK2ejdUmK3CYiB8lxOVSuC7rSkj0xnMTjMC+76lgr8+BoRNFnjSOmKU9Q6jaqXGDGOcnfaHhZu3qGPAtEoN8foTZ1g8ZX+GKZDpiY3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tovEVNG1; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gcJohGoK"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 518DB40B2F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1765234205; bh=0ei90r1//lD02GYBuRpo2ooOypjPZ16AdOrYC7KM2ik=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gcJohGoKkGIW93eMJaPkVjV+hirGNjuoTjyq8gn357PRkLjDXKevCHETW58tG7Uav
-	 AxuUecXbvdBpFfxJrn2zGvTVTTQUyUEFTy2M6YPlgvXMIZgpplypq7dwGuZTNllYK+
-	 cGzF+et+Z/1P1QT+8+YUEYnrIHVDkoUugb9O19xzx30FIJUf82J7CY6UTCbl3E2eN3
-	 ftcvCidsWuwu6hNL2hhTOGjakzEPxMPka9NMUWRhp3EYkND6JJ38ZQnrwuLtN5JJ/E
-	 I5YRGNw5v3BBI8rmiprcOjsWA2sQ4plYWrkOsUu8uogBh/allfmRC/GwCj0Jxk8HkF
-	 GYNRbcHX8DD7Q==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 518DB40B2F;
-	Mon,  8 Dec 2025 22:50:05 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Swaraj Gaikwad
- <swarajgaikwad1925@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo
- Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, "maintainer:X86 ARCHITECTURE (32-BIT AND
- 64-BIT)" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, "open
- list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <linux-kernel@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Cc: skhan@linuxfoundation.org, david.hunter.linux@gmail.com
-Subject: Re: [PATCH] Documentation: x86/boot: Fix malformed table in boot.rst
-In-Reply-To: <aTdTRY_7TtGqWvQx@archie.me>
-References: <20251208210113.24057-1-swarajgaikwad1925@gmail.com>
- <aTdTRY_7TtGqWvQx@archie.me>
-Date: Mon, 08 Dec 2025 15:50:02 -0700
-Message-ID: <874iq0fv1h.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tovEVNG1"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-295952a4dd6so52701045ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Dec 2025 14:51:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765234287; x=1765839087; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bMAAjR6VSRUkIkVe3cxiUyYcIygwozSwS6Y8S/RiuY4=;
+        b=tovEVNG1AMGbPzBg2bvlnfLW9h9wvrShRggwDnpEItmjcIEUL0zloNZa5gLONM+hcW
+         AqIyk1yuwicjH5bAheTSFSyzOCatvoDGaeJ4Pv/ndRIjA8btphklF/IaA5MT5AxjEDTE
+         chUod8ZeIbEoAjNcPRi1tIW8zUhmPneOyUVFZU3vnppn//BloULj5Dihb0noLepC1uof
+         FUdXErh5yt9ePTBXSrABZOEgH0H0lyIAQxIsJ8IHXKxzn4UPmuI/pK0YU0WPiaVUlzaX
+         q9f/miyRe2EjAJofRJh1fl/CjnyoyPIDi2uQidOKC3fKFTy9UTKJUI7Y3fg2hFdZeWR+
+         qVKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765234287; x=1765839087;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bMAAjR6VSRUkIkVe3cxiUyYcIygwozSwS6Y8S/RiuY4=;
+        b=eNMw/Hq+m5ocaqZj85zUmt8mDLbSNubXSjogDPiGzFj20aj4ER/OeaKVfwlzmnAZvo
+         NsymcvTGwmxO/x5sJd9zdXuOITYOWjO/u3Bw1DOicxaYjc8Y3PRYqQ8IKlslf+4gQOQD
+         KGRxLj7Mct/wqmnOFEHNuf9uExD7gMVNkgzwwQAMucZXv0hOMsylXNZEJp+PuZbbUMDm
+         NwM5yGevIujxfHrlN4mboPI0CnyzzHED2ilvHO9NPNl7XAOL068Zuzv08dQMS0GbZBsi
+         pN7DgJks9Yjh+iYdx/dDdJtVt0/hOwwuw88mMQywelam5xwtT7+fmpUA39zSQ73krh6K
+         CBoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUPlyOHA+IA1TF1/+DDqAXu0rEEgUOnK46sI4p2Xd5FUbcyOIRrti3uM6yke4fKO7isaf4bAXSgoug=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXz5twWyXN+f4hif5DGqIS0+YHjCHTs1TygNuMZt1sgHSa9+pu
+	zZaeS+uT9iBCuVRBX7BngPqYPXUznZ7zba/JmaqIg2evkN5ROCxrdKWHDoZ+88IvRkXF67VEurm
+	KF3bIvg==
+X-Google-Smtp-Source: AGHT+IHY3/qn5h8d0ukv8qSmDKpwSSJQmHgReCnf0gw8vGmknvsoJJAz6bSiVI7oQ2P/wnp7Dg54VZ/fQYM=
+X-Received: from pjaa15.prod.google.com ([2002:a17:90a:8f:b0:340:66e4:4269])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:28c8:b0:343:cfa1:c458
+ with SMTP id 98e67ed59e1d1-34a45027d31mr887944a91.18.1765234287242; Mon, 08
+ Dec 2025 14:51:27 -0800 (PST)
+Date: Mon, 8 Dec 2025 14:51:25 -0800
+In-Reply-To: <20251026201911.505204-1-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+References: <20251026201911.505204-1-xin@zytor.com>
+Message-ID: <aTdWbayU8BbR6eFu@google.com>
+Subject: Re: [PATCH v9 00/22] Enable FRED with KVM VMX
+From: Sean Christopherson <seanjc@google.com>
+To: "Xin Li (Intel)" <xin@zytor.com>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
+	peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com, 
+	hch@infradead.org, sohil.mehta@intel.com
+Content-Type: text/plain; charset="us-ascii"
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+On Sun, Oct 26, 2025, Xin Li (Intel) wrote:
+> Xin Li (18):
+>   KVM: VMX: Enable support for secondary VM exit controls
+>   KVM: VMX: Initialize VM entry/exit FRED controls in vmcs_config
+>   KVM: VMX: Disable FRED if FRED consistency checks fail
+>   KVM: VMX: Initialize VMCS FRED fields
+>   KVM: VMX: Set FRED MSR intercepts
+>   KVM: VMX: Save/restore guest FRED RSP0
+>   KVM: VMX: Add support for saving and restoring FRED MSRs
+>   KVM: x86: Add a helper to detect if FRED is enabled for a vCPU
+>   KVM: VMX: Virtualize FRED event_data
+>   KVM: VMX: Virtualize FRED nested exception tracking
+>   KVM: x86: Mark CR4.FRED as not reserved
+>   KVM: VMX: Dump FRED context in dump_vmcs()
+>   KVM: x86: Advertise support for FRED
+>   KVM: nVMX: Enable support for secondary VM exit controls
+>   KVM: nVMX: Handle FRED VMCS fields in nested VMX context
+>   KVM: nVMX: Validate FRED-related VMCS fields
+>   KVM: nVMX: Guard SHADOW_FIELD_R[OW] macros with VMX feature checks
+>   KVM: nVMX: Enable VMX FRED controls
+> 
+> Xin Li (Intel) (4):
 
-> I'd like to instead write the patch description as (more concise):
+I'm guessing the two different "names" isn't intended?
 
-The original was indeed on the verbose side, but please (for the nth
-time) resist the temptation to tell other contributors what to do.
-
-> x86 maintainers: please route this patch through x86/urgent branch.
-
-Seriously, Bagas?  I think we can figure out how to get this patch
-applied.
-
-jon
+>   x86/cea: Prefix event stack names with ESTACK_
+>   x86/cea: Use array indexing to simplify exception stack access
+>   x86/cea: Export __this_cpu_ist_top_va() to KVM
+>   KVM: x86: Save/restore the nested flag of an exception
