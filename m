@@ -1,147 +1,70 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E664231A32
-	for <linux-doc@vger.kernel.org>; Mon,  8 Dec 2025 22:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE08A1EA84;
+	Mon,  8 Dec 2025 22:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765234158; cv=none; b=o5oPWTdU7JnYbHlNSSrHgD49u94GylAxeV3iWlA8tpAwRQbU7a3OJr9XDqIQcNj8rQhuxmjP9BYCRMcD/wSXJ+FK94zS32E6493HlRSIUFKf16Bz3yd5HQ5GBXkbMN4dZPTd34JjSkBp+JtrEKRRglgaM0nIZsrvQwl5eaPe+X4=
+	t=1765234208; cv=none; b=DIZX+DM+eZMlNfZsETsv/a5hN5CqtU8BYtrpq2vK+kQlLOfYLF1iWF3Kj5YE86EKwKdrJOamqk+K0KQ1IMFGPLOYURaZ/Ws9X9ooYhnA/tW+CIyEsluxEXAVjkeOIj3FsL9gkvV1RNfhS1GeaF6z3AcA6HUKNm6Xswwf5tJYTuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765234158; c=relaxed/simple;
-	bh=RuG+hqFKqvdPB8GRWvH6QWB2lc3R18bCQJRZoRfcUnQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=CDFiTig6gV5vA5I6eW67SorW37+DnAMBSraxj/nfCLgm6uJtsz4ozyg5jmlUxYJ7uXt2Sjt6xzxIujlrfXAIoNQV63Wns0zd8FPvM/l0I5ObV/bu8pdsU3Fc5OHB9HpkB09HnHk++vlI5Jo22HMpgBXoNE/7GrWnDJU4InZLAno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mF1ASN28; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1765234208; c=relaxed/simple;
+	bh=7Qk/GkOSLi25v6Yi+CXCVB7353ZUjYmxGf/24d79eis=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ApLIe6rwLJvr0Q96lS4lcxuZqMKCuaJ4BWMCoIXbdMJKHA2WCLrsQvYwzdhwLSZorPTgsoh1GET1rz8S+4NqAXDybjpdcdGubjoULmlOWVxu6GMRnxaDjcbhOmzMo3hlzMgCtOSdemgwMltsnPwVffk30ZwlP8jtd5c7hlz1nCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=gcJohGoK; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mF1ASN28"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-29d7b9e7150so40975135ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Dec 2025 14:49:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765234155; x=1765838955; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RQtNhp91RwMmmDtOT/Iz2jw2/TI3xMlSl3Ff8p3Yeh4=;
-        b=mF1ASN28NnMgVOmlzhk9LfH5tGWYEMaFl1nnB3JZrv1Uskx3UOHdz0vUOs/lu2VA4n
-         +GUigcZiGF6ZZrtNaxykjwGvCYjGH6m1N4HwD/c8I7fXSMiCDLbpj8ZxGIQC1YAKU6HO
-         /BH2m5HkOIDQaE1lQajku9274Q1UiK4x5D8aeG7yykcUeVY/Nnwwyc1GUrhCZ2SYZEfm
-         Kyyf9rkNe+nozaCjnUBFWLif+MwYXZi4NCXpqt+Lb1KkoVYP7jnFnUIvkYiMUtZsE3CR
-         xwPjrYK5oVrd8vQVdtXIg/Zp5aTyFL+e0hno7U4O0Es02Aheh55dJOv+nxwO7MXH5/io
-         Fnyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765234155; x=1765838955;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RQtNhp91RwMmmDtOT/Iz2jw2/TI3xMlSl3Ff8p3Yeh4=;
-        b=UDUs0FgHZCGV1RayKt7ylftpeIfI0gXCxXl/g0143UhKJdCtVb9gMJ8VNwyY9L7R/5
-         27xbO4meuqhtnL8X32uuIagurs/agACou5QnEoNnW6yX/w+gMdxyxJpgSqe95WblJQLM
-         PeA45CRUf+bK0YVFxTsgxOv1fWN41BAGteG2iy4EpA1edNQS+NAVZ+spdFRBL6niawx4
-         DzylqQu2dYzYu265j35R/KnABONpa7r9VAicFd+592iflYclKeirdkhoa/V0Q6sG1jDP
-         B2uFERdhYuizG+d74OpwUzD3Jnimfs2Jj5B6P9j3+kuelkZj2DPra1u6YdtPGa/sRhVL
-         DXkw==
-X-Forwarded-Encrypted: i=1; AJvYcCVMdLAVcJrQO8UsAGKIl6agp/OOyro74uC51C8iRl0wluDZfqzWfbXezA3Vxg9afqvfL0BOmYJP894=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmsTTmOhIFtw3XG97JrAQ7XJVEGTCQOszE0zDHtVBY1dSXAr1a
-	fK40SZO/Oo4Y2eiHAwsFCvtD2iBO2lBIQ0KK+ts1KPmu3pzKB4z7fZmsDvU9wP+8OJ1BHjZdHRI
-	3BIh4nA==
-X-Google-Smtp-Source: AGHT+IGV//7skv54QJLySBQbcFRbAbxGPOTct1X0PIO4Gnw4f9XxHcSKjMzEc+bVcrJZMyBaZbfJYke7ZAw=
-X-Received: from pjbsu8.prod.google.com ([2002:a17:90b:5348:b0:343:5c2:dd74])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3fc4:b0:330:bca5:13d9
- with SMTP id 98e67ed59e1d1-349a2636261mr7005185a91.32.1765234155348; Mon, 08
- Dec 2025 14:49:15 -0800 (PST)
-Date: Mon, 8 Dec 2025 14:49:13 -0800
-In-Reply-To: <20251026201911.505204-22-xin@zytor.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="gcJohGoK"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 518DB40B2F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1765234205; bh=0ei90r1//lD02GYBuRpo2ooOypjPZ16AdOrYC7KM2ik=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=gcJohGoKkGIW93eMJaPkVjV+hirGNjuoTjyq8gn357PRkLjDXKevCHETW58tG7Uav
+	 AxuUecXbvdBpFfxJrn2zGvTVTTQUyUEFTy2M6YPlgvXMIZgpplypq7dwGuZTNllYK+
+	 cGzF+et+Z/1P1QT+8+YUEYnrIHVDkoUugb9O19xzx30FIJUf82J7CY6UTCbl3E2eN3
+	 ftcvCidsWuwu6hNL2hhTOGjakzEPxMPka9NMUWRhp3EYkND6JJ38ZQnrwuLtN5JJ/E
+	 I5YRGNw5v3BBI8rmiprcOjsWA2sQ4plYWrkOsUu8uogBh/allfmRC/GwCj0Jxk8HkF
+	 GYNRbcHX8DD7Q==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 518DB40B2F;
+	Mon,  8 Dec 2025 22:50:05 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Swaraj Gaikwad
+ <swarajgaikwad1925@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo
+ Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, "maintainer:X86 ARCHITECTURE (32-BIT AND
+ 64-BIT)" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, "open
+ list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <linux-kernel@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Cc: skhan@linuxfoundation.org, david.hunter.linux@gmail.com
+Subject: Re: [PATCH] Documentation: x86/boot: Fix malformed table in boot.rst
+In-Reply-To: <aTdTRY_7TtGqWvQx@archie.me>
+References: <20251208210113.24057-1-swarajgaikwad1925@gmail.com>
+ <aTdTRY_7TtGqWvQx@archie.me>
+Date: Mon, 08 Dec 2025 15:50:02 -0700
+Message-ID: <874iq0fv1h.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251026201911.505204-1-xin@zytor.com> <20251026201911.505204-22-xin@zytor.com>
-Message-ID: <aTdV6bX14SGz_JWZ@google.com>
-Subject: Re: [PATCH v9 21/22] KVM: nVMX: Guard SHADOW_FIELD_R[OW] macros with
- VMX feature checks
-From: Sean Christopherson <seanjc@google.com>
-To: "Xin Li (Intel)" <xin@zytor.com>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
-	peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com, 
-	hch@infradead.org, sohil.mehta@intel.com, Yosry Ahmed <yosry.ahmed@linux.dev>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain
 
-+Yosry
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-On Sun, Oct 26, 2025, Xin Li (Intel) wrote:
-> From: Xin Li <xin3.li@intel.com>
-> 
-> Add VMX feature checks to the SHADOW_FIELD_R[OW] macros to prevent access
-> to VMCS fields that may be unsupported on some CPUs.
-> 
-> Functions like copy_shadow_to_vmcs12() and copy_vmcs12_to_shadow() access
-> VMCS fields that may not exist on certain hardware, such as
-> INJECTED_EVENT_DATA.  To avoid VMREAD/VMWRITE warnings, skip syncing fields
-> tied to unsupported VMX features.
-> 
-> Signed-off-by: Xin Li <xin3.li@intel.com>
-> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-> Tested-by: Shan Kang <shan.kang@intel.com>
-> Tested-by: Xuelian Guo <xuelian.guo@intel.com>
-> ---
-> 
-> Change in v5:
-> * Add TB from Xuelian Guo.
-> 
-> Change since v2:
-> * Add __SHADOW_FIELD_R[OW] for better readability or maintability (Sean).
+> I'd like to instead write the patch description as (more concise):
 
-Coming back to this with fresh eyes, handling fields that conditionally exist
-_only_ for VMCS shadowing is somewhat ridiculous.  For PML and the VMX preemption
-timer, the special case handling makes sense because the fields are emulated by
-KVM irrespective of hardware suport.  But for fields that KVM doesn't emulate in
-software, e.g. GUEST_INTR_STATUS and the FRED fields, allowing accesses through
-emulated VMREAD/VMWRITE and then filtering out VMCS shadowing accesses is just us
-being stubborn.
+The original was indeed on the verbose side, but please (for the nth
+time) resist the temptation to tell other contributors what to do.
 
-I still 100% think that not restricting based on the virtual CPU model defined by
-userspace is the way to go[*], because that'd require an absurd amount of effort,
-complexity, and memory to solve a problem no one actually cares about.  But
-updating KVM's array of vmcs12 fields once during kvm-intel.ko load isn't difficult,
-and would make KVM suck a little less when running on old hardware.
+> x86 maintainers: please route this patch through x86/urgent branch.
 
-E.g. running the test_vmwrite_vmread KUT subtest on CPUs without TSC scaling still
-fails with the wonderful:
+Seriously, Bagas?  I think we can figure out how to get this patch
+applied.
 
-  FAIL: VMX_VMCS_ENUM.MAX_INDEX expected: 19, actual: 17
-
-due to QEMU (sanely) setting the max index to 17 (VMX preemption timer) when the
-virtual CPU model doesn't support TSC scaling.
-
-And looking forward, we're going to have the same mess with FRED due QEMU (again,
-sanely) basing its 
-
-    if (f[FEAT_7_1_EAX] & CPUID_7_1_EAX_FRED) {
-        /* FRED injected-event data (0x2052).  */
-        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x52);
-    } else if (f[FEAT_VMX_EXIT_CTLS] &
-               VMX_VM_EXIT_ACTIVATE_SECONDARY_CONTROLS) {
-        /* Secondary VM-exit controls (0x2044).  */
-        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x44);
-    } else if (f[FEAT_VMX_SECONDARY_CTLS] & VMX_SECONDARY_EXEC_TSC_SCALING) {
-        /* TSC multiplier (0x2032).  */
-        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x32);
-    } else {
-        /* Preemption timer (0x482E).  */
-        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM, 0x2E);
-    }
-
-KVM will still have virtualization holes, e.g. if userspace hides TSC scaling when
-running on hardware+KVM that supports TSC scaling, but as above I don't think that's
-a problem worth solving.
-
-I'll post a patch (just need to test on bare metal) to sanitize vmcs12 fields,
-at which point FRED nVMX support shouldn't have to do anything special beyond
-noting the depending, i.e. it should only take a few lines of code.
-
-[*] https://lore.kernel.org/all/YR2Tf9WPNEzrE7Xg@google.com
+jon
