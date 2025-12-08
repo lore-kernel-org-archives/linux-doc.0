@@ -1,82 +1,313 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273892D7DF8
-	for <linux-doc@vger.kernel.org>; Mon,  8 Dec 2025 06:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71CB319857;
+	Mon,  8 Dec 2025 06:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765175002; cv=none; b=kJ9G8zhrrUzF3G2b0qiyLLt4fcfqBZBq21cehYfcmMR39l5oafduPqIWVI0JM87C+8TbDGGDkXvhIGWLtGqU1e12KCgPB73iU94mG05DQN3VJ0v3yOWkID21Xf9NWx0tY4k8BIDOe2QOhRG55gt5cC6fbmvUGiZUWdP6xlN3GWY=
+	t=1765175389; cv=none; b=i42mZlIYx2E0NIhhWYrtSUoZIH38WTKcBQDTBBdLG5yBQ+PUHeFvoFFBkhaoKSGGrqh15BprrrAr/mhZFyz0d4qp0tU/pxyLLhChnnpyRxaeCCE+Ud5/bCF4rDstlnrWOoS9RIDn7zRgbCG+mXuIh3Nxrdqx2Ttcae6cPyFze8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765175002; c=relaxed/simple;
-	bh=HcPT9TBu0dyeKcqWP7OlNl2bs0hK/IvoK8Miov4/Ihw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NdA0hTSt41jjmZeJ3Iz6fBU5J/SvkY0YaSbp/B1kXmE2JE1X2/gUFajg7IxQW5mOnhklO/Cxck+aYW5Bnux64B+/aTOWviGWI+gM+JFPPAdcpegR1zAMem7Xsj8sWGjbNYD7LhzIRGMSkEHtvreBEVu0jGT9rdMnVAFDIskq58Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=exLf1tx3; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1765175389; c=relaxed/simple;
+	bh=dU4XKsfKL+dM6+fZPeiCZeJLrbMck0nxcTaR4fYtTDI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gSbzdDn1g9CvVe1HxGP8dMvFdCS/kOaRdWuNzlhdXxmJNsDj5LYeqDy44wpTw+DS0VKpN3tUDwoiIB/Hqa4vATxYLYXlx4M/9UbynihnMn7BSvNdJard+1oSm5Y/47B44CbgxjhrRY9bRILsmwfgYl7dELytigTAncmNa6CCue4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DdtWabQw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="exLf1tx3"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=WAbaESoY0E6KZ4ZmWAWS7j9Bm+SkT1YqPqbexePFj4E=; b=exLf1tx32STIIs/NupEBGIkInJ
-	eY0Iscpk9psfo+kazjY2CUUsroi5nEQuFHOOjEMOp99p6G9SeXkwFJxkaGEssfn+ViFs+4+Dq5aY/
-	U0HCMNG6GqaNb0DdMXnLxik9+JEQw6BWn8VgPlkFGjObDj7eUMVjrhVTY7Kf4UXnwYhw4Da/oSO4M
-	6me7nEZCjfa3TtTjudlG5owzMTnqUWl1g5+6e+t4tyMVyUbjKoU61+TC3wSuAOYDPPwr4XwTNeBh+
-	7VPFykD4wJqD+kk5DSVlKtPx+Wa6IXC4ErUgN0zlssiKbkSpggcYasWNeo44bwjecsqiDFB/+wO+z
-	hoduhRsw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vSUeV-0000000Cg8e-1HLI;
-	Mon, 08 Dec 2025 06:23:19 +0000
-Message-ID: <ddf217d8-e4ef-4dea-96ef-bb3c6ed8ea74@infradead.org>
-Date: Sun, 7 Dec 2025 22:23:17 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DdtWabQw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABCC6C4CEF1;
+	Mon,  8 Dec 2025 06:29:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765175389;
+	bh=dU4XKsfKL+dM6+fZPeiCZeJLrbMck0nxcTaR4fYtTDI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=DdtWabQwN7P16NrGnLi45ZmOOg/MYWM37RJNWQPy0obnEQ92Qx2CdY2aO7XIL8XMl
+	 MGWSCwJKVIz51DY7h9AfMguUNcQo00ACeqjcixrQfc+LHHX4fxVO6+8/sVRHPzHEKC
+	 NqGRd9kpPslYyl1Rft8cwLWuHd2+Wta479/xANLdawIBIPph7hxMrqFloZwUo8XKIJ
+	 bkIQi+pfXakBYG+4jhA0kISI+WUFJlZeMiuwdBMh72oKdkn/vf/wvbTpYLtekzv2Mj
+	 syTt8SP8FX7B3lYyg6hi3fq8nXeqJNimFfXLBfgYl1W7dFkXRVyJLdb8Ke0mbWeU6J
+	 5bT1t/110L+VQ==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v3 00/37] mm/damon: introduce per-CPUs/threads/write/read monitoring
+Date: Sun,  7 Dec 2025 22:29:04 -0800
+Message-ID: <20251208062943.68824-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: fix typo in clang-format documentation
-To: Addison English <addison.englishw@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-References: <20251208054639.8655-1-addison.englishw@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251208054639.8655-1-addison.englishw@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+Extend DAMON for monitoring accesses generated by given CPUs/threads
+and/or for writes.  It is aimed to be used for general NUMA-aware page
+migration, cache-aware scheduling and live migration target VM decision.
+This lengthy patch series does that in three parts.
+
+The first part extends DAMON API to let any kernel component report
+their observed access events to DAMON.
+
+The second part adds a hacky change to change_protection() and page
+fault handler for reporting page faults on DAMON-specified sampling
+pages to DAMON, using the report API that is implemented by the first
+part.  Please read the "Hacks on NUMA Hinting Fault" section below for
+my apology and clarification about why I'm doing this.
+
+The third part extends DAMON on the page fault based sampling to allow
+doing the monitoring for accesses generated by specific CPUs and/or
+threads, or for writes.
+
+Note that this RFC, especially the hack of page fault handler is not
+aiming to be upstreamed as-is.  This RFC is shared rather for giving an
+example of ideas that will be discussed in a session [0] of the special
+purpose memory microconf at LPC'25, and a stable interface for early
+testers.
+
+Background
+----------
+
+Existing DAMON operations set implementations, namely paddr, vaddr, and
+fvaddr, use Accessed bits of page tables as the main source of the
+access information.  Accessed bits have some restrictions.  For example,
+it cannot tell which CPU, GPU or thread made the access, whether the
+access was read or write, and which part of the mapped entity was really
+accessed.
+
+Depending on the use case, the limitations can be problematic.  Because
+the issue stems from the nature of the page table Accessed bit, utilizing
+access information from different sources can mitigate the issue.  Page
+faults, memory access instructions sampling interrupts, system calls, or
+any information from other kernel space friends such as subsystems or
+device drivers of CXL or GPUs could be examples of the different
+sources.
+
+DAMON separates its core and operation set layer for easy extensions.
+The core layer handles high level work such as access information
+sampling target setup and region-based overhead/accuracy control.  The
+operation set layer executes the low level (sampling-purpose) access
+information handling.  And DAMON API callers can implement and use their
+operation set.  That is one of the ways to extend DAMON to use the
+different sources.  The core layer features will still be available with
+the new sources, without additional changes.
+
+Nevertheless, the current interface between the core and the operation
+set layers is optimized for the Accessed bits case.  Specifically, the
+interface asks the operation set if a given part of memory has been
+accessed or not in a given time period (last sampling interval).  It is
+easy for the Accessed bit use case, since the information is stored in
+page tables.  Operation set can simply read the current value of the
+Accessed bit.
+
+For some sources other than Accessed bits, such as page faults or
+instruction sampling interrupts, the operation set may need to collect
+and keep the access information in its internal memory until the core
+layer asks the access information.  Only after answering the question,
+the information could be dropped.
+
+Implementing such operation set internal memory management would be not
+very trivial.  Also it could end up multiple similar operation set
+implementations having their own internal memory management code that is
+unnecessarily duplicated.
+
+Core Layer Changes for Reporting-based Monitoring
+-------------------------------------------------
+
+Optimize such possible duplicated efforts, by updating DAMON core layer
+to support real time access reporting.  The updated interface allows
+operations set implementations to report their information to the core
+layer, on their preferred schedule.  DAMON core layer will handle the
+reports by managing meta data and updating the final monitoring results
+(DAMON regions) accordingly.
+
+For flexible control of the reports from different access check
+primitives (or, sources), add a new data structure to DAMON core API,
+namely damon_sample_control.  The data structure can be used to
+selectively using the low level access check primitives (e.g., page
+table accessed bit and page fault events), and filtering generated
+samples based on additional information on the samples, including
+access-generator CPU and/or thread, and whether the access was for write
+or read.
+
+Hacks on NUMA Hinting Faults
+----------------------------
+
+Hack NUMA hinting faults code in change_protection() and page fault
+handler, to make the first DAMON access reporter.  Update
+change_protection() to install the NUMA hinting faults-purpose
+protection on arbitrary pages, and do the protection install for
+DAMON-desired access check sample pages.  Update NUMA hinting faults
+handling code to report the information to DAMON, when NUMA balancing is
+turned off.
+
+This is never upstreamable design and implementation.  Actually concerns
+about this were raised in the previous version of this series.
+Unfortunately I had no time to address those.  As a result, this version
+is not addressing any of the concerns.  Please forgive me for polluting
+your inbox with this immature patch.  But please know that I'm not
+ignoring the previous concerns.  I'm sharing it as-is though, to get
+feedback on DAMON-side changes first.  I will establish discussions with
+all stakeholders including NUMA balancing and MM core maintainers, after
+the DAMON-side changes discussion is more progressed.
+
+Per-CPUs/threads/write/read Monitoring
+--------------------------------------
+
+Extend the data structure for access check samples filtering,
+damon_sample_control, for filtering reported data access sample results
+based on the source CPUs/threads of the access, and whether the access
+was for write.  Expose the damon_sample_control to DAMON sysfs
+interface, so that DAMON ABI users can also utilize the features.
+
+Expected Users: NUMA Page Migrations, VM Live Migration and Scheduling
+----------------------------------------------------------------------
+
+We have ongoing public/private discussions of expected use cases of this
+patch series.  We expect the per-CPUs monitoring can be useful for
+NUMA-aware page migrations.  AWS has shown their interest in using
+write-only monitoring for finding the best live migration target VM.
+Some folks showed interest in per-threads monitoring for L3 cache
+utilization-aware threads scheduling.
+
+Also I believe this can be extended for not only per-CPU but any access
+entities including GPU-like accelerators, who expose their memory as
+NUMA nodes in some setups.  With that, I think we could make a holistic
+and efficient access-aware NUMA pages migration system.
+
+Patches Sequence
+----------------
+
+The first twelve patches (patches 1-12) are for the first (extending
+DAMON for reporting-based access monitoring) and second (adding the
+gross hack for stealing NUMA_HINT_FUALT on page fault handling) parts.
+As a result, it makes DAMON be able to do page fault events based
+monitoring.
+
+The following thirteen patches (patches 13-25) are for implementing
+per-CPUs access monitoring.  It implements the framework for doing
+access reports filtering based on additional information such as
+access-origin CPU, and implements it for the CPU information.
+
+The next seven patches (patches 26-32) are for implementing per-threads
+access monitoring.  It extends the access reports filtering for the
+threads based information.
+
+Final five patches (patches 33-37) are for implementing read/write-only
+monitoring.  It again extends the access reports filtering for the
+purpose.
+
+Plan for Dropping RFC
+---------------------
+
+This RFC is having pretty immature and dirty hacks.  This is never
+upstreamable as-is.  I'm sharing this, though, for the following
+reasons.
+
+Firstly, to discuss the overall idea and DAMON-side design.  The idea
+was floating around for a long time, and recently has been more specific
+with 'damon_report_access() API plan [1] that discussed at LSFMMBPF'25.
+We will also discuss this focusing on NUMA-aware page migration use
+case, on special purpose memory management microconf at LPC'25.
+
+Secondly, some people started testing the early version of the
+implementation on my damon/next tree.  The implementation is hacky,
+having only an experimental interface with no documentation at all.
+This RFC is for giving a more stable interface and documentation to such
+early testers.
+
+I expect final upstreaming of this series will take a long time.  The
+NUMA hinting fault part hack is the most challenging in my opinion.  And
+this version is not addressing any concern about it that was raised to
+the previous version.  Please know that I'm not ignoring the concerns,
+but only having capacity limitations at the moment.  I will establish
+discussions with all stakeholders including maintainers of NUMA
+balancing and MM core, by LSFMMBPF'26.  Only after we make a good
+alignment with all stakeholders, will this be able to be upstreamed.
+
+Revision History
+----------------
+
+Changes from RFC v2
+(https://lore.kernel.org/20250727201813.53858-1-sj@kernel.org)
+- Use damon_sample_control instead of new ops (paddr_fault)
+- Implement per-CPUs,threads, write-only monitoring.
+
+Changes from RFC v1
+(https://lore.kernel.org/20250629201443.52569-1-sj@kernel.org)
+- Fixup report reading logic for access absence accounting.
+- Implement page faults based operations set (paddr_fault).
+
+[0] https://lpc.events/event/19/contributions/2066/
+[1] https://lwn.net/Articles/1016525/
+
+SeongJae Park (37):
+  mm/damon/core: implement damon_report_access()
+  mm/damon: define struct damon_sample_control
+  mm/damon/core: commit damon_sample_control
+  mm/damon/core: implement damon_report_page_fault()
+  mm/{mprotect,memory}: (no upstream-aimed hack) implement MM_CP_DAMON
+  mm/damon/paddr: support page fault access check primitive
+  mm/damon/core: apply access reports to high level snapshot
+  mm/damon/sysfs: implement monitoring_attrs/sample/ dir
+  mm/damon/sysfs: implement sample/primitives/ dir
+  mm/damon/sysfs: connect primitives directory with core
+  Docs/mm/damon/design: document page fault sampling primitive
+  Docs/admin-guide/mm/damon/usage: document sample primitives dir
+  mm/damon: extend damon_access_report for origin CPU reporting
+  mm/damon/core: report access origin cpu of page faults
+  mm/damon: implement sample filter data structure for cpus-only
+    monitoring
+  mm/damon/core: implement damon_sample_filter manipulations
+  mm/damon/core: commit damon_sample_filters
+  mm/damon/core: apply sample filter to access reports
+  mm/damon/sysfs: implement sample/filters/ directory
+  mm/damon/sysfs: implement sample filter directory
+  mm/damon/sysfs: implement type, matching, allow files under sample
+    filter dir
+  mm/damon/sysfs: implement cpumask file under sample filter dir
+  mm/damon/sysfs: connect sample filters with core layer
+  Docs/mm/damon/design: document sample filters
+  Docs/admin-guide/mm/damon/usage: document sample filters dir
+  mm/damon: extend damon_access_report for access-origin thread info
+  mm/damon/core: report access-generated thread id of the fault event
+  mm/damon: extend damon_sample_filter for threads
+  mm/damon/core: support threads type sample filter
+  mm/damon/sysfs: support thread based access sample filtering
+  Docs/mm/damon/design: document threads type sample filter
+  Docs/admin-guide/mm/damon/usage: document tids_arr file
+  mm/damon: support reporting write access
+  mm/damon/core: report whether the page fault was for writing
+  mm/damon/core: support write access sample filter
+  mm/damon/sysfs: support write-type access sample filter
+  Docs/mm/damon/design: document write access sample filter type
+
+ Documentation/admin-guide/mm/damon/usage.rst |  43 +-
+ Documentation/mm/damon/design.rst            |  76 +++
+ include/linux/damon.h                        | 133 ++++
+ include/linux/mm.h                           |   1 +
+ mm/damon/core.c                              | 339 +++++++++-
+ mm/damon/paddr.c                             |  66 +-
+ mm/damon/sysfs.c                             | 622 +++++++++++++++++++
+ mm/memory.c                                  |  60 +-
+ mm/mprotect.c                                |   5 +
+ 9 files changed, 1338 insertions(+), 7 deletions(-)
 
 
-Missing a patch description...
-
-On 12/7/25 9:46 PM, Addison English wrote:
-> Signed-off-by: Addison English <addison.englishw@gmail.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/dev-tools/clang-format.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/dev-tools/clang-format.rst b/Documentation/dev-tools/clang-format.rst
-> index 1d089a847c1b..6c8a0df5a00c 100644
-> --- a/Documentation/dev-tools/clang-format.rst
-> +++ b/Documentation/dev-tools/clang-format.rst
-> @@ -88,7 +88,7 @@ Reformatting blocks of code
->  
->  By using an integration with your text editor, you can reformat arbitrary
->  blocks (selections) of code with a single keystroke. This is specially
-> -useful when moving code around, for complex code that is deeply intended,
-> +useful when moving code around, for complex code that is deeply indented,
->  for multi-line macros (and aligning their backslashes), etc.
->  
->  Remember that you can always tweak the changes afterwards in those cases
-
+base-commit: 120d322d058f56f6cb92115b5a589ee9b4f07664
 -- 
-~Randy
+2.47.3
