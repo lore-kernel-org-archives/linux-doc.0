@@ -1,344 +1,242 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CA624676A
-	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 14:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745751DD0EF;
+	Tue,  9 Dec 2025 14:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765291886; cv=none; b=Y03Ocka/A8Xfs16OsrC4CLQZxVTPlxpdJ//JoUM+l7wulkui0srjT+Gc9Z6o8X7GdaW4LjSYK41RSYlD5DlePiz0CulF7vtqNU1sOcngWnf+spYpyaRpt2gTJsdjBVlMchcnTRNL1k3yklOxBRddzgd5zI4h4VbeqoPwSHAbkZg=
+	t=1765292284; cv=none; b=gFC8xpYVlsB5LpN8TZcmGsSTROMCq2CS9QaOXVjFxUdlvM6TjN9eSHU/3W/pACfG41vmV/j7sdeuzCdSm/nFWzEGCD84/fd1AhnDc2kk+TUKQ1J9tbRtXRQMayZAiB04LVfLFXaT3bApbkBk9R5oEqNp02SUQ9NObNRlDQBhOME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765291886; c=relaxed/simple;
-	bh=r6PkRDc4vEw5wajSqTV+Xiy+3Q9JAx+EQDPH44rdU7I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eBHCJhZU6Bo+CNradNzxEo5GIMDzumDHlUlSZBhVlCrLy0kNpAbNlvpyqfJCbAoRbnXJmOxzVwRXeIqPXRjEFcDETw3M2BOaRAkKfFPG5WSriK9yEDQ4oZR5BWsuQ8QmV9wEi1IFHKyad0It7+nZ33iZ30mjM5fZK1Zk32eLpLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nEr9/mgf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qBuR22jO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nEr9/mgf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qBuR22jO; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nEr9/mgf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qBuR22jO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nEr9/mgf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qBuR22jO"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 624A9337DA;
-	Tue,  9 Dec 2025 14:51:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765291882; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=uEamXISE226F8CKyoiNdbyfo3vNx+AfdWIHPalE0jXQ=;
-	b=nEr9/mgfk1tIOer4Sa70I2RaC8eaCDiS5H1cHlpkcrBWTauczdva1QYgr/xMUfNZdERv5n
-	3O7YnQDL5yP0oMZ8+zORhAYmtLtv7YXegoyLwActY+6iK4x2u6HT4iBFs0Uyw/cx6scFOQ
-	90uriauh+tGmsn3asyXHUdoi02Sin0U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765291882;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=uEamXISE226F8CKyoiNdbyfo3vNx+AfdWIHPalE0jXQ=;
-	b=qBuR22jOB0dZQAdT/plZi3oWA3eBteFG5gOz2VFBqkasSRxnezDglpdDnXg+1aRojY2nNM
-	Q6PwVBhJ5NoRO9AQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765291882; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=uEamXISE226F8CKyoiNdbyfo3vNx+AfdWIHPalE0jXQ=;
-	b=nEr9/mgfk1tIOer4Sa70I2RaC8eaCDiS5H1cHlpkcrBWTauczdva1QYgr/xMUfNZdERv5n
-	3O7YnQDL5yP0oMZ8+zORhAYmtLtv7YXegoyLwActY+6iK4x2u6HT4iBFs0Uyw/cx6scFOQ
-	90uriauh+tGmsn3asyXHUdoi02Sin0U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765291882;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=uEamXISE226F8CKyoiNdbyfo3vNx+AfdWIHPalE0jXQ=;
-	b=qBuR22jOB0dZQAdT/plZi3oWA3eBteFG5gOz2VFBqkasSRxnezDglpdDnXg+1aRojY2nNM
-	Q6PwVBhJ5NoRO9AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9568C3EA63;
-	Tue,  9 Dec 2025 14:51:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qOT9Imk3OGlAaAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 09 Dec 2025 14:51:21 +0000
-Message-ID: <2b95d76e-2672-4cae-a545-73c407f2b20c@suse.de>
-Date: Tue, 9 Dec 2025 15:51:21 +0100
+	s=arc-20240116; t=1765292284; c=relaxed/simple;
+	bh=vdqxgQ1TzYasECU6mrsv8aNfISTwSFe2jwD4c1CuOAs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BsatpBvg9hlur5mblSr/GRNFQSj6As5YeCSDxBOfouY5bzTteakaXHb2EqJeaak0zfcMckGKCm2Ve7ukO1yqr/SDwfWlDMkDI0UTsOZSCHExbT/Mbn7UvrwVNw5S49XTO6kd1BUBE/AGQKX/PKvHiC9bI3ZWwpbstsCkWp/eUi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dQhm738mRzHnGd1;
+	Tue,  9 Dec 2025 22:57:43 +0800 (CST)
+Received: from dubpeml100008.china.huawei.com (unknown [7.214.145.227])
+	by mail.maildlp.com (Postfix) with ESMTPS id 161C740565;
+	Tue,  9 Dec 2025 22:57:53 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.126.172.138) by
+ dubpeml100008.china.huawei.com (7.214.145.227) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Tue, 9 Dec 2025 14:57:51 +0000
+From: <shiju.jose@huawei.com>
+To: <rafael@kernel.org>, <bp@alien8.de>, <akpm@linux-foundation.org>,
+	<rppt@kernel.org>, <dferguson@amperecomputing.com>,
+	<linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, <tony.luck@intel.com>,
+	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>
+CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
+	<rientjes@google.com>, <jiaqiyan@google.com>, <Jon.Grimm@amd.com>,
+	<dave.hansen@linux.intel.com>, <naoya.horiguchi@nec.com>,
+	<james.morse@arm.com>, <jthoughton@google.com>, <somasundaram.a@hpe.com>,
+	<erdemaktas@google.com>, <pgonda@google.com>, <duenwen@google.com>,
+	<gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<wbs@os.amperecomputing.com>, <nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>,
+	<prime.zeng@hisilicon.com>, <roberto.sassu@huawei.com>,
+	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>,
+	<shiju.jose@huawei.com>
+Subject: [PATCH v14 0/2] ACPI: Add support for ACPI RAS2 feature table
+Date: Tue, 9 Dec 2025 14:57:39 +0000
+Message-ID: <20251209145742.297-1-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH 00/13] drm: Introduce GEM-UMA memory management
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, ogabbay@kernel.org, mamin506@gmail.com,
- lizhi.hou@amd.com, maciej.falkowski@linux.intel.com,
- karol.wachowski@linux.intel.com, tomeu@tomeuvizoso.net,
- frank.binns@imgtec.com, matt.coster@imgtec.com, yuq825@gmail.com,
- robh@kernel.org, steven.price@arm.com, adrian.larumbe@collabora.com,
- liviu.dudau@arm.com, mwen@igalia.com, kraxel@redhat.com,
- dmitry.osipenko@collabora.com, gurchetansingh@chromium.org,
- olvaffe@gmail.com, corbet@lwn.net, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-doc@vger.kernel.org
-References: <20251209140141.94407-1-tzimmermann@suse.de>
- <20251209152734.6851f3ac@fedora>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251209152734.6851f3ac@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.991];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[ffwll.ch,gmail.com,kernel.org,linux.intel.com,amd.com,tomeuvizoso.net,imgtec.com,arm.com,collabora.com,igalia.com,redhat.com,chromium.org,lwn.net,lists.freedesktop.org,lists.linux.dev,vger.kernel.org];
-	R_RATELIMIT(0.00)[to_ip_from(RLzxzh56npx61idbi11ft8b9pb)];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo,gitlab.freedesktop.org:url,suse.de:email,suse.de:mid]
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ dubpeml100008.china.huawei.com (7.214.145.227)
 
-Hi
+From: Shiju Jose <shiju.jose@huawei.com>
 
-Am 09.12.25 um 15:27 schrieb Boris Brezillon:
-> On Tue,  9 Dec 2025 14:41:57 +0100
-> Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
->> Duplicate GEM-SHMEM to GEM-UMA. Convert all DRM drivers for UMA
->> systems if they currently use GEM-SHMEM.
->>
->> Many DRM drivers for hardware with Unified Memory Architecture (UMA)
->> currently builds upon GEM-SHMEM and extends the helpers with features
->> for managing the GPU MMU. This allows the GPU to access the GEM buffer
->> content for its operation.
->>
->> There is another, larger, set of DRM drivers that use GEM-SHMEM merely
->> as buffer management with no hardware support. These drivers copy the
->> buffer content to the GPU on each page flip. The GPU itself has no direct
->> access. Hardware of this type is usually in servers, behind slow busses
->> (SPI, USB), or provided by firmware (drivers in sysfb/).
->>
->> After some discussion with Boris on the future of GEM-SHMEM, it seems
->> to me that both use cases more and more diverge from each other. The
->> most prominent example is the implementation of gem_prime_import,
->> where both use cases use distinct approaches.
->>
->> So we discussed the introduction of a GEM-UMA helper library for
->> UMA-based hardware. GEM-UMA will remain flexible enough for drivers
->> to extend it for their use case. GEM-SHMEM will become focused on the
->> simple-hardware use case. The benefit for both libraries is that they
->> will be easier to understand and maintain. GEM-SHMEM can be simplified
->> signiifcantly, I think.
->>
->> This RFC series introduces GEM-UMA and converts the UMA-related drivers.
->>
->> Patches 1 and 2 fix issues in GEM-SHMEM, so that we don't duplicate
->> errornous code.
->>
->> Patch 3 copies GEM-SHMEM to GEM-UMA. Patch 4 then does soem obvious
->> cleanups of unnecessary code.
-> Instead of copying the code as-is, I'd rather take a step back and think
-> about what we need and how we want to handle more complex stuff, like
-> reclaim. I've started working on a shrinker for panthor [1], and as part
-> of this series, I've added a commit implementing just enough to replace
-> what gem-shmem currently provides. Feels like the new GEM-UMA thing
-> could be designed on a composition rather than inheritance model,
-> where we have sub-components (backing, cpu_map, gpu_map) that can be
-> pulled in and re-used by the driver implementation. The common helpers
-> would take those sub-components instead of a plain GEM object. That
-> would leave the drivers free of how their internal gem_object fields are
-> laid out and wouldn't require overloading the ->gem_create_object()
-> function. It seems to be that it would better match the model you were
-> describing the other day.
+Add support for ACPI RAS2 feature table (RAS2) defined in the
+ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
+scrubbing feature.
 
-Yeah, I've seen your update to that series. Making individual parts of 
-the memory manager freely composable with each other is a fine idea.
+ACPI RAS2 patches were part of the EDAC series [1].
 
-But the flipside is that I also want the simple drivers to move away 
-from the flexible approach that GEM-SHMEM currently takes. There are 
-many drivers that do not need or want that. These drivers benefit from 
-something that is self contained. Many of the drivers are also hardly 
-maintained, so simplifying things will also be helpful.
+The code is based on linux.git v6.18 [2].
 
-I could have added a new GEM implementation for these drivers, but there 
-are less UMA drivers to convert and the GEM-UMA naming generally fits 
-better than GEM-SHMEM.
+1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@huawei.com/
+2. https://github.com/torvalds/linux.git
 
-I'd rather have GEM-UMA and evolve it from where it stands now; and also 
-evolve GEM-SHMEM in a different direction. There's a difference in 
-concepts here.
+Changes
+=======
+v13 -> v14:
+1. Modifications for changes wanted by Borislav.
+   https://lore.kernel.org/all/20251125073627.GLaSVce7hBqGH1a3ni@fat_crate.local/
 
-Best regards
-Thomas
+2. Changes for the comments from Randy Dunlap 
+   https://lore.kernel.org/all/4807417b-a8f7-47a3-b38a-94ea7bdbf775@infradead.org/
+   https://lore.kernel.org/all/af7b6cdc-c0a7-4896-ba6b-6bb933898d37@infradead.org/
+   https://lore.kernel.org/all/26083ba9-1979-4d14-8465-3f54f2f96d23@infradead.org/
+   
+v12 -> v13:
+1. Fixed some bugs reported and changes wanted by Borislav.
+   https://lore.kernel.org/all/20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local/ 
 
->
->> Patches 5 to 13 update the drivers that can be converted to GEM-UMA.
->> These changes are just symbol renaming. There are so far no functional
->> differences between the memory managers.
->>
->> A gave GEM-UMA some smoke testing by running virtgpu.
-> [1]https://gitlab.freedesktop.org/bbrezillon/linux/-/commits/panthor-shrinker-revisited/drivers?ref_type=heads
-> [2]https://gitlab.freedesktop.org/bbrezillon/linux/-/commit/4e6927fc2c60265b77a5a88013f55377bc4f4ab3
->
->> Thomas Zimmermann (13):
->>    drm/gem-shmem: Fix typos in documentation
->>    drm/gem-shmem: Fix the MODULE_LICENSE() string
->>    drm: Add GEM-UMA helpers for memory management
->>    drm/gem-uma: Remove unused interfaces
->>    drm/imagination: Use GEM-UMA helpers for memory management
->>    drm/lima: Use GEM-UMA helpers for memory management
->>    drm/panfrost: Use GEM-UMA helpers for memory management
->>    drm/panthor: Use GEM-UMA helpers for memory management
->>    drm/v3d: Use GEM-UMA helpers for memory management
->>    drm/virtgpu: Use GEM-UMA helpers for memory management
->>    accel/amdxdna: Use GEM-UMA helpers for memory management
->>    accel/ivpu: Use GEM-UMA helpers for memory management
->>    accel/rocket: Use GEM-UMA helpers for memory management
->>
->>   Documentation/gpu/drm-mm.rst                  |  12 +
->>   drivers/accel/amdxdna/Kconfig                 |   2 +-
->>   drivers/accel/amdxdna/aie2_ctx.c              |   1 -
->>   drivers/accel/amdxdna/aie2_message.c          |   1 -
->>   drivers/accel/amdxdna/aie2_pci.c              |   1 -
->>   drivers/accel/amdxdna/aie2_psp.c              |   1 -
->>   drivers/accel/amdxdna/aie2_smu.c              |   1 -
->>   drivers/accel/amdxdna/amdxdna_ctx.c           |   7 +-
->>   drivers/accel/amdxdna/amdxdna_gem.c           |  49 +-
->>   drivers/accel/amdxdna/amdxdna_gem.h           |   5 +-
->>   .../accel/amdxdna/amdxdna_mailbox_helper.c    |   1 -
->>   drivers/accel/amdxdna/amdxdna_pci_drv.c       |   1 -
->>   drivers/accel/amdxdna/amdxdna_sysfs.c         |   1 -
->>   drivers/accel/ivpu/Kconfig                    |   2 +-
->>   drivers/accel/ivpu/ivpu_gem.c                 |  36 +-
->>   drivers/accel/ivpu/ivpu_gem.h                 |   4 +-
->>   drivers/accel/rocket/Kconfig                  |   2 +-
->>   drivers/accel/rocket/rocket_gem.c             |  46 +-
->>   drivers/accel/rocket/rocket_gem.h             |   6 +-
->>   drivers/gpu/drm/Kconfig                       |   9 +
->>   drivers/gpu/drm/Kconfig.debug                 |   1 +
->>   drivers/gpu/drm/Makefile                      |   4 +
->>   drivers/gpu/drm/drm_fbdev_uma.c               | 203 +++++
->>   drivers/gpu/drm/drm_gem_shmem_helper.c        |   5 +-
->>   drivers/gpu/drm/drm_gem_uma_helper.c          | 787 ++++++++++++++++++
->>   drivers/gpu/drm/imagination/Kconfig           |   4 +-
->>   drivers/gpu/drm/imagination/pvr_drv.c         |   2 +-
->>   drivers/gpu/drm/imagination/pvr_free_list.c   |   2 +-
->>   drivers/gpu/drm/imagination/pvr_gem.c         |  74 +-
->>   drivers/gpu/drm/imagination/pvr_gem.h         |  12 +-
->>   drivers/gpu/drm/lima/Kconfig                  |   4 +-
->>   drivers/gpu/drm/lima/lima_drv.c               |   2 +-
->>   drivers/gpu/drm/lima/lima_gem.c               |  30 +-
->>   drivers/gpu/drm/lima/lima_gem.h               |   6 +-
->>   drivers/gpu/drm/panfrost/Kconfig              |   2 +-
->>   drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
->>   drivers/gpu/drm/panfrost/panfrost_gem.c       |  30 +-
->>   drivers/gpu/drm/panfrost/panfrost_gem.h       |   6 +-
->>   .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  30 +-
->>   drivers/gpu/drm/panfrost/panfrost_mmu.c       |   8 +-
->>   drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |   6 +-
->>   drivers/gpu/drm/panthor/Kconfig               |   2 +-
->>   drivers/gpu/drm/panthor/panthor_drv.c         |   2 +-
->>   drivers/gpu/drm/panthor/panthor_fw.c          |   4 +-
->>   drivers/gpu/drm/panthor/panthor_gem.c         |  40 +-
->>   drivers/gpu/drm/panthor/panthor_gem.h         |   8 +-
->>   drivers/gpu/drm/panthor/panthor_mmu.c         |  10 +-
->>   drivers/gpu/drm/panthor/panthor_sched.c       |   1 -
->>   drivers/gpu/drm/tests/Makefile                |   1 +
->>   drivers/gpu/drm/tests/drm_gem_uma_test.c      | 385 +++++++++
->>   drivers/gpu/drm/v3d/Kconfig                   |   2 +-
->>   drivers/gpu/drm/v3d/v3d_bo.c                  |  45 +-
->>   drivers/gpu/drm/v3d/v3d_drv.h                 |   4 +-
->>   drivers/gpu/drm/v3d/v3d_mmu.c                 |   9 +-
->>   drivers/gpu/drm/virtio/Kconfig                |   4 +-
->>   drivers/gpu/drm/virtio/virtgpu_drv.c          |   4 +-
->>   drivers/gpu/drm/virtio/virtgpu_drv.h          |  12 +-
->>   drivers/gpu/drm/virtio/virtgpu_object.c       |  64 +-
->>   drivers/gpu/drm/virtio/virtgpu_plane.c        |   6 +-
->>   drivers/gpu/drm/virtio/virtgpu_vq.c           |   6 +-
->>   include/drm/drm_fbdev_uma.h                   |  20 +
->>   include/drm/drm_gem_uma_helper.h              | 293 +++++++
->>   62 files changed, 2018 insertions(+), 312 deletions(-)
->>   create mode 100644 drivers/gpu/drm/drm_fbdev_uma.c
->>   create mode 100644 drivers/gpu/drm/drm_gem_uma_helper.c
->>   create mode 100644 drivers/gpu/drm/tests/drm_gem_uma_test.c
->>   create mode 100644 include/drm/drm_fbdev_uma.h
->>   create mode 100644 include/drm/drm_gem_uma_helper.h
->>
->>
->> base-commit: 0a21e96e0b6840d2a4e0b45a957679eeddeb4362
->> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
->> prerequisite-patch-id: a5a973e527c88a5b47053d7a72aefe0b550197cb
->> prerequisite-patch-id: 719d09751d38f5da743beed6266585ee063e1e29
->> prerequisite-patch-id: 0bbc85bc6b528c32592e07f4ceafa51795c4cad9
->> prerequisite-patch-id: c856d9c8a026e3244c44ec829e426e0ad4a685ab
->> prerequisite-patch-id: 13441c9ed3062ae1448a53086559dfcbbd578177
->> prerequisite-patch-id: 951c039657c1f58e4b6e36bc01c7a1c69ed59767
->> prerequisite-patch-id: 4370b8b803ca439666fb9d2beb862f6e78347ce3
->> prerequisite-patch-id: ebbaad226ed599f7aad4784fb3f4aaebe34cb110
->> prerequisite-patch-id: cb907c3e3e14de7f4d13b429f3a2a88621a8a9fe
->> prerequisite-patch-id: 0e243b426742122b239af59e36d742da5795a8b1
->> prerequisite-patch-id: 120f97fa1af9891375a0dcf52c51c1907b01fe6a
+2. Tried modifying the patch header as commented by Borislav.
+
+3. Fixed a bug reported by Yazen.
+   https://lore.kernel.org/all/20250909162434.GB11602@yaz-khff2.amd.com/
+
+4. Changed setting 'Requested Address Range' for GET_PATROL_PARAMETERS
+   command to meet the requirements from Daniel for Ampere Computing
+   platform. 
+   https://lore.kernel.org/all/7a211c5c-174c-438b-9a98-fd47b057ea4a@os.amperecomputing.com/
+
+5. In RAS2 driver, removed support for scrub control attributes 'addr' and
+   'size' for the time being with the expectation that a firmware will do
+   the full node demand scrubbing and may enable these attributes in the
+   future.
+   
+6. Add 'enable_demand' attribute to the EDAC scrub interface to start/stop
+   the demand scrub, which is used for the RAS2 demand scrub control.
+
+v11 -> v12:
+1. Modified logic for finding the lowest contiguous phy memory addr range for
+NUMA domain using node_start_pfn() and node_spanned_pages() according to the
+feedback from Mike Rapoport in v11.
+https://lore.kernel.org/all/aKsIlFTkBsAF5sqD@kernel.org/
+
+2. Rebase to 6.17-rc4.
+
+v10 -> v11:
+1. Simplified code by removing workarounds previously added to support
+   non-compliant case of single PCC channel shared across all proximity
+   domains (which is no longer required). 
+   https://lore.kernel.org/all/f5b28977-0b80-4c39-929b-cf02ab1efb97@os.amperecomputing.com/
+
+2. Fix for the comments from Borislav (Thanks).
+   https://lore.kernel.org/all/20250811152805.GQaJoMBecC4DSDtTAu@fat_crate.local/
+
+3. Rebase to 6.17-rc1.
+
+v9 -> v10:
+1. Use pcc_chan->shmem instead of 
+   acpi_os_ioremap(pcc_chan->shmem_base_addr,...) as it was
+   acpi_os_ioremap internally by the PCC driver to pcc_chan->shmem.
+   
+2. Changes required for the Ampere Computing system where uses a single
+   PCC channel for RAS2 memory features across all NUMA domains. Based on the
+   requirements from by Daniel on V9
+   https://lore.kernel.org/all/547ed8fb-d6b7-4b6b-a38b-bf13223971b1@os.amperecomputing.com/
+   and discussion with Jonathan.
+2.1 Add node_to_range lookup facility to numa_memblks. This is to retrieve the lowest
+    physical continuous memory range of the memory associated with a NUMA domain.
+2.2. Set requested addr range to the memory region's base addr and size
+   while send RAS2 cmd GET_PATROL_PARAMETER 
+   in functions ras2_update_patrol_scrub_params_cache() &
+   ras2_get_patrol_scrub_running().
+2.3. Split struct ras2_mem_ctx into struct ras2_mem_ctx_hdr and struct ras2_pxm_domain
+   to support cases, uses a single PCC channel for RAS2 scrubbers across all NUMA
+   domains and PCC channel per RAS2 scrub instance. Provided ACPI spec define single
+   memory scrub per NUMA domain.
+2.4. EDAC feature sysfs folder for RAS2 changed from "acpi_ras_memX" to  "acpi_ras_mem_idX"
+   because memory scrub instances across all NUMA domains would present under
+   "acpi_ras_mem_id0" when a system uses a single PCC channel for RAS2 scrubbers across
+   all NUMA domains etc.
+2.5. Removed Acked-by: Rafael from patch [2], because of the several above changes from v9.
+
+v8 -> v9:
+1. Added following changes for feedback from Yazen.
+ 1.1 In ras2_check_pcc_chan(..) function
+    - u32 variables moved to the same line.
+    - Updated error log for readw_relaxed_poll_timeout()
+    - Added error log for if (status & PCC_STATUS_ERROR), error condition.
+    - Removed an impossible condition check.
+  1.2. Added guard for ras2_pc_list_lock in ras2_get_pcc_subspace().
+        
+2. Rebased to linux.git v6.16-rc2 [2].
+
+v7 -> v8:
+1. Rebased to linux.git v6.16-rc1 [2].
+
+v6 -> v7:
+1. Fix for the issue reported by Daniel,
+   In ras2_check_pcc_chan(), add read, clear and check RAS2 set_cap_status outside
+   if (status & PCC_STATUS_ERROR) check. 
+   https://lore.kernel.org/all/51bcb52c-4132-4daf-8903-29b121c485a1@os.amperecomputing.com/
+
+v5 -> v6:
+1. Fix for the issue reported by Daniel, in start scrubbing with correct addr and size
+   after firmware return INVALID DATA error for scrub request with invalid addr or size.
+   https://lore.kernel.org/all/8cdf7885-31b3-4308-8a7c-f4e427486429@os.amperecomputing.com/
+   
+v4 -> v5:
+1. Fix for the build warnings reported by kernel test robot.
+   https://patchwork.kernel.org/project/linux-edac/patch/20250423163511.1412-3-shiju.jose@huawei.com/
+2. Removed patch "ACPI: ACPI 6.5: RAS2: Rename RAS2 table structure and field names"
+   from the series as the patch was merged to linux-pm.git : branch linux-next
+3. Rebased to ras.git: edac-for-next branch merged with linux-pm.git : linux-next branch.
+      
+v3 -> v4:
+1.  Changes for feedbacks from Yazen on v3.
+    https://lore.kernel.org/all/20250415210504.GA854098@yaz-khff2.amd.com/
+
+v2 -> v3:
+1. Rename RAS2 table structure and field names in 
+   include/acpi/actbl2.h limited to only necessary
+   for RAS2 scrub feature.
+2. Changes for feedbacks from Jonathan on v2.
+3. Daniel reported a known behaviour: when readback 'size' attribute after
+   setting in, returns 0 before starting scrubbing via 'addr' attribute.
+   Changes added to fix this.
+4. Daniel reported that firmware cannot update status of demand scrubbing
+   via the 'Actual Address Range (OUTPUT)', thus add workaround in the
+   kernel to update sysfs 'addr' attribute with the status of demand
+   scrubbing.
+5. Optimized logic in ras2_check_pcc_chan() function
+   (patch - ACPI:RAS2: Add ACPI RAS2 driver).
+6. Add PCC channel lock to struct ras2_pcc_subspace and change
+   lock in ras2_mem_ctx as a pointer to pcc channel lock to make sure
+   writing to PCC subspace shared memory is protected from race conditions.
+   
+v1 -> v2:
+1.  Changes for feedbacks from Borislav.
+    - Shorten ACPI RAS2 structures and variables names.
+    - Shorten some of the other variables in the RAS2 drivers.
+    - Fixed few CamelCases.
+
+2.  Changes for feedbacks from Yazen.
+    - Added newline after number of '}' and return statements.
+    - Changed return type for "ras2_add_aux_device() to 'int'.
+    - Deleted a duplication of acpi_get_table("RAS2",...) in the ras2_acpi_parse_table().
+    - Add "FW_WARN" to few error logs in the ras2_acpi_parse_table().
+    - Rename ras2_acpi_init() to acpi_ras2_init() and modified to call acpi_ras2_init()
+      function from the acpi_init().
+    - Moved scrub related variables from the struct ras2_mem_ctx from  patch
+      "ACPI:RAS2: Add ACPI RAS2 driver" to "ras: mem: Add memory ACPI RAS2 driver".
+
+Shiju Jose (2):
+  ACPI:RAS2: Add driver for the ACPI RAS2 feature table
+  ras: mem: Add ACPI RAS2 memory driver
+
+ Documentation/ABI/testing/sysfs-edac-scrub |  13 +-
+ Documentation/edac/scrub.rst               |  60 +++
+ drivers/acpi/Kconfig                       |  10 +
+ drivers/acpi/Makefile                      |   1 +
+ drivers/acpi/bus.c                         |   3 +
+ drivers/acpi/ras2.c                        | 409 +++++++++++++++++++++
+ drivers/edac/scrub.c                       |  12 +
+ drivers/ras/Kconfig                        |  13 +
+ drivers/ras/Makefile                       |   1 +
+ drivers/ras/acpi_ras2.c                    | 394 ++++++++++++++++++++
+ include/acpi/ras2.h                        |  74 ++++
+ include/linux/edac.h                       |   4 +
+ 12 files changed, 989 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/acpi/ras2.c
+ create mode 100644 drivers/ras/acpi_ras2.c
+ create mode 100644 include/acpi/ras2.h
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+2.43.0
 
