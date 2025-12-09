@@ -1,544 +1,336 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010041.outbound.protection.outlook.com [52.101.46.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B316327C1F;
-	Tue,  9 Dec 2025 16:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765298318; cv=fail; b=VuTom4kGjKpqfJ9FYQ7rSaDfd+aY6o2iBOKSmgF8Sm998kgheEMmviI9mPk2EIYNtSihAI1+X9NAT9V7ZsYk7D+M+PO+UEqtTXjaYXUWbE2zGDckRcqZJvtRDHCnb0R3TArIXModumRa3lY0MV8eIa+Mg8jgBsNggdE8jlO+fXg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765298318; c=relaxed/simple;
-	bh=OP0cyqq76pVvfR2I53qWCPVgwLJHpwnX2OXY1kcEmh8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=tjVbypqgztMXrgNCG7sKRZFfhdmeZZK9gWRfUfdEiD2/QjmCRKpEzfv7IDHA7yIxlBIzyoeYYLvdO1f4COROGrwW+Ne0sptGIyPJLLwTta+f01tr6B437G1XcXFESEllIMN/Jsy00Mq269N+9rRjG72cx88gPjiWDw6po4KZOPk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jGUTpHUB; arc=fail smtp.client-ip=52.101.46.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AFE328B45
+	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 16:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765298437; cv=none; b=Shvc1bAwOxiKTdBM7nSRVKiIP51fnjK5o09eLS7XUaq/MwBzEFoyQ+DZDIcDUcgpWJg3XJGyUOAV/kn/TVT5UNXoJeIepKIIxtfVrMgxB7xJwGB3yx6VqGA4lsDiIegrz+il6OiARcSyw3xqyECHJfzBnOpVjkgarlsnAvM75Z4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765298437; c=relaxed/simple;
+	bh=++9OHvhMumrV20LJ7q5JsVuI+EnRyA0/+GtmYBQSsVE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cmCfKrLVUd3qr0lByAo6clissSRwQ3rgddZ3q+pe6XlNs6Tv3LD/xbrV3i1lHgD1+OxFMW3D7l4xx9OjZ4lwlfE+k84rSfDBw/YybWrhCBOW9WL4adMVa969hWD0f+pfrjjyudYEy5Yd7Y26W7b9lzyfFXnwQNr545wvpEW+9Qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arturia.com; spf=pass smtp.mailfrom=arturia.com; dkim=pass (2048-bit key) header.d=arturia.com header.i=@arturia.com header.b=APIMrdAo; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arturia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arturia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jGUTpHUB"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gZV5wZ0AxmxHSXEwSwBshSENJII4wfc9EL6/T/qjWmtQ8wqY9RLkJG2iQe6SFPA7cgfN6nn4X0tXkbrK/1zk5Ilv+D3yHRJDcjkfB0WfSikyPxP5+TIyLyJA+JuuAPO1TRkT9jy52t1hsKAKcs6LWQmI9UqlbozQpBH89e2DggVxUJASNriSk/kLw7RRfJc64FhSQ/t32ra66Jrhzj0hqcyc5tMKjkWD1Cbu0gabclOnSQlTGjgFbHKShN5i9v3LE0Uf6YFosKGBalDGwOJPbrFu0eeUGX1ZQiTT0G+7dLsJpRuf1GokvX1fDSNrA7BzOlc7DYdZ5yRbfCre/mxcdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lsLzCUbN60f49T3wQ+8firvnbmrtXmq32CSJGRJ2uCQ=;
- b=bZzszdTQ7pCnNHj1u2VA1DdPOxdPXIJ5w7ELYb8Qhm1EyuIieuwU9rMxnl90YY9tGE10Hq33UN0mEApYUMkXQq2KFHmlIgMlJ5whEnBWX5Q2JuqmX6XyP8mmIlNqJIi/aKlNclui9qWfTOoXJGqcNYwQ/WtlDXeOvez9AyqUPCqoOL46DdzJcqs14JtSp7N35JVWH1g6TTKLDUVKn/fMk8k5k33Va7Lb/CXcTESRlUE1/3BqyWE/SirB/feCVJzMsxAz5GpBkYYuU1zngZ0kadjA78mui8VDKwPo8mACnuprw0FQpGmgThox2gzpXF/XwAJDIiCOFHfuiGya05O+Vg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lsLzCUbN60f49T3wQ+8firvnbmrtXmq32CSJGRJ2uCQ=;
- b=jGUTpHUBVf2bM5d8QlBzxkovhCpi8dXY32SPV85pXopNMjdU9Bay2qSYon4HOsFqFI+G/34Gc+x2EulzzludoPx56c3xTD8BmKKSuO1GeF/5yEsBaansvI/agybbUo+1eB4mNuitC/qT4YqNkfZsukqCtWzF44pMLX0W6nzRAGC0DLM10BdqzCUGLILQQvvOaLU0nDoZkQ6AaW3eNlBRPHsjKnraYW+ugUzF5IUrwrbAysRqAFSXR5dxfs41bCGmpon6LGFj6IRWUzd6iDMPBBuVtCspyB0vrUi44LLy8q+H+cksYcn3hJBu7X1yBG16BaNlzd50g0JP2msXTyhgVA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
- by PH7PR12MB7188.namprd12.prod.outlook.com (2603:10b6:510:204::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Tue, 9 Dec
- 2025 16:38:30 +0000
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::44e5:415d:e1a8:6e42]) by BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::44e5:415d:e1a8:6e42%7]) with mapi id 15.20.9412.005; Tue, 9 Dec 2025
- 16:38:30 +0000
-Message-ID: <019bbcd9-7bbc-45bb-9c05-f59a4c90c26e@nvidia.com>
-Date: Tue, 9 Dec 2025 22:08:19 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/8] ACPI: CPPC: add APIs and sysfs interface for
- min/max_perf
-To: Pierre Gondois <pierre.gondois@arm.com>
-Cc: linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-pm@vger.kernel.org, zhanjie9@hisilicon.com, ionela.voinescu@arm.com,
- perry.yuan@amd.com, mario.limonciello@amd.com, gautham.shenoy@amd.com,
- rdunlap@infradead.org, zhenglifeng1@huawei.com, corbet@lwn.net,
- robert.moore@intel.com, lenb@kernel.org, viresh.kumar@linaro.org,
- linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
- vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
- nhartman@nvidia.com, bbasu@nvidia.com, rafael@kernel.org, ray.huang@amd.com,
- sumitg@nvidia.com
-References: <20251105113844.4086250-1-sumitg@nvidia.com>
- <20251105113844.4086250-5-sumitg@nvidia.com>
- <23baedfe-176a-42fd-9e5c-c8ad78107708@arm.com>
-Content-Language: en-US
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <23baedfe-176a-42fd-9e5c-c8ad78107708@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5PR01CA0226.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1f3::12) To BN9PR12MB5179.namprd12.prod.outlook.com
- (2603:10b6:408:11c::18)
+	dkim=pass (2048-bit key) header.d=arturia.com header.i=@arturia.com header.b="APIMrdAo"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-477a2ab455fso67762555e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 08:40:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arturia.com; s=arturia; t=1765298432; x=1765903232; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sd5cGMdlvX87FNTFw7luLCsJmzXmWV6Bmc5tqLNvtGs=;
+        b=APIMrdAol+fI3N3Po0REqnGQjtvM5s63PeoM18gUxbvTWO2QunC8fWgiqm2w94NL8Q
+         4moXbHy4uWqK19f1g0w9MtA4H0cxvm6m/An1DrRVGwtaLSmPzYzlKsmWA5/rCLbKEsrh
+         7pQHq8LjGbTlPt+/y9E0YwJ3fyvW/hl5ot04j/83rmDoUo8yrxN+xuAJG92sJxAxh1YI
+         2ng/Clx47zJ4Q8fwdCoIF+E5Tlu0BX8akmjlPAFBE9nfAlomf5cAwgXZFESxkGBomFN6
+         +ikZmFBPhTm5qO/5mru14H5IET9D5pNJblNhxjf14jbZ5gwVig++ySkpjSBUS0CwpQvq
+         GNMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765298432; x=1765903232;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sd5cGMdlvX87FNTFw7luLCsJmzXmWV6Bmc5tqLNvtGs=;
+        b=dnQIOfciT5C+7iGbB1QcaeSuCjUodaQLKoCsRu0zWkwuWI5fv6epS2B2dvmP37gNMU
+         bfbYSHnEX8Silpv6QLKePjTWhrwaXAyDbqhsl9eXN9e58euESpYrijQo6mDnEPK/FVnm
+         AG0GAT+MehhskG8mDMSFWCEf1S3WeGarX0+OT+tQZGSK+VwGdGe7+aq78FzGB7ww8Bdc
+         qMcFdV7c1Isv3gHlaM7Y7ujT4v6clEIFEc95lPb+u9DASKcBaNyPzaVBpDgrEcmqh+G+
+         5QpT9Ixu/VBCoNbgfrAlzpzO1+1tweoj+DuyKfqxbT5X1cWKqNzFcQDSSnplPx/wjyJr
+         0jmg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJcbZi/3NGnp6wKuOqD5cQhVKm8cXboEviQlMRipjcL2dnQIX3Dlr6ONrjrhcXuem/Q3zYYRIcExQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJk2GhXCFrMyRkNHb9BIWQUh+F1Onoyd97MpH7bYLGIHezsEJT
+	sriWKFkxHfbjXXw+UYuf9CBRPoUOo7W+SNBDeUWdrcA3ntxbjw3TIhn09aB21+RrAIk=
+X-Gm-Gg: ASbGncv1Jr+WnS65h8Hg57GQdSeSQPeoXxKZBW5AAfe2DhpE05fJnrsqBLflVKzz51J
+	4vAmHo4uJtyfUrYZ1xcJhBLDyBakt4yDRAlYOM2bdrRJzoEJKdcJ937qA0cyOtJ36xYziNAZqP0
+	nVMtRoT/YJscsXduQQyjOKumjTYp6pc15P5ndRyI8JvWDqUahARt2y+hIQX+Bwmocjf7uxfienT
+	o2hrx71h1Q5B+n2sLGX2btw7ohBXB2GcYif9qE9TSUzTwiiajTIKlwgx3e5cBfWGhx6353/npI0
+	uw4L0k65MMNYt3LqRdAmVBAwErnleiOfgeG5uRDcV5CGc0BbPE8udeUc5k5XPsQRCSWTnJGfIoZ
+	BC65gxSZev603+Afp+AxfafVm0EheL6FCXgJ6uXPTnGWkOwTGXwCC34Wb+CqZn6U8089MriOp5f
+	12Nm1QiGl5O3y2Kp3K3kyJO7Ca3l3YDDQxJzNs
+X-Google-Smtp-Source: AGHT+IELAzcsYpOj9uuRdYM2/XzumHYICgClkqlPJHMr4EhFYRmtgMYYKCFf5swysg49tA6DSYOSlg==
+X-Received: by 2002:a05:600c:1c1b:b0:477:b734:8c53 with SMTP id 5b1f17b1804b1-47939dfa09fmr113474715e9.12.1765298432259;
+        Tue, 09 Dec 2025 08:40:32 -0800 (PST)
+Received: from localhost.localdomain ([2a01:cb15:854c:e000:e58b:a5ca:200b:e2e2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7cbfee71sm32550060f8f.15.2025.12.09.08.40.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 08:40:31 -0800 (PST)
+From: Victor Krawiec <victor.krawiec@arturia.com>
+To: gregkh@linuxfoundation.org
+Cc: tiwai@suse.de,
+	corbet@lwn.net,
+	jilliandonahue58@gmail.com,
+	selvarasu.g@samsung.com,
+	jkeeping@inmusicbrands.com,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	Victor Krawiec <victor.krawiec@arturia.com>
+Subject: [PATCH v2] usb: gadget: f_midi: allow customizing the USB MIDI interface string through configfs
+Date: Tue,  9 Dec 2025 17:40:06 +0100
+Message-ID: <20251209164006.143219-1-victor.krawiec@arturia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|PH7PR12MB7188:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2b4d20b6-0c2a-48d3-2162-08de3741628c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RHNyem9GUm1CaXA3eFpDdmZaaFArRGsyNkY4WE92NU9tZUxSaHViYmM1UUxP?=
- =?utf-8?B?U0M2TkdpL3RUdzc4eGJSWHJTODIvazloQkoyTFZtZTU1c2pUWVFmR3BzdjRL?=
- =?utf-8?B?SGxBajJZT1BMOVdJL3pWaHcvUTdpNWQwaW11SThDSWVFL0lUZjZQSERVZkl1?=
- =?utf-8?B?NWNlYmJhUDVPUVpVL3lNdG13VE1aM0RSaGhoNFhaOXdpYnl2M1czQUl3ckJZ?=
- =?utf-8?B?OW5iSEp2dWxGWVZVenZoa0FJRUdJYXJ3S0hJYjZqSUVXWG9QRS9iRmpwRFpt?=
- =?utf-8?B?amJZRjI4eUVESithV0pZbzNkdy85ek5EYWQxRGVxT042alJTM3BLdU84QmNC?=
- =?utf-8?B?bWd6S2c2cXlydDBpL2I2TTZVWWI5Y3RBK3lZcmhUclltbm11N2ZqVkc5T0VN?=
- =?utf-8?B?a0pIanNPYkpON3ViRnhOUmhpN015VUl3akhWdUlVa0o1c2Z1anRtaFNTRXJK?=
- =?utf-8?B?SCtCalQ4cTErVnhMSlBJVzRmKy9xbGYzNlJiSTk3T1MxVXFzUmY1bjlkOGd6?=
- =?utf-8?B?cUNqc3cyZHJyQUJXVG12ZVdWc2gwSFpzd2pOOXVtcWQyZ1Q1djNtcmpwZE5z?=
- =?utf-8?B?VC9URUYyd0hwZytNVUR5QllLOEt6Smd5dnZ0enhoQXU1UTBTZi9vRkgwREZy?=
- =?utf-8?B?bnN1dU5TcnFaODVZc3luQ2NxbWNHR1VFSXJjd2NpT0dOeFhQMVowbWJXY1E1?=
- =?utf-8?B?M01IMHlXcUh2OVR5OHlaWmdWODR1a0Y5SytJY0d3MWxOck5UdHpkZE14bGJ2?=
- =?utf-8?B?bmlYb2VEallrSllyVy8xK3FFcDdVYlNRUEVzUTRtbVVjclN5VHZoc3VDUWVt?=
- =?utf-8?B?RzA2VmppTHJOaFY0SXlBUXlDLzBBaUN6STBxRGRTQkhJeUtlTjdKVExYcmFV?=
- =?utf-8?B?WHBwbnRGMlVsQzE5SVhHaHBXZE1DTEMrOWp6cU5aM0RIU0xaQTFYRkNFdEht?=
- =?utf-8?B?QVlST1ZWZDhkdENBNzhtaGoxZFFpdktBRkF4Vndpc1RXYWxXK0hraGVpQnVk?=
- =?utf-8?B?THNyY3p0bW53S2ZRSDRENVU4YXNRWFVNbGtrR1Y3eFNkRitMUFhnVEN0WEEv?=
- =?utf-8?B?OE5sblRuemRIeWFSNjJqWC8zWnhrNVB4S01KRnEvSnRCS0N4VkNaa2x4SmMy?=
- =?utf-8?B?NFdyQkFISUFONDNmcHkyT2MzYzcrUnF0eUVGVk9xM3YweG5pMUxoUHBvVTFl?=
- =?utf-8?B?UU04TEFnS1RZV0MvaEZtK0JSMDZZcjc5RHpjNXVGTDExdHU3bkNLMzBXTlRP?=
- =?utf-8?B?VitQd1hhaUtsbzNmb09uSENkamR3TC9FZVN3dzMzOVRNOVlqMXFucDlmaGx5?=
- =?utf-8?B?ekQ0UHlzVjdYbzlyOTlKeGVTdlk0TEZlYjM5cForUTM3Sjg0ZGdPdU5OTDlo?=
- =?utf-8?B?T2w4ekN0RFRuT1RqK05tWDlFWlJrTSs5RVJFa3ZQcngyTHNGemgzckQrbXo4?=
- =?utf-8?B?U2Y3ZG55dEx5S3djNHJwZ1Y1YUpESC9LaFVEVk43Wm1Ea1Y1OTBiNEhGYkt6?=
- =?utf-8?B?aUNGd0RIRS9VeVlmYUpCV2h3MWs5N01wTWpnWVN6bDhwSDBwRXljN2tsRkhC?=
- =?utf-8?B?amlJdUVJM0RwSXgyb1M0RnhUay9HTUQ1NzdSMkFRVG9FUEQxQWxEbnlRZkdK?=
- =?utf-8?B?aXhvVWtqbUZneWdueEZWVEE1ZlRsZ0YyczFZcnBzVjFvK3NrRG83NFRPMTNI?=
- =?utf-8?B?bHNnYkwrQko1dXpiZFR4OVEwS2l4QTUzZ2xQVjVUKzB6RXNPWVlraXh4dDBQ?=
- =?utf-8?B?WG9lMEFiVDNJZmJCcWtZVkg0ZWF5bklzVXN2WkpRTE56elZHYUxlM0JnODJL?=
- =?utf-8?B?bTl6dmpkMVU3b1M1eFNrcEQ1U3pxSDgzNW5OdndacUFicUNpc2JEdVdwaUE5?=
- =?utf-8?B?b1QySm9YQlAxOG5iRlY1YUJ4d3FuREVRYllCRVdPajJsRkx4MnFBMDI1Y2tR?=
- =?utf-8?B?NDZWQVRiYWVzR0t5SkUyWEdrem5ZcmdybzBwamw5VWsrblA4d1EvbDMyZ1Iz?=
- =?utf-8?B?Nlk1SlBucm93PT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R2t1STZwcE9GRWxFS3EwbGU4ZXR6cjRIWTdjWlV6NFJNU0k5eW5acFlhM2NX?=
- =?utf-8?B?cGtZZFVodWpmbjQ0SjhFVUNLNDRxVWVyZCs0bVZoaGllUDZ3eGdFSHZUNjU2?=
- =?utf-8?B?SUNHWUhIYjZHcGx3VERBLzlMc01PcmV4aS9kUGlCM0E1N1VLajB2bHJlaVdR?=
- =?utf-8?B?aXorbG5TcWVRaEIvUm5UVkw4UlF3M2poMGcwQlhKOUxCMWJVOU4vMFozZEZP?=
- =?utf-8?B?VFF2RHdnYnBpOGtpc0pEY0NzcW9LSEpoTThoT1ZOSlpEUHF6S0kveWZiVzhB?=
- =?utf-8?B?N2hpeXFXZmx5K0tWQ0tzTSthL05Ob3dCaHVNTm9Gc3dBSjYyeWhCMTU3Y0Fw?=
- =?utf-8?B?M0N1Szc3ME1Rd09BWUE4dGw0c2hNLzlmMHFoZUpFeFUzSjlkcHlaRUoyU21P?=
- =?utf-8?B?QUdLVldwdTZpUGtLNlVYalNFSmI3NUtDbHFvVzNFZERPMlRvbUZRcHpVaVd5?=
- =?utf-8?B?OGtLYXV4NVNOS2xTV2NjZEZFaU1mRXZrTUpNV1N5Z1FlVWk1bU5CdHVxTnVV?=
- =?utf-8?B?V1Faekl3NzR3eDZ4T2NKTjMyZy9veHZkNEhDbHlMODJVdXpUQnJGMEhvU1Bl?=
- =?utf-8?B?d1l1SnJKajRvTTkzeUMwazdLOFcwbGlHejJYYWU3NEI4NXBFb2NRdE1hdXFT?=
- =?utf-8?B?N28wMFpDcEpZc29YTWZ1NW14WVNITjY4MU96UW8zRHQ2cytWak5iS012WDd4?=
- =?utf-8?B?bGZsN0ZTTEhHNnR6QzJUMXFScHdiWm1vZ3BTa29QczNaYWFKc3JLNEcwTjh5?=
- =?utf-8?B?QjVvWUp3QlNTS3hEMVE0bThPUk5Rd1U1ZEZWT09hdUMrSEhmUkZyYmJFZVdJ?=
- =?utf-8?B?b3ZuRTNxMVdKb25qWWdzSFIrbms4Z1R6NFZraWdHdVI0bkw4cGZyYWJWRUpX?=
- =?utf-8?B?L0t2Y3V1eithUEhpZUpRVGczanJhaWYvUXRiWTFrSWo5U0h3ejJ3amtwTkRz?=
- =?utf-8?B?Q1czNGIvQ01wR1ZwcTNNdTNJMDlIN3JmaVFVNGNHSVJBSndRZk5qR1J2eE8z?=
- =?utf-8?B?Rnd0aFliTEcxbys3Z21mNFpmU0w5Q3JqVWJ3bkJMQnBKazFtSk5QZldjcWNG?=
- =?utf-8?B?MmhrWi9paWlOWmFkbzRQcUJWQkZBR0ZuSlJ4Q2ErekZicTBkNUxYRW5CNHV4?=
- =?utf-8?B?eDZycWJFRVl3NlZFNnB3bW5VVm41Z0Jrb0YyYm9VUE9TUkwvTFNnZ3Q4Y3cv?=
- =?utf-8?B?NDJZdld3Nk5ZRzF4OUNzU0xsNmFXN21SNGxXSEJ1RGQ4TTk4S0t1K25HNmRJ?=
- =?utf-8?B?VTNPQzZCL08yd1VWZVVxL010bzJUQ0RLQ29NZWhwdmRadG1jL3VOR0FtSE5r?=
- =?utf-8?B?K2k5OVhFdnhGUTlsOXVha3o4K2dnemEya1pDdVFxektHK01oZzZRLzRGYzNt?=
- =?utf-8?B?SFhOd0FTZ3BZaG9uakRvTnVJYTc2Y25DQmE5azhlYjlSbEhqSGpuclBqL0xm?=
- =?utf-8?B?TkRyS2lxbmo5VzVwUDlQZkpPc1B5cWJJclI3OWlVd1hoTmsrWXdtRHRXZ3pz?=
- =?utf-8?B?eVJQK29xRXVQS08rOEJVYll0YVZSM1VsMkFFclRFN0NMT1ZocHg4allTRkNi?=
- =?utf-8?B?WkRYYUFOelIxTVY4cXBDMlNRVTIzbkwvSk1JbFNWZmpwMXFHT2VmeDJVRW5B?=
- =?utf-8?B?Y3dXanNXc1dIMG5VMFZlak1jRDJOaldFT0lhMnRWaWppMGtPdVM3dVJON1Qv?=
- =?utf-8?B?SEdUem84dnhmc09vbDdJbm80UmgyM3c1OW1pM2VLQ0NYeFN1WGtYTk1hK3Mx?=
- =?utf-8?B?MWxFVWJoWEZLalo3MDMyMmpJQk4wUXRJRER4T3RvTkdHZWE2Q010c29tQklJ?=
- =?utf-8?B?aGhxUkdiS1RRUnN2M2hDS0NuMnlUN3I4bFkvTkJhY1E0TzlXc1ZzN25RRjJt?=
- =?utf-8?B?d3dYcDdxa0NadXBMR2VITTlsdWFHTXkxSTZxb3NtbC9heFFZMWI3MEhiY0xO?=
- =?utf-8?B?R0pZUzhidXBXQ2E4dXRXS1d4ekwvMEU3OEFzVUEvY1NnamQ0Um43M3gxSFVF?=
- =?utf-8?B?Q0g5b3lXUTNOem00aE5vNnJ5NkpnWnNXcks5eEo2RnQrY3hXb0tzejY2VzZT?=
- =?utf-8?B?MlV1YU9UNll3Tmp1T080UHdNNFR4T3FpRWNmWjFMVWZjbDlBSFNyMEo2TElI?=
- =?utf-8?Q?SZrCK8kRcq9jYjcR0wz6cMcKE?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b4d20b6-0c2a-48d3-2162-08de3741628c
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 16:38:30.4166
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jJBD4fZ8jeuCpuzEi1iZCGr5gqdsegNqNi8reNQPmZ2E2YcBh7eWzNIqfzF8GLBEEHHfioykSAfqxIhLBh8Mqw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7188
+Content-Transfer-Encoding: 8bit
 
+When using f_midi from configfs the USB MIDI interface string is hardcoded
+to 'MIDI function'.
 
-On 27/11/25 20:24, Pierre Gondois wrote:
-> External email: Use caution opening links or attachments
->
->
-> On 11/5/25 12:38, Sumit Gupta wrote:
->> CPPC allows platforms to specify minimum and maximum performance
->> limits that constrain the operating range for CPU performance scaling
->> when Autonomous Selection is enabled. These limits can be dynamically
->> adjusted to implement power management policies or workload-specific
->> optimizations.
->>
->> Add cppc_get_min_perf() and cppc_set_min_perf() functions to read and
->> write the MIN_PERF register, allowing dynamic adjustment of the minimum
->> performance floor.
->>
->> Add cppc_get_max_perf() and cppc_set_max_perf() functions to read and
->> write the MAX_PERF register, enabling dynamic ceiling control for
->> maximum performance.
->>
->> Expose these capabilities through cpufreq sysfs attributes that accept
->> frequency values in kHz (which are converted to/from performance values
->> internally):
->> - /sys/.../cpufreq/policy*/min_perf: Read/write min perf as freq (kHz)
->> - /sys/.../cpufreq/policy*/max_perf: Read/write max perf as freq (kHz)
->>
->> The frequency-based interface provides a user-friendly abstraction which
->> is similar to other cpufreq sysfs interfaces, while the driver handles
->> conversion to hardware performance values.
->>
->> Also update EPP constants for better clarity:
->> - Rename CPPC_ENERGY_PERF_MAX to CPPC_EPP_ENERGY_EFFICIENCY_PREF
->> - Add CPPC_EPP_PERFORMANCE_PREF for the performance-oriented setting
->>
->> Signed-off-by: Sumit Gupta<sumitg@nvidia.com>
->> ---
->>   drivers/acpi/cppc_acpi.c       |  55 ++++++++++-
->>   drivers/cpufreq/cppc_cpufreq.c | 166 +++++++++++++++++++++++++++++++++
->>   include/acpi/cppc_acpi.h       |  23 ++++-
->>   3 files changed, 242 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
->> index 757e8ce87e9b..ef53eb8a1feb 100644
->> --- a/drivers/acpi/cppc_acpi.c
->> +++ b/drivers/acpi/cppc_acpi.c
->> @@ -1634,7 +1634,7 @@ EXPORT_SYMBOL_GPL(cppc_set_epp_perf);
->>    */
->>   int cppc_set_epp(int cpu, u64 epp_val)
->>   {
->> -     if (epp_val > CPPC_ENERGY_PERF_MAX)
->> +     if (epp_val > CPPC_EPP_ENERGY_EFFICIENCY_PREF)
->>               return -EINVAL;
->>
->>       return cppc_set_reg_val(cpu, ENERGY_PERF, epp_val);
->> @@ -1757,6 +1757,59 @@ int cppc_set_enable(int cpu, bool enable)
->>       return cppc_set_reg_val(cpu, ENABLE, enable);
->>   }
->>   EXPORT_SYMBOL_GPL(cppc_set_enable);
->> +
->> +/**
->> + * cppc_get_min_perf - Get the min performance register value.
->> + * @cpu: CPU from which to get min performance.
->> + * @min_perf: Return address.
->> + *
->> + * Return: 0 for success, -EIO on register access failure, 
->> -EOPNOTSUPP if not supported.
->> + */
->> +int cppc_get_min_perf(int cpu, u64 *min_perf)
->> +{
->> +     return cppc_get_reg_val(cpu, MIN_PERF, min_perf);
->> +}
->> +EXPORT_SYMBOL_GPL(cppc_get_min_perf);
->> +
->> +/**
->> + * cppc_set_min_perf() - Write the min performance register.
->> + * @cpu: CPU on which to write register.
->> + * @min_perf: Value to write to the MIN_PERF register.
->> + *
->> + * Return: 0 for success, -EIO otherwise.
->> + */
->> +int cppc_set_min_perf(int cpu, u64 min_perf)
->> +{
->> +     return cppc_set_reg_val(cpu, MIN_PERF, min_perf);
->> +}
->> +EXPORT_SYMBOL_GPL(cppc_set_min_perf);
->> +
->> +/**
->> + * cppc_get_max_perf - Get the max performance register value.
->> + * @cpu: CPU from which to get max performance.
->> + * @max_perf: Return address.
->> + *
->> + * Return: 0 for success, -EIO on register access failure, 
->> -EOPNOTSUPP if not supported.
->> + */
->> +int cppc_get_max_perf(int cpu, u64 *max_perf)
->> +{
->> +     return cppc_get_reg_val(cpu, MAX_PERF, max_perf);
->> +}
->> +EXPORT_SYMBOL_GPL(cppc_get_max_perf);
->> +
->> +/**
->> + * cppc_set_max_perf() - Write the max performance register.
->> + * @cpu: CPU on which to write register.
->> + * @max_perf: Value to write to the MAX_PERF register.
->> + *
->> + * Return: 0 for success, -EIO otherwise.
->> + */
->> +int cppc_set_max_perf(int cpu, u64 max_perf)
->> +{
->> +     return cppc_set_reg_val(cpu, MAX_PERF, max_perf);
->> +}
->> +EXPORT_SYMBOL_GPL(cppc_set_max_perf);
->> +
->>   /**
->>    * cppc_get_perf - Get a CPU's performance controls.
->>    * @cpu: CPU for which to get performance controls.
->> diff --git a/drivers/cpufreq/cppc_cpufreq.c 
->> b/drivers/cpufreq/cppc_cpufreq.c
->> index cf3ed6489a4f..cde6202e9c51 100644
->> --- a/drivers/cpufreq/cppc_cpufreq.c
->> +++ b/drivers/cpufreq/cppc_cpufreq.c
->> @@ -23,10 +23,12 @@
->>   #include <uapi/linux/sched/types.h>
->>
->>   #include <linux/unaligned.h>
->> +#include <linux/cleanup.h>
->>
->>   #include <acpi/cppc_acpi.h>
->>
->>   static struct cpufreq_driver cppc_cpufreq_driver;
->> +static DEFINE_MUTEX(cppc_cpufreq_update_autosel_config_lock);
->>
->>   #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
->>   static enum {
->> @@ -582,6 +584,68 @@ static void cppc_cpufreq_put_cpu_data(struct 
->> cpufreq_policy *policy)
->>       policy->driver_data = NULL;
->>   }
->>
->> +/**
->> + * cppc_cpufreq_set_mperf_limit - Generic function to set min/max 
->> performance limit
->> + * @policy: cpufreq policy
->> + * @val: performance value to set
->> + * @update_reg: whether to update hardware register
->
-> I m not sure I see in which case we might not want to update the
-> hardware register.
-> Isn't the min/max_perf values relevant even when autonomous selection is
-> disabled/absent ?
->
+This USB string descriptor is used by some third-party OS or software to
+display the name of the MIDI device
 
-Explained in reply on 'patch 7/8'. Adding here also brief info.
-When disabling auto_sel, only the policy limits are reset, the
-min/max_perf registers are preserved.
-When re-enabled, these preserved values are restored to both
-hardware reg and policy.
+Since we add an additional string option a new macro block was created to
+factorize declarations
 
->
->> + * @update_policy: whether to update policy constraints
->> + * @is_min: true for min_perf, false for max_perf
->> + */
->> +static int cppc_cpufreq_set_mperf_limit(struct cpufreq_policy 
->> *policy, u64 val,
->> +                                     bool update_reg, bool 
->> update_policy, bool is_min)
->> +{
->> +     struct cppc_cpudata *cpu_data = policy->driver_data;
->> +     struct cppc_perf_caps *caps = &cpu_data->perf_caps;
->> +     unsigned int cpu = policy->cpu;
->> +     struct freq_qos_request *req;
->> +     unsigned int freq;
->> +     u32 perf;
->> +     int ret;
->> +
->> +     perf = clamp(val, caps->lowest_perf, caps->highest_perf);
->> +     freq = cppc_perf_to_khz(caps, perf);
->> +
->> +     pr_debug("cpu%d, %s_perf:%llu, update_reg:%d, 
->> update_policy:%d\n", cpu,
->> +              is_min ? "min" : "max", (u64)perf, update_reg, 
->> update_policy);
->> +
->> + guard(mutex)(&cppc_cpufreq_update_autosel_config_lock);
->> +
->> +     if (update_reg) {
->> +             ret = is_min ? cppc_set_min_perf(cpu, perf) : 
->> cppc_set_max_perf(cpu, perf);
->> +             if (ret) {
->> +                     if (ret != -EOPNOTSUPP)
->> +                             pr_warn("Failed to set %s_perf (%llu) 
->> on CPU%d (%d)\n",
->> +                                     is_min ? "min" : "max", 
->> (u64)perf, cpu, ret);
->> +                     return ret;
->> +             }
->> +
->> +             if (is_min)
->> +                     cpu_data->perf_ctrls.min_perf = perf;
->> +             else
->> +                     cpu_data->perf_ctrls.max_perf = perf;
->> +     }
->> +
->> +     if (update_policy) {
->> +             req = is_min ? policy->min_freq_req : 
->> policy->max_freq_req;
->> +
->> +             ret = freq_qos_update_request(req, freq);
->
-> IIUC, we are adding a qos constraint to the min_freq_req or
-> max_freq_req. However these constraints should match the
-> scaling_min/max_freq sysfs interface. So doesn't it mean that if we set
-> the 'max_perf', we are overwriting the the max_freq_req constraint ?
->
-Yes.
+Signed-off-by: Victor Krawiec <victor.krawiec@arturia.com>
+---
+V1 -> V2:
+	- Add documentation
+	- Cleanup unnecessary *_allocated boolean as requested in review
 
-> If you have frequencies between 600000:1200000 # Init state:
-> max_perf:1200000 scaling_max_freq:1200000 # echo 10000000 > max_perf
-> max_perf:1000000 scaling_max_freq:1000000 # echo 900000 >
-> scaling_max_freq max_perf:1000000 scaling_max_freq:900000 # echo 1200000
-> > scaling_max_freq max_perf:1000000 scaling_max_freq:1200000
->
-> The 2 values are not in sync. Is it the desired behaviour ?
->
->
+ .../ABI/testing/configfs-usb-gadget-midi      |  17 +--
+ Documentation/usb/gadget-testing.rst          |  17 +--
+ drivers/usb/gadget/function/f_midi.c          | 110 ++++++++++--------
+ drivers/usb/gadget/function/u_midi.h          |   2 +-
+ 4 files changed, 78 insertions(+), 68 deletions(-)
 
-Making scaling_min/max_freq read-only in auto_sel mode will solve this.
-We can do this by setting policy limits to min/max_perf bounds in
-cppc_verify_policy() when the auto_sel is enabled.
-In autonomous mode, the hardware controls performance within these
-bounds, so scaling_min/max_freq is effectively read-only.
-Users must use min_perf/max_perf sysfs to change limits.
-Please share if you have different thoughts or another approach.
+diff --git a/Documentation/ABI/testing/configfs-usb-gadget-midi b/Documentation/ABI/testing/configfs-usb-gadget-midi
+index 07389cddd51a..d6bd67bb91fc 100644
+--- a/Documentation/ABI/testing/configfs-usb-gadget-midi
++++ b/Documentation/ABI/testing/configfs-usb-gadget-midi
+@@ -4,11 +4,12 @@ KernelVersion:	3.19
+ Description:
+ 		The attributes:
+ 
+-		==========	====================================
+-		index		index value for the USB MIDI adapter
+-		id		ID string for the USB MIDI adapter
+-		buflen		MIDI buffer length
+-		qlen		USB read request queue length
+-		in_ports	number of MIDI input ports
+-		out_ports	number of MIDI output ports
+-		==========	====================================
++		================	====================================
++		index			index value for the USB MIDI adapter
++		id			ID string for the USB MIDI adapter
++		buflen			MIDI buffer length
++		qlen			USB read request queue length
++		in_ports		number of MIDI input ports
++		out_ports		number of MIDI output ports
++		interface_string	USB AudioControl interface string
++		================	====================================
+diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
+index 5f90af1fb573..01a128d664cb 100644
+--- a/Documentation/usb/gadget-testing.rst
++++ b/Documentation/usb/gadget-testing.rst
+@@ -368,14 +368,15 @@ Function-specific configfs interface
+ The function name to use when creating the function directory is "midi".
+ The MIDI function provides these attributes in its function directory:
+ 
+-	=============== ====================================
+-	buflen		MIDI buffer length
+-	id		ID string for the USB MIDI adapter
+-	in_ports	number of MIDI input ports
+-	index		index value for the USB MIDI adapter
+-	out_ports	number of MIDI output ports
+-	qlen		USB read request queue length
+-	=============== ====================================
++	================ ====================================
++	buflen		 MIDI buffer length
++	id		 ID string for the USB MIDI adapter
++	in_ports	 number of MIDI input ports
++	index		 index value for the USB MIDI adapter
++	out_ports	 number of MIDI output ports
++	qlen		 USB read request queue length
++	interface_string USB AudioControl interface string
++	================ ====================================
+ 
+ Testing the MIDI function
+ -------------------------
+diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
+index da82598fcef8..ad679a6ecac1 100644
+--- a/drivers/usb/gadget/function/f_midi.c
++++ b/drivers/usb/gadget/function/f_midi.c
+@@ -875,6 +875,7 @@ static int f_midi_bind(struct usb_configuration *c, struct usb_function *f)
+ 	struct usb_composite_dev *cdev = c->cdev;
+ 	struct f_midi *midi = func_to_midi(f);
+ 	struct usb_string *us;
++	struct f_midi_opts *opts;
+ 	int status, n, jack = 1, i = 0, endpoint_descriptor_index = 0;
+ 
+ 	midi->gadget = cdev->gadget;
+@@ -883,6 +884,10 @@ static int f_midi_bind(struct usb_configuration *c, struct usb_function *f)
+ 	if (status < 0)
+ 		goto fail_register;
+ 
++	opts = container_of(f->fi, struct f_midi_opts, func_inst);
++	if (opts->interface_string)
++		midi_string_defs[STRING_FUNC_IDX].s = opts->interface_string;
++
+ 	/* maybe allocate device-global string ID */
+ 	us = usb_gstrings_attach(c->cdev, midi_strings,
+ 				 ARRAY_SIZE(midi_string_defs));
+@@ -1178,59 +1183,60 @@ end:									\
+ 									\
+ CONFIGFS_ATTR(f_midi_opts_, name);
+ 
++#define F_MIDI_OPT_STRING(name)						\
++static ssize_t f_midi_opts_##name##_show(struct config_item *item, char *page) \
++{									\
++	struct f_midi_opts *opts = to_f_midi_opts(item);		\
++	ssize_t result;							\
++									\
++	mutex_lock(&opts->lock);					\
++	if (opts->name) {						\
++		result = strscpy(page, opts->name, PAGE_SIZE);		\
++	} else {							\
++		page[0] = 0;						\
++		result = 0;						\
++	}								\
++									\
++	mutex_unlock(&opts->lock);					\
++									\
++	return result;							\
++}									\
++									\
++static ssize_t f_midi_opts_##name##_store(struct config_item *item,	\
++					 const char *page, size_t len)	\
++{									\
++	struct f_midi_opts *opts = to_f_midi_opts(item);		\
++	int ret;							\
++	char *c;							\
++									\
++	mutex_lock(&opts->lock);					\
++	if (opts->refcnt > 1) {						\
++		ret = -EBUSY;						\
++		goto end;						\
++	}								\
++									\
++	c = kstrndup(page, len, GFP_KERNEL);				\
++	if (!c) {							\
++		ret = -ENOMEM;						\
++		goto end;						\
++	}								\
++	kfree(opts->name);						\
++	opts->name = c;							\
++	ret = len;							\
++end:									\
++	mutex_unlock(&opts->lock);					\
++	return ret;							\
++}									\
++									\
++CONFIGFS_ATTR(f_midi_opts_, name)
++
+ F_MIDI_OPT_SIGNED(index, true, SNDRV_CARDS);
+ F_MIDI_OPT(buflen, false, 0);
+ F_MIDI_OPT(qlen, false, 0);
+ F_MIDI_OPT(in_ports, true, MAX_PORTS);
+ F_MIDI_OPT(out_ports, true, MAX_PORTS);
+-
+-static ssize_t f_midi_opts_id_show(struct config_item *item, char *page)
+-{
+-	struct f_midi_opts *opts = to_f_midi_opts(item);
+-	ssize_t result;
+-
+-	mutex_lock(&opts->lock);
+-	if (opts->id) {
+-		result = strscpy(page, opts->id, PAGE_SIZE);
+-	} else {
+-		page[0] = 0;
+-		result = 0;
+-	}
+-
+-	mutex_unlock(&opts->lock);
+-
+-	return result;
+-}
+-
+-static ssize_t f_midi_opts_id_store(struct config_item *item,
+-				    const char *page, size_t len)
+-{
+-	struct f_midi_opts *opts = to_f_midi_opts(item);
+-	int ret;
+-	char *c;
+-
+-	mutex_lock(&opts->lock);
+-	if (opts->refcnt > 1) {
+-		ret = -EBUSY;
+-		goto end;
+-	}
+-
+-	c = kstrndup(page, len, GFP_KERNEL);
+-	if (!c) {
+-		ret = -ENOMEM;
+-		goto end;
+-	}
+-	if (opts->id_allocated)
+-		kfree(opts->id);
+-	opts->id = c;
+-	opts->id_allocated = true;
+-	ret = len;
+-end:
+-	mutex_unlock(&opts->lock);
+-	return ret;
+-}
+-
+-CONFIGFS_ATTR(f_midi_opts_, id);
++F_MIDI_OPT_STRING(id);
++F_MIDI_OPT_STRING(interface_string);
+ 
+ static struct configfs_attribute *midi_attrs[] = {
+ 	&f_midi_opts_attr_index,
+@@ -1239,6 +1245,7 @@ static struct configfs_attribute *midi_attrs[] = {
+ 	&f_midi_opts_attr_in_ports,
+ 	&f_midi_opts_attr_out_ports,
+ 	&f_midi_opts_attr_id,
++	&f_midi_opts_attr_interface_string,
+ 	NULL,
+ };
+ 
+@@ -1262,8 +1269,8 @@ static void f_midi_free_inst(struct usb_function_instance *f)
+ 	mutex_unlock(&opts->lock);
+ 
+ 	if (free) {
+-		if (opts->id_allocated)
+-			kfree(opts->id);
++		kfree(opts->id);
++		kfree(opts->interface_string);
+ 		kfree(opts);
+ 	}
+ }
+@@ -1279,7 +1286,8 @@ static struct usb_function_instance *f_midi_alloc_inst(void)
+ 	mutex_init(&opts->lock);
+ 	opts->func_inst.free_func_inst = f_midi_free_inst;
+ 	opts->index = SNDRV_DEFAULT_IDX1;
+-	opts->id = SNDRV_DEFAULT_STR1;
++	opts->id = NULL;
++	opts->interface_string = NULL;
+ 	opts->buflen = 512;
+ 	opts->qlen = 32;
+ 	opts->in_ports = 1;
+diff --git a/drivers/usb/gadget/function/u_midi.h b/drivers/usb/gadget/function/u_midi.h
+index 2e400b495cb8..41cb8aa73f09 100644
+--- a/drivers/usb/gadget/function/u_midi.h
++++ b/drivers/usb/gadget/function/u_midi.h
+@@ -19,7 +19,7 @@ struct f_midi_opts {
+ 	struct usb_function_instance	func_inst;
+ 	int				index;
+ 	char				*id;
+-	bool				id_allocated;
++	char				*interface_string;
+ 	unsigned int			in_ports;
+ 	unsigned int			out_ports;
+ 	unsigned int			buflen;
 
-  cppc_verify_policy(struct cpufreq_policy_data *policy_data)
-  {
-     ...
-     if (caps->auto_sel) {
-       min_perf = cpu_data->perf_ctrls.min_perf ?: 
-caps->lowest_nonlinear_perf;
-       max_perf = cpu_data->perf_ctrls.max_perf ?: caps->nominal_perf;
-
-       /* set min/max_perf bounds (read-only behavior) */
-       policy_data->min = cppc_perf_to_khz(caps, min_perf);
-       policy_data->max = cppc_perf_to_khz(caps, max_perf);
-     } else {
-       cpufreq_verify_within_limits(policy_data, min_freq, max_freq);
-     }
-     ....
-  }
-
-
->> +             if (ret < 0) {
->> +                     pr_warn("Failed to update %s_freq constraint 
->> for CPU%d: %d\n",
->> +                             is_min ? "min" : "max", cpu, ret);
->> +                     return ret;
->> +             }
->> +     }
->> +
->> +     return 0;
->> +}
->> +
->> +#define cppc_cpufreq_set_min_perf(policy, val, update_reg, 
->> update_policy) \
->> +     cppc_cpufreq_set_mperf_limit(policy, val, update_reg, 
->> update_policy, true)
->> +
->> +#define cppc_cpufreq_set_max_perf(policy, val, update_reg, 
->> update_policy) \
->> +     cppc_cpufreq_set_mperf_limit(policy, val, update_reg, 
->> update_policy, false)
->> +
->>   static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
->>   {
->>       unsigned int cpu = policy->cpu;
->> @@ -881,16 +945,118 @@ static ssize_t 
->> store_energy_performance_preference_val(struct cpufreq_policy *po
->>       return cppc_cpufreq_sysfs_store_u64(policy->cpu, cppc_set_epp, 
->> buf, count);
->>   }
->>
->> +/**
->> + * show_min_perf - Show minimum performance as frequency (kHz)
->> + *
->> + * Reads the MIN_PERF register and converts the performance value to
->> + * frequency (kHz) for user-space consumption.
->> + */
->> +static ssize_t show_min_perf(struct cpufreq_policy *policy, char *buf)
->> +{
->> +     struct cppc_cpudata *cpu_data = policy->driver_data;
->> +     u64 perf;
->> +     int ret;
->> +
->> +     ret = cppc_get_min_perf(policy->cpu, &perf);
->> +     if (ret == -EOPNOTSUPP)
->> +             return sysfs_emit(buf, "<unsupported>\n");
->> +     if (ret)
->> +             return ret;
->> +
->> +     /* Convert performance to frequency (kHz) for user */
->> +     return sysfs_emit(buf, "%u\n", 
->> cppc_perf_to_khz(&cpu_data->perf_caps, perf));
->> +}
->> +
->> +/**
->> + * store_min_perf - Set minimum performance from frequency (kHz)
->> + *
->> + * Converts the user-provided frequency (kHz) to a performance value
->> + * and writes it to the MIN_PERF register.
->> + */
->> +static ssize_t store_min_perf(struct cpufreq_policy *policy, const 
->> char *buf, size_t count)
->> +{
->> +     struct cppc_cpudata *cpu_data = policy->driver_data;
->> +     unsigned int freq_khz;
->> +     u64 perf;
->> +     int ret;
->> +
->> +     ret = kstrtouint(buf, 0, &freq_khz);
->> +     if (ret)
->> +             return ret;
->> +
->> +     /* Convert frequency (kHz) to performance value */
->> +     perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
->> +
->> +     ret = cppc_cpufreq_set_min_perf(policy, perf, true, 
->> cpu_data->perf_caps.auto_sel);
->> +     if (ret)
->> +             return ret;
->> +
->> +     return count;
->> +}
->> +
->> +/**
->> + * show_max_perf - Show maximum performance as frequency (kHz)
->> + *
->> + * Reads the MAX_PERF register and converts the performance value to
->> + * frequency (kHz) for user-space consumption.
->> + */
->> +static ssize_t show_max_perf(struct cpufreq_policy *policy, char *buf)
->
-> I think it might collide with the scaling_min/max_freq.
-> I saw that you answered this point at:
-> https://lore.kernel.org/lkml/b2bd3258-51bd-462a-ae29-71f1d6f823f3@nvidia.com/ 
->
->
-> But I m not sure I understood why it is needed to have 2 interfaces.
-> Would it be possible to explain it again ?
-
-Separate interface for min/max_perf are kept because we are writing
-to different CPPC hardware registers with that name.
-
->
-> I don't see any case where we would like to make a distinction between:
-> - scaling_max_freq, i.e. the maximal freq. the cpufreq driver is allowed
-> to set
-> - max_perf, i.e. the maximal perf. level the firmware will set
->
-> ------------
->
-> Another point is that the min/max_perf interface actually uses freq. 
-> values.
-
-Changed the min/max_perf interfaces from perf to freq to sync their scale
-with other cpufreq sysfs interfaces after discussion in [1].
-
-  [1] 
-https://lore.kernel.org/lkml/80e16de0-63e4-4ead-9577-4ebba9b1a02d@nvidia.com/
-
-Thank you,
-Sumit Gupta
-
+base-commit: 67a454e6b1c604555c04501c77b7fedc5d98a779
+-- 
+2.43.0
 
