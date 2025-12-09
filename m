@@ -1,79 +1,60 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA20D2EA151
-	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 22:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B052EA480;
+	Tue,  9 Dec 2025 22:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765319350; cv=none; b=UYpL2eNw/YbKokSNaX0VXc5z72s/dxFWOQVJQbYn8aU9Iir+RH76jtN78NzTvq5qXuCkvFD27mYrD2zx1sVVaRgOFblnjudN8IjVstb7N5wCHGCq6ZIIeCDpS80EH41anoYH4z4ARSLZ5fXVXp5fVV8Nc6FbTlphhWnHpTYGLio=
+	t=1765320358; cv=none; b=cCcZ/NNrBdy6MFlIpYmmG/wxkKwJLaSDMFSQZMaZ8AwYh0f6oMPgmCDrXjSArSTDLsAdekRVq1vsYcZ0StFbonXBFiMcM9rUsvxtG+slRjHoH+eqqAth186mDVRUSXf8pohDAH6q6NfRA+i9X2MB8GQoVCZZt2egXpcNd3sPoVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765319350; c=relaxed/simple;
-	bh=o91c+6a2q/yielwE2TK8La+n/rzQAcUKJ4GQTa1UROY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N+QUIA9HkQfeV1XMQAXdpCtXNF3Pw/8R1KMqVkQQKaj4l/MDfWE2FVNbzAVI0wuliXpj9taSgSdzR6YYKl1YoFxqdqMv8AmVc/BIldabYaZtkQSp/QT/b77w4ul+Jl3EvOnEpItw3jXEji/u86VNYx60pYIA42o2wbeskTXnfFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GJRI0IHh; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765320358; c=relaxed/simple;
+	bh=bRrGBR2aItM/iQPyd68sCNpS/93nSpMKZsGy9Y+v6BY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=gC8Jop+3CTTkATq07hv3grFTVQu2s0IxEtaauDEHRgGtBa0KvtEkFO2GwsPa6dqfX0vuokD9YYZPf9d3SRA81r3yW4Y9eVeg+CzFrKMddGpeqvPcffzCAnIFnGmz471XwGBPxPDhdFzxo3atVpIBJBoPi+rGPOc4GMOLVsI13Zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com; spf=pass smtp.mailfrom=qti.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=N9jzQEga; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qti.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qti.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GJRI0IHh"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-37a875e3418so47380141fa.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 14:29:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765319347; x=1765924147; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TyOMhD5Nr+LLEEj2u+rlI4XyERWdrAPIKpRVAUxLoC0=;
-        b=GJRI0IHhP3v1rDmq/Y+SE9mCM6bpBPoOToIv9/eRDdFgOlxaNa74xVsDmht6X0NvA/
-         C44RvSpQVBTQAGg+P1luNGQh1cyBtKIRprA87iCp4C9GsA20ZmYyCZkaKz1KTGY+28se
-         mNH/+vrs3eXEfAfqUQi1MzfIzX7kkGHKE4aZH8a78dEZPdPqcvYQj/UhvC4ailBe9ePp
-         vzy/iaLml9diLX8CDHcghBjMXUdZR5VIoIeOTzL71BZb1GYcGWnQMUz+idh8V25fc4U4
-         VmJA552g9G57uCP5aZI7S6fib6gvEixoSj1ym+mmpczUrjTf8joGuEOJWbXXg66cfArk
-         prag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765319347; x=1765924147;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TyOMhD5Nr+LLEEj2u+rlI4XyERWdrAPIKpRVAUxLoC0=;
-        b=W4c1D3/KIbhx1oWIt+bIle+ri+7eTuT3YRwWmAIm/0bqYBvXyhPsaNMd9m+naKcAyx
-         wEQwkr3lgWLeYkmmSRA0taptKYKNwuU3q5qWzWuB2PB3us4E2PL2RP5JXHjqdEitZXLO
-         Qa+L/TaK94E7Y+c8qD+UUiwNj7Ao97ORXbSWVp0Cez9xKw2TTji2bg2CtLmCc7ULs2ec
-         JO2iLDlqcKcK+L8iAygWQPPidt6AOuJbxLAo2LIL3oYai2hk7NNWkMrDzsfLKSizjB18
-         SWEh58SiC0vSEceoyVLsRqjKEh77qOntsNZppn8MNgPj6zGxk4KJXBF8eLCut8oa2heG
-         ZkhA==
-X-Forwarded-Encrypted: i=1; AJvYcCVZEUUdVyYnFc4F1J8XfTemDTSIHI93nhe1BojnM3LFt3hDocd7OcYGWS5ebmb5i4OpWcjJElqou7g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3g6ULE5h3ZwOZjGZXOoOFH8InbcJWiykVVnaPSD4n5QehmR09
-	uH9QCP7Nf6kpEuDCYEdFks6r4EnS7GqQfyIfpMgFQvtTGjGoALzLEmTsL+CUew==
-X-Gm-Gg: ASbGncvbpCPnIyx3ZLROKr/reDVHIvJVGAQ4JdITC4CNyVmZ2IPICK/o9Qe0eeB/Plr
-	Rl3YHfvWb+LYYIeFzCAeg47Tt2z42x3axt/FNlzhKhQ387Pu5IxMyJ4PW/Q3BiF3a32zDE75g+e
-	dGWLmgSSeovc10HYxha+B0qjqRQGq5QyQXTQfTR7czdKVf04xB/BRGaTtu+INSiuPD7TKOd9jxV
-	FrSMRkFfjm2GC+ScgclAuY/xLSHEw9jh/n1b6SFoKX9d898QDG8WcKN3x3s4PTkX7ugk0Neh9UA
-	w6pYg9JfIvgdP45JENlV1o2L0P7SurxnP9SbrbweT+y+rsK6OhZD8VOthvbO7Z879SwotWF4iqA
-	UjWvUkuPPlA+pfTvjtvWsETa84r2GdUCFaEqeVs3frjgcZKZhS+9vARABZLJ8iPpnKf0FdRGWFX
-	Q2ueLPDKrb
-X-Google-Smtp-Source: AGHT+IEN00QefPL8NG5lBt7cd2OjXvYRO37SYqe46Fgp2ovK1ah9X3lROTHrSbzfsXh8SvY49U2k8Q==
-X-Received: by 2002:a2e:be9a:0:b0:37a:45a4:e873 with SMTP id 38308e7fff4ca-37fb20fa962mr1047661fa.30.1765319346326;
-        Tue, 09 Dec 2025 14:29:06 -0800 (PST)
-Received: from localhost ([194.190.17.114])
-        by smtp.gmail.com with UTF8SMTPSA id 38308e7fff4ca-37fa9bec20esm8264721fa.23.2025.12.09.14.29.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Dec 2025 14:29:05 -0800 (PST)
-From: Askar Safin <safinaskar@gmail.com>
-To: cedric.blancher@gmail.com,
-	Martin Steigerwald <martin@lichtvoll.de>
-Cc: lwn@lwn.net,
-	linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	news@phoronix.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: d_genocide()? What about d_holodomor(), d_massmurder(), d_execute_warcrimes()? Re: [PATCH 15/20] d_genocide(): move the extern into fs/internal.h
-Date: Wed, 10 Dec 2025 01:29:00 +0300
-Message-ID: <20251209222901.1693280-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CALXu0UcCGjyM6hFfdjG1eHJcmeR=9BVSaq7Vj9rtvKxb9szJdQ@mail.gmail.com>
-References: <CALXu0UcCGjyM6hFfdjG1eHJcmeR=9BVSaq7Vj9rtvKxb9szJdQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="N9jzQEga"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B9GiRCL3736300;
+	Tue, 9 Dec 2025 22:45:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=86ugyqi4Lef
+	X3BGi5TzoK+1RFecovLT8kszLDUoSuqw=; b=N9jzQEgaU1KUZsh4KUQFRej8n7o
+	iAqMzrLNNnk1M0Vq+TbOThZZpRdSVzVwUtjUIjmJaX9fAyKXTbJfjgdW3igqqR4f
+	RmHh6LzJOpP02AS7RldXhL1Py6i5FkIZN8aAOh7NEnwo6jpQCQ+9J3SmM96iNluO
+	K7wNJnCXO+hOebD0v96CJF2R1Njzm6gus7DVHyjZCPgSFoxREKak9VQo8U0xPY7t
+	8edm+7IhkRjxaArYFiUidU8iGUEFTsxqxERV36xyN7SsP4963vyzVNegAOIuxs9K
+	9N6zWqs6A45fZQ2I8RxhQkKJ+1IaZxDQC8qkxxb21ANms8y8t5QaWbh55+Q==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4axp4vsc4p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 09 Dec 2025 22:45:49 +0000 (GMT)
+Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5B9MbFum008000;
+	Tue, 9 Dec 2025 22:45:49 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 4axjphnr7r-1;
+	Tue, 09 Dec 2025 22:45:49 +0000
+Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5B9Mc728009041;
+	Tue, 9 Dec 2025 22:45:48 GMT
+Received: from hu-grahamr-lv.qualcomm.com (hu-grahamr-lv.qualcomm.com [10.81.26.100])
+	by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 5B9Mjmpx020890;
+	Tue, 09 Dec 2025 22:45:48 +0000
+From: Graham Roff <grahamr@qti.qualcomm.com>
+To: nathan@kernel.org
+Cc: arnd@arndb.de, corbet@lwn.net, grahamr@qti.qualcomm.com,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, nico@fluxnic.net, nsc@kernel.org
+Subject: Re: [PATCH v2] Support conditional deps using "depends on X if Y"
+Date: Tue,  9 Dec 2025 14:45:48 -0800
+Message-Id: <20251209224548.3885246-1-grahamr@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251205182334.GB3974306@ax162>
+References: <20251205182334.GB3974306@ax162>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,18 +62,92 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: bRQswlGi790igNsZhwToD3tT7Kw5oiJm
+X-Proofpoint-ORIG-GUID: bRQswlGi790igNsZhwToD3tT7Kw5oiJm
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA5MDE3OCBTYWx0ZWRfXysLvNVirAbjY
+ W/+TdxAVesXSgY5QwFNTb2UFATpEEY0Bk1R8ZHEVw2O2CBudF1AbRDyCQBCO8UWmkoGPjKft+H/
+ ujQ0M0Qinhh3R3opbhMCJpe9XrltkreucT0N3nf/NDMErqJyeer7Mp1dKn5eLxhMJoPV+XcRQaH
+ vaTETRt4k6MXqtiTEj796O65bRr5p6XsZdKzBd3XsT2C0neUM0irdMUzELkXhKliWbA3WS5wFPf
+ xqzxH6bC31FzLsVNVAeYS4uwiPkvy3oGdiePfSGKdkY0GY6N5tfZO8JjhqbxmzF4pbVBsQA0t0U
+ bnJHLJ6k1KMhRsv+vjvrzIVpnaYZVdb1bArBGSXkQzg/m+OoZVWA0lN/jGLu0zSN+urYrJmrcY/
+ e796pC1/mXpzadf6DmJZ5bksAiB02A==
+X-Authority-Analysis: v=2.4 cv=IoYTsb/g c=1 sm=1 tr=0 ts=6938a69e cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=FcAhSGPnqhLolX2j8loA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-09_05,2025-12-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0 suspectscore=0
+ clxscore=1011 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512090178
 
-Cedric Blancher <cedric.blancher@gmail.com>:
-> > +extern void d_genocide(struct dentry *);
+> Other than that, this seems reasonable to me. The actual code changes
+> are small and the tests prove this works properly. I won't pick up v3
+> until after 6.19-rc1 is out at the least.
+
+Thanks Nathan! I will send out a v3 with the commit text updated, and the test
+code changes you suggested.
+
+> > > On the surface, the vast majority these become more readable using the
+> > > 'if' syntax.
+> >
+> > Agreed, the question is whether a small improvement in
+> > readability is worth the complexity of having multiple
+> > ways of expressing the same thing.
+>
+> It is a tradeoff. Sometimes it is advantageous to increase the 
+> complexity in one place so other areas with more exposure to more people 
+> are simplified.
+
+Exactly, a small code update here provides a much simpler syntax for 
+expressing a fairly common thing (conditional or optional dependencies).
+
+It also makes the language more consistent since most other kconfig commands
+accept a trailing "if <expr>" - I just assumed that "depends on" did as well
+when first writing Kconfig files!
+
+> >> +config TEST_COMPLEX
+> >> +    bool "Test complex conditional dependency"
+> >> +    depends on (FOO && BAR) if (FOO || BAR)
+> >> +    default y
 > 
-> Seriously, who came up with THAT name? "Genocide" is not a nice term,
-> not even if you ignore political correctness.
-> Or what will be next? d_holodomor()? d_massmurder()? d_execute_warcrimes()?
+> With the existing syntax, this could be expressed as
+> 
+>       depends on FOO = BAR
+> 
+> or
+> 
+>       depends on (FOO && BAR) || (!FOO && !BAR)
+> 
+> and I don't see how the new syntax is an improvement
+> over these.
 
-Good news! :) Term "genocide" finally gone from kernel some days ago!
+In this case I agree, the test was chosen to validate a complicated 
+conditional, not to show a particularly useful real-world example.
+I added much better examples earlier of where the "if" style provides
+improved readability.
+ 
+> Overall, I'm not convinced by this patch. I have no strong
+> objection to anything in here, but I'm worried that extending
+> the syntax adds more problems than this one solves.
 
-In this patchset: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7cd122b55283d3ceef71a5b723ccaa03a72284b4
-( https://lore.kernel.org/all/20251118051604.3868588-1-viro@zeniv.linux.org.uk/ ).
+Both syntaxes have their places, it comes down to which one is most
+understandable to the reader. In a lot of cases it is definitely
+easier to understand the intent of the expression using "if" rather
+than ors and nots. Combine that with the simplicity of the change
+and any problems this might add (not sure what those are though)
+would seem on balance to be worth it.
 
--- 
-Askar Safin
+Graham
+
+
+
+
+
