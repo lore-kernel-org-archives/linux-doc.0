@@ -1,358 +1,225 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012010.outbound.protection.outlook.com [52.101.48.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C23E2F3630;
-	Tue,  9 Dec 2025 18:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765304430; cv=fail; b=rE9ay4Aa0tKJlpsUiCGyzvhlWDz6RcOomQrottMRRQW59cBht8secMElXHKvF+0h5immRZrWEhQTtLCF3hM1uI2TJPnYpX80qsCRdazK4wg6RKHQEtrk7AoCochVt8rSG1vL5BKB4DWK+3blCLYTwg7+D2i4jYUw/oe1HIBXKU8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765304430; c=relaxed/simple;
-	bh=46ByyVBhyfjAx0uLX/vi4AQGmAlVjNmJPjHn54cSg/o=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QVTE4JvhLHy/zxUW8moDINrYYRM2lbRF9lnla/J/vVzE7gsFwXdcYpWBklBYdME/8VyjzRb8JuaxRcQkJrVCoP1maqFhbv3vSEzQHXU1EKRekavrywc4BK+2dqmZhjjD92OcsfI9533EY4QAeU/yLmT8VHjBb7ii0uEd/esgDPA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ULrzhzmZ; arc=fail smtp.client-ip=52.101.48.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141BA2F7442
+	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 18:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765304432; cv=none; b=hO76tik6q/gebiFu256JDSz69Rn/KJchAdZ5pjqP3GbandjZajTYTT2WogabwtYsn/KlkXoRbKAEhmCtucaCmqspcjPE4i99DR2GMc2eTn0aXgxwE/Vv4rqzVY04Csj3w3XK/hjIRXbJyePmsQchnn+O+H+0OayUDVWyxafbwyY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765304432; c=relaxed/simple;
+	bh=9T4CnxIWAD60IQKZYVo0Ywa0C4OOcdz0mx7j1lo7js4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rYbc7IESC1Tp2ASFk3KPHnkBPN089+VsWFNax03IjJoNmrSixLoW4H9ec6DLzWJLjhQAJzDp9XjNBF7WgoxfMZOm45g66oei6Ock0WEElApMkxmO2cGwnqKkkT7KaoyuF90lAVSlmGl2pZQxRzy2MpdWpoWSUaov5SmkcUw7Dwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1hK6OmGN; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ULrzhzmZ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zOfEsLwH8rrKAAtiTC1L1xn0Zy8Zl6czE9w1ZhEtKrmgrTv6+JExqZqII+OqHMu3pysHUzg38LBIea5HUBUlXj8vGN+ew5wVUPOmGcbyaKFdNxyqoudQbMbbcB+WWq72BcSVtJp2nCh1DCykDuRFo4gkvnZERDLm7ncCVNV/HBPI/aVdUIPHzAW2ikYHb52DjsJlVyXMLPANcryAF8s3MpI1MziOKFenSWtv95b3NK5imRaUaWczgN+JAFUyDM84QzPc4/O3Ft+y7AH+cP2JP4I0Lx7F02o16WTQQVZ9TxHJfN80WatGIuOblmvjsjLU88bdlAp05F5DHcLgUVAMgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aH+7cs/dInz98jfDA+du67dxJp86V3mhl25uxTPwd8Q=;
- b=vUxl/f1xRDXKinJsGrI4ACvKqolHthl7lKVVGALmQmazl0xDC6urWPd5K35nS0T92ZvMP3kEc6IGrRMBBYP65jayfsfUB52QulQtGVXvhJAYk+gkk12a4rftmc30a9xq1ubWuLJad2YCn5nXSeZPOYcoXt4tmhG7xw3KIu0wlqLy6vL4WHaJED0xT+7V9C9IQqh0F+2uOwbeBJXIgjRG70T+nUHrGHVOFr/QNWnEIWTbFXOtRr7ce8siXXENnvaeYEkCXY9nnTGdrztGXvqWdRUy1/HOCzUAwmFkVBFskG4orJfQrepJJ5++M/0zgcgZ+DR+8OiiT8aTuvFVF/P9xw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aH+7cs/dInz98jfDA+du67dxJp86V3mhl25uxTPwd8Q=;
- b=ULrzhzmZXGxpO01jimVpcRuFcTp6Zt5BNgx5nx9NEakg6k91vpeuSRIPpDEl67+1dxfOuev7+yWZg1Vl1pjX5nKscW/BpLaCChgrBa+xG5wru8X9JYp69cW+fylhmOzCkM32Cb+utdvlN0i10cJYjeznkTCoGDknI0aGKbm/j8M=
-Received: from BY3PR04CA0026.namprd04.prod.outlook.com (2603:10b6:a03:217::31)
- by DM4PR12MB6230.namprd12.prod.outlook.com (2603:10b6:8:a7::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.14; Tue, 9 Dec
- 2025 18:20:21 +0000
-Received: from CO1PEPF000066E6.namprd05.prod.outlook.com
- (2603:10b6:a03:217:cafe::6c) by BY3PR04CA0026.outlook.office365.com
- (2603:10b6:a03:217::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.6 via Frontend Transport; Tue, 9
- Dec 2025 18:20:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CO1PEPF000066E6.mail.protection.outlook.com (10.167.249.4) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Tue, 9 Dec 2025 18:20:20 +0000
-Received: from rric.localdomain (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 9 Dec
- 2025 12:20:14 -0600
-From: Robert Richter <rrichter@amd.com>
-To: Alison Schofield <alison.schofield@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
-	<dan.j.williams@intel.com>, Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Corbet <corbet@lwn.net>
-CC: <linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Gregory Price
-	<gourry@gourry.net>, "Fabio M. De Francesco"
-	<fabio.m.de.francesco@linux.intel.com>, Terry Bowman <terry.bowman@amd.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Randy Dunlap <rdunlap@infradead.org>,
-	Robert Richter <rrichter@amd.com>, <linux-doc@vger.kernel.org>
-Subject: [PATCH v2 2/2] Documentation/driver-api/cxl: ACPI PRM Address Translation Support and AMD Zen5 enablement
-Date: Tue, 9 Dec 2025 19:19:56 +0100
-Message-ID: <20251209181959.210533-2-rrichter@amd.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251209181959.210533-1-rrichter@amd.com>
-References: <20251209181959.210533-1-rrichter@amd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1hK6OmGN"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-64969e4c588so712a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 10:20:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765304428; x=1765909228; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=evmg9WyrD2HkygF7wnhCaOCmIVrkIj1I8JvCf7Jiv9o=;
+        b=1hK6OmGNPPXDCR8umvi+eXjs1LKjs/GXSIYc1XnxIIUpPUFFxTdOT3MoLyA5r9F4sI
+         rri1E/PUDSvZ6nAf+gZk/IJddFRqWQ+i0JzxIo9DWnlXO2EkA5UjY4Finwg9Cq/3eicR
+         mo52MKeI/JZm+7m0CpD+3+gihijJHTs8jCF7gGCW1WiD7WdGguR8P7KVcDzmwBgZ7raF
+         vH36/5WKpLvOFZRqEGoRo1+Sgb8xCKzNdLBXAano+FWWnMfHAbgcd0tKXVCxL4eYxr4h
+         3szLhV+vsOraPFrGiW8gcAwfNZ4yBnx39MLBJGUphkWpQFR8y4oROIJp8fx+t37iy3Z7
+         WFZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765304428; x=1765909228;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=evmg9WyrD2HkygF7wnhCaOCmIVrkIj1I8JvCf7Jiv9o=;
+        b=jDfUe6beTMDdAHtJI1KTfp7tP4bW/pgQk1ScAlM9pIvt+DU/9LhLborJoGLw+J14jk
+         xiN8mZjnVqpUBgRSY4Vm0wV5bYQpuhLKbWj27VezZxYikOc/yKXHi8BV6K30JXHpLkAn
+         MOG1RDlUaRMMuqMDnBpZVMWkPOHdt9qb12pjGtBK+Nf8ZzHD1hoD+XSbT8Md2aMHU38n
+         4CrZ74iP3JP79cyEuBbcPsy5NS1i/DN1m991wUp343JRm1QgvDHzbXvzeL9wdM0r0rHn
+         zOFPAtXGmFjDVZ5YC4x+TksTQbX1nneXwTzAAPzs4dVa1yUJofX7Ix0wRYAZs2Es31Vs
+         +6og==
+X-Forwarded-Encrypted: i=1; AJvYcCVM1Vv5NjFVor06v5ktn7vXR0qG1Oy67AtYCl5eqNQQ9ykXSD0/rx5dTtu063PQyeSN9rfoKsUWFFc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz56ooKMknFHjX1JaUCrniKRs7l5mhuw99pTeKNA6OqFxJK5mju
+	MuBqU72BdCSWOkNcwL3GLlYOZXqmNjH7NBqupvmGr8DyGI5JZKWxEi2SdB7aM84GRLU4CHCVIU/
+	Ur4+DythDRo5hTBzDsGMeuIojrSC+WoeVHaojcYfz
+X-Gm-Gg: AY/fxX41E5MtHMSGysZJgah/GDZvu8EBJsGvkdJQX9qSAQGCyZ6u31QEJOzpDDUF07L
+	zFQwTJ533d/7Sdj8D1g2fauYVj4fSSh1m0Sbi+lhM3p/dsLN47rgnrLHoOI6/FWG/ixOJJMccbJ
+	3WLw9Sp7fjwjH3x2+aNhjNC8syHYdEmZXoKbUTknFVpfpGwQsT1N/p+P/G2IVkmD/0+rELFQtM4
+	t/EwyoIPxpvZtFf+lDNmIq17m+7qmKLxF/5KtBydS39hJ0dzoK8MGJ4R6C9POOCzHFuFdGd
+X-Google-Smtp-Source: AGHT+IGua9KoMluY3zejeC3C4N+kgaL8dARViDU9ow5MyTiyFYNRtdVfy/9pEYEg+/C25U3TBmJkhcigAjHtb0SZb7k=
+X-Received: by 2002:a05:6402:1602:b0:643:6984:ceea with SMTP id
+ 4fb4d7f45d1cf-6496c45ea0cmr74a12.13.1765304428077; Tue, 09 Dec 2025 10:20:28
+ -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20251205194351.1646318-1-kas@kernel.org>
+In-Reply-To: <20251205194351.1646318-1-kas@kernel.org>
+From: Frank van der Linden <fvdl@google.com>
+Date: Tue, 9 Dec 2025 10:20:14 -0800
+X-Gm-Features: AQt7F2r1NndvV55ZUE81wu9xsLiEjLpVzmQRQozJzmow2POGkCNA76ncwaR0Tis
+Message-ID: <CAPTztWaWnurc=9fOBpPO25JoZu6PHU6c7AYNJbE+xdWV4gwskA@mail.gmail.com>
+Subject: Re: [PATCH 00/11] mm/hugetlb: Eliminate fake head pages from vmemmap optimization
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Muchun Song <muchun.song@linux.dev>, 
+	David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Matthew Wilcox <willy@infradead.org>, Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, 
+	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Usama Arif <usamaarif642@gmail.com>, kernel-team@meta.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000066E6:EE_|DM4PR12MB6230:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c2f251f-12a0-49c0-86e4-08de374f9cdf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|82310400026|1800799024|36860700013|376014|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MGlFemVDOThSM0ZKcFpFcXpXV3c5OHNpbmR3VkwxTjk5b1NmZEZpTnpRdy9i?=
- =?utf-8?B?U2FVVHA0SkVPUEZHUlVjbzBXaHAxOUFvWXB4cnZPcWZmVGt4SUFzWHVJWUlw?=
- =?utf-8?B?N0VMd1l5dmJseWxZbmhScVVoVjZJN0lJY0tHdmZaSmd6cjJhNWMrNDBlRVcz?=
- =?utf-8?B?UE9MM05HRXNyMnBiOFR0Yk4xVGNWRVJaMU5GTUdOZENOVTVrSnJKbDVHL2Fa?=
- =?utf-8?B?ZEJ6dGNISE5HWGhRTjc2RWxMeGE0citQWVFpam9qL21uVnlVZ09KWVpkanZF?=
- =?utf-8?B?RlVEYUs0OTRSbEVOU3kzejloWGZmMVVMTlM4Tk5vZ1d6WHkvakYzeTBacWhp?=
- =?utf-8?B?UzFHYnJnRFRSTkU5dDllMTFsNkl0eU5zNFBmRTllZlZhUkhsSGRObXNXbHpU?=
- =?utf-8?B?TW5jbWp2WUtzcVM3Mmc5WVBjTGJyeXlzemIzZTVsRUhIRkwyaW84eE9DS0dT?=
- =?utf-8?B?UnQxakFQOWJtanJMaDN4MTZ0a2M1QW1HVzlKNG1CR05LNDhJZTFMYm5iWkt3?=
- =?utf-8?B?Mm9rZGE2dnMvLzAzVGRxYld5bEc4Z2ozSWlzZ0hnVHBlMXBkV09NaHRZS0dq?=
- =?utf-8?B?b1k0cVl0OEVYcjlSc2thZ0RaQ3NRRTdnT0FZWTdpeTlQR3huZWpQRHJrNU9t?=
- =?utf-8?B?d2F0ek1vMWU5bUNrc2FLQ0dGbmNwa2RUWVNDaUFncm9RNEJHRXN0ejZCcmts?=
- =?utf-8?B?V05CTzQxcEFjZVV2cGRYSTdrdzJaaGRkczBIUDZ6NTVCeFVSQW05Z1JHaFRq?=
- =?utf-8?B?NG5CeDI2ajlLNzZ4OHphd29heis3WUpVU2Jrb2xtQ0FhMHE5WXpYN2Y5aGto?=
- =?utf-8?B?cklOdWlRQnBwbmdIUEJDa1J0cWlOQVhhQlRoQ2NRYjZMZzZyRDQ2OU4wZHZT?=
- =?utf-8?B?czBXODBUVjVteHBUdWtRdWVhNFVGa2JwVkZVVkU4OVZBdkZMZEFVQ1pFUmlr?=
- =?utf-8?B?MTVETUR5S01iTjNSMzZacm05OEJ6d0FsNXNtd1Ayb1N1TDNWZVNnaUgyLzho?=
- =?utf-8?B?QVhRR3plSjFKQlpPQVNxZXhZSUMxMDl6ZDc3Z3VwZXJ4eFc4OHlVSWxPdDQ4?=
- =?utf-8?B?MVpCQmQ5Zy9YYncwbUY0em9JVkpIVFNRQlBVeDZRenhWNjhWcXJwbkdrbmEr?=
- =?utf-8?B?SW1PYmtDaFBINWVWM3VYeDZTMkJzMytjY0VJQ05YUEUwd010bFduU0E2SFJW?=
- =?utf-8?B?SFVYZ1BDcDAxUjYzU2hTem4wNlROQzc5aUF3T1Nxb0lXOGl6a2RoQlRra3R2?=
- =?utf-8?B?ME5HaEg1b0tKN09aYVlXUHBOT0EvcG85RnA3WGFWNElPNm1rR0FPRlFTSnFJ?=
- =?utf-8?B?b011azIyQXdLUVFqT0U3MHFCZ2hEQkNhUk5lODV1dU1GcVViL2UwYXdLWkRh?=
- =?utf-8?B?TFhNWDRKQW53UkxzdHV4TThFTzlPNHZpcTB4eW5QYlVHSzBOYUJLTUs4MEo1?=
- =?utf-8?B?YXM4MUJJSENFTGxkcGc2RU15MlhBNVJtWVd0djFqc0RhR1VSU1V0T2JhUHcr?=
- =?utf-8?B?YS96M3hsZ1Y0dDNVUXovQUt3RnhmN1k5b3FHcXNIWEJOS0ZGSlcyaGczNkhk?=
- =?utf-8?B?aENBN3p4cUlJdE5vMS9FNFpZMWVsOHFxWFNDOWRVZFFhUTV0OUYrTHBUczRw?=
- =?utf-8?B?RDlnTmRGL0llUm51N21McmdIaVBIbVQ5NWc5OGN5bFliSVQyckNTRTNYMDkx?=
- =?utf-8?B?VjJPb3paSC84N2wyVTJ0bis4T3UyamNwT1hGSFFMWTBCNTk2ekNSQUZUZ0I5?=
- =?utf-8?B?aDQvc0QwTTJjWTZJZE1Yd1MzWGR0SkxTWGNIK2M4bTdCTHhRSEllQzZzSkUz?=
- =?utf-8?B?a1Z5bkZwYWNOR0poTzhlNTlhVk8wZnFob2tHMFJyWXprODM3TjdwSFQ5WGl1?=
- =?utf-8?B?bFNoR3MyOWcvSW9aUGl0N1J1TWpSRTVoVVVIb09odCtjcGFlSVcxY2lwdTRm?=
- =?utf-8?B?NUxPMEJOa3ZjSkt5Q3h5bmtEMS9hZnppeC9XRUtzOXNQMWV4YWpuYmJ1Nlkr?=
- =?utf-8?B?d28vUjFtRmVSRUxHRklEMFQ4c1hsZWdLeituYTlTRVgraHltSUs3NmVFSXZU?=
- =?utf-8?Q?1gDtkJ?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(1800799024)(36860700013)(376014)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 18:20:20.5634
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c2f251f-12a0-49c0-86e4-08de374f9cdf
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000066E6.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6230
+Content-Transfer-Encoding: quoted-printable
 
-This adds a convention document for the following patch series:
+On Fri, Dec 5, 2025 at 11:44=E2=80=AFAM Kiryl Shutsemau <kas@kernel.org> wr=
+ote:
+>
+> This series removes "fake head pages" from the HugeTLB vmemmap
+> optimization (HVO) by changing how tail pages encode their relationship
+> to the head page.
+>
+> It simplifies compound_head() and page_ref_add_unless(). Both are in the
+> hot path.
+>
+> Background
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> HVO reduces memory overhead by freeing vmemmap pages for HugeTLB pages
+> and remapping the freed virtual addresses to a single physical page.
+> Previously, all tail page vmemmap entries were remapped to the first
+> vmemmap page (containing the head struct page), creating "fake heads" -
+> tail pages that appear to have PG_head set when accessed through the
+> deduplicated vmemmap.
+>
+> This required special handling in compound_head() to detect and work
+> around fake heads, adding complexity and overhead to a very hot path.
+>
+> New Approach
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> For architectures/configs where sizeof(struct page) is a power of 2 (the
+> common case), this series changes how position of the head page is encode=
+d
+> in the tail pages.
+>
+> Instead of storing a pointer to the head page, the ->compound_info
+> (renamed from ->compound_head) now stores a mask.
+>
+> The mask can be applied to any tail page's virtual address to compute
+> the head page address. Critically, all tail pages of the same order now
+> have identical compound_info values, regardless of which compound page
+> they belong to.
+>
+> This enables a key optimization: instead of remapping tail vmemmap
+> entries to the head page (creating fake heads), we remap them to a
+> shared, pre-initialized vmemmap_tail page per hstate. The head page
+> gets its own dedicated vmemmap page, eliminating fake heads entirely.
+>
+> Benefits
+> =3D=3D=3D=3D=3D=3D=3D=3D
+>
+> 1. Smaller generated code. On defconfig, I see ~15K reduction of text
+>    in vmlinux:
+>
+>    add/remove: 6/33 grow/shrink: 54/262 up/down: 6130/-21922 (-15792)
+>
+> 2. Simplified compound_head(): No fake head detection needed. The
+>    function is now branchless for power-of-2 struct page sizes.
+>
+> 3. Eliminated race condition: The old scheme required synchronize_rcu()
+>    to coordinate between HVO remapping and speculative PFN walkers that
+>    might write to fake heads. With the head page always in writable
+>    memory, this synchronization is unnecessary.
+>
+> 4. Removed static key: hugetlb_optimize_vmemmap_key is no longer needed
+>    since compound_head() no longer has HVO-specific branches.
+>
+> 5. Cleaner architecture: The vmemmap layout is now straightforward -
+>    head page has its own vmemmap, tails share a read-only template.
+>
+> I had hoped to see performance improvement, but my testing thus far has
+> shown either no change or only a slight improvement within the noise.
+>
+> Series Organization
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Patches 1-3: Preparatory refactoring
+>   - Change prep_compound_tail() interface to take order
+>   - Rename compound_head field to compound_info
+>   - Move set/clear_compound_head() near compound_head()
+>
+> Patch 4: Core encoding change
+>   - Implement mask-based encoding for power-of-2 struct page
+>
+> Patches 5-6: HVO restructuring
+>   - Refactor vmemmap_walk to support separate head/tail pages
+>   - Introduce per-hstate vmemmap_tail, eliminate fake heads
+>
+> Patches 7-9: Cleanup
+>   - Remove fake head checks from compound_head(), PageTail(), etc.
+>   - Remove VMEMMAP_SYNCHRONIZE_RCU and synchronize_rcu() calls
+>   - Remove hugetlb_optimize_vmemmap_key static key
+>
+> Patch 10: Optimization
+>   - Implement branchless compound_head() for power-of-2 case
+>
+> Patch 11: Documentation
+>   - Update vmemmap_dedup.rst to reflect new architecture
+>
+> Kiryl Shutsemau (11):
+>   mm: Change the interface of prep_compound_tail()
+>   mm: Rename the 'compound_head' field in the 'struct page' to
+>     'compound_info'
+>   mm: Move set/clear_compound_head() to compound_head()
+>   mm: Rework compound_head() for power-of-2 sizeof(struct page)
+>   mm/hugetlb: Refactor code around vmemmap_walk
+>   mm/hugetlb: Remove fake head pages
+>   mm: Drop fake head checks and fix a race condition
+>   hugetlb: Remove VMEMMAP_SYNCHRONIZE_RCU
+>   mm/hugetlb: Remove hugetlb_optimize_vmemmap_key static key
+>   mm: Remove the branch from compound_head()
+>   hugetlb: Update vmemmap_dedup.rst
+>
+>  .../admin-guide/kdump/vmcoreinfo.rst          |   2 +-
+>  Documentation/mm/vmemmap_dedup.rst            |  62 ++---
+>  include/linux/hugetlb.h                       |   3 +
+>  include/linux/mm_types.h                      |  20 +-
+>  include/linux/page-flags.h                    | 163 +++++-------
+>  include/linux/page_ref.h                      |   8 +-
+>  include/linux/types.h                         |   2 +-
+>  kernel/vmcore_info.c                          |   2 +-
+>  mm/hugetlb.c                                  |   8 +-
+>  mm/hugetlb_vmemmap.c                          | 245 ++++++++----------
+>  mm/hugetlb_vmemmap.h                          |   4 +-
+>  mm/internal.h                                 |  11 +-
+>  mm/mm_init.c                                  |   2 +-
+>  mm/page_alloc.c                               |   4 +-
+>  mm/slab.h                                     |   2 +-
+>  mm/util.c                                     |  15 +-
+>  16 files changed, 242 insertions(+), 311 deletions(-)
+>
+> --
+> 2.51.2
+>
+>
 
- cxl: ACPI PRM Address Translation Support and AMD Zen5 enablement
+I love this in general - I've always disliked the fake head
+construction (though I understand the reason behind it).
 
-Version 7 and later:
+However, it seems like you didn't add support to vmemmap_populate_hvo,
+as far as I can tell. That's the function that is used to do HVO early
+on bootmem (memblock) allocated 'gigantic' pages. So I think that
+would break with this patch.
 
- https://patchwork.kernel.org/project/cxl/cover/20251114213931.30754-1-rrichter@amd.com/
+Could you add support there too? I don't think it would be hard to.
+While at it, you could also do it for vmemmap_populate_hugepages to
+support devdax :-)
 
-Reviewed-by: Gregory Price <gourry@gourry.net>
-Signed-off-by: Robert Richter <rrichter@amd.com>
----
-v2:
- * updated sob-chain,
- * spell fix in patch description (Randy),
- * made small changes as suggested by Randy,
- * Removed include:: <isonum.txt> line (Jon).
----
----
- Documentation/driver-api/cxl/conventions.rst  |   1 +
- .../driver-api/cxl/conventions/cxl-atl.rst    | 174 ++++++++++++++++++
- 2 files changed, 175 insertions(+)
- create mode 100644 Documentation/driver-api/cxl/conventions/cxl-atl.rst
-
-diff --git a/Documentation/driver-api/cxl/conventions.rst b/Documentation/driver-api/cxl/conventions.rst
-index 53f31a229c8d..cf427afac58b 100644
---- a/Documentation/driver-api/cxl/conventions.rst
-+++ b/Documentation/driver-api/cxl/conventions.rst
-@@ -8,4 +8,5 @@ Compute Express Link: Linux Conventions
-    :caption: Contents
- 
-    conventions/cxl-lmh.rst
-+   conventions/cxl-atl.rst
-    conventions/template.rst
-diff --git a/Documentation/driver-api/cxl/conventions/cxl-atl.rst b/Documentation/driver-api/cxl/conventions/cxl-atl.rst
-new file mode 100644
-index 000000000000..955263dcbb3a
---- /dev/null
-+++ b/Documentation/driver-api/cxl/conventions/cxl-atl.rst
-@@ -0,0 +1,174 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+ACPI PRM CXL Address Translation
-+================================
-+
-+Document
-+--------
-+
-+CXL Revision 3.2, Version 1.0
-+
-+License
-+-------
-+
-+SPDX-License Identifier: CC-BY-4.0
-+
-+Creator/Contributors
-+--------------------
-+
-+- Robert Richter, AMD
-+
-+Summary of the Change
-+---------------------
-+
-+The CXL Fixed Memory Window Structure (CFMWS) describes zero or more
-+Host Physical Address (HPA) windows that are associated with each CXL
-+Host Bridge. The HPA ranges of a CFMWS may include addresses that are
-+currently assigned to CXL.mem devices, or an OS may assign ranges from
-+an address window to a device.
-+
-+Host-managed Device Memory is Device-attached memory that is mapped to
-+system coherent address space and accessible to the Host using
-+standard write-back semantics. The managed address range is configured
-+in the CXL HDM Decoder registers of the device. An HDM Decoder in a
-+device is responsible for converting HPA into DPA by stripping off
-+specific address bits.
-+
-+CXL devices and CXL bridges use the same HPA space. It is common
-+across all components that belong to the same host domain. The view of
-+the address region must be consistent on the CXL.mem path between the
-+Host and the Device.
-+
-+This is described in the current CXL specification (Table 1-1, 3.3.1,
-+8.2.4.20, 9.13.1, 9.18.1.3). [#cxl-spec-3.2]_
-+
-+Depending on the interconnect architecture of the platform, components
-+attached to a host may not share the same host physical address space.
-+Those platforms need address translation to convert an HPA between the
-+host and the attached component, such as a CXL device. The translation
-+mechanism is host-specific and implementation dependent.
-+
-+E.g., x86 AMD platforms use a Data Fabric that manages access to
-+physical memory. Devices have their own memory space and can be
-+configured to use 'Normalized addresses' different to System Physical
-+Addresses (SPA). Address translation is needed then. Details are
-+described also under x86 AMD
-+Documentation/admin-guide/RAS/address-translation.rst.
-+
-+Those AMD platforms provide PRM handlers in firmware to perform
-+various types of address translation, including for CXL endpoints.
-+AMD Zen5 systems implement the ACPI PRM CXL Address Translation
-+firmware call. The ACPI PRM handler has a specific GUID to uniquely
-+identify platforms with support of Normalized addressing. This is
-+documented in the ACPI v6.5 Porting Guide, Address Translation - CXL
-+DPA to System Physical Address.  [#amd-ppr-58088]_
-+
-+When in Normalized address mode, HDM decoder address ranges must be
-+configured and handled differently. Hardware addresses used in the HDM
-+decoder configurations of an endpoint are not SPA and need to be
-+translated from the endpoint's to its CXL host bridge's address range.
-+This is especially important to find an endpoint's associated CXL Host
-+Bridge and HPA window described in the CFMWS. Also, the interleave
-+decoding is done by the Data Fabric and the endpoint does not perform
-+decoding when converting HPA to DPA. Instead, interleaving is switched
-+off for the endpoint (1 way). Finally, address translation might also
-+be needed to inspect the Endpoint's hardware addresses, such as during
-+profiling, tracing or error handling.
-+
-+For example, with Normalized addressing the HDM decoders could look as
-+following:
-+
-+.. code-block:: none
-+
-+ /sys/bus/cxl/devices/endpoint5/decoder5.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/endpoint5/decoder5.0/interleave_ways:1
-+ /sys/bus/cxl/devices/endpoint5/decoder5.0/size:0x2000000000
-+ /sys/bus/cxl/devices/endpoint5/decoder5.0/start:0x0
-+ /sys/bus/cxl/devices/endpoint8/decoder8.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/endpoint8/decoder8.0/interleave_ways:1
-+ /sys/bus/cxl/devices/endpoint8/decoder8.0/size:0x2000000000
-+ /sys/bus/cxl/devices/endpoint8/decoder8.0/start:0x0
-+ /sys/bus/cxl/devices/endpoint11/decoder11.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/endpoint11/decoder11.0/interleave_ways:1
-+ /sys/bus/cxl/devices/endpoint11/decoder11.0/size:0x2000000000
-+ /sys/bus/cxl/devices/endpoint11/decoder11.0/start:0x0
-+ /sys/bus/cxl/devices/endpoint13/decoder13.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/endpoint13/decoder13.0/interleave_ways:1
-+ /sys/bus/cxl/devices/endpoint13/decoder13.0/size:0x2000000000
-+ /sys/bus/cxl/devices/endpoint13/decoder13.0/start:0x0
-+
-+Note the endpoint interleaving configurations with a direct mapping
-+(1-way).
-+
-+With PRM calls, the kernel can determine the following mappings:
-+
-+.. code-block:: none
-+
-+ cxl decoder5.0: address mapping found for 0000:e2:00.0 (hpa -> spa):
-+   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-+ cxl decoder8.0: address mapping found for 0000:e3:00.0 (hpa -> spa):
-+   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-+ cxl decoder11.0: address mapping found for 0000:e4:00.0 (hpa -> spa):
-+   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-+ cxl decoder13.0: address mapping found for 0000:e1:00.0 (hpa -> spa):
-+   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-+
-+The corresponding CXL host bridge (HDM) decoders and root decoder
-+(CFMWS) show and match with the calculated endpoint mappings:
-+
-+.. code-block:: none
-+
-+ /sys/bus/cxl/devices/port1/decoder1.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/port1/decoder1.0/interleave_ways:4
-+ /sys/bus/cxl/devices/port1/decoder1.0/size:0x8000000000
-+ /sys/bus/cxl/devices/port1/decoder1.0/start:0x850000000
-+ /sys/bus/cxl/devices/port1/decoder1.0/target_list:0,1,2,3
-+ /sys/bus/cxl/devices/port1/decoder1.0/target_type:expander
-+ /sys/bus/cxl/devices/root0/decoder0.0/interleave_granularity:256
-+ /sys/bus/cxl/devices/root0/decoder0.0/interleave_ways:1
-+ /sys/bus/cxl/devices/root0/decoder0.0/size:0x8000000000
-+ /sys/bus/cxl/devices/root0/decoder0.0/start:0x850000000
-+ /sys/bus/cxl/devices/root0/decoder0.0/target_list:7
-+
-+The following changes of the specification are needed:
-+
-+* Allow a CXL device to be in a different HPA space other than the
-+  host's space.
-+
-+* The platform can use implementation-specific address translation
-+  when crossing memory domains on the CXL.mem path between the Host
-+  and the Device.
-+
-+* The kernel (OSPM) determines Endpoint SPA range and interleaving
-+  configuration using platform-specific address translation methods.
-+
-+Benefits of the Change
-+----------------------
-+
-+Without the change, the OSPM may not determine the memory region and
-+Root Decoder of an Endpoint and its corresponding HDM decoder. Region
-+creation would fail. Platforms with a different interconnect
-+architecture would fail to setup and use CXL.
-+
-+References
-+----------
-+
-+.. [#cxl-spec-3.2] Compute Express Link Specification, Revision 3.2, Version 1.0,
-+   https://www.computeexpresslink.org/
-+
-+.. [#amd-ppr-58088] AMD Family 1Ah Models 00h–0Fh and Models 10h–1Fh,
-+   ACPI v6.5 Porting Guide, Publication # 58088,
-+   https://www.amd.com/en/search/documentation/hub.html
-+
-+Detailed Description of the Change
-+----------------------------------
-+
-+Add the following paragraph in 8.2.4.20 CXL HDM Decoder Capability
-+Structure of the specification [#cxl-spec-3.2]_ to the end:
-+
-+"A device may use a different HPA space that is not common to other
-+components of the host domain. The platform is responsible for address
-+translation when crossing HPA spaces. The OSPM must determine the
-+interleaving configuration and perform address translation to HPA
-+ranges of the HDM decoders as needed. The translation mechanism is
-+host-specific and implementation dependent."
--- 
-2.47.3
-
+- Frank
