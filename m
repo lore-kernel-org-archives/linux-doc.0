@@ -1,45 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7C32D7802;
-	Tue,  9 Dec 2025 08:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B1B2FC86B
+	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 10:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765270427; cv=none; b=WrEaDkywW17yaMXOiPjqrNyXErciRmihRymh/XpjiymZBXmWhx056+hd4ASKB1S6i6/R2tygCf9nDz5KeCfY5fKyqkJf1YfFQaUlUo54Q+CX1ck/MdglHZqBQvVxchig6VsKMv+WuxDy3VDFIFTmP4XYwBy9L4Nhnxq7wrTCNGk=
+	t=1765274519; cv=none; b=bg4LLnf54aUsFjfdvUM/LoY7XrytqBT4RvFDLWBMJWrtlI115UMZOs3uLDvfCIkQwy/98yYG6cO4b4NAk7SewH2rFSNimDKJB0e9VJUZy1kwnkaYsdbbWsga1McLXDvZZXOwKH2tkXoGlVxRVgPoDyeI3r07QIOcbt2Cah/Buls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765270427; c=relaxed/simple;
-	bh=B+06a2AIDoEn+gEmD77Npv3dqKKw3n7NJtW7XJENQIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KoxM621FtWvlLkz9vTJJ0GDND3fZreNPWK6SbNqz/gwWqFMreguDy344yFRFaznlolqjYi5a8b20iuZZUpCmDxvyfvxjB39cMqHpYm0crpj0Za/jbIwoGn4iSMgfFHybZu/uJPBOwlW5DmMjf9C0/uNyh2iaXl7/JIFxZl3ab6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gSO0bRmA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765274519; c=relaxed/simple;
+	bh=27zc19RUqiobn1FdOI9EJekgFOJNVWDQv0dVuHpl1pU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BCTY/Q92de8gyAsu1frZseZ75KfEQ1bnOQbk6SD3V23QqUg0t/mNIbNV3Ms06M4i4YX43DUkoMeD6cywcNjceAHFYKiXUqTj+Ir/sNBvIJdaj+1GOseQrGx4X39bmdV+e6MZWnjmT9x0ctqfXSYhLr44PpVk3mOAYUezVIrRF4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Ev+5iRxG; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gSO0bRmA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B525C19422;
-	Tue,  9 Dec 2025 08:53:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765270426;
-	bh=B+06a2AIDoEn+gEmD77Npv3dqKKw3n7NJtW7XJENQIg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gSO0bRmApEBoecKzvj3LdQDbI+/AZ+HvrgM0DzZsui0ovhcdW0kYvcSdapoZZFHQM
-	 D0siBMpu+oZBOvYzHsskRRAP94Dt/KOvCfxENAwhqzm2pK5moEUyAu+32wpZQG9my+
-	 kHoh/5dP8mFn3uk4pBoJPYkahOGtVH8TakBkZd93k15uMzQGGiUSWZxZ0waEaFfIsP
-	 +qsmTcs2dUILpSC772VC+ZK1mNSMVECShqaEMSkBvhZggljDK1VtYebytvvG2r1fhB
-	 YsVh+WfzQMPPvv3qdk53UVRwQU9n+ho07MVGpPWJ/ZzhrVN//n1anxpkr78L4NfazL
-	 wWv3oq1UXtI6Q==
-Date: Tue, 9 Dec 2025 09:53:40 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-Cc: bp@alien8.de, corbet@lwn.net, dave.hansen@linux.intel.com,
-	david.hunter.linux@gmail.com, hpa@zytor.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mingo@redhat.com, skhan@linuxfoundation.org, tglx@linutronix.de,
-	x86@kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v2] Documentation: x86/boot: Fix malformed table in
- boot.rst
-Message-ID: <aTfjlAKBNeX6my4g@gmail.com>
-References: <20251208210113.24057-1-swarajgaikwad1925@gmail.com>
- <20251209085330.9124-1-swarajgaikwad1925@gmail.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Ev+5iRxG"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47774d3536dso51148465e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 02:01:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1765274515; x=1765879315; darn=vger.kernel.org;
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=L4iL3RBpVh7pc34QSUOCK2Mk0ozYK7xld1FEeAxyl7I=;
+        b=Ev+5iRxGHXXbBkrITQcfbGu78SsUX4MWXqVbNbqJqXgQHH0YETvV/+bvP/+cNGkJxt
+         mvNGi1RIOitZ/+PYzjbQXeA6imPXu+K3tko/FTapi4Efg9kN7HgCDKsSbCQJ+fFnzsU6
+         mN9qm6sEdjfWHxvu3ff8iWKSgT8eB8xafVEXSvOt/wPVc/bBH+UIK/RUrEruZvsSjzFQ
+         BynULHWApeTt/c2i0yfuFi+sfPlpIsT8YQbL1FGOJdLwDoAReNkM1/nzcuizHJ+gw5yK
+         oBXPrtpE+NrHPU44OU3F2HR5LZGDSyZ/RXa3iUYrrixtgcgmIEiCF+ApofKJBkGLVViP
+         xjYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765274515; x=1765879315;
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L4iL3RBpVh7pc34QSUOCK2Mk0ozYK7xld1FEeAxyl7I=;
+        b=jnN77Qz1V8K28C9rzbW1ivR2gMrb3ytEkUmIsw8xepwExF+wNUQn1+EGEweigdfySH
+         GXSY8NOybI3Xq/+EGaTSYL5TzkiiU6trPlv2lHcYOUflc4S8k1COdkUwLam5+zwK2poT
+         LQVcS2uQuzwzTQzIfAN/DgBYJOiuma/ARASogJoP1jps1lMM/B1GrJyepmv11DfSOM3m
+         l05YR8VSHQHbJTq7Wt54kMR+egvXK/6ji5m+xBb/YVG+GPhAv3S2MB0ojaceJCBQJUz7
+         HQ6/wg47QBzS9Ns12kDRj3RTw9XOseSTvb28oPUnMEnxtMWiwFtJgkqh9+zi+VXzZrE2
+         FAyw==
+X-Gm-Message-State: AOJu0YzmiBgii+jRO3ivYldD/FVx71Sxtryu262Gcxw11xy43HV24qpd
+	OxQMBrq3S+9EQLd4NW8lkPRuqYGUDiAxNVmuqEBQJpK+zeD4swELI/F3/c6n71ePQ43NhYmbVZU
+	1p/xpEqo=
+X-Gm-Gg: ASbGncuujtNtOzoInvmWXvNFduBZCKWnHkddR0XRDPwyJROJcpnLovDxIpn7MPv+njq
+	ZS4qlrfbxp/mVPHGNCQZ6oCdhpuroHfAPer1N2YBYvj7MxTFLvz6s7TulIVCPwLufRcp7SXNmyf
+	VzZetA0RIgw3PcZZdwh2XDdHAQzT58DyXiaJNRkPouJ2cVou+0wxDf17HiitWpM6Ngf90/LEDc7
+	rehTE1pynKeG7xNZHkG3VDo9nDEeKI0+H/i7EYi2I7lJVIMP0LRrUWPYYKqUehBqP/Z1B4RFEn2
+	lyZK2qxOreh4waq4YGLkdAzZS3V2LQZYzSKjzT6mncx4dpn5BjdLF3h1ziEwUA54Eq/rFboWkpH
+	bcqIlwT3gRqV1UIfkKuJ4dsmLJRJdke2SMuwrLkPASj/yHCyH6VaVVV6Ut3RiccMvqK6NhaGMXL
+	dyvs+vZK/X7haEmEOsqI0esGxnYPlBy7ztvKcJqA==
+X-Google-Smtp-Source: AGHT+IEjifALW1HIvd+cGciFhHDvB7hgp9ovQvuKqeyygbtUagjmrvXtp5XRHCETPhXRmni4v2mN/A==
+X-Received: by 2002:a05:600c:888e:b0:479:3a8e:c85c with SMTP id 5b1f17b1804b1-47a7f969677mr7844355e9.18.1765274515072;
+        Tue, 09 Dec 2025 02:01:55 -0800 (PST)
+Received: from r1chard (1-164-67-35.dynamic-ip.hinet.net. [1.164.67.35])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bf686b3bad4sm14639150a12.10.2025.12.09.02.01.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 02:01:54 -0800 (PST)
+Date: Tue, 9 Dec 2025 18:01:50 +0800
+From: Richard Lyu <richard.lyu@suse.com>
+To: linux-doc@vger.kernel.org
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	x86@kernel.org, linux-kernel@vger.kernel.org,
+	Richard Lyu <richard.lyu@suse.com>
+Subject: [PATCH] docs/x86: Update AMD IOMMU specification location
+Message-ID: <20251209100148.25284-1-richard.lyu@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,95 +77,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251209085330.9124-1-swarajgaikwad1925@gmail.com>
+X-Mailer: git-send-email 2.51.0
+User-Agent: Mutt/2.2.13 (2024-03-09)
 
-* Swaraj Gaikwad <swarajgaikwad1925@gmail.com> wrote:
+The current link to the AMD I/O Virtualization Technology IOMMU
+specification (document 48882) in Documentation/arch/x86/iommu.rst
+is outdated and points to a defunct URL on the AMD website.
 
-> Sphinx reports htmldocs warnings:
->
->   Documentation/arch/x86/boot.rst:437: ERROR: Malformed table.
->   Text in column margin in table line 2.
->
-> The table header defined the first column width as 2 characters ("=="),
-> which is too narrow for entries like "0x10" and "0x13". This caused the
-> text to spill into the margin, triggering a docutils parsing failure.
->
-> Fix it by extending the first column of assigned boot loader ID to 4
-> characters ("====") to fit the widest entries.
->
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-> ---
-> Changes in v2:
->  - Dropped accidental whitespace changes (the second chunk in v1).
->  - Simplified commit message as suggested by Bagas Sanjaya.
->
-> ---
->  Documentation/arch/x86/boot.rst | 48 ++++++++++++++++-----------------
->  1 file changed, 24 insertions(+), 24 deletions(-)
->
-> diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
-> index 6d36ce86fd8e..89e785850f7e 100644
-> --- a/Documentation/arch/x86/boot.rst
-> +++ b/Documentation/arch/x86/boot.rst
-> @@ -433,30 +433,30 @@ Protocol:	2.00+
->
->    Assigned boot loader IDs:
->
-> -	== =======================================
-> -	0x0  LILO
-> -	     (0x00 reserved for pre-2.00 bootloader)
-> -	0x1  Loadlin
-> -	0x2  bootsect-loader
-> -	     (0x20, all other values reserved)
-> -	0x3  Syslinux
-> -	0x4  Etherboot/gPXE/iPXE
-> -	0x5  ELILO
-> -	0x7  GRUB
-> -	0x8  U-Boot
-> -	0x9  Xen
-> -	0xA  Gujin
-> -	0xB  Qemu
-> -	0xC  Arcturus Networks uCbootloader
-> -	0xD  kexec-tools
-> -	0xE  Extended (see ext_loader_type)
-> -	0xF  Special (0xFF = undefined)
-> -	0x10 Reserved
-> -	0x11 Minimal Linux Bootloader
-> -	     <http://sebastian-plotz.blogspot.de>
-> -	0x12 OVMF UEFI virtualization stack
-> -	0x13 barebox
-> -	== =======================================
-> +==== ==============================
-> +0x0  LILO
-> +      (0x00 reserved for pre-2.00 bootloader)
-> +0x1  Loadlin
-> +0x2  bootsect-loader
-> +      (0x20, all other values reserved)
-> +0x3  Syslinux
-> +0x4  Etherboot/gPXE/iPXE
-> +0x5  ELILO
-> +0x7  GRUB
-> +0x8  U-Boot
-> +0x9  Xen
-> +0xA  Gujin
-> +0xB  Qemu
-> +0xC  Arcturus Networks uCbootloader
-> +0xD  kexec-tools
-> +0xE  Extended (see ext_loader_type)
-> +0xF  Special (0xFF = undefined)
-> +0x10 Reserved
-> +0x11 Minimal Linux Bootloader
-> +      <http://sebastian-plotz.blogspot.de>
-> +0x12 OVMF UEFI virtualization stack
-> +0x13 barebox
-> +==== ==============================
+Update the link in Documentation/arch/x86/iommu.rst to the current stable
+location for the specification. This ensures users can easily access the
+required architectural details.
 
-So why was the leading tab dropped and why wasn't this change,
-unnecessary to the bug fix in question, declared in the changelog?
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: x86@kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
 
-Thanks,
+Signed-off-by: Richard Lyu <richard.lyu@suse.com>
+---
+ Documentation/arch/x86/iommu.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	Ingo
+diff --git a/Documentation/arch/x86/iommu.rst b/Documentation/arch/x86/iommu.rst
+index 41fbadfe2221..9b8b5e514e35 100644
+--- a/Documentation/arch/x86/iommu.rst
++++ b/Documentation/arch/x86/iommu.rst
+@@ -5,7 +5,7 @@ x86 IOMMU Support
+ The architecture specs can be obtained from the below locations.
+ 
+ - Intel: http://www.intel.com/content/dam/www/public/us/en/documents/product-specifications/vt-directed-io-spec.pdf
+-- AMD: https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/specifications/48882_3_07_PUB.pdf
++- AMD: https://docs.amd.com/v/u/en-US/48882_3.10_PUB
+ 
+ This guide gives a quick cheat sheet for some basic understanding.
+ 
+-- 
+2.51.0
+
