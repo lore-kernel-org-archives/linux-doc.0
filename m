@@ -1,216 +1,79 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3438C1A76BB
-	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 06:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42592226D02;
+	Tue,  9 Dec 2025 07:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765261391; cv=none; b=V0gB3YLCf8eeyNXtUDPynxELKhGzSORStq0FI+tRprZuP1pH5LmjTNxPUxjJezLbNnhFMiY7XcPOaU00TI4qeotOrE9s/s2J6KGhgYv+40i6eRR9svrqHIio6BMmdiDEPXPR806/Ch/NjR+Nu6hJeJB0N6Mdv0TAu9Ec1yGpYlM=
+	t=1765265871; cv=none; b=p/z0xR4GPoLlWMNemYkbNCweyQMwPdR37poAzOmvwTz0kA4Xk+Bc+Z1rV7/AaBL1aVBK6v+tqhFHywVeNaWhtjKVh5ZukPmuoZz9APNMNY08wr4wSI65h7GYcPk9m9BViD9fo7Bi60eA2S6YGGO2xTH08MsKkWRCGOV7nqznbGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765261391; c=relaxed/simple;
-	bh=spciGeuFYlBbM+Y01ChY+8U9WrcgyB4iPUKAI170zK4=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=PMBiGc/carMBtB63b3a3d15L+V+0BBtYRO84FtZoMF/B/2zPEasyATlQ5cSWvNYIiECB7PaD0LT1G+jb1ZA0NTgPbUebmoMTxPm6oEI5HyTR4Ab/ahmDGA5/TxMQ5hc98N2tBLsDJ3T0gglhpCRPAKC4n8bZeZp+cmb8rFWyeyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VC4Ypqef; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1765265871; c=relaxed/simple;
+	bh=PvvpvDEgxqUV3rvRXi5qKsznNiPJ9ikDtGVfJCATNhc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SaKzgC16Wbw1HDUzmGi4vISsOMrsKeH1Y346oT+lvv/bPa3SdzX06UO4H0YVWWX8freuC2Ey3+q1VgmzJeYjixOO2EUD+/BVM0ZtVX01X/nrX9nD3WcpfNMcMHVaL8qx+dNhIQCOkQ3CppeLa8Buk5qd5xB5iH3a2yGW4mm5Y74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lRtbQdo8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VC4Ypqef"
-Content-Type: text/plain;
-	charset=us-ascii
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1765261386;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+CLk45ra1fYgW55XvsXvXAF/BHCLHprBL2qMpGLAoh8=;
-	b=VC4YpqefvEcJ6O+lIz39BT2VJbG3iP8kR+GpykLM3b8sfIy5MUjYXdk8kjZtCVXWnBbRCc
-	U62fruicHGgyRSiywIAPRAhaCy0D2UbJgFOjXMl/vu362KK5Egk8J8VEz74ORbWXB19jWz
-	pfNkHiewwrFs+mYVNGf0wrnZxjQa1kE=
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lRtbQdo8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B53BEC4CEF5;
+	Tue,  9 Dec 2025 07:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765265870;
+	bh=PvvpvDEgxqUV3rvRXi5qKsznNiPJ9ikDtGVfJCATNhc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lRtbQdo8NqlOi3WcWIgiE2/q74u9pmr2xr2OyqS+YGl3T1aK7IXIECeXNOLBUjFtO
+	 5hdQbtSMy4uatkCZqbo9fUg9YbuiPPH5Nj1GWE8NVDIVNvcK2j0LFOkISgQPxKwbvY
+	 K8t4DXIyvmkV1W2Gi3iOl9275qMtskAD5dzaYbQGJZGOHPqOW+nBua+ifs/b9o4PwB
+	 trxVfveyDVyHE/tDRw75MI67e1vayU4//fExuhRoa3tB0vzI+w8RD0S00U/ZQbS+Mz
+	 86hdawVt1pXE070HoUciv4/u0gleWZKsjcmCYVc6/UTiCQNtEJiGk6hkDmxScobbmC
+	 THIYKbKsJE9+w==
+Date: Tue, 9 Dec 2025 16:37:45 +0900
+From: Jakub Kicinski <kuba@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Petr Mladek <pmladek@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Shuah Khan
+ <shuah@kernel.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ gustavold@gmail.com, asantostc@gmail.com, calvin@wbinvd.org,
+ kernel-team@meta.com, davej@codemonkey.org.uk
+Subject: Re: [PATCH net-next 0/4] (no cover subject)
+Message-ID: <20251209163745.3d0fcdfe@kernel.org>
+In-Reply-To: <7jdruzcpkeyhuudwi6uzg2vsc5mhgpq7qz4ym7vqqmgs7j3524@cvtnzneddg2d>
+References: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
+	<20251201163622.4e50bf53@kernel.org>
+	<4oybtunobxtemenpg2lg7jv4cyl3xoaxrjlqivbhs6zo72hxpu@fqp6estf5mpc>
+	<20251202102442.568f91a7@kernel.org>
+	<aTFmew5trILX3RpO@pathway.suse.cz>
+	<aTFnzmc0ZtBvGg4y@pathway.suse.cz>
+	<7jdruzcpkeyhuudwi6uzg2vsc5mhgpq7qz4ym7vqqmgs7j3524@cvtnzneddg2d>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.200.81.1.6\))
-Subject: Re: [PATCH 00/11] mm/hugetlb: Eliminate fake head pages from vmemmap
- optimization
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20251205194351.1646318-1-kas@kernel.org>
-Date: Tue, 9 Dec 2025 14:22:28 +0800
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Oscar Salvador <osalvador@suse.de>,
- Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Matthew Wilcox <willy@infradead.org>,
- Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>,
- Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Usama Arif <usamaarif642@gmail.com>,
- kernel-team@meta.com,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <4F9E5F2F-4B4D-4CE2-929D-1D12B1DB44F8@linux.dev>
-References: <20251205194351.1646318-1-kas@kernel.org>
-To: Kiryl Shutsemau <kas@kernel.org>
-X-Migadu-Flow: FLOW_OUT
 
+On Fri, 5 Dec 2025 02:21:08 -0800 Breno Leitao wrote:
+> 1) Have a binary in each machine:
 
+> 2) Send a ping directly to the console
 
-> On Dec 6, 2025, at 03:43, Kiryl Shutsemau <kas@kernel.org> wrote:
-> 
-> This series removes "fake head pages" from the HugeTLB vmemmap
-> optimization (HVO) by changing how tail pages encode their relationship
-> to the head page.
-> 
-> It simplifies compound_head() and page_ref_add_unless(). Both are in the
-> hot path.
+> 3) Using per-loglevel patchset.
 
-Besides, the code simplification also looks good.
+> 4) send messages only to netconsole (this patchset)
 
-> 
-> Background
-> ==========
-> 
-> HVO reduces memory overhead by freeing vmemmap pages for HugeTLB pages
-> and remapping the freed virtual addresses to a single physical page.
-> Previously, all tail page vmemmap entries were remapped to the first
-> vmemmap page (containing the head struct page), creating "fake heads" -
-> tail pages that appear to have PG_head set when accessed through the
-> deduplicated vmemmap.
-> 
-> This required special handling in compound_head() to detect and work
-> around fake heads, adding complexity and overhead to a very hot path.
-> 
-> New Approach
-> ============
-> 
-> For architectures/configs where sizeof(struct page) is a power of 2 (the
-> common case), this series changes how position of the head page is encoded
-> in the tail pages.
-> 
-> Instead of storing a pointer to the head page, the ->compound_info
-> (renamed from ->compound_head) now stores a mask.
-> 
-> The mask can be applied to any tail page's virtual address to compute
-> the head page address. Critically, all tail pages of the same order now
-> have identical compound_info values, regardless of which compound page
-> they belong to.
-> 
-> This enables a key optimization: instead of remapping tail vmemmap
-> entries to the head page (creating fake heads), we remap them to a
-> shared, pre-initialized vmemmap_tail page per hstate. The head page
-> gets its own dedicated vmemmap page, eliminating fake heads entirely.
+I think I was alluding that another option (not saying that it's the
+best but IIUC your requirements it'd be the best fit)):
 
-A very interesting approach.
+5) Add a keepalive configfs knob, if set to a non-zero value netconsole
+will send an empty (?) message at given interval
 
-The prerequisite is that the starting address of vmemmap must be aligned to
-16MB boundaries (for 1GB huge pages). Right? We should add some checks
-somewhere to guarantee this (not compile time but at runtime like for KASLR).
-
-> 
-> Benefits
-> ========
-> 
-> 1. Smaller generated code. On defconfig, I see ~15K reduction of text
->   in vmlinux:
-> 
->   add/remove: 6/33 grow/shrink: 54/262 up/down: 6130/-21922 (-15792)
-> 
-> 2. Simplified compound_head(): No fake head detection needed. The
->   function is now branchless for power-of-2 struct page sizes.
-
-And it is also a common approach as well for DAX to eliminate an
-additional tail page.
-
-> 
-> 3. Eliminated race condition: The old scheme required synchronize_rcu()
->   to coordinate between HVO remapping and speculative PFN walkers that
->   might write to fake heads. With the head page always in writable
->   memory, this synchronization is unnecessary.
-> 
-> 4. Removed static key: hugetlb_optimize_vmemmap_key is no longer needed
->   since compound_head() no longer has HVO-specific branches.
-> 
-> 5. Cleaner architecture: The vmemmap layout is now straightforward -
->   head page has its own vmemmap, tails share a read-only template.
-
-I have no idea about the feature of memdesc, but regarding HVO, it is
-a nice improvement. I'll look into the details later.
-
-Muchun,
-Thanks.
-> 
-> I had hoped to see performance improvement, but my testing thus far has
-> shown either no change or only a slight improvement within the noise.
-> 
-> Series Organization
-> ===================
-> 
-> Patches 1-3: Preparatory refactoring
->  - Change prep_compound_tail() interface to take order
->  - Rename compound_head field to compound_info
->  - Move set/clear_compound_head() near compound_head()
-> 
-> Patch 4: Core encoding change
->  - Implement mask-based encoding for power-of-2 struct page
-> 
-> Patches 5-6: HVO restructuring
->  - Refactor vmemmap_walk to support separate head/tail pages
->  - Introduce per-hstate vmemmap_tail, eliminate fake heads
-> 
-> Patches 7-9: Cleanup
->  - Remove fake head checks from compound_head(), PageTail(), etc.
->  - Remove VMEMMAP_SYNCHRONIZE_RCU and synchronize_rcu() calls
->  - Remove hugetlb_optimize_vmemmap_key static key
-> 
-> Patch 10: Optimization
->  - Implement branchless compound_head() for power-of-2 case
-> 
-> Patch 11: Documentation
->  - Update vmemmap_dedup.rst to reflect new architecture
-> 
-> Kiryl Shutsemau (11):
->  mm: Change the interface of prep_compound_tail()
->  mm: Rename the 'compound_head' field in the 'struct page' to
->    'compound_info'
->  mm: Move set/clear_compound_head() to compound_head()
->  mm: Rework compound_head() for power-of-2 sizeof(struct page)
->  mm/hugetlb: Refactor code around vmemmap_walk
->  mm/hugetlb: Remove fake head pages
->  mm: Drop fake head checks and fix a race condition
->  hugetlb: Remove VMEMMAP_SYNCHRONIZE_RCU
->  mm/hugetlb: Remove hugetlb_optimize_vmemmap_key static key
->  mm: Remove the branch from compound_head()
->  hugetlb: Update vmemmap_dedup.rst
-> 
-> .../admin-guide/kdump/vmcoreinfo.rst          |   2 +-
-> Documentation/mm/vmemmap_dedup.rst            |  62 ++---
-> include/linux/hugetlb.h                       |   3 +
-> include/linux/mm_types.h                      |  20 +-
-> include/linux/page-flags.h                    | 163 +++++-------
-> include/linux/page_ref.h                      |   8 +-
-> include/linux/types.h                         |   2 +-
-> kernel/vmcore_info.c                          |   2 +-
-> mm/hugetlb.c                                  |   8 +-
-> mm/hugetlb_vmemmap.c                          | 245 ++++++++----------
-> mm/hugetlb_vmemmap.h                          |   4 +-
-> mm/internal.h                                 |  11 +-
-> mm/mm_init.c                                  |   2 +-
-> mm/page_alloc.c                               |   4 +-
-> mm/slab.h                                     |   2 +-
-> mm/util.c                                     |  15 +-
-> 16 files changed, 242 insertions(+), 311 deletions(-)
-> 
-> -- 
-> 2.51.2
-> 
-
+  Pros:
+   - truly does not require a user binary to run periodically, netcons
+     would set a timer in the kernel
+  Cons:
+   - does not provide the arbitrary "console bypass" message
+     functionality
