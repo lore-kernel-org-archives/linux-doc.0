@@ -1,142 +1,270 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BB52FB0A4
-	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 21:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B91262FC1;
+	Tue,  9 Dec 2025 21:33:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765315169; cv=none; b=audVBq9lPowfICvfNTXM79aWGxFpzZYRkmpMb10yuz9FG/8p5yPcW5/FmS+c4ymuMq0c6MB42Rax78ppj9yD86VRUFsnRP33rZ2iXs1RNxz9DBTEjBOgth8fx6IXznNfPccgDE5ge6uv5xE1dpuRxosqSIPogEq/9m/fpwmwW1Y=
+	t=1765315997; cv=none; b=KVBepehu3b+lPGUkGIz9GAkaIKHlMRlvI2ive367OBV7W3aG0oIbYDj7JvDo9Jk9JC9ckAuzovewUI2vFNxXbTLGYgOFSVAb2Ckpu6+LEiYhugIiojbRcocaX9pWprJe4YbJmoKlXCQi/kSVMmDIK2J5KCYP+z/o/8rR6TUnoZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765315169; c=relaxed/simple;
-	bh=9PJopTTnqLj1ZhQ6CkJPTtVI/sv1SpnklP6dwdtFspU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lEargumj3BqX07V+t71h9Z6QGYGhn5AEF10HtW/WjzljG4feNZwgc4QDjcF4RcaIDnZgVGn525Ru3YesSSxlmPb0ebhQ+hJTY+cYyVw6DKYzY9d3qCau+coTz+hJweMCpbQNsbMV9iqspA22fNm1Oo7dApael5ZfLAb6QmXvyvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NHRThsUc; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765315997; c=relaxed/simple;
+	bh=R4XLqEiA0vD1T8P/x1CLOvvVjQ1OFPgEicxsI8oUtNc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cBDDUE2d8Om7JdgBzPmF3Kl7ZJmXQNGIjdTUOy3Vj6EPbzLo5rZ4mcp33jGL7v5vxi36HY6ApRWa/NFuR1QRzXrr5aCc45qGne0DzBIXpddMIP8OIPXl3PIdsMYXKQroMP55x498fbasEsAMtM+27bW3UNMSXoHwvWMyQDI4Odk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jGlIChha; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NHRThsUc"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-29d7b019e0eso68631265ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 13:19:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765315165; x=1765919965; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=eXyBZeAqVrNTw0ijziaQzTxeLPEtR+cB7Y85IdQ2xtQ=;
-        b=NHRThsUc7ZBiqBtiTyYelAAxska4ko/bgJHej70iu1YlSTsAFt97YO9jZR7S58X5ml
-         EfhGaiF4pK7BndUBQr26HMxwLSJbNkbUXqjzI+4AE5ljBeoPWfgigmA1OmjBile/Wn4r
-         tCIj46gbPKQSXf9EUTvK0hFMpdSKqBunxBGGiy0TUjEKVb1HptqwUQWvkTYlSP/Cglee
-         EcUZtqb22uUFI8nLJC4h9FwsCOAstfLJO3BGTL0BOo5PVGKNm5mTMiBNNNEYrhglcPVd
-         ttwZp9f8X88dhsB1i/cPXJFAz8P6D0cUyrhXU0YJGJEHwnTH14W8S/HChw6mZzOcK7h3
-         suCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765315165; x=1765919965;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eXyBZeAqVrNTw0ijziaQzTxeLPEtR+cB7Y85IdQ2xtQ=;
-        b=f+1zXnAsYCxsfGf0WNEbsfhNzupL+E+tE14Ukn4wmgqFh3LshcgWphIi8N39Fo6MAF
-         CydPbdSuRobsIZp99dLaNeaUXOkdeWrWwjjL/od+lI0oDhIuB5nyzJiZ8N24U+4VzE+X
-         5RdLf/wk62esV0+NFg/0lQSPqwa8rR4tO9D1CWmU+QshJu+pi+INmOlgfhSuF5oYg0T/
-         w4fvuHb2Z6OuzPMRFZVyj67DtY6M3mEQanXpWohn+YXyGswi5vp9a7K82SqUC3cineB7
-         d/OIKuVs1wjENTkjSx3fQoWGTK6++d8oZi0E5J0yhvJ9dKQi4WH8XWG+IAASpaWvMGi6
-         b4iQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW9Br8+qNZmOv+eewRSCIKweWkDRfwIKMj7y5husE9H83FEXvZEuLnIZgEtBBrVb+OhMKUKgwoUoFk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5u8MIdKyRkc0aMIUO/i9Z+L6NhMfQzrOgCIm9J9HCuIukC29A
-	HhXz1Vi+9WqETvJUk9J/+MSlR+kWvf4h7f9LegAZMuvTsFUmZVUuHGCU
-X-Gm-Gg: ASbGnctE10GoyE3lIkFqblsTL0MekaJ/dvp6AgVjI4wjpOC3fmP2MX1LlfSsmZwWDyG
-	TDQ+9cFkNER893HHjCVaSPK6c2HBO+A4n9i2uebam4mNP5kNgnLgcMX2nsObCCY+zN+bRwBsO5p
-	pOgvz1DXqnVtUUR18+hhU21k9cDgtTtanextx2C57yZ53+JVzTKGIKFt6NB43vqjrZF9fntAy3u
-	B4m9BFgKyKeoxleY8ATbJuv747zkSYxkVP8/PYoAQu2EoVp/uNcsnsCdmsKYJf9Vnj1H4PbS1rM
-	3aS/9iBwVnOzS0JA5vY5jRScgB8T8il7OxPmX0BHFZxaHtQuGfD/JK+zT5pZtuvPIux0ohb+k0P
-	LcWm7vxT9IBavhbNQLsqn55BYV/lHCDwdC7HESaXT7IdZ796xbeEZQpO5vpTLQOIB88RTWyX4Yl
-	Pnmrp1p3bnNKGqdZJ9ztjL9s7ol+9BvWB1QWmqCU6Ky+8Kv5GYdd7ZUVxQRHvH/8wMISx86w==
-X-Google-Smtp-Source: AGHT+IEDZcex0PuG2fxdY6TCN5APbUHrJEwXbSXsRu/pv4hoYVWrCKSX27oQ7cN3BNjdf6ax/38coA==
-X-Received: by 2002:a05:7022:419d:b0:11b:8185:abff with SMTP id a92af1059eb24-11f296c8ebamr46638c88.30.1765315164690;
-        Tue, 09 Dec 2025 13:19:24 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f283d46f1sm2859583c88.16.2025.12.09.13.19.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Dec 2025 13:19:23 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <2683b84f-d7d1-4445-b5d3-bed393de34a0@roeck-us.net>
-Date: Tue, 9 Dec 2025 13:19:22 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jGlIChha"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62A67C4CEF5;
+	Tue,  9 Dec 2025 21:33:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765315997;
+	bh=R4XLqEiA0vD1T8P/x1CLOvvVjQ1OFPgEicxsI8oUtNc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jGlIChha6NScNNKQYw94fZP04zj9fVOLWIANzVeK6HQ3x0VbUQdOa0Ib5fB+DJF2s
+	 cxwcCe5H4Mv1oyW4aSYpWjfb50fwdSraxI3WJAnX+qf5gSk03S0LaPJLrDcmYBVr7O
+	 KDVVAmLGPKuiymaJmk8xJ9Gt6fFOYj0Pog3fbZ3p8IiA1f5EHJeLxtB+DP0ZW5+G+I
+	 fSTM81svNXMKEThKTwuAav0JrKSpNDN5Hu6vBRq+upM2xrQc+pjAuoeWHEyQn3UJ2R
+	 +AIE1eyuyLVqt+qrtEmRo34Fmprhrz2S/9AKPCfZa+G+SldhiQdiZ0ODZv3UU1IWdj
+	 50GNSNzxnYOnw==
+Date: Tue, 9 Dec 2025 13:33:16 -0800
+From: Oliver Upton <oupton@kernel.org>
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Mark Rutland <mark.rutland@arm.com>, Shuah Khan <shuah@kernel.org>,
+	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v5 15/24] KVM: arm64: Setup MDCR_EL2 to handle a
+ partitioned PMU
+Message-ID: <aTiVnI5ewoEVRztD@kernel.org>
+References: <20251209205121.1871534-1-coltonlewis@google.com>
+ <20251209205121.1871534-16-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hwmon: (sht3x) add support for SHT85
-To: Antoni Pokusinski <apokusinski01@gmail.com>, jdelvare@suse.com,
- corbet@lwn.net
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251209175848.5739-1-apokusinski01@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
- oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
- VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
- 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
- onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
- DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
- rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
- WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
- qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
- 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
- qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
- H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
- njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
- dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
- j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
- scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
- zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
- RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
- F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
- FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20251209175848.5739-1-apokusinski01@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251209205121.1871534-16-coltonlewis@google.com>
 
-On 12/9/25 09:58, Antoni Pokusinski wrote:
-> SHT85 is a temperature and humidity sensor with an interface very
-> similar to SHT3x. However, it does not feature alerts (and therefore
-> limits).
+On Tue, Dec 09, 2025 at 08:51:12PM +0000, Colton Lewis wrote:
+> Setup MDCR_EL2 to handle a partitioned PMU. That means calculate an
+> appropriate value for HPMN instead of the default maximum setting the
+> host allows (which implies no partition) so hardware enforces that a
+> guest will only see the counters in the guest partition.
 > 
+> Setting HPMN to a non default value means the global enable bit for
+> the host counters is now MDCR_EL2.HPME instead of the usual
+> PMCR_EL0.E. Enable the HPME bit to allow the host to count guest
+> events. Since HPME only has an effect when HPMN is set which we only
+> do for the guest, it is correct to enable it unconditionally here.
+> 
+> Unset the TPM and TPMCR bits, which trap all PMU accesses, if
+> FGT (fine grain trapping) is being used.
+> 
+> If available, set the filtering bits HPMD and HCCD to be extra sure
+> nothing in the guest counts at EL2.
+> 
+> Signed-off-by: Colton Lewis <coltonlewis@google.com>
+> ---
+>  arch/arm64/include/asm/kvm_pmu.h | 11 ++++++
+>  arch/arm64/kvm/debug.c           | 29 ++++++++++++--
+>  arch/arm64/kvm/pmu-direct.c      | 65 ++++++++++++++++++++++++++++++++
+>  3 files changed, 102 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_pmu.h b/arch/arm64/include/asm/kvm_pmu.h
+> index 60b8a48cad456..8b634112eded2 100644
+> --- a/arch/arm64/include/asm/kvm_pmu.h
+> +++ b/arch/arm64/include/asm/kvm_pmu.h
+> @@ -101,6 +101,9 @@ u64 kvm_pmu_guest_counter_mask(struct arm_pmu *pmu);
+>  void kvm_pmu_host_counters_enable(void);
+>  void kvm_pmu_host_counters_disable(void);
+>  
+> +u8 kvm_pmu_guest_num_counters(struct kvm_vcpu *vcpu);
+> +u8 kvm_pmu_hpmn(struct kvm_vcpu *vcpu);
+> +
+>  #if !defined(__KVM_NVHE_HYPERVISOR__)
+>  bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu);
+>  bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu);
+> @@ -173,6 +176,14 @@ static inline u64 kvm_pmu_fgt2_bits(void)
+>  {
+>  	return 0;
+>  }
+> +static inline u8 kvm_pmu_guest_num_counters(struct kvm_vcpu *vcpu)
+> +{
+> +	return 0;
+> +}
+> +static inline u8 kvm_pmu_hpmn(struct kvm_vcpu *vcpu)
+> +{
+> +	return 0;
+> +}
+>  static inline void kvm_pmu_set_counter_value(struct kvm_vcpu *vcpu,
+>  					     u64 select_idx, u64 val) {}
+>  static inline void kvm_pmu_set_counter_value_user(struct kvm_vcpu *vcpu,
+> diff --git a/arch/arm64/kvm/debug.c b/arch/arm64/kvm/debug.c
+> index 3ad6b7c6e4ba7..0ab89c91e19cb 100644
+> --- a/arch/arm64/kvm/debug.c
+> +++ b/arch/arm64/kvm/debug.c
+> @@ -36,20 +36,43 @@ static int cpu_has_spe(u64 dfr0)
+>   */
+>  static void kvm_arm_setup_mdcr_el2(struct kvm_vcpu *vcpu)
+>  {
+> +	int hpmn = kvm_pmu_hpmn(vcpu);
+> +
+>  	preempt_disable();
+>  
+>  	/*
+>  	 * This also clears MDCR_EL2_E2PB_MASK and MDCR_EL2_E2TB_MASK
+>  	 * to disable guest access to the profiling and trace buffers
+>  	 */
+> -	vcpu->arch.mdcr_el2 = FIELD_PREP(MDCR_EL2_HPMN,
+> -					 *host_data_ptr(nr_event_counters));
+> +
+> +	vcpu->arch.mdcr_el2 = FIELD_PREP(MDCR_EL2_HPMN, hpmn);
+>  	vcpu->arch.mdcr_el2 |= (MDCR_EL2_TPM |
+>  				MDCR_EL2_TPMS |
+>  				MDCR_EL2_TTRF |
+>  				MDCR_EL2_TPMCR |
+>  				MDCR_EL2_TDRA |
+> -				MDCR_EL2_TDOSA);
+> +				MDCR_EL2_TDOSA |
+> +				MDCR_EL2_HPME);
+> +
+> +	if (kvm_vcpu_pmu_is_partitioned(vcpu)) {
+> +		/*
+> +		 * Filtering these should be redundant because we trap
+> +		 * all the TYPER and FILTR registers anyway and ensure
+> +		 * they filter EL2, but set the bits if they are here.
+> +		 */
+> +		if (is_pmuv3p1(read_pmuver()))
+> +			vcpu->arch.mdcr_el2 |= MDCR_EL2_HPMD;
+> +		if (is_pmuv3p5(read_pmuver()))
+> +			vcpu->arch.mdcr_el2 |= MDCR_EL2_HCCD;
+> +
+> +		/*
+> +		 * Take out the coarse grain traps if we are using
+> +		 * fine grain traps.
+> +		 */
+> +		if (kvm_vcpu_pmu_use_fgt(vcpu))
+> +			vcpu->arch.mdcr_el2 &= ~(MDCR_EL2_TPM | MDCR_EL2_TPMCR);
+> +
+> +	}
+>  
+>  	/* Is the VM being debugged by userspace? */
+>  	if (vcpu->guest_debug)
+> diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
+> index 4dd160c878862..7fb4fb5c22e2a 100644
+> --- a/arch/arm64/kvm/pmu-direct.c
+> +++ b/arch/arm64/kvm/pmu-direct.c
+> @@ -154,3 +154,68 @@ void kvm_pmu_host_counters_disable(void)
+>  	mdcr &= ~MDCR_EL2_HPME;
+>  	write_sysreg(mdcr, mdcr_el2);
+>  }
 
-The datasheet does suggest that the chip supports both temperature and
-humidity tracking alert status, which only makes sense if the chip
-supports alert limits. It does not support an alert _pin_, but that
-doesn't mean that it does not support limits. I'll want to see definite
-confirmation that the chip does not support the limit commands.
+<snip>
+
+> +/**
+> + * kvm_pmu_guest_num_counters() - Number of counters to show to guest
+> + * @vcpu: Pointer to struct kvm_vcpu
+> + *
+> + * Calculate the number of counters to show to the guest via
+> + * PMCR_EL0.N, making sure to respect the maximum the host allows,
+> + * which is hpmn_max if partitioned and host_max otherwise.
+> + *
+> + * Return: Valid value for PMCR_EL0.N
+> + */
+> +u8 kvm_pmu_guest_num_counters(struct kvm_vcpu *vcpu)
+> +{
+> +	u8 nr_cnt = vcpu->kvm->arch.nr_pmu_counters;
+> +	int hpmn_max = armv8pmu_hpmn_max;
+> +	u8 host_max = *host_data_ptr(nr_event_counters);
+> +
+> +	if (vcpu->kvm->arch.arm_pmu)
+> +		hpmn_max = vcpu->kvm->arch.arm_pmu->hpmn_max;
+> +
+> +	if (kvm_vcpu_pmu_is_partitioned(vcpu)) {
+> +		if (nr_cnt <= hpmn_max && nr_cnt <= host_max)
+> +			return nr_cnt;
+> +		if (hpmn_max <= host_max)
+> +			return hpmn_max;
+> +	}
+> +
+> +	if (nr_cnt <= host_max)
+> +		return nr_cnt;
+> +
+> +	return host_max;
+> +}
+> +
+> +/**
+> + * kvm_pmu_hpmn() - Calculate HPMN field value
+> + * @vcpu: Pointer to struct kvm_vcpu
+> + *
+> + * Calculate the appropriate value to set for MDCR_EL2.HPMN. If
+> + * partitioned, this is the number of counters set for the guest if
+> + * supported, falling back to hpmn_max if needed. If we are not
+> + * partitioned or can't set the implied HPMN value, fall back to the
+> + * host value.
+> + *
+> + * Return: A valid HPMN value
+> + */
+> +u8 kvm_pmu_hpmn(struct kvm_vcpu *vcpu)
+> +{
+> +	u8 nr_guest_cnt = kvm_pmu_guest_num_counters(vcpu);
+> +	int nr_guest_cnt_max = armv8pmu_hpmn_max;
+> +	u8 nr_host_cnt_max = *host_data_ptr(nr_event_counters);
+> +
+> +	if (vcpu->kvm->arch.arm_pmu)
+> +		nr_guest_cnt_max = vcpu->kvm->arch.arm_pmu->hpmn_max;
+> +
+> +	if (kvm_vcpu_pmu_is_partitioned(vcpu)) {
+> +		if (cpus_have_final_cap(ARM64_HAS_HPMN0))
+> +			return nr_guest_cnt;
+> +		else if (nr_guest_cnt > 0)
+> +			return nr_guest_cnt;
+> +		else if (nr_guest_cnt_max > 0)
+> +			return nr_guest_cnt_max;
+> +	}
+> +
+> +	return nr_host_cnt_max;
+> +}
+
+</snip>
+
+I find all of this rather confusing. It seems like you're dealing with
+sanitizing kvm->arch.nr_pmu_counters vs. the underlying implementation.
+I'm not sure why you need to do that, I would expect that we reject
+unsupported values at the time of the ioctl.
+
+The only thing you do need to handle is if the vCPU has migrated to an
+"unsupported" CPU, for which we already have supporting helpers. I'm too
+lazy to fetch the Arm ARM and cite architecture but I'm pretty sure an
+out-of-range HPMN has UNPREDICTABLE behavior.
+
+I think you just need to move the vcpu_set_unsupported_cpu() call earlier in
+kvm_arch_vcpu_load().
+
+Taking all that into consideration:
+
+u8 kvm_mdcr_hpmn(struct kvm_vcpu *vcpu)
+{
+	u8 nr_counters = *host_data_ptr(nr_event_counters);
+
+	if (!kvm_vcpu_pmu_is_partitioned(vcpu) || vcpu_on_unsupported_cpu(vcpu))
+		return nr_counters;
+
+	return vcpu->kvm->arch.nr_pmu_counters;
+}
 
 Thanks,
-Guenter
-
+Oliver
