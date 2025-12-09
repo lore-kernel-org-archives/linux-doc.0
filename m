@@ -1,152 +1,193 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A06A2FF166
-	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 01:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E81277026;
+	Tue,  9 Dec 2025 01:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765244534; cv=none; b=h5HQbVAzwHKmfc49Csiy6thge7f9foW0E34dX4illgLGuDHTbEd3bn4WK1UrhNiS2uO71OZH6oBlaWK8sAS2IhrgmaSnr9rfQ+gbLk99b7SX93zyJAL1WSqovbr5e3tNRJNNuQ5WbEC7TtTfqbGFHs9TLYu21Ux5U94+a0WF5aI=
+	t=1765245589; cv=none; b=DSu3ZeOUFbBMkx7wB0lB1e70hkv7N6S0V3Hq8izq14F6pjP3qHS9Yc155tN/w9jyIqwTGNxptRY8wLAsSLraSQR/PnmmCwrg7maxWW6qqg7UDTZl8JwM95+SwZUyQCD2g53XgZEUkqdCmt0mktCAQACJQMRRwK+djMzFDxCaIeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765244534; c=relaxed/simple;
-	bh=UIecw0xWSEMQ3es13jLlIm3kI+J29vMxYJqYLk5rXjY=;
+	s=arc-20240116; t=1765245589; c=relaxed/simple;
+	bh=3VqMdSggJxrHPpmH+5FpuHZQMwjsfWTpiO2SJgzVl1E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XA809zFvHBZZAVovOTz2QyrfWar50E0qvys3QwlPzVvCXF72eEDd0CNb1yhHANw8DdKKfnQnuAnv6t8BqT4Zlvj7LysY7PHsgTwrb2elSGe89zqYRC9nlPqs/UW7bRM9dl+hNjs082BcigSAk8pW66mB3FhFuMhqO0dSMcCMRhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Xm9NvmrX; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=tpdZIuJGI4gy4fasZW/KHdK2Txr1hmE0HJcvjtbqoth9B6PmJ3qe4uV6KzuHK70vt5bZ6GIl+m7hCnIB/L+6jMqC4NKB+KbHct9UT0UTt4nAqLhQcZsyifBPdR9E8RldcoGYtX+BxkS8Ga7Mtf4/0QL9Wo982JjI2KFsKJNdzcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gR4lHXjC; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Xm9NvmrX"
-Message-ID: <3bad1e9e-11e7-44a6-b3d4-f577a505a0fc@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1765244517;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=inZPceqIsoFJ9YFFGX2x7XBbK6Cma2CS5AFOQfOxu1g=;
-	b=Xm9NvmrXqqBvOXQYkyW+X9xaFSGhsug+TG4z0b2sJ69LkyE/BrRctFWjv6Y/XlV3o5VlBO
-	F7hf6M6Uy2/uZJqO+EFp6prBTwcDqfpYQDw2s5ZQDei3I2K4gyS6I1+wRjZ1KQQb9qN6Fq
-	YjrgDvCRJyGuZlwte9LS/lPsglz4aeI=
-Date: Tue, 9 Dec 2025 09:41:51 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gR4lHXjC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765245588; x=1796781588;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=3VqMdSggJxrHPpmH+5FpuHZQMwjsfWTpiO2SJgzVl1E=;
+  b=gR4lHXjC7z6ScXQbaLDbITvVpR9fYa3O4C6+IUftiOs9X119Y8zGAmuM
+   E8tQjotcNNY+UwQ1SJgEaxuhWKG0eXkI5wJfcklmwImv5pIhHTEjVfYeG
+   BZKbM7DTnXcbFzo0MzM/VShj+2FH12AQlDNFydim1aEqDJV+O9aEpjta1
+   pJwo4ZgNmQ6aAdb0+2A9rZZkqn5t3Mra7KbjAWLt/hSQZfkjTvCUfma7q
+   YOFz/c1I4+Pfvw60Eq79VwQ2FYvwe1g/r+lKDlU68q26UKx8tXjYo3Dk0
+   E1b5HHU8bFhtLT9QZjYkjyPvJdFZ2E9TcN1zAITDM1XAJ49DF9F0/O8dM
+   Q==;
+X-CSE-ConnectionGUID: sG0LPg/oTv6O/624UufszA==
+X-CSE-MsgGUID: ZCv9ONVJTv+rAv4yvkjfrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67129951"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="67129951"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 17:59:47 -0800
+X-CSE-ConnectionGUID: 5TdfkdsSS9CYHHtagBCGWQ==
+X-CSE-MsgGUID: PeCt+jUsRVKlVClJzGUIVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
+   d="scan'208";a="201007501"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 17:59:43 -0800
+Message-ID: <99b3a5a1-600b-4419-8215-824e7a525f12@linux.intel.com>
+Date: Tue, 9 Dec 2025 09:55:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 1/8] docs/zh_CN: Add index.rst translation
-To: Kefan Bai <baikefan@leap-io-kernel.com>, linux-usb@vger.kernel.org
-Cc: seakeel@gmail.com, alexs@kernel.org, dzm91@hust.edu.cn, corbet@lwn.net,
- linux-doc@vger.kernel.org, doubled@leap-io-kernel.com
-References: <cover.1765180570.git.baikefan@leap-io-kernel.com>
- <874e4d8b28638ff36d0cd9fb76962c23b41cff96.1765180570.git.baikefan@leap-io-kernel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] drivers/iommu: Add calls for IOMMU_DEBUG_PAGEALLOC
+To: Mostafa Saleh <smostafa@google.com>
+Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org, will@kernel.org,
+ robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz,
+ surenb@google.com, mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org,
+ ziy@nvidia.com, david@redhat.com, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com
+References: <20251124200811.2942432-1-smostafa@google.com>
+ <20251124200811.2942432-3-smostafa@google.com>
+ <07434771-3233-4c88-b505-ee02da72c905@linux.intel.com>
+ <aSV-Xi5uMJcMtk1b@google.com>
+ <CAFgf54qGdWNB=Oa=vbU1hRN2XOxQSESGO6K0CiG4Qizv=T3+Qw@mail.gmail.com>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <874e4d8b28638ff36d0cd9fb76962c23b41cff96.1765180570.git.baikefan@leap-io-kernel.com>
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <CAFgf54qGdWNB=Oa=vbU1hRN2XOxQSESGO6K0CiG4Qizv=T3+Qw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
+On 12/9/25 04:09, Mostafa Saleh wrote:
+> On Tue, Nov 25, 2025 at 10:01 AM Mostafa Saleh<smostafa@google.com> wrote:
+>> On Tue, Nov 25, 2025 at 03:35:08PM +0800, Baolu Lu wrote:
+>>> On 11/25/25 04:08, Mostafa Saleh wrote:
+>>>> Add calls for the new iommu debug config IOMMU_DEBUG_PAGEALLOC:
+>>>> - iommu_debug_init: Enable the debug mode if configured by the user.
+>>>> - iommu_debug_map: Track iommu pages mapped, using physical address.
+>>>> - iommu_debug_unmap_begin: Track start of iommu unmap operation, with
+>>>>     IOVA and size.
+>>>> - iommu_debug_unmap_end: Track the end of unmap operation, passing the
+>>>>     actual unmapped size versus the tracked one at unmap_begin.
+>>>>
+>>>> We have to do the unmap_begin/end as once pages are unmapped we lose
+>>>> the information of the physical address.
+>>>> This is racy, but the API is racy by construction as it uses refcounts
+>>>> and doesn't attempt to lock/synchronize with the IOMMU API as that will
+>>>> be costly, meaning that possibility of false negative exists.
+>>>>
+>>>> Signed-off-by: Mostafa Saleh<smostafa@google.com>
+>>>> ---
+>>>>    drivers/iommu/iommu-debug-pagealloc.c | 26 +++++++++++++
+>>>>    drivers/iommu/iommu.c                 | 12 +++++-
+>>>>    include/linux/iommu-debug-pagealloc.h | 56 +++++++++++++++++++++++++++
+>>>>    3 files changed, 92 insertions(+), 2 deletions(-)
+>>>>
+>>> Remove "drivers/" from the commit title.
+>>>
+>>> $ git log --oneline drivers/iommu/iommu.c
+>> My bad, I will fix it.
+>>
+>>> [...]
+>>>> diff --git a/include/linux/iommu-debug-pagealloc.h b/include/linux/iommu-debug-pagealloc.h
+>>>> index 83e64d70bf6c..454303ec09c2 100644
+>>>> --- a/include/linux/iommu-debug-pagealloc.h
+>>>> +++ b/include/linux/iommu-debug-pagealloc.h
+>>>> @@ -8,10 +8,66 @@
+>>>>    #ifndef __LINUX_IOMMU_DEBUG_PAGEALLOC_H
+>>>>    #define __LINUX_IOMMU_DEBUG_PAGEALLOC_H
+>>>> +struct iommu_domain;
+>>>> +
+>>>>    #ifdef CONFIG_IOMMU_DEBUG_PAGEALLOC
+>>>> +DECLARE_STATIC_KEY_FALSE(iommu_debug_initialized);
+>>>> +
+>>>>    extern struct page_ext_operations page_iommu_debug_ops;
+>>>> +void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys,
+>>>> +                  size_t size);
+>>>> +void __iommu_debug_unmap_begin(struct iommu_domain *domain,
+>>>> +                          unsigned long iova, size_t size);
+>>>> +void __iommu_debug_unmap_end(struct iommu_domain *domain,
+>>>> +                        unsigned long iova, size_t size, size_t unmapped);
+>>>> +
+>>>> +static inline void iommu_debug_map(struct iommu_domain *domain,
+>>>> +                              phys_addr_t phys, size_t size)
+>>>> +{
+>>>> +   if (static_branch_unlikely(&iommu_debug_initialized))
+>>>> +           __iommu_debug_map(domain, phys, size);
+>>>> +}
+>>>> +
+>>>> +static inline void iommu_debug_unmap_begin(struct iommu_domain *domain,
+>>>> +                                      unsigned long iova, size_t size)
+>>>> +{
+>>>> +   if (static_branch_unlikely(&iommu_debug_initialized))
+>>>> +           __iommu_debug_unmap_begin(domain, iova, size);
+>>>> +}
+>>>> +
+>>>> +static inline void iommu_debug_unmap_end(struct iommu_domain *domain,
+>>>> +                                    unsigned long iova, size_t size,
+>>>> +                                    size_t unmapped)
+>>>> +{
+>>>> +   if (static_branch_unlikely(&iommu_debug_initialized))
+>>>> +           __iommu_debug_unmap_end(domain, iova, size, unmapped);
+>>>> +}
+>>>> +
+>>>> +void iommu_debug_init(void);
+>>>> +
+>>>> +#else
+>>>> +static inline void iommu_debug_map(struct iommu_domain *domain,
+>>>> +                              phys_addr_t phys, size_t size)
+>>>> +{
+>>>> +}
+>>>> +
+>>>> +static inline void iommu_debug_unmap_begin(struct iommu_domain *domain,
+>>>> +                                      unsigned long iova, size_t size)
+>>>> +{
+>>>> +}
+>>>> +
+>>>> +static inline void iommu_debug_unmap_end(struct iommu_domain *domain,
+>>>> +                                    unsigned long iova, size_t size,
+>>>> +                                    size_t unmapped)
+>>>> +{
+>>>> +}
+>>>> +
+>>>> +static inline void iommu_debug_init(void)
+>>>> +{
+>>>> +}
+>>> I suppose that all these should go to drivers/iommu/iommu-priv.h, as
+>>> they are for use in other files inside the IOMMU subsystem.
+>> It seemed better to have all the feature functions/declarations in one
+>> isolated file, as it is included outside of the iommu susbsystem also.
+>> I have no strong opinion, I can keep them in drivers/iommu/iommu-priv.h
+>> if you think it's better. But then we will have to include also
+>> "iommu-debug-pagealloc.h" for the static key to avoid including extra
+>> files to linux/mm.h.
+>>
+>> Thanks,
+>> Mostafa
+>>
+> Hi Baolu,
+> 
+> I plan to post a new version soon. So far, I only have the commit
+> subject rewrites. Do you have any opinion on the header file split or
+> the unmap size part?
 
-在 2025/12/8 17:25, Kefan Bai 写道:
-> Translate .../usb/index.rst into Chinese and update subsystem-apis.rst
->
-> Update the translation through commit c26cee817f8b
-> ("usb: gadget: f_fs: add capability for dfu functional descriptor")
->
-> Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
-
-Reviewed-by: Yanteng Si<siyanteng@cqsoftware.com.cn>
+I have no option regarding the unmap size part, as the comments already
+declare the possible cases. For the header file split, I feel it's
+better to put staff that is only used in the IOMMU subsystem in drivers/
+iommu in iommu-pri.h instead of the global ones under include/linux.
 
 Thanks,
-Yanteng
-
-> ---
->   .../translations/zh_CN/subsystem-apis.rst     |  2 +-
->   .../translations/zh_CN/usb/index.rst          | 54 +++++++++++++++++++
->   2 files changed, 55 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/usb/index.rst
->
-> diff --git a/Documentation/translations/zh_CN/subsystem-apis.rst b/Documentation/translations/zh_CN/subsystem-apis.rst
-> index 830217140fb6..b52e1feb0167 100644
-> --- a/Documentation/translations/zh_CN/subsystem-apis.rst
-> +++ b/Documentation/translations/zh_CN/subsystem-apis.rst
-> @@ -90,6 +90,7 @@ TODOList:
->      security/index
->      PCI/index
->      peci/index
-> +   usb/index
->
->   TODOList:
->
-> @@ -104,6 +105,5 @@ TODOList:
->   * accel/index
->   * crypto/index
->   * bpf/index
-> -* usb/index
->   * misc-devices/index
->   * wmi/index
-> diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
-> new file mode 100644
-> index 000000000000..a75062cae766
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/usb/index.rst
-> @@ -0,0 +1,54 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/usb/index.rst
-> +:翻译:
-> +
-> + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
-> +
-> +:校译:
-> +
-> +
-> +
-> +===========
-> +USB 支持
-> +===========
-> +
-> +.. toctree::
-> +    :maxdepth: 1
-> +
-> +
-> +Todolist:
-> +
-> +*   acm
-> +*   authorization
-> +*   chipidea
-> +*   dwc3
-> +*   ehci
-> +*   usbmon
-> +*   functionfs
-> +*   functionfs-desc
-> +*   gadget_configfs
-> +*   gadget_hid
-> +*   gadget_multi
-> +*   gadget_printer
-> +*   gadget_serial
-> +*   gadget_uvc
-> +*   gadget-testing
-> +*   iuu_phoenix
-> +*   mass-storage
-> +*   misc_usbsevseg
-> +*   mtouchusb
-> +*   ohci
-> +*   raw-gadget
-> +*   usbip_protocol
-> +*   usb-serial
-> +*   usb-help
-> +*   text_files
-> +
-> +.. only::  subproject and html
-> +
-> +   索引
-> +   =======
-> +
-> +   * :ref:`genindex`
-> --
-> 2.52.0
->
+baolu
