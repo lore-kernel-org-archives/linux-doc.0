@@ -1,109 +1,187 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0656E1DF248;
-	Tue,  9 Dec 2025 17:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F76301472
+	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 17:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765302428; cv=none; b=EgXBIg0sRF86khrD+3oIprvxzvsDKs2Y89G90318gG+YK407/3EGnu2/86O1/0HqMJtBLQGx8xnwkvU7fqVss1E+b6XEf3OKjdMA1cRN36b8ZBWoHuTDsPkksO/10+yEdewEwXBlBLWkyeijpGPn+ILziIzD7DI+3WDMlk593E8=
+	t=1765303184; cv=none; b=KVy6e5jW8vP60s0IxkYltjGl0CPZqa2AvnYMMJZNlD5XLI6RftTk3d0HgNe3BsVGEY0ohxZxvHN2CYvaf++I/rSlN414DCzZiaa8aqdsKnT31ItAzJkwaTF/1GN4+7S43WckJdi1SiFxhQvqqHB2kHVK+eqVGhkENwbbojN2MqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765302428; c=relaxed/simple;
-	bh=xz+3QBGORDWc4nUGQFkFWzRbLLJ+ECCdKFkHKqqRVsc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f0C9xI0//V27xYbgND+pryoxrriE/PZwU2OHHMjIiqZ4MEiDtkAaIfXNrdgH2bgltqssOsgKix9xwit7rUod78RW4OPN7ZH40R7SpC6YJvEahB894mC4etfGQ8ywvWH99m1twtLnA00ZkWEEKkJHIBHtq2KtsZjN57jqZpI/o50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=cgdOOaPO; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1765303184; c=relaxed/simple;
+	bh=trUqytSqMzgyTg+cHrH5XMl6SvtDBdpUIJvnulwm2n8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oUoRoY7FRpfMHKZVlvOXcK4k95ye+aA9L6Zh5oZr//lDLMMVU6g6xDlvNs3x4HupOVdhvd+Uj4HwiLYGvRZNhb/xI7eFE7AaaQfofJSVAO9XvtIYa3uHnj4IO4IQQcyJU7l63q9P4XmJwV1zTh2gbKNpDuoXLlCEKw16bAQsHfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dmz/VyN/; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="cgdOOaPO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=nDbkCvbumVt/JXuMSApvso7Kk+anWI/zeUGcDxpNtLQ=; b=cgdOOaPOV8oGOVGnlgWghLZBIC
-	8pBhHRnKzJ9XWZXwTxExGR0uicxsCEj41Qt7nz2JZci4C1ZhMB/wZ6p1+OmKUU5vmOna4z79LK9dk
-	+RUHm0H2ve5ITTwBBpxR2lwr5eTnGKM63S2e6Lp07u3nWQpa9z/QtE+t1nxkO90RRXUsOSiTuf+on
-	rfggwHvisD4qGGjeZSpTW6HrlOa7l9U0H/IBlMhBtmLl0ShIfZI6057uuHVshl/hSOk4ebydbo89U
-	e1ocX21DC5RyWjXfEkdOD4QNG8grWEGgKizrTSsJsYVOSPD46+TKjYcNYG9bB3xYJpcsxZCk2C2Pr
-	CrkwYoTw==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <leitao@debian.org>)
-	id 1vT1nd-007IZV-5l; Tue, 09 Dec 2025 17:46:57 +0000
-Date: Tue, 9 Dec 2025 09:46:51 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Petr Mladek <pmladek@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, gustavold@gmail.com, 
-	asantostc@gmail.com, calvin@wbinvd.org, kernel-team@meta.com, davej@codemonkey.org.uk
-Subject: Re: [PATCH net-next 0/4] (no cover subject)
-Message-ID: <snoxl67npkzfi63l4ndh3d6qvx2lyxthtrwhfnharhf5llrv4j@zhyzxm3tegia>
-References: <20251128-netconsole_send_msg-v1-0-8cca4bbce9bc@debian.org>
- <20251201163622.4e50bf53@kernel.org>
- <4oybtunobxtemenpg2lg7jv4cyl3xoaxrjlqivbhs6zo72hxpu@fqp6estf5mpc>
- <20251202102442.568f91a7@kernel.org>
- <aTFmew5trILX3RpO@pathway.suse.cz>
- <aTFnzmc0ZtBvGg4y@pathway.suse.cz>
- <7jdruzcpkeyhuudwi6uzg2vsc5mhgpq7qz4ym7vqqmgs7j3524@cvtnzneddg2d>
- <20251209163745.3d0fcdfe@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dmz/VyN/"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42e33956e76so2737458f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 09:59:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765303179; x=1765907979; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RmI+L2xdkb6qqsUj5IfS911OpjhSCBl5brd80v2kE4Q=;
+        b=Dmz/VyN/GAZ88hS+JtbYYPJ+sROEJdQTpKntKtOwWXUHjYzrvjbskKl13q+8TPXPre
+         pHFPsddarzJgtp9K7iAAsiK+qvMQt/uf7mQO2PsWlOjSHd0fzVmrMc7zKO0DQFcj2vra
+         o+3ZhHVLO4gSTQBUUEhgFUSpQV/Vqfx/IdqqfvWUDoL7iH2CpiqaAVxYOkOgGDd2dTO+
+         OQ/ek0fZ4Znf8Ce7F9HGeWGYU2seU+XBT5f8+QkBBbovZQEIHu4JV12FMJal5EMVhLNB
+         I1Iac2gULvzRPTf8gj0NYsERVoAlcAmzP1T8p0B2kZQtiVCRwG8HOAfayYGI+bW9xppD
+         BKSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765303179; x=1765907979;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RmI+L2xdkb6qqsUj5IfS911OpjhSCBl5brd80v2kE4Q=;
+        b=aNB+Ij2BOi9xzPaBZEjPP2Wk0qUmEHx+vrO5c3EYyO27xgZ/KNBrsAhkyLrFvjXlkP
+         pIMUMT0C17BItaAWmTN4BeVksZlKMW+eOcjMxJUsFgBkkUgF+cFjTjHVknufEmLfp4ba
+         mZhl1wACf2r340jk4gTCntJuoXpyfs1biO2aC24TJrtRuaHG79niyU/DNPO9M57iufhl
+         +wZj6W1zrpBHNRT6pGn4NW34565qIyoetNC4ThOt5NxJUdD8n8TGLqf8ZS8MVsrZ2wXB
+         xmizP/iJQIyfOk9u0XN6IsB47GzTbtoQhgwFJJr9467qkqIDHGeBpUaLXDzY1O/W/T4L
+         YWgw==
+X-Forwarded-Encrypted: i=1; AJvYcCX2whSNWr9SP3aDz631l10MmDkkfzUh+e+BkDHtVICcE4RSVNTT2ty8xwblRcRmWFMZx0Wdu0RGU4M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLH48oyUbDZ33ioPrXc8eG6/4+z1rg4tmqGeBEg6xz+/fBcx66
+	WRyurMJCtIm9w+PJoIqVE0ty7vFKEUfwaAfqFsak2Eabub/3L08Lj/TvHUo6Azpw
+X-Gm-Gg: AY/fxX5cMKRDdNyckUvmtGla6nmjyS5Y3hPbkFS6UVUucxOkEZSdSgYI8Uo4J9IgnLs
+	bKVE++fL0MoeM38OvJy0VdokvbOqnRGbNmU6tWQo3LbWNu402tjW0y0qRgeSjDQhM1LWM/QSnu/
+	yCqxtpnZkTAEf14taqZ27WVWYPBfxOC5ly5HeWoBffPXZmEi9Z10DD3LGyQAH0525aH9YlsBHhW
+	pyt5k2rGRloJ9+Ip9valy43P74pAn5Twxphid1uJgXCZPSX7v7d3ndqxEWyXxJxZSLhx3MmCsyZ
+	wuJnXdB9MKMt9Qc4WmqLltfNkghpaFrdrsyYA/95WXO6pGjUWXIkm0eyIWk58BZU2o6sI1K1avs
+	V1cAb6XWMUA1yYSr7dISXAsQysqJQtpVOz/cDKQVzbC2VQwzcfvpkoVwDeEhbqQZbtMi4YhvXTg
+	Il7VHuYxHRLO8z6xvjqG+QVdPBVwU=
+X-Google-Smtp-Source: AGHT+IHIbk+NsASFN8Yl14A2F3NzrEUX6QerypsmMAwYamGfQ0x3MH2j03asm9A62GHFwl5iknBkWg==
+X-Received: by 2002:a05:6000:2f83:b0:40e:31a2:7efe with SMTP id ffacd0b85a97d-42f89f0d880mr12463733f8f.14.1765303178927;
+        Tue, 09 Dec 2025 09:59:38 -0800 (PST)
+Received: from localhost.localdomain ([78.212.211.11])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7cbe9065sm32726241f8f.8.2025.12.09.09.59.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 09:59:38 -0800 (PST)
+From: Antoni Pokusinski <apokusinski01@gmail.com>
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Antoni Pokusinski <apokusinski01@gmail.com>
+Subject: [PATCH] hwmon: (sht3x) add support for SHT85
+Date: Tue,  9 Dec 2025 18:58:49 +0100
+Message-Id: <20251209175848.5739-1-apokusinski01@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251209163745.3d0fcdfe@kernel.org>
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
 
-Hello Jakub,
+SHT85 is a temperature and humidity sensor with an interface very
+similar to SHT3x. However, it does not feature alerts (and therefore
+limits).
 
-On Tue, Dec 09, 2025 at 04:37:45PM +0900, Jakub Kicinski wrote:
-> On Fri, 5 Dec 2025 02:21:08 -0800 Breno Leitao wrote:
-> > 1) Have a binary in each machine:
-> 
-> > 2) Send a ping directly to the console
-> 
-> > 3) Using per-loglevel patchset.
-> 
-> > 4) send messages only to netconsole (this patchset)
-> 
-> I think I was alluding that another option (not saying that it's the
-> best but IIUC your requirements it'd be the best fit)):
-> 
-> 5) Add a keepalive configfs knob, if set to a non-zero value netconsole
-> will send an empty (?) message at given interval
-> 
->   Pros:
->    - truly does not require a user binary to run periodically, netcons
->      would set a timer in the kernel
->   Cons:
->    - does not provide the arbitrary "console bypass" message
->      functionality
+Signed-off-by: Antoni Pokusinski <apokusinski01@gmail.com>
+---
+ Documentation/hwmon/sht3x.rst | 11 ++++++++++-
+ drivers/hwmon/sht3x.c         | 26 +++++++++++++++++---------
+ 2 files changed, 27 insertions(+), 10 deletions(-)
 
-This is a good idea if we change it slightly. What about a "ping"
-configfs item that send sit when I touch it?
-
-Something as:
-
-	# echo 1 > /sys/kernel/configs/<target>/ping
-	
-And it would ping the host with a predefined "ping" message, and nothing
-else.
-
-That would work, for my current problem, honestly.
-
-One drawback compared to a more flexible "send_msg" is that I don't have
-complete flexibility on the message format. Thus, if I want to pass
-extra information such as a Nonce, timestamp, host state, interface
-name, health state, it will not be possible, which is fine for now,
-given I am NOT planning to use it at this stage.
-
-Thanks for the idea and discussion,
---breno
+diff --git a/Documentation/hwmon/sht3x.rst b/Documentation/hwmon/sht3x.rst
+index 9585fa7c5a5d..25c7428f0a77 100644
+--- a/Documentation/hwmon/sht3x.rst
++++ b/Documentation/hwmon/sht3x.rst
+@@ -23,6 +23,15 @@ Supported chips:
+         - https://sensirion.com/media/documents/1DA31AFD/61641F76/Sensirion_Temperature_Sensors_STS3x_Datasheet.pdf
+         - https://sensirion.com/media/documents/292A335C/65537BAF/Sensirion_Datasheet_STS32_STS33.pdf
+ 
++  * Sensirion SHT85
++
++    Prefix: 'sht85'
++
++    Addresses scanned: none
++
++    Datasheets:
++        - https://sensirion.com/media/documents/4B40CEF3/640B2346/Sensirion_Humidity_Sensors_SHT85_Datasheet.pdf
++
+ Author:
+ 
+   - David Frey <david.frey@sensirion.com>
+@@ -31,7 +40,7 @@ Author:
+ Description
+ -----------
+ 
+-This driver implements support for the Sensirion SHT3x-DIS and STS3x-DIS
++This driver implements support for the Sensirion SHT3x-DIS, STS3x-DIS and SHT85
+ series of humidity and temperature sensors. Temperature is measured in degrees
+ celsius, relative humidity is expressed as a percentage. In the sysfs interface,
+ all values are scaled by 1000, i.e. the value for 31.5 degrees celsius is 31500.
+diff --git a/drivers/hwmon/sht3x.c b/drivers/hwmon/sht3x.c
+index f36c0229328f..eff915d31452 100644
+--- a/drivers/hwmon/sht3x.c
++++ b/drivers/hwmon/sht3x.c
+@@ -63,6 +63,7 @@ static const unsigned char sht3x_cmd_read_serial_number[]      = { 0x37, 0x80 };
+ enum sht3x_chips {
+ 	sht3x,
+ 	sts3x,
++	sht85,
+ };
+ 
+ enum sht3x_limits {
+@@ -668,6 +669,8 @@ static umode_t sht3x_is_visible(const void *data, enum hwmon_sensor_types type,
+ 		}
+ 		break;
+ 	case hwmon_temp:
++		if (chip_data->chip_id == sht85 && attr != hwmon_temp_input)
++			break;
+ 		switch (attr) {
+ 		case hwmon_temp_input:
+ 		case hwmon_temp_alarm:
+@@ -684,6 +687,8 @@ static umode_t sht3x_is_visible(const void *data, enum hwmon_sensor_types type,
+ 	case hwmon_humidity:
+ 		if (chip_data->chip_id == sts3x)
+ 			break;
++		if (chip_data->chip_id == sht85 && attr != hwmon_humidity_input)
++			break;
+ 		switch (attr) {
+ 		case hwmon_humidity_input:
+ 		case hwmon_humidity_alarm:
+@@ -908,16 +913,18 @@ static int sht3x_probe(struct i2c_client *client)
+ 	mutex_init(&data->i2c_lock);
+ 	mutex_init(&data->data_lock);
+ 
+-	/*
+-	 * An attempt to read limits register too early
+-	 * causes a NACK response from the chip.
+-	 * Waiting for an empirical delay of 500 us solves the issue.
+-	 */
+-	usleep_range(500, 600);
++	if (data->chip_id == sht3x || data->chip_id == sts3x) {
++		/*
++		 * An attempt to read limits register too early
++		 * causes a NACK response from the chip.
++		 * Waiting for an empirical delay of 500 us solves the issue.
++		 */
++		usleep_range(500, 600);
+ 
+-	ret = limits_update(data);
+-	if (ret)
+-		return ret;
++		ret = limits_update(data);
++		if (ret)
++			return ret;
++	}
+ 
+ 	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name, data,
+ 							 &sht3x_chip_info, sht3x_groups);
+@@ -933,6 +940,7 @@ static int sht3x_probe(struct i2c_client *client)
+ static const struct i2c_device_id sht3x_ids[] = {
+ 	{"sht3x", sht3x},
+ 	{"sts3x", sts3x},
++	{"sht85", sht85},
+ 	{}
+ };
+ 
+-- 
+2.25.1
 
