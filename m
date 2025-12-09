@@ -1,191 +1,126 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E3D3081BE;
-	Tue,  9 Dec 2025 21:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53791261B9C;
+	Tue,  9 Dec 2025 21:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765314651; cv=none; b=FxEWWcSerxG4Rpc2rLsKve7d2dpx2ZHsrrew9vLgYMTYCAEl5BZrUwv7kyL6k9OH3oQkhyCXPUvzZ12rFKllL1pUTwj9jDWRe585aE0luDjRbCCrpySa7eHky7WxwtohiRuSq1nOPYv6RtFV3LoOYwJxBo9xnExtTqJ/g2rTErY=
+	t=1765314847; cv=none; b=Cb8eisEDoE9wVtGEbCrpksM57ZfsXCweh96/XdI4pkPlEl32VETJuGitZ9OZPhvqSTpdePAzi/pJ7JyHLF8fG0xqLp5cnwv63YIxLzWlUWkr2TIz7UfECGC/1fdhZDh3OkyvYuZlTFUWhgQ7wHT56v9Hpm13Jvi3wNtVHSH3BDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765314651; c=relaxed/simple;
-	bh=n/Qf0H7fgMS6CJmA1i0un9AdOv3OTpCaotEoKrA6WgA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=rgRJGme/4AC2XDI81KeRA6YGszdY9Inqx/OVUPNSafspC8vVXQDlm7NYHSpjkPG8nGoUc1ZDbbbTjPs5lajI+PsszmPmqrKVA7XRTww7wz8IvC+FSEfM0FA6Uis3bxQg0xiBsBA3dtUQq4Gi7uXW1h66wtFOKFKQWxBdDjUUVlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eQP8QNC0; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1765314847; c=relaxed/simple;
+	bh=wrKMdhnv/lci1szVNE8yO/OkhzS84B5q7GQ6DcVQ5Fw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rF4Oau5vLvgx7BkGFa6HZUYbECkh6tLgvoyyukgEklbe2YlT7kz9On5LK1/khW2N5tP2abX1bQzRCki22HdAJBrG+7meyArEiBuAkYc5oUxDCEEI62fpVI5xO4/u1WncBrY5pW6MWSHFzsINJDrtFY7Efn5VX3jgqH3aA/9r1T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Is12v/y4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eQP8QNC0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=xJn5/KZh0Z9l3rPow2y4TPATylpnKJUDx0hgaEnirxc=; b=eQP8QNC0VLKn26kcbC7xKQ5UhA
-	rAGI2CyNVVBB+r/S5mi3yl4ZUDLh5Yfo+117o8lW8Of/5QuqoPD6H/bhvH7+SdzuwjrSjmfNqihd/
-	VgHZkRdcpBhckrez16Yb/I9kFRLhL68ro0VjCrXX7wVwJLeWmvR3Vc18S5wdeWrBrShWNgxthvgIN
-	+4gpwnSuSjIrJ+PdqcgShv+xj1xgqy2jg5eSMeO8U63jPVjfaLHIZEmntf3lALrdokx1ykk6OcCUU
-	vGLVjBtk6y2IHnJlZMC1B+WHUL3MAH/SAhe4cDGzljVV1K+t7XefBi1FIkjbiwZuBUjc9Dy13Rb/O
-	BQoH/1ag==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vT4yp-0000000EoIh-1vhv;
-	Tue, 09 Dec 2025 21:10:44 +0000
-Message-ID: <438a873c-0ca8-43cf-b705-e224d5c57d05@infradead.org>
-Date: Tue, 9 Dec 2025 13:10:41 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Is12v/y4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 766FCC4CEF5;
+	Tue,  9 Dec 2025 21:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765314844;
+	bh=wrKMdhnv/lci1szVNE8yO/OkhzS84B5q7GQ6DcVQ5Fw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Is12v/y4WiB0S9HbOrzFDtXLS+fpcsdRBoEfwYav5vIK649imo3EuFfoAsHIUj6Iq
+	 w6gfTsR9+O2/VfSPCSEdOJyw7LRgFbGph2Df+zVbPUBpKdPeVP0BJxSBld6Cv0JtOI
+	 8IJCe9xvxDp/0XyhKE6DlPD+Ht0cm0kXoNGD1wKM1MigwvdB8zOt9sEXvm7QuAZBRo
+	 HtoMgseVIOwaA48d2+Q7vbBeayHLraXGbB/XqkYsMpfACjIiZ/4Go3GRk1ArdANEhw
+	 caGMdho5bNJ+H7KYK2SqHQvuAPtjco4gY+Yk+bDkhkj9vIt+LYgBVWcNffBHHqkYID
+	 Cf5OrcOoYcpJw==
+Date: Tue, 9 Dec 2025 13:14:03 -0800
+From: Oliver Upton <oupton@kernel.org>
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Mark Rutland <mark.rutland@arm.com>, Shuah Khan <shuah@kernel.org>,
+	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v5 12/24] KVM: arm64: Use physical PMSELR for PMXEVTYPER
+ if partitioned
+Message-ID: <aTiRG0I1FZzntHtH@kernel.org>
+References: <20251209205121.1871534-1-coltonlewis@google.com>
+ <20251209205121.1871534-13-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: x86/boot: Fix malformed table in
- boot.rst
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Ingo Molnar <mingo@kernel.org>,
- Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-Cc: bp@alien8.de, corbet@lwn.net, dave.hansen@linux.intel.com,
- david.hunter.linux@gmail.com, hpa@zytor.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, mingo@redhat.com, skhan@linuxfoundation.org,
- tglx@linutronix.de, x86@kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20251208210113.24057-1-swarajgaikwad1925@gmail.com>
- <20251209085330.9124-1-swarajgaikwad1925@gmail.com>
- <aTfjlAKBNeX6my4g@gmail.com>
- <a0a141d8-7e22-45ba-9bc2-74a3f0285cac@infradead.org>
-Content-Language: en-US
-In-Reply-To: <a0a141d8-7e22-45ba-9bc2-74a3f0285cac@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251209205121.1871534-13-coltonlewis@google.com>
 
-
-
-On 12/9/25 10:15 AM, Randy Dunlap wrote:
+On Tue, Dec 09, 2025 at 08:51:09PM +0000, Colton Lewis wrote:
+> Because PMXEVTYPER is trapped and PMSELR is not, it is not appropriate
+> to use the virtual PMSELR register when it could be outdated and lead
+> to an invalid write. Use the physical register when partitioned.
 > 
+> Signed-off-by: Colton Lewis <coltonlewis@google.com>
+> ---
+>  arch/arm64/include/asm/arm_pmuv3.h | 7 ++++++-
+>  arch/arm64/kvm/sys_regs.c          | 9 +++++++--
+>  2 files changed, 13 insertions(+), 3 deletions(-)
 > 
-> On 12/9/25 12:53 AM, Ingo Molnar wrote:
->> * Swaraj Gaikwad <swarajgaikwad1925@gmail.com> wrote:
->>
->>> Sphinx reports htmldocs warnings:
->>>
->>>   Documentation/arch/x86/boot.rst:437: ERROR: Malformed table.
->>>   Text in column margin in table line 2.
->>>
->>> The table header defined the first column width as 2 characters ("=="),
->>> which is too narrow for entries like "0x10" and "0x13". This caused the
->>> text to spill into the margin, triggering a docutils parsing failure.
->>>
->>> Fix it by extending the first column of assigned boot loader ID to 4
->>> characters ("====") to fit the widest entries.
->>>
->>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
->>> Tested-by: Randy Dunlap <rdunlap@infradead.org>
->>> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
->>> Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
->>> ---
->>> Changes in v2:
->>>  - Dropped accidental whitespace changes (the second chunk in v1).
->>>  - Simplified commit message as suggested by Bagas Sanjaya.
->>>
->>> ---
->>>  Documentation/arch/x86/boot.rst | 48 ++++++++++++++++-----------------
->>>  1 file changed, 24 insertions(+), 24 deletions(-)
->>>
->>> diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
->>> index 6d36ce86fd8e..89e785850f7e 100644
->>> --- a/Documentation/arch/x86/boot.rst
->>> +++ b/Documentation/arch/x86/boot.rst
->>> @@ -433,30 +433,30 @@ Protocol:	2.00+
->>>
->>>    Assigned boot loader IDs:
->>>
->>> -	== =======================================
->>> -	0x0  LILO
->>> -	     (0x00 reserved for pre-2.00 bootloader)
->>> -	0x1  Loadlin
->>> -	0x2  bootsect-loader
->>> -	     (0x20, all other values reserved)
->>> -	0x3  Syslinux
->>> -	0x4  Etherboot/gPXE/iPXE
->>> -	0x5  ELILO
->>> -	0x7  GRUB
->>> -	0x8  U-Boot
->>> -	0x9  Xen
->>> -	0xA  Gujin
->>> -	0xB  Qemu
->>> -	0xC  Arcturus Networks uCbootloader
->>> -	0xD  kexec-tools
->>> -	0xE  Extended (see ext_loader_type)
->>> -	0xF  Special (0xFF = undefined)
->>> -	0x10 Reserved
->>> -	0x11 Minimal Linux Bootloader
->>> -	     <http://sebastian-plotz.blogspot.de>
->>> -	0x12 OVMF UEFI virtualization stack
->>> -	0x13 barebox
->>> -	== =======================================
->>> +==== ==============================
->>> +0x0  LILO
->>> +      (0x00 reserved for pre-2.00 bootloader)
->>> +0x1  Loadlin
->>> +0x2  bootsect-loader
->>> +      (0x20, all other values reserved)
->>> +0x3  Syslinux
->>> +0x4  Etherboot/gPXE/iPXE
->>> +0x5  ELILO
->>> +0x7  GRUB
->>> +0x8  U-Boot
->>> +0x9  Xen
->>> +0xA  Gujin
->>> +0xB  Qemu
->>> +0xC  Arcturus Networks uCbootloader
->>> +0xD  kexec-tools
->>> +0xE  Extended (see ext_loader_type)
->>> +0xF  Special (0xFF = undefined)
->>> +0x10 Reserved
->>> +0x11 Minimal Linux Bootloader
->>> +      <http://sebastian-plotz.blogspot.de>
->>> +0x12 OVMF UEFI virtualization stack
->>> +0x13 barebox
->>> +==== ==============================
->>
->> So why was the leading tab dropped and why wasn't this change,
->> unnecessary to the bug fix in question, declared in the changelog?
-> 
-> Hi Ingo,
-> 
-> It makes no difference to the generated html output, but for users
-> who read Documentation/* files in place, the leading tab indentation
-> looks a little nicer IMO. Yes?
-> 
-> Thanks for noticing.
+> diff --git a/arch/arm64/include/asm/arm_pmuv3.h b/arch/arm64/include/asm/arm_pmuv3.h
+> index 27c4d6d47da31..60600f04b5902 100644
+> --- a/arch/arm64/include/asm/arm_pmuv3.h
+> +++ b/arch/arm64/include/asm/arm_pmuv3.h
+> @@ -70,11 +70,16 @@ static inline u64 read_pmcr(void)
+>  	return read_sysreg(pmcr_el0);
+>  }
+>  
+> -static inline void write_pmselr(u32 val)
+> +static inline void write_pmselr(u64 val)
+>  {
+>  	write_sysreg(val, pmselr_el0);
+>  }
+>  
+> +static inline u64 read_pmselr(void)
+> +{
+> +	return read_sysreg(pmselr_el0);
+> +}
+> +
+>  static inline void write_pmccntr(u64 val)
+>  {
+>  	write_sysreg(val, pmccntr_el0);
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 0c9596325519b..2e6d907fa8af2 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1199,14 +1199,19 @@ static bool writethrough_pmevtyper(struct kvm_vcpu *vcpu, struct sys_reg_params
+>  static bool access_pmu_evtyper(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+>  			       const struct sys_reg_desc *r)
+>  {
+> -	u64 idx, reg;
+> +	u64 idx, reg, pmselr;
+>  
+>  	if (pmu_access_el0_disabled(vcpu))
+>  		return false;
+>  
+>  	if (r->CRn == 9 && r->CRm == 13 && r->Op2 == 1) {
+>  		/* PMXEVTYPER_EL0 */
+> -		idx = SYS_FIELD_GET(PMSELR_EL0, SEL, __vcpu_sys_reg(vcpu, PMSELR_EL0));
+> +		if (kvm_vcpu_pmu_is_partitioned(vcpu))
+> +			pmselr = read_pmselr();
+> +		else
+> +			pmselr = __vcpu_sys_reg(vcpu, PMSELR_EL0);
 
-FWIW, I would have done it like this:
+This isn't preemption safe. Nor should the "if (partitioned) do X else do Y" get
+open-coded throughout the shop.
 
----
- Documentation/arch/x86/boot.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I would rather this be handled with a prepatory patch that provides
+generic PMU register accessors to the rest of KVM (e.g.
+vcpu_read_pmu_reg() / vcpu_write_pmu_reg()). Internally those helpers
+can locate the vCPU's PMU registers (emulated, partitioned in-memory,
+partitioned in-CPU).
 
---- linux-next-20251205.orig/Documentation/arch/x86/boot.rst
-+++ linux-next-20251205/Documentation/arch/x86/boot.rst
-@@ -433,7 +433,7 @@ Protocol:	2.00+
- 
-   Assigned boot loader IDs:
- 
--	== =======================================
-+	==== =======================================
- 	0x0  LILO
- 	     (0x00 reserved for pre-2.00 bootloader)
- 	0x1  Loadlin
-@@ -456,7 +456,7 @@ Protocol:	2.00+
- 	     <http://sebastian-plotz.blogspot.de>
- 	0x12 OVMF UEFI virtualization stack
- 	0x13 barebox
--	== =======================================
-+	==== =======================================
- 
-   Please contact <hpa@zytor.com> if you need a bootloader ID value assigned.
- 
-
-
--- 
-~Randy
-
+Thanks,
+Oliver
