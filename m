@@ -1,74 +1,73 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B1B2FC86B
-	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 10:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02B4322B75
+	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 10:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765274519; cv=none; b=bg4LLnf54aUsFjfdvUM/LoY7XrytqBT4RvFDLWBMJWrtlI115UMZOs3uLDvfCIkQwy/98yYG6cO4b4NAk7SewH2rFSNimDKJB0e9VJUZy1kwnkaYsdbbWsga1McLXDvZZXOwKH2tkXoGlVxRVgPoDyeI3r07QIOcbt2Cah/Buls=
+	t=1765274628; cv=none; b=AeVvrMQDAqiHwp6CMIO/imt+ttDG8C4eGVNrb8GSD+hR9vQcYilKsKOkPj0zw2fSi8PBuBiV4J4xizhvLvKhcyUemxjsKZDPLe3JclbLp6SIbxb/agwgywUlRt9hpKxu1JEnPnxHgBs1vHteEDayKoKczYmYV6UTkUjo1JZwEgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765274519; c=relaxed/simple;
+	s=arc-20240116; t=1765274628; c=relaxed/simple;
 	bh=27zc19RUqiobn1FdOI9EJekgFOJNVWDQv0dVuHpl1pU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BCTY/Q92de8gyAsu1frZseZ75KfEQ1bnOQbk6SD3V23QqUg0t/mNIbNV3Ms06M4i4YX43DUkoMeD6cywcNjceAHFYKiXUqTj+Ir/sNBvIJdaj+1GOseQrGx4X39bmdV+e6MZWnjmT9x0ctqfXSYhLr44PpVk3mOAYUezVIrRF4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Ev+5iRxG; arc=none smtp.client-ip=209.85.128.43
+	 Content-Disposition; b=dJw7HJlRkxElgYslJh+vm+aoZ01xyHGjq8QQquTnKQoFTluNDfxtb5xE8FoDoYS9U6eVraFz0LDUK/MCgCFkBQes9lUJj+xO0RbzvpQndqKx2YDuP7NBRWnu/VLOVpWWwYlbdo4J8KOgSosr7DckEAny67Gdy82gM2uOsB/PiyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=F9SSD823; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Ev+5iRxG"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47774d3536dso51148465e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 02:01:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="F9SSD823"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b7277324054so789048466b.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 02:03:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1765274515; x=1765879315; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1765274623; x=1765879423; darn=vger.kernel.org;
         h=user-agent:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
         bh=L4iL3RBpVh7pc34QSUOCK2Mk0ozYK7xld1FEeAxyl7I=;
-        b=Ev+5iRxGHXXbBkrITQcfbGu78SsUX4MWXqVbNbqJqXgQHH0YETvV/+bvP/+cNGkJxt
-         mvNGi1RIOitZ/+PYzjbQXeA6imPXu+K3tko/FTapi4Efg9kN7HgCDKsSbCQJ+fFnzsU6
-         mN9qm6sEdjfWHxvu3ff8iWKSgT8eB8xafVEXSvOt/wPVc/bBH+UIK/RUrEruZvsSjzFQ
-         BynULHWApeTt/c2i0yfuFi+sfPlpIsT8YQbL1FGOJdLwDoAReNkM1/nzcuizHJ+gw5yK
-         oBXPrtpE+NrHPU44OU3F2HR5LZGDSyZ/RXa3iUYrrixtgcgmIEiCF+ApofKJBkGLVViP
-         xjYg==
+        b=F9SSD823QteOi628F4uWTaxBP1ymGpNmgws0pZZF9IxFAZb3W5LQHkqTCZQYzgQlts
+         WgNRuG09hfD3AhoPWPQKQouoysSfKIRScDvJX7RvjtMS+AGrGrPmv/Ha5pjnkaSjvQzF
+         OKmiF2K4TUmOkvOrP3mTJ/8MLWqVU0RgstVFSv2uTPA7QGmU2cTN2FoYoiwJzDr5a0EV
+         GwRcS2JRHMGA2SjkrlHojxpuUrTQXV/nkHbs7h2lnbi+o6BMmPhJ7KNnDZtwVLouv0hA
+         bZghDLz6CJlKrFZL+vNP3nk4biGETZ3WnQRH1AvJYDFO8ZWBh3AchzmHbVL3SRCN8eFE
+         eX1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765274515; x=1765879315;
+        d=1e100.net; s=20230601; t=1765274623; x=1765879423;
         h=user-agent:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=L4iL3RBpVh7pc34QSUOCK2Mk0ozYK7xld1FEeAxyl7I=;
-        b=jnN77Qz1V8K28C9rzbW1ivR2gMrb3ytEkUmIsw8xepwExF+wNUQn1+EGEweigdfySH
-         GXSY8NOybI3Xq/+EGaTSYL5TzkiiU6trPlv2lHcYOUflc4S8k1COdkUwLam5+zwK2poT
-         LQVcS2uQuzwzTQzIfAN/DgBYJOiuma/ARASogJoP1jps1lMM/B1GrJyepmv11DfSOM3m
-         l05YR8VSHQHbJTq7Wt54kMR+egvXK/6ji5m+xBb/YVG+GPhAv3S2MB0ojaceJCBQJUz7
-         HQ6/wg47QBzS9Ns12kDRj3RTw9XOseSTvb28oPUnMEnxtMWiwFtJgkqh9+zi+VXzZrE2
-         FAyw==
-X-Gm-Message-State: AOJu0YzmiBgii+jRO3ivYldD/FVx71Sxtryu262Gcxw11xy43HV24qpd
-	OxQMBrq3S+9EQLd4NW8lkPRuqYGUDiAxNVmuqEBQJpK+zeD4swELI/F3/c6n71ePQ43NhYmbVZU
-	1p/xpEqo=
-X-Gm-Gg: ASbGncuujtNtOzoInvmWXvNFduBZCKWnHkddR0XRDPwyJROJcpnLovDxIpn7MPv+njq
-	ZS4qlrfbxp/mVPHGNCQZ6oCdhpuroHfAPer1N2YBYvj7MxTFLvz6s7TulIVCPwLufRcp7SXNmyf
-	VzZetA0RIgw3PcZZdwh2XDdHAQzT58DyXiaJNRkPouJ2cVou+0wxDf17HiitWpM6Ngf90/LEDc7
-	rehTE1pynKeG7xNZHkG3VDo9nDEeKI0+H/i7EYi2I7lJVIMP0LRrUWPYYKqUehBqP/Z1B4RFEn2
-	lyZK2qxOreh4waq4YGLkdAzZS3V2LQZYzSKjzT6mncx4dpn5BjdLF3h1ziEwUA54Eq/rFboWkpH
-	bcqIlwT3gRqV1UIfkKuJ4dsmLJRJdke2SMuwrLkPASj/yHCyH6VaVVV6Ut3RiccMvqK6NhaGMXL
-	dyvs+vZK/X7haEmEOsqI0esGxnYPlBy7ztvKcJqA==
-X-Google-Smtp-Source: AGHT+IEjifALW1HIvd+cGciFhHDvB7hgp9ovQvuKqeyygbtUagjmrvXtp5XRHCETPhXRmni4v2mN/A==
-X-Received: by 2002:a05:600c:888e:b0:479:3a8e:c85c with SMTP id 5b1f17b1804b1-47a7f969677mr7844355e9.18.1765274515072;
-        Tue, 09 Dec 2025 02:01:55 -0800 (PST)
+        b=ddWiRGc9OXkwKHHrVsGuU8KVRgkx6Sr3CDr6lY4QhDDss4XCK6Holrxjmm2Jz31uJ+
+         MM0oFlxHZj9Dwl+sPQXN/pMp1AaUFwBDHnHGToXk6hbgNpjb1UwyLruaSKtRBMT8c6Pp
+         AEj52K25jdXsVuUfyC8LgODRNZEeIQ8DsWbPvw1ZpepZnLMTSy2KRyS9dhZiOHQX2J6J
+         q/wz90JFtVjWRBmhRFXvWvA99orcIAbqAgaMCxTOi7M7rRp5CMdk386OrZdndfGvR1Cc
+         sMrrjV/gqoF09dOwrWX+BTk/Kghrz/itSk3cNrVVMhJjiTm/lR86MoaK4x6BpUzKO62E
+         AWMw==
+X-Gm-Message-State: AOJu0YwkG4T8ElsY3neBs1VK2EmMdtu2DtCVVBRJJ4MaE8IuY5r3mwa0
+	XEz5EsJNWPeX9frStPsREPckJ7k98zUEu2p9sg2csH++UoQv8BBBZwscdnUJ2O+kO99uU7l60Yu
+	xTl+Y5q8=
+X-Gm-Gg: ASbGncth1upfvzb+obVnED2yXKmHbTjt5ncTgQ2QCUZOJm0+CL3HiDdfN1J84Nix9dC
+	/6KbClzptTniuXjVwBKT1GUpfpdqigGvMdNTI85laZ11yxMHkH19Io6or6a16MPTstLhsEOzpPB
+	L5qtPDVNKRU52wmPkLRI+QsRv1yXKTXsymqX5SAjjgx6gUlXAYyyxT1tobChtp4dE2UScL+xNJs
+	/SeNaIzlYmevLg3dxtwurPo8yXNUP1vdUBNzdaM7TcqDI3RVC0IyS5th5Rt1x3TbqNFxvDbE7V4
+	A+5SPGFCs4/OyT0jxGCO/cP4PAxR1ZMDfky7qmTTtda/iOZpnHruBc0bDJMTLnMJyQgqJJE1PQl
+	PnZzl+J7GzzpBUln1Yf2xpudGf/M8ND5v8c3v90INb5y+Yxokgmvbl5QjmVK8PifzFbF/nvSAnU
+	/nzUFwrwPYfTtS+fB9f96OVkt4JK8OmG30NBIJMg==
+X-Google-Smtp-Source: AGHT+IGOR7Q9ksYi3EGLonhjlCmTc2Y0MLmq2kbIEJ1uH7tSnVoGK7/bASZaiIrjyzCmOVO6MZKLCA==
+X-Received: by 2002:a17:906:6a29:b0:b79:c879:faad with SMTP id a640c23a62f3a-b7a242bf519mr1149464466b.21.1765274623566;
+        Tue, 09 Dec 2025 02:03:43 -0800 (PST)
 Received: from r1chard (1-164-67-35.dynamic-ip.hinet.net. [1.164.67.35])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bf686b3bad4sm14639150a12.10.2025.12.09.02.01.51
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29e4f15accfsm52957045ad.35.2025.12.09.02.03.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 02:01:54 -0800 (PST)
-Date: Tue, 9 Dec 2025 18:01:50 +0800
+        Tue, 09 Dec 2025 02:03:42 -0800 (PST)
+Date: Tue, 9 Dec 2025 18:03:38 +0800
 From: Richard Lyu <richard.lyu@suse.com>
-To: linux-doc@vger.kernel.org
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
+To: linux-doc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
 	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
 	x86@kernel.org, linux-kernel@vger.kernel.org,
 	Richard Lyu <richard.lyu@suse.com>
 Subject: [PATCH] docs/x86: Update AMD IOMMU specification location
-Message-ID: <20251209100148.25284-1-richard.lyu@suse.com>
+Message-ID: <20251209100336.25409-1-richard.lyu@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
