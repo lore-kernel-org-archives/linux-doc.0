@@ -1,106 +1,132 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6269D30649D
-	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 19:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4576C307AE4
+	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 19:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765309489; cv=none; b=ssG4X4omaD3zKhAYgSwSa1vcFBjLREt7PAta4PFl7ycyA4ESq/WkUy31dnrDk+pa1qHVGM535hs1lyYhrQVTwG/DZh6lfvWnPYTtLi3lTWGvd+XlA9WhFyv+oLSkGRNrwt+Ac40gzQ18d03ttibtp+qdnTl7jNJq1KIwUfkjaH4=
+	t=1765309956; cv=none; b=Ui91AjSuPtiT1VcxnSAEca+x/YZN1Fse+ofw9G4hdP+opije333lbwPhezMET3XnQnxs5UWzk1bPcu9JCsy/2mrQ5mt6NLf7mkGdcI/EoN60tW6gmUwqBGVByHDBLmMkKfgSXOHt/17/LRxWrITpsg9vQoykJrIZrxsZb8L56mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765309489; c=relaxed/simple;
-	bh=eLfvDGu5s4ImYReJmxrx9D5VTM5Uk6aWNcvoNWZtd70=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HnczPbNnwIYVvLtNfTeNCCDUmA+wmA5KFdw0jyE0Fyf0GSPuDtsM60/F02eiY9VvZmW6Sa3zTuqdTxcbYhlNvwu9BOUpdV0oNu0EfpYWi0egUSOxNLc8SAWK4jp/G6raKT/Qu3qkgL+1S59d2/3bX9/vie9EjH0ShIOuUvQQFm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VDsYUDrk; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1765309956; c=relaxed/simple;
+	bh=XHL/L/FSKYOnQq3SetiqQKZ3ve52BsUb+UjL14KbL8c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S3mqlUjLooXQ9FONMJIhZhdUFHVcOnAbPg5GQmDS3/SW5ResAHh2j31Zbjt7Ty2qSG0FXBCVtOHDV6IKr0oQ6MBf5MdvRd496WTipxFbxg2qzZLXNWq377oiok3NUewX8Z+k+R/9Tt4NwN41ZZJg86opZlo3wnRkcnr5zzruBO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JYS/YKwB; arc=none smtp.client-ip=74.125.224.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VDsYUDrk"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-340e525487eso4780752a91.3
-        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 11:44:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JYS/YKwB"
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-6433f99eb15so5424131d50.3
+        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 11:52:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765309488; x=1765914288; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eLfvDGu5s4ImYReJmxrx9D5VTM5Uk6aWNcvoNWZtd70=;
-        b=VDsYUDrkShBhG2WIZeKRbR4MFsc9rFVJ060zdfj+35PGiQp+3GPrBvIngGdTAv8FZp
-         4Lrx8iUMLmvTbqwtQnBwuuAUUTcXeYlbRfWvvKBYErljTgpGwKxrcDjfm7YJL3oIMy1F
-         7E6NmWokOnGH3XMzORq95DQuAVCh+zWR/4RvLGQYnQvMmqVFBgMNulVnXAmoGNs1v5/Z
-         yzR7sJpl7TIsqGnNFj8mur6iQPxqa/Ro0M2sgSlr7mPbnjLtQVZLurWV3FgjsQPtk2EP
-         a+Jqa5xSVLIAxGY8gSZM7pKLGJFxcI5a9IhhxSfdiT7e79arQ9GVXBWfSYxPo4sZiDl6
-         3aAA==
+        d=gmail.com; s=20230601; t=1765309953; x=1765914753; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+S3XRmIfY6Nu+N2ZLCSjBdZjpwngwmUECGmLCvjDHC4=;
+        b=JYS/YKwBT9uINGJs0YtoEei+BcWgPlR28O3aqTc7ELWu4ak8jt96qj9N1A6rFEx97y
+         UoKYSu15kAi67xNZxzfPs0wRq0bWRh92qZx9kk+Jgy9tw31yGR3fmzJqAjwg4A4MOX7P
+         9bL7jbxmonzsi+LHrD7vqtHI1W98N7C8byFw44IVvhL3FBZdJoGQW/pzSoMHW+eGOB9f
+         X+g9AEgJDlsgG1Nz1WhPlCaPKHJTvHM68ooA71V4Gw6wC/FqskNUvUrASYlSq6ek7QQQ
+         zROMwFssQ7rk32CJwEQmETzhC6q1KpDga/wfeAkXudp4GV0SMqOZ2uQZvhD9Fb7CDd7N
+         sydA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765309488; x=1765914288;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eLfvDGu5s4ImYReJmxrx9D5VTM5Uk6aWNcvoNWZtd70=;
-        b=LokwZAy+abNs58x0BbMl/QF40WKgqcLWrFfrGHTd0BWGMAu0CqZp+F88tnhHcsiUQC
-         5AbRbxjSil8OqziwapCa8Q9ZmPfHGXtAqYa5mtKepLV6RAEy2xs3Aho5Uj2EXTDSV1bn
-         EkzAh7rSS2VpejLnrCVJOZN/QbYaA059ngXR/PgIR5Rdus1i1sSB/KX88oT8ptpTvkGt
-         vUhHIEHzzRlwYK89aYX8fbM+wtTPf7mDA3g+beOJsa3UNkEJVwMQZtbDF8HhaCzZBe/k
-         4c3NjPFedosujJlIO8bWnLM19akS77WXt1KGMso0+JXYOc4tB3ils4aXDi/4Ko57n+Fa
-         cfaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZJIYgLo1OZdOZKhaPd/QGQSfRHK4h3woe4APkHIv/m1PdFV9p+hdn4o4gNUv7dtxl2OmFfILBxH8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGQGq4by5Al7AVY9l/wqYnu58o6RKi/XD+Co1QBITk31vLfPcK
-	qzXE7inhuJZ4WDIULS6z5DGWFgiLavxDMSEJOfAjd2cRRZTr3fP2U/5S
-X-Gm-Gg: AY/fxX64hZ1xCjZWPMtJMA3RKSASe34VyiMxZFoQatgA8wg4Q3f/JetwSfR0QjFylxS
-	oWpTxk1QIjn+CqWxWbwUI83gUnPT1vOOl4Vrm891cWqzCzY4eRx7bl+5b3Jy6yVIBeqgr13YIbC
-	Hgx4tqUV7rT5bO5ytx+JjVoayGyJmnvRxzySxEXOWwlxRlRmUTqtCI8h36El03r9RRFLUaejt4Q
-	o6NJVAk99fQxee2KJN+lv1NlvHEyKx2dPq64ij+aF+GwlR31D4cPSbbyS2Coi4z2XR3zEBUuOCs
-	tK6C19FlXuPP7nxHamRdjeIzVvkxioT4+YIzfoLSS13rS3nPvVkA9IGOrMN8BWnSsB0cF6x2uzK
-	LGp5RNFi5Dc+/lvtgN1HEXuon8RhP0egZzDQQ+ZZp8tr+KjSQys92JSReGnn1ybD1MONqWE9HlY
-	jsh9czlj4Sly03bN3V6eQ=
-X-Google-Smtp-Source: AGHT+IHSmlXiak5qx7u1HGPsl+hG5bQFTE4+GjA1E5FydBcLB9uUfRw7R0nsErX8uszlOea8oXk8aA==
-X-Received: by 2002:a17:90b:4c50:b0:340:2a16:94be with SMTP id 98e67ed59e1d1-349a24eab31mr11084598a91.4.1765309487645;
-        Tue, 09 Dec 2025 11:44:47 -0800 (PST)
-Received: from LilGuy ([2409:40c2:1295:13e8:41e8:60cd:6181:4fad])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-34a7011d851sm237464a91.8.2025.12.09.11.44.41
+        d=1e100.net; s=20230601; t=1765309953; x=1765914753;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+S3XRmIfY6Nu+N2ZLCSjBdZjpwngwmUECGmLCvjDHC4=;
+        b=NLM3DgU0sFCUbvU7rWnFd3yGpS7He8T9GIWuhB9JBNNnOsCW0jcAFClpKNpiK1nzUD
+         VbzHRKonzM2t27mw/NTUZF3x88pqmyPWLBWbm04NA7lk+0wwQq81ur7XkW9i3nt9KfPb
+         ZC+5TvN1hD6d5e33B5cjWKKhWqwAlLP9urBVaCJq/RtUDjDKmnNELfOykRTGsWeyEnRw
+         ncqqwCpADG4363ge4vdllMYE112Lj03i70HDeTZqqjDufPbXZ7WYNfYTXen1mpXjoTT7
+         XlWxjX+Zc2FQ5tTkkvPBzfsgQs8JRO172QdMFAZWoslMQhn8o/36cNGjjafEF8ar0C4D
+         4lfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUW/dA6SvbuDzIGYHBRKMnXPTloMTslkzZ8H+EpO5sVrDTfPoBGY2+68GGDJk9vkj5ZIAcnWAsRXRg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9mNbLdF+zTmKctZ9dM8J365UEsvd7iLs4yNo7+W98zL3ENhNg
+	zy7eP1KlzaF/rQvNxd+6bGTxrAslesWxXTI2lSZR+dvLBzY+AmTVbaNm
+X-Gm-Gg: AY/fxX4HLbl9kML5jOauWecLFrDfurtyi0xtzNFlj8ZgfpSjpvj0Ecpc5KTC8cJAJdL
+	ZAun2qhY86A0k/TN/6baJgvpPYzimOOxCNDegOiiLDggmPrQuLmlNukraXhtTsD/9+smDnIVuSf
+	dDoKzCVxVBvrX9iLWLEu7JYj18BRuWJ/UuIfgV27Yfkpam12AJTDgr4AX08g/BCGbvz2LzNaela
+	fnf+I9qNM7Y8rnwOPDUljqOCfVvN3JPset64Eej2A3DyewW3UAMBSFXVQZszj4CyrkeLcFcf8Pk
+	/hHjQpUWrTZjams8nCiUQS6PZS5FZAFrmL450A3bo6yhN4PlXmazRJVUUGcfgd8pY0ClpM/fkDB
+	3IJZtjFWSXX8tUUqJHfkf2yFtTz/bUOhQANC+B5X2iUnodpVFqr+qBz7tOaxfD5GOMuz9G75F5J
+	J7w8g1S77Sn4qFuQgVr2i0RGWoztfsuez1u1jHD0sCEZvcL0Y=
+X-Google-Smtp-Source: AGHT+IGVa6r0iFDuAtcL6wIkP8nbDpeCfCQK9vF2pnYiCLEjTySXlHVWrlq2gK/PVPin4gJW60wg5g==
+X-Received: by 2002:a05:690e:2543:b0:640:d255:2d6f with SMTP id 956f58d0204a3-6446e93f952mr78609d50.34.1765309953244;
+        Tue, 09 Dec 2025 11:52:33 -0800 (PST)
+Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:54::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78c1b4ae638sm63277367b3.4.2025.12.09.11.52.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 11:44:47 -0800 (PST)
-From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-To: mingo@kernel.org
-Cc: bagasdotme@gmail.com,
-	bp@alien8.de,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	david.hunter.linux@gmail.com,
-	hpa@zytor.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mingo@redhat.com,
-	rdunlap@infradead.org,
-	skhan@linuxfoundation.org,
-	swarajgaikwad1925@gmail.com,
-	tglx@linutronix.de,
-	x86@kernel.org
-Subject: Re: [PATCH v2] Documentation: x86/boot: Fix malformed table in boot.rst
-Date: Wed, 10 Dec 2025 01:14:35 +0000
-Message-ID: <20251210011435.6241-1-swarajgaikwad1925@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <aTfjlAKBNeX6my4g@gmail.com>
-References: <aTfjlAKBNeX6my4g@gmail.com>
+        Tue, 09 Dec 2025 11:52:32 -0800 (PST)
+Date: Tue, 9 Dec 2025 11:52:31 -0800
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+To: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v7 0/5] net: devmem: improve cpu cost of RX
+ token management
+Message-ID: <aTh9/waV23uRZc9E@devvm11784.nha0.facebook.com>
+References: <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-0-1abc8467354c@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-0-1abc8467354c@meta.com>
 
-Hi Ingo,
+On Wed, Nov 19, 2025 at 07:37:07PM -0800, Bobby Eshleman wrote:
+> This series improves the CPU cost of RX token management by adding an
+> attribute to NETDEV_CMD_BIND_RX that configures sockets using the
+> binding to avoid the xarray allocator and instead use a per-binding niov
+> array and a uref field in niov.
+> 
+> Improvement is ~13% cpu util per RX user thread.
+>     
+> Using kperf, the following results were observed:
+> 
+> Before:
+> 	Average RX worker idle %: 13.13, flows 4, test runs 11
+> After:
+> 	Average RX worker idle %: 26.32, flows 4, test runs 11
+> 
+> Two other approaches were tested, but with no improvement. Namely, 1)
+> using a hashmap for tokens and 2) keeping an xarray of atomic counters
+> but using RCU so that the hotpath could be mostly lockless. Neither of
+> these approaches proved better than the simple array in terms of CPU.
+> 
+> The attribute NETDEV_A_DMABUF_AUTORELEASE is added to toggle the
+> optimization. It is an optional attribute and defaults to 0 (i.e.,
+> optimization on).
+> 
 
-I dropped the leading tab/indentation because I noticed that most
-other tables in this file (boot.rst) are left-aligned without indentation.
-I thought it would be better to align this table with the rest of the
-document style while applying the width fix.
+[...]
+> 
+> Changes in v7:
+> - use netlink instead of sockopt (Stan)
+> - restrict system to only one mode, dmabuf bindings can not co-exist
+>   with different modes (Stan)
+> - use static branching to enforce single system-wide mode (Stan)
+> - Link to v6: https://lore.kernel.org/r/20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-0-ea98cf4d40b3@meta.com
+> 
 
-However, if the preference is to preserve the original indentation
-to keep the diff minimal and focused solely on the table width fix, I am
-happy to send a v3 that restores the leading tabs.
+Mina, I was wondering if you had any feedback on this approach?
 
-Please let me know if you would prefer I revert the indentation change.
-
-Thanks,
-Swaraj
+Best,
+Bobby
