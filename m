@@ -1,193 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E81277026;
-	Tue,  9 Dec 2025 01:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06182BE7AB
+	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 03:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765245589; cv=none; b=DSu3ZeOUFbBMkx7wB0lB1e70hkv7N6S0V3Hq8izq14F6pjP3qHS9Yc155tN/w9jyIqwTGNxptRY8wLAsSLraSQR/PnmmCwrg7maxWW6qqg7UDTZl8JwM95+SwZUyQCD2g53XgZEUkqdCmt0mktCAQACJQMRRwK+djMzFDxCaIeE=
+	t=1765250687; cv=none; b=cINRCBSijxlbmElTymYbNHLb0dHmmuB9d+EQrLD87tm4C0TCmDWfRXW7f3h0CfyMkUxmhmfo/fGnR8sqXs15+EF+8yV6wh6HVVj9VtwXwRZKy1sqPb+muzo/pSwFW6/ek0+vaGWxQ8ZCWYEk7WtBO/9331D+w35hw/azxN3oI+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765245589; c=relaxed/simple;
-	bh=3VqMdSggJxrHPpmH+5FpuHZQMwjsfWTpiO2SJgzVl1E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tpdZIuJGI4gy4fasZW/KHdK2Txr1hmE0HJcvjtbqoth9B6PmJ3qe4uV6KzuHK70vt5bZ6GIl+m7hCnIB/L+6jMqC4NKB+KbHct9UT0UTt4nAqLhQcZsyifBPdR9E8RldcoGYtX+BxkS8Ga7Mtf4/0QL9Wo982JjI2KFsKJNdzcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gR4lHXjC; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1765250687; c=relaxed/simple;
+	bh=kb3vJ6UB4YMJ5FVxcnw8Y1Iq2Iyz6h9yRcwHlaiERiY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AX7NyB5YZVz8ydXFGwUtseNFn2sOdz524t4wEBux8FANE3n0IHWoUP5ThxhrHkpeLvhrXvwfqqI6ztqittNqBY0nBc4EMh57jVzw0W9B9MNP01dQGMDCLo2lKZRs81zchcobPOuLKH5GKPZcdVba0BMovIHBRcKZlELFb7aKxdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cahidfJj; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gR4lHXjC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765245588; x=1796781588;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=3VqMdSggJxrHPpmH+5FpuHZQMwjsfWTpiO2SJgzVl1E=;
-  b=gR4lHXjC7z6ScXQbaLDbITvVpR9fYa3O4C6+IUftiOs9X119Y8zGAmuM
-   E8tQjotcNNY+UwQ1SJgEaxuhWKG0eXkI5wJfcklmwImv5pIhHTEjVfYeG
-   BZKbM7DTnXcbFzo0MzM/VShj+2FH12AQlDNFydim1aEqDJV+O9aEpjta1
-   pJwo4ZgNmQ6aAdb0+2A9rZZkqn5t3Mra7KbjAWLt/hSQZfkjTvCUfma7q
-   YOFz/c1I4+Pfvw60Eq79VwQ2FYvwe1g/r+lKDlU68q26UKx8tXjYo3Dk0
-   E1b5HHU8bFhtLT9QZjYkjyPvJdFZ2E9TcN1zAITDM1XAJ49DF9F0/O8dM
-   Q==;
-X-CSE-ConnectionGUID: sG0LPg/oTv6O/624UufszA==
-X-CSE-MsgGUID: ZCv9ONVJTv+rAv4yvkjfrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67129951"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67129951"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 17:59:47 -0800
-X-CSE-ConnectionGUID: 5TdfkdsSS9CYHHtagBCGWQ==
-X-CSE-MsgGUID: PeCt+jUsRVKlVClJzGUIVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="201007501"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 17:59:43 -0800
-Message-ID: <99b3a5a1-600b-4419-8215-824e7a525f12@linux.intel.com>
-Date: Tue, 9 Dec 2025 09:55:06 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cahidfJj"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-34374febdefso5340941a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 08 Dec 2025 19:24:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765250685; x=1765855485; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7Y3JLkwkp4BSFjOFTSB6aXglZIWfTKVg/p0YUgbKz/M=;
+        b=cahidfJjizeCQq0TLnKdw9/yoDca+/N5giMTHxeWmFauJzT40jQcc3eIZ3pyDJGKb9
+         s32jOiQuKFsBvQESJcEt4LpQ7WDmEoESwwbGVXJkbgassaEi96uQUvQJmTIXrjZ6yPWo
+         UBEIbPv1brYEISrJDu5QONPtBRXa78P+RLpiNZUjYONqs03mLhM2JWqzb6iN0OlJngN+
+         cw47CcjwgNe0e1aTAmZWHLKrLKzBIFLSvNWxvXqMAwGbmN9hcpvRt0TM+qCOsH1QaEme
+         pn6UeEkDIKiU0kZZid6m0PtoTV+NQx71YR2bmYLF5hO5iYR2BqbvMT9jgEfNNQSe8AHN
+         zagA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765250685; x=1765855485;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7Y3JLkwkp4BSFjOFTSB6aXglZIWfTKVg/p0YUgbKz/M=;
+        b=KPBQ8LD+DES0fpbUboW3Fgj4iHfXZInmdAFV+4YjZiRi4U5Rge6GiFbXAJyXNT1TYQ
+         F/GxHhvNosywLiEjTQlVlk1EBF9OJ/pqeWb2d561o0HrC6c3+VOyeGKJx/qicW7BqHyV
+         fhpEzx/yHgVWZu66q1Nar6vUdjOVdTKU2N5Y1lEK2x2xAoLXbm5kXedPBl0XM+BAVBta
+         dT3dNKFwpSkF9G8jneafeMw4fC6CeZGuLsIGf8QcCy/wO1Ef96lD7GJ4SdG2lMgcCXEF
+         wyfqYYRIe2y456EFNl/bRUTVPUZVIwHnAmbQMaIVuNLlE2R0m4OkKO3XEMoaAahLOC16
+         Et9g==
+X-Forwarded-Encrypted: i=1; AJvYcCW6va1M0Jz0uiq+SPGrWPzQQ3wLeq3LbP0KhUeGT9ckO3pPHmfoCz8eVLjw+ALxtBgiS+ZUtb+DkFk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuAcy4bfIt+nid2ltMr5Oibjs2iIyagapcOd9wvGjqmefYERyE
+	fhwoqX8prz5xthyKxbOilzsCBHV3CJRGe/uaZA4CTBqZ5Y1IVSAA9ZxV
+X-Gm-Gg: ASbGnctSrD9hqgIezgbAFcQfqb4SAejiGgzTWs27MeE1dEzaP+PnF8EW8kyCDj7r7kq
+	SqQxCMU7gfpkk0MEWpR+qWc6SguXmc2D0u5hGFDPhnPcF396lT48FLQEB9xE9EzVmRCeHXWIESe
+	FrSnxrXvVHlOSGcX2FLwyK603XgFwrCOd2yRd9mpVQ/M4hnOw+CjtEzUrPsxN5Rsv2nBPU4v5Wl
+	nqVhdSKfd6l6r9A0/JOigzrWnL6Vjt9/Dp4Jo0k+skbMZOddKqeRJylqjSLL+BuCwl//ROZI4kv
+	X/QFjDZBPgpMPyepT7itkK9XhueIqvI9kSfDCdlY3znJR3o0ci7YZRjyXd3QFQyJpTNfWIhZrOM
+	AHv27g0v7CIR9wq51jCCThZblAmULIM6nXhnc17xtqmjHERRSjpjqeSGO2+uk4fXy7Z0L0dznQW
+	sQLRx6UhYQ3qFnNY5AM6I=
+X-Google-Smtp-Source: AGHT+IHhOVSt0SjhTQ3auM38UGEJYSoFP7wZjQShcl4FYhb4BuTbd0u83ptp6sbGfV/QVPGh5CtOxw==
+X-Received: by 2002:a17:90b:1e53:b0:341:8ac7:39b7 with SMTP id 98e67ed59e1d1-349a25bd90dmr8386564a91.25.1765250685088;
+        Mon, 08 Dec 2025 19:24:45 -0800 (PST)
+Received: from LilGuy ([2409:40c2:1049:337c:5ab7:d5cc:37be:2a0d])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-34a47bfecf8sm456535a91.2.2025.12.08.19.24.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Dec 2025 19:24:44 -0800 (PST)
+From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+To: swarajgaikwad1925@gmail.com
+Cc: bp@alien8.de,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david.hunter.linux@gmail.com,
+	hpa@zytor.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mingo@redhat.com,
+	skhan@linuxfoundation.org,
+	tglx@linutronix.de,
+	x86@kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v2] Documentation: x86/boot: Fix malformed table in boot.rst
+Date: Tue,  9 Dec 2025 08:53:30 +0000
+Message-ID: <20251209085330.9124-1-swarajgaikwad1925@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251208210113.24057-1-swarajgaikwad1925@gmail.com>
+References: <20251208210113.24057-1-swarajgaikwad1925@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] drivers/iommu: Add calls for IOMMU_DEBUG_PAGEALLOC
-To: Mostafa Saleh <smostafa@google.com>
-Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org, will@kernel.org,
- robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz,
- surenb@google.com, mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org,
- ziy@nvidia.com, david@redhat.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com
-References: <20251124200811.2942432-1-smostafa@google.com>
- <20251124200811.2942432-3-smostafa@google.com>
- <07434771-3233-4c88-b505-ee02da72c905@linux.intel.com>
- <aSV-Xi5uMJcMtk1b@google.com>
- <CAFgf54qGdWNB=Oa=vbU1hRN2XOxQSESGO6K0CiG4Qizv=T3+Qw@mail.gmail.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <CAFgf54qGdWNB=Oa=vbU1hRN2XOxQSESGO6K0CiG4Qizv=T3+Qw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 12/9/25 04:09, Mostafa Saleh wrote:
-> On Tue, Nov 25, 2025 at 10:01 AM Mostafa Saleh<smostafa@google.com> wrote:
->> On Tue, Nov 25, 2025 at 03:35:08PM +0800, Baolu Lu wrote:
->>> On 11/25/25 04:08, Mostafa Saleh wrote:
->>>> Add calls for the new iommu debug config IOMMU_DEBUG_PAGEALLOC:
->>>> - iommu_debug_init: Enable the debug mode if configured by the user.
->>>> - iommu_debug_map: Track iommu pages mapped, using physical address.
->>>> - iommu_debug_unmap_begin: Track start of iommu unmap operation, with
->>>>     IOVA and size.
->>>> - iommu_debug_unmap_end: Track the end of unmap operation, passing the
->>>>     actual unmapped size versus the tracked one at unmap_begin.
->>>>
->>>> We have to do the unmap_begin/end as once pages are unmapped we lose
->>>> the information of the physical address.
->>>> This is racy, but the API is racy by construction as it uses refcounts
->>>> and doesn't attempt to lock/synchronize with the IOMMU API as that will
->>>> be costly, meaning that possibility of false negative exists.
->>>>
->>>> Signed-off-by: Mostafa Saleh<smostafa@google.com>
->>>> ---
->>>>    drivers/iommu/iommu-debug-pagealloc.c | 26 +++++++++++++
->>>>    drivers/iommu/iommu.c                 | 12 +++++-
->>>>    include/linux/iommu-debug-pagealloc.h | 56 +++++++++++++++++++++++++++
->>>>    3 files changed, 92 insertions(+), 2 deletions(-)
->>>>
->>> Remove "drivers/" from the commit title.
->>>
->>> $ git log --oneline drivers/iommu/iommu.c
->> My bad, I will fix it.
->>
->>> [...]
->>>> diff --git a/include/linux/iommu-debug-pagealloc.h b/include/linux/iommu-debug-pagealloc.h
->>>> index 83e64d70bf6c..454303ec09c2 100644
->>>> --- a/include/linux/iommu-debug-pagealloc.h
->>>> +++ b/include/linux/iommu-debug-pagealloc.h
->>>> @@ -8,10 +8,66 @@
->>>>    #ifndef __LINUX_IOMMU_DEBUG_PAGEALLOC_H
->>>>    #define __LINUX_IOMMU_DEBUG_PAGEALLOC_H
->>>> +struct iommu_domain;
->>>> +
->>>>    #ifdef CONFIG_IOMMU_DEBUG_PAGEALLOC
->>>> +DECLARE_STATIC_KEY_FALSE(iommu_debug_initialized);
->>>> +
->>>>    extern struct page_ext_operations page_iommu_debug_ops;
->>>> +void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys,
->>>> +                  size_t size);
->>>> +void __iommu_debug_unmap_begin(struct iommu_domain *domain,
->>>> +                          unsigned long iova, size_t size);
->>>> +void __iommu_debug_unmap_end(struct iommu_domain *domain,
->>>> +                        unsigned long iova, size_t size, size_t unmapped);
->>>> +
->>>> +static inline void iommu_debug_map(struct iommu_domain *domain,
->>>> +                              phys_addr_t phys, size_t size)
->>>> +{
->>>> +   if (static_branch_unlikely(&iommu_debug_initialized))
->>>> +           __iommu_debug_map(domain, phys, size);
->>>> +}
->>>> +
->>>> +static inline void iommu_debug_unmap_begin(struct iommu_domain *domain,
->>>> +                                      unsigned long iova, size_t size)
->>>> +{
->>>> +   if (static_branch_unlikely(&iommu_debug_initialized))
->>>> +           __iommu_debug_unmap_begin(domain, iova, size);
->>>> +}
->>>> +
->>>> +static inline void iommu_debug_unmap_end(struct iommu_domain *domain,
->>>> +                                    unsigned long iova, size_t size,
->>>> +                                    size_t unmapped)
->>>> +{
->>>> +   if (static_branch_unlikely(&iommu_debug_initialized))
->>>> +           __iommu_debug_unmap_end(domain, iova, size, unmapped);
->>>> +}
->>>> +
->>>> +void iommu_debug_init(void);
->>>> +
->>>> +#else
->>>> +static inline void iommu_debug_map(struct iommu_domain *domain,
->>>> +                              phys_addr_t phys, size_t size)
->>>> +{
->>>> +}
->>>> +
->>>> +static inline void iommu_debug_unmap_begin(struct iommu_domain *domain,
->>>> +                                      unsigned long iova, size_t size)
->>>> +{
->>>> +}
->>>> +
->>>> +static inline void iommu_debug_unmap_end(struct iommu_domain *domain,
->>>> +                                    unsigned long iova, size_t size,
->>>> +                                    size_t unmapped)
->>>> +{
->>>> +}
->>>> +
->>>> +static inline void iommu_debug_init(void)
->>>> +{
->>>> +}
->>> I suppose that all these should go to drivers/iommu/iommu-priv.h, as
->>> they are for use in other files inside the IOMMU subsystem.
->> It seemed better to have all the feature functions/declarations in one
->> isolated file, as it is included outside of the iommu susbsystem also.
->> I have no strong opinion, I can keep them in drivers/iommu/iommu-priv.h
->> if you think it's better. But then we will have to include also
->> "iommu-debug-pagealloc.h" for the static key to avoid including extra
->> files to linux/mm.h.
->>
->> Thanks,
->> Mostafa
->>
-> Hi Baolu,
-> 
-> I plan to post a new version soon. So far, I only have the commit
-> subject rewrites. Do you have any opinion on the header file split or
-> the unmap size part?
+Sphinx reports htmldocs warnings:
 
-I have no option regarding the unmap size part, as the comments already
-declare the possible cases. For the header file split, I feel it's
-better to put staff that is only used in the IOMMU subsystem in drivers/
-iommu in iommu-pri.h instead of the global ones under include/linux.
+  Documentation/arch/x86/boot.rst:437: ERROR: Malformed table.
+  Text in column margin in table line 2.
 
-Thanks,
-baolu
+The table header defined the first column width as 2 characters ("=="),
+which is too narrow for entries like "0x10" and "0x13". This caused the
+text to spill into the margin, triggering a docutils parsing failure.
+
+Fix it by extending the first column of assigned boot loader ID to 4
+characters ("====") to fit the widest entries.
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+---
+Changes in v2:
+ - Dropped accidental whitespace changes (the second chunk in v1).
+ - Simplified commit message as suggested by Bagas Sanjaya.
+
+---
+ Documentation/arch/x86/boot.rst | 48 ++++++++++++++++-----------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
+
+diff --git a/Documentation/arch/x86/boot.rst b/Documentation/arch/x86/boot.rst
+index 6d36ce86fd8e..89e785850f7e 100644
+--- a/Documentation/arch/x86/boot.rst
++++ b/Documentation/arch/x86/boot.rst
+@@ -433,30 +433,30 @@ Protocol:	2.00+
+
+   Assigned boot loader IDs:
+
+-	== =======================================
+-	0x0  LILO
+-	     (0x00 reserved for pre-2.00 bootloader)
+-	0x1  Loadlin
+-	0x2  bootsect-loader
+-	     (0x20, all other values reserved)
+-	0x3  Syslinux
+-	0x4  Etherboot/gPXE/iPXE
+-	0x5  ELILO
+-	0x7  GRUB
+-	0x8  U-Boot
+-	0x9  Xen
+-	0xA  Gujin
+-	0xB  Qemu
+-	0xC  Arcturus Networks uCbootloader
+-	0xD  kexec-tools
+-	0xE  Extended (see ext_loader_type)
+-	0xF  Special (0xFF = undefined)
+-	0x10 Reserved
+-	0x11 Minimal Linux Bootloader
+-	     <http://sebastian-plotz.blogspot.de>
+-	0x12 OVMF UEFI virtualization stack
+-	0x13 barebox
+-	== =======================================
++==== ==============================
++0x0  LILO
++      (0x00 reserved for pre-2.00 bootloader)
++0x1  Loadlin
++0x2  bootsect-loader
++      (0x20, all other values reserved)
++0x3  Syslinux
++0x4  Etherboot/gPXE/iPXE
++0x5  ELILO
++0x7  GRUB
++0x8  U-Boot
++0x9  Xen
++0xA  Gujin
++0xB  Qemu
++0xC  Arcturus Networks uCbootloader
++0xD  kexec-tools
++0xE  Extended (see ext_loader_type)
++0xF  Special (0xFF = undefined)
++0x10 Reserved
++0x11 Minimal Linux Bootloader
++      <http://sebastian-plotz.blogspot.de>
++0x12 OVMF UEFI virtualization stack
++0x13 barebox
++==== ==============================
+
+   Please contact <hpa@zytor.com> if you need a bootloader ID value assigned.
+
+--
+2.52.0
+
