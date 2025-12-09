@@ -1,133 +1,258 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-ot1-f73.google.com (mail-ot1-f73.google.com [209.85.210.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E853043BA
-	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 19:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D68F2DA769
+	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 20:52:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765310123; cv=none; b=YRwlWx1W6siTVDdSi7azdTQMr2P4FRR+0iB4PgJ+67hJzwpGRUetTZ4CCLJxqhYxcgnfkvO2ne4MBo7PYVJOgRwYfT1nkrvfJ+CEYYwpvc7woZtr1HeAEl1LRqnCZBEYmwPF1/1VbQ1i0uKpCSgdfi/4EwpfyvUK9gvJphcnuJY=
+	t=1765313549; cv=none; b=X1DVV+GqLKrOx2uZYcR5R4tmlTLNjz8+Q2eiUVlKb561ohksd4LGbX7QOHcprtYRTA0jvJ8OpD0zlKTwignsRNvAs36qNobR0E52aM//kzsWtOsjDW0jTccBXMfMmVQgt5F0MUI1gr5D1Q848OcTR6jDw3RCsiIiyiBl1typkaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765310123; c=relaxed/simple;
-	bh=0eGrB3f7xFqga3zVUes14rwFnowv3DUJ5vt7vr9GRdg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wuk+mhlxmtOV/tma8iIwpRGqOnPdlJY6VXcP+fGvYNnAN8CeXPk6PULPqmtDQGrgzTtB1gysKPAl+iOR6pj4Gkm/P4VSROiymNz99UZAOW2EFOCw461vGmP7fUBh0VHnIHWnfdWEybocDfOlWI4zZY1Bv4XBnS13r8myICWqpFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zrfirogA; arc=none smtp.client-ip=209.85.167.41
+	s=arc-20240116; t=1765313549; c=relaxed/simple;
+	bh=4Qd4+z11xSZNUdv2pVaSUA3BrnQtfQ6vuGOkRvpiMn8=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=udhN8gQPKYm4WG8zEB0BX9Cymj12CZV721eToXUP95wXjQcROjTOjKldvIGjk5rMobfDyRbNj1QeHbkpuU+I4FZQZ1R7OWuy+XV0oqP8xor8sjheDFI+Jrc51XoDh+Hj0TqJs0zT3uXDCSLNMWGLvK5Nl1Fw8dUB+QMtUn8EHyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=i14oFPpD; arc=none smtp.client-ip=209.85.210.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zrfirogA"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5942f46ad87so1632e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 11:55:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="i14oFPpD"
+Received: by mail-ot1-f73.google.com with SMTP id 46e09a7af769-7c79200d1a4so447864a34.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 12:52:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765310120; x=1765914920; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X+RBf8HywqFOs8is8n1gYXR3AwZl2+4K5ckOabIP0pI=;
-        b=zrfirogA8aazMPJ6++jdL/wIMZZKiMVvdMrp29NQQAz2kLR8zvLLUJ9hjXwsGY8vzK
-         g8pABgqE3N0Q99FvMNHZGBHG5TkORREOHehUZLmM+A4zr8K425RRHe8c8dCQJmJlZbum
-         OetkMVCBBEE87PR8Kck4iwDRrzjbzaiAcsPUU+SD6mic/mo9XEBuqWJZiK4mOvWdQZVz
-         /yFOtTSb+kXfTKQe02OHNSCin2gdSQJCXuxQSyx1y2BBpHMzfMWMIMPJHoaMZLRoWLsW
-         k+jHFfwqdo0c5tr4p4VHwuDuz5XKfQCLJKmyUot9QtNkn7wJ7Du2VBhPANEaShRRL9hH
-         nazA==
+        d=google.com; s=20230601; t=1765313545; x=1765918345; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+QORDO0iv5GAAoB+pw+bKtlaMCX74MUcRSdh9R6YR0E=;
+        b=i14oFPpDES/7WYsveRHu8p0+/IO+34ZdhAMzaEb5x/6O9pePiLRCi2Gn4vn0ACB/hU
+         Wi6PbXheZFYDYgkETKUBmducjUucwmUIjoKb62atMv7OJNS9LLtlYrrykZ87JxJaCNdo
+         J/+BDpM5sPpgN27t17bzryUF7oO9b3KsccVsXE2/j12Z1xTQpV2gWBtJc+IcCewp2r47
+         JC04c4Su8qguQBMfQR5HjehuXOE8G1B1lA1oBG9y6yog/gMELBU2c2I2usez/9llReNg
+         E6J4xuRyyquDGh8IEPanYYefZvEjQAu+9g+VB6Aq4+jPx2qzST0MHXjVxlsQgMoAkpn/
+         C7jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765310120; x=1765914920;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=X+RBf8HywqFOs8is8n1gYXR3AwZl2+4K5ckOabIP0pI=;
-        b=BwChz2byGt/OL7Pa7PMmp/R1PsmR90LAV+lYT+fO+SAKorUL4BRULuzfPjPrPjaBE1
-         QDHEFHOJfvkHjXDqHisiuhCl9Z/GrSSQNZRt0OBqOgE/oHknpCOOZ7dEUFtLZlIbRzHn
-         AwTl53K7RQugf7Yin16nFQdYpi6Znap7jAf3qXMo++K2RBjndejzgGm8BFCOY+ApkEwH
-         eW1YYixHCdzygcQ22Djk2njOozB8F8Q6gVK9Q0VMJWS3aIIbLoSjSiFoH8TWR8Ga94SK
-         WIVK0sCg2U9FC+SnRS3e89MU8YnyRQngcoOD+PTOpql6lUAe3Iveb19eBEESwuPNRahu
-         lpoA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgCBNwGGStE84K5C/owkl3unyMoND9JVlM6ij9Y2rAqNMAv2eW0M5lv73hR6GDEWGSsMosrGu3API=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpX6/v3KvLVuzs1PLIi0S+7HJH/Vmfv0N1L3firSFlJdd0i6fv
-	07Fk64LuHh3O6mS2mNcFfLZC4C6dKbIod8bWccYuYvrqBwlKDIECYhL20nExHsegiXM1aZ4d1EH
-	RpkhU7wdAYLQ2Yd/3tdGOWbrJf3GKBVKY+xbjNq6N
-X-Gm-Gg: ASbGncvug9HhZpwpdQcFQzsG0kiFyXtAtATv2kUmG9rYcIIdhQhVI82ymKdpjg6XfvV
-	cztbiPjL1YfCcXzahyZMzMYIH7A9bJT+uRJl1eZ06wFJlUH5G6oTbpf595JNS9K5VozmOy/Re4B
-	+PLIiqJskCjUKqCqytw1PwBYXd489B5e1YH1CYuYgJ0tDUeoEauLEcSUrqBN6rhjvszABuJ/YiV
-	QiiGANFjpo53IzrzB9T2A72WB8dM90WHHQFjFpjSd3wmKgwXoMuU7c5BxWOOiwt4KA+9CH2OEUM
-	rrOGSdoQBXe43XXcKIHEPiq6z9yJd6J4ghLW
-X-Google-Smtp-Source: AGHT+IGuhy2c1WoNaDo9yFzzcMM4wWUTw3FFxFrVQBL+cYcgewzWi0uZXQ3wZXqyYkHB8UE1Pe90fyZ3dkNBjdEdl1s=
-X-Received: by 2002:a05:6512:154f:20b0:595:9b2f:1dd4 with SMTP id
- 2adb3069b0e04-598ee30927fmr562e87.6.1765310119583; Tue, 09 Dec 2025 11:55:19
- -0800 (PST)
+        d=1e100.net; s=20230601; t=1765313545; x=1765918345;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+QORDO0iv5GAAoB+pw+bKtlaMCX74MUcRSdh9R6YR0E=;
+        b=qTEzfpUNJzZCFsfnxOoUYApRkcotWkDRfs9eYO8JNlJKOKMvxhsYRU19o5ICtyPnR3
+         PL/rTeIwnw0vAeI4q2Ay4P6L5iRN8M5Op7na2Q8vpohQy48HW/NIhtVYRUgLBbr6Lg8a
+         U7dy4wnKJuzTP04UGI/X4a/Lg7UEPMmgMHhIJI5kSd8ojZk/XfsDM1d1mprGn+xp9jir
+         n6XE1Q7K79ha6LYlzFYDc4ZrA0Qia6cWc+c4AM1KKtu0C/du0AXIuAvwpG3Fxk5Xs7xg
+         rbvRRFB5cMuyiYwAe3nI/MPN6kGyKZble8CGyH4viH60pbTZqGzXNB4WZgeLLmwqhzhQ
+         rmSw==
+X-Forwarded-Encrypted: i=1; AJvYcCWOBR6osmE7yKb8mrbKOBtCdcV9Rv2xod2YVXgxPwD98sKIMKrUaqpRuxYRlw1DzfHmpFmYQ0fy5eU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZJUKMRy2PsgKADIyKgeEo9uMcKPtep4ItEqL/FHGgNWi7Fi9U
+	nTXk+DIKYcY5e6dBy0FPMFrZuu8Rqzws1Jj2U2uCR634UbZzbDdQ5ixp/9ADDPvzTP2sh46+lZk
+	bd8isQVWym/GF/ojawolTlXfWvQ==
+X-Google-Smtp-Source: AGHT+IGdRrFZwTyyzV2AtNYCuaLjencyIHRHAj3IdwT3n+8P0sgFpuY/232AseTu5ibZEgNLLaD+S5fwza8C4ASYxA==
+X-Received: from ilbbq10.prod.google.com ([2002:a05:6e02:238a:b0:438:12c7:3d1b])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6820:2291:b0:659:9a49:8e26 with SMTP id 006d021491bc7-65b2353b404mr1189023eaf.24.1765313545232;
+ Tue, 09 Dec 2025 12:52:25 -0800 (PST)
+Date: Tue,  9 Dec 2025 20:50:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251119-scratch-bobbyeshleman-devmem-tcp-token-upstream-v7-0-1abc8467354c@meta.com>
- <aTh9/waV23uRZc9E@devvm11784.nha0.facebook.com>
-In-Reply-To: <aTh9/waV23uRZc9E@devvm11784.nha0.facebook.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 9 Dec 2025 11:55:07 -0800
-X-Gm-Features: AQt7F2otnRUBenjt4JJtgI3V8rfSk5ICp-r1g2bzqOO9K4G5rKMrxzIjxam7SUE
-Message-ID: <CAHS8izPm22VoGCv93q=_nGhqOUR3R0JzVpYW6u0EJVxJJB-5Ag@mail.gmail.com>
-Subject: Re: [PATCH net-next v7 0/5] net: devmem: improve cpu cost of RX token management
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Neal Cardwell <ncardwell@google.com>, David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>, 
-	Donald Hunter <donald.hunter@gmail.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Stanislav Fomichev <sdf@fomichev.me>, Bobby Eshleman <bobbyeshleman@meta.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.239.gd5f0c6e74e-goog
+Message-ID: <20251209205121.1871534-1-coltonlewis@google.com>
+Subject: [PATCH v5 00/24] ARM64 PMU Partitioning
+From: Colton Lewis <coltonlewis@google.com>
+To: kvm@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Shuah Khan <shuah@kernel.org>, 
+	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Colton Lewis <coltonlewis@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 9, 2025 at 11:52=E2=80=AFAM Bobby Eshleman <bobbyeshleman@gmail=
-.com> wrote:
->
-> On Wed, Nov 19, 2025 at 07:37:07PM -0800, Bobby Eshleman wrote:
-> > This series improves the CPU cost of RX token management by adding an
-> > attribute to NETDEV_CMD_BIND_RX that configures sockets using the
-> > binding to avoid the xarray allocator and instead use a per-binding nio=
-v
-> > array and a uref field in niov.
-> >
-> > Improvement is ~13% cpu util per RX user thread.
-> >
-> > Using kperf, the following results were observed:
-> >
-> > Before:
-> >       Average RX worker idle %: 13.13, flows 4, test runs 11
-> > After:
-> >       Average RX worker idle %: 26.32, flows 4, test runs 11
-> >
-> > Two other approaches were tested, but with no improvement. Namely, 1)
-> > using a hashmap for tokens and 2) keeping an xarray of atomic counters
-> > but using RCU so that the hotpath could be mostly lockless. Neither of
-> > these approaches proved better than the simple array in terms of CPU.
-> >
-> > The attribute NETDEV_A_DMABUF_AUTORELEASE is added to toggle the
-> > optimization. It is an optional attribute and defaults to 0 (i.e.,
-> > optimization on).
-> >
->
-> [...]
-> >
-> > Changes in v7:
-> > - use netlink instead of sockopt (Stan)
-> > - restrict system to only one mode, dmabuf bindings can not co-exist
-> >   with different modes (Stan)
-> > - use static branching to enforce single system-wide mode (Stan)
-> > - Link to v6: https://lore.kernel.org/r/20251104-scratch-bobbyeshleman-=
-devmem-tcp-token-upstream-v6-0-ea98cf4d40b3@meta.com
-> >
->
-> Mina, I was wondering if you had any feedback on this approach?
->
+This series creates a new PMU scheme on ARM, a partitioned PMU that
+allows reserving a subset of counters for more direct guest access,
+significantly reducing overhead. More details, including performance
+benchmarks, can be read in the v1 cover letter linked below.
 
-Sorry for the delay, I'll take a look shortly.
+An overview of what this series accomplishes was presented at KVM
+Forum 2025. Slides [1] and video [2] are linked below.
+
+The long duration between v4 and v5 is due to time spent on this
+project being monopolized preparing this feature for internal
+production. As a result, there are too many improvements to fully list
+here, but I will cover the notable ones.
+
+v5:
+
+* Rebase onto v6.18-rc7. This required pulling some reorganization
+  patches from Anish and Sean that were dependencies from previous
+  versions based on kvm/queue but never made it to upstream.
+
+* Ensure FGTs (fine-grained traps) are correctly programmed at vCPU
+  load using kvm_vcpu_load_fgt() and helpers introduced by Oliver
+  Upton.
+
+* Cleanly separate concerns of whether the partitioned PMU is enabled
+  for the guest and whether FGT should be enabled. This allows that
+  the capability can be VM-scoped while the implementation detail of
+  whether FGT and context switching are in effect can remain
+  vCPU-scoped.
+
+* Shrink the uAPI change. Instead of a cap and corresponding ioctl,
+  the feature can be controlled by just a cap with an argument. The
+  cap is now also VM-scoped and enforces ordering that it should be
+  decided before vCPUs are created. Whether the cap is enabled is now
+  tracked by the new flag KVM_ARCH_ARM_PARTITIONED_PMU_ENABLED.
+
+* Improve log messages when partitioning in the PMUv3 driver.
+
+* Introduce a global variable armv8pmu_hpmn_max in the PMUv3 driver so
+  KVM code can read if a value was set before the PMU is probed. This
+  is needed to properly test if we have the capability before vCPUs
+  are created.
+
+* Make it possible for a VMM to filter the HPMN0 feature bit.
+
+* Fix event filter problems with PMEVTYPER handling in
+  writethrough_pmevtyper() and kvm_pmu_apply_event_filter() by using
+  kvm_pmu_event_mask() in the right spots. And if an event is
+  filtered, write the physical register with the appropriate exclude
+  bits set but keep the virtual register exactly what the guest wrote.
+
+* Fix register access problems with the PMU register fast path handler
+  by lifting some static PMU access checks from sys_regs.c to use them
+  in the fast path too and make bit masking more strict for better ARM
+  compliance.
+
+* Fix the readability and logic of programming the MDCR_EL2 register
+  when entering the guest. Make sure to set the HPME bit to allow host
+  counters to count guest events. Set TPM and TPMCR by default and
+  clear them if partitioning is enabled rather than the previous
+  inverted logic of leaving them clear and setting them if
+  partitioning is not enabled. Make the HPMN field computation more
+  clear.
+
+* As part of lazy context switching, do a load when the guest is
+  switching to physical access to ensure any previous writes that only
+  reached the virtual registers reach the physical ones as well and
+  are not clobbered by the next vcpu_put().
+
+* Other fixes and improvements that are too small to mention or left
+  out from my personal notes.
+
+v4:
+https://lore.kernel.org/kvmarm/20250714225917.1396543-1-coltonlewis@google.com/
+
+v3:
+https://lore.kernel.org/kvm/20250626200459.1153955-1-coltonlewis@google.com/
+
+v2:
+https://lore.kernel.org/kvm/20250620221326.1261128-1-coltonlewis@google.com/
+
+v1:
+https://lore.kernel.org/kvm/20250602192702.2125115-1-coltonlewis@google.com/
+
+[1] https://gitlab.com/qemu-project/kvm-forum/-/raw/main/_attachments/2025/Optimizing__itvHkhc.pdf
+[2] https://www.youtube.com/watch?v=YRzZ8jMIA6M&list=PLW3ep1uCIRfxwmllXTOA2txfDWN6vUOHp&index=9
+
+Anish Ghulati (1):
+  KVM: arm64: Move arm_{psci,hypercalls}.h to an internal KVM path
+
+Colton Lewis (20):
+  arm64: cpufeature: Add cpucap for HPMN0
+  KVM: arm64: Reorganize PMU functions
+  perf: arm_pmuv3: Introduce method to partition the PMU
+  perf: arm_pmuv3: Generalize counter bitmasks
+  perf: arm_pmuv3: Keep out of guest counter partition
+  KVM: arm64: Set up FGT for Partitioned PMU
+  KVM: arm64: Writethrough trapped PMEVTYPER register
+  KVM: arm64: Use physical PMSELR for PMXEVTYPER if partitioned
+  KVM: arm64: Writethrough trapped PMOVS register
+  KVM: arm64: Write fast path PMU register handlers
+  KVM: arm64: Setup MDCR_EL2 to handle a partitioned PMU
+  KVM: arm64: Account for partitioning in PMCR_EL0 access
+  KVM: arm64: Context swap Partitioned PMU guest registers
+  KVM: arm64: Enforce PMU event filter at vcpu_load()
+  KVM: arm64: Implement lazy PMU context swaps
+  perf: arm_pmuv3: Handle IRQs for Partitioned PMU guest counters
+  KVM: arm64: Inject recorded guest interrupts
+  KVM: arm64: Add KVM_CAP to partition the PMU
+  KVM: selftests: Add find_bit to KVM library
+  KVM: arm64: selftests: Add test case for partitioned PMU
+
+Marc Zyngier (1):
+  KVM: arm64: Reorganize PMU includes
+
+Sean Christopherson (2):
+  KVM: arm64: Include KVM headers to get forward declarations
+  KVM: arm64: Move ARM specific headers in include/kvm to arch directory
+
+ Documentation/virt/kvm/api.rst                |  24 +
+ arch/arm/include/asm/arm_pmuv3.h              |  28 +
+ arch/arm64/include/asm/arm_pmuv3.h            |  61 +-
+ .../arm64/include/asm/kvm_arch_timer.h        |   2 +
+ arch/arm64/include/asm/kvm_host.h             |  24 +-
+ .../arm64/include/asm/kvm_pmu.h               | 142 ++++
+ arch/arm64/include/asm/kvm_types.h            |   7 +-
+ .../arm64/include/asm/kvm_vgic.h              |   0
+ arch/arm64/kernel/cpufeature.c                |   8 +
+ arch/arm64/kvm/Makefile                       |   2 +-
+ arch/arm64/kvm/arch_timer.c                   |   5 +-
+ arch/arm64/kvm/arm.c                          |  23 +-
+ {include => arch/arm64}/kvm/arm_hypercalls.h  |   0
+ {include => arch/arm64}/kvm/arm_psci.h        |   0
+ arch/arm64/kvm/config.c                       |  34 +-
+ arch/arm64/kvm/debug.c                        |  31 +-
+ arch/arm64/kvm/guest.c                        |   2 +-
+ arch/arm64/kvm/handle_exit.c                  |   2 +-
+ arch/arm64/kvm/hyp/Makefile                   |   6 +-
+ arch/arm64/kvm/hyp/include/hyp/switch.h       | 211 ++++-
+ arch/arm64/kvm/hyp/nvhe/switch.c              |   4 +-
+ arch/arm64/kvm/hyp/vhe/switch.c               |   4 +-
+ arch/arm64/kvm/hypercalls.c                   |   4 +-
+ arch/arm64/kvm/pmu-direct.c                   | 464 +++++++++++
+ arch/arm64/kvm/pmu-emul.c                     | 678 +---------------
+ arch/arm64/kvm/pmu.c                          | 726 ++++++++++++++++++
+ arch/arm64/kvm/psci.c                         |   4 +-
+ arch/arm64/kvm/pvtime.c                       |   2 +-
+ arch/arm64/kvm/reset.c                        |   3 +-
+ arch/arm64/kvm/sys_regs.c                     | 110 +--
+ arch/arm64/kvm/trace_arm.h                    |   2 +-
+ arch/arm64/kvm/trng.c                         |   2 +-
+ arch/arm64/kvm/vgic/vgic-debug.c              |   2 +-
+ arch/arm64/kvm/vgic/vgic-init.c               |   2 +-
+ arch/arm64/kvm/vgic/vgic-irqfd.c              |   2 +-
+ arch/arm64/kvm/vgic/vgic-kvm-device.c         |   2 +-
+ arch/arm64/kvm/vgic/vgic-mmio-v2.c            |   2 +-
+ arch/arm64/kvm/vgic/vgic-mmio-v3.c            |   2 +-
+ arch/arm64/kvm/vgic/vgic-mmio.c               |   4 +-
+ arch/arm64/kvm/vgic/vgic-v2.c                 |   2 +-
+ arch/arm64/kvm/vgic/vgic-v3-nested.c          |   3 +-
+ arch/arm64/kvm/vgic/vgic-v3.c                 |   2 +-
+ arch/arm64/kvm/vgic/vgic-v5.c                 |   2 +-
+ arch/arm64/tools/cpucaps                      |   1 +
+ arch/arm64/tools/sysreg                       |   6 +-
+ drivers/perf/arm_pmuv3.c                      | 137 +++-
+ include/linux/perf/arm_pmu.h                  |   1 +
+ include/linux/perf/arm_pmuv3.h                |  14 +-
+ include/uapi/linux/kvm.h                      |   1 +
+ tools/include/uapi/linux/kvm.h                |   1 +
+ tools/testing/selftests/kvm/Makefile.kvm      |   1 +
+ .../selftests/kvm/arm64/vpmu_counter_access.c |  77 +-
+ tools/testing/selftests/kvm/lib/find_bit.c    |   1 +
+ 53 files changed, 2049 insertions(+), 831 deletions(-)
+ rename include/kvm/arm_arch_timer.h => arch/arm64/include/asm/kvm_arch_timer.h (98%)
+ rename include/kvm/arm_pmu.h => arch/arm64/include/asm/kvm_pmu.h (61%)
+ rename include/kvm/arm_vgic.h => arch/arm64/include/asm/kvm_vgic.h (100%)
+ rename {include => arch/arm64}/kvm/arm_hypercalls.h (100%)
+ rename {include => arch/arm64}/kvm/arm_psci.h (100%)
+ create mode 100644 arch/arm64/kvm/pmu-direct.c
+ create mode 100644 tools/testing/selftests/kvm/lib/find_bit.c
 
 
---=20
-Thanks,
-Mina
+base-commit: ac3fd01e4c1efce8f2c054cdeb2ddd2fc0fb150d
+--
+2.52.0.239.gd5f0c6e74e-goog
