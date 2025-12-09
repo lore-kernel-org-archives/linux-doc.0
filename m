@@ -1,55 +1,55 @@
-Received: from mail-ot1-f73.google.com (mail-ot1-f73.google.com [209.85.210.73])
+Received: from mail-oa1-f74.google.com (mail-oa1-f74.google.com [209.85.160.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6673093A5
-	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 20:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FD13054FE
+	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 20:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765313560; cv=none; b=UaxtFCVvd6NZ6rtaJ6OjMUhkNaMlli8I/8Qq9XUqry6eOBqfVfbc4Cf6RDRKYAyFj5JqAvdXa4lEs2QVT7yDBiTaLS3RWWODi9FFc5CqRS6Uf7mzP24SVkfIbXsRQNKaciKznwZPp6Si/UqrRAy8Xsvt+sR/bf1DotQnX1wpyzc=
+	t=1765313563; cv=none; b=HS8gZu4W6bKhzituz9x2TRnDS4cPDxIzqSei86rVQua6PG8IzYJl9a7ia7sbEQ+ia1V5VbQtPO+zQdUeOsHDQ1M782XHVLq20164fN66x6/NeXxuMwkTfiNdEtFcU6Q/Cl/E+jCBEqus5FGSi7WUySf9lH7Dg+oaEnxZZH0VcKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765313560; c=relaxed/simple;
-	bh=s4DMz/+Tu3ABN3IwWkCYAvfYICvEYeC2cwgRdRHILBQ=;
+	s=arc-20240116; t=1765313563; c=relaxed/simple;
+	bh=GwGbfZNMQrxTg0XvIeuMl4EOESaBksVkYIRF2UfMQpc=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=hk5WVoQFtm1KOI98nz9T4jn032gL4W2FnzQHlFN5nv4LxFrTEJ6WrQPoOGIa/nFoQytqENY7Dw1YdLfpT3RBx6SLOh55SHbyvBuecwtHZWxziFeHozKxAz7EcSzq+RjsOBywhgbDtmfapPW/38GYTnTs4q1vn1AGNPFjo0/gvAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=boGa2pPi; arc=none smtp.client-ip=209.85.210.73
+	 To:Cc:Content-Type; b=qq/egiIIx623Y0NF4BC639a9HwAPnBRKUqYp1GODWL+X2TYHryOHlBxZIfJ+1ECi2YLewhmh/OFqg6Irul+JUoTvNiGhNmxUNMfx72TykRw7ROEBT+SPFwqvUEMcFUdGuWEF53qhsjKOOOZln9W7jgLs49ahK8yhnT6lfzFvpPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ads6K1jj; arc=none smtp.client-ip=209.85.160.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="boGa2pPi"
-Received: by mail-ot1-f73.google.com with SMTP id 46e09a7af769-7c6d3685fadso6113996a34.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 12:52:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ads6K1jj"
+Received: by mail-oa1-f74.google.com with SMTP id 586e51a60fabf-3e890e6be00so8160163fac.3
+        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 12:52:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765313553; x=1765918353; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1765313556; x=1765918356; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Biho4eq7PcKZkdHijX/jqQ9/pP3kvOPAP71ESOGpkwg=;
-        b=boGa2pPiUyg9Dbp+PbjQN2x+iqUOkk+xYB0y5LDDHPsWg5c8kENSPE3m2veY94Zr+9
-         UkG31rSAs2xS5kcBhTnY63y8pqapso/aCYt6OLVWeY1dPlUp/psJ222D88Zs8ZxIj+7D
-         t+aRnFuCFEXtnFcvDJizir2gxLhwMGSrmva9F5A0bkLMyHs7rLwqp0xiTBSJrwuwOMeL
-         B9LWX3yfMqsQRVtatqOzox9hlkoJr6Giauo5J8WZ70yeGJYCC1S9Ol+xn+vKiGWE88SD
-         iKF52i7rDKzqOXFybO4rsFHDtox/dtibuf6TOXTtBtnVLVymgwhrfs7mSzpFf2slSucp
-         b++Q==
+        bh=XyMhuaQls3hUZ6GN0FBCXMwBUjXHqrFvzqVQVVR2z7A=;
+        b=Ads6K1jjI9OZatCDJzkBSrS8txAqsPWKY4vRBWH1sZ3+KBXiQVLMW7eZtSJNgbJvOC
+         an9n17zrBpmKu1hS1jzYeQkvCAbjxN/F9Vo4PBVS7xM0dRqLrCvw0XTE2rCYsG1mJ9PH
+         HiKgkJhWzFIDokxA0RpnmIgqogOEk0WB3i5ne1yZv7Q+iIV49w8F51d59ODayKUk9gJI
+         MERrP1OS3km6HxJg8lMxgtvkRpQYKVIDmEN7Uic+dgC0JLsJa7uyvEU+/Pf8KhPBzNat
+         bak/AMaaKnve2gvCfc7y6dFb9aQ9PQqS0TZTXGogWF5clCIwbtgxntWURZxtDIZGGRut
+         vO7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765313553; x=1765918353;
+        d=1e100.net; s=20230601; t=1765313556; x=1765918356;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Biho4eq7PcKZkdHijX/jqQ9/pP3kvOPAP71ESOGpkwg=;
-        b=L2bLT5NbXgL+8yX+mcdzbhz+EsEdPqcn8iW71GgWh4yQ+ILxoaO7AhobYlO5l+2I2A
-         TAqu/hewi59VP32twYyZU6tQ23GjEXULSC3ZI3H6rCBCbsWvUvfJu4VYdzbHhjHtYwsc
-         A6NhklKoPAdeg26zVesDLPPZd2CgoTKOOSTg/Yqt5dAdD8ig9MiPWb/JkOMc3/gf7VyS
-         YHwONm1ZjYUotSCgBWDJAd8Oj/iucDxVCLYfSFA/aIySTuMtBbbvi521JEeQf73nnbPf
-         W4YcIcTE3UBWchP9IPMBoC0tSMyC0ypPwHtP+PCOd8jT84n9dmsnUYgwlnGPYUX/Lke/
-         NuOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXqKg5VneKJWNfgYpNbk4KOIWAQJ5EwucSmHRPamgVMNzOYcrxriq5Nc1zgQB3NfV8QAlNXDScg0kU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxObzlO41q2Y/ndwr9DFszt9A99skstnb/2whAlkkM1T0D2Y99r
-	nbRAelbTmopa7rWxzM5D1Nt0L3sQUBpWoR9a3dliWvNLQBJsYI+EVRQKkZWw2s/g5qirl3+CiYp
-	9h6s/XOdGTDIQGyPrkyZgb3jn5g==
-X-Google-Smtp-Source: AGHT+IFf/qB0CwPTPv5iYUHXY++A0PWp+sPV3KJqa4c1lU2WnLn00JaFUZc1nigPyWTnlRiGdglDaVN896UPUMc8Mg==
-X-Received: from otir6.prod.google.com ([2002:a9d:5cc6:0:b0:7c7:6b86:cae6])
+        bh=XyMhuaQls3hUZ6GN0FBCXMwBUjXHqrFvzqVQVVR2z7A=;
+        b=ox2aq7oyL8ytcLmvmEItCelnmk4JFlnDfurev+EAxVttD5Euo036/XPn1LwguVQufF
+         xOT4CwPsAxF9l9/FukdHynfoPIEzT00wtGxaUu5OcxfvwzvL/dmKRB5C5k2r7gmYJ786
+         RG12QcL/zClElaxQg6huO4LD5CdkMW6RHj7tCfm0g8x/wRqJFmIG62iL+jF4BYG+bypi
+         XH/DsxEXK01RYfr3ueJKGIdwUz5rXrNASbtMi/XxZL7cZRsZok3QPqc/X1wOuS3OArYE
+         6KtV6IlJNZWIjpqb3eT/mxnz23f4lilV3g1nUc51XtJwCVsD/PH1ruFmA0kiuN5VVLKa
+         3sJA==
+X-Forwarded-Encrypted: i=1; AJvYcCW8Bh1Sk8pAFUZBjhmmfcAlBA61s4nV5NcI4pi8exmGOdZicflzSWFtaukBxGUEnReLaOKkf/xg5VA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCk3EBXqLjC/qaE14AVwVb/gIBagpXPN1rTStCQ7MxFElA16C+
+	mbnkIh3hpgyC9J9yvPFFYlloQjm/Cyl0OPIXhdOOH8TuoMD0YGgqnYTlelt8/9Kex83DqR5KdCB
+	FXFzA0PNWKxEdHgXyggT/Q5fNDA==
+X-Google-Smtp-Source: AGHT+IEL2YXntnNluNzyop1DJKdNOL9WpvG30YFGZ5q0MGpLQ+kw1q3/XcXCa4YnfEMsFjzbz6E8dm5ob96Qli2iIg==
+X-Received: from ilbbs15.prod.google.com ([2002:a05:6e02:240f:b0:434:972f:bf91])
  (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6830:681a:b0:7c6:d001:afb2 with SMTP id 46e09a7af769-7cacec4c4bcmr53642a34.35.1765313552927;
- Tue, 09 Dec 2025 12:52:32 -0800 (PST)
-Date: Tue,  9 Dec 2025 20:51:04 +0000
+ 2002:a05:6820:81c1:b0:659:9a49:8ec0 with SMTP id 006d021491bc7-65b2ad8bbf7mr124430eaf.68.1765313556199;
+ Tue, 09 Dec 2025 12:52:36 -0800 (PST)
+Date: Tue,  9 Dec 2025 20:51:07 +0000
 In-Reply-To: <20251209205121.1871534-1-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20251209205121.1871534-1-coltonlewis@google.com>
 X-Mailer: git-send-email 2.52.0.239.gd5f0c6e74e-goog
-Message-ID: <20251209205121.1871534-8-coltonlewis@google.com>
-Subject: [PATCH v5 07/24] perf: arm_pmuv3: Introduce method to partition the PMU
+Message-ID: <20251209205121.1871534-11-coltonlewis@google.com>
+Subject: [PATCH v5 10/24] KVM: arm64: Set up FGT for Partitioned PMU
 From: Colton Lewis <coltonlewis@google.com>
 To: kvm@vger.kernel.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -75,269 +75,240 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
 	linux-kselftest@vger.kernel.org, Colton Lewis <coltonlewis@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-For PMUv3, the register field MDCR_EL2.HPMN partitiones the PMU
-counters into two ranges where counters 0..HPMN-1 are accessible by
-EL1 and, if allowed, EL0 while counters HPMN..N are only accessible by
-EL2.
+In order to gain the best performance benefit from partitioning the
+PMU, utilize fine grain traps (FEAT_FGT and FEAT_FGT2) to avoid
+trapping common PMU register accesses by the guest to remove that
+overhead.
 
-Create module parameter reserved_host_counters to reserve a number of
-counters for the host. This number is set at boot because the perf
-subsystem assumes the number of counters will not change after the PMU
-is probed.
+Untrapped:
+* PMCR_EL0
+* PMUSERENR_EL0
+* PMSELR_EL0
+* PMCCNTR_EL0
+* PMCNTEN_EL0
+* PMINTEN_EL1
+* PMEVCNTRn_EL0
 
-Introduce the function armv8pmu_partition() to modify the PMU driver's
-cntr_mask of available counters to exclude the counters being reserved
-for the guest and record reserved_guest_counters as the maximum
-allowable value for HPMN.
+These are safe to untrap because writing MDCR_EL2.HPMN as this series
+will do limits the effect of writes to any of these registers to the
+partition of counters 0..HPMN-1. Reads from these registers will not
+leak information from between guests as all these registers are
+context swapped by a later patch in this series. Reads from these
+registers also do not leak any information about the host's hardware
+beyond what is promised by PMUv3.
 
-Due to the difficulty this feature would create for the driver running
-in nVHE mode, partitioning is only allowed in VHE mode. In order to
-support a partitioning on nVHE we'd need to explicitly disable guest
-counters on every exit and reset HPMN to place all counters in the
-first range.
+Trapped:
+* PMOVS_EL0
+* PMEVTYPERn_EL0
+* PMCCFILTR_EL0
+* PMICNTR_EL0
+* PMICFILTR_EL0
+* PMCEIDn_EL0
+* PMMIR_EL1
+
+PMOVS remains trapped so KVM can track overflow IRQs that will need to
+be injected into the guest.
+
+PMICNTR and PMIFILTR remain trapped because KVM is not handling them
+yet.
+
+PMEVTYPERn remains trapped so KVM can limit which events guests can
+count, such as disallowing counting at EL2. PMCCFILTR and PMCIFILTR
+are special cases of the same.
+
+PMCEIDn and PMMIR remain trapped because they can leak information
+specific to the host hardware implementation.
+
+NOTE: This patch temporarily forces kvm_vcpu_pmu_is_partitioned() to
+be false to prevent partial feature activation for easier debugging.
 
 Signed-off-by: Colton Lewis <coltonlewis@google.com>
 ---
- arch/arm/include/asm/arm_pmuv3.h   |  4 ++
- arch/arm64/include/asm/arm_pmuv3.h |  5 ++
- arch/arm64/include/asm/kvm_pmu.h   |  8 +++
- arch/arm64/kvm/Makefile            |  2 +-
- arch/arm64/kvm/pmu-direct.c        | 22 +++++++++
- drivers/perf/arm_pmuv3.c           | 78 +++++++++++++++++++++++++++++-
- include/linux/perf/arm_pmu.h       |  1 +
- 7 files changed, 117 insertions(+), 3 deletions(-)
- create mode 100644 arch/arm64/kvm/pmu-direct.c
+ arch/arm64/include/asm/kvm_pmu.h | 33 ++++++++++++++++++++++
+ arch/arm64/kvm/config.c          | 34 ++++++++++++++++++++--
+ arch/arm64/kvm/pmu-direct.c      | 48 ++++++++++++++++++++++++++++++++
+ 3 files changed, 112 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/include/asm/arm_pmuv3.h b/arch/arm/include/asm/arm_pmuv3.h
-index 2ec0e5e83fc98..636b1aab9e8d2 100644
---- a/arch/arm/include/asm/arm_pmuv3.h
-+++ b/arch/arm/include/asm/arm_pmuv3.h
-@@ -221,6 +221,10 @@ static inline bool kvm_pmu_counter_deferred(struct perf_event_attr *attr)
- 	return false;
- }
- 
-+static inline bool kvm_pmu_partition_supported(void)
-+{
-+	return false;
-+}
- static inline bool kvm_set_pmuserenr(u64 val)
- {
- 	return false;
-diff --git a/arch/arm64/include/asm/arm_pmuv3.h b/arch/arm64/include/asm/arm_pmuv3.h
-index cf2b2212e00a2..27c4d6d47da31 100644
---- a/arch/arm64/include/asm/arm_pmuv3.h
-+++ b/arch/arm64/include/asm/arm_pmuv3.h
-@@ -171,6 +171,11 @@ static inline bool pmuv3_implemented(int pmuver)
- 		 pmuver == ID_AA64DFR0_EL1_PMUVer_NI);
- }
- 
-+static inline bool is_pmuv3p1(int pmuver)
-+{
-+	return pmuver >= ID_AA64DFR0_EL1_PMUVer_V3P1;
-+}
-+
- static inline bool is_pmuv3p4(int pmuver)
- {
- 	return pmuver >= ID_AA64DFR0_EL1_PMUVer_V3P4;
 diff --git a/arch/arm64/include/asm/kvm_pmu.h b/arch/arm64/include/asm/kvm_pmu.h
-index 6c961e8778047..63bff75e4f8dd 100644
+index 8887f39c25e60..7297a697a4a62 100644
 --- a/arch/arm64/include/asm/kvm_pmu.h
 +++ b/arch/arm64/include/asm/kvm_pmu.h
-@@ -45,7 +45,10 @@ struct arm_pmu_entry {
- 	struct arm_pmu *arm_pmu;
- };
+@@ -96,6 +96,23 @@ u64 kvm_pmu_guest_counter_mask(struct arm_pmu *pmu);
+ void kvm_pmu_host_counters_enable(void);
+ void kvm_pmu_host_counters_disable(void);
  
-+extern int armv8pmu_hpmn_max;
-+
- bool kvm_supports_guest_pmuv3(void);
-+bool kvm_pmu_partition_supported(void);
- #define kvm_arm_pmu_irq_initialized(v)	((v)->arch.pmu.irq_num >= VGIC_NR_SGIS)
- u64 kvm_pmu_get_counter_value(struct kvm_vcpu *vcpu, u64 select_idx);
- void kvm_pmu_set_counter_value(struct kvm_vcpu *vcpu, u64 select_idx, u64 val);
-@@ -115,6 +118,11 @@ static inline bool kvm_supports_guest_pmuv3(void)
- 	return false;
- }
- 
-+static inline bool kvm_pmu_partition_supported(void)
++#if !defined(__KVM_NVHE_HYPERVISOR__)
++bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu);
++bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu);
++#else
++static inline bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu)
 +{
 +	return false;
 +}
 +
- #define kvm_arm_pmu_irq_initialized(v)	(false)
- static inline u64 kvm_pmu_get_counter_value(struct kvm_vcpu *vcpu,
- 					    u64 select_idx)
-diff --git a/arch/arm64/kvm/Makefile b/arch/arm64/kvm/Makefile
-index 3ebc0570345cc..baf0f296c0e53 100644
---- a/arch/arm64/kvm/Makefile
-+++ b/arch/arm64/kvm/Makefile
-@@ -26,7 +26,7 @@ kvm-y += arm.o mmu.o mmio.o psci.o hypercalls.o pvtime.o \
- 	 vgic/vgic-its.o vgic/vgic-debug.o vgic/vgic-v3-nested.o \
- 	 vgic/vgic-v5.o
- 
--kvm-$(CONFIG_HW_PERF_EVENTS)  += pmu-emul.o pmu.o
-+kvm-$(CONFIG_HW_PERF_EVENTS)  += pmu-emul.o pmu-direct.o pmu.o
- kvm-$(CONFIG_ARM64_PTR_AUTH)  += pauth.o
- kvm-$(CONFIG_PTDUMP_STAGE2_DEBUGFS) += ptdump.o
- 
-diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
-new file mode 100644
-index 0000000000000..0d38265b6f290
---- /dev/null
-+++ b/arch/arm64/kvm/pmu-direct.c
-@@ -0,0 +1,22 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2025 Google LLC
-+ * Author: Colton Lewis <coltonlewis@google.com>
-+ */
-+
-+#include <linux/kvm_host.h>
-+
-+#include <asm/kvm_pmu.h>
-+
-+/**
-+ * kvm_pmu_partition_supported() - Determine if partitioning is possible
-+ *
-+ * Partitioning is only supported in VHE mode with PMUv3
-+ *
-+ * Return: True if partitioning is possible, false otherwise
-+ */
-+bool kvm_pmu_partition_supported(void)
++static inline bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu)
 +{
-+	return has_vhe() &&
-+		system_supports_pmuv3();
++	return false;
 +}
-diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
-index 513122388b9da..379d1877a61ba 100644
---- a/drivers/perf/arm_pmuv3.c
-+++ b/drivers/perf/arm_pmuv3.c
-@@ -42,6 +42,13 @@
- #define ARMV8_THUNDER_PERFCTR_L1I_CACHE_PREF_ACCESS		0xEC
- #define ARMV8_THUNDER_PERFCTR_L1I_CACHE_PREF_MISS		0xED
- 
-+static int reserved_host_counters __read_mostly = -1;
-+int armv8pmu_hpmn_max = -1;
-+
-+module_param(reserved_host_counters, int, 0);
-+MODULE_PARM_DESC(reserved_host_counters,
-+		 "PMU Partition: -1 = No partition; +N = Reserve N counters for the host");
++#endif
++u64 kvm_pmu_fgt_bits(void);
++u64 kvm_pmu_fgt2_bits(void);
 +
  /*
-  * ARMv8 Architectural defined events, not all of these may
-  * be supported on any given implementation. Unsupported events will
-@@ -532,6 +539,11 @@ static void armv8pmu_pmcr_write(u64 val)
- 	write_pmcr(val);
- }
- 
-+static u64 armv8pmu_pmcr_n_read(void)
-+{
-+	return FIELD_GET(ARMV8_PMU_PMCR_N, armv8pmu_pmcr_read());
-+}
-+
- static int armv8pmu_has_overflowed(u64 pmovsr)
+  * Updates the vcpu's view of the pmu events for this cpu.
+  * Must be called before every vcpu run after disabling interrupts, to ensure
+@@ -135,6 +152,22 @@ static inline u64 kvm_pmu_get_counter_value(struct kvm_vcpu *vcpu,
  {
- 	return !!(pmovsr & ARMV8_PMU_OVERFLOWED_MASK);
-@@ -1299,6 +1311,61 @@ struct armv8pmu_probe_info {
- 	bool present;
- };
- 
-+/**
-+ * armv8pmu_reservation_is_valid() - Determine if reservation is allowed
-+ * @host_counters: Number of host counters to reserve
-+ *
-+ * Determine if the number of host counters in the argument is an
-+ * allowed reservation, 0 to NR_COUNTERS inclusive.
-+ *
-+ * Return: True if reservation allowed, false otherwise
-+ */
-+static bool armv8pmu_reservation_is_valid(int host_counters)
+ 	return 0;
+ }
++static inline bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu)
 +{
-+	return host_counters >= 0 &&
-+		host_counters <= armv8pmu_pmcr_n_read();
++	return false;
 +}
-+
-+/**
-+ * armv8pmu_partition() - Partition the PMU
-+ * @pmu: Pointer to pmu being partitioned
-+ * @host_counters: Number of host counters to reserve
-+ *
-+ * Partition the given PMU by taking a number of host counters to
-+ * reserve and, if it is a valid reservation, recording the
-+ * corresponding HPMN value in the hpmn_max field of the PMU and
-+ * clearing the guest-reserved counters from the counter mask.
-+ *
-+ * Return: 0 on success, -ERROR otherwise
-+ */
-+static int armv8pmu_partition(struct arm_pmu *pmu, int host_counters)
++static inline bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu)
 +{
-+	u8 nr_counters;
-+	u8 hpmn;
-+
-+	if (!armv8pmu_reservation_is_valid(host_counters)) {
-+		pr_err("PMU partition reservation of %d host counters is not valid", host_counters);
-+		return -EINVAL;
-+	}
-+
-+	nr_counters = armv8pmu_pmcr_n_read();
-+	hpmn = nr_counters - host_counters;
-+
-+	pmu->hpmn_max = hpmn;
-+	armv8pmu_hpmn_max = hpmn;
-+
-+	bitmap_clear(pmu->cntr_mask, 0, hpmn);
-+	bitmap_set(pmu->cntr_mask, hpmn, host_counters);
-+	clear_bit(ARMV8_PMU_CYCLE_IDX, pmu->cntr_mask);
-+
-+	if (pmuv3_has_icntr())
-+		clear_bit(ARMV8_PMU_INSTR_IDX, pmu->cntr_mask);
-+
-+	pr_info("Partitioned PMU with %d host counters -> %u guest counters", host_counters, hpmn);
-+
++	return false;
++}
++static inline u64 kvm_pmu_fgt_bits(void)
++{
 +	return 0;
 +}
++static inline u64 kvm_pmu_fgt2_bits(void)
++{
++	return 0;
++}
+ static inline void kvm_pmu_set_counter_value(struct kvm_vcpu *vcpu,
+ 					     u64 select_idx, u64 val) {}
+ static inline void kvm_pmu_set_counter_value_user(struct kvm_vcpu *vcpu,
+diff --git a/arch/arm64/kvm/config.c b/arch/arm64/kvm/config.c
+index 24bb3f36e9d59..064dc6aa06f76 100644
+--- a/arch/arm64/kvm/config.c
++++ b/arch/arm64/kvm/config.c
+@@ -6,6 +6,7 @@
+ 
+ #include <linux/kvm_host.h>
+ #include <asm/kvm_emulate.h>
++#include <asm/kvm_pmu.h>
+ #include <asm/kvm_nested.h>
+ #include <asm/sysreg.h>
+ 
+@@ -1489,12 +1490,39 @@ static void __compute_hfgwtr(struct kvm_vcpu *vcpu)
+ 		*vcpu_fgt(vcpu, HFGWTR_EL2) |= HFGWTR_EL2_TCR_EL1;
+ }
+ 
++static void __compute_hdfgrtr(struct kvm_vcpu *vcpu)
++{
++	__compute_fgt(vcpu, HDFGRTR_EL2);
 +
- static void __armv8pmu_probe_pmu(void *info)
++	if (kvm_vcpu_pmu_use_fgt(vcpu))
++		*vcpu_fgt(vcpu, HDFGRTR_EL2) |= kvm_pmu_fgt_bits();
++}
++
+ static void __compute_hdfgwtr(struct kvm_vcpu *vcpu)
  {
- 	struct armv8pmu_probe_info *probe = info;
-@@ -1313,10 +1380,10 @@ static void __armv8pmu_probe_pmu(void *info)
+ 	__compute_fgt(vcpu, HDFGWTR_EL2);
  
- 	cpu_pmu->pmuver = pmuver;
- 	probe->present = true;
-+	cpu_pmu->hpmn_max = -1;
- 
- 	/* Read the nb of CNTx counters supported from PMNC */
--	bitmap_set(cpu_pmu->cntr_mask,
--		   0, FIELD_GET(ARMV8_PMU_PMCR_N, armv8pmu_pmcr_read()));
-+	bitmap_set(cpu_pmu->cntr_mask, 0, armv8pmu_pmcr_n_read());
- 
- 	/* Add the CPU cycles counter */
- 	set_bit(ARMV8_PMU_CYCLE_IDX, cpu_pmu->cntr_mask);
-@@ -1325,6 +1392,13 @@ static void __armv8pmu_probe_pmu(void *info)
- 	if (pmuv3_has_icntr())
- 		set_bit(ARMV8_PMU_INSTR_IDX, cpu_pmu->cntr_mask);
- 
-+	if (reserved_host_counters >= 0) {
-+		if (kvm_pmu_partition_supported())
-+			armv8pmu_partition(cpu_pmu, reserved_host_counters);
-+		else
-+			pr_err("PMU partition is not supported");
-+	}
+ 	if (is_hyp_ctxt(vcpu))
+ 		*vcpu_fgt(vcpu, HDFGWTR_EL2) |= HDFGWTR_EL2_MDSCR_EL1;
 +
- 	pmceid[0] = pmceid_raw[0] = read_pmceid0();
- 	pmceid[1] = pmceid_raw[1] = read_pmceid1();
++	if (kvm_vcpu_pmu_use_fgt(vcpu))
++		*vcpu_fgt(vcpu, HDFGWTR_EL2) |= kvm_pmu_fgt_bits();
++}
++
++static void __compute_hdfgrtr2(struct kvm_vcpu *vcpu)
++{
++	__compute_fgt(vcpu, HDFGRTR2_EL2);
++
++	if (kvm_vcpu_pmu_use_fgt(vcpu))
++		*vcpu_fgt(vcpu, HDFGRTR2_EL2) |= kvm_pmu_fgt2_bits();
++}
++
++static void __compute_hdfgwtr2(struct kvm_vcpu *vcpu)
++{
++	__compute_fgt(vcpu, HDFGWTR2_EL2);
++
++	if (kvm_vcpu_pmu_use_fgt(vcpu))
++		*vcpu_fgt(vcpu, HDFGWTR2_EL2) |= kvm_pmu_fgt2_bits();
+ }
  
-diff --git a/include/linux/perf/arm_pmu.h b/include/linux/perf/arm_pmu.h
-index 93c9a26492fcf..69071e887f98f 100644
---- a/include/linux/perf/arm_pmu.h
-+++ b/include/linux/perf/arm_pmu.h
-@@ -128,6 +128,7 @@ struct arm_pmu {
+ void kvm_vcpu_load_fgt(struct kvm_vcpu *vcpu)
+@@ -1505,7 +1533,7 @@ void kvm_vcpu_load_fgt(struct kvm_vcpu *vcpu)
+ 	__compute_fgt(vcpu, HFGRTR_EL2);
+ 	__compute_hfgwtr(vcpu);
+ 	__compute_fgt(vcpu, HFGITR_EL2);
+-	__compute_fgt(vcpu, HDFGRTR_EL2);
++	__compute_hdfgrtr(vcpu);
+ 	__compute_hdfgwtr(vcpu);
+ 	__compute_fgt(vcpu, HAFGRTR_EL2);
  
- 	/* Only to be used by ACPI probing code */
- 	unsigned long acpi_cpuid;
-+	int		hpmn_max; /* MDCR_EL2.HPMN: counter partition pivot */
- };
+@@ -1515,6 +1543,6 @@ void kvm_vcpu_load_fgt(struct kvm_vcpu *vcpu)
+ 	__compute_fgt(vcpu, HFGRTR2_EL2);
+ 	__compute_fgt(vcpu, HFGWTR2_EL2);
+ 	__compute_fgt(vcpu, HFGITR2_EL2);
+-	__compute_fgt(vcpu, HDFGRTR2_EL2);
+-	__compute_fgt(vcpu, HDFGWTR2_EL2);
++	__compute_hdfgrtr2(vcpu);
++	__compute_hdfgwtr2(vcpu);
+ }
+diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
+index d5de7fdd059f4..4dd160c878862 100644
+--- a/arch/arm64/kvm/pmu-direct.c
++++ b/arch/arm64/kvm/pmu-direct.c
+@@ -43,6 +43,54 @@ bool kvm_pmu_is_partitioned(struct arm_pmu *pmu)
+ 		pmu->hpmn_max <= *host_data_ptr(nr_event_counters);
+ }
  
- #define to_arm_pmu(p) (container_of(p, struct arm_pmu, pmu))
++/**
++ * kvm_vcpu_pmu_is_partitioned() - Determine if given VCPU has a partitioned PMU
++ * @vcpu: Pointer to kvm_vcpu struct
++ *
++ * Determine if given VCPU has a partitioned PMU by extracting that
++ * field and passing it to :c:func:`kvm_pmu_is_partitioned`
++ *
++ * Return: True if the VCPU PMU is partitioned, false otherwise
++ */
++bool kvm_vcpu_pmu_is_partitioned(struct kvm_vcpu *vcpu)
++{
++	return kvm_pmu_is_partitioned(vcpu->kvm->arch.arm_pmu) &&
++		false;
++}
++
++/**
++ * kvm_vcpu_pmu_use_fgt() - Determine if we can use FGT
++ * @vcpu: Pointer to struct kvm_vcpu
++ *
++ * Determine if we can use FGT for direct access to registers. We can
++ * if capabilities permit the number of guest counters requested.
++ *
++ * Return: True if we can use FGT, false otherwise
++ */
++bool kvm_vcpu_pmu_use_fgt(struct kvm_vcpu *vcpu)
++{
++	u8 hpmn = vcpu->kvm->arch.nr_pmu_counters;
++
++	return kvm_vcpu_pmu_is_partitioned(vcpu) &&
++		cpus_have_final_cap(ARM64_HAS_FGT) &&
++		(hpmn != 0 || cpus_have_final_cap(ARM64_HAS_HPMN0));
++}
++
++u64 kvm_pmu_fgt_bits(void)
++{
++	return HDFGRTR_EL2_PMOVS
++		| HDFGRTR_EL2_PMCCFILTR_EL0
++		| HDFGRTR_EL2_PMEVTYPERn_EL0
++		| HDFGRTR_EL2_PMCEIDn_EL0
++		| HDFGRTR_EL2_PMMIR_EL1;
++}
++
++u64 kvm_pmu_fgt2_bits(void)
++{
++	return HDFGRTR2_EL2_nPMICFILTR_EL0
++		| HDFGRTR2_EL2_nPMICNTR_EL0;
++}
++
+ /**
+  * kvm_pmu_host_counter_mask() - Compute bitmask of host-reserved counters
+  * @pmu: Pointer to arm_pmu struct
 -- 
 2.52.0.239.gd5f0c6e74e-goog
 
