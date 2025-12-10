@@ -1,297 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A092FFF95;
-	Wed, 10 Dec 2025 15:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C21C306D21
+	for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 16:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765381475; cv=none; b=CT83ukaTdrjuKDjfdyKzQOJagnAwx3jROhQkZ3Hy67ifhC4ujdWSffN+Z3fG+vQz8mn7ike0KzBJS29wWbV4G0E41ZiTe2LQqghPC9JFGtX7H8sMVZ9sm5Wsa84xgyWmYfl1lIaaZz48KUB8ICqzHqNslURMOc2jpeva8L6ryRI=
+	t=1765383509; cv=none; b=Dxw19/fuJyRhU1S5kybAJhanPKhyuK3Cm6mCbGQEyeg7c3N74ljl6yEk7CuZgou8GzasZL1yOAceCj0sfvWL5a9fzH/jM7te0IoKLNJX6dAbV+Byn4ILLgO6qu3eKIq2YK+4XmsaKeTlxNQB8OhvEEZwS7zabPfw1drpGCEn8Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765381475; c=relaxed/simple;
-	bh=K7bMQJ8AX7Jzr0xyT5MjUO6Lvd8NVfX+SZWfBLl5w2E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c5d7SJVoTVMequIuWtGgcke17fCou9jZaLLZDowi0nbEoXQBcsnLlFVItWzmQr2tGHumvpOPJSSxrJF7K4vRyjaF0UOpfPk/8Vd9pFIDx/2otPimsp/z+B/+zFknN4olm7OvWmBq1ZopkbrAhtJqsrjLJVG8kYyMYN3gd4S2Dcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UUl9css1; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765383509; c=relaxed/simple;
+	bh=8fukvFVHvNsSJut9kyMPtVjty3xkgDR42FqSOIyq0Vs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mB+gD7v3IZSVIeXZTTx12yWSvtjp9FeAmd22vS6ToL0kAlsukozsd5CQPKsKXhPRAaWiY1W7GUN6YLLhNZcEBt6owpkJJ/nIkMXoWeX1HKxu26Z3lR4CfWDwSQ6xE0yHwZHT2lXO6dYjjpESFwzIpSXzqQXpF820S/BahkiFtZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4Knpx6Ys; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UUl9css1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765381473; x=1796917473;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=K7bMQJ8AX7Jzr0xyT5MjUO6Lvd8NVfX+SZWfBLl5w2E=;
-  b=UUl9css1qvLCXhHNs/5BrrIxfVYPWiDZpNZ1OLNmbw5W+tAgNyT65B5j
-   NgmfujSXkvFHJx4GVs1Lt9hAnA7ykVdi5nnwLq+zj0/E28AVoA8xr9f2y
-   69euqWopDNlGIyrUABYzuEhGXle0/hmi+S20oZL1ka5AeGznoCzFmu9bc
-   kr8gHe2HqpsZK1dRmAPMaNmzuiZlbqaIZPa8p2a1IM0e+4AAtzrEUkx1z
-   w7BI8Vy7UDBzsL1kdk/ZMb504WdYEmZ0Jq5P8o02l9uov1qfMPT9ThRJz
-   8iyEL+RVIF0Xu1ig9LWaEBwPMDQJSNZrR4fLtGL5AVN+hUO5ivehcQADX
-   A==;
-X-CSE-ConnectionGUID: OE9CySUXRnKE+74m1PW31A==
-X-CSE-MsgGUID: 296Bd5oETpCaLe1WXigfQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="67391089"
-X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="67391089"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 07:44:32 -0800
-X-CSE-ConnectionGUID: 5D/Gcgf8S/u1YfTvGJWghg==
-X-CSE-MsgGUID: ASTREkokQqiuq9LaRHsZvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="201463819"
-Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO [10.125.109.138]) ([10.125.109.138])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 07:44:31 -0800
-Message-ID: <a3d725c9-71d8-4bb3-b1b9-6404cbd9eb21@intel.com>
-Date: Wed, 10 Dec 2025 08:44:30 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4Knpx6Ys"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-477a2ab455fso80352005e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 08:18:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765383506; x=1765988306; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5R7EEgKhSIj0MssK61oG5hvlzLQojw/c9iQ7wtMJnfU=;
+        b=4Knpx6Ys5jZM/3xzn4TkUlQ5MOn07tNXFGzWuQHetRSxVoOxFT3OFL1dI6aUzMhyEu
+         xnYtbM7h+xr7oTrp7lflQAsqfG0dB83aJPa0N0Lzyw30KdGksmfQW3kYujbtnt3DkuVA
+         fwmEmugctaKD9pNusDQNeXd1UfmY+fHvGPOWDw8BAfKfkIxSgy+w8UbI4YYUCqj4I6jX
+         aI8c6m7cRh6B35onFu9uYiBhaBJoI1i9z8h4Mkeyxj9du9M621C5tHRNfX5XJmAb/f0q
+         TuIXXyB2cjbM17BbTAqn37phQDIzp91gAiU1SG6JW6826VDNB+PT3RdVCI3rvFZjl/bg
+         gWLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765383506; x=1765988306;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5R7EEgKhSIj0MssK61oG5hvlzLQojw/c9iQ7wtMJnfU=;
+        b=Qcjplmre3PPr7Vl1b6g/wJydr24nGu6i06hl+chaRF7dyBt3pvuXNYgyYrAn4yIOw3
+         tNAVATFWgdQMeJq7FLC30ujWBpjL8F2XW7vmPlLOjMspmUsRppWSXMUszuFV9LqlIIxC
+         HVbJpTCsgYip3asMLCJenmCScY1g+XBkJXFdbUMTAJhT89OfI6dbcELsrn94iGBxaNpE
+         4yiSfRjqElZHrZNF3RnAnt2c+Yr4UH+2RafAJPAdFnUv3P5F/S5zGX64tLoCkwZyuYKK
+         XVWjej4OV6m63+L18WggL8gc336xm4b9Urd6eLiXyanq2mCsmnfpWI1cgQVwmfhviIB1
+         3oiw==
+X-Forwarded-Encrypted: i=1; AJvYcCVu5MiezcFyBRDRRZgVDvlaSEzODk3DDPJb8BtIqIeZ+BDH+AeqvZ0bzuQXJkMseUTf5+Y/8askgzc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxv1hsj4wl9cR/GyjrShW0r4Lm4eV2LP2ygu+K8T4BVbE6jbZxv
+	HKxCxu2FhOh1kwYdo5iB1nu/ukOb0OhKR+U+r9UODv85dRPg5kzJKw3/z76PnA8qFg==
+X-Gm-Gg: ASbGncsE1A5+lZneoe9HnvmXCu/tpL3DoPNcPxqRKiJZDHE2/4fYmR8EBJyyeLiAYbl
+	PmCa0U1pUUuz1E8M69KS73gU1xx+nobNk9fegLunv0i9jK3WdZK2WnPCeT3yWGgc6NWY+If1+o/
+	h9xOpwwbqO1qXmjmsYGbvCXChGT+9WSsKFLMvAF6SJKMlk7zcmHhOqPQZj7+8u12YRHzwboKrdD
+	HwBSVA0NEmQwfkyvTDAAeKFYyGABaYZiZorMfRT5cfEyL0FQqXvGwzlGxEAtUyCw6/E2eKHJayw
+	aUK4ePOaNPRe89GTWD2FK0sb/5wbHh/TMiSgwC0rwTUQsbQE4yz6LO13UWfwQhXVvm4M34mN/WV
+	Ll090AbD9WIkvcfQoWarvYcF1h3uCDZ22mpk+Bt3568j051Ihv5301w7VZSBRzJjKG7LLR0BFEM
+	x1wTZec5CXmrrZEGp1sy8CJOmWx9E5Xm7QGsXvXEvhmT4kWf4=
+X-Google-Smtp-Source: AGHT+IE5gG+0fezF5tzXHFusF2dBV52zxvrbxnDDqwGYfilnFo0IcpTyJU4lWfuQsZFtfQAM3eL7LQ==
+X-Received: by 2002:a05:600c:687:b0:46e:59bd:f7d3 with SMTP id 5b1f17b1804b1-47a83cc5528mr15763325e9.20.1765383505415;
+        Wed, 10 Dec 2025 08:18:25 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:2834:9:edfc:ec3:194e:c3b3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a7d3a75a3sm45109085e9.6.2025.12.10.08.18.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Dec 2025 08:18:24 -0800 (PST)
+Date: Wed, 10 Dec 2025 17:18:16 +0100
+From: Marco Elver <elver@google.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Chris Li <sparse@chrisli.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v4 00/35] Compiler-Based Context- and Locking-Analysis
+Message-ID: <aTmdSMuP0LUAdfO_@elver.google.com>
+References: <20251120145835.3833031-2-elver@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] Documentation/driver-api/cxl: ACPI PRM Address
- Translation Support and AMD Zen5 enablement
-To: Robert Richter <rrichter@amd.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
- Gregory Price <gourry@gourry.net>,
- "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
- Terry Bowman <terry.bowman@amd.com>, Joshua Hahn <joshua.hahnjy@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-References: <20251209181959.210533-1-rrichter@amd.com>
- <20251209181959.210533-2-rrichter@amd.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20251209181959.210533-2-rrichter@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251120145835.3833031-2-elver@google.com>
+User-Agent: Mutt/2.2.13 (2024-03-09)
 
+All,
 
-
-On 12/9/25 11:19 AM, Robert Richter wrote:
-> This adds a convention document for the following patch series:
+On Thu, Nov 20, 2025 at 03:49PM +0100, Marco Elver wrote:
+> Context Analysis is a language extension, which enables statically
+> checking that required contexts are active (or inactive) by acquiring
+> and releasing user-definable "context guards". An obvious application is
+> lock-safety checking for the kernel's various synchronization primitives
+> (each of which represents a "context guard"), and checking that locking
+> rules are not violated.
+[...] 
+> A Clang version that supports `-Wthread-safety-pointer` and the new
+> alias-analysis of context-guard pointers is required (from this version
+> onwards):
 > 
->  cxl: ACPI PRM Address Translation Support and AMD Zen5 enablement
+> 	https://github.com/llvm/llvm-project/commit/7ccb5c08f0685d4787f12c3224a72f0650c5865e
 > 
-> Version 7 and later:
+> The minimum required release version will be Clang 22.
 > 
->  https://patchwork.kernel.org/project/cxl/cover/20251114213931.30754-1-rrichter@amd.com/
+> This series is also available at this Git tree:
 > 
-> Reviewed-by: Gregory Price <gourry@gourry.net>
-> Signed-off-by: Robert Richter <rrichter@amd.com>
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git/log/?h=ctx-analysis/dev
+[...] 
 
-The content looks good. Would love to see an ascii block diagram showing the relationships of SPA/HPA/DPA in this scenario.
+I realize that I sent this series at the end of the last release cycle,
+and now we're in the merge window, along with LPC going on -- so it
+wasn't the best timing (however, it might be something to discuss at
+LPC, too :-) .. I'm attending virtually, however :-/).
 
-DJ
+How to proceed?
 
-> ---
-> v2:
->  * updated sob-chain,
->  * spell fix in patch description (Randy),
->  * made small changes as suggested by Randy,
->  * Removed include:: <isonum.txt> line (Jon).
-> ---
-> ---
->  Documentation/driver-api/cxl/conventions.rst  |   1 +
->  .../driver-api/cxl/conventions/cxl-atl.rst    | 174 ++++++++++++++++++
->  2 files changed, 175 insertions(+)
->  create mode 100644 Documentation/driver-api/cxl/conventions/cxl-atl.rst
-> 
-> diff --git a/Documentation/driver-api/cxl/conventions.rst b/Documentation/driver-api/cxl/conventions.rst
-> index 53f31a229c8d..cf427afac58b 100644
-> --- a/Documentation/driver-api/cxl/conventions.rst
-> +++ b/Documentation/driver-api/cxl/conventions.rst
-> @@ -8,4 +8,5 @@ Compute Express Link: Linux Conventions
->     :caption: Contents
->  
->     conventions/cxl-lmh.rst
-> +   conventions/cxl-atl.rst
->     conventions/template.rst
-> diff --git a/Documentation/driver-api/cxl/conventions/cxl-atl.rst b/Documentation/driver-api/cxl/conventions/cxl-atl.rst
-> new file mode 100644
-> index 000000000000..955263dcbb3a
-> --- /dev/null
-> +++ b/Documentation/driver-api/cxl/conventions/cxl-atl.rst
-> @@ -0,0 +1,174 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +ACPI PRM CXL Address Translation
-> +================================
-> +
-> +Document
-> +--------
-> +
-> +CXL Revision 3.2, Version 1.0
-> +
-> +License
-> +-------
-> +
-> +SPDX-License Identifier: CC-BY-4.0
-> +
-> +Creator/Contributors
-> +--------------------
-> +
-> +- Robert Richter, AMD
-> +
-> +Summary of the Change
-> +---------------------
-> +
-> +The CXL Fixed Memory Window Structure (CFMWS) describes zero or more
-> +Host Physical Address (HPA) windows that are associated with each CXL
-> +Host Bridge. The HPA ranges of a CFMWS may include addresses that are
-> +currently assigned to CXL.mem devices, or an OS may assign ranges from
-> +an address window to a device.
-> +
-> +Host-managed Device Memory is Device-attached memory that is mapped to
-> +system coherent address space and accessible to the Host using
-> +standard write-back semantics. The managed address range is configured
-> +in the CXL HDM Decoder registers of the device. An HDM Decoder in a
-> +device is responsible for converting HPA into DPA by stripping off
-> +specific address bits.
-> +
-> +CXL devices and CXL bridges use the same HPA space. It is common
-> +across all components that belong to the same host domain. The view of
-> +the address region must be consistent on the CXL.mem path between the
-> +Host and the Device.
-> +
-> +This is described in the current CXL specification (Table 1-1, 3.3.1,
-> +8.2.4.20, 9.13.1, 9.18.1.3). [#cxl-spec-3.2]_
-> +
-> +Depending on the interconnect architecture of the platform, components
-> +attached to a host may not share the same host physical address space.
-> +Those platforms need address translation to convert an HPA between the
-> +host and the attached component, such as a CXL device. The translation
-> +mechanism is host-specific and implementation dependent.
-> +
-> +E.g., x86 AMD platforms use a Data Fabric that manages access to
-> +physical memory. Devices have their own memory space and can be
-> +configured to use 'Normalized addresses' different to System Physical
-> +Addresses (SPA). Address translation is needed then. Details are
-> +described also under x86 AMD
-> +Documentation/admin-guide/RAS/address-translation.rst.
-> +
-> +Those AMD platforms provide PRM handlers in firmware to perform
-> +various types of address translation, including for CXL endpoints.
-> +AMD Zen5 systems implement the ACPI PRM CXL Address Translation
-> +firmware call. The ACPI PRM handler has a specific GUID to uniquely
-> +identify platforms with support of Normalized addressing. This is
-> +documented in the ACPI v6.5 Porting Guide, Address Translation - CXL
-> +DPA to System Physical Address.  [#amd-ppr-58088]_
-> +
-> +When in Normalized address mode, HDM decoder address ranges must be
-> +configured and handled differently. Hardware addresses used in the HDM
-> +decoder configurations of an endpoint are not SPA and need to be
-> +translated from the endpoint's to its CXL host bridge's address range.
-> +This is especially important to find an endpoint's associated CXL Host
-> +Bridge and HPA window described in the CFMWS. Also, the interleave
-> +decoding is done by the Data Fabric and the endpoint does not perform
-> +decoding when converting HPA to DPA. Instead, interleaving is switched
-> +off for the endpoint (1 way). Finally, address translation might also
-> +be needed to inspect the Endpoint's hardware addresses, such as during
-> +profiling, tracing or error handling.
-> +
-> +For example, with Normalized addressing the HDM decoders could look as
-> +following:
-> +
-> +.. code-block:: none
-> +
-> + /sys/bus/cxl/devices/endpoint5/decoder5.0/interleave_granularity:256
-> + /sys/bus/cxl/devices/endpoint5/decoder5.0/interleave_ways:1
-> + /sys/bus/cxl/devices/endpoint5/decoder5.0/size:0x2000000000
-> + /sys/bus/cxl/devices/endpoint5/decoder5.0/start:0x0
-> + /sys/bus/cxl/devices/endpoint8/decoder8.0/interleave_granularity:256
-> + /sys/bus/cxl/devices/endpoint8/decoder8.0/interleave_ways:1
-> + /sys/bus/cxl/devices/endpoint8/decoder8.0/size:0x2000000000
-> + /sys/bus/cxl/devices/endpoint8/decoder8.0/start:0x0
-> + /sys/bus/cxl/devices/endpoint11/decoder11.0/interleave_granularity:256
-> + /sys/bus/cxl/devices/endpoint11/decoder11.0/interleave_ways:1
-> + /sys/bus/cxl/devices/endpoint11/decoder11.0/size:0x2000000000
-> + /sys/bus/cxl/devices/endpoint11/decoder11.0/start:0x0
-> + /sys/bus/cxl/devices/endpoint13/decoder13.0/interleave_granularity:256
-> + /sys/bus/cxl/devices/endpoint13/decoder13.0/interleave_ways:1
-> + /sys/bus/cxl/devices/endpoint13/decoder13.0/size:0x2000000000
-> + /sys/bus/cxl/devices/endpoint13/decoder13.0/start:0x0
-> +
-> +Note the endpoint interleaving configurations with a direct mapping
-> +(1-way).
-> +
-> +With PRM calls, the kernel can determine the following mappings:
-> +
-> +.. code-block:: none
-> +
-> + cxl decoder5.0: address mapping found for 0000:e2:00.0 (hpa -> spa):
-> +   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-> + cxl decoder8.0: address mapping found for 0000:e3:00.0 (hpa -> spa):
-> +   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-> + cxl decoder11.0: address mapping found for 0000:e4:00.0 (hpa -> spa):
-> +   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-> + cxl decoder13.0: address mapping found for 0000:e1:00.0 (hpa -> spa):
-> +   0x0+0x2000000000 -> 0x850000000+0x8000000000 ways:4 granularity:256
-> +
-> +The corresponding CXL host bridge (HDM) decoders and root decoder
-> +(CFMWS) show and match with the calculated endpoint mappings:
-> +
-> +.. code-block:: none
-> +
-> + /sys/bus/cxl/devices/port1/decoder1.0/interleave_granularity:256
-> + /sys/bus/cxl/devices/port1/decoder1.0/interleave_ways:4
-> + /sys/bus/cxl/devices/port1/decoder1.0/size:0x8000000000
-> + /sys/bus/cxl/devices/port1/decoder1.0/start:0x850000000
-> + /sys/bus/cxl/devices/port1/decoder1.0/target_list:0,1,2,3
-> + /sys/bus/cxl/devices/port1/decoder1.0/target_type:expander
-> + /sys/bus/cxl/devices/root0/decoder0.0/interleave_granularity:256
-> + /sys/bus/cxl/devices/root0/decoder0.0/interleave_ways:1
-> + /sys/bus/cxl/devices/root0/decoder0.0/size:0x8000000000
-> + /sys/bus/cxl/devices/root0/decoder0.0/start:0x850000000
-> + /sys/bus/cxl/devices/root0/decoder0.0/target_list:7
-> +
-> +The following changes of the specification are needed:
-> +
-> +* Allow a CXL device to be in a different HPA space other than the
-> +  host's space.
-> +
-> +* The platform can use implementation-specific address translation
-> +  when crossing memory domains on the CXL.mem path between the Host
-> +  and the Device.
-> +
-> +* The kernel (OSPM) determines Endpoint SPA range and interleaving
-> +  configuration using platform-specific address translation methods.
-> +
-> +Benefits of the Change
-> +----------------------
-> +
-> +Without the change, the OSPM may not determine the memory region and
-> +Root Decoder of an Endpoint and its corresponding HDM decoder. Region
-> +creation would fail. Platforms with a different interconnect
-> +architecture would fail to setup and use CXL.
-> +
-> +References
-> +----------
-> +
-> +.. [#cxl-spec-3.2] Compute Express Link Specification, Revision 3.2, Version 1.0,
-> +   https://www.computeexpresslink.org/
-> +
-> +.. [#amd-ppr-58088] AMD Family 1Ah Models 00h–0Fh and Models 10h–1Fh,
-> +   ACPI v6.5 Porting Guide, Publication # 58088,
-> +   https://www.amd.com/en/search/documentation/hub.html
-> +
-> +Detailed Description of the Change
-> +----------------------------------
-> +
-> +Add the following paragraph in 8.2.4.20 CXL HDM Decoder Capability
-> +Structure of the specification [#cxl-spec-3.2]_ to the end:
-> +
-> +"A device may use a different HPA space that is not common to other
-> +components of the host domain. The platform is responsible for address
-> +translation when crossing HPA spaces. The OSPM must determine the
-> +interleaving configuration and perform address translation to HPA
-> +ranges of the HDM decoders as needed. The translation mechanism is
-> +host-specific and implementation dependent."
+I'll be preparing a rebased and retested version of all this when
+v6.19-rc1 is out. One outstanding recommendation from Linus was to
+investigate compile-times, but as-is, it's unclear there's any notable
+overhead per brief investigation: https://lore.kernel.org/all/aR-plHrWDMqRRlcI@elver.google.com/
 
+From what I can tell most of this has to go through the locking tree,
+given the potential for conflict there. However, it is possible to split
+this up as follows:
+
+Batch 1:
+
+>   compiler_types: Move lock checking attributes to
+>     compiler-context-analysis.h
+>   compiler-context-analysis: Add infrastructure for Context Analysis
+>     with Clang
+>   compiler-context-analysis: Add test stub
+>   Documentation: Add documentation for Compiler-Based Context Analysis
+>   checkpatch: Warn about context_unsafe() without comment
+>   cleanup: Basic compatibility with context analysis
+>   lockdep: Annotate lockdep assertions for context analysis
+>   locking/rwlock, spinlock: Support Clang's context analysis
+>   compiler-context-analysis: Change __cond_acquires to take return value
+>   locking/mutex: Support Clang's context analysis
+>   locking/seqlock: Support Clang's context analysis
+>   bit_spinlock: Include missing <asm/processor.h>
+>   bit_spinlock: Support Clang's context analysis
+>   rcu: Support Clang's context analysis
+>   srcu: Support Clang's context analysis
+>   kref: Add context-analysis annotations
+>   locking/rwsem: Support Clang's context analysis
+>   locking/local_lock: Include missing headers
+>   locking/local_lock: Support Clang's context analysis
+>   locking/ww_mutex: Support Clang's context analysis
+>   debugfs: Make debugfs_cancellation a context guard struct
+>   compiler-context-analysis: Remove Sparse support
+>   compiler-context-analysis: Remove __cond_lock() function-like helper
+>   compiler-context-analysis: Introduce header suppressions
+>   compiler: Let data_race() imply disabled context analysis
+>   MAINTAINERS: Add entry for Context Analysis
+
+Batch 2: Everything below this can wait for the initial support in
+mainline, at which point subsystem maintainers can pick them up if
+deemed appropriate.
+
+>   kfence: Enable context analysis
+>   kcov: Enable context analysis
+>   kcsan: Enable context analysis
+>   stackdepot: Enable context analysis
+>   rhashtable: Enable context analysis
+>   printk: Move locking annotation to printk.c
+>   security/tomoyo: Enable context analysis
+>   crypto: Enable context analysis
+>   sched: Enable context analysis for core.c and fair.c
+
+Thanks,
+	-- Marco
