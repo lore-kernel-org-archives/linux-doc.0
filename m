@@ -1,80 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBC42DCF52
-	for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 23:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA96F280335;
+	Wed, 10 Dec 2025 23:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765410541; cv=none; b=lCfHWtP0uYeO+ABjSQdP32L+AM2KtJaGE9bSnFo3JnbreWnjJXwTB4nJ0uST7Y1X+e+AZwF1CgTQdUcqilkEHU33FEB4R+vb+Kb6y4cm+quvqMusSl9cXk38Oh+51glX2smJ3jMuqaCRK7qp1rmkM3qktkx60Wf9K1bd+cDMOe8=
+	t=1765410804; cv=none; b=H5B990xTnmn+brz4mZHEpPyi3x1VKMrnWBH4kD6c/43lFRieyISZSkaqva5NkKO0GaJsQdxfA/0WVtMGFHggK6ZJTVXmBPaZ/2rpNbdGKa9IRlXF7GHIEbEpTupnCOAE0lR6u2wJu3qMu7AHb5SMMYRScbqwrXXi5t1wvfhps+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765410541; c=relaxed/simple;
-	bh=y60yzOXBri/L+USfjESMvBfJsbTzqKzZQxx5cZLYtRE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R5pVYQ/skqLDjWGFflesZFnUOqD35OD6rdRZSfBv6lp8G5CD32xkccPsiNY2zLRM6H6YPvmT0siuYgmCP11yd6UUs3zopjtf/57bFFcltxRFRqhYom733qzt68epwvRpkEZ8R3l1uj4kAiLbQ4KjZ5tLdB+yrobsLNa+6ESHssY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z5PcNG/u; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765410804; c=relaxed/simple;
+	bh=iLf/3pqzRjM2vtmyV+qBQZ5P2ZcxfsLYZ37c66Wv7Pc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EjyzG81cROOvmuGjiCUEZvvKWNOO2Ir5jXViKA2NxdDdohAAE/9gvpZPEqjvBEzBhXV1CSN5h+nrjAP0o4CM9QZKAjtHMsDdVFNwEq7WZr6/Deo9xwkVPotBEFjrp00TnscUc2slycYq5WKPJcVUSySLAp3U9etnJ2vfO1OnReI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=jXS4/sQm; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z5PcNG/u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6202BC2BCB0
-	for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 23:49:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765410541;
-	bh=y60yzOXBri/L+USfjESMvBfJsbTzqKzZQxx5cZLYtRE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Z5PcNG/uTJVf8ovzG92XbInb4q24y8r41AstnbLrJFLDt5QLKazLsd809WCY3YjRl
-	 /Bt5nHS3rEKbwZKpgbeOKdnw45dydjGAzC6HKjUuOQ/1h3Mfgtyu2NTIvVwf+Nd0Sv
-	 esbhxLVcghcF16UOxj9Gk/T5NgU4oSVl97S4SrL/St98jJOqXCFAsTnczBHtXwQSVP
-	 uYrY4+PHiPgRTyI5rGJSjktcsV27IJ4fSN4LaK/lNjV9aThTFBryjLshyOAqYSGZ70
-	 1JC1Uuuc5DcRs9Te9ig5lD144ps/zZnFzaivGSnckFhbIs2+R83w1YBIxbe7dPadcM
-	 bUZPGvXr8nwXg==
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-78c4aa7af99so4291437b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 15:49:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWjCrTEdBzdNTRqc/VyNg8ttEjmb2nVz3LLbrxxW/ht000hyjs+Pfs41jjTkwUVAfXzQUGmkwKRcAk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzczm0DNJQMt8a7YNcbdVZomEKLVTGQLD52aNVrhDU6cJzH32Ea
-	Md/DtUxZonpoP0XM3l5WzUkdyRgCYRBSauJUUVHzbjBbCD5jtgTFN/R6vDxwy4Qxk5GiWwUxdB5
-	umturkw0gmrdtYHkb/IUnK8gJSI1OUOY=
-X-Google-Smtp-Source: AGHT+IEHXvr05tQprOfY4yuLemAclzGDIykx0DQotGMLD9Gxdxo14Y7Yq0Ns1rtG/7YuZgr9lz1HdVefclNdAjlBPqA=
-X-Received: by 2002:a05:690c:45c5:b0:786:a185:13b6 with SMTP id
- 00721157ae682-78c9d6fd106mr38184447b3.22.1765410540740; Wed, 10 Dec 2025
- 15:49:00 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="jXS4/sQm"
+Received: from chenste-Virtual-Machine.mshome.net (c-67-168-176-124.hsd1.wa.comcast.net [67.168.176.124])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 46FC8211603E;
+	Wed, 10 Dec 2025 15:53:21 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 46FC8211603E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1765410801;
+	bh=PMrSM9sNdXVS3gVjnHz4WlV/DUtREqvT6AWyC31m77c=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jXS4/sQm1ew3vN8t+D8XashX3HicdGHp0E/tyVJe3gnGkr4eaQEGdVnE3khe1FvVW
+	 P20wHQoYyEWgeNhjqVd0tsIcWUtBN/H6GT8XhPFEtHLfA39rWOjJPCqyjuG+H6AsJU
+	 7H8v9P4fFfwzsNID4HNvnWNNxWUthygkddinUoRk=
+From: steven chen <chenste@linux.microsoft.com>
+To: linux-integrity@vger.kernel.org
+Cc: zohar@linux.ibm.com,
+	roberto.sassu@huawei.com,
+	dmitry.kasatkin@gmail.com,
+	eric.snowberg@oracle.com,
+	corbet@lwn.net,
+	serge@hallyn.com,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	linux-security-module@vger.kernel.org,
+	anirudhve@linux.microsoft.com,
+	chenste@linux.microsoft.com,
+	gregorylumen@linux.microsoft.com,
+	nramas@linux.microsoft.com,
+	sushring@linux.microsoft.com,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/1] Trim N entries of IMA event logs
+Date: Wed, 10 Dec 2025 15:53:11 -0800
+Message-ID: <20251210235314.3341-1-chenste@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251205-staging-ad4062-v3-0-8761355f9c66@analog.com> <20251205-staging-ad4062-v3-9-8761355f9c66@analog.com>
-In-Reply-To: <20251205-staging-ad4062-v3-9-8761355f9c66@analog.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 11 Dec 2025 00:48:49 +0100
-X-Gmail-Original-Message-ID: <CAD++jLnAcBv0Lb_e6edAz82UkDZSeb-3y9Xm3m4rsgHiw0kLJg@mail.gmail.com>
-X-Gm-Features: AQt7F2rsb8LxbmyiV3W00GvP06QDfHAe-VUxMX5VRApDEsFfkERPeYu_jWokYRY
-Message-ID: <CAD++jLnAcBv0Lb_e6edAz82UkDZSeb-3y9Xm3m4rsgHiw0kLJg@mail.gmail.com>
-Subject: Re: [PATCH v3 9/9] iio: adc: ad4062: Add GPIO Controller support
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 5, 2025 at 4:19=E2=80=AFPM Jorge Marques <jorge.marques@analog.=
-com> wrote:
+The Integrity Measurement Architecture (IMA) maintains a measurement list
+—a record of system events used for integrity verification. The IMA event
+logs are the entries within this measurement list, each representing a
+specific event or measurement that contributes to the system's integrity
+assessment.
 
-> When gp0 or gp1 is not taken as an interrupt, expose them as GPO if
-> gpio-contoller is set in the devicetree. gpio-regmap is not used
-> because the GPO static low is 'b101 and static high is 0b110; low state
-> requires setting bit 0, not fitting the abstraction of low=3D0 and
-> high=3Dmask.
->
-> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+This update introduces the ability to trim, or remove, N entries from the
+current measurement list. Trimming involves deleting N entries from the
+list and clearing the corresponding entries from the hash table. This
+action atomically truncates the measurement list, ensuring that no new
+measurements can be added until the operation is complete. Importantly,
+only one writer can initiate this trimming process at a time, maintaining
+consistency and preventing race conditions.
 
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+A userspace interface, ima_trim_log, has been provided for this purpose.
+By writing a number N to this interface, userspace can request the kernel
+to trim N entries from the IMA event logs. When this interface is read,
+it returns the number of entries trimmed during the last operation. This
+value is not preserved across kexec soft reboots, as it is not considered
+important information.
 
-Yours,
-Linus Walleij
+To maintain a complete record, userspace is responsible for concatenating
+and storing the logs before initiating trimming. Userspace can then send
+the collected data to remote verifiers for validation. After receiving
+confirmation from the remote verifiers, userspace may instruct the kernel
+to proceed with trimming the IMA event logs accordingly.
+
+The primary benefit of this solution is the ability to free valuable
+kernel memory by delegating the task of reconstructing the full
+measurement list from log chunks to userspace. Trust is not required in
+userspace for the integrity of the measurement list, as its integrity is
+cryptographically protected by the Trusted Platform Module (TPM).
+
+Multiple readers are allowed to access the ima_trim_log interface
+concurrently, while only one writer can trigger log trimming at any time.
+During trimming, readers do not see the list and cannot access it while
+deletion is in progress, ensuring atomicity.
+
+Introduce the new kernel option ima_flush_htable to decide whether or not
+the digests of measurement entries are flushed from the hash table. (from
+reference [2])
+
+The ima_measure_users counter (protected by the ima_measure_lock mutex) has
+been introduced to protect access to the measurement list part. The open
+method of all the measurement interfaces has been extended to allow only
+one writer at a time or, in alternative, multiple readers. The write
+permission is used to delete the measurements, the read permission
+to read them. Write requires also the CAP_SYS_ADMIN capability. (from
+reference [2])
+
+New IMA log trim event is added when trimming finish.
+
+The time required for trimming is minimal, and IMA event logs are briefly
+on hold during this process, preventing read or add operations. This short
+interruption has no impact on the overall functionality of IMA.
+
+V1 of this series is available here[1] for reference.
+
+References:
+-----------
+[1] [PATCH 0/1] Trim N entries of IMA event logs
+https://lore.kernel.org/linux-integrity/20251202232857.8211-1-chenste@linux.microsoft.com/T/#t
+
+[2] [RFC][PATCH] ima: Add support for staging measurements for deletion
+https://lore.kernel.org/linux-integrity/207fd6d7-53c-57bb-36d8-13a0902052d1@linux.microsoft.com/T/#t
+
+Change Log v2:
+ - Incorporated feedback from the Roberto on v1 series.
+ - Adapted code from Roberto's RFC [Reference 2]
+ - Add IMA log trim event log to record trim event
+ - Updated patch descriptions as necessary.
+
+steven chen (1):
+  IMA event log trimming
+
+ .../admin-guide/kernel-parameters.txt         |   4 +
+ security/integrity/ima/ima.h                  |   2 +
+ security/integrity/ima/ima_fs.c               | 175 +++++++++++++++++-
+ security/integrity/ima/ima_queue.c            |  64 +++++++
+ 4 files changed, 241 insertions(+), 4 deletions(-)
+
+-- 
+2.43.0
+
