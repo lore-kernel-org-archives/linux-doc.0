@@ -1,330 +1,517 @@
-Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [67.231.157.127])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A9E31D75E;
-	Wed, 10 Dec 2025 19:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.157.127
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765394099; cv=fail; b=ezwoS9CZXkj6iC2vA7cIYht0xGGQ6MDwhFw2/d6GOH3gnoK7sC7LYwhmikKczKNcsgREIDK+NZNtQjqi59urTuIZfhV/gmsxUs/J2KSSR0Uc2O9IkXFOQQ2nH/m9SWL4Dyz4heCYsu8LFaP2HhwJE+RkTvRnRmFviaNPLmycWUA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765394099; c=relaxed/simple;
-	bh=Bsez40prrdmn5jOblx2OwjF6isTuiCH5gx/Mj79MXG8=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cpqNRoiHsVQaEn0A42o6WxhCPDMFAjADaOmqnDoU95Dh4m6+RdUCNE9fH6pT8GJNsIui3TjljSUGbVf5f1TRV+RAo6T4lvCENIX30CaYOpob8nuWHygGQPG217NgxYrE4BUeivqF6r+7oGhLKbzj1Zsskae9ouf0h51A/D9Fa5s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=akamai.com; spf=pass smtp.mailfrom=akamai.com; dkim=pass (2048-bit key) header.d=akamai.com header.i=@akamai.com header.b=hsiYC+tQ; dkim=pass (1024-bit key) header.d=akamai365.onmicrosoft.com header.i=@akamai365.onmicrosoft.com header.b=d1ul8Lnr; arc=fail smtp.client-ip=67.231.157.127
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=akamai.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=akamai.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EFD4C97;
+	Wed, 10 Dec 2025 19:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765395015; cv=none; b=PWPTVRW/4SIOxiwe3VG3zYa1HP4PMwkXGSzcx8c7N3kYj85QqzazGQMJHPACd6HmjNxxG2y0H921XvXDhaNu/Oy+wBpN3bAwbROoAnXvSpIiea+SM1vTEcBSU7UcGGFcrZvD03CW+p/ZgmrDXLGBEL+IWrT9/30J4uTNt9PPX7E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765395015; c=relaxed/simple;
+	bh=wKF686z/TTZ0M0cwuNcTeYSd3TG3XU8P9T75njPV6Xk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h0ohxQdj+fLrjVHdnjqrAW7BJIj0Lay8J4mIY3yfTAedeW1aCDbiYr8J8If/JibZB/PPTiirzvcuQHhQqbctlm7zwmHhr1l378u+eFhMNMG9FQMXHFlqYU0aJSgFJmGlt0pnJ1/FuUCQVhbc0ljAYavl6gf+3R3SOWZGm9xk2EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pJrAU1X3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=akamai.com header.i=@akamai.com header.b="hsiYC+tQ";
-	dkim=pass (1024-bit key) header.d=akamai365.onmicrosoft.com header.i=@akamai365.onmicrosoft.com header.b="d1ul8Lnr"
-Received: from pps.filterd (m0050102.ppops.net [127.0.0.1])
-	by m0050102.ppops.net-00190b01. (8.18.1.11/8.18.1.11) with ESMTP id 5BAGxYZG1234999;
-	Wed, 10 Dec 2025 19:14:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=jan2016.eng;
-	 bh=Apwr9De/DUoeOapPXHW4XNTDBh8O3hKsJzHE9YTHvQI=; b=hsiYC+tQOXy7
-	PUfcX97V/t+gqVMUNDSRWHqKoWKbTmsA7y6pGDlxCSSlmx8DPKxIShv5IUQMqXbE
-	HWGkwr8ClTDOkftR+Ziakwbav6XbD8tBNtXP7toH6C+noXTMEksqT3DcfKEfda+X
-	K9rkT0eQVrTFjjvaQdRb7nt2GgJ25JGLEd+Dqs54a7skgppc1aeP88CX/wyyjrRX
-	p1JEC7CWeOI0rqlwK45Fa4NqxYGO3KhgllCCczv0mukfsqCZ4HM47HRaxxbL4Pyh
-	NCQSb9MkO0KLxNabyE/alYsTT50VMLwNpgJhJfxgZ72jvL9kSEE///BDhkrNRW38
-	9fFuAr7+PA==
-Received: from prod-mail-ppoint8 (a72-247-45-34.deploy.static.akamaitechnologies.com [72.247.45.34] (may be forged))
-	by m0050102.ppops.net-00190b01. (PPS) with ESMTPS id 4ax8yv5hg3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Dec 2025 19:14:48 +0000 (GMT)
-Received: from pps.filterd (prod-mail-ppoint8.akamai.com [127.0.0.1])
-	by prod-mail-ppoint8.akamai.com (8.18.1.2/8.18.1.2) with ESMTP id 5BAH7W5W010508;
-	Wed, 10 Dec 2025 14:14:48 -0500
-Received: from email.msg.corp.akamai.com ([172.27.50.220])
-	by prod-mail-ppoint8.akamai.com (PPS) with ESMTPS id 4avgq1t84k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Dec 2025 14:14:47 -0500
-Received: from ustx2ex-dag4mb3.msg.corp.akamai.com (172.27.50.202) by
- ustx2ex-dag5mb3.msg.corp.akamai.com (172.27.50.220) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 10 Dec 2025 11:14:47 -0800
-Received: from ustx2ex-exedge3.msg.corp.akamai.com (172.27.50.214) by
- ustx2ex-dag4mb3.msg.corp.akamai.com (172.27.50.202) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 10 Dec 2025 11:14:47 -0800
-Received: from CH4PR07CU001.outbound.protection.outlook.com (72.247.45.132) by
- ustx2ex-exedge3.msg.corp.akamai.com (172.27.50.214) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 10 Dec 2025 13:14:47 -0600
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IXNynreuMUaNmzgHJv81HeAhU169cg0cFMBDphowgshRgm+e3eslzHOpTGZ5nHrLk3BWBHijMU3PaZxQir6XKagELwcQLE37YylZbpK5BVOgW2+q+uZPt4E6zQbbcub3HeqgHui5Ek9B3LXJ+BbMplNTWKuDeEgtEszT+j3d9DTWaaFtDofI2ygjI0IQEePcvSTa9WtQ9Z1zZLWfgeinv2tKyzMZ/uW9guCySRTR9TLs0d2T4LMBNMOXTnNtndJvZBT+WKZOxjjvkmJjUbLYPUWxDcG3qLV0kAQ1MUEqwMPGoJUuEvRLW384z6ZdeEHG9/6zZY57BL7IieQBVWga/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Apwr9De/DUoeOapPXHW4XNTDBh8O3hKsJzHE9YTHvQI=;
- b=qw7R1xKbyoDatsRKpzGl6AtVHJq/PIJXb9CxWxd/5LzKCrG2yn1kYJ46wCcudU3lBPrzfOzlAcC0BwnvBVPzUOIzTSDsUfmBDY9aWsjET01lTJZwXg8uA3HD3p7yA3q0VhQlvhICDACgOEBTbAiI+G9QEHQU2JGurHWufLCuJ5YHboSyPgMoImITaoD6Fxgq5ARjJRqm6k+sBcmhTSw61HvWXp1ycrP7YBBFGW3w9otT2UY8z74xvXoJ2z1oQh4cz3aCJKjjXIH0zDVmCLPciES6q2xliPYR/8qxzov5w/0P2KkKpqXebbjew74QwCuaqydDAho5CcpHzb0H/czQjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=akamai.com; dmarc=pass action=none header.from=akamai.com;
- dkim=pass header.d=akamai.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=akamai365.onmicrosoft.com; s=selector1-akamai365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Apwr9De/DUoeOapPXHW4XNTDBh8O3hKsJzHE9YTHvQI=;
- b=d1ul8LnrFb14zj63PG++PrsobL3aRy740uJL/rqeROxvB4QX6vEPNsArsFz5iTOKieaXvsU8RtDXoam1xlS+aONjZG7Pb6mh9c2GTkRwwZCP4R874Yw45AtkNeV2yehmZgrzZc6CViOn7hTl3hKafjGYavK3sd+rfqIx+BRSH3A=
-Received: from MW4PR17MB4876.namprd17.prod.outlook.com (2603:10b6:303:10d::17)
- by IA3PR17MB7430.namprd17.prod.outlook.com (2603:10b6:208:51b::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Wed, 10 Dec
- 2025 19:14:45 +0000
-Received: from MW4PR17MB4876.namprd17.prod.outlook.com
- ([fe80::2b53:64e8:a13b:b404]) by MW4PR17MB4876.namprd17.prod.outlook.com
- ([fe80::2b53:64e8:a13b:b404%3]) with mapi id 15.20.9412.005; Wed, 10 Dec 2025
- 19:14:45 +0000
-Message-ID: <9f36429d-1d6e-4501-a092-fbf45254d116@akamai.com>
-Date: Wed, 10 Dec 2025 14:14:18 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 16/31] dyndbg: hoist classmap-filter-by-modname up to
- ddebug_add_module
-To: <jim.cromie@gmail.com>
-CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <gregkh@linuxfoundation.org>, <ukaszb@chromium.org>,
-        <louis.chauvet@bootlin.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
-        "Linux
- Documentation List" <linux-doc@vger.kernel.org>
-References: <20251118201842.1447666-1-jim.cromie@gmail.com>
- <20251118201842.1447666-17-jim.cromie@gmail.com>
- <fcb2532d-5627-4bc3-a990-ed361b56ccd3@akamai.com>
- <CAJfuBxxeaZDY+-f=7R0RSnE7FAyPtB_O+S3E4L_OckKNRK+7ag@mail.gmail.com>
-Content-Language: en-US
-From: Jason Baron <jbaron@akamai.com>
-In-Reply-To: <CAJfuBxxeaZDY+-f=7R0RSnE7FAyPtB_O+S3E4L_OckKNRK+7ag@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LV3P220CA0025.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:408:234::35) To MW4PR17MB4876.namprd17.prod.outlook.com
- (2603:10b6:303:10d::17)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pJrAU1X3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34116C4CEF1;
+	Wed, 10 Dec 2025 19:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765395014;
+	bh=wKF686z/TTZ0M0cwuNcTeYSd3TG3XU8P9T75njPV6Xk=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=pJrAU1X3dwv9WO/sd8c4TbJnH3ZERsI5Lwa3My/RHkL6gqLQctt28UJ7+Z1rRd8JZ
+	 4XeJSVIlLqoRICZl2gN/IoAFAFtcvl+nGhLTOkYmVmHytit/DLzL/guQEXzROMAAiT
+	 P6tqNXFYf1AN/PZiR1xTpSwUrS1j1YT0zKg7QvIBNpV24/+zMv3FmjCqUACBmox8j9
+	 qFLBrslJvNc5Pt4FFYbmQU2aQzsZoruwJCOVV82lDFlFcIxlDT4YQFr57f8X5LsWKM
+	 al3x5A2w+Z1a7nZmJV7hvkIV9SQ0WwA/R1/RCSXHAXSUMdzo5XGGUByxqMF950Jsjk
+	 8vGbvPMnwEpVg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id D5BE5CE0C93; Wed, 10 Dec 2025 11:30:11 -0800 (PST)
+Date: Wed, 10 Dec 2025 11:30:11 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Chris Li <sparse@chrisli.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v4 14/35] rcu: Support Clang's context analysis
+Message-ID: <98453e19-7df2-43cb-8f05-87632f360028@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20251120145835.3833031-2-elver@google.com>
+ <20251120151033.3840508-7-elver@google.com>
+ <20251120151033.3840508-15-elver@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR17MB4876:EE_|IA3PR17MB7430:EE_
-X-MS-Office365-Filtering-Correlation-Id: 242a5fe3-d631-4813-a35c-08de3820612c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ditleFZ0M1BSQjQxeks3aHNuRS9rYjNuOWJtWCtVb0Y3QW02RzBOcnFaU2tX?=
- =?utf-8?B?TFBxc2dnckE2UnBRWXN0YjFTSStCT1E5djBaeVdVNllFK1IwcGozWVA2VmEy?=
- =?utf-8?B?Q1BqTTRDVG1vaVVHL2F1ZXRZcDZYaGZnbGFBMVNSaU0wYUkzYkozVzRxYVlP?=
- =?utf-8?B?NWN4U2h6eDAvRWhJbHNtOVpMOFVtZCt6TDhUVG14MFRjd1BPLzl3M2lCTzBu?=
- =?utf-8?B?QnNhVndHS3FRQ2duUXh4NnRmUjA5eWIzY005OUxTb1FUZFAyYlRvQU10R2R1?=
- =?utf-8?B?Ti9lbGtNQW1sSEVQTnh1VXAreEttTG50M2M5ay9Lak5vQWdYYzhBM1hBVUdN?=
- =?utf-8?B?dWF5Wm9aclNITTkzbytKTElBWFpJSTY1MDRodVAwUFNlclpjWEtGbXk2UnNv?=
- =?utf-8?B?SEdFdFE0UC9JNVZGcmZEa2dQZmpKT2ErUjRFeE5nbERxL05mV0hqRkpNZ2Fp?=
- =?utf-8?B?NE1LN3I0Mm9vMDlQSHA1Q1Ezd3NsSXIwOEJDNFE5cmlSVFBUVFNPVFBRWlhh?=
- =?utf-8?B?dnh2SlNXc0VjeFFydGRzSjE3Uk1HRnZoTnBqL1ZDSHd0ZEl0QjRoRGordU02?=
- =?utf-8?B?M0h4V3YvNkprOEdNUU8zdEhoRTV4S1M5NWMxQ283TTdOem4wUUtGMlA3QmR0?=
- =?utf-8?B?NzFLeVJkM0l5MStiUnQvQzk5b3ZkcW9FeGVFRGVJMUZlWkcwdFJzTVFQTzRC?=
- =?utf-8?B?UTVhcm5mTE5manQzUFErYVFzWTJ0aCs2dEtUQzJhbS9OVnYwb3hLQ1ozZVRR?=
- =?utf-8?B?ZFppWDF0b1lFeUkrNEFhZXFieVZSbnowWFlWRDFLVE84dDVMOUZWMTRlRm00?=
- =?utf-8?B?OXlKMTQvSThjbkV5UGRVZllCdTZ1TnNHdnBQVzM3NTFuL3JqU1JheCtFWVd5?=
- =?utf-8?B?c29mcThLM0NZYk1XTEZZR0VVSDdUYzZzRDd0dzFGOHdENXlLQ21vUkRXUCtk?=
- =?utf-8?B?dy9jWjMvbXhEd2tnOWQzeThUaW1weHZKblFKRFowZFRiQ3UvbXlLMUJndW5I?=
- =?utf-8?B?NkQvQkRWbFRRS3ZJQnpKOTVudGVUaXFkOEJYalBmYWxhUWZLSFdUN1BFY2hS?=
- =?utf-8?B?VGhSWE5PNnkvZ0U3R1JzRHZ3Z0ZnR0ZMeDNmNWpybFo1VDZaR0hnQkN1N3Ns?=
- =?utf-8?B?dzFIVE1BTHVhRm4zc25DYTRZOW41KzVQc203SU5wSmNLMkhMMXJxaEQ2MlRS?=
- =?utf-8?B?KzJjbmlBNUZOa2gzNEpvblFvYmM1VUdlVyt5VGpwUDBZVkkrY1JjVStjRTFj?=
- =?utf-8?B?bUtVZ0V0Tk42MEc2UTZUQUdIaDU5NW9lNXJvd3dsZ1ZBUEROMHNFRGtQS3lZ?=
- =?utf-8?B?dWVxTkg1a3g0R0dzNmJ5Mi9USldRbTdFK1Fidzk1ejJSTkNvdXNxUVpwZ0l1?=
- =?utf-8?B?K0crdVMrd2daNVpIZHZZQXJrMlR4TFczajk0RzJWRjhzQXdXY0plbmlFdFk2?=
- =?utf-8?B?NERNWnYyMW1Fb3NKSzQybHhQUTRabnBWc1pIUHNXdGgvckM1NFBzdWxINFhD?=
- =?utf-8?B?U0s4cnlzVEx5UTBydWpxRWsvZ0JDSFRKZlBiaGMwN2dXVnZMbndlNmhGZjNJ?=
- =?utf-8?B?Z2hsbFkvRk4xRlBXZ3hPckQ5YjFKZUlHQ01WMmJSK2NnMWJXWXJvaHRCK2ZE?=
- =?utf-8?B?a2w3d1ByREFJMzNkbitwcytKUjVIS3Nma2tTdlJ2VUdHTHNiQXBZdk5CbnJN?=
- =?utf-8?B?MmhJeXBRTEZPNFM2dC9IVkl3Wm9hUFB0c1dYNjZpSjRxeTBpYkxlZ0NLdlAr?=
- =?utf-8?B?YUZJTXhhTGVqSDFwWkt5b3BUT3dJcm5xOFRwVjJ3dzMzdnFJNS9wT3IyRitD?=
- =?utf-8?B?SGhjcCsra3lqSzFzQVNFa0ttWlowcHl5YkNYdlZpTXNSMTU4dDk0dXNlczJ5?=
- =?utf-8?B?anFWc0xkQTMyeXdHT0xwa1hQeE13VXNaYVJRYlZKc3paVmxrY2VQMk9BdVE4?=
- =?utf-8?Q?GFNHXU3KXImZO+p8MBx+h+GTHAlnbVFo?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR17MB4876.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjRVeXhhZ1VRSzhzRWs3b2ZiYW1KQWZkZDAraEY2UTZ5eXdDZFdFYm5PSU95?=
- =?utf-8?B?ejgxRlpEKzIyU3o2Q2VZZjJWcktBaTY1dUpxc3ROL0JrcEV5anpGVXpGaFlT?=
- =?utf-8?B?ZlpKOUxoREFXT2d4MjFac0p4OFhSSFJLRit3eFlVRTJJMHR0d2tJbmNuOG5P?=
- =?utf-8?B?MHIzWTczL2RiejFzdnNPNFVVdWxPM28vbGwvUGVjMkljTEhlSnQrN0NsYzk0?=
- =?utf-8?B?WmtoNldEcHhLRmtVZjMyWERmcy9aK0pDblZNclh3UWVRdWl4UFBYcHlyVE81?=
- =?utf-8?B?bWJ6VUdtS2tvRXZYdzBGUk41MnFtRndMVUQrbzAxWkRrSmwvQnJxOTFpRnRT?=
- =?utf-8?B?WEhRYVk0QWdmN3hpOUVVVWdSeUo0NGZJZEkwTFprUHlSUUJMNXY1TXRQRHc2?=
- =?utf-8?B?bktuaUxqcnM4S01QSlEzdVlSZHhyN25mUmRZM245Ujh1KzQ2S3BMa0tBQk5y?=
- =?utf-8?B?UTcxNnNLY0VRYVd3Y0JhWDhzU1V5NlkwUEJWYXpURlgzbE15SUREWXBTU1l0?=
- =?utf-8?B?d2ZaUisrdWxra2tONGdHVzVSa1BrWWY2TTF1Q1M0MmVIVUNWcEg0MVo5R1ZN?=
- =?utf-8?B?Slk2Z3g3c1V4Y21kOElhSzhTZ1JWOXQrM0RqZmNaMWtHOFZDMEwwWUFGMktQ?=
- =?utf-8?B?WHdKcHJ0S3JBQnJtbmh3Q0Rob2JWWnVYeEdQenovR3JGTjVTSjVvSjFDYkxW?=
- =?utf-8?B?WkR2QmJqYzhzVmx4ai9aZ1diOVlaTlRZZm52aEoxY1lkK2JJOFEyUDhpTGVl?=
- =?utf-8?B?YjBDYll6cmdkaEVzREdiSDBMMnlvV0JSN21QTnRQNlU0UEVUOWxSNy9kVUtB?=
- =?utf-8?B?bXlET2ZMWDFhZU1DUTEwcDREcThZMlBTeCt0ckNLbzBMVTl0b2JxYXRocWlt?=
- =?utf-8?B?UWRlWTdWTDEzTEFQZ2tuZXNUaGJjNklZUmN5ekJveEc1aERxbWR3cThGYWFT?=
- =?utf-8?B?N05RV0UyYWFWdHVTYldhSVFud25aa2RCTkFheXFKcUtPZWZ4U01GeXRkczd3?=
- =?utf-8?B?SUNWYVJPcDB2NmR2QmwzZjN6TXVHNzgwOGhNY0s1Qlo3YTBFeVUybmQ5N3kr?=
- =?utf-8?B?d3VGNlN4MW5OclVhL3FabjNtNDNaQmtjMWxUamhib3VDNXc3LzFEOWJRQXNo?=
- =?utf-8?B?bzNwc1pIR0ZvUVZXc1VsQ1FrTkN1MWtTS3d6cVUwSUg1ZmYrSjJOeWJabjlY?=
- =?utf-8?B?bEdmVVVqK08xMm8wcDdMT040V2ZENFgrTXJHYU9kMUlENFhRcGw0YWQ1S2g5?=
- =?utf-8?B?aG5VSEU4KzdaK0xCdCtXQ2ZyTWoxQXVRRENQYkVqTzJzTk1jcENVUUQxa2Zj?=
- =?utf-8?B?YWpNTHFERVZrWmlqWDVtSjBoZlhtV3VuTkpKVFQzcEJ2Qk1GVWN0bEhYQ3RO?=
- =?utf-8?B?eUQzMEVIWVJWdkhtV0dQZTFLeTVRbk12dWsvOUN4RXNPOWNUREllb1FrUWM2?=
- =?utf-8?B?eE5QSE9nR0I4MGpnMDdZcWFpc0VQMnA5OTlGSStwckI4UjA3TUJXajZMUzFy?=
- =?utf-8?B?YUQrWVFFdW4rSmFodjhKZTcyUGF1dyt5Ukprc084VXg0WlFNNWxyT1I4KzlO?=
- =?utf-8?B?SWZNc2s3Q25kNkROZk5qVXRENjFuRWNRZFNkdFAzRndiWmhqZHBoRzRUc1ht?=
- =?utf-8?B?OVg2MzVhT25tVWNHMEhFY1FnZmJ5a3A0WTF1b1VKcGE4eXRJeDliNEpUamxa?=
- =?utf-8?B?d1dYMkRpUVhSOUt1MUF2SVBVZzl5N0MwbktZWER2SjlPRWc3bS9JZDdINmxx?=
- =?utf-8?B?MWM1eG9ueDE0SENZcGhiM2pLR1FCZ3RCeFBIL0NTVVNuK3lMd0VKaHJSSkpM?=
- =?utf-8?B?eHJ2UDI0SVdHRFhOOElZdmFPQXFqTjhtUHE5dmJDTVZ4VHlJSk5pVEo2MlZi?=
- =?utf-8?B?dnVwYWQ1N0c3T2RWWVc1dDg5QldMcjVZQzZSVzFYd3BxcTB6a3dxcFp4UXZz?=
- =?utf-8?B?RjQ1N0dvV29FMmhRNTc3Zjl3NDdUMDMzeTFySXl3V0l4WkNOOWkrNnpjcEF1?=
- =?utf-8?B?ejV3OU9lUk9PViszZHU4aU0yaXBzOEgzN1R1Z0hVWWl1a1N2UHFlRHI5SVgy?=
- =?utf-8?B?ampzVnQrYUNaVDZseE9zN2hHcXNhdHdUNTdncDVxUG1YTWVTclIwZ2NBQy9y?=
- =?utf-8?Q?684GVbT+2EzWQ1R+PpaOKkRrA?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 242a5fe3-d631-4813-a35c-08de3820612c
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR17MB4876.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2025 19:14:45.5063
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 514876bd-5965-4b40-b0c8-e336cf72c743
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LfPSMYVsJcunXEWtFg90N9LRzIPVK0DimEfax00FZMRtXnzGTKnRvzL3ML+vj3CyYs3R3nkXjPMqi7ov6GN57A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR17MB7430
-X-OriginatorOrg: akamai.com
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-10_02,2025-12-09_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0 mlxscore=0
- spamscore=0 phishscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
- definitions=main-2512100156
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDE1NyBTYWx0ZWRfX61RTZskZR4dX
- o8uKDdUM8KCBnUYhH0drzFMs6mHmXAkNvhcdXeqzaTopEV/7nh8BWa1wA2F+QZ2XIJb1xZaW1tm
- Td/TGIho43cya/HazsAnS/g6xBnMd7+hQdYjI0TnAA8r3Dd97wmB+cHPLZEcuFOKC1Wd7wgNNkI
- tiIas2zBrQ8Ql3jyJGOHkd+c1oMlAKauQB/8rbZAJKR8RvXedgu5cMTZWhJIgjVMRzWwJ70zZaT
- dY0srafaC3145dvv7EDEkvgY7cZfWQ0ZKYgho9m5ZSeecvNDzPs54dPtSStjg/nl03Ti7vnUOR+
- +G8Dkvb21weYBiddb63T1udHIk7A/y57Czz4iCwtlosasFxyTf8/S6VdqRBeLTa0fA9AuK2XpM4
- Cy0LuOQnso6wjnDOqRXJC6TytOl/vQ==
-X-Proofpoint-GUID: Or_7Km1Byi20VEhd_wAOAhU1CL0-qeaD
-X-Proofpoint-ORIG-GUID: Or_7Km1Byi20VEhd_wAOAhU1CL0-qeaD
-X-Authority-Analysis: v=2.4 cv=Y5f1cxeN c=1 sm=1 tr=0 ts=6939c6a8 cx=c_pps
- a=YfDTZII5gR69fLX6qI1EXA==:117 a=YfDTZII5gR69fLX6qI1EXA==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=wP3pNCr1ah4A:10 a=g1y_e2JewP0A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=X7Ea-ya5AAAA:8 a=9eqoR-FqzWT41qJ7ulUA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-10_02,2025-12-09_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011
- malwarescore=0 suspectscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
- adultscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512100157
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251120151033.3840508-15-elver@google.com>
 
+On Thu, Nov 20, 2025 at 04:09:39PM +0100, Marco Elver wrote:
+> Improve the existing annotations to properly support Clang's context
+> analysis.
+> 
+> The old annotations distinguished between RCU, RCU_BH, and RCU_SCHED;
+> however, to more easily be able to express that "hold the RCU read lock"
+> without caring if the normal, _bh(), or _sched() variant was used we'd
+> have to remove the distinction of the latter variants: change the _bh()
+> and _sched() variants to also acquire "RCU".
+> 
+> When (and if) we introduce context guards to denote more generally that
+> "IRQ", "BH", "PREEMPT" contexts are disabled, it would make sense to
+> acquire these instead of RCU_BH and RCU_SCHED respectively.
+> 
+> The above change also simplified introducing __guarded_by support, where
+> only the "RCU" context guard needs to be held: introduce __rcu_guarded,
+> where Clang's context analysis warns if a pointer is dereferenced
+> without any of the RCU locks held, or updated without the appropriate
+> helpers.
+> 
+> The primitives rcu_assign_pointer() and friends are wrapped with
+> context_unsafe(), which enforces using them to update RCU-protected
+> pointers marked with __rcu_guarded.
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
 
+Good reminder!  I had lost track of this series.
 
-On 12/10/25 1:33 AM, jim.cromie@gmail.com wrote:
-> !-------------------------------------------------------------------|
->    This Message Is From an External Sender
->    This message came from outside your organization.
-> |-------------------------------------------------------------------!
-> 
-> On Wed, Dec 10, 2025 at 11:43 AM Jason Baron <jbaron@akamai.com> wrote:
->>
->> Hi Jim,
->>
->> Very minor nit below about the kernel-doc ordering for args...
->>
-> 
->>> +/*
->>> + * Walk the @_box->@_vec member, over @_vec.start[0..len], and find
->>> + * the contiguous subrange of elements matching on ->mod_name.  Copy
->>> + * the subrange into @_dst.  This depends on vars defd by caller.
->>> + *
->>> + * @_i:   caller provided counter var, init'd by macro
->>> + * @_sp:  cursor into @_vec.
->>> + * @_box: contains member named @_vec
->>> + * @_vec: member-name of a type with: .start .len fields.
->>> + * @_dst: an array-ref: to remember the module's subrange
->>> + */
->>
->> Not sure if the odering matters for the docs, but it makes it a bit
->> harder read when these don't go in order.
->>
->> Thanks,
->>
->> -Jason
->>
-> 
-> I chose that doc ordering for clarity,  the easy ones 1st,
-> and @dst last since it gets the subrange info.
-> I think reordering might mean more words trying to connect
-> the pieces, and with less clarity.
-> It does work against the macro arg ordering,
-> which places @dst near the front,
-> I did that to follow  LHS = RHS(...)   convention.
-> 
-> Im happy to swap it around if anyone thinks that convention
-> should supercede these reasons,
-> but Im in NZ on vacation right now,
-> and I forgot to pull the latest rev off my desktop before I left.
-> so I dont want to fiddle with the slightly older copy I have locally,
-> and then have to isolate and fix whatever is different.
-> 
-> the same applies to the Documentation tweaks that Bagas noted.
+My big questions here are:
 
-Couldn't you then re-order the function args to match the doc order instead?
+o	What about RCU readers using (say) preempt_disable() instead
+	of rcu_read_lock_sched()?
 
-Thanks,
+o	What about RCU readers using local_bh_disable() instead of
+	rcu_read_lock_sched()?
 
--Jason
+And keeping in mind that such readers might start in assembly language.
 
+One reasonable approach is to require such readers to use something like
+rcu_dereference_all() or rcu_dereference_all_check(), which could then
+have special dispensation to instead rely on run-time checks.
 
-> 
-> 
-> 
-> 
-> 
->>> +#define dd_mark_vector_subrange(_i, _dst, _sp, _box, _vec) ({                \
->>> +     typeof(_dst) __dst = (_dst);                                    \
->>> +     int __nc = 0;                                                   \
->>> +     for_subvec(_i, _sp, _box, _vec) {                               \
->>> +             if (!strcmp((_sp)->mod_name, (_dst)->mod_name)) {       \
->>> +                     if (!__nc++)                                    \
->>> +                             (__dst)->info._vec.start = (_sp);       \
->>> +             } else {                                                \
->>> +                     if (__nc)                                       \
->>> +                             break; /* end of consecutive matches */ \
->>> +             }                                                       \
->>> +     }                                                               \
->>> +     (__dst)->info._vec.len = __nc;                                  \
->>> +})
->>> +
->>>    /*
->>>     * Allocate a new ddebug_table for the given module
->>>     * and add it to the global list.
->>> @@ -1278,6 +1283,8 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug
->>>    static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
->>>    {
->>>        struct ddebug_table *dt;
->>> +     struct _ddebug_class_map *cm;
->>> +     int i;
->>>
->>>        if (!di->descs.len)
->>>                return 0;
->>> @@ -1300,6 +1307,8 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
->>>
->>>        INIT_LIST_HEAD(&dt->link);
->>>
->>> +     dd_mark_vector_subrange(i, dt, cm, di, maps);
->>> +
->>>        if (di->maps.len)
->>>                ddebug_attach_module_classes(dt, di);
->>>
->>
+Another more powerful approach would be to make this facility also
+track preemption, interrupt, NMI, and BH contexts.
 
+Either way could be a significant improvement over what we have now.
+
+Thoughts?
+
+							Thanx, Paul
+
+> ---
+> v3:
+> * Properly support reentrancy via new compiler support.
+> 
+> v2:
+> * Reword commit message and point out reentrancy caveat.
+> ---
+>  Documentation/dev-tools/context-analysis.rst |  2 +-
+>  include/linux/rcupdate.h                     | 77 ++++++++++++------
+>  lib/test_context-analysis.c                  | 85 ++++++++++++++++++++
+>  3 files changed, 139 insertions(+), 25 deletions(-)
+> 
+> diff --git a/Documentation/dev-tools/context-analysis.rst b/Documentation/dev-tools/context-analysis.rst
+> index a3d925ce2df4..05164804a92a 100644
+> --- a/Documentation/dev-tools/context-analysis.rst
+> +++ b/Documentation/dev-tools/context-analysis.rst
+> @@ -81,7 +81,7 @@ Supported Kernel Primitives
+>  
+>  Currently the following synchronization primitives are supported:
+>  `raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`, `seqlock_t`,
+> -`bit_spinlock`.
+> +`bit_spinlock`, RCU.
+>  
+>  For context guards with an initialization function (e.g., `spin_lock_init()`),
+>  calling this function before initializing any guarded members or globals
+> diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
+> index c5b30054cd01..5cddb9019a99 100644
+> --- a/include/linux/rcupdate.h
+> +++ b/include/linux/rcupdate.h
+> @@ -31,6 +31,16 @@
+>  #include <asm/processor.h>
+>  #include <linux/context_tracking_irq.h>
+>  
+> +token_context_guard(RCU, __reentrant_ctx_guard);
+> +token_context_guard_instance(RCU, RCU_SCHED);
+> +token_context_guard_instance(RCU, RCU_BH);
+> +
+> +/*
+> + * A convenience macro that can be used for RCU-protected globals or struct
+> + * members; adds type qualifier __rcu, and also enforces __guarded_by(RCU).
+> + */
+> +#define __rcu_guarded __rcu __guarded_by(RCU)
+> +
+>  #define ULONG_CMP_GE(a, b)	(ULONG_MAX / 2 >= (a) - (b))
+>  #define ULONG_CMP_LT(a, b)	(ULONG_MAX / 2 < (a) - (b))
+>  
+> @@ -425,7 +435,8 @@ static inline void rcu_preempt_sleep_check(void) { }
+>  
+>  // See RCU_LOCKDEP_WARN() for an explanation of the double call to
+>  // debug_lockdep_rcu_enabled().
+> -static inline bool lockdep_assert_rcu_helper(bool c)
+> +static inline bool lockdep_assert_rcu_helper(bool c, const struct __ctx_guard_RCU *ctx)
+> +	__assumes_shared_ctx_guard(RCU) __assumes_shared_ctx_guard(ctx)
+>  {
+>  	return debug_lockdep_rcu_enabled() &&
+>  	       (c || !rcu_is_watching() || !rcu_lockdep_current_cpu_online()) &&
+> @@ -438,7 +449,7 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>   * Splats if lockdep is enabled and there is no rcu_read_lock() in effect.
+>   */
+>  #define lockdep_assert_in_rcu_read_lock() \
+> -	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_lock_map)))
+> +	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_lock_map), RCU))
+>  
+>  /**
+>   * lockdep_assert_in_rcu_read_lock_bh - WARN if not protected by rcu_read_lock_bh()
+> @@ -448,7 +459,7 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>   * actual rcu_read_lock_bh() is required.
+>   */
+>  #define lockdep_assert_in_rcu_read_lock_bh() \
+> -	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_bh_lock_map)))
+> +	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_bh_lock_map), RCU_BH))
+>  
+>  /**
+>   * lockdep_assert_in_rcu_read_lock_sched - WARN if not protected by rcu_read_lock_sched()
+> @@ -458,7 +469,7 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>   * instead an actual rcu_read_lock_sched() is required.
+>   */
+>  #define lockdep_assert_in_rcu_read_lock_sched() \
+> -	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_sched_lock_map)))
+> +	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_sched_lock_map), RCU_SCHED))
+>  
+>  /**
+>   * lockdep_assert_in_rcu_reader - WARN if not within some type of RCU reader
+> @@ -476,17 +487,17 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>  	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_lock_map) &&			\
+>  					       !lock_is_held(&rcu_bh_lock_map) &&		\
+>  					       !lock_is_held(&rcu_sched_lock_map) &&		\
+> -					       preemptible()))
+> +					       preemptible(), RCU))
+>  
+>  #else /* #ifdef CONFIG_PROVE_RCU */
+>  
+>  #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+>  #define rcu_sleep_check() do { } while (0)
+>  
+> -#define lockdep_assert_in_rcu_read_lock() do { } while (0)
+> -#define lockdep_assert_in_rcu_read_lock_bh() do { } while (0)
+> -#define lockdep_assert_in_rcu_read_lock_sched() do { } while (0)
+> -#define lockdep_assert_in_rcu_reader() do { } while (0)
+> +#define lockdep_assert_in_rcu_read_lock() __assume_shared_ctx_guard(RCU)
+> +#define lockdep_assert_in_rcu_read_lock_bh() __assume_shared_ctx_guard(RCU_BH)
+> +#define lockdep_assert_in_rcu_read_lock_sched() __assume_shared_ctx_guard(RCU_SCHED)
+> +#define lockdep_assert_in_rcu_reader() __assume_shared_ctx_guard(RCU)
+>  
+>  #endif /* #else #ifdef CONFIG_PROVE_RCU */
+>  
+> @@ -506,11 +517,11 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>  #endif /* #else #ifdef __CHECKER__ */
+>  
+>  #define __unrcu_pointer(p, local)					\
+> -({									\
+> +context_unsafe(								\
+>  	typeof(*p) *local = (typeof(*p) *__force)(p);			\
+>  	rcu_check_sparse(p, __rcu);					\
+> -	((typeof(*p) __force __kernel *)(local)); 			\
+> -})
+> +	((typeof(*p) __force __kernel *)(local)) 			\
+> +)
+>  /**
+>   * unrcu_pointer - mark a pointer as not being RCU protected
+>   * @p: pointer needing to lose its __rcu property
+> @@ -586,7 +597,7 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>   * other macros that it invokes.
+>   */
+>  #define rcu_assign_pointer(p, v)					      \
+> -do {									      \
+> +context_unsafe(							      \
+>  	uintptr_t _r_a_p__v = (uintptr_t)(v);				      \
+>  	rcu_check_sparse(p, __rcu);					      \
+>  									      \
+> @@ -594,7 +605,7 @@ do {									      \
+>  		WRITE_ONCE((p), (typeof(p))(_r_a_p__v));		      \
+>  	else								      \
+>  		smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+> -} while (0)
+> +)
+>  
+>  /**
+>   * rcu_replace_pointer() - replace an RCU pointer, returning its old value
+> @@ -861,9 +872,10 @@ do {									      \
+>   * only when acquiring spinlocks that are subject to priority inheritance.
+>   */
+>  static __always_inline void rcu_read_lock(void)
+> +	__acquires_shared(RCU)
+>  {
+>  	__rcu_read_lock();
+> -	__acquire(RCU);
+> +	__acquire_shared(RCU);
+>  	rcu_lock_acquire(&rcu_lock_map);
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_lock() used illegally while idle");
+> @@ -891,11 +903,12 @@ static __always_inline void rcu_read_lock(void)
+>   * See rcu_read_lock() for more information.
+>   */
+>  static inline void rcu_read_unlock(void)
+> +	__releases_shared(RCU)
+>  {
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_unlock() used illegally while idle");
+>  	rcu_lock_release(&rcu_lock_map); /* Keep acq info for rls diags. */
+> -	__release(RCU);
+> +	__release_shared(RCU);
+>  	__rcu_read_unlock();
+>  }
+>  
+> @@ -914,9 +927,11 @@ static inline void rcu_read_unlock(void)
+>   * was invoked from some other task.
+>   */
+>  static inline void rcu_read_lock_bh(void)
+> +	__acquires_shared(RCU) __acquires_shared(RCU_BH)
+>  {
+>  	local_bh_disable();
+> -	__acquire(RCU_BH);
+> +	__acquire_shared(RCU);
+> +	__acquire_shared(RCU_BH);
+>  	rcu_lock_acquire(&rcu_bh_lock_map);
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_lock_bh() used illegally while idle");
+> @@ -928,11 +943,13 @@ static inline void rcu_read_lock_bh(void)
+>   * See rcu_read_lock_bh() for more information.
+>   */
+>  static inline void rcu_read_unlock_bh(void)
+> +	__releases_shared(RCU) __releases_shared(RCU_BH)
+>  {
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_unlock_bh() used illegally while idle");
+>  	rcu_lock_release(&rcu_bh_lock_map);
+> -	__release(RCU_BH);
+> +	__release_shared(RCU_BH);
+> +	__release_shared(RCU);
+>  	local_bh_enable();
+>  }
+>  
+> @@ -952,9 +969,11 @@ static inline void rcu_read_unlock_bh(void)
+>   * rcu_read_lock_sched() was invoked from an NMI handler.
+>   */
+>  static inline void rcu_read_lock_sched(void)
+> +	__acquires_shared(RCU) __acquires_shared(RCU_SCHED)
+>  {
+>  	preempt_disable();
+> -	__acquire(RCU_SCHED);
+> +	__acquire_shared(RCU);
+> +	__acquire_shared(RCU_SCHED);
+>  	rcu_lock_acquire(&rcu_sched_lock_map);
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_lock_sched() used illegally while idle");
+> @@ -962,9 +981,11 @@ static inline void rcu_read_lock_sched(void)
+>  
+>  /* Used by lockdep and tracing: cannot be traced, cannot call lockdep. */
+>  static inline notrace void rcu_read_lock_sched_notrace(void)
+> +	__acquires_shared(RCU) __acquires_shared(RCU_SCHED)
+>  {
+>  	preempt_disable_notrace();
+> -	__acquire(RCU_SCHED);
+> +	__acquire_shared(RCU);
+> +	__acquire_shared(RCU_SCHED);
+>  }
+>  
+>  /**
+> @@ -973,22 +994,27 @@ static inline notrace void rcu_read_lock_sched_notrace(void)
+>   * See rcu_read_lock_sched() for more information.
+>   */
+>  static inline void rcu_read_unlock_sched(void)
+> +	__releases_shared(RCU) __releases_shared(RCU_SCHED)
+>  {
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_unlock_sched() used illegally while idle");
+>  	rcu_lock_release(&rcu_sched_lock_map);
+> -	__release(RCU_SCHED);
+> +	__release_shared(RCU_SCHED);
+> +	__release_shared(RCU);
+>  	preempt_enable();
+>  }
+>  
+>  /* Used by lockdep and tracing: cannot be traced, cannot call lockdep. */
+>  static inline notrace void rcu_read_unlock_sched_notrace(void)
+> +	__releases_shared(RCU) __releases_shared(RCU_SCHED)
+>  {
+> -	__release(RCU_SCHED);
+> +	__release_shared(RCU_SCHED);
+> +	__release_shared(RCU);
+>  	preempt_enable_notrace();
+>  }
+>  
+>  static __always_inline void rcu_read_lock_dont_migrate(void)
+> +	__acquires_shared(RCU)
+>  {
+>  	if (IS_ENABLED(CONFIG_PREEMPT_RCU))
+>  		migrate_disable();
+> @@ -996,6 +1022,7 @@ static __always_inline void rcu_read_lock_dont_migrate(void)
+>  }
+>  
+>  static inline void rcu_read_unlock_migrate(void)
+> +	__releases_shared(RCU)
+>  {
+>  	rcu_read_unlock();
+>  	if (IS_ENABLED(CONFIG_PREEMPT_RCU))
+> @@ -1041,10 +1068,10 @@ static inline void rcu_read_unlock_migrate(void)
+>   * ordering guarantees for either the CPU or the compiler.
+>   */
+>  #define RCU_INIT_POINTER(p, v) \
+> -	do { \
+> +	context_unsafe( \
+>  		rcu_check_sparse(p, __rcu); \
+>  		WRITE_ONCE(p, RCU_INITIALIZER(v)); \
+> -	} while (0)
+> +	)
+>  
+>  /**
+>   * RCU_POINTER_INITIALIZER() - statically initialize an RCU protected pointer
+> @@ -1206,4 +1233,6 @@ DEFINE_LOCK_GUARD_0(rcu,
+>  	} while (0),
+>  	rcu_read_unlock())
+>  
+> +DECLARE_LOCK_GUARD_0_ATTRS(rcu, __acquires_shared(RCU), __releases_shared(RCU))
+> +
+>  #endif /* __LINUX_RCUPDATE_H */
+> diff --git a/lib/test_context-analysis.c b/lib/test_context-analysis.c
+> index 77e599a9281b..f18b7252646d 100644
+> --- a/lib/test_context-analysis.c
+> +++ b/lib/test_context-analysis.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/bit_spinlock.h>
+>  #include <linux/build_bug.h>
+>  #include <linux/mutex.h>
+> +#include <linux/rcupdate.h>
+>  #include <linux/seqlock.h>
+>  #include <linux/spinlock.h>
+>  
+> @@ -277,3 +278,87 @@ static void __used test_bit_spin_lock(struct test_bit_spinlock_data *d)
+>  		bit_spin_unlock(3, &d->bits);
+>  	}
+>  }
+> +
+> +/*
+> + * Test that we can mark a variable guarded by RCU, and we can dereference and
+> + * write to the pointer with RCU's primitives.
+> + */
+> +struct test_rcu_data {
+> +	long __rcu_guarded *data;
+> +};
+> +
+> +static void __used test_rcu_guarded_reader(struct test_rcu_data *d)
+> +{
+> +	rcu_read_lock();
+> +	(void)rcu_dereference(d->data);
+> +	rcu_read_unlock();
+> +
+> +	rcu_read_lock_bh();
+> +	(void)rcu_dereference(d->data);
+> +	rcu_read_unlock_bh();
+> +
+> +	rcu_read_lock_sched();
+> +	(void)rcu_dereference(d->data);
+> +	rcu_read_unlock_sched();
+> +}
+> +
+> +static void __used test_rcu_guard(struct test_rcu_data *d)
+> +{
+> +	guard(rcu)();
+> +	(void)rcu_dereference(d->data);
+> +}
+> +
+> +static void __used test_rcu_guarded_updater(struct test_rcu_data *d)
+> +{
+> +	rcu_assign_pointer(d->data, NULL);
+> +	RCU_INIT_POINTER(d->data, NULL);
+> +	(void)unrcu_pointer(d->data);
+> +}
+> +
+> +static void wants_rcu_held(void)	__must_hold_shared(RCU)       { }
+> +static void wants_rcu_held_bh(void)	__must_hold_shared(RCU_BH)    { }
+> +static void wants_rcu_held_sched(void)	__must_hold_shared(RCU_SCHED) { }
+> +
+> +static void __used test_rcu_lock_variants(void)
+> +{
+> +	rcu_read_lock();
+> +	wants_rcu_held();
+> +	rcu_read_unlock();
+> +
+> +	rcu_read_lock_bh();
+> +	wants_rcu_held_bh();
+> +	rcu_read_unlock_bh();
+> +
+> +	rcu_read_lock_sched();
+> +	wants_rcu_held_sched();
+> +	rcu_read_unlock_sched();
+> +}
+> +
+> +static void __used test_rcu_lock_reentrant(void)
+> +{
+> +	rcu_read_lock();
+> +	rcu_read_lock();
+> +	rcu_read_lock_bh();
+> +	rcu_read_lock_bh();
+> +	rcu_read_lock_sched();
+> +	rcu_read_lock_sched();
+> +
+> +	rcu_read_unlock_sched();
+> +	rcu_read_unlock_sched();
+> +	rcu_read_unlock_bh();
+> +	rcu_read_unlock_bh();
+> +	rcu_read_unlock();
+> +	rcu_read_unlock();
+> +}
+> +
+> +static void __used test_rcu_assert_variants(void)
+> +{
+> +	lockdep_assert_in_rcu_read_lock();
+> +	wants_rcu_held();
+> +
+> +	lockdep_assert_in_rcu_read_lock_bh();
+> +	wants_rcu_held_bh();
+> +
+> +	lockdep_assert_in_rcu_read_lock_sched();
+> +	wants_rcu_held_sched();
+> +}
+> -- 
+> 2.52.0.rc1.455.g30608eb744-goog
+> 
