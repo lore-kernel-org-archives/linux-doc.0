@@ -1,133 +1,120 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16801326D70
-	for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 20:24:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5B432824F
+	for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 21:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765398255; cv=none; b=p5nJVXXv2FZ7wx5NZPvh4qIjIm8U0VywDzw3gn/92m8FoeWdhhhpJ79DyYIU1wXkPtU3/xrLn1lmkI9flXFrCPadEq/j/SxkxS/JctuVSsLOBjngt48zIREBrCek46vaWlNeN9OSkyvaAeHwP6P0UACKEmP0uzD4ONo7omEHo64=
+	t=1765403072; cv=none; b=HSLprN29prAQCaAC2gvJHU1Ekd9e9+ytYK9uJudpomgwvrXU6uvCvKUR0ja5JULfBidZNTjzt5qpNmohs7ALvym8By+2qtgKkrOjY/c4Dx4wm7A26sFG+M8cIdvrLygNjxuezw97OVVKcq11X88GDqG4EmaoSpBDyfGFhBIhl64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765398255; c=relaxed/simple;
-	bh=qZSauzG0BQxKFnQ99YFS7kpsbt8dX9n5BdSFJ8Uce0M=;
+	s=arc-20240116; t=1765403072; c=relaxed/simple;
+	bh=d/HC52CeU5NBJ76yAQ2cLC78OiXrMD3IoC7o+lo4+Ek=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Az5DDSCzblnZg/Dse+R0C2B10xQN57NhzZopAl0iLiqWF7tGA6y/XRWjCBNOamfAN42FsxxRtxpTLFh3STD8dOeTGz6dZZZ/2zcXnckc7mj106yPTQRPPqBoEWEveA5LjDWeSvnNnn//LM5uU0FocI6gYajroHkFmmEooru3n4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N9OJp2Ej; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=MkPgBCEj; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tys3oPm1ZZZuHHiCuCUUfwrDm2xDZYALKXMjOze7S3XWewYMDGviFIQPLnxOj55U61zfPC1TQeyouO8zkhucUZhHdD3TE9MhPMtsVcl3XpThkdQiBjc5CZP3FezWmsUbrfx+1IHes6jjOZ9A+Ht6OVvLtWDfvDeYduUOC2b2BO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E+OWNnW9; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N9OJp2Ej";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="MkPgBCEj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1765398253;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KxnQ/iEQ1sK58mDVjsOZpAu/QgTIX6mC6WKI+mp0l1A=;
-	b=N9OJp2EjGOQNopngZILTcDRiGs7Dd5AXHq7dC8TtbGW6/Nze6RTuAgpYSbKYy3mpiCkEtJ
-	6AFGhhFhXCIHtM/Q4AWoh4P5UU5SmBG0e5ZI3ZWGsPaZ+jjIb/MXFCi5Tzr3hRUXxNnDA4
-	hMU1dAx0w0oEBGJ5AU8BVstQv6RyZtY=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-520-PiV4g324NTqSDMY1pvIBFQ-1; Wed, 10 Dec 2025 15:24:12 -0500
-X-MC-Unique: PiV4g324NTqSDMY1pvIBFQ-1
-X-Mimecast-MFC-AGG-ID: PiV4g324NTqSDMY1pvIBFQ_1765398251
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-8823c1345c0so3437286d6.2
-        for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 12:24:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E+OWNnW9"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477b198f4bcso2005385e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 13:44:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1765398251; x=1766003051; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1765403069; x=1766007869; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KxnQ/iEQ1sK58mDVjsOZpAu/QgTIX6mC6WKI+mp0l1A=;
-        b=MkPgBCEj5eEmztZqMJg9JwFCdl6+HVX4R9hJfsIyu0LE6mkKUxINQwAu1d/X1/PokH
-         D+YqcVYeQjdFCCW5+VeRnLfvvmBjnPa2eSn3iqdWpryiXVxPDyvnFwS3X5jQsvqMpO8E
-         H0VAO1Y7hp/tWTXX0hPaX8XBM49AKJC+2/6GbZQQvDvPBYviyKYsIzWtKt4NWRw+YCLE
-         NQ5EA+gHK7Ph9a9eD49norBLNomfOTLJw59Hd3ufeql3S2a86sTf2qVdcPYusc/EmB68
-         0EMspFn3JKRemgr3yRtL2AxV0P2wgNqHf/aKL3k9Fo31lpyoQT6y6GwOeUZEOyMhnfwK
-         GLJw==
+        bh=wal2enxY4moWZCAf4g26lvQIKnCzny5AtoBmuUAlL6E=;
+        b=E+OWNnW9E+Me9H+MkPgMwZaZyEJHWzxjGDNsXwyBp6/w5w40ncu08qqlSDZHZSpsWs
+         PMVk3sCaLwH7o3kgfUAJ5clSHKkjC4hZg1OL5ejVU3u8GRKng7l/8W0Dbdc2aHjXPxa2
+         oijug8WrHMhnuRXR9sUgW7CQC+Tx+qpZlM0ABUaz5XPnK0FJ/Ch06oq9LCLLuD7KUo0Z
+         nd5EB8FLoaZ4ljElsfT29GQF6G35ITW0bzZI0sdArq5ur5VHZTzYRaOp5+nt+qhCJrL5
+         CdRcEOWQLhG01IEev9XKvNppN7ntwwpyZCGqSar5OE0xu9v8EtFcyMu2magGCBKjGFa3
+         epDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765398251; x=1766003051;
+        d=1e100.net; s=20230601; t=1765403069; x=1766007869;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KxnQ/iEQ1sK58mDVjsOZpAu/QgTIX6mC6WKI+mp0l1A=;
-        b=cOPMcp55o6ZjAQywwSQWBcFodsnJsyhk951IgO5Xb/esup1tM3w+n2MFqvjiYZlaN6
-         NsDdou7ZhHPFEnFGvKP846qCbReDxcDOBuvj96OLQVgjExv1b3UCzhX3zeu8+ydLxQqJ
-         Ph5x4IxBiiyOLoapo6Jy0JzD/5BNIaKj865MwekfwFviJw5YNASpClmkGwMcz71If7bf
-         jh5v9tqKygVyBPcSdHL8Fxq8ZkJKoPnHgLQhtj/otwGMfoFRuOyWH4xf227MT9tlXhmi
-         1Wn9porlludHWBiK2+dhY3yBeWEhqrt0JzHStuPy57eLMjOBdCLSvv4H1FWpu/UhQA8u
-         AC9w==
-X-Forwarded-Encrypted: i=1; AJvYcCVB7KjbXdPy5Md0qOfGAh3dt0O9gc8C3vhdZ82k/r+VVq4It4rRt3R5y8hGPRa8DotYlzTOPpPkFpQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYHwzcdh9ZMy63TxtEfqWhtpWpM3NknTkoK5i+I0BLge1+LNT3
-	Ej1RiEWC0vI7JsiCBpHFkVf70OU3jaomoPZeReqKn20cPA/h37qwhj/3erHBuCIsC9jWHEvwlGq
-	nulbQsMiG9MvEYoVsSNgkiTJUKvZCOPiFoERQOweumPqBvUu+zLyRmakbl5bd8w==
-X-Gm-Gg: AY/fxX5E/tYabhorjgNl3tMjIPGy7Ez1jfgIBUbrG8VKTShgEqj1kV3J6uX6GL1LN9C
-	AN0zwMLLz4RoS7vUoH6o9Ny7cuOTqo7N5EsmAIf52LLddWuS54acEyv6kq29KvArIoh/FGEslmM
-	WhzVDk5Qs5okPIjsy2Ygg/gs+Mnm3VsH6fAf4aXhloOKkc8JtK1xMWMzuKCj0SaSzyVLnVzEVwx
-	BeLnWoY4eyNP5uXoF3ueGvAaSB5OG6TxO+4cVVT4ZtXS13lYDJuh3TcHIh7G+OB3oHViLT0uj+7
-	HLE8Dgu+k+KiLODEZM6HX6eU9fAE36pNYJwHIZU8tKjHS6YVL+HvdUlLNTVmyiMyMB5pk9nXFAf
-	P5Dk=
-X-Received: by 2002:a05:6214:768:b0:880:501f:5e8 with SMTP id 6a1803df08f44-88863a2ab3amr50896996d6.13.1765398251246;
-        Wed, 10 Dec 2025 12:24:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEp/TCjQkjo9IXEU5scwVWKecCDQSTmMb8hfAZZ6nq5cmvChNS/S1r8YuGRQNN9gNusvbUp7Q==
-X-Received: by 2002:a05:6214:768:b0:880:501f:5e8 with SMTP id 6a1803df08f44-88863a2ab3amr50896356d6.13.1765398250715;
-        Wed, 10 Dec 2025 12:24:10 -0800 (PST)
-Received: from x1.local ([142.188.210.156])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8886ef0d241sm5052596d6.42.2025.12.10.12.24.08
+        bh=wal2enxY4moWZCAf4g26lvQIKnCzny5AtoBmuUAlL6E=;
+        b=pyXhNNdqnC5qdrG7bmnFiEMuJ+x2Jz+dBgwshit/AONy6AOD8fhgwPh6s57yXrmqQd
+         +dWvqE4jdnvg1gSIgPjtPy3b3iZOJRzTUeOIyv/agOsQDl49i8dYFWgFfscs47x+Vhfg
+         tRd9B1jxMReklI/9oHWIZxBAX4C1hNvrQ4u4Y4V/liDZ4wO5cLYMtu7xvYdEqzbQW7Pm
+         bwkiJQll1Zs5YoEd+WRwy0kC+mlUe/vDHLFG19DGg5qtNNV0XY5QJuqqdg247oSs4MJc
+         5TDWzDl+VLf/9sVpdQlqNkXkBF6H0ZzwYDRl3IjAehCwZAZ7cqBLcekecbMGIKlUwTGt
+         VFuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZS7SI0h+QjaQqqwKKfxLrPQSLAj8nIHlyLtpU4hWO3mW71CemK6NuO1IMton7T+hCY2NM89kLQnk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytWM6fmP6yga/kUgOArlgoXlts2VL9HSFedO2KIm7sDxw2TODz
+	9WfM0LJwIPG8dyLkc/3iJlFVQJbfQCzdF4X5LKihgFWkl0t75lteash5DIcgG9s2
+X-Gm-Gg: AY/fxX5ESp7VQhlZ4GkWTnxciCbgqzIR6CZIjIFYDpzbQmV1uzpw8n+ie2Qhei+2BOA
+	bYAVbUTm0/UUg0nZzYfXEC+gFqPByOG5aU0jWNnHeQ4gSlJr4MfdOCjdz9cmSzg3NMrdGYMD/aC
+	DIng1jGItmvDCoyOy9ecGGP83eCXHxT3HUpKXfdUKqnVx1GL6BZoSt8Ekp7ogQ2NO2TEULZk8Xg
+	QQQIDgR5BeLCn0LbttsmZ2q/3Ldgs1UfamvYFN3yEAZSirTZUnbGbyTb3Hqr5SgnsK4k3hWMcA4
+	QVALIQjLbnscuEeQ/bZI78AExA+aY/+Nzvb2azg7mOk/LJq9snGNmeX1ah/7jX41Zrm5t8JklCq
+	OxSf2nIsPB0QaiDEygizbmloUc3R8x6IXSnEghSrCymF4UremEMH6h1M1zKeQPA09ReU3WNIyUD
+	l5Yehhox2zREH2zAcZG57JPFpHK2zbi/SgT4TKcZxurH1sv61rjPmGDA==
+X-Google-Smtp-Source: AGHT+IGKOyUSuHZubxgOrr5LFCQa+eHSu9NDBphfSYSTLin7Raqk84h/gD6t9Iw24mD+KXt1In9blg==
+X-Received: by 2002:a05:6000:400d:b0:42f:9f18:8f40 with SMTP id ffacd0b85a97d-42fa3b17789mr4674090f8f.42.1765403069044;
+        Wed, 10 Dec 2025 13:44:29 -0800 (PST)
+Received: from antoni-VivoBook-ASUSLaptop-X512FAY-K512FA ([37.163.92.240])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8a70973sm1338592f8f.18.2025.12.10.13.44.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 12:24:10 -0800 (PST)
-Date: Wed, 10 Dec 2025 15:24:08 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: kvm@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Jason Gunthorpe <jgg@nvidia.com>, Nico Pache <npache@redhat.com>,
-	Zi Yan <ziy@nvidia.com>, Alex Mastro <amastro@fb.com>,
-	David Hildenbrand <david@redhat.com>,
-	Alex Williamson <alex@shazbot.org>, Zhi Wang <zhiw@nvidia.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Yi Liu <yi.l.liu@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@kernel.org>
-Subject: Re: [PATCH v2 2/4] mm: Add file_operations.get_mapping_order()
-Message-ID: <aTnW6OorSRmn1SqI@x1.local>
-References: <20251204151003.171039-1-peterx@redhat.com>
- <20251204151003.171039-3-peterx@redhat.com>
- <aTGmkHsRSsnneW0G@x1.local>
- <aTaYtlTdhxKx2R24@casper.infradead.org>
+        Wed, 10 Dec 2025 13:44:28 -0800 (PST)
+Date: Wed, 10 Dec 2025 22:44:13 +0100
+From: Antoni Pokusinski <apokusinski01@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (sht3x) add support for SHT85
+Message-ID: <20251210214413.pyzke7etf7xfjf5t@antoni-VivoBook-ASUSLaptop-X512FAY-K512FA>
+References: <20251209175848.5739-1-apokusinski01@gmail.com>
+ <2683b84f-d7d1-4445-b5d3-bed393de34a0@roeck-us.net>
+ <d11e3cf6-3095-46df-a4f2-442d209675b1@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aTaYtlTdhxKx2R24@casper.infradead.org>
+In-Reply-To: <d11e3cf6-3095-46df-a4f2-442d209675b1@roeck-us.net>
 
-On Mon, Dec 08, 2025 at 09:21:58AM +0000, Matthew Wilcox wrote:
-> On Thu, Dec 04, 2025 at 10:19:44AM -0500, Peter Xu wrote:
-> > > Add one new file operation, get_mapping_order().  It can be used by file
-> > > backends to report mapping order hints.
+
+Hello Guenter,
+Thanks for the quick review
+
+On Tue, Dec 09, 2025 at 07:09:55PM -0800, Guenter Roeck wrote:
+> On 12/9/25 13:19, Guenter Roeck wrote:
+> > On 12/9/25 09:58, Antoni Pokusinski wrote:
+> > > SHT85 is a temperature and humidity sensor with an interface very
+> > > similar to SHT3x. However, it does not feature alerts (and therefore
+> > > limits).
+> > > 
+> > 
+> > The datasheet does suggest that the chip supports both temperature and
+> > humidity tracking alert status, which only makes sense if the chip
+> > supports alert limits. It does not support an alert _pin_, but that
+> > doesn't mean that it does not support limits. I'll want to see definite
+> > confirmation that the chip does not support the limit commands.
+> > 
 > 
-> This seems like a terrible idea.  I'll look at it after Plumbers.
+> Looking closer into the SHT85 datasheet, the sensor chip is actually a SHT35.
+> Given that, disabling limit attributes and alarms is neither necessary
+> nor acceptable. It isn't even necessary to add "sht85" to the device ID
+> table; sht3x works just fine. I don't mind if it is added, but it does
+> not need a new chip ID (at least until/unless interrupt support is added
+> to the driver).
+> 
+> Thanks,
+> Guenter
+> 
+I've just tested the SHT85 sensor with the non-modified sht3x driver and
+the limits and alerts work fine indeed. I was a bit confused by the SHT85
+datasheet which does not explicitly mention the limit commands, that's
+why I excluded them in the patch, sorry for the confusion.
 
-Sure, no rush, please feel free to go through discussion in v1 when it
-comes, that's where we landed to this API based on suggestions from Jason.
+I guess I could simply add {"sht85", sht3x} entry to the i2c_device_id[],
+this would also indicate clearly that sht85 is supported by this driver.
 
-I'm open to other suggestions.
-
--- 
-Peter Xu
+Kind regards,
+Antoni
 
