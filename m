@@ -1,149 +1,152 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF07A188713
-	for <linux-doc@vger.kernel.org>; Tue,  9 Dec 2025 23:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A511F4611
+	for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 03:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765322259; cv=none; b=Pp+Ajem6CJkpUcXuEoUAbDHy4Ck25Cxhq5WawvT5lYhmyukTdc2DRHrQgI7AsilKgauX34YKkQp95QnVeUV7FBMa/BhdKbS1/zrORUEQc5k5LLUtG2Bjq+piLyQ79uqFR179ScjIzo36EMPfW4I2LLlog+jCeDgvrb4BeGmmZtI=
+	t=1765336200; cv=none; b=mQLq2dkGxbgWZOnJoVk12VfA2LUpVWpJeb+h+54H8iEzjB4TtE4RYeDlVR7KEBgHINm1l67Kz/PsqjLKgYOYnSf6VqNI3O6Y+xav5piIIN7xZk0L3rxAvRQ94SUHfuUvVza843fWpC0Op+J1yrKvcOeR17fndzigwPKFvv1MR24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765322259; c=relaxed/simple;
-	bh=wWd6wSwMhOMuipxv36uW00FN/ESfsfiOt8d2sfKRp1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HtdtbXYamonSi8VIbkoL0mEJkRGpJR/VG1MYaplF08GGMk8Oz7Kh17gGM1bsOUhrVm0Fi90TLttyEXL6kPDikmg5t7lN7J3nv1vy96AuGIBAjfFjv8Qkpc2Fq14qASx02bitJTitGIVpg4CS/TNUHYPzmtehInxbriilAe/YgtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LD1W+Sh2; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1765336200; c=relaxed/simple;
+	bh=B7aH2XS4PZlfh5XVPoWygQZkq+3MH42NPTAX5DhxH0E=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=oV5mnHfoLCINHF1I9mSGsZHho0nzN4lX1IAl0viJy4jReKddEEKJhBJipNjuQ1whQyD0/gQuQ2ThwkzuYUQEdKdvlA7f+ShejKyom27QLpnwQKjWKX2jaO8+866s42rS44bwNObVdin7tK2bPFcHy2zXjY0y9nqB7tTS+Qc+cGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kNqXwdfA; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LD1W+Sh2"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34381ec9197so5360802a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 15:17:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kNqXwdfA"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7aad4823079so5717880b3a.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Dec 2025 19:09:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765322257; x=1765927057; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=p9drX+cQxeN7s6gqh5PKY7+ebi06ISr5dRrfD4+O53E=;
-        b=LD1W+Sh2JVQmuokw+1+nu5M2b1Tdh0/kjfonFGDiARPCgIDFwjB2sc9AzOJBf6s32F
-         /Mg0QJ1KSm+yicNYDlgAOzTPCNKVvPq/JzEBSSRJ2EzHIpxWoi4AuBdu7toKHXgbB/kF
-         oO4wYnx+DHyB7YjIrQZvXUzxi6gPJUw2Imble+aKkQPe97ATmIzt/clLoVNl1q274MPn
-         G6VC6IDpScZuWAVMC3AxE176/aVUoctrglmAr4kgzn/Os7SOaNvVVZW3oI9rHYDe04LX
-         f5In6Q+ShytWLhjBt+C9ggRSO+T9sdu76qXOKURg8d8cz9k4zmFkWXogSz+jbrVMx01H
-         TLoQ==
+        d=gmail.com; s=20230601; t=1765336198; x=1765940998; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=ianbKooz34rImOXdwQjx9kgMyehj7gRaIoesBFCgQaQ=;
+        b=kNqXwdfAO4qG/hA6UwlV6JErRlgUO3FDSWTWQRjroYeTvd9LOZNxkKHpmitTSUkgt2
+         3qT9K4WEkJvnmCq+Y9vg9Eujho4x3z4NIUgwacZlhiIQ/qQQ+M4XE9iF+xfrTCCBYttA
+         CA+lI1RFL5xpr2JcUyHVN5TPcg5ZtWYPSynooVhZWMU41Nl/2wPSPEI3FaqKt3bwxyCY
+         DivDLmJYTKuczhOMDxKkAn/7UvzQHm4NPPJg5cBYPUxS56glhVKWhc6HgmFB3RqlI40X
+         bVJjUQrbJc9GoFZia28LnQ3wnxa5UuAjd4vWc6PrI6SZPjkHcLVVwty5vSy5wmkocJ+A
+         Vw5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765322257; x=1765927057;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p9drX+cQxeN7s6gqh5PKY7+ebi06ISr5dRrfD4+O53E=;
-        b=juG4QNnX5HU+lVo0T5FdU7psWcci4fwSCX9F4NKZpq0Thkzsoc94DKKi6A+2gVBdY0
-         B2cCGt95cysG7A99S65PPFr5OnrPlZ/BEr4MdIoLM6SQC/VAUpbzRJJ6Hr/VIgTgzIaa
-         Y5oB6ouXa7PCw8i88xybQ04S0/2n4AiGJrV2/Potz4Ijg7Hh0NDpTtall8melXuempmk
-         aH41rpM32BuRrCrtvTeSgXjIZaw/x2Bm67dFYw1doMvE2S7LPZis+O6mkxcKaha4OkTJ
-         oCwepeL4ubEY3QTn37mo8nI2bVPC4vnbhYKwVj7PpQXyzE2diSyYYEyqQtCWeuEhAedE
-         LAvA==
-X-Forwarded-Encrypted: i=1; AJvYcCUzK5AtLTueQXLK3fQa3dlQOlr1+D+Ya3oMNgZ1QaPraj0CTy2ppodQ609YhNC2ZU3rGryeQKputUI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5uSOfivx79SbDOic5ucdm2kNvtmw7ucBNpimsuBQO4d38pgPi
-	vhXKJaZGJMbt87+VU/69Y+TlW1y3PubYpDxnfeWkP10z0Sor9WIssWDS
-X-Gm-Gg: AY/fxX6WhYzjy5bvnRKwb2aodcg66bMqtQxstbl6oWjsUErVFJn+AdLHEJ7ab27Kqbg
-	qURcaBTtNwPdt05T9Fx6abEE3XdFIMp/HjqgFAW5Gm8ybw826ogbFNBEruGbtxy7TTaT9uquvsU
-	0nC3FPurCRGT/yTR/48kTghxQ6ZMts93E5W7O+MSbGJ10RdlCTBcnn8tXXsdDSW90rwl4SVR67Z
-	juDgkr7qOnHKI25N/N8gbidAWmyegHAx2iF+hKWkWDvhwbZErwulRj/e9TfdgPmRyf90ePoJKNt
-	0T8y7WRfmj+6Gv707d8/A1EKXWzxxmGxo0x+22Sgff/M2d0hpC91XUyDX7ZiPAOyVGLGEJyafs2
-	t/CU1bKlfDyOYeU+tHf/mnDO4tuzzBu+48A0orNzcyOsvUpjcQ3rt5Pwfs60s4i+K/9J7grbHkq
-	yLfvz2bsLJjYQ=
-X-Google-Smtp-Source: AGHT+IHKGYt3C2bg1vfaEXUAh0LaDPX9AX0z5x0OeYSPiW2A4Nbm4zQwOlrSf02DQyS/BrNAlYGfuQ==
-X-Received: by 2002:a17:90b:1fc4:b0:32d:e07f:3236 with SMTP id 98e67ed59e1d1-34a728a7fe5mr324152a91.22.1765322256927;
-        Tue, 09 Dec 2025 15:17:36 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae49c358sm162513695ad.5.2025.12.09.15.17.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 15:17:35 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 1DFFF4218609; Wed, 10 Dec 2025 06:17:33 +0700 (WIB)
-Date: Wed, 10 Dec 2025 06:17:32 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
-	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-Cc: bp@alien8.de, corbet@lwn.net, dave.hansen@linux.intel.com,
-	david.hunter.linux@gmail.com, hpa@zytor.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mingo@redhat.com, skhan@linuxfoundation.org, tglx@linutronix.de,
-	x86@kernel.org
-Subject: Re: [PATCH v2] Documentation: x86/boot: Fix malformed table in
- boot.rst
-Message-ID: <aTiuDARL_NKWcnh8@archie.me>
-References: <20251208210113.24057-1-swarajgaikwad1925@gmail.com>
- <20251209085330.9124-1-swarajgaikwad1925@gmail.com>
- <aTfjlAKBNeX6my4g@gmail.com>
- <a0a141d8-7e22-45ba-9bc2-74a3f0285cac@infradead.org>
- <438a873c-0ca8-43cf-b705-e224d5c57d05@infradead.org>
+        d=1e100.net; s=20230601; t=1765336198; x=1765940998;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ianbKooz34rImOXdwQjx9kgMyehj7gRaIoesBFCgQaQ=;
+        b=wcrf/kQkCrRoo/A7kx2hs7Geu+DGjwO4i2WloCCj1xp0/+rCi3PdADuvvxVCNkiS8u
+         1K/F7hYMh5wjlfiW63+d6BVPkj6dGn3nWL7shy239QXTUv5yBMaloMAbdwlqYFWXFtoq
+         SO43oyZ0AIk6/xcSsOMZIISYrq4SJoldjMNupkb/3cVpMpVOqwY74fXtlETXz3upajj6
+         6evc4MFheTEJtjDFwOrkQ/EbIu6tSvjtSYNYSiEqqbI4CNhidBoahNO0bujsdt+ZXiKj
+         XzlxoDzRPNoBG5GNqnOkBKar1Q7sp4F7aEudcR/rvGUbXyQwwJMhxBJQK0jKEY+LLil2
+         6onA==
+X-Forwarded-Encrypted: i=1; AJvYcCX74N7H/zRHCGGewtsqhMU9AI8ikddaaQyNAxudMWIwyRHBNPXovNDAC2R1fFwIs2X9p/VXyWrGo3I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhZzEFufWCbXvZ6QdTgw5GgYArf1Dv/19rsuaVZV9rhB9TiyNx
+	iwAevsLO8vU/cJx8YEr2N7+jmTw0C6D5lcoW17OKth9z0DrVE/9Kd69z
+X-Gm-Gg: ASbGncvjPKFek4P6AHZzh8+1EpmrOgQvhriPkLFqsJdZC4IyRiLhgvVGrixK+pyBEYX
+	aTrBYdIiBX91ZP/XBhbcg4kH4gUb0LOud8Vtd9xGMaWKSzvxCCtmgNrtc8j2nRqZX7P7O8yMN7N
+	Jg/CYyn0Y4VJz75IlUSSWmzQy/QhPyhsSbwDnSKkEiXK0i2MB2Rr/Z3a66TZoIlY1tKzQLZRFOB
+	bj3CLj8Dy0IdZb100nquMARmYWcDQr7kResxY1Mo/FFqWX9Q8vljpiROq5BKdtduRE/kPCeHKMj
+	FQC9HeT5C5l5DEqGmH4aIYA4QVL9goP3q25SULtNkIXxzC+JJbxNeI3awMuPP7q5M4fowZK/6yv
+	B+FdN8DLHGiFrBYoAC1EMu6gsGq8fm78uyGha8J9CsxzPavW5BdQXUbVXtdbOwlhSiqTjtgIiqo
+	V9vWKiEqNrrMgwdxIb1qathWscsIR676+mFUlXRZogeWmi+8wIrOAjl/lhX7Y=
+X-Google-Smtp-Source: AGHT+IHykLpwfP6+3LLZJ3743iE3q+tLbmWerWQYn3jraVb76jVa2FrQgMksBu+LhfQZgrjTiE0yAg==
+X-Received: by 2002:a05:7022:69a1:b0:11b:923d:773f with SMTP id a92af1059eb24-11f296467femr842042c88.5.1765336197669;
+        Tue, 09 Dec 2025 19:09:57 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f283d46f1sm5144308c88.16.2025.12.09.19.09.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Dec 2025 19:09:56 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <d11e3cf6-3095-46df-a4f2-442d209675b1@roeck-us.net>
+Date: Tue, 9 Dec 2025 19:09:55 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="461yd5ESX/+Hbsqd"
-Content-Disposition: inline
-In-Reply-To: <438a873c-0ca8-43cf-b705-e224d5c57d05@infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] hwmon: (sht3x) add support for SHT85
+From: Guenter Roeck <linux@roeck-us.net>
+To: Antoni Pokusinski <apokusinski01@gmail.com>, jdelvare@suse.com,
+ corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251209175848.5739-1-apokusinski01@gmail.com>
+ <2683b84f-d7d1-4445-b5d3-bed393de34a0@roeck-us.net>
+Content-Language: en-US
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <2683b84f-d7d1-4445-b5d3-bed393de34a0@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 12/9/25 13:19, Guenter Roeck wrote:
+> On 12/9/25 09:58, Antoni Pokusinski wrote:
+>> SHT85 is a temperature and humidity sensor with an interface very
+>> similar to SHT3x. However, it does not feature alerts (and therefore
+>> limits).
+>>
+> 
+> The datasheet does suggest that the chip supports both temperature and
+> humidity tracking alert status, which only makes sense if the chip
+> supports alert limits. It does not support an alert _pin_, but that
+> doesn't mean that it does not support limits. I'll want to see definite
+> confirmation that the chip does not support the limit commands.
+> 
 
---461yd5ESX/+Hbsqd
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Looking closer into the SHT85 datasheet, the sensor chip is actually a SHT35.
+Given that, disabling limit attributes and alarms is neither necessary
+nor acceptable. It isn't even necessary to add "sht85" to the device ID
+table; sht3x works just fine. I don't mind if it is added, but it does
+not need a new chip ID (at least until/unless interrupt support is added
+to the driver).
 
-On Tue, Dec 09, 2025 at 01:10:41PM -0800, Randy Dunlap wrote:
-> FWIW, I would have done it like this:
->=20
-> ---
->  Documentation/arch/x86/boot.rst |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> --- linux-next-20251205.orig/Documentation/arch/x86/boot.rst
-> +++ linux-next-20251205/Documentation/arch/x86/boot.rst
-> @@ -433,7 +433,7 @@ Protocol:	2.00+
-> =20
->    Assigned boot loader IDs:
-> =20
-> -	=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +	=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  	0x0  LILO
->  	     (0x00 reserved for pre-2.00 bootloader)
->  	0x1  Loadlin
-> @@ -456,7 +456,7 @@ Protocol:	2.00+
->  	     <http://sebastian-plotz.blogspot.de>
->  	0x12 OVMF UEFI virtualization stack
->  	0x13 barebox
-> -	=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +	=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
->    Please contact <hpa@zytor.com> if you need a bootloader ID value assig=
-ned.
-> =20
->=20
+Thanks,
+Guenter
 
-That one looks nicer.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---461yd5ESX/+Hbsqd
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaTiuCAAKCRD2uYlJVVFO
-o60QAP0ekT6S7A1o5Fgb1uR4+n8KePY48+lM+5tTfVRuO6XCfwD6AySTNdH9PDaZ
-OhRf6yM/QoCTvSuHVtraYlU629gt1go=
-=hNN0
------END PGP SIGNATURE-----
-
---461yd5ESX/+Hbsqd--
