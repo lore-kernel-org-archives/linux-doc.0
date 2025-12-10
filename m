@@ -1,120 +1,188 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5B432824F
-	for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 21:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593EF32BF2F
+	for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 21:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765403072; cv=none; b=HSLprN29prAQCaAC2gvJHU1Ekd9e9+ytYK9uJudpomgwvrXU6uvCvKUR0ja5JULfBidZNTjzt5qpNmohs7ALvym8By+2qtgKkrOjY/c4Dx4wm7A26sFG+M8cIdvrLygNjxuezw97OVVKcq11X88GDqG4EmaoSpBDyfGFhBIhl64=
+	t=1765403452; cv=none; b=cSOODPbPFDHUrznbBOWyt1X2IuL7Uc7NdCDVbFeSrqEL2TYPdsTdw6O+1YFoID7xkswT3yc7CUMyRvpVdbg93Lh5DLYBoejdq0uKD5Sw2dcWH0lR5LiLG4NYn5vyhy0+zgGOcpXWwhI534DYh5RXqAKSaoZiSYKCX8x+uAq9kHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765403072; c=relaxed/simple;
-	bh=d/HC52CeU5NBJ76yAQ2cLC78OiXrMD3IoC7o+lo4+Ek=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tys3oPm1ZZZuHHiCuCUUfwrDm2xDZYALKXMjOze7S3XWewYMDGviFIQPLnxOj55U61zfPC1TQeyouO8zkhucUZhHdD3TE9MhPMtsVcl3XpThkdQiBjc5CZP3FezWmsUbrfx+1IHes6jjOZ9A+Ht6OVvLtWDfvDeYduUOC2b2BO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E+OWNnW9; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765403452; c=relaxed/simple;
+	bh=eg7NOYB72vuAjlC7Jtq7lDutOvbdb3fL5OXCKTdJXIM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u86Q9LzJzePATLfJ0mnj3i9EvjD+VIcO6FJOlNAADmW/1PgqwIexmwHv/w+ca9kfUxUFGND4HIZh3ftyoxz+UOvlWpBz0z4gPv21syUl35721l7tTgWck4bZghF2f5UmMMEU58exeko5Y2varfdL8whbCGXwaIRURRpih02jxCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dUHOtY4k; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E+OWNnW9"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477b198f4bcso2005385e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 13:44:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dUHOtY4k"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-29845b06dd2so4012065ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 13:50:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765403069; x=1766007869; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wal2enxY4moWZCAf4g26lvQIKnCzny5AtoBmuUAlL6E=;
-        b=E+OWNnW9E+Me9H+MkPgMwZaZyEJHWzxjGDNsXwyBp6/w5w40ncu08qqlSDZHZSpsWs
-         PMVk3sCaLwH7o3kgfUAJ5clSHKkjC4hZg1OL5ejVU3u8GRKng7l/8W0Dbdc2aHjXPxa2
-         oijug8WrHMhnuRXR9sUgW7CQC+Tx+qpZlM0ABUaz5XPnK0FJ/Ch06oq9LCLLuD7KUo0Z
-         nd5EB8FLoaZ4ljElsfT29GQF6G35ITW0bzZI0sdArq5ur5VHZTzYRaOp5+nt+qhCJrL5
-         CdRcEOWQLhG01IEev9XKvNppN7ntwwpyZCGqSar5OE0xu9v8EtFcyMu2magGCBKjGFa3
-         epDg==
+        d=google.com; s=20230601; t=1765403449; x=1766008249; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KCsZw6r2H+GxT2oqUVKFZFncfDO2e0BQEMkV3Qsj/LU=;
+        b=dUHOtY4kxbBK0+4hWVsxXHJyng7jxHj0D4Wbbmrdq2zYzMswkoHc69Pn1qWwjMYAp3
+         FSFfSeVLLls8wIqABKVVbENABvkkG78+TUJjkhtZXAxnaz/gv38wQqJqRKWEoc9pEd/J
+         y/no19GRG/WkXsFnVVIu9Qpcs9w4R+RvugDc2J1gCmgJYI7ZGgGdL3G9uq7L/Qmn5vXh
+         VZwiSD9HiikdDmil4H9xTtMvPWb4DWS1TK37Ccc4K3uJwg6avS1I/+xrq3ZdE8mWvLkz
+         Xwf7P9e/ZhVI72dKIKLylu9OEceJQQeDjg51Ivw1OROJlQBKL6daI38s3NucG4G3KCPA
+         JD7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765403069; x=1766007869;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wal2enxY4moWZCAf4g26lvQIKnCzny5AtoBmuUAlL6E=;
-        b=pyXhNNdqnC5qdrG7bmnFiEMuJ+x2Jz+dBgwshit/AONy6AOD8fhgwPh6s57yXrmqQd
-         +dWvqE4jdnvg1gSIgPjtPy3b3iZOJRzTUeOIyv/agOsQDl49i8dYFWgFfscs47x+Vhfg
-         tRd9B1jxMReklI/9oHWIZxBAX4C1hNvrQ4u4Y4V/liDZ4wO5cLYMtu7xvYdEqzbQW7Pm
-         bwkiJQll1Zs5YoEd+WRwy0kC+mlUe/vDHLFG19DGg5qtNNV0XY5QJuqqdg247oSs4MJc
-         5TDWzDl+VLf/9sVpdQlqNkXkBF6H0ZzwYDRl3IjAehCwZAZ7cqBLcekecbMGIKlUwTGt
-         VFuw==
-X-Forwarded-Encrypted: i=1; AJvYcCWZS7SI0h+QjaQqqwKKfxLrPQSLAj8nIHlyLtpU4hWO3mW71CemK6NuO1IMton7T+hCY2NM89kLQnk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytWM6fmP6yga/kUgOArlgoXlts2VL9HSFedO2KIm7sDxw2TODz
-	9WfM0LJwIPG8dyLkc/3iJlFVQJbfQCzdF4X5LKihgFWkl0t75lteash5DIcgG9s2
-X-Gm-Gg: AY/fxX5ESp7VQhlZ4GkWTnxciCbgqzIR6CZIjIFYDpzbQmV1uzpw8n+ie2Qhei+2BOA
-	bYAVbUTm0/UUg0nZzYfXEC+gFqPByOG5aU0jWNnHeQ4gSlJr4MfdOCjdz9cmSzg3NMrdGYMD/aC
-	DIng1jGItmvDCoyOy9ecGGP83eCXHxT3HUpKXfdUKqnVx1GL6BZoSt8Ekp7ogQ2NO2TEULZk8Xg
-	QQQIDgR5BeLCn0LbttsmZ2q/3Ldgs1UfamvYFN3yEAZSirTZUnbGbyTb3Hqr5SgnsK4k3hWMcA4
-	QVALIQjLbnscuEeQ/bZI78AExA+aY/+Nzvb2azg7mOk/LJq9snGNmeX1ah/7jX41Zrm5t8JklCq
-	OxSf2nIsPB0QaiDEygizbmloUc3R8x6IXSnEghSrCymF4UremEMH6h1M1zKeQPA09ReU3WNIyUD
-	l5Yehhox2zREH2zAcZG57JPFpHK2zbi/SgT4TKcZxurH1sv61rjPmGDA==
-X-Google-Smtp-Source: AGHT+IGKOyUSuHZubxgOrr5LFCQa+eHSu9NDBphfSYSTLin7Raqk84h/gD6t9Iw24mD+KXt1In9blg==
-X-Received: by 2002:a05:6000:400d:b0:42f:9f18:8f40 with SMTP id ffacd0b85a97d-42fa3b17789mr4674090f8f.42.1765403069044;
-        Wed, 10 Dec 2025 13:44:29 -0800 (PST)
-Received: from antoni-VivoBook-ASUSLaptop-X512FAY-K512FA ([37.163.92.240])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8a70973sm1338592f8f.18.2025.12.10.13.44.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 13:44:28 -0800 (PST)
-Date: Wed, 10 Dec 2025 22:44:13 +0100
-From: Antoni Pokusinski <apokusinski01@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (sht3x) add support for SHT85
-Message-ID: <20251210214413.pyzke7etf7xfjf5t@antoni-VivoBook-ASUSLaptop-X512FAY-K512FA>
-References: <20251209175848.5739-1-apokusinski01@gmail.com>
- <2683b84f-d7d1-4445-b5d3-bed393de34a0@roeck-us.net>
- <d11e3cf6-3095-46df-a4f2-442d209675b1@roeck-us.net>
+        d=1e100.net; s=20230601; t=1765403449; x=1766008249;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KCsZw6r2H+GxT2oqUVKFZFncfDO2e0BQEMkV3Qsj/LU=;
+        b=eERvsNYwQOWodOXhaOf+sAXg+QvXHwy+dlQ2VzprLpT3wbfuWRcxarEh2Hus/ad+48
+         fRpbDVPhupq0mofImMztCrZfr/5jUWG/dLTMSOkaLuGDI+nvl/1kGUS6BPAGo/gs8mo5
+         s9ZCDp7SjahltJGNhv3m3439oDi9jHnUdT63KnN8tsgN5Wk0C5UsTacDs8QTbejIgshO
+         rYQ0M6i+mhjOQSE0rNncppex7RB77dk6+mtAD6f0mtghdn73n68bk+zpl12U7GuMaS6y
+         E8ToNCJPHVQmxS2BdO1m4gxfZ6vvlC8Hc3wqynLcYLfvsm5lH9lQ9fFnsktfUlEhJ7ne
+         6Xgg==
+X-Forwarded-Encrypted: i=1; AJvYcCVnwZdOosdtE8I5dbMKv4vz8wCI9cVQylTf0ReZIp+TzKKSfr9m1qEVFYs2Yn1hdcKiOqPT6Bxcxy4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3tdSm875IQH5lDrovxAEcniRah0FV1WMVE1JLfgtU6Gl7Tt7s
+	JUv6OxM190GZV46pEcYmn4j+z2OObr/jheMlcwQHdmYt1xLEmSdkrUXZ5RKoUguiimiitIm4txv
+	3L7w3qKs1S4CWlCbPChlcbPsrJKQRZhdbsMC9TUk6
+X-Gm-Gg: ASbGncvxWOKjuNdi99RnzSS88Wgv6hEXuLsZfxQpx4BuJourTqE+Dnef+CIRwL63N3o
+	4iaNw8oWgdgVkQfUBPJA+p+X4siXnhSlI3Gj8oz05FCsxDuXvu3om1SB0DQ7eJ1FcSQQZ92MwD2
+	AohNy/51R/SkJzoP6ygA/3jO1ZVtNKQgD7bxmGtcLdkDkeBZJPmrpvcZF94NJAnPc897GXubrsT
+	i9h/iuGIXqUyPSObW837czAMx9A2rJ/j0nPOjuXh1Aj3OvGrs/v+XLZPjDHO2iQ4uAzc33aIWGv
+	d67v68dnwK6qjnyYmd3iE+H0MFY=
+X-Google-Smtp-Source: AGHT+IHcqqK/RTKOSxZWEANFuU3c8u73aLDpG+WRToaBe7OD17Ln70WBODyf5Ae5mb8izrjo+C8lI0krQmOvZa0lPLM=
+X-Received: by 2002:a05:7022:b9c:b0:11e:1bc:bd9c with SMTP id
+ a92af1059eb24-11f296cbd83mr2505193c88.28.1765403448696; Wed, 10 Dec 2025
+ 13:50:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d11e3cf6-3095-46df-a4f2-442d209675b1@roeck-us.net>
+References: <20251120145835.3833031-2-elver@google.com> <20251120151033.3840508-7-elver@google.com>
+ <20251120151033.3840508-15-elver@google.com> <98453e19-7df2-43cb-8f05-87632f360028@paulmck-laptop>
+In-Reply-To: <98453e19-7df2-43cb-8f05-87632f360028@paulmck-laptop>
+From: Marco Elver <elver@google.com>
+Date: Wed, 10 Dec 2025 22:50:11 +0100
+X-Gm-Features: AQt7F2rgWALnmd_GDAhG6zPIDGFcnPDoNGOr0zzF94TJ0iWpe4L1lGnI4olCNso
+Message-ID: <CANpmjNNsR_+Mx=H6+4zxJHwpRuM7vKUakS8X+edBD521=w4y_g@mail.gmail.com>
+Subject: Re: [PATCH v4 14/35] rcu: Support Clang's context analysis
+To: paulmck@kernel.org
+Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+	Chris Li <sparse@chrisli.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>, 
+	Eric Dumazet <edumazet@google.com>, Frederic Weisbecker <frederic@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, Johannes Berg <johannes.berg@intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, 10 Dec 2025 at 20:30, Paul E. McKenney <paulmck@kernel.org> wrote:
+> On Thu, Nov 20, 2025 at 04:09:39PM +0100, Marco Elver wrote:
+> > Improve the existing annotations to properly support Clang's context
+> > analysis.
+> >
+> > The old annotations distinguished between RCU, RCU_BH, and RCU_SCHED;
+> > however, to more easily be able to express that "hold the RCU read lock"
+> > without caring if the normal, _bh(), or _sched() variant was used we'd
+> > have to remove the distinction of the latter variants: change the _bh()
+> > and _sched() variants to also acquire "RCU".
+> >
+> > When (and if) we introduce context guards to denote more generally that
+> > "IRQ", "BH", "PREEMPT" contexts are disabled, it would make sense to
+> > acquire these instead of RCU_BH and RCU_SCHED respectively.
 
-Hello Guenter,
-Thanks for the quick review
+ ^
 
-On Tue, Dec 09, 2025 at 07:09:55PM -0800, Guenter Roeck wrote:
-> On 12/9/25 13:19, Guenter Roeck wrote:
-> > On 12/9/25 09:58, Antoni Pokusinski wrote:
-> > > SHT85 is a temperature and humidity sensor with an interface very
-> > > similar to SHT3x. However, it does not feature alerts (and therefore
-> > > limits).
-> > > 
-> > 
-> > The datasheet does suggest that the chip supports both temperature and
-> > humidity tracking alert status, which only makes sense if the chip
-> > supports alert limits. It does not support an alert _pin_, but that
-> > doesn't mean that it does not support limits. I'll want to see definite
-> > confirmation that the chip does not support the limit commands.
-> > 
-> 
-> Looking closer into the SHT85 datasheet, the sensor chip is actually a SHT35.
-> Given that, disabling limit attributes and alarms is neither necessary
-> nor acceptable. It isn't even necessary to add "sht85" to the device ID
-> table; sht3x works just fine. I don't mind if it is added, but it does
-> not need a new chip ID (at least until/unless interrupt support is added
-> to the driver).
-> 
-> Thanks,
-> Guenter
-> 
-I've just tested the SHT85 sensor with the non-modified sht3x driver and
-the limits and alerts work fine indeed. I was a bit confused by the SHT85
-datasheet which does not explicitly mention the limit commands, that's
-why I excluded them in the patch, sorry for the confusion.
+> > The above change also simplified introducing __guarded_by support, where
+> > only the "RCU" context guard needs to be held: introduce __rcu_guarded,
+> > where Clang's context analysis warns if a pointer is dereferenced
+> > without any of the RCU locks held, or updated without the appropriate
+> > helpers.
+> >
+> > The primitives rcu_assign_pointer() and friends are wrapped with
+> > context_unsafe(), which enforces using them to update RCU-protected
+> > pointers marked with __rcu_guarded.
+> >
+> > Signed-off-by: Marco Elver <elver@google.com>
+>
+> Good reminder!  I had lost track of this series.
+>
+> My big questions here are:
+>
+> o       What about RCU readers using (say) preempt_disable() instead
+>         of rcu_read_lock_sched()?
 
-I guess I could simply add {"sht85", sht3x} entry to the i2c_device_id[],
-this would also indicate clearly that sht85 is supported by this driver.
+The infrastructure that is being built up in this series will be able
+to support this, it's "just" a matter of enhancing our various
+interfaces/macros to use the right annotations, and working out which
+kinds of contexts we want to support. There are the obvious
+candidates, which this series is being applied to, as a starting
+point, but longer-term there are other kinds of context rules that can
+be checked with this context analysis. However, I think we have to
+start somewhere.
 
-Kind regards,
-Antoni
+> o       What about RCU readers using local_bh_disable() instead of
+>         rcu_read_lock_sched()?
 
+Same as above; this requires adding the necessary annotations to the
+BH-disabling/enabling primitives.
+
+> And keeping in mind that such readers might start in assembly language.
+
+We can handle this by annotating the C functions invoked from assembly
+with attributes like  __must_hold_shared(RCU) or
+__releases_shared(RCU) (if the callee is expected to release the RCU
+read lock / re-enable preemption / etc.) or similar.
+
+> One reasonable approach is to require such readers to use something like
+> rcu_dereference_all() or rcu_dereference_all_check(), which could then
+> have special dispensation to instead rely on run-time checks.
+
+Agree. The current infrastructure encourages run-time checks where the
+static analysis cannot be helped sufficiently otherwise (see patch:
+"lockdep: Annotate lockdep assertions for context analysis").
+
+> Another more powerful approach would be to make this facility also
+> track preemption, interrupt, NMI, and BH contexts.
+>
+> Either way could be a significant improvement over what we have now.
+>
+> Thoughts?
+
+The current infrastructure is powerful enough to allow for tracking
+more contexts, such as interrupt, NMI, and BH contexts, and as I
+hinted above, would be nice to eventually get to!  But I think this is
+also a question of how much do we want to front-load for this to be
+useful, and what should incrementally be enhanced while the baseline
+infrastructure is already available.
+
+I think the current series is the baseline required support to be
+useful to a large fraction of "normal" code in the kernel.
+
+On a whole, my strategy was to get to a point where maintainers and
+developers can start using context analysis where appropriate, but at
+the same time build up and incrementally add more supported contexts
+in parallel. There's also a good chance that, once baseline support
+lands, more interested parties contribute and things progress faster
+(or so I'd hope :-)).
+
+Thanks,
+-- Marco
