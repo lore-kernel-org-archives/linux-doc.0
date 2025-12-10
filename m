@@ -1,231 +1,396 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5654323416
-	for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 12:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A559A320A23
+	for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 13:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765369808; cv=none; b=sQaPSFCKsL8WVuEN5MFgzSyVMXfRO06sQwuKlRmieYDFIz2XQh4c9ZB5vGRXe6R2pwvq7smjdElWRCKA//9pL4fjQ4gEPicUma2uxNFU1H37cGl0eskA+PfFHNYTUOBjnS/BH9JDtppcyBy0WlU8V+cG0k5QFwfbJ16KQTS6I20=
+	t=1765373172; cv=none; b=LVsSTum2mU2SlOI8WneqowBNtdmK5Y0bByoo11HRTNgunYDrGBGG06pOPzfxMOaBfNXdwo7ZFoGI5J/eznvl3YxYOrC3Gu5Q5MDHssg7/PAlwxZxnQ8U0xrtnJhXdiwQwV+qpggjrJiEdAnUCkbVxeU/p1A9JKVMj3tc9HjtmHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765369808; c=relaxed/simple;
-	bh=+pCVoqhDWf5N9CNZ0HM07+tiwxasFYS9L533FXsKelc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=geLLMz9nTawBZrwO9uY5cdrEGyjYKJD9YmALQaTR5Fr8VugMLCpULlNv9IJhjy8YTLO2YWRc2UTEmffLO2+bXkH8MAiMA6heHi/7FiuKqqDhw02k1ErE0p722oD+coe7QxoGbckmkbT60oCq0l/w2Umaynb8JMH5m6d5BJrrrGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XvDsThK+; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765373172; c=relaxed/simple;
+	bh=NtUfQHVhP76BOINqlqigBc5JZM6OKLdCKFLIaCDK4t4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aQepx23uGxT6118WjDSi8prxfw/b4r2Mt4dD2QlgIztklAan+63uVKpuH5e87HVgPE9JzAFhCve4VX4dy1i2CxRLKoIczEX5XDGzeRCJMCx22n7DflLIVPsBCzr1Qby7xcCPpD+CnGVyR6I+NcCIs1QXaqhgtM3WMLqiA6jhP0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IOLK7/8N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p+cpyhqn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xYz6leo8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T94VqHhR; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XvDsThK+"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-640e065991dso5330467d50.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 04:30:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765369805; x=1765974605; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bs4Nvh7wcafrSDigF6jb9/xBl2rvyHdC6iSByDm1J7c=;
-        b=XvDsThK+FUC3Zk/TUAYtZKVcRtbs74rrA6Oyarvbx/2IJpXHcbbC2zaqJuxqKe4NrB
-         BBAa3spmVx+3VekRkm1dHqe4VjC5odeaZy6Cwpj5ukTABKh1odXJK8NQ5LJVrd7lliWZ
-         CcI2IrSantBKMUJKzc7D7NR/xTJ6IYa13PdqQQG9/G9LVtF3tYIeiaFJ3gxlcLBLpT+r
-         3VzS3bPNx8Np/wY1IBB1JfYBFnHRNwGNY23fr/zPvGRpWC+aJI4azkHc4DT7KO1bFodg
-         4PGIAWJaw3dNJlslXAPGJ4NlOAchdlebRS1GB2KQx0Jsx0yWWweBmv3G+3f8efmd7vZI
-         OK1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765369805; x=1765974605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bs4Nvh7wcafrSDigF6jb9/xBl2rvyHdC6iSByDm1J7c=;
-        b=nOlpOGFhsLERw43L7XhazWafxC+jcT8jPmLNGaevL3xO0OKAEehsE7sKjnMkTdVbzA
-         ocld7tQUJkSv/BGNKbtphAIrQ9V1atoBPD+f3YrUL/r4oFOhJ6LZflgqGeO3lFYT6Fw/
-         L1bS08NDVZKM16g40FiLtTXGXfwhPFpV8knR3vtOi3XRVWGSbskv29HeVtn9MNGQ7BmU
-         KXqLrJ6oqjtkw5Dyc/4fK2JB96wySgQQV2AYwb8g2FjyWutXdh147UIZH0HyGI2WRIUZ
-         NggRZQ20j6iI/zBJeqk820UNxBQIo8Q5OMs3UxN1gfAcJ4rH/KKlTCRABuYr9X5PgItq
-         ewlA==
-X-Forwarded-Encrypted: i=1; AJvYcCWd8gEt+nEa/Ec6bpzpep1VIyS+x9+HHMyMZAsOyPuEdhAxYeFkEwDfbirVrB7qWmLe2wIf6JshriU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywzd1D0NJZ0hV4V1UZK2v24gnTt4UgqlaXmfmee5F065+FisIN2
-	ev2/cGZLJOAbc4jck+eqF5b/nb5oCGxB7vi2QhAFsnjwKxWDOt0U40QY
-X-Gm-Gg: AY/fxX78iRdJkE/7xghk0FCedTQUger/vJVUlZDYP1aJCR3wuib4zrfxl2Ydv1wP9Xk
-	6Rf2mTih3aFhaCowTT/fsziGBbbRIXAqRo81J+jiDkYOy+mAsqBrdJwo9kR5uwyzhXYYA8pBARq
-	px5Bmc0FgfLtXQFGtWfGq++InR6LHI35Prlf9c5A9pZt+F7Y0avI2WbBdJwetR3+Y/YBphha6nQ
-	6F5Ld14XPk3Qg05unsH5UKw60hYIBBo4HbLfukFVtf7fevDsaYj1j5feS8PXX9AJEG/1fzi2nJE
-	D/Foft+04YYdyoiS2ELe0fRiJPJxNchh/tpFWBzrc5ykfTWv07njXPMhbg5XBh2DAguAzUhrNNY
-	X8vNt0oxP6CsTZlb/f4z0NUSFhmv11ydF4+VpZXeBUBnhzlyCUx9v70e3PFbwwc5S/P4LIsrWe7
-	XzhXsR166G68AmlyGY3TxwqAyTq0HAhsY4
-X-Google-Smtp-Source: AGHT+IFNh53RYGhBm0spY9cGU4hrvZl3rVUUUljhOpXEUJgWRnGD1AENe9Wq19Qn4XXLgG15AaZkgw==
-X-Received: by 2002:a05:690e:2597:b0:63f:c52c:3828 with SMTP id 956f58d0204a3-6446e98333amr1349152d50.26.1765369805247;
-        Wed, 10 Dec 2025 04:30:05 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:5c::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78c1b4ac94dsm70695807b3.9.2025.12.10.04.30.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 04:30:04 -0800 (PST)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: mawupeng <mawupeng1@huawei.com>
-Cc: joshua.hahnjy@gmail.com,
-	willy@infradead.org,
-	david@kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IOLK7/8N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p+cpyhqn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xYz6leo8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T94VqHhR"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C1F4C3388E;
+	Wed, 10 Dec 2025 13:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765373168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/sqEwaJiuTTEdJYRyFNYyvoSQ8kH6V2bwjSa91iDg2o=;
+	b=IOLK7/8NBC0KHcb7BkW6LGEcNTz4z2DQ3eeGPvVYZBbkKAPlX4vssejPu6vSiQpj3OqfOc
+	bSl2OWTQ6gFROF6eLSwW/komBZqftq+6bsjLHIRIlsU6sBKnwHz93DhlweuvYHHOh0EW+4
+	xd3yoFbOpDTlhyQQtFz8QBC1e+MZIHI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765373168;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/sqEwaJiuTTEdJYRyFNYyvoSQ8kH6V2bwjSa91iDg2o=;
+	b=p+cpyhqnYdNU5N5EvqGB+UR/w+LcWfbnSgqg4K1fKA8xkGar3HOms/uvjql5M7KTnm6aL9
+	501EykxVHTkFW7DQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xYz6leo8;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=T94VqHhR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1765373166; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/sqEwaJiuTTEdJYRyFNYyvoSQ8kH6V2bwjSa91iDg2o=;
+	b=xYz6leo8CAX2ppelOArAC10hFdiHqi6Bu3Ms0XAlmi6RlEV500NbHFc1hV5ylCtCCjVbkH
+	PN0lDXsHZFy10Dqx8yiSC0EB86j3SQz3mQMXeDQR9i38JYFD3lquhmgxj1tJtAabBV+X00
+	dR0jUyS1RKFn1oKsE02fyXGMyl55CuE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1765373166;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/sqEwaJiuTTEdJYRyFNYyvoSQ8kH6V2bwjSa91iDg2o=;
+	b=T94VqHhRjNnZlV21IA7AmiQ8LhgI7EY5XkOV6f1n1UQ7m7jL/IGo3J84qGyDcqeZP69LZV
+	/CUQDfqoUpJ/MSCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 741BD3EA63;
+	Wed, 10 Dec 2025 13:26:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id veIWG+50OWnmLAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 10 Dec 2025 13:26:06 +0000
+Date: Wed, 10 Dec 2025 14:26:06 +0100
+Message-ID: <87v7iecvtd.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Victor Krawiec <victor.krawiec@arturia.com>
+Cc: gregkh@linuxfoundation.org,
+	tiwai@suse.de,
+	corbet@lwn.net,
+	jilliandonahue58@gmail.com,
+	selvarasu.g@samsung.com,
+	jkeeping@inmusicbrands.com,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	kernel-team@meta.com
-Subject: Re: [RFC LPC2025 PATCH 0/4] Deprecate zone_reclaim_mode
-Date: Wed, 10 Dec 2025 04:30:01 -0800
-Message-ID: <20251210123003.424248-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <fc00c53c-ab54-42a2-979b-0ecb49ff6b48@huawei.com>
-References: 
+	linux-usb@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v2] usb: gadget: f_midi: allow customizing the USB MIDI interface string through configfs
+In-Reply-To: <20251209164006.143219-1-victor.krawiec@arturia.com>
+References: <20251209164006.143219-1-victor.krawiec@arturia.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.1 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Rspamd-Queue-Id: C1F4C3388E
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,suse.de,lwn.net,gmail.com,samsung.com,inmusicbrands.com,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,suse.de:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Level: 
 
-On Tue, 9 Dec 2025 20:43:01 +0800 mawupeng <mawupeng1@huawei.com> wrote:
+On Tue, 09 Dec 2025 17:40:06 +0100,
+Victor Krawiec wrote:
 > 
-> On 2025/12/6 7:32, Joshua Hahn wrote:
-> > Hello folks, 
-> > This is a code RFC for my upcoming discussion at LPC 2025 in Tokyo [1].
-> >
-> > zone_reclaim_mode was introduced in 2005 to prevent the kernel from facing
-> > the high remote access latency associated with NUMA systems. With it enabled,
-> > when the kernel sees that the local node is full, it will stall allocations and
-> > trigger direct reclaim locally, instead of making a remote allocation, even
-> > when there may still be free memory. Thsi is the preferred way to consume memory
-> > if remote memory access is more expensive than performing direct reclaim.
-> > The choice is made on a system-wide basis, but can be toggled at runtime.
-> > 
-> > This series deprecates the zone_reclaim_mode sysctl in favor of other NUMA
-> > aware mechanisms, such as NUMA balancing, memory.reclaim, membind, and
-> > tiering / promotion / demotion. Let's break down what differences there are
-> > in these mechanisms, based on workload characteristics.
-
-[...snip...]
-
-Hello mawupeng, thank you for your feedback on this RFC.
-
-I was wondering if you were planning to attend LPC this year. If so, I'll be
-discussing this idea at the MM microconference tomorrow (December 11th) and
-would love to discuss this after the presentation with you in the hallway.
-I want to make sure that I'm not missing any important nuances or use cases
-for zone_reclaim_mode. After all, my only motivation for deprecating this is
-to simplify the code allocation path and reduce maintenence burden, both of
-which definitely does not outweigh valid usecases. On the other hand if we can
-find out that we can deprecate zone_reclaim_mode, and also find some
-alternatives that lead to better performance on your end, that sounds
-like the ultimate win-win scenario for me : -)
-
-> In real-world scenarios, we have observed on a dual-socket (2P) server with multiple
-> NUMA nodes—each having relatively limited local memory capacity—that page cache
-> negatively impacts overall performance. The zone_reclaim_node feature is used to
-> alleviate performance issues.
+> When using f_midi from configfs the USB MIDI interface string is hardcoded
+> to 'MIDI function'.
 > 
-> The main reason is that page cache consumes free memory on the local node, causing
-> processes without mbind restrictions to fall back to other nodes that still have free
-> memory. Accessing remote memory comes with a significant latency penalty. In extreme
-> testing, if a system is fully populated with page cache beforehand, Spark application
-> performance can drop by 80%. However, with zone_reclaim enabled, the performance
-> degradation is limited to only about 30%.
-
-This sounds right to me. In fact, I have observed similar results in some
-experiments that I ran myself, where on a 2-NUMA system with 125GB memory each,
-I fill up one node with 100G of garbage filecache and try to run a 60G anon
-workload in it. Here are the average access latency results:
-
-- zone_reclaim_mode enabled: 56.34 ns/access
-- zone_reclaim_mode disabled: 67.86 ns/access
-
-However, I was able to achieve better results by disabling zone_reclaim_mode
-and using membind instead:
-
-- zone_reclaim_mode disabled + membind: 52.98 ns/access
-
-Of course, these are on my specific system with my specific workload so the
-numbers (and results) may be different on your end. You specifically mentioned
-"processes without mbind restrictions". Is there a reason why these workloads
-cannot be membound to a node?
-
-On that note, I had another follow-up question. If remote latency really is a
-big concern, I am wondering if you have seen remote allocations despite
-enabling zone_reclaim_mode. From my understanding of the code, zone_reclaim_mode
-is not a strict guarantee of memory locality. If direct reclaim fails and
-we fail to reclaim enough, the allocation is serviced from a remote node anyways.
-
-Maybe I did not make this clear in my RFC, but I definitely believe that there
-are workloads out there that benefit from zone_reclaim_mode. However, I
-also believe that membind is just a better alternative for all the scenarios
-that I can think of, so it would really be helpful for my education to learn
-about workloads that benefit from zone_reclaim_mode but cannot use membind.
-
-> Furthermore, for typical HPC applications, memory pressure tends to be balanced
-> across NUMA nodes. Yet page cache is often generated by background tasks—such as
-> logging modules—which breaks memory locality and adversely affects overall performance.
-
-I see. From my very limited understanding of HPC applications, they tend to be
-perfectly sized for the nodes they run on, so having logging agents generate
-additional page cache really does sound like a problem to me. 
-
-> At the same time, there are a large number of __GFP_THISNODE memory allocation requests in
-> the system. Anonymous pages that fall back from other nodes cannot be migrated or easily
-> reclaimed (especially when swap is disabled), leading to uneven distribution of available
-> memory within a single node. By enabling zone_reclaim_mode, the kernel preferentially reclaims
-> file pages within the local NUMA node to satisfy local anonymous-page allocations, which
-> effectively avoids warn_alloc problems caused by uneven distribution of anonymous pages.
+> This USB string descriptor is used by some third-party OS or software to
+> display the name of the MIDI device
 > 
-> In such scenarios, relying solely on mbind may offer limited flexibility.
+> Since we add an additional string option a new macro block was created to
+> factorize declarations
+> 
+> Signed-off-by: Victor Krawiec <victor.krawiec@arturia.com>
 
-I see. So if I understand your scenario correctly, what you want is something
-between mbind which is strict in guaranteeing that memory comes locally, and
-the default memory allocation preference, which prefers allocating from
-remote nodes when the local node runs out of memory.
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
-I have some follow-up questions here.
-It seems like the fact that anonymous memory from remote processes leaking
-their memory into the current node is actually caused by two characteristics
-of zone_reclaim_mode. Namely, that it does not guarantee memory locality,
-and that it is a system-wide setting. Under your scenario, we cannot have
-a mixture of HPC workloads that cannot handle remote memory access latency,
-as well as non-HPC workloads that would actually benefit from being able to
-consume free memory from remote nodes before triggering reclaim.
 
-So in a scenario where we have multiple HPC workloads running on a multi-NUMA
-system, we can just size each workload to fit the nodes, and membind them so
-that we don't have to worry about migrating or reclaiming remote processes'
-anonymous memory.
+thanks,
 
-In a scenario where we have an HPC workload + non-HPC workloads, we can membind
-the HPC workload to a single node, and exclude that node from the other
-workloads' nodemasks to prevent anonymous memory from leaking into it.
+Takashi
 
-> We have also experimented with proactively waking kswapd to improve synchronous reclaim
-> efficiency. Our actual tests show that this can roughly double the memory allocation rate[1].
 
-Personally I believe that this could be the way forward. However, there are
-still some problems that we have to address, the biggest one being: pagecache
-can be considered "garbage" in both your HPC workloads and my microbenchmark.
-However, the pagecache can be very valuable in certain scenarios. What if
-the workload will access the pagecache in the future? I'm not really sure if
-it makes sense to clean up that pagecache and allocate locally, when the
-worst-case scenario is that we have to incur much more latency reading from
-disk and bringing in those pages again, when there is free memory still
-available in the system.
-
-Perhaps the real solution is to deprecate zone_reclaim_mode and offer more
-granular (per-workload basis), and sane (guarantee memory locality and also
-perform kswapd when the ndoe is full) options for the user.
-
-> We could also discuss whether there are better solutions for such HPC scenarios.
-
-Yes, I really hope that we can reach the win-win scenario that I mentioned at
-the beginning of the reply. I really want to help users achieve the best
-performance they can, and also help keep the kernel easy to maintain in the
-long-run. Thank you for sharing your perspective, I really learned a lot.
-Looking forward to your response, or if you are coming to LPC, would love to
-grab a coffee. Have a grat day!
-Joshua
-
-> [1]: https://lore.kernel.org/all/20251011062043.772549-1-mawupeng1@huawei.com/
+> ---
+> V1 -> V2:
+> 	- Add documentation
+> 	- Cleanup unnecessary *_allocated boolean as requested in review
+> 
+>  .../ABI/testing/configfs-usb-gadget-midi      |  17 +--
+>  Documentation/usb/gadget-testing.rst          |  17 +--
+>  drivers/usb/gadget/function/f_midi.c          | 110 ++++++++++--------
+>  drivers/usb/gadget/function/u_midi.h          |   2 +-
+>  4 files changed, 78 insertions(+), 68 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/configfs-usb-gadget-midi b/Documentation/ABI/testing/configfs-usb-gadget-midi
+> index 07389cddd51a..d6bd67bb91fc 100644
+> --- a/Documentation/ABI/testing/configfs-usb-gadget-midi
+> +++ b/Documentation/ABI/testing/configfs-usb-gadget-midi
+> @@ -4,11 +4,12 @@ KernelVersion:	3.19
+>  Description:
+>  		The attributes:
+>  
+> -		==========	====================================
+> -		index		index value for the USB MIDI adapter
+> -		id		ID string for the USB MIDI adapter
+> -		buflen		MIDI buffer length
+> -		qlen		USB read request queue length
+> -		in_ports	number of MIDI input ports
+> -		out_ports	number of MIDI output ports
+> -		==========	====================================
+> +		================	====================================
+> +		index			index value for the USB MIDI adapter
+> +		id			ID string for the USB MIDI adapter
+> +		buflen			MIDI buffer length
+> +		qlen			USB read request queue length
+> +		in_ports		number of MIDI input ports
+> +		out_ports		number of MIDI output ports
+> +		interface_string	USB AudioControl interface string
+> +		================	====================================
+> diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
+> index 5f90af1fb573..01a128d664cb 100644
+> --- a/Documentation/usb/gadget-testing.rst
+> +++ b/Documentation/usb/gadget-testing.rst
+> @@ -368,14 +368,15 @@ Function-specific configfs interface
+>  The function name to use when creating the function directory is "midi".
+>  The MIDI function provides these attributes in its function directory:
+>  
+> -	=============== ====================================
+> -	buflen		MIDI buffer length
+> -	id		ID string for the USB MIDI adapter
+> -	in_ports	number of MIDI input ports
+> -	index		index value for the USB MIDI adapter
+> -	out_ports	number of MIDI output ports
+> -	qlen		USB read request queue length
+> -	=============== ====================================
+> +	================ ====================================
+> +	buflen		 MIDI buffer length
+> +	id		 ID string for the USB MIDI adapter
+> +	in_ports	 number of MIDI input ports
+> +	index		 index value for the USB MIDI adapter
+> +	out_ports	 number of MIDI output ports
+> +	qlen		 USB read request queue length
+> +	interface_string USB AudioControl interface string
+> +	================ ====================================
+>  
+>  Testing the MIDI function
+>  -------------------------
+> diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
+> index da82598fcef8..ad679a6ecac1 100644
+> --- a/drivers/usb/gadget/function/f_midi.c
+> +++ b/drivers/usb/gadget/function/f_midi.c
+> @@ -875,6 +875,7 @@ static int f_midi_bind(struct usb_configuration *c, struct usb_function *f)
+>  	struct usb_composite_dev *cdev = c->cdev;
+>  	struct f_midi *midi = func_to_midi(f);
+>  	struct usb_string *us;
+> +	struct f_midi_opts *opts;
+>  	int status, n, jack = 1, i = 0, endpoint_descriptor_index = 0;
+>  
+>  	midi->gadget = cdev->gadget;
+> @@ -883,6 +884,10 @@ static int f_midi_bind(struct usb_configuration *c, struct usb_function *f)
+>  	if (status < 0)
+>  		goto fail_register;
+>  
+> +	opts = container_of(f->fi, struct f_midi_opts, func_inst);
+> +	if (opts->interface_string)
+> +		midi_string_defs[STRING_FUNC_IDX].s = opts->interface_string;
+> +
+>  	/* maybe allocate device-global string ID */
+>  	us = usb_gstrings_attach(c->cdev, midi_strings,
+>  				 ARRAY_SIZE(midi_string_defs));
+> @@ -1178,59 +1183,60 @@ end:									\
+>  									\
+>  CONFIGFS_ATTR(f_midi_opts_, name);
+>  
+> +#define F_MIDI_OPT_STRING(name)						\
+> +static ssize_t f_midi_opts_##name##_show(struct config_item *item, char *page) \
+> +{									\
+> +	struct f_midi_opts *opts = to_f_midi_opts(item);		\
+> +	ssize_t result;							\
+> +									\
+> +	mutex_lock(&opts->lock);					\
+> +	if (opts->name) {						\
+> +		result = strscpy(page, opts->name, PAGE_SIZE);		\
+> +	} else {							\
+> +		page[0] = 0;						\
+> +		result = 0;						\
+> +	}								\
+> +									\
+> +	mutex_unlock(&opts->lock);					\
+> +									\
+> +	return result;							\
+> +}									\
+> +									\
+> +static ssize_t f_midi_opts_##name##_store(struct config_item *item,	\
+> +					 const char *page, size_t len)	\
+> +{									\
+> +	struct f_midi_opts *opts = to_f_midi_opts(item);		\
+> +	int ret;							\
+> +	char *c;							\
+> +									\
+> +	mutex_lock(&opts->lock);					\
+> +	if (opts->refcnt > 1) {						\
+> +		ret = -EBUSY;						\
+> +		goto end;						\
+> +	}								\
+> +									\
+> +	c = kstrndup(page, len, GFP_KERNEL);				\
+> +	if (!c) {							\
+> +		ret = -ENOMEM;						\
+> +		goto end;						\
+> +	}								\
+> +	kfree(opts->name);						\
+> +	opts->name = c;							\
+> +	ret = len;							\
+> +end:									\
+> +	mutex_unlock(&opts->lock);					\
+> +	return ret;							\
+> +}									\
+> +									\
+> +CONFIGFS_ATTR(f_midi_opts_, name)
+> +
+>  F_MIDI_OPT_SIGNED(index, true, SNDRV_CARDS);
+>  F_MIDI_OPT(buflen, false, 0);
+>  F_MIDI_OPT(qlen, false, 0);
+>  F_MIDI_OPT(in_ports, true, MAX_PORTS);
+>  F_MIDI_OPT(out_ports, true, MAX_PORTS);
+> -
+> -static ssize_t f_midi_opts_id_show(struct config_item *item, char *page)
+> -{
+> -	struct f_midi_opts *opts = to_f_midi_opts(item);
+> -	ssize_t result;
+> -
+> -	mutex_lock(&opts->lock);
+> -	if (opts->id) {
+> -		result = strscpy(page, opts->id, PAGE_SIZE);
+> -	} else {
+> -		page[0] = 0;
+> -		result = 0;
+> -	}
+> -
+> -	mutex_unlock(&opts->lock);
+> -
+> -	return result;
+> -}
+> -
+> -static ssize_t f_midi_opts_id_store(struct config_item *item,
+> -				    const char *page, size_t len)
+> -{
+> -	struct f_midi_opts *opts = to_f_midi_opts(item);
+> -	int ret;
+> -	char *c;
+> -
+> -	mutex_lock(&opts->lock);
+> -	if (opts->refcnt > 1) {
+> -		ret = -EBUSY;
+> -		goto end;
+> -	}
+> -
+> -	c = kstrndup(page, len, GFP_KERNEL);
+> -	if (!c) {
+> -		ret = -ENOMEM;
+> -		goto end;
+> -	}
+> -	if (opts->id_allocated)
+> -		kfree(opts->id);
+> -	opts->id = c;
+> -	opts->id_allocated = true;
+> -	ret = len;
+> -end:
+> -	mutex_unlock(&opts->lock);
+> -	return ret;
+> -}
+> -
+> -CONFIGFS_ATTR(f_midi_opts_, id);
+> +F_MIDI_OPT_STRING(id);
+> +F_MIDI_OPT_STRING(interface_string);
+>  
+>  static struct configfs_attribute *midi_attrs[] = {
+>  	&f_midi_opts_attr_index,
+> @@ -1239,6 +1245,7 @@ static struct configfs_attribute *midi_attrs[] = {
+>  	&f_midi_opts_attr_in_ports,
+>  	&f_midi_opts_attr_out_ports,
+>  	&f_midi_opts_attr_id,
+> +	&f_midi_opts_attr_interface_string,
+>  	NULL,
+>  };
+>  
+> @@ -1262,8 +1269,8 @@ static void f_midi_free_inst(struct usb_function_instance *f)
+>  	mutex_unlock(&opts->lock);
+>  
+>  	if (free) {
+> -		if (opts->id_allocated)
+> -			kfree(opts->id);
+> +		kfree(opts->id);
+> +		kfree(opts->interface_string);
+>  		kfree(opts);
+>  	}
+>  }
+> @@ -1279,7 +1286,8 @@ static struct usb_function_instance *f_midi_alloc_inst(void)
+>  	mutex_init(&opts->lock);
+>  	opts->func_inst.free_func_inst = f_midi_free_inst;
+>  	opts->index = SNDRV_DEFAULT_IDX1;
+> -	opts->id = SNDRV_DEFAULT_STR1;
+> +	opts->id = NULL;
+> +	opts->interface_string = NULL;
+>  	opts->buflen = 512;
+>  	opts->qlen = 32;
+>  	opts->in_ports = 1;
+> diff --git a/drivers/usb/gadget/function/u_midi.h b/drivers/usb/gadget/function/u_midi.h
+> index 2e400b495cb8..41cb8aa73f09 100644
+> --- a/drivers/usb/gadget/function/u_midi.h
+> +++ b/drivers/usb/gadget/function/u_midi.h
+> @@ -19,7 +19,7 @@ struct f_midi_opts {
+>  	struct usb_function_instance	func_inst;
+>  	int				index;
+>  	char				*id;
+> -	bool				id_allocated;
+> +	char				*interface_string;
+>  	unsigned int			in_ports;
+>  	unsigned int			out_ports;
+>  	unsigned int			buflen;
+> 
+> base-commit: 67a454e6b1c604555c04501c77b7fedc5d98a779
+> -- 
+> 2.43.0
+> 
