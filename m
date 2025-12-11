@@ -1,96 +1,146 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 084E44315F;
-	Thu, 11 Dec 2025 23:38:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD28188A3A
+	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 23:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765496311; cv=none; b=QpFvKvpSK0JnbX42Rn0hcN3hml+cEvUKF2eiZH0fl/tUFhUUfLNSMUOxNl72SPb2QOS1m977sQ497LYy80BEigj40pQxT9QpQKcBQTJxzT9zngqqG0onnLOkRRjATVNYLUn3Kb9DXp4Lbh8OUfZvGmL/rCBMznexfTpv3h8hRWQ=
+	t=1765496548; cv=none; b=FmIP+H24T2x4saTowD8WDCQKUVUFFFMcmuw8ORvTp0YK8bB+DVxmXqMYINuEgzuXe6mxUOsxIyvYd+aQp8JczJoffrI1aUYX3gAZMqCQuxfj//q1TsCDr/yVKnEZWCuA3r3tFUtOGrfeIzBe4HhuELeWAPPTax8jdU12xryTEr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765496311; c=relaxed/simple;
-	bh=Lo/47LstOqThQPqCZRizXUU9dFcBzIbKaCnK2InAUNM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oXYxjCf10j3daLRwAmywmxxY7k0Gc6YiPd47wRo//6uxwdSn+u+rijktFvXuZc32udqM7E1LJPJ3XohjMDpVG/5eCUeEmrQe8OP52XFs5Er6xRgB2tvfDhDsdguaOa7T8drP5tfT4DerXlfjOlzjswGBlHl+YRejlq2j6ky2C/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=oxL25IST; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1765496548; c=relaxed/simple;
+	bh=nDP5LFAVbjYGLvWXVvokRNhMQqzRd+3/OyQyYLUyuHw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HcufSSt5xXHW2IqhWja61bmjEvb4OX35/oZb1b5+FsPXbIYCVuvoS30AeMruWcFgD8zOhiBk0435+kWWts/i00DzBavx59kimIBx1JypL/4AT2tlALt7FwVvi0hPwFjVEEbup6hN/+ymfkdGV7pxs4m3l9YJH+iAMLa5T3q/2dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=foy7C2q0; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=hHfst5GU; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="oxL25IST"
-Received: from [10.17.64.150] (unknown [131.107.8.22])
-	by linux.microsoft.com (Postfix) with ESMTPSA id D89F6201D7F7;
-	Thu, 11 Dec 2025 15:38:28 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D89F6201D7F7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1765496309;
-	bh=IPYACiDEyzfbolYY+BDO7FkL7SnFoIolqgjmnaJf5gk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oxL25IST5ttFIQ7Hvi3EEfMlkYc96i1NTQATPAYDZTM3GSk1MT+sVqpqWEA6FQYpP
-	 vYcG6bkl/+4AUhJMPF6TZ66mFYZqSjplqMoZHRuCBA0k7gs2iyAEaWuOcR4lPD+WG0
-	 Ffr5mYYuRa54WgY53713AmvARUMDQ7EKktBQJojI=
-Message-ID: <a795db5a-938a-458b-ab65-a29e025ae656@linux.microsoft.com>
-Date: Thu, 11 Dec 2025 15:38:27 -0800
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="foy7C2q0";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="hHfst5GU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1765496546;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iPPMy6avhGmJfM3UKWEi6Dk72x27M45G8zTWKRGwglg=;
+	b=foy7C2q0A1Pw8FFEgHmXRkKB7MjoN+qinAbIgBYorZVp8oV6VlwOD43o4lHP5xxG07BVz2
+	qhpPkNkEK3gJ8UUfN+yz9FhIU/mBKkVyqjW5x0n7CUN/iYqU+lBA/dD1sKj3H0wneRPL6/
+	k66eG1scyX/9YrCDVi9lVB9tXcTxzO0=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-513-JNBx6n_1NpSWDqj7WIOiGA-1; Thu, 11 Dec 2025 18:42:24 -0500
+X-MC-Unique: JNBx6n_1NpSWDqj7WIOiGA-1
+X-Mimecast-MFC-AGG-ID: JNBx6n_1NpSWDqj7WIOiGA_1765496543
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-297e1cf9aedso10648225ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 15:42:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1765496543; x=1766101343; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iPPMy6avhGmJfM3UKWEi6Dk72x27M45G8zTWKRGwglg=;
+        b=hHfst5GUYRDX9KBB551EO5IhFHt0o8PF2TZ6B788Eb8PYjwoEoupUwsmh0NUebZClN
+         6uXi5puwqDqFoonkuJllX7O65c2iqxKjsjf04XSjUegRzRn8VPqFh5siGQgHn1EfaPKy
+         58qYSe1ryftj4+GNyEpSIm3EVBtAk6/op8V+S6a7QiCb70sxMWSv4UpUW5QiIShabjgf
+         B8U4/5vDXRXB1B0a+hEflgJr3B2pA9u16wh/UqGOpTBiVTUWRTZmst6h25ftArPUyya6
+         yY0twIglDPAug9vqbpgJpLD8sZkZa1NHNyFqoGMlEe8sftRSVs0zPWfd0LQXtv3uLmcJ
+         pMCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765496543; x=1766101343;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iPPMy6avhGmJfM3UKWEi6Dk72x27M45G8zTWKRGwglg=;
+        b=b23bFfrjIVV02mP1jqhOpdVhbW6L8MuozsfJPsLYPZeVBpZPZuqq9YsGvrHqVgOzuO
+         N7CrQMPfOjjiflOE2X6EXaCCuldFL906bkZWhDkueussb5BWoGaXgJnu3D3tn40XeLiR
+         MNbhdRtwuotGKoz+CJy/OnAcojfWz9bgHyIbqUvnGg+Sk1EbMf4pQ2OB9L5kKy5TNZPx
+         3fjiQieejmXRP+QAbziYHi8f3zxCCU8KZ8ZuBPIuqQj4SgX4zSDoPm20l9BvQINDKJt7
+         +Ec7dTAFe7ymF0UIX6q3xXGEx2JIMgksHKgWuIXsCLNdfkFunX3d3iRgXF8zba4GYT1X
+         VBMg==
+X-Gm-Message-State: AOJu0YyLfyNQhuhrwEkokZs7J5cVyBfcp6+QWYeG97SbhCq/Ugg8e7bG
+	YLQ951m41gd0iXN+cm/K8FLRnS2I3Mb5AmYMH5r2LxevOu991v1M+rIDHVVvOlqMsqXTScc++cF
+	RhQEjAEJ3KudBB2ouVQ8U+56F6PE6BHV34KKRMVO3nBj2NrT26xIbPH2TDcm0Vw==
+X-Gm-Gg: AY/fxX5BL5nv31c0vRVBGSdnwtWcSWZEtL0qdGJyh7P6zud2rGQjdRktSQ/rWNrApxa
+	HcRc9+4CuqkwiUEhIqrE9yA7I0p1xUMpLS3Nf70wXwT0xTmUg7+Q2rY3Z8BjCHGVOR/+46+8HI2
+	WYF1Ko3iw7tU7i6FKC9D8JEIQ3NyarwceUXOSLtTA1IENjwDYUu1OeJefYh/LJey/ffJ+WEXsTN
+	ksiDWH4pmgC/dyH/6EgpFKujICWKylW/k7W5M56QQV6dFieEXFdrfHvIhey5Q8BpQw0wb89BbDS
+	Ek6e9h2wLPKVcfI8lb/7x7gOJCV133v0ZSAbeouVitqQzkTVM8PT3WqjkhBUommkpDaPI8Cpj1Z
+	sajaIXCO602d1yzahedE7xH/kWCk8nfmF5Q5gbcB5nx5mdAvYwBplmw==
+X-Received: by 2002:a05:7023:88d:b0:119:e569:fba4 with SMTP id a92af1059eb24-11f34bc7218mr234318c88.19.1765496543389;
+        Thu, 11 Dec 2025 15:42:23 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEb4Y61cpVSMwLeUilrF3K3LnTmnr2Iiza+yLFHG0DS+GcS+D7ax+7bdtQ12062fmdt53OFFw==
+X-Received: by 2002:a05:7023:88d:b0:119:e569:fba4 with SMTP id a92af1059eb24-11f34bc7218mr234303c88.19.1765496542943;
+        Thu, 11 Dec 2025 15:42:22 -0800 (PST)
+Received: from [192.168.101.129] (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e304766sm12034395c88.13.2025.12.11.15.42.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Dec 2025 15:42:22 -0800 (PST)
+From: Brian Masney <bmasney@redhat.com>
+Subject: [PATCH 0/3] clk: remove round_rate clk op from the clk core
+Date: Fri, 12 Dec 2025 08:41:39 +0900
+Message-Id: <20251212-clk-remove-round-rate-v1-0-5c3d5f3edc78@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH] ima: Add support for staging measurements for
- deletion
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>,
- Gregory Lumen <gregorylumen@linux.microsoft.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
- serge@hallyn.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>,
- steven chen <chenste@linux.microsoft.com>
-References: <20251209101725.3680225-1-roberto.sassu@huaweicloud.com>
- <207fd6d7-53c-57bb-36d8-13a0902052d1@linux.microsoft.com>
- <d7418d0afa696b8da67e4f25fd0dc1b9d6fd908f.camel@huaweicloud.com>
- <2f550d4cd860022e990d1de62049df85a6a86df8.camel@huaweicloud.com>
-Content-Language: en-US
-From: steven chen <chenste@linux.microsoft.com>
-In-Reply-To: <2f550d4cd860022e990d1de62049df85a6a86df8.camel@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/0XMQQ6CMBCF4auQWTtJW5AKVzEsCh2kUQtOodEQ7
+ m6VBcv/Je9bIRA7ClBnKzBFF9zoU8hTBt1g/I3Q2dSghDpLJRV2jzsyPcdIyOPiLbKZCS+2pVL
+ khWh1Bek7MfXu/Xevzd5MryXx8z4eep39bKGlwGn47P4BF8Zo6mUpeqrqmEOzbV9WOlMdtAAAA
+ A==
+X-Change-ID: 20251212-clk-remove-round-rate-8dbe60340b79
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, Brian Masney <bmasney@redhat.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1721; i=bmasney@redhat.com;
+ s=20250903; h=from:subject:message-id;
+ bh=nDP5LFAVbjYGLvWXVvokRNhMQqzRd+3/OyQyYLUyuHw=;
+ b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGDKtw66Wndr4uIHx7bGmX+Vm2aLXCuxmuaTt4tpfaNGd9
+ 3la4P/nHaUsDGJcDLJiiixLco0KIlJX2d67o8kCM4eVCWQIAxenAEzkw3mG/07Zydmb3gfxr1UW
+ qt8icGrLzqi9y8Na9r6c/zXF5PTT5TKMDMfzFD99/vbhnfnW9ByFxdwe/6261iyJf6EryH4smCP
+ uDRcA
+X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
+ fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
 
-On 12/11/2025 6:50 AM, Roberto Sassu wrote:
-> On Thu, 2025-12-11 at 10:56 +0100, Roberto Sassu wrote:
->> On Wed, 2025-12-10 at 11:12 -0800, Gregory Lumen wrote:
->>> Roberto,
->>>
->>> The proposed approach appears to be workable. However, if our primary goal
->>> here is to enable UM to free kernel memory consumed by the IMA log with an
->>> absolute minimum of kernel functionality/change, then I would argue that
->>> the proposed Stage-then-delete approach still represents unnecessary
->>> complexity when compared to a trim-to-N solution. Specifically:
-> The benefit of the Stage-then-delete is that you don't need to scan the
-> IMA measurements list in advance to determine what to trim, you just
-> trim everything by swapping list head (very fast) and then you can read
-> and delete the measurements out of the hot path.
->
-> [...]
+Here's a small patch series that removes the round_rate() op from the
+clk core. This series depends on this series that updates the phy
+drivers to use determine_rate():
 
-Trim N entries proposal can do the same speed as staged proposal or 
-faster than staged proposal.
+https://lore.kernel.org/linux-clk/20251212-phy-clk-round-rate-v3-0-beae3962f767@redhat.com/T/#t
 
-Steven
+Signed-off-by: Brian Masney <bmasney@redhat.com>
+---
+Brian Masney (3):
+      clk: test: remove references to clk_ops.round_rate
+      clk: composite: convert from round_rate() to determine_rate()
+      clk: remove round_rate() clk ops
 
->>> - There exists a potential UM measurement-loss race condition introduced
->>> by the staging functionality that would not exist with a trim-to-N
->>> approach. (Occurs if a kexec call occurs after a UM agent has staged
->>> measurements for deletion, but has not completed copying them to
->>> userspace). This could be avoided by persisting staged measurements across
->>> kexec calls at the cost of making the proposed change larger.
->> The solution is to coordinate the staging with kexec in user space.
-> To avoid requiring coordination in user space, I will try to see if I
-> could improve my patch to prepend the staged entries to the current
-> measurement list, before serializing them for kexec().
+ Documentation/driver-api/clk.rst |  9 +--------
+ drivers/clk/clk-composite.c      | 38 +++++---------------------------------
+ drivers/clk/clk.c                | 39 ++++++++++++++-------------------------
+ drivers/clk/clk_test.c           | 16 ++++++++--------
+ include/linux/clk-provider.h     | 18 ++++++------------
+ 5 files changed, 34 insertions(+), 86 deletions(-)
+---
+base-commit: afdc809e90f24a0a3adbcfdf69ca3b3d2877f554
+change-id: 20251212-clk-remove-round-rate-8dbe60340b79
+prerequisite-change-id: 20250710-phy-clk-round-rate-4aa7ef160fe9:v3
+prerequisite-patch-id: bf41493a2336855702a3f400bd0d4a50a199c44d
+prerequisite-patch-id: f41843a2ccf6c4a54655965cfd9f542d362eca43
+prerequisite-patch-id: 9baf2b6865fa00be8a7cd5e47f52b5e4569992c2
+prerequisite-patch-id: 70135b3d02841cc018c509e3150358cd28b72cb3
+prerequisite-patch-id: c5a3ca2d94df2027b011d127e0d79f4afa50a558
+prerequisite-patch-id: f08b46260dcd37e2108752b770539b2c72e8b3fd
+prerequisite-patch-id: ffa69faf29d4bc016e0947d18f505741a6393205
+prerequisite-patch-id: 2a06f73d60cbe3bf565552d8c12152a5fd6606b4
+prerequisite-patch-id: 2a401b7745c5dc70e484a0097f06bebf7b49952f
 
-Trim N entries proposal does not need this at all.
-
-Steven
-
-> Roberto
-
+Best regards,
+-- 
+Brian Masney <bmasney@redhat.com>
 
