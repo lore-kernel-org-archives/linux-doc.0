@@ -1,207 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69BB2F616F;
-	Thu, 11 Dec 2025 08:47:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83B5F2E11B0;
+	Thu, 11 Dec 2025 09:17:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765442876; cv=none; b=WMwIFLr1cZ47DL9ncA9o+QThZR4Md64GQS1qGjnPC3E4qeLxXE0NH557JTNOe8O4oVFnMHH2sYpwB8a6B1RrB0g8FbLqG1rJflXTncW2+S/TT84mJTSydxJaLXmhMdu6JmfSsXJEqEUrYHgHz7QLb2rO2axYaOq1MNSKmRLXVCw=
+	t=1765444669; cv=none; b=OyTUH/7F+VKBqYsCL9SmXpe7vxWwExl4tqKILj2BVZUtjYxxgnM/X2/O9dWh/zUpoDXqWoF5HvWF3dBt/77isSMP7GC9q6jD6r0eP9T8OsAEcRXLldnIyqeaEZvZn/rVvcUiXRnBmSczj5QZYX+I6ssF0yyWzSC1pZD6lSAb2Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765442876; c=relaxed/simple;
-	bh=j9P0IoM2VBePZSGPEbquteAAJ7kda9NDqMa0x5DcGEA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=r8g0c1rN2oJ6zLO4JwIeKsIkGzAo1I4rN2dbOF0zODkwNbxol0s3M2/IyJVIVobqJ3LbrbdrlfhZp3dy45xSangwg6+4yO4sxJQp52ktXHAZsLbpRbK4CmgAs1+kuSd+4idm4UfPrPgbzyPsbPYO+XRSfEHfJVlJY3QdYOU7if0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bJ0iyKYn; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bJ0iyKYn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 193FAC116B1;
-	Thu, 11 Dec 2025 08:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765442876;
-	bh=j9P0IoM2VBePZSGPEbquteAAJ7kda9NDqMa0x5DcGEA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=bJ0iyKYn09dnRksKbPpgQmWootITzm8qVZhTdWApSd9uvdsPxcVhV7mIhnSB0VyVw
-	 CdEpBfzhw5XdXRzCX9L82VIBXUczNVsYnFc+ucOJzF19XzZO4VMQX1ADrokC2/oDkG
-	 9ggl9wYfnF3lz9Wq/njMYTLjJ/x3PDVZXo/1+OL3UU1Y15RmT4rH6q2uX5k5y1gEq4
-	 bXiHzR1v1YiwnkitVB0pZDC4IYcpMPOr3pD98vZCRK2y4L5RtPmrkNnkeRFxC6vyBl
-	 w1uq9/KBI2S5tSZuzi3PpZkt3/5F8hLa3tInVhJ2Nr+1Cz/Q0Z9YXPlNYbezWTsly6
-	 4Jlt9kQkWrogQ==
-Date: Thu, 11 Dec 2025 01:47:42 -0700 (MST)
-From: Paul Walmsley <pjw@kernel.org>
-To: Deepak Gupta <debug@rivosinc.com>
-cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-    x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-    Andrew Morton <akpm@linux-foundation.org>, 
-    "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-    Vlastimil Babka <vbabka@suse.cz>, 
-    Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-    Paul Walmsley <paul.walmsley@sifive.com>, 
-    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-    Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-    Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-    Christian Brauner <brauner@kernel.org>, 
-    Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>, 
-    Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
-    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-    Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>, 
-    Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-    Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-    =?ISO-8859-15?Q?Bj=F6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-    Andreas Hindborg <a.hindborg@kernel.org>, 
-    Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-    Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org, 
-    linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-    linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-    linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
-    linux-kselftest@vger.kernel.org, alistair.francis@wdc.com, 
-    richard.henderson@linaro.org, jim.shu@sifive.com, andybnac@gmail.com, 
-    kito.cheng@sifive.com, charlie@rivosinc.com, atishp@rivosinc.com, 
-    evan@rivosinc.com, cleger@rivosinc.com, alexghiti@rivosinc.com, 
-    samitolvanen@google.com, broonie@kernel.org, rick.p.edgecombe@intel.com, 
-    rust-for-linux@vger.kernel.org, Zong Li <zong.li@sifive.com>, 
-    Andreas Korb <andreas.korb@aisec.fraunhofer.de>, 
-    Valentin Haudiquet <valentin.haudiquet@canonical.com>
-Subject: Re: [PATCH v25 06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ
- | VM_WRITE
-In-Reply-To: <20251205-v5_user_cfi_series-v25-6-1a07c0127361@rivosinc.com>
-Message-ID: <b2acb9ca-1320-ab42-3937-2ea17153fac2@kernel.org>
-References: <20251205-v5_user_cfi_series-v25-0-1a07c0127361@rivosinc.com> <20251205-v5_user_cfi_series-v25-6-1a07c0127361@rivosinc.com>
+	s=arc-20240116; t=1765444669; c=relaxed/simple;
+	bh=t3Cd7hg2hGbCtGJ9jeKcQ1i/dz5mbmLQ3jxvFDoyah4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EDZ/gj2h8QHyY8aeLwi8sorKd0MZTWuw6KRDynGKQGv0BSFbRpIXQWRVh8800LwEm8jQOpi5untWTWdz+g420PMdMZE7gVS6ay+b9QREh/pB/4Nyr694TNFPksYknQvqjkpgKkQpp3e1J6kuFZbz5FWSTDmx0Kyr7GzwzVD92/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.40.57.136])
+	by gateway (Coremail) with SMTP id _____8Cx7tIojDppO0otAA--.26656S3;
+	Thu, 11 Dec 2025 17:17:28 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.40.57.136])
+	by front1 (Coremail) with SMTP id qMiowJCxG8EbjDppCxtIAQ--.23717S3;
+	Thu, 11 Dec 2025 17:17:24 +0800 (CST)
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+To: chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	corbet@lwn.net,
+	alexs@kernel.org,
+	si.yanteng@linux.dev,
+	tglx@linutronix.de,
+	jiaxun.yang@flygoat.com,
+	peterz@infradead.org,
+	wangliupu@loongson.cn,
+	lvjianmin@loongson.cn,
+	maobibo@loongson.cn,
+	siyanteng@cqsoftware.com.cn,
+	gaosong@loongson.cn,
+	yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: [PATCH v8 1/5] Docs/LoongArch: Add Advanced Extended-Redirect IRQ model description
+Date: Thu, 11 Dec 2025 17:17:02 +0800
+Message-ID: <20251211091709.5095-2-zhangtianyang@loongson.cn>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20251211091709.5095-1-zhangtianyang@loongson.cn>
+References: <20251211091709.5095-1-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=yes
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJCxG8EbjDppCxtIAQ--.23717S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+	ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+	BjDU0xBIdaVrnRJUUUBCb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+	xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxV
+	AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
+	67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21le4C262xC7I0v67AEwI8IwI
+	1l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv2
+	0xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7
+	xvr2IYc2Ij64vIr41lw4CEx2IqxVAFz4v204v26I0v724l42xK82IYc2Ij64vIr41l4I8I
+	3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJV
+	WUGwC20s026x8GjcxK67AKxVWUJVWUGwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAK
+	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
+	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY
+	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUco7KUUUUU
 
-On Fri, 5 Dec 2025, Deepak Gupta via B4 Relay wrote:
+Introduce the redirect interrupt controllers.When the redirect interrupt
+controller is enabled, the routing target of MSI interrupts is no longer
+a specific CPU and vector number, but a specific redirect entry. The
+actual CPU and vector number used are described by the redirect entry.
 
-> From: Deepak Gupta <debug@rivosinc.com>
-> 
-> `arch_calc_vm_prot_bits` is implemented on risc-v to return VM_READ |
-> VM_WRITE if PROT_WRITE is specified. Similarly `riscv_sys_mmap` is
-> updated to convert all incoming PROT_WRITE to (PROT_WRITE | PROT_READ).
-> This is to make sure that any existing apps using PROT_WRITE still work.
-> 
-> Earlier `protection_map[VM_WRITE]` used to pick read-write PTE encodings.
-> Now `protection_map[VM_WRITE]` will always pick PAGE_SHADOWSTACK PTE
-> encodings for shadow stack. Above changes ensure that existing apps
-> continue to work because underneath kernel will be picking
-> `protection_map[VM_WRITE|VM_READ]` PTE encodings.
-> 
-> Reviewed-by: Zong Li <zong.li@sifive.com>
-> Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
+---
+ .../arch/loongarch/irq-chip-model.rst         | 38 +++++++++++++++++++
+ .../zh_CN/arch/loongarch/irq-chip-model.rst   | 37 ++++++++++++++++++
+ 2 files changed, 75 insertions(+)
 
-This Signed-off-by: doesn't look right.  It doesn't look like Arnd 
-developed this patch, and it doesn't appear that he replied with a 
-Signed-off-by: to the list regarding a patch that you wrote.  Did I miss 
-it?  Did you mean Co-developed-by: or some other tag?
+diff --git a/Documentation/arch/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
+index a7ecce11e445..d9a2e8d7f70e 100644
+--- a/Documentation/arch/loongarch/irq-chip-model.rst
++++ b/Documentation/arch/loongarch/irq-chip-model.rst
+@@ -181,6 +181,44 @@ go to PCH-PIC/PCH-LPC and gathered by EIOINTC, and then go to CPUINTC directly::
+              | Devices |
+              +---------+
+ 
++Advanced Extended IRQ model (with redirection)
++==============================================
++
++In this model, IPI (Inter-Processor Interrupt) and CPU Local Timer interrupt go
++to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, PCH-MSI interrupts go
++to REDIRECT for remapping it to AVEC, and then go to CPUINTC directly, while all
++other devices interrupts go to PCH-PIC/PCH-LPC and gathered by EIOINTC, and then
++go to CPUINTC directly::
++
++ +-----+     +-----------------------+     +-------+
++ | IPI | --> |        CPUINTC        | <-- | Timer |
++ +-----+     +-----------------------+     +-------+
++              ^          ^          ^
++              |          |          |
++       +---------+ +----------+ +---------+     +-------+
++       | EIOINTC | | AVECINTC | | LIOINTC | <-- | UARTs |
++       +---------+ +----------+ +---------+     +-------+
++            ^            ^
++            |            |
++            |      +----------+
++            |      | REDIRECT |
++            |      +----------+
++            |            ^
++            |            |
++       +---------+  +---------+
++       | PCH-PIC |  | PCH-MSI |
++       +---------+  +---------+
++         ^     ^           ^
++         |     |           |
++ +---------+ +---------+ +---------+
++ | Devices | | PCH-LPC | | Devices |
++ +---------+ +---------+ +---------+
++                  ^
++                  |
++             +---------+
++             | Devices |
++             +---------+
++
+ ACPI-related definitions
+ ========================
+ 
+diff --git a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+index d4ff80de47b6..7e4e3e55c7ad 100644
+--- a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+@@ -174,6 +174,43 @@ CPU串口（UARTs）中断发送到LIOINTC，PCH-MSI中断发送到AVECINTC，
+              | Devices |
+              +---------+
+ 
++高级扩展IRQ模型 (带重定向)
++==========================
++
++在这种模型里面，IPI（Inter-Processor Interrupt）和CPU本地时钟中断直接发送到CPUINTC，
++CPU串口（UARTs）中断发送到LIOINTC，PCH-MSI中断首先发送到REDIRECT模块,完成重定向后发
++送到AVECINTC，而后通过AVECINTC直接送达CPUINTC，而其他所有设备的中断则分别发送到所连
++接的PCH-PIC/PCH-LPC，然后由EIOINTC统一收集，再直接到达CPUINTC::
++
++ +-----+     +-----------------------+     +-------+
++ | IPI | --> |        CPUINTC        | <-- | Timer |
++ +-----+     +-----------------------+     +-------+
++              ^          ^          ^
++              |          |          |
++       +---------+ +----------+ +---------+     +-------+
++       | EIOINTC | | AVECINTC | | LIOINTC | <-- | UARTs |
++       +---------+ +----------+ +---------+     +-------+
++            ^            ^
++            |            |
++            |      +----------+
++            |      | REDIRECT |
++            |      +----------+
++            |            ^
++            |            |
++       +---------+  +---------+
++       | PCH-PIC |  | PCH-MSI |
++       +---------+  +---------+
++         ^     ^           ^
++         |     |           |
++ +---------+ +---------+ +---------+
++ | Devices | | PCH-LPC | | Devices |
++ +---------+ +---------+ +---------+
++                  ^
++                  |
++             +---------+
++             | Devices |
++             +---------+
++
+ ACPI相关的定义
+ ==============
+ 
+-- 
+2.41.0
 
-> Tested-by: Andreas Korb <andreas.korb@aisec.fraunhofer.de>
-> Tested-by: Valentin Haudiquet <valentin.haudiquet@canonical.com>
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> ---
->  arch/riscv/include/asm/mman.h    | 26 ++++++++++++++++++++++++++
->  arch/riscv/include/asm/pgtable.h |  1 +
->  arch/riscv/kernel/sys_riscv.c    | 10 ++++++++++
->  arch/riscv/mm/init.c             |  2 +-
->  4 files changed, 38 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/riscv/include/asm/mman.h b/arch/riscv/include/asm/mman.h
-> new file mode 100644
-> index 000000000000..0ad1d19832eb
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/mman.h
-> @@ -0,0 +1,26 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef __ASM_MMAN_H__
-> +#define __ASM_MMAN_H__
-> +
-> +#include <linux/compiler.h>
-> +#include <linux/types.h>
-> +#include <linux/mm.h>
-> +#include <uapi/asm/mman.h>
-> +
-> +static inline unsigned long arch_calc_vm_prot_bits(unsigned long prot,
-> +						   unsigned long pkey __always_unused)
-> +{
-> +	unsigned long ret = 0;
-> +
-> +	/*
-> +	 * If PROT_WRITE was specified, force it to VM_READ | VM_WRITE.
-> +	 * Only VM_WRITE means shadow stack.
-> +	 */
-> +	if (prot & PROT_WRITE)
-> +		ret = (VM_READ | VM_WRITE);
-> +	return ret;
-> +}
-> +
-> +#define arch_calc_vm_prot_bits(prot, pkey) arch_calc_vm_prot_bits(prot, pkey)
-> +
-> +#endif /* ! __ASM_MMAN_H__ */
-> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-> index 29e994a9afb6..4c4057a2550e 100644
-> --- a/arch/riscv/include/asm/pgtable.h
-> +++ b/arch/riscv/include/asm/pgtable.h
-> @@ -182,6 +182,7 @@ extern struct pt_alloc_ops pt_ops __meminitdata;
->  #define PAGE_READ_EXEC		__pgprot(_PAGE_BASE | _PAGE_READ | _PAGE_EXEC)
->  #define PAGE_WRITE_EXEC		__pgprot(_PAGE_BASE | _PAGE_READ |	\
->  					 _PAGE_EXEC | _PAGE_WRITE)
-> +#define PAGE_SHADOWSTACK       __pgprot(_PAGE_BASE | _PAGE_WRITE)
->  
->  #define PAGE_COPY		PAGE_READ
->  #define PAGE_COPY_EXEC		PAGE_READ_EXEC
-> diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
-> index 795b2e815ac9..22fc9b3268be 100644
-> --- a/arch/riscv/kernel/sys_riscv.c
-> +++ b/arch/riscv/kernel/sys_riscv.c
-> @@ -7,6 +7,7 @@
->  
->  #include <linux/syscalls.h>
->  #include <asm/cacheflush.h>
-> +#include <asm-generic/mman-common.h>
->  
->  static long riscv_sys_mmap(unsigned long addr, unsigned long len,
->  			   unsigned long prot, unsigned long flags,
-> @@ -16,6 +17,15 @@ static long riscv_sys_mmap(unsigned long addr, unsigned long len,
->  	if (unlikely(offset & (~PAGE_MASK >> page_shift_offset)))
->  		return -EINVAL;
->  
-> +	/*
-> +	 * If PROT_WRITE is specified then extend that to PROT_READ
-> +	 * protection_map[VM_WRITE] is now going to select shadow stack encodings.
-> +	 * So specifying PROT_WRITE actually should select protection_map [VM_WRITE | VM_READ]
-> +	 * If user wants to create shadow stack then they should use `map_shadow_stack` syscall.
-> +	 */
-> +	if (unlikely((prot & PROT_WRITE) && !(prot & PROT_READ)))
-> +		prot |= PROT_READ;
-> +
->  	return ksys_mmap_pgoff(addr, len, prot, flags, fd,
->  			       offset >> (PAGE_SHIFT - page_shift_offset));
->  }
-> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-> index d85efe74a4b6..62ab2c7de7c8 100644
-> --- a/arch/riscv/mm/init.c
-> +++ b/arch/riscv/mm/init.c
-> @@ -376,7 +376,7 @@ pgd_t early_pg_dir[PTRS_PER_PGD] __initdata __aligned(PAGE_SIZE);
->  static const pgprot_t protection_map[16] = {
->  	[VM_NONE]					= PAGE_NONE,
->  	[VM_READ]					= PAGE_READ,
-> -	[VM_WRITE]					= PAGE_COPY,
-> +	[VM_WRITE]					= PAGE_SHADOWSTACK,
->  	[VM_WRITE | VM_READ]				= PAGE_COPY,
->  	[VM_EXEC]					= PAGE_EXEC,
->  	[VM_EXEC | VM_READ]				= PAGE_READ_EXEC,
-> 
-> -- 
-> 2.43.0
-> 
-> 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
-> 
