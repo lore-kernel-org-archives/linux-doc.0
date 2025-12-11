@@ -1,114 +1,85 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963552C11FD
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 07:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A3521CFFD;
+	Thu, 11 Dec 2025 08:05:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765436645; cv=none; b=kGCkLPupWjP1clCZAeC+AYS9mggf9HQyNWpG+On+BjRTyainx2WihawjUrwua2LRISYplPqPWZ+YpzCSzt32LHVk1jLanB4sKppTOv4ezws/NzMyhCGH2trGqvw3eTmRF2dowIos+pl9/5rqFH+RFF+P/IV5PLaUGU50GFjpTdw=
+	t=1765440343; cv=none; b=fksSbzn/tt6j8HWufgkYLLpHhVZbK/WDQAy18wqjOHd63wbncsFxBHu7SSpojGtl+YrKkFjISuOXf/3M6unn3UXCeo9gIwjRuNivWFXhjhOcnLT9WqmSNJtlA/XVtNFxgBSDuhRpGVvqZMVDhTLaOKHz3NMOg9o2nBAS5Ngw+Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765436645; c=relaxed/simple;
-	bh=zQ7Q7VL7sRSVbVPf7t4SPc1mIdmYtIM0mA1LyLVTGyU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sTvQT9FL2z22APjkRPgdPA+Uz7e26SsJFXuJavnifE1SVCu8be/M4XYDQ25OMeFFB8R2kd0FO9k8RfRg+QS7JpYR23jrfWrJySz/AEJkUMMYwrkTSZcxO0YjJy2kF8uTFSjvfhoCVTkBFB/ZIwwk75aV2GGPG3WXeGjFc9vy+qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Sinthbid; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1765440343; c=relaxed/simple;
+	bh=aPKeMjxLi1HLi972Uhx0X3LDVwP8dUt8WWUBTZJ2J6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W4IAzqHqE/cPve2dId6NFfvQGlIW+NDS3PH6D6+DCMpsOM6rr3NQpQCBOytR9gOfBJhyfr5xthBxJbTzJ3rlXGcXXnAUAubuMrT8tFYK9ZBDs7pao4z/V/jqvCjmRcr+hoEh8/PX5sMhQiZjzym4mSLC8ximmgZfewJx+vd4NI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iAUDs4oI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Sinthbid"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-64165cd689eso2631007a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 23:04:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765436642; x=1766041442; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aqt/EzBZObqd20FZ4KVaKSHRTroDrVMqsGCtVl7ltcw=;
-        b=SinthbidhVKE8KugcMukgPHW8vKj9RCAyhiS3BIDOUuYD/07OUl98My8fpeqlEdXo8
-         Ifm+TSnbk5wQ1uMi+1OgL67q1wsNK5M4CWRYZQH6Zd/tqwlfLhsHANjjg/0Pc6GN6tgK
-         lsAAe15BKodowV7fOEVm/ztj+soQhlJu0BIfCTHLkdjXPZX3KhuH8gynfefUvThiOaW5
-         TY5tpVhAOIuZojvf3pY9xi0GCSk7T+IhAN80/Ja/5rW5RcRU5CqxAKTZrZW69htTq9vv
-         6eMaGwcDjyBENMGp/iHk9ujmVV5diZosjRhGdbRT9N0PzYtxzGrh4JR7EhNzB4oSd8Eb
-         Y2uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765436642; x=1766041442;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=aqt/EzBZObqd20FZ4KVaKSHRTroDrVMqsGCtVl7ltcw=;
-        b=f/Nsf7Z3+A5cDllanWu0adMEp2I4LMiVBrWbI+LaZxHywt8znVl8FT3nWFtbKmQbRy
-         Hq2iZu2y1pcRMOCwZCUviRGFDCiLPmsapR4SMJFSoZ0mEVa+PhDlWPcMX31No5WIRbQo
-         Jff9M4/o523Nb5NgzxmOWJKAJV3nPoDLRdIHiYY9EE54tGec3i7H8iZhxFcV1B0bjG14
-         9uAisKxsThsGow1vgCqLqFPDF+cF7wCkoJm722O2FL4SaaKjtwPXrktG3jtW6FVmiJUm
-         lXBzRUoz5wL8Y2jbzZ/4NN9lmYSzwNiAlVY23Q4x/cQgkUwyx5Da3zAxsDm5Uz3SA9G1
-         fG3g==
-X-Forwarded-Encrypted: i=1; AJvYcCVLkHA6KXHXOCwdmLYNJhuXX1drmN82GIkMmkz8aL4MyzZVObvNs1VPtL3ZbUot5yGq6ympXJpttNc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMpBOgujA4Qt1NtAVRC//+FKptIgR75hjsA4xNIzURVJvlOZxw
-	PE8i+ftvdNUd9+eNYGyWF3PimsPfjnlv4gbz1EyZj7CuFcbe9UmN+m50I+BuePyI7svhoFboLdS
-	wQ5Mjf1P1tKvCmob7GOhS5bMjj8eqlT+pWqYDBDg=
-X-Gm-Gg: AY/fxX5FPm2AFm7+jWp54rrASVeWbf12I6GYCUOf8svqn6X+q/RSnopLkelyaCkV64T
-	PiiPFT0fvIhMH8BGvabtvYjd3945j5egYGsOqb+xLZqdF4xaSnO4AGq+/hZIYaSaliGIVCVvuo7
-	SbenEZqYR5HJ8dLEU5giPAnvL5hmsHbW/0ULrDJtuBg9B38Qtw+17vUpuOmXpX5d6ed4K6R+A/F
-	qkqYwQA9lSdgEcOpnKJWMDIsVu748cG3kh7M4yiLfyAOhjJq+fT0NVSuCYSB8bsfXx0CYQ=
-X-Google-Smtp-Source: AGHT+IHRoGna7wBwP8J3yXgxuFLEUOGQtVPJKwsIPRNms/46Mdj3fPrFPHjrti6IDJ+PwIqwRowNFCdLYUsN+qzW4LU=
-X-Received: by 2002:a17:907:7f88:b0:b46:57fd:8443 with SMTP id
- a640c23a62f3a-b7d02b63fcamr118124466b.24.1765436641696; Wed, 10 Dec 2025
- 23:04:01 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iAUDs4oI"
+Received: from pendragon.ideasonboard.com (fs96f9c361.tkyc007.ap.nuro.jp [150.249.195.97])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C0E251352;
+	Thu, 11 Dec 2025 09:05:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1765440334;
+	bh=aPKeMjxLi1HLi972Uhx0X3LDVwP8dUt8WWUBTZJ2J6A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iAUDs4oIUydn6rrPRIuVUdCNUpEL+az2VKNxP9B6OPXnKkhu3klGwfLA9C8EP8VX+
+	 QqErQWBNtYnYeQq3edS6V1ZfeWtiniXCp6Z7bQSqXtLF+prmVu3W0qloYDDPkBbzbt
+	 HH1qOdz2qK6x1jiqNGM45RMPIHhk/p3SjgtN9mEQ=
+Date: Thu, 11 Dec 2025 17:05:17 +0900
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
+Message-ID: <20251211080517.GA28411@pendragon.ideasonboard.com>
+References: <20251017162116.GA316284@nvidia.com>
+ <aPT-7TTgW_Xop99j@tzungbi-laptop>
+ <20251020115734.GH316284@nvidia.com>
+ <aPcQ99MZse5zmv3o@google.com>
+ <20251021121536.GG316284@nvidia.com>
+ <aPo6CZyT_IGWmu-O@tzungbi-laptop>
+ <20251023145131.GI262900@nvidia.com>
+ <2025102321-struggle-fraying-52ff@gregkh>
+ <20251211032306.GO28860@pendragon.ideasonboard.com>
+ <aTo-xErTTiJcribR@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CGME20240406081210epcas2p1736b44763ba01114ce3a552aff50d780@epcas2p1.samsung.com>
- <20240406081126.8030-1-bongkyu7.kim@samsung.com> <639691db-dec3-e180-3681-00bd966c90a5@samsung.com>
-In-Reply-To: <639691db-dec3-e180-3681-00bd966c90a5@samsung.com>
-From: John Stultz <jstultz@google.com>
-Date: Thu, 11 Dec 2025 16:03:50 +0900
-X-Gm-Features: AQt7F2rE14oJAEP872TMY140M921RwzKDj2g1nPC3S2my_r6Ve0g6Zr-ybBio4o
-Message-ID: <CANDhNCrz=3Xp=bfydZycPgzr82YVHYk00LeaKSf9dQ5DA1Z5vA@mail.gmail.com>
-Subject: Re: [PATCH v3] locking/rwsem: Reintroduce reader optimistic spinning conditionally
-To: Bongkyu Kim <bongkyu7.kim@samsung.com>
-Cc: peterz@infradead.org, mingo@redhat.com, will@kernel.org, 
-	longman@redhat.com, boqun.feng@gmail.com, corbet@lwn.net, 
-	gregkh@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aTo-xErTTiJcribR@shikoro>
 
-On Mon, Apr 29, 2024 at 8:08=E2=80=AFPM Bongkyu Kim <bongkyu7.kim@samsung.c=
-om> wrote:
-> On 4/6/24 17:11, Bongkyu Kim wrote:
-> > Reader optimistic spinning is helpful when the reader critical section
-> > is short and there aren't that many readers around. It also improves
-> > the chance that a reader can get the lock as writer optimistic spinning
-> > disproportionally favors writers much more than readers.
-> >
-> > Since commit 617f3ef95177 ("locking/rwsem: Remove reader optimistic
-> > spinning"), reader optimistic spinning was taken out is because of
-> > reader fragmentation especially now that we essentially wake up all the
-> > readers all at once when it is reader's turn to take the read lock.
-> >
-> > But, on smaller systems with just a few CPU cores, reader optimistic
-> > spinning may help performance. So, reintroduce reader optimistic
-> > spinning and enable it when the number of cores in the system <=3D the
-> > threshold (default set to 8 cores). This threshold can be changed by
-> > "rwsem.rspin_maxcpus" commandline.
-> >
-> > The simple heuristic of skipping optimistic spinning if the lock is
-> > reader owned is kept, reader optimistic spinning won't affect handoff
-> > handling which requires that an unlocker see the lock will be free and
-> > wake up the head of the wait queue.
-...
-> Hi Longman,
->
-> I made a new patch as you suggested.
-> I would appreciate if if you could review it.
+On Thu, Dec 11, 2025 at 12:47:16PM +0900, Wolfram Sang wrote:
+> 
+> > Replying late to this thread, I don't think this is right for V4L2. When
+> > it comes to solving the .remove() vs. userspace race, I think the right
+> > solution is at the cdev level.
+> 
+> Isn't there even prototype code from Dan Williams?
+> 
+> "[PATCH 1/3] cdev: Finish the cdev api with queued mode support"
+> 
+> https://lkml.org/lkml/2021/1/20/997
 
-Hey Bongkyu,
-  I just wanted to follow up here to see if this patch was abandoned
-or if further discussion elsewhere resulted in it not being
-resubmitted?
+I mentioned that in my LPC talk in 2022 :-) I think we should merge that
+(or a rebased, possibly improved version of it). I've meant to try
+plumbing that series in V4L2 but couldn't find the time so far.
 
-thanks
--john
+-- 
+Regards,
+
+Laurent Pinchart
