@@ -1,197 +1,296 @@
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAEF3126BE
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 12:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A362234973;
+	Thu, 11 Dec 2025 13:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765457981; cv=none; b=qtfCa2oWTqQrzxXqsFPUFU/IPdDvCDuYLe6NkjeiIV6S+0CnX9G/PcF/HqtGNtqGtgpaOnB1hs3lgROE2scn7bqm1l/c/qRYWmVGe/xbG20nU6MS05mq1KVYNqMyExxjgWkTMsMzTQ4WBeZsbrWFT2qsRUoTEhiBMVQwP9H3cMM=
+	t=1765458169; cv=none; b=p3bUUih9ThP/r4sDBLWB3ntA4fVK53eMk+XZHGs8k8BsgPZMA5JSg3Buv2Z0q8p58dfWdbU4nTidDzdcbGWNRZT8No8HvzXL5tNtYgkQRi0rpp5xuvbkiqtS4T8/dGyresInobGtCGUo0jf5uot4VflIG+Z9pqQS4SfSbKps1I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765457981; c=relaxed/simple;
-	bh=3sl+EeKgoic1meY3AExo8vX55CuahumVE/hloKxx6Fs=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=SVo0mGhIdnKLSzSWoX9S3M6r5mYsgUQkTlE4DHcNOMRx70IPC6cKI0tZXQIiypb8h7+0QKiS5COegVi6DSXv9nCrhne4HzexWKdE3mELc8RxrqdS+M3zF+ujJd/XtK3edVGvUbAKQlA8GMdoC2HXNBPOPZST7WglQ4A91qP7qdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Q+JZaNVj; arc=none smtp.client-ip=209.85.221.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
+	s=arc-20240116; t=1765458169; c=relaxed/simple;
+	bh=wMqefMX8Mc38mruoomh45hwibeRJ0H2QBBT3xydpibQ=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=uUhn0S0fghcuJpDyimhuNFl7j6gFRyCKtTjOtOZS4/XTDB1+Tk5gwvKwQYvCxuTguW3BL+CEuambGw5yZUPJ5Kj5hHGVv1mRhAbdnHVgMCBDQ4BD3BnR+wVXCj845f7Eo3JvqlDPGxsoFhNMg6JVEZm6PvgAQrPUY1/ypgMJgPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=xHbr3R2W; arc=none smtp.client-ip=113.46.200.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Q+JZaNVj"
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-42b2ffbba05so40049f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 04:59:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765457978; x=1766062778; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z5uF5F4n44uHHmtIbXF2UG9WJO+vO8dPMrZl97vxG7I=;
-        b=Q+JZaNVjn8YjBoIFjHR+V2/AnZpqmC948DZkkClxrW/iu26CT4/8ZdsYeLxNJ1YYNX
-         TPQ0D9PE12VlP2W+axpyI8kjRWGzdmY2yz7W4Jbl6lg9yzjd4huBhfj2him89tlLLuzg
-         pZ9A33zZPEuZI+LLh08s37PaPM2Ooq2Tn9BpGDF6UiiyNYApIJcpNpcF8RqhTuAv7Ynb
-         Qr8R+c5Mt++/kwOc7jBp9RaxrHXvDZxHD7/woROCCe+3o5bv5JxVMBQjw60e0lQSZsVX
-         Z63sfKL9CnD4VioXEqZsPokkOAp4J13xzCOsMVx9zGkB26XLDIhTlr1Wp7S5lmXTpB0V
-         BxGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765457978; x=1766062778;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Z5uF5F4n44uHHmtIbXF2UG9WJO+vO8dPMrZl97vxG7I=;
-        b=r07i2IQKeyqtIDHfkJYWCyRyr5lRdzMDnWZVY1+GxjafQjyY2oL1YZiOuq+6Qmc5yQ
-         BszbrI4T3KNNSwNZMWT+UVbX9vRzkBt9LLu5Ayn44z1n1yHomGeKYuivopJ9nGEA3xLT
-         zApK1DGVl0TdPW4Z/fkFmbbJaS75X4i+yPrXS9cvdesiizKh+RLNJtJjVwdEagWaVoGf
-         IF409GFqKZaEQ+d+wmBpox7bt56t6cle8fC0SVd6LgvdjLUg+0qaoGGdnTujVOav18p+
-         WjEhUUpBokH5Qi+r7PWePcq59XexdNqJc9BJW3uMvDifSVQmbfNKpiO/qFYVN3forwkH
-         ggNg==
-X-Forwarded-Encrypted: i=1; AJvYcCV8VJkFGR5PN25QvhBPyE4uFAE8Qska9Mb4HAJ80vfT3jqYMQuHmivwa/O2rtGAjWOEYGF7k74es/U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzc2UcMaWInLJu3YVMmHx/J4Q65xvyZ6S24ICLVLMX8NxU9zU09
-	/iTo/jb+SbcYG2W1m6iGXkHsydUTmc4q+fO0TdXSU4LlDCgWkQyHcH07ykQ1WsurfP8bbWg6xQz
-	Y1K2DL/Yq/h5gNA==
-X-Google-Smtp-Source: AGHT+IEzrlA/D2+Mzh+inyFuHFFtWJkme4dxyA7uMTZWAlUftjFK9QGFcKLMuEzVGMzE2aQGlGAf5icqRkZxhw==
-X-Received: from wrvk5.prod.google.com ([2002:a5d:5185:0:b0:425:f04a:4d91])
- (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:2087:b0:42b:4177:7136 with SMTP id ffacd0b85a97d-42fa3afd48dmr6497099f8f.32.1765457978004;
- Thu, 11 Dec 2025 04:59:38 -0800 (PST)
-Date: Thu, 11 Dec 2025 12:59:28 +0000
-In-Reply-To: <20251211125928.3258905-1-smostafa@google.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="xHbr3R2W"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=yXjDj2LopgEdejBPveRLTL1bCofz4US84PT1q1wUrQg=;
+	b=xHbr3R2WIFp5oR9Nco7g8uQM7yu4h8Y+nnBWfQSXyrUxZxY18Qw54d2p1AsZz3jxGzQ4smao0
+	Zufh6YL+19aoxIC2d0F0j8hIcQYrDe0NKCEwe1hsGqQ+OwBnstutzZsIFz65/ezT/vDsDImfl1I
+	7irz7iJCvnjq1YPX3iwjrnI=
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4dRt3k0kTVz12LCr;
+	Thu, 11 Dec 2025 21:00:18 +0800 (CST)
+Received: from kwepemk200017.china.huawei.com (unknown [7.202.194.83])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2E13418047B;
+	Thu, 11 Dec 2025 21:02:35 +0800 (CST)
+Received: from [10.174.178.219] (10.174.178.219) by
+ kwepemk200017.china.huawei.com (7.202.194.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 11 Dec 2025 21:02:33 +0800
+Subject: Re: [PATCH v4 2/3] KVM: selftests: Test for KVM_EXIT_ARM_SEA
+To: Jiaqi Yan <jiaqiyan@google.com>
+CC: <maz@kernel.org>, <oliver.upton@linux.dev>, <duenwen@google.com>,
+	<rananta@google.com>, <jthoughton@google.com>, <vsethi@nvidia.com>,
+	<jgg@nvidia.com>, <joey.gouly@arm.com>, <suzuki.poulose@arm.com>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <pbonzini@redhat.com>,
+	<corbet@lwn.net>, <shuah@kernel.org>, <kvm@vger.kernel.org>,
+	<kvmarm@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>
+References: <20251013185903.1372553-1-jiaqiyan@google.com>
+ <20251013185903.1372553-3-jiaqiyan@google.com>
+From: Zenghui Yu <yuzenghui@huawei.com>
+Message-ID: <3061f5f8-cef0-b7b1-c4de-f2ceea29af9a@huawei.com>
+Date: Thu, 11 Dec 2025 21:02:27 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251211125928.3258905-1-smostafa@google.com>
-X-Mailer: git-send-email 2.52.0.223.gf5cc29aaa4-goog
-Message-ID: <20251211125928.3258905-5-smostafa@google.com>
-Subject: [PATCH v4 4/4] iommu: debug-pagealloc: Check mapped/unmapped kernel memory
-From: Mostafa Saleh <smostafa@google.com>
-To: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
-	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
-	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com, 
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
-	xiaqinxin@huawei.com, baolu.lu@linux.intel.com, rdunlap@infradead.org, 
-	Mostafa Saleh <smostafa@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+In-Reply-To: <20251013185903.1372553-3-jiaqiyan@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemk200017.china.huawei.com (7.202.194.83)
 
-Now, as the page_ext holds count of IOMMU mappings, we can use it to
-assert that any page allocated/freed is indeed not in the IOMMU.
+Hi Jiaqi,
 
-The sanitizer doesn=E2=80=99t protect against mapping/unmapping during this
-period. However, that=E2=80=99s less harmful as the page is not used by the
-kernel.
+I had run into several problems when testing it on different servers. I
+haven't figured them out yet but post it early for discussion.
 
-Signed-off-by: Mostafa Saleh <smostafa@google.com>
----
- drivers/iommu/iommu-debug-pagealloc.c | 23 +++++++++++++++++++++++
- include/linux/iommu-debug-pagealloc.h | 14 ++++++++++++++
- include/linux/mm.h                    |  5 +++++
- 3 files changed, 42 insertions(+)
+On 2025/10/14 2:59, Jiaqi Yan wrote:
+> Test how KVM handles guest SEA when APEI is unable to claim it, and
+> KVM_CAP_ARM_SEA_TO_USER is enabled.
+> 
+> The behavior is triggered by consuming recoverable memory error (UER)
+> injected via EINJ. The test asserts two major things:
+> 1. KVM returns to userspace with KVM_EXIT_ARM_SEA exit reason, and
+>    has provided expected fault information, e.g. esr, flags, gva, gpa.
+> 2. Userspace is able to handle KVM_EXIT_ARM_SEA by injecting SEA to
+>    guest and KVM injects expected SEA into the VCPU.
+> 
+> Tested on a data center server running Siryn AmpereOne processor
+> that has RAS support.
+> 
+> Several things to notice before attempting to run this selftest:
+> - The test relies on EINJ support in both firmware and kernel to
+>   inject UER. Otherwise the test will be skipped.
+> - The under-test platform's APEI should be unable to claim the SEA.
+>   Otherwise the test will be skipped.
+> - Some platform doesn't support notrigger in EINJ, which may cause
+>   APEI and GHES to offline the memory before guest can consume
+>   injected UER, and making test unable to trigger SEA.
+> 
+> Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
 
-diff --git a/drivers/iommu/iommu-debug-pagealloc.c b/drivers/iommu/iommu-de=
-bug-pagealloc.c
-index 4639cf9518e6..424e00cd103b 100644
---- a/drivers/iommu/iommu-debug-pagealloc.c
-+++ b/drivers/iommu/iommu-debug-pagealloc.c
-@@ -9,6 +9,7 @@
- #include <linux/iommu-debug-pagealloc.h>
- #include <linux/kernel.h>
- #include <linux/page_ext.h>
-+#include <linux/page_owner.h>
-=20
- #include "iommu-priv.h"
-=20
-@@ -73,6 +74,28 @@ static size_t iommu_debug_page_size(struct iommu_domain =
-*domain)
- 	return 1UL << __ffs(domain->pgsize_bitmap);
- }
-=20
-+static bool iommu_debug_page_count(const struct page *page)
-+{
-+	unsigned int ref;
-+	struct page_ext *page_ext =3D page_ext_get(page);
-+	struct iommu_debug_metadata *d =3D get_iommu_data(page_ext);
-+
-+	ref =3D atomic_read(&d->ref);
-+	page_ext_put(page_ext);
-+	return ref !=3D 0;
-+}
-+
-+void __iommu_debug_check_unmapped(const struct page *page, int numpages)
-+{
-+	while (numpages--) {
-+		if (WARN_ON(iommu_debug_page_count(page))) {
-+			pr_warn("iommu: Detected page leak!\n");
-+			dump_page_owner(page);
-+		}
-+		page++;
-+	}
-+}
-+
- void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys, size=
-_t size)
- {
- 	size_t off, end;
-diff --git a/include/linux/iommu-debug-pagealloc.h b/include/linux/iommu-de=
-bug-pagealloc.h
-index a439d6815ca1..46c3c1f70150 100644
---- a/include/linux/iommu-debug-pagealloc.h
-+++ b/include/linux/iommu-debug-pagealloc.h
-@@ -13,6 +13,20 @@ DECLARE_STATIC_KEY_FALSE(iommu_debug_initialized);
-=20
- extern struct page_ext_operations page_iommu_debug_ops;
-=20
-+void __iommu_debug_check_unmapped(const struct page *page, int numpages);
-+
-+static inline void iommu_debug_check_unmapped(const struct page *page, int=
- numpages)
-+{
-+	if (static_branch_unlikely(&iommu_debug_initialized))
-+		__iommu_debug_check_unmapped(page, numpages);
-+}
-+
-+#else
-+static inline void iommu_debug_check_unmapped(const struct page *page,
-+					      int numpages)
-+{
-+}
-+
- #endif /* CONFIG_IOMMU_DEBUG_PAGEALLOC */
-=20
- #endif /* __LINUX_IOMMU_DEBUG_PAGEALLOC_H */
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 7a1819c20643..3763b71a7d3e 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -36,6 +36,7 @@
- #include <linux/rcuwait.h>
- #include <linux/bitmap.h>
- #include <linux/bitops.h>
-+#include <linux/iommu-debug-pagealloc.h>
-=20
- struct mempolicy;
- struct anon_vma;
-@@ -4133,12 +4134,16 @@ extern void __kernel_map_pages(struct page *page, i=
-nt numpages, int enable);
- #ifdef CONFIG_DEBUG_PAGEALLOC
- static inline void debug_pagealloc_map_pages(struct page *page, int numpag=
-es)
- {
-+	iommu_debug_check_unmapped(page, numpages);
-+
- 	if (debug_pagealloc_enabled_static())
- 		__kernel_map_pages(page, numpages, 1);
- }
-=20
- static inline void debug_pagealloc_unmap_pages(struct page *page, int nump=
-ages)
- {
-+	iommu_debug_check_unmapped(page, numpages);
-+
- 	if (debug_pagealloc_enabled_static())
- 		__kernel_map_pages(page, numpages, 0);
- }
---=20
-2.52.0.223.gf5cc29aaa4-goog
+[...]
 
+> +static void inject_uer(uint64_t paddr)
+> +{
+> +	if (access("/sys/firmware/acpi/tables/EINJ", R_OK) == -1)
+> +		ksft_test_result_skip("EINJ table no available in firmware");
+
+Missing '\n'.
+
+We should return early (to actually skip the test) if the file can not
+be accessed, right?
+
+> +
+> +	if (access(EINJ_ETYPE, R_OK | W_OK) == -1)
+> +		ksft_test_result_skip("EINJ module probably not loaded?");
+> +
+> +	write_einj_entry(EINJ_ETYPE, ERROR_TYPE_MEMORY_UER);
+> +	write_einj_entry(EINJ_FLAGS, MASK_MEMORY_UER);
+> +	write_einj_entry(EINJ_ADDR, paddr);
+> +	write_einj_entry(EINJ_MASK, ~0x0UL);
+> +	write_einj_entry(EINJ_NOTRIGGER, 1);
+> +	write_einj_entry(EINJ_DOIT, 1);
+> +}
+> +
+> +/*
+> + * When host APEI successfully claims the SEA caused by guest_code, kernel
+> + * will send SIGBUS signal with BUS_MCEERR_AR to test thread.
+> + *
+> + * We set up this SIGBUS handler to skip the test for that case.
+> + */
+> +static void sigbus_signal_handler(int sig, siginfo_t *si, void *v)
+> +{
+> +	ksft_print_msg("SIGBUS (%d) received, dumping siginfo...\n", sig);
+> +	ksft_print_msg("si_signo=%d, si_errno=%d, si_code=%d, si_addr=%p\n",
+> +		       si->si_signo, si->si_errno, si->si_code, si->si_addr);
+> +	if (si->si_code == BUS_MCEERR_AR)
+> +		ksft_test_result_skip("SEA is claimed by host APEI\n");
+> +	else
+> +		ksft_test_result_fail("Exit with signal unhandled\n");
+> +
+> +	exit(0);
+> +}
+> +
+> +static void setup_sigbus_handler(void)
+> +{
+> +	struct sigaction act;
+> +
+> +	memset(&act, 0, sizeof(act));
+> +	sigemptyset(&act.sa_mask);
+> +	act.sa_sigaction = sigbus_signal_handler;
+> +	act.sa_flags = SA_SIGINFO;
+> +	TEST_ASSERT(sigaction(SIGBUS, &act, NULL) == 0,
+> +		    "Failed to setup SIGBUS handler");
+> +}
+> +
+> +static void guest_code(void)
+> +{
+> +	uint64_t guest_data;
+> +
+> +	/* Consumes error will cause a SEA. */
+> +	guest_data = *(uint64_t *)EINJ_GVA;
+> +
+> +	GUEST_FAIL("Poison not protected by SEA: gva=%#lx, guest_data=%#lx\n",
+> +		   EINJ_GVA, guest_data);
+> +}
+> +
+> +static void expect_sea_handler(struct ex_regs *regs)
+> +{
+> +	u64 esr = read_sysreg(esr_el1);
+> +	u64 far = read_sysreg(far_el1);
+> +	bool expect_far_invalid = far_invalid;
+> +
+> +	GUEST_PRINTF("Handling Guest SEA\n");
+> +	GUEST_PRINTF("ESR_EL1=%#lx, FAR_EL1=%#lx\n", esr, far);
+> +
+> +	GUEST_ASSERT_EQ(ESR_ELx_EC(esr), ESR_ELx_EC_DABT_CUR);
+> +	GUEST_ASSERT_EQ(esr & ESR_ELx_FSC_TYPE, ESR_ELx_FSC_EXTABT);
+> +
+> +	if (expect_far_invalid) {
+> +		GUEST_ASSERT_EQ(esr & ESR_ELx_FnV, ESR_ELx_FnV);
+
+I hit this ASSERT with:
+
+# Mapped 0x40000 pages: gva=0x80000000 to gpa=0xff80000000
+# Before EINJect: data=0xbaadcafe
+# EINJ_GVA=0x81234bad, einj_gpa=0xff81234bad, einj_hva=0xffff41234bad,
+einj_hpa=0x202841234bad
+# echo 0x10 > /sys/kernel/debug/apei/einj/error_type - done
+# echo 0x2 > /sys/kernel/debug/apei/einj/flags - done
+# echo 0x202841234bad > /sys/kernel/debug/apei/einj/param1 - done
+# echo 0xffffffffffffffff > /sys/kernel/debug/apei/einj/param2 - done
+# echo 0x1 > /sys/kernel/debug/apei/einj/notrigger - done
+# echo 0x1 > /sys/kernel/debug/apei/einj/error_inject - done
+# Memory UER EINJected
+# Dump kvm_run info about KVM_EXIT_ARM_SEA
+# kvm_run.arm_sea: esr=0x92000610, flags=0
+# kvm_run.arm_sea: gva=0, gpa=0
+# From guest: Handling Guest SEA
+# From guest: ESR_EL1=0x96000010, FAR_EL1=0xaaaadf254828
+# Guest aborted!
+==== Test Assertion Failure ====
+  arm64/sea_to_user.c:172: esr & ESR_ELx_FnV == ESR_ELx_FnV
+  pid=38112 tid=38112 errno=4 - Interrupted system call
+     1	0x0000000000402f9b: run_vm at sea_to_user.c:246
+     2	0x0000000000402467: main at sea_to_user.c:330
+     3	0x0000ffff8e22b03f: ?? ??:0
+     4	0x0000ffff8e22b117: ?? ??:0
+     5	0x00000000004026ef: _start at ??:?
+  0x0 != 0x400 (esr & ESR_ELx_FnV != ESR_ELx_FnV)
+
+It seems that KVM doesn't emulate FnV when injecting an abort.
+
+> +		GUEST_PRINTF("Guest observed garbage value in FAR\n");
+> +	} else {
+> +		GUEST_ASSERT_EQ(esr & ESR_ELx_FnV, 0);
+> +		GUEST_ASSERT_EQ(far, EINJ_GVA);
+> +	}
+> +
+> +	GUEST_DONE();
+> +}
+> +
+> +static void vcpu_inject_sea(struct kvm_vcpu *vcpu)
+> +{
+> +	struct kvm_vcpu_events events = {};
+> +
+> +	events.exception.ext_dabt_pending = true;
+> +	vcpu_events_set(vcpu, &events);
+> +}
+> +
+> +static void run_vm(struct kvm_vm *vm, struct kvm_vcpu *vcpu)
+> +{
+> +	struct ucall uc;
+> +	bool guest_done = false;
+> +	struct kvm_run *run = vcpu->run;
+> +	u64 esr;
+> +
+> +	/* Resume the vCPU after error injection to consume the error. */
+> +	vcpu_run(vcpu);
+> +
+> +	ksft_print_msg("Dump kvm_run info about KVM_EXIT_%s\n",
+> +		       exit_reason_str(run->exit_reason));
+> +	ksft_print_msg("kvm_run.arm_sea: esr=%#llx, flags=%#llx\n",
+> +		       run->arm_sea.esr, run->arm_sea.flags);
+> +	ksft_print_msg("kvm_run.arm_sea: gva=%#llx, gpa=%#llx\n",
+> +		       run->arm_sea.gva, run->arm_sea.gpa);
+> +
+> +	TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_ARM_SEA);
+
+I can also hit this ASSERT with:
+
+Random seed: 0x6b8b4567
+# Mapped 0x40000 pages: gva=0x80000000 to gpa=0xff80000000
+# Before EINJect: data=0xbaadcafe
+# EINJ_GVA=0x81234bad, einj_gpa=0xff81234bad, einj_hva=0xffff41234bad,
+einj_hpa=0x2841234bad
+# echo 0x10 > /sys/kernel/debug/apei/einj/error_type - done
+# echo 0x2 > /sys/kernel/debug/apei/einj/flags - done
+# echo 0x2841234bad > /sys/kernel/debug/apei/einj/param1 - done
+# echo 0xffffffffffffffff > /sys/kernel/debug/apei/einj/param2 - done
+# echo 0x1 > /sys/kernel/debug/apei/einj/notrigger - done
+# echo 0x1 > /sys/kernel/debug/apei/einj/error_inject - done
+# Memory UER EINJected
+# Dump kvm_run info about KVM_EXIT_MMIO
+# kvm_run.arm_sea: esr=0xffff90ba0040, flags=0x691000
+# kvm_run.arm_sea: gva=0x100000008, gpa=0
+==== Test Assertion Failure ====
+  arm64/sea_to_user.c:207: exit_reason == (41)
+  pid=38023 tid=38023 errno=4 - Interrupted system call
+     1	0x0000000000402d1b: run_vm at sea_to_user.c:207
+     2	0x0000000000402467: main at sea_to_user.c:330
+     3	0x0000ffff9122b03f: ?? ??:0
+     4	0x0000ffff9122b117: ?? ??:0
+     5	0x00000000004026ef: _start at ??:?
+  Wanted KVM exit reason: 41 (ARM_SEA), got: 6 (MMIO)
+
+Not sure what's wrong it..
+
+> +
+> +	esr = run->arm_sea.esr;
+> +	TEST_ASSERT_EQ(ESR_ELx_EC(esr), ESR_ELx_EC_DABT_LOW);
+> +	TEST_ASSERT_EQ(esr & ESR_ELx_FSC_TYPE, ESR_ELx_FSC_EXTABT);
+> +	TEST_ASSERT_EQ(ESR_ELx_ISS2(esr), 0);
+> +	TEST_ASSERT_EQ((esr & ESR_ELx_INST_SYNDROME), 0);
+> +	TEST_ASSERT_EQ(esr & ESR_ELx_VNCR, 0);
+> +
+> +	if (!(esr & ESR_ELx_FnV)) {
+> +		ksft_print_msg("Expect gva to match given FnV bit is 0\n");
+> +		TEST_ASSERT_EQ(run->arm_sea.gva, EINJ_GVA);
+> +	}
+> +
+> +	if (run->arm_sea.flags & KVM_EXIT_ARM_SEA_FLAG_GPA_VALID) {
+> +		ksft_print_msg("Expect gpa to match given KVM_EXIT_ARM_SEA_FLAG_GPA_VALID is set\n");
+> +		TEST_ASSERT_EQ(run->arm_sea.gpa, einj_gpa & PAGE_ADDR_MASK);
+> +	}
+> +
+> +	far_invalid = esr & ESR_ELx_FnV;
+
+Missing sync_global_to_guest()?
+
+Thanks,
+Zenghui
