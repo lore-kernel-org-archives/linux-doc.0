@@ -1,180 +1,192 @@
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D9F2989BC
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 12:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A063009F4
+	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 12:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765457225; cv=none; b=IIQG/eIlxwHm8OY2A7lraB84yomgaKpGmv8Ht/2NVF+TIx6cI5Ha1M1yCp4tk3a3WRoHwS/fRluWurWUm7rIfHwJ3VkiOVEv2CkGNnxgFQH1Oxp1V0LReM8uxgwXEixghdwU14m2yqyf9ikmjh/F9i0QBk355Xu2gZxMn6GIZ2M=
+	t=1765457977; cv=none; b=YK4mrc9axkZugDWbTKUlLuekGhhYAnRc0D1E4gsd8I45FcV7qVFZJ/nwFm+nGh/VflJ/lcAVIpDVy7Wr7kcLiajMITaz6bzXO7wtpdw4IzexI0Guy0Jwyq9840X8NFAc3M/UsrGT0wLJKOIIG5Dw8oGDyPaxYDCTqhbMIVLy2t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765457225; c=relaxed/simple;
-	bh=KlnlyD3GULaarSpQawO7uLrMOMtNq2Im5xzf3rc9j7Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=THW0s5O+moVfL1l/yEcRzVPABHIRknKdXzEH6aMlPJK83uuoCOAEJU/sY37vRk0gh01QJDmW7CGeXPdNLCw46F9vtCYsrTOfaRLzdn21qXgpZ1RydkrEvIFrXE+V5KxUjrNi76bGG9Q/SUNC+5Z5pt/2Oex1uLrzUwU58uabI3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=pNvAaBWB; arc=none smtp.client-ip=185.125.188.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1765457977; c=relaxed/simple;
+	bh=rLcihtyFhSEoeTJa4t4hOIpNJcIYYd1QzG5DpHS2acY=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Nj5ugBTmizsym6sfj+i9/F16UZsq5NPc33NUV7x5RmAXuUpqvIjuxUhGk6De5onDaQIpxpk9O4NOKBrvkx6SibRL5Wci5aqo2icDWiW89YnSamRXxPgNkSnbb52mPWsEuBeepc/gwWIxtoXnC1Zf+uOp5L5gTzkbbXOj3aMMmXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ECmWEpGb; arc=none smtp.client-ip=209.85.128.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="pNvAaBWB"
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 4BBE13F682
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 12:46:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1765457209;
-	bh=I5FQi0ANvMyxYUi59ipfg7QnXBeGhk5Egxi4bOQoBQI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=pNvAaBWBmZbeNt/87scDxP5C2M7LKikEB8HUFG+fCWvQ4/kLhzbscJhuMcnSQRz1Y
-	 lgyKMKlO9IBN7yMJgzjmHt0V1Ww3Kl9E51LMWKd6L2qsKwLgq6d1fSiTcUhxU9LA9+
-	 +06F2JTcatXmWkbXT+dwjnZ+5U+LoI/6HblQzuGPAxpxIuDMg7ehD9PXSUNh3IVju1
-	 Fv2bynR20GSYdhRMEVoSKw/hPpCQuzLOO3fR8TRMnLZV/3q2mpmMb+O3pHbRL6fzoX
-	 2Tg8D0Eh6VpysjO5GiFd/zDne2zXgmTYu8UqeHkglBojbgI4Bb5bvtWs01xm4OZAEf
-	 3sC2TF80RxRZ0AQ4DzQIOh1mLbBz8t0PvPI91mrkHv7mNZeI1xlSr7e/VQ72FXsR28
-	 UcTWT1JGBEj6RuQlWoFHY6Mos/m9fqVuWFexuJqqNNPNUncQSpLHlUi5UCXN6Kg2hw
-	 kiY3pQexCeBtBJZxKryOG9ZsrJrjuXmbeoMZBaI8GqCUHdhAsGh6OFIdI4G3IZChOL
-	 Y2A6ml6nzMdfR1ULsvPnkjwbgJXKv2OuoOtH1jm4N4zJWh+dV8kUtRlHQSZ0bW+YgL
-	 tLjq7nIU0vJh8DAPfol06U5bvn89A1ryJO68+/t972cdE6WHWR2OCFEbbKjIgwSbyu
-	 OFes0LHZH+hYAiovCreFd/nI=
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-47775585257so364625e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 04:46:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ECmWEpGb"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-477563e531cso414925e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 04:59:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765457974; x=1766062774; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1YPd4rabCA15+W0gc58X3ldTKNVJsgSl/m8TAJcDC9k=;
+        b=ECmWEpGb7wvNHWaO3wIO1jZ2PV378ZBMUSBqyQX+EiEIRgmapVFJM0qiZMBJyzHQmf
+         LJeJj37Iuo18p5KcC94tuZ6m7r/OsPbl65Uuz48V00Z/qLMY4Me+IygO9KZjNrmfVJSc
+         lU7e/ePeOtxOzJx6rv9t0xq4BqvHa+7/B1yfWKvOyQo+IrGoJQxkew4suncyjsPx99NY
+         VLFS1j+KQKfuhr1Eq5fCG6Ka3vRy2X8KgXvkGems9u9jcwy3jUt3pniBumyiycNS9Oee
+         65jEhnalCmBGYg9K2EFOdcRXeuM+uGYxLrE1IK5maWWVCGm9B4ZtqT/IWjtecGq39xHM
+         hMOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765457195; x=1766061995;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=I5FQi0ANvMyxYUi59ipfg7QnXBeGhk5Egxi4bOQoBQI=;
-        b=V7t1b7v1+cCvT/BPGtpPiCuJEmAA2bbGjHh6ss1T8fSSgLXyH+dU7+b5I5sa/i/OPD
-         6gsiTEuy/xNqDr6a7UkZ2LjGjJt03/wANV+sTXnKhGy/0P7xX9nD/ZTrIbUzhUrWsPyo
-         yJ7BWKq4J1z0WO43HJqOBBRR+91EuPNX9AE9YQ3TtGbtgp7uVKGQ0CiJLPqzdLuDTq5N
-         evDEzezrDWhJ82u801gh/+WpHRN4ELSds350+bx9X5Sk24N1jtbmMk+t2tw/P9L8K/3P
-         5ACpGdTaXEYsY6YsJWygxV2EqnhF1F43lKk+UqgxNGF1dCyfo9HY+jyyTZpNdO8r/mgj
-         EBEQ==
-X-Gm-Message-State: AOJu0YxIOYSWbRoQLMk6YCnKBcGE1I3QUXGwsgtO/EmOpwfDwzN0tHtX
-	DWW/sJxtaMF24G+4vtvT49+8zkWypCB1x4PAnbgjzdRuKidzWS1NhMFiyV5IfvsQh0spXCHVGYN
-	2f8pJ8kExu3msu+p4IvEj0f+GuyVzfNDCVjJecjFG6ttoMzaqsKQ02J7y+BT07z6Zst/NLBUQx+
-	rGfg==
-X-Gm-Gg: AY/fxX42br2FxeSNxKcJM7/2TyjQQbBvaeCgtSWB3WPogY+Dfvd6w+IaXIfu0TjS8Vh
-	Wo0m8roYWU5Jgs/we3GSyMHNAa9/EhnNNEC89hwPOF7IIv9lvZ6a7MQvJEi5gDzB16M2fLcCxMs
-	XroTMmy3UsUl1+cOdrOwW3cWsILdAk6pfCCO5omJLGOeoZJpjX4YYePae4a+XFg2OlR2Wrt1Dfo
-	QDtlhoJhpgWPgr4ZSfo22kPooxoKn4L4lGyjZ+oCwJfZMHU5/Aptm+m7B9505klLR3c+vJCcrkl
-	rKiIhwPvsZZeZ0MrlTzhXPKRzzVBExXHK6ZUnf1Rpo5FbVlvNkP3lv5ZRf22WssAMbuqS8Nk/Sw
-	svGUQ++q8HoGyxe+vvxxJ4UUIjhuiwU+xeYTamMbhP4SWxdU39Hwcka6VQOVyW5OtKy7Etr3cYb
-	0NLQj3Tu7Vn/+u9NTtM4kbGVw=
-X-Received: by 2002:a05:600c:b8a:b0:477:8b2e:aa7d with SMTP id 5b1f17b1804b1-47a83847b05mr64907275e9.30.1765457195242;
-        Thu, 11 Dec 2025 04:46:35 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE04Bu9T9811Vk3v7Uu4T4rO8U+ertcr5E4wLm6pw5TUxW8Cj3giRIH0Ltz2lCx55IZNIR5JA==
-X-Received: by 2002:a05:600c:b8a:b0:477:8b2e:aa7d with SMTP id 5b1f17b1804b1-47a83847b05mr64906845e9.30.1765457194787;
-        Thu, 11 Dec 2025 04:46:34 -0800 (PST)
-Received: from amikhalitsyn.lan (p200300cf57022000e6219d5798620e30.dip0.t-ipconnect.de. [2003:cf:5702:2000:e621:9d57:9862:e30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a89f0d6f2sm32075905e9.13.2025.12.11.04.46.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 04:46:34 -0800 (PST)
-From: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
-To: kees@kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andy Lutomirski <luto@amacapital.net>,
-	Will Drewry <wad@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Tycho Andersen <tycho@tycho.pizza>,
-	Andrei Vagin <avagin@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	=?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@stgraber.org>,
-	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
-Subject: [PATCH v3 4/7] seccomp: mark first listener in the tree
-Date: Thu, 11 Dec 2025 13:46:08 +0100
-Message-ID: <20251211124614.161900-5-aleksandr.mikhalitsyn@canonical.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251211124614.161900-1-aleksandr.mikhalitsyn@canonical.com>
-References: <20251211124614.161900-1-aleksandr.mikhalitsyn@canonical.com>
+        d=1e100.net; s=20230601; t=1765457974; x=1766062774;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1YPd4rabCA15+W0gc58X3ldTKNVJsgSl/m8TAJcDC9k=;
+        b=a85bPZwzZYjrGC+59uQiI5YS6byHRlrAwkLe1UxWar0curkw/unp+dd7ksbkOc0IbY
+         xydNKrnF+e7V1d14Mnvxj/2/fYDLbdIT7OrEHxTynvBjhRcGlHcD49qLIwqfM9h57Gnl
+         cbbRIDmzNh0Bri8CDzaBHSYmswUitTDnBJ0FnmXXmV6lIxAKMEhlTlyte9FnvzI+L6iY
+         0bxW0Sg3IkXx4+nbWv96FoxedUUR/a6E+2tVCwHgiRxFeCu92gApVT2fIzkIbj1eTIBm
+         tLjeX/UjSvtvYbx0Wz1Uejop9CbjrIWwVVyvD77T9mu4pE+4PdztuVZnEYlmu2bM/qfm
+         UyFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVA9rFvtConL+hUIH2emgPSWTnbgI3dTYR3VPe3wIBSdMZrudIxNGjVSN1K5UDib+kH3FYOdCSaZ6c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUVWXnEsy5qhf5+JBBMyu6LixhiQteMgFnTr4jpCfcnP11bM2Q
+	t9ZbWA3fDDtHsKRp7OoPsG16CneoTzLTwjVEWVY/zDluxTH8eSPb7Hiyan+41C99dKQiyRJaNZ3
+	iGhvk1MSYpmpG+A==
+X-Google-Smtp-Source: AGHT+IEutEw1d7HRrDvz7Uw5x03SFSXvQO6Sqwdti2F86uaAXoFjBNtSfbvmhvAiwBwLApQfmCLLxUs3FhConw==
+X-Received: from wmbhi3.prod.google.com ([2002:a05:600c:5343:b0:477:c551:bdb9])
+ (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:1389:b0:46e:4a13:e6c6 with SMTP id 5b1f17b1804b1-47a83843239mr56517695e9.19.1765457973952;
+ Thu, 11 Dec 2025 04:59:33 -0800 (PST)
+Date: Thu, 11 Dec 2025 12:59:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.52.0.223.gf5cc29aaa4-goog
+Message-ID: <20251211125928.3258905-1-smostafa@google.com>
+Subject: [PATCH v4 0/4] iommu: Add IOMMU_DEBUG_PAGEALLOC sanitizer
+From: Mostafa Saleh <smostafa@google.com>
+To: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
+	akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com, mhocko@suse.com, 
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, david@redhat.com, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org, 
+	xiaqinxin@huawei.com, baolu.lu@linux.intel.com, rdunlap@infradead.org, 
+	Mostafa Saleh <smostafa@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Let's note if listener was a first one installed in the seccomp
-filters tree. We will need this information to retain old
-quirk behavior (as before seccomp nesting introduced).
+Overview
+--------
+This patch series introduces a new debugging feature,
+IOMMU_DEBUG_PAGEALLOC, designed to catch DMA use-after-free bugs
+and IOMMU mapping leaks from buggy drivers.
 
-Also, rename has_duplicate_listener() to check_duplicate_listener(),
-cause now this function is not read-only, but also modifies a state
-of a new_child seccomp_filter.
+The kernel has powerful sanitizers like KASAN and DEBUG_PAGEALLOC
+for catching CPU-side memory corruption. However, there is limited
+runtime sanitization for DMA mappings managed by the IOMMU. A buggy
+driver can free a page while it is still mapped for DMA, leading to
+memory corruption or use-after-free vulnerabilities when that page is
+reallocated and used for a different purpose.
 
-No functional change intended at this point.
+Inspired by DEBUG_PAGEALLOC, this sanitizer tracks IOMMU mappings on a
+per-page basis, as it=E2=80=99s not possible to unmap the pages, because it
+requires to lock and walk all domains on every kernel free, instead we
+rely on page_ext to add an IOMMU-specific mapping reference count for
+each page.
+And on each page allocated/freed from the kernel we simply check the
+count and WARN if it is not zero, and dumping page owner information
+if enabled.
 
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: Kees Cook <kees@kernel.org>
-Cc: Andy Lutomirski <luto@amacapital.net>
-Cc: Will Drewry <wad@chromium.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: Aleksa Sarai <cyphar@cyphar.com>
-Cc: Tycho Andersen <tycho@tycho.pizza>
-Cc: Andrei Vagin <avagin@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Stéphane Graber <stgraber@stgraber.org>
-Signed-off-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
----
- kernel/seccomp.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Concurrency
+-----------
+By design this check is racy where one caller can map pages just after
+the check, which can lead to false negatives.
+In my opinion this is acceptable for sanitizers (for ex KCSAN have
+that property).
+Otherwise we have to implement locks in iommu_map/unmap for all domains
+which is not favourable even for a debug feature.
+The sanitizer only guarantees that the refcount itself doesn=E2=80=99t get
+corrupted using atomics. And there are no false positives.
 
-diff --git a/kernel/seccomp.c b/kernel/seccomp.c
-index 89ae81f06743..1a139f9ef39b 100644
---- a/kernel/seccomp.c
-+++ b/kernel/seccomp.c
-@@ -205,6 +205,7 @@ static inline void seccomp_cache_prepare(struct seccomp_filter *sfilter)
-  * @log: true if all actions except for SECCOMP_RET_ALLOW should be logged
-  * @wait_killable_recv: Put notifying process in killable state once the
-  *			notification is received by the userspace listener.
-+ * @first_listener: true if this is the first seccomp listener installed in the tree.
-  * @prev: points to a previously installed, or inherited, filter
-  * @prog: the BPF program to evaluate
-  * @notif: the struct that holds all notification related information
-@@ -226,6 +227,7 @@ struct seccomp_filter {
- 	refcount_t users;
- 	bool log : 1;
- 	bool wait_killable_recv : 1;
-+	bool first_listener : 1;
- 	struct action_cache cache;
- 	struct seccomp_filter *prev;
- 	struct bpf_prog *prog;
-@@ -1939,7 +1941,7 @@ static struct file *init_listener(struct seccomp_filter *filter)
-  * Note that @new_child is not hooked up to its parent at this point yet, so
-  * we use current->seccomp.filter.
-  */
--static bool has_duplicate_listener(struct seccomp_filter *new_child)
-+static bool check_duplicate_listener(struct seccomp_filter *new_child)
- {
- 	struct seccomp_filter *cur;
- 
-@@ -1953,6 +1955,8 @@ static bool has_duplicate_listener(struct seccomp_filter *new_child)
- 			return true;
- 	}
- 
-+	/* Mark first listener in the tree. */
-+	new_child->first_listener = true;
- 	return false;
- }
- 
-@@ -2035,7 +2039,7 @@ static long seccomp_set_mode_filter(unsigned int flags,
- 	if (!seccomp_may_assign_mode(seccomp_mode))
- 		goto out;
- 
--	if (has_duplicate_listener(prepared)) {
-+	if (check_duplicate_listener(prepared)) {
- 		ret = -EBUSY;
- 		goto out;
- 	}
--- 
-2.43.0
+CPU vs IOMMU Page Size
+----------------------
+IOMMUs can use different page sizes and which can be non-homogeneous;
+not even all of them have the same page size.
+
+To solve this, the refcount is always incremented and decremented in
+units of the smallest page size supported by the IOMMU domain. This
+ensures the accounting remains consistent regardless of the size of
+the map or unmap operation, otherwise double counting can happen.
+
+Testing & Performance
+---------------------
+This was tested on Morello with Arm64 + SMMUv3
+Did some tests on Qemu including different SMMUv3/CPU page size (arm64).
+
+I also ran dma_map_benchmark on Morello:
+
+echo dma_map_benchmark > /sys/bus/pci/devices/0000\:06\:00.0/driver_overrid=
+e
+echo 0000:06:00.0 >  /sys/bus/pci/devices/0000\:06\:00.0/driver/unbind
+echo 0000:06:00.0 > /sys/bus/pci/drivers/dma_map_benchmark/bind
+./dma_map_benchmark -t $threads -g $nr_pages
+
+CONFIG refers to "CONFIG_IOMMU_DEBUG_PAGEALLOC"
+cmdline refers to "iommu.debug_pagealloc"
+Numbers are (map latency)/(unmap latency), lower is better.
+
+			CONFIG=3Dn    CONFIG=3Dy    CONFIG=3Dy
+			            cmdline=3D0   cmdline=3D1
+4K - 1 thread		0.1/0.6     0.1/0.6     0.1/0.7
+4K - 4 threads		0.1/1.1     0.1/1.0     0.2/1.1
+1M - 1 thread		0.8/21.2    0.7/21.2    5.4/42.3
+1M - 4 threads		1.1/45.9    1.1/46.0    5.9/45.1
+
+Main changes in v4:
+v3: https://lore.kernel.org/all/20251124200811.2942432-1-smostafa@google.co=
+m/
+- Update the kernel parameter format in docs based on Randy feedback
+- Update commit subjects
+- Add IOMMU only functions in iommu-priv.h based on Baolu feedback
+
+Main changes in v3: (Most of them addressing Will comments)
+v2: https://lore.kernel.org/linux-iommu/20251106163953.1971067-1-smostafa@g=
+oogle.com/
+- Reword the Kconfig help
+- Use unmap_begin/end instead of unmap/remap
+- Use relaxed accessors when refcounting
+- Fix a bug with checking the returned address from iova_to_phys
+- Add more hardening checks (overflow)
+- Add more debug info on assertions (dump_page_owner())
+- Handle cases where unmap returns larger size as the core code seems
+  to tolerate that.
+- Drop Tested-by tags from Qinxin as the code logic changed
+
+Main changes in v2:
+v1: https://lore.kernel.org/linux-iommu/20251003173229.1533640-1-smostafa@g=
+oogle.com/
+- Address J=C3=B6rg comments about #ifdefs and static keys
+- Reword the Kconfig help
+- Drop RFC
+- Collect t-b from Qinxin
+- Minor cleanups
+
+
+Mostafa Saleh (4):
+  iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
+  iommu: Add calls for IOMMU_DEBUG_PAGEALLOC
+  iommu: debug-pagealloc: Track IOMMU pages
+  iommu: debug-pagealloc: Check mapped/unmapped kernel memory
+
+ .../admin-guide/kernel-parameters.txt         |   9 +
+ drivers/iommu/Kconfig                         |  19 ++
+ drivers/iommu/Makefile                        |   1 +
+ drivers/iommu/iommu-debug-pagealloc.c         | 174 ++++++++++++++++++
+ drivers/iommu/iommu-priv.h                    |  58 ++++++
+ drivers/iommu/iommu.c                         |  11 +-
+ include/linux/iommu-debug-pagealloc.h         |  32 ++++
+ include/linux/mm.h                            |   5 +
+ mm/page_ext.c                                 |   4 +
+ 9 files changed, 311 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/iommu/iommu-debug-pagealloc.c
+ create mode 100644 include/linux/iommu-debug-pagealloc.h
+
+--=20
+2.52.0.223.gf5cc29aaa4-goog
 
