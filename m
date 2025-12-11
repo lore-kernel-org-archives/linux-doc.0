@@ -1,202 +1,149 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7853064B1
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 12:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB95C2BE7DD;
+	Thu, 11 Dec 2025 12:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765454674; cv=none; b=BUkIcEIw+Mv/bK1qjooS5f/HaW+7ADbIekDamlJLZReGEKoCVu/xLUPltqXc1WABUgmaJXeEYOtYj14+nLVMcHPd78NtbtV393BikiWqD8NVSb19sdZodRvXAEPCi6Bpk2cP1DqImzAgb770KjBv05tgHisTmy7aw2a9Q2Rc2EY=
+	t=1765454696; cv=none; b=kb7DUC55m61FDK59JzlWWaQNHgRmCrKmv4iTOBtEZVWvmM7cZ2BQjUJsXjCRtJe/N680/NEAHS9F+SNB7yOWD+XLc/yFHS1S2BP86aco0+vHNCTyxN2f6LUW9KDMMH8KzUNtzEpfD9FpmtlNx+/4DT78dd78oDZzZLKTsMKePuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765454674; c=relaxed/simple;
-	bh=FZvbx1cGmlK0sPARd9NYi9ByyRppoApxqiqqlCGqnnM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HZQoxxzSb+TNDuRwDKEckkOpEfByiuuAv72WkwR4ZGIbS/smNdo5CfDSAJgeRK8D6NZOl3qNcs56RFOPXynJqR9KbpuqbJjfRg1grAV45CP0qZCm5toxeKGh+99rBNo3e0i8uWB8VI2fRCa4+SV4b6gfU1cuC1eEKvGyY811VaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QwzPaE4u; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fvy2bl3K; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NxgZ7Ikk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ekFwuqAp; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1765454696; c=relaxed/simple;
+	bh=xYB9CZGFY7AgTnKdWBr89d3ngY1+Ue3cetPJG6t6F4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P+EEF7MJuAR5GrwfDDW4T/pl6EeC2+R0xR3UKCLYxowc0c3OfFHmdgJTgPH4nx2VLn4PmAKAHmmysaqp4N2jnjt7TG3isphh+RBMkBV1zmWp2g5+/j1dxo8RrYjNG3siAvlz4sKwQfALecLc5l8TMdeIkSGntdXww+1CqyPU1/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Cm3yzuQq; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QwzPaE4u";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fvy2bl3K";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NxgZ7Ikk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ekFwuqAp"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A0D43337DA;
-	Thu, 11 Dec 2025 12:04:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765454670; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=4+mpakUKD5eYS656a7z6LmAlXtZaX+uGoQHu7qbb6/Y=;
-	b=QwzPaE4uep8gw8D3Yyl/0Nf/6A+QCH5CQ9raZQyWD+tSYubdZoWFIFPZRwvHxTD4CrMjyL
-	+E5F8QARUDzCRQ6Fmg4bwiYaQIIUnjKqogFV5r9qxitaU5yhj5Qz3AmD7bq5+IWEK8rBTK
-	vltS1JNY5I2u1BkmYfECohwDuWJezLg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765454670;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=4+mpakUKD5eYS656a7z6LmAlXtZaX+uGoQHu7qbb6/Y=;
-	b=fvy2bl3K8mh9nWGtA49mBTHX7E+A2obntn5XbukYfJ4BG6DQlHMNFtEcHWAhRQoVTWVfiH
-	VyHyI2Vi4lK2KNBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NxgZ7Ikk;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ekFwuqAp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765454669; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=4+mpakUKD5eYS656a7z6LmAlXtZaX+uGoQHu7qbb6/Y=;
-	b=NxgZ7Ikk4TdPVZLrTDKh6SSCKGLxGF2z6AQZZh/bgiGyb/p3cV+AVQ4d/68ngBOLtXBXCy
-	IwLzFbsabnqKYlF2Wlfk3HC0wVZjCUYzHV+/HQxaeZqWrh937qdR2arSIaUVM5s46xnqpC
-	xmhdXninzSrgCN7eE3cVXaQunYMV9iY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765454669;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=4+mpakUKD5eYS656a7z6LmAlXtZaX+uGoQHu7qbb6/Y=;
-	b=ekFwuqApi2iJ/Uj7PpsLKxvqJrRpKzN227y0ml/019bFiIuUI1QC+R0wm2W4RhT6oAeQoL
-	xymiPF1G0eoyTtCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E057C3EA63;
-	Thu, 11 Dec 2025 12:04:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id N7pTNUyzOmkcCwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 11 Dec 2025 12:04:28 +0000
-Message-ID: <808bb393-e5fb-415e-b25d-8cc00c41b382@suse.de>
-Date: Thu, 11 Dec 2025 13:04:28 +0100
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Cm3yzuQq"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=J5QYsGE2XyUV8dMJUaGHOZ/s846nES10yHj06SSwiHE=; b=Cm3yzuQqYooIj2GZtZDWYEC3ZO
+	S0fg9hzc4Z19Hv5Bc4P16q2CjNQ573CovUIuUpZEbXu9poIjw8goKrUxsrAu3j7Caix5SEmi3eHJ5
+	ty2o3ZeXS3kqUORWQHfUhEXRPllWuKhXfU6FuRy+jNCn3CPiuhwnM6hD6rLf9Bd5pxh4A4qnGsqmd
+	YA26rLCiywQY1V7BWRwKwRpg85biCy2lzMbTYkXrqgHkp9M0BmSuJ+nlBxwZvhjzGyyfDW1rDJahM
+	onQMIaTpJMWn2CJQspzPC2bN0ZBuwOi8vBCFsSztBk6L098HJ6Am/lBaLXUiYdMTHDu2proPsv+AW
+	SRG+MwEw==;
+Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vTfPW-0000000ECYb-0fah;
+	Thu, 11 Dec 2025 12:04:42 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 803F130301A; Thu, 11 Dec 2025 13:04:41 +0100 (CET)
+Date: Thu, 11 Dec 2025 13:04:41 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Chris Li <sparse@chrisli.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v4 02/35] compiler-context-analysis: Add infrastructure
+ for Context Analysis with Clang
+Message-ID: <20251211120441.GG3911114@noisy.programming.kicks-ass.net>
+References: <20251120145835.3833031-2-elver@google.com>
+ <20251120145835.3833031-4-elver@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/13] drm/gem-shmem: Fix the MODULE_LICENSE() string
-To: boris.brezillon@collabora.com, simona@ffwll.ch, airlied@gmail.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com, ogabbay@kernel.org,
- mamin506@gmail.com, lizhi.hou@amd.com, maciej.falkowski@linux.intel.com,
- karol.wachowski@linux.intel.com, tomeu@tomeuvizoso.net,
- frank.binns@imgtec.com, matt.coster@imgtec.com, yuq825@gmail.com,
- robh@kernel.org, steven.price@arm.com, adrian.larumbe@collabora.com,
- liviu.dudau@arm.com, mwen@igalia.com, kraxel@redhat.com,
- dmitry.osipenko@collabora.com, gurchetansingh@chromium.org,
- olvaffe@gmail.com, corbet@lwn.net
-Cc: dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-doc@vger.kernel.org
-References: <20251209140141.94407-1-tzimmermann@suse.de>
- <20251209140141.94407-3-tzimmermann@suse.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251209140141.94407-3-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: A0D43337DA
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[collabora.com,ffwll.ch,gmail.com,kernel.org,linux.intel.com,amd.com,tomeuvizoso.net,imgtec.com,arm.com,igalia.com,redhat.com,chromium.org,lwn.net];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[suse.de:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	R_RATELIMIT(0.00)[to_ip_from(RLeotmymkgqo3fhapiyq3uwbs4)];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url,suse.de:mid,suse.de:dkim,suse.de:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251120145835.3833031-4-elver@google.com>
+
+On Thu, Nov 20, 2025 at 03:49:04PM +0100, Marco Elver wrote:
+
+> +/**
+> + * context_guard_struct() - declare or define a context guard struct
+> + * @name: struct name
+> + *
+> + * Helper to declare or define a struct type that is also a context guard.
+> + *
+> + * .. code-block:: c
+> + *
+> + *	context_guard_struct(my_handle) {
+> + *		int foo;
+> + *		long bar;
+> + *	};
+> + *
+> + *	struct some_state {
+> + *		...
+> + *	};
+> + *	// ... declared elsewhere ...
+> + *	context_guard_struct(some_state);
+> + *
+> + * Note: The implementation defines several helper functions that can acquire
+> + * and release the context guard.
+> + */
+> +# define context_guard_struct(name, ...)								\
+> +	struct __ctx_guard_type(name) __VA_ARGS__ name;							\
+> +	static __always_inline void __acquire_ctx_guard(const struct name *var)				\
+> +		__attribute__((overloadable)) __no_context_analysis __acquires_ctx_guard(var) { }	\
+> +	static __always_inline void __acquire_shared_ctx_guard(const struct name *var)			\
+> +		__attribute__((overloadable)) __no_context_analysis __acquires_shared_ctx_guard(var) { } \
+> +	static __always_inline bool __try_acquire_ctx_guard(const struct name *var, bool ret)		\
+> +		__attribute__((overloadable)) __no_context_analysis __try_acquires_ctx_guard(1, var)	\
+> +	{ return ret; }											\
+> +	static __always_inline bool __try_acquire_shared_ctx_guard(const struct name *var, bool ret)	\
+> +		__attribute__((overloadable)) __no_context_analysis __try_acquires_shared_ctx_guard(1, var) \
+> +	{ return ret; }											\
+> +	static __always_inline void __release_ctx_guard(const struct name *var)				\
+> +		__attribute__((overloadable)) __no_context_analysis __releases_ctx_guard(var) { }	\
+> +	static __always_inline void __release_shared_ctx_guard(const struct name *var)			\
+> +		__attribute__((overloadable)) __no_context_analysis __releases_shared_ctx_guard(var) { } \
+> +	static __always_inline void __assume_ctx_guard(const struct name *var)				\
+> +		__attribute__((overloadable)) __assumes_ctx_guard(var) { }				\
+> +	static __always_inline void __assume_shared_ctx_guard(const struct name *var)			\
+> +		__attribute__((overloadable)) __assumes_shared_ctx_guard(var) { }			\
+> +	struct name
+
+-typedef struct {
++context_guard_struct(rwlock) {
+        struct rwbase_rt        rwbase;
+        atomic_t                readers;
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+        struct lockdep_map      dep_map;
+ #endif
+-} rwlock_t;
++};
++typedef struct rwlock rwlock_t;
 
 
-
-Am 09.12.25 um 14:41 schrieb Thomas Zimmermann:
-> Replace the bogus "GPL v2" with "GPL" as MODULE_LICNSE() string. The
-> value does not declare the module's exact license, but only lets the
-> module loader test whether the module is Free Software or not.
->
-> See commit bf7fbeeae6db ("module: Cure the MODULE_LICENSE "GPL" vs.
-> "GPL v2" bogosity") in the details of the issue. The fix is to use
-> "GPL" for all modules under any variant of the GPL.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Fixes: 4b2b5e142ff4 ("drm: Move GEM memory managers into modules")
-
-
-> ---
->   drivers/gpu/drm/drm_gem_shmem_helper.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index f4e77f75ec81..2a67da98da25 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -896,4 +896,4 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_no_map);
->   
->   MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
->   MODULE_IMPORT_NS("DMA_BUF");
-> -MODULE_LICENSE("GPL v2");
-> +MODULE_LICENSE("GPL");
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+I must say I find the 'guard' naming here somewhat confusing. This is
+not a guard, but an actual lock type.
