@@ -1,127 +1,97 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31D33126A0
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 13:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AC9286418;
+	Thu, 11 Dec 2025 13:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765459539; cv=none; b=Od5jzHws+kZToEbIq+sKhrAFmPRLV2qKiF4/sWM1AQc3oE7bywE3k4sootm/NkGC6tH7QnDTUkqYF7qPLYwtcLAw94yMf8/cBoXn+K9P7lPUZD5vcgmsjxqTON59Hzrzs9EBfI2hc+G9ooixN5aBeY54vb8Kq4GtLRbeA83vHCg=
+	t=1765460614; cv=none; b=b5AkHbjUhxM56qJYWXaoyJNgb03jiuXRwFIK9rM+H4dwOcsuiUXUo16zciG1O1j56uMam6tZ5v18I9JV7iWgicXeCl7jB/pA3jUF1IM2dHJs3vfccHe03J86RE0XipIueYtG8jUixzwSAxeE9yR1jCDeHsAKxE9T3kbOqVFxdyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765459539; c=relaxed/simple;
-	bh=4koDoOQRFcQ8EnbnmmJvgwasJ9ijqSyJnmmWmgQ4c2s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C/lBrGkkKNzfMZ8r7NS9XdEhxylaqxznGcKnL0f4FkMYRb2NcfYlVB0fo9SNG0tI/OCmqqqi2+SlD11/MwIVEvos/0BOWLVtFcEOXyEOeMj9pD+y10nPHwWUXPXFXSMj7LTYSxmmPsfTsqMV9h3joJ0Llv6DPKmARhuA0R0Scbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S3sYjDGk; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1765460614; c=relaxed/simple;
+	bh=GHYEhlkvcFeFuGWpDaxnbBTjKdxg8bMF0QV/AkgQAig=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jTWkOc4a0w8Cm8f6d0fr2IB8H7jjubqDTedoioMF0Pfavk+9XkBJOVdnOcJ5Xon++d57UF1pOKePzvpFb8fPVmDw3CNAUoTrn/UywHgPhCEzWNj78DFqVQ1ItI8O6Or5QWluOA4mYufLsg/OqOyIQL2ieIeoDOusYFXA6dY3f78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dbFMSp1A; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S3sYjDGk"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-6432842cafdso51009d50.2
-        for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 05:25:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765459537; x=1766064337; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bWA/kjxAjN+uRNvgRsuZ3C4JKMpyTL0y62dCZ1FivCw=;
-        b=S3sYjDGkvoZmbdvrKBBU43ykeWBEyeIUzGZ1bUJYcShsHuHKiW4SEI2gYcMdxdZWwk
-         2aA7slM8MmQr4oatTRXGZSDUu9aaPNBM5UXKIo4tZu3aBCHtdy1H/9eebAGdUo6qgX8L
-         DvHj6zwUMUlBjO2u0UJVOCuNjgIiGKpFJ3xkH9rQCWgifZulMuykpqPtovrI/gQQK4fX
-         tWozvIJabkt3lh8qlKQzKY5OQDpzBc2BgZrGHZlvzzLYrhdrhOMCB5DCqM/inYUnmrTm
-         BOMqEJRR2hhdiarGzrCSpdsUJZAL7hGLrXSyYC+4RigvkTH6UsHPfhyza3j2GXbJnMLT
-         uY7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765459537; x=1766064337;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bWA/kjxAjN+uRNvgRsuZ3C4JKMpyTL0y62dCZ1FivCw=;
-        b=Z7B6mMbO59FS/5P2YzNIOId1Fw7L5z3e1JHCLgOeQnkyQPsCPIRYhpDit3lvh0yTfG
-         CO7lzT4Wd3IJGkfyofnXoSnyYt7fuLEaR3Y7GChHbqmadJUT2G0MHe4mxZsRYNeeVM94
-         b8P3j/sAJV1k6hdcme59zUHgcUwfOTpn2p7SgEyDxFyHPdOS0tb3DShMyt9ZGFrymZNR
-         dt3130AEqJSviEZ0PtRUPz5UxnmJ7JfVQnFAluFT4mdTZ4mU72NgGu1mAu70WCndWWDy
-         6gVFQyYzHVZfth7tvheO5Y/OU3FztDtB7hzfRoONcwFxKtqqaS+EYiwZFsQnVdYdLjg5
-         IfEw==
-X-Forwarded-Encrypted: i=1; AJvYcCW/6rEhHAG0uPh6pujc44ezhLqguBHEfwKKQmMbaXmqFJTk3i5adlS9zexFNi6y06kdRrzDggY5XCg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSWfKehU3+XdXuX5YVCpBy9wWa5jfFve5alTRAyqdPvZCuLEFr
-	LAyZ+wHlwz71OSpXe1qlQ/3gawe4tX+Qx14OXvpR7vddURJ1AqY+fJ0g2N6IcFl+RNgqgYUpwwU
-	hJd1tJi1JTTH6fGeK3PXE+4NB9Cbg//L7qLQMa3/i
-X-Gm-Gg: AY/fxX6XjjiNlF+s/fndGAyawsLR4oPk8RpZphohu/x5WOc+WoXd1f+51byfp0epiyM
-	KGPFtRVnXq47gJAXXhEaYb2A4bs6LEDHlDhXE5cvBcB9KTAjN9ElVx1k8zyq8fuf1+gG75UvgEp
-	r/FMaCv/uapXkUye+F3zE21jVJhMw1e0tfJMhaTcL6ALSHGE6702qfyoZSvhnk52NmCJkDO4jqO
-	hrnSQ70P+RSIo60kzqw5wzuvKY+8SxGdNWAZp6r+u4iQN1zZWDg55Wq7utflacFvaoGXAoEB+WJ
-	vRhG9XBR9GXueZ9z6QJRBQWr3gXB4/iOCyA=
-X-Google-Smtp-Source: AGHT+IGPj4VYuvzobJuySeUtMjR2owpUV9b14snNLjzBypYDLw2+crQYToZkiUGcBVWZIJW//ll4Or+5K7PYShnu4As=
-X-Received: by 2002:a53:d01b:0:b0:643:1a78:4492 with SMTP id
- 956f58d0204a3-6446eb6016cmr3860639d50.81.1765459536448; Thu, 11 Dec 2025
- 05:25:36 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dbFMSp1A"
+Received: from pendragon.ideasonboard.com (p7838222-ipoefx.ipoe.ocn.ne.jp [123.225.39.221])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 66639667;
+	Thu, 11 Dec 2025 14:43:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1765460606;
+	bh=GHYEhlkvcFeFuGWpDaxnbBTjKdxg8bMF0QV/AkgQAig=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dbFMSp1AqU3bnnjDdUEE3/kzX7SQCG+yy/mGts/WuUB8P6bmdsDyZhiHFzl7Zlp5L
+	 tqvjaY5Hsb9siuSBgzclY6Vkx8Gl+3UFhTp58xxCaoXCrabR5oon/mrGpx1+29fHXJ
+	 VQSM65zvmVFFXqnxZp10sqjVbdMJIQQrolZDmuro=
+Date: Thu, 11 Dec 2025 22:43:06 +0900
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
+Message-ID: <20251211134306.GC28411@pendragon.ideasonboard.com>
+References: <20251020115734.GH316284@nvidia.com>
+ <aPcQ99MZse5zmv3o@google.com>
+ <20251021121536.GG316284@nvidia.com>
+ <aPo6CZyT_IGWmu-O@tzungbi-laptop>
+ <20251023145131.GI262900@nvidia.com>
+ <2025102321-struggle-fraying-52ff@gregkh>
+ <20251211032306.GO28860@pendragon.ideasonboard.com>
+ <aTo-xErTTiJcribR@shikoro>
+ <20251211080517.GA28411@pendragon.ideasonboard.com>
+ <aTqCqab1pGB9LNZy@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251120145835.3833031-2-elver@google.com> <20251120151033.3840508-7-elver@google.com>
- <20251120151033.3840508-8-elver@google.com> <20251211114302.GC3911114@noisy.programming.kicks-ass.net>
-In-Reply-To: <20251211114302.GC3911114@noisy.programming.kicks-ass.net>
-From: Marco Elver <elver@google.com>
-Date: Thu, 11 Dec 2025 14:24:57 +0100
-X-Gm-Features: AQt7F2r5KNsATXW8d-J0gXHLFG6W_D0lOL42kIv9mnu54Km1ZPN_9U9TSDd09do
-Message-ID: <CANpmjNObaGarY1_niCkgEXMNm2bLAVwKwQsLVYekE=Ce6y3ehQ@mail.gmail.com>
-Subject: Re: [PATCH v4 07/35] lockdep: Annotate lockdep assertions for context analysis
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, 
-	Will Deacon <will@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, Chris Li <sparse@chrisli.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>, 
-	Eric Dumazet <edumazet@google.com>, Frederic Weisbecker <frederic@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, Johannes Berg <johannes.berg@intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
-	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
-	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aTqCqab1pGB9LNZy@shikoro>
 
-On Thu, 11 Dec 2025 at 12:43, Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Thu, Nov 20, 2025 at 04:09:32PM +0100, Marco Elver wrote:
->
-> >  include/linux/lockdep.h | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
-> > index 67964dc4db95..2c99a6823161 100644
-> > --- a/include/linux/lockdep.h
-> > +++ b/include/linux/lockdep.h
-> > @@ -282,16 +282,16 @@ extern void lock_unpin_lock(struct lockdep_map *lock, struct pin_cookie);
-> >       do { WARN_ON_ONCE(debug_locks && !(cond)); } while (0)
->
-> Since I typically read patches without first reading the Changelog --
-> because when I read the code later, I also don't see changelogs.
->
-> I must admit to getting most terribly confused here -- *again*, as I
-> then search back to previous discussions and found I was previously also
-> confused.
->
-> As such, I think we want a comment here that explains that assume_ctx
-> thing.
->
-> It is *NOT* (as the clang naming suggests) an assertion of holding the
-> lock (which is requires_ctx), but rather an annotation that forces the
-> ctx to be considered held.
+On Thu, Dec 11, 2025 at 05:36:57PM +0900, Wolfram Sang wrote:
+> 
+> > > Isn't there even prototype code from Dan Williams?
+> > > 
+> > > "[PATCH 1/3] cdev: Finish the cdev api with queued mode support"
+> > > 
+> > > https://lkml.org/lkml/2021/1/20/997
+> > 
+> > I mentioned that in my LPC talk in 2022 :-) I think we should merge that
+> > (or a rebased, possibly improved version of it). I've meant to try
+> > plumbing that series in V4L2 but couldn't find the time so far.
+> 
+> Yes, you mentioned it in 2022 but maybe not everyone in this thread is
+> right now aware of it ;) The patch above got changes requested. I talked
+> to Dan very briefly about it at Maintainers Summit 2023 and he was also
+> open (back then) to pick it up again.
 
-Noted. I'll add some appropriate wording above the
-__assumes_ctx_guard() attribute, so this is not lost in the commit
-logs.
+After discussing with Tzung-Bi today after his presentation (thank you
+Tzung-Bi for your time, it helped me understand the problem you're
+facing better), I wonder if this series is fixing the issue in the right
+place.
+
+At the core of the problem is a devm_kzalloc() call to allocate
+driver-specific data. That data structure is then referenced from a
+cdev, which can dereference is after it gets freed. It seems that
+reference-counting the data structure instead of using devm_kzalloc()
+could be a better solution.
+
+-- 
+Regards,
+
+Laurent Pinchart
