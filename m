@@ -1,193 +1,114 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED51285C8C
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 06:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963552C11FD
+	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 07:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765435773; cv=none; b=P4NlU6a7w+COL97h5Z0WiuHHGx8nivIcH86oT0+jIAtzxgf6Ei92kudStYp2Bd00V/xEbHxUIfKvim4JxkgM09xUTk+rU8xTn2Pf0rni46U16J0V6J4/Q+Ta/V7WziX3TGwbo2g7jZ9nQPEi1GR3i3zMS6+4xqf0+fCTuk0W1hQ=
+	t=1765436645; cv=none; b=kGCkLPupWjP1clCZAeC+AYS9mggf9HQyNWpG+On+BjRTyainx2WihawjUrwua2LRISYplPqPWZ+YpzCSzt32LHVk1jLanB4sKppTOv4ezws/NzMyhCGH2trGqvw3eTmRF2dowIos+pl9/5rqFH+RFF+P/IV5PLaUGU50GFjpTdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765435773; c=relaxed/simple;
-	bh=St5P/dKbzDpzDcZYqoy/Tl1MQ0rf5fYQKRZAJ31LVaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u9je6qFQ2o9W9MRMOj0d3X1vD9ZyuLOTLAK1QcIY9AY26DnGyeRNoizPLWnoeDPx7/dpt6A4TNZuHzLNhCp04XUvORg9e6yundoL6gpc2wo/lxBDDlNFJ3ti+FTKQdN5J2fu6KEBF8YVFzw2UvZSydFw4zkxFqQ6aP+ET7RX46c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ux3Boi1R; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765436645; c=relaxed/simple;
+	bh=zQ7Q7VL7sRSVbVPf7t4SPc1mIdmYtIM0mA1LyLVTGyU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sTvQT9FL2z22APjkRPgdPA+Uz7e26SsJFXuJavnifE1SVCu8be/M4XYDQ25OMeFFB8R2kd0FO9k8RfRg+QS7JpYR23jrfWrJySz/AEJkUMMYwrkTSZcxO0YjJy2kF8uTFSjvfhoCVTkBFB/ZIwwk75aV2GGPG3WXeGjFc9vy+qY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Sinthbid; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ux3Boi1R"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-29ba9249e9dso8611915ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 22:49:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Sinthbid"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-64165cd689eso2631007a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 10 Dec 2025 23:04:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765435769; x=1766040569; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TvqvRKg6Dvm4JYTqbcpJmcxvj5YVSJwC2ID5rS1kYns=;
-        b=Ux3Boi1RJtJkm4EKbwkd1TdKIUlssLr03nVEJpWhDJi/DHdIulpYzI1rLQL/kolX++
-         zWjmIPlSHeTL3sPm8RPn8la+UTd71tOooPd0mdXQ0sADyMStR83wynd9RZ0vTYmyyeBb
-         M9lYT1dRZMLzucoPWjiG2kOIDNpSsYSoI8coZq6PK+OtAsCW3jHAA9emiRs0LjXEAZMt
-         n58YEgbsx9U69XvTfQ0MvmU+wpNRujfS/tGiszkUpK8+AEpyBlEqFn4/WkNW25rZlra4
-         UwmzgU89xhfM02rHCb2zmq30AbU19IlQlr+vVoMkt/CZSfMIrx5rPdTEArXPc6pbn1Rs
-         /nIw==
+        d=google.com; s=20230601; t=1765436642; x=1766041442; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aqt/EzBZObqd20FZ4KVaKSHRTroDrVMqsGCtVl7ltcw=;
+        b=SinthbidhVKE8KugcMukgPHW8vKj9RCAyhiS3BIDOUuYD/07OUl98My8fpeqlEdXo8
+         Ifm+TSnbk5wQ1uMi+1OgL67q1wsNK5M4CWRYZQH6Zd/tqwlfLhsHANjjg/0Pc6GN6tgK
+         lsAAe15BKodowV7fOEVm/ztj+soQhlJu0BIfCTHLkdjXPZX3KhuH8gynfefUvThiOaW5
+         TY5tpVhAOIuZojvf3pY9xi0GCSk7T+IhAN80/Ja/5rW5RcRU5CqxAKTZrZW69htTq9vv
+         6eMaGwcDjyBENMGp/iHk9ujmVV5diZosjRhGdbRT9N0PzYtxzGrh4JR7EhNzB4oSd8Eb
+         Y2uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765435769; x=1766040569;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TvqvRKg6Dvm4JYTqbcpJmcxvj5YVSJwC2ID5rS1kYns=;
-        b=P9vJrQXX+0Adoji8557RYaHlcZR91rQewkTk73vpp8Pxh5p+Ty1HlQWQDrb9zs+Wot
-         rNzLc2oX0fmt+cf0jHUCnNdLfRU8W3BkJxH523Ua9HQf0DEMMihpXuXDZga05dIMi6mZ
-         1VQdAShDN4bCsiV9tgOTesLJtiqWnW3SHiabdSogAM5HwUEXg2qY0sSLA2JSg6lh/CjO
-         PcaMc36JITXsS7VYmIYU6mUcu5vVwO6T5TU4wgaS+2J3am/7kPGEwjkLmz962hNsCDCT
-         jrHnuQbPPhrTZ74ypSlfjSV7B7y0++FYZchIeLSsRdtUqfvyCBu97ko3k54JwdypIkwy
-         VX0A==
-X-Forwarded-Encrypted: i=1; AJvYcCWUvefwAVSf7Y5TY9IcO/0AH3lWqI0y422cx9qpOAx5lNpr32wdgJkgPZ09JimsP8PhUKWHxl+5v2k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2DU16mtBzB0Ccn6lwaT1P4m+554ROuVI4PP5qsF0AnB1ra5oR
-	G3HBuTBnLrk7Ki3VmJArNbDgBPSqksYCZXwp+UOneixFoRsykc8vw2uw
-X-Gm-Gg: AY/fxX71yeiaWIXDvD1Ytgo+NBy0wfRhW57CiDA/89GkDAitr6rS3ZvjTR4uEvWjTpD
-	Wo+fCU01jb76/P2ji7j1f8JDaE40EP/UMLXLb/nqsZ35nDFMmMOMrTC6Q6/ePpH16kSsiSozHfc
-	Qq8+nyztRFjfSDo8ZsJhVHQWtO+wzjqU2tkRSJ4Eq6ZYyQ0QtKaGqWWL8GDzp5yyACFYaVC+Zkw
-	rifbHIn1AWJsnswkFJtiTVvQ6xdE6+63Q8sbOeJrZTVQSGRSqts03pZ9UfChW16kunelif3EZB7
-	moHLFX/QQ8lsYZ94N8TRdAlpoYIDPaclh0UK2mOrsoB242FObNxWqolEuHZ7Sws0GKxaNKW/Oze
-	FYxn92pgse4236ZQ3SCmDAd4iIR2kUSoVN3YY9W4YpQJo/To6eSdSN/9djb2cz8qK5Vdtqb+3MJ
-	QzvgiW1+rmyZ+k/uciE/8EtaUnm7N4A4hzHDJXrMSBYEXTUGkBUud2
-X-Google-Smtp-Source: AGHT+IEyDtd0oe3IAE6MkIRcuPF1XAaex7O+UXkzSJ582FShFldjGqeQBlos3z7LrpPfpvFbd/RWdg==
-X-Received: by 2002:a05:7022:985:b0:119:e569:f25f with SMTP id a92af1059eb24-11f2966bd00mr4273471c88.8.1765435768924;
-        Wed, 10 Dec 2025 22:49:28 -0800 (PST)
-Received: from google.com ([2a00:79e0:2ebe:8:8720:58cb:6770:779f])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2b4bb8sm4156046c88.7.2025.12.10.22.49.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 22:49:28 -0800 (PST)
-Date: Wed, 10 Dec 2025 22:49:25 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Vishnu Sankar <vishnuocv@gmail.com>
-Cc: corbet@lwn.net, hmh@hmh.eng.br, derekjohn.clark@gmail.com, 
-	hansg@kernel.org, ilpo.jarvinen@linux.intel.com, mpearson-lenovo@squebb.ca, 
-	linux-doc@vger.kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ibm-acpi-devel@lists.sourceforge.net, platform-driver-x86@vger.kernel.org, vsankar@lenovo.com
-Subject: Re: [PATCH v4 1/3] input: trackpoint - Enable doubletap by default
- on capable devices
-Message-ID: <he73fiwxso45ykidteqz2s2gjklezsyd47xwxtwlfes27kxuq3@ucwhmacbtsn4>
-References: <20251129002533.9070-1-vishnuocv@gmail.com>
- <20251129002533.9070-2-vishnuocv@gmail.com>
+        d=1e100.net; s=20230601; t=1765436642; x=1766041442;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=aqt/EzBZObqd20FZ4KVaKSHRTroDrVMqsGCtVl7ltcw=;
+        b=f/Nsf7Z3+A5cDllanWu0adMEp2I4LMiVBrWbI+LaZxHywt8znVl8FT3nWFtbKmQbRy
+         Hq2iZu2y1pcRMOCwZCUviRGFDCiLPmsapR4SMJFSoZ0mEVa+PhDlWPcMX31No5WIRbQo
+         Jff9M4/o523Nb5NgzxmOWJKAJV3nPoDLRdIHiYY9EE54tGec3i7H8iZhxFcV1B0bjG14
+         9uAisKxsThsGow1vgCqLqFPDF+cF7wCkoJm722O2FL4SaaKjtwPXrktG3jtW6FVmiJUm
+         lXBzRUoz5wL8Y2jbzZ/4NN9lmYSzwNiAlVY23Q4x/cQgkUwyx5Da3zAxsDm5Uz3SA9G1
+         fG3g==
+X-Forwarded-Encrypted: i=1; AJvYcCVLkHA6KXHXOCwdmLYNJhuXX1drmN82GIkMmkz8aL4MyzZVObvNs1VPtL3ZbUot5yGq6ympXJpttNc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMpBOgujA4Qt1NtAVRC//+FKptIgR75hjsA4xNIzURVJvlOZxw
+	PE8i+ftvdNUd9+eNYGyWF3PimsPfjnlv4gbz1EyZj7CuFcbe9UmN+m50I+BuePyI7svhoFboLdS
+	wQ5Mjf1P1tKvCmob7GOhS5bMjj8eqlT+pWqYDBDg=
+X-Gm-Gg: AY/fxX5FPm2AFm7+jWp54rrASVeWbf12I6GYCUOf8svqn6X+q/RSnopLkelyaCkV64T
+	PiiPFT0fvIhMH8BGvabtvYjd3945j5egYGsOqb+xLZqdF4xaSnO4AGq+/hZIYaSaliGIVCVvuo7
+	SbenEZqYR5HJ8dLEU5giPAnvL5hmsHbW/0ULrDJtuBg9B38Qtw+17vUpuOmXpX5d6ed4K6R+A/F
+	qkqYwQA9lSdgEcOpnKJWMDIsVu748cG3kh7M4yiLfyAOhjJq+fT0NVSuCYSB8bsfXx0CYQ=
+X-Google-Smtp-Source: AGHT+IHRoGna7wBwP8J3yXgxuFLEUOGQtVPJKwsIPRNms/46Mdj3fPrFPHjrti6IDJ+PwIqwRowNFCdLYUsN+qzW4LU=
+X-Received: by 2002:a17:907:7f88:b0:b46:57fd:8443 with SMTP id
+ a640c23a62f3a-b7d02b63fcamr118124466b.24.1765436641696; Wed, 10 Dec 2025
+ 23:04:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251129002533.9070-2-vishnuocv@gmail.com>
+References: <CGME20240406081210epcas2p1736b44763ba01114ce3a552aff50d780@epcas2p1.samsung.com>
+ <20240406081126.8030-1-bongkyu7.kim@samsung.com> <639691db-dec3-e180-3681-00bd966c90a5@samsung.com>
+In-Reply-To: <639691db-dec3-e180-3681-00bd966c90a5@samsung.com>
+From: John Stultz <jstultz@google.com>
+Date: Thu, 11 Dec 2025 16:03:50 +0900
+X-Gm-Features: AQt7F2rE14oJAEP872TMY140M921RwzKDj2g1nPC3S2my_r6Ve0g6Zr-ybBio4o
+Message-ID: <CANDhNCrz=3Xp=bfydZycPgzr82YVHYk00LeaKSf9dQ5DA1Z5vA@mail.gmail.com>
+Subject: Re: [PATCH v3] locking/rwsem: Reintroduce reader optimistic spinning conditionally
+To: Bongkyu Kim <bongkyu7.kim@samsung.com>
+Cc: peterz@infradead.org, mingo@redhat.com, will@kernel.org, 
+	longman@redhat.com, boqun.feng@gmail.com, corbet@lwn.net, 
+	gregkh@linuxfoundation.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Vishnu,
+On Mon, Apr 29, 2024 at 8:08=E2=80=AFPM Bongkyu Kim <bongkyu7.kim@samsung.c=
+om> wrote:
+> On 4/6/24 17:11, Bongkyu Kim wrote:
+> > Reader optimistic spinning is helpful when the reader critical section
+> > is short and there aren't that many readers around. It also improves
+> > the chance that a reader can get the lock as writer optimistic spinning
+> > disproportionally favors writers much more than readers.
+> >
+> > Since commit 617f3ef95177 ("locking/rwsem: Remove reader optimistic
+> > spinning"), reader optimistic spinning was taken out is because of
+> > reader fragmentation especially now that we essentially wake up all the
+> > readers all at once when it is reader's turn to take the read lock.
+> >
+> > But, on smaller systems with just a few CPU cores, reader optimistic
+> > spinning may help performance. So, reintroduce reader optimistic
+> > spinning and enable it when the number of cores in the system <=3D the
+> > threshold (default set to 8 cores). This threshold can be changed by
+> > "rwsem.rspin_maxcpus" commandline.
+> >
+> > The simple heuristic of skipping optimistic spinning if the lock is
+> > reader owned is kept, reader optimistic spinning won't affect handoff
+> > handling which requires that an unlocker see the lock will be free and
+> > wake up the head of the wait queue.
+...
+> Hi Longman,
+>
+> I made a new patch as you suggested.
+> I would appreciate if if you could review it.
 
-On Sat, Nov 29, 2025 at 09:25:31AM +0900, Vishnu Sankar wrote:
-> Enable doubletap functionality by default on TrackPoint devices that
-> support it. The feature is detected using firmware ID pattern matching
-> (PNP: LEN03xxx) with a deny list of incompatible devices.
-> 
-> This provides immediate doubletap functionality without requiring
-> userspace configuration. The hardware is enabled during device
-> detection, while event filtering continues to be handled by the
-> thinkpad_acpi driver as before.
-> 
-> Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
-> Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-> ---
-> Changes in v4:
-> - Simplified approach: removed all sysfs attributes and user interface
-> - Enable doubletap by default during device detection
-> - Removed global variables and complex attribute infrastructure
-> - Uses minimal firmware ID detection with deny list
-> - Follows KISS principle as suggested by reviewers
-> 
-> Changes in v3:
-> - No changes
-> 
-> Changes in v2:
-> - Improve commit messages
-> - Sysfs attributes moved to trackpoint.c
-> - Removed unnecessary comments
-> - Removed unnecessary debug messages
-> - Using strstarts() instead of strcmp()
-> - is_trackpoint_dt_capable() modified
-> - Removed _BIT suffix and used BIT() define
-> - Reverse the trackpoint_doubletap_status() logic to return error first
-> - Removed export functions as a result of the design change
-> - Changed trackpoint_dev->psmouse to parent_psmouse
-> - The path of trackpoint.h is not changed
-> ---
->  drivers/input/mouse/trackpoint.c | 51 ++++++++++++++++++++++++++++++++
->  drivers/input/mouse/trackpoint.h |  5 ++++
->  2 files changed, 56 insertions(+)
-> 
-> diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/mouse/trackpoint.c
-> index 5f6643b69a2c..67144c27bccd 100644
-> --- a/drivers/input/mouse/trackpoint.c
-> +++ b/drivers/input/mouse/trackpoint.c
-> @@ -393,6 +393,48 @@ static int trackpoint_reconnect(struct psmouse *psmouse)
->  	return 0;
->  }
->  
-> +/* List of known incapable device PNP IDs */
-> +static const char * const dt_incompatible_devices[] = {
-> +	"LEN0304",
-> +	"LEN0306",
-> +	"LEN0317",
-> +	"LEN031A",
-> +	"LEN031B",
-> +	"LEN031C",
-> +	"LEN031D",
-> +};
-> +
-> +/*
-> + * Checks if it's a doubletap capable device
+Hey Bongkyu,
+  I just wanted to follow up here to see if this patch was abandoned
+or if further discussion elsewhere resulted in it not being
+resubmitted?
 
-Please finish the sentence with a period.
-
-> + * The PNP ID format is "PNP: LEN030d PNP0f13".
-> + */
-> +static bool is_trackpoint_dt_capable(const char *pnp_id)
-
-Let's call it trackpoint_is_dt_capable() to keep with common
-"trackpoint_" prefix in the file.
-
-> +{
-> +	const char *id_start;
-> +	char id[8];
-> +	size_t i;
-> +
-> +	if (!strstarts(pnp_id, "PNP: LEN03"))
-> +		return false;
-> +
-> +	/* Points to "LEN03xxxx" */
-> +	id_start = pnp_id + 5;
-> +	if (sscanf(id_start, "%7s", id) != 1)
-> +		return false;
-> +
-> +	/* Check if it's in the deny list */
-> +	for (i = 0; i < ARRAY_SIZE(dt_incompatible_devices); i++) {
-> +		if (strcmp(id, dt_incompatible_devices[i]) == 0)
-
-Why can't we use strncmp(pnp_id + 5, dt_incompatible_devices[i], 7) here
-(after ensuring that pnp_id is of sufficient length to begin with) and
-avoid sscanf()?
-
-> +			return false;
-> +	}
-> +	return true;
-> +}
-> +
-> +static int trackpoint_set_doubletap(struct ps2dev *ps2dev, bool enable)
-> +{
-> +	return trackpoint_write(ps2dev, TP_DOUBLETAP, enable ? TP_DOUBLETAP_ENABLE : TP_DOUBLETAP_DISABLE);
-> +}
-
-This wrapper seems an overkill given that it is called only once and
-always to enable the doubletap.
-
-Thanks.
-
--- 
-Dmitry
+thanks
+-john
