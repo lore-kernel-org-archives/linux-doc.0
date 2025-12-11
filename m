@@ -1,221 +1,178 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B407C2E8DF3;
-	Thu, 11 Dec 2025 02:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9983422E3E7;
+	Thu, 11 Dec 2025 02:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765419212; cv=none; b=urduuvkFTgTM+XcpQd9zFz7D42XWtLaWbUq54bJu45oeW5geqSwG23gKu6UbKmtJF5aMnjw+Swa2dRLHJjZdzE1DZVNrBIHlEmY5WFDM1ookNw6TETGj7TIjCU1AI+vYirVYn5LcKRX0oyEXPxA1WFTZcG+4ms4gPE3yXSlVJaY=
+	t=1765421604; cv=none; b=VOxDgFGufU3PcW3IQfEEjJj9kOqct4oxMFfrX8WYt7ZYRbN9tGv1FGkSuJf81Kr7Vrhvb1Doechk50l0MgyiRpP5tG/4LS/aEUuUH0FNlIMUrUU25llVLBTJRNIdS1gcbQonVzUOjBnIG0A+K0c2GccsUyWvw2PtGjtO8Hev104=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765419212; c=relaxed/simple;
-	bh=bU1syixsdUU9erFGRh3p4odK64b/fnWTtdkrDOy+C6w=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PnMPS49oFUAj4k587No3iX+yt3/9aLioJVe1ZMU6a0oZ6IJ8kTLvJ6ZiyY9mGgnwofPMIcIOdEfO3qfvA+LTCiut/oJFyptGy8GWB75a0V1uOd2y/0dOHAHglI21rfWrynshaRAYaS6vw6XSZxJT3hrLAUlvzc8hy2+apzg3HNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=EOhVABtz; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1765421604; c=relaxed/simple;
+	bh=nCP4Qrkpz8bVZqCHE4sJmyUXXrSPtXg/5yZwtOzX+cg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LJwa9fcIIHJr4TX2OwvOcftrXJpV7nSw+zssjGaqAMZcDh5yRafFVcYnbb0MEI2NdSFs+nT7xBMfWohv4Gd6Lu3AW3rt5qlF+1E4Fn8X2qAuGhkSGsdfCzXn6Dy4xxhDFc9UM68I9K4iNks/YZlmGb32VOnrN9sWLOskuektdgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MpAmoqOo; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="EOhVABtz"
-Received: from narnia.corp.microsoft.com (unknown [40.78.12.133])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9F98B2116043;
-	Wed, 10 Dec 2025 18:13:28 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9F98B2116043
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1765419209;
-	bh=tQoMsWo/rligOQ/1VDMbzQ8q+5PIN7gnOlz3Zgc/UI4=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=EOhVABtzUGMULcnl9okOuI5HzmXVzs7fkolR2ZZaHdI2opfVxDF4plkKtYTI7F3pH
-	 XDh55JPJPebHlzJHAAc3l47fdzU9wwcchS3ZkS+NY7j+eLZOAXAR3hc1ASgpXEl5hS
-	 rM793oQIwgZR3VmJQPm6wZJwuz2TByqM9Xd9J6bo=
-From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	James.Bottomley@HansenPartnership.com,
-	dhowells@redhat.com,
-	linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: [RFC 11/11] selftests/hornet: Add a selftest for the Hornet LSM
-Date: Wed, 10 Dec 2025 18:12:06 -0800
-Message-ID: <20251211021257.1208712-12-bboscaccy@linux.microsoft.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251211021257.1208712-1-bboscaccy@linux.microsoft.com>
-References: <20251211021257.1208712-1-bboscaccy@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MpAmoqOo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765421602; x=1796957602;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nCP4Qrkpz8bVZqCHE4sJmyUXXrSPtXg/5yZwtOzX+cg=;
+  b=MpAmoqOoHGZysuAML7Y+wd/q3kaq00LLRezMvmqNtJ+kXENeIbykF2RW
+   x7ZwpzNuyNcpH/GLOGEjGl0di3xTetAWpOz79RzILU55Uh+ZVkM1Rykl3
+   R7ePJ42Uki5NhKirq8/a5Wx0l/kMrH7fU/NC7U3CAcQqLqK7/4seSelH/
+   anlvleuu8UZ2T4FQLIpN22fFb3A/QF9Fbzl4iA1XIjOc1KLKp+Sfpv97c
+   do9J0LTJ2s2PlkfHLn8biQ0CnO6ybuqKEd3o49m6WrH0KzBed2ZUhxDhF
+   89gfc3J8sBBTpLclwOPSNsG9f1OjiQFNWvlhOuluWWNKeW9ksHRr8EChk
+   Q==;
+X-CSE-ConnectionGUID: nS78aV6CQ1CVgJzDracwRA==
+X-CSE-MsgGUID: MQn3uHaWTAGbSeXkAg41GA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="78765557"
+X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
+   d="scan'208";a="78765557"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 18:53:20 -0800
+X-CSE-ConnectionGUID: Zev6oIoBRpaOqU2xDpbw4g==
+X-CSE-MsgGUID: oROrgDILQmSBZQ6XsbXTuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
+   d="scan'208";a="196738003"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 18:53:20 -0800
+Date: Wed, 10 Dec 2025 19:00:06 -0800
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: Changyuan Lyu <changyuanl@google.com>,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
+	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com,
+	corbet@lwn.net, dave.hansen@linux.intel.com,
+	devicetree@vger.kernel.org, dwmw2@infradead.org,
+	ebiederm@xmission.com, graf@amazon.com, hpa@zytor.com,
+	jgowans@amazon.com, kexec@lists.infradead.org, krzk@kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, luto@kernel.org, mark.rutland@arm.com,
+	mingo@redhat.com, pasha.tatashin@soleen.com, pbonzini@redhat.com,
+	peterz@infradead.org, ptyadav@amazon.de, robh@kernel.org,
+	rostedt@goodmis.org, rppt@kernel.org, saravanak@google.com,
+	skinsburskii@linux.microsoft.com, tglx@linutronix.de,
+	thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org
+Subject: Re: [PATCH v8 17/17] Documentation: KHO: Add memblock bindings
+Message-ID: <20251211030006.GA9333@ranerica-svr.sc.intel.com>
+References: <20250509074635.3187114-1-changyuanl@google.com>
+ <20250509074635.3187114-18-changyuanl@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250509074635.3187114-18-changyuanl@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-This selftest contains a testcase that utilizes light skeleton eBPF
-loaders and exercises hornet's map validation.
+On Fri, May 09, 2025 at 12:46:35AM -0700, Changyuan Lyu wrote:
+> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> 
+> We introduced KHO into Linux: A framework that allows Linux to pass
+> metadata and memory across kexec from Linux to Linux. KHO reuses fdt
+> as file format and shares a lot of the same properties of firmware-to-
+> Linux boot formats: It needs a stable, documented ABI that allows for
+> forward and backward compatibility as well as versioning.
+> 
+> As first user of KHO, we introduced memblock which can now preserve
+> memory ranges reserved with reserve_mem command line options contents
+> across kexec, so you can use the post-kexec kernel to read traces from
+> the pre-kexec kernel.
+> 
+> This patch adds memblock schemas similar to "device" device tree ones to
+> a new kho bindings directory. This allows us to force contributors to
+> document the data that moves across KHO kexecs and catch breaking change
+> during review.
+> 
+> Co-developed-by: Alexander Graf <graf@amazon.com>
+> Signed-off-by: Alexander Graf <graf@amazon.com>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Signed-off-by: Changyuan Lyu <changyuanl@google.com>
+> ---
+>  .../kho/bindings/memblock/memblock.yaml       | 39 ++++++++++++++++++
+>  .../kho/bindings/memblock/reserve-mem.yaml    | 40 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  3 files changed, 80 insertions(+)
+>  create mode 100644 Documentation/core-api/kho/bindings/memblock/memblock.yaml
+>  create mode 100644 Documentation/core-api/kho/bindings/memblock/reserve-mem.yaml
+> 
+> diff --git a/Documentation/core-api/kho/bindings/memblock/memblock.yaml b/Documentation/core-api/kho/bindings/memblock/memblock.yaml
+> new file mode 100644
+> index 0000000000000..d388c28eb91d1
+> --- /dev/null
+> +++ b/Documentation/core-api/kho/bindings/memblock/memblock.yaml
+> @@ -0,0 +1,39 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +title: Memblock reserved memory
+> +
+> +maintainers:
+> +  - Mike Rapoport <rppt@kernel.org>
+> +
+> +description: |
+> +  Memblock can serialize its current memory reservations created with
+> +  reserve_mem command line option across kexec through KHO.
+> +  The post-KHO kernel can then consume these reservations and they are
+> +  guaranteed to have the same physical address.
 
-Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
----
- tools/testing/selftests/Makefile             |  1 +
- tools/testing/selftests/hornet/Makefile      | 63 ++++++++++++++++++++
- tools/testing/selftests/hornet/loader.c      | 21 +++++++
- tools/testing/selftests/hornet/trivial.bpf.c | 33 ++++++++++
- 4 files changed, 118 insertions(+)
- create mode 100644 tools/testing/selftests/hornet/Makefile
- create mode 100644 tools/testing/selftests/hornet/loader.c
- create mode 100644 tools/testing/selftests/hornet/trivial.bpf.c
+Hi Changyuan, Mike,
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index c46ebdb9b8ef7..4631893f0e91e 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -43,6 +43,7 @@ TARGETS += ftrace
- TARGETS += futex
- TARGETS += gpio
- TARGETS += hid
-+TARGETS += hornet
- TARGETS += intel_pstate
- TARGETS += iommu
- TARGETS += ipc
-diff --git a/tools/testing/selftests/hornet/Makefile b/tools/testing/selftests/hornet/Makefile
-new file mode 100644
-index 0000000000000..ccb4d503425d2
---- /dev/null
-+++ b/tools/testing/selftests/hornet/Makefile
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: GPL-2.0
-+include ../../../build/Build.include
-+include ../../../scripts/Makefile.arch
-+include ../../../scripts/Makefile.include
-+
-+CLANG ?= clang
-+CFLAGS := -g -O2 -Wall
-+BPFTOOL ?= $(TOOLSDIR)/bpf/bpftool/bpftool
-+SCRIPTSDIR := $(abspath ../../../../scripts/hornet)
-+TOOLSDIR := $(abspath ../../..)
-+LIBDIR := $(TOOLSDIR)/lib
-+BPFDIR := $(LIBDIR)/bpf
-+TOOLSINCDIR := $(TOOLSDIR)/include
-+APIDIR := $(TOOLSINCDIR)/uapi
-+CERTDIR := $(abspath ../../../../certs)
-+PKG_CONFIG ?= $(CROSS_COMPILE)pkg-config
-+
-+TEST_GEN_PROGS := loader
-+TEST_GEN_FILES := vmlinux.h loader.h trivial.bpf.o map.bin sig.bin insn.bin signed_loader.h
-+$(TEST_GEN_PROGS): LDLIBS += -lbpf
-+$(TEST_GEN_PROGS): $(TEST_GEN_FILES)
-+
-+include ../lib.mk
-+
-+BPF_CFLAGS := -target bpf \
-+	-D__TARGET_ARCH_$(ARCH) \
-+	-I/usr/include/$(shell uname -m)-linux-gnu \
-+	$(KHDR_INCLUDES)
-+
-+vmlinux.h:
-+	$(BPFTOOL) btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
-+
-+trivial.bpf.o: trivial.bpf.c vmlinux.h
-+	$(CLANG) $(CFLAGS) $(BPF_CFLAGS) -c $< -o $@
-+
-+loader.h: trivial.bpf.o
-+	$(BPFTOOL) gen skeleton -S -k $(CERTDIR)/signing_key.pem -i $(CERTDIR)/signing_key.x509 \
-+		-L $< name trivial > $@
-+
-+insn.bin: loader.h
-+	$(SCRIPTSDIR)/extract-insn.sh $< > $@
-+
-+map.bin: loader.h
-+	$(SCRIPTSDIR)/extract-map.sh $< > $@
-+
-+$(OUTPUT)/gen_sig: ../../../../scripts/hornet/gen_sig.c
-+	$(call msg,GEN_SIG,,$@)
-+	$(Q)$(CC) $(shell $(PKG_CONFIG) --cflags libcrypto 2> /dev/null) \
-+		  $< -o $@ \
-+		  $(shell $(PKG_CONFIG) --libs libcrypto 2> /dev/null || echo -lcrypto)
-+
-+sig.bin: insn.bin map.bin $(OUTPUT)/gen_sig
-+	$(OUTPUT)/gen_sig -key $(CERTDIR)/signing_key.pem -cert $(CERTDIR)/signing_key.x509 \
-+		-data insn.bin --add-hash map.bin -out sig.bin
-+
-+signed_loader.h: sig.bin
-+	$(SCRIPTSDIR)/write-sig.sh loader.h sig.bin > $@
-+
-+loader: loader.c signed_loader.h
-+	$(CC) $(CFLAGS) -I$(LIBDIR) -I$(APIDIR) $< -o $@ -lbpf
-+
-+
-+EXTRA_CLEAN = $(OUTPUT)/gen_sig
-diff --git a/tools/testing/selftests/hornet/loader.c b/tools/testing/selftests/hornet/loader.c
-new file mode 100644
-index 0000000000000..f27580c7262b3
---- /dev/null
-+++ b/tools/testing/selftests/hornet/loader.c
-@@ -0,0 +1,21 @@
-+// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
-+
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <stddef.h>
-+#include <sys/resource.h>
-+#include <bpf/libbpf.h>
-+#include <errno.h>
-+#include  "signed_loader.h"
-+
-+int main(int argc, char **argv)
-+{
-+	struct trivial *skel;
-+
-+	skel = trivial__open_and_load();
-+	if (!skel)
-+		return -1;
-+
-+	trivial__destroy(skel);
-+	return 0;
-+}
-diff --git a/tools/testing/selftests/hornet/trivial.bpf.c b/tools/testing/selftests/hornet/trivial.bpf.c
-new file mode 100644
-index 0000000000000..d38c5b53ff932
---- /dev/null
-+++ b/tools/testing/selftests/hornet/trivial.bpf.c
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
-+
-+#include "vmlinux.h"
-+
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+#include <bpf/bpf_core_read.h>
-+
-+char LICENSE[] SEC("license") = "Dual BSD/GPL";
-+
-+int monitored_pid = 0;
-+
-+SEC("tracepoint/syscalls/sys_enter_unlinkat")
-+int handle_enter_unlink(struct trace_event_raw_sys_enter *ctx)
-+{
-+	char filename[128] = { 0 };
-+	struct task_struct *task;
-+	unsigned long start_time = 0;
-+	int pid = bpf_get_current_pid_tgid() >> 32;
-+	char *pathname_ptr = (char *) BPF_CORE_READ(ctx, args[1]);
-+
-+	bpf_probe_read_str(filename, sizeof(filename), pathname_ptr);
-+	task = (struct task_struct *)bpf_get_current_task();
-+	start_time = BPF_CORE_READ(task, start_time);
-+
-+	bpf_printk("BPF triggered unlinkat by PID: %d, start_time %ld. pathname = %s",
-+		   pid, start_time, filename);
-+
-+	if (monitored_pid == pid)
-+		bpf_printk("target pid found");
-+
-+	return 0;
-+}
--- 
-2.52.0
+I am sorry I am late to this patchset. I am working on a patchset to use
+KHO to pass reserved memory regions to a driver after kexec and I have a
+few questions.
 
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - reserve-mem-v1
+
+Shouldn't this be "memblock-v1". IIUC, the compatible "reserve-mem-v1" is
+to be used for the memblock reserved memory regions, not the memblock node.
+
+
+> +
+> +patternProperties:
+> +  "$[0-9a-f_]+^":
+
+Shouldn't this be "^[0-9a-f_]+$": ^ at the start of the pattern and $ at
+the end of it? Or is this a KHO-specific rule?
+
+Also, IIUC, this means that names of the nodes are hexadecimal numbers
+whereas the example below has a "membloc" name. I assume this does not
+refer to the subnode named "n1" as this does not follow the pattern
+either Moreover, it should have been documented in the reserve-mem binding.
+
+> +    $ref: reserve-mem.yaml#
+> +    description: reserved memory regions
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    memblock {
+> +      compatible = "memblock-v1";
+> +      n1 {
+> +        compatible = "reserve-mem-v1";
+> +        start = <0xc06b 0x4000000>;
+> +        size = <0x04 0x00>;
+> +      };
+> +    };
+
+Thanks and BR,
+Ricardo
