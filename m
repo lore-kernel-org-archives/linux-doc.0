@@ -1,159 +1,107 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AF720F079
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 03:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27077286A4
+	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 03:47:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765424756; cv=none; b=VzFLTjOu+t/2qv98zQyAOYuxiWF+2h3xdkdqYEGqM6RziVV3qc8iEoGEgThhonlLZ3zYOl9fx1Bbckl7JUih1LiuiElhBAFF2V+RBp4QeZkE7IvjzFP3iydhGs+8mzQ5ieovstX1I5B+DoQKoB/Q8z/SI515LGU+HV0uEgldoj0=
+	t=1765424854; cv=none; b=JnW2k4m6KuLpLuKlZwH+Pwaoh0vDvNmGRuJDDs9ty0PKfV7e6yBDRnIopB26XANQkuhth2Y0ARX28Kk5VYbDuXhCe1lPLnBlWIOq3lNilnAV/rRP7bLR9IU4lf2SE2TA9tg5jQXQar0Lsj1fLFekC/gJEUqU1FTTPJDF1qhQV50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765424756; c=relaxed/simple;
-	bh=3Ex0TlFKadcXQ14EchI4V3SiTXEJUR31/+uYBvblssE=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=AXFpCkDjLHtHNl0r5KNAYqMdJQHXp7TVedvaB+n5eW9honkepVBUanjVkzVPOOLiun7PvAsZm46QJ9pgELfQ/KVE4aXZQF/Mc0YfKh59RrSYw5LjCuv+7X9prPP9X6/hqfHuUSP73MTG27LMdpq/6RrwyzKLhWMSbvXs4J719Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=seJP1B5p; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1765424854; c=relaxed/simple;
+	bh=/a7+eP5QJ7LUqX+guLEai83prspNSYNSevmmGsCHHsw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vB9+aq2SpMfxHMn/GcbtJ8lUv74ofL5upMyLLEzwOvOJfEFTEI8z4b0JH8gl376WAsOovqlStwMn/UgAf6Tr0zgXdEXsXbbFr/mpMdoBeYBsntLpypirIeX+lPTlm9WXZixf+nJKIT/H2+d/2y4A0l9uK63k15K5AXtRq6Gki/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZJ+z8Zsn; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="seJP1B5p"
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1765424751;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4yvkDOUriy9pDXe2tWtamvNl+RZD88OoynPeymFSPnY=;
-	b=seJP1B5pfkeqKWBRy1j6/f0UPdqHw7PhRHnZjDpQpl9r4V09X+cEpY6/McB9bgdCQJVVbH
-	1vnCKLWkuCk8DBlEkOumALtIwzB/i9HKH6HljMBf3ifLAo7c5R7u39QhZWqr17csgQKKoY
-	TqvB6SiNcha6FUXyE2J9xCp4nhsYEPg=
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZJ+z8Zsn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=/a7+
+	eP5QJ7LUqX+guLEai83prspNSYNSevmmGsCHHsw=; b=ZJ+z8ZsnvDQ3aiFLCj+r
+	hkxLAo1kTBq/jD5S0CqhU4XE5l/7uZrgCEdpHwBjmOOPnSgmvzzzkRzEyKqfiEq+
+	rAJNnApDSa0MUPn6Iod4M32B7z7FQsx2BvMLvUj1fcfzDtRg/og2N/x99riH/sis
+	e0J8TMpgKziYVHI7dz60I5Exqm3Jxf6Fh7hD0MDGPFL8nI5ezsRT4RdPmrvNcjGn
+	Lxn+u56vTMhPZknC/HxE35Jer0Oe2qEwcNYn8qGLeHGj4IJ3U9jyFySsZ8GYQLer
+	QljLgSh+K54DFZsKh/32QRWRJFCq16Uwx2TfE5115bXctS+TbqdTygxSBMN8DlzJ
+	gA==
+Received: (qmail 3606451 invoked from network); 11 Dec 2025 04:47:21 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Dec 2025 04:47:21 +0100
+X-UD-Smtp-Session: l3s3148p1@rt5iAKVFQPOZ9ob4
+Date: Thu, 11 Dec 2025 12:47:16 +0900
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
+Message-ID: <aTo-xErTTiJcribR@shikoro>
+References: <aPJp3hP44n96Rug9@tzungbi-laptop>
+ <20251017162116.GA316284@nvidia.com>
+ <aPT-7TTgW_Xop99j@tzungbi-laptop>
+ <20251020115734.GH316284@nvidia.com>
+ <aPcQ99MZse5zmv3o@google.com>
+ <20251021121536.GG316284@nvidia.com>
+ <aPo6CZyT_IGWmu-O@tzungbi-laptop>
+ <20251023145131.GI262900@nvidia.com>
+ <2025102321-struggle-fraying-52ff@gregkh>
+ <20251211032306.GO28860@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.200.81.1.6\))
-Subject: Re: [PATCH 00/11] mm/hugetlb: Eliminate fake head pages from vmemmap
- optimization
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <6396CF70-E10F-4939-8E38-C58BE5BF6F91@linux.dev>
-Date: Thu, 11 Dec 2025 11:45:13 +0800
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Oscar Salvador <osalvador@suse.de>,
- Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Matthew Wilcox <willy@infradead.org>,
- Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>,
- Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Usama Arif <usamaarif642@gmail.com>,
- kernel-team@meta.com,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BAF36B4D-0047-48C4-9CB8-C8566722A79B@linux.dev>
-References: <20251205194351.1646318-1-kas@kernel.org>
- <4F9E5F2F-4B4D-4CE2-929D-1D12B1DB44F8@linux.dev>
- <m63ub6lxljw7m2mmc3ovbsyfurl7hp4cvx27tmwelcxxrra5m3@eva5tqcdjxtn>
- <6396CF70-E10F-4939-8E38-C58BE5BF6F91@linux.dev>
-To: Kiryl Shutsemau <kas@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qu/5HOC0rx38U1af"
+Content-Disposition: inline
+In-Reply-To: <20251211032306.GO28860@pendragon.ideasonboard.com>
 
 
-
-> On Dec 10, 2025, at 11:39, Muchun Song <muchun.song@linux.dev> wrote:
->=20
->> On Dec 9, 2025, at 22:44, Kiryl Shutsemau <kas@kernel.org> wrote:
->>=20
->> On Tue, Dec 09, 2025 at 02:22:28PM +0800, Muchun Song wrote:
->>> The prerequisite is that the starting address of vmemmap must be =
-aligned to
->>> 16MB boundaries (for 1GB huge pages). Right? We should add some =
-checks
->>> somewhere to guarantee this (not compile time but at runtime like =
-for KASLR).
->>=20
->> I have hard time finding the right spot to put the check.
->>=20
->> I considered something like the patch below, but it is probably too =
-late
->> if we boot preallocating huge pages.
->>=20
->> I will dig more later, but if you have any suggestions, I would
->> appreciate.
->=20
-> If you opt to record the mask information, then even when HVO is
-> disabled compound_head will still compute the head-page address
-> by means of the mask. Consequently this constraint must hold for
-> **every** compound page. =20
->=20
-> Therefore adding your code in hugetlb_vmemmap.c is not appropriate:
-> that file only turns HVO off, yet the calculation remains broken
-> for all other large compound pages.
->=20
-> =46rom MAX_FOLIO_ORDER we know that folio_alloc_gigantic() can =
-allocate
-> at most 16 GB of physically contiguous memory. We must therefore
-> guarantee that the vmemmap area starts on an address aligned to at
-> least 256 MB.
->=20
-> When KASLR is disabled the vmemmap base is normally fixed by a
-> macro, so the check can be done at compile time; when KASLR is enabled
-> we have to ensure that the randomly chosen offset is a multiple
-> of 256 MB. These two spots are, in my view, the places that need
-> to be changed.
->=20
-> Moreover, this approach requires the virtual addresses of struct
-> page (possibly spanning sections) to be contiguous, so the method is
-> valid **only** under CONFIG_SPARSEMEM_VMEMMAP.
-
-This is no longer an issue, because with nth_page removed (I only
-just found out), a folio can no longer span multiple sections even
-when !CONFIG_SPARSEMEM_VMEMMAP.
-
->=20
-> Also, when I skimmed through the overall patch yesterday, one detail
-> caught my eye: the shared tail page is **not** "per hstate"; it is
-> "per hstate, per zone, per node", because the zone and node
-> information is encoded in the tail page=E2=80=99s flags field. We =
-should make
-> sure both page_to_nid() and page_zone() work properly.
->=20
-> Muchun,
-> Thanks.
->=20
->>=20
->> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
->> index 04a211a146a0..971558184587 100644
->> --- a/mm/hugetlb_vmemmap.c
->> +++ b/mm/hugetlb_vmemmap.c
->> @@ -886,6 +886,14 @@ static int __init hugetlb_vmemmap_init(void)
->> BUILD_BUG_ON(__NR_USED_SUBPAGE > HUGETLB_VMEMMAP_RESERVE_PAGES);
->>=20
->> 	for_each_hstate(h) {
->> +  		unsigned long size =3D huge_page_size(h) / sizeof(struct =
-page);
->> +
->> +  		/* vmemmap is expected to be naturally aligned to page =
-size */
->> +  		if (WARN_ON_ONCE(!IS_ALIGNED((unsigned long)vmemmap, =
-size))) {
->> +  			vmemmap_optimize_enabled =3D false;
->> +  			continue;
->> +  		}
->> +
->> 		if (hugetlb_vmemmap_optimizable(h)) {
->> 			register_sysctl_init("vm", =
-hugetlb_vmemmap_sysctls);
->> 			break;
->> --=20
->> Kiryl Shutsemau / Kirill A. Shutemov
+--qu/5HOC0rx38U1af
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 
+> Replying late to this thread, I don't think this is right for V4L2. When
+> it comes to solving the .remove() vs. userspace race, I think the right
+> solution is at the cdev level.
+
+Isn't there even prototype code from Dan Williams?
+
+"[PATCH 1/3] cdev: Finish the cdev api with queued mode support"
+
+https://lkml.org/lkml/2021/1/20/997
+
+
+--qu/5HOC0rx38U1af
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmk6PsEACgkQFA3kzBSg
+KbYRgg/+Kg4KkHrfEBuIlPY4Tmc9Wy75VBemIFjPdsEl7CVRMYqL7b4pU4bTlrin
+Vip0ZRX+4/lzhCDOld2mMgSe8GjEWS1Cfqvzl+WPWgShiH8ta+ySMLmqt+il6N6x
+y/vyAocRnW8z1DvxKyFiQO4gM+D+UP2EKpRTXnw63D+CyMcARZKJaX+Kw5RH8NBr
+qs+H/GhcYev9uSmTRFS2ARuO7g2vNdm+eqRyTmvzVSIdNUYlHeMKmfpV3DylGecH
+cZwEN+uhVQ6MEK3a7O+Rw1wx/uFFz56iZwVaNNisjrlJkfrQWZhClJVthRmRVHVx
+VIgPmQ8sABpSXl7bpeGmwxzJ++Nb6jP9iZm2ISvw6EtMfo3khGaMZheEpKxmR52D
+88o/1N2Ok5+e0CLo6wGCMTy1EJsJL55evezUkin+ECGBBwwdXnyUrVophjgg9Ta6
+dKkdUKokkT29u8lAe+Y2is9MVDRmqEDcoDzkymDJdNtREMLj2HzPZbqeWMiivPnc
+yo6ZK7QeU/YFYK4hwqnmfPx0YHWj8UqviTlc3vUFTfKjmgaeBA8Q2/eY+1TVzTrZ
+lHOTUJasafEh+dcx65+CEd/s1Xrx+gQYf1EQ4VDOGu8bXfwYBzlD4roPQ3ZT6K6Y
+nwG7vvT6NUABpHLRC3eL979YBwfQWK2Bcf45VNNwLZ3o1rF2NUk=
+=webN
+-----END PGP SIGNATURE-----
+
+--qu/5HOC0rx38U1af--
