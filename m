@@ -1,94 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054A119C54F;
-	Thu, 11 Dec 2025 22:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A3BD26D4F7;
+	Thu, 11 Dec 2025 22:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765490551; cv=none; b=pjtLz2orF+hIn+83itr/w9V5xNQkQwGxNjF6WKCB/hGwsjsuaBwIBy8rBEjbMXmbRPB2oVuboA3kPOhQHm3p7G0uk3I2EhD2o/GcbhNVgHV239pzCyuTG44Q0anHAzSpeIeeE0stN/a8tzy6h2qReJa1HNL8ICTFFWSHMaZm4KY=
+	t=1765490815; cv=none; b=un4MPIuciWbhwLgXbtnGPpRTvSX+AjgZSdxJZYxYXu2QYmz28G37peoJbHyMFezoQfOjO91RklTPxIM9AmpXLltXTHZKFq4mOEpYFPZ0J/CKQgkS3RqHdkzKlZI/ImS4W36UUoT2zfVJuVvOWSvn2DGaHsKXiQ8bcJ3cdc93+B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765490551; c=relaxed/simple;
-	bh=1jUgFRDwVLlPWU+cRYkz5ms19z7NWJCY23qeUoAcv8E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=awwFXFKyUIQwB1dVHhcwYJw0r91E8JYZHrG6+H7W9f/Q/8DmnK22oZnD2UxoUOtAa8dh9Z7aP6gVm/whzNdYoJR8LrCxaIEzEMiiV+kS4wZwcq9qkTBkHpdnk1fdJzzC+lgUjjgXz2Gg03jbAjhA/i3VOCJV+AYsYolbPoJLTx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P765zWgb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765490815; c=relaxed/simple;
+	bh=nUtalkbD6QrDRv0OfEjeVGb+R8K62ZWJbHWqzS8WP6g=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kT0wC1jAU6SUj8N1of5wsAxwKUtl5IrxrjiquYRwWOT7jrUBY9qD6DDXiycqLT0kNvX3nq/zHObPPAK0Y1YFBPpL8YviY9yOI56Qi8hshUK4L61tI9LHm/LSYhKaXWjMoVWFAYB5uXaw0/HJA6R1BwOp46TYcbTpyfvW1hhy1Cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=bk+tlOQd; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P765zWgb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00344C4CEF7;
-	Thu, 11 Dec 2025 22:02:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765490550;
-	bh=1jUgFRDwVLlPWU+cRYkz5ms19z7NWJCY23qeUoAcv8E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P765zWgbp4XZhTszJMCeeDUVNp10Rd3K8KYKkwkNcXitSFm5Wh3gK2hkGiYR/ZVsB
-	 FmAa2JgHELGwNTiEre/bcZF9ZAGyj/ycg7TK1LwCcU6yZfgJhGDYBQg/fqTqZZlnfu
-	 QWprdOkdYHOQBhSAK/PqaLXJ9wfCJr5mJ77yqxB5plHt8nb/lBctR+ymX2osMGBDDs
-	 J6+sbTCUPcxDE01wOymOruBEgfAHfi8zW4v0+u9m5cAqGOM0PbSGFtCcId1PC9nOxu
-	 +GSqoovogCnNL+zXwsi+73UATSs8J+b0f9+SK5YiGb1TW7wNZz1/bNqIPphNOHKkSv
-	 zCJMLNUHPW3VQ==
-Date: Thu, 11 Dec 2025 14:02:29 -0800
-From: Kees Cook <kees@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: cocci@inria.fr, linux-hardening@vger.kernel.org, linux-mm@kvack.org,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	Nicolas Palix <nicolas.palix@imag.fr>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-	llvm@lists.linux.dev,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bill Wendling <morbo@google.com>, Christoph Lameter <cl@linux.com>,
-	David Rientjes <rientjes@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Harry Yoo <harry.yoo@oracle.com>, Jakub Kicinski <kuba@kernel.org>,
-	Jan Hendrik Farr <kernel@jfarr.cc>, Jann Horn <jannh@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Marco Elver <elver@google.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Pekka Enberg <penberg@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Sasha Levin <sashal@kernel.org>,
-	Tony Ambardar <tony.ambardar@gmail.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Yafang Shao <laoar.shao@gmail.com>
-Subject: Re: [PATCH v6 5/5] coccinelle: Add kmalloc_objs conversion script
-Message-ID: <202512111400.135295C20@keescook>
-References: <20251203233036.3212363-5-kees@kernel.org>
- <22e31f45-55fc-43c6-bede-fee1c829aefc@web.de>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="bk+tlOQd"
+Received: from [10.17.64.150] (unknown [131.107.8.22])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9B0842016010;
+	Thu, 11 Dec 2025 14:06:51 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9B0842016010
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1765490812;
+	bh=0pGrHYxA8ivdEM4MAPDqLcRoJM2t5LZqyRAyL5kQDyY=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=bk+tlOQd1ZU8+0BL4CVcBdPgTyUHO+lgTuZmaonfc67WjPdb8PIJj3ujI73PIXvNG
+	 ZffSPM6N66q9AVVEMxqhK1Xg9LPi5JoPFWgFjV5VZv/XOornDe/1I7IBoqN4sZZOUq
+	 AgmVSXEdOsPRbG39CvdKFgI4FjhV60StgKRwaTiw=
+Message-ID: <877e2fec-febf-4568-9b00-059094d1c23b@linux.microsoft.com>
+Date: Thu, 11 Dec 2025 14:06:50 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <22e31f45-55fc-43c6-bede-fee1c829aefc@web.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC][PATCH] ima: Add support for staging measurements for
+ deletion
+From: steven chen <chenste@linux.microsoft.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+ zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+ paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ steven chen <chenste@linux.microsoft.com>
+References: <20251209101725.3680225-1-roberto.sassu@huaweicloud.com>
+ <9cb4cbab-bcca-4ac8-a7a5-0cf3de67353e@linux.microsoft.com>
+ <d6ef2d61a2c31c0ae46741b6bd78f38bc02e6141.camel@huaweicloud.com>
+ <b701686d-212e-4152-9db9-0c56f21e1fdc@linux.microsoft.com>
+Content-Language: en-US
+In-Reply-To: <b701686d-212e-4152-9db9-0c56f21e1fdc@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 11, 2025 at 03:15:08PM +0100, Markus Elfring wrote:
-> > Finds and converts sized kmalloc-family of allocations into the
-> > typed kmalloc_obj-family of allocations.
-> 
-> Can previous patch review concerns get more development attention anyhow?
-> https://lore.kernel.org/cocci/71d406fb-9fb1-44a9-912a-7a0d270b9577@web.de/
-> https://sympa.inria.fr/sympa/arc/cocci/2025-11/msg00066.html
+On 12/11/2025 11:20 AM, steven chen wrote:
+> On 12/11/2025 2:18 AM, Roberto Sassu wrote:
+>> On Wed, 2025-12-10 at 16:03 -0800, steven chen wrote:
+>>> On 12/9/2025 2:17 AM, Roberto Sassu wrote:
+>>>> From: Roberto Sassu <roberto.sassu@huawei.com>
+>>>>
+>>>> Introduce the ability of staging the entire of the IMA measurement 
+>>>> list, or
+>>>> a portion, for deletion. Staging means moving the current content 
+>>>> of the
+>>>> measurement list to a separate location, and allowing users to read 
+>>>> and
+>>>> delete it. This causes the measurement list to be atomically truncated
+>>>> before new measurements can be added. Staging can be done only once 
+>>>> at a
+>>>> time.
+>>>>
+>>>> User space is responsible to concatenate the staged IMA 
+>>>> measurements list
+>>>> portions following the temporal order in which the operations were 
+>>>> done,
+>>>> together with the current measurement list. Then, it can send the 
+>>>> collected
+>>>> data to the remote verifiers.
+>>>>
+>>>> The benefit of this solution is the ability to free precious kernel 
+>>>> memory,
+>>>> in exchange of delegating user space to reconstruct the full 
+>>>> measurement
+>>>> list from the chunks. No trust needs to be given to user space, 
+>>>> since the
+>>>> integrity of the measurement list is protected by the TPM.
+>>>>
+>>>> By default, staging the measurements list for deletion does not 
+>>>> alter the
+>>>> hash table. When staging is done, IMA is still able to detect 
+>>>> collisions on
+>>>> the staged and later deleted measurement entries, by keeping the entry
+>>>> digests (only template data are freed).
+>>>>
+>>>> However, since during the measurements list serialization only the 
+>>>> SHA1
+>>>> digest is passed, and since there are no template data to 
+>>>> recalculate the
+>>>> other digests from, the hash table is currently not populated with 
+>>>> digests
+>>>> from staged/deleted entries after kexec().
+>>>>
+>>>> Introduce the new kernel option ima_flush_htable to decide whether 
+>>>> or not
+>>>> the digests of staged measurement entries are flushed from the hash 
+>>>> table.
+>>>>
+>>>> Then, introduce ascii_runtime_measurements_staged_<algo> and
+>>>> binary_runtime_measurement_staged_<algo> interfaces to stage/delete 
+>>>> the
+>>>> measurements. Use 'echo A > <IMA interface>' and 'echo D > <IMA 
+>>>> interface>'
+>>>> to respectively stage and delete the entire measurements list. Use
+>>>> 'echo N > <IMA interface>', with N between 1 and ULONG_MAX, to 
+>>>> stage the
+>>>> selected portion of the measurements list.
+>>>>
+>>>> The ima_measure_users counter (protected by the ima_measure_lock 
+>>>> mutex) has
+>>>> been introduced to protect access to the measurement list and the 
+>>>> staged
+>>>> part. The open method of all the measurement interfaces has been 
+>>>> extended
+>>>> to allow only one writer at a time or, in alternative, multiple 
+>>>> readers.
+>>>> The write permission is used to stage/delete the measurements, the 
+>>>> read
+>>>> permission to read them. Write requires also the CAP_SYS_ADMIN 
+>>>> capability.
+>>> Hi Roberto,
+>>>
+>>> I released version 2 of trim N entries patch as bellow:
+>>>
+>>> [PATCH v2 0/1] Trim N entries of IMA event logs
+>>> <https://lore.kernel.org/linux-integrity/20251210235314.3341-1-chenste@linux.microsoft.com/T/#t> 
+>>>
+>>>
+>>> I adapted some of your idea and I think trim N has following 
+>>> advantages:
+>>> 1: less measurement list hold time than your current implementation
+>>> 2. operation much simple for user space
+>>> 3. less kernel code change
+>>> 4. no potential issue as Gregory mentioned.
+>> Please have a look at:
+>>
+>> https://marc.info/?l=linux-integrity&m=176545085325473&w=2
+>>
+>> and let me know if I'm missing something.
+>>
+>> Thanks
+>>
+>> Roberto
+>
+> Hi Roberto,
+>
+> what does this staging solution do that's not achieved by trim N 
+> entries solution?
+>
+> You did not address all my comments and your other idea make things 
+> more complex.
 
-I've replied there now. tl;dr: I already dropped the empty Comments line
-for this v5, and didn't want to make other changes to the .cocci without
-a better rationale. I'm open to suggestions, though!
+The following are steps for both proposals:
 
--Kees
+     the steps for trim N solution:
+         1. User space reads list without lock
+         2. User space decides to trim N entries and send command to kernel
+         3. Kernel will lock the list use the same or less time as 
+staged solution use(we can improve this together)
 
--- 
-Kees Cook
+     the steps for staged N solution:
+         1. User space reads list without lock
+         2. User space stages list with lock
+         3. User space decides to trim N entries and send command to kernel
+         4. Kernel trim staged list (staged list may not empty after trim)
+         5. kexec save the staged list during soft reboot
+         6. kexec restore the staged list during soft reboot
+
+>
+> Also, Trim N solution is simple and will bring following two good points:
+>     easy for future IMA development
+will be easier for future "Kexec Measurement List Passing" project
+> easy for code maintenance
+>
+> Could you also add your comments on the trim N solution?
+>
+> Thanks,
+>
+> Steven
+>
+>>
+>>> Thanks,
+>>>
+>>> Steven 
+
