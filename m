@@ -1,88 +1,87 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FCF26FA67
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 08:07:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E0B2D7DD5
+	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 08:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765440477; cv=none; b=KkLqO/1oF890O/qgPFMIbeiRPlitGApVyMeT0TP+jbcbesbhIsLcVnd2OXkJ1X4JBJqWoIu+hMZ3vGt/wy1Ca+0JF0EJVuxzVvW1BpItHHSFDjW/fs0z+nfM+oQ/5l7ByQQlQQ5YCo9AXQZBPPzv2Ayg0ulKtn+HoaGnMMZDqGo=
+	t=1765440479; cv=none; b=mPtqBYy3at9qIDlxk3EEnrZqqgym5wf25tAthmX9b0TZfYLCvUCg3+i7DhuBbiSTcxL2uE219BkvRcNEvvlK4OwZ2Iq2cqpNvAE7AdQViyLS9AWu745YJ9Gt44bpVRJOx91gExhMcIi9Qq/Qz0WRwSwOfh1RxO2N7oBDcYsBY1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765440477; c=relaxed/simple;
-	bh=h+feqIXr5w5z860++1hMrUgyYUx9wCCEo3qtKiYD8Jg=;
+	s=arc-20240116; t=1765440479; c=relaxed/simple;
+	bh=YwRYwlT/5tfVm4v4+QRSkVb8bWyUn40Z8NTxXHlxQqM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Q3VjNHAD6s06uOA9xvlQLC0f47qMy730x0kcfncyUiK+jCW3GAKEIG71gyl3AKODvHWCGoVVbrFPUzWdtdtJ8Le5P58eJXeRmmjkS1m4z9ZUDrNKMWRT+UYpScQby+Ov1rSOVCR/weTYEXuTI9u5AqJ0DCarYl+BGvMZ+EoLH+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IqDSR81+; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UCs1eLXx; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=cyxyEcluJtb4SBiLBGpeSZJk0jRwiGAmJElEjVmmSDDuM2cLlBehlNbSG06R8OJcFQPLYHTmWMi4Bai7hJzD5tg+FQkVwUAKIJNB+7XwspA/bc7jpVKfqlHHsJLBYHYtpRAUrTo4tVoBPNPb8vtaROSrex2yLhpaQgziPvIrp6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ha2NaYCb; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YQfGFlI6; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IqDSR81+";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UCs1eLXx"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BALRO9K3701202
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 08:07:54 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ha2NaYCb";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YQfGFlI6"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BB32sap3683323
+	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 08:07:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iuCH3Zp//u7Umu61QPG7yZPcMDUz7hNKqC4HK41aEsM=; b=IqDSR81+XbdFUurU
-	gfDJ6NIsQXoBYZtWYuJbWRM9zAzZpyOZLTPrr18RF+FK6eo7FO37oWei97j/4yyx
-	GfuDbLPpb89XIGBOCyFLn+z/5v8xlLBLabzTxY51XuJHEJe8Q1jGurxrFPJ2TRVY
-	xD1QkpGbdugn6yL7MPJFnqIL+isxei0TwN29Kku1JViDjvQ2S8lrlyozPW2/d5C/
-	CZycMo5vxX5mahlwGs51pYAFlqQ8uNHAxL7sdQmTvG6/78RQKBIDg1zh+nKfc+kK
-	VW3sCSm+s1kRYJ8suKVe+nkrIXSJrLTLsnT8nk1UH6W/uEpWEVKUwmcjvZrfzMG8
-	RG1lvw==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aygsx1j1w-1
+	rVdEM4N9xR3Hr3V6+sHkWVsTPd5reFJrxYZtqqalbos=; b=Ha2NaYCbL2/nS4Ux
+	+G/j5mRPqFeVVK76nzztteRTh5yUkWJaZIBS3axSoFF7Po1KdVxGOgYbvLR7jUCl
+	KxLkDJBAqiuAQH4Zq6OVhIIAGCBy7jCROHnU0tdyC4YWRGTmX8bgn4oFtpREWsoF
+	iMpmQVC9goywilc+KYpgX7909nsQgjvDeMn8VJXVMfneXW8bv+vpD+BLyCcYck8G
+	G+qKujQkfDrRBfowbSHnLjjtxIkvHBodEoMMjGJV1evCGQBJYlBA3D13zAjw3LMZ
+	A0Yrd1jvFY8yMEHn8Vfk6yetjFrZjU+WrA2AsYLNivTPWG4yf/ftbYv04bZ0jZgw
+	s5kSeg==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aynpvrs2y-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 08:07:53 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-7d5564057d0so1809641b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 00:07:53 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 08:07:57 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-7bb2303fe94so850340b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 00:07:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765440473; x=1766045273; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1765440477; x=1766045277; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iuCH3Zp//u7Umu61QPG7yZPcMDUz7hNKqC4HK41aEsM=;
-        b=UCs1eLXxY78KSGPLAndGWvrKQ/Ltc96Vf5bYJtYLcwQ7CQJTQTFq9yBGSosZYPbvfm
-         awq0WvbEH+2hVVQfq965T1u0acfGZf0XPRVsjuLhYTHBSo0BUYeveg5YW9GhfZPVnX2B
-         +m2Oks2bYCESNCdrwovk7prcoeK9gReOw3zc28VdvHxxvno8XJb0VE3c4yYczmdSV5+b
-         JRxJm/nToo8cIZZjZsZVj8Uk6+isFCGMzDJF8Lt7iJAoQDKebFJACkLTTyBsp8jX4hgT
-         Zm4jG3TMdjs1uIisnNf192Na1ZfS4NElr+NXOcp6u+0aNk3xyhnlHMXnSzsStZfOugrU
-         1bKg==
+        bh=rVdEM4N9xR3Hr3V6+sHkWVsTPd5reFJrxYZtqqalbos=;
+        b=YQfGFlI6KV642TFKe497kSFQMegoC003WMZyTmJjQQrOjThbnnAY9dggawYjKrx9Au
+         EjK/7DarZeT1G4/vVNWe6YfTNQ8/qeMmHF//oPuJVVBe3wCD40WFaMLsBrFSVThZSX9S
+         +lysh6803qhWduVwLGompjiEQC8stjRzYktpQT6neczOU5v6Oamnd3VAr8IGbAi+hXld
+         zX1A0hcE3gn8yq8OlzRqCOVQQ6Qo4JlpimmOQ+S3OPQFVf9wKEMlNGVM8X7+7/kq565H
+         WPRfRvUx31QvVqwuBjNsKyr6Bmj4wsSyR2CLC2BN73I++s7zhP5amlZy8Q2vXi4OQIW2
+         pTUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765440473; x=1766045273;
+        d=1e100.net; s=20230601; t=1765440477; x=1766045277;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=iuCH3Zp//u7Umu61QPG7yZPcMDUz7hNKqC4HK41aEsM=;
-        b=i5mx1jTm5aN93sDodNg4QDKDPMbqoXKXN2UZcI9HHlf5YO+m0qI8+7nmdVaWDO1e1e
-         nLnTJxbcXqymDP2noJkQkZkiBDepX+ITy6ndm5d5mhuYUg5lO3+LMjr82vCWayH25DF1
-         Vmv8rnaVZJ2PsfbxVGcbOxYUgbL6Ag48o6xRVaDPCPsiZzyRTpKqNP99+x71i68tDWCR
-         moBWxbJYtKo+IxqIcM30DvsCUkQzvumvvAUbJvrCuzW5EOxkV3m2HaIPiyEOVR1+gIax
-         ZwBZQTsNGY/VDzD/0RV1y6ym6Jv/gLugh37hzoNf3KdXgj0K9wKw/XKFZ+UUktvHG3WI
-         FWmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXYz6vg/uMC0esKdCJ6zzXARKcnB7PRHjp8ePW+ROfVqVaN1YPYoSKzOybtK8BLQOcl3T9jgSEj8g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjoFQTJCSH9o0YgvSvp091l5qYF9Tdy3CXvpRCV5lFwSZA+CcZ
-	/7UW0Hbs0o9BGMvTrbMRzgPFAto3cbx95kjuovJlNBvV7vje8z/V+k1KkJA0PvHGOVAKYsCCib3
-	wCV9EPuObjh1T1CJ6gGYkyKsASaudxtiO6oRo2YA1msMP1XoUZ13PZi0aTNkdZls=
-X-Gm-Gg: AY/fxX6bJUHB5GENi4dq2AoA73+VlyBSTcT+WD6lUmugc1TA3F/mPmoa9LBpj9ECZCy
-	7zbSBzXGrdrTH0QkQAnmqydGLmn7FpofQPybNWtVt0beheLXRklGctUkZe9+OxhLqh1jFQdDPq8
-	Sjj0zBvxt1w4hMWNMi/XNPUc7CVftQbYwgy3TxAuX46bx/SVlukeB/CkQ7dFgr7R/IlKPNLK2u7
-	D5+w/bWPlP/lBnEYuqjEIzOLvcCwV/CbrmI8fE2t/49gvUBoMoU9WT3vYHvRHGg2f+wCFQMfGNc
-	UYvTrKYZ8j1rOSWAgOMypKmA9g5rcmqO+BMNkJG/39npeRdHpxqOtkVaozkZO3LMrLLcvvy+im0
-	/lQOFTLFzjJF9v/UDBFWMIaZ4GQvDZawrrA==
-X-Received: by 2002:a05:6a00:92a2:b0:7e8:450c:618c with SMTP id d2e1a72fcca58-7f22e48b131mr4568390b3a.35.1765440472951;
-        Thu, 11 Dec 2025 00:07:52 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHwWwa9QMypmPHHM8GKyLYNFPbyXuckTYzwgrCa53kkP6frpMmL8uZs7IFXCrkn4UI36FTc4A==
-X-Received: by 2002:a05:6a00:92a2:b0:7e8:450c:618c with SMTP id d2e1a72fcca58-7f22e48b131mr4568366b3a.35.1765440472494;
-        Thu, 11 Dec 2025 00:07:52 -0800 (PST)
+        bh=rVdEM4N9xR3Hr3V6+sHkWVsTPd5reFJrxYZtqqalbos=;
+        b=KAfU7mg0KxaqhodLSjpbHQ59/vYjOTjAhr05kpqfp1m55ELrVX91SVRnyPZZtX6X8E
+         Bg/xpo7fP2KVuMnlQ4q3agqTf8+U8eyF1dVS9BuNC8sNLzCgsqEsRjhsFGRGvGKwRrqB
+         0F7d+aa2scNMvqjTiGjUS+CYWiC6IVW8tPn448aFuEvlZsXok5Okm3RdsLEy7btV2gGL
+         nDlrnePKsVhG0CK9gLppQV4r7fapv9kZ9m90vF2gyY2WHig8cXen7p3S9flKwXUFmIpW
+         mF4hzJhVOxWh8tY2kneILK6rmeYrz2B0q6eUgBirVx8hSA6c1S1LkIJ20Pk7x4rjWtJ/
+         rsIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWhEIqyWQ5x0YHxp1NpXYOv3RXJ/NGqCIxUV8xtxsl0bXSYh2GfVkRTH9WNUTd03qNi6QA9TbjBDn4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxCMPqqr0+pH6kBTgrIUqdhOgOyoq3tp18jXnCOjN0dEsukNj+
+	ykboq3bmNS/fb8UEJfyPC65RYaqucl7r7r4hjYYtz7NxwddeJszZVCagOYQ6C3BjvUcXWxcsxzC
+	Z2DNIN66CrJyKg5AI0YECa8tm+5Y4jZ2iFFxC3FgY37oKy60Ytyv3ZM/qo2pIBIk=
+X-Gm-Gg: AY/fxX74ZVeH2W3raXFmSlo1HuxCN7bOClxYW49dxAmqSJXUnag2ibJvUaOmj21Y7jJ
+	OQJxWMk3p/UKS043w/DoCiHKUp0ZT9OyIDJcI1RkUVhe/SsH4B+q6rxA7g1R5wILyrydaMiw63B
+	uGFH7iT1O6iGv1xPCqucj+fP0iXTxGY8fzAE/dPDdEqEm7vJcrBlmokOTApFXKZcppaJR+kvv/I
+	Yfln+X33OaaOoE1vObrk0WZnS5BdJnd1LHfEkMNBjnaTDB8XtmqjErhMoCzQDcbyaF+e+yq4cSM
+	x4V8WtyrUkHvtSy+WEBubvsdE5biWgtDaV4y2q9qvPNUqeWayVR9ufmeTkMF+gjrgtx+UQt4VpQ
+	a0+sLXmqApCHk4a8Wm6oBovNgMG+4ahYFfA==
+X-Received: by 2002:a05:6a00:198c:b0:7ab:88:e397 with SMTP id d2e1a72fcca58-7f22d20a2a1mr5351882b3a.24.1765440476753;
+        Thu, 11 Dec 2025 00:07:56 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGYJ+9iyQn9SlqYsFPXt6cpvvx5kDRMcqf2QjkFSt1T5jR+a+kHMx0928Hl2duDOfH9ol1+dA==
+X-Received: by 2002:a05:6a00:198c:b0:7ab:88:e397 with SMTP id d2e1a72fcca58-7f22d20a2a1mr5351855b3a.24.1765440476279;
+        Thu, 11 Dec 2025 00:07:56 -0800 (PST)
 Received: from [10.213.102.126] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c22848a7sm1706651b3a.3.2025.12.11.00.07.49
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c22848a7sm1706651b3a.3.2025.12.11.00.07.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 00:07:52 -0800 (PST)
+        Thu, 11 Dec 2025 00:07:55 -0800 (PST)
 From: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
-Date: Thu, 11 Dec 2025 13:37:35 +0530
-Subject: [PATCH 03/11] bus: mhi: host: Add support for queuing multiple DMA
- buffers
+Date: Thu, 11 Dec 2025 13:37:36 +0530
+Subject: [PATCH 04/11] Revert "bus: mhi: host: Remove mhi_poll() API"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -91,7 +90,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251211-siva_mhi_dp2-v1-3-d2895c4ec73a@oss.qualcomm.com>
+Message-Id: <20251211-siva_mhi_dp2-v1-4-d2895c4ec73a@oss.qualcomm.com>
 References: <20251211-siva_mhi_dp2-v1-0-d2895c4ec73a@oss.qualcomm.com>
 In-Reply-To: <20251211-siva_mhi_dp2-v1-0-d2895c4ec73a@oss.qualcomm.com>
 To: Manivannan Sadhasivam <mani@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
@@ -104,426 +103,66 @@ Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
         Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>,
         Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 X-Mailer: b4 0.15-dev-47773
-X-Proofpoint-GUID: IZhNFqUtlak6qgE-aLqlouZpiDaDvFKk
-X-Authority-Analysis: v=2.4 cv=d974CBjE c=1 sm=1 tr=0 ts=693a7bd9 cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA1OSBTYWx0ZWRfXwyCM9qRP6uRp
+ Mtoy6BwvjlXt8FPTDve1z/rZ5NWNeautBnmEQoY9Vb9JiiCG+t3HKEBo/YPn6z3VCpqbLSzhzLd
+ LkcFdJ6h0DPirzekVKeo3s3gBpC3mmySnMei2G7dEp4Tea+fN1JEKr4GibV3srLyyunsfgMgSGC
+ x6RNjqp6FT1Nhp2BdPOT58bcddqGJJK9CNH9tuqIfew7YPnbm3vl52U+LPxFQhPtpwnovJs05zq
+ NU7+6c5lEgA2fdLO5CNjCWJ1XBybQ0RTTVJ428JPSPgaOoYBn8Sh/zDrS9hQpt4mjEakdW/OdwO
+ Ih4GTYCRpJIPyM1RoceXZ4ZF2GeKa/060FMzVhRKHKvoYyXWf6xKtsLXaKyzXh4wBy6GTAhfypB
+ A3PH/zim9gSpdIPf00jZjoDOKDqjiQ==
+X-Proofpoint-GUID: XeWGRn1cGiUtZwgr4SWkjkRCJD7R9eBe
+X-Authority-Analysis: v=2.4 cv=C6nkCAP+ c=1 sm=1 tr=0 ts=693a7bdd cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=QMY_sxhyyrCYvVqsgUQA:9
- a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA1OSBTYWx0ZWRfXyZ3o/PxriEIm
- hylGiY3ZR1t015Gab5vJqqxEB0JreQszgdCeQb1y6FJHFCofyPOoLDWqD77nGZ7vDgMNGomulhi
- +TZaGyVyEMTbPfzOeI/qkJXtmNE7AcYDYXQkayzkd07Ys1f9Ak0MnsVi7QR2/uBZXSHCE6M1PWk
- A2WD3BjYfLTGMAiejBwD7tF2tABCrQfxYeXQZNYiFfl3HqW2yfqvJoQTBR3Si2Mi3j4SwOAwf1h
- m05cyvz6+3AqaaDi4dSUFPg6VzzDfq/m0LIC6qVUfefzgbA96BLVe0yKFuZHDFEt3IpEHvvzBwl
- hSGWDluq0JQO43K5vueF3JM9M2HA/B11cdO0fSZ+vEZSaiRykWN45g52Qx9KDRMeT884Q44jF+T
- ZoGiFq/ka1vzyde8gadYkxpzhCdU5Q==
-X-Proofpoint-ORIG-GUID: IZhNFqUtlak6qgE-aLqlouZpiDaDvFKk
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=oQAhVp1KcIWGeVV0ezEA:9
+ a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-ORIG-GUID: XeWGRn1cGiUtZwgr4SWkjkRCJD7R9eBe
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-10_03,2025-12-09_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- adultscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1011 phishscore=0
+ spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1011
+ priorityscore=1501 impostorscore=0 phishscore=0 suspectscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512110059
 
 From: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 
-Optimize MHI clients by allowing them to queue multiple DMA buffers for a
-given transfer without ringing the channel doorbell for every queue. This
-avoids unnecessary link access. Introduce the exported API mhi_queue_n_dma
-to pass an array of MHI buffers and MHI flags.
+Revert commit 5da094ac80cd ("bus: mhi: host: Remove mhi_poll() API")
 
-Currently, the BEI flag is set for all TREs based on the interrupt
-moderation timer value. MHI clients are not allowed to block event
-interrupts at runtime. If interrupt moderation is disabled for an event
-ring, the client is allowed to poll on events posted on the event ring by
-blocking the MSI. If interrupt moderation is enabled, the BEI flag passed
-in the queue API is overridden to maintain the current implementation tied
-to the interrupt moderation timer value.
-
-For scatter-gather transfers, MHI clients should set the MHI_SG transfer
-flag. This flag allows skipping the issuance of transfer callbacks per TRE
-and only issuing a single callback when the last TRE is processed.
+Add mhi_poll() API. New hardware channel clients use mhi_poll() to manage
+their own completion events instead of relying on the MHI core driver for
+notifications.
 
 Signed-off-by: Vivek Pernamitta <vivek.pernamitta@oss.qualcomm.com>
 Signed-off-by: Sivareddy Surasani <sivareddy.surasani@oss.qualcomm.com>
 ---
- drivers/bus/mhi/host/internal.h |   8 ++
- drivers/bus/mhi/host/main.c     | 203 +++++++++++++++++++++++++++++++++++-----
- include/linux/mhi.h             |  26 +++++
- 3 files changed, 213 insertions(+), 24 deletions(-)
+ drivers/bus/mhi/host/main.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
-index 7937bb1f742c..97bf6a70b9fa 100644
---- a/drivers/bus/mhi/host/internal.h
-+++ b/drivers/bus/mhi/host/internal.h
-@@ -236,6 +236,7 @@ struct mhi_buf_info {
- 	enum dma_data_direction dir;
- 	bool used; /* Indicates whether the buffer is used or not */
- 	bool pre_mapped; /* Already pre-mapped by client */
-+	bool sg_enabled; /* perform sg and return single completion call back */
- };
- 
- struct mhi_event {
-@@ -414,6 +415,13 @@ irqreturn_t mhi_intvec_handler(int irq_number, void *dev);
- 
- int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
- 		struct mhi_buf_info *info, enum mhi_flags flags);
-+int mhi_gen_n_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
-+		  struct mhi_buf *bufs, enum mhi_flags flags[],
-+		  unsigned int num);
-+int __mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
-+		  struct mhi_buf_info *info, enum mhi_flags flags,
-+		  struct mhi_ring *buf_ring,  struct mhi_ring *tre_ring);
-+
- int mhi_map_single_no_bb(struct mhi_controller *mhi_cntrl,
- 			 struct mhi_buf_info *buf_info);
- int mhi_map_single_use_bb(struct mhi_controller *mhi_cntrl,
 diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
-index 861551274319..7beb848ca5c1 100644
+index 7beb848ca5c1..5d50f6ebf6f9 100644
 --- a/drivers/bus/mhi/host/main.c
 +++ b/drivers/bus/mhi/host/main.c
-@@ -605,7 +605,8 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
- 		struct mhi_ring_element *local_rp, *ev_tre;
- 		void *dev_rp, *next_rp;
- 		struct mhi_buf_info *buf_info;
--		u16 xfer_len;
-+		u16 xfer_len, total_tre_len = 0;
-+		bool send_cb = false;
- 
- 		if (!is_valid_ring_ptr(tre_ring, ptr)) {
- 			dev_err(&mhi_cntrl->mhi_dev->dev,
-@@ -635,10 +636,14 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
- 		while (local_rp != dev_rp) {
- 			buf_info = buf_ring->rp;
- 			/* If it's the last TRE, get length from the event */
--			if (local_rp == ev_tre)
-+			if (local_rp == ev_tre) {
- 				xfer_len = MHI_TRE_GET_EV_LEN(event);
--			else
-+				send_cb = true;
-+			} else {
- 				xfer_len = buf_info->len;
-+			}
-+
-+			total_tre_len += xfer_len;
- 
- 			/* Unmap if it's not pre-mapped by client */
- 			if (likely(!buf_info->pre_mapped))
-@@ -655,13 +660,28 @@ static int parse_xfer_event(struct mhi_controller *mhi_cntrl,
- 
- 			read_unlock_bh(&mhi_chan->lock);
- 
-+
- 			/* notify client */
--			mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
-+			if (buf_info->sg_enabled) {
-+				if (send_cb) {
-+					result.bytes_xferd = total_tre_len;
-+					mhi_chan->xfer_cb(mhi_chan->mhi_dev,
-+							  &result);
-+				}
-+			} else {
-+				mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
-+			}
- 
- 			if (mhi_chan->dir == DMA_TO_DEVICE) {
- 				atomic_dec(&mhi_cntrl->pending_pkts);
--				/* Release the reference got from mhi_queue() */
--				mhi_cntrl->runtime_put(mhi_cntrl);
-+				/*
-+				 * In case of scatter gather send_cb is set to true only
-+				 * for the last TRE, runtime_put should be called for
-+				 * last TRE instead of every buffer i.e, when send_cb
-+				 * is true else runtime_put count will not be balanced
-+				 */
-+				if (!buf_info->sg_enabled || send_cb)
-+					mhi_cntrl->runtime_put(mhi_cntrl);
- 			}
- 
- 			/*
-@@ -1192,25 +1212,14 @@ int mhi_queue_skb(struct mhi_device *mhi_dev, enum dma_data_direction dir,
+@@ -1858,3 +1858,18 @@ int mhi_get_channel_doorbell_offset(struct mhi_controller *mhi_cntrl, u32 *chdb_
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(mhi_queue_skb);
- 
--int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
--			struct mhi_buf_info *info, enum mhi_flags flags)
-+int __mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
-+		  struct mhi_buf_info *info, enum mhi_flags flags,
-+		  struct mhi_ring *buf_ring,  struct mhi_ring *tre_ring)
- {
--	struct mhi_ring *buf_ring, *tre_ring;
- 	struct mhi_ring_element *mhi_tre;
- 	struct mhi_buf_info *buf_info;
- 	int eot, eob, chain, bei;
--	int ret = 0;
--
--	/* Protect accesses for reading and incrementing WP */
--	write_lock_bh(&mhi_chan->lock);
--
--	if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED) {
--		ret = -ENODEV;
--		goto out;
--	}
--
--	buf_ring = &mhi_chan->buf_ring;
--	tre_ring = &mhi_chan->tre_ring;
-+	int ret;
- 
- 	buf_info = buf_ring->wp;
- 	WARN_ON(buf_info->used);
-@@ -1227,24 +1236,55 @@ int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
- 	if (!info->pre_mapped) {
- 		ret = mhi_cntrl->map_single(mhi_cntrl, buf_info);
- 		if (ret)
--			goto out;
-+			return ret;
- 	}
- 
-+	trace_mhi_gen_tre(mhi_cntrl, mhi_chan, mhi_tre);
+ EXPORT_SYMBOL_GPL(mhi_get_channel_doorbell_offset);
 +
- 	eob = !!(flags & MHI_EOB);
- 	eot = !!(flags & MHI_EOT);
- 	chain = !!(flags & MHI_CHAIN);
--	bei = !!(mhi_chan->intmod);
-+
-+	buf_info->sg_enabled = !!(flags & MHI_SG);
-+
-+	/* honor bei flag if interrupt moderation is disabled */
-+	bei = !!(mhi_chan->intmod ?
-+				mhi_chan->intmod : flags & MHI_BEI);
- 
- 	mhi_tre = tre_ring->wp;
- 	mhi_tre->ptr = MHI_TRE_DATA_PTR(buf_info->p_addr);
- 	mhi_tre->dword[0] = MHI_TRE_DATA_DWORD0(info->len);
- 	mhi_tre->dword[1] = MHI_TRE_DATA_DWORD1(bei, eot, eob, chain);
- 
--	trace_mhi_gen_tre(mhi_cntrl, mhi_chan, mhi_tre);
-+	if (mhi_chan->dir == DMA_TO_DEVICE)
-+		atomic_inc(&mhi_cntrl->pending_pkts);
-+
- 	/* increment WP */
- 	mhi_add_ring_element(mhi_cntrl, tre_ring);
- 	mhi_add_ring_element(mhi_cntrl, buf_ring);
- 
-+	return 0;
-+}
-+
-+int mhi_gen_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
-+			struct mhi_buf_info *info, enum mhi_flags flags)
++int mhi_poll(struct mhi_device *mhi_dev, u32 budget)
 +{
-+	struct mhi_ring *buf_ring, *tre_ring;
-+	int ret = 0;
-+
-+	/* Protect accesses for reading and incrementing WP */
-+	write_lock_bh(&mhi_chan->lock);
-+
-+	if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED) {
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
-+	buf_ring = &mhi_chan->buf_ring;
-+	tre_ring = &mhi_chan->tre_ring;
-+
-+	ret = __mhi_gen_tre(mhi_cntrl, mhi_chan, info, flags, buf_ring, tre_ring);
-+
- out:
- 	write_unlock_bh(&mhi_chan->lock);
- 
-@@ -1264,6 +1304,121 @@ int mhi_queue_buf(struct mhi_device *mhi_dev, enum dma_data_direction dir,
- }
- EXPORT_SYMBOL_GPL(mhi_queue_buf);
- 
-+int mhi_gen_n_tre(struct mhi_controller *mhi_cntrl, struct mhi_chan *mhi_chan,
-+		  struct mhi_buf *bufs, enum mhi_flags flags[],
-+		  unsigned int num)
-+{
-+	struct mhi_ring *buf_ring, *tre_ring;
-+	void *cur_buf_ring_wp, *cur_tre_ring_wp;
-+	int i = 0, j, ret;
-+	struct mhi_buf_info buf_info = {0};
-+	struct mhi_buf_info *info;
-+
-+	if (mhi_chan->ch_state != MHI_CH_STATE_ENABLED) {
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
-+	buf_ring = &mhi_chan->buf_ring;
-+	tre_ring = &mhi_chan->tre_ring;
-+
-+	cur_buf_ring_wp = buf_ring->wp;
-+	cur_tre_ring_wp = tre_ring->wp;
-+
-+	while (num-- > 0) {
-+		buf_info.wp = tre_ring->wp;
-+		buf_info.p_addr = bufs[i].dma_addr;
-+		buf_info.cb_buf = bufs[i].buf;
-+		buf_info.len = bufs[i].len;
-+		buf_info.pre_mapped = bufs[i].streaming_dma;
-+
-+		ret = __mhi_gen_tre(mhi_cntrl, mhi_chan, &buf_info, flags[i], buf_ring, tre_ring);
-+		if (ret)
-+			goto error;
-+
-+		i++;
-+
-+		/**
-+		 * When multiple packets are queued in single queue_n_dma call
-+		 * runtime_get should be called for each packet to balance
-+		 * runtime_put and runtime_get count,
-+		 * because once we get MSI's from the device,
-+		 * we call runtime_put for each packet in parse_xfer_event
-+		 */
-+		if (!buf_info.sg_enabled)
-+			mhi_cntrl->runtime_get(mhi_cntrl);
-+	}
-+
-+	/**
-+	 * If it is a scatter gather transfer, runtime_get
-+	 * should be called only once as we call runtime_put
-+	 * only for last TRE in the parse_xfer_event
-+	 */
-+	if (buf_info.wp && buf_info.sg_enabled)
-+		mhi_cntrl->runtime_get(mhi_cntrl);
-+
-+	return 0;
-+error:
-+	buf_ring->wp = cur_buf_ring_wp;
-+	tre_ring->wp = cur_buf_ring_wp;
-+
-+	for (j = i - 1; j >= 0; j--) {
-+		atomic_dec(&mhi_cntrl->pending_pkts);
-+		info = cur_buf_ring_wp;
-+		if (!bufs[i].dma_addr)
-+			mhi_cntrl->unmap_single(mhi_cntrl, info);
-+
-+		cur_buf_ring_wp += buf_ring->el_size;
-+		if (cur_buf_ring_wp >= buf_ring->base + buf_ring->len)
-+			cur_buf_ring_wp = buf_ring->base;
-+	}
-+
-+out:
-+	return ret;
-+
-+}
-+
-+int mhi_queue_n_dma(struct mhi_device *mhi_dev, enum dma_data_direction dir,
-+		    struct mhi_buf *bufs, enum mhi_flags mflags[],
-+		    unsigned int num)
-+{
-+	unsigned long flags;
-+	int ret;
 +	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
-+	struct mhi_chan *mhi_chan = (dir == DMA_TO_DEVICE) ? mhi_dev->ul_chan :
-+							     mhi_dev->dl_chan;
++	struct mhi_chan *mhi_chan = mhi_dev->dl_chan;
++	struct mhi_event *mhi_event = &mhi_cntrl->mhi_event[mhi_chan->er_index];
++	int ret;
 +
-+	if (unlikely(MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)))
-+		return -EIO;
-+
-+	write_lock_irqsave(&mhi_chan->lock, flags);
-+
-+	if (get_nr_avail_ring_elements(mhi_cntrl, &mhi_chan->tre_ring) < num) {
-+		ret = -EAGAIN;
-+		goto error;
-+	}
-+
-+	ret = mhi_gen_n_tre(mhi_dev->mhi_cntrl, mhi_chan, bufs, mflags,
-+			    num);
-+	if (ret)
-+		goto error;
-+
-+	/* Assert dev_wake (to exit/prevent M1/M2)*/
-+	mhi_cntrl->wake_toggle(mhi_cntrl);
-+
-+	if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)))
-+		mhi_ring_chan_db(mhi_cntrl, mhi_chan);
-+
-+	if (dir == DMA_FROM_DEVICE)
-+		mhi_cntrl->runtime_put(mhi_cntrl);
-+
-+error:
-+	write_unlock_irqrestore(&mhi_chan->lock, flags);
++	spin_lock_bh(&mhi_event->lock);
++	ret = mhi_event->process_event(mhi_cntrl, mhi_event, budget);
++	spin_unlock_bh(&mhi_event->lock);
 +
 +	return ret;
 +}
-+EXPORT_SYMBOL_GPL(mhi_queue_n_dma);
-+
- bool mhi_queue_is_full(struct mhi_device *mhi_dev, enum dma_data_direction dir)
- {
- 	struct mhi_controller *mhi_cntrl = mhi_dev->mhi_cntrl;
-diff --git a/include/linux/mhi.h b/include/linux/mhi.h
-index dd372b0123a6..360770ddef70 100644
---- a/include/linux/mhi.h
-+++ b/include/linux/mhi.h
-@@ -52,11 +52,15 @@ enum mhi_callback {
-  * @MHI_EOB: End of buffer for bulk transfer
-  * @MHI_EOT: End of transfer
-  * @MHI_CHAIN: Linked transfer
-+ * @MHI_BEI: Block event interrupt
-+ * @MHI_SG: scatter-gather enabled, single xfer call back to client
-  */
- enum mhi_flags {
- 	MHI_EOB = BIT(0),
- 	MHI_EOT = BIT(1),
- 	MHI_CHAIN = BIT(2),
-+	MHI_BEI = BIT(3),
-+	MHI_SG = BIT(4),
- };
- 
- /**
-@@ -497,6 +501,7 @@ struct mhi_result {
-  *        ECA - Event context array data
-  *        CCA - Channel context array data
-  * @dma_addr: IOMMU address of the buffer
-+ * @streaming_dma: Set this flag by client for pre allocated streaming dma address
-  * @len: # of bytes
-  */
- struct mhi_buf {
-@@ -504,6 +509,7 @@ struct mhi_buf {
- 	const char *name;
- 	dma_addr_t dma_addr;
- 	size_t len;
-+	bool streaming_dma;
- };
- 
- /**
-@@ -770,6 +776,13 @@ int mhi_prepare_for_transfer_autoqueue(struct mhi_device *mhi_dev);
-  */
- void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev);
- 
-+/**
-+ * mhi_poll - Poll for any available data in DL direction
-+ * @mhi_dev: Device associated with the channels
-+ * @budget: # of events to process
-+ */
-+int mhi_poll(struct mhi_device *mhi_dev, u32 budget);
-+
- /**
-  * mhi_queue_buf - Send or receive raw buffers from client device over MHI
-  *                 channel
-@@ -782,6 +795,19 @@ void mhi_unprepare_from_transfer(struct mhi_device *mhi_dev);
- int mhi_queue_buf(struct mhi_device *mhi_dev, enum dma_data_direction dir,
- 		  void *buf, size_t len, enum mhi_flags mflags);
- 
-+/**
-+ * mhi_queue_n_dma - Send or receive n DMA mapped buffers from client device
-+ *                 over MHI channel
-+ * @mhi_dev: Device associated with the channels
-+ * @dir: DMA direction for the channel
-+ * @mhi_buf[]: Array of mhi_buf for holding the DMA mapped data and len
-+ * @mflags[]: Array of MHI transfer flags used for the transfer
-+ * @num: Number of transfers
-+ */
-+int mhi_queue_n_dma(struct mhi_device *mhi_dev, enum dma_data_direction dir,
-+		  struct mhi_buf *bufs, enum mhi_flags mflags[],
-+		  unsigned int num);
-+
- /**
-  * mhi_queue_skb - Send or receive SKBs from client device over MHI channel
-  * @mhi_dev: Device associated with the channels
++EXPORT_SYMBOL_GPL(mhi_poll);
 
 -- 
 2.34.1
