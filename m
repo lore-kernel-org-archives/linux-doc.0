@@ -1,118 +1,153 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1023192B75;
-	Thu, 11 Dec 2025 20:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2FB2DAFA1;
+	Thu, 11 Dec 2025 22:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765483652; cv=none; b=t0eQkjz0PVhjO3uJyN/KzKmLRD8jnHULzGGhqdv0/b45yECEV+sAcv02J+6hy8dzUZ6e5F4/JmOeTDmVUvyD5U2qYD78hN3Uoh995Ru4UNlnnK134iHvZokrp/1AQmmJGup2vaqA0sJi8NIM4Y0PwhpxC82yTVj0DO9IzClIHBg=
+	t=1765490404; cv=none; b=Iv4OnXv7bgD0Lyvtw27u5qzVH7DIMecV/5jLvbZhgFFGNkIF3AKNH/uN7fMG9JJvhsLql6TTZes1t9qyNdqUxyh7cldO91/J38dLSvyowd+1jdl32UKQQ9ceXZOfRzGANt73+1BDbYLhRxvNlF/z54XMGsxT35cox0Az2J4LP1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765483652; c=relaxed/simple;
-	bh=nwEtSzoWdQCqAhT1d6k30xO9WYye85wdxc155XDH4dQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=DXJruTUetGHoFKcoInpTrN4VoUkeGj94Y+qHXC7KmycW+7oGKBRlmpeLie/mS21FJuSN3mGDQcn+7Mq/8THjs5TAGgbU9VRB653kO9tQl3eGAHV6rm69l9RN/KlX6f1fQv0zV0geX7LCyOP3vNUtRTqPH/IZ6cTSn2jDvUpuJiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ejUvQZ0u; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1765490404; c=relaxed/simple;
+	bh=UvpgNVZQBWlxwITboFxyD5AfPO8Qk05RYT6bTgKrZ7Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mmeU+s4L353uqbpOxSY7QAw1BvXlDF8XP2ssx0FnG6pCViedZBbIFOeuBu9za0iwXUwoVPhhmFYTH+AV9FDKKoTmvy7BZc3Nfl3A7WXioUJGutb5JwpMKyczD2Rj8E6C4oY7QQ7ybpouXTHQoY/ccNHLYLExGSRwFmKfh/nh/F8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NLgG52d2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ejUvQZ0u"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=JUiYwqBQsrLJjctTG3xhmoacDmlSDDxQQ2A0MBpDNcY=; b=ejUvQZ0u7psCummZuhrynAYYFk
-	bBIfP4+AK/Y1h5whO9Rv1/wSuoTUVjzGDG+DtjXkUIW2ZZVwFrY3of+cnkwVLZosHwtsyG9khav6T
-	ak8DhdokTJJJMdYYZ/Tkf+xBgq450fEVv+eBD+vsSvYHalBK6LrBx8d7DP+0hFfWwU+PqzehTBMZw
-	dxb366APIX5rn9I0xgw8gYsx7KQuKgT1grqJLgcXr+pG8uh5QHOUH1a7QgvRjcnacCycCyaE24aJ6
-	ov8rU/L3wwD/ieWlha7WaVfWcmiZshV7eiflehARr9sjLoKwkeRQtDmuxq369HxIMnlG4/GPzI/mp
-	EZtmqmVg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vTmwa-0000000HCam-18BG;
-	Thu, 11 Dec 2025 20:07:20 +0000
-Message-ID: <f7e997ac-2312-4d18-96d7-d6abb190a5c3@infradead.org>
-Date: Thu, 11 Dec 2025 12:07:16 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NLgG52d2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F1F1C4CEF7;
+	Thu, 11 Dec 2025 22:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765490403;
+	bh=UvpgNVZQBWlxwITboFxyD5AfPO8Qk05RYT6bTgKrZ7Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NLgG52d2/iqu1sxj7GYeS2a/Sxw8ThW6asIItsBe4kdxmkTf8muRLSxBmDfDUTeAF
+	 guQJFMWlzhh11fUv6sxEdcmn/B9+GrK0YpJUOqE7A5THK68fja/llOeE22CgM8PLgo
+	 56ivDIlpPa8XuqMLyAPrOmA07fT29ybf+hXS1MRhbIdq0+qLFMIPntyOA4br2g9nha
+	 PCNZe03aSRsb04tEgRdKfNkcDlc01Uvwi75gsu7SDAFpyCQM+3hd9aroWHh5f8wiXU
+	 VShVo5/xMhwkWswOD6iQteeJ7JE/5mZy7VLpW5MosqnduOK9I0Bm6h1O7oc4PJK2lY
+	 5X0kyKCamIa6A==
+Date: Thu, 11 Dec 2025 14:00:02 -0800
+From: Kees Cook <kees@kernel.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: cocci@inria.fr, linux-hardening@vger.kernel.org, linux-mm@kvack.org,
+	Julia Lawall <Julia.Lawall@inria.fr>,
+	Nicolas Palix <nicolas.palix@imag.fr>,
+	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bill Wendling <morbo@google.com>, Christoph Lameter <cl@linux.com>,
+	David Rientjes <rientjes@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Harry Yoo <harry.yoo@oracle.com>, Jakub Kicinski <kuba@kernel.org>,
+	Jan Hendrik Farr <kernel@jfarr.cc>, Jann Horn <jannh@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Marco Elver <elver@google.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Sasha Levin <sashal@kernel.org>,
+	Tony Ambardar <tony.ambardar@gmail.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Yafang Shao <laoar.shao@gmail.com>
+Subject: Re: [cocci] [PATCH v5 4/4] coccinelle: Add kmalloc_objs conversion
+ script
+Message-ID: <202512111352.387A339CE@keescook>
+References: <20251122014304.3417954-4-kees@kernel.org>
+ <71d406fb-9fb1-44a9-912a-7a0d270b9577@web.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 08/11] security: Hornet LSM
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
- Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
- =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>,
- "Dr. David Alan Gilbert" <linux@treblig.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- James.Bottomley@HansenPartnership.com, dhowells@redhat.com,
- linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-References: <20251211021257.1208712-1-bboscaccy@linux.microsoft.com>
- <20251211021257.1208712-9-bboscaccy@linux.microsoft.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251211021257.1208712-9-bboscaccy@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <71d406fb-9fb1-44a9-912a-7a0d270b9577@web.de>
 
+On Mon, Nov 24, 2025 at 01:50:23PM +0100, Markus Elfring wrote:
+> > Finds and converts sized kmalloc-family of allocations into the
+> > typed kmalloc_obj-family of allocations.
+> 
+> See also:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.18-rc7#n94
 
+"Describe your changes in imperative mood"
 
-On 12/10/25 6:12 PM, Blaise Boscaccy wrote:
-> diff --git a/Documentation/admin-guide/LSM/Hornet.rst b/Documentation/admin-guide/LSM/Hornet.rst
-> new file mode 100644
-> index 0000000000000..0fb5920e9b68f
-> --- /dev/null
-> +++ b/Documentation/admin-guide/LSM/Hornet.rst
-> @@ -0,0 +1,38 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +======
-> +Hornet
-> +======
-> +
-> +Hornet is a Linux Security Module that provides extensible signature
-> +verification for eBPF programs. This is selectable at build-time with
-> +``CONFIG_SECURITY_HORNET``.
-> +
-> +Overview
-> +========
-> +
-> +Hornet addresses concerns from users who require strict audit
-> +trails and verification guarantees, especially in security-sensitive
-> +environments. Map hashes for extended verification are passed in via
-> +the existing PKCS#7 uapi and verifified by the crypto
+I guess I can try rewording this, but it is describing the behavior of
+the script. Normally the imperative language for a patch is about what
+the patch accomplishes. In this case, I've added a script and it does a
+thing itself.
 
-                                verified
-and preferably         UAPI
+> …
+> > +++ b/scripts/coccinelle/api/kmalloc_objs.cocci
+> > @@ -0,0 +1,168 @@
+> …
+> > +// Comments:
+> …
+> 
+> * Please omit such an empty information line.
 
-> +subsystem. Hornet then calculates the verification state of the
-> +program (full, partial, bad, etc) and then invokes a new downstream
+Agreed; I removed this in v5.
 
-                                etc.)
+> 
+> * Would a field like “Keywords” become helpful?
 
-> +LSM hook to delegate policy decisions.
-> +
-> +Tooling
-> +=======
-> +
-> +Some tooling is provided to aid with the development of signed eBPF
-> +light-skeletons.
-> +
-> +extract-skel.sh
-> +---------------
-> +
-> +This shell script extracts the instructions and map data used by the
-> +light skeleton from the autogenerated header file created by bpftool.
-> +
-> +gen_sig
-> +---------
-> +
-> +gen_sig creates a pkcs#7 signature of a data payload. Additionally it
-> +appends a signed attribute containing a set of hashes.
+I only see a few using this -- what benefit is there to adding it? It
+seems redundant to the rest of the file, its opening comment, etc.
+
+> > +virtual patch
+> 
+> Will additional operation modes become relevant after clarification of implementation details?
+
+I am not interested in other modes; if people want to contribute them,
+they are welcome. :)
+
+> 
+> 
+> …
+> > +def alloc_array(name):
+> > +	func = "FAILED_RENAME"
+> > +	if name == "kmalloc_array":
+> > +		func = "kmalloc_objs"
+> …
+> 
+> * I suggest to avoid duplicate variable assignments.
+> 
+> * How do you think about to collaborate with the Python data structure “dictionary”?
+
+I wanted the stderr warning when there was no match, but to return
+"FAILED_RENAME" in such a case. Using a dictionary was basically the
+same length as the elif stack. If you have an alternative, I'm happy to
+replace it with what you come up with.
+
+> 
+> 
+> …
+> > +type TYPE;
+> > +TYPE *P;
+> > +TYPE INST;
+> > +expression VAR;
+> > +expression GFP;
+> …
+> 
+> Such repetition of SmPL key words can eventually be also avoided.
+
+That is true, but I like having them separated -- I find it more
+readable that way.
 
 -- 
-~Randy
-
+Kees Cook
