@@ -1,196 +1,174 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A3BD26D4F7;
-	Thu, 11 Dec 2025 22:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3782DC342;
+	Thu, 11 Dec 2025 23:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765490815; cv=none; b=un4MPIuciWbhwLgXbtnGPpRTvSX+AjgZSdxJZYxYXu2QYmz28G37peoJbHyMFezoQfOjO91RklTPxIM9AmpXLltXTHZKFq4mOEpYFPZ0J/CKQgkS3RqHdkzKlZI/ImS4W36UUoT2zfVJuVvOWSvn2DGaHsKXiQ8bcJ3cdc93+B4=
+	t=1765495140; cv=none; b=kvd9c9Kc8dIy4t1sVUXNOgSWlyD+7qkQe6S77RvoPXYOmwTAdmt51To+T2PeEAFMp0aLTLJfo4Unl//3Kic5SRBuPAv1fSfna6TzQsCMFE32z9xUA1psA1/wP1qs0OsiKIlPYVZNnjMU/4ceuJWOXI3hv8jmv/gbzzwpzh28e04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765490815; c=relaxed/simple;
-	bh=nUtalkbD6QrDRv0OfEjeVGb+R8K62ZWJbHWqzS8WP6g=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=kT0wC1jAU6SUj8N1of5wsAxwKUtl5IrxrjiquYRwWOT7jrUBY9qD6DDXiycqLT0kNvX3nq/zHObPPAK0Y1YFBPpL8YviY9yOI56Qi8hshUK4L61tI9LHm/LSYhKaXWjMoVWFAYB5uXaw0/HJA6R1BwOp46TYcbTpyfvW1hhy1Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=bk+tlOQd; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1765495140; c=relaxed/simple;
+	bh=oGgLwpC58UPbF1rt7SX/cKJaKFq1u2fGauyH2JjWcjQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kUs763amhIm8+EDHLqoadEVWect/ox2EE3plKlzHowefCGkxll1Szd/r4Cz50mxj6TDYTIkKsmhuddkhvWju4SlMAYd+OsjeWTi/fnWyNOKw4aWQUsfnatQB7RkltENZkMMPJbjE4e5Bmf26qwfOJTGKAtKT58c6wsJUicMsp4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FsNZ0/3b; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="bk+tlOQd"
-Received: from [10.17.64.150] (unknown [131.107.8.22])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9B0842016010;
-	Thu, 11 Dec 2025 14:06:51 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9B0842016010
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1765490812;
-	bh=0pGrHYxA8ivdEM4MAPDqLcRoJM2t5LZqyRAyL5kQDyY=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=bk+tlOQd1ZU8+0BL4CVcBdPgTyUHO+lgTuZmaonfc67WjPdb8PIJj3ujI73PIXvNG
-	 ZffSPM6N66q9AVVEMxqhK1Xg9LPi5JoPFWgFjV5VZv/XOornDe/1I7IBoqN4sZZOUq
-	 AgmVSXEdOsPRbG39CvdKFgI4FjhV60StgKRwaTiw=
-Message-ID: <877e2fec-febf-4568-9b00-059094d1c23b@linux.microsoft.com>
-Date: Thu, 11 Dec 2025 14:06:50 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FsNZ0/3b"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765495139; x=1797031139;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oGgLwpC58UPbF1rt7SX/cKJaKFq1u2fGauyH2JjWcjQ=;
+  b=FsNZ0/3bmdaTEsLOCFXbzF+tCjjKmgSzLABcGfplYEJK3DlEXTIn9+Wh
+   4J/3H6iyAQ/GPULjHlwXdoDcR/muebJQQDBudajx/GqFINRUz2W7nvTvX
+   T3ooqIfstNOdl3Ro90Qb/llQK3l0UszQQ67DBNDsbTREyYo65BoLkXL7Q
+   5aH87myqMEjPZBtTfsE+at+bu9xxbuvAz598GisMx6hgB7JXNbiccNGI+
+   gp0P7j4hCpXlaoLWRcEvHP4bkIkCJKADq4i1QhSwTN1I8h3eAEToRVZxu
+   ThMwEXAUZeA1KaeoNPUlNO9ee6kZY63pM5hl+PfG9VM+DqtFSpqXwXU6u
+   Q==;
+X-CSE-ConnectionGUID: r8qjOCYKQSiNQMpYL8hjgg==
+X-CSE-MsgGUID: Nir3EMDLS32YO3kPt1p7dQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71111183"
+X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
+   d="scan'208";a="71111183"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 15:18:59 -0800
+X-CSE-ConnectionGUID: sFbrYc4HS72LNag77CDiyw==
+X-CSE-MsgGUID: r2haberhT1+ttEY1DTlvJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
+   d="scan'208";a="201399473"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 11 Dec 2025 15:18:54 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vTpvv-000000005Br-2j0f;
+	Thu, 11 Dec 2025 23:18:51 +0000
+Date: Fri, 12 Dec 2025 07:18:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+	kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org,
+	si.yanteng@linux.dev, tglx@linutronix.de, jiaxun.yang@flygoat.com,
+	peterz@infradead.org, wangliupu@loongson.cn, lvjianmin@loongson.cn,
+	maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+	gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: Re: [PATCH] irqchip/irq-loongarch-ir:Add Redirect irqchip support
+Message-ID: <202512120915.PyiiMOEa-lkp@intel.com>
+References: <20251211091910.5140-3-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH] ima: Add support for staging measurements for
- deletion
-From: steven chen <chenste@linux.microsoft.com>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
- zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
- paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
- Roberto Sassu <roberto.sassu@huawei.com>,
- steven chen <chenste@linux.microsoft.com>
-References: <20251209101725.3680225-1-roberto.sassu@huaweicloud.com>
- <9cb4cbab-bcca-4ac8-a7a5-0cf3de67353e@linux.microsoft.com>
- <d6ef2d61a2c31c0ae46741b6bd78f38bc02e6141.camel@huaweicloud.com>
- <b701686d-212e-4152-9db9-0c56f21e1fdc@linux.microsoft.com>
-Content-Language: en-US
-In-Reply-To: <b701686d-212e-4152-9db9-0c56f21e1fdc@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251211091910.5140-3-zhangtianyang@loongson.cn>
 
-On 12/11/2025 11:20 AM, steven chen wrote:
-> On 12/11/2025 2:18 AM, Roberto Sassu wrote:
->> On Wed, 2025-12-10 at 16:03 -0800, steven chen wrote:
->>> On 12/9/2025 2:17 AM, Roberto Sassu wrote:
->>>> From: Roberto Sassu <roberto.sassu@huawei.com>
->>>>
->>>> Introduce the ability of staging the entire of the IMA measurement 
->>>> list, or
->>>> a portion, for deletion. Staging means moving the current content 
->>>> of the
->>>> measurement list to a separate location, and allowing users to read 
->>>> and
->>>> delete it. This causes the measurement list to be atomically truncated
->>>> before new measurements can be added. Staging can be done only once 
->>>> at a
->>>> time.
->>>>
->>>> User space is responsible to concatenate the staged IMA 
->>>> measurements list
->>>> portions following the temporal order in which the operations were 
->>>> done,
->>>> together with the current measurement list. Then, it can send the 
->>>> collected
->>>> data to the remote verifiers.
->>>>
->>>> The benefit of this solution is the ability to free precious kernel 
->>>> memory,
->>>> in exchange of delegating user space to reconstruct the full 
->>>> measurement
->>>> list from the chunks. No trust needs to be given to user space, 
->>>> since the
->>>> integrity of the measurement list is protected by the TPM.
->>>>
->>>> By default, staging the measurements list for deletion does not 
->>>> alter the
->>>> hash table. When staging is done, IMA is still able to detect 
->>>> collisions on
->>>> the staged and later deleted measurement entries, by keeping the entry
->>>> digests (only template data are freed).
->>>>
->>>> However, since during the measurements list serialization only the 
->>>> SHA1
->>>> digest is passed, and since there are no template data to 
->>>> recalculate the
->>>> other digests from, the hash table is currently not populated with 
->>>> digests
->>>> from staged/deleted entries after kexec().
->>>>
->>>> Introduce the new kernel option ima_flush_htable to decide whether 
->>>> or not
->>>> the digests of staged measurement entries are flushed from the hash 
->>>> table.
->>>>
->>>> Then, introduce ascii_runtime_measurements_staged_<algo> and
->>>> binary_runtime_measurement_staged_<algo> interfaces to stage/delete 
->>>> the
->>>> measurements. Use 'echo A > <IMA interface>' and 'echo D > <IMA 
->>>> interface>'
->>>> to respectively stage and delete the entire measurements list. Use
->>>> 'echo N > <IMA interface>', with N between 1 and ULONG_MAX, to 
->>>> stage the
->>>> selected portion of the measurements list.
->>>>
->>>> The ima_measure_users counter (protected by the ima_measure_lock 
->>>> mutex) has
->>>> been introduced to protect access to the measurement list and the 
->>>> staged
->>>> part. The open method of all the measurement interfaces has been 
->>>> extended
->>>> to allow only one writer at a time or, in alternative, multiple 
->>>> readers.
->>>> The write permission is used to stage/delete the measurements, the 
->>>> read
->>>> permission to read them. Write requires also the CAP_SYS_ADMIN 
->>>> capability.
->>> Hi Roberto,
->>>
->>> I released version 2 of trim N entries patch as bellow:
->>>
->>> [PATCH v2 0/1] Trim N entries of IMA event logs
->>> <https://lore.kernel.org/linux-integrity/20251210235314.3341-1-chenste@linux.microsoft.com/T/#t> 
->>>
->>>
->>> I adapted some of your idea and I think trim N has following 
->>> advantages:
->>> 1: less measurement list hold time than your current implementation
->>> 2. operation much simple for user space
->>> 3. less kernel code change
->>> 4. no potential issue as Gregory mentioned.
->> Please have a look at:
->>
->> https://marc.info/?l=linux-integrity&m=176545085325473&w=2
->>
->> and let me know if I'm missing something.
->>
->> Thanks
->>
->> Roberto
->
-> Hi Roberto,
->
-> what does this staging solution do that's not achieved by trim N 
-> entries solution?
->
-> You did not address all my comments and your other idea make things 
-> more complex.
+Hi Tianyang,
 
-The following are steps for both proposals:
+kernel test robot noticed the following build errors:
 
-     the steps for trim N solution:
-         1. User space reads list without lock
-         2. User space decides to trim N entries and send command to kernel
-         3. Kernel will lock the list use the same or less time as 
-staged solution use(we can improve this together)
+[auto build test ERROR on tip/irq/core]
+[also build test ERROR on linus/master v6.18 next-20251211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-     the steps for staged N solution:
-         1. User space reads list without lock
-         2. User space stages list with lock
-         3. User space decides to trim N entries and send command to kernel
-         4. Kernel trim staged list (staged list may not empty after trim)
-         5. kexec save the staged list during soft reboot
-         6. kexec restore the staged list during soft reboot
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/irqchip-irq-loongarch-ir-Add-Redirect-irqchip-support/20251211-172347
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20251211091910.5140-3-zhangtianyang%40loongson.cn
+patch subject: [PATCH] irqchip/irq-loongarch-ir:Add Redirect irqchip support
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20251212/202512120915.PyiiMOEa-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120915.PyiiMOEa-lkp@intel.com/reproduce)
 
->
-> Also, Trim N solution is simple and will bring following two good points:
->     easy for future IMA development
-will be easier for future "Kexec Measurement List Passing" project
-> easy for code maintenance
->
-> Could you also add your comments on the trim N solution?
->
-> Thanks,
->
-> Steven
->
->>
->>> Thanks,
->>>
->>> Steven 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512120915.PyiiMOEa-lkp@intel.com/
 
+All error/warnings (new ones prefixed by >>):
+
+   drivers/irqchip/irq-loongarch-avec.c:416:6: error: use of undeclared identifier 'cpu_has_redirectint'
+     416 |         if (cpu_has_redirectint)
+         |             ^~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-avec.c:417:10: error: call to undeclared function 'redirect_acpi_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     417 |                 return redirect_acpi_init(loongarch_avec.domain);
+         |                        ^
+   2 errors generated.
+--
+>> drivers/irqchip/irq-loongarch-ir.c:141:39: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQH'
+     141 |         u32 head = redirect_read_reg32(node, LOONGARCH_IOCSR_REDIRECT_CQH);
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:143:36: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQT'
+     143 |         *tail = redirect_read_reg32(node, LOONGARCH_IOCSR_REDIRECT_CQT);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:161:9: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQT'
+     161 |                              LOONGARCH_IOCSR_REDIRECT_CQT);
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:235:28: error: incomplete definition of type 'struct avecintc_data'
+     235 |         item->gpid->irqnum = adata->vec;
+         |                              ~~~~~^
+   drivers/irqchip/irq-loongarch-ir.c:187:22: note: forward declaration of 'struct avecintc_data'
+     187 | static inline struct avecintc_data *irq_data_get_avec_data(struct irq_data *data)
+         |                      ^
+   drivers/irqchip/irq-loongarch-ir.c:236:25: error: incomplete definition of type 'struct avecintc_data'
+     236 |         item->gpid->dst = adata->cpu;
+         |                           ~~~~~^
+   drivers/irqchip/irq-loongarch-ir.c:187:22: note: forward declaration of 'struct avecintc_data'
+     187 | static inline struct avecintc_data *irq_data_get_avec_data(struct irq_data *data)
+         |                      ^
+>> drivers/irqchip/irq-loongarch-ir.c:259:2: error: call to undeclared function 'avecintc_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     259 |         avecintc_sync(adata);
+         |         ^
+>> drivers/irqchip/irq-loongarch-ir.c:415:53: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CFG'
+     415 |         redirect_write_reg64(irde->node, CFG_DISABLE_IDLE, LOONGARCH_IOCSR_REDIRECT_CFG);
+         |                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:416:64: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_TBR'
+     416 |         redirect_write_reg64(irde->node, __pa(irde->ird_table.table), LOONGARCH_IOCSR_REDIRECT_TBR);
+         |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:417:38: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQH'
+     417 |         redirect_write_reg32(irde->node, 0, LOONGARCH_IOCSR_REDIRECT_CQH);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:418:38: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQT'
+     418 |         redirect_write_reg32(irde->node, 0, LOONGARCH_IOCSR_REDIRECT_CQT);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:420:24: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQB'
+     420 |                              CQB_SIZE_MASK, LOONGARCH_IOCSR_REDIRECT_CQB);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:475:46: error: use of undeclared identifier 'AVEC_MSG_OFFSET'
+     475 |         msi_base_addr = pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
+         |                                                     ^~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:485:12: warning: no previous prototype for function 'redirect_acpi_init' [-Wmissing-prototypes]
+     485 | int __init redirect_acpi_init(struct irq_domain *parent)
+         |            ^
+   drivers/irqchip/irq-loongarch-ir.c:485:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     485 | int __init redirect_acpi_init(struct irq_domain *parent)
+         | ^
+         | static 
+   1 warning and 12 errors generated.
+
+
+vim +/redirect_acpi_init +417 drivers/irqchip/irq-loongarch-avec.c
+
+   413	
+   414	static inline int __init acpi_cascade_irqdomain_init(void)
+   415	{
+   416		if (cpu_has_redirectint)
+ > 417			return redirect_acpi_init(loongarch_avec.domain);
+   418	
+   419		return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
+   420	}
+   421	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
