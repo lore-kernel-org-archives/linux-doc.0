@@ -1,178 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9983422E3E7;
-	Thu, 11 Dec 2025 02:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7D722F388;
+	Thu, 11 Dec 2025 03:23:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765421604; cv=none; b=VOxDgFGufU3PcW3IQfEEjJj9kOqct4oxMFfrX8WYt7ZYRbN9tGv1FGkSuJf81Kr7Vrhvb1Doechk50l0MgyiRpP5tG/4LS/aEUuUH0FNlIMUrUU25llVLBTJRNIdS1gcbQonVzUOjBnIG0A+K0c2GccsUyWvw2PtGjtO8Hev104=
+	t=1765423416; cv=none; b=DdUba6bq4N3pWty14R9Y4XaTy+zV13WtGe+7/wP4NStq261bsW1ELwqaNAlArJYFZxxaStEyI/ZZt1w6gwPxJct7DYdTXb8j+bFTtZyePV9dD6bwmCYM5q+WUTjgGRFzq50nUJLWq/liPD+pCGWsnuxIFmVuYtcCQ24gil+s8yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765421604; c=relaxed/simple;
-	bh=nCP4Qrkpz8bVZqCHE4sJmyUXXrSPtXg/5yZwtOzX+cg=;
+	s=arc-20240116; t=1765423416; c=relaxed/simple;
+	bh=cxD3Wr/Ig8GN/DsuCXoKzNk347PDwsV4kSz6ulTT+40=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LJwa9fcIIHJr4TX2OwvOcftrXJpV7nSw+zssjGaqAMZcDh5yRafFVcYnbb0MEI2NdSFs+nT7xBMfWohv4Gd6Lu3AW3rt5qlF+1E4Fn8X2qAuGhkSGsdfCzXn6Dy4xxhDFc9UM68I9K4iNks/YZlmGb32VOnrN9sWLOskuektdgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MpAmoqOo; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=V3tIqx0/Y0pi36BNUPBWJ+RwjR/q0JxVgnmWMehUzkOjZ5Yd2CXp2G2UUW0vXg0UPl+iqaGdqyYH24lcuxD83PYGBBegSResOtwKj5UyHos5LAn7srEpykUFXyDGmNjPFxMY/Nuh3mSyHLTe7QPXKighGj/GIzqgnzMVHy6cZ90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BpphSAq6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MpAmoqOo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765421602; x=1796957602;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nCP4Qrkpz8bVZqCHE4sJmyUXXrSPtXg/5yZwtOzX+cg=;
-  b=MpAmoqOoHGZysuAML7Y+wd/q3kaq00LLRezMvmqNtJ+kXENeIbykF2RW
-   x7ZwpzNuyNcpH/GLOGEjGl0di3xTetAWpOz79RzILU55Uh+ZVkM1Rykl3
-   R7ePJ42Uki5NhKirq8/a5Wx0l/kMrH7fU/NC7U3CAcQqLqK7/4seSelH/
-   anlvleuu8UZ2T4FQLIpN22fFb3A/QF9Fbzl4iA1XIjOc1KLKp+Sfpv97c
-   do9J0LTJ2s2PlkfHLn8biQ0CnO6ybuqKEd3o49m6WrH0KzBed2ZUhxDhF
-   89gfc3J8sBBTpLclwOPSNsG9f1OjiQFNWvlhOuluWWNKeW9ksHRr8EChk
-   Q==;
-X-CSE-ConnectionGUID: nS78aV6CQ1CVgJzDracwRA==
-X-CSE-MsgGUID: MQn3uHaWTAGbSeXkAg41GA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="78765557"
-X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="78765557"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 18:53:20 -0800
-X-CSE-ConnectionGUID: Zev6oIoBRpaOqU2xDpbw4g==
-X-CSE-MsgGUID: oROrgDILQmSBZQ6XsbXTuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="196738003"
-Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 18:53:20 -0800
-Date: Wed, 10 Dec 2025 19:00:06 -0800
-From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To: Changyuan Lyu <changyuanl@google.com>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
-	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
-	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com,
-	corbet@lwn.net, dave.hansen@linux.intel.com,
-	devicetree@vger.kernel.org, dwmw2@infradead.org,
-	ebiederm@xmission.com, graf@amazon.com, hpa@zytor.com,
-	jgowans@amazon.com, kexec@lists.infradead.org, krzk@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, luto@kernel.org, mark.rutland@arm.com,
-	mingo@redhat.com, pasha.tatashin@soleen.com, pbonzini@redhat.com,
-	peterz@infradead.org, ptyadav@amazon.de, robh@kernel.org,
-	rostedt@goodmis.org, rppt@kernel.org, saravanak@google.com,
-	skinsburskii@linux.microsoft.com, tglx@linutronix.de,
-	thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org
-Subject: Re: [PATCH v8 17/17] Documentation: KHO: Add memblock bindings
-Message-ID: <20251211030006.GA9333@ranerica-svr.sc.intel.com>
-References: <20250509074635.3187114-1-changyuanl@google.com>
- <20250509074635.3187114-18-changyuanl@google.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BpphSAq6"
+Received: from pendragon.ideasonboard.com (fs98a57d9d.tkyc007.ap.nuro.jp [152.165.125.157])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 1E3EE667;
+	Thu, 11 Dec 2025 04:23:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1765423404;
+	bh=cxD3Wr/Ig8GN/DsuCXoKzNk347PDwsV4kSz6ulTT+40=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BpphSAq6iftkqPdhbFOdow0SCP+IS+RLblRTJAlpxnkFqE8hFQcEtin7Osvda2fv5
+	 6+6qsxI8XkY05NyR6HWqiLQC6XrUmBGyNFiiIPgZnj1EblTci3BWmJfh66fH7D0UDb
+	 13LW7K3yqyTLErnME6NyO186FEPcSFKmiMB1yXrw=
+Date: Thu, 11 Dec 2025 12:23:06 +0900
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
+Message-ID: <20251211032306.GO28860@pendragon.ideasonboard.com>
+References: <20251017134916.GK3901471@nvidia.com>
+ <aPJp3hP44n96Rug9@tzungbi-laptop>
+ <20251017162116.GA316284@nvidia.com>
+ <aPT-7TTgW_Xop99j@tzungbi-laptop>
+ <20251020115734.GH316284@nvidia.com>
+ <aPcQ99MZse5zmv3o@google.com>
+ <20251021121536.GG316284@nvidia.com>
+ <aPo6CZyT_IGWmu-O@tzungbi-laptop>
+ <20251023145131.GI262900@nvidia.com>
+ <2025102321-struggle-fraying-52ff@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250509074635.3187114-18-changyuanl@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <2025102321-struggle-fraying-52ff@gregkh>
 
-On Fri, May 09, 2025 at 12:46:35AM -0700, Changyuan Lyu wrote:
-> From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+On Thu, Oct 23, 2025 at 05:04:57PM +0200, Greg KH wrote:
+> On Thu, Oct 23, 2025 at 11:51:31AM -0300, Jason Gunthorpe wrote:
+> > On Thu, Oct 23, 2025 at 10:22:01PM +0800, Tzung-Bi Shih wrote:
+> > 
+> > > I was misunderstanding about the "sync" we were discussing for
+> > > misc_deregister_sync().  The "sync", is analogous to synchronize_srcu()
+> > > of revocable_provider_revoke() in the revocable version [1], doesn't wait
+> > > for closing all opened files.
+> > 
+> > Yes, and my remark is we don't need to obfuscate simple locks in core
+> > kernel code.
 > 
-> We introduced KHO into Linux: A framework that allows Linux to pass
-> metadata and memory across kexec from Linux to Linux. KHO reuses fdt
-> as file format and shares a lot of the same properties of firmware-to-
-> Linux boot formats: It needs a stable, documented ABI that allows for
-> forward and backward compatibility as well as versioning.
+> {sigh}
 > 
-> As first user of KHO, we introduced memblock which can now preserve
-> memory ranges reserved with reserve_mem command line options contents
-> across kexec, so you can use the post-kexec kernel to read traces from
-> the pre-kexec kernel.
+> Yes, that's not the goal here at all.
 > 
-> This patch adds memblock schemas similar to "device" device tree ones to
-> a new kho bindings directory. This allows us to force contributors to
-> document the data that moves across KHO kexecs and catch breaking change
-> during review.
+> I've refrained from jumping in as I think we are thinking of different
+> stuff here, probably talking past each other in places.
 > 
-> Co-developed-by: Alexander Graf <graf@amazon.com>
-> Signed-off-by: Alexander Graf <graf@amazon.com>
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Signed-off-by: Changyuan Lyu <changyuanl@google.com>
-> ---
->  .../kho/bindings/memblock/memblock.yaml       | 39 ++++++++++++++++++
->  .../kho/bindings/memblock/reserve-mem.yaml    | 40 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  3 files changed, 80 insertions(+)
->  create mode 100644 Documentation/core-api/kho/bindings/memblock/memblock.yaml
->  create mode 100644 Documentation/core-api/kho/bindings/memblock/reserve-mem.yaml
+> The original goal of having "revocable" is still needed, despite you
+> feeling that cdev can live without it (I strongly disagree with that,
+> and the v4l, gpio, i2c, and other subsystem developers have feelings
+> along those lines as backed up by the many talks over the years about
+> this.)
+
+Replying late to this thread, I don't think this is right for V4L2. When
+it comes to solving the .remove() vs. userspace race, I think the right
+solution is at the cdev level. We could also implement it exactly the
+same way in the V4L2 core, but that would be a shame as other subsystems
+would need to replicate the same. There are existing implementations,
+they're easy to use in drivers (if implemented in cdev with the little
+amount of required driver-logic implemented in the V4L2 core, it would
+be mostly transparent for drivers), easy to wrap your head around (no
+obscure lifetime magic), and they work.
+
+Where I believe a revocable infrastructure could be useful is for
+solving the .remove() vs. *kernel usage* race, which is something GPIO
+likely cares about strongly.
+
+> The use of it in the Rust code already is kind of proof of this, it
+> enables driver authors to not have to worry about a ton of real-world
+> issues they would have to otherwise.  Which is why I suggested copying
+> that pattern into C to help us out here.
 > 
-> diff --git a/Documentation/core-api/kho/bindings/memblock/memblock.yaml b/Documentation/core-api/kho/bindings/memblock/memblock.yaml
-> new file mode 100644
-> index 0000000000000..d388c28eb91d1
-> --- /dev/null
-> +++ b/Documentation/core-api/kho/bindings/memblock/memblock.yaml
-> @@ -0,0 +1,39 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +title: Memblock reserved memory
-> +
-> +maintainers:
-> +  - Mike Rapoport <rppt@kernel.org>
-> +
-> +description: |
-> +  Memblock can serialize its current memory reservations created with
-> +  reserve_mem command line option across kexec through KHO.
-> +  The post-KHO kernel can then consume these reservations and they are
-> +  guaranteed to have the same physical address.
+> Anyway...
+> 
+> I've been traveling a ton, and it's not going to let up soon, but I'll
+> try to dig into this more later next week, or on the next 12+ hour
+> flight that I'll be just after that, to give a more detailed review and
+> response, sorry I've not been able to do so yet.
 
-Hi Changyuan, Mike,
+-- 
+Regards,
 
-I am sorry I am late to this patchset. I am working on a patchset to use
-KHO to pass reserved memory regions to a driver after kexec and I have a
-few questions.
-
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - reserve-mem-v1
-
-Shouldn't this be "memblock-v1". IIUC, the compatible "reserve-mem-v1" is
-to be used for the memblock reserved memory regions, not the memblock node.
-
-
-> +
-> +patternProperties:
-> +  "$[0-9a-f_]+^":
-
-Shouldn't this be "^[0-9a-f_]+$": ^ at the start of the pattern and $ at
-the end of it? Or is this a KHO-specific rule?
-
-Also, IIUC, this means that names of the nodes are hexadecimal numbers
-whereas the example below has a "membloc" name. I assume this does not
-refer to the subnode named "n1" as this does not follow the pattern
-either Moreover, it should have been documented in the reserve-mem binding.
-
-> +    $ref: reserve-mem.yaml#
-> +    description: reserved memory regions
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    memblock {
-> +      compatible = "memblock-v1";
-> +      n1 {
-> +        compatible = "reserve-mem-v1";
-> +        start = <0xc06b 0x4000000>;
-> +        size = <0x04 0x00>;
-> +      };
-> +    };
-
-Thanks and BR,
-Ricardo
+Laurent Pinchart
