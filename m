@@ -1,81 +1,81 @@
 Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD8B2989BC
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 12:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751D8311979
+	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 12:46:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765457200; cv=none; b=TU1B82f5mhKb/6niurvanMln2rBfSCegHsamWIUcdiDoZYW7dZWfscpuUj+9waYGicg7XkLQjjXoto02wxgqlyF0G954ms6OPP9YJNYKyeHz8oBYA11djFILrdy4lF0j5X0v1fditmYac03YO107gG1BWSRZfUwMTiQmPaciLss=
+	t=1765457213; cv=none; b=rqWbM/soEH2DYVXDBBcihDbGS8DbPixV5Uurjw9bCMrJLYTddnvDVUyQ1TZLiHlXQRfO8XGOiz4yWd+9KSaNvMIuuWZScS12HHGLDnBIfHdwnljcoYZnJU2J5bPeNTSGzXJ7is4MqTIvVtk8YKNupHE7aQdR83mTCs3Ajgn8QOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765457200; c=relaxed/simple;
-	bh=y8Oe4vLCK+gvaA+vkhHnEt2h+oHNHXjU2/SXbofVRP4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WlOvFd42nlK3LHoWXlsOm+zbC+fAwOzWhdRIwMMZsWZDcP+0xljSinMibYLpZTFJU/hBBufGF7dFEGwE8/7uqbZtEzibv8Jnq9jHnoZySKJX6UJbbv1ES39zbBhv1UYubdTxqombVffwS65iR3naqUyU1l/q4o/SdsHifx9yLA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=n88D+1K0; arc=none smtp.client-ip=185.125.188.122
+	s=arc-20240116; t=1765457213; c=relaxed/simple;
+	bh=V4Bvd9VY65MocuCApZ0Pr2bmECNZD3Q72vd97oHmSWc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hCVV3pGvIeyLlybqQzaPdD3RVtPzGibTCY/9COD5dQus7DadB9V9wr55OGtq344z4L4ojeGm+dipcAfgL4/K9d3znrfVw6Bn8/crTzafEW+u+5Yqw1VQtTUErToeJQwRKmrXmVR4WAsggkigdmOBBFBJsIfYZ9SSawUHKlcRYaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=M8ZF0Htw; arc=none smtp.client-ip=185.125.188.122
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="n88D+1K0"
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="M8ZF0Htw"
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 8807F3F68F
-	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 12:46:25 +0000 (UTC)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 343D33FB57
+	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 12:46:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1765457185;
-	bh=VmuJHTrbV/MEf7lXlG7Ebt7ZxudHn8yfNFUL+6OnGoU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=n88D+1K0LrhNkkceZJ2ekuF1E0ixfYMnwRY5Wd2JklmDBmsVqOxFwxTnKQoandRTO
-	 wCa7PHjmaIKp2+xiSfOGpYybSgSQBiflv+6GUTjXBM74B0q1nzDD33khqOKISK++fe
-	 7mySIwBMHOP/C7NfrFP9UGKjhMLTjVNKjZq/kCipQ0cBFa9WwqjEu8ZBpLMIB9D26t
-	 9ApQt4x1EHkrS+kBDalmuTLEldHq5D5VMjxC/QxkRhcLoivwUl+I1Z9o9DcLBAP1h/
-	 tSvIe426KXWSE4iC/DnB5wKro0xtD72aC3eBT4DBQfWx6cBFngvBmLGNpmqQMaSSVe
-	 tJqODlz1y6Q8ELDtFtsDBKBb337thUvOEI447SaFiWRWg8voaRLQjL4nO/cNDEttwl
-	 n8bdXXiBViGHm0aeKKd8cFxuvgd4hZICNaTcpJ7YwY8FrIX7gq8Rl4s0wgQOFis6wG
-	 jphUtBKcwse5L6R0DFq4+/ZnnUMm/VBfjL8BBeJyDVXUiU9EsP/OxS3VmTkk3du3+p
-	 I2Mnm0gCsWmtgy+kr00dFB0SyBLHQxc6KFsM7mgIjAXTAw4t8UEYukyGaM9uN4K7+g
-	 loXu32Co8IIoi8m8pRmB8fCV3q+JNCPO/Rd5pEDQ9SJjSAzmDZifsiQyJgnlID2slZ
-	 CKUauZkrff7PAfQSsu0uxCA8=
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-47921784b97so416995e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 04:46:25 -0800 (PST)
+	s=20251003; t=1765457198;
+	bh=jrSDM+QC2oL05uTUTk5zoPRDP1WyTidIGQybjJRxrbw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=M8ZF0Htwdhx2XWmonwylKzqGLpybWagkAWmucq2lNH18HVoKBWC0bv+IzhnLD0MDr
+	 jxyEFsvNOAV4v38N5sDdj/UIhonGb1GHy+iB0/ywq/xDJyJchpUJTPgW4D0ba+6vNg
+	 wAK760E+mIGivAYFoN3I8MuU5a21UPdt7F2d9WGU1I7wAVbEV0pVtchpYdCOu+5+67
+	 bR7hqPIz8U8u/CUGW+e/4vBMGIhgwK/XBYX4mW6/Tsoddjm28xC3LTa6lvtkaMYvV5
+	 DbmobHNc0GYWR4en2kx4xjIaLuP36/QCYZKFiMNbHdAi986pB8rc0pYM5jbkCJ4t/b
+	 K0C6A6SqKfnchlmBdotC27cj8+KfRgMPh6FEkcoR0gl7/S5Jm613jB569ePbWKOlsT
+	 mfftpHCY79kPZe8KfKvXgJdpMUgeetpEpzM7Wf2j6f5jDI9NaPNhmhnSr/ZglYaum9
+	 Zf+cYiRrXJsYEOZTYCBjXKbluFlBF/PCHjJJI6k8ToMP5uYPgZlrLeuHFCgJeLDXHu
+	 yjz7/nGjNjdWjtECugi0gWEmO87O2WrCGhk85HtZUWHgH8KXGqCDngQX7ZQ5DlPz1f
+	 KkkPnzEGtIqQMffoz/qTyt4cTU6XdXAyS7T4fFJanm1kTppi+DIaC5n1+eyD+HsSEI
+	 F+RCZuTLupoWJFx7Tl1a1vpM=
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-47910af0c8bso246095e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 04:46:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765457184; x=1766061984;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VmuJHTrbV/MEf7lXlG7Ebt7ZxudHn8yfNFUL+6OnGoU=;
-        b=rZtJPyFIqafQclRSn6qUnjoZ3VJCaHG4LCJy2FXd9Jhc9krY55tFkXFCormH0M1jVa
-         j60u+2isw74xuVS8hNVGwXaF3el+PvZBvfV+s8QV9Vs+DCwRjmDR4iK9EYOsWN/6Qbfi
-         pdmtWVd0YOPc82Wtoel7Lx/cVKf3eERzFIyTqW9c/Y3BzJ01tiWFDEJtOt+RH6WIdKEO
-         f7SzooTW7Z9WxWTRU3dJFWQiBa+cAL72ywcPv43aaZfQRzJNR+8L9waIRKRDjQDyQ57i
-         RTBSzss8aPLqOARAb3x0TeaTwwyIRMEFazIFNp815UHSQtm99F224/+lv+1TFHvaze8c
-         MORw==
-X-Gm-Message-State: AOJu0YzjeACj9LVoqVT5HG/D1zzwMWEEmLwRVtePEqbCfeG8gtupguKs
-	IlzIgCmF5DMLxKoHPnlRXmwyJm6o1WeFXN3pJWYqZzviKlqEDml0mYPRN1k9tfz+O80LI8PUcE+
-	mxVzf7lQ44zWX1tMAC010XuNLYAbF6JOrjaFnYFASky17qIvkzWXa4rqjjfHVkED7US5njP2By1
-	yeYMr2xjF4uCD9
-X-Gm-Gg: AY/fxX6jeE01yiKpjBgiRG09s75Y2iYCx67AaFPXI9QZZP/JJ37+fKeP1MmFHLjurRl
-	zSUa5x61+NkLcfXJCbYHXWzgTkoVzq3IOx3V6+L0qOvVg/F2pKc35lVsqyI2CQr1bK5NTrwvBSM
-	eVqaxZbbvz90fTY3nyi2k9HC8U1y/23Cqht0hlcqCMJA5x5qFlLPLGer5YcrrRR/3W53OiiWpW1
-	JMCXi8WhO72XeXGtSFCkoSUyGf0ArflqrHwy051e3iXMBJxnfvbEytXin5FD/dxoUFLZFtFVgfj
-	ctCvM4ZroHbxwQFl3ADvXpbD5LhgrXtTxA8jWY7nn7szwV3Vg+E3x0jC4V3m5mBZwWJuLc0WGj3
-	P2G7e9GEsiVZoIz/O3xUGWJO5CtWqUO4DnaTjdpgRrnDywk70RmbwQDuu+SGHaEtMSgvvXhMvqx
-	y0nIoUgNp12t4YyU9sLu4/Kj8=
-X-Received: by 2002:a05:600c:5252:b0:475:dd8d:2f52 with SMTP id 5b1f17b1804b1-47a8384c664mr54699485e9.32.1765457184534;
-        Thu, 11 Dec 2025 04:46:24 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEFcc7xzT2wNXcFXxSP2pj11tgej1qTJLKVLNh63bMddWEf2XMlzU9AlQ+d8UUleOWVVNSvrw==
-X-Received: by 2002:a05:600c:5252:b0:475:dd8d:2f52 with SMTP id 5b1f17b1804b1-47a8384c664mr54699255e9.32.1765457184135;
-        Thu, 11 Dec 2025 04:46:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765457190; x=1766061990;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jrSDM+QC2oL05uTUTk5zoPRDP1WyTidIGQybjJRxrbw=;
+        b=xRH3Ue0eR7vOkc7dah9wZl25dOr+6qweRkDaJdwLeqcPS6vClrN2qh+FpT7egy5aoZ
+         mYbkI6fXjj3J4mwd86oD8lmlKZ5Ad9VqIm66pXwyDWqtdpnu0HPL7LrVfiZ6dm8647yG
+         lCgdxpXSihh2FV0+MfiF7XV54BvcjGtTmRIZogwvFdduSDo6j/E/jiGtfWOv/RXr1XzX
+         zKXuuTfc8byeQCXG+cZ6F9FmlUyiIuojhJA6fsGmQrJOD2cQCppOy0WoSqzX51s1Wm4B
+         epdypirrwDZPKmCXFb392/cemwu8UjvIydtelVws/+zvf2MQk2QKfsa2BGoLfzfoxxYe
+         s+Mw==
+X-Gm-Message-State: AOJu0YycZ4/ZXwX2xm0u5H51xQuUMYR+con0GbezuwKhXSBswdpVU9gq
+	ZAelvINiBzAmYdWKT5exra2Src4t3s7kPa/7ZJ0c+EjUZEeYO9COTW24WHQBZ2Jut3EU17tcTbh
+	WioN75xzcbTVGVUo3a6RO+X1YNZuM8qDgFELQIoV7SFKtG8ec6zOVxFuyLUsviojtopdTIYwy4N
+	sfng==
+X-Gm-Gg: AY/fxX5NCC1PXyIrl3m0UVggfQ+cXBhYqKPOyG8Htl2nhcn1tovXqfqQu2sMm9brYjY
+	+YBjkh0MgrDBAkVvZe0OaTQ0XHR0ep3+Eob84aKWinfjBQm2yy8mBPphxT8CHn8Kjkbgevf+fZV
+	zIf8b3NGrDasBnNNGC4Vb9WSB/6XEh8/7B9fox8nlNHeHoElG2hkOA3sCNiq1tTNtOxf5BcpuKc
+	5zVfjOZXbsDeEPlVnPnBzWwrpfk5HNJf3mXcICLrVNNkWeecj2lkuN+Yngi6Z4fpYw3a9+ZMeNW
+	RfLjslnELwL6FF/l3AV3kOb2y9AsijPgk9Iqowqz2yxnKGY3dw+ajfQ2poOtOii1WBfildQieG1
+	jpe8++WmJZkPIqQjcPPhuL2gydhEHM6T8vzNHSgcwXsXVRTLLcaJNnAy195uS6m0KLaxUCRcDq6
+	dMSPQ1pXahKr0bKho/8ZwejYQ=
+X-Received: by 2002:a05:600c:3f0f:b0:475:e09c:960e with SMTP id 5b1f17b1804b1-47a8384de10mr49558005e9.32.1765457189033;
+        Thu, 11 Dec 2025 04:46:29 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE5tojaC42237Yf2xjU2FYDClwe9vVFbh0RoQL/geLu4bY+08t5sSeeLETO2bhZqgmmEjho1g==
+X-Received: by 2002:a05:600c:3f0f:b0:475:e09c:960e with SMTP id 5b1f17b1804b1-47a8384de10mr49557805e9.32.1765457188637;
+        Thu, 11 Dec 2025 04:46:28 -0800 (PST)
 Received: from amikhalitsyn.lan (p200300cf57022000e6219d5798620e30.dip0.t-ipconnect.de. [2003:cf:5702:2000:e621:9d57:9862:e30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a89f0d6f2sm32075905e9.13.2025.12.11.04.46.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a89f0d6f2sm32075905e9.13.2025.12.11.04.46.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 04:46:23 -0800 (PST)
+        Thu, 11 Dec 2025 04:46:28 -0800 (PST)
 From: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
 To: kees@kernel.org
 Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	bpf@vger.kernel.org,
 	Andy Lutomirski <luto@amacapital.net>,
 	Will Drewry <wad@chromium.org>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -84,11 +84,15 @@ Cc: linux-doc@vger.kernel.org,
 	Tycho Andersen <tycho@tycho.pizza>,
 	Andrei Vagin <avagin@gmail.com>,
 	Christian Brauner <brauner@kernel.org>,
-	=?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@stgraber.org>
-Subject: [PATCH v3 0/7] seccomp: support nested listeners
-Date: Thu, 11 Dec 2025 13:46:04 +0100
-Message-ID: <20251211124614.161900-1-aleksandr.mikhalitsyn@canonical.com>
+	=?UTF-8?q?St=C3=A9phane=20Graber?= <stgraber@stgraber.org>,
+	Tycho Andersen <tycho@kernel.org>,
+	Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
+Subject: [PATCH v3 1/7] seccomp: remove unused argument from seccomp_do_user_notification
+Date: Thu, 11 Dec 2025 13:46:05 +0100
+Message-ID: <20251211124614.161900-2-aleksandr.mikhalitsyn@canonical.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251211124614.161900-1-aleksandr.mikhalitsyn@canonical.com>
+References: <20251211124614.161900-1-aleksandr.mikhalitsyn@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -98,40 +102,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Dear friends,
+Remove unused this_syscall argument from seccomp_do_user_notification()
+and add kdoc for it.
 
-this patch series adds support for nested seccomp listeners. It allows container
-runtimes and other sandboxing software to install seccomp listeners on top of
-existing ones, which is useful for nested LXC containers and other similar use-cases.
-
-Expecting potential discussions around this patch series, I'm going to present a talk
-at LPC 2025 about the design and implementation details of this feature [1].
-
-Git tree (based on for-next/seccomp):
-v3: https://github.com/mihalicyn/linux/commits/seccomp.mult.listeners.v3
-current: https://github.com/mihalicyn/linux/commits/seccomp.mult.listeners
-
-Changelog for version 3:
-- almost completely rewritten (no static array on the stack, no nesting limit)
-- more testcases
-
-Changelog for version 2:
-- add some explanatory comments
-- add RWB tags from Tycho Andersen (thanks, Tycho! ;) )
-- CC-ed Aleksa as he might be interested in this stuff too
-
-Links to previous versions:
-v2: https://lore.kernel.org/all/20251202115200.110646-1-aleksandr.mikhalitsyn@canonical.com
-tree: https://github.com/mihalicyn/linux/commits/seccomp.mult.listeners.v2
-v1: https://lore.kernel.org/all/20251201122406.105045-1-aleksandr.mikhalitsyn@canonical.com
-tree: https://github.com/mihalicyn/linux/commits/seccomp.mult.listeners.v1
-
-Link: https://lpc.events/event/19/contributions/2241/ [1]
+No functional change intended.
 
 Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org
-Cc: bpf@vger.kernel.org
 Cc: Kees Cook <kees@kernel.org>
 Cc: Andy Lutomirski <luto@amacapital.net>
 Cc: Will Drewry <wad@chromium.org>
@@ -142,24 +119,46 @@ Cc: Tycho Andersen <tycho@tycho.pizza>
 Cc: Andrei Vagin <avagin@gmail.com>
 Cc: Christian Brauner <brauner@kernel.org>
 Cc: Stéphane Graber <stgraber@stgraber.org>
+Reviewed-by: Tycho Andersen (AMD) <tycho@kernel.org>
+Signed-off-by: Alexander Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>
+---
+ kernel/seccomp.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-Alexander Mikhalitsyn (7):
-  seccomp: remove unused argument from seccomp_do_user_notification
-  seccomp: use bitfields for boolean flags on seccomp_filter struct
-  seccomp: keep track of seccomp filters with closed listeners
-  seccomp: mark first listener in the tree
-  seccomp: handle multiple listeners case
-  seccomp: allow nested listeners
-  tools/testing/selftests/seccomp: test nested listeners
-
- .../userspace-api/seccomp_filter.rst          |   6 +
- include/linux/seccomp.h                       |   3 +-
- include/uapi/linux/seccomp.h                  |  13 +-
- kernel/seccomp.c                              | 129 +++++++-
- tools/include/uapi/linux/seccomp.h            |  13 +-
- tools/testing/selftests/seccomp/seccomp_bpf.c | 303 ++++++++++++++++++
- 6 files changed, 438 insertions(+), 29 deletions(-)
-
+diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+index 25f62867a16d..08476fc0c65b 100644
+--- a/kernel/seccomp.c
++++ b/kernel/seccomp.c
+@@ -1160,8 +1160,18 @@ static bool should_sleep_killable(struct seccomp_filter *match,
+ 	return match->wait_killable_recv && n->state >= SECCOMP_NOTIFY_SENT;
+ }
+ 
+-static int seccomp_do_user_notification(int this_syscall,
+-					struct seccomp_filter *match,
++/**
++ * seccomp_do_user_notification - sends seccomp notification to the userspace
++ * listener and waits for a reply.
++ * @match: seccomp filter we are notifying
++ * @sd: seccomp data (syscall_nr, args, etc) to be passed to the userspace listener
++ *
++ * Returns
++ *   - -1 on success if userspace provided a reply for the syscall,
++ *   - -1 on interrupted wait,
++ *   - 0  on success if userspace requested to continue the syscall
++ */
++static int seccomp_do_user_notification(struct seccomp_filter *match,
+ 					const struct seccomp_data *sd)
+ {
+ 	int err;
+@@ -1335,7 +1345,7 @@ static int __seccomp_filter(int this_syscall, const bool recheck_after_trace)
+ 		return 0;
+ 
+ 	case SECCOMP_RET_USER_NOTIF:
+-		if (seccomp_do_user_notification(this_syscall, match, &sd))
++		if (seccomp_do_user_notification(match, &sd))
+ 			goto skip;
+ 
+ 		return 0;
 -- 
 2.43.0
 
