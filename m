@@ -1,111 +1,225 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E5F262FC0;
-	Thu, 11 Dec 2025 14:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99748255F52
+	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 14:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765464376; cv=none; b=EfwKtDfYdvBORxLr7/fvesLAumarQdMxWcHlAf3Lm9PPePJ+wZ3OQhAq6fgTbM9l5ZPMln4GVjUBCPvooBT159/+skJ0gAi8t1cFPdbbctd4bK3682oksVRu1lPUcs30MbckRpL8JxoEXHkM2hcu6CWReg0IzrfWChuOCBSHqXw=
+	t=1765464414; cv=none; b=fjzoURryOcNKxhPf1UFUZbfejJwmS//YnDATk37l9YK2myj2ArPTZ7URLh0f5dknA9Idj5GkQJL51iFVXMJmAJFjOeR9/094Lu8DoTLCq3L0pWxA4ZqJsSLub9bgi91MNhPtcv95Oms51RfPrNXUkPUW0TWfVnqu3ekEglPeBxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765464376; c=relaxed/simple;
-	bh=ct3eNG8xt/aRp6Oevi9PIN+vHA9Q69EYHCy9CGOfaKA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M8wnZVPwFI3p3QOzTFECB9AxyPVSjrsPh/kYeBR9stDQaY0tKF2QnHzXcYzaDjlmp5zQ7Hq6PLPjTWNYK0zoSVqsJ80/1sSLumEuQcW5WCKwkPVyvRPrp6l7euIeiXDVCAt0pbRTeG9f7HCx06PJtQbnNOGmlCcUr9l2bDItIhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bKnWPMve; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765464414; c=relaxed/simple;
+	bh=Z8pwXA3E9NvlNSAbfNFGW711RMsclhI4mGoYLMvcV1U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jJUTAsMR6tcpc/PcujISkJ2IHB9XoEh19KvhXpFl0oKPFW1tkLuclzh7Vqry8Pifxy4x0XA2PE08RcoP+UJwXYfo0FoM6QPXE4VajP3Z29a1XVwP2XL5ITVpy5fDSVz9bXAQQ6CR9j6RqJnl9Mj0tWKuDmU1gMijaTlIEil+/Bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EopJAEP6; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bKnWPMve"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B0D2C4CEF7;
-	Thu, 11 Dec 2025 14:46:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765464372;
-	bh=ct3eNG8xt/aRp6Oevi9PIN+vHA9Q69EYHCy9CGOfaKA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bKnWPMve6z4TPVPac1KdXdcXMLak4J7e88dev1ppcJJS3wNDTcRV3QLy920Qr8VXP
-	 bqJDHQTy7gAgN4wm/BmmWG/C0eopqnHGyO/XqQlsSKIsH8BLgEE3itB5Xt2t5/LDNS
-	 77sieFDWwYND0S71kglLY7Hlaf7v/ptd0+YU02qEEXijLvZ0adYqbrYuAcy7rDGFwE
-	 6EoAXx50lwZwbgCAW6W8EWo8cNLsg59BOQU9ffDtxVmaEy/Jo2JeOQrB2DIG0JR0Z4
-	 wScDZxoNjETiV5qSansXs5Ts23iUrMuqVVCSmGXsL6r3RLat7gj/iyCRj4xQgvCzMu
-	 FoCcrFTldHwhA==
-Date: Thu, 11 Dec 2025 14:46:08 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Benson Leung <bleung@chromium.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH v5 5/7] revocable: Add fops replacement
-Message-ID: <aTrZMJ8R6zybFNHR@google.com>
-References: <aPcQ99MZse5zmv3o@google.com>
- <20251021121536.GG316284@nvidia.com>
- <aPo6CZyT_IGWmu-O@tzungbi-laptop>
- <20251023145131.GI262900@nvidia.com>
- <2025102321-struggle-fraying-52ff@gregkh>
- <20251211032306.GO28860@pendragon.ideasonboard.com>
- <aTo-xErTTiJcribR@shikoro>
- <20251211080517.GA28411@pendragon.ideasonboard.com>
- <aTqCqab1pGB9LNZy@shikoro>
- <20251211134306.GC28411@pendragon.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EopJAEP6"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-37902f130e1so1734551fa.1
+        for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 06:46:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765464411; x=1766069211; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Kfi80okuvZYcN9lPw2PbCSm5AvfB6SEfDQ+chpjk5ho=;
+        b=EopJAEP61w7/YltiLtsqH+/KG7Ua8WRhqulEXZM/I/xE4miTfH8VNu0nyaKoPAw9c0
+         aaxgmiGR7aWUsRlCiY64YKpItR2YuQ21RIAxOoWvXr/wgkZU2zDjAtE1nrLk7U43u0ON
+         qN651sS8Yv/k0at/itMN18tOPCD2l569Wzr8afBSQVVc+VxE72so68Gqv5Pb3sA9NQin
+         MToa9BTFPwZFMeQU6Mdw3CQdL7Y8uQaDyoBLdPixXYUiby7qVVXVtlsTY6xat4Zlnplf
+         zoPPLVFIvvKcMxoWcEfNyiTboUB2DHcjKE19AZcjNhyUq20afIJHKaf/3//oLWk8U9ce
+         DHqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765464411; x=1766069211;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Kfi80okuvZYcN9lPw2PbCSm5AvfB6SEfDQ+chpjk5ho=;
+        b=k1MXXvWa5gsoHHs8uicRz8IFO1jUv9K2Z3azZ9Rc9gHxRU641Vo6bR1gaGmwfCgg1m
+         bfSg5sSz1C0mYKzx41gTiXiKKYws3D/CRkS+0KOwHYl3QlyG4VA5EkGhQ3Lo9AsfZV2I
+         pGFn/QP2H6nQVqgZ5WwzoLqaBZS7aHdL2cu+D5XobdhKDeNsRFyPtkgSA9DueXZ0sdEg
+         rKx+rZKrLOQClxkTJvpfGhC3k+5rQ0RNdLclGcsMHrd28VlbkBKQL7mqezfviWDL+q2i
+         W8kDtN8kSuSrY8Luaq6G+Z5gJYWheT0u3XSIK5pceSy4dWZy65Qe7g/qui5a3Ir6LipQ
+         1LFw==
+X-Forwarded-Encrypted: i=1; AJvYcCWWPfxz9z7HUwe2h9ACtVHnUhs5k2hBg+bVAC50nj4k7c9SF18OZY/jhMQEaTQ84nnnXis+HRZxCPo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwivAU8kSYAeZbSiV2TlyG96CmlrYDVfTcGW6po6iSBH/g+5Ixc
+	C0jK6yrEFKbwmA0HCZouNUhxKJlfBJt2hUt1L0I+974kgmJglB+Rgf4fS/O1G8lUby/zTvNqY+0
+	CTl/pdlI2riNfnlrTISq4FvhlkAxPAY/td/b81Fye3g==
+X-Gm-Gg: AY/fxX4rJP+9hDpU+iV91STo4bWYsxQrOktvru3QHxWG9WGSRWswgdABzJEO7Hywfsr
+	bCVCqkoMWpsvmW84VqO4q7ntzTqBogqaj10pM4EWAENba02KpwZm/EeHyDrGGsnQ2EPU4tl7ygb
+	2bCQ/2UGkT3OZmFNgvpD2zKwWWOxbazivKetAHH9PjKxFq86hxbFzzmUuCmcK+uOx9W/DCgapvn
+	pDg+hvKSog0JCqKhnV1kQFhRBOVWcnrxEj3T9v9uaUGgzeQNYTYnrol055js6DSgPv7dWZ5jXFx
+	2I7WRHl1/kjr8T/o0oP/ix8qRaQB
+X-Google-Smtp-Source: AGHT+IERof09vBwYW6Dusa4ESex7D3E3lmDizgOtvwohmRz9tPqKmbQKRDJ3NyiWTHVawhoa/4Iz5XZwXW5E5XjxWk8=
+X-Received: by 2002:a05:651c:31da:b0:37e:5602:4a53 with SMTP id
+ 38308e7fff4ca-37fb21548b3mr18569841fa.22.1765464410490; Thu, 11 Dec 2025
+ 06:46:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251211134306.GC28411@pendragon.ideasonboard.com>
+References: <20251129002533.9070-1-vishnuocv@gmail.com> <20251129002533.9070-2-vishnuocv@gmail.com>
+ <he73fiwxso45ykidteqz2s2gjklezsyd47xwxtwlfes27kxuq3@ucwhmacbtsn4>
+In-Reply-To: <he73fiwxso45ykidteqz2s2gjklezsyd47xwxtwlfes27kxuq3@ucwhmacbtsn4>
+From: Vishnu Sankar <vishnuocv@gmail.com>
+Date: Thu, 11 Dec 2025 23:46:13 +0900
+X-Gm-Features: AQt7F2qKZRA9_LzFSrr86WtwwgCQD2YzopRBEv1hQn9SUqGi0iGUOpwH4ifiZ08
+Message-ID: <CABxCQKt8U-QkT-LWiFR72X_XkRrkeUFsbC_rWOb=90LQxJ7MjQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] input: trackpoint - Enable doubletap by default on
+ capable devices
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: corbet@lwn.net, hmh@hmh.eng.br, derekjohn.clark@gmail.com, 
+	hansg@kernel.org, ilpo.jarvinen@linux.intel.com, mpearson-lenovo@squebb.ca, 
+	linux-doc@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net, 
+	platform-driver-x86@vger.kernel.org, vsankar@lenovo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 11, 2025 at 10:43:06PM +0900, Laurent Pinchart wrote:
-> On Thu, Dec 11, 2025 at 05:36:57PM +0900, Wolfram Sang wrote:
-> > 
-> > > > Isn't there even prototype code from Dan Williams?
-> > > > 
-> > > > "[PATCH 1/3] cdev: Finish the cdev api with queued mode support"
-> > > > 
-> > > > https://lkml.org/lkml/2021/1/20/997
-> > > 
-> > > I mentioned that in my LPC talk in 2022 :-) I think we should merge that
-> > > (or a rebased, possibly improved version of it). I've meant to try
-> > > plumbing that series in V4L2 but couldn't find the time so far.
-> > 
-> > Yes, you mentioned it in 2022 but maybe not everyone in this thread is
-> > right now aware of it ;) The patch above got changes requested. I talked
-> > to Dan very briefly about it at Maintainers Summit 2023 and he was also
-> > open (back then) to pick it up again.
-> 
-> After discussing with Tzung-Bi today after his presentation (thank you
-> Tzung-Bi for your time, it helped me understand the problem you're
-> facing better), I wonder if this series is fixing the issue in the right
-> place.
+Dimitry,
 
-Thank you for your time too for providing me some more context.
+Thank you so much for the review.
 
-> At the core of the problem is a devm_kzalloc() call to allocate
-> driver-specific data. That data structure is then referenced from a
-> cdev, which can dereference is after it gets freed. It seems that
-> reference-counting the data structure instead of using devm_kzalloc()
-> could be a better solution.
 
-After discussing with you, I recalled this was one of my previous attempts.
-See the series [1] and Greg's feedback [2].
 
-I want to provide some more context about the cdev level solution.  I failed
-to do so for misc device [3] mainly because all misc devices share a same
-cdev [4].  If one of the misc device drivers "revoke" the cdev, all other
-drivers stop working.
+On Thu, Dec 11, 2025 at 3:49=E2=80=AFPM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> Hi Vishnu,
+>
+> On Sat, Nov 29, 2025 at 09:25:31AM +0900, Vishnu Sankar wrote:
+> > Enable doubletap functionality by default on TrackPoint devices that
+> > support it. The feature is detected using firmware ID pattern matching
+> > (PNP: LEN03xxx) with a deny list of incompatible devices.
+> >
+> > This provides immediate doubletap functionality without requiring
+> > userspace configuration. The hardware is enabled during device
+> > detection, while event filtering continues to be handled by the
+> > thinkpad_acpi driver as before.
+> >
+> > Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
+> > Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+> > ---
+> > Changes in v4:
+> > - Simplified approach: removed all sysfs attributes and user interface
+> > - Enable doubletap by default during device detection
+> > - Removed global variables and complex attribute infrastructure
+> > - Uses minimal firmware ID detection with deny list
+> > - Follows KISS principle as suggested by reviewers
+> >
+> > Changes in v3:
+> > - No changes
+> >
+> > Changes in v2:
+> > - Improve commit messages
+> > - Sysfs attributes moved to trackpoint.c
+> > - Removed unnecessary comments
+> > - Removed unnecessary debug messages
+> > - Using strstarts() instead of strcmp()
+> > - is_trackpoint_dt_capable() modified
+> > - Removed _BIT suffix and used BIT() define
+> > - Reverse the trackpoint_doubletap_status() logic to return error first
+> > - Removed export functions as a result of the design change
+> > - Changed trackpoint_dev->psmouse to parent_psmouse
+> > - The path of trackpoint.h is not changed
+> > ---
+> >  drivers/input/mouse/trackpoint.c | 51 ++++++++++++++++++++++++++++++++
+> >  drivers/input/mouse/trackpoint.h |  5 ++++
+> >  2 files changed, 56 insertions(+)
+> >
+> > diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/mouse/tra=
+ckpoint.c
+> > index 5f6643b69a2c..67144c27bccd 100644
+> > --- a/drivers/input/mouse/trackpoint.c
+> > +++ b/drivers/input/mouse/trackpoint.c
+> > @@ -393,6 +393,48 @@ static int trackpoint_reconnect(struct psmouse *ps=
+mouse)
+> >       return 0;
+> >  }
+> >
+> > +/* List of known incapable device PNP IDs */
+> > +static const char * const dt_incompatible_devices[] =3D {
+> > +     "LEN0304",
+> > +     "LEN0306",
+> > +     "LEN0317",
+> > +     "LEN031A",
+> > +     "LEN031B",
+> > +     "LEN031C",
+> > +     "LEN031D",
+> > +};
+> > +
+> > +/*
+> > + * Checks if it's a doubletap capable device
+>
+> Please finish the sentence with a period.
+Got it.
+I will complete the sentence in the comment:
+>
+> > + * The PNP ID format is "PNP: LEN030d PNP0f13".
+> > + */
+> > +static bool is_trackpoint_dt_capable(const char *pnp_id)
+>
+> Let's call it trackpoint_is_dt_capable() to keep with common
+> "trackpoint_" prefix in the file.
+Agreed.
+Will use trackpoint_is_dt_capable() instead of is_trackpoint_dt_capable.
+>
+> > +{
+> > +     const char *id_start;
+> > +     char id[8];
+> > +     size_t i;
+> > +
+> > +     if (!strstarts(pnp_id, "PNP: LEN03"))
+> > +             return false;
+> > +
+> > +     /* Points to "LEN03xxxx" */
+> > +     id_start =3D pnp_id + 5;
+> > +     if (sscanf(id_start, "%7s", id) !=3D 1)
+> > +             return false;
+> > +
+> > +     /* Check if it's in the deny list */
+> > +     for (i =3D 0; i < ARRAY_SIZE(dt_incompatible_devices); i++) {
+> > +             if (strcmp(id, dt_incompatible_devices[i]) =3D=3D 0)
+>
+> Why can't we use strncmp(pnp_id + 5, dt_incompatible_devices[i], 7) here
+> (after ensuring that pnp_id is of sufficient length to begin with) and
+> avoid sscanf()?
+>
+Agreed.
+I can avoid the temporary buffer completely and compare directly using
+strncmp().
+Thank you.
+> > +                     return false;
+> > +     }
+> > +     return true;
+> > +}
+> > +
+> > +static int trackpoint_set_doubletap(struct ps2dev *ps2dev, bool enable=
+)
+> > +{
+> > +     return trackpoint_write(ps2dev, TP_DOUBLETAP, enable ? TP_DOUBLET=
+AP_ENABLE : TP_DOUBLETAP_DISABLE);
+> > +}
+>
+> This wrapper seems an overkill given that it is called only once and
+> always to enable the doubletap.
+Understood.
+Will call trackpoint_write() directly instead of using the
+trackpoint_set_doubletap() wrapper.
+>
+> Thanks.
+>
+> --
+> Dmitry
 
-I'm not saying we shouldn't seek for cdev level solution.  But at least it
-doesn't work for misc device.  Still need some other ways for misc devices.
 
-[1] https://lore.kernel.org/chrome-platform/20250721044456.2736300-8-tzungbi@kernel.org/
-[2] https://lore.kernel.org/chrome-platform/2025072114-unifier-screen-1594@gregkh/
-[3] https://lore.kernel.org/chrome-platform/aQ1xfHuyg1y8eJQ_@google.com/
-[4] https://elixir.bootlin.com/linux/v6.17/source/drivers/char/misc.c#L299
+
+--=20
+
+Regards,
+
+      Vishnu Sankar
+     +817015150407 (Japan)
