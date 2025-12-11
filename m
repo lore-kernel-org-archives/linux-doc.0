@@ -1,422 +1,165 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B70F315D30;
-	Thu, 11 Dec 2025 18:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD355283FC5
+	for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 18:58:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765478483; cv=none; b=mmIToBOGnsetZG35xEWkgEaDnzMfjj/sJ5q5g84ppDm6mySLTH3eeY38P5uf7pZ989Xoug0LDDdWKE+Wt7OrF0dKrL/DNrOQsS6gMB8z+qnwVeZoHQ2nSfF4wPtI6VtxemdaBYT72bHj29Bxk0gyqcw1ZqGTNz9AATJAmVXgQ3o=
+	t=1765479542; cv=none; b=Y1n/xgyuIKUDRHCFC3Mpup660eh0nCgR3kN7514ib2T4wqX/ynD4phOCay2h7MDn2UVHcmu+/Fnpy1+0cPn1eF5pYyggRDtU43+YEbjLF1pK8cSTAUPW/aQ5NA70geMI8lpC2+V1EnMoLqpaOzaJuPnh7eK603dnKgpA8j39+v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765478483; c=relaxed/simple;
-	bh=Iuo0IR5zlq1xR0BDWRjFAugWlQkNHUPAjlMixNdzmxQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=foJF3dX8XnbAvUjcGBnIIVSe8QUYIOVFG07bhjvBd8cMsolyRzHst+Lrjfj84YCKJblnTkwSPjBFr8WCYPDFwcyhk0Dqsz3Og/Tl8fCP5CMdHgMTUS+OX6CCBTiJD2TeMPL/DgvqfRoDprkwCkVs+uWPyrspzIwWCeUKIPq3Poc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=C7w5ZwaQ; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1765479542; c=relaxed/simple;
+	bh=MsOIIXRZXWInpi+6YrWnzz4Og0s5+tzlQfpch+ids+E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S/TfKXd17TgdqY6oYNo35QpfUVXP5LgMmgUb+7Fal7zIZbIC2CIK4VOR1pQTeCJcvkHoY/e/TR7/VqBWp+AngsKOfTHyuzSrdpOF4CQSiqmoG1ngesKJo5qaltMDKU+1t1OrKAcCY2w326pb2KO/+ysxk32JzCiPlRbL8/WHnVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mnSaAxad; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="C7w5ZwaQ"
-Received: from [10.17.64.150] (unknown [131.107.8.22])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 284E8201D7F0;
-	Thu, 11 Dec 2025 10:41:20 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 284E8201D7F0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1765478480;
-	bh=RfT5MhtPimSUWU9tC9d+pcoGdc45wwExQqt3w5eeGpU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=C7w5ZwaQjQbevOQBLD0fSFMThA3th8QnDJe/6mrsJt4UieWYzQAxO5rciW0iokTIZ
-	 /CzdVpgncOC2NHiCsKqdSOJjP6pDYeLOz7I9atwHBdH0QRSvSDvst0Jcv1c9+IgmM1
-	 taElHe9y9YK6eD+BIeMp/LCu0Nr5ELt3HlIbADR0=
-Message-ID: <d80958ec-f139-41e9-afa0-a5aca94221de@linux.microsoft.com>
-Date: Thu, 11 Dec 2025 10:41:19 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mnSaAxad"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-42e2e3c0dccso273605f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 11 Dec 2025 10:58:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765479538; x=1766084338; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yXm/1fe23tTgVaqZTTxGSrbclEuIKybaqnfjNM/NaT0=;
+        b=mnSaAxadJ0gejGrMkg0tXv9lCMjomHQCZYz4CMWvg2PI+SUheYYpQVggvBSISGOWrJ
+         7s6F8uNuSfd8+NbT4AQUbjxRjVfka4k6RLlhbxq3HAAh9O8hGYimWgb1UAyyuc7wmhlv
+         5EZNn869xyRiSneyRisJg/o2yJaLB4jqh20XtXjrL7v61TORXHf2XRLDWwBL7qshHNbE
+         jzrQentaHA50nsarqtuU6KqSk5PI0hy62Q+5N8H0MZ3cXjcuxixcevwSFRls/jSkktou
+         QVPE84Z+3nf7Vvj52lD+dTX8ZeII7FwuWPSpodiF0Adt2NLu8U/CfR9PmcvtZ4InMelA
+         extg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765479538; x=1766084338;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yXm/1fe23tTgVaqZTTxGSrbclEuIKybaqnfjNM/NaT0=;
+        b=krypHQ3b6p+yPxXC7ZFNEeYqU+4WPKVhfJHVSQXjS8tBFT8O/hTeXf4Zz59V9LYEz3
+         ooWkKNXrO2/FqulTKBzEm7llLOzxvePzFrTxy/muCjrsxHreESKwMXbABYDF8DQlB3q7
+         i8OkujoI+94vLmbWx2eRlfF4pU/U0ItRVkQ0rLh+gushbg/0iUQRa5tfbF23VWUMvsk5
+         UaGjEGZQtnLM7Q7l+Aj5wKQx29ACL/mc6NgKCwMxuw7uEyTaDRyJJAmE7qi2ZNBkGEFf
+         UDG2Yix2iTGbBIfFHVV5vUljINnGLXqjGdSTSI17Mbgr6Sxck6iBsS5O4hOQ/deVklYp
+         l9+g==
+X-Forwarded-Encrypted: i=1; AJvYcCXjUhqUw7OQHAQQQortyO1fhl5n5KKJtHOtuiHCffrTPTFnyQ2tq9/LeqSJaU7Y6xengGFscBHkHsQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwERzfE5n57cHjd7ZzBApGhGSGNk5g7KaOrO041uhdiLpxfCEq3
+	ZU5cVK4hTEGrzV+WPgXs270LFe1ZvwxxMDtZWLmQn8EUZwH5As8miC9UUGLQG7dYVgw=
+X-Gm-Gg: AY/fxX5YdpQlLn+q8/j899oNHtXSGHiPKOL5mc+qMPWxmBId5lv6NVu5wBaZY03nj69
+	JEKWOKdBoiu2Z6T4h7wxsZwM4D2d8n2PemnJnU9si2jATRddSU1PE7WnRmvlCf35r3w+IppP3X/
+	rWsim319CN6JZfXBljFjP3FcA7gIMzoy9kSeSmSiuuv+fcDW42zmArP4A8YWmydbgPtGsJlXJ1g
+	EVJd3Zu/s/bZgi5LweyqQeONlgm9k1aHkYhWCEcWXJLtv/UdtHrZQS6S3QT1P7V8E3lXvuPHRHV
+	fcrrMirJmLrAbC9SRR559v1VJ7O8CFgqaUeQR6scxFlHa3zPcP7jjsKQ/ga159iEjGEMHbyOkcd
+	KlfPcByIS030XSlL2xCEesbWf/h8/WT9/Xs7L8m6nPxGanwsTwoaNXf3lSWgN68ez0NSN7aUGWH
+	VSJXy2mOGRWLYBLFs0SQ0hOJYcd93a
+X-Google-Smtp-Source: AGHT+IG013pfGbuA8PrYyUUTrBZvvlebxD1waVn4TsP9vOtX3ooXAsQ6AFa0OenHcPr1qqKLDtJBaA==
+X-Received: by 2002:a05:6000:1acf:b0:42b:30f9:7998 with SMTP id ffacd0b85a97d-42fa39dbe32mr7690463f8f.27.1765479537785;
+        Thu, 11 Dec 2025 10:58:57 -0800 (PST)
+Received: from localhost.localdomain ([78.208.202.157])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8a70394sm7613731f8f.14.2025.12.11.10.58.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Dec 2025 10:58:57 -0800 (PST)
+From: Antoni Pokusinski <apokusinski01@gmail.com>
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Antoni Pokusinski <apokusinski01@gmail.com>
+Subject: [PATCH v2] hwmon: (sht3x) add support for SHT85
+Date: Thu, 11 Dec 2025 19:58:42 +0100
+Message-Id: <20251211185842.66084-1-apokusinski01@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 1/1] IMA event log trimming
-To: linux-integrity@vger.kernel.org
-Cc: zohar@linux.ibm.com, roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com, corbet@lwn.net, serge@hallyn.com,
- paul@paul-moore.com, jmorris@namei.org,
- linux-security-module@vger.kernel.org, anirudhve@linux.microsoft.com,
- gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
- sushring@linux.microsoft.com, linux-doc@vger.kernel.org,
- steven chen <chenste@linux.microsoft.com>
-References: <20251210235314.3341-1-chenste@linux.microsoft.com>
- <20251210235314.3341-2-chenste@linux.microsoft.com>
-Content-Language: en-US
-From: steven chen <chenste@linux.microsoft.com>
-In-Reply-To: <20251210235314.3341-2-chenste@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/10/2025 3:53 PM, steven chen wrote:
-> This patch is for trimming N entries of the IMA event logs. It will also
-> cleaning the hash table if ima_flush_htable is set.
->
-> It provides a userspace interface ima_trim_log that can be used to input
-> number N to let kernel to trim N entries of IMA event logs. When read
-> this interface, it returns number of entries trimmed last time.
->
-> Signed-off-by: steven chen <chenste@linux.microsoft.com>
-> ---
->   .../admin-guide/kernel-parameters.txt         |   4 +
->   security/integrity/ima/ima.h                  |   2 +
->   security/integrity/ima/ima_fs.c               | 175 +++++++++++++++++-
->   security/integrity/ima/ima_queue.c            |  64 +++++++
->   4 files changed, 241 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index e92c0056e4e0..cd1a1d0bf0e2 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2197,6 +2197,10 @@
->   			Use the canonical format for the binary runtime
->   			measurements, instead of host native format.
->   
-> +	ima_flush_htable  [IMA]
-> +			Flush the measurement list hash table when trim all
-> +			or a part of it for deletion.
-> +
->   	ima_hash=	[IMA]
->   			Format: { md5 | sha1 | rmd160 | sha256 | sha384
->   				   | sha512 | ... }
-> diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
-> index e3d71d8d56e3..ab0e30ee25ea 100644
-> --- a/security/integrity/ima/ima.h
-> +++ b/security/integrity/ima/ima.h
-> @@ -246,8 +246,10 @@ void ima_post_key_create_or_update(struct key *keyring, struct key *key,
->   
->   #ifdef CONFIG_IMA_KEXEC
->   void ima_measure_kexec_event(const char *event_name);
-> +long ima_purge_event_log(long number_logs);
->   #else
->   static inline void ima_measure_kexec_event(const char *event_name) {}
-> +static inline long ima_purge_event_log(long number_logs) { return 0; }
->   #endif
->   
->   /*
-> diff --git a/security/integrity/ima/ima_fs.c b/security/integrity/ima/ima_fs.c
-> index 87045b09f120..410f7d03c43f 100644
-> --- a/security/integrity/ima/ima_fs.c
-> +++ b/security/integrity/ima/ima_fs.c
-> @@ -21,6 +21,9 @@
->   #include <linux/rcupdate.h>
->   #include <linux/parser.h>
->   #include <linux/vmalloc.h>
-> +#include <linux/ktime.h>
-> +#include <linux/timekeeping.h>
-> +#include <linux/ima.h>
->   
->   #include "ima.h"
->   
-> @@ -38,6 +41,14 @@ __setup("ima_canonical_fmt", default_canonical_fmt_setup);
->   
->   static int valid_policy = 1;
->   
-> +#define IMA_LOG_TRIM_REQ_LENGTH 11
-> +#define IMA_LOG_TRIM_EVENT_LEN 256
-> +
-> +static long trimcount;
-> +/* mutex protects atomicity of trimming measurement list requests */
-> +static DEFINE_MUTEX(ima_measure_lock);
-> +static long ima_measure_users;
-> +
->   static ssize_t ima_show_htable_value(char __user *buf, size_t count,
->   				     loff_t *ppos, atomic_long_t *val)
->   {
-> @@ -202,16 +213,65 @@ static const struct seq_operations ima_measurments_seqops = {
->   	.show = ima_measurements_show
->   };
->   
-> +static int _ima_measurements_open(struct inode *inode, struct file *file,
-> +				  const struct seq_operations *seq_ops)
-> +{
-> +	bool write = !!(file->f_mode & FMODE_WRITE);
-> +	int ret;
-> +
-> +	if (write && !capable(CAP_SYS_ADMIN))
-> +		return -EPERM;
-> +
-> +	mutex_lock(&ima_measure_lock);
-> +	if ((write && ima_measure_users != 0) ||
-> +	    (!write && ima_measure_users < 0)) {
-> +		mutex_unlock(&ima_measure_lock);
-> +		return -EBUSY;
-> +	}
-> +
-> +	ret = seq_open(file, seq_ops);
-> +	if (ret < 0) {
-> +		mutex_unlock(&ima_measure_lock);
-> +		return ret;
-> +	}
-> +
-> +	if (write)
-> +		ima_measure_users--;
-> +	else
-> +		ima_measure_users++;
-> +
-> +	mutex_unlock(&ima_measure_lock);
-> +	return ret;
-> +}
-> +
->   static int ima_measurements_open(struct inode *inode, struct file *file)
->   {
-> -	return seq_open(file, &ima_measurments_seqops);
-> +	return _ima_measurements_open(inode, file, &ima_measurments_seqops);
-> +}
-> +
-> +static int ima_measurements_release(struct inode *inode, struct file *file)
-> +{
-> +	bool write = !!(file->f_mode & FMODE_WRITE);
-> +	int ret;
-> +
-> +	mutex_lock(&ima_measure_lock);
-> +	ret = seq_release(inode, file);
-> +	if (!ret) {
-> +		if (write)
-> +			ima_measure_users++;
-> +		else
-> +			ima_measure_users--;
-> +	}
-> +
-> +	mutex_unlock(&ima_measure_lock);
-> +	return ret;
->   }
->   
->   static const struct file_operations ima_measurements_ops = {
->   	.open = ima_measurements_open,
->   	.read = seq_read,
->   	.llseek = seq_lseek,
-> -	.release = seq_release,
-> +	.release = ima_measurements_release,
->   };
->   
->   void ima_print_digest(struct seq_file *m, u8 *digest, u32 size)
-> @@ -279,14 +339,111 @@ static const struct seq_operations ima_ascii_measurements_seqops = {
->   
->   static int ima_ascii_measurements_open(struct inode *inode, struct file *file)
->   {
-> -	return seq_open(file, &ima_ascii_measurements_seqops);
-> +	return _ima_measurements_open(inode, file, &ima_ascii_measurements_seqops);
->   }
->   
->   static const struct file_operations ima_ascii_measurements_ops = {
->   	.open = ima_ascii_measurements_open,
->   	.read = seq_read,
->   	.llseek = seq_lseek,
-> -	.release = seq_release,
-> +	.release = ima_measurements_release,
-> +};
-> +
-> +static void ima_measure_trim_event(const long number_logs)
-> +{
-> +	char ima_log_trim_event[IMA_LOG_TRIM_EVENT_LEN];
-> +	struct timespec64 ts;
-> +	u64 time_ns;
-> +	int n;
-> +
-> +	ktime_get_real_ts64(&ts);
-> +	time_ns = (u64)ts.tv_sec * 1000000000ULL + ts.tv_nsec;
-> +	n = scnprintf(ima_log_trim_event, IMA_LOG_TRIM_EVENT_LEN,
-> +		      "time=%llu; log trim this time=%lu;",
-> +		       time_ns, number_logs);
-> +
-> +	ima_measure_critical_data("ima_log_trim", "trim ima event logs", ima_log_trim_event, n, false, NULL, 0);
-> +}
-> +
-> +static int ima_log_trim_open(struct inode *inode, struct file *file)
-> +{
-> +	bool write = !!(file->f_mode & FMODE_WRITE);
-> +
-> +	if (!write && capable(CAP_SYS_ADMIN))
-> +		return 0;
-> +	else if (!capable(CAP_SYS_ADMIN))
-> +		return -EPERM;
-> +
-> +	return _ima_measurements_open(inode, file, &ima_measurments_seqops);
-> +}
-> +
-> +static ssize_t ima_log_trim_read(struct file *file, char __user *buf, size_t size, loff_t *ppos)
-> +{
-> +	char tmpbuf[IMA_LOG_TRIM_REQ_LENGTH];	/* greater than largest 'long' string value */
-> +	ssize_t len;
-> +
-> +	len = scnprintf(tmpbuf, sizeof(tmpbuf), "%li\n", trimcount);
-> +	return simple_read_from_buffer(buf, size, ppos, tmpbuf, len);
-> +}
-> +
-> +static ssize_t ima_log_trim_write(struct file *file,
-> +				  const char __user *buf, size_t datalen, loff_t *ppos)
-> +{
-> +	unsigned char req[IMA_LOG_TRIM_REQ_LENGTH];
-> +	long count, n;
-> +	int ret;
-> +
-> +	if (*ppos > 0 || datalen > IMA_LOG_TRIM_REQ_LENGTH || datalen < 2) {
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
-> +	n = (int)datalen;
-> +
-> +	ret = copy_from_user(req, buf, datalen);
-> +	if (ret < 0)
-> +		goto out;
-> +
-> +	count = 0;
-> +	for (int i = 0; i < n; ++i) {
-> +		if (req[i] < '0' || req[i] > '9') {
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
-> +		count = count * 10 + req[i] - '0';
-> +	}
-> +	ret = ima_purge_event_log(count);
-> +
-> +	if (ret < 0)
-> +		goto out;
-> +
-> +	trimcount = ret;
-> +
-> +	if (trimcount > 0)
-> +		ima_measure_trim_event(trimcount);
-> +
-> +	ret = datalen;
-> +out:
-> +	return ret;
-> +}
-> +
-> +static int ima_log_trim_release(struct inode *inode, struct file *file)
-> +{
-> +	bool write = !!(file->f_mode & FMODE_WRITE);
-> +	if (!write && capable(CAP_SYS_ADMIN))
-> +		return 0;
-> +	else if (!capable(CAP_SYS_ADMIN))
-> +		return -EPERM;
-> +
-> +	return ima_measurements_release(inode, file);
-> +}
-> +
-> +static const struct file_operations ima_log_trim_ops = {
-> +	.open = ima_log_trim_open,
-> +	.read = ima_log_trim_read,
-> +	.write = ima_log_trim_write,
-> +	.llseek = generic_file_llseek,
-> +	.release = ima_log_trim_release
->   };
->   
->   static ssize_t ima_read_policy(char *path)
-> @@ -528,6 +685,16 @@ int __init ima_fs_init(void)
->   		goto out;
->   	}
->   
-> +	dentry = securityfs_create_file("ima_trim_log",
-> +					S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP,
-> +					ima_dir, NULL, &ima_log_trim_ops);
-> +	if (IS_ERR(dentry)) {
-> +		ret = PTR_ERR(dentry);
-> +		goto out;
-> +	}
-> +
-> +	trimcount = 0;
-> +
->   	dentry = securityfs_create_file("runtime_measurements_count",
->   				   S_IRUSR | S_IRGRP, ima_dir, NULL,
->   				   &ima_measurements_count_ops);
-> diff --git a/security/integrity/ima/ima_queue.c b/security/integrity/ima/ima_queue.c
-> index 590637e81ad1..77ab52469727 100644
-> --- a/security/integrity/ima/ima_queue.c
-> +++ b/security/integrity/ima/ima_queue.c
-> @@ -22,6 +22,14 @@
->   
->   #define AUDIT_CAUSE_LEN_MAX 32
->   
-> +bool ima_flush_htable;
-> +static int __init ima_flush_htable_setup(char *str)
-> +{
-> +	ima_flush_htable = true;
-> +	return 1;
-> +}
-> +__setup("ima_flush_htable", ima_flush_htable_setup);
-> +
->   /* pre-allocated array of tpm_digest structures to extend a PCR */
->   static struct tpm_digest *digests;
->   
-> @@ -220,6 +228,62 @@ int ima_add_template_entry(struct ima_template_entry *entry, int violation,
->   	return result;
->   }
->   
-> +/* Delete the IMA event logs */
-> +long ima_purge_event_log(long number_logs)
-> +{
-> +	struct ima_queue_entry *qe, *qe_tmp;
-> +	LIST_HEAD(ima_measurements_staged);
-> +	unsigned int i;
-> +	long cur = number_logs;
-> +
-> +	if (number_logs <= 0)
-> +		return number_logs;
-> +
-> +	mutex_lock(&ima_extend_list_mutex);
-> +
-> +
-> +	list_for_each_entry(qe, &ima_measurements, later) {
-> +		if (--number_logs == 0)
-> +			break;
-> +	}
-> +
-> +	if (number_logs > 0) {
-> +		mutex_unlock(&ima_extend_list_mutex);
-> +		return -ENOENT;
-> +	}
-> +
-> +	__list_cut_position(&ima_measurements_staged, &ima_measurements,
-> +				    &qe->later);
-> +	atomic_long_sub(cur, &ima_htable.len);
-> +
-> +	if (!IS_ENABLED(CONFIG_IMA_DISABLE_HTABLE) && ima_flush_htable) {
-> +		list_for_each_entry(qe, &ima_measurements_staged, later)
-> +			/* It can race with ima_lookup_digest_entry(). */
-> +			hlist_del_rcu(&qe->hnext);
-> +	}
+SHT85 is a temperature and humidity sensor with the same interface
+as SHT3x.
 
-If the h table can be staged during the locking period and deleted after 
-unlocking, the time
-the list is held will be reduced.
+Signed-off-by: Antoni Pokusinski <apokusinski01@gmail.com>
+---
+Changes since v1:
+* sht3x.c - dropped all changes, added {"sht85", sht3x} to i2c_device_id[]
+* Kconfig - added information about SHT85 support
+* Documentation: changed "Datasheets" -> "Datasheet"
+* Documentation: added information about SHT85 address == 0x44
+---
+ Documentation/hwmon/sht3x.rst | 18 +++++++++++++-----
+ drivers/hwmon/Kconfig         |  4 ++--
+ drivers/hwmon/sht3x.c         |  1 +
+ 3 files changed, 16 insertions(+), 7 deletions(-)
 
-I will work on this, and any suggestions are greatly appreciated.
-
-Thanks,
-
-Steven
-
-> +
-> +	mutex_unlock(&ima_extend_list_mutex);
-> +
-> +
-> +	list_for_each_entry_safe(qe, qe_tmp, &ima_measurements_staged, later) {
-> +		for (i = 0; i < qe->entry->template_desc->num_fields; i++) {
-> +			kfree(qe->entry->template_data[i].data);
-> +			qe->entry->template_data[i].data = NULL;
-> +			qe->entry->template_data[i].len = 0;
-> +		}
-> +
-> +		list_del(&qe->later);
-> +
-> +		if (ima_flush_htable) {
-> +			kfree(qe->entry->digests);
-> +			kfree(qe->entry);
-> +			kfree(qe);
-> +		}
-> +	}
-> +
-> +	return cur;
-> +}
-> +
->   int ima_restore_measurement_entry(struct ima_template_entry *entry)
->   {
->   	int result = 0;
-
+diff --git a/Documentation/hwmon/sht3x.rst b/Documentation/hwmon/sht3x.rst
+index 9585fa7c5a5d..ea1642920295 100644
+--- a/Documentation/hwmon/sht3x.rst
++++ b/Documentation/hwmon/sht3x.rst
+@@ -23,6 +23,14 @@ Supported chips:
+         - https://sensirion.com/media/documents/1DA31AFD/61641F76/Sensirion_Temperature_Sensors_STS3x_Datasheet.pdf
+         - https://sensirion.com/media/documents/292A335C/65537BAF/Sensirion_Datasheet_STS32_STS33.pdf
+ 
++  * Sensirion SHT85
++
++    Prefix: 'sht85'
++
++    Addresses scanned: none
++
++    Datasheet: https://sensirion.com/media/documents/4B40CEF3/640B2346/Sensirion_Humidity_Sensors_SHT85_Datasheet.pdf
++
+ Author:
+ 
+   - David Frey <david.frey@sensirion.com>
+@@ -31,15 +39,15 @@ Author:
+ Description
+ -----------
+ 
+-This driver implements support for the Sensirion SHT3x-DIS and STS3x-DIS
++This driver implements support for the Sensirion SHT3x-DIS, STS3x-DIS and SHT85
+ series of humidity and temperature sensors. Temperature is measured in degrees
+ celsius, relative humidity is expressed as a percentage. In the sysfs interface,
+ all values are scaled by 1000, i.e. the value for 31.5 degrees celsius is 31500.
+ 
+-The device communicates with the I2C protocol. Sensors can have the I2C
+-addresses 0x44 or 0x45 (0x4a or 0x4b for sts3x), depending on the wiring. See
+-Documentation/i2c/instantiating-devices.rst for methods to instantiate the
+-device.
++The device communicates with the I2C protocol. SHT3x sensors can have the I2C
++addresses 0x44 or 0x45 (0x4a or 0x4b for sts3x), depending on the wiring. SHT85
++address is 0x44 and is fixed. See Documentation/i2c/instantiating-devices.rst for
++methods to instantiate the device.
+ 
+ Even if sht3x sensor supports clock-stretch (blocking mode) and non-stretch
+ (non-blocking mode) in single-shot mode, this driver only supports the latter.
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index 720e8491ae97..955f6b4208ba 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -1931,8 +1931,8 @@ config SENSORS_SHT3x
+ 	depends on I2C
+ 	select CRC8
+ 	help
+-	  If you say yes here you get support for the Sensiron SHT30 and SHT31
+-	  humidity and temperature sensors.
++	  If you say yes here you get support for the Sensiron SHT30, SHT31 and
++	  SHT85 humidity and temperature sensors.
+ 
+ 	  This driver can also be built as a module. If so, the module
+ 	  will be called sht3x.
+diff --git a/drivers/hwmon/sht3x.c b/drivers/hwmon/sht3x.c
+index f36c0229328f..08306ccb6d0b 100644
+--- a/drivers/hwmon/sht3x.c
++++ b/drivers/hwmon/sht3x.c
+@@ -933,6 +933,7 @@ static int sht3x_probe(struct i2c_client *client)
+ static const struct i2c_device_id sht3x_ids[] = {
+ 	{"sht3x", sht3x},
+ 	{"sts3x", sts3x},
++	{"sht85", sht3x},
+ 	{}
+ };
+ 
+-- 
+2.25.1
 
