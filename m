@@ -1,23 +1,22 @@
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60DBE2F691B;
-	Thu, 11 Dec 2025 09:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A4EB2F6926;
+	Thu, 11 Dec 2025 09:23:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765444799; cv=none; b=DxQbOwhZRVLIjYBLQfsaLWi+fvlONJmgAqhe4FuUwwMq9twnO/g1DZtyFGa6yqIxOXAiURwmzj2Uup1mcpUFwr0/nctGBNOvH0hhYx7ILsB2OQFAufQez8EZtMInn1n8VXTqhlU+zW6VOweYYBOiFNnkUpOybiIM2xzk34CBgRU=
+	t=1765445019; cv=none; b=NyfvpJyeaApv3jHbu9vYsjuFspQmn9q90mpvG5JDdW0bPM5UN8oanVqiaZDhtMb5H6y/rz2FJykRgUEVti2SR8pcW0YPtiAM5aAK5F1J1cbJ85Kmu3E1fLE7hRjpGphzzJJpGPj08bmkaXOQiQHP6gY5hu34Z6BK25/AAQ0dWaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765444799; c=relaxed/simple;
+	s=arc-20240116; t=1765445019; c=relaxed/simple;
 	bh=G4k3aM+ayQ73n3EQqSoTPqM1h/Rw5Z9+Ql8PwqHE+PU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BlxuWF0eCSQwMnFsi+C7+HhdjEohx1Ob2qVbRgw1pNGxagpZo9iFPDXUUwYBfHJ8jQPS6S3jcYzFiOFqpCT2N4q76ejTajh0a+Rt4kiZ1pzNFw8cmC0W0Fr+x9+0xPzEmJs4kacqPHJhXSwMlmtvFIG0gPHaC26NNDV6F5Z26xc=
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Zk07o8szDIswYsUfk0ZZb9MOHoCA1RMzDfMRLKNXhPnmvl490Zwt6GVgTYk/PV43SSqOVM3hywv81UVh+Sis4L5MYIzqhZjlXo2ssJMipHocxhQVihOW7HU4sFZ6WFqA1PEMlwTzl7d749oakTkpjtOtclE0k1n9CaRqRDBdflw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
 Received: from loongson.cn (unknown [10.40.57.136])
-	by gateway (Coremail) with SMTP id _____8AxP_CojDppuUotAA--.31682S3;
-	Thu, 11 Dec 2025 17:19:36 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8Cx5tCMjTppGUstAA--.32473S3;
+	Thu, 11 Dec 2025 17:23:24 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.40.57.136])
-	by front1 (Coremail) with SMTP id qMiowJCxG8GPjDppSRtIAQ--.23720S4;
-	Thu, 11 Dec 2025 17:19:25 +0800 (CST)
+	by front1 (Coremail) with SMTP id qMiowJAxVOSGjTppshtIAQ--.2104S2;
+	Thu, 11 Dec 2025 17:23:18 +0800 (CST)
 From: Tianyang Zhang <zhangtianyang@loongson.cn>
 To: chenhuacai@kernel.org,
 	kernel@xen0n.name,
@@ -37,12 +36,10 @@ Cc: loongarch@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Tianyang Zhang <zhangtianyang@loongson.cn>
-Subject: [PATCH] irqchip/irq-loongarch-ir:Add Redirect irqchip support
-Date: Thu, 11 Dec 2025 17:19:10 +0800
-Message-ID: <20251211091910.5140-3-zhangtianyang@loongson.cn>
+Subject: [PATCH v8 5/5] irqchip/irq-loongarch-ir:Add Redirect irqchip support
+Date: Thu, 11 Dec 2025 17:23:17 +0800
+Message-ID: <20251211092317.5210-1-zhangtianyang@loongson.cn>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20251211091910.5140-1-zhangtianyang@loongson.cn>
-References: <20251211091910.5140-1-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,25 +47,25 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJCxG8GPjDppSRtIAQ--.23720S4
+X-CM-TRANSID:qMiowJAxVOSGjTppshtIAQ--.2104S2
 X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
 X-Coremail-Antispam: 1Uk129KBj9fXoW3Zw17uw15Jr4DXF1fAF1DJwc_yoW8Ww1DAo
 	WfJrs3G34rWr18GrW0ka17tFyxZ345Gw4Fyw1fuFZrZ3Wqqr4rtrW7GrW3Za42gF1FqF17
-	JFy0qw1fGFWxtrn3l-sFpf9Il3svdjkaLaAFLSUrUUUU5b8apTn2vfkv8UJUUUU8wcxFpf
+	JFy0qw1fGFWxtrn3l-sFpf9Il3svdjkaLaAFLSUrUUUU4b8apTn2vfkv8UJUUUU8wcxFpf
 	9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
-	UjIYCTnIWjp_UUUYK7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
+	UjIYCTnIWjp_UUUYN7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
 	8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
 	Y2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14
 	v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26r4UJVWxJr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
+	14v26r4UJVWxJr1ln4kS14v26r4a6rW5M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
 	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
-	6rWY6Fy7McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCj
-	c4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
-	Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY
-	6xIIjxv20xvE14v26F1j6w1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcV
-	CF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv
-	6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUxfHUUUUUU
+	6Fy26r45twAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0x
+	vY0x0EwIxGrwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE
+	7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I
+	0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAI
+	cVC0I7IYx2IY67AKxVW7JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0x
+	vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280
+	aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU5FNt7UUUUU==
 
 The main function of the Redirected interrupt controller is to manage
 the redirected-interrupt table, which consists of many redirected entries.
