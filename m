@@ -1,131 +1,146 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A9C2DF700;
-	Fri, 12 Dec 2025 09:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F64B31A07C;
+	Fri, 12 Dec 2025 10:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765533602; cv=none; b=AgbbAeYwkAFCiPgIR4qEXIntwR2CeKAJWY3KlwZT5RLeW8SFv8Yh/avrQxf+e3zsP/opkovrHf+5ryaAey0p1u/l0R73IMK0aCyEIn6OI5XM7uzKXZcgjGxlMr1s2RHEUGQTFf293efrP5fAkOr15UHg/Znl1laazj62jQQBypc=
+	t=1765534536; cv=none; b=XlYY343BBfQkS2m3FNiQBqN6eTxdVLi+Xzk+ivgg9XgGNdIo+zBHIcP4yId+5wXAtjvMXUrHHrfGcsJ4DOoq1pJAder223mgbG1vxmJSy/Bc6q9Fv7d4B4iDHJeFD7Uc3NXLE4myDRdcn1s0qWSXQuviIlrzddO74ofHXiZJfgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765533602; c=relaxed/simple;
-	bh=Jmg8YoC8ENkVosXMX5wUnzKW2V3TYXeF+XYoSMCYBUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KHrGS8j6nUK9qq7iYD76tpuUWQqP7dQfYz8xJU4yM9r0DGmZ1U8YGr7/cmo3amp6c2XT75KCjZF5rdd2yj5ZPEMK1Sxb3wS7UXaD0huF7v3T/smOoUuEv223TjQwrPrKF1rwC7vSjQV0QYjVQMh9riiu7y5+CGha0vsbbDq6GoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=q4PvE8q1; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="q4PvE8q1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=KSM4F9EPA4VrHSATWZaVBC81vHU19MDt0Mi2nP4hTcc=; b=q4PvE8q1MvSUiSan/OQUGVyWjB
-	ey3Vrr3EGE7ZCZmMa2Q5RwD0Szf9yfpU9MDTOfKLxI7g78pi/86AKrvVEuYcUelT9SACClEtReQ4X
-	YNEkxxEaf7Hj9lNNnecfwhhDw1JKhrgqon3hzMPEHvfRHMJXy1vuCRSOG+gKzHjH2areb2zIxNWHh
-	qOvFVdyLVG1PxCmb11XYlPZWPjNmgL+p7J2n6WI3MKlwAD2OTti/zPQ4/lFxl9n6UUlXKAIOqZVnk
-	2PnlnDVtTKp1PmPbGh5hRrZJfLK1yNLydbSCrVXlmnCktKj94YkiTNcHA+X+aMnJQX32qELAPOp7s
-	fhefkUvA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vTz4d-0000000GRLd-1uSY;
-	Fri, 12 Dec 2025 09:04:27 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id C2F3930041D; Fri, 12 Dec 2025 10:59:43 +0100 (CET)
-Date: Fri, 12 Dec 2025 10:59:43 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-	Chris Li <sparse@chrisli.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
-	llvm@lists.linux.dev, rcu@vger.kernel.org
-Subject: Re: [PATCH v4 07/35] lockdep: Annotate lockdep assertions for
- context analysis
-Message-ID: <20251212095943.GM3911114@noisy.programming.kicks-ass.net>
-References: <20251120145835.3833031-2-elver@google.com>
- <20251120151033.3840508-7-elver@google.com>
- <20251120151033.3840508-8-elver@google.com>
- <20251211114302.GC3911114@noisy.programming.kicks-ass.net>
- <CANpmjNObaGarY1_niCkgEXMNm2bLAVwKwQsLVYekE=Ce6y3ehQ@mail.gmail.com>
+	s=arc-20240116; t=1765534536; c=relaxed/simple;
+	bh=M0sOfmxD3AiO8ypIspot2QyB4955YaY26/MqBq2Fhek=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mZkCu4pGx6UcyMbi7OCNfv8bxFjy3Xb5OWHlB87hLrNOkd2s0ZFKfZeMcOCpVi89VaHklRWwLoB86lOQRprI/duAr8L1B0rMj4xVf0Lgy91KmL8BAXNCksz7nUgbKW43r7eTA3sbzFh363OtQ4xTSWAZwqh+A4WcrAsT21XwYFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dSQM33chrzKHMhw;
+	Fri, 12 Dec 2025 18:15:27 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id CA85F1A1A70;
+	Fri, 12 Dec 2025 18:15:28 +0800 (CST)
+Received: from [10.67.111.176] (unknown [10.67.111.176])
+	by APP1 (Coremail) with SMTP id cCh0CgCHwX096ztpFD3hBQ--.55276S2;
+	Fri, 12 Dec 2025 18:15:26 +0800 (CST)
+Message-ID: <3eefcf06-e33f-4f5f-bba1-6d53ddc495d5@huaweicloud.com>
+Date: Fri, 12 Dec 2025 18:15:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNObaGarY1_niCkgEXMNm2bLAVwKwQsLVYekE=Ce6y3ehQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next 0/5] mm/mglru: remove memcg lru
+To: akpm@linux-foundation.org, axelrasmussen@google.com, yuanchu@google.com,
+ weixugc@google.com, david@kernel.org, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, corbet@lwn.net, hannes@cmpxchg.org,
+ roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev,
+ zhengqi.arch@bytedance.com
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, lujialin4@huawei.com,
+ zhongjinji@honor.com
+References: <20251209012557.1949239-1-chenridong@huaweicloud.com>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <20251209012557.1949239-1-chenridong@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:cCh0CgCHwX096ztpFD3hBQ--.55276S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGw4DurWxAF4xJFW8tF13Arb_yoW5Wr1rpF
+	Z3WasIka1rArW7X3Z7KayUu3y8Za1xAw47Wr92g3yfArnIya4ktr47tw4rZFWUCrWSqry7
+	Xr98u3W8XF1DZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	s2-5UUUUU==
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-On Thu, Dec 11, 2025 at 02:24:57PM +0100, Marco Elver wrote:
 
-> > It is *NOT* (as the clang naming suggests) an assertion of holding the
-> > lock (which is requires_ctx), but rather an annotation that forces the
-> > ctx to be considered held.
+
+On 2025/12/9 9:25, Chen Ridong wrote:
+> From: Chen Ridong <chenridong@huawei.com>
 > 
-> Noted. I'll add some appropriate wording above the
-> __assumes_ctx_guard() attribute, so this is not lost in the commit
-> logs.
+> The memcg LRU was introduced to improve scalability in global reclaim,
+> but its implementation has grown complex and can cause performance
+> regressions when creating many memory cgroups [1].
+> 
+> This series implements mem_cgroup_iter with a reclaim cookie in
+> shrink_many() for global reclaim, following the pattern already used in
+> shrink_node_memcgs(), an approach suggested by Johannes [1]. The new
+> design maintains good fairness across cgroups by preserving iteration
+> state between reclaim passes.
+> 
+> Testing was performed using the original stress test from Yu Zhao [2] on a
+> 1 TB, 4-node NUMA system. The results show:
+> 
+>     pgsteal:
+>                                         memcg LRU    memcg iter
+>     stddev(pgsteal) / mean(pgsteal)     106.03%       93.20%
+>     sum(pgsteal) / sum(requested)        98.10%       99.28%
+>     
+>     workingset_refault_anon:
+>                                         memcg LRU    memcg iter
+>     stddev(refault) / mean(refault)     193.97%      134.67%
+>     sum(refault)                       1,963,229    2,027,567
+> 
+> The new implementation shows clear fairness improvements, reducing the
+> standard deviation relative to the mean by 12.8 percentage points for
+> pgsteal and bringing the pgsteal ratio closer to 100%. Refault counts
+> increased by 3.2% (from 1,963,229 to 2,027,567).
+> 
+> To simplify review:
+> 1. Patch 1 uses mem_cgroup_iter with reclaim cookie in shrink_many()
+> 2. Patch 2 removes the now-unused memcg LRU code
+> 3. Patches 3–5 combine shrink_many and shrink_node_memcgs
+>    (This reorganization is clearer after switching to mem_cgroup_iter)
+> 
+> ---
+> 
+> Changes from RFC series:
+> 1. Updated the test result data.
+> 2. Added patches 3–5 to combine shrink_many and shrink_node_memcgs.
+> 
+> RFC: https://lore.kernel.org/all/20251204123124.1822965-1-chenridong@huaweicloud.com/
+> 
+> Chen Ridong (5):
+>   mm/mglru: use mem_cgroup_iter for global reclaim
+>   mm/mglru: remove memcg lru
+>   mm/mglru: extend shrink_one for both lrugen and non-lrugen
+>   mm/mglru: combine shrink_many into shrink_node_memcgs
+>   mm/mglru: factor lrugen state out of shrink_lruvec
+> 
+>  Documentation/mm/multigen_lru.rst |  30 ---
+>  include/linux/mmzone.h            |  89 --------
+>  mm/memcontrol-v1.c                |   6 -
+>  mm/memcontrol.c                   |   4 -
+>  mm/mm_init.c                      |   1 -
+>  mm/vmscan.c                       | 332 ++++--------------------------
+>  6 files changed, 44 insertions(+), 418 deletions(-)
+> 
 
-On IRC you stated:
+Hello all,
 
-<melver> peterz: 'assume' just forces the compiler to think something is
-  held, whether or not it is then becomes the programmer's problem. we
-  need it in 2 places at least: for the runtime assertions (to help
-  patterns beyond the compiler's static reasoning abilities), and for
-  initialization (so we can access guarded variables right after
-  initialization; nobody should hold the lock yet)
+There's a warning from the kernel test robot, and I would like to update the series to fix it along
+with any feedback from your reviews.
 
-I'm really not much a fan of that init hack either ;-)
+I'd appreciate it if you could take a look at this patch series when convenient.
 
-Once we get the scope crap working sanely, I would much rather we move
-to something like:
+Hi Shakeel, I would be very grateful if you could review patches 3-5. They combine shrink_many and
+shrink_node_memcgs as you suggested — does that look good to you?
 
-	scoped_guard (spinlock_init, &foo->lock) {
-		// init foo fields
-	}
-
-or perhaps:
-
-	guard(mutex_init)(&bar->lock);
-	// init until end of current scope
-
-Where this latter form is very similar to the current semantics where
-mutex_init() will implicitly 'leak' the holding of the lock. But the
-former gives more control where we need it.
-
-
+-- 
+Best regards,
+Ridong
 
