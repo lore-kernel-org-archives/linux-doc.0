@@ -1,146 +1,152 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F64B31A07C;
-	Fri, 12 Dec 2025 10:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADDE4298CDC
+	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 10:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765534536; cv=none; b=XlYY343BBfQkS2m3FNiQBqN6eTxdVLi+Xzk+ivgg9XgGNdIo+zBHIcP4yId+5wXAtjvMXUrHHrfGcsJ4DOoq1pJAder223mgbG1vxmJSy/Bc6q9Fv7d4B4iDHJeFD7Uc3NXLE4myDRdcn1s0qWSXQuviIlrzddO74ofHXiZJfgc=
+	t=1765534569; cv=none; b=gyk9D5g9BbdxiNGOVVVxsJoz0q4GwEBBwO5C0sbF1389xhTZhr70hsuOnsdHvQafzBVxtLGwqnif/uR6zqPCy6uhyRcEl74OPllKtu8EV/12MDXmUIXdAYMfEtIRAMESHZIafklvQLYxdKipkOpackaNn0vPAnx+kUXHNbsPsZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765534536; c=relaxed/simple;
-	bh=M0sOfmxD3AiO8ypIspot2QyB4955YaY26/MqBq2Fhek=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mZkCu4pGx6UcyMbi7OCNfv8bxFjy3Xb5OWHlB87hLrNOkd2s0ZFKfZeMcOCpVi89VaHklRWwLoB86lOQRprI/duAr8L1B0rMj4xVf0Lgy91KmL8BAXNCksz7nUgbKW43r7eTA3sbzFh363OtQ4xTSWAZwqh+A4WcrAsT21XwYFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dSQM33chrzKHMhw;
-	Fri, 12 Dec 2025 18:15:27 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id CA85F1A1A70;
-	Fri, 12 Dec 2025 18:15:28 +0800 (CST)
-Received: from [10.67.111.176] (unknown [10.67.111.176])
-	by APP1 (Coremail) with SMTP id cCh0CgCHwX096ztpFD3hBQ--.55276S2;
-	Fri, 12 Dec 2025 18:15:26 +0800 (CST)
-Message-ID: <3eefcf06-e33f-4f5f-bba1-6d53ddc495d5@huaweicloud.com>
-Date: Fri, 12 Dec 2025 18:15:24 +0800
+	s=arc-20240116; t=1765534569; c=relaxed/simple;
+	bh=Yy8AVUr1WzoEhC0gwViTyIIecU1pDeO+TdO72jBT6kg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=upW/oLr6nZwED4QWsWAro8eLE1Yya3YMd0tNe7RMYte3W+3CiTILWVX2ab3KiJiwQBuDrTYMEJZiBa0FM36qHsjG9WX0VMMHQJqHBnfPqcVqq56/xTyyieK5TBCZSlVnX54ZH3iyeSc9qdLG5HKEYpJC14JeAhvVwFRajeaOz3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kbkpTIwj; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kbkpTIwj"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-bc17d39ccd2so672141a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 02:16:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765534567; x=1766139367; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yy8AVUr1WzoEhC0gwViTyIIecU1pDeO+TdO72jBT6kg=;
+        b=kbkpTIwjpQS8ePNpRzQzmqynFKNs7/NxFbTXEqQxrUChBOEd0ClCuYdBQSv/22spWQ
+         Mlau/Z1r7/t8B4xFGTNsO12c5ZTlO8IX7JmdNjWmjdVZ/Jjmk3SOeb81vSBizctBon6C
+         b9PSWBQffnaVrZsxTpaFewgJOaV8M65WyBFjjc/d5LNfdNJtX504o4PmkXzgy9+JGpaR
+         p+BOqszpjmfwPdF9SWGeFROnU0ow5OvvXnKcQ2WceWvfngjFOxfI5+Rs21yMoX+9CWFu
+         9Pv3ZqG+EuPi3/Br8MUwkjm1WFmizI4Ur371xJf7pXnmBlKHwciyx1Eiw/6wKklL/E6/
+         Jp7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765534567; x=1766139367;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yy8AVUr1WzoEhC0gwViTyIIecU1pDeO+TdO72jBT6kg=;
+        b=SF8wUe9vr18xMCG3Vc/JaNbsmMgVNhNYxZAOzTpI2ZTdKxK6tCPV9C0V4ZhCgLj7uV
+         IU9uGNeaPLxNql+Lmw8qm1uHefz2sMXTPd6uXdQt5W+ckHcFL98tPzTP/ptOAA4GJeQz
+         wIAGhH8CLL6CoP1ZnSd9QarDJJGa3BbrnrEA+VA5ay66cazZjAfknID/yOOELnp370kf
+         /JlGg2i/VpdEH961xXBdB2i5guDxJqlE5fj/eWWJgAbnGhYNSjNquCMfK/vNZInU6i57
+         Gb7RQx9qt7vHq+1oGrxVcL6ww88ZRNGAiHZ4z0+zyzS/yfEBKaiGL037L9n3knLWSeWS
+         sg7w==
+X-Forwarded-Encrypted: i=1; AJvYcCVgySfyX/amTUztYC9NxqAocMtGM/IzLI57YOfbU6fyZdt6EQxTV/Vti/zX7QL0fJd9bfiMWGTmZsQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+mfqbuTtnDoO0Hox92h6ON05Ghws8jhxwHA9/0lAKirpE1+kN
+	7WBIRnm5zebm7ig8pberu7+t+bA1ofSt9YAt/IFNq5QmfxsIuzUskOGMjP3lIidalLX2ntK5Ia7
+	Fgr+Vv08OUg7ejHm9I+foaKxTdRwqJeTmM1/dCIbP
+X-Gm-Gg: AY/fxX6aM53dJbyV0U57Qd2uhJxKjiFk0eqiAdx43qatJ01zmDTYSDS5HvCJJ6tkNFw
+	zuX/OI63UV2QB395cnFmqeYWWX5JF62+FFupH4owse6v6Vjog/S1QLDPh6YzefMkBgxs95Neijn
+	xeoOW81VCn4MJhaaGHooAOY0xJYr81Jc18SQAJRTBEeFEGY5/fEA1rfYwTlMZA/rK1nK07i3Gni
+	JT+GCz6MrFBn9Is5SF4Nm5C2PY9unn/H+epqAJpjSm44PO+6Om4ud7grgp/naNlLOduUPg+X9Bt
+	cdy6IDI/+y2J0g90iaglnMktGjIdOCHlWVnH1w==
+X-Google-Smtp-Source: AGHT+IH8fq53xzz4VEeZIfjpPn2aDZft0vSRUPpE08Jgar7Bwxv93jAlmI/oD2Bc5sYJ04yKuPnrNx+rDd5kmEFlwB8=
+X-Received: by 2002:a05:7300:2aa5:b0:2ab:ca55:89b4 with SMTP id
+ 5a478bee46e88-2ac303f2fbcmr872533eec.43.1765534566419; Fri, 12 Dec 2025
+ 02:16:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next 0/5] mm/mglru: remove memcg lru
-To: akpm@linux-foundation.org, axelrasmussen@google.com, yuanchu@google.com,
- weixugc@google.com, david@kernel.org, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, corbet@lwn.net, hannes@cmpxchg.org,
- roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev,
- zhengqi.arch@bytedance.com
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, lujialin4@huawei.com,
- zhongjinji@honor.com
-References: <20251209012557.1949239-1-chenridong@huaweicloud.com>
-Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <20251209012557.1949239-1-chenridong@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:cCh0CgCHwX096ztpFD3hBQ--.55276S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGw4DurWxAF4xJFW8tF13Arb_yoW5Wr1rpF
-	Z3WasIka1rArW7X3Z7KayUu3y8Za1xAw47Wr92g3yfArnIya4ktr47tw4rZFWUCrWSqry7
-	Xr98u3W8XF1DZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	s2-5UUUUU==
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
+References: <20251120145835.3833031-2-elver@google.com> <20251120151033.3840508-7-elver@google.com>
+ <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNOmAYFj518rH0FdPp=cqK8EeKEgh1ok_zFUwHU5Fu92=w@mail.gmail.com> <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
+In-Reply-To: <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
+From: Marco Elver <elver@google.com>
+Date: Fri, 12 Dec 2025 11:15:29 +0100
+X-Gm-Features: AQt7F2qb9ENq_mtkRfqCrKNBJnxHOwKNFDuSBIrcF4bjbeWckbG0712gmoUp-Ao
+Message-ID: <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
+Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context analysis
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, 
+	Will Deacon <will@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, Chris Li <sparse@chrisli.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>, 
+	Eric Dumazet <edumazet@google.com>, Frederic Weisbecker <frederic@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, Johannes Berg <johannes.berg@intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, 12 Dec 2025 at 10:43, Peter Zijlstra <peterz@infradead.org> wrote:
+[..]
+> > Correct. We're trading false negatives over false positives at this
+> > point, just to get things to compile cleanly.
+>
+> Right, and this all 'works' right up to the point someone sticks a
+> must_not_hold somewhere.
+>
+> > > > Better support for Linux's scoped guard design could be added in
+> > > > future if deemed critical.
+> > >
+> > > I would think so, per the above I don't think this is 'right'.
+> >
+> > It's not sound, but we'll avoid false positives for the time being.
+> > Maybe we can wrangle the jigsaw of macros to let it correctly acquire
+> > and then release (via a 2nd cleanup function), it might be as simple
+> > as marking the 'constructor' with the right __acquires(..), and then
+> > have a 2nd __attribute__((cleanup)) variable that just does a no-op
+> > release via __release(..) so we get the already supported pattern
+> > above.
+>
+> Right, like I mentioned in my previous email; it would be lovely if at
+> the very least __always_inline would get a *very* early pass such that
+> the above could be resolved without inter-procedural bits. I really
+> don't consider an __always_inline as another procedure.
+>
+> Because as I already noted yesterday, cleanup is now all
+> __always_inline, and as such *should* all end up in the one function.
+>
+> But yes, if we can get a magical mash-up of __cleanup and __release (let
+> it be knows as __release_on_cleanup ?) that might also work I suppose.
+> But I vastly prefer __always_inline actually 'working' ;-)
 
+The truth is that __always_inline working in this way is currently
+infeasible. Clang and LLVM's architecture simply disallow this today:
+the semantic analysis that -Wthread-safety does happens over the AST,
+whereas always_inline is processed by early passes in the middle-end
+already within LLVM's pipeline, well after semantic analysis. There's
+a complexity budget limit for semantic analysis (type checking,
+warnings, assorted other errors), and path-sensitive &
+intra-procedural analysis over the plain AST is outside that budget.
+Which is why tools like clang-analyzer exist (symbolic execution),
+where it's possible to afford that complexity since that's not
+something that runs for a normal compile.
 
-On 2025/12/9 9:25, Chen Ridong wrote:
-> From: Chen Ridong <chenridong@huawei.com>
-> 
-> The memcg LRU was introduced to improve scalability in global reclaim,
-> but its implementation has grown complex and can cause performance
-> regressions when creating many memory cgroups [1].
-> 
-> This series implements mem_cgroup_iter with a reclaim cookie in
-> shrink_many() for global reclaim, following the pattern already used in
-> shrink_node_memcgs(), an approach suggested by Johannes [1]. The new
-> design maintains good fairness across cgroups by preserving iteration
-> state between reclaim passes.
-> 
-> Testing was performed using the original stress test from Yu Zhao [2] on a
-> 1 TB, 4-node NUMA system. The results show:
-> 
->     pgsteal:
->                                         memcg LRU    memcg iter
->     stddev(pgsteal) / mean(pgsteal)     106.03%       93.20%
->     sum(pgsteal) / sum(requested)        98.10%       99.28%
->     
->     workingset_refault_anon:
->                                         memcg LRU    memcg iter
->     stddev(refault) / mean(refault)     193.97%      134.67%
->     sum(refault)                       1,963,229    2,027,567
-> 
-> The new implementation shows clear fairness improvements, reducing the
-> standard deviation relative to the mean by 12.8 percentage points for
-> pgsteal and bringing the pgsteal ratio closer to 100%. Refault counts
-> increased by 3.2% (from 1,963,229 to 2,027,567).
-> 
-> To simplify review:
-> 1. Patch 1 uses mem_cgroup_iter with reclaim cookie in shrink_many()
-> 2. Patch 2 removes the now-unused memcg LRU code
-> 3. Patches 3–5 combine shrink_many and shrink_node_memcgs
->    (This reorganization is clearer after switching to mem_cgroup_iter)
-> 
-> ---
-> 
-> Changes from RFC series:
-> 1. Updated the test result data.
-> 2. Added patches 3–5 to combine shrink_many and shrink_node_memcgs.
-> 
-> RFC: https://lore.kernel.org/all/20251204123124.1822965-1-chenridong@huaweicloud.com/
-> 
-> Chen Ridong (5):
->   mm/mglru: use mem_cgroup_iter for global reclaim
->   mm/mglru: remove memcg lru
->   mm/mglru: extend shrink_one for both lrugen and non-lrugen
->   mm/mglru: combine shrink_many into shrink_node_memcgs
->   mm/mglru: factor lrugen state out of shrink_lruvec
-> 
->  Documentation/mm/multigen_lru.rst |  30 ---
->  include/linux/mmzone.h            |  89 --------
->  mm/memcontrol-v1.c                |   6 -
->  mm/memcontrol.c                   |   4 -
->  mm/mm_init.c                      |   1 -
->  mm/vmscan.c                       | 332 ++++--------------------------
->  6 files changed, 44 insertions(+), 418 deletions(-)
-> 
+I think I've pushed the current version of Clang's -Wthread-safety
+already far beyond what folks were thinking is possible (a variant of
+alias analysis), but even my healthy disregard for the impossible
+tells me that making path-sensitive intra-procedural analysis even if
+just for __always_inline functions is quite possibly a fool's errand.
 
-Hello all,
+So either we get it to work with what we have, or give up.
 
-There's a warning from the kernel test robot, and I would like to update the series to fix it along
-with any feedback from your reviews.
-
-I'd appreciate it if you could take a look at this patch series when convenient.
-
-Hi Shakeel, I would be very grateful if you could review patches 3-5. They combine shrink_many and
-shrink_node_memcgs as you suggested — does that look good to you?
-
--- 
-Best regards,
-Ridong
-
+Thanks,
+-- Marco
