@@ -1,153 +1,141 @@
-Received: from mail-oi1-f201.google.com (mail-oi1-f201.google.com [209.85.167.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681553019CF
-	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 20:54:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B8C3128C6
+	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 21:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765572882; cv=none; b=ldhCnD/ndwBVLIzt190P6zFQY/YHIx25U4yE4SFwF6O16UgoUXThWiH8edLnleMc2+vNV3pKqbsD4qSNx6mKNflnulB6JEgvp9MhE4D9jhhsIQ4aPkH6XhuOC/9y7SgVoH0HYwEnW1VlOn8WM6xnRa0+eot6Dkbe6GXKnygH3uM=
+	t=1765573213; cv=none; b=m7XZr+fo7gMSNPTE+4kC52lKP29US/+dwNwApytN9dNsIvcE4ed6i0fDNT3FJExtqZn9KR7ZJjpvY0U8d3h4DgNdXqppGiupWoXBV98StROx1tPZ1cotjFxjXPVkymAtmVdHbXWBOZQIqoXcHQOixsHa0CaNJbym2nzCDWQnQco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765572882; c=relaxed/simple;
-	bh=KRrYXDgotZ3hkrFWqT2Xxzs4T7VsdVUIUvNsM4Tt2CA=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=Y33X89pC7ZfsvT8b4yTHW5akIGT7w4ndEymYbccE9EKlivf5BlikQamTGKL+UkDptT9tWyF/A3BngkCfuqYKIWBMshnS9fumtRF1aqf7DDhLsWH+gLxddpXvVFkOvowcQboiGa/zJZUPr764aRqDn0xE00yndMzmDqRBEaSBOSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QLwvmh3F; arc=none smtp.client-ip=209.85.167.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1765573213; c=relaxed/simple;
+	bh=vNs65okWEnxU+wL46GhNte8Vv/UWHYq06Ri/4oUlbuk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O72Rf49G0Dm1YYZMnjwezdg3DuVjZuBMCjuYdBE1PlpDaaD7QPN2J2FeI7vcy9lJq5uBiZBtO+wxsxtIB5Z0VCRxaYy68iT545pz+nLu1SzMndnkZ3axUFxNgyo9l0cTZGBLgYtpJwtcddqS+ZJhw2RJAkMZwRvsZV2jaLQPlY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XxyI3fbt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QLwvmh3F"
-Received: by mail-oi1-f201.google.com with SMTP id 5614622812f47-4509d3ce317so1228766b6e.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 12:54:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765572879; x=1766177679; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3FXn5oKHBMgqIJsfuynoMoNzKyF0I0AGnsGa5FlNVAQ=;
-        b=QLwvmh3FMzVzPlJlBo6h9byVXnkQN6fm/+YA1AXbW0/raH/EuS+E9RC8QAizpGKaMQ
-         YGmchoXUt/2Rlh4XWuxPmyuaRPyy0lgHI8fLA6oiR8oBCFUmtb2aPaXAPMeJnEZXooJu
-         7ZVcEbzjRYGJwTMATEFOgnsjhZKqbgoCcrb2sNyKKvVyumEqOzA8XR+QEyeSr9ICASGt
-         pJ+De79oxbKWGytN8+33JF706rM9pXVuznSoezpYw2T7RQBN+m9tDTGqRCxMYOeBETln
-         /e/3R9yhBcioToy5iRTaNnPJDjcsQbfx2u3Z0hTFA/ckskNliVg9jMRASN+HFVbXddRk
-         Nyfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765572879; x=1766177679;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3FXn5oKHBMgqIJsfuynoMoNzKyF0I0AGnsGa5FlNVAQ=;
-        b=J8zyyOKL2rOkjZ6zxcLkok/75Lr9fLMOnxt6fP6pj941Y/qlQ87BNF4+B09hwpgErC
-         xC6c9lEKdgs1lmPg8odgm9MBuaZkKrzqiWCfOaRSm4KdaIbCbgGYOR2sei7Z2N4I61kb
-         utiaBdInpHV2yWT5TbCJFDXBIBxXQMyo1rwxyx2FEA1Vtjf+goShArthtqRhiQzbiPwp
-         joAx41ptpt2yCXCdcyRaA5z0cG6pY0YdX6cSbDDgCKtkoI5ubmJZs+C+HkX4+bBwY6wB
-         TGNpLGMV2ahyFK6KEG3h/80M8u8N+PYS1MsnaGSgXyf8BIdihyV7x6XCsVYRTGpdbxOz
-         I4Rg==
-X-Forwarded-Encrypted: i=1; AJvYcCUavmUhWv09vageuLfxkBkz9XChvnpwsoe1jItiYK5r2OqFSHPxshm6saDpX5IFdUQqut8QDgFqXbI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKn0tCdtrCEdbxxlp01vUHNzRDnjHsMn35SDCvwzkwZepKAen9
-	Wz8VGlEKt1NugTpFH4qI/rmGfBuRj1t5mRVljsdMGr8lLCdCZEnqQdY2q8YEFTkbW+FvA5PU060
-	dDHLl9gCCVpPH1ITu3vV1XR94SQ==
-X-Google-Smtp-Source: AGHT+IH6fb4UumzYsfcjXdyetsttD/1JFDYI7F758xyq6M3c7XHveoyP9rAiScoRQhR1KR8axHNUmY6AiGo2XvKjTQ==
-X-Received: from oaeh14.prod.google.com ([2002:a05:6870:170e:b0:3f5:b0db:411a])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:1814:b0:450:d504:9295 with SMTP id 5614622812f47-455ac957f68mr1619808b6e.44.1765572879590;
- Fri, 12 Dec 2025 12:54:39 -0800 (PST)
-Date: Fri, 12 Dec 2025 20:54:38 +0000
-In-Reply-To: <aTiRG0I1FZzntHtH@kernel.org> (message from Oliver Upton on Tue,
- 9 Dec 2025 13:14:03 -0800)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XxyI3fbt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DC7AC2BC87
+	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 21:00:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765573213;
+	bh=vNs65okWEnxU+wL46GhNte8Vv/UWHYq06Ri/4oUlbuk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XxyI3fbtN/NkwJMaGa4OEaGQuCg9RCbaNpO6VV02+NmTYeo73/FYqBbhJVeo33xVC
+	 LdLHLjU+uE4F7byqvIouX4ncADc1fE0yg/bvh44nryT4UFG7btZyhSjtttqNaSaXsw
+	 AVOK8qYenJcQJQ1g5+F6bzTmb8WiYM1Uew9CuKITpY/3kMixSlLhifsnpNcik+VHcc
+	 KOfXa3UaZALJnMaBrIkXAS4a9PoOnDjtsgQ1cw7U05VMTBXrxc9Yo19Xn9L/woNuTD
+	 kaL8urNuziFoxMER4CmbcgRsizPzusFW5B0W6+Zv/De17DUQxzxhYnQmy9uanimYKn
+	 qBR2e5p6ww/Gw==
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b553412a19bso1422866a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 13:00:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV8OHNU3YcCPbqLq3xF3qz9qKeJF1H9nW+JZQlHtbjFLuZAEW0FEJxR6j/ejx6WQOAr7pLDVnmHrjQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMXitEGWs4KYkYEumxDbxkwIDsnnxKgA7IrOrekgABklh6Ipqy
+	O3FZbEQv4yzGmlriWvYau+c4PQBBEBj3n7WZtKufyPo8dNtFLXMFk5cjX4QYTAGfYD8zeQlbyl1
+	H7cTdH83kIDRtF+YBi1z58Dhe76QdWR0=
+X-Google-Smtp-Source: AGHT+IE4bBRkMr0vNkzoNdrUnNSRAplxnSxqty6fiuQXeF+HUFTDcZKhS2ZCttOuhpHhQzd/umWhLPYmdNJpoMak7xI=
+X-Received: by 2002:a05:693c:40d0:b0:2ac:2480:f0ac with SMTP id
+ 5a478bee46e88-2ac300f6569mr2110073eec.23.1765573212764; Fri, 12 Dec 2025
+ 13:00:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsntv7ib2zg1.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v5 12/24] KVM: arm64: Use physical PMSELR for PMXEVTYPER
- if partitioned
-From: Colton Lewis <coltonlewis@google.com>
-To: Oliver Upton <oupton@kernel.org>
-Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
-	maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+References: <20251211021257.1208712-1-bboscaccy@linux.microsoft.com> <20251211021257.1208712-9-bboscaccy@linux.microsoft.com>
+In-Reply-To: <20251211021257.1208712-9-bboscaccy@linux.microsoft.com>
+From: Fan Wu <wufan@kernel.org>
+Date: Fri, 12 Dec 2025 13:00:01 -0800
+X-Gmail-Original-Message-ID: <CAKtyLkHNA_fyyK2WZrpA6o1nOzY6dOt+pfhFjDR-1H9UJOceAw@mail.gmail.com>
+X-Gm-Features: AQt7F2qtbDoeZXSD4QDpL4AcGDvbra1mTwhMdF2l-C3EDOB1HTgkos148Fau3ck
+Message-ID: <CAKtyLkHNA_fyyK2WZrpA6o1nOzY6dOt+pfhFjDR-1H9UJOceAw@mail.gmail.com>
+Subject: Re: [RFC 08/11] security: Hornet LSM
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	"Dr. David Alan Gilbert" <linux@treblig.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	James.Bottomley@hansenpartnership.com, dhowells@redhat.com, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Oliver Upton <oupton@kernel.org> writes:
+On Wed, Dec 10, 2025 at 6:18=E2=80=AFPM Blaise Boscaccy
+<bboscaccy@linux.microsoft.com> wrote:
+>
+> This adds the Hornet Linux Security Module which provides enhanced
+> signature verification and data validation for eBPF programs. This
+> allows users to continue to maintain an invariant that all code
+> running inside of the kernel has actually been signed and verified, by
+> the kernel.
+>
+> This effort builds upon the currently excepted upstream solution. It
+> further hardens it by providing deterministic, in-kernel checking of
+> map hashes to solidify auditing along with preventing TOCTOU attacks
+> against lskel map hashes.
+>
+> Target map hashes are passed in via PKCS#7 signed attributes. Hornet
+> determines the extent which the eBFP program is signed and defers to
+> other LSMs for policy decisions.
+>
+> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+> ---
+...
+> +
+> +int hornet_next_map(void *context, size_t hdrlen,
+> +                    unsigned char tag,
+> +                    const void *value, size_t vlen)
+> +{
+> +       struct hornet_parse_context *ctx =3D (struct hornet_parse_context=
+ *)value;
 
-> On Tue, Dec 09, 2025 at 08:51:09PM +0000, Colton Lewis wrote:
->> Because PMXEVTYPER is trapped and PMSELR is not, it is not appropriate
->> to use the virtual PMSELR register when it could be outdated and lead
->> to an invalid write. Use the physical register when partitioned.
+I think you wanted to cast context instead?
 
->> Signed-off-by: Colton Lewis <coltonlewis@google.com>
->> ---
->>   arch/arm64/include/asm/arm_pmuv3.h | 7 ++++++-
->>   arch/arm64/kvm/sys_regs.c          | 9 +++++++--
->>   2 files changed, 13 insertions(+), 3 deletions(-)
+> +
+> +       ctx->hash_count++;
+> +       return 0;
+> +}
+> +
+> +
+> +int hornet_map_index(void *context, size_t hdrlen,
+> +                    unsigned char tag,
+> +                    const void *value, size_t vlen)
+> +{
+> +       struct hornet_parse_context *ctx =3D (struct hornet_parse_context=
+ *)value;
 
->> diff --git a/arch/arm64/include/asm/arm_pmuv3.h  
->> b/arch/arm64/include/asm/arm_pmuv3.h
->> index 27c4d6d47da31..60600f04b5902 100644
->> --- a/arch/arm64/include/asm/arm_pmuv3.h
->> +++ b/arch/arm64/include/asm/arm_pmuv3.h
->> @@ -70,11 +70,16 @@ static inline u64 read_pmcr(void)
->>   	return read_sysreg(pmcr_el0);
->>   }
+Same above.
 
->> -static inline void write_pmselr(u32 val)
->> +static inline void write_pmselr(u64 val)
->>   {
->>   	write_sysreg(val, pmselr_el0);
->>   }
+> +
+> +       ctx->hashes[ctx->hash_count] =3D *(int *)value;
+> +       return 0;
+> +}
+> +
+> +int hornet_map_hash(void *context, size_t hdrlen,
+> +                   unsigned char tag,
+> +                   const void *value, size_t vlen)
+> +
+> +{
+> +       struct hornet_parse_context *ctx =3D (struct hornet_parse_context=
+ *)value;
 
->> +static inline u64 read_pmselr(void)
->> +{
->> +	return read_sysreg(pmselr_el0);
->> +}
->> +
->>   static inline void write_pmccntr(u64 val)
->>   {
->>   	write_sysreg(val, pmccntr_el0);
->> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
->> index 0c9596325519b..2e6d907fa8af2 100644
->> --- a/arch/arm64/kvm/sys_regs.c
->> +++ b/arch/arm64/kvm/sys_regs.c
->> @@ -1199,14 +1199,19 @@ static bool writethrough_pmevtyper(struct  
->> kvm_vcpu *vcpu, struct sys_reg_params
->>   static bool access_pmu_evtyper(struct kvm_vcpu *vcpu, struct  
->> sys_reg_params *p,
->>   			       const struct sys_reg_desc *r)
->>   {
->> -	u64 idx, reg;
->> +	u64 idx, reg, pmselr;
+Same above.
 
->>   	if (pmu_access_el0_disabled(vcpu))
->>   		return false;
+-Fan
 
->>   	if (r->CRn == 9 && r->CRm == 13 && r->Op2 == 1) {
->>   		/* PMXEVTYPER_EL0 */
->> -		idx = SYS_FIELD_GET(PMSELR_EL0, SEL, __vcpu_sys_reg(vcpu,  
->> PMSELR_EL0));
->> +		if (kvm_vcpu_pmu_is_partitioned(vcpu))
->> +			pmselr = read_pmselr();
->> +		else
->> +			pmselr = __vcpu_sys_reg(vcpu, PMSELR_EL0);
-
-> This isn't preemption safe. Nor should the "if (partitioned) do X else do  
-> Y" get
-> open-coded throughout the shop.
-
-Okay. I had not known the register access stuff wasn't. I'll fix that.
-
-
-> I would rather this be handled with a prepatory patch that provides
-> generic PMU register accessors to the rest of KVM (e.g.
-> vcpu_read_pmu_reg() / vcpu_write_pmu_reg()). Internally those helpers
-> can locate the vCPU's PMU registers (emulated, partitioned in-memory,
-> partitioned in-CPU).
-
-That seems like a good idea.
-
-> Thanks,
-> Oliver
+> +
+> +       if (vlen !=3D SHA256_DIGEST_SIZE && vlen !=3D 0)
+> +               return -EINVAL;
+> +
+> +       if (vlen !=3D 0) {
+> +               ctx->skips[ctx->hash_count] =3D false;
+> +               memcpy(&ctx->hashes[ctx->hash_count * SHA256_DIGEST_SIZE]=
+, value, vlen);
+> +       } else
+> +               ctx->skips[ctx->hash_count] =3D true;
+> +
+> +       return 0;
+> +}
+> +
