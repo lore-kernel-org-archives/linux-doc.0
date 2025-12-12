@@ -1,141 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f74.google.com (mail-oo1-f74.google.com [209.85.161.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B8C3128C6
-	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 21:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245442DBF48
+	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 21:06:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765573213; cv=none; b=m7XZr+fo7gMSNPTE+4kC52lKP29US/+dwNwApytN9dNsIvcE4ed6i0fDNT3FJExtqZn9KR7ZJjpvY0U8d3h4DgNdXqppGiupWoXBV98StROx1tPZ1cotjFxjXPVkymAtmVdHbXWBOZQIqoXcHQOixsHa0CaNJbym2nzCDWQnQco=
+	t=1765573617; cv=none; b=uzY44B3u65679rlkbLAvs1syhTZuL4ph9Du2LrA3479CVg2OdN1FslfL/K0e+TY1ObbQTLD/pGIrT2arzXPBJYoAfIzgKj22cJE/yOAieDYRt+Xvx1LLsjCECOsmdQ/kyYMfGB7TGYfuwazcGFfMLfb9A1YPe1CL9M/M6WNYAOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765573213; c=relaxed/simple;
-	bh=vNs65okWEnxU+wL46GhNte8Vv/UWHYq06Ri/4oUlbuk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O72Rf49G0Dm1YYZMnjwezdg3DuVjZuBMCjuYdBE1PlpDaaD7QPN2J2FeI7vcy9lJq5uBiZBtO+wxsxtIB5Z0VCRxaYy68iT545pz+nLu1SzMndnkZ3axUFxNgyo9l0cTZGBLgYtpJwtcddqS+ZJhw2RJAkMZwRvsZV2jaLQPlY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XxyI3fbt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765573617; c=relaxed/simple;
+	bh=j4zmNXaHcAhBlyQ7iWB1i9Dwg1d4I/P9T1rUCk2IZys=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=oigxpBehvCYb8VUzqySkX655ZSYDETbwj+kKVcWzUzVrZwiJE8tD1YgJL5Jipbg97PM0aG8ZmMYlZ0mWH8VFo1mrpWGQiMCs4Ft4XJ0L5STDElLS+VXsWRu2VFEkuPhWRpQZ439pzYNBzD80GF9qWT9JxsrGMgFUf3J4obVHaoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xXZufRKP; arc=none smtp.client-ip=209.85.161.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XxyI3fbt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DC7AC2BC87
-	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 21:00:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765573213;
-	bh=vNs65okWEnxU+wL46GhNte8Vv/UWHYq06Ri/4oUlbuk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=XxyI3fbtN/NkwJMaGa4OEaGQuCg9RCbaNpO6VV02+NmTYeo73/FYqBbhJVeo33xVC
-	 LdLHLjU+uE4F7byqvIouX4ncADc1fE0yg/bvh44nryT4UFG7btZyhSjtttqNaSaXsw
-	 AVOK8qYenJcQJQ1g5+F6bzTmb8WiYM1Uew9CuKITpY/3kMixSlLhifsnpNcik+VHcc
-	 KOfXa3UaZALJnMaBrIkXAS4a9PoOnDjtsgQ1cw7U05VMTBXrxc9Yo19Xn9L/woNuTD
-	 kaL8urNuziFoxMER4CmbcgRsizPzusFW5B0W6+Zv/De17DUQxzxhYnQmy9uanimYKn
-	 qBR2e5p6ww/Gw==
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b553412a19bso1422866a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 13:00:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV8OHNU3YcCPbqLq3xF3qz9qKeJF1H9nW+JZQlHtbjFLuZAEW0FEJxR6j/ejx6WQOAr7pLDVnmHrjQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMXitEGWs4KYkYEumxDbxkwIDsnnxKgA7IrOrekgABklh6Ipqy
-	O3FZbEQv4yzGmlriWvYau+c4PQBBEBj3n7WZtKufyPo8dNtFLXMFk5cjX4QYTAGfYD8zeQlbyl1
-	H7cTdH83kIDRtF+YBi1z58Dhe76QdWR0=
-X-Google-Smtp-Source: AGHT+IE4bBRkMr0vNkzoNdrUnNSRAplxnSxqty6fiuQXeF+HUFTDcZKhS2ZCttOuhpHhQzd/umWhLPYmdNJpoMak7xI=
-X-Received: by 2002:a05:693c:40d0:b0:2ac:2480:f0ac with SMTP id
- 5a478bee46e88-2ac300f6569mr2110073eec.23.1765573212764; Fri, 12 Dec 2025
- 13:00:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xXZufRKP"
+Received: by mail-oo1-f74.google.com with SMTP id 006d021491bc7-656c35cd5b4so1273231eaf.0
+        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 13:06:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765573614; x=1766178414; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=NvEO8IWge7rjEvmTvBLfyyCkg8YrPNESaGlmNB9KmuA=;
+        b=xXZufRKPOQzTfWsec9kSDdM68oqhKd2xDq60GuwK3/inDt1V9S2RICZNs9jdGhwtxK
+         sQorhvr6euqALbpaIyr9na0o4UPHp9tJhT2ORaJAWXT90TEBOkYfcRFBrwMQZJbbISWu
+         IkU+lAZ4DNUNpthQbuVm/YKsvUvjCDtkQjyhGA5LOs6ccDdKFYZESyqhKpYwDDkfsoI8
+         Ix/+ldNwisX+5tv3FVXll/u1ZMq94E+xJtLie/zehhsf3/31+h4vWL8IRmxLPtLDhgXG
+         JJy6EDBLEEFtJfhtoxjq8eIxZFWXLJzrDAJ0ffFIqdOWTMAJ1lLWpLH2A5K9Qy/SuCN0
+         gg5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765573614; x=1766178414;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NvEO8IWge7rjEvmTvBLfyyCkg8YrPNESaGlmNB9KmuA=;
+        b=EqJkVnJOVQ/NrltPUHhFRr3/nx8RBiJknq1QhjesmjpsqSMGaS6FLWpBWL2fkUfaGj
+         RWDH6fN+pK5lETYdLyPRlawfqzvHKRFJD+JXu1fGRZbw7krzhLtTCSjopLt2CU06lVh9
+         WBsOA2I318SMS0fzBboFPhr07FefSh8NH8BX2a743DihuB6iChx4z3o/hIexhPyUhkwe
+         i2RQS9z99r7zVR9wqxC3sanUVX7fj2CmvWKVZipOxN8K/UDlkn7aO6Ch8kHHrqWs6gZJ
+         7lh0ZM9iOW961Lmds1qdW5o49amd2HwckyP0XzkDmwkM+a6LS9BvYgVnqsgeHpD/PW++
+         JTpg==
+X-Forwarded-Encrypted: i=1; AJvYcCXIwshIuBEHW6E1rlQI/ypVISAOEucpx9KC+7S/XQ0GpB41QMZa2SARZxg4NA7NcYfyQNsvHH4gKFM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywz5pFk+XuXO1fcdOcNpXZg26i2KDtSHK/IErS+nEXIb4rDDKg1
+	kK5dkI5TNIHXymdftqNxGsUAS6ZQZcjubhGs+uUiUMyooPHjH2pPP23pQPtaCaLDkWxaE7diAyv
+	/TL7imLYhhSFQLUlMxfwoeP7xUg==
+X-Google-Smtp-Source: AGHT+IGLtIUbFameZTVObRWcG+lq04RJyrGiyVy+qxibJohcLHDXgLx6kR5HPWzG4MF6bmkp/GMqRXiYMN5HlbpHeg==
+X-Received: from ilbcb7.prod.google.com ([2002:a05:6e02:3187:b0:430:c30d:ac37])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6820:1899:b0:659:9a49:8dde with SMTP id 006d021491bc7-65b45172277mr1612721eaf.32.1765573614348;
+ Fri, 12 Dec 2025 13:06:54 -0800 (PST)
+Date: Fri, 12 Dec 2025 21:06:53 +0000
+In-Reply-To: <aTiSTODjzaLzwAPN@kernel.org> (message from Oliver Upton on Tue,
+ 9 Dec 2025 13:19:08 -0800)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251211021257.1208712-1-bboscaccy@linux.microsoft.com> <20251211021257.1208712-9-bboscaccy@linux.microsoft.com>
-In-Reply-To: <20251211021257.1208712-9-bboscaccy@linux.microsoft.com>
-From: Fan Wu <wufan@kernel.org>
-Date: Fri, 12 Dec 2025 13:00:01 -0800
-X-Gmail-Original-Message-ID: <CAKtyLkHNA_fyyK2WZrpA6o1nOzY6dOt+pfhFjDR-1H9UJOceAw@mail.gmail.com>
-X-Gm-Features: AQt7F2qtbDoeZXSD4QDpL4AcGDvbra1mTwhMdF2l-C3EDOB1HTgkos148Fau3ck
-Message-ID: <CAKtyLkHNA_fyyK2WZrpA6o1nOzY6dOt+pfhFjDR-1H9UJOceAw@mail.gmail.com>
-Subject: Re: [RFC 08/11] security: Hornet LSM
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	"Dr. David Alan Gilbert" <linux@treblig.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	James.Bottomley@hansenpartnership.com, dhowells@redhat.com, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Message-ID: <gsntsedf2yvm.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH v5 13/24] KVM: arm64: Writethrough trapped PMOVS register
+From: Colton Lewis <coltonlewis@google.com>
+To: Oliver Upton <oupton@kernel.org>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
+	maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-On Wed, Dec 10, 2025 at 6:18=E2=80=AFPM Blaise Boscaccy
-<bboscaccy@linux.microsoft.com> wrote:
->
-> This adds the Hornet Linux Security Module which provides enhanced
-> signature verification and data validation for eBPF programs. This
-> allows users to continue to maintain an invariant that all code
-> running inside of the kernel has actually been signed and verified, by
-> the kernel.
->
-> This effort builds upon the currently excepted upstream solution. It
-> further hardens it by providing deterministic, in-kernel checking of
-> map hashes to solidify auditing along with preventing TOCTOU attacks
-> against lskel map hashes.
->
-> Target map hashes are passed in via PKCS#7 signed attributes. Hornet
-> determines the extent which the eBFP program is signed and defers to
-> other LSMs for policy decisions.
->
-> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-> ---
-...
-> +
-> +int hornet_next_map(void *context, size_t hdrlen,
-> +                    unsigned char tag,
-> +                    const void *value, size_t vlen)
-> +{
-> +       struct hornet_parse_context *ctx =3D (struct hornet_parse_context=
- *)value;
+Oliver Upton <oupton@kernel.org> writes:
 
-I think you wanted to cast context instead?
+> On Tue, Dec 09, 2025 at 08:51:10PM +0000, Colton Lewis wrote:
+>> Because PMOVS remains trapped, it needs to be written through when
+>> partitioned to affect PMU hardware when expected.
 
-> +
-> +       ctx->hash_count++;
-> +       return 0;
-> +}
-> +
-> +
-> +int hornet_map_index(void *context, size_t hdrlen,
-> +                    unsigned char tag,
-> +                    const void *value, size_t vlen)
-> +{
-> +       struct hornet_parse_context *ctx =3D (struct hornet_parse_context=
- *)value;
+>> Signed-off-by: Colton Lewis <coltonlewis@google.com>
+>> ---
+>>   arch/arm64/include/asm/arm_pmuv3.h | 10 ++++++++++
+>>   arch/arm64/kvm/sys_regs.c          | 17 ++++++++++++++++-
+>>   2 files changed, 26 insertions(+), 1 deletion(-)
 
-Same above.
+>> diff --git a/arch/arm64/include/asm/arm_pmuv3.h  
+>> b/arch/arm64/include/asm/arm_pmuv3.h
+>> index 60600f04b5902..3e25c0313263c 100644
+>> --- a/arch/arm64/include/asm/arm_pmuv3.h
+>> +++ b/arch/arm64/include/asm/arm_pmuv3.h
+>> @@ -140,6 +140,16 @@ static inline u64 read_pmicfiltr(void)
+>>   	return read_sysreg_s(SYS_PMICFILTR_EL0);
+>>   }
 
-> +
-> +       ctx->hashes[ctx->hash_count] =3D *(int *)value;
-> +       return 0;
-> +}
-> +
-> +int hornet_map_hash(void *context, size_t hdrlen,
-> +                   unsigned char tag,
-> +                   const void *value, size_t vlen)
-> +
-> +{
-> +       struct hornet_parse_context *ctx =3D (struct hornet_parse_context=
- *)value;
+>> +static inline void write_pmovsset(u64 val)
+>> +{
+>> +	write_sysreg(val, pmovsset_el0);
+>> +}
+>> +
+>> +static inline u64 read_pmovsset(void)
+>> +{
+>> +	return read_sysreg(pmovsset_el0);
+>> +}
+>> +
+>>   static inline void write_pmovsclr(u64 val)
+>>   {
+>>   	write_sysreg(val, pmovsclr_el0);
+>> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+>> index 2e6d907fa8af2..bee892db9ca8b 100644
+>> --- a/arch/arm64/kvm/sys_regs.c
+>> +++ b/arch/arm64/kvm/sys_regs.c
+>> @@ -1307,6 +1307,19 @@ static bool access_pminten(struct kvm_vcpu *vcpu,  
+>> struct sys_reg_params *p,
+>>   	return true;
+>>   }
 
-Same above.
+>> +static void writethrough_pmovs(struct kvm_vcpu *vcpu, struct  
+>> sys_reg_params *p, bool set)
+>> +{
+>> +	u64 mask = kvm_pmu_accessible_counter_mask(vcpu);
+>> +
+>> +	if (set) {
+>> +		__vcpu_rmw_sys_reg(vcpu, PMOVSSET_EL0, |=, (p->regval & mask));
+>> +		write_pmovsset(p->regval & mask);
+>> +	} else {
+>> +		__vcpu_rmw_sys_reg(vcpu, PMOVSSET_EL0, &=, ~(p->regval & mask));
+>> +		write_pmovsclr(p->regval & mask);
+>> +	}
 
--Fan
+> There's only ever a single canonical guest view of a register. Either it  
+> has
+> been loaded onto the CPU or it is in memory, writing the value to two
+> different locations is odd. What guarantees the guest context is on the
+> CPU currently? And what about preemption?
 
-> +
-> +       if (vlen !=3D SHA256_DIGEST_SIZE && vlen !=3D 0)
-> +               return -EINVAL;
-> +
-> +       if (vlen !=3D 0) {
-> +               ctx->skips[ctx->hash_count] =3D false;
-> +               memcpy(&ctx->hashes[ctx->hash_count * SHA256_DIGEST_SIZE]=
-, value, vlen);
-> +       } else
-> +               ctx->skips[ctx->hash_count] =3D true;
-> +
-> +       return 0;
-> +}
-> +
+My thinking here was pmovs is trapped so the "canonical" view is in
+memory, but the guest still expects it to have an effect immediately.
+
+Otherwise we would have to wait until the next load before the value
+makes it to hardware. Are you okay with that latency? I'm not sure
+how well that's going to work. Consider PMEVTYPER as an example. If I
+don't write it to hardware immediately, a guest may expect a counter to
+start counting as soon as it is written, but if it's only in memory the
+counter won't start until the next load.
+
+Echoing discussion on the previous patch, I wasn't aware preemption was
+possible while servicing these register writes. I'll figure out how to
+account for that.
