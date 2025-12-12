@@ -1,186 +1,171 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20844238C3B
-	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 17:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780D13090C2
+	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 18:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765560668; cv=none; b=ZVoM1PxR5E07Vufo6sXfBBI+mBK/XHj6Vw1tUNNLr2o/kaWoK5VDdRr5cqirmdfe7/OjLgM2E0ydSSnOHR6+xA1pCzZ51CgvFE/NoompP1LcIo6bdnvABsargFBHU6wwTCpkydF++Dlwksti4vQLgKtEtakXns+lgZM2ZiM74Zo=
+	t=1765564403; cv=none; b=NQGdD2n/BlZOweyp4GlOK5GHU2kzKZY44dsE9QX1RsCKfYmksbUkr4fYnhcdwOB51q6im10QLWx5Yij7QFWtcXPSuL7TxEJFfEI1CxnIISpOU9YBNLNocA+NOxLmhDM5pWy3WZmQTJPSNtmoqTBGCMxyRT/SW4ejArmMRmC2H1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765560668; c=relaxed/simple;
-	bh=hKit+/0T5gZExjaMYxLiuooY89XVDrrPzVdV8YJ8W1M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IhCUABgnH8RgkMeIcWfDIiuvMgUOgOpUaZLC7iPGUQBSt8GkYkJzSnD/NxoHmwwbgvZ0v9/yFbMjc/QSDiyUE/TVcf69Mg0vBt1dRKBsy2e5L+KJGznBsyGG0cJ0gLG5KNSG1PMBELoeuKYaF7VASMFGxPSrrDAKQ+5jVLMff8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SKVU0PHs; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765564403; c=relaxed/simple;
+	bh=v8LGo5rep+oNiHljlHrcb1/qPP3q5ouQwFXofTc8V8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZL71uPss7tTGOJDHAmCymjXqbiSwM3ZmyA0OA0/lIPa5ZOLwdGd6e48SR5u3ZtJbu6HoJAOl99dMoR6GX1VmVplLfq8xd6qBDnqEXXT0gDof6yREAbtyrfrYoAMOAmkDa5mfI8aWck0rPgopf5QIHUFWlXlp+iOGHBUdaLw8/uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=FSKlyM7e; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SKVU0PHs"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-297e264528aso15970585ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 09:31:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="FSKlyM7e"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-299d40b0845so22098755ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 10:33:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765560666; x=1766165466; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=bfaOhU/eGTckWkAOHZE/zAxVwRnQrMOfr2k/Ftj96Z0=;
-        b=SKVU0PHsQfADOcqUgiulb5BATbOYkeBXrRs5Od7o4t7JJf53cZ4flhkasg/5qIVlSX
-         +3CR29yLMQNmsRKJ8VpdIeI9ZBfjVl7W/4xbRnyy4gogIUEJfSLa5dxcUJGkiK4YNTZP
-         /O/RUIL8tuMYQfb5Wkstp0bZddUo9wGAcMQ7ZIxZ98Xx6t3OzUEydBZ6bPL6LvW9fvq/
-         R4MhxZ/ZxNL3J7hxNw3F5O5X9aZY5viBcA6ySqOkVdvVIq03fR1pL2jIOhTWXT/MI1CG
-         KNRCtF5dbFzoz6ipO8D8w4Fq0DTqLRDhDRLlwlZP/vn0laEB1I8DQyBfyIaPu1KUKg5h
-         u3FQ==
+        d=rivosinc.com; s=google; t=1765564401; x=1766169201; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eUSGmEJqTzYByGnUlGU1GkRTgZG6xNYZQ+XlXEoFmO0=;
+        b=FSKlyM7eSovvmr5cj3Hu93OFhDLQSJZWqkQ3xqj/yrR8BnMb4QZW8ArYGL+QIEeDLa
+         meBncfDWtcrvqRkgIYrSzSAnW4JcmFxZnuuCZuysf2HN5I63zIFyy5mUQGIPsJ7qOcjM
+         5Oi1AFHY8QS+1yGNUzFcR1k0oXNA1hjSu3RbCdG6d0XHg1Z7LYCWmB+fCWDA10KVMyzF
+         JvTS5XbYQZ8qdZEu4mQqoo6mBGvuKZ/M6eWiCRd8h5xG/mDVZMyvJ+wRF1LAkmnqq3xI
+         GCoFNKwjXxXdqUgutKTzFoBpsK3oDgdyriyYdIa2dTmqMucgVcvy2qeySSy/xL2EsNJ4
+         kGKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765560666; x=1766165466;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1765564401; x=1766169201;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bfaOhU/eGTckWkAOHZE/zAxVwRnQrMOfr2k/Ftj96Z0=;
-        b=B9RWTFweSQoxsm3EwkVGO1E6GJ8FoF4G06ZFbSg71OVVElMS/6hU8761vVbjJya+Bk
-         IpoBUNT87j//RMbuyGiQOIWVpDzpAmzC6YIqf4P9pCYHy0k+9FpXVOkdf1ZoXYlO6bsY
-         mO5MuMADtIxqGoda5Vrm4DL4OXpGu8BAROzD7HvM2UceThks06dhlpLOffuEX2kC456k
-         vxHUI+z8JPSmmC0K92N3ZM8bq00EUE/dF7sDMhz25Y/gXEMww6CAZb9fSBISJL/ZOPHf
-         hF1YGKvwZgFbJLco450uzhsYYpYKrNs10vsSkg7IRXRvHDgnB1R++De70MXW4w5Mg3FF
-         dwbg==
-X-Forwarded-Encrypted: i=1; AJvYcCUquiSUks4KJl5EjrBr/7YkrhA/tX2nXSjrMKehocPp/SFl3GfuOZ0JLLPPceIvJZDJ+bLn1QRLs9I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEee/4LjYC0bR3tVR82UcOu+QA1Jw6OpMHekVB6ZaNLfsE2L7+
-	PEAQxJXJ0DnXRO2KpOFp4KyWXNngYH8Ry6j9V708sNzEMOGTzXlbnJr+
-X-Gm-Gg: AY/fxX4WovULhwXbVbHH9ENinWX0ms+QokJUcWiXUn8HPZTDS4tscbuLjEcvDjq7Sno
-	dpRhLpSet0P+TRqZkNIlSxPT/7kErZxQTq1kU5nDvsE94MjGaq4rbS6dxeg892QEoQIh4WVxviL
-	YDgc+2ATvrYIlrkJFYmIu/VXfjlUlj3AlxPAxDC99R11g0dT6T+5RPhGLO0dPxpC6RwuqGgBhXc
-	IP4Z0laytn7SNdHInT4GFCzTuwOIKJh80sHvU+2a52Fzo4kYwCT4xfds214mX7PyEb8Tm3dxjUX
-	4La7MYDjIXTXndE80dmQl2j8pgfKpSiKM/fuMeKVpBRnbAJyFkyDbh+4EtT6ldTjCz9JX4zR/Os
-	oxaralYU1rH5vLlrjTXfP0PudR/yN4TxLiCecCqznV49UeSCbJgTt2Ks+LqifHyAcpj/RLiACie
-	YwG6i7u/RFKCcy+6fWGW5dUPPTz1tvtXHLNoY89S2+c7oP0vAjC70rMm28yzA=
-X-Google-Smtp-Source: AGHT+IERii8VwTDBGjEktZiFxNixZNxDB5hsG1gFWNwNX2BO2DNqBUBrmdpc4/vBEItTmIHvzZXz7w==
-X-Received: by 2002:a17:902:ef02:b0:2a0:8f6f:1a0d with SMTP id d9443c01a7336-2a08f6f1cf3mr256605ad.61.1765560666113;
-        Fri, 12 Dec 2025 09:31:06 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29eea040382sm59851035ad.77.2025.12.12.09.31.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Dec 2025 09:31:05 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <d1765251-7787-4224-b8ad-ad16faf55181@roeck-us.net>
-Date: Fri, 12 Dec 2025 09:31:04 -0800
+        bh=eUSGmEJqTzYByGnUlGU1GkRTgZG6xNYZQ+XlXEoFmO0=;
+        b=KwfpDmbxW70TP1UqMH0VFVvMpgo7UJT0jOLzaJCYgv9Jxbon8I2m/JFtVjf5IBhBLN
+         VepzH27NlvIbVvLXM9I36nl1Vw8ttb4V5D6i2fFFi7XuOXcsbnkI2dJiCzShrq5NDQSy
+         pv/gpufn2nz0+pdittk3nV/Dg4eo9eaEUuD1qnUp5i92dkWv9G/b3KM0bKJ5hMohee9B
+         muT8Mav/Sa6PVkXOaeMK/oHP2zr/QLO+W6M7IMBU5HLTyh2wBnT6dORBJ/QpbHWQXrbB
+         gBCeMeypqgWDuMjHWT0Qsk4b/pq8iP1qRScTpkLtej0sPdyqo4OHyHW+paDzoZuaVUdI
+         4R8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXsKtZPRMPktep8QXwKbAJrJ1isAriPaSQe4KOsulnYy38rjHqU0sm5w3XDtj541cU6/ZePvdEqejU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5XcFuUNJkjJ8MuNmBxS10pjYSeolOEExd/QquKaimMkXKILOr
+	ZMubWM4VIK+UTrS4q39sk6AHZMbmoGdh7EClwDlBo6iE6GsPtUkNlzEOxUN/SvN8sgY=
+X-Gm-Gg: AY/fxX5kaqbdbeyWqemMwJtsrohVi1jbXW/XCZqg1siqjZQ6aWF1B8yrKS+pl8s6X2n
+	TcRbUoteMiI0eB6+cKXmDVpMEyFNw97bglnjdWLyaxse9pFYyEZoWcbatFan3wxW0EmeEnOZ4ol
+	b0GIex2aOPq7Nt4fu1W7h5+yA/tPdXJbNwYIjlSGbnknk/8oRAB4nwCbiOmFbjHjnhRj+XCxNzK
+	0gQDDUL/gvsOaaZzRXqF8xUcXScZVhXqCCuWyHML2CfH8IFf+1kCYkxkiX5LYmr+8zRhXalTx2+
+	Oacp0qbNyFIefgUtYin+Jy6fNGWe7SHiJ4OXHM1OoLIMeIuSHqdTG7UlyhynVy/FzA+0nntD0Iz
+	Ki6H6r4xREGsUlILtaRw/KUvPsUP5THcCaA/Jz/ZqQ9VeFq5PGsZCgoWnPsh44BRg456LsnpG6n
+	UaJZMtLqy07wjykLR6gU98
+X-Google-Smtp-Source: AGHT+IFtnl41QfJeu3IJ/uV+L4EiFBX8zP0ux5EampS/J9pJIP4sBjIMESLAF9z1UPcxbBQKr8xzaw==
+X-Received: by 2002:a17:903:22cc:b0:29f:2456:8cde with SMTP id d9443c01a7336-29f245690bdmr29337135ad.4.1765564400511;
+        Fri, 12 Dec 2025 10:33:20 -0800 (PST)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29eea04b7bdsm59970265ad.85.2025.12.12.10.33.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Dec 2025 10:33:20 -0800 (PST)
+Date: Fri, 12 Dec 2025 10:33:16 -0800
+From: Deepak Gupta <debug@rivosinc.com>
+To: Paul Walmsley <pjw@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com,
+	richard.henderson@linaro.org, jim.shu@sifive.com,
+	Andy Chiu <andybnac@gmail.com>, kito.cheng@sifive.com,
+	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
+	cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
+	Zong Li <zong.li@sifive.com>, David Hildenbrand <david@redhat.com>,
+	Andreas Korb <andreas.korb@aisec.fraunhofer.de>,
+	Valentin Haudiquet <valentin.haudiquet@canonical.com>,
+	Charles Mirabile <cmirabil@redhat.com>
+Subject: Re: [PATCH v26 00/28] riscv control-flow integrity for usermode
+Message-ID: <aTxf7IGlkGLgHgI2@debug.ba.rivosinc.com>
+References: <20251211-v5_user_cfi_series-v26-0-f0f419e81ac0@rivosinc.com>
+ <e052745b-6bf0-c2a3-21b2-5ecd8b04ec70@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
- Controller
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, nuno.sa@analog.com,
- linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>
-References: <20251204-ltc4283-support-v4-0-db0197fd7984@analog.com>
- <20251204-ltc4283-support-v4-2-db0197fd7984@analog.com>
- <144d50f7-398c-4b10-bd21-a6d0c6c7b4c8@roeck-us.net>
- <67209860ae2ff5626b7eaa50f2dd4b496eaa06d3.camel@gmail.com>
- <ee7b7dcf-7756-4ffc-8a2c-e2cf33aac725@roeck-us.net>
- <f530e0c818048bb3ce5c3505a35c1ef99acdf9f1.camel@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <f530e0c818048bb3ce5c3505a35c1ef99acdf9f1.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <e052745b-6bf0-c2a3-21b2-5ecd8b04ec70@kernel.org>
 
-On 12/12/25 08:55, Nuno Sá wrote:
-> On Fri, 2025-12-12 at 08:46 -0800, Guenter Roeck wrote:
->> On 12/12/25 08:34, Nuno Sá wrote:
->>> On Sat, 2025-12-06 at 10:40 -0800, Guenter Roeck wrote:
->>>> On 12/4/25 08:15, Nuno Sá via B4 Relay wrote:
->>>>> From: Nuno Sá <nuno.sa@analog.com>
->>>>>
->>>>> Support the LTC4283 How Swap Controller. The device features programmable
->>>>> current limit with foldback and independently adjustable inrush current to
->>>>> optimize the MOSFET safe operating area (SOA). The SOA timer limits MOSFET
->>>>> temperature rise for reliable protection against overstresses.
->>>>>
->>>>> An I2C interface and onboard ADC allow monitoring of board current,
->>>>> voltage, power, energy, and fault status.
->>>>>
->>>>> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
->>>>
->>>> I finally found the time to write module test code for the driver.
->>>>
->>>
->>> Thanks!
->>>
->>>> Some early feedback:
->>>>
->>>> - The driver must work with non-devicetree systems and without device
->>>>      property support. Select defaults where necessary.
->>>
->>> I'll double check that... But one thing that already comes to mind is rsense? Rsense
->>
->> Yes.
->>
->>> is the main design choice for a thing like this. Not sure we can decide on a meaningful
->>> default for it? I believe we have the same situation for ltc4282.c
->>>
->>
->> Agreed, but that doesn't make it better (and I don't have a unit test for that chip).
->> Default would be your call. I usually go for 1 mOhm.
->>
->> If you have access to it, can you send me a register dump for LTC4282 ?
-> 
-> I'm doing home office these days and I'm not sure I brought that chip with me. If I have
-> it, I'll do it!
-> 
+On Fri, Dec 12, 2025 at 01:30:29AM -0700, Paul Walmsley wrote:
+>On Thu, 11 Dec 2025, Deepak Gupta via B4 Relay wrote:
+>
+>> v26: CONFIG_RISCV_USER_CFI depends on CONFIG_MMU (dependency of shadow stack
+>> on MMU). Used b4 to pick tags, apparantly it messed up some tag picks. Fixing it
+>
+>Deepak: I'm now (at least) the third person to tell you to stop resending
+>this entire series over and over again.
 
-No problem. I'd order an evaluation board, but that costs more than $200 which is a bit
-too high for my liking ;-).
+To be very honest I also feel very bad doing and DOSing the lists. Sorry to you
+and everyone else.
 
-Thanks,
-Guenter
+But I have been sitting on this patch series for last 3-4 merge windows with
+patches being exactly same/similar. So I have been a little more than desperate
+to get it in.
 
+I really haven't had any meaningful feedback on patch series except stalling
+just before each merge window for reasons which really shouldn't stall its
+merge. Sure that's the nature of open source development and it's maintainer's
+call at the end of the day. And I am new to this. I'll improve.
+
+>
+>First, a modified version of the CFI v23 series was ALREADY SITTING IN
+>LINUX-NEXT.  So there's no reason you should be resending the entire
+>series, UNLESS your intention for me is to drop the entire existing series
+>and wait for another merge window.
+>
+>Second: when someone asks you questions about an individual patch, and you
+>want to answer those questions, it's NOT GOOD for you to resend the entire
+>28 series as the response!  You are DDOSing a bunch of lists and E-mail
+>inboxes.  Just answer the question in a single E-mail.  If you want to
+>update a single patch, just send that one patch.
+
+Noted. I wasn't sure about it. I'll explicitly ask next time if you want me to
+send another one.
+
+>
+>If you don't start paying attention to these rules then people are going
+>to start ignoring you -- at best! -- and it's going to give the entire
+>community a bad reputation.
+
+Even before this, this patch series has been ignored largely. I don't know
+how to get attention. All I wanted was either feedback or get it in. And as I
+said I've been desparate to get it in. Also as I said, I'll improve.
+
+>
+>Please acknowledge that you understand this,
+
+ACKed.
+
+>
+>
+>- Paul
