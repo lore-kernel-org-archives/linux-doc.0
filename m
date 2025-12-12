@@ -1,213 +1,157 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012004.outbound.protection.outlook.com [52.101.66.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f202.google.com (mail-oi1-f202.google.com [209.85.167.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0298C1CAA78;
-	Fri, 12 Dec 2025 19:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.4
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765568728; cv=fail; b=PUMODuTEwOLb1wNfrkupDepd+wRXV1yTa3WtfeW1bASsEZgOAf4afsAy68mW4RuKL5dT8Ugio4PLm5ko9tz+OuKlTjJkIPbX8iU/VsapiPIJFpgpyHJGy+kUreVHPX+NnaKEs7jYyJlt7BvMoHfSERvWwYROy9LzDwvP9MbHIt4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765568728; c=relaxed/simple;
-	bh=cGobakO6CsA1ExL18AiFrMqP2HAld54z5WFCDQwfoUs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XdNP5nynlxDcQucaRSyKTehX0AnnpWPB3EodXlBPms9P5wURtSSI0jEt77EKFRHZzvTIyBZLc8dRQMGqY75dFuNv81Q3YWYf8WCzWQ1eiTcVU3AtwbeywJJsOIbewz4517kR7jTlxMM2TSPg+7gLID0ZOl2bd+7RlKSsfnyC8nQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=EJ57OlfQ; arc=fail smtp.client-ip=52.101.66.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318DE30BBA0
+	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 20:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.202
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765571271; cv=none; b=kwgvceEIE9BffLxSQ8ww2kUxSiTYtYAoH+Cd0jB4gVUnXME0ZOPBiCMJEAWAE2p5eFdo+7Pbdav7g1VoYSmUyvPTTa4KuYIp44xNGlOlgQTRLdlPSVGWbTD7Gaie0GEIbAlPp576QuMXLUopEg2HExNLVc70bumMNNANHuuN31s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765571271; c=relaxed/simple;
+	bh=xi7nKKP19jWf1tsN8ro67KKFXkP+49bDKSOt9hT+rz0=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=WHgpgvyBiVB7RjL3/ZKiq9QFT2dFAQN2AbHnaWoKIL/6g5OxKoWd28Qa5W2yFb9PEVFmPwQRJeyAZhVnA6Q/oPH9OmViKvsHc37fUcviaqxqa15VS2PPYNmdPPAdRESaRK+FTzvnaVcNIhf3kuPq2jgpan8bANSqN0NFOJjv4BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vlENiZg0; arc=none smtp.client-ip=209.85.167.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="EJ57OlfQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=twTYO/O8hWSU/qlaM5JqnaCS7oQi95kpJ8BsO1kACC/UfyHZpePh8PDFbYtgdiE761yLG9T3jFb7h3Zj7wkWs0YEemzvQ8UEAfQIE3UX+yoaVNQ+FofDc7BkTchMwELn6lOE/ONsj11w8FOxOaR8ozzA3yjV2rEsSvK+pPEUPJ1EM6o6n/gbaUkrh69rSJ5bFOIYdHHCQpl3r6KHIMZcZA9b+kgIks2L5DN/wnNfSe5rcvDtUL6KjcfrvleQBvhMMY0b8DtYqPqBi6Ph9K2nvJZLuKGLIF83yD2fQeek8+zjHY1NKuT5rdhutwSuT5Rpim2o05VT1cWGMMGBEiOA/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U3Z6Sl1hmnAVNbH8POuWCNQSscOH1M9kbu7yanKFppU=;
- b=J6PWlHr1klyNYh8xfEhHo2DkqQAPsTE7RdXGzPzsBeATqf/UlZiXX3/QBvQ7HAW3rBHCCBw0JYiCFCI/s3psVGnDRbTMqUrX8c5tr6WmNOnfKpPpSYu0fHfQfc7vT1y27Ie9ST7QiZa129ohRWPIwK8dPtDZIP+gJ0n82h4lXHiz6ndRwzrgPVpqw3MqMmOl0qsesqV0MYezG6EyHEF85f3wJdfdEi4nYyZh/WJq8Gj4Z0+rgNj04DxjpR3cVA8mHJJAmVYm/J3ViU5f7oMZKQApOaoZyDXjlPBWBeNJlNtNCnsy+RquqpTG8RnOcfZsU7wLYMxFY3JNyZi3lWmixw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U3Z6Sl1hmnAVNbH8POuWCNQSscOH1M9kbu7yanKFppU=;
- b=EJ57OlfQapUyI4cBECipJI7joYSKkuI05StXh2KYpaQivCa6dwXo36i2a5ngzRwk0BH5iHXX9lI7gH9F23keDjziBQehwIbgWcyCr/9vyuT6bGavD8wwvafAvdTaGuiV1Yc+D0Jox+CbcA1+dAWZo/BtspK9bOOF9azSmFqWCfuivbI9kiv6c8kkY76f0B2jr9b9X0d/mjG5PvBfwNWuD68p4twddtwknVa8A6Eqa9PIw3td+Xe3O4HWgGjw5+Sv/r//AU2PmycAmlLboxteftkeVApWFqM0vQGdzQck17ITyfU3G1rlGpCs5O8r1r+SspZv+c6DlT6wFQ8EiXpSjg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
- by DU0PR04MB9249.eurprd04.prod.outlook.com (2603:10a6:10:350::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Fri, 12 Dec
- 2025 19:45:21 +0000
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::21bf:975e:f24d:1612]) by PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::21bf:975e:f24d:1612%5]) with mapi id 15.20.9412.011; Fri, 12 Dec 2025
- 19:45:21 +0000
-From: Shenwei Wang <shenwei.wang@nxp.com>
-To: Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shenwei Wang <shenwei.wang@nxp.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-imx@nxp.com
-Subject: [PATCH v6 5/5] arm64: dts: imx8ulp: Add rpmsg node under imx_rproc
-Date: Fri, 12 Dec 2025 13:43:41 -0600
-Message-ID: <20251212194341.966387-6-shenwei.wang@nxp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251212194341.966387-1-shenwei.wang@nxp.com>
-References: <20251212194341.966387-1-shenwei.wang@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0045.namprd13.prod.outlook.com
- (2603:10b6:a03:2c2::20) To AS8PR04MB9176.eurprd04.prod.outlook.com
- (2603:10a6:20b:44b::7)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vlENiZg0"
+Received: by mail-oi1-f202.google.com with SMTP id 5614622812f47-4557c1e9e54so2479912b6e.1
+        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 12:27:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765571268; x=1766176068; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fzm/tsqAvW56TDo978ZmdNBfUInnyBjt6fplMac4YIM=;
+        b=vlENiZg0zDQdsEARe6eUZN7+/2n2qlBaaqKLosM9rU5da8OugtAYhEnIaCUskcvDyL
+         fx67tiArY/BZVHN7S7XxdB40gRRHMKINmuQfd8m8CBHuMCmjdquF4KgkYPRsYgMJqp+P
+         AerNUT9L7cUGN+XcWuJczw+nwSVOqe1NPxF5mmuDkpFcx/gMUDPpEQyD4RTaUk0rHpnj
+         xxZnENVMiHhVJOSr4lyEZc2GqNfUvaeyc3arNSyy+jkcEtRTqg7IGHUz4TmcYT4sChD+
+         NR4HmSBDN4/p9j5M4PUG/GiL9VLR7564LrelWsuE3fRVPtoeRKscHILoxsnrCXWrYJH0
+         jGBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765571268; x=1766176068;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fzm/tsqAvW56TDo978ZmdNBfUInnyBjt6fplMac4YIM=;
+        b=oBgmeykXhpHXLKM6nkA5aZ0ldjflr3hTucKlxuXMsUlEsYuBeqVh6cnZEfMnj6lIyd
+         Pb+x3focfl9z3tJkNiSDeX49Ff057KknO/TR7vBirn7T96w+V/SadpVYP+b63ofAatFI
+         2OePWT7NSOvlQgi7HNtCfAlchS0l2qmLFVdiUqL8CohHIge1JR1VLgDHJsMf3EXTtfAO
+         XLeeWeJdFJGgEuHkwnIbJsBHYguSVeiQ7kTPqoqx/kUXoxA9ri1SAoIA8l5e3M0K+51L
+         RL69MPZzgMkGF4KxAvmHqAVRat9b1oJ1yHJJKT+anZ3YAN1J5M78xtdcODYEDfqc4pTo
+         eE0A==
+X-Forwarded-Encrypted: i=1; AJvYcCVuE/TOmCdGFYZ/KzvhV4MitT2PRCzFF0Y/W6/BOJXFTHCO9GdJ6Eo14ZhEkvLIPlSOFiBIfPqa/go=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3BJ4zbYLEitVkRXjd9TP9JuN6rief1O5FD/0+M405/HNQ2qLQ
+	dYhARCtwLm80vJ8frQvtflhAU6u33itUbbn3TQnLkL0bfLkvifLtzfqr1OlAoQu8n2b+eHRWYTi
+	dOuLI9b01qhdtiIdyz1dzmp4mNw==
+X-Google-Smtp-Source: AGHT+IHtS4CSArf4CIQyXaQ3gTcwhHkWk1+dzcc15H4XApucHfZc+0GcjKfr0Sr/upH3+2NzDR6Jy4cUsIgV3mtOEg==
+X-Received: from oiks6-n2.prod.google.com ([2002:a05:6808:a606:20b0:450:c024:a4f7])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6808:4fd0:b0:44d:a0ec:d9a5 with SMTP id 5614622812f47-455ac822609mr1365623b6e.1.1765571268278;
+ Fri, 12 Dec 2025 12:27:48 -0800 (PST)
+Date: Fri, 12 Dec 2025 20:27:47 +0000
+In-Reply-To: <202512110209.GjVZa9ti-lkp@intel.com> (message from kernel test
+ robot on Thu, 11 Dec 2025 02:31:00 +0800)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9185:EE_|DU0PR04MB9249:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a37e9bd-a9b9-4eb3-8189-08de39b6fbe7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|19092799006|376014|366016|7416014|52116014|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?SnQV5HO2wW0qJy7QbYliqoYJlOgQ96DR6GuSZfZ7FG23ypSSQ6IVZyUKEkmE?=
- =?us-ascii?Q?GHLqVX+DdpMYnVpnCctl35lnTRfs3EqHeka32F9LKt6Vi2sEMk8to3YFLx5N?=
- =?us-ascii?Q?GydcZABw9+Xb0rsv06LfI8RuTRXNgkKQqjWfBtUSvvOpCMAJlEHrA4PyCXcr?=
- =?us-ascii?Q?VWsN0zc9NCN8K9xnIj9poc47FrsdFAQOjWLi5nXbGHAWg0zO7Co/99dFKk93?=
- =?us-ascii?Q?1Y6ekXDi3BdvrC90J6L9EMaAEQk+zZwh8ywp8jF+1a6X+/zRMv0OsQ5t3arz?=
- =?us-ascii?Q?gZKHOMF10ZGfJWOMVh8aaDhU2X7/ZMzzO7MuMQRgzCV0+I5ziBIN/Daq8P+w?=
- =?us-ascii?Q?twQZQXPfy73SqRM/7UKgnKchdDUPwslHnvigGV1mKvuLukcjInw3mrei2Exe?=
- =?us-ascii?Q?6TMUIUfKhpKgoEp/zSwgyTGrlwGwwOi9c84Vzhi3FaU7MZwfHyqEf6JpVbxb?=
- =?us-ascii?Q?sqme7ZTXxQUlbsBK9gFaz8WCS/y6wSdByE5d74lTVjMQ1KT9okkIk36UOolD?=
- =?us-ascii?Q?jXru2nLZxg2sBeqodfOsyLiFkqfPzCPF22AAIainmoxuY3ocbkg0qVDKHfSk?=
- =?us-ascii?Q?LRPYEHNxaWPxNNvUG6gLKEWaIbxyJOPCJze+7e7I5SwG+pPbEX4ScoG1nAKf?=
- =?us-ascii?Q?VO1PmyCjaJpCJ8eNLFsSNw/FQvuCtdW1Dhk5/XgGirNto2GdudThNQgo5Jv+?=
- =?us-ascii?Q?KE5w4ggI9oqUm9VVdUp5F4oBe3qgt9FDn8nhkR6yTG/JibB6s6kj6eqmSmx6?=
- =?us-ascii?Q?qKDZgxRW9hIIuasez6uSYWVdq8k/w4WAZzMZht4LDLFLy/hFqLV0HRo6zJj+?=
- =?us-ascii?Q?E3Igq8IhnZx9pDS+RArp++dveihmydy6vtv4MyCa6d6av1cSyLXe60EWyVVL?=
- =?us-ascii?Q?LJYC1GwS6JaTt/5wxZBXFrH9Hyb7zs5Hh44pcLnRxC4076ByNG0MVyUW12/b?=
- =?us-ascii?Q?6UHEWvXiGRB79/TF3bxJ1Au6X/QCzmOW35r96TVmABz+txrTTezOWgIuKtUb?=
- =?us-ascii?Q?p3yO09YKSfO69MyCNYYpDDerxazdfiBX8JgRksz/pqsLYOiyNYERmiEjDb8q?=
- =?us-ascii?Q?DqtXUehcbOgLccmLETKki9o7o/j6RhGeENI0ahp79rGBpVVYVR9MPZLi0XW0?=
- =?us-ascii?Q?2OL1fKkB2XG24gtEo3PrBVX2nvkvGyOJC3zsXUZo/DQpRPh7DlErLHQsapx5?=
- =?us-ascii?Q?x2XHtBxrJpraElB9cpuoduV2aPl6FX2AIRQC+gINdHgN8hM5sPa1CFo4tUBl?=
- =?us-ascii?Q?eOiSojR7OXzW+AJp8TNDz57qnC3GhF4pqnhtJe//MxoX+kPMNU4pWWGeMsHW?=
- =?us-ascii?Q?ZBG+bDhKWodyT+0i9JU2p6u53uq3/HkfFj3m03cws8d5mXz1XxdxUXJAdMDZ?=
- =?us-ascii?Q?IdsZJsGhDvK/yO5hlTJobj7aPKlLe8lxO2833qKxk8mJka5iEBunupAF/w+3?=
- =?us-ascii?Q?UDbnJV+mxCo6JRgyzD48vwzucd4+0FgKj+M52bFrVXFn9aqbcnoYyqLtv/Ud?=
- =?us-ascii?Q?ZDnXn0HBFvLNZztFkBJi79wbOrxMUIPhoP07BIo7xyo6fvUHDpJpnog7wA?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(376014)(366016)(7416014)(52116014)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?2ywprKC8QwDbt2CIVhCW1+WxonihzIF5WcIj11G3g09QjRV9r8MAklfngMtU?=
- =?us-ascii?Q?dCy0NKOyUof5iru389T6rwQ0Rpy7ra6WgYPjH/htYCChhFPA5tDm+LwpJftR?=
- =?us-ascii?Q?b6MnDaV1X7VXHO84JRMGjQRB7l8g9QgZNquP6fFkqcO/aDspBue/bfGtjMhP?=
- =?us-ascii?Q?y6DUReER825pvq+TC6y+yMHbfFdjKR0+LgPQ3rmQiD+3kzFMKAHI1vE2uJLg?=
- =?us-ascii?Q?72qMWDsgz5JuSGQFdG2Y2kpHiiePZIz2EheW2PAy/4u9aBFvnYtrqgxU86vm?=
- =?us-ascii?Q?hKZQI13lo4MQUpIMGTKTiANgfK9RnFWHlEc7vA54qTfR8uqJo++8LdUof66L?=
- =?us-ascii?Q?+54r3GMhotJ90LPF7fj6u+jR98AZsGxN/kROGLKx1JrSfb5PxdjHe/Fu2K8K?=
- =?us-ascii?Q?aWLtNnVKGAL1o70KgUhZnjifGm1M1BJPK/d2EmqGdwPR+2llIGcRZCQuzFPZ?=
- =?us-ascii?Q?47xV7d9c573gOR7SUyfLZdIkpZLQ28LBPE2007FArggxvVuNbaA4X7NVOaVE?=
- =?us-ascii?Q?nInyvHdP4zanoHYmxzP6AB9aP04S57vtOl8lE4mxW84EWyiR/Lh3n8Nrip3Z?=
- =?us-ascii?Q?0snBhhme47vJVAMuPb//g6zfdtGVBfAUsyoGy3IUDsPwH9FnSIpM5pAsLtdV?=
- =?us-ascii?Q?VNgb36JDkr9X/arKLgfwliOhwTV9GKkpNMZZ1GdPLGMQa+3G7zWAEla/wtvi?=
- =?us-ascii?Q?9PdJGcqoo/Vizid9Dmua2mcRuyXUeLAzwmNeFYtOlZ2s3jW2rf/pYaS6KO+b?=
- =?us-ascii?Q?bUiUvJw0chvqczID2shatXgTwwMTCQSlHaPZlxw4gNX0Znq47MtCafkosy7c?=
- =?us-ascii?Q?06NbiFVNT3tE0UwQHi88HHdMrjLTC1ZlUtFNJgBn4dJV2GiUCefBy3pd5uVe?=
- =?us-ascii?Q?dqqR7DRTfVx/405MXW0/Nt3DbURt2XPG3IOwNu8uSJFhnOSfur3G2iE2we4+?=
- =?us-ascii?Q?/7BSC6yAhiZtlfPNrVEsdj/jCv+a3PSnHeeG0TTdFwbDLmDCqSgwjX/dH4zV?=
- =?us-ascii?Q?rPy1+7Ib502iSbV8I5r40jWMakYb0jgIMozhlG6sNgSkeNXt1m89sRi0eFMB?=
- =?us-ascii?Q?DVoVFKnjyZXJRlQBeTTuh0dJeZ+ngpJpEf9IGeBWssBzUTiWJNxKw1EQKP/f?=
- =?us-ascii?Q?UqMm0jWwyz0/EEtsTRC9MV4gU9vGrBfUUXfFvuVTk/HoMcdufyAFLmudLc0Z?=
- =?us-ascii?Q?asxryVu2PPV+5uR7Liqn6PGlDWpRzx9OOe36BqJexp7x3HCPufZNy5sMNlrV?=
- =?us-ascii?Q?FXyI/RUAKOwTIN3gSQppGl273sLxW1jsVyL4+V6lCDuVS08sfk5ykP/+kaM6?=
- =?us-ascii?Q?dut8Y0GhaqtbqwOFIu2Ao0mq8H3ON4Qc+6mlXjvK0nSxWuMaUL31bV0hL5c+?=
- =?us-ascii?Q?MxbNrlzKnDwuiGLULr9W12zJX3SUlCqmBNYb0M8Y0JfOQ+oGHunDrk6G5lcs?=
- =?us-ascii?Q?/QXfFYsAfWjgPPCSG+/T1N8kgMg9+Bdky1dPlULRa3kHwe5vfU1ntgunDGcJ?=
- =?us-ascii?Q?vdki2cfBOjE0yQyhNR0jRHUymhHzcknjwSMunX8Xxwl9yeBt4l24Rij6mxAM?=
- =?us-ascii?Q?UoMzmy+Z9ki/59yBePq0qGQ0J6iSg/lAWxXpObw1?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a37e9bd-a9b9-4eb3-8189-08de39b6fbe7
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9176.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2025 19:45:21.4374
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3DsswrFL81ELzcHF3Mg0Ilk8VoJaHkuVF6h7No3+yjPSedMWIKG0m8DtqC3pTNG3BgQYsm6/Prn+6Ty3Dgjh+Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9249
+Mime-Version: 1.0
+Message-ID: <gsnt4ipv4f98.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH v5 11/24] KVM: arm64: Writethrough trapped PMEVTYPER register
+From: Colton Lewis <coltonlewis@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: kvm@vger.kernel.org, oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com, 
+	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
+	will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	mark.rutland@arm.com, skhan@linuxfoundation.org, 
+	gankulkarni@os.amperecomputing.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-Add the RPMSG bus node along with its GPIO subnodes to the device
-tree.
+kernel test robot <lkp@intel.com> writes:
 
-Enable remote device communication and GPIO control via RPMSG on
-the i.MX platform.
+> Hi Colton,
 
-Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
----
- arch/arm64/boot/dts/freescale/imx8ulp.dtsi | 27 ++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+> kernel test robot noticed the following build errors:
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8ulp.dtsi b/arch/arm64/boot/dts/freescale/imx8ulp.dtsi
-index 13b01f3aa2a4..93846435c6c1 100644
---- a/arch/arm64/boot/dts/freescale/imx8ulp.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8ulp.dtsi
-@@ -191,6 +191,33 @@ scmi_sensor: protocol@15 {
- 	cm33: remoteproc-cm33 {
- 		compatible = "fsl,imx8ulp-cm33";
- 		status = "disabled";
-+
-+		rpmsg {
-+			rpmsg-io-channel {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				rpmsg_gpioa: gpio@0 {
-+					compatible = "rpmsg-gpio";
-+					reg = <0>;
-+					gpio-controller;
-+					#gpio-cells = <2>;
-+					#interrupt-cells = <2>;
-+					interrupt-controller;
-+					interrupt-parent = <&rpmsg_gpioa>;
-+				};
-+
-+				rpmsg_gpiob: gpio@1 {
-+					compatible = "rpmsg-gpio";
-+					reg = <1>;
-+					gpio-controller;
-+					#gpio-cells = <2>;
-+					#interrupt-cells = <2>;
-+					interrupt-controller;
-+					interrupt-parent = <&rpmsg_gpiob>;
-+				};
-+			};
-+		};
- 	};
- 
- 	soc: soc@0 {
--- 
-2.43.0
+> [auto build test ERROR on ac3fd01e4c1efce8f2c054cdeb2ddd2fc0fb150d]
 
+> url:     
+> https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20251210-055309
+> base:   ac3fd01e4c1efce8f2c054cdeb2ddd2fc0fb150d
+> patch link:     
+> https://lore.kernel.org/r/20251209205121.1871534-12-coltonlewis%40google.com
+> patch subject: [PATCH v5 11/24] KVM: arm64: Writethrough trapped  
+> PMEVTYPER register
+> config: arm64-randconfig-001-20251210  
+> (https://download.01.org/0day-ci/archive/20251211/202512110209.GjVZa9ti-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 14.3.0
+> reproduce (this is a W=1 build):  
+> (https://download.01.org/0day-ci/archive/20251211/202512110209.GjVZa9ti-lkp@intel.com/reproduce)
+
+> If you fix the issue in a separate patch/commit (i.e. not just a new  
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes:  
+> https://lore.kernel.org/oe-kbuild-all/202512110209.GjVZa9ti-lkp@intel.com/
+
+> All errors (new ones prefixed by >>):
+
+>     arch/arm64/kvm/sys_regs.c: In function 'writethrough_pmevtyper':
+>>> arch/arm64/kvm/sys_regs.c:1183:34: error: implicit declaration of  
+>>> function 'kvm_pmu_event_mask'; did you mean 'kvm_pmu_evtyper_mask'?  
+>>> [-Wimplicit-function-declaration]
+>      1183 |                 eventsel = val & kvm_pmu_event_mask(vcpu->kvm);
+>           |                                  ^~~~~~~~~~~~~~~~~~
+>           |                                  kvm_pmu_evtyper_mask
+
+
+Caused by missing a stub definition for kvm_pmu_event_mask when
+reorganizing headers in patch 6: Reorganize PMU functions
+
+Fixed
+
+> vim +1183 arch/arm64/kvm/sys_regs.c
+
+>    1168
+>    1169	static bool writethrough_pmevtyper(struct kvm_vcpu *vcpu, struct  
+> sys_reg_params *p,
+>    1170					   u64 reg, u64 idx)
+>    1171	{
+>    1172		u64 eventsel;
+>    1173		u64 val = p->regval;
+>    1174		u64 evtyper_set = ARMV8_PMU_EXCLUDE_EL0 |
+>    1175			ARMV8_PMU_EXCLUDE_EL1;
+>    1176		u64 evtyper_clr = ARMV8_PMU_INCLUDE_EL2;
+>    1177
+>    1178		__vcpu_assign_sys_reg(vcpu, reg, val);
+>    1179
+>    1180		if (idx == ARMV8_PMU_CYCLE_IDX)
+>    1181			eventsel = ARMV8_PMUV3_PERFCTR_CPU_CYCLES;
+>    1182		else
+>> 1183			eventsel = val & kvm_pmu_event_mask(vcpu->kvm);
+>    1184
+>    1185		if (vcpu->kvm->arch.pmu_filter &&
+>    1186		    !test_bit(eventsel, vcpu->kvm->arch.pmu_filter))
+>    1187			val |= evtyper_set;
+>    1188
+>    1189		val &= ~evtyper_clr;
+>    1190
+>    1191		if (idx == ARMV8_PMU_CYCLE_IDX)
+>    1192			write_pmccfiltr(val);
+>    1193		else
+>    1194			write_pmevtypern(idx, val);
+>    1195
+>    1196		return true;
+>    1197	}
+>    1198
+
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
