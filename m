@@ -1,110 +1,114 @@
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D665299952;
-	Fri, 12 Dec 2025 09:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB07C279DCC;
+	Fri, 12 Dec 2025 09:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765531332; cv=none; b=ERj9rAS4Jd8fqjnEbVqCDjwYbOEL4ZtPjumqA//vcUWLwTlSo9b5B0WRQsoaKXBkz8tc7cv5XZyCqT9obUO/eaerVVeA4zbRkq+TXcLdFvJiR8WaDySBSdM+C7OL8pmO2z1MnsK8zUYN2K4JdpbFavp02UqT4gBtvGVFAbbpqtc=
+	t=1765531937; cv=none; b=Y67D0XLuq/EkwhZHG/8jeXErTchIsFku2fYIhBc3sWzmEv6I9V8qg7L95sZlM0sjTFaOI5nqwivZWSRlm5skQURfbllq9BI/6TX3mp4UIvaNppAlVppjmkTpoN7Qd81Hh6mnkZ07xJTyA5Pyy2u2VIUQ2xTJDpW/YTlyZcu1TXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765531332; c=relaxed/simple;
-	bh=04tB4MdBbE3k8czrCSAhdUggbwlMaR9/T03/le8K7gY=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=gMGYrgG+z0omjYDxbfUaLN64AUvVbiDh1tcUfBM6ttFwVR3tUpju8kAGDisIWTQrD4mhaKsITrefCwiTRRIRgyA1RMwTGL2lstvOe6b8SIQhyGwcMiVM0Q/Wg+qfUPFomBlyayrkt7YZp0sbfnAGLiHwEEz9wZVnw49P2jVbu30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=eBZ7zu2o; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1765531937; c=relaxed/simple;
+	bh=f9Da21adZQy/Oskm47YpQxay+GCPm29iHOfp24GOE3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VhoL8J3z/jOh+HursG0/fEz4NFW/PS9h0/WAs0qevj4LAtH/2kwO9jXf53XTtqDfyv2fwlwSss4od2ODT1FpiCOjhS2SoKX4Xh3hQmRhp2muwEGsETGB7JPEg76aMG8+DE8BEn40cfoVfrNf/6xrLRE+NynTJi1g7fLYEFlTrBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DMpgfaqC; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="eBZ7zu2o"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=z4vPaiUk9n/GpIxutnAk0NTSeMO9iODdip7MeYu98yA=;
-	b=eBZ7zu2ox8ryH+r6AugMOCYGdskTgvt4HVyTB0sNWJZuu6AwqpHtUJ674NWi8oVHhZqLLb8Fe
-	9+6XJ13bHSi7juapcNkdSCOlj5bwH+XCJogKs9+MppIMgyb9nZajKcNlh/7ZzT71idEJ7zWb7e1
-	gwacD2hwUuyP493g1H7y+vg=
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4dSP686k3Dzcb0J;
-	Fri, 12 Dec 2025 17:19:12 +0800 (CST)
-Received: from kwepemk200017.china.huawei.com (unknown [7.202.194.83])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3634E180BD0;
-	Fri, 12 Dec 2025 17:21:57 +0800 (CST)
-Received: from [10.174.178.219] (10.174.178.219) by
- kwepemk200017.china.huawei.com (7.202.194.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 12 Dec 2025 17:21:55 +0800
-Subject: Re: [PATCH v4 2/3] KVM: selftests: Test for KVM_EXIT_ARM_SEA
-To: Jiaqi Yan <jiaqiyan@google.com>
-CC: <maz@kernel.org>, <oliver.upton@linux.dev>, <duenwen@google.com>,
-	<rananta@google.com>, <jthoughton@google.com>, <vsethi@nvidia.com>,
-	<jgg@nvidia.com>, <joey.gouly@arm.com>, <suzuki.poulose@arm.com>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <pbonzini@redhat.com>,
-	<corbet@lwn.net>, <shuah@kernel.org>, <kvm@vger.kernel.org>,
-	<kvmarm@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>
-References: <20251013185903.1372553-1-jiaqiyan@google.com>
- <20251013185903.1372553-3-jiaqiyan@google.com>
- <3061f5f8-cef0-b7b1-c4de-f2ceea29af9a@huawei.com>
- <CACw3F51mRXCDz7Hd4Vve98NoskhB2cSc88zAGfd6Hwr4uCBxPA@mail.gmail.com>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <dbcfb853-5853-5967-1bf9-76c6b3839717@huawei.com>
-Date: Fri, 12 Dec 2025 17:21:55 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DMpgfaqC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=7N1yRupjJwsCEjdeUujuXdzSn7k5Mwr4a3y236fW66U=; b=DMpgfaqCYynagwlYCabdmyw/Bp
+	rUrSWkBegZ7jFRY2i5aeyB3mBsMgEJmvOI0UYVuZszBnKfB9R5n85wNsrF+pa+wV09POIzKpx0Plm
+	5ztxDsDOKPs08ziIzR4xEbQLew7usFxnN7+f3OYd+0FRhq3UKr+eIQumIXme//DjvI6A17dnCDjOv
+	UErEQ9Ybt3bC0AD21CkKRgFinT24xXYc+0CoUTjQkZa/8/sybPij8mY6g7IEQZKZbws0SII2upGj5
+	Pm0cIgInYYSL26iTrbPz5JyXnVLmPXf+7T6z44avAqu0UsbtenM0BV7SHv+qf468Pez8BP7yUSJsv
+	h8N4R/2w==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vTyde-0000000GP06-2F8E;
+	Fri, 12 Dec 2025 08:36:34 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 8C24F30041D; Fri, 12 Dec 2025 10:31:49 +0100 (CET)
+Date: Fri, 12 Dec 2025 10:31:49 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Chris Li <sparse@chrisli.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v4 02/35] compiler-context-analysis: Add infrastructure
+ for Context Analysis with Clang
+Message-ID: <20251212093149.GJ3911114@noisy.programming.kicks-ass.net>
+References: <20251120145835.3833031-2-elver@google.com>
+ <20251120145835.3833031-4-elver@google.com>
+ <20251211120441.GG3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNOyDW7-G5Op5nw722ecPEv=Ys5TPbJnVBB1_WGiM2LeWQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CACw3F51mRXCDz7Hd4Vve98NoskhB2cSc88zAGfd6Hwr4uCBxPA@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemk200017.china.huawei.com (7.202.194.83)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOyDW7-G5Op5nw722ecPEv=Ys5TPbJnVBB1_WGiM2LeWQ@mail.gmail.com>
 
-On 2025/12/12 9:53, Jiaqi Yan wrote:
-> On Thu, Dec 11, 2025 at 5:02 AM Zenghui Yu <yuzenghui@huawei.com> wrote:
-> >
-> > I can also hit this ASSERT with:
-> >
-> > Random seed: 0x6b8b4567
-> > # Mapped 0x40000 pages: gva=0x80000000 to gpa=0xff80000000
-> > # Before EINJect: data=0xbaadcafe
-> > # EINJ_GVA=0x81234bad, einj_gpa=0xff81234bad, einj_hva=0xffff41234bad,
-> > einj_hpa=0x2841234bad
-> > # echo 0x10 > /sys/kernel/debug/apei/einj/error_type - done
-> > # echo 0x2 > /sys/kernel/debug/apei/einj/flags - done
-> > # echo 0x2841234bad > /sys/kernel/debug/apei/einj/param1 - done
-> > # echo 0xffffffffffffffff > /sys/kernel/debug/apei/einj/param2 - done
-> > # echo 0x1 > /sys/kernel/debug/apei/einj/notrigger - done
-> > # echo 0x1 > /sys/kernel/debug/apei/einj/error_inject - done
-> > # Memory UER EINJected
-> > # Dump kvm_run info about KVM_EXIT_MMIO
-> > # kvm_run.arm_sea: esr=0xffff90ba0040, flags=0x691000
-> > # kvm_run.arm_sea: gva=0x100000008, gpa=0
-> > ==== Test Assertion Failure ====
-> >   arm64/sea_to_user.c:207: exit_reason == (41)
-> >   pid=38023 tid=38023 errno=4 - Interrupted system call
-> >      1  0x0000000000402d1b: run_vm at sea_to_user.c:207
-> >      2  0x0000000000402467: main at sea_to_user.c:330
-> >      3  0x0000ffff9122b03f: ?? ??:0
-> >      4  0x0000ffff9122b117: ?? ??:0
-> >      5  0x00000000004026ef: _start at ??:?
-> >   Wanted KVM exit reason: 41 (ARM_SEA), got: 6 (MMIO)
-> >
-> > Not sure what's wrong it..
+On Thu, Dec 11, 2025 at 02:12:19PM +0100, Marco Elver wrote:
+
+> What's a better name?
+
+That must be the hardest question in programming; screw this P-vs-NP
+debate :-)
+
+> context_lock_struct -> and call it "context lock" rather than "context
+> guard"; it might work also for things like RCU, PREEMPT, BH, etc. that
+> aren't normal "locks", but could claim they are "context locks".
 > 
-> Does your test machine have SDEI or SCI enabled for host APEI? Do you
-> see any kernel log from "Memory failure:" saying hugetlb page
-> recovered, and recovered significant earlier than the KVM exit here.
-> It maybe the kernel has already unmapped hugepage in response to SDEI
-> or SCI before this test actually consumes memory error, so no SEA is
-> actually triggered.
+> context_handle_struct -> "context handle" ...
 
-No kernel log was printed when I saw this failure.
+Both work for me I suppose, although I think I have a slight preference
+to the former: 'context_lock_struct'.
 
-Thanks,
-Zenghui
+One other possibility is wrapping things like so:
+
+#define define_context_struct(name) ... // the big thing
+
+#define define_lock_struct(name) define_context_struct(name)
+
+
