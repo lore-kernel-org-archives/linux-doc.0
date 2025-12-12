@@ -1,149 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB7831DE3DF;
-	Fri, 12 Dec 2025 02:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E823C465;
+	Fri, 12 Dec 2025 05:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765508173; cv=none; b=CLCfczfei+wb8ouQ2KNU90pNCkbyCrZFEB+XVSDiHp+klDo0r/4lH8HGDj/DiXIV2wEad5pTKjb0BXnmP0szI0oqC8uF1SYMK0bunnOysg+823VkXWAePl6npkkFUR/xaQVJXBsI1bwq1EwIX24PeRxopJCZ9XgwDQ86WwHSXxY=
+	t=1765518802; cv=none; b=ls8Bs8YjOTnJtho1gY+NFjisv4S2hK4tY9xBaECDiZmX7moo0eMkFsL+8fxIbY+wVsIz7DMZx2e0vvrESuoXn+dsNbt/MTU8k97SauT0SA67QHsvrYbrytcZt/yIuz+UfMjXd77g0TCj6qIFhBvAYZy7pM6Sxd6+WtVjMQN0+gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765508173; c=relaxed/simple;
-	bh=kT137sNmfNB8Sc6qW8Hhi0yb56d3CUsss1jHlI43eOw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LfOXfjglV+dzpDkyIhZiKtnRjg/KSu35CCPfI3OQ7XB7LgDGOkRku90KhenVAgkate5c8wsFa1Yrh+Uz7tLgy8Y5WS2yDZtRO9fpOO7fZBmUeKlZULCwMl/jwErIdyGISgHvb2hLwuXRmGC8VhYPjPFyubUt7SZs3936ydSd4Go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DyVPO1em; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1765518802; c=relaxed/simple;
+	bh=hqZiXxUv6smJHZEauESfPalDA9+KANqTpadXMEusfNw=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=UtSESvPkb/iSuX3SpjXZjQYcz5M0VIDGRnSVTJhdoyrs5Bi5tJfutSTpmE0Eixc8gKJ+XepFxKYjQDHI5BQCpqtJasYvaQmOaFN3QgInhQiuuC9pwYnKICIwru0JM+f34FyQLq5I7ynY1OS3eQnlMydMCH/qUQNh2CQLNHU0rZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AyO/BSfw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DyVPO1em"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765508172; x=1797044172;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=kT137sNmfNB8Sc6qW8Hhi0yb56d3CUsss1jHlI43eOw=;
-  b=DyVPO1emGi4fmrjxeq7sjQlvmNvSLk/RbZkaq2ObOdnuQuxt9dGWv1GN
-   NdcUV23XNVx2iD0tQ5wnAWdpEvbdZ/cYlNmXHDcW1tMpjvZSJY3m7kVP1
-   m+mDXoYY4+cgfkIcuhIuT5VsA1FP5YSGh2+Ihfm8Z1B2OBbriOAon7pvI
-   bj66D8BfwptEJffaKW8aI/V1mjvsMPJYhE7BtTzuUTH+X3vnuVFn8YEXA
-   3FTv8gkGXB7lbUzU9KB86U2MIusFTodFBaSM6lugemlkQMbwsW/7N20/2
-   GjIW21R4p0UVUekMVcG/Ygi3qVtWHplqumwcWX8bf3ldyFdzpunTHigBw
-   Q==;
-X-CSE-ConnectionGUID: uAmEAUF6TO6MN0hDqWiLuw==
-X-CSE-MsgGUID: 7ylk1NocRPa8D4eRPQqo9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67546815"
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="67546815"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 18:56:11 -0800
-X-CSE-ConnectionGUID: gI04P57fSR2SYtMNoD/a5w==
-X-CSE-MsgGUID: ut7bpy5cR82ss1Mh0YQ5Ew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="196048871"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 18:56:06 -0800
-Message-ID: <aa14d149-dfde-44e9-8fb3-72cb9b0e6920@linux.intel.com>
-Date: Fri, 12 Dec 2025 10:51:24 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AyO/BSfw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E4EAC4CEF1;
+	Fri, 12 Dec 2025 05:53:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765518802;
+	bh=hqZiXxUv6smJHZEauESfPalDA9+KANqTpadXMEusfNw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=AyO/BSfwTPEnPYiKTNe49XE5ReOcZayLHxn1jhIueisyharCn+IGjtVnILr1TyT4G
+	 nKspnHRVYrODD0i8/slxWhZO45GVoryW8+V/nxlc/cl74nTuJRbLhh3ggNHZOEBuYb
+	 QDmLjiWrVjXjswh87/9uwuRkEI8eFewPySbNTeNTwGLTcMN1WG3UEMMW4dyWT3R8WC
+	 usqvWUjSdiWX6RPs7TcBpBmWUvNqIWTkoQltHM7P5Np0sArdIfW5uDHthsrsmogOdO
+	 hIkW5ifAR2CVWEU0QaSLWbDYhAy2B4dDGsH3opzA5PTXmucpnskg1uCN7anY9zjNbX
+	 o+vLEGqelWAfA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F34E13809A37;
+	Fri, 12 Dec 2025 05:50:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/4] iommu: debug-pagealloc: Check mapped/unmapped
- kernel memory
-To: Mostafa Saleh <smostafa@google.com>, linux-mm@kvack.org,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: corbet@lwn.net, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
- akpm@linux-foundation.org, vbabka@suse.cz, surenb@google.com,
- mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
- david@redhat.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- rppt@kernel.org, xiaqinxin@huawei.com, rdunlap@infradead.org
-References: <20251211125928.3258905-1-smostafa@google.com>
- <20251211125928.3258905-5-smostafa@google.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20251211125928.3258905-5-smostafa@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v26 00/28] riscv control-flow integrity for usermode
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <176551861579.2032148.13920544388182691102.git-patchwork-notify@kernel.org>
+Date: Fri, 12 Dec 2025 05:50:15 +0000
+References: <20251211-v5_user_cfi_series-v26-0-f0f419e81ac0@rivosinc.com>
+In-Reply-To: <20251211-v5_user_cfi_series-v26-0-f0f419e81ac0@rivosinc.com>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ akpm@linux-foundation.org, Liam.Howlett@oracle.com, vbabka@suse.cz,
+ lorenzo.stoakes@oracle.com, paul.walmsley@sifive.com, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, conor@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ arnd@arndb.de, brauner@kernel.org, peterz@infradead.org, oleg@redhat.com,
+ ebiederm@xmission.com, kees@kernel.org, corbet@lwn.net, shuah@kernel.org,
+ jannh@google.com, conor+dt@kernel.org, ojeda@kernel.org,
+ alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+ bjorn3_gh@protonmail.com, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, lossin@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com,
+ andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
+ atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
+ alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org,
+ rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
+ zong.li@sifive.com, david@redhat.com, andreas.korb@aisec.fraunhofer.de,
+ valentin.haudiquet@canonical.com, cmirabil@redhat.com
 
-On 12/11/25 20:59, Mostafa Saleh wrote:
-> Now, as the page_ext holds count of IOMMU mappings, we can use it to
-> assert that any page allocated/freed is indeed not in the IOMMU.
+Hello:
+
+This series was applied to riscv/linux.git (for-next)
+by Paul Walmsley <pjw@kernel.org>:
+
+On Thu, 11 Dec 2025 09:20:33 -0800 you wrote:
+> v26: CONFIG_RISCV_USER_CFI depends on CONFIG_MMU (dependency of shadow stack
+> on MMU). Used b4 to pick tags, apparantly it messed up some tag picks. Fixing it
 > 
-> The sanitizer doesn’t protect against mapping/unmapping during this
-> period. However, that’s less harmful as the page is not used by the
-> kernel.
+> v25: Removal of `riscv_nousercfi` from `cpufeature.c` and instead placing
+> it as extern in `usercfi.h` was leading to build error whene cfi config
+> is not selected. Placed `riscv_nousercfi` outside cfi config ifdef block
+> in `usercfi.h`
 > 
-> Signed-off-by: Mostafa Saleh <smostafa@google.com>
-> ---
->   drivers/iommu/iommu-debug-pagealloc.c | 23 +++++++++++++++++++++++
->   include/linux/iommu-debug-pagealloc.h | 14 ++++++++++++++
->   include/linux/mm.h                    |  5 +++++
->   3 files changed, 42 insertions(+)
+> [...]
 
-[...]
+Here is the summary with links:
+  - [v26,01/28] mm: VM_SHADOW_STACK definition for riscv
+    https://git.kernel.org/riscv/c/e53803e4a8c5
+  - [v26,02/28] dt-bindings: riscv: zicfilp and zicfiss in dt-bindings (extensions.yaml)
+    https://git.kernel.org/riscv/c/d6c9672baa77
+  - [v26,03/28] riscv: zicfiss / zicfilp enumeration
+    (no matching commit)
+  - [v26,04/28] riscv: zicfiss / zicfilp extension csr and bit definitions
+    (no matching commit)
+  - [v26,05/28] riscv: usercfi state for task and save/restore of CSR_SSP on trap entry/exit
+    https://git.kernel.org/riscv/c/2acf75f432dc
+  - [v26,06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ | VM_WRITE
+    https://git.kernel.org/riscv/c/813c549f5b08
+  - [v26,07/28] riscv/mm: manufacture shadow stack pte
+    https://git.kernel.org/riscv/c/d3cea05f52a7
+  - [v26,08/28] riscv/mm: teach pte_mkwrite to manufacture shadow stack PTEs
+    https://git.kernel.org/riscv/c/444404ff99bf
+  - [v26,09/28] riscv/mm: write protect and shadow stack
+    https://git.kernel.org/riscv/c/5da46726825d
+  - [v26,10/28] riscv/mm: Implement map_shadow_stack() syscall
+    (no matching commit)
+  - [v26,11/28] riscv/shstk: If needed allocate a new shadow stack on clone
+    (no matching commit)
+  - [v26,12/28] riscv: Implements arch agnostic shadow stack prctls
+    https://git.kernel.org/riscv/c/46f2da262367
+  - [v26,13/28] prctl: arch-agnostic prctl for indirect branch tracking
+    https://git.kernel.org/riscv/c/5b23a2d70976
+  - [v26,14/28] riscv: Implements arch agnostic indirect branch tracking prctls
+    https://git.kernel.org/riscv/c/2b1bd48147c5
+  - [v26,15/28] riscv/traps: Introduce software check exception and uprobe handling
+    (no matching commit)
+  - [v26,16/28] riscv: signal: abstract header saving for setup_sigcontext
+    (no matching commit)
+  - [v26,17/28] riscv/signal: save and restore of shadow stack for signal
+    (no matching commit)
+  - [v26,18/28] riscv/kernel: update __show_regs to print shadow stack register
+    https://git.kernel.org/riscv/c/35d89b5390a9
+  - [v26,19/28] riscv/ptrace: riscv cfi status and state via ptrace and in core files
+    (no matching commit)
+  - [v26,20/28] riscv/hwprobe: zicfilp / zicfiss enumeration in hwprobe
+    (no matching commit)
+  - [v26,21/28] riscv: kernel command line option to opt out of user cfi
+    (no matching commit)
+  - [v26,22/28] riscv: enable kernel access to shadow stack memory via FWFT sbi call
+    https://git.kernel.org/riscv/c/ef83c58ab12f
+  - [v26,23/28] arch/riscv: compile vdso with landing pad and shadow stack note
+    (no matching commit)
+  - [v26,24/28] arch/riscv: dual vdso creation logic and select vdso based on hw
+    https://git.kernel.org/riscv/c/fbe7823a03f1
+  - [v26,25/28] riscv: create a config for shadow stack and landing pad instr support
+    (no matching commit)
+  - [v26,26/28] riscv: Documentation for landing pad / indirect branch tracking
+    (no matching commit)
+  - [v26,27/28] riscv: Documentation for shadow stack on riscv
+    (no matching commit)
+  - [v26,28/28] kselftest/riscv: kselftest for user mode cfi
+    (no matching commit)
 
-> diff --git a/include/linux/iommu-debug-pagealloc.h b/include/linux/iommu-debug-pagealloc.h
-> index a439d6815ca1..46c3c1f70150 100644
-> --- a/include/linux/iommu-debug-pagealloc.h
-> +++ b/include/linux/iommu-debug-pagealloc.h
-> @@ -13,6 +13,20 @@ DECLARE_STATIC_KEY_FALSE(iommu_debug_initialized);
->   
->   extern struct page_ext_operations page_iommu_debug_ops;
->   
-> +void __iommu_debug_check_unmapped(const struct page *page, int numpages);
-> +
-> +static inline void iommu_debug_check_unmapped(const struct page *page, int numpages)
-> +{
-> +	if (static_branch_unlikely(&iommu_debug_initialized))
-> +		__iommu_debug_check_unmapped(page, numpages);
-> +}
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Same here, possible to make iommu_debug_initialized static?
 
-> +#else
-> +static inline void iommu_debug_check_unmapped(const struct page *page,
-> +					      int numpages)
-> +{
-> +}
-> +
->   #endif /* CONFIG_IOMMU_DEBUG_PAGEALLOC */
->   
->   #endif /* __LINUX_IOMMU_DEBUG_PAGEALLOC_H */
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 7a1819c20643..3763b71a7d3e 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -36,6 +36,7 @@
->   #include <linux/rcuwait.h>
->   #include <linux/bitmap.h>
->   #include <linux/bitops.h>
-> +#include <linux/iommu-debug-pagealloc.h>
->   
->   struct mempolicy;
->   struct anon_vma;
-> @@ -4133,12 +4134,16 @@ extern void __kernel_map_pages(struct page *page, int numpages, int enable);
->   #ifdef CONFIG_DEBUG_PAGEALLOC
->   static inline void debug_pagealloc_map_pages(struct page *page, int numpages)
->   {
-> +	iommu_debug_check_unmapped(page, numpages);
-> +
->   	if (debug_pagealloc_enabled_static())
->   		__kernel_map_pages(page, numpages, 1);
->   }
->   
->   static inline void debug_pagealloc_unmap_pages(struct page *page, int numpages)
->   {
-> +	iommu_debug_check_unmapped(page, numpages);
-> +
->   	if (debug_pagealloc_enabled_static())
->   		__kernel_map_pages(page, numpages, 0);
->   }
-
-Other changes look good to me,
-
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
