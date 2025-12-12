@@ -1,75 +1,74 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFD430F534
-	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 10:38:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A3B30DEB9
+	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 10:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765535912; cv=none; b=IDP0KOHn4velUb2GMwNXSbHd8+RnHd1YRrOPToWMWgoi8AD5WE2ogHBZfAathnvEQBV9vLniSdVNfGbtVVWMqizhBRhtxYhkbV7j655OR11cx7KelhDSjHIv45s+xY7eY2GAeBIFnjH+ZODhHSwskre16vc+gKexWkm7WlpPsD4=
+	t=1765536550; cv=none; b=PeWRBynYRr9mefizgwR48tUcOocBpBt5UZwNXICZwZ3ykN4TC61hgbjPiXnlhnrXMnYuAkw7oONF8AmIWc7iL9ueBUQnHWQS0gQCF1FLvdEF2Kz5wJH0m4Ynd829N6Jaqyt6HoTsm239r3g11p/4wRL3f368N7xBl9n7zLq/SoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765535912; c=relaxed/simple;
-	bh=nctQCqtW4QYyeaejz8PEb38w/v2g7uc6tb41WntjKNI=;
+	s=arc-20240116; t=1765536550; c=relaxed/simple;
+	bh=av9hKN2hbVjrZk+A7S1PV353SLAqNrjc7QnZ5XIVFLo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IMcWALfm/s1SN+cgIuUO63eWE3Q+t8rHCvi15zjWeI15ltJib99TONld/3NhAQcIzrff18TZMLxFfAn5lz4og8fslFHf6MBrbeZP5yuXqMg9AWgVdF24SnB9IIUuBao+Z5daoXgfbG9XUx+fWZ7LrK9/HXuD7Ro3MmYfTLh30CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZWBV45nA; arc=none smtp.client-ip=209.85.216.47
+	 To:Cc:Content-Type; b=Cf9d6QjchQ/EwTf4FT4C9JDHpS2sMXRTyH0uyMqEnfMSTm55dpgT87EeVo3/pVmXXqTlPHCvIN1qu1okPcGBcjwjskgrjEZmapcp9NaDlLtwagITuH60im/ppHj6SRqBPqWVcWPPQufN8NpPqKJyMI7ZLLmNjiabR0VU0BI6pso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=thRUkRx0; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZWBV45nA"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3436a97f092so1577605a91.3
-        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 02:38:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="thRUkRx0"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-bf1b402fa3cso1033860a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 02:49:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765535910; x=1766140710; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1765536548; x=1766141348; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nctQCqtW4QYyeaejz8PEb38w/v2g7uc6tb41WntjKNI=;
-        b=ZWBV45nAwslwXNgSHG024c/Oy1RmaBreP/JPthjPK6Jn3HbrFhY/wFxrZTcGlUl/y1
-         IS6CYLqUB1OtkjBoyRT7ra/01FbS2V1xFEGhQDGLun2iMirwgFf/D/bJ5Y3H6aKsjHJm
-         bxk7aQuwkLRdpQ+JQgvYpMrvbsNQSQ91mBr94ywIb5UfQAUGOo75ot/0ykpD1NCrivgb
-         Fsd/G8OtIM18F+PuPayPs4TkVif9WU0Mn5tXO6rLkdQ9bvpbkl+pVoGuSF9m8Z6obSID
-         +7sWGc4mEzKG3LIAhrR0ynh93NV6ssWdE3dJW6XZLRzv4RvHHFFoIPDwwHs5uHOaPCzu
-         Q9kg==
+        bh=SA48npp6esm0XDSNny8uE3VVilMK0KzCGLSxi6mYbKY=;
+        b=thRUkRx0uXjqWLwLYTxYGwAZyyoDS3T9uB/c4Lz5Qa3InFtQsgHEoLl52TEwSpTLlP
+         uRjzZVhgD0M/asCP3+KcbDWNG7KdhW3NC+KLHM+GW6wJnhpqVD4ggvKDkNMZXnjTX/HR
+         os9eyPjV4jWYDL5KB6YOGe614ciEIhrjEeI2xIpR4UihZuhvrYTjS8Wwu9mb8AFZXQ9v
+         t5GJNx8PYH4Dr6v9xIYzLZLYtzEJLpMdKOpeFbVQc7NzAQ1ep/a3bmczB3HrJqFBuA9r
+         Wz6B8HSizDzGuTzA56W8X40Zdw5ntj/g0B6LheZVQMfcAQVXjB3X3WrxRApQQrYax4Yn
+         FJww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765535910; x=1766140710;
+        d=1e100.net; s=20230601; t=1765536548; x=1766141348;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nctQCqtW4QYyeaejz8PEb38w/v2g7uc6tb41WntjKNI=;
-        b=LRvq4nY2aJcIXWznjbJ6HUltCiQMFamAb23J7nRXDrHPrcHsa2U1Jp90s5y2sH9yRZ
-         4KE8IWMLgSKRZIlzWnS9IU5YsGE2KtvuOkVLjzof5Ww6Ey8WTVjTQyEfaNRCV1VY7Xwl
-         xJ0H6P1NaOMFQZse9w60L4i+7SGQUYm5lr4h9nr54mLCqj1JyD8NvGJ44o9KOkCqkAIF
-         vVoF6FkA9ZffLPW4j5OpP73/wq5Ofxu86hidCKMwfch8ePXSd27DpvVNFufL9vOaNexw
-         NgjjinqoFZVKGvLDwQcEsxiREP3kHLioAEoaJBHptJVFqpy9n4Pp/Hp2+Wa9LoujR7pn
-         bFaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXjCu3ssAwzmP8K101dNEYXOnGaa/ojdkzja0/uxC1oyHqYuhD3tNi9gQEwjVIPBqeAQUzP6YDvNfo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzayiASihHAsJaC2HIy7O/X6x3/8ot6sjUSQifQ5fmWBSZQFJ96
-	9R+FSKf7JsBtFFD57qsUR36cGJpGFU3LLeOGDF+0q+FP+DyY8pPQszcvYzurHUxGAmLbzvXpk+V
-	HFVHbvGbM2qZm6fEyEOyHLIKuwxxPeTDLSnfDcm4h
-X-Gm-Gg: AY/fxX7Tkb2PtA2MAgTNaMU0vjgMJBTfhvJvAJFxyT9P3Dm7SyLatjDKB/vVwvVBUat
-	9eFIciQLqlBwMqR/l542Pf7Yv/LXGEaX6c1kjEbKd+JasEUjAL4Gdr+fp989ISEMNlLDMW5w+3H
-	EyvPoX2O1EyJcCHLPP26YM0H293FxExuJwmPA++//qy5SHhPlMbGyO65kwxuKtdowr6ElSeMinQ
-	AHljezg1TszBXmWBWJev7Mr97KSgDiMxABHs9WHNhyMYXBTOnYDS4tWU+qoJ1auTuxW6GCNarHC
-	9fh1eSPrgFxrlq/oEdGs9kXcS5I=
-X-Google-Smtp-Source: AGHT+IHEQqbAgYefprbsSuiVLt7KDiCECxoW496oPYm+Bj8DbPCCV7ccSZXk9zoE7kqarbEHot35Mb+a9uphNkvnkwk=
-X-Received: by 2002:a05:701b:2719:b0:11d:c86c:652e with SMTP id
- a92af1059eb24-11f34ac540dmr1125346c88.5.1765535910093; Fri, 12 Dec 2025
- 02:38:30 -0800 (PST)
+        bh=SA48npp6esm0XDSNny8uE3VVilMK0KzCGLSxi6mYbKY=;
+        b=YdhEkhrXslZK7kyu3f1G+HkEeTBBrn0iArH+9GAA9T8+XrrwOSDGAmIzHRGWy4nUHI
+         Aq0WARyIvY6x7lHaW2WO9mR420vFSVCiU1ojM6CRZfSr9ubOuk60Bbh5A0ugVMm/9bLn
+         n4ZDK1b+NF0HwAyQCljDXxO9ITir8/NIuJ2yx5FKsmyPeHdbRhawHwdYEG4ivVLjYpeN
+         OTF0ND+4Rdng/wqEF/uA0SAzM5pCvfgLrb+pEOpLNZoeQQoki+MYtmcNFgkk4u+mCkZv
+         FOy7WnoHba2+HfCdc+pNWnGy55r3mdA+aAe8I9hJmLPaLw5Bt6+jwaHMd9f+dja8Aqo0
+         REJw==
+X-Forwarded-Encrypted: i=1; AJvYcCX4XrLLT/qAIkmz/HH/zdKVZHfdbBIs943H+vJfM56QdplPUzftbfc2l+bUvx9ZrsI29yzNdbrrt9M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2+sLVmwTcesXRx7OV4QcP1qvn90hNzqEVqBZ/F+pPDkYYSFDg
+	PFD2DNNTxX3z3moO2DjHd1bl2OwDGV8vRtHcWjgcrc8pDebobA7h/f111qM1cgPK7vpkBqPRqWi
+	cCu09Wzh/jr3/YE5JhPuuXOMCOGas2kdpA2PTMolb
+X-Gm-Gg: AY/fxX7pSrOM2x2r9A1wXKffg09kGfwUrkZup0Z4B0QlXeEBPmmdLUMwRSlAXi51RIJ
+	+xwzQgWt7/VdEvyq71qHQxSp97+z7MNmtR52wjeARr8dvpb3i1QjqQPgedxx/91txLGSyxdT6EN
+	9nJVIxMy8mEpvcLuXdBAwCSnrmN5Buk7u3HWRSKNmZlMyEFzJGPBIUIHWDNsfaJFPjw92E4AENp
+	fc2tb1YIByvNNVkTT9xS1/WZJ58pwcNkw1K8Z1QcIdRPeKs48KEOtOFKkq2QPCiXJORicJ54PGi
+	rHnhF0qCrZqbTQLnJ3NMIHPdOco=
+X-Google-Smtp-Source: AGHT+IEmwt/cYGSRMcLEQwRoz4IOBPZmG6ZdFUXvSQgttHHtD3I/ZoiZY45lTyY+63ShMc7m2jk9oXMIHs1yDaFc4yU=
+X-Received: by 2002:a05:7301:6781:b0:2ac:2e93:29bf with SMTP id
+ 5a478bee46e88-2ac300f946dmr1219192eec.22.1765536547134; Fri, 12 Dec 2025
+ 02:49:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251120145835.3833031-2-elver@google.com> <20251120145835.3833031-4-elver@google.com>
- <20251211120441.GG3911114@noisy.programming.kicks-ass.net>
- <CANpmjNOyDW7-G5Op5nw722ecPEv=Ys5TPbJnVBB1_WGiM2LeWQ@mail.gmail.com> <20251212093149.GJ3911114@noisy.programming.kicks-ass.net>
-In-Reply-To: <20251212093149.GJ3911114@noisy.programming.kicks-ass.net>
+References: <20251120145835.3833031-2-elver@google.com> <20251120151033.3840508-7-elver@google.com>
+ <20251120151033.3840508-8-elver@google.com> <20251211114302.GC3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNObaGarY1_niCkgEXMNm2bLAVwKwQsLVYekE=Ce6y3ehQ@mail.gmail.com> <20251212095943.GM3911114@noisy.programming.kicks-ass.net>
+In-Reply-To: <20251212095943.GM3911114@noisy.programming.kicks-ass.net>
 From: Marco Elver <elver@google.com>
-Date: Fri, 12 Dec 2025 11:37:51 +0100
-X-Gm-Features: AQt7F2qnWyV-H6zf6AeMnZTuFb_nb7UwLLraoghpFqSJ0q6RecRlENqaq0woPuo
-Message-ID: <CANpmjNPcw5AnpLpaFvyRee7mH12Ym-NKTx331xXEusK5zpiscA@mail.gmail.com>
-Subject: Re: [PATCH v4 02/35] compiler-context-analysis: Add infrastructure
- for Context Analysis with Clang
+Date: Fri, 12 Dec 2025 11:48:29 +0100
+X-Gm-Features: AQt7F2qCLUKQusRsTOkfVyHaXl__KgFtQ_SoVZmDpwKuRXcKmzXhASdee3aZVrU
+Message-ID: <CANpmjNMY55ytuWPh15O-tTe5zEQx3AN6LqrvB9NJ6dm6BsPnsA@mail.gmail.com>
+Subject: Re: [PATCH v4 07/35] lockdep: Annotate lockdep assertions for context analysis
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, 
 	Will Deacon <will@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
@@ -96,34 +95,44 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
 	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 12 Dec 2025 at 10:32, Peter Zijlstra <peterz@infradead.org> wrote:
-> On Thu, Dec 11, 2025 at 02:12:19PM +0100, Marco Elver wrote:
+On Fri, 12 Dec 2025 at 10:59, Peter Zijlstra <peterz@infradead.org> wrote:
 >
-> > What's a better name?
+> On Thu, Dec 11, 2025 at 02:24:57PM +0100, Marco Elver wrote:
 >
-> That must be the hardest question in programming; screw this P-vs-NP
-> debate :-)
->
-> > context_lock_struct -> and call it "context lock" rather than "context
-> > guard"; it might work also for things like RCU, PREEMPT, BH, etc. that
-> > aren't normal "locks", but could claim they are "context locks".
+> > > It is *NOT* (as the clang naming suggests) an assertion of holding the
+> > > lock (which is requires_ctx), but rather an annotation that forces the
+> > > ctx to be considered held.
 > >
-> > context_handle_struct -> "context handle" ...
+> > Noted. I'll add some appropriate wording above the
+> > __assumes_ctx_guard() attribute, so this is not lost in the commit
+> > logs.
 >
-> Both work for me I suppose, although I think I have a slight preference
-> to the former: 'context_lock_struct'.
+> On IRC you stated:
 >
-> One other possibility is wrapping things like so:
+> <melver> peterz: 'assume' just forces the compiler to think something is
+>   held, whether or not it is then becomes the programmer's problem. we
+>   need it in 2 places at least: for the runtime assertions (to help
+>   patterns beyond the compiler's static reasoning abilities), and for
+>   initialization (so we can access guarded variables right after
+>   initialization; nobody should hold the lock yet)
 >
-> #define define_context_struct(name) ... // the big thing
+> I'm really not much a fan of that init hack either ;-)
 >
-> #define define_lock_struct(name) define_context_struct(name)
+> Once we get the scope crap working sanely, I would much rather we move
+> to something like:
+>
+>         scoped_guard (spinlock_init, &foo->lock) {
+>                 // init foo fields
+>         }
+>
+> or perhaps:
+>
+>         guard(mutex_init)(&bar->lock);
+>         // init until end of current scope
+>
+> Where this latter form is very similar to the current semantics where
+> mutex_init() will implicitly 'leak' the holding of the lock. But the
+> former gives more control where we need it.
 
-Note that 'context_lock_struct' (assuming that's the new name) can be
-used to just forward declare structs, too, so 'define' in the name is
-probably incorrect. And to avoid more levels of indirection I'd just
-stick with one name; if 'context_lock_struct' isn't too offensive to
-anyone, that'd be the name for the next version.
-
-Thanks,
--- Marco
+I like it. It would also more clearly denote where initialization
+start+ends if not confined to a dedicated function.
