@@ -1,171 +1,151 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780D13090C2
-	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 18:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC88A3090C0
+	for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 18:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765564403; cv=none; b=NQGdD2n/BlZOweyp4GlOK5GHU2kzKZY44dsE9QX1RsCKfYmksbUkr4fYnhcdwOB51q6im10QLWx5Yij7QFWtcXPSuL7TxEJFfEI1CxnIISpOU9YBNLNocA+NOxLmhDM5pWy3WZmQTJPSNtmoqTBGCMxyRT/SW4ejArmMRmC2H1s=
+	t=1765564659; cv=none; b=TRuY6aP93IIjpFZKJXHQTQva76CFRRmw/pF8FBbXlPYyOE4RyZJY/iB8I89B8goLoOWEY2oVL8QiWv1KKPJ5mrcpzUzSZBpb9IO9S5S3P7YEV4weMKbuufOPL7IZANRqBC8wKSwNFGnf9wcpv11Y1LCSP1TddtRfMU2lACokeAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765564403; c=relaxed/simple;
-	bh=v8LGo5rep+oNiHljlHrcb1/qPP3q5ouQwFXofTc8V8E=;
+	s=arc-20240116; t=1765564659; c=relaxed/simple;
+	bh=r2NGHV/deV/Fuwr/+VkjLSQ7t9QFbqVnzpA7KFlk3vQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZL71uPss7tTGOJDHAmCymjXqbiSwM3ZmyA0OA0/lIPa5ZOLwdGd6e48SR5u3ZtJbu6HoJAOl99dMoR6GX1VmVplLfq8xd6qBDnqEXXT0gDof6yREAbtyrfrYoAMOAmkDa5mfI8aWck0rPgopf5QIHUFWlXlp+iOGHBUdaLw8/uU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b=FSKlyM7e; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=kmHHZZ6wqizn+LTAl+79kcKahkq+fJLhVCJlcQ0suyziCE1amLqU16oewys+bFiUsusu9HwmY4d5Jn1yxV8LseffOjxiTEqRo6mHpPHsn7oqqpLeolCPr6JKI7cKJTXhgbB5ADduxTMzA2AVgqF0a4p9SrGOp73aFVOsWbQbEzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=O2beGFR5; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc.com header.i=@rivosinc.com header.b="FSKlyM7e"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-299d40b0845so22098755ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 10:33:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="O2beGFR5"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4779e2ac121so180665e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 10:37:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc.com; s=google; t=1765564401; x=1766169201; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1765564656; x=1766169456; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eUSGmEJqTzYByGnUlGU1GkRTgZG6xNYZQ+XlXEoFmO0=;
-        b=FSKlyM7eSovvmr5cj3Hu93OFhDLQSJZWqkQ3xqj/yrR8BnMb4QZW8ArYGL+QIEeDLa
-         meBncfDWtcrvqRkgIYrSzSAnW4JcmFxZnuuCZuysf2HN5I63zIFyy5mUQGIPsJ7qOcjM
-         5Oi1AFHY8QS+1yGNUzFcR1k0oXNA1hjSu3RbCdG6d0XHg1Z7LYCWmB+fCWDA10KVMyzF
-         JvTS5XbYQZ8qdZEu4mQqoo6mBGvuKZ/M6eWiCRd8h5xG/mDVZMyvJ+wRF1LAkmnqq3xI
-         GCoFNKwjXxXdqUgutKTzFoBpsK3oDgdyriyYdIa2dTmqMucgVcvy2qeySSy/xL2EsNJ4
-         kGKA==
+        bh=pSEL5ePgx5RjiFkm4T13sS/CnpCa9se0VHC4VBAtFtg=;
+        b=O2beGFR5fDOQZetWSWYHySXk8iTgRSB/MgK5+fxXO9+n+oagwDL4ziKOsTDShyNjnZ
+         d84UuTFHG6JjQ8kA5KYuGcjzk4bwCJV9SKUcG8R6qHiJC4H8qe6pycJgfKeHHNMn+1Ft
+         wE9PC/rX9A9U+bldL8XWFB+/wTTRuyDvtjTBCcBDjGsVN/DBjAbw3i0krfLgCDHqyOt1
+         jb/3kuZk4WipGMp/jtbuVhexndCbeiEv90FxWGb305BrQmB2JjgxAGBu4xbjyWYD6npr
+         kND9apcDM8YBDImjGHeHuGkh8NPFGdoIa8jOjJkUem9FgEnpC1x0mvFQmcgD2yjwmSnd
+         BAWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765564401; x=1766169201;
+        d=1e100.net; s=20230601; t=1765564656; x=1766169456;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eUSGmEJqTzYByGnUlGU1GkRTgZG6xNYZQ+XlXEoFmO0=;
-        b=KwfpDmbxW70TP1UqMH0VFVvMpgo7UJT0jOLzaJCYgv9Jxbon8I2m/JFtVjf5IBhBLN
-         VepzH27NlvIbVvLXM9I36nl1Vw8ttb4V5D6i2fFFi7XuOXcsbnkI2dJiCzShrq5NDQSy
-         pv/gpufn2nz0+pdittk3nV/Dg4eo9eaEUuD1qnUp5i92dkWv9G/b3KM0bKJ5hMohee9B
-         muT8Mav/Sa6PVkXOaeMK/oHP2zr/QLO+W6M7IMBU5HLTyh2wBnT6dORBJ/QpbHWQXrbB
-         gBCeMeypqgWDuMjHWT0Qsk4b/pq8iP1qRScTpkLtej0sPdyqo4OHyHW+paDzoZuaVUdI
-         4R8w==
-X-Forwarded-Encrypted: i=1; AJvYcCXsKtZPRMPktep8QXwKbAJrJ1isAriPaSQe4KOsulnYy38rjHqU0sm5w3XDtj541cU6/ZePvdEqejU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5XcFuUNJkjJ8MuNmBxS10pjYSeolOEExd/QquKaimMkXKILOr
-	ZMubWM4VIK+UTrS4q39sk6AHZMbmoGdh7EClwDlBo6iE6GsPtUkNlzEOxUN/SvN8sgY=
-X-Gm-Gg: AY/fxX5kaqbdbeyWqemMwJtsrohVi1jbXW/XCZqg1siqjZQ6aWF1B8yrKS+pl8s6X2n
-	TcRbUoteMiI0eB6+cKXmDVpMEyFNw97bglnjdWLyaxse9pFYyEZoWcbatFan3wxW0EmeEnOZ4ol
-	b0GIex2aOPq7Nt4fu1W7h5+yA/tPdXJbNwYIjlSGbnknk/8oRAB4nwCbiOmFbjHjnhRj+XCxNzK
-	0gQDDUL/gvsOaaZzRXqF8xUcXScZVhXqCCuWyHML2CfH8IFf+1kCYkxkiX5LYmr+8zRhXalTx2+
-	Oacp0qbNyFIefgUtYin+Jy6fNGWe7SHiJ4OXHM1OoLIMeIuSHqdTG7UlyhynVy/FzA+0nntD0Iz
-	Ki6H6r4xREGsUlILtaRw/KUvPsUP5THcCaA/Jz/ZqQ9VeFq5PGsZCgoWnPsh44BRg456LsnpG6n
-	UaJZMtLqy07wjykLR6gU98
-X-Google-Smtp-Source: AGHT+IFtnl41QfJeu3IJ/uV+L4EiFBX8zP0ux5EampS/J9pJIP4sBjIMESLAF9z1UPcxbBQKr8xzaw==
-X-Received: by 2002:a17:903:22cc:b0:29f:2456:8cde with SMTP id d9443c01a7336-29f245690bdmr29337135ad.4.1765564400511;
-        Fri, 12 Dec 2025 10:33:20 -0800 (PST)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29eea04b7bdsm59970265ad.85.2025.12.12.10.33.18
+        bh=pSEL5ePgx5RjiFkm4T13sS/CnpCa9se0VHC4VBAtFtg=;
+        b=OvddenfEOgBQTuq6tkVCif4x1KQXUwgLRKfjORxfeXV9Q488EBqunz0ZdBUSoEDg2/
+         /G4DqE8BSalIJcU8sX9mUo9hiZkb5+QGM8Z3OR0vm3Qeor9wEu07Ory4YFQxo2vqT/8Y
+         GDkMPhoR8himUHN+kzZvbT/AbboYH8Cg2hJGpyM39wERGKSBF0Ky1gLJ1/Y9vDQ8bau+
+         oGFAvQOxUo9t//t2Y4gsm5Ny8UKBXYBGap/X8kyCwh4hcwOVHPzlXZfaZsRXIibzpteN
+         Ej7m7FdSOM4hXIKRZthEXGbp7cxeCBSLu8HO63O5B4bELjbtbZ17AlniT/JKsnd02jYm
+         UyQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQjPtm08gBJElv3YZ0Dnxk5Qtfv6evDPd/3AOUIAyn3UQpmYiFkHqMNC1MzQRFF5fzOTBocDVhqzI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyobEJlTvxdWUgn4f47HSpSZACVBKBxBmZsS6GN0kOyKol9JwDn
+	4kuq49u07Fo4DcGJ7+/ssLH/MlG5bb/0dy6e8k9sNLMqkmilqR9jtVzxIp7Q8tJ9xw==
+X-Gm-Gg: AY/fxX5rXk9cpKbuT02CASGQZ6p1r+ewPj7ub+JvBt5FesWJRj8gUz6Y8wROVqnlpqU
+	75bjJwPu2pmU/AzN/6/0FJKzgrOJuwDVxeXURNiUSkdRWPdu1c1oZ3Z9QVQLueZMtjfCRCISU6Y
+	iIXQO0GjFyWfYTGUjARWp4AxU2+12sOK9BQtetPyJdIG/q8f6VAj/RB+TH3vStt4pWPE3/MFiPN
+	CgdJtVcVAtCWH7flGaWVvkAvxjhDqXemWPJDNEGt+zAD3Xsxe7guPgNdyytmnLZsbaXdO6d4mXc
+	1oJgqhhYW1ntlXkttCFtHyEC6gvkBYhnr5hwhnT8v/nKXljZP+FWU+dOPASlwoOqH+9jjhzzmNF
+	a4/oSyB86tMyAdezJFkErihF9cuuGHWBa8/AJ1qtX7EDqmZkk78KJ4ed+YmxujcbNxCNjKoB0/h
+	SuCV6ydRqhDrgJpaY7qn2IajuSbHWcRdkPsz0K4sJlMvC+PoXdDw==
+X-Google-Smtp-Source: AGHT+IHzdWN4hpt7McD7KCWGDX7vpqcZJcLk3uQhWd353UqV22b/mGz1ioCMGsLdTgWVBmvLQWc0hw==
+X-Received: by 2002:a05:600c:83c4:b0:477:86fd:fb18 with SMTP id 5b1f17b1804b1-47a94869ebbmr37675e9.8.1765564655960;
+        Fri, 12 Dec 2025 10:37:35 -0800 (PST)
+Received: from google.com (54.140.140.34.bc.googleusercontent.com. [34.140.140.54])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8f6f2238sm16173315e9.13.2025.12.12.10.37.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Dec 2025 10:33:20 -0800 (PST)
-Date: Fri, 12 Dec 2025 10:33:16 -0800
-From: Deepak Gupta <debug@rivosinc.com>
-To: Paul Walmsley <pjw@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Benno Lossin <lossin@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, alistair.francis@wdc.com,
-	richard.henderson@linaro.org, jim.shu@sifive.com,
-	Andy Chiu <andybnac@gmail.com>, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
-	Zong Li <zong.li@sifive.com>, David Hildenbrand <david@redhat.com>,
-	Andreas Korb <andreas.korb@aisec.fraunhofer.de>,
-	Valentin Haudiquet <valentin.haudiquet@canonical.com>,
-	Charles Mirabile <cmirabil@redhat.com>
-Subject: Re: [PATCH v26 00/28] riscv control-flow integrity for usermode
-Message-ID: <aTxf7IGlkGLgHgI2@debug.ba.rivosinc.com>
-References: <20251211-v5_user_cfi_series-v26-0-f0f419e81ac0@rivosinc.com>
- <e052745b-6bf0-c2a3-21b2-5ecd8b04ec70@kernel.org>
+        Fri, 12 Dec 2025 10:37:35 -0800 (PST)
+Date: Fri, 12 Dec 2025 18:37:31 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org,
+	will@kernel.org, robin.murphy@arm.com, akpm@linux-foundation.org,
+	vbabka@suse.cz, surenb@google.com, mhocko@suse.com,
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
+	david@redhat.com, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
+	rdunlap@infradead.org
+Subject: Re: [PATCH v4 1/4] iommu: Add page_ext for IOMMU_DEBUG_PAGEALLOC
+Message-ID: <aTxg6yHWdFrW41ZC@google.com>
+References: <20251211125928.3258905-1-smostafa@google.com>
+ <20251211125928.3258905-2-smostafa@google.com>
+ <341bbfd9-e6bb-4d1e-b9c0-9077dc3eaba3@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e052745b-6bf0-c2a3-21b2-5ecd8b04ec70@kernel.org>
+In-Reply-To: <341bbfd9-e6bb-4d1e-b9c0-9077dc3eaba3@linux.intel.com>
 
-On Fri, Dec 12, 2025 at 01:30:29AM -0700, Paul Walmsley wrote:
->On Thu, 11 Dec 2025, Deepak Gupta via B4 Relay wrote:
->
->> v26: CONFIG_RISCV_USER_CFI depends on CONFIG_MMU (dependency of shadow stack
->> on MMU). Used b4 to pick tags, apparantly it messed up some tag picks. Fixing it
->
->Deepak: I'm now (at least) the third person to tell you to stop resending
->this entire series over and over again.
+On Fri, Dec 12, 2025 at 10:17:11AM +0800, Baolu Lu wrote:
+> On 12/11/25 20:59, Mostafa Saleh wrote:
+> > Add a new config IOMMU_DEBUG_PAGEALLOC, which registers new data to
+> > page_ext.
+> > 
+> > This config will be used by the IOMMU API to track pages mapped in
+> > the IOMMU to catch drivers trying to free kernel memory that they
+> > still map in their domains, causing all types of memory corruption.
+> > 
+> > This behaviour is disabled by default and can be enabled using
+> > kernel cmdline iommu.debug_pagealloc.
+> > 
+> > Signed-off-by: Mostafa Saleh <smostafa@google.com>
+> > ---
+> >   .../admin-guide/kernel-parameters.txt         |  9 ++++++
+> >   drivers/iommu/Kconfig                         | 19 +++++++++++
+> >   drivers/iommu/Makefile                        |  1 +
+> >   drivers/iommu/iommu-debug-pagealloc.c         | 32 +++++++++++++++++++
+> >   include/linux/iommu-debug-pagealloc.h         | 17 ++++++++++
+> >   mm/page_ext.c                                 |  4 +++
+> >   6 files changed, 82 insertions(+)
+> >   create mode 100644 drivers/iommu/iommu-debug-pagealloc.c
+> >   create mode 100644 include/linux/iommu-debug-pagealloc.h
+> 
+> Do you need to update the MAINTAINERS file, since a new file (iommu-
+> debug-pagealloc.h) is being added?
+> 
+> > 
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index a8d0afde7f85..d484d9d8d0a4 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -2675,6 +2675,15 @@ Kernel parameters
+> >   			1 - Bypass the IOMMU for DMA.
+> >   			unset - Use value of CONFIG_IOMMU_DEFAULT_PASSTHROUGH.
+> > +	iommu.debug_pagealloc=
+> > +			[KNL,EARLY] When CONFIG_IOMMU_DEBUG_PAGEALLOC is set, this
+> > +			parameter enables the feature at boot time. By default, it
+> > +			is disabled and the system behaves the same way as a kernel
+> > +			built without CONFIG_IOMMU_DEBUG_PAGEALLOC.
+> > +			Format: { "0" | "1" }
+> > +			0 - Sanitizer disabled.
+> > +			1 - Sanitizer enabled, expect runtime overhead.
+> 
+> "iommu.debug_pagealloc=0" has the same meaning as "unset". Would
+> "iommu=debug_pagealloc" look more appropriate?
 
-To be very honest I also feel very bad doing and DOSing the lists. Sorry to you
-and everyone else.
+"iommu=" seems to be x86 specific. I was following the pattern for
+"iommu.passthrough=", "iommu.strict=" and also as "debug_pagealloc="
+has it's own command line, it made sense to design this way.
 
-But I have been sitting on this patch series for last 3-4 merge windows with
-patches being exactly same/similar. So I have been a little more than desperate
-to get it in.
+Thanks,
+Mostafa
 
-I really haven't had any meaningful feedback on patch series except stalling
-just before each merge window for reasons which really shouldn't stall its
-merge. Sure that's the nature of open source development and it's maintainer's
-call at the end of the day. And I am new to this. I'll improve.
-
->
->First, a modified version of the CFI v23 series was ALREADY SITTING IN
->LINUX-NEXT.  So there's no reason you should be resending the entire
->series, UNLESS your intention for me is to drop the entire existing series
->and wait for another merge window.
->
->Second: when someone asks you questions about an individual patch, and you
->want to answer those questions, it's NOT GOOD for you to resend the entire
->28 series as the response!  You are DDOSing a bunch of lists and E-mail
->inboxes.  Just answer the question in a single E-mail.  If you want to
->update a single patch, just send that one patch.
-
-Noted. I wasn't sure about it. I'll explicitly ask next time if you want me to
-send another one.
-
->
->If you don't start paying attention to these rules then people are going
->to start ignoring you -- at best! -- and it's going to give the entire
->community a bad reputation.
-
-Even before this, this patch series has been ignored largely. I don't know
-how to get attention. All I wanted was either feedback or get it in. And as I
-said I've been desparate to get it in. Also as I said, I'll improve.
-
->
->Please acknowledge that you understand this,
-
-ACKed.
-
->
->
->- Paul
+> 
+> > +
+> >   	io7=		[HW] IO7 for Marvel-based Alpha systems
+> >   			See comment before marvel_specify_io7 in
+> >   			arch/alpha/kernel/core_marvel.c.
+> 
+> [ ... ]
+> 
+> Other changes look good to me.
+> 
+> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
