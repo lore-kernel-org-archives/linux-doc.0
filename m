@@ -1,90 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CA819F13F;
-	Sat, 13 Dec 2025 01:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868BF221FA0
+	for <linux-doc@vger.kernel.org>; Sat, 13 Dec 2025 02:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765590015; cv=none; b=oDg710/V9F+OIR2YntqOi7WAsAig84j1W9po59olx6kZhSGGC61FEvUCWaLA/eIbXYAUrtwC/JUx+Rckpyk1N/SYuS/XzOZNpRN+ohdqjMNJvmmcRILg/KVY0eLtPAIwIs6q7ip7MUimvo/OXAoXVZ0y/4DJSzf9OksXgytEKuw=
+	t=1765591624; cv=none; b=PuHnXj5vg9c6cU3vddV1h+4SjK95f3jcllTsOAwb1gTTGFADMtMGvyof7XBg+JPBGk9h1TiaLpdFU8vrh709DDD98NVbSRnDRhMKf3I990xyY/h6Uw45mQFFL7ZaNUtsEe2sg9I1u0ouvaWTqhajHawz4Snh1tUzY1wwHz5iARw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765590015; c=relaxed/simple;
-	bh=O/jwb1Bfr59e/A6IOWCJZGscFliaL38PsmVm26gy0jk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kz3zKVlsVUnLkfe+MLQ/ZklUajD1KvRSqgfPc7g8kPQd34e36pS39wBqvwf2LvIgxt/INtc0lpQBEsU3x49Vu8/WOI+gEKj5hmW55dx3pEP9F2J0A/9zwvEMvTeKR7B8Pu1OmysKpU9uVGp0aHA7lhab5aGLH3UE+8kCygSkJHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YRiu2/q5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765591624; c=relaxed/simple;
+	bh=o78EE0CBwAKtaBx4p+s0991PHX7BOfT9hDlkZYWgMa4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BJOtdfThCInAgfCNddOmk0cR7yInjZdDoRQZFH3T+6Xom7mIgk7F9C1RCFmMU4k0/NcesBMFMWJzh5Ve6z9xv8L5jsu47mxi1hwCqrZHrEKihnDqTEBDcfi7toan8AdebgB+MPbvcSRUd4WhzOw/cIfRqTfQHHOyq4Ug/5CVyvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=NSEeFOTK; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YRiu2/q5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B948C4CEF1;
-	Sat, 13 Dec 2025 01:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765590014;
-	bh=O/jwb1Bfr59e/A6IOWCJZGscFliaL38PsmVm26gy0jk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YRiu2/q53dkLif7q4uNFSnrsQYxunLMq2sapvB98RRwCwkK/kljK9PhJmbHlGH43W
-	 pcJw1pFHMkgPFz9dwNK1DIhqneUFOcoVLP6TfBTIZpV6rpsP5e99fbmDrlRiAnXkP8
-	 I949hvbxr7t+18H+8zb7yThzoJI6OH2/VZbdgtSuUru6sYPY89o9ENxcTQmC0SC+IB
-	 QtWgQBfoDhoM298ltcyA11fpzQbIfgZIA03K4IdcD5l5h05DyF+oydEr9todwiBOtg
-	 5R9AdnTGvxxoph70+mmM8/BX2WFQulQ3YU98vmRzFQQA758ZhE0MCCnpl7CGOA0UpA
-	 HIMU8F/ZvN0ew==
-Date: Sat, 13 Dec 2025 10:40:09 +0900
-From: Nathan Chancellor <nathan@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Graham Roff <grahamr@qti.qualcomm.com>,
-	Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>
-Subject: Re: [PATCH v2] Support conditional deps using "depends on X if Y"
-Message-ID: <20251213014009.GA3115176@ax162>
-References: <20251118-kconfig_conditional_deps-v2-1-e360792edaed@qti.qualcomm.com>
- <20251205015352.GA2060615@ax162>
- <b4be7637-9446-47d0-9a8c-3fd0f55a27b9@app.fastmail.com>
- <20251205182334.GB3974306@ax162>
- <1f2376e39dc46772e630e2cc9f9b40a2ef20993d@intel.com>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="NSEeFOTK"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-34b75fba315so987509a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 18:07:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1765591622; x=1766196422; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q6SUXJgzM946cTzA9BUg6hytN3ta/g/U54KdX40MWDQ=;
+        b=NSEeFOTKc2sqnxxtM8QakKTHAChnmvFiX+gE73O0iphll7go4ZLx3tuNaYiYVeWABY
+         vx6aAQYqpWZDGLOF811Pp2JiypDr1+SD5wX63iq7gvMHQeWmdZsQ+G9/HKqijh1m++I2
+         ArAWgfKeZugRvVLHJU75dGhRq4WJX1g2ueIyytZrhyNEilYXX491Qk+GdGISIF2CQw5T
+         h66FZj5whgp7KVSho7REIdI620zUvTY5W1Mh2CLY3xNSG/ns7/KEoC68Wzns8NqV5fdh
+         CvQsyazwpAq7fVHshxTUsKnBvtA7LqWh2pCph83QLuUk3jGuAom4rXgZtUvNe0hqbza+
+         jqeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765591622; x=1766196422;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Q6SUXJgzM946cTzA9BUg6hytN3ta/g/U54KdX40MWDQ=;
+        b=Sc2E5/F7g1l6ACdnZ5o2NF2/esvw/Se7Zzzez/LY1hxns8d7mULTkGRmTcmwaVcYOJ
+         +HRlraNAG8Nqi/PWXrFhkL0KFBVorLWe5EQpkySSFyhPHyW5LZyb9SYHNu8gxz4OWBhV
+         Fqa1uIHorHYV/5P58vBF+hhamNzwn8mnzzpcc3+OIyHnZxhGbrCLEwUJIZT1d02iTFdr
+         wJ+VQbK8H3VH/l/VswsNxvw8IOdtIiRt1nj/0isHnVNIHC/Pfk7+mGCWaOq7AnVjAsas
+         HumASdDEev5YAajNpnpGPIZgReoldMLdaiSTmVFbNamHdezBWXPUwVf0ud/wLyzaO25P
+         6etQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV+9Tr6uO/ibG0eCgG1tWhsJtf+M5ZRXgqotL56gID27EOupQS1F3lIUXJKH4YBaT4wcQNRQKggs30=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywh7uANAGafWCR67fIvChFzIF+qiUmnSJZpRoC92kwv+jXy3WZB
+	G+A72B0ZT7dm+rgqck/i+MS0ohyP07IvrDdNwtHA3Ok5Q2+psJNyvrNuLRNT8+6mQteS7tb8Adz
+	5QmKg1VrnwQ6zzuF3V+2ABbUmoFuSl+9RZHPGt3Z4
+X-Gm-Gg: AY/fxX5GHJeZJB0vrxDNcYMKYv4IYkje+DNAcPFk7WROKup9NQhRauqZOBjhXMzRyNP
+	1/zmnjPMCxt4+ftfF+n5NdhwwFtgVUc6UaqxrbfOnUGtlrb1KlbAhl317Cc9/m14S3UrjPqYBK8
+	QerQc4AsDi8tRI09qg2Uxcjqc/HSaF3U52pFA3diJxyjTWKb/8TAUrv7RoVF4K2gaRuP/NNZutm
+	RijGDMaeGEhs6upHGADEFtZ2cySTqRfCRMXDEA9Bnjcg318bTaTO60LhIUW9zeV4h/1bWs=
+X-Google-Smtp-Source: AGHT+IGnwX71Z86N1z70pd7ITefWX/huSwRq2VYVRFVs/VS6a87brv9E91o16xh3yBqd0EXaLvFoopy9BQrXtAiOIYk=
+X-Received: by 2002:a17:90b:350d:b0:32d:d5f1:fe7f with SMTP id
+ 98e67ed59e1d1-34abe40ea73mr3314646a91.15.1765591621526; Fri, 12 Dec 2025
+ 18:07:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1f2376e39dc46772e630e2cc9f9b40a2ef20993d@intel.com>
+References: <20251212171932.316676-1-roberto.sassu@huaweicloud.com>
+In-Reply-To: <20251212171932.316676-1-roberto.sassu@huaweicloud.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 12 Dec 2025 21:06:50 -0500
+X-Gm-Features: AQt7F2pSRiV5S0YmuydrmAf_bv4hOXVpZCzrNYqlNN_g3-DMC6uEP2lNoe8lzrs
+Message-ID: <CAHC9VhRUQxayj=XcdfbfHka-=N+B8cNk7Grg3QWGOTOz3BKfgw@mail.gmail.com>
+Subject: Re: [RFC][PATCH v2] ima: Add support for staging measurements for
+ deletion and trimming
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
+	eric.snowberg@oracle.com, jmorris@namei.org, serge@hallyn.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com, 
+	nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 10, 2025 at 05:07:39PM +0200, Jani Nikula wrote:
-> On Fri, 05 Dec 2025, Nathan Chancellor <nathan@kernel.org> wrote:
-> > On Fri, Dec 05, 2025 at 09:01:51AM +0100, Arnd Bergmann wrote:
-> >> This is the bit that frequently confuses developers with the
-> >> current syntax, and I agree it would be nice to have a better
-> >> way,  but I'm not sure the proposal actually helps enough to
-> >> warrant a mass-conversion of existing Kconfig files.
-> >
-> > I do agree that the 'depends on A || !A' syntax is confusing and that
-> > this does not really address that but I think that is besides the point
-> > here. I also agree that it is probably not worth converting existing
-> > users to this syntax (unless there is solid reasoning), I would not want
-> > to see cleanup patches of that nature, just use in new code.
-> 
-> I think "depends on A if A" is an improvement over "A || !A". But not a
-> drastic improvement.
+On Fri, Dec 12, 2025 at 12:19=E2=80=AFPM Roberto Sassu
+<roberto.sassu@huaweicloud.com> wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+>
+> Introduce the ability of staging the entire (or a portion of the) IMA
+> measurement list for deletion. Staging means moving the current content o=
+f
+> the measurement list to a separate location, and allowing users to read a=
+nd
+> delete it. This causes the measurement list to be atomically truncated
+> before new measurements can be added. Staging can be done only once at a
+> time. In the event of kexec(), staging is reverted and staged entries wil=
+l
+> be carried over to the new kernel.
+>
+> User space is responsible to concatenate the staged IMA measurements list
+> portions following the temporal order in which the operations were done,
+> together with the current measurement list. Then, it can send the collect=
+ed
+> data to the remote verifiers.
+>
+> Also introduce the ability of trimming N measurements entries from the IM=
+A
+> measurements list, provided that user space has already read them. Trimmi=
+ng
+> combines staging and deletion in one operation.
+>
+> The benefit of these solutions is the ability to free precious kernel
+> memory, in exchange of delegating user space to reconstruct the full
+> measurement list from the chunks. No trust needs to be given to user spac=
+e,
+> since the integrity of the measurement list is protected by the TPM.
+>
+> By default, staging/trimming the measurements list does not alter the has=
+h
+> table. When staging/trimming are done, IMA is still able to detect
+> collisions on the staged and later deleted measurement entries, by keepin=
+g
+> the entry digests (only template data are freed).
+>
+> However, since during the measurements list serialization only the SHA1
+> digest is passed, and since there are no template data to recalculate the
+> other digests from, the hash table is currently not populated with digest=
+s
+> from staged/deleted entries after kexec().
+>
+> Introduce the new kernel option ima_flush_htable to decide whether or not
+> the digests of staged measurement entries are flushed from the hash table=
+.
+>
+> Then, introduce ascii_runtime_measurements_staged_<algo> and
+> binary_runtime_measurement_staged_<algo> interfaces to stage/trim/delete
+> the measurements. Use 'echo A > <IMA interface>' and
+> 'echo D > <IMA interface>' to respectively stage and delete the entire
+> measurements list. Use 'echo N > <IMA interface>', with N between 1 and
+> LONG_MAX, to stage the selected portion of the measurements list, and
+> 'echo -N > <IMA interface>' to trim N measurements entries.
 
-Agreed.
+In an effort to help preserve the sanity of admins, I might suggest
+avoiding commands that start with a dash/'-'.  I'd probably also
+simplify the commands a bit and drop all/'A' since the measurement
+list could change at any time, stick with an explicit number and just
+let the admin go over, e.g. write LONG_MAX, which effectively becomes
+'A'.  I think you could do everything you need with just two commands:
 
-> I think the question is, can we figure out an even better syntax for
-> that use case? Something that conveys the "optionally depends on A"
-> meaning? Is there something so good that it would warrant cleanup
-> conversions just for the improved clarity?
+  <NUM>: stage <NUM> entries
+      D: delete staged entries
 
-I cannot think of anything off the top of my head but given how new I am
-to actually maintaining Kconfig, maybe something else will come up over
-time (or maybe Nicolas has some thoughts).
+I intentionally left out the trim/'T' command, because I'm not sure it
+is really necessary if you are going to implement the phased
+stage/delete process.  Yes, you have to do two operations (stage and
+delete) as opposed to just the trim, but I'd probably take the
+simplicity of just supporting a single approach over the trivial
+necessity of having to do two operations in userspace.
 
-> If we can't come up with anything, let's just roll with what we have
-> here?
+Staging also has the benefit of having a sane way of handling two
+tasks racing to stage the measurement list.  I could see cases where
+multiple tasks race to trim the list and end up trimming more than was
+intended since they both hit in sequence.
 
-This is my plan personally, as I feel like this (or the future v3) is
-good enough (and brings consistency to "depends" with regards to
-supporting "if" like "prompt" and "select" do). I am a firm believer in
-"don't let perfect be the enemy of good".
+If you did want to take a trim approach over a stage/delete approach,
+I could see something like this working:
 
-Cheers,
-Nathan
+ 1. process opens the measurement list
+ 2. process reads from the measurement list, keeps the fd open
+ 3. process does whatever it wants to preserve the list
+ 4. process writes <NUM> to the measurement list, kernel trims <NUM> entrie=
+s
+ 5. process closes fd
+
+... error handling shouldn't be too bad.  The process only writes
+<NUM> to the fd if it has already finished whatever it needs to do to
+preserve the list outside the kernel, think of it as a "commit"
+operation on a transaction.  If the fd is closed for some reason
+(error, interruption, killed) before the process writes <NUM> to the
+fd then IMA does nothing - no trim takes place.
+
+Multiple process racing can easily be solved when the log is opened;
+only one open(O_RDWR) is allowed at a time, other racing processes
+will get EBUSY.  Yes, one process could block others from trimming by
+holding the fd open for an extended period of time, but I would expect
+that CAP_SYS_ADMIN and root fs perms would be required to open the log
+read/write (not to mention any LSM access rights in place).
+
+I know I mentioned this basic idea to someone at some point, but there
+have been various discussion threads and multiple people over a fairly
+lengthy time that I've lost track of where it was mentioned.  If it
+was already discussed on-list and rejected for a good reason you can
+simply ignore the above approach ... although I still think the
+stage/delete API could be simplified as described :)
+
+[UPDATE: as I'm reading Steven's replies it looks like he has proposed
+something very similar to the above]
+
+--=20
+paul-moore.com
