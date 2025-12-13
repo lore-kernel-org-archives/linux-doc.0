@@ -1,89 +1,119 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDE81494A8;
-	Sat, 13 Dec 2025 19:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5E72236E0
+	for <linux-doc@vger.kernel.org>; Sat, 13 Dec 2025 20:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765653249; cv=none; b=ovpXs7y2b5ADQQBMqWIvx9ykxBqrpc4eoX3tj/2/3ZcoKf/ZGCBLAgCIsYoRMIjSJbmr1KdqAMpxtoa1WXfTlFvcotnYFOezGrbSDIOmUMu6v5V2D4JTiih3ZJOA0H7+4sQ4CgUPLVgTdvw4BvcFzq8T9zc9a3e5eTwm3FPzkOc=
+	t=1765656368; cv=none; b=FvhA9NmPrJ2aPYn+QRlAU9+1ApHf3hTSxSALvE2ZRMiGE50EBJt2uwjsiw+TRyzbdmzkGMrBPrKnjlp86nmZ10TpDPegu0ejnv41abxTnrYpIiXDGhYJ1cr4XvYY5gx866W2jd5E34gAb3fOY5sPLuGH2qK+KdB93GbN9PpmC5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765653249; c=relaxed/simple;
-	bh=15X+3hbjrH2oYspCgVzD7LqQOoI1WXsHoO4w4j03VXw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hjyhpQBC8Cd6t00BH9TnN6Vny0Wqbx7H3lwWBwl3BFGPhQNr+Fj1RpM8AhFbjXboZnM0xGxjgZGBgiqMxU1Om/6IFrPt22YAdVnxSw1JomVbhQs/DU/VS7vJhjLWLlrCkGzsg7GJULspV4b1lFe+0o7+ID7U6l3PVH1rriY08m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=J1UtjVs4; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1765656368; c=relaxed/simple;
+	bh=vHDffevPJvWn0TDEIr3DY9YUUhJW/hc5O51BO7cTGxA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t3BpFGXwAnSeTJalD6LLp9FB7HZydrCxHqKt0uoMaDC3v+nxIaqDHigp8uAraPhXePonruys19GB+AFxg9IsWzLUN2X9sbtWrZ/j3QzKYpBV4wqhmTVZl+qyFUzcdNpg74YfYtYrn/DepeGQsg1u1WyBnobmBsSeWp5uqfnWSZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bf7ijr3g; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="J1UtjVs4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=2riLjgrR/oKcMScp0k5DIi1TENHnUTJS/5A+pqmPPgA=; b=J1UtjVs4ZGZnEhhtRf7j3ekKVE
-	B/8tZiGYmaRZpGuS59JNnNKjjQO6YDTfVwia0AC5LNlfENbb2tNF9BnA7ZT8VERUOa+4CiiKyBs1H
-	hxvWS7VANrYf98xhJ0d0bMNsw1Yo3Zs813o5Mq8sx9yC0rzA2VThi3sqe7jx+lCULDHLY8/n0hqK/
-	32rlyjNtEuvVEWcvXKVG5R/KBDwmBOCEqrj1XTb5P8sgWqTfHiHIpVkqLVMsyYI0sQZiMNV52SBmy
-	FvmxtK9MS2YI9l1nYpsNKlYJ3mAcZX3DP3rpdgYq8BnDFXHuaLf9AJdKk+JEFCXPQJEyCW5YcNDlv
-	KnB+q2nw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vUV45-00000001rel-3ct5;
-	Sat, 13 Dec 2025 19:14:02 +0000
-Message-ID: <60383fe4-c089-4bbb-829d-670afe93e9e8@infradead.org>
-Date: Sat, 13 Dec 2025 11:13:58 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bf7ijr3g"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-64165cd689eso3543321a12.0
+        for <linux-doc@vger.kernel.org>; Sat, 13 Dec 2025 12:06:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765656365; x=1766261165; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p/5dOQDrua+flNbbvn9G1hHNSy2Etuw4W2yCxnsNBYM=;
+        b=Bf7ijr3giFWr6wLCJeqPScXVbjkFP1Qp2rQ+djQR7ssHG0/P9eIiXwlh3ZqA+PCiza
+         CwzquzFYUp19z39q2NHVUeEJs+bXlO/aMz4ErsIgnMVYNBiWD92DCcg+t/o/NV+U21He
+         2f3AI/77DZJoJa8sdNN/MknPPd+WENkgUw3s6dKNEGjJxB+lG6+G54JqOoAoo9cJuJEh
+         1JmwD5eKAt2kHUDIOoRCCUh+wyrP007JVmbdTP+crTtZpHiS6VKKugKLPt2p0cN1q1Kq
+         yfAIUGmsB2YHsFUeL9uR0B0U5DR7eIyehcpQh05X7TfbU/GhpSq73Pnb7a+unTDz3F+x
+         gaAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765656365; x=1766261165;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p/5dOQDrua+flNbbvn9G1hHNSy2Etuw4W2yCxnsNBYM=;
+        b=rCTNMyu2nIAvCf2w4YHTswYskpR/vjL9TLUPZercfRRMi1UtwsboN/0AMxbLpouaIV
+         F7BSwL2/pw7ceD0Fbgle89RpwLevX4UvXUfjwn0vvMBbqzP8oXjH8fBSwG3CXPtiTgJC
+         qZZw3N38E2hKFgqOXTi7C5XTnaGadOhHfX/mrzwtLzM3j2b0QKM08dad/pE+LENPL+HU
+         OXKC0svmuWxWI9IHXaNkZ1Z9UZYbI36UnK3URpI8aEShGZM57+ztqsIECBqBeepamq31
+         iuaySrsV9ZVvR2TiHKeLu3N3UC8a3Xzo2/ngv5e1pMsXzqhx1ewcMTIl4KsLqMHKoXeS
+         WO/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUVQG3v2GUxwco/t6NgoW3ltg/C1Ljg5NG0Lxg9BC7EoLAfX87RjZ0zGHbPiezMk2S6N7fGnsGto10=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvhzC8oP4SQgIyjBYYFQjOx1/DV+WtXPYuqU/nV264WlAYA4pl
+	u3LkRJjh5GME8OV6FaeLFlbyGZk9z3BWiprtjiYE+GBHS/UdNmO5Lfls
+X-Gm-Gg: AY/fxX5deaBMHABnw+VgDeLcu3KmnZnJNleRfNHqvWlZwKrcacQ+bGHy6xDeOnT8Skl
+	3DW+JHGfjq4A44aC4qV+ufWnbFauG7lrhqKCgj7G1F1NMkXzAH1wXK8Wnf+M/L9cH3OkeKMevXa
+	2d5QWFvCZF2et73bEmO7J34rtzSkysGRpzWbhNfY8thaXoW32aMvhd0ET76n5lRH7KG/6j+jMn8
+	2PA7gUyr1Wjr1i4YpC8l/CN1D3dQIGF5RpZqB1lMgv2kMpavKGDBlmRpgGNWKdhyanrmXaYZSv9
+	qxxIYJzNTzwIZY7cm/5pkDfZQ5AoMl0pou7h+40DDvItu8dgFKbHghbMGHSD672YCoOgCiMGToH
+	w8hv8ClcJNJhZkLX3uvekotRHipKIHgBB99RugIhFzHGsSoqQ8lsYswFH/Fz/cIh52Qg2b9lwlo
+	SJKQeAq/Qh5gohHubh3UxYQDRJhbHFyA==
+X-Google-Smtp-Source: AGHT+IHyGed32ODALWiA3VxEmzJhRm8zqPkOmjtz4tMKYDQKKRya7+LJKpZFXDUO8WDaJs7zgWyz6A==
+X-Received: by 2002:a17:907:60d2:b0:b73:9892:7f46 with SMTP id a640c23a62f3a-b7d0251dcc8mr1158285666b.29.1765656364614;
+        Sat, 13 Dec 2025 12:06:04 -0800 (PST)
+Received: from puma.museclub.art ([2a00:6020:b326:d300:d19:a765:d8d7:bedc])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa517558sm919073466b.34.2025.12.13.12.06.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Dec 2025 12:06:03 -0800 (PST)
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+To: eugene.shalygin@gmail.com
+Cc: Robert McIntyre <rjmcinty@hotmail.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] hwmon: (asus-ec-sensors) add Pro WS TRX50-SAGE WIFI A
+Date: Sat, 13 Dec 2025 21:03:40 +0100
+Message-ID: <20251213200531.259435-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kdoc: allow dots in inline @param names
-To: Steven Price <steven.price@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20251211104851.45330-1-steven.price@arm.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251211104851.45330-1-steven.price@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Robert McIntyre <rjmcinty@hotmail.com>
 
-On 12/11/25 2:48 AM, Steven Price wrote:
-> Inline kernel-doc blocks failed to parse tags containing dots (e.g.
-> creator.process_name in panfrost_gem.h) because the @name regex only
-> matched word characters. Modify the single-line pattern to match
-> doc_inline_sect so it includes \. and parses the same as a multi-line
-> comment.
-> 
-> Signed-off-by: Steven Price <steven.price@arm.com>
+Adding support for Pro WS TRX50-SAGE WIFI A, which is identical
+sensors-wise to Pro WS TRX50-SAGE WIFI
 
-Nice. Thanks.
+Signed-off-by: Robert McIntyre <rjmcinty@hotmail.com>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst | 1 +
+ drivers/hwmon/asus-ec-sensors.c         | 2 ++
+ 2 files changed, 3 insertions(+)
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-
-> ---
->  tools/lib/python/kdoc/kdoc_parser.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-> index 500aafc50032..261b484ad130 100644
-> --- a/tools/lib/python/kdoc/kdoc_parser.py
-> +++ b/tools/lib/python/kdoc/kdoc_parser.py
-> @@ -53,7 +53,7 @@ doc_content = doc_com_body + KernRe(r'(.*)', cache=False)
->  doc_inline_start = KernRe(r'^\s*/\*\*\s*$', cache=False)
->  doc_inline_sect = KernRe(r'\s*\*\s*(@\s*[\w][\w\.]*\s*):(.*)', cache=False)
->  doc_inline_end = KernRe(r'^\s*\*/\s*$', cache=False)
-> -doc_inline_oneline = KernRe(r'^\s*/\*\*\s*(@[\w\s]+):\s*(.*)\s*\*/\s*$', cache=False)
-> +doc_inline_oneline = KernRe(r'^\s*/\*\*\s*(@\s*[\w][\w\.]*\s*):\s*(.*)\s*\*/\s*$', cache=False)
->  
->  export_symbol = KernRe(r'^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*', cache=False)
->  export_symbol_ns = KernRe(r'^\s*EXPORT_SYMBOL_NS(_GPL)?\s*\(\s*(\w+)\s*,\s*"\S+"\)\s*', cache=False)
-
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index fb32acfec0f5..58986546c723 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -10,6 +10,7 @@ Supported boards:
+  * PRIME X670E-PRO WIFI
+  * PRIME Z270-A
+  * Pro WS TRX50-SAGE WIFI
++ * Pro WS TRX50-SAGE WIFI A
+  * Pro WS X570-ACE
+  * Pro WS WRX90E-SAGE SE
+  * ProArt X570-CREATOR WIFI
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index ef4561ae38f9..8435be30c3f7 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -801,6 +801,8 @@ static const struct dmi_system_id dmi_table[] = {
+ 					&board_info_pro_art_x870E_creator_wifi),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS TRX50-SAGE WIFI",
+ 					&board_info_pro_ws_trx50_sage_wifi),
++	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS TRX50-SAGE WIFI A",
++					&board_info_pro_ws_trx50_sage_wifi),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS WRX90E-SAGE SE",
+ 					&board_info_pro_ws_wrx90e_sage_se),
+ 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS X570-ACE",
 -- 
-~Randy
+2.52.0
+
