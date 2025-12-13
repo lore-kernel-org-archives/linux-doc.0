@@ -1,89 +1,181 @@
-Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747D719DF62;
-	Sat, 13 Dec 2025 05:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89EF272618
+	for <linux-doc@vger.kernel.org>; Sat, 13 Dec 2025 06:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765605030; cv=none; b=QfVPRJdvvuiwQnWa02LimU96YqNROCZLqopSMy/OxHFRX8/zu9NLM17vAAbeF8+a/cu2QcaEaMI/YXmSHx+G26TLHPc15qGwbu02olvFKgHAdMF7eHWeNEdTn+lYxi+h+/fp9282rg6UYUd0cakq6g65ciaAsXNWaOEt7mYdx54=
+	t=1765608525; cv=none; b=b8TmCmSGqojxbqROSY1Q6Vl4yqCFA786mmRObsy8c92g7/GCsOK+JBwTgG9zWPIm+KHriFIX9x00RIj8mx+5QiXIv1w9bVYfBHyXLkk1lcx7jdPZcSu3Q4Y3A1dCaQpLX7XaVgJ93tE3Cyxkr6+36zn7kwRpp0CUuTPNfdr+wtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765605030; c=relaxed/simple;
-	bh=oV7wxY4xLQRoU5xn6BWx208fAfWgZJ25GIqdCS3n/Jg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aYmrJJzv+LRei5S5u3r8p5y8AgJop3WE4R3jDXNHTyU54PRtjNSEDNKJomYK56EaCpbx8qhiNA3Y9Fswqmb94B33AlPVhkgefQHOuGbYTmSVuxEtquy/CAYOnnca05ks59s5nG750560Lsi/6ZYAXw+gZsWgzkDu44PdA+YNtYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=KXYVlrSj; arc=none smtp.client-ip=198.37.111.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
+	s=arc-20240116; t=1765608525; c=relaxed/simple;
+	bh=OSPLFg4W3QR5ByFn0Z+25izVWJy4kGkKLbWih19PHZA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nmTfwaRrsK5yIW5UVa02fAUIQWUZtfXfUSCVz9nVcV/bvyVI/jRGareeys770LZwc2sXCG6kb57FgTcSMhQ9Yc9d3JA6HHOuyFBVrlvOqn917k3B9CCIN7UTXZ3gPQKn3wNxuJFOIOh69f8KDq70MR2buEifuuR7FP0AyG7/k8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V/rv/PvX; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="KXYVlrSj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1765605026;
-	bh=oV7wxY4xLQRoU5xn6BWx208fAfWgZJ25GIqdCS3n/Jg=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=KXYVlrSjjRGHOWfx6aom75OA27CPBbnMFxBYDBT8Z4Wn/q9pzH9LwpJILNL6whd1I
-	 6sxkfdY7h9LvTnIpjg2WAyyloC/PwildPLDr3CXl0Op4Y4CYWbz4L/9LP8jbwQeDuk
-	 j1zcCzuucKhCKasPfFbxA2MXjdhTJz8SuzIAHOgE=
-Received: from [10.200.4.101] (fs98a57d9c.tkyc007.ap.nuro.jp [152.165.125.156])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 640FE1C0139;
-	Sat, 13 Dec 2025 00:50:23 -0500 (EST)
-Message-ID: <ffcb4a42c29f98fada076958f069c094164cad79.camel@HansenPartnership.com>
-Subject: Re: [RFC 04/11] crypto: pkcs7: add flag for validated trust on a
- signed info block
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: David Howells <dhowells@redhat.com>, Blaise Boscaccy
-	 <bboscaccy@linux.microsoft.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>, 
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- =?ISO-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
- =?ISO-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,  "Dr. David Alan
- Gilbert" <linux@treblig.org>, Andrew Morton <akpm@linux-foundation.org>, 
- linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Date: Sat, 13 Dec 2025 14:50:13 +0900
-In-Reply-To: <811909.1765532715@warthog.procyon.org.uk>
-References: <20251211021257.1208712-5-bboscaccy@linux.microsoft.com>
-	 <20251211021257.1208712-1-bboscaccy@linux.microsoft.com>
-	 <811909.1765532715@warthog.procyon.org.uk>
-Autocrypt: addr=James.Bottomley@HansenPartnership.com;
- prefer-encrypt=mutual;
- keydata=mQENBE58FlABCADPM714lRLxGmba4JFjkocqpj1/6/Cx+IXezcS22azZetzCXDpm2MfNElecY3qkFjfnoffQiw5rrOO0/oRSATOh8+2fmJ6el7naRbDuh+i8lVESfdlkoqX57H5R8h/UTIp6gn1mpNlxjQv6QSZbl551zQ1nmkSVRbA5TbEp4br5GZeJ58esmYDCBwxuFTsSsdzbOBNthLcudWpJZHURfMc0ew24By1nldL9F37AktNcCipKpC2U0NtGlJjYPNSVXrCd1izxKmO7te7BLP+7B4DNj1VRnaf8X9+VIApCi/l4Kdx+ZR3aLTqSuNsIMmXUJ3T8JRl+ag7kby/KBp+0OpotABEBAAG0N0phbWVzIEJvdHRvbWxleSA8SmFtZXMuQm90dG9tbGV5QEhhbnNlblBhcnRuZXJzaGlwLmNvbT6JAVgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAhkBFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmBLmY0FCRs1hL0ACgkQgUrkfCFIVNaEiQgAg18F4G7PGWQ68xqnIrccke7Reh5thjUz6kQIii6Dh64BDW6/UvXn20UxK2uSs/0TBLO81k1mV4c6rNE+H8b7IEjieGR9frBsp/+Q01JpToJfzzMUY7ZTDV1IXQZ+AY9L7vRzyimnJHx0Ba4JTlAyHB+Ly5i4Ab2+uZcnNfBXquWrG3oPWz+qPK88LJLya5Jxse1m1QT6R/isDuPivBzntLOooxPk+Cwf5sFAAJND+idTAzWzslexr9j7rtQ1UW6FjO4CvK9yVNz7dgG6FvEZl6J/HOr1rivtGgpCZTBzKNF8jg034n49zGfKkkzWLuXbPUOp3/oGfsKv8pnEu1c2GbQpSmFtZXMgQm90dG9tbGV5IDxqZWpiQGxpbnV4LnZuZXQuaWJtLmNvbT6JAVYEEwEIAEACGwMHCwkIBwMCAQYVC
-	AIJCgsEFgIDAQIeAQIXgBYhBNVgbnPItGJxvq2a34FK5HwhSFTWBQJgS5mXBQkbNYS9AAoJEIFK5HwhSFTWEYEH/1YZpV+1uCI2MVz0wTRlnO/3OW/xnyigrw+K4cuO7MToo0tHJb/qL9CBJ2ddG6q+GTnF5kqUe87t7M7rSrIcAkIZMbJmtIbKk0j5EstyYqlE1HzvpmssGpg/8uJBBuWbU35af1ubKCjUs1+974mYXkfLmS0a6h+cG7atVLmyClIc2frd3o0zHF9+E7BaB+HQzT4lheQAXv9KI+63ksnbBpcZnS44t6mi1lzUE65+Am1z+1KJurF2Qbj4AkICzJjJa0bXa9DmFunjPhLbCU160LppaG3OksxuNOTkGCo/tEotDOotZNBYejWaXN2nr9WrH5hDfQ5zLayfKMtLSd33T9u0IUphbWVzIEJvdHRvbWxleSA8amVqYkBrZXJuZWwub3JnPokBVQQTAQgAPwIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQTVYG5zyLRicb6tmt+BSuR8IUhU1gUCYEuZmAUJGzWEvQAKCRCBSuR8IUhU1gacCAC+QZN+RQd+FOoh5g884HQm8S07ON0/2EMiaXBiL6KQb5yP3w2PKEhug3+uPzugftUfgPEw6emRucrFFpwguhriGhB3pgWJIrTD4JUevrBgjEGOztJpbD73bLLyitSiPQZ6OFVOqIGhdqlc3n0qoNQ45n/w3LMVj6yP43SfBQeQGEdq4yHQxXPs0XQCbmr6Nf2p8mNsIKRYf90fCDmABH1lfZxoGJH/frQOBCJ9bMRNCNy+aFtjd5m8ka5M7gcDvM7TAsKhD5O5qFs4aJHGajF4gCGoWmXZGrISQvrNl9kWUhgsvoPqb2OTTeAQVRuV8C4FQamxzE3MRNH25j6s/qujtCRKYW1lcyBCb3R0b21sZXkgPGplamJAbGludXguaWJtLmNvbT6JAVQEEwEIAD
-	4CGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQTVYG5zyLRicb6tmt+BSuR8IUhU1gUCYEuZmQUJGzWEvQAKCRCBSuR8IUhU1kyHB/9VIOkf8RapONUdZ+7FgEpDgESE/y3coDeeb8jrtJyeefWCA0sWU8GSc9KMcMoSUetUreB+fukeVTe/f2NcJ87Bkq5jUEWff4qsbqf5PPM+wlD873StFc6mP8koy8bb7QcH3asH9fDFXUz7Oz5ubI0sE8+qD+Pdlk5qmLY5IiZ4D98V239nrKIhDymcuL7VztyWfdFSnbVXmumIpi79Ox536P2aMe3/v+1jAsFQOIjThMo/2xmLkQiyacB2veMcBzBkcair5WC7SBgrz2YsMCbC37X7crDWmCI3xEuwRAeDNpmxhVCb7jEvigNfRWQ4TYQADdC4KsilPfuW8Edk/8tPtCVKYW1lcyBCb3R0b21sZXkgPEpCb3R0b21sZXlAT2Rpbi5jb20+iQEfBDABAgAJBQJXI+B0Ah0gAAoJEIFK5HwhSFTWzkwH+gOg1UG/oB2lc0DF3lAJPloSIDBW38D3rezXTUiJtAhenWrH2Cl/ejznjdTukxOcuR1bV8zxR9Zs9jhUin2tgCCxIbrdvFIoYilMMRKcue1q0IYQHaqjd7ko8BHn9UysuX8qltJFar0BOClIlH95gdKWJbK46mw7bsXeD66N9IhAsOMJt6mSJmUdIOMuKy4dD4X3adegKMmoTRvHOndZQClTZHiYt5ECRPO534Lb/gyKAKQkFiwirsgx11ZSx3zGlw28brco6ohSLMBylna/Pbbn5hII86cjrCXWtQ4mE0Y6ofeFjpmMdfSRUxy6LHYd3fxVq9PoAJTv7vQ6bLTDFNa0KkphbWVzIEJvdHRvbWxleSA8SkJvdHRvbWxleUBQYXJhbGxlbHMuY29tPokBHwQwAQIACQUCVyPgjAIdIAAKCRCBSuR8IUhU1tXiB/9D9OOU8qB
-	CZPxkxB6ofp0j0pbZppRe6iCJ+btWBhSURz25DQzQNu5GVBRQt1Us6v3PPGU1cEWi5WL935nw+1hXPIVB3x8hElvdCO2aU61bMcpFd138AFHMHJ+emboKHblnhuY5+L1OlA1QmPw6wQooCor1h113lZiBZGrPFxjRYbWYVQmVaM6zhkiGgIkzQw/g9v57nAzYuBhFjnVHgmmu6/B0N8z6xD5sSPCZSjYSS38UG9w189S8HVr4eg54jReIEvLPRaxqVEnsoKmLisryyaw3EpqZcYAWoX0Am+58CXq3j5OvrCvbyqQIWFElba3Ka/oT7CnTdo/SUL/jPNobtCxKYW1lcyBCb3R0b21sZXkgPGplamJAaGFuc2VucGFydG5lcnNoaXAuY29tPokBVwQTAQgAQRYhBNVgbnPItGJxvq2a34FK5HwhSFTWBQJjg2eQAhsDBQkbNYS9BQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJEIFK5HwhSFTWbtAH/087y9vzXYAHMPbjd8etB/I3OEFKteFacXBRBRDKXI9ZqK5F/xvd1fuehwQWl2Y/sivD4cSAP0iM/rFOwv9GLyrr82pD/GV/+1iXt9kjlLY36/1U2qoyAczY+jsS72aZjWwcO7Og8IYTaRzlqif9Zpfj7Q0Q1e9SAefMlakI6dcZTSlZWaaXCefdPBCc7BZ0SFY4kIg0iqKaagdgQomwW61nJZ+woljMjgv3HKOkiJ+rcB/n+/moryd8RnDhNmvYASheazYvUwaF/aMj5rIb/0w5p6IbFax+wGF5RmH2U5NeUlhIkTodUF/P7g/cJf4HCL+RA1KU/xS9o8zrAOeut2+4UgRaZ7bmEwgqhkjOPQMBBwIDBH4GsIgL0yQij5S5ISDZmlR7qDQPcWUxMVx6zVPsAoITdjKFjaDmUATkS+l5zmiCrUBcJ6MBavPiYQ4kqn4/xwaJAbMEGAEIACYCGwIWIQTVYG5zyLRi
-	cb6tmt+BSuR8IUhU1gUCZag0LwUJDwLkSQCBdiAEGRMIAB0WIQTnYEDbdso9F2cI+arnQslM7pishQUCWme25gAKCRDnQslM7pishdi9AQDyOvLYOBkylBqiTlJrMnGCCsWgGZwPpKq3e3s7JQ/xBAEAlx29pPY5z0RLyIDUsjf9mtkSNTaeaQ6TIjDrFa+8XH8JEIFK5HwhSFTWkasH/j7LL9WH9dRfwfTwuMMj1/KGzjU/4KFIu4uKxDaevKpGS7sDx4F56mafCdGD8u4+ri6bJr/3mmuzIdyger0vJdRlTrnpX3ONXvR57p1JHgCljehE1ZB0RCzIk0vKhdt8+CDBQWfKbbKBTmzA7wR68raMQb2D7nQ9d0KXXbtr7Hag29yj92aUAZ/sFoe9RhDOcRUptdYyPKU1JHgJyc0Z7HwNjRSJ4lKJSKP+Px0/XxT3gV3LaDLtHuHa2IujLEAKcPzTr5DOV+xsgA3iSwTYI6H5aEe+ZRv/rA4sdjqRiVpo2d044aCUFUNQ3PiIHPAZR3KK5O64m6+BJMDXBvgSsMy4VgRaZ7clEggqhkjOPQMBBwIDBMfuMuE+PECbOoYjkD0Teno7TDbcgxJNgPV7Y2lQbNBnexMLOEY6/xJzRi1Xm/o9mOyZ+VIj8h4G5V/eWSntNkwDAQgHiQE8BBgBCAAmAhsMFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmWoNBwFCQ8C4/cACgkQgUrkfCFIVNZs4AgAnIjU1QEPLdpotiy3X01sKUO+hvcT3/Cd6g55sJyKJ5/U0o3f8fdSn6MWPhi1m62zbAxcLJFiTZ3OWNCZAMEvwHrXFb684Ey6yImQ9gm2dG2nVuCzr1+9gIaMSBeZ+4kUJqhdWSJjrNLQG38GbnBuYOJUD+x6oJ2AT10/mQfBVZ3qWDQXr/je2TSf0OIXaWyG6meG5yTqOEv0eaTH22yBb1nbodoZkmlMMb56jzRGZuorhFE06
-	N0Eb0kiGz5cCIrHZoH10dHWoa7/Z+AzfL0caOKjcmsnUPcmcrqmWzJTEibLA81z15GBCrldfQVt+dF7Us2kc0hKUgaWeI8Gv4CzwLkCDQRUdhaZARAApeF9gbNSBBudW8xeMQIiB/CZwK4VOEP7nGHZn3UsWemsvE9lvjbFzbqcIkbUp2V6ExM5tyEgzio2BavLe1ZJGHVaKkL3cKLABoYi/yBLEnogPFzzYfK2fdipm2G+GhLaqfDxtAQ7cqXeo1TCsZLSvjD+kLVV1TvKlaHS8tUCh2oUyR7fTbv6WHi5H8DLyR0Pnbt9E9/Gcs1j11JX+MWJ7jset2FVDsB5U1LM70AjhXiDiQCtNJzKaqKdMei8zazWS50iMKKeo4m/adWBjG/8ld3fQ7/Hcj6Opkh8xPaCnmgDZovYGavw4Am2tjRqE6G6rPQpS0we5I6lSsKNBP/2FhLmI9fnsBnZC1l1NrASRSX1BK0xf4LYB2Ww3fYQmbbApAUBbWZ/1aQoc2ECKbSK9iW0gfZ8rDggfMw8nzpmEEExl0hU6wtJLymyDV+QGoPx5KwYK/6qAUNJQInUYz8z2ERM/HOI09Zu3jiauFBDtouSIraX/2DDvTf7Lfe1+ihARFSlp64kEMAsjKutNBK2u5oj4H7hQ7zD+BvWLHxMgysOtYYtwggweOrM/k3RndsZ/z3nsGqF0ggct1VLuH2eznDksI+KkZ3Bg0WihQyJ7Z9omgaQAyRDFct+jnJsv2Iza+xIvPei+fpbGNAyFvj0e+TsZoQGcC34/ipGwze651UAEQEAAYkBHwQoAQIACQUCVT6BaAIdAwAKCRCBSuR8IUhU1p5QCAC7pgjOM17Hxwqz9mlGELilYqjzNPUoZt5xslcTFGxj/QWNzu0K8gEQPePnc5dTfumzWL077nxhdKYtoqwm2C6fOmXiJBZx6khBfRqctUvN2DlOB6dFf5I+1QT9TRBvceGzw01E4Gi0xjWKAB6OII
-	MAdnPcDVFzaXJdlAAJdjfg/lyJtAyxifflG8NnXJ3elwGqoBso84XBNWWzbc5VKmatzhYLOvXtfzDhu4mNPv/z7S1HTtRguI0NlH5RVBzSvfzybin9hysE3/+r3C0HJ2xiOHzucNAmG03aztzZYDMTbKQW4bQqeD5MJxT68vBYu8MtzfIe41lSLpb/qlwq1qg0iQElBBgBAgAPBQJUdhaZAhsMBQkA7U4AAAoJEIFK5HwhSFTW3YgH/AyJL2rlCvGrkLcas94ND9Pmn0cUlVrPl7wVGcIV+6I4nrw6u49TyqNMmsYam2YpjervJGgbvIbMzoHFCREi6R9XyUsw5w7GCRoWegw2blZYi5A52xe500+/RruG//MKfOtVUotu3N+u7FcXaYAg9gbYeGNZCV70vI+cnFgq0AEJRdjidzfCWVKPjafTo7jHeFxX7Q22kUfWOkMzzhoDbFg0jPhVYNiEXpNyXCwirzvKA7bvFwZPlRkbfihaiXDE7QKIUtQ10i5kw4C9rqDKwx8F0PaWDRF9gGaKd7/IJGHJaac/OcSJ36zxgkNgLsVX5GUroJ2GaZcR7W9Vppj5H+C4UgRkuRyTEwgqhkjOPQMBBwIDBOySomnsW2SkApXv1zUBaD38dFEj0LQeDEMdSE7bm1fnrdjAYt0f/CtbUUiDaPodQk2qeHzOP6wA/2K6rrjwNIWJAT0EGAEIACcDGyAEFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmWoM/gFCQSxfmUACgkQgUrkfCFIVNZhTgf/VQxtQ5rgu2aoXh2KOH6naGzPKDkYDJ/K7XCJAq3nJYEpYN8G+F8mL/ql0hrihAsHfjmoDOlt+INa3AcG3v0jDZIMEzmcjAlu7g5NcXS3kntcMHgw3dCgE9eYDaKGipUCubdXvBaZWU6AUlTldaB8FE6u7It7+UO+IW4/L+KpLYKs8V5POInu2rqahlm7vgxY5iv4Txz4EvCW2e4dAlG
-	8mT2Eh9SkH+YVOmaKsajgZgrBxA7fWmGoxXswEVxJIFj3vW7yNc0C5HaUdYa5iGOMs4kg2ht4s7yy7NRQuh7BifWjo6BQ6k4S1H+6axZucxhSV1L6zN9d+lr3Xo/vy1unzA==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V/rv/PvX"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7b22ffa2a88so1834578b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 22:48:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765608523; x=1766213323; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OSPLFg4W3QR5ByFn0Z+25izVWJy4kGkKLbWih19PHZA=;
+        b=V/rv/PvXawv5NhhkAlMigL5A3ymTVqMjUYFcMQfTez04D7GoxsMFc3nHxvrRxu0+Bx
+         q/ag4Oils+4vYzzLAYkocXSctwh95tJIk7AfzCjE9g4pD/crZacOKcamExzMPbbSjgdU
+         KpahdKnZjsNP57dPYv7jaInJnq5iLcW9+0ZWmvT2OozAB0E1wIJitV0Dv73h8kHCl6Je
+         gm6vdMhqnhnrGP6jyc/R+pcvBWKNWf5P9e8+76Dii1eOMderlpgnbFv5KVQKR9ZZP1Q2
+         +7GgkROGYw6lLjhmPRcJU5vV3NKGCV2mkB6SwBClNERHoV9nzTfyhH/Rn2nie3gdTSjk
+         kIXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765608523; x=1766213323;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OSPLFg4W3QR5ByFn0Z+25izVWJy4kGkKLbWih19PHZA=;
+        b=UNXcbSsQj0VDYydnZeHCwUGLVCVRuaT+2Mea5xb1E6hDZz9Cc3Po77aMAb/ImLP60A
+         jMcSbKZ6rvqmF/LUjdl+ckslNZI9IPkvX567BR8rBivcaGpEt3FESywhC8ZNB+DjfeE7
+         cIZRsQZQWPowFyn7VazvFuYDqhySW84fYwYOiqVuHSf0V4MiZ1M3r4CP3SBhdYPJwp23
+         h9wmJr3FIOJWGubObzdu4mnztuODGQH/lUURLZDQFXHyO/2L9NeH+RGplDtZJDj53UIL
+         rTpN1nojGusvyewvfbMVcfFbCOZ9NKSW8hfqne7U2FRNk158C2/oCzafQrDsMS4zCW7w
+         mTnA==
+X-Forwarded-Encrypted: i=1; AJvYcCW3tBSrweKZEj/TFSGjLJffFWv+rjjzf9txOpYxOAKM3memlaB8zBxUtCeuF2RErxxK1AxMvJnFf/Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeboK8W360tfaGyjxGmtOOLbWU0Or+cnrC0S8i/0nTW024Xh+G
+	jV8yzvpWd/SGrTgLdW3laz1byWeT1J9KbFTowp3jvp62VuVWanSPWghimUJye5y1mMc=
+X-Gm-Gg: AY/fxX40UigG4/074kH7dG8ftKVySh5x++u1/CelmOCNfcguZLFhdWBWlYSSQLFoFhr
+	nL8h13Z4toGJTN5XQoglj3AIzWc4UcBxx4stofoFOPmraAqnp6aoDtq9o8aLv7A4qxseAHpsint
+	4RQGxLgNXt/1mAK2EB8PYNSXMMoD5pXEMbE9iW6BzJ9ogz2bKkyTXeIxO0zFgtvIv6JY3+42vJ6
+	ROP8WWXKF7hL8Ppu4FSiWFBMnYTV9g/hufIS84oa90rCEsCUzmxxzg9/oyPl3oKEwc2CsUgYSO6
+	bB0joXfDtghNRBKsBVzyd3cfmjkX5XQc9FnrfmKPOt5fGmJxks262LIjZcxMyeihZOcJe2GdbOc
+	25wc5FeQcnkRVlTR/ppXLGcLycByGwhSffQarHxsStlPuC+a7VkIp9Ed4nlFViAH+DSe+XrO1ii
+	dIK7yCOqqxoRxMSj1jVaI23U1RRC/req9q1WIfV301vuR3YsSCsQ7M3cS3/lmZDQ==
+X-Google-Smtp-Source: AGHT+IHwMXPg7Qn0Ef9xWbq83SFpsB1sFhZLa5C8vjkRdWjkXJZFN6bz1qhctibBoHiLjB/xaNqEfg==
+X-Received: by 2002:a05:6a00:1c99:b0:7e8:4471:ae56 with SMTP id d2e1a72fcca58-7f6694a964bmr3530338b3a.34.1765608522549;
+        Fri, 12 Dec 2025 22:48:42 -0800 (PST)
+Received: from [10.200.3.203] (p99250-ipoefx.ipoe.ocn.ne.jp. [153.246.134.249])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c4ab52aasm6927000b3a.38.2025.12.12.22.48.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Dec 2025 22:48:41 -0800 (PST)
+Message-ID: <bf00eec5-e9fe-41df-b758-7601815b24a0@linaro.org>
+Date: Sat, 13 Dec 2025 08:48:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/26] Introduce meminspect
+To: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, tglx@linutronix.de, andersson@kernel.org,
+ pmladek@suse.com, rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
+ mhocko@suse.com
+Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
+ linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
+ jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org,
+ Trilok Soni <tsoni@quicinc.com>, Kaushal Kumar <kaushalk@qti.qualcomm.com>,
+ Shiraz Hashim <shashim@qti.qualcomm.com>,
+ Peter Griffin <peter.griffin@linaro.org>, stephen.s.brennan@oracle.com,
+ Will McVicker <willmcvicker@google.com>,
+ "stefan.schmidt@linaro.org" <stefan.schmidt@linaro.org>
+References: <20251119154427.1033475-1-eugen.hristev@linaro.org>
+From: Eugen Hristev <eugen.hristev@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20251119154427.1033475-1-eugen.hristev@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2025-12-12 at 09:45 +0000, David Howells wrote:
-> Note that there are two other potentially conflicting sets of changes
-> to the PKCS#7 code that will need to be coordinated: ML-DSA support
-> and RSASSA-PSS support.=C2=A0 The former wants to do the hashing itself,
-> the latter requires signature parameters.
 
-I don't think there'll be a conflict.  The only changes this makes is
-to add an API that exposes the attributes.  It shouldn't have any
-effect on the way signatures are currently verified.=20
 
-From the use case patches it looks like we could simply get the struct
-pkcs7 verified by calling verify_pkcs7_message_sig() as long as the
-symbol is exported; Initially I didn't think they'd have access to the
-content to reverify, so I added the extra patches to break out the
-validate_pkcs7_trust() calls, but I don't think they're necessary now.
+On 11/19/25 17:44, Eugen Hristev wrote:
+> meminspect is a mechanism which allows the kernel to mark specific memory
+> areas for memory dumping or specific inspection, statistics, usage.
+> Once regions are marked, meminspect keeps an internal list with the regions
+> in a dedicated table.
 
-Regards,
+[...]
 
-James
 
+> I will present this version at Plumbers conference in Tokyo on December 13th:
+> https://lpc.events/event/19/contributions/2080/
+> I am eager to discuss it there face to face.
+
+Summary of the discussions at LPC talk on Dec 13th:
+
+One main idea on the static variables annotation was to do some linker
+magic, to create a list of variables in the tree, that would be parsed
+by some script, the addresses and sizes would be then stored into the
+dedicated section at the script level, without having any C code change.
+Pros: no C code change, Cons: it would be hidden/masked from the code,
+easy to miss out, which might lead to people's variables being annotated
+without them knowing
+
+Another idea was to have variables directly stored in a dedicated
+section which would be added to the table.
+e.g. static int __attribute(section (...)) nr_irqs;
+Pros: no more meminspect section Cons: have to keep all interesting
+variables in a separate section, which might not be okay for everyone.
+
+On dynamic memory, the memblock flag marking did not receive any obvious
+NAKs.
+
+On dynamic memory that is bigger in size than one page, as the table
+entries are registered by virtual address, this would be non-contiguous
+in physical memory. How is this solved?
+-> At the moment it's left for the consumer drivers to handle this
+situation. If the region is a VA and the size > PAGE_SIZE, then the
+driver needs to handle the way it handles it. Maybe the driver that
+parses the entry needs to convert it into multiple contiguous entries,
+or just have virtual address is enough. The inspection table does not
+enforce or limit the entries to contiguous entries only.
+
+On the traverse/notifier system, the implementation did not receive any
+obvious NAKs
+
+General comments:
+
+Trilok Soni from Qualcomm mentioned they will be using this into their
+software deliveries in production.
+
+Someone suggested to have some mechanism to block specific data from
+being added to the inspection table as being sensitive non-inspectable
+data.
+[Eugen]: Still have to figure out how that could be done. Stuff is not
+being added to the table by default.
+
+Another comment was about what use case there is in mind, is this for
+servers, or for confidential computing, because each different use case
+might have different requirements, like ignoring some regions is an
+option in one case, but bloating the table in another case might not be
+fine.
+[Eugen]: The meminspect scenario should cover all cases and not be too
+specific. If it is generic enough and customizable enough to care for
+everyone's needs then I consider it being a success. It should not
+specialize in neither of these two different cases, but rather be
+tailored by each use case to provide the mandatory requirements for that
+case.
+
+Another comment mentioned that this usecase does not apply to many
+people due to firmware or specific hardware needed.
+[Eugen]: one interesting proposed usecase is to have a pstore
+driver/implementation that would traverse the inspection table at panic
+handler time, then gather data from there to store in the pstore
+(ramoops, mtdoops or whatever backend) and have it available to the
+userspace after reboot. This would be a nice use case that does not
+require firmware nor specific hardware, just pstore backend support.
+
+Ending note was whether this implementation is going in a good direction
+and what would be the way to having it moving upstream.
+
+Thanks everyone who attended and came up with ideas and comments.
+There are a few comments which I may have missed, so please feel free to
+reply to this email to start a discussion thread on the topic you are
+interested in.
+
+Eugen
