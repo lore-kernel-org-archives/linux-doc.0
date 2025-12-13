@@ -1,196 +1,89 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868BF221FA0
-	for <linux-doc@vger.kernel.org>; Sat, 13 Dec 2025 02:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747D719DF62;
+	Sat, 13 Dec 2025 05:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765591624; cv=none; b=PuHnXj5vg9c6cU3vddV1h+4SjK95f3jcllTsOAwb1gTTGFADMtMGvyof7XBg+JPBGk9h1TiaLpdFU8vrh709DDD98NVbSRnDRhMKf3I990xyY/h6Uw45mQFFL7ZaNUtsEe2sg9I1u0ouvaWTqhajHawz4Snh1tUzY1wwHz5iARw=
+	t=1765605030; cv=none; b=QfVPRJdvvuiwQnWa02LimU96YqNROCZLqopSMy/OxHFRX8/zu9NLM17vAAbeF8+a/cu2QcaEaMI/YXmSHx+G26TLHPc15qGwbu02olvFKgHAdMF7eHWeNEdTn+lYxi+h+/fp9282rg6UYUd0cakq6g65ciaAsXNWaOEt7mYdx54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765591624; c=relaxed/simple;
-	bh=o78EE0CBwAKtaBx4p+s0991PHX7BOfT9hDlkZYWgMa4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BJOtdfThCInAgfCNddOmk0cR7yInjZdDoRQZFH3T+6Xom7mIgk7F9C1RCFmMU4k0/NcesBMFMWJzh5Ve6z9xv8L5jsu47mxi1hwCqrZHrEKihnDqTEBDcfi7toan8AdebgB+MPbvcSRUd4WhzOw/cIfRqTfQHHOyq4Ug/5CVyvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=NSEeFOTK; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1765605030; c=relaxed/simple;
+	bh=oV7wxY4xLQRoU5xn6BWx208fAfWgZJ25GIqdCS3n/Jg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=aYmrJJzv+LRei5S5u3r8p5y8AgJop3WE4R3jDXNHTyU54PRtjNSEDNKJomYK56EaCpbx8qhiNA3Y9Fswqmb94B33AlPVhkgefQHOuGbYTmSVuxEtquy/CAYOnnca05ks59s5nG750560Lsi/6ZYAXw+gZsWgzkDu44PdA+YNtYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=KXYVlrSj; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="NSEeFOTK"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-34b75fba315so987509a91.3
-        for <linux-doc@vger.kernel.org>; Fri, 12 Dec 2025 18:07:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1765591622; x=1766196422; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q6SUXJgzM946cTzA9BUg6hytN3ta/g/U54KdX40MWDQ=;
-        b=NSEeFOTKc2sqnxxtM8QakKTHAChnmvFiX+gE73O0iphll7go4ZLx3tuNaYiYVeWABY
-         vx6aAQYqpWZDGLOF811Pp2JiypDr1+SD5wX63iq7gvMHQeWmdZsQ+G9/HKqijh1m++I2
-         ArAWgfKeZugRvVLHJU75dGhRq4WJX1g2ueIyytZrhyNEilYXX491Qk+GdGISIF2CQw5T
-         h66FZj5whgp7KVSho7REIdI620zUvTY5W1Mh2CLY3xNSG/ns7/KEoC68Wzns8NqV5fdh
-         CvQsyazwpAq7fVHshxTUsKnBvtA7LqWh2pCph83QLuUk3jGuAom4rXgZtUvNe0hqbza+
-         jqeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765591622; x=1766196422;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Q6SUXJgzM946cTzA9BUg6hytN3ta/g/U54KdX40MWDQ=;
-        b=Sc2E5/F7g1l6ACdnZ5o2NF2/esvw/Se7Zzzez/LY1hxns8d7mULTkGRmTcmwaVcYOJ
-         +HRlraNAG8Nqi/PWXrFhkL0KFBVorLWe5EQpkySSFyhPHyW5LZyb9SYHNu8gxz4OWBhV
-         Fqa1uIHorHYV/5P58vBF+hhamNzwn8mnzzpcc3+OIyHnZxhGbrCLEwUJIZT1d02iTFdr
-         wJ+VQbK8H3VH/l/VswsNxvw8IOdtIiRt1nj/0isHnVNIHC/Pfk7+mGCWaOq7AnVjAsas
-         HumASdDEev5YAajNpnpGPIZgReoldMLdaiSTmVFbNamHdezBWXPUwVf0ud/wLyzaO25P
-         6etQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+9Tr6uO/ibG0eCgG1tWhsJtf+M5ZRXgqotL56gID27EOupQS1F3lIUXJKH4YBaT4wcQNRQKggs30=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywh7uANAGafWCR67fIvChFzIF+qiUmnSJZpRoC92kwv+jXy3WZB
-	G+A72B0ZT7dm+rgqck/i+MS0ohyP07IvrDdNwtHA3Ok5Q2+psJNyvrNuLRNT8+6mQteS7tb8Adz
-	5QmKg1VrnwQ6zzuF3V+2ABbUmoFuSl+9RZHPGt3Z4
-X-Gm-Gg: AY/fxX5GHJeZJB0vrxDNcYMKYv4IYkje+DNAcPFk7WROKup9NQhRauqZOBjhXMzRyNP
-	1/zmnjPMCxt4+ftfF+n5NdhwwFtgVUc6UaqxrbfOnUGtlrb1KlbAhl317Cc9/m14S3UrjPqYBK8
-	QerQc4AsDi8tRI09qg2Uxcjqc/HSaF3U52pFA3diJxyjTWKb/8TAUrv7RoVF4K2gaRuP/NNZutm
-	RijGDMaeGEhs6upHGADEFtZ2cySTqRfCRMXDEA9Bnjcg318bTaTO60LhIUW9zeV4h/1bWs=
-X-Google-Smtp-Source: AGHT+IGnwX71Z86N1z70pd7ITefWX/huSwRq2VYVRFVs/VS6a87brv9E91o16xh3yBqd0EXaLvFoopy9BQrXtAiOIYk=
-X-Received: by 2002:a17:90b:350d:b0:32d:d5f1:fe7f with SMTP id
- 98e67ed59e1d1-34abe40ea73mr3314646a91.15.1765591621526; Fri, 12 Dec 2025
- 18:07:01 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="KXYVlrSj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1765605026;
+	bh=oV7wxY4xLQRoU5xn6BWx208fAfWgZJ25GIqdCS3n/Jg=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=KXYVlrSjjRGHOWfx6aom75OA27CPBbnMFxBYDBT8Z4Wn/q9pzH9LwpJILNL6whd1I
+	 6sxkfdY7h9LvTnIpjg2WAyyloC/PwildPLDr3CXl0Op4Y4CYWbz4L/9LP8jbwQeDuk
+	 j1zcCzuucKhCKasPfFbxA2MXjdhTJz8SuzIAHOgE=
+Received: from [10.200.4.101] (fs98a57d9c.tkyc007.ap.nuro.jp [152.165.125.156])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 640FE1C0139;
+	Sat, 13 Dec 2025 00:50:23 -0500 (EST)
+Message-ID: <ffcb4a42c29f98fada076958f069c094164cad79.camel@HansenPartnership.com>
+Subject: Re: [RFC 04/11] crypto: pkcs7: add flag for validated trust on a
+ signed info block
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: David Howells <dhowells@redhat.com>, Blaise Boscaccy
+	 <bboscaccy@linux.microsoft.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>, 
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ =?ISO-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+ =?ISO-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,  "Dr. David Alan
+ Gilbert" <linux@treblig.org>, Andrew Morton <akpm@linux-foundation.org>, 
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Date: Sat, 13 Dec 2025 14:50:13 +0900
+In-Reply-To: <811909.1765532715@warthog.procyon.org.uk>
+References: <20251211021257.1208712-5-bboscaccy@linux.microsoft.com>
+	 <20251211021257.1208712-1-bboscaccy@linux.microsoft.com>
+	 <811909.1765532715@warthog.procyon.org.uk>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=mQENBE58FlABCADPM714lRLxGmba4JFjkocqpj1/6/Cx+IXezcS22azZetzCXDpm2MfNElecY3qkFjfnoffQiw5rrOO0/oRSATOh8+2fmJ6el7naRbDuh+i8lVESfdlkoqX57H5R8h/UTIp6gn1mpNlxjQv6QSZbl551zQ1nmkSVRbA5TbEp4br5GZeJ58esmYDCBwxuFTsSsdzbOBNthLcudWpJZHURfMc0ew24By1nldL9F37AktNcCipKpC2U0NtGlJjYPNSVXrCd1izxKmO7te7BLP+7B4DNj1VRnaf8X9+VIApCi/l4Kdx+ZR3aLTqSuNsIMmXUJ3T8JRl+ag7kby/KBp+0OpotABEBAAG0N0phbWVzIEJvdHRvbWxleSA8SmFtZXMuQm90dG9tbGV5QEhhbnNlblBhcnRuZXJzaGlwLmNvbT6JAVgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAhkBFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmBLmY0FCRs1hL0ACgkQgUrkfCFIVNaEiQgAg18F4G7PGWQ68xqnIrccke7Reh5thjUz6kQIii6Dh64BDW6/UvXn20UxK2uSs/0TBLO81k1mV4c6rNE+H8b7IEjieGR9frBsp/+Q01JpToJfzzMUY7ZTDV1IXQZ+AY9L7vRzyimnJHx0Ba4JTlAyHB+Ly5i4Ab2+uZcnNfBXquWrG3oPWz+qPK88LJLya5Jxse1m1QT6R/isDuPivBzntLOooxPk+Cwf5sFAAJND+idTAzWzslexr9j7rtQ1UW6FjO4CvK9yVNz7dgG6FvEZl6J/HOr1rivtGgpCZTBzKNF8jg034n49zGfKkkzWLuXbPUOp3/oGfsKv8pnEu1c2GbQpSmFtZXMgQm90dG9tbGV5IDxqZWpiQGxpbnV4LnZuZXQuaWJtLmNvbT6JAVYEEwEIAEACGwMHCwkIBwMCAQYVC
+	AIJCgsEFgIDAQIeAQIXgBYhBNVgbnPItGJxvq2a34FK5HwhSFTWBQJgS5mXBQkbNYS9AAoJEIFK5HwhSFTWEYEH/1YZpV+1uCI2MVz0wTRlnO/3OW/xnyigrw+K4cuO7MToo0tHJb/qL9CBJ2ddG6q+GTnF5kqUe87t7M7rSrIcAkIZMbJmtIbKk0j5EstyYqlE1HzvpmssGpg/8uJBBuWbU35af1ubKCjUs1+974mYXkfLmS0a6h+cG7atVLmyClIc2frd3o0zHF9+E7BaB+HQzT4lheQAXv9KI+63ksnbBpcZnS44t6mi1lzUE65+Am1z+1KJurF2Qbj4AkICzJjJa0bXa9DmFunjPhLbCU160LppaG3OksxuNOTkGCo/tEotDOotZNBYejWaXN2nr9WrH5hDfQ5zLayfKMtLSd33T9u0IUphbWVzIEJvdHRvbWxleSA8amVqYkBrZXJuZWwub3JnPokBVQQTAQgAPwIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQTVYG5zyLRicb6tmt+BSuR8IUhU1gUCYEuZmAUJGzWEvQAKCRCBSuR8IUhU1gacCAC+QZN+RQd+FOoh5g884HQm8S07ON0/2EMiaXBiL6KQb5yP3w2PKEhug3+uPzugftUfgPEw6emRucrFFpwguhriGhB3pgWJIrTD4JUevrBgjEGOztJpbD73bLLyitSiPQZ6OFVOqIGhdqlc3n0qoNQ45n/w3LMVj6yP43SfBQeQGEdq4yHQxXPs0XQCbmr6Nf2p8mNsIKRYf90fCDmABH1lfZxoGJH/frQOBCJ9bMRNCNy+aFtjd5m8ka5M7gcDvM7TAsKhD5O5qFs4aJHGajF4gCGoWmXZGrISQvrNl9kWUhgsvoPqb2OTTeAQVRuV8C4FQamxzE3MRNH25j6s/qujtCRKYW1lcyBCb3R0b21sZXkgPGplamJAbGludXguaWJtLmNvbT6JAVQEEwEIAD
+	4CGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQTVYG5zyLRicb6tmt+BSuR8IUhU1gUCYEuZmQUJGzWEvQAKCRCBSuR8IUhU1kyHB/9VIOkf8RapONUdZ+7FgEpDgESE/y3coDeeb8jrtJyeefWCA0sWU8GSc9KMcMoSUetUreB+fukeVTe/f2NcJ87Bkq5jUEWff4qsbqf5PPM+wlD873StFc6mP8koy8bb7QcH3asH9fDFXUz7Oz5ubI0sE8+qD+Pdlk5qmLY5IiZ4D98V239nrKIhDymcuL7VztyWfdFSnbVXmumIpi79Ox536P2aMe3/v+1jAsFQOIjThMo/2xmLkQiyacB2veMcBzBkcair5WC7SBgrz2YsMCbC37X7crDWmCI3xEuwRAeDNpmxhVCb7jEvigNfRWQ4TYQADdC4KsilPfuW8Edk/8tPtCVKYW1lcyBCb3R0b21sZXkgPEpCb3R0b21sZXlAT2Rpbi5jb20+iQEfBDABAgAJBQJXI+B0Ah0gAAoJEIFK5HwhSFTWzkwH+gOg1UG/oB2lc0DF3lAJPloSIDBW38D3rezXTUiJtAhenWrH2Cl/ejznjdTukxOcuR1bV8zxR9Zs9jhUin2tgCCxIbrdvFIoYilMMRKcue1q0IYQHaqjd7ko8BHn9UysuX8qltJFar0BOClIlH95gdKWJbK46mw7bsXeD66N9IhAsOMJt6mSJmUdIOMuKy4dD4X3adegKMmoTRvHOndZQClTZHiYt5ECRPO534Lb/gyKAKQkFiwirsgx11ZSx3zGlw28brco6ohSLMBylna/Pbbn5hII86cjrCXWtQ4mE0Y6ofeFjpmMdfSRUxy6LHYd3fxVq9PoAJTv7vQ6bLTDFNa0KkphbWVzIEJvdHRvbWxleSA8SkJvdHRvbWxleUBQYXJhbGxlbHMuY29tPokBHwQwAQIACQUCVyPgjAIdIAAKCRCBSuR8IUhU1tXiB/9D9OOU8qB
+	CZPxkxB6ofp0j0pbZppRe6iCJ+btWBhSURz25DQzQNu5GVBRQt1Us6v3PPGU1cEWi5WL935nw+1hXPIVB3x8hElvdCO2aU61bMcpFd138AFHMHJ+emboKHblnhuY5+L1OlA1QmPw6wQooCor1h113lZiBZGrPFxjRYbWYVQmVaM6zhkiGgIkzQw/g9v57nAzYuBhFjnVHgmmu6/B0N8z6xD5sSPCZSjYSS38UG9w189S8HVr4eg54jReIEvLPRaxqVEnsoKmLisryyaw3EpqZcYAWoX0Am+58CXq3j5OvrCvbyqQIWFElba3Ka/oT7CnTdo/SUL/jPNobtCxKYW1lcyBCb3R0b21sZXkgPGplamJAaGFuc2VucGFydG5lcnNoaXAuY29tPokBVwQTAQgAQRYhBNVgbnPItGJxvq2a34FK5HwhSFTWBQJjg2eQAhsDBQkbNYS9BQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJEIFK5HwhSFTWbtAH/087y9vzXYAHMPbjd8etB/I3OEFKteFacXBRBRDKXI9ZqK5F/xvd1fuehwQWl2Y/sivD4cSAP0iM/rFOwv9GLyrr82pD/GV/+1iXt9kjlLY36/1U2qoyAczY+jsS72aZjWwcO7Og8IYTaRzlqif9Zpfj7Q0Q1e9SAefMlakI6dcZTSlZWaaXCefdPBCc7BZ0SFY4kIg0iqKaagdgQomwW61nJZ+woljMjgv3HKOkiJ+rcB/n+/moryd8RnDhNmvYASheazYvUwaF/aMj5rIb/0w5p6IbFax+wGF5RmH2U5NeUlhIkTodUF/P7g/cJf4HCL+RA1KU/xS9o8zrAOeut2+4UgRaZ7bmEwgqhkjOPQMBBwIDBH4GsIgL0yQij5S5ISDZmlR7qDQPcWUxMVx6zVPsAoITdjKFjaDmUATkS+l5zmiCrUBcJ6MBavPiYQ4kqn4/xwaJAbMEGAEIACYCGwIWIQTVYG5zyLRi
+	cb6tmt+BSuR8IUhU1gUCZag0LwUJDwLkSQCBdiAEGRMIAB0WIQTnYEDbdso9F2cI+arnQslM7pishQUCWme25gAKCRDnQslM7pishdi9AQDyOvLYOBkylBqiTlJrMnGCCsWgGZwPpKq3e3s7JQ/xBAEAlx29pPY5z0RLyIDUsjf9mtkSNTaeaQ6TIjDrFa+8XH8JEIFK5HwhSFTWkasH/j7LL9WH9dRfwfTwuMMj1/KGzjU/4KFIu4uKxDaevKpGS7sDx4F56mafCdGD8u4+ri6bJr/3mmuzIdyger0vJdRlTrnpX3ONXvR57p1JHgCljehE1ZB0RCzIk0vKhdt8+CDBQWfKbbKBTmzA7wR68raMQb2D7nQ9d0KXXbtr7Hag29yj92aUAZ/sFoe9RhDOcRUptdYyPKU1JHgJyc0Z7HwNjRSJ4lKJSKP+Px0/XxT3gV3LaDLtHuHa2IujLEAKcPzTr5DOV+xsgA3iSwTYI6H5aEe+ZRv/rA4sdjqRiVpo2d044aCUFUNQ3PiIHPAZR3KK5O64m6+BJMDXBvgSsMy4VgRaZ7clEggqhkjOPQMBBwIDBMfuMuE+PECbOoYjkD0Teno7TDbcgxJNgPV7Y2lQbNBnexMLOEY6/xJzRi1Xm/o9mOyZ+VIj8h4G5V/eWSntNkwDAQgHiQE8BBgBCAAmAhsMFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmWoNBwFCQ8C4/cACgkQgUrkfCFIVNZs4AgAnIjU1QEPLdpotiy3X01sKUO+hvcT3/Cd6g55sJyKJ5/U0o3f8fdSn6MWPhi1m62zbAxcLJFiTZ3OWNCZAMEvwHrXFb684Ey6yImQ9gm2dG2nVuCzr1+9gIaMSBeZ+4kUJqhdWSJjrNLQG38GbnBuYOJUD+x6oJ2AT10/mQfBVZ3qWDQXr/je2TSf0OIXaWyG6meG5yTqOEv0eaTH22yBb1nbodoZkmlMMb56jzRGZuorhFE06
+	N0Eb0kiGz5cCIrHZoH10dHWoa7/Z+AzfL0caOKjcmsnUPcmcrqmWzJTEibLA81z15GBCrldfQVt+dF7Us2kc0hKUgaWeI8Gv4CzwLkCDQRUdhaZARAApeF9gbNSBBudW8xeMQIiB/CZwK4VOEP7nGHZn3UsWemsvE9lvjbFzbqcIkbUp2V6ExM5tyEgzio2BavLe1ZJGHVaKkL3cKLABoYi/yBLEnogPFzzYfK2fdipm2G+GhLaqfDxtAQ7cqXeo1TCsZLSvjD+kLVV1TvKlaHS8tUCh2oUyR7fTbv6WHi5H8DLyR0Pnbt9E9/Gcs1j11JX+MWJ7jset2FVDsB5U1LM70AjhXiDiQCtNJzKaqKdMei8zazWS50iMKKeo4m/adWBjG/8ld3fQ7/Hcj6Opkh8xPaCnmgDZovYGavw4Am2tjRqE6G6rPQpS0we5I6lSsKNBP/2FhLmI9fnsBnZC1l1NrASRSX1BK0xf4LYB2Ww3fYQmbbApAUBbWZ/1aQoc2ECKbSK9iW0gfZ8rDggfMw8nzpmEEExl0hU6wtJLymyDV+QGoPx5KwYK/6qAUNJQInUYz8z2ERM/HOI09Zu3jiauFBDtouSIraX/2DDvTf7Lfe1+ihARFSlp64kEMAsjKutNBK2u5oj4H7hQ7zD+BvWLHxMgysOtYYtwggweOrM/k3RndsZ/z3nsGqF0ggct1VLuH2eznDksI+KkZ3Bg0WihQyJ7Z9omgaQAyRDFct+jnJsv2Iza+xIvPei+fpbGNAyFvj0e+TsZoQGcC34/ipGwze651UAEQEAAYkBHwQoAQIACQUCVT6BaAIdAwAKCRCBSuR8IUhU1p5QCAC7pgjOM17Hxwqz9mlGELilYqjzNPUoZt5xslcTFGxj/QWNzu0K8gEQPePnc5dTfumzWL077nxhdKYtoqwm2C6fOmXiJBZx6khBfRqctUvN2DlOB6dFf5I+1QT9TRBvceGzw01E4Gi0xjWKAB6OII
+	MAdnPcDVFzaXJdlAAJdjfg/lyJtAyxifflG8NnXJ3elwGqoBso84XBNWWzbc5VKmatzhYLOvXtfzDhu4mNPv/z7S1HTtRguI0NlH5RVBzSvfzybin9hysE3/+r3C0HJ2xiOHzucNAmG03aztzZYDMTbKQW4bQqeD5MJxT68vBYu8MtzfIe41lSLpb/qlwq1qg0iQElBBgBAgAPBQJUdhaZAhsMBQkA7U4AAAoJEIFK5HwhSFTW3YgH/AyJL2rlCvGrkLcas94ND9Pmn0cUlVrPl7wVGcIV+6I4nrw6u49TyqNMmsYam2YpjervJGgbvIbMzoHFCREi6R9XyUsw5w7GCRoWegw2blZYi5A52xe500+/RruG//MKfOtVUotu3N+u7FcXaYAg9gbYeGNZCV70vI+cnFgq0AEJRdjidzfCWVKPjafTo7jHeFxX7Q22kUfWOkMzzhoDbFg0jPhVYNiEXpNyXCwirzvKA7bvFwZPlRkbfihaiXDE7QKIUtQ10i5kw4C9rqDKwx8F0PaWDRF9gGaKd7/IJGHJaac/OcSJ36zxgkNgLsVX5GUroJ2GaZcR7W9Vppj5H+C4UgRkuRyTEwgqhkjOPQMBBwIDBOySomnsW2SkApXv1zUBaD38dFEj0LQeDEMdSE7bm1fnrdjAYt0f/CtbUUiDaPodQk2qeHzOP6wA/2K6rrjwNIWJAT0EGAEIACcDGyAEFiEE1WBuc8i0YnG+rZrfgUrkfCFIVNYFAmWoM/gFCQSxfmUACgkQgUrkfCFIVNZhTgf/VQxtQ5rgu2aoXh2KOH6naGzPKDkYDJ/K7XCJAq3nJYEpYN8G+F8mL/ql0hrihAsHfjmoDOlt+INa3AcG3v0jDZIMEzmcjAlu7g5NcXS3kntcMHgw3dCgE9eYDaKGipUCubdXvBaZWU6AUlTldaB8FE6u7It7+UO+IW4/L+KpLYKs8V5POInu2rqahlm7vgxY5iv4Txz4EvCW2e4dAlG
+	8mT2Eh9SkH+YVOmaKsajgZgrBxA7fWmGoxXswEVxJIFj3vW7yNc0C5HaUdYa5iGOMs4kg2ht4s7yy7NRQuh7BifWjo6BQ6k4S1H+6axZucxhSV1L6zN9d+lr3Xo/vy1unzA==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251212171932.316676-1-roberto.sassu@huaweicloud.com>
-In-Reply-To: <20251212171932.316676-1-roberto.sassu@huaweicloud.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Fri, 12 Dec 2025 21:06:50 -0500
-X-Gm-Features: AQt7F2pSRiV5S0YmuydrmAf_bv4hOXVpZCzrNYqlNN_g3-DMC6uEP2lNoe8lzrs
-Message-ID: <CAHC9VhRUQxayj=XcdfbfHka-=N+B8cNk7Grg3QWGOTOz3BKfgw@mail.gmail.com>
-Subject: Re: [RFC][PATCH v2] ima: Add support for staging measurements for
- deletion and trimming
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
-	eric.snowberg@oracle.com, jmorris@namei.org, serge@hallyn.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	gregorylumen@linux.microsoft.com, chenste@linux.microsoft.com, 
-	nramas@linux.microsoft.com, Roberto Sassu <roberto.sassu@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 12, 2025 at 12:19=E2=80=AFPM Roberto Sassu
-<roberto.sassu@huaweicloud.com> wrote:
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->
-> Introduce the ability of staging the entire (or a portion of the) IMA
-> measurement list for deletion. Staging means moving the current content o=
-f
-> the measurement list to a separate location, and allowing users to read a=
-nd
-> delete it. This causes the measurement list to be atomically truncated
-> before new measurements can be added. Staging can be done only once at a
-> time. In the event of kexec(), staging is reverted and staged entries wil=
-l
-> be carried over to the new kernel.
->
-> User space is responsible to concatenate the staged IMA measurements list
-> portions following the temporal order in which the operations were done,
-> together with the current measurement list. Then, it can send the collect=
-ed
-> data to the remote verifiers.
->
-> Also introduce the ability of trimming N measurements entries from the IM=
-A
-> measurements list, provided that user space has already read them. Trimmi=
-ng
-> combines staging and deletion in one operation.
->
-> The benefit of these solutions is the ability to free precious kernel
-> memory, in exchange of delegating user space to reconstruct the full
-> measurement list from the chunks. No trust needs to be given to user spac=
-e,
-> since the integrity of the measurement list is protected by the TPM.
->
-> By default, staging/trimming the measurements list does not alter the has=
-h
-> table. When staging/trimming are done, IMA is still able to detect
-> collisions on the staged and later deleted measurement entries, by keepin=
-g
-> the entry digests (only template data are freed).
->
-> However, since during the measurements list serialization only the SHA1
-> digest is passed, and since there are no template data to recalculate the
-> other digests from, the hash table is currently not populated with digest=
-s
-> from staged/deleted entries after kexec().
->
-> Introduce the new kernel option ima_flush_htable to decide whether or not
-> the digests of staged measurement entries are flushed from the hash table=
-.
->
-> Then, introduce ascii_runtime_measurements_staged_<algo> and
-> binary_runtime_measurement_staged_<algo> interfaces to stage/trim/delete
-> the measurements. Use 'echo A > <IMA interface>' and
-> 'echo D > <IMA interface>' to respectively stage and delete the entire
-> measurements list. Use 'echo N > <IMA interface>', with N between 1 and
-> LONG_MAX, to stage the selected portion of the measurements list, and
-> 'echo -N > <IMA interface>' to trim N measurements entries.
+On Fri, 2025-12-12 at 09:45 +0000, David Howells wrote:
+> Note that there are two other potentially conflicting sets of changes
+> to the PKCS#7 code that will need to be coordinated: ML-DSA support
+> and RSASSA-PSS support.=C2=A0 The former wants to do the hashing itself,
+> the latter requires signature parameters.
 
-In an effort to help preserve the sanity of admins, I might suggest
-avoiding commands that start with a dash/'-'.  I'd probably also
-simplify the commands a bit and drop all/'A' since the measurement
-list could change at any time, stick with an explicit number and just
-let the admin go over, e.g. write LONG_MAX, which effectively becomes
-'A'.  I think you could do everything you need with just two commands:
+I don't think there'll be a conflict.  The only changes this makes is
+to add an API that exposes the attributes.  It shouldn't have any
+effect on the way signatures are currently verified.=20
 
-  <NUM>: stage <NUM> entries
-      D: delete staged entries
+From the use case patches it looks like we could simply get the struct
+pkcs7 verified by calling verify_pkcs7_message_sig() as long as the
+symbol is exported; Initially I didn't think they'd have access to the
+content to reverify, so I added the extra patches to break out the
+validate_pkcs7_trust() calls, but I don't think they're necessary now.
 
-I intentionally left out the trim/'T' command, because I'm not sure it
-is really necessary if you are going to implement the phased
-stage/delete process.  Yes, you have to do two operations (stage and
-delete) as opposed to just the trim, but I'd probably take the
-simplicity of just supporting a single approach over the trivial
-necessity of having to do two operations in userspace.
+Regards,
 
-Staging also has the benefit of having a sane way of handling two
-tasks racing to stage the measurement list.  I could see cases where
-multiple tasks race to trim the list and end up trimming more than was
-intended since they both hit in sequence.
+James
 
-If you did want to take a trim approach over a stage/delete approach,
-I could see something like this working:
-
- 1. process opens the measurement list
- 2. process reads from the measurement list, keeps the fd open
- 3. process does whatever it wants to preserve the list
- 4. process writes <NUM> to the measurement list, kernel trims <NUM> entrie=
-s
- 5. process closes fd
-
-... error handling shouldn't be too bad.  The process only writes
-<NUM> to the fd if it has already finished whatever it needs to do to
-preserve the list outside the kernel, think of it as a "commit"
-operation on a transaction.  If the fd is closed for some reason
-(error, interruption, killed) before the process writes <NUM> to the
-fd then IMA does nothing - no trim takes place.
-
-Multiple process racing can easily be solved when the log is opened;
-only one open(O_RDWR) is allowed at a time, other racing processes
-will get EBUSY.  Yes, one process could block others from trimming by
-holding the fd open for an extended period of time, but I would expect
-that CAP_SYS_ADMIN and root fs perms would be required to open the log
-read/write (not to mention any LSM access rights in place).
-
-I know I mentioned this basic idea to someone at some point, but there
-have been various discussion threads and multiple people over a fairly
-lengthy time that I've lost track of where it was mentioned.  If it
-was already discussed on-list and rejected for a good reason you can
-simply ignore the above approach ... although I still think the
-stage/delete API could be simplified as described :)
-
-[UPDATE: as I'm reading Steven's replies it looks like he has proposed
-something very similar to the above]
-
---=20
-paul-moore.com
