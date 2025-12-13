@@ -1,99 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1745FDF6C;
-	Sat, 13 Dec 2025 00:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA80220698;
+	Sat, 13 Dec 2025 00:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765584255; cv=none; b=I9jKBrdUSKMWA/xDpsk7NuB+VAr1Dauevq8U70L3NIzAbI01GbgI7xS48KOoC40mWlgRyM7scTUFAT6wmtcC2pGZz5MtHUfBPmuyBbg4lSCBEfxLRbijm6mN0O1r0HZiR6vzed10L3lLlPpMXKNBt7Qi1sPZZvTCCxidrxMqrk0=
+	t=1765586750; cv=none; b=Q/a7CCh0Psd9oRai6T6hm9kJgET/10kmauWyjEcwW7pyxGqsyQ7w4CEQpEvgpKv83xw59gH/84cq4bhn4yf1HBdZHblqKXhhF/l0YfeVfPuo1Yo2fJmjUQUatOXc7nuEsDoq9tmj/+x29Y3sWDJig5QUlcWsDC0HMNFu8H8t0Ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765584255; c=relaxed/simple;
-	bh=9ON0BsqUdHPuKooEwOAYhec1H4nQqHimI1tGEkaJO24=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fT0Fn6ZBjhIX7ZwVXSF5TYQCdScGr2aO1wmr0J2AdQyaoYRoGxgKIhcSf7pp7Y202CdAc/JiMxEvHuvrvVwbU0ZMu33QDImwUs5cQMoTUWrKnEecXHjPx3rzYZCTdGglrb/qPvhKLAIZdRwjqOEVk3EYW6HAqdBZtg5jlLiy/lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bOBfyOCi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765586750; c=relaxed/simple;
+	bh=77Thi797QTL8JEfy2ZXrA6Jdr8+2Tn/Lg+2M6GKxiBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iWENZpe/Ipu9fSNfBRdvNHHCN/qElWFGjIw3sKYP4VPOOSxEAqkVMB4YXiQjwzvhPsiYsHMNQ0l1cFhpaQHbT66BTQHPV12kKsbFVXqtiw/D8OeJapCYlMdvfXrh1mjabtHDzZ5ZIxsPkg0BpB3USkm95uYWAeYtA5jecDuUqes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gVo7Sc//; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bOBfyOCi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E33BC4CEF1;
-	Sat, 13 Dec 2025 00:04:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765584254;
-	bh=9ON0BsqUdHPuKooEwOAYhec1H4nQqHimI1tGEkaJO24=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bOBfyOCiVijuc8pYCEFzqgUszZYPT+BswDG6MX3gqzGPo2n1Lt28KE6rf4X7ORfZt
-	 6s9Kr8lsTdBadLvGSFAGPRGWUJGOZqnVrENL81iURcZvwucaE8C5w34HHZe6IAbLD+
-	 M7RNKJ9AL0E1v15XxZrKaQehEtHvbRDdkOEBUXr8qbntz/pu5mAo4AuId2LocjKBYT
-	 2+NTFSrdb0hSOexDJM08KB1GySrqXNOHdf+F1H8DpHzempFBSekxVn7LZoKZ12JbAn
-	 KqADfNiu5RqdcLkqAyR9DZ/OwyIPpjzb/+PG90FfbMrxxdnu+MTKD17DC/7ZED9X2u
-	 gaODwKaWfXPAg==
-Date: Sat, 13 Dec 2025 09:04:07 +0900
-From: Jakub Kicinski <kuba@kernel.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Michael Chan <michael.chan@broadcom.com>, Pavan
- Chebbi <pavan.chebbi@broadcom.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, John
- Fastabend <john.fastabend@gmail.com>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Shuah Khan <shuah@kernel.org>, Mina Almasry
- <almasrymina@google.com>, Stanislav Fomichev <sdf@fomichev.me>, Yue Haibing
- <yuehaibing@huawei.com>, David Wei <dw@davidwei.uk>, Haiyue Wang
- <haiyuewa@163.com>, Jens Axboe <axboe@kernel.dk>, Joe Damato
- <jdamato@fastly.com>, Simon Horman <horms@kernel.org>, Vishwanath Seshagiri
- <vishs@fb.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- io-uring@vger.kernel.org, dtatulea@nvidia.com
-Subject: Re: [PATCH net-next v7 7/9] eth: bnxt: allow providers to set rx
- buf size
-Message-ID: <20251213090407.3de8dd86@kernel.org>
-In-Reply-To: <c97d2c95-31c5-4bf6-b58f-552e85314056@gmail.com>
-References: <cover.1764542851.git.asml.silence@gmail.com>
-	<95566e5d1b75abcaefe3dca9a52015c2b5f04933.1764542851.git.asml.silence@gmail.com>
-	<20251202105820.14d6de99@kernel.org>
-	<c97d2c95-31c5-4bf6-b58f-552e85314056@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gVo7Sc//"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765586749; x=1797122749;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=77Thi797QTL8JEfy2ZXrA6Jdr8+2Tn/Lg+2M6GKxiBU=;
+  b=gVo7Sc//c7tnEyKLRf7cx8HLM6otY+sbuuKUnFa9iVMs+/1CwAHq3We+
+   Q0ieCDDPPs2JdOQbS78UWzqj3YjnEsM9Np09eF4/iArhV29kVS796sjdb
+   +aHH8YZ2YcMT6VYo8PDI46o3ghv+Dym/V/H7crwjVI+XQr6WoAKVSgZC+
+   Qcx/PhmLgQebpLOtfcP++yHHuU4CbGh1bl77J9vZXY/NFszvGMqL2kJdW
+   kiE6B4xPDgPWHt5i30/tnm2d5d4BrwU6CxUeQF+/7/oARV14w0O7eBSED
+   IoAFZhF4zxXBZODpCwU9e3MI0BAme8G4A18+9S0Uy204cqB4MCAkoeXFJ
+   A==;
+X-CSE-ConnectionGUID: 7GvS6V+CTEOoYWj0Wh4cOg==
+X-CSE-MsgGUID: iKt6vxZFRJaArV197BjAgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="71219674"
+X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
+   d="scan'208";a="71219674"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 16:45:49 -0800
+X-CSE-ConnectionGUID: dV9aRwUqR3iU0O1jdPcxnw==
+X-CSE-MsgGUID: 011tT+MFQtaKCyXggTUimQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
+   d="scan'208";a="196290213"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 16:45:45 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vUDlW-000000006qv-1t5p;
+	Sat, 13 Dec 2025 00:45:42 +0000
+Date: Sat, 13 Dec 2025 08:45:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v21 3/7] firmware: imx: add driver for NXP EdgeLock
+ Enclave
+Message-ID: <202512130804.vObtjguS-lkp@intel.com>
+References: <20251212-imx-se-if-v21-3-ee7d6052d848@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251212-imx-se-if-v21-3-ee7d6052d848@nxp.com>
 
-On Thu, 11 Dec 2025 01:39:25 +0000 Pavel Begunkov wrote:
-> On 12/2/25 18:58, Jakub Kicinski wrote:
-> > On Sun, 30 Nov 2025 23:35:22 +0000 Pavel Begunkov wrote:  
-> >> +static ssize_t bnxt_get_rx_buf_size(struct bnxt *bp, int rxq_idx)
-> >> +{
-> >> +	struct netdev_rx_queue *rxq = __netif_get_rx_queue(bp->dev, rxq_idx);
-> >> +	size_t rx_buf_size;
-> >> +
-> >> +	rx_buf_size = rxq->mp_params.rx_buf_len;
-> >> +	if (!rx_buf_size)
-> >> +		return BNXT_RX_PAGE_SIZE;  
-> > 
-> > I'd like to retain my cfg objects in the queue API, if you don't mind.
-> > I guess we just need the way for drivers to fill in the defaults and
-> > then plumb them into the ops.  
-> 
-> It was problematic, I wanted to split it into more digestible chunks.
-> My main problem is that it was not really optional and could break
-> drivers that don't even care about this qcfg len option but allow
-> setting it device-wise via ethtool, and I won't even have a way to
-> test them.
-> 
-> Maybe there is a way to strip down qcfg and only apply it to marked
-> queue api enabled drivers for now, and then extend the idea it in
-> the future. E.g.
+Hi Pankaj,
 
-Yes, I mean a stripped down version, since we're not shadowing the
-ethtool knob any more the full set of changes I had will be too much.
-Off the top of my head I think we'd need to retain:
- - the qcfg struct passed as an argument to the queue callbacks
-   (drivers other than bnxt won't use it which is okay since they don't
-   set .supported_params)
- - the ability to conjure the qcfg struct for any given queue by the
-   driver at any time (netdev_queue_config())
- - probably the callback to fill in the defaults so that the driver
-   doesn't have to check "is the value set by the user" explicitly
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 4a26e7032d7d57c998598c08a034872d6f0d3945]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20251212-172535
+base:   4a26e7032d7d57c998598c08a034872d6f0d3945
+patch link:    https://lore.kernel.org/r/20251212-imx-se-if-v21-3-ee7d6052d848%40nxp.com
+patch subject: [PATCH v21 3/7] firmware: imx: add driver for NXP EdgeLock Enclave
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20251213/202512130804.vObtjguS-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130804.vObtjguS-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130804.vObtjguS-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/firmware/imx/se_ctrl.c:168:6: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     168 |         if (FIELD_GET(DEV_GETINFO_MIN_VER_MASK, var_se_info.soc_rev))
+         |             ^
+   1 error generated.
+--
+>> drivers/firmware/imx/ele_common.c:241:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     241 |         status = RES_STATUS(msg->data[0]);
+         |                  ^
+   drivers/firmware/imx/se_ctrl.h:16:25: note: expanded from macro 'RES_STATUS'
+      16 | #define RES_STATUS(x)                   FIELD_GET(0x000000ff, x)
+         |                                         ^
+   1 error generated.
+
+
+vim +/FIELD_GET +168 drivers/firmware/imx/se_ctrl.c
+
+   137	
+   138	static int get_se_soc_info(struct se_if_priv *priv, const struct se_soc_info *se_info)
+   139	{
+   140		struct se_fw_load_info *load_fw = get_load_fw_instance(priv);
+   141		struct soc_device_attribute *attr;
+   142		u8 data[MAX_SOC_INFO_DATA_SZ];
+   143		struct ele_dev_info *s_info;
+   144		struct soc_device *sdev;
+   145		int err = 0;
+   146	
+   147		/*
+   148		 * This function should be called once.
+   149		 * Check if the se_soc_rev is zero to continue.
+   150		 */
+   151		if (var_se_info.soc_rev)
+   152			return err;
+   153	
+   154		err = ele_fetch_soc_info(priv, &data);
+   155		if (err < 0)
+   156			return dev_err_probe(priv->dev, err, "Failed to fetch SoC Info.");
+   157		s_info = (void *)data;
+   158		var_se_info.soc_rev = s_info->d_info.soc_rev;
+   159		load_fw->imem.state = s_info->d_addn_info.imem_state;
+   160	
+   161		if (!se_info->soc_register)
+   162			return 0;
+   163	
+   164		attr = devm_kzalloc(priv->dev, sizeof(*attr), GFP_KERNEL);
+   165		if (!attr)
+   166			return -ENOMEM;
+   167	
+ > 168		if (FIELD_GET(DEV_GETINFO_MIN_VER_MASK, var_se_info.soc_rev))
+   169			attr->revision = devm_kasprintf(priv->dev, GFP_KERNEL, "%x.%x",
+   170							FIELD_GET(DEV_GETINFO_MIN_VER_MASK,
+   171								  var_se_info.soc_rev),
+   172							FIELD_GET(DEV_GETINFO_MAJ_VER_MASK,
+   173								  var_se_info.soc_rev));
+   174		else
+   175			attr->revision = devm_kasprintf(priv->dev, GFP_KERNEL, "%x",
+   176							FIELD_GET(DEV_GETINFO_MAJ_VER_MASK,
+   177								  var_se_info.soc_rev));
+   178	
+   179		switch (se_info->soc_id) {
+   180		case SOC_ID_OF_IMX8ULP:
+   181			attr->soc_id = "i.MX8ULP";
+   182			break;
+   183		case SOC_ID_OF_IMX93:
+   184			attr->soc_id = "i.MX93";
+   185			break;
+   186		}
+   187	
+   188		err = of_property_read_string(of_root, "model", &attr->machine);
+   189		if (err)
+   190			return -EINVAL;
+   191	
+   192		attr->family = "Freescale i.MX";
+   193	
+   194		attr->serial_number = devm_kasprintf(priv->dev,
+   195						     GFP_KERNEL, "%016llX",
+   196						     GET_SERIAL_NUM_FROM_UID(s_info->d_info.uid,
+   197									     MAX_UID_SIZE >> 2));
+   198	
+   199		sdev = soc_device_register(attr);
+   200		if (IS_ERR(sdev))
+   201			return PTR_ERR(sdev);
+   202	
+   203		return 0;
+   204	}
+   205	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
