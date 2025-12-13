@@ -1,74 +1,77 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5E72236E0
-	for <linux-doc@vger.kernel.org>; Sat, 13 Dec 2025 20:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDD52356D9
+	for <linux-doc@vger.kernel.org>; Sat, 13 Dec 2025 20:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765656368; cv=none; b=FvhA9NmPrJ2aPYn+QRlAU9+1ApHf3hTSxSALvE2ZRMiGE50EBJt2uwjsiw+TRyzbdmzkGMrBPrKnjlp86nmZ10TpDPegu0ejnv41abxTnrYpIiXDGhYJ1cr4XvYY5gx866W2jd5E34gAb3fOY5sPLuGH2qK+KdB93GbN9PpmC5I=
+	t=1765656368; cv=none; b=J5p4T+N+ugqabltMlVwe2u5Pn2Dc//rVRLDolFQGtVvb3PqZPQfaMtZt1e2AdAa7PqbI7PBEPDLe9kw5DpkRf648Q/gzuAABAZCR6VMoxqPlzBGokpctR1XSbK50cMh/HkRMlr1jHlnF1AJx8FDjZLx5dQifU+tSxLyVrfb/z4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765656368; c=relaxed/simple;
-	bh=vHDffevPJvWn0TDEIr3DY9YUUhJW/hc5O51BO7cTGxA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t3BpFGXwAnSeTJalD6LLp9FB7HZydrCxHqKt0uoMaDC3v+nxIaqDHigp8uAraPhXePonruys19GB+AFxg9IsWzLUN2X9sbtWrZ/j3QzKYpBV4wqhmTVZl+qyFUzcdNpg74YfYtYrn/DepeGQsg1u1WyBnobmBsSeWp5uqfnWSZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bf7ijr3g; arc=none smtp.client-ip=209.85.208.49
+	bh=TwEi4W3Wz7CiB3xdylm+NGxwozA6GQtRNLp8+VyMOEQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tz1mxlv8VkF03Bh7EHl/U8pPnP09J0hTC2raauMcvsiWWKxbp9dQ/GBDdYpYrDf2QDO4guR67u6pyog0LB9cfNXL2ZMvvXTJk6S3nhI8iCe739wtGcvKY5ugvQ/RnpjgcjQmtdfa/jYFEMNHzrm4fFbwVzY7xnBno2DZi/hq8QA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J4SvBWgw; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bf7ijr3g"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-64165cd689eso3543321a12.0
-        for <linux-doc@vger.kernel.org>; Sat, 13 Dec 2025 12:06:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4SvBWgw"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b736ffc531fso456572466b.1
+        for <linux-doc@vger.kernel.org>; Sat, 13 Dec 2025 12:06:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765656365; x=1766261165; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p/5dOQDrua+flNbbvn9G1hHNSy2Etuw4W2yCxnsNBYM=;
-        b=Bf7ijr3giFWr6wLCJeqPScXVbjkFP1Qp2rQ+djQR7ssHG0/P9eIiXwlh3ZqA+PCiza
-         CwzquzFYUp19z39q2NHVUeEJs+bXlO/aMz4ErsIgnMVYNBiWD92DCcg+t/o/NV+U21He
-         2f3AI/77DZJoJa8sdNN/MknPPd+WENkgUw3s6dKNEGjJxB+lG6+G54JqOoAoo9cJuJEh
-         1JmwD5eKAt2kHUDIOoRCCUh+wyrP007JVmbdTP+crTtZpHiS6VKKugKLPt2p0cN1q1Kq
-         yfAIUGmsB2YHsFUeL9uR0B0U5DR7eIyehcpQh05X7TfbU/GhpSq73Pnb7a+unTDz3F+x
-         gaAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765656365; x=1766261165;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1765656366; x=1766261166; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p/5dOQDrua+flNbbvn9G1hHNSy2Etuw4W2yCxnsNBYM=;
-        b=rCTNMyu2nIAvCf2w4YHTswYskpR/vjL9TLUPZercfRRMi1UtwsboN/0AMxbLpouaIV
-         F7BSwL2/pw7ceD0Fbgle89RpwLevX4UvXUfjwn0vvMBbqzP8oXjH8fBSwG3CXPtiTgJC
-         qZZw3N38E2hKFgqOXTi7C5XTnaGadOhHfX/mrzwtLzM3j2b0QKM08dad/pE+LENPL+HU
-         OXKC0svmuWxWI9IHXaNkZ1Z9UZYbI36UnK3URpI8aEShGZM57+ztqsIECBqBeepamq31
-         iuaySrsV9ZVvR2TiHKeLu3N3UC8a3Xzo2/ngv5e1pMsXzqhx1ewcMTIl4KsLqMHKoXeS
-         WO/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUVQG3v2GUxwco/t6NgoW3ltg/C1Ljg5NG0Lxg9BC7EoLAfX87RjZ0zGHbPiezMk2S6N7fGnsGto10=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvhzC8oP4SQgIyjBYYFQjOx1/DV+WtXPYuqU/nV264WlAYA4pl
-	u3LkRJjh5GME8OV6FaeLFlbyGZk9z3BWiprtjiYE+GBHS/UdNmO5Lfls
-X-Gm-Gg: AY/fxX5deaBMHABnw+VgDeLcu3KmnZnJNleRfNHqvWlZwKrcacQ+bGHy6xDeOnT8Skl
-	3DW+JHGfjq4A44aC4qV+ufWnbFauG7lrhqKCgj7G1F1NMkXzAH1wXK8Wnf+M/L9cH3OkeKMevXa
-	2d5QWFvCZF2et73bEmO7J34rtzSkysGRpzWbhNfY8thaXoW32aMvhd0ET76n5lRH7KG/6j+jMn8
-	2PA7gUyr1Wjr1i4YpC8l/CN1D3dQIGF5RpZqB1lMgv2kMpavKGDBlmRpgGNWKdhyanrmXaYZSv9
-	qxxIYJzNTzwIZY7cm/5pkDfZQ5AoMl0pou7h+40DDvItu8dgFKbHghbMGHSD672YCoOgCiMGToH
-	w8hv8ClcJNJhZkLX3uvekotRHipKIHgBB99RugIhFzHGsSoqQ8lsYswFH/Fz/cIh52Qg2b9lwlo
-	SJKQeAq/Qh5gohHubh3UxYQDRJhbHFyA==
-X-Google-Smtp-Source: AGHT+IHyGed32ODALWiA3VxEmzJhRm8zqPkOmjtz4tMKYDQKKRya7+LJKpZFXDUO8WDaJs7zgWyz6A==
-X-Received: by 2002:a17:907:60d2:b0:b73:9892:7f46 with SMTP id a640c23a62f3a-b7d0251dcc8mr1158285666b.29.1765656364614;
-        Sat, 13 Dec 2025 12:06:04 -0800 (PST)
+        bh=eHGFOsqkS31gTErFV/5m1vr2r3hQ0elcZNql1xhW9iI=;
+        b=J4SvBWgw8msKHT3rwe4EXz5t59VE2anbWeqMcdceA1+SuGHl8F0nA7M8A6Sxr9lNT7
+         KA0oKRS+rQ4StMMsHdVmcgjmXBiFcz1hwSGqY5rxXWWe1cp/Tbv0XYOC7E9w2ZzSbn3j
+         CvD7RFza/8SvhtHXZOkG+K3DG1vBrBLK/QPNZr0U4klHhX0gw8wM3U2x/YDGkHn+gM+U
+         NtgHiSrOm3sUWO1BBEkBE3M3udddU6yWRIA/369QRUzGc7JlvG/6g4XM8NIsI4YE0EjR
+         x6T/UkQzuyO439AYkUzl9XfclpEwv+BhplzYnpBZUK44WAbeP1KokOA87shktae4Nd3T
+         sN3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765656366; x=1766261166;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=eHGFOsqkS31gTErFV/5m1vr2r3hQ0elcZNql1xhW9iI=;
+        b=qLhbLCL+wMBYbkudOxmWqGX0L8cOFSF9ZOpJPvDXI3Qd7kz41mA4JxhKuuiB9WzA3c
+         suxv7TzV9uf6gyNIDfr8kutD3knB5LmifWWgCWORcZ8Pd63IuhMv8vrOC7MCdxCe1Frf
+         R7il9tooLfCYgAcj8CoaUjVdNJQAOQtTmjTM8yIt2ZScgYzbSCQx6QS2cQ9BdrAXjnQ+
+         7QdeYpvvUSfrTmqW/Dh8vnvK2MfucHxjUI2EY8rBkyrW5FtzKulrGCIQ/2EP/QHym7ve
+         SFetPEHaU+4KxK6T6C3/PgTmjM47ffH7fBZ/AHbgChaPMi3+w38e0aCY6caCdnJNnDpR
+         aCDg==
+X-Forwarded-Encrypted: i=1; AJvYcCV4ubBzewMXBiI0p7NETa9zNylBD2k6eQVBR4toLs9iVRFzeEbO5KfWfZ90djtC1f3DSgjEEqRVRIE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwH7jhvErAQVE6y8oj8llYuDf2OwNccBRHDltUPBSxGGO9pGpnx
+	BvvUvhUeUTqZzNcqDAGbCUyM2azVA6XMOubZ6tN0m1hXIEql/L0UJs7i
+X-Gm-Gg: AY/fxX6ZeHZbjgZeC0w1YvQouvRyqVhRg+e2tkF9tp2smhhekJ86F02N930byxLO/PR
+	A/pDm8JXutKqDfQNaySCtz2PZoe6YLxxxyqRUoX3SU/0mob91CpSW+mlD2Kyc0ZREbPyFSMHZZ7
+	2/AOF26IMO1CXrOF1dxUn4XzZUW6ctBrlups0RosFST+07Zq53D1rM0qEm93QTXZN7+k791WCqu
+	Kda2VK2D90P2/YpgmYiv2by400mcl7fNnUGsTcMIP9ghB/fbImWlOYhY5+QC+SUIj3lGZZmb344
+	uBBksoz0YCrrO749qmIkYiMBjv+/6/SHVm4jFr0EFFw8o6jUEoqxkfWxTw5nEKOQbeDnVBeIaIV
+	MrFHGtbAOG7BKcg4xLtii8xIDwVGGu1RifB0bGfLwaTm3eR/QzRWYGv8qQpfz2NF5p/sfi2RP0y
+	iKQtf2IyM0YHPO2FlMwZYbwx+zxGEPuzDIJIcacFcY
+X-Google-Smtp-Source: AGHT+IGaCgD8cV0fgaZFejpb/WaFYRCA11d59vWkf2LFb2rS+n2zbSBBFJpot8a2kmK4HpgIFrCgOw==
+X-Received: by 2002:a17:907:d23:b0:b72:70ad:b8f0 with SMTP id a640c23a62f3a-b7d238bb66emr630797166b.36.1765656365499;
+        Sat, 13 Dec 2025 12:06:05 -0800 (PST)
 Received: from puma.museclub.art ([2a00:6020:b326:d300:d19:a765:d8d7:bedc])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa517558sm919073466b.34.2025.12.13.12.06.03
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa517558sm919073466b.34.2025.12.13.12.06.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 12:06:03 -0800 (PST)
+        Sat, 13 Dec 2025 12:06:05 -0800 (PST)
 From: Eugene Shalygin <eugene.shalygin@gmail.com>
 To: eugene.shalygin@gmail.com
-Cc: Robert McIntyre <rjmcinty@hotmail.com>,
-	Guenter Roeck <linux@roeck-us.net>,
+Cc: Guenter Roeck <linux@roeck-us.net>,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] hwmon: (asus-ec-sensors) add Pro WS TRX50-SAGE WIFI A
-Date: Sat, 13 Dec 2025 21:03:40 +0100
-Message-ID: <20251213200531.259435-1-eugene.shalygin@gmail.com>
+Subject: [PATCH 0/2] (asus-ec-sensors) add two new boards
+Date: Sat, 13 Dec 2025 21:03:41 +0100
+Message-ID: <20251213200531.259435-2-eugene.shalygin@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251213200531.259435-1-eugene.shalygin@gmail.com>
+References: <20251213200531.259435-1-eugene.shalygin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,43 +80,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Robert McIntyre <rjmcinty@hotmail.com>
+Add support for ROG MAXIMUS X HERO and Pro WS TRX50-SAGE WIFI A,
+contributed by users.
 
-Adding support for Pro WS TRX50-SAGE WIFI A, which is identical
-sensors-wise to Pro WS TRX50-SAGE WIFI
+Reis Holmes (1):
+  hwmon: (asus-ec-sensors) add ROG MAXIMUS X HERO
 
-Signed-off-by: Robert McIntyre <rjmcinty@hotmail.com>
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
----
- Documentation/hwmon/asus_ec_sensors.rst | 1 +
- drivers/hwmon/asus-ec-sensors.c         | 2 ++
- 2 files changed, 3 insertions(+)
+Robert McIntyre (1):
+  hwmon: (asus-ec-sensors) add Pro WS TRX50-SAGE WIFI A
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index fb32acfec0f5..58986546c723 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -10,6 +10,7 @@ Supported boards:
-  * PRIME X670E-PRO WIFI
-  * PRIME Z270-A
-  * Pro WS TRX50-SAGE WIFI
-+ * Pro WS TRX50-SAGE WIFI A
-  * Pro WS X570-ACE
-  * Pro WS WRX90E-SAGE SE
-  * ProArt X570-CREATOR WIFI
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index ef4561ae38f9..8435be30c3f7 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -801,6 +801,8 @@ static const struct dmi_system_id dmi_table[] = {
- 					&board_info_pro_art_x870E_creator_wifi),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS TRX50-SAGE WIFI",
- 					&board_info_pro_ws_trx50_sage_wifi),
-+	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS TRX50-SAGE WIFI A",
-+					&board_info_pro_ws_trx50_sage_wifi),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS WRX90E-SAGE SE",
- 					&board_info_pro_ws_wrx90e_sage_se),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS X570-ACE",
+ Documentation/hwmon/asus_ec_sensors.rst |  2 ++
+ drivers/hwmon/asus-ec-sensors.c         | 12 ++++++++++++
+ 2 files changed, 14 insertions(+)
+
 -- 
 2.52.0
 
