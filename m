@@ -1,134 +1,90 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A0923EA87
-	for <linux-doc@vger.kernel.org>; Sat, 13 Dec 2025 00:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CA819F13F;
+	Sat, 13 Dec 2025 01:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765587144; cv=none; b=WfWkXdw5sUhiXlL5MN5vgCZWXPe+8Grd03pK22Uvh3iXELBQkIfJK3dGgLYiNzke0s76MoyU1KYQIW6vq6OzpVGLOa8dU6dCVwfjdpQrwqaePu/PcbKBQb7QS2JlDamlxjVYNzz9JVMW93SOIlGgGKZtKCSj5ZwFui12uIJErT4=
+	t=1765590015; cv=none; b=oDg710/V9F+OIR2YntqOi7WAsAig84j1W9po59olx6kZhSGGC61FEvUCWaLA/eIbXYAUrtwC/JUx+Rckpyk1N/SYuS/XzOZNpRN+ohdqjMNJvmmcRILg/KVY0eLtPAIwIs6q7ip7MUimvo/OXAoXVZ0y/4DJSzf9OksXgytEKuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765587144; c=relaxed/simple;
-	bh=zvHl18TqNS/KFpnIo9EMp6D5l3sFHcHS5IbPIItY7vE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
-	 Content-Type:References; b=LnZqgy4G4G9K9qYv42yl3TQ0d1dNWUd0pohActLmA7Lc4imlRSv3rMoxELJyf49G2jMV/ek10dRG7qHBBljhJdH51lfoBVZQ18KLOMi3Qip1LdyvjMTcbvJWDMNv+kGF8iVh6h7JEXEFxw7kvaqtbj4B+JWJ2vuARXaPRhTrLGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=WqQ6k/Jd; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1765590015; c=relaxed/simple;
+	bh=O/jwb1Bfr59e/A6IOWCJZGscFliaL38PsmVm26gy0jk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kz3zKVlsVUnLkfe+MLQ/ZklUajD1KvRSqgfPc7g8kPQd34e36pS39wBqvwf2LvIgxt/INtc0lpQBEsU3x49Vu8/WOI+gEKj5hmW55dx3pEP9F2J0A/9zwvEMvTeKR7B8Pu1OmysKpU9uVGp0aHA7lhab5aGLH3UE+8kCygSkJHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YRiu2/q5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="WqQ6k/Jd"
-Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20251213005213epoutp0393df5db55a71dddb50fca802ef2c0eff~AoCS71zBo2828728287epoutp03E
-	for <linux-doc@vger.kernel.org>; Sat, 13 Dec 2025 00:52:13 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20251213005213epoutp0393df5db55a71dddb50fca802ef2c0eff~AoCS71zBo2828728287epoutp03E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1765587133;
-	bh=H9nShwF5pm8Ty+88PRsF6DJykqNuaXUj1lty7/PLeHo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=WqQ6k/JdupYwlKlhZnNsaD08DLPqatWfcwlAsj+H28pi0FLYIl6IAXDjZKPZ4v/EK
-	 xJFlq3P5RwQ4FdSYZ9D+JNQ2oVt6KZkVW6SPzLVdNmNBMXiTFV0lDLeMXu+XViVShC
-	 z/dNoqnbP+OeHTWUTPP6jfRDInGgBfeCrUbNdECM=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTPS id
-	20251213005213epcas2p30cb93c06c60bd0fd2ab39e4d94881eff~AoCSb66OJ1087410874epcas2p3Q;
-	Sat, 13 Dec 2025 00:52:13 +0000 (GMT)
-Received: from epcas2p3.samsung.com (unknown [182.195.38.211]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4dSnph4x2Zz6B9m7; Sat, 13 Dec
-	2025 00:52:12 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
-	20251213005211epcas2p3e63a0ea9a163ca2cd57962d5a295c1b5~AoCQoPguj1087510875epcas2p3M;
-	Sat, 13 Dec 2025 00:52:11 +0000 (GMT)
-Received: from KORCO181097.samsungds.net (unknown [12.80.207.233]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20251213005211epsmtip2802bf807a5b6c4f374b4de5cb894ebd5~AoCQjvVN21820018200epsmtip2f;
-	Sat, 13 Dec 2025 00:52:11 +0000 (GMT)
-Date: Sat, 13 Dec 2025 09:52:10 +0900
-From: Bongkyu Kim <bongkyu7.kim@samsung.com>
-To: John Stultz <jstultz@google.com>
-Cc: peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-	longman@redhat.com, boqun.feng@gmail.com, corbet@lwn.net,
-	gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bongkyu7.kim@samsung.com
-Subject: Re: [PATCH v3] locking/rwsem: Reintroduce reader optimistic
- spinning conditionally
-Message-ID: <aTy4umirJ8pcHy+V@KORCO181097.samsungds.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YRiu2/q5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B948C4CEF1;
+	Sat, 13 Dec 2025 01:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765590014;
+	bh=O/jwb1Bfr59e/A6IOWCJZGscFliaL38PsmVm26gy0jk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YRiu2/q53dkLif7q4uNFSnrsQYxunLMq2sapvB98RRwCwkK/kljK9PhJmbHlGH43W
+	 pcJw1pFHMkgPFz9dwNK1DIhqneUFOcoVLP6TfBTIZpV6rpsP5e99fbmDrlRiAnXkP8
+	 I949hvbxr7t+18H+8zb7yThzoJI6OH2/VZbdgtSuUru6sYPY89o9ENxcTQmC0SC+IB
+	 QtWgQBfoDhoM298ltcyA11fpzQbIfgZIA03K4IdcD5l5h05DyF+oydEr9todwiBOtg
+	 5R9AdnTGvxxoph70+mmM8/BX2WFQulQ3YU98vmRzFQQA758ZhE0MCCnpl7CGOA0UpA
+	 HIMU8F/ZvN0ew==
+Date: Sat, 13 Dec 2025 10:40:09 +0900
+From: Nathan Chancellor <nathan@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Graham Roff <grahamr@qti.qualcomm.com>,
+	Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>
+Subject: Re: [PATCH v2] Support conditional deps using "depends on X if Y"
+Message-ID: <20251213014009.GA3115176@ax162>
+References: <20251118-kconfig_conditional_deps-v2-1-e360792edaed@qti.qualcomm.com>
+ <20251205015352.GA2060615@ax162>
+ <b4be7637-9446-47d0-9a8c-3fd0f55a27b9@app.fastmail.com>
+ <20251205182334.GB3974306@ax162>
+ <1f2376e39dc46772e630e2cc9f9b40a2ef20993d@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CANDhNCrz=3Xp=bfydZycPgzr82YVHYk00LeaKSf9dQ5DA1Z5vA@mail.gmail.com>
-X-CMS-MailID: 20251213005211epcas2p3e63a0ea9a163ca2cd57962d5a295c1b5
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----10M-ry8nrKNYJjMIkDK3x7sXS9CWutNxtwuX1Fjvo4q6nbOH=_12fd67_"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-cpgsPolicy: CPGSC10-234,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240406081210epcas2p1736b44763ba01114ce3a552aff50d780
-References: <CGME20240406081210epcas2p1736b44763ba01114ce3a552aff50d780@epcas2p1.samsung.com>
-	<20240406081126.8030-1-bongkyu7.kim@samsung.com>
-	<639691db-dec3-e180-3681-00bd966c90a5@samsung.com>
-	<CANDhNCrz=3Xp=bfydZycPgzr82YVHYk00LeaKSf9dQ5DA1Z5vA@mail.gmail.com>
-
-------10M-ry8nrKNYJjMIkDK3x7sXS9CWutNxtwuX1Fjvo4q6nbOH=_12fd67_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1f2376e39dc46772e630e2cc9f9b40a2ef20993d@intel.com>
 
-Hi John,
-
-This patch did not move forward because there were no further replies here.
-
-In addition, the app launch time issue I was experiencing was resolved by
-the “Per VMA lock” patch, so the reader optimistic spinning patch is no longer
-necessary for app launch time.
-
-Thanks,
-Bongkyu
-
-On Thu, Dec 11, 2025 at 04:03:50PM +0900, John Stultz wrote:
-> On Mon, Apr 29, 2024 at 8:08 PM Bongkyu Kim <bongkyu7.kim@samsung.com> wrote:
-> > On 4/6/24 17:11, Bongkyu Kim wrote:
-> > > Reader optimistic spinning is helpful when the reader critical section
-> > > is short and there aren't that many readers around. It also improves
-> > > the chance that a reader can get the lock as writer optimistic spinning
-> > > disproportionally favors writers much more than readers.
-> > >
-> > > Since commit 617f3ef95177 ("locking/rwsem: Remove reader optimistic
-> > > spinning"), reader optimistic spinning was taken out is because of
-> > > reader fragmentation especially now that we essentially wake up all the
-> > > readers all at once when it is reader's turn to take the read lock.
-> > >
-> > > But, on smaller systems with just a few CPU cores, reader optimistic
-> > > spinning may help performance. So, reintroduce reader optimistic
-> > > spinning and enable it when the number of cores in the system <= the
-> > > threshold (default set to 8 cores). This threshold can be changed by
-> > > "rwsem.rspin_maxcpus" commandline.
-> > >
-> > > The simple heuristic of skipping optimistic spinning if the lock is
-> > > reader owned is kept, reader optimistic spinning won't affect handoff
-> > > handling which requires that an unlocker see the lock will be free and
-> > > wake up the head of the wait queue.
-> ...
-> > Hi Longman,
+On Wed, Dec 10, 2025 at 05:07:39PM +0200, Jani Nikula wrote:
+> On Fri, 05 Dec 2025, Nathan Chancellor <nathan@kernel.org> wrote:
+> > On Fri, Dec 05, 2025 at 09:01:51AM +0100, Arnd Bergmann wrote:
+> >> This is the bit that frequently confuses developers with the
+> >> current syntax, and I agree it would be nice to have a better
+> >> way,  but I'm not sure the proposal actually helps enough to
+> >> warrant a mass-conversion of existing Kconfig files.
 > >
-> > I made a new patch as you suggested.
-> > I would appreciate if if you could review it.
+> > I do agree that the 'depends on A || !A' syntax is confusing and that
+> > this does not really address that but I think that is besides the point
+> > here. I also agree that it is probably not worth converting existing
+> > users to this syntax (unless there is solid reasoning), I would not want
+> > to see cleanup patches of that nature, just use in new code.
 > 
-> Hey Bongkyu,
->   I just wanted to follow up here to see if this patch was abandoned
-> or if further discussion elsewhere resulted in it not being
-> resubmitted?
-> 
-> thanks
-> -john
-> 
+> I think "depends on A if A" is an improvement over "A || !A". But not a
+> drastic improvement.
 
-------10M-ry8nrKNYJjMIkDK3x7sXS9CWutNxtwuX1Fjvo4q6nbOH=_12fd67_
-Content-Type: text/plain; charset="utf-8"
+Agreed.
 
+> I think the question is, can we figure out an even better syntax for
+> that use case? Something that conveys the "optionally depends on A"
+> meaning? Is there something so good that it would warrant cleanup
+> conversions just for the improved clarity?
 
-------10M-ry8nrKNYJjMIkDK3x7sXS9CWutNxtwuX1Fjvo4q6nbOH=_12fd67_--
+I cannot think of anything off the top of my head but given how new I am
+to actually maintaining Kconfig, maybe something else will come up over
+time (or maybe Nicolas has some thoughts).
+
+> If we can't come up with anything, let's just roll with what we have
+> here?
+
+This is my plan personally, as I feel like this (or the future v3) is
+good enough (and brings consistency to "depends" with regards to
+supporting "if" like "prompt" and "select" do). I am a firm believer in
+"don't let perfect be the enemy of good".
+
+Cheers,
+Nathan
