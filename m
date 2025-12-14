@@ -1,115 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB513261B98;
-	Sun, 14 Dec 2025 01:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758A5DF6C;
+	Sun, 14 Dec 2025 02:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765674440; cv=none; b=qzD+jV1F01UMK4k1jxFDDb7bIxcLWjwb9aw1Z5vZleOvtfU8hJDLpFcUnTiLBZFfW34m9XA6DD1eIvIM37LGKKsLgXO3NIUzY+zhv+CGJ+E9yk7b4D7TlLyvL0Bq3FBx+SZNL4abaIr1rv7S/89+ZNmcEtykos4PcFK3x9Gwegw=
+	t=1765680286; cv=none; b=afz5g/7J/ZZ4ZZpSqXSGH0u8rUUo3kJHee1D2F/hCFJuTHC0IGpFy44XLjVsCWCOI/yUoTv/hcrasgnYuE0Ce40A+sFX01E4ba9eykRc89SJIvBg937mHNCOS6o53wP4FUOToD1esXZO+K3rKUmJJ123ABJLO/X9QvuHrjiWKeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765674440; c=relaxed/simple;
-	bh=g/KWu2Lynb5qelgrtC5KNZaqiIE8UbUg6nPZGkgE5T4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hELeREJQVfjz15qRfN9BNWKRkvMTOhnVvZkNV3TWUtvDy7A22DPy55n8Imlg+0u4vYQRYc+y7sac0H3hRDlJLIbJSe4a47Uls6KCYyEGoc0RVmyfXzzOf8Vhkn/50cd41khmmtoRvb0X2NhWzgsDl+bOp3OhizMfJgeeOof87qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=amRdYqxV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765680286; c=relaxed/simple;
+	bh=OpZre1ZbJKF8udkzRRD8kMmJKN4XssmMfDeDAHs25MI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oG6hartMsfRGuUC5zVOatrLy/WHvEgLGWMqWp/VfyHQf0biDNCQxShBOmKmvdJzn+WwzooBMiXchNnGR+pbLm03uKWg+Lq/AqVK0GViZVh9B+qpOrsT77Te4xyGI3ggxy1BAR9qA7poVaSf4mcxGKw/AXclS0ACBAqMcggcTr7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SyDgcWz7; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="amRdYqxV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C8F5C4CEF7;
-	Sun, 14 Dec 2025 01:07:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765674439;
-	bh=g/KWu2Lynb5qelgrtC5KNZaqiIE8UbUg6nPZGkgE5T4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=amRdYqxVKi7gz07yDfPKmXeWjKtT5lcGoM791lLt5u32BBRYDO8shIv77F9QAr9AW
-	 xuoZeTD5ivjMa6nNjXC4eKC9xJAKz73xviHSjR8+IVbD157cflrDVZlCE8Ai0bcz0+
-	 wqssLURNu9pAVe1+LI9+Ih0dCgwPBVajC1fF4AZ6kV5ITsfZoaXfkHwhc+1WgZ8LqX
-	 yhRHukVnywvFDKynFi+JAJpyDlCtroIAT+F7cYYq7iot0Ckqh969QQ1nPWydjNGHo9
-	 gPqp1XwQQrIrpXDSTENhq4ojO/fZneIv0ZQn0p0fkmk3gqAxetnWehC2uR9hGaCgyy
-	 0GvS/95SHHRDw==
-From: Sasha Levin <sashal@kernel.org>
-To: corbet@lwn.net
-Cc: joe@perches.com,
-	kees@kernel.org,
-	konstantin@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org,
-	rostedt@goodmis.org,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH] README: add AI Coding Assistants section
-Date: Sat, 13 Dec 2025 20:07:11 -0500
-Message-ID: <20251214010711.370328-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SyDgcWz7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765680284; x=1797216284;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OpZre1ZbJKF8udkzRRD8kMmJKN4XssmMfDeDAHs25MI=;
+  b=SyDgcWz7kIW7BikM4iZs06SXhHLixgdvRblEKW/1WYd204PIr1vubglt
+   soEkxkIbmYb8h5AEAX1Rck52lRVvpuyirKvIJTGdxJyZkPx/3jmBpuYOI
+   fpq1mp9zlOOqRk/mrz4TfAl6kcaI1D60fa1O+pnS2O+HpNzRQN9b2jHbd
+   qEEHA1n+aaH1+lMI6qkHc+IvFad2EQZ46pey2DJSAJNyTgNK4fEMBf+sz
+   pQC5+7/RrCwTOX63c7BbILKWlCCeE/Ab3BrWzmQ94Z5jb+E/fW7Wf4Vv/
+   Y+K3u6bWljwPlOoW9k8WuWqR7JhzvrBEztDlDSezeEeTXGrtqiZ95Q+n6
+   A==;
+X-CSE-ConnectionGUID: 8MRXBu0mQo+N7unk3IlqBw==
+X-CSE-MsgGUID: b6xXbTOgTMKoEw84qthQgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="90282318"
+X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
+   d="scan'208";a="90282318"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 18:44:44 -0800
+X-CSE-ConnectionGUID: uuVL35UCQ9i0K8VntsaC8g==
+X-CSE-MsgGUID: VhPSKb22Q9SaBgR6ilo5Sg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
+   d="scan'208";a="228491153"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 13 Dec 2025 18:44:40 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vUc69-000000008Tp-32vO;
+	Sun, 14 Dec 2025 02:44:37 +0000
+Date: Sun, 14 Dec 2025 10:44:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v21 3/7] firmware: imx: add driver for NXP EdgeLock
+ Enclave
+Message-ID: <202512141039.nVscnjzl-lkp@intel.com>
+References: <20251212-imx-se-if-v21-3-ee7d6052d848@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251212-imx-se-if-v21-3-ee7d6052d848@nxp.com>
 
-Add guidance for AI assistants and developers using AI tools for kernel
-contributions, per the consensus reached at the 2025 Maintainers Summit.
+Hi Pankaj,
 
-This will allow coding assistants to easily parse these instructions and comply
-with guidelines set by the community.
+kernel test robot noticed the following build warnings:
 
-Link: https://lwn.net/Articles/1049830/
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- README | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+[auto build test WARNING on 4a26e7032d7d57c998598c08a034872d6f0d3945]
 
-diff --git a/README b/README
-index a9fc263ccd711..f6016e553ba4c 100644
---- a/README
-+++ b/README
-@@ -38,6 +38,7 @@ Find your role below:
- * Maintainer - Leading subsystems and reviewing patches
- * Hardware Vendor - Writing drivers for new hardware
- * Distribution Maintainer - Packaging kernels for distros
-+* AI Coding Assistants - AI tools and developers using AI for contributions
- 
- 
- For Specific Users
-@@ -144,6 +145,38 @@ Package and distribute the kernel:
- * Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
- * Tainted Kernels: Documentation/admin-guide/tainted-kernels.rst
- 
-+AI Coding Assistants
-+--------------------
-+
-+AI assistants and developers using AI tools for kernel contributions must follow
-+the standard kernel development processes:
-+
-+* Development Process: Documentation/process/development-process.rst
-+* Coding Style: Documentation/process/coding-style.rst
-+* Submitting Patches: Documentation/process/submitting-patches.rst
-+* Programming Language: Documentation/process/programming-language.rst
-+
-+Important requirements:
-+
-+* License Compliance: All contributions must comply with GPL-2.0-only licensing.
-+  See Documentation/process/license-rules.rst for SPDX identifier requirements.
-+
-+* Signed-off-by: AI agents MUST NOT add Signed-off-by tags. Only humans can
-+  legally certify the Developer Certificate of Origin (Documentation/process/
-+  submitting-patches.rst). The human submitting AI-assisted code is responsible
-+  for the Signed-off-by certification.
-+
-+* Attribution: Contributions involving AI assistance should include an Assisted-by
-+  tag in the following format:
-+
-+    Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2] ...
-+
-+  Where AGENT_NAME is the AI tool/assistant name, MODEL_VERSION is the specific
-+  model or version used, and optional tool names indicate specialized analysis
-+  tools used during development.
-+
-+  List specialized tools (coccinelle, sparse, smatch, cppcheck, clang-tidy,
-+  custom scripts) but omit basic tools (git, gcc, make, editors).
- 
- 
- Communication and Support
+url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20251212-172535
+base:   4a26e7032d7d57c998598c08a034872d6f0d3945
+patch link:    https://lore.kernel.org/r/20251212-imx-se-if-v21-3-ee7d6052d848%40nxp.com
+patch subject: [PATCH v21 3/7] firmware: imx: add driver for NXP EdgeLock Enclave
+config: powerpc-randconfig-r131-20251213 (https://download.01.org/0day-ci/archive/20251214/202512141039.nVscnjzl-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512141039.nVscnjzl-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512141039.nVscnjzl-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/imx/ele_base_msg.c:77:52: sparse: sparse: non size-preserving pointer to integer cast
+
+vim +77 drivers/firmware/imx/ele_base_msg.c
+
+    16	
+    17	int ele_get_info(struct se_if_priv *priv, struct ele_dev_info *s_info)
+    18	{
+    19		struct se_api_msg *tx_msg = NULL;
+    20		struct se_api_msg *rx_msg = NULL;
+    21		dma_addr_t get_info_addr = 0;
+    22		u32 *get_info_data = NULL;
+    23		int ret = 0;
+    24	
+    25		if (!priv)
+    26			return -EINVAL;
+    27	
+    28		memset(s_info, 0x0, sizeof(*s_info));
+    29	
+    30		tx_msg = kzalloc(ELE_GET_INFO_REQ_MSG_SZ, GFP_KERNEL);
+    31		if (!tx_msg)
+    32			return -ENOMEM;
+    33	
+    34		rx_msg = kzalloc(ELE_GET_INFO_RSP_MSG_SZ, GFP_KERNEL);
+    35		if (!rx_msg) {
+    36			ret = -ENOMEM;
+    37			goto exit;
+    38		}
+    39	
+    40		if (priv->mem_pool)
+    41			get_info_data = gen_pool_dma_alloc(priv->mem_pool,
+    42							   ELE_GET_INFO_BUFF_SZ,
+    43							   &get_info_addr);
+    44		else
+    45			get_info_data = dma_alloc_coherent(priv->dev,
+    46							   ELE_GET_INFO_BUFF_SZ,
+    47							   &get_info_addr,
+    48							   GFP_KERNEL);
+    49		if (!get_info_data) {
+    50			dev_dbg(priv->dev,
+    51				"%s: Failed to allocate get_info_addr.", __func__);
+    52			ret = -ENOMEM;
+    53			goto exit;
+    54		}
+    55	
+    56		ret = se_fill_cmd_msg_hdr(priv, (struct se_msg_hdr *)&tx_msg->header,
+    57					  ELE_GET_INFO_REQ, ELE_GET_INFO_REQ_MSG_SZ,
+    58					  true);
+    59		if (ret)
+    60			goto exit;
+    61	
+    62		tx_msg->data[0] = upper_32_bits(get_info_addr);
+    63		tx_msg->data[1] = lower_32_bits(get_info_addr);
+    64		tx_msg->data[2] = sizeof(*s_info);
+    65		ret = ele_msg_send_rcv(priv, tx_msg, ELE_GET_INFO_REQ_MSG_SZ, rx_msg,
+    66				       ELE_GET_INFO_RSP_MSG_SZ);
+    67		if (ret < 0)
+    68			goto exit;
+    69	
+    70		ret = se_val_rsp_hdr_n_status(priv, rx_msg, ELE_GET_INFO_REQ,
+    71					      ELE_GET_INFO_RSP_MSG_SZ, true);
+    72	
+    73		memcpy(s_info, get_info_data, sizeof(*s_info));
+    74	
+    75	exit:
+    76		if (priv->mem_pool)
+  > 77			gen_pool_free(priv->mem_pool, (u64)get_info_data,
+    78				      ELE_GET_INFO_BUFF_SZ);
+    79		else
+    80			dma_free_coherent(priv->dev, ELE_GET_INFO_BUFF_SZ,
+    81					  get_info_data, get_info_addr);
+    82	
+    83		kfree(tx_msg);
+    84		kfree(rx_msg);
+    85		return ret;
+    86	}
+    87	
+
 -- 
-2.51.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
