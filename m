@@ -1,483 +1,453 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEC621B9D2
-	for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 09:39:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1450F328B4F;
+	Mon, 15 Dec 2025 09:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765791555; cv=none; b=rDsON/AJOh8R0Y8je/JK41ARkyaoy9VPhjQZPR3sb13rtxDybXalAIcM7rO+/IoIKqnjUuvav2S0ARn7eSu26zh8j5qiuI7qQqL3OlSpq6Y5uJ4UrUwJSD8pBntDDt1i0G2qmXU/2iIfiu3AMhNzFGNkIieOtWQwg+tmHieuXms=
+	t=1765791697; cv=none; b=MVZdL+68D3tOB8OALcdzZdInQfOWzDV91V80yH7E9DLVCkHun88bilQhNbKpNVoeDEJacouaqBOMzsyCkGAzVaf3lRq18hkj1AgDY8gkMUya1pj2oT/POdap75rqym/HEZ/RllVWOP+cwkXxC1/zJkrbkkiEK1+gdaSxGf1HeIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765791555; c=relaxed/simple;
-	bh=I/L7r59w5k2aU/ZQyuS0zNrmK3O5J0tVycY6kgw6r9E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=D6UaY2PboxMhYDd+RyNMDKQX1DzF3PvI9wMiASgY0vjwCJksBw/Nia1u/f2tz9MNvcnlH3LruFZ2BZabOwxks06LcPYqvMSe46MiBrgEnAtBQ+GfvuxRchlCdwiOI8VaWxKtgnOaKDjqHLvc4eV/Q7fFioqcbqQb0BOPaMaRv8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h7EjZTY+; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765791697; c=relaxed/simple;
+	bh=GqFjpeKbwehHYCQiMOCgga5Bu4WqgBffv9KfGv+EhwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RDxXYaX/kId6iBBVw+JlO+b1cQWjZKzDHuhvi8f19qruy+KjtNHslTzb2DvgLcSyCn4rj+gmdlpqRuRKHArvN9yr7neSrOHEi8VFl2s2N70z8v6nslXQaYDhK1KeoYE5QgQiBCGSkHEUv6J29HytvD3tGD6IE8GPmNgOYE/xjO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lCeLZTg3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h7EjZTY+"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-29844c68068so39919695ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 01:39:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765791550; x=1766396350; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SCqu8r0CbeFTNPLuen2UFB2zkwpTubmnQXzTm3hV0tY=;
-        b=h7EjZTY+jdtlKMdmHqOoSqOmJbs6mWN5IDCXKr4CK0q+XKlQo5QPRgw5rdqnLykBla
-         azT9AW/Wh+AS7gAgzvee8pDYjMzpOcrKU/wOqB6roivJyH4Ml8JcJ0wlkpHEgDfwAfqU
-         GOzIhPyiLJpp6kR56IG83Y71LpG472kceYxVopwFpcdbradkGbBAfVEwkcywZiEOcR0u
-         I9wQ3myVy1mKBIZSeKKMYVbzO+hHLcNDMXzY+pZgyvJUu6gAIeybCG1eTlFYNmHHamib
-         BAcveOmhnQHAdoSbu1hxg8vQfAsniKL88d6fdVg1rfHUif6JccEifraUW2njqAwF1wyx
-         XV/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765791550; x=1766396350;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SCqu8r0CbeFTNPLuen2UFB2zkwpTubmnQXzTm3hV0tY=;
-        b=OGxmNuA+AVGhDJwZd3TeB3VIpq7yfI2KrK0blXDIDaB53JSVTBMC8GtG02HVD88xBg
-         YEmhKSJEiKJXlKAgYfyZXP03RfzT8/WRtd6sXCpzaiiThKELkJjhGZ/syfUy8glmVRg8
-         1AsdkUevcjoLcZ15sSMR5CTbuhBEz9qoYH39IqtWl12TxS1CMSsOijrrL9/YpM++6od7
-         gTgKdUPuj3NdVbXUVcL9tptHbyWt8NZUm93CcqqU7OukBTDi4bQiyy+UOeBt0KJ1DH+M
-         Q2Lh9IHbc4/W2ChXG4/bB8GgGKkkEy7MzAUiS9Rzwo70d4WteVVkz80dycMo0lMUZaO8
-         dyYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPP+okWiw3JjyW29B7MvB75kf/02Rzoz+JIEFT8ulOoWBzvoxj9W9NxDLxo2H+kEuK+eoPtkjAXuo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7WQOX2BqFQkL/MyNVyJmu9u2UgmOgsrLUbz5pQBnq5VV76nle
-	bJKmxs9cwfLO8UmgFkrHS7FOpM+jeG6QSpJkqvaAdkgbinApRV2s4nHn
-X-Gm-Gg: AY/fxX4jKXnnsQ/cyqeItNt79kMHwneCeIqewCT99vE1Vkx7Bkdqr6ScmqvAb5oIZqL
-	uJYk54lgN3xjTjMNW+uZMEgSo3FhZ19u94j5Jp8hi+s0pxg66VPIoD5A3L9UsYgWRXt9H75MtJo
-	OLOMCQ78egKlYwO25x7ImfsQe2hH4kFSodZnWWQPjVrqfYbkOLd5mBqBIHQpusMFNnDJ+3SsiuC
-	dQY6avgJN3vouLfnSjb1frKqu0JkVENUHSZZQKF4ZI4pwvRrKzJ7a7D5IV7N8pV8ArzlXTUAwBb
-	/lS9kJvWUflD8YfOqE6OyDIBrPliEQDaadF1Zpqmp/tsMlfRp4p6pp7VMXM2SWdmRzaw499CdJK
-	WDmcb7gV/Xp6/BDfJnuggI288NeaiwYS+hRLcfJlpbMFn/IxpyH0BvHiCEh0N64l8vNUHiT7w1w
-	Iac24pgMriPUFwwe9QS3dsupdZp1hKuGPgW4tuGZe2OqwyJWBJ6rKjiNObpnwpKyEyFIVuvlMI/
-	ulnz0ei1yNcuGYtjHaA6Ovi3h+E3eOlWce/Vy75fGa/8IuzrFdWIAizronyhg8y/z5DHNc4xsop
-	xLi8maQWxOgoATt8p1X9gkXvHxyBxrRJTsGSACE+HAHgfQ+exxAI5R866kXSOg==
-X-Google-Smtp-Source: AGHT+IENGKA6ttYiVSzTZiZopnM0MK0vu/VuTSeOYgYDQUJXX/Vi9BRGghQaxgAgfIzyI5XkyRK2GQ==
-X-Received: by 2002:a17:902:d4cb:b0:2a0:b467:a7cf with SMTP id d9443c01a7336-2a0b467ac9amr53044365ad.0.1765791550341;
-        Mon, 15 Dec 2025 01:39:10 -0800 (PST)
-Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29efd74f5e1sm113017705ad.16.2025.12.15.01.39.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 01:39:10 -0800 (PST)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Mon, 15 Dec 2025 19:37:51 +1000
-Subject: [PATCH v6 7/7] arm64: dts: apple: t8103, t8112, t60xx: Add hwmon
- SMC subdevice
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lCeLZTg3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01B94C4CEF5;
+	Mon, 15 Dec 2025 09:41:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765791696;
+	bh=GqFjpeKbwehHYCQiMOCgga5Bu4WqgBffv9KfGv+EhwY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lCeLZTg30SMtgvXrpCRx0jVSZyNtOaofPTfYtdRE6mnVilf6rYt//2g/QUdtLBlbm
+	 6yv0cgEQ2L/m0C1l6Dtav00z7rp54JYWTRzARrYfDyiB6C0VkfOr+uDA8phG4pU25H
+	 k+Xm6ZvRSQ+HffU5zoAChQEvB4ZtGrrP+d2YzyDFdxR+Nqyy6wNECJ8tsPVr9w/Ebn
+	 7SVY42J2UKLofNup0N+GdfN0WiDYDxesFdhTbOvDMlvYdq75D3952yy0qc1NKkt2g0
+	 BNP8Awk66fadGUltMOjoBC+d/rkX+O6bt+uD6m6tdpg2yjqzr2NTKAeJY/4wyUyCzk
+	 9Arq3M18EKfpA==
+Date: Mon, 15 Dec 2025 10:41:32 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+Message-ID: <20251215-magnetic-stoic-okapi-d40cc1@penduick>
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
+ <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
+ <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com>
+ <20251201-thick-jasmine-oarfish-1eceb0@houat>
+ <DEVKQWH8GU0D.2NWQ1U7IOIEHI@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251215-macsmc-subdevs-v6-7-0518cb5f28ae@gmail.com>
-References: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
-In-Reply-To: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12033;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=I/L7r59w5k2aU/ZQyuS0zNrmK3O5J0tVycY6kgw6r9E=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJn211nKFkfLL7/7Yp7X/pMLu9OjDaYLOExbFq4RsLjAc
- X3d6kn6HRNZGMS4GCzFFFk2NAl5zDZiu9kvUrkXZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
- NNQx1jFi4OIUgKl2rGD4H+mU6Mf3tIDvzIx0j7U6ayyUzdju7Mne9IGB//mhMwsaDRkZdoa/3iz
- u+lP3I39d/AE5gWLj+ujJXgmr7f2LCxYyt9/jAQA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="q7zxny2nvplgmjkn"
+Content-Disposition: inline
+In-Reply-To: <DEVKQWH8GU0D.2NWQ1U7IOIEHI@bootlin.com>
 
-Apple's System Management Controller integrates numerous sensors
-that can be exposed via hwmon. Add the subdevice, compatible,
-and some common sensors that are exposed on every currently
-supported device as a starting point.
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Co-developed-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Janne Grunau <j@jannau.net>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- .../boot/dts/apple/hwmon-common.dtsi     | 33 +++++++++++++++++++++++++
- .../boot/dts/apple/hwmon-fan-dual.dtsi   | 22 +++++++++++++++++
- arch/arm64/boot/dts/apple/hwmon-fan.dtsi | 17 +++++++++++++
- .../boot/dts/apple/hwmon-laptop.dtsi     | 33 +++++++++++++++++++++++++
- .../boot/dts/apple/hwmon-mac-mini.dtsi   | 15 +++++++++++
- .../arm64/boot/dts/apple/t6001-j375c.dts |  2 ++
- arch/arm64/boot/dts/apple/t6001.dtsi     |  2 ++
- .../arm64/boot/dts/apple/t6002-j375d.dts |  2 ++
- .../arm64/boot/dts/apple/t600x-die0.dtsi |  4 +++
- .../boot/dts/apple/t600x-j314-j316.dtsi  |  3 +++
- .../arm64/boot/dts/apple/t602x-die0.dtsi |  4 +++
- arch/arm64/boot/dts/apple/t8103-j274.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103-j293.dts |  3 +++
- arch/arm64/boot/dts/apple/t8103-j313.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103-j456.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103-j457.dts |  2 ++
- arch/arm64/boot/dts/apple/t8103.dtsi     |  5 ++++
- arch/arm64/boot/dts/apple/t8112-j413.dts |  2 ++
- arch/arm64/boot/dts/apple/t8112-j473.dts |  2 ++
- arch/arm64/boot/dts/apple/t8112-j493.dts |  3 +++
- arch/arm64/boot/dts/apple/t8112.dtsi     |  5 ++++
- 21 files changed, 165 insertions(+)
+--q7zxny2nvplgmjkn
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+MIME-Version: 1.0
 
-diff --git a/arch/arm64/boot/dts/apple/hwmon-common.dtsi b/arch/arm64/boot/dts/apple/hwmon-common.dtsi
-new file mode 100644
-index 000000000000..b87021855fdf
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-common.dtsi
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * Hardware monitoring sensors expected to be found on all Apple Silicon devices
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+&smc_hwmon {
-+	current-ID0R {
-+		apple,key-id = "ID0R";
-+		label = "AC Input Current";
-+	};
-+	power-PSTR {
-+		apple,key-id = "PSTR";
-+		label = "Total System Power";
-+	};
-+	power-PDTR {
-+		apple,key-id = "PDTR";
-+		label = "AC Input Power";
-+	};
-+	power-PMVR {
-+		apple,key-id = "PMVR";
-+		label = "3.8 V Rail Power";
-+	};
-+	temperature-TH0x {
-+		apple,key-id = "TH0x";
-+		label = "NAND Flash Temperature";
-+	};
-+	voltage-VD0R {
-+		apple,key-id = "VD0R";
-+		label = "AC Input Voltage";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi b/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi
-new file mode 100644
-index 000000000000..3eef0721bcca
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-fan-dual.dtsi
-@@ -0,0 +1,22 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * SMC hwmon fan keys for Apple Silicon desktops/laptops with two fans
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+#include "hwmon-fan.dtsi"
-+
-+&smc_hwmon {
-+	fan-F0Ac {
-+		label = "Fan 1";
-+	};
-+	fan-F1Ac {
-+		apple,key-id = "F1Ac";
-+		label = "Fan 2";
-+		apple,fan-minimum = "F1Mn";
-+		apple,fan-maximum = "F1Mx";
-+		apple,fan-target = "F1Tg";
-+		apple,fan-mode = "F1Md";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-fan.dtsi b/arch/arm64/boot/dts/apple/hwmon-fan.dtsi
-new file mode 100644
-index 000000000000..fba9faf38f4b
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-fan.dtsi
-@@ -0,0 +1,17 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * hwmon fan keys for Apple Silicon desktops/laptops with a single fan.
-+ *
-+ *  Copyright The Asahi Linux Contributors
-+ */
-+
-+&smc_hwmon {
-+	fan-F0Ac {
-+		apple,key-id = "F0Ac";
-+		label = "Fan";
-+		apple,fan-minimum = "F0Mn";
-+		apple,fan-maximum = "F0Mx";
-+		apple,fan-target = "F0Tg";
-+		apple,fan-mode = "F0Md";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi b/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi
-new file mode 100644
-index 000000000000..0c4666282a5c
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-laptop.dtsi
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * Hardware monitoring sensors expected on all Apple Silicon laptops
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+&smc_hwmon {
-+	power-PHPC {
-+		apple,key-id = "PHPC";
-+		label = "Heatpipe Power";
-+	};
-+	temperature-TB0T {
-+		apple,key-id = "TB0T";
-+		label = "Battery Hotspot Temperature";
-+	};
-+	temperature-TCHP {
-+		apple,key-id = "TCHP";
-+		label = "Charge Regulator Temperature";
-+	};
-+	temperature-TW0P {
-+		apple,key-id = "TW0P";
-+		label = "WiFi/BT Module Temperature";
-+	};
-+	voltage-SBAV {
-+		apple,key-id = "SBAV";
-+		label = "Battery Voltage";
-+	};
-+	voltage-VD0R {
-+		apple,key-id = "VD0R";
-+		label = "Charger Input Voltage";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/hwmon-mac-mini.dtsi b/arch/arm64/boot/dts/apple/hwmon-mac-mini.dtsi
-new file mode 100644
-index 000000000000..f32627336ae7
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/hwmon-mac-mini.dtsi
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/*
-+ * hwmon sensors expected on all Mac mini models
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+#include "hwmon-fan.dtsi"
-+
-+&smc_hwmon {
-+	temperature-TW0P {
-+		apple,key-id = "TW0P";
-+		label = "WiFi/BT Module Temperature";
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6001-j375c.dts b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-index 2e7c23714d4d..08276114c1d8 100644
---- a/arch/arm64/boot/dts/apple/t6001-j375c.dts
-+++ b/arch/arm64/boot/dts/apple/t6001-j375c.dts
-@@ -24,3 +24,5 @@ &wifi0 {
- &bluetooth0 {
- 	brcm,board-type = "apple,okinawa";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6001.dtsi b/arch/arm64/boot/dts/apple/t6001.dtsi
-index ffbe823b71bc..264df90f07d8 100644
---- a/arch/arm64/boot/dts/apple/t6001.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6001.dtsi
-@@ -66,3 +66,5 @@ p-core-pmu-affinity {
- &gpu {
- 	compatible = "apple,agx-g13c", "apple,agx-g13s";
- };
-+
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-index 2b7f80119618..d12c0ae418f7 100644
---- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-+++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-@@ -56,3 +56,5 @@ &bluetooth0 {
- 
- /delete-node/ &ps_disp0_cpu0_die1;
- /delete-node/ &ps_disp0_fe_die1;
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-index f715b19efd16..e6647c1a9173 100644
---- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-@@ -37,6 +37,10 @@ smc_gpio: gpio {
- 			#gpio-cells = <2>;
- 		};
- 
-+		smc_hwmon: hwmon {
-+			compatible = "apple,smc-hwmon";
-+		};
-+
- 		smc_reboot: reboot {
- 			compatible = "apple,smc-reboot";
- 			nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index c0aac59a6fae..127814a9dfa4 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -131,3 +131,6 @@ &fpwm0 {
- };
- 
- #include "spi1-nvram.dtsi"
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t602x-die0.dtsi b/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-index 8622ddea7b44..680c103c1c0f 100644
---- a/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t602x-die0.dtsi
-@@ -114,6 +114,10 @@ smc_gpio: gpio {
- 			#gpio-cells = <2>;
- 		};
- 
-+		smc_hwmon: hwmon {
-+			compatible = "apple,smc-hwmon";
-+		};
-+
- 		smc_reboot: reboot {
- 			compatible = "apple,smc-reboot";
- 			nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
-index 1c3e37f86d46..f5b8cc087882 100644
---- a/arch/arm64/boot/dts/apple/t8103-j274.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
-@@ -61,3 +61,5 @@ &pcie0_dart_2 {
- &i2c2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 5b3c42e9f0e6..abb88391635f 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -119,3 +119,6 @@ dfr_panel_in: endpoint {
- &displaydfr_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index 97a4344d8dca..491ead016b21 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -41,3 +41,5 @@ &wifi0 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j456.dts b/arch/arm64/boot/dts/apple/t8103-j456.dts
-index 58c8e43789b4..c2ec6fbb633c 100644
---- a/arch/arm64/boot/dts/apple/t8103-j456.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j456.dts
-@@ -75,3 +75,5 @@ &pcie0_dart_1 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103-j457.dts b/arch/arm64/boot/dts/apple/t8103-j457.dts
-index 7089ccf3ce55..aeaab2482d54 100644
---- a/arch/arm64/boot/dts/apple/t8103-j457.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j457.dts
-@@ -56,3 +56,5 @@ ethernet0: ethernet@0,0 {
- &pcie0_dart_2 {
- 	status = "okay";
- };
-+
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-index 59f2678639cf..f1820bdc0910 100644
---- a/arch/arm64/boot/dts/apple/t8103.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-@@ -909,6 +909,10 @@ smc_gpio: gpio {
- 				#gpio-cells = <2>;
- 			};
- 
-+			smc_hwmon: hwmon {
-+				compatible = "apple,smc-hwmon";
-+			};
-+
- 			smc_reboot: reboot {
- 				compatible = "apple,smc-reboot";
- 				nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-@@ -1141,3 +1145,4 @@ port02: pci@2,0 {
- };
- 
- #include "t8103-pmgr.dtsi"
-+#include "hwmon-common.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
-index 6f69658623bf..500dcdf2d4b5 100644
---- a/arch/arm64/boot/dts/apple/t8112-j413.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
-@@ -78,3 +78,5 @@ &i2c4 {
- &fpwm1 {
- 	status = "okay";
- };
-+
-+#include "hwmon-laptop.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j473.dts b/arch/arm64/boot/dts/apple/t8112-j473.dts
-index 06fe257f08be..11db6a92493f 100644
---- a/arch/arm64/boot/dts/apple/t8112-j473.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j473.dts
-@@ -52,3 +52,5 @@ &pcie1_dart {
- &pcie2_dart {
- 	status = "okay";
- };
-+
-+#include "hwmon-mac-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index fb8ad7d4c65a..a0da02c00f15 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -133,3 +133,6 @@ touchbar0: touchbar@0 {
- 		touchscreen-inverted-y;
- 	};
- };
-+
-+#include "hwmon-laptop.dtsi"
-+#include "hwmon-fan.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-index 6bc3f58b06f7..c4d1e5ffaee9 100644
---- a/arch/arm64/boot/dts/apple/t8112.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-@@ -912,6 +912,10 @@ smc_gpio: gpio {
- 				#gpio-cells = <2>;
- 			};
- 
-+			smc_hwmon: hwmon {
-+				compatible = "apple,smc-hwmon";
-+			};
-+
- 			smc_reboot: reboot {
- 				compatible = "apple,smc-reboot";
- 				nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-@@ -1180,3 +1184,4 @@ port03: pci@3,0 {
- };
- 
- #include "t8112-pmgr.dtsi"
-+#include "hwmon-common.dtsi"
+On Thu, Dec 11, 2025 at 06:47:37PM +0100, Luca Ceresoli wrote:
+> Hi Maxime,
+>=20
+> On Mon Dec 1, 2025 at 5:51 PM CET, Maxime Ripard wrote:
+> > On Mon, Nov 24, 2025 at 05:25:39PM +0100, Luca Ceresoli wrote:
+> >> Hi Maxime,
+> >>
+> >> On Mon Nov 24, 2025 at 11:39 AM CET, Maxime Ripard wrote:
+> >> > On Wed, Nov 19, 2025 at 02:05:37PM +0100, Luca Ceresoli wrote:
+> >> >> Several drivers (about 20) follow the same pattern:
+> >> >>
+> >> >>  1. get a pointer to a bridge (typically the next bridge in the cha=
+in) by
+> >> >>     calling of_drm_find_bridge()
+> >> >>  2. store the returned pointer in the private driver data, keep it =
+until
+> >> >>     driver .remove
+> >> >>  3. dereference the pointer at attach time and possibly at other ti=
+mes
+> >> >>
+> >> >> of_drm_find_bridge() is now deprecated because it does not incremen=
+t the
+> >> >> refcount and should be replaced with drm_of_find_bridge() +
+> >> >> drm_bridge_put().
+> >> >>
+> >> >> However some of those drivers have a complex code flow and adding a
+> >> >> drm_bridge_put() call in all the appropriate locations is error-pro=
+ne,
+> >> >> leads to ugly and more complex code, and can lead to errors over ti=
+me with
+> >> >> code flow changes.
+> >> >>
+> >> >> To handle all those drivers in a straightforward way, add a devm va=
+riant of
+> >> >> drm_of_find_bridge() that adds a devm action to invoke drm_bridge_p=
+ut()
+> >> >> when the said driver is removed. This allows all those drivers to p=
+ut the
+> >> >> reference automatically and safely with a one line change:
+> >> >>
+> >> >>   - priv->next_bridge =3D of_drm_find_bridge(remote_np);
+> >> >>   + priv->next_bridge =3D devm_drm_of_find_bridge(dev, remote_np);
+> >> >>
+> >> >> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> >> >>
+> >> >> ---
+> >> >>  drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
+> >> >>  include/drm/drm_bridge.h     |  5 +++++
+> >> >>  2 files changed, 35 insertions(+)
+> >> >>
+> >> >> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bri=
+dge.c
+> >> >> index 09ad825f9cb8..c7baafbe5695 100644
+> >> >> --- a/drivers/gpu/drm/drm_bridge.c
+> >> >> +++ b/drivers/gpu/drm/drm_bridge.c
+> >> >> @@ -1446,6 +1446,36 @@ struct drm_bridge *drm_of_find_bridge(struct=
+ device_node *np)
+> >> >>  }
+> >> >>  EXPORT_SYMBOL(drm_of_find_bridge);
+> >> >>
+> >> >> +/**
+> >> >> + * devm_drm_of_find_bridge - find the bridge corresponding to the =
+device
+> >> >> + *			     node in the global bridge list and add a devm
+> >> >> + *			     action to put it
+> >> >> + *
+> >> >> + * @dev: device requesting the bridge
+> >> >> + * @np: device node
+> >> >> + *
+> >> >> + * On success the returned bridge refcount is incremented, and a d=
+evm
+> >> >> + * action is added to call drm_bridge_put() when @dev is removed. =
+So the
+> >> >> + * caller does not have to put the returned bridge explicitly.
+> >> >> + *
+> >> >> + * RETURNS:
+> >> >> + * drm_bridge control struct on success, NULL on failure
+> >> >> + */
+> >> >> +struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, str=
+uct device_node *np)
+> >> >> +{
+> >> >> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
+> >> >> +
+> >> >> +	if (bridge) {
+> >> >> +		int err =3D devm_add_action_or_reset(dev, drm_bridge_put_void, b=
+ridge);
+> >> >> +
+> >> >> +		if (err)
+> >> >> +			return ERR_PTR(err);
+> >> >> +	}
+> >> >> +
+> >> >> +	return bridge;
+> >> >> +}
+> >> >> +EXPORT_SYMBOL(devm_drm_of_find_bridge);
+> >> >
+> >> > That's inherently unsafe though, because even if the bridge is remov=
+ed
+> >> > other parts of DRM might still have a reference to it and could call
+> >> > into it.
+> >> >
+> >> > We'd then have dropped our reference to the next bridge, which could
+> >> > have been freed, and it's a use-after-free.
+> >>
+> >> I think you refer to this scenario:
+> >>
+> >>   1. pipeline: encoder --> bridge A --> bridge B --> bridge C
+> >>   2. encoder takes a reference to bridge B
+> >>      using devm_drm_of_find_bridge() or other means
+> >>   3. bridge B takes a next_bridge reference to bridge C
+> >>      using devm_drm_of_find_bridge()
+> >>   4. encoder calls (bridge B)->foo(), which in turns references
+> >>      next_bridge, e.g.:
+> >>
+> >>        b_foo() {
+> >>            bar(b->next_bridge);
+> >>        }
+> >>
+> >> If bridges B and C are removed, bridge C can be freed but B is still
+> >> allocated because the encoder holds a ref. So when step 4 happens, 'b-=
+>c'
+> >> would be a use-after-free (or NULL deref if b.remove cleared it, which=
+ is
+> >> just as bad).
+> >
+> > Yep.
+> >
+> >> If I got you correctly, then I'm a bit surprised by your comment. This
+> >> series is part of the first chapter of the hotplug work, which does no=
+t aim
+> >> at fixing everything but rather at fixing one part: handle dynamic
+> >> _allocation_ lifetime of drm_bridges by adding a refcount and
+> >> drm_bridge_get/put().
+> >>
+> >> Chapter 2 of the work is adding drm_bridge_enter/exit/unplug() [1] and
+> >> other changes in order to avoid code of drivers of removed bridges to
+> >> access fields they shouldn't. So the above example at point 4 would be=
+come:
+> >>
+> >>        b_foo() {
+> >>            if (!drm_bridge_enter())
+> >>                return;
+> >>            bar(b->c);
+> >>            drm_bridge_exit();
+> >>        }
+> >>
+> >> And that avoids 'b->c' after bridge B is removed.
+> >>
+> >> Does that answer your remark?
+> >
+> > Not really. I wasn't really questionning your current focus, or the way
+> > you laid out the current agenda or whatever.
+> >
+> > What I am questionning though is whether or not we want to introduce
+> > something we will have to untangle soon, and even more so when we're not
+> > mentioning it anywhere.
+> >
+> >> > It's more complicated than it sounds, because we only have access to=
+ the
+> >> > drm_device when the bridge is attached, so later than probe.
+> >> >
+> >> > I wonder if we shouldn't tie the lifetime of that reference to the
+> >> > lifetime of the bridge itself, and we would give up the next_bridge
+> >> > reference only when we're destroyed ourselves.
+> >>
+> >> I'm afraid I'm not following you, sorry. Do you refer to the time betw=
+een
+> >> the bridge removal (driver .remove) and the last bridge put (when
+> >> deallocation happens)?
+> >>
+> >> In that time frame the struct drm_bridge is still allocated along with=
+ any
+> >> next_bridge pointer it may contain, but the following bridge could have
+> >> been deallocated.
+> >>
+> >> What do you mean by "give up the next_bridge"?
+> >
+> > What I was trying to say was that if we want to fix the problem you
+> > illustrated about, we need to give up the reference at __drm_bridge_free
+> > time. So each bridge having a reference to a bridge would need to do so
+> > in its destroy hook.
+> >
+> > Since it's quite a common pattern, it would make sense to add a
+> > next_bridge field to drm_bridge itself, so the core can do it
+> > automatically in __drm_bridge_free if that pointer is !NULL.
+> >
+> > But...
+> >
+> >> > Storing a list of all the references we need to drop is going to be
+> >> > intrusive though, so maybe the easiest way to do it would be to crea=
+te a
+> >> > next_bridge field in drm_bridge, and only drop the reference stored
+> >> > there?
+> >> >
+> >> > And possibly tie the whole thing together using a helper?
+> >> >
+> >> > Anyway, I'm not sure it should be a prerequisite to this series. I w=
+e do
+> >> > want to go the devm_drm_of_find_bridge route however, we should at l=
+east
+> >> > document that it's unsafe, and add a TODO entry to clean up the mess
+> >> > later on.
+> >
+> > ... I *really* don't consider it something you need to work on right no=
+w.
+> >
+> >> Do you mean the drm variant is unsafe while the original
+> >> (drm_of_find_bridge() in this series, might be renamed) is not? I
+> >> don't see how that can happen. If the driver for bridge B were to use
+> >> drm_of_find_bridge(), that driver would be responsible to
+> >> drm_bridge_put(b->next_bridge) in its .remove() function or earlier.
+> >> So the next_bridge pointing to bridge C would equally become subject
+> >> to use-after-free.
+> >
+> > No, I was saying that both are equally unsafe. But we're adding a new,
+> > broken, helper, and we don't mention anywhere that it is. So what I was
+> > saying is mostly do we really want to introduce some more broken code
+> > when we know it is. And if we do, we should be really clear about it.
+> >
+> >> devm does not make it worse, on the opposite it postpones the
+> >> drm_bridge_put(next_bridge) as late as possible: just after
+> >> b.remove().
+> >
+> > Which doesn't really change anything, does it? I'd expect the window
+> > between the remove and final drm_bridge_put to be much wider than the
+> > execution time of remove itself.
+> >
+> >> One final, high-level thought about the various 'next_bridge' pointers=
+ that
+> >> many bridge drivers have. Most of them do:
+> >>
+> >>  0. have a 'struct drm_bridge next_bridge *' in their private struct
+> >>  1. take the next_bridge reference during probe or another startup pha=
+se
+> >>  2. store it in their private driver struct
+> >>  3. use it to call drm_bridge_attach
+> >>  4. (pending) put the reference to it in their .remove or earlier
+> >>
+> >> I'm wondering whether we could let the DRM bridge core do it all, by
+> >> removing items 0, 1, 2 and 4, and change 3 as:
+> >>
+> >> -     drm_bridge_attach(encoder, me->next_bridge, &me->bridge, flags);
+> >> +  drm_of_bridge_attach(encoder, &me->bridge, dev->of_node, 1, -1, fla=
+gs);
+> >>
+> >> where dev->of_node and the following integers are the same flags passe=
+d to
+> >> devm_drm_of_get_bridge() and the like, i.e. the endpoint info needed to
+> >> walk the DT graph and reach the next bridge.
+> >>
+> >> This would allow the core to take care of all locking and lifetime of =
+the
+> >> next bridge, and most (all?) bridges would never access any pointers t=
+o the
+> >> next bridge. The idea is to let the core do the right thing in a single
+> >> place instead of trying to make all drivers do the right thing (and
+> >> touching dozen files when needing to touch the logic).
+> >>
+> >> That is more a long-term ideal than something I'd do right now, but ha=
+ving
+> >> opinions would be very interesting.
+> >
+> > That was pretty much my point, yeah.
+> >
+> > Maxime
+>=20
+> Let me recap this discussion, because there are various aspects and I need
+> to clarify by view on it.
+>=20
+> First: the problem you discuss is about drm_of_find_bridge() introduced in
+> patch 1. The devm variant is just equally affected.
+>=20
+> You proposed adding a next_bridge field in struct drm_bridge so there is =
+an
+> automated, common call to drm_bridge_put() (and setting it to NULL). It
+> would remove some burden on individual drivers of course, but I don't thi=
+nk
+> it would solve the problem. In the same scenario we are discussing
+> (i.e. encoder --> bridge A --> bridge B --> bridge C, then B+C get remove=
+d)
+> B's next_bridge would be automatically put, but the encoder could still
+> call B->foo(), which could still do B->next_bridge.
 
--- 
-2.52.0
+I mean, yes, that's what we have drm_bridge_enter and _exit for.
+B->next_bridge would still be valid, but we also still would have a
+reference to C so I'm not sure what the big deal is?
 
+> Additionally, as a matter of fact there are currently drivers storing
+> bridge pointers. The next_bridge is the most common case. Code using
+> drm_bridge_connector_init() for example can store up to eight of them, but
+> individual drivers are the hardest to hunt for.
+
+That's fine, we can have a custom destroy hook for those.
+
+> I can see these (potential) tools to handle this (not mutually exclusive):
+>=20
+>  1. remove drm_bridge pointers pointing to other bridges
+>  2. check whether a bridge (say B) still exists before any dereference
+>     to B->another_bridge: that's drm_bridge_enter/exit()
+>  3. let owners of bridge pointers be notified when a bridge is unplugged,
+>     so they can actively put their reference and clear their pointer
+>=20
+> For item 1, I think the drm_of_bridge_attach() idea quoted above would
+> work, at least for the simple cases where bridge drivers use the
+> next_bridge only for attach. A next_bridge pointer in struct drm_bridge is
+> not even needed in that case, the pointer would be computed from OF when
+> needed and not stored. I can do an experiment and send a first series, do
+> you think it would be useful?
+>=20
+> For item 2, I still think it would just work for cases not (or not yet)
+> covered by item 1. Given the same example as above:
+>=20
+>         b_foo() {
+>             if (!drm_bridge_enter())
+>                 return;
+>             bar(b->c);
+>             drm_bridge_exit();
+>         }
+>=20
+> drm_bridge_enter() will prevent doing anything on b->whatever, including
+> any stale pointers. The idea is "I, bridge B, have been unplugged, my
+> resources are not reliably usable, keep out!". No?
+
+Yes.
+
+> However item 2 won't prevent the caller from keeping the pointer for a lo=
+ng
+> time, especially if b_foo() is a void function so it cannot return anythi=
+ng
+> saying "I was unplugged, I'm no longer theree".
+
+Indeed.
+
+> And that's where item 3 (notifiers) might come in useful: upon
+> receiving a bridge removal notification any driver or other code is in
+> a position to actively put its reference to the bridge and clear its
+> pointer. I had proposed something in [0], which can likely be
+> improved, but it is useful in my current draft solution.
+>=20
+> I'd like to know your opinions about the above points, so we can
+> progressively clarify the path forward.
+
+I largely agree with everything you said, but that wasn't my point at
+the beginning of the discussion though. My point was that you're giving
+away the reference too soon with devm_drm_of_find_bridge (or by doing it
+in remove).
+
+> PS: I just realized about a fourth option: a revocable [1] (thanks Laurent
+> who pointed me to it). That's basically a wrapper around a pointer that
+> allows to guard from accessing it when the pointed object is gone. To me =
+it
+> looks somewhat equivalent to drm_bridge_enter/exit() but with very
+> different APIs. I still haven't looked at the details.
+
+Yeah, a revocable pointer would work too. It will be a pain to implement
+in C though.
+
+Maxime
+
+--q7zxny2nvplgmjkn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaT/XzAAKCRAnX84Zoj2+
+dgU5AYCQnXiDBShmtaxgPVbAk2v3TTOA9/0pliYs5Sg9kGt7P2fH6rIV2LpOjfZF
+Z7WW0+4Bf1NrQFLW4bIFEL8tjpmH6MUGS+2+5zoxDsBaNIF+yY9VHRDCHLVtdJE+
+FTtYP2JZJQ==
+=/vkp
+-----END PGP SIGNATURE-----
+
+--q7zxny2nvplgmjkn--
