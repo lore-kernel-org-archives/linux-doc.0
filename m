@@ -1,93 +1,451 @@
-Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F1A32C93B;
-	Mon, 15 Dec 2025 10:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9513164BD;
+	Mon, 15 Dec 2025 10:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765793568; cv=none; b=dvwsoioevLMYtTfWr+BHxc359JAMM8aOPD4u1ns4nxdJI6QjZbJynQNDhQftqB1+xL18qnMopmRdqr4yZBV3hFHpglPAUgUrUOH/yarqggwXsopyAQSKP6+zA9gGcwko/2X/p70bFguqAkwJZdht7OO0c0lKnl4dmzshB7Vlxp0=
+	t=1765794959; cv=none; b=Bo4UFCNNb060mLBO7GZRVsH7fsCyNiBxuTo8Hb718CmWzoTTtyS1FavpSMdIbuWAH6wpA6EX6Rz0bjrO8P8Fpy5F9xgpgo93CZlTpLLRaXQm0eEpGqP6yQepqUiK+yosyU1q8R0jDrj7BtkrJmZtcByZJIyC2jRyoPC10wRlaOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765793568; c=relaxed/simple;
-	bh=bORCEufwn6SPY5ILyaOJ9RCZ2xK4ibrYlNxAafiRPHw=;
+	s=arc-20240116; t=1765794959; c=relaxed/simple;
+	bh=iMoSkdUMrMWJXBWNzmOenCYN8Hmgkhj9PiJX4y0D+fk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n2eJDw1aqy/AIFDQAe2py2mTUNP7qB3chxMKUg2xyFba8tg6c+u9fTWwWsrjg+a0fUHWAcsNrFueBQcxFb52HvLPvlSghfNixC8uDnhlYjXBOVkgHHtOfKpn6CEUOoCrQfrw6ma7oTYYUuYnxyA52pVScTriHTRs13Ro+OYSyug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=GPmg++vZ; arc=none smtp.client-ip=180.181.231.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	 Content-Type:Content-Disposition:In-Reply-To; b=DL8aPdS0sW7t6/BNCXfh6eWb375+elnPf9CNHlOC4h+laCTm+6dZjr46dm03W0FUMI3SDXL1P4orRBpnPPoAagLclR9KTqDGs981NwBz/OzDfajeXinmEop/Mv2/MJ0HtR1DMtV4QuZFkAuTgvIcAz+HzfNAJp61Ye+tmGnQ8hY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQc87pHk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="GPmg++vZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
-	from:content-type:reply-to; bh=5rF7YA0Qmvd1egTEo54H64u9z4srw3ZwdBDPUlFVg/U=; 
-	b=GPmg++vZ3cC7V6EhkVRIudH9hPB0X4PzDMcoMMVXVhGs8zRnBOBZCKYEr1+nCmiCT/0Mgpp3QrY
-	zLIIQXJtYgKoepCQU6Fqti9d724bJTdrR5FE108K8kHMFLkiRUh3PH7e2rv4yugMxSF5MDDyrZC6g
-	o0NkrraXUkeNoA3mjpVTPzVTtrgqeYdz1zQW5dKoKElnt/LO9GYdBDqeIYAgl2Mq7E2+MJUXhkjX3
-	18vo3fbMDSMlpgfmq97yk6GRAz+MPx4fnRJ5hLq4ey3j10LvQhmM9rRxGYnv6M7UyYgzK0qt9aIDz
-	Q4SeV6jYFhNCKqKKQQP2AstLAF740SPrQYiQ==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1vV54N-00ACPx-1P;
-	Mon, 15 Dec 2025 17:40:44 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Mon, 15 Dec 2025 17:40:43 +0800
-Date: Mon, 15 Dec 2025 17:40:43 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Crypto <linux-crypto@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: kernel-doc comment with anonymous variable in anonymous union?
-Message-ID: <aT_XmzUSkbFMLHK4@gondor.apana.org.au>
-References: <aT_RDASKMW4RI_Yf@archie.me>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQc87pHk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B2D2C4CEF5;
+	Mon, 15 Dec 2025 10:35:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765794959;
+	bh=iMoSkdUMrMWJXBWNzmOenCYN8Hmgkhj9PiJX4y0D+fk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TQc87pHkk2aei6CjbYezfgqSGXQYGo36I70+r2II/pLKpeRz7ouZ3Q9TUH8g4D8Tu
+	 XKjZHS0/hl/lia702vslbOIfR251KBHK2Q0M8AO8guVmRnTPnzOxFE+IbKVUFOu0oS
+	 IP2lSPpCFpQUJHQE81ljPv50JLjrx3hNV6O9hqqKrUH7nh6OAs0zrhuFUOm1gCIy4x
+	 48l+emkV+XldwxJRl39v+JdhD+Ar6NqZtt0Qfug4aQi8vfUPssxrfNslRlMbKose1K
+	 9mEOvb17UPLrz3TPUbem4vV8bCRhUu1Utz4UzZ7Rfa+n5BSe6EonTf4lkjZlomnFOz
+	 vqyQ4EMvSU93Q==
+Date: Mon, 15 Dec 2025 11:35:55 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+Message-ID: <20251215-mottled-dexterous-marmot-c69ad3@penduick>
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
+ <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
+ <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com>
+ <20251201-thick-jasmine-oarfish-1eceb0@houat>
+ <DEVKQWH8GU0D.2NWQ1U7IOIEHI@bootlin.com>
+ <DEW6XHD12EY4.1THDR9UMJOTAN@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="qmyoy4rejmvdcuw2"
 Content-Disposition: inline
-In-Reply-To: <aT_RDASKMW4RI_Yf@archie.me>
+In-Reply-To: <DEW6XHD12EY4.1THDR9UMJOTAN@bootlin.com>
 
-On Mon, Dec 15, 2025 at 04:12:44PM +0700, Bagas Sanjaya wrote:
-> Hi,
-> 
-> kernel-doc reports warning on include/crypto/skcipher.h:
-> 
-> WARNING: ./include/crypto/skcipher.h:166 struct member 'SKCIPHER_ALG_COMMON' not described in 'skcipher_alg'
-> 
-> skciper_alg struct is defined as:
-> 
-> struct skcipher_alg {
-> 	int (*setkey)(struct crypto_skcipher *tfm, const u8 *key,
-> 	              unsigned int keylen);
-> 	int (*encrypt)(struct skcipher_request *req);
-> 	int (*decrypt)(struct skcipher_request *req);
-> 	int (*export)(struct skcipher_request *req, void *out);
-> 	int (*import)(struct skcipher_request *req, const void *in);
-> 	int (*init)(struct crypto_skcipher *tfm);
-> 	void (*exit)(struct crypto_skcipher *tfm);
-> 
-> 	unsigned int walksize;
-> 
-> 	union {
-> 		struct SKCIPHER_ALG_COMMON;
-> 		struct skcipher_alg_common co;
-> 	};
-> };
-> 
-> Note the first member in the union, which is an anonymous (i.e. unnamed) variable.
-> 
-> What can I do on it? Should the offending member be deleted?
 
-You could either add a comment about SKCIPHER_ALG_COMMON, or
-fix up all the code that uses it by adding "co."
+--qmyoy4rejmvdcuw2
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+MIME-Version: 1.0
 
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+On Fri, Dec 12, 2025 at 12:10:37PM +0100, Luca Ceresoli wrote:
+> Hi Maxime,
+>=20
+> On Thu Dec 11, 2025 at 6:47 PM CET, Luca Ceresoli wrote:
+> > Hi Maxime,
+> >
+> > On Mon Dec 1, 2025 at 5:51 PM CET, Maxime Ripard wrote:
+> >> On Mon, Nov 24, 2025 at 05:25:39PM +0100, Luca Ceresoli wrote:
+> >>> Hi Maxime,
+> >>>
+> >>> On Mon Nov 24, 2025 at 11:39 AM CET, Maxime Ripard wrote:
+> >>> > On Wed, Nov 19, 2025 at 02:05:37PM +0100, Luca Ceresoli wrote:
+> >>> >> Several drivers (about 20) follow the same pattern:
+> >>> >>
+> >>> >>  1. get a pointer to a bridge (typically the next bridge in the ch=
+ain) by
+> >>> >>     calling of_drm_find_bridge()
+> >>> >>  2. store the returned pointer in the private driver data, keep it=
+ until
+> >>> >>     driver .remove
+> >>> >>  3. dereference the pointer at attach time and possibly at other t=
+imes
+> >>> >>
+> >>> >> of_drm_find_bridge() is now deprecated because it does not increme=
+nt the
+> >>> >> refcount and should be replaced with drm_of_find_bridge() +
+> >>> >> drm_bridge_put().
+> >>> >>
+> >>> >> However some of those drivers have a complex code flow and adding a
+> >>> >> drm_bridge_put() call in all the appropriate locations is error-pr=
+one,
+> >>> >> leads to ugly and more complex code, and can lead to errors over t=
+ime with
+> >>> >> code flow changes.
+> >>> >>
+> >>> >> To handle all those drivers in a straightforward way, add a devm v=
+ariant of
+> >>> >> drm_of_find_bridge() that adds a devm action to invoke drm_bridge_=
+put()
+> >>> >> when the said driver is removed. This allows all those drivers to =
+put the
+> >>> >> reference automatically and safely with a one line change:
+> >>> >>
+> >>> >>   - priv->next_bridge =3D of_drm_find_bridge(remote_np);
+> >>> >>   + priv->next_bridge =3D devm_drm_of_find_bridge(dev, remote_np);
+> >>> >>
+> >>> >> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> >>> >>
+> >>> >> ---
+> >>> >>  drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
+> >>> >>  include/drm/drm_bridge.h     |  5 +++++
+> >>> >>  2 files changed, 35 insertions(+)
+> >>> >>
+> >>> >> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_br=
+idge.c
+> >>> >> index 09ad825f9cb8..c7baafbe5695 100644
+> >>> >> --- a/drivers/gpu/drm/drm_bridge.c
+> >>> >> +++ b/drivers/gpu/drm/drm_bridge.c
+> >>> >> @@ -1446,6 +1446,36 @@ struct drm_bridge *drm_of_find_bridge(struc=
+t device_node *np)
+> >>> >>  }
+> >>> >>  EXPORT_SYMBOL(drm_of_find_bridge);
+> >>> >>
+> >>> >> +/**
+> >>> >> + * devm_drm_of_find_bridge - find the bridge corresponding to the=
+ device
+> >>> >> + *			     node in the global bridge list and add a devm
+> >>> >> + *			     action to put it
+> >>> >> + *
+> >>> >> + * @dev: device requesting the bridge
+> >>> >> + * @np: device node
+> >>> >> + *
+> >>> >> + * On success the returned bridge refcount is incremented, and a =
+devm
+> >>> >> + * action is added to call drm_bridge_put() when @dev is removed.=
+ So the
+> >>> >> + * caller does not have to put the returned bridge explicitly.
+> >>> >> + *
+> >>> >> + * RETURNS:
+> >>> >> + * drm_bridge control struct on success, NULL on failure
+> >>> >> + */
+> >>> >> +struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, st=
+ruct device_node *np)
+> >>> >> +{
+> >>> >> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
+> >>> >> +
+> >>> >> +	if (bridge) {
+> >>> >> +		int err =3D devm_add_action_or_reset(dev, drm_bridge_put_void, =
+bridge);
+> >>> >> +
+> >>> >> +		if (err)
+> >>> >> +			return ERR_PTR(err);
+> >>> >> +	}
+> >>> >> +
+> >>> >> +	return bridge;
+> >>> >> +}
+> >>> >> +EXPORT_SYMBOL(devm_drm_of_find_bridge);
+> >>> >
+> >>> > That's inherently unsafe though, because even if the bridge is remo=
+ved
+> >>> > other parts of DRM might still have a reference to it and could call
+> >>> > into it.
+> >>> >
+> >>> > We'd then have dropped our reference to the next bridge, which could
+> >>> > have been freed, and it's a use-after-free.
+> >>>
+> >>> I think you refer to this scenario:
+> >>>
+> >>>   1. pipeline: encoder --> bridge A --> bridge B --> bridge C
+> >>>   2. encoder takes a reference to bridge B
+> >>>      using devm_drm_of_find_bridge() or other means
+> >>>   3. bridge B takes a next_bridge reference to bridge C
+> >>>      using devm_drm_of_find_bridge()
+> >>>   4. encoder calls (bridge B)->foo(), which in turns references
+> >>>      next_bridge, e.g.:
+> >>>
+> >>>        b_foo() {
+> >>>            bar(b->next_bridge);
+> >>>        }
+> >>>
+> >>> If bridges B and C are removed, bridge C can be freed but B is still
+> >>> allocated because the encoder holds a ref. So when step 4 happens, 'b=
+->c'
+> >>> would be a use-after-free (or NULL deref if b.remove cleared it, whic=
+h is
+> >>> just as bad).
+> >>
+> >> Yep.
+> >>
+> >>> If I got you correctly, then I'm a bit surprised by your comment. This
+> >>> series is part of the first chapter of the hotplug work, which does n=
+ot aim
+> >>> at fixing everything but rather at fixing one part: handle dynamic
+> >>> _allocation_ lifetime of drm_bridges by adding a refcount and
+> >>> drm_bridge_get/put().
+> >>>
+> >>> Chapter 2 of the work is adding drm_bridge_enter/exit/unplug() [1] and
+> >>> other changes in order to avoid code of drivers of removed bridges to
+> >>> access fields they shouldn't. So the above example at point 4 would b=
+ecome:
+> >>>
+> >>>        b_foo() {
+> >>>            if (!drm_bridge_enter())
+> >>>                return;
+> >>>            bar(b->c);
+> >>>            drm_bridge_exit();
+> >>>        }
+> >>>
+> >>> And that avoids 'b->c' after bridge B is removed.
+> >>>
+> >>> Does that answer your remark?
+> >>
+> >> Not really. I wasn't really questionning your current focus, or the way
+> >> you laid out the current agenda or whatever.
+> >>
+> >> What I am questionning though is whether or not we want to introduce
+> >> something we will have to untangle soon, and even more so when we're n=
+ot
+> >> mentioning it anywhere.
+> >>
+> >>> > It's more complicated than it sounds, because we only have access t=
+o the
+> >>> > drm_device when the bridge is attached, so later than probe.
+> >>> >
+> >>> > I wonder if we shouldn't tie the lifetime of that reference to the
+> >>> > lifetime of the bridge itself, and we would give up the next_bridge
+> >>> > reference only when we're destroyed ourselves.
+> >>>
+> >>> I'm afraid I'm not following you, sorry. Do you refer to the time bet=
+ween
+> >>> the bridge removal (driver .remove) and the last bridge put (when
+> >>> deallocation happens)?
+> >>>
+> >>> In that time frame the struct drm_bridge is still allocated along wit=
+h any
+> >>> next_bridge pointer it may contain, but the following bridge could ha=
+ve
+> >>> been deallocated.
+> >>>
+> >>> What do you mean by "give up the next_bridge"?
+> >>
+> >> What I was trying to say was that if we want to fix the problem you
+> >> illustrated about, we need to give up the reference at __drm_bridge_fr=
+ee
+> >> time. So each bridge having a reference to a bridge would need to do so
+> >> in its destroy hook.
+> >>
+> >> Since it's quite a common pattern, it would make sense to add a
+> >> next_bridge field to drm_bridge itself, so the core can do it
+> >> automatically in __drm_bridge_free if that pointer is !NULL.
+> >>
+> >> But...
+> >>
+> >>> > Storing a list of all the references we need to drop is going to be
+> >>> > intrusive though, so maybe the easiest way to do it would be to cre=
+ate a
+> >>> > next_bridge field in drm_bridge, and only drop the reference stored
+> >>> > there?
+> >>> >
+> >>> > And possibly tie the whole thing together using a helper?
+> >>> >
+> >>> > Anyway, I'm not sure it should be a prerequisite to this series. I =
+we do
+> >>> > want to go the devm_drm_of_find_bridge route however, we should at =
+least
+> >>> > document that it's unsafe, and add a TODO entry to clean up the mess
+> >>> > later on.
+> >>
+> >> ... I *really* don't consider it something you need to work on right n=
+ow.
+> >>
+> >>> Do you mean the drm variant is unsafe while the original
+> >>> (drm_of_find_bridge() in this series, might be renamed) is not? I
+> >>> don't see how that can happen. If the driver for bridge B were to use
+> >>> drm_of_find_bridge(), that driver would be responsible to
+> >>> drm_bridge_put(b->next_bridge) in its .remove() function or earlier.
+> >>> So the next_bridge pointing to bridge C would equally become subject
+> >>> to use-after-free.
+> >>
+> >> No, I was saying that both are equally unsafe. But we're adding a new,
+> >> broken, helper, and we don't mention anywhere that it is. So what I was
+> >> saying is mostly do we really want to introduce some more broken code
+> >> when we know it is. And if we do, we should be really clear about it.
+> >>
+> >>> devm does not make it worse, on the opposite it postpones the
+> >>> drm_bridge_put(next_bridge) as late as possible: just after
+> >>> b.remove().
+> >>
+> >> Which doesn't really change anything, does it? I'd expect the window
+> >> between the remove and final drm_bridge_put to be much wider than the
+> >> execution time of remove itself.
+> >>
+> >>> One final, high-level thought about the various 'next_bridge' pointer=
+s that
+> >>> many bridge drivers have. Most of them do:
+> >>>
+> >>>  0. have a 'struct drm_bridge next_bridge *' in their private struct
+> >>>  1. take the next_bridge reference during probe or another startup ph=
+ase
+> >>>  2. store it in their private driver struct
+> >>>  3. use it to call drm_bridge_attach
+> >>>  4. (pending) put the reference to it in their .remove or earlier
+> >>>
+> >>> I'm wondering whether we could let the DRM bridge core do it all, by
+> >>> removing items 0, 1, 2 and 4, and change 3 as:
+> >>>
+> >>> -     drm_bridge_attach(encoder, me->next_bridge, &me->bridge, flags);
+> >>> +  drm_of_bridge_attach(encoder, &me->bridge, dev->of_node, 1, -1, fl=
+ags);
+> >>>
+> >>> where dev->of_node and the following integers are the same flags pass=
+ed to
+> >>> devm_drm_of_get_bridge() and the like, i.e. the endpoint info needed =
+to
+> >>> walk the DT graph and reach the next bridge.
+> >>>
+> >>> This would allow the core to take care of all locking and lifetime of=
+ the
+> >>> next bridge, and most (all?) bridges would never access any pointers =
+to the
+> >>> next bridge. The idea is to let the core do the right thing in a sing=
+le
+> >>> place instead of trying to make all drivers do the right thing (and
+> >>> touching dozen files when needing to touch the logic).
+> >>>
+> >>> That is more a long-term ideal than something I'd do right now, but h=
+aving
+> >>> opinions would be very interesting.
+> >>
+> >> That was pretty much my point, yeah.
+> >>
+> >> Maxime
+> >
+> > Let me recap this discussion, because there are various aspects and I n=
+eed
+> > to clarify by view on it.
+> >
+> > First: the problem you discuss is about drm_of_find_bridge() introduced=
+ in
+> > patch 1. The devm variant is just equally affected.
+> >
+> > You proposed adding a next_bridge field in struct drm_bridge so there i=
+s an
+> > automated, common call to drm_bridge_put() (and setting it to NULL). It
+> > would remove some burden on individual drivers of course, but I don't t=
+hink
+> > it would solve the problem. In the same scenario we are discussing
+> > (i.e. encoder --> bridge A --> bridge B --> bridge C, then B+C get remo=
+ved)
+> > B's next_bridge would be automatically put, but the encoder could still
+> > call B->foo(), which could still do B->next_bridge.
+>=20
+> Ah, I realied I'm wrong here. Your proposal is to put the reference at
+> __drm_bridge_free time, not a release time. So yes, it would work. At lea=
+st
+> for the simple cases, where there's only the next_bridge pointer stored.
+
+Yes, that's exactly what I was trying to say :)
+
+> > Additionally, as a matter of fact there are currently drivers storing
+> > bridge pointers. The next_bridge is the most common case. Code using
+> > drm_bridge_connector_init() for example can store up to eight of them, =
+but
+> > individual drivers are the hardest to hunt for.
+> >
+> > I can see these (potential) tools to handle this (not mutually exclusiv=
+e):
+> >
+> >  1. remove drm_bridge pointers pointing to other bridges
+> >  2. check whether a bridge (say B) still exists before any dereference
+> >     to B->another_bridge: that's drm_bridge_enter/exit()
+> >  3. let owners of bridge pointers be notified when a bridge is unplugge=
+d,
+> >     so they can actively put their reference and clear their pointer
+> >
+> > For item 1, I think the drm_of_bridge_attach() idea quoted above would
+> > work, at least for the simple cases where bridge drivers use the
+> > next_bridge only for attach. A next_bridge pointer in struct drm_bridge=
+ is
+> > not even needed in that case, the pointer would be computed from OF when
+> > needed and not stored. I can do an experiment and send a first series, =
+do
+> > you think it would be useful?
+>=20
+> I had a look and, while the implementation should be simple, only a few
+> drivers could benefit right now. The majority fall into one of these
+> categories:
+>=20
+>  * drivers using drm_of_find_panel_or_bridge() or *_of_get_bridge()
+>    (maybe 60-80% of all drivers, those will have to wait for the panel
+>    improvements)
+>  * drivers using the next_bridge pointer for more than just attach
+>  * drivers doing more complicated stuff
+>=20
+> I think your "put next_bridge in __drm_bridge_free" idea would fit well t=
+he
+> 2nd category and perhaps also the 1st one. For the 3rd category we'd need
+> something different, e.g. a per-driver .destroy callback.
+
+Yep, that's fine. We should optimize for the common case, with an escape
+hatch. That's exactly what we are talking about here.
+
+> So, while your idea would work, it would avoid use-after-free but not
+> prevent calls into a bridge code after the bridge is removed, which is, in
+> the best case, useless. I still think we should aim at avoiding the
+> dereferences to even happen, so my 3 ideas above still look to me importa=
+nt
+> to evaluate.
+
+It's useless indeed, but something that can and will happen, so we have
+to take care into account still. We should avoid any unsafe behaviour,
+but it's the best we can do.=09
+
+Maxime
+
+--qmyoy4rejmvdcuw2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaT/khwAKCRAnX84Zoj2+
+dvFNAX9jvuWSEIYmzlK4+Xjf//NZCqepTw76IHeBn1y802QAwm/YpQrLih9zg5g1
+mdh82akBgP7G7aj8ud8SLNENnB94snMydjpV6oSMlxY8cmfRLWCHqEY6sbaolBAF
+r1LEdxivNg==
+=Cap4
+-----END PGP SIGNATURE-----
+
+--qmyoy4rejmvdcuw2--
