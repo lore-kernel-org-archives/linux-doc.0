@@ -1,197 +1,437 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6676425742F
-	for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 15:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765814038; cv=none; b=sWF3ej9MunCMxTnsGU0LGmJbIdiICpHCkLepuf7w+iEYXVqmDO0CssXVHyrZ30WkqB8Sspkq1i2yNr7pRlDK9i+Hvjl+6hWOIh4JJksai2pYN2PTplZ300bQdBY3lSbFYg+rGQ13hoI6Ltlrx6OT2JVJpV+500VH4Ne/3SQeqas=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765814038; c=relaxed/simple;
-	bh=ROScw7LkVEobmMJDTvBXmeogZcMVtVRNIb25XYU/aOk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ag1jcYGljOjDY+BeaislgflhuWjln7b5opnFsKYtTkvXOHnji+kJiUBlcoARpgDnpGyd1gjD4qgmlMb89G+5CHfPnwgSGRQ4DlK3WqjIZYti2AvFOc+SHbOYfebWWxcvCGKOaLaK4fRwHBMbYr20RAOI1A6hFb4UXM76i6URuek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3L4zw4AE; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADDF2D0602;
+	Mon, 15 Dec 2025 16:10:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765815036; cv=fail; b=W07XD5xr1tJrDrO3coeO/94vm/M7zFG63vx8iYIEV2W+VV8Dvv7G/6mBXdgdi+5yE5f38CVUwalYLQAxjmj1EnTgG9MrT46+nPzeSZ9gg8lVStP2b1F7gKyuraOkDTErhfKAxJFmvYIWhDXPte14b+Ns5bzO5NMyUxxM+jSM+UM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765815036; c=relaxed/simple;
+	bh=ORPW/PhDVY0ckZAz+zz6a4g+5MV/noJ4NuhB61kTxe4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=SJRkoPceaeINHZrThV0hp0Im635he3KsQqH1NoEu3ctORA9cGJ2gYGwuABCctP8NxpRFFffsRyKQrDRrsixflrBXctduhkHdjv7ua39KK2HOB5pzlzeJm3PzVWTJKVUEluh4n2rQ4RBvy31ASmF3qhiei7OLOm+LmHgcW5L7/KI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fwbwvSc0; arc=fail smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3L4zw4AE"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34c708702dfso1415586a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 07:53:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765814036; x=1766418836; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ROScw7LkVEobmMJDTvBXmeogZcMVtVRNIb25XYU/aOk=;
-        b=3L4zw4AEmfn/f/fNDRUYPZSuvtKzrwsroubw/hms++Iru0bPAOg4yCPRvuxfWa0kxn
-         3fNefrdGFKRIlUWQCUEDTq/W/V7bjx6CYgrCX35l+YptIuyKMon+1fvuXGctfm1+lOBn
-         Ue9aWoONOHB5HcsqyhG0YscCV8fqmMSPJhd8yBv9uc3XwX4DiHnKBzKicSklSfvlzv0t
-         DON641wNsDKGmA7Pz9d0PVSUKYJXNKfFjcEyrVEb7w9IkSmvWKWRGSOQ9Ex1bU4u4zk1
-         S6cDpe2SOGW5EwQ81vbEb8qrwt2GsOSDMc4HJ33uAyswTmhkliTz7zb7NdAZ5e/1MfFw
-         BG3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765814036; x=1766418836;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ROScw7LkVEobmMJDTvBXmeogZcMVtVRNIb25XYU/aOk=;
-        b=w+6XHgJmy+IYrIX8XkYbWaUBc4LpDKeRTTmn6D54OpgiG6Rr/fvT3R2aBLrxWoR5tF
-         HJRBxlJPqZHqr/jHypPUkwGzxF/z639ktygZE9G2BqxjB8Vr3cbsT8MtDWE4ZhhCvIF6
-         fOM3lwC9dQ0i0K4wH5guzZxVyNWJ+2m+UnJSr4H7JX0SKpGBoWaIktF2ijhYLniHsXjA
-         fVozaUx8b7BcVoeB73ooj68MB4aeAOYy9OQ3RcMvob6zrXktxihQDHkPYoqxS6I2GDtd
-         MV+0rPpV1JLdAU240f7BMiiKBVyag3+pVPJkXStY55VlWNesx4LuLLpaR38JPg3FX0HA
-         5DgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX8GBBamGXu9/fbrFR1nnwnTgbxzQPiJPwWYfARibLbgb8nJv8oa8R5JYHlRY6s5OyP6lINm2v0oOU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyafKYUWaB6J/uL/LwRbGrrKLh5QCY3EgBwE9GQo535mso7twAk
-	4yMK12KkGnm6RY5C2rU9bQNQ1A7U7LYgGlcLamy70ZiGAP0nKJwdVIEc7bSbrCSZQzG9e/Mbr6J
-	1g1ZzfaC2y/lYoNgLWbYJ4jCEEkBw/BaoW766Zbye
-X-Gm-Gg: AY/fxX7UkZUHUNtv4MqWd2Lxr6fLKqgDqbm6ip9iWEOQse8u7osVqEZKDpyZ3D1QEMU
-	7bW12Y5/tprO1lnLl3kvVM5bcHeQhE2xwnF89SM4YODDH/qOV2n239nvZQJvdt5v6NnQvIA1Q2D
-	us9oshbuj/WAzVer/MC1+zcmm/upUF4vee4xV6RA67CH4rW1KsWMN+wa6QPraIe1Cw4er817RSK
-	5sGJw7Y4SvMogyardf2zpghRwq8+sdrvWfG68+ZrGfaXAu6TH09Z4q+WVhTa2XbZxPfRjOJS+m8
-	7wGRynaxZvUDxG1jr9myhcuMcg==
-X-Google-Smtp-Source: AGHT+IEqHtbIkXeCrxZ7N2Is3Z0BKjAm77k3VHnhb//Mc2q6P3kqxs3MPR3a7KluXzGQE7f0g+lEq90Z0zzfwOCm1e4=
-X-Received: by 2002:a05:7022:1b0c:b0:11a:3483:4a87 with SMTP id
- a92af1059eb24-11f34be9ca7mr8171406c88.13.1765814035105; Mon, 15 Dec 2025
- 07:53:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fwbwvSc0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765815034; x=1797351034;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=ORPW/PhDVY0ckZAz+zz6a4g+5MV/noJ4NuhB61kTxe4=;
+  b=fwbwvSc0sL7/yiLtWWqGQJPeEqWL7bv+QMukl4OAzIN7CyzI8IM+NyxQ
+   dIb28qwlV3v6uKta2UFMBvorrROZ8ubLl+AT3uyS1qwMVV5oi4PL55MP6
+   rZzBzaOSDhwJvqxTBI5x2xbBPLMiyHVNuk0PSNJlvT4n1Pgw5bKwHONBl
+   EooF8n4Ww48QjxxZLz9AhJu7+bxdFq9u5ZLtBE/y7Rw/dyZzhZ2t/z8Xx
+   3Se0RiFj95q78wbz6wss7gQajluv4WqXTgs0NYwA+/0Y4wker2pQ5oejw
+   JRzrYmnWQ257jWW6fvMuLzqpkQH1Bfas2Sz/coXQDi8upbuV3rUGlNU7D
+   w==;
+X-CSE-ConnectionGUID: od4YOTJtS8mnCqpXAdBVMw==
+X-CSE-MsgGUID: jzAXg2DHTqGbGoF5WoW38A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="78425125"
+X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
+   d="scan'208";a="78425125"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 08:10:33 -0800
+X-CSE-ConnectionGUID: dkDh7zJeTnaDXIwc3qxwcg==
+X-CSE-MsgGUID: /Y/d4zZ6SU+o/VMtnwqAtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
+   d="scan'208";a="201940944"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 08:10:33 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 15 Dec 2025 08:10:32 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Mon, 15 Dec 2025 08:10:32 -0800
+Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.27) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 15 Dec 2025 08:10:31 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Fho3jqXndgZuYkWPkXJ0/av/RG8drE5PGsYy7BuWZ9yxMu+vbaNn47jbVoMPKu0vpPC/6er60bmkdL/LoM9Xy0jJqjnhigjlCSi6dLcrR41HU6sPuOnf/mWt1rE2CR5M1QOzJV8ObDIS+SukxezmEDZH7Nv4K7Z70nhtKkK+2JrjCGJZ9koeJLHu11cMBLK72FJ20fb8nZUJMF9MgVKcXPNEF6fU4kXgnR7ks5FMN81iyNbk9TB5tlvrEgBFaM5PEu8nDeMpS0OvIGLEQcrIKJX5JwSUXNPKwn27req6FB5i5KaAXUqXVThhW9OF/KxV912SQwZfFQ7gPMULdvxIsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PY0xoOgkLhIZDxymJ+DhrA7ukrxJbsGLN+qM5XKy4ko=;
+ b=YCJl0+VnSt4tT45Elm/7GJ8TS5cBT8UDY3gx4WTTeVrcTdbAoCovieJCM6/wj+sBVyqfHuZ6GEL1OX2v29gTjk1TTcK4IhIOGpEeNolDIJRIQLktQvRiXU26aFqVJAhVPnZQW3GKgTDKvAmbHKpWffecg04KeMdNxQUAxI5BzZ9q3YSXwRurGPNlknaC5Y5Qwg7mSTDVOOiW5EKGG76dHyAbHDAWIRBoCfH4ov+w9Zt3ILXYZm0HDe/MvXHnQtmiSOoPIsJzTTSjv/gFAljgoOsC+WVplu8Tna5IUe23MiantdEpcoLHtFfHfPPsEaySFVeyhNhUCDXfiUQMtzLozA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB7540.namprd11.prod.outlook.com (2603:10b6:806:340::7)
+ by IA1PR11MB6419.namprd11.prod.outlook.com (2603:10b6:208:3a9::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
+ 2025 16:10:28 +0000
+Received: from SN7PR11MB7540.namprd11.prod.outlook.com
+ ([fe80::399f:ff7c:adb2:8d29]) by SN7PR11MB7540.namprd11.prod.outlook.com
+ ([fe80::399f:ff7c:adb2:8d29%5]) with mapi id 15.20.9412.011; Mon, 15 Dec 2025
+ 16:10:28 +0000
+Date: Mon, 15 Dec 2025 17:10:14 +0100
+From: Larysa Zaremba <larysa.zaremba@intel.com>
+To: "Tantilov, Emil S" <emil.s.tantilov@intel.com>
+CC: <intel-wired-lan@lists.osuosl.org>, Tony Nguyen
+	<anthony.l.nguyen@intel.com>, <aleksander.lobakin@intel.com>,
+	<sridhar.samudrala@intel.com>, "Singhai, Anjali" <anjali.singhai@intel.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>, "Fijalkowski,
+ Maciej" <maciej.fijalkowski@intel.com>, Madhu Chittim
+	<madhu.chittim@intel.com>, Josh Hay <joshua.a.hay@intel.com>, "Keller, Jacob
+ E" <jacob.e.keller@intel.com>, <jayaprakash.shanmugam@intel.com>,
+	<natalia.wochtman@intel.com>, Jiri Pirko <jiri@resnulli.us>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Richard Cochran
+	<richardcochran@gmail.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, <netdev@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Aleksandr
+ Loktionov" <aleksandr.loktionov@intel.com>
+Subject: Re: [PATCH iwl-next v5 09/15] idpf: refactor idpf to use libie
+ control queues
+Message-ID: <aUAy5vJ04DWAVohe@soc-5CG4396X81.clients.intel.com>
+References: <20251117134912.18566-1-larysa.zaremba@intel.com>
+ <20251117134912.18566-10-larysa.zaremba@intel.com>
+ <f9a69abd-dabc-440a-a3cd-c88b184f7e77@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <f9a69abd-dabc-440a-a3cd-c88b184f7e77@intel.com>
+X-ClientProxiedBy: VI1PR09CA0125.eurprd09.prod.outlook.com
+ (2603:10a6:803:78::48) To SN7PR11MB7540.namprd11.prod.outlook.com
+ (2603:10b6:806:340::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251120145835.3833031-2-elver@google.com> <20251120151033.3840508-7-elver@google.com>
- <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
- <CANpmjNOmAYFj518rH0FdPp=cqK8EeKEgh1ok_zFUwHU5Fu92=w@mail.gmail.com>
- <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
- <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
- <20251212110928.GP3911114@noisy.programming.kicks-ass.net> <aUAPbFJSv0alh_ix@elver.google.com>
-In-Reply-To: <aUAPbFJSv0alh_ix@elver.google.com>
-From: Marco Elver <elver@google.com>
-Date: Mon, 15 Dec 2025 16:53:18 +0100
-X-Gm-Features: AQt7F2oxzebZt0rcTkreaKMT4PDBgj_kZoo-YwczNEo1aa0S6zPi6Xbs61JFiQg
-Message-ID: <CANpmjNNm-kbTw46Wh1BJudynHOeLn-Oxew8VuAnCppvV_WtyBw@mail.gmail.com>
-Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context analysis
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, 
-	Will Deacon <will@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, Chris Li <sparse@chrisli.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>, 
-	Eric Dumazet <edumazet@google.com>, Frederic Weisbecker <frederic@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, Johannes Berg <johannes.berg@intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
-	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
-	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB7540:EE_|IA1PR11MB6419:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7b24cf9-45ce-42bd-f3ab-08de3bf476bc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|10070799003;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?u66DCjuuCUTB29CJMz8KZkoTI+GcxPpXvdaV9aGjfRh/oT13rL+8le2BaWyS?=
+ =?us-ascii?Q?/aOR3OMK7SuirTUBGlIrS3tn+ZZUMEEiVQbiCA5nBB2WnREqUHJFkP1PFZOT?=
+ =?us-ascii?Q?Blk0kOUlSrUni5raqSjiAbmh4vBXVtWj/InoDi4TTXisuXPYItuOU551VIqb?=
+ =?us-ascii?Q?RqGFvVeW2J6mx6GdU5en2w8knjl6kHOEpzCCJHcoTAO0OEmE+Acde7RZ0Qt+?=
+ =?us-ascii?Q?BOxHdCcT7jub7UH1iWkLw2AaPIC3GKqEDoUOHb1nBtsMEa8/DczissypMSLo?=
+ =?us-ascii?Q?vCdW61zxoEb3Qy/Nua758MNNYqvQL4cOfudH1IAZPYDEClYod6ivGaGmNOu/?=
+ =?us-ascii?Q?TN7vhInNacdygJXVje5S8k9JPeno/6uXvIMB7tgk/pDA5p+hr0hvWqPiWwGN?=
+ =?us-ascii?Q?gIKBhrtn/FOZIMYm16oXMaRnNTn66Z6lz1mKGVKmapDNjd43dKYZsKgZmTAH?=
+ =?us-ascii?Q?yn7FyFreVoCJdBuU6ew5ouD572wW+8C/9VyQHvzRW5TayXWEnJfdVsEIAfqG?=
+ =?us-ascii?Q?1qTgieMSsmRxhWEcBlzekHvcj5Ouw3Qhj6Zte56jlF3rrWezdGHxG3w9ENhn?=
+ =?us-ascii?Q?ES1KVgioNYjglq+7S/5B9tYeAi1i6ofdQellLDj149sx01cNtg0cX/5Np9JQ?=
+ =?us-ascii?Q?7hYzgHfyca4xmvAjDKA3itocnfNzMsiG0N5jQDaWVdY2O/BGJq+iAAzYLtEv?=
+ =?us-ascii?Q?E/aPJq/WycxsTCzbZuw9WePjxpbaNLddtbgRNcBXbekppxqHtaLUHqTHsVWe?=
+ =?us-ascii?Q?QniH2uoMi8fuxxBYOrUUnT/4QiPcdhwHRiGg2WX8liBrX03P29X3VZMkzKh4?=
+ =?us-ascii?Q?jJBiZEsgCGS9P+l+NTDEgdCnlrDz+Tge9Mgdyb73YxNXDtUNB90Xfgs8rmQ0?=
+ =?us-ascii?Q?1canKGDMgM8F2fL5IhVwIUF9/+L7HqTKaTWalzhnE+SQV6X/KzpFe97aM9Bb?=
+ =?us-ascii?Q?TYUNctkvwHFp78vKmIh0zFJFB570ICK0fYpyfdgNaLKrVT5RBHP8KTiWTtxj?=
+ =?us-ascii?Q?S/9fd7rr3XgucJSjG4EvR49UmxzibbrHciUUubRcIZC8Eni/Ljm/AZINJLQy?=
+ =?us-ascii?Q?P8ROKUM1kYqf9JXvNZOCrSPDVLso6vp25o7JdFtUskDMUdii9SX1F76/yk5T?=
+ =?us-ascii?Q?lfn7d3PoYWmRPn1Txk/4q/jzRZR7e5COGjnnjdOyGfIxQx0qtRG/E7OQR8Sj?=
+ =?us-ascii?Q?75mrRjJARBzVPiFlsc4g6JRhM7S34qZHl4hRAijRQfJ1dw2tEfRp4E1Ry4/S?=
+ =?us-ascii?Q?jWoC4Xh7AgnzI1ZDTd5Phkcq4ErGTP6sEEMi+tUw7RHIhY4odJSCGoY1ZvSn?=
+ =?us-ascii?Q?TbM/jyCVPYuFpyDEHPDjiNKt8ocOuvEWgIyOucc7yPMRhi39NVgEOdG/oFF8?=
+ =?us-ascii?Q?rAC0OZCwlKUuyInG2Y8JcLYrd2K2umbncqSYx4qExUZ+nVV3O1vWSzaEVttX?=
+ =?us-ascii?Q?bydL7J3Pbz31giEK48WTqId73jngXtgDn/TRdCxdHNlSbXjx2VAIXw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7540.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(10070799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FK4zZ5QGfdde/xqjscZW5+vBgLwMyd6LMiWiI5/TuN5ZqyvuAv2PyoyT/88b?=
+ =?us-ascii?Q?qKf7prpGb60AH16eviuLHhLkEJQj0tnvTk9QGXFnmLmnYTZxZekfEeu8Iq1R?=
+ =?us-ascii?Q?Nuhp5m4AHPdTZj7JwAk6G4nhiPk9qcTg9+xPTXi7tCRB7PEOHCxf756u2Ugq?=
+ =?us-ascii?Q?kcWBdhvCwzwMwrU1T2iT0T0WNjWSAK0wmoCNip7Zku4qxK/rPdNgkFcvJIab?=
+ =?us-ascii?Q?QniYNyRawrFbkQi+3VkIurD5SPCK1mJ4I6QfnpcVzUjgvJeRQqt51sEjBJfp?=
+ =?us-ascii?Q?cnsldec7vwG9YOln7gCvGfMU7whQvtLOCYztGYZx3df7UXW4gRjBAWJCm2QT?=
+ =?us-ascii?Q?CeFCU6g3jA7JQmnmKnWoAv5BFQpgcy4b48xpKTq6SF9OStxR9cSg2awp5+20?=
+ =?us-ascii?Q?LS0LL1c7qY3qzvTotv3jwPboksUQAgJSUXN4r5EKYKsuZJiB77BDZEdHj8ZY?=
+ =?us-ascii?Q?m1Y8et/KEDO7iRFlM4d/SqYcNfLTDrnMDY+rQW2LDcdKKvywcwAWiDJ3ymux?=
+ =?us-ascii?Q?OEAHYiDXQao/GTDkBbo0K9EYCMRjmlFd+gbxqtwNGq3/GOUU0kTuODDezsxO?=
+ =?us-ascii?Q?LoMl3sMWI6wEvaN9FiXELvVOKj9AaJqz4jvDnekyYIZH3nokELIrJyG4VHl2?=
+ =?us-ascii?Q?cIGVgSN5PyTo4RXBb9D59DKbmgNaF8LXrTErS4LJkhGj+Of6xKjVA78p8dUu?=
+ =?us-ascii?Q?7RfWAbM74GyLYQWDx5/PKLHaaw+bC0OK5eBBVYPb/gm1QmeNpweWFwzSImtz?=
+ =?us-ascii?Q?0XdOgx10iru2zudQ4VkoqFXNcMFxietgmdnMfxUVCTw9cLkDhviHbCKLJTED?=
+ =?us-ascii?Q?8iHCIrvAIVOOM0OSJZNoESsREUfq+M43I0XTDlpNgvrtuBZyqTHn9GTvQ/Li?=
+ =?us-ascii?Q?gW4xya86LSr9kfmDvb3qw5Ga5ASHAgwD0KEC32pKH6V6eC7Y4eFwGJoSY+Ch?=
+ =?us-ascii?Q?Oamv+g+6VTO+6MiXjG9Q0dWIU7TUuZg65+bHondMWZ28BrG85UXd1C/v9XUR?=
+ =?us-ascii?Q?9QvaFSSavctVcIFZCkvHpNLzK0l2K4hDz9nnQ4Be5/oF1zr8LUmh6UYXpZBP?=
+ =?us-ascii?Q?MBHXm6XMAgXeD//PLsN0qcKFNM7FAYqnl6m5UkuKfjFBEOwm7Y8MN5//9Khc?=
+ =?us-ascii?Q?yVfHR/UnL4uZhbmOUUMfDlGXvxTW694jfxqGYLo72O97BuH+62E9oSVJNr7P?=
+ =?us-ascii?Q?vUMS+tvtz3+BIQ0P6DwQm+8+6YfZ5IcANmW+XK8712zi5wKjaoTXVhJ1LkyF?=
+ =?us-ascii?Q?J/F4hRKMaRK67JkTtSh7mT1R83By/NQ6z5y9/eJHXbs4V4nNR9bCdjEFtvr7?=
+ =?us-ascii?Q?xrnDp3A7msqi9CFYoi0G3dydKEN3BXUaHyt90NMShbNkbjg+PDsOOpAumd1Q?=
+ =?us-ascii?Q?l0HIxX6a+7zoDednZKJpvyrrOWF84JCcj5+tjw+PaBfHk0Kg2wAjMOLti4Ix?=
+ =?us-ascii?Q?DMzPhCRRsTZBBjsfHjE3VkpuX/AD050arPzbeLdIkg7Kfn5YkdD1Ssank9xP?=
+ =?us-ascii?Q?3MITStsD/Mn5omvyAregRE1kfGI9+aqBsN7k3w9bgiCaQShtSvRL6twksxj7?=
+ =?us-ascii?Q?VHIcr8MHmsSrkcsgG3ZqHvvmk+dWhtKGl/5cSLxE5EqWvFUFA5bgl3lo0CUV?=
+ =?us-ascii?Q?Uk97XDjOy0X3oC/L5jxpcNEk5mOyBNQBW0/zffNv5Qx4ElR1rash7AbtNA7r?=
+ =?us-ascii?Q?Hx6RRA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7b24cf9-45ce-42bd-f3ab-08de3bf476bc
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7540.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 16:10:28.6787
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: na2bhG8kgN6PSaDQwEgzdpXz9Jl3gWbs70VebdPZVUvy30sQtTkQnLTmE9l7vFsa8HNjrSmHP5WSMchD2RHEKDygqznJ8PgwhJZonpXn7uo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6419
+X-OriginatorOrg: intel.com
 
-On Mon, 15 Dec 2025 at 14:38, Marco Elver <elver@google.com> wrote:
->
-> On Fri, Dec 12, 2025 at 12:09PM +0100, Peter Zijlstra wrote:
-> > On Fri, Dec 12, 2025 at 11:15:29AM +0100, Marco Elver wrote:
-> > > On Fri, 12 Dec 2025 at 10:43, Peter Zijlstra <peterz@infradead.org> wrote:
-> > > [..]
-> > > > > Correct. We're trading false negatives over false positives at this
-> > > > > point, just to get things to compile cleanly.
-> > > >
-> > > > Right, and this all 'works' right up to the point someone sticks a
-> > > > must_not_hold somewhere.
-> > > >
-> > > > > > > Better support for Linux's scoped guard design could be added in
-> > > > > > > future if deemed critical.
-> > > > > >
-> > > > > > I would think so, per the above I don't think this is 'right'.
-> > > > >
-> > > > > It's not sound, but we'll avoid false positives for the time being.
-> > > > > Maybe we can wrangle the jigsaw of macros to let it correctly acquire
-> > > > > and then release (via a 2nd cleanup function), it might be as simple
-> > > > > as marking the 'constructor' with the right __acquires(..), and then
-> > > > > have a 2nd __attribute__((cleanup)) variable that just does a no-op
-> > > > > release via __release(..) so we get the already supported pattern
-> > > > > above.
-> > > >
-> > > > Right, like I mentioned in my previous email; it would be lovely if at
-> > > > the very least __always_inline would get a *very* early pass such that
-> > > > the above could be resolved without inter-procedural bits. I really
-> > > > don't consider an __always_inline as another procedure.
-> > > >
-> > > > Because as I already noted yesterday, cleanup is now all
-> > > > __always_inline, and as such *should* all end up in the one function.
-> > > >
-> > > > But yes, if we can get a magical mash-up of __cleanup and __release (let
-> > > > it be knows as __release_on_cleanup ?) that might also work I suppose.
-> > > > But I vastly prefer __always_inline actually 'working' ;-)
-> > >
-> > > The truth is that __always_inline working in this way is currently
-> > > infeasible. Clang and LLVM's architecture simply disallow this today:
-> > > the semantic analysis that -Wthread-safety does happens over the AST,
-> > > whereas always_inline is processed by early passes in the middle-end
-> > > already within LLVM's pipeline, well after semantic analysis. There's
-> > > a complexity budget limit for semantic analysis (type checking,
-> > > warnings, assorted other errors), and path-sensitive &
-> > > intra-procedural analysis over the plain AST is outside that budget.
-> > > Which is why tools like clang-analyzer exist (symbolic execution),
-> > > where it's possible to afford that complexity since that's not
-> > > something that runs for a normal compile.
-> > >
-> > > I think I've pushed the current version of Clang's -Wthread-safety
-> > > already far beyond what folks were thinking is possible (a variant of
-> > > alias analysis), but even my healthy disregard for the impossible
-> > > tells me that making path-sensitive intra-procedural analysis even if
-> > > just for __always_inline functions is quite possibly a fool's errand.
-> >
-> > Well, I had to propose it. Gotta push the envelope :-)
-> >
-> > > So either we get it to work with what we have, or give up.
-> >
-> > So I think as is, we can start. But I really do want the cleanup thing
-> > sorted, even if just with that __release_on_cleanup mashup or so.
->
-> Working on rebasing this to v6.19-rc1 and saw this new scoped seqlock
-> abstraction. For that one I was able to make it work like I thought we
-> could (below). Some awkwardness is required to make it work in
-> for-loops, which only let you define variables with the same type.
->
-> For <linux/cleanup.h> it needs some more thought due to extra levels of
-> indirection.
+On Wed, Dec 10, 2025 at 07:42:53PM -0800, Tantilov, Emil S wrote:
+> 
+> On 11/17/2025 5:48 AM, Larysa Zaremba wrote:
+> > From: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+> > 
+> > Support to initialize and configure controlqs, and manage their
+> > transactions was introduced in libie. As part of it, most of the existing
+> > controlq structures are renamed and modified. Use those APIs in idpf and
+> > make all the necessary changes.
+> > 
+> > Previously for the send and receive virtchnl messages, there used to be a
+> > memcpy involved in controlq code to copy the buffer info passed by the send
+> > function into the controlq specific buffers. There was no restriction to
+> > use automatic memory in that case. The new implementation in libie removed
+> > copying of the send buffer info and introduced DMA mapping of the send
+> > buffer itself. To accommodate it, use dynamic memory for the larger send
+> > buffers. For smaller ones (<= 128 bytes) libie still can copy them into the
+> > pre-allocated message memory.
+> > 
+> > In case of receive, idpf receives a page pool buffer allocated by the libie
+> > and care should be taken to release it after use in the idpf.
+> > 
+> > The changes are fairly trivial and localized, with a notable exception
+> > being the consolidation of idpf_vc_xn_shutdown and idpf_deinit_dflt_mbx
+> > under the latter name. This has some additional consequences that are
+> > addressed in the following patches.
+> > 
+> > This refactoring introduces roughly additional 40KB of module storage used
+> > for systems that only run idpf, so idpf + libie_cp + libie_pci takes about
+> > 7% more storage than just idpf before refactoring.
+> > 
+> > We now pre-allocate small TX buffers, so that does increase the memory
+> > usage, but reduces the need to allocate. This results in additional 256 *
+> > 128B of memory permanently used, increasing the worst-case memory usage by
+> > 32KB but our ctlq RX buffers need to be of size 4096B anyway (not changed
+> > by the patchset), so this is hardly noticeable.
+> > 
+> > As for the timings, the fact that we are mostly limited by the HW response
+> > time which is far from instant, is not changed by this refactor.
+> > 
+> > Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+> > Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+> > Co-developed-by: Larysa Zaremba <larysa.zaremba@intel.com>
+> > Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
+> > ---
+> >   drivers/net/ethernet/intel/idpf/Makefile      |    2 -
+> >   drivers/net/ethernet/intel/idpf/idpf.h        |   28 +-
+> >   .../net/ethernet/intel/idpf/idpf_controlq.c   |  633 -------
+> >   .../net/ethernet/intel/idpf/idpf_controlq.h   |  142 --
+> >   .../ethernet/intel/idpf/idpf_controlq_api.h   |  177 --
+> >   .../ethernet/intel/idpf/idpf_controlq_setup.c |  171 --
+> >   drivers/net/ethernet/intel/idpf/idpf_dev.c    |   60 +-
+> >   .../net/ethernet/intel/idpf/idpf_ethtool.c    |   20 +-
+> >   drivers/net/ethernet/intel/idpf/idpf_lib.c    |   67 +-
+> >   drivers/net/ethernet/intel/idpf/idpf_main.c   |    5 -
+> >   drivers/net/ethernet/intel/idpf/idpf_mem.h    |   20 -
+> >   drivers/net/ethernet/intel/idpf/idpf_txrx.h   |    2 +-
+> >   drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |   67 +-
+> >   .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 1580 ++++++-----------
+> >   .../net/ethernet/intel/idpf/idpf_virtchnl.h   |   90 +-
+> >   .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  239 ++-
+> >   16 files changed, 783 insertions(+), 2520 deletions(-)
+> >   delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.c
+> >   delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.h
+> >   delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_api.h
+> >   delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_setup.c
+> >   delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_mem.h
+> > 
+> 
+> <snip>
+> 
+> > diff --git a/drivers/net/ethernet/intel/idpf/idpf_lib.c b/drivers/net/ethernet/intel/idpf/idpf_lib.c
+> > index e15b1e8effc8..7751a81fc29d 100644
+> > --- a/drivers/net/ethernet/intel/idpf/idpf_lib.c
+> > +++ b/drivers/net/ethernet/intel/idpf/idpf_lib.c
+> > @@ -1363,6 +1363,7 @@ void idpf_statistics_task(struct work_struct *work)
+> >    */
+> >   void idpf_mbx_task(struct work_struct *work)
+> >   {
+> > +	struct libie_ctlq_xn_recv_params xn_params;
+> >   	struct idpf_adapter *adapter;
+> >   	adapter = container_of(work, struct idpf_adapter, mbx_task.work);
+> > @@ -1373,7 +1374,14 @@ void idpf_mbx_task(struct work_struct *work)
+> >   		queue_delayed_work(adapter->mbx_wq, &adapter->mbx_task,
+> >   				   usecs_to_jiffies(300));
+> > -	idpf_recv_mb_msg(adapter, adapter->hw.arq);
+> > +	xn_params = (struct libie_ctlq_xn_recv_params) {
+> > +		.xnm = adapter->xn_init_params.xnm,
+> > +		.ctlq = adapter->arq,
+> > +		.ctlq_msg_handler = idpf_recv_event_msg,
+> > +		.budget = LIBIE_CTLQ_MAX_XN_ENTRIES,
+> > +	};
+> > +
+> > +	libie_ctlq_xn_recv(&xn_params);
+> >   }
+> >   /**
+> > @@ -1907,7 +1915,6 @@ static void idpf_init_hard_reset(struct idpf_adapter *adapter)
+> >   		idpf_vc_core_deinit(adapter);
+> >   		if (!is_reset)
+> >   			reg_ops->trigger_reset(adapter, IDPF_HR_FUNC_RESET);
+> > -		idpf_deinit_dflt_mbx(adapter);
+> >   	} else {
+> >   		dev_err(dev, "Unhandled hard reset cause\n");
+> >   		err = -EBADRQC;
+> > @@ -1972,19 +1979,11 @@ void idpf_vc_event_task(struct work_struct *work)
+> >   	if (test_bit(IDPF_REMOVE_IN_PROG, adapter->flags))
+> >   		return;
+> > -	if (test_bit(IDPF_HR_FUNC_RESET, adapter->flags))
+> > -		goto func_reset;
+> > -
+> > -	if (test_bit(IDPF_HR_DRV_LOAD, adapter->flags))
+> > -		goto drv_load;
+> > -
+> > -	return;
+> > -
+> > -func_reset:
+> > -	idpf_vc_xn_shutdown(adapter->vcxn_mngr);
+> 
+> This will cause a regression where VC can timeout on reset:
+> https://lore.kernel.org/intel-wired-lan/20250508184715.7631-1-emil.s.tantilov@intel.com/
+> 
+> I think we can keep this logic, remove the calls to vc_xn_shutdown in
+> idpf_vc_core_deinit() and add it to idpf_remove().
+> 
+> Thanks,
+> Emil
+> 
 
-For cleanup.h, the problem is that to instantiate we use
-"guard(class)(args..)". If it had been designed as "guard(class,
-args...)", i.e. just use __VA_ARGS__ explicitly instead of the
-implicit 'args...', it might have been possible to add a second
-cleanup variable to do the same (with some additional magic to extract
-the first arg if one exists). Unfortunately, the use of the current
-guard()() idiom has become so pervasive that this is a bigger
-refactor. I'm going to leave cleanup.h as-is for now, if we think we
-want to give this a go in the current state.
+Thank you for bringging this up!
 
-One observation from the rebase: Generally synchronization primitives
-do not change much and the annotations are relatively stable, but e.g.
-RCU & sched (latter is optional and depends on the sched-enablement
-patch) receive disproportionally more changes, and while new
-annotations required for v6.19-rc1 were trivial, it does require
-compiling with a Clang version that does produce the warnings to
-notice.
-While Clang 22-dev is being tested on CI, I doubt maintainers already
-use it, so it's possible we'll see some late warnings due to missing
-annotations when things hit -next. This might be an acceptable churn
-cost, if we think the outcome is worthwhile. Things should get better
-when Clang 22 is released properly, but until then things might be a
-little bumpy if there are large changes across the core
-synchronization primitives.
+It's a shame that the solution that we have agreed with you on previouly has 
+such unintended consequences. Well, after looking at it this way, I see no good 
+solution except bringing back xnm shutdown, but in libie. See the suggested diff 
+below. Please, say if it works for you.
 
-Thanks,
--- Marco
+When fixed up in a final patch idpf_vc_event_task will only have one changed 
+line:
+
+@@ -1981,7 +1986,7 @@ void idpf_vc_event_task(struct work_struct *work)
+        return;
+
+ func_reset:
+-       idpf_vc_xn_shutdown(adapter->vcxn_mngr);
++       libie_ctlq_xn_shutdown(adapter->xnm);
+ drv_load:
+        set_bit(IDPF_HR_RESET_IN_PROG, adapter->flags);
+        idpf_init_hard_reset(adapter);
+
+libie_ctlq_xn_shutdown() sets the state to shutdown, so no new xns can be 
+taken (-EAGAIN) and running xns are prematurely completed 
+resulting in a timed out error. At the same it does not free any memory, so no 
+use-after-free risks.
+
+---------------------
+The main diff:
+
+diff --git a/drivers/net/ethernet/intel/idpf/idpf_lib.c b/drivers/net/ethernet/intel/idpf/idpf_lib.c
+index 69eb72ed6b99..dff931ebbd9f 100644
+--- a/drivers/net/ethernet/intel/idpf/idpf_lib.c
++++ b/drivers/net/ethernet/intel/idpf/idpf_lib.c
+@@ -1977,12 +1977,19 @@ void idpf_vc_event_task(struct work_struct *work)
+
+        if (test_bit(IDPF_REMOVE_IN_PROG, adapter->flags))
+                return;
++       if (test_bit(IDPF_HR_FUNC_RESET, adapter->flags))
++               goto func_reset;
+
+-       if (test_bit(IDPF_HR_FUNC_RESET, adapter->flags) ||
+-           test_bit(IDPF_HR_DRV_LOAD, adapter->flags)) {
+-               set_bit(IDPF_HR_RESET_IN_PROG, adapter->flags);
+-               idpf_init_hard_reset(adapter);
+-       }
++       if (test_bit(IDPF_HR_DRV_LOAD, adapter->flags))
++               goto drv_load;
++
++       return;
++
++func_reset:
++       libie_ctlq_xn_shutdown(adapter->xn_init_params.xnm);
++drv_load:
++       set_bit(IDPF_HR_RESET_IN_PROG, adapter->flags);
++       idpf_init_hard_reset(adapter);
+ }
+
+ /**
+diff --git a/drivers/net/ethernet/intel/libie/controlq.c b/drivers/net/ethernet/intel/libie/controlq.c
+index 9b24a87872e5..a39ee6ea37f1 100644
+--- a/drivers/net/ethernet/intel/libie/controlq.c
++++ b/drivers/net/ethernet/intel/libie/controlq.c
+@@ -694,7 +694,7 @@ static void libie_ctlq_xn_put(struct libie_ctlq_xn_manager *xnm,
+  */
+ static void libie_ctlq_xn_deinit_dma(struct device *dev,
+                                     struct libie_ctlq_xn_manager *xnm,
+-                                     u32 num_entries)
++                                    u32 num_entries)
+ {
+        for (u32 i = 0; i < num_entries; i++) {
+                struct libie_ctlq_xn *xn = &xnm->ring[i];
+@@ -1093,14 +1093,12 @@ u32 libie_ctlq_xn_send_clean(const struct libie_ctlq_xn_clean_params *params)
+ EXPORT_SYMBOL_NS_GPL(libie_ctlq_xn_send_clean, "LIBIE_CP");
+
+ /**
+- * libie_ctlq_xn_deinit - deallocate and free the transaction manager resources
++ * libie_ctlq_xn_shutdown - terminate control queue transactions
+  * @xnm: pointer to the transaction manager
+- * @ctx: controlq context structure
+  *
+- * All Rx processing must be stopped beforehand.
++ * Synchronously terminate existing transactions and stop accepting new ones.
+  */
+-void libie_ctlq_xn_deinit(struct libie_ctlq_xn_manager *xnm,
+-                         struct libie_ctlq_ctx *ctx)
++void libie_ctlq_xn_shutdown(struct libie_ctlq_xn_manager *xnm)
+ {
+        bool must_wait = false;
+        u32 i;
+@@ -1129,7 +1127,20 @@ void libie_ctlq_xn_deinit(struct libie_ctlq_xn_manager *xnm,
+
+        if (must_wait)
+                wait_for_completion(&xnm->can_destroy);
++}
++EXPORT_SYMBOL_NS_GPL(libie_ctlq_xn_shutdown, "LIBIE_CP");
+
++/**
++ * libie_ctlq_xn_deinit - deallocate and free the transaction manager resources
++ * @xnm: pointer to the transaction manager
++ * @ctx: controlq context structure
++ *
++ * All Rx processing must be stopped beforehand.
++ */
++void libie_ctlq_xn_deinit(struct libie_ctlq_xn_manager *xnm,
++                         struct libie_ctlq_ctx *ctx)
++{
++       libie_ctlq_xn_shutdown(xnm);
+        libie_ctlq_xn_deinit_dma(&ctx->mmio_info.pdev->dev, xnm,
+                                 LIBIE_CTLQ_MAX_XN_ENTRIES);
+        kfree(xnm);
+diff --git a/include/linux/intel/libie/controlq.h b/include/linux/intel/libie/controlq.h
+index 4a627670814e..98f082b5d039 100644
+--- a/include/linux/intel/libie/controlq.h
++++ b/include/linux/intel/libie/controlq.h
+@@ -414,6 +414,7 @@ struct libie_ctlq_xn_init_params {
+ int libie_ctlq_xn_init(struct libie_ctlq_xn_init_params *params);
+ void libie_ctlq_xn_deinit(struct libie_ctlq_xn_manager *xnm,
+                          struct libie_ctlq_ctx *ctx);
++void libie_ctlq_xn_shutdown(struct libie_ctlq_xn_manager *xnm);
+ int libie_ctlq_xn_send(struct libie_ctlq_xn_send_params *params);
+ u32 libie_ctlq_xn_recv(struct libie_ctlq_xn_recv_params *params);
+ u32 libie_ctlq_xn_send_clean(const struct libie_ctlq_xn_clean_params *params);
