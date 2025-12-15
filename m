@@ -1,145 +1,171 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ADA30FF3A;
-	Mon, 15 Dec 2025 14:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B83338F45
+	for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 14:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765807358; cv=none; b=ROxyCBWLYZeTPXZ9+yOgrJfBbOxOhgLRut6nXXfkHC5aMW3wjXo/A1rQNaSmxziVyJnHGT0SqXVR2bS/wv+uu6HuKK4gA9+5y2txf82z1KH89TzzECaIeP/Xj27q7nOXBvezHUFdr7TU9I63YVtl3WCsdsLe2+9Zegv4Q0MmTBU=
+	t=1765807496; cv=none; b=R1+F+Fq3vk2NGpvFK2FR/lQKgXPEWGlrwST8jXeikR1dJyiVWrmf/sB2//Lakg+zjopcHROx/c7n/5GPqMl+RzNTH+Wb2Xb8rJGoA5wF2JU2dQSYPKmrvcMYW91doiuCQy4XH3qzmJbCIKHiH/6zJqntKf7OIFEEUlPHCaHlVHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765807358; c=relaxed/simple;
-	bh=CNk3Gny6Eq3dZRKg7BGu1UbnDEcS8g5xr5JBzKALF8g=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=vGctnuB/HgTVUNMYKYrV6sIdkGDNgpUZuMdEgc/s9ErDu4Z+HPU4G4S1FyT+toI9/pMbjnVOY81A9CH9mNZtI1KY+7KaDm11OtUjd5FPFgPd7bEEWuUNcka3dGqfcABUkghsU5iMP1S60YFWjMCWdfYUw3Q5Sau4CcSsfevKkSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=UJ85NnV8; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1765807496; c=relaxed/simple;
+	bh=KI9QIWcad/B9ZjYeffUF4N7PpYb0fDIpzH9w8RVTAyc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UfUWRlbxibZ+TOLoK54gCYx6RPV+uJ+A6GiwNQOY0VJxpRcGLou1LPHOnub9GmoAKk3WYn1uBLNXN2EtHZCLVYDuWRSlMv2msaSmAq8USvNWQ4PXD7r7sGV9bcGFtZ6kjM5FcL5YPOTRumoUZTdQUkiPUi1uF8kLihfuQepgBUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dLT6GV62; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="UJ85NnV8"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BF74uKe021469;
-	Mon, 15 Dec 2025 14:02:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=BZZ8gU
-	lX9jobhrDx9zOK3xqdapuyPIterguTVyWFnmc=; b=UJ85NnV8BxA6m/NzsC1T/C
-	SB+xvMuD9kbKXibV4JBG1DgRU1YqOEDD6OYT80n4KGZ0z+0/kMtgnz1Tk1IwJxRw
-	vN0PCZBVBvuHybSiWbDXr1wk7zrQl5TbuBInGaV8cTyhTvEAejPbP0ZWUytjh5uu
-	P1ukByJnscn6joymUkGMao1xVkvmEnf06c7snvKR3cPPk9xXp3aJlh50pAARCKuU
-	c3jBcwO5VIQQsr6jy02Bhb1UIEkSfob6a24c3nvw4WoQoQBFrBlehTrhuf0KUpc2
-	plNkQ0TFnNMeycavrvP38yYnVGZfBSTaE5M5sHL6X/qFjJbHDj5xnI2Sj255VBbw
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b0wjpsw67-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Dec 2025 14:02:12 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5BFDvDMK007741;
-	Mon, 15 Dec 2025 14:02:12 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b0wjpsw5y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Dec 2025 14:02:12 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BFB1Biu026761;
-	Mon, 15 Dec 2025 14:02:11 GMT
-Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4b1jfs6ygr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Dec 2025 14:02:11 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5BFE2A4r29295354
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 15 Dec 2025 14:02:10 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B788858055;
-	Mon, 15 Dec 2025 14:02:10 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D131A58043;
-	Mon, 15 Dec 2025 14:02:09 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.148.132])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 15 Dec 2025 14:02:09 +0000 (GMT)
-Message-ID: <8075a38abe5f7256ae8ce70359f78822f277ccfa.camel@linux.ibm.com>
-Subject: Re: [PATCH V2 1/1] IMA event log trimming
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: steven chen <chenste@linux.microsoft.com>, linux-integrity@vger.kernel.org
-Cc: roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com,
-        eric.snowberg@oracle.com, corbet@lwn.net, serge@hallyn.com,
-        paul@paul-moore.com, jmorris@namei.org,
-        linux-security-module@vger.kernel.org, anirudhve@linux.microsoft.com,
-        gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
-        sushring@linux.microsoft.com, linux-doc@vger.kernel.org
-In-Reply-To: <20251210235314.3341-2-chenste@linux.microsoft.com>
-References: <20251210235314.3341-1-chenste@linux.microsoft.com>
-	 <20251210235314.3341-2-chenste@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Dec 2025 09:02:09 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dLT6GV62"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2984dfae0acso73446695ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 06:04:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765807493; x=1766412293; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=eiURzUZDdB4fxsl1ptJaHGccRecrpuUcKuZLpsQ1g5U=;
+        b=dLT6GV62XPJqC3P1M1WXu15g5BNPw68iYdTSehV2oSEyp6eKeByNbqqba77ale8WYw
+         zWYXla8p6sE+E1miUzmDn0iFZM2ow1d9QODCNqQTG4RlUOPpsviLjHZ2rLS88SIoJSJN
+         AcTiOB0g0x8TBDLl3+hhcIwgpKXTyzLO6yhlafGeMJIzadVStML+JAmrMOmGipdGXDC1
+         EN7lM4ce2FQoUOGFFNbEBuW2EOBeEZFv7PG5mjr87P81w8eUOmjUisX3hA/n/GEZLr2m
+         fwD2nD2WBaK7WHA44zvVLQ1de0tsW/VrJraTQzK/YYRr+4dZrcfX9H9IWIyr3WFxMuIB
+         Seng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765807493; x=1766412293;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eiURzUZDdB4fxsl1ptJaHGccRecrpuUcKuZLpsQ1g5U=;
+        b=aUb24lWyS1QOW/5tMLOcU4fVCnyPg5UJvF+0TIR9pC+CFbU/XnRQp24DgdlV5fSUhy
+         F7tIwdalmjtsdlnIsik3KIy/CuHOXsUOv0PKmAsTxD/axhlTwltFR1dEcXcJrFSsa+5b
+         CMc6eYhqbcYxuba2KWFenyR/7WFKdbHNonm4EL8kdVvLAkS+TPo5u2sINUdBIvBRrO1U
+         LYaPlL0fpTMDRhNKmJW4JnenZ+4FsN/Ggdo50iw1lkABztqF3IKXPcW8cDiDeznDNuvy
+         JVa57pYHsy0VzrG8U5py09iDOURgIYBbAbXgbUHBldljij7TPErOOUcdtq6iG91iLnP8
+         9LFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVom1fhP3bz7KJdj0BBvr95YykNy1K1aROYEWr1FE5ThNf3KWH5T6VbpSPe8ZZrw2XZ+AyEmnKKkF8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4qmlR+Dh9QSROJW/8yK+NkJSZC/4JavBkyNvRK2CACvSdLq08
+	/aGn+t+tW1FjLnZppo1UKKa69OIVIuiiUYZe6t2rUhwSIL5RYsHVM+12
+X-Gm-Gg: AY/fxX7RvtUfWOr93LE6H33CVm0s/D/oc7jf0VwbelGSA641Znm3vhHYwZHLPFQTB6I
+	feNx2Vo5JF5JrPQ0zaebTWFHiFXUv2hkD2OAVKzYXu1j09giD3pkHuopW3Du+veT+RZFqTKk6Ds
+	xoYq0Qf8R/bVi4mWpVzrwVaY+drCNoks7deTNcApVjDG7ugaBKMtCgii+iUv99WaQ2e1tUPCd5O
+	IAOPsiexBJa+8zaCtSWJZo1d+vdI7QvvP1+xKDioNuXRfWBMEDf8dxx86VupGhsiLW22gjLyYGU
+	zMM9J9ACbfdNZnaDnNdQCQOi6sBIv/ZnBfAaVp3NeQxxDlq3t4iMDks5VbFjIcrsoc7JCqAI5rv
+	GFUZ9V7pZT2ZRmffW+tQ2WgZgeF9K14oO9ju7Z6ogSoHPmbk2wQ/eIdbvVVKSDe5xbETLiNo7xi
+	9mZ2wyz6TdSrRgBc8yALAJTz524MCTsRioKZ4V6ze+Q3Kv5Yn560vevpkUTtE=
+X-Google-Smtp-Source: AGHT+IGRL20LoecJ6pn1jdufZiNAGa9JtUlJUvG+45A3c3rMqwURCEs7Wewuin0iwJX6orhOUQMjxg==
+X-Received: by 2002:a17:902:c94a:b0:2a1:deb:c46c with SMTP id d9443c01a7336-2a10debc778mr23305005ad.44.1765807493228;
+        Mon, 15 Dec 2025 06:04:53 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29eea06b651sm137028605ad.94.2025.12.15.06.04.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Dec 2025 06:04:52 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <94e647ec-3cd4-4475-b064-064916cf83bd@roeck-us.net>
+Date: Mon, 15 Dec 2025 06:04:50 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEzMDAwMSBTYWx0ZWRfX0yV7Mf5blC3w
- AaO1LQKAV2UYiiBmHcseJKAGO3F/+6KIyRmoZD2DQ2KJk+q7DUc7eEwKfsgDytucCUFYUvi57Ey
- d0o29cMG7s9+yWxp59xyVOM4pVwhBR7/Zv6xU+7UQP8tmlIrRIWPjhtaLsz3rtfNHl09K+S/w9D
- P1nz6lJsBQ8sYX7GPqHx4ayh9rjIEYIW4U6fDKkiL4MdPHKqwdf+sK7f70RZqd4y3cQVgp3Xz0Z
- 4zgVFYNPZwIIr2U79PAU/1g2tLeldGA4UJROeqAXDG6iBs8b9+O2XcNlRKxTa8hBe8jPn34h/LS
- l/huY3z1qFJd406XLv5EW7TFFYdrz/7lxWdN5hWCVXReFngE4WXY60Rs9XZtWrGaIekxVKx8j/e
- JnxqTf5elVfwTsq+hR6q62poVDYfrA==
-X-Proofpoint-GUID: kz-flyVU7aY1Qe3_3Kbcd_XJMYHE1aej
-X-Proofpoint-ORIG-GUID: IvWNjI-eD8XLKzsdRPq7o10CmrEeb0Zp
-X-Authority-Analysis: v=2.4 cv=Kq5AGGWN c=1 sm=1 tr=0 ts=694014e4 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yMhMjlubAAAA:8 a=qxrvh61xDQAC6cKOOUwA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-15_02,2025-12-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 impostorscore=0 clxscore=1011 spamscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 phishscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510240000 definitions=main-2512130001
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+To: Tomas Melin <tomas.melin@vaisala.com>, nuno.sa@analog.com,
+ linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
+References: <20251204-ltc4283-support-v4-0-db0197fd7984@analog.com>
+ <20251204-ltc4283-support-v4-2-db0197fd7984@analog.com>
+ <c655d548-85be-4c42-a802-d9342ea90aed@vaisala.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <c655d548-85be-4c42-a802-d9342ea90aed@vaisala.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Steven,
+On 12/15/25 00:20, Tomas Melin wrote:
+> Hi,
+> 
+> On 04/12/2025 18:15, Nuno Sá via B4 Relay wrote:
+>> From: Nuno Sá <nuno.sa@analog.com>
+>>
+>> Support the LTC4283 How Swap Controller. The device features programmable
+> 
+> I think You mean hot swap controller?
+> 
+>> current limit with foldback and independently adjustable inrush current to
+>> optimize the MOSFET safe operating area (SOA). The SOA timer limits MOSFET
+>> temperature rise for reliable protection against overstresses.
+>>
+>> An I2C interface and onboard ADC allow monitoring of board current,
+>> voltage, power, energy, and fault status.
+>>
+>> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+>> ---
+>>   Documentation/hwmon/index.rst   |    1 +
+>>   Documentation/hwmon/ltc4283.rst |  266 ++++++
+>>   MAINTAINERS                     |    1 +
+>>   drivers/hwmon/Kconfig           |   12 +
+>>   drivers/hwmon/Makefile          |    1 +
+>>   drivers/hwmon/ltc4283.c         | 1719 +++++++++++++++++++++++++++++++++++++++
+>>   6 files changed, 2000 insertions(+)
+>>
+> 
+> This is quite a big patch, I wonder would it ease review to try to add a
+> minimalistic implementation and after that add new features one by one...
+> 
 
-The main difference between this patch and Roberto's version is the length =
-of
-time needed for locking the measurement list, which prevents new entries fr=
-om
-being appended to the measurement list.  In Roberto's version, the list hea=
-d is
-moved quickly and the lock released.  Measuring the total amount of time ne=
-eded
-to trim the measurement list ignores the benefit of his version. I plan on
-reviewing both this version and his (hopefully today).
+Please don't. I'll end up being the one person who will have to review it,
+and those piece by piece driver submissions often end up taking much more time
+to review than a single patch because the initial pieces miss the big picture.
 
-There are a number of other things missing from this patch, which I'll enum=
-erate
-when I review it.
-
-On Wed, 2025-12-10 at 15:53 -0800, steven chen wrote:
-> This patch is for trimming N entries of the IMA event logs. It will also
-> cleaning the hash table if ima_flush_htable is set.
-
-Please refer to "Describe your changes in imperative mood" in the "Describe=
- your
-changes" section of Documentation/process/submitting-patches.rst.
-
->=20
-> It provides a userspace interface ima_trim_log that can be used to input
-> number N to let kernel to trim N entries of IMA event logs. When read
-> this interface, it returns number of entries trimmed last time.
->=20
-> Signed-off-by: steven chen <chenste@linux.microsoft.com>
-
---=20
-thanks,
-
-Mimi
+Guenter
 
