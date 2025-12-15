@@ -1,97 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9B5322547;
-	Mon, 15 Dec 2025 17:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A66322B91
+	for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 17:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765821025; cv=none; b=aIx9gD7pt0EN7uJKC6PbbMHg/RwZ2QhgzihQyDbVtowbf4dnOAtHg6Ojqtsw4m2Vnds10LdJN6jgXRXSwl/Jzp67AdzvUzadddim1yR83DAK/2CkzVsikQnIX45YrHwEn3C8zxhhqED2MdAsv+lpbCgSznyrpCsANMXSMKxTkXQ=
+	t=1765821584; cv=none; b=bfHTG0UPU5b/7SoHLqVLNwlbTFo0rhqmogIYjgf0eexfa90WKfLQc7DX2c9k1094PoY5EM0LjhjAjHWBGiXCARrDn4uRoSJO7VLvIJ7wHRHZQX1lgkn2uR2SEfaCnySPDiJ67dyJd0yQq3fa/HuRdzvpfNdweTh2pJkJ6jUlxvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765821025; c=relaxed/simple;
-	bh=YrTHPSx4341UHi+jq+akqh9qZcSw7dvO2ic7YUiWbg0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dPxMdgL6eyKVGKDYS1C52GQCuY33tp/ZJ2QkAy/5VKQ9nmZa+raQS1PHQJoPrTRcqwQXe2jxrRW22gG9+peOW9kIyAayfXwYyaDDl7Gx1xFvSL5XPDfexmcZekVDjfovhysdF88VqKtj+5J+3tQ0cOpSMQ3dD0okuXGxfaLV6Tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CEVe02Iu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765821584; c=relaxed/simple;
+	bh=rKVKnsmZY5Zk5WseCbLhC70tZU73oYSI0ZX68nvqOpU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OgNhlcnxX4w4PKrkTVsnYceKQ+eF4/FTUHGXa8VgEXtjjYWOjMItBIqVO9PKMlCmVTbGcxGPn4/6uUA3fZkIYH+4BCrSmFiN8JmIntPoaM/wSmcdyzSFHt86DxXlRpO8A+AINXOzdhme462ISn4ZyAdO+QkwwrDaZUhVlWFdkAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mWcISiYv; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CEVe02Iu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 132FCC4CEF5;
-	Mon, 15 Dec 2025 17:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765821025;
-	bh=YrTHPSx4341UHi+jq+akqh9qZcSw7dvO2ic7YUiWbg0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CEVe02IunMd7oRHFksHEuNX1ZGXmcKIUYs9D3rfyToXy2S9a/vJIReRvxn0hSyuHq
-	 ZYiHE+ofGwyMAJmluKhkQYrdZH/sUMKtertR6dDwxTG+iRRnl/gjKIqHFfSgnoV8Fk
-	 /L9lVyXu1WUxeBFv8WZU9ewBj0Uk7MrThe65m2SeSzSV5CJ1IHPADfw7Bhajy5exxg
-	 f29m8+hYKOCCh9kjItC7brKVPTJ8NfuY+VapVLoxSo3SCPlFZTTXHGejcN362IY5CC
-	 x0KbRMlW7m0lhBWnhBDb71H/F/MBsH1wSUTLQinohrsqHRnKc3HV6K4mEP6ckdb691
-	 4ezHrJtnERipQ==
-Date: Mon, 15 Dec 2025 09:50:23 -0800
-From: Oliver Upton <oupton@kernel.org>
-To: Colton Lewis <coltonlewis@google.com>
-Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
-	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org,
-	maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com,
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
-	mark.rutland@arm.com, shuah@kernel.org,
-	gankulkarni@os.amperecomputing.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 21/24] KVM: arm64: Inject recorded guest interrupts
-Message-ID: <aUBKX8iqsptyTb4S@kernel.org>
-References: <aTioEWHu0ZbFCjR6@kernel.org>
- <gsnt8qf72tv9.fsf@coltonlewis-kvm.c.googlers.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mWcISiYv"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-597c83bb5c2so3248216e87.3
+        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 09:59:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765821580; x=1766426380; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zIbn2oDFRSGWfD5W22SaWrURpraJkYSQ1nm0bbeV7eo=;
+        b=mWcISiYvQDMyWrcSRycAfbgC2LcfDHeiHNEwlrIHZIiej1AYC1xSGsNIQAQ09hrYkV
+         JX5RKvAXPuBpvT42pleeeJWKLBH2sgmOEqfv/KpJmG2j4MZwEb/VhmN2KUWZSKmpR4y8
+         W9Y9TRYiK/LUJSWBxJeCtVm6+grs9CMML+9OjkE4C8237semIawFtJN/0+n1tfa/B4sH
+         4PXZxM7CBczsbeXD5LrxS/cB7X27CZ/SgFLeQqgNRSooR0u6fqf5viqD1bfmET98d1BJ
+         y+OTGkBGOVpj54S8EoEEBS6SOazJkp5BEh/6fqKDGAxYCvW45iAXLY5VypDKgUjIZ0ta
+         NCVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765821580; x=1766426380;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zIbn2oDFRSGWfD5W22SaWrURpraJkYSQ1nm0bbeV7eo=;
+        b=m8Dlmio3ou+QP7bivjHoNkYrUnbf/T5euSYbpzLTJTa+Ybxh4bTDb+hUqdapV+h0rH
+         75hfnOhqe3i2CQgorJS0Kydqu7uL+P52eEZa7rbU/JKxY3+0wPRIlxdVTaOhqMqZEKSP
+         G01VGPsj15NOV8Q+Ej0YVTtLArtLF7tk0+MS33YtJ8Lft04+2iT2eSxtVDT6RbmvmBGn
+         5T7NLx6KXFoD8DhNGtT9PR1vKnXAfJ84XGDNtQ/iccb91MToQVT8wI3Oyfcd+GtS01yP
+         mDItvqOodlKOlsldElqpJ/afWz7lrD0JBPCu9nCNdpwOsLheeOan/d6+PsGADz3SB9aU
+         +I6w==
+X-Forwarded-Encrypted: i=1; AJvYcCV6oAFKbVWspNslXAoJM7wyM1zs8Y1foH/beJEKB/6pjOH9O+7ukUisilZX6jGBSLKCyyJM41+ZQts=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yykz7YNBVpaBwEmN4SgZJJEBmbGqlS8M4IQqjEP6E7WKBwSIPza
+	FRRW1hfehKIvzA8NMEXcxS+s8p5nzEdgjjjhpcUWqLiZWeeUEjOHuJEB
+X-Gm-Gg: AY/fxX4km12iBCg38FEPINL4HST+cBYCR528b8fHd+DaRsHomuwiE6T4iFhXjHifcdm
+	3Og/i0WEdaElR5V6fluqfnJNhqoQhejc7FCFLeXpye99cAd8oU2pnWLMq9v0EJZRN/vT6H+0hc/
+	DhR+3ibyeu8vVurWvY1wSChdv0ZqAgfvjBLzfdXPIYvEdl2GvTN68UiVuil6dIarMTA35FRUMie
+	ypMbAeWGlfxjvca54wQiAMBouw36CGL5l0Xrt0vunwFswq9Wqtmhg2t02F/ml0LxEtIongPoiql
+	3w/ZCg0ElSaGFt3x09/L+NOeoe5sXRHB/hKM/3FHV8JoUGN0iiLRgRfmEQKhbDVs+VjhbwQi3YJ
+	eioBmdvf15KqdWhLbYRP2+6m+WSe2XO302S5uTJ7JM/Ks3R+S4cc6Ub518acBntM2cmZWxSKJMI
+	ldtrWkqGqm
+X-Google-Smtp-Source: AGHT+IFsDUVoZATaLzj9N1/hjfRE03GZ2gIP+Qj4HQeX9tt2ONoJL779FMDFpau9DQULSPR5u/L2Cg==
+X-Received: by 2002:a05:6512:1154:b0:597:d59a:69ca with SMTP id 2adb3069b0e04-598faa4d5b5mr3889154e87.28.1765821580147;
+        Mon, 15 Dec 2025 09:59:40 -0800 (PST)
+Received: from localhost ([194.190.17.114])
+        by smtp.gmail.com with UTF8SMTPSA id 2adb3069b0e04-5990da11dbfsm5648e87.13.2025.12.15.09.59.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Dec 2025 09:59:39 -0800 (PST)
+From: Askar Safin <safinaskar@gmail.com>
+To: rdunlap@infradead.org
+Cc: initramfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v4 1/3] init: remove deprecated "load_ramdisk" and "prompt_ramdisk" command line parameters
+Date: Mon, 15 Dec 2025 20:59:27 +0300
+Message-ID: <20251215175927.300936-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <5c3c4233-3572-4842-850e-0a88ce16eee3@infradead.org>
+References: <5c3c4233-3572-4842-850e-0a88ce16eee3@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <gsnt8qf72tv9.fsf@coltonlewis-kvm.c.googlers.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 12, 2025 at 10:55:06PM +0000, Colton Lewis wrote:
-> Oliver Upton <oupton@kernel.org> writes:
+Randy Dunlap <rdunlap@infradead.org>:
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 > 
-> > In no situation should KVM be injecting a "recorded" IRQ. The overflow
-> > condition of the PMU is well defined in the architecture and we should
-> > implement *exactly* that.
-> 
-> When I say "record" I just meant "updating the virtual overflow register
-> to reflect an overflow".
+> Thanks.
 
-Right, consider changing the shortlog to read more along the lines of
-"detect overflows for partitioned PMU" or similar.
+Thank you!
 
-> > On Tue, Dec 09, 2025 at 08:51:18PM +0000, Colton Lewis wrote:
-> > > +/**
-> > > + * kvm_pmu_part_overflow_status() - Determine if any guest counters
-> > > have overflowed
-> > > + * @vcpu: Ponter to struct kvm_vcpu
-> > > + *
-> > > + * Determine if any guest counters have overflowed and therefore an
-> > > + * IRQ needs to be injected into the guest.
-> > > + *
-> > > + * Return: True if there was an overflow, false otherwise
-> > > + */
-> > > +bool kvm_pmu_part_overflow_status(struct kvm_vcpu *vcpu)
-> > > +{
-> > > +	struct arm_pmu *pmu = vcpu->kvm->arch.arm_pmu;
-> > > +	u64 mask = kvm_pmu_guest_counter_mask(pmu);
-> > > +	u64 pmovs = __vcpu_sys_reg(vcpu, PMOVSSET_EL0);
-> > > +	u64 pmint = read_pmintenset();
-> > > +	u64 pmcr = read_pmcr();
-> 
-> > How do we know that the vPMU has been loaded on the CPU at this point?
-> 
-> Because this is only called by kvm_pmu_update_state which is only called
-> by kvm_pmu_update_state <- kvm_pmu_{flush,sync}_hwstate <-
-> kvm_arch_vcpu_ioctl_run after a vcpu_load.
+P. S. For unknown reasons I don't see your email in my Gmail. Not even in
+spam folder.
 
-That's assuming the PMU is loaded eagerly which I thought we agreed it
-would not be.
 
-Thanks,
-Oliver
+-- 
+Askar Safin
