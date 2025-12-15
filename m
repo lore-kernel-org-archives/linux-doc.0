@@ -1,132 +1,91 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C37E33D6CC
-	for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 14:17:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7EE233ADA8;
+	Mon, 15 Dec 2025 14:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765808265; cv=none; b=HrKLUeFWB0sZPVHLZzeXGIj2pea0zHTf0KQ+oF5LNZrH40bQYNwpUM2K5jKnGdivlv5dFvD05iDgUHQs8NhnHG97wGbb9Tfl4BH5JMurCEEwOckk/BQ9aliLa7VtenqhcxF14K7HUupaz1/USBoB3sHvO/tF09r6MkQkxWcv/4M=
+	t=1765808472; cv=none; b=cPIyJJn5D9z1rau9t69CNVAswcLAliZYD1S3nFbumDYfpHoXz5+REejWGGZYNmkHvcJ4T0MI6lVUmrpaO3qa1nx7ehORrPncMB7FqSv5WVeipj76s2lMoBFa0ptjdz38euDtHl2kuDJn/Mp55YFEnaRM1kjh0d215RxZ7+/EStA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765808265; c=relaxed/simple;
-	bh=qgIeskizQ6k5pCTS+tBJjIOrZYKzKB9RZLZ3eLktzMA=;
+	s=arc-20240116; t=1765808472; c=relaxed/simple;
+	bh=ljAqlGir0hg+CJRtmbHoQuoEsW97nlQWXDh3Jib1L8A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QQ/RAwYEtciA4RIJ1ZFSmZDA+yjU/kkCJp3oS6hOkYJKS5pgU+vPet0JN1NU3gBY/3d5Ap8Igp8+RIiBr/Q6TEuJmE6XFPKFB91W4KD8BCiwOImPUX5NQm7+MOi4v0LbvFVACfzho9V3vHz2qA66umpGG5C6HfIgQtunk8MZMZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=I4EcfV1U; arc=none smtp.client-ip=209.85.218.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 MIME-Version:Content-Type; b=n0QsP6gNbqr1koIQj463NZXRvC4PAgpQjyaU5TMQWORSk+uzt2ZWt4sPpM4YRyCBo6ef+BIdQaPaB3kbB5hZotNm0gUAnGC6H/Chzcs1LglDti8tSKS3HlucbexJi4+hWqjw3gN8uVGHHlwj++g6w/C6Dqy0RuztFxQJWPq7uxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QcKETSWl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="I4EcfV1U"
-Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-b73161849e1so789452666b.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 06:17:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1765808259; x=1766413059; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jkiTD4px65dM2skIdFl/J9dVCQORv+uwK+yX/RVP6Rc=;
-        b=I4EcfV1UH3TlEF5NOgpOKvGnh+tYNSa+w3PpwRY481Lv4F+s/kDUwHNOxwlgguD2HC
-         zkJDEW1JzIXWFoUC7ah6g1W/y5/+FmktIuO3Rs63eOiAxAmOdPgEY9YdXjxdp9pZ3j7i
-         C2RqPD8Am8bV9OLfm15TqejYjgq3+D8Lc6B8+2j5JW079QAVNrRzRVVfgw1k/JuTiKIe
-         bfe9gYz6U3L8lwgph6rwbtUYZAghW/9z/iLcfJIxHxrWwFxxe259sZUJHhhNavF+U1W7
-         pk/LHRLowB0ayMHfmJXIimkcz99yGlOMDfuO0OvPhxwwSjM7pDOYZ/TvT/vICuzm83al
-         PZ3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765808259; x=1766413059;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jkiTD4px65dM2skIdFl/J9dVCQORv+uwK+yX/RVP6Rc=;
-        b=oYj0sNw8VfH4lQFTVSLGNWOmZX4HBBkedjKpJGotjAmh4XDwf9Df2nyl9Qz+nkrIb4
-         ru/ygjtjjnu12PXL7Wf8laAwgyf4g1B4LK0gV4IpOWtsBpsfFMHOyHkiq4SkJcxInkmO
-         MG9AC5GBvuKq6Dd0J9VppPqn0rfOBiJOrD1e6uKv6klaeyp6Eeolv5m725mYd8UlKOl8
-         X250AWwkHXa5OB2jUz3b4t2nmAXEp8f3WQGAN4mKSAIVwRaqKTQSBnuExWckBrTXIGYP
-         mNEoD01zwHHqFpPDzz4z35jQ7nN1xrQlVxiC4riVfhNjlyXYfDsO74s5JIzwhYqEciYx
-         7dNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWaXcjmql7JEyVNV/N9SSjmswQqKJRRAZO2WisNbo6mHreAepEF7KT9RB0J/vGJ2qxYeGrUqq/MaCE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6Ktwfh8h+BHxIL2GVelONS1ZP2bDBjSizL4QPbZc9n/9N0gro
-	gOqV/NT3PP8SWTH96L6b4LCsuzwVHM8NSQn2eJGjpNrZBPywTNjQzBjsAmPO3sr4gDA=
-X-Gm-Gg: AY/fxX6hHc3ktgirtWT2wwWJ19LkCIQ0gNu+gGQRgFtX81Y57Rw4L6LlTD0LAU6hE20
-	DDpDZY42oekp4VM7B0bIXjpeh0oUxCnXR/hsasuCYepZi+diM4JpclBHLmHhOQBOEXA1SDGbHxo
-	V8hPo5w/RV+EV7Eh92wShCO7+Eni7htLAybLwgWmg8SytZuwyOcvDtXOZTQ8DW+9Qtgls7BsEoe
-	NAswmjZC2MvAtVERxaesUaeo5YhjZRLNLQmIXtRfayn0VwXTSd1rFhZNXhBk7fslORvXOs+W/5z
-	kZJu1+iByeZrD3+qVEpTWaJvIbtMAm3F8kFePylE0RibKoYNL7scF8R6JNJpRTSRZbMLXb8mPc/
-	uMoBRZ9WfHqE4XEJTSncpAM6inSmHYW/G7mRn4vAKZHblmjJPmc7wUvkCBaXssx21ARcE0LqgaA
-	26jo8hu5H0X6Ug2sLyGN0UHbt+id2+2xsPRKaD5Ufda98FNc8boc/cvVUoXA==
-X-Google-Smtp-Source: AGHT+IHKV4igaHwn7+K2vwYBtyQFxVpzIQraC3kpQm7Azogd0RTCY38G5wp3SBzUcJ46GS6qptq6qA==
-X-Received: by 2002:a17:907:db03:b0:b73:1634:6d71 with SMTP id a640c23a62f3a-b7d23693326mr1093680166b.26.1765808259567;
-        Mon, 15 Dec 2025 06:17:39 -0800 (PST)
-Received: from localhost (ip-046-005-122-062.um12.pools.vodafone-ip.de. [46.5.122.62])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b7cfa5c9d22sm1435302666b.61.2025.12.15.06.17.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 06:17:39 -0800 (PST)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jens Wiklander <jens.wiklander@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Sumit Garg <sumit.garg@kernel.org>,
-	op-tee@lists.trustedfirmware.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QcKETSWl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCF93C4CEF5;
+	Mon, 15 Dec 2025 14:21:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765808471;
+	bh=ljAqlGir0hg+CJRtmbHoQuoEsW97nlQWXDh3Jib1L8A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QcKETSWl6gLN6f7eNHQqErj0B8bS+bC42POisZY9HcTzsq2NW9sy4e3MYt0ShbM3W
+	 f3FCpxSFcEklKIx7aPFrnYesSxybWN0V7X3uylRdV5LGg/LZhLq8DoQwfUdDsonBok
+	 uUCOv4FjxEcncyldWGg3RW9GNWuX8AWhbgpF0A2jZ63jjfu+xvPlHPPY1LzQfUk7be
+	 WpnUT62Obyrk4vnubmGUvCBmMSnyHzlxzKEdrung95/rEHNlcVvGYRjC/mScin09tu
+	 F0+62KclXcTtUhRDHrdKY4onpcxDRx1Ov5vs/md79WuXAwSsYV+A6oqC4gdveVdQxE
+	 NpJnWcsgzJlUw==
+From: Christian Brauner <brauner@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: [PATCH v2 03/17] tee: Adapt documentation to cover recent additions
-Date: Mon, 15 Dec 2025 15:16:33 +0100
-Message-ID:  <5aeee7a827cf928f1d68b7f680a59685117948df.1765791463.git.u.kleine-koenig@baylibre.com>
+	linux-doc@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>
+Subject: Re: [PATCH v2 0/2] filelock: fix conflict detection with userland file delegations
+Date: Mon, 15 Dec 2025 15:20:55 +0100
+Message-ID: <20251215-bildung-arrest-1957e6ff7b59@brauner>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1765791463.git.u.kleine-koenig@baylibre.com>
-References: <cover.1765791463.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <20251204-dir-deleg-ro-v2-0-22d37f92ce2c@kernel.org>
+References: <20251204-dir-deleg-ro-v2-0-22d37f92ce2c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1318; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=qgIeskizQ6k5pCTS+tBJjIOrZYKzKB9RZLZ3eLktzMA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpQBhS0WoEn4Bdownd57bRxYSl7t13OvpmqNRXW GkJNk6vgCSJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaUAYUgAKCRCPgPtYfRL+ TvinB/9EIDFgtID3fmVhXXlk4A/3oeXKOggta0tcV5pJkVVqettorkuMukUos3F64qUG9dfUwdm hIAyJTKLPIyTNxWnxUfuucogoLAJ3adnn3KWUoVgBCcNMsvM5nkve7In9cZ9PJp9TI3b+o+72NC GZD+0Fr35s/FNjF+oZ8Gv0XaxQUoHoX420dzXrvQmpY79p1jcRwnzxtxLBA7GX0zQnMJJotNITC wpv2OVKb2sCXd6sqH8iA3gIECJDYegN1d5JRblp9d7dNDN5lcHd0nh9Oj2USgmDBirXlzgUCczl cOYapG0cgNTwNeI76zy4BsN/x06W6+Noq/qCs+A6WiicD4kt
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1270; i=brauner@kernel.org; h=from:subject:message-id; bh=ljAqlGir0hg+CJRtmbHoQuoEsW97nlQWXDh3Jib1L8A=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ6SPrpRD3z0plU2bhuYeiG7Ttvc8ueW1bx01mJj/flT TMVPTenjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkcPs/wV/pA19aWpn3vVfZ2 z5QL2XaxSj+Dk1/vk9XDE9n9V71+LGJkuHzeK37nviKW9czzM36YL45m0uozsqxOct20u+vgmVn tXAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-The previous commits introduced some helpers to reduce boilerplate
-and bus specific callbacks for probe and remove.
+On Thu, 04 Dec 2025 08:48:31 -0500, Jeff Layton wrote:
+> This patchset fixes the way that conflicts are detected when userland
+> requests file delegations. The problem is due to a hack that was added
+> long ago which worked up until userland could request a file delegation.
+> 
+> This fixes the bug and makes things a bit less hacky. Please consider
+> for v6.19.
+> 
+> [...]
 
-Adapt the reference example to make use of these.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- Documentation/driver-api/tee.rst | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-diff --git a/Documentation/driver-api/tee.rst b/Documentation/driver-api/tee.rst
-index 5eaeb8103988..4d58ac0712c1 100644
---- a/Documentation/driver-api/tee.rst
-+++ b/Documentation/driver-api/tee.rst
-@@ -43,24 +43,12 @@ snippet would look like::
- 	MODULE_DEVICE_TABLE(tee, client_id_table);
- 
- 	static struct tee_client_driver client_driver = {
-+		.probe		= client_probe,
-+		.remove		= client_remove,
- 		.id_table	= client_id_table,
- 		.driver		= {
- 			.name		= DRIVER_NAME,
--			.bus		= &tee_bus_type,
--			.probe		= client_probe,
--			.remove		= client_remove,
- 		},
- 	};
- 
--	static int __init client_init(void)
--	{
--		return driver_register(&client_driver.driver);
--	}
--
--	static void __exit client_exit(void)
--	{
--		driver_unregister(&client_driver.driver);
--	}
--
--	module_init(client_init);
--	module_exit(client_exit);
-+	module_tee_client_driver(client_driver);
--- 
-2.47.3
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/2] filelock: add lease_dispose_list() helper
+      https://git.kernel.org/vfs/vfs/c/392e317a20c3
+[2/2] filelock: allow lease_managers to dictate what qualifies as a conflict
+      https://git.kernel.org/vfs/vfs/c/12965a190eae
