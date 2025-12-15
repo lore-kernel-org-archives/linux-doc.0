@@ -1,115 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A232882C5;
-	Mon, 15 Dec 2025 10:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E52C32FA3D
+	for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 11:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765794989; cv=none; b=eJLXbhqoXmIRIN2+PSwJG2jdtm7BPSFgaxDWWBRslN74PLnV1UEcu1ifxgV6PnoyFgGFJV7V/VfW8+gHn8ry4m06sLzfZC4veh4O/sdAuN6YpFzlmrvx2Trwc9XkGQY4vfBciHaa8C6fBoL2wzV+gexNduEeY+0sZa5GbEr/qEE=
+	t=1765797099; cv=none; b=pE03LScbwNqIxqV9x0BrB4soJBe79DR6hVkLFRKI61VpB0azTb1Y+7+eh89kImU8VH4B48I5+HMNAd5Lduo1w3rdr/kvzsqKXMKyJGIBMRqCiPc2S+Edf+JT5MI4erVvio/LX5VALFUvR5ieFZMYI0w3Ssy2XC9uA4jzAskXGxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765794989; c=relaxed/simple;
-	bh=VnZ9AI+OcSYjRRCKYpKhQNADkzDfaUzJNzcsasS8Vos=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=heMDI9xb77UFtxkdb3R6rfd/nZlnyXI243hUtGSueVFzhcYhf7eITP/F3B1pzJW3pQ5PvJpuOc/eJfqac7N9vO8DDM4M7/fOwzR/itPqK9rxkhsdXyvddirFUcXEy95yJwRxHF2eqEvYyTMLHMC2xgyW4dpM5NRTSUsvntO3e0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ULVZ/usP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765797099; c=relaxed/simple;
+	bh=xLkLnhXJLH4hRPCe5HQdE0kdJA9A6njjHeR77PMzKQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZFbnQz8XvVb9rtS2O001DKN2B+954DYAo53SinAPinbXNxMV2LNIpoVX1Y9k1CyqDCwTpeu65pOzvXPSGWIRCCZO/Rh8KkIwpVK56ZvVH6iyMhjnwBgVqH3aj5lEuaGVPsuZJKr85s+Ai1aegfg2BGDp9/ScWoDPfdlbxWHuFKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fkCNBLQo; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ULVZ/usP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A4F1C4CEF5;
-	Mon, 15 Dec 2025 10:36:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765794989;
-	bh=VnZ9AI+OcSYjRRCKYpKhQNADkzDfaUzJNzcsasS8Vos=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=ULVZ/usPznXq3DhQThXZBO4aMJjHoKA+pwX75G7MAXzBw0Wn1zC2vrBwOvcFA41xC
-	 ULin4X7tqnkgmW26HZnJ3w0CgFKGu1o842V2AKsmaCVLYtjRr8deodkKtvtpbLAB1l
-	 BEPLvuLrRahuZ8yZ4hhFQJOueLxi+TpJys7JJD1MzdspYT/rdSbN/T7Hm8dPlfWAUc
-	 7uiTH4lWg2NjaobkqgPiCeIXHfXmqCW+JXsiareBFSVyW/48VNkWqhb5YB0qL1QL/H
-	 Mq5xrxiRn9uudLeKLrKnWbi4tz7L+Tpcplc9ihm39Uuu8R93Hk4JoreYdKqSS22u5/
-	 8gzm6RHv/C0/Q==
-Date: Mon, 15 Dec 2025 04:36:26 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fkCNBLQo"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-640c6577120so4025175a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 03:11:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765797096; x=1766401896; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hg923q+5CeeSYekQ+G/+hcSHwymAktpz89SKIFfb8tM=;
+        b=fkCNBLQoKCAIe8BcgEvkwcInTBClViYA5PhENcWlgvaHBsMES8hbCpm7HH34Dvvb1B
+         zE6w1u9SYhGxIJHMnuoMCR/xjaDvdyNlF1aXe3n01FMo5mEQXt5COYGTLMxzLNG2NL43
+         Gjb11eWz/+cjokq7xjztvaduaCoprM4HtCMQop0b++TiWIvxgjT9biIP39QY5x8TWWUm
+         it6bABhh85lT6iH4bziB5h4keD+CAq96axJT8hvvGyGse48POdgQAs2GBiYI0/di2SKS
+         55Ir0QWTv/8PHHraLBIqmqVLLEd/4Y1bnqe14Pr1S7G6cbUsVuGsAVRh+z7U83fkQjgZ
+         5n8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765797096; x=1766401896;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hg923q+5CeeSYekQ+G/+hcSHwymAktpz89SKIFfb8tM=;
+        b=brUQGl9wDbJhyr+vLKpHrRH5kkQqziuNGcOt9IsSg7l7Nc+94GSsJys0hnI2JYjDu4
+         ZsIxJ72HgIGOJqUC88e5X/k6PTdVYP+RtWk40YysKInWx4olZLeLnJxxW8fO5JUahrqm
+         xYQoW0o8Kufha21VxNBkDnv3zPpT2UzYGzEkHg6dUoIFXrqP13Ts1wIBJsRkEwaUmNLy
+         PqGj1zreGY55XZYuwOyb0+Rn5AjGUH6pog92zYuUqE3/sx7d7aM3RNRYD1vMV/8TO6Cf
+         Djw7f6n+jUKYFESk09w0d3E5ZdESugbyy77WWYxydtI1Cxv2uP3f1Mw5lDt5shImOEy0
+         2hTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX8Fkcpt1H/tIqjXzORU5N0bd87HssngvLA/7XEJFffwnKB2ry+3MMmMvSKv68a0E0WfVrpzeIGTGo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPHyjMcBvE2+vjJnPEA2bX6ZQQrVcftrKnuj7ZhcckhQ9pIP2T
+	6+SvxpVgpJ2MsWBHVB6GuG1/Zypic30uXKwwqPjX/0am+rE1gD/pGtY2
+X-Gm-Gg: AY/fxX4jOicb5C5eCcywBIejSIQfmX2L6zYC/3WHkdBO0NSe1mO+5KuCO3Lf9mu5UBq
+	fNSVtoA26ZVOQiTCEqkH+0qq4QpKMrDI333CKYbIvAJGPA8YL2xMED2mz44WnriVB/bq0/g9zYZ
+	DDV1sgA+zlhBwPdj26jzsPjhJOpTHdIF7dknUugkoqxU8Utl5Cud7bX06QMyFmQ/VZ1zb5FqoOf
+	0LvdRT42gLeAtEdLpN8pgIzZ683dziw46TPWEApESrOulwNTjH4PePp8yj5actDhLkxivXaq4eb
+	IRzIeNKvX0dtBNmFqoJpCCxe2G/cT6e8V181l/4D3MNofM5XvG62P4RJLYP3Zex8FvVs3aLk1Cj
+	mqyK34K44EY4fLrCc8fsrP2+QDJ2epG2tecQelrL4EiyiXfQ2PQlJREesmjldSgWxhn/Chd0KF4
+	PHFnNS5IJsgq8=
+X-Google-Smtp-Source: AGHT+IGKOweNtFt3/0P8xssS/AP+j/taWGWWg8/7uGaPVWDTM4IPG3KqfrYrsCmbVakWZVr6/5Elxw==
+X-Received: by 2002:a17:907:9494:b0:b71:df18:9fb6 with SMTP id a640c23a62f3a-b7d236eeaf3mr1166624966b.26.1765797095460;
+        Mon, 15 Dec 2025 03:11:35 -0800 (PST)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7cfa5d2680sm1349648566b.70.2025.12.15.03.11.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Dec 2025 03:11:34 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id A954941902F7; Mon, 15 Dec 2025 18:11:30 +0700 (WIB)
+Date: Mon, 15 Dec 2025 18:11:30 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Crypto <linux-crypto@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: kernel-doc comment with anonymous variable in anonymous union?
+Message-ID: <aT_s4gzB2w8fLVMh@archie.me>
+References: <aT_RDASKMW4RI_Yf@archie.me>
+ <aT_XmzUSkbFMLHK4@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org, 
- Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
- Lee Jones <lee@kernel.org>, linux-input@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, 
- linux-arm-kernel@lists.infradead.org, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Guenter Roeck <linux@roeck-us.net>, linux-rtc@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-In-Reply-To: <20251215-macsmc-subdevs-v6-1-0518cb5f28ae@gmail.com>
-References: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
- <20251215-macsmc-subdevs-v6-1-0518cb5f28ae@gmail.com>
-Message-Id: <176579498664.1749225.5193965875803198793.robh@kernel.org>
-Subject: Re: [PATCH v6 1/7] dt-bindings: hwmon: Add Apple System Management
- Controller hwmon schema
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7bdMZitQgsJdhtm8"
+Content-Disposition: inline
+In-Reply-To: <aT_XmzUSkbFMLHK4@gondor.apana.org.au>
 
 
-On Mon, 15 Dec 2025 19:37:45 +1000, James Calligeros wrote:
-> Apple Silicon devices integrate a vast array of sensors, monitoring
-> current, power, temperature, and voltage across almost every part of
-> the system. The sensors themselves are all connected to the System
-> Management Controller (SMC). The SMC firmware exposes the data
-> reported by these sensors via its standard FourCC-based key-value
-> API. The SMC is also responsible for monitoring and controlling any
-> fans connected to the system, exposing them in the same way.
-> 
-> For reasons known only to Apple, each device exposes its sensors with
-> an almost totally unique set of keys. This is true even for devices
-> which share an SoC. An M1 Mac mini, for example, will report its core
-> temperatures on different keys to an M1 MacBook Pro. Worse still, the
-> SMC does not provide a way to enumerate the available keys at runtime,
-> nor do the keys follow any sort of reasonable or consistent naming
-> rules that could be used to deduce their purpose. We must therefore
-> know which keys are present on any given device, and which function
-> they serve, ahead of time.
-> 
-> Add a schema so that we can describe the available sensors for a given
-> Apple Silicon device in the Devicetree.
-> 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  .../bindings/hwmon/apple,smc-hwmon.yaml  | 86 +++++++++++++++++++++++++
->  .../bindings/mfd/apple,smc.yaml          | 36 +++++++++++
->  MAINTAINERS                              |  1 +
->  3 files changed, 123 insertions(+)
-> 
+--7bdMZitQgsJdhtm8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-My bot found errors running 'make dt_binding_check' on your patch:
+On Mon, Dec 15, 2025 at 05:40:43PM +0800, Herbert Xu wrote:
+> On Mon, Dec 15, 2025 at 04:12:44PM +0700, Bagas Sanjaya wrote:
+> > Hi,
+> >=20
+> > kernel-doc reports warning on include/crypto/skcipher.h:
+> >=20
+> > WARNING: ./include/crypto/skcipher.h:166 struct member 'SKCIPHER_ALG_CO=
+MMON' not described in 'skcipher_alg'
+> >=20
+> > skciper_alg struct is defined as:
+> >=20
+> > struct skcipher_alg {
+> > 	int (*setkey)(struct crypto_skcipher *tfm, const u8 *key,
+> > 	              unsigned int keylen);
+> > 	int (*encrypt)(struct skcipher_request *req);
+> > 	int (*decrypt)(struct skcipher_request *req);
+> > 	int (*export)(struct skcipher_request *req, void *out);
+> > 	int (*import)(struct skcipher_request *req, const void *in);
+> > 	int (*init)(struct crypto_skcipher *tfm);
+> > 	void (*exit)(struct crypto_skcipher *tfm);
+> >=20
+> > 	unsigned int walksize;
+> >=20
+> > 	union {
+> > 		struct SKCIPHER_ALG_COMMON;
+> > 		struct skcipher_alg_common co;
+> > 	};
+> > };
+> >=20
+> > Note the first member in the union, which is an anonymous (i.e. unnamed=
+) variable.
+> >=20
+> > What can I do on it? Should the offending member be deleted?
+>=20
+> You could either add a comment about SKCIPHER_ALG_COMMON, or
+> fix up all the code that uses it by adding "co."
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/hwmon/apple,smc-hwmon.yaml:73:1: [warning] too many blank lines (2 > 1) (empty-lines)
+But that SKCIPHER_ALG_COMMON doesn't have any variable name, though.
 
-dtschema/dtc warnings/errors:
+Jon?
 
-doc reference errors (make refcheckdocs):
+--=20
+An old man doll... just what I always wanted! - Clara
 
-See https://patchwork.kernel.org/project/devicetree/patch/20251215-macsmc-subdevs-v6-1-0518cb5f28ae@gmail.com
+--7bdMZitQgsJdhtm8
+Content-Type: application/pgp-signature; name=signature.asc
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+-----BEGIN PGP SIGNATURE-----
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaT/s2wAKCRD2uYlJVVFO
+owCiAPsH4XTNYLL743r/Gn8K0FybHSwMmrzfjy1MJrpO1o9qjAD+Jf/p+/3f25L5
+df+TNpxg/LihogMNPQX+SYSozEx96AI=
+=K5jI
+-----END PGP SIGNATURE-----
 
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+--7bdMZitQgsJdhtm8--
