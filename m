@@ -1,91 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7EE233ADA8;
-	Mon, 15 Dec 2025 14:21:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A131C29BD94;
+	Mon, 15 Dec 2025 14:26:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765808472; cv=none; b=cPIyJJn5D9z1rau9t69CNVAswcLAliZYD1S3nFbumDYfpHoXz5+REejWGGZYNmkHvcJ4T0MI6lVUmrpaO3qa1nx7ehORrPncMB7FqSv5WVeipj76s2lMoBFa0ptjdz38euDtHl2kuDJn/Mp55YFEnaRM1kjh0d215RxZ7+/EStA=
+	t=1765808792; cv=none; b=gpm9DQuV6zImIRUUpanUa6oXlvJ+4xaMXfzvL7eu84TjrxHNvwBfOr1pbp24LJuZ7k5ugyLYq3hcZLBzO65YDszrAv4gZlZpSfzwu6QU7bp0pLRy7ZL5AM/u9QzeJBg5HJn1nOPIY6BbMItNIPD+D4lJDSQA3irg4D+Uzyx/2NQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765808472; c=relaxed/simple;
-	bh=ljAqlGir0hg+CJRtmbHoQuoEsW97nlQWXDh3Jib1L8A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n0QsP6gNbqr1koIQj463NZXRvC4PAgpQjyaU5TMQWORSk+uzt2ZWt4sPpM4YRyCBo6ef+BIdQaPaB3kbB5hZotNm0gUAnGC6H/Chzcs1LglDti8tSKS3HlucbexJi4+hWqjw3gN8uVGHHlwj++g6w/C6Dqy0RuztFxQJWPq7uxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QcKETSWl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765808792; c=relaxed/simple;
+	bh=vfRvfzjxtdoOanlAjTkNDBQHuuTEoetvAyA6tMfwKtg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ShDAuiy3n0r1Fxb63RkrI4+CranwjBRH/XxENRkgT3mJ4ERylTxnZgH/Jb4j+iKyK+l0SOctiDPUHGUNkLGHeLjpDjUdB3K8aCXmsdHbZMr0+M6ezEmL8t2Mb/U4pG9n3ETofwtYJwiflH3+quZ9udu/EvCzjcwEeK6OMVgqqXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d9CBxFoF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QcKETSWl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCF93C4CEF5;
-	Mon, 15 Dec 2025 14:21:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d9CBxFoF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7090C4CEFB;
+	Mon, 15 Dec 2025 14:26:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765808471;
-	bh=ljAqlGir0hg+CJRtmbHoQuoEsW97nlQWXDh3Jib1L8A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QcKETSWl6gLN6f7eNHQqErj0B8bS+bC42POisZY9HcTzsq2NW9sy4e3MYt0ShbM3W
-	 f3FCpxSFcEklKIx7aPFrnYesSxybWN0V7X3uylRdV5LGg/LZhLq8DoQwfUdDsonBok
-	 uUCOv4FjxEcncyldWGg3RW9GNWuX8AWhbgpF0A2jZ63jjfu+xvPlHPPY1LzQfUk7be
-	 WpnUT62Obyrk4vnubmGUvCBmMSnyHzlxzKEdrung95/rEHNlcVvGYRjC/mScin09tu
-	 F0+62KclXcTtUhRDHrdKY4onpcxDRx1Ov5vs/md79WuXAwSsYV+A6oqC4gdveVdQxE
-	 NpJnWcsgzJlUw==
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>
-Subject: Re: [PATCH v2 0/2] filelock: fix conflict detection with userland file delegations
-Date: Mon, 15 Dec 2025 15:20:55 +0100
-Message-ID: <20251215-bildung-arrest-1957e6ff7b59@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251204-dir-deleg-ro-v2-0-22d37f92ce2c@kernel.org>
-References: <20251204-dir-deleg-ro-v2-0-22d37f92ce2c@kernel.org>
+	s=k20201202; t=1765808792;
+	bh=vfRvfzjxtdoOanlAjTkNDBQHuuTEoetvAyA6tMfwKtg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=d9CBxFoF5yUM3zCJXEqAPWgC+jUV6COMMyPJU9KeU1hWsVQceZhkoOiyZTg+6hDXC
+	 hcHVnRfo10YzjQECcx5Tu1/turO+zG8GQ6iKeiqvwUPsW6sJCrdzTgOzhr8difjPoe
+	 J53dYsWhEV2U9TSb5QOkaKuAVz5ZuP855qv7tOQUFR3vu3OwYrfppG1AQYpVFcvs6q
+	 4NF/25TiNogYlhFPYZ9GIAAhlJfM6uOxN+TPoMWXlHG5iPQ+9VvJ1hNNSud3eMY3Yd
+	 r1lsojsPUcf9RsUK/jI703+9jkgGzJP19m1AxQsaBJLUZAas8/y0buTSJx8eYO+Woi
+	 oAkrG+bwoYGTA==
+Message-ID: <5088b710-cfc5-417e-b629-c01d1eccb9b1@kernel.org>
+Date: Mon, 15 Dec 2025 15:26:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1270; i=brauner@kernel.org; h=from:subject:message-id; bh=ljAqlGir0hg+CJRtmbHoQuoEsW97nlQWXDh3Jib1L8A=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ6SPrpRD3z0plU2bhuYeiG7Ttvc8ueW1bx01mJj/flT TMVPTenjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkcPs/wV/pA19aWpn3vVfZ2 z5QL2XaxSj+Dk1/vk9XDE9n9V71+LGJkuHzeK37nviKW9czzM36YL45m0uozsqxOct20u+vgmVn tXAA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH next 0/2] THP COW support for private executable file mmap
+To: Matthew Wilcox <willy@infradead.org>,
+ Zhang Qilong <zhangqilong3@huawei.com>
+Cc: akpm@linux-foundation.org, lorenzo.stoakes@oracle.com, corbet@lwn.net,
+ ziy@nvidia.com, baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+ npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
+ baohua@kernel.org, lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, wangkefeng.wang@huawei.com,
+ sunnanyong@huawei.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251215123407.380813-1-zhangqilong3@huawei.com>
+ <aUAUd_XJPVsl_CZL@casper.infradead.org>
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Content-Language: en-US
+In-Reply-To: <aUAUd_XJPVsl_CZL@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 04 Dec 2025 08:48:31 -0500, Jeff Layton wrote:
-> This patchset fixes the way that conflicts are detected when userland
-> requests file delegations. The problem is due to a hack that was added
-> long ago which worked up until userland could request a file delegation.
+On 12/15/25 15:00, Matthew Wilcox wrote:
+> On Mon, Dec 15, 2025 at 08:34:05PM +0800, Zhang Qilong wrote:
+>> This patch series implementate THP COW for private executable file
+>> mmap. It's major designed to increase the iTLB cache hit rate for
+>> hot patching application, and we add a new sysfs knob to disable or
+>> enable it.
 > 
-> This fixes the bug and makes things a bit less hacky. Please consider
-> for v6.19.
+> You're going to have to provide data to get this patch in.  We've
+> deliberately not done this in the past due to memory consumption overhead.
+> So you need to prove that's now the wrong decision to make.
 > 
-> [...]
+> Microbenchmarks would be a bare minimum, but what are really needed are
+> numbers from actual workloads.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+In addition, the sysfs toggle is rather horrible. It's rather clear that 
+this is not a system-wide setting to be made, as you likely only want 
+that behavior (if at all ...) for a handful of special processes I assume?
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+-- 
+Cheers
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/2] filelock: add lease_dispose_list() helper
-      https://git.kernel.org/vfs/vfs/c/392e317a20c3
-[2/2] filelock: allow lease_managers to dictate what qualifies as a conflict
-      https://git.kernel.org/vfs/vfs/c/12965a190eae
+David
