@@ -1,164 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502E9246335;
-	Mon, 15 Dec 2025 15:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6676425742F
+	for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 15:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765812081; cv=none; b=eYNOElicAyqC6W3/uykNRD80rKd9uGS6KwbF3mpW/yM31Vpfq7CqhRslXWyCK71RDt4ogqJ+jeNCUrvEMPetIpJqKVgC8QGC426LyhOytBSxn98I/sVbj7flSEIZhc+27Hk+sxQ+ufVtvDK9bFbQrJ/gLnvyBVvUcQJCsc6Smls=
+	t=1765814038; cv=none; b=sWF3ej9MunCMxTnsGU0LGmJbIdiICpHCkLepuf7w+iEYXVqmDO0CssXVHyrZ30WkqB8Sspkq1i2yNr7pRlDK9i+Hvjl+6hWOIh4JJksai2pYN2PTplZ300bQdBY3lSbFYg+rGQ13hoI6Ltlrx6OT2JVJpV+500VH4Ne/3SQeqas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765812081; c=relaxed/simple;
-	bh=MDT80+HnOqYoPF13DdZpWx5G4AfuEz3zXo+tGv3k9kQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FVfRDT5J/b4BMpPMO4gd2ixQiUU3GCoGi+UUkCXEfZNhHW4PtS0d7kHgtZgJEIFo8ZQcSuwKOR9/xLrbPKxbR/hSKDlJlk/rtz3uU9o+pQK+mtdw+sp6Xm3rckqpC3I6DpOdprwKiRBlzwSoUnSUH/dwxos+Kz+Yao7sqA1EgoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mj4Td7K0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765814038; c=relaxed/simple;
+	bh=ROScw7LkVEobmMJDTvBXmeogZcMVtVRNIb25XYU/aOk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ag1jcYGljOjDY+BeaislgflhuWjln7b5opnFsKYtTkvXOHnji+kJiUBlcoARpgDnpGyd1gjD4qgmlMb89G+5CHfPnwgSGRQ4DlK3WqjIZYti2AvFOc+SHbOYfebWWxcvCGKOaLaK4fRwHBMbYr20RAOI1A6hFb4UXM76i6URuek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3L4zw4AE; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mj4Td7K0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36F5FC4CEF5;
-	Mon, 15 Dec 2025 15:21:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765812080;
-	bh=MDT80+HnOqYoPF13DdZpWx5G4AfuEz3zXo+tGv3k9kQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mj4Td7K0i4vUtxfzfd4iz6hFgePmUEer1942TVlrOA9Rbo6KvDvecd5Lli1q1L0Ki
-	 qwX1zEN+87kYjIn6DV6wYqWZRKVMwNvpQa4jEjTL9uPBHyRmUnmY2xIAjK5iuiqLqe
-	 bjzy0N3KtEFKcXpYw1Wh2EY2Embua4NWw0NJYGmDKo1LaYMjGfA5f/yu8lYIO/U2wJ
-	 f6/WXWqXXpCwoGGuurff9s6rE7Cg5YolT6INs7hv7P89urh23hiSktIY2x4SePTR3l
-	 uJ8XJJiwQNMQeZk/C0HUNeYFUsapSWw+zpS3mE17LWGU92a0gGGB4/j5bp1IZYXceo
-	 QKJPdZygpvl5w==
-Date: Mon, 15 Dec 2025 16:21:17 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
-	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Louis Chauvet <louis.chauvet@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v2 06/26] drm/bridge: add devm_of_drm_get_bridge
-Message-ID: <20251215-amigurumi-bullmastiff-of-witchcraft-0dc22a@penduick>
-References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
- <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-6-88f8a107eca2@bootlin.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3L4zw4AE"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34c708702dfso1415586a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 07:53:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765814036; x=1766418836; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ROScw7LkVEobmMJDTvBXmeogZcMVtVRNIb25XYU/aOk=;
+        b=3L4zw4AEmfn/f/fNDRUYPZSuvtKzrwsroubw/hms++Iru0bPAOg4yCPRvuxfWa0kxn
+         3fNefrdGFKRIlUWQCUEDTq/W/V7bjx6CYgrCX35l+YptIuyKMon+1fvuXGctfm1+lOBn
+         Ue9aWoONOHB5HcsqyhG0YscCV8fqmMSPJhd8yBv9uc3XwX4DiHnKBzKicSklSfvlzv0t
+         DON641wNsDKGmA7Pz9d0PVSUKYJXNKfFjcEyrVEb7w9IkSmvWKWRGSOQ9Ex1bU4u4zk1
+         S6cDpe2SOGW5EwQ81vbEb8qrwt2GsOSDMc4HJ33uAyswTmhkliTz7zb7NdAZ5e/1MfFw
+         BG3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765814036; x=1766418836;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ROScw7LkVEobmMJDTvBXmeogZcMVtVRNIb25XYU/aOk=;
+        b=w+6XHgJmy+IYrIX8XkYbWaUBc4LpDKeRTTmn6D54OpgiG6Rr/fvT3R2aBLrxWoR5tF
+         HJRBxlJPqZHqr/jHypPUkwGzxF/z639ktygZE9G2BqxjB8Vr3cbsT8MtDWE4ZhhCvIF6
+         fOM3lwC9dQ0i0K4wH5guzZxVyNWJ+2m+UnJSr4H7JX0SKpGBoWaIktF2ijhYLniHsXjA
+         fVozaUx8b7BcVoeB73ooj68MB4aeAOYy9OQ3RcMvob6zrXktxihQDHkPYoqxS6I2GDtd
+         MV+0rPpV1JLdAU240f7BMiiKBVyag3+pVPJkXStY55VlWNesx4LuLLpaR38JPg3FX0HA
+         5DgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX8GBBamGXu9/fbrFR1nnwnTgbxzQPiJPwWYfARibLbgb8nJv8oa8R5JYHlRY6s5OyP6lINm2v0oOU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyafKYUWaB6J/uL/LwRbGrrKLh5QCY3EgBwE9GQo535mso7twAk
+	4yMK12KkGnm6RY5C2rU9bQNQ1A7U7LYgGlcLamy70ZiGAP0nKJwdVIEc7bSbrCSZQzG9e/Mbr6J
+	1g1ZzfaC2y/lYoNgLWbYJ4jCEEkBw/BaoW766Zbye
+X-Gm-Gg: AY/fxX7UkZUHUNtv4MqWd2Lxr6fLKqgDqbm6ip9iWEOQse8u7osVqEZKDpyZ3D1QEMU
+	7bW12Y5/tprO1lnLl3kvVM5bcHeQhE2xwnF89SM4YODDH/qOV2n239nvZQJvdt5v6NnQvIA1Q2D
+	us9oshbuj/WAzVer/MC1+zcmm/upUF4vee4xV6RA67CH4rW1KsWMN+wa6QPraIe1Cw4er817RSK
+	5sGJw7Y4SvMogyardf2zpghRwq8+sdrvWfG68+ZrGfaXAu6TH09Z4q+WVhTa2XbZxPfRjOJS+m8
+	7wGRynaxZvUDxG1jr9myhcuMcg==
+X-Google-Smtp-Source: AGHT+IEqHtbIkXeCrxZ7N2Is3Z0BKjAm77k3VHnhb//Mc2q6P3kqxs3MPR3a7KluXzGQE7f0g+lEq90Z0zzfwOCm1e4=
+X-Received: by 2002:a05:7022:1b0c:b0:11a:3483:4a87 with SMTP id
+ a92af1059eb24-11f34be9ca7mr8171406c88.13.1765814035105; Mon, 15 Dec 2025
+ 07:53:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="gsdrqopk6hwziqn7"
-Content-Disposition: inline
-In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-6-88f8a107eca2@bootlin.com>
+References: <20251120145835.3833031-2-elver@google.com> <20251120151033.3840508-7-elver@google.com>
+ <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNOmAYFj518rH0FdPp=cqK8EeKEgh1ok_zFUwHU5Fu92=w@mail.gmail.com>
+ <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
+ <20251212110928.GP3911114@noisy.programming.kicks-ass.net> <aUAPbFJSv0alh_ix@elver.google.com>
+In-Reply-To: <aUAPbFJSv0alh_ix@elver.google.com>
+From: Marco Elver <elver@google.com>
+Date: Mon, 15 Dec 2025 16:53:18 +0100
+X-Gm-Features: AQt7F2oxzebZt0rcTkreaKMT4PDBgj_kZoo-YwczNEo1aa0S6zPi6Xbs61JFiQg
+Message-ID: <CANpmjNNm-kbTw46Wh1BJudynHOeLn-Oxew8VuAnCppvV_WtyBw@mail.gmail.com>
+Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context analysis
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>, 
+	Will Deacon <will@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, Chris Li <sparse@chrisli.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>, 
+	Eric Dumazet <edumazet@google.com>, Frederic Weisbecker <frederic@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, Johannes Berg <johannes.berg@intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Kentaro Takeda <takedakn@nttdata.co.jp>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
+	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
+	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Mon, 15 Dec 2025 at 14:38, Marco Elver <elver@google.com> wrote:
+>
+> On Fri, Dec 12, 2025 at 12:09PM +0100, Peter Zijlstra wrote:
+> > On Fri, Dec 12, 2025 at 11:15:29AM +0100, Marco Elver wrote:
+> > > On Fri, 12 Dec 2025 at 10:43, Peter Zijlstra <peterz@infradead.org> wrote:
+> > > [..]
+> > > > > Correct. We're trading false negatives over false positives at this
+> > > > > point, just to get things to compile cleanly.
+> > > >
+> > > > Right, and this all 'works' right up to the point someone sticks a
+> > > > must_not_hold somewhere.
+> > > >
+> > > > > > > Better support for Linux's scoped guard design could be added in
+> > > > > > > future if deemed critical.
+> > > > > >
+> > > > > > I would think so, per the above I don't think this is 'right'.
+> > > > >
+> > > > > It's not sound, but we'll avoid false positives for the time being.
+> > > > > Maybe we can wrangle the jigsaw of macros to let it correctly acquire
+> > > > > and then release (via a 2nd cleanup function), it might be as simple
+> > > > > as marking the 'constructor' with the right __acquires(..), and then
+> > > > > have a 2nd __attribute__((cleanup)) variable that just does a no-op
+> > > > > release via __release(..) so we get the already supported pattern
+> > > > > above.
+> > > >
+> > > > Right, like I mentioned in my previous email; it would be lovely if at
+> > > > the very least __always_inline would get a *very* early pass such that
+> > > > the above could be resolved without inter-procedural bits. I really
+> > > > don't consider an __always_inline as another procedure.
+> > > >
+> > > > Because as I already noted yesterday, cleanup is now all
+> > > > __always_inline, and as such *should* all end up in the one function.
+> > > >
+> > > > But yes, if we can get a magical mash-up of __cleanup and __release (let
+> > > > it be knows as __release_on_cleanup ?) that might also work I suppose.
+> > > > But I vastly prefer __always_inline actually 'working' ;-)
+> > >
+> > > The truth is that __always_inline working in this way is currently
+> > > infeasible. Clang and LLVM's architecture simply disallow this today:
+> > > the semantic analysis that -Wthread-safety does happens over the AST,
+> > > whereas always_inline is processed by early passes in the middle-end
+> > > already within LLVM's pipeline, well after semantic analysis. There's
+> > > a complexity budget limit for semantic analysis (type checking,
+> > > warnings, assorted other errors), and path-sensitive &
+> > > intra-procedural analysis over the plain AST is outside that budget.
+> > > Which is why tools like clang-analyzer exist (symbolic execution),
+> > > where it's possible to afford that complexity since that's not
+> > > something that runs for a normal compile.
+> > >
+> > > I think I've pushed the current version of Clang's -Wthread-safety
+> > > already far beyond what folks were thinking is possible (a variant of
+> > > alias analysis), but even my healthy disregard for the impossible
+> > > tells me that making path-sensitive intra-procedural analysis even if
+> > > just for __always_inline functions is quite possibly a fool's errand.
+> >
+> > Well, I had to propose it. Gotta push the envelope :-)
+> >
+> > > So either we get it to work with what we have, or give up.
+> >
+> > So I think as is, we can start. But I really do want the cleanup thing
+> > sorted, even if just with that __release_on_cleanup mashup or so.
+>
+> Working on rebasing this to v6.19-rc1 and saw this new scoped seqlock
+> abstraction. For that one I was able to make it work like I thought we
+> could (below). Some awkwardness is required to make it work in
+> for-loops, which only let you define variables with the same type.
+>
+> For <linux/cleanup.h> it needs some more thought due to extra levels of
+> indirection.
 
---gsdrqopk6hwziqn7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 06/26] drm/bridge: add devm_of_drm_get_bridge
-MIME-Version: 1.0
+For cleanup.h, the problem is that to instantiate we use
+"guard(class)(args..)". If it had been designed as "guard(class,
+args...)", i.e. just use __VA_ARGS__ explicitly instead of the
+implicit 'args...', it might have been possible to add a second
+cleanup variable to do the same (with some additional magic to extract
+the first arg if one exists). Unfortunately, the use of the current
+guard()() idiom has become so pervasive that this is a bigger
+refactor. I'm going to leave cleanup.h as-is for now, if we think we
+want to give this a go in the current state.
 
-On Fri, Nov 28, 2025 at 05:50:16PM +0100, Luca Ceresoli wrote:
-> Several drivers (about 20) follow the same pattern:
->=20
->  1. get a pointer to a bridge (typically the next bridge in the chain) by
->     calling of_drm_find_bridge()
->  2. store the returned pointer in the private driver data, keep it until
->     driver .remove
->  3. dereference the pointer at attach time and possibly at other times
->=20
-> of_drm_find_bridge() is now deprecated because it does not increment the
-> refcount and should be replaced with of_drm_get_bridge() +
-> drm_bridge_put().
->=20
-> However some of those drivers have a complex code flow and adding a
-> drm_bridge_put() call in all the appropriate locations is error-prone,
-> leads to ugly and more complex code, and can lead to errors over time with
-> code flow changes.
->=20
-> To handle all those drivers in a straightforward way, add a devm variant =
-of
-> of_drm_get_bridge() that adds a devm action to invoke drm_bridge_put()
-> when the said driver is removed. This allows all those drivers to put the
-> reference automatically and safely with a one line change:
->=20
->   - priv->next_bridge =3D of_drm_find_bridge(remote_np);
->   + priv->next_bridge =3D devm_of_drm_get_bridge(dev, remote_np);
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->=20
-> ---
->=20
-> Changes in v2:
-> - fix return value: NULL on error, as documented, not an ERR_PTR
-> ---
->  drivers/gpu/drm/drm_bridge.c | 28 ++++++++++++++++++++++++++++
->  include/drm/drm_bridge.h     |  5 +++++
->  2 files changed, 33 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 9b7e3f859973..59575a84eff6 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1442,6 +1442,34 @@ struct drm_bridge *of_drm_get_bridge(struct device=
-_node *np)
->  }
->  EXPORT_SYMBOL(of_drm_get_bridge);
-> =20
-> +/**
-> + * devm_of_drm_get_bridge - find the bridge corresponding to the device
-> + *			    node in the global bridge list and add a devm
-> + *			    action to put it
-> + *
-> + * @dev: device requesting the bridge
-> + * @np: device node
-> + *
-> + * On success the returned bridge refcount is incremented, and a devm
-> + * action is added to call drm_bridge_put() when @dev is removed. So the
-> + * caller does not have to put the returned bridge explicitly.
-> + *
-> + * RETURNS:
-> + * drm_bridge control struct on success, NULL on failure
-> + */
+One observation from the rebase: Generally synchronization primitives
+do not change much and the annotations are relatively stable, but e.g.
+RCU & sched (latter is optional and depends on the sched-enablement
+patch) receive disproportionally more changes, and while new
+annotations required for v6.19-rc1 were trivial, it does require
+compiling with a Clang version that does produce the warnings to
+notice.
+While Clang 22-dev is being tested on CI, I doubt maintainers already
+use it, so it's possible we'll see some late warnings due to missing
+annotations when things hit -next. This might be an acceptable churn
+cost, if we think the outcome is worthwhile. Things should get better
+when Clang 22 is released properly, but until then things might be a
+little bumpy if there are large changes across the core
+synchronization primitives.
 
-I still think that, if we want to introduce it, we need to be very clear
-that it's not safe, and we need to add a TODO to remove it later on. But
-why should we introduce a helper, and convert dozens of drivers to it,
-for something that is neutral?
-
-If anything, I'd rather see them call of_drm_get_bridge(under the new
-name), and put back the reference in destroy.
-
-Maxime
-
---gsdrqopk6hwziqn7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaUAnbQAKCRAnX84Zoj2+
-dp5VAX9vgUBVKAQimc/xE5mx+OZGGMP2AAkyV8RQCAm07C/CeB4TANSmR+vX8fQm
-oJBQh0ABfiGrjZ9H25V8ZEx7mg3ywz982YYke557o8h2KLo5yCMDUxK0PVo9ZwYr
-bI9HAJ7y/g==
-=YBE0
------END PGP SIGNATURE-----
-
---gsdrqopk6hwziqn7--
+Thanks,
+-- Marco
