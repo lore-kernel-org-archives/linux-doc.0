@@ -1,109 +1,97 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1673B8D68
-	for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 17:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9B5322547;
+	Mon, 15 Dec 2025 17:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765820760; cv=none; b=QkhKL81tcnKN/thE/E40Isa+vb0Br9qvU7dC04N4ac6S4Ow+r8dtt4NyIb4jeD0E7OO/brrUGa+/t+IDMFC32o4K3s8Ybc0OxO9+QStB/j9RPhyNSSqJoX1JbcEVJy2vnV+t25HZBoV5QJtVIxbdyMhDtrq06qIysUgL7t85W14=
+	t=1765821025; cv=none; b=aIx9gD7pt0EN7uJKC6PbbMHg/RwZ2QhgzihQyDbVtowbf4dnOAtHg6Ojqtsw4m2Vnds10LdJN6jgXRXSwl/Jzp67AdzvUzadddim1yR83DAK/2CkzVsikQnIX45YrHwEn3C8zxhhqED2MdAsv+lpbCgSznyrpCsANMXSMKxTkXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765820760; c=relaxed/simple;
-	bh=aYrTt9D8MKq+zjjyW0pVCKBpgOeDzFVAhdtV7GIBWxc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BASrpxN/R83ArpHf7mWxrk/xm3/xzHPh2nwuaVwX/QQK6Mh4JsXQTXspHXA3ahTFcKnF4azlH/U4IqZLcgpmy2B1JKnQ/6vcXuyfIt36NNbxiHqXXzYEdRHOGQBqyyCnkvg/5HH5bUBS6hAwio8Ejbf3baqA+zVHm2oZnF7pqJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nbVecw4j; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765821025; c=relaxed/simple;
+	bh=YrTHPSx4341UHi+jq+akqh9qZcSw7dvO2ic7YUiWbg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dPxMdgL6eyKVGKDYS1C52GQCuY33tp/ZJ2QkAy/5VKQ9nmZa+raQS1PHQJoPrTRcqwQXe2jxrRW22gG9+peOW9kIyAayfXwYyaDDl7Gx1xFvSL5XPDfexmcZekVDjfovhysdF88VqKtj+5J+3tQ0cOpSMQ3dD0okuXGxfaLV6Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CEVe02Iu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nbVecw4j"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-34c3259da34so2321316a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 09:45:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765820758; x=1766425558; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B8gAlOJLXsZJ6S8BYRXwAkXE7FMVUf7e3keU7azU8fg=;
-        b=nbVecw4jf7m2ycZSAB48mj+E1aNwnwnkyWemYVGI5adJ3pW+xRh5nlFTadKLKLF5CD
-         JUbi0027akMnnBIuAmb0KH5gIRqcKTa4kSSU50FN+knL4X8iEiRS8EqdzjN4mI+7KsoG
-         0S6TyBAAdQqY0BuukbVgX/5MLrt2rkRJbwqhzAm7lpSrCDlpUTbS1diYp0WtUjCMz9sR
-         uouKg71q21g70VsXqVtxDKX3/CLrEwPlO/WJnD+FSBzPa1dqRqrvSihjY8S8YOWdONG+
-         IXz4b1VdqrZNlILxYenesdk60QnlDTEgqnAy8PVYicff272tSZCtEt0QD+YpLDRqlLzk
-         XI/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765820758; x=1766425558;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=B8gAlOJLXsZJ6S8BYRXwAkXE7FMVUf7e3keU7azU8fg=;
-        b=sCt0ePS4ueGwC4d9WDgVRSZnKK/lASUbLzkxqdlw8BGsT1CWFjJwCUEI45O6h4zOCy
-         +ilYZweA4ApMRSWcpkigt8nj+qI43vx/vcZRsHlGNtKsVTFitDi20Egve9vDa6YxufCI
-         NPH9irGxcSlcRgsN2Kn0T6juxi4W17Fqg8IU687nWngfYBJWfMryHvZulVTSds6mOb5c
-         7dcnXwK8Mgw4xFq115gnHCuYIQjq0AKpNApaIQdv/C9fjof2faCjKaHTF/LhXBvcmp7f
-         6mTvrD32Q50zxtZqLPjtOKohka03PmVi9qQTDb9qa7LFUtW8K7BlNkUK89Kb1Puhn5tq
-         SvYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfIiEl0WiTYk/lHTmENmgalD6d3H9PnD6x9fnN7T2JCvwpwQA/46g7soCCQpaKeXZ325mYqYmnDRw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0hnc0a2ChzWJS1r7ZFCJ+LA8GriuOY/3dzh7M1Ev1PeDlvnNq
-	yk8c7dSeyl0VjbsqbYqz97PsXYv0leN8p0HEnqThEmt3BhGdldfIE0bz
-X-Gm-Gg: AY/fxX7XbxMIW9ZXziJL2bq47pjX/aKnO3QKrRMRBuAaG1Z9pqpBvLrzfRR3ZJ3poCg
-	SBy7nGm4iZznjvIRsXagTOnKkaWhtx7bh/ZR4PFKfKGvm/I0Ll1xFbx2Boy5qGHTdkPE37eSEmn
-	vSFNnXdWF8N0EYYBk2+eAhUnP230zvlmtXAponjY9LIXnc673GGnl4gkQwLj8OVFDrMysH0/F+j
-	iRzdNlEbPsCqV7WNkrHgJKEK9ZOKLKAkrU6KNSFtoOLp87n8wdC23R5s9TeI1UpVX0nOIzNq8dM
-	Tut6qIkGdSHnphCVuheyv1Hp+FlSinWmHk4ughv7AuhXfcjyGNwNGRYdNhvaGbieSPyfLYb21GO
-	51mqwKnQQlGVPLlbX466BGdAEeOfQmHt2VvyWeIX61v41En5BBapNH278wwKpXS8zKkyTyr4t7f
-	hugvgpxa8/Klw7hJ0DcM8PMetEClFfIS0dt7Kb/fsKF27vH/4TM5I6kdFtN4gCDyK2cttOMscna
-	cfTc5s=
-X-Google-Smtp-Source: AGHT+IFmt3L3m0vzaclxKT/EjpoHTKVzh/8Nr2SELf/F1FfzF8lXdwvt3LIRhMP3R/xg30Kdhr/n1g==
-X-Received: by 2002:a17:90b:3949:b0:32e:a10b:ce33 with SMTP id 98e67ed59e1d1-34abe478148mr9761921a91.21.1765820757864;
-        Mon, 15 Dec 2025 09:45:57 -0800 (PST)
-Received: from kailas.hsd1.or.comcast.net ([2601:1c2:982:6040:274f:618c:1657:f235])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34abe200077sm9623156a91.3.2025.12.15.09.45.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 09:45:57 -0800 (PST)
-From: Ryan Foster <foster.ryan.r@gmail.com>
-To: bboscaccy@linux.microsoft.com
-Cc: James.Bottomley@HansenPartnership.com,
-	akpm@linux-foundation.org,
-	bpf@vger.kernel.org,
-	corbet@lwn.net,
-	dhowells@redhat.com,
-	gnoack@google.com,
-	jmorris@namei.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux@treblig.org,
-	mic@digikod.net,
-	paul@paul-moore.com,
-	serge@hallyn.com,
-	Ryan <foster.ryan.r@gmail.com>
-Subject: Re: [RFC 00/11] Reintroduce Hornet LSM
-Date: Mon, 15 Dec 2025 09:45:50 -0800
-Message-ID: <20251215174550.19519-1-foster.ryan.r@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251211021257.1208712-1-bboscaccy@linux.microsoft.com>
-References: <20251211021257.1208712-1-bboscaccy@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CEVe02Iu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 132FCC4CEF5;
+	Mon, 15 Dec 2025 17:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765821025;
+	bh=YrTHPSx4341UHi+jq+akqh9qZcSw7dvO2ic7YUiWbg0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CEVe02IunMd7oRHFksHEuNX1ZGXmcKIUYs9D3rfyToXy2S9a/vJIReRvxn0hSyuHq
+	 ZYiHE+ofGwyMAJmluKhkQYrdZH/sUMKtertR6dDwxTG+iRRnl/gjKIqHFfSgnoV8Fk
+	 /L9lVyXu1WUxeBFv8WZU9ewBj0Uk7MrThe65m2SeSzSV5CJ1IHPADfw7Bhajy5exxg
+	 f29m8+hYKOCCh9kjItC7brKVPTJ8NfuY+VapVLoxSo3SCPlFZTTXHGejcN362IY5CC
+	 x0KbRMlW7m0lhBWnhBDb71H/F/MBsH1wSUTLQinohrsqHRnKc3HV6K4mEP6ckdb691
+	 4ezHrJtnERipQ==
+Date: Mon, 15 Dec 2025 09:50:23 -0800
+From: Oliver Upton <oupton@kernel.org>
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
+	linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org,
+	maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com,
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
+	mark.rutland@arm.com, shuah@kernel.org,
+	gankulkarni@os.amperecomputing.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v5 21/24] KVM: arm64: Inject recorded guest interrupts
+Message-ID: <aUBKX8iqsptyTb4S@kernel.org>
+References: <aTioEWHu0ZbFCjR6@kernel.org>
+ <gsnt8qf72tv9.fsf@coltonlewis-kvm.c.googlers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <gsnt8qf72tv9.fsf@coltonlewis-kvm.c.googlers.com>
 
-From: Ryan <foster.ryan.r@gmail.com>
+On Fri, Dec 12, 2025 at 10:55:06PM +0000, Colton Lewis wrote:
+> Oliver Upton <oupton@kernel.org> writes:
+> 
+> > In no situation should KVM be injecting a "recorded" IRQ. The overflow
+> > condition of the PMU is well defined in the architecture and we should
+> > implement *exactly* that.
+> 
+> When I say "record" I just meant "updating the virtual overflow register
+> to reflect an overflow".
 
-Hi all,
+Right, consider changing the shortlog to read more along the lines of
+"detect overflows for partitioned PMU" or similar.
 
-I want to confirm I understand the current semantics, and specific issues this series is addressing.  
+> > On Tue, Dec 09, 2025 at 08:51:18PM +0000, Colton Lewis wrote:
+> > > +/**
+> > > + * kvm_pmu_part_overflow_status() - Determine if any guest counters
+> > > have overflowed
+> > > + * @vcpu: Ponter to struct kvm_vcpu
+> > > + *
+> > > + * Determine if any guest counters have overflowed and therefore an
+> > > + * IRQ needs to be injected into the guest.
+> > > + *
+> > > + * Return: True if there was an overflow, false otherwise
+> > > + */
+> > > +bool kvm_pmu_part_overflow_status(struct kvm_vcpu *vcpu)
+> > > +{
+> > > +	struct arm_pmu *pmu = vcpu->kvm->arch.arm_pmu;
+> > > +	u64 mask = kvm_pmu_guest_counter_mask(pmu);
+> > > +	u64 pmovs = __vcpu_sys_reg(vcpu, PMOVSSET_EL0);
+> > > +	u64 pmint = read_pmintenset();
+> > > +	u64 pmcr = read_pmcr();
+> 
+> > How do we know that the vPMU has been loaded on the CPU at this point?
+> 
+> Because this is only called by kvm_pmu_update_state which is only called
+> by kvm_pmu_update_state <- kvm_pmu_{flush,sync}_hwstate <-
+> kvm_arch_vcpu_ioctl_run after a vcpu_load.
 
-In the signed BPF two step flow, the LSM makes decisions using what is known at the time of run hooks.  At load time, the only clear fact is "the loader is signed".  However, if we really want integrity for "the final program that will execute after relocation, and any inputs as part of the contract, matches what was signed".  The fact exists after loader runs, so the kernel could end up allowing and auditing based on the signed loader, even though it cannot yet truthfully say the runnable payload has been verified.
-
-If this is the right understanding, perhaps we could consider a design that moves enforcement to the moment the program becomes effective. E.g.  Load can create a program object, but it is inert by default.  The kernel should only allow attach or link creation if the kernel has already recorded a verified record of the final relocated instruction stream plus referenced state for inputs, is included in the "integrity contract".  
-
-If the referenced state is mutable, then either state must be frozen before the contract is verified, or any mutation must invalidate verified and force re-verification and a new policy decision. Otherwise the state is susceptible to TOCTOU issues.
-
-Is this the semantic goal Hornet is aiming for, and is attach or link creation the intended enforcement point for the "cannot become effective until verified" rule, instead of trying to make a load time hook represent final payload verification? 
+That's assuming the PMU is loaded eagerly which I thought we agreed it
+would not be.
 
 Thanks,
-Ryan
+Oliver
