@@ -1,153 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E684256D
-	for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 12:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FF72E3B1C;
+	Mon, 15 Dec 2025 12:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765800561; cv=none; b=Jm8Q4a04jrrZ2aIXhO/lBGYK9KIOar7QIMimg0W4HAkY+HNCbu1e08HaxPc9iyU7/kDbErGDdpGw/dcfngph9DfhR08pR1fNtuujPuPs9hUrGFCjn9Ssm2IsJZ2sPfDVJg1LBxyxok3vJ4bj3TahHEQy4KBKuaakLUxCR2lhfDk=
+	t=1765802322; cv=none; b=mTMv8NvzbKjWSoVFmGGUA2DYFVkyHrmppcYqXoOxL7j5rp+n+ebbtgOojrZPgv9FR18RFP507auBZsDT8sMVhwsB5OvdF9EUSOPQ57yZkPENt440z4bxw9qRXDv/08ILk9a33G9oNa+0Ce7LI0bY0Y5jKfg/sOx0qSKNAZIgGZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765800561; c=relaxed/simple;
-	bh=yV1pL01McaYsHF+Zj/6ww+xACjI4zeAmI/Gsix0mTzY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GY3dhvhWmwm0WfgwDxJM6XCCAe2yYW9sPya4rVKT6DR7VbSC2yYbqnhRlUR5fnnYt1gMwx5lcE1Ou5/TxvvvMjTy+MAjXbeC/vXUVG/qs2s106uMXSXFrpUyUut7MUJaqTS7np7xfAfJKQcqnpHSwVHJsQqOtYjPwxeyZPGFTEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=laIo0Dr4; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765802322; c=relaxed/simple;
+	bh=nxJ+FhAUBfeYd/hGQdav2JTmk20fSL24Am+MYsTkfP8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f0V+qKEgyqzEwbXxkXiT25TRLPh21CcS+MUIXP49vT232h3xZyVFAeQBG5OHRR9/N7XyDeOk/C4MbiFPP+eyhcZOM9VQ00+pyiFxHI5gRaQuO6zjv3dhbOSzdk6MQiaNjqGVBzyM+YQYgcT91t1eD2/S2X9WBMrofOnahR4X4R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=F17DNVbO; arc=none smtp.client-ip=113.46.200.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="laIo0Dr4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765800560; x=1797336560;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yV1pL01McaYsHF+Zj/6ww+xACjI4zeAmI/Gsix0mTzY=;
-  b=laIo0Dr4ShCFbxKiiWZwbGktsETcdgy8U2HsVV/zxCamHMnHFe3R1buc
-   o8kZb76Y5ZQhc7dSOhQyrC1pOISGlV3fcefORbpGAJhNvY+W2nnGWpUt0
-   mVe9iehq+LfV40VS03B7/MhQinNoGnrRYFDOHCsh/viLlmMW3yH0Sl7r1
-   dcflniOvhGiBLFTnp/p2oAq6TfAtFBlq1e3WVh5QT9cYcTq2AADCk+cZq
-   JrzJBPM3tH5MqxV443lwI9xicnsETlgWZ8qQnKpbAY68Nicku+j0IK2jC
-   cagceLt4bI88hTwamEUM9toXtPsgZjohuKP7verSpQHQdRcgwIgmqhee9
-   g==;
-X-CSE-ConnectionGUID: d8lCKkHzRMOQ5T1PwMzM7Q==
-X-CSE-MsgGUID: IQrSreNXT2671kJ0SqghGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="78815170"
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="78815170"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 04:09:20 -0800
-X-CSE-ConnectionGUID: 5z6sq6JjReyNESQyMAPmmQ==
-X-CSE-MsgGUID: P2QVwFypTmKv3sMT1cdtjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="196974013"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.106])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 04:09:18 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: linux-doc@vger.kernel.org,
-	jani.nikula@intel.com,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] drm/i915/wakeref: clean up INTEL_WAKEREF_PUT_* flag macros
-Date: Mon, 15 Dec 2025 14:09:08 +0200
-Message-ID: <20251215120908.3515578-1-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="F17DNVbO"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=bbIFC6VJA77jkt1FfGS/knbgL34kn+rdZVOQ9YOnR24=;
+	b=F17DNVbO6fDO22XDpcGSqnWsLSYRd4I1YP6aJGypREcF7lFZX5PB7E3+h1IrFk6h/tocsm7VM
+	6XtFHHSl+XhVjYW2r3IH2OYLTBMdTw9b9otytpRpq1r0nyyFJqbd/YqvkGeJNhVdAft1mTA19FS
+	59yGCo5FftDJGHOMsCF0iZU=
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dVKL73ZJ9znTVZ;
+	Mon, 15 Dec 2025 20:36:15 +0800 (CST)
+Received: from dggpemf500012.china.huawei.com (unknown [7.185.36.8])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0A3FB1400D4;
+	Mon, 15 Dec 2025 20:38:30 +0800 (CST)
+Received: from huawei.com (10.50.85.135) by dggpemf500012.china.huawei.com
+ (7.185.36.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 15 Dec
+ 2025 20:38:28 +0800
+From: Zhang Qilong <zhangqilong3@huawei.com>
+To: <akpm@linux-foundation.org>, <david@kernel.org>,
+	<lorenzo.stoakes@oracle.com>, <corbet@lwn.net>
+CC: <ziy@nvidia.com>, <baolin.wang@linux.alibaba.com>,
+	<Liam.Howlett@oracle.com>, <npache@redhat.com>, <ryan.roberts@arm.com>,
+	<dev.jain@arm.com>, <baohua@kernel.org>, <lance.yang@linux.dev>,
+	<vbabka@suse.cz>, <rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>,
+	<wangkefeng.wang@huawei.com>, <sunnanyong@huawei.com>, <linux-mm@kvack.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Zhang Qilong
+	<zhangqilong3@huawei.com>
+Subject: [PATCH next 0/2] THP COW support for private executable file mmap
+Date: Mon, 15 Dec 2025 20:34:05 +0800
+Message-ID: <20251215123407.380813-1-zhangqilong3@huawei.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ dggpemf500012.china.huawei.com (7.185.36.8)
 
-Commit 469c1c9eb6c9 ("kernel-doc: Issue warnings that were silently
-discarded") started emitting warnings for cases that were previously
-silently discarded. One such case is in intel_wakeref.h:
+This patch series implementate THP COW for private executable file
+mmap. It's major designed to increase the iTLB cache hit rate for
+hot patching application, and we add a new sysfs knob to disable or
+enable it.
 
-Warning: drivers/gpu/drm/i915/intel_wakeref.h:156 expecting prototype
-  for __intel_wakeref_put(). Prototype was for INTEL_WAKEREF_PUT_ASYNC()
-  instead
+Zhang Qilong (2):
+  mm/huge_memory: Implementation of THP COW for executable file mmap
+  mm/huge_memory: Add sysfs knob for executable THP COW
 
-Arguably kernel-doc should be able to handle this, as it's valid C, but
-having the flags defined between the function declarator and the body is
-just asking for trouble. Move the INTEL_WAKEREF_PUT_* macros away from
-there, making kernel-doc's life easier.
+ Documentation/admin-guide/mm/transhuge.rst |   8 ++
+ include/linux/huge_mm.h                    |   5 +
+ mm/huge_memory.c                           | 105 ++++++++++++++++++++-
+ mm/memory.c                                |  13 +++
+ 4 files changed, 130 insertions(+), 1 deletion(-)
 
-While at it, reduce the unnecessary abstraction levels by removing the
-enum, and append _MASK to INTEL_WAKEREF_PUT_DELAY for clarity.
-
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-
----
-
-Curiously, kernel-doc does not return non-zero exit status for these
-warnings even with the -Werror parameter!
----
- drivers/gpu/drm/i915/intel_wakeref.c |  2 +-
- drivers/gpu/drm/i915/intel_wakeref.h | 14 +++++---------
- 2 files changed, 6 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
-index b1883dccc22a..98e7cee4e1dc 100644
---- a/drivers/gpu/drm/i915/intel_wakeref.c
-+++ b/drivers/gpu/drm/i915/intel_wakeref.c
-@@ -80,7 +80,7 @@ void __intel_wakeref_put_last(struct intel_wakeref *wf, unsigned long flags)
- 	/* Assume we are not in process context and so cannot sleep. */
- 	if (flags & INTEL_WAKEREF_PUT_ASYNC || !mutex_trylock(&wf->mutex)) {
- 		mod_delayed_work(wf->i915->unordered_wq, &wf->work,
--				 FIELD_GET(INTEL_WAKEREF_PUT_DELAY, flags));
-+				 FIELD_GET(INTEL_WAKEREF_PUT_DELAY_MASK, flags));
- 		return;
- 	}
- 
-diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
-index a2894a56e18f..81308bac34ba 100644
---- a/drivers/gpu/drm/i915/intel_wakeref.h
-+++ b/drivers/gpu/drm/i915/intel_wakeref.h
-@@ -128,17 +128,16 @@ intel_wakeref_get_if_active(struct intel_wakeref *wf)
- 	return atomic_inc_not_zero(&wf->count);
- }
- 
--enum {
--	INTEL_WAKEREF_PUT_ASYNC_BIT = 0,
--	__INTEL_WAKEREF_PUT_LAST_BIT__
--};
--
- static inline void
- intel_wakeref_might_get(struct intel_wakeref *wf)
- {
- 	might_lock(&wf->mutex);
- }
- 
-+/* flags for __intel_wakeref_put() and __intel_wakeref_put_last */
-+#define INTEL_WAKEREF_PUT_ASYNC		BIT(0)
-+#define INTEL_WAKEREF_PUT_DELAY_MASK	GENMASK(BITS_PER_LONG - 1, 1)
-+
- /**
-  * __intel_wakeref_put: Release the wakeref
-  * @wf: the wakeref
-@@ -154,9 +153,6 @@ intel_wakeref_might_get(struct intel_wakeref *wf)
-  */
- static inline void
- __intel_wakeref_put(struct intel_wakeref *wf, unsigned long flags)
--#define INTEL_WAKEREF_PUT_ASYNC BIT(INTEL_WAKEREF_PUT_ASYNC_BIT)
--#define INTEL_WAKEREF_PUT_DELAY \
--	GENMASK(BITS_PER_LONG - 1, __INTEL_WAKEREF_PUT_LAST_BIT__)
- {
- 	INTEL_WAKEREF_BUG_ON(atomic_read(&wf->count) <= 0);
- 	if (unlikely(!atomic_add_unless(&wf->count, -1, 1)))
-@@ -181,7 +177,7 @@ intel_wakeref_put_delay(struct intel_wakeref *wf, unsigned long delay)
- {
- 	__intel_wakeref_put(wf,
- 			    INTEL_WAKEREF_PUT_ASYNC |
--			    FIELD_PREP(INTEL_WAKEREF_PUT_DELAY, delay));
-+			    FIELD_PREP(INTEL_WAKEREF_PUT_DELAY_MASK, delay));
- }
- 
- static inline void
 -- 
-2.47.3
+2.43.0
 
