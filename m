@@ -1,219 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732E528726A;
-	Mon, 15 Dec 2025 03:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C6F329E6E;
+	Mon, 15 Dec 2025 03:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765769734; cv=none; b=EnABggOCn/53onS85N4/kmJVpoFNqWOnNO3TZjJqedCryZuyajQvuVthQ7XVIIs0efvQin/ExFeOzCMqrjIYKQZOlTHZ5Tq50fO5Os/DzqABwDfumKO9NjeTSuDuoEO0DiYORpOWulwq8C/CxPQb+g/+oJo3kXE5v9NBANspLds=
+	t=1765770718; cv=none; b=NT2EVkW7CbLsVBVgZn5zQGyf7Mv/SpAeky3zrZUQQg91DCR2Eyq3l5TaNSTGT0NDyo4Zjw/cNX1/l4Q0UBdHEjBmw47pd1JZFhIUs86tQkXOv/eEjIHQ9u+HkEPMiN+4xpFJ4Pahq+xo890zmd/n2UjhqLfqKGlwNM7fUfQfBGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765769734; c=relaxed/simple;
-	bh=k0d0WY5WB86HA23RXY6Mrnj8g+i5RzNN7D6VuIy886k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qxfL76hlZ5c3oX39ReLzZQ/fBREYV/RTBmnZkjuHSkoOokexckR0rsecEPE+h7eIkuzY6jqNOdQEo8IZmqZs+imsSlzs2wc4Lzs5Hib4mXgkjnFZC4GsXIrXv9fcULMR5JndXeIMSpye1aU833HzEwwZ7RyQZRV16b112r4v6Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bxy92Rfa; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1765770718; c=relaxed/simple;
+	bh=Tv+6WHQtcQWkl905f+3Iu7W12IYA8HG6+Bx0cStnWM0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YkfTuc7JODRqW4GrwZJ+o2o2yOMJFAiK5wEE5kDfdch+2L4Jyd4lCyKSKeuoEOjD1xairh+zgib64tFghi0/ytweOaRkpK+P+1m8IFt9h7eaGZoy1qVnvCn1L602n5VPUol6SKe2LGkXgVRkbIMZpEcxQ10aV/Imls/siMAvtes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O1Z1rHbR; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bxy92Rfa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O1Z1rHbR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765769732; x=1797305732;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=k0d0WY5WB86HA23RXY6Mrnj8g+i5RzNN7D6VuIy886k=;
-  b=Bxy92RfapGOQ/vBgU5b01sQ16baNSMd5vtPkaR2ZkV6MXhOsfTpVYr08
-   p5Fgw6raMXzUelwaK4e2HB7T4hVKkpl3U+79UblJ3QxU3l3BXRSbpUGXm
-   D1yZp60MdcQnKNqk+MQUgybEAl11CuHXG1ofewEVT80dMVkvxngiGe2pn
-   Mo0G3LGvjSQYInp7AM16AhkpolCAdk4cGijfJLzZ5pkKqEaHmHtw2hkH9
-   LzVB2Mzgga09p2Fb7gqflQiYQmKisXTwplXrgfOPaom0lBVil+g6LHXrk
-   DDkTuLgUMABMyTTEhKgK1EeXW7UYzukj8w6B2wfdoX4QAyH3dviYpyxnI
-   g==;
-X-CSE-ConnectionGUID: N0kVG/r0Q1Kms0EgPFrPzA==
-X-CSE-MsgGUID: lBo3AaDYREiFrQVRQ6E6kA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="70247995"
+  t=1765770717; x=1797306717;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Tv+6WHQtcQWkl905f+3Iu7W12IYA8HG6+Bx0cStnWM0=;
+  b=O1Z1rHbRlj4zvAX2XtdlAC/KWe5M4Zju0MuhaHdjgQGWHf6E5ioChNNm
+   nRJ+/hgzKpui3P9Wb9FcCUfS/MXnERrqJ5LJdCIKoVy98e4x5oGadvws6
+   94Cxrd1Dllwjr2Ttqm2r9ZkZZXWB7QwLX0LXR3ksJkIRdK41vaSTldeK3
+   XlZ+Pd04rqqRyxTsH03Ebwphapo5Bldsoh8rdCqHg+MhY6BFlmnXyNI4U
+   o2dqV9PgmpyBHGktlb6x+ZkwUnk5MctXhQNx1NKoajWhxlW/6/W/eYo9X
+   JlnNHmZOibu1HzRbJal0QOjEYZHpJ117cf3DdxaWVjNupm5KnM0mEmC5d
+   w==;
+X-CSE-ConnectionGUID: 1jrTmDv+RzezZVutljJsAQ==
+X-CSE-MsgGUID: YqO2WcOpT7ysUAoWuxDilQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67546367"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="70247995"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 19:35:31 -0800
-X-CSE-ConnectionGUID: Ov4Ez70WS2iVEsI0s1KPLg==
-X-CSE-MsgGUID: xGKqUxKKQH+p43hn9drWLA==
+   d="scan'208";a="67546367"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 19:51:56 -0800
+X-CSE-ConnectionGUID: lYLPdDnXST+jKbZOghK46Q==
+X-CSE-MsgGUID: 3KULLt40RoW4AAvitoKi5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="201797741"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 19:35:27 -0800
-Message-ID: <7186caa3-13c0-4629-a07f-162c00138ad9@linux.intel.com>
-Date: Mon, 15 Dec 2025 11:30:39 +0800
+   d="scan'208";a="197382913"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 14 Dec 2025 19:51:53 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vUzck-000000002Ye-2ivA;
+	Mon, 15 Dec 2025 03:51:50 +0000
+Date: Mon, 15 Dec 2025 04:51:39 +0100
+From: kernel test robot <lkp@intel.com>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v21 1/7] Documentation/firmware: add imx/se to
+ other_interfaces
+Message-ID: <202512150427.Kc14BEvI-lkp@intel.com>
+References: <20251212-imx-se-if-v21-1-ee7d6052d848@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] iommu: Add calls for IOMMU_DEBUG_PAGEALLOC
-To: Mostafa Saleh <smostafa@google.com>
-Cc: linux-mm@kvack.org, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, corbet@lwn.net, joro@8bytes.org, will@kernel.org,
- robin.murphy@arm.com, akpm@linux-foundation.org, vbabka@suse.cz,
- surenb@google.com, mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org,
- ziy@nvidia.com, david@redhat.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, rppt@kernel.org, xiaqinxin@huawei.com,
- rdunlap@infradead.org
-References: <20251211125928.3258905-1-smostafa@google.com>
- <20251211125928.3258905-3-smostafa@google.com>
- <20e015d7-cb54-4a2a-bf62-a828e10e3126@linux.intel.com>
- <aTxiefxT08hbUPsd@google.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <aTxiefxT08hbUPsd@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251212-imx-se-if-v21-1-ee7d6052d848@nxp.com>
 
-On 12/13/25 02:44, Mostafa Saleh wrote:
-> On Fri, Dec 12, 2025 at 10:33:20AM +0800, Baolu Lu wrote:
->> On 12/11/25 20:59, Mostafa Saleh wrote:
->>> Add calls for the new iommu debug config IOMMU_DEBUG_PAGEALLOC:
->>> - iommu_debug_init: Enable the debug mode if configured by the user.
->>> - iommu_debug_map: Track iommu pages mapped, using physical address.
->>> - iommu_debug_unmap_begin: Track start of iommu unmap operation, with
->>>     IOVA and size.
->>> - iommu_debug_unmap_end: Track the end of unmap operation, passing the
->>>     actual unmapped size versus the tracked one at unmap_begin.
->>>
->>> We have to do the unmap_begin/end as once pages are unmapped we lose
->>> the information of the physical address.
->>> This is racy, but the API is racy by construction as it uses refcounts
->>> and doesn't attempt to lock/synchronize with the IOMMU API as that will
->>> be costly, meaning that possibility of false negative exists.
->>>
->>> Signed-off-by: Mostafa Saleh<smostafa@google.com>
->>> ---
->>>    drivers/iommu/iommu-debug-pagealloc.c | 28 +++++++++++++
->>>    drivers/iommu/iommu-priv.h            | 58 +++++++++++++++++++++++++++
->>>    drivers/iommu/iommu.c                 | 11 ++++-
->>>    include/linux/iommu-debug-pagealloc.h |  1 +
->>>    4 files changed, 96 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/iommu/iommu-debug-pagealloc.c b/drivers/iommu/iommu-debug-pagealloc.c
->>> index 4022e9af7f27..1d343421da98 100644
->>> --- a/drivers/iommu/iommu-debug-pagealloc.c
->>> +++ b/drivers/iommu/iommu-debug-pagealloc.c
->>> @@ -5,11 +5,15 @@
->>>     * IOMMU API debug page alloc sanitizer
->>>     */
->>>    #include <linux/atomic.h>
->>> +#include <linux/iommu.h>
->>>    #include <linux/iommu-debug-pagealloc.h>
->>>    #include <linux/kernel.h>
->>>    #include <linux/page_ext.h>
->>> +#include "iommu-priv.h"
->>> +
->>>    static bool needed;
->>> +DEFINE_STATIC_KEY_FALSE(iommu_debug_initialized);
->>>    struct iommu_debug_metadata {
->>>    	atomic_t ref;
->>> @@ -25,6 +29,30 @@ struct page_ext_operations page_iommu_debug_ops = {
->>>    	.need = need_iommu_debug,
->>>    };
->>> +void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys, size_t size)
->>> +{
->>> +}
->>> +
->>> +void __iommu_debug_unmap_begin(struct iommu_domain *domain,
->>> +			       unsigned long iova, size_t size)
->>> +{
->>> +}
->>> +
->>> +void __iommu_debug_unmap_end(struct iommu_domain *domain,
->>> +			     unsigned long iova, size_t size,
->>> +			     size_t unmapped)
->>> +{
->>> +}
->>> +
->>> +void iommu_debug_init(void)
->>> +{
->>> +	if (!needed)
->>> +		return;
->>> +
->>> +	pr_info("iommu: Debugging page allocations, expect overhead or disable iommu.debug_pagealloc");
->>> +	static_branch_enable(&iommu_debug_initialized);
->>> +}
->>> +
->>>    static int __init iommu_debug_pagealloc(char *str)
->>>    {
->>>    	return kstrtobool(str, &needed);
->>> diff --git a/drivers/iommu/iommu-priv.h b/drivers/iommu/iommu-priv.h
->>> index c95394cd03a7..aaffad5854fc 100644
->>> --- a/drivers/iommu/iommu-priv.h
->>> +++ b/drivers/iommu/iommu-priv.h
->>> @@ -5,6 +5,7 @@
->>>    #define __LINUX_IOMMU_PRIV_H
->>>    #include <linux/iommu.h>
->>> +#include <linux/iommu-debug-pagealloc.h>
->>>    #include <linux/msi.h>
->>>    static inline const struct iommu_ops *dev_iommu_ops(struct device *dev)
->>> @@ -65,4 +66,61 @@ static inline int iommufd_sw_msi(struct iommu_domain *domain,
->>>    int iommu_replace_device_pasid(struct iommu_domain *domain,
->>>    			       struct device *dev, ioasid_t pasid,
->>>    			       struct iommu_attach_handle *handle);
->>> +
->>> +#ifdef CONFIG_IOMMU_DEBUG_PAGEALLOC
->>> +
->>> +void __iommu_debug_map(struct iommu_domain *domain, phys_addr_t phys,
->>> +		       size_t size);
->>> +void __iommu_debug_unmap_begin(struct iommu_domain *domain,
->>> +			       unsigned long iova, size_t size);
->>> +void __iommu_debug_unmap_end(struct iommu_domain *domain,
->>> +			     unsigned long iova, size_t size, size_t unmapped);
->>> +
->>> +static inline void iommu_debug_map(struct iommu_domain *domain,
->>> +				   phys_addr_t phys, size_t size)
->>> +{
->>> +	if (static_branch_unlikely(&iommu_debug_initialized))
->>> +		__iommu_debug_map(domain, phys, size);
->>> +}
->>> +
->>> +static inline void iommu_debug_unmap_begin(struct iommu_domain *domain,
->>> +					   unsigned long iova, size_t size)
->>> +{
->>> +	if (static_branch_unlikely(&iommu_debug_initialized))
->>> +		__iommu_debug_unmap_begin(domain, iova, size);
->>> +}
->>> +
->>> +static inline void iommu_debug_unmap_end(struct iommu_domain *domain,
->>> +					 unsigned long iova, size_t size,
->>> +					 size_t unmapped)
->>> +{
->>> +	if (static_branch_unlikely(&iommu_debug_initialized))
->>> +		__iommu_debug_unmap_end(domain, iova, size, unmapped);
->>> +}
->> I am wondering whether it would be better if we move iommu_debug_map()
->> to iommu-debug-pagealloc.c,
->>
->> void iommu_debug_map(struct iommu_domain *domain,
->> 		     phys_addr_t phys, size_t size)
->> {
->> 	if (static_branch_likely(&iommu_debug_initialized))
->> 		__iommu_debug_map(domain, phys, size);
->> }
->>
->> (Does it make sense to use static_branch_likely() here? Normally, people
->>   who enable CONFIG_IOMMU_DEBUG_PAGEALLOC would want to use this
->>   debugging feature. Or not?)
->>
->> So that ...
-> This actually was the v1 implementation [1], but Jörg suggested to move
-> it to a header file as a function call would have an overhead if this
-> feautre is disabled.
-> 
-> I believe the priority would be to keep the performance overhead minimal
-> with CONFIG_IOMMU_DEBUG_PAGEALLOC and the commandline disabled, so people
-> can run with the config in production and only enable the commandline
-> it to debug problems, without having overhead on the typical case.
+Hi Pankaj,
 
-Okay, fair enough.
+kernel test robot noticed the following build warnings:
 
-Thanks,
-baolu
+[auto build test WARNING on 4a26e7032d7d57c998598c08a034872d6f0d3945]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20251212-172535
+base:   4a26e7032d7d57c998598c08a034872d6f0d3945
+patch link:    https://lore.kernel.org/r/20251212-imx-se-if-v21-1-ee7d6052d848%40nxp.com
+patch subject: [PATCH v21 1/7] Documentation/firmware: add imx/se to other_interfaces
+reproduce: (https://download.01.org/0day-ci/archive/20251215/202512150427.Kc14BEvI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512150427.Kc14BEvI-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   ERROR: Cannot find file ./include/linux/firmware/intel/stratix10-svc-client.h
+   WARNING: No kernel-doc for file ./include/linux/firmware/intel/stratix10-svc-client.h
+   Documentation/driver-api/firmware/other_interfaces.rst:60: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/firmware/other_interfaces.rst:103: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/firmware/other_interfaces.rst:115: ERROR: Unexpected indentation. [docutils]
+>> Documentation/driver-api/firmware/other_interfaces.rst:116: WARNING: Blank line required after table. [docutils]
+>> Documentation/driver-api/firmware/other_interfaces.rst:140: WARNING: Bullet list ends without a blank line; unexpected unindent. [docutils]
+   ERROR: Cannot find file ./drivers/firmware/imx/se_fw.c
+   ERROR: Cannot find file ./drivers/firmware/imx/se_fw.c
+   WARNING: No kernel-doc for file ./drivers/firmware/imx/se_fw.c
+   ERROR: Cannot find file ./include/linux/fpga/fpga-bridge.h
+   WARNING: No kernel-doc for file ./include/linux/fpga/fpga-bridge.h
+
+
+vim +116 Documentation/driver-api/firmware/other_interfaces.rst
+
+    94	
+    95	::
+    96	   +--------------------------------------------+
+    97	   |            Character Device(C_DEV)         |
+    98	   |                                            |
+    99	   |   +---------+ +---------+     +---------+  |
+   100	   |   | misc #1 | | misc #2 | ... | misc #n |  |
+   101	   |   |  dev    | |  dev    |     | dev     |  |
+   102	   |   +---------+ +---------+     +---------+  |
+   103	   |        +-------------------------+         |
+   104	   |        | Misc. Dev Synchr. Logic |         |
+   105	   |        +-------------------------+         |
+   106	   |                                            |
+   107	   +--------------------------------------------+
+   108	
+   109	   +--------------------------------------------+
+   110	   |               Service Layer                |
+   111	   |                                            |
+   112	   |      +-----------------------------+       |
+   113	   |      | Message Serialization Logic |       |
+   114	   |      +-----------------------------+       |
+   115	   |          +---------------+                 |
+ > 116	   |          |  imx-mailbox  |                 |
+   117	   |          |   mailbox.c   |                 |
+   118	   |          +---------------+                 |
+   119	   |                                            |
+   120	   +--------------------------------------------+
+   121	
+   122	- service layer:
+   123	  This layer is responsible for ensuring the communication protocol that is defined
+   124	  for communication with firmware.
+   125	
+   126	  FW Communication protocol ensures two things:
+   127	  - Serializing the messages to be sent over an MU.
+   128	
+   129	  - FW can handle one command message at a time.
+   130	
+   131	- c_dev:
+   132	  This layer offers character device contexts, created as '/dev/<se>_mux_chx'.
+   133	  Using these multiple device contexts that are getting multiplexed over a single MU,
+   134	  userspace application(s) can call fops like write/read to send the command message,
+   135	  and read back the command response message to/from Firmware.
+   136	  fops like read & write use the above defined service layer API(s) to communicate with
+   137	  Firmware.
+   138	
+   139	  Misc-device(/dev/<se>_mux_chn) synchronization protocol:
+ > 140	::
+   141	
+   142	                                Non-Secure               +   Secure
+   143	                                                         |
+   144	                                                         |
+   145	                  +---------+      +-------------+       |
+   146	                  | se_fw.c +<---->+imx-mailbox.c|       |
+   147	                  |         |      |  mailbox.c  +<-->+------+    +------+
+   148	                  +---+-----+      +-------------+    | MU X +<-->+ ELE |
+   149	                      |                               +------+    +------+
+   150	                      +----------------+                 |
+   151	                      |                |                 |
+   152	                      v                v                 |
+   153	                  logical           logical              |
+   154	                  receiver          waiter               |
+   155	                     +                 +                 |
+   156	                     |                 |                 |
+   157	                     |                 |                 |
+   158	                     |            +----+------+          |
+   159	                     |            |           |          |
+   160	                     |            |           |          |
+   161	              device_ctx     device_ctx     device_ctx   |
+   162	                                                         |
+   163	                User 0        User 1       User Y        |
+   164	                +------+      +------+     +------+      |
+   165	                |misc.c|      |misc.c|     |misc.c|      |
+   166	 kernel space   +------+      +------+     +------+      |
+   167	                                                         |
+   168	 +------------------------------------------------------ |
+   169	                    |             |           |          |
+   170	 userspace     /dev/ele_muXch0    |           |          |
+   171	                          /dev/ele_muXch1     |          |
+   172	                                        /dev/ele_muXchY  |
+   173	                                                         |
+   174	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
