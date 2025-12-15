@@ -1,138 +1,255 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60ED13314A8
-	for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 09:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA31314D2C
+	for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 09:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765789977; cv=none; b=b6m1fQt3suuAsFO5bv8dYd0Ao5Ca6COVBjqjZz3oAbGc4zc6mtVpNHhFj3XO/3ZBYXAvqvlgabhBY0jrLBiJg5FZISOIknhzQ5uyHbIpSa+eeXHnrHIXxpWXSdgKYACg2tYfPP6s0Tq32YjqKiju5J900HWVvulCUdcwSggndZg=
+	t=1765791502; cv=none; b=pO+nJSMB0nL6mieq0YfNYxmsnxjysNPNQ3snWxjxnUAk5rqPnuNYAWI2auYi69dMHyfc/Ta/BXOm5lTQBSMkAFBdrRQ6wYJZKOS+4Cz7UmrsP4/OKM2dqlYqa3gi58VfjmIQZr/El9JeeCvdrdEQjlKWqJUHN7z4FaRAebfWzP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765789977; c=relaxed/simple;
-	bh=z6JBVVpYTLKQYsp6P49h+E3D5NtloPxytMIPj3+CkBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lppEqNFUBrnWKUO5KVwJH2BictXu8/xkjsqRpetD3U4gHiWRBLlrkB4imDubqoBHeaSp4pJAzhZATSfudu7CNPyAAaBMhbw58r++x9z9TrCt5hdLKwvOJIPvXGa/JTYJfTd2VugqPv4XYLS8DiGOlbucbZhyBmpWls51md3R2Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b7M9KKBg; arc=none smtp.client-ip=209.85.210.169
+	s=arc-20240116; t=1765791502; c=relaxed/simple;
+	bh=LpUT1tST1uzwN8B4qY2fL3L3g40kh3NGJb9E7/IhWWo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=R3ReF7ZrnOpGZeIhmeIz+YfkhzpGsDi1PZk9kG5GaC1Xa1rYnhs7wFGeu6NSm3jx3ZUUPmCgthBV2BskND6BMQAdKPX4AFbnQsFXBQuIDSvugxenHn40axHgG3dRFyJdHYgR4NByPtuLTg0N3ewoPRiJP3uuxscypDJyHnbMFuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WkBuMQaV; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b7M9KKBg"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7bb710d1d1dso4653335b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 01:12:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WkBuMQaV"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a0f3f74587so8910895ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 01:38:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765789976; x=1766394776; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aR0q5gZgzi5K6sLzSLf9sKZOIrpuIZwxmRjvvPcUdsg=;
-        b=b7M9KKBgGPToQJYsAJamNY5Tg3zjoWQP+14nRP0nZfoT3EYQsrCOJB5K17hHrKTq8J
-         8MtbNxxB/eJESOHdH2FGml10uLlaNhVzP6EDwC9PF5boNwehHq7x76/sczxjqVOJpT6M
-         MuUwXR81gkD+WATSUqrZvxw9F98rB6i3w+Sz5Vo5AmL8CA4hxNTOwCGrklwLhGLgIcQp
-         +M4JWHr1XWAdyVCB9U4kliRWF/H0QrYfw2p9SW6Z+DmyEbguk5vBGoHdCtz/Mw43BU7t
-         NalA0SX1snXBmr+pVkYZ6695TxQgVJJEoVBYUBzzlItBw+yW+UUI09m0ccw18K66Al4o
-         FpqA==
+        d=gmail.com; s=20230601; t=1765791500; x=1766396300; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A2ofUMV8vPgmaOuh+YZV7CVgRP8TEUPgjBpp5OjiYrM=;
+        b=WkBuMQaVNm3w2IFMdDpuPihJ4CviWsphhMGLfaRffcQIW8utplyzsq+avhCViEEmsn
+         OWFUs9ozb3ExlRtcyHLjJD5rXSTGfuVQlB1UfnBEXwacX5gPP82gJjXE2jH/mpzpf3JC
+         0bEroh1HMKHYBWY0x9ykuQyPJZRAFJK5pb5Y1H7tSgWBG3nYTgl94tZqfd/B/8gbtQ+V
+         igubWP3/oQ3uyKUUnEkju6vQNeIu4AOjozOdJx+4faUbiyqjTscSZO4TVIS8f3Y/5Zv5
+         R4dZXR/yMsDUx2Ma8e/Y81uLbDZQf5mahaiASn83YnCGfWLInyJk/ZUpvakerrdO6ieX
+         aeaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765789976; x=1766394776;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aR0q5gZgzi5K6sLzSLf9sKZOIrpuIZwxmRjvvPcUdsg=;
-        b=mFPNFGpsFwH+Z3+sshDe58+Z+Z8Pfogh/Qk9KZN2kilYLVLW/XrhchPZpi54D3cref
-         mbFRHagSxyVyyIOS7HeopiDtIAlu2nUDofluYuBHc47oBjEDJoLNSZtWTHO+q1rWSE9i
-         Dj5CuIctF0kFPeKyVRZtmkvkhQLhWXI1JMKTEzTlEr9/aFKCf9MLBUuzg6JYP/BFhvs/
-         zBCZ7M/IoT6RgIk7Yh4YMiqwEXho9jv0USIH4mhWjjxhGX4YpuHMVWL0HIYMLxiI80a7
-         uz/ov5SfqCPlOyPLDKBBeuOOyCsUUbdnbRXyT228zrT5pxnva0aQ0ymbIHGCBFP2vyaU
-         yXuA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQb//NGe9OhsX0MX/nhwfRz3V08Hl+DRYKTwCJcOwqXN6qeRUtgVHaxzYOolemmMn55NL7ACKiqX4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgXSydl38lYMIknh+3s5V8KzA+AOnuDFhGmHlcHXEb4K82drp0
-	BakyXcAk1Z38D7dxaRqYESoXY5NF1stS25tYuz+tEn/rAeVsQHg6xmnn
-X-Gm-Gg: AY/fxX59MTwwED7Wb6tJPIBoZF6VfZoGwv3flr6rAdI1kCaV6PmjnUD2tUSnWSTmO56
-	JLhcLxUSoEHYtFrb/8t7nhgosaU/3dp06rVvHD52+Vnhwr6B/9qm/S7PbEAHCT1DjZl2egJ06le
-	FBZ5s6AfT77av0AEyv4HREaEk1AeWiJkERvz6CgdJk4mF7mtCiwuPzNCYQl8IiAcHz/+GEAhrUQ
-	mTSK6SGWgLVTqX0JxOeDNBsy7t47UVFt50T+K1l/rWOFqmAdHinSgupjawUUjnSMHgsAxfPvxoj
-	b2HLjltWBdaGp/YuW6YFXsIFxJxJbXDOxzTCorLZSoh3/7dBWHm+Scx/BEjtd/cPIRTqRjiYknT
-	rPfHGidaV5zh9i3jZ6q/gFD38uulRb2RhsONfwdSHJ/Gc2lYsEdIXl92tUDCoaVIBCoU01RjAiV
-	M9zWOag9y+H68=
-X-Google-Smtp-Source: AGHT+IEo9HFyRxBh3H58peELrcoKXuQEto6liK2jEeLWBCANq6VtutrYLACJVBWT8TeJY4kzXM3I9g==
-X-Received: by 2002:a05:6a00:339b:b0:7ac:1444:6777 with SMTP id d2e1a72fcca58-7f66744724emr11597719b3a.12.1765789975604;
-        Mon, 15 Dec 2025 01:12:55 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4bf7be436sm11997902b3a.0.2025.12.15.01.12.54
+        d=1e100.net; s=20230601; t=1765791500; x=1766396300;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A2ofUMV8vPgmaOuh+YZV7CVgRP8TEUPgjBpp5OjiYrM=;
+        b=aUWhvULKbKJyMR69cqHY6TZO3nWcbhvjLBi+erC11On9Neb07/BoaIJVg8tz4QxBFP
+         AfKnMuXNUMU6rSS9tyN3E4ryKIe1QnoKV5+3ZKd22C//Ou73K47kS56V0KaXRQ2xUgU+
+         QNpRtAqGSGOnHypLEpXx3x8FPU7/rwJMfdMygrOCfEucVyjrRoKN5PIfu04INGFzTnJW
+         LHD2ubIk1mp6zY+VCctQpedTcnBgvJq7xlnQ7DoIYeE/8+O//BXXmzPdYcUwGa8Gc0Sc
+         TjA99k42y2PhXCiebokp3ODLxYt9TMhSOTwDlR5/zrl7lT/Qn743GE6t4ZLFK0B+xBAP
+         e2ug==
+X-Forwarded-Encrypted: i=1; AJvYcCUo2CFerNNCQDnLvOwHrdShdJX2uN579u2kYIwWAwy5sxrj9ZwdkLL5aFJtBtpqC8kOk1TnINELBlo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpOqIA2GsbsQm4bnE7B9hTVLiL6uPgpCRfF23GKnNBFk0JI4xh
+	m6ZdpfQR6/VhcIVqgFHHdhjiet1VmndNdT6pLMmM2TB3zVHIK+8A6pk2
+X-Gm-Gg: AY/fxX7EVdqwtWrFuEViJMeG3vpDF+cJk6V1R7hZrsx0HBXU1Qi1k2qO0OEWSAe0Qp4
+	o1qEu7THCmwtzpT2efQipPojJonkMFB9Z4AflRCZ0jx3FTyoBPlBF4iV3WhVZT3pgLmLLfW9WLT
+	5/AWRKOC1hJrHdSG+I/Nrr1LZPPmPTNnqDrXnBhQ56nLJhSHKn+mHw2KGbKNWx3JWmoqiTTYX/q
+	VS6gbtNKIuSC2iM4gkXQz7IMDtfYmEk3jA+DAK29yFsUTDqhSs5KPdSeQGmAf2C6c7DNSNlQOXF
+	/d6phsdBxBuHCMJ3O0CAsoi2Y43udLD2TrmZXq0rzxITUZkGLCHcFRy1I0vqALgCvPq1rgFzUip
+	VglI5TgokixgGh0O1Pgw9w+1ISRLU4FwJPG0zRPfVeJDGTX/WExwyQJK/bJXQeXj7VvW3c/4usT
+	9Q7w/VXSHEr/K1lbwm7sNqq16ttoRnix5CAbSwG8IYxda7N76ZKMc18IwsqjYkalxkB8T3W++Gh
+	x6T3LVotKOARHGYZfvHEwGm3SMSlNmU3IGFfeixaG76EE511L2T7COAJIe0txbNcAPd5CCKi7G2
+	EtgDZITibLyhubsr/A8EUrIUlhipTdU1h014xKIi6pYpGRrj+S4=
+X-Google-Smtp-Source: AGHT+IGE3gq1ZgxyZw713bIINxNwXEl9ah/Lp4tSBM1uH035Fhp+NAhTmMOItSGS6fepfB6QrYDu/A==
+X-Received: by 2002:a17:903:19c8:b0:2a0:906c:5caf with SMTP id d9443c01a7336-2a0906c6125mr74500505ad.17.1765791499706;
+        Mon, 15 Dec 2025 01:38:19 -0800 (PST)
+Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29efd74f5e1sm113017705ad.16.2025.12.15.01.38.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 01:12:54 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 9F95D41902F7; Mon, 15 Dec 2025 16:12:44 +0700 (WIB)
-Date: Mon, 15 Dec 2025 16:12:44 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Crypto <linux-crypto@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: kernel-doc comment with anonymous variable in anonymous union?
-Message-ID: <aT_RDASKMW4RI_Yf@archie.me>
+        Mon, 15 Dec 2025 01:38:19 -0800 (PST)
+From: James Calligeros <jcalligeros99@gmail.com>
+Subject: [PATCH v6 0/7] mfd: macsmc: add rtc, hwmon and hid subdevices
+Date: Mon, 15 Dec 2025 19:37:44 +1000
+Message-Id: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qEoMnYBTe+dXSVaM"
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOjWP2kC/2XMQW7DIBCF4atErEs1M4AxXfUeURcYhgSpjivTo
+ FaR714Sqa1lL9+Tvv8mCs+Zi3g53MTMNZc8Xdrong4inP3lxDLHtgUBGeixk6MPZQyyXIfItcj
+ egqIAaCME0dDHzCl/PYLHt7bPuXxO8/ejX/H+/qbcNlVRgjQ2pi4oNgnd62n0+f05TKO4pyqtO
+ Nkdp8YDG3YuGh2o33L1xxFgz1Xj0UY1pGg9A225XnEyO64bV1ZHExwPHnjLzT9HpB03jVvqWQ8
+ OE/e45suy/AAFQXzSqAEAAA==
+X-Change-ID: 20250816-macsmc-subdevs-87032c017d0c
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+ Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ James Calligeros <jcalligeros99@gmail.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rtc@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6798;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=LpUT1tST1uzwN8B4qY2fL3L3g40kh3NGJb9E7/IhWWo=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDJn21/4fePXRd+6nrcW5vKI302y0pikzlru+kH3HvytCo
+ fmZYPnyjoksDGJcDJZiiiwbmoQ8Zhux3ewXqdwLM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ GuoY6xgxcHEKwFR7ajH8s3quunnFa2uOfSd6L0zwelt5/9nyrN63qRPEs2tjNjp8TWNkmN+WJnz
+ yVdkGuzIzjo630/fd+rZPtCeC86b6tA9J0lNvsgMA
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
+Hi all,
 
---qEoMnYBTe+dXSVaM
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series adds support for the remaining SMC subdevices. These are the
+RTC, hwmon, and HID devices. They are being submitted together as the RTC
+and hwmon drivers both require changes to the SMC DT schema.
 
-Hi,
+The RTC driver is responsible for getting and setting the system clock,
+and requires an NVMEM cell. This series replaces Sven's original RTC driver
+submission [1].
 
-kernel-doc reports warning on include/crypto/skcipher.h:
+The hwmon function is an interesting one. While each Apple Silicon device
+exposes pretty similar sets of sensors, these all seem to be paired to
+different SMC keys in the firmware interface. This is true even when the
+sensors are on the SoC. For example, an M1 MacBook Pro will use different
+keys to access the LITTLE core temperature sensors to an M1 Mac mini. This
+necessitates describing which keys correspond to which sensors for each
+device individually, and populating the hwmon structs at runtime. We do
+this with a node in the device tree. This series includes only the keys
+for sensors which we know to be common to all devices. The SMC is also
+responsible for monitoring and controlling fan speeds on systems with fans,
+which we expose via the hwmon driver.
 
-WARNING: ./include/crypto/skcipher.h:166 struct member 'SKCIPHER_ALG_COMMON=
-' not described in 'skcipher_alg'
+The SMC also handles the hardware power button and lid switch. Power
+button presses and lid opening/closing are emitted as HID events, so we
+add an input subdevice to handle them.
 
-skciper_alg struct is defined as:
+Since there are no real dependencies between the components of this series,
+it should be fine for each subsystem to take the relevant patches through
+their trees. The mfd one-liners should be taken in order to avoid trivial
+conflicts.
 
-struct skcipher_alg {
-	int (*setkey)(struct crypto_skcipher *tfm, const u8 *key,
-	              unsigned int keylen);
-	int (*encrypt)(struct skcipher_request *req);
-	int (*decrypt)(struct skcipher_request *req);
-	int (*export)(struct skcipher_request *req, void *out);
-	int (*import)(struct skcipher_request *req, const void *in);
-	int (*init)(struct crypto_skcipher *tfm);
-	void (*exit)(struct crypto_skcipher *tfm);
+Regards,
 
-	unsigned int walksize;
+James
 
-	union {
-		struct SKCIPHER_ALG_COMMON;
-		struct skcipher_alg_common co;
-	};
-};
+[1] https://lore.kernel.org/asahi/CAEg-Je84XxLWH7vznQmPRfjf6GxWOu75ZetwN7AdseAwfMLLrQ@mail.gmail.com/T/#t
+[2] https://lore.kernel.org/asahi/20251106140050.GQ8064@google.com/
 
-Note the first member in the union, which is an anonymous (i.e. unnamed) va=
-riable.
+---
+Changes in v6:
+- Rebase onto 6.19-rc1, dropping already merged commits
+- Link to v5: https://lore.kernel.org/r/20251112-macsmc-subdevs-v5-0-728e4b91fe81@gmail.com
 
-What can I do on it? Should the offending member be deleted?
+Changes in v5:
+- Drop inadvertent mfd core includes in rtc and input drivers
+- Link to v4: https://lore.kernel.org/r/20251025-macsmc-subdevs-v4-0-374d5c9eba0e@gmail.com
 
-Thanks.
+Changes in v4:
+- Added Rob's R-b to hwmon Devicetree schema
+- Added missing include to hwmon driver
+- Dropped superfluous dev_info() from hwmon probe
+- Added Guenter's A-b to hwmon driver
+- Renamed INPUT_MACSMC_INPUT to INPUT_MACSMC
+- Dropped leftover mention of HID in input driver
+- Reinstated input driver MODULE_ALIAS
+- Trigger a hard wakeup on power button/lid switch when coming out of
+  s2idle
+- Suppress KEY_POWER event on wakeup to prevent an immediate shutdown
+  when waking up
+- Squashed hwmon Devicetree commits into one
+- Link to v3: https://lore.kernel.org/r/20251007-macsmc-subdevs-v3-0-d7d3bfd7ae02@gmail.com
 
---=20
-An old man doll... just what I always wanted! - Clara
+Changes in v3:
+- Renamed macsmc-hid to macsmc-input
+- Switched to pm_wakeup_event in macsmc-input
+- macsmc-input now configures its capabilities before registering the device
+- Renamed macsmc_hwmon to macsmc-hwmon
+- Dropped module aliases in macsmc-input and macsmc_hwmon
+- Introduced new SMC FourCC macro to silence GCC errors
+- Condensed hwmon binding using $defs
+- Made label property optional for hwmon sensors
+- Fixed incorrect hwmon is_visible implementation
+- Dropped 64-bit math from SMC float ops
+- Fixed incorrect use of error numbers in hwmon driver
+- Replaced a number of non-fatal dev_errs with dev_dbgs in hwmon driver
+- Added hwmon driver documentation
+- Added hwmon subdevice directly to the DT SMC node
+- Included "common" hwmon sensors in SoC .dtsi files
+- Fixed typo in hwmon-common.dtsi
+- Added Neal's R-b to series
+- Added required nodes to t602x Devicetrees
+- Link to v2: https://lore.kernel.org/r/20250827-macsmc-subdevs-v2-0-ce5e99d54c28@gmail.com
 
---qEoMnYBTe+dXSVaM
-Content-Type: application/pgp-signature; name=signature.asc
+Changes in v2:
+- Added Rob's R-b tag to RTC DT binding
+- Removed redundant nesting from hwmon DT binding
+- Dedpulicated property definitions in hwmon DT schema
+- Made label a required property for hwmon DT nodes
+- Clarified semantics in hwmon DT schema definitions
+- Split mfd tree changes into separate commits
+- Fixed numerous style errors in hwmon driver
+- Removed log messages sysfs read/write functions in hwmon driver
+- Removed ignored errors from hwmon driver
+- Removed uses of dev_err for non-errors in hwmon driver
+- Made it more obvious that a number of hwmon fan properties are optional
+- Modified hwmon driver to reflect DT schema changes
+- Added compatible property to hwmon node
+- Link to v1: https://lore.kernel.org/r/20250819-macsmc-subdevs-v1-0-57df6c3e5f19@gmail.com
 
------BEGIN PGP SIGNATURE-----
+---
+Hector Martin (1):
+      input: macsmc-input: New driver to handle the Apple Mac SMC buttons/lid
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaT/RDAAKCRD2uYlJVVFO
-o09iAQCiZd1XPtjXzmtyrrBrzCiDsiuOIlgzXMzu6/NeoJKQdAEAqhyJNLilw7Bb
-BgN14Sa2taVF0vxRRwQ4frrJyKVVeg4=
-=ly+T
------END PGP SIGNATURE-----
+James Calligeros (5):
+      dt-bindings: hwmon: Add Apple System Management Controller hwmon schema
+      mfd: macsmc: Wire up Apple SMC RTC subdevice
+      mfd: macsmc: Wire up Apple SMC hwmon subdevice
+      mfd: macsmc: Wire up Apple SMC input subdevice
+      arm64: dts: apple: t8103, t8112, t60xx: Add hwmon SMC subdevice
 
---qEoMnYBTe+dXSVaM--
+Sven Peter (1):
+      arm64: dts: apple: t8103,t60xx,t8112: Add SMC RTC node
+
+ .../bindings/hwmon/apple,smc-hwmon.yaml  |  86 ++++++++++
+ .../bindings/mfd/apple,smc.yaml          |  36 +++++
+ MAINTAINERS                              |   2 +
+ .../boot/dts/apple/hwmon-common.dtsi     |  33 ++++
+ .../boot/dts/apple/hwmon-fan-dual.dtsi   |  22 +++
+ arch/arm64/boot/dts/apple/hwmon-fan.dtsi |  17 ++
+ .../boot/dts/apple/hwmon-laptop.dtsi     |  33 ++++
+ .../boot/dts/apple/hwmon-mac-mini.dtsi   |  15 ++
+ .../arm64/boot/dts/apple/t6001-j375c.dts |   2 +
+ arch/arm64/boot/dts/apple/t6001.dtsi     |   2 +
+ .../arm64/boot/dts/apple/t6002-j375d.dts |   2 +
+ .../arm64/boot/dts/apple/t600x-die0.dtsi |  10 ++
+ .../boot/dts/apple/t600x-j314-j316.dtsi  |   3 +
+ .../arm64/boot/dts/apple/t602x-die0.dtsi |  10 ++
+ arch/arm64/boot/dts/apple/t8103-j274.dts |   2 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts |   3 +
+ arch/arm64/boot/dts/apple/t8103-j313.dts |   2 +
+ arch/arm64/boot/dts/apple/t8103-j456.dts |   2 +
+ arch/arm64/boot/dts/apple/t8103-j457.dts |   2 +
+ arch/arm64/boot/dts/apple/t8103.dtsi     |  11 ++
+ arch/arm64/boot/dts/apple/t8112-j413.dts |   2 +
+ arch/arm64/boot/dts/apple/t8112-j473.dts |   2 +
+ arch/arm64/boot/dts/apple/t8112-j493.dts |   3 +
+ arch/arm64/boot/dts/apple/t8112.dtsi     |  11 ++
+ drivers/input/misc/Kconfig               |  11 ++
+ drivers/input/misc/Makefile              |   1 +
+ drivers/input/misc/macsmc-input.c        | 207 +++++++++++++++++++++++++
+ drivers/mfd/macsmc.c                     |   3 +
+ 28 files changed, 535 insertions(+)
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20250816-macsmc-subdevs-87032c017d0c
+
+Best regards,
+-- 
+James Calligeros <jcalligeros99@gmail.com>
+
