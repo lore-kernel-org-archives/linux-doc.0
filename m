@@ -1,203 +1,89 @@
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 758B0322547;
-	Mon, 15 Dec 2025 05:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F053E30C344;
+	Mon, 15 Dec 2025 07:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765775730; cv=none; b=mNSPL2LGqvKGjxTG4kpBJfjUtXklu0MPf9tbvEwMS3yhMqA4k8a3D6h66UBg1DYwyGI0NNmww6VXQKu6R9sDUdcQBGpRjS5156Gh8E0Fq+aK58UYaFJIQZGogF6EIKD1xd4lcNBRXhuvjXpGLbTMDsF66wXy0iMNqJEnK2682jU=
+	t=1765784279; cv=none; b=Xo4Qy7l4k+EpwdTLfq6+DjPLlJX6u/0qmYM+MSzSMIWy5m5Hu6eJi6dzMlUmbflO5oHxzeWTYGdepVZ142AiBoELWInJ/+qJr9UP500KjPTRH1YZne47GqY6NRt4fqX4/0nuru2VGtzqU99dHGGpagh2jO1UFrBPw5H1L+BxHp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765775730; c=relaxed/simple;
-	bh=axbVRlmpoqHXKy7D9DYTP2RH8Eh/CvptUY+r60J/TOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=He6zUHzYCiKlaxCIrlTtOO7YsD6PqM2XRq4hDJkTx8Iisu2hGUN1PsE0B9A22AQWUXCXnmCkux1ut5t9EsRgHnaAwL8ajQQWGxHmSfMGIf7hptJzPJ6qzMTFFebRX7anPK4VZKNUNwsFCRkMO5/MStdP45aHiaEi8dReODr1Q/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-df-693f996ad6f5
-Date: Mon, 15 Dec 2025 14:15:17 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
-	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
-	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
-	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
-	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
-	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
-	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
-	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
-	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
-	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
-	ngupta@vflare.org, linux-block@vger.kernel.org,
-	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
-	dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
-	dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
-	melissa.srw@gmail.com, hamohammed.sa@gmail.com,
-	harry.yoo@oracle.com, chris.p.wilson@intel.com,
-	gwan-gyeong.mun@intel.com, max.byungchul.park@gmail.com,
-	boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
-	ysk@kzalloc.com, yeoreum.yun@arm.com, netdev@vger.kernel.org,
-	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
-	catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
-	hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
-	gustavo@padovan.org, christian.koenig@amd.com,
-	andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
-	mcgrof@kernel.org, petr.pavlu@suse.com, da.gomez@kernel.org,
-	samitolvanen@google.com, paulmck@kernel.org, frederic@kernel.org,
-	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
-	josh@joshtriplett.org, urezki@gmail.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
-	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
-	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
-	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
-	yuzhao@google.com, baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com, joel.granados@kernel.org,
-	richard.weiyang@gmail.com, geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com, linux@treblig.org,
-	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
-	chenhuacai@kernel.org, francesco@valla.it,
-	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
-	masahiroy@kernel.org, brauner@kernel.org,
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
-	miguel.ojeda.sandonis@gmail.com, neilb@ownmail.net,
-	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
-	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
-	alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
-	lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
-	tmgross@umich.edu, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v18 41/42] SUNRPC: relocate struct rcu_head to the first
- field of struct rpc_xprt
-Message-ID: <20251215051517.GB49936@system.software.com>
-References: <20251205071855.72743-1-byungchul@sk.com>
- <20251205071855.72743-42-byungchul@sk.com>
- <cd65b963dd4edade3afb2e7d27eb33af1c62682e.camel@kernel.org>
+	s=arc-20240116; t=1765784279; c=relaxed/simple;
+	bh=zj6ez14rUWdN0Mc8FMFftPnkpg+rLgHMVO0EWy29Unw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MWnqZK3cMtRKZgdiZWg1QiS46iz6zicbI7Xkd6eQpZ8ZmXPSc1QKeC2/8ObM9g8e77mn4sT4hUqxrhhOQH+0jnZanQWLyYNevU4g34/3nLv4jnChShNZAurRx6sWuZdE9cQETm23oKwS4M9pj6S5MWlYoBIFLVWhMejPiRm2GKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kf2S0Cqb; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kf2S0Cqb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765784277; x=1797320277;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zj6ez14rUWdN0Mc8FMFftPnkpg+rLgHMVO0EWy29Unw=;
+  b=Kf2S0CqbZEWR1sexpuujKBCEpeGk9GfxYCepHFqiocuRizB5ly1DKECr
+   E2Zirr3H0hwayHx8j55T5/QkQ3c7PzFM9vIbRTd5n/XV0UIsk2S2vxpD+
+   8R+8YlunRHlmxDS9aJqLLbZvyARcOLSySlUGtSXuQgOIOSodfJPhpniBn
+   PLdLHn7eRxvQJ1NaUGzWxic1SBvNzIPV6Tc6YqPxf4Iyvhm4sf/c8FuDU
+   1oT3t+3ALivjNkvHqSkmDmoZtQdHw5r9cJM36RBLte05pYiu76bk6UOnY
+   qWVgUKItLEU9SY6Lofks5b6jR+qfg9cgb1kZlJ9GaQVQZxftNtnsI2azn
+   g==;
+X-CSE-ConnectionGUID: rt7QE4LsSJm0XEHZ2hfKbA==
+X-CSE-MsgGUID: ZMx3S/JeQ+KyjZX1D3PdmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="78796247"
+X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
+   d="scan'208";a="78796247"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 23:37:57 -0800
+X-CSE-ConnectionGUID: JY08/7moSJ++G/pCIs3nvg==
+X-CSE-MsgGUID: zBoLQ/XiRvGo7LJDHgeSPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
+   d="scan'208";a="202157811"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 14 Dec 2025 23:37:55 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vV39U-000000002bO-3j1A;
+	Mon, 15 Dec 2025 07:37:52 +0000
+Date: Mon, 15 Dec 2025 08:37:16 +0100
+From: kernel test robot <lkp@intel.com>
+To: Shuai Xue <xueshuai@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	linux-doc@vger.kernel.org
+Subject: [pci:trace 3/3] htmldocs: Documentation/trace/events-pci.rst:
+ WARNING: document isn't included in any toctree [toc.not_included]
+Message-ID: <202512150800.Vrs9LyvM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cd65b963dd4edade3afb2e7d27eb33af1c62682e.camel@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0xbZRj2O+f0nNOGxkPF7ZMZWerM5oxszpG8iQanxnj+qDNmMXPZtMrJ
-	aMYtZetW44WFS0sXVm1SAu2GxSIyWsY4DAQLG5d1gDrGFmQdFHSxGyVrWVIuTQcUW4iRf0+e
-	97n9eFlS0UGnsuq844ImT5WjpGWULJRU+/Kx6jfUu7v8m8FQ+i0szBsoONfsomHF9gsDBrFa
-	AiMXnQgiSzYSSjtXKVgxX2dgPjrBgOU0gspbZhLmLsVoeNgfRmC556dhxvMurE5OE3BnMYig
-	3h8jwN+jRzC68IiGIcsZGkK3zhFQ7GimofK8SIGv0kyAU3wPJk0WCoamxiQg3vUgmB+9R0D3
-	+EtQW1ZHQXWNj4Yp16oEbjtHKGie9hLw+/XBuMF6gYKJGyYGbv7aFN/7fYUEmmZ/jE9arCfh
-	dK+DAvODMANtV0sRhOsWKRio6CFAH3DTcMM2LIGyuhYCRu+6EVwx/E3ATw2h+ADXGA3T1vME
-	9C8ECfhtco6BVtFCQpsnwkCJLwPmnY002DxTzL59fKT0LMU3trYT/NJjM+L7g49IvqT1JN9p
-	nWT4kivjDG8XT/CtDTt5R9cMwYuN5TQvhs0MX7sUIHljaJTgfWNdND87PMzs3/qJ7PUsIUet
-	FTS7Mj+TZYeLfUzBD5tORd1pRcjEGZGUxdxe7K6JEUbEruHu2I4ETXEv4Dt/rtAJTHPbsdcb
-	JROSFG4bHi9SG5GMJTnLczgYeEwlNE9xR/GlTguZwHIOcHfgKpkQKTg7wrWVLmb9kIyHqv1r
-	BjIeulxzey2U5Lbgn2PsOp2Gi9tsa7SU4/HMGV2Cfpp7Hve0DxCJSMzNSnH94E1yff4zuLfB
-	S32Hkq0bGqwbGqz/N1g3NNgR1YgU6jxtrkqdszc9W5enPpX+RX6uiOL/XP/18qEOFB75qA9x
-	LFImyUcuZ6oVEpW2UJfbhzBLKlPkBm+ckmepdF8KmvxPNSdyhMI+tIWllJvlexZPZim4o6rj
-	wjFBKBA0/10JVppahOz+sSMDHyt7VRWedmXq/b8yJg40ZRz09hzujs599cEhRyDS0vfQ/8+1
-	tyVbteZXzzr/yB/MfTN4Qa93bJJ+uOyuaik3epMioWTfyuemgO/9Z++nPWn65kHxYdjV/MQ1
-	RSCzqiBQlv5OtM5Vow1WlR8UO3S7Xxx6bX/TW7LLewS9PUVJFWarXtlJagpV/wI2aPotywMA
-	AA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxbZRTH89zn9t5LtcsFcTzZjDOdi2buReNMjlG3GZPxxDizxA/LFhOp
-	2824AwppkVGNSqnName2rqZF2rG1KJVAHW/bFEldAxOdE0YZSMPLgKwyCEwMFrYWCrYsRr6c
-	/M///M8v58MRcMaX3AZB1hZLOq0mX80pWeXbr5i2H6/cIz/fFdgKFvOnMDwaUcAfxiAL81EL
-	C+ca/Bwk3N/zYGmuVMCvA+Us9FysRzA6b0Fwf9GNwdy6wkLC3slDNDbEg8OIYCXQicAZsmMI
-	91zF4L9kZOCfxmUOpjvmEDjGIxxUTBlZmPV9gcA14eZh6udsuDfapoCVkbsMDCzMIPBFlhmI
-	BE8iSDjz4EJ1S3Ld+TcHi103MVQ4ehB4x0cwzE2NIbjUeRtBoLacgz9tlzHciqyDvvlZDq47
-	TnFwL3SOgb8aOfCUBxQQ+n0aQZXbjmBiMMCA6esGDpxVzSy0jv3IQ2h6iYFhp52B+ub9MOqb
-	YOGGrZpJnptMNWWBu8LEJMskA47v2hiI+er4vTWI3jefZmldyxWGmnsTHPWf9yO6GLcjGq0x
-	YWq2JduOmVlMP2s5QWtuzHA0Pt/P0cCCh6W/VRP6zedxhp7t2k5bXSP8gdcPK189KuXLJZJu
-	5+4cZe6caZgvurC+NNa2qQydEa1IEIi4iwSWn7WiNIEVt5CB/gSX0pz4DAmHYzgVyRSfJoNl
-	shUpBSw6niQzk3E2lXlMPEYaWx04pVUikMDkVZwKZYgeRLxOP/9wkE6uV0ZWF3ASunS+dxWK
-	xY3k22Xhob2JmC67V+00kZKpU4aU/bi4mQSv/MLY0DrXGpBrDcj1P8i1BuRBbB3KlLUlBRo5
-	/6Ud+rxcg1Yu3XGksKAZJV/V9/HS2R9Q9FZ2OxIFpH5UFW7bLWcoNCV6Q0E7IgJWZ6os4aSl
-	OqoxfCjpCt/TfZAv6dvRRoFVZ6nePCjlZIjHNMVSniQVSbr/poyQtqEMXfvkq13vW2ZdQWuY
-	dMefe6Ij54j13TdO9598ai5EFofEvvTgcPYd7519fnrxTJWye/Px2sOG17r3+uvWNyTe2jlo
-	Gw9n5WiMRfv3NDnQOx/x3n1jL9tevG3sS1uY8Dy4+WDbCm1K9/Qe3PbIoWis9NqQ8W7Em1Vf
-	LGsLa/UlP52wqVl9ruaFrVin1/wLMb4wZaYDAAA=
-X-CFilter-Loop: Reflected
 
-On Fri, Dec 05, 2025 at 04:27:52AM -0500, Jeff Layton wrote:
-> On Fri, 2025-12-05 at 16:18 +0900, Byungchul Park wrote:
-> > While compiling Linux kernel with DEPT on, the following error was
-> > observed:
-> >
-> >    ./include/linux/rcupdate.h:1084:17: note: in expansion of macro
-> >    ‘BUILD_BUG_ON’
-> >    1084 | BUILD_BUG_ON(offsetof(typeof(*(ptr)), rhf) >= 4096);        \
-> >         | ^~~~~~~~~~~~
-> >    ./include/linux/rcupdate.h:1047:29: note: in expansion of macro
-> >    'kvfree_rcu_arg_2'
-> >    1047 | #define kfree_rcu(ptr, rhf) kvfree_rcu_arg_2(ptr, rhf)
-> >         |                             ^~~~~~~~~~~~~~~~
-> >    net/sunrpc/xprt.c:1856:9: note: in expansion of macro 'kfree_rcu'
-> >    1856 | kfree_rcu(xprt, rcu);
-> >         | ^~~~~~~~~
-> >     CC net/kcm/kcmproc.o
-> >    make[4]: *** [scripts/Makefile.build:203: net/sunrpc/xprt.o] Error 1
-> >
-> > Since kfree_rcu() assumes 'offset of struct rcu_head in a rcu-managed
-> > struct < 4096', the offest of struct rcu_head in struct rpc_xprt should
-> > not exceed 4096 but does, due to the debug information added by DEPT.
-> >
-> > Relocate struct rcu_head to the first field of struct rpc_xprt from an
-> > arbitrary location to avoid the issue and meet the assumption.
-> >
-> > Reported-by: Yunseong Kim <ysk@kzalloc.com>
-> > Signed-off-by: Byungchul Park <byungchul@sk.com>
-> > ---
-> >  include/linux/sunrpc/xprt.h | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/include/linux/sunrpc/xprt.h b/include/linux/sunrpc/xprt.h
-> > index f46d1fb8f71a..666e42a17a31 100644
-> > --- a/include/linux/sunrpc/xprt.h
-> > +++ b/include/linux/sunrpc/xprt.h
-> > @@ -211,6 +211,14 @@ enum xprt_transports {
-> >
-> >  struct rpc_sysfs_xprt;
-> >  struct rpc_xprt {
-> > +     /*
-> > +      * Place struct rcu_head within the first 4096 bytes of struct
-> > +      * rpc_xprt if sizeof(struct rpc_xprt) > 4096, so that
-> > +      * kfree_rcu() can simply work assuming that.  See the comment
-> > +      * in kfree_rcu().
-> > +      */
-> > +     struct rcu_head         rcu;
-> > +
-> >       struct kref             kref;           /* Reference count */
-> >       const struct rpc_xprt_ops *ops;         /* transport methods */
-> >       unsigned int            id;             /* transport id */
-> > @@ -317,7 +325,6 @@ struct rpc_xprt {
-> >  #if IS_ENABLED(CONFIG_SUNRPC_DEBUG)
-> >       struct dentry           *debugfs;               /* debugfs directory */
-> >  #endif
-> > -     struct rcu_head         rcu;
-> >       const struct xprt_class *xprt_class;
-> >       struct rpc_sysfs_xprt   *xprt_sysfs;
-> >       bool                    main; /*mark if this is the 1st transport */
-> 
-> Seems fine to me.
-> 
-> Reviewed-by: Jeff Layton <jlayton@kernel.org>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git trace
+head:   d1a2d5beb4d7fba6886df7f4a008707d4f85a71c
+commit: d1a2d5beb4d7fba6886df7f4a008707d4f85a71c [3/3] Documentation: tracing: Add PCI tracepoint documentation
+reproduce: (https://download.01.org/0day-ci/archive/20251215/202512150800.Vrs9LyvM-lkp@intel.com/reproduce)
 
-Thank you, Jeff.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512150800.Vrs9LyvM-lkp@intel.com/
 
-	Byungchul
+All warnings (new ones prefixed by >>):
+
+   ERROR: Cannot find file ./include/linux/mutex.h
+   WARNING: No kernel-doc for file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/fwctl.h
+   WARNING: No kernel-doc for file ./include/linux/fwctl.h
+   WARNING: ./include/uapi/linux/media/amlogic/c3-isp-config.h:199 #define c3_isp_params_block_header v4l2_isp_params_block_header; error: Cannot parse struct or union!
+>> Documentation/trace/events-pci.rst: WARNING: document isn't included in any toctree [toc.not_included]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
