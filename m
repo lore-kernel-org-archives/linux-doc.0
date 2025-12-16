@@ -1,301 +1,159 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C702334E271;
-	Tue, 16 Dec 2025 14:48:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9846433A039
+	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 15:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765896520; cv=none; b=FPc0FsBGk3OMJ5XJKYVWGPsIQTDE4s0snSw9m8i59uFLkdN0n7SWffUJyCyLLrkNmWaUw3w5Php1KnS+L1JW6I28cMk/XqxTmSPAxSaRRzkRBG7Jb9GfcAXu4PujCbN07xeySJ5isfXMokWFN3/ufmXBMnvqicfoBZ2QWQ8Ln7w=
+	t=1765897266; cv=none; b=Q6RxVqOVzvrJMz11H3qAYoQPnTNAD3MjSxKYaIv+pcQeknAvVYdHvV4o5Xu0T4nfb4OBGScX6hoaDcxwmfoP2be5fTa7bX0vuXfjcstP2XTgjVVFEU2TO4wEflVV2LMBlBXVQCjqlyxl+93oyEjuSs40cNfE3QKN80eegBppH1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765896520; c=relaxed/simple;
-	bh=i0AcTcCPtF2GO7wxfnZkdvNES3SqmZBwNVL8UlFm4BY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k4vJqwobtdfXKQOwXRVSRSIj7jySDUgYPTKeWdETfDNQvKKfTq6sLr5oxYFGVRuBjOSt0RZSzisDiHhrDCaX+nhID2+OGIDGC8LFz7UfV4JaVuwhDUIg4UevWtSFs05c1EMSA3+DH+OPmuA1Dl+yi+qEbVw4XjIhLcA4Vkf5QVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r7jOgzRb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765897266; c=relaxed/simple;
+	bh=QPKsKeT3gWgGX03dpUV6lwGL3b/wOT3vbrntiwSEOXc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pzaEUaJGSx//sPbtRjh9uyJzX/hYywLMJeQrLBSkQipRnQGmZkcNhPO785nJ9nkzv0fyhWavwYrIw6CQh3gNpy44Wr/SNN/Cpx+Pkbk1+Kyh5JFdlER5QVHifEMVjTWSMpwoHqRoEvWGWUmZ9FMYN9Xryvz5TmR7TC7ZI1J4tAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nuyH9lFr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r7jOgzRb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 874EDC4CEF1;
-	Tue, 16 Dec 2025 14:48:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nuyH9lFr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61288C2BC9E
+	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 15:01:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765896520;
-	bh=i0AcTcCPtF2GO7wxfnZkdvNES3SqmZBwNVL8UlFm4BY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=r7jOgzRbHM+pVee8VyzocTn6BVeijeq5DBRIVgYuRpniEhQKqxaeUHvPwebTXrFKS
-	 lIPrOd1Zc+qfZ561coQ1zdL4AgSIlZef6eSkKJ7F1zol2PBfTiaQvg+kY0jS7L+wCf
-	 Je2TL8Bv2KPlrB2bpPc7T7yDbM8CLzTwww6Gkp8hQCngw7m06xr7ejEGmmfoBDphJs
-	 ggthRkhgjEMfSSGHpitAg2Aztb5SV+VrQdjCq+qwFbnRD9oa1S0y3xzvT8Vr2kG9TQ
-	 e0gyqE6O2WN7Miwryr5ob5lwFm8Wy9lXZLvyJciCnYVRpJs3yCxIGANoAluzX50QYV
-	 0Wo3nlyrWLFvQ==
-Message-ID: <7fc41ebc-bbea-44af-80b2-c2baee6eb1a6@kernel.org>
-Date: Tue, 16 Dec 2025 08:48:38 -0600
+	s=k20201202; t=1765897266;
+	bh=QPKsKeT3gWgGX03dpUV6lwGL3b/wOT3vbrntiwSEOXc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nuyH9lFr0HElGTm11ozrGEh5GR4mrOxDjzSYPKWiUTV0KViG4zo5T3wFNuCyjUrck
+	 LTGWRJD0olCd3ufg1jL1nS1IGG4PPujLwAHClCa47IBYFpOH8MG5yrSJGE2l6aCwcD
+	 X5kS0WB6zf9QC9bf3Rgxop6JM0WX3rjubhvvA5bNOzxuUnfGUPLLklnnp5oaZ4YOgM
+	 EFU7ZQN0GqIwHD9w/wYky4rfuPW/B83eKO8BXMo1JrTZInJVVqFSBSnueibSeqJImH
+	 UGiuVd7I1tW9krQWVUgR9YlCtNupr3d3/zw1wD5xO1+QDghcoNZGXzGnP2s5QI2Yy2
+	 NEKnH7RCptepQ==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-598eaafa587so5411945e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 07:01:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVqI5hid/D5ADvcVauHp3DX/UVCM8OSpGWDO/E/ifNUG8d8iUHg2vvz+deRvZbnQt4laFamBOZy0Eo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuaVp+1HGwhhvbapowRey4NqmBHCjvIKJ0IYoaaLT3z/VAR+sT
+	aHqPD880xQQ4fn3DkSe2xLOavIyKDL/4d+1ubP8uXXOqoaJW3BqnHnDlvnBF6CLnRVTmPg2R3/c
+	QJws2mLrnFXcPO80SABSjBaBTfBSGziM7fsuMXj0pAA==
+X-Google-Smtp-Source: AGHT+IG5d6DdYq9LAyVUP18St0s5pfnMgnJzNUjAA/NoQAsSm6+L4uBAJHyDNUiXdMopypVt3tNMTw9B+D8JE4f0jrI=
+X-Received: by 2002:a05:6512:23a0:b0:595:910c:8ee9 with SMTP id
+ 2adb3069b0e04-598faa876f8mr4651161e87.37.1765897264824; Tue, 16 Dec 2025
+ 07:01:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/5] drm/amdgpu: add UMA allocation interfaces to sysfs
-To: "Lazar, Lijo" <lijo.lazar@amd.com>,
- "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- "Tsao, Anson" <anson.tsao@amd.com>
-References: <20251212-vram-carveout-tuning-for-upstream-v6-0-50c02fd180c9@amd.com>
- <20251212-vram-carveout-tuning-for-upstream-v6-4-50c02fd180c9@amd.com>
- <1d54ce3b-fbdb-4d1a-bd07-576a6ed85ea5@amd.com>
- <ea30058d-f3e1-4a1f-bdcf-fafc92b221a0@kernel.org>
- <6c83cbdf-e5a6-4443-a642-d1e7b6786945@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <6c83cbdf-e5a6-4443-a642-d1e7b6786945@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20251128-qcom-qce-cmd-descr-v9-0-9a5f72b89722@linaro.org>
+ <20251128-qcom-qce-cmd-descr-v9-3-9a5f72b89722@linaro.org> <aUFX14nz8cQj8EIb@vaman>
+In-Reply-To: <aUFX14nz8cQj8EIb@vaman>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Tue, 16 Dec 2025 16:00:51 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
+X-Gm-Features: AQt7F2rrGRpQXYPK-EvVzXEKVsCh-nkChR-L4QKbJkBv4BRnBUz63CKwNYJ04mc
+Message-ID: <CAMRc=MetbSuaU9VpK7CTio4kt-1pkwEFecARv7ROWDH_yq63OQ@mail.gmail.com>
+Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
+ BAM locking
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	Udit Tiwari <quic_utiwari@quicinc.com>, Daniel Perez-Zoghbi <dperezzo@quicinc.com>, 
+	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/16/25 8:44 AM, Lazar, Lijo wrote:
-> 
-> 
-> On 16-Dec-25 7:38 PM, Mario Limonciello wrote:
->> On 12/16/25 3:43 AM, Lazar, Lijo wrote:
->>>
->>>
->>> On 12-Dec-25 1:29 PM, Yo-Jung Leo Lin (AMD) wrote:
->>>> Add a uma/ directory containing two sysfs files as interfaces to
->>>> inspect or change UMA carveout size. These files are:
->>>>
->>>> - uma/carveout_options: a read-only file listing all the available
->>>>    UMA allocation options and their index.
->>>>
->>>> - uma/carveout: a file that is both readable and writable. On read,
->>>>    it shows the index of the current setting. Writing a valid index
->>>>    into this file allows users to change the UMA carveout size to that
->>>>    option on the next boot.
->>>>
->>>> Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
->>>> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
->>>> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
->>>> Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
->>>> ---
->>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 143 +++++++++++++++++ 
->>>> + + ++++++++++
->>>>   1 file changed, 143 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/ 
->>>> gpu/ drm/amd/amdgpu/amdgpu_device.c
->>>> index 903c4706040d..e78e6982312c 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> @@ -36,6 +36,7 @@
->>>>   #include <linux/pci.h>
->>>>   #include <linux/pci-p2pdma.h>
->>>>   #include <linux/apple-gmux.h>
->>>> +#include <linux/nospec.h>
->>>>   #include <drm/drm_atomic_helper.h>
->>>>   #include <drm/drm_client_event.h>
->>>> @@ -417,6 +418,146 @@ static const struct attribute_group 
->>>> amdgpu_board_attrs_group = {
->>>>       .is_visible = amdgpu_board_attrs_is_visible
->>>>   };
->>>> +static ssize_t carveout_options_show(struct device *dev,
->>>> +                     struct device_attribute *attr,
->>>> +                     char *buf)
->>>> +{
->>>> +    struct drm_device *ddev = dev_get_drvdata(dev);
->>>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
->>>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
->>>> +    uint32_t memory_carved;
->>>> +    ssize_t size = 0;
->>>> +
->>>> +    if (!uma_info || !uma_info->num_entries)
->>>> +        return -ENODEV;
->>>> +
->>>> +    for (int i = 0; i < uma_info->num_entries; i++) {
->>>> +        memory_carved = uma_info->entries[i].memory_carved_mb;
->>>> +        if (memory_carved >= SZ_1G/SZ_1M) {
->>>> +            size += sysfs_emit_at(buf, size, "%d: %s (%u GB)\n",
->>>> +                          i,
->>>> +                          uma_info->entries[i].name,
->>>> +                          memory_carved >> 10);
->>>> +        } else {
->>>> +            size += sysfs_emit_at(buf, size, "%d: %s (%u MB)\n",
->>>> +                          i,
->>>> +                          uma_info->entries[i].name,
->>>> +                          memory_carved);
->>>> +        }
->>>> +    }
->>>> +
->>>> +    return size;
->>>> +}
->>>> +static DEVICE_ATTR_RO(carveout_options);
->>>> +
->>>> +static ssize_t carveout_show(struct device *dev,
->>>> +                 struct device_attribute *attr,
->>>> +                 char *buf)
->>>> +{
->>>> +    struct drm_device *ddev = dev_get_drvdata(dev);
->>>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
->>>> +
->>>> +    return sysfs_emit(buf, "%u\n", adev->uma_info.uma_option_index);
->>>
->>> It would be better to show the size along with the index.
->>
->> This idea complicates userspace parsing because rather than a atoi() 
->> parser you now need to do sscanf().
->>
->> IE - I like it the way it is in the series at the moment.
->>
-> 
-> Userspace already has to go through this for carveout_options parsing. 
-> It does not make any difference :)
+On Tue, Dec 16, 2025 at 2:00=E2=80=AFPM Vinod Koul <vkoul@kernel.org> wrote=
+:
+>
+> On 28-11-25, 12:44, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> >
+> > Use metadata operations in DMA descriptors to allow BAM users to pass
+> > additional information to the engine. To that end: define a new
+> > structure - struct bam_desc_metadata - as a medium and define two new
+> > commands: for locking and unlocking the BAM respectively. Handle the
+> > locking in the .attach() callback.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > ---
+> >  drivers/dma/qcom/bam_dma.c       | 59 ++++++++++++++++++++++++++++++++=
++++++++-
+> >  include/linux/dma/qcom_bam_dma.h | 12 ++++++++
+> >  2 files changed, 70 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+> > index c9ae1fffe44d79c5eb59b8bbf7f147a8fa3aa0bd..d1dc80b29818897b333cd22=
+3ec7306a169cc51fd 100644
+> > --- a/drivers/dma/qcom/bam_dma.c
+> > +++ b/drivers/dma/qcom/bam_dma.c
+> > @@ -30,6 +30,7 @@
+> >  #include <linux/module.h>
+> >  #include <linux/interrupt.h>
+> >  #include <linux/dma-mapping.h>
+> > +#include <linux/dma/qcom_bam_dma.h>
+> >  #include <linux/scatterlist.h>
+> >  #include <linux/device.h>
+> >  #include <linux/platform_device.h>
+> > @@ -391,6 +392,8 @@ struct bam_chan {
+> >       struct list_head desc_list;
+> >
+> >       struct list_head node;
+> > +
+> > +     bool bam_locked;
+> >  };
+> >
+> >  static inline struct bam_chan *to_bam_chan(struct dma_chan *common)
+> > @@ -655,6 +658,53 @@ static int bam_slave_config(struct dma_chan *chan,
+> >       return 0;
+> >  }
+> >
+> > +static int bam_metadata_attach(struct dma_async_tx_descriptor *desc, v=
+oid *data, size_t len)
+> > +{
+> > +     struct virt_dma_desc *vd =3D container_of(desc, struct virt_dma_d=
+esc, tx);
+> > +     struct bam_async_desc *async_desc =3D container_of(vd, struct bam=
+_async_desc,  vd);
+> > +     struct bam_desc_hw *hw_desc =3D async_desc->desc;
+> > +     struct bam_desc_metadata *metadata =3D data;
+> > +     struct bam_chan *bchan =3D to_bam_chan(metadata->chan);
+> > +     struct bam_device *bdev =3D bchan->bdev;
+> > +
+> > +     if (!data)
+> > +             return -EINVAL;
+> > +
+> > +     if (metadata->op =3D=3D BAM_META_CMD_LOCK || metadata->op =3D=3D =
+BAM_META_CMD_UNLOCK) {
+> > +             if (!bdev->dev_data->bam_pipe_lock)
+> > +                     return -EOPNOTSUPP;
+> > +
+> > +             /* Expecting a dummy write when locking, only one descrip=
+tor allowed. */
+> > +             if (async_desc->num_desc !=3D 1)
+> > +                     return -EINVAL;
+> > +     }
+> > +
+> > +     switch (metadata->op) {
+> > +     case BAM_META_CMD_LOCK:
+> > +             if (bchan->bam_locked)
+> > +                     return -EBUSY;
+> > +
+> > +             hw_desc->flags |=3D DESC_FLAG_LOCK;
+>
+> Why does this flag imply for the hardware.
 
-Oh I guess you're right, userspace wouldn't just present a string from 
-carveout options, it would need to know what index went with what string 
-which means parsing to populate a UI (for example).
-> 
-> I was thinking of an easier way without cross reference. It would be 
-> better even if you put the actual carve out size instead of an index 
-> (assuming carve out size is deterministic).
-> 
-> Thanks,
-> Lijo
-> 
-> 
->>>
->>> Regardless, series is -
->>>
->>>      Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
->>>
->>> Thanks,
->>> Lijo
->>>
->>>> +}
->>>> +
->>>> +static ssize_t carveout_store(struct device *dev,
->>>> +                  struct device_attribute *attr,
->>>> +                  const char *buf, size_t count)
->>>> +{
->>>> +    struct drm_device *ddev = dev_get_drvdata(dev);
->>>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
->>>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
->>>> +    struct amdgpu_uma_carveout_option *opt;
->>>> +    unsigned long val;
->>>> +    uint8_t flags;
->>>> +    int r;
->>>> +
->>>> +    r = kstrtoul(buf, 10, &val);
->>>> +    if (r)
->>>> +        return r;
->>>> +
->>>> +    if (val >= uma_info->num_entries)
->>>> +        return -EINVAL;
->>>> +
->>>> +    val = array_index_nospec(val, uma_info->num_entries);
->>>> +    opt = &uma_info->entries[val];
->>>> +
->>>> +    if (!(opt->flags & AMDGPU_UMA_FLAG_AUTO) &&
->>>> +        !(opt->flags & AMDGPU_UMA_FLAG_CUSTOM)) {
->>>> +        drm_err_once(ddev, "Option %lu not supported due to lack of 
->>>> Custom/Auto flag", val);
->>>> +        return -EINVAL;
->>>> +    }
->>>> +
->>>> +    flags = opt->flags;
->>>> +    flags &= ~((flags & AMDGPU_UMA_FLAG_AUTO) >> 1);
->>>> +
->>>> +    guard(mutex)(&uma_info->update_lock);
->>>> +
->>>> +    r = amdgpu_acpi_set_uma_allocation_size(adev, val, flags);
->>>> +    if (r)
->>>> +        return r;
->>>> +
->>>> +    uma_info->uma_option_index = val;
->>>> +
->>>> +    return count;
->>>> +}
->>>> +static DEVICE_ATTR_RW(carveout);
->>>> +
->>>> +static struct attribute *amdgpu_uma_attrs[] = {
->>>> +    &dev_attr_carveout.attr,
->>>> +    &dev_attr_carveout_options.attr,
->>>> +    NULL
->>>> +};
->>>> +
->>>> +const struct attribute_group amdgpu_uma_attr_group = {
->>>> +    .name = "uma",
->>>> +    .attrs = amdgpu_uma_attrs
->>>> +};
->>>> +
->>>> +static void amdgpu_uma_sysfs_init(struct amdgpu_device *adev)
->>>> +{
->>>> +    int rc;
->>>> +
->>>> +    if (!(adev->flags & AMD_IS_APU))
->>>> +        return;
->>>> +
->>>> +    if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
->>>> +        return;
->>>> +
->>>> +    rc = amdgpu_atomfirmware_get_uma_carveout_info(adev, &adev- 
->>>> >uma_info);
->>>> +    if (rc) {
->>>> +        drm_dbg(adev_to_drm(adev),
->>>> +            "Failed to parse UMA carveout info from VBIOS: %d\n", rc);
->>>> +        goto out_info;
->>>> +    }
->>>> +
->>>> +    mutex_init(&adev->uma_info.update_lock);
->>>> +
->>>> +    rc = devm_device_add_group(adev->dev, &amdgpu_uma_attr_group);
->>>> +    if (rc) {
->>>> +        drm_dbg(adev_to_drm(adev), "Failed to add UMA carveout 
->>>> sysfs interfaces %d\n", rc);
->>>> +        goto out_attr;
->>>> +    }
->>>> +
->>>> +    return;
->>>> +
->>>> +out_attr:
->>>> +    mutex_destroy(&adev->uma_info.update_lock);
->>>> +out_info:
->>>> +    return;
->>>> +}
->>>> +
->>>> +static void amdgpu_uma_sysfs_fini(struct amdgpu_device *adev)
->>>> +{
->>>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
->>>> +
->>>> +    if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
->>>> +        return;
->>>> +
->>>> +    mutex_destroy(&uma_info->update_lock);
->>>> +    uma_info->num_entries = 0;
->>>> +}
->>>> +
->>>>   static void amdgpu_device_get_pcie_info(struct amdgpu_device *adev);
->>>>   /**
->>>> @@ -4492,6 +4633,7 @@ static int 
->>>> amdgpu_device_sys_interface_init(struct amdgpu_device *adev)
->>>>       amdgpu_fru_sysfs_init(adev);
->>>>       amdgpu_reg_state_sysfs_init(adev);
->>>>       amdgpu_xcp_sysfs_init(adev);
->>>> +    amdgpu_uma_sysfs_init(adev);
->>>>       return r;
->>>>   }
->>>> @@ -4507,6 +4649,7 @@ static void 
->>>> amdgpu_device_sys_interface_fini(struct amdgpu_device *adev)
->>>>       amdgpu_reg_state_sysfs_fini(adev);
->>>>       amdgpu_xcp_sysfs_fini(adev);
->>>> +    amdgpu_uma_sysfs_fini(adev);
->>>>   }
->>>>   /**
->>>>
->>>
->>
-> 
+Please rephrase, I don't get what you mean.
 
+>
+> I do not like the interface designed here. This is overloading. Can we
+> look at doing something better here.
+>
+
+It used to be a generic flag in dmaengine visible for all users.
+Dmitry argued that it's too Qualcomm-specific for a generic flag and
+suggested using the metadata to hide the communication between the QCE
+and BAM drivers. I'm open to other suggestions but it has to be a bit
+more specific than "do something better". :)
+
+Bartosz
