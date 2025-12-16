@@ -1,253 +1,172 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11023079.outbound.protection.outlook.com [40.107.162.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C83133A6FB
-	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 07:27:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765870041; cv=none; b=P7phd4tTHO+vO1EpuAAPOhvgT0H2OTRNEcGhGgsSzeeZDVQHRfCcPQRt8HN8Fmmm/qH2NlQ4UmCm57HqFIuewkx8JmDUqHePjqjmFsbiOhvX803W4p7vjcoKWEnMrMEpxLDtj8y/dNlzq9De8lkH/K9KS8Byun2qv8NvQELRwiM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765870041; c=relaxed/simple;
-	bh=0kPUYHQ/G4RfpscPzI7pr0OmdhWbcBqqBUxeWAMHLZc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ai+tsPUXc/rZRcMPwZPerbhWW6j7fQKS5DqoyxM4gvuU797GoHwcwqkTVPsLNAJl+R0f82Yr97aPHbcKqYGs1+GiFSRtV39kY0tgUJxSYZ5lfL76Tx/8GnqjgFLD7RoAI3j7TrZR7D8xFOf+nn4m5Fc/RzGgoNlAimYjl1PANik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lm5xSb2X; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A608326059D;
+	Tue, 16 Dec 2025 07:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765870799; cv=fail; b=Nw6FWsISFMuPG08xXRYRy4CT3Md6TxqkktQS2er5FxH7Ggpar8OxGSH6rrrVRZTUilafndCGsxWZTVvMrqkiHcFZUauP9xZs2qd4rH9bPfdHuu0LkDCAhaR2Cg2O3e924TNwBbpqzHPQyhfrEu0Exqn53gAqdO/oyfTF3bdr2W8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765870799; c=relaxed/simple;
+	bh=U1sLhPP8N/60I6Mgmkwdj6HVE1FGnpukJQRIhs3SSuA=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=SRjEKP8PI9kM6sfXCM4Gh3Ag0d84R+t0DxL2h3t9+mS82xgkNno6b7R6ZkqZn0zQGH9a80lxTf9P0Y8bfqCiOveFtzu5J4Z37psvYn8OJaA2qAU8y3bQO/90o6ZeseR9bb0K24P4IXlzM5Tcrj+42S2FSasl8TrvPo9fwQjvXFY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=phytec.de; spf=pass smtp.mailfrom=phytec.de; dkim=pass (2048-bit key) header.d=phytec.de header.i=@phytec.de header.b=uaBYcZmw; arc=fail smtp.client-ip=40.107.162.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=phytec.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytec.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lm5xSb2X"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a0834769f0so29693665ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Dec 2025 23:27:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765870037; x=1766474837; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PJCA2xXmtdABe9cuOOw6HKVAFYxYWKkv6zuIQkQSiJk=;
-        b=lm5xSb2XbgVJJua1CVQR22c9ySMunRfdv1obZuP3q9tqFUszoVK2AI81SnQikH6oQo
-         MtZz3tXiWDkspnAJG9pRyQ4Ltm06lq4i0Y/1r6nrQ7n4NUfmCokCI9OJPNpEk+hVlTjr
-         XtN9sbaOTK5KT0dqsURNXid7bpMHi3fCUu0lY49pRKjE2znj9nJwumsy+1PDrz2nnb/l
-         4qpvGvPntnl1xo+o7Y4hi81Lvd+3SOYfrOEWvRsh6zm87jsFXDWgQIMlAfslkwc275NP
-         L8+hfzcADz4BBx0QSc8lGEPh4F8coTr0wJC7uaehXSjP/n37CM9ALb0Izpzc84CUHXKo
-         sm/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765870037; x=1766474837;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PJCA2xXmtdABe9cuOOw6HKVAFYxYWKkv6zuIQkQSiJk=;
-        b=mjnTxKbAPMvq/dvBA44IGl8fAOP4NbZxiRHNUb6Os6yHBkpneRmR8jLj5jfmJxDpgN
-         1lmMxoOSxDmypjWoaOLXfa3aMpdzlpnkVM3IV9cijF4nrdd42LNj/tgIA7AOM4wD7SRH
-         MZrRs9LUTv9yRE1hvvC2jgza6LOseIbntjkNoTgBuf41ujFHovlRcsil0SB7BLstCr+T
-         GIbO2uJLyF81hN031cjAjxBa/AIiw9Gkr8ihAaSk+zgfAM2OPw9i8kUM90yeLGANf1+n
-         gDQvWW+suv7JUum3fQ+agzTEqMnBQJ7N/TIMQxQgjipuZkCuhjRb/C3hcX7S9jiwNtyM
-         2QPg==
-X-Forwarded-Encrypted: i=1; AJvYcCW5Bg+80yqUq4Yu8PhmZBnwW9UfAh5XRtT9QlNIkJiridfqPC+JRhEay6B+1X7u4JjauBlRlQdlI3M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPX5+fAPSSkq93JJXzVZ1SZRfu8TVRL/ylMCD7+blKVt3dgaTb
-	P2qb2Y8ds8osHobNyxJXuj0+gh9WngXU2xMTtbMalntmMJATWHssdgW7MCJoiuDOpDU=
-X-Gm-Gg: AY/fxX51uWpT0RJZ5lz9y7oCYeNzANtnR1l/H8dsMSXZTJLDi03/G+HK5PIQcTiHbzw
-	JATPYhlfbm+o/AvyWFTmp5InHEFCYejtsiNebLIPbov/GV5m6ldvT1y/Ug6xZF2Xr8sECmyhjKC
-	xfOiuvic6M8rjhRB4+4T/FAgkOhZscKsVeguBSLbBBXpcLUI0p1/BSpI/CF4lYlAGbmInZuL45b
-	m5Eo8f0OZkSKx7Tr04vq514EICLrEEZsjjFIcfsA3paV6iD11cERWcNTZsvmnqX9wB4RpHyWeaQ
-	/pRsO7pFPvYQ6L+DBA5MEfWfobGrtDZ1jS/s3/KJhkg6UjoNCihxVnlinCBxCk4Yn7YFP91ArLk
-	jvFiGjcAsZ/k+ZB7+ttg5jS01bsw3iN8igY56bg6ALdmBQ5JE1cjZfx+vadTmVFUECvidwrsQtU
-	H69kjaO5E8QZiiFismDaJzJCXCQOjr9nt2kLcaaBAl8hInYSxarkQj/w==
-X-Google-Smtp-Source: AGHT+IG0XHPlxrZ19+Thmc35PPwHSeilDW9jn34WiJoQPAtDXf3ILNz55k3pKMcPVzcVte7yg4mphg==
-X-Received: by 2002:a17:902:ea0b:b0:297:dabf:9900 with SMTP id d9443c01a7336-29f23bde313mr144794935ad.0.1765870036820;
-        Mon, 15 Dec 2025 23:27:16 -0800 (PST)
-Received: from [192.168.10.197] (14-201-17-74.static.tpgi.com.au. [14.201.17.74])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29ee9b36a80sm155735495ad.19.2025.12.15.23.27.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Dec 2025 23:27:16 -0800 (PST)
-Message-ID: <93297eb0-1ad4-40ba-9438-ac02aa6b1d6b@linaro.org>
-Date: Tue, 16 Dec 2025 09:27:03 +0200
+	dkim=pass (2048-bit key) header.d=phytec.de header.i=@phytec.de header.b="uaBYcZmw"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bJddbskvecIKd64lQUhNZh4ekri6f4NBexWBC6bwlm22dvutZtv1ml/aL7wMeDgsV8zMkXhVRcShqK31/eZEjOONrw1COHBZheacYrX8FZinrJze5BQ0FdGxZI5csHT2KeDFESWegVBiR7OVDowiGZfdj+3gZiQHYXbweiBcljJXzNGTZU290M3CtVOywqybyWNxfwOUN+DvsJTq28aQOAOAnVrhV3O1EIu54zZ5yXsXzQvDBG4CO6QufckJVoAuinbxE1ttv5JtqwdAytjzaVKrub8mpxU4IcfDr091dC+qvG+WRvPqXHWOXinv6NDT+RBpEXeXCVdU0xD11oDWXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s6mQC/8p1BuRx0PA73t3AG02gXfuvuqmy7BYJY+6NRw=;
+ b=AjnqgOMO7em3wBvv6dzkFRAt43ofB+h3tyBW121gS7r4MrTIqXoMZkNdPpQjudgu+J/KtEW1XxjYG1yTNORPk7Jlc8bnhltF6PejJDvB66yT62lklqwIjLQd+wzzg9b4kR/G+M3ASILffEEgatqutVaXb4Ki+92JYqwsRVsjTJmnvG/Ve4KXq9mvoEzmFLj+6U8z431sRrKfXkivyxUqfVRZD8jzb/xfApBxONUhjmS5irmFID1F4puK5DBBNFZcCki0dQyF8aMoShP912EI3UxudGzwPR1/TlWlxMiKfrZ0tmPV4YBdzbdMMhK/zjmHem7LW20s707Ivv2JFDgaYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 91.26.50.189) smtp.rcpttodomain=eilabs.com smtp.mailfrom=phytec.de;
+ dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=phytec.de; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s6mQC/8p1BuRx0PA73t3AG02gXfuvuqmy7BYJY+6NRw=;
+ b=uaBYcZmwQPvhQvnqq2r/fvYTlf+vBunzLzNUvGaaWuriKK4z/KY5SZXiZV5qC95Ujyxs+yBr5qX+da6mPAUGbjc9RJslB0CJsG0ZZ/keuQrhxwDRdAAYDb64zDDshQzGpWK5ldADo2CvujMi5Qpchie9kKW988i2+PryCRDUatJFHp57qRgTUxMtFTh67ClU5cy3MqjeqvrbxGDxKodIFQ7P3SwXeZaN9in8OvPyV+qzh5iorp7qNbtn0lo2q/HcOQMSuzlT+apLt2IVzqVqMq8FWvPUuGvBdFzqjIBW+i0kSpp4y0b48euswolVn2HMIhQFx23jaMBqSjYt92R9xA==
+Received: from DU7P251CA0024.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:551::11)
+ by AM8P195MB0786.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:1e0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
+ 2025 07:39:51 +0000
+Received: from DU6PEPF0000B61F.eurprd02.prod.outlook.com
+ (2603:10a6:10:551:cafe::3b) by DU7P251CA0024.outlook.office365.com
+ (2603:10a6:10:551::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.13 via Frontend Transport; Tue,
+ 16 Dec 2025 07:39:43 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
+ smtp.mailfrom=phytec.de; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=phytec.de;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ phytec.de discourages use of 91.26.50.189 as permitted sender)
+Received: from Postix.phytec.de (91.26.50.189) by
+ DU6PEPF0000B61F.mail.protection.outlook.com (10.167.8.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9412.4 via Frontend Transport; Tue, 16 Dec 2025 07:39:51 +0000
+Received: from llp-jremmet.phytec.de (172.25.39.81) by Postix.phytec.de
+ (172.25.0.11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Tue, 16 Dec
+ 2025 08:39:50 +0100
+From: Jan Remmet <j.remmet@phytec.de>
+Subject: [PATCH v2 0/3] gpio: pca953x: Add support for TCAL6408 TCAL6416
+Date: Tue, 16 Dec 2025 08:39:32 +0100
+Message-ID: <20251216-wip-jremmet-tcal6416rtw-v2-0-6516d98a9836@phytec.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/26] Introduce meminspect
-To: Randy Dunlap <rdunlap@infradead.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, tglx@linutronix.de,
- andersson@kernel.org, pmladek@suse.com, corbet@lwn.net, david@redhat.com,
- mhocko@suse.com, linux-debuggers@vger.kernel.org,
- "kees@kernel.org" <kees@kernel.org>
-Cc: tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
- linux-arm-kernel@lists.infradead.org, linux-hardening@vger.kernel.org,
- jonechou@google.com, rostedt@goodmis.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org,
- Trilok Soni <tsoni@quicinc.com>, Kaushal Kumar <kaushalk@qti.qualcomm.com>,
- Shiraz Hashim <shashim@qti.qualcomm.com>,
- Peter Griffin <peter.griffin@linaro.org>, stephen.s.brennan@oracle.com,
- Will McVicker <willmcvicker@google.com>,
- "stefan.schmidt@linaro.org" <stefan.schmidt@linaro.org>
-References: <20251119154427.1033475-1-eugen.hristev@linaro.org>
- <bf00eec5-e9fe-41df-b758-7601815b24a0@linaro.org>
- <5903a8e1-71c6-4546-ac50-35effa078dda@infradead.org>
- <c3db6ccd-dfc7-4a6a-82b7-3d615f8cab4f@linaro.org>
- <b74aef93-9138-413a-8327-36c746d67e10@infradead.org>
- <93682055-4a6d-4098-b74f-afef735d1699@infradead.org>
-From: Eugen Hristev <eugen.hristev@linaro.org>
-Content-Language: en-US
-In-Reply-To: <93682055-4a6d-4098-b74f-afef735d1699@infradead.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALQMQWkC/3WNyw6CMBBFf4XM2jFMhfpY+R+GBW1HGSOPtA1IC
+ P9uJXHp8pzknrtAYC8c4JIt4HmUIH2XQO0ysE3dPRjFJQaVq5IUEU4y4NNz23LEaOuXLkj7OKF
+ 15MzxYE6az5DWg+e7vLfyrUrcSIi9n7ejkb7211R/myNhjlw6Q0ZrV1h7HZo5st07hmpd1w9d1
+ l3nvgAAAA==
+X-Change-ID: 20251211-wip-jremmet-tcal6416rtw-cd1db73b86e9
+To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	=?utf-8?q?Levente_R=C3=A9v=C3=A9sz?= <levente.revesz@eilabs.com>
+CC: <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+	<devicetree@vger.kernel.org>, <upstream@lists.phytec.de>, Krzysztof Kozlowski
+	<krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: Postix.phytec.de (172.25.0.11) To Postix.phytec.de
+ (172.25.0.11)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU6PEPF0000B61F:EE_|AM8P195MB0786:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1db7d65a-5ece-42ea-7e78-08de3c764c0f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|376014|7416014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?YWQ1aTNvSTFOSzBvOTB1dTdjbXRrMlJ1MFVaWFFWbVJkRC8wWXNuUlhiMkVs?=
+ =?utf-8?B?WG82TG8vcGhDdWV3L0FIQTA4M3lUNGs2S0RleFZ2eFVvTW9IUlVHYk1DcXdU?=
+ =?utf-8?B?UkYyOElCa0k4RUFCczlZOGJyM0lOQ1VnaTVZaXJ2d0t2MnVLNElWSGJFN0lZ?=
+ =?utf-8?B?R21VeStsZVAyOUp3SVRVVm56UWlTN3VsTkkwblNuNisyNnhWd2VRZmoxdjdC?=
+ =?utf-8?B?dXRua3RBNVgyNlJyK3dCUExWT2hpUVdybi9oNEYwZDRmbjd2aFhLdFFlOUtR?=
+ =?utf-8?B?c05taGRTQWV4UW1hOU4yTjh4TzhxalJvZk1iOElYNDZsSUYvMEkrZ3Z6ZkR1?=
+ =?utf-8?B?QTkvUXpoK2VjbHVGay9tTDMzTUV4em1IeDVCV25NeFYyK29IR1hPbm1DRm45?=
+ =?utf-8?B?K0gyYzZhN2dJSTAvOE9uQXdWVU00UWFQVFV3dEU0enorVHA3ZzdRUWhiZGlG?=
+ =?utf-8?B?Z3lJSU4xazhZUjFzY3dIcFdzdFNEUHhYUzdDaSsyZHV3ckJ2aFNIbUpuNDhQ?=
+ =?utf-8?B?YVgwbUwzNkMva2cwYUJCL0JoTkxjb0k2TWxrYmk2WjlycWg4OThJa05jMGl0?=
+ =?utf-8?B?OUVGRWFPR1JPYmJiQVltVmtkdEdPNTh6TjV4U25Hb0gwd0o3ek1PN1V2VkZh?=
+ =?utf-8?B?K2lrNjFic0ZmNVVkdFRvcG96dmtBcXQ0R0hNdWZtUzF3VzVxL1JIdC9NY1Y0?=
+ =?utf-8?B?WGQ1WG5Yd09FKzRKeWhUMGJxSWhUdXVWYkE3dmlaUmEyemxwMWdRMjBSOTJl?=
+ =?utf-8?B?dzVoZmx0OGpuVDd4WE1oTjh1bC9Xa0FQZnZXQnBCUzJiUm5XWDNwYkV4UEpW?=
+ =?utf-8?B?aTJQbTB1TUJOVnUvOWxnTVdsbWZxNE9GUkhvdGZ5WTY2cGk3SUUvckt3NEpT?=
+ =?utf-8?B?V2t2Z25aenI4ekNOL0tVdVlKMjhxOUQ2TktCU1JveXc2NU5MYUdiclY4OGRZ?=
+ =?utf-8?B?K2dJeXdRMEFWc21QY0txRzNYTVE3U1ZIdmlWbU5rNTJ0RmJCNllxaUpjckFI?=
+ =?utf-8?B?dUROTzBKQTZiZDdZdThXeFpHTVBTQlp2aUNXVDI2MHpKQUZZMW1NbE1BUDNM?=
+ =?utf-8?B?UXFiZDRnUElScnFzUVhoOFNEc0RpRUU5MStzR05CejlJN3R4MUcrL3FiQkVo?=
+ =?utf-8?B?LzA3NWxNckNzMkd3K0tpVkJmREltYTg0RWtSV2R0eGs0SFZkUGYxN1NQRE0y?=
+ =?utf-8?B?VVRTWmJsZTlSamZzOGVOdDZNSE14OUZZZDBEUUNqK3ZOYjNGZXdML0RqbTlh?=
+ =?utf-8?B?UmVmcnJOcGJTdlRzU0xOM0xCYzVNYWxhRjM3NjVQTW55bWhpU01IYU1FZ3R6?=
+ =?utf-8?B?cWV6b2NXb3NKRC81Skk4MDNGUElIYzY2ZStjNm1VVXBnc212dElLeE1WNW1w?=
+ =?utf-8?B?UjdObk5tekJJK1VrRUFjZ0VJdGJVbTRxK0ZDRkFLVUZGRFFVNnZobk9GeWVj?=
+ =?utf-8?B?V2ptamZla21LRU9EeHViY3lRTXp3SnJScHkxbHZZMERZZTVNN3dRUU9zSVR6?=
+ =?utf-8?B?ZmJYTXhKMXlNaUd5UkZrK3c5dlpVY0lmYnNTNHQrR0pvYng0K1ZkaC9GNjFE?=
+ =?utf-8?B?UVhMTDFzREdHK0Rwd0UwYjZuWmxZNFNNM0FlelNJaTloQmM4MzFIL1JtVkpV?=
+ =?utf-8?B?dTk0S011VGdzbHNscmlIQWJEOGI5MHFLcjU5cGQvMUtBL3FZYUhRbiswVHc4?=
+ =?utf-8?B?eEJXYVpkZUhHYnFJNXpnTk5qNGx1UG9FVm1nYXZUTTNSbWo5OUdTa2dlcUcv?=
+ =?utf-8?B?bmgvem83K1J1N3JVbzFySjRyODdnRkFVUWcwSnorU2RaODJCck00b0hpbkFr?=
+ =?utf-8?B?aksyZ2JsYzVmbi9CZERyVlY1NThXQzZFc1BaMTB0WUpxdmhFQWcyNXZqRE43?=
+ =?utf-8?B?TzZ0bkhWRFBVNWRHNEQrVE9ncHh2UkthZnJGelcvQU52bGpleWY0WXhHRUdt?=
+ =?utf-8?B?azdmRG9tMm1lalZCRjZPN3VVaUlrczlMOTFETFc4NENodmQxUFFLWGF5SDJa?=
+ =?utf-8?B?TzlSZCt0YkxOVEpUcTZxZGgxVkxBUGJ4YVkwNHZXNFBRaXhScTRGWlhxaXh2?=
+ =?utf-8?B?MWJMUkVBNHZGYnZsTGNMTElvaHM4NG95bUsxa0gxVUVwK3VzNWVscXVzMG12?=
+ =?utf-8?Q?daY43p4/gZ26pL4oxRUPZv9CQ?=
+X-Forefront-Antispam-Report:
+	CIP:91.26.50.189;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:Postix.phytec.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(7416014)(82310400026);DIR:OUT;SFP:1102;
+X-OriginatorOrg: phytec.de
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 07:39:51.2383
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1db7d65a-5ece-42ea-7e78-08de3c764c0f
+X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e609157c-80e2-446d-9be3-9c99c2399d29;Ip=[91.26.50.189];Helo=[Postix.phytec.de]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DU6PEPF0000B61F.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8P195MB0786
 
+Add two compatible. They share register layout with nxp pcal6408 and
+pcal6416
 
+Signed-off-by: Jan Remmet <j.remmet@phytec.de>
+---
+Changes in v2:
+- reordered patches to first add the used compatible.
+- Update commit message with comparison to the NXP variants
+- Link to v1: https://lore.kernel.org/r/20251212-wip-jremmet-tcal6416rtw-v1-0-e5db1b66d4cc@phytec.de
 
-On 12/16/25 09:00, Randy Dunlap wrote:
-> 
-> 
-> On 12/15/25 10:54 PM, Randy Dunlap wrote:
->>
->>
->> On 12/12/25 11:22 PM, Eugen Hristev wrote:
->>>
->>>
->>> On 12/13/25 08:57, Randy Dunlap wrote:
->>>> Hi,
->>>>
->>>> On 12/12/25 10:48 PM, Eugen Hristev wrote:
->>>>>
->>>>>
->>>>> On 11/19/25 17:44, Eugen Hristev wrote:
->>>>>> meminspect is a mechanism which allows the kernel to mark specific memory
->>>>>> areas for memory dumping or specific inspection, statistics, usage.
->>>>>> Once regions are marked, meminspect keeps an internal list with the regions
->>>>>> in a dedicated table.
->>>>>
->>>>> [...]
->>>>>
->>>>>
->>>>>> I will present this version at Plumbers conference in Tokyo on December 13th:
->>>>>> https://lpc.events/event/19/contributions/2080/
->>>>>> I am eager to discuss it there face to face.
->>>>>
->>>>> Summary of the discussions at LPC talk on Dec 13th:
->>>>>
->>>>> One main idea on the static variables annotation was to do some linker
->>>>> magic, to create a list of variables in the tree, that would be parsed
->>>>> by some script, the addresses and sizes would be then stored into the
->>>>> dedicated section at the script level, without having any C code change.
->>>>> Pros: no C code change, Cons: it would be hidden/masked from the code,
->>>>> easy to miss out, which might lead to people's variables being annotated
->>>>> without them knowing
->>>>>
->>>>> Another idea was to have variables directly stored in a dedicated
->>>>> section which would be added to the table.
->>>>> e.g. static int __attribute(section (...)) nr_irqs;
->>>>> Pros: no more meminspect section Cons: have to keep all interesting
->>>>> variables in a separate section, which might not be okay for everyone.
->>>>>
->>>>> On dynamic memory, the memblock flag marking did not receive any obvious
->>>>> NAKs.
->>>>>
->>>>> On dynamic memory that is bigger in size than one page, as the table
->>>>> entries are registered by virtual address, this would be non-contiguous
->>>>> in physical memory. How is this solved?
->>>>> -> At the moment it's left for the consumer drivers to handle this
->>>>> situation. If the region is a VA and the size > PAGE_SIZE, then the
->>>>> driver needs to handle the way it handles it. Maybe the driver that
->>>>> parses the entry needs to convert it into multiple contiguous entries,
->>>>> or just have virtual address is enough. The inspection table does not
->>>>> enforce or limit the entries to contiguous entries only.
->>>>>
->>>>> On the traverse/notifier system, the implementation did not receive any
->>>>> obvious NAKs
->>>>>
->>>>> General comments:
->>>>>
->>>>> Trilok Soni from Qualcomm mentioned they will be using this into their
->>>>> software deliveries in production.
->>>>>
->>>>> Someone suggested to have some mechanism to block specific data from
->>>>> being added to the inspection table as being sensitive non-inspectable
->>>>> data.
->>>>> [Eugen]: Still have to figure out how that could be done. Stuff is not
->>>>> being added to the table by default.
->>>>>
->>>>> Another comment was about what use case there is in mind, is this for
->>>>> servers, or for confidential computing, because each different use case
->>>>> might have different requirements, like ignoring some regions is an
->>>>> option in one case, but bloating the table in another case might not be
->>>>> fine.
->>>>> [Eugen]: The meminspect scenario should cover all cases and not be too
->>>>> specific. If it is generic enough and customizable enough to care for
->>>>> everyone's needs then I consider it being a success. It should not
->>>>> specialize in neither of these two different cases, but rather be
->>>>> tailored by each use case to provide the mandatory requirements for that
->>>>> case.
->>>>>
->>>>> Another comment mentioned that this usecase does not apply to many
->>>>> people due to firmware or specific hardware needed.
->>>>> [Eugen]: one interesting proposed usecase is to have a pstore
->>>>> driver/implementation that would traverse the inspection table at panic
->>>>> handler time, then gather data from there to store in the pstore
->>>>> (ramoops, mtdoops or whatever backend) and have it available to the
->>>>> userspace after reboot. This would be a nice use case that does not
->>>>> require firmware nor specific hardware, just pstore backend support.
->>>>>
->>>>> Ending note was whether this implementation is going in a good direction
->>>>> and what would be the way to having it moving upstream.
->>>>>
->>>>> Thanks everyone who attended and came up with ideas and comments.
->>>>> There are a few comments which I may have missed, so please feel free to
->>>>> reply to this email to start a discussion thread on the topic you are
->>>>> interested in.
->>>>>
->>>>> Eugen
->>>>>
->>>>
->>>> Maybe you or someone else has already mentioned this. If so, sorry I missed it.
->>>>
->>>> How does this compare or contrast to VMCOREINFO?
->>>>
->>>> thanks.
->>>
->>> This inspection table could be created in an VMCOREINFO way, the patch
->>> series here[1] is something that would fit it best .
->>>
->>> The drawbacks are :
->>> some static variables have to be registered to VMCOREINFO in their file
->>> of residence. This means including vmcoreinfo header and adding
->>> functions/code there, and everywhere that would be needed , or , the
->>> variables have to be un-static'ed , which is a no-go.
->>> This received more negative opinions on that particular patch series.
->>> The annotation idea seemed cleaner and simpler, and more generic.
->>>
->>> We could add more and more entries to the vmcoreinfo table, but that
->>> would mean expanding it a lot, which it would maybe defy its purpose,
->>> and be getting too big, especially for the cases where custom drivers
->>> would like to register data.
->>>
->>> How I see it, is that maybe the vmcoreinfo init function, could also
->>> parse the inspection table and create more entries if that is needed.
->>> So somehow memory inspection is a superset or generalization , while
->>> VMCOREINFO is a more particular use case that would fit here.
->>>
->>> Do you think of some better way to integrate the meminspect table into
->>> VMCOREINFO ?
->>
->> No, I just wanted to make sure that you or someone had looked into that.
->> Thanks for your summary.
-> 
-> Although you copied Stephen Brennan on this, I think it would be a good idea
-> to copy the linux-debuggers@vger.kernel.org mailing list also to see if
-> there are any other comments about it. [now done]
+---
+Jan Remmet (3):
+      Documentation: gpio: add TCAL6408 and TCAL6416
+      dt-bindings: gpio: gpio-pca95xx: Add tcal6408 and tcal6416
+      gpio: pca953x: Add support for TCAL6408 TCAL6416
 
-Thanks . I copied Stephen because we had a discussion at LPC at his talk
-and he also attended my talk.
+ Documentation/devicetree/bindings/gpio/gpio-pca95xx.yaml |  2 ++
+ Documentation/driver-api/gpio/pca953x.rst                | 12 ++++++++++++
+ drivers/gpio/Kconfig                                     |  4 ++--
+ drivers/gpio/gpio-pca953x.c                              |  6 ++++++
+ 4 files changed, 22 insertions(+), 2 deletions(-)
+---
+base-commit: d358e5254674b70f34c847715ca509e46eb81e6f
+change-id: 20251211-wip-jremmet-tcal6416rtw-cd1db73b86e9
 
-I also had a nice talk with Kees Cook and he was very interested in
-having pstore as a backend for meminspect. (copied now as well)
-
-> 
->>> [1]
->>> https://lore.kernel.org/all/20250912150855.2901211-1-eugen.hristev@linaro.org/
->>
-> 
+Best regards,
+-- 
+Jan Remmet <j.remmet@phytec.de>
 
