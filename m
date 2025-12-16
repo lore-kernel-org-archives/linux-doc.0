@@ -1,110 +1,405 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013031.outbound.protection.outlook.com [40.93.201.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB6733C197
-	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 14:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765896121; cv=none; b=Nt/SVYrw59I/74NuBL/spQtwlB/JGKUAY/Pug5n34Xt7PFGpDe1Pihps+F/t4sdupD1uxfM3vcwXnKYvgUmEnCXpqqLnCYy4cyyl/9mnoRxCBNjTDwzBsx9r142RwWgsUnYYXlNOqLtmQNkNNoxpwBBw+cv/Qn5Z5n55DVrBCGY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765896121; c=relaxed/simple;
-	bh=bRJifwBpOn5/UKOhHLvWKxzpriP409m/28t9c1F6o0w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AY5D8yPrXC/y9NS4rs4t16gcHcVSSGytqZjK4CXjOpKWoz0YFTA/Z5IIUOfeYCJUYs5dougAm/GeLOSWpmW53SYAwwRhWmS4Idn6q1DNsxdy6+s0jNPAA67/rhlROXj7n//SihzSIJVAM+e3f5Aqu9OEQF4+R3CxVKi+BfC68NY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GLhWudYE; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=WsIX3RdC; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E89932FA36;
+	Tue, 16 Dec 2025 14:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765896309; cv=fail; b=jap2OyBCbhKeq7BLP3AcCS5NEcjEIOFLdJ3sdeMRc7LRqxolWgH+NxDDCC2h40Cud2ncuZdpWoOfSrJWV/V7GQSmwwREm1MfxgEK7E0XrTXWeL0xgyajJusQ+Ajrd43pF+06wf2sxb6c2Tgn9bYRmdBwizZEfz645wvqD4QViVE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765896309; c=relaxed/simple;
+	bh=CMHwdqwlbQkV1voLpwlcpPrCj+Joi3Ih62L+uX5JXQE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UqDZZEdfmR+JE8HNsZQaBWHUg/x1wF1xQcRJ/79Rl5kgBwfGgSPlbp/cDDxLgliQcYdPDnBROGVO8gWzmZJRn20Wf+2MywUw5EApecm/zkOiSjutoi9urDHmhHbB5OYCTNkvz0tS2kgbn2lJWUK05cOqJ15CLBIZSdRPn/v8IbM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wS/31a0l; arc=fail smtp.client-ip=40.93.201.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GLhWudYE";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="WsIX3RdC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1765896119;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bRJifwBpOn5/UKOhHLvWKxzpriP409m/28t9c1F6o0w=;
-	b=GLhWudYELxR7Dxqs422+Xf3v4E2Hik68hkLxsLEYYlF9e5Ny3yD+RtmMfrL3boZw9Fq/sT
-	OwP1XF6mSH/534en/VMtCyKJ73pOYbAraw2FUoVU9taqxXhokGU3JbxWOCaYfArOxMJwUA
-	/f3cokAkAaq6kTgSLAuwNoMywaYesNo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-573-MDbMtqw5NwGk94hfRX4IBQ-1; Tue, 16 Dec 2025 09:41:58 -0500
-X-MC-Unique: MDbMtqw5NwGk94hfRX4IBQ-1
-X-Mimecast-MFC-AGG-ID: MDbMtqw5NwGk94hfRX4IBQ_1765896117
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4775e00b16fso32959085e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 06:41:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1765896117; x=1766500917; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bRJifwBpOn5/UKOhHLvWKxzpriP409m/28t9c1F6o0w=;
-        b=WsIX3RdCZ+46s66Vf9dwj+aBeZbWVqhSD21mQ5MQQnEatqkFcLfwRFqQ4xPtiw636D
-         8A2zm/Km9Ug/EWLT8fFbg+GFIbgCrpQXipAPak+R69/tkj6yBitEotb5Yd8OyH8/w+uV
-         nDk01QmvS2f9d/kUEvzGdQqdkJu15FfYCyJiPLAZLIk/OkCTGNE2YvUR6YIBfAt65Gml
-         GuWTLAxtgsGvb7Jo6fNyF1sSqFn2Bs38hBVwmGA7VmcHvm76xExapYPHzz+O1h1oM1/B
-         5RLrsJbOqIjPIj7Ys0ySF11J6B0L/M2+8iCxe5dLDfoo1M+jLTC7jY0KJVaw4I2tk/vw
-         ATTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765896117; x=1766500917;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bRJifwBpOn5/UKOhHLvWKxzpriP409m/28t9c1F6o0w=;
-        b=LWD00HcJAlcj/MTHqYIf7eaeCyGi+J/Zidx3OLR7PrivzvSieMcWT5O7zPCbLE2Zck
-         m3tN/sJGh4VfsvY67AtG3wKqnina1sbuLk+RkWgvXTyVPVF/N7Rsj8hgaQbk76n5yW2d
-         5rqlNhkagDHsHx8AZ619HydwsvfGMkgTWbqHybbQCtws0cT2CpAW6estlAwr3KAXcI72
-         JVoYeO1MOJfCg9wtwZvyCh/++UlATEuUFwgH3y8dEitGnB0XENLlRlka3kAK2qAEvLMC
-         MC00FcJ97D09J8qgXlhbIuTnWOC5f0Q2eud/ZIdhUcaHKELgHXqCkm+dFIoMCrLci2+F
-         ZBAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVXpgNEIkaazkJxAPalUMP4LrZmxv+ghp1WtM5qVqFuxLsiKmfZdoTIqH3ILwpKdaQiI6c1GHMW36g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0JL4JBpuDiALXto2oGgFhwAzQgWYj4BNlV0oAX3SB0ydmCs50
-	Cyj9aZNAhsC8wjQdVkp95yOJqz+89YYQAGU0QagP6wx+Sdn7d5rkMTQMBen+gmUKWghHHOuP/BI
-	4OUrmCLze1RoMEBQ2Hzvh+1K/+VpwFDk4L+LXGLGhsXxmnwUmzpwEGbO5Vmh+5Q==
-X-Gm-Gg: AY/fxX6kvBG7FG3RMLlmpiVG9EbHqCHjVUSyXOC8p2Skf8Rc09YRY/3EIS1hyYGxlkh
-	GrDGgA9vemqlExJLvxxcbOczo1NfmPK9Svq+PYULz4sBSeu6IZFFoVS24MxrAHiwqapvWGBkmOB
-	fYQWeUeT+yBvcr+FMm9Zx9jDWDacTqHlmivIeX3m3Zfd4u6LyyrtVj2aDeE+86h9LYFUfEx/LhV
-	YnkarhwJEIyRv1yY7D57+nlWxIE/pktph26i6oYVnp1jY3+20lUkrQAm+/0cgf9NZaPKMq3Zjli
-	PGrNiNG5gl6lzuivpUHkRDgYqd3bZ8KKv+jEAfK2oQiJ4kjKewtSV/9R90lybIYOBnH4XBaKB3a
-	nN5bPFTaewPkrSmfWTH0RwpkxFC8b6lDboQgLxDkx2Xuhvw9CgVNSdHVpuQ==
-X-Received: by 2002:a05:600c:4e91:b0:477:641a:1402 with SMTP id 5b1f17b1804b1-47a8f8ab745mr153358945e9.4.1765896117025;
-        Tue, 16 Dec 2025 06:41:57 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHCHHUOLaChiULrMNPkPpFyOPs7hl3Y2G80tSl6Je//NwD5E5/AOJ5UHYUTERMFN0KxTwrq0A==
-X-Received: by 2002:a05:600c:4e91:b0:477:641a:1402 with SMTP id 5b1f17b1804b1-47a8f8ab745mr153358715e9.4.1765896116595;
-        Tue, 16 Dec 2025 06:41:56 -0800 (PST)
-Received: from air.bos2.lab (IGLD-80-230-108-89.inter.net.il. [80.230.108.89])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fbc6e3392sm24205212f8f.13.2025.12.16.06.41.55
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 16 Dec 2025 06:41:56 -0800 (PST)
-From: Vitaly Grinberg <vgrinber@redhat.com>
-To: grzegorz.nitka@intel.com
-Cc: aleksandr.loktionov@intel.com,
-	anthony.l.nguyen@intel.com,
-	arkadiusz.kubalewski@intel.com,
-	horms@kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	pmenzel@molgen.mpg.de,
-	przemyslaw.kitszel@intel.com
-Subject: Re:[Intel-wired-lan] [PATCH v5 iwl-next] ice: add support for unmanaged DPLL on E830 NIC
-Date: Tue, 16 Dec 2025 16:41:54 +0200
-Message-ID: <20251216144154.15172-1-vgrinber@redhat.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20251120105208.2291441-1-grzegorz.nitka@intel.com>
-References: <20251120105208.2291441-1-grzegorz.nitka@intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wS/31a0l"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bskWTsMUhmwhetF7A3Fjp+wpS/OglP9DKxWu6u9yxpKfuvPjh2HKDYbXQIlb6tjfXHakeOTTu5m8ek4eAHQZ3uHURddLBgwPAhe7O3H7uWzZiHqxlsSzlBIPYV8+dEDZYja74BHJcufse+UKg75q41IlKmycJGnjFbZ8D6IFnnKwS4t9TxF4KDQcSBIUi/p0e5HJw8nwUH02BDFXMII4uJgkKCcxM2CfPHrZfXotSszQsDO4R0YhViv1k1A2eeHP7OyiVxREYjQafWGDFIXfLqvB+TFwa5yWNPiSJWcwnxEqzseWJ6vFjkkMnhWdyC37E5xKb3+ckQ+yXTCo+i3JmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KaY0vblB7bEqq5kCZbmVgHRxDFX2+UEQMP6CNkErEgk=;
+ b=Ym3eN+M1vrd89HmJ5oyawg1wWaEnI/40GwXgEviR5psA/d51fCeCPpXsygpj7IVupnQTHUDGXs0nS9AmMprIhDzC8eeNoHD3iBfnjO2dsUWeBg3eK17zIRSEvcHN46L/U+iBeM18kYx9bD4YCA4FmLDhtxS58dGxa9+/zIM/f7r8vr7lOizAZjNJyGy2X7GfQvWoidJUFDE141jSaZTQgBxIZcLiqJKHbNCYltbCTlp24XlEJXDeNOFAGdM4w76TKDx9sSyB1ByhCon8LPDFxHfPs1hYun1bd9QdOa5uVgrfslsUPWe/2Xbnps38GYH7/R82BTTu8uf5MQhouA6okg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KaY0vblB7bEqq5kCZbmVgHRxDFX2+UEQMP6CNkErEgk=;
+ b=wS/31a0lnihtHEgfesGK4MX4gJFeizclS3eHE7nJg5N2jNRZ2SAE2Zo/fCEiQ6LhhyQz77btEdk82HIWcJBgjy+Ktb7b/BYzAP7fev/tGWWTxqV7Lgk/nyF1UBGC5MotpCK8DA5SOYujbUPDbP12D++qVbug16M0+Wr3ujVVdBk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB7091.namprd12.prod.outlook.com (2603:10b6:806:2d5::17)
+ by DS0PR12MB7928.namprd12.prod.outlook.com (2603:10b6:8:14c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
+ 2025 14:45:01 +0000
+Received: from SA0PR12MB7091.namprd12.prod.outlook.com
+ ([fe80::d759:a62b:f8ba:461d]) by SA0PR12MB7091.namprd12.prod.outlook.com
+ ([fe80::d759:a62b:f8ba:461d%4]) with mapi id 15.20.9412.011; Tue, 16 Dec 2025
+ 14:45:00 +0000
+Message-ID: <6c83cbdf-e5a6-4443-a642-d1e7b6786945@amd.com>
+Date: Tue, 16 Dec 2025 20:14:53 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/5] drm/amdgpu: add UMA allocation interfaces to sysfs
+To: Mario Limonciello <superm1@kernel.org>,
+ "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ "Tsao, Anson" <anson.tsao@amd.com>
+References: <20251212-vram-carveout-tuning-for-upstream-v6-0-50c02fd180c9@amd.com>
+ <20251212-vram-carveout-tuning-for-upstream-v6-4-50c02fd180c9@amd.com>
+ <1d54ce3b-fbdb-4d1a-bd07-576a6ed85ea5@amd.com>
+ <ea30058d-f3e1-4a1f-bdcf-fafc92b221a0@kernel.org>
+Content-Language: en-US
+From: "Lazar, Lijo" <lijo.lazar@amd.com>
+In-Reply-To: <ea30058d-f3e1-4a1f-bdcf-fafc92b221a0@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA0PR01CA0025.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:b8::13) To SA0PR12MB7091.namprd12.prod.outlook.com
+ (2603:10b6:806:2d5::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA0PR12MB7091:EE_|DS0PR12MB7928:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7fa6bbc2-f606-4a48-8aab-08de3cb1b0b5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?d3RYT3FteEVlcTlqdDdKY1FIcEFhS0l2cXhOTXJkRk5QdWl5VU5OK1gycHhH?=
+ =?utf-8?B?bEt2VkdKUlBIUDZETTYveFhOeUFQMmRsVXhXZU1FS2RvOVFMRkFEU1BWTjRy?=
+ =?utf-8?B?RUJZT3lWY0NDaCt1dlZSTTlBTU92b0Q4dmpXV2xUSDM5bDV4S215V1RYbklR?=
+ =?utf-8?B?MHZYeDlVSHdGYUVQajJZS3czK0t4alpMMzAxMUJlM0tRSTFzTENMbzhEU3lF?=
+ =?utf-8?B?RzNWeEwwMHg3MGpVbHN5eXBWVHM2T3VHdjRXa1VOekdoNk1HRURxNmdqekZX?=
+ =?utf-8?B?dmFGczJybTZYS0E2VEh5NnY2UkI0dlJnVzludjBDd2tnU096ZDNXYVN0ZDlV?=
+ =?utf-8?B?bXIyQkxwbXlEUlBwVHdFVFZYcElXRVNkU2VCdG1HOTZKaGRLWEdpamc1WVhG?=
+ =?utf-8?B?L2NtaU1HOWVhMDlhLzJ4WE1mV2gwRFJrdE1pc0VYYlgrRW9qL2JvUktJK0tk?=
+ =?utf-8?B?Zm1jQ3BmZ2ROSjY3RXdsOHhVTEJwOXV1d0JjM084WlpMRGxWQUxEdEZZNWxa?=
+ =?utf-8?B?UVRkTEJEQStlWHY5L2lwV25VeS9wL3AvSXJUQyttbC9LbllQMWVsM3VtbmRY?=
+ =?utf-8?B?MFJPYjY0SURJbFhxZVRHYlNnNGlGK2ZVN2IwRWIwbjhhNVNhVWhKR1FzR3B3?=
+ =?utf-8?B?Vi8xRHE5M0ZabHg0U3kybVkzdjhhRGhmQmRtVjRoODJ1WjFqUmZOVUtqeThj?=
+ =?utf-8?B?WlBvTnlsMnpRSnpmc1dKN0pmT3NpZytvZTNhWGlIam9lbXl1VzAwR2JoS0M3?=
+ =?utf-8?B?RzZMcnVuRk5ZQTlLOTA2Y2JObkFPMm13SFJNMWhTbEN1OHZkbjhrQVZieG9l?=
+ =?utf-8?B?eU9UZVgrNW91TzBFeHpyU0E0dHNYQm9rMVlHS0ZvU2pDMkl5YVlIK24zL3Z2?=
+ =?utf-8?B?dXZnU2cxQVRMcDhrQjJoQS9xWmpyRkFZZXVjRC82bGdlb2k0YWxFbzBHVnAx?=
+ =?utf-8?B?T1NWT3ZCeHpZMWRHWlhOU0UyNnNTSmx1dCtHZ1pHVzFDSVBTTDJOZ05yUWgz?=
+ =?utf-8?B?M0JVLzliRk0yL05jbUY2OFRNckR3cEZPeHdSelpRSUd0TGhweTdRZUlvNFpT?=
+ =?utf-8?B?RzdueTJER1puVFNadXI4OExsd2lWbnU4R3RadTFaLzZhaEU3OXRnUjZBaFlo?=
+ =?utf-8?B?WFRhUkw3TUdpRnBMdmY5NjhQWDhkbjVBaTR1aFJQRU9WN1FlN2JaVVNESnA1?=
+ =?utf-8?B?M0tWVHdJWDlLVlRuSUcrWXVER1hERkF3OFhaSkZHNU8yTE5yV1NRMDcrTFky?=
+ =?utf-8?B?ckRpakJKd1pDSzFLMG16Q1VsL295VndqNTlaN2loOFVUL2NGZ3IzT2FYd0lG?=
+ =?utf-8?B?UGtRaEVFSHBYVjM3SFMxdWJ1QUVmbWZZcGtrNTZpUzVmWFNYZWVxN2NQRXdU?=
+ =?utf-8?B?bVJRc0VDSkpMVzJkK25oS0NEN0RTN21KaHlkTHNnSUQ0M0dhaDkrNVFldEs3?=
+ =?utf-8?B?Mm9FSGd4V0VYeTRvRnRxakI1REVrVzdpK0ZNY211RG8zNS9JL1BSRTNtUWZo?=
+ =?utf-8?B?eEkxV01SbFBYdFhRRDRLU3ZLVkl2eGdneEFLeHRhMi9BTUVHeGMycWxKd1g4?=
+ =?utf-8?B?cCs5OXoyZnVHbEZ2QVlncFhVOTN5UlJHRndvWm1DYjNsblJsa0tFZmhiZ011?=
+ =?utf-8?B?V2FJQjY3aDdzdms4ay9LYWZ5TTB1aWF6RE96dkdEQlFKeEJPWTV2WnRueXBy?=
+ =?utf-8?B?NmZtazI0VUdEdGZVanV6ME5BZjc1K01uL1BHdmF6NThSdWRLRGE5VmF2M2dE?=
+ =?utf-8?B?dzFWUGJOTFdVY1VlaExyQy9IdWI2azFlYmZDOGZNKzJnZ1VYOGQzMDNMaFhP?=
+ =?utf-8?B?eUQ5YWpyZjJRaWZFamJDVlZBSU9WcFRyNnN5N0c3Q0RUR2pZUVNWVUY4UFJ0?=
+ =?utf-8?B?dVMveHNuN0p2eldzN0FkMUNPTmtoSjdzbndRUnVRRDAwaFZzQTIrTU0xNTYw?=
+ =?utf-8?B?MlVKTmhNdGkraDV2cWE1VElMZ21NYlRPR0dTZnMvd0FQRUVVQ0hObjBCVDBH?=
+ =?utf-8?Q?kjiXK2Fstb5QAEYyNLUilGAG8mdBs0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB7091.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QVR5bXQ1cTUzdStySWcyZ2g1dk5COWkxcGYwS0pZTHppM3UxNkVRcldiTjQ2?=
+ =?utf-8?B?V0h0UVlFZnA4ZmZka05xQkNoeGlIOWd6OW5yZHBtNWFrUHFnSjBld1ZFNllu?=
+ =?utf-8?B?YzRabVhPa29sWXRHbXBLdWlFNzlPdFZrS2ZpMHZsL0M0MTdCRjZvNHFNUVly?=
+ =?utf-8?B?Z3ZDYUtDWWhqamppVWhLaTRCSnFUZmRjWXZjT1plVUNhU29sNVhuVzRqSWF1?=
+ =?utf-8?B?Z0t4SmRJeEg3c1p3TWZ3SGNOYzNud0wxM01RdDMwb0Rta1Zic1VPdC83TmZS?=
+ =?utf-8?B?UVg0MGZZdEdwSWszU04zd3gvVldQdGYvTEJJamwvQUJXUjMySTBvNGJlUElK?=
+ =?utf-8?B?NnpWM0labE5NbUttQXlVUUYrY09hYWhHeDZQTmlvN2VEdGpCZk1xSUlaZTVG?=
+ =?utf-8?B?MkNNYnJqaVRITTNEb1FIRkE5dDVXb1k5T3BITkFGRStaWURtVFhTdzgzdWZ2?=
+ =?utf-8?B?b1lNQjlFNVdoc3ZxZVlDUDdncThzcXdvbmIwSDMwSUpyaDhJQjVUL2NlNlpR?=
+ =?utf-8?B?eEhEaDBNd2VmZHlaSGhYZlhNb2E3YjVibXJHMUtOMmpzaG1MV0gwanpMM1Ru?=
+ =?utf-8?B?K1lrVTNodkE2M1lraTRCZGdOL3F2UlV6cG5VODd5bFVjZUkvRGhLOUhRS3Q0?=
+ =?utf-8?B?S2hxNFE4b0dSMUhvVjZ3aU95QUxMVHNXWVJXU3A1Y3dIQmNwS21EZkpZbUdH?=
+ =?utf-8?B?d3hHWFoxTXAxMUVHYXZVOVJvQzd3eDRpK3JYSVlGU3lmZjNEMndXS2FrT3hw?=
+ =?utf-8?B?Q3pqelE2SCtndkFmY2FocUZ0TlFDeFNMRHFZN3ZzMEdOcjgvZHpmTzJWZmNQ?=
+ =?utf-8?B?ZzhjZDZyOUcrNGxzc200SkJqUXlQVHEwdDdHTGMwZlBUUHpSWi9Ra0llUDZk?=
+ =?utf-8?B?cldHQ3NxTTRvbUNIdW1TVzFLTzJ0aFo0ZFp0UWJVdHY2cGIwL28xenhGamJr?=
+ =?utf-8?B?SVZZV0JPc0FBZmdHOWV5Z0VoZlpFY2N5MTdKTEpFNERzS1FmeW9PSTMrNmMx?=
+ =?utf-8?B?cWh3UW1TT0Jjd3BER2ZJWlFmM3liUE5sZzZMZDl1TlpzY05iZXA3emNHYkRO?=
+ =?utf-8?B?TG9qSVphVktzb3RSeUdKc1lrYkxnRXVNcHM5MytVNURRbG5rVWx2K096N0xz?=
+ =?utf-8?B?ekMzSzBXR1VWUnhYR2d4NFdrVVg5djY3c0h2NFdXbk14bFduYk5UWE5pYjZZ?=
+ =?utf-8?B?Y1dOekJNaGsrZXN5a2htYVBqK3JwSzQ3ZkxoNHd0MWVSREwrdXMrTmNuRFJZ?=
+ =?utf-8?B?WXhpa3FoS0srUnZQbEpIV2theW4rdmNZUVdveXZsbXpwc0NVazBBTFM2T2Zy?=
+ =?utf-8?B?cG1hS0RyUzdQeU5CZFp3Qk5wczBGaW5vcG9hcUxKMUNlcldKeldGbkwvelhz?=
+ =?utf-8?B?MUs3citYYmM4U3Q4MmVCOEpacG0vU29CZ3JucHdUc0U4OFdDWlN6eFZDNEJv?=
+ =?utf-8?B?dnBDVnM2eFcxaGxmMzM1VWxqZk9BYlJrQzlrWjEwOEgvTFJHWHRlaWRSWUw3?=
+ =?utf-8?B?QzkrTWE0ank3bDk5OG1lb01PNWRxbnYzbXMzRHc4Z1Q1NTVnSUdURmhhY3NJ?=
+ =?utf-8?B?RUh5UGpjdmk0dU9oWkNGTXRoTTBScEhMZzRjckZDdFFPbHpJbnNNUnV4MU50?=
+ =?utf-8?B?cXg4R0liOGJpOWFCdHNhalh4blFXV2RWQTFtV0lFTjJhY2c5L3dRN1E4LzN1?=
+ =?utf-8?B?NUlXMW0zVGN6TlpJOFZxTnFidk9tYXZDblJRZlpBUjBvOWl6UVQxbmZQOWFt?=
+ =?utf-8?B?MU80aXZJL2J2eTFOTWVUbkNCUXY5UjEyb21uNStlVTdGRW4vT2hXUVpDZ2lI?=
+ =?utf-8?B?Tm8xM2J0Z3NSQjVLWGtlSG5DSVBBYlg0VXRSSHFvSVl4SjRVekNEWEpQcHYx?=
+ =?utf-8?B?U0ZocllWT2RNY1dZVHlEakhPczZPQTdLMDh1UjFrMHNxdUZHVHZSUDVCVjBJ?=
+ =?utf-8?B?TlE3U1ZLOHFBOGtiN2FvdTRuRFBZTnZxM2JRM0xJVElJTkszTVpweHd2UlZU?=
+ =?utf-8?B?S3RUd1pQYm9RaGR0UHYweit6NXFOQktrRFJodGF6VnVyeTl2K2tYb1hkR3hk?=
+ =?utf-8?B?Z3huaDFCL1NtckxaTGkyNGc5Rk1lSlgwemJoRUdaalNDcE90b2FJbEMxUG56?=
+ =?utf-8?Q?gls/9C+2lizq5KtAbDToiZ+4x?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fa6bbc2-f606-4a48-8aab-08de3cb1b0b5
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB7091.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 14:45:00.8691
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XHcTjsInk+Ss5jSWDe/fudm4MEhpU4B13KIy9oDAQ8e383W2vFSA/6BgLwxqG9J6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7928
 
-Will a notification be provided when the lock is re-acquired?
 
-Another concern is the absence of periodical pin notifications. With the E810, users received the active pin notifications every 1 second. However, the unmanaged DPLL appears to lack this functionality. User implementations currently rely on these periodical notifications to derive the overall clock state, metrics and events from the phase offset. It seems that unmanaged DPLL users will be forced to support two distinct types of DPLLs: one that sends periodical pin notifications and one that does not. Crucially, this difference does not appear to be reflected in the device capabilities, meaning users cannot know in advance whether to expect these notifications.
+
+On 16-Dec-25 7:38 PM, Mario Limonciello wrote:
+> On 12/16/25 3:43 AM, Lazar, Lijo wrote:
+>>
+>>
+>> On 12-Dec-25 1:29 PM, Yo-Jung Leo Lin (AMD) wrote:
+>>> Add a uma/ directory containing two sysfs files as interfaces to
+>>> inspect or change UMA carveout size. These files are:
+>>>
+>>> - uma/carveout_options: a read-only file listing all the available
+>>>    UMA allocation options and their index.
+>>>
+>>> - uma/carveout: a file that is both readable and writable. On read,
+>>>    it shows the index of the current setting. Writing a valid index
+>>>    into this file allows users to change the UMA carveout size to that
+>>>    option on the next boot.
+>>>
+>>> Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>>> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>>> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+>>> Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 143 ++++++++++++++++++ 
+>>> + ++++++++++
+>>>   1 file changed, 143 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/ 
+>>> gpu/ drm/amd/amdgpu/amdgpu_device.c
+>>> index 903c4706040d..e78e6982312c 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>> @@ -36,6 +36,7 @@
+>>>   #include <linux/pci.h>
+>>>   #include <linux/pci-p2pdma.h>
+>>>   #include <linux/apple-gmux.h>
+>>> +#include <linux/nospec.h>
+>>>   #include <drm/drm_atomic_helper.h>
+>>>   #include <drm/drm_client_event.h>
+>>> @@ -417,6 +418,146 @@ static const struct attribute_group 
+>>> amdgpu_board_attrs_group = {
+>>>       .is_visible = amdgpu_board_attrs_is_visible
+>>>   };
+>>> +static ssize_t carveout_options_show(struct device *dev,
+>>> +                     struct device_attribute *attr,
+>>> +                     char *buf)
+>>> +{
+>>> +    struct drm_device *ddev = dev_get_drvdata(dev);
+>>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
+>>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
+>>> +    uint32_t memory_carved;
+>>> +    ssize_t size = 0;
+>>> +
+>>> +    if (!uma_info || !uma_info->num_entries)
+>>> +        return -ENODEV;
+>>> +
+>>> +    for (int i = 0; i < uma_info->num_entries; i++) {
+>>> +        memory_carved = uma_info->entries[i].memory_carved_mb;
+>>> +        if (memory_carved >= SZ_1G/SZ_1M) {
+>>> +            size += sysfs_emit_at(buf, size, "%d: %s (%u GB)\n",
+>>> +                          i,
+>>> +                          uma_info->entries[i].name,
+>>> +                          memory_carved >> 10);
+>>> +        } else {
+>>> +            size += sysfs_emit_at(buf, size, "%d: %s (%u MB)\n",
+>>> +                          i,
+>>> +                          uma_info->entries[i].name,
+>>> +                          memory_carved);
+>>> +        }
+>>> +    }
+>>> +
+>>> +    return size;
+>>> +}
+>>> +static DEVICE_ATTR_RO(carveout_options);
+>>> +
+>>> +static ssize_t carveout_show(struct device *dev,
+>>> +                 struct device_attribute *attr,
+>>> +                 char *buf)
+>>> +{
+>>> +    struct drm_device *ddev = dev_get_drvdata(dev);
+>>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
+>>> +
+>>> +    return sysfs_emit(buf, "%u\n", adev->uma_info.uma_option_index);
+>>
+>> It would be better to show the size along with the index.
+> 
+> This idea complicates userspace parsing because rather than a atoi() 
+> parser you now need to do sscanf().
+> 
+> IE - I like it the way it is in the series at the moment.
+> 
+
+Userspace already has to go through this for carveout_options parsing. 
+It does not make any difference :)
+
+I was thinking of an easier way without cross reference. It would be 
+better even if you put the actual carve out size instead of an index 
+(assuming carve out size is deterministic).
+
+Thanks,
+Lijo
+
+
+>>
+>> Regardless, series is -
+>>
+>>      Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+>>
+>> Thanks,
+>> Lijo
+>>
+>>> +}
+>>> +
+>>> +static ssize_t carveout_store(struct device *dev,
+>>> +                  struct device_attribute *attr,
+>>> +                  const char *buf, size_t count)
+>>> +{
+>>> +    struct drm_device *ddev = dev_get_drvdata(dev);
+>>> +    struct amdgpu_device *adev = drm_to_adev(ddev);
+>>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
+>>> +    struct amdgpu_uma_carveout_option *opt;
+>>> +    unsigned long val;
+>>> +    uint8_t flags;
+>>> +    int r;
+>>> +
+>>> +    r = kstrtoul(buf, 10, &val);
+>>> +    if (r)
+>>> +        return r;
+>>> +
+>>> +    if (val >= uma_info->num_entries)
+>>> +        return -EINVAL;
+>>> +
+>>> +    val = array_index_nospec(val, uma_info->num_entries);
+>>> +    opt = &uma_info->entries[val];
+>>> +
+>>> +    if (!(opt->flags & AMDGPU_UMA_FLAG_AUTO) &&
+>>> +        !(opt->flags & AMDGPU_UMA_FLAG_CUSTOM)) {
+>>> +        drm_err_once(ddev, "Option %lu not supported due to lack of 
+>>> Custom/Auto flag", val);
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +    flags = opt->flags;
+>>> +    flags &= ~((flags & AMDGPU_UMA_FLAG_AUTO) >> 1);
+>>> +
+>>> +    guard(mutex)(&uma_info->update_lock);
+>>> +
+>>> +    r = amdgpu_acpi_set_uma_allocation_size(adev, val, flags);
+>>> +    if (r)
+>>> +        return r;
+>>> +
+>>> +    uma_info->uma_option_index = val;
+>>> +
+>>> +    return count;
+>>> +}
+>>> +static DEVICE_ATTR_RW(carveout);
+>>> +
+>>> +static struct attribute *amdgpu_uma_attrs[] = {
+>>> +    &dev_attr_carveout.attr,
+>>> +    &dev_attr_carveout_options.attr,
+>>> +    NULL
+>>> +};
+>>> +
+>>> +const struct attribute_group amdgpu_uma_attr_group = {
+>>> +    .name = "uma",
+>>> +    .attrs = amdgpu_uma_attrs
+>>> +};
+>>> +
+>>> +static void amdgpu_uma_sysfs_init(struct amdgpu_device *adev)
+>>> +{
+>>> +    int rc;
+>>> +
+>>> +    if (!(adev->flags & AMD_IS_APU))
+>>> +        return;
+>>> +
+>>> +    if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
+>>> +        return;
+>>> +
+>>> +    rc = amdgpu_atomfirmware_get_uma_carveout_info(adev, &adev- 
+>>> >uma_info);
+>>> +    if (rc) {
+>>> +        drm_dbg(adev_to_drm(adev),
+>>> +            "Failed to parse UMA carveout info from VBIOS: %d\n", rc);
+>>> +        goto out_info;
+>>> +    }
+>>> +
+>>> +    mutex_init(&adev->uma_info.update_lock);
+>>> +
+>>> +    rc = devm_device_add_group(adev->dev, &amdgpu_uma_attr_group);
+>>> +    if (rc) {
+>>> +        drm_dbg(adev_to_drm(adev), "Failed to add UMA carveout sysfs 
+>>> interfaces %d\n", rc);
+>>> +        goto out_attr;
+>>> +    }
+>>> +
+>>> +    return;
+>>> +
+>>> +out_attr:
+>>> +    mutex_destroy(&adev->uma_info.update_lock);
+>>> +out_info:
+>>> +    return;
+>>> +}
+>>> +
+>>> +static void amdgpu_uma_sysfs_fini(struct amdgpu_device *adev)
+>>> +{
+>>> +    struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
+>>> +
+>>> +    if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
+>>> +        return;
+>>> +
+>>> +    mutex_destroy(&uma_info->update_lock);
+>>> +    uma_info->num_entries = 0;
+>>> +}
+>>> +
+>>>   static void amdgpu_device_get_pcie_info(struct amdgpu_device *adev);
+>>>   /**
+>>> @@ -4492,6 +4633,7 @@ static int 
+>>> amdgpu_device_sys_interface_init(struct amdgpu_device *adev)
+>>>       amdgpu_fru_sysfs_init(adev);
+>>>       amdgpu_reg_state_sysfs_init(adev);
+>>>       amdgpu_xcp_sysfs_init(adev);
+>>> +    amdgpu_uma_sysfs_init(adev);
+>>>       return r;
+>>>   }
+>>> @@ -4507,6 +4649,7 @@ static void 
+>>> amdgpu_device_sys_interface_fini(struct amdgpu_device *adev)
+>>>       amdgpu_reg_state_sysfs_fini(adev);
+>>>       amdgpu_xcp_sysfs_fini(adev);
+>>> +    amdgpu_uma_sysfs_fini(adev);
+>>>   }
+>>>   /**
+>>>
+>>
+> 
 
