@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42D930AD10;
-	Tue, 16 Dec 2025 05:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78CAF338594;
+	Tue, 16 Dec 2025 06:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765861447; cv=none; b=VT+/1UH2oTf7qb7H+lYYJlgD+9TTKuDQaGzPMCjCuYJZw9spglW2/7eXUvS0mByeEXz/BD2IvKY2LWKNf8hwWfH/YMVCqFadtZkydsBqrNr8ZE33mfee+YFaV1l5LlI41ka6ErMN6J7JJs8F/R0gFODkWH5MM6+ryJu1yt0Vg1A=
+	t=1765865298; cv=none; b=hupJ+p8UiSCrjh7GVFqpGfw/+U/4l6hnLV+J68z7k2ztnevOUc5Vdn/N16Nm1LDopdiec753PATNi1DTJPO1JUTiUOz5ccspXApm1AUqf8TQcyc04Qj9fPQyyJJm4M2mtK4SIxDRnQehKNTcnH92IHum1ZMpTc2HmRNFPWk3KwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765861447; c=relaxed/simple;
-	bh=cdgOM1zNzJWYAFxEAh5KUXxqD0R1ZNnspaoOHRBoaJM=;
+	s=arc-20240116; t=1765865298; c=relaxed/simple;
+	bh=4tcxfzmAbYpqTaHXuZRdVJ6IwC8c2vzyeVYlJ3uxgzw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ik+VFAKzDArLIBN8fuFG6ob884C8HrT8U0DztVdwgbhTw+BzBXtITrFehtVm94EQ3G9/vfVJSWxcC1Vg0R9r77vhbnTZDmuii8fRWu1LaCruigyIbIkayUK0WMe3rxDleenu7dr5ary667e4Pvl3mq2bmiNWteU1XbhwrG9X4hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fOpHWqe/; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=W3PvkIFI6aD/xZ2TdkVbVWnJ2SEfcHu/Sf+ShWWxqLjNqziK5E5YNeOVWGVzNe2V/Koih4QeCt5/eWGaDJ15v8DEzl47+wBAh3Ap0DRqX7GLFM3+L0eHw248/rVXN1uAEwAzzPyFKkVPRhZ6vBhjPDBPrGp3isaquTEQl1690iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QsX80/ei; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fOpHWqe/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QsX80/ei"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765861443; x=1797397443;
+  t=1765865294; x=1797401294;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cdgOM1zNzJWYAFxEAh5KUXxqD0R1ZNnspaoOHRBoaJM=;
-  b=fOpHWqe/EBh40/VdQa/z6PtD20ze+hyr66ZxGYA9ydSeNm36lvwXTSep
-   DwmTvtCcgt/saZ9E5ft2dl9HankiXSSRaL1mYGQYMaR1yVyMxe/JfP1YA
-   /XLaOgIHtrleG994JuIC8hQzyKj5BvBHb/mcOczj6D6mqDKGCFBP2v1NN
-   c3u3nudpNhdacpvOWqOkYDykx3jAwjS2wyg5ZRE8gLf5lGQONXUpybJyx
-   x6LPzmTS9lgYh/2ewmSg8oy8ijg+h0wUkFiNPeLe0EET48AM1w+ywOhKk
-   ZF2FqLVz4Oy19oRXVJI47IevZ2m750k908e3vIljfV88RKisUJgfse03L
+  bh=4tcxfzmAbYpqTaHXuZRdVJ6IwC8c2vzyeVYlJ3uxgzw=;
+  b=QsX80/eiw42v4Hh0CuTCph81bXpHPwKeR+wTK/SS+1Irc+I8Gbbhhwma
+   AZlySawXco0HRGP6xGkXb9/TJ+eY/ljHYuCO+ww2lRmdhT1tWe1CL0XYF
+   AWWZUCBYDwrqiCO5NNzPRx18+o+8LJC33470Dr9xRJEUlmrTjE23Rqj3t
+   RnJXUofZYLymSZBqNc04sIAA4BBxnk35PiEUhFw2eBTIdzB5qKJPRAI4+
+   q6IRQhu99ZmgCIk8B4gCs6sgd5Za1sGLM52a114SQwAo/qUQiU/U1VLx8
+   NNUVFDKiFAamu4COQTAoUpYDIiNn3ayvrBPy5nVqHWKRskAFRCjr7Mchj
    g==;
-X-CSE-ConnectionGUID: Z1I8/CsrQJKZ4/nW6MxHUw==
-X-CSE-MsgGUID: XnalxyQ9R2aUVbYxlFLPPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="90428902"
+X-CSE-ConnectionGUID: DsDU0UruTCSMbmXXWkk1Gg==
+X-CSE-MsgGUID: 8eCfHwYISDqB/3UdsRPvEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66764340"
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="90428902"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 21:03:57 -0800
-X-CSE-ConnectionGUID: F+kshmvMTpiLqi7gT6xJGA==
-X-CSE-MsgGUID: f6Xb8iMlTgCFrbdiRHph5g==
+   d="scan'208";a="66764340"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 22:08:08 -0800
+X-CSE-ConnectionGUID: 6Gl28I9cRJOmfcFdcuwliA==
+X-CSE-MsgGUID: AAVO/iLuTQC2XbyUdxIlEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="198408906"
+   d="scan'208";a="235330101"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 15 Dec 2025 21:03:52 -0800
+  by orviesa001.jf.intel.com with ESMTP; 15 Dec 2025 22:08:03 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVNDx-000000001B3-1uyR;
-	Tue, 16 Dec 2025 05:03:49 +0000
-Date: Tue, 16 Dec 2025 13:03:26 +0800
+	id 1vVOE4-000000001E5-2nNw;
+	Tue, 16 Dec 2025 06:08:00 +0000
+Date: Tue, 16 Dec 2025 14:07:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: Zhang Qilong <zhangqilong3@huawei.com>, akpm@linux-foundation.org,
 	david@kernel.org, lorenzo.stoakes@oracle.com, corbet@lwn.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ziy@nvidia.com,
+Cc: oe-kbuild-all@lists.linux.dev, ziy@nvidia.com,
 	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
 	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
 	baohua@kernel.org, lance.yang@linux.dev, vbabka@suse.cz,
@@ -60,10 +60,10 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ziy@nvidia.com,
 	linux-mm@kvack.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Zhang Qilong <zhangqilong3@huawei.com>
-Subject: Re: [PATCH next 1/2] mm/huge_memory: Implementation of THP COW for
- executable file mmap
-Message-ID: <202512161240.Ej5BIvIk-lkp@intel.com>
-References: <20251215123407.380813-2-zhangqilong3@huawei.com>
+Subject: Re: [PATCH next 2/2] mm/huge_memory: Add sysfs knob for executable
+ THP COW
+Message-ID: <202512161352.7XX7Lgv9-lkp@intel.com>
+References: <20251215123407.380813-3-zhangqilong3@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,7 +72,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251215123407.380813-2-zhangqilong3@huawei.com>
+In-Reply-To: <20251215123407.380813-3-zhangqilong3@huawei.com>
 
 Hi Zhang,
 
@@ -82,26 +82,31 @@ kernel test robot noticed the following build errors:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Qilong/mm-huge_memory-Implementation-of-THP-COW-for-executable-file-mmap/20251215-204035
 base:   next-20251215
-patch link:    https://lore.kernel.org/r/20251215123407.380813-2-zhangqilong3%40huawei.com
-patch subject: [PATCH next 1/2] mm/huge_memory: Implementation of THP COW for executable file mmap
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251216/202512161240.Ej5BIvIk-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161240.Ej5BIvIk-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20251215123407.380813-3-zhangqilong3%40huawei.com
+patch subject: [PATCH next 2/2] mm/huge_memory: Add sysfs knob for executable THP COW
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20251216/202512161352.7XX7Lgv9-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161352.7XX7Lgv9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512161240.Ej5BIvIk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512161352.7XX7Lgv9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/memory.c:6134:7: error: call to undeclared function 'vma_is_special_huge'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    6134 |                 if (vma_is_special_huge(vma) || vma_is_shmem(vma))
-         |                     ^
-   1 error generated.
+   mm/memory.c: In function 'wp_huge_pmd':
+>> mm/memory.c:6131:13: error: implicit declaration of function 'transparent_hugepage_use_exec_cow' [-Werror=implicit-function-declaration]
+    6131 |         if (transparent_hugepage_use_exec_cow() &&
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/memory.c:6135:21: error: implicit declaration of function 'vma_is_special_huge'; did you mean 'vma_is_special_mapping'? [-Werror=implicit-function-declaration]
+    6135 |                 if (vma_is_special_huge(vma) || vma_is_shmem(vma))
+         |                     ^~~~~~~~~~~~~~~~~~~
+         |                     vma_is_special_mapping
+   cc1: some warnings being treated as errors
 
 
-vim +/vma_is_special_huge +6134 mm/memory.c
+vim +/transparent_hugepage_use_exec_cow +6131 mm/memory.c
 
   6104	
   6105	/* `inline' is required to avoid gcc 4.1.2 build error */
@@ -130,24 +135,25 @@ vim +/vma_is_special_huge +6134 mm/memory.c
   6128		}
   6129	
   6130	
-  6131		if (is_exec_mapping(vma->vm_flags) &&
-  6132		    is_cow_mapping(vma->vm_flags)) {
-  6133			/* Skip special and shmem */
-> 6134			if (vma_is_special_huge(vma) || vma_is_shmem(vma))
-  6135				goto split;
-  6136	
-  6137			ret = do_huge_pmd_exec_cow(vmf);
-  6138			if (!(ret & VM_FAULT_FALLBACK))
-  6139				return ret;
-  6140		}
-  6141	
-  6142	split:
-  6143		/* COW or write-notify handled on pte level: split pmd. */
-  6144		__split_huge_pmd(vma, vmf->pmd, vmf->address, false);
-  6145	
-  6146		return VM_FAULT_FALLBACK;
-  6147	}
-  6148	
+> 6131		if (transparent_hugepage_use_exec_cow() &&
+  6132		    is_exec_mapping(vma->vm_flags) &&
+  6133		    is_cow_mapping(vma->vm_flags)) {
+  6134			/* Skip special and shmem */
+  6135			if (vma_is_special_huge(vma) || vma_is_shmem(vma))
+  6136				goto split;
+  6137	
+  6138			ret = do_huge_pmd_exec_cow(vmf);
+  6139			if (!(ret & VM_FAULT_FALLBACK))
+  6140				return ret;
+  6141		}
+  6142	
+  6143	split:
+  6144		/* COW or write-notify handled on pte level: split pmd. */
+  6145		__split_huge_pmd(vma, vmf->pmd, vmf->address, false);
+  6146	
+  6147		return VM_FAULT_FALLBACK;
+  6148	}
+  6149	
 
 -- 
 0-DAY CI Kernel Test Service
