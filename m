@@ -1,191 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9521F364EB9;
-	Tue, 16 Dec 2025 13:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BF6346AE9;
+	Tue, 16 Dec 2025 14:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765892983; cv=none; b=YlQc8l0B0BuraV+zdTdEg6MaNniLj2pqmhhwW5eAFti6sIYDf9hb70BsXgywfWioE53Kvea9DtCyO1JP0F9fv3jvO3e8X5+MfVBnrc12zhsCgqdjvqIdleSGTu0+HeC4HxFRMgKgfKyrTLpn7T5JKv5MXy6W4BIB3fPncpjRMso=
+	t=1765894017; cv=none; b=s8gOpz1kjJ0+UjUQ7zsUdFHKRpffFHYzsCyRyDmbENScJyb6t/DGHFiNndFVZaoCuSDI3m3LKD7EJE4KBmyVQCtRZiELIvgL2Zz9F8sCfA467KjirVUMcoiVgzQwGFT9TJ1ab9hxeYcj2A3sVJ5xDii9V42teeMeSksPn6DSbfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765892983; c=relaxed/simple;
-	bh=YfLQ27amlUSOROYLrmwTzJ9E/8AgqpTLSS/yS8wBt6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R0ptojQa2xDAmxVJuUBW6xsrcghTRaBVDb7Kt6yZL3Uwf1ENPoOyFxLfQs1ZmFRqS/F8WRwP0B6V08KM6mbAaS7MvkAGUeqzN4sG90vt6f1UeHTptiZgXbO6a8DlMXOGPo89Pk+9L2O2ruzf/zOPfa1HxSak0zvz1K0av91PLaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ms/EcseV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765894017; c=relaxed/simple;
+	bh=1kJBw9ewAFyhP05soNF5xx0EC+X1pDy+ycp2TT5An6E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G9G8mCR+HdUnMHTKjS2KdY4h7Tp2t3V2poDQ9D7Ap/legZGI4ZU18q0FMKiJ+/xBi6v56tNxmTdwVanAqTxrVLHvgG9sdMG+coXe1B4C/XOWVQvU1qeU9L9djzOYQJtfoSxRGKQqt0m5LdYKplwiIhJnuGGt4KC+t04G0so4RgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=TFz8f+2S; arc=none smtp.client-ip=94.112.25.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ms/EcseV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A093C4CEF1;
-	Tue, 16 Dec 2025 13:49:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765892983;
-	bh=YfLQ27amlUSOROYLrmwTzJ9E/8AgqpTLSS/yS8wBt6o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ms/EcseV+s20wmc1lLhYwDx89gIvClg2PrymIGMeUbwNDiD4SnOmW78o0LBiCBxlO
-	 BdxeF2Dz7vNPLlHk6H9c/Loage+PF2nosiRONlDlgQCWHyIinBjfz+mmT27iulavfd
-	 BuE/G7U+oUbo+mnBfw6ESY6cd3Q41neeo7IYkgSIPk07g5OM0wIZnaF/AK+WLm6cgJ
-	 GmCyNXU3kAhE/wGxDlMtotwE9co/euW0U0pWBSlyqKeVL94wQyOekYMU9/93Cs6rqR
-	 ujWcxuOybxnttG5mv4zj6LB+Bfu8R3ei8lyxE/EthGDt30dEmVf0CTtlhobbfgREOI
-	 OXMYvMAHdg9pw==
-Date: Tue, 16 Dec 2025 14:49:39 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
-	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-Message-ID: <20251216-cute-bandicoot-of-authority-3c492a@penduick>
-References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
- <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
- <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
- <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com>
- <20251201-thick-jasmine-oarfish-1eceb0@houat>
- <DEVKQWH8GU0D.2NWQ1U7IOIEHI@bootlin.com>
- <DEW6XHD12EY4.1THDR9UMJOTAN@bootlin.com>
- <20251215-mottled-dexterous-marmot-c69ad3@penduick>
- <DEYUNHVYCKYJ.2HU878WBYCJMV@bootlin.com>
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="TFz8f+2S"
+Received: from [192.168.88.180] (ip-94-112-34-59.bb.vodafone.cz [94.112.34.59])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 096BD5340E12;
+	Tue, 16 Dec 2025 15:06:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1765894006;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Kwd5JGsT5lP0X1c4h0ZVuRID3Oabl5FqXHQYBnk1M6k=;
+	b=TFz8f+2SyT9Mv7egQ9NzazOtUnKeuNZT4UDAoHwKdhP4KLV+62zdgwyCtkJiJXxw6EjSZr
+	p3Oj8E5AWBqDgGWuEDY7b/4v8zULy+4UU86XeRp6oLPh3+laK6LOLmPcNsZzIt4Q2EjWOQ
+	NkBoxMR3gnhzb2KFoMcMstqwzu8SXMk=
+Message-ID: <06e5bd5f-1748-4a6d-a054-64b8b73efb33@ixit.cz>
+Date: Tue, 16 Dec 2025 15:06:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="65zjs456orcupskh"
-Content-Disposition: inline
-In-Reply-To: <DEYUNHVYCKYJ.2HU878WBYCJMV@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/2] Input: add ABS_SND_PROFILE
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Casey Connolly <casey.connolly@linaro.org>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
+Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
+ Gergo Koteles <soyer@irl.hu>
+References: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
+ <20251113-op6-tri-state-v8-1-54073f3874bc@ixit.cz>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <20251113-op6-tri-state-v8-1-54073f3874bc@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 13/11/2025 17:02, David Heidelberg via B4 Relay wrote:
+> From: Gergo Koteles <soyer@irl.hu>
+> 
+> ABS_SND_PROFILE used to describe the state of a multi-value sound profile
+> switch. This will be used for the alert-slider on OnePlus phones or other
+> phones.
+> 
+> Profile values added as SND_PROFLE_(SILENT|VIBRATE|RING) identifiers
+> to input-event-codes.h so they can be used from DTS.
+> 
+> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+> Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+> Tested-by: Guido Günther <agx@sigxcpu.org> # oneplus,fajita & oneplus,enchilada
+> Reviewed-by: Guido Günther <agx@sigxcpu.org>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>   Documentation/input/event-codes.rst    | 6 ++++++
+>   drivers/hid/hid-debug.c                | 1 +
+>   include/uapi/linux/input-event-codes.h | 9 +++++++++
+>   3 files changed, 16 insertions(+)
+> 
 
---65zjs456orcupskh
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-MIME-Version: 1.0
+Hello Dmitry, can I count this one reaches Linux 6.20?
 
-On Mon, Dec 15, 2025 at 03:11:21PM +0100, Luca Ceresoli wrote:
-> Hi Maxime,
->=20
-> On Mon Dec 15, 2025 at 11:35 AM CET, Maxime Ripard wrote:
-> [...]
-> >> > Additionally, as a matter of fact there are currently drivers storing
-> >> > bridge pointers. The next_bridge is the most common case. Code using
-> >> > drm_bridge_connector_init() for example can store up to eight of the=
-m, but
-> >> > individual drivers are the hardest to hunt for.
-> >> >
-> >> > I can see these (potential) tools to handle this (not mutually exclu=
-sive):
-> >> >
-> >> >  1. remove drm_bridge pointers pointing to other bridges
-> >> >  2. check whether a bridge (say B) still exists before any dereferen=
-ce
-> >> >     to B->another_bridge: that's drm_bridge_enter/exit()
-> >> >  3. let owners of bridge pointers be notified when a bridge is unplu=
-gged,
-> >> >     so they can actively put their reference and clear their pointer
-> >> >
-> >> > For item 1, I think the drm_of_bridge_attach() idea quoted above wou=
-ld
-> >> > work, at least for the simple cases where bridge drivers use the
-> >> > next_bridge only for attach. A next_bridge pointer in struct drm_bri=
-dge is
-> >> > not even needed in that case, the pointer would be computed from OF =
-when
-> >> > needed and not stored. I can do an experiment and send a first serie=
-s, do
-> >> > you think it would be useful?
-> >>
-> >> I had a look and, while the implementation should be simple, only a few
-> >> drivers could benefit right now. The majority fall into one of these
-> >> categories:
-> >>
-> >>  * drivers using drm_of_find_panel_or_bridge() or *_of_get_bridge()
-> >>    (maybe 60-80% of all drivers, those will have to wait for the panel
-> >>    improvements)
-> >>  * drivers using the next_bridge pointer for more than just attach
-> >>  * drivers doing more complicated stuff
-> >>
-> >> I think your "put next_bridge in __drm_bridge_free" idea would fit wel=
-l the
-> >> 2nd category and perhaps also the 1st one. For the 3rd category we'd n=
-eed
-> >> something different, e.g. a per-driver .destroy callback.
-> >
-> > Yep, that's fine. We should optimize for the common case, with an escape
-> > hatch. That's exactly what we are talking about here.
->=20
-> Not sure why, but it's taking a while before I grasp your ideas about this
-> series and meld them with mine. I hopefully got a clear POV now, so based
-> on it my plan is to rework this series to:
->=20
->  * keep drm_of_find_bridge() but renamed to of_drm_get_bridge(), and keep
->    patches 1-5 (with the changes suggested by you and Louis, nothing big
->    and all already sent in v2)
+Thank you
+David
 
-I don't think we should use that name, but on principle, yes.
+-- 
+David Heidelberg
 
->  * not add devm_drm_of_find_bridge()
-
-Yep.
-
->  * add next_bridge pointer to struct drm_bridge and call
->    drm_bridge_put(bridge->next_bridge) in __drm_bridge_free, document it
-
-We don't have to at this point, you can add next_bridge to the
-drm_bridge pointer if you want, but I don't consider it a prerequisite.
-If we don't we would have to create drm_bridge_funcs->destroy
-implemnentations to give up the driver pointer reference though. Your
-call.
-
->  * convert patches 7-26 to use bridge->next_bridge where applicable,
->    or to do something different when needed
-
-Depending on your decision above, we'd need to either convert them to
-use drm_bridge->next_bridge or create a destroy hook for them. Either
-way is fine for me.
-
->  * maybe remove part of patches 7-26 just to reduce spam and rework effort
->    in case of further iterations, to send them separately once the approa=
-ch
->    is accepted
->=20
-> Does it look OK?
-
-Yep
-
-Maxime
-
---65zjs456orcupskh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaUFjcwAKCRAnX84Zoj2+
-dgzkAYDvA9yfAoN5qn3Uuq31rvBMPARdeaGJP/R7L/afEIqfYpW00Xnt3rcpsKVt
-DvfNFYwBf0vpoxbPBiXv/KJmjkwFaLmGNHmvjyicK5vGQGOUo5Kn5EA6cWvB5aoe
-s/Mjb6G3Dw==
-=yqem
------END PGP SIGNATURE-----
-
---65zjs456orcupskh--
