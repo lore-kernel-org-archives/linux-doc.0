@@ -1,168 +1,178 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazolkn19012061.outbound.protection.outlook.com [52.103.66.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC183BCC24;
-	Tue, 16 Dec 2025 13:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.66.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765890954; cv=fail; b=S3fLjTfqPGZZgnnXANWWGQ18y2trhA1WaBHeNhX7IxAMP+JuCwiGkcmr+MymzBFM76QJzJSsvPdX6yMLyMtx/bruReuR8YYr7blANctWiHcFcj2WV4lqYJy7aNzJnSpgF1AKAMRsigYgLuXh0ueKwBYJ8QRkXa0M70/qOcG8fRo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765890954; c=relaxed/simple;
-	bh=28L+OnKJ+A923OLqpiJ4aX3eifGbtCWcCnd7sKMlkz0=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=DoUz9UaBgSMaUWxC9diuH2lnRKOwarYz8BvxjewtUcWLHY6doIjZr54F3ZLvK/S8TlmKViiqCt+8QDj7TU54Ky3zshHhUPw1UR3T4nbp0dYHSW6GSmxms7J+CflzEtTrqY4DFE4YBG+0Qdjmszs7H9iNINgy9GqtSEk79Fu7OKQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=caUaHN1U; arc=fail smtp.client-ip=52.103.66.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B54C3BE54A
+	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 13:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765891004; cv=none; b=FrKtkJ5Lk+IKUWLgTsXibkpp9ZH7O4IWxPLc6Wq/ISxjrrlxE5sifHmaGu3pucdq6kgBPMEwhu6yhXAOI4Ao4DtRFv1EFly6W1cvfjH9pTyHKDx8DdoS7Y8X6ZcWNS+r8Q1wzI1IIbocyAOjLg2v8lt3GOWH/HVoQiZVduQYBuw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765891004; c=relaxed/simple;
+	bh=ie+AJbWUF5jtAMvd+Vk2sYgjyzBsY+yVmjQ8OwD7xm4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fgyeXzW5/AF3WT1vvV+eDFZb1R3U3uWDHMkGdJrz6m2io7DWg7iFejofTiS5W/WQA7YlYWnG7Q3vFeSYun897RT+JCIAW00QjF3iwHA6KhHsLI77s1/VhAwNlOfWbeLjO02qNad+1mP2WrNddD6FnnHaVPlmGw7aet5BgMC/+EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cQH7mhPy; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="caUaHN1U"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pIJacfvix9OsYPRi72f3LMbfYPrRXfdzkKRLejbpViZJY9oC4mpqUG8/yPRWDbXs6gun3Qk1XqRWBQ/ePAJO7xXG2E471vErrAfog6B3iCibLyOOl5UzurVUjYnUvankyVf/BglplqlM69U2uREbHg2TE231ZAsCMe5aaOHs74kkYdSjl5NKjGYdOraVXUc9PXI1Tn72fSj9bIppohEudl0VG8hAQnzEsFjS3/OnRKzy+NA50vx14OkHtV8tsJgghBJTs7Wk20oE1wuinsqKtBmQ9sL4YfNsaoeZ5jmMaJksx/9yCbWlBJjpJ0ln+m7LzXibwvt/r3yCyF13zWL0nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=28L+OnKJ+A923OLqpiJ4aX3eifGbtCWcCnd7sKMlkz0=;
- b=doDqQ9AFXYyjSO8Xc/jk9QVRjlH9Mfj5v9EhR5s0bg/A8Qgga+IkwELCfa56DlRcVEYHvbxDX8X/wu5x+EPEwBQS0UIqR3odda4kZKH1Q5HgdLARmcdfWf8U63Er+vgDCJKBzMt5aMCCNVL8ohF09lY15SHdAyUh8KcT3oqLM9audgixS+bDkwcqix4BkAzqe8MJe+lQgFezLrKFifoXfuoVn4AjJEGZsMhbLoLdcHm/ZfbQPRp0pjHSxxZT8fDlrt62EP2nic6z+uwsOkx/jqJ13Hg4SkAOJB00tYpeap+3Krs3RLa7Ed9u3m5uf5bKNoneO7ZUxJ5mxJEsCRhuTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=28L+OnKJ+A923OLqpiJ4aX3eifGbtCWcCnd7sKMlkz0=;
- b=caUaHN1USA9iDAOLlMyJRdNYlovYRpToJe7jlN9eBIhXaYltIeZR+kUxVZ0KYxBvX/vxs7DX+EbSjvA+jGX+6VVQBs+dEOUA+WL82jghx4rnjhdkmURHox4scBCrDI/4bDmxZD/OfTsNuXeans4VFNgLNy5TYNNglur1I9y51vpDeDoJLjwzsbWJub/k/Lylj+7zhcFK3m4wbIfpAqgGX45nclFiXiQL7SQMUVENFoZy2PYye4rAlKBHw9rBiUNXADrnxjRFcYf9ePrDLp9lMvevcVfQDdGRaWWDg8dZucXJa6Ilhmn8/u+z/KCkxJobqK9/DoOwXoc5A5RZ09kjow==
-Received: from SEYPR06MB6523.apcprd06.prod.outlook.com (2603:1096:101:172::5)
- by TY0PR06MB5529.apcprd06.prod.outlook.com (2603:1096:400:27b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.16; Tue, 16 Dec
- 2025 13:15:47 +0000
-Received: from SEYPR06MB6523.apcprd06.prod.outlook.com
- ([fe80::4f9d:bbfb:647d:e75f]) by SEYPR06MB6523.apcprd06.prod.outlook.com
- ([fe80::4f9d:bbfb:647d:e75f%3]) with mapi id 15.20.9412.005; Tue, 16 Dec 2025
- 13:15:47 +0000
-From: Abdullah Alomani <the.omania@outlook.com>
-To: "davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
-	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>, "horms@kernel.org"
-	<horms@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH] net: docs: fix grammar in ARCnet option description
-Thread-Topic: [PATCH] net: docs: fix grammar in ARCnet option description
-Thread-Index: AQHcbo2JmIxljV+VPEKpkghv2TswDw==
-Date: Tue, 16 Dec 2025 13:15:47 +0000
-Message-ID:
- <SEYPR06MB6523D44E490FF177C47BEEBA8EAAA@SEYPR06MB6523.apcprd06.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR06MB6523:EE_|TY0PR06MB5529:EE_
-x-ms-office365-filtering-correlation-id: 664c276c-a161-4d2a-a751-08de3ca53a2a
-x-ms-exchange-slblob-mailprops:
- WaIXnCbdHrPy8Gg0T1tV+ubdyTLMpos/snyI24PheMoMBlZKszerqKs2iN4XOwDa97X+Ax9Ox1enI8GaqjuT/QFTHzCjC1NoMXslBeu/FLvT+uHBCsDVVPjhi4mSuLFGAJKcEG/NXACHOmoinl1KzczX0QxObuklMo7zieV2Nfngg97qJ2bNnKNUeQb0xP9ljf8S+Jwhadn3KMv5iFLi+uOLcoQoZINHREEVT1AFVVDUPxsRpFd3tcuORBr2NhrkEkBEUWJD9Ez+Sajeb4TTFdQE6URc4ytY8OFhHsxG7FJ2Q7QpD3vxx1ANe2uMMHZQyQM1SjBDxW6izQprZjUBhPwGXg+hXaxpbIUuvvyKuERtYazIYpgE01HsAbNmgd95YUqFB46SEB92UnrAHJdm8Y6HjdwFnIMP5ngZfVgd4KT6ifdsLq1Ogaic6XfO8zEgVXmbZbWa5osfHIsPAk5fzUZlcRN5YDXlSfeq+ZPFC1O/teUVjaC38b1TPZq8lvRzfQX8H9tayWDac3E15is8vRDDcYxcTkjrd/sx5xnk2Hoi5Z7GIv0ceZtDqy/WxaxEoEm6rSsvXpn3omZajoOCI9LVntp4jjmf9vbGp3ev2ZqzGg+cg1Bj+Mi6ASJyuzgM1/VZ2vgn8uQGKijOLFAgfDuygjJJISb9RHdu5udPknPPVjEDfOrd97mxE+ITJXPPrDcZYsttj5GDWAtkV/HYureYeYL2trC8InD9TvAlT6HSM5MuAr2+UkRP4uGpbC60jrIjS/4qNbQ=
-x-microsoft-antispam:
- BCL:0;ARA:14566002|51005399006|19110799012|31061999003|461199028|15080799012|15030799006|8060799015|8062599012|440099028|3412199025|40105399003|102099032;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?UtMJSBqnEfqNq6lsBed8lwC4fugOqPLdoe0kEzdMU5XRDo//AyhdSybpCN?=
- =?iso-8859-1?Q?YRf4rt/TcJ1JD8rB8jqAYaPkj4tZGTxOF655gs9Gm1dsUyU2pJsBTcy83u?=
- =?iso-8859-1?Q?yYT9dGgo5kXe2cZ1pesvBDx1E3hkhFtYELdx9uPc0SCqQHXzzd2Rd921KG?=
- =?iso-8859-1?Q?NhCecQA+RszhUoDdr768i2lghOPlJyceRRq+JzbZsF4NldnJB7p6kGnrsF?=
- =?iso-8859-1?Q?c8jl139s6oShzvBbE4f9QC2JS1odFV52r9F8WfZnjIWal5BPIWLqTqqh1q?=
- =?iso-8859-1?Q?XP3LHLeLpDK6gexuLYPoREhUjro+p5t8KypQGj4kycpm94YlYCzOSyumS5?=
- =?iso-8859-1?Q?XHSizCDVfVYrJx24N6BP4BbeZNmzjM0BjPZgZM2Tic5e2oGPUOPssbZa2R?=
- =?iso-8859-1?Q?4G6wRctSJ+Ws8h03yqoYJn/nmQo2CmT/mzO6BWJ6kXEBT5rKDbZ8OstDNh?=
- =?iso-8859-1?Q?rUvnncxYZUAR2AeMaTbQ1b0BTBCqZQqkE+pwXNkg3iYDu4KLxmU1jvR4Pz?=
- =?iso-8859-1?Q?KnRUbj7xL5xH80A+rQldgAuf3QEeF2HB9KjUvc/vRJxi3X5AN+1XBSzjKa?=
- =?iso-8859-1?Q?HbMgjsDgcferIK62ZbJn9o1w2TytTAYbu+zN5fZ0/dKv/XXoi/lwTNCr8o?=
- =?iso-8859-1?Q?6AWePOvO5GnDVczpDS98kpMynpvPyK0gSfnpF7E0b8IKk6+acvM67snIMQ?=
- =?iso-8859-1?Q?DNLKXyzLYlmsTI1ld3ISuuN7M7/MnIvw2BWVLyG9rDQh55fgK+HpGRgzlT?=
- =?iso-8859-1?Q?SThpDhQvJOwUMzsFuX909ljnXQLjGsW17aLRp+AQKXkq3aV2AtCiFi7Toa?=
- =?iso-8859-1?Q?JM8Z4QgD11lgJ54rXTpHBmeEAhbj+IEI5RV+ly2/3LrJLUz7m5QdrIdJrk?=
- =?iso-8859-1?Q?ZCbSaSi/DxfHAcuLlDdr09SIQLwVNXVA+X1SUx5ZVvnxq+qbnR6gtxQIS/?=
- =?iso-8859-1?Q?BHLxWktoi3iSc0p6RCy5bUDAGHxJ8WJ/sddm1yEQnyyuEimQYhAizxaSRG?=
- =?iso-8859-1?Q?8cYJuriTfiqHqKSLN5tZ7hXaZyLlBySUupVQ6SzqYm1vtEYOEouVIcn7Sb?=
- =?iso-8859-1?Q?H5Agp9H0hAIvy6lU2oGAp9cqj/Ev9aUCxsD7XaXL3ZtDfljvZs/Qca5Ec1?=
- =?iso-8859-1?Q?JAqGQOZbiBYNO5VCXocRIgLAWGxGQUzm2eUz9fGlSbWgzlRn3xc4XB9tDz?=
- =?iso-8859-1?Q?Sk2d4aaZeGyhlDSkfWzp3FNKqrKpjTYaz030XjL5z2FLBM+LSdMJPsuhel?=
- =?iso-8859-1?Q?BGTIzLBexWp4LdktEAmw=3D=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?hWpwDh4Z0O8yuLpLVUZ5lih03EQ9w7x3PLBdb0KJiiuLcD8uDS0+vhWRZb?=
- =?iso-8859-1?Q?6BQSeRAd1Zr0oSWYmw1StcYDtdvc+urqiuDhCskOV+j2bXGTIeRedp2GFw?=
- =?iso-8859-1?Q?ruJQ8pdT5VBQhhU1GtY6cVfsnRVOtnb64z/FnjB3R1GV2H7FR86MEBSMes?=
- =?iso-8859-1?Q?N65y1prqtMkzOyGZdv/RBtviccXoZ1aUtQZgem9MbWaV+k2Fg/SUtfaM4h?=
- =?iso-8859-1?Q?SlrWdyfpvAEmGurxOghHZYy5/o5Aef4+O8zyAIpl/y358pPv7bfikfbC7G?=
- =?iso-8859-1?Q?cJeowiN8zyIr5CLS747LQOe/eyAljW14HlnDP3b97RuKKRp+not9pc2h96?=
- =?iso-8859-1?Q?NQecpC5EWDbyeFrxMK6ei1J2AgJVJn5AfRbkVNY5DP3WtZEskHWmz7AH20?=
- =?iso-8859-1?Q?jYUZaeJgwNS/afDPgwcAvwpo7kbRO8IKL/cycstvsNHOe7Vz1d5H3eAYZF?=
- =?iso-8859-1?Q?0IZYD851khk7Fx32wfr40IHOxfbuXkBBDwfQzCVjYTX71zqg2raGkI0Iny?=
- =?iso-8859-1?Q?8yk976r85OuzUciui5rA9y83Ts1TFQYuGx1iwviX6gIFz4PfbvwGPhIrlI?=
- =?iso-8859-1?Q?ef1QhKw0tK+b3SouEnxjUI4R3RiSB8pl2o5w+JgbVm4tQQ6ieGh23pKDRu?=
- =?iso-8859-1?Q?+zAEE6yoW3shH9WHIKEiEpJJlyMj8rZu9z9R/+dhJgCjXr01Nn3/CF/drT?=
- =?iso-8859-1?Q?vTv0NuqAmg4seCRVDhqOOLqNFHwoyyGHefLziPZNLT2aDYYJ8GMaqs1OL+?=
- =?iso-8859-1?Q?kRQzX6bgzhz9aJS3L6HuIvRsHmGJO0+HaNHm0Ebkf6TAM2oMyV+KD0aldU?=
- =?iso-8859-1?Q?pJwURHYLTJ8MiEDQvSOLUpzcBJAusXBCPPT39CyBdRYtba290Qu+MHHP9/?=
- =?iso-8859-1?Q?40TkRdiSDFVjd3kRGWfrBEKkrVBu06oCCRC77a/1FPw4yI8EeQi6jh769F?=
- =?iso-8859-1?Q?H8toLiTOZLMXuzPwAHbr7aZXGvWrrtr9UrhQB0FC5UdCzFHa0OP7VwTlnC?=
- =?iso-8859-1?Q?X+3AEBOFSkcQlUUhSapHparxCHx8uzJuZ7GKE8LIaVnBmQfXpBevA9caGH?=
- =?iso-8859-1?Q?ZL/HhpB9UFAbVBoY6W2r5B9BQ2V58qS+4fi57xeMmNo4nM0uXIq1X95gK7?=
- =?iso-8859-1?Q?7WyfwtSh6KJoF74W0+wsTZitR3GOaXcpxLLV6wHrADVcH2Z5OlptEJ68V7?=
- =?iso-8859-1?Q?TU1ZuabfLs8d3eQtWkNagipvKB2IreQMdWraEE2bUpp54D7h1BV6J5erq9?=
- =?iso-8859-1?Q?wnx1iqq2wSY7RirPxjZXRoh3XR9SDfM1pYpKPqbQ3O3ZoNQ4AOvgaeErsi?=
- =?iso-8859-1?Q?SF24cEgkXqkr+wuSxvJaqBVaAeVH/kPm6H4JEs7I8FQm6XM=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cQH7mhPy"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477ba2c1ca2so51122845e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 05:16:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765890997; x=1766495797; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9wEQyxMelFUxIKkKjwpqNdvXFJKNGJ/TVkTqrb2W9yo=;
+        b=cQH7mhPyhODzTUmWb7AP/SnvcqSZ5JMfmdA4afCm/ROKeT3lGClRoS0+cl1yaZCpxx
+         CTyXx0njdamGeS1tnUawkfAYin1ifKRgRi+7OynH0fS3CJpqBfmxzT+zo7Het1J15BWX
+         ytsDp8nqbEU2UqE+iCN1wZvsgnYw+wlgircupK3NlZe1iBUmtmvgQu7dJAde8fXegKaP
+         CoBv+u5RrgAwbho+dEApk4Z9wDzEeP61FYKMzfKud38xmco0HqXfVWsycu5+wkqt3gzu
+         f2KLe+FPCjlU2ycNjJ47lWsDh95mrGJUgbqYKmKCQiCqV6JLP5HAv7Tm19TeH9dmUGw6
+         CcNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765890997; x=1766495797;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9wEQyxMelFUxIKkKjwpqNdvXFJKNGJ/TVkTqrb2W9yo=;
+        b=NgJ4idhckDCF2GpWpNr4gmEaC5UOTcRiTGr/zfWZCyt0F1EARok/2OgrB7nXJgafm7
+         CD4dS9D5ceS+pW2Mk9eZZtNWwAct+LW+eGPW6CH29q84s+GHU3PNAKbbDjwK68Tt8Nbk
+         Wuhd8e8ydH+0n0IClJ9owUsrBxVISu8sOD0niOvHq2lEcvnRCv2PCCIpKZEbXPOTnTH2
+         fEM8Nl+ZfBudsvs+8eh3XpREdXHJWBDS6Yluxe6zyRJFOlICFyRSdAa0tvKNRiA0hQh1
+         DSIgLRTk5zXl3nkjQ3GrC0JD1tcSyEhn3L4VvZyLAODcq7cg8lImo1tOcPgZofDjc2Ib
+         BWEw==
+X-Forwarded-Encrypted: i=1; AJvYcCUsHhVr7d0rhUC+QN5btShJuDAAXNk8aJrNWeY9xsHLTTpNCMk6D5YEj/lBRZSACoC6l2clShU0JFE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZkv2ZfPk5Qf92wx7szEn01UMI97n1As4UsGvCVb9WEooqtQea
+	7BkBxCGhnbgJzAtawXCUhBG1V0kRRpJ6xc4TSzoizYlKnyzpj0gFQYo9
+X-Gm-Gg: AY/fxX5aXoY4EtUOCyTk9cC9astajSOdMAN4XaXDCbEooMRx5pbVYX/K7BhjTIsPXdB
+	ZLTvy6i/j9ojXE70YzcWuq/9eoVJ1Z0N/tw72g8yb+VrEtgbLIINaBY6+jOr/bW66ihtijSWYkC
+	Zk9Oumbc7rq/1sgfv3o2foCRCcb2tGcMJ8g7MhxFbBz8ogTwxL+T4rQISaATxoI19fJeJpXMpFw
+	AiIV6wQOzxunVkjM9ch5fzEAKkn2sZZir0v/FRctq7NyMwwLbclPWEAFpYDtwOA4z8QOLO45woJ
+	o29tFf2TLOXCDvQLL6iU8YTFVvM5OOWDhmS1yw+2oBp6j3Ztq1GnUeSY2P22wpB4ovlijplrANF
+	YceMDlQffZ/c4JT2KyXRjn6m3tWQdbDNzkI6snJYjrCOaSok+YAQjD8v/IJS1NrhhvKXMzNutWm
+	ggjCBTVXwRzpL8tpVluGA=
+X-Google-Smtp-Source: AGHT+IFBWulMuxuU7oloQiW42dIOzblQOJkSMSYM3mkR4FEHTZuiqpMj0PdGHiwFPjZwBQ0pemM/Ww==
+X-Received: by 2002:a05:600c:4f4a:b0:477:28c1:26ce with SMTP id 5b1f17b1804b1-47a8f8a717dmr161923995e9.7.1765890996571;
+        Tue, 16 Dec 2025 05:16:36 -0800 (PST)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8f6e5baasm257873965e9.13.2025.12.16.05.16.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Dec 2025 05:16:36 -0800 (PST)
+Message-ID: <50bea4bef338490cae92f61a8cc9a555db4529c2.camel@gmail.com>
+Subject: Re: [PATCH v4 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>, nuno.sa@analog.com, 
+	linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,  Jean Delvare <jdelvare@suse.com>, Jonathan Corbet
+ <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>,  Bartosz
+ Golaszewski	 <brgl@bgdev.pl>
+Date: Tue, 16 Dec 2025 13:17:17 +0000
+In-Reply-To: <ca659699-e5f8-436f-bfdb-d0d250d34fca@roeck-us.net>
+References: <20251204-ltc4283-support-v4-0-db0197fd7984@analog.com>
+	 <20251204-ltc4283-support-v4-2-db0197fd7984@analog.com>
+	 <c9cb3a2b-da6b-42a6-87b0-7a2b780f5ad8@roeck-us.net>
+	 <56a6c6a1b800090522a61eea5141aa8c986faea1.camel@gmail.com>
+	 <ca659699-e5f8-436f-bfdb-d0d250d34fca@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6523.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 664c276c-a161-4d2a-a751-08de3ca53a2a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2025 13:15:47.6258
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5529
 
-From daadb4f6826bf2d5369acbca57b570269010c761 Mon Sep 17 00:00:00 2001=0A=
-From: Abdullah Alomani <the.omania@outlook.com>=0A=
-Date: Tue, 16 Dec 2025 16:00:35 +0300=0A=
-Subject: [PATCH] net: docs: fix grammar in ARCnet documentation=0A=
-=0A=
-The sentence "It following options on the command line" is missing a verb.=
-=0A=
-Fix it by changing to "It has the following options on the command line",=
-=0A=
-making the documentation grammatically correct and easier to read.=0A=
-=0A=
-Signed-off-by: Abdullah Alomani <the.omania@outlook.com>=0A=
----=0A=
-Documentation/networking/arcnet.rst | 2 +-=0A=
-1 file changed, 1 insertion(+), 1 deletion(-)=0A=
-=0A=
-diff --git a/Documentation/networking/arcnet.rst b/Documentation/networking=
-/arcnet.rst=0A=
-index cd43a18ad149..8a817cf22239 100644=0A=
---- a/Documentation/networking/arcnet.rst=0A=
-+++ b/Documentation/networking/arcnet.rst=0A=
-@@ -112,7 +112,7 @@ There are four chipset options:=0A=
-=0A=
- This is the normal ARCnet card, which you've probably got. This is the onl=
-y=0A=
- chipset driver which will autoprobe if not told where the card is.=0A=
--It following options on the command line::=0A=
-+It has the following options on the command line::=0A=
-=0A=
- com90xx=3D[<io>[,<irq>[,<shmem>]]][,<name>] | <name>=0A=
-=0A=
---=0A=
-2.52.0=0A=
+On Fri, 2025-12-12 at 09:07 -0800, Guenter Roeck wrote:
+> On 12/12/25 08:50, Nuno S=C3=A1 wrote:
+> > On Thu, 2025-12-11 at 09:56 -0800, Guenter Roeck wrote:
+> > > On 12/4/25 08:15, Nuno S=C3=A1 via B4 Relay wrote:
+> > > > From: Nuno S=C3=A1 <nuno.sa@analog.com>
+> > > >=20
+> > > > Support the LTC4283 How Swap Controller. The device features progra=
+mmable
+> > > > current limit with foldback and independently adjustable inrush cur=
+rent to
+> > > > optimize the MOSFET safe operating area (SOA). The SOA timer limits=
+ MOSFET
+> > > > temperature rise for reliable protection against overstresses.
+> > > >=20
+> > > > An I2C interface and onboard ADC allow monitoring of board current,
+> > > > voltage, power, energy, and fault status.
+> > > >=20
+> > > > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> > > > ---
+> > > ...
+> > > > diff --git a/drivers/hwmon/ltc4283.c b/drivers/hwmon/ltc4283.c
+> > > > new file mode 100644
+> > > > index 000000000000..d79432678b84
+> > > > --- /dev/null
+> > > > +++ b/drivers/hwmon/ltc4283.c
+> > > ...
+> > > > +
+> > > > +static int ltc4283_read_voltage_word(const struct ltc4283_hwmon *s=
+t,
+> > > > +				=C2=A0=C2=A0=C2=A0=C2=A0 u32 reg, u32 fs, long *val)
+> > > > +{
+> > > > +	__be16 in;
+> > > > +	int ret;
+> > > > +
+> > > > +	ret =3D regmap_bulk_read(st->map, reg, &in, sizeof(in));
+> > >=20
+> > > I had a look into the regmap code. In its current implementation,
+> > > that will work as long as
+> > > 1) regmap is configured to not cache anything
+> > > 2) the I2C controller supports I2C_FUNC_SMBUS_I2C_BLOCK
+> > >=20
+> >=20
+> > Possibly dumb question... what would be the issue about doing multiple
+> > regmap reads if we can't do the bulk?=C2=A0That would be my naive appro=
+ach in
+> > the driver if I'm not going to use the bulk API.
+> >=20
+>=20
+> You mean on the same address ? I don't have the chip to check, but I am q=
+uite
+> sure that it would return the 1st byte again.
+>=20
+> FWIW, in the lm92 driver I used a regmap_bus to solve pretty much the sam=
+e
+> problem.
+>=20
+>=20
+
+Ok, I know understand the issue. We do have real word registers (though the=
+ energy
+spans 6 registers IIRC) in which case the regmap bulk fallback would fail. =
+So I do
+agree with you that relying on regmap implementation details is questionabl=
+e so
+I'll add my own bus.
+
+But the above made me start thinking about how we should handle
+i2c_check_functionality()? For this device, I2C_FUNC_SMBUS_WORD_DATA and
+I2C_FUNC_SMBUS_BYTE_DATA (can we have word without byte??) are the minimum =
+the
+controller needs to support. So I could add the below:
+
+if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA
+				    | I2C_FUNC_SMBUS_WORD_DATA))
+		return -ENODEV;
+
+But can't we have I2C_FUNC_I2C (or even I2C_FUNC_SMBUS_I2C_BLOCK) without
+supporting SMBUS?
+
+I mean, I can so something similar to what's being done in regmap-i2c but m=
+aybe
+that's too much? I'm leaning in that direction though...
+
+
+This made me wonder, again, about ltc4282 but in there word registers are i=
+n
+fact reg and reg + 1.
+
+- Nuno S=C3=A1
