@@ -1,83 +1,83 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0E734AB16
-	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 14:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8BE32F0692
+	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 14:35:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765895242; cv=none; b=SMvSPmMeyLTjim0vG3q4++vhFNnOcrj9vGbXByoKV6/ZuNfpLIOXzxa2m4fvLiJRM+oylwTLLC34A3c0mv9AMHVEHI3Y/73RZca/QDyCaCkbpgu3yRX9x0qmE6l2bK6tCj7B9to/SC5QknSgq16Tqvif3yLagxFEq4wEHl7Q7kg=
+	t=1765895746; cv=none; b=WDl680D2rAECS6o/veJg8RSbAhQjx6yWZd1lUTc+fD9MSESnmLUXJwQoCrCBabmn9IAzYsF2a1D60b5m4q5Af2ox1U1TkLyThSDlEjoi+EC8gnaQNdHDL6ecRg1KBSKz9V8JIkGrnztiDrmQn+A0thwnLjd6DgS04UEec95iV1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765895242; c=relaxed/simple;
+	s=arc-20240116; t=1765895746; c=relaxed/simple;
 	bh=bRJifwBpOn5/UKOhHLvWKxzpriP409m/28t9c1F6o0w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VODnLYTmeoavb/afJ+scNXUXYIJnQiQXWMXmfUKeWOF/yqNufFYmWofXyweXKiad0bd7xeReGqx1UoVxYRie9PuoAiM2o1wGs82rnG1loCRYL+curA5vT25A2SlDZ/trn8iPwLMvp4DYYfAFlgRYGOCQy4qAyB7zuXKJyh/l6C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LpEtvWbh; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=hRYZ1uOd; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=MbNvIWbn5bMy2MTi/OOLSkXdPXFbNJExe8ipOhHdeDQUvRMF2Taetj4RPVUFVx/UQelVcjFlaYeTifaJiSAw+4I8onMK6yRz+deSSwXf8f2evedMIcvmU2rYkwiDEWZmky9241CLnLzH9LKmffbt4bMl5Rb1iTubLXUxU6kwYrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QJ9MC+No; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=HI9DpcgF; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LpEtvWbh";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="hRYZ1uOd"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QJ9MC+No";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="HI9DpcgF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1765895239;
+	s=mimecast20190719; t=1765895743;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
 	bh=bRJifwBpOn5/UKOhHLvWKxzpriP409m/28t9c1F6o0w=;
-	b=LpEtvWbhH7kHi98N0WchyANf/OwPzhCiLeKjEHVIdpYU7HvuVhXMOAuP3VCA1ZxoLB35NC
-	5LwECqlqH3Lm/EIFTWkKhLjIEA1fiIx1pHNuaUPITzHmY+wj2ppBcnIsaAGr77c9BqbOR1
-	c82KNq8W9WKkLIfR59cps4WUPVVkOq0=
+	b=QJ9MC+NoH4FGxx/AfjEIX/r6BJ9oiHH5RU7W2BpTnib6LSR23WcE7ntuVBmRraUEX25277
+	GKzNw90biS8eJVO07/8969YkL8TbvpJKZNcHUFjsJk+oWfgPGAj6d4PvQG9OMCEU47TpDj
+	5YpalZnl3NWBxB8GQXXfTQ5+F2zGmnU=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-107-rFheMMEXM9GJpIKDlPiE6Q-1; Tue, 16 Dec 2025 09:27:17 -0500
-X-MC-Unique: rFheMMEXM9GJpIKDlPiE6Q-1
-X-Mimecast-MFC-AGG-ID: rFheMMEXM9GJpIKDlPiE6Q_1765895236
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-4310817764fso384150f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 06:27:17 -0800 (PST)
+ us-mta-433-sp8q-zY2O56wWNUCy6M4qw-1; Tue, 16 Dec 2025 09:35:42 -0500
+X-MC-Unique: sp8q-zY2O56wWNUCy6M4qw-1
+X-Mimecast-MFC-AGG-ID: sp8q-zY2O56wWNUCy6M4qw_1765895741
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-430fcf10280so1586842f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 06:35:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1765895236; x=1766500036; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1765895741; x=1766500541; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
         bh=bRJifwBpOn5/UKOhHLvWKxzpriP409m/28t9c1F6o0w=;
-        b=hRYZ1uOdayBnW2Ulj8k40pc1ECvNHLMa3sjwPFxr1EPLWXsM/tLGSntVBJQM1LSFnz
-         HBDqrl72iTVElSS++337DW2Ephh1SdlIZxLHeLxvzRHbUvMIoDFReGTRx4BJmgGsKvTN
-         /pCfsBmFG8O54y0HhxjNTDAkMsVwglr+s8srucEdp68ljEjshtTk8ssjhWlxmiH4jjA+
-         d2jEdfABW+ItFK60Z0SY6/hSUQbIpoJ60Unp1gU+WDhk1G5F6zhLWYm/f+tr1tLt6rOz
-         pqSlElBV2pHsExz4TiL3W/p9qnHMSh1+N1y2T5G3ERmYU2+7bmc4a+h/l9yndgIoR0R/
-         hAvw==
+        b=HI9DpcgFTcq7/oQoiFTFel4T/ubbksw5YSYskJwMcDLqPmqBc9CTvgqBYG6kiKoVwD
+         g0fWPA2S2naqgi0gqI6EXx1y/uJNmkzZBUN6ulhQaw6kIeqQKVAszTshlaTiBt8uDZY1
+         Lh0R4QDmL7P3ON4NjU/kPbimDrK8SzjdxDwDo9HC5684YzUqBG5xrxYCRqUQ7Vf6+ANx
+         s+m1DzfIsj3N6CRJtj171bn4CTIl4j7gw9o+cbxhjYRHY1E9g7wZADuE9bxBsMzzIzSB
+         78MqVqeY4E+ULfTPBm6uWxQTAkH/el7PdxfTBM7hR1XhnYfZAJ2cZ/4Ag9hcaPKAQM3x
+         inYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765895236; x=1766500036;
+        d=1e100.net; s=20230601; t=1765895741; x=1766500541;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
         bh=bRJifwBpOn5/UKOhHLvWKxzpriP409m/28t9c1F6o0w=;
-        b=csEKcuuhvUk2WW+n9MqxPa5t9Ukx60YdmIgyMHy0rbNCtqXCP7iZ+ZALTTYki+T8po
-         ztAk4+Jq0mMpxk1XOu+6vsccZBwrWS7jkj9jgQWhsE36IqcAWl6tBeA6P1yYdjazwuei
-         Wp0hEiaHzDn+31q15boYTFFjXxaJDs1I40yx3cKD415yKfEJG4Mmln014YbUAkCqwkID
-         Q0jymnvvQpu1ezWOcQ9jflwX8O+914mtmv45u8wcH9ICioAkQcUe0xHMT9wvidYRXAka
-         oQGLI/znVcnCal0KpZNb4Qr9jJbu2WVVODJc9OQRlVNOiQkReENqsZlPoM4QAWMQHgjO
-         Dh3w==
-X-Forwarded-Encrypted: i=1; AJvYcCXIK79y2cr2J+tVQnRVJYYtqYH5xwF9FshrW3xG1xvPg2umMJB5FtpOxwKBxSY1OBSgdpTGzRzUEg0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSFyQt74hyA+G4SGAJoJ0zsvdGQOdTFOJfX5SKhXCX7TXwEVHM
-	qgpso6zxChX/tsZj7b3T/Ln7w1r9Jho4wcg1mumIWHjtl7C2qYp+UxHtEgWgg9bG8uo/IySNaZg
-	J9EpD1TYkmb210HXZK67hknD7r9V8py4sBDBzvwI/DTGvWAzBPJmvbYKsmTm7SQ==
-X-Gm-Gg: AY/fxX403kixt8b3waXrR6hMnIvMay2FlkPcdzikF/UffzLrMe4jp9bWDJfhgIGLAMy
-	nxzx6ZRvpuL+ge/j8OrQmGtc2SRvAOjPSQHeJdbulaibC8u79lyzLMUthmMLImQKazLXAS8KwWt
-	0OMNVqHKYqEQOWo2uN3p7yZ9nvD2gHoIbif6rsW9Em0fq/U0Y5EZ46ruwaD6twOQN4Nhjg4eDFc
-	jHZt/oG6AZkZbwqmEul57YUDweE09D0puIiUg88J5oCrKF14pYw1kxjy4kwgOHN71mEgqP5+g/Y
-	IR4+D7wnoHs3QFyQRQQcYGVt99WSGLJgIbf+thhcMc3dzy1WbH2T+bH4HxRhadSwJMs57+QPmdU
-	wkK1YEIgpKnmirvS3EVtGtz6a0rJGExlSB9qWk/OTFneGH97iBJRUMqaSsQ==
-X-Received: by 2002:a05:6000:188e:b0:431:a38:c2f9 with SMTP id ffacd0b85a97d-4310a38c454mr320334f8f.63.1765895236273;
-        Tue, 16 Dec 2025 06:27:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE+ix4WzDep1rU/6+82Brj6lVB7AwDo2uS3uSX9AUtyHY1SENwAUhiUGkaJJ72DpisXXC83nw==
-X-Received: by 2002:a05:6000:188e:b0:431:a38:c2f9 with SMTP id ffacd0b85a97d-4310a38c454mr320295f8f.63.1765895235805;
-        Tue, 16 Dec 2025 06:27:15 -0800 (PST)
+        b=fjgA+LT0HseWEmjEp5JUHjC+N9uYnZOb8LxWNEhP2zozSt5grZIqgeAgCCwSv65X6v
+         memjosPu9FccgS1jTTB+jxqba4qxwsQ4BBPw3Zd0v/tt/bE3fZGFhS4toHl4U+FrqiW+
+         r1Rf+Ln87TLX/0liMOXnZ4p5rUFAa1iCFJA8r+T2ctZ00SCV5g3zIW2d9wwQLQ1FPr+X
+         TG5hUulV1pWFESc4Az02SK47IC1sHCOJB66E0APzdkbB+aU5gEE1izwhlTNudOkEAsh9
+         j5gps3UnF25C8qKR8RfL27k1l9kaN2+lpkjfBKAkHo4JGNtYqWA6up/zHBy3MmBvUrc0
+         DdoA==
+X-Forwarded-Encrypted: i=1; AJvYcCW2Vr49ufPTiGYYNsebV6ODIwSq/P7T4l1BkG3UBn/StSiXw/bpF8Es1OM5LRieUyvZh7BKL++juM0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUeK29Mjih5llmfP9INubmxZ3FEan+tXeq83tWKuVPiy1pXbS4
+	AkuOBJDj2S5ukJMxwAtkLM7BBZ1b3R/AnRUCi6zwyPEus5vEPNRPvzBfRDfA+y7fdm3jz8bCEz2
+	IZZO4qYNRAz2o8hqxFc//YDn+/eRuTzjCXcjp0m7r3u7ywiQnvls/CQPqKerkeQ==
+X-Gm-Gg: AY/fxX5Tb3mnyyAcKW+wZBBEVM4VWQDCl6dGLhhleGpEbWzi3R/X0Sq01gTtL3VuDTx
+	G6VTNfydjTUeDxMGiIcWK0BuVqG2xpfhxDwLsIXWBnAM6c2CgTgZky0hMZgPSt82bEJqQ5burI2
+	jp0WIUHYZp1bZ09jn00xPLT2KrmRimj8kfWJ36Oj2dIcKW/zUlruDjW+2ynB/F9EmEh1lOcTT3Q
+	JbC5h01Bu+CS2XWzbSEmsJa/QTwfKoNphmPpU6VJx/SUyyexqqIG/KgHzureVsSpbkAJURKsgqf
+	94bD/7b2wWU5bAFwZ1pSSlgqoz1dKKOlSo2/p+BTVUnkQbdJHOTCXM8PkgfvGr9uzZ4CmGJAxGU
+	hRpgM7XyNo7z85vtMXVlM+orldWBjVzY2Jo/dN/mKme+ZK/g122PuTZhhJg==
+X-Received: by 2002:a05:6000:178e:b0:430:f463:b6a7 with SMTP id ffacd0b85a97d-430f463b786mr10423854f8f.45.1765895741327;
+        Tue, 16 Dec 2025 06:35:41 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEEiQf6BBDsC38L/5VWuZcUazJwh3+kQd4Ox+qhR2hGcQAYTsyHnr0moIxAY07XF4YHlOkdZw==
+X-Received: by 2002:a05:6000:178e:b0:430:f463:b6a7 with SMTP id ffacd0b85a97d-430f463b786mr10423822f8f.45.1765895740892;
+        Tue, 16 Dec 2025 06:35:40 -0800 (PST)
 Received: from air.bos2.lab (IGLD-80-230-108-89.inter.net.il. [80.230.108.89])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-430f38d01d6sm21017928f8f.8.2025.12.16.06.27.14
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8a09fbesm35964873f8f.0.2025.12.16.06.35.39
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 16 Dec 2025 06:27:15 -0800 (PST)
+        Tue, 16 Dec 2025 06:35:40 -0800 (PST)
 From: Vitaly Grinberg <vgrinber@redhat.com>
 To: grzegorz.nitka@intel.com
 Cc: aleksandr.loktionov@intel.com,
@@ -91,8 +91,8 @@ Cc: aleksandr.loktionov@intel.com,
 	pmenzel@molgen.mpg.de,
 	przemyslaw.kitszel@intel.com
 Subject: Re:[Intel-wired-lan] [PATCH v5 iwl-next] ice: add support for unmanaged DPLL on E830 NIC
-Date: Tue, 16 Dec 2025 16:27:08 +0200
-Message-ID: <20251216142708.14727-1-vgrinber@redhat.com>
+Date: Tue, 16 Dec 2025 16:35:38 +0200
+Message-ID: <20251216143538.14975-1-vgrinber@redhat.com>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20251120105208.2291441-1-grzegorz.nitka@intel.com>
 References: <20251120105208.2291441-1-grzegorz.nitka@intel.com>
