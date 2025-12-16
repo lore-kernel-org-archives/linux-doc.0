@@ -1,149 +1,87 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3800839657F;
-	Tue, 16 Dec 2025 12:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1C739B6AA;
+	Tue, 16 Dec 2025 12:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765888346; cv=none; b=exKvJNYO3gwMSw3QEGHshualH8leLKsah+UamZlTtZ61b37u99ZaKS97oeHn9YbJDKd+/5xIRC8a298YVaOrlwtv3WMBUqbgBCUXxs1SU+3jSb+nUYSp8fGfftn5UIbf9mzEdBUd0I7Pa9Xt9z7CipqSzWbBKXLnd27gP9uMcaw=
+	t=1765888653; cv=none; b=BIfdhy7U8k52VMNhQ91oTOgvYgN47nsS3FN/FI9EI0CRxXw901cnl/V9FtgAqQ2ZvBas6B2NfClINYYdIuW2VDAQLlBDgwrIb9wuKQ532aRqj282e1zKo3CB6lBZcpMISKkjN9DVL39pvYeOsaPJRVE0y8QfHoqolTpX1jZM6zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765888346; c=relaxed/simple;
-	bh=gZwI7sOneK9KHQIkPczmUqip2/c0r5NuxsZIbFXEnvs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r0bKudA/rwMQrA+N6HLGe6OvcMP2nl1zehfRM39cBAx0LZPSpJBb3j5qDStEge00QsR5FogUPAvFEuxDFkUYoG1it5lAXxnKZjYZCjLK+CKCJHtjOak9rFjQOFDnFr7Cfps60cAU1vRcSXTJhGNfw3IAO/WN5F4239UUDWeysrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aULM0WOR; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1765888653; c=relaxed/simple;
+	bh=w1qYW2xmXgVfXXGeFISdHirQ14dBGp+01Z84bmcAoxw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=L5tai7oNR1bLeue4Lfm16EVXy4VdHfmWAsvnjF8jnoOthLk1pYs8Gc4mRNUTS3ApU/EY47GnSpql3kGXiABC2wos9wjBcqBnyEY5kpI625ZJz/ywcSrWKq5QtxpZCQWF8tjgR+ODuSZrWRH819VNboxZQJq5c49LNViMqnbMBu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aR3wVGMD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aULM0WOR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=PT+1SSkmSVMS0Ka1JPI8XlGmFQ/04yBEbtnblqzrJZU=; b=aULM0WORyMyG1V7q67HHf8Pnaa
-	NC5JgDx3xvq8f+F5KNJZu8KWF3bk3QdZNq9mAaJd4kCIL2Ga28adix+Urc5e4fLYxU69ezBB7gY58
-	5lm8yjCsk3qFLmry+oBd0hT3UqC3563GeqMBjfc+GBTZ6vxxwamfPdEiVrKRP1twYbsECNhYm8tFP
-	sFyalImbKjiTayr5QZxW7qOk8cNg8AiB+WgzHpnpuzEegTlZ8ErrdxvnCefnRvUGHiPZe3bf4KPr4
-	MzBHq7NI02WHXEqjGEvQA1Grvv3OmLz94h3Ff5gqAXkM0itxSMmOPBVBsR/Oc3Uew3hsmaYs3hWiz
-	WDe7RvXw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vVTMO-00000004iUO-3Ujr;
-	Tue, 16 Dec 2025 11:36:56 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 9425D300220; Tue, 16 Dec 2025 13:32:11 +0100 (CET)
-Date: Tue, 16 Dec 2025 13:32:11 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-	Chris Li <sparse@chrisli.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Johannes Berg <johannes.berg@intel.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aR3wVGMD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD50CC4CEF1;
+	Tue, 16 Dec 2025 12:37:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765888652;
+	bh=w1qYW2xmXgVfXXGeFISdHirQ14dBGp+01Z84bmcAoxw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aR3wVGMDzNnIcKBOOE+/MF8FuwhIksnbhTapQBBhtqZTjhlO6x+KDxt4u7wGbRWBR
+	 uIQGNnaOL1iJ6rj+u9ahs7nPsz7TyD8OD5xoRWm556DnhXi6uqhHyv48g19GovYZyf
+	 +m7r7OrR/U5DziC0c02H5N4W7n3tho9s9qFCJoJxtaxgD3zmjAEPlDVhjC2pUX+I3W
+	 TPeor9o3wMi6y0HglB/kEQLUwwqu9oenAfdpokaG5IjzfCfuUPTait/g8wp7lr5UdT
+	 LnPVTqwgHpBylqiT3FYlEG3wede2hrslhhEgkl3t7efJEDN+YTgBP1+GZXhSeukbtM
+	 hKJnAm77V8CXQ==
+From: Sven Peter <sven@kernel.org>
+To: Janne Grunau <j@jannau.net>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
-	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
-	llvm@lists.linux.dev, rcu@vger.kernel.org
-Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context
- analysis
-Message-ID: <20251216123211.GT3707837@noisy.programming.kicks-ass.net>
-References: <20251120145835.3833031-2-elver@google.com>
- <20251120151033.3840508-7-elver@google.com>
- <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
- <CANpmjNOmAYFj518rH0FdPp=cqK8EeKEgh1ok_zFUwHU5Fu92=w@mail.gmail.com>
- <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
- <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
- <20251212110928.GP3911114@noisy.programming.kicks-ass.net>
- <aUAPbFJSv0alh_ix@elver.google.com>
+	James Calligeros <jcalligeros99@gmail.com>
+Cc: Sven Peter <sven@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: (subset) [PATCH v6 0/7] mfd: macsmc: add rtc, hwmon and hid subdevices
+Date: Tue, 16 Dec 2025 13:37:12 +0100
+Message-ID: <176588840252.31586.16326303552542183142.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
+References: <20251215-macsmc-subdevs-v6-0-0518cb5f28ae@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aUAPbFJSv0alh_ix@elver.google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 15, 2025 at 02:38:52PM +0100, Marco Elver wrote:
-
-> Working on rebasing this to v6.19-rc1 and saw this new scoped seqlock
-> abstraction. For that one I was able to make it work like I thought we
-> could (below). Some awkwardness is required to make it work in
-> for-loops, which only let you define variables with the same type.
-
+On Mon, 15 Dec 2025 19:37:44 +1000, James Calligeros wrote:
+> This series adds support for the remaining SMC subdevices. These are the
+> RTC, hwmon, and HID devices. They are being submitted together as the RTC
+> and hwmon drivers both require changes to the SMC DT schema.
 > 
-> diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-> index b5563dc83aba..5162962b4b26 100644
-> --- a/include/linux/seqlock.h
-> +++ b/include/linux/seqlock.h
-> @@ -1249,6 +1249,7 @@ struct ss_tmp {
->  };
->  
->  static __always_inline void __scoped_seqlock_cleanup(struct ss_tmp *sst)
-> +	__no_context_analysis
->  {
->  	if (sst->lock)
->  		spin_unlock(sst->lock);
-> @@ -1278,6 +1279,7 @@ extern void __scoped_seqlock_bug(void);
->  
->  static __always_inline void
->  __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
-> +	__no_context_analysis
->  {
->  	switch (sst->state) {
->  	case ss_done:
-> @@ -1320,9 +1322,18 @@ __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
->  	}
->  }
->  
-> +/*
-> + * Context analysis helper to release seqlock at the end of the for-scope; the
-> + * alias analysis of the compiler will recognize that the pointer @s is is an
-> + * alias to @_seqlock passed to read_seqbegin(_seqlock) below.
-> + */
-> +static __always_inline void __scoped_seqlock_cleanup_ctx(struct ss_tmp **s)
-> +	__releases_shared(*((seqlock_t **)s)) __no_context_analysis {}
-> +
->  #define __scoped_seqlock_read(_seqlock, _target, _s)			\
->  	for (struct ss_tmp _s __cleanup(__scoped_seqlock_cleanup) =	\
-> -	     { .state = ss_lockless, .data = read_seqbegin(_seqlock) };	\
-> +	     { .state = ss_lockless, .data = read_seqbegin(_seqlock) }, \
-> +	     *__UNIQUE_ID(ctx) __cleanup(__scoped_seqlock_cleanup_ctx) = (struct ss_tmp *)_seqlock; \
->  	     _s.state != ss_done;					\
->  	     __scoped_seqlock_next(&_s, _seqlock, _target))
->  
+> The RTC driver is responsible for getting and setting the system clock,
+> and requires an NVMEM cell. This series replaces Sven's original RTC driver
+> submission [1].
+> 
+> [...]
 
-I am ever so confused.. where is the __acquire_shared(), in read_seqbegin() ?
+Applied to local tree (apple-soc/dt-6.20), thanks!
 
-Also, why do we need this second variable with cleanup; can't the
-existing __scoped_seqlock_cleanup() get the __releases_shared()
-attribute?
+[6/7] arm64: dts: apple: t8103,t60xx,t8112: Add SMC RTC node
+      https://github.com/AsahiLinux/linux/commit/faf317d4c705
+
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
+
