@@ -1,145 +1,68 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C169823371B;
-	Tue, 16 Dec 2025 16:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7791C2EFD9E;
+	Tue, 16 Dec 2025 16:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765902988; cv=none; b=mw66p4vvbbNf2fnnrssKlcUmGpfti0n0pP+ZuNJqMMzKfqffC6M8NnHyzY8JfBRMtwYagJ1i2EEElZkL+FQYqfmZGxSj2SXBauZIgs544moHSPE6buBA+q9LxbFwQfAZQwDljr+JyKV+uO60MKJZWJ4Bb2oV0puUAdNXvN82BrA=
+	t=1765904374; cv=none; b=b5wRPNTO8j8gLYkuXc//uI+Z6zyFUiioL3YPk3aNKZjbC7oBXGnmxY2rbk2ripTizpYRbZ4S0583MgtG8Z7guEPHoBjqN9EhMHD8g367yTP0MA/JySmYsw5fzb2JdHwRT8XdBDqGNUxd9mm9830/y6BfA07dXaBFzKD/MyuIkAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765902988; c=relaxed/simple;
-	bh=oFjVZa6cQDUNg1q8/naTH9lAAeiTjOcFhVLNBZ1HADw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=qFbJ2dTfoE5yepWacRSi6zwRW6ogua6H0FMjbqAuOVe2sHafTwEewggt7nLTsI1g1e79pvkIBDSRZVHYqf6O7v3GgHVGDMQyc+LVCpQTl+HFZoiqrIAqQx0GDoR1PwqBURFGthqPQfuI2JRMec1z3u41bmwk/X7qUpTReueMjvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Hxcp1qe0; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1765904374; c=relaxed/simple;
+	bh=u2xpFD/jCgWb8wPDV9D7Rh3i1CiZMtxI89nFvq3Au5I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VgN5SNjgCjYzeq0QKeBNa/lQ+kVH68lELZzP9WBmRcujXK0sU838H9jRP4KIX1tTkImedxSsAPwuKbJwGtvoGbwwONXPV1RoHRMuGX9PHXam91ZMKyzWJJm/Apb+sf46L8pSFfhVHLU8V6hOXl8NnbQJKFdvknZrfentB6L2+6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bd0D1hOV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Hxcp1qe0"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id E962E1A223D;
-	Tue, 16 Dec 2025 16:36:24 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A76266071C;
-	Tue, 16 Dec 2025 16:36:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F316C119A904B;
-	Tue, 16 Dec 2025 17:36:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765902982; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=PzhR0G4mBnm/z0O1Hfgh44ISCPhT1HMJphLOZLV+TY0=;
-	b=Hxcp1qe0jp9L+ZP5B2CcjRugnzvNJMFJ/9uLnc/dPwH5UC2kAbZKmRyiMLwCIMY3l1rGeB
-	r1i0PJRzjjFJ9grjtuxiAKvLXLVgaYVMvrqPir01kIYE5+3GlMEUdCh/SeWGh8FfSmc4dD
-	BQCAl/r7vtgA55arSrrcGj571k5Y7jabJyHmtN3hyRh7HvY9LH9G+IEVTIcBK5YF8EbLdi
-	mePmspCgWnZbPbX9OJXUW7hcaIiZlm5vXCzrPfRFRz3YSxNhCgjgDAJf2WLsdzNMJz7Sdl
-	go01yz6G44JOyfuUCxKxAYqzeeuqGpt1lByELY1A2jHL5QL1gBe/telVFa0/Cw==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bd0D1hOV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A77EC4CEF1;
+	Tue, 16 Dec 2025 16:59:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765904374;
+	bh=u2xpFD/jCgWb8wPDV9D7Rh3i1CiZMtxI89nFvq3Au5I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Bd0D1hOVHBTjH9OBc1gFFBOPAhERgJS7o3lS/N6/6k3/FHneq0WFlbfVUJNB3fnSh
+	 LfO7TlRcQxMHuhkRLJquV5SYzm7RcueRNZTpSzmDKHSwjtyb6PXs2eEyzHQSPGCWtc
+	 LV6xy0jLOQ91Vb4QP8XP5M5IEDjuXQNar5V44byp7ddf+nFiLMFJgp5U28xjRN/b1x
+	 ci/wVV58jYoQ5xwncjv4P4Rhz52VaJMsYgJt/IzF1wBC8GAOIiC3YrbZmeKWnZqnSl
+	 uZqtdmw5fsWspa4pOYdg2MZovz5OyqLGfctA0s238y/wAQ6rvOkRDpZ55rpUwoSox6
+	 WEQmYXUtoDDaw==
+From: Vinod Koul <vkoul@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Bhanu Seshu Kumar Valluri <bhanuseshukumar@gmail.com>
+Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, khalid@kernel.org, 
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org, 
+ david.hunter.linux@gmail.com
+In-Reply-To: <20251113064937.8735-1-bhanuseshukumar@gmail.com>
+References: <20251113064937.8735-1-bhanuseshukumar@gmail.com>
+Subject: Re: [PATCH] docs: dmaengine: add explanation for phys field in
+ dma_async_tx_descriptor structure
+Message-Id: <176590437126.430148.14439468580856849330.b4-ty@kernel.org>
+Date: Tue, 16 Dec 2025 22:29:31 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 16 Dec 2025 17:36:07 +0100
-Message-Id: <DEZSCVYVCZ71.1BRL4LGVYAZAX@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>, "Alexey Brodkin"
- <abrodkin@synopsys.com>, "Phong LE" <ple@baylibre.com>, "Liu Ying"
- <victor.liu@nxp.com>, "Shawn Guo" <shawnguo@kernel.org>, "Sascha Hauer"
- <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Adrien
- Grassein" <adrien.grassein@gmail.com>, "Laurent Pinchart"
- <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
- <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
- <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
- Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
- "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>, "Chun-Kuang Hu"
- <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
- "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, "Anitha Chrisanthus"
- <anitha.chrisanthus@intel.com>, "Edmund Dea" <edmund.j.dea@intel.com>,
- "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
- <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
- "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
- <alim.akhtar@samsung.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
- <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>
-To: "Maxime Ripard" <mripard@kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com> <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com> <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa> <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com> <20251201-thick-jasmine-oarfish-1eceb0@houat> <DEVKQWH8GU0D.2NWQ1U7IOIEHI@bootlin.com> <DEW6XHD12EY4.1THDR9UMJOTAN@bootlin.com> <20251215-mottled-dexterous-marmot-c69ad3@penduick> <DEYUNHVYCKYJ.2HU878WBYCJMV@bootlin.com> <20251216-cute-bandicoot-of-authority-3c492a@penduick>
-In-Reply-To: <20251216-cute-bandicoot-of-authority-3c492a@penduick>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-Hi Maxime,
 
-On Tue Dec 16, 2025 at 2:49 PM CET, Maxime Ripard wrote:
-[...]
->> Not sure why, but it's taking a while before I grasp your ideas about th=
-is
->> series and meld them with mine. I hopefully got a clear POV now, so base=
-d
->> on it my plan is to rework this series to:
->>
->>  * keep drm_of_find_bridge() but renamed to of_drm_get_bridge(), and kee=
-p
->>    patches 1-5 (with the changes suggested by you and Louis, nothing big
->>    and all already sent in v2)
->
-> I don't think we should use that name, but on principle, yes.
+On Thu, 13 Nov 2025 12:19:37 +0530, Bhanu Seshu Kumar Valluri wrote:
+> Describe the need to initialize the phys field in the dma_async_tx_descriptor
+> structure during its initialization.
+> 
+> 
 
-OK about the rename. I just had sent this email before you requested the
-rename. v3 is in the works with the of_drm_find_and_get_bridge() name.
+Applied, thanks!
 
->>  * not add devm_drm_of_find_bridge()
->
-> Yep.
->
->>  * add next_bridge pointer to struct drm_bridge and call
->>    drm_bridge_put(bridge->next_bridge) in __drm_bridge_free, document it
->
-> We don't have to at this point, you can add next_bridge to the
-> drm_bridge pointer if you want, but I don't consider it a prerequisite.
-> If we don't we would have to create drm_bridge_funcs->destroy
-> implemnentations to give up the driver pointer reference though. Your
-> call.
+[1/1] docs: dmaengine: add explanation for phys field in dma_async_tx_descriptor structure
+      commit: 08be54a9e56f9523b50d1923a94a48ef5890c0bc
 
-There's a destroy finc already, so I'm adding the next_bridge pointer in v3
-along with some driver conversions, including one where the destroy hook is
-needed.
+Best regards,
+-- 
+~Vinod
 
->>  * convert patches 7-26 to use bridge->next_bridge where applicable,
->>    or to do something different when needed
->
-> Depending on your decision above, we'd need to either convert them to
-> use drm_bridge->next_bridge or create a destroy hook for them. Either
-> way is fine for me.
->
->>  * maybe remove part of patches 7-26 just to reduce spam and rework effo=
-rt
->>    in case of further iterations, to send them separately once the appro=
-ach
->>    is accepted
->>
->> Does it look OK?
 
-Cool, thanks for acking. v3 is just a testing round away from being sent.
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
