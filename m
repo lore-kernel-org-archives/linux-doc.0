@@ -1,375 +1,174 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012030.outbound.protection.outlook.com [52.101.48.30])
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazolkn19013083.outbound.protection.outlook.com [52.103.74.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2BFB32860A;
-	Tue, 16 Dec 2025 09:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1A52FDC3D;
+	Tue, 16 Dec 2025 10:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.74.83
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765878221; cv=fail; b=GY4H1PK1B5XZ6luYaupsnf0sWoLekxWOdIilgVn06UMbPO+yTPQ4XyUUw/QnkMkxuwbU9TysTznAeyO4scoOSnHyeNCv2ODQ3Z+IY80zV+5b7izHhKJgA+Vs7qhZNXTo61AjuXE5I7MIqhmMVCXt740VHYFSxgKy2G2jQ/YZmNs=
+	t=1765880414; cv=fail; b=R5l72jZrd6OH2JHW5etx87qSeivXD05b7d1FWhGnKBsY3Yfi4migsDTyxkfGeYOMxKTbCJFSC3HvYh99cawLUkG06mBfdvGAlS+hQbd54sanMBABpNYRZZ7HgHybfFgK2RXHelmmQlxmCTHgsshp9FTEZhiGVYmJu1GU1/wFsT0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765878221; c=relaxed/simple;
-	bh=dKYAlB25we805EG3YR11JwJ15YG2lCC0EEnBvOTFpR0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=DcJ3xtuWmBGchYBNvIY8fDtjWrVLOYhwIqyxhjBPCCVaIO5SOTkyNv5QlOLOqIArNktw3CDYJISsOfy/pHAKCEP5hZddIc+YMh8Ak4lq/pUDbiRpaKb82JdquIBmpbvOY5OzqSPTwRt8xoO2e0qPjOFYukAES+ysF2AnQPR7ems=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5NS+1V75; arc=fail smtp.client-ip=52.101.48.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1765880414; c=relaxed/simple;
+	bh=QvS/y1KqNxd2do2RRIm7t5So0/sXaCiMevieMTPhRAI=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=k2uRWI1/a8xdrToPfLnMA6CYDaPz2Yy49U4HHTE/+dhJyJ2Tt5JrIG+KPpGZX+dPd6FJlUWTQ4WLRlwx9ycBqnbEubo+ZrbVxaIvRw7fYt1CzF6Y5MLwOyXNp77yhWZUbZMPEhW1OUQBJO5yLUDRQe5MfBYiP6lnxiG2C2h9kq4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=PbHP4YRp; arc=fail smtp.client-ip=52.103.74.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5NS+1V75"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="PbHP4YRp"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aVVLAPI5QZADduJW8N8fbmzPfsV9YSM89XpT/myz2q1vXcBD3BFu040NgJUq1Wr+PwXBn5hCIIQmIQA60rikLqvkz7eToj8/c6AxdfKEtKmZy7wphnN41wRroYoOknbp06O6E62V6dyiAmTzfq4df3xcghaLrelq6fCFNZeaBhrE4FI2rybb4N6sipkhe4bPTgfaX/Lh4HfJnE5vVop5OQ4RObRu00vreecEbGAQd+Pbx7OoB9Z2h1eMfWpIW/nWTY6hr7lk8305UG9yPHau06oNVrIhzmS+oigsUb+rL7I0+Me0p4+Lj5tw6rYDowc2kF0/GaQM/S0sRZwMi8E/3g==
+ b=Ug6DDbwq857da40Eoo2/+kZIuimgWAZ27Z40Y9KmcNdtBVyfOCCWp3O/ylC/0CeUJw2LSIGH5o2RjYikcuH2xN6yNUAew4A5cYiK6xyc1kj/pLNmdnbF3PKSb+Rj+H6vRBW6aFI4U77qp/DZCnELuw1Y21S8QlNNmGC9YkFhvUt/gozLHr2FwrqDHmR5keK3MTrj9H/+xeA7VmM/qy69ywyr/bNAQedkY+ZBf95gNOK+CCQdGys8GpkKcwnRhdJHOM9xm2TU9znWj2HiXPtNXi7eaJMH3bLX1B2qaNC4YTu7bXD3CUIyAS81q5epCCpF6GT0/gNfkmsC0T0WJiVc5A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=de6VYCDKblq46nJjiRvypEAJkLKpNjJokKGCI2pvzDY=;
- b=Yv3d/f8hDmUqqbtG8HnH150uYSIsPIYWsZBYAQmMkIvd4Zt/1HDyMIvF43km4bck1/ctgvZzVwDsvlcyFW6tFDMwbAmhWivUdO1KB1lkAK/sn/o9HBk1dSpWMXlf1XVK3TQlKrmVpLNN+7JVlVVMJvlksopoiN7opmQk9S28OoiT+x7kBIoSjpKHc89ypjvoPcrWy79KyeaDB9xQgNB58l865D4TdzHh3vLYK3dDKBc7Da4oIA3UmIAzc21IMGC9TY7OP4AIftba68TJf+TXR2aiFk6iTkuSk3wzx+PtC/RvQlnxbv7ZCETIOfSsZf59mb6GWMfTsoium0qvLrylaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=QvS/y1KqNxd2do2RRIm7t5So0/sXaCiMevieMTPhRAI=;
+ b=Mg+V7rIIYvjgwopdjH6AwH7YSqDzHjZoJCSqcOYXO5t6qtWHUpyEtrDgySDtsGvDu79sTnDWz/Owl+s7PJBk9xQGctrAZZ71fY8qNe7zEj1D4C6T6jy7Mk3WCDXN4hZiHyZt6xVq+JX6yuZUlOqhsoDyabigtDOqL2zV/rnysZc/8sC5UiqlrZJSP1yCiUp3xNBIYil9Yn3++MYLnGhA5hl84tJFjugDP1E9dZ6lAqGn6INErc1Tnb4ThNmMDmgZVjj322E30nikbFLQiuvwUXHohA0XbAbWMIGzJeeaFSj2ngPO69AotYRKJsrQeVCoPuCexB80WZjItgR0LcUglQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=de6VYCDKblq46nJjiRvypEAJkLKpNjJokKGCI2pvzDY=;
- b=5NS+1V75H4U2S9uqfeaLGsYAb46gh/mIr49Z9U5f03MlxDBRD0hEiLbwGpqCqZEwsierkmdbO3CDWKc/faopVCdsb2LuAzdzJdMpztf+/BGeOjuDqqykdb2CE/qirS5hoix2Q0iDIUqNgjKYTY9Hx3Q5C+SAK7FX12hwGs6ERuI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB7091.namprd12.prod.outlook.com (2603:10b6:806:2d5::17)
- by IA0PPF7D094C5BF.namprd12.prod.outlook.com (2603:10b6:20f:fc04::bd4) with
+ bh=QvS/y1KqNxd2do2RRIm7t5So0/sXaCiMevieMTPhRAI=;
+ b=PbHP4YRpCmd/dyrXuiNn+Ls7eG7KQZX2Pth4yWb8X7nHQsRjWVcqgJL/1hNkTuiqswGvaBwCo/QFFHbzUGKflPAv+TNt8RT5/zqX7AeNTuV4IRNiZ849ZGCaP1lpAaXyjK1lxGOWtjRwdKbqXB8H1HqAAiownwipTQxgFSwnacrADgOZ8d560Jv45sPISPoQDVvECWgm7FJf1HiYK704EJKW5kCAi+CBEO64Wj4KhxxFj3NzOhyRB0ZsAiP80hsEJAGgjTr97kVdLNbfN7oFTEX85W/juMP6WxcL9w/okvaGJr6jLNDESM+EebDilCjoI/q6iZTlrHAByoCOoIOlhQ==
+Received: from SEYPR06MB6523.apcprd06.prod.outlook.com (2603:1096:101:172::5)
+ by TYZPR06MB5930.apcprd06.prod.outlook.com (2603:1096:400:336::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Tue, 16 Dec
- 2025 09:43:36 +0000
-Received: from SA0PR12MB7091.namprd12.prod.outlook.com
- ([fe80::d759:a62b:f8ba:461d]) by SA0PR12MB7091.namprd12.prod.outlook.com
- ([fe80::d759:a62b:f8ba:461d%4]) with mapi id 15.20.9412.011; Tue, 16 Dec 2025
- 09:43:36 +0000
-Message-ID: <1d54ce3b-fbdb-4d1a-bd07-576a6ed85ea5@amd.com>
-Date: Tue, 16 Dec 2025 15:13:27 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/5] drm/amdgpu: add UMA allocation interfaces to sysfs
-To: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- "Tsao, Anson" <anson.tsao@amd.com>,
- "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-References: <20251212-vram-carveout-tuning-for-upstream-v6-0-50c02fd180c9@amd.com>
- <20251212-vram-carveout-tuning-for-upstream-v6-4-50c02fd180c9@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
+ 2025 10:20:08 +0000
+Received: from SEYPR06MB6523.apcprd06.prod.outlook.com
+ ([fe80::4f9d:bbfb:647d:e75f]) by SEYPR06MB6523.apcprd06.prod.outlook.com
+ ([fe80::4f9d:bbfb:647d:e75f%3]) with mapi id 15.20.9412.005; Tue, 16 Dec 2025
+ 10:20:08 +0000
+From: Abdullah Alomani <the.omania@outlook.com>
+To: "davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
+	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH] net: docs: fix grammar in CAIF stack description
+Thread-Topic: [PATCH] net: docs: fix grammar in CAIF stack description
+Thread-Index: AQHcbnUW/uU0ndLqa06O2qf98g64SQ==
+Date: Tue, 16 Dec 2025 10:20:07 +0000
+Message-ID:
+ <SEYPR06MB6523AA8FFC17D23FD3539A658EAAA@SEYPR06MB6523.apcprd06.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: "Lazar, Lijo" <lijo.lazar@amd.com>
-In-Reply-To: <20251212-vram-carveout-tuning-for-upstream-v6-4-50c02fd180c9@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5PR01CA0010.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:174::12) To SA0PR12MB7091.namprd12.prod.outlook.com
- (2603:10b6:806:2d5::17)
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR06MB6523:EE_|TYZPR06MB5930:EE_
+x-ms-office365-filtering-correlation-id: ec01f3fc-8c99-47fe-c9ae-08de3c8cafe7
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|461199028|51005399006|31061999003|19110799012|8060799015|8062599012|15030799006|15080799012|3412199025|440099028|40105399003|102099032;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?uISeJB04VJhteYieDRX37EaOli8O7pMosqoy5K5zkzeWiCO23TNd5xetlj?=
+ =?iso-8859-1?Q?gmzsnaLQzyEmyFRx2opPtJfSrtSDbcbTAj/WDhd1QzuaQAunlUQKrAAPEL?=
+ =?iso-8859-1?Q?+ZFHCzVREYWoQ7AVEl50sNE+QAj/oZZ46z2InyRqxRTxtMBd20kxlg51je?=
+ =?iso-8859-1?Q?l9ZUk/FrTE+ueoYV+zOL1dFkewH03nYawxbZiQh+k8kwcgoXUnIUkIKqkN?=
+ =?iso-8859-1?Q?X99zuXwdUZhweDd8KLZENtM7386UFDun0GfHafoU34Hhwm3Fq6ULhy6ywE?=
+ =?iso-8859-1?Q?nYlnptPWGwIantPcls3poVSRi54yT1vbnTDNy2LrIzK2Wv368jG//6qitQ?=
+ =?iso-8859-1?Q?ODw0nN+okqprz/XEtFzTiyshBzr4dvVzhtSc6j1hj3GZduz+SvP0ehzOh4?=
+ =?iso-8859-1?Q?CPG/JsYIjfIFA8nSES9ibbXZJoddGek8EGb6LuNat32/U+8AA4VxBhC59+?=
+ =?iso-8859-1?Q?MbmoEEmQcf3uj0Gd3G2OhirWh2Z3Cc/MrLxMJsL3NYQ7V3kTAK5cm1noQG?=
+ =?iso-8859-1?Q?s8cDsU4NX450Viix9mpNaN9LbOoszzU+13FyZtLrrTol8W0CzkFb39vPq8?=
+ =?iso-8859-1?Q?BioNV/UWdTrDaC6AzAhi1dNKmG7ennk3bgnVp5LJK1GhwR1yilzmmcy1P9?=
+ =?iso-8859-1?Q?F3yUdqNPbbbbpjAnMnaqnyXqoQevsCXewhouC9RQrr1HNUoUc+Mg4kjkJv?=
+ =?iso-8859-1?Q?KM5gWDGljD9kpOqEelwpRZVkOl8SZmqpmlWpE0a+PFMChd8m8BqsjsatrZ?=
+ =?iso-8859-1?Q?fpzntBnX0b+9D0JysNEBtP1+558OENlVXHXC2KE3FT1d3z2HIayecCjqxN?=
+ =?iso-8859-1?Q?9F4Dp0Pu8ZTGcZlVzG/lzmuLLXYdHHR+rc0ulZYgmUCzjt4WTh+iVHEc7Z?=
+ =?iso-8859-1?Q?CwNUP5su2tsg/tpib7OvgOq19dOFQls/p7ZWMABFOOx+DpTxCM1DQiwTLe?=
+ =?iso-8859-1?Q?lPzAjfrvY2038ZctRsNfH0qaGUgH2PmCb8Kkt4lmINPcWdoSJ6JP9S9YQ5?=
+ =?iso-8859-1?Q?RDrMfg7HAXRjPBvUdzl0+wIiYMPtC8AACit+jqcQcAd2SqMmVxmf8PJEZK?=
+ =?iso-8859-1?Q?UVj0/Hj4hui7EkWd94YkwRgX+3iMTPT9firs3L6OkCC+H4kAvAJmnv9z2n?=
+ =?iso-8859-1?Q?XJvpaCKixdRuckraFubPc9u4DuCAkZbxijRckxYsFBdUv8mSd66sadD8Ko?=
+ =?iso-8859-1?Q?eO2yq3Vi3nGDcQ29nuDm0A81Imn0qpRq+XNS2YUSYBEUMmjZ2C1FyFEuax?=
+ =?iso-8859-1?Q?Rp0IwNeLglkHGAxnoWqg=3D=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?l8W6G4grDdwAolcr34rtJYRF5NjKOeG5/BjQeE72EFUmsQg5DY4uH9D2U5?=
+ =?iso-8859-1?Q?0SdzmnzjM7sbbEjyIIAk2ql3U9vG8TJwCaHMT5KyAEyKt9E+dp0c9Mp2Uz?=
+ =?iso-8859-1?Q?DbDhfbjdZxA1P29Yum7dB4zq//5Xr266s/YdGP03ODyw43zLp0IAfdzPOq?=
+ =?iso-8859-1?Q?UX1I8M0cikOorQiIlaI7gSY0dGJ/osRimoiDD40nj/k2jTJPk4xLsFi/UJ?=
+ =?iso-8859-1?Q?g/e7pxz5tHAN27sotMgPgCxKcs/iqnSe3R0ljRWODX9V+QGE8FXPFyaVJm?=
+ =?iso-8859-1?Q?YEb0f4iw4D9xwcR8lNOij/z4fyfhvpdtRKZnSPqDaWjlKg4DFkQuKhFIpG?=
+ =?iso-8859-1?Q?g3y2uiFnXANxfMv4PGEPUoFz0dImBh4Xto/xSvoeH4gOm23ny1hPnk5hEJ?=
+ =?iso-8859-1?Q?eMJV/Yg+JA+ND50UzVWvXsDw9c29Z3PvTBP+/eU4gfB2g+2EfgAU2t/TQY?=
+ =?iso-8859-1?Q?SgMGAtdnKavLqeXJ6nENPiasa7hj++me3EL9ZdhzFFpnnKP5/nKMlz7pum?=
+ =?iso-8859-1?Q?YnIc0cydC9DdfIHHpteitHjsk8qFXHQvV74u0HtLA1GOyoInnpFYA1/JSB?=
+ =?iso-8859-1?Q?5YT8izbdQxJi9JoeBj1r+YlKxvc92H2UUGAKgTmXGpA7GGnmgrngKy+n4Z?=
+ =?iso-8859-1?Q?j3L8oUKlOQJGOQDpTIcVNBimcUfcmW1RflFmF6Tkl7iBeenXcg0wdH06Nk?=
+ =?iso-8859-1?Q?fq/UZgP0fojp1LoAlMLUjb/4xnjIidbULmTV2KUUTZlydNOzDinFEel0Yb?=
+ =?iso-8859-1?Q?zGcnEdjxqT63tfrAatGxxAGda4rFmGZUaWUpwBEdGN0UBGn2FY7TfdBDx4?=
+ =?iso-8859-1?Q?zC25+pQBTfSZdgeKXy/hSaWbyWDxthJqSLIPI8SQknHnbNU7es1JAkQsnw?=
+ =?iso-8859-1?Q?EdP3G5R38B/CIIwkhK3KWpByJOI/GvGCqsGpZ99wBCHjfdSSNaaW/l7fM1?=
+ =?iso-8859-1?Q?FJqRmq+4e0LV+/jVIPoFMq5OSDW0YXOGcQ6kGjLb4et+GHm6Ty3XytMB44?=
+ =?iso-8859-1?Q?z0EjWWYR9h78CVJ0gs3M/w+vimORzXnyyUHmGg6Ls5VevSuEZ96UZPbXyy?=
+ =?iso-8859-1?Q?BZ/RRF2TSs9/aUKEYrmJokbx1DSrM2yLp9ZlvPNtR8f/dOlzhK5HL0l6kD?=
+ =?iso-8859-1?Q?fN+WVE9k1GHpLwatg7cmJdyzSOpWVuWUmfMbBbDt9oOVDEN+/0xETGiDEX?=
+ =?iso-8859-1?Q?lp0ZS6PPEAbSUHtkhOMCOmrYgm6/MMMkPM3yxBroV0NzQ4qXOZxEgR44MN?=
+ =?iso-8859-1?Q?wXCF5M45bkjRSZYvye0vBaUAYLgEC7K3E2mzxKpO4psvVTm0avd1/aWUlP?=
+ =?iso-8859-1?Q?Cztb2S7UtM2Rw0RzXuMBOqRFulroLlxwXUn+f/NN6g2qf/E=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR12MB7091:EE_|IA0PPF7D094C5BF:EE_
-X-MS-Office365-Filtering-Correlation-Id: 50b42c63-99c0-429d-b92e-08de3c879548
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?eEV6d3BNNnVkOTdmY0xkVGJjazJFMVdBUmpJTmV1WE96WEh4TDFqeFNiakpK?=
- =?utf-8?B?V09zU0FPR2xGcHZYeUxVdExNZUc4MTRtd0hkWHpqcGNpTlNsekR0MTJtVlJ1?=
- =?utf-8?B?aC92MCsrZ09yVGZkSkMrWksxNk12UG5JVHBkMnpURlVlOERqdmFocXRvZU1Q?=
- =?utf-8?B?YXVPc1RFaWtEMWRHK2dFTmhuRTFuZzBqU2J4RTRCbm1OQ3dITWFKdGdkWHdT?=
- =?utf-8?B?Qi8rSkZWcGRnK281eFZDUUtsZ1kydG8xNDdGU3hUa3lia1lOT3ZWOEttbFVa?=
- =?utf-8?B?QklDaWdqeThEUGdQbGRrditjOHhRWFhqd3l0VTJGN04xWm00WXdxSDB3dTNI?=
- =?utf-8?B?MW1relhmUTNKM3M4alJjUmRvZXgxbUNVV25McmdzdlMxdTRiUVF3Z283VVN5?=
- =?utf-8?B?QlhWTTkwQUhTMmUxcXpJSWk3eFdieGh4MjBYblVQdlMyT3kvWGJpWE1uZEhi?=
- =?utf-8?B?eDRybngwaWhhTS95RmllcjNOZzRBTTdPQ0owV1p1TU9ENlJHcWJNSkljdXBk?=
- =?utf-8?B?T3ZUVXNtcjBwdWpFU25jWU5USEtvMDJFcG5FY1ZuQS9kQkEyTUhZYkZrRlRF?=
- =?utf-8?B?UzVLWHFCNURmdnZZbXhpaThsR3YyeE1uTUFaTit2M0xrWlFqMmgvN2NQcmo5?=
- =?utf-8?B?aE04K01QOTE0M3BUUHZjYkdMaGM5Y0FBTjRrZ0hnaFAvNDJXeWc1dHlwMEFK?=
- =?utf-8?B?aUE1bjdxSWYvRFlQQ0xlSGZpYi9DRHpmWjl0cnhQM1g0K1M4NnZ1dTBJRTA2?=
- =?utf-8?B?ajRMa0YwTFZxazN6enNVUDM0RmtkbjNsT0F1SnZxU1d6OG9mTFR5c2cvcG05?=
- =?utf-8?B?K0FnbFA3dGlwbllsV1VxbWFudXZ5dEM4QlFzbDdwb1BPaXhtbVlBWE9mQW1B?=
- =?utf-8?B?bzRNaWkyWGEyak84UVVCN0UxMjJUUFNwWW96MUh2VEpSeWUrSENFbVg2SjlF?=
- =?utf-8?B?Z2hkOVorUmd4ejFQMUFYODFUbU1jSmJWTXU0MWxKekNmRVgwYjkwa1NCNFpm?=
- =?utf-8?B?cENOTmQrbHlheXZSRjYxbENFMVZpLzBQV2V6QnN2eDhYMUI0VXRtbkx0NG1r?=
- =?utf-8?B?SlcvMkI1dnRYYmFwM3hzbGFqV2hsbXZ0VkV4R1ZPM2RmeGdhYnRUUGQ1TGFJ?=
- =?utf-8?B?Rk9kL1R6QXNjM3VXZ0lJMDFnbmxPT0VyOGxwaGkyak00WVBBcG9FZytTU00y?=
- =?utf-8?B?UXplakpHanBoZWRQNncrb0I4UnM4VVRUTC9OejJhby95SEI4d0VTL085c3dL?=
- =?utf-8?B?M0p0c1RJMWtseHRNRWlZY1dnYmpJenp2K084QTJTMjlVWDVzaVhNZDVkNlBy?=
- =?utf-8?B?QjNHSVViN3RPWlZ0VmdSNm9CZUs0c3lHc21sS3ZXSHZNeXpmamp3UUpBRHdn?=
- =?utf-8?B?NS9sWXpLYWZvenUzNUg1aGxvWUpFQ01kb0xkd3grVzVqSFl2RFJrV1NtK01t?=
- =?utf-8?B?MUhiMytpNXNYM2MzU0FWS2paRUsyY1Z0dmNFaGpCT1g2QW1BSEU4cHR3NC9n?=
- =?utf-8?B?cEY2OGxUYWM1L1VCTVZhNVpuQXRNRmpERm0xQVJkN0lBS1M4MzdZa0dTUmtF?=
- =?utf-8?B?RTQvZ09NVnJhdHpjZFl2dGx3YUJhby9OZFhKa1VJZDNycUxqcWJza25kU3dU?=
- =?utf-8?B?WTVGa2ppVlhMNnpXdzkrbTYrMjlzcmt0KzBocTQwN3R1TDA0a0pObkcyb0Jt?=
- =?utf-8?B?bnlZRlpsMXRXUVVJTzYvUXJ0U0dIeHc0dWxrWGFnRjdkcDNBdC9pVUhsQkpJ?=
- =?utf-8?B?QnBXa0ErTDFIV0pRY0FKUUJ1VXBMWXZLeGp3bXhSL09XK2xKSGJzS1JqYjM5?=
- =?utf-8?B?OHhtZy9TWDk4N0NENFVMbFNlMTdJOG16WFB2MExFNC8wbXNFeHZGM1NyUHdZ?=
- =?utf-8?B?TXAxMjdDYy9QSE1qMXY4UGhwOFhoSGtWUi9ORThRZ3FHYWRYdDZ0dGlPQkky?=
- =?utf-8?Q?vMoPR91atMU2FppcKDcPM1gCWm5KGnUy?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB7091.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YmN2N3d6VG5DUDIwMVlEZldmQjNxS1V6M2pjbmY2SnpuaGhzYWoxdTBWdmw5?=
- =?utf-8?B?MVJoajB3UVBlZ2dzdWF0SXpHdnVlR0FoV2pHSU10M3ppUWE3TWxtSWptTUdS?=
- =?utf-8?B?MHEzYjdxbHljVGN0cG14RlhpMFZVc2t3QWJrMFR6MXVOWFVDN3I0N0hZbTBV?=
- =?utf-8?B?V2dhNnZYcTQ0RXd0SHJnRkJRb1R4VjZrOEFCZytSaDJpZ3J6cHJkNUhCc291?=
- =?utf-8?B?N2d5UmI5QUs2VGd1ekFBV3M5TjYzWTdUOVB3aDdvTDhRdzJPM0ZJenhuMU5F?=
- =?utf-8?B?NGJpQ0hkUkhRK2p1dkduTEFwK1lMeExOeUwzUk4xaFdxekZ3N2hiaVVUa3N4?=
- =?utf-8?B?Y0JsclhWK3pSejB4bjRFYitvVzZhQ0VVM0pGS1pWOVdpaGpDMUtJVGphbSsz?=
- =?utf-8?B?VEJRR2lxc2hHNEpOWTNxM2tXdDNyeCt1WnRNRHk1ak0yeVJsUjNwK2VhbUNE?=
- =?utf-8?B?MCtQQzRjM3NMYUE3MzFvYkJyTURjQWo3R0hITERSZ0RaUjEwQkgzejN2VmtB?=
- =?utf-8?B?czBYNk9mTEZjcFRmRlZpdDJUSE16eEovMGprNHNoWS9Ha0VYVFZBUGlLZitB?=
- =?utf-8?B?dUt5TUZ1N3JWenNMRFJWclVrUFRnWnVncUVvdjhoa0lBTHd5ZU00RXVYa3dx?=
- =?utf-8?B?RU0vQ3h0RzN5UWwvU1EvV1M3WWVaUXR4NXB0RUg4Nkd3cDhCQjh4UFJVd1Yy?=
- =?utf-8?B?THdDZGkxRUprMUxVQnI3cXdlZmhPck0weWVzbm9UVWNLK2E4cmhyamJ2blRW?=
- =?utf-8?B?K3VXRWlpbkVEV0Y2UUEwVlMxdmJZOFhNZlQzeW04Y0Z6TXFZZmZCVXlUL0Fv?=
- =?utf-8?B?V3d1VlNsbUdCM1cvTCtJNXFud25iQmJua3Bwd0g1aUtMeVpnbmZ1dXNscGpl?=
- =?utf-8?B?TkdINmNNbUVmcFpUTWRBNE9LUzFHbTlEMmt2blQvYVc4ZVY2WFpFdG9HL21Y?=
- =?utf-8?B?L01MYkdLbkNNajVDM3Y5MVZRWE0xdWI0MlVqVmtoWnNZdWFFUks4aEF0RU1l?=
- =?utf-8?B?NHhsQzkxTjd1T2EwWWhoOFRCU0hjWGpETnNFNEZhWVJNVXZFd2JPanFkSWU2?=
- =?utf-8?B?M2FMMHRzVDczTFR3TUorT1RlWDJic3hQUURBQXpHZDdMY0pjeW12UUN4Ym5V?=
- =?utf-8?B?R1RNcEUwSy9ObjI5dk5UV29wYlVjTnFNbzlWS04zOWp5QXpoWnFkZ2Q5RG1n?=
- =?utf-8?B?dmlKb3Z3VUZRWnd1RnhhbDNXZUJ1dEQ5NDYyaUZKTE1VSDR3SU9CUEFVcTNB?=
- =?utf-8?B?SStJWVlBejFqMHZOZnNyczRSTlhGNElkbnNPOTlYK1h0WUc4ZHNSeWR4N0Mr?=
- =?utf-8?B?SDVzeGhxa0JWVVhrR1BFOHM1clB5TVdJbytmTmJsb2xwV2NTV3JLYmszcjFF?=
- =?utf-8?B?Ykh2NVF4MyticDlhSk9uVzExU2hBUTUvdytBcGkvdWk4SmNOTms0czRsK3Vp?=
- =?utf-8?B?NC9UTkNtVTB4cy9QcVhnbDlNcU9wZlhVRzdSQXpRUWdDWnNJVDBMYmJlWDNa?=
- =?utf-8?B?QWoyVGxNL09CYy9UNHpOSzRlOG1oRHR0bWFBa3Y3bHhVUnJNUmtnVmxvV1U1?=
- =?utf-8?B?Z3VlZGJjMzkxY2NrTU12TDBCNnFmMW9RZkFFK2FyZktTNXZUS0RId21tQ2gw?=
- =?utf-8?B?RGJjRWZkaGM3RU5qYzVjaE5FYmVWR1NUZUJnTmNaSm9kT1hPbXZ2OGVvYXow?=
- =?utf-8?B?VnRxdWlabnpPVzBmYnNUQUNqMTdSVWtiUlNybTgybXMwVmtMWWxvc2o1VS85?=
- =?utf-8?B?UWNJbklkOER1RzhkeEMxUUg5NkE0d3FrYUNDZFdjRTRTRWZvLzhPT2xRZGFX?=
- =?utf-8?B?TUdBMjZVdnF3V3U4T3QrbmFzNXVOUVpWeFpVUjdKM0h0RncyQ2drTE5OSGNL?=
- =?utf-8?B?MDYyYW1hdGFPV2FkbjYzV0dRZzQ4K0RXclI0U3l2OFowRzVRQmFTeS9JNmlW?=
- =?utf-8?B?Ky9STUZIWWNiWE1GeGo5S0dKNStpTTdVNEtSVzdNd0lZdkJIWGZiaDFobjUx?=
- =?utf-8?B?UkUweEhWYUMrTkdwUFVZeXh5YkxVdnQxSTZucy9TZWhubnF1MFNhWTlBcEtX?=
- =?utf-8?B?b2w3dUlMazhUQlRhRkF4Z3BHK3ZFSzRuYWtadmlCT25EZVYzVVRPZXZ5NUxj?=
- =?utf-8?Q?6GUeTeI64mkixApOny0rUKMn/?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50b42c63-99c0-429d-b92e-08de3c879548
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB7091.namprd12.prod.outlook.com
+X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 09:43:35.9554
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6523.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec01f3fc-8c99-47fe-c9ae-08de3c8cafe7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2025 10:20:07.7081
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6/yYp375Ua5wmbEnHXANCNWVXCdlpD7Q0/Y7WWU8qaFJrBXFPAxbACWRBes0FrBg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPF7D094C5BF
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5930
 
-
-
-On 12-Dec-25 1:29 PM, Yo-Jung Leo Lin (AMD) wrote:
-> Add a uma/ directory containing two sysfs files as interfaces to
-> inspect or change UMA carveout size. These files are:
-> 
-> - uma/carveout_options: a read-only file listing all the available
->    UMA allocation options and their index.
-> 
-> - uma/carveout: a file that is both readable and writable. On read,
->    it shows the index of the current setting. Writing a valid index
->    into this file allows users to change the UMA carveout size to that
->    option on the next boot.
-> 
-> Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-> Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 143 +++++++++++++++++++++++++++++
->   1 file changed, 143 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 903c4706040d..e78e6982312c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -36,6 +36,7 @@
->   #include <linux/pci.h>
->   #include <linux/pci-p2pdma.h>
->   #include <linux/apple-gmux.h>
-> +#include <linux/nospec.h>
->   
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_client_event.h>
-> @@ -417,6 +418,146 @@ static const struct attribute_group amdgpu_board_attrs_group = {
->   	.is_visible = amdgpu_board_attrs_is_visible
->   };
->   
-> +static ssize_t carveout_options_show(struct device *dev,
-> +				     struct device_attribute *attr,
-> +				     char *buf)
-> +{
-> +	struct drm_device *ddev = dev_get_drvdata(dev);
-> +	struct amdgpu_device *adev = drm_to_adev(ddev);
-> +	struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
-> +	uint32_t memory_carved;
-> +	ssize_t size = 0;
-> +
-> +	if (!uma_info || !uma_info->num_entries)
-> +		return -ENODEV;
-> +
-> +	for (int i = 0; i < uma_info->num_entries; i++) {
-> +		memory_carved = uma_info->entries[i].memory_carved_mb;
-> +		if (memory_carved >= SZ_1G/SZ_1M) {
-> +			size += sysfs_emit_at(buf, size, "%d: %s (%u GB)\n",
-> +					      i,
-> +					      uma_info->entries[i].name,
-> +					      memory_carved >> 10);
-> +		} else {
-> +			size += sysfs_emit_at(buf, size, "%d: %s (%u MB)\n",
-> +					      i,
-> +					      uma_info->entries[i].name,
-> +					      memory_carved);
-> +		}
-> +	}
-> +
-> +	return size;
-> +}
-> +static DEVICE_ATTR_RO(carveout_options);
-> +
-> +static ssize_t carveout_show(struct device *dev,
-> +			     struct device_attribute *attr,
-> +			     char *buf)
-> +{
-> +	struct drm_device *ddev = dev_get_drvdata(dev);
-> +	struct amdgpu_device *adev = drm_to_adev(ddev);
-> +
-> +	return sysfs_emit(buf, "%u\n", adev->uma_info.uma_option_index);
-
-It would be better to show the size along with the index.
-
-Regardless, series is -
-
-	Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
-
-Thanks,
-Lijo
-
-> +}
-> +
-> +static ssize_t carveout_store(struct device *dev,
-> +			      struct device_attribute *attr,
-> +			      const char *buf, size_t count)
-> +{
-> +	struct drm_device *ddev = dev_get_drvdata(dev);
-> +	struct amdgpu_device *adev = drm_to_adev(ddev);
-> +	struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
-> +	struct amdgpu_uma_carveout_option *opt;
-> +	unsigned long val;
-> +	uint8_t flags;
-> +	int r;
-> +
-> +	r = kstrtoul(buf, 10, &val);
-> +	if (r)
-> +		return r;
-> +
-> +	if (val >= uma_info->num_entries)
-> +		return -EINVAL;
-> +
-> +	val = array_index_nospec(val, uma_info->num_entries);
-> +	opt = &uma_info->entries[val];
-> +
-> +	if (!(opt->flags & AMDGPU_UMA_FLAG_AUTO) &&
-> +	    !(opt->flags & AMDGPU_UMA_FLAG_CUSTOM)) {
-> +		drm_err_once(ddev, "Option %lu not supported due to lack of Custom/Auto flag", val);
-> +		return -EINVAL;
-> +	}
-> +
-> +	flags = opt->flags;
-> +	flags &= ~((flags & AMDGPU_UMA_FLAG_AUTO) >> 1);
-> +
-> +	guard(mutex)(&uma_info->update_lock);
-> +
-> +	r = amdgpu_acpi_set_uma_allocation_size(adev, val, flags);
-> +	if (r)
-> +		return r;
-> +
-> +	uma_info->uma_option_index = val;
-> +
-> +	return count;
-> +}
-> +static DEVICE_ATTR_RW(carveout);
-> +
-> +static struct attribute *amdgpu_uma_attrs[] = {
-> +	&dev_attr_carveout.attr,
-> +	&dev_attr_carveout_options.attr,
-> +	NULL
-> +};
-> +
-> +const struct attribute_group amdgpu_uma_attr_group = {
-> +	.name = "uma",
-> +	.attrs = amdgpu_uma_attrs
-> +};
-> +
-> +static void amdgpu_uma_sysfs_init(struct amdgpu_device *adev)
-> +{
-> +	int rc;
-> +
-> +	if (!(adev->flags & AMD_IS_APU))
-> +		return;
-> +
-> +	if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
-> +		return;
-> +
-> +	rc = amdgpu_atomfirmware_get_uma_carveout_info(adev, &adev->uma_info);
-> +	if (rc) {
-> +		drm_dbg(adev_to_drm(adev),
-> +			"Failed to parse UMA carveout info from VBIOS: %d\n", rc);
-> +		goto out_info;
-> +	}
-> +
-> +	mutex_init(&adev->uma_info.update_lock);
-> +
-> +	rc = devm_device_add_group(adev->dev, &amdgpu_uma_attr_group);
-> +	if (rc) {
-> +		drm_dbg(adev_to_drm(adev), "Failed to add UMA carveout sysfs interfaces %d\n", rc);
-> +		goto out_attr;
-> +	}
-> +
-> +	return;
-> +
-> +out_attr:
-> +	mutex_destroy(&adev->uma_info.update_lock);
-> +out_info:
-> +	return;
-> +}
-> +
-> +static void amdgpu_uma_sysfs_fini(struct amdgpu_device *adev)
-> +{
-> +	struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
-> +
-> +	if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
-> +		return;
-> +
-> +	mutex_destroy(&uma_info->update_lock);
-> +	uma_info->num_entries = 0;
-> +}
-> +
->   static void amdgpu_device_get_pcie_info(struct amdgpu_device *adev);
->   
->   /**
-> @@ -4492,6 +4633,7 @@ static int amdgpu_device_sys_interface_init(struct amdgpu_device *adev)
->   	amdgpu_fru_sysfs_init(adev);
->   	amdgpu_reg_state_sysfs_init(adev);
->   	amdgpu_xcp_sysfs_init(adev);
-> +	amdgpu_uma_sysfs_init(adev);
->   
->   	return r;
->   }
-> @@ -4507,6 +4649,7 @@ static void amdgpu_device_sys_interface_fini(struct amdgpu_device *adev)
->   
->   	amdgpu_reg_state_sysfs_fini(adev);
->   	amdgpu_xcp_sysfs_fini(adev);
-> +	amdgpu_uma_sysfs_fini(adev);
->   }
->   
->   /**
-> 
-
+From dca59dfe5e73f39885d1c65b01d8da115a7a2c22 Mon Sep 17 00:00:00 2001=0A=
+From: Abdullah Alomani <the.omania@outlook.com>=0A=
+Date: Tue, 16 Dec 2025 12:20:36 +0300=0A=
+Subject: [PATCH] net: docs: fix grammar in CAIF stack description=0A=
+=0A=
+Corrected "handled as by the rest of the layers" to "handled like the rest =
+of the layers"=0A=
+to clearly indicate that the transmit and receive behavior of this layer=0A=
+follows the same pattern as other layers in the CAIF stack.=0A=
+=0A=
+This makes it explicit that no additional layer-specific handling occurs,=
+=0A=
+improving clarity for readers and developers implementing or maintaining=0A=
+CAIF layers.=0A=
+=0A=
+Signed-off-by: Abdullah Alomani <the.omania@outlook.com>=0A=
+---=0A=
+ Documentation/networking/caif/linux_caif.rst | 4 ++--=0A=
+ 1 file changed, 2 insertions(+), 2 deletions(-)=0A=
+=0A=
+diff --git a/Documentation/networking/caif/linux_caif.rst b/Documentation/n=
+etworking/caif/linux_caif.rst=0A=
+index a0480862ab8c..969e4a2af98f 100644=0A=
+--- a/Documentation/networking/caif/linux_caif.rst=0A=
++++ b/Documentation/networking/caif/linux_caif.rst=0A=
+@@ -181,8 +181,8 @@ CAIF Core protocol. The IP Interface and CAIF socket ha=
+ve an instance of=0A=
+ 'struct cflayer', just like the CAIF Core protocol stack.=0A=
+ Net device and Socket implement the 'receive()' function defined by=0A=
+ 'struct cflayer', just like the rest of the CAIF stack. In this way, trans=
+mit and=0A=
+-receive of packets is handled as by the rest of the layers: the 'dn->trans=
+mit()'=0A=
+-function is called in order to transmit data.=0A=
++receive of packets is handled like the rest of the layers: the 'dn->transm=
+it()'=0A=
++function is called to transmit data.=0A=
+=0A=
+ Configuration of Link Layer=0A=
+ ---------------------------=0A=
+--=0A=
+2.52.0=0A=
