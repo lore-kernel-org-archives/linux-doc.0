@@ -1,157 +1,535 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F1333F36D
-	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 18:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE55132E74B;
+	Tue, 16 Dec 2025 19:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765908075; cv=none; b=Q30nmyXQiGx4gnk1Zqy2akTGuv4+EUoLO00Too2BGywyUevYVHmIWjy8DGK3MCgk1vzivXxSI80dXLpIh7g7p/gB3NTLusezKUnqkrXaHhfW4HqfL1LFIHqLGZLHcYzaKghwFbAuCs564tD6WdNKX5yXpanFWxkLHNA5MB7HZkc=
+	t=1765915181; cv=none; b=NNj2swDQl6y2VkmCApBdiCbMLAu4TpCxxZKTKIYUa9Qp/Nw+T0aaL617d1cLx3GgKvtyA7P2MKy+IK1zyATp4kh3PsC7UYH59jnmBUWRc1iYGvc2n/qQhiMRWHG2agttieThrkcC/dUlEx5T15d869t+/9Skjp5JAXjEG4qeZkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765908075; c=relaxed/simple;
-	bh=m5tCxOOQ5tmmSECH+iWR0MOz3DCJp/OH8KTzg1ovye0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hNLqmN57SQhdOwniHq6G7DoPOJyuscdb2UIVLghQdds2CHMwNDuanxmH7/HIab/188Y4TF3JbEYrwnFfjbMq9rpKPN98eGo6ofAgBpTnBrser11bfEo5lpVIxgdcHlSBOC7ZsuWMOe6t50ZoPLkreYRyOclOf2vY4jvb5Kx+m+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=zc8GPsNZ; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1765915181; c=relaxed/simple;
+	bh=Oar1DZrfZa/q9K8BUehLar3eAEb5iQHtOvV/n32EmcQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J5X76xlmV89rPwLN/rC3zcqO2SXnwd4rOYqkw3E/6J51oRyRbA2QQaFKl1mU/PeeJUWa0wmpwMd5Y+AZjF5Hud38FUsi8c4epIg9GggV6TF85eEgKrvNNpzhQIJI2LnOs/MMJ2kVtj3DD8WI62d4Qe6LohG0c17iQbpDi0GUPeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=gtkQ3uGf; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="zc8GPsNZ"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id D3132C1A585;
-	Tue, 16 Dec 2025 18:00:47 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 42AD86071C;
-	Tue, 16 Dec 2025 18:01:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5EF25119A980E;
-	Tue, 16 Dec 2025 19:01:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765908070; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=rV1fjGxz59GFvzUULQooHruBRdYG3t1TVlD4LjvuTEk=;
-	b=zc8GPsNZdo6fKnJmjXGh1kNhxRSx4Z9fSvDhy+xCe3z3BXENrcn4y7td35arslthDWCXzY
-	LgUURCo19Vb5J6lm6/FmixeL049Xcq19LBDq7eZPcEMQLhfT+fpHAnufcaTi7qdhm6d++0
-	Q7krYwH7UFrbW5eEYD2KD1Lg2dmpdk+B0jQWAA0rhP8p+cZuOJIZ1IBEu7/BaNjAYXtvs3
-	SGkFaF4SGuoNS1EYB027PBS/Gb6JdCXqglf2DGqZOIi2F9X3jJQQtO4KzrDihitiW23N+I
-	dgS6dmi5eoGzJOIXJQYu4EeFMmVz6yEbqbztBXKHe+tFdTpEKMNx/AmTdbfhrg==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 16 Dec 2025 18:58:55 +0100
-Subject: [PATCH v3 22/22] drm/bridge: imx8qxp-pixel-link: get/put the next
- bridge
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="gtkQ3uGf"
+Received: from [10.17.64.122] (unknown [131.107.147.250])
+	by linux.microsoft.com (Postfix) with ESMTPSA id F1137200D625;
+	Tue, 16 Dec 2025 11:59:37 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F1137200D625
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1765915178;
+	bh=Nnm3fRXKwpCcbByYKBNDVQAh/VR68KE8x1qPI3zoWMI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gtkQ3uGfDDOrZ6edzbnI3lqfC+VJuuau9YVsy6+rq7s8yx2rmCd6NvAXtyjK6zTjv
+	 UKwbyeBiNU3+dOkeEaC0GUR5+owcXKWhe2quRt8Z2En1pMDrZxQcuDQsbB/hnvgd9z
+	 2qQ0NvRYjtddYRUUPuPFWs4Vlcfw20V1BVT1+/zg=
+Message-ID: <b9d7bcea-3784-4ad6-b494-374db0c00cc6@linux.microsoft.com>
+Date: Tue, 16 Dec 2025 11:59:36 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 1/1] IMA event log trimming
+To: Mimi Zohar <zohar@linux.ibm.com>, linux-integrity@vger.kernel.org
+Cc: roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com,
+ eric.snowberg@oracle.com, corbet@lwn.net, serge@hallyn.com,
+ paul@paul-moore.com, jmorris@namei.org,
+ linux-security-module@vger.kernel.org, anirudhve@linux.microsoft.com,
+ gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
+ sushring@linux.microsoft.com, linux-doc@vger.kernel.org,
+ steven chen <chenste@linux.microsoft.com>
+References: <20251210235314.3341-1-chenste@linux.microsoft.com>
+ <20251210235314.3341-2-chenste@linux.microsoft.com>
+ <d80958ec-f139-41e9-afa0-a5aca94221de@linux.microsoft.com>
+ <c93907cb0f08f9baa320488989aa87e7867ee9da.camel@linux.ibm.com>
+Content-Language: en-US
+From: steven chen <chenste@linux.microsoft.com>
+In-Reply-To: <c93907cb0f08f9baa320488989aa87e7867ee9da.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-22-b5165fab8058@bootlin.com>
-References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
-In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, 
- Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
 
-This driver obtains a bridge pointer from of_drm_find_bridge() in the probe
-function and stores it until driver removal. of_drm_find_bridge() is
-deprecated. Move to of_drm_find_and_get_bridge() for the bridge to be
-refcounted and use bridge->next_bridge to put the reference on
-deallocation.
+On 12/16/2025 4:50 AM, Mimi Zohar wrote:
+> Hi Steven,
+>
+> As I previously said, "The main difference between this patch and Roberto's
+> version is the length of time needed for locking the measurement list, which
+> prevents new entries from being appended to the measurement list.  In Roberto's
+> version, the list head is moved quickly and the lock released.  Measuring the
+> total amount of time needed to trim the measurement list ignores the benefit of
+> his version. I plan on reviewing both this version and his (hopefully today)."
+>
+> The other difference is "when" the IMA measurement list is read and saved,
+> before the trigger to trim the measurement list or after when the measurement
+> list is staged.  In this case, the initial trigger trims the measurement list.
+> In the other case, the measurement list is staged and then deleted.  When
+> reviewing Roberto's patch, I plan to discuss it.
 
-This needs to be handled in various steps:
+Hi Mimi,
 
- * the bridge returned of_drm_get_bridge() is stored in the local temporary
-   variable next_bridge whose scope is the for loop, so a cleanup action is
-   enough
- * the value of next_bridge is copied into selected_bridge, potentially
-   more than once, so a cleanup action at function scope plus a
-   drm_bridge_put() in case of reassignment are enough
- * on successful return selected_bridge is stored in bridge->next_bridge,
-   which ensures it is put when the bridge is deallocated
+Will update this. Thanks!
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+> After trimming the measurement list, existing verifiers, which walk the IMA
+> measurement list, will obviously fail to match the PCRs.  Breaking existing
+> userspace applications is a problem and, unfortunately, requires yet another
+> Kconfig option.  It needs to be at least mentioned here in the patch
+> description.
+Will add Kconfig option. Thanks!
+> There are two places where it says, "the list never shrinks, so we don't need a
+> lock here".  Either the code, the comment, or both need to be updated.
+Will update.
+>
+> On Thu, 2025-12-11 at 10:41 -0800, steven chen wrote:
+>> On 12/10/2025 3:53 PM, steven chen wrote:
+>>> This patch is for trimming N entries of the IMA event logs. It will also
+>>> cleaning the hash table if ima_flush_htable is set.
+> Please refer to "Describe your changes in imperative mood" in the "Describe your
+> changes" section of Documentation/process/submitting-patches.rst.
+Will update. Thanks!
+>>> It provides a userspace interface ima_trim_log that can be used to input
+>>> number N to let kernel to trim N entries of IMA event logs. When read
+> There is only a single kernel measurement list or event log, not plural.  There
+> are N number of "entries" or "records" in the IMA measurement list.
+>
+> -> trim N records from the IMA measurement list.
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-index 91e4f4d55469..b3050310a7f0 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c
-@@ -23,7 +23,6 @@
- 
- struct imx8qxp_pixel_link {
- 	struct drm_bridge bridge;
--	struct drm_bridge *next_bridge;
- 	struct device *dev;
- 	struct imx_sc_ipc *ipc_handle;
- 	u8 stream_id;
-@@ -140,7 +139,7 @@ static int imx8qxp_pixel_link_bridge_attach(struct drm_bridge *bridge,
- 	}
- 
- 	return drm_bridge_attach(encoder,
--				 pl->next_bridge, bridge,
-+				 pl->bridge.next_bridge, bridge,
- 				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- }
- 
-@@ -260,7 +259,7 @@ static int imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
- {
- 	struct device_node *np = pl->dev->of_node;
- 	struct device_node *port;
--	struct drm_bridge *selected_bridge = NULL;
-+	struct drm_bridge *selected_bridge __free(drm_bridge_put) = NULL;
- 	u32 port_id;
- 	bool found_port = false;
- 	int reg;
-@@ -297,7 +296,8 @@ static int imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
- 			continue;
- 		}
- 
--		struct drm_bridge *next_bridge = of_drm_find_bridge(remote);
-+		struct drm_bridge *next_bridge __free(drm_bridge_put) =
-+			of_drm_find_and_get_bridge(remote);
- 		if (!next_bridge)
- 			return -EPROBE_DEFER;
- 
-@@ -305,12 +305,14 @@ static int imx8qxp_pixel_link_find_next_bridge(struct imx8qxp_pixel_link *pl)
- 		 * Select the next bridge with companion PXL2DPI if
- 		 * present, otherwise default to the first bridge
- 		 */
--		if (!selected_bridge || of_property_present(remote, "fsl,companion-pxl2dpi"))
--			selected_bridge = next_bridge;
-+		if (!selected_bridge || of_property_present(remote, "fsl,companion-pxl2dpi")) {
-+			drm_bridge_put(selected_bridge);
-+			selected_bridge = drm_bridge_get(next_bridge);
-+		}
- 	}
- 
- 	pl->mst_addr = port_id - 1;
--	pl->next_bridge = selected_bridge;
-+	pl->bridge.next_bridge = drm_bridge_get(selected_bridge);
- 
- 	return 0;
- }
+Will update. Thanks!
 
--- 
-2.52.0
+
+>>> this interface, it returns number of entries trimmed last time.
+> Please provide an example of how to initiate the trim.
+>
+> After trimming the IMA measurement list, are the other securityfs files correct?
+> Are they correct after a kexec?  Or are they reset without a way of resurrecting
+> them without the full measurement list?
+
+Will update. Thanks!
+
+
+>
+>>> Signed-off-by: steven chen <chenste@linux.microsoft.com>
+>>> ---
+>>>    .../admin-guide/kernel-parameters.txt         |   4 +
+>>>    security/integrity/ima/ima.h                  |   2 +
+>>>    security/integrity/ima/ima_fs.c               | 175 +++++++++++++++++-
+>>>    security/integrity/ima/ima_queue.c            |  64 +++++++
+>>>    4 files changed, 241 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>>> index e92c0056e4e0..cd1a1d0bf0e2 100644
+>>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>> @@ -2197,6 +2197,10 @@
+>>>    			Use the canonical format for the binary runtime
+>>>    			measurements, instead of host native format.
+>>>    
+>>> +	ima_flush_htable  [IMA]
+>>> +			Flush the measurement list hash table when trim all
+>>> +			or a part of it for deletion.
+>>> +
+>>>    	ima_hash=	[IMA]
+>>>    			Format: { md5 | sha1 | rmd160 | sha256 | sha384
+>>>    				   | sha512 | ... }
+>>> diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
+>>> index e3d71d8d56e3..ab0e30ee25ea 100644
+>>> --- a/security/integrity/ima/ima.h
+>>> +++ b/security/integrity/ima/ima.h
+>>> @@ -246,8 +246,10 @@ void ima_post_key_create_or_update(struct key *keyring, struct key *key,
+>>>    
+>>>    #ifdef CONFIG_IMA_KEXEC
+>>>    void ima_measure_kexec_event(const char *event_name);
+>>> +long ima_purge_event_log(long number_logs);
+>>>    #else
+>>>    static inline void ima_measure_kexec_event(const char *event_name) {}
+>>> +static inline long ima_purge_event_log(long number_logs) { return 0; }
+>>>    #endif
+>>>    
+>>>    /*
+>>> diff --git a/security/integrity/ima/ima_fs.c b/security/integrity/ima/ima_fs.c
+>>> index 87045b09f120..410f7d03c43f 100644
+>>> --- a/security/integrity/ima/ima_fs.c
+>>> +++ b/security/integrity/ima/ima_fs.c
+>>> @@ -21,6 +21,9 @@
+>>>    #include <linux/rcupdate.h>
+>>>    #include <linux/parser.h>
+>>>    #include <linux/vmalloc.h>
+>>> +#include <linux/ktime.h>
+>>> +#include <linux/timekeeping.h>
+>>> +#include <linux/ima.h>
+>>>    
+>>>    #include "ima.h"
+>>>    
+>>> @@ -38,6 +41,14 @@ __setup("ima_canonical_fmt", default_canonical_fmt_setup);
+>>>    
+>>>    static int valid_policy = 1;
+>>>    
+>>> +#define IMA_LOG_TRIM_REQ_LENGTH 11
+>>> +#define IMA_LOG_TRIM_EVENT_LEN 256
+>>> +
+>>> +static long trimcount;
+>>> +/* mutex protects atomicity of trimming measurement list requests */
+> ima_measure_lock is taken for more than just synchronization of trimming the
+> measurement list.  Please update comment.
+
+Will update. Thanks!
+
+
+>
+>>> +static DEFINE_MUTEX(ima_measure_lock);
+>>> +static long ima_measure_users;
+>>> +
+>>>    static ssize_t ima_show_htable_value(char __user *buf, size_t count,
+>>>    				     loff_t *ppos, atomic_long_t *val)
+>>>    {
+>>> @@ -202,16 +213,65 @@ static const struct seq_operations ima_measurments_seqops = {
+>>>    	.show = ima_measurements_show
+>>>    };
+>>>    
+> _ima_measurements_open() seems pretty fundamental to the locking scheme.
+> Preventing opening the IMA measurement list is new.  There should at least be a
+> short, regular comment explaining what you're locking and why.
+
+Will update. Thanks!
+
+
+>>> +static int _ima_measurements_open(struct inode *inode, struct file *file,
+>>> +				  const struct seq_operations *seq_ops)
+>>> +{
+>>> +	bool write = !!(file->f_mode & FMODE_WRITE);
+>>> +	int ret;
+>>> +
+>>> +	if (write && !capable(CAP_SYS_ADMIN))
+>>> +		return -EPERM;
+>>> +
+>>> +	mutex_lock(&ima_measure_lock);
+>>> +	if ((write && ima_measure_users != 0) ||
+>>> +	    (!write && ima_measure_users < 0)) {
+>>> +		mutex_unlock(&ima_measure_lock);
+>>> +		return -EBUSY;
+>>> +	}
+>>> +
+>>> +	ret = seq_open(file, seq_ops);
+>>> +	if (ret < 0) {
+>>> +		mutex_unlock(&ima_measure_lock);
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	if (write)
+>>> +		ima_measure_users--;
+>>> +	else
+>>> +		ima_measure_users++;
+>>> +
+>>> +	mutex_unlock(&ima_measure_lock);
+>>> +	return ret;
+>>> +}
+>>> +
+>>>    static int ima_measurements_open(struct inode *inode, struct file *file)
+>>>    {
+>>> -	return seq_open(file, &ima_measurments_seqops);
+>>> +	return _ima_measurements_open(inode, file, &ima_measurments_seqops);
+>>> +}
+>>> +
+>>> +static int ima_measurements_release(struct inode *inode, struct file *file)
+>>> +{
+>>> +	bool write = !!(file->f_mode & FMODE_WRITE);
+>>> +	int ret;
+>>> +
+>>> +	mutex_lock(&ima_measure_lock);
+>>> +	ret = seq_release(inode, file);
+>>> +	if (!ret) {
+>>> +		if (write)
+>>> +			ima_measure_users++;
+>>> +		else
+>>> +			ima_measure_users--;
+>>> +	}
+>>> +
+>>> +	mutex_unlock(&ima_measure_lock);
+>>> +	return ret;
+>>>    }
+>>>    
+>>>    static const struct file_operations ima_measurements_ops = {
+>>>    	.open = ima_measurements_open,
+>>>    	.read = seq_read,
+>>>    	.llseek = seq_lseek,
+>>> -	.release = seq_release,
+>>> +	.release = ima_measurements_release,
+>>>    };
+>>>    
+>>>    void ima_print_digest(struct seq_file *m, u8 *digest, u32 size)
+>>> @@ -279,14 +339,111 @@ static const struct seq_operations ima_ascii_measurements_seqops = {
+>>>    
+>>>    static int ima_ascii_measurements_open(struct inode *inode, struct file *file)
+>>>    {
+>>> -	return seq_open(file, &ima_ascii_measurements_seqops);
+>>> +	return _ima_measurements_open(inode, file, &ima_ascii_measurements_seqops);
+>>>    }
+>>>    
+>>>    static const struct file_operations ima_ascii_measurements_ops = {
+>>>    	.open = ima_ascii_measurements_open,
+>>>    	.read = seq_read,
+>>>    	.llseek = seq_lseek,
+>>> -	.release = seq_release,
+>>> +	.release = ima_measurements_release,
+>>> +};
+>>> +
+>>> +static void ima_measure_trim_event(const long number_logs)
+>>> +{
+>>> +	char ima_log_trim_event[IMA_LOG_TRIM_EVENT_LEN];
+>>> +	struct timespec64 ts;
+>>> +	u64 time_ns;
+>>> +	int n;
+>>> +
+>>> +	ktime_get_real_ts64(&ts);
+>>> +	time_ns = (u64)ts.tv_sec * 1000000000ULL + ts.tv_nsec;
+>>> +	n = scnprintf(ima_log_trim_event, IMA_LOG_TRIM_EVENT_LEN,
+>>> +		      "time=%llu; log trim this time=%lu;",
+>>> +		       time_ns, number_logs);
+>>> +
+>>> +	ima_measure_critical_data("ima_log_trim", "trim ima event logs", ima_log_trim_event, n, false, NULL, 0);
+>>> +}
+> There's no mention of a new critical data record in the patch description.  It
+> should be a separate patch with a full patch description describing what it is
+> and how to verify it.
+
+Will update this. Thanks!
+
+
+>>> +
+>>> +static int ima_log_trim_open(struct inode *inode, struct file *file)
+>>> +{
+>>> +	bool write = !!(file->f_mode & FMODE_WRITE);
+>>> +
+>>> +	if (!write && capable(CAP_SYS_ADMIN))
+>>> +		return 0;
+>>> +	else if (!capable(CAP_SYS_ADMIN))
+>>> +		return -EPERM;
+>>> +
+>>> +	return _ima_measurements_open(inode, file, &ima_measurments_seqops);
+>>> +}
+>>> +
+>>> +static ssize_t ima_log_trim_read(struct file *file, char __user *buf, size_t size, loff_t *ppos)
+>>> +{
+>>> +	char tmpbuf[IMA_LOG_TRIM_REQ_LENGTH];	/* greater than largest 'long' string value */
+>>> +	ssize_t len;
+>>> +
+>>> +	len = scnprintf(tmpbuf, sizeof(tmpbuf), "%li\n", trimcount);
+>>> +	return simple_read_from_buffer(buf, size, ppos, tmpbuf, len);
+>>> +}
+>>> +
+>>> +static ssize_t ima_log_trim_write(struct file *file,
+>>> +				  const char __user *buf, size_t datalen, loff_t *ppos)
+>>> +{
+>>> +	unsigned char req[IMA_LOG_TRIM_REQ_LENGTH];
+>>> +	long count, n;
+>>> +	int ret;
+>>> +
+>>> +	if (*ppos > 0 || datalen > IMA_LOG_TRIM_REQ_LENGTH || datalen < 2) {
+>>> +		ret = -EINVAL;
+>>> +		goto out;
+>>> +	}
+>>> +
+>>> +	n = (int)datalen;
+>>> +
+>>> +	ret = copy_from_user(req, buf, datalen);
+>>> +	if (ret < 0)
+>>> +		goto out;
+>>> +
+>>> +	count = 0;
+>>> +	for (int i = 0; i < n; ++i) {
+>>> +		if (req[i] < '0' || req[i] > '9') {
+>>> +			ret = -EINVAL;
+>>> +			goto out;
+>>> +		}
+>>> +		count = count * 10 + req[i] - '0';
+>>> +	}
+> This code can be simplified by using the kstrto*_from_user() family of
+> functions.  The patch description should include an example how to trim the
+> measurement list.
+
+Will update. Thanks!
+
+
+>>> +	ret = ima_purge_event_log(count);
+> The term "purge" is really strong wording.  I hope you're not purging the
+> measurement list, but simply removing them from kernel memory.
+
+Will update. Thanks!
+
+
+>
+>>> +
+>>> +	if (ret < 0)
+>>> +		goto out;
+>>> +
+>>> +	trimcount = ret;
+>>> +
+>>> +	if (trimcount > 0)
+>>> +		ima_measure_trim_event(trimcount);
+>>> +
+>>> +	ret = datalen;
+>>> +out:
+>>> +	return ret;
+>>> +}
+>>> +
+>>> +static int ima_log_trim_release(struct inode *inode, struct file *file)
+>>> +{
+>>> +	bool write = !!(file->f_mode & FMODE_WRITE);
+>>> +	if (!write && capable(CAP_SYS_ADMIN))
+>>> +		return 0;
+>>> +	else if (!capable(CAP_SYS_ADMIN))
+>>> +		return -EPERM;
+>>> +
+>>> +	return ima_measurements_release(inode, file);
+>>> +}
+>>> +
+>>> +static const struct file_operations ima_log_trim_ops = {
+>>> +	.open = ima_log_trim_open,
+>>> +	.read = ima_log_trim_read,
+>>> +	.write = ima_log_trim_write,
+>>> +	.llseek = generic_file_llseek,
+>>> +	.release = ima_log_trim_release
+>>>    };
+>>>    
+>>>    static ssize_t ima_read_policy(char *path)
+>>> @@ -528,6 +685,16 @@ int __init ima_fs_init(void)
+>>>    		goto out;
+>>>    	}
+>>>    
+>>> +	dentry = securityfs_create_file("ima_trim_log",
+>>> +					S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP,
+>>> +					ima_dir, NULL, &ima_log_trim_ops);
+>>> +	if (IS_ERR(dentry)) {
+>>> +		ret = PTR_ERR(dentry);
+>>> +		goto out;
+>>> +	}
+>>> +
+>>> +	trimcount = 0;
+>>> +
+>>>    	dentry = securityfs_create_file("runtime_measurements_count",
+>>>    				   S_IRUSR | S_IRGRP, ima_dir, NULL,
+>>>    				   &ima_measurements_count_ops);
+>>> diff --git a/security/integrity/ima/ima_queue.c b/security/integrity/ima/ima_queue.c
+>>> index 590637e81ad1..77ab52469727 100644
+>>> --- a/security/integrity/ima/ima_queue.c
+>>> +++ b/security/integrity/ima/ima_queue.c
+>>> @@ -22,6 +22,14 @@
+>>>    
+>>>    #define AUDIT_CAUSE_LEN_MAX 32
+>>>    
+>>> +bool ima_flush_htable;
+>>> +static int __init ima_flush_htable_setup(char *str)
+>>> +{
+>>> +	ima_flush_htable = true;
+>>> +	return 1;
+>>> +}
+>>> +__setup("ima_flush_htable", ima_flush_htable_setup);
+>>> +
+>>>    /* pre-allocated array of tpm_digest structures to extend a PCR */
+>>>    static struct tpm_digest *digests;
+>>>    
+>>> @@ -220,6 +228,62 @@ int ima_add_template_entry(struct ima_template_entry *entry, int violation,
+>>>    	return result;
+>>>    }
+>>>    
+>>> +/* Delete the IMA event logs */
+> Do you mean delete the IMA event records/entries?
+
+Will update. Thanks!
+
+
+>>> +long ima_purge_event_log(long number_logs)
+> If this function is not defined as static, then it requires a kernel-doc.
+
+Will update. Thanks!
+
+
+>>> +{
+>>> +	struct ima_queue_entry *qe, *qe_tmp;
+>>> +	LIST_HEAD(ima_measurements_staged);
+>>> +	unsigned int i;
+>>> +	long cur = number_logs;
+> The variable name "number_logs" is confusing.  As I mentioned in the patch
+> description, there is one measurement list with multiple records.  There aren't
+> multiple logs in the kernel (other than the staged list).
+
+Will update it to "req_value". Thanks!
+
+
+>>> +
+>>> +	if (number_logs <= 0)
+>>> +		return number_logs;
+>>> +
+>>> +	mutex_lock(&ima_extend_list_mutex);
+>>> +
+>>> +
+>>> +	list_for_each_entry(qe, &ima_measurements, later) {
+>>> +		if (--number_logs == 0)
+>>> +			break;
+>>> +	}
+>>> +
+>>> +	if (number_logs > 0) {
+>>> +		mutex_unlock(&ima_extend_list_mutex);
+>>> +		return -ENOENT;
+>>> +	}
+>>> +
+>>> +	__list_cut_position(&ima_measurements_staged, &ima_measurements,
+>>> +				    &qe->later);
+>>> +	atomic_long_sub(cur, &ima_htable.len);
+>>> +
+>>> +	if (!IS_ENABLED(CONFIG_IMA_DISABLE_HTABLE) && ima_flush_htable) {
+>>> +		list_for_each_entry(qe, &ima_measurements_staged, later)
+>>> +			/* It can race with ima_lookup_digest_entry(). */
+>>> +			hlist_del_rcu(&qe->hnext);
+>>> +	}
+>> If the h table can be staged during the locking period and deleted after
+>> unlocking, the time
+>> the list is held will be reduced.
+>>
+>> I will work on this, and any suggestions are greatly appreciated.
+>>
+>> Thanks,
+>>
+>> Steven
+>>
+>>> +
+>>> +	mutex_unlock(&ima_extend_list_mutex);
+>>> +
+>>> +
+>>> +	list_for_each_entry_safe(qe, qe_tmp, &ima_measurements_staged, later) {
+>>> +		for (i = 0; i < qe->entry->template_desc->num_fields; i++) {
+>>> +			kfree(qe->entry->template_data[i].data);
+>>> +			qe->entry->template_data[i].data = NULL;
+>>> +			qe->entry->template_data[i].len = 0;
+>>> +		}
+>>> +
+>>> +		list_del(&qe->later);
+>>> +
+>>> +		if (ima_flush_htable) {
+>>> +			kfree(qe->entry->digests);
+>>> +			kfree(qe->entry);
+>>> +			kfree(qe);
+>>> +		}
+>>> +	}
+> To avoid code duplication, there's a similar function named
+> ima_free_template_entry().  Any changes needed to the function should be done as
+> a preparatory patch.
+
+I will check and update.
+
+Thanks,
+
+Steven
+
+>>> +
+>>> +	return cur;
+>>> +}
+>>> +
+>>>    int ima_restore_measurement_entry(struct ima_template_entry *entry)
+>>>    {
+>>>    	int result = 0;
+>
 
