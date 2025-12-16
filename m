@@ -1,178 +1,198 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B54C3BE54A
-	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 13:16:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084E916D9C2
+	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 13:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765891004; cv=none; b=FrKtkJ5Lk+IKUWLgTsXibkpp9ZH7O4IWxPLc6Wq/ISxjrrlxE5sifHmaGu3pucdq6kgBPMEwhu6yhXAOI4Ao4DtRFv1EFly6W1cvfjH9pTyHKDx8DdoS7Y8X6ZcWNS+r8Q1wzI1IIbocyAOjLg2v8lt3GOWH/HVoQiZVduQYBuw=
+	t=1765891413; cv=none; b=Db+zzwSsVGokMRHVW1PGi7vmaKxCADv5EBLnZSQlrsMqKc26aSYjZcevKV6Rpmlw1U1O6jV8l0lr0Bu41i1xIIxguuKtfnNuRGvaDTL2ZjQWBpnnvoBS7W5LGo42yBhUyVNjO2Y++2ntxcEqmJiFqgijWFUtqPdpRrP6aBvWHtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765891004; c=relaxed/simple;
-	bh=ie+AJbWUF5jtAMvd+Vk2sYgjyzBsY+yVmjQ8OwD7xm4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fgyeXzW5/AF3WT1vvV+eDFZb1R3U3uWDHMkGdJrz6m2io7DWg7iFejofTiS5W/WQA7YlYWnG7Q3vFeSYun897RT+JCIAW00QjF3iwHA6KhHsLI77s1/VhAwNlOfWbeLjO02qNad+1mP2WrNddD6FnnHaVPlmGw7aet5BgMC/+EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cQH7mhPy; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765891413; c=relaxed/simple;
+	bh=QV+61qVpdqsPiaPbfd08qHh+TzoR572QyzT9O2x4KLc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KdcB9wlK++lAxme9QKkaF2v+TsyX7Wai+eXBgt3MqqMLpabBmnSR0c5u760uuR7oaWsg5E9Zp1guStVLWwuf9Cr36ziLROvBeX22V1sB1sjCX6GxNQvS9ApB2FfWh2AEBpiLeI03ps70GS1FlAI54EnxwZRC8zoulo0kAw/emPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KYuw7Bzr; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cQH7mhPy"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477ba2c1ca2so51122845e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 05:16:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KYuw7Bzr"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so36502675e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 05:23:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765890997; x=1766495797; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9wEQyxMelFUxIKkKjwpqNdvXFJKNGJ/TVkTqrb2W9yo=;
-        b=cQH7mhPyhODzTUmWb7AP/SnvcqSZ5JMfmdA4afCm/ROKeT3lGClRoS0+cl1yaZCpxx
-         CTyXx0njdamGeS1tnUawkfAYin1ifKRgRi+7OynH0fS3CJpqBfmxzT+zo7Het1J15BWX
-         ytsDp8nqbEU2UqE+iCN1wZvsgnYw+wlgircupK3NlZe1iBUmtmvgQu7dJAde8fXegKaP
-         CoBv+u5RrgAwbho+dEApk4Z9wDzEeP61FYKMzfKud38xmco0HqXfVWsycu5+wkqt3gzu
-         f2KLe+FPCjlU2ycNjJ47lWsDh95mrGJUgbqYKmKCQiCqV6JLP5HAv7Tm19TeH9dmUGw6
-         CcNg==
+        d=google.com; s=20230601; t=1765891409; x=1766496209; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uDxfhRBysj2yPZBzYVVRhpxcjKV0qpQrPWWhDK3SHYM=;
+        b=KYuw7BzrbUMfAKbOrOhWuTPHNWxxKEuwVW5dWYZPtJMU5wFJ1ufOC3qIcc9YEVlOqj
+         dG9J5HE9tepzKCWwwLO3OPYZUZ6EaQ9SBMurPmSp4BobCl4IPxkRSOO5xlCYmbYe840P
+         DjojpISFW0m4/JTJzh6uejvlgxhDhW6lGqJIyr4oz+QGg29jbm2tnhtxKbf46uYt3YaL
+         2V25zRNAFnI99YuGgxMOomP54DQkqGG0VRwW1m9/Ifp4m1GxUi+/aXwg9WpGGKGZ+8sh
+         rAhIfIAc/U+0vyz00zPjagXYFm7Y6De8r+BO54KxfD0TKnLlTsTreMxoPdffsg3hzkGY
+         scqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765890997; x=1766495797;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9wEQyxMelFUxIKkKjwpqNdvXFJKNGJ/TVkTqrb2W9yo=;
-        b=NgJ4idhckDCF2GpWpNr4gmEaC5UOTcRiTGr/zfWZCyt0F1EARok/2OgrB7nXJgafm7
-         CD4dS9D5ceS+pW2Mk9eZZtNWwAct+LW+eGPW6CH29q84s+GHU3PNAKbbDjwK68Tt8Nbk
-         Wuhd8e8ydH+0n0IClJ9owUsrBxVISu8sOD0niOvHq2lEcvnRCv2PCCIpKZEbXPOTnTH2
-         fEM8Nl+ZfBudsvs+8eh3XpREdXHJWBDS6Yluxe6zyRJFOlICFyRSdAa0tvKNRiA0hQh1
-         DSIgLRTk5zXl3nkjQ3GrC0JD1tcSyEhn3L4VvZyLAODcq7cg8lImo1tOcPgZofDjc2Ib
-         BWEw==
-X-Forwarded-Encrypted: i=1; AJvYcCUsHhVr7d0rhUC+QN5btShJuDAAXNk8aJrNWeY9xsHLTTpNCMk6D5YEj/lBRZSACoC6l2clShU0JFE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZkv2ZfPk5Qf92wx7szEn01UMI97n1As4UsGvCVb9WEooqtQea
-	7BkBxCGhnbgJzAtawXCUhBG1V0kRRpJ6xc4TSzoizYlKnyzpj0gFQYo9
-X-Gm-Gg: AY/fxX5aXoY4EtUOCyTk9cC9astajSOdMAN4XaXDCbEooMRx5pbVYX/K7BhjTIsPXdB
-	ZLTvy6i/j9ojXE70YzcWuq/9eoVJ1Z0N/tw72g8yb+VrEtgbLIINaBY6+jOr/bW66ihtijSWYkC
-	Zk9Oumbc7rq/1sgfv3o2foCRCcb2tGcMJ8g7MhxFbBz8ogTwxL+T4rQISaATxoI19fJeJpXMpFw
-	AiIV6wQOzxunVkjM9ch5fzEAKkn2sZZir0v/FRctq7NyMwwLbclPWEAFpYDtwOA4z8QOLO45woJ
-	o29tFf2TLOXCDvQLL6iU8YTFVvM5OOWDhmS1yw+2oBp6j3Ztq1GnUeSY2P22wpB4ovlijplrANF
-	YceMDlQffZ/c4JT2KyXRjn6m3tWQdbDNzkI6snJYjrCOaSok+YAQjD8v/IJS1NrhhvKXMzNutWm
-	ggjCBTVXwRzpL8tpVluGA=
-X-Google-Smtp-Source: AGHT+IFBWulMuxuU7oloQiW42dIOzblQOJkSMSYM3mkR4FEHTZuiqpMj0PdGHiwFPjZwBQ0pemM/Ww==
-X-Received: by 2002:a05:600c:4f4a:b0:477:28c1:26ce with SMTP id 5b1f17b1804b1-47a8f8a717dmr161923995e9.7.1765890996571;
-        Tue, 16 Dec 2025 05:16:36 -0800 (PST)
-Received: from [192.168.1.187] ([161.230.67.253])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8f6e5baasm257873965e9.13.2025.12.16.05.16.35
+        d=1e100.net; s=20230601; t=1765891409; x=1766496209;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uDxfhRBysj2yPZBzYVVRhpxcjKV0qpQrPWWhDK3SHYM=;
+        b=GCYOMoaHA8sYkdAzNW6T8RmVSl5bGQ8pIxOCpGsSl99qr4IbLk810z93oE+kSr2WaY
+         edokHSwykevl5VmQt7p4rWqYOCNJkpEfHz+w3xS78VfzYOFPTMNePtM8v9yApbS1JqUa
+         XktGzIiPtHrBOH/Odt1arZpqIW25msEf/E0LtajKUdz5i0Im5spqFQxVs7+MFK+Kmm6W
+         DOdtlY61bGnZ3AxUm5ZX4YoCkJeHojZDDp0e2uhAigovbPCHkBHnZZUv2NceN34VIDYM
+         mceF5/KZzQ+emtSFpBRqixTRIB27ntA6HCwb5bFn4UmoayzDvzbLOUpbzMbHYe7gKe0a
+         /8VQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWEhnk6JDSVAsqIRe3ZkPf2d2UGaJsDo+jRNBomlZIKiytzqhdJWdY5wdnNwkeu2f5xK8A/tH5A05s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzj1SaLPR55nXOkFRYv3nbpr8fjS77/rSFJGeqcrh6I3QdUKnxG
+	i9sc75NvUQ1EBcY0kg7tquCIOGxtga8Qgiwc9H7h/Bm8Skt/P8wa3Reb6gzI5hZClw==
+X-Gm-Gg: AY/fxX6tK2ZH+reTVwumhcNYSxpR1ff0uciDDTk5FLp8Lfu2IjZObFxp3rZaLlcX/ZR
+	4TM/01OEtiHcSlGgjitnx+RCO5/7OUGc6X3K7VBORYFHV/kz5cWOTHwvfg6MQcKROIJAc5zNr/P
+	sO9hC1EcXo0h1L2JtMHua5/0PGbgI/ZTXLMC49NKDuvnISEaX74o7AuGZDdpeoaeXTBGJuU49c2
+	nMgEd8u52021rbpE+En3pefqWRJbBKolVouQ5GuwyiFf/SD0blHf6xheVcLm6bVuoFqvIhM+gBt
+	V59ErNxEWw1vewq4AaqIe+e5u45O0ezMTM2ZWhOpon5OsYxnjuzdqySTT9qFArDZeuQvQ0jymig
+	wEM8rKAX8yznmrj+Y6HI2u/wWyoNMsAHX/1ZGVnZT9pV+SaHpPlFMJbVdDwsPMz1WVXT0Wcxk97
+	6/ze2pAA8A+LV27yzh7TMqheUphnmlIU+X4gjbGUIdVnSGy1iU
+X-Google-Smtp-Source: AGHT+IHeQgMekTiUSXYyDxvkGceEMaJToW+cfsdKtACjSuXcP89Hj1YmnWwqaTNfU+el5KGHlOYfZQ==
+X-Received: by 2002:a05:600c:4f90:b0:477:6d96:b3e5 with SMTP id 5b1f17b1804b1-47a8f8ab02bmr133331835e9.7.1765891408469;
+        Tue, 16 Dec 2025 05:23:28 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:2834:9:ea4c:b2a8:24a4:9ce9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47bd8f86b83sm10764215e9.2.2025.12.16.05.23.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 05:16:36 -0800 (PST)
-Message-ID: <50bea4bef338490cae92f61a8cc9a555db4529c2.camel@gmail.com>
-Subject: Re: [PATCH v4 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
- Controller
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>, nuno.sa@analog.com, 
-	linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,  Jean Delvare <jdelvare@suse.com>, Jonathan Corbet
- <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>,  Bartosz
- Golaszewski	 <brgl@bgdev.pl>
-Date: Tue, 16 Dec 2025 13:17:17 +0000
-In-Reply-To: <ca659699-e5f8-436f-bfdb-d0d250d34fca@roeck-us.net>
-References: <20251204-ltc4283-support-v4-0-db0197fd7984@analog.com>
-	 <20251204-ltc4283-support-v4-2-db0197fd7984@analog.com>
-	 <c9cb3a2b-da6b-42a6-87b0-7a2b780f5ad8@roeck-us.net>
-	 <56a6c6a1b800090522a61eea5141aa8c986faea1.camel@gmail.com>
-	 <ca659699-e5f8-436f-bfdb-d0d250d34fca@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 
+        Tue, 16 Dec 2025 05:23:27 -0800 (PST)
+Date: Tue, 16 Dec 2025 14:23:19 +0100
+From: Marco Elver <elver@google.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Ingo Molnar <mingo@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+	Chris Li <sparse@chrisli.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Alexander Potapenko <glider@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Dmitry Vyukov <dvyukov@google.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ian Rogers <irogers@google.com>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Thomas Gleixner <tglx@linutronix.de>, Thomas Graf <tgraf@suug.ch>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, kasan-dev@googlegroups.com,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-wireless@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org
+Subject: Re: [PATCH v4 06/35] cleanup: Basic compatibility with context
+ analysis
+Message-ID: <aUFdRzx1dxRx1Uqa@elver.google.com>
+References: <20251120145835.3833031-2-elver@google.com>
+ <20251120151033.3840508-7-elver@google.com>
+ <20251211121659.GH3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNOmAYFj518rH0FdPp=cqK8EeKEgh1ok_zFUwHU5Fu92=w@mail.gmail.com>
+ <20251212094352.GL3911114@noisy.programming.kicks-ass.net>
+ <CANpmjNP=s33L6LgYWHygEuLtWTq-s2n4yFDvvGcF3HjbGH+hqw@mail.gmail.com>
+ <20251212110928.GP3911114@noisy.programming.kicks-ass.net>
+ <aUAPbFJSv0alh_ix@elver.google.com>
+ <20251216123211.GT3707837@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251216123211.GT3707837@noisy.programming.kicks-ass.net>
+User-Agent: Mutt/2.2.13 (2024-03-09)
 
-On Fri, 2025-12-12 at 09:07 -0800, Guenter Roeck wrote:
-> On 12/12/25 08:50, Nuno S=C3=A1 wrote:
-> > On Thu, 2025-12-11 at 09:56 -0800, Guenter Roeck wrote:
-> > > On 12/4/25 08:15, Nuno S=C3=A1 via B4 Relay wrote:
-> > > > From: Nuno S=C3=A1 <nuno.sa@analog.com>
-> > > >=20
-> > > > Support the LTC4283 How Swap Controller. The device features progra=
-mmable
-> > > > current limit with foldback and independently adjustable inrush cur=
-rent to
-> > > > optimize the MOSFET safe operating area (SOA). The SOA timer limits=
- MOSFET
-> > > > temperature rise for reliable protection against overstresses.
-> > > >=20
-> > > > An I2C interface and onboard ADC allow monitoring of board current,
-> > > > voltage, power, energy, and fault status.
-> > > >=20
-> > > > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> > > > ---
-> > > ...
-> > > > diff --git a/drivers/hwmon/ltc4283.c b/drivers/hwmon/ltc4283.c
-> > > > new file mode 100644
-> > > > index 000000000000..d79432678b84
-> > > > --- /dev/null
-> > > > +++ b/drivers/hwmon/ltc4283.c
-> > > ...
-> > > > +
-> > > > +static int ltc4283_read_voltage_word(const struct ltc4283_hwmon *s=
-t,
-> > > > +				=C2=A0=C2=A0=C2=A0=C2=A0 u32 reg, u32 fs, long *val)
-> > > > +{
-> > > > +	__be16 in;
-> > > > +	int ret;
-> > > > +
-> > > > +	ret =3D regmap_bulk_read(st->map, reg, &in, sizeof(in));
-> > >=20
-> > > I had a look into the regmap code. In its current implementation,
-> > > that will work as long as
-> > > 1) regmap is configured to not cache anything
-> > > 2) the I2C controller supports I2C_FUNC_SMBUS_I2C_BLOCK
-> > >=20
-> >=20
-> > Possibly dumb question... what would be the issue about doing multiple
-> > regmap reads if we can't do the bulk?=C2=A0That would be my naive appro=
-ach in
-> > the driver if I'm not going to use the bulk API.
-> >=20
->=20
-> You mean on the same address ? I don't have the chip to check, but I am q=
-uite
-> sure that it would return the 1st byte again.
->=20
-> FWIW, in the lm92 driver I used a regmap_bus to solve pretty much the sam=
-e
-> problem.
->=20
->=20
+On Tue, Dec 16, 2025 at 01:32PM +0100, Peter Zijlstra wrote:
+> On Mon, Dec 15, 2025 at 02:38:52PM +0100, Marco Elver wrote:
+> 
+> > Working on rebasing this to v6.19-rc1 and saw this new scoped seqlock
+> > abstraction. For that one I was able to make it work like I thought we
+> > could (below). Some awkwardness is required to make it work in
+> > for-loops, which only let you define variables with the same type.
+> 
+> > 
+> > diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
+> > index b5563dc83aba..5162962b4b26 100644
+> > --- a/include/linux/seqlock.h
+> > +++ b/include/linux/seqlock.h
+> > @@ -1249,6 +1249,7 @@ struct ss_tmp {
+> >  };
+> >  
+> >  static __always_inline void __scoped_seqlock_cleanup(struct ss_tmp *sst)
+> > +	__no_context_analysis
+> >  {
+> >  	if (sst->lock)
+> >  		spin_unlock(sst->lock);
+> > @@ -1278,6 +1279,7 @@ extern void __scoped_seqlock_bug(void);
+> >  
+> >  static __always_inline void
+> >  __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
+> > +	__no_context_analysis
+> >  {
+> >  	switch (sst->state) {
+> >  	case ss_done:
+> > @@ -1320,9 +1322,18 @@ __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
+> >  	}
+> >  }
+> >  
+> > +/*
+> > + * Context analysis helper to release seqlock at the end of the for-scope; the
+> > + * alias analysis of the compiler will recognize that the pointer @s is is an
+> > + * alias to @_seqlock passed to read_seqbegin(_seqlock) below.
+> > + */
+> > +static __always_inline void __scoped_seqlock_cleanup_ctx(struct ss_tmp **s)
+> > +	__releases_shared(*((seqlock_t **)s)) __no_context_analysis {}
+> > +
+> >  #define __scoped_seqlock_read(_seqlock, _target, _s)			\
+> >  	for (struct ss_tmp _s __cleanup(__scoped_seqlock_cleanup) =	\
+> > -	     { .state = ss_lockless, .data = read_seqbegin(_seqlock) };	\
+> > +	     { .state = ss_lockless, .data = read_seqbegin(_seqlock) }, \
+> > +	     *__UNIQUE_ID(ctx) __cleanup(__scoped_seqlock_cleanup_ctx) = (struct ss_tmp *)_seqlock; \
+> >  	     _s.state != ss_done;					\
+> >  	     __scoped_seqlock_next(&_s, _seqlock, _target))
+> >  
+> 
+> I am ever so confused.. where is the __acquire_shared(), in read_seqbegin() ?
 
-Ok, I know understand the issue. We do have real word registers (though the=
- energy
-spans 6 registers IIRC) in which case the regmap bulk fallback would fail. =
-So I do
-agree with you that relying on regmap implementation details is questionabl=
-e so
-I'll add my own bus.
+Ah this is just a diff on top of this v4 series. The read_seqbegin()
+already had it:
 
-But the above made me start thinking about how we should handle
-i2c_check_functionality()? For this device, I2C_FUNC_SMBUS_WORD_DATA and
-I2C_FUNC_SMBUS_BYTE_DATA (can we have word without byte??) are the minimum =
-the
-controller needs to support. So I could add the below:
+	static inline unsigned read_seqbegin(const seqlock_t *sl)
+		__acquires_shared(sl) __no_context_analysis
+	{
 
-if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA
-				    | I2C_FUNC_SMBUS_WORD_DATA))
-		return -ENODEV;
+> Also, why do we need this second variable with cleanup; can't the
+> existing __scoped_seqlock_cleanup() get the __releases_shared()
+> attribute?
 
-But can't we have I2C_FUNC_I2C (or even I2C_FUNC_SMBUS_I2C_BLOCK) without
-supporting SMBUS?
+The existing __scoped_seqlock_cleanup() receives &_s (struct ss_tmp *),
+and we can't refer to the _seqlock from __scoped_seqlock_cleanup(). Even
+if I create a member seqlock_t* ss_tmp::seqlock and initialize it with
+_seqlock, the compiler can't track that the member would be an alias of
+_seqlock. The function __scoped_seqlock_next() does receive _seqlock to
+effectively release it executes for every loop, so there'd be a "lock
+imbalance" in the compiler's eyes.
 
-I mean, I can so something similar to what's being done in regmap-i2c but m=
-aybe
-that's too much? I'm leaning in that direction though...
-
-
-This made me wonder, again, about ltc4282 but in there word registers are i=
-n
-fact reg and reg + 1.
-
-- Nuno S=C3=A1
+So having the direct alias (even if we cast it to make it work in the
+single-statement multi-definition, the compiler doesn't care) is
+required for it to work.
