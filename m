@@ -1,138 +1,288 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF612BEFE3;
-	Tue, 16 Dec 2025 22:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD67633F8D2
+	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 23:27:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765924364; cv=none; b=prVuAjvkkeV+QxRO2rOnN7CEMX6OZ4P9xsIYFO0ikmvsh1umTZLXP8p4LX/cm0RNeSbOO6iVQteUsUkugOp/03m76nBulxE+X/vLOHC549sUN3atd5f/YmRg49BQ56vSqzahL1O//cQZjE/bG2H3y9bxlfxIHTXrap7Q7NLQUJ0=
+	t=1765927649; cv=none; b=cTEXDFT+4YBAG4mYaP0YThrmu3aRcfOrN7DLU1YDRzErhrrV79zdVVp0B02uo6THy76iy8dJQGx4thUlW0ShCmZSeVdRDtqI/nANnzO5W6yF5pxMdj6XY9tLzhsUE6E9bQlgxfVXIYphm4HXEzLbvZ3v6clcFsZ1i20UtxN00BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765924364; c=relaxed/simple;
-	bh=lh/uVY9FnhSIXA6wN5XWkYu0pJ2ZX6BJre7epZlSNUY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tdULAFvEyqNtvM1VXBKZ6oasuUL3aC6p+RTefB5JAyBX0dlB9rrTl00PhUUQlRBy6Os92ma0Ig8439Z6w948NlzB26DH20wKKnaqcJUaZwlNk+/n9aqzM7J4ePiORSBGAmZgleym/BmE5p4rp1F1KkWtv9H6cGvMIuWjHBQCboQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NYSZr5Jg; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765927649; c=relaxed/simple;
+	bh=S80CTe8C8G4EZZfdKz3GrrAxw7VwbVcuVBJSMn//kP4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GiNpVoEZCSfxftxar9JTd+pvByP96uUGeNUoYZ5tonV33iAaf1QMdSwt1tR5vpUxo6hlbFPWvAOMNrAGD+GLO8nerW7PL5QAFuK3+20lMVt/CSnzcglVOg7ZxmjNv6cjxU6bbOC8Yh152WHCLqG28bQYudBjcQYaQT78vj7lBVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WbpMveA0; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=cJkfPQsr; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYSZr5Jg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765924353; x=1797460353;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=lh/uVY9FnhSIXA6wN5XWkYu0pJ2ZX6BJre7epZlSNUY=;
-  b=NYSZr5JgRoCsbaKJWL3GNtf6umWCNmn3RRdZElol2YXqVVkuPp80wDFY
-   YjO/lMTfMpBiymtERL0iPIHeNLlb7Xbf6RVIL+2SAEnaHkadR/5Wx1ABO
-   lK9fsuccuLvGJDcycrJjpcXN0kKF1waw27QS67Ns5vey0WepOEJVuWUV4
-   qDQ1QoD5hCHvELLu6y8NQct7hAEH8GeUjcxMoUr+Vv1Z4NH17BC9utBXo
-   TzNzlSga4qUoAaJiQefFUiq3cnSTnyLZMiPvvTgVzyvYhP4hiopuHbpmQ
-   aZZP+JVGF9Y/R8o1prXK8vfs4JdBvrtMuv061n72EhM/M0Nf86xv+AKXu
-   Q==;
-X-CSE-ConnectionGUID: FtuZiAEqTESEq1Lrk10yFA==
-X-CSE-MsgGUID: QFGOLNHrRryUTNbjwwDb+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="55427479"
-X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
-   d="scan'208";a="55427479"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 14:32:31 -0800
-X-CSE-ConnectionGUID: BqZjr3JNRYWOf+Dimt0+Aw==
-X-CSE-MsgGUID: FIkHPVcST0GPR3E6ocv8pw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
-   d="scan'208";a="228831610"
-Received: from ssimmeri-mobl2.amr.corp.intel.com (HELO [10.125.110.199]) ([10.125.110.199])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 14:32:31 -0800
-Message-ID: <5c4734af-d72c-4b1d-9d2f-8c07d4c0dd6d@intel.com>
-Date: Tue, 16 Dec 2025 14:32:30 -0800
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WbpMveA0";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="cJkfPQsr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1765927645;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EKXCsKPTv+XkNeXWtY2Ss72qFYFJMdd6YX+r4JT7Hy0=;
+	b=WbpMveA0v7vkkZvqw42EPc1C4Cr/AdMq6PIhRYiQacn6S3sKZaayzoYiJNws8jR8xsfxaf
+	n4himtxnOR24r7AGFnrw6Tc/w7jG2/zE8W/eNapMsTjn2iZk2RP8DOCScWitV9OHWh+EZz
+	qUhJ83UiP6BDyg7jE5Qn4YjHUHcb0AQ=
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
+ [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-142-MiUsMD-dPMGmJjq77cHWdQ-1; Tue, 16 Dec 2025 18:27:24 -0500
+X-MC-Unique: MiUsMD-dPMGmJjq77cHWdQ-1
+X-Mimecast-MFC-AGG-ID: MiUsMD-dPMGmJjq77cHWdQ_1765927644
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-6455731c6e0so7826522d50.1
+        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 15:27:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1765927644; x=1766532444; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EKXCsKPTv+XkNeXWtY2Ss72qFYFJMdd6YX+r4JT7Hy0=;
+        b=cJkfPQsr0YOR7bnss78zQC5OagaQ4W5YxZLvBLYv400CHLFhnLBdJrxbaZZGijbu/s
+         TueNiF5CFbosZoOszqpkxmDy83bLYmZvzBFMXLzNhMaBTGasR7lnvmKtNaBLb5KcvpeA
+         oikAhLwwDFkQXflggUl/XU3gDepWUFJ8ViU171qZhwvuxZwnLSYdpEC7EgWVpOm1eKPn
+         oJhHSHnBq6gYhE4e0hrHBOTApJz9HVODvfWDEHjrhMPnLRXJxx+3ofE5NFSJznvNAJ9w
+         +u0HE1f5Sbh8ZSP0bbfifHnQU4bLD6ajvBHwq4ymrcyLypYOJwwlHwBuFvDmnY4lkZ9y
+         gRRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765927644; x=1766532444;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EKXCsKPTv+XkNeXWtY2Ss72qFYFJMdd6YX+r4JT7Hy0=;
+        b=KH/it2ajT+XEuJhDQeQ4AHlpSs3iTqc2ndSA5YSkmcweWoSmsuWC5SIYVcDoBJEbqf
+         m5uAXbyg0fW9BCcskk2D6mfgS5h8hf6lAyptEbccsVFaNh3+z/KxHAmvcEpK8Um+zfka
+         foglYSwy7qw16Dd0/1SXeKvGhmy+AkzgFddQFJ1AHjerAqqi5OBfwiMJsXexvLGudorQ
+         uQXUX67ohSVtsbdKcMAYSDesZyghFgqZZ+NtjkVtH+QDUd6GlpoK/a2+WkOejy2dd5GV
+         /v0QxtE1GaAvF4onxSgMQBLhneS6bsElfH9YL6gH4YWW/BDBSiOJxFr7bH+GgZ6RJK9D
+         o2Qg==
+X-Forwarded-Encrypted: i=1; AJvYcCVWFFKueseFqX9KTeYenxLK6js0QIwPtJxuv/I9rFFvJqqe9dmFvG6nwGonuilZTTs6wTdWBfZT2xQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3gH98+HU4OHWZWoJtR8l9ax8m5SJTBX63DDa1zglkaO3vtwc7
+	qpoBnoM8V2AkE1byVETvXFbKZhrWMLNh/JtTgy57ScXNl3RaTvIGX8mS6tSbTseyg6HUrKNKW61
+	3hl/YNF8W3q8GAKN4LKLbZ0AqXHLzHUTVY+t/JlkgqXX2Vlv2eXNbws6BrI0whzNKLXxWygtZTL
+	n/zwJ7ywX6BC3hSVdpqaVoMCPf38URMoOUqpTE
+X-Gm-Gg: AY/fxX7TUsDVtnN08Gu7jkVo3PTFhMlzOdrsgdy8x8f0VIl+qvOq+V4JLrO1qLKEyaJ
+	ueYht3lMLAipwMPEYbzKd4j4iI5ysYSJh4jkwSw3mxdA8IMmy9V9E8tw5RDVO9O/CxCOivRMlH+
+	brJDHUyxEk3I9MsII4oJToRZzwXKhRKkRj6yxg6yE4zdBKyIUsdXTs/LG7nwVYNuJ5G4E=
+X-Received: by 2002:a05:690e:1505:b0:644:60d9:8679 with SMTP id 956f58d0204a3-645556807a8mr10997299d50.94.1765927643897;
+        Tue, 16 Dec 2025 15:27:23 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEGPptQk13QsvmOa5ZHpogOK1FLJvsnDQ3rrdzWxnJedT+7pDWOuGlSfHFv7sLII7QbkA9GW4MowA4H4/Vq3XI=
+X-Received: by 2002:a05:690e:1505:b0:644:60d9:8679 with SMTP id
+ 956f58d0204a3-645556807a8mr10997248d50.94.1765927643468; Tue, 16 Dec 2025
+ 15:27:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 22/28] x86: Secure Launch kernel early boot stub
-To: Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux.dev
-Cc: dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
- mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
- nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
- corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
- baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-References: <20251215233316.1076248-1-ross.philipson@oracle.com>
- <20251215233316.1076248-23-ross.philipson@oracle.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20251215233316.1076248-23-ross.philipson@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251201174627.23295-1-npache@redhat.com> <20251201174627.23295-8-npache@redhat.com>
+ <95b1403f-3ddb-43ff-b481-2ecc6ab8352f@linux.alibaba.com>
+In-Reply-To: <95b1403f-3ddb-43ff-b481-2ecc6ab8352f@linux.alibaba.com>
+From: Nico Pache <npache@redhat.com>
+Date: Tue, 16 Dec 2025 16:26:57 -0700
+X-Gm-Features: AQt7F2p-rngtJz0og9IaebCiPEhh7WjpdRAgI0DfLNPmmyQ8daD3M_WcJSO7CnI
+Message-ID: <CAA1CXcCtp2OwTmm-1EYUpOhsey1sv7CRFu8454m16C=k9iaN6g@mail.gmail.com>
+Subject: Re: [PATCH v13 mm-new 07/16] khugepaged: introduce
+ collapse_max_ptes_none helper function
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, david@redhat.com, 
+	ziy@nvidia.com, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
+	akpm@linux-foundation.org, baohua@kernel.org, willy@infradead.org, 
+	peterx@redhat.com, wangkefeng.wang@huawei.com, usamaarif642@gmail.com, 
+	sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, kas@kernel.org, 
+	aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com, 
+	catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
+	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, hughd@google.com, 
+	richard.weiyang@gmail.com, lance.yang@linux.dev, vbabka@suse.cz, 
+	rppt@kernel.org, jannh@google.com, pfalcato@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/15/25 15:33, Ross Philipson wrote:
-> +static u64 sl_txt_read(u32 reg)
-> +{
-> +	return readq((void *)(u64)(TXT_PRIV_CONFIG_REGS_BASE + reg));
-> +}
-> +
-> +static void sl_txt_write(u32 reg, u64 val)
-> +{
-> +	writeq(val, (void *)(u64)(TXT_PRIV_CONFIG_REGS_BASE + reg));
-> +}
+On Tue, Dec 16, 2025 at 1:12=E2=80=AFAM Baolin Wang
+<baolin.wang@linux.alibaba.com> wrote:
+>
+> Hi Nico,
 
-Man, that's a lot of casting. If TXT_PRIV_CONFIG_REGS_BASE were just a
-pointer to being with, it could be:
+Hi Baolin! Thanks for testing :)
 
-	writeq(val, TXT_PRIV_CONFIG_REGS_BASE + reg);
+Did you happen to test with the changes I asked Andrew to append to
+this commit?
 
-Right?
+Either way, I think your fixup makes more sense than mine.
 
-This _looks_ like it was just written and then had casts added to it
-until it compiled.
+Cheers,
+-- Nico
+
+
+>
+> On 2025/12/2 01:46, Nico Pache wrote:
+> > The current mechanism for determining mTHP collapse scales the
+> > khugepaged_max_ptes_none value based on the target order. This
+> > introduces an undesirable feedback loop, or "creep", when max_ptes_none
+> > is set to a value greater than HPAGE_PMD_NR / 2.
+> >
+> > With this configuration, a successful collapse to order N will populate
+> > enough pages to satisfy the collapse condition on order N+1 on the next
+> > scan. This leads to unnecessary work and memory churn.
+> >
+> > To fix this issue introduce a helper function that will limit mTHP
+> > collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
+> > This effectively supports two modes:
+> >
+> > - max_ptes_none=3D0: never introduce new none-pages for mTHP collapse.
+> > - max_ptes_none=3D511 (on 4k pagesz): Always collapse to the highest
+> >    available mTHP order.
+> >
+> > This removes the possiblilty of "creep", while not modifying any uAPI
+> > expectations. A warning will be emitted if any non-supported
+> > max_ptes_none value is configured with mTHP enabled.
+> >
+> > The limits can be ignored by passing full_scan=3Dtrue, this is useful f=
+or
+> > madvise_collapse (which ignores limits), or in the case of
+> > collapse_scan_pmd(), allows the full PMD to be scanned when mTHP
+> > collapse is available.
+> >
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+> > ---
+> >   mm/khugepaged.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
+> >   1 file changed, 42 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index 8dab49c53128..f425238d5d4f 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -463,6 +463,44 @@ void __khugepaged_enter(struct mm_struct *mm)
+> >               wake_up_interruptible(&khugepaged_wait);
+> >   }
+> >
+> > +/**
+> > + * collapse_max_ptes_none - Calculate maximum allowed empty PTEs for c=
+ollapse
+> > + * @order: The folio order being collapsed to
+> > + * @full_scan: Whether this is a full scan (ignore limits)
+> > + *
+> > + * For madvise-triggered collapses (full_scan=3Dtrue), all limits are =
+bypassed
+> > + * and allow up to HPAGE_PMD_NR - 1 empty PTEs.
+> > + *
+> > + * For PMD-sized collapses (order =3D=3D HPAGE_PMD_ORDER), use the con=
+figured
+> > + * khugepaged_max_ptes_none value.
+> > + *
+> > + * For mTHP collapses, we currently only support khugepaged_max_pte_no=
+ne values
+> > + * of 0 or (HPAGE_PMD_NR - 1). Any other value will emit a warning and=
+ no mTHP
+> > + * collapse will be attempted
+> > + *
+> > + * Return: Maximum number of empty PTEs allowed for the collapse opera=
+tion
+> > + */
+> > +static unsigned int collapse_max_ptes_none(unsigned int order, bool fu=
+ll_scan)
+> > +{
+> > +     /* ignore max_ptes_none limits */
+> > +     if (full_scan)
+> > +             return HPAGE_PMD_NR - 1;
+> > +
+> > +     if (!is_mthp_order(order))
+> > +             return khugepaged_max_ptes_none;
+> > +
+> > +     /* Zero/non-present collapse disabled. */
+> > +     if (!khugepaged_max_ptes_none)
+> > +             return 0;
+> > +
+> > +     if (khugepaged_max_ptes_none =3D=3D HPAGE_PMD_NR - 1)
+> > +             return (1 << order) - 1;
+> > +
+> > +     pr_warn_once("mTHP collapse only supports max_ptes_none values of=
+ 0 or %d\n",
+> > +                   HPAGE_PMD_NR - 1);
+> > +     return -EINVAL;
+> > +}
+> > +
+> >   void khugepaged_enter_vma(struct vm_area_struct *vma,
+> >                         vm_flags_t vm_flags)
+> >   {
+> > @@ -550,7 +588,10 @@ static int __collapse_huge_page_isolate(struct vm_=
+area_struct *vma,
+> >       pte_t *_pte;
+> >       int none_or_zero =3D 0, shared =3D 0, result =3D SCAN_FAIL, refer=
+enced =3D 0;
+> >       const unsigned long nr_pages =3D 1UL << order;
+> > -     int max_ptes_none =3D khugepaged_max_ptes_none >> (HPAGE_PMD_ORDE=
+R - order);
+> > +     int max_ptes_none =3D collapse_max_ptes_none(order, !cc->is_khuge=
+paged);
+> > +
+> > +     if (max_ptes_none =3D=3D -EINVAL)
+> > +             goto out;
+>
+> After testing your patchset, I hit the following crash. The reason is
+> that when 'max_ptes_none' is -EINVAL here, it shouldn't goto out to call
+> release_pte_pages(), because the '_pte' hasn't been initialized at this
+> point, and there's no need to release folios either.
+>
+> After applying the fix below, the crash issue is resolved. I'm not sure
+> whether Andrew will help fix this or if you will send a new version to
+> address this issue.
+>
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 8cffaf59ced8..2e8171a6d7df 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -646,7 +646,7 @@ static int __collapse_huge_page_isolate(struct
+> vm_area_struct *vma,
+>          int max_ptes_none =3D collapse_max_ptes_none(order,
+> !cc->is_khugepaged);
+>
+>          if (max_ptes_none =3D=3D -EINVAL)
+> -               goto out;
+> +               return result;
+>
+>          for (_pte =3D pte; _pte < pte + nr_pages;
+>               _pte++, addr +=3D PAGE_SIZE) {
+>
+> "
+> [  565.319345] Unable to handle kernel paging request at virtual address
+> fffffffffffffffa
+> .......
+> [  565.319409] swapper pgtable: 4k pages, 48-bit VAs, pgdp=3D0000001f8549=
+a000
+> [  565.319416] [fffffffffffffffa] pgd=3D0000001f85f2a403,
+> p4d=3D0000001f85f2a403, pud=3D0000001f85f2b403, pmd=3D0000000000000000
+> [  565.319427] Internal error: Oops: 0000000096000006 [#1]  SMP
+> .......
+> [  565.326733] pc : release_pte_pages+0x68/0x178
+> [  565.326960] lr : __collapse_huge_page_isolate+0xc0/0x748
+> [  565.327232] sp : ffff800083593910
+> .......
+> [  565.331476] Call trace:
+> [  565.331664]  release_pte_pages+0x68/0x178 (P)
+> [  565.331940]  __collapse_huge_page_isolate+0xc0/0x748
+> [  565.332249]  collapse_huge_page+0x4cc/0xa70
+> [  565.332510]  mthp_collapse+0x254/0x2a8
+> [  565.332754]  collapse_scan_pmd+0x5a0/0x6d8
+> [  565.333010]  collapse_single_pmd+0x214/0x288
+> [  565.333275]  collapse_scan_mm_slot.constprop.0+0x2ac/0x460
+> [  565.333617]  khugepaged+0x204/0x2c8
+> [  565.333992]  kthread+0xf8/0x110
+> [  565.334368]  ret_from_fork+0x10/0x20
+> "
+>
+> >
+> >       for (_pte =3D pte; _pte < pte + nr_pages;
+> >            _pte++, addr +=3D PAGE_SIZE) {
+>
+
