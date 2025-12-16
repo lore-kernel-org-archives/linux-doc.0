@@ -1,190 +1,254 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E51223328
-	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 21:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18EE335577;
+	Tue, 16 Dec 2025 21:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765921255; cv=none; b=kZIEE1hFvjNIX/sZcLcO+X57tg5zEaFRxhhWFzkF9J5r2Eq3vtEZv2Iu4WineM40RfcQLUiAWvglixIim9CwWLsRxx7qLrNOZGIKOMGx19psx/9kot4vh5ge9KginmXi1mGr7jS6cfHVBI4pJ9mUuhfRstfH8MXlzFyc4ZybJPw=
+	t=1765922023; cv=none; b=NjDRrOa+IfIRGxO57S+1Bz9PxIWoV/a2+qMBoFqhEeJShvAJphd/0qrbVhP2gFcyopF9BDFBCDSV2R4DQslrvaubrZ2rc8Y0+HKKDldt6uYtSRMEg020IgtnIXwV4CV4pmiHX0KpUQeOQIbjILCKjLX5NVbF8JQRGy0fgBrGMec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765921255; c=relaxed/simple;
-	bh=NmP7yRxuwBDOJ0jpE9VLHq7MPNAkro8YSHe8EEKaoHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PTsP5E1XZ5AiB6sm03+eFrQBXJVU57miQUKYWnzqgtey2s76kADphT1GyTy8/TLDKxKEgNyukDfXaVCHoy/UF8dWAmRJ4z/ncPVFpPJECrh53CuEBEwH8xGOq04lbh92AOZ7QNbhHcc4eecFTyCVDd0E5gfDwpQBE6AuRzZeyLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DHMv9026; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765922023; c=relaxed/simple;
+	bh=BCk1z+n4t1aGaqZ/BTXTCFErniFsz8hfx3uLoM+C9Fo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AmKOZVmEC4err50qr6BS0i+oHCvuCd5T47immBAZfvOCYvQoxVwx7a4fiwudCgcSiso3uOmMIa0RaXtXdjrgnrHtr0iyOpKdiF1TokTZp0WOABtX5K6LoATZr5A8EPyQZX3ahsRViNxy4rrUqxXxHPMw6MHz7DQPGftUYK1yXpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eY+IQBO6; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DHMv9026"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42b3c965cc4so2594193f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 13:40:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765921250; x=1766526050; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8OTDbmAFb/FXvcogwunDm5PD9Y8cmiPYZgWvi7Zhmcc=;
-        b=DHMv9026B5w3Slm+85u/9rO2pQOe9LN9fRzNwr+xTp5fjv3orK4PLy91HIEeWCilg5
-         K12w1Mn4ZOx4jOvrLN8OZSq9dtsssYJnLiB6EWxdpJDiWLrzH7bPEvLpZFadUh0JoQ5c
-         S5fbPZcTCdz6vxxrOPRTwrmwIBx2UgjW0ABBh3ZT7KQAHJgofKSGa8E1g1RKcboYqiNq
-         qXTxP6Mf/exE94JGpovbYDo+8uGllkyChV/7NMt/SolOnBp20hYlDPfKgFnuzqnN6/WW
-         24wGXTMjVIgNehkOVIwDzcmApoUDsLSnrAJDqcskHdh3GJ+zuzH5c0JIwPB1FlnDL4eI
-         DTLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765921250; x=1766526050;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8OTDbmAFb/FXvcogwunDm5PD9Y8cmiPYZgWvi7Zhmcc=;
-        b=cU/cZGMA04V38XxyGlMa9kAm6vv1cyveP/KOyTF4XKhk7oCg/0/Hj8MSc/HmeyhjYa
-         O53OKLrFd+si3QXqFiWOMkntpzODo5EtHQRs5918bXLorHn4BjnPFts+GHmx5gWRec1U
-         I9VaMQcvL7/rbu4yBM38YQxe5og8NXvvG/4GTV2/dw1IY7XlyFlIDKylL72kHz6AVEBi
-         sF5oM5/0bphVBJQ4msrLZbFymuju7pxlKz2JfQAwghlCQzwLIfpGuWXJlfI1PPyCXTmb
-         4R1WBS4RSa5Z9Hp/tiJSIfmy/tXnongjz2oGGHJhPDzs8D0dhtycmT9g6jX5jhNn4Hls
-         1JtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1bsfjOMzx8Iyawal9awybrAofRRMsu8QlIzjfZSGvUSKxasGLeOYsP2B/sAmswIKHXoL9LhnCHZ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEFgDOaSLYmyOvXl66cBFDo3bS5zOc3EcNqiq/Vf959DcNcKDg
-	dJWWdqvTyqasH8/EsdmFd0YN7rhunTte2BWZUnr/8PPSpEf7YsJCs2G+
-X-Gm-Gg: AY/fxX5iBoZCLT9mOb4XlDjCVxXzfD151Ws/PKDC43CWB4fzwwESypOJkykgJZ/lICe
-	37T+gC1ItcJgxwA36FzXyO+vewklXU7HvxTh4P23sqT/Jzv7w5G0+l72XSgllqd6eLYqlBfEuuS
-	srTQiTtAqNNs0afUaJ1WtaDmG/oxs2oHVH/TVKOwK+RkkY4Y1ew50fE1FbFCAh7/sRi/LjgGCu/
-	/5/VZ3vtmjmKxUqBH3RH4Z6syuiZBq8NiLQQscLP9WIbwkJqAI/IvIr/WET1rXZhxkK6F5UaFTO
-	/15nsSx31Aj0BG5ARBSfNGDY/RN+K6syOWYspxTVZsJdz0fqqhXDEdCo9jUenUc2KuTy4qdoo+z
-	c2Jr9FtXN372Ys5NDnr1s5+pcET7JigUW8MwTZychqk8opsTlKCrgvINsPKZWkRVrY67svhoJy8
-	5PSkFDdmuAxS0xwJ1//+0p0ONNQHcnjYNFGw1HYx/2iAAQ//vTRksycyRXzSl/eQ005PY9WgLpo
-	JeZ7A==
-X-Google-Smtp-Source: AGHT+IGO10eGCBcDdrvXBj+bw2YCSbuKKzXZlaJczTHp8579GmMw4SpKWUZrcbx5tLa/cAKsrvAO5g==
-X-Received: by 2002:a05:6000:381:b0:430:f3bd:720a with SMTP id ffacd0b85a97d-430f3bd763amr13851035f8f.27.1765921249484;
-        Tue, 16 Dec 2025 13:40:49 -0800 (PST)
-Received: from HYB-DlYm71t3hSl.ad.analog.com ([2001:a61:1226:7701:85a7:67ba:ae9b:7b63])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47bdc222061sm8164535e9.9.2025.12.16.13.40.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 13:40:49 -0800 (PST)
-Date: Tue, 16 Dec 2025 22:40:47 +0100
-From: Jorge Marques <gastmaier@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Jorge Marques <jorge.marques@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 3/9] iio: adc: Add support for ad4062
-Message-ID: <guta6xzppemql5bj6syq7zc2dsj2zd4rmle7mfhhr5wy3zhehd@yuixpaf2jrv2>
-References: <20251205-staging-ad4062-v3-0-8761355f9c66@analog.com>
- <20251205-staging-ad4062-v3-3-8761355f9c66@analog.com>
- <20251206173459.727fb3f5@jic23-huawei>
- <krbiav67bscvqs6bumx5ay5tk4axeuc4z7gbn26nxgaoqrdfiz@dqzqpgcpclnz>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eY+IQBO6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765922020; x=1797458020;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=BCk1z+n4t1aGaqZ/BTXTCFErniFsz8hfx3uLoM+C9Fo=;
+  b=eY+IQBO6aP93ndoA4ovjCWjUabBjtETN3DQ5FKF0UihPo772d7BLfZKa
+   XBbMwqQ/DwVS0PEYNs81y2wVdBr37fAlWfqj7IotYjSvV8ojsui4wA8XS
+   L7UxRPL7mqEG4Xgmn9xYbVUnPpQ2cwrEUEKL9lNgY0RgRnC5PbeEbaryi
+   kybKQCOIBf8pLbLMysD2NUM7KqZCGs0F0O6uFtMnBL/dk/uTh1Empv46J
+   8rXGwzGS1XOgzb5Te+/CcNtxTWqeDWbVd+FKWYjWae4sH+1OdqggfjB9e
+   uCz4cHb3X5W5X1oMFFaCpFZL+Awe66MmSTFzZzyEN3lkSCM9I0krRw8yp
+   g==;
+X-CSE-ConnectionGUID: eQW4EHimSC2r0LxKpoe+uQ==
+X-CSE-MsgGUID: H0j3FQERSgSazMqrEkMP0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="66839461"
+X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
+   d="scan'208";a="66839461"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 13:53:37 -0800
+X-CSE-ConnectionGUID: MuHVZirMQBWFrzeuQtaT0Q==
+X-CSE-MsgGUID: BGkMrOwZQRm6jxep5Zx8cw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
+   d="scan'208";a="198185330"
+Received: from ssimmeri-mobl2.amr.corp.intel.com (HELO [10.125.110.199]) ([10.125.110.199])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 13:53:37 -0800
+Message-ID: <56929e8b-a7cf-4390-b4ec-0b4c2c32b311@intel.com>
+Date: Tue, 16 Dec 2025 13:53:35 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <krbiav67bscvqs6bumx5ay5tk4axeuc4z7gbn26nxgaoqrdfiz@dqzqpgcpclnz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 19/28] x86/tpm: Early TPM PCR extending driver
+To: Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux.dev
+Cc: dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
+ mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+ peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+ nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
+ corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
+ baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
+ andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
+References: <20251215233316.1076248-1-ross.philipson@oracle.com>
+ <20251215233316.1076248-20-ross.philipson@oracle.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20251215233316.1076248-20-ross.philipson@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 08, 2025 at 10:16:35PM +0100, Jorge Marques wrote:
-> On Sat, Dec 06, 2025 at 05:34:59PM +0000, Jonathan Cameron wrote:
-> > On Fri, 5 Dec 2025 16:12:04 +0100
-> > Jorge Marques <jorge.marques@analog.com> wrote:
-> > 
-> > > The AD4060/AD4062 are versatile, 16-bit/12-bit, successive approximation
-> > > register (SAR) analog-to-digital converter (ADC) with low-power and
-> > > threshold monitoring modes.
-> > > 
-> > > Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-Hi Jonathan,
-> Hi Jonathan,
-> ...
-> Yes, and for burst avg mode, 14 bits.
-> > 
-> > > +		.storagebits = 32,
-> > Given we are doing data mangling anyway why not store in a 16 bit value.
-> > 
-> > BTW it would have been easier to spot issues with this if you'd introduced
-> > the scan type stuff with the use of scans in the patch that adds buffered
-> > support.  So please move this stuff there.
-> >
-> This can be done, just note that for ad4062 in burst avg mode the
-> realbits is 24 bits, so the storagebits is 32 bits only on that case
-> and will requires a few conditionals to handle just this case.
-> 
-> To not overly complicated the logic, for ad4062 I will always read
-> 32-bits still. st->reg_addr_conv then takes:
-> 	// IBI Fallback
-> 	st->reg_addr_conv = st->chip->prod_id == 0x7C ? AD4062_REG_CONV_TRIGGER_32BITS :
-> 							AD4062_REG_CONV_TRIGGER_16BITS;
-> 	// GPO IRQ
-> 	st->reg_addr_conv = st->chip->prod_id == 0x7C ? AD4062_REG_CONV_READ_32BITS :
-> 							AD4062_REG_CONV_READ_16BITS;
-> 
-> Then, for sample size:
-> 	const bool is_32b = st->chip->prod_id == 0x7C;
-> 	const size_t _sizeof = is_32b ? sizeof(st->buf.be32) : sizeof(st->buf.be16);
-> instead of
-> 	const bool is_32b = st->mode == AD4062_BURST_AVERAGING_MODE && st->chip->prod_id == 0x7C;
-> 	const size_t _sizeof = is_32b ? sizeof(st->buf.be32) : sizeof(st->buf.be16);
-> 	+ extra st->reg_addr_conv_avg that may or may not be equal to
-> 	st->reg_addr_conv.
-> 
-> Note that the header section of the I3C transfer (8-bits) occurs
-> at 1MHz, while the reading in 12.5MHz. I wouldn't go as far as say it is
-> negligible, but for the part, protocol and software overhead, it
-> wouldn't provide ground-breaking higher effective maximum
-> sampling frequency.
+I'm mostly spot-checking this to see what kind of shape it's in and how
+much work and diligence has been applied in the last 8 months since v14.
 
-I went back to this and now I am properly using the already set iio_get_current_scan_type
-to set the appropriate sample register and storagesize (to reduce the protocol overhead).
-Both methods are inline and used once, but I believe having the wrapper
-methods makes things clearer.
-For read_raw, I am using the non-optimized, 4 bytes trigger_conv, in the
-next version.
+On 12/15/25 15:33, Ross Philipson wrote:
+...
+> The driver could be extended for further operations if needed. This
+> TPM dirver implementation relies as much as possible on existing mainline
 
-  /*
-   * The AD4062 in burst averaging mode increases realbits from 16-bits to
-   * 20-bits, increasing the storagebits from 16-bits to 32-bits.
-   */
-  static inline size_t ad4062_sizeof_storagebits(struct ad4062_state *st)
-  {
-  	const struct iio_scan_type *scan_type =
-  		iio_get_current_scan_type(st->indio_dev, st->chip->channels);
-  
-  	return BITS_TO_BYTES(scan_type->storagebits);
-  }
-  
-  /* Read registers only with realbits (no sign extension bytes) */
-  static inline size_t ad4062_get_conv_addr(struct ad4062_state *st, size_t _sizeof)
-  {
-  	if (st->gpo_irq[1])
-  		return _sizeof == sizeof(u32) ? AD4062_REG_CONV_READ_32BITS :
-  						AD4062_REG_CONV_READ_16BITS;
-  	return _sizeof == sizeof(u32) ? AD4062_REG_CONV_TRIGGER_32BITS :
-  					AD4062_REG_CONV_TRIGGER_16BITS;
-  }
-  
-  static int pm_ad4062_triggered_buffer_postenable(struct ad4062_state *st)
-  {
-  	int ret;
-  
-  	PM_RUNTIME_ACQUIRE(&st->i3cdev->dev, pm);
-  	ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
-  	if (ret)
-  		return ret;
-  
-  	if (st->wait_event)
-  		return -EBUSY;
-  
-  	ret = ad4062_set_operation_mode(st, st->mode);
-  	if (ret)
-  		return ret;
-  
-  	st->conv_sizeof = ad4062_sizeof_storagebits(st);
-  	st->conv_addr = ad4062_get_conv_addr(st, st->conv_sizeof);
-  	...
-  }
+<sigh>
 
-Best regards,
-Jorge
+v15 and no spell checking. :(
+
+> --- /dev/null
+> +++ b/arch/x86/boot/compressed/early_tpm_extend.c
+> @@ -0,0 +1,601 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2010-2012 United States Government, as represented by
+> + * the Secretary of Defense.  All rights reserved.
+
+IANAL, but this looks fishy.
+
+It's theoretically fine to go grab random code off the Internet and
+submit it to the kernel, given the correct license. But I do want to
+know what its story is and where it came from.
+
+I also seem to remember that there are special rules around the US
+federal government's inability to hold copyrights. This seems worth at
+least a mention ... somewhere.
+
+This is helpful, for instance:
+
+> + * based off of the original tools/vtpm_manager code base which is:
+> + * Copyright (c) 2005, Intel Corp.
+> + * All rights reserved.
+
+so thanks for that one.
+
+> + * Redistribution and use in source and binary forms, with or without
+> + * modification, are permitted provided that the following conditions
+> + * are met:
+> + *
+> + *   * Redistributions of source code must retain the above copyright
+> + *     notice, this list of conditions and the following disclaimer.
+> + *   * Redistributions in binary form must reproduce the above
+> + *     copyright notice, this list of conditions and the following
+> + *     disclaimer in the documentation and/or other materials provided
+> + *     with the distribution.
+> + *   * Neither the name of Intel Corporation nor the names of its
+> + *     contributors may be used to endorse or promote products derived
+> + *     from this software without specific prior written permission.
+> + *
+> + * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+> + * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+> + * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+> + * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+> + * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+> + * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+> + * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+> + * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+> + * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+> + * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+> + * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+> + * OF THE POSSIBILITY OF SUCH DAMAGE.
+> + */
+
+Also, IANAL, but this looks BSD-ish.
+
+I would have kinda expected the SPDX header to say BSD-blah-blah and not
+GPL-2.0-only.
+
+I'd really appreciate if you could go have a huddle with your corporate
+Open Source folks and make sure this is all proper. To me, it looks
+fishy at _best_.
+
+...
+> +/*
+> + * We're far too early to calibrate time.  Assume a 5GHz processor (the upper
+> + * end of the Fam19h range), which causes us to be wrong in the safe direction
+> + * on slower systems.
+> + */
+
+https://docs.kernel.org/process/maintainer-tip.html#changelog
+
+Imperative voice please.
+
+...
+> +static int __tis_recv_data(struct tpm_chip *chip, u8 *buf, int count)
+> +{
+> +	int size = 0;
+> +	int burstcnt;
+> +
+> +	while (size < count && __tis_wait_for_stat(chip, TPM_STS_DATA_AVAIL | TPM_STS_VALID, chip->timeout_c) == 0) {
+> +		burstcnt = __tis_get_burstcount(chip);
+> +
+> +		for ( ; burstcnt > 0 && size < count; --burstcnt)
+> +			buf[size++] = tpm_read8(chip, TPM_DATA_FIFO(chip->locality));
+> +	}
+> +
+> +	return size;
+> +}
+> +
+> +/**
+> + * tpm_tis_check_locality - Check if the given locality is the active one
+> + * @chip:	The TPM chip instance
+> + * @loc:	The locality to check
+> + *
+> + * Return: true - locality active, false - not active
+> + */
+> +bool tpm_tis_check_locality(struct tpm_chip *chip, int loc)
+> +{
+> +	if ((tpm_read8(chip, TPM_ACCESS(loc)) & (TPM_ACCESS_ACTIVE_LOCALITY | TPM_ACCESS_VALID)) == (TPM_ACCESS_ACTIVE_LOCALITY | TPM_ACCESS_VALID)) {
+> +		chip->locality = loc;
+> +		return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +/**
+> + * tpm_tis_release_locality - Release the active locality
+> + * @chip:	The TPM chip instance
+> + */
+> +void tpm_tis_release_locality(struct tpm_chip *chip)
+> +{
+> +	if ((tpm_read8(chip, TPM_ACCESS(chip->locality)) & (TPM_ACCESS_REQUEST_PENDING | TPM_ACCESS_VALID)) == (TPM_ACCESS_REQUEST_PENDING | TPM_ACCESS_VALID))
+> +		tpm_write8(chip, TPM_ACCESS(chip->locality), TPM_ACCESS_RELINQUISH_LOCALITY);
+> +
+> +	chip->locality = 0;
+> +}
+
+I guess some folks aren't enforcing the 80-column limits. But this is
+not even close. It's almost 80x2.
+
+Has there even been an attempt to make this conform to kernel coding
+style? What other checkpatch.pl warnings are being ignored?
