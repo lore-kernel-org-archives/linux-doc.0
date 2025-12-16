@@ -1,42 +1,42 @@
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59EB2D9EFC;
-	Tue, 16 Dec 2025 18:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E7331354C
+	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 18:00:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765908002; cv=none; b=MCr2AJT0V1M2BqwOoWuuzKnj9DWOMouRKq4TBV3gMLngIaWlr/Fma1jt97+F9eibkGwfztKVkigH7OWMCyVD0hn7uwUv4HnFxg0Z4k06rjrTiDjSRwK0971HW6nlSXXK5cwtwzaRtjfqdrjqA1kFr0pD4S75IjjJN/AXEt8INVc=
+	t=1765908005; cv=none; b=ofuz2K4MnSOSD4XXl47tZX6Tax9MA2u/+BN4EyNb9sfPN69I27LD0vmUEzEKxGe9HP1b8VrjMnd4mA81AvrBI5fLHgj3bmwafvXR0+OUHA7v6dNypU/tJ7+3Rs0Th09KWhIQqqVlJBJcCHD/BVd6Izse+STW/REC6A+TTZpj/e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765908002; c=relaxed/simple;
-	bh=emDhk2MMrd8ZT9IWg/kP2hcjE9Z97TjWHRlexkv8XLo=;
+	s=arc-20240116; t=1765908005; c=relaxed/simple;
+	bh=SiHWzcXsQXQonxN+YIHxt+GkUB2ATpUKDKdGg3nSSkA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FwD13QEKnuMXaOK0k/Fn2yny6CS81Gx5wUxG9mEJbzkf6ehH0QC1Xhg0yaQ1K7ZkF+YKLI5RYKWUnGYwW0eQ/S06+rpudsbCHq90bXCnvRD2NugAEX9/080HPbyNckrwV7CWM1gErmFKqz1iBkEoZat+FV0sJI2qiB/EYTN+2zQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rlEm/gAv; arc=none smtp.client-ip=185.171.202.116
+	 In-Reply-To:To:Cc; b=hUZekDoXrscYWdEWHaJVF38yadfccY7ztxhC6v5BtTqUVttFq4tdErHyju2ZTirhk4WI23ctZDW00I0gclJlwou+HAYrmBZv+TvL3w5NrnUni/xQeAcoxhF6IIal4n99fkUTn5xglolR9fqkJUuUr0fPOZfR5ub7NUzFMIDVYjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NiFXJ3Lv; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rlEm/gAv"
-Received: from smtpout-01.galae.net (unknown [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id A2637C1A582;
-	Tue, 16 Dec 2025 17:59:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NiFXJ3Lv"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id CE921C1A585;
+	Tue, 16 Dec 2025 17:59:37 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1B9576071C;
-	Tue, 16 Dec 2025 17:59:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 38D9A119A97D5;
-	Tue, 16 Dec 2025 18:59:44 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4E54D6071C;
+	Tue, 16 Dec 2025 18:00:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3F02F119A97F2;
+	Tue, 16 Dec 2025 18:59:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1765907987; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1765908000; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=GmMyYFYj3nN0WWZncwkj3rSY84I1KnZQTlsrUpqIOyA=;
-	b=rlEm/gAvrMbqr3Pj4NGgu9O+LbFKm4iDqhBczJ0MFSNJklRloeIRAsDfvYUSxHPtjJWmFM
-	6cKCOdkflGuz5f+0Xzgl4l41lVU9rNcFeNpED8pEwgaK5E1Dh0Rx6A+hmEkY7o2ER5tac2
-	iLb7R0CH6J9upYVCg2ct4zQpvQ4DLr1Uu61thZsTh+NsXqpghIXzsPTWE58VzrBsT7RY8m
-	zIbD39BzKVIUskMhJL9ZTmLtiEw1VU1Qae5G5aHZzgeHureeVPrrjAa0hhcNsCXOD4kS4Z
-	thOY1qJd+CovZN8O/Go0lIxNieqk/vbiHGq4dK2f2WiTYpmeMRfXc52pPvzQCA==
+	bh=onXsky4iYh8qdHLUFksOwNzxyXs/762w685miz/sGuY=;
+	b=NiFXJ3LvVlVlbQaR1ydTw0y0QHcb5WH2n9zoyKRRhiY/o+/5yadBMruygMhNKX3cG8sS74
+	qTQ9/vcQQ5iMSyhfcWoDxsd8Xd0YdXbWNx1FWQASh92BtxgRf97wau3Y0mq929Q14jtWH+
+	VP+bI09BKzTrUbHTzC7MliSvGoYESQZuDz1YA/BKz0dY9JImbFFqPb+E5nrCEVFefscvxP
+	N/UP3FEi3RqXvFJI2VOysnqQ6Q7yygBN3d+mQr0f0j6FRs/CsZ2/b3PYZcx4VCZWT5/0ax
+	owZh2mNsjtwvgrmV4KGkH6ZTeBqLf8/eax+bN2nPySdFW/0exZRg5jZ4KVM5cQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 16 Dec 2025 18:58:39 +0100
-Subject: [PATCH v3 06/22] drm/bridge: add next_bridge pointer to struct
- drm_bridge
+Date: Tue, 16 Dec 2025 18:58:42 +0100
+Subject: [PATCH v3 09/22] drm/bridge: simple-bridge: get/put the next
+ bridge
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-6-b5165fab8058@bootlin.com>
+Message-Id: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-9-b5165fab8058@bootlin.com>
 References: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
 In-Reply-To: <20251216-drm-bridge-alloc-getput-drm_of_find_bridge-v3-0-b5165fab8058@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -71,78 +71,80 @@ Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-Many bridge drivers store a next_bridge pointer in their private data and
-use it for attach and sometimes other purposes. This is going to be risky
-when bridge hot-unplug is used.
+This driver obtains a bridge pointer from of_drm_find_bridge() in the probe
+function and stores it until driver removal. of_drm_find_bridge() is
+deprecated. Move to of_drm_find_and_get_bridge() for the bridge to be
+refcounted and use bridge->next_bridge to put the reference on
+deallocation.
 
-Considering this example scenario:
-
-  1. pipeline: encoder --> bridge A --> bridge B --> bridge C
-  2. encoder takes a reference to bridge B
-  3. bridge B takes a next_bridge reference to bridge C
-  4. encoder calls (bridge B)->b_foo(), which in turns references
-     next_bridge, e.g.:
-
-       b_foo() {
-           bar(b->next_bridge);
-       }
-
-If bridges B and C are removed, bridge C can be freed but B is still
-allocated because the encoder holds a reference to B. So when step 4
-happens, 'b->next-bridge' would be a use-after-free.
-
-Calling drm_bridge_put() in the B bridge .remove function does not solve
-the problem as it leaves a (potentially long) risk window between B removal
-and the final deallocation of B. A safe moment to put the B reference is in
-__drm_bridge_free(), when the last reference has been put. This can be done
-by drivers in the .destroy func. However to avoid the need for so many
-drivers to implement a .destroy func, just offer a next_bridge pointer to
-all bridges that is automatically put it in __drm_bridge_free(), exactly
-when the .destroy func is called.
-
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Link: https://lore.kernel.org/all/20251201-thick-jasmine-oarfish-1eceb0@houat/
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/drm_bridge.c |  2 ++
- include/drm/drm_bridge.h     | 11 +++++++++++
- 2 files changed, 13 insertions(+)
+ drivers/gpu/drm/bridge/simple-bridge.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 64aa69dcf46f..6dcf8f6d3ecf 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -275,6 +275,8 @@ static void __drm_bridge_free(struct kref *kref)
- 	if (bridge->funcs->destroy)
- 		bridge->funcs->destroy(bridge);
+diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+index 2cd1847ba776..873b32cfb508 100644
+--- a/drivers/gpu/drm/bridge/simple-bridge.c
++++ b/drivers/gpu/drm/bridge/simple-bridge.c
+@@ -31,7 +31,6 @@ struct simple_bridge {
  
-+	drm_bridge_put(bridge->next_bridge);
-+
- 	kfree(bridge->container);
+ 	const struct simple_bridge_info *info;
+ 
+-	struct drm_bridge	*next_bridge;
+ 	struct regulator	*vdd;
+ 	struct gpio_desc	*enable;
+ };
+@@ -54,8 +53,8 @@ static int simple_bridge_get_modes(struct drm_connector *connector)
+ 	const struct drm_edid *drm_edid;
+ 	int ret;
+ 
+-	if (sbridge->next_bridge->ops & DRM_BRIDGE_OP_EDID) {
+-		drm_edid = drm_bridge_edid_read(sbridge->next_bridge, connector);
++	if (sbridge->bridge.next_bridge->ops & DRM_BRIDGE_OP_EDID) {
++		drm_edid = drm_bridge_edid_read(sbridge->bridge.next_bridge, connector);
+ 		if (!drm_edid)
+ 			DRM_INFO("EDID read failed. Fallback to standard modes\n");
+ 	} else {
+@@ -90,7 +89,7 @@ simple_bridge_connector_detect(struct drm_connector *connector, bool force)
+ {
+ 	struct simple_bridge *sbridge = drm_connector_to_simple_bridge(connector);
+ 
+-	return drm_bridge_detect(sbridge->next_bridge, connector);
++	return drm_bridge_detect(sbridge->bridge.next_bridge, connector);
  }
  
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 8f10d2fd6016..63660256c4f5 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -1278,6 +1278,17 @@ struct drm_bridge {
- 	 * @hpd_cb.
- 	 */
- 	void *hpd_data;
-+
-+	/**
-+	 * @next_bridge: Pointer to the following bridge, automatically put
-+	 * when this bridge is freed (i.e. at destroy time). This is for
-+	 * drivers needing to store a pointer to the next bridge in the
-+	 * chain, and ensures any code still holding a reference to this
-+	 * bridge after its removal cannot use-after-free the next
-+	 * bridge. Any other bridge pointers stored by the driver must be
-+	 * put in the .destroy callback by driver code.
-+	 */
-+	struct drm_bridge *next_bridge;
- };
+ static const struct drm_connector_funcs simple_bridge_con_funcs = {
+@@ -109,7 +108,7 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
+ 	struct simple_bridge *sbridge = drm_bridge_to_simple_bridge(bridge);
+ 	int ret;
  
- static inline struct drm_bridge *
+-	ret = drm_bridge_attach(encoder, sbridge->next_bridge, bridge,
++	ret = drm_bridge_attach(encoder, sbridge->bridge.next_bridge, bridge,
+ 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 	if (ret < 0)
+ 		return ret;
+@@ -122,7 +121,7 @@ static int simple_bridge_attach(struct drm_bridge *bridge,
+ 	ret = drm_connector_init_with_ddc(bridge->dev, &sbridge->connector,
+ 					  &simple_bridge_con_funcs,
+ 					  sbridge->info->connector_type,
+-					  sbridge->next_bridge->ddc);
++					  sbridge->bridge.next_bridge->ddc);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to initialize connector\n");
+ 		return ret;
+@@ -180,10 +179,10 @@ static int simple_bridge_probe(struct platform_device *pdev)
+ 	if (!remote)
+ 		return -EINVAL;
+ 
+-	sbridge->next_bridge = of_drm_find_bridge(remote);
++	sbridge->bridge.next_bridge = of_drm_find_and_get_bridge(remote);
+ 	of_node_put(remote);
+ 
+-	if (!sbridge->next_bridge) {
++	if (!sbridge->bridge.next_bridge) {
+ 		dev_dbg(&pdev->dev, "Next bridge not found, deferring probe\n");
+ 		return -EPROBE_DEFER;
+ 	}
 
 -- 
 2.52.0
