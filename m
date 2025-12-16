@@ -1,100 +1,112 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C68125228C;
-	Tue, 16 Dec 2025 01:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1969CEACE;
+	Tue, 16 Dec 2025 02:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765848201; cv=none; b=KZ3An1W9FwOqk6guut/2AAkWB4fMdZsT37iwUNq1wQAVOMqw/UbCJUHWDBTr30m4hEASLK2mAmjQMUU1iNlxvz565kGYK5wLp4wJv5RWf0ypXEO0qK/6QY0FphgUD4rKaHY827IE6lhli5/6gHxdm5CzjVcSCBUOc1M/qbMj4ms=
+	t=1765851145; cv=none; b=YHqunuB5/mgS9eLlegiUnLDmE7Qn+z4P3tyDlZxJOg8o2kTBYk1ILI5yRSyaREAURTl2EzsiLe1seMPMTz++LkDkNmnXcVJw2W5GcJdB+aLCdr7jgE2gC+UIuKfm/DpqqfrFHaRoIfTrU2kG792djQxsisEe11kdHh0RlpDOUM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765848201; c=relaxed/simple;
-	bh=LCEOeOzcMYWYgrZ75Ac+2bNBFe90ePxI+pXsk9ejed0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q4LYy46zwCunHqboqqTxW8TYXnAnI2k/XZbH+1wl2RBzIOgAnI48Qb7VFX7PeIw0DlNcqjZF55X8P/Rp31KIsIxaVPA3QBhTGQyOFCL9k2c719qI+7DIJQ4aFCimkQ6jURDlmhMHoiX7kLrpxWfmRQLkbUInIu7Wf4qaUxzlGk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dVfM20XCVzKHMLf;
-	Tue, 16 Dec 2025 09:23:10 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id E4F0B1A06DD;
-	Tue, 16 Dec 2025 09:23:16 +0800 (CST)
-Received: from [10.67.111.176] (unknown [10.67.111.176])
-	by APP4 (Coremail) with SMTP id gCh0CgAniPiEtEBpyU9cAQ--.32796S2;
-	Tue, 16 Dec 2025 09:23:16 +0800 (CST)
-Message-ID: <aa796873-2b64-4211-b1b6-71f8aaba8441@huaweicloud.com>
-Date: Tue, 16 Dec 2025 09:23:15 +0800
+	s=arc-20240116; t=1765851145; c=relaxed/simple;
+	bh=Rm61Z34pGhWCnpHDgIv6eJG+Vfb/x1DU4A+H4PmKqMM=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=odzhW/p23Latim5xpmh3DsHjNAT83TYO4lDc03/fvPLcLV2TmolK77RxOkIw0CLd8SPMC7H2KZ3LhidtTRrUEx6b4TC2tSxP43p5epOIQzvJEkIIm8/5Rb2FlkAf8vIvetXDlk7X9bFvcQRG+0GDPqOKJhbXdRJ9h/7UAgz+IOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=CI7GZIQU; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=CI7GZIQU; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="CI7GZIQU";
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="CI7GZIQU"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Ny61MqGFroEBN84CEhZ8ZqH1kOgw2JrvF+IHTRz9+B4=;
+	b=CI7GZIQUTPuQLuGEgWYWj9pr8ko3O/HhHvYlo1byFV5Wl71mDONiwT1QyebJbxJItF5CAK737
+	JOZhbgnxPXO/Y6FMtzOhFI9XYwILLcTHWfTmIdTvPfeo1TfzwfXyWutdTWyZKZRVQeks/wYVdUM
+	1bN7V54OGKyvsgK3XCmrbQk=
+Received: from canpmsgout08.his.huawei.com (unknown [172.19.92.156])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4dVgRM34jkz1BFPS;
+	Tue, 16 Dec 2025 10:11:59 +0800 (CST)
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Ny61MqGFroEBN84CEhZ8ZqH1kOgw2JrvF+IHTRz9+B4=;
+	b=CI7GZIQUTPuQLuGEgWYWj9pr8ko3O/HhHvYlo1byFV5Wl71mDONiwT1QyebJbxJItF5CAK737
+	JOZhbgnxPXO/Y6FMtzOhFI9XYwILLcTHWfTmIdTvPfeo1TfzwfXyWutdTWyZKZRVQeks/wYVdUM
+	1bN7V54OGKyvsgK3XCmrbQk=
+Received: from mail.maildlp.com (unknown [172.19.88.163])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4dVgPH0yCwzmVVR;
+	Tue, 16 Dec 2025 10:10:11 +0800 (CST)
+Received: from dggpemf500009.china.huawei.com (unknown [7.185.36.50])
+	by mail.maildlp.com (Postfix) with ESMTPS id 26A8E1800B2;
+	Tue, 16 Dec 2025 10:12:11 +0800 (CST)
+Received: from dggpemf500012.china.huawei.com (7.185.36.8) by
+ dggpemf500009.china.huawei.com (7.185.36.50) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 16 Dec 2025 10:12:10 +0800
+Received: from dggpemf500012.china.huawei.com ([7.185.36.8]) by
+ dggpemf500012.china.huawei.com ([7.185.36.8]) with mapi id 15.02.1544.011;
+ Tue, 16 Dec 2025 10:12:10 +0800
+From: zhangqilong <zhangqilong3@huawei.com>
+To: Matthew Wilcox <willy@infradead.org>
+CC: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"david@kernel.org" <david@kernel.org>, "lorenzo.stoakes@oracle.com"
+	<lorenzo.stoakes@oracle.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"ziy@nvidia.com" <ziy@nvidia.com>, "baolin.wang@linux.alibaba.com"
+	<baolin.wang@linux.alibaba.com>, "Liam.Howlett@oracle.com"
+	<Liam.Howlett@oracle.com>, "npache@redhat.com" <npache@redhat.com>,
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "dev.jain@arm.com"
+	<dev.jain@arm.com>, "baohua@kernel.org" <baohua@kernel.org>,
+	"lance.yang@linux.dev" <lance.yang@linux.dev>, "vbabka@suse.cz"
+	<vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
+	<surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "Wangkefeng (OS
+ Kernel Lab)" <wangkefeng.wang@huawei.com>, Sunnanyong
+	<sunnanyong@huawei.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH next 0/2] THP COW support for private executable file mmap
+Thread-Topic: [PATCH next 0/2] THP COW support for private executable file
+ mmap
+Thread-Index: AdxuLvzPiGNlB0SW/Ee39Xxvv0vdtg==
+Date: Tue, 16 Dec 2025 02:12:10 +0000
+Message-ID: <c0ceb2104cac497383f7f7e5e7a00930@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next 4/5] mm/mglru: combine shrink_many into
- shrink_node_memcgs
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: akpm@linux-foundation.org, axelrasmussen@google.com, yuanchu@google.com,
- weixugc@google.com, david@kernel.org, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, corbet@lwn.net, roman.gushchin@linux.dev,
- shakeel.butt@linux.dev, muchun.song@linux.dev, zhengqi.arch@bytedance.com,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org, lujialin4@huawei.com, zhongjinji@honor.com
-References: <20251209012557.1949239-1-chenridong@huaweicloud.com>
- <20251209012557.1949239-5-chenridong@huaweicloud.com>
- <20251215211754.GG905277@cmpxchg.org>
-Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <20251215211754.GG905277@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgAniPiEtEBpyU9cAQ--.32796S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZF1DArW8uw43CFy7tw17Awb_yoWfGrbE93
-	Wvv3W2kw1UKw4DKa17CrsYyFZ3GF18CF1DGw1UXrs7Kas8ZFW7Zr4kGryfXrn2grW2kFsx
-	uFy5XrySkry3ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbxxYFVCjjxCrM7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
-	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x02
-	67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUxo
-	7KDUUUU
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
+> On Mon, Dec 15, 2025 at 08:34:05PM +0800, Zhang Qilong wrote:
+> > This patch series implementate THP COW for private executable file
+> > mmap. It's major designed to increase the iTLB cache hit rate for hot
+> > patching application, and we add a new sysfs knob to disable or enable
+> > it.
+>=20
+> You're going to have to provide data to get this patch in.  We've deliber=
+ately
+> not done this in the past due to memory consumption overhead.
 
+Year, memory consumption overhead is a serious issue, we will conduct a car=
+eful evaluation
 
-On 2025/12/16 5:17, Johannes Weiner wrote:
-> On Tue, Dec 09, 2025 at 01:25:56AM +0000, Chen Ridong wrote:
->> @@ -5822,6 +5779,12 @@ static void shrink_node_memcgs(pg_data_t *pgdat, struct scan_control *sc)
->>  
->>  		shrink_one(lruvec, sc);
->>  
->> +		if (should_abort_scan(lruvec, sc)) {
-> 
-> Can you please rename this and add the jump label check?
-> 
-> 		if (lru_gen_enabled() && lru_gen_should_abort_scan())
-> 
-> The majority of the checks in there already happen inside
-> shrink_node_memcgs() itself. Factoring those out is probably better in
-> another patch, but no need to burden classic LRU in the meantime.
+> So you need to prove that's now the wrong decision to make.
+>=20
+> Microbenchmarks would be a bare minimum, but what are really needed are
+> numbers from actual workloads.
 
-Thank you very much.
+Okay, I'm also trying to gather some test data locally(include microbenchma=
+rks and actual workloads).
+I'll attach the results once I have finished. Thank you for your suggestion=
+.
 
-Thank you for the suggestion. lru_gen_should_abort_scan() is indeed a better name, and including the
-lru_gen_enabled() check in the condition is necessary.
+--
+Thanks,
 
-I'll update the patch accordingly.
-
--- 
-Best regards,
-Ridong
+Zhang
 
