@@ -1,209 +1,110 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11023072.outbound.protection.outlook.com [52.101.83.72])
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DD91DDC33;
-	Tue, 16 Dec 2025 07:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765870841; cv=fail; b=DzdtfDTaX0QcT+ohthu8e44pLIWayu1Z+2r9TzulWySXGTGnqNx2I4I1kDSGh5/szSMCGAY9HaCgJquBZ7e4bxGwa3FenNt8Ck/UU+EXL/e6WfhfMo24SfIB7LBFaqeCLsOvNvI7pFeGIBS8Pj55f5bZzeZmS8wPSs+aXW+detk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765870841; c=relaxed/simple;
-	bh=dpv/bDSax0c0B86GdLRpFpHsBS5zS4r3RE+yILawXM0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=f1yjdsBh54/ILfk8dHGfv0RwkNZv7yp0lT0SfHThul3/G5yhFpr3wrGMmtulLq5nsIopNY+BgJzP0oh5NyhUvY/VP+66InJZqhsaXXUJUCmB0oeiknnoLJufXDrGyCZrhrIpVrW6mLBbV7Rdc9Prlor3EGnYhUNw8MkTtJaMTZQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=phytec.de; spf=pass smtp.mailfrom=phytec.de; dkim=pass (2048-bit key) header.d=phytec.de header.i=@phytec.de header.b=fIwR3DP0; arc=fail smtp.client-ip=52.101.83.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=phytec.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytec.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B903346B1;
+	Tue, 16 Dec 2025 07:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765870976; cv=none; b=A1rM9GquA9bUK1skRll7Cbup/2g3kD6cmr868tnU2nJwGxEXBX9cyDkwEcKX6l7zZChjhAIRfRds8ui7eJb9Uae5P7zbj0CJ3JqzJGQnhb+h+kXl4GoD6U731qYDcqTj4ZPTalXPFh4HOCL0z4rqaGzamhBzF7bhlp/fEBZuGE0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765870976; c=relaxed/simple;
+	bh=/ZdW0RTzwMImTVMjvdyw8BTiP7546TOTsFudL2sFvQg=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=PDBUQwz4X5AZ7OeYXKoLqbfbuI8+JJsvl6K1NGTqz/W8nk0zc8QyL3xgsTCmMc4FsFMJbSA6Rbb0Ia5d+EQXb2G+wrFvphWcVENE6WlAPC4n5Zrh6B2VU+G7suqZKo8jmOJp6ZDU2u2LMlsVn9e2h3BmK7NfOICGwxkUrPX6+kE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=CU+jXv4v; arc=none smtp.client-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=phytec.de header.i=@phytec.de header.b="fIwR3DP0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uAAFaLnfaoms4uaHR7iOoIjqMY2wsuUPXqbEVq4MYRdf6TgOQNi0hyHbikuh67ex53lsFe5ebX+0sdQ5pgUGxEJ/WGIT8+xO0Pu1+lXVEvLCA5xK3GNlauAn+QhnKLz4/GDRkotGx+11gLLw9+Vc1z12mHYHoXZxWj6zNoQ+9vHieDkz9BiYGSHmU+nvdNwCXjqpUuGxVebkuS988R1AvpvuS/n7pUci2FwGP/3FB3dnnFJ7iPLZB3ynAnKGkBGak5lTvoxD+RYR52ZLRm9FlG3S9KVCt52ksrXjBVCTALWJpVFkrU3qCxcDKWle82ZUmGQtGThN9hkaagPNspRJCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AINkJf2s08O2FpIdaqOK6YljkOE8ZozmTnApmE8eDmA=;
- b=xaeMHSViJcCmhbFo/PhrnlWBG9NOaiOpNq33O9DUp6olxeNJG0sXlrAZmibpJB7whSvHCf9PC+gg1IE0VfHULVOnn4FAdoWtEzgUVMy6lzCflaLOc16pv0sjfg65ICg15RR140bjeM1FxUh9AC8ccqbuza4cHdIg17YBUFGLPVspA9EbV3q1aTJkYROeVPOGiau697kt/RM7a7XpNsEDAcMXCsPi/Z4W8KRUq1NXnvdx8Na2lfej6lXLRJDFQwvapCp2LRxAORR/5jsu8wr29KRFlljeIWQu/r9GLbbeX11L0lAIUN3KDBNsF/Jhr3C67vh+hpzQCeRr4PwJsvPdsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 91.26.50.189) smtp.rcpttodomain=eilabs.com smtp.mailfrom=phytec.de;
- dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=phytec.de; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AINkJf2s08O2FpIdaqOK6YljkOE8ZozmTnApmE8eDmA=;
- b=fIwR3DP0kSSbIXBTM3Z2xiZbAEloJEYKT/L8CM4n1sGWdgY3m9srZvgGXyF3VF8pxvbnqS9oa6vVbzOufjL8z8YAMVaFwOthbBpUdjeKerOcZYONDl+H4KZ+LPdwEDn9r2+VUTg8D7B3xOH4ui8xFFav6BPJoLo+mT9zyB+yrMgfHiuE0OFlJy3U5ohwbdelhINjrYJISG/0UKIls8x/+uu8Zj47EfnzsFvnJBDX3/bm2gYmlyMabFFq+lSSHIkgMSwsS0WiRuIfdLIN2KHfmnQs/hVt8ryUh4C4+VbgA7+ZXvBpC3fJgP/w0IfS+JZeYRkonONYKNhP4saxmQC8Lw==
-Received: from DU7P251CA0027.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:551::25)
- by AS4P195MB1936.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:580::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
- 2025 07:39:52 +0000
-Received: from DU6PEPF0000B61F.eurprd02.prod.outlook.com
- (2603:10a6:10:551:cafe::a9) by DU7P251CA0027.outlook.office365.com
- (2603:10a6:10:551::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.13 via Frontend Transport; Tue,
- 16 Dec 2025 07:39:48 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
- smtp.mailfrom=phytec.de; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=phytec.de;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- phytec.de discourages use of 91.26.50.189 as permitted sender)
-Received: from Postix.phytec.de (91.26.50.189) by
- DU6PEPF0000B61F.mail.protection.outlook.com (10.167.8.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Tue, 16 Dec 2025 07:39:51 +0000
-Received: from llp-jremmet.phytec.de (172.25.39.81) by Postix.phytec.de
- (172.25.0.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Tue, 16 Dec
- 2025 08:39:50 +0100
-From: Jan Remmet <j.remmet@phytec.de>
-Date: Tue, 16 Dec 2025 08:39:33 +0100
-Subject: [PATCH v2 1/3] Documentation: gpio: add TCAL6408 and TCAL6416
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="CU+jXv4v"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=/ZdW0RTzwMImTVMjvdyw8BTiP7546TOTsFudL2sFvQg=;
+	b=CU+jXv4vbzZQPYmJs+5boLCKM9sdZvLpdtGfynJp62/WcLvcCQyXL7uH7Nvb767Sm1S4INVgk
+	BhLXm6sCbyXBwGQr1TlsjXanBbIU1sAXLKEzXA1hM/GFFIT4WZ6YAkc+qLpY+4zVs+7+LBjFv21
+	ukavIPJxT9IZZbUD/LKOfX0=
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4dVpkh63MjzLlVV;
+	Tue, 16 Dec 2025 15:40:44 +0800 (CST)
+Received: from dggpemf500009.china.huawei.com (unknown [7.185.36.50])
+	by mail.maildlp.com (Postfix) with ESMTPS id 805301A016C;
+	Tue, 16 Dec 2025 15:42:44 +0800 (CST)
+Received: from dggpemf500012.china.huawei.com (7.185.36.8) by
+ dggpemf500009.china.huawei.com (7.185.36.50) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 16 Dec 2025 15:42:44 +0800
+Received: from dggpemf500012.china.huawei.com ([7.185.36.8]) by
+ dggpemf500012.china.huawei.com ([7.185.36.8]) with mapi id 15.02.1544.011;
+ Tue, 16 Dec 2025 15:42:44 +0800
+From: zhangqilong <zhangqilong3@huawei.com>
+To: "David Hildenbrand (Red Hat)" <david@kernel.org>, Matthew Wilcox
+	<willy@infradead.org>
+CC: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, "corbet@lwn.net"
+	<corbet@lwn.net>, "ziy@nvidia.com" <ziy@nvidia.com>,
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "npache@redhat.com"
+	<npache@redhat.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
+	"dev.jain@arm.com" <dev.jain@arm.com>, "baohua@kernel.org"
+	<baohua@kernel.org>, "lance.yang@linux.dev" <lance.yang@linux.dev>,
+	"vbabka@suse.cz" <vbabka@suse.cz>, "rppt@kernel.org" <rppt@kernel.org>,
+	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
+	"Wangkefeng (OS Kernel Lab)" <wangkefeng.wang@huawei.com>, Sunnanyong
+	<sunnanyong@huawei.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH next 0/2] THP COW support for private executable file mmap
+Thread-Topic: [PATCH next 0/2] THP COW support for private executable file
+ mmap
+Thread-Index: AdxuX44yGEAb2cBdSXaqz2NhdGENWw==
+Date: Tue, 16 Dec 2025 07:42:44 +0000
+Message-ID: <0ce50058e6254a29baee1271ae0ef31c@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251216-wip-jremmet-tcal6416rtw-v2-1-6516d98a9836@phytec.de>
-References: <20251216-wip-jremmet-tcal6416rtw-v2-0-6516d98a9836@phytec.de>
-In-Reply-To: <20251216-wip-jremmet-tcal6416rtw-v2-0-6516d98a9836@phytec.de>
-To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	=?utf-8?q?Levente_R=C3=A9v=C3=A9sz?= <levente.revesz@eilabs.com>
-CC: <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
-	<devicetree@vger.kernel.org>, <upstream@lists.phytec.de>
-X-Mailer: b4 0.14.2
-X-ClientProxiedBy: Postix.phytec.de (172.25.0.11) To Postix.phytec.de
- (172.25.0.11)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF0000B61F:EE_|AS4P195MB1936:EE_
-X-MS-Office365-Filtering-Correlation-Id: d66f2901-481c-4079-9994-08de3c764c66
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|36860700013|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cTc0S1VLeWFsU0tKc0lkenhaYWtySUhVNWgxYWozUWdoWmZWRmsyMEE4V1dB?=
- =?utf-8?B?MlRNVjhmMmV1SE9Mc3ZSMHAzOHZIOTBkUFBqRkJCYmdibCtlaW8wdXdDREpx?=
- =?utf-8?B?d2NxZEtxWDVGeWFHSDBJMjV6UE1Wa0QzN0xDSDFxd2lzSzBWbGw4azdOMzZz?=
- =?utf-8?B?bUp5K3lveDhQRk5PZmdpQ3BDQWY0SUEwa2lMWHJ0czdSejRhYWZhWlludHUw?=
- =?utf-8?B?TVJMbUQybVlCWFhnTUVmSTNRSXF5VEVGQ3hqK0NaUFVzYWw5Sjg4TUpsTjNv?=
- =?utf-8?B?TlNsWHEvV2FjUmQrTDgzNWxpOXRrVWpyeFJ3TnpsQlBKa00vN28xQ0tlWVZX?=
- =?utf-8?B?MjBGeVdubnVka2pwaU5zaVJYVEVZTkNUakNxTzRkcTlPaUxta0dJUExWY0g3?=
- =?utf-8?B?WlZoOVBINit3djhkSkpaQ1NObWR3RUFiMlZua2I3ZkU2WEN6VFY0TE5wZWR5?=
- =?utf-8?B?Wk8vT0Z2aXlTUzA0aXlmVG5HOGw0L3JwbGY1dGltODQrTC9zWkNrUjNNcW5B?=
- =?utf-8?B?aGtyM3lDa0pSblBoQ3B0bG82Z29yOUFXSm5jY1VKd1FZSjZTWWFQdng1NVFH?=
- =?utf-8?B?RzIzYzBQRlE3SXFLd3g2R1ZMdVNXUjQxMnB2MlU5TitBRmEzV29wRjRNMnlN?=
- =?utf-8?B?aEJVOG1wVi9aM3NSSWlsLzRFa2RWcG1vcWlCNlFyRjMyWTdqdnQzNE1QN2ky?=
- =?utf-8?B?YWJITDB1ejRRNSsxOXo3ZURpYStqZEw0bGxWYktraXY4U29vUmt2RDVjUFla?=
- =?utf-8?B?dXVGTGpIZWpYR21tQnhKTW5IdjFtNnJ0Z2E0eHJzUEVvNU5WZlA4NkRtbjhs?=
- =?utf-8?B?V2xTT1QyTTBleElrYW5RMFI1SGZDcko4MkhaSDR1ZlJ0dFVpWkk2QzYzVy9k?=
- =?utf-8?B?R0ZMbnBqTnFyQkM2bW9HYlZSYlhjQUhUTkFzanE0VVRBWmpIY0ZWcEJONGJP?=
- =?utf-8?B?RFEzbjlyclhqV3BQam9PN2tJaXJMNEF0bUdiK3pUcFRjMzNMaXMzOXlnLy91?=
- =?utf-8?B?WEVVVTVpNUhBV0w3YkZMdjl1dVRBU3dlK3ZjN0pOY3d6aUlES29xWlptUlBZ?=
- =?utf-8?B?L2d1TFFkVmhyMzlZS1UwSThPWWlDRFBGV0lvUFc1Zm4yTWE1T2ppZUlNRUY5?=
- =?utf-8?B?TUYwL1QvWFlTdFRsS3hDN1dpYW0zYThPZ0hOdS95TkdNQUpOUnlDN2U0Z3RW?=
- =?utf-8?B?T0MzbEdHVzcxNDUyUGpRYS8waFdjMU9GWXpRLzliZWpCcUNvTHAzMjBVWGUy?=
- =?utf-8?B?Y0hRUC9kS0Q0Qi8rYjAwU0tiYkVURDhqbVNEU3EwckxZUlVISkJhV2FVZEpw?=
- =?utf-8?B?QVdMVHFJekZ6QjZwekt6TEY1NjhnL2plRmp5QkV3TG1maFdiQUx0KzFVZXJQ?=
- =?utf-8?B?aDZJVkZlWUlHOFVhRDlXRHZHenRHQ002NkVGODBIaktFQjhoMXkwMTJZYU1Y?=
- =?utf-8?B?cEtxUm5UaHJMVER4RUJPd1doTGhOaFRwS09wWlRZYk5EcklReUlSWE1acjly?=
- =?utf-8?B?Zy81d2IrRDZJV1pFVDRlNWNlTTV6YzZWSEJiMlN3OS9ycERWcXNwZkJLOVJF?=
- =?utf-8?B?RlJ6NVcwdlE4TXlUMnRaNlVvRnQ2bTlxTTlUckgxVm9Jb0xCNWprTTEvai91?=
- =?utf-8?B?WnhDMGpKb2xsQkQwang1aVRXKzZIdm4wZHFKS2hWbTR4dHl4eU5oUDZLdVJK?=
- =?utf-8?B?UUFXRCtwZ0hqOHFxZW9nWVVXc0tqcE9KcU4vRUN4MVc2U1lUK0hNVGVuVU9u?=
- =?utf-8?B?TlNGbm9rRy9kZFN1bXRDdEZHdlBSbUpUY1dIeVZXQ1FSbFpVNm1XNWZNU0dr?=
- =?utf-8?B?SExMc0Q2UUFQN0o2R0lRQXZmMkRacDNSUVVKVG0xSjluSjV0UkRMY1FhdWww?=
- =?utf-8?B?dGdHTEF3T0h4ZjFMdGIzbkVCakFBRUdKWFpQTDVOZFdOREROR1lRd09rcWNt?=
- =?utf-8?B?cDU5WkJFcnRtT0VURVZnOHF1UzNoWmgvQ0JzYTFpUC9QQmZxd3hHcVZ4ZWtR?=
- =?utf-8?B?TzIwdlBpZzhoNi8ybG0xMlF4S3UzeUtqMnRQS05wbmlnenZsS2ZzWnVJSVBP?=
- =?utf-8?B?VnltZysrVm1GSjdFSVVweVI0OWdqUEUrUUlyTHJKZ1B2NEZYWWR2b3BvUHVH?=
- =?utf-8?Q?GMJU=3D?=
-X-Forefront-Antispam-Report:
-	CIP:91.26.50.189;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:Postix.phytec.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1102;
-X-OriginatorOrg: phytec.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 07:39:51.8090
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d66f2901-481c-4079-9994-08de3c764c66
-X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e609157c-80e2-446d-9be3-9c99c2399d29;Ip=[91.26.50.189];Helo=[Postix.phytec.de]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DU6PEPF0000B61F.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P195MB1936
 
-Checked datasheets, the offsets are identical to pcal6408 and pcal6416.
-
-Signed-off-by: Jan Remmet <j.remmet@phytec.de>
----
- Documentation/driver-api/gpio/pca953x.rst | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/Documentation/driver-api/gpio/pca953x.rst b/Documentation/driver-api/gpio/pca953x.rst
-index 4bd7cf1120cbaccfaefc346195d87d927c3afcdf..53f25fa03072d95d47443e30c89720a98f8c5561 100644
---- a/Documentation/driver-api/gpio/pca953x.rst
-+++ b/Documentation/driver-api/gpio/pca953x.rst
-@@ -178,6 +178,8 @@ pcal9554b      8       yes    00     01     02        03
- pcal6416      16       yes    00     02     04        06
- pcal9535      16       yes    00     02     04        06
- pcal9555a     16       yes    00     02     04        06
-+tcal6408       8       yes    00     01     02        03
-+tcal6416      16       yes    00     02     04        06
- ========== ===== ========= ===== ====== ====== =========
- 
- These chips have several additional features:
-@@ -196,6 +198,8 @@ pcal9554b            40       42      43       44       45         46       4F
- pcal6416             40       44      46       48       4A         4C       4F
- pcal9535             40       44      46       48       4A         4C       4F
- pcal9555a            40       44      46       48       4A         4C       4F
-+tcal6408             40       42      43       44       45         46       4F
-+tcal6416             40       44      46       48       4A         4C       4F
- ========== ============ ======== ======= ======== ======== ========== ========
- 
- Currently the driver has support for the input latch, pull-up/pull-down
-@@ -332,6 +336,8 @@ Layouts:
-         - pcal9554b
-         - pcal9555a
-         - pcal6524
-+        - tcal6408
-+        - tcal6416
- 
-     2. base offset 0x30, bank 5 and 6, closely packed banks
-         - pcal6534
-@@ -390,6 +396,8 @@ enabled.
-         - pcal9554b
-         - pcal9555a
-         - pcal6524
-+        - tcal6408
-+        - tcal6416
- 
-     2. base offset 0x30, bank 2, closely packed banks
-         - pcal6534
-@@ -462,6 +470,8 @@ Layout:
-         - pcal9535
-         - pcal9554b
-         - pcal9555a
-+        - tcal6408
-+        - tcal6416
- 
- `PCAL chips with extended interrupt and output configuration functions`_
- can set this for each line individually. They have the same per-port out_conf
-@@ -505,6 +515,8 @@ bits drive strength
-         - pcal9554b
-         - pcal9555a
-         - pcal6524
-+        - tcal6408
-+        - tcal6416
- 
-     2. base offset 0x30, bank 0 and 1, closely packed banks
-         - pcal6534
-
--- 
-2.43.0
-
+PiBPbiAxMi8xNi8yNSAwMzoyNCwgemhhbmdxaWxvbmcgd3JvdGU6DQo+ID4gICA+IE9uIDEyLzE1
+LzI1IDE1OjAwLCBNYXR0aGV3IFdpbGNveCB3cm90ZToNCj4gPj4+IE9uIE1vbiwgRGVjIDE1LCAy
+MDI1IGF0IDA4OjM0OjA1UE0gKzA4MDAsIFpoYW5nIFFpbG9uZyB3cm90ZToNCj4gPj4+PiBUaGlz
+IHBhdGNoIHNlcmllcyBpbXBsZW1lbnRhdGUgVEhQIENPVyBmb3IgcHJpdmF0ZSBleGVjdXRhYmxl
+IGZpbGUNCj4gPj4+PiBtbWFwLiBJdCdzIG1ham9yIGRlc2lnbmVkIHRvIGluY3JlYXNlIHRoZSBp
+VExCIGNhY2hlIGhpdCByYXRlIGZvcg0KPiA+Pj4+IGhvdCBwYXRjaGluZyBhcHBsaWNhdGlvbiwg
+YW5kIHdlIGFkZCBhIG5ldyBzeXNmcyBrbm9iIHRvIGRpc2FibGUgb3INCj4gPj4+PiBlbmFibGUg
+aXQuDQo+ID4+Pg0KPiA+Pj4gWW91J3JlIGdvaW5nIHRvIGhhdmUgdG8gcHJvdmlkZSBkYXRhIHRv
+IGdldCB0aGlzIHBhdGNoIGluLiAgV2UndmUNCj4gPj4+IGRlbGliZXJhdGVseSBub3QgZG9uZSB0
+aGlzIGluIHRoZSBwYXN0IGR1ZSB0byBtZW1vcnkgY29uc3VtcHRpb24NCj4gPj4gb3ZlcmhlYWQu
+DQo+ID4+PiBTbyB5b3UgbmVlZCB0byBwcm92ZSB0aGF0J3Mgbm93IHRoZSB3cm9uZyBkZWNpc2lv
+biB0byBtYWtlLg0KPiA+Pj4NCj4gPj4+IE1pY3JvYmVuY2htYXJrcyB3b3VsZCBiZSBhIGJhcmUg
+bWluaW11bSwgYnV0IHdoYXQgYXJlIHJlYWxseQ0KPiBuZWVkZWQNCj4gPj4+IGFyZSBudW1iZXJz
+IGZyb20gYWN0dWFsIHdvcmtsb2Fkcy4NCj4gPj4NCj4gPj4gSW4gYWRkaXRpb24sIHRoZSBzeXNm
+cyB0b2dnbGUgaXMgcmF0aGVyIGhvcnJpYmxlLiBJdCdzIHJhdGhlciBjbGVhcg0KPiA+PiB0aGF0
+IHRoaXMgaXMgbm90IGEgc3lzdGVtLXdpZGUgc2V0dGluZyB0byBiZSBtYWRlLCBhcyB5b3UgbGlr
+ZWx5IG9ubHkNCj4gPj4gd2FudCB0aGF0IGJlaGF2aW9yIChpZiBhdCBhbGwgLi4uKSBmb3IgYSBo
+YW5kZnVsIG9mIHNwZWNpYWwgcHJvY2Vzc2VzIEkgYXNzdW1lPw0KPiA+DQo+ID4gWWVhciwgaXQn
+cyBub3QgYSBzeXN0ZW0td2lkZSBzZXR0aW5nLiBXZSBjb25zaWRlciBlbmFibGluZyB0aGlzIG9w
+dGlvbg0KPiA+IG9ubHkgd2hlbiBhcHBseWluZyBob3QgcGF0Y2hlcyB0byBzcGVjaWFsIHByb2Nl
+c3Nlcy4gSWYgdGhlIHN5c2ZzDQo+ID4gdG9nZ2xlIGlzIHVuYXZhaWxhYmxlLCB3ZSB3aWxsIGV2
+YWx1YXRlIHRoZSBvdmVyYWxsIG1lbW9yeSBpbXBhY3Qgb24NCj4gPiB0aGUgc3lzdGVtIGFmdGVy
+IHJlbW92aW5nIGl0LiBUaGFua3MgdmVyeSBtdWNoIGZvciB5b3VyIHN1Z2dlc3Rpb24uDQo+IA0K
+PiBJIGRvbid0IHRoaW5rIHdlIHdhbnQgdGhpcyBhcyBhbnkga2luZCBvZiBkZWZhdWx0IGJlaGF2
+aW9yLiBCdXQgdGhlIHN5c3RlbQ0KPiB0b2dnbGUgaXMgcmVhbGx5IGFsc28gbm90IHdoYXQgd2Ug
+d2FudC4gQ291bGQgd2UgdXNlIHNvbWUgcGVyLVZNQSBvciBwZXItDQo+IGZpbGUgaGludHMgdG8g
+YWZmZWN0IHRoZSBwb2xpY3k/DQoNCkl0J3MgcmVhbGx5IGEgZ29vZCBpZGVhLiBNYXliZSBjb3Vs
+ZCBzZXR0aW5nIGEgeHggZmxhZyB0byBWTUEsIGJ1dCBpdCBuZWVkIGhvbGQgd3JpdGUNCmxvY2sg
+YW5kIHRvdWNoIFZNQS4gbGV0IG1lIGhhdmUgYSB0aGluayBob3cgdG8gaW1wbGVtZW50IHBlci1W
+TUEgb3IgcGVyLWZpbGUgcG9saWN5DQpvciBvdGhlciBiZXR0ZXIgaGludHMuDQoNCkkgaGF2ZSBh
+IHRob3VnaHQgdGhhdCwgaG93IGFib3V0IGFkZGluZyBhIG5ldyBmbGFnKGluIHB0cmFjZSwgdXBy
+b2Jlcy4uLikgYW5kIHBhc3NpbmcNCnRvIGZhdWx0aW5fcGFnZSgpIHRvIG1hcmsgdGhlIGV4ZWMg
+UE1EIENPVyBwb2xpY3k/DQoNCj4gDQo+IE5vdGUgdGhhdCB5b3VyIHByb3Bvc2FsIHdpbGwgbGlr
+ZWx5IGludGVyYWN0IGluIGJhZCB3YXlzIHdpdGggdXByb2JlcywgYWZ0ZXINCj4gcmVtb3Zpbmcg
+dXByb2JlcyBhZ2Fpbi4NCg0KWWVhciwgZ29vZCBjYXRjaCBoZXJlLCBpdCdzIHJlYWxseSBuZWVk
+IGJlIHNlcmlvdXNseSBjb25zaWRlcmVkLiANCg0KPiANCj4gLS0NCj4gQ2hlZXJzDQo+IA0KPiBE
+YXZpZA0K
