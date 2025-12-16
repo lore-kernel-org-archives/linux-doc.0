@@ -1,210 +1,291 @@
-Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
+Received: from baidu.com (mx22.baidu.com [220.181.50.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E764347FC7;
-	Tue, 16 Dec 2025 08:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1612AEF5;
+	Tue, 16 Dec 2025 08:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.181.50.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765872755; cv=none; b=fID+mYTRwRw/W7bjTRjRpir/aixLcVplMlofx/ai+YuXY2y4qTsxxhvGKNo7DtITOV7c4O7mzTFNEcWfrsYV8+OnRrKuvZGq3TiAvz0DKal7madqbPHJRxN/988AVKUKV/Lb6mNIeizKoekJFg6V1Tvy4bG5MHhKTtJyOuq7dTQ=
+	t=1765873114; cv=none; b=ARTgoT4SA7wSooKHy2ilOlWSRrJP8/iy6axYNjC36cYGWr5iSubok82taP7bm2N6UnNarkYgOTsZ3F72Bv4YbQpvyjCBFeEc4sulg7qT/NusM2OQ/d3Q582eo85FwrrZTcqksSH58qHgwU0E4QH7MAhSK5/3se0BBc2gxocjQq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765872755; c=relaxed/simple;
-	bh=Scb4F+6jcGI2+JEVl1ub9V7VPGd1AaU864dcKlzN5P4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hBcvDNhD27EVTAXaFuo5D24MgfhESJTHXGrzSSmGzPOHWUzUr+DZbbItTUR1O/7Xtm7543mM4wPDWdYiW1teT8bo6haxEMnP2NlQyGtUIU7/CFlY7rpcajt5VgQLn0MHvUU2rTT3vl8B9DQtaijmEcLC9PeFHqg1iSXOj4IEOlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=FZ/QWtv8; arc=none smtp.client-ip=115.124.30.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="FZ/QWtv8"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1765872744; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=cHy+HtrbS2UBAVjktv1rULuod/Fzmc5GYewrN5/jhk4=;
-	b=FZ/QWtv87n0Kgd0fNB9NrjWOmK2yn93LaOro6nSCTTZ5N0yLA/euVRF3eEruWfn2mpXOb9sG/bWfVMDhI+zmkBA9BrEvvaxweEOLalhAaWyi2ygorKIKErm1MaWU5Pxb9nZGoLnOI2UeipW1wIDx+HeWpFqFmrMYajPnSZSZA28=
-Received: from 30.74.144.116(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WuyV7lv_1765872740 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 16 Dec 2025 16:12:21 +0800
-Message-ID: <95b1403f-3ddb-43ff-b481-2ecc6ab8352f@linux.alibaba.com>
-Date: Tue, 16 Dec 2025 16:12:20 +0800
+	s=arc-20240116; t=1765873114; c=relaxed/simple;
+	bh=fmZflpl4g8O8DUJ31IaY89Tk7YTybXRgHs9PkrMWCFk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=X9fmdMmAeyBuKSjWjEQDp0la+Crm7+d2aNGhsb/SmvArGaiuyXM06k64ezjeZIQbNxaX/witcuvdgzyxcZCRAn20He9PovMKYRpOQ8Y5Uhqsp8C2qRuEkwxst7tsTrahadn5fKYpeubqZIKPPh8TC3t3q1Cse4BrfdiihnSlTLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass smtp.mailfrom=baidu.com; arc=none smtp.client-ip=220.181.50.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baidu.com
+From: lirongqing <lirongqing@baidu.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Lance Yang
+	<lance.yang@linux.dev>
+CC: Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
+	<chleroy@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard
+ Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
+	<yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, KP
+ Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo
+	<haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-openrisc@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<dri-devel@lists.freedesktop.org>, <bpf@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <wireguard@lists.zx2c4.com>,
+	<netdev@vger.kernel.org>, Li RongQing <lirongqing@baidu.com>
+Subject: [PATCH] watchdog: softlockup: panic when lockup duration exceeds N thresholds
+Date: Tue, 16 Dec 2025 02:45:21 -0500
+Message-ID: <20251216074521.2796-1-lirongqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 mm-new 07/16] khugepaged: introduce
- collapse_max_ptes_none helper function
-To: Nico Pache <npache@redhat.com>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org
-Cc: david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
- corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kas@kernel.org, aarcange@redhat.com,
- raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, jannh@google.com,
- pfalcato@suse.de
-References: <20251201174627.23295-1-npache@redhat.com>
- <20251201174627.23295-8-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20251201174627.23295-8-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-ClientProxiedBy: bjhj-exc8.internal.baidu.com (172.31.3.18) To
+ bjkjy-exc3.internal.baidu.com (172.31.50.47)
+X-FEAS-Client-IP: 172.31.50.47
+X-FE-Policy-ID: 52:10:53:SYSTEM
 
-Hi Nico,
+From: Li RongQing <lirongqing@baidu.com>
 
-On 2025/12/2 01:46, Nico Pache wrote:
-> The current mechanism for determining mTHP collapse scales the
-> khugepaged_max_ptes_none value based on the target order. This
-> introduces an undesirable feedback loop, or "creep", when max_ptes_none
-> is set to a value greater than HPAGE_PMD_NR / 2.
-> 
-> With this configuration, a successful collapse to order N will populate
-> enough pages to satisfy the collapse condition on order N+1 on the next
-> scan. This leads to unnecessary work and memory churn.
-> 
-> To fix this issue introduce a helper function that will limit mTHP
-> collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
-> This effectively supports two modes:
-> 
-> - max_ptes_none=0: never introduce new none-pages for mTHP collapse.
-> - max_ptes_none=511 (on 4k pagesz): Always collapse to the highest
->    available mTHP order.
-> 
-> This removes the possiblilty of "creep", while not modifying any uAPI
-> expectations. A warning will be emitted if any non-supported
-> max_ptes_none value is configured with mTHP enabled.
-> 
-> The limits can be ignored by passing full_scan=true, this is useful for
-> madvise_collapse (which ignores limits), or in the case of
-> collapse_scan_pmd(), allows the full PMD to be scanned when mTHP
-> collapse is available.
-> 
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->   mm/khugepaged.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 42 insertions(+), 1 deletion(-)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 8dab49c53128..f425238d5d4f 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -463,6 +463,44 @@ void __khugepaged_enter(struct mm_struct *mm)
->   		wake_up_interruptible(&khugepaged_wait);
->   }
->   
-> +/**
-> + * collapse_max_ptes_none - Calculate maximum allowed empty PTEs for collapse
-> + * @order: The folio order being collapsed to
-> + * @full_scan: Whether this is a full scan (ignore limits)
-> + *
-> + * For madvise-triggered collapses (full_scan=true), all limits are bypassed
-> + * and allow up to HPAGE_PMD_NR - 1 empty PTEs.
-> + *
-> + * For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the configured
-> + * khugepaged_max_ptes_none value.
-> + *
-> + * For mTHP collapses, we currently only support khugepaged_max_pte_none values
-> + * of 0 or (HPAGE_PMD_NR - 1). Any other value will emit a warning and no mTHP
-> + * collapse will be attempted
-> + *
-> + * Return: Maximum number of empty PTEs allowed for the collapse operation
-> + */
-> +static unsigned int collapse_max_ptes_none(unsigned int order, bool full_scan)
-> +{
-> +	/* ignore max_ptes_none limits */
-> +	if (full_scan)
-> +		return HPAGE_PMD_NR - 1;
-> +
-> +	if (!is_mthp_order(order))
-> +		return khugepaged_max_ptes_none;
-> +
-> +	/* Zero/non-present collapse disabled. */
-> +	if (!khugepaged_max_ptes_none)
-> +		return 0;
-> +
-> +	if (khugepaged_max_ptes_none == HPAGE_PMD_NR - 1)
-> +		return (1 << order) - 1;
-> +
-> +	pr_warn_once("mTHP collapse only supports max_ptes_none values of 0 or %d\n",
-> +		      HPAGE_PMD_NR - 1);
-> +	return -EINVAL;
-> +}
-> +
->   void khugepaged_enter_vma(struct vm_area_struct *vma,
->   			  vm_flags_t vm_flags)
->   {
-> @@ -550,7 +588,10 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
->   	pte_t *_pte;
->   	int none_or_zero = 0, shared = 0, result = SCAN_FAIL, referenced = 0;
->   	const unsigned long nr_pages = 1UL << order;
-> -	int max_ptes_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - order);
-> +	int max_ptes_none = collapse_max_ptes_none(order, !cc->is_khugepaged);
-> +
-> +	if (max_ptes_none == -EINVAL)
-> +		goto out;
+The softlockup_panic sysctl is currently a binary option: panic immediately
+or never panic on soft lockups.
 
-After testing your patchset, I hit the following crash. The reason is 
-that when 'max_ptes_none' is -EINVAL here, it shouldn't goto out to call 
-release_pte_pages(), because the '_pte' hasn't been initialized at this 
-point, and there's no need to release folios either.
+Panicking on any soft lockup, regardless of duration, can be overly
+aggressive for brief stalls that may be caused by legitimate operations.
+Conversely, never panicking may allow severe system hangs to persist
+undetected.
 
-After applying the fix below, the crash issue is resolved. I'm not sure 
-whether Andrew will help fix this or if you will send a new version to 
-address this issue.
+Extend softlockup_panic to accept an integer threshold, allowing the kernel
+to panic only when the normalized lockup duration exceeds N watchdog
+threshold periods. This provides finer-grained control to distinguish
+between transient delays and persistent system failures.
 
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 8cffaf59ced8..2e8171a6d7df 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -646,7 +646,7 @@ static int __collapse_huge_page_isolate(struct 
-vm_area_struct *vma,
-         int max_ptes_none = collapse_max_ptes_none(order, 
-!cc->is_khugepaged);
+The accepted values are:
+- 0: Don't panic (unchanged)
+- 1: Panic when duration >= 1 * threshold (20s default, original behavior)
+- N > 1: Panic when duration >= N * threshold (e.g., 2 = 40s, 3 = 60s.)
 
-         if (max_ptes_none == -EINVAL)
--               goto out;
-+               return result;
+The original behavior is preserved for values 0 and 1, maintaining full
+backward compatibility while allowing systems to tolerate brief lockups
+while still catching severe, persistent hangs.
 
-         for (_pte = pte; _pte < pte + nr_pages;
-              _pte++, addr += PAGE_SIZE) {
+Signed-off-by: Li RongQing <lirongqing@baidu.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt      | 10 +++++-----
+ arch/arm/configs/aspeed_g5_defconfig                 |  2 +-
+ arch/arm/configs/pxa3xx_defconfig                    |  2 +-
+ arch/openrisc/configs/or1klitex_defconfig            |  2 +-
+ arch/powerpc/configs/skiroot_defconfig               |  2 +-
+ drivers/gpu/drm/ci/arm.config                        |  2 +-
+ drivers/gpu/drm/ci/arm64.config                      |  2 +-
+ drivers/gpu/drm/ci/x86_64.config                     |  2 +-
+ kernel/watchdog.c                                    |  8 +++++---
+ lib/Kconfig.debug                                    | 13 +++++++------
+ tools/testing/selftests/bpf/config                   |  2 +-
+ tools/testing/selftests/wireguard/qemu/kernel.config |  2 +-
+ 12 files changed, 26 insertions(+), 23 deletions(-)
 
-"
-[  565.319345] Unable to handle kernel paging request at virtual address 
-fffffffffffffffa
-.......
-[  565.319409] swapper pgtable: 4k pages, 48-bit VAs, pgdp=0000001f8549a000
-[  565.319416] [fffffffffffffffa] pgd=0000001f85f2a403, 
-p4d=0000001f85f2a403, pud=0000001f85f2b403, pmd=0000000000000000
-[  565.319427] Internal error: Oops: 0000000096000006 [#1]  SMP
-.......
-[  565.326733] pc : release_pte_pages+0x68/0x178
-[  565.326960] lr : __collapse_huge_page_isolate+0xc0/0x748
-[  565.327232] sp : ffff800083593910
-.......
-[  565.331476] Call trace:
-[  565.331664]  release_pte_pages+0x68/0x178 (P)
-[  565.331940]  __collapse_huge_page_isolate+0xc0/0x748
-[  565.332249]  collapse_huge_page+0x4cc/0xa70
-[  565.332510]  mthp_collapse+0x254/0x2a8
-[  565.332754]  collapse_scan_pmd+0x5a0/0x6d8
-[  565.333010]  collapse_single_pmd+0x214/0x288
-[  565.333275]  collapse_scan_mm_slot.constprop.0+0x2ac/0x460
-[  565.333617]  khugepaged+0x204/0x2c8
-[  565.333992]  kthread+0xf8/0x110
-[  565.334368]  ret_from_fork+0x10/0x20
-"
-
->   
->   	for (_pte = pte; _pte < pte + nr_pages;
->   	     _pte++, addr += PAGE_SIZE) {
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a8d0afd..27c5f96 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6934,12 +6934,12 @@ Kernel parameters
+ 
+ 	softlockup_panic=
+ 			[KNL] Should the soft-lockup detector generate panics.
+-			Format: 0 | 1
++			Format: <int>
+ 
+-			A value of 1 instructs the soft-lockup detector
+-			to panic the machine when a soft-lockup occurs. It is
+-			also controlled by the kernel.softlockup_panic sysctl
+-			and CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC, which is the
++			A value of non-zero instructs the soft-lockup detector
++			to panic the machine when a soft-lockup duration exceeds
++			N thresholds. It is also controlled by the kernel.softlockup_panic
++			sysctl and CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC, which is the
+ 			respective build-time switch to that functionality.
+ 
+ 	softlockup_all_cpu_backtrace=
+diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
+index 2e6ea13..ec558e5 100644
+--- a/arch/arm/configs/aspeed_g5_defconfig
++++ b/arch/arm/configs/aspeed_g5_defconfig
+@@ -306,7 +306,7 @@ CONFIG_SCHED_STACK_END_CHECK=y
+ CONFIG_PANIC_ON_OOPS=y
+ CONFIG_PANIC_TIMEOUT=-1
+ CONFIG_SOFTLOCKUP_DETECTOR=y
+-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
++CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
+ CONFIG_BOOTPARAM_HUNG_TASK_PANIC=1
+ CONFIG_WQ_WATCHDOG=y
+ # CONFIG_SCHED_DEBUG is not set
+diff --git a/arch/arm/configs/pxa3xx_defconfig b/arch/arm/configs/pxa3xx_defconfig
+index 07d422f..fb272e3 100644
+--- a/arch/arm/configs/pxa3xx_defconfig
++++ b/arch/arm/configs/pxa3xx_defconfig
+@@ -100,7 +100,7 @@ CONFIG_PRINTK_TIME=y
+ CONFIG_DEBUG_KERNEL=y
+ CONFIG_MAGIC_SYSRQ=y
+ CONFIG_DEBUG_SHIRQ=y
+-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
++CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
+ # CONFIG_SCHED_DEBUG is not set
+ CONFIG_DEBUG_SPINLOCK=y
+ CONFIG_DEBUG_SPINLOCK_SLEEP=y
+diff --git a/arch/openrisc/configs/or1klitex_defconfig b/arch/openrisc/configs/or1klitex_defconfig
+index fb1eb9a..984b0e3 100644
+--- a/arch/openrisc/configs/or1klitex_defconfig
++++ b/arch/openrisc/configs/or1klitex_defconfig
+@@ -52,5 +52,5 @@ CONFIG_LSM="lockdown,yama,loadpin,safesetid,integrity,bpf"
+ CONFIG_PRINTK_TIME=y
+ CONFIG_PANIC_ON_OOPS=y
+ CONFIG_SOFTLOCKUP_DETECTOR=y
+-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
++CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
+ CONFIG_BUG_ON_DATA_CORRUPTION=y
+diff --git a/arch/powerpc/configs/skiroot_defconfig b/arch/powerpc/configs/skiroot_defconfig
+index 2b71a6d..a4114fc 100644
+--- a/arch/powerpc/configs/skiroot_defconfig
++++ b/arch/powerpc/configs/skiroot_defconfig
+@@ -289,7 +289,7 @@ CONFIG_SCHED_STACK_END_CHECK=y
+ CONFIG_DEBUG_STACKOVERFLOW=y
+ CONFIG_PANIC_ON_OOPS=y
+ CONFIG_SOFTLOCKUP_DETECTOR=y
+-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
++CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
+ CONFIG_HARDLOCKUP_DETECTOR=y
+ CONFIG_BOOTPARAM_HARDLOCKUP_PANIC=y
+ CONFIG_WQ_WATCHDOG=y
+diff --git a/drivers/gpu/drm/ci/arm.config b/drivers/gpu/drm/ci/arm.config
+index 411e814..d7c5167 100644
+--- a/drivers/gpu/drm/ci/arm.config
++++ b/drivers/gpu/drm/ci/arm.config
+@@ -52,7 +52,7 @@ CONFIG_TMPFS=y
+ CONFIG_PROVE_LOCKING=n
+ CONFIG_DEBUG_LOCKDEP=n
+ CONFIG_SOFTLOCKUP_DETECTOR=n
+-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=n
++CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=0
+ 
+ CONFIG_FW_LOADER_COMPRESS=y
+ 
+diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
+index fddfbd4..ea0e307 100644
+--- a/drivers/gpu/drm/ci/arm64.config
++++ b/drivers/gpu/drm/ci/arm64.config
+@@ -161,7 +161,7 @@ CONFIG_TMPFS=y
+ CONFIG_PROVE_LOCKING=n
+ CONFIG_DEBUG_LOCKDEP=n
+ CONFIG_SOFTLOCKUP_DETECTOR=y
+-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
++CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
+ 
+ CONFIG_DETECT_HUNG_TASK=y
+ 
+diff --git a/drivers/gpu/drm/ci/x86_64.config b/drivers/gpu/drm/ci/x86_64.config
+index 8eaba388..7ac98a7 100644
+--- a/drivers/gpu/drm/ci/x86_64.config
++++ b/drivers/gpu/drm/ci/x86_64.config
+@@ -47,7 +47,7 @@ CONFIG_TMPFS=y
+ CONFIG_PROVE_LOCKING=n
+ CONFIG_DEBUG_LOCKDEP=n
+ CONFIG_SOFTLOCKUP_DETECTOR=y
+-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
++CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
+ 
+ CONFIG_DETECT_HUNG_TASK=y
+ 
+diff --git a/kernel/watchdog.c b/kernel/watchdog.c
+index 0685e3a..a5fa116 100644
+--- a/kernel/watchdog.c
++++ b/kernel/watchdog.c
+@@ -363,7 +363,7 @@ static struct cpumask watchdog_allowed_mask __read_mostly;
+ 
+ /* Global variables, exported for sysctl */
+ unsigned int __read_mostly softlockup_panic =
+-			IS_ENABLED(CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC);
++			CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC;
+ 
+ static bool softlockup_initialized __read_mostly;
+ static u64 __read_mostly sample_period;
+@@ -879,7 +879,9 @@ static enum hrtimer_restart watchdog_timer_fn(struct hrtimer *hrtimer)
+ 
+ 		add_taint(TAINT_SOFTLOCKUP, LOCKDEP_STILL_OK);
+ 		sys_info(softlockup_si_mask & ~SYS_INFO_ALL_BT);
+-		if (softlockup_panic)
++		duration = duration / get_softlockup_thresh();
++
++		if (softlockup_panic && duration >= softlockup_panic)
+ 			panic("softlockup: hung tasks");
+ 	}
+ 
+@@ -1228,7 +1230,7 @@ static const struct ctl_table watchdog_sysctls[] = {
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_ONE,
++		.extra2		= SYSCTL_INT_MAX,
+ 	},
+ 	{
+ 		.procname	= "softlockup_sys_info",
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index ba36939..17a7a77 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -1110,13 +1110,14 @@ config SOFTLOCKUP_DETECTOR_INTR_STORM
+ 	  the CPU stats and the interrupt counts during the "soft lockups".
+ 
+ config BOOTPARAM_SOFTLOCKUP_PANIC
+-	bool "Panic (Reboot) On Soft Lockups"
++	int "Panic (Reboot) On Soft Lockups"
+ 	depends on SOFTLOCKUP_DETECTOR
++	default 0
+ 	help
+-	  Say Y here to enable the kernel to panic on "soft lockups",
+-	  which are bugs that cause the kernel to loop in kernel
+-	  mode for more than 20 seconds (configurable using the watchdog_thresh
+-	  sysctl), without giving other tasks a chance to run.
++	  Set to a non-zero value N to enable the kernel to panic on "soft
++	  lockups", which are bugs that cause the kernel to loop in kernel
++	  mode for more than (N * 20 seconds) (configurable using the
++	  watchdog_thresh sysctl), without giving other tasks a chance to run.
+ 
+ 	  The panic can be used in combination with panic_timeout,
+ 	  to cause the system to reboot automatically after a
+@@ -1124,7 +1125,7 @@ config BOOTPARAM_SOFTLOCKUP_PANIC
+ 	  high-availability systems that have uptime guarantees and
+ 	  where a lockup must be resolved ASAP.
+ 
+-	  Say N if unsure.
++	  Say 0 if unsure.
+ 
+ config HAVE_HARDLOCKUP_DETECTOR_BUDDY
+ 	bool
+diff --git a/tools/testing/selftests/bpf/config b/tools/testing/selftests/bpf/config
+index 558839e..2485538 100644
+--- a/tools/testing/selftests/bpf/config
++++ b/tools/testing/selftests/bpf/config
+@@ -1,6 +1,6 @@
+ CONFIG_BLK_DEV_LOOP=y
+ CONFIG_BOOTPARAM_HARDLOCKUP_PANIC=y
+-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
++CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
+ CONFIG_BPF=y
+ CONFIG_BPF_EVENTS=y
+ CONFIG_BPF_JIT=y
+diff --git a/tools/testing/selftests/wireguard/qemu/kernel.config b/tools/testing/selftests/wireguard/qemu/kernel.config
+index 0504c11..bb89d2d 100644
+--- a/tools/testing/selftests/wireguard/qemu/kernel.config
++++ b/tools/testing/selftests/wireguard/qemu/kernel.config
+@@ -80,7 +80,7 @@ CONFIG_HARDLOCKUP_DETECTOR=y
+ CONFIG_WQ_WATCHDOG=y
+ CONFIG_DETECT_HUNG_TASK=y
+ CONFIG_BOOTPARAM_HARDLOCKUP_PANIC=y
+-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
++CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=1
+ CONFIG_BOOTPARAM_HUNG_TASK_PANIC=1
+ CONFIG_PANIC_TIMEOUT=-1
+ CONFIG_STACKTRACE=y
+-- 
+2.9.4
 
