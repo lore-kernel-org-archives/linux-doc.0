@@ -1,169 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E722940D
-	for <linux-doc@vger.kernel.org>; Tue, 16 Dec 2025 13:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9521F364EB9;
+	Tue, 16 Dec 2025 13:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765892904; cv=none; b=KsRQXsmDZDiZDCg0A2ZfrlgYhW0lw7g0GZb4RkrZH8NLpXxMmLGG51aAvE5nwchxjZrQX2G5A8ek7DWTBGA4Luq+pve6AGhyLznsDOrsWoMB173KyNr7H0VFO1vjhjnVRTNr0WP0Ajbuqpjw5vr5HcuyCbuc5eFnidcIfNy2nCw=
+	t=1765892983; cv=none; b=YlQc8l0B0BuraV+zdTdEg6MaNniLj2pqmhhwW5eAFti6sIYDf9hb70BsXgywfWioE53Kvea9DtCyO1JP0F9fv3jvO3e8X5+MfVBnrc12zhsCgqdjvqIdleSGTu0+HeC4HxFRMgKgfKyrTLpn7T5JKv5MXy6W4BIB3fPncpjRMso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765892904; c=relaxed/simple;
-	bh=ngiLwWOAcuL1Tg7RnoUR1jXzSaV0yuJVciviFjVjVwo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=j6/fLhDyq/AB4K5eQX7Pfp5jQfxiqTMfqyuytR6hi3WC9Q0vdMLwMz2w+F9N/J3Y7C1e8FNPuJjQw5feqy2mrT99Q1UgLR6NQTHlZbcrNH31VkMwp1Hf511JGP9tYv/LZNgV/slaEhk/MwSQ0vqsUPAupUjCR90hcplSjZ6WTv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5IDQG6A; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765892983; c=relaxed/simple;
+	bh=YfLQ27amlUSOROYLrmwTzJ9E/8AgqpTLSS/yS8wBt6o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R0ptojQa2xDAmxVJuUBW6xsrcghTRaBVDb7Kt6yZL3Uwf1ENPoOyFxLfQs1ZmFRqS/F8WRwP0B6V08KM6mbAaS7MvkAGUeqzN4sG90vt6f1UeHTptiZgXbO6a8DlMXOGPo89Pk+9L2O2ruzf/zOPfa1HxSak0zvz1K0av91PLaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ms/EcseV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5IDQG6A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765892901; x=1797428901;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=ngiLwWOAcuL1Tg7RnoUR1jXzSaV0yuJVciviFjVjVwo=;
-  b=B5IDQG6AY6DYwWOjoKPOKdqqWOtXEOQHA20lvL7Yu7ES+rQGGbWiyRxs
-   jOy/+N4oefLJqTdgjtIxdf/usQI6EmUYVC8nrE4bJQsHr/UtKr1PCvErx
-   yM3c3rIWSy4onk2RUYawBaBNcUrYa92GHnK397umLzTBT7UQc+UOTvJHs
-   C/Ss/DQm7T0YYgSpkWiyPsSlJZHu0k87LuhnpvLXb7kIXJn2/bHu3E8ll
-   J5YM46FNqdWYp7NmZL932GtWepBPFL+nN77VKZs0gLq/iQc++yJsXFIOi
-   F3SgeF3E/oCDsOb68gt5JfMs4wuyhlawYfjxkvVNW8XMSOZVl0i2G52ex
-   Q==;
-X-CSE-ConnectionGUID: TRub19ldQ7WblGxW7UMvBQ==
-X-CSE-MsgGUID: kMHPT1c0RtSN4O/GvYd4Gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="78447550"
-X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="78447550"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 05:48:20 -0800
-X-CSE-ConnectionGUID: BXu3hGRCQzKGUZEFizqORA==
-X-CSE-MsgGUID: vjnituMCTSe/CV2nh6iK4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="202434967"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.246.153])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 05:48:18 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>, intel-gfx@lists.freedesktop.org
-Cc: linux-doc@vger.kernel.org, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] drm/i915/wakeref: clean up INTEL_WAKEREF_PUT_* flag macros
-In-Reply-To: <76482fc4-7989-41ad-a244-3de4bca44043@infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20251215120908.3515578-1-jani.nikula@intel.com>
- <76482fc4-7989-41ad-a244-3de4bca44043@infradead.org>
-Date: Tue, 16 Dec 2025 15:48:15 +0200
-Message-ID: <707d40a5b84853a6403e537163c6cb97c3474792@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ms/EcseV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A093C4CEF1;
+	Tue, 16 Dec 2025 13:49:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765892983;
+	bh=YfLQ27amlUSOROYLrmwTzJ9E/8AgqpTLSS/yS8wBt6o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ms/EcseV+s20wmc1lLhYwDx89gIvClg2PrymIGMeUbwNDiD4SnOmW78o0LBiCBxlO
+	 BdxeF2Dz7vNPLlHk6H9c/Loage+PF2nosiRONlDlgQCWHyIinBjfz+mmT27iulavfd
+	 BuE/G7U+oUbo+mnBfw6ESY6cd3Q41neeo7IYkgSIPk07g5OM0wIZnaF/AK+WLm6cgJ
+	 GmCyNXU3kAhE/wGxDlMtotwE9co/euW0U0pWBSlyqKeVL94wQyOekYMU9/93Cs6rqR
+	 ujWcxuOybxnttG5mv4zj6LB+Bfu8R3ei8lyxE/EthGDt30dEmVf0CTtlhobbfgREOI
+	 OXMYvMAHdg9pw==
+Date: Tue, 16 Dec 2025 14:49:39 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Adrien Grassein <adrien.grassein@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+	Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+Message-ID: <20251216-cute-bandicoot-of-authority-3c492a@penduick>
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
+ <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
+ <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com>
+ <20251201-thick-jasmine-oarfish-1eceb0@houat>
+ <DEVKQWH8GU0D.2NWQ1U7IOIEHI@bootlin.com>
+ <DEW6XHD12EY4.1THDR9UMJOTAN@bootlin.com>
+ <20251215-mottled-dexterous-marmot-c69ad3@penduick>
+ <DEYUNHVYCKYJ.2HU878WBYCJMV@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="65zjs456orcupskh"
+Content-Disposition: inline
+In-Reply-To: <DEYUNHVYCKYJ.2HU878WBYCJMV@bootlin.com>
 
-On Mon, 15 Dec 2025, Randy Dunlap <rdunlap@infradead.org> wrote:
-> On 12/15/25 4:09 AM, Jani Nikula wrote:
->> Commit 469c1c9eb6c9 ("kernel-doc: Issue warnings that were silently
->> discarded") started emitting warnings for cases that were previously
->> silently discarded. One such case is in intel_wakeref.h:
->> 
->> Warning: drivers/gpu/drm/i915/intel_wakeref.h:156 expecting prototype
->>   for __intel_wakeref_put(). Prototype was for INTEL_WAKEREF_PUT_ASYNC()
->>   instead
->> 
->> Arguably kernel-doc should be able to handle this, as it's valid C, but
->> having the flags defined between the function declarator and the body is
->> just asking for trouble. Move the INTEL_WAKEREF_PUT_* macros away from
->> there, making kernel-doc's life easier.
->> 
->> While at it, reduce the unnecessary abstraction levels by removing the
->> enum, and append _MASK to INTEL_WAKEREF_PUT_DELAY for clarity.
->> 
->> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
->
-> Thanks.
 
-Thanks, pushed to drm-intel-next.
+--65zjs456orcupskh
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+MIME-Version: 1.0
 
-BR,
-Jani.
+On Mon, Dec 15, 2025 at 03:11:21PM +0100, Luca Ceresoli wrote:
+> Hi Maxime,
+>=20
+> On Mon Dec 15, 2025 at 11:35 AM CET, Maxime Ripard wrote:
+> [...]
+> >> > Additionally, as a matter of fact there are currently drivers storing
+> >> > bridge pointers. The next_bridge is the most common case. Code using
+> >> > drm_bridge_connector_init() for example can store up to eight of the=
+m, but
+> >> > individual drivers are the hardest to hunt for.
+> >> >
+> >> > I can see these (potential) tools to handle this (not mutually exclu=
+sive):
+> >> >
+> >> >  1. remove drm_bridge pointers pointing to other bridges
+> >> >  2. check whether a bridge (say B) still exists before any dereferen=
+ce
+> >> >     to B->another_bridge: that's drm_bridge_enter/exit()
+> >> >  3. let owners of bridge pointers be notified when a bridge is unplu=
+gged,
+> >> >     so they can actively put their reference and clear their pointer
+> >> >
+> >> > For item 1, I think the drm_of_bridge_attach() idea quoted above wou=
+ld
+> >> > work, at least for the simple cases where bridge drivers use the
+> >> > next_bridge only for attach. A next_bridge pointer in struct drm_bri=
+dge is
+> >> > not even needed in that case, the pointer would be computed from OF =
+when
+> >> > needed and not stored. I can do an experiment and send a first serie=
+s, do
+> >> > you think it would be useful?
+> >>
+> >> I had a look and, while the implementation should be simple, only a few
+> >> drivers could benefit right now. The majority fall into one of these
+> >> categories:
+> >>
+> >>  * drivers using drm_of_find_panel_or_bridge() or *_of_get_bridge()
+> >>    (maybe 60-80% of all drivers, those will have to wait for the panel
+> >>    improvements)
+> >>  * drivers using the next_bridge pointer for more than just attach
+> >>  * drivers doing more complicated stuff
+> >>
+> >> I think your "put next_bridge in __drm_bridge_free" idea would fit wel=
+l the
+> >> 2nd category and perhaps also the 1st one. For the 3rd category we'd n=
+eed
+> >> something different, e.g. a per-driver .destroy callback.
+> >
+> > Yep, that's fine. We should optimize for the common case, with an escape
+> > hatch. That's exactly what we are talking about here.
+>=20
+> Not sure why, but it's taking a while before I grasp your ideas about this
+> series and meld them with mine. I hopefully got a clear POV now, so based
+> on it my plan is to rework this series to:
+>=20
+>  * keep drm_of_find_bridge() but renamed to of_drm_get_bridge(), and keep
+>    patches 1-5 (with the changes suggested by you and Louis, nothing big
+>    and all already sent in v2)
 
->
->> 
->> ---
->> 
->> Curiously, kernel-doc does not return non-zero exit status for these
->> warnings even with the -Werror parameter!
->> ---
->>  drivers/gpu/drm/i915/intel_wakeref.c |  2 +-
->>  drivers/gpu/drm/i915/intel_wakeref.h | 14 +++++---------
->>  2 files changed, 6 insertions(+), 10 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
->> index b1883dccc22a..98e7cee4e1dc 100644
->> --- a/drivers/gpu/drm/i915/intel_wakeref.c
->> +++ b/drivers/gpu/drm/i915/intel_wakeref.c
->> @@ -80,7 +80,7 @@ void __intel_wakeref_put_last(struct intel_wakeref *wf, unsigned long flags)
->>  	/* Assume we are not in process context and so cannot sleep. */
->>  	if (flags & INTEL_WAKEREF_PUT_ASYNC || !mutex_trylock(&wf->mutex)) {
->>  		mod_delayed_work(wf->i915->unordered_wq, &wf->work,
->> -				 FIELD_GET(INTEL_WAKEREF_PUT_DELAY, flags));
->> +				 FIELD_GET(INTEL_WAKEREF_PUT_DELAY_MASK, flags));
->>  		return;
->>  	}
->>  
->> diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
->> index a2894a56e18f..81308bac34ba 100644
->> --- a/drivers/gpu/drm/i915/intel_wakeref.h
->> +++ b/drivers/gpu/drm/i915/intel_wakeref.h
->> @@ -128,17 +128,16 @@ intel_wakeref_get_if_active(struct intel_wakeref *wf)
->>  	return atomic_inc_not_zero(&wf->count);
->>  }
->>  
->> -enum {
->> -	INTEL_WAKEREF_PUT_ASYNC_BIT = 0,
->> -	__INTEL_WAKEREF_PUT_LAST_BIT__
->> -};
->> -
->>  static inline void
->>  intel_wakeref_might_get(struct intel_wakeref *wf)
->>  {
->>  	might_lock(&wf->mutex);
->>  }
->>  
->> +/* flags for __intel_wakeref_put() and __intel_wakeref_put_last */
->> +#define INTEL_WAKEREF_PUT_ASYNC		BIT(0)
->> +#define INTEL_WAKEREF_PUT_DELAY_MASK	GENMASK(BITS_PER_LONG - 1, 1)
->> +
->>  /**
->>   * __intel_wakeref_put: Release the wakeref
->>   * @wf: the wakeref
->> @@ -154,9 +153,6 @@ intel_wakeref_might_get(struct intel_wakeref *wf)
->>   */
->>  static inline void
->>  __intel_wakeref_put(struct intel_wakeref *wf, unsigned long flags)
->> -#define INTEL_WAKEREF_PUT_ASYNC BIT(INTEL_WAKEREF_PUT_ASYNC_BIT)
->> -#define INTEL_WAKEREF_PUT_DELAY \
->> -	GENMASK(BITS_PER_LONG - 1, __INTEL_WAKEREF_PUT_LAST_BIT__)
->>  {
->>  	INTEL_WAKEREF_BUG_ON(atomic_read(&wf->count) <= 0);
->>  	if (unlikely(!atomic_add_unless(&wf->count, -1, 1)))
->> @@ -181,7 +177,7 @@ intel_wakeref_put_delay(struct intel_wakeref *wf, unsigned long delay)
->>  {
->>  	__intel_wakeref_put(wf,
->>  			    INTEL_WAKEREF_PUT_ASYNC |
->> -			    FIELD_PREP(INTEL_WAKEREF_PUT_DELAY, delay));
->> +			    FIELD_PREP(INTEL_WAKEREF_PUT_DELAY_MASK, delay));
->>  }
->>  
->>  static inline void
+I don't think we should use that name, but on principle, yes.
 
--- 
-Jani Nikula, Intel
+>  * not add devm_drm_of_find_bridge()
+
+Yep.
+
+>  * add next_bridge pointer to struct drm_bridge and call
+>    drm_bridge_put(bridge->next_bridge) in __drm_bridge_free, document it
+
+We don't have to at this point, you can add next_bridge to the
+drm_bridge pointer if you want, but I don't consider it a prerequisite.
+If we don't we would have to create drm_bridge_funcs->destroy
+implemnentations to give up the driver pointer reference though. Your
+call.
+
+>  * convert patches 7-26 to use bridge->next_bridge where applicable,
+>    or to do something different when needed
+
+Depending on your decision above, we'd need to either convert them to
+use drm_bridge->next_bridge or create a destroy hook for them. Either
+way is fine for me.
+
+>  * maybe remove part of patches 7-26 just to reduce spam and rework effort
+>    in case of further iterations, to send them separately once the approa=
+ch
+>    is accepted
+>=20
+> Does it look OK?
+
+Yep
+
+Maxime
+
+--65zjs456orcupskh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaUFjcwAKCRAnX84Zoj2+
+dgzkAYDvA9yfAoN5qn3Uuq31rvBMPARdeaGJP/R7L/afEIqfYpW00Xnt3rcpsKVt
+DvfNFYwBf0vpoxbPBiXv/KJmjkwFaLmGNHmvjyicK5vGQGOUo5Kn5EA6cWvB5aoe
+s/Mjb6G3Dw==
+=yqem
+-----END PGP SIGNATURE-----
+
+--65zjs456orcupskh--
